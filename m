@@ -1,314 +1,153 @@
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 724901879;
-	Mon, 20 Mar 2023 14:10:01 +0000 (UTC)
-Received: by mail-wm1-f47.google.com with SMTP id o32so1215302wms.1;
-        Mon, 20 Mar 2023 07:10:01 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDDDC7E3;
+	Mon, 20 Mar 2023 14:36:08 +0000 (UTC)
+Received: by mail-ed1-f43.google.com with SMTP id w9so47638780edc.3;
+        Mon, 20 Mar 2023 07:36:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1679321399;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=htLtQDgflxVCtls627rP/k7MKZwMTANV654yyEH5hZU=;
-        b=ZnCU9yvtryvvvyX8+KZ+3J83oYhk9FeSUCXcuqFm4XEBHKT1OKsVupA9Hr4/CotM/a
-         hbPMd6uKHzs/xqVw2PglL5dT1Ldq8E2Q0IP7BvQg4FggR67WwxiVU2UGXu52V/IIeypI
-         t5yX8CaNptJqa0Hp92u7+HjJq+lxFNm+DPA3eLxfXUlXthysMO+ebAjJt1FhrI++/7cV
-         SL6VCq9ZFU0rF++G2A4S6M7a70vIO0zuNwap3eA/VOocXa9G7lQXD6dTWR3PUYujGreH
-         gqlLCJvLiR3Va6+e+cCUI8h/A7slwUXDfsBChWBct5hPlmt1tZT8oniIIHp1DFjNBOKS
-         FBUQ==
+        d=gmail.com; s=20210112; t=1679322967;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=+bhKdJGctfgNktjxuVj2so7dX31mlyALoONZ3xTxQAo=;
+        b=h8UPhcIEH39Ywj5eMgZz0xyTP3unUC/KUfkRJw0CqfGPlEKN6SwKqG2gqt1qfYfKz8
+         UCy6FmSEU6W7FJdpoEKE5cBmfQuvwRdvomX+bZRIIUpHIwRsKgXNLAuaQvndtkd17GzJ
+         HJK4SKYWulZhCWvfwkMozsbjVthDUgWwl2fold1owMQTDwa6vsG6ivVxdFTu/iTccaRy
+         RRH/I+NOLyu0XndnjKft6VjQ7okAs7qb9X4s60zwKW+2jmFN/ty7U3NqEOSZxHkV379c
+         mhV4P2VKedk0b7yxKVEddlF89/2DHCvGPs959aXjJOrEPBZjE/RrqN2xIicXLCYG+AUy
+         4lLw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679321399;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=htLtQDgflxVCtls627rP/k7MKZwMTANV654yyEH5hZU=;
-        b=pEwKOnY5Do6Xk6Evd26aoMBRtGkrH/Uaf5BRDLcZstY/sccPvAiq1tU4hm5vPSePbi
-         0U6VJiFAFaFfKAubkSN77lTSlsfHRZBPCz+4Bhy41RDiZ3VoVJJ8d5Dpt3mmcL1On5fE
-         vReQ+vF6mnQzi1ParE93GEDQf4JW2KATa0Z1eqibikn/sFlJi12+v8GxomaRFTHdI9dN
-         ng8SM4OqILmjC15ShoHZ7Q04Kt36OQ0haSocdCe4sryhrReNTolpnqDmcPcRHXuWOtNK
-         Oo0pSJtbw59yRrlSn7QYURjdTGnHgtr8mKP43XmUt2aCES2G7Fk0aQLQAFemaxiuWMaL
-         wfDQ==
-X-Gm-Message-State: AO0yUKXtuqxWIdHxS8T7E7mnoUBF99QLjeLAjomM8YE6FhtrngQdbMHz
-	kT+6P43ly7MI3YOIQLqXZ2I/9A/9qoE=
-X-Google-Smtp-Source: AK7set/vbtlUj96cQeTIX7lwt9hh7zWN8V/T6JHrsCZmTW7W6CnmQuOAuRk0hIkYPvuQI/6+uNIxsA==
-X-Received: by 2002:a7b:c845:0:b0:3ed:76c3:50e9 with SMTP id c5-20020a7bc845000000b003ed76c350e9mr10678365wml.17.1679321399353;
-        Mon, 20 Mar 2023 07:09:59 -0700 (PDT)
-Received: from suse.localnet (host-79-35-102-94.retail.telecomitalia.it. [79.35.102.94])
-        by smtp.gmail.com with ESMTPSA id bg7-20020a05600c3c8700b003eb2e33f327sm28160504wmb.2.2023.03.20.07.09.57
+        d=1e100.net; s=20210112; t=1679322967;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=+bhKdJGctfgNktjxuVj2so7dX31mlyALoONZ3xTxQAo=;
+        b=tbRe5wLnf8/zkw3t2lDFst4D9wX27sB1ILhbVXid9eeksxrgekJLy5MxrbLb86uG3g
+         TzQf3ZCGAflH2oBGNh+sjPqdDaTV15cXd7M0FxsX8gJunA5xrj7zXZoPYlxmv4Iye/oG
+         6OZyMSpDsOPyjB44Y+lOyYwX5pAwuWiL/8BrpcoWEeQia0Ndi2QFs6piqSdPbZyMh1/O
+         iKsEon8d8fMag9Wr306efsWUbRgB99NvhyAYAAm0AIFva+kMR3sbuO5AAT0fqXuG5/4u
+         hI37y8jKE9Tw0Ei77EJ6zUm6Ckbz14alNF/DhtKaKv7n1Vo3FbBGOmhUAivMYvO3p4er
+         ywsQ==
+X-Gm-Message-State: AO0yUKXqYenebvguFH0G9j4fL3ssQzA8IrCHk4ssDy5o2AmXCh0IWMyE
+	6s9wNKk3ZcI6VpjZoPU8q10=
+X-Google-Smtp-Source: AK7set8jbwJ62Rb4/CWNBz2G/at5rbfmgI979Xo7rDZoF8x9yzaT6t4b5n/rH43xpuzCDJQl76yolQ==
+X-Received: by 2002:aa7:c658:0:b0:4fb:e14:c25b with SMTP id z24-20020aa7c658000000b004fb0e14c25bmr12070380edr.33.1679322966785;
+        Mon, 20 Mar 2023 07:36:06 -0700 (PDT)
+Received: from khadija-virtual-machine ([39.41.14.14])
+        by smtp.gmail.com with ESMTPSA id b44-20020a509f2f000000b004c09527d62dsm4969535edf.30.2023.03.20.07.36.05
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 20 Mar 2023 07:09:58 -0700 (PDT)
-From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-To: Khadija Kamran <kamrankhadijadj@gmail.com>
+        Mon, 20 Mar 2023 07:36:06 -0700 (PDT)
+Date: Mon, 20 Mar 2023 19:36:03 +0500
+From: Khadija Kamran <kamrankhadijadj@gmail.com>
+To: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
 Cc: outreachy@lists.linux.dev,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v5] staging: axis-fifo: initialize timeouts in probe only
-Date: Mon, 20 Mar 2023 15:09:57 +0100
-Message-ID: <1788637.Zkmt1EvEu4@suse>
-In-Reply-To: <ZBf2fNF4AC3ovR1B@khadija-virtual-machine>
-References:
- <ZBMR4s8xyHGqMm72@khadija-virtual-machine> <2599595.k3LOHGUjKi@suse>
- <ZBf2fNF4AC3ovR1B@khadija-virtual-machine>
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v8] staging: axis-fifo: initialize timeouts in init only
+Message-ID: <ZBhvU/USP0es8e4P@khadija-virtual-machine>
+References: <ZBN3XAsItCiTk7CV@khadija-virtual-machine>
+ <2222576.3ZeAukHxDK@suse>
+ <ZBf+XDN8GM0xDDCq@khadija-virtual-machine>
+ <3180435.l52yBJDM9G@suse>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="iso-8859-1"
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <3180435.l52yBJDM9G@suse>
 
-On luned=EC 20 marzo 2023 07:00:28 CET Khadija Kamran wrote:
-> On Thu, Mar 16, 2023 at 09:07:09PM +0100, Fabio M. De Francesco wrote:
-> > On gioved=EC 16 marzo 2023 19:35:09 CET Khadija Kamran wrote:
-> > > On Thu, Mar 16, 2023 at 05:17:47PM +0100, Fabio M. De Francesco wrote:
-> > > > On gioved=EC 16 marzo 2023 16:09:08 CET Khadija Kamran wrote:
-> > [snip]
-> >=20
-> > > Hey Fabio!
-> > >=20
-> > > Hope you are doing well. After  spending a lot of time on this I am
-> > > stuck now. Kindly help me resolve this issue or understand it better.
-> > >=20
-> > > Following your instructions I deleted my config file and copied one f=
-rom
-> > > the /boot/ directory. After that I enabled the dependencies(CONFIG_OF=
-=3Dy
-> > > and CONFIG_HAS_IOMEM=3Dy). I was successfully able to enable axis-fif=
-o as
-> > > a module.
-> > >=20
-> > > I then ran the following commands:
-> > >  - make drivers/staging/axis-fifo/
->=20
-> Hey Fabio!
-> Sorry for reaching out to you very late. For the past two days I have
-> had problems with my Virtual Machine. It is stuck at boot, and this
-> happened after it accidentally shut down. I have tried to resolve this
-> problem but nothing is working. Currently I have boot into an older
-> kernel version from the GRUB menu.
->=20
-> I am also sharing the error here:
-> Gave up waiting for root device. Common problems:
-> -Boot args (cat /proc/cmdline)
->   -Check rootdelay=3D (did the system wait long enough?)
-> -Missing modules (cat /proc/modules; ls /dev)
-> ALERT! UUID=3D718ed077-947d-4018-80ad-59825678e81d does not exist.
-> Dropping to a shell!
-> BusyBox v1.27.2 (Ubuntu 1:1.27.2-2ubuntu3.2) built-in shell (ash)
-> Enter 'help' for a list of built-in commands.
->=20
-> I have Windows10 installed and I have created Ubunutu 22.04.1 VM on VMWare
-> with 13GB RAM and 2 processors(4 cores each).
->=20
-> (initramfs)_
->=20
-> > No, this is not the right command... you are not invoking the linker to=
-=20
-make
-> > the .ko object.
-> >=20
-> > Use "make M=3Ddrivers/staging/axis-fifo/"
-> > or "make M=3Ddrivers/staging/axis-fifo/ W=3D1 -j8" (the latter to enabl=
-e level
-> > '1' warning and run on your 2 * 4 logical cores).
->=20
-> This command gives error saying:
-> scripts/Makefile.build:41: /drivers/staging/axis-fifo/Makefile:
-> No such file or directory
-> make[1]: *** No rule to make target '/drivers/staging/axis-fifo/Makefile'=
-=2E=20
-> Stop. make: *** [Makefile:2028: /drivers/staging/axis-fifo] Error 2
->=20
-> > >  - sudo make modules_install install(this command took hours) :'(
-> >=20
-> > This is odd, it shouldn't :-/
-> >=20
-> > As I said in another message, I'll set aside some time to help you chec=
-k=20
-if
-> > you need to fine tune your VM and Hypervisor configuration.
-> >=20
-> > I'm returning on the same subject we have been talked about because you=
-=20
-said
-> > at least twice that your builds and install are too slow. We'll try to
-> > diagnose it in an IRC session on #kernel-outreachy (I'm pretty sure for=
-=20
-the
-> > first days of next week - I'll send an invite).
->=20
-> Yes I would love that. Kindly help me with this.
-> Thank you!
->=20
-> Regards,
-> Khadija Kamran
->=20
-> > > > When you are done with build, install, and final reboot to test if=
-=20
-your
-> > > > module can "modprobe" or "insmod" (i.e. link with the running custom
-> >=20
-> > kernel
-> >=20
-> > > > you built, installed and boot), try to compare the output of the
-> > > > following
-> > > > commands:
-> > > >=20
-> > > > # uname -a
-> > > > Linux suse 6.2.2-1-default #1 SMP PREEMPT_DYNAMIC Thu Mar  9 06:06:=
-13
-> > > > UTC
-> > > > 2023 (44ca817) x86_64 x86_64 x86_64 GNU/Linux
-> > >=20
-> > > The above command works
-> > >=20
-> > > > AND
-> > > >=20
-> > > > # modinfo <name of the module you are testing here>
-> > >=20
-> > > On running 'modinfo axis-fifo' I get error saying module axis-fifo not
-> > > found.
-> >=20
-> > Try again after building with "M=3Ddrivers/staging" (as said above). Do=
-n't
-> > forget to run "make modules_install install" and then reboot into your
-> > custom
-> > built Kernel, not the distribution's kernel.
-> >=20
-> > While you are there, run "lsmod" to see all loaded modules. Pick one
-> > randomly
-> > from the output list and run "modinfo
-> > name_of_the_module_you_want_info_about".>=20
-> > > > I'm running "modinfo kvm" (but showing only two of many lines):
-> > > >=20
-> > > > # modinfo kvm
-> > > > filename:       /lib/modules/6.2.2-1-default/kernel/arch/x86/kvm/
-> >=20
-> > kvm.ko.zst
-> >=20
-> > > > vermagic:       6.2.2-1-default SMP preempt mod_unload modversions
-> > > >=20
-> > > > Can you see that the kernel in "uname -a" and the filename and=20
-vermagic
-> >=20
-> > have
-> >=20
-> > > > the same "6.2.2-1-default"? Well, so I'm sure I'm running the right
-> > > > Kernel
-> > > > and inserted the appropriate "kvm" module.
-> > > >=20
-> > > > Furthermore, before rebooting your custom kernel, you may also look=
- at
-> > > > the
-> > > > directory in the Kernel where you compiled your module and search f=
-or
-> >=20
-> > "*.o"
-> >=20
-> > > > "*mod*" and "*.ko" files. If you have them, you built your module
-> >=20
-> > properly.
-> >=20
-> > > There is a "*.o" file and "*.mod" file but there is no "*.ko" file in
-> > > the axis-fifo directory.
-> > >=20
-> > > Kindly help me with this.
-> > >=20
-> > > Regards,
-> > > Khadija
-> > >=20
-> > > > Thanks,
-> > > >=20
-> > > > Fabio
-> >=20
-> > Let me know if this time it works.
-> >=20
-> > Fabio
-> >=20
-> > P.S.: Have you had time to read that "Linux Kernel Module Programming"=
-=20
-guide
-> > I sent you the link of? You can find a lot of information about modules
-> > there. I'd strongly recommend you to read it.
-
-Khadija,
-
-I think that you are trying to skip some passages. Let me explain better...
-
-Soon after copying from /boot your new .config you should run "make=20
-menuconfig" or "make oldconfig" to re-create the necessary dependence and=20
-other files which are required to build properly.
-
-I'd suggest "make menuconfig" so that you can check if you enabled correctl=
-y=20
-the module(s) you are interested to build and other built-in options you ma=
-y=20
-optionally need.
-
-Then you must rebuild and install. So...
-
-1) "make menuconfig" (don't forget to save before exiting),
-2) "make W=3D1 -j8" (because you have 8 logical cores reserved to your VMWa=
-re=20
-VM, correct?).
-3) "make modules_install install".
-
-At this point check that you have a fresh kernel image in /boot, that /boot/
-grub/grub.conf contains a new entry with your freshly built custom kernel s=
-o=20
-that you can boot it from selecting the proper entry in the menu that you'l=
-l=20
-see after reboot. Also check that you have axis-fifo.ko under /lib/modules/
-<the new kernel version>/build/drivers/staging/axis-fifo/.
-
-=46or example in my VM for test I see axis-fifo with...
-
-ls -l /lib/modules/6.3.0-rc2-x86-32-debug+/build/drivers/staging/axis-fifo/
-total 564
-=2Drw-r--r-- 1 1001 fsgqa    196 Mar 16 20:57 .Module.symvers.cmd
-=2Drw-r--r-- 1 1001 fsgqa    275 Mar 17 15:39 .axis-fifo.ko.cmd
-=2Drw-r--r-- 1 1001 fsgqa    183 Mar 12 20:29 .axis-fifo.mod.cmd
-=2Drw-r--r-- 1 1001 fsgqa  50093 Mar 17 15:39 .axis-fifo.mod.o.cmd
-=2Drw-r--r-- 1 1001 fsgqa  61110 Mar 17 15:37 .axis-fifo.o.cmd
-=2Drw-r--r-- 1 1001 fsgqa    147 Mar 17 15:37 .modules.order.cmd
-=2Drw-r--r-- 1 1001 fsgqa      0 Mar 16 20:57 Module.symvers
-=2Drw-r--r-- 1 1001 fsgqa 255748 Mar 17 15:39 axis-fifo.ko
-=2Drw-r--r-- 1 1001 fsgqa     38 Mar 12 20:29 axis-fifo.mod
-=2Drw-r--r-- 1 1001 fsgqa   2354 Mar 17 15:38 axis-fifo.mod.c
-=2Drw-r--r-- 1 1001 fsgqa  44604 Mar 17 15:39 axis-fifo.mod.o
-=2Drw-r--r-- 1 1001 fsgqa 128156 Mar 17 15:37 axis-fifo.o
-=2Drw-r--r-- 1 1001 fsgqa     38 Mar 17 15:37 modules.order
-
-(as you can see, the last time I built and installed the kernel and the axi=
-s-
-fifo driver's module was March 17, 15:39).
-
-Please notice that my kernel has that "-x86-32-debug+" suffix after the ker=
-nel=20
-version but this depends on a special option I need to set to differentiate=
-=20
-"debug" kernels from "production" kernels. You may have something else that=
-=20
-your distribution appends.
-
-If you can't find the module run again "ls -l" one level up, like in /lib/
-modules/6.3.0-rc2-x86-32-debug+/build/drivers/staging/ to see if at least y=
-ou=20
-have any of the drivers/staging/ modules. Go one more layer up if you don't=
-=20
-find them.
-
-If everything I cited above is where it is supposed to be and grub.conf is=
-=20
-properly configured with the new entry, reboot and enjoy your module (try=20
-modprobe, modinfo, lsmod, and the likes).
-
-=46abio=20
-
-=46abio
+On Mon, Mar 20, 2023 at 02:38:24PM +0100, Fabio M. De Francesco wrote:
+> On lunedì 20 marzo 2023 07:34:04 CET Khadija Kamran wrote:
+> > On Fri, Mar 17, 2023 at 11:29:25AM +0100, Fabio M. De Francesco wrote:
+> > > Khadija,
+> > > 
+> > > Congratulations for having your first patch in Linux, via Greg's staging
+> > > tree.
+> > > 
+> > > It will take some time before it reaches mainline, although it is already 
+> on
+> > > its way to get upstream.
+> > 
+> > Thank you! :)
+> > 
+> > > On giovedì 16 marzo 2023 21:09:00 CET Khadija Kamran wrote:
+> > > > Initialize the module parameters, read_timeout and write_timeout once in
+> > > > init().
+> > > > 
+> > > > Module parameters can only be set once and cannot be modified later, so 
+> we
+> > > > don't need to evaluate them again when passing the parameters to
+> > > > wait_event_interruptible_timeout().
+> > >
 
 
+Hey Fabio,
+I am talking about this below:
 
 
+> > > Greg made you (and indirectly me notice) that the statement above is a 
+> kind
+> > > of short-circuit because it misses to make the readers notice that you are
+> > > dealing with specific permissions granted to these two module's 
+> parameters.
+> 
+> Only "read" permissions for owner, group, others.
+> Obviously, when the module is initialized, "insmod" can pass actual values to 
+> the arguments. The point is that from that moment onward nobody is allowed to 
+> change the initial values associated with this variables, but they can still 
+> be read at will.
+> 
+> > I am trying to make sense of this. As the permissions do not allow
+> > write, so the value cannot be configured afterwards.
+> 
+> Yes, if with "afterwards" you are intending after they are set at insmod runs. 
+> 
+> > Instead of saying 'cannot be modified later', we should talk more about
+> > permissions here too.
+> 
+> I'm confused by this statement. Can you please rephrase?
+> 
+> > Am I getting it right?
+> 
+> Not sure, it depends on what you meant with the previous phrase.
+
+As you said above that the commit message makes the reader miss the
+permission details, so should we write more about permissions in the
+description?
+
+
+>  
+> > Thank you!
+> > 
+> > Regards,
+> > Khadija
+> 
+> You're welcome!
+> 
+> So, thanks for working on this patch as long as it takes to get it done. 
+> 
+> I think the lesson to be learned is that in our community there are barriers 
+> to the entry of substandard products and therefore people have to do their 
+> best if they really want to see their work applied.
+
+
+Yes, you are right. Due to this reason, the whole process is making me
+learn a lot. I am really glad to be a part of it ^-^ 
+
+
+> These tasks are not for the "faints of heart" :-)
+> 
+> Fabio
+>
+
+Regards,
+Khadija :)
+
+
+> 
+> 
