@@ -1,54 +1,53 @@
-Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
+Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50E4910E5;
-	Mon, 20 Mar 2023 06:17:24 +0000 (UTC)
-Received: by mail-ed1-f47.google.com with SMTP id o12so42317272edb.9;
-        Sun, 19 Mar 2023 23:17:24 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 358FAA23;
+	Mon, 20 Mar 2023 06:34:09 +0000 (UTC)
+Received: by mail-ed1-f45.google.com with SMTP id h8so42434017ede.8;
+        Sun, 19 Mar 2023 23:34:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1679293042;
+        d=gmail.com; s=20210112; t=1679294047;
         h=in-reply-to:content-transfer-encoding:content-disposition
          :mime-version:references:message-id:subject:cc:to:from:date:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=h6v9X+W3g9Lp9MD6mxsN+blVRBFSCLDbas/dIhTrItQ=;
-        b=WbAEnrH+g1b/13l63UI1SoKC9u7r4LqpqoU8AC++IRyfdrN2EtssmK/XLyfmiw85vi
-         YhP8OvashrWH+5UYbGRq4U5Oiqvpf9XVqlDB7H+Edma3+BGkr/M/7rfYxHFya5PkdgG6
-         TJq+CwVuW0UPDVgmdoCptEVEgVaBXb0WOwFcxYQFLwWxYAsPpfnE12D8tKi5gSPxcT5h
-         ZGPrpPh53tIj6MmOu+ZGPi1LAi/KdVnZz4lc7+HWF1Fr5k0x4o48Zd8aTTghxMW3KfnG
-         vMvxGmsHFqeUF49+qc5z6I3oFHqeWi190O8RREx6vQog3YiZB4zX6RpWrUwKcEt6Vwd3
-         HIuA==
+        bh=pJHvlqs1E3IZOSc4LBd6IECUObELcDFGMeYOHFWKVto=;
+        b=PZX5bAk5F6ckB7vcIs0wXMYn3xd1BCWiPDcpO505/DzkuonoNu61w897NeC3Xqzjh7
+         8fWoHyhZHRy/UhnnrHSLwq9ENl/u38XBpy+xH1TRiuQr+rVySX8lcD21W33oWGjwIU3x
+         jJXgWfemlwOqaaEdIqCuF7TlHa/0QGV2mrgnXEZhUYA1nczCuMAPkXp3DdWWsRKVhFPD
+         mwUm+SJzlrNRziw/l3PB1D71fd1QHGECXVAWSRZ0uyMiOQePPBxJdwZU9CoaCzIAkfm2
+         cXebc6yESJcKFN/g29qlrlXW/EsWY5uKuMJ8R8+LW4grkmP+tw1qInQnbc8IyQz44+OG
+         rF6w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679293042;
+        d=1e100.net; s=20210112; t=1679294047;
         h=in-reply-to:content-transfer-encoding:content-disposition
          :mime-version:references:message-id:subject:cc:to:from:date
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=h6v9X+W3g9Lp9MD6mxsN+blVRBFSCLDbas/dIhTrItQ=;
-        b=wiOwJv7DtPfEwOHNa3pQaGMhWZydCkhHZzPLVqR2Rbi4I7RQMiF3Mslz64okZ45FD/
-         vTXkFhdlKGxf+MwcqfmFZEIHmG/jHBJUGDkR3gb63ruTXOllD1+KPZJFRlA/zxjFzs+C
-         zAt60l9dv6FcUy0k/IB1quq2yYxZyKhHdjgEMHvGuPCDGs3Vlpo6h4ATtITNlLV8a41I
-         eB8wI+4kEbCH9HptB/DIVLS4ul+upGIhX8bSVRI4FRo+hAVg5ysVfgHl4dHcdT61YPA7
-         0Qo9gXYyHCftHonWWYUYgzmlMMNgvwAYXsjH1/e7ZMN2SAeb8/YLPD3XzE71N1+1I3MV
-         IObg==
-X-Gm-Message-State: AO0yUKVES2bihvp60L6C1EnbDT8oI5Pa7ex06wzH05AStKZU75sqpvXV
-	kMtAQ+MEom/+eY3giQPqA7E=
-X-Google-Smtp-Source: AK7set/PMFO86QyDKguFPjFq921OFv/H3cV08pZk7oQq6IeVXUdI1IC4mXkk/+vhxP65szL3PDwz9g==
-X-Received: by 2002:a17:907:3f17:b0:933:4647:a289 with SMTP id hq23-20020a1709073f1700b009334647a289mr7661024ejc.48.1679293042505;
-        Sun, 19 Mar 2023 23:17:22 -0700 (PDT)
+        bh=pJHvlqs1E3IZOSc4LBd6IECUObELcDFGMeYOHFWKVto=;
+        b=dUGSieVzhg2M5j+WuAkMibaG6ISoI4ju2iSC97878tXI3t+a6Kg4GxzYq8mn5XWLIK
+         e+odzza7TQyuEIAm/SNx5cYd6YaaZFBcTSKfw/ZSm36P5ml/1/vxcaWcZd6Nv36HIEcE
+         EsZx3XGxDLlyR/X+sJuaP/cc4JUQbv2QsPecgwr3dYITUFB07eqmzGAasWZ5Ih4QxUzX
+         aACTicmq+jjYWGQpgp3pXRa+O3ZGEQA/dyzm86T2NyaTUSHqw2vpX/qAW41K3QQMzluK
+         ZuWHg/pWd9yB8C+Xwaq7qEX1ybfbsgLHC1EIxy4YVyEkiO2CMo5CTnowewYo4sn4IF7U
+         wkSQ==
+X-Gm-Message-State: AO0yUKXk8bGTgEwleL4Ljt3zErxk7uukAFX7Z3y4S+BBFLc7Q9TVEE25
+	+ppQGO+FdstYeZ530lVPAFRDGGwqLPbrZ/Y4
+X-Google-Smtp-Source: AK7set+WxSEvQ70ODVjdrp9oA75w+1BbD9UJRq8rtQsh9SLt6a6szK+v8GKc/pyvBL5X1wRW53oJQQ==
+X-Received: by 2002:a17:906:538f:b0:92d:44ca:1137 with SMTP id g15-20020a170906538f00b0092d44ca1137mr7753076ejo.43.1679294047321;
+        Sun, 19 Mar 2023 23:34:07 -0700 (PDT)
 Received: from khadija-virtual-machine ([39.41.14.14])
-        by smtp.gmail.com with ESMTPSA id a10-20020a1709065f8a00b0092595899cfcsm3957527eju.53.2023.03.19.23.17.20
+        by smtp.gmail.com with ESMTPSA id p25-20020a50cd99000000b004bf76fdfdb3sm4341043edi.26.2023.03.19.23.34.06
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 19 Mar 2023 23:17:20 -0700 (PDT)
-Date: Mon, 20 Mar 2023 11:17:18 +0500
+        Sun, 19 Mar 2023 23:34:06 -0700 (PDT)
+Date: Mon, 20 Mar 2023 11:34:04 +0500
 From: Khadija Kamran <kamrankhadijadj@gmail.com>
 To: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	outreachy@lists.linux.dev, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
+Cc: outreachy@lists.linux.dev,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
 Subject: Re: [PATCH v8] staging: axis-fifo: initialize timeouts in init only
-Message-ID: <ZBf6bhzRXRQJi6Bc@khadija-virtual-machine>
+Message-ID: <ZBf+XDN8GM0xDDCq@khadija-virtual-machine>
 References: <ZBN3XAsItCiTk7CV@khadija-virtual-machine>
- <ZBQTIVk0zsgv1hMH@kroah.com>
- <2499410.4XsnlVU6TS@suse>
+ <2222576.3ZeAukHxDK@suse>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -58,108 +57,187 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <2499410.4XsnlVU6TS@suse>
+In-Reply-To: <2222576.3ZeAukHxDK@suse>
 
-On Fri, Mar 17, 2023 at 09:58:17AM +0100, Fabio M. De Francesco wrote:
-> On venerdì 17 marzo 2023 08:13:37 CET Greg Kroah-Hartman wrote:
-> > On Fri, Mar 17, 2023 at 01:09:00AM +0500, Khadija Kamran wrote:
-> > > Initialize the module parameters, read_timeout and write_timeout once in
-> > > init().
-> > > 
-> > > Module parameters can only be set once and cannot be modified later, so we
-> > > don't need to evaluate them again when passing the parameters to
-> > > wait_event_interruptible_timeout().
-> > 
-> > I feel like we are being too picky here, but this isn't the correct
-> > wording.  It is possible for module parameters to be modified "later",
-> > if the permissions on the parameter are set to allow this.  But that's
-> > not what this driver does here, so this might be better phrased as:
-> > 
-> >   The module parameters in this driver can not be modified after
-> >   loading, so they can be evaluated once at module load and set to
-> >   default values if needed at that time.
-> > 
-> > > Convert datatype of {read,write}_timeout from 'int' to 'long int' because
-> > > implicit conversion of 'long int' to 'int' in statement
-> > > '{read,write}_timeout = MAX_SCHEDULE_TIMEOUT' results in an overflow.
-> > > 
-> > > Change format specifier for {read,write}_timeout from %i to %li.
-> > 
-> > You are listing all of _what_ you do here, not really _why_ you are
-> > doing any of this.
-> > 
-> > Anyway, if I were writing this, here's what I would say as a changelog
-> > text:
-> > 
-> >   The module parameters, read_timeout and write_timeout, are only ever
-> >   evaluated at module load time, so set the default values then if
-> >   needed so as to not recompute the timeout values every time the driver
-> >   reads or writes data.
-> > 
-> > 
-> > And that's it, short, concise, and it explains why you are doing this.
-> > 
-> > Writing changelog comments are almost always harder than actually
-> > writing the patch (at least for me.)  So don't feel bad, it take a lot
-> > of experience doing it.
+On Fri, Mar 17, 2023 at 11:29:25AM +0100, Fabio M. De Francesco wrote:
+> Khadija,
 > 
-> Thanks for helping Khadija (and also me, indirectly, because I helped them to 
-> make that commit message). After a little less than 200 commits already 
-> upstream, there is still to learn how to make a good changelog (which I think 
-> it's not less important than the code in the patch).  
+> Congratulations for having your first patch in Linux, via Greg's staging tree.
+> 
+> It will take some time before it reaches mainline, although it is already on 
+> its way to get upstream.
+
+Thank you! :)
+
+> 
+> On giovedì 16 marzo 2023 21:09:00 CET Khadija Kamran wrote:
+> > Initialize the module parameters, read_timeout and write_timeout once in
+> > init().
+> > 
+> > Module parameters can only be set once and cannot be modified later, so we
+> > don't need to evaluate them again when passing the parameters to
+> > wait_event_interruptible_timeout().
+> 
+> Greg made you (and indirectly me notice) that the statement above is a kind of 
+> short-circuit because it misses to make the readers notice that you are 
+> dealing with specific permissions granted to these two module's parameters.
+>
+> Please take a look at the permissions associated with those parameters:
+> 
+> module_param(write_timeout, long, 0444);
+> module_param(read_timeout, long, 0444);
+> 
+> Can you understand what '0444' stands for? What if their permissions were  
+> instead something like '0666' or '0664'?
 >
 
 Hey Fabio!
-I am glad to be a part of this process. Thank you for all the help
-with the commit messages. :)
 
-> > All that being said, I think we are just polishing something that
-> > doesn't need to really be polished anymore,
-> > so let me go just apply this
-> > patch as-is to the tree now so you can move on to a different change.
-> 
-> Yes, thanks. It's time to move on.
->
+I understand that 0444 shows read permissions only.
+I am trying to make sense of this. As the permissions do not allow
+write, so the value cannot be configured afterwards. 
+Instead of saying 'cannot be modified later', we should talk more about
+permissions here too.
+Am I getting it right?
 
-yes, please.
-
-> > You've put in the effort here, and I don't want you to get bogged down
-> > in specifics that really do not matter at all overall (like the memory
-> > size of your vm...)
-> 
-> You probably didn't pay attention to the problems Khadija has being 
-> experiencing with memory exhaustion and compilation times. 
-> 
-> First time they complained had several crashes while building and messages 
-> saying there was not enough available memory. Then several other problems with 
-> builds' time. Finally, yesterday they wrote that "make modules_install 
-> install" took "hours" (literally).
-> 
-> This is why I think they should also be helped with their VM configuration 
-> (despite it was unrelated to the patch). They won't be able to work on some 
-> projects if they cannot do quick builds and run hundreds of tests in no time 
-> (e.g., I'm especially talking about Ira's and my project about the conversions 
-> from kmap{,_atomic}() to kmap_local_page()).
->
-
-Thank you Fabio!
-I am waiting for your message on #kernel-outreachy. 
+Thank you!
 
 Regards,
 Khadija
 
-> I understand that this is only noise for you, as a maintainer. However I'm 
-> pretty sure that they need help with speeding up builds and installation. The 
-> projects cannot wait "hours" just for install of modules and kernel images.
+
+> (I'm not asking you to answer these questions, instead I am only asking you to 
+> learn how it works if you don't know it yet).
 > 
-> Again thanks for your precious suggestions about how to improve commit 
-> messages.
+> Fabio
 > 
-> Fabio 
-> 
-> > thanks,
+> > Convert datatype of {read,write}_timeout from 'int' to 'long int' because
+> > implicit conversion of 'long int' to 'int' in statement
+> > '{read,write}_timeout = MAX_SCHEDULE_TIMEOUT' results in an overflow.
 > > 
-> > greg k-h
+> > Change format specifier for {read,write}_timeout from %i to %li.
+> > 
+> > Reviewed-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
+> > Suggested-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> > Signed-off-by: Khadija Kamran <kamrankhadijadj@gmail.com>
+> > ---
+> > 
+> > Changes in v8:
+> >  - Fixed a spelling mistake
+> > 
+> > Changes in v7:
+> >  - Fixed a grammatical error
+> > 
+> > Changes in v6:
+> >  - Initialize module parameters in init instead of probe function.
+> >  - Change the subject and description
+> >  - Change format specifiers of module parameters to "%li"
+> > 
+> > Changes in v5:
+> >  - Convert module parameters datatype from int to long.
+> >  - Link to patch:
+> >  https://lore.kernel.org/outreachy/ZBMR4s8xyHGqMm72@khadija-virtual-machine/
+> > 
+> > Changes in v4:
+> >  - Initialize timeouts once as suggested by Greg; this automatically
+> >    fixes the indentation problems.
+> >  - Change the subject and description.
+> >  - Link to patch:
+> >  https://lore.kernel.org/outreachy/ZA4M3+ZeB1Rl2fbs@khadija-virtual-machine/
+> > 
+> > Changes in v3:
+> >  - Correct grammatical mistakes
+> >  - Do not change the second argument's indentation in split lines
+> > 
+> > Changes in v2:
+> >  - Instead of matching alignment to open parenthesis, align second and
+> >    the last argument.
+> >  - Change the subject and use imperative language.
+> >  - Link to patch:
+> >  https://lore.kernel.org/outreachy/ZAxNYw2rFQkrdtKl@khadija-virtual-machine/
+> > 
+> > Link to first patch:
+> >  https://lore.kernel.org/outreachy/ZAZSmPpB6fcozGa4@khadija-virtual-machine/
+> > 
+> >  drivers/staging/axis-fifo/axis-fifo.c | 28 ++++++++++++++++-----------
+> >  1 file changed, 17 insertions(+), 11 deletions(-)
+> > 
+> > diff --git a/drivers/staging/axis-fifo/axis-fifo.c
+> > b/drivers/staging/axis-fifo/axis-fifo.c index dfd2b357f484..0a85ea667a1b
+> > 100644
+> > --- a/drivers/staging/axis-fifo/axis-fifo.c
+> > +++ b/drivers/staging/axis-fifo/axis-fifo.c
+> > @@ -103,17 +103,17 @@
+> >   *           globals
+> >   * ----------------------------
+> >   */
+> > -static int read_timeout = 1000; /* ms to wait before read() times out */
+> > -static int write_timeout = 1000; /* ms to wait before write() times out */
+> > +static long read_timeout = 1000; /* ms to wait before read() times out */
+> > +static long write_timeout = 1000; /* ms to wait before write() times out */
+> > 
+> >  /* ----------------------------
+> >   * module command-line arguments
+> >   * ----------------------------
+> >   */
+> > 
+> > -module_param(read_timeout, int, 0444);
+> > +module_param(read_timeout, long, 0444);
+> >  MODULE_PARM_DESC(read_timeout, "ms to wait before blocking read() timing 
+> out;
+> > set to -1 for no timeout"); -module_param(write_timeout, int, 0444);
+> > +module_param(write_timeout, long, 0444);
+> >  MODULE_PARM_DESC(write_timeout, "ms to wait before blocking write() timing
+> > out; set to -1 for no timeout");
+> > 
+> >  /* ----------------------------
+> > @@ -384,9 +384,7 @@ static ssize_t axis_fifo_read(struct file *f, char 
+> __user
+> > *buf, mutex_lock(&fifo->read_lock);
+> >  		ret = wait_event_interruptible_timeout(fifo->read_queue,
+> >  			ioread32(fifo->base_addr + XLLF_RDFO_OFFSET),
+> > -				 (read_timeout >= 0) ?
+> > -				  msecs_to_jiffies(read_timeout) :
+> > -				  MAX_SCHEDULE_TIMEOUT);
+> > +			read_timeout);
+> > 
+> >  		if (ret <= 0) {
+> >  			if (ret == 0) {
+> > @@ -528,9 +526,7 @@ static ssize_t axis_fifo_write(struct file *f, const 
+> char
+> > __user *buf, ret = wait_event_interruptible_timeout(fifo->write_queue,
+> >  			ioread32(fifo->base_addr + XLLF_TDFV_OFFSET)
+> > 
+> >  				 >= words_to_write,
+> > 
+> > -				 (write_timeout >= 0) ?
+> > -				  msecs_to_jiffies(write_timeout) :
+> > -				  MAX_SCHEDULE_TIMEOUT);
+> > +			write_timeout);
+> > 
+> >  		if (ret <= 0) {
+> >  			if (ret == 0) {
+> > @@ -948,7 +944,17 @@ static struct platform_driver axis_fifo_driver = {
+> > 
+> >  static int __init axis_fifo_init(void)
+> >  {
+> > -	pr_info("axis-fifo driver loaded with parameters read_timeout = %i,
+> > write_timeout = %i\n", +	if (read_timeout >= 0)
+> > +		read_timeout = msecs_to_jiffies(read_timeout);
+> > +	else
+> > +		read_timeout = MAX_SCHEDULE_TIMEOUT;
+> > +
+> > +	if (write_timeout >= 0)
+> > +		write_timeout = msecs_to_jiffies(write_timeout);
+> > +	else
+> > +		write_timeout = MAX_SCHEDULE_TIMEOUT;
+> > +
+> > +	pr_info("axis-fifo driver loaded with parameters read_timeout = %li,
+> > write_timeout = %li\n", read_timeout, write_timeout);
+> >  	return platform_driver_register(&axis_fifo_driver);
+> >  }
+> > --
+> > 2.34.1
 > 
 > 
 > 
