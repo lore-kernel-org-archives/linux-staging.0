@@ -1,25 +1,48 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D2342FB3
-	for <linux-staging@lists.linux.dev>; Tue, 21 Mar 2023 10:49:50 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E4D8CC433D2;
-	Tue, 21 Mar 2023 10:49:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1679395790;
-	bh=mBqXmjcYNZV8WUHWvRmKJEG6BOl47liAF/vEszOX6CM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=WI0RS9QO/yJi7euLFQQ5te4EDv/GVE2eqa+wH99Pdj9Hg+jeWAlBdpq20fx0z/XaY
-	 jxXuN9umZMXteRglPrkDeeXWS02m5fL6nQykzSJXNFgsJzROommjP5530bEYGD/Y+6
-	 c6Tqqx/hNNodNtszK98Qd1KEOpShlRtBVnIdxFuE=
-Date: Tue, 21 Mar 2023 11:49:47 +0100
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Inshal Khan <kziaul123@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F0888C04
+	for <linux-staging@lists.linux.dev>; Tue, 21 Mar 2023 11:41:45 +0000 (UTC)
+Received: by mail-pl1-f175.google.com with SMTP id kq3so3283442plb.13
+        for <linux-staging@lists.linux.dev>; Tue, 21 Mar 2023 04:41:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1679398904;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=2YW3xbqi/VHK+051ISNRxO6nRHOEPScJeQcBOYGq32Q=;
+        b=jUjW2SGpLivPtEct6UbAlu9/ZDohcZG1nkwjXR08/71xM9Etn5dQPoGn5nOxu6jxsl
+         P93ver8+THwj6F/ARvXRw1u9ZnB+LVd8+sg6YcBF/WTFjb2Ey3W96Z8LBdBFoU2wclPl
+         bG5RnQmB8XBpyuj8mFX2kUImyhjRDWC/cY2tRF7OFdA6UC0Lq4bHvsSQm9O/N1O3MXro
+         xrXdh6rnwhTLGuoH/jgcnBOyYBjdZsLco5vobrz+MOP9WCKEU0zs/cnM7bsHlf07tkSm
+         yBH1S34yaCMj7Bip5siOLVSjFeOqMgWy4x2zq09tyLoRUgkz/rpwz6MOnRbh1t3nxkma
+         BgPA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1679398904;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=2YW3xbqi/VHK+051ISNRxO6nRHOEPScJeQcBOYGq32Q=;
+        b=AZiVN4qDJntwav7kJRM/w6y4wBTVrUhzywGD2yJwuQij6YlZ8vP4S9TMvF8cQXJdkV
+         cRtCw7svArCg3+EuIdRdOdo1i7hqFQ8NWMZvRiZ/v9hdzb0fqhtiEbak9ykt94zT2K7V
+         BA4LHry/m73d6OJTyrNzADHDdjsrS58QYNzIDpzBj4zygRcCLwJvf97+NaJeB6JLeKWJ
+         NWXifZeylIeDWJ7Vlo2EWcoWvUoc/f8j2nm89IBmfITNK77PCCePOcvcgsxUy54FnZL+
+         9WJfzP9B6jetcLgEj8KWd45rMzi6p5p9t2NTW2Se/64m+UWjW7atLG9XXrzQj0IaXlnq
+         kklw==
+X-Gm-Message-State: AO0yUKXwirbwgaABf/imckfheCViLPPMTDfadlx/3uFY0xS5K5SCmiZV
+	/FezHDl8IwDih+vAUO9mUYbvG5BS7Q==
+X-Google-Smtp-Source: AK7set+IZEO0Vs4I9RYeGuYvEfVzcSycM/hbhsX43x0q0HILzHmRJmljgXF5AtVWRdNP0hhngZ9yBg==
+X-Received: by 2002:a05:6a20:c29c:b0:da:368e:7c73 with SMTP id bs28-20020a056a20c29c00b000da368e7c73mr1752668pzb.37.1679398904390;
+        Tue, 21 Mar 2023 04:41:44 -0700 (PDT)
+Received: from mehmed-HP-Pavilion-Laptop-15-eh2xxx ([2401:4900:1c19:e99d:c9dc:9d9e:85b3:1d9e])
+        by smtp.gmail.com with ESMTPSA id a17-20020aa780d1000000b0062814f38d33sm1092365pfn.170.2023.03.21.04.41.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 21 Mar 2023 04:41:44 -0700 (PDT)
+Date: Tue, 21 Mar 2023 17:11:41 +0530
+From: Inshal Khan <kziaul123@gmail.com>
+To: gregkh@linuxfoundation.org
 Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] Staging: rtl8712: Remove redundant parentheses and
- improve macro definition
-Message-ID: <ZBmLy6hhdabmB5Ph@kroah.com>
-References: <ZBmJ0luUeoX/uhZp@mehmed-HP-Pavilion-Laptop-15-eh2xxx>
+Subject: [PATCH 4/4] Staging: rtl8712: osdep_intf: Improve RND4 macro for
+ better debugging and safety
+Message-ID: <ZBmX9cjTRNhwt2zA@mehmed-HP-Pavilion-Laptop-15-eh2xxx>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -28,104 +51,44 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ZBmJ0luUeoX/uhZp@mehmed-HP-Pavilion-Laptop-15-eh2xxx>
 
-On Tue, Mar 21, 2023 at 04:11:22PM +0530, Inshal Khan wrote:
-> This commit simplifies the code in the ieee80211 and osdep_intf modules by
-> removing unnecessary parentheses and improving the readability and avoiding
-> any unexpected as well as operator preceedence side effects of RND4 macro.
-> These changes improve the robustness of the driver and make it easier to
-> maintain going forward.
-> 
-> Signed-off-by: Inshal Khan <kziaul123@gmail.com>
-> ---
->  drivers/staging/rtl8712/ieee80211.c  | 10 +++++-----
->  drivers/staging/rtl8712/osdep_intf.h |  5 ++++-
->  2 files changed, 9 insertions(+), 6 deletions(-)
-> 
-> diff --git a/drivers/staging/rtl8712/ieee80211.c b/drivers/staging/rtl8712/ieee80211.c
-> index 7d8f1a29d18a..85e698c2126d 100644
-> --- a/drivers/staging/rtl8712/ieee80211.c
-> +++ b/drivers/staging/rtl8712/ieee80211.c
-> @@ -63,8 +63,8 @@ uint r8712_is_cckrates_included(u8 *rate)
->  	u32 i = 0;
->  
->  	while (rate[i] != 0) {
-> -		if ((((rate[i]) & 0x7f) == 2) || (((rate[i]) & 0x7f) == 4) ||
-> -		    (((rate[i]) & 0x7f) == 11) || (((rate[i]) & 0x7f) == 22))
-> +		if (((rate[i] & 0x7f) == 2) || ((rate[i] & 0x7f) == 4) ||
-> +		    ((rate[i] & 0x7f) == 11) || ((rate[i] & 0x7f) == 22))
->  			return true;
->  		i++;
->  	}
-> @@ -76,8 +76,8 @@ uint r8712_is_cckratesonly_included(u8 *rate)
->  	u32 i = 0;
->  
->  	while (rate[i] != 0) {
-> -		if ((((rate[i]) & 0x7f) != 2) && (((rate[i]) & 0x7f) != 4) &&
-> -		    (((rate[i]) & 0x7f) != 11)  && (((rate[i]) & 0x7f) != 22))
-> +		if (((rate[i] & 0x7f) != 2) && ((rate[i] & 0x7f) != 4) &&
-> +		    ((rate[i] & 0x7f) != 11)  && ((rate[i] & 0x7f) != 22))
->  			return false;
->  		i++;
->  	}
-> @@ -147,7 +147,7 @@ static uint r8712_get_rateset_len(u8 *rateset)
->  	uint i = 0;
->  
->  	while (1) {
-> -		if ((rateset[i]) == 0)
-> +		if (rateset[i] == 0)
->  			break;
->  		if (i > 12)
->  			break;
-> diff --git a/drivers/staging/rtl8712/osdep_intf.h b/drivers/staging/rtl8712/osdep_intf.h
-> index 9e75116c987e..3d4f82cc60f9 100644
-> --- a/drivers/staging/rtl8712/osdep_intf.h
-> +++ b/drivers/staging/rtl8712/osdep_intf.h
-> @@ -17,7 +17,10 @@
->  #include "osdep_service.h"
->  #include "drv_types.h"
->  
-> -#define RND4(x)	(((x >> 2) + ((x & 3) != 0)) << 2)
-> +#define RND4(x) ({ \
-> +		typeof(x) _x = (x); \
-> +		(((_x) + 3) & ~3); \
-> +		})
->  
->  struct intf_priv {
->  	u8 *intf_dev;
-> -- 
-> 2.34.1
-> 
-> 
+This commit modifies the RND4_UPPER macro in the osdep_intf module of
+the rtl8712 driver to improve its safety and debugging capabilities.
+The macro has been changed to use a temporary variable for the input
+argument 'x', instead of directly using it in the macro expression.
+This change helps to avoid potential issues with operator precedence
+and unexpected side effects that could occur if 'x' was reused within
+the macro.
 
-Hi,
+Additionally, the new definition of the macro uses the 'typeof' operator
+to determine the type of the input argument, which ensures that the macro
+can handle any data type safely. The new definition also uses a block
+expression to contain the macro code, allowing for better debugging
+capabilities and cleaner code.
 
-This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
-a patch that has triggered this response.  He used to manually respond
-to these common problems, but in order to save his sanity (he kept
-writing the same thing over and over, yet to different people), I was
-created.  Hopefully you will not take offence and will fix the problem
-in your patch and resubmit it so that it can be accepted into the Linux
-kernel tree.
+This change improves the safety and maintainability of the RND4 macro
+and makes it more suitable for use in the Linux kernel.
 
-You are receiving this message because of the following common error(s)
-as indicated below:
+Signed-off-by: Inshal Khan <kziaul123@gmail.com>
+---
+ drivers/staging/rtl8712/osdep_intf.h | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-- Your patch did many different things all at once, making it difficult
-  to review.  All Linux kernel patches need to only do one thing at a
-  time.  If you need to do multiple things (such as clean up all coding
-  style issues in a file/driver), do it in a sequence of patches, each
-  one doing only one thing.  This will make it easier to review the
-  patches to ensure that they are correct, and to help alleviate any
-  merge issues that larger patches can cause.
+diff --git a/drivers/staging/rtl8712/osdep_intf.h b/drivers/staging/rtl8712/osdep_intf.h
+index 95a21f380cd7..0e097b4a8670 100644
+--- a/drivers/staging/rtl8712/osdep_intf.h
++++ b/drivers/staging/rtl8712/osdep_intf.h
+@@ -18,8 +18,8 @@
+ #include "drv_types.h"
+ 
+ #define RND4(x)	({ \
+-		typeof(x) _x = (x); \
+-		(((_x) + 3) & ~3); \
++			typeof(x) _x = (x); \
++			(((_x) + 3) & ~3); \
+ 		})
+ 
+ struct intf_priv {
+-- 
+2.34.1
 
-
-If you wish to discuss this problem further, or you have questions about
-how to resolve this issue, please feel free to respond to this email and
-Greg will reply once he has dug out from the pending patches received
-from other developers.
-
-thanks,
-
-greg k-h's patch email bot
