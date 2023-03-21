@@ -1,70 +1,126 @@
-Received: from mail2-relais-roc.national.inria.fr (mail2-relais-roc.national.inria.fr [192.134.164.83])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7D899440;
-	Tue, 21 Mar 2023 11:46:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=inria.fr; s=dc;
-  h=date:from:to:cc:subject:in-reply-to:message-id:
-   references:mime-version;
-  bh=BaVu1ranY6IZPO5w8T3/AsoEgjpGKi9wefT7ScLRJzA=;
-  b=o4qCyQ4rHz0HLQOMuw4m39RYMAtYSRZb8iuaciFdXgRTUtZTdFHRfgS/
-   i1VstiE4iqZZPpF4+iWQv7brhOTXObHvgxd8eZNKJJraZz5wQugsVzKgC
-   8vLlcs2rIq7PDZl7Tq+YBKgjG7I891md9gtQXBqkwIG+wJqGMgt0U7hpd
-   8=;
-Authentication-Results: mail2-relais-roc.national.inria.fr; dkim=none (message not signed) header.i=none; spf=SoftFail smtp.mailfrom=julia.lawall@inria.fr; dmarc=fail (p=none dis=none) d=inria.fr
-X-IronPort-AV: E=Sophos;i="5.98,278,1673910000"; 
-   d="scan'208";a="98275290"
-Received: from dt-lawall.paris.inria.fr ([128.93.67.65])
-  by mail2-relais-roc.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Mar 2023 12:46:01 +0100
-Date: Tue, 21 Mar 2023 12:46:01 +0100 (CET)
-From: Julia Lawall <julia.lawall@inria.fr>
-To: Menna Mahmoud <eng.mennamahmoud.mm@gmail.com>
-cc: gregkh@linuxfoundation.org, outreachy@lists.linux.dev, johan@kernel.org, 
-    elder@kernel.org, vireshk@kernel.org, thierry.reding@gmail.com, 
-    u.kleine-koenig@pengutronix.de, greybus-dev@lists.linaro.org, 
-    linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev, 
-    linux-pwm@vger.kernel.org
-Subject: Re: [PATCH 0/3] edits in greybus driver
-In-Reply-To: <cover.1679352669.git.eng.mennamahmoud.mm@gmail.com>
-Message-ID: <ee77a227-13bd-70ad-1d8e-f9719970e0f8@inria.fr>
-References: <cover.1679352669.git.eng.mennamahmoud.mm@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADC6E9460
+	for <linux-staging@lists.linux.dev>; Tue, 21 Mar 2023 13:58:35 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DFAEAC433EF;
+	Tue, 21 Mar 2023 13:58:32 +0000 (UTC)
+Message-ID: <1a323f49-20e4-46dd-12ac-d991cd257330@xs4all.nl>
+Date: Tue, 21 Mar 2023 14:58:31 +0100
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH] media: meson: vdec: esparser: check parsing state with
+ hardware write pointer
+Content-Language: en-US
+To: Christian Hewitt <christianshewitt@gmail.com>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>,
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+ linux-media@vger.kernel.org, linux-amlogic@lists.infradead.org,
+ linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org, Neil Armstrong <narmstrong@baylibre.com>,
+ Dan Carpenter <error27@gmail.com>
+References: <20230123094300.2816812-1-christianshewitt@gmail.com>
+ <Y8536BzbbghJt0G2@kadam>
+From: Hans Verkuil <hverkuil@xs4all.nl>
+In-Reply-To: <Y8536BzbbghJt0G2@kadam>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
+Hi Christian,
 
+On 23/01/2023 13:04, Dan Carpenter wrote:
+> On Mon, Jan 23, 2023 at 09:43:00AM +0000, Christian Hewitt wrote:
+>> From: Neil Armstrong <narmstrong@baylibre.com>
+>>
+>> Also check the hardware write pointer to check if ES Parser has stalled.
+>>
+> 
+> Presumably this is something which has happens in real life?  Say a user
+> has this hardware and is wondering if this patch fixes their bug, what
+> does this bug look like to them?
+> 
+> Please add a Fixes tag.
 
-On Tue, 21 Mar 2023, Menna Mahmoud wrote:
+I'm marking this as Changes Requested in patchwork.
 
-> This patchset includes change happened in greybus driver in three
-> different files two of them patch one and three related to
-> checkpatch issue and in second patch convert two
-> `container_of` macros into inline functions.
->
-> Menna Mahmoud (3):
->   staging: greybus: remove unnecessary blank line
->   staging: greybus: use inline function for macros
->   staging: greybus: remove unnecessary blank line
+Dan has good comments, and in general, if something is 'weird', then
+it needs to be commented carefully.
 
-Different patches should have different subject lines.  You need to either
-be more specific about the file affected or merge the two patches with the
-same subject into one.
+Regards,
 
-julia
+	Hans
 
->
->  drivers/staging/greybus/gbphy.h                  | 10 ++++++++--
->  drivers/staging/greybus/greybus_authentication.h |  1 -
->  drivers/staging/greybus/pwm.c                    |  1 -
->  3 files changed, 8 insertions(+), 4 deletions(-)
->
-> --
-> 2.34.1
->
->
->
+> 
+>> Signed-off-by: Neil Armstrong <narmstrong@baylibre.com>
+>> Signed-off-by: Christian Hewitt <christianshewitt@gmail.com>
+>> ---
+>>  drivers/staging/media/meson/vdec/esparser.c | 15 +++++++++++----
+>>  1 file changed, 11 insertions(+), 4 deletions(-)
+>>
+>> diff --git a/drivers/staging/media/meson/vdec/esparser.c b/drivers/staging/media/meson/vdec/esparser.c
+>> index df5956c6141d..41b705f999b2 100644
+>> --- a/drivers/staging/media/meson/vdec/esparser.c
+>> +++ b/drivers/staging/media/meson/vdec/esparser.c
+>> @@ -300,6 +300,7 @@ esparser_queue(struct amvdec_session *sess, struct vb2_v4l2_buffer *vbuf)
+>>  	u32 num_dst_bufs = 0;
+>>  	u32 offset;
+>>  	u32 pad_size;
+>> +	u32 wp, wp2;
+>>  
+>>  	/*
+>>  	 * When max ref frame is held by VP9, this should be -= 3 to prevent a
+>> @@ -354,15 +355,21 @@ esparser_queue(struct amvdec_session *sess, struct vb2_v4l2_buffer *vbuf)
+>>  	}
+>>  
+>>  	pad_size = esparser_pad_start_code(core, vb, payload_size);
+>> +	wp = amvdec_read_parser(core, PARSER_VIDEO_WP);
+>>  	ret = esparser_write_data(core, phy, payload_size + pad_size);
+>> +	wp2 = amvdec_read_parser(core, PARSER_VIDEO_WP);
+>>  
+> 
+> Why is check not done inside the esparser_write_data() function?  It
+> really feels like doing a write where nothing happens should be a bug
+> for both callers...
+> 
+> The esparser_write_data() function returns > 0 on success, 0 on timeout
+> (I guess timeout is an error-ish) and negative if the user presses
+> CTR-C.  There are no comments to explain the unusual returns.  Could we
+> clean this up so it just returns negatives on error and zero on success
+> or if not then let's add a comment explaining what's going on?
+> 
+>>  	if (ret <= 0) {
+>> -		dev_warn(core->dev, "esparser: input parsing error\n");
+>> -		amvdec_remove_ts(sess, vb->timestamp);
+>> -		v4l2_m2m_buf_done(vbuf, VB2_BUF_STATE_ERROR);
+>>  		amvdec_write_parser(core, PARSER_FETCH_CMD, 0);
+>>  
+>> -		return 0;
+>> +		if (ret < 0 || wp2 == wp) {
+> 
+> So in this patch if there is a timeout but something was written then
+> that's kind of a success path?
+> 
+> regards,
+> dan carpenter
+> 
+>> +			dev_err(core->dev, "esparser: input parsing error ret %d (%x <=> %x)\n",
+>> +				ret, wp, wp2);
+>> +			amvdec_remove_ts(sess, vb->timestamp);
+>> +			v4l2_m2m_buf_done(vbuf, VB2_BUF_STATE_ERROR);
+>> +
+>> +			return 0;
+>> +		}
+>>  	}
+>>  
+>>  	atomic_inc(&sess->esparser_queued_bufs);
+> 
+
