@@ -1,116 +1,156 @@
-Received: from mail3-relais-sop.national.inria.fr (mail3-relais-sop.national.inria.fr [192.134.164.104])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-il1-f182.google.com (mail-il1-f182.google.com [209.85.166.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2A419440;
-	Tue, 21 Mar 2023 20:59:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84C5A9440
+	for <linux-staging@lists.linux.dev>; Tue, 21 Mar 2023 21:09:24 +0000 (UTC)
+Received: by mail-il1-f182.google.com with SMTP id s7so8856616ilv.12
+        for <linux-staging@lists.linux.dev>; Tue, 21 Mar 2023 14:09:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=inria.fr; s=dc;
-  h=date:from:to:cc:subject:in-reply-to:message-id:
-   references:mime-version;
-  bh=9q3c6DZ84qERaYxwpBLMMZMDxJrnwUpqZmpXF6Hs6ks=;
-  b=nqFkP6g7VrkH6F9TIZQuEyi4wfkMDquj8ZeBCPqQE62fZzKFPB/t3ip8
-   O58YVcqMbnHQV7IEILZ/MbN+HnYPzihOvUaByrZiJeE4f0O8FcpchHgoR
-   s1ZX/QVdcpKsZUgfS4zT5u/gLNi9II2BsXIWw0vikJ4H7ZVgfLR+aap4O
-   s=;
-Authentication-Results: mail3-relais-sop.national.inria.fr; dkim=none (message not signed) header.i=none; spf=SoftFail smtp.mailfrom=julia.lawall@inria.fr; dmarc=fail (p=none dis=none) d=inria.fr
-X-IronPort-AV: E=Sophos;i="5.98,279,1673910000"; 
-   d="scan'208";a="50854107"
-Received: from 231.85.89.92.rev.sfr.net (HELO hadrien) ([92.89.85.231])
-  by mail3-relais-sop.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Mar 2023 21:59:14 +0100
-Date: Tue, 21 Mar 2023 21:59:13 +0100 (CET)
-From: Julia Lawall <julia.lawall@inria.fr>
-X-X-Sender: jll@hadrien
-To: Menna Mahmoud <eng.mennamahmoud.mm@gmail.com>
-cc: gregkh@linuxfoundation.org, outreachy@lists.linux.dev, johan@kernel.org, 
-    elder@kernel.org, vireshk@kernel.org, thierry.reding@gmail.com, 
-    u.kleine-koenig@pengutronix.de, greybus-dev@lists.linaro.org, 
-    linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev, 
-    linux-pwm@vger.kernel.org
-Subject: Re: [PATCH v2 1/2] staging: greybus: remove unnecessary blank line
-In-Reply-To: <20230321181725.8691-1-eng.mennamahmoud.mm@gmail.com>
-Message-ID: <alpine.DEB.2.22.394.2303212158170.2919@hadrien>
-References: <20230321181725.8691-1-eng.mennamahmoud.mm@gmail.com>
-User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
+        d=ieee.org; s=google; t=1679432963;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=yzW9p4LhnjYzvSKLP9t4tNJ5MTuXkgLMUHLHnuCN+lo=;
+        b=hJap/eyAlwh1xyFVpJSITmTyB3Yh8OVErR/Tibiu+/SnBd8cHnNtLIb8mwa3e4aRUl
+         hKWCQo9qmpIO0Nvo5kI95Ww55GRUzYRmlyEmSgAnSLyzT3xnh7kTYpvm3DJpvhwCUESb
+         ofk36ZUs1Xjy7fypAkB+OqFSfB6joAwtxkBLM=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1679432963;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=yzW9p4LhnjYzvSKLP9t4tNJ5MTuXkgLMUHLHnuCN+lo=;
+        b=MsSw4UIwUupoaGYoXqx9FswGgGME2CykMaHQy2/TzwZ4bwedJxU7pgZ5yZfZHK4Oju
+         5ZFdEVDC1aqcWPZonfsi8yX3+M30O5jyFtTOU8kUwLpH3tglaFHtrtrHJXHRwZ9cp1wS
+         Oc62PRGo2UbcoGfw7ARpCYvySsCEz3VgMrKLZWh6DwU110UxareByxHlOvNx9tI05b0o
+         evxa2oBysiu5QQaZbZm/7Smw+iDOLGL2f/QEwk2KKjSzKjqyUwDrdUw8AcjxnfN0fUeo
+         AuPtPTEUyTGKhRraiy18ycqM37a7eUx2C2lsYyII5ebckBq4ch7gofNWrACm6Ntd9VVw
+         k/rw==
+X-Gm-Message-State: AO0yUKU4OCYP0gCeFMtT6+Ec5pQYZ6wpLLasdxZ6gqpTrutr2dW1FWwg
+	H1wZIqDItremSfGpnRy6tv2k9g==
+X-Google-Smtp-Source: AK7set8aAYWKSqfj95VbGURvHutzcp/JtU4vq+Utl72f2RpQonG9KHZIwW6HF+bSPT/kRjy+OMINsQ==
+X-Received: by 2002:a92:c0c5:0:b0:323:515:c9fc with SMTP id t5-20020a92c0c5000000b003230515c9fcmr2629777ilf.6.1679432963564;
+        Tue, 21 Mar 2023 14:09:23 -0700 (PDT)
+Received: from [172.22.22.4] ([98.61.227.136])
+        by smtp.googlemail.com with ESMTPSA id q18-20020a056e02107200b0032304e1814bsm3872242ilj.40.2023.03.21.14.09.22
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 21 Mar 2023 14:09:23 -0700 (PDT)
+Message-ID: <5efa6e6d-8573-31de-639a-d15b2e9deca0@ieee.org>
+Date: Tue, 21 Mar 2023 16:09:22 -0500
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH v2] staging: greybus: use inline function for macros
+Content-Language: en-US
+To: Julia Lawall <julia.lawall@inria.fr>
+Cc: Menna Mahmoud <eng.mennamahmoud.mm@gmail.com>,
+ gregkh@linuxfoundation.org, outreachy@lists.linux.dev, johan@kernel.org,
+ elder@kernel.org, linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
+References: <20230321183456.10385-1-eng.mennamahmoud.mm@gmail.com>
+ <2e869677-2693-6419-ea25-f0cc2efcf3dd@ieee.org>
+ <alpine.DEB.2.22.394.2303212140480.2919@hadrien>
+From: Alex Elder <elder@ieee.org>
+In-Reply-To: <alpine.DEB.2.22.394.2303212140480.2919@hadrien>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
+On 3/21/23 3:43 PM, Julia Lawall wrote:
+> 
+> 
+> On Tue, 21 Mar 2023, Alex Elder wrote:
+> 
+>> On 3/21/23 1:34 PM, Menna Mahmoud wrote:
+>>> Convert `to_gbphy_dev` and `to_gbphy_driver` macros into a
+>>> static inline function.
+>>>
+>>> It is not great to have macros that use the `container_of` macro,
+>>> because from looking at the definition one cannot tell what type
+>>> it applies to.
+>>>
+>>> One can get the same benefit from an efficiency point of view
+>>> by making an inline function.
+>>>
+>>> Suggested-by: Julia Lawall <julia.lawall@inria.fr>
+>>> Signed-off-by: Menna Mahmoud <eng.mennamahmoud.mm@gmail.com>
+>>
+>> I'm sorry if this conflicts with what others have said.
+>>
+>> But the use of a macro (with a container_of() right-hand
+>> side) to get at the structure containing a field pointer
+>> is a widely-used idiom throughout the kernel.
+>>
+>> What you propose achieves the same result but I would
+>> lean toward keeping it as a macro, mainly because it
+>> is so common.
+> 
+> Common is not necessarily good.  Macros are less safe and less
+> informative.
 
+I do agree that the inline function is better, and
+is functionally equivalent (while being explicit
+with types and avoiding any macro expansion funny
+business).
 
-On Tue, 21 Mar 2023, Menna Mahmoud wrote:
+Do you think we should make changes like this throughout
+the kernel (along the lines of the flexible array fixes,
+to make things safer)?  I don't think it's a terrible idea,
+but it's likely a big undertaking and I predict push-back.
 
-> Remove unnecessary blank line before struct as reported
-> by checkpatch:
->
-> " CHECK: Please don't use multiple blank lines "
->
-> Signed-off-by: Menna Mahmoud <eng.mennamahmoud.mm@gmail.com>
-> ---
-> change in v2:
-> 	add patches that have same edit in sigle patch.
-> ---
->  drivers/staging/greybus/greybus_authentication.h | 1 -
->  1 file changed, 1 deletion(-)
->
-> diff --git a/drivers/staging/greybus/greybus_authentication.h b/drivers/staging/greybus/greybus_authentication.h
-> index 7edc7295b7ab..48b4a9794d3c 100644
-> --- a/drivers/staging/greybus/greybus_authentication.h
-> +++ b/drivers/staging/greybus/greybus_authentication.h
-> @@ -41,7 +41,6 @@
->  #define CAP_AUTH_RESULT_CR_NO_KEY	0x03
->  #define CAP_AUTH_RESULT_CR_SIG_FAIL	0x04
->
-> -
->  /* IOCTL support */
->  struct cap_ioc_get_endpoint_uid {
->  	__u8			uid[8];
-> --
-> 2.34.1
->
->
-> From 6f56ebcda89f91cdfe6e64c0707dc476ebc1e819 Mon Sep 17 00:00:00 2001
-> From: Menna Mahmoud <eng.mennamahmoud.mm@gmail.com>
-> Date: Tue, 21 Mar 2023 00:03:32 +0200
-> Subject: [PATCH v2 2/2] staging: greybus: remove unnecessary blank line
+Bottom line on this is that I don't think the proposed
+change is wrong, but there is value in consistently
+adhering to conventions.
 
-This doesn't look right.  If you put two changes in a single message, you
-shouldn't repeat the log message etc.  Use git log -p to look at what
-others have done.
+Others can comment; I have no real objection.
 
-julia
+					-Alex
 
->
-> Remove unnecessary blank line before struct as reported
-> by checkpatch:
->
-> " CHECK: Please don't use multiple blank lines "
->
-> Signed-off-by: Menna Mahmoud <eng.mennamahmoud.mm@gmail.com>
-> ---
-> change in v2:
->         add patches that have same edit in sigle patch.
-> ---
->  drivers/staging/greybus/pwm.c | 1 -
->  1 file changed, 1 deletion(-)
->
-> diff --git a/drivers/staging/greybus/pwm.c b/drivers/staging/greybus/pwm.c
-> index 3fda172239d2..26d39e08c3b6 100644
-> --- a/drivers/staging/greybus/pwm.c
-> +++ b/drivers/staging/greybus/pwm.c
-> @@ -24,7 +24,6 @@ struct gb_pwm_chip {
->  #define pwm_chip_to_gb_pwm_chip(chip) \
->  	container_of(chip, struct gb_pwm_chip, chip)
->
-> -
->  static int gb_pwm_count_operation(struct gb_pwm_chip *pwmc)
->  {
->  	struct gb_pwm_count_response response;
-> --
-> 2.34.1
->
->
->
+> 
+> julia
+> 
+> 
+>>
+>> 					-Alex
+>>> ---
+>>> changes in v2:
+>>> 	-send patch as a single patch.
+>>> 	-edit the name of struct object.
+>>> 	-edit commit message.
+>>> ---
+>>>    drivers/staging/greybus/gbphy.h | 10 ++++++++--
+>>>    1 file changed, 8 insertions(+), 2 deletions(-)
+>>>
+>>> diff --git a/drivers/staging/greybus/gbphy.h
+>>> b/drivers/staging/greybus/gbphy.h
+>>> index d4a225b76338..e7ba232bada1 100644
+>>> --- a/drivers/staging/greybus/gbphy.h
+>>> +++ b/drivers/staging/greybus/gbphy.h
+>>> @@ -15,7 +15,10 @@ struct gbphy_device {
+>>>    	struct list_head list;
+>>>    	struct device dev;
+>>>    };
+>>> -#define to_gbphy_dev(d) container_of(d, struct gbphy_device, dev)
+>>> +static inline struct gbphy_device *to_gbphy_dev(const struct device *_dev)
+>>> +{
+>>> +	return container_of(_dev, struct gbphy_device, dev);
+>>> +}
+>>>      static inline void *gb_gbphy_get_data(struct gbphy_device *gdev)
+>>>    {
+>>> @@ -43,7 +46,10 @@ struct gbphy_driver {
+>>>      	struct device_driver driver;
+>>>    };
+>>> -#define to_gbphy_driver(d) container_of(d, struct gbphy_driver, driver)
+>>> +static inline struct gbphy_driver *to_gbphy_driver(struct device_driver
+>>> *drv)
+>>> +{
+>>> +	return container_of(drv, struct gbphy_driver, driver);
+>>> +}
+>>>      int gb_gbphy_register_driver(struct gbphy_driver *driver,
+>>>    			     struct module *owner, const char *mod_name);
+>>
+>>
+
