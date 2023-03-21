@@ -1,119 +1,105 @@
-Received: from mail2-relais-roc.national.inria.fr (mail2-relais-roc.national.inria.fr [192.134.164.83])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5797E2FB6;
-	Tue, 21 Mar 2023 16:39:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59FDD2FB6;
+	Tue, 21 Mar 2023 16:40:46 +0000 (UTC)
+Received: by mail-ed1-f42.google.com with SMTP id ek18so62144837edb.6;
+        Tue, 21 Mar 2023 09:40:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=inria.fr; s=dc;
-  h=date:from:to:cc:subject:in-reply-to:message-id:
-   references:mime-version;
-  bh=PzFbeSMMbS4CC7XY2NIBhcKqrJEORtC8j3V9n4WJKHA=;
-  b=mK6kLhXLytGD1zE70XoQ6WcMB+mJyZieWcb6GqWmQMfOVpN0GBdaE4fg
-   1oU3+eZXBLvCLchaYuZFATS8et4Q+7qxQ7ZV1p29S1a4Art/+eDSPeeo+
-   8HfOFnSJUZZMC/ekg0lpUiwC/tW/C9oBktNSKwlOlb1b1qOWJEJWKMl27
-   c=;
-Authentication-Results: mail2-relais-roc.national.inria.fr; dkim=none (message not signed) header.i=none; spf=SoftFail smtp.mailfrom=julia.lawall@inria.fr; dmarc=fail (p=none dis=none) d=inria.fr
-X-IronPort-AV: E=Sophos;i="5.98,279,1673910000"; 
-   d="scan'208";a="98353568"
-Received: from dt-lawall.paris.inria.fr ([128.93.67.65])
-  by mail2-relais-roc.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Mar 2023 17:39:55 +0100
-Date: Tue, 21 Mar 2023 17:39:55 +0100 (CET)
-From: Julia Lawall <julia.lawall@inria.fr>
-To: Menna Mahmoud <eng.mennamahmoud.mm@gmail.com>
-cc: gregkh@linuxfoundation.org, outreachy@lists.linux.dev, johan@kernel.org, 
-    elder@kernel.org, vireshk@kernel.org, thierry.reding@gmail.com, 
-    u.kleine-koenig@pengutronix.de, greybus-dev@lists.linaro.org, 
-    linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev, 
-    linux-pwm@vger.kernel.org
-Subject: Re: [PATCH 0/3] edits in greybus driver
-In-Reply-To: <196b5d53-701f-e2dd-596c-9fdb6a59f5cd@gmail.com>
-Message-ID: <8020f263-158d-db6e-f34-425b72983bb@inria.fr>
-References: <cover.1679352669.git.eng.mennamahmoud.mm@gmail.com> <ee77a227-13bd-70ad-1d8e-f9719970e0f8@inria.fr> <196b5d53-701f-e2dd-596c-9fdb6a59f5cd@gmail.com>
+        d=gmail.com; s=20210112; t=1679416844;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=ZrlZjsekimYZz2rusTzf5CWJE1JU9y76N7MnQtLQqd8=;
+        b=XHiOY/mfOqvXk4Ag+FACvgulRCUOH59TQOQG7rMtHMGVjKwqVHAwlkPH6nXoEyF6fm
+         MSY+z+pb1Gd7om8MSBHKvSlZOppnTarPtColtqLG6Z0EU22PV394Wq0ctnQfog+uvrXT
+         VrYYj+/vG3J8pfanual0EW5LHlgy7Ks12/X2ZnuxicSPuH+laZ70GKIFq5OKEzS542pL
+         WMBWeBJsLJG+inw9E8uPFbWtQvRwibydjz4lS8iR1t2nSvZQPpceMh9hhGnyGguH+fea
+         7bQm4dMth22PGIiFZwsMLuupOppws2lOKEqmtuDvSTcmpUiF6c5m6u82zAkAa+BiWoPt
+         yT6A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1679416844;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ZrlZjsekimYZz2rusTzf5CWJE1JU9y76N7MnQtLQqd8=;
+        b=6Eyq9eEYUpvZjiznqWk4S4r7TLB0xG/vSZP0SeWvOmAyLA2UZK9LRR0GBgh18v3jI+
+         ddXF1EMG6rRFtQlt0LAZmoVD0NCsFt2Ce66vJXpqT7uzW2OO3t9mxV0BKGO6BJ8KB6YD
+         1HgsZVqehA95hhZcY6YXXodLc3Gms4VDhPOCu26rJwYkkbGAHGfbRtI4MppB3cGzQ3BF
+         eHaFUbyBjOfV8eDZFbRiPLj2U1wBma3IY56+UtdgdRVFmTutETF4VHTlCuY6NJ8to0k3
+         wmtrH9wCYJlFKr8mWIBdg8oQIyA3MwvXMpvUeBb+mNWCSHgTURnUXahLWEJBWsKiFFi3
+         o6Lw==
+X-Gm-Message-State: AO0yUKWiVzg8bEyf9jCiftYbAsrrn9w0vGuk8R1GduLUGXmQF/fG+lac
+	dytbaaimET5WDe74IatXmBs=
+X-Google-Smtp-Source: AK7set/KvDidl1A0DDtGzN2QPf7Ud1/aoKKKDxJURSPbZfTSD2dnlvBJwIC1KUPCJkCH0jQvggCX8w==
+X-Received: by 2002:a17:906:11d0:b0:926:320c:cd98 with SMTP id o16-20020a17090611d000b00926320ccd98mr3511021eja.36.1679416844594;
+        Tue, 21 Mar 2023 09:40:44 -0700 (PDT)
+Received: from khadija-virtual-machine ([39.41.14.14])
+        by smtp.gmail.com with ESMTPSA id e6-20020a170906748600b008bfe95c46c3sm6045983ejl.220.2023.03.21.09.40.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 21 Mar 2023 09:40:44 -0700 (PDT)
+Date: Tue, 21 Mar 2023 21:40:38 +0500
+From: Khadija Kamran <kamrankhadijadj@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: outreachy@lists.linux.dev, Lars-Peter Clausen <lars@metafoo.de>,
+	Michael Hennerich <Michael.Hennerich@analog.com>,
+	Jonathan Cameron <jic23@kernel.org>, linux-iio@vger.kernel.org,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: greybus: remove camel case
+Message-ID: <ZBneBozTNWpsfqcL@khadija-virtual-machine>
+References: <ZBiPlhkqHUegMRAb@khadija-virtual-machine>
+ <ZBlKijo6zLsE8jUx@kroah.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="8323329-1428913748-1679416795=:10740"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ZBlKijo6zLsE8jUx@kroah.com>
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
-
---8323329-1428913748-1679416795=:10740
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8BIT
-
-
-
-On Tue, 21 Mar 2023, Menna Mahmoud wrote:
-
+On Tue, Mar 21, 2023 at 07:11:22AM +0100, Greg Kroah-Hartman wrote:
+> On Mon, Mar 20, 2023 at 09:53:42PM +0500, Khadija Kamran wrote:
+> > Several variables and functions were named Camel Case. This resulted in
+> > checks pointed by checkpatch.pl
+> > 
+> > Avoid camel case by changing names.
+> > 
+> > Signed-off-by: Khadija Kamran <kamrankhadijadj@gmail.com>
+> > ---
+> >  drivers/staging/iio/addac/adt7316.c | 64 ++++++++++++++---------------
+> 
+> This has nothing to do with "greybus" :(
 >
-> On ٢١/٣/٢٠٢٣ ١٣:٤٦, Julia Lawall wrote:
-> >
-> > On Tue, 21 Mar 2023, Menna Mahmoud wrote:
-> >
-> > > This patchset includes change happened in greybus driver in three
-> > > different files two of them patch one and three related to
-> > > checkpatch issue and in second patch convert two
-> > > `container_of` macros into inline functions.
-> > >
-> > > Menna Mahmoud (3):
-> > >    staging: greybus: remove unnecessary blank line
-> > >    staging: greybus: use inline function for macros
-> > >    staging: greybus: remove unnecessary blank line
-> > Different patches should have different subject lines.
-> But I have already the same edit in both file, so should I re-write the
-> subject for one of them?
-> >    You need to either
-> > be more specific about the file affected or merge the two patches with the
-> > same subject into one.
->
-> each patch related to different file. So, Can I to merge two commits for
-> different files but have the same edit in one patch?
 
-They are both for greybus, which is what you advertise in the subject
-line.  And the sense of the changes is the same, and the changes are quite
-simple.  So I think you could just put them in one patch.  If you find
-other occurrences of the problem in greybus you could make one patch that
-fixes all of them.
+Hi Greg!
 
-> but in this case no need to create patchset for all changes in `greybus`
-> driver, right?
+I am sorry about making a really silly mistake here.
+I will try not to make a mistake like this again.
 
-A patchset is needed if the changes affect the same file, because there
-might be complications if the patches are applied in the wrong order.
+> >  1 file changed, 32 insertions(+), 32 deletions(-)
+> > 
+> > diff --git a/drivers/staging/iio/addac/adt7316.c b/drivers/staging/iio/addac/adt7316.c
+> > index 79467f056a05..49702beeac30 100644
+> > --- a/drivers/staging/iio/addac/adt7316.c
+> > +++ b/drivers/staging/iio/addac/adt7316.c
+> > @@ -672,7 +672,7 @@ static IIO_DEVICE_ATTR(da_high_resolution, 0644,
+> >  		adt7316_store_da_high_resolution,
+> >  		0);
+> > 
+> > -static ssize_t adt7316_show_AIN_internal_Vref(struct device *dev,
+> > +static ssize_t adt7316_show_AIN_internal_vref(struct device *dev,
+> 
+> "Vref" is correct, please keep it as is.
+> 
 
->
-> If okay with that, should I versioning the patches to resend them again, or
-> should add "RESEND" subject prefix?
+Okay understood.
+Thank you.
 
-RESEND would be if you send exactly the same thing, because some time has
-passed and you are worried that the patch has been lost.  Now that you
-have put these in a series, it is perhaps best to leave them in a series
-and increase the version number, to avoid confusion on the part of people
-reading the patches.
+Regards,
+Khadija
 
-julia
 
-> please tell me the best way to resend these patches, appreciate your help.
->
->
-> Menna
->
->
-> >
-> > julia
-> >
-> > >   drivers/staging/greybus/gbphy.h                  | 10 ++++++++--
-> > >   drivers/staging/greybus/greybus_authentication.h |  1 -
-> > >   drivers/staging/greybus/pwm.c                    |  1 -
-> > >   3 files changed, 8 insertions(+), 4 deletions(-)
-> > >
-> > > --
-> > > 2.34.1
-> > >
-> > >
-> > >
->
---8323329-1428913748-1679416795=:10740--
+> thanks,
+> 
+> greg k-h
