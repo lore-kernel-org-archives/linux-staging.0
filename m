@@ -1,105 +1,129 @@
-Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [85.220.165.71])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59FDD2FB6;
-	Tue, 21 Mar 2023 16:40:46 +0000 (UTC)
-Received: by mail-ed1-f42.google.com with SMTP id ek18so62144837edb.6;
-        Tue, 21 Mar 2023 09:40:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1679416844;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=ZrlZjsekimYZz2rusTzf5CWJE1JU9y76N7MnQtLQqd8=;
-        b=XHiOY/mfOqvXk4Ag+FACvgulRCUOH59TQOQG7rMtHMGVjKwqVHAwlkPH6nXoEyF6fm
-         MSY+z+pb1Gd7om8MSBHKvSlZOppnTarPtColtqLG6Z0EU22PV394Wq0ctnQfog+uvrXT
-         VrYYj+/vG3J8pfanual0EW5LHlgy7Ks12/X2ZnuxicSPuH+laZ70GKIFq5OKEzS542pL
-         WMBWeBJsLJG+inw9E8uPFbWtQvRwibydjz4lS8iR1t2nSvZQPpceMh9hhGnyGguH+fea
-         7bQm4dMth22PGIiFZwsMLuupOppws2lOKEqmtuDvSTcmpUiF6c5m6u82zAkAa+BiWoPt
-         yT6A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679416844;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ZrlZjsekimYZz2rusTzf5CWJE1JU9y76N7MnQtLQqd8=;
-        b=6Eyq9eEYUpvZjiznqWk4S4r7TLB0xG/vSZP0SeWvOmAyLA2UZK9LRR0GBgh18v3jI+
-         ddXF1EMG6rRFtQlt0LAZmoVD0NCsFt2Ce66vJXpqT7uzW2OO3t9mxV0BKGO6BJ8KB6YD
-         1HgsZVqehA95hhZcY6YXXodLc3Gms4VDhPOCu26rJwYkkbGAHGfbRtI4MppB3cGzQ3BF
-         eHaFUbyBjOfV8eDZFbRiPLj2U1wBma3IY56+UtdgdRVFmTutETF4VHTlCuY6NJ8to0k3
-         wmtrH9wCYJlFKr8mWIBdg8oQIyA3MwvXMpvUeBb+mNWCSHgTURnUXahLWEJBWsKiFFi3
-         o6Lw==
-X-Gm-Message-State: AO0yUKWiVzg8bEyf9jCiftYbAsrrn9w0vGuk8R1GduLUGXmQF/fG+lac
-	dytbaaimET5WDe74IatXmBs=
-X-Google-Smtp-Source: AK7set/KvDidl1A0DDtGzN2QPf7Ud1/aoKKKDxJURSPbZfTSD2dnlvBJwIC1KUPCJkCH0jQvggCX8w==
-X-Received: by 2002:a17:906:11d0:b0:926:320c:cd98 with SMTP id o16-20020a17090611d000b00926320ccd98mr3511021eja.36.1679416844594;
-        Tue, 21 Mar 2023 09:40:44 -0700 (PDT)
-Received: from khadija-virtual-machine ([39.41.14.14])
-        by smtp.gmail.com with ESMTPSA id e6-20020a170906748600b008bfe95c46c3sm6045983ejl.220.2023.03.21.09.40.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 21 Mar 2023 09:40:44 -0700 (PDT)
-Date: Tue, 21 Mar 2023 21:40:38 +0500
-From: Khadija Kamran <kamrankhadijadj@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: outreachy@lists.linux.dev, Lars-Peter Clausen <lars@metafoo.de>,
-	Michael Hennerich <Michael.Hennerich@analog.com>,
-	Jonathan Cameron <jic23@kernel.org>, linux-iio@vger.kernel.org,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: greybus: remove camel case
-Message-ID: <ZBneBozTNWpsfqcL@khadija-virtual-machine>
-References: <ZBiPlhkqHUegMRAb@khadija-virtual-machine>
- <ZBlKijo6zLsE8jUx@kroah.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C2FCD2ED
+	for <linux-staging@lists.linux.dev>; Tue, 21 Mar 2023 16:43:11 +0000 (UTC)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1pef4e-0003Cx-Tg; Tue, 21 Mar 2023 17:43:00 +0100
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+	by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1pef4e-005jSE-25; Tue, 21 Mar 2023 17:43:00 +0100
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1pef4d-006oRj-BW; Tue, 21 Mar 2023 17:42:59 +0100
+Date: Tue, 21 Mar 2023 17:42:59 +0100
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To: Menna Mahmoud <eng.mennamahmoud.mm@gmail.com>
+Cc: gregkh@linuxfoundation.org, outreachy@lists.linux.dev, johan@kernel.org,
+	elder@kernel.org, vireshk@kernel.org, thierry.reding@gmail.com,
+	greybus-dev@lists.linaro.org, linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev, linux-pwm@vger.kernel.org,
+	Julia Lawall <julia.lawall@inria.fr>
+Subject: Re: [PATCH 2/3] staging: greybus: use inline function for macros
+Message-ID: <20230321164259.nt6varbc6v6bavrz@pengutronix.de>
+References: <cover.1679352669.git.eng.mennamahmoud.mm@gmail.com>
+ <1274302b52ae905dab6f75377d625598facbbdf1.1679352669.git.eng.mennamahmoud.mm@gmail.com>
+ <20230321154728.3r7ut3rl2pccmo2e@pengutronix.de>
+ <7c883bac-382c-b429-ab21-4675dce02474@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="ycczzpqu7aadwq6j"
 Content-Disposition: inline
-In-Reply-To: <ZBlKijo6zLsE8jUx@kroah.com>
-
-On Tue, Mar 21, 2023 at 07:11:22AM +0100, Greg Kroah-Hartman wrote:
-> On Mon, Mar 20, 2023 at 09:53:42PM +0500, Khadija Kamran wrote:
-> > Several variables and functions were named Camel Case. This resulted in
-> > checks pointed by checkpatch.pl
-> > 
-> > Avoid camel case by changing names.
-> > 
-> > Signed-off-by: Khadija Kamran <kamrankhadijadj@gmail.com>
-> > ---
-> >  drivers/staging/iio/addac/adt7316.c | 64 ++++++++++++++---------------
-> 
-> This has nothing to do with "greybus" :(
->
-
-Hi Greg!
-
-I am sorry about making a really silly mistake here.
-I will try not to make a mistake like this again.
-
-> >  1 file changed, 32 insertions(+), 32 deletions(-)
-> > 
-> > diff --git a/drivers/staging/iio/addac/adt7316.c b/drivers/staging/iio/addac/adt7316.c
-> > index 79467f056a05..49702beeac30 100644
-> > --- a/drivers/staging/iio/addac/adt7316.c
-> > +++ b/drivers/staging/iio/addac/adt7316.c
-> > @@ -672,7 +672,7 @@ static IIO_DEVICE_ATTR(da_high_resolution, 0644,
-> >  		adt7316_store_da_high_resolution,
-> >  		0);
-> > 
-> > -static ssize_t adt7316_show_AIN_internal_Vref(struct device *dev,
-> > +static ssize_t adt7316_show_AIN_internal_vref(struct device *dev,
-> 
-> "Vref" is correct, please keep it as is.
-> 
-
-Okay understood.
-Thank you.
-
-Regards,
-Khadija
+In-Reply-To: <7c883bac-382c-b429-ab21-4675dce02474@gmail.com>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-staging@lists.linux.dev
 
 
-> thanks,
-> 
-> greg k-h
+--ycczzpqu7aadwq6j
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Tue, Mar 21, 2023 at 06:25:29PM +0200, Menna Mahmoud wrote:
+>=20
+> On =D9=A2=D9=A1=E2=80=8F/=D9=A3=E2=80=8F/=D9=A2=D9=A0=D9=A2=D9=A3 =D9=A1=
+=D9=A7:=D9=A4=D9=A7, Uwe Kleine-K=C3=B6nig wrote:
+> > Hello,
+> >=20
+> > just some nitpicks:
+> >=20
+> > On Tue, Mar 21, 2023 at 01:04:33AM +0200, Menna Mahmoud wrote:
+> > > Convert `to_gbphy_dev` and `to_gbphy_driver` macros into a
+> > > static inline function.
+> > >=20
+> > > it is not great to have macro that use `container_of` macro,
+> > s/it/It/; s/macro/macros/; s/use/use the/;
+> Okay, I will fix it.
+> >=20
+> > > because from looking at the definition one cannot tell what type
+> > > it applies to.
+> > > [...]
+> > > -#define to_gbphy_dev(d) container_of(d, struct gbphy_device, dev)
+> > > +static inline struct gbphy_device *to_gbphy_dev(const struct device =
+*d)
+> > drivers/staging/greybus/gbphy.c always passes a variable named
+> > "dev" to this macro. So I'd call the parameter "dev", too, instead of
+> > "d". This is also a more typical name for variables of that type.
+> >=20
+> > > +{
+> > > +	return container_of(d, struct gbphy_device, dev);
+> > > +}
+> > > [...]
+> > >   };
+> > > -#define to_gbphy_driver(d) container_of(d, struct gbphy_driver, driv=
+er)
+> > > +static inline struct gbphy_driver *to_gbphy_driver(struct device_dri=
+ver *d)
+> > > +{
+> > > +	return container_of(d, struct gbphy_driver, driver);
+> > > +}
+> > With a similar reasoning (and also to not have "d"s that are either
+> > device or device_driver) I'd recommend "drv" here.
+>=20
+>=20
+> please check this with Julia, because she said they should different.
+
+At least use "_dev" instead of "d" which seems to be a common idiom,
+too:
+
+	$ git grep -P 'container_of\(_(?<ident>[A-Za-z_0-9-]*)\s*,[^,]*,\s*\g{iden=
+t}\s*\)' | wc -l
+	570
+
+("drv" should be fine, because the third argument is "driver" there.)
+
+Best regards
+Uwe
+
+--=20
+Pengutronix e.K.                           | Uwe Kleine-K=C3=B6nig         =
+   |
+Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+
+--ycczzpqu7aadwq6j
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmQZ3pIACgkQj4D7WH0S
+/k5pUQf/XJUDV6EvqcrGxi++Gu/Dk83CxxiHdJnuv3linIJyLi93tZYagEMj773b
+zxh1hIg8sW9OY0D/5HIkMjjhziTA432DNiFWW85/B+eOduuRE2fQHZ8kHOMiXH+R
+P2k2cPlJLW9pV3n6odYFqmn0BGoQvgOAgDUfftIgZ6Wfc6bEX7cl7rOAXaPxrz+s
+b0hgLYCkQJ5x19/n6JmO6eQq3IvCZyye8y2NgU28gHQ7tCDy3M4cy4o6rM+45GOP
+QnptwPU1+WnnmOfztzLTGFZwVnQs/t0rKMn7yC6cu0WdbPtILq8ug+ZE5Rx4cRv5
+VmFAwNr1gpOVs8Yix3vuHqXFhvTk6Q==
+=iXWj
+-----END PGP SIGNATURE-----
+
+--ycczzpqu7aadwq6j--
