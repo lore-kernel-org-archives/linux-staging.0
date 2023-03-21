@@ -1,102 +1,100 @@
-Received: from mail2-relais-roc.national.inria.fr (mail2-relais-roc.national.inria.fr [192.134.164.83])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A03F6C952;
-	Tue, 21 Mar 2023 15:59:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82D62C952;
+	Tue, 21 Mar 2023 16:19:44 +0000 (UTC)
+Received: by mail-ed1-f52.google.com with SMTP id ek18so61889958edb.6;
+        Tue, 21 Mar 2023 09:19:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=inria.fr; s=dc;
-  h=date:from:to:cc:subject:in-reply-to:message-id:
-   references:mime-version;
-  bh=aS8MFhdJ30cMvkQgg+DI1ei4jfPRzJJxBGYN5yzRvQk=;
-  b=lDA3lmlX/N08J0TUs7CdbT5vT/WVJNnAUSIOShviI/gS7i5N8yQZLTKy
-   C78MWpZSWw3roLWVMrnfgjs/FFLJUGz5ymy+nnVaVPQAqUfpJKfONQz9X
-   ST29DUpxw8zw7jW5fWSCH1Otr5d0kQOXPBcgiZU+uYX02MCRTWyGGxqC9
-   A=;
-Authentication-Results: mail2-relais-roc.national.inria.fr; dkim=none (message not signed) header.i=none; spf=SoftFail smtp.mailfrom=julia.lawall@inria.fr; dmarc=fail (p=none dis=none) d=inria.fr
-X-IronPort-AV: E=Sophos;i="5.98,279,1673910000"; 
-   d="scan'208";a="98336204"
-Received: from dt-lawall.paris.inria.fr ([128.93.67.65])
-  by mail2-relais-roc.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Mar 2023 16:59:49 +0100
-Date: Tue, 21 Mar 2023 16:59:49 +0100 (CET)
-From: Julia Lawall <julia.lawall@inria.fr>
-To: =?ISO-8859-15?Q?Uwe_Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>
-cc: Menna Mahmoud <eng.mennamahmoud.mm@gmail.com>, gregkh@linuxfoundation.org, 
-    outreachy@lists.linux.dev, johan@kernel.org, elder@kernel.org, 
-    vireshk@kernel.org, thierry.reding@gmail.com, greybus-dev@lists.linaro.org, 
-    linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev, 
-    linux-pwm@vger.kernel.org
-Subject: Re: [PATCH 2/3] staging: greybus: use inline function for macros
-In-Reply-To: <20230321154728.3r7ut3rl2pccmo2e@pengutronix.de>
-Message-ID: <82a4e5f1-a1f2-c70-3645-9464ccb17bab@inria.fr>
-References: <cover.1679352669.git.eng.mennamahmoud.mm@gmail.com> <1274302b52ae905dab6f75377d625598facbbdf1.1679352669.git.eng.mennamahmoud.mm@gmail.com> <20230321154728.3r7ut3rl2pccmo2e@pengutronix.de>
+        d=gmail.com; s=20210112; t=1679415582;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=B6iMXpkdTBzAvk0Bh7ViMsoVWjT2+jjmNi/B2I7tj10=;
+        b=avbUlHQu5Bqw3de3EPureIEvBQCp716UugSanvkDNN9xp2NVjNS6nzLrLlmaoMIE3x
+         94xIgxta3uQRCTZ7WkuyR5iCblzmV5q9nWZyIILY8KQyEmtSFKSKdngqTnah7S0R593f
+         m5QTlzLpsasw32na6cZTZ0W93ExtG43F7oaLLypTgZFCiRWzzBtzj5AmuxBGh2dmAWUF
+         tMNGBrLn6BAIXz3QIHI05H5Nq1Bk01NKrd59ZaypfPoPbOW4GFBYKNSz1GICMNtw78zb
+         lJZ7xINyAP6J+7IAF4ZmwR2r6Kd3hqimyPuiPrsjNZe/z8GXN+wxCCrDIEzJN5qqSAJk
+         U1sA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1679415582;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=B6iMXpkdTBzAvk0Bh7ViMsoVWjT2+jjmNi/B2I7tj10=;
+        b=4v4e7KATXIlh+Ut9SuyzGIpsOvlnyHMRcLUDF6CkVycB3IYycgii6YrYFj5qdqb7t3
+         /TFKlOVAAs6SQdDArQ8VRsNtgBKuuoSpAypZayUBZDMNlwvEXHeFw+QA9U7NZdr2Uztb
+         M/43DsQR1zKZ3yj6Q00vBXdURAmzl8TW4Ren49+Zc9VyaYypuOosbbPDiBGhxpBSa5JS
+         geqfLtWz84rYJ+HH9yyHgXRGjKDCUzTdj6W/NEcrTd7IU21o48QQ+c/JO4xtB2jcPRJf
+         BWDeCM3LUfAXI9P761x5DfkONxP/XeZTXcGDPRb2wI+Ttce6WvAWL/Q481c7UVqqQyT/
+         iCtw==
+X-Gm-Message-State: AO0yUKWvYuVnkG3tP3agylwi8q2vbBSwzu2lUKUQ0FCsHItKLIG8PiIW
+	jVsz6SfVD2F5CtL02csabA0=
+X-Google-Smtp-Source: AK7set9p03aB4xAlmTjjUmP38B+MsSpdkCnEx0PZ2gqZUecs0e6I5KszVMjC/DocweeV5Lxwjjv98Q==
+X-Received: by 2002:a17:907:2059:b0:8b1:bab0:aa3d with SMTP id pg25-20020a170907205900b008b1bab0aa3dmr3470462ejb.8.1679415582370;
+        Tue, 21 Mar 2023 09:19:42 -0700 (PDT)
+Received: from khadija-virtual-machine ([39.41.14.14])
+        by smtp.gmail.com with ESMTPSA id rk28-20020a170907215c00b00933b38505f9sm3415222ejb.152.2023.03.21.09.19.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 21 Mar 2023 09:19:41 -0700 (PDT)
+Date: Tue, 21 Mar 2023 21:19:27 +0500
+From: Khadija Kamran <kamrankhadijadj@gmail.com>
+To: outreachy@lists.linux.dev
+Cc: Forest Bond <forest@alittletooquiet.net>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: greybus: fix line ending with '('
+Message-ID: <ZBnZD5alylOgjhYd@khadija-virtual-machine>
+References: <ZBhNOkQbG4ygNF98@khadija-virtual-machine>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="8323329-1488484427-1679414389=:10740"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ZBhNOkQbG4ygNF98@khadija-virtual-machine>
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
-
---8323329-1488484427-1679414389=:10740
-Content-Type: text/plain; charset=iso-8859-1
-Content-Transfer-Encoding: 8BIT
-
-
-
-On Tue, 21 Mar 2023, Uwe Kleine-König wrote:
-
-> Hello,
->
-> just some nitpicks:
->
-> On Tue, Mar 21, 2023 at 01:04:33AM +0200, Menna Mahmoud wrote:
-> > Convert `to_gbphy_dev` and `to_gbphy_driver` macros into a
-> > static inline function.
-> >
-> > it is not great to have macro that use `container_of` macro,
->
-> s/it/It/; s/macro/macros/; s/use/use the/;
->
-> > because from looking at the definition one cannot tell what type
-> > it applies to.
-> > [...]
-> > -#define to_gbphy_dev(d) container_of(d, struct gbphy_device, dev)
-> > +static inline struct gbphy_device *to_gbphy_dev(const struct device *d)
->
-> drivers/staging/greybus/gbphy.c always passes a variable named
-> "dev" to this macro. So I'd call the parameter "dev", too, instead of
-> "d". This is also a more typical name for variables of that type.
-
-I argued against that.  Because then there are two uses of dev
-in the argument of container_of, and they refer to completely different
-things.  It's true that by the way container_of works, it's fine, but it
-may be misleading.
-
-julia
-
->
-> > +{
-> > +	return container_of(d, struct gbphy_device, dev);
-> > +}
-> > [...]
-> >  };
-> > -#define to_gbphy_driver(d) container_of(d, struct gbphy_driver, driver)
-> > +static inline struct gbphy_driver *to_gbphy_driver(struct device_driver *d)
-> > +{
-> > +	return container_of(d, struct gbphy_driver, driver);
-> > +}
->
-> With a similar reasoning (and also to not have "d"s that are either
-> device or device_driver) I'd recommend "drv" here.
->
-> Best regards
-> Uwe
->
+On Mon, Mar 20, 2023 at 05:10:40PM +0500, Khadija Kamran wrote:
+> Splitting function header to multiple lines because of 80 characters per
+> line limit, results in ending the function call line with '('.
+> This leads to CHECK reported by checkpatch.pl
+> 
+> Move the first parameter right after the '(' in the function call line.
+> Align the rest of the parameters to the opening parenthesis.
+> 
+> Signed-off-by: Khadija Kamran <kamrankhadijadj@gmail.com>
+> ---
+>  drivers/staging/greybus/audio_topology.c | 5 ++---
+>  1 file changed, 2 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/staging/greybus/audio_topology.c b/drivers/staging/greybus/audio_topology.c
+> index 62d7674852be..08e6a807c132 100644
+> --- a/drivers/staging/greybus/audio_topology.c
+> +++ b/drivers/staging/greybus/audio_topology.c
+> @@ -24,9 +24,8 @@ struct gbaudio_ctl_pvt {
+>  	struct gb_audio_ctl_elem_info *info;
+>  };
+> 
+> -static struct gbaudio_module_info *find_gb_module(
+> -					struct gbaudio_codec_info *codec,
+> -					char const *name)
+> +static struct gbaudio_module_info *find_gb_module(struct gbaudio_codec_info *codec,
+> +						  char const *name)
+>  {
+>  	int dev_id;
+>  	char begin[NAME_SIZE];
 > --
-> Pengutronix e.K.                           | Uwe Kleine-König            |
-> Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+> 2.34.1
 >
---8323329-1488484427-1679414389=:10740--
+
+Hey Outreachy Mentors,
+
+Kindly take a look at this patch and let me know if I should wait for
+the response on this patch or submit another patch.
+
+Thank you for your time.
+Regards,
+Khadija
+
