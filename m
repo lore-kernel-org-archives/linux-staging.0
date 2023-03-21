@@ -1,52 +1,44 @@
-Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 889DCC97D;
-	Tue, 21 Mar 2023 16:28:37 +0000 (UTC)
-Received: by mail-ed1-f42.google.com with SMTP id i5so15081291eda.0;
-        Tue, 21 Mar 2023 09:28:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1679416116;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=qRUXMjw1yqtizFMO9hhf0y6intRqN77LQ8iMEXFSQeU=;
-        b=IVfOxzk8m1QldR3hACl0mrlKEk/3Mpgb19D3F14wwyGcDk89LmFr8cuGJREN/viaRy
-         Z2z1xAeEALG5HOZkNqX9P/arLTn0gqJ7OIjVOkbU24b2SgFm4aY8VZo3cTXPt+EC4ymP
-         sWKwg6sLlpkuqpqSos4LLaGG6Ua4IV8O/ip+Qisdjw9xzbW7CsOx5on5C8MoGcFmjKnW
-         cDMB8eZxwtUw7dgXVaQEuk4xQiO9A2GOyRWQiaPDKuxkaKBK7mCTWlwj1AoqZYbixqv1
-         qCrwijAhes24rXjbU0Z7eDNYMQCm+dqyTxRrzFdlVj1VHV+jlNQpmGftzv4K38C9n0jb
-         Y/dA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679416116;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=qRUXMjw1yqtizFMO9hhf0y6intRqN77LQ8iMEXFSQeU=;
-        b=vcOSRk/fGUCnhVUW4m0gpfvNHI2kRcPcSmg7bDrTCBLT7GiBZuuEMVncWPqTkEwE52
-         L7IqgQhGz6rBdeS7hoB8Y3w5tzrEN5Ne/lsKpxwlLWCMOp6GsSpGHo+fy7vTM8lbgyvv
-         mdTLXnqw69m3WcK/O3EKU/rxqnEkwzRaP7WmwLoDWYLvbN3KE9g1ghPGnPFTReekImgA
-         UPeV455zSZJ0B5YhwCY+9+NaRlnCWRiWmTakZDjlEb1du23U1ATM2qYbNkQ/oNPzHdce
-         lQ/pQOTjf1vRQeFA9014fnJfW55j1TeiGo2s+8UlmGkVAjYyiqDxBHCetyET0sNYrJq2
-         dAAg==
-X-Gm-Message-State: AO0yUKXHF6VBaKaLGl+5J242URwGeAEbKcMrQ2u6Jlv7L28V3c21w9R5
-	i6fdgWVv7ZlgJykDcYp+79c=
-X-Google-Smtp-Source: AK7set9J9hxl4uXIJrgVRbkzC7YMBJZZcmmKgSQPLvjIZ1YSEcv9LYFHdmAhpM3rIq9prmlmfnFaDw==
-X-Received: by 2002:a05:6402:38a:b0:4fc:d277:a6d5 with SMTP id o10-20020a056402038a00b004fcd277a6d5mr3838658edv.19.1679416115750;
-        Tue, 21 Mar 2023 09:28:35 -0700 (PDT)
-Received: from khadija-virtual-machine ([39.41.14.14])
-        by smtp.gmail.com with ESMTPSA id x23-20020a50d617000000b004fa268da13esm6623696edi.56.2023.03.21.09.28.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 21 Mar 2023 09:28:35 -0700 (PDT)
-Date: Tue, 21 Mar 2023 21:28:32 +0500
-From: Khadija Kamran <kamrankhadijadj@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: outreachy@lists.linux.dev, Forest Bond <forest@alittletooquiet.net>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: greybus: fix line ending with '('
-Message-ID: <ZBnbMEJS6q+NWNiT@khadija-virtual-machine>
-References: <ZBhNOkQbG4ygNF98@khadija-virtual-machine>
- <ZBnZD5alylOgjhYd@khadija-virtual-machine>
- <ZBnZ+xM0+59Lmvhi@kroah.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7AC3929AB;
+	Tue, 21 Mar 2023 16:35:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1679416546; x=1710952546;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=d4C2/AuIe0bNckdUCfINRJ7nt+ZejqKOdAwLq7jWVYE=;
+  b=TziekbAmY9FiqdxlUol5cWMCsCzof5XnvoSr7XyW6jiLHURMwtAuXXEu
+   KzL3MjxqaJrAfzfgiyTNAJ3qpVf3OOwkY1C1Y5B8kSXffsFdhzNUkNHRk
+   0nyJkrd2fcCIL2Vlskou/5nXXBHU5auZUB90vaani+ey6w0EQ4eBtS3A0
+   pnDLN8DLz+2To7i+NZBzFpGKkyelU9FCcQa48XD3t9cxjYJEnwJcf7mSy
+   LSV+rES9HAIubtC/libmlRYhhfN9jYGPyJa+lcUxhhsqcq273aJIa0s24
+   jk8DculoD8uVVWTh4ih7PREVtxCXbige8f05IYKWAw9kT8xH/sVFLGSyz
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10656"; a="401561090"
+X-IronPort-AV: E=Sophos;i="5.98,279,1673942400"; 
+   d="scan'208";a="401561090"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Mar 2023 09:35:45 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10656"; a="1011010868"
+X-IronPort-AV: E=Sophos;i="5.98,279,1673942400"; 
+   d="scan'208";a="1011010868"
+Received: from aschofie-mobl2.amr.corp.intel.com (HELO aschofie-mobl2) ([10.251.21.85])
+  by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Mar 2023 09:35:44 -0700
+Date: Tue, 21 Mar 2023 09:35:42 -0700
+From: Alison Schofield <alison.schofield@intel.com>
+To: Khadija Kamran <kamrankhadijadj@gmail.com>
+Cc: outreachy@lists.linux.dev, Vaibhav Hiremath <hvaibhav.linux@gmail.com>,
+	Johan Hovold <johan@kernel.org>, Alex Elder <elder@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3] staging: greybus: merge split lines
+Message-ID: <ZBnc3qWTSeWw0Ulo@aschofie-mobl2>
+References: <ZBgYsqkpdYpGQniB@khadija-virtual-machine>
+ <ZBnZj3JbTOsplHvw@khadija-virtual-machine>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -55,36 +47,75 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ZBnZ+xM0+59Lmvhi@kroah.com>
+In-Reply-To: <ZBnZj3JbTOsplHvw@khadija-virtual-machine>
 
-On Tue, Mar 21, 2023 at 05:23:23PM +0100, Greg Kroah-Hartman wrote:
-> On Tue, Mar 21, 2023 at 09:19:27PM +0500, Khadija Kamran wrote:
-> 
-> <snip>
-> 
-> > Hey Outreachy Mentors,
+On Tue, Mar 21, 2023 at 09:21:35PM +0500, Khadija Kamran wrote:
+> On Mon, Mar 20, 2023 at 01:26:33PM +0500, Khadija Kamran wrote:
+> > If condition and spin_unlock_...() call is split into two lines, merge
+> > them to form a single line.
 > > 
-> > Kindly take a look at this patch and let me know if I should wait for
-> > the response on this patch or submit another patch.
+> > Suggested-by: Deepak R Varma drv@mailo.com
+> > Signed-off-by: Khadija Kamran <kamrankhadijadj@gmail.com>
+> > ---
+> > 
+> > Changes in v3:
+> >  - Removing tab to fix line length results in a new checkpatch warning,
+> >    so let the fix length be as it is.
+> > Changes in v2:
+> >  - Rephrased he subject and description
+> >  - Merged if_condition() and spin_unlock...() into one line
+> >  - Link to patch:
+> >  https://lore.kernel.org/outreachy/ZAusnKYVTGvO5zoi@khadija-virtual-machine/
+> > 
+> > Link to first patch:
+> > https://lore.kernel.org/outreachy/ZAtkW6g6DwPg%2FpDp@khadija-virtual-machine/
+> > 
+> >  drivers/staging/greybus/arche-platform.c | 6 ++----
+> >  1 file changed, 2 insertions(+), 4 deletions(-)
+> > 
+> > diff --git a/drivers/staging/greybus/arche-platform.c b/drivers/staging/greybus/arche-platform.c
+> > index fcbd5f71eff2..6890710afdfc 100644
+> > --- a/drivers/staging/greybus/arche-platform.c
+> > +++ b/drivers/staging/greybus/arche-platform.c
+> > @@ -176,12 +176,10 @@ static irqreturn_t arche_platform_wd_irq(int irq, void *devid)
+> >  				 * Check we are not in middle of irq thread
+> >  				 * already
+> >  				 */
+> > -				if (arche_pdata->wake_detect_state !=
+> > -						WD_STATE_COLDBOOT_START) {
+> > +				if (arche_pdata->wake_detect_state != WD_STATE_COLDBOOT_START) {
+> >  					arche_platform_set_wake_detect_state(arche_pdata,
+> >  									     WD_STATE_COLDBOOT_TRIG);
+> > -					spin_unlock_irqrestore(&arche_pdata->wake_lock,
+> > -							       flags);
+> > +					spin_unlock_irqrestore(&arche_pdata->wake_lock, flags);
+> >  					return IRQ_WAKE_THREAD;
+> >  				}
+> >  			}
+> > --
+> > 2.34.1
+> >
 > 
-> Less than 1 day later?
+> Hey Outreachy Mentors,
 > 
-> Please relax and always keep working on new things, don't let my
-> response time be the gateway for you doing work, otherwise you are not
-> going to get very much done at all.
-> 
-> You normally have to wait about 2 weeks to get a patch reviewed,
-> sometimes I go much faster, sometimes slower.  Either way, it's
-> uncertian...
-> 
-> thanks,
-> 
-> greg k-h
+> Kindly take a look at this patch and let me know if it is okay to work
+> on this file or should I look for other cleanup patches.
 
-Okay understood.
+Hi Khadija,
 
-Really sorry about this message.
+I thought you were abandoning *this* patch, and doing a refactor on
+the function.  I'd expect that would be a new patch, probably a
+patchset. One where you align the work based on the 'rising' and
+'falling' detection, and perhaps a second patch that centralizes
+the unlock and return.
 
-Regards,
-Khadija
+Is there some other concern with working on this file?
 
+Alison
+
+> 
+> Thank you for your time.
+> Regards,
+> Khadija
+> 
+> 
