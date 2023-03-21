@@ -1,115 +1,114 @@
-Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
+Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCD19C952;
-	Tue, 21 Mar 2023 16:21:39 +0000 (UTC)
-Received: by mail-ed1-f47.google.com with SMTP id y4so61968094edo.2;
-        Tue, 21 Mar 2023 09:21:39 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CB98C952;
+	Tue, 21 Mar 2023 16:22:49 +0000 (UTC)
+Received: by mail-ed1-f48.google.com with SMTP id eh3so61866251edb.11;
+        Tue, 21 Mar 2023 09:22:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1679415698;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=lN54tDUmXf9hwv+PXMNCl+jsvxs7b+LzMxVySPVN8ik=;
-        b=TP7xcMAp4UQxJz2ItJv3FiZYU+VFst7DjGgMIXfyglYpdwVEdVDe03mdwalZVRAzcJ
-         XKpUZ1MP82LkAsPWPjKY29lBDwMQSzhIjnF7LV7TzlLXf4Ad9f/qOf/NEs1Tf7vUDBhl
-         VNVz4ccP4nCVi+i7jH9H8m+/VTzwGF01Za/sFk7gVV8EMFc2gIi89YkGHXRdfpPxOtM5
-         sL9KLhhIJ8nZTPR4bys4F5iwSbmUAbEyqoI8lCbsbznO4xrtzLvd+gDp0XRI6IStzUxe
-         yuCU1diSGOVnsU75ns8aRPohEq6t/mJQVoXmNKjDk03CYHEo6V+CHF14f9Qhu2tLrcZO
-         hnLA==
+        d=gmail.com; s=20210112; t=1679415767;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=QVACjUDTIgBWv8C/PMxK28Am87k7w8br8nJW4GJZZR0=;
+        b=YeKR29GC4ZRYgPv/Y0cozd7GizqxUkCySuYWpgCi+mYAmFiNbkl5JNC/S5e+59E0Ir
+         3N9crSkggg3s1Qfwqc7FQMc98ZT0fiUYezs4MqBULKIEjdDVzgIo4gHMsjJsSMlziF9O
+         j+Cai+bysAZJcryv6aqjP5LPtZncWd9WnfAjagf14wy5jotYNXcSdfPgNZn7mxLIrv71
+         vS2lDoO/I5o8GGcHvvWOTtwUYO2qOnB5+p+Ln9nKNfn1/FnCI8eZaRFmek5CpxKIVM9O
+         +LP/ZorWWdjVc//gw1xoF/Ro2YGuBFz22a/z0PaG+T9KtrPQfWH6z1hr9RD87Z4i6GEU
+         swwg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679415698;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=lN54tDUmXf9hwv+PXMNCl+jsvxs7b+LzMxVySPVN8ik=;
-        b=DhB+z6QtTW0WAxhwVf9o0LYg7vh9OTaSkpLB1rLZ4IKi/QgKEitN7olOHPvec9PbpH
-         CoJz+EKJf2VcWJwmfGNghMF5Y2qTpPdX9KibdPxJ2dVFDnS9L52R+RcKWO2TQ+ERyeag
-         daknhb5MAWhQH2D0PcpEVkiwdApGcJCm6Jn8b4GLyFV562VjbplMlzPGPoC9Zs4tytBT
-         2XOWeT7Lw4PKiZ0nRRBwDgA4r80bcQFFA1UexqkaQ6nKUk+uyannwI20qoTYEfRV28BJ
-         rTvauJ5sfoT+SWMHGD1KMLFvaWimKTo+HQ2hARDXsuBFLCHWNz4viqNo8RWEv3iJg4xp
-         d5sQ==
-X-Gm-Message-State: AO0yUKUwq/oUGJw5eysn2u2RaazA4dXV7WfXjlsGIxaA9V0Qelf8rx+b
-	WErFI//LxanT5u1EPPpwOPQ=
-X-Google-Smtp-Source: AK7set9n+TEYOTN5JF+wpsOMVpXYpeA2AgUrMGIGu3uxrhtF1oKub2rMRl/BdhdUV2wyGEenG8Sf2A==
-X-Received: by 2002:a17:906:d14d:b0:931:de86:1879 with SMTP id br13-20020a170906d14d00b00931de861879mr3945437ejb.9.1679415698145;
-        Tue, 21 Mar 2023 09:21:38 -0700 (PDT)
-Received: from khadija-virtual-machine ([39.41.14.14])
-        by smtp.gmail.com with ESMTPSA id v19-20020a1709067d9300b008cff300cf47sm5977472ejo.72.2023.03.21.09.21.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 21 Mar 2023 09:21:37 -0700 (PDT)
-Date: Tue, 21 Mar 2023 21:21:35 +0500
-From: Khadija Kamran <kamrankhadijadj@gmail.com>
-To: outreachy@lists.linux.dev
-Cc: Vaibhav Hiremath <hvaibhav.linux@gmail.com>,
-	Johan Hovold <johan@kernel.org>, Alex Elder <elder@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3] staging: greybus: merge split lines
-Message-ID: <ZBnZj3JbTOsplHvw@khadija-virtual-machine>
-References: <ZBgYsqkpdYpGQniB@khadija-virtual-machine>
+        d=1e100.net; s=20210112; t=1679415767;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=QVACjUDTIgBWv8C/PMxK28Am87k7w8br8nJW4GJZZR0=;
+        b=YsomCnekVwiVUJUtCCnmD0kGDbwmXCglrJbZ+EqaUDX5gug2Ld1asBcO3x3LfWNvZj
+         br+G18C9UP1HJlIJCfaC9gkK9ZooL4yJMYTeHTEUzZ336texhUcP9LVy0UM5dde2A4V0
+         r9vTXidSbdauQGmLqhn8mTM4GSl/aBki1NBXTEA3SUqJBc3MDV8ovL9Dr/5suM6+r+vq
+         VyKXgiGp/PdJQSk2XFFcKZxvBz1xc1KLC3nKeZQn8o067H0xJ5SHwFoHtxyDPqPEcYZN
+         Y63zGBewI7WXL7zXjpLO8/rr+PhiWPYVFVFb71otsrnsnItMe5Am9wm4E1sJwGlmqumG
+         rSfg==
+X-Gm-Message-State: AO0yUKW8gj2qrFZ2r1jI+rR49XewELj8S/9euCX6hCkFLm4/Tdqq19m8
+	m8I3KndMBHyNFuZZYB//Pz52baEJiRA=
+X-Google-Smtp-Source: AK7set8xKZE0Kxa4lqQIAdiFOKdoiDSGBpiO/C6qFIaLk47Lyfs7Kd6bg/7JqOnXzrjm5unqdtG+kg==
+X-Received: by 2002:a17:907:6f1b:b0:932:365a:c1e7 with SMTP id sy27-20020a1709076f1b00b00932365ac1e7mr3578251ejc.67.1679415767389;
+        Tue, 21 Mar 2023 09:22:47 -0700 (PDT)
+Received: from [192.168.1.16] ([41.42.177.251])
+        by smtp.gmail.com with ESMTPSA id kb1-20020a1709070f8100b00933c4a25735sm3352516ejc.100.2023.03.21.09.22.45
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 21 Mar 2023 09:22:47 -0700 (PDT)
+Message-ID: <196b5d53-701f-e2dd-596c-9fdb6a59f5cd@gmail.com>
+Date: Tue, 21 Mar 2023 18:22:44 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZBgYsqkpdYpGQniB@khadija-virtual-machine>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH 0/3] edits in greybus driver
+To: Julia Lawall <julia.lawall@inria.fr>
+Cc: gregkh@linuxfoundation.org, outreachy@lists.linux.dev, johan@kernel.org,
+ elder@kernel.org, vireshk@kernel.org, thierry.reding@gmail.com,
+ u.kleine-koenig@pengutronix.de, greybus-dev@lists.linaro.org,
+ linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev,
+ linux-pwm@vger.kernel.org
+References: <cover.1679352669.git.eng.mennamahmoud.mm@gmail.com>
+ <ee77a227-13bd-70ad-1d8e-f9719970e0f8@inria.fr>
+Content-Language: en-US
+From: Menna Mahmoud <eng.mennamahmoud.mm@gmail.com>
+In-Reply-To: <ee77a227-13bd-70ad-1d8e-f9719970e0f8@inria.fr>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Mon, Mar 20, 2023 at 01:26:33PM +0500, Khadija Kamran wrote:
-> If condition and spin_unlock_...() call is split into two lines, merge
-> them to form a single line.
-> 
-> Suggested-by: Deepak R Varma drv@mailo.com
-> Signed-off-by: Khadija Kamran <kamrankhadijadj@gmail.com>
-> ---
-> 
-> Changes in v3:
->  - Removing tab to fix line length results in a new checkpatch warning,
->    so let the fix length be as it is.
-> Changes in v2:
->  - Rephrased he subject and description
->  - Merged if_condition() and spin_unlock...() into one line
->  - Link to patch:
->  https://lore.kernel.org/outreachy/ZAusnKYVTGvO5zoi@khadija-virtual-machine/
-> 
-> Link to first patch:
-> https://lore.kernel.org/outreachy/ZAtkW6g6DwPg%2FpDp@khadija-virtual-machine/
-> 
->  drivers/staging/greybus/arche-platform.c | 6 ++----
->  1 file changed, 2 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/staging/greybus/arche-platform.c b/drivers/staging/greybus/arche-platform.c
-> index fcbd5f71eff2..6890710afdfc 100644
-> --- a/drivers/staging/greybus/arche-platform.c
-> +++ b/drivers/staging/greybus/arche-platform.c
-> @@ -176,12 +176,10 @@ static irqreturn_t arche_platform_wd_irq(int irq, void *devid)
->  				 * Check we are not in middle of irq thread
->  				 * already
->  				 */
-> -				if (arche_pdata->wake_detect_state !=
-> -						WD_STATE_COLDBOOT_START) {
-> +				if (arche_pdata->wake_detect_state != WD_STATE_COLDBOOT_START) {
->  					arche_platform_set_wake_detect_state(arche_pdata,
->  									     WD_STATE_COLDBOOT_TRIG);
-> -					spin_unlock_irqrestore(&arche_pdata->wake_lock,
-> -							       flags);
-> +					spin_unlock_irqrestore(&arche_pdata->wake_lock, flags);
->  					return IRQ_WAKE_THREAD;
->  				}
->  			}
-> --
-> 2.34.1
+
+On ٢١‏/٣‏/٢٠٢٣ ١٣:٤٦, Julia Lawall wrote:
 >
+> On Tue, 21 Mar 2023, Menna Mahmoud wrote:
+>
+>> This patchset includes change happened in greybus driver in three
+>> different files two of them patch one and three related to
+>> checkpatch issue and in second patch convert two
+>> `container_of` macros into inline functions.
+>>
+>> Menna Mahmoud (3):
+>>    staging: greybus: remove unnecessary blank line
+>>    staging: greybus: use inline function for macros
+>>    staging: greybus: remove unnecessary blank line
+> Different patches should have different subject lines.
+But I have already the same edit in both file, so should I re-write the 
+subject for one of them?
+>    You need to either
+> be more specific about the file affected or merge the two patches with the
+> same subject into one.
 
-Hey Outreachy Mentors,
+each patch related to different file. So, Can I to merge two commits for 
+different files but have the same edit in one patch?
 
-Kindly take a look at this patch and let me know if it is okay to work
-on this file or should I look for other cleanup patches.
+but in this case no need to create patchset for all changes in `greybus` 
+driver, right?
 
-Thank you for your time.
-Regards,
-Khadija
+If okay with that, should I versioning the patches to resend them again, 
+or should add "RESEND" subject prefix?
 
+please tell me the best way to resend these patches, appreciate your help.
+
+
+Menna
+
+
+>
+> julia
+>
+>>   drivers/staging/greybus/gbphy.h                  | 10 ++++++++--
+>>   drivers/staging/greybus/greybus_authentication.h |  1 -
+>>   drivers/staging/greybus/pwm.c                    |  1 -
+>>   3 files changed, 8 insertions(+), 4 deletions(-)
+>>
+>> --
+>> 2.34.1
+>>
+>>
+>>
