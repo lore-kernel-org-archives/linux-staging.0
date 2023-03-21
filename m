@@ -1,126 +1,84 @@
-Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
+Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F51CD30A;
-	Tue, 21 Mar 2023 18:17:37 +0000 (UTC)
-Received: by mail-ed1-f53.google.com with SMTP id ew6so271165edb.7;
-        Tue, 21 Mar 2023 11:17:37 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C19FE33F0
+	for <linux-staging@lists.linux.dev>; Tue, 21 Mar 2023 18:30:30 +0000 (UTC)
+Received: by mail-pl1-f174.google.com with SMTP id k2so16960813pll.8
+        for <linux-staging@lists.linux.dev>; Tue, 21 Mar 2023 11:30:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1679422655;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=2XHYm6132cfvGuV3ZRuw0Q1fBdGTBcOSwhXcyenDK4Q=;
-        b=aNWqkqIv8UByTrLWplFKR85w538weWxpIILjqopAdJvWe0VIpkxfVr0udzl3iCOVvf
-         aHPGs0b8kmWFd9u27OrkzdD8tfsoEn8F0ifHFo5eBsprVl5AGL/LDViiEWDn2lrzfZpA
-         Y3+Luc2w1Y76Nq5CJ7pfxuXUtXPbupL9s1R8QnpVwnYfc+8NL9IQfrZbWP9xClEHvQMK
-         4PPpgolG7lnsn2WFz/wKFQGtejhT5TPzfh+TZ/kA1naexzuzOBbQ5e/DVGNs4HUkkuw6
-         0GS14XA74cSHFkbjzSVUNIl7KunBveHB6tE86caDqhtECFcCCkDSWPN57+IC/eYUC3M+
-         ibww==
+        d=gmail.com; s=20210112; t=1679423430;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=rkjWHBgUku8MSuRSZQ+S7pLaMQUx4hKAx9achzwRQ08=;
+        b=AXOihnAH0B0O4pktC/PqBcmYDX5szxYRzghNl161/BIG9cu3cfq5pL2vR7gYwCvycK
+         ya2Eb42AtqfvNT0Rnqki7KI140cDOtuSv7aK4Er2DgH9uyp5ncyd9fo1gxhN84PcK+Mb
+         oZtEQwq2KbwtX2HA2yO2+hGyg8GB6yXvmudYWWXWhkG7um0VZ2mTTg2HcypGjKYhNrK9
+         m2o/GfMiifYLQBXNqyf/GtONlkj/lesMLTgTBgnRTKQlTbk0UO2v4anALIhzz/0cA1mE
+         PbBUHhvY5b0SFIgZcyYKVdWXFD1BUTTB8Spcr7dWKpSsMre5BcKUiJF16o2AskD0sG09
+         hMwg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679422655;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=2XHYm6132cfvGuV3ZRuw0Q1fBdGTBcOSwhXcyenDK4Q=;
-        b=tpKVHlYZSaqXnTzYKH0Zq/Mqqj+E85cVcq6znYdO090VoePo46u1wNu+gog3r2gqj7
-         RdJO28FDbMYo1I1sH871sMWBDz0lQqi5KMm0YCt7m/USTrOSbIUa6dOTZo31bNRZbNO+
-         gWHErW40LieLwNwrUGWGletlhrIzE+yueplm2CQxJd0jgwfSuq+SgG9u1c+CL2xXyP2c
-         SOHJ+4J9Iwn8pe7dVlOTU2etvAvoujk91JA1/ElkGxNRpr3fWVfyz5zeC9CUbFZhnyOM
-         LsXgh0RfpHaJmc3mtOGOPfpm/5El5tgQH6m+4+COnsqrPxCtqbovuCeRRFH+KHFx47dX
-         IECg==
-X-Gm-Message-State: AO0yUKUyEPU5ycsnVqlKFh+3pNXCo8SkkZdemveWp1I4cfFzNiqJEFNa
-	XNrd7AK+LrUXGxfeyWl2hDA=
-X-Google-Smtp-Source: AK7set8irkZ/caMVldGalTdZB3+euMiXpFwKTTyChrRAC4smAA1fxCXMD/1zrzRADUKnlz606QkTZg==
-X-Received: by 2002:a17:906:228b:b0:932:6601:4910 with SMTP id p11-20020a170906228b00b0093266014910mr4031726eja.54.1679422655754;
-        Tue, 21 Mar 2023 11:17:35 -0700 (PDT)
-Received: from alaa-emad.. ([41.42.177.251])
-        by smtp.gmail.com with ESMTPSA id h25-20020a1709063c1900b008e8e975e185sm6079198ejg.32.2023.03.21.11.17.33
+        d=1e100.net; s=20210112; t=1679423430;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=rkjWHBgUku8MSuRSZQ+S7pLaMQUx4hKAx9achzwRQ08=;
+        b=R75kBlx0hATwDnFoyDyJy5IaP9rICZQTGxQElOWhg83VOPpKHGR3eigzJrtq4xWiUJ
+         OaZL3GeauXxD8gjHPAd+nk/jB7ZZbhc1fzYvGm55YWisfEKYFgkclBCq5HncSV/ikKFh
+         kMHVG9Tb+a7P3fJ1bZ1DU6497lYG+0osNSkWjLThxqqtCaKOylN7DhFBukgcIf4HnTUe
+         yEgqL9NxGQodvYJNoCEwmRbFKzzhW9guJ1q1nc/z4QI0uNhIT0JMDJ5d+6wgOASUTNUY
+         llpNIMDlWt0C0NVPKSpU2W8jR/tQ3AyptldRl/wlDE+deBtCi2AVSLOKJkgyJlpzBe0a
+         htPA==
+X-Gm-Message-State: AO0yUKW5xIbGdE08g0ltb2VNNnHz8R6oTMlTdPx6ZRKrm8tCst2tflF9
+	aShBFc7SEiOYcvUq4qo/3SI=
+X-Google-Smtp-Source: AK7set/8TvvOjgCXUYMDgSNVuWVwb7G7MjD3roFihJpRn+nnL3hwsQcop75N18OV7FrB+B+FLXpUkg==
+X-Received: by 2002:a05:6a20:3391:b0:d8:f312:b3b with SMTP id f17-20020a056a20339100b000d8f3120b3bmr2824221pzd.3.1679423430170;
+        Tue, 21 Mar 2023 11:30:30 -0700 (PDT)
+Received: from trent-reznor ([2601:641:4000:81:109e:9b0c:f18f:7fa1])
+        by smtp.gmail.com with ESMTPSA id d2-20020a639742000000b00502e7115cbdsm5817599pgo.51.2023.03.21.11.30.28
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 21 Mar 2023 11:17:35 -0700 (PDT)
-From: Menna Mahmoud <eng.mennamahmoud.mm@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: outreachy@lists.linux.dev,
-	johan@kernel.org,
-	elder@kernel.org,
-	vireshk@kernel.org,
-	thierry.reding@gmail.com,
-	u.kleine-koenig@pengutronix.de,
-	greybus-dev@lists.linaro.org,
-	linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-pwm@vger.kernel.org,
-	eng.mennamahmoud.mm@gmail.com
-Subject: [PATCH v2 1/2] staging: greybus: remove unnecessary blank line
-Date: Tue, 21 Mar 2023 20:17:25 +0200
-Message-Id: <20230321181725.8691-1-eng.mennamahmoud.mm@gmail.com>
-X-Mailer: git-send-email 2.34.1
+        Tue, 21 Mar 2023 11:30:29 -0700 (PDT)
+Date: Tue, 21 Mar 2023 11:30:26 -0700
+From: Daniel Watson <ozzloy@gmail.com>
+To: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] media: av7110: put spaces around operators
+Message-ID: <ZBn3wmTkcZ0WC6iW@trent-reznor>
+References: <ZBlShLl4PYlNIpGN@trent-reznor>
+ <487b75ea-aecd-5fdc-c2a2-5f5080f8647e@xs4all.nl>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <487b75ea-aecd-5fdc-c2a2-5f5080f8647e@xs4all.nl>
 
-Remove unnecessary blank line before struct as reported
-by checkpatch:
+On Tue, Mar 21, 2023 at 04:08:30PM +0100, Hans Verkuil wrote:
+> Hi Daniel,
+> 
+Hi!
 
-" CHECK: Please don't use multiple blank lines "
+> I'm not sure what the point it of these two fixes since this driver is
+> full of such things.
+these fixes were the only ones where checkpatch said "spaces required
+around that ..." for this file.
 
-Signed-off-by: Menna Mahmoud <eng.mennamahmoud.mm@gmail.com>
----
-change in v2:
-	add patches that have same edit in sigle patch.
----
- drivers/staging/greybus/greybus_authentication.h | 1 -
- 1 file changed, 1 deletion(-)
+> In any case, I'm rejecting this. Just leave this driver alone, it's not
+> worth the effort.
+ok.
 
-diff --git a/drivers/staging/greybus/greybus_authentication.h b/drivers/staging/greybus/greybus_authentication.h
-index 7edc7295b7ab..48b4a9794d3c 100644
---- a/drivers/staging/greybus/greybus_authentication.h
-+++ b/drivers/staging/greybus/greybus_authentication.h
-@@ -41,7 +41,6 @@
- #define CAP_AUTH_RESULT_CR_NO_KEY	0x03
- #define CAP_AUTH_RESULT_CR_SIG_FAIL	0x04
- 
--
- /* IOCTL support */
- struct cap_ioc_get_endpoint_uid {
- 	__u8			uid[8];
--- 
-2.34.1
+> If you are doing this as part of some mentorship program, then skip the
+i'm doing this on my own.  i read that newbies should do about 10 minor
+patches to get familiar with the process before doing something more
+substantial.
 
+> drivers/staging/media directory, it's not suitable for that.
+ok, i'll try other drivers in staging.  i'll also see about getting a
+mentor.
 
-From 6f56ebcda89f91cdfe6e64c0707dc476ebc1e819 Mon Sep 17 00:00:00 2001
-From: Menna Mahmoud <eng.mennamahmoud.mm@gmail.com>
-Date: Tue, 21 Mar 2023 00:03:32 +0200
-Subject: [PATCH v2 2/2] staging: greybus: remove unnecessary blank line
-
-Remove unnecessary blank line before struct as reported
-by checkpatch:
-
-" CHECK: Please don't use multiple blank lines "
-
-Signed-off-by: Menna Mahmoud <eng.mennamahmoud.mm@gmail.com>
----
-change in v2:
-        add patches that have same edit in sigle patch.
----
- drivers/staging/greybus/pwm.c | 1 -
- 1 file changed, 1 deletion(-)
-
-diff --git a/drivers/staging/greybus/pwm.c b/drivers/staging/greybus/pwm.c
-index 3fda172239d2..26d39e08c3b6 100644
---- a/drivers/staging/greybus/pwm.c
-+++ b/drivers/staging/greybus/pwm.c
-@@ -24,7 +24,6 @@ struct gb_pwm_chip {
- #define pwm_chip_to_gb_pwm_chip(chip) \
- 	container_of(chip, struct gb_pwm_chip, chip)
- 
--
- static int gb_pwm_count_operation(struct gb_pwm_chip *pwmc)
- {
- 	struct gb_pwm_count_response response;
--- 
-2.34.1
-
+thanks again!
