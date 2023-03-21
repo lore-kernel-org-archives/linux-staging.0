@@ -1,101 +1,113 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from mail3-relais-sop.national.inria.fr (mail3-relais-sop.national.inria.fr [192.134.164.104])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF0DED505
-	for <linux-staging@lists.linux.dev>; Tue, 21 Mar 2023 19:01:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1679425297;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=jDgIhgp53F4LHTSbzXO+YUJfE0aKRCAlyTc2/nXzqFQ=;
-	b=IMSdwHIxr1QmX58w4JQWtyhpwvFRiCXjc9xbGwH5Ma+EvoZ0jea+jgfn9wmVmoJiMgZ1jc
-	JCp24tOktbHhjeFqvaXwE+ZLECfogaIHMDcamxwPu70IqyEUX53HifuhRASgO7XH7JUGPr
-	KBkDBuY195drkQ92yhd3l4byjO2m1uA=
-Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
- [209.85.160.199]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-618-kQt52VxKPiCQideU9odU8A-1; Tue, 21 Mar 2023 15:01:36 -0400
-X-MC-Unique: kQt52VxKPiCQideU9odU8A-1
-Received: by mail-qt1-f199.google.com with SMTP id i24-20020ac84f58000000b003bfe3358691so9347079qtw.21
-        for <linux-staging@lists.linux.dev>; Tue, 21 Mar 2023 12:01:36 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679425296;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=jDgIhgp53F4LHTSbzXO+YUJfE0aKRCAlyTc2/nXzqFQ=;
-        b=cu/Mth+nQUenLRUOSFJiiSBijOgtGqlM9jQepTuqtxYXGxTcPX0VPNafJIwdgfQaLj
-         FA+J+1nNXVyRdEw0UzgL9m25Qmzq5pUE+lWUstFdZiEQbfNqFZ5eOgCryBGgwS1MT1RF
-         +Tz9Gj1T8Q+y2A2CKb1H6Zz4kWqJbkT1CUupqRSA5mDLOOei6+aMk63c3J9/oqgWYMbX
-         z8fHNXz6/BGOjhZU3OyKcArHNPemzWFrpgLa+aSJr8aIHJCttGb2w+OvYGR0m5Rac53l
-         OVBgTc6SqEx1vcCFD5G8PZBQsk57jlav1GAKM+OztujRbNTgF7bHBKA0RqXooWpmk+Vw
-         tdGw==
-X-Gm-Message-State: AO0yUKX07CT+BEbohO7KKC8jHZW9WcpVz81jJM0+FvdNEJwc3tvvA9lE
-	Xq9FDQy/TSyzuCu9cfGMGwYwz0awpvqqGJrGCoXvwE1h1ObadjjdkQzniPQ+sHAw7TutLWRK62u
-	dt2BHG6w8b3cZ0BGvwSi59Vcbkg==
-X-Received: by 2002:a05:6214:d07:b0:5cc:e059:efa3 with SMTP id 7-20020a0562140d0700b005cce059efa3mr1487152qvh.23.1679425296007;
-        Tue, 21 Mar 2023 12:01:36 -0700 (PDT)
-X-Google-Smtp-Source: AK7set9UtNWa/XtHHXbYeSxWPiA8fhZvXtBktHVWK/DoCGMPKvnMpcnYyKocZiXKb0EXFRGGYKumwA==
-X-Received: by 2002:a05:6214:d07:b0:5cc:e059:efa3 with SMTP id 7-20020a0562140d0700b005cce059efa3mr1487112qvh.23.1679425295618;
-        Tue, 21 Mar 2023 12:01:35 -0700 (PDT)
-Received: from dell-per740-01.7a2m.lab.eng.bos.redhat.com (nat-pool-bos-t.redhat.com. [66.187.233.206])
-        by smtp.gmail.com with ESMTPSA id v127-20020a379385000000b0074230493ccfsm9847029qkd.73.2023.03.21.12.01.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 21 Mar 2023 12:01:34 -0700 (PDT)
-From: Tom Rix <trix@redhat.com>
-To: gregkh@linuxfoundation.org,
-	nathan@kernel.org,
-	ndesaulniers@google.com
-Cc: linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	llvm@lists.linux.dev,
-	Tom Rix <trix@redhat.com>
-Subject: [PATCH] staging: rts5208: remove unused xd_check_err_code function
-Date: Tue, 21 Mar 2023 15:01:27 -0400
-Message-Id: <20230321190127.1827703-1-trix@redhat.com>
-X-Mailer: git-send-email 2.27.0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33B849440;
+	Tue, 21 Mar 2023 20:43:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=inria.fr; s=dc;
+  h=date:from:to:cc:subject:in-reply-to:message-id:
+   references:mime-version;
+  bh=I2S5b3dzYyNzYT0wd2040dnIXDiUQEurUwJKuN7lh+o=;
+  b=HGFN43BDtdxu3FlTEYY7cGieyOWY1T5WeNb6JH716TubMaF026M+QVGD
+   BD2mKMKVXSVDp68iYzTKT/kA8HRoH2MryxqCK5TbLUGt5uzwulk+xrGdM
+   t7CEFhfjoCYsTI5Zfjx7sZgp6kpJuHdWXMG3JNygkEwo+PXbL7KIOYVmi
+   0=;
+Authentication-Results: mail3-relais-sop.national.inria.fr; dkim=none (message not signed) header.i=none; spf=SoftFail smtp.mailfrom=julia.lawall@inria.fr; dmarc=fail (p=none dis=none) d=inria.fr
+X-IronPort-AV: E=Sophos;i="5.98,279,1673910000"; 
+   d="scan'208";a="50853598"
+Received: from 231.85.89.92.rev.sfr.net (HELO hadrien) ([92.89.85.231])
+  by mail3-relais-sop.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Mar 2023 21:43:43 +0100
+Date: Tue, 21 Mar 2023 21:43:42 +0100 (CET)
+From: Julia Lawall <julia.lawall@inria.fr>
+X-X-Sender: jll@hadrien
+To: Alex Elder <elder@ieee.org>
+cc: Menna Mahmoud <eng.mennamahmoud.mm@gmail.com>, gregkh@linuxfoundation.org, 
+    outreachy@lists.linux.dev, johan@kernel.org, elder@kernel.org, 
+    linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
+Subject: Re: [PATCH v2] staging: greybus: use inline function for macros
+In-Reply-To: <2e869677-2693-6419-ea25-f0cc2efcf3dd@ieee.org>
+Message-ID: <alpine.DEB.2.22.394.2303212140480.2919@hadrien>
+References: <20230321183456.10385-1-eng.mennamahmoud.mm@gmail.com> <2e869677-2693-6419-ea25-f0cc2efcf3dd@ieee.org>
+User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"; x-default=true
+Content-Type: text/plain; charset=US-ASCII
 
-clang with W=1 reports
-drivers/staging/rts5208/xd.c:34:19: error: unused function
-  'xd_check_err_code' [-Werror,-Wunused-function]
-static inline int xd_check_err_code(struct rtsx_chip *chip, u8 err_code)
-                  ^
-This function is not used, so remove it.
 
-Signed-off-by: Tom Rix <trix@redhat.com>
----
- drivers/staging/rts5208/xd.c | 7 -------
- 1 file changed, 7 deletions(-)
 
-diff --git a/drivers/staging/rts5208/xd.c b/drivers/staging/rts5208/xd.c
-index 42cab93982c0..c0af378ada71 100644
---- a/drivers/staging/rts5208/xd.c
-+++ b/drivers/staging/rts5208/xd.c
-@@ -31,13 +31,6 @@ static inline void xd_set_err_code(struct rtsx_chip *chip, u8 err_code)
- 	xd_card->err_code = err_code;
- }
- 
--static inline int xd_check_err_code(struct rtsx_chip *chip, u8 err_code)
--{
--	struct xd_info *xd_card = &chip->xd_card;
--
--	return (xd_card->err_code == err_code);
--}
--
- static int xd_set_init_para(struct rtsx_chip *chip)
- {
- 	struct xd_info *xd_card = &chip->xd_card;
--- 
-2.27.0
+On Tue, 21 Mar 2023, Alex Elder wrote:
 
+> On 3/21/23 1:34 PM, Menna Mahmoud wrote:
+> > Convert `to_gbphy_dev` and `to_gbphy_driver` macros into a
+> > static inline function.
+> >
+> > It is not great to have macros that use the `container_of` macro,
+> > because from looking at the definition one cannot tell what type
+> > it applies to.
+> >
+> > One can get the same benefit from an efficiency point of view
+> > by making an inline function.
+> >
+> > Suggested-by: Julia Lawall <julia.lawall@inria.fr>
+> > Signed-off-by: Menna Mahmoud <eng.mennamahmoud.mm@gmail.com>
+>
+> I'm sorry if this conflicts with what others have said.
+>
+> But the use of a macro (with a container_of() right-hand
+> side) to get at the structure containing a field pointer
+> is a widely-used idiom throughout the kernel.
+>
+> What you propose achieves the same result but I would
+> lean toward keeping it as a macro, mainly because it
+> is so common.
+
+Common is not necessarily good.  Macros are less safe and less
+informative.
+
+julia
+
+
+>
+> 					-Alex
+> > ---
+> > changes in v2:
+> > 	-send patch as a single patch.
+> > 	-edit the name of struct object.
+> > 	-edit commit message.
+> > ---
+> >   drivers/staging/greybus/gbphy.h | 10 ++++++++--
+> >   1 file changed, 8 insertions(+), 2 deletions(-)
+> >
+> > diff --git a/drivers/staging/greybus/gbphy.h
+> > b/drivers/staging/greybus/gbphy.h
+> > index d4a225b76338..e7ba232bada1 100644
+> > --- a/drivers/staging/greybus/gbphy.h
+> > +++ b/drivers/staging/greybus/gbphy.h
+> > @@ -15,7 +15,10 @@ struct gbphy_device {
+> >   	struct list_head list;
+> >   	struct device dev;
+> >   };
+> > -#define to_gbphy_dev(d) container_of(d, struct gbphy_device, dev)
+> > +static inline struct gbphy_device *to_gbphy_dev(const struct device *_dev)
+> > +{
+> > +	return container_of(_dev, struct gbphy_device, dev);
+> > +}
+> >     static inline void *gb_gbphy_get_data(struct gbphy_device *gdev)
+> >   {
+> > @@ -43,7 +46,10 @@ struct gbphy_driver {
+> >     	struct device_driver driver;
+> >   };
+> > -#define to_gbphy_driver(d) container_of(d, struct gbphy_driver, driver)
+> > +static inline struct gbphy_driver *to_gbphy_driver(struct device_driver
+> > *drv)
+> > +{
+> > +	return container_of(drv, struct gbphy_driver, driver);
+> > +}
+> >     int gb_gbphy_register_driver(struct gbphy_driver *driver,
+> >   			     struct module *owner, const char *mod_name);
+>
+>
