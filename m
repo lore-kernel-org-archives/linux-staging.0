@@ -1,42 +1,42 @@
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D97F01FB1;
-	Wed, 22 Mar 2023 14:35:42 +0000 (UTC)
-Received: by mail-wm1-f45.google.com with SMTP id w11so10636756wmo.2;
-        Wed, 22 Mar 2023 07:35:42 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66D608C01;
+	Wed, 22 Mar 2023 14:54:38 +0000 (UTC)
+Received: by mail-wr1-f51.google.com with SMTP id r11so582017wrr.12;
+        Wed, 22 Mar 2023 07:54:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1679495741;
+        d=gmail.com; s=20210112; t=1679496876;
         h=content-disposition:mime-version:message-id:subject:cc:to:from:date
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=Jbu2BN2MD8AK55tD9gpgYxyseZXeFWZjpylUucgmVfA=;
-        b=RTxjz04u2joRaMa8uHBz15dktbHzstCpvU9PFywh/OWufVAARCdIRUNsZOqAfNF0Sp
-         tP+FWIiyM+nMp3ifRvMx2FR1IT8ox6ec7hjs7YiU9FYldJ9vDrhXVJyX+d0d3oqiQ8yU
-         2DH/5GrvlDAD/kkN0+f9rgXZ1njd3pyNvk4ZRVQ+wKf9s8j6uLvkGcJhkdm2TyZnvnhk
-         uae28E3kIBC46CTQvzNKdCQxICgqy8I5Jar9lAtrAwdD/sd7tFq0KZNsBWnfwm/1ieLv
-         Bp0CyJ8dmX52IHD2ald6Ne0wQBGs7h9bn1MwxMG/4jYoDYQb+Vu9LHiuM16Fn7ErrU+B
-         IhlQ==
+        bh=pX52XM0zRvUzVxvJJ0vn8RkPlcGXAVjIMg1ZZMuVw6A=;
+        b=EqJVSA+xNvSC9aOZxnb40FR82uDcF+8Oj9rB3jgYZp+vaPQxRzWvXCU74/i0cCEcKN
+         3cbSIA1r2CRpbKrIzSDGrSxzl2hXhBoLggzqBD5ypEkSSg0pa2qj+Jm/6EZYiWeNQFD5
+         fULQ8GSCwnkm9dh87GcMj0vNq+jsdIPlAiRjAHQ1oI6OUh2kIG5W0ThE6DQv2ZcdjC7O
+         75NRcHruEgJdMVPjrS+L04qEMjmvlYMGPsc3xV1ZnHFj6RAjyoRDai+FzZySbUZtrLQb
+         fRmy7cgqdhpYqPiBD4n7o2SxAUFNVh8CgoQMUWqAfJ97LMjOFpHJntjJetRSP8r4fla6
+         Fy0Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679495741;
+        d=1e100.net; s=20210112; t=1679496876;
         h=content-disposition:mime-version:message-id:subject:cc:to:from:date
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Jbu2BN2MD8AK55tD9gpgYxyseZXeFWZjpylUucgmVfA=;
-        b=Ba2xcWPHRcrjBH+iMge6hpVWBZuCbaWpsDNT8o5ra9nGWpNyb2UXUm4YuTn1u3hkxx
-         bxUIqDYst6+MmpAIH/bWxM9m+zXx9hA8WdcYkXMQi83JAN5X31riXcf0mHnyVpCBJeAr
-         SvBDqFFCQ3Kc3Db6EEVnjB+PbkHcER0oAb2ouQSP0HTZMmuBT/kmQRWCwVEL4/gscjoN
-         0fCXrpdjOXR3USNqbUsi/9LvLDbpfprEUOpahWZgzbVUVbdrBdzEwNfnmbxl6UeuN9Od
-         Q5Pj1/BaWadNfUIlFHFjqkdS+kAU6UdGnH84lH6sbg5jwAarjsv/p4z+LqNgw29rU6lY
-         aU8Q==
-X-Gm-Message-State: AO0yUKUIzmsVvaIVcfqFZqHTqKEfsxmCg6gFyqFrBiPCMmef5Yyr4qah
-	gLaxKMQv1fDa30CcO7tydTA=
-X-Google-Smtp-Source: AK7set8yQ5eD7/ltB13mgpr1e1WKh4RWcGOKdlu7FReGb/WBxCtTBmnEEUc87II/zaXtfM1sIO6b7g==
-X-Received: by 2002:a1c:cc1a:0:b0:3ed:711c:e8fe with SMTP id h26-20020a1ccc1a000000b003ed711ce8femr6167710wmb.2.1679495741101;
-        Wed, 22 Mar 2023 07:35:41 -0700 (PDT)
+        bh=pX52XM0zRvUzVxvJJ0vn8RkPlcGXAVjIMg1ZZMuVw6A=;
+        b=RJTQN1+Kkc3Hn5IV3ai9bMs8k3R1/9QvMi/SBWCPHTnHMKWuS8i2FYPUD8FymjMHfT
+         iKHek5a5vXJ3PkmxCvYbfbJpTzTJxRJsj+NXTfm268niZ9Ux47oAE8egRoroX8/UobhA
+         3xB1guOgBPZwftLIfHxoMAcFTPSyMiIAeCQOFlKyqicdqxFcznjyh6XH8Cow0vaLVIbQ
+         Wp67T7lL/MrAnmdMjPyzsePerVGKdGTpfGl/LAC9HC2RN7kmWg2EgwiGTsFI6elQArk3
+         //Bj/pgXs7dXpJD61pnxhqLF57YdJU4nI7uFnMdydisutxq+dFAYcvoPjCgE6zuyEayO
+         jupQ==
+X-Gm-Message-State: AAQBX9ehXF6cHFbU3BO14N4gpj95bTfw6iOA87SDmS/s3rcsRdd5gfiZ
+	AxV+3okRpCmAf6lf1LDZp4Y=
+X-Google-Smtp-Source: AKy350bSRC+Dd6x/j8rAOkZ9rZcq8qbU0nauUKFSCJzSivumQ/SBuHylXSGyA2TzZeCPpSe07wBftA==
+X-Received: by 2002:adf:ce01:0:b0:2cf:ec6c:f253 with SMTP id p1-20020adfce01000000b002cfec6cf253mr75143wrn.20.1679496876462;
+        Wed, 22 Mar 2023 07:54:36 -0700 (PDT)
 Received: from khadija-virtual-machine ([39.41.14.14])
-        by smtp.gmail.com with ESMTPSA id q13-20020a05600c46cd00b003e1202744f2sm23535000wmo.31.2023.03.22.07.35.40
+        by smtp.gmail.com with ESMTPSA id c15-20020adffb0f000000b002c6e8cb612fsm13946440wrr.92.2023.03.22.07.54.35
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 22 Mar 2023 07:35:40 -0700 (PDT)
-Date: Wed, 22 Mar 2023 19:35:38 +0500
+        Wed, 22 Mar 2023 07:54:36 -0700 (PDT)
+Date: Wed, 22 Mar 2023 19:54:33 +0500
 From: Khadija Kamran <kamrankhadijadj@gmail.com>
 To: outreachy@lists.linux.dev
 Cc: Parthiban Veerasooran <parthiban.veerasooran@microchip.com>,
@@ -44,7 +44,7 @@ Cc: Parthiban Veerasooran <parthiban.veerasooran@microchip.com>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
 Subject: [PATCH] staging: most: fix line ending with '('
-Message-ID: <ZBsSOlPbaGZcAaSY@khadija-virtual-machine>
+Message-ID: <ZBsWqT8lLAW383RG@khadija-virtual-machine>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -58,30 +58,28 @@ Splitting function header to multiple lines because of 80 characters per
 line limit, results in ending the function call line with '('.
 This leads to CHECK reported by checkpatch.pl
 
-Move the first parameter right after the '(' in the function call line.
-Align the rest of the parameters to the opening parenthesis.
+Move the function parameters right after the '(' in the function call
+line.
 
 Signed-off-by: Khadija Kamran <kamrankhadijadj@gmail.com>
 ---
- drivers/staging/most/dim2/hal.c | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+ drivers/staging/most/video/video.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/drivers/staging/most/dim2/hal.c b/drivers/staging/most/dim2/hal.c
-index a5d40b5b138a..6abe3ab2b2cf 100644
---- a/drivers/staging/most/dim2/hal.c
-+++ b/drivers/staging/most/dim2/hal.c
-@@ -346,9 +346,8 @@ static void dim2_clear_ctram(void)
- 		dim2_clear_ctr(ctr_addr);
- }
+diff --git a/drivers/staging/most/video/video.c b/drivers/staging/most/video/video.c
+index ffa97ef21ea5..6254a5df2502 100644
+--- a/drivers/staging/most/video/video.c
++++ b/drivers/staging/most/video/video.c
+@@ -365,8 +365,7 @@ static const struct video_device comp_videodev_template = {
 
--static void dim2_configure_channel(
--	u8 ch_addr, u8 type, u8 is_tx, u16 dbr_address, u16 hw_buffer_size,
--	u16 packet_length)
-+static void dim2_configure_channel(u8 ch_addr, u8 type, u8 is_tx, u16 dbr_address,
-+				   u16 hw_buffer_size, u16 packet_length)
+ /**************************************************************************/
+
+-static struct most_video_dev *get_comp_dev(
+-	struct most_interface *iface, int channel_idx)
++static struct most_video_dev *get_comp_dev(struct most_interface *iface, int channel_idx)
  {
- 	dim2_configure_cdt(ch_addr, dbr_address, hw_buffer_size, packet_length);
- 	dim2_configure_cat(MLB_CAT, ch_addr, type, is_tx ? 1 : 0);
+ 	struct most_video_dev *mdev;
+ 	unsigned long flags;
 --
 2.34.1
 
