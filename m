@@ -1,121 +1,124 @@
-Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
+Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4006323AD;
-	Wed, 22 Mar 2023 10:16:50 +0000 (UTC)
-Received: by mail-ed1-f50.google.com with SMTP id r11so70642711edd.5;
-        Wed, 22 Mar 2023 03:16:49 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3F6E23D4
+	for <linux-staging@lists.linux.dev>; Wed, 22 Mar 2023 10:56:19 +0000 (UTC)
+Received: by mail-ed1-f53.google.com with SMTP id r11so71064783edd.5
+        for <linux-staging@lists.linux.dev>; Wed, 22 Mar 2023 03:56:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1679480208;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=jpDA9uUcZvzGnD9pLQgn6VIYHngYXS5+gJ+ISFCbQ4k=;
-        b=BS3B+GSSEJ0WqKPR/Ct8/TRtsDaddf81nnqiToflDBOwCObEAzue/bZloBZi6Z8T3a
-         k2zTRNcyJKTzaWUNeLHH3HsejObgT34xz7bkSY+AecBkPYsEPgvXO/PS5gObiyhAxdAa
-         y6W3BrbODyb1e07sODfcNIOrMw0mh6I2pmfIczHnxYaL9mnyjduX/7U4j3Q2PJtYLQJp
-         Atk+N0Rlobkd0WvizQ4gOE12XkvLOLxN1WJPjE4mFvX0JVMNKNUhfom/BSJKhzaonz8N
-         HH4yArtKlQOR08pyd+trd+dCllFDVuGrccSnzWiW5DnAiCJ+JtapdWKTTlDtWw6TdhsP
-         M7UQ==
+        d=gmail.com; s=20210112; t=1679482578;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=eribAeLlAZpM0sozfmroYZLd0JWUDJYfvoB2UDqzTlc=;
+        b=bDsGkBzybZ7XSWupknT9Ksnp8uRqhwlyXWzafjT0YGpQhD1CLATrzpugsITAAyk5GO
+         ROv0j73u+KWJofgT8KuUHvCeaob/Qmh26wKRHdBMgkuTtAMKtI84g+dqSqxiGu852Aw7
+         nhkaFQLhy3nylmWLPy2nkQ0ygs52Kuy5RQAValIP0GkeICWmxYljxy/S2SwO7C4kZ7jF
+         Vy4UvmS6AwpuitEa366FIXROYEzOe9+j22xsVfEq0mBTTct/h38E3LRshEPf7IUpgJ0q
+         141/IPr6haUvfTGIWqCYeu5pFX7oEPujtBaYTXXXqOd1zDZe/JehlEd7eBG245c6xGba
+         MbkA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679480208;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=jpDA9uUcZvzGnD9pLQgn6VIYHngYXS5+gJ+ISFCbQ4k=;
-        b=dIj9IHlrY9nCXmO497rTxaTcwEaqWrUPjyfo68n9ukQj7OKhYSyCuy/sCHGWBrJrRW
-         xJZcL5M0x9hFz7wIKoFQaOJ9GhGAGfMoWgKRrSWE9lfD+DiX/b4a+PFM5WU9JQsaIcTB
-         FAJlOuGf8AhbUHeoAob7HcmqBEJFPMFURzRPrlOs27aB9kzYOFTlxBh790u7P/FLDC2v
-         EXS1pqNlgmuLrj4afggDzSBopS4tg1IuHaT7eqx3u/zG0lZisiqDWjPjtQRlcsJodu0B
-         Mu9fzaiEUhNpUhErHDUXIMbU3D2QhwNLvFe2O01W2dydG5zGohjCl0+E3QabxZ5TVral
-         HIJQ==
-X-Gm-Message-State: AO0yUKVLu6RqC28Y6JkvKAo5LxluZcozjNeAlfTgl9bnxfN0rspXKdQN
-	KJhg41MnRGzfUdVUmQOf4Cs=
-X-Google-Smtp-Source: AK7set9piLYg6v1I/RemGzk8hcZOPEJZSGDct+Dz8Mm8jN4Nphd/jZq6O7eXIb6Xzl+L7wPOqJ+lpw==
-X-Received: by 2002:aa7:d3d4:0:b0:4fb:78a0:eabf with SMTP id o20-20020aa7d3d4000000b004fb78a0eabfmr5776830edr.29.1679480208273;
-        Wed, 22 Mar 2023 03:16:48 -0700 (PDT)
-Received: from [192.168.1.16] ([41.233.203.65])
-        by smtp.gmail.com with ESMTPSA id b26-20020a170906195a00b00930a4e5b46bsm6930377eje.211.2023.03.22.03.16.46
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 22 Mar 2023 03:16:47 -0700 (PDT)
-Message-ID: <9e339ec0-d244-ea22-d9d8-70a76ac1bc0a@gmail.com>
-Date: Wed, 22 Mar 2023 12:16:44 +0200
+        d=1e100.net; s=20210112; t=1679482578;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=eribAeLlAZpM0sozfmroYZLd0JWUDJYfvoB2UDqzTlc=;
+        b=RZKnko5FTeqqpZdft2VtavtWT7E39Gr8xN68SmIUN8SDYxcyEIALfrmVnoz8x9v1mU
+         Vw4itikVjaZNAodSaCNj+SPclxinAJT42E/GtFlAdaKU9n8g/Fus3kOHdkb+8lm2q/Nb
+         brzUl9k/fC2zMcZSiv/7Su31fp4ytn5YRZ+lTjMfnVpjvzbK2piR0UBY5SssDnfNtWvt
+         C6ZOWlZ9qWRdXp9WCK83J5PGadxRxzrJbwTktW6HcZyrtunUkiLbriF9XU9YPe15H9U1
+         BUr5gkGgoiWsj3pRyIsfUEloCDWPJ3wBlTYMGrgFHOcqw14kUNY73eb2bE0zS01iF2Wz
+         1g/g==
+X-Gm-Message-State: AO0yUKVZ/0Mn4uJXTaXwg4Glp7vZufAKhQmGbYQ4o/n8ajcRGiWdQNIm
+	EI63I4YgOc+MNevh1DyDqSrnsdXa/N0spVgoOb0=
+X-Google-Smtp-Source: AK7set8bTdcte9x03OjkSvsMixpWbUh5BMuJ76sBNCDUZEGwGaxof5QMGQfH8r7GG6JyIUFucpR+j1QZN+WW3boVZz4=
+X-Received: by 2002:a17:907:2c46:b0:92f:cf96:e1f6 with SMTP id
+ hf6-20020a1709072c4600b0092fcf96e1f6mr3049751ejc.11.1679482577793; Wed, 22
+ Mar 2023 03:56:17 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH] staging: greybus: remove unnecessary blank line
-To: Julia Lawall <julia.lawall@inria.fr>
-Cc: gregkh@linuxfoundation.org, outreachy@lists.linux.dev, johan@kernel.org,
- elder@kernel.org, vireshk@kernel.org, thierry.reding@gmail.com,
- u.kleine-koenig@pengutronix.de, greybus-dev@lists.linaro.org,
- linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev,
- linux-pwm@vger.kernel.org
-References: <20230322100927.28351-1-eng.mennamahmoud.mm@gmail.com>
- <369edb35-b93b-301c-fcef-8e64e5d4a122@inria.fr>
-Content-Language: en-US
-From: Menna Mahmoud <eng.mennamahmoud.mm@gmail.com>
-In-Reply-To: <369edb35-b93b-301c-fcef-8e64e5d4a122@inria.fr>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+References: <20230308073502.5421-1-clamor95@gmail.com> <167933710348.198283.16107220354236772396.b4-ty@kernel.org>
+In-Reply-To: <167933710348.198283.16107220354236772396.b4-ty@kernel.org>
+From: Svyatoslav Ryhel <clamor95@gmail.com>
+Date: Wed, 22 Mar 2023 12:56:06 +0200
+Message-ID: <CAPVz0n2AuCb7fmLkzdimiZvqneQw7gXCfMTRvhp1n1zwRckfaA@mail.gmail.com>
+Subject: Re: (subset) [PATCH v2 0/8] Fix sound on ASUS Transformers
+To: Mark Brown <broonie@kernel.org>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh+dt@kernel.org>, 
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
+	Thierry Reding <thierry.reding@gmail.com>, Jonathan Hunter <jonathanh@nvidia.com>, 
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Maxim Schwalm <maxim.schwalm@gmail.com>, 
+	Dmitry Osipenko <digetx@gmail.com>, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	alsa-devel@alsa-project.org, linux-tegra@vger.kernel.org, 
+	linux-staging@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-
-On ٢٢‏/٣‏/٢٠٢٣ ١٢:١٤, Julia Lawall wrote:
+=D0=BF=D0=BD, 20 =D0=B1=D0=B5=D1=80. 2023=E2=80=AF=D1=80. =D0=BE 20:31 Mark=
+ Brown <broonie@kernel.org> =D0=BF=D0=B8=D1=88=D0=B5:
 >
-> On Wed, 22 Mar 2023, Menna Mahmoud wrote:
+> On Wed, 08 Mar 2023 09:34:54 +0200, Svyatoslav Ryhel wrote:
+> > - add quirk for headset detection used by some T30 devices
+> >   (ASUS Transformers, LG Optimus 4X HD and Vu);
+> > - add RT5631 and MAX9808x machine drivers
+> > - update bindings
+> >
 >
->> Remove unnecessary blank line before struct as reported
->> by checkpatch:
->>
->> " CHECK: Please don't use multiple blank lines"
-> Since there is no vX indicator, one doesn't know that this replaces some
-> previous patches.
-
-yes, sorry I missed it because I dropped the previous commits, I will 
-add it.
-
-
-Menna
-
+> Applied to
 >
-> julia
+>    https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-=
+next
 >
->> Signed-off-by: Menna Mahmoud <eng.mennamahmoud.mm@gmail.com>
->> ---
->>   drivers/staging/greybus/greybus_authentication.h | 1 -
->>   drivers/staging/greybus/pwm.c                    | 1 -
->>   2 files changed, 2 deletions(-)
->>
->> diff --git a/drivers/staging/greybus/greybus_authentication.h b/drivers/staging/greybus/greybus_authentication.h
->> index 7edc7295b7ab..48b4a9794d3c 100644
->> --- a/drivers/staging/greybus/greybus_authentication.h
->> +++ b/drivers/staging/greybus/greybus_authentication.h
->> @@ -41,7 +41,6 @@
->>   #define CAP_AUTH_RESULT_CR_NO_KEY	0x03
->>   #define CAP_AUTH_RESULT_CR_SIG_FAIL	0x04
->>
->> -
->>   /* IOCTL support */
->>   struct cap_ioc_get_endpoint_uid {
->>   	__u8			uid[8];
->> diff --git a/drivers/staging/greybus/pwm.c b/drivers/staging/greybus/pwm.c
->> index 3fda172239d2..26d39e08c3b6 100644
->> --- a/drivers/staging/greybus/pwm.c
->> +++ b/drivers/staging/greybus/pwm.c
->> @@ -24,7 +24,6 @@ struct gb_pwm_chip {
->>   #define pwm_chip_to_gb_pwm_chip(chip) \
->>   	container_of(chip, struct gb_pwm_chip, chip)
->>
->> -
->>   static int gb_pwm_count_operation(struct gb_pwm_chip *pwmc)
->>   {
->>   	struct gb_pwm_count_response response;
->> --
->> 2.34.1
->>
->>
->>
+> Thanks!
+>
+> [1/8] dt-bindings: sound: nvidia,tegra-audio-common: add coupled-mic-hp-d=
+etect property
+>       commit: 2a7a8ebe85e1fa7e929f6f986a61f10321093c43
+> [2/8] ASoC: tegra: Support coupled mic-hp detection
+>       commit: eb0b8481c2e03a5ae01f6bea60b42109bd12b6fe
+> [4/8] dt-bindings: sound: nvidia,tegra-audio: add RT5631 CODEC
+>       commit: 2060c9b8ae2a1f6abec483709f4209b6e3602b89
+> [5/8] ASoC: tegra: Support RT5631 by machine driver
+>       commit: 44b2fc2edb61e956885b4305bddaaec7f05d93d2
+> [7/8] dt-bindings: sound: nvidia,tegra-audio: add MAX9808x CODEC
+>       commit: 85a375fe8df906b2701346e03e71501e6861a75a
+> [8/8] ASoC: tegra: Support MAX9808x by machine driver
+>       commit: d007a87bd7d181854b53b3e7fcbcf66c4bef86b2
+>
+> All being well this means that it will be integrated into the linux-next
+> tree (usually sometime in the next 24 hours) and sent to Linus during
+> the next merge window (or sooner if it is a bug fix), however if
+> problems are discovered then the patch may be dropped or reverted.
+>
+> You may get further e-mails resulting from automated or manual testing
+> and review of the tree, please engage with people reporting problems and
+> send followup patches addressing any issues that are reported if needed.
+>
+> If any updates are required or you are submitting further changes they
+> should be sent as incremental updates against current git, existing
+> patches will not be replaced.
+>
+> Please add any relevant lists and maintainers to the CCs when replying
+> to this mail.
+>
+
+Thank you, Mark Brown! You have asked me to update commit name for
+codec machine dts schema commits (those, which contain CODEC in the
+subject), should I still update and resend them or you will handle those?
+
+I still need v3 to update existing device bindings to the currently working
+scheme. Should I exclude commits you have picked?
+
+I have DMIC fix for wm8903 codec driver required for tf101 and tf300t,
+should I add it into v3 or I have to send it separately?
+
+Thanks in advance,
+Svyatoslav R.
+
+> Thanks,
+> Mark
+>
