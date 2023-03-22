@@ -1,138 +1,102 @@
-Received: from mail2-relais-roc.national.inria.fr (mail2-relais-roc.national.inria.fr [192.134.164.83])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D798423AD;
-	Wed, 22 Mar 2023 10:00:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6EEF123AD;
+	Wed, 22 Mar 2023 10:09:34 +0000 (UTC)
+Received: by mail-ed1-f54.google.com with SMTP id x3so70479812edb.10;
+        Wed, 22 Mar 2023 03:09:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=inria.fr; s=dc;
-  h=date:from:to:cc:subject:in-reply-to:message-id:
-   references:mime-version;
-  bh=sHYBsf4pz/+39iaVsZ7mpbeyKqvZZpry99CXK++F6wk=;
-  b=sbPCOMmnZWv1F6u85uIPJZ9XQoYo8Gi1FS6WySkiwd1sIOOlaCYnODpo
-   9J+hQ+a/d0sHHqMMKxYYtY6GiVz6zCssT02RsVgN7uaSCU+Yu7Q85gr8J
-   mAl3eLVQrHqgwTIz4d0wE0t95FPskP/XDYhkS7EgHpLGFqZU1IoIwfVca
-   s=;
-Authentication-Results: mail2-relais-roc.national.inria.fr; dkim=none (message not signed) header.i=none; spf=SoftFail smtp.mailfrom=julia.lawall@inria.fr; dmarc=fail (p=none dis=none) d=inria.fr
-X-IronPort-AV: E=Sophos;i="5.98,281,1673910000"; 
-   d="scan'208";a="98464634"
-Received: from dt-lawall.paris.inria.fr ([128.93.67.65])
-  by mail2-relais-roc.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Mar 2023 11:00:41 +0100
-Date: Wed, 22 Mar 2023 11:00:41 +0100 (CET)
-From: Julia Lawall <julia.lawall@inria.fr>
-To: Alex Elder <elder@ieee.org>
-cc: Menna Mahmoud <eng.mennamahmoud.mm@gmail.com>, gregkh@linuxfoundation.org, 
-    outreachy@lists.linux.dev, johan@kernel.org, elder@kernel.org, 
-    linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
-Subject: Re: [PATCH v2] staging: greybus: use inline function for macros
-In-Reply-To: <48674d8f-9753-780c-f37c-f83ea2855ae6@ieee.org>
-Message-ID: <eabacc6f-c7fb-ff33-26d1-271537fb4760@inria.fr>
-References: <20230321183456.10385-1-eng.mennamahmoud.mm@gmail.com> <2e869677-2693-6419-ea25-f0cc2efcf3dd@ieee.org> <alpine.DEB.2.22.394.2303212140480.2919@hadrien> <5efa6e6d-8573-31de-639a-d15b2e9deca0@ieee.org> <alpine.DEB.2.22.394.2303212218500.2919@hadrien>
- <48674d8f-9753-780c-f37c-f83ea2855ae6@ieee.org>
+        d=gmail.com; s=20210112; t=1679479772;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=yru+/DJoW0l+gdfnZqzMPZHjYgVuqgrRcLKs3lSPmHE=;
+        b=M6Mosss+BmvxqIkNxh0I9sIkanHXhjuavvFe9xCQtfjpYhR8vRfnbUIfB1WiWGLor0
+         c/+8Fl/ZUbGEUi31LFq6Ju9M/muyfxJUhii3za1e9HG2JZ0NSUuByjdB1tSuPhtGxY8Y
+         Nf+RN5G/XyQYWYi4f2/cdUJNdNAApdiYlS/cIOpbKQI9Q9G++5fMHxHGqGiEylQFB8Fk
+         ps+IrR54AQBnzTytnt1FqW09dLlpJtXn3+jaLBkUxVqNpoIm6DLoIJJlN16lEszwD0Ue
+         epbtZmchK/ZNepS15LuUh/nccrwlGmn/p81tA6SvbT0Z3028m/NtqUrGtWsq5AmZ7Qmc
+         2s2A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1679479772;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=yru+/DJoW0l+gdfnZqzMPZHjYgVuqgrRcLKs3lSPmHE=;
+        b=cHCK78WtTg2Mnh7ZBiNVNOOqwLqvkV2suXbg0wRlHRsuj0hhcWJcDv3lpodcsC2ESx
+         lKvpo+P1KoKO4nTeSBQ+S7JcO3IFi3BIVYvPoOcSSk4R7rWSz6ha7VMjlXV/Hh8RJMP2
+         j+qD11XnCTu/SP08DIII/eclfPTeoBorNxpeXF78lq1IGGcTa9XDNY4fmZD3Gr7miIyz
+         7BFaBQyt0tqKCnsBauzjsIkMQHONVB10RZelxgsZqoIBvOvZP4HBe4q9/SzF2Yx9xSWR
+         8aAURFcYCyn0KjmAJ37gO8nPKOrceEfUAb/iQk5U4CdQFuPuLqSVDFp2SW1HFI6IKVy9
+         ly8A==
+X-Gm-Message-State: AO0yUKWlXxjiTQ6SmhHNiRQeoVr5Enu1l/deN566xuyCLcCtBo5lN8hm
+	ZOoruxesMOUZkHoU9W/YJ3A=
+X-Google-Smtp-Source: AK7set/6uoHR69K90iGRKvBwbgrmpRQ1hfAMzKw4nU5pgrpBEBX/HIBu1pABx8tb83QbDHB/Qtz4nQ==
+X-Received: by 2002:a17:906:1853:b0:92f:fc08:bb0a with SMTP id w19-20020a170906185300b0092ffc08bb0amr5888741eje.37.1679479772557;
+        Wed, 22 Mar 2023 03:09:32 -0700 (PDT)
+Received: from alaa-emad.. ([41.233.203.65])
+        by smtp.gmail.com with ESMTPSA id s9-20020a170906454900b008f89953b761sm6954993ejq.3.2023.03.22.03.09.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 22 Mar 2023 03:09:32 -0700 (PDT)
+From: Menna Mahmoud <eng.mennamahmoud.mm@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: outreachy@lists.linux.dev,
+	johan@kernel.org,
+	elder@kernel.org,
+	vireshk@kernel.org,
+	thierry.reding@gmail.com,
+	u.kleine-koenig@pengutronix.de,
+	greybus-dev@lists.linaro.org,
+	linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-pwm@vger.kernel.org,
+	eng.mennamahmoud.mm@gmail.com
+Subject: [PATCH] staging: greybus: remove unnecessary blank line
+Date: Wed, 22 Mar 2023 12:09:27 +0200
+Message-Id: <20230322100927.28351-1-eng.mennamahmoud.mm@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 8bit
 
-Greg raised the question of whether the inline function is really as
-efficient as a macro.
+Remove unnecessary blank line before struct as reported
+by checkpatch:
 
-I tried the following definitions:
+" CHECK: Please don't use multiple blank lines "
 
-#define to_gbphy_dev(d) container_of(d, struct gbphy_device, dev)
+Signed-off-by: Menna Mahmoud <eng.mennamahmoud.mm@gmail.com>
+---
+ drivers/staging/greybus/greybus_authentication.h | 1 -
+ drivers/staging/greybus/pwm.c                    | 1 -
+ 2 files changed, 2 deletions(-)
 
-static inline struct gbphy_device *extra_to_gbphy_dev(const struct device *_dev)
-{
-       return container_of(_dev, struct gbphy_device, dev);
-}
+diff --git a/drivers/staging/greybus/greybus_authentication.h b/drivers/staging/greybus/greybus_authentication.h
+index 7edc7295b7ab..48b4a9794d3c 100644
+--- a/drivers/staging/greybus/greybus_authentication.h
++++ b/drivers/staging/greybus/greybus_authentication.h
+@@ -41,7 +41,6 @@
+ #define CAP_AUTH_RESULT_CR_NO_KEY	0x03
+ #define CAP_AUTH_RESULT_CR_SIG_FAIL	0x04
+ 
+-
+ /* IOCTL support */
+ struct cap_ioc_get_endpoint_uid {
+ 	__u8			uid[8];
+diff --git a/drivers/staging/greybus/pwm.c b/drivers/staging/greybus/pwm.c
+index 3fda172239d2..26d39e08c3b6 100644
+--- a/drivers/staging/greybus/pwm.c
++++ b/drivers/staging/greybus/pwm.c
+@@ -24,7 +24,6 @@ struct gb_pwm_chip {
+ #define pwm_chip_to_gb_pwm_chip(chip) \
+ 	container_of(chip, struct gb_pwm_chip, chip)
+ 
+-
+ static int gb_pwm_count_operation(struct gb_pwm_chip *pwmc)
+ {
+ 	struct gb_pwm_count_response response;
+-- 
+2.34.1
 
-And the following uses:
-
-ssize_t macro_protocol_id_show(struct device *dev,
-                                struct device_attribute *attr, char *buf)
-{
-        struct gbphy_device *gbphy_dev = to_gbphy_dev(dev);
-
-        return sprintf(buf, "%c macro 0x%02x\n", *buf, gbphy_dev->cport_desc->protocol_id);
-}
-ssize_t extra_protocol_id_show(struct device *dev,
-				struct device_attribute *attr, char *buf)
-{
-        struct gbphy_device *gbphy_dev = extra_to_gbphy_dev(dev);
-
-        return sprintf(buf, "extra 0x%02x %c\n", gbphy_dev->cport_desc->protocol_id, *buf);
-}
-
-They are a little bit different to avoid too much compiler optimization.
-
-After doing make drivers/staging/greybus/gbphy.s, I get similar looking
-code in both cases:
-
-Macro version:
-
-        .type   macro_protocol_id_show, @function
-macro_protocol_id_show:
-        endbr64
-1:      call    __fentry__
-        .section __mcount_loc, "a",@progbits
-        .quad 1b
-        .previous
-        pushq   %rbp    #
-        movq    %rdx, %rbp      # tmp96, buf
-        pushq   %rbx    #
-# drivers/staging/greybus/gbphy.c:40: {
-        movq    %rdi, %rbx      # tmp95, dev
-# drivers/staging/greybus/gbphy.c:43:   return sprintf(buf, "%c macro 0x%02x\n", *buf, gbphy_dev->cport_desc->protocol_id);
-        call    __sanitizer_cov_trace_pc        #
-# drivers/staging/greybus/gbphy.c:43:   return sprintf(buf, "%c macro 0x%02x\n", *buf, gbphy_dev->cport_desc->protocol_id);
-        movq    -32(%rbx), %rax # MEM[(struct gbphy_device *)dev_7(D) + -40B].cport_desc, MEM[(struct gbphy_device *)dev_7(D) + -40B].cport_desc
-# drivers/staging/greybus/gbphy.c:43:   return sprintf(buf, "%c macro 0x%02x\n", *buf, gbphy_dev->cport_desc->protocol_id);
-        movzbl  0(%rbp), %edx   # *buf_9(D), *buf_9(D)
-        movq    %rbp, %rdi      # buf,
-        movq    $.LC18, %rsi    #,
-        movzbl  3(%rax), %ecx   # _1->protocol_id, _1->protocol_id
-        call    sprintf #
-# drivers/staging/greybus/gbphy.c:44: }
-        movl    $13, %eax       #,
-        popq    %rbx    #
-        popq    %rbp    #
-        jmp     __x86_return_thunk
-        .size   macro_protocol_id_show, .-macro_protocol_id_show
-
-Function version:
-
-        .type   extra_protocol_id_show, @function
-extra_protocol_id_show:
-        endbr64
-1:      call    __fentry__
-        .section __mcount_loc, "a",@progbits
-        .quad 1b
-        .previous
-        pushq   %rbp    #
-        movq    %rdx, %rbp      # tmp96, buf
-        pushq   %rbx    #
-# drivers/staging/greybus/gbphy.c:47: {
-        movq    %rdi, %rbx      # tmp95, dev
-# drivers/staging/greybus/gbphy.c:50:   return sprintf(buf, "extra 0x%02x %c\n", gbphy_dev->cport_desc->protocol_id, *buf);
-        call    __sanitizer_cov_trace_pc        #
-# drivers/staging/greybus/gbphy.c:50:   return sprintf(buf, "extra 0x%02x %c\n", gbphy_dev->cport_desc->protocol_id, *buf);
-        movq    -32(%rbx), %rax # MEM[(struct gbphy_device *)dev_8(D) + -40B].cport_desc, MEM[(struct gbphy_device *)dev_8(D) + -40B].cport_desc
-# drivers/staging/greybus/gbphy.c:50:   return sprintf(buf, "extra 0x%02x %c\n", gbphy_dev->cport_desc->protocol_id, *buf);
-        movzbl  0(%rbp), %ecx   # *buf_9(D), *buf_9(D)
-        movq    %rbp, %rdi      # buf,
-        movq    $.LC19, %rsi    #,
-        movzbl  3(%rax), %edx   # _3->protocol_id, _3->protocol_id
-        call    sprintf #
-# drivers/staging/greybus/gbphy.c:51: }
-        movl    $13, %eax       #,
-        popq    %rbx    #
-        popq    %rbp    #
-        jmp     __x86_return_thunk
-        .size   extra_protocol_id_show, .-extra_protocol_id_show
-
-Both seem to access the memory directly.  Maybe the example is too simple,
-and the compiler is more likely to optimize aggressively?
-
-julia
