@@ -1,83 +1,70 @@
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [85.220.165.71])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9ABCBA40
-	for <linux-staging@lists.linux.dev>; Wed, 22 Mar 2023 21:01:54 +0000 (UTC)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1pf5aY-0006RO-BY; Wed, 22 Mar 2023 22:01:42 +0100
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
-	by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1pf5aW-00600B-VU; Wed, 22 Mar 2023 22:01:40 +0100
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1pf5aW-0078GS-7J; Wed, 22 Mar 2023 22:01:40 +0100
-Date: Wed, 22 Mar 2023 22:01:40 +0100
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To: Menna Mahmoud <eng.mennamahmoud.mm@gmail.com>
-Cc: gregkh@linuxfoundation.org, outreachy@lists.linux.dev, johan@kernel.org,
-	elder@kernel.org, vireshk@kernel.org, thierry.reding@gmail.com,
-	greybus-dev@lists.linaro.org, linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev, linux-pwm@vger.kernel.org
-Subject: Re: [PATCH v4] staging: greybus: remove unnecessary blank line
-Message-ID: <20230322210140.xocbx7t4opo2tqmi@pengutronix.de>
-References: <20230322113735.31214-1-eng.mennamahmoud.mm@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60196BA44
+	for <linux-staging@lists.linux.dev>; Wed, 22 Mar 2023 22:07:24 +0000 (UTC)
+Received: by mail-ed1-f46.google.com with SMTP id h8so78887013ede.8
+        for <linux-staging@lists.linux.dev>; Wed, 22 Mar 2023 15:07:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=seecs.edu.pk; s=google; t=1679522843;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=JVG2u0PxjcHnMZyDP5cFJRBQ+0w73Zdls1zxTkcKhxE=;
+        b=4BllPFkRTczeJDJcUxBJ4nsD6E4yo6yZMqI5ufh32vPtKvfVCk57nb7nG3lnCd7pLg
+         IZf1khqXXszZgb3ZKun7cZ0SEvW0V1Km+MTlbTlLMA+9NCZLXTAy42vqSW3yCafM5wrB
+         rTfpNxBxJLw2I1H/aKLoXRpLnMGIpUpdCB4yk=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1679522843;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=JVG2u0PxjcHnMZyDP5cFJRBQ+0w73Zdls1zxTkcKhxE=;
+        b=Dl1S9B71N3fw6eENM9b4+RKHp9jr0B13C8+hA+oZ4iPttLbjEYjKMbwUeSqfrpXJax
+         Ky6FcuYSs/sGb6gzty4k7yLREhMmkTzbrq9ZIY6Zxf6AJrIJ8JWR2He6Q2/patv7GO70
+         VRkRqM3jakYFJQKf2oK0vLJlMiZ3GMUvadzwgSrtRz/6O0Pg5ImOkB+1XV2dohhvaId+
+         fkU/cVGWlu3BkWt1jSpPurnrR5Zkv2WLZtsKrFsyMPXvjTBAUtSkhgBPBxjLcX1jltMP
+         ZVnYUzg2ph3Yyh/IEGnfbBshVXMvQWXpFj9zvSKgw7KYpnSfqXApMBbRAaKM8w1TKU1R
+         cx2Q==
+X-Gm-Message-State: AO0yUKWJeD8L3r/t1O9C6BR4JkCKz9szWqKprjOjzS6NNreWtb/uV25g
+	BR5D1osE5wP8N9v7tmzXCct2oQ==
+X-Google-Smtp-Source: AK7set+SkK/C2Wqx91jsFrtmCMtKRHhrbDLMipKVjE/mmH6XsanIVqmWwvsaMF1HoLCV4+Nj+3O/5w==
+X-Received: by 2002:a17:906:4f8f:b0:925:5705:b5b8 with SMTP id o15-20020a1709064f8f00b009255705b5b8mr8138114eju.58.1679522843190;
+        Wed, 22 Mar 2023 15:07:23 -0700 (PDT)
+Received: from khadija-virtual-machine.localdomain ([39.41.14.14])
+        by smtp.gmail.com with ESMTPSA id v19-20020a17090651d300b0092b86d41dbasm7787935ejk.114.2023.03.22.15.07.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 22 Mar 2023 15:07:22 -0700 (PDT)
+From: Khadija Kamran <kkamran.bese16seecs@seecs.edu.pk>
+X-Google-Original-From: Khadija Kamran <kamrankhadijadj@gmail.com>
+To: outreachy@lists.linux.dev
+Cc: gregkh@linuxfoundation.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Khadija Kamran <kamrankhadijadj@gmail.com>
+Subject: [PATCH 0/4] staging: rtl8192e: code cleanup patches
+Date: Thu, 23 Mar 2023 03:07:00 +0500
+Message-Id: <cover.1679521517.git.kamrankhadijadj@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="r7q7putkqdcorqid"
-Content-Disposition: inline
-In-Reply-To: <20230322113735.31214-1-eng.mennamahmoud.mm@gmail.com>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-staging@lists.linux.dev
+Content-Transfer-Encoding: 8bit
 
+Fix several cleanup issues reported by checkpatch.pl in module
+staging/rtl8192e in file rtllib_rx.c
 
---r7q7putkqdcorqid
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Khadija Kamran (4):
+  staging: rtl8192e: remove extra blank lines
+  staging: rtl8192e: add blank lines after declarations
+  staging: rtl8192e: add spaces around binary operators
+  staging: rtl8192e: remove blank lines after '{'
 
-On Wed, Mar 22, 2023 at 01:37:34PM +0200, Menna Mahmoud wrote:
-> Remove unnecessary blank line before struct as reported
-> by checkpatch:
->=20
-> " CHECK: Please don't use multiple blank lines "
->=20
-> Signed-off-by: Menna Mahmoud <eng.mennamahmoud.mm@gmail.com>
+ drivers/staging/rtl8192e/rtllib_rx.c | 73 +++++++++++-----------------
+ 1 file changed, 29 insertions(+), 44 deletions(-)
 
-Looks good to me now. Thanks for not giving up.
+-- 
+2.34.1
 
-Acked-by: Uwe Kleine-K=F6nig <u.kleine-koenig@pengutronix.de>
-
-Best regards
-Uwe
-
---=20
-Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
-Industrial Linux Solutions                 | https://www.pengutronix.de/ |
-
---r7q7putkqdcorqid
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmQbbLMACgkQj4D7WH0S
-/k7wQgf+ONVndGTHzhy+YKot/A+pZ9zlWAAJfJnxJbCjhLQnmIepoZGbGLY35dXs
-kxnpfkm4+BOxJ8XaMh17TTit9MgoaDNbAajhI3D3ssvjL3ty5NK/aU5FbtYK7cB5
-H9rufT4+ew9h59P+OkndlFdArjEOKuNx8YY2KUkdc2kOsKAJXwOnM44MKwRmM40X
-hnNRfcF5UeHA7inux3952me5wzdiym2JUq6x9xowrKU0TOdUklDZhUwxlO//NeBK
-T57BaRK7NBPl5WG2NA6rLVeRHnzADSR7W2AXYJTV8ZFSjvelvwjaJd7Bf4UTZk9N
-kPnHTdnkBKbzNXqw5yQXHAWe5Xcbfg==
-=sOsU
------END PGP SIGNATURE-----
-
---r7q7putkqdcorqid--
