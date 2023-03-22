@@ -1,86 +1,85 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8337328FC
-	for <linux-staging@lists.linux.dev>; Wed, 22 Mar 2023 13:14:51 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 73ED7C433EF;
-	Wed, 22 Mar 2023 13:14:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1679490891;
-	bh=u9GikT43rfqNNchHEzB4MC9MRag1S1z9pDfJEAUESrA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=HqdlowXMk3DZJFG71QvOsdJ3Nt3cdYJHXOru5Q51NotqX9F+albV1whddzlSd9Vof
-	 ShfquJWr2WtURNplk+TdeRhaGnqRVGV6ej0sL4l61cjjfewsHbFG1dlKjKcWlSzfrF
-	 DpJWWjNpW1rmXGzWmX3xvSE9LWpS+r1M0hgFMpqC5WM3MXSq6e8HaeZJnoNcl2MyFH
-	 cOhFaD0o2GPbnA10rLOn9XN4pf6STgYxSYlcbFcdRVmDb3XKkUAeDBj/BWf1+eQnL3
-	 KbIRlc5khLIPwtPGUsAKNxs3OZXNoRgorioDh+e7ixpV1lT9cSRA5Uc1PQCKVx9mYq
-	 JaSryf9u1o9HQ==
-Date: Wed, 22 Mar 2023 13:15:03 +0000
-From: Mark Brown <broonie@kernel.org>
-To: Svyatoslav Ryhel <clamor95@gmail.com>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Thierry Reding <thierry.reding@gmail.com>,
-	Jonathan Hunter <jonathanh@nvidia.com>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	Maxim Schwalm <maxim.schwalm@gmail.com>,
-	Dmitry Osipenko <digetx@gmail.com>, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, alsa-devel@alsa-project.org,
-	linux-tegra@vger.kernel.org, linux-staging@lists.linux.dev
-Subject: Re: (subset) [PATCH v2 0/8] Fix sound on ASUS Transformers
-Message-ID: <ZBr/V8kEJqan38Nw@sirena.org.uk>
-References: <20230308073502.5421-1-clamor95@gmail.com>
- <167933710348.198283.16107220354236772396.b4-ty@kernel.org>
- <CAPVz0n2AuCb7fmLkzdimiZvqneQw7gXCfMTRvhp1n1zwRckfaA@mail.gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E963A28FC;
+	Wed, 22 Mar 2023 13:36:07 +0000 (UTC)
+Received: by mail-wr1-f48.google.com with SMTP id r29so17083645wra.13;
+        Wed, 22 Mar 2023 06:36:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1679492166;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=7Qcc01bThYgNN4EDH3PH3xQ8u1QU4sH2s8PABfTDu6Y=;
+        b=J34H1SdbC/nCg/E/QjATqJYym9ALDDptxGYZd1j1eb0dYOENa62tJWHy9WD6GFbdO1
+         bnrock3LLiOZy4DRZg3i2M9AmUktSR99PWNLoZJ0XXAiunQCDRso+N5YtRu4C8JrcwYF
+         DLc0j3k3HipvC8V5BbNiRFL9zOu5kRf250ncc/BlscmMShbhb/PBZpileUDfRz18A7fy
+         4OJJS6ItiZXXIdVdIS5mDwrYRYRsFBsKhABy9yCaTupX7Lm2Ch2YeihLrRYTWFAwY7Ee
+         NWX/6etoOz0QcmRhvDjFRXpEj4TsltoTVhjSLV1C5Igt95lyUxR5TztF5eAbuAzUtnwV
+         sXLw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1679492166;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=7Qcc01bThYgNN4EDH3PH3xQ8u1QU4sH2s8PABfTDu6Y=;
+        b=LcKLEWYQAaizLnYRbdwDBm6oBgI3NMdga43W/c1Uqtkdxxl1Xsli7VOUd4midJ0esE
+         RvW83uh/ahd8OqKuWHNOkBdKm1SaP3Lnqy2dhyi0NJg+ci4JpDzOA7ck1SQcMssF14kh
+         XLBKYmo/Wl7WgAEngl/h8o/XHJ3Lx/F07XAaosnCp++6hoJ97MOmPeWHtMLUrgc4gAoR
+         AI+rk8eYSdAHNSERpEUzr6bCiwF8fQ2FRwrHZ96PIy86qGbfWmUyomJDGuSIfqmLjkvz
+         /kh19csTJ3d8tnIU5kkP1SfH6oA3EBDWT4aqvgJKRjIY4TaAT4EylsVqB5IDRzLS8GDy
+         iQ2A==
+X-Gm-Message-State: AO0yUKU7PHi3/j6sxS5culxuWF+mNI7uj46amg8zi7gsvtjOweaoDjhx
+	Ly3u972HcdTFnTCielfFg2Q=
+X-Google-Smtp-Source: AK7set8KIMT38ukGDMClhbdqjX5z9iqnZpWLMZU/Q0vufQSV+5lMMAXT0J35nXLEOWiTQ5oIJ0gL1Q==
+X-Received: by 2002:adf:f5ca:0:b0:2d0:cf21:a40d with SMTP id k10-20020adff5ca000000b002d0cf21a40dmr4814231wrp.10.1679492165965;
+        Wed, 22 Mar 2023 06:36:05 -0700 (PDT)
+Received: from khadija-virtual-machine ([39.41.14.14])
+        by smtp.gmail.com with ESMTPSA id c9-20020a5d4cc9000000b002d21379bcabsm13831630wrt.110.2023.03.22.06.36.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 22 Mar 2023 06:36:05 -0700 (PDT)
+Date: Wed, 22 Mar 2023 18:36:03 +0500
+From: Khadija Kamran <kamrankhadijadj@gmail.com>
+To: outreachy@lists.linux.dev
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: [PATCH] staging: ks7010: fix line ending with '('
+Message-ID: <ZBsEQzL3Oidsmg/L@khadija-virtual-machine>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="MsWazqoCnTV+oHgS"
-Content-Disposition: inline
-In-Reply-To: <CAPVz0n2AuCb7fmLkzdimiZvqneQw7gXCfMTRvhp1n1zwRckfaA@mail.gmail.com>
-X-Cookie: Single tasking: Just Say No.
-
-
---MsWazqoCnTV+oHgS
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-On Wed, Mar 22, 2023 at 12:56:06PM +0200, Svyatoslav Ryhel wrote:
+Splitting function header to multiple lines because of 80 characters per
+line limit, results in ending the function call line with '('.
+This leads to CHECK reported by checkpatch.pl
 
-> Thank you, Mark Brown! You have asked me to update commit name for
-> codec machine dts schema commits (those, which contain CODEC in the
-> subject), should I still update and resend them or you will handle those?
+Move the first parameter right after the '(' in the function call line.
+Align the rest of the parameters to the opening parenthesis.
 
-> I still need v3 to update existing device bindings to the currently working
-> scheme. Should I exclude commits you have picked?
+Signed-off-by: Khadija Kamran <kamrankhadijadj@gmail.com>
+---
+ drivers/staging/ks7010/ks_hostif.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
-No need to resend anything that's already been applied, drop any
-commits that were applied and don't worry about their changelogs
-any more.  If there's fixes needed in the newly added code then
-make incremental patches for those.
+diff --git a/drivers/staging/ks7010/ks_hostif.c b/drivers/staging/ks7010/ks_hostif.c
+index 9429ee155910..af3825578d85 100644
+--- a/drivers/staging/ks7010/ks_hostif.c
++++ b/drivers/staging/ks7010/ks_hostif.c
+@@ -75,9 +75,8 @@ static void ks_wlan_hw_wakeup_task(struct work_struct *work)
 
-> I have DMIC fix for wm8903 codec driver required for tf101 and tf300t,
-> should I add it into v3 or I have to send it separately?
+ 	if (ps_status == PS_SNOOZE) {
+ 		ks_wlan_hw_wakeup_request(priv);
+-		time_left = wait_for_completion_interruptible_timeout(
+-				&priv->psstatus.wakeup_wait,
+-				msecs_to_jiffies(20));
++		time_left = wait_for_completion_interruptible_timeout(&priv->psstatus.wakeup_wait,
++								      msecs_to_jiffies(20));
+ 		if (time_left <= 0) {
+ 			netdev_dbg(priv->net_dev, "wake up timeout or interrupted !!!\n");
+ 			schedule_work(&priv->wakeup_work);
+--
+2.34.1
 
-Just send it as a new series.
-
---MsWazqoCnTV+oHgS
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmQa/1YACgkQJNaLcl1U
-h9B5+gf/QdroK8bOm9/dNaSen/YbUl4L0XULQYZIRiHx0f8gYEP4ym0OV82dgFxg
-3zi64foG8GRXipaY4+F1m8xPrKaetXjKcLu2BlqH6mKISmle4eUtbs5J+CYlrEFn
-g2/XRw8UNhK6/U6fWCqIjT273HYOXESDXJodKAhgCKH4w+oT0xJVs/RIWq4wXQXa
-vh/C9ewbN+xD1IUWnQ8hdIkHwsttxylFR/RwKXuooGC41hL85IGYMztsLqii/5BZ
-ypxgQPO6KIhh8fo6uEfpWKcaW8ktA5S/zSDXNYSLpYj3JKkYvKrzqzaRyPyIYaHv
-llA+8HogqAGyDQh6UnsU/2OPXuQHfw==
-=YegK
------END PGP SIGNATURE-----
-
---MsWazqoCnTV+oHgS--
