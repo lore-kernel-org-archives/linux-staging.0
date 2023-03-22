@@ -1,177 +1,102 @@
-Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F158B8F58
-	for <linux-staging@lists.linux.dev>; Wed, 22 Mar 2023 17:15:35 +0000 (UTC)
-Received: by mail-ed1-f48.google.com with SMTP id r11so75891068edd.5
-        for <linux-staging@lists.linux.dev>; Wed, 22 Mar 2023 10:15:35 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25E8E8F58;
+	Wed, 22 Mar 2023 18:06:12 +0000 (UTC)
+Received: by mail-wm1-f52.google.com with SMTP id n19so1824912wms.0;
+        Wed, 22 Mar 2023 11:06:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1679505334;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:to:from:date:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=PgAa8TVR2OX/unZOH2SqxHOaAsu+Q0rJ4jrl6aVUaso=;
-        b=dOIyMCtrgEL4ivGPb4AKDAyxL9kGBzbcDXlkfMZI7sysakRjCTGJ9B3w1kX/4kwGKg
-         MZVjYDKHWjv/zF+dwWBgU3wtOkoZI7ZWZa2bBQW8n06eKM0AIoUaPmKINL7Vmo7YBbrP
-         u62zmbb13pr0lwAFdbQxg+gp5wFnGEgaGP+twreZIr/tFST4PNuqHYlAJJOzXqHciR6B
-         2TNU1MXFY5d2aXmT/lnoeCIlOGOighoUKN8QFLtUnn/Fq5p4/O+nTP7VUghmWtVcAuhU
-         Y4TiFzIzzaDyTT2AkgdgVG3UAOgDhKRAlLrialpeM6+dLjkmwGuarsB9VqfPr3OrAYvW
-         8/8g==
+        d=gmail.com; s=20210112; t=1679508370;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=lQlkTrDUMyIzoKUTa4EB/7B9v75JQsqp1RH/FF8jnII=;
+        b=Jv/yvvCIK9N/w4adbeYydlyMQukdDjPsjhHiWZML0YgwHCbjb3oWOXkMDFxGyqMis8
+         Y9heDgxww1MEfpFHUHbwP0+f5jLcaW+lya3SGPkHXFDVCkSUmtPUWislMayCeqMO30XH
+         lhtp92ZYe8zWEcMgnIa7he4GgyY0BNZlnTviZo+Mx/QgMI5nOlfPk3RQ5+Krm1+xz2p5
+         KNChmEF2+Z2rtzSv1qxpfsv1gjGaZN+4SRWEJG/Tjqy54RjC5lPCIbFdaVrhhFyWn8Jz
+         Seel55pLxPkZwgva2ld/t+h7CzF9tf24k1sfrvuLA+0jSGj16Z0X6bhLzfzOkV8PvCW1
+         VxTw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679505334;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=PgAa8TVR2OX/unZOH2SqxHOaAsu+Q0rJ4jrl6aVUaso=;
-        b=fNFQ9MEr+9q1Yq03EViAQAXCLlWJqWws2wvZD8zOqPCAjvUiL8JKts2HcaHa+yGFhf
-         uBy8xcAhCCBzUFfD4Yehqb529RqhzWuf+w5BsyNoXgm/08BHZJWKbuQW9yg5n8MEkf5B
-         w85cvtjC3/3TVwzW6Nb7rrGIerrgdiy8QUMqZBUqO8an9Sli60VahqAB/Wosi1rGbs66
-         3ZBSQhDzwvLLjOw/1CSovFsTGMlZpcd9SVGRirY2vuxFswkKmF++F1PDeQ9/3PVPynVT
-         2u3BhB4YzoVV3CiBnLkfwRXRE/ubcyg8y8mpF8DvEU648EmLzTjM5cmSAgxbXTMmkcFT
-         TNDg==
-X-Gm-Message-State: AO0yUKU5rRNyuhXYTPGIKI1KoKBgALLvrYNyKvv59ivQ4qZs6IimxVtt
-	y8HglGykWZTL6nQY6MoKzG8=
-X-Google-Smtp-Source: AK7set8ACwq2SguntQdO9FmuHbmEO07JY2DEp2AcZ4Hs+yNhFr6efWNtxKY//yiV7rjRFOngmqCXTw==
-X-Received: by 2002:a05:6402:2711:b0:4bb:afe3:e0a with SMTP id y17-20020a056402271100b004bbafe30e0amr8970955edd.3.1679505334307;
-        Wed, 22 Mar 2023 10:15:34 -0700 (PDT)
-Received: from matrix-ESPRIMO-P710 (p57935146.dip0.t-ipconnect.de. [87.147.81.70])
-        by smtp.gmail.com with ESMTPSA id a18-20020a50c312000000b004c06f786602sm8054214edb.85.2023.03.22.10.15.33
+        d=1e100.net; s=20210112; t=1679508370;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=lQlkTrDUMyIzoKUTa4EB/7B9v75JQsqp1RH/FF8jnII=;
+        b=EEtuo0pwvS4cnDfMvLR5xWSxnWQdmXDN+dzdpz+GmAEdGMw5DH59uRBigoWSouc8Mt
+         oy/LbvlIt0gmGz8TnZGkkTkNkxYCZGlv77qh6nEcHWr95z6ft5bRM1c3YY0XTc9GP338
+         EdJG1P2oH3KWWOTzYGWrvVlJiLwaW0Dsw2cjS0oddG8O+LjEEbR2Elj981+94OYXHwjE
+         UjVSOSuF0G9n7YZaWXiKUoAuzlsEr21LKsJcRI6ANNOqlRph5VhEhq4BKm6g1JybPB4B
+         pIpzyUzvBpCaQbuo+6GaNlj6cIPOzumpeNQacpmn2EIUYMpYv9/2LmRI9j6DEi5Jsoiv
+         I+Zw==
+X-Gm-Message-State: AO0yUKURuMMexSsfzYG+fAyW2HWZmOktj8hhEU3hzb1KXN7E0pTaVu30
+	6d57d88j4IjeTpmVgomAIL0=
+X-Google-Smtp-Source: AK7set9PvLALfTOZlyrn4wUsytwFilchVUKkUSnU6OXEoe2fBm9qiDZfKWrdnLEWV8TmcajiZO9Urw==
+X-Received: by 2002:a7b:c3d9:0:b0:3ee:42fd:7768 with SMTP id t25-20020a7bc3d9000000b003ee42fd7768mr372051wmj.1.1679508370151;
+        Wed, 22 Mar 2023 11:06:10 -0700 (PDT)
+Received: from khadija-virtual-machine ([39.41.14.14])
+        by smtp.gmail.com with ESMTPSA id j10-20020a5d464a000000b002cea8f07813sm14452324wrs.81.2023.03.22.11.06.09
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 22 Mar 2023 10:15:33 -0700 (PDT)
-Date: Wed, 22 Mar 2023 18:15:32 +0100
-From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Wed, 22 Mar 2023 11:06:09 -0700 (PDT)
+Date: Wed, 22 Mar 2023 23:06:07 +0500
+From: Khadija Kamran <kamrankhadijadj@gmail.com>
+To: Dan Carpenter <error27@gmail.com>
+Cc: outreachy@lists.linux.dev,
+	Parthiban Veerasooran <parthiban.veerasooran@microchip.com>,
+	Christian Gromm <christian.gromm@microchip.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [PATCH v2 8/8] staging: rtl8192e: Replace macro
- iwe_stream_add_point_rsl with standard function
-Message-ID: <563af664b3186e73d99f73a6396f8ebcd3c52be2.1679504314.git.philipp.g.hortmann@gmail.com>
-References: <cover.1679504314.git.philipp.g.hortmann@gmail.com>
+Subject: Re: [PATCH v2] staging: most: fix line ending with '('
+Message-ID: <ZBtDj/sRJCiOhsRD@khadija-virtual-machine>
+References: <ZBsYYAc1Ue/JnUAm@khadija-virtual-machine>
+ <8064a4ee-665b-417e-a1e2-7e7dd32ec1f0@kili.mountain>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <cover.1679504314.git.philipp.g.hortmann@gmail.com>
+In-Reply-To: <8064a4ee-665b-417e-a1e2-7e7dd32ec1f0@kili.mountain>
 
-Replace macro iwe_stream_add_point_rsl with standard function
-iwe_stream_add_point to increase readability.
+On Wed, Mar 22, 2023 at 06:09:50PM +0300, Dan Carpenter wrote:
+> On Wed, Mar 22, 2023 at 08:01:52PM +0500, Khadija Kamran wrote:
+> > Splitting function header to multiple lines because of 80 characters per
+> > line limit, results in ending the function call line with '('.
+> > This leads to CHECK reported by checkpatch.pl
+> > 
+> > Move the function parameters right after the '(' in the function call
+> > line. Align the rest of the parameters to the opening parenthesis.
+> > 
+> > Signed-off-by: Khadija Kamran <kamrankhadijadj@gmail.com>
+> > ---
+> > 
+> > Changes in v2:
+> >  - Changed the description
+> > 
+> 
+> No one replied to the v1 of this patch so it's not clear which of the
+> patches should be ignored.
+>
 
-Signed-off-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
----
-V1->V2: Changed subject line to be without “f.”
----
- drivers/staging/rtl8192e/rtllib.h    |  3 ---
- drivers/staging/rtl8192e/rtllib_wx.c | 26 ++++++++++----------------
- 2 files changed, 10 insertions(+), 19 deletions(-)
+Hey Dan!
 
-diff --git a/drivers/staging/rtl8192e/rtllib.h b/drivers/staging/rtl8192e/rtllib.h
-index 81d630cf7e52..1ce4c29dab13 100644
---- a/drivers/staging/rtl8192e/rtllib.h
-+++ b/drivers/staging/rtl8192e/rtllib.h
-@@ -65,9 +65,6 @@
- #define container_of_dwork_rsl(x, y, z)				\
- 	container_of(to_delayed_work(x), y, z)
- 
--#define iwe_stream_add_point_rsl(info, start, stop, iwe, p)	\
--	iwe_stream_add_point(info, start, stop, iwe, p)
--
- static inline void *netdev_priv_rsl(struct net_device *dev)
- {
- 	return netdev_priv(dev);
-diff --git a/drivers/staging/rtl8192e/rtllib_wx.c b/drivers/staging/rtl8192e/rtllib_wx.c
-index e580cd01c201..d6691f3c7c70 100644
---- a/drivers/staging/rtl8192e/rtllib_wx.c
-+++ b/drivers/staging/rtl8192e/rtllib_wx.c
-@@ -49,16 +49,13 @@ static inline char *rtl819x_translate_scan(struct rtllib_device *ieee,
- 	iwe.u.data.flags = 1;
- 	if (network->ssid_len > 0) {
- 		iwe.u.data.length = min_t(u8, network->ssid_len, 32);
--		start = iwe_stream_add_point_rsl(info, start, stop, &iwe,
--						 network->ssid);
-+		start = iwe_stream_add_point(info, start, stop, &iwe, network->ssid);
- 	} else if (network->hidden_ssid_len == 0) {
- 		iwe.u.data.length = sizeof("<hidden>");
--		start = iwe_stream_add_point_rsl(info, start, stop,
--						 &iwe, "<hidden>");
-+		start = iwe_stream_add_point(info, start, stop, &iwe, "<hidden>");
- 	} else {
- 		iwe.u.data.length = min_t(u8, network->hidden_ssid_len, 32);
--		start = iwe_stream_add_point_rsl(info, start, stop, &iwe,
--						 network->hidden_ssid);
-+		start = iwe_stream_add_point(info, start, stop, &iwe, network->hidden_ssid);
- 	}
- 	/* Add the protocol name */
- 	iwe.cmd = SIOCGIWNAME;
-@@ -96,8 +93,7 @@ static inline char *rtl819x_translate_scan(struct rtllib_device *ieee,
- 	else
- 		iwe.u.data.flags = IW_ENCODE_DISABLED;
- 	iwe.u.data.length = 0;
--	start = iwe_stream_add_point_rsl(info, start, stop,
--					 &iwe, network->ssid);
-+	start = iwe_stream_add_point(info, start, stop, &iwe, network->ssid);
- 	/* Add basic and extended rates */
- 	max_rate = 0;
- 	p = custom;
-@@ -152,8 +148,7 @@ static inline char *rtl819x_translate_scan(struct rtllib_device *ieee,
- 	iwe.cmd = IWEVCUSTOM;
- 	iwe.u.data.length = p - custom;
- 	if (iwe.u.data.length)
--		start = iwe_stream_add_point_rsl(info, start, stop,
--						 &iwe, custom);
-+		start = iwe_stream_add_point(info, start, stop, &iwe, custom);
- 	/* Add quality statistics */
- 	/* TODO: Fix these values... */
- 	iwe.cmd = IWEVQUAL;
-@@ -174,7 +169,7 @@ static inline char *rtl819x_translate_scan(struct rtllib_device *ieee,
- 	p = custom;
- 	iwe.u.data.length = p - custom;
- 	if (iwe.u.data.length)
--		start = iwe_stream_add_point_rsl(info, start, stop, &iwe, custom);
-+		start = iwe_stream_add_point(info, start, stop, &iwe, custom);
- 
- 	memset(&iwe, 0, sizeof(iwe));
- 	if (network->wpa_ie_len) {
-@@ -183,7 +178,7 @@ static inline char *rtl819x_translate_scan(struct rtllib_device *ieee,
- 		memcpy(buf, network->wpa_ie, network->wpa_ie_len);
- 		iwe.cmd = IWEVGENIE;
- 		iwe.u.data.length = network->wpa_ie_len;
--		start = iwe_stream_add_point_rsl(info, start, stop, &iwe, buf);
-+		start = iwe_stream_add_point(info, start, stop, &iwe, buf);
- 	}
- 	memset(&iwe, 0, sizeof(iwe));
- 	if (network->rsn_ie_len) {
-@@ -192,7 +187,7 @@ static inline char *rtl819x_translate_scan(struct rtllib_device *ieee,
- 		memcpy(buf, network->rsn_ie, network->rsn_ie_len);
- 		iwe.cmd = IWEVGENIE;
- 		iwe.u.data.length = network->rsn_ie_len;
--		start = iwe_stream_add_point_rsl(info, start, stop, &iwe, buf);
-+		start = iwe_stream_add_point(info, start, stop, &iwe, buf);
- 	}
- 
- 	/* add info for WZC */
-@@ -203,7 +198,7 @@ static inline char *rtl819x_translate_scan(struct rtllib_device *ieee,
- 		memcpy(buf, network->wzc_ie, network->wzc_ie_len);
- 		iwe.cmd = IWEVGENIE;
- 		iwe.u.data.length = network->wzc_ie_len;
--		start = iwe_stream_add_point_rsl(info, start, stop, &iwe, buf);
-+		start = iwe_stream_add_point(info, start, stop, &iwe, buf);
- 	}
- 
- 	/* Add EXTRA: Age to display seconds since last beacon/probe response
-@@ -216,8 +211,7 @@ static inline char *rtl819x_translate_scan(struct rtllib_device *ieee,
- 		      (100 * (jiffies - network->last_scanned)) / HZ);
- 	iwe.u.data.length = p - custom;
- 	if (iwe.u.data.length)
--		start = iwe_stream_add_point_rsl(info, start, stop,
--						 &iwe, custom);
-+		start = iwe_stream_add_point(info, start, stop, &iwe, custom);
- 
- 	return start;
- }
--- 
-2.39.2
+I created a patch revision without any feedback. My bad. I thought the
+description in the previous patch was misleading, so I wanted to change
+it.
 
+> Also you have a couple patches with the same subject and that's against
+> the rules.
+>
+
+I am sorry about that. Kindly guide me here. 
+Both patches are for same driver i.e. staging/most, but for different
+files. Would it be fine to add file names in the subject to
+differentiate them?
+
+Regards,
+Khadija
+
+> regards,
+> dan carpenter
+> 
