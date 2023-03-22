@@ -1,124 +1,109 @@
-Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
+Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3F6E23D4
-	for <linux-staging@lists.linux.dev>; Wed, 22 Mar 2023 10:56:19 +0000 (UTC)
-Received: by mail-ed1-f53.google.com with SMTP id r11so71064783edd.5
-        for <linux-staging@lists.linux.dev>; Wed, 22 Mar 2023 03:56:19 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0D9C2566;
+	Wed, 22 Mar 2023 11:37:48 +0000 (UTC)
+Received: by mail-ed1-f42.google.com with SMTP id eh3so71547615edb.11;
+        Wed, 22 Mar 2023 04:37:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1679482578;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=eribAeLlAZpM0sozfmroYZLd0JWUDJYfvoB2UDqzTlc=;
-        b=bDsGkBzybZ7XSWupknT9Ksnp8uRqhwlyXWzafjT0YGpQhD1CLATrzpugsITAAyk5GO
-         ROv0j73u+KWJofgT8KuUHvCeaob/Qmh26wKRHdBMgkuTtAMKtI84g+dqSqxiGu852Aw7
-         nhkaFQLhy3nylmWLPy2nkQ0ygs52Kuy5RQAValIP0GkeICWmxYljxy/S2SwO7C4kZ7jF
-         Vy4UvmS6AwpuitEa366FIXROYEzOe9+j22xsVfEq0mBTTct/h38E3LRshEPf7IUpgJ0q
-         141/IPr6haUvfTGIWqCYeu5pFX7oEPujtBaYTXXXqOd1zDZe/JehlEd7eBG245c6xGba
-         MbkA==
+        d=gmail.com; s=20210112; t=1679485067;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=ufD/aLu42UHkIOODHSMH1/E0WYEbXvQf/CWdu58h154=;
+        b=ompbDY5ua/bSoxyasK11lHpffoErOOwV2sBWnSJqBvy51xtNqXaapwLRZrKeKi3mrR
+         lNAOOm4shWIJvpM5pTscB2jGgPDcmDhRGOyYAHh7lagLbVXoLcedd9ImA98ydNxQ/p7W
+         PAUwOKN9GLggsPbliQrOT+3/ILdW0lbU81Z8+IJGy47eYy7z+Qeogu8inDAqVsx7oa9O
+         3BccEVB5K9DLCK7iQ/p5XuH6qy9D1eDD/ZFJQ7Xl0C3F9S39bYXhzXuoa+yZ7YI/B0i0
+         tKmFyGn5+5a0SBtW8XLOtf9uNtF9s2ch0w7dC0+pcHg1sdvUrrYIdl7YGYXtvVCYMsJ/
+         JLFw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679482578;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=eribAeLlAZpM0sozfmroYZLd0JWUDJYfvoB2UDqzTlc=;
-        b=RZKnko5FTeqqpZdft2VtavtWT7E39Gr8xN68SmIUN8SDYxcyEIALfrmVnoz8x9v1mU
-         Vw4itikVjaZNAodSaCNj+SPclxinAJT42E/GtFlAdaKU9n8g/Fus3kOHdkb+8lm2q/Nb
-         brzUl9k/fC2zMcZSiv/7Su31fp4ytn5YRZ+lTjMfnVpjvzbK2piR0UBY5SssDnfNtWvt
-         C6ZOWlZ9qWRdXp9WCK83J5PGadxRxzrJbwTktW6HcZyrtunUkiLbriF9XU9YPe15H9U1
-         BUr5gkGgoiWsj3pRyIsfUEloCDWPJ3wBlTYMGrgFHOcqw14kUNY73eb2bE0zS01iF2Wz
-         1g/g==
-X-Gm-Message-State: AO0yUKVZ/0Mn4uJXTaXwg4Glp7vZufAKhQmGbYQ4o/n8ajcRGiWdQNIm
-	EI63I4YgOc+MNevh1DyDqSrnsdXa/N0spVgoOb0=
-X-Google-Smtp-Source: AK7set8bTdcte9x03OjkSvsMixpWbUh5BMuJ76sBNCDUZEGwGaxof5QMGQfH8r7GG6JyIUFucpR+j1QZN+WW3boVZz4=
-X-Received: by 2002:a17:907:2c46:b0:92f:cf96:e1f6 with SMTP id
- hf6-20020a1709072c4600b0092fcf96e1f6mr3049751ejc.11.1679482577793; Wed, 22
- Mar 2023 03:56:17 -0700 (PDT)
+        d=1e100.net; s=20210112; t=1679485067;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=ufD/aLu42UHkIOODHSMH1/E0WYEbXvQf/CWdu58h154=;
+        b=7rUiuG4egKOQ2CB3yTvKmH7yfaECvob2mdpoY2al0/EZMX+84/APcZ76X78JFjHfuZ
+         OzgsnHNarxxzOfEHDEoVSRH4Qs7XQBjYJjxKic6Jf3RIktnJ5adom32QRNNnwCmVrQ/W
+         8T0SLYoXaKQwuuGWHfqaGfkr7Lb3sPF4j/euDDXNgte3zo3ILdAmDvnzklMwlDWSlf0p
+         otJTFjkMB36eNHfYm5dN+WBGqOzcNl7CWdM/T9/8nFmA9O9MGvQvUp2gKh1w8j5Yn1p8
+         sK4Hyomj4vTueJp55/dyXolG0FiLZ5gb0q6XSyhdopHewFa6yr9QlKDPApB7bW/q2hiJ
+         CZ7Q==
+X-Gm-Message-State: AO0yUKXxRD8AAa/mBUzKFT2ymqtXZ9KOqb/1Hph/aIWSy2g9tmO9Eia0
+	UvZ8pEESXDn/YEYjzVkwDe8=
+X-Google-Smtp-Source: AK7set+QYl632YO7U3z2o4iXfBMBL7347BgKxtJukkmWe5N/saAZ2jkFYmmMBz5K37ItBM9Prns2WQ==
+X-Received: by 2002:a17:906:6450:b0:931:de76:c2e8 with SMTP id l16-20020a170906645000b00931de76c2e8mr7294230ejn.9.1679485067081;
+        Wed, 22 Mar 2023 04:37:47 -0700 (PDT)
+Received: from alaa-emad.. ([41.233.203.65])
+        by smtp.gmail.com with ESMTPSA id ch19-20020a170906c2d300b00933d64cd447sm4412197ejb.121.2023.03.22.04.37.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 22 Mar 2023 04:37:46 -0700 (PDT)
+From: Menna Mahmoud <eng.mennamahmoud.mm@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: outreachy@lists.linux.dev,
+	johan@kernel.org,
+	elder@kernel.org,
+	vireshk@kernel.org,
+	thierry.reding@gmail.com,
+	u.kleine-koenig@pengutronix.de,
+	greybus-dev@lists.linaro.org,
+	linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-pwm@vger.kernel.org,
+	eng.mennamahmoud.mm@gmail.com
+Subject: [PATCH v4] staging: greybus: remove unnecessary blank line
+Date: Wed, 22 Mar 2023 13:37:34 +0200
+Message-Id: <20230322113735.31214-1-eng.mennamahmoud.mm@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20230308073502.5421-1-clamor95@gmail.com> <167933710348.198283.16107220354236772396.b4-ty@kernel.org>
-In-Reply-To: <167933710348.198283.16107220354236772396.b4-ty@kernel.org>
-From: Svyatoslav Ryhel <clamor95@gmail.com>
-Date: Wed, 22 Mar 2023 12:56:06 +0200
-Message-ID: <CAPVz0n2AuCb7fmLkzdimiZvqneQw7gXCfMTRvhp1n1zwRckfaA@mail.gmail.com>
-Subject: Re: (subset) [PATCH v2 0/8] Fix sound on ASUS Transformers
-To: Mark Brown <broonie@kernel.org>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh+dt@kernel.org>, 
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
-	Thierry Reding <thierry.reding@gmail.com>, Jonathan Hunter <jonathanh@nvidia.com>, 
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Maxim Schwalm <maxim.schwalm@gmail.com>, 
-	Dmitry Osipenko <digetx@gmail.com>, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	alsa-devel@alsa-project.org, linux-tegra@vger.kernel.org, 
-	linux-staging@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-=D0=BF=D0=BD, 20 =D0=B1=D0=B5=D1=80. 2023=E2=80=AF=D1=80. =D0=BE 20:31 Mark=
- Brown <broonie@kernel.org> =D0=BF=D0=B8=D1=88=D0=B5:
->
-> On Wed, 08 Mar 2023 09:34:54 +0200, Svyatoslav Ryhel wrote:
-> > - add quirk for headset detection used by some T30 devices
-> >   (ASUS Transformers, LG Optimus 4X HD and Vu);
-> > - add RT5631 and MAX9808x machine drivers
-> > - update bindings
-> >
->
-> Applied to
->
->    https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-=
-next
->
-> Thanks!
->
-> [1/8] dt-bindings: sound: nvidia,tegra-audio-common: add coupled-mic-hp-d=
-etect property
->       commit: 2a7a8ebe85e1fa7e929f6f986a61f10321093c43
-> [2/8] ASoC: tegra: Support coupled mic-hp detection
->       commit: eb0b8481c2e03a5ae01f6bea60b42109bd12b6fe
-> [4/8] dt-bindings: sound: nvidia,tegra-audio: add RT5631 CODEC
->       commit: 2060c9b8ae2a1f6abec483709f4209b6e3602b89
-> [5/8] ASoC: tegra: Support RT5631 by machine driver
->       commit: 44b2fc2edb61e956885b4305bddaaec7f05d93d2
-> [7/8] dt-bindings: sound: nvidia,tegra-audio: add MAX9808x CODEC
->       commit: 85a375fe8df906b2701346e03e71501e6861a75a
-> [8/8] ASoC: tegra: Support MAX9808x by machine driver
->       commit: d007a87bd7d181854b53b3e7fcbcf66c4bef86b2
->
-> All being well this means that it will be integrated into the linux-next
-> tree (usually sometime in the next 24 hours) and sent to Linus during
-> the next merge window (or sooner if it is a bug fix), however if
-> problems are discovered then the patch may be dropped or reverted.
->
-> You may get further e-mails resulting from automated or manual testing
-> and review of the tree, please engage with people reporting problems and
-> send followup patches addressing any issues that are reported if needed.
->
-> If any updates are required or you are submitting further changes they
-> should be sent as incremental updates against current git, existing
-> patches will not be replaced.
->
-> Please add any relevant lists and maintainers to the CCs when replying
-> to this mail.
->
+Remove unnecessary blank line before struct as reported
+by checkpatch:
 
-Thank you, Mark Brown! You have asked me to update commit name for
-codec machine dts schema commits (those, which contain CODEC in the
-subject), should I still update and resend them or you will handle those?
+" CHECK: Please don't use multiple blank lines "
 
-I still need v3 to update existing device bindings to the currently working
-scheme. Should I exclude commits you have picked?
+Signed-off-by: Menna Mahmoud <eng.mennamahmoud.mm@gmail.com>
+---
+change in v4:
+        add version of the patch.
+change in v3:
+        add patches that have same edit in sigle commit.
+change in v2:
+        add patches that have same edit in sigle patch.
+---
+ drivers/staging/greybus/greybus_authentication.h | 1 -
+ drivers/staging/greybus/pwm.c                    | 1 -
+ 2 files changed, 2 deletions(-)
 
-I have DMIC fix for wm8903 codec driver required for tf101 and tf300t,
-should I add it into v3 or I have to send it separately?
+diff --git a/drivers/staging/greybus/greybus_authentication.h b/drivers/staging/greybus/greybus_authentication.h
+index 7edc7295b7ab..48b4a9794d3c 100644
+--- a/drivers/staging/greybus/greybus_authentication.h
++++ b/drivers/staging/greybus/greybus_authentication.h
+@@ -41,7 +41,6 @@
+ #define CAP_AUTH_RESULT_CR_NO_KEY	0x03
+ #define CAP_AUTH_RESULT_CR_SIG_FAIL	0x04
+ 
+-
+ /* IOCTL support */
+ struct cap_ioc_get_endpoint_uid {
+ 	__u8			uid[8];
+diff --git a/drivers/staging/greybus/pwm.c b/drivers/staging/greybus/pwm.c
+index 3fda172239d2..26d39e08c3b6 100644
+--- a/drivers/staging/greybus/pwm.c
++++ b/drivers/staging/greybus/pwm.c
+@@ -24,7 +24,6 @@ struct gb_pwm_chip {
+ #define pwm_chip_to_gb_pwm_chip(chip) \
+ 	container_of(chip, struct gb_pwm_chip, chip)
+ 
+-
+ static int gb_pwm_count_operation(struct gb_pwm_chip *pwmc)
+ {
+ 	struct gb_pwm_count_response response;
+-- 
+2.34.1
 
-Thanks in advance,
-Svyatoslav R.
-
-> Thanks,
-> Mark
->
