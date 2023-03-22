@@ -1,109 +1,88 @@
-Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
+Received: from mail-io1-f50.google.com (mail-io1-f50.google.com [209.85.166.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0D9C2566;
-	Wed, 22 Mar 2023 11:37:48 +0000 (UTC)
-Received: by mail-ed1-f42.google.com with SMTP id eh3so71547615edb.11;
-        Wed, 22 Mar 2023 04:37:48 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24B4D259C
+	for <linux-staging@lists.linux.dev>; Wed, 22 Mar 2023 12:39:56 +0000 (UTC)
+Received: by mail-io1-f50.google.com with SMTP id d14so5487039ion.9
+        for <linux-staging@lists.linux.dev>; Wed, 22 Mar 2023 05:39:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1679485067;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=ufD/aLu42UHkIOODHSMH1/E0WYEbXvQf/CWdu58h154=;
-        b=ompbDY5ua/bSoxyasK11lHpffoErOOwV2sBWnSJqBvy51xtNqXaapwLRZrKeKi3mrR
-         lNAOOm4shWIJvpM5pTscB2jGgPDcmDhRGOyYAHh7lagLbVXoLcedd9ImA98ydNxQ/p7W
-         PAUwOKN9GLggsPbliQrOT+3/ILdW0lbU81Z8+IJGy47eYy7z+Qeogu8inDAqVsx7oa9O
-         3BccEVB5K9DLCK7iQ/p5XuH6qy9D1eDD/ZFJQ7Xl0C3F9S39bYXhzXuoa+yZ7YI/B0i0
-         tKmFyGn5+5a0SBtW8XLOtf9uNtF9s2ch0w7dC0+pcHg1sdvUrrYIdl7YGYXtvVCYMsJ/
-         JLFw==
+        d=ieee.org; s=google; t=1679488795;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=NsXIYR1MPYOgLhgbK7yRoUKgF3p75hv84JR40qJjkL8=;
+        b=St9TR1J8Ta0zC3p+s7hBN1vhvdI1VQ6ESMoIXwhlYPYOse7neLnQHcowzvaP3rJGiR
+         F0AiZaLghrvT/GnDUv+Ck1f39sBWf79WQgtwsCyV8p8TUM8ZoNYhGj3CTvkVoHjUg2B9
+         j1VnJsTTauzuxOBRbc7Px7GUIpOxcDIZy3ZF0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679485067;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=ufD/aLu42UHkIOODHSMH1/E0WYEbXvQf/CWdu58h154=;
-        b=7rUiuG4egKOQ2CB3yTvKmH7yfaECvob2mdpoY2al0/EZMX+84/APcZ76X78JFjHfuZ
-         OzgsnHNarxxzOfEHDEoVSRH4Qs7XQBjYJjxKic6Jf3RIktnJ5adom32QRNNnwCmVrQ/W
-         8T0SLYoXaKQwuuGWHfqaGfkr7Lb3sPF4j/euDDXNgte3zo3ILdAmDvnzklMwlDWSlf0p
-         otJTFjkMB36eNHfYm5dN+WBGqOzcNl7CWdM/T9/8nFmA9O9MGvQvUp2gKh1w8j5Yn1p8
-         sK4Hyomj4vTueJp55/dyXolG0FiLZ5gb0q6XSyhdopHewFa6yr9QlKDPApB7bW/q2hiJ
-         CZ7Q==
-X-Gm-Message-State: AO0yUKXxRD8AAa/mBUzKFT2ymqtXZ9KOqb/1Hph/aIWSy2g9tmO9Eia0
-	UvZ8pEESXDn/YEYjzVkwDe8=
-X-Google-Smtp-Source: AK7set+QYl632YO7U3z2o4iXfBMBL7347BgKxtJukkmWe5N/saAZ2jkFYmmMBz5K37ItBM9Prns2WQ==
-X-Received: by 2002:a17:906:6450:b0:931:de76:c2e8 with SMTP id l16-20020a170906645000b00931de76c2e8mr7294230ejn.9.1679485067081;
-        Wed, 22 Mar 2023 04:37:47 -0700 (PDT)
-Received: from alaa-emad.. ([41.233.203.65])
-        by smtp.gmail.com with ESMTPSA id ch19-20020a170906c2d300b00933d64cd447sm4412197ejb.121.2023.03.22.04.37.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 22 Mar 2023 04:37:46 -0700 (PDT)
-From: Menna Mahmoud <eng.mennamahmoud.mm@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: outreachy@lists.linux.dev,
-	johan@kernel.org,
-	elder@kernel.org,
-	vireshk@kernel.org,
-	thierry.reding@gmail.com,
-	u.kleine-koenig@pengutronix.de,
-	greybus-dev@lists.linaro.org,
-	linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-pwm@vger.kernel.org,
-	eng.mennamahmoud.mm@gmail.com
-Subject: [PATCH v4] staging: greybus: remove unnecessary blank line
-Date: Wed, 22 Mar 2023 13:37:34 +0200
-Message-Id: <20230322113735.31214-1-eng.mennamahmoud.mm@gmail.com>
-X-Mailer: git-send-email 2.34.1
+        d=1e100.net; s=20210112; t=1679488795;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=NsXIYR1MPYOgLhgbK7yRoUKgF3p75hv84JR40qJjkL8=;
+        b=4RtsVKrk2pYmYaqbW58iKbIUZcwD0BsS3BlWZ8bN+pnzktu9l8BuRIZqYXYZaMZ8uG
+         ZqfEOKEtDjAC52K1VROHONArW2PMktzdNgsEHHt/3D6tMtjqCF9A1H2OmrDDp1w//4oB
+         04KZEMKZ2sXIU8nXJT+ZX0NNeOo+eW7wVyNVyFxAKeolI51Y9y8Pil5fHMD1OTFJREJt
+         XzxHoYntM1+OA+XrWaMSwxYHi42cnl7mcgAtUUS2HMZCW5/Q7aTSo+la7xgqxdfZj3n0
+         EXVKsFsN/aNVGFykDrwKKyh/nzA/wK2asUUsDbt/Nqu/MQw+r7PsTP1i7G0XMy/EM6nS
+         G9pA==
+X-Gm-Message-State: AO0yUKWtGlbcfUtRoSsrxVZjAoIEQZxZl0qKyWH61KjxODCo8SQLd5xm
+	VpIbuA2QIVnwfqs+Wq2/vmuRbQ==
+X-Google-Smtp-Source: AK7set8N+UE/kMHzN6AgpMFOxmDiirXuWiUOOXCMBaWrIsMOL8tS1r5FYkFwyoIiwZOe2WNFF71VMQ==
+X-Received: by 2002:a6b:4406:0:b0:758:b4eb:cec9 with SMTP id r6-20020a6b4406000000b00758b4ebcec9mr773044ioa.2.1679488795164;
+        Wed, 22 Mar 2023 05:39:55 -0700 (PDT)
+Received: from [172.22.22.4] ([98.61.227.136])
+        by smtp.googlemail.com with ESMTPSA id c22-20020a5ea916000000b0074c80aa17f0sm4470973iod.0.2023.03.22.05.39.54
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 22 Mar 2023 05:39:54 -0700 (PDT)
+Message-ID: <b1427fb9-1ec1-a5b7-8f1d-9751d4d13b77@ieee.org>
+Date: Wed, 22 Mar 2023 07:39:53 -0500
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH v2] staging: greybus: use inline function for macros
+Content-Language: en-US
+To: Julia Lawall <julia.lawall@inria.fr>
+Cc: Menna Mahmoud <eng.mennamahmoud.mm@gmail.com>,
+ gregkh@linuxfoundation.org, outreachy@lists.linux.dev, johan@kernel.org,
+ elder@kernel.org, linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
+References: <20230321183456.10385-1-eng.mennamahmoud.mm@gmail.com>
+ <2e869677-2693-6419-ea25-f0cc2efcf3dd@ieee.org>
+ <alpine.DEB.2.22.394.2303212140480.2919@hadrien>
+ <5efa6e6d-8573-31de-639a-d15b2e9deca0@ieee.org>
+ <alpine.DEB.2.22.394.2303212218500.2919@hadrien>
+ <48674d8f-9753-780c-f37c-f83ea2855ae6@ieee.org>
+ <eabacc6f-c7fb-ff33-26d1-271537fb4760@inria.fr>
+From: Alex Elder <elder@ieee.org>
+In-Reply-To: <eabacc6f-c7fb-ff33-26d1-271537fb4760@inria.fr>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Remove unnecessary blank line before struct as reported
-by checkpatch:
+On 3/22/23 5:00 AM, Julia Lawall wrote:
+> 
+> Both seem to access the memory directly.  Maybe the example is too simple,
+> and the compiler is more likely to optimize aggressively?
 
-" CHECK: Please don't use multiple blank lines "
+Yes I think so.  This is a little unrelated but the
+"inline" keyword isn't very useful because the compiler
+(at least when optimizing) already takes liberties of
+inlining code that it "knows" will be better done that
+way.  Same thing here.  This function is so trivial
+that it's almost certainly going to be inlined.
 
-Signed-off-by: Menna Mahmoud <eng.mennamahmoud.mm@gmail.com>
----
-change in v4:
-        add version of the patch.
-change in v3:
-        add patches that have same edit in sigle commit.
-change in v2:
-        add patches that have same edit in sigle patch.
----
- drivers/staging/greybus/greybus_authentication.h | 1 -
- drivers/staging/greybus/pwm.c                    | 1 -
- 2 files changed, 2 deletions(-)
+So the benefit of a little helper function like this over
+a macro is that its types are specified explicitly, and
+there is no chance of macro arguments be duplicated or
+improperly used in the right hand side.  If it's not
+inlined it also would normally generate stuff on the stack.
 
-diff --git a/drivers/staging/greybus/greybus_authentication.h b/drivers/staging/greybus/greybus_authentication.h
-index 7edc7295b7ab..48b4a9794d3c 100644
---- a/drivers/staging/greybus/greybus_authentication.h
-+++ b/drivers/staging/greybus/greybus_authentication.h
-@@ -41,7 +41,6 @@
- #define CAP_AUTH_RESULT_CR_NO_KEY	0x03
- #define CAP_AUTH_RESULT_CR_SIG_FAIL	0x04
- 
--
- /* IOCTL support */
- struct cap_ioc_get_endpoint_uid {
- 	__u8			uid[8];
-diff --git a/drivers/staging/greybus/pwm.c b/drivers/staging/greybus/pwm.c
-index 3fda172239d2..26d39e08c3b6 100644
---- a/drivers/staging/greybus/pwm.c
-+++ b/drivers/staging/greybus/pwm.c
-@@ -24,7 +24,6 @@ struct gb_pwm_chip {
- #define pwm_chip_to_gb_pwm_chip(chip) \
- 	container_of(chip, struct gb_pwm_chip, chip)
- 
--
- static int gb_pwm_count_operation(struct gb_pwm_chip *pwmc)
- {
- 	struct gb_pwm_count_response response;
--- 
-2.34.1
+The benefit of the macro is you can do things with the
+arguments because they're pass-by-name.  But you can't
+expect there to be any efficiency benefit.
 
+					-Alex
