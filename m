@@ -1,65 +1,83 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [85.220.165.71])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 706F02F37;
-	Wed, 22 Mar 2023 19:30:46 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C4C1CC4339B;
-	Wed, 22 Mar 2023 19:30:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1679513446;
-	bh=qb4Cqk1IJpCYq+KM7+9+6ckaVY3hfSvOkYqDCxvpBOE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=mBKyr5mrDxlJzrv5/FpKNxCbNbgSfE4Q1NQ4Rio/BNAXn2noygE2iQHwIEVboxKut
-	 wieKngtlSyTVSD0/DAgrwbDCjoS5rILrPm1lbawCZ0dQyueq20xbwpPrZsDA2Qy1o2
-	 sZ83ifw44z+Ntiur8kEtv3agcsI+gO1fsRbhPZps=
-Date: Wed, 22 Mar 2023 20:30:43 +0100
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Khadija Kamran <kamrankhadijadj@gmail.com>
-Cc: outreachy@lists.linux.dev, Manish Chopra <manishc@marvell.com>,
-	GR-Linux-NIC-Dev@marvell.com, Coiby Xu <coiby.xu@gmail.com>,
-	netdev@vger.kernel.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: qlge: avoid multiple assignments
-Message-ID: <ZBtXYxrrGtyCyBzK@kroah.com>
-References: <ZBtVMs1wHWyyl2A6@khadija-virtual-machine>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9ABCBA40
+	for <linux-staging@lists.linux.dev>; Wed, 22 Mar 2023 21:01:54 +0000 (UTC)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1pf5aY-0006RO-BY; Wed, 22 Mar 2023 22:01:42 +0100
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+	by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1pf5aW-00600B-VU; Wed, 22 Mar 2023 22:01:40 +0100
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1pf5aW-0078GS-7J; Wed, 22 Mar 2023 22:01:40 +0100
+Date: Wed, 22 Mar 2023 22:01:40 +0100
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To: Menna Mahmoud <eng.mennamahmoud.mm@gmail.com>
+Cc: gregkh@linuxfoundation.org, outreachy@lists.linux.dev, johan@kernel.org,
+	elder@kernel.org, vireshk@kernel.org, thierry.reding@gmail.com,
+	greybus-dev@lists.linaro.org, linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev, linux-pwm@vger.kernel.org
+Subject: Re: [PATCH v4] staging: greybus: remove unnecessary blank line
+Message-ID: <20230322210140.xocbx7t4opo2tqmi@pengutronix.de>
+References: <20230322113735.31214-1-eng.mennamahmoud.mm@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="r7q7putkqdcorqid"
 Content-Disposition: inline
-In-Reply-To: <ZBtVMs1wHWyyl2A6@khadija-virtual-machine>
+In-Reply-To: <20230322113735.31214-1-eng.mennamahmoud.mm@gmail.com>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-staging@lists.linux.dev
 
-On Thu, Mar 23, 2023 at 12:21:22AM +0500, Khadija Kamran wrote:
-> Linux kernel coding style does not allow multiple assignments on a
-> single line.
-> Avoid multiple assignments by assigning value to each variable in a
-> separate line.
-> 
-> Signed-off-by: Khadija Kamran <kamrankhadijadj@gmail.com>
-> ---
->  drivers/staging/qlge/qlge_main.c | 10 ++++++++--
->  1 file changed, 8 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/staging/qlge/qlge_main.c b/drivers/staging/qlge/qlge_main.c
-> index 1ead7793062a..b35fb7db2a77 100644
-> --- a/drivers/staging/qlge/qlge_main.c
-> +++ b/drivers/staging/qlge/qlge_main.c
-> @@ -4085,7 +4085,11 @@ static struct net_device_stats *qlge_get_stats(struct net_device
->  	int i;
->  
->  	/* Get RX stats. */
-> -	pkts = mcast = dropped = errors = bytes = 0;
-> +	pkts = 0;
-> +	mcast = 0;
-> +	dropped = 0;
-> +	errors = 0;
-> +	bytes = 0;
 
-Nah, the original is fine, it makes it more obvious what is happening.
+--r7q7putkqdcorqid
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-thanks,
+On Wed, Mar 22, 2023 at 01:37:34PM +0200, Menna Mahmoud wrote:
+> Remove unnecessary blank line before struct as reported
+> by checkpatch:
+>=20
+> " CHECK: Please don't use multiple blank lines "
+>=20
+> Signed-off-by: Menna Mahmoud <eng.mennamahmoud.mm@gmail.com>
 
-greg k-h
+Looks good to me now. Thanks for not giving up.
+
+Acked-by: Uwe Kleine-K=F6nig <u.kleine-koenig@pengutronix.de>
+
+Best regards
+Uwe
+
+--=20
+Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
+Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+
+--r7q7putkqdcorqid
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmQbbLMACgkQj4D7WH0S
+/k7wQgf+ONVndGTHzhy+YKot/A+pZ9zlWAAJfJnxJbCjhLQnmIepoZGbGLY35dXs
+kxnpfkm4+BOxJ8XaMh17TTit9MgoaDNbAajhI3D3ssvjL3ty5NK/aU5FbtYK7cB5
+H9rufT4+ew9h59P+OkndlFdArjEOKuNx8YY2KUkdc2kOsKAJXwOnM44MKwRmM40X
+hnNRfcF5UeHA7inux3952me5wzdiym2JUq6x9xowrKU0TOdUklDZhUwxlO//NeBK
+T57BaRK7NBPl5WG2NA6rLVeRHnzADSR7W2AXYJTV8ZFSjvelvwjaJd7Bf4UTZk9N
+kPnHTdnkBKbzNXqw5yQXHAWe5Xcbfg==
+=sOsU
+-----END PGP SIGNATURE-----
+
+--r7q7putkqdcorqid--
