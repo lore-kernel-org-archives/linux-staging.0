@@ -1,50 +1,53 @@
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8BF98C01;
-	Wed, 22 Mar 2023 15:01:56 +0000 (UTC)
-Received: by mail-wm1-f50.google.com with SMTP id r19-20020a05600c459300b003eb3e2a5e7bso11714014wmo.0;
-        Wed, 22 Mar 2023 08:01:56 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 953658C01;
+	Wed, 22 Mar 2023 15:10:06 +0000 (UTC)
+Received: by mail-ed1-f53.google.com with SMTP id ew6so11312208edb.7;
+        Wed, 22 Mar 2023 08:10:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1679497315;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=DgWPl66ZYekMljnHqI2dpfEQRj570j4dEOn6iVgr8Vk=;
-        b=W+Oxrjx5FFH0z4MVlegTDfz7IZ+yko7Mg54TEmXyYH2w3I3HP62l+Q/x5B7AzrEPWE
-         sagwKI2jQBZVxtMqyQnjm1Dmyp3IIZV0ioityrRHpw8KfaJT/YV4lzYPId/eatvacWkB
-         8vzle0a0K5EbGmukGaMRdHpVGS2Hyhc9lkgZoLvQVHxiCeMxQAOhmBKB/XkvWwfuuHcP
-         jzgS34YN6ucvrAj1hpcyzpQuTh1sR2sP0zrBI1NTIOj4g5gf0qfgf0F1qPj9PDzpH2q0
-         3RjVwaKvK7svm6LSdU8uitZSO1q0ZKbjEwPT3NSlDKj/QcKtobq/ErTXiKw/RHLFB6ah
-         TBlw==
+        d=gmail.com; s=20210112; t=1679497805;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=WpIyrmn2yFb8HSkTpZJfQ2BkuEU1rXMevxKx3lamqmg=;
+        b=T5MC288NL/lXi2UWgAiHdCLCQhsnlEys+1QXJDxx2MWjgiMOHMlcvhlwBPgcLooloA
+         f7Bo3IznlofEUy9U5OXYgnwamF/lZBINFQbkTwj7lOZ+3z6axy0TLlJ9eGD8CcPUnAuo
+         1u8fKIaecqobshVXhvh66EJEGOe6cTsN5G4GInwcARyp7aksZ/hhShC5+ogX+9+rj4nn
+         fTt8pijI1/v2LGZOep/9/Uq3c5qO28jJC6bNrMuNpIkRf3PEi+DIyrcW2M9425AkUHav
+         KXyjwogHX9TSQWRSjqTTWt2Pljk+Y6TdUSDNcBOeptw6Xs+/RABkyJWfXfqqZ4K/RIzB
+         UhFQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679497315;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=DgWPl66ZYekMljnHqI2dpfEQRj570j4dEOn6iVgr8Vk=;
-        b=rhLX/4ALRLRNSEPRqKFQQ7YiJ/MKfk6QjTpjhZ3woWQOAs2CdqiUXr+mu9Taxvplmi
-         zsfLdJVqLFP3ViEP9G+PHjdU9hdXRXXsx1UwLL1up0knPhHjnDQwLpJ1tiEGpxa1Hk4E
-         uWtMn2jUjaIqW30Y8kwG/e/0dyOnzrMgb4EExakbOUxqAp0q1KMwnZbaRHBi+hwMLkvO
-         bVuPfs4mU1ylH5aoTwoyLOZHHO4Ayc+84CTHqn0woVnZv9wnpBf/NpcKgCdEY5yhROix
-         u3dw7XD0vp67ESoZ8sjhLQ2az/dtxZ2GIUews8zqcQtArYwlb7BvC6YWvL+tGQ04kwys
-         n0ZA==
-X-Gm-Message-State: AO0yUKXrbRbuC7TEOythGmDVDIH3CYDLz3sHBzpFO4TtIH4lW901uu47
-	+oYWkRnwSQ4n2/CoXZlBS1E=
-X-Google-Smtp-Source: AK7set9FB+V5HVQj0fRSzaX064ikAu6JSuBgFDxBRfmO9C84Gk5570jz57xM3/gKtdsWJshsdP0yBw==
-X-Received: by 2002:a7b:cd0c:0:b0:3ed:8bef:6a04 with SMTP id f12-20020a7bcd0c000000b003ed8bef6a04mr6007546wmj.27.1679497314922;
-        Wed, 22 Mar 2023 08:01:54 -0700 (PDT)
-Received: from khadija-virtual-machine ([39.41.14.14])
-        by smtp.gmail.com with ESMTPSA id u7-20020a7bc047000000b003ed2276cd0dsm17049264wmc.38.2023.03.22.08.01.53
+        d=1e100.net; s=20210112; t=1679497805;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=WpIyrmn2yFb8HSkTpZJfQ2BkuEU1rXMevxKx3lamqmg=;
+        b=Wg5uuUcQDGkdwX1vtnY4yrcbz+LI0u2cpgQAQNqPrmgfvjP8IHlrHym4+/5IZ97r/d
+         hMAt2ewz6dilefy3CgnHdmvQvfNFTqqkxwwCyEnHdm/FRtNRgx1TGd/Vl0m+mrLY/yZg
+         FjIPdn3YDaxI0hLs+M9+WK9g2M5z9rHUQ2yeQmiz25S/kHbbkdAquReLxjkhOGJG8KOV
+         60OzzhVtdWi87Sej2aqaqTw9QJpiR0kn8/0q+tOyzHqk2UubmG1JMX8+bpQKqsReyuQV
+         4udqjcehKK6tviepmGebbMq0KEr3GxTmEaJVqUwJm4NsL2VuH1fb4LshqyZMZaJXGLDB
+         ZdJQ==
+X-Gm-Message-State: AO0yUKUhk8S5UXTtIbBb1bu35tPIz0uHCqTF8gD3uJZ6WlDv6Y5cn2c5
+	1w88MYt34Ht9OXTImjJNJWM=
+X-Google-Smtp-Source: AK7set/+HAwc3ol55++pC5qAbN6sTJOLggPjQR56N/dbXUzk7LLWy8+z/QEw//cs0aJ/7eJAnJ9Y4w==
+X-Received: by 2002:a17:906:2dd0:b0:932:c315:b0d with SMTP id h16-20020a1709062dd000b00932c3150b0dmr6794406eji.34.1679497804580;
+        Wed, 22 Mar 2023 08:10:04 -0700 (PDT)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id b1-20020a1709065e4100b008ca52f7fbcbsm7338533eju.1.2023.03.22.08.10.03
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 22 Mar 2023 08:01:54 -0700 (PDT)
-Date: Wed, 22 Mar 2023 20:01:52 +0500
-From: Khadija Kamran <kamrankhadijadj@gmail.com>
-To: outreachy@lists.linux.dev
-Cc: Parthiban Veerasooran <parthiban.veerasooran@microchip.com>,
+        Wed, 22 Mar 2023 08:10:04 -0700 (PDT)
+Date: Wed, 22 Mar 2023 18:09:50 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: Khadija Kamran <kamrankhadijadj@gmail.com>
+Cc: outreachy@lists.linux.dev,
+	Parthiban Veerasooran <parthiban.veerasooran@microchip.com>,
 	Christian Gromm <christian.gromm@microchip.com>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [PATCH v2] staging: most: fix line ending with '('
-Message-ID: <ZBsYYAc1Ue/JnUAm@khadija-virtual-machine>
+Subject: Re: [PATCH v2] staging: most: fix line ending with '('
+Message-ID: <8064a4ee-665b-417e-a1e2-7e7dd32ec1f0@kili.mountain>
+References: <ZBsYYAc1Ue/JnUAm@khadija-virtual-machine>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -53,39 +56,29 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <ZBsYYAc1Ue/JnUAm@khadija-virtual-machine>
 
-Splitting function header to multiple lines because of 80 characters per
-line limit, results in ending the function call line with '('.
-This leads to CHECK reported by checkpatch.pl
+On Wed, Mar 22, 2023 at 08:01:52PM +0500, Khadija Kamran wrote:
+> Splitting function header to multiple lines because of 80 characters per
+> line limit, results in ending the function call line with '('.
+> This leads to CHECK reported by checkpatch.pl
+> 
+> Move the function parameters right after the '(' in the function call
+> line. Align the rest of the parameters to the opening parenthesis.
+> 
+> Signed-off-by: Khadija Kamran <kamrankhadijadj@gmail.com>
+> ---
+> 
+> Changes in v2:
+>  - Changed the description
+> 
 
-Move the function parameters right after the '(' in the function call
-line. Align the rest of the parameters to the opening parenthesis.
+No one replied to the v1 of this patch so it's not clear which of the
+patches should be ignored.
 
-Signed-off-by: Khadija Kamran <kamrankhadijadj@gmail.com>
----
+Also you have a couple patches with the same subject and that's against
+the rules.
 
-Changes in v2:
- - Changed the description
-
- drivers/staging/most/dim2/hal.c | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
-
-diff --git a/drivers/staging/most/dim2/hal.c b/drivers/staging/most/dim2/hal.c
-index a5d40b5b138a..6abe3ab2b2cf 100644
---- a/drivers/staging/most/dim2/hal.c
-+++ b/drivers/staging/most/dim2/hal.c
-@@ -346,9 +346,8 @@ static void dim2_clear_ctram(void)
- 		dim2_clear_ctr(ctr_addr);
- }
-
--static void dim2_configure_channel(
--	u8 ch_addr, u8 type, u8 is_tx, u16 dbr_address, u16 hw_buffer_size,
--	u16 packet_length)
-+static void dim2_configure_channel(u8 ch_addr, u8 type, u8 is_tx, u16 dbr_address,
-+				   u16 hw_buffer_size, u16 packet_length)
- {
- 	dim2_configure_cdt(ch_addr, dbr_address, hw_buffer_size, packet_length);
- 	dim2_configure_cat(MLB_CAT, ch_addr, type, is_tx ? 1 : 0);
---
-2.34.1
+regards,
+dan carpenter
 
