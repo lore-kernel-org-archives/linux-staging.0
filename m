@@ -1,106 +1,105 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [85.220.165.71])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1EBF8C01;
-	Wed, 22 Mar 2023 15:12:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=H46fc+UgiTMX/b3f90naW56UKVe5bC0EWkSvGxwamfc=; b=SzmrgpUGjbjY5PMen3uKU5eSl7
-	d9BtkM6J+BCtpzt+oH/2ezC8psZmFRK1pPy2v35PezUYniRXN0rWJGFkSDnj7HXu4xQsdE0eSWBAW
-	/M+v+VYKSgW1zHySIEpZsk8JqWW8709151PPsC/6YAVULxvBEsIuBHtkQfE9a+QHal9+a9INukIIk
-	oTkgL+Ix0RsKeQW3w1c1nOg6iiUlfh8DRIOXweIlTZH6LNtTKW58kx0/PATjjvfSPbdtA7zhd8Mjr
-	TsYx1sQ4spamdnsXwWiyXVWAaz8RQ/PneCvnq+IXa0fH7lqF99zf7omYpcfa8VmtRHICZvrxuVP75
-	3POSEVHg==;
-Received: from [2601:1c2:980:9ec0::21b4]
-	by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
-	id 1pf08Y-00GSWY-0K;
-	Wed, 22 Mar 2023 15:12:26 +0000
-Message-ID: <061a2fea-b3da-551d-f6d2-0da30b0ac879@infradead.org>
-Date: Wed, 22 Mar 2023 08:12:23 -0700
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBC3C2FAF
+	for <linux-staging@lists.linux.dev>; Wed, 22 Mar 2023 17:03:09 +0000 (UTC)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1pf1r2-0000PK-2P; Wed, 22 Mar 2023 18:02:28 +0100
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+	by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1pf1r0-005xjl-GO; Wed, 22 Mar 2023 18:02:26 +0100
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1pf1qz-0075pK-OE; Wed, 22 Mar 2023 18:02:25 +0100
+From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To: Thierry Reding <thierry.reding@gmail.com>,
+	David Airlie <airlied@gmail.com>,
+	Daniel Vetter <daniel@ffwll.ch>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Sowjanya Komatineni <skomatineni@nvidia.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: dri-devel@lists.freedesktop.org,
+	linux-tegra@vger.kernel.org,
+	kernel@pengutronix.de,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev
+Subject: [PATCH 00/12] drm/tegra: Convert to platform remove callback returning void
+Date: Wed, 22 Mar 2023 18:02:11 +0100
+Message-Id: <20230322170223.410376-1-u.kleine-koenig@pengutronix.de>
+X-Mailer: git-send-email 2.39.2
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH v2] staging: most: fix line ending with '('
-Content-Language: en-US
-To: Khadija Kamran <kamrankhadijadj@gmail.com>, outreachy@lists.linux.dev
-Cc: Parthiban Veerasooran <parthiban.veerasooran@microchip.com>,
- Christian Gromm <christian.gromm@microchip.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-References: <ZBsYYAc1Ue/JnUAm@khadija-virtual-machine>
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <ZBsYYAc1Ue/JnUAm@khadija-virtual-machine>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2732; i=u.kleine-koenig@pengutronix.de; h=from:subject; bh=3rpjn0c4WSYGYyS5/RVkmvwXpGdpb7uRSmd+Uf8Qnuw=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBkGzSNKtUtqhr1oZPwBWhA+JAHg0J0xGc6e+tkg x3bfFW9Uz+JATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZBs0jQAKCRCPgPtYfRL+ TqfzB/4/IANKSWB2KQ4zILj/AcceJ/FejtlG9MZOl1ru5nAcYKhknZGa0eUiSTgwEvfZ4WI+NYr ZqcfIAlJ4wmpoY853WXtSvrSGhWEUeEcCtMD183oxwIjcWNWhZ4tVPpomGbD4DW7DeI2uUwAB2e oCyD1/usx5pYMB5uQL+mo3G5PcKfeDR6XwVkUm1mUz/6lIVlmqnEs9HZvD/5ZC/PYECy2dGzP1n pjGYTMwEWVgCNocM7PIfq0E4ZNL0NmZCzCQ+arhDlszrTIPw6Eg78BLkh5NA1OU/yPpbSOf8A9s ykSV2508c/D4OOQQRW4cDZEd8OHkmFrS4ewJNpo+M+kOHU4a
+X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-staging@lists.linux.dev
 
-Hi--
+Hello,
 
-On 3/22/23 08:01, Khadija Kamran wrote:
-> Splitting function header to multiple lines because of 80 characters per
-> line limit, results in ending the function call line with '('.
-> This leads to CHECK reported by checkpatch.pl
+this series adapts the platform drivers below drivers/gpu/drm/tegra to
+use the .remove_new() callback. Compared to the traditional .remove()
+callback .remove_new() returns no value. This is a good thing because
+the driver core doesn't (and cannot) cope for errors during remove. The
+only effect of a non-zero return value in .remove() is that the driver
+core emits a warning. The device is removed anyhow and an early return
+from .remove() usually yields a resource leak.
 
-Note that checkpatch is not always correct. It's a simple advisor.
+By changing the remove callback to return void driver authors cannot
+reasonably assume any more that there is some kind of cleanup later.
 
-> Move the function parameters right after the '(' in the function call
-> line. Align the rest of the parameters to the opening parenthesis.
+The first two patches are simplifications that make it obvious that all
+remove callbacks always return zero. After that all drivers can be
+converted trivially.
 
-coding-style.rst does indeed say:
+Best regards
+Uwe
 
-  A very commonly used style
-  is to align descendants to a function open parenthesis.
+Uwe Kleine-König (12):
+  gpu: host1x: Make host1x_client_unregister() return void
+  drm/tegra: rgb: Make tegra_dc_rgb_remove() return void
+  drm/tegra: dc: Convert to platform remove callback returning void
+  drm/tegra: dpaux: Convert to platform remove callback returning void
+  drm/tegra: dsi: Convert to platform remove callback returning void
+  drm/tegra: gr2d: Convert to platform remove callback returning void
+  drm/tegra: gr3d: Convert to platform remove callback returning void
+  drm/tegra: hdmi: Convert to platform remove callback returning void
+  drm/tegra: hub: Convert to platform remove callback returning void
+  drm/tegra: nvdec: Convert to platform remove callback returning void
+  drm/tegra: sor: Convert to platform remove callback returning void
+  drm/tegra: vic: Convert to platform remove callback returning void
 
-That may be poorly worded. What it is trying to say is to align
-the rest of the parameters to the first parameter immediately after
-the open parenthesis, like this example from kernel/fork.c:
+ drivers/gpu/drm/tegra/dc.c              | 20 ++++----------------
+ drivers/gpu/drm/tegra/dc.h              |  2 +-
+ drivers/gpu/drm/tegra/dpaux.c           |  6 ++----
+ drivers/gpu/drm/tegra/dsi.c             | 14 +++-----------
+ drivers/gpu/drm/tegra/gr2d.c            | 14 +++-----------
+ drivers/gpu/drm/tegra/gr3d.c            | 14 +++-----------
+ drivers/gpu/drm/tegra/hdmi.c            | 14 +++-----------
+ drivers/gpu/drm/tegra/hub.c             | 13 +++----------
+ drivers/gpu/drm/tegra/nvdec.c           | 14 +++-----------
+ drivers/gpu/drm/tegra/rgb.c             |  6 ++----
+ drivers/gpu/drm/tegra/sor.c             | 14 +++-----------
+ drivers/gpu/drm/tegra/vic.c             | 14 +++-----------
+ drivers/gpu/host1x/bus.c                |  6 ++----
+ drivers/staging/media/tegra-video/csi.c |  8 +-------
+ drivers/staging/media/tegra-video/vi.c  |  8 +-------
+ include/linux/host1x.h                  |  2 +-
+ 16 files changed, 38 insertions(+), 131 deletions(-)
 
-	stack = __vmalloc_node_range(THREAD_SIZE, THREAD_ALIGN,
-				     VMALLOC_START, VMALLOC_END,
-				     THREADINFO_GFP & ~__GFP_ACCOUNT,
-				     PAGE_KERNEL,
-				     0, node, __builtin_return_address(0));
-
-
-And FTR, I still haven't found anything in coding-style.rst that says that
-lines should not end with an open parenthesis.  Did I overlook it?
-
-Thanks.
-
-> Signed-off-by: Khadija Kamran <kamrankhadijadj@gmail.com>
-> ---
-> 
-> Changes in v2:
->  - Changed the description
-> 
->  drivers/staging/most/dim2/hal.c | 5 ++---
->  1 file changed, 2 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/staging/most/dim2/hal.c b/drivers/staging/most/dim2/hal.c
-> index a5d40b5b138a..6abe3ab2b2cf 100644
-> --- a/drivers/staging/most/dim2/hal.c
-> +++ b/drivers/staging/most/dim2/hal.c
-> @@ -346,9 +346,8 @@ static void dim2_clear_ctram(void)
->  		dim2_clear_ctr(ctr_addr);
->  }
-> 
-> -static void dim2_configure_channel(
-> -	u8 ch_addr, u8 type, u8 is_tx, u16 dbr_address, u16 hw_buffer_size,
-> -	u16 packet_length)
-> +static void dim2_configure_channel(u8 ch_addr, u8 type, u8 is_tx, u16 dbr_address,
-> +				   u16 hw_buffer_size, u16 packet_length)
->  {
->  	dim2_configure_cdt(ch_addr, dbr_address, hw_buffer_size, packet_length);
->  	dim2_configure_cat(MLB_CAT, ch_addr, type, is_tx ? 1 : 0);
-> --
-> 2.34.1
-> 
-
+base-commit: fe15c26ee26efa11741a7b632e9f23b01aca4cc6
 -- 
-~Randy
+2.39.2
+
