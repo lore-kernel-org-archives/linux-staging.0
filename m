@@ -1,81 +1,83 @@
-Received: from mail-io1-f41.google.com (mail-io1-f41.google.com [209.85.166.41])
+Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C9628820
-	for <linux-staging@lists.linux.dev>; Tue, 21 Mar 2023 22:42:12 +0000 (UTC)
-Received: by mail-io1-f41.google.com with SMTP id s4so7662256ioj.11
-        for <linux-staging@lists.linux.dev>; Tue, 21 Mar 2023 15:42:11 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACB3C7C
+	for <linux-staging@lists.linux.dev>; Wed, 22 Mar 2023 05:17:07 +0000 (UTC)
+Received: by mail-pl1-f174.google.com with SMTP id w4so10200881plg.9
+        for <linux-staging@lists.linux.dev>; Tue, 21 Mar 2023 22:17:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ieee.org; s=google; t=1679438531;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
+        d=gmail.com; s=20210112; t=1679462227;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=6jDzsttz/Z1eHYKj405pV9Blev59eyzoaBzMYfjRtNs=;
-        b=FbuEPLzjGcUCi2cFfW7+KLrqrWm95kIC11bt4fzbF/b61kskPlMJluOllYVw1m0h6A
-         wjtYOFhDA9Fwh/wB2xK96Ao7cb0XoGBINiTpnnfE8nTFlhkeZaF0oJ37B6Dm1zkZQ/6I
-         2Bw+XaNr4Si9JrMDXDNLAqQh3VFCWoWLBsdEA=
+        bh=+XW/nloa73RsDbxvXcsiwU/r3yMnxVtzFID97L8lhtk=;
+        b=NroJxHZ3oYEHTsjtJdI1uiPOX8c/Uk7CAOrHj26NwJT53hOgfDzI2W+u4LjXXZOBO9
+         6nMqaGvBuGjcn5jt98Vl8WZK7zuikadpwiCzK2YTEs0Xl5O2WIWb4GVd2h+kLPApOyoK
+         d02EhdJKL+AH6f6PCCTaAkS2igffFDsPgydE19v0gfEyPTXSplrlMdbyilqg8MopSPAj
+         7KMcx5/0XvlrQF9vwLd7XADbWEGZQ1bssuDunGZMEyC3ZHMKd/EN21ZZkTdl6HVCL0NX
+         v4rA7/rBkbs0jXgsOYwNX/0lh3AFYoshl+YcwniLwqyzEBUA54E69yBAKSB2TkfE4/yN
+         eC6A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679438531;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
+        d=1e100.net; s=20210112; t=1679462227;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=6jDzsttz/Z1eHYKj405pV9Blev59eyzoaBzMYfjRtNs=;
-        b=XjXEWDwBfSnQS9ZWmK+Hr6UI9Vzcx6r26ZSI/aIt2uUDrOFcKuJYd6x0oSnCKREhen
-         UiBf3DBmu5yVDVfcVYXjmPIRTPXYg50vStlLnnKYna/blUCUD2keRI9bRdyFPYjYt94X
-         G0BhhNPvqrt6lDnu3yDohyHBRc2Cb9rU1A+KVKBD7fW3VUjvXQZ17FkhIVg23XhDgkYW
-         4Dc7UuM0F3zPe0b6IMWW0cUUvXPmR+LDPQyMP7Xu/BOCVVdJF+QpIaoVFgaLNXiooPr+
-         Qswvw81z4A872rM9vMmqVvxl/Jz7OloL1suLbUO9n0SwABedBi4Qd2qfvhxpWDgwXi1t
-         trhg==
-X-Gm-Message-State: AO0yUKX1+Njq/SZP/Khz1dLvtT5EoyTZh1Xv3+wBtecAGO1Sq06re2kq
-	yWfQct9m+HUB5DcH/MbWkkSk/A==
-X-Google-Smtp-Source: AK7set9UDQnyyrcCtYn7eXxYQZekjyMc7aOmhQHbXeN5LP4f214+4CiDgvD4W08V+UsjisQ1AgvMWw==
-X-Received: by 2002:a5d:8406:0:b0:74c:8801:af4b with SMTP id i6-20020a5d8406000000b0074c8801af4bmr177109ion.1.1679438531124;
-        Tue, 21 Mar 2023 15:42:11 -0700 (PDT)
-Received: from [172.22.22.4] ([98.61.227.136])
-        by smtp.googlemail.com with ESMTPSA id p13-20020a6b630d000000b0074c8a021d4csm3905352iog.44.2023.03.21.15.42.10
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 21 Mar 2023 15:42:10 -0700 (PDT)
-Message-ID: <48674d8f-9753-780c-f37c-f83ea2855ae6@ieee.org>
-Date: Tue, 21 Mar 2023 17:42:09 -0500
+        bh=+XW/nloa73RsDbxvXcsiwU/r3yMnxVtzFID97L8lhtk=;
+        b=FTlL7LlNXpUks2KxUUuNCFRGOCB0kovsimrYmnf1VC5Kuj9Fja+PKgXePsELe1Chfq
+         2M94KKPr6m89ypPdMZC7lHxtU3soTgc3Wt97tP9XSgtMtJqMvioyKkGtwcTAuXbSt1VI
+         6v5DU1pBEZkjIIftgYfkkTgJj+Aoo3FyIcf0qbtwv89kzJFj7w0xoFvw1Yx4FgrAMffB
+         u9SWSsacbpvG7P+9dOISnEVJdOPUGA09SP65bhNjmerXxaR95tjfRvoJfD2Tply+QYu2
+         7E7q6S74wvWHGG6qCjt6q30FAKNOMjPZpkgUaJgfygsAWEwqTtPdL8ts8pxbaQhtJhcf
+         BXLg==
+X-Gm-Message-State: AO0yUKW8emjxIk7Bbr9qbvYZDNDg5M3mdsZ43G0txXLL7RU6NwQYKqdF
+	RKawRDpohSr5cC+REMWmXw==
+X-Google-Smtp-Source: AK7set8+oAj4xTeKbgtoNa9q/D3k1XzFG3O0u6jHtD+I1kKZd+c9s63e8Z4VOfMfUFgja/Uc432JqA==
+X-Received: by 2002:a17:902:e5cf:b0:19d:7a4:4063 with SMTP id u15-20020a170902e5cf00b0019d07a44063mr1796838plf.46.1679462226864;
+        Tue, 21 Mar 2023 22:17:06 -0700 (PDT)
+Received: from mehmed-HP-Pavilion-Laptop-15-eh2xxx ([2401:4900:1c19:e99d:845:36b:5d36:1b42])
+        by smtp.gmail.com with ESMTPSA id g5-20020a170902c38500b0019cbec6c17bsm9618653plg.190.2023.03.21.22.17.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 21 Mar 2023 22:17:06 -0700 (PDT)
+Date: Wed, 22 Mar 2023 10:47:03 +0530
+From: Inshal Khan <kziaul123@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: [PATCH] Staging: rtl8712: osdep_intf: Remove RND4 macro.
+Message-ID: <ZBqPTz9j4tjDxaHo@mehmed-HP-Pavilion-Laptop-15-eh2xxx>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH v2] staging: greybus: use inline function for macros
-To: Julia Lawall <julia.lawall@inria.fr>
-Cc: Menna Mahmoud <eng.mennamahmoud.mm@gmail.com>,
- gregkh@linuxfoundation.org, outreachy@lists.linux.dev, johan@kernel.org,
- elder@kernel.org, linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
-References: <20230321183456.10385-1-eng.mennamahmoud.mm@gmail.com>
- <2e869677-2693-6419-ea25-f0cc2efcf3dd@ieee.org>
- <alpine.DEB.2.22.394.2303212140480.2919@hadrien>
- <5efa6e6d-8573-31de-639a-d15b2e9deca0@ieee.org>
- <alpine.DEB.2.22.394.2303212218500.2919@hadrien>
-Content-Language: en-US
-From: Alex Elder <elder@ieee.org>
-In-Reply-To: <alpine.DEB.2.22.394.2303212218500.2919@hadrien>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On 3/21/23 4:29 PM, Julia Lawall wrote:
-> There do seem to be more than 100 definitions like:
-> 
-> #define to_dove_clk(hw) container_of(hw, struct dove_clk, hw)
-> 
-> where we have to hope that at all of the usage sites the argument is
-> called hw.  Probably anything else would cause a compiler error, but still
-> it looks strange.
-> 
-> julia
+The RND4 macro was found to be not used anywhere in the project.
+Therefore, it has been removed from rtl8712/osdep_intf.h to
+simplify the code and reduce unnecessary overhead. In case the
+need for rounding macros arises in the future, kernel rounding
+macros will be used instead.
 
-Yeah, that's poorly done and unfortunate.  The argument to
-the parameter should be named something different.  I didn't
-understand what you meant before but yes, this isn't good.
-These should be fixed first.
+Signed-off-by: Inshal Khan <kziaul123@gmail.com>
+---
+ drivers/staging/rtl8712/osdep_intf.h | 5 -----
+ 1 file changed, 5 deletions(-)
 
-					-Alex
+diff --git a/drivers/staging/rtl8712/osdep_intf.h b/drivers/staging/rtl8712/osdep_intf.h
+index 0e097b4a8670..446ee09159fc 100644
+--- a/drivers/staging/rtl8712/osdep_intf.h
++++ b/drivers/staging/rtl8712/osdep_intf.h
+@@ -17,11 +17,6 @@
+ #include "osdep_service.h"
+ #include "drv_types.h"
+ 
+-#define RND4(x)	({ \
+-			typeof(x) _x = (x); \
+-			(((_x) + 3) & ~3); \
+-		})
+-
+ struct intf_priv {
+ 	u8 *intf_dev;
+ 	/* when in USB, IO is through interrupt in/out endpoints */
+-- 
+2.34.1
 
