@@ -1,53 +1,54 @@
-Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
+Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59525A93A;
-	Thu, 23 Mar 2023 15:18:04 +0000 (UTC)
-Received: by mail-ed1-f43.google.com with SMTP id ek18so88158157edb.6;
-        Thu, 23 Mar 2023 08:18:04 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C677FA93A;
+	Thu, 23 Mar 2023 15:23:21 +0000 (UTC)
+Received: by mail-ed1-f48.google.com with SMTP id b20so55240879edd.1;
+        Thu, 23 Mar 2023 08:23:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1679584682;
+        d=gmail.com; s=20210112; t=1679585000;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=MBwq3BW4HlZEmBseQtXAXl8EFNqS/eNm63K00dbmNLc=;
-        b=IwPhYCSiXpEn/7oH4Y06x8ia2NkRizr3JtOfl8bLyKesMolLcV7JRjnbTUElLLHO5B
-         PuzNDr2y373Fa7IZNiop7hoEmCYwnFxzKAEy5WsP9CfdK5mTdi5wy9IGKmDEQ0WZK8ib
-         3CprGBgEGxrbKaIcyuobx+WGHP9Mz5GI8Iyvb2PE2GJI7u65xqXm4R/ZwqrLqi6YpwNI
-         A9PYN/dg9YtK064Kqv7SdUoo5Os9Igf2wIdTT3S4G+Q+2c2dgQ251ip4B/q5Znuzy0D5
-         6qDo8/3PCq6Flnwj7g1FLtKUWJp4U3jlWr3ccmpVbWKQR4htQ56zcQ+utWIaK8obTYC3
-         aVFg==
+        bh=scQuxxJfm4ub8gU7bTw0rxXChvmi6APTEZr+zioVIhk=;
+        b=MI8ikvr8TzjjuijX7Y4Xo6gHXLlP3Esg4/kjR1Thtk+nykXUGES7CK8Vc5p6FaC+Kf
+         fBqVUYgvBzafiL6/VLzbNEfqKgF6Kt0tHeHMYUdvWLxG5bRauOjbX4JEN473sFYuCBZM
+         K936dQb68Wusisg3Fk65XMXF1kxPyla/wAJxNS8VVZ4LgiTI07vs6bVFH+woAzTXidT9
+         esX4Ot+xArGLJWQmh1RHLkR181S7eoNLh2xVIHoC50W0GwOPCWIuTwe8gRjilLb51Dp4
+         wRtbom2PW+2/ROs2wmKcNmQ5pqt/CtLckm9GClrVqbdJcB/zNwwE0dLYmzWy5HhOznM4
+         CS/w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679584682;
+        d=1e100.net; s=20210112; t=1679585000;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=MBwq3BW4HlZEmBseQtXAXl8EFNqS/eNm63K00dbmNLc=;
-        b=hW5E96HyqtXARz5UqVFLWqPTig8Spg+yG4PHXLW7lY7luIfzmugYZm3A0JiNzZbTNZ
-         Js2RlilbC/cHp3ZT2E/RmpZU95WHIyGMPPEXFneF07RYYdbD+0Jak2VW5CBYHOcUJXsn
-         GUvuEdjVxqy6BLnB5HmahAc7a1KzVPKZnmRrp6dnletDxKoHoJAQ4sGwNYVEp3H61eTy
-         nfxyYE2f//0qCU87TzV8oNGSaY88++eMiVKZ+PlxUtCQfdBThHL9eiHKK7HMCft1VACx
-         83CRAoWGQ+bBtBr6GA95qZv0jiGpLhnKwVbG9snduhFoRmpYWelXqAwv/JSX68pSccav
-         3OFg==
-X-Gm-Message-State: AO0yUKXUEgcUxYmE2VCwE1jjtobv57o7KscoyrlIOyGrP30Upm5jx0wa
-	qzOoI5YNgS2xpaMBs5+V4YE=
-X-Google-Smtp-Source: AK7set+YHIvRXnbmUnStAXNi7Z05tZWUuhh+8J3HFnhcXRS5hhRheXjJnTDoU2XE7X2e4J9WnLYs+Q==
-X-Received: by 2002:a05:6402:31fa:b0:4fd:23c9:11ed with SMTP id dy26-20020a05640231fa00b004fd23c911edmr9926599edb.17.1679584682346;
-        Thu, 23 Mar 2023 08:18:02 -0700 (PDT)
+        bh=scQuxxJfm4ub8gU7bTw0rxXChvmi6APTEZr+zioVIhk=;
+        b=XzlPS4vf231YS62l81NO39gXoEYbG3v9QMcClUZFGV73b2BhVE+qpLvNLkb3Fg/71E
+         /+qWBnEv+Cx5KkJTXw0YHVIyhGhxZfuPbSwZaF5Y5+cBkNMNtyH2aVhWKxsAMR+FqR26
+         ICQ7UbSy1XB5effwpzut9uB5PGYNx/AdLQj0tEEmXfO+xcaKsYxczgesLpJf1cI3wRcz
+         lQDbLFxH/fbx5DNHnz/VQ/lqTBgApHLaMZ8JN04ANfdh/fmHGSs88rRPNOv9smTXwRd3
+         V8fdE790zMZGPw3lNDqGtUWzTwSaGEobdPHgBMakJ6sgzt5IbpoJVWmGoqa4sVIxHqM4
+         F0RA==
+X-Gm-Message-State: AO0yUKXREEiAlbPyi3RRJqM4kqKJgfsk9++9fns8n/Xr5FwfaHcNuTxY
+	QYdGq6l1fPToYj1xp8Z7XUY=
+X-Google-Smtp-Source: AK7set/DZ2v39lQmt267GFQmOnLCocICmotj5GVBuvWvP0/VI55IsZsHWB3m/fSzpGX8sWvFmM5EcQ==
+X-Received: by 2002:a17:906:aad6:b0:930:2e3c:c6aa with SMTP id kt22-20020a170906aad600b009302e3cc6aamr9362522ejb.49.1679584999806;
+        Thu, 23 Mar 2023 08:23:19 -0700 (PDT)
 Received: from khadija-virtual-machine ([39.41.14.14])
-        by smtp.gmail.com with ESMTPSA id x28-20020a50d61c000000b004c19f1891fasm9417328edi.59.2023.03.23.08.18.01
+        by smtp.gmail.com with ESMTPSA id t7-20020a1709064f0700b008cda6560404sm8768790eju.193.2023.03.23.08.23.18
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 23 Mar 2023 08:18:01 -0700 (PDT)
-Date: Thu, 23 Mar 2023 20:17:59 +0500
+        Thu, 23 Mar 2023 08:23:19 -0700 (PDT)
+Date: Thu, 23 Mar 2023 20:23:17 +0500
 From: Khadija Kamran <kamrankhadijadj@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: outreachy@lists.linux.dev,
-	Parthiban Veerasooran <parthiban.veerasooran@microchip.com>,
-	Christian Gromm <christian.gromm@microchip.com>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: most: fix line ending with '('
-Message-ID: <ZBxtpyT8she++602@khadija-virtual-machine>
-References: <ZBsSOlPbaGZcAaSY@khadija-virtual-machine>
- <ZBvbP8ugDFjSoVp/@kroah.com>
+To: Dan Carpenter <error27@gmail.com>
+Cc: Julia Lawall <julia.lawall@inria.fr>, outreachy@lists.linux.dev,
+	gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [RESEND PATCH 0/4] staging: rtl8192e: code cleanup patches
+Message-ID: <ZBxu5RBG9kCRlwRB@khadija-virtual-machine>
+References: <cover.1679573474.git.kamrankhadijadj@gmail.com>
+ <alpine.DEB.2.22.394.2303231408000.2866@hadrien>
+ <alpine.DEB.2.22.394.2303231408410.2866@hadrien>
+ <090ee842-46d0-4f35-bf00-68a3e1393b72@kili.mountain>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -56,42 +57,44 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ZBvbP8ugDFjSoVp/@kroah.com>
+In-Reply-To: <090ee842-46d0-4f35-bf00-68a3e1393b72@kili.mountain>
 
-On Thu, Mar 23, 2023 at 05:53:19AM +0100, Greg Kroah-Hartman wrote:
-> On Wed, Mar 22, 2023 at 07:35:38PM +0500, Khadija Kamran wrote:
-> > Splitting function header to multiple lines because of 80 characters per
-> > line limit, results in ending the function call line with '('.
-> > This leads to CHECK reported by checkpatch.pl
+On Thu, Mar 23, 2023 at 04:34:43PM +0300, Dan Carpenter wrote:
+> On Thu, Mar 23, 2023 at 02:08:58PM +0100, Julia Lawall wrote:
 > > 
-> > Move the first parameter right after the '(' in the function call line.
-> > Align the rest of the parameters to the opening parenthesis.
 > > 
-> > Signed-off-by: Khadija Kamran <kamrankhadijadj@gmail.com>
-> > ---
-> >  drivers/staging/most/dim2/hal.c | 5 ++---
-> >  1 file changed, 2 insertions(+), 3 deletions(-)
+> > On Thu, 23 Mar 2023, Julia Lawall wrote:
+> > 
+> > >
+> > >
+> > > On Thu, 23 Mar 2023, Khadija Kamran wrote:
+> > >
+> > > > Fix several cleanup issues reported by checkpatch.pl in module
+> > > > staging/rtl8192e in file rtllib_rx.c
+> > >
+> > > Why is it resent?
+> > 
+> > OK, I see, sorry for the noise.
 > 
-> You have 2 patches here with identical subject lines, yet they do
-> different things :(
->
-> I've dropped all of your pending patches now for the most driver as I'm
-> totally confused.  Please resend them all as a proper patch series with
-> updated subject lines.
+> I'm still confused...  :P
 >
 
-Hey Greg!
+Hey Dan!
 
-I took your message literally and sent a RESEND PATCH. I should've sent
-a new version of the patch instead.
+Sorry about the confusion. I sent the last patch with the wrong email
+mistakenly. It was causing following warning as reported by Philipp,
+Checkpatch:
 
-Would it be okay if I send patch revisions with changed subjects now?
+WARNING: From:/Signed-off-by: email address mismatch: 'From: Khadija
+Kamran <kkamran.bese16seecs@seecs.edu.pk>' != 'Signed-off-by: Khadija
+Kamran <kamrankhadijadj@gmail.com>
 
-My apologies for the inconvenience.
+I resent this patch with the correct email address. I hope I did not do
+this wrong.
 
 Regards,
 Khadija
 
-> thanks,
+> regards,
+> dan carpenter
 > 
-> greg k-h
