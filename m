@@ -1,29 +1,55 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A2E6A93A;
-	Thu, 23 Mar 2023 15:28:44 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AA71AC433D2;
-	Thu, 23 Mar 2023 15:28:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1679585324;
-	bh=uDCD9FVGWvkG5Pj+Z5q2Nu+zJUymfaiJh3ULLXyJC1U=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Q16mFK2Im6oWv/24dsh2Jk0mWOllFkfcVtal1u53t4r8jv+1YoQLaZsApkTWQNVPW
-	 9c1Sgj3jpxIj52ygZf6Rc3l6r4G60xDVzWp70OcFE6IelAzdP2osWHdmCSMA+EinEw
-	 P/gwuP6Zx5V8ODIj/xHNi21MkAKeCGsKql5aoyJo=
-Date: Thu, 23 Mar 2023 16:28:41 +0100
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B070A93A;
+	Thu, 23 Mar 2023 15:33:11 +0000 (UTC)
+Received: by mail-wm1-f48.google.com with SMTP id p34so8799776wms.3;
+        Thu, 23 Mar 2023 08:33:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1679585589;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=bWzV0wqw+QUny4vBuf5noKBzVlSQvYul3BLsErs4wPs=;
+        b=nE70CcOnpzRtcFP13268W5ddUTDmrfyKgTYgcKyXf4G0CbtV++YOUP/KCwFhdfmP5R
+         4ZziXvOQgb/4PUV+pXLiYcrP6yg1rIj31gP/ubaSTHC4Lv4mn8HMh4RXvLrVIxXYz0Jg
+         UbaYTGWVi54ue1d8oJ01pvlXV5ZZYw5VufHkCFVl57ZRtImHEeTjKycnYAFZqmxmhIZf
+         Fxcr/gncrhWrtRXORHBg/By6zWUecEYw9xfJ0qLn7Uc26lR6n+maSmMFXxrmyq6VPIFf
+         ichPFeaEVTZHGgirQIOZ1lvUDZcr8NMDcjYNkCw7csmyNAg1TNRdizftmuCmzoqLbP4u
+         8Peg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1679585589;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=bWzV0wqw+QUny4vBuf5noKBzVlSQvYul3BLsErs4wPs=;
+        b=n2Y6NK8HaVKI6hsqsodGEhDKk/carXimXZ/3UeaTt9/UIr743zgYU0HUk2f6gzX/6t
+         CaoAV/uojwusy+wjll52EhcpcmnUeo1vjHhjKonMQaTQ8xVvhfH5kk90dlBhuIm0jyIh
+         5xmcmdcOK8W9p6RjWtbwBzhZpcao2Auzc0xTM4ZxMguGcMnG9BfVesOcxZZQl0w+GuAI
+         p0cf/Mr2RBsOXSPfzSQkfNTEFIrOMe1f98iFUJzbZRdtj0FYVMDUE1XBScJWjGHwyw+S
+         kH5V4SPTZPfq92Y44jvRnO7kxNEsY31YDmbx3pDQvhauWbyKG/Cl8D029d29JDrXGPu1
+         DRNA==
+X-Gm-Message-State: AO0yUKWwrQay3pH4qFV9a0xfx/YjHkebA7otsvmN6ewT/Bg/3EaOE14u
+	R+rF4WCwELPmyQIy5B7vWV4=
+X-Google-Smtp-Source: AK7set89KBo8ssPJsdn4bRr4WqiRqjZ4Kh/DGgxbByNflaFDjX3IHnAB/41lzTxcVsOZJMZOMPe8oQ==
+X-Received: by 2002:a7b:cb95:0:b0:3d0:6a57:66a5 with SMTP id m21-20020a7bcb95000000b003d06a5766a5mr112087wmi.0.1679585589075;
+        Thu, 23 Mar 2023 08:33:09 -0700 (PDT)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id j20-20020a5d6e54000000b002cea8664304sm16292368wrz.91.2023.03.23.08.33.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 23 Mar 2023 08:33:08 -0700 (PDT)
+Date: Thu, 23 Mar 2023 18:32:54 +0300
+From: Dan Carpenter <error27@gmail.com>
 To: Khadija Kamran <kamrankhadijadj@gmail.com>
-Cc: outreachy@lists.linux.dev,
-	Parthiban Veerasooran <parthiban.veerasooran@microchip.com>,
-	Christian Gromm <christian.gromm@microchip.com>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: most: fix line ending with '('
-Message-ID: <ZBxwKQdl8CDPqD2L@kroah.com>
-References: <ZBsSOlPbaGZcAaSY@khadija-virtual-machine>
- <ZBvbP8ugDFjSoVp/@kroah.com>
- <ZBxtpyT8she++602@khadija-virtual-machine>
+Cc: Julia Lawall <julia.lawall@inria.fr>, outreachy@lists.linux.dev,
+	gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [RESEND PATCH 0/4] staging: rtl8192e: code cleanup patches
+Message-ID: <1973548d-e76e-4512-bed4-792c95b59c12@kili.mountain>
+References: <cover.1679573474.git.kamrankhadijadj@gmail.com>
+ <alpine.DEB.2.22.394.2303231408000.2866@hadrien>
+ <alpine.DEB.2.22.394.2303231408410.2866@hadrien>
+ <090ee842-46d0-4f35-bf00-68a3e1393b72@kili.mountain>
+ <ZBxu5RBG9kCRlwRB@khadija-virtual-machine>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -32,47 +58,58 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ZBxtpyT8she++602@khadija-virtual-machine>
+In-Reply-To: <ZBxu5RBG9kCRlwRB@khadija-virtual-machine>
 
-On Thu, Mar 23, 2023 at 08:17:59PM +0500, Khadija Kamran wrote:
-> On Thu, Mar 23, 2023 at 05:53:19AM +0100, Greg Kroah-Hartman wrote:
-> > On Wed, Mar 22, 2023 at 07:35:38PM +0500, Khadija Kamran wrote:
-> > > Splitting function header to multiple lines because of 80 characters per
-> > > line limit, results in ending the function call line with '('.
-> > > This leads to CHECK reported by checkpatch.pl
+On Thu, Mar 23, 2023 at 08:23:17PM +0500, Khadija Kamran wrote:
+> On Thu, Mar 23, 2023 at 04:34:43PM +0300, Dan Carpenter wrote:
+> > On Thu, Mar 23, 2023 at 02:08:58PM +0100, Julia Lawall wrote:
 > > > 
-> > > Move the first parameter right after the '(' in the function call line.
-> > > Align the rest of the parameters to the opening parenthesis.
 > > > 
-> > > Signed-off-by: Khadija Kamran <kamrankhadijadj@gmail.com>
-> > > ---
-> > >  drivers/staging/most/dim2/hal.c | 5 ++---
-> > >  1 file changed, 2 insertions(+), 3 deletions(-)
+> > > On Thu, 23 Mar 2023, Julia Lawall wrote:
+> > > 
+> > > >
+> > > >
+> > > > On Thu, 23 Mar 2023, Khadija Kamran wrote:
+> > > >
+> > > > > Fix several cleanup issues reported by checkpatch.pl in module
+> > > > > staging/rtl8192e in file rtllib_rx.c
+> > > >
+> > > > Why is it resent?
+> > > 
+> > > OK, I see, sorry for the noise.
 > > 
-> > You have 2 patches here with identical subject lines, yet they do
-> > different things :(
-> >
-> > I've dropped all of your pending patches now for the most driver as I'm
-> > totally confused.  Please resend them all as a proper patch series with
-> > updated subject lines.
+> > I'm still confused...  :P
 > >
 > 
-> Hey Greg!
+> Hey Dan!
 > 
-> I took your message literally and sent a RESEND PATCH. I should've sent
-> a new version of the patch instead.
+> Sorry about the confusion. I sent the last patch with the wrong email
+> mistakenly. It was causing following warning as reported by Philipp,
+> Checkpatch:
+> 
+> WARNING: From:/Signed-off-by: email address mismatch: 'From: Khadija
+> Kamran <kkamran.bese16seecs@seecs.edu.pk>' != 'Signed-off-by: Khadija
+> Kamran <kamrankhadijadj@gmail.com>
+> 
+> I resent this patch with the correct email address. I hope I did not do
+> this wrong.
 
-What message?
+It needs to be v2: resend from the correct email address.
 
-Remember, we get hundreds of patches a day to review and have a short
-term memory of a squirrel..  make it obvious what is happening when
-resending or sending a new version, otherwise we are confused.
+When you send a patch a second time that always needs to be explained
+because we don't remember all the email we get.  The v2 information is
+really interesting as a reviewer.  Maybe I am wondering, "Did I respond
+to the original email and is my complaint fixed?"
 
-> Would it be okay if I send patch revisions with changed subjects now?
+For RESEND patches it means that the first patch was perfect but
+something broke down in the process.  Maybe a maintainer was on vacation
+and accidentally ignored the patch.  If Greg asks you to resend
+everything that's a kind of breakdown in the process as well, but just
+add that information in the patch "Resending all the most/ patches
+because it was confusing which one were supposed to be applied".
 
-What would you want to see if you were on the recieving end of this
-patch to know what to do with it?
+That information is super interesting because it shows we are all on the
+same page about how to go forward.
 
-thanks,
-
-greg k-h
+regards,
+dan carpenter
