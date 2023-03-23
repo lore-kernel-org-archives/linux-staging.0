@@ -1,61 +1,55 @@
-Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C92E5C959
-	for <linux-staging@lists.linux.dev>; Thu, 23 Mar 2023 20:01:58 +0000 (UTC)
-Received: from pps.filterd (m0098410.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 32NHb9GP012594;
-	Thu, 23 Mar 2023 20:01:57 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=date : from : to : cc :
- subject : message-id : references : mime-version : content-type :
- in-reply-to; s=pp1; bh=eNfxwCHnvvaI0HPhukh3/fzOd3z0sV5WFxRLN34b3bc=;
- b=pB2HmH4CTn6HUwe1cSSYHKZgDlLULTPIdFItERI7RjZu8r2pNPVfWQYMZCri+0g027Nu
- g4XojyxkC0/UM5CBlAcZaS46KG+yNcggwxo/K1UBoEvLLS2hE2aQljgntZXsHLAExzu1
- 2bZFb+j7o7dI97aknfYQkMtbU9vHL8XVdaikD2p1Tc57sbT6E9Lv2f+FU//kVIlURHlr
- HZC2Ge2H0LZfy9mojfaxxWSwGIgC21XnHA4cvJm8VUxtYizhbaSyRCTVwbNhYk9LFbNY
- ogPr6cweKWV5xGSpbFEEHy8ULn/htC/HMrYcjK8HYFxvxQ0jJXxkK4rhq91Lu3OUXLJJ EQ== 
-Received: from pps.reinject (localhost [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3pgmc2yd7r-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 23 Mar 2023 20:01:56 +0000
-Received: from m0098410.ppops.net (m0098410.ppops.net [127.0.0.1])
-	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 32NJU2e1007859;
-	Thu, 23 Mar 2023 20:01:56 GMT
-Received: from ppma03ams.nl.ibm.com (62.31.33a9.ip4.static.sl-reverse.com [169.51.49.98])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3pgmc2ycxs-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 23 Mar 2023 20:01:56 +0000
-Received: from pps.filterd (ppma03ams.nl.ibm.com [127.0.0.1])
-	by ppma03ams.nl.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 32N8jLER022346;
-	Thu, 23 Mar 2023 20:01:36 GMT
-Received: from smtprelay04.fra02v.mail.ibm.com ([9.218.2.228])
-	by ppma03ams.nl.ibm.com (PPS) with ESMTPS id 3pd4x6fv9c-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 23 Mar 2023 20:01:36 +0000
-Received: from smtpav07.fra02v.mail.ibm.com (smtpav07.fra02v.mail.ibm.com [10.20.54.106])
-	by smtprelay04.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 32NK1XC133489478
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Thu, 23 Mar 2023 20:01:33 GMT
-Received: from smtpav07.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id CA1AF20040;
-	Thu, 23 Mar 2023 20:01:33 +0000 (GMT)
-Received: from smtpav07.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 2DB742004D;
-	Thu, 23 Mar 2023 20:01:32 +0000 (GMT)
-Received: from li-27defe4c-32e1-11b2-a85c-e202e9981075.ibm.com (unknown [9.43.63.38])
-	by smtpav07.fra02v.mail.ibm.com (Postfix) with ESMTPS;
-	Thu, 23 Mar 2023 20:01:31 +0000 (GMT)
-Date: Fri, 24 Mar 2023 01:31:23 +0530
-From: Abhirup Deb <abhirupdeb@linux.vnet.ibm.com>
-To: Dan Carpenter <error27@gmail.com>
-Cc: Martyn Welch <martyn@welchs.me.uk>,
-        Manohar Vanga <manohar.vanga@gmail.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
-Subject: Re: [PATCH v2 RESEND] staging: vme_user: Replace "<<" with BIT macro
-Message-ID: <ZBywE7I6AC4fLHLS@li-27defe4c-32e1-11b2-a85c-e202e9981075.ibm.com>
-References: <ZBxOdihP+mygNsuS@li-27defe4c-32e1-11b2-a85c-e202e9981075.ibm.com>
- <9375f16c-5040-4355-8bd0-54c07763d6b3@kili.mountain>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F15CD2E2;
+	Thu, 23 Mar 2023 21:11:10 +0000 (UTC)
+Received: by mail-ed1-f53.google.com with SMTP id h8so362715ede.8;
+        Thu, 23 Mar 2023 14:11:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1679605868;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=KmmCdw9M5+J5Kmm/BSbt7uI0C9wsx89ZvFPHESAbpkI=;
+        b=odP/JZc1gb5UHyOibWoevm2Bp4y1bvD670zN20xP9umqA0IJ1VyIajOHH8kfaWxtK7
+         9R7RE+DnxJgmuEQeXsMWSAgUVM5MMoPGCUu1+4Qijy+DQPcvRv8PNuw/CCxe21ijrzr/
+         Yb77TqRaKLOdfDXVgHOGo/lG+RBnIH8fHzKFi8LZEfy107cUHAaGy9R4IBJNu/NIuGYC
+         cp0hws6URqI6DoxuqK4hIa1w2Y+vzy1y8s+AT+m5ur1c1voCaluxMudrLYZZ13vcqInJ
+         AyYfdNJDTsm/eNConQMprgOJRlZrQruuRUaCdRd1ILQcpKNFh9uCrLPZA9oi2p/vXloy
+         SOSw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1679605868;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=KmmCdw9M5+J5Kmm/BSbt7uI0C9wsx89ZvFPHESAbpkI=;
+        b=QD7WiII9omgU0da7Nif9exeDa5vJHG9eg/+vWzuvehOr9aMz6sh0MMqOTn8zPK04yI
+         PInwzMOyc0ckQAuCUbfNNudeufpg7HDrVBSlChwv52bskXaWYv0Z/MHkzzoHfghi4WTm
+         hffuM0kGCiyJcKDYtl169oS97lxCRiDDClsds6v//Er3f8geWbrTcpsekkXzCuwaY0m6
+         szzda/g7ORhbmLGYp2KbnN94hxfGODW8HBQ7nlC9aDbMxl3iwS0J5GlBZVNnPjvAb5nQ
+         GBaoW5UGYaXU8AwbyjunITjwwcBgwNpAfLD09+9LvnnUhb6gx38elXRHO5S7AxkcT2o4
+         Tsfw==
+X-Gm-Message-State: AAQBX9eEQPDd2MTmOiLog9vlbKuqzxmE++s9zw1yLyUDY0jOZqutdWdh
+	C9p8e3n+K20Ih4nbgPtZKHU=
+X-Google-Smtp-Source: AKy350YQv0wuqUMzATOVUccjZo3qStRSuukNFSLKJqvpXgB8KjlL66ralMqUgXf/4qgv1nbqs1asDQ==
+X-Received: by 2002:a17:906:9f0b:b0:8f3:9ee9:f1bc with SMTP id fy11-20020a1709069f0b00b008f39ee9f1bcmr485751ejc.13.1679605868465;
+        Thu, 23 Mar 2023 14:11:08 -0700 (PDT)
+Received: from khadija-virtual-machine ([39.41.14.14])
+        by smtp.gmail.com with ESMTPSA id lc5-20020a170906dfe500b0092973e209f2sm9122019ejc.109.2023.03.23.14.11.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 23 Mar 2023 14:11:08 -0700 (PDT)
+Date: Fri, 24 Mar 2023 02:11:05 +0500
+From: Khadija Kamran <kamrankhadijadj@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: outreachy@lists.linux.dev,
+	Parthiban Veerasooran <parthiban.veerasooran@microchip.com>,
+	Christian Gromm <christian.gromm@microchip.com>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: most: fix line ending with '('
+Message-ID: <ZBzAaZTOZrL4BTsM@khadija-virtual-machine>
+References: <ZBsSOlPbaGZcAaSY@khadija-virtual-machine>
+ <ZBvbP8ugDFjSoVp/@kroah.com>
+ <ZBxtpyT8she++602@khadija-virtual-machine>
+ <ZBxwKQdl8CDPqD2L@kroah.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -64,41 +58,62 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <9375f16c-5040-4355-8bd0-54c07763d6b3@kili.mountain>
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: kp9Ku9h6Y0mGGsF-_D-_NsNen1GHg8Iu
-X-Proofpoint-ORIG-GUID: _QUBhg-PBYUwHTX9S-RNmLwKCnOSf4WR
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-03-23_13,2023-03-23_02,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1015 adultscore=0
- bulkscore=0 impostorscore=0 mlxscore=0 spamscore=0 malwarescore=0
- priorityscore=1501 mlxlogscore=726 phishscore=0 suspectscore=0
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2303150002 definitions=main-2303230147
+In-Reply-To: <ZBxwKQdl8CDPqD2L@kroah.com>
 
-On Thu, Mar 23, 2023 at 04:34:06PM +0300, Dan Carpenter wrote:
-> On Thu, Mar 23, 2023 at 06:34:54PM +0530, Abhirup Deb wrote:
-> > Replace the "<<" operator with BIT macro, in accordance to the
-> > checkpatch.pl script and Linux kernel coding-style guidelines.
+On Thu, Mar 23, 2023 at 04:28:41PM +0100, Greg Kroah-Hartman wrote:
+> On Thu, Mar 23, 2023 at 08:17:59PM +0500, Khadija Kamran wrote:
+> > On Thu, Mar 23, 2023 at 05:53:19AM +0100, Greg Kroah-Hartman wrote:
+> > > On Wed, Mar 22, 2023 at 07:35:38PM +0500, Khadija Kamran wrote:
+> > > > Splitting function header to multiple lines because of 80 characters per
+> > > > line limit, results in ending the function call line with '('.
+> > > > This leads to CHECK reported by checkpatch.pl
+> > > > 
+> > > > Move the first parameter right after the '(' in the function call line.
+> > > > Align the rest of the parameters to the opening parenthesis.
+> > > > 
+> > > > Signed-off-by: Khadija Kamran <kamrankhadijadj@gmail.com>
+> > > > ---
+> > > >  drivers/staging/most/dim2/hal.c | 5 ++---
+> > > >  1 file changed, 2 insertions(+), 3 deletions(-)
+> > > 
+> > > You have 2 patches here with identical subject lines, yet they do
+> > > different things :(
+> > >
+> > > I've dropped all of your pending patches now for the most driver as I'm
+> > > totally confused.  Please resend them all as a proper patch series with
+> > > updated subject lines.
+> > >
 > > 
-> > Signed-off-by: Abhirup Deb <abhirupdeb@linux.vnet.ibm.com>
-> > ---
-> > Changes in v2:
-> >     - Refactor the patch & Replace the erroneous BIT macro in --
-> >        "#define TSI148_PCFS_STAT_SELTIM        BIT(9)"
-> >       with --
-> >        "#define TSI148_PCFS_STAT_SELTIM        (3<<9)"
+> > Hey Greg!
 > > 
+> > I took your message literally and sent a RESEND PATCH. I should've sent
+> > a new version of the patch instead.
 > 
-> Why did you resend this?
+> What message?
 > 
-> regards,
-> dan carpenter
+> Remember, we get hundreds of patches a day to review and have a short
+> term memory of a squirrel..  make it obvious what is happening when
+> resending or sending a new version, otherwise we are confused.
 >
-Hey Dan,
-Sorry,did not mean to spam! Mistake on my part!
+
+Okay noted. I apologize for my mistakes.
+
+Thank you for your time.
+
+> > Would it be okay if I send patch revisions with changed subjects now?
+> 
+> What would you want to see if you were on the recieving end of this
+> patch to know what to do with it?
+> 
+
+I have sent revisions with an explanation about why the patches are
+being sent again and what changes are made.
+
+I hope I am not making any mistakes.
 
 Regards,
-Abhirup Deb
+Khadija
 
+> thanks,
+> 
+> greg k-h
