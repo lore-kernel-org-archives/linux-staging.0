@@ -1,85 +1,80 @@
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3F5420E6;
-	Thu, 23 Mar 2023 05:56:35 +0000 (UTC)
-Received: by mail-wm1-f49.google.com with SMTP id m6-20020a05600c3b0600b003ee6e324b19so390843wms.1;
-        Wed, 22 Mar 2023 22:56:35 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B42F1320A;
+	Thu, 23 Mar 2023 09:01:36 +0000 (UTC)
+Received: by mail-pf1-f174.google.com with SMTP id y2so8266483pfw.9;
+        Thu, 23 Mar 2023 02:01:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1679550994; x=1682142994;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=6pY6n5J6nh7sc6BZPrtW1Af5iIpNiv08jLRK1EZDr/Y=;
-        b=kYCf0RAszOEg9bkDgtsJ82BX5g8JwgtElM89s+ujOPDkz/jt1ucDniqxAcxTCRA3F7
-         455ZTTlekoP/kHAcQMrgevEI8jDBTC/lN4zyiRyJCBpcbSzJ7Zq0KJ1hDYyqtRWzZ054
-         8gWnbGwG5v1tlw5qeoyHQtQ/9KMCIxuS9QOcLQEWCysL0Uks0KO2EdKL30aFvXlcvltO
-         QA/6dhghtNmrCd/fmtjjfcpqtg8NlOubBlKLTe4hUNSzFnb7JN5Umiu4fFzJH6o8L64c
-         Qac1hWr1D5TDucHyTvOJ6dnnsYN1CQJ4baIUBxVH9i+aIR33n/jviJS7e2EZZpRnuKDd
-         /5ZA==
+        d=gmail.com; s=20210112; t=1679562096;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=8RWJzOeM5GIaIf82zupXR/wrUWqvRt22D3jyGfDKRi0=;
+        b=GT9VzWPWIi3fRiiTEQRqtMPzOf4UlHEtpXWnaON7ZeEB/MsGe1J2NYF8yO4jWTpa+B
+         FDQV3dtv10AicBYCDB/kw4dhLuluZpSeo4pELv0kz4QwZ437E+CFPkbAktP56Z68kafx
+         pl9eoxJaIMGEU+MxDRx2AeiYW560rczy2CdmHzR3iR7Udwr6HKFYfK8/2xHYyh4B6rw6
+         hnQbxBujs2CSMhjGSR8KDudwUIzlEFct3Frk27NrUzCEGG6WfEI9/Jn0Z6SYnMJT5EC0
+         xuUOiTtxrHodzem+fDQjMWr07zfXJvklPIPaKReyyu8FYIdkCtcTIrJm2FBO1YWJ8x/m
+         IhLw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679550994; x=1682142994;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=6pY6n5J6nh7sc6BZPrtW1Af5iIpNiv08jLRK1EZDr/Y=;
-        b=iNyCOQc11VnvjO5YTa1idajszAUM9dbR/6Y17XCl2GXBtwHqAZUZoAkxfYDLZa086/
-         LL5nVm2+Clt9rsLCY1agWohiW/tuavYPzrXQavhewqP7gJ41LMsycaBnu/NF0+xo7Fk7
-         QRw1Um1UE4DFRiOQMfnwMVekjkOfaACya5fEduaHR2Sz35oWrTUuO0y7kNs1jdUmORXz
-         opV8XHuksxuydIYbke0fAZ28bwFvR6DSvATq17F4HEAuVXnrMAN1g33JgcZwhriFpcdK
-         P3tPTd3xfwOv6JJEsa+A4abnUYBLCsi32AhMAgSFYGPQb6kcV9SYPWF5Zd9WwVBY/7NU
-         ndhg==
-X-Gm-Message-State: AO0yUKVQdkVCQhwSl7g7BdKN+ZJH5MSm7TTJLCizO/CzVdf5AYRJzK6d
-	veHo9lgcmVV5uATMzBfls48=
-X-Google-Smtp-Source: AK7set88g+PhzfJWEbM0eHlqrdsc/zQZK3vdrSgOPFrvQYoe6frpHYLB1SoXS21mb48QA3EysJGvVg==
-X-Received: by 2002:a05:600c:3103:b0:3ed:d2ae:9adb with SMTP id g3-20020a05600c310300b003edd2ae9adbmr8230524wmo.0.1679550993976;
-        Wed, 22 Mar 2023 22:56:33 -0700 (PDT)
-Received: from [192.168.0.104] (p57935146.dip0.t-ipconnect.de. [87.147.81.70])
-        by smtp.gmail.com with ESMTPSA id b13-20020a056000054d00b002da1261aa44sm3691623wrf.48.2023.03.22.22.56.32
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 22 Mar 2023 22:56:33 -0700 (PDT)
-Message-ID: <9cdfab96-ee7d-db11-4bde-71648a640385@gmail.com>
-Date: Thu, 23 Mar 2023 06:56:32 +0100
+        d=1e100.net; s=20210112; t=1679562096;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=8RWJzOeM5GIaIf82zupXR/wrUWqvRt22D3jyGfDKRi0=;
+        b=cTng5Ou377pYd7UeZ/FmMq1bgC4GkddwRBJjdPPbPvP5e7G78jCaSP/eYhZHXFAI5j
+         tLuQ6Um65ysKJbrWEwJT8IIGIkzfFWv6ppB7WkEthXpyQy8HJeJdIyNshd/aITPT8gwO
+         5jjrVPKdOtW6Bcwx2MjuCN8KFnbWsKQEF3cslB8LbDw+1et7Uh4arF76FwuNwLHEntOL
+         fyMLLJepyY+HQ7EDfCUm2X/0M0mgyRnNE1YmcVMazJtTNDkEbVmCotZ78WEqR3eWe5CJ
+         j3r+wIyypnE1hOIupaVc7eyAMFp/hMJbih8nsA4wAJ/W16uzBbRuQafIoaKr499PZgQV
+         TPQg==
+X-Gm-Message-State: AO0yUKXvXnDrkmwNnqQtGyvvUsx+PgRTXGNG/vk8TLUa9syTREsoeNwI
+	3/Mh8tMo41PZTQ83qslaniUVPP22QjuPXw==
+X-Google-Smtp-Source: AK7set9PXu7Uw9YhBNw4+ICSHXADaMDo6mZwCvehYYG3R5Lm9keHwVatsPeUKZXZPuWSWtZHu4/U5w==
+X-Received: by 2002:a62:1d8f:0:b0:5dc:6dec:e992 with SMTP id d137-20020a621d8f000000b005dc6dece992mr5088682pfd.1.1679562095852;
+        Thu, 23 Mar 2023 02:01:35 -0700 (PDT)
+Received: from ubuntu.localdomain ([117.207.139.205])
+        by smtp.gmail.com with ESMTPSA id i21-20020aa787d5000000b00625f5aaa1d9sm11346893pfo.83.2023.03.23.02.01.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 23 Mar 2023 02:01:35 -0700 (PDT)
+From: Sumitra Sharma <sumitraartsy@gmail.com>
+To: outreachy@lists.linux.dev
+Cc: johan@kernel.org,
+	elder@kernel.org,
+	gregkh@linuxfoundation.org,
+	greybus-dev@lists.linaro.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Sumitra Sharma <sumitraartsy@gmail.com>
+Subject: [PATCH 0/3] Staging: greybus: Convert macro definitions to
+Date: Thu, 23 Mar 2023 02:01:04 -0700
+Message-Id: <cover.1679558269.git.sumitraartsy@gmail.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH 0/4] staging: rtl8192e: code cleanup patches
-To: Khadija Kamran <kkamran.bese16seecs@seecs.edu.pk>,
- outreachy@lists.linux.dev
-Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org, Khadija Kamran <kamrankhadijadj@gmail.com>
-References: <cover.1679521517.git.kamrankhadijadj@gmail.com>
-Content-Language: en-US
-From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-In-Reply-To: <cover.1679521517.git.kamrankhadijadj@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 3/22/23 23:07, Khadija Kamran wrote:
-> Fix several cleanup issues reported by checkpatch.pl in module
-> staging/rtl8192e in file rtllib_rx.c
-> 
-> Khadija Kamran (4):
->    staging: rtl8192e: remove extra blank lines
->    staging: rtl8192e: add blank lines after declarations
->    staging: rtl8192e: add spaces around binary operators
->    staging: rtl8192e: remove blank lines after '{'
-> 
->   drivers/staging/rtl8192e/rtllib_rx.c | 73 +++++++++++-----------------
->   1 file changed, 29 insertions(+), 44 deletions(-)
-> 
+Convert macros to a static inline function, to make the relevant 
+types apparent in the definition and to benefit from the type 
+checking performed by the compiler at call sites.
 
-Checkpatch:
-WARNING: From:/Signed-off-by: email address mismatch: 'From: Khadija 
-Kamran <kkamran.bese16seecs@seecs.edu.pk>' != 'Signed-off-by: Khadija 
-Kamran <kamrankhadijadj@gmail.com>'
+Sumitra Sharma (3):
+  Staging: greybus: Convert macro gpio_chip_to_gb_gpio_controller to an
+    inline function
+  Staging: greybus: Convert macro struct gb_audio_manager_module to an
+    inline function
+  Staging: greybus: Convert macro struct pwm_chip_to_gb_pwm_chip to an
+    inline function
 
-Is this wanted?
+ drivers/staging/greybus/audio_manager_module.c | 7 +++++--
+ drivers/staging/greybus/gpio.c                 | 7 +++++--
+ drivers/staging/greybus/pwm.c                  | 6 ++++--
+ 3 files changed, 14 insertions(+), 6 deletions(-)
 
+-- 
+2.25.1
 
-Tested-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
