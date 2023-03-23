@@ -1,74 +1,77 @@
-Received: from mail3-relais-sop.national.inria.fr (mail3-relais-sop.national.inria.fr [192.134.164.104])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84F718F6D;
-	Thu, 23 Mar 2023 13:09:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0AC4B8F6D
+	for <linux-staging@lists.linux.dev>; Thu, 23 Mar 2023 13:34:18 +0000 (UTC)
+Received: by mail-wm1-f41.google.com with SMTP id bg16-20020a05600c3c9000b003eb34e21bdfso1213173wmb.0
+        for <linux-staging@lists.linux.dev>; Thu, 23 Mar 2023 06:34:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=inria.fr; s=dc;
-  h=date:from:to:cc:subject:in-reply-to:message-id:
-   references:mime-version;
-  bh=D+3lRLnaMyX/RPlCniu19UlLbKxJeIyEDcWKOk5xtsA=;
-  b=qNYpw8H8yHltISDNH8qWxyzJKg2xcYd6qz1GaNTweDyyUWU3P+Zf0iPj
-   mhg+F+mTwGVgRnqt/GuGHCAZH3P/aea+Ypb1AMCCdM3Mrc/LbfXtRMbZb
-   9IRJzPTyFbXMszmX5o5NWqR6dRUDB1gqH108cvLjtJMEEAAtG+TT6Hx7+
-   o=;
-Authentication-Results: mail3-relais-sop.national.inria.fr; dkim=none (message not signed) header.i=none; spf=SoftFail smtp.mailfrom=julia.lawall@inria.fr; dmarc=fail (p=none dis=none) d=inria.fr
-X-IronPort-AV: E=Sophos;i="5.98,283,1673910000"; 
-   d="scan'208";a="51038228"
-Received: from 231.85.89.92.rev.sfr.net (HELO hadrien) ([92.89.85.231])
-  by mail3-relais-sop.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Mar 2023 14:09:00 +0100
-Date: Thu, 23 Mar 2023 14:08:58 +0100 (CET)
-From: Julia Lawall <julia.lawall@inria.fr>
-X-X-Sender: jll@hadrien
-To: Khadija Kamran <kamrankhadijadj@gmail.com>
-cc: outreachy@lists.linux.dev, gregkh@linuxfoundation.org, 
-    linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [RESEND PATCH 0/4] staging: rtl8192e: code cleanup patches
-In-Reply-To: <alpine.DEB.2.22.394.2303231408000.2866@hadrien>
-Message-ID: <alpine.DEB.2.22.394.2303231408410.2866@hadrien>
-References: <cover.1679573474.git.kamrankhadijadj@gmail.com> <alpine.DEB.2.22.394.2303231408000.2866@hadrien>
-User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
+        d=gmail.com; s=20210112; t=1679578457;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=uqF0ANcEeubBIPy3fcclIhfrDjvysj0GkmGUcwq4B7Q=;
+        b=PQtIgwkOSXXI/LcqPzYcutQY0b0TLChaDvDfX3cvNmIBwod6mDaVMAyta1vGNqP53S
+         H4FKPtQN9jLWxKa/BI0cKXK1q0/QirPNfEF9lnXcLlbzbC07YLLitg5YNby9DTmgKuHk
+         5fa03hDP5Nj/KjzN8xlQd0wwm5lQ/GK7JHmBPduGA/qDOHtbQ/xYkRCVxmQUGT5AWoHG
+         Jv2HjNwWDBsabjM023HuUhHx4kcJ2tluqQ5x2pjaAUjJRs0TTztwtbO7X+P37nU/MwR4
+         O96Altx/eFeFZcNLZJ6pjjMFf81wekG/FkA+WeNsK7kyBOKVhyvgYbU+LOiWmHXmcyb9
+         p2uQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1679578457;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=uqF0ANcEeubBIPy3fcclIhfrDjvysj0GkmGUcwq4B7Q=;
+        b=Wqe8LWvZZhkZ6UH3AEvF7f63DVlX8Rn+mnpsJ1Y3JpjR4bC+xwZI5M5YJJCqr0WqCo
+         dHOJbbRg2tGejgoMWZFCfCXmdYjvkD7tSbJpqroSJy3AiS03bY3xTK8+9NicrKRhBIjN
+         e4FKL7ePSQJeE06jqo31lezC9+CGM+l4bZNnTMsEa3rrtBy7Ml7bZ1EtELKakVIiz0de
+         ECzIvZa+kaV3D2tTowjniMvYC2NMo/FhAFIFyyP7gquAnyWz4tSVu0ruyRvILTt9CKac
+         K2NTn0H6or4R6ZEB9JggjuOhVwzBypM7MWYE1wsjK+XlJPEU4wUsEKjrqxvh+ms1mopr
+         a9og==
+X-Gm-Message-State: AO0yUKWeW28beUArWAx3Qv72ivOeSZKV68xCBkCNAPaYRlE9A4/WHwjo
+	QPE/MidAmi0kUFpcI/FngrI=
+X-Google-Smtp-Source: AK7set8tWZ+c9CDrcNYZ6FFbHJdBnTyggT1lvYMQcU2SQ4u1U2OEi7JTfgURGFmj8DYaP370Crz0zA==
+X-Received: by 2002:a05:600c:285:b0:3ee:5a48:5b54 with SMTP id 5-20020a05600c028500b003ee5a485b54mr2326861wmk.16.1679578457139;
+        Thu, 23 Mar 2023 06:34:17 -0700 (PDT)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id j36-20020a05600c1c2400b003ebf73acf9asm6571831wms.3.2023.03.23.06.34.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 23 Mar 2023 06:34:16 -0700 (PDT)
+Date: Thu, 23 Mar 2023 16:34:06 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: Abhirup Deb <abhirupdeb@linux.vnet.ibm.com>
+Cc: Martyn Welch <martyn@welchs.me.uk>,
+	Manohar Vanga <manohar.vanga@gmail.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
+Subject: Re: [PATCH v2 RESEND] staging: vme_user: Replace "<<" with BIT macro
+Message-ID: <9375f16c-5040-4355-8bd0-54c07763d6b3@kili.mountain>
+References: <ZBxOdihP+mygNsuS@li-27defe4c-32e1-11b2-a85c-e202e9981075.ibm.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ZBxOdihP+mygNsuS@li-27defe4c-32e1-11b2-a85c-e202e9981075.ibm.com>
 
+On Thu, Mar 23, 2023 at 06:34:54PM +0530, Abhirup Deb wrote:
+> Replace the "<<" operator with BIT macro, in accordance to the
+> checkpatch.pl script and Linux kernel coding-style guidelines.
+> 
+> Signed-off-by: Abhirup Deb <abhirupdeb@linux.vnet.ibm.com>
+> ---
+> Changes in v2:
+>     - Refactor the patch & Replace the erroneous BIT macro in --
+>        "#define TSI148_PCFS_STAT_SELTIM        BIT(9)"
+>       with --
+>        "#define TSI148_PCFS_STAT_SELTIM        (3<<9)"
+> 
 
+Why did you resend this?
 
-On Thu, 23 Mar 2023, Julia Lawall wrote:
+regards,
+dan carpenter
 
->
->
-> On Thu, 23 Mar 2023, Khadija Kamran wrote:
->
-> > Fix several cleanup issues reported by checkpatch.pl in module
-> > staging/rtl8192e in file rtllib_rx.c
->
-> Why is it resent?
-
-OK, I see, sorry for the noise.
-
-julia
-
->
-> julia
->
-> >
-> > Khadija Kamran (4):
-> >   staging: rtl8192e: remove extra blank lines
-> >   staging: rtl8192e: add blank lines after declarations
-> >   staging: rtl8192e: add spaces around binary operators
-> >   staging: rtl8192e: remove blank lines after '{'
-> >
-> >  drivers/staging/rtl8192e/rtllib_rx.c | 73 +++++++++++-----------------
-> >  1 file changed, 29 insertions(+), 44 deletions(-)
-> >
-> > --
-> > 2.34.1
-> >
-> >
-> >
->
