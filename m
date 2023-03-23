@@ -1,101 +1,71 @@
-Received: from msg-2.mailo.com (msg-2.mailo.com [213.182.54.12])
+Received: from mr85p00im-hyfv06021301.me.com (mr85p00im-hyfv06021301.me.com [17.58.23.188])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 454CAC959;
-	Thu, 23 Mar 2023 19:46:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mailo.com; s=mailo;
-	t=1679600790; bh=Ofo5WnknXu2q4PHMQtHwGNgTsx9PA3GsytL7rSclMoM=;
-	h=X-EA-Auth:Date:From:To:Cc:Subject:Message-ID:References:
-	 MIME-Version:Content-Type:In-Reply-To;
-	b=d/RQhi09FV2kGD7zsVGy49E61BrwVVX1p8onsuoJ937QJonp0xESkL1t0xv6efXLs
-	 6v9HL8quo3/fR0D7I9sVGtQZmExwTGNZ6A+i+nbkaCnf7g2qLRwyi233ZTlNa5pXKI
-	 3IWFT/21lXvvaEX0neoGaJl9+cXCBpVzlNSPzYdE=
-Received: by b221-3.in.mailobj.net [192.168.90.23] with ESMTP
-	via ip-20.mailobj.net [213.182.54.20]
-	Thu, 23 Mar 2023 20:46:30 +0100 (CET)
-X-EA-Auth: jRldBc3fw9HBPmS2VhRtuXpKewjU9HPr0zvL+RMjtoTBXoNrOPkyuG56v9mN9SoAFgEQrrgGpYQwP1A4u5xeLZPK9L+o8cFj
-Date: Fri, 24 Mar 2023 01:16:26 +0530
-From: Deepak R Varma <drv@mailo.com>
-To: Greg KH <gregkh@linuxfoundation.org>
-Cc: Julia Lawall <julia.lawall@inria.fr>, Alex Elder <elder@ieee.org>,
-	Menna Mahmoud <eng.mennamahmoud.mm@gmail.com>,
-	outreachy@lists.linux.dev, johan@kernel.org, elder@kernel.org,
-	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
-Subject: Re: [PATCH v2] staging: greybus: use inline function for macros
-Message-ID: <ZByskk59KaEZbc6+@ubun2204.myguest.virtualbox.org>
-References: <20230321183456.10385-1-eng.mennamahmoud.mm@gmail.com>
- <2e869677-2693-6419-ea25-f0cc2efcf3dd@ieee.org>
- <alpine.DEB.2.22.394.2303212140480.2919@hadrien>
- <5efa6e6d-8573-31de-639a-d15b2e9deca0@ieee.org>
- <alpine.DEB.2.22.394.2303212218500.2919@hadrien>
- <48674d8f-9753-780c-f37c-f83ea2855ae6@ieee.org>
- <eabacc6f-c7fb-ff33-26d1-271537fb4760@inria.fr>
- <ZBvcWkpMJnxea78L@kroah.com>
- <ZBveN3HT96/cktRI@ubun2204.myguest.virtualbox.org>
- <ZBviL+IuY43djHyS@kroah.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15C0FC959
+	for <linux-staging@lists.linux.dev>; Thu, 23 Mar 2023 19:47:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=alexanderheinrich.de; s=sig1; t=1679600826;
+	bh=7e0mOMN+132oHU+oNdWs1w73kAqAlevdhDkJ5lU1/Pw=;
+	h=From:To:Subject:Date:Message-Id:MIME-Version;
+	b=KDWi0CCHh9d7mOnl43q31N5WP/N5POICIAqwSI+GEiyefghvOphVR+O/tYHCmPXpV
+	 sqMh2MzegZJLgzRqFF8aj0a5rBUzXZew9aR90zDvhU4S8JAHsljs1FFl+OfJTLO8a9
+	 vtA9EVydVm781CVdRvP5aaYk9ZbQn6DKfK6ao3bGnpkgxLN5h6lhIjd7L0YmjQMBzi
+	 zLYwbd/HeQwDnJlseQ9hYFKCgkbxfpIHBFTZ52JRYNuHgdc7Bafm6eB36QEDC45sru
+	 3mUk1lKNtvm3IjA7bo+DNTPpYi6lsUD2XomqiQKJmKrygyGE05vFvzpgYGFg9senyB
+	 PBwFaoaKKzXtw==
+Received: from pop-os.fritz.box (mr38p00im-dlb-asmtp-mailmevip.me.com [17.57.152.18])
+	by mr85p00im-hyfv06021301.me.com (Postfix) with ESMTPSA id B57E82153827;
+	Thu, 23 Mar 2023 19:47:02 +0000 (UTC)
+From: Alexander Heinrich <hallo@alexanderheinrich.de>
+To: gregkh@linuxfoundation.org
+Cc: Alexander Heinrich <hallo@alexanderheinrich.de>,
+	linux-kernel-mentees@lists.linuxfoundation.org,
+	linux-staging@lists.linux.dev
+Subject: [PATCH] Correct code style according to Linux guildelines
+Date: Thu, 23 Mar 2023 20:46:11 +0100
+Message-Id: <20230323194611.299241-1-hallo@alexanderheinrich.de>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZBviL+IuY43djHyS@kroah.com>
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-GUID: NMQqH20QdwvPuCQG3lM-3DrPAx2TFCu6
+X-Proofpoint-ORIG-GUID: NMQqH20QdwvPuCQG3lM-3DrPAx2TFCu6
+X-Proofpoint-Virus-Version: =?UTF-8?Q?vendor=3Dfsecure_engine=3D1.1.170-22c6f66c430a71ce266a39bfe25bc?=
+ =?UTF-8?Q?2903e8d5c8f:6.0.138,18.0.572,17.11.62.513.0000000_definitions?=
+ =?UTF-8?Q?=3D2020-02-14=5F11:2020-02-14=5F02,2020-02-14=5F11,2021-12-02?=
+ =?UTF-8?Q?=5F01_signatures=3D0?=
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0 spamscore=0 adultscore=0
+ clxscore=1030 mlxscore=0 phishscore=0 malwarescore=0 mlxlogscore=753
+ suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2209130000 definitions=main-2303230144
 
-On Thu, Mar 23, 2023 at 06:22:55AM +0100, Greg KH wrote:
-> On Thu, Mar 23, 2023 at 10:35:59AM +0530, Deepak R Varma wrote:
-> > On Thu, Mar 23, 2023 at 05:58:02AM +0100, Greg KH wrote:
-> > > Nice, that shows that it is the same both ways as the compiler version
-> > > you are using is smart enough
-> > > 
-> > > Which compiler and version is this?  Does it work the same for all of
-> > > the supported versions we have to support (i.e. really old gcc?)
-> > > 
-> > > For the most part, sysfs files are not on any sort of "fast path" so a
-> > 
-> > Hello,
-> > Is there a guideline/documentation on how to identify if a code is part of
-> > fast/slow path?
-> 
-> Not really, the general rule is if the code is used in a function that
-> is time criticial, then it is in the "fast path".
-> 
-> Normally the code path for I/O or for determining what process to
-> schedule next is a "fast path" as you want to do the least amount of
-> work in the kernel so as to get the I/O to the hardware or caller, or
-> you want to schedule the next process faster so that it can do the real
-> work that is wanted.
-> 
-> But for some I/O, where the hardware is the limiting factor (like slow
-> USB or serial connections), no matter how optimized the kernel is, the
-> data can not get to the user any faster because the hardware just can
-> not provide it, so for that, it's not really that critical.
-> 
-> Note that "time critical" can change depending on the user of the system
-> and as hardware evolves.
-> 
-> One example would be the creation of a number of sysfs entries for the
-> disks in the systems.  On a "normal" system, creating them all is trivial
-> as there are not many disks.  But on some "big" systems with many tens
-> of thousands of disks, it can become a boot time bottleneck.
-> 
-> So it's usually "you know it when you see it show up on a profile", use
-> the perf tool to test your workload on, to see where in the kernel
-> things are taking up too much time so you know what needs to be made
-> faster.
-> 
-> hope this helps,
+This patch fixes the following warning produced by checkpatch.pl,
+when run on drivers/staging/wlan-ng/p80211req.c.
 
-Thank you Greg.
-Yes, it definitely is very helpful. I sincerely appreciate the explanation and
-the time you took to write it in so detail. I am Obliged.
+CHECK: Unnecessary parentheses around
+    'msg->msgcode != DIDMSG_DOT11REQ_MIBGET'
+Signed-off-by: Alexander Heinrich <hallo@alexanderheinrich.de>
+---
+ drivers/staging/wlan-ng/p80211req.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Regards,
-Deepak.
-
-
-> 
-> greg k-h
-
+diff --git a/drivers/staging/wlan-ng/p80211req.c b/drivers/staging/wlan-ng/p80211req.c
+index 809cf3d480e9..df2d07304d1c 100644
+--- a/drivers/staging/wlan-ng/p80211req.c
++++ b/drivers/staging/wlan-ng/p80211req.c
+@@ -125,7 +125,7 @@ int p80211req_dorequest(struct wlandevice *wlandev, u8 *msgbuf)
+ 
+ 	/* Check Permissions */
+ 	if (!capable(CAP_NET_ADMIN) &&
+-	    (msg->msgcode != DIDMSG_DOT11REQ_MIBGET)) {
++	    msg->msgcode != DIDMSG_DOT11REQ_MIBGET) {
+ 		netdev_err(wlandev->netdev,
+ 			   "%s: only dot11req_mibget allowed for non-root.\n",
+ 			   wlandev->name);
+-- 
+2.34.1
 
