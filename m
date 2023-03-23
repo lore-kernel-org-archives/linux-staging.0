@@ -1,115 +1,143 @@
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B070A93A;
-	Thu, 23 Mar 2023 15:33:11 +0000 (UTC)
-Received: by mail-wm1-f48.google.com with SMTP id p34so8799776wms.3;
-        Thu, 23 Mar 2023 08:33:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1679585589;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=bWzV0wqw+QUny4vBuf5noKBzVlSQvYul3BLsErs4wPs=;
-        b=nE70CcOnpzRtcFP13268W5ddUTDmrfyKgTYgcKyXf4G0CbtV++YOUP/KCwFhdfmP5R
-         4ZziXvOQgb/4PUV+pXLiYcrP6yg1rIj31gP/ubaSTHC4Lv4mn8HMh4RXvLrVIxXYz0Jg
-         UbaYTGWVi54ue1d8oJ01pvlXV5ZZYw5VufHkCFVl57ZRtImHEeTjKycnYAFZqmxmhIZf
-         Fxcr/gncrhWrtRXORHBg/By6zWUecEYw9xfJ0qLn7Uc26lR6n+maSmMFXxrmyq6VPIFf
-         ichPFeaEVTZHGgirQIOZ1lvUDZcr8NMDcjYNkCw7csmyNAg1TNRdizftmuCmzoqLbP4u
-         8Peg==
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 483ADBA29
+	for <linux-staging@lists.linux.dev>; Thu, 23 Mar 2023 16:59:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1679590780;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=+upkbu9j0REGb3XQPl52CEvrtu/lB3040Vqf6c3jPBI=;
+	b=US3CWVKbR+Byn116xU3qt1rQF1f4lne9p0BU6RdneXa7pw3HfeJ9D9Qq/iBs7WfAyh4P6n
+	YJbOxVVM/FQwchwlKic++n8rK1v0mDt+PO+YNYzvSKzbw6qksF8QfP2j4ZyL4URN4mzErQ
+	nLkAHskI6ky7r3t93TOL1IL63vyBj+w=
+Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com
+ [209.85.160.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-433-8OPMao_xO9239F_4l7sT3A-1; Thu, 23 Mar 2023 12:59:39 -0400
+X-MC-Unique: 8OPMao_xO9239F_4l7sT3A-1
+Received: by mail-qt1-f197.google.com with SMTP id r4-20020ac867c4000000b003bfefb6dd58so13314747qtp.2
+        for <linux-staging@lists.linux.dev>; Thu, 23 Mar 2023 09:59:38 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679585589;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=bWzV0wqw+QUny4vBuf5noKBzVlSQvYul3BLsErs4wPs=;
-        b=n2Y6NK8HaVKI6hsqsodGEhDKk/carXimXZ/3UeaTt9/UIr743zgYU0HUk2f6gzX/6t
-         CaoAV/uojwusy+wjll52EhcpcmnUeo1vjHhjKonMQaTQ8xVvhfH5kk90dlBhuIm0jyIh
-         5xmcmdcOK8W9p6RjWtbwBzhZpcao2Auzc0xTM4ZxMguGcMnG9BfVesOcxZZQl0w+GuAI
-         p0cf/Mr2RBsOXSPfzSQkfNTEFIrOMe1f98iFUJzbZRdtj0FYVMDUE1XBScJWjGHwyw+S
-         kH5V4SPTZPfq92Y44jvRnO7kxNEsY31YDmbx3pDQvhauWbyKG/Cl8D029d29JDrXGPu1
-         DRNA==
-X-Gm-Message-State: AO0yUKWwrQay3pH4qFV9a0xfx/YjHkebA7otsvmN6ewT/Bg/3EaOE14u
-	R+rF4WCwELPmyQIy5B7vWV4=
-X-Google-Smtp-Source: AK7set89KBo8ssPJsdn4bRr4WqiRqjZ4Kh/DGgxbByNflaFDjX3IHnAB/41lzTxcVsOZJMZOMPe8oQ==
-X-Received: by 2002:a7b:cb95:0:b0:3d0:6a57:66a5 with SMTP id m21-20020a7bcb95000000b003d06a5766a5mr112087wmi.0.1679585589075;
-        Thu, 23 Mar 2023 08:33:09 -0700 (PDT)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id j20-20020a5d6e54000000b002cea8664304sm16292368wrz.91.2023.03.23.08.33.07
+        d=1e100.net; s=20210112; t=1679590778;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=+upkbu9j0REGb3XQPl52CEvrtu/lB3040Vqf6c3jPBI=;
+        b=h4oNMapPmOHVy0m4CYfaBMB1I0ie77FYutRyWou/W4uEQXwsEy5YqkawDKw/HUEB0y
+         7oPV5ElVVAFtnyLN/cg50Yr5XZLNmtKk7BbuKyE5ALdoxZYN0bBbnYgou++k67XiiFc/
+         MSAD2Ckt8DR3p37G9iQtvKNtBRhhnoluqLMwaYPZEWvPr8rSfyV0RVOtbDue2pzS2Aiw
+         GSsqiG7xLwdjxXFgYzsMzhhc+oWTqVsgJ1IYxcA/n947uVcGHGKKEY1PEF09JK77HFdE
+         LIXZkNPSi0sq35O26tXUjkZJ3KvTmow/xD6qBim7OGaw+gRwKpQTfxmejwUwE/vkWZhW
+         9XWg==
+X-Gm-Message-State: AO0yUKUfvGxsQtZ2KbnsS1cC+URtL/78+f/A1pOcQawLvdG0e7KoeW4O
+	wgzvRiqIZgjzfrmFhriVuBMnPJqLWJlTuJKSS+waXY7rnRGzHIx/9vtvBoPVJJ+xBSg7mEYGKCS
+	Rsnc6N+5oai90jFG9LwDOjqKNAA==
+X-Received: by 2002:ac8:5fcf:0:b0:3d8:519a:91c9 with SMTP id k15-20020ac85fcf000000b003d8519a91c9mr11318278qta.8.1679590777755;
+        Thu, 23 Mar 2023 09:59:37 -0700 (PDT)
+X-Google-Smtp-Source: AK7set8bCx/r2ljWME1lt8mzPqwTkV08BThI3LuMi5lnq3IRAqduegWWqYlgrB2h30Ce/+PHxdWpgQ==
+X-Received: by 2002:ac8:5fcf:0:b0:3d8:519a:91c9 with SMTP id k15-20020ac85fcf000000b003d8519a91c9mr11318256qta.8.1679590777497;
+        Thu, 23 Mar 2023 09:59:37 -0700 (PDT)
+Received: from dell-per740-01.7a2m.lab.eng.bos.redhat.com (nat-pool-bos-t.redhat.com. [66.187.233.206])
+        by smtp.gmail.com with ESMTPSA id i4-20020a378604000000b0073b3316bbd0sm13538309qkd.29.2023.03.23.09.59.36
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 23 Mar 2023 08:33:08 -0700 (PDT)
-Date: Thu, 23 Mar 2023 18:32:54 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: Khadija Kamran <kamrankhadijadj@gmail.com>
-Cc: Julia Lawall <julia.lawall@inria.fr>, outreachy@lists.linux.dev,
-	gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [RESEND PATCH 0/4] staging: rtl8192e: code cleanup patches
-Message-ID: <1973548d-e76e-4512-bed4-792c95b59c12@kili.mountain>
-References: <cover.1679573474.git.kamrankhadijadj@gmail.com>
- <alpine.DEB.2.22.394.2303231408000.2866@hadrien>
- <alpine.DEB.2.22.394.2303231408410.2866@hadrien>
- <090ee842-46d0-4f35-bf00-68a3e1393b72@kili.mountain>
- <ZBxu5RBG9kCRlwRB@khadija-virtual-machine>
+        Thu, 23 Mar 2023 09:59:37 -0700 (PDT)
+From: Tom Rix <trix@redhat.com>
+To: gregkh@linuxfoundation.org,
+	nathan@kernel.org,
+	ndesaulniers@google.com,
+	error27@gmail.com,
+	colin.i.king@gmail.com
+Cc: linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	llvm@lists.linux.dev,
+	Tom Rix <trix@redhat.com>
+Subject: [PATCH] staging: rtl8192u: remove unused ieee80211_SignalStrengthTranslate function
+Date: Thu, 23 Mar 2023 12:59:31 -0400
+Message-Id: <20230323165931.2634587-1-trix@redhat.com>
+X-Mailer: git-send-email 2.27.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZBxu5RBG9kCRlwRB@khadija-virtual-machine>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"; x-default=true
 
-On Thu, Mar 23, 2023 at 08:23:17PM +0500, Khadija Kamran wrote:
-> On Thu, Mar 23, 2023 at 04:34:43PM +0300, Dan Carpenter wrote:
-> > On Thu, Mar 23, 2023 at 02:08:58PM +0100, Julia Lawall wrote:
-> > > 
-> > > 
-> > > On Thu, 23 Mar 2023, Julia Lawall wrote:
-> > > 
-> > > >
-> > > >
-> > > > On Thu, 23 Mar 2023, Khadija Kamran wrote:
-> > > >
-> > > > > Fix several cleanup issues reported by checkpatch.pl in module
-> > > > > staging/rtl8192e in file rtllib_rx.c
-> > > >
-> > > > Why is it resent?
-> > > 
-> > > OK, I see, sorry for the noise.
-> > 
-> > I'm still confused...  :P
-> >
-> 
-> Hey Dan!
-> 
-> Sorry about the confusion. I sent the last patch with the wrong email
-> mistakenly. It was causing following warning as reported by Philipp,
-> Checkpatch:
-> 
-> WARNING: From:/Signed-off-by: email address mismatch: 'From: Khadija
-> Kamran <kkamran.bese16seecs@seecs.edu.pk>' != 'Signed-off-by: Khadija
-> Kamran <kamrankhadijadj@gmail.com>
-> 
-> I resent this patch with the correct email address. I hope I did not do
-> this wrong.
+clang with W=1 reports
+drivers/staging/rtl8192u/ieee80211/ieee80211_rx.c:1961:18: error: unused
+  function 'ieee80211_SignalStrengthTranslate' [-Werror,-Wunused-function]
+static inline u8 ieee80211_SignalStrengthTranslate(
+                 ^
+This function is not used so remove it.
+It may have been used in the past but that has been commented out.
+Also remove the comment.
 
-It needs to be v2: resend from the correct email address.
+Signed-off-by: Tom Rix <trix@redhat.com>
+---
+ .../staging/rtl8192u/ieee80211/ieee80211_rx.c | 38 -------------------
+ 1 file changed, 38 deletions(-)
 
-When you send a patch a second time that always needs to be explained
-because we don't remember all the email we get.  The v2 information is
-really interesting as a reviewer.  Maybe I am wondering, "Did I respond
-to the original email and is my complaint fixed?"
+diff --git a/drivers/staging/rtl8192u/ieee80211/ieee80211_rx.c b/drivers/staging/rtl8192u/ieee80211/ieee80211_rx.c
+index 5c73e3f8541a..ca09367005e1 100644
+--- a/drivers/staging/rtl8192u/ieee80211/ieee80211_rx.c
++++ b/drivers/staging/rtl8192u/ieee80211/ieee80211_rx.c
+@@ -1958,43 +1958,6 @@ int ieee80211_parse_info_param(struct ieee80211_device *ieee,
+ 	return 0;
+ }
+ 
+-static inline u8 ieee80211_SignalStrengthTranslate(
+-	u8  CurrSS
+-	)
+-{
+-	u8 RetSS;
+-
+-	// Step 1. Scale mapping.
+-	if (CurrSS >= 71 && CurrSS <= 100) {
+-		RetSS = 90 + ((CurrSS - 70) / 3);
+-	} else if (CurrSS >= 41 && CurrSS <= 70) {
+-		RetSS = 78 + ((CurrSS - 40) / 3);
+-	} else if (CurrSS >= 31 && CurrSS <= 40) {
+-		RetSS = 66 + (CurrSS - 30);
+-	} else if (CurrSS >= 21 && CurrSS <= 30) {
+-		RetSS = 54 + (CurrSS - 20);
+-	} else if (CurrSS >= 5 && CurrSS <= 20) {
+-		RetSS = 42 + (((CurrSS - 5) * 2) / 3);
+-	} else if (CurrSS == 4) {
+-		RetSS = 36;
+-	} else if (CurrSS == 3) {
+-		RetSS = 27;
+-	} else if (CurrSS == 2) {
+-		RetSS = 18;
+-	} else if (CurrSS == 1) {
+-		RetSS = 9;
+-	} else {
+-		RetSS = CurrSS;
+-	}
+-	//RT_TRACE(COMP_DBG, DBG_LOUD, ("##### After Mapping:  LastSS: %d, CurrSS: %d, RetSS: %d\n", LastSS, CurrSS, RetSS));
+-
+-	// Step 2. Smoothing.
+-
+-	//RT_TRACE(COMP_DBG, DBG_LOUD, ("$$$$$ After Smoothing:  LastSS: %d, CurrSS: %d, RetSS: %d\n", LastSS, CurrSS, RetSS));
+-
+-	return RetSS;
+-}
+-
+ /* 0-100 index */
+ static long ieee80211_translate_todbm(u8 signal_strength_index)
+ {
+@@ -2095,7 +2058,6 @@ static inline int ieee80211_network_init(
+ 		network->flags |= NETWORK_EMPTY_ESSID;
+ 
+ 	stats->signal = 30 + (stats->SignalStrength * 70) / 100;
+-	//stats->signal = ieee80211_SignalStrengthTranslate(stats->signal);
+ 	stats->noise = ieee80211_translate_todbm((u8)(100 - stats->signal)) - 25;
+ 
+ 	memcpy(&network->stats, stats, sizeof(network->stats));
+-- 
+2.27.0
 
-For RESEND patches it means that the first patch was perfect but
-something broke down in the process.  Maybe a maintainer was on vacation
-and accidentally ignored the patch.  If Greg asks you to resend
-everything that's a kind of breakdown in the process as well, but just
-add that information in the patch "Resending all the most/ patches
-because it was confusing which one were supposed to be applied".
-
-That information is super interesting because it shows we are all on the
-same page about how to go forward.
-
-regards,
-dan carpenter
