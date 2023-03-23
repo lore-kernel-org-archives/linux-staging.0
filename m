@@ -1,108 +1,126 @@
-Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
+Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B002C95C;
-	Thu, 23 Mar 2023 19:20:15 +0000 (UTC)
-Received: by mail-ed1-f43.google.com with SMTP id o12so91167778edb.9;
-        Thu, 23 Mar 2023 12:20:15 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DFCDC959;
+	Thu, 23 Mar 2023 19:30:35 +0000 (UTC)
+Received: by mail-ed1-f45.google.com with SMTP id y4so91377192edo.2;
+        Thu, 23 Mar 2023 12:30:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1679599213;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=jRIhiCMIYhlzOxpqNUvBzZ/DfwkIA0+Cejq18uIa0y0=;
-        b=lRY8iaHw69WCs1URcFv4/laikeuajycokc36F6FdzbOd+szHEuJtUPQSc3rAvyEBd8
-         PhzFu9iGZhI6tQcgvCbQ4Vtg8s4zM/Ft0ublnHympVGRZz4y6kjCaZaMZWX7+OBkmR76
-         tusUCSPQ66ntZcNhbTRUbVEAfAUEPPKs+vsEn5Y8q2e3gw+RWFUkmC2+rkk/B2MRWulA
-         9aWfqWwV7l5uqkigskT8iz1Val+oWI2IUFtNRaWpWtizZ6PxfFsmc5ADQ8eeTycaE3cZ
-         HSFVC2L/WeKZsETyk3wJR366nK8+0Lwn/ygS+1vzDBNXhVIYy+uM/oq3oahKUwS09DmP
-         royw==
+        d=gmail.com; s=20210112; t=1679599833;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=BUIl8Xh5WLLPYlLkQu2wY3QG17y1su+TftE1qvIs+08=;
+        b=cz7z+5dhJICiBB+8apma55xoNzbX9tJ9Fms3V0K+2E4hdPov0dJSrEqQXts7IQ1s/j
+         klteQBY724lPWgZVZJjtMaFwNxCNMRj/EyYGxfQrxWMH3unNk1IdEImpYvPX2PasnVzJ
+         PN8bEdDcPRWYzjCijyL+WsIwT4qOmYXdAM0vvZUhvG+ss0e1IdS/dTdJtpllhu73GMlA
+         eu/dDklYIFb1s7cb9sBEtK1Ybve++xC8nuBcdIpQUIvFOEWDr+Fj1rBt2hpi0oY+dsys
+         BtlOdL9+6eImc1dpr36nQKAkjBl0xvMYPDmQailuVJoalaoqCH3WO+SM1prTDz+N91rQ
+         HzQQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679599213;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=jRIhiCMIYhlzOxpqNUvBzZ/DfwkIA0+Cejq18uIa0y0=;
-        b=Z6NGTv2aMOx+lNkfaUF+jOTN7it9l+8MV54YQosGwUBXKLGCYWRI1Ti/cK+kQlgQ6e
-         bt3Mp1ASlEz54G3qa2uA4uZJ7JZjTw824FqWjjGThvG0mqVD+nayVPRhaGai/vjfBeGO
-         r5CR+CxBiC/JlqBTKYX0psJdWH2CeMB3AwpXMdizI3zPx3pguTUqgO3x7uJNOmzSgVch
-         7w2VmqYgBgK/ShUlEByMfWiQt4ALaKO69w3lIbLxZRHoW8At4ZP2Ym6Yr+dCWUnw04zn
-         64mXZA/O9igy00xwrKW3nELky7ysAxw8XG4+TQ84qs5S9dgOj19arHfU9S5NQhPyqDF6
-         IrPg==
-X-Gm-Message-State: AAQBX9c5jFptXPXB5tNy78qz265myl2Nk7uRXukoyzLI2fyFkqWwg5bv
-	XpzWG680uPZzh1ENpTBRIJcAxuPl04q5obJb
-X-Google-Smtp-Source: AKy350bv2nW0ssSW58xZk/A1hVR6vQGpLcJ1lDh0NrD7/70XHYAWOJKVIw/lFQwMBDo6Wl2JAZ8PLg==
-X-Received: by 2002:a17:907:8c0e:b0:930:bc07:3bf7 with SMTP id ta14-20020a1709078c0e00b00930bc073bf7mr207842ejc.5.1679599213094;
-        Thu, 23 Mar 2023 12:20:13 -0700 (PDT)
-Received: from khadija-virtual-machine.localdomain ([39.41.14.14])
-        by smtp.gmail.com with ESMTPSA id ia9-20020a170907a06900b00932b3e2c015sm8161409ejc.51.2023.03.23.12.20.11
+        d=1e100.net; s=20210112; t=1679599833;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=BUIl8Xh5WLLPYlLkQu2wY3QG17y1su+TftE1qvIs+08=;
+        b=UKYxOLl5AdFwO54x6F2FKwgfdsUPIq9A38Cuy8DEJ+ESBdpxObkNlLiXtEHO0ADHlA
+         0kp6p337sZegT/RtEbLyIVE5dLdX0v5qlARfeMRkuUhvGdi2mzQgwc8GZZ5URFun2n+O
+         T4aDZ+kOus+iwyAGl4XOvjKdwp6OOc6RbdatMhswZgFDzkrrIKnr+n4/vG+XQQT53RJx
+         EvoqUAJ4+YVo1BCffrgXsOsjQj+KbX4OkMvn0ji0b58hrhvODgoZHq+BIwRXrhdHh4ZX
+         QL4L9HOykmK8bq3X41EY1fhYilv7YvVcRmUs7fAHUChH3Vg8VI4o1subUtHqVgMMwmxP
+         MVgA==
+X-Gm-Message-State: AAQBX9dx9EXE02l2KuLBXalBPUItlgw4Ey4NCzmSItrwOg3nGPEM4DLV
+	Gn6Y//7L3Z7L7PdD8TBy9qk=
+X-Google-Smtp-Source: AKy350Z4g+tI3HAkOWyHmIEIEwOwAxA55etUup60Hy0GSGGlfbhR5uujEG6CqvafOq8JHBCbos5L0g==
+X-Received: by 2002:a17:906:9756:b0:932:9303:76b9 with SMTP id o22-20020a170906975600b00932930376b9mr192020ejy.26.1679599833238;
+        Thu, 23 Mar 2023 12:30:33 -0700 (PDT)
+Received: from khadija-virtual-machine ([39.41.14.14])
+        by smtp.gmail.com with ESMTPSA id v19-20020a1709067d9300b008cff300cf47sm9036110ejo.72.2023.03.23.12.30.32
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 23 Mar 2023 12:20:12 -0700 (PDT)
+        Thu, 23 Mar 2023 12:30:32 -0700 (PDT)
+Date: Fri, 24 Mar 2023 00:30:30 +0500
 From: Khadija Kamran <kamrankhadijadj@gmail.com>
-To: outreachy@lists.linux.dev
-Cc: gregkh@linuxfoundation.org,
-	linux-staging@lists.linux.dev,
+To: Dan Carpenter <error27@gmail.com>
+Cc: Julia Lawall <julia.lawall@inria.fr>, outreachy@lists.linux.dev,
+	gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v2 4/4] staging: rtl8192e: remove blank lines after '{'
-Date: Fri, 24 Mar 2023 00:20:02 +0500
-Message-Id: <303a41480220a6c31cee91d40ece40b3fae3bddf.1679598576.git.kamrankhadijadj@gmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <cover.1679598576.git.kamrankhadijadj@gmail.com>
-References: <cover.1679598576.git.kamrankhadijadj@gmail.com>
+Subject: Re: [RESEND PATCH 0/4] staging: rtl8192e: code cleanup patches
+Message-ID: <ZByo1vUc16hqNOIJ@khadija-virtual-machine>
+References: <cover.1679573474.git.kamrankhadijadj@gmail.com>
+ <alpine.DEB.2.22.394.2303231408000.2866@hadrien>
+ <alpine.DEB.2.22.394.2303231408410.2866@hadrien>
+ <090ee842-46d0-4f35-bf00-68a3e1393b72@kili.mountain>
+ <ZBxu5RBG9kCRlwRB@khadija-virtual-machine>
+ <1973548d-e76e-4512-bed4-792c95b59c12@kili.mountain>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1973548d-e76e-4512-bed4-792c95b59c12@kili.mountain>
 
-Remove unnecessary blank lines after an open brace as reported by
-checkpatch.pl
+On Thu, Mar 23, 2023 at 06:32:54PM +0300, Dan Carpenter wrote:
+> On Thu, Mar 23, 2023 at 08:23:17PM +0500, Khadija Kamran wrote:
+> > On Thu, Mar 23, 2023 at 04:34:43PM +0300, Dan Carpenter wrote:
+> > > On Thu, Mar 23, 2023 at 02:08:58PM +0100, Julia Lawall wrote:
+> > > > 
+> > > > 
+> > > > On Thu, 23 Mar 2023, Julia Lawall wrote:
+> > > > 
+> > > > >
+> > > > >
+> > > > > On Thu, 23 Mar 2023, Khadija Kamran wrote:
+> > > > >
+> > > > > > Fix several cleanup issues reported by checkpatch.pl in module
+> > > > > > staging/rtl8192e in file rtllib_rx.c
+> > > > >
+> > > > > Why is it resent?
+> > > > 
+> > > > OK, I see, sorry for the noise.
+> > > 
+> > > I'm still confused...  :P
+> > >
+> > 
+> > Hey Dan!
+> > 
+> > Sorry about the confusion. I sent the last patch with the wrong email
+> > mistakenly. It was causing following warning as reported by Philipp,
+> > Checkpatch:
+> > 
+> > WARNING: From:/Signed-off-by: email address mismatch: 'From: Khadija
+> > Kamran <kkamran.bese16seecs@seecs.edu.pk>' != 'Signed-off-by: Khadija
+> > Kamran <kamrankhadijadj@gmail.com>
+> > 
+> > I resent this patch with the correct email address. I hope I did not do
+> > this wrong.
+> 
+> It needs to be v2: resend from the correct email address.
+> 
+> When you send a patch a second time that always needs to be explained
+> because we don't remember all the email we get.  The v2 information is
+> really interesting as a reviewer.  Maybe I am wondering, "Did I respond
+> to the original email and is my complaint fixed?"
+> 
+> For RESEND patches it means that the first patch was perfect but
+> something broke down in the process.  Maybe a maintainer was on vacation
+> and accidentally ignored the patch.  If Greg asks you to resend
+> everything that's a kind of breakdown in the process as well, but just
+> add that information in the patch "Resending all the most/ patches
+> because it was confusing which one were supposed to be applied".
+> 
+> That information is super interesting because it shows we are all on the
+> same page about how to go forward.
+>
 
-"CHECK: Blank lines aren't necessary after an open brace '{'"
+Hey Dan,
 
-Signed-off-by: Khadija Kamran <kamrankhadijadj@gmail.com>
----
- drivers/staging/rtl8192e/rtllib_rx.c | 4 ----
- 1 file changed, 4 deletions(-)
+Thank you for the explanation. I understand and I will make sure to
+always add some information regarding the patch if resent.
 
-diff --git a/drivers/staging/rtl8192e/rtllib_rx.c b/drivers/staging/rtl8192e/rtllib_rx.c
-index f627dfe66d90..b649d02dc5c8 100644
---- a/drivers/staging/rtl8192e/rtllib_rx.c
-+++ b/drivers/staging/rtl8192e/rtllib_rx.c
-@@ -1167,7 +1167,6 @@ static int rtllib_rx_decrypt(struct rtllib_device *ieee, struct sk_buff *skb,
- 	if (crypt && !(fc & RTLLIB_FCTL_WEP) && !ieee->open_wep) {
- 		if (/*ieee->ieee802_1x &&*/
- 		    rtllib_is_eapol_frame(ieee, skb, hdrlen)) {
--
- 			/* pass unencrypted EAPOL frames even if encryption is
- 			 * configured
- 			 */
-@@ -1207,7 +1206,6 @@ static void rtllib_rx_check_leave_lps(struct rtllib_device *ieee, u8 unicast,
- 				      u8 nr_subframes)
- {
- 	if (unicast) {
--
- 		if (ieee->state == RTLLIB_LINKED) {
- 			if (((ieee->link_detect_info.NumRxUnicastOkInPeriod +
- 			    ieee->link_detect_info.NumTxOkInPeriod) > 8) ||
-@@ -1552,7 +1550,6 @@ static u8 qos_oui[QOS_OUI_LEN] = { 0x00, 0x50, 0xF2 };
- static int rtllib_verify_qos_info(struct rtllib_qos_information_element
- 				     *info_element, int sub_type)
- {
--
- 	if (info_element->elementID != QOS_ELEMENT_ID)
- 		return -1;
- 	if (info_element->qui_subtype != sub_type)
-@@ -2696,7 +2693,6 @@ static void rtllib_rx_mgt(struct rtllib_device *ieee,
- 		ieee->last_rx_ps_time = jiffies;
- 
- 	switch (WLAN_FC_GET_STYPE(le16_to_cpu(header->frame_ctl))) {
--
- 	case RTLLIB_STYPE_BEACON:
- 		netdev_dbg(ieee->dev, "received BEACON (%d)\n",
- 			   WLAN_FC_GET_STYPE(le16_to_cpu(header->frame_ctl)));
--- 
-2.34.1
+Regards,
+Khadija
 
+> regards,
+> dan carpenter
