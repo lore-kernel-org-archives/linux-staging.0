@@ -1,50 +1,61 @@
-Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50741C959;
-	Thu, 23 Mar 2023 19:56:16 +0000 (UTC)
-Received: by mail-ed1-f42.google.com with SMTP id eg48so91429101edb.13;
-        Thu, 23 Mar 2023 12:56:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1679601374;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=FYRlJa6a2No9s6NXBUhNFjPStBEW6jedBGv/pSig1z4=;
-        b=Kn1b/aFaavHDgC7YmWZnNxcrxO9CFUOKs9075y4FhoNL1KBFvc3/MIGFyvHy2D/ES6
-         sE3/AUJy5PL5ASYw9TVl27izLDpiAvOB7NqmApmTKKcAfdVx6zTPp+NSr3cA3/0PRfuA
-         R8g6ufeoYV0i8AmY02U61BkA9yGQ/ZVugNuxVI/8o373ePYg2AKCWCcwwcBlQmFBENak
-         rEcEJP/dUpCXWoJc/03Gh6CQ8oSyWZOj6WPy4P39JwCRl5C+pXuIn+OhSdbymmzVgbmL
-         HAj4fbDKeFvSQm7E2cAZ7MUmXgYU18Tzj2TYomdWzdiSwenQFRbavbj5qO0ngSLk4EDq
-         UDoA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679601374;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=FYRlJa6a2No9s6NXBUhNFjPStBEW6jedBGv/pSig1z4=;
-        b=MW7NUcM4GQQVk3aabvd2E8z40MK6gV3OV46C6VkUF30m6JXU59fR2xfZe5+x2dOBCZ
-         +lpTpMd204zVZBYNPKAWLl8M9DIvV1DllF3B2sJuMWq0KeQKp9Z6v38kzMsty1L8u2jw
-         1HSx+CXlccRAakFh60vEmKVI7ZP3av7ZRt96lITHA4zr+ZSTPIhEs7/ebmXeQQ0ZDflk
-         t+Fvt+Z97UVMZC8ffKgMGh0X6ntRm5rIduhP/7cvSUuN07sBNFPzessqURSkeXIxrxZt
-         TIk2fz2YoqO7SRytFYoua4l9oQlgcl7blHnnMhUbczDww/NBObcQFK17D64jGfPmQURR
-         vkEg==
-X-Gm-Message-State: AAQBX9cwRiBXqhAFnEyIjvh+aBWDir4rsXl8jCbC93tlw/YesvwSWpaF
-	WDT7NHDv1oZtUIgMFeTfvGs=
-X-Google-Smtp-Source: AKy350b2vWNeXZ5OkAFkp6bZZPQE43kxZ8z04Ds5oz4LW4BNgDt/feaRHXQ8XNXKH0n4yZTPPaHPCg==
-X-Received: by 2002:aa7:cf86:0:b0:500:2cac:332c with SMTP id z6-20020aa7cf86000000b005002cac332cmr519749edx.25.1679601374293;
-        Thu, 23 Mar 2023 12:56:14 -0700 (PDT)
-Received: from khadija-virtual-machine ([39.41.14.14])
-        by smtp.gmail.com with ESMTPSA id q18-20020a50c352000000b00501d39f1d2dsm5147384edb.41.2023.03.23.12.56.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 23 Mar 2023 12:56:13 -0700 (PDT)
-Date: Fri, 24 Mar 2023 00:56:11 +0500
-From: Khadija Kamran <kamrankhadijadj@gmail.com>
-To: outreachy@lists.linux.dev
-Cc: Parthiban Veerasooran <parthiban.veerasooran@microchip.com>,
-	Christian Gromm <christian.gromm@microchip.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [PATCH v3] staging: most: fix line ending with '(' in dim2/
-Message-ID: <ZByu29jb1mE3KOsn@khadija-virtual-machine>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C92E5C959
+	for <linux-staging@lists.linux.dev>; Thu, 23 Mar 2023 20:01:58 +0000 (UTC)
+Received: from pps.filterd (m0098410.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 32NHb9GP012594;
+	Thu, 23 Mar 2023 20:01:57 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=date : from : to : cc :
+ subject : message-id : references : mime-version : content-type :
+ in-reply-to; s=pp1; bh=eNfxwCHnvvaI0HPhukh3/fzOd3z0sV5WFxRLN34b3bc=;
+ b=pB2HmH4CTn6HUwe1cSSYHKZgDlLULTPIdFItERI7RjZu8r2pNPVfWQYMZCri+0g027Nu
+ g4XojyxkC0/UM5CBlAcZaS46KG+yNcggwxo/K1UBoEvLLS2hE2aQljgntZXsHLAExzu1
+ 2bZFb+j7o7dI97aknfYQkMtbU9vHL8XVdaikD2p1Tc57sbT6E9Lv2f+FU//kVIlURHlr
+ HZC2Ge2H0LZfy9mojfaxxWSwGIgC21XnHA4cvJm8VUxtYizhbaSyRCTVwbNhYk9LFbNY
+ ogPr6cweKWV5xGSpbFEEHy8ULn/htC/HMrYcjK8HYFxvxQ0jJXxkK4rhq91Lu3OUXLJJ EQ== 
+Received: from pps.reinject (localhost [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3pgmc2yd7r-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 23 Mar 2023 20:01:56 +0000
+Received: from m0098410.ppops.net (m0098410.ppops.net [127.0.0.1])
+	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 32NJU2e1007859;
+	Thu, 23 Mar 2023 20:01:56 GMT
+Received: from ppma03ams.nl.ibm.com (62.31.33a9.ip4.static.sl-reverse.com [169.51.49.98])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3pgmc2ycxs-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 23 Mar 2023 20:01:56 +0000
+Received: from pps.filterd (ppma03ams.nl.ibm.com [127.0.0.1])
+	by ppma03ams.nl.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 32N8jLER022346;
+	Thu, 23 Mar 2023 20:01:36 GMT
+Received: from smtprelay04.fra02v.mail.ibm.com ([9.218.2.228])
+	by ppma03ams.nl.ibm.com (PPS) with ESMTPS id 3pd4x6fv9c-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 23 Mar 2023 20:01:36 +0000
+Received: from smtpav07.fra02v.mail.ibm.com (smtpav07.fra02v.mail.ibm.com [10.20.54.106])
+	by smtprelay04.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 32NK1XC133489478
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Thu, 23 Mar 2023 20:01:33 GMT
+Received: from smtpav07.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id CA1AF20040;
+	Thu, 23 Mar 2023 20:01:33 +0000 (GMT)
+Received: from smtpav07.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 2DB742004D;
+	Thu, 23 Mar 2023 20:01:32 +0000 (GMT)
+Received: from li-27defe4c-32e1-11b2-a85c-e202e9981075.ibm.com (unknown [9.43.63.38])
+	by smtpav07.fra02v.mail.ibm.com (Postfix) with ESMTPS;
+	Thu, 23 Mar 2023 20:01:31 +0000 (GMT)
+Date: Fri, 24 Mar 2023 01:31:23 +0530
+From: Abhirup Deb <abhirupdeb@linux.vnet.ibm.com>
+To: Dan Carpenter <error27@gmail.com>
+Cc: Martyn Welch <martyn@welchs.me.uk>,
+        Manohar Vanga <manohar.vanga@gmail.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
+Subject: Re: [PATCH v2 RESEND] staging: vme_user: Replace "<<" with BIT macro
+Message-ID: <ZBywE7I6AC4fLHLS@li-27defe4c-32e1-11b2-a85c-e202e9981075.ibm.com>
+References: <ZBxOdihP+mygNsuS@li-27defe4c-32e1-11b2-a85c-e202e9981075.ibm.com>
+ <9375f16c-5040-4355-8bd0-54c07763d6b3@kili.mountain>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -53,43 +64,41 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <9375f16c-5040-4355-8bd0-54c07763d6b3@kili.mountain>
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: kp9Ku9h6Y0mGGsF-_D-_NsNen1GHg8Iu
+X-Proofpoint-ORIG-GUID: _QUBhg-PBYUwHTX9S-RNmLwKCnOSf4WR
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-03-23_13,2023-03-23_02,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1015 adultscore=0
+ bulkscore=0 impostorscore=0 mlxscore=0 spamscore=0 malwarescore=0
+ priorityscore=1501 mlxlogscore=726 phishscore=0 suspectscore=0
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2303150002 definitions=main-2303230147
 
-Splitting function header to multiple lines because of 80 characters per
-line limit, results in ending the function call line with '('.
-This leads to CHECK reported by checkpatch.pl
+On Thu, Mar 23, 2023 at 04:34:06PM +0300, Dan Carpenter wrote:
+> On Thu, Mar 23, 2023 at 06:34:54PM +0530, Abhirup Deb wrote:
+> > Replace the "<<" operator with BIT macro, in accordance to the
+> > checkpatch.pl script and Linux kernel coding-style guidelines.
+> > 
+> > Signed-off-by: Abhirup Deb <abhirupdeb@linux.vnet.ibm.com>
+> > ---
+> > Changes in v2:
+> >     - Refactor the patch & Replace the erroneous BIT macro in --
+> >        "#define TSI148_PCFS_STAT_SELTIM        BIT(9)"
+> >       with --
+> >        "#define TSI148_PCFS_STAT_SELTIM        (3<<9)"
+> > 
+> 
+> Why did you resend this?
+> 
+> regards,
+> dan carpenter
+>
+Hey Dan,
+Sorry,did not mean to spam! Mistake on my part!
 
-Move the function parameters right after the '(' in the function call
-line. Align the rest of the parameters to the opening parenthesis.
-
-Signed-off-by: Khadija Kamran <kamrankhadijadj@gmail.com>
----
-
-Changes in v3:
- - Changed the subject because another patch for 'most/' with the same
-   name was causing confusion.
-
-Changes in v2:
- - Changed the description
-
- drivers/staging/most/dim2/hal.c | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
-
-diff --git a/drivers/staging/most/dim2/hal.c b/drivers/staging/most/dim2/hal.c
-index a5d40b5b138a..6abe3ab2b2cf 100644
---- a/drivers/staging/most/dim2/hal.c
-+++ b/drivers/staging/most/dim2/hal.c
-@@ -346,9 +346,8 @@ static void dim2_clear_ctram(void)
- 		dim2_clear_ctr(ctr_addr);
- }
- 
--static void dim2_configure_channel(
--	u8 ch_addr, u8 type, u8 is_tx, u16 dbr_address, u16 hw_buffer_size,
--	u16 packet_length)
-+static void dim2_configure_channel(u8 ch_addr, u8 type, u8 is_tx, u16 dbr_address,
-+				   u16 hw_buffer_size, u16 packet_length)
- {
- 	dim2_configure_cdt(ch_addr, dbr_address, hw_buffer_size, packet_length);
- 	dim2_configure_cat(MLB_CAT, ch_addr, type, is_tx ? 1 : 0);
--- 
-2.34.1
+Regards,
+Abhirup Deb
 
