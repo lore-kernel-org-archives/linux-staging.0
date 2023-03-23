@@ -1,27 +1,27 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A75117FA;
-	Thu, 23 Mar 2023 04:53:22 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B259DC433D2;
-	Thu, 23 Mar 2023 04:53:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 256741C04
+	for <linux-staging@lists.linux.dev>; Thu, 23 Mar 2023 04:55:24 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7090AC433EF;
+	Thu, 23 Mar 2023 04:55:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1679547202;
-	bh=uzFB9x1Hyc+9dE/aF2h2WsJuyCGoBehuwnjCIfIgx9Q=;
+	s=korg; t=1679547324;
+	bh=L8V8tdH9v0Pzz/Q+0e1Gx1r0FWztww1FBu2Dj3c0Zd8=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=qJH1K80Ut1jTFOeSeJ0oczI8vlBDCcDlz733wVGgqktOQpPcvaiz8r2ACB6i+CLuR
-	 B4uHzC9C6OEBiicvIQj8lVg1/OyXjbRKTRFqA+613Dw4PRwe+9olkSAp65nOAYD/nv
-	 r4R3lV4RYgvPOERBee8IfTOsnUlON7hI+p9T4Zh0=
-Date: Thu, 23 Mar 2023 05:53:19 +0100
+	b=Y276/HWlE/usJ9mOqeGEygGMOaJ873CjPrJP0yUashiHXnS55OsV9kHzk5LpwNmc6
+	 HxyurKiolWUokkf3wvgF+W8GixkYYq7DsxycdlRWe+5kgRZZFTyNFQFs/IRmhJJHYs
+	 G1OLwZWgRcb+I1ihBrL6TkvNbspht8ZJSLHrPuQ4=
+Date: Thu, 23 Mar 2023 05:55:21 +0100
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Khadija Kamran <kamrankhadijadj@gmail.com>
-Cc: outreachy@lists.linux.dev,
-	Parthiban Veerasooran <parthiban.veerasooran@microchip.com>,
-	Christian Gromm <christian.gromm@microchip.com>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: most: fix line ending with '('
-Message-ID: <ZBvbP8ugDFjSoVp/@kroah.com>
-References: <ZBsSOlPbaGZcAaSY@khadija-virtual-machine>
+To: Rohit Chavan <roheetchavan@gmail.com>
+Cc: Martyn Welch <martyn@welchs.me.uk>,
+	Manohar Vanga <manohar.vanga@gmail.com>,
+	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
+Subject: Re: [PATCH] staging: vme_user: Fixing coding style issues reported
+ by checkpatch
+Message-ID: <ZBvbufoYo/wPp4qY@kroah.com>
+References: <20230322142923.723-1-roheetchavan@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -30,27 +30,34 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ZBsSOlPbaGZcAaSY@khadija-virtual-machine>
+In-Reply-To: <20230322142923.723-1-roheetchavan@gmail.com>
 
-On Wed, Mar 22, 2023 at 07:35:38PM +0500, Khadija Kamran wrote:
-> Splitting function header to multiple lines because of 80 characters per
-> line limit, results in ending the function call line with '('.
-> This leads to CHECK reported by checkpatch.pl
-> 
-> Move the first parameter right after the '(' in the function call line.
-> Align the rest of the parameters to the opening parenthesis.
-> 
-> Signed-off-by: Khadija Kamran <kamrankhadijadj@gmail.com>
+On Wed, Mar 22, 2023 at 07:59:23PM +0530, Rohit Chavan wrote:
+> Fixing alignment should match open parenthesis issue on multiple lines,
+> reported by checkpatch script.
+
+You might want to mention on the subject line that this is a parenthesis
+issue, right?
+
+> Signed-off-by: Rohit Chavan <roheetchavan@gmail.com>
 > ---
->  drivers/staging/most/dim2/hal.c | 5 ++---
->  1 file changed, 2 insertions(+), 3 deletions(-)
+>  drivers/staging/vme_user/vme_tsi148.c | 102 +++++++++++++-------------
+>  1 file changed, 51 insertions(+), 51 deletions(-)
+> 
+> diff --git a/drivers/staging/vme_user/vme_tsi148.c b/drivers/staging/vme_user/vme_tsi148.c
+> index 2f5eafd50934..716de1d7fe21 100644
+> --- a/drivers/staging/vme_user/vme_tsi148.c
+> +++ b/drivers/staging/vme_user/vme_tsi148.c
+> @@ -55,14 +55,14 @@ static struct pci_driver tsi148_driver = {
+>  };
+> 
+>  static void reg_join(unsigned int high, unsigned int low,
+> -	unsigned long long *variable)
+> +		     unsigned long long *variable)
 
-You have 2 patches here with identical subject lines, yet they do
-different things :(
-
-I've dropped all of your pending patches now for the most driver as I'm
-totally confused.  Please resend them all as a proper patch series with
-updated subject lines.
+For many of these, you can just move the line to the previous one,
+making it a single line, right?  That would make the code much more
+readable.
 
 thanks,
 
