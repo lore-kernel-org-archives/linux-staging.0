@@ -1,79 +1,101 @@
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from msg-2.mailo.com (msg-2.mailo.com [213.182.54.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00771C959;
-	Thu, 23 Mar 2023 19:35:53 +0000 (UTC)
-Received: by mail-wm1-f43.google.com with SMTP id j18-20020a05600c1c1200b003ee5157346cso1917803wms.1;
-        Thu, 23 Mar 2023 12:35:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1679600152; x=1682192152;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=voH3eMjhhyaut+22MPGFHGPMcDal/7FwDZOTpsj04SI=;
-        b=OUB2ED/FwjUpQ0e0blSs+/H7lKEKtqqbnLJ86iWyLHz86f5U0RSyENZMyncuKfDh+h
-         ovzTvUI3T4g7FdwnEdKSceZ1sUYlUIzud4ehFNidstPI89Sghu+/1DD6zPiP68lSlJM+
-         z1ctCQjtmFiPg7iA0KpG+IloiBWsyE2crvqIwWgKr4aR0+DFRWdfGxM4XuozquJQ7GFY
-         UKM+8GLxj+b1ecKGC4kYbNKQ++x2Z/yEd1Q/GvdtPGfVDqeB77IC2AX8ycu5llTL7TeP
-         yq60cxIf7VU2GWx9YTohmx9rQ4QUTfZc6Dc+9iZKvVGhV5rDpQH1SPFfWRZ7kZu+/1zJ
-         ZNDg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679600152; x=1682192152;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=voH3eMjhhyaut+22MPGFHGPMcDal/7FwDZOTpsj04SI=;
-        b=n6UAbdysx7+mnDMKCOFFl/PyvCYsxfel2p66w+i9lddFbATab0h+mTETpEMAiQrhEu
-         Ez9QhuqrvDgd4dAaWGejm7RgPSfoD9ShSnb0DIdYIe8rNgBejfLQmQSp8MsR3iPhtpBi
-         MyBi14Ah26nTFPw/NV/plZ3hOvmivrf1UeKjDtqZbb0Yet63GFSQT5neOIIVga26C7/S
-         nmsRUMSKBc0p7gGz5NUgb0PPLejvU52WQQi0DkiqIsfNVhfczRUr3D1NuzKeAfFPOwqk
-         DpZYOsOvaA619m1YS8J7Q2fslxJEzXKpj+l8s2IdPvyrm+LLn6iW3fZb/4SsEF5Z4YVy
-         nYmg==
-X-Gm-Message-State: AO0yUKWYWux0GQTrkpRaL5OrwShVJF96sR/4VGHBa9BUEo1rzO2lZrEU
-	ZY8hmYCIHZAs34DQDVOT0xM=
-X-Google-Smtp-Source: AK7set9sUQp9ktBvPWcuSNp0GfPFC5fxoLwxzfiIdqzt5xrlt9Gl/CH1kOJou/mwlbViWbzxd5lPYA==
-X-Received: by 2002:a05:600c:1c18:b0:3ee:52fb:6dd9 with SMTP id j24-20020a05600c1c1800b003ee52fb6dd9mr687433wms.4.1679600151878;
-        Thu, 23 Mar 2023 12:35:51 -0700 (PDT)
-Received: from [192.168.0.104] (p57935146.dip0.t-ipconnect.de. [87.147.81.70])
-        by smtp.gmail.com with ESMTPSA id l15-20020a05600c1d0f00b003eb2e33f327sm7633360wms.2.2023.03.23.12.35.50
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 23 Mar 2023 12:35:51 -0700 (PDT)
-Message-ID: <c8ada96d-a7da-f149-3fda-64abd7e21064@gmail.com>
-Date: Thu, 23 Mar 2023 20:35:50 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 454CAC959;
+	Thu, 23 Mar 2023 19:46:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mailo.com; s=mailo;
+	t=1679600790; bh=Ofo5WnknXu2q4PHMQtHwGNgTsx9PA3GsytL7rSclMoM=;
+	h=X-EA-Auth:Date:From:To:Cc:Subject:Message-ID:References:
+	 MIME-Version:Content-Type:In-Reply-To;
+	b=d/RQhi09FV2kGD7zsVGy49E61BrwVVX1p8onsuoJ937QJonp0xESkL1t0xv6efXLs
+	 6v9HL8quo3/fR0D7I9sVGtQZmExwTGNZ6A+i+nbkaCnf7g2qLRwyi233ZTlNa5pXKI
+	 3IWFT/21lXvvaEX0neoGaJl9+cXCBpVzlNSPzYdE=
+Received: by b221-3.in.mailobj.net [192.168.90.23] with ESMTP
+	via ip-20.mailobj.net [213.182.54.20]
+	Thu, 23 Mar 2023 20:46:30 +0100 (CET)
+X-EA-Auth: jRldBc3fw9HBPmS2VhRtuXpKewjU9HPr0zvL+RMjtoTBXoNrOPkyuG56v9mN9SoAFgEQrrgGpYQwP1A4u5xeLZPK9L+o8cFj
+Date: Fri, 24 Mar 2023 01:16:26 +0530
+From: Deepak R Varma <drv@mailo.com>
+To: Greg KH <gregkh@linuxfoundation.org>
+Cc: Julia Lawall <julia.lawall@inria.fr>, Alex Elder <elder@ieee.org>,
+	Menna Mahmoud <eng.mennamahmoud.mm@gmail.com>,
+	outreachy@lists.linux.dev, johan@kernel.org, elder@kernel.org,
+	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
+Subject: Re: [PATCH v2] staging: greybus: use inline function for macros
+Message-ID: <ZByskk59KaEZbc6+@ubun2204.myguest.virtualbox.org>
+References: <20230321183456.10385-1-eng.mennamahmoud.mm@gmail.com>
+ <2e869677-2693-6419-ea25-f0cc2efcf3dd@ieee.org>
+ <alpine.DEB.2.22.394.2303212140480.2919@hadrien>
+ <5efa6e6d-8573-31de-639a-d15b2e9deca0@ieee.org>
+ <alpine.DEB.2.22.394.2303212218500.2919@hadrien>
+ <48674d8f-9753-780c-f37c-f83ea2855ae6@ieee.org>
+ <eabacc6f-c7fb-ff33-26d1-271537fb4760@inria.fr>
+ <ZBvcWkpMJnxea78L@kroah.com>
+ <ZBveN3HT96/cktRI@ubun2204.myguest.virtualbox.org>
+ <ZBviL+IuY43djHyS@kroah.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH v2 0/4] staging: rtl8192e: code cleanup patches
-To: Khadija Kamran <kamrankhadijadj@gmail.com>, outreachy@lists.linux.dev
-Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org
-References: <cover.1679598576.git.kamrankhadijadj@gmail.com>
-Content-Language: en-US
-From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-In-Reply-To: <cover.1679598576.git.kamrankhadijadj@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ZBviL+IuY43djHyS@kroah.com>
 
-On 3/23/23 20:19, Khadija Kamran wrote:
-> Fix several cleanup issues reported by checkpatch.pl in module
-> staging/rtl8192e in file rtllib_rx.c
+On Thu, Mar 23, 2023 at 06:22:55AM +0100, Greg KH wrote:
+> On Thu, Mar 23, 2023 at 10:35:59AM +0530, Deepak R Varma wrote:
+> > On Thu, Mar 23, 2023 at 05:58:02AM +0100, Greg KH wrote:
+> > > Nice, that shows that it is the same both ways as the compiler version
+> > > you are using is smart enough
+> > > 
+> > > Which compiler and version is this?  Does it work the same for all of
+> > > the supported versions we have to support (i.e. really old gcc?)
+> > > 
+> > > For the most part, sysfs files are not on any sort of "fast path" so a
+> > 
+> > Hello,
+> > Is there a guideline/documentation on how to identify if a code is part of
+> > fast/slow path?
 > 
-> Changes in v2:
->   - Resent patchset with the correct email address
+> Not really, the general rule is if the code is used in a function that
+> is time criticial, then it is in the "fast path".
 > 
-> Khadija Kamran (4):
->    staging: rtl8192e: remove extra blank lines
->    staging: rtl8192e: add blank lines after declarations
->    staging: rtl8192e: add spaces around binary operators
->    staging: rtl8192e: remove blank lines after '{'
+> Normally the code path for I/O or for determining what process to
+> schedule next is a "fast path" as you want to do the least amount of
+> work in the kernel so as to get the I/O to the hardware or caller, or
+> you want to schedule the next process faster so that it can do the real
+> work that is wanted.
 > 
->   drivers/staging/rtl8192e/rtllib_rx.c | 73 +++++++++++-----------------
->   1 file changed, 29 insertions(+), 44 deletions(-)
+> But for some I/O, where the hardware is the limiting factor (like slow
+> USB or serial connections), no matter how optimized the kernel is, the
+> data can not get to the user any faster because the hardware just can
+> not provide it, so for that, it's not really that critical.
 > 
+> Note that "time critical" can change depending on the user of the system
+> and as hardware evolves.
+> 
+> One example would be the creation of a number of sysfs entries for the
+> disks in the systems.  On a "normal" system, creating them all is trivial
+> as there are not many disks.  But on some "big" systems with many tens
+> of thousands of disks, it can become a boot time bottleneck.
+> 
+> So it's usually "you know it when you see it show up on a profile", use
+> the perf tool to test your workload on, to see where in the kernel
+> things are taking up too much time so you know what needs to be made
+> faster.
+> 
+> hope this helps,
 
-Tested-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+Thank you Greg.
+Yes, it definitely is very helpful. I sincerely appreciate the explanation and
+the time you took to write it in so detail. I am Obliged.
+
+Regards,
+Deepak.
+
+
+> 
+> greg k-h
+
+
