@@ -1,42 +1,43 @@
-Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174])
+Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B42F1320A;
-	Thu, 23 Mar 2023 09:01:36 +0000 (UTC)
-Received: by mail-pf1-f174.google.com with SMTP id y2so8266483pfw.9;
-        Thu, 23 Mar 2023 02:01:36 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F222320A;
+	Thu, 23 Mar 2023 09:04:08 +0000 (UTC)
+Received: by mail-pl1-f179.google.com with SMTP id ix20so21702753plb.3;
+        Thu, 23 Mar 2023 02:04:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1679562096;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=8RWJzOeM5GIaIf82zupXR/wrUWqvRt22D3jyGfDKRi0=;
-        b=GT9VzWPWIi3fRiiTEQRqtMPzOf4UlHEtpXWnaON7ZeEB/MsGe1J2NYF8yO4jWTpa+B
-         FDQV3dtv10AicBYCDB/kw4dhLuluZpSeo4pELv0kz4QwZ437E+CFPkbAktP56Z68kafx
-         pl9eoxJaIMGEU+MxDRx2AeiYW560rczy2CdmHzR3iR7Udwr6HKFYfK8/2xHYyh4B6rw6
-         hnQbxBujs2CSMhjGSR8KDudwUIzlEFct3Frk27NrUzCEGG6WfEI9/Jn0Z6SYnMJT5EC0
-         xuUOiTtxrHodzem+fDQjMWr07zfXJvklPIPaKReyyu8FYIdkCtcTIrJm2FBO1YWJ8x/m
-         IhLw==
+        d=gmail.com; s=20210112; t=1679562247;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=OjcZplfqBfGxkesm/SQ2YHNMoUVOYWANADhv4EwbVKw=;
+        b=hoFy1YlM+Ou4lh0YKLuMnMSIdbLbE14MqBS1SC7KjUNh2kF/qIvdI94Q/6Pf6fQYgD
+         SLOV7FX4N/holaDTDjRHZYO5HjilL5W6VQ/vdCtKhXubLcAQBRhJvxnItxYn4W3Eoqkn
+         qGZdnJtgtBoUwyYEJUkd/ZhRZ16fPJiij1SSdyQrqqoAWQ5/R8L774dQwWWPYDjV444G
+         8sUCpfgwE2HbjBA/hwPluQ53d9VYOftWc/jM7PE8763T7HywEa+7U8M+nzXd2hsKbyWq
+         eYeA5Z65UH7hAE1wRhvXz2D9i6gGDFXwp+uXSIZ3X4415fvat6tbxl4r5ewZEaIsLvZW
+         ga5A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679562096;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=8RWJzOeM5GIaIf82zupXR/wrUWqvRt22D3jyGfDKRi0=;
-        b=cTng5Ou377pYd7UeZ/FmMq1bgC4GkddwRBJjdPPbPvP5e7G78jCaSP/eYhZHXFAI5j
-         tLuQ6Um65ysKJbrWEwJT8IIGIkzfFWv6ppB7WkEthXpyQy8HJeJdIyNshd/aITPT8gwO
-         5jjrVPKdOtW6Bcwx2MjuCN8KFnbWsKQEF3cslB8LbDw+1et7Uh4arF76FwuNwLHEntOL
-         fyMLLJepyY+HQ7EDfCUm2X/0M0mgyRnNE1YmcVMazJtTNDkEbVmCotZ78WEqR3eWe5CJ
-         j3r+wIyypnE1hOIupaVc7eyAMFp/hMJbih8nsA4wAJ/W16uzBbRuQafIoaKr499PZgQV
-         TPQg==
-X-Gm-Message-State: AO0yUKXvXnDrkmwNnqQtGyvvUsx+PgRTXGNG/vk8TLUa9syTREsoeNwI
-	3/Mh8tMo41PZTQ83qslaniUVPP22QjuPXw==
-X-Google-Smtp-Source: AK7set9PXu7Uw9YhBNw4+ICSHXADaMDo6mZwCvehYYG3R5Lm9keHwVatsPeUKZXZPuWSWtZHu4/U5w==
-X-Received: by 2002:a62:1d8f:0:b0:5dc:6dec:e992 with SMTP id d137-20020a621d8f000000b005dc6dece992mr5088682pfd.1.1679562095852;
-        Thu, 23 Mar 2023 02:01:35 -0700 (PDT)
+        d=1e100.net; s=20210112; t=1679562247;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=OjcZplfqBfGxkesm/SQ2YHNMoUVOYWANADhv4EwbVKw=;
+        b=rrccxdYa1sKxEb8M1MoLJ/Zv6SjOVjKHTq6HhgfBjU42jDqIqc/JhiPuOOlQeo+eVY
+         N8raWOd7mGRzgRDpoXjr2OWMeMzP+k2IGqFR8U6uG9fYTLTVQzB0Apdlkt0PtgHUjxKv
+         qEOk+oU/PCR2Vgw0WvDS1WHXMZCQs71EoWr0iQAooxa2au6VzeN30q9GJB+wD7YD4TkT
+         6bph5X7rAnK1LiKoQuTvjVaYhCItq5cEkrkWhIlPYQdeaEQPmlkJbQdxeOnvd9TOGmZv
+         q8DN/QDgHlWa7p/fkPsp/or6aKrBeIogpnMLfQp9a5B1hMfvicewsAmQ5NhLKOzPSXD2
+         LHRA==
+X-Gm-Message-State: AO0yUKXsbV2Opk7wqBQuTrk8EiTCtX232yzsS2gLF0MsqxI2s919ZrNm
+	gidfoNw63y6NvyB5D12po11AbYHk9BDOuQ==
+X-Google-Smtp-Source: AK7set/oTTiOrApmUymSuNVVr+CSlC/dlZSzh452dlK3gzZb5t+MSmqd5fk4C8IAizbPWqksg3qEQQ==
+X-Received: by 2002:a17:903:247:b0:19a:9880:175f with SMTP id j7-20020a170903024700b0019a9880175fmr6518482plh.51.1679562247398;
+        Thu, 23 Mar 2023 02:04:07 -0700 (PDT)
 Received: from ubuntu.localdomain ([117.207.139.205])
-        by smtp.gmail.com with ESMTPSA id i21-20020aa787d5000000b00625f5aaa1d9sm11346893pfo.83.2023.03.23.02.01.31
+        by smtp.gmail.com with ESMTPSA id q8-20020a656848000000b005034a57b963sm11277116pgt.58.2023.03.23.02.04.02
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 23 Mar 2023 02:01:35 -0700 (PDT)
+        Thu, 23 Mar 2023 02:04:06 -0700 (PDT)
 From: Sumitra Sharma <sumitraartsy@gmail.com>
 To: outreachy@lists.linux.dev
 Cc: johan@kernel.org,
@@ -46,10 +47,12 @@ Cc: johan@kernel.org,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Sumitra Sharma <sumitraartsy@gmail.com>
-Subject: [PATCH 0/3] Staging: greybus: Convert macro definitions to
-Date: Thu, 23 Mar 2023 02:01:04 -0700
-Message-Id: <cover.1679558269.git.sumitraartsy@gmail.com>
+Subject: [PATCH 1/3] Staging: greybus: Convert macro gpio_chip_to_gb_gpio_controller to an inline function
+Date: Thu, 23 Mar 2023 02:03:34 -0700
+Message-Id: <92e39b9957a1863d13fc5ce9e346e99c68550fa3.1679558269.git.sumitraartsy@gmail.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <cover.1679558269.git.sumitraartsy@gmail.com>
+References: <cover.1679558269.git.sumitraartsy@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -58,23 +61,34 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Convert macros to a static inline function, to make the relevant 
-types apparent in the definition and to benefit from the type 
-checking performed by the compiler at call sites.
+Convert 'gpio_chip_to_gb_gpio_controller' from a macro to a static
+inline function, to make the relevant types apparent in the
+definition and to benefit from the type checking performed by
+the compiler at call sites.
 
-Sumitra Sharma (3):
-  Staging: greybus: Convert macro gpio_chip_to_gb_gpio_controller to an
-    inline function
-  Staging: greybus: Convert macro struct gb_audio_manager_module to an
-    inline function
-  Staging: greybus: Convert macro struct pwm_chip_to_gb_pwm_chip to an
-    inline function
+Signed-off-by: Sumitra Sharma <sumitraartsy@gmail.com>
+---
+ drivers/staging/greybus/gpio.c | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
 
- drivers/staging/greybus/audio_manager_module.c | 7 +++++--
- drivers/staging/greybus/gpio.c                 | 7 +++++--
- drivers/staging/greybus/pwm.c                  | 6 ++++--
- 3 files changed, 14 insertions(+), 6 deletions(-)
-
+diff --git a/drivers/staging/greybus/gpio.c b/drivers/staging/greybus/gpio.c
+index d729b922a750..2a115a8fc263 100644
+--- a/drivers/staging/greybus/gpio.c
++++ b/drivers/staging/greybus/gpio.c
+@@ -41,8 +41,11 @@ struct gb_gpio_controller {
+ 	struct irq_chip		irqc;
+ 	struct mutex		irq_lock;
+ };
+-#define gpio_chip_to_gb_gpio_controller(chip) \
+-	container_of(chip, struct gb_gpio_controller, chip)
++
++static inline struct gb_gpio_controller *gpio_chip_to_gb_gpio_controller(struct gpio_chip *chip)
++{
++	return container_of(chip, struct gb_gpio_controller, chip);
++}
+ 
+ static struct gpio_chip *irq_data_to_gpio_chip(struct irq_data *d)
+ {
 -- 
 2.25.1
 
