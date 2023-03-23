@@ -1,71 +1,90 @@
-Received: from mr85p00im-hyfv06021301.me.com (mr85p00im-hyfv06021301.me.com [17.58.23.188])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15C0FC959
-	for <linux-staging@lists.linux.dev>; Thu, 23 Mar 2023 19:47:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D699C959;
+	Thu, 23 Mar 2023 19:51:36 +0000 (UTC)
+Received: by mail-ed1-f49.google.com with SMTP id t10so2369465edd.12;
+        Thu, 23 Mar 2023 12:51:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=alexanderheinrich.de; s=sig1; t=1679600826;
-	bh=7e0mOMN+132oHU+oNdWs1w73kAqAlevdhDkJ5lU1/Pw=;
-	h=From:To:Subject:Date:Message-Id:MIME-Version;
-	b=KDWi0CCHh9d7mOnl43q31N5WP/N5POICIAqwSI+GEiyefghvOphVR+O/tYHCmPXpV
-	 sqMh2MzegZJLgzRqFF8aj0a5rBUzXZew9aR90zDvhU4S8JAHsljs1FFl+OfJTLO8a9
-	 vtA9EVydVm781CVdRvP5aaYk9ZbQn6DKfK6ao3bGnpkgxLN5h6lhIjd7L0YmjQMBzi
-	 zLYwbd/HeQwDnJlseQ9hYFKCgkbxfpIHBFTZ52JRYNuHgdc7Bafm6eB36QEDC45sru
-	 3mUk1lKNtvm3IjA7bo+DNTPpYi6lsUD2XomqiQKJmKrygyGE05vFvzpgYGFg9senyB
-	 PBwFaoaKKzXtw==
-Received: from pop-os.fritz.box (mr38p00im-dlb-asmtp-mailmevip.me.com [17.57.152.18])
-	by mr85p00im-hyfv06021301.me.com (Postfix) with ESMTPSA id B57E82153827;
-	Thu, 23 Mar 2023 19:47:02 +0000 (UTC)
-From: Alexander Heinrich <hallo@alexanderheinrich.de>
-To: gregkh@linuxfoundation.org
-Cc: Alexander Heinrich <hallo@alexanderheinrich.de>,
-	linux-kernel-mentees@lists.linuxfoundation.org,
-	linux-staging@lists.linux.dev
-Subject: [PATCH] Correct code style according to Linux guildelines
-Date: Thu, 23 Mar 2023 20:46:11 +0100
-Message-Id: <20230323194611.299241-1-hallo@alexanderheinrich.de>
-X-Mailer: git-send-email 2.34.1
+        d=gmail.com; s=20210112; t=1679601095;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=8gkkF864aZS59/wrLTPRII1/9wrsBmF5g69w8PpiScM=;
+        b=ZDntVr7hGYS17cMcBRD2/8NnbvON+Hi1QWuvh42GyExWsfuN07qDtZ0LLP0TrhD9uS
+         lZNHg6vYXPNhxGE1BSx87OXFANVOSVD9ms7Zkj5IaHPnF8euA5DtFTB2ZMW7o2xZq7ft
+         zBWdPjYw8jivP6BTmS/0b7pDCJvqgE1oqyu5Yl0gFzMzdDeHudQ+Ur8KlLem8jD736fA
+         o05MV2R+bwhYbyha1T8gZ1lj2bpX/IZQGqC6RySEpBohg8lCtF1GsZOxVSN4CdGleWtP
+         9GVyz4+NSDVA5iCboEK81aaVUHpXt2dnhdlfWU1NFub1ky0PoLK0wQD+FYJ8/YgJPzEY
+         uYjA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1679601095;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=8gkkF864aZS59/wrLTPRII1/9wrsBmF5g69w8PpiScM=;
+        b=R30IBO9MkIPdhJG/AsHmtP76k1wo9xFo1x7t6k+PcaS9d4FJ2r3F6H7vCN5bdwZf6h
+         TJ3/sgDOLVlOmQzQHgcfHZucOVovDss6315wxfOxIBTyuhlDNR4r896GlH4q2c59xdsf
+         EvT1PYVPfyUpydWdMqDmWm0ZT+fyMfnos5SMhwNsw9/B9P8W9Vigv+Rawvq6/rJ78+2B
+         0Lb80lbjoRaeF8voSWeVTDNGcvpMDrloCPTO3l/JBaiLmlgVo3dd+P6nEhvGobffwh58
+         yjlUkj7yWxe1RRBGtSd81mw7565tX+lYXWeEy9HljsiefYgQGWM/JKu4hT6UCVHLDzmo
+         ul0A==
+X-Gm-Message-State: AAQBX9e+zurbpd+BJtWy+/W2phDubByYSC7kALj9zgfIXBoBkBlPhnLz
+	E/rBPotLnscCoQBJD98QKcn+Zubt7wqvHzP/
+X-Google-Smtp-Source: AKy350ZumT4pJKPLCEo18Nd347kxtyvr7vACqOLRVSXvIyrVAiJCF8uHCHjiELSF+VZxWwBFDOWj8g==
+X-Received: by 2002:a17:906:7109:b0:931:32f5:1f31 with SMTP id x9-20020a170906710900b0093132f51f31mr234075ejj.9.1679601094826;
+        Thu, 23 Mar 2023 12:51:34 -0700 (PDT)
+Received: from khadija-virtual-machine ([39.41.14.14])
+        by smtp.gmail.com with ESMTPSA id ot9-20020a170906ccc900b009331450d04esm7997236ejb.178.2023.03.23.12.49.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 23 Mar 2023 12:50:47 -0700 (PDT)
+Date: Fri, 24 Mar 2023 00:49:44 +0500
+From: Khadija Kamran <kamrankhadijadj@gmail.com>
+To: outreachy@lists.linux.dev
+Cc: Parthiban Veerasooran <parthiban.veerasooran@microchip.com>,
+	Christian Gromm <christian.gromm@microchip.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: [PATCH v2] staging: most: fix line ending with '(' in video/
+Message-ID: <ZBytWDocM7XbXkRx@khadija-virtual-machine>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-GUID: NMQqH20QdwvPuCQG3lM-3DrPAx2TFCu6
-X-Proofpoint-ORIG-GUID: NMQqH20QdwvPuCQG3lM-3DrPAx2TFCu6
-X-Proofpoint-Virus-Version: =?UTF-8?Q?vendor=3Dfsecure_engine=3D1.1.170-22c6f66c430a71ce266a39bfe25bc?=
- =?UTF-8?Q?2903e8d5c8f:6.0.138,18.0.572,17.11.62.513.0000000_definitions?=
- =?UTF-8?Q?=3D2020-02-14=5F11:2020-02-14=5F02,2020-02-14=5F11,2021-12-02?=
- =?UTF-8?Q?=5F01_signatures=3D0?=
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0 spamscore=0 adultscore=0
- clxscore=1030 mlxscore=0 phishscore=0 malwarescore=0 mlxlogscore=753
- suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2209130000 definitions=main-2303230144
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-This patch fixes the following warning produced by checkpatch.pl,
-when run on drivers/staging/wlan-ng/p80211req.c.
+Splitting function header to multiple lines because of 80 characters per
+line limit, results in ending the function call line with '('.
+This leads to CHECK reported by checkpatch.pl
 
-CHECK: Unnecessary parentheses around
-    'msg->msgcode != DIDMSG_DOT11REQ_MIBGET'
-Signed-off-by: Alexander Heinrich <hallo@alexanderheinrich.de>
+Move the function parameters right after the '(' in the function call
+line.
+
+Signed-off-by: Khadija Kamran <kamrankhadijadj@gmail.com>
 ---
- drivers/staging/wlan-ng/p80211req.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/staging/wlan-ng/p80211req.c b/drivers/staging/wlan-ng/p80211req.c
-index 809cf3d480e9..df2d07304d1c 100644
---- a/drivers/staging/wlan-ng/p80211req.c
-+++ b/drivers/staging/wlan-ng/p80211req.c
-@@ -125,7 +125,7 @@ int p80211req_dorequest(struct wlandevice *wlandev, u8 *msgbuf)
+Changes in v2:
+ - Changed the subject name because there was another patch for most/
+   with the same name. This was causing confusion.
+
+ drivers/staging/most/video/video.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
+
+diff --git a/drivers/staging/most/video/video.c b/drivers/staging/most/video/video.c
+index ffa97ef21ea5..6254a5df2502 100644
+--- a/drivers/staging/most/video/video.c
++++ b/drivers/staging/most/video/video.c
+@@ -365,8 +365,7 @@ static const struct video_device comp_videodev_template = {
  
- 	/* Check Permissions */
- 	if (!capable(CAP_NET_ADMIN) &&
--	    (msg->msgcode != DIDMSG_DOT11REQ_MIBGET)) {
-+	    msg->msgcode != DIDMSG_DOT11REQ_MIBGET) {
- 		netdev_err(wlandev->netdev,
- 			   "%s: only dot11req_mibget allowed for non-root.\n",
- 			   wlandev->name);
+ /**************************************************************************/
+ 
+-static struct most_video_dev *get_comp_dev(
+-	struct most_interface *iface, int channel_idx)
++static struct most_video_dev *get_comp_dev(struct most_interface *iface, int channel_idx)
+ {
+ 	struct most_video_dev *mdev;
+ 	unsigned long flags;
 -- 
 2.34.1
 
