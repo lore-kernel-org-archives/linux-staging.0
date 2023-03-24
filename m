@@ -1,51 +1,51 @@
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 643A52771F;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7CCB27724;
 	Fri, 24 Mar 2023 22:31:40 +0000 (UTC)
-Received: by mail-wr1-f53.google.com with SMTP id l27so3195029wrb.2;
+Received: by mail-wr1-f43.google.com with SMTP id l12so3161333wrm.10;
         Fri, 24 Mar 2023 15:31:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1679697098;
+        d=gmail.com; s=20210112; t=1679697100;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=3Mi0Pc446/hNZjoA2whb7pVis3I9iPt8Xg8w3eBefMA=;
-        b=mobA70mS99HIO8GofxD3z9FKdGusnjzAI/gAeFjArElMNCo5NfQvSbk6Sxh9NWZScu
-         0N3K/5Nlr4AEYpeglA53RuQWLjPblzOoua5gBnGIjpKeQdRGMwV4Y3Xi1roA0YeP3fYe
-         6y1uJSGwfYYJCE6aM+fLGdYKjKk5mtpAbfSVU5HamqNnX5bmAliBHKoH7PAd2XHwuGYT
-         Tm+w+2Pu0J/2Kn4/NFPJgl2ZPwGJUyO6RvDEPGLGI/tCErRBTyIpxX36f++YbYHDliwv
-         OWdw7przsj+4A5pXd+4LM9h0baNua+tUR9xjetbcjHgqvl1Wtm6IazNHd+3bV4ccALaz
-         BG2Q==
+        bh=qfo0BLzIV++drYzkU45P3MSEyypvlv0tFWK+3aZYqRo=;
+        b=f+GVk7b+IOCM+D2lg1fWQRomk+YEeS58qX88K/YYaVb7FZQT1Gmgn1F/+tGOEojQzr
+         3vHRTqeoPQNqg1eP0XEi1mWbuu+aSNIFi+XIoXfXuDzVKI2StL5mCVobAuAi9Ooc8kYO
+         KdspqZFYYYwVsSzkUyq4gxYzf7y2j2gycPul+xoN7nqx1k0XrWeImtQtpKYbcO5Tm5To
+         0cCc/upAoqV3WzQgY6YD2js0KCEBHps8lysfFQSUPUKEz8ui/O55A9x9cIMX+iv/2PWe
+         sj2s8zi7QW2iwCatm0VMffhouPd9Fp/McTedSQnWJY20SIJ9gNuHkKHIJOAGP2RxXHJe
+         IB3w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679697098;
+        d=1e100.net; s=20210112; t=1679697100;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=3Mi0Pc446/hNZjoA2whb7pVis3I9iPt8Xg8w3eBefMA=;
-        b=cp6GdjmdTOXxYJUPpG8fl7VleimUEUqxCXcOeXNYqXrZqan+0wClM90x7OUUM4bzWn
-         Yjab+t94CbkQPauNfKnooxEqolBfaxx3WM4h4QZXVeUPUz/iSNzS7V//MauO+H3WGwj3
-         uWQN5r0TRARIoKpWixgw8wvv3IX7d9daKKztWtvBBMzuf/vVTpUkEsdAQsnH1Koft2he
-         gSHB+wZRUKBqy9OVazZAvwI4wFYdD3CAhQ4n/o+Zz4PphsEz5Fv3UXc7ZoTQ9MbXZIdF
-         ydyzR7J+QbFLpLUl00y2wA4jwSZe/BPEWmPxOZBXAWLA4o6mLm73bPDmZl2ppmJ78QmF
-         Mr8Q==
-X-Gm-Message-State: AAQBX9fl9z8DQqcPsgQHhXl15ZU0prIVTCZ5p8ZcvxcMb10WDPuC9KCQ
-	Ar7zFoUuxk2IKAztDnTSjmISkvP92Lftzw==
-X-Google-Smtp-Source: AKy350aF8hqqUeU5omOOYaYRzd2NcGnM1I0RRzkrA4T9gmjTQPoPECgS8HaiMJrnyj1W0t3wJb377g==
-X-Received: by 2002:a5d:4b44:0:b0:2d8:47c7:7b50 with SMTP id w4-20020a5d4b44000000b002d847c77b50mr3464652wrs.1.1679697098358;
-        Fri, 24 Mar 2023 15:31:38 -0700 (PDT)
+        bh=qfo0BLzIV++drYzkU45P3MSEyypvlv0tFWK+3aZYqRo=;
+        b=whnfnx6teHbKcIwsZAJOrtXB7Ul79HU1PdBU8dUapppXh5xQrwHk9BcpcuNuXV68Tm
+         0kwQZgm3lvn+1huEY/Vi9a+nQerqpUUMwzDHC4k9HfNJVmdmJybuMISecYiiXDIVzizt
+         oluhQxjzrGJTcdT60VpCrY+ywLykL4lgmSNl91V3hg/s4P8FBCJWsj9nwp8ufman11B9
+         3YcujfPu2DdtO3tFo61cKi87UlDJFI9wf4Dqvu68i4MhsRmQLttFlcB5FF3tHUvZrcJW
+         bSHQ69kGyZog/boT+CA7ATzMB4ZAo0Ws9aOjMCgvHcdbBDKZw7JZlsgQ8V7aBb8fl3d0
+         k5xQ==
+X-Gm-Message-State: AAQBX9f2sLWOYyQNaUx5ykf3z2lrkRSq5mPgfvzmkPPLWnEMy5ZUDG0Y
+	G+cQZZeawl2vDhjpCWtIJeb1bKb6Sx4ZLw==
+X-Google-Smtp-Source: AKy350ZwbZtAyJ4Plf4KpwqcjyscxgI9h5gs6KY+Q29SeU612VY/cbQNrA63O87a3RvyyBRTKvzqCw==
+X-Received: by 2002:a5d:58d4:0:b0:2da:650f:4517 with SMTP id o20-20020a5d58d4000000b002da650f4517mr3196262wrf.30.1679697100081;
+        Fri, 24 Mar 2023 15:31:40 -0700 (PDT)
 Received: from khadija-virtual-machine.localdomain ([39.41.14.14])
-        by smtp.gmail.com with ESMTPSA id d7-20020adffbc7000000b002d5a8d8442asm14984138wrs.37.2023.03.24.15.31.36
+        by smtp.gmail.com with ESMTPSA id d7-20020adffbc7000000b002d5a8d8442asm14984138wrs.37.2023.03.24.15.31.38
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 24 Mar 2023 15:31:38 -0700 (PDT)
+        Fri, 24 Mar 2023 15:31:39 -0700 (PDT)
 From: Khadija Kamran <kamrankhadijadj@gmail.com>
 To: outreachy@lists.linux.dev
 Cc: gregkh@linuxfoundation.org,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v5 2/4] staging: rtl8192e: add blank lines after declarations
-Date: Sat, 25 Mar 2023 03:31:29 +0500
-Message-Id: <d8a5e738046ffdc1b257e1935eacb8e16af34d5e.1679696777.git.kamrankhadijadj@gmail.com>
+Subject: [PATCH v5 3/4] staging: rtl8192e: add spaces around binary operators
+Date: Sat, 25 Mar 2023 03:31:30 +0500
+Message-Id: <44a545cf8e99ebfdbfc3f5bb314f3828abe98558.1679696777.git.kamrankhadijadj@gmail.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1679696777.git.kamrankhadijadj@gmail.com>
 References: <cover.1679696777.git.kamrankhadijadj@gmail.com>
@@ -57,34 +57,137 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Add blank lines after declarations to adhere to the Linux kernel
-coding-style guidelines. These issues are reported by checkpatch.pl
-
-"CHECK: Please use a blank line after function/struct/union/enum
-declarations"
+Use spaces around binary operators as suggested by Linux kernel coding
+style guidelines.
+Issues reported by checkpatch.pl for the following binary operators:
+	+ , - , * , | , <<
 
 Signed-off-by: Khadija Kamran <kamrankhadijadj@gmail.com>
 ---
- drivers/staging/rtl8192e/rtllib_rx.c | 2 ++
- 1 file changed, 2 insertions(+)
+ drivers/staging/rtl8192e/rtllib_rx.c | 54 ++++++++++++++--------------
+ 1 file changed, 27 insertions(+), 27 deletions(-)
 
 diff --git a/drivers/staging/rtl8192e/rtllib_rx.c b/drivers/staging/rtl8192e/rtllib_rx.c
-index c6114d99829b..7144a0630ea6 100644
+index 7144a0630ea6..f627dfe66d90 100644
 --- a/drivers/staging/rtl8192e/rtllib_rx.c
 +++ b/drivers/staging/rtl8192e/rtllib_rx.c
-@@ -231,10 +231,12 @@ rtllib_rx_frame_mgmt(struct rtllib_device *ieee, struct sk_buff *skb,
- static unsigned char rfc1042_header[] = {
- 	0xaa, 0xaa, 0x03, 0x00, 0x00, 0x00
- };
-+
- /* Bridge-Tunnel header (for EtherTypes ETH_P_AARP and ETH_P_IPX) */
- static unsigned char bridge_tunnel_header[] = {
- 	0xaa, 0xaa, 0x03, 0x00, 0x00, 0xf8
- };
-+
- /* No encapsulation header if EtherType < 0x600 (=length) */
+@@ -356,7 +356,7 @@ rtllib_rx_frame_decrypt_msdu(struct rtllib_device *ieee, struct sk_buff *skb,
+ }
  
- /* Called by rtllib_rx_frame_decrypt */
+ /* this function is stolen from ipw2200 driver*/
+-#define IEEE_PACKET_RETRY_TIME (5*HZ)
++#define IEEE_PACKET_RETRY_TIME (5 * HZ)
+ static int is_duplicate_packet(struct rtllib_device *ieee,
+ 				      struct rtllib_hdr_4addr *header)
+ {
+@@ -936,7 +936,7 @@ static int rtllib_rx_check_duplicate(struct rtllib_device *ieee,
+ 
+ 		if (GetTs(ieee, (struct ts_common_info **)&pRxTS, hdr->addr2,
+ 			(u8)Frame_QoSTID((u8 *)(skb->data)), RX_DIR, true)) {
+-			if ((fc & (1<<11)) && (frag == pRxTS->rx_last_frag_num) &&
++			if ((fc & (1 << 11)) && (frag == pRxTS->rx_last_frag_num) &&
+ 			    (WLAN_GET_SEQ_SEQ(sc) == pRxTS->rx_last_seq_num))
+ 				return -1;
+ 			pRxTS->rx_last_frag_num = frag;
+@@ -1619,23 +1619,23 @@ static int rtllib_qos_convert_ac_to_parameters(struct rtllib_qos_parameter_info
+ 		case 1:
+ 			/* BIT(0) | BIT(3) */
+ 			if (acm)
+-				qos_data->wmm_acm |= (0x01<<0)|(0x01<<3);
++				qos_data->wmm_acm |= (0x01 << 0) | (0x01 << 3);
+ 			break;
+ 		case 2:
+ 			/* BIT(4) | BIT(5) */
+ 			if (acm)
+-				qos_data->wmm_acm |= (0x01<<4)|(0x01<<5);
++				qos_data->wmm_acm |= (0x01 << 4) | (0x01 << 5);
+ 			break;
+ 		case 3:
+ 			/* BIT(6) | BIT(7) */
+ 			if (acm)
+-				qos_data->wmm_acm |= (0x01<<6)|(0x01<<7);
++				qos_data->wmm_acm |= (0x01 << 6) | (0x01 << 7);
+ 			break;
+ 		case 0:
+ 		default:
+ 			/* BIT(1) | BIT(2) */
+ 			if (acm)
+-				qos_data->wmm_acm |= (0x01<<1)|(0x01<<2);
++				qos_data->wmm_acm |= (0x01 << 1) | (0x01 << 2);
+ 			break;
+ 		}
+ 
+@@ -1979,7 +1979,7 @@ static void rtllib_parse_mife_generic(struct rtllib_device *ieee,
+ 	    info_element->data[3] == 0x04) {
+ 		netdev_dbg(ieee->dev, "MFIE_TYPE_WZC: %d bytes\n",
+ 			   info_element->len);
+-		network->wzc_ie_len = min(info_element->len+2, MAX_WZC_IE_LEN);
++		network->wzc_ie_len = min(info_element->len + 2, MAX_WZC_IE_LEN);
+ 		memcpy(network->wzc_ie, info_element, network->wzc_ie_len);
+ 	}
+ }
+@@ -2139,10 +2139,10 @@ int rtllib_parse_info_param(struct rtllib_device *ieee,
+ 			if (info_element->data[2] & 1)
+ 				network->dtim_data |= RTLLIB_DTIM_MBCAST;
+ 
+-			offset = (info_element->data[2] >> 1)*2;
++			offset = (info_element->data[2] >> 1) * 2;
+ 
+-			if (ieee->assoc_id < 8*offset ||
+-			    ieee->assoc_id > 8*(offset + info_element->len - 3))
++			if (ieee->assoc_id < 8 * offset ||
++			    ieee->assoc_id > 8 * (offset + info_element->len - 3))
+ 				break;
+ 
+ 			offset = (ieee->assoc_id / 8) - offset;
+@@ -2357,7 +2357,7 @@ static inline int rtllib_network_init(
+ 	if (rtllib_is_empty_essid(network->ssid, network->ssid_len))
+ 		network->flags |= NETWORK_EMPTY_ESSID;
+ 	stats->signal = 30 + (stats->SignalStrength * 70) / 100;
+-	stats->noise = rtllib_translate_todbm((u8)(100-stats->signal)) - 25;
++	stats->noise = rtllib_translate_todbm((u8)(100 - stats->signal)) - 25;
+ 
+ 	memcpy(&network->stats, stats, sizeof(network->stats));
+ 
+@@ -2545,22 +2545,22 @@ static inline void rtllib_process_probe_response(
+ 		   "'%s' ( %pM ): %c%c%c%c %c%c%c%c-%c%c%c%c %c%c%c%c\n",
+ 		   escape_essid(info_element->data, info_element->len),
+ 		   beacon->header.addr3,
+-		   (le16_to_cpu(beacon->capability) & (1<<0xf)) ? '1' : '0',
+-		   (le16_to_cpu(beacon->capability) & (1<<0xe)) ? '1' : '0',
+-		   (le16_to_cpu(beacon->capability) & (1<<0xd)) ? '1' : '0',
+-		   (le16_to_cpu(beacon->capability) & (1<<0xc)) ? '1' : '0',
+-		   (le16_to_cpu(beacon->capability) & (1<<0xb)) ? '1' : '0',
+-		   (le16_to_cpu(beacon->capability) & (1<<0xa)) ? '1' : '0',
+-		   (le16_to_cpu(beacon->capability) & (1<<0x9)) ? '1' : '0',
+-		   (le16_to_cpu(beacon->capability) & (1<<0x8)) ? '1' : '0',
+-		   (le16_to_cpu(beacon->capability) & (1<<0x7)) ? '1' : '0',
+-		   (le16_to_cpu(beacon->capability) & (1<<0x6)) ? '1' : '0',
+-		   (le16_to_cpu(beacon->capability) & (1<<0x5)) ? '1' : '0',
+-		   (le16_to_cpu(beacon->capability) & (1<<0x4)) ? '1' : '0',
+-		   (le16_to_cpu(beacon->capability) & (1<<0x3)) ? '1' : '0',
+-		   (le16_to_cpu(beacon->capability) & (1<<0x2)) ? '1' : '0',
+-		   (le16_to_cpu(beacon->capability) & (1<<0x1)) ? '1' : '0',
+-		   (le16_to_cpu(beacon->capability) & (1<<0x0)) ? '1' : '0');
++		   (le16_to_cpu(beacon->capability) & (1 << 0xf)) ? '1' : '0',
++		   (le16_to_cpu(beacon->capability) & (1 << 0xe)) ? '1' : '0',
++		   (le16_to_cpu(beacon->capability) & (1 << 0xd)) ? '1' : '0',
++		   (le16_to_cpu(beacon->capability) & (1 << 0xc)) ? '1' : '0',
++		   (le16_to_cpu(beacon->capability) & (1 << 0xb)) ? '1' : '0',
++		   (le16_to_cpu(beacon->capability) & (1 << 0xa)) ? '1' : '0',
++		   (le16_to_cpu(beacon->capability) & (1 << 0x9)) ? '1' : '0',
++		   (le16_to_cpu(beacon->capability) & (1 << 0x8)) ? '1' : '0',
++		   (le16_to_cpu(beacon->capability) & (1 << 0x7)) ? '1' : '0',
++		   (le16_to_cpu(beacon->capability) & (1 << 0x6)) ? '1' : '0',
++		   (le16_to_cpu(beacon->capability) & (1 << 0x5)) ? '1' : '0',
++		   (le16_to_cpu(beacon->capability) & (1 << 0x4)) ? '1' : '0',
++		   (le16_to_cpu(beacon->capability) & (1 << 0x3)) ? '1' : '0',
++		   (le16_to_cpu(beacon->capability) & (1 << 0x2)) ? '1' : '0',
++		   (le16_to_cpu(beacon->capability) & (1 << 0x1)) ? '1' : '0',
++		   (le16_to_cpu(beacon->capability) & (1 << 0x0)) ? '1' : '0');
+ 
+ 	if (rtllib_network_init(ieee, beacon, network, stats)) {
+ 		netdev_dbg(ieee->dev, "Dropped '%s' ( %pM) via %s.\n",
 -- 
 2.34.1
 
