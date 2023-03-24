@@ -1,41 +1,41 @@
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B4AE7471;
-	Fri, 24 Mar 2023 15:41:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA63A7471;
+	Fri, 24 Mar 2023 15:50:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1679672474; x=1711208474;
+  t=1679673017; x=1711209017;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=OstU8LE34yvquXnPkkLldI/Jk6/9+ifZ6noCd0IJf8g=;
-  b=A5Bu4Ri30VVMu1tmBC7Ne5wJU4995orLj4vcHk2mEsMC2GVVZpZBd3jz
-   kos4KEYGbuVZyB7Pjr2gS6BLGgz5zLAXEU1P4+Kuv9IvaWB1I5O9bZAhR
-   lcfW3x6XONM6R900zF14Lx9UYrerCFNekgNCzlrA8STNQmDSQsbPrZLPw
-   pPwmgSvpqYHjdtDhwZmi12dUhAFBwgY3mNYOuNjChHO5MKgtlx5Cdzt81
-   aPdAKAWUmFsIHz/ahmS90gD9cKR8IYDcGOX/MVoyVV9ItnYQqLb8Ng7ma
-   ofdsDFR9CfYGogxVB7B/vnr4+ZpMCjh8zBe6Hw0wQZIFvfSFFkrVunt60
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10659"; a="339831771"
+  bh=akyg3pTXi4IIZBKv/ztYzPKYwRcjG1RkaN9s+21ycb8=;
+  b=TFqRWTfZt5zsvR5aGVkVrSraKSL07CfmrzjKckkieUA7EQ7XSn0YcNDr
+   3IXsRgNHLqfl7RCPD439kOaMZAwRwinSZ1YL9xxyHIVHJWeKFqiyykuvy
+   oA9Jgxls0RhtabNiFpaeZaz2B2gZNhyjoKZp+V7VXIP4hW6OkDAeOx3sx
+   WRbdbN8DFNJLxouLpfy8OF3c2BXIrFpxeInBxls8rNYn1vELB7yBWC2tJ
+   KeWkEX+pyioH2peFaAygVtOHFo5wuAEd1XEVQUUo1HPy3MShJl+7CX9zq
+   zsx1dftc5bocJnW9O8Chxe7j89HjkO2mEdOrPXvaBdstGPXmX3rRKVoPH
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10659"; a="320207224"
 X-IronPort-AV: E=Sophos;i="5.98,288,1673942400"; 
-   d="scan'208";a="339831771"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Mar 2023 08:41:13 -0700
+   d="scan'208";a="320207224"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Mar 2023 08:50:17 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10659"; a="1012290296"
+X-IronPort-AV: E=McAfee;i="6600,9927,10659"; a="751939797"
 X-IronPort-AV: E=Sophos;i="5.98,288,1673942400"; 
-   d="scan'208";a="1012290296"
+   d="scan'208";a="751939797"
 Received: from aschofie-mobl2.amr.corp.intel.com (HELO aschofie-mobl2) ([10.209.62.66])
-  by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Mar 2023 08:41:13 -0700
-Date: Fri, 24 Mar 2023 08:41:11 -0700
+  by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Mar 2023 08:50:16 -0700
+Date: Fri, 24 Mar 2023 08:50:14 -0700
 From: Alison Schofield <alison.schofield@intel.com>
 To: Khadija Kamran <kamrankhadijadj@gmail.com>
-Cc: outreachy@lists.linux.dev, gregkh@linuxfoundation.org,
+Cc: outreachy@lists.linux.dev,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 1/4] staging: rtl8192e: remove extra blank lines
-Message-ID: <ZB3ElynSQl98E6rf@aschofie-mobl2>
-References: <cover.1679598576.git.kamrankhadijadj@gmail.com>
- <43d5864fc42e51089a0a0626278204bac8313eb0.1679598576.git.kamrankhadijadj@gmail.com>
+Subject: Re: [PATCH] staging rtl8192u: fix block comments
+Message-ID: <ZB3GtuF4NtgO0vTV@aschofie-mobl2>
+References: <ZB2a5zwYpBZ/6qwU@khadija-virtual-machine>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -44,141 +44,347 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <43d5864fc42e51089a0a0626278204bac8313eb0.1679598576.git.kamrankhadijadj@gmail.com>
+In-Reply-To: <ZB2a5zwYpBZ/6qwU@khadija-virtual-machine>
 
-On Fri, Mar 24, 2023 at 12:19:59AM +0500, Khadija Kamran wrote:
-> Remove extra blank lines as reported by checkpatch.pl
+On Fri, Mar 24, 2023 at 05:43:19PM +0500, Khadija Kamran wrote:
+> Linux kernel coding style for block comments uses a column of '*' on the
+> left side and ends the comment with '*/' on a separate line.
 > 
-> "CHECK: Please don't use multiple blank lines"
+> Fix block comments by adding '*' on subsequent lines and moving '*/' at
+> the end of block comments on a separate line. These issues in block
+> comments are reported by checkpatch.pl script.
+> 
+> Signed-off-by: Khadija Kamran <kamrankhadijadj@gmail.com>
 
-Commit log needs to say why you did it, why this patch need to be
-merged. Checkpatch itself doesn't satisfy the why requirement.
+Hi Khadija,
 
-When we do these white space cleanups, the why is typically
-"to adhere to the Linux kernel coding-style."
+It seems you've gotten feedback suggesting this single patch
+can be abandoned, and replaced with a patchset, like:
 
-If you are doing a particular checkpatch cleanup and are not
-sure what to write, check your predecessors.
+Clean up comments in r8192U_dm.c
+- remove code in comments
+- remove change history info from comments 
+- reformat block comments
 
-$ git log --oneline | grep "multiple blank lines"
+In the cover letter, you can refer to this previous patch
+with a lore link. ie...
 
-That'll give you many instances. Reference a few, some poor ones
-sneak through.
+Reviewer feedback on a previous patch [1] suggested additional
+cleanups of comments.
+
+[1] https://lore.kernel.org/outreachy/ZB2a5zwYpBZ%2F6qwU@khadija-virtual-machine/
 
 Alison
 
-> 
-> Signed-off-by: Khadija Kamran <kamrankhadijadj@gmail.com>
+
 > ---
->  drivers/staging/rtl8192e/rtllib_rx.c | 13 -------------
->  1 file changed, 13 deletions(-)
+>  drivers/staging/rtl8192u/r8192U_dm.c | 162 ++++++++++++++-------------
+>  1 file changed, 86 insertions(+), 76 deletions(-)
 > 
-> diff --git a/drivers/staging/rtl8192e/rtllib_rx.c b/drivers/staging/rtl8192e/rtllib_rx.c
-> index c394c21beefb..c6114d99829b 100644
-> --- a/drivers/staging/rtl8192e/rtllib_rx.c
-> +++ b/drivers/staging/rtl8192e/rtllib_rx.c
-> @@ -154,7 +154,6 @@ rtllib_frag_cache_get(struct rtllib_device *ieee,
->  	return skb;
->  }
->  
+> diff --git a/drivers/staging/rtl8192u/r8192U_dm.c b/drivers/staging/rtl8192u/r8192U_dm.c
+> index 6a33ca02c3dc..a88686be3523 100644
+> --- a/drivers/staging/rtl8192u/r8192U_dm.c
+> +++ b/drivers/staging/rtl8192u/r8192U_dm.c
+> @@ -1,19 +1,20 @@
+>  // SPDX-License-Identifier: GPL-2.0
+>  /*++
+> -Copyright-c Realtek Semiconductor Corp. All rights reserved.
 > -
->  /* Called only as a tasklet (software IRQ) */
->  static int rtllib_frag_cache_invalidate(struct rtllib_device *ieee,
->  					   struct rtllib_hdr_4addr *hdr)
-> @@ -318,7 +317,6 @@ rtllib_rx_frame_decrypt(struct rtllib_device *ieee, struct sk_buff *skb,
->  	return res;
->  }
->  
+> -Module Name:
+> -	r8192U_dm.c
 > -
->  /* Called only as a tasklet (software IRQ), by rtllib_rx */
->  static inline int
->  rtllib_rx_frame_decrypt_msdu(struct rtllib_device *ieee, struct sk_buff *skb,
-> @@ -355,7 +353,6 @@ rtllib_rx_frame_decrypt_msdu(struct rtllib_device *ieee, struct sk_buff *skb,
->  	return 0;
->  }
->  
+> -Abstract:
+> -	HW dynamic mechanism.
 > -
->  /* this function is stolen from ipw2200 driver*/
->  #define IEEE_PACKET_RETRY_TIME (5*HZ)
->  static int is_duplicate_packet(struct rtllib_device *ieee,
-> @@ -887,7 +884,6 @@ static u8 parse_subframe(struct rtllib_device *ieee, struct sk_buff *skb,
->  	return rxb->nr_subframes;
->  }
->  
+> -Major Change History:
+> -	When		Who				What
+> -	----------	--------------- -------------------------------
+> -	2008-05-14	amy                     create version 0 porting from windows code.
 > -
->  static size_t rtllib_rx_get_hdrlen(struct rtllib_device *ieee,
->  				   struct sk_buff *skb,
->  				   struct rtllib_rx_stats *rx_stats)
-> @@ -1569,7 +1565,6 @@ static int rtllib_verify_qos_info(struct rtllib_qos_information_element
->  	return 0;
->  }
+> ---*/
+> + * Copyright-c Realtek Semiconductor Corp. All rights reserved.
+> + *
+> + * Module Name:
+> + *	r8192U_dm.c
+> + *
+> + * Abstract:
+> + *	HW dynamic mechanism.
+> + *
+> + * Major Change History:
+> + *	When		Who				What
+> + *	----------	--------------- -------------------------------
+> + *	2008-05-14	amy                     create version 0 porting from windows code.
+> + *
+> + *--
+> + */
+>  #include "r8192U.h"
+>  #include "r8192U_dm.h"
+>  #include "r8192U_hw.h"
+> @@ -147,20 +148,20 @@ void dm_CheckRxAggregation(struct net_device *dev)
+>  	unsigned long		curRxOkCnt = 0;
 >  
+>  /*
+> -	if (pHalData->bForcedUsbRxAggr) {
+> -		if (pHalData->ForcedUsbRxAggrInfo == 0) {
+> -			if (pHalData->bCurrentRxAggrEnable) {
+> -				Adapter->HalFunc.HalUsbRxAggrHandler(Adapter, FALSE);
+> -			}
+> -		} else {
+> -			if (!pHalData->bCurrentRxAggrEnable || (pHalData->ForcedUsbRxAggrInfo != pHalData->LastUsbRxAggrInfoSetting)) {
+> -				Adapter->HalFunc.HalUsbRxAggrHandler(Adapter, TRUE);
+> -			}
+> -		}
+> -		return;
+> -	}
 > -
->  /* Parse a QoS parameter element */
->  static int rtllib_read_qos_param_element(
->  			struct rtllib_qos_parameter_info *element_param,
-> @@ -1599,7 +1594,6 @@ static int rtllib_read_qos_info_element(
->  	return rtllib_verify_qos_info(element_info, QOS_OUI_INFO_SUB_TYPE);
->  }
+> -*/
+> + *	if (pHalData->bForcedUsbRxAggr) {
+> + *		if (pHalData->ForcedUsbRxAggrInfo == 0) {
+> + *			if (pHalData->bCurrentRxAggrEnable) {
+> + *				Adapter->HalFunc.HalUsbRxAggrHandler(Adapter, FALSE);
+> + *			}
+> + *		} else {
+> + *			if (!pHalData->bCurrentRxAggrEnable || (pHalData->ForcedUsbRxAggrInfo != pHalData->LastUsbRxAggrInfoSetting)) {
+> + *				Adapter->HalFunc.HalUsbRxAggrHandler(Adapter, TRUE);
+> + *			}
+> + *		}
+> + *		return;
+> + *	}
+> + *
+> + */
+>  	curTxOkCnt = priv->stats.txbytesunicast - lastTxOkCnt;
+>  	curRxOkCnt = priv->stats.rxbytesunicast - lastRxOkCnt;
 >  
-> -
->  /* Write QoS parameters from the ac parameters. */
->  static int rtllib_qos_convert_ac_to_parameters(struct rtllib_qos_parameter_info *param_elm,
->  					       struct rtllib_qos_data *qos_data)
-> @@ -1843,7 +1837,6 @@ static void rtllib_parse_mife_generic(struct rtllib_device *ieee,
+> @@ -279,7 +280,8 @@ void init_rate_adaptive(struct net_device *dev)
+>   *	When		Who		Remark
+>   *	05/26/08	amy	Create version 0 porting from windows code.
+>   *
+> - *---------------------------------------------------------------------------*/
+> + *---------------------------------------------------------------------------
+> + */
+>  static void dm_check_rate_adaptive(struct net_device *dev)
+>  {
+>  	struct r8192_priv *priv = ieee80211_priv(dev);
+> @@ -377,8 +379,9 @@ static void dm_check_rate_adaptive(struct net_device *dev)
+>  					targetRATR = pra->ping_rssi_ratr;
+>  					ping_rssi_state = 1;
+>  				}
+> -				/*else
+> -					DbgPrint("TestRSSI is between the range.\n");*/
+> +				/* else
+> +				 *	DbgPrint("TestRSSI is between the range.\n");
+> +				 */
+>  			} else {
+>  				/*DbgPrint("TestRSSI Recover to 0x%x\n", targetRATR);*/
+>  				ping_rssi_state = 0;
+> @@ -719,9 +722,10 @@ static void dm_TXPowerTrackingCallback_ThermalMeter(struct net_device *dev)
 >  		}
+>  		tmpCCK40Mindex = 0;
 >  	}
+> -	/*DbgPrint("%ddb, tmpOFDMindex = %d, tmpCCK20Mindex = %d, tmpCCK40Mindex = %d",
+> -		((u1Byte)tmpRegA - pHalData->ThermalMeter[0]),
+> -		tmpOFDMindex, tmpCCK20Mindex, tmpCCK40Mindex);*/
+> +	/* DbgPrint("%ddb, tmpOFDMindex = %d, tmpCCK20Mindex = %d, tmpCCK40Mindex = %d",
+> +	 *	((u1Byte)tmpRegA - pHalData->ThermalMeter[0]),
+> +	 *	tmpOFDMindex, tmpCCK20Mindex, tmpCCK40Mindex);
+> +	 */
+>  	if (priv->CurrentChannelBW != HT_CHANNEL_WIDTH_20)	/* 40M */
+>  		tmpCCKindex = tmpCCK40Mindex;
+>  	else
+> @@ -1594,7 +1598,8 @@ static void dm_bb_initialgain_backup(struct net_device *dev)
+>   *	When		Who		Remark
+>   *	05/15/2008	amy		Create Version 0 porting from windows code.
+>   *
+> - *---------------------------------------------------------------------------*/
+> + *---------------------------------------------------------------------------
+> + */
+>  static void dm_dig_init(struct net_device *dev)
+>  {
+>  	struct r8192_priv *priv = ieee80211_priv(dev);
+> @@ -1638,7 +1643,8 @@ static void dm_dig_init(struct net_device *dev)
+>   * Revised History:
+>   *	When		Who		Remark
+>   *	05/27/2008	amy		Create Version 0 porting from windows code.
+> - *---------------------------------------------------------------------------*/
+> + *---------------------------------------------------------------------------
+> + */
+>  static void dm_ctrl_initgain_byrssi(struct net_device *dev)
+>  {
+>  	if (!dm_digtable.dig_enable_flag)
+> @@ -1680,8 +1686,9 @@ static void dm_ctrl_initgain_byrssi_by_driverrssi(
+>  	else
+>  		dm_digtable.cur_connect_state = DIG_DISCONNECT;
 >  
-> -
->  	if (*tmp_htinfo_len == 0) {
->  		if (info_element->len >= 4 &&
->  		    info_element->data[0] == 0x00 &&
-> @@ -1932,7 +1925,6 @@ static void rtllib_parse_mife_generic(struct rtllib_device *ieee,
->  	    info_element->data[2] == 0x96)
->  		network->cisco_cap_exist = true;
+> -	/*DbgPrint("DM_DigTable.PreConnectState = %d, DM_DigTable.CurConnectState = %d\n",
+> -		DM_DigTable.PreConnectState, DM_DigTable.CurConnectState);*/
+> +	/* DbgPrint("DM_DigTable.PreConnectState = %d, DM_DigTable.CurConnectState = %d\n",
+> +	 *	DM_DigTable.PreConnectState, DM_DigTable.CurConnectState);
+> +	 */
 >  
-> -
->  	if (info_element->len >= 3 &&
->  	    info_element->data[0] == 0x00 &&
->  	    info_element->data[1] == 0x0a &&
-> @@ -2142,13 +2134,11 @@ int rtllib_parse_info_param(struct rtllib_device *ieee,
+>  	dm_digtable.rssi_val = priv->undecorated_smoothed_pwdb;
+>  	/*DbgPrint("DM_DigTable.Rssi_val = %d\n", DM_DigTable.Rssi_val);*/
+> @@ -1720,12 +1727,12 @@ static void dm_ctrl_initgain_byrssi_by_fwfalse_alarm(
+>  	    (priv->undecorated_smoothed_pwdb < dm_digtable.rssi_high_thresh))
+>  		return;
 >  
->  			network->dtim_data = RTLLIB_DTIM_VALID;
+> -	/*DbgPrint("Dig by Fw False Alarm\n");*/
+> -	/*if (DM_DigTable.Dig_State == DM_STA_DIG_OFF)*/
+> -	/*DbgPrint("DIG Check\n\r RSSI=%d LOW=%d HIGH=%d STATE=%d",
+> -	pHalData->UndecoratedSmoothedPWDB, DM_DigTable.RssiLowThresh,
+> -	DM_DigTable.RssiHighThresh, DM_DigTable.Dig_State);*/
+> -	/* 1. When RSSI decrease, We have to judge if it is smaller than a threshold
+> +	/* DbgPrint("Dig by Fw False Alarm\n");
+> +	 * if (DM_DigTable.Dig_State == DM_STA_DIG_OFF)
+> +	 * DbgPrint("DIG Check\n\r RSSI=%d LOW=%d HIGH=%d STATE=%d",
+> +	 * pHalData->UndecoratedSmoothedPWDB, DM_DigTable.RssiLowThresh,
+> +	 * DM_DigTable.RssiHighThresh, DM_DigTable.Dig_State);
+> +	 * 1. When RSSI decrease, We have to judge if it is smaller than a threshold
+>  	 * and then execute the step below.
+>  	 */
+>  	if (priv->undecorated_smoothed_pwdb <= dm_digtable.rssi_low_thresh) {
+> @@ -1757,12 +1764,12 @@ static void dm_ctrl_initgain_byrssi_by_fwfalse_alarm(
+>  			 * 2008/02/05 MH SD3-Jerry 92U/92E PD_TH are the same.
+>  			 */
+>  			write_nic_byte(dev, (rOFDM0_XATxAFE+3), 0x00);
+> -			/*else if (priv->card_8192 == HARDWARE_TYPE_RTL8190P)
+> -				write_nic_byte(pAdapter, rOFDM0_RxDetector1, 0x40);
+> -			else if (pAdapter->HardwareType == HARDWARE_TYPE_RTL8192E)
+> -			else
+> -				PlatformEFIOWrite1Byte(pAdapter, rOFDM0_RxDetector1, 0x40);
+> -			*/
+> +			/* else if (priv->card_8192 == HARDWARE_TYPE_RTL8190P)
+> +			 *	write_nic_byte(pAdapter, rOFDM0_RxDetector1, 0x40);
+> +			 * else if (pAdapter->HardwareType == HARDWARE_TYPE_RTL8192E)
+> +			 * else
+> +			 *	PlatformEFIOWrite1Byte(pAdapter, rOFDM0_RxDetector1, 0x40);
+> +			 */
+>  		} else
+>  			write_nic_byte(dev, rOFDM0_RxDetector1, 0x42);
 >  
-> -
->  			if (info_element->data[2] & 1)
->  				network->dtim_data |= RTLLIB_DTIM_MBCAST;
+> @@ -1814,13 +1821,12 @@ static void dm_ctrl_initgain_byrssi_by_fwfalse_alarm(
+>  			 * 2008/02/05 MH SD3-Jerry 92U/92E PD_TH are the same.
+>  			 */
+>  			write_nic_byte(dev, (rOFDM0_XATxAFE+3), 0x20);
+> -			/*
+> -			else if (priv->card_8192 == HARDWARE_TYPE_RTL8190P)
+> -				write_nic_byte(dev, rOFDM0_RxDetector1, 0x42);
+> -			else if (pAdapter->HardwareType == HARDWARE_TYPE_RTL8192E)
+> -			else
+> -				PlatformEFIOWrite1Byte(pAdapter, rOFDM0_RxDetector1, 0x42);
+> -			*/
+> +			/* else if (priv->card_8192 == HARDWARE_TYPE_RTL8190P)
+> +			 *	write_nic_byte(dev, rOFDM0_RxDetector1, 0x42);
+> +			 * else if (pAdapter->HardwareType == HARDWARE_TYPE_RTL8192E)
+> +			 * else
+> +			 *	PlatformEFIOWrite1Byte(pAdapter, rOFDM0_RxDetector1, 0x42);
+> +			 */
+>  		} else
+>  			write_nic_byte(dev, rOFDM0_RxDetector1, 0x44);
 >  
->  			offset = (info_element->data[2] >> 1)*2;
+> @@ -1855,7 +1861,8 @@ static void dm_ctrl_initgain_byrssi_by_fwfalse_alarm(
+>   *	When		Who		Remark
+>   *	05/28/2008	amy		Create Version 0 porting from windows code.
+>   *
+> - *---------------------------------------------------------------------------*/
+> + *---------------------------------------------------------------------------
+> + */
+>  static void dm_ctrl_initgain_byrssi_highpwr(
+>  	struct net_device *dev)
+>  {
+> @@ -1882,9 +1889,9 @@ static void dm_ctrl_initgain_byrssi_highpwr(
+>  		if (priv->CurrentChannelBW != HT_CHANNEL_WIDTH_20) {
+>  			write_nic_byte(dev, (rOFDM0_XATxAFE+3), 0x10);
 >  
-> -
->  			if (ieee->assoc_id < 8*offset ||
->  			    ieee->assoc_id > 8*(offset + info_element->len - 3))
->  				break;
-> @@ -2203,7 +2193,6 @@ int rtllib_parse_info_param(struct rtllib_device *ieee,
->  						 &tmp_htcap_len);
->  			break;
+> -			/*else if (priv->card_8192 == HARDWARE_TYPE_RTL8190P)
+> -				write_nic_byte(dev, rOFDM0_RxDetector1, 0x41);
+> -			*/
+> +			/* else if (priv->card_8192 == HARDWARE_TYPE_RTL8190P)
+> +			 *	write_nic_byte(dev, rOFDM0_RxDetector1, 0x41);
+> +			 */
 >  
-> -
->  		case MFIE_TYPE_HT_INFO:
->  			netdev_dbg(ieee->dev, "MFIE_TYPE_HT_INFO: %d bytes\n",
->  				   info_element->len);
-> @@ -2392,7 +2381,6 @@ static inline int is_same_network(struct rtllib_network *src,
->  		(dst->capability & WLAN_CAPABILITY_ESS)));
->  }
+>  		} else
+>  			write_nic_byte(dev, rOFDM0_RxDetector1, 0x43);
+> @@ -1899,9 +1906,9 @@ static void dm_ctrl_initgain_byrssi_highpwr(
+>  			/*  3.2 Recover PD_TH for OFDM for normal power region. */
+>  			if (priv->CurrentChannelBW != HT_CHANNEL_WIDTH_20) {
+>  				write_nic_byte(dev, (rOFDM0_XATxAFE+3), 0x20);
+> -				/*else if (priv->card_8192 == HARDWARE_TYPE_RTL8190P)
+> -					write_nic_byte(dev, rOFDM0_RxDetector1, 0x42);
+> -				*/
+> +				/* else if (priv->card_8192 == HARDWARE_TYPE_RTL8190P)
+> +				 *	write_nic_byte(dev, rOFDM0_RxDetector1, 0x42);
+> +				 */
 >  
-> -
->  static inline void update_network(struct rtllib_device *ieee,
->  				  struct rtllib_network *dst,
->  				  struct rtllib_network *src)
-> @@ -2580,7 +2568,6 @@ static inline void rtllib_process_probe_response(
->  		goto free_network;
->  	}
->  
-> -
->  	if (!rtllib_legal_channel(ieee, network->channel))
->  		goto free_network;
->  
+>  			} else
+>  				write_nic_byte(dev, rOFDM0_RxDetector1, 0x44);
+> @@ -2020,9 +2027,9 @@ static void dm_pd_th(
+>  					 * 2008/02/05 MH SD3-Jerry 92U/92E PD_TH are the same.
+>  					 */
+>  					write_nic_byte(dev, (rOFDM0_XATxAFE+3), 0x00);
+> -					/*else if (priv->card_8192 == HARDWARE_TYPE_RTL8190P)
+> -						write_nic_byte(dev, rOFDM0_RxDetector1, 0x40);
+> -					*/
+> +					/* else if (priv->card_8192 == HARDWARE_TYPE_RTL8190P)
+> +					 *	write_nic_byte(dev, rOFDM0_RxDetector1, 0x40);
+> +					 */
+>  				} else
+>  					write_nic_byte(dev, rOFDM0_RxDetector1, 0x42);
+>  			} else if (dm_digtable.curpd_thstate == DIG_PD_AT_NORMAL_POWER) {
+> @@ -2032,18 +2039,18 @@ static void dm_pd_th(
+>  					 * 2008/02/05 MH SD3-Jerry 92U/92E PD_TH are the same.
+>  					 */
+>  					write_nic_byte(dev, (rOFDM0_XATxAFE+3), 0x20);
+> -					/*else if (priv->card_8192 == HARDWARE_TYPE_RTL8190P)
+> -						write_nic_byte(dev, rOFDM0_RxDetector1, 0x42);
+> -					*/
+> +					/* else if (priv->card_8192 == HARDWARE_TYPE_RTL8190P)
+> +					 *	write_nic_byte(dev, rOFDM0_RxDetector1, 0x42);
+> +					 */
+>  				} else
+>  					write_nic_byte(dev, rOFDM0_RxDetector1, 0x44);
+>  			} else if (dm_digtable.curpd_thstate == DIG_PD_AT_HIGH_POWER) {
+>  				/* Higher PD_TH for OFDM for high power state. */
+>  				if (priv->CurrentChannelBW != HT_CHANNEL_WIDTH_20) {
+>  					write_nic_byte(dev, (rOFDM0_XATxAFE+3), 0x10);
+> -					/*else if (priv->card_8192 == HARDWARE_TYPE_RTL8190P)
+> -						write_nic_byte(dev, rOFDM0_RxDetector1, 0x41);
+> -					*/
+> +					/* else if (priv->card_8192 == HARDWARE_TYPE_RTL8190P)
+> +					 *	write_nic_byte(dev, rOFDM0_RxDetector1, 0x41);
+> +					 */
+>  				} else
+>  					write_nic_byte(dev, rOFDM0_RxDetector1, 0x43);
+>  			}
+> @@ -2274,7 +2281,8 @@ static void dm_ctstoself(struct net_device *dev)
+>   *	When		Who		Remark
+>   *	05/28/2008	amy	Create Version 0 porting from windows code.
+>   *
+> - *---------------------------------------------------------------------------*/
+> + *---------------------------------------------------------------------------
+> + */
+>  static	void	dm_check_pbc_gpio(struct net_device *dev)
+>  {
+>  	struct r8192_priv *priv = ieee80211_priv(dev);
+> @@ -2308,7 +2316,8 @@ static	void	dm_check_pbc_gpio(struct net_device *dev)
+>   *	When		Who		Remark
+>   *	01/30/2008	MHC		Create Version 0.
+>   *
+> - *---------------------------------------------------------------------------*/
+> + *---------------------------------------------------------------------------
+> + */
+>  void dm_rf_pathcheck_workitemcallback(struct work_struct *work)
+>  {
+>  	struct delayed_work *dwork = to_delayed_work(work);
+> @@ -2557,7 +2566,8 @@ static void dm_rxpath_sel_byrssi(struct net_device *dev)
+>   *	When		Who		Remark
+>   *	05/28/2008	amy		Create Version 0 porting from windows code.
+>   *
+> - *---------------------------------------------------------------------------*/
+> + *---------------------------------------------------------------------------
+> + */
+>  static void dm_check_rx_path_selection(struct net_device *dev)
+>  {
+>  	struct r8192_priv *priv = ieee80211_priv(dev);
 > -- 
 > 2.34.1
 > 
