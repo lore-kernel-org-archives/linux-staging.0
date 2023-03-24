@@ -1,24 +1,25 @@
-Received: from relay11.mail.gandi.net (relay11.mail.gandi.net [217.70.178.231])
+Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net [217.70.183.196])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B7776FA1;
-	Fri, 24 Mar 2023 15:12:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B59996FA1;
+	Fri, 24 Mar 2023 15:12:47 +0000 (UTC)
 Received: (Authenticated sender: paul.kocialkowski@bootlin.com)
-	by mail.gandi.net (Postfix) with ESMTPSA id A446A10000C;
-	Fri, 24 Mar 2023 15:11:59 +0000 (UTC)
+	by mail.gandi.net (Postfix) with ESMTPSA id C2396E0007;
+	Fri, 24 Mar 2023 15:12:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1679670723;
+	t=1679670760;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding;
 	bh=uEOh0qZu1a2y7GIksVmAUhkUm9kTU1yLtPR9HJ3ihj8=;
-	b=ZokWZYJTGNn9ygnjiqhAgA2WsmQttAsCsQZ9b7QYA3tysT5jhchh0sMl2nn702pbQ2/O60
-	nYX5hlcdhazB/sVPex+KwLJ5iRrRAY/9e8dWA5Lc3S6oXBGUSO32n8GVFHtD8WQv1I5wt6
-	7/q8iwSjbX6S7Clm9bj11ZdwL43mljrADDhH30NectMuY7gkiJMg7R23bbULsrefrPQLrT
-	hnQflll/cqzMKsFLgWKAkUJNX007IghfE6XrPI8x/SFqWkfXTzbzo7LqqWoDBytphe/GqK
-	vzDNuIN7x0TYi29ZkUZ1xomVvrRYlnwg8bfMQ4NhxB5aHNkmaeObMR3kQxyRSg==
+	b=B5BnTzisW50LzspF5O2jxGpSPr1Nxkx+49UiHLF0VjP3w5CkLT5bKVsyuR1ENRXgD+XZbW
+	eggTwlU2IsiUqMvICT7jzFRVg1kgvztD13zs+EzZskvCb2LMBB1PccWz/lOUATSkobuCSs
+	fwjDf2vkSI6yaG1aK1HQO1M5BDZfsNkXF6C6eNor5V1b9cnmlQM+HqoqgcI9kNZ5hzEfG6
+	ffUTbOlGIhVQnY3nxMnVOqjY6a0AXkGmd3yocYHIyf+LLcgMGZqMeMe8BUR4vqrd5fjHIk
+	B8Cp1kRst2DDlY5D81NpLGS5Fg39IrAat7cgjyGJpXaJ68xulkdPpfZd1EjyTQ==
 From: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-To: linux-arm-kernel@lists.infradead.org,
+To: linux-media@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
 	linux-sunxi@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	linux-staging@lists.linux.dev
@@ -28,11 +29,11 @@ Cc: Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
 	Jernej Skrabec <jernej.skrabec@gmail.com>,
 	Samuel Holland <samuel@sholland.org>,
 	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	"Adam Pigg --to=linux-media @ vger . kernel . org" <adam@piggz.co.uk>,
+	Adam Pigg <adam@piggz.co.uk>,
 	Thomas Petazzoni <thomas.petazzoni@bootlin.com>
 Subject: [PATCH 0/9] media: sun6i-csi/isp: Implement MC I/O support
-Date: Fri, 24 Mar 2023 16:11:40 +0100
-Message-Id: <20230324151149.2777981-1-paul.kocialkowski@bootlin.com>
+Date: Fri, 24 Mar 2023 16:12:19 +0100
+Message-Id: <20230324151228.2778112-1-paul.kocialkowski@bootlin.com>
 X-Mailer: git-send-email 2.39.2
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
