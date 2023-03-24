@@ -1,23 +1,23 @@
 Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net [217.70.183.196])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 872557460;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F71C6FD7;
 	Fri, 24 Mar 2023 15:12:52 +0000 (UTC)
 Received: (Authenticated sender: paul.kocialkowski@bootlin.com)
-	by mail.gandi.net (Postfix) with ESMTPSA id 19EA7E0015;
-	Fri, 24 Mar 2023 15:12:44 +0000 (UTC)
+	by mail.gandi.net (Postfix) with ESMTPSA id E3D4FE001B;
+	Fri, 24 Mar 2023 15:12:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1679670765;
+	t=1679670771;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=8gIn39Y6zA0CFaVJ6us4+7VwM4cTlinJOP/M7fEZG7Y=;
-	b=TX4hxQ9RP7XPd8vlAYXjTa8wCMrPziKlOupK2OrOzG5+o3vFMT+sIk3bH+cgHZGrioCslu
-	cUSVKOFWdsQFwRsIBvf6lZNNVLfIlwljTuINbonSNl8WMSzdwFKhB3uBIsbInMZAyBx5rK
-	BibBAi5OW3OuvgvSV4yo9PqsdTEe3PrwAZG8Y75zRgQT05IUfRj8CFOEy/d+B+aXplhooC
-	zPehihj1vvb9fIIcfkwlSR9fC1Tn1r3/HUawg99RgKEYNV93ZL/B6KdK0pMrgNYEOLLOW9
-	IFT9bttX58/dwOtb3iZz21JbY+hAvBgFkAaprkVe01g0n2YuotYU/YLywPdyTA==
+	bh=1pmURX5WiQgok7667LNCdKhn4LBPmmToQ7P/mWQBXOQ=;
+	b=kSIc7RsqSmQa+l+Wc/6gZkQKyA2eHwyjnSctaczCtZ/53kUxIZ4X8JtFlaNszeAzTuXE/u
+	Z6d5OfG01Q6aakLjKQ8wkgsizTuz7BK5BH0Xxi1A7BPtd8tZW3fKgdKShaWPW1B20cpyGu
+	v4ZQCgC/XJbyR9iN403ta3N49XowLYEbpvaBpdW2dbtl0FGWJ0HZK9ZBDthm57t2VvAubX
+	lAaiJsWGXWSV5UGSI/f75Wh0NskUANgqksOqWAt5LAIF+9xbtVucdFUzFZICzLtNg4dmSX
+	Bo75LHPxRbEbSK0TAxDBkcYs7NVWIAiAzl8sF+hXaY3LpFUQm23SK/qUR6XTwA==
 From: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
 To: linux-media@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
@@ -32,9 +32,9 @@ Cc: Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
 	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
 	Adam Pigg <adam@piggz.co.uk>,
 	Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Subject: [PATCH 3/9] media: v4l2: Introduce compressed pixel encoding definition and helper
-Date: Fri, 24 Mar 2023 16:12:22 +0100
-Message-Id: <20230324151228.2778112-4-paul.kocialkowski@bootlin.com>
+Subject: [PATCH 7/9] media: sun6i-csi: capture: Implement enum_framesizes
+Date: Fri, 24 Mar 2023 16:12:26 +0100
+Message-Id: <20230324151228.2778112-8-paul.kocialkowski@bootlin.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230324151228.2778112-1-paul.kocialkowski@bootlin.com>
 References: <20230324151228.2778112-1-paul.kocialkowski@bootlin.com>
@@ -46,48 +46,60 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Some pixel formats (such as JPEG) have their data compressed and
-encoded in a specific way, which is not directly YUV, RGB or Bayer.
-
-Add a new definition and helper for compressed pixel encoding to
-represent this situation.
+Report available frame sizes as a continuous range between the
+hardware min/max limits.
 
 Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+Co-authored-by: Adam Pigg <adam@piggz.co.uk>
+Signed-off-by: Adam Pigg <adam@piggz.co.uk>
 ---
- include/media/v4l2-common.h | 7 +++++++
- 1 file changed, 7 insertions(+)
+ .../sunxi/sun6i-csi/sun6i_csi_capture.c       | 26 +++++++++++++++++++
+ 1 file changed, 26 insertions(+)
 
-diff --git a/include/media/v4l2-common.h b/include/media/v4l2-common.h
-index 1bdaea248089..37554bc10e2a 100644
---- a/include/media/v4l2-common.h
-+++ b/include/media/v4l2-common.h
-@@ -465,12 +465,14 @@ int v4l2_s_parm_cap(struct video_device *vdev,
-  * @V4L2_PIXEL_ENC_YUV:		Pixel encoding is YUV
-  * @V4L2_PIXEL_ENC_RGB:		Pixel encoding is RGB
-  * @V4L2_PIXEL_ENC_BAYER:	Pixel encoding is Bayer
-+ * @V4L2_PIXEL_ENC_COMPRESSED:	Pixel encoding is compressed
-  */
- enum v4l2_pixel_encoding {
- 	V4L2_PIXEL_ENC_UNKNOWN = 0,
- 	V4L2_PIXEL_ENC_YUV = 1,
- 	V4L2_PIXEL_ENC_RGB = 2,
- 	V4L2_PIXEL_ENC_BAYER = 3,
-+	V4L2_PIXEL_ENC_COMPRESSED = 4,
- };
- 
- /**
-@@ -512,6 +514,11 @@ static inline bool v4l2_is_format_bayer(const struct v4l2_format_info *f)
- 	return f && f->pixel_enc == V4L2_PIXEL_ENC_BAYER;
+diff --git a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.c b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.c
+index 9627030ff060..31ba83014086 100644
+--- a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.c
++++ b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.c
+@@ -847,6 +847,30 @@ static int sun6i_csi_capture_try_fmt(struct file *file, void *private,
+ 	return 0;
  }
  
-+static inline bool v4l2_is_format_compressed(const struct v4l2_format_info *f)
++static int
++sun6i_csi_capture_enum_framesizes(struct file *file, void *fh,
++				  struct v4l2_frmsizeenum *frmsizeenum)
 +{
-+	return f && f->pixel_enc == V4L2_PIXEL_ENC_COMPRESSED;
++	const struct sun6i_csi_capture_format *format;
++
++	if (frmsizeenum->index > 0)
++		return -EINVAL;
++
++	format = sun6i_csi_capture_format_find(frmsizeenum->pixel_format);
++	if (!format)
++		return -EINVAL;
++
++	frmsizeenum->type = V4L2_FRMSIZE_TYPE_CONTINUOUS;
++	frmsizeenum->stepwise.min_width = SUN6I_CSI_CAPTURE_WIDTH_MIN;
++	frmsizeenum->stepwise.max_width = SUN6I_CSI_CAPTURE_WIDTH_MAX;
++	frmsizeenum->stepwise.min_height = SUN6I_CSI_CAPTURE_HEIGHT_MIN;
++	frmsizeenum->stepwise.max_height = SUN6I_CSI_CAPTURE_HEIGHT_MAX;
++	frmsizeenum->stepwise.step_width = 1;
++	frmsizeenum->stepwise.step_height = 1;
++
++	return 0;
 +}
 +
- const struct v4l2_format_info *v4l2_format_info(u32 format);
- void v4l2_apply_frmsize_constraints(u32 *width, u32 *height,
- 				    const struct v4l2_frmsize_stepwise *frmsize);
+ static int sun6i_csi_capture_enum_input(struct file *file, void *private,
+ 					struct v4l2_input *input)
+ {
+@@ -884,6 +908,8 @@ static const struct v4l2_ioctl_ops sun6i_csi_capture_ioctl_ops = {
+ 	.vidioc_s_fmt_vid_cap		= sun6i_csi_capture_s_fmt,
+ 	.vidioc_try_fmt_vid_cap		= sun6i_csi_capture_try_fmt,
+ 
++	.vidioc_enum_framesizes		= sun6i_csi_capture_enum_framesizes,
++
+ 	.vidioc_enum_input		= sun6i_csi_capture_enum_input,
+ 	.vidioc_g_input			= sun6i_csi_capture_g_input,
+ 	.vidioc_s_input			= sun6i_csi_capture_s_input,
 -- 
 2.39.2
 
