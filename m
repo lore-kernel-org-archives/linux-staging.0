@@ -1,23 +1,23 @@
 Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net [217.70.183.196])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F71C6FD7;
-	Fri, 24 Mar 2023 15:12:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDDE76FDA;
+	Fri, 24 Mar 2023 15:12:53 +0000 (UTC)
 Received: (Authenticated sender: paul.kocialkowski@bootlin.com)
-	by mail.gandi.net (Postfix) with ESMTPSA id E3D4FE001B;
-	Fri, 24 Mar 2023 15:12:49 +0000 (UTC)
+	by mail.gandi.net (Postfix) with ESMTPSA id 2A7AFE0018;
+	Fri, 24 Mar 2023 15:12:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1679670771;
+	t=1679670772;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=1pmURX5WiQgok7667LNCdKhn4LBPmmToQ7P/mWQBXOQ=;
-	b=kSIc7RsqSmQa+l+Wc/6gZkQKyA2eHwyjnSctaczCtZ/53kUxIZ4X8JtFlaNszeAzTuXE/u
-	Z6d5OfG01Q6aakLjKQ8wkgsizTuz7BK5BH0Xxi1A7BPtd8tZW3fKgdKShaWPW1B20cpyGu
-	v4ZQCgC/XJbyR9iN403ta3N49XowLYEbpvaBpdW2dbtl0FGWJ0HZK9ZBDthm57t2VvAubX
-	lAaiJsWGXWSV5UGSI/f75Wh0NskUANgqksOqWAt5LAIF+9xbtVucdFUzFZICzLtNg4dmSX
-	Bo75LHPxRbEbSK0TAxDBkcYs7NVWIAiAzl8sF+hXaY3LpFUQm23SK/qUR6XTwA==
+	bh=enDGYKXiM7Q8LTC31mohdS3fckSaBNzhC8rrVAHdczM=;
+	b=CuXi9HpMMawNmx1FJsELZhOeL/RZrZQ7VftiVYaBPSB3jaNIGNsCOclXvviJBNFCJrlDLi
+	x0+54NA2avOS52wW3z+MpNrDKmc2O0aM+rGv3quwOyAQSw33LWwZAIvCjgVJYKnIURIHy3
+	3rp7hfBKh6ikj4t+KCTQSoQl+pFVarQzbqn8c3fxTkPa7SD09aQsjmW4/3RhvhfCqMTAIL
+	N6Yka5CE4pckxRyIRUwDT+JEg9BKCV9XfLp0zwK2YFab18Zg0YuqMmP28u+QRqx0+1w362
+	iQeUuB9QqG75evhP/bKkPdp0TMZbUv7tH87DXMowSeDCCFHjN59MaxJgAugTzg==
 From: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
 To: linux-media@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
@@ -32,9 +32,9 @@ Cc: Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
 	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
 	Adam Pigg <adam@piggz.co.uk>,
 	Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Subject: [PATCH 7/9] media: sun6i-csi: capture: Implement enum_framesizes
-Date: Fri, 24 Mar 2023 16:12:26 +0100
-Message-Id: <20230324151228.2778112-8-paul.kocialkowski@bootlin.com>
+Subject: [PATCH 8/9] media: sun6i-isp: capture: Implement MC I/O with extended enum_fmt
+Date: Fri, 24 Mar 2023 16:12:27 +0100
+Message-Id: <20230324151228.2778112-9-paul.kocialkowski@bootlin.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230324151228.2778112-1-paul.kocialkowski@bootlin.com>
 References: <20230324151228.2778112-1-paul.kocialkowski@bootlin.com>
@@ -46,60 +46,44 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Report available frame sizes as a continuous range between the
-hardware min/max limits.
+This driver needs the media-controller API to operate and should not be
+considered as a video-device-centric implementation.
+
+Properly report the IO_MC device cap and extend the enum_fmt
+implementation to support enumeration with an explicit mbus_code.
 
 Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-Co-authored-by: Adam Pigg <adam@piggz.co.uk>
-Signed-off-by: Adam Pigg <adam@piggz.co.uk>
 ---
- .../sunxi/sun6i-csi/sun6i_csi_capture.c       | 26 +++++++++++++++++++
- 1 file changed, 26 insertions(+)
+ .../staging/media/sunxi/sun6i-isp/sun6i_isp_capture.c    | 9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.c b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.c
-index 9627030ff060..31ba83014086 100644
---- a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.c
-+++ b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.c
-@@ -847,6 +847,30 @@ static int sun6i_csi_capture_try_fmt(struct file *file, void *private,
- 	return 0;
- }
- 
-+static int
-+sun6i_csi_capture_enum_framesizes(struct file *file, void *fh,
-+				  struct v4l2_frmsizeenum *frmsizeenum)
-+{
-+	const struct sun6i_csi_capture_format *format;
-+
-+	if (frmsizeenum->index > 0)
-+		return -EINVAL;
-+
-+	format = sun6i_csi_capture_format_find(frmsizeenum->pixel_format);
-+	if (!format)
-+		return -EINVAL;
-+
-+	frmsizeenum->type = V4L2_FRMSIZE_TYPE_CONTINUOUS;
-+	frmsizeenum->stepwise.min_width = SUN6I_CSI_CAPTURE_WIDTH_MIN;
-+	frmsizeenum->stepwise.max_width = SUN6I_CSI_CAPTURE_WIDTH_MAX;
-+	frmsizeenum->stepwise.min_height = SUN6I_CSI_CAPTURE_HEIGHT_MIN;
-+	frmsizeenum->stepwise.max_height = SUN6I_CSI_CAPTURE_HEIGHT_MAX;
-+	frmsizeenum->stepwise.step_width = 1;
-+	frmsizeenum->stepwise.step_height = 1;
-+
-+	return 0;
-+}
-+
- static int sun6i_csi_capture_enum_input(struct file *file, void *private,
- 					struct v4l2_input *input)
+diff --git a/drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_capture.c b/drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_capture.c
+index 1595a9607775..5160b93b69ff 100644
+--- a/drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_capture.c
++++ b/drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_capture.c
+@@ -439,6 +439,12 @@ static int sun6i_isp_capture_enum_fmt(struct file *file, void *private,
+ 				      struct v4l2_fmtdesc *fmtdesc)
  {
-@@ -884,6 +908,8 @@ static const struct v4l2_ioctl_ops sun6i_csi_capture_ioctl_ops = {
- 	.vidioc_s_fmt_vid_cap		= sun6i_csi_capture_s_fmt,
- 	.vidioc_try_fmt_vid_cap		= sun6i_csi_capture_try_fmt,
- 
-+	.vidioc_enum_framesizes		= sun6i_csi_capture_enum_framesizes,
+ 	u32 index = fmtdesc->index;
++	u32 mbus_code = fmtdesc->mbus_code;
 +
- 	.vidioc_enum_input		= sun6i_csi_capture_enum_input,
- 	.vidioc_g_input			= sun6i_csi_capture_g_input,
- 	.vidioc_s_input			= sun6i_csi_capture_s_input,
++	if (mbus_code && !sun6i_isp_proc_format_find(mbus_code))
++		return -EINVAL;
++
++	/* Capture format is independent from proc format. */
+ 
+ 	if (index >= ARRAY_SIZE(sun6i_isp_capture_formats))
+ 		return -EINVAL;
+@@ -685,7 +691,8 @@ int sun6i_isp_capture_setup(struct sun6i_isp_device *isp_dev)
+ 
+ 	strscpy(video_dev->name, SUN6I_ISP_CAPTURE_NAME,
+ 		sizeof(video_dev->name));
+-	video_dev->device_caps = V4L2_CAP_VIDEO_CAPTURE | V4L2_CAP_STREAMING;
++	video_dev->device_caps = V4L2_CAP_VIDEO_CAPTURE | V4L2_CAP_STREAMING |
++				 V4L2_CAP_IO_MC;
+ 	video_dev->vfl_dir = VFL_DIR_RX;
+ 	video_dev->release = video_device_release_empty;
+ 	video_dev->fops = &sun6i_isp_capture_fops;
 -- 
 2.39.2
 
