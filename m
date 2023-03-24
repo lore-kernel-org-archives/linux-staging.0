@@ -1,206 +1,178 @@
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6ACC027706;
-	Fri, 24 Mar 2023 22:11:45 +0000 (UTC)
-Received: by mail-wr1-f53.google.com with SMTP id r11so3138085wrr.12;
-        Fri, 24 Mar 2023 15:11:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1679695903;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=LcvZzRz5s2MdQIy+7MD9Geaf7c7s2ujOyb3GzEulVCU=;
-        b=SeY5FRnZ7chEi53v22pvitzQvGddPVHhzTD03PCkZtBrgjV1hOmD2IN6iRCIrOnRrS
-         YcX84Xo4jNteqMjDhZVCtxGznd7scup+56W+G50PAPtwlctX+5XJbpGicuwhUcpbu6CM
-         XXzSOJS+B4LBcETbkeLKrZXjVSEHKnEt2yAEUAcaCs2bjlRH4/SQVoK/1NjeHaRTCnuT
-         w2c0cA2uFo5KCFvOg3FxRush9XbOLJKpMPz7UKlOe6yVGTt/1N2+lQxRnS8P62mPnqiE
-         YKlecmZTNYAYYge23555+yHMdnVSNllxhIVG0GYgBzQPHxm7M3q/CljOeKAyaXN79xJV
-         DUwg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679695903;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=LcvZzRz5s2MdQIy+7MD9Geaf7c7s2ujOyb3GzEulVCU=;
-        b=3AeKagRnvg1OiWPMXfrEqoyXkbS5xTl2XPDXHRxf/1488Wx3odpW9s6VSCJL8pZngE
-         i6z1SuoctDUj4yVLSpM0Nf4AM7wbd6wW94Ia8lu9ez+6DWmnN1FcVoP1J1ts5gSnBF8E
-         OPqb0wUrRbrgZINMCVMkFiF7yHjIAqzWQHZLtSzdQXIzfv1qPwZGO/H3YluYF6diSU7n
-         GM8Tyz/s2u41eNZpZRDU8xKTCDhyMVDjjwNuekpBQjtetVAfThfFZ7IHwH63WgCNPXjf
-         3Hb4L6mA58CG9Nx1vRbBAAK/ItZpyWgzoNgGI7dTQY+mzJzMfWIqYLPZkei+qWr6C/VQ
-         xO1g==
-X-Gm-Message-State: AAQBX9ffXjnwzwTWcrY3Z9IA0+10pJjd42jSIAuFnHVI3dDfeUzxbp4l
-	aA7bsz4TRODQ19BQ+UxuQS0=
-X-Google-Smtp-Source: AKy350Z+UYUbUZqZgLxGDvHKudAUOOcoEf7Qw2Oil9QesxAvPmEteYSgfKmF+LOl5+u592h766biYQ==
-X-Received: by 2002:adf:e98b:0:b0:2c5:4ffb:b5d4 with SMTP id h11-20020adfe98b000000b002c54ffbb5d4mr3371013wrm.19.1679695903483;
-        Fri, 24 Mar 2023 15:11:43 -0700 (PDT)
-Received: from khadija-virtual-machine ([39.41.14.14])
-        by smtp.gmail.com with ESMTPSA id l12-20020adfe9cc000000b002cea8e3bd54sm19207794wrn.53.2023.03.24.15.11.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 24 Mar 2023 15:11:43 -0700 (PDT)
-Date: Sat, 25 Mar 2023 03:11:41 +0500
-From: Khadija Kamran <kamrankhadijadj@gmail.com>
-To: Alison Schofield <alison.schofield@intel.com>
-Cc: outreachy@lists.linux.dev, gregkh@linuxfoundation.org,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 1/4] staging: rtl8192e: remove extra blank lines
-Message-ID: <ZB4gHXhGnfPf3LMA@khadija-virtual-machine>
-References: <cover.1679598576.git.kamrankhadijadj@gmail.com>
- <43d5864fc42e51089a0a0626278204bac8313eb0.1679598576.git.kamrankhadijadj@gmail.com>
- <ZB3ElynSQl98E6rf@aschofie-mobl2>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66FA327706;
+	Fri, 24 Mar 2023 22:18:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1679696296; x=1711232296;
+  h=date:from:to:cc:subject:message-id:references:
+   in-reply-to:mime-version;
+  bh=siFUZ4Mtlf/XEXiRHgczaDRnYBz6B79l05r/ARSH9LQ=;
+  b=Wud/MoOVqIV2eaczCtc/GsQ1TxjFvQS2yrBJAR/eeCkQEnDywtRGRD+o
+   kxULi2m1ripLdD08uVDaJnTlQ5EV7nZ2aernTkh7LY94pZcPyibZcDckL
+   n0CA8QvKhdUkgCA+MtMBdNnUTxSOPkGrk9eGLP5l8p0baCL5KnlNwNw/P
+   D4Ehr3HtOWMWIhBM425GMKQcnRsoRECwpcDr6sJSHPXfzA41u6nR3vEQd
+   2uXx4F9hNlegeTtwCUqhba7iRyfZDmgXjGWDEDscv1RScmJXGMn9rkLMB
+   9EiO1jiRejeNJJVsF162YB5RL5/5U7kwkPFIYooX+c7pdBkM01Fiv2q14
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10659"; a="319549181"
+X-IronPort-AV: E=Sophos;i="5.98,289,1673942400"; 
+   d="scan'208";a="319549181"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Mar 2023 15:18:15 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10659"; a="715402739"
+X-IronPort-AV: E=Sophos;i="5.98,289,1673942400"; 
+   d="scan'208";a="715402739"
+Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
+  by orsmga001.jf.intel.com with ESMTP; 24 Mar 2023 15:18:14 -0700
+Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.21; Fri, 24 Mar 2023 15:18:14 -0700
+Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
+ orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.21 via Frontend Transport; Fri, 24 Mar 2023 15:18:14 -0700
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com (104.47.57.169)
+ by edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.21; Fri, 24 Mar 2023 15:18:13 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=XqtuY2KDGE/Qe+iwEGu0d4qi14HdA5idtGdt6hnapu/R8Q3vf/xQyQuWXipglZNrrTpI0S1oC0O1kmY9ONfHm9jv+MXQFK1Iz5c0eGtnNiz1LBHdN6JRWD3+WV/9Zs8lBnQt+j5+pV9eO4HZi6i7kJPXVk1XQ4saVMhoMDnSJ/jxKXl9de/7pWpygUbDcWn650Ae13PszoheuFSUj45lR5p8pssE34n/HyZb/lGBbkcogK0d7MJRV5QMVqqtcqA4hBGEBLuoHl5yrw/vJd9rHa1H6qYNsaCiESI29cjrTVQYVIwPGv20Z4fLjumKTNpelxtnEB4gvpaRy/2R1ODAPg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=UDZn9FD+eal2+SfPdtxr8ZX/VW9pvwQvxZf3akOlGOI=;
+ b=WOFVuzQB3bUHFuJ4pE2U1nQFVIUzVnUoZ9phzcub2SM58Y2TPLRgH2QHKcEcl43kwa0IpUCTovhyCDcwjMp4hrj2tTnbN7DKq+DQTN6JC9cQ8CUyUaOoSUjR+oeufi4Mw6medJlV/jErfsSS3//Q7r3ptkRVVhxvQmUBhmyEp05q9G/2Z1ZMclbsftIlv9HBRJPYSliW5WUOPQS0aP9zvFe4T0HFXmQ3RmlHay2O34DYYz9kbJxfbxgccE3rl29Tipb4mZGGbwiprr7kr/OIij2YLg6goZWOCkYRYvJeqplqltsWXNMgwWtKX5JlvVHY/CQMnPtK8hGR1Hxv+WG3tw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from SA1PR11MB6733.namprd11.prod.outlook.com (2603:10b6:806:25c::17)
+ by SJ0PR11MB5680.namprd11.prod.outlook.com (2603:10b6:a03:305::9) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6178.39; Fri, 24 Mar
+ 2023 22:18:12 +0000
+Received: from SA1PR11MB6733.namprd11.prod.outlook.com
+ ([fe80::84dd:d3f2:6d99:d7ff]) by SA1PR11MB6733.namprd11.prod.outlook.com
+ ([fe80::84dd:d3f2:6d99:d7ff%7]) with mapi id 15.20.6178.037; Fri, 24 Mar 2023
+ 22:18:12 +0000
+Date: Fri, 24 Mar 2023 15:18:09 -0700
+From: Ira Weiny <ira.weiny@intel.com>
+To: Khadija Kamran <kamrankhadijadj@gmail.com>, <outreachy@lists.linux.dev>
+CC: Parthiban Veerasooran <parthiban.veerasooran@microchip.com>, "Christian
+ Gromm" <christian.gromm@microchip.com>, Greg Kroah-Hartman
+	<gregkh@linuxfoundation.org>, <linux-staging@lists.linux.dev>,
+	<linux-kernel@vger.kernel.org>
+Subject: Re: [RESEND PATCH] staging: most: fix line ending with '(' in dim2
+Message-ID: <641e21a1235f6_325e1f2949@iweiny-mobl.notmuch>
+References: <ZBxLT4w0cKZ/aOZo@khadija-virtual-machine>
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <ZBxLT4w0cKZ/aOZo@khadija-virtual-machine>
+X-ClientProxiedBy: SJ0PR05CA0043.namprd05.prod.outlook.com
+ (2603:10b6:a03:33f::18) To SA1PR11MB6733.namprd11.prod.outlook.com
+ (2603:10b6:806:25c::17)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZB3ElynSQl98E6rf@aschofie-mobl2>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SA1PR11MB6733:EE_|SJ0PR11MB5680:EE_
+X-MS-Office365-Filtering-Correlation-Id: 3889da08-688b-433a-d8ed-08db2cb5a7bd
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: /PcH7J10KDVTuEWVWXar4pplcaIwQw543RWQ+Fh152PNRj5mSrm/O/jy9Tw6f6CuHEozvcR6aE1GEIZ1/xvVQUFjl0Y+U2/kHAcYukCOPy8dWmQZe08Rzh0ZMXrXD3lH7SKJYwFSk/k6iFrxmqyPXStQ+kgUzcvsDMWhr5+EDKUi0g+mRCxC4P0tQ11WLdsXC+4KwuXlurBIBrOQEJ6W/WbjQOTX6ZV2wSAWcFjeDW6gDZPsZbCKQAP9vnJ3JpqT4PF89ndRkwjkxLxTH0KDoTkbo4064FeT5T/c1P++b9oYF8wWuA1SbVZ9hwTg/6k8j0II3c6F1DJIfpCty7AZgazDAJYYQDgpLXejmR30j/UBdwfzgPggRMctc9DzZuRGklK6J747q2GFHIaE/M5r+ZcwsB2xEPoEY3ejFOSqoJaz0LbH3dkki9MMPuz6VJNKavd/6HZg6scqXjU5KaSLFi22dy1tvMxArC2ryWoya1dR3kPwkxZKmS7dKs7VVi8u201JwOhr5uwZeFUZ0P/ciq9NrseWP22L2WCJUmHLcfKvgn1QVwTobodjVs6fb9B6
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SA1PR11MB6733.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(376002)(39860400002)(396003)(136003)(366004)(346002)(451199021)(38100700002)(478600001)(316002)(86362001)(9686003)(6506007)(6512007)(83380400001)(6486002)(66556008)(4326008)(66946007)(8936002)(41300700001)(66476007)(8676002)(82960400001)(6666004)(2906002)(44832011)(5660300002)(26005)(186003)(54906003);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?Kt07X1UBsLyIS7+cOHysdbQ0Xx8a0pKRmLhWo68Pk865/jw0X748M6PJERX5?=
+ =?us-ascii?Q?iX2p0UHXFUy48y4up5EC7xZDQ/niAjbFhpiRvVaKy//VwwycZtifgfmW+sBk?=
+ =?us-ascii?Q?1ZDqD/11bnTJabYihP+6U3s6qSkLzOvPCi/KOS7ibC3/pHGTil4k9Bj0uLdN?=
+ =?us-ascii?Q?mXdmNFPLWRp594x9v/PXDND52vvtiDxnIULu9NrlK+3ZqlsbpId8FAN+UsDj?=
+ =?us-ascii?Q?ZQjh4dfFy8MBrXqCjzIJjX2BSWnfn5KANKKNuXshzm4Co/Ur00qmpzZTQt2G?=
+ =?us-ascii?Q?xBKIlyq7dvtAC7mEXv3aThLRH4zRsMh73Cognzz7/Su9i1lI0HxS7m4RTy0E?=
+ =?us-ascii?Q?4XydOtqQBmkuQ3ZxhVBY1XFsmSfdxhqh1C+3JlqpEgvVXdCaL1tZeVvKIeOW?=
+ =?us-ascii?Q?W6YcrSEfPuO9fRCLHmmdxPXn9wWTpx4F4FhwWj23pRi264PEIG70mgWM+u+s?=
+ =?us-ascii?Q?wy/knEb+J7wswAEkfobNuNcd4QoWkv0BbJpOl719okhlev3cG5G4oIEkhF+m?=
+ =?us-ascii?Q?SJUQV9FyKvlLi1REIg1tt+jrG9ZWaZ7q5R6SWO21ANgHKarMayAqoEuc9g2Y?=
+ =?us-ascii?Q?vDX6D5KODsA30uSsgBkRxIt/6z2JtMinS0xCGUIBeMvfpZGzif/4fcYrk81e?=
+ =?us-ascii?Q?ESuE9oXVrew7nkGKegsHmswli2zG/iKipU/0TiIikpPkUZp1jEE3ktkMfXAm?=
+ =?us-ascii?Q?V2n6HwMdYOR9ajNrXVfzFJ2o0NvUYa3NEalbtIQY4u3X69lrPls7OelpuoVK?=
+ =?us-ascii?Q?Z6Mxq8eivSk6oSfoYrye4IdtuN8g+5ztuDb+k0riX21kTVJ5MW3dSwY5Q2/R?=
+ =?us-ascii?Q?YhJT5PAtjBnwRmAR3YzMw/86sgm2mHyZqNyGyN2wxxQwIvcZqnLw42rW51FG?=
+ =?us-ascii?Q?TkkDtknk3fm3tx1BQYDjp0ZUkNb7dlwSLC5rGp+HJf0ugf1AmywOWXeGpI4Y?=
+ =?us-ascii?Q?+lqe2tMac99Y6yQdl+3Y691/y6AU3JFw0dRbcC2xZDev6Tp/yujcxpFc4yzL?=
+ =?us-ascii?Q?8WghUbrtD6EaFafE1aZv+yiEehLczczcF3vpxvArbAaPHoJKbNUnExgX8+oD?=
+ =?us-ascii?Q?m+ViiIPaY/Rlk98c4touTLUiulBrwqr2C0PtR56ZvWMfDAluKZAukonsgHc9?=
+ =?us-ascii?Q?mIoj7CC80SIfhOynVzX6p8HeiS+VvqyL7FYqfDjDW59nSVh/ssFq/EkHJjfO?=
+ =?us-ascii?Q?Cusvq3RQcpvdbZm9b+gS6OiMaIhEdhnrJa8UbIsPIeuEkDFiY3YcTQiQ/xX1?=
+ =?us-ascii?Q?JndQeCVEYPuQDPufCapPyaq9OL1bOGhqye23jfFFebmAHPO2M1VPr2ulhinj?=
+ =?us-ascii?Q?O2PL6vrJctPT1NoJEV2DId+HgV5x8cYuaIiPxjgya6BWe4iDq2+H+LXIwcpA?=
+ =?us-ascii?Q?Z2sTU2ujldJxHUGd5l6wZRR0a9fjg+8/uuzssv4rlIoxckojZTrrmfDU5WIP?=
+ =?us-ascii?Q?yF/yIBa18+j+L13nLVK7E2oGGBSMI9Uduwc296ZG7a31rxeX2fZzt3EXJ+Ou?=
+ =?us-ascii?Q?gqhLbCjB68siGkxMwpl6MtB33MPkME1FiYUlNB/KHSAjX8KpC291wkg/Djzu?=
+ =?us-ascii?Q?vhNnl1SFp0L7lqQwU4W1s8VF8LyuIS4czjTw7XK2?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3889da08-688b-433a-d8ed-08db2cb5a7bd
+X-MS-Exchange-CrossTenant-AuthSource: SA1PR11MB6733.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Mar 2023 22:18:12.0040
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 4xvtNLiTPIDwLyRekH9wIShY0xBr6tJCSlYnLDSC2SinOrZyJkNInExHcuyBXSjQoOptiX97KpZrmRgmg6QE3Q==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR11MB5680
+X-OriginatorOrg: intel.com
 
-On Fri, Mar 24, 2023 at 08:41:11AM -0700, Alison Schofield wrote:
-> On Fri, Mar 24, 2023 at 12:19:59AM +0500, Khadija Kamran wrote:
-> > Remove extra blank lines as reported by checkpatch.pl
-> > 
-> > "CHECK: Please don't use multiple blank lines"
+Khadija Kamran wrote:
+> Splitting function header to multiple lines because of 80 characters per
+> line limit, results in ending the function call line with '('.
+> This leads to CHECK reported by checkpatch.pl
 > 
-> Commit log needs to say why you did it, why this patch need to be
-> merged. Checkpatch itself doesn't satisfy the why requirement.
+> Move the function parameters right after the '(' in the function call
+> line. Align the rest of the parameters to the opening parenthesis.
 > 
-> When we do these white space cleanups, the why is typically
-> "to adhere to the Linux kernel coding-style."
+> Signed-off-by: Khadija Kamran <kamrankhadijadj@gmail.com>
+> ---
+>  drivers/staging/most/dim2/hal.c | 5 ++---
+>  1 file changed, 2 insertions(+), 3 deletions(-)
 > 
-> If you are doing a particular checkpatch cleanup and are not
-> sure what to write, check your predecessors.
-> 
-> $ git log --oneline | grep "multiple blank lines"
->
+> diff --git a/drivers/staging/most/dim2/hal.c b/drivers/staging/most/dim2/hal.c
+> index a5d40b5b138a..6abe3ab2b2cf 100644
+> --- a/drivers/staging/most/dim2/hal.c
+> +++ b/drivers/staging/most/dim2/hal.c
+> @@ -346,9 +346,8 @@ static void dim2_clear_ctram(void)
+>  		dim2_clear_ctr(ctr_addr);
+>  }
+>  
+> -static void dim2_configure_channel(
+> -	u8 ch_addr, u8 type, u8 is_tx, u16 dbr_address, u16 hw_buffer_size,
+> -	u16 packet_length)
+> +static void dim2_configure_channel(u8 ch_addr, u8 type, u8 is_tx, u16 dbr_address,
 
-Hey Alison,
+NIT: This introduces a long (> 80 char) line for not a great reason.
+Since you are changing it anyway how about?
 
-I have resent the patchset with the advised changes.
-Thank you!
+static void dim2_configure_channel(u8 ch_addr, u8 type, u8 is_tx,
+				   u16 dbr_address, u16 hw_buffer_size,
+				   u16 packet_length)
 
-Regards,
-Khadija
+Ira
 
-> That'll give you many instances. Reference a few, some poor ones
-> sneak through.
+> +				   u16 hw_buffer_size, u16 packet_length)
+
+>  {
+>  	dim2_configure_cdt(ch_addr, dbr_address, hw_buffer_size, packet_length);
+>  	dim2_configure_cat(MLB_CAT, ch_addr, type, is_tx ? 1 : 0);
+> -- 
+> 2.34.1
 > 
-> Alison
 > 
-> > 
-> > Signed-off-by: Khadija Kamran <kamrankhadijadj@gmail.com>
-> > ---
-> >  drivers/staging/rtl8192e/rtllib_rx.c | 13 -------------
-> >  1 file changed, 13 deletions(-)
-> > 
-> > diff --git a/drivers/staging/rtl8192e/rtllib_rx.c b/drivers/staging/rtl8192e/rtllib_rx.c
-> > index c394c21beefb..c6114d99829b 100644
-> > --- a/drivers/staging/rtl8192e/rtllib_rx.c
-> > +++ b/drivers/staging/rtl8192e/rtllib_rx.c
-> > @@ -154,7 +154,6 @@ rtllib_frag_cache_get(struct rtllib_device *ieee,
-> >  	return skb;
-> >  }
-> >  
-> > -
-> >  /* Called only as a tasklet (software IRQ) */
-> >  static int rtllib_frag_cache_invalidate(struct rtllib_device *ieee,
-> >  					   struct rtllib_hdr_4addr *hdr)
-> > @@ -318,7 +317,6 @@ rtllib_rx_frame_decrypt(struct rtllib_device *ieee, struct sk_buff *skb,
-> >  	return res;
-> >  }
-> >  
-> > -
-> >  /* Called only as a tasklet (software IRQ), by rtllib_rx */
-> >  static inline int
-> >  rtllib_rx_frame_decrypt_msdu(struct rtllib_device *ieee, struct sk_buff *skb,
-> > @@ -355,7 +353,6 @@ rtllib_rx_frame_decrypt_msdu(struct rtllib_device *ieee, struct sk_buff *skb,
-> >  	return 0;
-> >  }
-> >  
-> > -
-> >  /* this function is stolen from ipw2200 driver*/
-> >  #define IEEE_PACKET_RETRY_TIME (5*HZ)
-> >  static int is_duplicate_packet(struct rtllib_device *ieee,
-> > @@ -887,7 +884,6 @@ static u8 parse_subframe(struct rtllib_device *ieee, struct sk_buff *skb,
-> >  	return rxb->nr_subframes;
-> >  }
-> >  
-> > -
-> >  static size_t rtllib_rx_get_hdrlen(struct rtllib_device *ieee,
-> >  				   struct sk_buff *skb,
-> >  				   struct rtllib_rx_stats *rx_stats)
-> > @@ -1569,7 +1565,6 @@ static int rtllib_verify_qos_info(struct rtllib_qos_information_element
-> >  	return 0;
-> >  }
-> >  
-> > -
-> >  /* Parse a QoS parameter element */
-> >  static int rtllib_read_qos_param_element(
-> >  			struct rtllib_qos_parameter_info *element_param,
-> > @@ -1599,7 +1594,6 @@ static int rtllib_read_qos_info_element(
-> >  	return rtllib_verify_qos_info(element_info, QOS_OUI_INFO_SUB_TYPE);
-> >  }
-> >  
-> > -
-> >  /* Write QoS parameters from the ac parameters. */
-> >  static int rtllib_qos_convert_ac_to_parameters(struct rtllib_qos_parameter_info *param_elm,
-> >  					       struct rtllib_qos_data *qos_data)
-> > @@ -1843,7 +1837,6 @@ static void rtllib_parse_mife_generic(struct rtllib_device *ieee,
-> >  		}
-> >  	}
-> >  
-> > -
-> >  	if (*tmp_htinfo_len == 0) {
-> >  		if (info_element->len >= 4 &&
-> >  		    info_element->data[0] == 0x00 &&
-> > @@ -1932,7 +1925,6 @@ static void rtllib_parse_mife_generic(struct rtllib_device *ieee,
-> >  	    info_element->data[2] == 0x96)
-> >  		network->cisco_cap_exist = true;
-> >  
-> > -
-> >  	if (info_element->len >= 3 &&
-> >  	    info_element->data[0] == 0x00 &&
-> >  	    info_element->data[1] == 0x0a &&
-> > @@ -2142,13 +2134,11 @@ int rtllib_parse_info_param(struct rtllib_device *ieee,
-> >  
-> >  			network->dtim_data = RTLLIB_DTIM_VALID;
-> >  
-> > -
-> >  			if (info_element->data[2] & 1)
-> >  				network->dtim_data |= RTLLIB_DTIM_MBCAST;
-> >  
-> >  			offset = (info_element->data[2] >> 1)*2;
-> >  
-> > -
-> >  			if (ieee->assoc_id < 8*offset ||
-> >  			    ieee->assoc_id > 8*(offset + info_element->len - 3))
-> >  				break;
-> > @@ -2203,7 +2193,6 @@ int rtllib_parse_info_param(struct rtllib_device *ieee,
-> >  						 &tmp_htcap_len);
-> >  			break;
-> >  
-> > -
-> >  		case MFIE_TYPE_HT_INFO:
-> >  			netdev_dbg(ieee->dev, "MFIE_TYPE_HT_INFO: %d bytes\n",
-> >  				   info_element->len);
-> > @@ -2392,7 +2381,6 @@ static inline int is_same_network(struct rtllib_network *src,
-> >  		(dst->capability & WLAN_CAPABILITY_ESS)));
-> >  }
-> >  
-> > -
-> >  static inline void update_network(struct rtllib_device *ieee,
-> >  				  struct rtllib_network *dst,
-> >  				  struct rtllib_network *src)
-> > @@ -2580,7 +2568,6 @@ static inline void rtllib_process_probe_response(
-> >  		goto free_network;
-> >  	}
-> >  
-> > -
-> >  	if (!rtllib_legal_channel(ieee, network->channel))
-> >  		goto free_network;
-> >  
-> > -- 
-> > 2.34.1
-> > 
-> > 
+
+
