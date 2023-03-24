@@ -1,55 +1,51 @@
 Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F15CD2E2;
-	Thu, 23 Mar 2023 21:11:10 +0000 (UTC)
-Received: by mail-ed1-f53.google.com with SMTP id h8so362715ede.8;
-        Thu, 23 Mar 2023 14:11:10 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 575F420F5
+	for <linux-staging@lists.linux.dev>; Fri, 24 Mar 2023 05:07:37 +0000 (UTC)
+Received: by mail-ed1-f53.google.com with SMTP id t10so3223404edd.12
+        for <linux-staging@lists.linux.dev>; Thu, 23 Mar 2023 22:07:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1679605868;
+        d=gmail.com; s=20210112; t=1679634455;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=KmmCdw9M5+J5Kmm/BSbt7uI0C9wsx89ZvFPHESAbpkI=;
-        b=odP/JZc1gb5UHyOibWoevm2Bp4y1bvD670zN20xP9umqA0IJ1VyIajOHH8kfaWxtK7
-         9R7RE+DnxJgmuEQeXsMWSAgUVM5MMoPGCUu1+4Qijy+DQPcvRv8PNuw/CCxe21ijrzr/
-         Yb77TqRaKLOdfDXVgHOGo/lG+RBnIH8fHzKFi8LZEfy107cUHAaGy9R4IBJNu/NIuGYC
-         cp0hws6URqI6DoxuqK4hIa1w2Y+vzy1y8s+AT+m5ur1c1voCaluxMudrLYZZ13vcqInJ
-         AyYfdNJDTsm/eNConQMprgOJRlZrQruuRUaCdRd1ILQcpKNFh9uCrLPZA9oi2p/vXloy
-         SOSw==
+        bh=kBpxI4lGzunQIJcTy0Wu60h6ZsBAWmGxZxQSmX0uFmQ=;
+        b=EUSWzn6kHwgbDhoo68XHhAg2Km/vibAMCcf3/FHKHBcyfjpQ9PhqlpKupia4Mtxlkj
+         Buyk3QeYClCwEqj3nKDNBescvQcwVvvG5mOSn9/Rxm0Y9yHTPKSTlZsg0WU/igxOSPIu
+         btNe/pNLQmR5cDCcask/GvXK/cyFTI/NpzsF7OC1uon6INA1kJSdO2JgL/Iz9E91VXtp
+         Y1NplCTXqYQgC9hlMDiAblNhl4N9yo97qe6+ar/R0K1XprWQMiXQ4e8Nd3dBCXsOFpJi
+         BBZYQc+adidRJJG5ZemojxGuPdbSxJO69A9OWCLLrjHefEvH7cm5S1/ayhYQyYMxBf2v
+         P0Ng==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679605868;
+        d=1e100.net; s=20210112; t=1679634455;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=KmmCdw9M5+J5Kmm/BSbt7uI0C9wsx89ZvFPHESAbpkI=;
-        b=QD7WiII9omgU0da7Nif9exeDa5vJHG9eg/+vWzuvehOr9aMz6sh0MMqOTn8zPK04yI
-         PInwzMOyc0ckQAuCUbfNNudeufpg7HDrVBSlChwv52bskXaWYv0Z/MHkzzoHfghi4WTm
-         hffuM0kGCiyJcKDYtl169oS97lxCRiDDClsds6v//Er3f8geWbrTcpsekkXzCuwaY0m6
-         szzda/g7ORhbmLGYp2KbnN94hxfGODW8HBQ7nlC9aDbMxl3iwS0J5GlBZVNnPjvAb5nQ
-         GBaoW5UGYaXU8AwbyjunITjwwcBgwNpAfLD09+9LvnnUhb6gx38elXRHO5S7AxkcT2o4
-         Tsfw==
-X-Gm-Message-State: AAQBX9eEQPDd2MTmOiLog9vlbKuqzxmE++s9zw1yLyUDY0jOZqutdWdh
-	C9p8e3n+K20Ih4nbgPtZKHU=
-X-Google-Smtp-Source: AKy350YQv0wuqUMzATOVUccjZo3qStRSuukNFSLKJqvpXgB8KjlL66ralMqUgXf/4qgv1nbqs1asDQ==
-X-Received: by 2002:a17:906:9f0b:b0:8f3:9ee9:f1bc with SMTP id fy11-20020a1709069f0b00b008f39ee9f1bcmr485751ejc.13.1679605868465;
-        Thu, 23 Mar 2023 14:11:08 -0700 (PDT)
-Received: from khadija-virtual-machine ([39.41.14.14])
-        by smtp.gmail.com with ESMTPSA id lc5-20020a170906dfe500b0092973e209f2sm9122019ejc.109.2023.03.23.14.11.07
+        bh=kBpxI4lGzunQIJcTy0Wu60h6ZsBAWmGxZxQSmX0uFmQ=;
+        b=Fx7oWbGqRtokVS7S+386zgYEBQuJufNuwLuUNrvgWvJ93ADmC+M9lG5/nRsp2opgeI
+         kVkko+HrMu0I8bTTLjEHARP7uEzbHcP6spvEs+ffPmutsgXJm+uIhWFii/1zl4RdfKHf
+         7obx+AtUPzE90sBDxmmC6+KdWi4SejDNaQmNLmWKriXV4oaes9Ytmva64uuE7i9VManU
+         jK/D3zc9fEiZ0Z/HEKluew8ImbSyOgtCn4W0IwrGFZvnv0WfbD6Bo00NwuRhzWRM0azO
+         s9McLhq5pxTV1DA6Z8C/OXphog9aShw7UGaeKlWsVFIe2AG2Ee60JUCeylazNEnSlH7V
+         GFMA==
+X-Gm-Message-State: AAQBX9dnxEJq0RoMOjzW2lV57sPLcEnsY9h6E4gAEnrLcb2dUOSwBDT0
+	ooKvcDm+Ov94BP3BPBHwlxXwzeLr5/RKzg==
+X-Google-Smtp-Source: AKy350YHAfuyqcama1ziPT02mzs5ARITreG3BtRax/9FGKFg+vur48ALmQTAGS+oUfTIwEsXhAOU9g==
+X-Received: by 2002:a17:906:dc7:b0:92b:7e6a:bca0 with SMTP id p7-20020a1709060dc700b0092b7e6abca0mr1334015eji.14.1679634455222;
+        Thu, 23 Mar 2023 22:07:35 -0700 (PDT)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id gt6-20020a170906f20600b0092a3b199db8sm9486968ejb.186.2023.03.23.22.07.34
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 23 Mar 2023 14:11:08 -0700 (PDT)
-Date: Fri, 24 Mar 2023 02:11:05 +0500
-From: Khadija Kamran <kamrankhadijadj@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: outreachy@lists.linux.dev,
-	Parthiban Veerasooran <parthiban.veerasooran@microchip.com>,
-	Christian Gromm <christian.gromm@microchip.com>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: most: fix line ending with '('
-Message-ID: <ZBzAaZTOZrL4BTsM@khadija-virtual-machine>
-References: <ZBsSOlPbaGZcAaSY@khadija-virtual-machine>
- <ZBvbP8ugDFjSoVp/@kroah.com>
- <ZBxtpyT8she++602@khadija-virtual-machine>
- <ZBxwKQdl8CDPqD2L@kroah.com>
+        Thu, 23 Mar 2023 22:07:34 -0700 (PDT)
+Date: Fri, 24 Mar 2023 08:07:30 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: Alexander Heinrich <hallo@alexanderheinrich.de>
+Cc: gregkh@linuxfoundation.org,
+	linux-kernel-mentees@lists.linuxfoundation.org,
+	linux-staging@lists.linux.dev
+Subject: Re: [PATCH] Correct code style according to Linux guildelines
+Message-ID: <5f8ff690-4b26-42d8-b405-f815a240fb46@kili.mountain>
+References: <20230323194611.299241-1-hallo@alexanderheinrich.de>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -58,62 +54,39 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ZBxwKQdl8CDPqD2L@kroah.com>
+In-Reply-To: <20230323194611.299241-1-hallo@alexanderheinrich.de>
 
-On Thu, Mar 23, 2023 at 04:28:41PM +0100, Greg Kroah-Hartman wrote:
-> On Thu, Mar 23, 2023 at 08:17:59PM +0500, Khadija Kamran wrote:
-> > On Thu, Mar 23, 2023 at 05:53:19AM +0100, Greg Kroah-Hartman wrote:
-> > > On Wed, Mar 22, 2023 at 07:35:38PM +0500, Khadija Kamran wrote:
-> > > > Splitting function header to multiple lines because of 80 characters per
-> > > > line limit, results in ending the function call line with '('.
-> > > > This leads to CHECK reported by checkpatch.pl
-> > > > 
-> > > > Move the first parameter right after the '(' in the function call line.
-> > > > Align the rest of the parameters to the opening parenthesis.
-> > > > 
-> > > > Signed-off-by: Khadija Kamran <kamrankhadijadj@gmail.com>
-> > > > ---
-> > > >  drivers/staging/most/dim2/hal.c | 5 ++---
-> > > >  1 file changed, 2 insertions(+), 3 deletions(-)
-> > > 
-> > > You have 2 patches here with identical subject lines, yet they do
-> > > different things :(
-> > >
-> > > I've dropped all of your pending patches now for the most driver as I'm
-> > > totally confused.  Please resend them all as a proper patch series with
-> > > updated subject lines.
-> > >
-> > 
-> > Hey Greg!
-> > 
-> > I took your message literally and sent a RESEND PATCH. I should've sent
-> > a new version of the patch instead.
+1: The subject doesn't have a patch prefix and is generally not in the
+   correct format.
+
+On Thu, Mar 23, 2023 at 08:46:11PM +0100, Alexander Heinrich wrote:
+> This patch fixes the following warning produced by checkpatch.pl,
+> when run on drivers/staging/wlan-ng/p80211req.c.
 > 
-> What message?
+> CHECK: Unnecessary parentheses around
+>     'msg->msgcode != DIDMSG_DOT11REQ_MIBGET'
+
+2: Add a blank line here, before the signed-off-by line.
+
+> Signed-off-by: Alexander Heinrich <hallo@alexanderheinrich.de>
+> ---
+>  drivers/staging/wlan-ng/p80211req.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> Remember, we get hundreds of patches a day to review and have a short
-> term memory of a squirrel..  make it obvious what is happening when
-> resending or sending a new version, otherwise we are confused.
->
+> diff --git a/drivers/staging/wlan-ng/p80211req.c b/drivers/staging/wlan-ng/p80211req.c
+> index 809cf3d480e9..df2d07304d1c 100644
+> --- a/drivers/staging/wlan-ng/p80211req.c
+> +++ b/drivers/staging/wlan-ng/p80211req.c
+> @@ -125,7 +125,7 @@ int p80211req_dorequest(struct wlandevice *wlandev, u8 *msgbuf)
+>  
+>  	/* Check Permissions */
+>  	if (!capable(CAP_NET_ADMIN) &&
+> -	    (msg->msgcode != DIDMSG_DOT11REQ_MIBGET)) {
+> +	    msg->msgcode != DIDMSG_DOT11REQ_MIBGET) {
 
-Okay noted. I apologize for my mistakes.
+3: Greg likes these parentheses so just ignore checkpatch on this.
+   (Don't resend this one, find something else to clean up).
 
-Thank you for your time.
+regards,
+dan carpenter
 
-> > Would it be okay if I send patch revisions with changed subjects now?
-> 
-> What would you want to see if you were on the recieving end of this
-> patch to know what to do with it?
-> 
-
-I have sent revisions with an explanation about why the patches are
-being sent again and what changes are made.
-
-I hope I am not making any mistakes.
-
-Regards,
-Khadija
-
-> thanks,
-> 
-> greg k-h
