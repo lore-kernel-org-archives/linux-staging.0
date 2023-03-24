@@ -1,23 +1,23 @@
 Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net [217.70.183.196])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17C806FD7;
-	Fri, 24 Mar 2023 15:12:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 689CB6FA1;
+	Fri, 24 Mar 2023 15:12:51 +0000 (UTC)
 Received: (Authenticated sender: paul.kocialkowski@bootlin.com)
-	by mail.gandi.net (Postfix) with ESMTPSA id 5BE5EE000A;
-	Fri, 24 Mar 2023 15:12:47 +0000 (UTC)
+	by mail.gandi.net (Postfix) with ESMTPSA id 9488EE0004;
+	Fri, 24 Mar 2023 15:12:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1679670768;
+	t=1679670763;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=qIH2xOa232Fh48wwCufBRlgNNrR+ve7uu9Q9Dipak/I=;
-	b=RxOthW9u+Vl0zGq8JoSMX6HQFR1X25CEf9s1nVTPrvCV2/e5Gw8o030kbApFZKm31/MCoS
-	6GBEYnTar7QpOCpMMqcqv6EWrnfpEi3+X7lD528EH7XtAf91Xti+Bp0422oYW6A6I3HQM+
-	1t8DUnc7vY2+/bZZyDs66DALDYGPlzXP9JOdZkZeQmVar/TOe7ieR12QXiTQLeEHJdbnJ5
-	31IdRnNUA232yEWtpEgxGIpO3tstJvL3bBfT8YUvfcNEOufYhufkvKJafYHdSxl522Rp70
-	Cud4OLUX9hwKkPZs7L7XOfCm3VKiZ4f8TZnz8FL7z70JeNzn6quDGAvSxFQebg==
+	bh=AKMjsmVuGQnB8YMrE/mZMGkPMHIYStzAUAeMUrSpOig=;
+	b=jzaazBv+z6bdh0gBL92QPHmZc0eELjmoGevdGLM7N6FfRiB2GYonK0XKPF/vtEi6PgHWBu
+	UZUITF62qUdyB0fwVDZXvGA+h4HzZGy0j4DngD5CPwXNeBeG29t7vsiHDQ6HvuKc8+1At0
+	AO/AkbWLYf5xiHuGBw8QBgIvYGLILygVZDoRJn0MWMeBUrtpXceaGA+VzrueZYE+VSiKSS
+	WLB68dEMLfBkefeOQ2IHHBNtgcsOExgTSICYKdq5rsBu27z/CdyCejOlcEusQUK9HVO9p2
+	eiDmvmUlU0xCm/DfuukMydXjoMxLMSjwWOe8VXDm0PqSrlbbvkHOZVjxvKx3Ng==
 From: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
 To: linux-media@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
@@ -32,9 +32,9 @@ Cc: Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
 	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
 	Adam Pigg <adam@piggz.co.uk>,
 	Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Subject: [PATCH 5/9] media: sun6i-csi: capture: Rework and separate format validation
-Date: Fri, 24 Mar 2023 16:12:24 +0100
-Message-Id: <20230324151228.2778112-6-paul.kocialkowski@bootlin.com>
+Subject: [PATCH 2/9] media: v4l2: Add NV12_16L16 pixel format to v4l2 format info
+Date: Fri, 24 Mar 2023 16:12:21 +0100
+Message-Id: <20230324151228.2778112-3-paul.kocialkowski@bootlin.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230324151228.2778112-1-paul.kocialkowski@bootlin.com>
 References: <20230324151228.2778112-1-paul.kocialkowski@bootlin.com>
@@ -46,155 +46,27 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Introduce a new sun6i_csi_capture_format_check helper to indicate
-whether a set of pixel format and mbus code are compatible.
-Most of the logic is taken from sun6i_csi_capture_link_validate,
-with extra checks added along the way.
-
-Note that v4l2_format_info is now used for all pixel formats
-since they should all be listed in the helper at this point.
-
-The motivation behind this change is to pave the way for supporting
-the mc-style enum_fmt.
+Represent the NV12_16L16 pixel format in the v4l2 format info table.
+This is a 16x16 tiled version of NV12.
 
 Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
 ---
- .../sunxi/sun6i-csi/sun6i_csi_capture.c       | 95 ++++++++++---------
- 1 file changed, 49 insertions(+), 46 deletions(-)
+ drivers/media/v4l2-core/v4l2-common.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.c b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.c
-index cf6aadbc130b..6ce7f1d3ed57 100644
---- a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.c
-+++ b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.c
-@@ -327,6 +327,52 @@ static bool sun6i_csi_capture_format_match(u32 pixelformat, u32 mbus_code)
- 	return false;
- }
+diff --git a/drivers/media/v4l2-core/v4l2-common.c b/drivers/media/v4l2-core/v4l2-common.c
+index 3d044b31caad..5101989716aa 100644
+--- a/drivers/media/v4l2-core/v4l2-common.c
++++ b/drivers/media/v4l2-core/v4l2-common.c
+@@ -280,6 +280,8 @@ const struct v4l2_format_info *v4l2_format_info(u32 format)
+ 		/* Tiled YUV formats */
+ 		{ .format = V4L2_PIX_FMT_NV12_4L4, .pixel_enc = V4L2_PIXEL_ENC_YUV, .mem_planes = 1, .comp_planes = 2, .bpp = { 1, 2, 0, 0 }, .hdiv = 2, .vdiv = 2 },
+ 		{ .format = V4L2_PIX_FMT_P010_4L4, .pixel_enc = V4L2_PIXEL_ENC_YUV, .mem_planes = 1, .comp_planes = 2, .bpp = { 2, 4, 0, 0 }, .hdiv = 2, .vdiv = 2 },
++		{ .format = V4L2_PIX_FMT_NV12_16L16,	.pixel_enc = V4L2_PIXEL_ENC_YUV, .mem_planes = 1, .comp_planes = 2, .bpp = { 1, 2, 0, 0 }, .hdiv = 2, .vdiv = 2,
++		  .block_w = { 16, 16, 0, 0 }, .block_h = { 16, 16, 0, 0 } },
  
-+static bool sun6i_csi_capture_format_check(u32 pixelformat, u32 mbus_code)
-+{
-+	const struct sun6i_csi_capture_format *capture_format;
-+	const struct sun6i_csi_bridge_format *bridge_format;
-+	const struct v4l2_format_info *format_info;
-+
-+	format_info = v4l2_format_info(pixelformat);
-+	if (WARN_ON(!format_info))
-+		return false;
-+
-+	capture_format = sun6i_csi_capture_format_find(pixelformat);
-+	if (WARN_ON(!capture_format))
-+		return false;
-+
-+	bridge_format = sun6i_csi_bridge_format_find(mbus_code);
-+	if (WARN_ON(!bridge_format))
-+		return false;
-+
-+	/* Raw input is required for non-YUV formats. */
-+	if (bridge_format->input_format != SUN6I_CSI_INPUT_FMT_RAW &&
-+	    (format_info->pixel_enc == V4L2_PIXEL_ENC_BAYER ||
-+	     format_info->pixel_enc == V4L2_PIXEL_ENC_RGB ||
-+	     format_info->pixel_enc == V4L2_PIXEL_ENC_COMPRESSED))
-+		return false;
-+
-+	if (format_info->pixel_enc == V4L2_PIXEL_ENC_YUV) {
-+		/* YUV input is required for YUV pixels. */
-+		if (bridge_format->input_format != SUN6I_CSI_INPUT_FMT_YUV420 &&
-+		    bridge_format->input_format != SUN6I_CSI_INPUT_FMT_YUV422)
-+			return false;
-+
-+		/* YUV420 input can't produce (upsampled) YUV422 output. */
-+		if (bridge_format->input_format == SUN6I_CSI_INPUT_FMT_YUV420 &&
-+		    format_info->vdiv == 1)
-+			return false;
-+	}
-+
-+	/* Raw input requires a 1:1 match between input and output. */
-+	if ((bridge_format->input_format == SUN6I_CSI_INPUT_FMT_RAW ||
-+	     capture_format->input_format_raw) &&
-+	    !sun6i_csi_capture_format_match(pixelformat, mbus_code))
-+			return false;
-+
-+	return true;
-+}
-+
- /* Capture */
- 
- static void
-@@ -890,28 +936,16 @@ static int sun6i_csi_capture_link_validate(struct media_link *link)
- 		media_entity_to_video_device(link->sink->entity);
- 	struct sun6i_csi_device *csi_dev = video_get_drvdata(video_dev);
- 	struct v4l2_device *v4l2_dev = csi_dev->v4l2_dev;
--	const struct sun6i_csi_capture_format *capture_format;
--	const struct sun6i_csi_bridge_format *bridge_format;
- 	unsigned int capture_width, capture_height;
- 	unsigned int bridge_width, bridge_height;
--	const struct v4l2_format_info *format_info;
- 	u32 pixelformat, capture_field;
- 	u32 mbus_code, bridge_field;
--	bool match;
- 
- 	sun6i_csi_capture_dimensions(csi_dev, &capture_width, &capture_height);
--
- 	sun6i_csi_capture_format(csi_dev, &pixelformat, &capture_field);
--	capture_format = sun6i_csi_capture_format_find(pixelformat);
--	if (WARN_ON(!capture_format))
--		return -EINVAL;
- 
- 	sun6i_csi_bridge_dimensions(csi_dev, &bridge_width, &bridge_height);
--
- 	sun6i_csi_bridge_format(csi_dev, &mbus_code, &bridge_field);
--	bridge_format = sun6i_csi_bridge_format_find(mbus_code);
--	if (WARN_ON(!bridge_format))
--		return -EINVAL;
- 
- 	/* No cropping/scaling is supported. */
- 	if (capture_width != bridge_width || capture_height != bridge_height) {
-@@ -922,43 +956,12 @@ static int sun6i_csi_capture_link_validate(struct media_link *link)
- 		return -EINVAL;
- 	}
- 
--	format_info = v4l2_format_info(pixelformat);
--	/* Some formats are not listed. */
--	if (!format_info)
--		return 0;
--
--	if (format_info->pixel_enc == V4L2_PIXEL_ENC_BAYER &&
--	    bridge_format->input_format != SUN6I_CSI_INPUT_FMT_RAW)
--		goto invalid;
--
--	if (format_info->pixel_enc == V4L2_PIXEL_ENC_RGB &&
--	    bridge_format->input_format != SUN6I_CSI_INPUT_FMT_RAW)
--		goto invalid;
--
--	if (format_info->pixel_enc == V4L2_PIXEL_ENC_YUV) {
--		if (bridge_format->input_format != SUN6I_CSI_INPUT_FMT_YUV420 &&
--		    bridge_format->input_format != SUN6I_CSI_INPUT_FMT_YUV422)
--			goto invalid;
--
--		/* YUV420 input can't produce YUV422 output. */
--		if (bridge_format->input_format == SUN6I_CSI_INPUT_FMT_YUV420 &&
--		    format_info->vdiv == 1)
--			goto invalid;
--	}
--
--	/* With raw input mode, we need a 1:1 match between input and output. */
--	if (bridge_format->input_format == SUN6I_CSI_INPUT_FMT_RAW ||
--	    capture_format->input_format_raw) {
--		match = sun6i_csi_capture_format_match(pixelformat, mbus_code);
--		if (!match)
--			goto invalid;
-+	if (!sun6i_csi_capture_format_check(pixelformat, mbus_code)) {
-+		v4l2_err(v4l2_dev, "invalid input/output format combination\n");
-+		return -EINVAL;
- 	}
- 
- 	return 0;
--
--invalid:
--	v4l2_err(v4l2_dev, "invalid input/output format combination\n");
--	return -EINVAL;
- }
- 
- static const struct media_entity_operations sun6i_csi_capture_media_ops = {
+ 		/* YUV planar formats, non contiguous variant */
+ 		{ .format = V4L2_PIX_FMT_YUV420M, .pixel_enc = V4L2_PIXEL_ENC_YUV, .mem_planes = 3, .comp_planes = 3, .bpp = { 1, 1, 1, 0 }, .hdiv = 2, .vdiv = 2 },
 -- 
 2.39.2
 
