@@ -1,23 +1,23 @@
 Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net [217.70.183.196])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7990A6FDA;
-	Fri, 24 Mar 2023 15:12:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 872557460;
+	Fri, 24 Mar 2023 15:12:52 +0000 (UTC)
 Received: (Authenticated sender: paul.kocialkowski@bootlin.com)
-	by mail.gandi.net (Postfix) with ESMTPSA id 87CD6E000F;
-	Fri, 24 Mar 2023 15:12:48 +0000 (UTC)
+	by mail.gandi.net (Postfix) with ESMTPSA id 19EA7E0015;
+	Fri, 24 Mar 2023 15:12:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1679670769;
+	t=1679670765;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=ibm3tSrzHRilK0eBOck6yRC9NMDYkOhhKkBru4BHJTA=;
-	b=maCXEZC95D2g/i9VZ5tpBHfFcnTLOUQJ1MypJvDDCf74A0M9WoHL5bs+RIwRk8bgrDLnXN
-	ua+6SzvTtX7A4/h0T2boXWqL1VIW6zkPeSCNR52PjXpryFVOjA6Oz6PBLrvsX1wfsnaL1E
-	qclE37AWysUEkygHd3MtLrv4KLfIs5Y8gjsghOpL6KtjSRx17KThxcbBbvCcOHnABoymVD
-	c1MHQi4omFqhwewKM1z0AAYQXC9qoHtqm42V6XMfGgF0u/oAxzDYdcEsSvqLAg+8usLb53
-	MyqNJceNgYZwmqZsRjerh54qvZj3tWEhcGtvZL5gXJVE11aNVvUDVHvoouwQ7A==
+	bh=8gIn39Y6zA0CFaVJ6us4+7VwM4cTlinJOP/M7fEZG7Y=;
+	b=TX4hxQ9RP7XPd8vlAYXjTa8wCMrPziKlOupK2OrOzG5+o3vFMT+sIk3bH+cgHZGrioCslu
+	cUSVKOFWdsQFwRsIBvf6lZNNVLfIlwljTuINbonSNl8WMSzdwFKhB3uBIsbInMZAyBx5rK
+	BibBAi5OW3OuvgvSV4yo9PqsdTEe3PrwAZG8Y75zRgQT05IUfRj8CFOEy/d+B+aXplhooC
+	zPehihj1vvb9fIIcfkwlSR9fC1Tn1r3/HUawg99RgKEYNV93ZL/B6KdK0pMrgNYEOLLOW9
+	IFT9bttX58/dwOtb3iZz21JbY+hAvBgFkAaprkVe01g0n2YuotYU/YLywPdyTA==
 From: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
 To: linux-media@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
@@ -32,9 +32,9 @@ Cc: Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
 	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
 	Adam Pigg <adam@piggz.co.uk>,
 	Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Subject: [PATCH 6/9] media: sun6i-csi: capture: Implement MC I/O with extended enum_fmt
-Date: Fri, 24 Mar 2023 16:12:25 +0100
-Message-Id: <20230324151228.2778112-7-paul.kocialkowski@bootlin.com>
+Subject: [PATCH 3/9] media: v4l2: Introduce compressed pixel encoding definition and helper
+Date: Fri, 24 Mar 2023 16:12:22 +0100
+Message-Id: <20230324151228.2778112-4-paul.kocialkowski@bootlin.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230324151228.2778112-1-paul.kocialkowski@bootlin.com>
 References: <20230324151228.2778112-1-paul.kocialkowski@bootlin.com>
@@ -46,75 +46,48 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This driver needs the media-controller API to operate and should not be
-considered as a video-device-centric implementation.
+Some pixel formats (such as JPEG) have their data compressed and
+encoded in a specific way, which is not directly YUV, RGB or Bayer.
 
-Properly report the IO_MC device cap and extend the enum_fmt
-implementation to support enumeration with an explicit mbus_code.
+Add a new definition and helper for compressed pixel encoding to
+represent this situation.
 
 Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
 ---
- .../sunxi/sun6i-csi/sun6i_csi_capture.c       | 36 ++++++++++++++++---
- 1 file changed, 32 insertions(+), 4 deletions(-)
+ include/media/v4l2-common.h | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-diff --git a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.c b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.c
-index 6ce7f1d3ed57..9627030ff060 100644
---- a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.c
-+++ b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.c
-@@ -777,13 +777,40 @@ static int sun6i_csi_capture_enum_fmt(struct file *file, void *private,
- 				      struct v4l2_fmtdesc *fmtdesc)
- {
- 	u32 index = fmtdesc->index;
-+	u32 mbus_code = fmtdesc->mbus_code;
-+	unsigned int index_valid = 0;
-+	unsigned int i;
-+
-+	if (!mbus_code) {
-+		if (index >= ARRAY_SIZE(sun6i_csi_capture_formats))
-+			return -EINVAL;
-+
-+		fmtdesc->pixelformat =
-+			sun6i_csi_capture_formats[index].pixelformat;
-+
-+		return 0;
-+	}
-+
-+	/* Check capture pixel format matching with mbus code. */
+diff --git a/include/media/v4l2-common.h b/include/media/v4l2-common.h
+index 1bdaea248089..37554bc10e2a 100644
+--- a/include/media/v4l2-common.h
++++ b/include/media/v4l2-common.h
+@@ -465,12 +465,14 @@ int v4l2_s_parm_cap(struct video_device *vdev,
+  * @V4L2_PIXEL_ENC_YUV:		Pixel encoding is YUV
+  * @V4L2_PIXEL_ENC_RGB:		Pixel encoding is RGB
+  * @V4L2_PIXEL_ENC_BAYER:	Pixel encoding is Bayer
++ * @V4L2_PIXEL_ENC_COMPRESSED:	Pixel encoding is compressed
+  */
+ enum v4l2_pixel_encoding {
+ 	V4L2_PIXEL_ENC_UNKNOWN = 0,
+ 	V4L2_PIXEL_ENC_YUV = 1,
+ 	V4L2_PIXEL_ENC_RGB = 2,
+ 	V4L2_PIXEL_ENC_BAYER = 3,
++	V4L2_PIXEL_ENC_COMPRESSED = 4,
+ };
  
--	if (index >= ARRAY_SIZE(sun6i_csi_capture_formats))
-+	if (!sun6i_csi_bridge_format_find(mbus_code))
- 		return -EINVAL;
- 
--	fmtdesc->pixelformat = sun6i_csi_capture_formats[index].pixelformat;
-+	for (i = 0; i < ARRAY_SIZE(sun6i_csi_capture_formats); i++) {
-+		u32 pixelformat = sun6i_csi_capture_formats[i].pixelformat;
- 
--	return 0;
-+		if (!sun6i_csi_capture_format_check(pixelformat, mbus_code))
-+			continue;
-+
-+		if (index == index_valid) {
-+			fmtdesc->pixelformat = pixelformat;
-+			return 0;
-+		}
-+
-+		index_valid++;
-+	}
-+
-+	return -EINVAL;
+ /**
+@@ -512,6 +514,11 @@ static inline bool v4l2_is_format_bayer(const struct v4l2_format_info *f)
+ 	return f && f->pixel_enc == V4L2_PIXEL_ENC_BAYER;
  }
  
- static int sun6i_csi_capture_g_fmt(struct file *file, void *private,
-@@ -1039,7 +1066,8 @@ int sun6i_csi_capture_setup(struct sun6i_csi_device *csi_dev)
- 
- 	strscpy(video_dev->name, SUN6I_CSI_CAPTURE_NAME,
- 		sizeof(video_dev->name));
--	video_dev->device_caps = V4L2_CAP_VIDEO_CAPTURE | V4L2_CAP_STREAMING;
-+	video_dev->device_caps = V4L2_CAP_VIDEO_CAPTURE | V4L2_CAP_STREAMING |
-+				 V4L2_CAP_IO_MC;
- 	video_dev->vfl_dir = VFL_DIR_RX;
- 	video_dev->release = video_device_release_empty;
- 	video_dev->fops = &sun6i_csi_capture_fops;
++static inline bool v4l2_is_format_compressed(const struct v4l2_format_info *f)
++{
++	return f && f->pixel_enc == V4L2_PIXEL_ENC_COMPRESSED;
++}
++
+ const struct v4l2_format_info *v4l2_format_info(u32 format);
+ void v4l2_apply_frmsize_constraints(u32 *width, u32 *height,
+ 				    const struct v4l2_frmsize_stepwise *frmsize);
 -- 
 2.39.2
 
