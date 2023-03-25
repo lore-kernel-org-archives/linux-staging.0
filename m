@@ -1,49 +1,49 @@
-Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
+Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BED21840
-	for <linux-staging@lists.linux.dev>; Sat, 25 Mar 2023 08:36:58 +0000 (UTC)
-Received: by mail-ed1-f49.google.com with SMTP id y4so16607748edo.2
-        for <linux-staging@lists.linux.dev>; Sat, 25 Mar 2023 01:36:57 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D870B1840
+	for <linux-staging@lists.linux.dev>; Sat, 25 Mar 2023 08:37:05 +0000 (UTC)
+Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-93075ee221bso14108166b.0
+        for <linux-staging@lists.linux.dev>; Sat, 25 Mar 2023 01:37:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1679733416;
+        d=gmail.com; s=20210112; t=1679733424;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=TxvwzNHlMhQxqbhDKY/vp8koWCnsLAxNykHAaCh4kRg=;
-        b=X/uzSL9Eb0S+87/KxZ9kB9/5y1GkDhCeHTfCE9i/WhoE4SiX0y0Z85UbK3XRpZeF8V
-         AH5Nrvm1dJa/yqzWOjEsdVRZaCuuRf4t4/OkNP3VVE+dn0wywLLrBIMhEXMhv8fx3Chl
-         Q/H9owBF18aJlv7SuA+dmhP31nyzj+YiaRRSDZc8QXZPWAJYO+yviUVsOQpGOHzA4f7F
-         rAlcv1dMw6b3MAD/1ILwUXif59PJ2Pw0UaIaZWwbxTTx0g0B3BjJagOxIA4LZbsXwGzj
-         aqluWNZ3HsnrqaeBm2WQ71d32zdD0LZ64R1g6NlHfndddk5VvGh3ObM+G+Z7Fko0jRds
-         cV+A==
+        bh=xenSdzUtugeb0/CqvxP79YZC3E7VL9ki06QF+SB8Qys=;
+        b=Ius8gLpxU5pD8x0/GazMtCB5q0CKLg0MZ7i75GOUkkNagH+fBhqR+TACAHnRUmsK/F
+         iNVLNgyNtTt+1j7Izciy9FaeFRQ9rIPBXWkBRxrE6Tj+7d0kEfJwCf3thyDY1Jwn3kAq
+         Lg1uy4yU5PGZPUjARM49UkUOPaxWNH6ZI73wln1orZXvbsIoQ7rMQro9LilLy58wzhcZ
+         0s5/3Eyd0rGRUADt5ijACRAv8pvDJgmfspSJDmB4wc8g/w7CPuVpx2PVJ+1PS7bOa3wW
+         E66OL4vDKGDTr69qnYcFZjXBpgMXQa4lwL05+/SmkCF4UqkfLwObjjWJe7qQUxrotp02
+         AOFQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679733416;
+        d=1e100.net; s=20210112; t=1679733424;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=TxvwzNHlMhQxqbhDKY/vp8koWCnsLAxNykHAaCh4kRg=;
-        b=xxT+ANbUfoecGYnMfBb0546hiYAZWfsJ2U7y8Sjka/TCzOdxbtnIHXaUA+3HfI2cu2
-         dAecYnUzANXEd5vF6wjDj62N67gH/s3NDlDa6KZ397ZRSCp+NmvtBio7jDlWftGsDtgC
-         eJuHwfxO0L+36P0/JQVuL3KpVOMRX74SGMYQ3ykwQydsAggL4i3cLVTwVp03AarePVKn
-         YZCUBcWMDRkGZEQKDGFA+EfSfzQmdkxHtfU8obGS/2Rl2I8cIvmM+9RHwaXhRzqyqI1m
-         3QT77Z0u73gPazRHbVhpJ74FcsuLNQuCXQAbG865xtsiDsoQl2ha+Qju44EsIUyg5xi/
-         h2Sw==
-X-Gm-Message-State: AAQBX9dcImYto41FC551f/vRqgmb9M/DyvMdwAUBiqW9wFvI0+Qn+06U
-	iFasWNHUUuo0r66x475Kq6g=
-X-Google-Smtp-Source: AKy350ZXqwFwkJBUMScwJeLFVmcgz2yVWOKHhIkwUr6pBQnsdf+Jbr4TDPm/eqVDFoGEKNehfFH7sw==
-X-Received: by 2002:a17:906:74ca:b0:8b1:2614:dea6 with SMTP id z10-20020a17090674ca00b008b12614dea6mr5108823ejl.1.1679733416406;
-        Sat, 25 Mar 2023 01:36:56 -0700 (PDT)
+        bh=xenSdzUtugeb0/CqvxP79YZC3E7VL9ki06QF+SB8Qys=;
+        b=u6c2FXfq6G6tP6miy8qruR9SovCaIYIo+dLgh2abDvsYMKKpwgadxNS7BKxjHXlHuh
+         76uNJow0+Z+pzZcyI54BdHmFOpU4yYLyHXb3/1bhQCBN6Um8hxTF0N0ycjRFAiVZd3KM
+         MLGNsY55+TO2k8xOUMOfLA32upc34DmDYkJRDLxpxQ3OxkedSuU3OB5/Wnulzwp5iHFo
+         /A+gHU7+otDbXV80UZv296oOozVPTDwjZWmebGUKseIAObutPBBjuzT0iwSGv2JyUs+Y
+         akf31DPyR+Rptxns1Sh2F9d4C/snWDvK2qtHOGqyeHSGEVEaf5jpEngDMdHzQJpu1tUB
+         QFvQ==
+X-Gm-Message-State: AAQBX9ewCMRAjekJiDYsYn2UqnH2g+NbKPhlOOU/ALDqLDfx/wdiu+63
+	n1wsW6HU0JYwRjQbicNf34NO6lRUVL0=
+X-Google-Smtp-Source: AKy350ZNYezsWUfDKJfhwp03UyPDeI0FJ4MnyrevIjAc9ybsNWwRCArAjcUnF6EMsvwpUTDqs+NT/w==
+X-Received: by 2002:a17:906:51c9:b0:92f:27c2:13c0 with SMTP id v9-20020a17090651c900b0092f27c213c0mr4213970ejk.6.1679733424236;
+        Sat, 25 Mar 2023 01:37:04 -0700 (PDT)
 Received: from matrix-ESPRIMO-P710 (p57935146.dip0.t-ipconnect.de. [87.147.81.70])
-        by smtp.gmail.com with ESMTPSA id n15-20020a170906118f00b0092421bf4927sm11642321eja.95.2023.03.25.01.36.55
+        by smtp.gmail.com with ESMTPSA id f23-20020a1709064dd700b00931536d461fsm11431573ejw.20.2023.03.25.01.37.03
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 25 Mar 2023 01:36:56 -0700 (PDT)
-Date: Sat, 25 Mar 2023 09:36:54 +0100
+        Sat, 25 Mar 2023 01:37:03 -0700 (PDT)
+Date: Sat, 25 Mar 2023 09:37:02 +0100
 From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [PATCH 09/11] staging: rtl8192e: Remove rf_chip in
- _rtl92e_get_supported_wireless_mode
-Message-ID: <e2db309dea3208560337376fec26fa5cfba93848.1679732276.git.philipp.g.hortmann@gmail.com>
+Subject: [PATCH 10/11] staging: rtl8192e: Remove priv->rf_chip in
+ _rtl92e_get_channel_map
+Message-ID: <b8c5a719c6f8930adb87a4ad9bd5d368ba5f348b.1679732276.git.philipp.g.hortmann@gmail.com>
 References: <cover.1679732276.git.philipp.g.hortmann@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -56,43 +56,31 @@ Content-Disposition: inline
 In-Reply-To: <cover.1679732276.git.philipp.g.hortmann@gmail.com>
 
 priv->rf_chip is initialized to RF_8256 and never changed. Remove
-condition in function _rtl92e_get_supported_wireless_mode as it is dead
-code.
+condition in function _rtl92e_get_channel_map as it is dead code.
 
 Signed-off-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
 ---
- drivers/staging/rtl8192e/rtl8192e/rtl_core.c | 16 +---------------
- 1 file changed, 1 insertion(+), 15 deletions(-)
+ drivers/staging/rtl8192e/rtl8192e/rtl_core.c | 7 -------
+ 1 file changed, 7 deletions(-)
 
 diff --git a/drivers/staging/rtl8192e/rtl8192e/rtl_core.c b/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
-index 3244aef12c05..8e4e939d7617 100644
+index 8e4e939d7617..ecc3f0c6c267 100644
 --- a/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
 +++ b/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
-@@ -595,23 +595,9 @@ static void _rtl92e_refresh_support_rate(struct r8192_priv *priv)
+@@ -895,13 +895,6 @@ static short _rtl92e_get_channel_map(struct net_device *dev)
  
- static u8 _rtl92e_get_supported_wireless_mode(struct net_device *dev)
- {
--	struct r8192_priv *priv = rtllib_priv(dev);
- 	u8 ret = 0;
+ 	struct r8192_priv *priv = rtllib_priv(dev);
  
--	switch (priv->rf_chip) {
--	case RF_8225:
--	case RF_8256:
--	case RF_6052:
--	case RF_PSEUDO_11N:
--		ret = (WIRELESS_MODE_N_24G | WIRELESS_MODE_G | WIRELESS_MODE_B);
--		break;
--	case RF_8258:
--		ret = (WIRELESS_MODE_A | WIRELESS_MODE_N_5G);
--		break;
--	default:
--		ret = WIRELESS_MODE_B;
--		break;
+-	if ((priv->rf_chip != RF_8225) && (priv->rf_chip != RF_8256) &&
+-						(priv->rf_chip != RF_6052)) {
+-		netdev_err(dev, "%s: unknown rf chip, can't set channel map\n",
+-			   __func__);
+-		return -1;
 -	}
-+	ret = (WIRELESS_MODE_N_24G | WIRELESS_MODE_G | WIRELESS_MODE_B);
- 	return ret;
- }
- 
+-
+ 	if (priv->chnl_plan >= COUNTRY_CODE_MAX) {
+ 		netdev_info(dev,
+ 			    "rtl819x_init:Error channel plan! Set to default.\n");
 -- 
 2.39.2
 
