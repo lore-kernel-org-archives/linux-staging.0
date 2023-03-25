@@ -1,49 +1,49 @@
 Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C31F1840
-	for <linux-staging@lists.linux.dev>; Sat, 25 Mar 2023 08:36:17 +0000 (UTC)
-Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-930bc91df7bso14049266b.1
-        for <linux-staging@lists.linux.dev>; Sat, 25 Mar 2023 01:36:17 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3A551840
+	for <linux-staging@lists.linux.dev>; Sat, 25 Mar 2023 08:36:25 +0000 (UTC)
+Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-930bc91df7bso14050466b.1
+        for <linux-staging@lists.linux.dev>; Sat, 25 Mar 2023 01:36:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1679733375;
+        d=gmail.com; s=20210112; t=1679733385;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=tXY6VvxPrL+Ft/OOHN7tVol0Ou3qPIGP5Ichat9gkls=;
-        b=nZkUzNJPqrM3dg8D4xEm8V8C0pb+1R4E2r4qfWzkxHrtVfCZGNmLdoh5Om3KkvgJJf
-         Ip9sTS8eIjIP0tWwcsGNhqVNtFRgvp7Wq2aEU1CEBWQtC+aPAsoGvaaInsstki7e4bkH
-         lOECU1WDjnWbyvpF6r/ZThUcwZVVh0Y0G7BaoAHYaKluRp70yHL9RSicM4ozbx9pAdfs
-         CPTw0ugCy3Pg0386U7dbU/Q2jmBSN+aLgT2qH8Av9/SFcj8rqAnUL79fzz5tXguGVdi4
-         EbruRtt/WjOnl0tWRqucRQ/2svhPARFz7XHDFwkMHMxmfTfrRXy3ESIF5Qn+bxfLlfKh
-         auVQ==
+        bh=pego/p9EbPQyvAXkY7L5ybuHyA9HZAjsDB9bAcQ4kms=;
+        b=aapVrq2/VavaaG/pVw2Cdc5FlASE0YKac34GycF9wfB/uU2GuL2lyUe8sm3fUpY2tH
+         1MOnseF8UrPyFaLBUfq13uob6mSvXrvw/hgmk4IkD3ETPvskFZaJZsD3WncmYjFVtaU4
+         HFzbviED50eIuTTtFZYyWeW7/M9PrDR15oBomiu0GRNkWtupcLkbxgiHUjaNK3VahVDH
+         w/fJypydGVoY3n6ZUubkMZ6zXSQxwppabGgUdPmVwmrdmSgdq5MyzBTNjDRHs3gx9LHp
+         cqfiiMqWirzJD1Fnjh7T6dDwt+Pj3GaV9Yag67OysTQ1hI4r4avb7jxMQDAcudbBruAY
+         hViw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679733375;
+        d=1e100.net; s=20210112; t=1679733385;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=tXY6VvxPrL+Ft/OOHN7tVol0Ou3qPIGP5Ichat9gkls=;
-        b=inNcGHVxBF/TOo0HvE+e8M+UgS4qedjkFLL5EYdprVm3q3d3h16oRjYaY/ABeLMgHL
-         t8SGAIvfHzC9/p9Cb5vYn4v0G+/TkQF3d450t73sU/r5jW+jdBhVUNhS6VzwXdOLJjEq
-         k9j4QsnVhCnqkDTRpLPBGdwqo1UK5TA+bupNVSgKjerio7VVbKzhgG5r2MVEdK4CswPP
-         PS4PyNKJfz0UGMyaneo9vo+b+wTUfOtcrsFu6Rmg9kYFyP1ZR+sxX+u2/yfYKL/M89Yo
-         rY6ncBueueazXefSMqeANmhcH9iF8FyDMlPNk64q0FsnVrx3t25ZUPp5mHCOnk63F62C
-         eyPw==
-X-Gm-Message-State: AAQBX9figLVnveIsqxSzkZ8n16TNg64NSNPKtFzgxTyFeMjUBa+/XbWb
-	0NUOriJzqzAGa+5iDGRF0bK0GrNwauY=
-X-Google-Smtp-Source: AKy350ZUHl0k6VkdXzcetSXghQ3i9iL2W6iOcT/US1+29zXFLw9MU4rjNnwHIs1WrSkkOl4zhpozLA==
-X-Received: by 2002:a17:906:2083:b0:92c:fc0:b229 with SMTP id 3-20020a170906208300b0092c0fc0b229mr4620756ejq.0.1679733375776;
-        Sat, 25 Mar 2023 01:36:15 -0700 (PDT)
+        bh=pego/p9EbPQyvAXkY7L5ybuHyA9HZAjsDB9bAcQ4kms=;
+        b=j2OgGYFM3jKRr0oV7qPkVJjFAro5hzbiL+stOxURej9ZX4EI5/252gpUcXP1o6Oy3h
+         GKUg8dUWm795wZZfdeD+a61DGQ8oJjAGvv7EhTDQFr/Oqxl/snsJJ2oVnuLHFT8nQIWO
+         Am195vEE8H2X3I1zkpggIGQRplCDRwA81XqY0krtncjexVF5qeY+oQIWtixtws840xa1
+         ljy7tVzkO/MsI9CWcxjy2mLrA3YcXfNu3SjjoNYqpVAD3WHb5K7aFRPhVSrsHr2KF0cS
+         Vxt06V9pjFzCGcGN2RACmx3wf+itOTG5Shw4g4/J4wlSIZaHSexgeOQg+oilh649JS3C
+         hpdg==
+X-Gm-Message-State: AAQBX9cPpw4FK+R0brZc3o+lQjLGnM8yxGBLYZTNpW4mFsTBCvvH5lDk
+	a5R5l3tJ+lg4Xo+jxxxqbDk=
+X-Google-Smtp-Source: AKy350aaN3egCdOutVBRtqKYoOpRbKONPxO+0SRpOcMT3o7QNhsygivdwGf9h4ZO1ILBWvXQT3iWew==
+X-Received: by 2002:a17:906:748b:b0:8f0:ba09:4abe with SMTP id e11-20020a170906748b00b008f0ba094abemr4117514ejl.2.1679733385189;
+        Sat, 25 Mar 2023 01:36:25 -0700 (PDT)
 Received: from matrix-ESPRIMO-P710 (p57935146.dip0.t-ipconnect.de. [87.147.81.70])
-        by smtp.gmail.com with ESMTPSA id by22-20020a170906a2d600b008cecb8f374asm11389751ejb.0.2023.03.25.01.36.15
+        by smtp.gmail.com with ESMTPSA id ot17-20020a170906ccd100b008e51a1fd7bfsm11648296ejb.172.2023.03.25.01.36.24
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 25 Mar 2023 01:36:15 -0700 (PDT)
-Date: Sat, 25 Mar 2023 09:36:13 +0100
+        Sat, 25 Mar 2023 01:36:24 -0700 (PDT)
+Date: Sat, 25 Mar 2023 09:36:23 +0100
 From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [PATCH 05/11] staging: rtl8192e: Remove priv->rf_chip in
- _rtl92e_set_tx_power_level
-Message-ID: <465a789243287c1420fdce68f9a861784a164140.1679732276.git.philipp.g.hortmann@gmail.com>
+Subject: [PATCH 06/11] staging: rtl8192e: Remove priv->rf_chip in
+ _rtl92e_phy_switch_channel_step
+Message-ID: <1b9e10de4f539aa24150275c80ec4bbd925c853d.1679732276.git.philipp.g.hortmann@gmail.com>
 References: <cover.1679732276.git.philipp.g.hortmann@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -56,41 +56,117 @@ Content-Disposition: inline
 In-Reply-To: <cover.1679732276.git.philipp.g.hortmann@gmail.com>
 
 priv->rf_chip is initialized to RF_8256 and never changed. Remove
-condition in function _rtl92e_set_tx_power_level as it is dead code.
+condition in function _rtl92e_phy_switch_channel_step as it is dead code.
 
 Signed-off-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
 ---
- drivers/staging/rtl8192e/rtl8192e/r8192E_phy.c | 17 ++---------------
- 1 file changed, 2 insertions(+), 15 deletions(-)
+ .../staging/rtl8192e/rtl8192e/r8192E_phy.c    | 83 ++++---------------
+ 1 file changed, 16 insertions(+), 67 deletions(-)
 
 diff --git a/drivers/staging/rtl8192e/rtl8192e/r8192E_phy.c b/drivers/staging/rtl8192e/rtl8192e/r8192E_phy.c
-index e35085253e70..b528b8ab4b2b 100644
+index b528b8ab4b2b..73e426e052b0 100644
 --- a/drivers/staging/rtl8192e/rtl8192e/r8192E_phy.c
 +++ b/drivers/staging/rtl8192e/rtl8192e/r8192E_phy.c
-@@ -542,21 +542,8 @@ static void _rtl92e_set_tx_power_level(struct net_device *dev, u8 channel)
- 	u8	powerlevel = priv->tx_pwr_level_cck[channel - 1];
- 	u8	powerlevelOFDM24G = priv->tx_pwr_level_ofdm_24g[channel - 1];
+@@ -14,24 +14,6 @@
  
--	switch (priv->rf_chip) {
--	case RF_8225:
--		break;
--
--	case RF_8256:
--		rtl92e_set_cck_tx_power(dev, powerlevel);
--		rtl92e_set_ofdm_tx_power(dev, powerlevelOFDM24G);
--		break;
--
--	case RF_8258:
--		break;
--	default:
--		netdev_warn(dev, "%s(): Invalid RF Chip ID\n", __func__);
--		break;
--	}
-+	rtl92e_set_cck_tx_power(dev, powerlevel);
-+	rtl92e_set_ofdm_tx_power(dev, powerlevelOFDM24G);
- }
+ #include "table.h"
  
- static u8 _rtl92e_phy_set_sw_chnl_cmd_array(struct net_device *dev,
+-static u32 RF_CHANNEL_TABLE_ZEBRA[] = {
+-	0,
+-	0x085c,
+-	0x08dc,
+-	0x095c,
+-	0x09dc,
+-	0x0a5c,
+-	0x0adc,
+-	0x0b5c,
+-	0x0bdc,
+-	0x0c5c,
+-	0x0cdc,
+-	0x0d5c,
+-	0x0ddc,
+-	0x0e5c,
+-	0x0f72,
+-};
+-
+ /*************************Define local function prototype**********************/
+ 
+ static u32 _rtl92e_phy_rf_fw_read(struct net_device *dev,
+@@ -608,58 +590,25 @@ static u8 _rtl92e_phy_switch_channel_step(struct net_device *dev, u8 channel,
+ 						  0, 0, 0);
+ 
+ 		RfDependCmdCnt = 0;
+-		switch (priv->rf_chip) {
+-		case RF_8225:
+-			if (!(channel >= 1 && channel <= 14)) {
+-				netdev_err(dev,
+-					   "Invalid channel requested for 8225: %d\n",
+-					   channel);
+-				return false;
+-			}
+-			_rtl92e_phy_set_sw_chnl_cmd_array(dev,
+-							  ieee->RfDependCmd,
+-							  RfDependCmdCnt++,
+-							  MAX_RFDEPENDCMD_CNT,
+-							  CmdID_RF_WriteReg,
+-							  rZebra1_Channel,
+-							  RF_CHANNEL_TABLE_ZEBRA[channel],
+-							  10);
+-			_rtl92e_phy_set_sw_chnl_cmd_array(dev,
+-							  ieee->RfDependCmd,
+-							  RfDependCmdCnt++,
+-							  MAX_RFDEPENDCMD_CNT,
+-							  CmdID_End, 0, 0, 0);
+-			break;
+-
+-		case RF_8256:
+-			if (!(channel >= 1 && channel <= 14)) {
+-				netdev_err(dev,
+-					   "Invalid channel requested for 8256: %d\n",
+-					   channel);
+-				return false;
+-			}
+-			_rtl92e_phy_set_sw_chnl_cmd_array(dev,
+-							  ieee->RfDependCmd,
+-							  RfDependCmdCnt++,
+-							  MAX_RFDEPENDCMD_CNT,
+-							  CmdID_RF_WriteReg,
+-							  rZebra1_Channel,
+-							  channel, 10);
+-			_rtl92e_phy_set_sw_chnl_cmd_array(dev,
+-							  ieee->RfDependCmd,
+-							  RfDependCmdCnt++,
+-							  MAX_RFDEPENDCMD_CNT,
+-							  CmdID_End, 0, 0, 0);
+-			break;
+-
+-		case RF_8258:
+-			break;
+ 
+-		default:
+-			netdev_warn(dev, "Unknown RF Chip ID\n");
++		if (!(channel >= 1 && channel <= 14)) {
++			netdev_err(dev,
++				   "Invalid channel requested for 8256: %d\n",
++				   channel);
+ 			return false;
+ 		}
+-
++		_rtl92e_phy_set_sw_chnl_cmd_array(dev,
++						  ieee->RfDependCmd,
++						  RfDependCmdCnt++,
++						  MAX_RFDEPENDCMD_CNT,
++						  CmdID_RF_WriteReg,
++						  rZebra1_Channel,
++						  channel, 10);
++		_rtl92e_phy_set_sw_chnl_cmd_array(dev,
++						  ieee->RfDependCmd,
++						  RfDependCmdCnt++,
++						  MAX_RFDEPENDCMD_CNT,
++						  CmdID_End, 0, 0, 0);
+ 
+ 		do {
+ 			switch (*stage) {
 -- 
 2.39.2
 
