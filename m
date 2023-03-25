@@ -1,80 +1,77 @@
-Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
+Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FE677F;
-	Sat, 25 Mar 2023 07:15:01 +0000 (UTC)
-Received: by mail-ed1-f49.google.com with SMTP id ew6so16053067edb.7;
-        Sat, 25 Mar 2023 00:15:01 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5C307F
+	for <linux-staging@lists.linux.dev>; Sat, 25 Mar 2023 07:27:57 +0000 (UTC)
+Received: by mail-ed1-f46.google.com with SMTP id t10so16074516edd.12
+        for <linux-staging@lists.linux.dev>; Sat, 25 Mar 2023 00:27:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1679728499;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Kijlfd+PM0iLIZMF5+sg/CV/MasVvO3Ll6lZ/t4bxdI=;
-        b=FZ77NWTfSvwT9v8ocqKeOx4jjsZG5oQfioG+yB5uQMy343Q3nOmxEvvsbJkARFtPCH
-         PwDPkywFMhLaH8YuxGXhcqrtS7PdWpVXx+6W6Ro4UVAYHdmIbBT1JclOId1f4x5ceYXP
-         PbqbjfdR1rBm87M/EJ0MJGXzmSvs5O4PYwsbuPFjrC9kfmaSxKG9jAvImLdLLsfIkcB+
-         3RV2h09TnxpZo0CjAeJSfq/8vcI2Fj051E8yih2107elwNcbyGKBOQBn0AUu7+JNYaY6
-         rSOUt15DbINLqRQxGtkDhuolo6xMi8HwEnqSfFn0SWCCA2YPunw7GDmC4P8NPacGwyek
-         c2Cw==
+        d=gmail.com; s=20210112; t=1679729276;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=Rl1PuHlEkrI0wqx6ZTM2HfHVZPCcP/xvjlX781kpYaw=;
+        b=g6jl5PILobZbrpLZeaCrQQYPWhMUNkxCGxE2uRQTxMSJlrAFnk8eJju+aFCM/bC1p9
+         smzFx7ox8xobLoNIb9bE45odI56shl4P4BZAb//4EviF9kfqsNB/Yuu6Xdy5G2HpRfX1
+         Xz89MZJXHVu4f18kGfIgoFol5h00byvDhfunGQhXPVspihmwH8udlXO3ksXhIgYHBz1n
+         ji6AIrGPk4B5ZRwhndvSaJjSHqUBgM1XJDIRButWorFaj3AmupsU387YKo+OEyEQaxrF
+         nnEy/rkGkZndoo8emE3kAGnl9Vcxuot5Apovd+I4mj47nBm8TGfDtWXCfeihu4sEreIJ
+         gC2w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679728499;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Kijlfd+PM0iLIZMF5+sg/CV/MasVvO3Ll6lZ/t4bxdI=;
-        b=QuOts99JhTO0vQtrVvZsOC3z/8M/nEXXMWk2+KKtsGBJgaZl8xygItZVuY0XCNKBvD
-         VQHPxxytC//XgYHSxRCfXvu9eimaX241N9Dy7ngWZeiZixu5wFGgl8DGVhKmTakwSuWL
-         au6RFXe8QMVoDd/dFqa6FR6Dl/cKvmR9sxqJQ4P1ehFLor+4AiEN6jhEnKVeX7cmV9GW
-         msTs6ZKlV7tjMj0HHezafakuQQr12oswhcxPtOSnrkk8O5VdlEGBfYsCq+Qi2VnHt1Gx
-         JFEooWVtXcdlyyfYyE54N+Vigrb+zXrGgiQ+0LBw9BLN1r8MOmxNsgdvZi3MWwYERYvs
-         H3SA==
-X-Gm-Message-State: AAQBX9cmeHP/G0gHf9QFWKzYIsBOswis/yNS2pbqhVOiWsXWLS7K2D0h
-	3dv5fVtkuVZyJUakAwH6q+E=
-X-Google-Smtp-Source: AKy350bVXqlcE3R0ij4TuNgV6ae2ij2U7WNVD9/hsIPrrzW64ZPAegx3gEMchmCP/NzT8DnQVmXMEg==
-X-Received: by 2002:aa7:dad3:0:b0:4fb:999:e04c with SMTP id x19-20020aa7dad3000000b004fb0999e04cmr5766278eds.38.1679728499360;
-        Sat, 25 Mar 2023 00:14:59 -0700 (PDT)
-Received: from kista.localnet (82-149-1-233.dynamic.telemach.net. [82.149.1.233])
-        by smtp.gmail.com with ESMTPSA id i23-20020a508717000000b004af6c5f1805sm11822239edb.52.2023.03.25.00.14.58
+        d=1e100.net; s=20210112; t=1679729276;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Rl1PuHlEkrI0wqx6ZTM2HfHVZPCcP/xvjlX781kpYaw=;
+        b=xH3kdqA4ArSWXAAoBhk4bk8j5Vpne3Itz6h+r2YfDIX+arvc+Nz6UuZ73QEbTOv/Ey
+         zeNvZVW3q/TeNHS0jtgnLDeYLyKA++TlmPKK62NRL/W48tuFzJRAMJQlghMUgcghyP/E
+         qWFwtmbbpmxk231d9JpTCaPFwUfwbVfj7gJAAYyAG4ul1wTPknu8T6JPQuKJBUG02B9Y
+         hHkP2wRbLiLAapSrOBbTA2BQiShGefPSn+hFgMqpLqf9PsXmpTh9bZmTHfEtKbdgKZD+
+         hB/tdtDodQWGq1/GmZJmum90l3AYn2NRtBGwheHtW+CVI8/XHzMQigkJLsSrzuZxk8Ys
+         a5qA==
+X-Gm-Message-State: AAQBX9eZ7XZNeMgbi+1ApKbr4hzByrzF+1iWiUkT8+2NSXXvJJB/nPT4
+	fQgI6a55H+TbtviZtzxK7WA=
+X-Google-Smtp-Source: AKy350azekAWDgK8X/LXuBdtAzvVG5JhxS2oIcG2tqcQbqiJbRlqdIlfLiNl2TzKIPuHGQHzGakiRg==
+X-Received: by 2002:a17:907:a64a:b0:92e:e9c2:7b9c with SMTP id vu10-20020a170907a64a00b0092ee9c27b9cmr6299333ejc.77.1679729275893;
+        Sat, 25 Mar 2023 00:27:55 -0700 (PDT)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id hy16-20020a1709068a7000b00931d3509af1sm11296338ejc.222.2023.03.25.00.27.54
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 25 Mar 2023 00:14:59 -0700 (PDT)
-From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
- linux-staging@lists.linux.dev,
- Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-Cc: Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
- Samuel Holland <samuel@sholland.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Adam Pigg <adam@piggz.co.uk>, Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Subject: Re: [PATCH 9/9] media: sun6i-isp: capture: Implement enum_framesizes
-Date: Sat, 25 Mar 2023 08:14:57 +0100
-Message-ID: <7500135.EvYhyI6sBW@kista>
-In-Reply-To: <20230324151228.2778112-10-paul.kocialkowski@bootlin.com>
-References:
- <20230324151228.2778112-1-paul.kocialkowski@bootlin.com>
- <20230324151228.2778112-10-paul.kocialkowski@bootlin.com>
+        Sat, 25 Mar 2023 00:27:55 -0700 (PDT)
+Date: Sat, 25 Mar 2023 10:27:52 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: Dalvin-Ehinoma Noah Aiguobas <pharcodra@gmail.com>
+Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH]: staging: wlan-ng: Remove unnecessary Parentheses
+Message-ID: <addce339-7653-405b-8d1d-ef29da74a8f3@kili.mountain>
+References: <20230325002225.GA109622@koolguy>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230325002225.GA109622@koolguy>
 
-Dne petek, 24. marec 2023 ob 16:12:28 CET je Paul Kocialkowski napisal(a):
-> Report available frame sizes as a continuous range between the
-> hardware min/max limits.
+The subject has an extra : after the "[PATCH]:".
+
+On Sat, Mar 25, 2023 at 01:22:25AM +0100, Dalvin-Ehinoma Noah Aiguobas wrote:
+> Clean up Checkpatch issues by removing unnecessary Parentheses.
 > 
-> Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-> Co-authored-by: Adam Pigg <adam@piggz.co.uk>
-> Signed-off-by: Adam Pigg <adam@piggz.co.uk>
 
-Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+Just ignore checkpatch on this.  Greg likes parentheses.
 
-Best regards,
-Jernej
+> @@ -478,7 +478,7 @@ static int prism2_connect(struct wiphy *wiphy, struct net_device *dev,
+>  
+>  			result = prism2_domibset_uint32(wlandev,
+>  							DIDMIB_DOT11SMT_PRIVACYTABLE_WEPDEFAULTKEYID,
+> -				sme->key_idx);
+> +							sme->key_idx);
 
+Don't mix unrelated changes into the patch.
+
+regards,
+dan carpenter
 
