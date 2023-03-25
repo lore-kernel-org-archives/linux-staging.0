@@ -1,77 +1,83 @@
-Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
+Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com [209.85.216.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5C307F
-	for <linux-staging@lists.linux.dev>; Sat, 25 Mar 2023 07:27:57 +0000 (UTC)
-Received: by mail-ed1-f46.google.com with SMTP id t10so16074516edd.12
-        for <linux-staging@lists.linux.dev>; Sat, 25 Mar 2023 00:27:57 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E0D217F1;
+	Sat, 25 Mar 2023 08:24:18 +0000 (UTC)
+Received: by mail-pj1-f49.google.com with SMTP id e15-20020a17090ac20f00b0023d1b009f52so7184785pjt.2;
+        Sat, 25 Mar 2023 01:24:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1679729276;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=Rl1PuHlEkrI0wqx6ZTM2HfHVZPCcP/xvjlX781kpYaw=;
-        b=g6jl5PILobZbrpLZeaCrQQYPWhMUNkxCGxE2uRQTxMSJlrAFnk8eJju+aFCM/bC1p9
-         smzFx7ox8xobLoNIb9bE45odI56shl4P4BZAb//4EviF9kfqsNB/Yuu6Xdy5G2HpRfX1
-         Xz89MZJXHVu4f18kGfIgoFol5h00byvDhfunGQhXPVspihmwH8udlXO3ksXhIgYHBz1n
-         ji6AIrGPk4B5ZRwhndvSaJjSHqUBgM1XJDIRButWorFaj3AmupsU387YKo+OEyEQaxrF
-         nnEy/rkGkZndoo8emE3kAGnl9Vcxuot5Apovd+I4mj47nBm8TGfDtWXCfeihu4sEreIJ
-         gC2w==
+        d=gmail.com; s=20210112; t=1679732658;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Da0bkbbQlx1cEs08lUYN3fUFt8qfcR/cqaYyxH0QCRI=;
+        b=S8LFugRHYwHLsqlFp4TiYTxTrzlBTJU3W9ZYzdP9TSNebZ3xugCXzOJAuEoceScAfM
+         W3afFKTdAfyaaB1/BXWjHmGGPgXR/0rUoquLqS7AijFf6JfkaRz+l5tiKDKIoLH7XOP8
+         xVTrwC0oV3wTBzfCU+yJc8ot5T0IkjisKaUcuMl4zw8rZ6KQn02NEt6nJfHkojIZnARb
+         VIlINZ2DWrcVGbN23EK/awQb6Wb2rLmQe3xTo8ZpvLh9jhQaeGE6pDcNhqeHXQMiiMqK
+         BYmltWHS7uZLZfh3FM2Pce3d84j7R+D+fnz/wMdml4nk9cLl+QqOYuFVqkCfK7BidYhu
+         CYRw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679729276;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Rl1PuHlEkrI0wqx6ZTM2HfHVZPCcP/xvjlX781kpYaw=;
-        b=xH3kdqA4ArSWXAAoBhk4bk8j5Vpne3Itz6h+r2YfDIX+arvc+Nz6UuZ73QEbTOv/Ey
-         zeNvZVW3q/TeNHS0jtgnLDeYLyKA++TlmPKK62NRL/W48tuFzJRAMJQlghMUgcghyP/E
-         qWFwtmbbpmxk231d9JpTCaPFwUfwbVfj7gJAAYyAG4ul1wTPknu8T6JPQuKJBUG02B9Y
-         hHkP2wRbLiLAapSrOBbTA2BQiShGefPSn+hFgMqpLqf9PsXmpTh9bZmTHfEtKbdgKZD+
-         hB/tdtDodQWGq1/GmZJmum90l3AYn2NRtBGwheHtW+CVI8/XHzMQigkJLsSrzuZxk8Ys
-         a5qA==
-X-Gm-Message-State: AAQBX9eZ7XZNeMgbi+1ApKbr4hzByrzF+1iWiUkT8+2NSXXvJJB/nPT4
-	fQgI6a55H+TbtviZtzxK7WA=
-X-Google-Smtp-Source: AKy350azekAWDgK8X/LXuBdtAzvVG5JhxS2oIcG2tqcQbqiJbRlqdIlfLiNl2TzKIPuHGQHzGakiRg==
-X-Received: by 2002:a17:907:a64a:b0:92e:e9c2:7b9c with SMTP id vu10-20020a170907a64a00b0092ee9c27b9cmr6299333ejc.77.1679729275893;
-        Sat, 25 Mar 2023 00:27:55 -0700 (PDT)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id hy16-20020a1709068a7000b00931d3509af1sm11296338ejc.222.2023.03.25.00.27.54
+        d=1e100.net; s=20210112; t=1679732658;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Da0bkbbQlx1cEs08lUYN3fUFt8qfcR/cqaYyxH0QCRI=;
+        b=FTpy62AGn78PySnLqG67un5Brid7wig6Af/XBO/yhjP+BMKBAcbUKLl1nc52nThuiM
+         CJ2jc6soDVmCgd9FkFlIEV2U6+6btxc6unF9nSCeTN21pgdJceT+LwVOBZ41DOnLDVfq
+         uajN9Na8xFWFdBeM/YtsshzuchNqFHldpHzRHaBTT2sK3LaqJtDknQ0jT3NBU9gLE7ZX
+         wavLslBsNaIRRR9jBYyzFwbt3PlgrFuMEULPJoICVDXPor6ksQT/aayaDz12cvvNDOQV
+         hYxjClf06OLM7xpglGlMDW+Iuy0O5V1nYO1UKbyEcEIvAXOJu4D74CNvdB6wUJHOPJ/9
+         lI8Q==
+X-Gm-Message-State: AO0yUKW1RNlSv4ahwwOW5RVxWtrzJz4X314SwYEo+LevmuIyGjnGAJ+x
+	jTOWUa4A0w1zkVDFAbAzqf8CJ1VAYxM/kZpb
+X-Google-Smtp-Source: AK7set+llncqGBAhJvP94FYyzOGTMhdMpyTZWZW6uXjdxRoCGo9tZBxcSO6MBhAfVzbCitYTSnuZNQ==
+X-Received: by 2002:a05:6a20:729d:b0:dd:e036:37e4 with SMTP id o29-20020a056a20729d00b000dde03637e4mr7209642pzk.2.1679732658165;
+        Sat, 25 Mar 2023 01:24:18 -0700 (PDT)
+Received: from ubuntu.localdomain ([117.245.251.101])
+        by smtp.gmail.com with ESMTPSA id b5-20020aa78105000000b005938f5b7231sm15035875pfi.201.2023.03.25.01.24.13
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 25 Mar 2023 00:27:55 -0700 (PDT)
-Date: Sat, 25 Mar 2023 10:27:52 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: Dalvin-Ehinoma Noah Aiguobas <pharcodra@gmail.com>
-Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH]: staging: wlan-ng: Remove unnecessary Parentheses
-Message-ID: <addce339-7653-405b-8d1d-ef29da74a8f3@kili.mountain>
-References: <20230325002225.GA109622@koolguy>
+        Sat, 25 Mar 2023 01:24:17 -0700 (PDT)
+From: Sumitra Sharma <sumitraartsy@gmail.com>
+To: outreachy@lists.linux.dev
+Cc: johan@kernel.org,
+	elder@kernel.org,
+	gregkh@linuxfoundation.org,
+	greybus-dev@lists.linaro.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Sumitra Sharma <sumitraartsy@gmail.com>
+Subject: [PATCH v3 0/3] staging: greybus: Use Inline fuctions
+Date: Sat, 25 Mar 2023 01:23:30 -0700
+Message-Id: <cover.1679732179.git.sumitraartsy@gmail.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230325002225.GA109622@koolguy>
+Content-Transfer-Encoding: 8bit
 
-The subject has an extra : after the "[PATCH]:".
+Convert macros to a static inline function, to make the relevant
+types apparent in the definition and to benefit from the type
+checking performed by the compiler at call sites.
 
-On Sat, Mar 25, 2023 at 01:22:25AM +0100, Dalvin-Ehinoma Noah Aiguobas wrote:
-> Clean up Checkpatch issues by removing unnecessary Parentheses.
-> 
+Changes in v2: Change patch subjects, noted by Alison Schofield
+<alison.schofield@intel.com>
 
-Just ignore checkpatch on this.  Greg likes parentheses.
+Changes in v3: Change patch subjects to length 80 chars,      
+noted by Alison Schofield <alison.schofield@intel.com>
 
-> @@ -478,7 +478,7 @@ static int prism2_connect(struct wiphy *wiphy, struct net_device *dev,
->  
->  			result = prism2_domibset_uint32(wlandev,
->  							DIDMIB_DOT11SMT_PRIVACYTABLE_WEPDEFAULTKEYID,
-> -				sme->key_idx);
-> +							sme->key_idx);
+Sumitra Sharma (3):
+  staging: greybus: Inline gpio_chip_to_gb_gpio_controller()
+  staging: greybus: Inline gb_audio_manager_module()
+  staging: greybus: Inline pwm_chip_to_gb_pwm_chip()
 
-Don't mix unrelated changes into the patch.
+ drivers/staging/greybus/audio_manager_module.c | 7 +++++--
+ drivers/staging/greybus/gpio.c                 | 7 +++++--
+ drivers/staging/greybus/pwm.c                  | 6 ++++--
+ 3 files changed, 14 insertions(+), 6 deletions(-)
 
-regards,
-dan carpenter
+-- 
+2.25.1
 
