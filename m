@@ -1,19 +1,19 @@
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 972D8568A;
-	Sat, 25 Mar 2023 21:33:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 981E7568A;
+	Sat, 25 Mar 2023 21:42:07 +0000 (UTC)
 Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 605458BE;
-	Sat, 25 Mar 2023 22:33:30 +0100 (CET)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id A02C98BE;
+	Sat, 25 Mar 2023 22:42:05 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1679780010;
-	bh=Y6nQUcxsMUEaLqFYKd5Cw8gbyXuuUb2Ob4ctiSEQ+mk=;
+	s=mail; t=1679780525;
+	bh=CAS+ru0ajwIKIWzCOM/JwX8K8QgHCTE7GYFPL5L+3xo=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=F6gTpVIz0XFThyxKyCyXBI8ptYpMSvsCt+wjSsvDYGUwcKZwY3KklV2irQVXhsShl
-	 ild0bS5259NBrDKhIXUEjz6G5fRsGj7ziXDPhWVM7BBgV5Fco4dnjaexzNbFwaUjzr
-	 HjhIgDc788NZWqP1v8kdDuOtzqOxCL9JBhyyQyoI=
-Date: Sat, 25 Mar 2023 23:33:36 +0200
+	b=H2MrBCNWiVjUgxcVGkWWQZNsLizT7wYScyi3l/Y6iGkdX8yP6MEzcOX9Eh9nc+UMw
+	 ohq5ygASUG6ikzJWztkAe8SVq4+U0Ljg0EXcxop0u1GDqS5POWL+I/zSB2MTnS3WQx
+	 53lDQMMa1U0vCNF9Ot4nEzr/H8JmoxQ7ZsRCpSYI=
+Date: Sat, 25 Mar 2023 23:42:12 +0200
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
 Cc: linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
@@ -24,10 +24,11 @@ Cc: linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
 	Jernej Skrabec <jernej.skrabec@gmail.com>,
 	Samuel Holland <samuel@sholland.org>, Adam Pigg <adam@piggz.co.uk>,
 	Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Subject: Re: [PATCH 7/9] media: sun6i-csi: capture: Implement enum_framesizes
-Message-ID: <20230325213336.GE22214@pendragon.ideasonboard.com>
+Subject: Re: [PATCH 8/9] media: sun6i-isp: capture: Implement MC I/O with
+ extended enum_fmt
+Message-ID: <20230325214212.GF22214@pendragon.ideasonboard.com>
 References: <20230324151228.2778112-1-paul.kocialkowski@bootlin.com>
- <20230324151228.2778112-8-paul.kocialkowski@bootlin.com>
+ <20230324151228.2778112-9-paul.kocialkowski@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -36,70 +37,61 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20230324151228.2778112-8-paul.kocialkowski@bootlin.com>
+In-Reply-To: <20230324151228.2778112-9-paul.kocialkowski@bootlin.com>
 
 Hi Paul,
 
 Thank you for the patch.
 
-On Fri, Mar 24, 2023 at 04:12:26PM +0100, Paul Kocialkowski wrote:
-> Report available frame sizes as a continuous range between the
-> hardware min/max limits.
+On Fri, Mar 24, 2023 at 04:12:27PM +0100, Paul Kocialkowski wrote:
+> This driver needs the media-controller API to operate and should not be
+> considered as a video-device-centric implementation.
+> 
+> Properly report the IO_MC device cap and extend the enum_fmt
+> implementation to support enumeration with an explicit mbus_code.
 > 
 > Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-> Co-authored-by: Adam Pigg <adam@piggz.co.uk>
-> Signed-off-by: Adam Pigg <adam@piggz.co.uk>
-
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-
 > ---
->  .../sunxi/sun6i-csi/sun6i_csi_capture.c       | 26 +++++++++++++++++++
->  1 file changed, 26 insertions(+)
+>  .../staging/media/sunxi/sun6i-isp/sun6i_isp_capture.c    | 9 ++++++++-
+>  1 file changed, 8 insertions(+), 1 deletion(-)
 > 
-> diff --git a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.c b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.c
-> index 9627030ff060..31ba83014086 100644
-> --- a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.c
-> +++ b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.c
-> @@ -847,6 +847,30 @@ static int sun6i_csi_capture_try_fmt(struct file *file, void *private,
->  	return 0;
->  }
->  
-> +static int
-> +sun6i_csi_capture_enum_framesizes(struct file *file, void *fh,
-> +				  struct v4l2_frmsizeenum *frmsizeenum)
-> +{
-> +	const struct sun6i_csi_capture_format *format;
-> +
-> +	if (frmsizeenum->index > 0)
-> +		return -EINVAL;
-> +
-> +	format = sun6i_csi_capture_format_find(frmsizeenum->pixel_format);
-> +	if (!format)
-> +		return -EINVAL;
-> +
-> +	frmsizeenum->type = V4L2_FRMSIZE_TYPE_CONTINUOUS;
-> +	frmsizeenum->stepwise.min_width = SUN6I_CSI_CAPTURE_WIDTH_MIN;
-> +	frmsizeenum->stepwise.max_width = SUN6I_CSI_CAPTURE_WIDTH_MAX;
-> +	frmsizeenum->stepwise.min_height = SUN6I_CSI_CAPTURE_HEIGHT_MIN;
-> +	frmsizeenum->stepwise.max_height = SUN6I_CSI_CAPTURE_HEIGHT_MAX;
-> +	frmsizeenum->stepwise.step_width = 1;
-> +	frmsizeenum->stepwise.step_height = 1;
-> +
-> +	return 0;
-> +}
-> +
->  static int sun6i_csi_capture_enum_input(struct file *file, void *private,
->  					struct v4l2_input *input)
+> diff --git a/drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_capture.c b/drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_capture.c
+> index 1595a9607775..5160b93b69ff 100644
+> --- a/drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_capture.c
+> +++ b/drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_capture.c
+> @@ -439,6 +439,12 @@ static int sun6i_isp_capture_enum_fmt(struct file *file, void *private,
+>  				      struct v4l2_fmtdesc *fmtdesc)
 >  {
-> @@ -884,6 +908,8 @@ static const struct v4l2_ioctl_ops sun6i_csi_capture_ioctl_ops = {
->  	.vidioc_s_fmt_vid_cap		= sun6i_csi_capture_s_fmt,
->  	.vidioc_try_fmt_vid_cap		= sun6i_csi_capture_try_fmt,
->  
-> +	.vidioc_enum_framesizes		= sun6i_csi_capture_enum_framesizes,
+>  	u32 index = fmtdesc->index;
+> +	u32 mbus_code = fmtdesc->mbus_code;
 > +
->  	.vidioc_enum_input		= sun6i_csi_capture_enum_input,
->  	.vidioc_g_input			= sun6i_csi_capture_g_input,
->  	.vidioc_s_input			= sun6i_csi_capture_s_input,
+> +	if (mbus_code && !sun6i_isp_proc_format_find(mbus_code))
+> +		return -EINVAL;
+> +
+
+This doesn't look right. As far as I understand,
+sun6i_isp_proc_format_find() looks up media bus codes for the ISP sink
+pad. Here you enuemrate pixel formats of the ISP output, so the media
+bus code given by userspace corresponds to the ISP source pad.
+
+I've had a look at sun6i_isp_proc_set_fmt() to see what media bus codes
+are used on the ISP output, and couldn't figure it out as it seems
+incorrectly implemented :-) The function doesn't check format->pad.
+
+> +	/* Capture format is independent from proc format. */
+>  
+>  	if (index >= ARRAY_SIZE(sun6i_isp_capture_formats))
+>  		return -EINVAL;
+> @@ -685,7 +691,8 @@ int sun6i_isp_capture_setup(struct sun6i_isp_device *isp_dev)
+>  
+>  	strscpy(video_dev->name, SUN6I_ISP_CAPTURE_NAME,
+>  		sizeof(video_dev->name));
+> -	video_dev->device_caps = V4L2_CAP_VIDEO_CAPTURE | V4L2_CAP_STREAMING;
+> +	video_dev->device_caps = V4L2_CAP_VIDEO_CAPTURE | V4L2_CAP_STREAMING |
+> +				 V4L2_CAP_IO_MC;
+>  	video_dev->vfl_dir = VFL_DIR_RX;
+>  	video_dev->release = video_device_release_empty;
+>  	video_dev->fops = &sun6i_isp_capture_fops;
 
 -- 
 Regards,
