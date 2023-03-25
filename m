@@ -1,43 +1,43 @@
-Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
+Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC20B7F;
-	Sat, 25 Mar 2023 07:13:42 +0000 (UTC)
-Received: by mail-ed1-f42.google.com with SMTP id ek18so16101864edb.6;
-        Sat, 25 Mar 2023 00:13:42 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54ED87F;
+	Sat, 25 Mar 2023 07:14:03 +0000 (UTC)
+Received: by mail-ed1-f48.google.com with SMTP id eg48so15988887edb.13;
+        Sat, 25 Mar 2023 00:14:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1679728421;
+        d=gmail.com; s=20210112; t=1679728441;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=IM+nUWgRuPmPrHEx7a7/E/AWE3vW5VKDZlbVcGCYHMc=;
-        b=orqylAL0Bl+ispOzAPhx38/5/cGdyHe8UCc4aTge5CVBGASyZnSHRdjGNV+n0KcFSf
-         pKT99BkCBuPc7baw1wX3i0KvCyMC7yeEvD+bGOk9jwEpPDs85DyC758fOrrc+xZIiMU3
-         vhgf38omSNUGsem0M8zxcp4w67/bzCchmLp7UdqEjykFsOKod2+LLoCkfDySppkg93z1
-         rd8zNYDea8xJecQixvsGRUG3RRUf/6RF28JoJX0tPVJ97RH70Fcfyp+qJElnKQhtRmDW
-         nzXLYwLIGl6oDA4WRZXGFbfy2wfTrdohhfFmaNA//URpwdQ9gfLrfRr8fx0X9iAA7jLb
-         rx1w==
+        bh=eWC7t13+yzJKdf33Wl8MOoOE6Dyz7GFsv5BEcRRUPMI=;
+        b=mQ4V8zVELcJI0INzGZXWfTYFACbbMklaA+VtqoJG3vbnnpHMRW87/2lOemewUQBciR
+         4k6wMnHHWDs778NuM/xZUl8oL1fDCF8uIwF/L2NvfRh+ENLan24DX1FEPpHDlaiDEAtC
+         14H/00hJWH+OR5/9VtQCkOj+LXlZDAlWNsBnq5AAjtSyvyEv/Nm65eW7nWBfNDyNxu8n
+         UaW76rPj4i09L4jJ/7dvxZ3AOCn9St/O8dCzzz9rMr9Fhsa9yv1PjebVOiO1/K9zztGW
+         zsv0ar31+0IZEqiub/N6AoWzn/1oSSaSvmgCv+d17lTTztl2NAq+ErECuO7I9lCfd2nF
+         xM/Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679728421;
+        d=1e100.net; s=20210112; t=1679728441;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=IM+nUWgRuPmPrHEx7a7/E/AWE3vW5VKDZlbVcGCYHMc=;
-        b=nN2CjgXTP7YYjTk2FWdY02BfSeNyRLCk4qnw/XXMvUHJXpcj2afDwXnK0Vpyy/xpbQ
-         bE1/osoBfN5eeyPj2ukwUrVGzyoAZlstPvlB7JlVnTOznZwulit9hx0NBooIWCeKNqzK
-         8mYDKBPAFGF9/zbbxNXvHnZztc21EB44JoSIW/fI1vgNTxI8MLk7Hp8RcKfg25YfU450
-         1dLGRS4Zn3M31fN/Cxk6VCA/+QJb557tE2JI7PYGm/D/wm7FoUfBEosAHnzmpvTF6qIu
-         ug1UoHah7si8EUd7474EymcOSBGwIsQCYA4FiIRbpeODGioB5m60dCfZL9amdZQvZ5pi
-         AdQg==
-X-Gm-Message-State: AAQBX9ejXX4y77wGDmDDcDxY8QHlU0kKYAuyvFxUZowMKWcmGV1G3/yc
-	ZnOG/kCz/haTSqrMj3i9mME=
-X-Google-Smtp-Source: AKy350ZcUUX6ku/r3vzVB1zVlgqKWIU80Ihe3H4eMBgK1umX3QGAjiQnUC5hVyZEW11hIFtXMiPysg==
-X-Received: by 2002:a17:907:8d88:b0:93f:1d2e:8aed with SMTP id tf8-20020a1709078d8800b0093f1d2e8aedmr1839736ejc.50.1679728421133;
-        Sat, 25 Mar 2023 00:13:41 -0700 (PDT)
+        bh=eWC7t13+yzJKdf33Wl8MOoOE6Dyz7GFsv5BEcRRUPMI=;
+        b=57LrHSzz+i0mu16wbAxxLOdcvSPHPgsJa+bA5l8EOrb4Rxhp9zltSEZA7AF6aYzpo2
+         XUsV3D8b+in5xHRRQtnEPO3Eyh5X2Lw9sb9VJ3geJncs5JCcyvV7j3NjOeFQfhD/U9ty
+         n+571KuG9a/JGV75w50YneQtl7/V0riXwS0X8deS99DQpN0ZSs2k0Y8qtNoaFDAzpE30
+         gu4SK49uy4RcS1dYsvcjtwu1qn6SXN/CkZtTKg0CBt4s1gUTVCjm41UnTQ/kNkOhvXvV
+         HcbNYIxwiHKu9sQGQhuHGjScpKkwR67Rqnn980tJnoqNRetaKt0uBhSjHm4fZxhdG0fH
+         bQMA==
+X-Gm-Message-State: AAQBX9cssNN2ywWyQ06yi5dGwem+kbS5iQP7KjzZxDpMPTh/w+NEJwzr
+	zjWXJp6kbxH5lmsNTeznP40=
+X-Google-Smtp-Source: AKy350Zd9FsNYacmYccxCQNonh7CGTsJFdHGVJxR8WVA7Wue84dPL3PQHv8WFWNAsq4rS3e0y2+qJQ==
+X-Received: by 2002:a17:906:608f:b0:877:573d:e919 with SMTP id t15-20020a170906608f00b00877573de919mr5089636ejj.20.1679728441559;
+        Sat, 25 Mar 2023 00:14:01 -0700 (PDT)
 Received: from kista.localnet (82-149-1-233.dynamic.telemach.net. [82.149.1.233])
-        by smtp.gmail.com with ESMTPSA id c19-20020a170906155300b0093ebc654f78sm1313809ejd.25.2023.03.25.00.13.39
+        by smtp.gmail.com with ESMTPSA id q28-20020a50aa9c000000b004fb556e905fsm11811929edc.49.2023.03.25.00.14.00
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 25 Mar 2023 00:13:40 -0700 (PDT)
+        Sat, 25 Mar 2023 00:14:01 -0700 (PDT)
 From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
 To: linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
  linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
@@ -48,15 +48,13 @@ Cc: Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
  Samuel Holland <samuel@sholland.org>,
  Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
  Adam Pigg <adam@piggz.co.uk>, Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Subject:
- Re: [PATCH 6/9] media: sun6i-csi: capture: Implement MC I/O with extended
- enum_fmt
-Date: Sat, 25 Mar 2023 08:13:39 +0100
-Message-ID: <3225394.44csPzL39Z@kista>
-In-Reply-To: <20230324151228.2778112-7-paul.kocialkowski@bootlin.com>
+Subject: Re: [PATCH 7/9] media: sun6i-csi: capture: Implement enum_framesizes
+Date: Sat, 25 Mar 2023 08:13:59 +0100
+Message-ID: <10243594.nUPlyArG6x@kista>
+In-Reply-To: <20230324151228.2778112-8-paul.kocialkowski@bootlin.com>
 References:
  <20230324151228.2778112-1-paul.kocialkowski@bootlin.com>
- <20230324151228.2778112-7-paul.kocialkowski@bootlin.com>
+ <20230324151228.2778112-8-paul.kocialkowski@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -66,89 +64,17 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 7Bit
 Content-Type: text/plain; charset="us-ascii"
 
-Dne petek, 24. marec 2023 ob 16:12:25 CET je Paul Kocialkowski napisal(a):
-> This driver needs the media-controller API to operate and should not be
-> considered as a video-device-centric implementation.
-> 
-> Properly report the IO_MC device cap and extend the enum_fmt
-> implementation to support enumeration with an explicit mbus_code.
+Dne petek, 24. marec 2023 ob 16:12:26 CET je Paul Kocialkowski napisal(a):
+> Report available frame sizes as a continuous range between the
+> hardware min/max limits.
 > 
 > Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-> ---
->  .../sunxi/sun6i-csi/sun6i_csi_capture.c       | 36 ++++++++++++++++---
->  1 file changed, 32 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.c b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.c
-> index 6ce7f1d3ed57..9627030ff060 100644
-> --- a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.c
-> +++ b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.c
-> @@ -777,13 +777,40 @@ static int sun6i_csi_capture_enum_fmt(struct file *file, void *private,
->  				      struct v4l2_fmtdesc *fmtdesc)
->  {
->  	u32 index = fmtdesc->index;
-> +	u32 mbus_code = fmtdesc->mbus_code;
-
-Nit: reverse christmas tree.
-
-Other than that:
+> Co-authored-by: Adam Pigg <adam@piggz.co.uk>
+> Signed-off-by: Adam Pigg <adam@piggz.co.uk>
 
 Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 
 Best regards,
 Jernej
-
-> +	unsigned int index_valid = 0;
-> +	unsigned int i;
-> +
-> +	if (!mbus_code) {
-> +		if (index >= ARRAY_SIZE(sun6i_csi_capture_formats))
-> +			return -EINVAL;
-> +
-> +		fmtdesc->pixelformat =
-> +			sun6i_csi_capture_formats[index].pixelformat;
-> +
-> +		return 0;
-> +	}
-> +
-> +	/* Check capture pixel format matching with mbus code. */
->  
-> -	if (index >= ARRAY_SIZE(sun6i_csi_capture_formats))
-> +	if (!sun6i_csi_bridge_format_find(mbus_code))
->  		return -EINVAL;
->  
-> -	fmtdesc->pixelformat = sun6i_csi_capture_formats[index].pixelformat;
-> +	for (i = 0; i < ARRAY_SIZE(sun6i_csi_capture_formats); i++) {
-> +		u32 pixelformat = sun6i_csi_capture_formats[i].pixelformat;
->  
-> -	return 0;
-> +		if (!sun6i_csi_capture_format_check(pixelformat, mbus_code))
-> +			continue;
-> +
-> +		if (index == index_valid) {
-> +			fmtdesc->pixelformat = pixelformat;
-> +			return 0;
-> +		}
-> +
-> +		index_valid++;
-> +	}
-> +
-> +	return -EINVAL;
->  }
->  
->  static int sun6i_csi_capture_g_fmt(struct file *file, void *private,
-> @@ -1039,7 +1066,8 @@ int sun6i_csi_capture_setup(struct sun6i_csi_device *csi_dev)
->  
->  	strscpy(video_dev->name, SUN6I_CSI_CAPTURE_NAME,
->  		sizeof(video_dev->name));
-> -	video_dev->device_caps = V4L2_CAP_VIDEO_CAPTURE | V4L2_CAP_STREAMING;
-> +	video_dev->device_caps = V4L2_CAP_VIDEO_CAPTURE | V4L2_CAP_STREAMING |
-> +				 V4L2_CAP_IO_MC;
->  	video_dev->vfl_dir = VFL_DIR_RX;
->  	video_dev->release = video_device_release_empty;
->  	video_dev->fops = &sun6i_csi_capture_fops;
-> -- 
-> 2.39.2
-> 
-> 
 
 
