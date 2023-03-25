@@ -1,43 +1,43 @@
-Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
+Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 072AC7F;
-	Sat, 25 Mar 2023 07:07:13 +0000 (UTC)
-Received: by mail-ed1-f52.google.com with SMTP id ew6so16013787edb.7;
-        Sat, 25 Mar 2023 00:07:13 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11E897F;
+	Sat, 25 Mar 2023 07:08:20 +0000 (UTC)
+Received: by mail-ed1-f49.google.com with SMTP id t10so15975238edd.12;
+        Sat, 25 Mar 2023 00:08:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1679728032;
+        d=gmail.com; s=20210112; t=1679728099;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=0Q0JH6W4/yY2MilP9/4zYKwAOQZp+GiB+9fzoz6C1dc=;
-        b=kUBMkODkInJF27YtBQrcC6Nm5HrEiTr+mNjOq2KIOYwWKfd47NPu6ebm5shYZN1cbp
-         VxxdDcljYPc33BNhd1wQQQsCe2g7P8cf2ZmX4Q9UeHNde212WYIo+8YZCs888vY3TeB2
-         I4qvzTyb9KAYxfHDn3kBU8kDkjVAW/GbeEhXoTkKrLWqCVHZucn+ozpQ+XjybpxoOwg2
-         muB2bouPnn/eRMkFhT4jPT/cnCQKazH3RCtrALN1MQE5gfq6aQSasLOQR5QYAzaI5D4q
-         ouzqF6FB5whyLOvtdZHCrAeOm4gqpy4bdUsNFtslhc96F/p6OT7i8bimDngCi0cWaQCt
-         DbHw==
+        bh=BhCjNke4o6htNuSSLMhV34Z5L+JJwT2dpRjptiRlbNA=;
+        b=FSP+zdm04PUFXrHWmmUhgTQEBDdojePDUHJMnf+5Ee4YjEPld2dNeK+TcNP0WFcZzV
+         KmC0aWpSkLlNJt1KfpszcQ+UtUxVTapfshN+YIR/qVc3c7GfDR96HoDrKwjWBcER3bPn
+         TnD+NQyYV7y6BnGV0qpOxsCX4hi+bWzT3UwMlcS63XzjjTXMS7cNZ+td6nfp3YfmQJva
+         0lL4kV1n58k1XmymwRwDLL9GQ3cLzAMIJUzqfMlvUAgXz5js9VGcTup8oFoBAc2cy/Fo
+         EvQ061n8s2I0D0V7aJjojx9nAOroEV7ET4T5dccAZWOT+lZEx6Tg5bSN+TPN3qmuWEl9
+         eiWA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679728032;
+        d=1e100.net; s=20210112; t=1679728099;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=0Q0JH6W4/yY2MilP9/4zYKwAOQZp+GiB+9fzoz6C1dc=;
-        b=tlsQd8pyGRZBx+M+0QVPnqGx3f17fbxTJEKVe7iRoDtoHp1BBw4gwRKgnKkE5m46TG
-         0G82E87avVJui9SNEEPkhlnc0aqKzHnU8gKwDPAq1UsI60zfyOEXr/QNRHjUN1ICDrI/
-         3VBk5SxyCQqOO/Etvs/L8g/hjb0DiyWumm86B0jlWhPUkdb3f+ulKwP2mei4NWxJO2bP
-         XCsgIA1/YTzR7FqcJrFARhjuqzeABOWK1xPSMI6VAd2hmXwrb/o8GkR5WQXQ6dunHIc0
-         ymAswbLLHNFuRH+ZyesI9lqtbYVZeUjBKzI2Itjgs2QyDiyWL7jh6hXG+KiS5Ho1QMk5
-         GaLg==
-X-Gm-Message-State: AAQBX9d+e3XA4AlJx0k5D3rM69qWnnNMn9ZP3c6js3uYxI9OoA2ugMUo
-	kg1Gi1GqMogNICG9N6fuZjg=
-X-Google-Smtp-Source: AKy350YzkkEr+eWLFvy3HtMXGEGhUEod/T9NIEQXirQUXevaNPV0e6du5VZvgcfYic5BjjeA7SqNiQ==
-X-Received: by 2002:a05:6402:3445:b0:4fd:2b05:1722 with SMTP id l5-20020a056402344500b004fd2b051722mr5004664edc.7.1679728031897;
-        Sat, 25 Mar 2023 00:07:11 -0700 (PDT)
+        bh=BhCjNke4o6htNuSSLMhV34Z5L+JJwT2dpRjptiRlbNA=;
+        b=IONjCihtqcc5g1LapwXDikQI9LRrgDrwkIZ+0we2+OxhoEMqwRqX3MmfBUb6tIizqQ
+         HyAlJTu5/83HgGaOvIF06MH7GXfaNUjt6BVpqY/BoHUq7sW5IG/oBT3ZtiVdw4iq2RYN
+         a35B+iRRgT8xk98h3wmKL9DIzzuoPQzajXq9E+Epltua7CkJjIG+5OY+6EWl9TrbSegM
+         A6WOFkM8CuBFVDvewYoXF3pdkaqJ07PuLU0E88c/OAH2MpCYd57K1YxBpEh6UTn2P7Z/
+         vBdGQe9wCS+lNItbZ32IaKuYA/2wTMt0EsCHRg4YAMD9on9aVVPTdTU4sJ/ENHMRd2dv
+         B4nA==
+X-Gm-Message-State: AAQBX9d6xTiA6mpWzzTzqrTp8awbtwk+iLbz9aX7EROC15auQsD0Db+5
+	KEnxUtyby2DevIdOLkdNwYI=
+X-Google-Smtp-Source: AKy350b5jXK3iNNla2GOfg9iEvFexE+B43iDNSO9KQERX/FasFstxWwyw7TYoALYHn35CrkWN91GTw==
+X-Received: by 2002:a17:906:fc2:b0:923:c199:dab1 with SMTP id c2-20020a1709060fc200b00923c199dab1mr5891132ejk.55.1679728099311;
+        Sat, 25 Mar 2023 00:08:19 -0700 (PDT)
 Received: from kista.localnet (82-149-1-233.dynamic.telemach.net. [82.149.1.233])
-        by smtp.gmail.com with ESMTPSA id u5-20020a50d505000000b004c09f0ba24dsm11801358edi.48.2023.03.25.00.07.10
+        by smtp.gmail.com with ESMTPSA id sd13-20020a170906ce2d00b008e09deb6610sm11299252ejb.200.2023.03.25.00.08.18
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 25 Mar 2023 00:07:11 -0700 (PDT)
+        Sat, 25 Mar 2023 00:08:18 -0700 (PDT)
 From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
 To: linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
  linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
@@ -49,14 +49,13 @@ Cc: Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
  Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
  Adam Pigg <adam@piggz.co.uk>, Thomas Petazzoni <thomas.petazzoni@bootlin.com>
 Subject:
- Re: [PATCH 3/9] media: v4l2: Introduce compressed pixel encoding definition
- and helper
-Date: Sat, 25 Mar 2023 08:07:10 +0100
-Message-ID: <4786897.GXAFRqVoOG@kista>
-In-Reply-To: <20230324151228.2778112-4-paul.kocialkowski@bootlin.com>
+ Re: [PATCH 4/9] media: v4l2: Add JPEG pixel format to v4l2 format info
+Date: Sat, 25 Mar 2023 08:08:17 +0100
+Message-ID: <2135691.irdbgypaU6@kista>
+In-Reply-To: <20230324151228.2778112-5-paul.kocialkowski@bootlin.com>
 References:
  <20230324151228.2778112-1-paul.kocialkowski@bootlin.com>
- <20230324151228.2778112-4-paul.kocialkowski@bootlin.com>
+ <20230324151228.2778112-5-paul.kocialkowski@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -66,16 +65,20 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 7Bit
 Content-Type: text/plain; charset="us-ascii"
 
-Dne petek, 24. marec 2023 ob 16:12:22 CET je Paul Kocialkowski napisal(a):
-> Some pixel formats (such as JPEG) have their data compressed and
-> encoded in a specific way, which is not directly YUV, RGB or Bayer.
+Dne petek, 24. marec 2023 ob 16:12:23 CET je Paul Kocialkowski napisal(a):
+> Represent the JPEG pixel format in the v4l2 format info table.
 > 
-> Add a new definition and helper for compressed pixel encoding to
-> represent this situation.
+> Note that the bpp is set to 1 which is not a proper way to estimate
+> the needed buffer size for a given JPEG image. However the compression
+> ratios of JPEG typically allow fitting the image in a smaller size,
+> even though extra metadata could increase the total size by an
+> arbitrary amount. Thus it is not a perfectly safe way to calculate the
+> size of a JPEG buffer for given dimensions but it still provides a
+> reasonable approach.
 > 
 > Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
 
-Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 
 Best regards,
 Jernej
