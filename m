@@ -1,43 +1,43 @@
-Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
+Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DE7C379;
-	Sat, 25 Mar 2023 08:32:49 +0000 (UTC)
-Received: by mail-pf1-f175.google.com with SMTP id cu12so2625668pfb.13;
-        Sat, 25 Mar 2023 01:32:49 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B915E1840;
+	Sat, 25 Mar 2023 08:33:17 +0000 (UTC)
+Received: by mail-pj1-f43.google.com with SMTP id e15-20020a17090ac20f00b0023d1b009f52so7194002pjt.2;
+        Sat, 25 Mar 2023 01:33:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1679733168;
+        d=gmail.com; s=20210112; t=1679733197;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=rZRk78dM+sIDcTF06PFu8cSmlnVuUZmfpf5YGgQ/R64=;
-        b=HgZotS7CNv8U8GKTbwzwaX9ktzODi2OfWdl7CnvyiyiZBIvcGFPB9aZYPtM0+NxAAa
-         65o2MsIyYii9yQz7c1Y0VQw4HafGwYxCOXn3N2E1jWpfTZVOE+sc1l0Sj8Gp9ZlkHFjD
-         eeEsi1WzsA3Pnd/lId0u2m0rA3PgHJlJS5mrIe5pdUUbGLXKtRVgmdsVyAXysNf3LdbV
-         0FpEbGccM8JNzG6oz9cjdByjZikUo0673yJI4A4uvJa8PpIUbmi9LjniUCHq5x7KLqCX
-         vY3Veu32Gm/HvmjeYEeRkMpmP15EimNKRqj4SuUQaipnZRxKCASMxkQzffLByQeOf0T1
-         vwZQ==
+        bh=i9ruC/xMC7tL0m+Bw7Ok6wqKxtgof/3SmFbXbg58scA=;
+        b=o639WNsLIKilsuSbOUQwSfrRBEy0Ll5v6ntkkD2bVaCkuUpwN37cLOeUhsSmI2yWPg
+         2oHDK5veQ/gPP4Y6VOOAviErv5ZSsRk9Az81n0plcXMtoUtcAH727Zv2lzW5+8z6dWCd
+         IZzlWtDLt/aIg213mx6VZnAHEGyB9FniS0Z5N6XYiQXNamw5/HjamXl1joGd3zIAstgk
+         ieHPgx+zOgiTjL+QDQ+3ogDtcgbWlpb/+lYwHN1ln0Q+lT+wCObrY9aQVDSCGReZrFj1
+         dim4Xafs5mOQwBH66ZX6FKC4rDEBow9Wwz9bu15AuYjsFHO0YGHb3J87NkpFi5PDOw9s
+         7XaA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679733168;
+        d=1e100.net; s=20210112; t=1679733197;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=rZRk78dM+sIDcTF06PFu8cSmlnVuUZmfpf5YGgQ/R64=;
-        b=1c3sfkHlKzL0qdRqQDMb5ZUZT2pF4O2SB3AC07H6WfQ7Aew7nyWWjQvId9JQT5tdT5
-         UPaGuXLj+byKadgL4ztr6pa+K7r6pxMJpedKa1PVvD0sVpHXb2RFD8MRFD1IbPDZjBV4
-         nTMvl5ysKtgGLjsRf0vn5Gg8ileIR4r1WW71eJozpQpBwloCw8x5rujcxgaLk/7VyqQt
-         y+pPJk0CoWjOh06XKTE+bBkih4lFtnWJ8Q1y3trfLcztTRPOVndD8yJfItQ5zMGAUQAD
-         cHIZc3OdXb5j8iU1uMa2ikOClaSal59w7BfmY9mzGpOLpXEb25Yk89y0fOjE0tuC5cSa
-         UKjQ==
-X-Gm-Message-State: AAQBX9eXzzTq2Qe71+qPxvjXZv4LAx5uN8w5zQwALdzMONYbHN4/EJVB
-	/e58hqTuAlsVYif8i4qZZo1mw/xKyKsWTjPj
-X-Google-Smtp-Source: AKy350bTu6uj1pG9dejrYD50lwhf789Tv6IN/ryzCGZ3bDUe0DQDTLTZqN5rKPJ53FnBKsaiGEkevw==
-X-Received: by 2002:a62:5e81:0:b0:627:fd49:9ab with SMTP id s123-20020a625e81000000b00627fd4909abmr5191177pfb.28.1679733168222;
-        Sat, 25 Mar 2023 01:32:48 -0700 (PDT)
+        bh=i9ruC/xMC7tL0m+Bw7Ok6wqKxtgof/3SmFbXbg58scA=;
+        b=Ze9+QSd3pTFpeVbfB1s9tvJAFnPc+Ey54TPatBzzbA0+2/ueuqOIBDoQ7HzGRQbwXK
+         ZE6LlHsnCYxADU+wOW9KVvwpHfLsM9KFyNcniUBAOufZSfZiIrrYtIU4OqjAg0ZqmU4T
+         KO7LCf4Di9fOh9w8yuaIknlQC+S2X21Swq8SHmUJFUVrYdgDv9jJ0OyOhCmRQTvc0pB0
+         hP7236QZ7+vTjUiNnlCDNMtbgkaY2XDcYgEdj20RAEU37k27g7GbV1/krvlwwcULbSPE
+         JpaowIbfKsAhmKH94kRy5+rpgh591w+ECdCQMuHOlMxCd5nU4jfL4MITfe/sKq7OGWkr
+         j10A==
+X-Gm-Message-State: AAQBX9eo4SkcTs5E8K4xjpLT5YsjEdoAPKrQvZgQ799Ny7ngxf5o/c4N
+	t37+afKB6Xnsnr7std/9M64qlYUbX72mRSmA
+X-Google-Smtp-Source: AKy350ZlnfYWnaB6Q+DvHqgRzooKnDj0lpmUsKqxSDWIpYnsovqRM9QW9zeSWnZKKLZ4RDDGa9YD+A==
+X-Received: by 2002:a17:90b:4c86:b0:237:c565:7bc6 with SMTP id my6-20020a17090b4c8600b00237c5657bc6mr5802024pjb.10.1679733196934;
+        Sat, 25 Mar 2023 01:33:16 -0700 (PDT)
 Received: from ubuntu.localdomain ([117.245.251.101])
-        by smtp.gmail.com with ESMTPSA id m33-20020a635821000000b0050927cb606asm14290224pgb.13.2023.03.25.01.32.44
+        by smtp.gmail.com with ESMTPSA id m33-20020a635821000000b0050927cb606asm14290224pgb.13.2023.03.25.01.33.13
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 25 Mar 2023 01:32:47 -0700 (PDT)
+        Sat, 25 Mar 2023 01:33:16 -0700 (PDT)
 From: Sumitra Sharma <sumitraartsy@gmail.com>
 To: outreachy@lists.linux.dev
 Cc: johan@kernel.org,
@@ -47,9 +47,9 @@ Cc: johan@kernel.org,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Sumitra Sharma <sumitraartsy@gmail.com>
-Subject: [PATCH v3 2/3] staging: greybus: Inline gb_audio_manager_module()
-Date: Sat, 25 Mar 2023 01:31:06 -0700
-Message-Id: <7470bf9d9a57e8bf27e55bd5e3791c5e0ee31385.1679732179.git.sumitraartsy@gmail.com>
+Subject: [PATCH v3 3/3] staging: greybus: Inline pwm_chip_to_gb_pwm_chip()
+Date: Sat, 25 Mar 2023 01:31:10 -0700
+Message-Id: <f1ef1b643840e74f211264dda0c590f8458618f6.1679732179.git.sumitraartsy@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1679732179.git.sumitraartsy@gmail.com>
 References: <cover.1679732179.git.sumitraartsy@gmail.com>
@@ -61,34 +61,34 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Convert 'gb_audio_manager_module' from a macro to a static
+Convert 'pwm_chip_to_gb_pwm_chip' from a macro to a static
 inline function, to make the relevant types apparent in the
 definition and to benefit from the type checking performed by
 the compiler at call sites.
 
 Signed-off-by: Sumitra Sharma <sumitraartsy@gmail.com>
 ---
- drivers/staging/greybus/audio_manager_module.c | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
+ drivers/staging/greybus/pwm.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/staging/greybus/audio_manager_module.c b/drivers/staging/greybus/audio_manager_module.c
-index 81b4ba607a0e..5f9dcbdbc191 100644
---- a/drivers/staging/greybus/audio_manager_module.c
-+++ b/drivers/staging/greybus/audio_manager_module.c
-@@ -12,8 +12,11 @@
+diff --git a/drivers/staging/greybus/pwm.c b/drivers/staging/greybus/pwm.c
+index 3fda172239d2..88da1d796f13 100644
+--- a/drivers/staging/greybus/pwm.c
++++ b/drivers/staging/greybus/pwm.c
+@@ -21,9 +21,11 @@ struct gb_pwm_chip {
+ 	struct pwm_chip		chip;
+ 	struct pwm_chip		*pwm;
+ };
+-#define pwm_chip_to_gb_pwm_chip(chip) \
+-	container_of(chip, struct gb_pwm_chip, chip)
  
- #define to_gb_audio_module_attr(x)	\
- 		container_of(x, struct gb_audio_manager_module_attribute, attr)
--#define to_gb_audio_module(x)		\
--		container_of(x, struct gb_audio_manager_module, kobj)
-+
-+static inline struct gb_audio_manager_module *to_gb_audio_module(struct kobject *kobj)
++static inline struct gb_pwm_chip *pwm_chip_to_gb_pwm_chip(struct pwm_chip *chip)
 +{
-+	return container_of(kobj, struct gb_audio_manager_module, kobj);
++	return container_of(chip, struct gb_pwm_chip, chip);
 +}
  
- struct gb_audio_manager_module_attribute {
- 	struct attribute attr;
+ static int gb_pwm_count_operation(struct gb_pwm_chip *pwmc)
+ {
 -- 
 2.25.1
 
