@@ -1,82 +1,74 @@
-Received: from comms.puri.sm (comms.puri.sm [159.203.221.185])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 118AF20EE
-	for <linux-staging@lists.linux.dev>; Sat, 25 Mar 2023 10:08:01 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by comms.puri.sm (Postfix) with ESMTP id D1D42FCE3B;
-	Sat, 25 Mar 2023 02:59:53 -0700 (PDT)
-Received: from comms.puri.sm ([127.0.0.1])
-	by localhost (comms.puri.sm [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id o8nROS5231e1; Sat, 25 Mar 2023 02:59:53 -0700 (PDT)
-Message-ID: <a0a10c7bf7fdf388b7d09ca3ba59e416d4924877.camel@puri.sm>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=puri.sm; s=comms;
-	t=1679738393; bh=3Fg+LMktGNv0YxDPBo5MDgiv93LD8o8DA2oXs8mAEOI=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-	b=UNt18uh7UbXW3VYZUaog5fmlbhXAwYfJ2rvrELOOeo09b8xntVL4EH4fKRxlEVw6A
-	 HQkTON6k5kBiKLO6Q61QOkQIEKu5VKHRNlR3c9t5Ed8vl1v1YH0/pJUU2WvhFO4RpG
-	 vnEArbASOJC31VR6d+SRIQAppYmTV2oyC6DPg2CWR+O39MTBjXFb6K1Hg5JkhuG88i
-	 JzA+38BKA943hr1sfDX+qpX2R4yJrpk4lQZ4cD8//Di87T04nNND09wrPvZMeYVzex
-	 gJcC1qNzp/2A9pSpi8bGwzQlaVORna9EKpXQ5ip2GDLrCeR1WYESK0aF9VbW5vE2i2
-	 xNQDvrchg9e7g==
-Subject: Re: [PATCH v2 2/2] media: imx: imx8mq-mipi-csi2: remove unneeded
- state variable and function
-From: Martin Kepplinger <martin.kepplinger@puri.sm>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: slongerbeam@gmail.com, p.zabel@pengutronix.de, mchehab@kernel.org, 
-	gregkh@linuxfoundation.org, shawnguo@kernel.org, kernel@pengutronix.de, 
-	festevam@gmail.com, linux-imx@nxp.com, linux-media@vger.kernel.org, 
-	linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
-	linux-kernel@vger.kernel.org, kernel@puri.sm
-Date: Sat, 25 Mar 2023 10:59:47 +0100
-In-Reply-To: <25ed971e90324ad596353ba6aade2e14c40c7183.camel@puri.sm>
-References: <20230307150047.1486186-1-martin.kepplinger@puri.sm>
-	 <20230307150047.1486186-3-martin.kepplinger@puri.sm>
-	 <20230312133706.GJ2545@pendragon.ideasonboard.com>
-	 <25ed971e90324ad596353ba6aade2e14c40c7183.camel@puri.sm>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.38.3-1+deb11u1 
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 328BA2574;
+	Sat, 25 Mar 2023 12:13:24 +0000 (UTC)
+Received: by mail-wr1-f44.google.com with SMTP id e18so4182879wra.9;
+        Sat, 25 Mar 2023 05:13:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1679746402;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=ioX1KgKROFiDWyqlsJs6XqlB2RrAlll5N2zukuaEs8k=;
+        b=XJPwToHJkrPaj0nwPt2SyRVtFB7FXDH/Z3auEPO+Khwe0rEKQcCueB+nayuCztsgCA
+         +KQuHvXruHkxtxhVBDozej0ZHpELqK81gVgsSCTFmkU4jHPDtz43nsx3LDeVy945pG3/
+         q5zt0E+RDieYgCgvsXMKcB3QdKrDgGlH33J54m7L/g2SfPAi572ZdhDue23MgGeWlH4P
+         rImFNc0OHQ3mr28VGhm0TCkcH1jOdof2rP9kQzP8MrIQVS9Gv99JMhEYDTS84OoNrdUl
+         yG487ffsbhBWK8HBiYQO+kJnieLpcl3owxnLSSm7n0IDDsyg9GKibN4habR4uhEjAYDw
+         IgmA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1679746402;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=ioX1KgKROFiDWyqlsJs6XqlB2RrAlll5N2zukuaEs8k=;
+        b=igbM63UDKSwJjGMA1i+aUbr5upsQCymMEfymfBEi4PSh+RZkn5fz1PgQljvKmlIBJN
+         v6hQFI9jXPhUf/G1ylAb6gTFPYOjMW+Gwsqi0TxKxIk2Ngz4IHIT4+H0e0XyTy7Ijwog
+         mQumbY+SdjHESNOysY1oMA/SrblckrEz/3NMWihvLi0aa1hPYEpDojOMh9wAtkA/urFH
+         Q1lm0q/88eO28s+Iz5SfLPLhZPN68RZKBrM+VKuVHCsKmbTLKb0kKTFgBnQzQ5dKdP6J
+         jCTCXCkUOh3sqAL9FTHqcy0TXo5518SqQ8eyh4BJIe08EeCd41FBidj1naJVt4IlX+P/
+         pT1Q==
+X-Gm-Message-State: AAQBX9fs4KpssF01Q5EFwx8rye8M0baIP4/0qAUhsmax4rhnpZfhjlpH
+	IUNTsU43M7IKx/1LcNVISEEaYc5RP8UTFA==
+X-Google-Smtp-Source: AKy350a2jpGdQ3Z51auHp3Gn/TpH4pAwCSuQc9o1Km/85xtDChsyfUsE2XLnWZKHa4h7BAMCM/Od1A==
+X-Received: by 2002:a05:6000:1206:b0:2ce:a8e9:bb3d with SMTP id e6-20020a056000120600b002cea8e9bb3dmr5177954wrx.4.1679746401969;
+        Sat, 25 Mar 2023 05:13:21 -0700 (PDT)
+Received: from khadija-virtual-machine.localdomain ([39.41.14.14])
+        by smtp.gmail.com with ESMTPSA id c10-20020adffb0a000000b002c70c99db74sm20504791wrr.86.2023.03.25.05.13.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 25 Mar 2023 05:13:21 -0700 (PDT)
+From: Khadija Kamran <kamrankhadijadj@gmail.com>
+To: outreachy@lists.linux.dev
+Cc: gregkh@linuxfoundation.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH 0/3] staging: rtl8192u: clean up comments in r8192U_dm.c
+Date: Sat, 25 Mar 2023 17:13:15 +0500
+Message-Id: <cover.1679744684.git.kamrankhadijadj@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-Am Sonntag, dem 12.03.2023 um 15:04 +0100 schrieb Martin Kepplinger:
-> Am Sonntag, dem 12.03.2023 um 15:37 +0200 schrieb Laurent Pinchart:
-> > Hi Martin,
-> > 
-> > Thank you for the patch.
-> > 
-> > On Tue, Mar 07, 2023 at 04:00:47PM +0100, Martin Kepplinger wrote:
-> > > Clean up the driver a bit by inlining the
-> > > imx8mq_mipi_csi_system_enable()
-> > > function to the callsites and removing the hs_settle variable
-> > > from
-> > > the
-> > > driver state.
-> > > 
-> > > Signed-off-by: Martin Kepplinger <martin.kepplinger@puri.sm>
-> > 
-> > Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > 
-> > Could I volunteer you to also drop the struct csi_state state field
-> > ?
-> > :-)
-> 
-> sure :) it can become at least a bit more tricky than this patch.
-> I'll
-> take the time after this is merged.
-> 
-> thanks for the fast reviewing
+Clean up several comments in file r8192U_dm.c
 
-Laurent, are these 2 patches queued up somewhere? I'm used to waiting
-until they are part of a tree that is part of linux-next before sending
-something new. Does that make sense?
+Reviewer feedback on a previous patch suggested additional cleanup
+comments. Link to the previous patch:
+https://lore.kernel.org/outreachy/ZB2a5zwYpBZ%2F6qwU@khadija-virtual-machine/
 
-thanks,
-                      martin
 
+Khadija Kamran (3):
+  staging: rtl8192u: reformat block comments
+  staging: rtl8192u: remove change history from comments
+  staging: rtl8192u: remove code from comments
+
+ drivers/staging/rtl8192u/r8192U_dm.c | 199 ++++-----------------------
+ 1 file changed, 25 insertions(+), 174 deletions(-)
+
+-- 
+2.34.1
 
