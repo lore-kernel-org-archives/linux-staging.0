@@ -1,27 +1,52 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60D372574;
-	Sat, 25 Mar 2023 12:23:59 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7E051C433EF;
-	Sat, 25 Mar 2023 12:23:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1679747039;
-	bh=kLW3bmDLmdHo5VE4SH0Ou0TcjVXcfRrwI6drKo1hNf8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=oBvgol+1/sr18a9BQ/pW3qSTHJ90sI75+KhHoSW0J1EBDXnmXUBevZkkPnM6nGZv+
-	 6nFUYvAH3nIoqsyGwgMCBj6yLEYu/9sZisNxVPd1efB3Puow/5hxGB/X5vpz6+0A2n
-	 6J1/slbIo8CIyEagkhhPhiCCLQylqcS0/iR1DUw4=
-Date: Sat, 25 Mar 2023 13:23:55 +0100
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Khadija Kamran <kamrankhadijadj@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01E54362;
+	Sat, 25 Mar 2023 12:31:17 +0000 (UTC)
+Received: by mail-wm1-f47.google.com with SMTP id bg16-20020a05600c3c9000b003eb34e21bdfso4615225wmb.0;
+        Sat, 25 Mar 2023 05:31:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1679747476;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=JbN5mOcBlmckGxX4Bx9VedlDXlZrxrgvxWsGRNZfOb8=;
+        b=fBTHm3m9tr4SUPIf7MA2Q/ZCS+Cy/eWwuDKX13u6VAbLUHYEfa2pjzM4c6MEOIowrR
+         5X4eZC5xSzoiWrdPcZ2N6TkcC7Cru3ZxwFJzX+eWf4NnY7+xdE7VZwlXZG5SAmQahRGm
+         7lMSDZyYj7DUPiDXEazYAmXSUISTb9CK0XKATX45ftBTkWxjlkUih4zo1QwLGawLDs8W
+         C3OLM+zmJya1AKFyPcYUmgn79GGWPZqiQYIdo7c+kA6wFcd5hbEfTPibfpkEpWP4ajpP
+         GQ/uXnXNPev5dA5EpbN0rOhjBMKrKyAz+p5ywOkBH73IHf/IlGw3Kr+7u1z0IbQGo4Wm
+         QpKw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1679747476;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=JbN5mOcBlmckGxX4Bx9VedlDXlZrxrgvxWsGRNZfOb8=;
+        b=kIHXqJKvUB7sb6/NuBZJA1A10IL5bL8xDg+1o2N5htRp/bpjT+0tqbtSnHTWqF3Dsn
+         9E1JA55DehHHvkrffo9hGc/EbPrEryvSQB8d/phY3aNnFEYyPo+6SkkW71/RfIa5kmvZ
+         HqiX3hXWAudJIX3w0S+P/AHwRAty3lQLvUJPyU1KLAe4rsXTdo4Mo/fXrPCg0LrcfeGW
+         j6VbhdkXdYj7UiX4ACfOJzhNSU2d4GzOM7S/xJPj5Uesi5+W8OZEnFyQq95ZrSd8vwmD
+         we1ByyJdT8LlH2VJ3XZA8hb0GAg8fF1de7bwkhtyE2Clp/loN26Qqu4YfuDeGbbctM4k
+         PBpQ==
+X-Gm-Message-State: AO0yUKV7jxT1vo4VYVP+NH/Jo9bRJ7xcj2y6nSeRetTMToM+PfbU1ufr
+	HpH3XEWpm67Tp5UDEMInB/RQR1QLUdsexQ==
+X-Google-Smtp-Source: AK7set+d0Z8L6oj1YStFuqTpLA2m4CrUH2H31YvcIdyRSE24MQisjvY/b3cBIhpUQdZLE0mXFHtdCA==
+X-Received: by 2002:a05:600c:2214:b0:3ee:289a:43a7 with SMTP id z20-20020a05600c221400b003ee289a43a7mr5778380wml.22.1679747476051;
+        Sat, 25 Mar 2023 05:31:16 -0700 (PDT)
+Received: from khadija-virtual-machine ([39.41.14.14])
+        by smtp.gmail.com with ESMTPSA id a2-20020a05600c224200b003ee63fe5203sm7777290wmm.36.2023.03.25.05.31.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 25 Mar 2023 05:31:15 -0700 (PDT)
+Date: Sat, 25 Mar 2023 17:31:13 +0500
+From: Khadija Kamran <kamrankhadijadj@gmail.com>
+To: Greg KH <gregkh@linuxfoundation.org>
 Cc: outreachy@lists.linux.dev, linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/3] staging: rtl8192u: remove change history from
- comments
-Message-ID: <ZB7n23tzWxGmBPe4@kroah.com>
+Subject: Re: [PATCH 1/3] staging: rtl8192u: reformat block comments
+Message-ID: <ZB7pkWRn9093sBnZ@khadija-virtual-machine>
 References: <cover.1679744684.git.kamrankhadijadj@gmail.com>
- <c4ec9246e2d103c15e451fe3d6ed42692c93d39f.1679744684.git.kamrankhadijadj@gmail.com>
+ <2974a7ba0e2d3cc693b2a7229cf150c10f395ac5.1679744684.git.kamrankhadijadj@gmail.com>
+ <ZB7nsz1UQ9kn6d6p@kroah.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -30,46 +55,107 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <c4ec9246e2d103c15e451fe3d6ed42692c93d39f.1679744684.git.kamrankhadijadj@gmail.com>
+In-Reply-To: <ZB7nsz1UQ9kn6d6p@kroah.com>
 
-On Sat, Mar 25, 2023 at 05:13:17PM +0500, Khadija Kamran wrote:
-> Developers use git to browse the file history so revision history is not
-> required in the comments.
-> Remove the change history information from the comments.
+On Sat, Mar 25, 2023 at 01:23:15PM +0100, Greg KH wrote:
+> On Sat, Mar 25, 2023 at 05:13:16PM +0500, Khadija Kamran wrote:
+> > Linux kernel coding style for block comments uses a column of '*' on the
+> > left side and  uses '*/' on a separate line.
+> > 
+> > Fix block comments by adding '*' on subsequent lines and moving '*/' at
+> > the end of block comments on a separate line. These issues in block
+> > comments are reported by checkpatch.pl script.
+> > 
+> > Signed-off-by: Khadija Kamran <kamrankhadijadj@gmail.com>
+> > ---
+> >  drivers/staging/rtl8192u/r8192U_dm.c | 162 ++++++++++++++-------------
+> >  1 file changed, 86 insertions(+), 76 deletions(-)
+> > 
+> > diff --git a/drivers/staging/rtl8192u/r8192U_dm.c b/drivers/staging/rtl8192u/r8192U_dm.c
+> > index 6a33ca02c3dc..a88686be3523 100644
+> > --- a/drivers/staging/rtl8192u/r8192U_dm.c
+> > +++ b/drivers/staging/rtl8192u/r8192U_dm.c
+> > @@ -1,19 +1,20 @@
+> >  // SPDX-License-Identifier: GPL-2.0
+> >  /*++
+> > -Copyright-c Realtek Semiconductor Corp. All rights reserved.
+> > -
+> > -Module Name:
+> > -	r8192U_dm.c
+> > -
+> > -Abstract:
+> > -	HW dynamic mechanism.
+> > -
+> > -Major Change History:
+> > -	When		Who				What
+> > -	----------	--------------- -------------------------------
+> > -	2008-05-14	amy                     create version 0 porting from windows code.
+> > -
+> > ---*/
+> > + * Copyright-c Realtek Semiconductor Corp. All rights reserved.
+> > + *
+> > + * Module Name:
+> > + *	r8192U_dm.c
+> > + *
+> > + * Abstract:
+> > + *	HW dynamic mechanism.
+> > + *
+> > + * Major Change History:
+> > + *	When		Who				What
+> > + *	----------	--------------- -------------------------------
+> > + *	2008-05-14	amy                     create version 0 porting from windows code.
+> > + *
+> > + *--
+> > + */
+> >  #include "r8192U.h"
+> >  #include "r8192U_dm.h"
+> >  #include "r8192U_hw.h"
+> > @@ -147,20 +148,20 @@ void dm_CheckRxAggregation(struct net_device *dev)
+> >  	unsigned long		curRxOkCnt = 0;
+> >  
+> >  /*
+> > -	if (pHalData->bForcedUsbRxAggr) {
+> > -		if (pHalData->ForcedUsbRxAggrInfo == 0) {
+> > -			if (pHalData->bCurrentRxAggrEnable) {
+> > -				Adapter->HalFunc.HalUsbRxAggrHandler(Adapter, FALSE);
+> > -			}
+> > -		} else {
+> > -			if (!pHalData->bCurrentRxAggrEnable || (pHalData->ForcedUsbRxAggrInfo != pHalData->LastUsbRxAggrInfoSetting)) {
+> > -				Adapter->HalFunc.HalUsbRxAggrHandler(Adapter, TRUE);
+> > -			}
+> > -		}
+> > -		return;
+> > -	}
+> > -
+> > -*/
+> > + *	if (pHalData->bForcedUsbRxAggr) {
+> > + *		if (pHalData->ForcedUsbRxAggrInfo == 0) {
+> > + *			if (pHalData->bCurrentRxAggrEnable) {
+> > + *				Adapter->HalFunc.HalUsbRxAggrHandler(Adapter, FALSE);
+> > + *			}
+> > + *		} else {
+> > + *			if (!pHalData->bCurrentRxAggrEnable || (pHalData->ForcedUsbRxAggrInfo != pHalData->LastUsbRxAggrInfoSetting)) {
+> > + *				Adapter->HalFunc.HalUsbRxAggrHandler(Adapter, TRUE);
+> > + *			}
+> > + *		}
+> > + *		return;
+> > + *	}
+> > + *
+> > + */
 > 
-> Signed-off-by: Khadija Kamran <kamrankhadijadj@gmail.com>
-> ---
->  drivers/staging/rtl8192u/r8192U_dm.c | 36 ----------------------------
->  1 file changed, 36 deletions(-)
+> Do not reformat things, only to remove them in the last commit in the
+> series.  Instead, remove the commented out code lines first, and then
+> fix up any remaining ones, that should make the churn much less.
+
+Hey Greg,
+
+Thank you for the feedback. Let me resend the patchset after doing all
+the advised changes.
+
+Regards,
+Khadija
+
 > 
-> diff --git a/drivers/staging/rtl8192u/r8192U_dm.c b/drivers/staging/rtl8192u/r8192U_dm.c
-> index a88686be3523..885c5966342f 100644
-> --- a/drivers/staging/rtl8192u/r8192U_dm.c
-> +++ b/drivers/staging/rtl8192u/r8192U_dm.c
-> @@ -8,11 +8,6 @@
->   * Abstract:
->   *	HW dynamic mechanism.
->   *
-> - * Major Change History:
-> - *	When		Who				What
-> - *	----------	--------------- -------------------------------
-> - *	2008-05-14	amy                     create version 0 porting from windows code.
-> - *
->   *--
->   */
->  #include "r8192U.h"
-> @@ -276,10 +271,6 @@ void init_rate_adaptive(struct net_device *dev)
->   *
->   * Return:		NONE
->   *
-> - * Revised History:
-> - *	When		Who		Remark
-> - *	05/26/08	amy	Create version 0 porting from windows code.
-> - *
->   *---------------------------------------------------------------------------
-
-You can remove the extra blank comment line as well.
-
-thanks,
-
-greg k-h
+> thanks,
+> 
+> greg k-h
