@@ -1,94 +1,86 @@
-Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43])
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B915E1840;
-	Sat, 25 Mar 2023 08:33:17 +0000 (UTC)
-Received: by mail-pj1-f43.google.com with SMTP id e15-20020a17090ac20f00b0023d1b009f52so7194002pjt.2;
-        Sat, 25 Mar 2023 01:33:17 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BD8F1840
+	for <linux-staging@lists.linux.dev>; Sat, 25 Mar 2023 08:35:00 +0000 (UTC)
+Received: by mail-wm1-f54.google.com with SMTP id p34so2310852wms.3
+        for <linux-staging@lists.linux.dev>; Sat, 25 Mar 2023 01:35:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1679733197;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=i9ruC/xMC7tL0m+Bw7Ok6wqKxtgof/3SmFbXbg58scA=;
-        b=o639WNsLIKilsuSbOUQwSfrRBEy0Ll5v6ntkkD2bVaCkuUpwN37cLOeUhsSmI2yWPg
-         2oHDK5veQ/gPP4Y6VOOAviErv5ZSsRk9Az81n0plcXMtoUtcAH727Zv2lzW5+8z6dWCd
-         IZzlWtDLt/aIg213mx6VZnAHEGyB9FniS0Z5N6XYiQXNamw5/HjamXl1joGd3zIAstgk
-         ieHPgx+zOgiTjL+QDQ+3ogDtcgbWlpb/+lYwHN1ln0Q+lT+wCObrY9aQVDSCGReZrFj1
-         dim4Xafs5mOQwBH66ZX6FKC4rDEBow9Wwz9bu15AuYjsFHO0YGHb3J87NkpFi5PDOw9s
-         7XaA==
+        d=gmail.com; s=20210112; t=1679733298;
+        h=content-disposition:mime-version:message-id:subject:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=4cDeguqASDwAgU6ia/rYFeY5FWxDs06bPutkb/feHzo=;
+        b=ieSdwsGeEwVPjdmsQ97sOkx9XAFxePci4TT9J1QAdbfMTpmscgtBlRWHGApbUdyMAx
+         0scADfX/bY/oHRKPmHSW9xbKiMtzawfCNjuLshaElL3fJQH+UkI+pjQbwxMd1LFzyYWT
+         TvZ3vjrArdloK0pB6dUlrTHSMwzFU0J4My1/RHLFXVSW+2AmIJW32MNO1QzB+mOjKm4o
+         mcvTxNMRkBYdbWTkFtgJjWtuTumCX2kVoWWj/DlPmbTUN3Gr03rUroApyJqlJ3DvPeRB
+         O3jAvtbIjtChHwCZdOeatx57+GUSBueBvYQCcMEJUxM7U3wqrzXkiN57JLW8J4snDQJ1
+         /C3g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679733197;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=i9ruC/xMC7tL0m+Bw7Ok6wqKxtgof/3SmFbXbg58scA=;
-        b=Ze9+QSd3pTFpeVbfB1s9tvJAFnPc+Ey54TPatBzzbA0+2/ueuqOIBDoQ7HzGRQbwXK
-         ZE6LlHsnCYxADU+wOW9KVvwpHfLsM9KFyNcniUBAOufZSfZiIrrYtIU4OqjAg0ZqmU4T
-         KO7LCf4Di9fOh9w8yuaIknlQC+S2X21Swq8SHmUJFUVrYdgDv9jJ0OyOhCmRQTvc0pB0
-         hP7236QZ7+vTjUiNnlCDNMtbgkaY2XDcYgEdj20RAEU37k27g7GbV1/krvlwwcULbSPE
-         JpaowIbfKsAhmKH94kRy5+rpgh591w+ECdCQMuHOlMxCd5nU4jfL4MITfe/sKq7OGWkr
-         j10A==
-X-Gm-Message-State: AAQBX9eo4SkcTs5E8K4xjpLT5YsjEdoAPKrQvZgQ799Ny7ngxf5o/c4N
-	t37+afKB6Xnsnr7std/9M64qlYUbX72mRSmA
-X-Google-Smtp-Source: AKy350ZlnfYWnaB6Q+DvHqgRzooKnDj0lpmUsKqxSDWIpYnsovqRM9QW9zeSWnZKKLZ4RDDGa9YD+A==
-X-Received: by 2002:a17:90b:4c86:b0:237:c565:7bc6 with SMTP id my6-20020a17090b4c8600b00237c5657bc6mr5802024pjb.10.1679733196934;
-        Sat, 25 Mar 2023 01:33:16 -0700 (PDT)
-Received: from ubuntu.localdomain ([117.245.251.101])
-        by smtp.gmail.com with ESMTPSA id m33-20020a635821000000b0050927cb606asm14290224pgb.13.2023.03.25.01.33.13
+        d=1e100.net; s=20210112; t=1679733298;
+        h=content-disposition:mime-version:message-id:subject:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=4cDeguqASDwAgU6ia/rYFeY5FWxDs06bPutkb/feHzo=;
+        b=53KBm85SvGiZ29ExjxIVveHdKn1RazNmlOkDxNCZdLtjSjUp/TAKNu+G55yaYwSPGA
+         GR7fqidEMfGOS6ju3eXhiWhTC6abT9rtOYOXaKaEPhJ5DknAvxTruYjJIRxWGo5/wW2f
+         FmDMFtVH7rsfqAk6KTYsK+0G5JqtkDECCFSYI/AKCBPBgiOeZJpmsbCGDe+Mh7V1Dx3s
+         CYtUYeh+9ksEZo4rJuHyq7XGpu/E/rJOSZXscw/hwPwEop7y95CkI6A6UHt/qXMUSwgg
+         jEZFFltbTzatekfzW4c+MaWMHxkV9F8Yg1pGDMB3RR2T1RhcrOuj08fKtrVE2O0dzkhT
+         AH2g==
+X-Gm-Message-State: AO0yUKW/2sLO4lENOO9wF2qhxCvaWKOBiaOmlaAWg8UXQaSPyc8wDRU1
+	v7WzLuyxcowBMU4pHtdunHXRezIkXmQ=
+X-Google-Smtp-Source: AK7set8DpW+O+nvS+3uJziKm3LHxgzOxcCzAbTQQfGc4OarR5XqpNrJRHRMsmgcI4PG5RuRPYxozpQ==
+X-Received: by 2002:a05:600c:468b:b0:3eb:f5a2:2d49 with SMTP id p11-20020a05600c468b00b003ebf5a22d49mr4315258wmo.0.1679733298456;
+        Sat, 25 Mar 2023 01:34:58 -0700 (PDT)
+Received: from matrix-ESPRIMO-P710 (p57935146.dip0.t-ipconnect.de. [87.147.81.70])
+        by smtp.gmail.com with ESMTPSA id v14-20020a05600c470e00b003ee6a91b596sm2189298wmo.29.2023.03.25.01.34.57
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 25 Mar 2023 01:33:16 -0700 (PDT)
-From: Sumitra Sharma <sumitraartsy@gmail.com>
-To: outreachy@lists.linux.dev
-Cc: johan@kernel.org,
-	elder@kernel.org,
-	gregkh@linuxfoundation.org,
-	greybus-dev@lists.linaro.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Sumitra Sharma <sumitraartsy@gmail.com>
-Subject: [PATCH v3 3/3] staging: greybus: Inline pwm_chip_to_gb_pwm_chip()
-Date: Sat, 25 Mar 2023 01:31:10 -0700
-Message-Id: <f1ef1b643840e74f211264dda0c590f8458618f6.1679732179.git.sumitraartsy@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <cover.1679732179.git.sumitraartsy@gmail.com>
-References: <cover.1679732179.git.sumitraartsy@gmail.com>
+        Sat, 25 Mar 2023 01:34:57 -0700 (PDT)
+Date: Sat, 25 Mar 2023 09:34:56 +0100
+From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: [PATCH 00/11] staging: rtl8192e: Remove variable priv->rf_chip from
+ driver
+Message-ID: <cover.1679732276.git.philipp.g.hortmann@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Convert 'pwm_chip_to_gb_pwm_chip' from a macro to a static
-inline function, to make the relevant types apparent in the
-definition and to benefit from the type checking performed by
-the compiler at call sites.
+priv->rf_chip is initialized to RF_8256 and never changed. Keep code that
+is executed under condition (priv->rf_chip == RF_8256) and remove dead
+code including unused variables.
 
-Signed-off-by: Sumitra Sharma <sumitraartsy@gmail.com>
----
- drivers/staging/greybus/pwm.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+Tested with rtl8192e
+Transferred this patch over wlan connection of rtl8192e
 
-diff --git a/drivers/staging/greybus/pwm.c b/drivers/staging/greybus/pwm.c
-index 3fda172239d2..88da1d796f13 100644
---- a/drivers/staging/greybus/pwm.c
-+++ b/drivers/staging/greybus/pwm.c
-@@ -21,9 +21,11 @@ struct gb_pwm_chip {
- 	struct pwm_chip		chip;
- 	struct pwm_chip		*pwm;
- };
--#define pwm_chip_to_gb_pwm_chip(chip) \
--	container_of(chip, struct gb_pwm_chip, chip)
- 
-+static inline struct gb_pwm_chip *pwm_chip_to_gb_pwm_chip(struct pwm_chip *chip)
-+{
-+	return container_of(chip, struct gb_pwm_chip, chip);
-+}
- 
- static int gb_pwm_count_operation(struct gb_pwm_chip *pwmc)
- {
+Philipp Hortmann (11):
+  staging: rtl8192e: Remove priv->rf_chip in _rtl92e_phy_rf_read
+  staging: rtl8192e: Remove priv->rf_chip in _rtl92e_phy_rf_write
+  staging: rtl8192e: Remove priv->rf_chip in rtl92e_set_tx_power
+  staging: rtl8192e: Remove priv->rf_chip in rtl92e_config_phy
+  staging: rtl8192e: Remove priv->rf_chip in _rtl92e_set_tx_power_level
+  staging: rtl8192e: Remove priv->rf_chip in
+    _rtl92e_phy_switch_channel_step
+  staging: rtl8192e: Remove priv->rf_chip in
+    _rtl92e_set_bw_mode_work_item
+  staging: rtl8192e: Remove priv->rf_chip in _rtl92e_set_rf_power_state
+  staging: rtl8192e: Remove rf_chip in
+    _rtl92e_get_supported_wireless_mode
+  staging: rtl8192e: Remove priv->rf_chip in _rtl92e_get_channel_map
+  staging: rtl8192e: Remove priv->rf_chip
+
+ .../staging/rtl8192e/rtl8192e/r8192E_dev.c    |   2 -
+ .../staging/rtl8192e/rtl8192e/r8192E_phy.c    | 431 ++++++------------
+ drivers/staging/rtl8192e/rtl8192e/rtl_core.c  |  23 +-
+ drivers/staging/rtl8192e/rtl8192e/rtl_core.h  |  10 -
+ 4 files changed, 138 insertions(+), 328 deletions(-)
+
 -- 
-2.25.1
+2.39.2
 
