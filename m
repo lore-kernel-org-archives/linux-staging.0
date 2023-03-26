@@ -1,99 +1,111 @@
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com [209.85.216.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 981E7568A;
-	Sat, 25 Mar 2023 21:42:07 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id A02C98BE;
-	Sat, 25 Mar 2023 22:42:05 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1679780525;
-	bh=CAS+ru0ajwIKIWzCOM/JwX8K8QgHCTE7GYFPL5L+3xo=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=H2MrBCNWiVjUgxcVGkWWQZNsLizT7wYScyi3l/Y6iGkdX8yP6MEzcOX9Eh9nc+UMw
-	 ohq5ygASUG6ikzJWztkAe8SVq4+U0Ljg0EXcxop0u1GDqS5POWL+I/zSB2MTnS3WQx
-	 53lDQMMa1U0vCNF9Ot4nEzr/H8JmoxQ7ZsRCpSYI=
-Date: Sat, 25 Mar 2023 23:42:12 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-Cc: linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>, Adam Pigg <adam@piggz.co.uk>,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Subject: Re: [PATCH 8/9] media: sun6i-isp: capture: Implement MC I/O with
- extended enum_fmt
-Message-ID: <20230325214212.GF22214@pendragon.ideasonboard.com>
-References: <20230324151228.2778112-1-paul.kocialkowski@bootlin.com>
- <20230324151228.2778112-9-paul.kocialkowski@bootlin.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 161FF64E;
+	Sun, 26 Mar 2023 05:24:27 +0000 (UTC)
+Received: by mail-pj1-f53.google.com with SMTP id mp3-20020a17090b190300b0023fcc8ce113so8884675pjb.4;
+        Sat, 25 Mar 2023 22:24:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1679808267;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=l8eM3auEURf5Yz74B4xS+px+Zq3swgYLBvUD75GaNMk=;
+        b=TjpZI22arNu77KtHiNIoBJMxYSrvrLnM4V1z+nkoSbUOf/MobLcMMgdIWv2KOi0IDE
+         hiVzQbyC38iOh6EMT8wKVBBYIjcjXtWskrmokuAc6a3eAzlrxz1YfNGGx7xRZ8YDsXR6
+         MpJqfhrDwsYk/VBEEpOSVoQjwgwIbx6i4Oy6RVtmVZDqD/bEMHAqPSEbJGk1Bib93ALQ
+         MfcsfetV7TCRLfhxsXq5rWvAdF1uHGF8haCGG5Rb0buhFpCZJ+bJQndZdXG6sFkKfvsl
+         m/KKoKBZ8WG9YxuTYJRoK7R108iV5Dlh3E/FhSYTg1SBBXBKSN7m2soVJDAdi+sMOw6V
+         Atbg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1679808267;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=l8eM3auEURf5Yz74B4xS+px+Zq3swgYLBvUD75GaNMk=;
+        b=6JFwlGgpnUck3IMudGZ4mZ8wNWsQ0qfy7dJ7MULKAOtdx3+bONmFumNFDQ0mYD6obz
+         be02sOnHzz8deJVSCpRr67wgZobWb++Ewcd0cEJpkuPvnfQCdT2jjtStwRA85TSw/F0G
+         8bQYV0Jj9/9RQzAfiYZRQF3S+lsgq7UFv6exdy1QpkQADZXCrHNLsOZHVU7Cwbrs57KY
+         oCzfb3zsrCw3XfN161f8soKh7wFhdYovxzebvBYLCM3156wsuBHtPhnr9Q6FlhtzSEeI
+         rpRUMQ7jFe2QuyoS1pIWTvwuSbdkSrYMNojw/n8EgCtBWm3+9Xv0EnvqW9acL4m+/Wbc
+         cQkQ==
+X-Gm-Message-State: AAQBX9ePdzR2nNGeEr2pyENktPU3oReOkv6035Sl9nK5ANX/VYj/jwnP
+	SdTZGTEVsx/fjBFbIIlpASw=
+X-Google-Smtp-Source: AKy350afbQeZdtfvWlHEvJm+uzLq1lMd+sTHnS43/LWxSyyeRaiQgF8Oz/euRtOQDIkIXC1I4lZb5A==
+X-Received: by 2002:a17:902:d482:b0:19f:27fe:95c3 with SMTP id c2-20020a170902d48200b0019f27fe95c3mr8903964plg.41.1679808267235;
+        Sat, 25 Mar 2023 22:24:27 -0700 (PDT)
+Received: from sumitra.com ([117.212.89.150])
+        by smtp.gmail.com with ESMTPSA id h2-20020a170902704200b001a21cde3458sm3675111plt.90.2023.03.25.22.24.23
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 25 Mar 2023 22:24:26 -0700 (PDT)
+Date: Sat, 25 Mar 2023 22:24:20 -0700
+From: Sumitra Sharma <sumitraartsy@gmail.com>
+To: Greg KH <gregkh@linuxfoundation.org>
+Cc: outreachy@lists.linux.dev, johan@kernel.org, elder@kernel.org,
+	greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 3/3] staging: greybus: Inline pwm_chip_to_gb_pwm_chip()
+Message-ID: <20230326052420.GA179105@sumitra.com>
+References: <cover.1679732179.git.sumitraartsy@gmail.com>
+ <f1ef1b643840e74f211264dda0c590f8458618f6.1679732179.git.sumitraartsy@gmail.com>
+ <ZB63EVLK6/29UUi0@kroah.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230324151228.2778112-9-paul.kocialkowski@bootlin.com>
+In-Reply-To: <ZB63EVLK6/29UUi0@kroah.com>
 
-Hi Paul,
-
-Thank you for the patch.
-
-On Fri, Mar 24, 2023 at 04:12:27PM +0100, Paul Kocialkowski wrote:
-> This driver needs the media-controller API to operate and should not be
-> considered as a video-device-centric implementation.
+On Sat, Mar 25, 2023 at 09:55:45AM +0100, Greg KH wrote:
+> On Sat, Mar 25, 2023 at 01:31:10AM -0700, Sumitra Sharma wrote:
+> > Convert 'pwm_chip_to_gb_pwm_chip' from a macro to a static
+> > inline function, to make the relevant types apparent in the
+> > definition and to benefit from the type checking performed by
+> > the compiler at call sites.
+> > 
+> > Signed-off-by: Sumitra Sharma <sumitraartsy@gmail.com>
+> > ---
+> >  drivers/staging/greybus/pwm.c | 6 ++++--
+> >  1 file changed, 4 insertions(+), 2 deletions(-)
+> > 
+> > diff --git a/drivers/staging/greybus/pwm.c b/drivers/staging/greybus/pwm.c
+> > index 3fda172239d2..88da1d796f13 100644
+> > --- a/drivers/staging/greybus/pwm.c
+> > +++ b/drivers/staging/greybus/pwm.c
+> > @@ -21,9 +21,11 @@ struct gb_pwm_chip {
+> >  	struct pwm_chip		chip;
+> >  	struct pwm_chip		*pwm;
+> >  };
+> > -#define pwm_chip_to_gb_pwm_chip(chip) \
+> > -	container_of(chip, struct gb_pwm_chip, chip)
+> >  
+> > +static inline struct gb_pwm_chip *pwm_chip_to_gb_pwm_chip(struct pwm_chip *chip)
+> > +{
+> > +	return container_of(chip, struct gb_pwm_chip, chip);
+> > +}
+> >  
+> >  static int gb_pwm_count_operation(struct gb_pwm_chip *pwmc)
+> >  {
+> > -- 
+> > 2.25.1
+> > 
+> > 
 > 
-> Properly report the IO_MC device cap and extend the enum_fmt
-> implementation to support enumeration with an explicit mbus_code.
-> 
-> Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-> ---
->  .../staging/media/sunxi/sun6i-isp/sun6i_isp_capture.c    | 9 ++++++++-
->  1 file changed, 8 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_capture.c b/drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_capture.c
-> index 1595a9607775..5160b93b69ff 100644
-> --- a/drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_capture.c
-> +++ b/drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_capture.c
-> @@ -439,6 +439,12 @@ static int sun6i_isp_capture_enum_fmt(struct file *file, void *private,
->  				      struct v4l2_fmtdesc *fmtdesc)
->  {
->  	u32 index = fmtdesc->index;
-> +	u32 mbus_code = fmtdesc->mbus_code;
-> +
-> +	if (mbus_code && !sun6i_isp_proc_format_find(mbus_code))
-> +		return -EINVAL;
-> +
+> This patch didn't apply due to changes made in my tree by a patch from
+> someone else before yours.  Can you rebase it and resend?
+>
 
-This doesn't look right. As far as I understand,
-sun6i_isp_proc_format_find() looks up media bus codes for the ISP sink
-pad. Here you enuemrate pixel formats of the ISP output, so the media
-bus code given by userspace corresponds to the ISP source pad.
+Hi greg,
 
-I've had a look at sun6i_isp_proc_set_fmt() to see what media bus codes
-are used on the ISP output, and couldn't figure it out as it seems
-incorrectly implemented :-) The function doesn't check format->pad.
+I am confused, will that be a totally new patch or a new version(v4 in
+this case)?
 
-> +	/* Capture format is independent from proc format. */
->  
->  	if (index >= ARRAY_SIZE(sun6i_isp_capture_formats))
->  		return -EINVAL;
-> @@ -685,7 +691,8 @@ int sun6i_isp_capture_setup(struct sun6i_isp_device *isp_dev)
->  
->  	strscpy(video_dev->name, SUN6I_ISP_CAPTURE_NAME,
->  		sizeof(video_dev->name));
-> -	video_dev->device_caps = V4L2_CAP_VIDEO_CAPTURE | V4L2_CAP_STREAMING;
-> +	video_dev->device_caps = V4L2_CAP_VIDEO_CAPTURE | V4L2_CAP_STREAMING |
-> +				 V4L2_CAP_IO_MC;
->  	video_dev->vfl_dir = VFL_DIR_RX;
->  	video_dev->release = video_device_release_empty;
->  	video_dev->fops = &sun6i_isp_capture_fops;
-
--- 
 Regards,
 
-Laurent Pinchart
+Sumitra
+
+> thanks,
+> 
+> greg k-h
