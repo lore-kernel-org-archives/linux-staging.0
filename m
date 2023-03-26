@@ -1,171 +1,100 @@
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 957E520E4;
-	Sun, 26 Mar 2023 12:18:38 +0000 (UTC)
-Received: by mail-wr1-f45.google.com with SMTP id q19so2868638wrc.5;
-        Sun, 26 Mar 2023 05:18:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1679833116;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=lSLEXHRsEJps7ELpV4Jn/+ui6caTrq4Ep39Ig5tNybM=;
-        b=kfhTWTquCifZnXz3iJ/NzrWHfXblvsyycFdUGhAxm+ufn4tk6Rmt4GePje+f9cG/H1
-         9lccw77w0yFqYlURaTgGHfIY1pWb69XopfkMXi9Tvocb+PLaKxRUcBNv8P0diPYb+0/b
-         DSvKqVZU7g+YWcnIz5VPshyrHE7m8EIOvXh8pQSwFoMTMqDTLdiqmZ/MviW2qXBw8yPf
-         ZQEWxyb9DEMar7OjBEEGcx2kzgGgquK/B2nfwI44MqqPvhiyw8ze7Zv2xFeOR1OrUpK1
-         gamN7UVehTR+9Np4KX3FoiWc5slCLY0wFHIkJN1ADCT+XnwWKSVu95ub7PsBPSrHD/We
-         DgiA==
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83EC820EA
+	for <linux-staging@lists.linux.dev>; Sun, 26 Mar 2023 12:23:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1679833408;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=Yc3tSWFy8F/Ma/k22PF1PgCvVFqwDef49qSBC1AuUS8=;
+	b=Z9laSQKJBGJ1ugJ/nc2mP8mZMegS/3MWGFd+NdduDE49QfpXQmrS8E/WYwFshFVd2MhojG
+	LaXHSDCHxLWFTbn1PASMBoHddsnVZMV8P/GT2nScdOcyEhd4xJhvGnXp1fChaE0iGvUzjI
+	KplOuXYjbdoXOs9XAwBbUK3S087k0Ts=
+Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com
+ [209.85.160.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-643-x5NIlBQTOmSo1kQsO4D3Cg-1; Sun, 26 Mar 2023 08:23:27 -0400
+X-MC-Unique: x5NIlBQTOmSo1kQsO4D3Cg-1
+Received: by mail-qt1-f197.google.com with SMTP id u22-20020a05622a011600b003dfd61e8594so4157662qtw.15
+        for <linux-staging@lists.linux.dev>; Sun, 26 Mar 2023 05:23:27 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679833116;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=lSLEXHRsEJps7ELpV4Jn/+ui6caTrq4Ep39Ig5tNybM=;
-        b=FTQ9k728z64HuIX8Ssb0hBUuSN38cW9YDoym4/9ccbgc2JMkVscRL8XcqEhWRO9Njo
-         Ac7HgBKDSLmgOl6OAxDlUA6egCfNUPiH4n4USppXlSodhjiBZ33xe/zsZcIjgd3C/niA
-         wEMYnB+s9nrbwE+t/HWKoo5bHjeABXIhKLJ5ThBauZ2GPwAdTrm2pLWh4lNStBw+sKOf
-         xDMjWyWvVbpb09a8Nnk1q0BsScWL+IrA7xqE08s4Xq4xa2wYrDC/5jjI03rOLHbv7ixH
-         P7ePWUGBzwYzof+kWH9AtJImv5A/ZZz+OnHVIyW0XoWL8lGozHoQ+NsjIvKsK2dixI5D
-         Gq5A==
-X-Gm-Message-State: AAQBX9c8/GMU1VsQSLf+Qgc/t3waRSU7xVJR2WzGP1j0HGTJRssA9il+
-	m8E/mCPufDvjYnhH74lk98VcExuq6zyz3w==
-X-Google-Smtp-Source: AKy350aMzS04QInZCbc9pY2PgmiJwpj0rj0B90FuRZhiUX8X70KNZB8tRT9j47TU3fM7Zj6adtpuUA==
-X-Received: by 2002:adf:e382:0:b0:2ce:a46f:bbc5 with SMTP id e2-20020adfe382000000b002cea46fbbc5mr6852010wrm.34.1679833116595;
-        Sun, 26 Mar 2023 05:18:36 -0700 (PDT)
-Received: from khadija-virtual-machine.localdomain ([39.41.14.14])
-        by smtp.gmail.com with ESMTPSA id d10-20020adfe88a000000b002c70e60abd4sm22740265wrm.2.2023.03.26.05.18.35
+        d=1e100.net; s=20210112; t=1679833406;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Yc3tSWFy8F/Ma/k22PF1PgCvVFqwDef49qSBC1AuUS8=;
+        b=5PAFMKTYtdv52Bc5orOtr9cpIFjzztSbbfU56hv2jAAunQktxMASGEkajmU1yx+BUQ
+         HLnSp1aFmdvOTxgASkwflbvHsag3PVx5K5J6aPNHP5qIOStoEcwLi3WbwdmybwvCAepI
+         oU+RHLfj5wOXUAwc8j/9Tr20dN1dGGKMaNtcRRS2Q1vARGTeRNqkadLbR9udyLmM0XMc
+         /snBYan2oe4zudZ3oOijUsk+DvVgjlGCaDkgbG6Y2HsQQHMHIwI5twCqU+/17T4vp1JX
+         VuWcPswrlzkrLrhkoxL1TAc43rjnLxaTgy/uSHyA0SAm09ZBVqDowMT8I8y75uyM/wn5
+         Z7ww==
+X-Gm-Message-State: AO0yUKVzh75x7zn8JBaKAuZuEPOwJDgIo0NTxE6T5TGu1x6RvXusnp3F
+	SM70E5GqIoV2SwTpyhklf2EO5Cc31sR3bXxx0QBU/YG4QQVuAt77+0FU8svPVwxX9tDZoy3UXZE
+	3/6GQbBxscql8G3vruVVABq5J4w==
+X-Received: by 2002:a05:622a:1d5:b0:3d5:cf4e:bd0 with SMTP id t21-20020a05622a01d500b003d5cf4e0bd0mr13788988qtw.63.1679833406664;
+        Sun, 26 Mar 2023 05:23:26 -0700 (PDT)
+X-Google-Smtp-Source: AK7set/SjWVqj/O4lGKRqnZTZTusLMliKY76/cDdrQiWz7osrH7ryyoxsJgBtD86j4cTIA4gTy+woQ==
+X-Received: by 2002:a05:622a:1d5:b0:3d5:cf4e:bd0 with SMTP id t21-20020a05622a01d500b003d5cf4e0bd0mr13788968qtw.63.1679833406450;
+        Sun, 26 Mar 2023 05:23:26 -0700 (PDT)
+Received: from dell-per740-01.7a2m.lab.eng.bos.redhat.com (nat-pool-bos-t.redhat.com. [66.187.233.206])
+        by smtp.gmail.com with ESMTPSA id w9-20020ac843c9000000b003d8f78b82besm6518765qtn.70.2023.03.26.05.23.25
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 26 Mar 2023 05:18:36 -0700 (PDT)
-From: Khadija Kamran <kamrankhadijadj@gmail.com>
-To: outreachy@lists.linux.dev
-Cc: gregkh@linuxfoundation.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v2 3/3] staging: rtl8192u: reformat block comments
-Date: Sun, 26 Mar 2023 17:18:27 +0500
-Message-Id: <d49d15e620aa9239f3d68df1a5f8b600de77b536.1679831899.git.kamrankhadijadj@gmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <cover.1679831899.git.kamrankhadijadj@gmail.com>
-References: <cover.1679831899.git.kamrankhadijadj@gmail.com>
+        Sun, 26 Mar 2023 05:23:26 -0700 (PDT)
+From: Tom Rix <trix@redhat.com>
+To: gregkh@linuxfoundation.org,
+	nathan@kernel.org,
+	ndesaulniers@google.com,
+	artur.bujdoso@gmail.com,
+	namcaov@gmail.com
+Cc: linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	llvm@lists.linux.dev,
+	Tom Rix <trix@redhat.com>
+Subject: [PATCH] staging: rtl8723bs: remove unused pHalData variable
+Date: Sun, 26 Mar 2023 08:23:21 -0400
+Message-Id: <20230326122321.1352337-1-trix@redhat.com>
+X-Mailer: git-send-email 2.27.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"; x-default=true
 
-Linux kernel coding style for block comments uses a column of '*' on the
-left side and  uses '*/' on a separate line.
+clang with W=1 reports
+drivers/staging/rtl8723bs/hal/hal_btcoex.c:1182:23: error: variable
+  'pHalData' set but not used [-Werror,-Wunused-but-set-variable]
+        struct hal_com_data *pHalData;
+                             ^
+This variable is not used so remove it.
 
-Fix block comments by adding '*' on subsequent lines and moving '*/' at
-the end of block comments on a separate line. These issues in block
-comments are reported by checkpatch.pl script.
-
-Signed-off-by: Khadija Kamran <kamrankhadijadj@gmail.com>
+Signed-off-by: Tom Rix <trix@redhat.com>
 ---
- drivers/staging/rtl8192u/r8192U_dm.c | 38 +++++++++++++++++-----------
- 1 file changed, 23 insertions(+), 15 deletions(-)
+ drivers/staging/rtl8723bs/hal/hal_btcoex.c | 4 ----
+ 1 file changed, 4 deletions(-)
 
-diff --git a/drivers/staging/rtl8192u/r8192U_dm.c b/drivers/staging/rtl8192u/r8192U_dm.c
-index e5c0bece4bb4..99c38a4cf54c 100644
---- a/drivers/staging/rtl8192u/r8192U_dm.c
-+++ b/drivers/staging/rtl8192u/r8192U_dm.c
-@@ -1,13 +1,14 @@
- // SPDX-License-Identifier: GPL-2.0
- /*++
--Copyright-c Realtek Semiconductor Corp. All rights reserved.
+diff --git a/drivers/staging/rtl8723bs/hal/hal_btcoex.c b/drivers/staging/rtl8723bs/hal/hal_btcoex.c
+index e36f8c369a04..0cb2adcc1f78 100644
+--- a/drivers/staging/rtl8723bs/hal/hal_btcoex.c
++++ b/drivers/staging/rtl8723bs/hal/hal_btcoex.c
+@@ -1179,10 +1179,6 @@ bool hal_btcoex_IsBtDisabled(struct adapter *padapter)
+ 
+ void hal_btcoex_SetChipType(struct adapter *padapter, u8 chipType)
+ {
+-	struct hal_com_data *pHalData;
 -
--Module Name:
--	r8192U_dm.c
 -
--Abstract:
--	HW dynamic mechanism.
----*/
-+ *Copyright-c Realtek Semiconductor Corp. All rights reserved.
-+ *
-+ *Module Name:
-+ *	r8192U_dm.c
-+ *
-+ *Abstract:
-+ *	HW dynamic mechanism.
-+ *--
-+ */
- #include "r8192U.h"
- #include "r8192U_dm.h"
- #include "r8192U_hw.h"
-@@ -243,7 +244,8 @@ void init_rate_adaptive(struct net_device *dev)
-  * Output:		NONE
-  *
-  * Return:		NONE
-- *---------------------------------------------------------------------------*/
-+ *---------------------------------------------------------------------------
-+ */
- static void dm_check_rate_adaptive(struct net_device *dev)
- {
- 	struct r8192_priv *priv = ieee80211_priv(dev);
-@@ -1524,7 +1526,8 @@ static void dm_bb_initialgain_backup(struct net_device *dev)
-  * Output:		NONE
-  *
-  * Return:		NONE
-- *---------------------------------------------------------------------------*/
-+ *---------------------------------------------------------------------------
-+ */
- static void dm_dig_init(struct net_device *dev)
- {
- 	struct r8192_priv *priv = ieee80211_priv(dev);
-@@ -1564,7 +1567,8 @@ static void dm_dig_init(struct net_device *dev)
-  * Output:		NONE
-  *
-  * Return:		NONE
-- *---------------------------------------------------------------------------*/
-+ *---------------------------------------------------------------------------
-+ */
- static void dm_ctrl_initgain_byrssi(struct net_device *dev)
- {
- 	if (!dm_digtable.dig_enable_flag)
-@@ -1750,7 +1754,8 @@ static void dm_ctrl_initgain_byrssi_by_fwfalse_alarm(
-  * Output:		NONE
-  *
-  * Return:		NONE
-- *---------------------------------------------------------------------------*/
-+ *---------------------------------------------------------------------------
-+ */
- static void dm_ctrl_initgain_byrssi_highpwr(
- 	struct net_device *dev)
- {
-@@ -2136,7 +2141,8 @@ static void dm_ctstoself(struct net_device *dev)
-  * Output:		NONE
-  *
-  * Return:		NONE
-- *---------------------------------------------------------------------------*/
-+ *---------------------------------------------------------------------------
-+ */
- static	void	dm_check_pbc_gpio(struct net_device *dev)
- {
- 	struct r8192_priv *priv = ieee80211_priv(dev);
-@@ -2165,7 +2171,8 @@ static	void	dm_check_pbc_gpio(struct net_device *dev)
-  * Output:		NONE
-  *
-  * Return:		NONE
-- *---------------------------------------------------------------------------*/
-+ *---------------------------------------------------------------------------
-+ */
- void dm_rf_pathcheck_workitemcallback(struct work_struct *work)
- {
- 	struct delayed_work *dwork = to_delayed_work(work);
-@@ -2406,7 +2413,8 @@ static void dm_rxpath_sel_byrssi(struct net_device *dev)
-  * Output:		NONE
-  *
-  * Return:		NONE
-- *---------------------------------------------------------------------------*/
-+ *---------------------------------------------------------------------------
-+ */
- static void dm_check_rx_path_selection(struct net_device *dev)
- {
- 	struct r8192_priv *priv = ieee80211_priv(dev);
+-	pHalData = GET_HAL_DATA(padapter);
+ }
+ 
+ void hal_btcoex_SetPgAntNum(struct adapter *padapter, u8 antNum)
 -- 
-2.34.1
+2.27.0
 
