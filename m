@@ -1,97 +1,82 @@
-Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F61E7F7;
-	Sun, 26 Mar 2023 06:45:26 +0000 (UTC)
-Received: by mail-pj1-f47.google.com with SMTP id fy10-20020a17090b020a00b0023b4bcf0727so5680851pjb.0;
-        Sat, 25 Mar 2023 23:45:26 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB38020E4;
+	Sun, 26 Mar 2023 12:18:33 +0000 (UTC)
+Received: by mail-wr1-f53.google.com with SMTP id i9so5944585wrp.3;
+        Sun, 26 Mar 2023 05:18:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1679813125;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=6Xa4yXSffm+6bXnmSFV6WRoBiZ42z2spUWYAuMy1+fI=;
-        b=l18eSA0MKvgRUHyKdbqLoX1r7mFagcwI9bQBDON0MhvXn5UXSm+uOa8gAXeaLX3d3p
-         lSse5Cod8gSnz2u3odGoITwc7z/kWkDkcwGUGduFEvEUp9X4mUZVn5t9S+CU1ZNWy2v6
-         0yenqLW/f4HpEeghPCnambVaI40sF0YQMwWSp6WQgT6/UDQF5quH64H4x406vR8awMQU
-         naBC+y8R4DPEC4CTSnc9RLfaj+EjOoYamtZ5a4ZbLBW0FIClhpLl3u7sD5kxZXmBWgQZ
-         rYZhL7DIa4IAzg6RJACF5ObaT6z9/2154AgvYsiD4V0qhMcoNLeX5mINTRp2aPe/KQsv
-         NIrA==
+        d=gmail.com; s=20210112; t=1679833112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Pd4rewnz5GlJ06k4IoKBrqc8s7fRp6iu2hXRsnNCoq0=;
+        b=WZBNlXxuFMOGJNSUl8DwXisSvTn4wUNCZ1YKpnx0fzFfIe1pxgFHbTVZ2VBjY3inMw
+         dlPpqiHSbpxpUyYgx9lBYIMHUZiI7ipOLdv/KwMdtiNkV6DXkxKUd8tGeymCRslwmglh
+         JIc/qxHPQt5hJlqrQhosEylU+vHRlNQROg4Od1e5T9gW3dGpelrMAnZO7KFezxLqxIna
+         qsHFgLc91K0fGNVbCculs17si9t0XoSFcljMlJQs+T4zvPod/DFXK0MRCOQ4AIioFv7q
+         D6s4ax287nW6My/oxOMKlSyzwVjEE7GE8dqyvJH33JVQMzpOcBKzD5uFYkZvg2ATo8zC
+         MUvg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679813125;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=6Xa4yXSffm+6bXnmSFV6WRoBiZ42z2spUWYAuMy1+fI=;
-        b=HCFJKkD3QQVE4X4Om4UMBGVEaGWvKeEyPIgaGFANZ+saWeSDqAVJLS3t1YlutDltK2
-         ZdZ7YrY2xUgv3if326vTFctVTBYiKh2aF3IWHsRViyWFjOTTWi0OCydXIzOF1ScRKY4E
-         8A12rsDV/R//+BqXqnHlhHBu+P4ReGnorVRLAefjo92ScAYCukgsBkm+32za+x0sgS8F
-         0Ei4PX8Ncpo5K2LzrLVnnV86mQ2Fiyuylu3/pUfpg1up+DnAmw7eCtn6q7ENwT1xQF9t
-         6DDKf/x4ydrBKzyKAm1SGFba69Nd5iH7pGU96vcRH38t99zSoQefzseuMqKC3WNN2FeU
-         Nldw==
-X-Gm-Message-State: AAQBX9ewhhPXL/VSkrCl0xweZZDMOMwAANBPkpl8Nar5vKgEfj4Z3oVz
-	sBBeTjbppN5J56QT5L8ICIDR7D/94Pq2OLWF
-X-Google-Smtp-Source: AKy350a3ZE7Sc6hR5WDQRxmgubD2rBLmS7hJtJE8YtRyOhZSlxf1M6vcSYgv9JyVenXiaj64sWXWcA==
-X-Received: by 2002:a17:902:d4c7:b0:19e:6760:305b with SMTP id o7-20020a170902d4c700b0019e6760305bmr8716559plg.47.1679813125445;
-        Sat, 25 Mar 2023 23:45:25 -0700 (PDT)
-Received: from sumitra.com ([117.212.89.150])
-        by smtp.gmail.com with ESMTPSA id bf11-20020a170902b90b00b00194caf3e975sm4068165plb.208.2023.03.25.23.45.22
+        d=1e100.net; s=20210112; t=1679833112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Pd4rewnz5GlJ06k4IoKBrqc8s7fRp6iu2hXRsnNCoq0=;
+        b=J2vtMGUJkh/7ixCOtHE3hTUXitFNXLAhfg2vvyAgrKm/KYVAwbvNlxa+5GTv/8Zmtv
+         uqnO9HHdTFOGm55nTvlq+piINNeHzU7B8ComA+Eo97Sp+PCU8+Bj1o836V5xS4dquoy2
+         FXnt//pbx239l83h1aVkUZp1MB+fTFU2Vrp7RCTbciI6sikZp+4/GpfbDyNQmWYAPdZ/
+         +sNdjZTO/zUgV3/HMPVy+ZDyIqctK5k/wmdG0Isx2gaI1YfWAr1pgZdY3b6Yhltw2yZh
+         Wj8crtdZMf7jHPcopmrAmjLFSIcGkI1e3uQVtOZY7xDf0h284QJQf1J6gnkLsdcjxaw+
+         e7XQ==
+X-Gm-Message-State: AAQBX9dMhXduXvV+FJ9nOOYChRAqy9qxfKCAYjisIJdydw1zZnuwyasK
+	hmwi3HaD6wleAFyyFfUDotYR/44xc8YF2w==
+X-Google-Smtp-Source: AKy350ZQIrHSK/MQ9ecxe125E2gx6RDqu8jh6q7NAvJnvvLW/AkMqjHr/9zTp8or4nBMx75AOicjCw==
+X-Received: by 2002:a05:6000:1b01:b0:2d4:496a:5eec with SMTP id f1-20020a0560001b0100b002d4496a5eecmr6740111wrz.34.1679833111563;
+        Sun, 26 Mar 2023 05:18:31 -0700 (PDT)
+Received: from khadija-virtual-machine.localdomain ([39.41.14.14])
+        by smtp.gmail.com with ESMTPSA id d10-20020adfe88a000000b002c70e60abd4sm22740265wrm.2.2023.03.26.05.18.29
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 25 Mar 2023 23:45:25 -0700 (PDT)
-Date: Sat, 25 Mar 2023 23:45:19 -0700
-From: Sumitra Sharma <sumitraartsy@gmail.com>
-To: Johan Hovold <johan@kernel.org>, Alex Elder <elder@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev,
+        Sun, 26 Mar 2023 05:18:31 -0700 (PDT)
+From: Khadija Kamran <kamrankhadijadj@gmail.com>
+To: outreachy@lists.linux.dev
+Cc: gregkh@linuxfoundation.org,
+	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Cc: outreachy@lists.linux.dev
-Subject: [PATCH v4] staging: greybus: Inline pwm_chip_to_gb_pwm_chip()
-Message-ID: <20230326064519.GA179449@sumitra.com>
+Subject: [PATCH v2 0/3] staging: rtl8192u: clean up comments in r8192U_dm.c
+Date: Sun, 26 Mar 2023 17:18:24 +0500
+Message-Id: <cover.1679831899.git.kamrankhadijadj@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-Convert 'pwm_chip_to_gb_pwm_chip' from a macro to a static
-inline function, to make the relevant types apparent in the
-definition and to benefit from the type checking performed by
-the compiler at call sites.
+Clean up several comments in file r8192U_dm.c
 
-Signed-off-by: Sumitra Sharma <sumitraartsy@gmail.com>
----
+Changes in v2:
+ - Remove the 'commented code' and 'revision history' before
+   reformatting the block comments, as suggested by Greg. There is no use
+   in fixing comments, only to remove them in the next commits 
+ - Patch 1: Changed the description and removed extra blank lines under
+   the change history
+ - Patch 2: Changed the subject and description 
 
-Changes in v2: Change patch subjects, noted by Alison Schofield
-<alison.schofield@intel.com>
+Reviewer feedback on an initial patch suggested additional cleanup
+comments. Link to the first patch:
+https://lore.kernel.org/outreachy/ZB2a5zwYpBZ%2F6qwU@khadija-virtual-machine/
 
-Changes in v3: Change patch subjects to length 80 chars,      
-noted by Alison Schofield <alison.schofield@intel.com>
 
-Changes in v4: Apply change to fresh git tree, noted by 
-Greg KH <gregkh@linuxfoundation.org>
+Khadija Kamran (3):
+  staging: rtl8192u: remove change history from comments
+  staging: rtl8192u: remove commented out code
+  staging: rtl8192u: reformat block comments
 
- drivers/staging/greybus/pwm.c | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
+ drivers/staging/rtl8192u/r8192U_dm.c | 206 +++------------------------
+ 1 file changed, 23 insertions(+), 183 deletions(-)
 
-diff --git a/drivers/staging/greybus/pwm.c b/drivers/staging/greybus/pwm.c
-index 26d39e08c3b6..88da1d796f13 100644
---- a/drivers/staging/greybus/pwm.c
-+++ b/drivers/staging/greybus/pwm.c
-@@ -21,8 +21,11 @@ struct gb_pwm_chip {
- 	struct pwm_chip		chip;
- 	struct pwm_chip		*pwm;
- };
--#define pwm_chip_to_gb_pwm_chip(chip) \
--	container_of(chip, struct gb_pwm_chip, chip)
-+
-+static inline struct gb_pwm_chip *pwm_chip_to_gb_pwm_chip(struct pwm_chip *chip)
-+{
-+	return container_of(chip, struct gb_pwm_chip, chip);
-+}
- 
- static int gb_pwm_count_operation(struct gb_pwm_chip *pwmc)
- {
 -- 
-2.25.1
+2.34.1
 
