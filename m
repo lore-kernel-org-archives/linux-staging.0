@@ -1,55 +1,50 @@
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B2B5EA3;
-	Mon, 27 Mar 2023 10:26:27 +0000 (UTC)
-Received: by mail-wr1-f52.google.com with SMTP id e18so8167164wra.9;
-        Mon, 27 Mar 2023 03:26:26 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45A1BEA3;
+	Mon, 27 Mar 2023 12:24:08 +0000 (UTC)
+Received: by mail-wr1-f49.google.com with SMTP id t4so3357845wra.7;
+        Mon, 27 Mar 2023 05:24:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1679912785;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=VqQ8VSOs059u+930ZGWsVqFbCaxhg+pQW8jwX08LpsM=;
-        b=S8WB0pxBxVtKoOvG7yA//KBUCV3K15P8YcaHzE/nENaLtnYQBWHa+1DWNdEcKrcFDY
-         10CbT3XJb5haW6E0XD1dE1+CV2qjYEJA+YwvtP5IW7V6F/YpA7IfxOcrLbCmeoD85EEN
-         DM8EmbaCo1wu6MVRs5xqmrABoSOC0khpXfaMa12kPiJLeExc4dDBRs2B2t6hwnk398k2
-         KVRJBVnITd3Tn/VJG6CvZtbAwAWvu7OXsQXCuSLbin9gwjmHBGYJgVD/x1ED0G8SE18H
-         obgbK5CzG9rXVHeAEm9+lbuxCZDhUl/7Jl2BN/5NlLJ1BSTrpV1EP3ShPn/J8haAW/cM
-         vyOA==
+        d=gmail.com; s=20210112; t=1679919846;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=bSN9Ecs9VgPdHBd5DnU/Mgt1P34wB8c/uf3669zchqk=;
+        b=UsozCZrqIdoaol4lsXeG6Jm+fEgT2eIoHwmPfbkhHu60pYddYnrGELrNj1HM16VO+g
+         0VN25oOSeZkqv+Hu3w+i2vQLWz2f3sg0+zUfS7wRrFIA8riP8pcogE6cJkmeQXdKvZaq
+         lshsdJbAYQWg9U4GfIh7vlX1Ns9/q30KoaujAEnVjQz2l6EcV21uCqoLbxfkDapZ3v21
+         6dZh9/nq2oLXkDjurwy0B06V1qGbqMp73x3uKoedFJ6b70VBP15kVuNSNa6hN41rTjO8
+         shSZupws5iDXSHKpEdTl+LpxUyyTrFmh01bL3urp/TTUdRq0xesowqqTlw28UrJv2dj3
+         aJmA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679912785;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=VqQ8VSOs059u+930ZGWsVqFbCaxhg+pQW8jwX08LpsM=;
-        b=eqwNNGxbj1swiF5tQyIVWYxnsgb/a5Vfk5SiADc5PHatcuftIvXOuuwRWtDnoUj1Yw
-         DL+YHtx1Fvp1h2cukPgvbxfNpTh0/7G2ND519M4G8v5iopwMeXwnKkfPQNo/J1cAMkGX
-         uMJgUsUZyrFsRePhUZDyMRmWaZ7nWvKGRt0PB2ZjKv4RMKDFdrJ4EqxgMARSC3MlQPHG
-         84HtBR19VhVKl071jIVD1Afr4R7VaoVAdmDJMVy846bhUKNkSGOXEX6G1ZL1TNdItbi8
-         yrw6FoTRQb2RvyFCQGtqLqvNTWg0zS9lQc1BHoS++Mv6gYFosuKBUKED/x3uYyBXmNnt
-         qTRA==
-X-Gm-Message-State: AAQBX9cY2af7VKHpZFOQFIjg8p/4UunadBLyCVbb83Wzh4czRi6aVSH3
-	4lkwiGmpzEcNahVlvkfSKk3ONQlrm9TaUC09vVg=
-X-Google-Smtp-Source: AKy350agmst9PQwKSSj2jTRGjh3L7qPTS+8HAKN36g2fy/qR5PY3rI0dQZlHFRZfiEEgpuQ+1vlKxA==
-X-Received: by 2002:adf:db0a:0:b0:2df:7c0a:df33 with SMTP id s10-20020adfdb0a000000b002df7c0adf33mr3605545wri.30.1679912785146;
-        Mon, 27 Mar 2023 03:26:25 -0700 (PDT)
+        d=1e100.net; s=20210112; t=1679919846;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=bSN9Ecs9VgPdHBd5DnU/Mgt1P34wB8c/uf3669zchqk=;
+        b=6ZHLw88ZSL+Uyx51p0Q3B4EKzvSE5+sJVDhioOz2QQm9+O1vVJWZD41CBxH1ztZl+o
+         s/GVwPn1qiki7d4wxqHWJRF8bUDcOE2OT5wg7+QGo7ryTDKDtYWhnPKHSB3zoBJY4Y7q
+         pv9T10gIeMoye93CS+aNjGJjygAJTXlbXgWmHGV9k63lti4jg2y1miD5QNmd4oPbNITW
+         BOIBzZAaPHQ29e7UplUur2SJGK9coTmgGrFT/d+ZiysiI9sTUuNhJT2naxWGDdzeVr7R
+         Ns/2wQJ0JgZls6lZ1nK01dh45L0Y7tksPlWcJs3IUWCCx3cLeCI2KX85EKUf96AC3dBf
+         Hnww==
+X-Gm-Message-State: AAQBX9f9iMY33oIUegF66/QYtqiW/SFkdEXKW2LffTEWdk5ypV6pn9la
+	LGHulY/MHrPzw/3K3PxxOx8=
+X-Google-Smtp-Source: AKy350Y4+SmDaAw0i4BZZuuGJw+65kINTLrCwALVgm/y45Sj0LIANiuD5QhZrxawSRu+H/4ReKGB9w==
+X-Received: by 2002:adf:d849:0:b0:2ce:aa2f:55ff with SMTP id k9-20020adfd849000000b002ceaa2f55ffmr10455838wrl.1.1679919846201;
+        Mon, 27 Mar 2023 05:24:06 -0700 (PDT)
 Received: from khadija-virtual-machine ([39.41.14.14])
-        by smtp.gmail.com with ESMTPSA id n6-20020a5d4c46000000b002c55ec7f661sm24764603wrt.5.2023.03.27.03.26.24
+        by smtp.gmail.com with ESMTPSA id n16-20020adffe10000000b002cfe63ded49sm25001223wrr.26.2023.03.27.05.24.05
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 27 Mar 2023 03:26:24 -0700 (PDT)
-Date: Mon, 27 Mar 2023 15:26:22 +0500
+        Mon, 27 Mar 2023 05:24:05 -0700 (PDT)
+Date: Mon, 27 Mar 2023 17:24:03 +0500
 From: Khadija Kamran <kamrankhadijadj@gmail.com>
-To: Alison Schofield <alison.schofield@intel.com>
-Cc: outreachy@lists.linux.dev, Vaibhav Hiremath <hvaibhav.linux@gmail.com>,
-	Johan Hovold <johan@kernel.org>, Alex Elder <elder@kernel.org>,
+To: outreachy@lists.linux.dev
+Cc: Marc Dietrich <marvin24@gmx.de>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3] staging: greybus: merge split lines
-Message-ID: <ZCFvTndYXmPvQunt@khadija-virtual-machine>
-References: <ZBgYsqkpdYpGQniB@khadija-virtual-machine>
- <ZBnZj3JbTOsplHvw@khadija-virtual-machine>
- <ZBnc3qWTSeWw0Ulo@aschofie-mobl2>
+	ac100@lists.launchpad.net, linux-tegra@vger.kernel.org,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: [PATCH] staging: nvec: replace udelay() with usleep_range()
+Message-ID: <ZCGK4+zUDT1lLz6s@khadija-virtual-machine>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -58,97 +53,40 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ZBnc3qWTSeWw0Ulo@aschofie-mobl2>
 
-On Tue, Mar 21, 2023 at 09:35:42AM -0700, Alison Schofield wrote:
-> On Tue, Mar 21, 2023 at 09:21:35PM +0500, Khadija Kamran wrote:
-> > On Mon, Mar 20, 2023 at 01:26:33PM +0500, Khadija Kamran wrote:
-> > > If condition and spin_unlock_...() call is split into two lines, merge
-> > > them to form a single line.
-> > > 
-> > > Suggested-by: Deepak R Varma drv@mailo.com
-> > > Signed-off-by: Khadija Kamran <kamrankhadijadj@gmail.com>
-> > > ---
-> > > 
-> > > Changes in v3:
-> > >  - Removing tab to fix line length results in a new checkpatch warning,
-> > >    so let the fix length be as it is.
-> > > Changes in v2:
-> > >  - Rephrased he subject and description
-> > >  - Merged if_condition() and spin_unlock...() into one line
-> > >  - Link to patch:
-> > >  https://lore.kernel.org/outreachy/ZAusnKYVTGvO5zoi@khadija-virtual-machine/
-> > > 
-> > > Link to first patch:
-> > > https://lore.kernel.org/outreachy/ZAtkW6g6DwPg%2FpDp@khadija-virtual-machine/
-> > > 
-> > >  drivers/staging/greybus/arche-platform.c | 6 ++----
-> > >  1 file changed, 2 insertions(+), 4 deletions(-)
-> > > 
-> > > diff --git a/drivers/staging/greybus/arche-platform.c b/drivers/staging/greybus/arche-platform.c
-> > > index fcbd5f71eff2..6890710afdfc 100644
-> > > --- a/drivers/staging/greybus/arche-platform.c
-> > > +++ b/drivers/staging/greybus/arche-platform.c
-> > > @@ -176,12 +176,10 @@ static irqreturn_t arche_platform_wd_irq(int irq, void *devid)
-> > >  				 * Check we are not in middle of irq thread
-> > >  				 * already
-> > >  				 */
-> > > -				if (arche_pdata->wake_detect_state !=
-> > > -						WD_STATE_COLDBOOT_START) {
-> > > +				if (arche_pdata->wake_detect_state != WD_STATE_COLDBOOT_START) {
-> > >  					arche_platform_set_wake_detect_state(arche_pdata,
-> > >  									     WD_STATE_COLDBOOT_TRIG);
-> > > -					spin_unlock_irqrestore(&arche_pdata->wake_lock,
-> > > -							       flags);
-> > > +					spin_unlock_irqrestore(&arche_pdata->wake_lock, flags);
-> > >  					return IRQ_WAKE_THREAD;
-> > >  				}
-> > >  			}
-> > > --
-> > > 2.34.1
-> > >
-> > 
-> > Hey Outreachy Mentors,
-> > 
-> > Kindly take a look at this patch and let me know if it is okay to work
-> > on this file or should I look for other cleanup patches.
-> 
-> Hi Khadija,
-> 
-> I thought you were abandoning *this* patch, and doing a refactor on
-> the function.  I'd expect that would be a new patch, probably a
-> patchset. One where you align the work based on the 'rising' and
-> 'falling' detection, 
+Replace 'udelay()' with 'usleep_range()' with 1000us as upper limit.
+This issue is reported by checkpatch.pl script.
 
-Hey Alison,
+CHECK: usleep_range is preferred over udelay; see
+Documentation/timers/timers-howto.rst
 
-Can you please elaborate that what do you mean by aligning on the basis
-of rising and falling detection. Are you perhaps saying that I should
-group the rising detection and group the falling detection separately?
+Signed-off-by: Khadija Kamran <kamrankhadijadj@gmail.com>
+---
+ drivers/staging/nvec/nvec.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-> and perhaps a second patch that centralizes
-> the unlock and return.
+diff --git a/drivers/staging/nvec/nvec.c b/drivers/staging/nvec/nvec.c
+index b3f114cb00dc..1b51935dba4f 100644
+--- a/drivers/staging/nvec/nvec.c
++++ b/drivers/staging/nvec/nvec.c
+@@ -627,7 +627,7 @@ static irqreturn_t nvec_interrupt(int irq, void *dev)
+ 		break;
+ 	case 2:		/* first byte after command */
+ 		if (status == (I2C_SL_IRQ | RNW | RCVD)) {
+-			udelay(33);
++			usleep_range(33, 1000);
+ 			if (nvec->rx->data[0] != 0x01) {
+ 				dev_err(nvec->dev,
+ 					"Read without prior read command\n");
+@@ -714,7 +714,7 @@ static irqreturn_t nvec_interrupt(int irq, void *dev)
+ 	 * We experience less incomplete messages with this delay than without
+ 	 * it, but we don't know why. Help is appreciated.
+ 	 */
+-	udelay(100);
++	usleep_range(100, 1000);
+ 
+ 	return IRQ_HANDLED;
+ }
+-- 
+2.34.1
 
-To do this I should make the use of goto statement, right?
-
-So the next patchset should be:
-Patch 1: merge split lines
-Patch 2: align on the basis of rising and falling detection
-Patch 3: use goto statement to centralize unlock and return
-
-Kindly guide me.
-
-Regards,
-Khadija
-
-> 
-> Is there some other concern with working on this file?
-> 
-> Alison
-> 
-> > 
-> > Thank you for your time.
-> > Regards,
-> > Khadija
-> > 
-> > 
