@@ -1,57 +1,47 @@
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DAF579CE;
-	Mon, 27 Mar 2023 21:00:33 +0000 (UTC)
-Received: by mail-wm1-f51.google.com with SMTP id m6-20020a05600c3b0600b003ee6e324b19so6163989wms.1;
-        Mon, 27 Mar 2023 14:00:33 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B158579CE
+	for <linux-staging@lists.linux.dev>; Mon, 27 Mar 2023 21:02:30 +0000 (UTC)
+Received: by mail-ed1-f53.google.com with SMTP id r11so41577188edd.5
+        for <linux-staging@lists.linux.dev>; Mon, 27 Mar 2023 14:02:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1679950831;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=UxHAeSRmvmOJM7L4xuCcGB4JYeN7eUOth0obgJagveg=;
-        b=OFxDCJ00sKrXWuZpBpo1/2sLI8XscM7kjI7zfuUzce86Ua2/IJPxdxon8Ade68rDUu
-         QWCCDYf0er65HRXHKmqc+pDQkJXonuy0P3Ha7zfq2AChR7jiMX9zliTN6OcqqvF1qg/e
-         r/eEsvLDxK4Lsbc3OwdNIQz3ARG1CnaBGDRoCtw3QjyUk6PETEBstRKk3eyww7i30pZj
-         UnE/nRwK858ImDsi90jc13KJ4Xs57u670YLMFbx6NErvyR8A/2nISp7/UYZW9cIBm5ew
-         9BAgxUbLcDzuCbE1LYmdTOSpJNEW8qF1zDADRqnRvNOswp/Wq8NCufcXvG0cxWJJPMEH
-         R2DQ==
+        d=gmail.com; s=20210112; t=1679950949; x=1682542949;
+        h=content-disposition:mime-version:message-id:subject:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=VplZUCE/F+ZasISe1VnumDQIHXY4z8OCN0riUDX9NXo=;
+        b=NR+8vW0rMBEOyRvzlwqszktNTwI919fiPJfbppGSDeUL3/V7ybiQTJWQgN1N+NUb7H
+         5y+Au3GmD2Fr+8IY79MXBt8a0FfhzbWDfKAnK2GMwj2Mbq5cdpMu7pRmjg+cB8JCqAFA
+         NJXo7pGPMdu0mhj3d+SsoybmDLl2pNWoY8zPacrj3UULF+fqF9ZublArIJsBEjXTnwDx
+         DS33E4jErwKIPXOg2fWzuppNxWEmqCXqwRjdxF5JZeSnzH7/VW/odevWAe8w6GGbTUn0
+         XFs6yGgIbeoDJ2AhBL6ggg2gGpV3hffBU7LOoK7jO16PcPOydWw+pgvMv0zcU+wVW9zY
+         +LJA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679950831;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=UxHAeSRmvmOJM7L4xuCcGB4JYeN7eUOth0obgJagveg=;
-        b=xcRk0sqTZFjMFRjVdnAQrZdWhau/GelTaWQP93LI13UHStxHZHjG3nl9HGtBCD9WmX
-         P6ACGycauK4ouMZEFH8dTTgRDVuUQWGSHk/PQ4959ymisfiHBu6V/xQBkL0NP3z7o7Ai
-         MIU9n5oZlfFs+Xx1QDEIupDNjnU+qyyH9AP9aDwS5ORGKVXEYAI/uW6SXwN/hjyYwusT
-         T7h1IkjI8GY3Lxk4Ga8up0YR6l2EEuKJj/rTXTbqqo8/pIvFxPmxu1WuySW3cIXA+2aI
-         noWj7HcezQkbnLss5BIKdABL2mPIK7+i8jSO64MBS07saJncKOU0FyHm39us3SLcn3L/
-         m4DA==
-X-Gm-Message-State: AO0yUKXgTBV6yV43tGjTr6jafPMLVYjh+un7txcH5fbFLDaAk1si0lOU
-	heevlHM5+h8zEYg6ZzZDfFM=
-X-Google-Smtp-Source: AK7set+aO3K1IkWIVR3WucMal2t2FuelYtWE7IhhNpxFyGBukHpajR9/zQQZsR0pHGHyefvQt8fgcQ==
-X-Received: by 2002:a7b:c44f:0:b0:3ed:d3a7:7077 with SMTP id l15-20020a7bc44f000000b003edd3a77077mr9782042wmi.40.1679950831480;
-        Mon, 27 Mar 2023 14:00:31 -0700 (PDT)
-Received: from khadija-virtual-machine ([39.41.14.14])
-        by smtp.gmail.com with ESMTPSA id g8-20020a05600c310800b003ee610d1ce9sm10115062wmo.34.2023.03.27.14.00.30
+        d=1e100.net; s=20210112; t=1679950949; x=1682542949;
+        h=content-disposition:mime-version:message-id:subject:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=VplZUCE/F+ZasISe1VnumDQIHXY4z8OCN0riUDX9NXo=;
+        b=K/dlvt88u3EuyHz8b1GVB4Jjq1eoXGopC56GkG1rJhqDWbhJ1DG+6FZlSq9wdGg5i0
+         b4iM9qt46+m84YvgJKM5HPHgKC/JHZUZgLZRuZgnAJ0dDSpWgnyvjSaLP/UgTnU0BeSw
+         r0XZAguF3aXsiwpjvILKEon9aj0NNH1yGWjq1IzNL3sgwsFI97vrgUZB3yPju/FW2BQy
+         gzBXQ2peq3j8YgOynSjBUgtFANf161yaBda4hkOAL99OlpwmMW6G+VG5PmOK7b5xa3NV
+         lMHJcev/4YVleg+vlu9CKaFr6yP/++rVAP0I3QIHUs6Uz7kU0Z7Jo3euPhe5QY05QQNB
+         67yw==
+X-Gm-Message-State: AAQBX9e8EGC6qtijQg8sZQlR/LmaN15f8AfTBAQGZkDkVH7uCStZ12+t
+	TQXjHvn4tY3dP4dk4W3/ktV9tkBX2TQ=
+X-Google-Smtp-Source: AKy350ZV1SG1a821aOVmRUPrdv2s4yPb3AMK0fs99e8CQ0HQQIr4r0nrMyko4ChjytsuACkAAw1vGA==
+X-Received: by 2002:a17:906:214:b0:933:23c4:820b with SMTP id 20-20020a170906021400b0093323c4820bmr11951323ejd.4.1679950948706;
+        Mon, 27 Mar 2023 14:02:28 -0700 (PDT)
+Received: from matrix-ESPRIMO-P710 (p57935146.dip0.t-ipconnect.de. [87.147.81.70])
+        by smtp.gmail.com with ESMTPSA id g4-20020a170906520400b0093a35f65a30sm9262830ejm.41.2023.03.27.14.02.14
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 27 Mar 2023 14:00:31 -0700 (PDT)
-Date: Tue, 28 Mar 2023 02:00:28 +0500
-From: Khadija Kamran <kamrankhadijadj@gmail.com>
-To: Alison Schofield <alison.schofield@intel.com>
-Cc: outreachy@lists.linux.dev, Vaibhav Hiremath <hvaibhav.linux@gmail.com>,
-	Johan Hovold <johan@kernel.org>, Alex Elder <elder@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3] staging: greybus: merge split lines
-Message-ID: <ZCID7MUrIHy8+qb4@khadija-virtual-machine>
-References: <ZBgYsqkpdYpGQniB@khadija-virtual-machine>
- <ZBnZj3JbTOsplHvw@khadija-virtual-machine>
- <ZBnc3qWTSeWw0Ulo@aschofie-mobl2>
- <ZCFvTndYXmPvQunt@khadija-virtual-machine>
- <ZCHPokeiKV37uOmr@aschofie-mobl2>
+        Mon, 27 Mar 2023 14:02:21 -0700 (PDT)
+Date: Mon, 27 Mar 2023 23:02:08 +0200
+From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: [PATCH 0/7] staging: rtl8192e: Remove wireless modes A and N_5G
+Message-ID: <cover.1679949171.git.philipp.g.hortmann@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -60,158 +50,31 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ZCHPokeiKV37uOmr@aschofie-mobl2>
 
-On Mon, Mar 27, 2023 at 10:17:22AM -0700, Alison Schofield wrote:
-> On Mon, Mar 27, 2023 at 03:26:22PM +0500, Khadija Kamran wrote:
-> > On Tue, Mar 21, 2023 at 09:35:42AM -0700, Alison Schofield wrote:
-> > > On Tue, Mar 21, 2023 at 09:21:35PM +0500, Khadija Kamran wrote:
-> > > > On Mon, Mar 20, 2023 at 01:26:33PM +0500, Khadija Kamran wrote:
-> > > > > If condition and spin_unlock_...() call is split into two lines, merge
-> > > > > them to form a single line.
-> > > > > 
-> > > > > Suggested-by: Deepak R Varma drv@mailo.com
-> > > > > Signed-off-by: Khadija Kamran <kamrankhadijadj@gmail.com>
-> > > > > ---
-> > > > > 
-> > > > > Changes in v3:
-> > > > >  - Removing tab to fix line length results in a new checkpatch warning,
-> > > > >    so let the fix length be as it is.
-> > > > > Changes in v2:
-> > > > >  - Rephrased he subject and description
-> > > > >  - Merged if_condition() and spin_unlock...() into one line
-> > > > >  - Link to patch:
-> > > > >  https://lore.kernel.org/outreachy/ZAusnKYVTGvO5zoi@khadija-virtual-machine/
-> > > > > 
-> > > > > Link to first patch:
-> > > > > https://lore.kernel.org/outreachy/ZAtkW6g6DwPg%2FpDp@khadija-virtual-machine/
-> > > > > 
-> > > > >  drivers/staging/greybus/arche-platform.c | 6 ++----
-> > > > >  1 file changed, 2 insertions(+), 4 deletions(-)
-> > > > > 
-> > > > > diff --git a/drivers/staging/greybus/arche-platform.c b/drivers/staging/greybus/arche-platform.c
-> > > > > index fcbd5f71eff2..6890710afdfc 100644
-> > > > > --- a/drivers/staging/greybus/arche-platform.c
-> > > > > +++ b/drivers/staging/greybus/arche-platform.c
-> > > > > @@ -176,12 +176,10 @@ static irqreturn_t arche_platform_wd_irq(int irq, void *devid)
-> > > > >  				 * Check we are not in middle of irq thread
-> > > > >  				 * already
-> > > > >  				 */
-> > > > > -				if (arche_pdata->wake_detect_state !=
-> > > > > -						WD_STATE_COLDBOOT_START) {
-> > > > > +				if (arche_pdata->wake_detect_state != WD_STATE_COLDBOOT_START) {
-> > > > >  					arche_platform_set_wake_detect_state(arche_pdata,
-> > > > >  									     WD_STATE_COLDBOOT_TRIG);
-> > > > > -					spin_unlock_irqrestore(&arche_pdata->wake_lock,
-> > > > > -							       flags);
-> > > > > +					spin_unlock_irqrestore(&arche_pdata->wake_lock, flags);
-> > > > >  					return IRQ_WAKE_THREAD;
-> > > > >  				}
-> > > > >  			}
-> > > > > --
-> > > > > 2.34.1
-> > > > >
-> > > > 
-> > > > Hey Outreachy Mentors,
-> > > > 
-> > > > Kindly take a look at this patch and let me know if it is okay to work
-> > > > on this file or should I look for other cleanup patches.
-> > > 
-> > > Hi Khadija,
-> > > 
-> > > I thought you were abandoning *this* patch, and doing a refactor on
-> > > the function.  I'd expect that would be a new patch, probably a
-> > > patchset. One where you align the work based on the 'rising' and
-> > > 'falling' detection, 
-> > 
-> > Hey Alison,
-> > 
-> > Can you please elaborate that what do you mean by aligning on the basis
-> > of rising and falling detection. Are you perhaps saying that I should
-> > group the rising detection and group the falling detection separately?
-> > 
-> > > and perhaps a second patch that centralizes
-> > > the unlock and return.
-> > 
-> > To do this I should make the use of goto statement, right?
-> > 
-> > So the next patchset should be:
-> > Patch 1: merge split lines
-> > Patch 2: align on the basis of rising and falling detection
-> > Patch 3: use goto statement to centralize unlock and return
-> > 
-> > Kindly guide me.
-> > 
-> > Regards,
-> > Khadija
-> 
-> Hi,
-> 
-> Glad you are picking this back up!
-> I know Ira sent you some links to refactoring info. Go back and
-> look at those.
-> 
-> When we submit patches that refactor a function, we try to make
-> the patches obviously correct and easy to review.
-> 
-> I'll tell you how I approached this one, and you can see how
-> it works for you:
-> 
-> 1. Edit the function until it is just how you'd like it. Hint:
->    no lines over 80, minimal indentation.
-> 
-> {
-> 	--snip--
-> 
-> 	if (!gpiod_get_value(arche_pdata->wake_detect))
->                 goto falling;
-> 
->         /* wake/detect rising */
-> 
-> 	
-> 
-> falling:
-> 	/* wake/detect falling */
-> 
-> 
-> out:
-> 	spin_unlock_irqrestore(&arche_pdata->wake_lock, flags);
-> 
->         return rc;
-> }
-> 
-> 
-> 2. Figure out how you can present that in patches. This function
->    is just long enough that I think you have to split it up into
->    two or more obvious steps, rather than throwing it into one
->    patch.
-> 
-> How about you do Step 1, and send the diff to the Outreachy mailing
-> list (only) for review. Please start a new thread. 
->
+Remove WIRELESS_MODE_N_5G and WIRELESS_MODE_A which are not supported by
+hardware to remove dead code and increase readability.
 
-Hey Alison,
+Tested with rtl8192e on wireless modes: B, G, N_24G
+Transferred this patch over wlan connection of rtl8192e
 
-I am sorry about sending a new patch instead of sending a diff for
-discussion. I realize that I did not read your message carefully and
-misunderstood its contents. 
+Philipp Hortmann (7):
+  staging: rtl8192e: Remove rtl92e_config_phy
+  staging: rtl8192e: Remove _rtl92e_get_supported_wireless_mode
+  staging: rtl8192e: Remove 5G wireless_mode in rtl92e_set_wireless_mode
+  staging: rtl8192e: Remove unused if clauses in
+    rtl92e_set_wireless_mode
+  staging: rtl8192e: Remove wireless modes A, N_5G from _rtl92e_hwconfig
+  staging: rtl8192e: Remove wireless modes A, N_5G from
+    rtl92e_set_channel
+  staging: rtl8192e: Remove wireless mode WIRELESS_MODE_N_5G
 
-Let me start a new thread. Sorry for the inconvenience.
+ .../staging/rtl8192e/rtl8192e/r8192E_dev.c    | 19 +-------
+ .../staging/rtl8192e/rtl8192e/r8192E_phy.c    | 18 --------
+ .../staging/rtl8192e/rtl8192e/r8192E_phy.h    |  1 -
+ drivers/staging/rtl8192e/rtl8192e/rtl_core.c  | 43 ++++---------------
+ drivers/staging/rtl8192e/rtl8192e/rtl_dm.c    |  6 +--
+ 5 files changed, 12 insertions(+), 75 deletions(-)
 
-Regards,
-Khadija 
+-- 
+2.39.2
 
-> Alison
-> 
-> > 
-> > > 
-> > > Is there some other concern with working on this file?
-> > > 
-> > > Alison
-> > > 
-> > > > 
-> > > > Thank you for your time.
-> > > > Regards,
-> > > > Khadija
-> > > > 
-> > > > 
