@@ -1,85 +1,87 @@
-Received: from mx0a-00128a01.pphosted.com (mx0a-00128a01.pphosted.com [148.163.135.77])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A700133C0
-	for <linux-staging@lists.linux.dev>; Mon, 27 Mar 2023 15:06:21 +0000 (UTC)
-Received: from pps.filterd (m0167089.ppops.net [127.0.0.1])
-	by mx0a-00128a01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 32REdZj5020717;
-	Mon, 27 Mar 2023 10:52:26 -0400
-Received: from nwd2mta4.analog.com ([137.71.173.58])
-	by mx0a-00128a01.pphosted.com (PPS) with ESMTPS id 3phwv7hpvj-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 27 Mar 2023 10:52:26 -0400
-Received: from ASHBMBX9.ad.analog.com (ASHBMBX9.ad.analog.com [10.64.17.10])
-	by nwd2mta4.analog.com (8.14.7/8.14.7) with ESMTP id 32REqOCs044121
-	(version=TLSv1/SSLv3 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-	Mon, 27 Mar 2023 10:52:24 -0400
-Received: from ASHBMBX9.ad.analog.com (10.64.17.10) by ASHBMBX9.ad.analog.com
- (10.64.17.10) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.14; Mon, 27 Mar
- 2023 10:52:23 -0400
-Received: from zeus.spd.analog.com (10.66.68.11) by ashbmbx9.ad.analog.com
- (10.64.17.10) with Microsoft SMTP Server id 15.2.986.14 via Frontend
- Transport; Mon, 27 Mar 2023 10:52:23 -0400
-Received: from nsa.sphairon.box ([10.44.3.102])
-	by zeus.spd.analog.com (8.15.1/8.15.1) with ESMTP id 32REqC1t025692;
-	Mon, 27 Mar 2023 10:52:14 -0400
-From: =?UTF-8?q?Nuno=20S=C3=A1?= <nuno.sa@analog.com>
-To: <linux-staging@lists.linux.dev>, <linux-iio@vger.kernel.org>
-CC: Michael Hennerich <Michael.Hennerich@analog.com>,
-        Greg Kroah-Hartman
-	<gregkh@linuxfoundation.org>,
-        Lars-Peter Clausen <lars@metafoo.de>,
-        Jonathan
- Cameron <jic23@kernel.org>
-Subject: [PATCH] staging: iio: resolver: ads1210: fix config mode
-Date: Mon, 27 Mar 2023 16:54:14 +0200
-Message-ID: <20230327145414.1505537-1-nuno.sa@analog.com>
-X-Mailer: git-send-email 2.40.0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 027A163B6;
+	Mon, 27 Mar 2023 17:13:56 +0000 (UTC)
+Received: by mail-pj1-f52.google.com with SMTP id p13-20020a17090a284d00b0023d2e945aebso11419137pjf.0;
+        Mon, 27 Mar 2023 10:13:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1679937236;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=YTxnICyACcYyrkEecWGvFx2Lv9BMykftFbe2Wex0fDc=;
+        b=Txo9gHrovk+y74juJztl+stEEUDPT6H73vBBnA5KKkqubPkDnbJC5+RdXUgw4TbOCa
+         R96SK0U5QWM36ih6e3JAu942NvucO0CHILGMNU+QbotMNF6jf/T/0Fa1KaiilS6Oex2O
+         CHwncFX4IzgJxfYFqWDdONL9ff/eRaPseFklo8/zjaOidbG6ZiHejBlFrIAUCnl8kz3Z
+         RRutBIPsf3U5UtYBGWePJeGzx/pg4h1V/aqyVmklG0TJdOVXALLmQx/OVn4v5W5KR2cN
+         EImX+91GLPbaVB8V9HEGCzoIdD0ensVZE6iUOHtzyYAjfjruPbJmqpTA7PQWnWWM7hP6
+         Jbxw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1679937236;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=YTxnICyACcYyrkEecWGvFx2Lv9BMykftFbe2Wex0fDc=;
+        b=GEH+FrUEBCs2ANQG+MT01vCIYcuTbhQtJQ0E6bwd95/UvbA5v9rLxbSi2mNJQPZv9I
+         T1TbesXFyFAo3vv64u5TeXfXZ4XHhJx7zXQvZ4Tj1ccvLCpo4cvjRsTUUmes8/4t8/WW
+         zO0t77EDgHQWx0Ik50hCfsQaM+B6fk315w60czaVhSqQjoAdt8e2VEQJCs2cPvOtP4FH
+         d8460vSUy0G2mgGF0JWmSnj4rhVYjh2PyuQO2Es5VFEt860JJ3kCP3QYn7UV+Dc0vs47
+         W+OGWdgKXg4hS/GH7AZO+QGBXdBGxtaoZX9bIELgeDhW8JLoU3hCJ5lr2f6yC8V3W0+W
+         7Ngw==
+X-Gm-Message-State: AAQBX9eyONc29EHucopZbd3+xZ1JuFcJEq12c0Zz2eWKn6z2pZEAACB2
+	T6ABKRxixmAFpSbSM5PiIKY=
+X-Google-Smtp-Source: AKy350aqYyOOidnWDAt1JEPXWZkd7QjsEbExpBR1/9gQIiDyaaqIT7L3LNEi2B5t+vdzHlcXRt9SGQ==
+X-Received: by 2002:a17:903:64b:b0:1a1:cc9d:3d55 with SMTP id kh11-20020a170903064b00b001a1cc9d3d55mr10073117plb.20.1679937236123;
+        Mon, 27 Mar 2023 10:13:56 -0700 (PDT)
+Received: from sumitra.com ([59.89.169.114])
+        by smtp.gmail.com with ESMTPSA id d2-20020a639742000000b00502e7115cbdsm15560708pgo.51.2023.03.27.10.13.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 27 Mar 2023 10:13:55 -0700 (PDT)
+Date: Mon, 27 Mar 2023 10:13:51 -0700
+From: Sumitra Sharma <sumitraartsy@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Cc: outreachy@lists.linux.dev
+Subject: [PATCH] staging: rtl8192e: fix line ending with '('
+Message-ID: <20230327171351.GA188288@sumitra.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-ADIRuleOP-NewSCL: Rule Triggered
-X-Proofpoint-ORIG-GUID: FQlByd-5snak8J6dm0-vdpfiW4sAORTS
-X-Proofpoint-GUID: FQlByd-5snak8J6dm0-vdpfiW4sAORTS
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-03-24_11,2023-03-27_02,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- clxscore=1011 lowpriorityscore=0 malwarescore=0 suspectscore=0
- phishscore=0 bulkscore=0 adultscore=0 impostorscore=0 mlxlogscore=999
- spamscore=0 mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2303200000 definitions=main-2303270117
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-As stated in the device datasheet [1], bits a0 and a1 have to be set to
-1 for the configuration mode.
+Splitting function header to multiple lines because of 80 characters per
+line limit, results in ending the function call line with '('.
+This leads to CHECK reported by checkpatch.pl
 
-[1]: https://www.analog.com/media/en/technical-documentation/data-sheets/ad2s1210.pdf
+Move the first parameter right after the '(' in the function call line.
+Align the rest of the parameters to the opening parenthesis.
 
-Fixes: b19e9ad5e2cb9 ("staging:iio:resolver:ad2s1210 general driver cleanup")
-Signed-off-by: Nuno Sá <nuno.sa@analog.com>
+Signed-off-by: Sumitra Sharma <sumitraartsy@gmail.com>
 ---
- drivers/staging/iio/resolver/ad2s1210.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/staging/rtl8192e/rtllib.h | 7 +++----
+ 1 file changed, 3 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/staging/iio/resolver/ad2s1210.c b/drivers/staging/iio/resolver/ad2s1210.c
-index e4cf42438487..636c45b12843 100644
---- a/drivers/staging/iio/resolver/ad2s1210.c
-+++ b/drivers/staging/iio/resolver/ad2s1210.c
-@@ -101,7 +101,7 @@ struct ad2s1210_state {
- static const int ad2s1210_mode_vals[4][2] = {
- 	[MOD_POS] = { 0, 0 },
- 	[MOD_VEL] = { 0, 1 },
--	[MOD_CONFIG] = { 1, 0 },
-+	[MOD_CONFIG] = { 1, 1 },
- };
+diff --git a/drivers/staging/rtl8192e/rtllib.h b/drivers/staging/rtl8192e/rtllib.h
+index c1b4e9e7c091..197c0a44ebd6 100644
+--- a/drivers/staging/rtl8192e/rtllib.h
++++ b/drivers/staging/rtl8192e/rtllib.h
+@@ -1900,10 +1900,9 @@ struct net_device *alloc_rtllib(int sizeof_priv);
  
- static inline void ad2s1210_set_mode(enum ad2s1210_mode mode,
+ /* rtllib_tx.c */
+ 
+-int rtllib_encrypt_fragment(
+-	struct rtllib_device *ieee,
+-	struct sk_buff *frag,
+-	int hdr_len);
++int rtllib_encrypt_fragment(struct rtllib_device *ieee,
++			    struct sk_buff *frag,
++			    int hdr_len);
+ 
+ netdev_tx_t rtllib_xmit(struct sk_buff *skb,  struct net_device *dev);
+ void rtllib_txb_free(struct rtllib_txb *txb);
 -- 
-2.40.0
+2.25.1
 
