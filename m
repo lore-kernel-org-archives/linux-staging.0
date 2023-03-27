@@ -1,49 +1,49 @@
-Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
+Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8434679CE
-	for <linux-staging@lists.linux.dev>; Mon, 27 Mar 2023 21:03:22 +0000 (UTC)
-Received: by mail-ed1-f47.google.com with SMTP id cn12so41616304edb.4
-        for <linux-staging@lists.linux.dev>; Mon, 27 Mar 2023 14:03:22 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9CED79CE
+	for <linux-staging@lists.linux.dev>; Mon, 27 Mar 2023 21:03:29 +0000 (UTC)
+Received: by mail-ed1-f54.google.com with SMTP id b20so41657821edd.1
+        for <linux-staging@lists.linux.dev>; Mon, 27 Mar 2023 14:03:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1679951001; x=1682543001;
+        d=gmail.com; s=20210112; t=1679951008;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=KtIG2xIOByplMnWqws/0mvUBLuQ/qpbAME2bjfonzr4=;
-        b=XSgeDbWO64zzzTWA5jpAhIvsNrcP9pvd1oXovn7RPKk0naVZfF+fqxA/J3+nbcNB0t
-         Is3PTlNaVrEjWQZze8oAiBBoWxenWFfliTKLFRPQQYsQUho0YnvTZQOqQ/RSKUaipiuo
-         Bczo7sgOoxWOZEhJMK1uWbII95FmJeaBecr3eRxx2KeecIjtEYo8Vh7kzDJT4KQ6mBov
-         cUN+lSQF+x4kMlCZIca59HzVGxlyT6QjqTZQszDbtOvEcTAR5cYSMP1BdlFg8v/36s5x
-         4uUi6PiU0lxZu2/XqwQuQItYcUc6C06pH7A4ziZ5t+4+nGSrAYeSuwWz2PgwfNw9nG+n
-         Nz0A==
+        bh=AozKR2DoQOOyJHBglyYFmZBaHgy3GkeNuTZPAIS6qrc=;
+        b=MVgyfKsxyF7IMhk6z/KTbB4cUeKi3N9CiLUP5+wDXffu0NBjZ1vTVkD9gutrRv3/28
+         Nyj/Y2/H+keaqnF016TTUdblXefz0kpYHeoAFQKmLOdCwiO7ZaZ+wLYSPBEtPkFk/O1j
+         eganBRmBIgU+utePVhgEk8Vk/i/WQIvVtvmXCswmk637rDwGiszFpX4SHrlp+5sxzL49
+         jW1JrUUyW+7GOJSe/B34JY0FCI5cEb/7cnFbxV0VhaW9aoKJmg3UxcPEtxESd6r8BDO6
+         feL5qQQf4yrI7s6rZAJjL3tyiGmclltYVZOxKsBeSiE+1cvDB6M0SiFveoohnu6sR0cL
+         8BUA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679951001; x=1682543001;
+        d=1e100.net; s=20210112; t=1679951008;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=KtIG2xIOByplMnWqws/0mvUBLuQ/qpbAME2bjfonzr4=;
-        b=FFJDA1IT7sVqKrZzql8xFs+4a4XJbtiWJ7O2PD7SRUHOs4F+NFYyiJ6TEgs90Mx6Qg
-         Ps5SAJH+N7N8AeYgFjAYFIDRbPW3/Seb1dJ2xkJD5ws6lBsMCB9Qm+wyDUPW0UPo2ejy
-         vLhoFPvQv7e6Pv+qjN6QKKxj9GC8ZPgmtfWqJZ0F6zZRS8Yow2V0X7hlGPw9qoNaxCeG
-         9tgfDtPXZ+lKq2Lw1CqzAb9BRnXgNh1MWSw6Y4CCe3gzO20CUohKSZjGA3xS1mzGvG4d
-         Fvnzw1urrQj8kTXdJaBhQPxjVdnqNRxhuSuDgh55oGkNX9iiHmasWA+q28JYr7k3z5Xu
-         rkeQ==
-X-Gm-Message-State: AAQBX9ccMqQ7u1SH4R867IaLFHPRQIkZJGjhuC997xFlueFei0xD/Efs
-	AODWjvu2Is4wo9UPRwUQlwo=
-X-Google-Smtp-Source: AKy350azLVFQA+ldnfv1H9+tJT/ffPgd2H+4RbeKa9lH8FycSHOZzQVxWiGwsOZH/iVX/DEKi8GtUg==
-X-Received: by 2002:a17:906:7490:b0:933:fa42:7e36 with SMTP id e16-20020a170906749000b00933fa427e36mr11690098ejl.5.1679951000955;
-        Mon, 27 Mar 2023 14:03:20 -0700 (PDT)
+        bh=AozKR2DoQOOyJHBglyYFmZBaHgy3GkeNuTZPAIS6qrc=;
+        b=HuDULIOym6Y2YnsFCdbWEAeI/c7GKRZC2CRiQ5COI/NOzSprtGy8UqH24xe8b/AbYx
+         u4+SALPbknYIV5RHP3lmaiKYrqd3VuEhQni82hOox356Mm+YwNVI3Owyua5Hl976bgg/
+         tMg8QO7Lx20tKmgaRpJ9PRnmEqi5ccBbbppNboMBcxIcQQCXPXWZukWzaG/sYUxiH6ak
+         aVa35uJkPPRACO5MM75dmlC07gK9Ln0IuOjMhz3ifxzGNlpw8RUmGurVTbMwktRpiBQt
+         pb8EPFJhhNi9CCBdzh197l2WiFWPJHKxZUtNDg0nyAgWRC8vj7y34nSsEPzj7FiBkWiA
+         bNdA==
+X-Gm-Message-State: AAQBX9dMi1jUIZ1cbpAFOt6Ro7qAVQyoPQgiTT1eLY3QFXN9V3rAfncL
+	16NhXxncUC8qMBopNWG49B3+v3iSxCE=
+X-Google-Smtp-Source: AKy350ZK0tpkIhJczcUkPG0Uonl+xK8i3Ec6WYb/RETj2/9m5xG31AKWZnZq2aowbnlkT+3PpTR5vQ==
+X-Received: by 2002:a17:906:49:b0:944:4d7:d3d9 with SMTP id 9-20020a170906004900b0094404d7d3d9mr6011882ejg.2.1679951007840;
+        Mon, 27 Mar 2023 14:03:27 -0700 (PDT)
 Received: from matrix-ESPRIMO-P710 (p57935146.dip0.t-ipconnect.de. [87.147.81.70])
-        by smtp.gmail.com with ESMTPSA id i6-20020a170906250600b009306be6bed7sm14381083ejb.190.2023.03.27.14.03.04
+        by smtp.gmail.com with ESMTPSA id lg10-20020a170906f88a00b008cc920469b5sm14541859ejb.18.2023.03.27.14.03.15
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 27 Mar 2023 14:03:14 -0700 (PDT)
-Date: Mon, 27 Mar 2023 23:02:57 +0200
+        Mon, 27 Mar 2023 14:03:21 -0700 (PDT)
+Date: Mon, 27 Mar 2023 23:03:06 +0200
 From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [PATCH 5/7] staging: rtl8192e: Remove wireless modes A, N_5G from
- _rtl92e_hwconfig
-Message-ID: <ab96af426f090ac2fe4a2536b052fcf8a2e38aa8.1679949171.git.philipp.g.hortmann@gmail.com>
+Subject: [PATCH 6/7] staging: rtl8192e: Remove wireless modes A, N_5G from
+ rtl92e_set_channel
+Message-ID: <aaaf832fe5f90ad2c618bef22c1bdbd5209c4359.1679949171.git.philipp.g.hortmann@gmail.com>
 References: <cover.1679949171.git.philipp.g.hortmann@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -56,49 +56,33 @@ Content-Disposition: inline
 In-Reply-To: <cover.1679949171.git.philipp.g.hortmann@gmail.com>
 
 Remove WIRELESS_MODE_N_5G and WIRELESS_MODE_A as those are not supported
-by hardware and to improve readability. Combine WIRELESS_MODE_G with
-default to improve readability.
+by hardware and to improve readability.
 
 Signed-off-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
 ---
- drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c | 17 +----------------
- 1 file changed, 1 insertion(+), 16 deletions(-)
+ drivers/staging/rtl8192e/rtl8192e/r8192E_phy.c | 9 ---------
+ 1 file changed, 9 deletions(-)
 
-diff --git a/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c b/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c
-index f4fdaeff2917..1da14e737aa4 100644
---- a/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c
-+++ b/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c
-@@ -503,16 +503,6 @@ static void _rtl92e_hwconfig(struct net_device *dev)
- 		regRATR = RATE_ALL_CCK;
- 		regRRSR = RATE_ALL_CCK;
- 		break;
+diff --git a/drivers/staging/rtl8192e/rtl8192e/r8192E_phy.c b/drivers/staging/rtl8192e/rtl8192e/r8192E_phy.c
+index 139d8268c8dc..dd666701138e 100644
+--- a/drivers/staging/rtl8192e/rtl8192e/r8192E_phy.c
++++ b/drivers/staging/rtl8192e/rtl8192e/r8192E_phy.c
+@@ -696,15 +696,6 @@ u8 rtl92e_set_channel(struct net_device *dev, u8 channel)
+ 
+ 
+ 	switch (priv->rtllib->mode) {
 -	case WIRELESS_MODE_A:
--		regBwOpMode = BW_OPMODE_5G | BW_OPMODE_20MHZ;
--		regRATR = RATE_ALL_OFDM_AG;
--		regRRSR = RATE_ALL_OFDM_AG;
--		break;
--	case WIRELESS_MODE_G:
--		regBwOpMode = BW_OPMODE_20MHZ;
--		regRATR = RATE_ALL_CCK | RATE_ALL_OFDM_AG;
--		regRRSR = RATE_ALL_CCK | RATE_ALL_OFDM_AG;
--		break;
- 	case WIRELESS_MODE_AUTO:
- 	case WIRELESS_MODE_N_24G:
- 		regBwOpMode = BW_OPMODE_20MHZ;
-@@ -520,12 +510,7 @@ static void _rtl92e_hwconfig(struct net_device *dev)
- 			  RATE_ALL_OFDM_1SS | RATE_ALL_OFDM_2SS;
- 		regRRSR = RATE_ALL_CCK | RATE_ALL_OFDM_AG;
- 		break;
 -	case WIRELESS_MODE_N_5G:
--		regBwOpMode = BW_OPMODE_5G;
--		regRATR = RATE_ALL_OFDM_AG | RATE_ALL_OFDM_1SS |
--			  RATE_ALL_OFDM_2SS;
--		regRRSR = RATE_ALL_OFDM_AG;
+-		if (channel <= 14) {
+-			netdev_warn(dev,
+-				    "Channel %d not available in 802.11a.\n",
+-				    channel);
+-			return false;
+-		}
 -		break;
-+	case WIRELESS_MODE_G:
- 	default:
- 		regBwOpMode = BW_OPMODE_20MHZ;
- 		regRATR = RATE_ALL_CCK | RATE_ALL_OFDM_AG;
+ 	case WIRELESS_MODE_B:
+ 		if (channel > 14) {
+ 			netdev_warn(dev,
 -- 
 2.39.2
 
