@@ -1,124 +1,337 @@
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3A9A620;
-	Mon, 27 Mar 2023 05:03:20 +0000 (UTC)
-Received: by mail-wr1-f49.google.com with SMTP id l12so7254727wrm.10;
-        Sun, 26 Mar 2023 22:03:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1679893399;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=y7YZc7+GXIQDusVUYqDOj5P6rOU9cQWWbR2WAwt/ZP8=;
-        b=Au31X4bAiYNikzyau9Yfhg61ao8BTyae3kBdmWF7+w8cKS6x5kPmT6nu82vEZ0040a
-         jvugcn6hzLwKsx3Dd1gMYUfYl38cfjFf8DbCugPyv6EMG8e/tu5l3FR29XUU3lKVHnr4
-         wMy8rWT09dTWjJMvUtZy/Ka2MleRCb7igF8l3wfhwX4YhgMw1h8sNrI0del/xnLidaY4
-         ljMQv2rRc9pX+hX4MU5kqFxEGSR2b/rSuffaK6xWXrQXlJlHgmrrtRPuxBd7Ru8vf9Jv
-         056OoNcnN38e37ZrG4olglwyhHz9iM84vIqDU3OO9tKr5JFwng+jv0OzIhNoqzIxGN9m
-         EtDA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679893399;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=y7YZc7+GXIQDusVUYqDOj5P6rOU9cQWWbR2WAwt/ZP8=;
-        b=Dw5FIVb35XKnqnO9NVOQGPAr/Dc3Os8J8JN/2aacCC9aYHzVtdSDhIHkU9K7XAhT7T
-         g8Mu9pTjOtYFsxcWAbopvbdvZLNCFGQAJguEtfNRFauYm9T5+fIK1fYErw4aqUStKBx1
-         TrmvX2rvWZ78qCY84F264xojXPwLwj5WoJQPUruEcVsCO7ZmYOmMTsVSImKeuu3lHAan
-         QdAi2NdDOelt3RoXgokwejiDX5//PGkRc8szUkXArACt5M8KIwf2Eak+/DUqAWDSLtAv
-         cj9hugp70p6hRqcKA9iQ4sjziXy46QEbVziz1khuoZFgPW+pTPuVKPRDOoKg2crSCiq6
-         A+1g==
-X-Gm-Message-State: AAQBX9cOo0suTLPzuKtVQ5csWIpvaMvObH+cb+tUsWL2sQWD+4iPzLfC
-	LA7SwXGa1eyo7rS6nHC8zr4=
-X-Google-Smtp-Source: AKy350aLBQR2xPYxawU6Rc6qi8vaKa9Q3oJfOb9xD9r02p7cdkbEIZyhOWFb6S3aQUxQIGPy8D0zAQ==
-X-Received: by 2002:adf:ea09:0:b0:2d1:f705:a602 with SMTP id q9-20020adfea09000000b002d1f705a602mr7986169wrm.22.1679893398684;
-        Sun, 26 Mar 2023 22:03:18 -0700 (PDT)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id n17-20020adff091000000b002c5534db60bsm24065337wro.71.2023.03.26.22.03.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 26 Mar 2023 22:03:18 -0700 (PDT)
-Date: Mon, 27 Mar 2023 08:03:14 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: Khadija Kamran <kamrankhadijadj@gmail.com>
-Cc: outreachy@lists.linux.dev, gregkh@linuxfoundation.org,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 3/3] staging: rtl8192u: reformat block comments
-Message-ID: <32819686-cce9-40d2-8707-547bdb1a72f8@kili.mountain>
-References: <cover.1679831899.git.kamrankhadijadj@gmail.com>
- <d49d15e620aa9239f3d68df1a5f8b600de77b536.1679831899.git.kamrankhadijadj@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF155377
+	for <linux-staging@lists.linux.dev>; Mon, 27 Mar 2023 07:17:30 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 53948C433D2;
+	Mon, 27 Mar 2023 07:17:28 +0000 (UTC)
+Message-ID: <1c4e5eaf-8a38-41cf-1e4f-6006d575d5ea@xs4all.nl>
+Date: Mon, 27 Mar 2023 09:17:26 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <d49d15e620aa9239f3d68df1a5f8b600de77b536.1679831899.git.kamrankhadijadj@gmail.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH 01/12] gpu: host1x: Make host1x_client_unregister() return
+ void
+Content-Language: en-US
+To: =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>,
+ Thierry Reding <thierry.reding@gmail.com>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Jonathan Hunter <jonathanh@nvidia.com>,
+ Sowjanya Komatineni <skomatineni@nvidia.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org,
+ kernel@pengutronix.de, linux-media@vger.kernel.org,
+ linux-staging@lists.linux.dev
+References: <20230322170223.410376-1-u.kleine-koenig@pengutronix.de>
+ <20230322170223.410376-2-u.kleine-koenig@pengutronix.de>
+From: Hans Verkuil <hverkuil@xs4all.nl>
+In-Reply-To: <20230322170223.410376-2-u.kleine-koenig@pengutronix.de>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Sun, Mar 26, 2023 at 05:18:27PM +0500, Khadija Kamran wrote:
-> Linux kernel coding style for block comments uses a column of '*' on the
-> left side and  uses '*/' on a separate line.
+On 22/03/2023 18:02, Uwe Kleine-König wrote:
+> This function returned zero unconditionally. Make it return no value and
+> simplify all callers accordingly.
 > 
-> Fix block comments by adding '*' on subsequent lines and moving '*/' at
-> the end of block comments on a separate line. These issues in block
-> comments are reported by checkpatch.pl script.
-> 
-> Signed-off-by: Khadija Kamran <kamrankhadijadj@gmail.com>
+> Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
 > ---
->  drivers/staging/rtl8192u/r8192U_dm.c | 38 +++++++++++++++++-----------
->  1 file changed, 23 insertions(+), 15 deletions(-)
+>  drivers/gpu/drm/tegra/dc.c              | 7 +------
+>  drivers/gpu/drm/tegra/dsi.c             | 8 +-------
+>  drivers/gpu/drm/tegra/gr2d.c            | 8 +-------
+>  drivers/gpu/drm/tegra/gr3d.c            | 8 +-------
+>  drivers/gpu/drm/tegra/hdmi.c            | 8 +-------
+>  drivers/gpu/drm/tegra/hub.c             | 9 ++-------
+>  drivers/gpu/drm/tegra/nvdec.c           | 8 +-------
+>  drivers/gpu/drm/tegra/sor.c             | 8 +-------
+>  drivers/gpu/drm/tegra/vic.c             | 8 +-------
+>  drivers/gpu/host1x/bus.c                | 6 ++----
+>  drivers/staging/media/tegra-video/csi.c | 8 +-------
+>  drivers/staging/media/tegra-video/vi.c  | 8 +-------
+>  include/linux/host1x.h                  | 2 +-
+>  13 files changed, 15 insertions(+), 81 deletions(-)
+
+Acked-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+
+Regards,
+
+	Hans
+
 > 
-> diff --git a/drivers/staging/rtl8192u/r8192U_dm.c b/drivers/staging/rtl8192u/r8192U_dm.c
-> index e5c0bece4bb4..99c38a4cf54c 100644
-> --- a/drivers/staging/rtl8192u/r8192U_dm.c
-> +++ b/drivers/staging/rtl8192u/r8192U_dm.c
-> @@ -1,13 +1,14 @@
->  // SPDX-License-Identifier: GPL-2.0
->  /*++
-> -Copyright-c Realtek Semiconductor Corp. All rights reserved.
+> diff --git a/drivers/gpu/drm/tegra/dc.c b/drivers/gpu/drm/tegra/dc.c
+> index a67453cee883..bd108159fc2c 100644
+> --- a/drivers/gpu/drm/tegra/dc.c
+> +++ b/drivers/gpu/drm/tegra/dc.c
+> @@ -3268,12 +3268,7 @@ static int tegra_dc_remove(struct platform_device *pdev)
+>  	struct tegra_dc *dc = platform_get_drvdata(pdev);
+>  	int err;
+>  
+> -	err = host1x_client_unregister(&dc->client);
+> -	if (err < 0) {
+> -		dev_err(&pdev->dev, "failed to unregister host1x client: %d\n",
+> -			err);
+> -		return err;
+> -	}
+> +	host1x_client_unregister(&dc->client);
+>  
+>  	err = tegra_dc_rgb_remove(dc);
+>  	if (err < 0) {
+> diff --git a/drivers/gpu/drm/tegra/dsi.c b/drivers/gpu/drm/tegra/dsi.c
+> index de1333dc0d86..c8a02a1024bc 100644
+> --- a/drivers/gpu/drm/tegra/dsi.c
+> +++ b/drivers/gpu/drm/tegra/dsi.c
+> @@ -1662,16 +1662,10 @@ static int tegra_dsi_probe(struct platform_device *pdev)
+>  static int tegra_dsi_remove(struct platform_device *pdev)
+>  {
+>  	struct tegra_dsi *dsi = platform_get_drvdata(pdev);
+> -	int err;
+>  
+>  	pm_runtime_disable(&pdev->dev);
+>  
+> -	err = host1x_client_unregister(&dsi->client);
+> -	if (err < 0) {
+> -		dev_err(&pdev->dev, "failed to unregister host1x client: %d\n",
+> -			err);
+> -		return err;
+> -	}
+> +	host1x_client_unregister(&dsi->client);
+>  
+>  	tegra_output_remove(&dsi->output);
+>  
+> diff --git a/drivers/gpu/drm/tegra/gr2d.c b/drivers/gpu/drm/tegra/gr2d.c
+> index e3bb4c99ed39..49b8d4953e7f 100644
+> --- a/drivers/gpu/drm/tegra/gr2d.c
+> +++ b/drivers/gpu/drm/tegra/gr2d.c
+> @@ -298,14 +298,8 @@ static int gr2d_probe(struct platform_device *pdev)
+>  static int gr2d_remove(struct platform_device *pdev)
+>  {
+>  	struct gr2d *gr2d = platform_get_drvdata(pdev);
+> -	int err;
+>  
+> -	err = host1x_client_unregister(&gr2d->client.base);
+> -	if (err < 0) {
+> -		dev_err(&pdev->dev, "failed to unregister host1x client: %d\n",
+> -			err);
+> -		return err;
+> -	}
+> +	host1x_client_unregister(&gr2d->client.base);
+>  
+>  	return 0;
+>  }
+> diff --git a/drivers/gpu/drm/tegra/gr3d.c b/drivers/gpu/drm/tegra/gr3d.c
+> index a1fd3113ea96..cd3679d8eef9 100644
+> --- a/drivers/gpu/drm/tegra/gr3d.c
+> +++ b/drivers/gpu/drm/tegra/gr3d.c
+> @@ -553,14 +553,8 @@ static int gr3d_probe(struct platform_device *pdev)
+>  static int gr3d_remove(struct platform_device *pdev)
+>  {
+>  	struct gr3d *gr3d = platform_get_drvdata(pdev);
+> -	int err;
+>  
+> -	err = host1x_client_unregister(&gr3d->client.base);
+> -	if (err < 0) {
+> -		dev_err(&pdev->dev, "failed to unregister host1x client: %d\n",
+> -			err);
+> -		return err;
+> -	}
+> +	host1x_client_unregister(&gr3d->client.base);
+>  
+>  	return 0;
+>  }
+> diff --git a/drivers/gpu/drm/tegra/hdmi.c b/drivers/gpu/drm/tegra/hdmi.c
+> index 40ec3e6cf204..6798eea317df 100644
+> --- a/drivers/gpu/drm/tegra/hdmi.c
+> +++ b/drivers/gpu/drm/tegra/hdmi.c
+> @@ -1877,14 +1877,8 @@ static int tegra_hdmi_probe(struct platform_device *pdev)
+>  static int tegra_hdmi_remove(struct platform_device *pdev)
+>  {
+>  	struct tegra_hdmi *hdmi = platform_get_drvdata(pdev);
+> -	int err;
+>  
+> -	err = host1x_client_unregister(&hdmi->client);
+> -	if (err < 0) {
+> -		dev_err(&pdev->dev, "failed to unregister host1x client: %d\n",
+> -			err);
+> -		return err;
+> -	}
+> +	host1x_client_unregister(&hdmi->client);
+>  
+>  	tegra_output_remove(&hdmi->output);
+>  
+> diff --git a/drivers/gpu/drm/tegra/hub.c b/drivers/gpu/drm/tegra/hub.c
+> index b872527a123c..2c91dc444085 100644
+> --- a/drivers/gpu/drm/tegra/hub.c
+> +++ b/drivers/gpu/drm/tegra/hub.c
+> @@ -1178,13 +1178,8 @@ static int tegra_display_hub_remove(struct platform_device *pdev)
+>  {
+>  	struct tegra_display_hub *hub = platform_get_drvdata(pdev);
+>  	unsigned int i;
+> -	int err;
+>  
+> -	err = host1x_client_unregister(&hub->client);
+> -	if (err < 0) {
+> -		dev_err(&pdev->dev, "failed to unregister host1x client: %d\n",
+> -			err);
+> -	}
+> +	host1x_client_unregister(&hub->client);
+>  
+>  	for (i = 0; i < hub->soc->num_wgrps; i++) {
+>  		struct tegra_windowgroup *wgrp = &hub->wgrps[i];
+> @@ -1194,7 +1189,7 @@ static int tegra_display_hub_remove(struct platform_device *pdev)
+>  
+>  	pm_runtime_disable(&pdev->dev);
+>  
+> -	return err;
+> +	return 0;
+>  }
+>  
+>  static const struct tegra_display_hub_soc tegra186_display_hub = {
+> diff --git a/drivers/gpu/drm/tegra/nvdec.c b/drivers/gpu/drm/tegra/nvdec.c
+> index 86c5818ac27b..077f3af0d0b6 100644
+> --- a/drivers/gpu/drm/tegra/nvdec.c
+> +++ b/drivers/gpu/drm/tegra/nvdec.c
+> @@ -550,14 +550,8 @@ static int nvdec_probe(struct platform_device *pdev)
+>  static int nvdec_remove(struct platform_device *pdev)
+>  {
+>  	struct nvdec *nvdec = platform_get_drvdata(pdev);
+> -	int err;
+>  
+> -	err = host1x_client_unregister(&nvdec->client.base);
+> -	if (err < 0) {
+> -		dev_err(&pdev->dev, "failed to unregister host1x client: %d\n",
+> -			err);
+> -		return err;
+> -	}
+> +	host1x_client_unregister(&nvdec->client.base);
+>  
+>  	falcon_exit(&nvdec->falcon);
+>  
+> diff --git a/drivers/gpu/drm/tegra/sor.c b/drivers/gpu/drm/tegra/sor.c
+> index 8af632740673..d067b2d01b2e 100644
+> --- a/drivers/gpu/drm/tegra/sor.c
+> +++ b/drivers/gpu/drm/tegra/sor.c
+> @@ -3981,14 +3981,8 @@ static int tegra_sor_probe(struct platform_device *pdev)
+>  static int tegra_sor_remove(struct platform_device *pdev)
+>  {
+>  	struct tegra_sor *sor = platform_get_drvdata(pdev);
+> -	int err;
+>  
+> -	err = host1x_client_unregister(&sor->client);
+> -	if (err < 0) {
+> -		dev_err(&pdev->dev, "failed to unregister host1x client: %d\n",
+> -			err);
+> -		return err;
+> -	}
+> +	host1x_client_unregister(&sor->client);
+>  
+>  	pm_runtime_disable(&pdev->dev);
+>  
+> diff --git a/drivers/gpu/drm/tegra/vic.c b/drivers/gpu/drm/tegra/vic.c
+> index 531a71c72061..fd614756ecf8 100644
+> --- a/drivers/gpu/drm/tegra/vic.c
+> +++ b/drivers/gpu/drm/tegra/vic.c
+> @@ -540,14 +540,8 @@ static int vic_probe(struct platform_device *pdev)
+>  static int vic_remove(struct platform_device *pdev)
+>  {
+>  	struct vic *vic = platform_get_drvdata(pdev);
+> -	int err;
+>  
+> -	err = host1x_client_unregister(&vic->client.base);
+> -	if (err < 0) {
+> -		dev_err(&pdev->dev, "failed to unregister host1x client: %d\n",
+> -			err);
+> -		return err;
+> -	}
+> +	host1x_client_unregister(&vic->client.base);
+>  
+>  	falcon_exit(&vic->falcon);
+>  
+> diff --git a/drivers/gpu/host1x/bus.c b/drivers/gpu/host1x/bus.c
+> index bc7271a00a94..4d16a3396c4a 100644
+> --- a/drivers/gpu/host1x/bus.c
+> +++ b/drivers/gpu/host1x/bus.c
+> @@ -803,7 +803,7 @@ EXPORT_SYMBOL(__host1x_client_register);
+>   * Removes a host1x client from its host1x controller instance. If a logical
+>   * device has already been initialized, it will be torn down.
+>   */
+> -int host1x_client_unregister(struct host1x_client *client)
+> +void host1x_client_unregister(struct host1x_client *client)
+>  {
+>  	struct host1x_client *c;
+>  	struct host1x *host1x;
+> @@ -815,7 +815,7 @@ int host1x_client_unregister(struct host1x_client *client)
+>  		err = host1x_del_client(host1x, client);
+>  		if (!err) {
+>  			mutex_unlock(&devices_lock);
+> -			return 0;
+> +			return;
+>  		}
+>  	}
+>  
+> @@ -832,8 +832,6 @@ int host1x_client_unregister(struct host1x_client *client)
+>  	mutex_unlock(&clients_lock);
+>  
+>  	host1x_bo_cache_destroy(&client->cache);
 > -
-> -Module Name:
-> -	r8192U_dm.c
-> -
-> -Abstract:
-> -	HW dynamic mechanism.
-> ---*/
-> + *Copyright-c Realtek Semiconductor Corp. All rights reserved.
-
-You need spaces after the '*' char.
-
-/*
- * Copyright-c Realtek Semiconductor Corp. All rights reserved.
- *
- * Module Name:
-
-> + *
-> + *Module Name:
-> + *	r8192U_dm.c
-> + *
-> + *Abstract:
-> + *	HW dynamic mechanism.
-> + *--
-> + */
->  #include "r8192U.h"
->  #include "r8192U_dm.h"
->  #include "r8192U_hw.h"
-> @@ -243,7 +244,8 @@ void init_rate_adaptive(struct net_device *dev)
->   * Output:		NONE
->   *
->   * Return:		NONE
-> - *---------------------------------------------------------------------------*/
-> + *---------------------------------------------------------------------------
-> + */
->  static void dm_check_rate_adaptive(struct net_device *dev)
-
-There is a proper kernel doc format for comment formats.  The format is
-described in Documentation/doc-guide/kernel-doc.rst
-
-(Change the function comments as a separate patch from the top of the
-file changes).
-
-regards,
-dan carpenter
+> -	return 0;
+>  }
+>  EXPORT_SYMBOL(host1x_client_unregister);
+>  
+> diff --git a/drivers/staging/media/tegra-video/csi.c b/drivers/staging/media/tegra-video/csi.c
+> index 426e653bd55d..36ca639622c9 100644
+> --- a/drivers/staging/media/tegra-video/csi.c
+> +++ b/drivers/staging/media/tegra-video/csi.c
+> @@ -778,14 +778,8 @@ static int tegra_csi_probe(struct platform_device *pdev)
+>  static int tegra_csi_remove(struct platform_device *pdev)
+>  {
+>  	struct tegra_csi *csi = platform_get_drvdata(pdev);
+> -	int err;
+>  
+> -	err = host1x_client_unregister(&csi->client);
+> -	if (err < 0) {
+> -		dev_err(&pdev->dev,
+> -			"failed to unregister host1x client: %d\n", err);
+> -		return err;
+> -	}
+> +	host1x_client_unregister(&csi->client);
+>  
+>  	pm_runtime_disable(&pdev->dev);
+>  
+> diff --git a/drivers/staging/media/tegra-video/vi.c b/drivers/staging/media/tegra-video/vi.c
+> index 11dd142c98c5..26f7aedce718 100644
+> --- a/drivers/staging/media/tegra-video/vi.c
+> +++ b/drivers/staging/media/tegra-video/vi.c
+> @@ -2041,14 +2041,8 @@ static int tegra_vi_probe(struct platform_device *pdev)
+>  static int tegra_vi_remove(struct platform_device *pdev)
+>  {
+>  	struct tegra_vi *vi = platform_get_drvdata(pdev);
+> -	int err;
+>  
+> -	err = host1x_client_unregister(&vi->client);
+> -	if (err < 0) {
+> -		dev_err(&pdev->dev,
+> -			"failed to unregister host1x client: %d\n", err);
+> -		return err;
+> -	}
+> +	host1x_client_unregister(&vi->client);
+>  
+>  	pm_runtime_disable(&pdev->dev);
+>  
+> diff --git a/include/linux/host1x.h b/include/linux/host1x.h
+> index 9a9de4b97a25..9c8119ed13a4 100644
+> --- a/include/linux/host1x.h
+> +++ b/include/linux/host1x.h
+> @@ -443,7 +443,7 @@ int __host1x_client_register(struct host1x_client *client);
+>  		__host1x_client_register(client);	\
+>  	})
+>  
+> -int host1x_client_unregister(struct host1x_client *client);
+> +void host1x_client_unregister(struct host1x_client *client);
+>  
+>  int host1x_client_suspend(struct host1x_client *client);
+>  int host1x_client_resume(struct host1x_client *client);
 
