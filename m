@@ -1,29 +1,51 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB5A120F8;
-	Sun, 26 Mar 2023 13:20:17 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BA032C433D2;
-	Sun, 26 Mar 2023 13:20:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1679836817;
-	bh=DCQOATmQzGlfzrAUPN5To5/sRencn+ujNeV4RPDtAhg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=phANgEHH2kJz0I0Oe8aMuD8w0DTDBgbn31+krj3VEfj+obWiF4VMXuS8LN4fdHaz1
-	 d2TbE9vR1zTX2SF0UWh8a681jalSCXPfojgdz6W/Kx3cmlZKJiuZNWdP6340Gp7NVP
-	 ReYSLIlSN1UO1BoInk6ycAq5jw2W/Mw/y4oscBsA=
-Date: Sun, 26 Mar 2023 15:20:14 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Tom Rix <trix@redhat.com>
-Cc: Nam Cao <namcaov@gmail.com>, nathan@kernel.org, ndesaulniers@google.com,
-	artur.bujdoso@gmail.com, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org, llvm@lists.linux.dev
-Subject: Re: [PATCH] staging: rtl8723bs: remove unused pHalData variable
-Message-ID: <ZCBGjp7bJBWWztOG@kroah.com>
-References: <20230326122321.1352337-1-trix@redhat.com>
- <ZCA+vIjUFHZFUFPC@nam-dell>
- <ZCBArurFCc7Pae+T@kroah.com>
- <8a2746a0-57e0-621b-7db9-2719554d050b@redhat.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3A9A620;
+	Mon, 27 Mar 2023 05:03:20 +0000 (UTC)
+Received: by mail-wr1-f49.google.com with SMTP id l12so7254727wrm.10;
+        Sun, 26 Mar 2023 22:03:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1679893399;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=y7YZc7+GXIQDusVUYqDOj5P6rOU9cQWWbR2WAwt/ZP8=;
+        b=Au31X4bAiYNikzyau9Yfhg61ao8BTyae3kBdmWF7+w8cKS6x5kPmT6nu82vEZ0040a
+         jvugcn6hzLwKsx3Dd1gMYUfYl38cfjFf8DbCugPyv6EMG8e/tu5l3FR29XUU3lKVHnr4
+         wMy8rWT09dTWjJMvUtZy/Ka2MleRCb7igF8l3wfhwX4YhgMw1h8sNrI0del/xnLidaY4
+         ljMQv2rRc9pX+hX4MU5kqFxEGSR2b/rSuffaK6xWXrQXlJlHgmrrtRPuxBd7Ru8vf9Jv
+         056OoNcnN38e37ZrG4olglwyhHz9iM84vIqDU3OO9tKr5JFwng+jv0OzIhNoqzIxGN9m
+         EtDA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1679893399;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=y7YZc7+GXIQDusVUYqDOj5P6rOU9cQWWbR2WAwt/ZP8=;
+        b=Dw5FIVb35XKnqnO9NVOQGPAr/Dc3Os8J8JN/2aacCC9aYHzVtdSDhIHkU9K7XAhT7T
+         g8Mu9pTjOtYFsxcWAbopvbdvZLNCFGQAJguEtfNRFauYm9T5+fIK1fYErw4aqUStKBx1
+         TrmvX2rvWZ78qCY84F264xojXPwLwj5WoJQPUruEcVsCO7ZmYOmMTsVSImKeuu3lHAan
+         QdAi2NdDOelt3RoXgokwejiDX5//PGkRc8szUkXArACt5M8KIwf2Eak+/DUqAWDSLtAv
+         cj9hugp70p6hRqcKA9iQ4sjziXy46QEbVziz1khuoZFgPW+pTPuVKPRDOoKg2crSCiq6
+         A+1g==
+X-Gm-Message-State: AAQBX9cOo0suTLPzuKtVQ5csWIpvaMvObH+cb+tUsWL2sQWD+4iPzLfC
+	LA7SwXGa1eyo7rS6nHC8zr4=
+X-Google-Smtp-Source: AKy350aLBQR2xPYxawU6Rc6qi8vaKa9Q3oJfOb9xD9r02p7cdkbEIZyhOWFb6S3aQUxQIGPy8D0zAQ==
+X-Received: by 2002:adf:ea09:0:b0:2d1:f705:a602 with SMTP id q9-20020adfea09000000b002d1f705a602mr7986169wrm.22.1679893398684;
+        Sun, 26 Mar 2023 22:03:18 -0700 (PDT)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id n17-20020adff091000000b002c5534db60bsm24065337wro.71.2023.03.26.22.03.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 26 Mar 2023 22:03:18 -0700 (PDT)
+Date: Mon, 27 Mar 2023 08:03:14 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: Khadija Kamran <kamrankhadijadj@gmail.com>
+Cc: outreachy@lists.linux.dev, gregkh@linuxfoundation.org,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 3/3] staging: rtl8192u: reformat block comments
+Message-ID: <32819686-cce9-40d2-8707-547bdb1a72f8@kili.mountain>
+References: <cover.1679831899.git.kamrankhadijadj@gmail.com>
+ <d49d15e620aa9239f3d68df1a5f8b600de77b536.1679831899.git.kamrankhadijadj@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -32,46 +54,71 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <8a2746a0-57e0-621b-7db9-2719554d050b@redhat.com>
+In-Reply-To: <d49d15e620aa9239f3d68df1a5f8b600de77b536.1679831899.git.kamrankhadijadj@gmail.com>
 
-On Sun, Mar 26, 2023 at 06:13:16AM -0700, Tom Rix wrote:
+On Sun, Mar 26, 2023 at 05:18:27PM +0500, Khadija Kamran wrote:
+> Linux kernel coding style for block comments uses a column of '*' on the
+> left side and  uses '*/' on a separate line.
 > 
-> On 3/26/23 5:55 AM, Greg KH wrote:
-> > On Sun, Mar 26, 2023 at 02:46:52PM +0200, Nam Cao wrote:
-> > > On Sun, Mar 26, 2023 at 08:23:21AM -0400, Tom Rix wrote:
-> > > > clang with W=1 reports
-> > > > drivers/staging/rtl8723bs/hal/hal_btcoex.c:1182:23: error: variable
-> > > >    'pHalData' set but not used [-Werror,-Wunused-but-set-variable]
-> > > >          struct hal_com_data *pHalData;
-> > > >                               ^
-> > > > This variable is not used so remove it.
-> > > > 
-> > > > Signed-off-by: Tom Rix <trix@redhat.com>
-> > > > ---
-> > > >   drivers/staging/rtl8723bs/hal/hal_btcoex.c | 4 ----
-> > > >   1 file changed, 4 deletions(-)
-> > > > 
-> > > > diff --git a/drivers/staging/rtl8723bs/hal/hal_btcoex.c b/drivers/staging/rtl8723bs/hal/hal_btcoex.c
-> > > > index e36f8c369a04..0cb2adcc1f78 100644
-> > > > --- a/drivers/staging/rtl8723bs/hal/hal_btcoex.c
-> > > > +++ b/drivers/staging/rtl8723bs/hal/hal_btcoex.c
-> > > > @@ -1179,10 +1179,6 @@ bool hal_btcoex_IsBtDisabled(struct adapter *padapter)
-> > > >   void hal_btcoex_SetChipType(struct adapter *padapter, u8 chipType)
-> > > >   {
-> > > > -	struct hal_com_data *pHalData;
-> > > > -
-> > > > -
-> > > > -	pHalData = GET_HAL_DATA(padapter);
-> > > >   }
-> > > If this function doesn't do anything, does it not make more sense to
-> > > just remove this function entirely?
-> > This function is already removed in linux-next, so it doesn't matter :)
+> Fix block comments by adding '*' on subsequent lines and moving '*/' at
+> the end of block comments on a separate line. These issues in block
+> comments are reported by checkpatch.pl script.
 > 
-> My patch is against linux-next from tag next-20230324
+> Signed-off-by: Khadija Kamran <kamrankhadijadj@gmail.com>
+> ---
+>  drivers/staging/rtl8192u/r8192U_dm.c | 38 +++++++++++++++++-----------
+>  1 file changed, 23 insertions(+), 15 deletions(-)
+> 
+> diff --git a/drivers/staging/rtl8192u/r8192U_dm.c b/drivers/staging/rtl8192u/r8192U_dm.c
+> index e5c0bece4bb4..99c38a4cf54c 100644
+> --- a/drivers/staging/rtl8192u/r8192U_dm.c
+> +++ b/drivers/staging/rtl8192u/r8192U_dm.c
+> @@ -1,13 +1,14 @@
+>  // SPDX-License-Identifier: GPL-2.0
+>  /*++
+> -Copyright-c Realtek Semiconductor Corp. All rights reserved.
+> -
+> -Module Name:
+> -	r8192U_dm.c
+> -
+> -Abstract:
+> -	HW dynamic mechanism.
+> ---*/
+> + *Copyright-c Realtek Semiconductor Corp. All rights reserved.
 
-Ah, ok, well it will be gone in the next one, as this is already gone in
-my tree.
+You need spaces after the '*' char.
 
-thanks,
+/*
+ * Copyright-c Realtek Semiconductor Corp. All rights reserved.
+ *
+ * Module Name:
 
-greg k-h
+> + *
+> + *Module Name:
+> + *	r8192U_dm.c
+> + *
+> + *Abstract:
+> + *	HW dynamic mechanism.
+> + *--
+> + */
+>  #include "r8192U.h"
+>  #include "r8192U_dm.h"
+>  #include "r8192U_hw.h"
+> @@ -243,7 +244,8 @@ void init_rate_adaptive(struct net_device *dev)
+>   * Output:		NONE
+>   *
+>   * Return:		NONE
+> - *---------------------------------------------------------------------------*/
+> + *---------------------------------------------------------------------------
+> + */
+>  static void dm_check_rate_adaptive(struct net_device *dev)
+
+There is a proper kernel doc format for comment formats.  The format is
+described in Documentation/doc-guide/kernel-doc.rst
+
+(Change the function comments as a separate patch from the top of the
+file changes).
+
+regards,
+dan carpenter
+
