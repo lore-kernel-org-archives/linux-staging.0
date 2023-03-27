@@ -1,193 +1,88 @@
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FDEB63B6;
-	Mon, 27 Mar 2023 17:17:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1679937445; x=1711473445;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=iLxpMM7xRbAJBq6Fhf+2XizhIG+CR14+JMfNOvnK+PE=;
-  b=mZVyFG57f6YCJf73aPJ2GrEQoodSKUdvkOp29cZ2SZ3KyaykvoEcDF94
-   B/RsyzwIz8MXPDsblrjotz/KbFHQkmgJEhDo3OFr7YOB5tMxb1RJOOFZn
-   NLLIvgrkWUlmx3Q4afNQLbOnreR9JrvZ2EhaLHPUS5C5BxcVgSlMStGce
-   XePTBpl9nt2kR0H0Eeva71RyAuI2C+npHYaU10dCxkgyi+nA7kWZJpzhG
-   kn/q7Hn/Odi7JNolKCu4DLVYnXPxa3+zBupwUfH8pweAe87QFKIYL2T3g
-   u5lnr7CQX8k6GP+wsn/HQhirUJLZQm4b6DHfsoMzF+TdKAW3lzqpvB5ln
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10662"; a="426596374"
-X-IronPort-AV: E=Sophos;i="5.98,295,1673942400"; 
-   d="scan'208";a="426596374"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Mar 2023 10:17:24 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10662"; a="1013193769"
-X-IronPort-AV: E=Sophos;i="5.98,295,1673942400"; 
-   d="scan'208";a="1013193769"
-Received: from srikarja-mobl1.amr.corp.intel.com (HELO aschofie-mobl2) ([10.255.229.96])
-  by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Mar 2023 10:17:24 -0700
-Date: Mon, 27 Mar 2023 10:17:22 -0700
-From: Alison Schofield <alison.schofield@intel.com>
-To: Khadija Kamran <kamrankhadijadj@gmail.com>
-Cc: outreachy@lists.linux.dev, Vaibhav Hiremath <hvaibhav.linux@gmail.com>,
-	Johan Hovold <johan@kernel.org>, Alex Elder <elder@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 489127468;
+	Mon, 27 Mar 2023 19:49:15 +0000 (UTC)
+Received: by mail-wm1-f51.google.com with SMTP id p34so5671883wms.3;
+        Mon, 27 Mar 2023 12:49:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1679946553;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=NjCcLoIlqFNxoJB7I2WmOr2pxCSji/b+9pZvuMvJmaU=;
+        b=WkY4SZMvLqxXNdUPpvROtO+jdZcoqHTQnKeXo3qafrs5wa3uJcfMi++yT21LU4WjAz
+         Z+lIO24mQUKie7X/4qIV0Kiq1CjXXcE1p+YIWL/AYfUK8f5GM+62TUYeidu3b6Np6ix9
+         qSWnBoB5OIoXFX0zf/Z0yhHUwa3dRSqpH09iLV8bc7qT+a27UH1EiiRucD0L63O5JbUC
+         0RA4YxV/qjdtcskB4DqaDj3Zjex9/B+08+On/BQyRDE3ky8sFcHjMlXk0y6wZfZB1Lot
+         ji5iU3VTXpZa8sM/FafKn3G21ygposz9ovy5+Vy8W17YaExN33OES3ebtPbjMmf43tiw
+         +crQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1679946553;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=NjCcLoIlqFNxoJB7I2WmOr2pxCSji/b+9pZvuMvJmaU=;
+        b=Zdv2IH9YkrEFCt3Cq3b9IU4Fy6oGzUp4lMs6kNXidnjd2G3G6GufZvm+qGtmKXlL5Q
+         JE5U4x0ywiVMRH7ihYAMctxRzjgXd4y3KsKtYvTDv1F1WgjgEgCXHMpwo6ugjdPU308V
+         HBJn5e6lif4Sgi0gEXG+u9Bp3KV4a7d/KXvqDDCXPJfLsr5Yfhpbf+E0yFZpzV9oTZv7
+         tEL0Lm0HXHKP+c6MD5KcQwblU0C2EW0ioRySZnPAqHY0aC4YHDiPERucW38wzjzcmscl
+         1XHiBC3wpdKIk5/pdss3h9JRlCi7/oySQHv5HfKPR3ZQzO4clkdhXD1AIprN/QHVVdpz
+         O77w==
+X-Gm-Message-State: AO0yUKVlxn+8t+Da5hwLOYnpVDE5M/hWV0MiY63yQ/4h2eZNoryq4NHP
+	qDvR9qzT6i9+JrBWECbuekvBcFND/aYe0mKv
+X-Google-Smtp-Source: AK7set/se8+ke/Z5Xe1dYsL+TqqBgCJRwO6mI/LcJCRwMkdUheUkvvVzWR/BONIaftO6KEfHKtOQ6Q==
+X-Received: by 2002:a05:600c:2182:b0:3ee:3b7b:73c1 with SMTP id e2-20020a05600c218200b003ee3b7b73c1mr9795173wme.28.1679946553125;
+        Mon, 27 Mar 2023 12:49:13 -0700 (PDT)
+Received: from khadija-virtual-machine.localdomain ([39.41.14.14])
+        by smtp.gmail.com with ESMTPSA id c13-20020a05600c0acd00b003ee42696acesm14661366wmr.16.2023.03.27.12.49.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 27 Mar 2023 12:49:12 -0700 (PDT)
+From: Khadija Kamran <kamrankhadijadj@gmail.com>
+To: outreachy@lists.linux.dev
+Cc: gregkh@linuxfoundation.org,
+	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3] staging: greybus: merge split lines
-Message-ID: <ZCHPokeiKV37uOmr@aschofie-mobl2>
-References: <ZBgYsqkpdYpGQniB@khadija-virtual-machine>
- <ZBnZj3JbTOsplHvw@khadija-virtual-machine>
- <ZBnc3qWTSeWw0Ulo@aschofie-mobl2>
- <ZCFvTndYXmPvQunt@khadija-virtual-machine>
+Subject: [PATCH v3 0/4] staging: rtl8192u: clean up comments in r8192U_dm.c
+Date: Tue, 28 Mar 2023 00:49:05 +0500
+Message-Id: <cover.1679945728.git.kamrankhadijadj@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZCFvTndYXmPvQunt@khadija-virtual-machine>
+Content-Transfer-Encoding: 8bit
 
-On Mon, Mar 27, 2023 at 03:26:22PM +0500, Khadija Kamran wrote:
-> On Tue, Mar 21, 2023 at 09:35:42AM -0700, Alison Schofield wrote:
-> > On Tue, Mar 21, 2023 at 09:21:35PM +0500, Khadija Kamran wrote:
-> > > On Mon, Mar 20, 2023 at 01:26:33PM +0500, Khadija Kamran wrote:
-> > > > If condition and spin_unlock_...() call is split into two lines, merge
-> > > > them to form a single line.
-> > > > 
-> > > > Suggested-by: Deepak R Varma drv@mailo.com
-> > > > Signed-off-by: Khadija Kamran <kamrankhadijadj@gmail.com>
-> > > > ---
-> > > > 
-> > > > Changes in v3:
-> > > >  - Removing tab to fix line length results in a new checkpatch warning,
-> > > >    so let the fix length be as it is.
-> > > > Changes in v2:
-> > > >  - Rephrased he subject and description
-> > > >  - Merged if_condition() and spin_unlock...() into one line
-> > > >  - Link to patch:
-> > > >  https://lore.kernel.org/outreachy/ZAusnKYVTGvO5zoi@khadija-virtual-machine/
-> > > > 
-> > > > Link to first patch:
-> > > > https://lore.kernel.org/outreachy/ZAtkW6g6DwPg%2FpDp@khadija-virtual-machine/
-> > > > 
-> > > >  drivers/staging/greybus/arche-platform.c | 6 ++----
-> > > >  1 file changed, 2 insertions(+), 4 deletions(-)
-> > > > 
-> > > > diff --git a/drivers/staging/greybus/arche-platform.c b/drivers/staging/greybus/arche-platform.c
-> > > > index fcbd5f71eff2..6890710afdfc 100644
-> > > > --- a/drivers/staging/greybus/arche-platform.c
-> > > > +++ b/drivers/staging/greybus/arche-platform.c
-> > > > @@ -176,12 +176,10 @@ static irqreturn_t arche_platform_wd_irq(int irq, void *devid)
-> > > >  				 * Check we are not in middle of irq thread
-> > > >  				 * already
-> > > >  				 */
-> > > > -				if (arche_pdata->wake_detect_state !=
-> > > > -						WD_STATE_COLDBOOT_START) {
-> > > > +				if (arche_pdata->wake_detect_state != WD_STATE_COLDBOOT_START) {
-> > > >  					arche_platform_set_wake_detect_state(arche_pdata,
-> > > >  									     WD_STATE_COLDBOOT_TRIG);
-> > > > -					spin_unlock_irqrestore(&arche_pdata->wake_lock,
-> > > > -							       flags);
-> > > > +					spin_unlock_irqrestore(&arche_pdata->wake_lock, flags);
-> > > >  					return IRQ_WAKE_THREAD;
-> > > >  				}
-> > > >  			}
-> > > > --
-> > > > 2.34.1
-> > > >
-> > > 
-> > > Hey Outreachy Mentors,
-> > > 
-> > > Kindly take a look at this patch and let me know if it is okay to work
-> > > on this file or should I look for other cleanup patches.
-> > 
-> > Hi Khadija,
-> > 
-> > I thought you were abandoning *this* patch, and doing a refactor on
-> > the function.  I'd expect that would be a new patch, probably a
-> > patchset. One where you align the work based on the 'rising' and
-> > 'falling' detection, 
-> 
-> Hey Alison,
-> 
-> Can you please elaborate that what do you mean by aligning on the basis
-> of rising and falling detection. Are you perhaps saying that I should
-> group the rising detection and group the falling detection separately?
-> 
-> > and perhaps a second patch that centralizes
-> > the unlock and return.
-> 
-> To do this I should make the use of goto statement, right?
-> 
-> So the next patchset should be:
-> Patch 1: merge split lines
-> Patch 2: align on the basis of rising and falling detection
-> Patch 3: use goto statement to centralize unlock and return
-> 
-> Kindly guide me.
-> 
-> Regards,
-> Khadija
+Clean up several comments in file r8192U_dm.c
 
-Hi,
+Changes in v3:
+ - Split patch 3 in two patches, one for '*' on subsequent lines and one
+   for '*/' on separate line, as suggested by Dan.
+ - Add spaces after '*' in patch 3 
 
-Glad you are picking this back up!
-I know Ira sent you some links to refactoring info. Go back and
-look at those.
+Changes in v2:
+ - Remove the 'commented code' and 'revision history' before
+   reformatting the block comments, as suggested by Greg. There is no use
+   in fixing comments, only to remove them in the next commits 
+ - Patch 1: Changed the description and removed extra blank lines under
+   the change history
+ - Patch 2: Changed the subject and description 
 
-When we submit patches that refactor a function, we try to make
-the patches obviously correct and easy to review.
+This patchset was created after reviewer feedback on an initial patch.
+The feedback suggested additional cleanup comments. Link to the first
+patch:
+https://lore.kernel.org/outreachy/ZB2a5zwYpBZ%2F6qwU@khadija-virtual-machine/
 
-I'll tell you how I approached this one, and you can see how
-it works for you:
+Khadija Kamran (4):
+  staging: rtl8192u: remove change history from comments
+  staging: rtl8192u: remove commented out code
+  staging: rtl8192u: add '*' on subsequent lines in block comment
+  staging: rtl8192u: add '*/' on separate line in block comments
 
-1. Edit the function until it is just how you'd like it. Hint:
-   no lines over 80, minimal indentation.
+ drivers/staging/rtl8192u/r8192U_dm.c | 206 +++------------------------
+ 1 file changed, 23 insertions(+), 183 deletions(-)
 
-{
-	--snip--
+-- 
+2.34.1
 
-	if (!gpiod_get_value(arche_pdata->wake_detect))
-                goto falling;
-
-        /* wake/detect rising */
-
-	
-
-falling:
-	/* wake/detect falling */
-
-
-out:
-	spin_unlock_irqrestore(&arche_pdata->wake_lock, flags);
-
-        return rc;
-}
-
-
-2. Figure out how you can present that in patches. This function
-   is just long enough that I think you have to split it up into
-   two or more obvious steps, rather than throwing it into one
-   patch.
-
-How about you do Step 1, and send the diff to the Outreachy mailing
-list (only) for review. Please start a new thread. 
-
-Alison
-
-> 
-> > 
-> > Is there some other concern with working on this file?
-> > 
-> > Alison
-> > 
-> > > 
-> > > Thank you for your time.
-> > > Regards,
-> > > Khadija
-> > > 
-> > > 
