@@ -1,84 +1,85 @@
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-00128a01.pphosted.com (mx0a-00128a01.pphosted.com [148.163.135.77])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1A9EECF;
-	Mon, 27 Mar 2023 12:46:08 +0000 (UTC)
-Received: by mail-wr1-f53.google.com with SMTP id l27so8670957wrb.2;
-        Mon, 27 Mar 2023 05:46:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1679921167;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=fYIGAgh3bNQtQ2hkLhWzVHkkyMwA2A5wfdDvnocQpCQ=;
-        b=OtF5U5GeGMC1joLpFhdjkzQSJl2EpNpTlz9dgob+XXltcZTyEVsyud07oqsVyyE8Ni
-         3pfq20RG85/LXrAr2IlkhLLtWEnjMXIg60PPNouvkfSP4eb29R/uqFHyO71VrX8qeZr9
-         o1X1wRpoo3JjbY5A6DeNnr5kph4BKPzJdKXRE7z0TkFqLErrcezfd5RJbQmaTDn00AzF
-         XmTBYQ5cu17kcjsKEkcHJHrhPZUo9YYeHBnz1UBvbdnqPBLvs4uCEO8XHv/ryysm+hjl
-         fOeVSFU5iq3wP/sOYdVwPp44td+VgKKMfZrQIiQhXhmi7/xz8b/KAWz1YEh2GFmu9jy2
-         gp5A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679921167;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=fYIGAgh3bNQtQ2hkLhWzVHkkyMwA2A5wfdDvnocQpCQ=;
-        b=xe4NrbeuMfVrYmVemhns4n+4Mgt1H2ub3DOcG6wt3BBW4aNPaLfWPaIjLiYT7h5sQN
-         aQprefRhdb/2AIAZFEi93XFf9DA9iHzLrzW3R2XPQznXFk81JOsGGq87zMyWWSgLn4wh
-         1LX75Jfnz4HXgKKquleZOSdDG1noliHCqYYn2+BLIwwBjWA7X7xWrt3stskRmt2CrFfH
-         JWDZsmKPgLq6fR8Z3YsYqbOlinFf5jn31lYxFqSKpgEgBCitsltqCLs/8SUiabTLWoEl
-         aYkt3lc8huToNLBimz/Gs+wHJ7rcUypXfZpoMX77zN6Hlzk9XMhYRhGoOPte4XzUzr+6
-         f/ww==
-X-Gm-Message-State: AAQBX9d4PZkoeolDOhRLjJKZiYQlQZ1XLjdDlGF7DpP4HR2VOyfsQqe2
-	r/GuPMlwnRy18QSqKzjcPQc=
-X-Google-Smtp-Source: AKy350Yb6KtmVuwqs6rupocORTaQKhgvxpira9yWvAE63AxgWO2SnPEYWy1Lgar60+D+9m7kWGbbUw==
-X-Received: by 2002:adf:eace:0:b0:2cf:e3d0:2a43 with SMTP id o14-20020adfeace000000b002cfe3d02a43mr11015922wrn.4.1679921167038;
-        Mon, 27 Mar 2023 05:46:07 -0700 (PDT)
-Received: from khadija-virtual-machine ([39.41.14.14])
-        by smtp.gmail.com with ESMTPSA id x4-20020a1c7c04000000b003ee0d191539sm13662716wmc.10.2023.03.27.05.46.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 27 Mar 2023 05:46:06 -0700 (PDT)
-Date: Mon, 27 Mar 2023 17:46:04 +0500
-From: Khadija Kamran <kamrankhadijadj@gmail.com>
-To: Dan Carpenter <error27@gmail.com>
-Cc: outreachy@lists.linux.dev, Marc Dietrich <marvin24@gmx.de>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	ac100@lists.launchpad.net, linux-tegra@vger.kernel.org,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: nvec: replace udelay() with usleep_range()
-Message-ID: <ZCGQDLEsCr6dY6/e@khadija-virtual-machine>
-References: <ZCGK4+zUDT1lLz6s@khadija-virtual-machine>
- <453453f4-1496-4735-8fab-efb7e4240e05@kili.mountain>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A700133C0
+	for <linux-staging@lists.linux.dev>; Mon, 27 Mar 2023 15:06:21 +0000 (UTC)
+Received: from pps.filterd (m0167089.ppops.net [127.0.0.1])
+	by mx0a-00128a01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 32REdZj5020717;
+	Mon, 27 Mar 2023 10:52:26 -0400
+Received: from nwd2mta4.analog.com ([137.71.173.58])
+	by mx0a-00128a01.pphosted.com (PPS) with ESMTPS id 3phwv7hpvj-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 27 Mar 2023 10:52:26 -0400
+Received: from ASHBMBX9.ad.analog.com (ASHBMBX9.ad.analog.com [10.64.17.10])
+	by nwd2mta4.analog.com (8.14.7/8.14.7) with ESMTP id 32REqOCs044121
+	(version=TLSv1/SSLv3 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+	Mon, 27 Mar 2023 10:52:24 -0400
+Received: from ASHBMBX9.ad.analog.com (10.64.17.10) by ASHBMBX9.ad.analog.com
+ (10.64.17.10) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.14; Mon, 27 Mar
+ 2023 10:52:23 -0400
+Received: from zeus.spd.analog.com (10.66.68.11) by ashbmbx9.ad.analog.com
+ (10.64.17.10) with Microsoft SMTP Server id 15.2.986.14 via Frontend
+ Transport; Mon, 27 Mar 2023 10:52:23 -0400
+Received: from nsa.sphairon.box ([10.44.3.102])
+	by zeus.spd.analog.com (8.15.1/8.15.1) with ESMTP id 32REqC1t025692;
+	Mon, 27 Mar 2023 10:52:14 -0400
+From: =?UTF-8?q?Nuno=20S=C3=A1?= <nuno.sa@analog.com>
+To: <linux-staging@lists.linux.dev>, <linux-iio@vger.kernel.org>
+CC: Michael Hennerich <Michael.Hennerich@analog.com>,
+        Greg Kroah-Hartman
+	<gregkh@linuxfoundation.org>,
+        Lars-Peter Clausen <lars@metafoo.de>,
+        Jonathan
+ Cameron <jic23@kernel.org>
+Subject: [PATCH] staging: iio: resolver: ads1210: fix config mode
+Date: Mon, 27 Mar 2023 16:54:14 +0200
+Message-ID: <20230327145414.1505537-1-nuno.sa@analog.com>
+X-Mailer: git-send-email 2.40.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <453453f4-1496-4735-8fab-efb7e4240e05@kili.mountain>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-ADIRuleOP-NewSCL: Rule Triggered
+X-Proofpoint-ORIG-GUID: FQlByd-5snak8J6dm0-vdpfiW4sAORTS
+X-Proofpoint-GUID: FQlByd-5snak8J6dm0-vdpfiW4sAORTS
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-03-24_11,2023-03-27_02,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ clxscore=1011 lowpriorityscore=0 malwarescore=0 suspectscore=0
+ phishscore=0 bulkscore=0 adultscore=0 impostorscore=0 mlxlogscore=999
+ spamscore=0 mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2303200000 definitions=main-2303270117
 
-On Mon, Mar 27, 2023 at 03:25:43PM +0300, Dan Carpenter wrote:
-> On Mon, Mar 27, 2023 at 05:24:03PM +0500, Khadija Kamran wrote:
-> > Replace 'udelay()' with 'usleep_range()' with 1000us as upper limit.
-> > This issue is reported by checkpatch.pl script.
-> > 
-> > CHECK: usleep_range is preferred over udelay; see
-> > Documentation/timers/timers-howto.rst
-> > 
-> > Signed-off-by: Khadija Kamran <kamrankhadijadj@gmail.com>
-> > ---
-> 
-> This kind of change requires you to test on the hardware and have
-> slightly in depth knowledge of the spec.
+As stated in the device datasheet [1], bits a0 and a1 have to be set to
+1 for the configuration mode.
 
-Okay, thank you!
+[1]: https://www.analog.com/media/en/technical-documentation/data-sheets/ad2s1210.pdf
 
-Regards,
-Khadija
+Fixes: b19e9ad5e2cb9 ("staging:iio:resolver:ad2s1210 general driver cleanup")
+Signed-off-by: Nuno Sá <nuno.sa@analog.com>
+---
+ drivers/staging/iio/resolver/ad2s1210.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
+diff --git a/drivers/staging/iio/resolver/ad2s1210.c b/drivers/staging/iio/resolver/ad2s1210.c
+index e4cf42438487..636c45b12843 100644
+--- a/drivers/staging/iio/resolver/ad2s1210.c
++++ b/drivers/staging/iio/resolver/ad2s1210.c
+@@ -101,7 +101,7 @@ struct ad2s1210_state {
+ static const int ad2s1210_mode_vals[4][2] = {
+ 	[MOD_POS] = { 0, 0 },
+ 	[MOD_VEL] = { 0, 1 },
+-	[MOD_CONFIG] = { 1, 0 },
++	[MOD_CONFIG] = { 1, 1 },
+ };
+ 
+ static inline void ad2s1210_set_mode(enum ad2s1210_mode mode,
+-- 
+2.40.0
 
-> 
-> regards,
-> dan carpenter
-> 
