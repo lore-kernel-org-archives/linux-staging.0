@@ -1,83 +1,187 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mail2-relais-roc.national.inria.fr (mail2-relais-roc.national.inria.fr [192.134.164.83])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8322CA44;
-	Tue, 28 Mar 2023 05:11:27 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D7C66C433D2;
-	Tue, 28 Mar 2023 05:11:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1679980287;
-	bh=T0M1pgvAdzRe+spfvvLVDkVSL/70Xeq1CaWoRmuHo6g=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=nFX55RdST9p5XWsK+lCtJ6/PsNUs1V2+T6G2aeU9AfepCCkv0U1XUxTbGxp8lxh8o
-	 irqBz+1HhFvQCqewbIAP9mbxD/KesGWfPayXiSukEnMbMICr57c0tZ8H8+TOzS0hFC
-	 2Det/vF6EfDZ2mHH04uotEowWLXRAXeFMTkU16p4=
-Date: Tue, 28 Mar 2023 07:11:24 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3482A44;
+	Tue, 28 Mar 2023 05:14:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=inria.fr; s=dc;
+  h=date:from:to:cc:subject:in-reply-to:message-id:
+   references:mime-version;
+  bh=TJ++SQGfnBdPkdwxW2Tzbzf3MJ3odVLTt2xpAQSMS4g=;
+  b=azd/nOCK71QVQImkzKffQpQWaoFFSCr31SWThTzukCjgesHfbfUwDw/J
+   M98Hg/bRfYAuL3JjBDkI8LfewesddotqiDWw0J5V0Flb5VudyY3y9UMhm
+   OknaXSULdXhXYQTlJ2JwHfFvzVWupEhb6c7YExHD4fg5V4jCA2eWyw1i/
+   Y=;
+Authentication-Results: mail2-relais-roc.national.inria.fr; dkim=none (message not signed) header.i=none; spf=SoftFail smtp.mailfrom=julia.lawall@inria.fr; dmarc=fail (p=none dis=none) d=inria.fr
+X-IronPort-AV: E=Sophos;i="5.98,296,1673910000"; 
+   d="scan'208";a="99414949"
+Received: from 231.85.89.92.rev.sfr.net (HELO hadrien) ([92.89.85.231])
+  by mail2-relais-roc.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Mar 2023 07:14:41 +0200
+Date: Tue, 28 Mar 2023 07:14:40 +0200 (CEST)
+From: Julia Lawall <julia.lawall@inria.fr>
+X-X-Sender: jll@hadrien
 To: Bagas Sanjaya <bagasdotme@gmail.com>
-Cc: Khadija Kamran <kamrankhadijadj@gmail.com>, outreachy@lists.linux.dev,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Jerry Chuang <jerry-chuang@realtek.com>
-Subject: Re: [PATCH v3 4/4] staging: rtl8192u: add '*/' on separate line in
- block comments
-Message-ID: <ZCJ2_PuvCUBvlwaL@kroah.com>
-References: <cover.1679945728.git.kamrankhadijadj@gmail.com>
- <140e0928531e61dc7396271a5b16a6be17514c76.1679945728.git.kamrankhadijadj@gmail.com>
- <ZCJepCj9JcOQqp0Z@debian.me>
+cc: Khadija Kamran <kamrankhadijadj@gmail.com>, outreachy@lists.linux.dev, 
+    gregkh@linuxfoundation.org, linux-staging@lists.linux.dev, 
+    linux-kernel@vger.kernel.org, Jerry Chuang <jerry-chuang@realtek.com>
+Subject: Re: [PATCH v3 1/4] staging: rtl8192u: remove change history from
+ comments
+In-Reply-To: <ZCJcQStZ8h0m+XfF@debian.me>
+Message-ID: <alpine.DEB.2.22.394.2303280714110.3298@hadrien>
+References: <cover.1679945728.git.kamrankhadijadj@gmail.com> <95fff39231ebb2bb683c2a8f252a93f4845fffb1.1679945728.git.kamrankhadijadj@gmail.com> <ZCJcQStZ8h0m+XfF@debian.me>
+User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZCJepCj9JcOQqp0Z@debian.me>
+Content-Type: text/plain; charset=US-ASCII
 
-On Tue, Mar 28, 2023 at 10:27:32AM +0700, Bagas Sanjaya wrote:
-> On Tue, Mar 28, 2023 at 12:49:09AM +0500, Khadija Kamran wrote:
-> > Linux kernel coding style uses '*/' on a separate line at the end of
-> > multi line comments.
-> > 
-> > Fix block comments by moving '*/' at the end of block comments on a
-> > separate line as reported by checkpatch.pl script.
-> > 
+
+
+On Tue, 28 Mar 2023, Bagas Sanjaya wrote:
+
+> On Tue, Mar 28, 2023 at 12:49:06AM +0500, Khadija Kamran wrote:
+> > Remove the change history information as it is not required in the
+> > comments.
+>
+> (also Cc: original driver author)
+>
+> What about below?
+>
+> ```
+> Remove obsolete change history info as developers can simply use git to
+> browse commit history of the driver.
+> ```
+
+But the information that is being removed is not part of the git history,
+since it predates the introduction of the driver into the Linux kernel.
+
+julia
+
+>
+> >
 > > Signed-off-by: Khadija Kamran <kamrankhadijadj@gmail.com>
 > > ---
-> >  drivers/staging/rtl8192u/r8192U_dm.c | 21 ++++++++++++++-------
-> >  1 file changed, 14 insertions(+), 7 deletions(-)
-> > 
+> >  drivers/staging/rtl8192u/r8192U_dm.c | 45 ----------------------------
+> >  1 file changed, 45 deletions(-)
+> >
 > > diff --git a/drivers/staging/rtl8192u/r8192U_dm.c b/drivers/staging/rtl8192u/r8192U_dm.c
-> > index dd9903719c20..cbae852478ea 100644
+> > index 6a33ca02c3dc..b1ebb776fc42 100644
 > > --- a/drivers/staging/rtl8192u/r8192U_dm.c
 > > +++ b/drivers/staging/rtl8192u/r8192U_dm.c
-> > @@ -244,7 +244,8 @@ void init_rate_adaptive(struct net_device *dev)
+> > @@ -7,12 +7,6 @@ Module Name:
+> >
+> >  Abstract:
+> >  	HW dynamic mechanism.
+> > -
+> > -Major Change History:
+> > -	When		Who				What
+> > -	----------	--------------- -------------------------------
+> > -	2008-05-14	amy                     create version 0 porting from windows code.
+> > -
+> >  --*/
+> >  #include "r8192U.h"
+> >  #include "r8192U_dm.h"
+> > @@ -274,11 +268,6 @@ void init_rate_adaptive(struct net_device *dev)
 > >   * Output:		NONE
 > >   *
 > >   * Return:		NONE
-> > - *---------------------------------------------------------------------------*/
-> > + *---------------------------------------------------------------------------
-> > + */
-> > <snipped>...
+> > - *
+> > - * Revised History:
+> > - *	When		Who		Remark
+> > - *	05/26/08	amy	Create version 0 porting from windows code.
+> > - *
+> >   *---------------------------------------------------------------------------*/
+> >  static void dm_check_rate_adaptive(struct net_device *dev)
+> >  {
+> > @@ -1589,11 +1578,6 @@ static void dm_bb_initialgain_backup(struct net_device *dev)
+> >   * Output:		NONE
+> >   *
+> >   * Return:		NONE
+> > - *
+> > - * Revised History:
+> > - *	When		Who		Remark
+> > - *	05/15/2008	amy		Create Version 0 porting from windows code.
+> > - *
+> >   *---------------------------------------------------------------------------*/
+> >  static void dm_dig_init(struct net_device *dev)
+> >  {
+> > @@ -1634,10 +1618,6 @@ static void dm_dig_init(struct net_device *dev)
+> >   * Output:		NONE
+> >   *
+> >   * Return:		NONE
+> > - *
+> > - * Revised History:
+> > - *	When		Who		Remark
+> > - *	05/27/2008	amy		Create Version 0 porting from windows code.
+> >   *---------------------------------------------------------------------------*/
+> >  static void dm_ctrl_initgain_byrssi(struct net_device *dev)
+> >  {
+> > @@ -1850,11 +1830,6 @@ static void dm_ctrl_initgain_byrssi_by_fwfalse_alarm(
+> >   * Output:		NONE
+> >   *
+> >   * Return:		NONE
+> > - *
+> > - * Revised History:
+> > - *	When		Who		Remark
+> > - *	05/28/2008	amy		Create Version 0 porting from windows code.
+> > - *
+> >   *---------------------------------------------------------------------------*/
+> >  static void dm_ctrl_initgain_byrssi_highpwr(
+> >  	struct net_device *dev)
+> > @@ -2269,11 +2244,6 @@ static void dm_ctstoself(struct net_device *dev)
+> >   * Output:		NONE
+> >   *
+> >   * Return:		NONE
+> > - *
+> > - * Revised History:
+> > - *	When		Who		Remark
+> > - *	05/28/2008	amy	Create Version 0 porting from windows code.
+> > - *
+> >   *---------------------------------------------------------------------------*/
+> >  static	void	dm_check_pbc_gpio(struct net_device *dev)
+> >  {
+> > @@ -2303,11 +2273,6 @@ static	void	dm_check_pbc_gpio(struct net_device *dev)
+> >   * Output:		NONE
+> >   *
+> >   * Return:		NONE
+> > - *
+> > - * Revised History:
+> > - *	When		Who		Remark
+> > - *	01/30/2008	MHC		Create Version 0.
+> > - *
+> >   *---------------------------------------------------------------------------*/
 > >  void dm_rf_pathcheck_workitemcallback(struct work_struct *work)
 > >  {
-> >  	struct delayed_work *dwork = to_delayed_work(work);
-> > @@ -2407,7 +2413,8 @@ static void dm_rxpath_sel_byrssi(struct net_device *dev)
+> > @@ -2552,11 +2517,6 @@ static void dm_rxpath_sel_byrssi(struct net_device *dev)
 > >   * Output:		NONE
 > >   *
 > >   * Return:		NONE
-> > - *---------------------------------------------------------------------------*/
-> > + *---------------------------------------------------------------------------
-> > + */
-> 
-> While at above can you please turn these comments above into kernel-doc
-> comments (see Documentation/doc-guide/kernel-doc.rst for how to write
-> one)? This requires a placeholder doc where you can write e.g. overview
-> of the driver and how it is used. The doc should be in
-> Documentation/driver-api/staging/ (since this is staging driver).
-
-No, these are static functions, or just normal internal-to-the-driver
-functions, they do not need kerneldoc or any Documentation/* entries,
-sorry.
-
-greg k-h
+> > - *
+> > - * Revised History:
+> > - *	When		Who		Remark
+> > - *	05/28/2008	amy		Create Version 0 porting from windows code.
+> > - *
+> >   *---------------------------------------------------------------------------*/
+> >  static void dm_check_rx_path_selection(struct net_device *dev)
+> >  {
+> > @@ -2871,11 +2831,6 @@ void dm_check_fsync(struct net_device *dev)
+> >   * Output:		NONE
+> >   *
+> >   * Return:		NONE
+> > - *
+> > - * Revised History:
+> > - *	When		Who		Remark
+> > - *	03/06/2008	Jacken	Create Version 0.
+> > - *
+> >   *---------------------------------------------------------------------------
+> >   */
+> >  static void dm_init_dynamic_txpower(struct net_device *dev)
+>
+> The rest is LGTM, thanks!
+>
+> --
+> An old man doll... just what I always wanted! - Clara
+>
