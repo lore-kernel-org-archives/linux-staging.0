@@ -1,160 +1,114 @@
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F1237E8;
-	Wed, 29 Mar 2023 14:30:59 +0000 (UTC)
-Received: by mail-wm1-f42.google.com with SMTP id bg16-20020a05600c3c9000b003eb34e21bdfso11618802wmb.0;
-        Wed, 29 Mar 2023 07:30:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1680100257;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Zr4X6wyMqM3FaFSlbgRQtbKkzLVZE5bqrrVko5Rwa5c=;
-        b=KJT9KupMr4SgFRMB1R5Wh5QGDCXLeuHnE241gzx/vFvAdIk7ppT8Z1/BqjTEoZZmS3
-         d0UPUn97r+cPBj80NygNM4gSJapGqb40vqiqV/fTx2iV5ugnPU5vY/faJZvPrGkmrZDS
-         c2QVM/zfy5rAU1MQyTTHQMC5gtuuv2cEYSGLeg0aSDPPb28Jpac1WFoATQgNDbUxtRrb
-         1Dsv+flWW5VqXfHEWEZUqj6H47QO7/vRO2p84ZitrI76Bei2hzLJmi6IV3oYcfXh8/Fa
-         9M5LMdLzkNT5HOijXWkxgFHo3Iu/3GpRKKCJDTSMrLF8MwLTucF0eMahk8cAZxVEgDt8
-         xb+w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680100257;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Zr4X6wyMqM3FaFSlbgRQtbKkzLVZE5bqrrVko5Rwa5c=;
-        b=l0JwpCINyCzaWGlSEzVRRZ3cDbZrpwpaxdoEinsGhnJSsx/97tiddbSeMt+A8xa+k2
-         6alWlHyLMU1OkNTBlrKnd//f8JhTi8efq2XFpTkDdAn4YyWt1KHEBLCMT5eyubqJrZkG
-         B3i5OKrDsN3Lcf8/+SnrArE1c3DyTFBY+CFrLYksMTO/ji8JRXCxcr0EUFTZNL9lHY1i
-         Dha09qp7YfeHrzqTedNAS4N2vWduLEne8GwqFJD372KIHKCukKKq7ZTsm2pEY4IRkuEU
-         EgF9/2DKLWOgBOQUs5Y7iTp5Sieoa6VNda+nwQYSvF3SAdjmq1iJOqqMgv8/zP7GosCs
-         UOgw==
-X-Gm-Message-State: AO0yUKWljpelrcHpIQhfB9Pf4vaVhvje6mqHe9fge3i2QNeV/esPFnbW
-	kOTUnSk3ArMdR7IpN/FWjF0=
-X-Google-Smtp-Source: AK7set8CpQuhy+NQhip4nyXlgZTJ/O7V2iF8vnlal0JCs0FmkIvo0kzZyO6if4P9x6msOc2ZGFi4mg==
-X-Received: by 2002:a05:600c:2043:b0:3ee:4678:dde with SMTP id p3-20020a05600c204300b003ee46780ddemr15533132wmg.27.1680100256938;
-        Wed, 29 Mar 2023 07:30:56 -0700 (PDT)
-Received: from suse.localnet (host-95-248-13-140.retail.telecomitalia.it. [95.248.13.140])
-        by smtp.gmail.com with ESMTPSA id v8-20020a05600c470800b003ef71d7d64asm2670516wmo.6.2023.03.29.07.30.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 29 Mar 2023 07:30:56 -0700 (PDT)
-From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-To: Kloudifold <cloudifold.3125@gmail.com>
-Cc: Sudip Mukherjee <sudipm.mukherjee@gmail.com>,
- Teddy Wang <teddy.wang@siliconmotion.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-fbdev@vger.kernel.org,
- devel@driverdev.osuosl.org, linux-kernel@vger.kernel.org,
- outreachy@lists.linux.dev, linux-staging@lists.linux.dev,
- alison.schofield@intel.com
-Subject:
- Re: [PATCH v6] staging: sm750: Rename sm750_hw_cursor_* functions to
- snake_case
-Date: Wed, 29 Mar 2023 16:30:54 +0200
-Message-ID: <1854722.CQOukoFCf9@suse>
-In-Reply-To: <ZCQeyWW3+d7+qT+b@CloudiRingWorld>
-References: <ZCQeyWW3+d7+qT+b@CloudiRingWorld>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C4317E5
+	for <linux-staging@lists.linux.dev>; Wed, 29 Mar 2023 17:01:54 +0000 (UTC)
+Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 32TG85tG002684;
+	Wed, 29 Mar 2023 17:01:53 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=from : to : cc : subject
+ : date : message-id : in-reply-to : references : mime-version :
+ content-transfer-encoding; s=pp1;
+ bh=F9yX2WC6VArjVxIghV6sIzckH95iX1QSVi05tlWgbHg=;
+ b=Y0oc8K2gRL4k5zv8/v+Ob+su8MzKbeOrCOZxWtPazEuyRDSns1gqOQtVIQZ38zNqSgYA
+ RP1Ria4XE9AzJhc9UETY/PBD6ft3SsNSe3q42tx6+8OdlmX91WB1bkkrOPWz+VpJwK0k
+ OfWDzS0/pF6tT5vsi0muruYfj7r5d3eWOvwuYimiIhtjjy+y0dCixZ7glzzHKe26gYQD
+ fTon2ugRxM5ksfuCesrdP3+MA87THcRXuLXgEOl8ksknbAG28EB53xnFBvD5NC5PP3fY
+ zwFPavwvBqIJKVb/idC2Wicc+GM45g9jx+RSirUpz8My5X81prDFBFDmsE2tPrZ+Cf9b lA== 
+Received: from pps.reinject (localhost [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3pmn83g0kd-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 29 Mar 2023 17:01:53 +0000
+Received: from m0098421.ppops.net (m0098421.ppops.net [127.0.0.1])
+	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 32TG0Jnf030259;
+	Wed, 29 Mar 2023 17:01:52 GMT
+Received: from ppma03ams.nl.ibm.com (62.31.33a9.ip4.static.sl-reverse.com [169.51.49.98])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3pmn83g0jk-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 29 Mar 2023 17:01:52 +0000
+Received: from pps.filterd (ppma03ams.nl.ibm.com [127.0.0.1])
+	by ppma03ams.nl.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 32SMITZE019492;
+	Wed, 29 Mar 2023 17:01:50 GMT
+Received: from smtprelay05.fra02v.mail.ibm.com ([9.218.2.225])
+	by ppma03ams.nl.ibm.com (PPS) with ESMTPS id 3phrk6n5rn-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 29 Mar 2023 17:01:50 +0000
+Received: from smtpav02.fra02v.mail.ibm.com (smtpav02.fra02v.mail.ibm.com [10.20.54.101])
+	by smtprelay05.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 32TH1mLL17826472
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Wed, 29 Mar 2023 17:01:48 GMT
+Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 4FA3A2004E;
+	Wed, 29 Mar 2023 17:01:48 +0000 (GMT)
+Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 91E9120043;
+	Wed, 29 Mar 2023 17:01:46 +0000 (GMT)
+Received: from li-27defe4c-32e1-11b2-a85c-e202e9981075.ibm.com (unknown [9.43.61.88])
+	by smtpav02.fra02v.mail.ibm.com (Postfix) with ESMTP;
+	Wed, 29 Mar 2023 17:01:46 +0000 (GMT)
+From: Abhirup Deb <abhirupdeb@linux.vnet.ibm.com>
+To: Martyn Welch <martyn@welchs.me.uk>,
+        Manohar Vanga <manohar.vanga@gmail.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
+Cc: abhirupdeb@linux.vnet.ibm.com
+Subject: [PATCH 1/5] staging: r8188eu: add blank line after declaration
+Date: Wed, 29 Mar 2023 22:31:35 +0530
+Message-Id: <96d80bac35397888da089268a50a0528d7acd84a.1679988016.git.abhirupdeb@linux.vnet.ibm.com>
+X-Mailer: git-send-email 2.31.1
+In-Reply-To: <cover.1679988016.git.abhirupdeb@linux.vnet.ibm.com>
+References: <cover.1679988016.git.abhirupdeb@linux.vnet.ibm.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: z7yZkJwFlHnAP52bN6TrwPSXxYhU1pWa
+X-Proofpoint-GUID: rvLWfVI9GaKwc9eIwT2ButVneT8C_jEC
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-03-29_10,2023-03-28_02,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0 mlxscore=0
+ spamscore=0 malwarescore=0 suspectscore=0 impostorscore=0 mlxlogscore=999
+ priorityscore=1501 phishscore=0 clxscore=1015 bulkscore=0 adultscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2303200000
+ definitions=main-2303290128
 
-On mercoled=EC 29 marzo 2023 13:27:04 CEST Kloudifold wrote:
-> sm750 driver has sm750_hw_cursor_* functions, which are named in
-> camelcase. Rename them to snake case to follow the function naming
-> convention.
->=20
-> - sm750_hw_cursor_setSize  =3D> sm750_hw_cursor_set_size
-> - sm750_hw_cursor_setPos   =3D> sm750_hw_cursor_set_pos
-> - sm750_hw_cursor_setColor =3D> sm750_hw_cursor_set_color
-> - sm750_hw_cursor_setData  =3D> sm750_hw_cursor_set_data
-> - sm750_hw_cursor_setData2 =3D> sm750_hw_cursor_set_data2
->=20
-> Reported-by: kernel test robot <lkp@intel.com>
-> Link:
-> https://lore.kernel.org/oe-kbuild-all/202303110849.X24WnHnM-lkp@intel.com/
+Add a blank line after variable declaration to improve
+code-readability and resolve checkpatch warnings.
 
-Delete the last two lines.
+checkpatch warning produced:
 
-As Greg made you notice, it was not the Kernel Test Robot that had reported=
-=20
-you an issue for which you decided to make a patch to fix it.
+WARNING: Missing a blank line after declarations
 
-The reason you made this patch is because you know that the Linux kernel st=
-yle=20
-guide wants developers to avoid camel-case symbols.
+Signed-off-by: Abhirup Deb <abhirupdeb@linux.vnet.ibm.com>
+---
+ drivers/staging/r8188eu/hal/usb_halinit.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-Before your "Signed-off-by" tag, you should only credit those tools and/or=
-=20
-services (checkpatch.pl, Coccinelle, Smatch, Syzkaller/Syzbot, GCC, Clang, =
-and=20
-so on) that had noticed that Linux has a problem that predates the first=20
-version of your patch and that your first version has the purpose to fix th=
-at=20
-problem.
-
-You made this patch because _checkpatch_ had reported issues with camel-cas=
-e=20
-improper use, so you decided to convert some names to snake-case. You are=20
-invited to credit only _checkpatch_ for you patch ("Reported by=20
-checkpatch.pl.").
-
-That credit is part of the commit message so, when you credit that tool, pu=
-t a=20
-blank line after the credit and before the "Signed-off-by" tag.=20
-
-> Signed-off-by: Kloudifold <cloudifold.3125@gmail.com>
->=20
-
-Instead, you should delete this blank line after your sign.
-
-> ---
-> Changes in v6:
-> - Include missed recipients in v5, no functional change to the code
->=20
-> Changes in v5:
-> - Include missed recipients in v4, no functional change to the code
->=20
-> Changes in v4:
-> - Update the commit msg (Deepak)
-> - Use tabs replace 8 spaces
->=20
-> This v4 patch was prompted by 2 errors, 2 warnings and 1 checks reported
-> by the scripts/checkpatch.pl, which detected the style problem.
->=20
-> Changes in v3:
-> - Add this changelog (Philipp)
-> - Move lkp tags and link to the correct location in commit log (Alison)
-> - Update the commit msg (Philip)
-> - Update the commit log (Bagas, Julia)
->=20
-> Changes in v2:
-> - Use new function names in call sites (LKP)
-
-This is the place to credit the Kernel Test Robot for noticing that you mad=
-e=20
-mistakes with v1 and that v2 is for fixing them.
-
-Therefore, give credit here to the Robot:
-
-Reported-by: kernel test robot <lkp@intel.com>
-> Link:
-> https://lore.kernel.org/oe-kbuild-all/202303110849.X24WnHnM-lkp@intel.com/
-
-Thanks,
-
-=46abio
-
-P.S.: Someone suggested to drop the "sm750_" prefix. I don't think you shou=
-ld=20
-do anything like this because I don't see "static" functions prefixed by=20
-"sm750_" in your patch. However, later you may check if they can be "static=
-"=20
-and, if so, drop the prefix and make them "static" (in a follow up patch). =
-=20
-
-
+diff --git a/drivers/staging/r8188eu/hal/usb_halinit.c b/drivers/staging/r8188eu/hal/usb_halinit.c
+index d28b4dc2a767..2ba1c1b25a76 100644
+--- a/drivers/staging/r8188eu/hal/usb_halinit.c
++++ b/drivers/staging/r8188eu/hal/usb_halinit.c
+@@ -93,6 +93,7 @@ u32 rtl8188eu_InitPowerOn(struct adapter *adapt)
+ 
+ 	/*  HW Power on sequence */
+ 	struct hal_data_8188e *haldata = &adapt->haldata;
++
+ 	if (haldata->bMacPwrCtrlOn)
+ 		return _SUCCESS;
+ 
+@@ -295,6 +296,7 @@ static void _InitTransferPageSize(struct adapter *Adapter)
+ 	/*  Tx page size is always 128. */
+ 
+ 	u8 value8;
++
+ 	value8 = _PSRX(PBP_128) | _PSTX(PBP_128);
+ 	rtw_write8(Adapter, REG_PBP, value8);
+ }
+-- 
+2.31.1
 
