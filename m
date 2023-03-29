@@ -1,290 +1,221 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5EDB67B
-	for <linux-staging@lists.linux.dev>; Wed, 29 Mar 2023 11:16:28 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AD5EBC433D2;
-	Wed, 29 Mar 2023 11:16:24 +0000 (UTC)
-Message-ID: <85268d69-3d3b-2c0f-ba26-073f09052362@xs4all.nl>
-Date: Wed, 29 Mar 2023 13:16:22 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE1A67B;
+	Wed, 29 Mar 2023 11:27:07 +0000 (UTC)
+Received: by mail-pl1-f177.google.com with SMTP id k2so14576391pll.8;
+        Wed, 29 Mar 2023 04:27:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1680089227;
+        h=content-disposition:mime-version:message-id:subject:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=+TJ7G4hDq7xlIKwrJ26zDgbgCqK0df5mOLaISK4RvPQ=;
+        b=E/GNLde/fMrKMo4evZ443LzqX0eL2H6xJ3nuu3lKPpNyJ1FN6hY7yVVgE8Ogd2DABU
+         8hZkvqBsBn7gNPUWe69BBhz3XPn24VxOdONNMYzhhEWCzAqEfXb3+KrMNhQY8hIrfF2p
+         USfJobgzAsQ9Ys+ao7JrDZQ/4QKZyrfEjdZrlWOAXALmVkcZrSUrPnKdzAxxM2IF62QX
+         Qni6MaPHGw2glKCDwg/8MBpfrpd/rgX9qptROvGiMkqSTo9adO0KEX+mkgf9isGKVW+n
+         Udf0h72r9m9/EGkqvT3d1OvYNhHL0aYIzP8T2A2OPT2F5gsetCKZ6It3rYKeltc9Hj8m
+         TWyQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1680089227;
+        h=content-disposition:mime-version:message-id:subject:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=+TJ7G4hDq7xlIKwrJ26zDgbgCqK0df5mOLaISK4RvPQ=;
+        b=vfgG09RHBTnAVzzHdpIlGURrp1/fosxWYgKWWQ8opNgfPBFeytiqfE5IVQBugJNxYs
+         ZxEABCB94DW8KM2ve8VjjTERC9aPVNlBn6hwbq/+ROVehAwdQBV/cqybCc+6u4/AytYA
+         f4J4oHh9+TJLCFHo2QZG1InxMaV5wFiRvIMROSqO+UA0FitxKOc0DIwBg4ZpBl48QsDq
+         mtSJZp4HxfSpVTYAjsB8e8iG8xTsuqgsZZ95nf3vP10rnvZj8+tYOBGMtRGMLxqzuVr3
+         lBpA8GTbg7zQ/LOdlBN0viKvuDEQFuKIF0iXMNmvf3BZ8MAd8JsdXOiL0bW72u4sl00M
+         3qKg==
+X-Gm-Message-State: AAQBX9fJp8lRk46yskvzC2+iz8a4P2Aajwym3kDkIzTVm5aZVcYbSloH
+	MPYWnuI9/UkHSP5kXaY9E5e6k1hde8GSO6Pk
+X-Google-Smtp-Source: AKy350ZhS4ZCfAYnVovoXsl7zcwpyMZ+lKrgxSrjdByHbi+fNZT4F8FLvooQN9mN9oefzIHGOAXAwA==
+X-Received: by 2002:a17:90a:18e:b0:23b:2c51:6e7 with SMTP id 14-20020a17090a018e00b0023b2c5106e7mr20068281pjc.21.1680089227092;
+        Wed, 29 Mar 2023 04:27:07 -0700 (PDT)
+Received: from CloudiRingWorld ([60.186.165.89])
+        by smtp.gmail.com with ESMTPSA id pj7-20020a17090b4f4700b00231227781d5sm1240666pjb.2.2023.03.29.04.27.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 29 Mar 2023 04:27:06 -0700 (PDT)
+Date: Wed, 29 Mar 2023 19:27:04 +0800
+From: Kloudifold <cloudifold.3125@gmail.com>
+To: Sudip Mukherjee <sudipm.mukherjee@gmail.com>,
+	Teddy Wang <teddy.wang@siliconmotion.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-fbdev@vger.kernel.org, devel@driverdev.osuosl.org,
+	linux-kernel@vger.kernel.org, outreachy@lists.linux.dev,
+	linux-staging@lists.linux.dev, alison.schofield@intel.com
+Subject: [PATCH v6] staging: sm750: Rename sm750_hw_cursor_* functions to
+ snake_case
+Message-ID: <ZCQeyWW3+d7+qT+b@CloudiRingWorld>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [RESEND PATCH v4 03/21] staging: media: tegra-video: fix
- .vidioc_enum_fmt_vid_cap to return all formats
-Content-Language: en-US
-To: Luca Ceresoli <luca.ceresoli@bootlin.com>,
- Thierry Reding <thierry.reding@gmail.com>,
- Jonathan Hunter <jonathanh@nvidia.com>,
- Sowjanya Komatineni <skomatineni@nvidia.com>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Dmitry Osipenko <digetx@gmail.com>
-Cc: linux-media@vger.kernel.org, linux-tegra@vger.kernel.org,
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev,
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
- Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
- Richard Leitner <richard.leitner@skidata.com>
-References: <20230309144320.2937553-1-luca.ceresoli@bootlin.com>
- <20230309144320.2937553-4-luca.ceresoli@bootlin.com>
-From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-In-Reply-To: <20230309144320.2937553-4-luca.ceresoli@bootlin.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Hi Luca,
+sm750 driver has sm750_hw_cursor_* functions, which are named in
+camelcase. Rename them to snake case to follow the function naming
+convention.
 
-I finally found the time to test this series. It looks OK, except for this patch.
-The list of supported formats really has to be the intersection of what the tegra
-supports and what the sensor supports.
+- sm750_hw_cursor_setSize  => sm750_hw_cursor_set_size
+- sm750_hw_cursor_setPos   => sm750_hw_cursor_set_pos
+- sm750_hw_cursor_setColor => sm750_hw_cursor_set_color
+- sm750_hw_cursor_setData  => sm750_hw_cursor_set_data
+- sm750_hw_cursor_setData2 => sm750_hw_cursor_set_data2
 
-Otherwise you would advertise pixelformats that cannot be used, and the application
-would have no way of knowing that.
+Reported-by: kernel test robot <lkp@intel.com>
+Link: https://lore.kernel.org/oe-kbuild-all/202303110849.X24WnHnM-lkp@intel.com/
+Signed-off-by: Kloudifold <cloudifold.3125@gmail.com>
 
-This patch needs to be dropped.
+---
+Changes in v6:
+- Include missed recipients in v5, no functional change to the code
 
-I'll run this series through my other checks, and I will let you know today if
-anything else needs to be changed.
+Changes in v5:
+- Include missed recipients in v4, no functional change to the code
 
-Regards,
+Changes in v4:
+- Update the commit msg (Deepak)
+- Use tabs replace 8 spaces
 
-	Hans
+This v4 patch was prompted by 2 errors, 2 warnings and 1 checks reported
+by the scripts/checkpatch.pl, which detected the style problem.
 
-On 09/03/2023 15:43, Luca Ceresoli wrote:
-> The .vidioc_enum_fmt_vid_cap (called tegra_channel_enum_format() here)
-> should return all the supported formats. Instead the current implementation
-> computes the intersection between the formats it supports and those
-> supported by the first subdev in the stream (typically the image sensor).
-> 
-> Remove all the unnecessary logic that supports such algorithm. In order to
-> do this, also change the Tegra210 CSI TPG formats from the current
-> open-coded implementation in vi_tpg_fmts_bitmap_init() to a const array in
-> tegra210.c, just like the one that describes the regular formats.
-> 
-> Fixes: 3d8a97eabef0 ("media: tegra-video: Add Tegra210 Video input driver")
-> Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
-> Reviewed-by: Dmitry Osipenko <digetx@gmail.com>
-> 
-> ---
-> 
-> Changed in v4:
->  - Added review tags
-> 
-> No changes in v3
-> No changes in v2
-> ---
->  drivers/staging/media/tegra-video/tegra210.c |   7 +-
->  drivers/staging/media/tegra-video/vi.c       | 103 +------------------
->  drivers/staging/media/tegra-video/vi.h       |   4 -
->  3 files changed, 9 insertions(+), 105 deletions(-)
-> 
-> diff --git a/drivers/staging/media/tegra-video/tegra210.c b/drivers/staging/media/tegra-video/tegra210.c
-> index d58370a84737..eb19dd5107ce 100644
-> --- a/drivers/staging/media/tegra-video/tegra210.c
-> +++ b/drivers/staging/media/tegra-video/tegra210.c
-> @@ -683,8 +683,12 @@ enum tegra210_image_format {
->  	V4L2_PIX_FMT_##FOURCC,						\
->  }
->  
-> -/* Tegra210 supported video formats */
->  static const struct tegra_video_format tegra210_video_formats[] = {
-> +#if IS_ENABLED(CONFIG_VIDEO_TEGRA_TPG)
-> +	/* VI only support 2 formats in TPG mode */
-> +	TEGRA210_VIDEO_FMT(RAW10,  10, SRGGB10_1X10,      2, T_R16_I,    SRGGB10),
-> +	TEGRA210_VIDEO_FMT(RGB888, 24, RGB888_1X32_PADHI, 4, T_A8B8G8R8, RGBX32),
-> +#else
->  	/* RAW 8 */
->  	TEGRA210_VIDEO_FMT(RAW8, 8, SRGGB8_1X8, 1, T_L8, SRGGB8),
->  	TEGRA210_VIDEO_FMT(RAW8, 8, SGRBG8_1X8, 1, T_L8, SGRBG8),
-> @@ -714,6 +718,7 @@ static const struct tegra_video_format tegra210_video_formats[] = {
->  	TEGRA210_VIDEO_FMT(YUV422_8, 16, VYUY8_2X8, 2, T_V8_Y8__U8_Y8, YUYV),
->  	TEGRA210_VIDEO_FMT(YUV422_8, 16, YUYV8_2X8, 2, T_Y8_U8__Y8_V8, VYUY),
->  	TEGRA210_VIDEO_FMT(YUV422_8, 16, YVYU8_2X8, 2, T_Y8_V8__Y8_U8, UYVY),
-> +#endif
->  };
->  
->  /* Tegra210 VI operations */
-> diff --git a/drivers/staging/media/tegra-video/vi.c b/drivers/staging/media/tegra-video/vi.c
-> index 11dd142c98c5..9dba6e97ebdd 100644
-> --- a/drivers/staging/media/tegra-video/vi.c
-> +++ b/drivers/staging/media/tegra-video/vi.c
-> @@ -3,7 +3,6 @@
->   * Copyright (C) 2020 NVIDIA CORPORATION.  All rights reserved.
->   */
->  
-> -#include <linux/bitmap.h>
->  #include <linux/clk.h>
->  #include <linux/delay.h>
->  #include <linux/host1x.h>
-> @@ -73,15 +72,6 @@ static int tegra_get_format_idx_by_code(struct tegra_vi *vi,
->  	return -1;
->  }
->  
-> -static u32 tegra_get_format_fourcc_by_idx(struct tegra_vi *vi,
-> -					  unsigned int index)
-> -{
-> -	if (index >= vi->soc->nformats)
-> -		return -EINVAL;
-> -
-> -	return vi->soc->video_formats[index].fourcc;
-> -}
-> -
->  static const struct tegra_video_format *
->  tegra_get_format_by_fourcc(struct tegra_vi *vi, u32 fourcc)
->  {
-> @@ -430,19 +420,12 @@ static int tegra_channel_enum_format(struct file *file, void *fh,
->  				     struct v4l2_fmtdesc *f)
->  {
->  	struct tegra_vi_channel *chan = video_drvdata(file);
-> -	unsigned int index = 0, i;
-> -	unsigned long *fmts_bitmap = chan->tpg_fmts_bitmap;
-> -
-> -	if (!IS_ENABLED(CONFIG_VIDEO_TEGRA_TPG))
-> -		fmts_bitmap = chan->fmts_bitmap;
-> +	const struct tegra_vi_soc *soc = chan->vi->soc;
->  
-> -	if (f->index >= bitmap_weight(fmts_bitmap, MAX_FORMAT_NUM))
-> +	if (f->index >= soc->nformats)
->  		return -EINVAL;
->  
-> -	for (i = 0; i < f->index + 1; i++, index++)
-> -		index = find_next_bit(fmts_bitmap, MAX_FORMAT_NUM, index);
-> -
-> -	f->pixelformat = tegra_get_format_fourcc_by_idx(chan->vi, index - 1);
-> +	f->pixelformat = soc->video_formats[f->index].fourcc;
->  
->  	return 0;
->  }
-> @@ -1059,78 +1042,6 @@ static int tegra_channel_setup_ctrl_handler(struct tegra_vi_channel *chan)
->  	return 0;
->  }
->  
-> -/* VI only support 2 formats in TPG mode */
-> -static void vi_tpg_fmts_bitmap_init(struct tegra_vi_channel *chan)
-> -{
-> -	int index;
-> -
-> -	bitmap_zero(chan->tpg_fmts_bitmap, MAX_FORMAT_NUM);
-> -
-> -	index = tegra_get_format_idx_by_code(chan->vi,
-> -					     MEDIA_BUS_FMT_SRGGB10_1X10, 0);
-> -	bitmap_set(chan->tpg_fmts_bitmap, index, 1);
-> -
-> -	index = tegra_get_format_idx_by_code(chan->vi,
-> -					     MEDIA_BUS_FMT_RGB888_1X32_PADHI,
-> -					     0);
-> -	bitmap_set(chan->tpg_fmts_bitmap, index, 1);
-> -}
-> -
-> -static int vi_fmts_bitmap_init(struct tegra_vi_channel *chan)
-> -{
-> -	int index, ret, match_code = 0;
-> -	struct v4l2_subdev *subdev;
-> -	struct v4l2_subdev_mbus_code_enum code = {
-> -		.which = V4L2_SUBDEV_FORMAT_ACTIVE,
-> -	};
-> -
-> -	bitmap_zero(chan->fmts_bitmap, MAX_FORMAT_NUM);
-> -
-> -	/*
-> -	 * Set the bitmap bits based on all the matched formats between the
-> -	 * available media bus formats of sub-device and the pre-defined Tegra
-> -	 * supported video formats.
-> -	 */
-> -	subdev = tegra_channel_get_remote_source_subdev(chan);
-> -	while (1) {
-> -		ret = v4l2_subdev_call(subdev, pad, enum_mbus_code,
-> -				       NULL, &code);
-> -		if (ret < 0)
-> -			break;
-> -
-> -		index = tegra_get_format_idx_by_code(chan->vi, code.code, 0);
-> -		while (index >= 0) {
-> -			bitmap_set(chan->fmts_bitmap, index, 1);
-> -			if (!match_code)
-> -				match_code = code.code;
-> -			/* look for other formats with same mbus code */
-> -			index = tegra_get_format_idx_by_code(chan->vi,
-> -							     code.code,
-> -							     index + 1);
-> -		}
-> -
-> -		code.index++;
-> -	}
-> -
-> -	/*
-> -	 * Set the bitmap bit corresponding to default tegra video format if
-> -	 * there are no matched formats.
-> -	 */
-> -	if (!match_code) {
-> -		match_code = tegra_default_format.code;
-> -		index = tegra_get_format_idx_by_code(chan->vi, match_code, 0);
-> -		if (WARN_ON(index < 0))
-> -			return -EINVAL;
-> -
-> -		bitmap_set(chan->fmts_bitmap, index, 1);
-> -	}
-> -
-> -	/* initialize channel format to the sub-device active format */
-> -	tegra_channel_set_subdev_active_fmt(chan);
-> -
-> -	return 0;
-> -}
-> -
->  static void tegra_channel_host1x_syncpts_free(struct tegra_vi_channel *chan)
->  {
->  	int i;
-> @@ -1501,7 +1412,6 @@ int tegra_v4l2_nodes_setup_tpg(struct tegra_video_device *vid)
->  			goto cleanup;
->  
->  		v4l2_set_subdev_hostdata(&csi_chan->subdev, vi_chan);
-> -		vi_tpg_fmts_bitmap_init(vi_chan);
->  		csi_chan = list_next_entry(csi_chan, list);
->  	}
->  
-> @@ -1721,13 +1631,6 @@ static int tegra_vi_graph_notify_complete(struct v4l2_async_notifier *notifier)
->  		goto unregister_video;
->  	}
->  
-> -	ret = vi_fmts_bitmap_init(chan);
-> -	if (ret < 0) {
-> -		dev_err(vi->dev,
-> -			"failed to initialize formats bitmap: %d\n", ret);
-> -		goto unregister_video;
-> -	}
-> -
->  	subdev = tegra_channel_get_remote_csi_subdev(chan);
->  	if (!subdev) {
->  		ret = -ENODEV;
-> diff --git a/drivers/staging/media/tegra-video/vi.h b/drivers/staging/media/tegra-video/vi.h
-> index a68e2c02c7b0..183796c8a46a 100644
-> --- a/drivers/staging/media/tegra-video/vi.h
-> +++ b/drivers/staging/media/tegra-video/vi.h
-> @@ -163,8 +163,6 @@ struct tegra_vi_graph_entity {
->   *
->   * @ctrl_handler: V4L2 control handler of this video channel
->   * @syncpt_timeout_retry: syncpt timeout retry count for the capture
-> - * @fmts_bitmap: a bitmap for supported formats matching v4l2 subdev formats
-> - * @tpg_fmts_bitmap: a bitmap for supported TPG formats
->   * @pg_mode: test pattern generator mode (disabled/direct/patch)
->   * @notifier: V4L2 asynchronous subdevs notifier
->   */
-> @@ -205,8 +203,6 @@ struct tegra_vi_channel {
->  
->  	struct v4l2_ctrl_handler ctrl_handler;
->  	unsigned int syncpt_timeout_retry;
-> -	DECLARE_BITMAP(fmts_bitmap, MAX_FORMAT_NUM);
-> -	DECLARE_BITMAP(tpg_fmts_bitmap, MAX_FORMAT_NUM);
->  	enum tegra_vi_pg_mode pg_mode;
->  
->  	struct v4l2_async_notifier notifier;
+Changes in v3:
+- Add this changelog (Philipp)
+- Move lkp tags and link to the correct location in commit log (Alison)
+- Update the commit msg (Philip)
+- Update the commit log (Bagas, Julia)
+
+Changes in v2:
+- Use new function names in call sites (LKP)
+
+ drivers/staging/sm750fb/sm750.c        | 22 +++++++++++-----------
+ drivers/staging/sm750fb/sm750_cursor.c | 14 +++++++-------
+ drivers/staging/sm750fb/sm750_cursor.h | 12 ++++++------
+ 3 files changed, 24 insertions(+), 24 deletions(-)
+
+diff --git a/drivers/staging/sm750fb/sm750.c b/drivers/staging/sm750fb/sm750.c
+index effc7fcc3..5d7249e82 100644
+--- a/drivers/staging/sm750fb/sm750.c
++++ b/drivers/staging/sm750fb/sm750.c
+@@ -121,14 +121,14 @@ static int lynxfb_ops_cursor(struct fb_info *info, struct fb_cursor *fbcursor)
+ 
+ 	sm750_hw_cursor_disable(cursor);
+ 	if (fbcursor->set & FB_CUR_SETSIZE)
+-		sm750_hw_cursor_setSize(cursor,
+-					fbcursor->image.width,
+-					fbcursor->image.height);
++		sm750_hw_cursor_set_size(cursor,
++					 fbcursor->image.width,
++					 fbcursor->image.height);
+ 
+ 	if (fbcursor->set & FB_CUR_SETPOS)
+-		sm750_hw_cursor_setPos(cursor,
+-				       fbcursor->image.dx - info->var.xoffset,
+-				       fbcursor->image.dy - info->var.yoffset);
++		sm750_hw_cursor_set_pos(cursor,
++					fbcursor->image.dx - info->var.xoffset,
++					fbcursor->image.dy - info->var.yoffset);
+ 
+ 	if (fbcursor->set & FB_CUR_SETCMAP) {
+ 		/* get the 16bit color of kernel means */
+@@ -142,14 +142,14 @@ static int lynxfb_ops_cursor(struct fb_info *info, struct fb_cursor *fbcursor)
+ 		     ((info->cmap.green[fbcursor->image.bg_color] & 0xfc00) >> 5) |
+ 		     ((info->cmap.blue[fbcursor->image.bg_color] & 0xf800) >> 11);
+ 
+-		sm750_hw_cursor_setColor(cursor, fg, bg);
++		sm750_hw_cursor_set_color(cursor, fg, bg);
+ 	}
+ 
+ 	if (fbcursor->set & (FB_CUR_SETSHAPE | FB_CUR_SETIMAGE)) {
+-		sm750_hw_cursor_setData(cursor,
+-					fbcursor->rop,
+-					fbcursor->image.data,
+-					fbcursor->mask);
++		sm750_hw_cursor_set_data(cursor,
++					 fbcursor->rop,
++					 fbcursor->image.data,
++					 fbcursor->mask);
+ 	}
+ 
+ 	if (fbcursor->enable)
+diff --git a/drivers/staging/sm750fb/sm750_cursor.c b/drivers/staging/sm750fb/sm750_cursor.c
+index 43e6f52c2..ff643e33f 100644
+--- a/drivers/staging/sm750fb/sm750_cursor.c
++++ b/drivers/staging/sm750fb/sm750_cursor.c
+@@ -58,13 +58,13 @@ void sm750_hw_cursor_disable(struct lynx_cursor *cursor)
+ 	poke32(HWC_ADDRESS, 0);
+ }
+ 
+-void sm750_hw_cursor_setSize(struct lynx_cursor *cursor, int w, int h)
++void sm750_hw_cursor_set_size(struct lynx_cursor *cursor, int w, int h)
+ {
+ 	cursor->w = w;
+ 	cursor->h = h;
+ }
+ 
+-void sm750_hw_cursor_setPos(struct lynx_cursor *cursor, int x, int y)
++void sm750_hw_cursor_set_pos(struct lynx_cursor *cursor, int x, int y)
+ {
+ 	u32 reg;
+ 
+@@ -73,7 +73,7 @@ void sm750_hw_cursor_setPos(struct lynx_cursor *cursor, int x, int y)
+ 	poke32(HWC_LOCATION, reg);
+ }
+ 
+-void sm750_hw_cursor_setColor(struct lynx_cursor *cursor, u32 fg, u32 bg)
++void sm750_hw_cursor_set_color(struct lynx_cursor *cursor, u32 fg, u32 bg)
+ {
+ 	u32 reg = (fg << HWC_COLOR_12_2_RGB565_SHIFT) &
+ 		HWC_COLOR_12_2_RGB565_MASK;
+@@ -82,8 +82,8 @@ void sm750_hw_cursor_setColor(struct lynx_cursor *cursor, u32 fg, u32 bg)
+ 	poke32(HWC_COLOR_3, 0xffe0);
+ }
+ 
+-void sm750_hw_cursor_setData(struct lynx_cursor *cursor, u16 rop,
+-			     const u8 *pcol, const u8 *pmsk)
++void sm750_hw_cursor_set_data(struct lynx_cursor *cursor, u16 rop,
++			      const u8 *pcol, const u8 *pmsk)
+ {
+ 	int i, j, count, pitch, offset;
+ 	u8 color, mask, opr;
+@@ -132,8 +132,8 @@ void sm750_hw_cursor_setData(struct lynx_cursor *cursor, u16 rop,
+ 	}
+ }
+ 
+-void sm750_hw_cursor_setData2(struct lynx_cursor *cursor, u16 rop,
+-			      const u8 *pcol, const u8 *pmsk)
++void sm750_hw_cursor_set_data2(struct lynx_cursor *cursor, u16 rop,
++			       const u8 *pcol, const u8 *pmsk)
+ {
+ 	int i, j, count, pitch, offset;
+ 	u8 color, mask;
+diff --git a/drivers/staging/sm750fb/sm750_cursor.h b/drivers/staging/sm750fb/sm750_cursor.h
+index b59643dd6..88fa02f63 100644
+--- a/drivers/staging/sm750fb/sm750_cursor.h
++++ b/drivers/staging/sm750fb/sm750_cursor.h
+@@ -5,11 +5,11 @@
+ /* hw_cursor_xxx works for voyager,718 and 750 */
+ void sm750_hw_cursor_enable(struct lynx_cursor *cursor);
+ void sm750_hw_cursor_disable(struct lynx_cursor *cursor);
+-void sm750_hw_cursor_setSize(struct lynx_cursor *cursor, int w, int h);
+-void sm750_hw_cursor_setPos(struct lynx_cursor *cursor, int x, int y);
+-void sm750_hw_cursor_setColor(struct lynx_cursor *cursor, u32 fg, u32 bg);
+-void sm750_hw_cursor_setData(struct lynx_cursor *cursor, u16 rop,
+-			     const u8 *data, const u8 *mask);
+-void sm750_hw_cursor_setData2(struct lynx_cursor *cursor, u16 rop,
++void sm750_hw_cursor_set_size(struct lynx_cursor *cursor, int w, int h);
++void sm750_hw_cursor_set_pos(struct lynx_cursor *cursor, int x, int y);
++void sm750_hw_cursor_set_color(struct lynx_cursor *cursor, u32 fg, u32 bg);
++void sm750_hw_cursor_set_data(struct lynx_cursor *cursor, u16 rop,
+ 			      const u8 *data, const u8 *mask);
++void sm750_hw_cursor_set_data2(struct lynx_cursor *cursor, u16 rop,
++			       const u8 *data, const u8 *mask);
+ #endif
+-- 
+2.40.0
 
