@@ -1,84 +1,160 @@
-Received: from mail-qk1-f175.google.com (mail-qk1-f175.google.com [209.85.222.175])
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9AFB82582;
-	Wed, 29 Mar 2023 14:27:57 +0000 (UTC)
-Received: by mail-qk1-f175.google.com with SMTP id n137so4776761qka.2;
-        Wed, 29 Mar 2023 07:27:57 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F1237E8;
+	Wed, 29 Mar 2023 14:30:59 +0000 (UTC)
+Received: by mail-wm1-f42.google.com with SMTP id bg16-20020a05600c3c9000b003eb34e21bdfso11618802wmb.0;
+        Wed, 29 Mar 2023 07:30:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1680100076;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=7JQ1XJjsuL6lqx3M3lM712uJGJOEQmz6djad/U4y/oU=;
-        b=TP6L/5HG8ebiZoSa2P+wCP6OGe6YnQoguc3nyBjnrvkJpSOMvtjFKki624FZ9tf5D0
-         AazONSqjyvAr27iyjCqDKqs4PGvpphbD6fww3s7XzZcwPFqi7QRoQB5Zjh21VyPPFhlE
-         N4W7wmzn82J6dGC6PX2FeD+/4Yyeuci+Eo9IqNsWWRAJrYfauxfPa03SJKWnvqAhkE+B
-         q18hnjjmg77ozqDSF3CSREmOvYFfe7/P5npWhOGIYs2V7MQ3PnvjJn0T9knXZtOQ83Ix
-         lLnqUrKPI2ozCmsFF/+LFJ+wvODOzCH9cpaH+UtN5mMvrAi5AL6zZOco77E/cTyxqN3T
-         KRhQ==
+        d=gmail.com; s=20210112; t=1680100257;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Zr4X6wyMqM3FaFSlbgRQtbKkzLVZE5bqrrVko5Rwa5c=;
+        b=KJT9KupMr4SgFRMB1R5Wh5QGDCXLeuHnE241gzx/vFvAdIk7ppT8Z1/BqjTEoZZmS3
+         d0UPUn97r+cPBj80NygNM4gSJapGqb40vqiqV/fTx2iV5ugnPU5vY/faJZvPrGkmrZDS
+         c2QVM/zfy5rAU1MQyTTHQMC5gtuuv2cEYSGLeg0aSDPPb28Jpac1WFoATQgNDbUxtRrb
+         1Dsv+flWW5VqXfHEWEZUqj6H47QO7/vRO2p84ZitrI76Bei2hzLJmi6IV3oYcfXh8/Fa
+         9M5LMdLzkNT5HOijXWkxgFHo3Iu/3GpRKKCJDTSMrLF8MwLTucF0eMahk8cAZxVEgDt8
+         xb+w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680100076;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=7JQ1XJjsuL6lqx3M3lM712uJGJOEQmz6djad/U4y/oU=;
-        b=uZHaipjidOBzAdGow+cvy3tE0+9Js8d3PorNzQc8inlivK//SkbTdPlIzBF+tKAhMX
-         8qks7BVO0aFUcb9RGCuyR5HVS84rMnzHgGq9T8snE6P3eaLjPQ0jeY2FtbUVCWBYifp7
-         QxCV32v+EHz0oOJ+2qyCgIFSqiavfHvzndR+uPblqpJzsdsJmtAu8ipRZWoIQPYj05Jh
-         J3OrK2C5Hgj4UODEjwZ1tyMTerPwxjy3z7Yq8Uh9+SV7ajhsBCFfBOaX/LBvWO3mlV44
-         68c+zZ2kHq0k2YPM85sAqJjg2JTfAZwZ5CWsNwP7/MRxhDoAfi4nnj8xdJZ9pBWJvW7O
-         CDEQ==
-X-Gm-Message-State: AO0yUKU83SYKR4ZBzPwk70I2M1TraanSPH7VGJNdWQlBBWvEZvHqfed0
-	RyMjXnItIZtrwW/Fr+yNXqP2WAyWXZI7YKwWCew=
-X-Google-Smtp-Source: AK7set+BHqeCs8Skkw2w2L5Xm0DUXvtQ318RZhOkITUti3EH+kL2u4jZ5oHcNttXsVQ1T0vXityEW+BFPv9CMj+sz4o=
-X-Received: by 2002:ae9:efc6:0:b0:745:72f3:637f with SMTP id
- d189-20020ae9efc6000000b0074572f3637fmr4877583qkg.13.1680100076478; Wed, 29
- Mar 2023 07:27:56 -0700 (PDT)
+        d=1e100.net; s=20210112; t=1680100257;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Zr4X6wyMqM3FaFSlbgRQtbKkzLVZE5bqrrVko5Rwa5c=;
+        b=l0JwpCINyCzaWGlSEzVRRZ3cDbZrpwpaxdoEinsGhnJSsx/97tiddbSeMt+A8xa+k2
+         6alWlHyLMU1OkNTBlrKnd//f8JhTi8efq2XFpTkDdAn4YyWt1KHEBLCMT5eyubqJrZkG
+         B3i5OKrDsN3Lcf8/+SnrArE1c3DyTFBY+CFrLYksMTO/ji8JRXCxcr0EUFTZNL9lHY1i
+         Dha09qp7YfeHrzqTedNAS4N2vWduLEne8GwqFJD372KIHKCukKKq7ZTsm2pEY4IRkuEU
+         EgF9/2DKLWOgBOQUs5Y7iTp5Sieoa6VNda+nwQYSvF3SAdjmq1iJOqqMgv8/zP7GosCs
+         UOgw==
+X-Gm-Message-State: AO0yUKWljpelrcHpIQhfB9Pf4vaVhvje6mqHe9fge3i2QNeV/esPFnbW
+	kOTUnSk3ArMdR7IpN/FWjF0=
+X-Google-Smtp-Source: AK7set8CpQuhy+NQhip4nyXlgZTJ/O7V2iF8vnlal0JCs0FmkIvo0kzZyO6if4P9x6msOc2ZGFi4mg==
+X-Received: by 2002:a05:600c:2043:b0:3ee:4678:dde with SMTP id p3-20020a05600c204300b003ee46780ddemr15533132wmg.27.1680100256938;
+        Wed, 29 Mar 2023 07:30:56 -0700 (PDT)
+Received: from suse.localnet (host-95-248-13-140.retail.telecomitalia.it. [95.248.13.140])
+        by smtp.gmail.com with ESMTPSA id v8-20020a05600c470800b003ef71d7d64asm2670516wmo.6.2023.03.29.07.30.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 29 Mar 2023 07:30:56 -0700 (PDT)
+From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+To: Kloudifold <cloudifold.3125@gmail.com>
+Cc: Sudip Mukherjee <sudipm.mukherjee@gmail.com>,
+ Teddy Wang <teddy.wang@siliconmotion.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-fbdev@vger.kernel.org,
+ devel@driverdev.osuosl.org, linux-kernel@vger.kernel.org,
+ outreachy@lists.linux.dev, linux-staging@lists.linux.dev,
+ alison.schofield@intel.com
+Subject:
+ Re: [PATCH v6] staging: sm750: Rename sm750_hw_cursor_* functions to
+ snake_case
+Date: Wed, 29 Mar 2023 16:30:54 +0200
+Message-ID: <1854722.CQOukoFCf9@suse>
+In-Reply-To: <ZCQeyWW3+d7+qT+b@CloudiRingWorld>
+References: <ZCQeyWW3+d7+qT+b@CloudiRingWorld>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <ZCQeyWW3+d7+qT+b@CloudiRingWorld> <ZCQkPr6t8IOvF6bk@kroah.com>
-In-Reply-To: <ZCQkPr6t8IOvF6bk@kroah.com>
-From: Kloudifold <cloudifold.3125@gmail.com>
-Date: Wed, 29 Mar 2023 22:27:45 +0800
-Message-ID: <CAM44cXPVDMoGiMc9v+Z6wPANEW1vaj3=odVW8NtuDUtg+0qf1w@mail.gmail.com>
-Subject: Re: [PATCH v6] staging: sm750: Rename sm750_hw_cursor_* functions to snake_case
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Sudip Mukherjee <sudipm.mukherjee@gmail.com>, Teddy Wang <teddy.wang@siliconmotion.com>, 
-	linux-fbdev@vger.kernel.org, devel@driverdev.osuosl.org, 
-	linux-kernel@vger.kernel.org, outreachy@lists.linux.dev, 
-	linux-staging@lists.linux.dev, alison.schofield@intel.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="iso-8859-1"
 
-On Wed, 29 Mar 2023 at 19:42, Greg Kroah-Hartman
-<gregkh@linuxfoundation.org> wrote:
->
-> On Wed, Mar 29, 2023 at 07:27:04PM +0800, Kloudifold wrote:
-> > sm750 driver has sm750_hw_cursor_* functions, which are named in
-> > camelcase. Rename them to snake case to follow the function naming
-> > convention.
-> >
-> > - sm750_hw_cursor_setSize  => sm750_hw_cursor_set_size
-> > - sm750_hw_cursor_setPos   => sm750_hw_cursor_set_pos
-> > - sm750_hw_cursor_setColor => sm750_hw_cursor_set_color
-> > - sm750_hw_cursor_setData  => sm750_hw_cursor_set_data
-> > - sm750_hw_cursor_setData2 => sm750_hw_cursor_set_data2
-> >
-> > Reported-by: kernel test robot <lkp@intel.com>
->
-> The test robot did not report that the names were incorrect :(
->
-> > Link: https://lore.kernel.org/oe-kbuild-all/202303110849.X24WnHnM-lkp@intel.com/
-> > Signed-off-by: Kloudifold <cloudifold.3125@gmail.com>
->
->  Is that the name you use to sign documents?
+On mercoled=EC 29 marzo 2023 13:27:04 CEST Kloudifold wrote:
+> sm750 driver has sm750_hw_cursor_* functions, which are named in
+> camelcase. Rename them to snake case to follow the function naming
+> convention.
+>=20
+> - sm750_hw_cursor_setSize  =3D> sm750_hw_cursor_set_size
+> - sm750_hw_cursor_setPos   =3D> sm750_hw_cursor_set_pos
+> - sm750_hw_cursor_setColor =3D> sm750_hw_cursor_set_color
+> - sm750_hw_cursor_setData  =3D> sm750_hw_cursor_set_data
+> - sm750_hw_cursor_setData2 =3D> sm750_hw_cursor_set_data2
+>=20
+> Reported-by: kernel test robot <lkp@intel.com>
+> Link:
+> https://lore.kernel.org/oe-kbuild-all/202303110849.X24WnHnM-lkp@intel.com/
 
-Yes.
+Delete the last two lines.
 
->
-> thanks,
->
-> greg k-h
+As Greg made you notice, it was not the Kernel Test Robot that had reported=
+=20
+you an issue for which you decided to make a patch to fix it.
+
+The reason you made this patch is because you know that the Linux kernel st=
+yle=20
+guide wants developers to avoid camel-case symbols.
+
+Before your "Signed-off-by" tag, you should only credit those tools and/or=
+=20
+services (checkpatch.pl, Coccinelle, Smatch, Syzkaller/Syzbot, GCC, Clang, =
+and=20
+so on) that had noticed that Linux has a problem that predates the first=20
+version of your patch and that your first version has the purpose to fix th=
+at=20
+problem.
+
+You made this patch because _checkpatch_ had reported issues with camel-cas=
+e=20
+improper use, so you decided to convert some names to snake-case. You are=20
+invited to credit only _checkpatch_ for you patch ("Reported by=20
+checkpatch.pl.").
+
+That credit is part of the commit message so, when you credit that tool, pu=
+t a=20
+blank line after the credit and before the "Signed-off-by" tag.=20
+
+> Signed-off-by: Kloudifold <cloudifold.3125@gmail.com>
+>=20
+
+Instead, you should delete this blank line after your sign.
+
+> ---
+> Changes in v6:
+> - Include missed recipients in v5, no functional change to the code
+>=20
+> Changes in v5:
+> - Include missed recipients in v4, no functional change to the code
+>=20
+> Changes in v4:
+> - Update the commit msg (Deepak)
+> - Use tabs replace 8 spaces
+>=20
+> This v4 patch was prompted by 2 errors, 2 warnings and 1 checks reported
+> by the scripts/checkpatch.pl, which detected the style problem.
+>=20
+> Changes in v3:
+> - Add this changelog (Philipp)
+> - Move lkp tags and link to the correct location in commit log (Alison)
+> - Update the commit msg (Philip)
+> - Update the commit log (Bagas, Julia)
+>=20
+> Changes in v2:
+> - Use new function names in call sites (LKP)
+
+This is the place to credit the Kernel Test Robot for noticing that you mad=
+e=20
+mistakes with v1 and that v2 is for fixing them.
+
+Therefore, give credit here to the Robot:
+
+Reported-by: kernel test robot <lkp@intel.com>
+> Link:
+> https://lore.kernel.org/oe-kbuild-all/202303110849.X24WnHnM-lkp@intel.com/
+
+Thanks,
+
+=46abio
+
+P.S.: Someone suggested to drop the "sm750_" prefix. I don't think you shou=
+ld=20
+do anything like this because I don't see "static" functions prefixed by=20
+"sm750_" in your patch. However, later you may check if they can be "static=
+"=20
+and, if so, drop the prefix and make them "static" (in a follow up patch). =
+=20
+
+
+
