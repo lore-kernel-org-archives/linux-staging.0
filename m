@@ -1,69 +1,100 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6558E5382
-	for <linux-staging@lists.linux.dev>; Wed, 29 Mar 2023 17:17:47 +0000 (UTC)
-Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id D5357378;
-	Wed, 29 Mar 2023 17:17:40 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net D5357378
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1680110261; bh=BGG/uIHYnOzF0ono2kbW+HeIrfKt11QT8bEELbMG11g=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=RL715xBMG27ao6GRi94EK571XzuQw+jhp4r0d8Mbih8o49eOQsn+hKDl8kb3AyYDi
-	 7fzPwo/F6H2lvsKNn+ZrWmAh3g3EH8AJV0V7JYqHM/Xe+RW6Y6vXm+Oy6Lwdo7PM6Q
-	 RBiQ8PH5nOziJnAnU5liGic+LvM6OpiYI5QpPHkDSVDwHTETsbH2h3bqYOgfzCAQMU
-	 Fs/PKk6LpYIizryN/vfvBwxrqsq/iRsWb6896hD2EU0JxU5vtylqtmWVCW/HMMALmD
-	 sdnPwH5wZ/isC+FSLbwK1cK+VCn606hOD/rxnaJtXI5xNRoQOxwll7w0FEEXMJS2tf
-	 kA3UMygljsOng==
-From: Jonathan Corbet <corbet@lwn.net>
-To: Bagas Sanjaya <bagasdotme@gmail.com>, Linux Documentation
- <linux-doc@vger.kernel.org>, Linux Kernel Mailing List
- <linux-kernel@vger.kernel.org>, Linux Staging Drivers
- <linux-staging@lists.linux.dev>
-Cc: Borislav Petkov <bp@suse.de>, "Paul E. McKenney" <paulmck@kernel.org>,
- Andrew Morton <akpm@linux-foundation.org>, Randy Dunlap
- <rdunlap@infradead.org>, Damien Le Moal
- <damien.lemoal@opensource.wdc.com>, Kim Phillips <kim.phillips@amd.com>,
- "Steven Rostedt (Google)" <rostedt@goodmis.org>, Mauro Carvalho Chehab
- <mchehab@kernel.org>, Hans Verkuil <hverkuil-cisco@xs4all.nl>, Greg
- Kroah-Hartman <gregkh@linuxfoundation.org>, Bagas Sanjaya
- <bagasdotme@gmail.com>, kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH] Documentation: kernel-parameters: Remove meye entry
-In-Reply-To: <20230315100246.62324-1-bagasdotme@gmail.com>
-References: <20230315100246.62324-1-bagasdotme@gmail.com>
-Date: Wed, 29 Mar 2023 11:17:39 -0600
-Message-ID: <87sfdniij0.fsf@meer.lwn.net>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7BB36ADB
+	for <linux-staging@lists.linux.dev>; Wed, 29 Mar 2023 18:48:51 +0000 (UTC)
+Received: by mail-ed1-f42.google.com with SMTP id cn12so67247373edb.4
+        for <linux-staging@lists.linux.dev>; Wed, 29 Mar 2023 11:48:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1680115730;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:to:subject:user-agent:mime-version:date:message-id:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=GrKgNBdgVGDd5tuVm5wP/QWfKRU7XwBSou05qKklH3k=;
+        b=Q8B3J857qhjR2TSPbJ1IJc6AAGDDCJRITn7O9RBll+yoLHHqTAfQeLs1CutVvnaRk+
+         w3pcaW+fhER4vIQa7gwgHeHXo1+ijAKhfYhPMpXsTMT1mNCFRYPcJjdt4vlPoJGl9JAn
+         sgDwzuDzJBIzHxwb3lEiW4tTyYBBJKDFFg6G+l/F27R+DmfM9r98Zkh28N7o40XxNpY+
+         bvBMoGsRKqixep5wRcgokXu402Q0l/sPF3Up7deagSnLguMdWcEtq+5GOy5eb4G0/Ye2
+         fHSuulIFU5ix8lkw4hCK/sycBVePrhVHTSU4Fb1x1SoX1tt9qSHS2uD9iWCRscv511Hs
+         dTHg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1680115730;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=GrKgNBdgVGDd5tuVm5wP/QWfKRU7XwBSou05qKklH3k=;
+        b=Su5V9Ubx24VrXHwgE5jvJH7KEvagwSilrDgkrJFqHHA0RoD2Uk3/8if82atxgjXzru
+         0s4QIQNePMCu03QKdyvhtLuWT9tw1XfDAPSdYQiF2WuaNJRs2qXJk5U8xLdXEfTcSM8K
+         +C9TV4ico5wwEhZGI3SrfeO4JGuVHhNoHdqiLDLMjS5lNLHl2+5/9GAy7bNm4rgwF+ug
+         2nDWgbX6CORmx1xAghihz/HEdWWpK8Dx8bvIN8t/YP56r2mxPoAnv8OQoMCkp9qShsZu
+         cYjbmYgcYPjOnFCWWTfXYdSrSeHYB/o+VEUOEKEaaYUyZmRg7Y21XP2cJYpLKL0gXK4n
+         VVHg==
+X-Gm-Message-State: AAQBX9fHsV6xcLP8VaFSA2F1NP3/LpuhjaCm/H36RZwiusST5S0XwonZ
+	c3nS2HcsECHSI4pey3607Gs=
+X-Google-Smtp-Source: AKy350Z17p+zY9Y3XDg1dbwXrWoAxNYu5kA+LGkZtazrsFODsTnCrhNL91vsa/MRE1g5Ap9lhF2JVQ==
+X-Received: by 2002:a05:6402:2811:b0:502:92d:4f51 with SMTP id h17-20020a056402281100b00502092d4f51mr24946261ede.1.1680115729529;
+        Wed, 29 Mar 2023 11:48:49 -0700 (PDT)
+Received: from [192.168.0.103] (p57935146.dip0.t-ipconnect.de. [87.147.81.70])
+        by smtp.gmail.com with ESMTPSA id r17-20020a50aad1000000b005024459f431sm4008559edc.70.2023.03.29.11.48.48
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 29 Mar 2023 11:48:48 -0700 (PDT)
+Message-ID: <e6da0b51-7912-8b8b-4e34-6ca4bafe0384@gmail.com>
+Date: Wed, 29 Mar 2023 20:48:47 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH 0/5] staging: r8188eu: code cleanup and coding-style fix
+ patches
+To: Abhirup Deb <abhirupdeb@linux.vnet.ibm.com>,
+ Martyn Welch <martyn@welchs.me.uk>, Manohar Vanga <manohar.vanga@gmail.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
+References: <cover.1679988016.git.abhirupdeb@linux.vnet.ibm.com>
+Content-Language: en-US
+From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+In-Reply-To: <cover.1679988016.git.abhirupdeb@linux.vnet.ibm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Bagas Sanjaya <bagasdotme@gmail.com> writes:
+On 3/29/23 19:01, Abhirup Deb wrote:
+> This series of patches fixes the coding-style issues
+> reported by checkpatch.pl for the staging/r8188eu driver.
+> 
+> Abhirup Deb (5):
+>    staging: r8188eu: add blank line after declaration
+>    staging: r8188eu: refactor block-comments
+>    staging: r8188eu: remove redundant else after return
+>    staging: r8188eu: Replace "<<" with BIT macro
+>    staging: r8188eu: place constants on right side of comparison
+> 
+>   drivers/staging/r8188eu/core/rtw_mlme_ext.c   | 61 +++++++-------
+>   drivers/staging/r8188eu/hal/rtl8188e_cmd.c    |  2 +-
+>   drivers/staging/r8188eu/hal/rtl8188e_dm.c     |  2 +-
+>   .../staging/r8188eu/hal/rtl8188e_hal_init.c   | 10 +--
+>   drivers/staging/r8188eu/hal/rtl8188eu_xmit.c  |  2 +-
+>   drivers/staging/r8188eu/hal/usb_halinit.c     | 23 ++++--
+>   drivers/staging/r8188eu/include/ieee80211.h   | 82 +++++++++----------
+>   drivers/staging/r8188eu/include/rtw_mlme.h    |  4 +-
+>   drivers/staging/r8188eu/os_dep/ioctl_linux.c  |  6 +-
+>   9 files changed, 98 insertions(+), 94 deletions(-)
+> 
 
-> Commit ba47652ba65523 ("media: meye: remove this deprecated driver")
-> removes meye driver but forgets to purge its kernel-parameters.txt
-> entry, hence broken reference.
->
-> Remove the entry.
->
-> Link: https://lore.kernel.org/all/202302070341.OVqstpMM-lkp@intel.com/
-> Fixes: ba47652ba65523 ("media: meye: remove this deprecated driver")
-> Reported-by: kernel test robot <lkp@intel.com>
-> Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
-> ---
->  This patch is based on staging-next tree, because the driver removal
->  touched drivers/staging/.
->
->  Documentation/admin-guide/kernel-parameters.txt | 3 ---
->  1 file changed, 3 deletions(-)
 
-Applied.  I trimmed the hash in the Fixes tag to the normal 12
-characters to keep checkpatch from whining...
+Hi,
 
-jon
+sorry this driver was deleted: Please read:
+https://lore.kernel.org/linux-staging/92a9442a-cece-4179-fbdc-3c9188da073e@redhat.com/
+
+Please also check on which tree you are working on. This seems to be the 
+wrong one.
+
+If you need support I will help you.
+
+Thanks for your support.
+
+Bye Philipp
