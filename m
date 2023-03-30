@@ -1,48 +1,48 @@
-Received: from mail-pg1-f173.google.com (mail-pg1-f173.google.com [209.85.215.173])
+Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00CDCC2FE
-	for <linux-staging@lists.linux.dev>; Thu, 30 Mar 2023 12:09:09 +0000 (UTC)
-Received: by mail-pg1-f173.google.com with SMTP id q206so11150085pgq.9
-        for <linux-staging@lists.linux.dev>; Thu, 30 Mar 2023 05:09:09 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FAE81FC4
+	for <linux-staging@lists.linux.dev>; Thu, 30 Mar 2023 12:44:40 +0000 (UTC)
+Received: by mail-pl1-f177.google.com with SMTP id c18so17922939ple.11
+        for <linux-staging@lists.linux.dev>; Thu, 30 Mar 2023 05:44:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1680178149;
+        d=gmail.com; s=20210112; t=1680180279;
         h=content-disposition:mime-version:message-id:subject:to:from:date
          :from:to:cc:subject:date:message-id:reply-to;
         bh=bJN/Czq4gYPwe47Url11H0QkQkrvpH2S48xhzpmgh0M=;
-        b=e0Hje/9IerS8i8MDIgpqNvqqkesrKwAP9AqAXG1rPI0YRQPXNXuliMaFNsOyyB5DO7
-         87ou31fOIIJcmoDNAWw0pbpmcRsJQFQdno8UnxR/o526zvoLorsHuTf36cxUcbzPOIK1
-         orF+AlOC1NKhj32aEOI0PdtCS+Fksil/7VRMBdf8Dlq6SgesdmOSTUp8n84gyVnqTayF
-         XTdBp9/CZ9zaeUL3FItmagVdsOjvzQ2NU+s1aw1s5pdNcu10h9vIvyFJeqIheo7VOgg2
-         46Qvz82eDIxof2xtBHQ97/SjEJaUju8h/RMYUe41btBoh83K+Oxli1oZ45hGF/W5oE+9
-         LXHQ==
+        b=oy5EPRj7onZ8lPl0E69pmc+/2Uz97BuS1LCeUF7gZ1LO/8fpZHrSwz16g8MGaTDpSj
+         Dl56Ra9ROguJqNVmAjQDe6O9zjnbwmbX/A3QG8rDtarWRjxfS0qqaoNYOEoB4zdBsDN/
+         FijyOjXyNP54KM80KU8bqYmLUiYrdUGCCopX0LQQwTJD0/lqHM0SlHqOkFk+1GfeUPyr
+         ftywNTHAHXUwTFAeGFEzjYyUri0ztYctsl3QnUUA0M961JvK3DMK9WraBz1LDS+gWZ0d
+         UiX3JHRkLCiLBjQO1yt9Z+16WAEkZn8L3C9CFKA/gcEmlTDdsWrYgI/wz2xmf+jgJ+Jl
+         eRbg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680178149;
+        d=1e100.net; s=20210112; t=1680180279;
         h=content-disposition:mime-version:message-id:subject:to:from:date
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
         bh=bJN/Czq4gYPwe47Url11H0QkQkrvpH2S48xhzpmgh0M=;
-        b=CFz0IW4NAIz0li5pMKOaHgmDGFruJLnHzmaoxJsNHfJST+sWe5W6HgfHkHdyLjc/aW
-         vvwwpRt92Xlg95TuT8V7VkOI1D09avAkRVs3O5CXZmHSHi0pmE61QoU+P4c7hvqX7NqV
-         KA0WPVJJwI6x1e3vZjmgtEGBG7jFKLK7QC+qDpmUzMuFNTq6L25sYuoCI098jZ05kmqs
-         hhKrkpzhm0sINReS/PQvPD3XIR0eKW4l5AFw8UqTBr8Yo1x3rRXIwPHgSe5y2qAJWBtz
-         3ci8CdVZL8fHnZbDEnKpQ+XmhEHEGLc2DqBsu9kzFMpWrZK0LZPXBZmVzqNyNw3qHwrs
-         SKlw==
-X-Gm-Message-State: AAQBX9cXLO/QJK68M4CYczfryn0Xlcb/0WPrRK7qGJJ1AAbaT/Pnl0ZH
-	CJ6SwiOENTmMJ+Q9Et0ajWeAa6qJn69CGw==
-X-Google-Smtp-Source: AKy350aoVPsGGRoTS9WV+WnwYMuA9E6PjMr6dfV0cSbx+5Xb6zjV1VkGSth3oIC1e3OI4pv9n7bp5w==
-X-Received: by 2002:a62:7b91:0:b0:625:cc03:df33 with SMTP id w139-20020a627b91000000b00625cc03df33mr18637495pfc.31.1680178148838;
-        Thu, 30 Mar 2023 05:09:08 -0700 (PDT)
+        b=0TPOmbw4y/y0idF4SQJ+vmIIMw0v05e+9VN14U5gCanxtLrxnzV/Uy5GEqF2F7t/r9
+         PjfP2BlfMqPvVMDIaxeUmBBisLcACWiaMSoe7qX4BF0pb6LlLdzxVt2VKR2jiQOhEmMR
+         EgTnpgD/ES7idjUl4ZYG4DO4avf03vwdSx3/Ib8nuX6/6ruZOUPcmdmDYXwk38/SmMp+
+         pSvTFuAcNUaLqu1TDSYzdvZhN/hrA1piRBkP5VPNkrc+gAXpDYXixw2yxKuYnbRj1f8g
+         ioSk1YK5DEhmoRRlu4xTucW4O29x3yC2xLJ9if+8rIwcyuyhn8N39UgZbEtNzcUyPUfe
+         3SRA==
+X-Gm-Message-State: AAQBX9etxJ+xtWrhf9AQEhNI++x8WpzylWEW/4J2HZpp15h+AQ+A0mbT
+	46oD6DPKIh/ObN18eqEla1Y=
+X-Google-Smtp-Source: AKy350bNVzDzsIHREfK/YfG42x10isYhyaN4ls1usD7rcr0b9VfFVeS9y/mCLbOmrUi/GbjY1WYWJA==
+X-Received: by 2002:a17:90a:86c3:b0:231:248c:6ac4 with SMTP id y3-20020a17090a86c300b00231248c6ac4mr25441511pjv.7.1680180279387;
+        Thu, 30 Mar 2023 05:44:39 -0700 (PDT)
 Received: from joel-ubuntu-desktop ([2407:4d00:2c02:823f:14a7:49e0:2d87:e0ad])
-        by smtp.gmail.com with ESMTPSA id z24-20020aa785d8000000b0056d7cc80ea4sm24773084pfn.110.2023.03.30.05.09.06
-        for <linux-staging@lists.linux.dev>
+        by smtp.gmail.com with ESMTPSA id c3-20020a17090ad90300b002405499b729sm3158613pjv.38.2023.03.30.05.44.36
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 30 Mar 2023 05:09:08 -0700 (PDT)
-Received: by joel-ubuntu-desktop (sSMTP sendmail emulation); Thu, 30 Mar 2023 20:09:02 +0800
-Date: Thu, 30 Mar 2023 20:09:02 +0800
+        Thu, 30 Mar 2023 05:44:38 -0700 (PDT)
+Received: by joel-ubuntu-desktop (sSMTP sendmail emulation); Thu, 30 Mar 2023 20:44:35 +0800
+Date: Thu, 30 Mar 2023 20:44:35 +0800
 From: Joel Camilo Chang Gonzalez <jcchangg3@gmail.com>
-To: linux-staging@lists.linux.dev
+To: driverdev-devel@linuxdriverproject.org, linux-staging@lists.linux.dev,
+	gregkh@linuxfoundation.org
 Subject: [PATCH] staging: ks7010: remove unnecesary parentheses
-Message-ID: <ZCV73vSkKb5WzHa9@joel-ubuntu-desktop>
+Message-ID: <ZCWEM7DCDUEOzBe9@joel-ubuntu-desktop>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
