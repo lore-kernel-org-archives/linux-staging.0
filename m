@@ -1,77 +1,87 @@
-Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fallback23.i.mail.ru (fallback23.i.mail.ru [79.137.243.77])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B6C88BEE
-	for <linux-staging@lists.linux.dev>; Thu, 30 Mar 2023 17:19:05 +0000 (UTC)
-Received: by mail-ed1-f48.google.com with SMTP id ew6so79277435edb.7
-        for <linux-staging@lists.linux.dev>; Thu, 30 Mar 2023 10:19:05 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680196743;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=/sK01N/HcAzey7kutWyAm0fiwuXpPIV0t8lDayMPKNs=;
-        b=LTKkUm12AIGo3eLIKxZe1eZJdlSwFbEw7MjYGOf2wc/2fMmJkm75L7tA551E+AEbqA
-         oA7iialTjFzQgsKKIP2zGyY6SWzGJjFq6/FPqeEbx0DfYET7qhdWsaKSGTMc8ROI/ikQ
-         Ca1df3vPPapEwL497NnAvi70/4akBE+zB4Y2zB2WDvr/1REcx1XGnzDB8TOOL7l3aA9O
-         rgH6lk3n2r0CUNxe61fzk0ouYXdUMVMZ9JDTr/3EUWLbrptSvTzLeD9Dks6g9At24jA4
-         MZP6QRd17rv4n3nX+Jwbfmv01O/NGs6SlL41xs/MxOQLDXzAKBzFzV0A2MrCXZpUH/f0
-         /VxQ==
-X-Gm-Message-State: AAQBX9eGSnvVpDnlQU/y+cjF3Q8Q5a34loos6Ufz7wB/zlHUWIQqnS3g
-	CrA94EFF7krZFkKagYM5xrm0FhLzhT75E4cjKq4=
-X-Google-Smtp-Source: AKy350YytQ1yNiR6W3Bf1WUTGN6F1FlrOPm5tq5wq5gaK9i6al6bWOGltYKF/XedV9kSLG6QNcyQIMF5Rh1uNWAeOVs=
-X-Received: by 2002:a17:907:a0cd:b0:947:4b15:51e5 with SMTP id
- hw13-20020a170907a0cd00b009474b1551e5mr1794105ejc.2.1680196743353; Thu, 30
- Mar 2023 10:19:03 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46ED79455
+	for <linux-staging@lists.linux.dev>; Thu, 30 Mar 2023 20:11:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mail.ru; s=mail4;
+	h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:From:Subject:Content-Type:Content-Transfer-Encoding:To:Cc; bh=EIH2QdlPOds6u2++C3qJ9JhamJyqZEPglXfnOZSJdD8=;
+	t=1680207114;x=1680297114; 
+	b=r3YnPOSk8nzlVQV6ppn1olJjA7E0W7a8CdASRyrSCMP7DZuTKMcP6QxUmW+CdYeLTAtoixOUVnNmT9b366UOdikBL4vuolwD6m9tAc4hCba0mN8nYLt7C+pzw1Id9124Lx/Q4f/tto6X+6BTtbXuiqQ9kvpQLZwlW6fsGwOePHIfokNEOLpzQOQq6j2P2C+pkD8dV+7rtDQ84uuuHYpaxvmiYyfnnDErsSnoo+jar65zfb1gA1GDNxqA0vVYBgM8fd6rQ0DEv3KoVtV2KGovuFCIrcqiXf2Z884wz09a6/IcmimIc4q1AKgV3aoUCcDWjwCy6o7Ou6F6dp0jlVj8cA==;
+Received: from [10.12.4.22] (port=46346 helo=smtp41.i.mail.ru)
+	by fallback23.i.mail.ru with esmtp (envelope-from <listdansp@mail.ru>)
+	id 1phych-00D6Fs-SB
+	for linux-staging@lists.linux.dev; Thu, 30 Mar 2023 23:11:52 +0300
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mail.ru; s=mail4;
+	h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:From:Subject:Content-Type:Content-Transfer-Encoding:To:Cc; bh=EIH2QdlPOds6u2++C3qJ9JhamJyqZEPglXfnOZSJdD8=;
+	t=1680207111;x=1680297111; 
+	b=RCwj8atF0dt6RJHxBcYQgpXN8GuKk7mO+1BSh4bNzebtrD/FhYi+9ohMhP9J7yMX/eaQ/tvZRTwxxPHDJFsf2s/zvd+no8ZXBA+rSDo0oktRWUFcQg8FJX2r304pbhwrQaK739EZYvNu/Bl+6yvRYTozhJ0Wb5g9wUmrJIGsNNCPVCnweuJo6XHYiWVm8jAckZhEcZ3PhvjlfRWtpIwtb5A32qBdPS9Rq1SWSfxc05BuO6HzWKcq5jeNUksaeX75bt2//udaKl5KwFMkL8oNkq9N+dLOsoMPmULqTKqglEnWZBlXSl5rs8N1Yz68AKc+Y2f1w4/F25h4Jnrtf0uaEA==;
+Received: by smtp41.i.mail.ru with esmtpa (envelope-from <listdansp@mail.ru>)
+	id 1phycS-007xQb-Vd; Thu, 30 Mar 2023 23:11:37 +0300
+From: Danila Chernetsov <listdansp@mail.ru>
+To: stable@vger.kernel.org,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Danila Chernetsov <listdansp@mail.ru>,
+	Dinghao Liu <dinghao.liu@zju.edu.cn>,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	lvc-project@linuxtesting.org
+Subject: [PATCH 5.10 1/1] staging: rtl8192u: Add null check in rtl8192_usb_initendpoints
+Date: Thu, 30 Mar 2023 20:11:07 +0000
+Message-Id: <20230330201107.17647-2-listdansp@mail.ru>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20230330201107.17647-1-listdansp@mail.ru>
+References: <20230330201107.17647-1-listdansp@mail.ru>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20230329-acpi-header-cleanup-v1-0-8dc5cd3c610e@kernel.org> <ZCUon17pXpgBr0eQ@kroah.com>
-In-Reply-To: <ZCUon17pXpgBr0eQ@kroah.com>
-From: "Rafael J. Wysocki" <rafael@kernel.org>
-Date: Thu, 30 Mar 2023 19:18:52 +0200
-Message-ID: <CAJZ5v0jKA9GQULe360ZnwiKc4HRHcLJR=LxDwwm7DGP59JU_rw@mail.gmail.com>
-Subject: Re: [PATCH 0/5] Remove acpi.h implicit include of of.h
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Rob Herring <robh@kernel.org>
-Cc: Len Brown <lenb@kernel.org>, Marcelo Schmitt <marcelo.schmitt1@gmail.com>, 
-	Lars-Peter Clausen <lars@metafoo.de>, Michael Hennerich <Michael.Hennerich@analog.com>, 
-	Jonathan Cameron <jic23@kernel.org>, Johannes Berg <johannes@sipsolutions.net>, 
-	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Jiri Slaby <jirislaby@kernel.org>, 
-	Thierry Reding <thierry.reding@gmail.com>, Jonathan Hunter <jonathanh@nvidia.com>, 
-	Marc Zyngier <maz@kernel.org>, linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-staging@lists.linux.dev, linux-wireless@vger.kernel.org, 
-	netdev@vger.kernel.org, linux-serial@vger.kernel.org, 
-	linux-tegra@vger.kernel.org, linux-acpi@vger.kernel.org, 
-	devicetree@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-Mailru-Src: smtp
+X-7564579A: B8F34718100C35BD
+X-77F55803: 4F1203BC0FB41BD9381BDEF7E890522320C180A75E467735B577A508162297EF182A05F538085040273A521DCF28E9013A6CFA342E5363067125BA82C907DD197465CDCA89556769
+X-7FA49CB5: FF5795518A3D127A4AD6D5ED66289B5278DA827A17800CE7E2331B2371EFE129EA1F7E6F0F101C67BD4B6F7A4D31EC0BCC500DACC3FED6E28638F802B75D45FF8AA50765F790063732727FD5A4355FD18638F802B75D45FF36EB9D2243A4F8B5A6FCA7DBDB1FC311F39EFFDF887939037866D6147AF826D86D69A6A09FF8BD4EB90AB18C8DEC6A3B6F9789CCF6C18C3F8528715B7D10C86878DA827A17800CE786A06C54C89EF27D9FA2833FD35BB23D9E625A9149C048EEC65AC60A1F0286FEF6B57BC7E64490618DEB871D839B7333395957E7521B51C2DFABB839C843B9C08941B15DA834481F8AA50765F7900637602B56D4CB39C6A8389733CBF5DBD5E9B5C8C57E37DE458BD9DD9810294C998ED8FC6C240DEA76428AA50765F7900637EDAD75E181AE3ED6D81D268191BDAD3DBD4B6F7A4D31EC0BEA7A3FFF5B025636D81D268191BDAD3D78DA827A17800CE74CC2140C3C9C7F95EC76A7562686271ED91E3A1F190DE8FD2E808ACE2090B5E14AD6D5ED66289B5259CC434672EE63711DD303D21008E298D5E8D9A59859A8B6B372FE9A2E580EFC725E5C173C3A84C322275D389A24191C35872C767BF85DA2F004C90652538430E4A6367B16DE6309
+X-C1DE0DAB: 0D63561A33F958A5D5A42AB246F214E111877D0E07F277A99B9A4F9FFC1503B2F87CCE6106E1FC07E67D4AC08A07B9B0DB8A315C1FF4794DC79554A2A72441328621D336A7BC284946AD531847A6065AED8438A78DFE0A9EBDAD6C7F3747799A
+X-C8649E89: 1C3962B70DF3F0ADE00A9FD3E00BEEDF77DD89D51EBB7742D3581295AF09D3DF87807E0823442EA2ED31085941D9CD0AF7F820E7B07EA4CF528894E26D16B659DF6D4F38B08EDF3329E2EBA2257983B2A913DAC57452B0DF1F5011C79ABBA8E762C9293813A964D6609E80B1DF7DADDFE433E735305914D032947E98E9153962
+X-D57D3AED: 3ZO7eAau8CL7WIMRKs4sN3D3tLDjz0dLbV79QFUyzQ2Ujvy7cMT6pYYqY16iZVKkSc3dCLJ7zSJH7+u4VD18S7Vl4ZUrpaVfd2+vE6kuoey4m4VkSEu530nj6fImhcD4MUrOEAnl0W826KZ9Q+tr5ycPtXkTV4k65bRjmOUUP8cvGozZ33TWg5HZplvhhXbhDGzqmQDTd6OAevLeAnq3Ra9uf7zvY2zzsIhlcp/Y7m53TZgf2aB4JOg4gkr2biojoVQ5iBoMj9ZhMqCk1yX0rg==
+X-Mailru-Sender: F244DC1430FACE54496B7D2C616565FD134E7648211741201D697B3E1A180717839022FC6F811F10CE8DDCF05647143DC77752E0C033A69E3DC0BC7494A416CF0226C39053983FF0B4A721A3011E896F
+X-Mras: Ok
+X-7564579A: B8F34718100C35BD
+X-77F55803: 6242723A09DB00B4AFE5DAA132BA5A5907C848BB74E7962F84A2EED91783435E049FFFDB7839CE9EFC40C8ACB4F5D954EB8C8DD1036D55D50BA3AD7BCBF0B99BDDCAFA667F632291
+X-7FA49CB5: 0D63561A33F958A5A632A53BCA38BF2ECC0761958C7F60313DFBB8D8A1C1BBD0CACD7DF95DA8FC8BD5E8D9A59859A8B63F77F579886ADF6B
+X-D57D3AED: 3ZO7eAau8CL7WIMRKs4sN3D3tLDjz0dLbV79QFUyzQ2Ujvy7cMT6pYYqY16iZVKkSc3dCLJ7zSJH7+u4VD18S7Vl4ZUrpaVfd2+vE6kuoey4m4VkSEu530nj6fImhcD4MUrOEAnl0W826KZ9Q+tr5xhPKz0ZEsZ5k6NOOPWz5QAiZSCXKGQRq3/7KxbCLSB2ESzQkaOXqCBFZPLWFrEGlV1shfWe2EVcxl5toh0c/aCGOghz/frdRhzMe95NxDFdhn9Z/5tnkGQe88/14VScag==
+X-Mailru-MI: C000000000000800
+X-Mras: Ok
 
-On Thu, Mar 30, 2023 at 8:13=E2=80=AFAM Greg Kroah-Hartman
-<gregkh@linuxfoundation.org> wrote:
->
-> On Wed, Mar 29, 2023 at 04:20:41PM -0500, Rob Herring wrote:
-> > In the process of cleaning up DT includes, I found that some drivers
-> > using DT functions could build without any explicit DT include. I trace=
-d
-> > the include to be coming from acpi.h via irqdomain.h.
-> >
-> > I was pleasantly surprised that there were not 100s or even 10s of
-> > warnings when breaking the include chain. So here's the resulting
-> > series.
-> >
-> > I'd suggest Rafael take the whole series. Alternatively,the fixes can b=
-e
-> > applied in 6.4 and then the last patch either after rc1 or the
-> > following cycle.
-> >
-> > Signed-off-by: Rob Herring <robh@kernel.org>
->
-> Nice cleanup, all are:
->
-> Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+From: Dinghao Liu <dinghao.liu@zju.edu.cn>
 
-All applied as 6.4 material with the tags collected so far, thanks!
+commit 4d5f81506835f7c1e5c71787bed84984faf05884 upstream.
+
+There is an allocation for priv->rx_urb[16] has no null check,
+which may lead to a null pointer dereference.
+
+Signed-off-by: Dinghao Liu <dinghao.liu@zju.edu.cn>
+Link: https://lore.kernel.org/r/20201226080258.6576-1-dinghao.liu@zju.edu.cn
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Signed-off-by: Danila Chernetsov <listdansp@mail.ru>
+---
+ drivers/staging/rtl8192u/r8192U_core.c | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/drivers/staging/rtl8192u/r8192U_core.c b/drivers/staging/rtl8192u/r8192U_core.c
+index 7f90af8a7c7c..e0fec7d172da 100644
+--- a/drivers/staging/rtl8192u/r8192U_core.c
++++ b/drivers/staging/rtl8192u/r8192U_core.c
+@@ -1608,6 +1608,8 @@ static short rtl8192_usb_initendpoints(struct net_device *dev)
+ 		void *oldaddr, *newaddr;
+ 
+ 		priv->rx_urb[16] = usb_alloc_urb(0, GFP_KERNEL);
++		if (!priv->rx_urb[16])
++			return -ENOMEM;
+ 		priv->oldaddr = kmalloc(16, GFP_KERNEL);
+ 		if (!priv->oldaddr)
+ 			return -ENOMEM;
+-- 
+2.25.1
+
