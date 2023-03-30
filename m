@@ -1,28 +1,26 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A40210E7
-	for <linux-staging@lists.linux.dev>; Thu, 30 Mar 2023 20:52:59 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DBCAEC4339B;
-	Thu, 30 Mar 2023 20:52:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BFFA10E7
+	for <linux-staging@lists.linux.dev>; Thu, 30 Mar 2023 20:53:34 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 13FA7C433D2;
+	Thu, 30 Mar 2023 20:53:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1680209579;
-	bh=M3Gwz8bg9RQOf786ZiVKLz+aclgydGf92Mqzbu8XHcg=;
+	s=korg; t=1680209614;
+	bh=wEGZ+6j3CKnjQ3nGoAdQWclI5P8LTLHhql9Q0wON1hk=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=M8YQkpaV/iD350A2mNdyNvAiwzQQzx98i/ZPveWmVZeAWtcU1nbHhi45CTXpqgw9h
-	 PfdO27N6TrB/AKqntWVKZ0sVwfGlrkhtO8X7kkbagkYGVlp5djUJAnFC8Oiz0gdZ4t
-	 zwKg9yDmEymYHpl1rM3xjto2jjTSbExJrgIxsfas=
-Date: Thu, 30 Mar 2023 22:52:56 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Danila Chernetsov <listdansp@mail.ru>
-Cc: stable@vger.kernel.org, Dinghao Liu <dinghao.liu@zju.edu.cn>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-	lvc-project@linuxtesting.org
-Subject: Re: [PATCH 5.10 1/1] staging: rtl8192u: Add null check in
- rtl8192_usb_initendpoints
-Message-ID: <ZCX2qLN1g6bmeKS7@kroah.com>
-References: <20230330201107.17647-1-listdansp@mail.ru>
- <20230330201107.17647-2-listdansp@mail.ru>
+	b=Rcee/cJS4Jjr3mhLvzkHAllhW76FLqEqnV5qunxsiQf90Rau10W8J3LKl8jf1K4sM
+	 6OAQj3lagd5cDrkMCrdwPFTtK6S0kofvwUvIAhc9xsSpJQNsuhmgPEL3SvIHu7e5Gy
+	 axRRUwTYbq+RaDNmU3lcLhzfVzXYW6GUt0pm+jW8=
+Date: Thu, 30 Mar 2023 22:53:31 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: "Joel C. Chang" <jcchangg3@gmail.com>
+Cc: linux-staging@lists.linux.dev, driverdev-devel@linuxdriverproject.org
+Subject: Re: [PATCH] staging: ks7010: remove unnecesary parentheses
+Message-ID: <ZCX2yxHVwCZ930WH@kroah.com>
+References: <ZCWEM7DCDUEOzBe9@joel-ubuntu-desktop>
+ <ZCWFcosyX0PllKLI@kroah.com>
+ <ZCXBO0cugdyR80g3@joel-ubuntu-desktop>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -31,39 +29,45 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230330201107.17647-2-listdansp@mail.ru>
+In-Reply-To: <ZCXBO0cugdyR80g3@joel-ubuntu-desktop>
 
-On Thu, Mar 30, 2023 at 08:11:07PM +0000, Danila Chernetsov wrote:
-> From: Dinghao Liu <dinghao.liu@zju.edu.cn>
+On Fri, Mar 31, 2023 at 01:04:59AM +0800, Joel C. Chang wrote:
+> On Thu, Mar 30, 2023 at 02:49:54PM +0200, Greg KH wrote:
+> > On Thu, Mar 30, 2023 at 08:44:35PM +0800, Joel Camilo Chang Gonzalez wrote:
+> > > Remove parentheses not needed in if statement
+> > > 
+> > > Signed-off-by: Joel Camilo Chang Gonzalez <jcchangg3@gmail.com>
+> > > ---
+> > >  drivers/staging/ks7010/ks_hostif.c | 2 +-
+> > >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > > 
+> > > diff --git a/drivers/staging/ks7010/ks_hostif.c b/drivers/staging/ks7010/ks_hostif.c
+> > > index af3825578d85..8bded7e88ce7 100644
+> > > --- a/drivers/staging/ks7010/ks_hostif.c
+> > > +++ b/drivers/staging/ks7010/ks_hostif.c
+> > > @@ -129,7 +129,7 @@ int get_current_ap(struct ks_wlan_private *priv, struct link_ap_info *ap_info)
+> > >  	size = (ap_info->rsn.size <= RSN_IE_BODY_MAX) ?
+> > >  		ap_info->rsn.size : RSN_IE_BODY_MAX;
+> > >  	if ((ap_info->rsn_mode & RSN_MODE_WPA2) &&
+> > > -	    (priv->wpa.version == IW_AUTH_WPA_VERSION_WPA2)) {
+> > > +	    priv->wpa.version == IW_AUTH_WPA_VERSION_WPA2) {
+> > 
+> > If you look in the archives, you will see that I reject this type of
+> > patch all the time.
+> > 
+> > Also, please use scripts/get_maintainer.pl to determine who to send this
+> > to, you used a very old mailing list address that is long dead.
+> > 
+> > thanks,
+> > 
+> > greg k-h
 > 
-> commit 4d5f81506835f7c1e5c71787bed84984faf05884 upstream.
+> Thanks for the input. I wasn't sure who to send it to, since the TODO in
+> the driver and the script have different email addresses.
 > 
-> There is an allocation for priv->rx_urb[16] has no null check,
-> which may lead to a null pointer dereference.
-> 
-> Signed-off-by: Dinghao Liu <dinghao.liu@zju.edu.cn>
-> Link: https://lore.kernel.org/r/20201226080258.6576-1-dinghao.liu@zju.edu.cn
-> Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> Signed-off-by: Danila Chernetsov <listdansp@mail.ru>
-> ---
->  drivers/staging/rtl8192u/r8192U_core.c | 2 ++
->  1 file changed, 2 insertions(+)
-> 
-> diff --git a/drivers/staging/rtl8192u/r8192U_core.c b/drivers/staging/rtl8192u/r8192U_core.c
-> index 7f90af8a7c7c..e0fec7d172da 100644
-> --- a/drivers/staging/rtl8192u/r8192U_core.c
-> +++ b/drivers/staging/rtl8192u/r8192U_core.c
-> @@ -1608,6 +1608,8 @@ static short rtl8192_usb_initendpoints(struct net_device *dev)
->  		void *oldaddr, *newaddr;
->  
->  		priv->rx_urb[16] = usb_alloc_urb(0, GFP_KERNEL);
-> +		if (!priv->rx_urb[16])
-> +			return -ENOMEM;
+> Is there a place to check for inactive mailing lists?
 
-This was not marked for stable as it's impossible to hit in real-life.
-So absent that, it's not needed in any stable kernel tree, unless you
-can prove otherwise?
+Just trust the get_maintainer.pl script, it knows what to do.
 
 thanks,
-
 greg k-h
