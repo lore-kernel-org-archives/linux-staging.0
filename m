@@ -1,92 +1,77 @@
-Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
+Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA0108BEE
-	for <linux-staging@lists.linux.dev>; Thu, 30 Mar 2023 17:05:04 +0000 (UTC)
-Received: by mail-pj1-f41.google.com with SMTP id o6-20020a17090a9f8600b0023f32869993so22648668pjp.1
-        for <linux-staging@lists.linux.dev>; Thu, 30 Mar 2023 10:05:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1680195904;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=/RhTCvFU04Z911eDGmWlcdN2E+0Qy15cuZmJweiAivc=;
-        b=fvUJQbWt4yQoIbRQI7cGdmkpux1QTQ59o3AYRW4kc8O/u53k8CXl1SLTm5fxQsUa4z
-         bzFy2QIdcXqUkTk6GcwIBShLWs5voSZjnFVEzCp+A3mCO2cknU0qlX/xKpIp6+hH5nlm
-         mhNwrpl9JAKt8idKediVSksmKqszs+DS3A8KkQ1HDM0NdKsRZMybebctL8JKXH++JM3s
-         jxWL9lNuAr6RRq6/awFn2H2bsboN6p0uJj8wmgCwY4RglnGrgScwfP/7LXR2dSB8+mjS
-         VE/k5oE8/8SJYu+Wa9lKXNdI0OYkVYmWc5EcDeXrOVUR7qt5g63rb6aE/nBX14rz4gq4
-         Mw4g==
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B6C88BEE
+	for <linux-staging@lists.linux.dev>; Thu, 30 Mar 2023 17:19:05 +0000 (UTC)
+Received: by mail-ed1-f48.google.com with SMTP id ew6so79277435edb.7
+        for <linux-staging@lists.linux.dev>; Thu, 30 Mar 2023 10:19:05 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680195904;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=/RhTCvFU04Z911eDGmWlcdN2E+0Qy15cuZmJweiAivc=;
-        b=bYJk7IXOnqIXIztiTSgX68MpLLogyu2YJjgZupHr6q40XXRNz3HbbNf/HZ/kEXccWS
-         ZvYmB4LnYf8DLFatkvZIkSoSdJNJ0MAFGhgWjX2V8Y8bzDgzqgop3D4diX0SsYNTlM2B
-         zB3GgCeQjXhNpGZsyi4euz8rttQR2OczMyXTtvvzdyIbDPp7ZcuyZO18Rt9Ff63kqEqC
-         IQavgjBdz9DqzSoVliMSYQUEGgJ9+GzhMaRd4yRDw90xPm7NoJzkIiIR7/KpYZnJYGTT
-         /FstKhXxZu4qd8hUCNDKyIyKc94acWtj7r3wb6h6dgTzcOWYd+P5YEHhinuuN9IBnchr
-         ktVw==
-X-Gm-Message-State: AAQBX9dYKobUjPW+WsAo0jPWmsVGiPBFrC24U8RKaWls41mIwyaVrGP/
-	4MTE10UMmPsQNA3b2NrJ1iw=
-X-Google-Smtp-Source: AKy350Zs4OW6OX4RIyWsRZaEsTlbNgRwErlR6RkRS+/xLHprZ6SkMogglY331/j4Pp1Q22KUWB/UsA==
-X-Received: by 2002:a17:902:ced0:b0:19f:1c69:54b5 with SMTP id d16-20020a170902ced000b0019f1c6954b5mr25910790plg.12.1680195903901;
-        Thu, 30 Mar 2023 10:05:03 -0700 (PDT)
-Received: from joel-ubuntu-desktop ([2407:4d00:2c02:823f:14a7:49e0:2d87:e0ad])
-        by smtp.gmail.com with ESMTPSA id c1-20020a170902724100b001a198adb190sm25066247pll.88.2023.03.30.10.05.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 30 Mar 2023 10:05:03 -0700 (PDT)
-Date: Fri, 31 Mar 2023 01:04:59 +0800
-From: "Joel C. Chang" <jcchangg3@gmail.com>
-To: Greg KH <gregkh@linuxfoundation.org>
-Cc: driverdev-devel@linuxdriverproject.org, linux-staging@lists.linux.dev
-Subject: Re: [PATCH] staging: ks7010: remove unnecesary parentheses
-Message-ID: <ZCXBO0cugdyR80g3@joel-ubuntu-desktop>
-References: <ZCWEM7DCDUEOzBe9@joel-ubuntu-desktop>
- <ZCWFcosyX0PllKLI@kroah.com>
+        d=1e100.net; s=20210112; t=1680196743;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=/sK01N/HcAzey7kutWyAm0fiwuXpPIV0t8lDayMPKNs=;
+        b=LTKkUm12AIGo3eLIKxZe1eZJdlSwFbEw7MjYGOf2wc/2fMmJkm75L7tA551E+AEbqA
+         oA7iialTjFzQgsKKIP2zGyY6SWzGJjFq6/FPqeEbx0DfYET7qhdWsaKSGTMc8ROI/ikQ
+         Ca1df3vPPapEwL497NnAvi70/4akBE+zB4Y2zB2WDvr/1REcx1XGnzDB8TOOL7l3aA9O
+         rgH6lk3n2r0CUNxe61fzk0ouYXdUMVMZ9JDTr/3EUWLbrptSvTzLeD9Dks6g9At24jA4
+         MZP6QRd17rv4n3nX+Jwbfmv01O/NGs6SlL41xs/MxOQLDXzAKBzFzV0A2MrCXZpUH/f0
+         /VxQ==
+X-Gm-Message-State: AAQBX9eGSnvVpDnlQU/y+cjF3Q8Q5a34loos6Ufz7wB/zlHUWIQqnS3g
+	CrA94EFF7krZFkKagYM5xrm0FhLzhT75E4cjKq4=
+X-Google-Smtp-Source: AKy350YytQ1yNiR6W3Bf1WUTGN6F1FlrOPm5tq5wq5gaK9i6al6bWOGltYKF/XedV9kSLG6QNcyQIMF5Rh1uNWAeOVs=
+X-Received: by 2002:a17:907:a0cd:b0:947:4b15:51e5 with SMTP id
+ hw13-20020a170907a0cd00b009474b1551e5mr1794105ejc.2.1680196743353; Thu, 30
+ Mar 2023 10:19:03 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZCWFcosyX0PllKLI@kroah.com>
+References: <20230329-acpi-header-cleanup-v1-0-8dc5cd3c610e@kernel.org> <ZCUon17pXpgBr0eQ@kroah.com>
+In-Reply-To: <ZCUon17pXpgBr0eQ@kroah.com>
+From: "Rafael J. Wysocki" <rafael@kernel.org>
+Date: Thu, 30 Mar 2023 19:18:52 +0200
+Message-ID: <CAJZ5v0jKA9GQULe360ZnwiKc4HRHcLJR=LxDwwm7DGP59JU_rw@mail.gmail.com>
+Subject: Re: [PATCH 0/5] Remove acpi.h implicit include of of.h
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Rob Herring <robh@kernel.org>
+Cc: Len Brown <lenb@kernel.org>, Marcelo Schmitt <marcelo.schmitt1@gmail.com>, 
+	Lars-Peter Clausen <lars@metafoo.de>, Michael Hennerich <Michael.Hennerich@analog.com>, 
+	Jonathan Cameron <jic23@kernel.org>, Johannes Berg <johannes@sipsolutions.net>, 
+	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Jiri Slaby <jirislaby@kernel.org>, 
+	Thierry Reding <thierry.reding@gmail.com>, Jonathan Hunter <jonathanh@nvidia.com>, 
+	Marc Zyngier <maz@kernel.org>, linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-staging@lists.linux.dev, linux-wireless@vger.kernel.org, 
+	netdev@vger.kernel.org, linux-serial@vger.kernel.org, 
+	linux-tegra@vger.kernel.org, linux-acpi@vger.kernel.org, 
+	devicetree@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, Mar 30, 2023 at 02:49:54PM +0200, Greg KH wrote:
-> On Thu, Mar 30, 2023 at 08:44:35PM +0800, Joel Camilo Chang Gonzalez wrote:
-> > Remove parentheses not needed in if statement
-> > 
-> > Signed-off-by: Joel Camilo Chang Gonzalez <jcchangg3@gmail.com>
-> > ---
-> >  drivers/staging/ks7010/ks_hostif.c | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > 
-> > diff --git a/drivers/staging/ks7010/ks_hostif.c b/drivers/staging/ks7010/ks_hostif.c
-> > index af3825578d85..8bded7e88ce7 100644
-> > --- a/drivers/staging/ks7010/ks_hostif.c
-> > +++ b/drivers/staging/ks7010/ks_hostif.c
-> > @@ -129,7 +129,7 @@ int get_current_ap(struct ks_wlan_private *priv, struct link_ap_info *ap_info)
-> >  	size = (ap_info->rsn.size <= RSN_IE_BODY_MAX) ?
-> >  		ap_info->rsn.size : RSN_IE_BODY_MAX;
-> >  	if ((ap_info->rsn_mode & RSN_MODE_WPA2) &&
-> > -	    (priv->wpa.version == IW_AUTH_WPA_VERSION_WPA2)) {
-> > +	    priv->wpa.version == IW_AUTH_WPA_VERSION_WPA2) {
-> 
-> If you look in the archives, you will see that I reject this type of
-> patch all the time.
-> 
-> Also, please use scripts/get_maintainer.pl to determine who to send this
-> to, you used a very old mailing list address that is long dead.
-> 
-> thanks,
-> 
-> greg k-h
+On Thu, Mar 30, 2023 at 8:13=E2=80=AFAM Greg Kroah-Hartman
+<gregkh@linuxfoundation.org> wrote:
+>
+> On Wed, Mar 29, 2023 at 04:20:41PM -0500, Rob Herring wrote:
+> > In the process of cleaning up DT includes, I found that some drivers
+> > using DT functions could build without any explicit DT include. I trace=
+d
+> > the include to be coming from acpi.h via irqdomain.h.
+> >
+> > I was pleasantly surprised that there were not 100s or even 10s of
+> > warnings when breaking the include chain. So here's the resulting
+> > series.
+> >
+> > I'd suggest Rafael take the whole series. Alternatively,the fixes can b=
+e
+> > applied in 6.4 and then the last patch either after rc1 or the
+> > following cycle.
+> >
+> > Signed-off-by: Rob Herring <robh@kernel.org>
+>
+> Nice cleanup, all are:
+>
+> Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
-Thanks for the input. I wasn't sure who to send it to, since the TODO in
-the driver and the script have different email addresses.
-
-Is there a place to check for inactive mailing lists?
-
+All applied as 6.4 material with the tags collected so far, thanks!
