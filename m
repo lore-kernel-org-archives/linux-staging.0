@@ -1,163 +1,77 @@
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com (mail-co1nam11on2080.outbound.protection.outlook.com [40.107.220.80])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f173.google.com (mail-pg1-f173.google.com [209.85.215.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 306EFC2E9
-	for <linux-staging@lists.linux.dev>; Thu, 30 Mar 2023 08:50:43 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=LhfRuW3I2Hqjm7XypU+eCxIrc0sYb35+nginsZAmIZzq2CBuHWW+mTZWvHvyDLbDmHBNRC6iynJxc4ww7U79l/zixEWfrpM6umjxS4m9zKSn7KJvwaMIeNlzDXE9BeQ6Jsc7YA5NgEB9x6ZdujnvMeLrNNmutKOsukxzwC/LhSu8G7AOyPCM345lodRyiP5fccLSL9kx43fRDH6kbhgGV+dHv36Z8dsWUSv8YBvHAZ8+EigNU7QzYfrIeH/JUOUl3jmVE+xdXw91pPpF7TjR3JiTp2zqLQRK5KWLnRGYXlUTbe8r0l+1f+awqjgTPqGWQ3rX84Ruz2ShaIOWG1LKFg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Eqi5fwaz6U5F0sKqTUnlzsZZmNZAeYTrv13W+R9aG3M=;
- b=b707w9ES3blBbk9/K6bIFdreXgMoq+xiyYHPzQMInLPi9UZH0wFbZm6JcDeDO8F/RgtbYqx4zxoproUl3uCEnl7BcmQAfmO33OAgNIQHfLW/x6VX7X4a3eVSR/GvLyPfcLy+FXwNaEvc6F17RsBQNVlWnyNHiRgAkcv24wlcNjMm/xRh7IK6aL+PGxwOTCKQH+KmwOUM8FN2mQW047F237bYsIXb1JOyQreoFdkY+zGFgT8vo9rRJxBfoLFRzSeEksPkUmViyk2+adDSO7jqi5jhbsXN/9JkIuoW+kUbgYypyISm8/RXCs+AEqMYtyt+PyVBD53PBQXI++zRAgLEaA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Eqi5fwaz6U5F0sKqTUnlzsZZmNZAeYTrv13W+R9aG3M=;
- b=Pdtp1F8U20ULqsm69jTBfmI++sQsQaIO/RppoPugIoR5zMyFFchxIcZpZvt+5jB+3GaGLjcsQqBzit7pDkTODGT2IlD6lJ+20GyOTzoDMOB5JCa0kDI4cuPEly5/59wB6NoP0sLoh6JRRm674vWEnxyzRRTpWhreP8NOXLv8oyrmh2Ake5gNpkkx/tQZ0oF2PoMcDWagbebKVLecrZhGu1TY9ExwPz8f7vYoR+ejt2eE92CfzPPG9u1kV07pC9Rbn5I8+Mh/5BR4SOtX9z7XnFTonju7nHbRcJIOxe521dxkIyzcKWU4NTxZpktdrDLOaVisOZ5pHIyk5afiCuLLMg==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from CO6PR12MB5444.namprd12.prod.outlook.com (2603:10b6:5:35e::8) by
- PH7PR12MB6587.namprd12.prod.outlook.com (2603:10b6:510:211::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6222.35; Thu, 30 Mar
- 2023 08:50:41 +0000
-Received: from CO6PR12MB5444.namprd12.prod.outlook.com
- ([fe80::abe1:c2f2:c4bb:ba78]) by CO6PR12MB5444.namprd12.prod.outlook.com
- ([fe80::abe1:c2f2:c4bb:ba78%2]) with mapi id 15.20.6254.021; Thu, 30 Mar 2023
- 08:50:41 +0000
-Message-ID: <502523a9-9737-d9ce-8ee5-ca8d39fc0c52@nvidia.com>
-Date: Thu, 30 Mar 2023 09:50:31 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [PATCH 4/5] serial: 8250_tegra: Add explicit include for of.h
-To: Rob Herring <robh@kernel.org>, "Rafael J. Wysocki" <rafael@kernel.org>,
- Len Brown <lenb@kernel.org>, Marcelo Schmitt <marcelo.schmitt1@gmail.com>,
- Lars-Peter Clausen <lars@metafoo.de>,
- Michael Hennerich <Michael.Hennerich@analog.com>,
- Jonathan Cameron <jic23@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Johannes Berg <johannes@sipsolutions.net>,
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- Jiri Slaby <jirislaby@kernel.org>, Thierry Reding
- <thierry.reding@gmail.com>, Marc Zyngier <maz@kernel.org>
-Cc: linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-staging@lists.linux.dev, linux-wireless@vger.kernel.org,
- netdev@vger.kernel.org, linux-serial@vger.kernel.org,
- linux-tegra@vger.kernel.org, linux-acpi@vger.kernel.org,
- devicetree@vger.kernel.org
-References: <20230329-acpi-header-cleanup-v1-0-8dc5cd3c610e@kernel.org>
- <20230329-acpi-header-cleanup-v1-4-8dc5cd3c610e@kernel.org>
-Content-Language: en-US
-From: Jon Hunter <jonathanh@nvidia.com>
-In-Reply-To: <20230329-acpi-header-cleanup-v1-4-8dc5cd3c610e@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: LO2P265CA0417.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:a0::21) To CO6PR12MB5444.namprd12.prod.outlook.com
- (2603:10b6:5:35e::8)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00CDCC2FE
+	for <linux-staging@lists.linux.dev>; Thu, 30 Mar 2023 12:09:09 +0000 (UTC)
+Received: by mail-pg1-f173.google.com with SMTP id q206so11150085pgq.9
+        for <linux-staging@lists.linux.dev>; Thu, 30 Mar 2023 05:09:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1680178149;
+        h=content-disposition:mime-version:message-id:subject:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=bJN/Czq4gYPwe47Url11H0QkQkrvpH2S48xhzpmgh0M=;
+        b=e0Hje/9IerS8i8MDIgpqNvqqkesrKwAP9AqAXG1rPI0YRQPXNXuliMaFNsOyyB5DO7
+         87ou31fOIIJcmoDNAWw0pbpmcRsJQFQdno8UnxR/o526zvoLorsHuTf36cxUcbzPOIK1
+         orF+AlOC1NKhj32aEOI0PdtCS+Fksil/7VRMBdf8Dlq6SgesdmOSTUp8n84gyVnqTayF
+         XTdBp9/CZ9zaeUL3FItmagVdsOjvzQ2NU+s1aw1s5pdNcu10h9vIvyFJeqIheo7VOgg2
+         46Qvz82eDIxof2xtBHQ97/SjEJaUju8h/RMYUe41btBoh83K+Oxli1oZ45hGF/W5oE+9
+         LXHQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1680178149;
+        h=content-disposition:mime-version:message-id:subject:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=bJN/Czq4gYPwe47Url11H0QkQkrvpH2S48xhzpmgh0M=;
+        b=CFz0IW4NAIz0li5pMKOaHgmDGFruJLnHzmaoxJsNHfJST+sWe5W6HgfHkHdyLjc/aW
+         vvwwpRt92Xlg95TuT8V7VkOI1D09avAkRVs3O5CXZmHSHi0pmE61QoU+P4c7hvqX7NqV
+         KA0WPVJJwI6x1e3vZjmgtEGBG7jFKLK7QC+qDpmUzMuFNTq6L25sYuoCI098jZ05kmqs
+         hhKrkpzhm0sINReS/PQvPD3XIR0eKW4l5AFw8UqTBr8Yo1x3rRXIwPHgSe5y2qAJWBtz
+         3ci8CdVZL8fHnZbDEnKpQ+XmhEHEGLc2DqBsu9kzFMpWrZK0LZPXBZmVzqNyNw3qHwrs
+         SKlw==
+X-Gm-Message-State: AAQBX9cXLO/QJK68M4CYczfryn0Xlcb/0WPrRK7qGJJ1AAbaT/Pnl0ZH
+	CJ6SwiOENTmMJ+Q9Et0ajWeAa6qJn69CGw==
+X-Google-Smtp-Source: AKy350aoVPsGGRoTS9WV+WnwYMuA9E6PjMr6dfV0cSbx+5Xb6zjV1VkGSth3oIC1e3OI4pv9n7bp5w==
+X-Received: by 2002:a62:7b91:0:b0:625:cc03:df33 with SMTP id w139-20020a627b91000000b00625cc03df33mr18637495pfc.31.1680178148838;
+        Thu, 30 Mar 2023 05:09:08 -0700 (PDT)
+Received: from joel-ubuntu-desktop ([2407:4d00:2c02:823f:14a7:49e0:2d87:e0ad])
+        by smtp.gmail.com with ESMTPSA id z24-20020aa785d8000000b0056d7cc80ea4sm24773084pfn.110.2023.03.30.05.09.06
+        for <linux-staging@lists.linux.dev>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 30 Mar 2023 05:09:08 -0700 (PDT)
+Received: by joel-ubuntu-desktop (sSMTP sendmail emulation); Thu, 30 Mar 2023 20:09:02 +0800
+Date: Thu, 30 Mar 2023 20:09:02 +0800
+From: Joel Camilo Chang Gonzalez <jcchangg3@gmail.com>
+To: linux-staging@lists.linux.dev
+Subject: [PATCH] staging: ks7010: remove unnecesary parentheses
+Message-ID: <ZCV73vSkKb5WzHa9@joel-ubuntu-desktop>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CO6PR12MB5444:EE_|PH7PR12MB6587:EE_
-X-MS-Office365-Filtering-Correlation-Id: 887686ea-9cf4-437b-7f29-08db30fbd702
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	q1uU3pHquNG8d1PGDl54KNmh62fhkxMPG+UGLMR2MTG6P0mgQmB7cRz6QiKsGL3N8T5dVIOwP4VSFI59ILDZ2Br0IWqVXnh4RsfoV+qRtrOpREGHxE6fl/wn3iCijiyhjN4Wi0+d2HzkHcXP2GGuztw+lJh5/mGBC/2eD8JvA4EEvG3USAp3VYFexBN0BR431RY2Z7PJeAhmNSDDqFsrrWc2qE7LNIWP5VGD2808uLDI7vy/4rlIrXke98MMZM00Nv/z2anGZ4Ar70cfPYVPitHnE81g6xKkuf9C8f0axfFffHOZzvgU6V2ERfmuCEp+mJCLRGQYv/tSV2VEC+1+wf2TCGWJdmzSFm7TMWt0Y+pKWOnweUx5Dhv6XZ5d4zGbB/i3WupyQV87MqWlpc0vvkR+kNjULme1IfEYon9Kr/Y7PF+z5Qbx9U7mj8OF/z6k8C2yRAmuFO+BcN71JcI5XGzZwoVR8NXPpxbpp17yenoE+vLpX3c3QkrxPUo12iUye57dNzzC5dIfXWH7jmCal48kmlQbt6D18CvB5z1w9d8233Key8C8Ud5FtgagTbX1sAipV0vfKNLP+J4+jBwMoFiZ2nY1Vl551SHuCNJEdXS3yX7Fp0dKNVkN48b8X+W81SNLlj+wux6c9WJaF6bS+vAgxdgpkpsvlPY4BXh7SsI=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO6PR12MB5444.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(366004)(39860400002)(346002)(376002)(396003)(136003)(451199021)(4744005)(2906002)(31686004)(41300700001)(2616005)(316002)(66556008)(6666004)(110136005)(7416002)(8936002)(6486002)(36756003)(8676002)(4326008)(66476007)(66946007)(478600001)(86362001)(31696002)(53546011)(921005)(55236004)(6512007)(6506007)(5660300002)(26005)(186003)(38100700002)(43740500002)(45980500001);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?TnExQkFHRkhuY0NZWTA3SU1xMExMNzFEbzNWSk1jNXMvYjVvNTJnS0FVeUM5?=
- =?utf-8?B?eWh5SWRqOUxVcU5ucHcwSjZSeTAxMzZyK3drNUdsR2k5VlRCNVVjNTNCbW04?=
- =?utf-8?B?aXNKNS9jbnB4ckExRUx5TFBNdUZEN3hyRWM4alNBZlh3QVlOR0JHTHdCSVRP?=
- =?utf-8?B?VTNIbEk5eTdmc1FJNGFMajA1Q1hoMG9RdVgrcm1hZ1ZjOU9VbytPaTFnZUVW?=
- =?utf-8?B?Mk1WQW41SzRrUU1qQ3dhbW8xSFJUN2RvdkRjZVV5eHJoU1F6VHN6NCtjZnRo?=
- =?utf-8?B?VVZacSttQzRCZ1dwczBZSmRNNXVEYXlLSXFYUWRpeGZTQ0dNMTZpNWtnU2Qx?=
- =?utf-8?B?dzU2aEZsMDE3YmJ3eW9aTFNKZDArQVRhMTFiekdzbXpYTG9tVGVFK0QzSGlB?=
- =?utf-8?B?S2hWU20wbUlLYmRIdDBxT2Y4b2lJZzM2YkRxalBqTmZqVDhiN3Zhdjh3WlhW?=
- =?utf-8?B?d3ZDbmNXWkRNM1laMng4QVdvbFJHci9USFJVN2praXJoV1YyUXZCcGNMKy8y?=
- =?utf-8?B?M3FmWjVoajdLYlNJVGE4dXZndEU4aFZDYUVJRkxkaXd4eEdtbGx0MCs3K1gz?=
- =?utf-8?B?UUhDREg2QVdobUgycjhKSkM1eW5rdW9OU2hrVGJmS285SEFlbU5EakdSUUl4?=
- =?utf-8?B?U1NIc1BSanBweUd5cld2am8vaC9XQzEyNlIyalpZLytDdHR5UG1FTDNhSVVV?=
- =?utf-8?B?ZmUySlNZNmZYRkMwN2xMMDdUTW83RWNqT0VOanY5elhwdHNQOVJlNHQ0MnRy?=
- =?utf-8?B?Sm0vMCs4ckw1UmNqOXhXM0RudWFMcnZMNVJhVnc1b0lxQUxXZEE4NFZ6UUtn?=
- =?utf-8?B?QW1CaEp4bTFVQXR6MzdqYWN2TlJpRnZTU3E2RkJpekQrZmUwc3ZKOXRuNHg4?=
- =?utf-8?B?Z2c3aWd4REYvTk1rNDhKSnV1UnFzR2NhVWxMMHRIUnRxOVdvclhTcUZHWXZ6?=
- =?utf-8?B?QjgzR1VIZUxCdENMeEMxY2UwNjF2T1VGcW5PYVFVYTlEWXVuVTljaVpUZzd2?=
- =?utf-8?B?cGVpZy85bkdmNDhadWlsQzJQWW02bmhIN09FclUzeFZjZFlpSkYvTlhDTkJU?=
- =?utf-8?B?dW5UcmgvemhTVnRJYUY0OElTNXQxQklHUUs4TVVmbkpPTjY3S0JJN2JyaTYv?=
- =?utf-8?B?Q3ZIcmhWOStYdkVSdGRQMmtPN1Y0aCtwRURRVng2ZzRtZVZOaXN3dmtzM1do?=
- =?utf-8?B?OXczS2ttU0htemhLcUxDdUJGc0dWNk9YL1JFTEx0RzE0cjBGNk5YV2Vzek03?=
- =?utf-8?B?RVNoWitoMGh4R1NEMzRpS0o5cWtOTHFyT0c1cTBYRWF6WkZtN1gzUWtFaWZV?=
- =?utf-8?B?UzBwS21HRTlKWkVzdE8xVTd1N1Evd2duZmwyQTZqNktPeVFTU1JJWVJHWHIz?=
- =?utf-8?B?cXByMjYrUDduaENpeGlCUGZqTUJNU2dZSEtnV1BDZVUrMlFtOGozRS8vMEwz?=
- =?utf-8?B?UXJEdjI4UThoVHo1NllObVpFd2d4dHJDSFRiNENtVUxPWmNKQWxoZVNWdXJT?=
- =?utf-8?B?LzhXbUhZTm5va1EvWUMvN1FCU3JjZmNVcG9XTEZVcDk0QXE2WmtWemRadmNO?=
- =?utf-8?B?VTlhOHg0RThyeEpqTys4T2dLUnBjODQvV2RIcVNYcDhEaWxHb0ZPVzJpTkRK?=
- =?utf-8?B?ZlJleExVb1pOQTJMeWxaT0t1K2llQkpBekQ0M1VxeUtNMXdmRG16RDZHSDFt?=
- =?utf-8?B?bzRzN1p2NEorR3ZmNHNVNVNRYUhEWTV3RVZ1Tll5VGN2ZHorQkt5MzdYcmwy?=
- =?utf-8?B?N1MxeHVoSG9uTU5TNG5WOEtmZHZlNWlBKzVqSTB0VmJKU0hQTy9JS01tNXFl?=
- =?utf-8?B?NVRtWlorcWlzRVFrZ2dURHVnYWtuSG1WOFVodTk2a0dQTVl3SVpYS2ptOTVy?=
- =?utf-8?B?eTJtVEV4MEpMak1lVjFZYVN3Q0IxeTA0U052cWJwckQzTWdpelp3T1BZdDFB?=
- =?utf-8?B?OFJtNEpiNEgxUmJ0RytPNHZuV1B4SlVtWjAzU1NESVNqOVhkRmswSUhyWDcw?=
- =?utf-8?B?T3dEV1J5aDJ2NmFXKzArcnE3eHhGZHBHSUFpZjkrZEc4ZXZueWFTRXNEMFpO?=
- =?utf-8?B?SHJiTGF2THdtYm84SHhTTnFBVnQ3L0t1N0xJeXllR3FIV0tJSjVBSDlMb3Qv?=
- =?utf-8?B?R3ZxNDFWNVVaUEFWVXdhUlJBa1BSY3RvdHlIMW1HWmIwdi9nKzNMSDhiRm9a?=
- =?utf-8?B?eVE9PQ==?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 887686ea-9cf4-437b-7f29-08db30fbd702
-X-MS-Exchange-CrossTenant-AuthSource: CO6PR12MB5444.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Mar 2023 08:50:41.0173
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 1A2OHZBSMWyPnKRifX0I/YPxAxz5T31l2E/AOwMR1z0pFDa4v3N7k4UYyW7MjUg0TnwoPbLwZyazuL2lxmpIQA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB6587
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
+Remove parentheses not needed in if statement
 
-On 29/03/2023 22:20, Rob Herring wrote:
-> With linux/acpi.h no longer implicitly including of.h, add an explicit
-> include of of.h to fix the following error:
-> 
-> drivers/tty/serial/8250/8250_tegra.c:68:15: error: implicit declaration of function 'of_alias_get_id' [-Werror=implicit-function-declaration]
-> 
-> Signed-off-by: Rob Herring <robh@kernel.org>
-> ---
->   drivers/tty/serial/8250/8250_tegra.c | 1 +
->   1 file changed, 1 insertion(+)
-> 
-> diff --git a/drivers/tty/serial/8250/8250_tegra.c b/drivers/tty/serial/8250/8250_tegra.c
-> index e7cddeec9d8e..2509e7f74ccf 100644
-> --- a/drivers/tty/serial/8250/8250_tegra.c
-> +++ b/drivers/tty/serial/8250/8250_tegra.c
-> @@ -11,6 +11,7 @@
->   #include <linux/delay.h>
->   #include <linux/io.h>
->   #include <linux/module.h>
-> +#include <linux/of.h>
->   #include <linux/reset.h>
->   #include <linux/slab.h>
->   
-> 
+Signed-off-by: Joel Camilo Chang Gonzalez <jcchangg3@gmail.com>
+---
+ drivers/staging/ks7010/ks_hostif.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-
-Reviewed-by: Jon Hunter <jonathanh@nvidia.com>
-
-Thanks!
-Jon
-
+diff --git a/drivers/staging/ks7010/ks_hostif.c b/drivers/staging/ks7010/ks_hostif.c
+index af3825578d85..8bded7e88ce7 100644
+--- a/drivers/staging/ks7010/ks_hostif.c
++++ b/drivers/staging/ks7010/ks_hostif.c
+@@ -129,7 +129,7 @@ int get_current_ap(struct ks_wlan_private *priv, struct link_ap_info *ap_info)
+ 	size = (ap_info->rsn.size <= RSN_IE_BODY_MAX) ?
+ 		ap_info->rsn.size : RSN_IE_BODY_MAX;
+ 	if ((ap_info->rsn_mode & RSN_MODE_WPA2) &&
+-	    (priv->wpa.version == IW_AUTH_WPA_VERSION_WPA2)) {
++	    priv->wpa.version == IW_AUTH_WPA_VERSION_WPA2) {
+ 		ap->rsn_ie.id = RSN_INFO_ELEM_ID;
+ 		ap->rsn_ie.size = size;
+ 		memcpy(ap->rsn_ie.body, ap_info->rsn.body, size);
 -- 
-nvpublic
+2.37.2
+
