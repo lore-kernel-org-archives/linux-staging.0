@@ -1,175 +1,152 @@
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com [209.85.167.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 020056FA0;
-	Thu, 30 Mar 2023 14:11:36 +0000 (UTC)
-Received: by mail-wr1-f54.google.com with SMTP id v1so19244363wrv.1;
-        Thu, 30 Mar 2023 07:11:36 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1AF136D24
+	for <linux-staging@lists.linux.dev>; Thu, 30 Mar 2023 14:21:44 +0000 (UTC)
+Received: by mail-lf1-f46.google.com with SMTP id c9so14315769lfb.1
+        for <linux-staging@lists.linux.dev>; Thu, 30 Mar 2023 07:21:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1680185495;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=R+FoJdn0v3mxQP8H3rv8z+g2SXXjZfcMeYd0mBDcN58=;
-        b=a49YjFIziZlCSUFnzcypUe3Vbs/P/pZFB1JfUdfg1cCflz0+0TpTIqRyvVav/hYc2O
-         ygZG6EhI3MLhz+tAlP8PaSKGZO+aA7TZ9gnTwHIzlnqLSFuNQHVCAkQw6Lk4hLd6qe9q
-         w9UgFcBtHjjzeUkAtDIxBBrtK2cSlYn3baAUx4G/V9wsUz4c2uZadquagx/bTH8m4zAS
-         uSq18TxuF2jpOa+YaoLG/lRy8euHZnwQ3kRAdBkB3183bF8jbr2OgRyTRLbBStpc/+69
-         avifYLVbfUYOfHZTAYLn7YnTnLsasqRktRAYcLK+FDxTWXCuXL8gZZQqrGeYjSEIUpFU
-         lqUA==
+        d=ragnatech-se.20210112.gappssmtp.com; s=20210112; t=1680186103;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=LZvTRWMF7/T0WORHr47mJyaqCmNwg2xrooAflTpNfBs=;
+        b=7yga/rNeiOQI1G+vCKlrD/yBinf905YNrF4q2qJzVZq4lSpnW1TeMEGSn+wscJW8NR
+         v8+BwqJ557kMZxOQXWAukf8m8aRH4VSZtiMcH2f5OrZaj+ghTq9CE9oZeQwOIKa0A880
+         jQsVQ6YH/pFN1iVT0nmkobfpWtYm3lKtO4YXF2Hn4zI/M1xIHHGumzByTkymq4luUjdP
+         mGuKiFOm/YNLlV6+RDBQY64KosOEIy3yuFVemIq2WaAtj9U6TFP7JRvQJ7vSDkbhf3a7
+         uuUFGJ43ci6IwsMy2yDRUkZR2Krunx2DPaetjf/Dg4RbBNA+5B2LH4N504vxKs900uLw
+         Kmjg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680185495;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=R+FoJdn0v3mxQP8H3rv8z+g2SXXjZfcMeYd0mBDcN58=;
-        b=KRwSdMJykLtxyWSvKl33J6i2/FxSYKdFyQX9L39i9wKI71xzBFxHJiL5orMa3NDWBN
-         4FhL1OxZ3Nc7cTa335WEYo4gpsMCSxEuf2o0mSyFZ0TUkpQ1MBSs4VxR5C2pUynprpr3
-         51+Ct8baLuC+OWrzVUFxfYgkq+P5yfhzIXV41FF+dvUOfip+roK+iXFqGhVrgbvCmoBz
-         Og+LZa6Z2dYLEdiIuTg6QZvLJB/dV2EksjfVmVWHGJswqJFXcw0L0pBmczdIwbSwwVPm
-         GtLwH117irXaXwcbS5k+jx6xwF96ftYYUVY4p1Z8J3uw0tKGoeqYTA4RBVz4lBQEN04r
-         GGGA==
-X-Gm-Message-State: AAQBX9dtDDBdFg3t81aN5f+i8nnTtgVgqA8GZ8F7SOeJHqYJn77xpQfK
-	dwa4coZ5l4fapZWIKg+r8n3q+JafKwcJwDuY
-X-Google-Smtp-Source: AKy350bWVUPToKKGL3iWneHoEStvcoEquC3yrNGYcOy60iAv+Ky8hm0FdCIU3pgtTNqsbC8TVFQoow==
-X-Received: by 2002:a5d:500a:0:b0:2cb:29eb:a35e with SMTP id e10-20020a5d500a000000b002cb29eba35emr5019627wrt.11.1680185494763;
-        Thu, 30 Mar 2023 07:11:34 -0700 (PDT)
-Received: from khadija-virtual-machine.localdomain ([39.41.14.14])
-        by smtp.gmail.com with ESMTPSA id b5-20020adfee85000000b002c573778432sm32761705wro.102.2023.03.30.07.11.32
+        d=1e100.net; s=20210112; t=1680186103;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=LZvTRWMF7/T0WORHr47mJyaqCmNwg2xrooAflTpNfBs=;
+        b=ln7XvYFpXGkRn3kmj7P5UkF79WNXM7ekow1eHJmNeWMiMhmiLo3Rv0FMZWzCf2Isal
+         DhhXS56QaCIBu2Lhwuf+DTA+hO7npan68pXhvODndO32GdqnAD6KqJ+hHnyFm2HaiUZv
+         AYnh7ATc4aav57nHhXyPQ3OptwvC8lLSrMoLMoBoXrAEfK9T32+6/indt7q9OLPR9WBs
+         becK4/kUlLfc4ydRTY8nDCaGUqYyAmQDM/DwsUUL2PqfUb+QMwFqKm5YuUGv/5uQ3NPB
+         fuCHmrgFpcfBHbcJ8rRvZ1IXP/aYPuKWiR42gcjiKbDe0CJca3+gziOJwfaqIe1iN/zf
+         2+dw==
+X-Gm-Message-State: AAQBX9dC0gxNJCj/DYHMusItAlktxWWPQeaUwwzUdv+F87D+anqeeTCe
+	UOBiAhv2ts+2PjV4BjpdYczCTA==
+X-Google-Smtp-Source: AKy350YECrkik6R+Kynv4HmFYKRQI8IuMi2oBMuYeAMQDu2ZkiBEE31wDNbkec+44kyQ715XQh1CTQ==
+X-Received: by 2002:ac2:42c3:0:b0:4dd:98bd:411a with SMTP id n3-20020ac242c3000000b004dd98bd411amr6722286lfl.51.1680186102691;
+        Thu, 30 Mar 2023 07:21:42 -0700 (PDT)
+Received: from localhost (h-46-59-89-207.A463.priv.bahnhof.se. [46.59.89.207])
+        by smtp.gmail.com with ESMTPSA id f24-20020a19ae18000000b004eb0f3b33a0sm1687678lfc.0.2023.03.30.07.21.41
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 30 Mar 2023 07:11:34 -0700 (PDT)
-From: Khadija Kamran <kamrankhadijadj@gmail.com>
-To: outreachy@lists.linux.dev
-Cc: hvaibhav.linux@gmail.com,
-	johan@kernel.org,
-	elder@kernel.org,
-	gregkh@linuxfoundation.org,
-	greybus-dev@lists.linaro.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Alison Schofield <alison.schofield@intel.com>
-Subject: [PATCH 2/2] staging: greybus: refactor arche_platform_wd_irq()
-Date: Thu, 30 Mar 2023 19:11:25 +0500
-Message-Id: <96d04a4ff3d4a46293355f5afae3a8ece65f2c5b.1680185025.git.kamrankhadijadj@gmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <cover.1680185025.git.kamrankhadijadj@gmail.com>
-References: <cover.1680185025.git.kamrankhadijadj@gmail.com>
+        Thu, 30 Mar 2023 07:21:42 -0700 (PDT)
+Date: Thu, 30 Mar 2023 16:21:41 +0200
+From: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+To: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-media@vger.kernel.org, linux-staging@lists.linux.dev
+Cc: linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH] media: staging: max96712: Add support for 3-lane C-PHY
+Message-ID: <ZCWa9XbK5qlm67rz@oden.dyn.berto.se>
+References: <20230211144614.3816247-1-niklas.soderlund+renesas@ragnatech.se>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230211144614.3816247-1-niklas.soderlund+renesas@ragnatech.se>
 
-Linux kernel coding-style suggests to fix your program if it needs more
-than 3 levels of indentation. Due to indentation, line length also
-exceeds 100 columns, resulting in issues reported by checkpatch.
+Hi Mauro,
 
-Refactor the arche_platform_wd_irq() function and reduce the indentation
-with the help of goto statement.
+Gentle ping on this patch.
 
-Suggested-by: Alison Schofield <alison.schofield@intel.com>
-Signed-off-by: Khadija Kamran <kamrankhadijadj@gmail.com>
----
- drivers/staging/greybus/arche-platform.c | 79 ++++++++++++------------
- 1 file changed, 41 insertions(+), 38 deletions(-)
+On 2023-02-11 15:46:14 +0100, Niklas Söderlund wrote:
+> Add basic support for outputting the test patterns on a 3-lane CSI-2
+> C-PHY bus. As the driver only can output frames form its internal test
+> pattern generator, enabling C-PHY output is as simple as setting the
+> output mode to C-PHY instead of D-PHY.
+> 
+> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+> ---
+>  drivers/staging/media/max96712/max96712.c | 36 +++++++++++++++++++----
+>  1 file changed, 30 insertions(+), 6 deletions(-)
+> 
+> diff --git a/drivers/staging/media/max96712/max96712.c b/drivers/staging/media/max96712/max96712.c
+> index 99b333b68198..d93dd985fb27 100644
+> --- a/drivers/staging/media/max96712/max96712.c
+> +++ b/drivers/staging/media/max96712/max96712.c
+> @@ -30,6 +30,7 @@ struct max96712_priv {
+>  	struct regmap *regmap;
+>  	struct gpio_desc *gpiod_pwdn;
+>  
+> +	bool cphy;
+>  	struct v4l2_mbus_config_mipi_csi2 mipi;
+>  
+>  	struct v4l2_subdev sd;
+> @@ -127,10 +128,18 @@ static void max96712_mipi_configure(struct max96712_priv *priv)
+>  	/* Select 2x4 mode. */
+>  	max96712_write(priv, 0x8a0, 0x04);
+>  
+> -	/* Configure a 4-lane DPHY using PHY0 and PHY1. */
+>  	/* TODO: Add support for 2-lane and 1-lane configurations. */
+> -	/* TODO: Add support CPHY mode. */
+> -	max96712_write(priv, 0x94a, 0xc0);
+> +	if (priv->cphy) {
+> +		/* Configure a 3-lane C-PHY using PHY0 and PHY1. */
+> +		max96712_write(priv, 0x94a, 0xa0);
+> +
+> +		/* Configure C-PHY timings. */
+> +		max96712_write(priv, 0x8ad, 0x3f);
+> +		max96712_write(priv, 0x8ae, 0x7d);
+> +	} else {
+> +		/* Configure a 4-lane D-PHY using PHY0 and PHY1. */
+> +		max96712_write(priv, 0x94a, 0xc0);
+> +	}
+>  
+>  	/* Configure lane mapping for PHY0 and PHY1. */
+>  	/* TODO: Add support for lane swapping. */
+> @@ -332,8 +341,9 @@ static int max96712_parse_dt(struct max96712_priv *priv)
+>  {
+>  	struct fwnode_handle *ep;
+>  	struct v4l2_fwnode_endpoint v4l2_ep = {
+> -		.bus_type = V4L2_MBUS_CSI2_DPHY
+> +		.bus_type = V4L2_MBUS_UNKNOWN,
+>  	};
+> +	unsigned int supported_lanes;
+>  	int ret;
+>  
+>  	ep = fwnode_graph_get_endpoint_by_id(dev_fwnode(&priv->client->dev), 4,
+> @@ -350,8 +360,22 @@ static int max96712_parse_dt(struct max96712_priv *priv)
+>  		return -EINVAL;
+>  	}
+>  
+> -	if (v4l2_ep.bus.mipi_csi2.num_data_lanes != 4) {
+> -		dev_err(&priv->client->dev, "Only 4 data lanes supported\n");
+> +	switch (v4l2_ep.bus_type) {
+> +	case V4L2_MBUS_CSI2_DPHY:
+> +		supported_lanes = 4;
+> +		priv->cphy = false;
+> +		break;
+> +	case V4L2_MBUS_CSI2_CPHY:
+> +		supported_lanes = 3;
+> +		priv->cphy = true;
+> +		break;
+> +	default:
+> +		dev_err(&priv->client->dev, "Unsupported bus-type %u\n", v4l2_ep.bus_type);
+> +		return -EINVAL;
+> +	}
+> +
+> +	if (v4l2_ep.bus.mipi_csi2.num_data_lanes != supported_lanes) {
+> +		dev_err(&priv->client->dev, "Only %u data lanes supported\n", supported_lanes);
+>  		return -EINVAL;
+>  	}
+>  
+> -- 
+> 2.39.1
+> 
 
-diff --git a/drivers/staging/greybus/arche-platform.c b/drivers/staging/greybus/arche-platform.c
-index a64c1af091b0..dde30c8da1a1 100644
---- a/drivers/staging/greybus/arche-platform.c
-+++ b/drivers/staging/greybus/arche-platform.c
-@@ -158,49 +158,52 @@ static irqreturn_t arche_platform_wd_irq(int irq, void *devid)
- 
- 	spin_lock_irqsave(&arche_pdata->wake_lock, flags);
- 
--	if (gpiod_get_value(arche_pdata->wake_detect)) {
--		/* wake/detect rising */
-+	if (!gpiod_get_value(arche_pdata->wake_detect))
-+		goto falling;
- 
-+	/* wake/detect rising */
-+
-+	/*
-+	 * If wake/detect line goes high after low, within less than
-+	 * 30msec, then standby boot sequence is initiated, which is not
-+	 * supported/implemented as of now. So ignore it.
-+	 */
-+	if (arche_pdata->wake_detect_state != WD_STATE_BOOT_INIT)
-+		goto out;
-+
-+	if (time_before(jiffies,
-+			arche_pdata->wake_detect_start +
-+			msecs_to_jiffies(WD_COLDBOOT_PULSE_WIDTH_MS))) {
-+		arche_platform_set_wake_detect_state(arche_pdata,
-+						     WD_STATE_IDLE);
-+		got out;
-+	}
-+
-+	/* Check we are not in middle of irq thread already */
-+	if (arche_pdata->wake_detect_state !=
-+			WD_STATE_COLDBOOT_START) {
-+		arche_platform_set_wake_detect_state(arche_pdata,
-+						     WD_STATE_COLDBOOT_TRIG);
-+		rc = IRQ_WAKE_THREAD;
-+		goto out;
-+	}
-+
-+falling:
-+	/* wake/detect falling */
-+	if (arche_pdata->wake_detect_state == WD_STATE_IDLE) {
-+		arche_pdata->wake_detect_start = jiffies;
- 		/*
--		 * If wake/detect line goes high after low, within less than
--		 * 30msec, then standby boot sequence is initiated, which is not
--		 * supported/implemented as of now. So ignore it.
-+		 * In the beginning, when wake/detect goes low
-+		 * (first time), we assume it is meant for coldboot
-+		 * and set the flag. If wake/detect line stays low
-+		 * beyond 30msec, then it is coldboot else fallback
-+		 * to standby boot.
- 		 */
--		if (arche_pdata->wake_detect_state == WD_STATE_BOOT_INIT) {
--			if (time_before(jiffies,
--					arche_pdata->wake_detect_start +
--					msecs_to_jiffies(WD_COLDBOOT_PULSE_WIDTH_MS))) {
--				arche_platform_set_wake_detect_state(arche_pdata,
--								     WD_STATE_IDLE);
--			} else {
--				/*
--				 * Check we are not in middle of irq thread
--				 * already
--				 */
--				if (arche_pdata->wake_detect_state !=
--						WD_STATE_COLDBOOT_START) {
--					arche_platform_set_wake_detect_state(arche_pdata,
--									     WD_STATE_COLDBOOT_TRIG);
--					rc = IRQ_WAKE_THREAD;
--				}
--			}
--		}
--	} else {
--		/* wake/detect falling */
--		if (arche_pdata->wake_detect_state == WD_STATE_IDLE) {
--			arche_pdata->wake_detect_start = jiffies;
--			/*
--			 * In the beginning, when wake/detect goes low
--			 * (first time), we assume it is meant for coldboot
--			 * and set the flag. If wake/detect line stays low
--			 * beyond 30msec, then it is coldboot else fallback
--			 * to standby boot.
--			 */
--			arche_platform_set_wake_detect_state(arche_pdata,
--							     WD_STATE_BOOT_INIT);
--		}
-+		arche_platform_set_wake_detect_state(arche_pdata,
-+						     WD_STATE_BOOT_INIT);
- 	}
- 
-+out:
- 	spin_unlock_irqrestore(&arche_pdata->wake_lock, flags);
- 
- 	return rc;
 -- 
-2.34.1
-
+Kind Regards,
+Niklas Söderlund
