@@ -1,60 +1,69 @@
-Received: from fallback22.i.mail.ru (fallback22.i.mail.ru [79.137.243.74])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 238D710E7
-	for <linux-staging@lists.linux.dev>; Thu, 30 Mar 2023 20:35:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mail.ru; s=mail4;
-	h=Content-Transfer-Encoding:MIME-Version:Message-Id:Date:Subject:Cc:To:From:From:Subject:Content-Type:Content-Transfer-Encoding:To:Cc; bh=s+oBr5dCSwSMElY6XhVdi34tfdIxBUPVWSpJs/QKqpY=;
-	t=1680208517;x=1680298517; 
-	b=Io6tXFqcUuX9sy1Aivs/DyD94ra0ZUFjTSqLKaPjQTdZFJZ6Zvd4y7pGA7LZoWUN6G97gC/5ou/EnjFv25hXVplw2EoFT2XWu4MDW7IUHj+n64/+tQRkMj0Du0JfogHBuSUnxbHyTn9BwG8lseJirN0X7D1HrkLgGZ1VwY6P3J+SeXVFKqjDq+dQetAdsL0qbJnvCCqM3p0KLyI9khO+Ppk+ZJAwsbLbdvth5b17NX1ZzSFuS1kx1l4SZYgCh4hzPUTx7UUDmz0f6gR+/09vJOmnG2Kad2Kk9Uf/N8FdvjIYiX0ZshYG8SmVaQNqLjSXaN72Pki1lwvmV7KQe1Dgvw==;
-Received: from [10.12.4.22] (port=50714 helo=smtp41.i.mail.ru)
-	by fallback22.i.mail.ru with esmtp (envelope-from <listdansp@mail.ru>)
-	id 1phyca-00BV7o-Lh
-	for linux-staging@lists.linux.dev; Thu, 30 Mar 2023 23:11:44 +0300
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mail.ru; s=mail4;
-	h=Content-Transfer-Encoding:MIME-Version:Message-Id:Date:Subject:Cc:To:From:From:Subject:Content-Type:Content-Transfer-Encoding:To:Cc; bh=s+oBr5dCSwSMElY6XhVdi34tfdIxBUPVWSpJs/QKqpY=;
-	t=1680207104;x=1680297104; 
-	b=KT3AdnmQGszgN5XRHAxc5TfOtKl5lcoYQeAklSXPKmQ4CqCH9BxAkLPZmh2M1GIT9xc3zHJ8BOPLrio0YO3EOvw6R96rd4R46Y5rgRd1lny4zuWBr1L7fT7139KYXX3U76JrO8UhEnR/EGbfowr4UiSNd5qw+yjGYtuKzXbWNJsVi7iSKmcCyK0vWhS1GGrFNK9FiNXeb9sGw4LUiiIBG/Ty36/JygrbF7E1mLPUAKIVNYE/6MSBrJWfUvtceJjYg8poov0v8TtX0V6uwbjGNdy22nQk06HAo9bcFjaxMYv0OlwUtxbqSUoa+VsQfEp+AdexlKrrfklXMyfD8m57xg==;
-Received: by smtp41.i.mail.ru with esmtpa (envelope-from <listdansp@mail.ru>)
-	id 1phycS-007xQb-Do; Thu, 30 Mar 2023 23:11:36 +0300
-From: Danila Chernetsov <listdansp@mail.ru>
-To: stable@vger.kernel.org,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Danila Chernetsov <listdansp@mail.ru>,
-	Dinghao Liu <dinghao.liu@zju.edu.cn>,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A40210E7
+	for <linux-staging@lists.linux.dev>; Thu, 30 Mar 2023 20:52:59 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DBCAEC4339B;
+	Thu, 30 Mar 2023 20:52:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1680209579;
+	bh=M3Gwz8bg9RQOf786ZiVKLz+aclgydGf92Mqzbu8XHcg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=M8YQkpaV/iD350A2mNdyNvAiwzQQzx98i/ZPveWmVZeAWtcU1nbHhi45CTXpqgw9h
+	 PfdO27N6TrB/AKqntWVKZ0sVwfGlrkhtO8X7kkbagkYGVlp5djUJAnFC8Oiz0gdZ4t
+	 zwKg9yDmEymYHpl1rM3xjto2jjTSbExJrgIxsfas=
+Date: Thu, 30 Mar 2023 22:52:56 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Danila Chernetsov <listdansp@mail.ru>
+Cc: stable@vger.kernel.org, Dinghao Liu <dinghao.liu@zju.edu.cn>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
 	lvc-project@linuxtesting.org
-Subject: [PATCH 5.10 0/1] staging: rtl8192u: Add null check in rtl8192_usb_initendpoints
-Date: Thu, 30 Mar 2023 20:11:06 +0000
-Message-Id: <20230330201107.17647-1-listdansp@mail.ru>
-X-Mailer: git-send-email 2.25.1
+Subject: Re: [PATCH 5.10 1/1] staging: rtl8192u: Add null check in
+ rtl8192_usb_initendpoints
+Message-ID: <ZCX2qLN1g6bmeKS7@kroah.com>
+References: <20230330201107.17647-1-listdansp@mail.ru>
+ <20230330201107.17647-2-listdansp@mail.ru>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Mailru-Src: smtp
-X-7564579A: B8F34718100C35BD
-X-77F55803: 4F1203BC0FB41BD9381BDEF7E890522374E96C25A4C93FA7A12044CB9EF771D1182A05F538085040273A521DCF28E9018BDD7F0FADC70E1DBF2FF027E43AE594D0F85933A76E85ED
-X-7FA49CB5: FF5795518A3D127A4AD6D5ED66289B5278DA827A17800CE7DB84ED444C624799EA1F7E6F0F101C67BD4B6F7A4D31EC0BCC500DACC3FED6E28638F802B75D45FF8AA50765F79006373D58C44ED3182E498638F802B75D45FF36EB9D2243A4F8B5A6FCA7DBDB1FC311F39EFFDF887939037866D6147AF826D86D69A6A09FF8BD4E48DDC0995DE31FF06F9789CCF6C18C3F8528715B7D10C86878DA827A17800CE73CD73D99384BA5CA9FA2833FD35BB23D9E625A9149C048EE437C869540D2AB0FBDFBBEFFF4125B51D2E47CDBA5A96583BD4B6F7A4D31EC0BC014FD901B82EE079FA2833FD35BB23D27C277FBC8AE2E8B972D20C7389F068BA471835C12D1D977C4224003CC836476EB9C4185024447017B076A6E789B0E975F5C1EE8F4F765FCB54ED5A1C00E98C93AA81AA40904B5D9CF19DD082D7633A078D18283394535A93AA81AA40904B5D98AA50765F7900637C17EAD96B13C99AED81D268191BDAD3D3666184CF4C3C14F3FC91FA280E0CE3D1A620F70A64A45A98AA50765F7900637F9425D8FA97DB4396D1867E19FE1407959CC434672EE6371089D37D7C0E48F6C8AA50765F790063752BC29AF30EF825DEFF80C71ABB335746BA297DBC24807EABDAD6C7F3747799A
-X-C1DE0DAB: 0D63561A33F958A5D5A42AB246F214E111877D0E07F277A99F3028180EB9E46DF87CCE6106E1FC07E67D4AC08A07B9B0CE135D2742255B359C5DF10A05D560A950611B66E3DA6D700B0A020F03D25A0978444BBB7636F62ACB5012B2E24CD356
-X-C8649E89: 1C3962B70DF3F0ADBF74143AD284FC7177DD89D51EBB7742DC8270968E61249B1004E42C50DC4CA955A7F0CF078B5EC49A30900B95165D3429538671E6527D326F539B2FF2DA5D33CF989C0D08BEDBCB1AEA475F8D49D60DA86E506B070084521D7E09C32AA3244C09ECB328DFCB224094E8CF3631C30378C3B3ADDA61883BB5DCA3B3C10BC03908
-X-D57D3AED: 3ZO7eAau8CL7WIMRKs4sN3D3tLDjz0dLbV79QFUyzQ2Ujvy7cMT6pYYqY16iZVKkSc3dCLJ7zSJH7+u4VD18S7Vl4ZUrpaVfd2+vE6kuoey4m4VkSEu530nj6fImhcD4MUrOEAnl0W826KZ9Q+tr5ycPtXkTV4k65bRjmOUUP8cvGozZ33TWg5HZplvhhXbhDGzqmQDTd6OAevLeAnq3Ra9uf7zvY2zzsIhlcp/Y7m53TZgf2aB4JOg4gkr2biojoVQ5iBoMj9alA2rtSSp3Kw==
-X-Mailru-Sender: F244DC1430FACE54496B7D2C616565FD134E7648211741201D697B3E1A1807172DF693117FD8693CCE8DDCF05647143DC77752E0C033A69E3DC0BC7494A416CF0226C39053983FF0B4A721A3011E896F
-X-Mras: Ok
-X-7564579A: B8F34718100C35BD
-X-77F55803: 6242723A09DB00B4AFE5DAA132BA5A5907C848BB74E7962F84A2EED91783435E049FFFDB7839CE9EFC40C8ACB4F5D954166EBE7D1E410675FE905F460C640CB0171E3F919CF1FEAE
-X-7FA49CB5: 0D63561A33F958A55A7A566FB6797C746B9A6B11EFE4976491B9CF84DA4A6994CACD7DF95DA8FC8BD5E8D9A59859A8B63F77F579886ADF6B
-X-D57D3AED: 3ZO7eAau8CL7WIMRKs4sN3D3tLDjz0dLbV79QFUyzQ2Ujvy7cMT6pYYqY16iZVKkSc3dCLJ7zSJH7+u4VD18S7Vl4ZUrpaVfd2+vE6kuoey4m4VkSEu530nj6fImhcD4MUrOEAnl0W826KZ9Q+tr5xhPKz0ZEsZ5k6NOOPWz5QAiZSCXKGQRq3/7KxbCLSB2ESzQkaOXqCBFZPLWFrEGlV1shfWe2EVcxl5toh0c/aCGOghz/frdRhzMe95NxDFdhn9Z/5tnkGS5TQf3Lx+/YQ==
-X-Mailru-MI: C000000000000800
-X-Mras: Ok
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230330201107.17647-2-listdansp@mail.ru>
 
-SVACE reports return value of a function 'usb_alloc_urb' is dereferenced
- without checking for null in 5.10 stable releases.
-The problem has been fixed by the following 
-patch which can be cleanly applied to the 5.10 branch.
+On Thu, Mar 30, 2023 at 08:11:07PM +0000, Danila Chernetsov wrote:
+> From: Dinghao Liu <dinghao.liu@zju.edu.cn>
+> 
+> commit 4d5f81506835f7c1e5c71787bed84984faf05884 upstream.
+> 
+> There is an allocation for priv->rx_urb[16] has no null check,
+> which may lead to a null pointer dereference.
+> 
+> Signed-off-by: Dinghao Liu <dinghao.liu@zju.edu.cn>
+> Link: https://lore.kernel.org/r/20201226080258.6576-1-dinghao.liu@zju.edu.cn
+> Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> Signed-off-by: Danila Chernetsov <listdansp@mail.ru>
+> ---
+>  drivers/staging/rtl8192u/r8192U_core.c | 2 ++
+>  1 file changed, 2 insertions(+)
+> 
+> diff --git a/drivers/staging/rtl8192u/r8192U_core.c b/drivers/staging/rtl8192u/r8192U_core.c
+> index 7f90af8a7c7c..e0fec7d172da 100644
+> --- a/drivers/staging/rtl8192u/r8192U_core.c
+> +++ b/drivers/staging/rtl8192u/r8192U_core.c
+> @@ -1608,6 +1608,8 @@ static short rtl8192_usb_initendpoints(struct net_device *dev)
+>  		void *oldaddr, *newaddr;
+>  
+>  		priv->rx_urb[16] = usb_alloc_urb(0, GFP_KERNEL);
+> +		if (!priv->rx_urb[16])
+> +			return -ENOMEM;
 
-Found by Linux Verification Center (linuxtesting.org) with SVACE.
+This was not marked for stable as it's impossible to hit in real-life.
+So absent that, it's not needed in any stable kernel tree, unless you
+can prove otherwise?
+
+thanks,
+
+greg k-h
