@@ -1,133 +1,77 @@
-Received: from mail-qt1-f175.google.com (mail-qt1-f175.google.com [209.85.160.175])
+Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCDF23D63
-	for <linux-staging@lists.linux.dev>; Fri, 31 Mar 2023 19:07:25 +0000 (UTC)
-Received: by mail-qt1-f175.google.com with SMTP id ga7so22655417qtb.2
-        for <linux-staging@lists.linux.dev>; Fri, 31 Mar 2023 12:07:25 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D3708F54
+	for <linux-staging@lists.linux.dev>; Fri, 31 Mar 2023 21:28:00 +0000 (UTC)
+Received: by mail-ed1-f51.google.com with SMTP id b20so94863453edd.1
+        for <linux-staging@lists.linux.dev>; Fri, 31 Mar 2023 14:28:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ndufresne-ca.20210112.gappssmtp.com; s=20210112; t=1680289645;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=pMRUsebyQ3K+oRbvGz0OgZqKFBtrPEJ2p4+ZFvhigaU=;
-        b=I5MV7Ra7W/kSWOXMGIZX/KLAGka3rXJfAxq57+RW9RTNhZzh+AkKzQXMTFC6x9T8JF
-         aGTJPaQEvzmHnA330xY24D+Zgx1DZNDVtvTQTRUJE/cCqt4T/mX4AzDjqkjbZqPjnp7J
-         dl5wHL4r9BQtpXEEwG3ZAslhQ+h7cQsw+D9iv8L5aTVCGnTXI/keyMeyC6LRzS3CLFd4
-         rr4dVc4O2/zXtV4OfdOY3vex3c7urzFLwyAt2Rtrp55YVo5GBRt2bIfb0rBdhFIQY8f/
-         9mwrM1bFvRmuYxr9VpzSloxKfjzziTbc2t985meYqH5k2Dm+jsg2vbjVNWTf5oU90pZz
-         JuQQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680289645;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+        d=gmail.com; s=20210112; t=1680298078; x=1682890078;
+        h=content-disposition:mime-version:message-id:subject:to:from:date
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=pMRUsebyQ3K+oRbvGz0OgZqKFBtrPEJ2p4+ZFvhigaU=;
-        b=Rks/hOlMl4lJryjS8W1JXidJHHzfE+ApLftsQewz+AtlJGrZ/ZC6a0QO715+wW5fqv
-         uj0GUYIdKTyz8QXCQZfgb1ljVoHWpkfIZjI/rwsbKwbbVJuTVlLsJqnMqn/XX0TtX0gY
-         xi+aw3XNn04eyRcX45/1wVMXee/lhIsIGMbFUqf4rGC71AjZ7mIfIJ92ia3qTtSXYMDy
-         PWLCvFO9vGl9t/kEu8MfUP9MUNvSkNi3ReIjRlwD0hGh/Amn6Ydsuzli8vnhm9hgZ+X2
-         gQpXroSadg/l+rO0ULOxgDgJAd+1oIURtcdetLWB/Bwl7P9Tl0im8mc9PiX0MeUXZssR
-         qpBA==
-X-Gm-Message-State: AO0yUKWSFnMvGGfR+2rc0kc0qyPuOnI5SUB9LI47au114tvLASF1fFs9
-	NtiHSFYjBPAGrTO6qGk4uHrGGg==
-X-Google-Smtp-Source: AK7set+yzGmjUCCfKmLI0eGwVq5GmGvjBm883sXpbX5Kxiis3RtX5l/GNMfOuCsLPZdohe+mayr6uQ==
-X-Received: by 2002:a05:622a:181b:b0:3d0:7bdf:42c4 with SMTP id t27-20020a05622a181b00b003d07bdf42c4mr48530950qtc.59.1680289644733;
-        Fri, 31 Mar 2023 12:07:24 -0700 (PDT)
-Received: from nicolas-tpx395.localdomain ([2606:6d00:15:a07e::580])
-        by smtp.gmail.com with ESMTPSA id e1-20020a05620a014100b0074a1d2a17c8sm701489qkn.29.2023.03.31.12.07.23
+        bh=+z6UjGGFvmkTQgSojG8SkLIMfAa6UVmOIxZHbH2bXuY=;
+        b=XBSb7b4HcDw05s830VnK6YTJzhgYe95e5BolIV5NYpWVbqSej5FdFJL5kzxgTrlgAI
+         OE6qz1Xm/6oP2koRvSyIai7baOdFj/Ci+RXvv5m4odWTMIPWKKWASHLHqXq5dQBZfOlU
+         8LYZvlptxt0XyuRsBDpVOL/Py58wBDmvX5gpHChVk2RgajIl5OM6ZznKKznISIrmfx0Y
+         2k+xsS0i+QDT69/8x13RmJzBBG4M3sA4SaNwFAbgORfUOEoBl6J//BtVAqwRQ1Kts/68
+         c6JjHVIP+yfIB6y6TPj4eW3D1XMghQW6n0g/IJ8TcDnwQ2zEwEqE9dw3kWjENYvyLaWj
+         9JDw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1680298078; x=1682890078;
+        h=content-disposition:mime-version:message-id:subject:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=+z6UjGGFvmkTQgSojG8SkLIMfAa6UVmOIxZHbH2bXuY=;
+        b=cIkKBH3ARjEWwpaq2wl+xX6M0IfR6UaDSdG6VU45HTr+69Z52MPNbR40NuDT821HDG
+         lI2NoV6CbB1NMEx8aKdMRBEfTAF/M5GhHGONzQO/8zuz6GQ1eWzxyGOEuuie5G+Ex139
+         66hVvMkUYpTz6DaVGRS1LMOQBn4I5N+HoL9vdkq37TX6+4w9GW8CraltF/JjPwxO0h2C
+         bSDOo5Bt3cc5ZDoRCZ84RLQRoTOu5WpLwCzrvM39uLDEPRNsAvXdC6p5+oHsX+9Gur7J
+         KoTmd2Q4tK1ieBpCa2lQRkgIpdmmQhHS2iduk8WG6y0eO74vShQIqRPuKvRVfrUdPs7v
+         SExg==
+X-Gm-Message-State: AAQBX9dxtt49F3JiQTmfBls/XxE071hMRGPOSFOEHW8x3xZuHRhrnEnm
+	5W3B5FqDd5rzTmfAkJ51bO8=
+X-Google-Smtp-Source: AKy350bHsPPBiOP1I2P7F+AENVhC4y/Eg3R+A1rtxj8z+tm1AgxpwwZnrJlZXqCNJjJ8beCSN0d9lw==
+X-Received: by 2002:a17:906:2098:b0:8d2:78c5:1d4e with SMTP id 24-20020a170906209800b008d278c51d4emr6084743ejq.5.1680298078547;
+        Fri, 31 Mar 2023 14:27:58 -0700 (PDT)
+Received: from matrix-ESPRIMO-P710 (p57935146.dip0.t-ipconnect.de. [87.147.81.70])
+        by smtp.gmail.com with ESMTPSA id jg9-20020a170907970900b00947ae870e78sm1053689ejc.203.2023.03.31.14.27.57
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 31 Mar 2023 12:07:24 -0700 (PDT)
-Message-ID: <57144a4a5dc9994319bb1f7c3a75a1943227417c.camel@ndufresne.ca>
-Subject: Re: [PATCH 4/9] media: v4l2: Add JPEG pixel format to v4l2 format
- info
-From: Nicolas Dufresne <nicolas@ndufresne.ca>
-To: Paul Kocialkowski <paul.kocialkowski@bootlin.com>, 
-	linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	linux-staging@lists.linux.dev
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, Chen-Yu Tsai
- <wens@csie.org>,  Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland
- <samuel@sholland.org>, Laurent Pinchart
- <laurent.pinchart@ideasonboard.com>, Adam Pigg <adam@piggz.co.uk>, Thomas
- Petazzoni <thomas.petazzoni@bootlin.com>
-Date: Fri, 31 Mar 2023 15:07:23 -0400
-In-Reply-To: <20230324151228.2778112-5-paul.kocialkowski@bootlin.com>
-References: <20230324151228.2778112-1-paul.kocialkowski@bootlin.com>
-	 <20230324151228.2778112-5-paul.kocialkowski@bootlin.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.46.4 (3.46.4-1.fc37) 
+        Fri, 31 Mar 2023 14:27:57 -0700 (PDT)
+Date: Fri, 31 Mar 2023 23:27:55 +0200
+From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: [PATCH 0/5] staging: rtl8192e: Remove enum RF_1T2R and useless cases
+ for customer_id
+Message-ID: <cover.1680297150.git.philipp.g.hortmann@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Le vendredi 24 mars 2023 =C3=A0 16:12 +0100, Paul Kocialkowski a =C3=A9crit=
-=C2=A0:
-> Represent the JPEG pixel format in the v4l2 format info table.
->=20
-> Note that the bpp is set to 1 which is not a proper way to estimate
-> the needed buffer size for a given JPEG image. However the compression
-> ratios of JPEG typically allow fitting the image in a smaller size,
-> even though extra metadata could increase the total size by an
-> arbitrary amount. Thus it is not a perfectly safe way to calculate the
-> size of a JPEG buffer for given dimensions but it still provides a
-> reasonable approach.
->=20
-> Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-> ---
->  drivers/media/v4l2-core/v4l2-common.c | 3 +++
->  1 file changed, 3 insertions(+)
->=20
-> diff --git a/drivers/media/v4l2-core/v4l2-common.c b/drivers/media/v4l2-c=
-ore/v4l2-common.c
-> index 5101989716aa..8b2f201a8918 100644
-> --- a/drivers/media/v4l2-core/v4l2-common.c
-> +++ b/drivers/media/v4l2-core/v4l2-common.c
-> @@ -317,6 +317,9 @@ const struct v4l2_format_info *v4l2_format_info(u32 f=
-ormat)
->  		{ .format =3D V4L2_PIX_FMT_SGBRG12,	.pixel_enc =3D V4L2_PIXEL_ENC_BAYE=
-R, .mem_planes =3D 1, .comp_planes =3D 1, .bpp =3D { 2, 0, 0, 0 }, .hdiv =
-=3D 1, .vdiv =3D 1 },
->  		{ .format =3D V4L2_PIX_FMT_SGRBG12,	.pixel_enc =3D V4L2_PIXEL_ENC_BAYE=
-R, .mem_planes =3D 1, .comp_planes =3D 1, .bpp =3D { 2, 0, 0, 0 }, .hdiv =
-=3D 1, .vdiv =3D 1 },
->  		{ .format =3D V4L2_PIX_FMT_SRGGB12,	.pixel_enc =3D V4L2_PIXEL_ENC_BAYE=
-R, .mem_planes =3D 1, .comp_planes =3D 1, .bpp =3D { 2, 0, 0, 0 }, .hdiv =
-=3D 1, .vdiv =3D 1 },
-> +
-> +		/* Compressed formats */
-> +		{ .format =3D V4L2_PIX_FMT_JPEG,	.pixel_enc =3D V4L2_PIXEL_ENC_COMPRES=
-SED, .mem_planes =3D 1, .comp_planes =3D 1, .bpp =3D { 1, 0, 0, 0 }, .hdiv =
-=3D 1, .vdiv =3D 1 },
+Remove enum RF_1T2R as the code using it has always the same result.
+Remove useless cases for customer_id.
 
-This is ackward, at best. Guesstimating the compressed buffer size is a val=
-id
-use case, but this table and the related helper function seems badly suited=
-.
-When I look at the stateless decoders that do that, they take into account =
-the
-fact that the compression can handle different bit depth, and difference
-subsampling (choma idc). In this implementation, JPEG is reduce to 4:4:4, 8=
-bit.
+Tested with rtl8192e
+Transferred this patch over wlan connection of rtl8192e
 
-I'd like to reject this change, and recommand coming back with a suitable
-integration, so that it can be special cased and the driver can communicate=
- the
-required information to narrow down the estimate. And this way, you are act=
-ually
-making it usable for other compressed format like H.264, HEVC, VP8, VP9 AV1=
- etc.
+Philipp Hortmann (5):
+  staging: rtl8192e: Remove enum RF_1T2R
+  staging: rtl8192e: Remove local variable Value and powerlevelOFDM24G
+  staging: rtl8192e: Remove case customer_id = RT_CID_DLINK
+  staging: rtl8192e: Remove case customer_id = RT_CID_819x_CAMEO, ..
+  staging: rtl8192e: Remove case customer_id = RT_CID_DEFAULT, ..
 
-Nicolas
+ .../staging/rtl8192e/rtl8192e/r8192E_dev.c    | 26 -------------------
+ drivers/staging/rtl8192e/rtl8192e/r8192E_hw.h |  7 -----
+ drivers/staging/rtl8192e/rtl8192e/rtl_core.h  |  5 ----
+ drivers/staging/rtl8192e/rtl8192e/rtl_dm.c    |  8 +-----
+ drivers/staging/rtl8192e/rtllib.h             |  4 ---
+ 5 files changed, 1 insertion(+), 49 deletions(-)
 
-Nacked in that form.
-
->=20
->  	};
->  	unsigned int i;
-> =20
+-- 
+2.40.0
 
