@@ -1,131 +1,249 @@
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47AAB8F66;
-	Sat,  1 Apr 2023 21:20:40 +0000 (UTC)
-Received: by mail-wr1-f54.google.com with SMTP id t4so20460929wra.7;
-        Sat, 01 Apr 2023 14:20:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1680384038; x=1682976038;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=ByAoZWXhCyKwFW+7RrBi6qp6VuxHVvsdrIcCs8B1g/A=;
-        b=ltk51KbXub0mj3FrZK4k32vjHzuabJlksHq2z6CjgDmgJb/6/YpHqn4D8ZQhWrp8F0
-         2O0FfoyZDmig+CK7zv0J4ECOK6ZXROEOiBB9z8sDh1sSSQTxtu1GKuo2FySrq6V/SLRK
-         xSxO/PJ+BvSJGX2FrJF/xTEkE+FjyqLg3oMEh1i2oyCM4cgwapZuHt4+vj0SNAbRSGlh
-         0EwyfUI+vSus84icjC5X6xDhdjF6c7ZSg+R7swiH2LtwzKIQA0aP7oWf8Gw2hg8LuagV
-         id6p12HHenbiLUT2IJShoeSOCWNUDMhON3UTe7T2prs/USeBLV2aPX5PTqWEFcCN3qm5
-         OPaw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680384038; x=1682976038;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=ByAoZWXhCyKwFW+7RrBi6qp6VuxHVvsdrIcCs8B1g/A=;
-        b=DFpg9KGJ3yM/Fl4DJqWd3BsMJ05h9kODDyNWs+n8x078M+DaTF6zsjm8GBRJXFrMMl
-         FRQkD76aRAJQSMUCGnnqIFtKfxxyUQNCxPrR7qjsDVbavS3vvMBxWqB3gii7q1rRYi6i
-         +4qo5Sj+oYk80BxmJ16G0fexvwDF+nKBGVPfzjfYqXgiTArEkOi82ljyZGituH+miWex
-         +/PFE/WRkFpn+sGw0NlbgSnKqT8vqeOU3vaw+VkNXnA4V97CydiO7h8byTTMtQJah+vp
-         QHPJcPFF2+v8EskLxSEBbNEoObJBPeR2gGmr5Dl+FkTiuYHF2WdFGZ+XPL3pjmGrna2V
-         AaJg==
-X-Gm-Message-State: AAQBX9cbWZuEzysaO75PDo5ll0tjR9R813XIiaLCspsuN34/62uKuGeE
-	Mfna1a8wEREGI5GKdPVIcXXj8AvHtHo=
-X-Google-Smtp-Source: AKy350YgtkT4Bw1fq4SE5H3x2PpD2KACelr/oOt3B+d32gtlPCdYYDMtO0OFGAQbLGi3Sfk98sknCg==
-X-Received: by 2002:adf:f78b:0:b0:2e4:aa42:7872 with SMTP id q11-20020adff78b000000b002e4aa427872mr5908805wrp.4.1680384038368;
-        Sat, 01 Apr 2023 14:20:38 -0700 (PDT)
-Received: from [192.168.0.103] (p57935146.dip0.t-ipconnect.de. [87.147.81.70])
-        by smtp.gmail.com with ESMTPSA id o15-20020a5d474f000000b002d7a75a2c20sm5752639wrs.80.2023.04.01.14.20.37
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 01 Apr 2023 14:20:37 -0700 (PDT)
-Message-ID: <624a11a3-2461-6c8f-155d-e76e5e3e471e@gmail.com>
-Date: Sat, 1 Apr 2023 23:20:36 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 993113C22;
+	Sat,  1 Apr 2023 22:34:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1680388485; x=1711924485;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=vzBj1tGsvf0VH9YgyPZvt8l6t5nW3CSRc0vVF8Z9z3w=;
+  b=bORw0o+U51VoyRUaMICeVSCVRCuHBlC4gz4esZYpxoPx6JGeC8CjFAOS
+   bQWfeGhCoOn/oVhTF2+8x26xqoEvy3wcpnaJ2TuytbqQq71Q+9NeK7e0U
+   mSeWUl6qiS+O0B0GzWEkli5TG5CNgElySaf/BNA35ant/lhx4Hfj3kEpL
+   huI+gQKabvrHsd23XNMb0Cd+FHpvlWd+DFnviHnorHEZ2LqSiGi88HT+D
+   RXfhPk0R8hwUXlb9bJBY+qLZeZpNF8DGvr/HMlrZbZoxImVxFp7+9kQWJ
+   F8eG4beR4SdwP/YVXH8t9Hv7ogOA0J+RPfX3gkxH925gf89QHPpuPnt9H
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10667"; a="339180029"
+X-IronPort-AV: E=Sophos;i="5.98,311,1673942400"; 
+   d="scan'208";a="339180029"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Apr 2023 15:34:43 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10667"; a="859746407"
+X-IronPort-AV: E=Sophos;i="5.98,311,1673942400"; 
+   d="scan'208";a="859746407"
+Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
+  by orsmga005.jf.intel.com with ESMTP; 01 Apr 2023 15:34:41 -0700
+Received: from kbuild by b613635ddfff with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1pijo0-000N5J-1h;
+	Sat, 01 Apr 2023 22:34:40 +0000
+Date: Sun, 2 Apr 2023 06:34:36 +0800
+From: kernel test robot <lkp@intel.com>
+To: Philipp Hortmann <philipp.g.hortmann@gmail.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH 1/5] staging: rtl8192e: Remove enum RF_1T2R
+Message-ID: <202304020640.6kQhWbyp-lkp@intel.com>
+References: <97fef03c12dbc619aab749867fa20686af2b8e3b.1680297150.git.philipp.g.hortmann@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [PATCH 3/5] staging: rtl8192e: avoid camel-case
- <dot11RSNAStatsCCMPFormatErrors>
-To: Khadija Kamran <kamrankhadijadj@gmail.com>, outreachy@lists.linux.dev
-Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org, Deepak R Varma <drv@mailo.com>
-References: <cover.1680375200.git.kamrankhadijadj@gmail.com>
- <7ed9ed4df19b1ab818fc4b3ec43083e1a051c38e.1680375200.git.kamrankhadijadj@gmail.com>
-Content-Language: en-US
-From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-In-Reply-To: <7ed9ed4df19b1ab818fc4b3ec43083e1a051c38e.1680375200.git.kamrankhadijadj@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <97fef03c12dbc619aab749867fa20686af2b8e3b.1680297150.git.philipp.g.hortmann@gmail.com>
 
-On 4/1/23 20:58, Khadija Kamran wrote:
-> Linux kernel coding-style does not suggest mixed-case names. This issue
-> is reported by checkpatch.
-> 
-> Fix variable name by changing it from camel-case to lower-case. In order
-> to describe the variable name better, add a comment above it.
-> 
+Hi Philipp,
 
-I think you are changing from camel case to snake case.
+Thank you for the patch! Perhaps something to improve:
 
-> Suggested-by: Deepak R Varma <drv@mailo.com>
-> Signed-off-by: Khadija Kamran <kamrankhadijadj@gmail.com>
-> ---
->   drivers/staging/rtl8192e/rtllib_crypt_ccmp.c | 9 +++++----
->   1 file changed, 5 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/staging/rtl8192e/rtllib_crypt_ccmp.c b/drivers/staging/rtl8192e/rtllib_crypt_ccmp.c
-> index 8d3067a6ccca..e8a3bc94efdc 100644
-> --- a/drivers/staging/rtl8192e/rtllib_crypt_ccmp.c
-> +++ b/drivers/staging/rtl8192e/rtllib_crypt_ccmp.c
-> @@ -34,7 +34,8 @@ struct rtllib_ccmp_data {
->   	u8 tx_pn[CCMP_PN_LEN];
->   	u8 rx_pn[CCMP_PN_LEN];
->   
-> -	u32 dot11RSNAStatsCCMPFormatErrors;
-> +	/* .11 RSNA stats for CCMP */
-> +	u32 ccmp_format_errors;
->   	u32 dot11RSNAStatsCCMPReplays;
->   	u32 dot11RSNAStatsCCMPDecryptErrors;
+[auto build test WARNING on staging/staging-testing]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Philipp-Hortmann/staging-rtl8192e-Remove-enum-RF_1T2R/20230401-052904
+patch link:    https://lore.kernel.org/r/97fef03c12dbc619aab749867fa20686af2b8e3b.1680297150.git.philipp.g.hortmann%40gmail.com
+patch subject: [PATCH 1/5] staging: rtl8192e: Remove enum RF_1T2R
+config: x86_64-allmodconfig (https://download.01.org/0day-ci/archive/20230402/202304020640.6kQhWbyp-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/151a231e49c070db4fbf7e4a497ad98d30944109
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Philipp-Hortmann/staging-rtl8192e-Remove-enum-RF_1T2R/20230401-052904
+        git checkout 151a231e49c070db4fbf7e4a497ad98d30944109
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/hid/ drivers/iio/pressure/ drivers/staging/rtl8192e/rtl8192e/
+
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202304020640.6kQhWbyp-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> drivers/staging/rtl8192e/rtl8192e/rtl_dm.c:613:15: warning: variable 'RF_Type' is uninitialized when used here [-Wuninitialized]
+                                                                         RF_Type);
+                                                                         ^~~~~~~
+   drivers/staging/rtl8192e/rtl8192e/rtl_dm.c:523:12: note: initialize the variable 'RF_Type' to silence this warning
+           u8      RF_Type, tmp_report[5] = {0, 0, 0, 0, 0};
+                          ^
+                           = '\0'
+   1 warning generated.
 
 
-Is it obvious that CCMPFormatErrors is a part of dot11RSNAStats? OK. You 
-added a comment. Often for me the issue is that the comment is only 
-valid to one line or to more?
+vim +/RF_Type +613 drivers/staging/rtl8192e/rtl8192e/rtl_dm.c
 
-I would prefer something like: dot11rsna_stats_ccmp_format_err
-This is keeping the information the author gave variable and I would 
-understand better and see it in every place.
+eae10b8ea5c0811 drivers/staging/rtl8192e/rtl8192e/rtl_dm.c Mateusz Kulikowski 2015-04-13  515  
+a19b5d7207f7baa drivers/staging/rtl8192e/rtl8192e/rtl_dm.c Mateusz Kulikowski 2015-09-20  516  static void _rtl92e_dm_tx_power_tracking_callback_tssi(struct net_device *dev)
+94a799425eee822 drivers/staging/rtl8192e/rtl_dm.c          Larry Finger       2011-08-23  517  {
+94a799425eee822 drivers/staging/rtl8192e/rtl_dm.c          Larry Finger       2011-08-23  518  	struct r8192_priv *priv = rtllib_priv(dev);
+4a67342ea9c7c34 drivers/staging/rtl8192e/rtl8192e/rtl_dm.c YueHaibing         2019-08-21  519  	bool	viviflag = false;
+bdc632bc940f012 drivers/staging/rtl8192e/rtl_dm.c          Larry Finger       2011-07-18  520  	struct dcmd_txcmd tx_cmd;
+94a799425eee822 drivers/staging/rtl8192e/rtl_dm.c          Larry Finger       2011-08-23  521  	u8	powerlevelOFDM24G;
+94a799425eee822 drivers/staging/rtl8192e/rtl_dm.c          Larry Finger       2011-08-23  522  	int	i = 0, j = 0, k = 0;
+94a799425eee822 drivers/staging/rtl8192e/rtl_dm.c          Larry Finger       2011-08-23  523  	u8	RF_Type, tmp_report[5] = {0, 0, 0, 0, 0};
+94a799425eee822 drivers/staging/rtl8192e/rtl_dm.c          Larry Finger       2011-08-23  524  	u32	Value;
+94a799425eee822 drivers/staging/rtl8192e/rtl_dm.c          Larry Finger       2011-08-23  525  	u8	Pwr_Flag;
+48ca41d38892550 drivers/staging/rtl8192e/rtl8192e/rtl_dm.c Philipp Hortmann   2023-01-09  526  	u16	Avg_TSSI_Meas, tssi_13dBm, Avg_TSSI_Meas_from_driver = 0;
+94a799425eee822 drivers/staging/rtl8192e/rtl_dm.c          Larry Finger       2011-08-23  527  	u32	delta = 0;
+b448b0cc13112c7 drivers/staging/rtl8192e/rtl_dm.c          Larry Finger       2011-08-25  528  
+d8ae1967694aca4 drivers/staging/rtl8192e/rtl8192e/rtl_dm.c Mateusz Kulikowski 2015-07-19  529  	rtl92e_writeb(dev, Pw_Track_Flag, 0);
+d8ae1967694aca4 drivers/staging/rtl8192e/rtl8192e/rtl_dm.c Mateusz Kulikowski 2015-07-19  530  	rtl92e_writeb(dev, FW_Busy_Flag, 0);
+94a799425eee822 drivers/staging/rtl8192e/rtl_dm.c          Larry Finger       2011-08-23  531  	priv->rtllib->bdynamic_txpower_enable = false;
+94a799425eee822 drivers/staging/rtl8192e/rtl_dm.c          Larry Finger       2011-08-23  532  
+48ca41d38892550 drivers/staging/rtl8192e/rtl8192e/rtl_dm.c Philipp Hortmann   2023-01-09  533  	powerlevelOFDM24G = priv->pwr_track >> 24;
+151a231e49c070d drivers/staging/rtl8192e/rtl8192e/rtl_dm.c Philipp Hortmann   2023-03-31  534  	Value = powerlevelOFDM24G;
+94a799425eee822 drivers/staging/rtl8192e/rtl_dm.c          Larry Finger       2011-08-23  535  
+b448b0cc13112c7 drivers/staging/rtl8192e/rtl_dm.c          Larry Finger       2011-08-25  536  	for (j = 0; j <= 30; j++) {
+94a799425eee822 drivers/staging/rtl8192e/rtl_dm.c          Larry Finger       2011-08-23  537  
+9adc341cdcf63a4 drivers/staging/rtl8192e/rtl8192e/rtl_dm.c Dragan Cvetic      2022-10-10  538  		tx_cmd.op	= TXCMD_SET_TX_PWR_TRACKING;
+9adc341cdcf63a4 drivers/staging/rtl8192e/rtl8192e/rtl_dm.c Dragan Cvetic      2022-10-10  539  		tx_cmd.length	= 4;
+9adc341cdcf63a4 drivers/staging/rtl8192e/rtl8192e/rtl_dm.c Dragan Cvetic      2022-10-10  540  		tx_cmd.value	= Value;
+d15fe3e01989df3 drivers/staging/rtl8192e/rtl8192e/rtl_dm.c Mateusz Kulikowski 2015-10-19  541  		rtl92e_send_cmd_pkt(dev, DESC_PACKET_TYPE_NORMAL, (u8 *)&tx_cmd,
+b448b0cc13112c7 drivers/staging/rtl8192e/rtl_dm.c          Larry Finger       2011-08-25  542  				    sizeof(struct dcmd_txcmd));
+94a799425eee822 drivers/staging/rtl8192e/rtl_dm.c          Larry Finger       2011-08-23  543  		mdelay(1);
+b448b0cc13112c7 drivers/staging/rtl8192e/rtl_dm.c          Larry Finger       2011-08-25  544  		for (i = 0; i <= 30; i++) {
+b59a4ca3d442186 drivers/staging/rtl8192e/rtl8192e/rtl_dm.c Mateusz Kulikowski 2015-07-19  545  			Pwr_Flag = rtl92e_readb(dev, Pw_Track_Flag);
+94a799425eee822 drivers/staging/rtl8192e/rtl_dm.c          Larry Finger       2011-08-23  546  
+b448b0cc13112c7 drivers/staging/rtl8192e/rtl_dm.c          Larry Finger       2011-08-25  547  			if (Pwr_Flag == 0) {
+94a799425eee822 drivers/staging/rtl8192e/rtl_dm.c          Larry Finger       2011-08-23  548  				mdelay(1);
+94a799425eee822 drivers/staging/rtl8192e/rtl_dm.c          Larry Finger       2011-08-23  549  
+18651492d516607 drivers/staging/rtl8192e/rtl8192e/rtl_dm.c Philipp Hortmann   2023-01-15  550  				if (priv->reset_in_progress) {
+d8ae1967694aca4 drivers/staging/rtl8192e/rtl8192e/rtl_dm.c Mateusz Kulikowski 2015-07-19  551  					rtl92e_writeb(dev, Pw_Track_Flag, 0);
+d8ae1967694aca4 drivers/staging/rtl8192e/rtl8192e/rtl_dm.c Mateusz Kulikowski 2015-07-19  552  					rtl92e_writeb(dev, FW_Busy_Flag, 0);
+94a799425eee822 drivers/staging/rtl8192e/rtl_dm.c          Larry Finger       2011-08-23  553  					return;
+94a799425eee822 drivers/staging/rtl8192e/rtl_dm.c          Larry Finger       2011-08-23  554  				}
+ec07986067a7496 drivers/staging/rtl8192e/rtl8192e/rtl_dm.c Philipp Hortmann   2022-09-25  555  				if (priv->rtllib->rf_power_state != rf_on) {
+d8ae1967694aca4 drivers/staging/rtl8192e/rtl8192e/rtl_dm.c Mateusz Kulikowski 2015-07-19  556  					rtl92e_writeb(dev, Pw_Track_Flag, 0);
+d8ae1967694aca4 drivers/staging/rtl8192e/rtl8192e/rtl_dm.c Mateusz Kulikowski 2015-07-19  557  					rtl92e_writeb(dev, FW_Busy_Flag, 0);
+94a799425eee822 drivers/staging/rtl8192e/rtl_dm.c          Larry Finger       2011-08-23  558  					return;
+94a799425eee822 drivers/staging/rtl8192e/rtl_dm.c          Larry Finger       2011-08-23  559  				}
+94a799425eee822 drivers/staging/rtl8192e/rtl_dm.c          Larry Finger       2011-08-23  560  
+94a799425eee822 drivers/staging/rtl8192e/rtl_dm.c          Larry Finger       2011-08-23  561  				continue;
+94a799425eee822 drivers/staging/rtl8192e/rtl_dm.c          Larry Finger       2011-08-23  562  			}
+94a799425eee822 drivers/staging/rtl8192e/rtl_dm.c          Larry Finger       2011-08-23  563  
+1c0a7c0e622a94e drivers/staging/rtl8192e/rtl8192e/rtl_dm.c Mateusz Kulikowski 2015-07-19  564  			Avg_TSSI_Meas = rtl92e_readw(dev, Tssi_Mea_Value);
+94a799425eee822 drivers/staging/rtl8192e/rtl_dm.c          Larry Finger       2011-08-23  565  
+b448b0cc13112c7 drivers/staging/rtl8192e/rtl_dm.c          Larry Finger       2011-08-25  566  			if (Avg_TSSI_Meas == 0) {
+d8ae1967694aca4 drivers/staging/rtl8192e/rtl8192e/rtl_dm.c Mateusz Kulikowski 2015-07-19  567  				rtl92e_writeb(dev, Pw_Track_Flag, 0);
+d8ae1967694aca4 drivers/staging/rtl8192e/rtl8192e/rtl_dm.c Mateusz Kulikowski 2015-07-19  568  				rtl92e_writeb(dev, FW_Busy_Flag, 0);
+94a799425eee822 drivers/staging/rtl8192e/rtl_dm.c          Larry Finger       2011-08-23  569  				return;
+94a799425eee822 drivers/staging/rtl8192e/rtl_dm.c          Larry Finger       2011-08-23  570  			}
+94a799425eee822 drivers/staging/rtl8192e/rtl_dm.c          Larry Finger       2011-08-23  571  
+b448b0cc13112c7 drivers/staging/rtl8192e/rtl_dm.c          Larry Finger       2011-08-25  572  			for (k = 0; k < 5; k++) {
+94a799425eee822 drivers/staging/rtl8192e/rtl_dm.c          Larry Finger       2011-08-23  573  				if (k != 4)
+b59a4ca3d442186 drivers/staging/rtl8192e/rtl8192e/rtl_dm.c Mateusz Kulikowski 2015-07-19  574  					tmp_report[k] = rtl92e_readb(dev,
+b448b0cc13112c7 drivers/staging/rtl8192e/rtl_dm.c          Larry Finger       2011-08-25  575  							 Tssi_Report_Value1+k);
+94a799425eee822 drivers/staging/rtl8192e/rtl_dm.c          Larry Finger       2011-08-23  576  				else
+b59a4ca3d442186 drivers/staging/rtl8192e/rtl8192e/rtl_dm.c Mateusz Kulikowski 2015-07-19  577  					tmp_report[k] = rtl92e_readb(dev,
+b448b0cc13112c7 drivers/staging/rtl8192e/rtl_dm.c          Larry Finger       2011-08-25  578  							 Tssi_Report_Value2);
+94a799425eee822 drivers/staging/rtl8192e/rtl_dm.c          Larry Finger       2011-08-23  579  
+b448b0cc13112c7 drivers/staging/rtl8192e/rtl_dm.c          Larry Finger       2011-08-25  580  				if (tmp_report[k] <= 20) {
+94a799425eee822 drivers/staging/rtl8192e/rtl_dm.c          Larry Finger       2011-08-23  581  					viviflag = true;
+94a799425eee822 drivers/staging/rtl8192e/rtl_dm.c          Larry Finger       2011-08-23  582  					break;
+94a799425eee822 drivers/staging/rtl8192e/rtl_dm.c          Larry Finger       2011-08-23  583  				}
+94a799425eee822 drivers/staging/rtl8192e/rtl_dm.c          Larry Finger       2011-08-23  584  			}
+94a799425eee822 drivers/staging/rtl8192e/rtl_dm.c          Larry Finger       2011-08-23  585  
+4bb01423ab05af0 drivers/staging/rtl8192e/rtl8192e/rtl_dm.c Valentina Manea    2013-10-25  586  			if (viviflag) {
+d8ae1967694aca4 drivers/staging/rtl8192e/rtl8192e/rtl_dm.c Mateusz Kulikowski 2015-07-19  587  				rtl92e_writeb(dev, Pw_Track_Flag, 0);
+94a799425eee822 drivers/staging/rtl8192e/rtl_dm.c          Larry Finger       2011-08-23  588  				viviflag = false;
+94a799425eee822 drivers/staging/rtl8192e/rtl_dm.c          Larry Finger       2011-08-23  589  				for (k = 0; k < 5; k++)
+94a799425eee822 drivers/staging/rtl8192e/rtl_dm.c          Larry Finger       2011-08-23  590  					tmp_report[k] = 0;
+94a799425eee822 drivers/staging/rtl8192e/rtl_dm.c          Larry Finger       2011-08-23  591  				break;
+94a799425eee822 drivers/staging/rtl8192e/rtl_dm.c          Larry Finger       2011-08-23  592  			}
+94a799425eee822 drivers/staging/rtl8192e/rtl_dm.c          Larry Finger       2011-08-23  593  
+94a799425eee822 drivers/staging/rtl8192e/rtl_dm.c          Larry Finger       2011-08-23  594  			for (k = 0; k < 5; k++)
+94a799425eee822 drivers/staging/rtl8192e/rtl_dm.c          Larry Finger       2011-08-23  595  				Avg_TSSI_Meas_from_driver += tmp_report[k];
+94a799425eee822 drivers/staging/rtl8192e/rtl_dm.c          Larry Finger       2011-08-23  596  
+35e33b0468ab3b3 drivers/staging/rtl8192e/rtl8192e/rtl_dm.c Mateusz Kulikowski 2015-05-31  597  			Avg_TSSI_Meas_from_driver *= 100 / 5;
+48ca41d38892550 drivers/staging/rtl8192e/rtl8192e/rtl_dm.c Philipp Hortmann   2023-01-09  598  			tssi_13dBm = priv->tssi_13dBm;
+94a799425eee822 drivers/staging/rtl8192e/rtl_dm.c          Larry Finger       2011-08-23  599  
+48ca41d38892550 drivers/staging/rtl8192e/rtl8192e/rtl_dm.c Philipp Hortmann   2023-01-09  600  			if (Avg_TSSI_Meas_from_driver > tssi_13dBm)
+48ca41d38892550 drivers/staging/rtl8192e/rtl8192e/rtl_dm.c Philipp Hortmann   2023-01-09  601  				delta = Avg_TSSI_Meas_from_driver - tssi_13dBm;
+94a799425eee822 drivers/staging/rtl8192e/rtl_dm.c          Larry Finger       2011-08-23  602  			else
+48ca41d38892550 drivers/staging/rtl8192e/rtl8192e/rtl_dm.c Philipp Hortmann   2023-01-09  603  				delta = tssi_13dBm - Avg_TSSI_Meas_from_driver;
+94a799425eee822 drivers/staging/rtl8192e/rtl_dm.c          Larry Finger       2011-08-23  604  
+b448b0cc13112c7 drivers/staging/rtl8192e/rtl_dm.c          Larry Finger       2011-08-25  605  			if (delta <= E_FOR_TX_POWER_TRACK) {
+94a799425eee822 drivers/staging/rtl8192e/rtl_dm.c          Larry Finger       2011-08-23  606  				priv->rtllib->bdynamic_txpower_enable = true;
+d8ae1967694aca4 drivers/staging/rtl8192e/rtl8192e/rtl_dm.c Mateusz Kulikowski 2015-07-19  607  				rtl92e_writeb(dev, Pw_Track_Flag, 0);
+d8ae1967694aca4 drivers/staging/rtl8192e/rtl8192e/rtl_dm.c Mateusz Kulikowski 2015-07-19  608  				rtl92e_writeb(dev, FW_Busy_Flag, 0);
+94a799425eee822 drivers/staging/rtl8192e/rtl_dm.c          Larry Finger       2011-08-23  609  				return;
+285b7c00e06b4fd drivers/staging/rtl8192e/rtl8192e/rtl_dm.c Mateusz Kulikowski 2015-04-01  610  			}
+48ca41d38892550 drivers/staging/rtl8192e/rtl8192e/rtl_dm.c Philipp Hortmann   2023-01-09  611  			if (Avg_TSSI_Meas_from_driver < tssi_13dBm - E_FOR_TX_POWER_TRACK)
+ea3ab341a205097 drivers/staging/rtl8192e/rtl8192e/rtl_dm.c Mateusz Kulikowski 2015-09-20  612  				_rtl92e_dm_tx_update_tssi_weak_signal(dev,
+ea3ab341a205097 drivers/staging/rtl8192e/rtl8192e/rtl_dm.c Mateusz Kulikowski 2015-09-20 @613  								      RF_Type);
+eae10b8ea5c0811 drivers/staging/rtl8192e/rtl8192e/rtl_dm.c Mateusz Kulikowski 2015-04-13  614  			else
+264045986f689af drivers/staging/rtl8192e/rtl8192e/rtl_dm.c Mateusz Kulikowski 2015-09-20  615  				_rtl92e_dm_tx_update_tssi_strong_signal(dev, RF_Type);
+94a799425eee822 drivers/staging/rtl8192e/rtl_dm.c          Larry Finger       2011-08-23  616  
+6def63e4b4ffe09 drivers/staging/rtl8192e/rtl8192e/rtl_dm.c Philipp Hortmann   2023-01-09  617  			priv->cck_present_attn_diff
+94a799425eee822 drivers/staging/rtl8192e/rtl_dm.c          Larry Finger       2011-08-23  618  				= priv->rfa_txpowertrackingindex_real - priv->rfa_txpowertracking_default;
+94a799425eee822 drivers/staging/rtl8192e/rtl_dm.c          Larry Finger       2011-08-23  619  
+779c9e938d824dc drivers/staging/rtl8192e/rtl8192e/rtl_dm.c Philipp Hortmann   2023-01-18  620  			if (priv->current_chnl_bw == HT_CHANNEL_WIDTH_20)
+62310f889a73ea2 drivers/staging/rtl8192e/rtl8192e/rtl_dm.c Philipp Hortmann   2022-11-13  621  				priv->cck_present_attn =
+6def63e4b4ffe09 drivers/staging/rtl8192e/rtl8192e/rtl_dm.c Philipp Hortmann   2023-01-09  622  					 priv->cck_present_attn_20m_def +
+6def63e4b4ffe09 drivers/staging/rtl8192e/rtl8192e/rtl_dm.c Philipp Hortmann   2023-01-09  623  					 priv->cck_present_attn_diff;
+94a799425eee822 drivers/staging/rtl8192e/rtl_dm.c          Larry Finger       2011-08-23  624  			else
+62310f889a73ea2 drivers/staging/rtl8192e/rtl8192e/rtl_dm.c Philipp Hortmann   2022-11-13  625  				priv->cck_present_attn =
+6def63e4b4ffe09 drivers/staging/rtl8192e/rtl8192e/rtl_dm.c Philipp Hortmann   2023-01-09  626  					 priv->cck_present_attn_40m_def +
+6def63e4b4ffe09 drivers/staging/rtl8192e/rtl8192e/rtl_dm.c Philipp Hortmann   2023-01-09  627  					 priv->cck_present_attn_diff;
+94a799425eee822 drivers/staging/rtl8192e/rtl_dm.c          Larry Finger       2011-08-23  628  
+59f6f02ead58fe4 drivers/staging/rtl8192e/rtl8192e/rtl_dm.c Philipp Hortmann   2023-01-29  629  			if (priv->cck_present_attn > (CCK_TX_BB_GAIN_TABLE_LEN - 1))
+59f6f02ead58fe4 drivers/staging/rtl8192e/rtl8192e/rtl_dm.c Philipp Hortmann   2023-01-29  630  				priv->cck_present_attn = CCK_TX_BB_GAIN_TABLE_LEN - 1;
+62310f889a73ea2 drivers/staging/rtl8192e/rtl8192e/rtl_dm.c Philipp Hortmann   2022-11-13  631  			if (priv->cck_present_attn < 0)
+62310f889a73ea2 drivers/staging/rtl8192e/rtl8192e/rtl_dm.c Philipp Hortmann   2022-11-13  632  				priv->cck_present_attn = 0;
+94a799425eee822 drivers/staging/rtl8192e/rtl_dm.c          Larry Finger       2011-08-23  633  
+62310f889a73ea2 drivers/staging/rtl8192e/rtl8192e/rtl_dm.c Philipp Hortmann   2022-11-13  634  			if (priv->cck_present_attn > -1 &&
+59f6f02ead58fe4 drivers/staging/rtl8192e/rtl8192e/rtl_dm.c Philipp Hortmann   2023-01-29  635  			    priv->cck_present_attn < CCK_TX_BB_GAIN_TABLE_LEN) {
+b448b0cc13112c7 drivers/staging/rtl8192e/rtl_dm.c          Larry Finger       2011-08-25  636  				if (priv->rtllib->current_network.channel == 14 &&
+b448b0cc13112c7 drivers/staging/rtl8192e/rtl_dm.c          Larry Finger       2011-08-25  637  				    !priv->bcck_in_ch14) {
+94a799425eee822 drivers/staging/rtl8192e/rtl_dm.c          Larry Finger       2011-08-23  638  					priv->bcck_in_ch14 = true;
+59e84dc363bfaa6 drivers/staging/rtl8192e/rtl8192e/rtl_dm.c Mateusz Kulikowski 2015-07-19  639  					rtl92e_dm_cck_txpower_adjust(dev, priv->bcck_in_ch14);
+b448b0cc13112c7 drivers/staging/rtl8192e/rtl_dm.c          Larry Finger       2011-08-25  640  				} else if (priv->rtllib->current_network.channel != 14 && priv->bcck_in_ch14) {
+94a799425eee822 drivers/staging/rtl8192e/rtl_dm.c          Larry Finger       2011-08-23  641  					priv->bcck_in_ch14 = false;
+59e84dc363bfaa6 drivers/staging/rtl8192e/rtl8192e/rtl_dm.c Mateusz Kulikowski 2015-07-19  642  					rtl92e_dm_cck_txpower_adjust(dev, priv->bcck_in_ch14);
+b448b0cc13112c7 drivers/staging/rtl8192e/rtl_dm.c          Larry Finger       2011-08-25  643  				} else
+59e84dc363bfaa6 drivers/staging/rtl8192e/rtl8192e/rtl_dm.c Mateusz Kulikowski 2015-07-19  644  					rtl92e_dm_cck_txpower_adjust(dev, priv->bcck_in_ch14);
+94a799425eee822 drivers/staging/rtl8192e/rtl_dm.c          Larry Finger       2011-08-23  645  			}
+b448b0cc13112c7 drivers/staging/rtl8192e/rtl_dm.c          Larry Finger       2011-08-25  646  
+6def63e4b4ffe09 drivers/staging/rtl8192e/rtl8192e/rtl_dm.c Philipp Hortmann   2023-01-09  647  			if (priv->cck_present_attn_diff <= -12 ||
+6def63e4b4ffe09 drivers/staging/rtl8192e/rtl8192e/rtl_dm.c Philipp Hortmann   2023-01-09  648  			    priv->cck_present_attn_diff >= 24) {
+94a799425eee822 drivers/staging/rtl8192e/rtl_dm.c          Larry Finger       2011-08-23  649  				priv->rtllib->bdynamic_txpower_enable = true;
+d8ae1967694aca4 drivers/staging/rtl8192e/rtl8192e/rtl_dm.c Mateusz Kulikowski 2015-07-19  650  				rtl92e_writeb(dev, Pw_Track_Flag, 0);
+d8ae1967694aca4 drivers/staging/rtl8192e/rtl8192e/rtl_dm.c Mateusz Kulikowski 2015-07-19  651  				rtl92e_writeb(dev, FW_Busy_Flag, 0);
+94a799425eee822 drivers/staging/rtl8192e/rtl_dm.c          Larry Finger       2011-08-23  652  				return;
+94a799425eee822 drivers/staging/rtl8192e/rtl_dm.c          Larry Finger       2011-08-23  653  			}
+285b7c00e06b4fd drivers/staging/rtl8192e/rtl8192e/rtl_dm.c Mateusz Kulikowski 2015-04-01  654  
+d8ae1967694aca4 drivers/staging/rtl8192e/rtl8192e/rtl_dm.c Mateusz Kulikowski 2015-07-19  655  			rtl92e_writeb(dev, Pw_Track_Flag, 0);
+94a799425eee822 drivers/staging/rtl8192e/rtl_dm.c          Larry Finger       2011-08-23  656  			Avg_TSSI_Meas_from_driver = 0;
+94a799425eee822 drivers/staging/rtl8192e/rtl_dm.c          Larry Finger       2011-08-23  657  			for (k = 0; k < 5; k++)
+94a799425eee822 drivers/staging/rtl8192e/rtl_dm.c          Larry Finger       2011-08-23  658  				tmp_report[k] = 0;
+94a799425eee822 drivers/staging/rtl8192e/rtl_dm.c          Larry Finger       2011-08-23  659  			break;
+94a799425eee822 drivers/staging/rtl8192e/rtl_dm.c          Larry Finger       2011-08-23  660  		}
+d8ae1967694aca4 drivers/staging/rtl8192e/rtl8192e/rtl_dm.c Mateusz Kulikowski 2015-07-19  661  		rtl92e_writeb(dev, FW_Busy_Flag, 0);
+94a799425eee822 drivers/staging/rtl8192e/rtl_dm.c          Larry Finger       2011-08-23  662  	}
+94a799425eee822 drivers/staging/rtl8192e/rtl_dm.c          Larry Finger       2011-08-23  663  	priv->rtllib->bdynamic_txpower_enable = true;
+d8ae1967694aca4 drivers/staging/rtl8192e/rtl8192e/rtl_dm.c Mateusz Kulikowski 2015-07-19  664  	rtl92e_writeb(dev, Pw_Track_Flag, 0);
+94a799425eee822 drivers/staging/rtl8192e/rtl_dm.c          Larry Finger       2011-08-23  665  }
+94a799425eee822 drivers/staging/rtl8192e/rtl_dm.c          Larry Finger       2011-08-23  666  
 
->   
-> @@ -226,7 +227,7 @@ static int rtllib_ccmp_decrypt(struct sk_buff *skb, int hdr_len, void *priv)
->   	u8 pn[6];
->   
->   	if (skb->len < hdr_len + CCMP_HDR_LEN + CCMP_MIC_LEN) {
-> -		key->dot11RSNAStatsCCMPFormatErrors++;
-> +		key->ccmp_format_errors++;
->   		return -1;
->   	}
->   
-> @@ -238,7 +239,7 @@ static int rtllib_ccmp_decrypt(struct sk_buff *skb, int hdr_len, void *priv)
->   			pr_debug("CCMP: received packet without ExtIV flag from %pM\n",
->   				 hdr->addr2);
->   		}
-> -		key->dot11RSNAStatsCCMPFormatErrors++;
-> +		key->ccmp_format_errors++;
->   		return -2;
->   	}
->   	keyidx >>= 6;
-> @@ -374,7 +375,7 @@ static void rtllib_ccmp_print_stats(struct seq_file *m, void *priv)
->   		   "key[%d] alg=CCMP key_set=%d tx_pn=%pM rx_pn=%pM format_errors=%d replays=%d decrypt_errors=%d\n",
->   		   ccmp->key_idx, ccmp->key_set,
->   		   ccmp->tx_pn, ccmp->rx_pn,
-> -		   ccmp->dot11RSNAStatsCCMPFormatErrors,
-> +		   ccmp->ccmp_format_errors,
->   		   ccmp->dot11RSNAStatsCCMPReplays,
->   		   ccmp->dot11RSNAStatsCCMPDecryptErrors);
->   }
-
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
