@@ -1,161 +1,179 @@
-Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com [209.85.216.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DB6E7E0
-	for <linux-staging@lists.linux.dev>; Fri, 31 Mar 2023 23:00:58 +0000 (UTC)
-Received: by mail-pj1-f46.google.com with SMTP id o6-20020a17090a9f8600b0023f32869993so27000046pjp.1
-        for <linux-staging@lists.linux.dev>; Fri, 31 Mar 2023 16:00:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1680303657;
-        h=content-disposition:mime-version:message-id:subject:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=q2mmMqFiAumzcpbbntPymlIf8Np9wiownjUZMtsJues=;
-        b=Gf+pDUGM0BbEJ6NakQ2q0wy2cvDiJHEgSyfeWbWMUKRQCsK9uE/giv9fduE1LMyq8I
-         9YATutxzd5ejWpOrABBqe87S3QZelq2baM11SXb4u54+iHpdVjLiNyVP9Lgsjni9EgNx
-         FBI7pgBHk1ggfbBWDnlNXtb49wR1fj38ovCENgk1ObS/39rWgf6DJET/ibaEP3wvhdTz
-         mMCx/gUCb70qmzfoVmO/sKO3/3zBLsT/Zglz0Z5WTp70gt7qogjxs6nuhMEy6RPqHuAG
-         +ZF11wPtBaXIkjOBREHplrk9PLS50LGLrnAyfR/UddJPDhUwL98YGqnOdQs+FeMPIP09
-         fvqg==
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E49D19C
+	for <linux-staging@lists.linux.dev>; Sat,  1 Apr 2023 10:59:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1680346739;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=n0m9899QyNGgz290CASKStrnyLjXT/71L/LfFmt6KFA=;
+	b=is82sWbhtgM1EcxVbohw9jy6DaRHFsZh+AhTaz9DvIyDLZPfz1+WzfJHVyWVbu4vowzx17
+	vgDZ8TjdZOhQeYF6ur4Ezvlypi0rhhyLIBV5C3WzbNhXQzKMrk60fawGGIsAIiHED8CzRc
+	7WlBK05Zlvf08xnx/pYCQLvtCkjOrB8=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-620-Rj5EXjjZOTyYSKh8MnU-7Q-1; Sat, 01 Apr 2023 06:58:57 -0400
+X-MC-Unique: Rj5EXjjZOTyYSKh8MnU-7Q-1
+Received: by mail-ed1-f72.google.com with SMTP id m18-20020a50d7d2000000b00501dfd867a4so35417245edj.20
+        for <linux-staging@lists.linux.dev>; Sat, 01 Apr 2023 03:58:57 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680303657;
-        h=content-disposition:mime-version:message-id:subject:to:from:date
+        d=1e100.net; s=20210112; t=1680346736;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=q2mmMqFiAumzcpbbntPymlIf8Np9wiownjUZMtsJues=;
-        b=EbOJnZaMKc3OObyoWn5LbpqM9dvXKQRYymlDR6irrkRSf/DbiqZxiW1uoMdquDQXDj
-         S5MkWyOVJzMHwTOa0tnPP+H8HSaIRjOQBiHoohns144pMiq6/eVhlO7AnAaze1k/G2ok
-         ZbdiSklaiHX5DMx8dPUScvVfJG1bpAAeyaroYyQLmAdVpnMLw0ybiqRxfqb+O3JE1MiH
-         5Tp1dXNwg7qQPjiUX5c1sufKqxbYuz88E4ffm+ve9Cm75OAVhOsTT0AWJUU5MKiE7TKk
-         QhzsVxv464F36rzPGP0w7nf6w0kx8DBbnXV7PalmBtGlNYhwY0peUQVFq+ss5s45P0ZS
-         Q+YQ==
-X-Gm-Message-State: AAQBX9eXCzOByUtTux0VK+kn1nHMF6KRBdYp4YRXfeF+5PiumL23Q9tR
-	jnlKmUTuTgRHPz4biLlH8FM=
-X-Google-Smtp-Source: AKy350bd8XnjczUSt5srF8tRLRsoHz3erZ4xCviClGGawdNEt0UtnGoZcmno2M2f/VtXRuQYJBc6bw==
-X-Received: by 2002:a17:902:e74e:b0:19d:1674:c04d with SMTP id p14-20020a170902e74e00b0019d1674c04dmr32945454plf.61.1680303657395;
-        Fri, 31 Mar 2023 16:00:57 -0700 (PDT)
-Received: from trent-reznor (c-67-169-174-96.hsd1.ca.comcast.net. [67.169.174.96])
-        by smtp.gmail.com with ESMTPSA id m8-20020a170902768800b001a1a9a639c2sm2044288pll.134.2023.03.31.16.00.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 31 Mar 2023 16:00:56 -0700 (PDT)
-Date: Fri, 31 Mar 2023 16:00:24 -0700
-From: Daniel Watson <ozzloy@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [PATCH] staging: rtl8723bs: indent with tab, align with space
-Message-ID: <ZCdmCBIdabBGqm11@trent-reznor>
+        bh=n0m9899QyNGgz290CASKStrnyLjXT/71L/LfFmt6KFA=;
+        b=3Y46sYtXN/bGkxlDDjcJ1nfUYxh3c4TCcTGhjb1aAosCQ6L1A0GMuBGCHNZYLbrBza
+         T7qUAa23F7quLMxbACqW/RP8LimeWSUDHHHQA6T0RCU0nqmaMd32weWRxoPbt0RRmFVw
+         /d3UHj/gck3z+fHkMTCDRWUAL14WEc3CK/yDdfQ+VX3S6Tw4XYFBfJjIDmXxoXov/U0/
+         gckuvA4f35H4nN7XySSLHh8CbXk4M20u5e7YwLtZyVE4BKMndghCMtCaLwoQCj+/20Pe
+         yLdWINBAGUhgQQ37bUBujTnlpXVYlC2wRb2w0fhNIYKLAbRH0IGxl/2cfnyJQeSTzyaf
+         OCNA==
+X-Gm-Message-State: AAQBX9c13FhObgG5p8G2lzi8E8SH414xAQRbUlALTtTLbBuZCFV/b7se
+	1t8gIBn5hjgCosIr8u5jKUQIu+uvDMIj9Va/T3wD/iVAUHbb4RV3PJn0qiI7eb47iiVnJRuCfMD
+	hF3VjWZn6zWxi/vGCX75RJt96wg==
+X-Received: by 2002:a17:906:3a45:b0:88a:cbd1:e663 with SMTP id a5-20020a1709063a4500b0088acbd1e663mr31508682ejf.6.1680346736710;
+        Sat, 01 Apr 2023 03:58:56 -0700 (PDT)
+X-Google-Smtp-Source: AKy350ZtIShdxbTjbgmzNxznavZmuyezGlgZdr5OMmOztDE+cRHOW3xJQH9hVSALTDDGl9RQcTxppg==
+X-Received: by 2002:a17:906:3a45:b0:88a:cbd1:e663 with SMTP id a5-20020a1709063a4500b0088acbd1e663mr31508674ejf.6.1680346736398;
+        Sat, 01 Apr 2023 03:58:56 -0700 (PDT)
+Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
+        by smtp.gmail.com with ESMTPSA id 11-20020a170906010b00b0093344ef3764sm1949606eje.57.2023.04.01.03.58.55
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 01 Apr 2023 03:58:55 -0700 (PDT)
+Message-ID: <109be822-9439-cd5a-c7f7-c63516f92099@redhat.com>
+Date: Sat, 1 Apr 2023 12:58:55 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Subject: Re: [PATCH 02/10] media: atomisp: Remove continuous mode support
+To: Andy Shevchenko <andy@kernel.org>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>, Kate Hsuan <hpa@redhat.com>,
+ Tsuchiya Yuto <kitakar@gmail.com>, Yury Luneff <yury.lunev@gmail.com>,
+ Nable <nable.maininbox@googlemail.com>, andrey.i.trufanov@gmail.com,
+ Fabio Aiuto <fabioaiuto83@gmail.com>, linux-media@vger.kernel.org,
+ linux-staging@lists.linux.dev
+References: <20230221145906.8113-1-hdegoede@redhat.com>
+ <20230221145906.8113-3-hdegoede@redhat.com>
+ <Y/TqBBdU7dbYPIsW@smile.fi.intel.com>
+From: Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <Y/TqBBdU7dbYPIsW@smile.fi.intel.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US, nl
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Use tabs to indent code and spaces to align in order to make the code
-consistent and easier to read.
+Hi Andy,
 
-Signed-off-by: Daniel Watson <ozzloy@gmail.com>
----
- drivers/staging/rtl8723bs/include/ieee80211.h | 49 ++++++++++---------
- 1 file changed, 26 insertions(+), 23 deletions(-)
+Thank you for the reviews!
 
-diff --git a/drivers/staging/rtl8723bs/include/ieee80211.h b/drivers/staging/rtl8723bs/include/ieee80211.h
-index 9041d8dc5fb1d..1098b02092003 100644
---- a/drivers/staging/rtl8723bs/include/ieee80211.h
-+++ b/drivers/staging/rtl8723bs/include/ieee80211.h
-@@ -174,7 +174,7 @@ struct ieee_param {
- 			u8 reserved[32];
- 			u8 data[];
- 		} wpa_ie;
--	        struct{
-+		struct{
- 			int command;
- 			int reason_code;
- 		} mlme;
-@@ -271,10 +271,10 @@ struct eapol {
- #define P80211_OUI_LEN 3
- 
- struct ieee80211_snap_hdr {
--        u8    dsap;   /* always 0xAA */
--        u8    ssap;   /* always 0xAA */
--        u8    ctrl;   /* always 0x03 */
--        u8    oui[P80211_OUI_LEN];    /* organizational universal id */
-+	u8    dsap;   /* always 0xAA */
-+	u8    ssap;   /* always 0xAA */
-+	u8    ctrl;   /* always 0x03 */
-+	u8    oui[P80211_OUI_LEN];    /* organizational universal id */
- } __attribute__ ((packed));
- 
- #define SNAP_SIZE sizeof(struct ieee80211_snap_hdr)
-@@ -342,12 +342,13 @@ struct ieee80211_snap_hdr {
- #define IEEE80211_OFDM_RATE_48MB_MASK		(1<<10)
- #define IEEE80211_OFDM_RATE_54MB_MASK		(1<<11)
- 
--#define IEEE80211_CCK_RATES_MASK	        0x0000000F
-+#define IEEE80211_CCK_RATES_MASK		0x0000000F
- #define IEEE80211_CCK_BASIC_RATES_MASK	(IEEE80211_CCK_RATE_1MB_MASK | \
- 	IEEE80211_CCK_RATE_2MB_MASK)
--#define IEEE80211_CCK_DEFAULT_RATES_MASK	(IEEE80211_CCK_BASIC_RATES_MASK | \
--        IEEE80211_CCK_RATE_5MB_MASK | \
--        IEEE80211_CCK_RATE_11MB_MASK)
-+#define IEEE80211_CCK_DEFAULT_RATES_MASK	\
-+	(IEEE80211_CCK_BASIC_RATES_MASK |	\
-+	 IEEE80211_CCK_RATE_5MB_MASK |		\
-+	 IEEE80211_CCK_RATE_11MB_MASK)
- 
- #define IEEE80211_OFDM_RATES_MASK		0x00000FF0
- #define IEEE80211_OFDM_BASIC_RATES_MASK	(IEEE80211_OFDM_RATE_6MB_MASK | \
-@@ -359,8 +360,9 @@ struct ieee80211_snap_hdr {
- 	IEEE80211_OFDM_RATE_36MB_MASK | \
- 	IEEE80211_OFDM_RATE_48MB_MASK | \
- 	IEEE80211_OFDM_RATE_54MB_MASK)
--#define IEEE80211_DEFAULT_RATES_MASK (IEEE80211_OFDM_DEFAULT_RATES_MASK | \
--                                IEEE80211_CCK_DEFAULT_RATES_MASK)
-+#define IEEE80211_DEFAULT_RATES_MASK		\
-+	(IEEE80211_OFDM_DEFAULT_RATES_MASK |	\
-+	 IEEE80211_CCK_DEFAULT_RATES_MASK)
- 
- #define IEEE80211_NUM_OFDM_RATES	    8
- #define IEEE80211_NUM_CCK_RATES	            4
-@@ -509,7 +511,7 @@ Total: 28-2340 bytes
- 
- static inline int is_multicast_mac_addr(const u8 *addr)
- {
--        return ((addr[0] != 0xff) && (0x01 & addr[0]));
-+	return ((addr[0] != 0xff) && (0x01 & addr[0]));
- }
- 
- static inline int is_broadcast_mac_addr(const u8 *addr)
-@@ -612,17 +614,18 @@ enum {
-  * @RTW_IEEE80211_CHAN_NO_HT40MINUS: extension channel below this channel
-  *      is not permitted.
-  */
--  enum rtw_ieee80211_channel_flags {
--          RTW_IEEE80211_CHAN_DISABLED         = 1<<0,
--          RTW_IEEE80211_CHAN_PASSIVE_SCAN     = 1<<1,
--          RTW_IEEE80211_CHAN_NO_IBSS          = 1<<2,
--          RTW_IEEE80211_CHAN_RADAR            = 1<<3,
--          RTW_IEEE80211_CHAN_NO_HT40PLUS      = 1<<4,
--          RTW_IEEE80211_CHAN_NO_HT40MINUS     = 1<<5,
--  };
--
--  #define RTW_IEEE80211_CHAN_NO_HT40 \
--          (RTW_IEEE80211_CHAN_NO_HT40PLUS | RTW_IEEE80211_CHAN_NO_HT40MINUS)
-+enum rtw_ieee80211_channel_flags {
-+	RTW_IEEE80211_CHAN_DISABLED         = 1<<0,
-+	RTW_IEEE80211_CHAN_PASSIVE_SCAN     = 1<<1,
-+	RTW_IEEE80211_CHAN_NO_IBSS          = 1<<2,
-+	RTW_IEEE80211_CHAN_RADAR            = 1<<3,
-+	RTW_IEEE80211_CHAN_NO_HT40PLUS      = 1<<4,
-+	RTW_IEEE80211_CHAN_NO_HT40MINUS     = 1<<5,
-+};
-+
-+#define RTW_IEEE80211_CHAN_NO_HT40	  \
-+	(RTW_IEEE80211_CHAN_NO_HT40PLUS | \
-+	 RTW_IEEE80211_CHAN_NO_HT40MINUS)
- 
- /* Represent channel details, subset of ieee80211_channel */
- struct rtw_ieee80211_channel {
--- 
-2.34.1
+On 2/21/23 16:57, Andy Shevchenko wrote:
+> On Tue, Feb 21, 2023 at 03:58:58PM +0100, Hans de Goede wrote:
+>> Continues mode is a special mode where 2 /dev/video devices can be active
+>> at the same time. Either the video-preview + video nodes or the
+>> viewfinder (for still capture) + capture nodes.
+>>
+>> For the video-preview + video-recording case modern userspace will
+>> use a single stream multiplexed by pipewire.
+>>
+>> The still-capture case is extra special only starting the preview
+>> stream and then relying on a custom ATOMISP_IOC_S_CONT_CAPTURE_CONFIG
+>> ioctl to set things up followed by a second stream on to capture
+>> the amount of configured still pictures. While running the sensor
+>> at full resolution all the time. This case too is better handled
+>> with dma-buf + GPU downscaling for the view-finder rather then all this
+>> custom special code. Besises this the ioctl expects a bunch of special
+>> non error checked conditions to be met otherwise things will crash/hang.
+>>
+>> The continues mode also involves a special cases all over the code
+>> getting in the way of further cleanups and simplifying the code to
+>> using just 1 /dev/video# node. So lets remove it and the
+>> related custom ATOMISP_IOC_S_CONT_CAPTURE_CONFIG ioctl.
+> 
+> ...
+> 
+>> +	ret = atomisp_set_fmt_to_snr(vdev, &s_fmt,
+>> +				     f->fmt.pix.pixelformat, padding_w,
+> 
+> At least one parameter can be moved to the previous line.
+
+Ack, fixed in my local tree which I will push to:
+
+https://git.kernel.org/pub/scm/linux/kernel/git/hansg/linux.git/log/?h=media-atomisp
+
+When I'm done processing your other review remarks.
+
+> 
+>> +				     padding_h, dvs_env_w, dvs_env_h);
+>> +	if (ret) {
+>> +		dev_warn(isp->dev,
+>> +			 "Set format to sensor failed with %d\n", ret);
+>> +		return -EINVAL;
+> 
+> ...
+> 
+>>  	case ATOMISP_RUN_MODE_PREVIEW:
+>> -		if (!asd->continuous_mode->val) {
+>> -			if (pipe_id == IA_CSS_PIPE_ID_PREVIEW)
+>> -				return true;
+>> +		if (pipe_id == IA_CSS_PIPE_ID_PREVIEW)
+>> +			return true;
+>>  
+>> -			return false;
+>> -		}
+>> -		fallthrough;
+>> +		return false;
+> 
+> 		return pipe_id == IA_CSS_PIPE_ID_PREVIEW;
+
+I agree that that is cleaner, but there are a bunch of other cases
+in this switch case which are not touched by this patch and
+they all follow the same pattern as which the modified cases
+use after this patch, e.g. :
+
+        case ATOMISP_RUN_MODE_STILL_CAPTURE:
+                if (pipe_id == IA_CSS_PIPE_ID_CAPTURE)
+                        return true;
+
+                return false;
+
+So this patch basically makes all of them consistent with
+each other. So I'm going to keep this as is.
+
+Regards,
+
+Hans
+
+
+
+> 
+> ...
+> 
+>>  	case ATOMISP_RUN_MODE_VIDEO:
+>> -		if (!asd->continuous_mode->val) {
+>> -			if (pipe_id == IA_CSS_PIPE_ID_VIDEO ||
+>> -			    pipe_id == IA_CSS_PIPE_ID_YUVPP)
+>> -				return true;
+>> -			else
+>> -				return false;
+>> -		}
+>> -		fallthrough;
+>> +		if (pipe_id == IA_CSS_PIPE_ID_VIDEO || pipe_id == IA_CSS_PIPE_ID_YUVPP)
+>> +			return true;
+>> +
+>> +		return false;
+> 
+> Similar.
+> 
 
