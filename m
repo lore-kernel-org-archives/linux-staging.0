@@ -1,31 +1,31 @@
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0969F3D68
-	for <linux-staging@lists.linux.dev>; Sat,  1 Apr 2023 15:00:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 887ED3D68
+	for <linux-staging@lists.linux.dev>; Sat,  1 Apr 2023 15:00:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1680361215;
+	s=mimecast20190719; t=1680361219;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=p4MzD35r/RrS1TyR4VnXqVtk+MtgwA7BTD4xECWDmHs=;
-	b=hhczycFW61DS3nwBbxYlY+6zyTUQ2MKECSqrgqGjl+strzkCsUgPgifEudeJ2RbjH7nb+x
-	MKa5g8fNFRjQQJjtv9noIYcUvbQ0KjkA1P4dueJw5vq2wGhFkT1ut4dOdHwFVUboLDFeQ6
-	1ZM3CuCD1/Vf7fsBj8Jddtr59kAHDIQ=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=mXSlI2J0Wu8gEb1g90iCOsfdjTIyDYzLT+DsHVPH8aE=;
+	b=GwD5p6rbnU5OapZzwv6jYnt/+wI3DT9wsF8OJtTtmZbG4OR9Af5O8NlgTM1pjUp/d3rLW4
+	BJfxxUS7Y8xkY/sAmllnp8nFW6Tre3vHjttjMtkE/02G5NhNglPs1SZlIpsaSQ1LsL/mgC
+	dSE826ekWctwXQh7iwuUKFGmaQEvQgc=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-76-Onn9KD1PMPet-rgbVSP1UA-1; Sat, 01 Apr 2023 11:00:10 -0400
-X-MC-Unique: Onn9KD1PMPet-rgbVSP1UA-1
+ us-mta-258-_-l13NJvPgKgkN3EQLdb-Q-1; Sat, 01 Apr 2023 11:00:14 -0400
+X-MC-Unique: _-l13NJvPgKgkN3EQLdb-Q-1
 Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com [10.11.54.10])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id DE3D53815F61;
-	Sat,  1 Apr 2023 15:00:09 +0000 (UTC)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id B7B72801779;
+	Sat,  1 Apr 2023 15:00:13 +0000 (UTC)
 Received: from localhost.localdomain (unknown [10.39.192.49])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 5E055400F59;
-	Sat,  1 Apr 2023 15:00:08 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 1D672400F59;
+	Sat,  1 Apr 2023 15:00:10 +0000 (UTC)
 From: Hans de Goede <hdegoede@redhat.com>
 To: Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Sakari Ailus <sakari.ailus@linux.intel.com>
@@ -39,9 +39,9 @@ Cc: Hans de Goede <hdegoede@redhat.com>,
 	Fabio Aiuto <fabioaiuto83@gmail.com>,
 	linux-media@vger.kernel.org,
 	linux-staging@lists.linux.dev
-Subject: [PATCH 19/28] media: atomisp: Remove duplicate atomisp_[start|stop]_streaming prototypes
-Date: Sat,  1 Apr 2023 16:59:17 +0200
-Message-Id: <20230401145926.596216-20-hdegoede@redhat.com>
+Subject: [PATCH 20/28] media: atomisp: Remove continuous mode related code from atomisp_set_fmt()
+Date: Sat,  1 Apr 2023 16:59:18 +0200
+Message-Id: <20230401145926.596216-21-hdegoede@redhat.com>
 In-Reply-To: <20230401145926.596216-1-hdegoede@redhat.com>
 References: <20230401145926.596216-1-hdegoede@redhat.com>
 Precedence: bulk
@@ -53,26 +53,118 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
 
-atomisp_ioctl.h contains the atomisp_[start|stop]_streaming function
-prototypes 2 times. Drop one of the copies of the prototypes.
+Remove code to check / adjust code between video and preview /
+capture and view-finder nodes now that we no longer support
+continuous mode and this no longer support streaming from 2
+/dev/video# nodes at the same time.
 
 Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 ---
- drivers/staging/media/atomisp/pci/atomisp_ioctl.h | 3 ---
- 1 file changed, 3 deletions(-)
+ .../staging/media/atomisp/pci/atomisp_cmd.c   | 84 +------------------
+ 1 file changed, 1 insertion(+), 83 deletions(-)
 
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_ioctl.h b/drivers/staging/media/atomisp/pci/atomisp_ioctl.h
-index 93139decf1d0..db6da77df06b 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_ioctl.h
-+++ b/drivers/staging/media/atomisp/pci/atomisp_ioctl.h
-@@ -53,7 +53,4 @@ unsigned int atomisp_streaming_count(struct atomisp_device *isp);
- long atomisp_compat_ioctl32(struct file *file,
- 			    unsigned int cmd, unsigned long arg);
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_cmd.c b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
+index 65d46bae8ee8..9cf5ac55b867 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_cmd.c
++++ b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
+@@ -4633,88 +4633,6 @@ int atomisp_set_fmt(struct video_device *vdev, struct v4l2_format *f)
+ 	snr_fmt = f->fmt.pix;
+ 	backup_fmt = snr_fmt;
  
--int atomisp_start_streaming(struct vb2_queue *vq, unsigned int count);
--void atomisp_stop_streaming(struct vb2_queue *vq);
+-	/**********************************************************************/
 -
- #endif /* __ATOMISP_IOCTL_H__ */
+-	if (source_pad == ATOMISP_SUBDEV_PAD_SOURCE_VF ||
+-	    (source_pad == ATOMISP_SUBDEV_PAD_SOURCE_PREVIEW
+-	     && asd->run_mode->val == ATOMISP_RUN_MODE_VIDEO)) {
+-		if (asd->fmt_auto->val) {
+-			struct v4l2_rect *capture_comp;
+-			struct v4l2_rect r = {0};
+-
+-			r.width = f->fmt.pix.width;
+-			r.height = f->fmt.pix.height;
+-
+-			if (source_pad == ATOMISP_SUBDEV_PAD_SOURCE_PREVIEW)
+-				capture_comp = atomisp_subdev_get_rect(
+-						   &asd->subdev, NULL,
+-						   V4L2_SUBDEV_FORMAT_ACTIVE,
+-						   ATOMISP_SUBDEV_PAD_SOURCE_VIDEO,
+-						   V4L2_SEL_TGT_COMPOSE);
+-			else
+-				capture_comp = atomisp_subdev_get_rect(
+-						   &asd->subdev, NULL,
+-						   V4L2_SUBDEV_FORMAT_ACTIVE,
+-						   ATOMISP_SUBDEV_PAD_SOURCE_CAPTURE,
+-						   V4L2_SEL_TGT_COMPOSE);
+-
+-			if (capture_comp->width < r.width
+-			    || capture_comp->height < r.height) {
+-				r.width = capture_comp->width;
+-				r.height = capture_comp->height;
+-			}
+-
+-			atomisp_subdev_set_selection(
+-			    &asd->subdev, fh.state,
+-			    V4L2_SUBDEV_FORMAT_ACTIVE, source_pad,
+-			    V4L2_SEL_TGT_COMPOSE, 0, &r);
+-
+-			f->fmt.pix.width = r.width;
+-			f->fmt.pix.height = r.height;
+-		}
+-
+-		if (source_pad == ATOMISP_SUBDEV_PAD_SOURCE_PREVIEW) {
+-			atomisp_css_video_configure_viewfinder(asd,
+-							       f->fmt.pix.width, f->fmt.pix.height,
+-							       format_bridge->planar ? f->fmt.pix.bytesperline
+-							       : f->fmt.pix.bytesperline * 8
+-							       / format_bridge->depth,	format_bridge->sh_fmt);
+-			atomisp_css_video_get_viewfinder_frame_info(asd,
+-				&output_info);
+-			asd->copy_mode = false;
+-		} else {
+-			atomisp_css_capture_configure_viewfinder(asd,
+-				f->fmt.pix.width, f->fmt.pix.height,
+-				format_bridge->planar ? f->fmt.pix.bytesperline
+-				: f->fmt.pix.bytesperline * 8
+-				/ format_bridge->depth,	format_bridge->sh_fmt);
+-			atomisp_css_capture_get_viewfinder_frame_info(asd,
+-				&output_info);
+-			asd->copy_mode = false;
+-		}
+-
+-		goto done;
+-	}
+-	/*
+-	 * Check whether main resolution configured smaller
+-	 * than snapshot resolution. If so, force main resolution
+-	 * to be the same as snapshot resolution
+-	 */
+-	if (source_pad == ATOMISP_SUBDEV_PAD_SOURCE_CAPTURE) {
+-		struct v4l2_rect *r;
+-
+-		r = atomisp_subdev_get_rect(
+-			&asd->subdev, NULL,
+-			V4L2_SUBDEV_FORMAT_ACTIVE,
+-			ATOMISP_SUBDEV_PAD_SOURCE_VF, V4L2_SEL_TGT_COMPOSE);
+-
+-		if (r->width && r->height
+-		    && (r->width > f->fmt.pix.width
+-			|| r->height > f->fmt.pix.height))
+-			dev_warn(isp->dev,
+-				 "Main Resolution config smaller then Vf Resolution. Force to be equal with Vf Resolution.");
+-	}
+-
+ 	/* Pipeline configuration done through subdevs. Bail out now. */
+ 	if (!asd->fmt_auto->val)
+ 		goto set_fmt_to_isp;
+@@ -4885,7 +4803,7 @@ int atomisp_set_fmt(struct video_device *vdev, struct v4l2_format *f)
+ 		dev_warn(isp->dev, "Can't set format on ISP. Error %d\n", ret);
+ 		return -EINVAL;
+ 	}
+-done:
++
+ 	pipe->pix.width = f->fmt.pix.width;
+ 	pipe->pix.height = f->fmt.pix.height;
+ 	pipe->pix.pixelformat = f->fmt.pix.pixelformat;
 -- 
 2.39.1
 
