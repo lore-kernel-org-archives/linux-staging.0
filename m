@@ -1,31 +1,31 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAB1B3D68
-	for <linux-staging@lists.linux.dev>; Sat,  1 Apr 2023 15:00:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80D093D68
+	for <linux-staging@lists.linux.dev>; Sat,  1 Apr 2023 15:00:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1680361231;
+	s=mimecast20190719; t=1680361233;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=cb6G5JbVFv+EPtm+OowTpy5n4KazA/zY4dcxtvzMYS4=;
-	b=Rcvr1qjnov7i6QAKpAUqyXYwNzBHciGWDSqeN4X7NIZz4arn0hCp+Fmn7MABoLLu+2TV6I
-	bOa1KU9YoGcDPJmviKKUewSdICskqAb00lzniFdu4Gfp2RJZLwpehJlX2cx2XtHGI7D3kO
-	ie1GNXs40j3vH+y4ldYJOndtpLsIlyE=
+	bh=Fu7akkSrLzuIcCNp6h4mKqSfsMWoS6+H12wTLO1rBuc=;
+	b=FDJOnPXrcR7S9l6J/nQA3be2JOEtUa+l/R/jxb7Gq27odTHifF3krPlrUr95IqdUoyDJBx
+	Ph42ROu7jXBBtShkx7S98ADl6bXycmENYSspJqoH+ct80GT3gcJhWrT1XEPzUElMuBnlQn
+	oxcCub8oq7MsqF9lPR49QuOL41gD2PA=
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-264-vSFLvIQPPuKahXq27mIAYw-1; Sat, 01 Apr 2023 11:00:28 -0400
-X-MC-Unique: vSFLvIQPPuKahXq27mIAYw-1
+ us-mta-655-kMV-mPxANJiEzGhDF2hl3w-1; Sat, 01 Apr 2023 11:00:30 -0400
+X-MC-Unique: kMV-mPxANJiEzGhDF2hl3w-1
 Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com [10.11.54.10])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 07B662A5955F;
-	Sat,  1 Apr 2023 15:00:28 +0000 (UTC)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id BEDAF3815F66;
+	Sat,  1 Apr 2023 15:00:29 +0000 (UTC)
 Received: from localhost.localdomain (unknown [10.39.192.49])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 7C621400F59;
-	Sat,  1 Apr 2023 15:00:26 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 3B4E4483EC1;
+	Sat,  1 Apr 2023 15:00:28 +0000 (UTC)
 From: Hans de Goede <hdegoede@redhat.com>
 To: Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Sakari Ailus <sakari.ailus@linux.intel.com>
@@ -39,9 +39,9 @@ Cc: Hans de Goede <hdegoede@redhat.com>,
 	Fabio Aiuto <fabioaiuto83@gmail.com>,
 	linux-media@vger.kernel.org,
 	linux-staging@lists.linux.dev
-Subject: [PATCH 27/28] media: atomisp: gmin_platform: Make DMI quirks take precedence over the _DSM table
-Date: Sat,  1 Apr 2023 16:59:25 +0200
-Message-Id: <20230401145926.596216-28-hdegoede@redhat.com>
+Subject: [PATCH 28/28] media: atomisp: gmin_platform: Add Lenovo Ideapad Miix 310 gmin_vars
+Date: Sat,  1 Apr 2023 16:59:26 +0200
+Message-Id: <20230401145926.596216-29-hdegoede@redhat.com>
 In-Reply-To: <20230401145926.596216-1-hdegoede@redhat.com>
 References: <20230401145926.596216-1-hdegoede@redhat.com>
 Precedence: bulk
@@ -53,75 +53,60 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
 
-On some devices the _DSM sensor-info table contains wrong info,
-move the DMI quirk handling up to above the _DSM table check
-to allow DMI quirks to override wrong info in the _DSM table.
+The _DSM used to get sensor variables like CsiPort returns the wrong
+csi-port for the front OV2680 sensor on the Lenovo Ideapad Miix 310
+add a gmin_vars DMI quirk / override setting the right CsiPort.
 
 Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 ---
- .../media/atomisp/pci/atomisp_gmin_platform.c | 30 +++++++------------
- 1 file changed, 11 insertions(+), 19 deletions(-)
+ .../media/atomisp/pci/atomisp_gmin_platform.c | 19 +++++++++++++++++++
+ 1 file changed, 19 insertions(+)
 
 diff --git a/drivers/staging/media/atomisp/pci/atomisp_gmin_platform.c b/drivers/staging/media/atomisp/pci/atomisp_gmin_platform.c
-index f8d8a34d7e7f..f83de0ffaf16 100644
+index f83de0ffaf16..efcfc133311f 100644
 --- a/drivers/staging/media/atomisp/pci/atomisp_gmin_platform.c
 +++ b/drivers/staging/media/atomisp/pci/atomisp_gmin_platform.c
-@@ -1353,37 +1353,22 @@ static int gmin_get_config_var(struct device *maindev,
- 			       const char *var,
- 			       char *out, size_t *out_len)
- {
-+	struct acpi_device *adev = ACPI_COMPANION(maindev);
- 	efi_char16_t var16[CFG_VAR_NAME_MAX];
- 	const struct dmi_system_id *id;
--	struct device *dev = maindev;
- 	char var8[CFG_VAR_NAME_MAX];
- 	efi_status_t status;
- 	int i, ret;
+@@ -304,7 +304,17 @@ static struct gmin_cfg_var surface3_vars[] = {
+ 	{},
+ };
  
--	/* For sensors, try first to use the _DSM table */
--	if (!is_gmin) {
--		ret = gmin_get_config_dsm_var(maindev, var, out, out_len);
--		if (!ret)
--			return 0;
--	}
--
--	/* Fall-back to other approaches */
--
--	if (!is_gmin && ACPI_COMPANION(dev))
--		dev = &ACPI_COMPANION(dev)->dev;
--
--	if (!is_gmin)
--		ret = snprintf(var8, sizeof(var8), "%s_%s", dev_name(dev), var);
-+	if (!is_gmin && adev)
-+		ret = snprintf(var8, sizeof(var8), "%s_%s", acpi_dev_name(adev), var);
- 	else
- 		ret = snprintf(var8, sizeof(var8), "gmin_%s", var);
- 
- 	if (ret < 0 || ret >= sizeof(var8) - 1)
- 		return -EINVAL;
- 
--	/* First check a hard-coded list of board-specific variables.
--	 * Some device firmwares lack the ability to set EFI variables at
--	 * runtime.
--	 */
-+	/* DMI based quirks override both the _DSM table and EFI variables */
- 	id = dmi_first_match(gmin_vars);
- 	if (id) {
- 		ret = gmin_get_hardcoded_var(maindev, id->driver_data, var8,
-@@ -1392,6 +1377,13 @@ static int gmin_get_config_var(struct device *maindev,
- 			return 0;
- 	}
- 
-+	/* For sensors, try first to use the _DSM table */
-+	if (!is_gmin) {
-+		ret = gmin_get_config_dsm_var(maindev, var, out, out_len);
-+		if (!ret)
-+			return 0;
-+	}
++static struct gmin_cfg_var lenovo_ideapad_miix_310_vars[] = {
++	/* _DSM contains the wrong CsiPort! */
++	{ "OVTI2680:01_CsiPort", "0" },
++	{}
++};
 +
- 	/* Our variable names are ASCII by construction, but EFI names
- 	 * are wide chars.  Convert and zero-pad.
- 	 */
+ static const struct dmi_system_id gmin_vars[] = {
++	/*
++	 * These DMI ids where present when the atomisp driver was merged into
++	 * drivers/staging and it is unclear if they are really necessary.
++	 */
+ 	{
+ 		.ident = "BYT-T FFD8",
+ 		.matches = {
+@@ -341,6 +351,7 @@ static const struct dmi_system_id gmin_vars[] = {
+ 		},
+ 		.driver_data = i8880_vars,
+ 	},
++	/* Later added DMI ids, these are confirmed to really be necessary! */
+ 	{
+ 		.ident = "Surface 3",
+ 		.matches = {
+@@ -348,6 +359,14 @@ static const struct dmi_system_id gmin_vars[] = {
+ 		},
+ 		.driver_data = surface3_vars,
+ 	},
++	{
++		.ident = "Lenovo Ideapad Miix 310",
++		.matches = {
++			DMI_MATCH(DMI_SYS_VENDOR, "LENOVO"),
++			DMI_MATCH(DMI_PRODUCT_VERSION, "MIIX 310-10"),
++		},
++		.driver_data = lenovo_ideapad_miix_310_vars,
++	},
+ 	{}
+ };
+ 
 -- 
 2.39.1
 
