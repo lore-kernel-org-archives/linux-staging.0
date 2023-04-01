@@ -1,31 +1,31 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D95B33D6E
-	for <linux-staging@lists.linux.dev>; Sat,  1 Apr 2023 15:00:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B218A3D6E
+	for <linux-staging@lists.linux.dev>; Sat,  1 Apr 2023 15:00:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1680361223;
+	s=mimecast20190719; t=1680361224;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=NqV9490Mg4OeN8EDJ/97R+nPQu2ujG6puyFSMc5iU4Y=;
-	b=Vp+cstNNQrE+UY9wQ7mBMRXl8PieabsQuXdmY31fT30o3OC0pq27x+SCXX4kp4yZ5axIaF
-	uxRkKX3/iNFSgMpkiyqYM2ayh4rV4qL/Ad1/ZVOHCyCsiujWiHjCSGkkcCkFup8QM4FG5/
-	/c0tV86LF2jqNPvs3ifZ2i6bwStKHd4=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=TezODqGRq70gjY6nlZ1O4bq0QDVSc71v9rjbdJs2K48=;
+	b=excxYK8f6flw/Oil56eHkAIRo9vJwtwohonx945yRPWI0p8gX+hMpfezwg1gQpyG7G22D6
+	q+t1DdswWxP1BYqz1HzmI/M8c9JpaTcYFGww6rtMRkxLd8tBAo1QBo6HAW/6fEE86AfIAF
+	m6X1bwsT6bTqi+YXsCriIgU/ilQmkXQ=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-675-qD4g6UROOSKE8ZRlbXlKPw-1; Sat, 01 Apr 2023 11:00:19 -0400
-X-MC-Unique: qD4g6UROOSKE8ZRlbXlKPw-1
+ us-mta-554-fzpIHlJ3P8q1GbVLavFRng-1; Sat, 01 Apr 2023 11:00:21 -0400
+X-MC-Unique: fzpIHlJ3P8q1GbVLavFRng-1
 Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com [10.11.54.10])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 55DBD2A59560;
-	Sat,  1 Apr 2023 15:00:18 +0000 (UTC)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A4A0F101A531;
+	Sat,  1 Apr 2023 15:00:20 +0000 (UTC)
 Received: from localhost.localdomain (unknown [10.39.192.49])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id C6CA64021C7;
-	Sat,  1 Apr 2023 15:00:16 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 88C59400F59;
+	Sat,  1 Apr 2023 15:00:18 +0000 (UTC)
 From: Hans de Goede <hdegoede@redhat.com>
 To: Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Sakari Ailus <sakari.ailus@linux.intel.com>
@@ -39,9 +39,9 @@ Cc: Hans de Goede <hdegoede@redhat.com>,
 	Fabio Aiuto <fabioaiuto83@gmail.com>,
 	linux-media@vger.kernel.org,
 	linux-staging@lists.linux.dev
-Subject: [PATCH 22/28] media: atomisp: Remove snr_mbus_fmt local var from atomisp_try_fmt()
-Date: Sat,  1 Apr 2023 16:59:20 +0200
-Message-Id: <20230401145926.596216-23-hdegoede@redhat.com>
+Subject: [PATCH 23/28] media: atomisp: Remove unused ATOM_ISP_MAX_WIDTH_TMP and ATOM_ISP_MAX_HEIGHT_TMP
+Date: Sat,  1 Apr 2023 16:59:21 +0200
+Message-Id: <20230401145926.596216-24-hdegoede@redhat.com>
 In-Reply-To: <20230401145926.596216-1-hdegoede@redhat.com>
 References: <20230401145926.596216-1-hdegoede@redhat.com>
 Precedence: bulk
@@ -53,92 +53,28 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
 
-snr_mbus_fmt is a local variable pointing to a substruct of another local
-variable which really just makes the code harder to read / follow,
-so drop it.
-
-And likewise also drop the stream_info local variable.
+Remove the unused ATOM_ISP_MAX_WIDTH_TMP and ATOM_ISP_MAX_HEIGHT_TMP
+defines.
 
 Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 ---
- .../staging/media/atomisp/pci/atomisp_cmd.c   | 33 +++++++++----------
- 1 file changed, 15 insertions(+), 18 deletions(-)
+ drivers/staging/media/atomisp/pci/atomisp_internal.h | 3 ---
+ 1 file changed, 3 deletions(-)
 
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_cmd.c b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
-index c73931c77695..0fca4bc605ec 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_cmd.c
-+++ b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
-@@ -3970,11 +3970,7 @@ int atomisp_try_fmt(struct video_device *vdev, struct v4l2_pix_format *f,
- 	struct v4l2_subdev_format format = {
- 		.which = V4L2_SUBDEV_FORMAT_TRY,
- 	};
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_internal.h b/drivers/staging/media/atomisp/pci/atomisp_internal.h
+index 681a9258288d..35293f2c196a 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_internal.h
++++ b/drivers/staging/media/atomisp/pci/atomisp_internal.h
+@@ -76,9 +76,6 @@
+ #define ATOM_RESOLUTION_SUBQCIF_WIDTH	128
+ #define ATOM_RESOLUTION_SUBQCIF_HEIGHT	96
+ 
+-#define ATOM_ISP_MAX_WIDTH_TMP	1280
+-#define ATOM_ISP_MAX_HEIGHT_TMP	720
 -
--	struct v4l2_mbus_framefmt *snr_mbus_fmt = &format.format;
- 	const struct atomisp_format_bridge *fmt;
--	struct atomisp_input_stream_info *stream_info =
--	    (struct atomisp_input_stream_info *)snr_mbus_fmt->reserved;
- 	int ret;
+ #define ATOM_ISP_I2C_BUS_1	4
+ #define ATOM_ISP_I2C_BUS_2	5
  
- 	if (!asd) {
-@@ -3995,14 +3991,15 @@ int atomisp_try_fmt(struct video_device *vdev, struct v4l2_pix_format *f,
- 	if (f->width <= 0 || f->height <= 0)
- 		return -EINVAL;
- 
--	snr_mbus_fmt->code = fmt->mbus_code;
--	snr_mbus_fmt->width = f->width;
--	snr_mbus_fmt->height = f->height;
-+	format.format.code = fmt->mbus_code;
-+	format.format.width = f->width;
-+	format.format.height = f->height;
- 
--	__atomisp_init_stream_info(ATOMISP_INPUT_STREAM_GENERAL, stream_info);
-+	__atomisp_init_stream_info(ATOMISP_INPUT_STREAM_GENERAL,
-+				   (struct atomisp_input_stream_info *)format.format.reserved);
- 
- 	dev_dbg(isp->dev, "try_mbus_fmt: asking for %ux%u\n",
--		snr_mbus_fmt->width, snr_mbus_fmt->height);
-+		format.format.width, format.format.height);
- 
- 	ret = v4l2_subdev_call(isp->inputs[asd->input_curr].camera,
- 			       pad, set_fmt, &pad_state, &format);
-@@ -4010,12 +4007,12 @@ int atomisp_try_fmt(struct video_device *vdev, struct v4l2_pix_format *f,
- 		return ret;
- 
- 	dev_dbg(isp->dev, "try_mbus_fmt: got %ux%u\n",
--		snr_mbus_fmt->width, snr_mbus_fmt->height);
-+		format.format.width, format.format.height);
- 
--	fmt = atomisp_get_format_bridge_from_mbus(snr_mbus_fmt->code);
-+	fmt = atomisp_get_format_bridge_from_mbus(format.format.code);
- 	if (!fmt) {
- 		dev_err(isp->dev, "unknown sensor format 0x%8.8x\n",
--			snr_mbus_fmt->code);
-+			format.format.code);
- 		return -EINVAL;
- 	}
- 
-@@ -4029,15 +4026,15 @@ int atomisp_try_fmt(struct video_device *vdev, struct v4l2_pix_format *f,
- 	 */
- 	if (f->pixelformat == V4L2_PIX_FMT_JPEG ||
- 	    f->pixelformat == V4L2_PIX_FMT_CUSTOM_M10MO_RAW) {
--		f->width = snr_mbus_fmt->width;
--		f->height = snr_mbus_fmt->height;
-+		f->width = format.format.width;
-+		f->height = format.format.height;
- 		return 0;
- 	}
- 
--	if (!res_overflow || (snr_mbus_fmt->width < f->width &&
--			      snr_mbus_fmt->height < f->height)) {
--		f->width = snr_mbus_fmt->width;
--		f->height = snr_mbus_fmt->height;
-+	if (!res_overflow || (format.format.width < f->width &&
-+			      format.format.height < f->height)) {
-+		f->width = format.format.width;
-+		f->height = format.format.height;
- 		/* Set the flag when resolution requested is
- 		 * beyond the max value supported by sensor
- 		 */
 -- 
 2.39.1
 
