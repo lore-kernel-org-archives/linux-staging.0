@@ -1,93 +1,131 @@
-Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB7F78F66
-	for <linux-staging@lists.linux.dev>; Sat,  1 Apr 2023 21:20:06 +0000 (UTC)
-Received: by mail-ed1-f51.google.com with SMTP id er13so62137233edb.9
-        for <linux-staging@lists.linux.dev>; Sat, 01 Apr 2023 14:20:06 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47AAB8F66;
+	Sat,  1 Apr 2023 21:20:40 +0000 (UTC)
+Received: by mail-wr1-f54.google.com with SMTP id t4so20460929wra.7;
+        Sat, 01 Apr 2023 14:20:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1680384005;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+        d=gmail.com; s=20210112; t=1680384038; x=1682976038;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=YqTJVLt/yAp6Cnjom0YyqO4Vpoe/b6jyn4e1raDijuc=;
-        b=QjD/vMntbbVB+Cp9Ab4ZsXns7n+I5TLoXV92+tTySay4Fiu0HXLtpXwSHEqW4A8npD
-         TgL+4ws61YkM9Wiv6fFcDDJ9aP/GF9FfVhXQTy2Osy/+b6Mh9i4HeVToMEHxPbXI64D1
-         vMJSM7UlsKFbTnFBdz/Dr8GTNzgRelyzz35noHXW4D1uGSmVlfOONRzeq86t6oXori2d
-         P09y39d8JG18gBUD0CZCsW7gbiHg5yK8gqiPjNYuvEJtaa64Sa0YhuaQxfI11SwE63Ns
-         tfM6CitZxKU1yFQWMNvE9My5xmXrG4/NJ4F1umCTcX5g1dcussUtyGkQGaWJKK4MtXGS
-         DDHQ==
+        bh=ByAoZWXhCyKwFW+7RrBi6qp6VuxHVvsdrIcCs8B1g/A=;
+        b=ltk51KbXub0mj3FrZK4k32vjHzuabJlksHq2z6CjgDmgJb/6/YpHqn4D8ZQhWrp8F0
+         2O0FfoyZDmig+CK7zv0J4ECOK6ZXROEOiBB9z8sDh1sSSQTxtu1GKuo2FySrq6V/SLRK
+         xSxO/PJ+BvSJGX2FrJF/xTEkE+FjyqLg3oMEh1i2oyCM4cgwapZuHt4+vj0SNAbRSGlh
+         0EwyfUI+vSus84icjC5X6xDhdjF6c7ZSg+R7swiH2LtwzKIQA0aP7oWf8Gw2hg8LuagV
+         id6p12HHenbiLUT2IJShoeSOCWNUDMhON3UTe7T2prs/USeBLV2aPX5PTqWEFcCN3qm5
+         OPaw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680384005;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+        d=1e100.net; s=20210112; t=1680384038; x=1682976038;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=YqTJVLt/yAp6Cnjom0YyqO4Vpoe/b6jyn4e1raDijuc=;
-        b=laQKx1RaW7gAn4nRiTR9Q8jOSOIv31hYYcR4iX8mQFbUC3HXLEAPqTY5aYl9srxLsd
-         KppyX7WGF8Rv0UUE4kFQHo5M6POcZw+UoEc3xkgxCQN+ubfD0Zl8G1xez2VJJwiQZGSV
-         JHRbhIXl+BrUxTd70JPLBddwKdEcHPqvPtXzrU7LewEIxPS2DbJBSFa1NvaR96SmjBNH
-         bWF+iPfkJ7//um+eVKNM467cFdiie/zkHa1LHyi5VIUUctvGdu/v4WY5t1wa7757G9JV
-         JF7MCdbns+hIVyDv5rzAo07rKJc6qYpLTKIFO/e+6+Gowwfs9ugjo7CIBKHKuqBAsm4w
-         I9rg==
-X-Gm-Message-State: AAQBX9fUg/fya8ABSQ4Q+k/dW5UOfKs1FcU3hyFeDpKHoOpMbGWp4lU1
-	m462knuiifcEDbtB+dnUMw==
-X-Google-Smtp-Source: AKy350ZxuGHqDoJ7Fb8LTc7+7RwKXdXT4iQ0/D6VXnSjMYHr/2+xQVzErQS1KduaWa0M2ZBlqb7//Q==
-X-Received: by 2002:a50:fe94:0:b0:4f9:9e56:84bf with SMTP id d20-20020a50fe94000000b004f99e5684bfmr27706542edt.10.1680384005026;
-        Sat, 01 Apr 2023 14:20:05 -0700 (PDT)
-Received: from koolguy (dslb-002-205-192-117.002.205.pools.vodafone-ip.de. [2.205.192.117])
-        by smtp.gmail.com with ESMTPSA id b59-20020a509f41000000b004fa380a14e7sm2528932edf.77.2023.04.01.14.20.04
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 01 Apr 2023 14:20:04 -0700 (PDT)
-Date: Sat, 1 Apr 2023 23:20:02 +0200
-From: Dalvin-Ehinoma Noah Aiguobas <pharcodra@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [PATCH] staging: octeon: remove typedef declaration for
- cvmx_fau_op_size
-Message-ID: <20230401212002.GA30519@koolguy>
+        bh=ByAoZWXhCyKwFW+7RrBi6qp6VuxHVvsdrIcCs8B1g/A=;
+        b=DFpg9KGJ3yM/Fl4DJqWd3BsMJ05h9kODDyNWs+n8x078M+DaTF6zsjm8GBRJXFrMMl
+         FRQkD76aRAJQSMUCGnnqIFtKfxxyUQNCxPrR7qjsDVbavS3vvMBxWqB3gii7q1rRYi6i
+         +4qo5Sj+oYk80BxmJ16G0fexvwDF+nKBGVPfzjfYqXgiTArEkOi82ljyZGituH+miWex
+         +/PFE/WRkFpn+sGw0NlbgSnKqT8vqeOU3vaw+VkNXnA4V97CydiO7h8byTTMtQJah+vp
+         QHPJcPFF2+v8EskLxSEBbNEoObJBPeR2gGmr5Dl+FkTiuYHF2WdFGZ+XPL3pjmGrna2V
+         AaJg==
+X-Gm-Message-State: AAQBX9cbWZuEzysaO75PDo5ll0tjR9R813XIiaLCspsuN34/62uKuGeE
+	Mfna1a8wEREGI5GKdPVIcXXj8AvHtHo=
+X-Google-Smtp-Source: AKy350YgtkT4Bw1fq4SE5H3x2PpD2KACelr/oOt3B+d32gtlPCdYYDMtO0OFGAQbLGi3Sfk98sknCg==
+X-Received: by 2002:adf:f78b:0:b0:2e4:aa42:7872 with SMTP id q11-20020adff78b000000b002e4aa427872mr5908805wrp.4.1680384038368;
+        Sat, 01 Apr 2023 14:20:38 -0700 (PDT)
+Received: from [192.168.0.103] (p57935146.dip0.t-ipconnect.de. [87.147.81.70])
+        by smtp.gmail.com with ESMTPSA id o15-20020a5d474f000000b002d7a75a2c20sm5752639wrs.80.2023.04.01.14.20.37
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 01 Apr 2023 14:20:37 -0700 (PDT)
+Message-ID: <624a11a3-2461-6c8f-155d-e76e5e3e471e@gmail.com>
+Date: Sat, 1 Apr 2023 23:20:36 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: [PATCH 3/5] staging: rtl8192e: avoid camel-case
+ <dot11RSNAStatsCCMPFormatErrors>
+To: Khadija Kamran <kamrankhadijadj@gmail.com>, outreachy@lists.linux.dev
+Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org, Deepak R Varma <drv@mailo.com>
+References: <cover.1680375200.git.kamrankhadijadj@gmail.com>
+ <7ed9ed4df19b1ab818fc4b3ec43083e1a051c38e.1680375200.git.kamrankhadijadj@gmail.com>
+Content-Language: en-US
+From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+In-Reply-To: <7ed9ed4df19b1ab818fc4b3ec43083e1a051c38e.1680375200.git.kamrankhadijadj@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Fix checkpatch.pl warning: do not add new typedefs in
-drivers/staging/octeon/octeon-stubs.h:216
+On 4/1/23 20:58, Khadija Kamran wrote:
+> Linux kernel coding-style does not suggest mixed-case names. This issue
+> is reported by checkpatch.
+> 
+> Fix variable name by changing it from camel-case to lower-case. In order
+> to describe the variable name better, add a comment above it.
+> 
 
-Signed-off-by: Dalvin-Ehinoma Noah Aiguobas <pharcodra@gmail.com>
----
- drivers/staging/octeon/octeon-stubs.h | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+I think you are changing from camel case to snake case.
 
-diff --git a/drivers/staging/octeon/octeon-stubs.h b/drivers/staging/octeon/octeon-stubs.h
-index 3e7b92cd2e35..cf560c321c92 100644
---- a/drivers/staging/octeon/octeon-stubs.h
-+++ b/drivers/staging/octeon/octeon-stubs.h
-@@ -213,12 +213,12 @@ enum cvmx_fau_op_size {
- 	CVMX_FAU_OP_SIZE_64 = 3
- };
- 
--typedef enum {
-+enum cvmx_spi_mode_t {
- 	CVMX_SPI_MODE_UNKNOWN = 0,
- 	CVMX_SPI_MODE_TX_HALFPLEX = 1,
- 	CVMX_SPI_MODE_RX_HALFPLEX = 2,
- 	CVMX_SPI_MODE_DUPLEX = 3
--} cvmx_spi_mode_t;
-+};
- 
- typedef enum {
- 	CVMX_HELPER_INTERFACE_MODE_DISABLED,
-@@ -1362,7 +1362,7 @@ static inline struct cvmx_wqe *cvmx_pow_work_request_sync(cvmx_pow_wait_t wait)
- }
- 
- static inline int cvmx_spi_restart_interface(int interface,
--					cvmx_spi_mode_t mode, int timeout)
-+					enum cvmx_spi_mode_t mode, int timeout)
- {
- 	return 0;
- }
--- 
-2.25.1
+> Suggested-by: Deepak R Varma <drv@mailo.com>
+> Signed-off-by: Khadija Kamran <kamrankhadijadj@gmail.com>
+> ---
+>   drivers/staging/rtl8192e/rtllib_crypt_ccmp.c | 9 +++++----
+>   1 file changed, 5 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/staging/rtl8192e/rtllib_crypt_ccmp.c b/drivers/staging/rtl8192e/rtllib_crypt_ccmp.c
+> index 8d3067a6ccca..e8a3bc94efdc 100644
+> --- a/drivers/staging/rtl8192e/rtllib_crypt_ccmp.c
+> +++ b/drivers/staging/rtl8192e/rtllib_crypt_ccmp.c
+> @@ -34,7 +34,8 @@ struct rtllib_ccmp_data {
+>   	u8 tx_pn[CCMP_PN_LEN];
+>   	u8 rx_pn[CCMP_PN_LEN];
+>   
+> -	u32 dot11RSNAStatsCCMPFormatErrors;
+> +	/* .11 RSNA stats for CCMP */
+> +	u32 ccmp_format_errors;
+>   	u32 dot11RSNAStatsCCMPReplays;
+>   	u32 dot11RSNAStatsCCMPDecryptErrors;
+
+
+Is it obvious that CCMPFormatErrors is a part of dot11RSNAStats? OK. You 
+added a comment. Often for me the issue is that the comment is only 
+valid to one line or to more?
+
+I would prefer something like: dot11rsna_stats_ccmp_format_err
+This is keeping the information the author gave variable and I would 
+understand better and see it in every place.
+
+>   
+> @@ -226,7 +227,7 @@ static int rtllib_ccmp_decrypt(struct sk_buff *skb, int hdr_len, void *priv)
+>   	u8 pn[6];
+>   
+>   	if (skb->len < hdr_len + CCMP_HDR_LEN + CCMP_MIC_LEN) {
+> -		key->dot11RSNAStatsCCMPFormatErrors++;
+> +		key->ccmp_format_errors++;
+>   		return -1;
+>   	}
+>   
+> @@ -238,7 +239,7 @@ static int rtllib_ccmp_decrypt(struct sk_buff *skb, int hdr_len, void *priv)
+>   			pr_debug("CCMP: received packet without ExtIV flag from %pM\n",
+>   				 hdr->addr2);
+>   		}
+> -		key->dot11RSNAStatsCCMPFormatErrors++;
+> +		key->ccmp_format_errors++;
+>   		return -2;
+>   	}
+>   	keyidx >>= 6;
+> @@ -374,7 +375,7 @@ static void rtllib_ccmp_print_stats(struct seq_file *m, void *priv)
+>   		   "key[%d] alg=CCMP key_set=%d tx_pn=%pM rx_pn=%pM format_errors=%d replays=%d decrypt_errors=%d\n",
+>   		   ccmp->key_idx, ccmp->key_set,
+>   		   ccmp->tx_pn, ccmp->rx_pn,
+> -		   ccmp->dot11RSNAStatsCCMPFormatErrors,
+> +		   ccmp->ccmp_format_errors,
+>   		   ccmp->dot11RSNAStatsCCMPReplays,
+>   		   ccmp->dot11RSNAStatsCCMPDecryptErrors);
+>   }
 
