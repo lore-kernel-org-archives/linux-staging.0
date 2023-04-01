@@ -1,31 +1,31 @@
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 155363D6E
-	for <linux-staging@lists.linux.dev>; Sat,  1 Apr 2023 14:59:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9645F3D68
+	for <linux-staging@lists.linux.dev>; Sat,  1 Apr 2023 15:00:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1680361198;
+	s=mimecast20190719; t=1680361199;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=S4GAIpJCftsr7cfhH7olfn6cbD9j4KKnAiVOmRdN5nc=;
-	b=GSnLXHt7DB6zGPNGAF6mrfUs9Vg5CpFhlkJ9ArQ1ShnLeTDqL/deqYT4YHj14iRXrR1pyr
-	zSTtoyQz4t9OmAWh5cuHA4oOfR99DKNTbwFQCL/XZD6MsJiaNEZmFObi3nJ/ckxO2HudaJ
-	dKVS0WIQtR/QRNEBXw2TqCCXfYvu6Yc=
+	bh=Ykzzsi4vPVmnhdDu6qdf+OaX902dNbyBhmUCGQHQEy8=;
+	b=gmQc98F6s5zoHWarKB+NApnMN7FXsNkuIYJHndUsRw+NTFAEhLrVRe0RXX+l+9N6t5C6G5
+	gAnPCwMjmziaQo3WLs5Lf36q7bUZtdHulO3lMtlnnxXvR3601KK2fEdHxk2lKXYZ+s6YD/
+	bJBSPrY5SE5ymD2pSKddcVR4vO2tOr8=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-438-GG6NRFMbO1KQWG4K6pAVAw-1; Sat, 01 Apr 2023 10:59:54 -0400
-X-MC-Unique: GG6NRFMbO1KQWG4K6pAVAw-1
+ us-mta-436-U2EDORFDO8SrvaCKl1Uj0w-1; Sat, 01 Apr 2023 10:59:56 -0400
+X-MC-Unique: U2EDORFDO8SrvaCKl1Uj0w-1
 Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com [10.11.54.10])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 200DF801779;
-	Sat,  1 Apr 2023 14:59:54 +0000 (UTC)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id D27338533DC;
+	Sat,  1 Apr 2023 14:59:55 +0000 (UTC)
 Received: from localhost.localdomain (unknown [10.39.192.49])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 945F74021C7;
-	Sat,  1 Apr 2023 14:59:52 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 531FD400F59;
+	Sat,  1 Apr 2023 14:59:54 +0000 (UTC)
 From: Hans de Goede <hdegoede@redhat.com>
 To: Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Sakari Ailus <sakari.ailus@linux.intel.com>
@@ -39,9 +39,9 @@ Cc: Hans de Goede <hdegoede@redhat.com>,
 	Fabio Aiuto <fabioaiuto83@gmail.com>,
 	linux-media@vger.kernel.org,
 	linux-staging@lists.linux.dev
-Subject: [PATCH 10/28] media: atomisp: gc0310: Remove read-only exposure control
-Date: Sat,  1 Apr 2023 16:59:08 +0200
-Message-Id: <20230401145926.596216-11-hdegoede@redhat.com>
+Subject: [PATCH 11/28] media: atomisp: gc0310: Drop custom ATOMISP_IOC_S_EXPOSURE support
+Date: Sat,  1 Apr 2023 16:59:09 +0200
+Message-Id: <20230401145926.596216-12-hdegoede@redhat.com>
 In-Reply-To: <20230401145926.596216-1-hdegoede@redhat.com>
 References: <20230401145926.596216-1-hdegoede@redhat.com>
 Precedence: bulk
@@ -53,119 +53,134 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
 
-The sensor does not have automatic exposure so the exposure cannot
-change underneath us.
+Exposure and gain control should use standard v4l2 controls,
+not a custom ioctl.
 
-And the control is not marked volatile in it flags,
-so the .g_volatile_ctrl callback will never get called.
-
-Remove the current broken read-only (no s_ctrl implementation)
-exposure ctrl, this will be replaced with a proper r/w exposure
-control relying on the kernel caching the last set value
-(so non volatile).
+The next patch in this series will re-add support as standard controls,
+this is split into 2 patches for easier reviewing.
 
 Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 ---
- .../media/atomisp/i2c/atomisp-gc0310.c        | 58 +------------------
- 1 file changed, 1 insertion(+), 57 deletions(-)
+ .../media/atomisp/i2c/atomisp-gc0310.c        | 99 -------------------
+ 1 file changed, 99 deletions(-)
 
 diff --git a/drivers/staging/media/atomisp/i2c/atomisp-gc0310.c b/drivers/staging/media/atomisp/i2c/atomisp-gc0310.c
-index 93cde642ce44..ba36bd0a0b41 100644
+index ba36bd0a0b41..115493641010 100644
 --- a/drivers/staging/media/atomisp/i2c/atomisp-gc0310.c
 +++ b/drivers/staging/media/atomisp/i2c/atomisp-gc0310.c
-@@ -155,23 +155,6 @@ static long gc0310_ioctl(struct v4l2_subdev *sd, unsigned int cmd, void *arg)
+@@ -57,104 +57,6 @@ static int gc0310_write_reg_array(struct i2c_client *client,
  	return 0;
  }
  
--/* This returns the exposure time being used. This should only be used
-- * for filling in EXIF data, not for actual image processing.
-- */
--static int gc0310_q_exposure(struct v4l2_subdev *sd, s32 *value)
+-static int gc0310_set_gain(struct v4l2_subdev *sd, int gain)
+-
+-{
+-	struct i2c_client *client = v4l2_get_subdevdata(sd);
+-	int ret;
+-	u8 again, dgain;
+-
+-	if (gain < 0x20)
+-		gain = 0x20;
+-	if (gain > 0x80)
+-		gain = 0x80;
+-
+-	if (gain >= 0x20 && gain < 0x40) {
+-		again = 0x0; /* sqrt(2) */
+-		dgain = gain;
+-	} else {
+-		again = 0x2; /* 2 * sqrt(2) */
+-		dgain = gain / 2;
+-	}
+-
+-	dev_dbg(&client->dev, "gain=0x%x again=0x%x dgain=0x%x\n", gain, again, dgain);
+-
+-	/* set analog gain */
+-	ret = i2c_smbus_write_byte_data(client, GC0310_AGC_ADJ, again);
+-	if (ret)
+-		return ret;
+-
+-	/* set digital gain */
+-	ret = i2c_smbus_write_byte_data(client, GC0310_DGC_ADJ, dgain);
+-	if (ret)
+-		return ret;
+-
+-	return 0;
+-}
+-
+-static int __gc0310_set_exposure(struct v4l2_subdev *sd, int coarse_itg,
+-				 int gain, int digitgain)
+-
 -{
 -	struct i2c_client *client = v4l2_get_subdevdata(sd);
 -	int ret;
 -
--	/* get exposure */
--	ret = i2c_smbus_read_word_swapped(client, GC0310_AEC_PK_EXPO_H);
--	if (ret < 0)
+-	dev_dbg(&client->dev, "coarse_itg=%d gain=%d digitgain=%d\n", coarse_itg, gain, digitgain);
+-
+-	/* set exposure */
+-	ret = i2c_smbus_write_word_swapped(client, GC0310_AEC_PK_EXPO_H, coarse_itg);
+-	if (ret)
 -		return ret;
 -
--	*value = ret;
+-	ret = gc0310_set_gain(sd, gain);
+-	if (ret)
+-		return ret;
+-
+-	return ret;
+-}
+-
+-static int gc0310_set_exposure(struct v4l2_subdev *sd, int exposure,
+-			       int gain, int digitgain)
+-{
+-	struct gc0310_device *dev = to_gc0310_sensor(sd);
+-	int ret;
+-
+-	mutex_lock(&dev->input_lock);
+-	ret = __gc0310_set_exposure(sd, exposure, gain, digitgain);
+-	mutex_unlock(&dev->input_lock);
+-
+-	return ret;
+-}
+-
+-static long gc0310_s_exposure(struct v4l2_subdev *sd,
+-			      struct atomisp_exposure *exposure)
+-{
+-	int exp = exposure->integration_time[0];
+-	int gain = exposure->gain[0];
+-	int digitgain = exposure->gain[1];
+-
+-	/* we should not accept the invalid value below. */
+-	if (gain == 0) {
+-		struct i2c_client *client = v4l2_get_subdevdata(sd);
+-
+-		v4l2_err(client, "%s: invalid value\n", __func__);
+-		return -EINVAL;
+-	}
+-
+-	return gc0310_set_exposure(sd, exp, gain, digitgain);
+-}
+-
+-static long gc0310_ioctl(struct v4l2_subdev *sd, unsigned int cmd, void *arg)
+-{
+-	switch (cmd) {
+-	case ATOMISP_IOC_S_EXPOSURE:
+-		return gc0310_s_exposure(sd, arg);
+-	default:
+-		return -EINVAL;
+-	}
 -	return 0;
 -}
 -
  static int gc0310_s_ctrl(struct v4l2_ctrl *ctrl)
  {
  	int ret = 0;
-@@ -183,40 +166,8 @@ static int gc0310_s_ctrl(struct v4l2_ctrl *ctrl)
- 	return ret;
- }
+@@ -627,7 +529,6 @@ static const struct v4l2_subdev_video_ops gc0310_video_ops = {
  
--static int gc0310_g_volatile_ctrl(struct v4l2_ctrl *ctrl)
--{
--	struct gc0310_device *dev =
--	    container_of(ctrl->handler, struct gc0310_device, ctrl_handler);
--	int ret = 0;
--
--	switch (ctrl->id) {
--	case V4L2_CID_EXPOSURE_ABSOLUTE:
--		ret = gc0310_q_exposure(&dev->sd, &ctrl->val);
--		break;
--	default:
--		ret = -EINVAL;
--	}
--
--	return ret;
--}
--
- static const struct v4l2_ctrl_ops ctrl_ops = {
- 	.s_ctrl = gc0310_s_ctrl,
--	.g_volatile_ctrl = gc0310_g_volatile_ctrl
--};
--
--static const struct v4l2_ctrl_config gc0310_controls[] = {
--	{
--		.ops = &ctrl_ops,
--		.id = V4L2_CID_EXPOSURE_ABSOLUTE,
--		.type = V4L2_CTRL_TYPE_INTEGER,
--		.name = "exposure",
--		.min = 0x0,
--		.max = 0xffff,
--		.step = 0x01,
--		.def = 0x00,
--		.flags = 0,
--	},
+ static const struct v4l2_subdev_core_ops gc0310_core_ops = {
+ 	.s_power = gc0310_s_power,
+-	.ioctl = gc0310_ioctl,
  };
  
- static int gc0310_init(struct v4l2_subdev *sd)
-@@ -713,7 +664,6 @@ static int gc0310_probe(struct i2c_client *client)
- 	struct gc0310_device *dev;
- 	int ret;
- 	void *pdata;
--	unsigned int i;
- 
- 	dev = kzalloc(sizeof(*dev), GFP_KERNEL);
- 	if (!dev)
-@@ -744,18 +694,12 @@ static int gc0310_probe(struct i2c_client *client)
- 	dev->pad.flags = MEDIA_PAD_FL_SOURCE;
- 	dev->format.code = MEDIA_BUS_FMT_SGRBG8_1X8;
- 	dev->sd.entity.function = MEDIA_ENT_F_CAM_SENSOR;
--	ret =
--	    v4l2_ctrl_handler_init(&dev->ctrl_handler,
--				   ARRAY_SIZE(gc0310_controls));
-+	ret = v4l2_ctrl_handler_init(&dev->ctrl_handler, 0);
- 	if (ret) {
- 		gc0310_remove(client);
- 		return ret;
- 	}
- 
--	for (i = 0; i < ARRAY_SIZE(gc0310_controls); i++)
--		v4l2_ctrl_new_custom(&dev->ctrl_handler, &gc0310_controls[i],
--				     NULL);
--
- 	if (dev->ctrl_handler.error) {
- 		gc0310_remove(client);
- 		return dev->ctrl_handler.error;
+ static const struct v4l2_subdev_pad_ops gc0310_pad_ops = {
 -- 
 2.39.1
 
