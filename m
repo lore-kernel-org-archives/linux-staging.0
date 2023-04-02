@@ -1,45 +1,45 @@
-Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71746442D;
-	Sun,  2 Apr 2023 16:00:07 +0000 (UTC)
-Received: by mail-ed1-f54.google.com with SMTP id i5so108344552eda.0;
-        Sun, 02 Apr 2023 09:00:07 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 093EF53A2
+	for <linux-staging@lists.linux.dev>; Sun,  2 Apr 2023 18:22:38 +0000 (UTC)
+Received: by mail-wm1-f45.google.com with SMTP id j18-20020a05600c1c1200b003ee5157346cso18446294wms.1
+        for <linux-staging@lists.linux.dev>; Sun, 02 Apr 2023 11:22:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1680451205; x=1683043205;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
+        d=gmail.com; s=20210112; t=1680459757;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=j6lbVzylHSD1bkwqF+EEh8vp3rCF+fULXBoCye8hbUI=;
-        b=oT3hW/sIwwMuZlR7SThF3UUX3oUtfKDo9uiBq3hqWEZJ8TBfOfLq4pkxl1obxYQDBI
-         OseLrkQA/pUcaiPM/nwn2FK5a9AxbTkcy63hrcdQa7Kw1AeLpZ0h+RlQtbbnt2b5Tshm
-         WGbIeWLGsu/cI0O9EJ6xM//TLbCcWXFMpMvNBjwiw1rpVk7LEroXiZZX5Ku22aO0Fxcc
-         HBLdPlkuraleN0fC0khsQ+yblRFJqoDaJ0XSwORO4R9zIXSQA5a6YlnLYT+k7dGh9Kd9
-         mgbkZBTw/xJh+nmoPozDal+wl/zqzDY5vAMvRh+O3rUiLjQX0ChfGKWsgcPis8XfzC1L
-         OvAQ==
+        bh=qQ7cV2QrQ0t06/mixdh3yXEE4i1+hMwYh5eUdnobqIY=;
+        b=SnqroAysuuy6fCAhOqM/pte7g0pC57vqLd9iMHOo+QmBJPZP+vSIO8n/7zpnrpkiHd
+         Xx5EOZpzD4o2kYL+pIIT5o6KqSjrqpjI0cOMy+8mvnnU3/CgdwPGOdcmlD5tfrROu73U
+         V9y/A7xxeWl+uB35So+Sbnqc93imltGIIhhZ1/tyWDsXyT96fBVVcw+xsA/lmA8K9kG0
+         l8Y4K0sgbF/AyAc/+1DmdxLVWLjw8PeBOB+6rTdWr3z9EiWv9Vs7jdnksFXVhya71sPJ
+         htPabrudLs0S4DJDFgLK3DD/0yAred5HK+QbbszXlGlrqOyNDtDASOpnrvxSO2Vm/3DB
+         gDOA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680451205; x=1683043205;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
+        d=1e100.net; s=20210112; t=1680459757;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=j6lbVzylHSD1bkwqF+EEh8vp3rCF+fULXBoCye8hbUI=;
-        b=dNXNGgi3fZb3ZWMW0PVG+8ywz2UaUwLk7n+zl/zqUrJJaMvAC5WWMW6o/KlErbRJ3Z
-         DxEYn/DftaWq9+Z24SGTGOuiWN22KDleG8HZgu33Xq8GrU1Xfxi6LYY8FmBiXv+onOOg
-         V8NAYFYLpn0r72E8TWXmsvWVMx0las3L3/CC9S9TWWWONEkuHXmQ1JhZc2ZGTHm3yUGr
-         THLTgWDSXgHO6a9JETuug6qFnsyFvSDFk/EWC//s6sNOBw6wGPYa5iV1e7AVC8JQ23I+
-         AgKgLbnZeGAWsf2LDLqc9V6649WcEgxeIhJ9LOhZVWOGRREfUwFaGD4Ot/KRJBQCZTZt
-         Rr+g==
-X-Gm-Message-State: AAQBX9duWYBUjWuMEzYGaeh0aljEbVztvYKQlUYma8HQz5DgZ+KSZsJH
-	6JnBjayOOUmYtSYB7jf+ak4=
-X-Google-Smtp-Source: AKy350brr9ZcZTZfYr38J1LydLHUvz8vf6PleV3OLbnjTdr5uVSjVgjB/czCAO0bqxm5nTG8iwvmJw==
-X-Received: by 2002:a17:906:1c4:b0:931:5145:c51f with SMTP id 4-20020a17090601c400b009315145c51fmr6452359ejj.4.1680451205506;
-        Sun, 02 Apr 2023 09:00:05 -0700 (PDT)
-Received: from [192.168.0.102] (p57935146.dip0.t-ipconnect.de. [87.147.81.70])
-        by smtp.gmail.com with ESMTPSA id b10-20020a1709065e4a00b0093dbb008281sm3354798eju.130.2023.04.02.09.00.04
+        bh=qQ7cV2QrQ0t06/mixdh3yXEE4i1+hMwYh5eUdnobqIY=;
+        b=neCQd92OAKbgL7ga3vd6N8q7N2l3s+M75uuzxatT4XQfs2tJnG/xLcGbIh7DXBYzHk
+         JGDPRbrEd8pUCq4VvacjzntFPy95UJ6UeVwzHOsJwcKOnJzPzS/I/HTTtmejO6IZ1wT9
+         mBxM+YnnL92bgg6t0MAWCoKDKn3cjdqde5J453GIuZh5wP6qXUaTDJwdUOYezIpm+jZR
+         tI7YTBnEaMc/6URg0ey6SJKLy9w5efhL3yc7P0JGtaJIhO52UGwcTWS0tXwIN3QhhD9b
+         P2Fi8LsW9Su8ZIaa2iK4OVegYRe+3R7WDA4QIxGI0DFVhfx8l3a/hYuKflfJNlyHTTGu
+         ctlQ==
+X-Gm-Message-State: AO0yUKWW6q8eTaLPmJWr69hSq0Q1bvPnboycZWFD632FisMy+pZ9Ycj4
+	g9QcirQ/fIwqORsz2tqcXIs=
+X-Google-Smtp-Source: AK7set+XRX11PiiYSdo892GnW8rwV0ktJWvZ8PvO8hWxBuyWKFXwQRLG7CCMvUCZBO4lOuifVNtIVA==
+X-Received: by 2002:a05:600c:2157:b0:3ed:cf2a:3fe8 with SMTP id v23-20020a05600c215700b003edcf2a3fe8mr26406192wml.8.1680459756820;
+        Sun, 02 Apr 2023 11:22:36 -0700 (PDT)
+Received: from ?IPV6:2a0c:5a82:e704:7800:4aa3:3ca0:c843:43e3? ([2a0c:5a82:e704:7800:4aa3:3ca0:c843:43e3])
+        by smtp.gmail.com with ESMTPSA id m9-20020a7bcb89000000b003ed4f6c6234sm9743571wmi.23.2023.04.02.11.22.36
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 02 Apr 2023 09:00:04 -0700 (PDT)
-Message-ID: <91cc4474-8991-6762-841e-8936d3bb66d2@gmail.com>
-Date: Sun, 2 Apr 2023 18:00:03 +0200
+        Sun, 02 Apr 2023 11:22:36 -0700 (PDT)
+Message-ID: <0af15115-9641-a1c8-f398-c4e8e77379a3@gmail.com>
+Date: Sun, 2 Apr 2023 20:22:35 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -47,34 +47,65 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [PATCH v2 0/5] staging: rtl8192e: fix checkpatch issues in
- rtllib_crypt_ccmp.c
-To: Khadija Kamran <kamrankhadijadj@gmail.com>, outreachy@lists.linux.dev
-Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org
-References: <cover.1680445545.git.kamrankhadijadj@gmail.com>
+ Thunderbird/102.9.1
+Subject: Re: [PATCH] staging: greybus: loopback: fix up checkpath macro do
+ while error.
 Content-Language: en-US
-From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-In-Reply-To: <cover.1680445545.git.kamrankhadijadj@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Bryan O'Donoghue <pure.logic@nexus-software.ie>,
+ Johan Hovold <johan@kernel.org>, Alex Elder <elder@kernel.org>,
+ greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+References: <20230402122550.70682-1-angelalbertoc.r@gmail.com>
+ <2023040252-racoon-daintily-3589@gregkh>
+From: =?UTF-8?Q?=c3=81ngel_Alberto_Carretero?= <angelalbertoc.r@gmail.com>
+In-Reply-To: <2023040252-racoon-daintily-3589@gregkh>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 4/2/23 16:32, Khadija Kamran wrote:
-> Fix several issues reported by checkpatch in rtllib_crypt_ccmp.c file.
+
+
+On 02/04/2023 15:16, Greg Kroah-Hartman wrote:
+> On Sun, Apr 02, 2023 at 02:25:51PM +0200, Angel Alberto Carretero wrote:
+>> Wrap macro in a do-while statement.
+>>
+>> Signed-off-by: Angel Alberto Carretero <angelalbertoc.r@gmail.com>
+>> ---
+>>   drivers/staging/greybus/loopback.c | 8 +++++---
+>>   1 file changed, 5 insertions(+), 3 deletions(-)
+>>
+>> diff --git a/drivers/staging/greybus/loopback.c b/drivers/staging/greybus/loopback.c
+>> index d7b39f3bb652..371809770ed0 100644
+>> --- a/drivers/staging/greybus/loopback.c
+>> +++ b/drivers/staging/greybus/loopback.c
+>> @@ -162,9 +162,11 @@ static ssize_t name##_avg_show(struct device *dev,		\
+>>   static DEVICE_ATTR_RO(name##_avg)
+>>   
+>>   #define gb_loopback_stats_attrs(field)				\
+>> -	gb_loopback_ro_stats_attr(field, min, u);		\
+>> -	gb_loopback_ro_stats_attr(field, max, u);		\
+>> -	gb_loopback_ro_avg_attr(field)
+>> +	do {		\
+>> +		gb_loopback_ro_stats_attr(field, min, u);		\
+>> +		gb_loopback_ro_stats_attr(field, max, u);		\
+>> +		gb_loopback_ro_avg_attr(field);		\
+>> +	} while (0)
+>>   
+>>   #define gb_loopback_attr(field, type)					\
+>>   static ssize_t field##_show(struct device *dev,				\
+>> -- 
+>> 2.40.0
+>>
+>>
 > 
-> Changes in v2:
->   - Update variable_name in PATCH 3, 4 and 5 to dot11rsna_{variable_name}
->   - Remove comment from PATCH 3
+> Any specific reason why you did not test build your change before
+> submitting it?
 > 
-> Khadija Kamran (5):
->    staging: rtl8192e: remove extra blank lines in rtllib_crypt_ccmp.c
->    staging: rtl8192e: fix alignment to match open parenthesis
->    staging: rtl8192e: avoid CamelCase <dot11RSNAStatsCCMPFormatErrors>
->    staging: rtl8192e: avoid CamelCase <dot11RSNAStatsCCMPReplays>
->    staging: rtl8192e: avoid CamelCase <dot11RSNAStatsCCMPDecryptErrors>
+> thanks,
 > 
->   drivers/staging/rtl8192e/rtllib_crypt_ccmp.c | 32 +++++++-------------
->   1 file changed, 11 insertions(+), 21 deletions(-)
-> 
-Tested-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+> greg k-h
+
+Apologies, we can drop the patch. I was trying to find an error as part
+of the eudyptula challenge and thought I was compiling the driver
+correctly. Upon further examination, the macro cannot be written with a
+do-while because it is defining functions.
