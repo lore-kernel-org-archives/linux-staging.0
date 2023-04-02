@@ -1,51 +1,54 @@
-Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
+Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31C972F2D;
-	Sun,  2 Apr 2023 14:32:52 +0000 (UTC)
-Received: by mail-ed1-f47.google.com with SMTP id t10so107524191edd.12;
-        Sun, 02 Apr 2023 07:32:52 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8528442D;
+	Sun,  2 Apr 2023 14:32:53 +0000 (UTC)
+Received: by mail-ed1-f42.google.com with SMTP id y4so107760492edo.2;
+        Sun, 02 Apr 2023 07:32:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1680445970;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=btTikhkSAhCNIjZnkFaaVYNDj8dPGj1R6e13KUaPBKQ=;
-        b=GoKwnVSzTLPQiUQiv4d2EsRl+TJeqJ4ImhxfaM4msiuHVkekw7pKa9OtNb7vtrz1M1
-         vzlouMNmYme95Hr1OZxELt/6G4GWozhmGLW1aaOujotlDdHrvRdA7kzaE5XXiOILsTDl
-         gwqibkZgg1Ya5A/+2xgLdgXEH8UMbFh2Vnj7g8ci1ruRkCKznIrffjzgdBRjzdc6rLT7
-         PJ8bOpZfMfPiK37txnZp679ddQoQakB9i+blSoLy3G9L5sVaci5QCm1LH4lfoCQgdbeU
-         zyIcvM0pstBV0mKsdSp9f+6sS/1GA5bgvudMRCY9IenMmpt2QicqU0OjbojKj2r5Mcv4
-         73ow==
+        d=gmail.com; s=20210112; t=1680445971;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=N4O3XZtJ4K7opusRPJDG2obDOo5CziuFWNMf3s6wXVg=;
+        b=NEZ9LvN/mLZqMYlZ9L97ckgrRkCra4szM2G/LmlReGnOgGbBbef0SywgS4v/MorZA5
+         vpnrDojGnEoS35dcoYWOup6RUSnCjG4WLkeS2dy1vLcnmPN1iXPOX0385h2+hFeqkUEE
+         TPzQQgqE0XzgFTDtMnPzKmBLjPhNZhmAlziVLSEybCsriR2YGd7sZkcfXxiwN6UrnFtT
+         h2LsUEwUN6WoC5mf5BovXQ8PWhH8NwX6MiHh+hNb8tvHvG3MZOyuUCmKbxzx1gkyy+Lx
+         8FjrRuW8IWLlwoQ7T9OdPyFnMxizP0A45rgOZWubPQ7IPhtrKVY4B+TmSxI120+XdPp5
+         M0jw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680445970;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=btTikhkSAhCNIjZnkFaaVYNDj8dPGj1R6e13KUaPBKQ=;
-        b=4oe0MB4SSzhujOn46euMkA1Lx7UQFP+yTh6yAO46+pe1U8Amw6dOmydmoNd+mrNeoV
-         nZeq/BRcXJWuvQk4jgMvWLEe5EIJJPgugMKwwvQciCdCQID2MDvA55SCQNgMkL+p7v2O
-         ELC+D30em81dW6sqF6QQ0PRG+jBeXtlsVF1CNF80lLtqad1I1lsA4s0+colDS2kXUpOM
-         JFK8QrZyAPZmA+9kanRpXjJQbB7erqCVsv/GbWTVAG8ILvyo/nrKCJ9+zyUa2OWVA6yE
-         oZSJya7UGHDWSbnSM8QfF4Bh0Nv8DmvNQ32xIxvm770Xfq2Zd6vYuWkBiM6/x5AjEIs7
-         zR5g==
-X-Gm-Message-State: AAQBX9fvxKS0/dKz12vNuOkQqU2iUp72AzRf670bn7Oxv/Jm5cQsswmo
-	oxrc6l2QCTEN+1Vr7API5crV5v+e1M0aJQ==
-X-Google-Smtp-Source: AKy350aZdFkDoEKRIqv/GHTM30RquYGykcCtD+5cOTSeMjg/39EC+NgfkiSPTUO8+kcKgpFheMsvXQ==
-X-Received: by 2002:aa7:c9d6:0:b0:4f9:db7b:b6b4 with SMTP id i22-20020aa7c9d6000000b004f9db7bb6b4mr26956323edt.40.1680445969959;
-        Sun, 02 Apr 2023 07:32:49 -0700 (PDT)
+        d=1e100.net; s=20210112; t=1680445971;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=N4O3XZtJ4K7opusRPJDG2obDOo5CziuFWNMf3s6wXVg=;
+        b=Vv0U/veQEdNOSiLekh5ZcsgQuSTNCqh1aCVoYMSELV+IBTlKc3UruEabV0W2QXmVKk
+         G42Z5rGpZCvZHHA2igugA5TG+PclwXN9zF6oNVkkwuE0Au0YFyptRgh44gXQtNguBG2y
+         MUjaCZux5ZwnrG0h7q3wRCfkCaORQag7gly8bvBKPN5AzX6cUduN6dX/vN8amPAy+mFz
+         B4NXbpEFVz6yX/UuTyyDHiKkq+hox75s2awdR1lhCnU2mvJhrWIvI7Rd5IwDfb/x2nY1
+         K58lkO+SN6EcAHBe5kjN6QIhlly4t1EHV8XyTBi6edEieL4O4qSAY5hm4HdSZPnwPdh1
+         ohCA==
+X-Gm-Message-State: AAQBX9d+KO6TFNwl8Nz5p85sHofnjL/poLUBZZIZZOWo8ooqG98lg9rE
+	yr26gHUqmd398nuY7PivF920t7GkQC+lfw==
+X-Google-Smtp-Source: AKy350Z+eGdsDHytrStVjlEP6NI/g26MKcJtEiZg3BQ2pkBC19vUWrXi2ZyL5He6BWREvl4IwSHnCQ==
+X-Received: by 2002:a17:906:85c2:b0:88d:ba89:1837 with SMTP id i2-20020a17090685c200b0088dba891837mr15072836ejy.8.1680445971564;
+        Sun, 02 Apr 2023 07:32:51 -0700 (PDT)
 Received: from khadija-virtual-machine.localdomain ([39.41.14.14])
-        by smtp.gmail.com with ESMTPSA id p18-20020a170906839200b009476dafa705sm3273292ejx.193.2023.04.02.07.32.48
+        by smtp.gmail.com with ESMTPSA id p18-20020a170906839200b009476dafa705sm3273292ejx.193.2023.04.02.07.32.50
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 02 Apr 2023 07:32:49 -0700 (PDT)
+        Sun, 02 Apr 2023 07:32:51 -0700 (PDT)
 From: Khadija Kamran <kamrankhadijadj@gmail.com>
 To: outreachy@lists.linux.dev
 Cc: gregkh@linuxfoundation.org,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v2 0/5] staging: rtl8192e: fix checkpatch issues in rtllib_crypt_ccmp.c
-Date: Sun,  2 Apr 2023 19:32:41 +0500
-Message-Id: <cover.1680445545.git.kamrankhadijadj@gmail.com>
+Subject: [PATCH v2 1/5] staging: rtl8192e: remove extra blank lines in rtllib_crypt_ccmp.c
+Date: Sun,  2 Apr 2023 19:32:42 +0500
+Message-Id: <283265f6a5ff938f8425e14af86cee9e2da36318.1680445545.git.kamrankhadijadj@gmail.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <cover.1680445545.git.kamrankhadijadj@gmail.com>
+References: <cover.1680445545.git.kamrankhadijadj@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -54,22 +57,91 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Fix several issues reported by checkpatch in rtllib_crypt_ccmp.c file.
+Remove extra blank lines as suggested by the Linux kernel coding-style.
+These issues were reported by checkpatch.
 
-Changes in v2:
- - Update variable_name in PATCH 3, 4 and 5 to dot11rsna_{variable_name} 
- - Remove comment from PATCH 3
+"CHECK: Please don't use multiple blank lines"
 
-Khadija Kamran (5):
-  staging: rtl8192e: remove extra blank lines in rtllib_crypt_ccmp.c
-  staging: rtl8192e: fix alignment to match open parenthesis
-  staging: rtl8192e: avoid CamelCase <dot11RSNAStatsCCMPFormatErrors>
-  staging: rtl8192e: avoid CamelCase <dot11RSNAStatsCCMPReplays>
-  staging: rtl8192e: avoid CamelCase <dot11RSNAStatsCCMPDecryptErrors>
+Signed-off-by: Khadija Kamran <kamrankhadijadj@gmail.com>
+---
+ drivers/staging/rtl8192e/rtllib_crypt_ccmp.c | 10 ----------
+ 1 file changed, 10 deletions(-)
 
- drivers/staging/rtl8192e/rtllib_crypt_ccmp.c | 32 +++++++-------------
- 1 file changed, 11 insertions(+), 21 deletions(-)
-
+diff --git a/drivers/staging/rtl8192e/rtllib_crypt_ccmp.c b/drivers/staging/rtl8192e/rtllib_crypt_ccmp.c
+index a8d22da8bc9a..eb7b6deb2ca7 100644
+--- a/drivers/staging/rtl8192e/rtllib_crypt_ccmp.c
++++ b/drivers/staging/rtl8192e/rtllib_crypt_ccmp.c
+@@ -74,7 +74,6 @@ static void *rtllib_ccmp_init(int key_idx)
+ 	return NULL;
+ }
+ 
+-
+ static void rtllib_ccmp_deinit(void *priv)
+ {
+ 	struct rtllib_ccmp_data *_priv = priv;
+@@ -84,7 +83,6 @@ static void rtllib_ccmp_deinit(void *priv)
+ 	kfree(priv);
+ }
+ 
+-
+ static int ccmp_init_iv_and_aad(struct rtllib_hdr_4addr *hdr,
+ 				u8 *pn, u8 *iv, u8 *aad)
+ {
+@@ -150,8 +148,6 @@ static int ccmp_init_iv_and_aad(struct rtllib_hdr_4addr *hdr,
+ 	return aad_len;
+ }
+ 
+-
+-
+ static int rtllib_ccmp_encrypt(struct sk_buff *skb, int hdr_len, void *priv)
+ {
+ 	struct rtllib_ccmp_data *key = priv;
+@@ -220,7 +216,6 @@ static int rtllib_ccmp_encrypt(struct sk_buff *skb, int hdr_len, void *priv)
+ 	return 0;
+ }
+ 
+-
+ static int rtllib_ccmp_decrypt(struct sk_buff *skb, int hdr_len, void *priv)
+ {
+ 	struct rtllib_ccmp_data *key = priv;
+@@ -315,7 +310,6 @@ static int rtllib_ccmp_decrypt(struct sk_buff *skb, int hdr_len, void *priv)
+ 	return keyidx;
+ }
+ 
+-
+ static int rtllib_ccmp_set_key(void *key, int len, u8 *seq, void *priv)
+ {
+ 	struct rtllib_ccmp_data *data = priv;
+@@ -349,7 +343,6 @@ static int rtllib_ccmp_set_key(void *key, int len, u8 *seq, void *priv)
+ 	return 0;
+ }
+ 
+-
+ static int rtllib_ccmp_get_key(void *key, int len, u8 *seq, void *priv)
+ {
+ 	struct rtllib_ccmp_data *data = priv;
+@@ -373,7 +366,6 @@ static int rtllib_ccmp_get_key(void *key, int len, u8 *seq, void *priv)
+ 	return CCMP_TK_LEN;
+ }
+ 
+-
+ static void rtllib_ccmp_print_stats(struct seq_file *m, void *priv)
+ {
+ 	struct rtllib_ccmp_data *ccmp = priv;
+@@ -403,13 +395,11 @@ static struct lib80211_crypto_ops rtllib_crypt_ccmp = {
+ 	.owner			= THIS_MODULE,
+ };
+ 
+-
+ static int __init rtllib_crypto_ccmp_init(void)
+ {
+ 	return lib80211_register_crypto_ops(&rtllib_crypt_ccmp);
+ }
+ 
+-
+ static void __exit rtllib_crypto_ccmp_exit(void)
+ {
+ 	lib80211_unregister_crypto_ops(&rtllib_crypt_ccmp);
 -- 
 2.34.1
 
