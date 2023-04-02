@@ -1,52 +1,53 @@
-Received: from mail-qt1-f177.google.com (mail-qt1-f177.google.com [209.85.160.177])
+Received: from mail-qt1-f175.google.com (mail-qt1-f175.google.com [209.85.160.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3F0A20FF
-	for <linux-staging@lists.linux.dev>; Sun,  2 Apr 2023 07:51:49 +0000 (UTC)
-Received: by mail-qt1-f177.google.com with SMTP id cr18so21785739qtb.0
-        for <linux-staging@lists.linux.dev>; Sun, 02 Apr 2023 00:51:49 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F186A20FF
+	for <linux-staging@lists.linux.dev>; Sun,  2 Apr 2023 07:58:30 +0000 (UTC)
+Received: by mail-qt1-f175.google.com with SMTP id cn12so22269625qtb.8
+        for <linux-staging@lists.linux.dev>; Sun, 02 Apr 2023 00:58:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1680421908;
+        d=gmail.com; s=20210112; t=1680422310;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=q1kev5lGnYl9exBxbo7HITOJ9okxdqV36iQsHfcoheo=;
-        b=e7w5V/xv/AGhql2BTs3CwsK9aQPdfyfjYXFwxfQL32wQrSe6POx4o7f8KzZmUWLuAj
-         wyIpxh+i/WXm7+xG1XCZh2kmvMNtE6LzyGGpfOVku9Rc+efspfqo6OkWR+vffxZGv9HA
-         vxkWu/WtMk6YenBVOss/xkJarOSio90ga46AatutbryxbztrcW3pKbAwxsRhTP5IVKzQ
-         ITrQPG+NDGOtkdkyeNUrxWmfKxKPg05cstDjETwz1/d1D1IqQp0oHLO3igKP0GAqdTJN
-         PyYMYTLW2FZEYCinNzh88X3JltftX6DZsSKUHJtwCYNlO7apEllTcJ2gHyZfnbJnGxhB
-         Bpjw==
+        bh=SgHFDIjB9kdprTZGQWAulvUWPjB6z0UITqA9gpqJqrI=;
+        b=gl97JasQiCJKma+lsPdkd0scvbt0TgC0zOXjkuF7/N4ruUFQLpKRO46PvaUCnvFVdM
+         T7I6BWxV5G+LlyyOPPxVOKqR4ASquKII36M5kG2L8PluP51Y6IQGcHnVTmB0e2mTDEJb
+         XscnvR/y7bdmci3uk1Qk2KE39R99XAp4eLqWvfpbVWDawbDhDE5Mc1yZddFipvv6UAxE
+         8nm4k5YkVOVEIkr48dny7eWpppLNDc0fURDAWFM1zd66agL2ns2SUS7kjqp670LQIdZv
+         dMEPls4bsPlp/GDIWCzWwZpq3EXM0/vSBDoKMOyhOSAPCpAQWvdsPiTl5RiZF1stGi03
+         s9oA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680421908;
+        d=1e100.net; s=20210112; t=1680422310;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=q1kev5lGnYl9exBxbo7HITOJ9okxdqV36iQsHfcoheo=;
-        b=rUq8EVMBMi0D3KOTi65tv7WmlrV+WTbxlGeCKevYwYu8qAmGF0GewHKZ6ViV8njMJX
-         zGMlb9J7OZ0awNi/yDicsPmLfx/WeNR1UQWHl4Go1rVndQkZxwF+AjG8k4RHU+6MHhYR
-         0UuzGfVCgcj20Fo+RuxDjrqCNHjhRBtFkPeHM+j4OHBTsmqCPqXoOUmB1ErSLtP3kji5
-         GLfiU/zgOowSnCSRQPhwpoS32WbgJovRSusl8P8M75x2eupjwkQin4A/i/CMNEKyHiRZ
-         ujalxx2WcNTVb0hvLkW7dhcD2XoVzJ5iUEk+o3cBsIz5jXigeKdlAxTC+nSqyBW8Kmyb
-         YyqA==
-X-Gm-Message-State: AAQBX9db9zlP1toNt31nOBdGtUXN+Qnagm4rTTyqJlvWMOeg9IWXiT6r
-	tlWfdJtYiCl8FMgdzHVpPhugdzze3MSxXx+K+no=
-X-Google-Smtp-Source: AKy350bgDNQl8bnuQC5gGutq62OJ+gAKaLCOz5ngp/ih/eA96sFu2L5254x1xvbHlnKClbQvEBCu2R3NqqBAD1U6VY4=
-X-Received: by 2002:a05:622a:199a:b0:3de:d15a:847f with SMTP id
- u26-20020a05622a199a00b003ded15a847fmr11911098qtc.0.1680421908600; Sun, 02
- Apr 2023 00:51:48 -0700 (PDT)
+        bh=SgHFDIjB9kdprTZGQWAulvUWPjB6z0UITqA9gpqJqrI=;
+        b=hc4qt7O9kURQIasMFtZ09/TIu25453jpDB6O0xwcKw0NNtHQbiLvz8JKDsxcV57s4q
+         W+MM2yad/k1VWb1ITTH15L2vjUt7wE8l3SqQbyxoVmSxRBwwFxUff+uiOhmm0sO8IyKC
+         84eSw5uTwazUd51sJgxs257JF9hBZXBa3jydEfGiG98CARM1IUfHGQznMuaCWI4Aq4bl
+         8pT9N2jqobQwHxweO7iE1ajm9YK1qiqDUJsfpXt3OfZMNcDNzbrRXMhmfWBgRM0zCN0F
+         0dlO+rxEciEhOZDL0IWawYOpcNTd6UudaDpF4qSIj5bRbX/r8Y+zoPV6Lf40x/3VO7Wc
+         Hi6A==
+X-Gm-Message-State: AAQBX9fLxoWs7ZIU8x2+wfcn0B0Zkx4C5/728WczZHyrdSvS6hs/ge+S
+	Dbc5eLIZQAZDyctLXtDsKheKNn36Kqv4tHDPWdQ=
+X-Google-Smtp-Source: AKy350bUv1gnBViZbT5HlAdVaw0CbH4r5Z7SUQWOv7Jz7VDxZm8ohYcMZA1oC6rw9RnBdDEBU+yhxuyUOtFLgXIT+Bg=
+X-Received: by 2002:a05:622a:134e:b0:3e6:4980:6f79 with SMTP id
+ w14-20020a05622a134e00b003e649806f79mr1186380qtk.0.1680422309775; Sun, 02 Apr
+ 2023 00:58:29 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20230401145926.596216-1-hdegoede@redhat.com> <20230401145926.596216-14-hdegoede@redhat.com>
-In-Reply-To: <20230401145926.596216-14-hdegoede@redhat.com>
+References: <20230401145926.596216-1-hdegoede@redhat.com> <20230401145926.596216-20-hdegoede@redhat.com>
+In-Reply-To: <20230401145926.596216-20-hdegoede@redhat.com>
 From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Sun, 2 Apr 2023 09:51:12 +0200
-Message-ID: <CAHp75VeytuuGQ9QWpH0447V=rhuPmKxRphJhst+PZU-q=2K1xA@mail.gmail.com>
-Subject: Re: [PATCH 13/28] media: atomisp: gc0310: Add error_unlock label to s_stream()
+Date: Sun, 2 Apr 2023 09:57:53 +0200
+Message-ID: <CAHp75VdFHESgTZJuE1M=pd+yH0Dn9QD2p1Kog42N-15Du+VgXA@mail.gmail.com>
+Subject: Re: [PATCH 19/28] media: atomisp: Remove duplicate
+ atomisp_[start|stop]_streaming prototypes
 To: Hans de Goede <hdegoede@redhat.com>
 Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
 	Kate Hsuan <hpa@redhat.com>, Tsuchiya Yuto <kitakar@gmail.com>, Andy Shevchenko <andy@kernel.org>, 
@@ -59,75 +60,31 @@ Content-Transfer-Encoding: quoted-printable
 On Sat, Apr 1, 2023 at 5:00=E2=80=AFPM Hans de Goede <hdegoede@redhat.com> =
 wrote:
 >
-> Add error_unlock label + goto error_unlock on error to remove separate
-> unlock-s in all the error-exit paths.
+> atomisp_ioctl.h contains the atomisp_[start|stop]_streaming function
 
-Another possible solution is to have a separate (unlocked) version of
-the function. And hence call it from the callback like
+_streaming()
 
-  lock
-  ret =3D ...
-  unlock
-  return ret;
-
+> prototypes 2 times. Drop one of the copies of the prototypes.
+>
 > Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 > ---
->  .../media/atomisp/i2c/atomisp-gc0310.c        | 28 ++++++++-----------
->  1 file changed, 12 insertions(+), 16 deletions(-)
+>  drivers/staging/media/atomisp/pci/atomisp_ioctl.h | 3 ---
+>  1 file changed, 3 deletions(-)
 >
-> diff --git a/drivers/staging/media/atomisp/i2c/atomisp-gc0310.c b/drivers=
-/staging/media/atomisp/i2c/atomisp-gc0310.c
-> index 6c0877ab96e3..239fc9012910 100644
-> --- a/drivers/staging/media/atomisp/i2c/atomisp-gc0310.c
-> +++ b/drivers/staging/media/atomisp/i2c/atomisp-gc0310.c
-> @@ -432,31 +432,27 @@ static int gc0310_s_stream(struct v4l2_subdev *sd, =
-int enable)
->         if (enable) {
->                 /* enable per frame MIPI and sensor ctrl reset  */
->                 ret =3D i2c_smbus_write_byte_data(client, 0xFE, 0x30);
-> -               if (ret) {
-> -                       mutex_unlock(&dev->input_lock);
-> -                       return ret;
-> -               }
-> +               if (ret)
-> +                       goto error_unlock;
->         }
+> diff --git a/drivers/staging/media/atomisp/pci/atomisp_ioctl.h b/drivers/=
+staging/media/atomisp/pci/atomisp_ioctl.h
+> index 93139decf1d0..db6da77df06b 100644
+> --- a/drivers/staging/media/atomisp/pci/atomisp_ioctl.h
+> +++ b/drivers/staging/media/atomisp/pci/atomisp_ioctl.h
+> @@ -53,7 +53,4 @@ unsigned int atomisp_streaming_count(struct atomisp_dev=
+ice *isp);
+>  long atomisp_compat_ioctl32(struct file *file,
+>                             unsigned int cmd, unsigned long arg);
 >
->         ret =3D i2c_smbus_write_byte_data(client, GC0310_RESET_RELATED, G=
-C0310_REGISTER_PAGE_3);
-> -       if (ret) {
-> -               mutex_unlock(&dev->input_lock);
-> -               return ret;
-> -       }
-> +       if (ret)
-> +               goto error_unlock;
->
->         ret =3D i2c_smbus_write_byte_data(client, GC0310_SW_STREAM,
->                                         enable ? GC0310_START_STREAMING :=
- GC0310_STOP_STREAMING);
-> -       if (ret) {
-> -               mutex_unlock(&dev->input_lock);
-> -               return ret;
-> -       }
-> +       if (ret)
-> +               goto error_unlock;
->
->         ret =3D i2c_smbus_write_byte_data(client, GC0310_RESET_RELATED, G=
-C0310_REGISTER_PAGE_0);
-> -       if (ret) {
-> -               mutex_unlock(&dev->input_lock);
-> -               return ret;
-> -       }
-> +       if (ret)
-> +               goto error_unlock;
-> +
-> +       mutex_unlock(&dev->input_lock);
-> +       return 0;
->
-> +error_unlock:
->         mutex_unlock(&dev->input_lock);
->         return ret;
->  }
+> -int atomisp_start_streaming(struct vb2_queue *vq, unsigned int count);
+> -void atomisp_stop_streaming(struct vb2_queue *vq);
+> -
+>  #endif /* __ATOMISP_IOCTL_H__ */
 > --
 > 2.39.1
 >
