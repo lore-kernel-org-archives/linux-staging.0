@@ -1,111 +1,259 @@
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+Received: from mail-qt1-f169.google.com (mail-qt1-f169.google.com [209.85.160.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 093EF53A2
-	for <linux-staging@lists.linux.dev>; Sun,  2 Apr 2023 18:22:38 +0000 (UTC)
-Received: by mail-wm1-f45.google.com with SMTP id j18-20020a05600c1c1200b003ee5157346cso18446294wms.1
-        for <linux-staging@lists.linux.dev>; Sun, 02 Apr 2023 11:22:38 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D014353AA
+	for <linux-staging@lists.linux.dev>; Sun,  2 Apr 2023 19:08:56 +0000 (UTC)
+Received: by mail-qt1-f169.google.com with SMTP id t19so26409616qta.12
+        for <linux-staging@lists.linux.dev>; Sun, 02 Apr 2023 12:08:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1680459757;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=qQ7cV2QrQ0t06/mixdh3yXEE4i1+hMwYh5eUdnobqIY=;
-        b=SnqroAysuuy6fCAhOqM/pte7g0pC57vqLd9iMHOo+QmBJPZP+vSIO8n/7zpnrpkiHd
-         Xx5EOZpzD4o2kYL+pIIT5o6KqSjrqpjI0cOMy+8mvnnU3/CgdwPGOdcmlD5tfrROu73U
-         V9y/A7xxeWl+uB35So+Sbnqc93imltGIIhhZ1/tyWDsXyT96fBVVcw+xsA/lmA8K9kG0
-         l8Y4K0sgbF/AyAc/+1DmdxLVWLjw8PeBOB+6rTdWr3z9EiWv9Vs7jdnksFXVhya71sPJ
-         htPabrudLs0S4DJDFgLK3DD/0yAred5HK+QbbszXlGlrqOyNDtDASOpnrvxSO2Vm/3DB
-         gDOA==
+        d=gmail.com; s=20210112; t=1680462535;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=/6vGHaP71nCPJi8tDOSzi4yqzoQPXYxz/JscVm6tWxs=;
+        b=lRwepOBeX/whQTuJp8lkQIW/KHwhpwKOWUtEwEB1Tz2x+a4Pao2uVK8h+2mbyl4YnF
+         jfu6mlItY0hbZjPQFVvJQv44f9RrRkCGMfTjzdKuO7DtIONuxfYsylVIJNdLwJMutVUb
+         klaO+84G1FrlgPCP08WXWSsO868uDZCz7oveudjeVeWB/nQNOq5kSe226t5lKDm4zwnC
+         MQSA5Z6aaLaw9A/Ej4DJHEY0XZ6oVPLU3mL+5nEi0YIj/ode41KIO8C6IwiCwT2B2NiP
+         Ka519ipy4Ugh+MDqf7PWdYSDPCY4zlZiXYnxGeBN9QUqOEBEUUkVocbROmbQ+VVx6oiT
+         LVPw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680459757;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=qQ7cV2QrQ0t06/mixdh3yXEE4i1+hMwYh5eUdnobqIY=;
-        b=neCQd92OAKbgL7ga3vd6N8q7N2l3s+M75uuzxatT4XQfs2tJnG/xLcGbIh7DXBYzHk
-         JGDPRbrEd8pUCq4VvacjzntFPy95UJ6UeVwzHOsJwcKOnJzPzS/I/HTTtmejO6IZ1wT9
-         mBxM+YnnL92bgg6t0MAWCoKDKn3cjdqde5J453GIuZh5wP6qXUaTDJwdUOYezIpm+jZR
-         tI7YTBnEaMc/6URg0ey6SJKLy9w5efhL3yc7P0JGtaJIhO52UGwcTWS0tXwIN3QhhD9b
-         P2Fi8LsW9Su8ZIaa2iK4OVegYRe+3R7WDA4QIxGI0DFVhfx8l3a/hYuKflfJNlyHTTGu
-         ctlQ==
-X-Gm-Message-State: AO0yUKWW6q8eTaLPmJWr69hSq0Q1bvPnboycZWFD632FisMy+pZ9Ycj4
-	g9QcirQ/fIwqORsz2tqcXIs=
-X-Google-Smtp-Source: AK7set+XRX11PiiYSdo892GnW8rwV0ktJWvZ8PvO8hWxBuyWKFXwQRLG7CCMvUCZBO4lOuifVNtIVA==
-X-Received: by 2002:a05:600c:2157:b0:3ed:cf2a:3fe8 with SMTP id v23-20020a05600c215700b003edcf2a3fe8mr26406192wml.8.1680459756820;
-        Sun, 02 Apr 2023 11:22:36 -0700 (PDT)
-Received: from ?IPV6:2a0c:5a82:e704:7800:4aa3:3ca0:c843:43e3? ([2a0c:5a82:e704:7800:4aa3:3ca0:c843:43e3])
-        by smtp.gmail.com with ESMTPSA id m9-20020a7bcb89000000b003ed4f6c6234sm9743571wmi.23.2023.04.02.11.22.36
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 02 Apr 2023 11:22:36 -0700 (PDT)
-Message-ID: <0af15115-9641-a1c8-f398-c4e8e77379a3@gmail.com>
-Date: Sun, 2 Apr 2023 20:22:35 +0200
+        d=1e100.net; s=20210112; t=1680462535;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=/6vGHaP71nCPJi8tDOSzi4yqzoQPXYxz/JscVm6tWxs=;
+        b=TOugAe0afee2sijdu1Tf4A/rt/8s0N54RcrNK3L62v0Ysbp7qxSfKvdkJOEVZUHE7w
+         LsgTPusNv/VhkNZv17F87sD+uJm+yljDvRmCynKD70q+RABoSqfnWqA2f+uTBN+WIvSy
+         IjLAj+jV+NaEP5vWny1aSxPPAbN82CfS5y3CotHs7uTsgorKLIp3qXVq8wzYFBNfQ9Hu
+         v3LkUbFs7RooXpQFRv1gI4rA+tq7bRZsp6KWZHTmE81hLuxD7z+dkdV+0m/2sLBReqpO
+         WettjuCdmKdAn7WNz/IzhIQvy52mh1bOLc/h5IQQ1r8wUvys01In1paSWXrz1lrov/4K
+         G9Fg==
+X-Gm-Message-State: AO0yUKVWTI619Cj5yqCl5HSHglFJWO3XscZ40wy4ct//SBd0bpBbSizp
+	NA4Pe1sz094F1vzO0vIa1CnspHrnSd+yIxHIrBg=
+X-Google-Smtp-Source: AKy350YMMhhboqdA7tdBl5JWcQE+bn5RxowQEuPrGZbal2cPuuAoJUkN4fpgLD5wAIs7fAzdEsaXKmFHmoEeyxkwjXE=
+X-Received: by 2002:ac8:5905:0:b0:3c0:3c09:a4a4 with SMTP id
+ 5-20020ac85905000000b003c03c09a4a4mr12665801qty.0.1680462535625; Sun, 02 Apr
+ 2023 12:08:55 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.1
-Subject: Re: [PATCH] staging: greybus: loopback: fix up checkpath macro do
- while error.
-Content-Language: en-US
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Bryan O'Donoghue <pure.logic@nexus-software.ie>,
- Johan Hovold <johan@kernel.org>, Alex Elder <elder@kernel.org>,
- greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org
-References: <20230402122550.70682-1-angelalbertoc.r@gmail.com>
- <2023040252-racoon-daintily-3589@gregkh>
-From: =?UTF-8?Q?=c3=81ngel_Alberto_Carretero?= <angelalbertoc.r@gmail.com>
-In-Reply-To: <2023040252-racoon-daintily-3589@gregkh>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20230401145926.596216-1-hdegoede@redhat.com> <20230401145926.596216-27-hdegoede@redhat.com>
+In-Reply-To: <20230401145926.596216-27-hdegoede@redhat.com>
+From: Andy Shevchenko <andy.shevchenko@gmail.com>
+Date: Sun, 2 Apr 2023 21:08:19 +0200
+Message-ID: <CAHp75VfkeQNAwSAbTGFMObsZ1L-BqCN6uDfWohCNSy=eKtTM6g@mail.gmail.com>
+Subject: Re: [PATCH 26/28] media: atomisp: Remove struct atomisp_sub_device
+ index field
+To: Hans de Goede <hdegoede@redhat.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
+	Kate Hsuan <hpa@redhat.com>, Tsuchiya Yuto <kitakar@gmail.com>, Andy Shevchenko <andy@kernel.org>, 
+	Yury Luneff <yury.lunev@gmail.com>, Nable <nable.maininbox@googlemail.com>, 
+	andrey.i.trufanov@gmail.com, Fabio Aiuto <fabioaiuto83@gmail.com>, 
+	linux-media@vger.kernel.org, linux-staging@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+On Sat, Apr 1, 2023 at 5:00=E2=80=AFPM Hans de Goede <hdegoede@redhat.com> =
+wrote:
+>
+> Remove the struct atomisp_sub_device.
+>
+> This was used for 2 things:
+>
+> 1. In dev_dbg() messages
+> 2. To set the name of the v4l2_subdev for each struct atomisp_sub_device
+>
+> Now that only 1 subdev is used neither is useful anymore. Remove the _%d
+> postfix from the v4l2_subdev name and remove the logging of the asd index
+> from the dev_dbg() messages.
+>
+> In case of the atomisp_s_input() check to see if an input/sensor has
+> already been assigned to another subdev the entire check no longer
+> makes sense, so instead of changing the dev_err() message there just
+> drop the entire check.
+
+There are already dev_dbg() calls w/o __func__. Hence it makes sense
+(to me) to drop __func__ in the ones you touched in this patch.
+
+> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+> ---
+>  .../staging/media/atomisp/pci/atomisp_cmd.c   | 15 +++++-------
+>  .../staging/media/atomisp/pci/atomisp_ioctl.c | 23 ++++---------------
+>  .../media/atomisp/pci/atomisp_subdev.c        |  3 +--
+>  .../media/atomisp/pci/atomisp_subdev.h        |  5 ----
+>  4 files changed, 11 insertions(+), 35 deletions(-)
+>
+> diff --git a/drivers/staging/media/atomisp/pci/atomisp_cmd.c b/drivers/st=
+aging/media/atomisp/pci/atomisp_cmd.c
+> index d0386dcb24ce..28663d6fc4dd 100644
+> --- a/drivers/staging/media/atomisp/pci/atomisp_cmd.c
+> +++ b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
+> @@ -523,9 +523,8 @@ irqreturn_t atomisp_isr(int irq, void *dev)
+>                 while (ia_css_dequeue_isys_event(&eof_event.event) =3D=3D=
+ 0) {
+>                         atomisp_eof_event(&isp->asd, eof_event.event.exp_=
+id);
+>                         dev_dbg_ratelimited(isp->dev,
+> -                                           "%s ISYS event: EOF exp_id %d=
+, asd %d\n",
+> -                                           __func__, eof_event.event.exp=
+_id,
+> -                                           isp->asd.index);
+> +                                           "%s ISYS event: EOF exp_id %d=
+\n",
+> +                                           __func__, eof_event.event.exp=
+_id);
+>                 }
+>
+>                 irq_infos &=3D ~IA_CSS_IRQ_INFO_ISYS_EVENTS_READY;
+> @@ -3302,9 +3301,8 @@ int atomisp_set_parameters(struct video_device *vde=
+v,
+>         }
+>
+>         dev_dbg(asd->isp->dev,
+> -               "%s: set parameter(per_frame_setting %d) for asd%d with i=
+sp_config_id %d of %s\n",
+> -               __func__, arg->per_frame_setting, asd->index,
+> -               arg->isp_config_id, vdev->name);
+> +               "%s: set parameter(per_frame_setting %d) isp_config_id %d=
+ of %s\n",
+> +               __func__, arg->per_frame_setting, arg->isp_config_id, vde=
+v->name);
+>
+>         if (IS_ISP2401) {
+>                 if (atomisp_is_vf_pipe(pipe) && arg->per_frame_setting) {
+> @@ -4515,9 +4513,8 @@ int atomisp_set_fmt(struct video_device *vdev, stru=
+ct v4l2_format *f)
+>                 return -EINVAL;
+>
+>         dev_dbg(isp->dev,
+> -               "setting resolution %ux%u on pad %u for asd%d, bytesperli=
+ne %u\n",
+> -               f->fmt.pix.width, f->fmt.pix.height, source_pad,
+> -               asd->index, f->fmt.pix.bytesperline);
+> +               "setting resolution %ux%u on pad %u bytesperline %u\n",
+> +               f->fmt.pix.width, f->fmt.pix.height, source_pad, f->fmt.p=
+ix.bytesperline);
+>
+>         v4l2_fh_init(&fh.vfh, vdev);
+>
+> diff --git a/drivers/staging/media/atomisp/pci/atomisp_ioctl.c b/drivers/=
+staging/media/atomisp/pci/atomisp_ioctl.c
+> index 14700afd92c2..384f31fc66c5 100644
+> --- a/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
+> +++ b/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
+> @@ -671,18 +671,6 @@ static int atomisp_s_input(struct file *file, void *=
+fh, unsigned int input)
+>                 return -EINVAL;
+>         }
+>
+> -       /*
+> -        * check whether the request camera:
+> -        * 1: already in use
+> -        * 2: if in use, whether it is used by other streams
+> -        */
+> -       if (isp->inputs[input].asd && isp->inputs[input].asd !=3D asd) {
+> -               dev_err(isp->dev,
+> -                       "%s, camera is already used by stream: %d\n", __f=
+unc__,
+> -                       isp->inputs[input].asd->index);
+> -               return -EBUSY;
+> -       }
+> -
+>         camera =3D isp->inputs[input].camera;
+>         if (!camera) {
+>                 dev_err(isp->dev, "%s, no camera\n", __func__);
+> @@ -1106,9 +1094,8 @@ static int atomisp_dqbuf_wrapper(struct file *file,=
+ void *fh, struct v4l2_buffer
+>         buf->reserved2 =3D pipe->frame_config_id[buf->index];
+>
+>         dev_dbg(isp->dev,
+> -               "dqbuf buffer %d (%s) for asd%d with exp_id %d, isp_confi=
+g_id %d\n",
+> -               buf->index, vdev->name, asd->index, buf->reserved >> 16,
+> -               buf->reserved2);
+> +               "dqbuf buffer %d (%s) with exp_id %d, isp_config_id %d\n"=
+,
+> +               buf->index, vdev->name, buf->reserved >> 16, buf->reserve=
+d2);
+>         return 0;
+>  }
+>
+> @@ -1186,8 +1173,7 @@ int atomisp_start_streaming(struct vb2_queue *vq, u=
+nsigned int count)
+>
+>         mutex_lock(&isp->mutex);
+>
+> -       dev_dbg(isp->dev, "Start stream on pad %d for asd%d\n",
+> -               atomisp_subdev_source_pad(vdev), asd->index);
+> +       dev_dbg(isp->dev, "Start stream on pad %d\n", atomisp_subdev_sour=
+ce_pad(vdev));
+>
+>         ret =3D atomisp_pipe_check(pipe, false);
+>         if (ret)
+> @@ -1320,8 +1306,7 @@ void atomisp_stop_streaming(struct vb2_queue *vq)
+>
+>         mutex_lock(&isp->mutex);
+>
+> -       dev_dbg(isp->dev, "Stop stream on pad %d for asd%d\n",
+> -               atomisp_subdev_source_pad(vdev), asd->index);
+> +       dev_dbg(isp->dev, "Stop stream on pad %d\n", atomisp_subdev_sourc=
+e_pad(vdev));
+>
+>         /*
+>          * There is no guarantee that the buffers queued to / owned by th=
+e ISP
+> diff --git a/drivers/staging/media/atomisp/pci/atomisp_subdev.c b/drivers=
+/staging/media/atomisp/pci/atomisp_subdev.c
+> index 143176bc684a..a0acfdb87177 100644
+> --- a/drivers/staging/media/atomisp/pci/atomisp_subdev.c
+> +++ b/drivers/staging/media/atomisp/pci/atomisp_subdev.c
+> @@ -918,7 +918,7 @@ static int isp_subdev_init_entities(struct atomisp_su=
+b_device *asd)
+>         int ret;
+>
+>         v4l2_subdev_init(sd, &isp_subdev_v4l2_ops);
+> -       sprintf(sd->name, "ATOMISP_SUBDEV_%d", asd->index);
+> +       sprintf(sd->name, "ATOMISP_SUBDEV");
+>         v4l2_set_subdevdata(sd, asd);
+>         sd->flags |=3D V4L2_SUBDEV_FL_HAS_EVENTS | V4L2_SUBDEV_FL_HAS_DEV=
+NODE;
+>
+> @@ -1161,7 +1161,6 @@ int atomisp_subdev_init(struct atomisp_device *isp)
+>  {
+>         int ret;
+>
+> -       isp->asd.index =3D 0;
+>         isp->asd.isp =3D isp;
+>         isp_subdev_init_params(&isp->asd);
+>         ret =3D isp_subdev_init_entities(&isp->asd);
+> diff --git a/drivers/staging/media/atomisp/pci/atomisp_subdev.h b/drivers=
+/staging/media/atomisp/pci/atomisp_subdev.h
+> index 117803f3cbd1..fee663bc415a 100644
+> --- a/drivers/staging/media/atomisp/pci/atomisp_subdev.h
+> +++ b/drivers/staging/media/atomisp/pci/atomisp_subdev.h
+> @@ -315,11 +315,6 @@ struct atomisp_sub_device {
+>         unsigned int streaming;
+>         bool stream_prepared; /* whether css stream is created */
+>
+> -       /* subdev index: will be used to show which subdev is holding the
+> -        * resource, like which camera is used by which subdev
+> -        */
+> -       unsigned int index;
+> -
+>         unsigned int latest_preview_exp_id; /* CSS ZSL/SDV raw buffer id =
+*/
+>
+>         unsigned int mipi_frame_size;
+> --
+> 2.39.1
+>
 
 
-
-On 02/04/2023 15:16, Greg Kroah-Hartman wrote:
-> On Sun, Apr 02, 2023 at 02:25:51PM +0200, Angel Alberto Carretero wrote:
->> Wrap macro in a do-while statement.
->>
->> Signed-off-by: Angel Alberto Carretero <angelalbertoc.r@gmail.com>
->> ---
->>   drivers/staging/greybus/loopback.c | 8 +++++---
->>   1 file changed, 5 insertions(+), 3 deletions(-)
->>
->> diff --git a/drivers/staging/greybus/loopback.c b/drivers/staging/greybus/loopback.c
->> index d7b39f3bb652..371809770ed0 100644
->> --- a/drivers/staging/greybus/loopback.c
->> +++ b/drivers/staging/greybus/loopback.c
->> @@ -162,9 +162,11 @@ static ssize_t name##_avg_show(struct device *dev,		\
->>   static DEVICE_ATTR_RO(name##_avg)
->>   
->>   #define gb_loopback_stats_attrs(field)				\
->> -	gb_loopback_ro_stats_attr(field, min, u);		\
->> -	gb_loopback_ro_stats_attr(field, max, u);		\
->> -	gb_loopback_ro_avg_attr(field)
->> +	do {		\
->> +		gb_loopback_ro_stats_attr(field, min, u);		\
->> +		gb_loopback_ro_stats_attr(field, max, u);		\
->> +		gb_loopback_ro_avg_attr(field);		\
->> +	} while (0)
->>   
->>   #define gb_loopback_attr(field, type)					\
->>   static ssize_t field##_show(struct device *dev,				\
->> -- 
->> 2.40.0
->>
->>
-> 
-> Any specific reason why you did not test build your change before
-> submitting it?
-> 
-> thanks,
-> 
-> greg k-h
-
-Apologies, we can drop the patch. I was trying to find an error as part
-of the eudyptula challenge and thought I was compiling the driver
-correctly. Upon further examination, the macro cannot be written with a
-do-while because it is defining functions.
+--=20
+With Best Regards,
+Andy Shevchenko
