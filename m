@@ -1,28 +1,30 @@
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [85.220.165.71])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 720E16FD9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 593526FD8
 	for <linux-staging@lists.linux.dev>; Mon,  3 Apr 2023 15:40:27 +0000 (UTC)
 Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
 	by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
 	(Exim 4.92)
 	(envelope-from <ukl@pengutronix.de>)
-	id 1pjMI7-0004b9-6S; Mon, 03 Apr 2023 17:40:19 +0200
+	id 1pjMIA-0004hP-8O; Mon, 03 Apr 2023 17:40:22 +0200
 Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
 	by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
 	(envelope-from <ukl@pengutronix.de>)
-	id 1pjMI6-008iaa-E0; Mon, 03 Apr 2023 17:40:18 +0200
+	id 1pjMI9-008ibl-D5; Mon, 03 Apr 2023 17:40:21 +0200
 Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
 	(envelope-from <ukl@pengutronix.de>)
-	id 1pjMI5-00AHwX-LS; Mon, 03 Apr 2023 17:40:17 +0200
+	id 1pjMI8-00AHxf-EN; Mon, 03 Apr 2023 17:40:20 +0200
 From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To: Sven Van Asbroeck <TheSven73@gmail.com>,
+To: Marc Dietrich <marvin24@gmx.de>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-staging@lists.linux.dev,
+Cc: ac100@lists.launchpad.net,
+	linux-tegra@vger.kernel.org,
+	linux-staging@lists.linux.dev,
 	kernel@pengutronix.de
-Subject: [PATCH 03/24] staging: fieldbus: arcx-anybus: Convert to platform remove callback returning void
-Date: Mon,  3 Apr 2023 17:39:53 +0200
-Message-Id: <20230403154014.2564054-4-u.kleine-koenig@pengutronix.de>
+Subject: [PATCH 19/24] staging: nvec: nvec_kbd: Convert to platform remove callback returning void
+Date: Mon,  3 Apr 2023 17:40:09 +0200
+Message-Id: <20230403154014.2564054-20-u.kleine-koenig@pengutronix.de>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230403154014.2564054-1-u.kleine-koenig@pengutronix.de>
 References: <20230403154014.2564054-1-u.kleine-koenig@pengutronix.de>
@@ -33,7 +35,7 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1969; i=u.kleine-koenig@pengutronix.de; h=from:subject; bh=C44I0agQDCYDDOA4RMDCHovZvY5vNJweZE4AFUpTY84=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBkKvM4sHGXFreIgJI8LrvuOF+sV3qVt4GsQNh7D DcyKlINGf2JATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZCrzOAAKCRCPgPtYfRL+ TtudB/9yiy2msEDcNtZmea7R2Qee+73f+mKJS5gzv+bimlIZHFDWv+EtWL6TwQq/q23X0a6ejq8 Q964FGkbVXTFDrGluCIA3QSyVc/WBKK6NtVRWq5TtbKwXsX5duw04lDXdVmvpBRQGcYK3UdDjyq CtZWmDEH3aUnyylCItJt6+/h2bElszibdpu8r+KO4xcPZ5Duxy3UHaRkhYnOi4Yhnv0NPzyZD7J ucG052YQU8t87/EeBPNoLdzAkMjoZZinNXSO5T402v1ogWfmjv2fI9X6GiREvvrOiO3pHAZ+b6p PBatvoPIboiU4CoCewDXecMTcI8UZT20FL3zqpttxBFzM66q
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1727; i=u.kleine-koenig@pengutronix.de; h=from:subject; bh=h3iYOOce/hlI5unnrRhU7LMtUkqxy2SzA/i+n5Ep0kI=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBkKvNLT2xJRv/9lFucdGxy7QLNx+fua077qiMz4 RlEccHZQNyJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZCrzSwAKCRCPgPtYfRL+ TrtTB/4yIRls7uGdZUAFUCQtf3bDzgLPLer6bHn1rBJCSRZJraXOsLcwFi7qR8O7vQLCqVTmkUO PDSqB81l5RFKrdOpBb2ZYQR2E6YubocWg0Krf990hWoUcIwlZxdi8FmNIBIKxKKhub7/F0qX++X uteRbxMhZB2KwxeIQ44E1SRUF6OMhNORibkmeAkgbNSFqL3vWlXGCVBvII1CAasE2NJfUJBNOFX 0b5hvUIXfmWuBbLiiJj5fpnAlkR8TA2pMmzFXMOGlh+oKxd1tzRy0V85iwQPeDrc19KQoKe/S4a A9RWawZnYSv3WxYTGZojY43+/r7FzC0ico3jMg5+VobvzLR6
 X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
@@ -54,39 +56,37 @@ callback to the void returning variant.
 
 Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
 ---
- drivers/staging/fieldbus/anybuss/arcx-anybus.c | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+ drivers/staging/nvec/nvec_kbd.c | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/staging/fieldbus/anybuss/arcx-anybus.c b/drivers/staging/fieldbus/anybuss/arcx-anybus.c
-index 9af2e63050d1..afef35bbea74 100644
---- a/drivers/staging/fieldbus/anybuss/arcx-anybus.c
-+++ b/drivers/staging/fieldbus/anybuss/arcx-anybus.c
-@@ -321,7 +321,7 @@ static int controller_probe(struct platform_device *pdev)
- 	return err;
+diff --git a/drivers/staging/nvec/nvec_kbd.c b/drivers/staging/nvec/nvec_kbd.c
+index 386d619e3ee9..f9a1da952c0a 100644
+--- a/drivers/staging/nvec/nvec_kbd.c
++++ b/drivers/staging/nvec/nvec_kbd.c
+@@ -161,7 +161,7 @@ static int nvec_kbd_probe(struct platform_device *pdev)
+ 	return 0;
  }
  
--static int controller_remove(struct platform_device *pdev)
-+static void controller_remove(struct platform_device *pdev)
+-static int nvec_kbd_remove(struct platform_device *pdev)
++static void nvec_kbd_remove(struct platform_device *pdev)
  {
- 	struct controller_priv *cd = platform_get_drvdata(pdev);
- 	int id = cd->class_dev->id;
-@@ -329,7 +329,6 @@ static int controller_remove(struct platform_device *pdev)
- 	device_unregister(cd->class_dev);
- 	ida_simple_remove(&controller_index_ida, id);
- 	gpiod_set_value_cansleep(cd->reset_gpiod, 1);
+ 	struct nvec_chip *nvec = dev_get_drvdata(pdev->dev.parent);
+ 	char disable_kbd[] = { NVEC_KBD, DISABLE_KBD },
+@@ -170,13 +170,11 @@ static int nvec_kbd_remove(struct platform_device *pdev)
+ 	nvec_write_async(nvec, uncnfg_wake_key_reporting, 3);
+ 	nvec_write_async(nvec, disable_kbd, 2);
+ 	nvec_unregister_notifier(nvec, &keys_dev.notifier);
+-
 -	return 0;
  }
  
- static const struct of_device_id controller_of_match[] = {
-@@ -341,7 +340,7 @@ MODULE_DEVICE_TABLE(of, controller_of_match);
- 
- static struct platform_driver controller_driver = {
- 	.probe = controller_probe,
--	.remove = controller_remove,
-+	.remove_new = controller_remove,
- 	.driver		= {
- 		.name   = "arcx-anybus-controller",
- 		.of_match_table	= of_match_ptr(controller_of_match),
+ static struct platform_driver nvec_kbd_driver = {
+ 	.probe  = nvec_kbd_probe,
+-	.remove = nvec_kbd_remove,
++	.remove_new = nvec_kbd_remove,
+ 	.driver = {
+ 		.name = "nvec-kbd",
+ 	},
 -- 
 2.39.2
 
