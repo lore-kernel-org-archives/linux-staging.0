@@ -1,194 +1,117 @@
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [85.220.165.71])
+Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.154.123])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A0436FA1
-	for <linux-staging@lists.linux.dev>; Mon,  3 Apr 2023 15:41:40 +0000 (UTC)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1pjMIC-0004b4-3b; Mon, 03 Apr 2023 17:40:24 +0200
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
-	by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1pjMI6-008iaO-0i; Mon, 03 Apr 2023 17:40:18 +0200
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1pjMI5-00AHwO-5x; Mon, 03 Apr 2023 17:40:17 +0200
-From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Deepak R Varma <drv@mailo.com>,
-	Yuan Can <yuancan@huawei.com>,
-	Simon Horman <horms@verge.net.au>,
-	Sven Van Asbroeck <TheSven73@gmail.com>,
-	Vaibhav Hiremath <hvaibhav.linux@gmail.com>,
-	Johan Hovold <johan@kernel.org>,
-	Alex Elder <elder@kernel.org>,
-	Eugen Hristev <eugen.hristev@collabora.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Nicolas Ferre <nicolas.ferre@microchip.com>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	Claudiu Beznea <claudiu.beznea@microchip.com>,
-	Steve Longerbeam <slongerbeam@gmail.com>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Kevin Hilman <khilman@baylibre.com>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
-	Maxime Ripard <mripard@kernel.org>,
-	Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Parthiban Veerasooran <parthiban.veerasooran@microchip.com>,
-	Christian Gromm <christian.gromm@microchip.com>,
-	Davidlohr Bueso <dave@stgolabs.net>,
-	Marc Dietrich <marvin24@gmx.de>,
-	Florian Fainelli <f.fainelli@gmail.com>,
-	Ray Jui <rjui@broadcom.com>,
-	Scott Branden <sbranden@broadcom.com>,
-	Umang Jain <umang.jain@ideasonboard.com>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Adrien Thierry <athierry@redhat.com>,
-	Stefan Wahren <stefan.wahren@i2se.com>,
-	"Fabio M. De Francesco" <fmdefrancesco@gmail.com>,
-	Phil Elwell <phil@raspberrypi.com>,
-	Jakob Koschel <jakobkoschel@gmail.com>
-Cc: linux-staging@lists.linux.dev,
-	kernel@pengutronix.de,
-	greybus-dev@lists.linaro.org,
-	linux-media@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	Fabio Estevam <festevam@gmail.com>,
-	NXP Linux Team <linux-imx@nxp.com>,
-	Jerome Brunet <jbrunet@baylibre.com>,
-	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-	linux-amlogic@lists.infradead.org,
-	linux-rockchip@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
-	ac100@lists.launchpad.net,
-	linux-tegra@vger.kernel.org,
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
-	linux-rpi-kernel@lists.infradead.org
-Subject: [PATCH 00/24] staging: Convert to platform remove callback returning void
-Date: Mon,  3 Apr 2023 17:39:50 +0200
-Message-Id: <20230403154014.2564054-1-u.kleine-koenig@pengutronix.de>
-X-Mailer: git-send-email 2.39.2
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5B536FA1
+	for <linux-staging@lists.linux.dev>; Mon,  3 Apr 2023 16:24:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
+  t=1680539050; x=1712075050;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=+Jb7mW8GgKs3X7qIWTnQ9maer3rwE4789mQjXaeVBpE=;
+  b=lJ3kmhoEy3JkM7jinXdXjuM9+79h3FN3an+/sN2xwOIv6Dxa0ng2XZFT
+   PtKHOAIDWeBTLN8AGLIw032iPiBKnkmvUeFgiB5EuFIvx4WpRB+xqhmEE
+   MnW3HM1/jrjHOv6y0BiTnUJbDDAwlmHl7sJBQuU3uWpByQ0eWV2pCEcV3
+   h1fVJK2diDNFptwTnfBI8I2YSLwDN2RS+QQIJ3OCZNd34YptDKmDdddur
+   /E++X8CBaxaeeABZaj5u1W1Cc8PJKn23H7TvholBn+tChj5/Ptj/2blcu
+   N5QLuvddGdmagRirl9UrjMqzQM0AygtzdlcaaSLaWarwO0vYF6qyhNlQf
+   w==;
+X-IronPort-AV: E=Sophos;i="5.98,315,1673938800"; 
+   d="scan'208";a="208610422"
+Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
+  by esa2.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256; 03 Apr 2023 09:23:59 -0700
+Received: from chn-vm-ex03.mchp-main.com (10.10.85.151) by
+ chn-vm-ex02.mchp-main.com (10.10.85.144) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.21; Mon, 3 Apr 2023 09:23:49 -0700
+Received: from [10.159.245.112] (10.10.115.15) by chn-vm-ex03.mchp-main.com
+ (10.10.85.151) with Microsoft SMTP Server id 15.1.2507.21 via Frontend
+ Transport; Mon, 3 Apr 2023 09:23:46 -0700
+Message-ID: <9ffe89c5-260a-a95e-0e7b-b5eca0b8c050@microchip.com>
+Date: Mon, 3 Apr 2023 18:23:39 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=5012; i=u.kleine-koenig@pengutronix.de; h=from:subject; bh=QcqVobs2IGjtDB50UkJ1/XzbU0MSF7u4i5A5EQTdJQg=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBkKvM0O0Tc0pjx/M/6GF+i1BCxRCmy/MPnr7RU1 yFBMKjXOfaJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZCrzNAAKCRCPgPtYfRL+ Tpy2CACy6x0vU06fdXyxll9SO1keGvUJwPKWx+3c3iql31e1Lm+qBWx4HjLGWAH1BCBwe3626DH lDN1BYh6O1PbPw6fq7eefH5DBIAVGnQSOsyyOFUmo5y3kXQn60JKzxX7xSKuHzUxXXkaj6BYFEl dl3VmQyiYF0+g1PGODFTQSeX9kxjPWoD5g9e11a2P8dLs8Iu1lwVEIyHyEyjcsrYsB3Wj23JY5E t8/rn6+663fTt7WDV/oQ0q40Q54RNHtq2Ou/9xwLL/Jm63tGZ6gAnvbnQcFoAji4hrf+apNVsp/ aW4zaDe6809yWD3o9ofDidHCWNev/88M0ILROQDh07UCEMyG
-X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: [PATCH 07/24] staging: media: atmel-sama7g5-isc: Convert to
+ platform remove callback returning void
+Content-Language: en-US
+To: =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>, "Eugen
+ Hristev" <eugen.hristev@collabora.com>, Mauro Carvalho Chehab
+	<mchehab@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>, Claudiu Beznea
+	<claudiu.beznea@microchip.com>
+CC: <linux-media@vger.kernel.org>, <linux-staging@lists.linux.dev>,
+	<linux-arm-kernel@lists.infradead.org>, <kernel@pengutronix.de>
+References: <20230403154014.2564054-1-u.kleine-koenig@pengutronix.de>
+ <20230403154014.2564054-8-u.kleine-koenig@pengutronix.de>
+From: Nicolas Ferre <nicolas.ferre@microchip.com>
+Organization: microchip
+In-Reply-To: <20230403154014.2564054-8-u.kleine-koenig@pengutronix.de>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-staging@lists.linux.dev
 
-Hello,
+On 03/04/2023 at 17:39, Uwe Kleine-König wrote:
+> EXTERNAL EMAIL: Do not click links or open attachments unless you know the content is safe
+> 
+> The .remove() callback for a platform driver returns an int which makes
+> many driver authors wrongly assume it's possible to do error handling by
+> returning an error code. However the value returned is (mostly) ignored
+> and this typically results in resource leaks. To improve here there is a
+> quest to make the remove callback return void. In the first step of this
+> quest all drivers are converted to .remove_new() which already returns
+> void.
+> 
+> Trivially convert this driver from always returning zero in the remove
+> callback to the void returning variant.
+> 
+> Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
 
-this series adapts the platform drivers below drivers/staging to use the
-.remove_new() callback. Compared to the traditional .remove() callback
-.remove_new() returns no value. This is a good thing because the driver
-core doesn't (and cannot) cope for errors during remove. The only effect
-of a non-zero return value in .remove() is that the driver core emits a
-warning. The device is removed anyhow and an early return from .remove()
-usually yields a resource leak.
+Acked-by: Nicolas Ferre <nicolas.ferre@microchip.com>
 
-By changing the remove callback to return void driver authors cannot
-reasonably assume any more that there is some kind of cleanup later.
+> ---
+>   drivers/staging/media/deprecated/atmel/atmel-sama7g5-isc.c | 6 ++----
+>   1 file changed, 2 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/staging/media/deprecated/atmel/atmel-sama7g5-isc.c b/drivers/staging/media/deprecated/atmel/atmel-sama7g5-isc.c
+> index 01ababdfcbd9..315bfc4ac4ff 100644
+> --- a/drivers/staging/media/deprecated/atmel/atmel-sama7g5-isc.c
+> +++ b/drivers/staging/media/deprecated/atmel/atmel-sama7g5-isc.c
+> @@ -549,7 +549,7 @@ static int microchip_xisc_probe(struct platform_device *pdev)
+>          return ret;
+>   }
+> 
+> -static int microchip_xisc_remove(struct platform_device *pdev)
+> +static void microchip_xisc_remove(struct platform_device *pdev)
+>   {
+>          struct isc_device *isc = platform_get_drvdata(pdev);
+> 
+> @@ -562,8 +562,6 @@ static int microchip_xisc_remove(struct platform_device *pdev)
+>          clk_disable_unprepare(isc->hclock);
+> 
+>          atmel_isc_clk_cleanup(isc);
+> -
+> -       return 0;
+>   }
+> 
+>   static int __maybe_unused xisc_runtime_suspend(struct device *dev)
+> @@ -601,7 +599,7 @@ MODULE_DEVICE_TABLE(of, microchip_xisc_of_match);
+> 
+>   static struct platform_driver microchip_xisc_driver = {
+>          .probe  = microchip_xisc_probe,
+> -       .remove = microchip_xisc_remove,
+> +       .remove_new = microchip_xisc_remove,
+>          .driver = {
+>                  .name           = "microchip-sama7g5-xisc",
+>                  .pm             = &microchip_xisc_dev_pm_ops,
+> --
+> 2.39.2
+> 
 
-All drivers in staging already return zero in their remove callback, so
-they can be trivially converted.
-
-The changes to the individual drivers are all orthogonal. If I need to
-resend some patches because of some review feedback, I'd like to only
-send the patches that actually needed changes, so please pick up the
-remaining patches that don't need changing to reduce the amount of mail.
-
-Best regards
-Uwe
-
-Uwe Kleine-König (24):
-  staging: axis-fifo: Convert to platform remove callback returning void
-  staging: emxx_udc: Convert to platform remove callback returning void
-  staging: fieldbus: arcx-anybus: Convert to platform remove callback
-    returning void
-  staging: greybus: arche-apb-ctrl: Convert to platform remove callback
-    returning void
-  staging: greybus: arche: Convert to platform remove callback returning
-    void
-  staging: media: atmel-sama5d2-isc: Convert to platform remove callback
-    returning void
-  staging: media: atmel-sama7g5-isc: Convert to platform remove callback
-    returning void
-  staging: media: imx-media-csi: Convert to platform remove callback
-    returning void
-  staging: media: imx-media-dev: Convert to platform remove callback
-    returning void
-  staging: media: imx6-mipi-csi2: Convert to platform remove callback
-    returning void
-  staging: media: imx8mq-mipi-csi2: Convert to platform remove callback
-    returning void
-  staging: media: meson: vdec: Convert to platform remove callback
-    returning void
-  staging: media: omap4iss: Convert to platform remove callback
-    returning void
-  staging: media: rkvdec: Convert to platform remove callback returning
-    void
-  staging: media: sunxi: cedrus: Convert to platform remove callback
-    returning void
-  staging: media: sun6i-isp: Convert to platform remove callback
-    returning void
-  staging: most: dim2: Convert to platform remove callback returning
-    void
-  staging: nvec: Convert to platform remove callback returning void
-  staging: nvec: nvec_kbd: Convert to platform remove callback returning
-    void
-  staging: nvec_power: Convert to platform remove callback returning
-    void
-  staging: nvec_ps2: Convert to platform remove callback returning void
-  staging: octeon: ethernet: Convert to platform remove callback
-    returning void
-  staging: vc04_services: bcm2835-camera: Convert to platform remove
-    callback returning void
-  staging: vc04_services: vchiq_arm: Convert to platform remove callback
-    returning void
-
- drivers/staging/axis-fifo/axis-fifo.c                       | 6 ++----
- drivers/staging/emxx_udc/emxx_udc.c                         | 6 ++----
- drivers/staging/fieldbus/anybuss/arcx-anybus.c              | 5 ++---
- drivers/staging/greybus/arche-apb-ctrl.c                    | 6 ++----
- drivers/staging/greybus/arche-platform.c                    | 6 ++----
- drivers/staging/media/deprecated/atmel/atmel-sama5d2-isc.c  | 6 ++----
- drivers/staging/media/deprecated/atmel/atmel-sama7g5-isc.c  | 6 ++----
- drivers/staging/media/imx/imx-media-csi.c                   | 6 ++----
- drivers/staging/media/imx/imx-media-dev.c                   | 6 ++----
- drivers/staging/media/imx/imx6-mipi-csi2.c                  | 6 ++----
- drivers/staging/media/imx/imx8mq-mipi-csi2.c                | 6 ++----
- drivers/staging/media/meson/vdec/vdec.c                     | 6 ++----
- drivers/staging/media/omap4iss/iss.c                        | 6 ++----
- drivers/staging/media/rkvdec/rkvdec.c                       | 5 ++---
- drivers/staging/media/sunxi/cedrus/cedrus.c                 | 6 ++----
- drivers/staging/media/sunxi/sun6i-isp/sun6i_isp.c           | 6 ++----
- drivers/staging/most/dim2/dim2.c                            | 6 ++----
- drivers/staging/nvec/nvec.c                                 | 6 ++----
- drivers/staging/nvec/nvec_kbd.c                             | 6 ++----
- drivers/staging/nvec/nvec_power.c                           | 6 ++----
- drivers/staging/nvec/nvec_ps2.c                             | 6 ++----
- drivers/staging/octeon/ethernet.c                           | 5 ++---
- .../staging/vc04_services/bcm2835-camera/bcm2835-camera.c   | 6 ++----
- .../staging/vc04_services/interface/vchiq_arm/vchiq_arm.c   | 6 ++----
- 24 files changed, 48 insertions(+), 93 deletions(-)
-
-
-base-commit: fe15c26ee26efa11741a7b632e9f23b01aca4cc6
 -- 
-2.39.2
+Nicolas Ferre
 
