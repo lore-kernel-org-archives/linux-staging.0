@@ -1,20 +1,20 @@
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [85.220.165.71])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC853747B
-	for <linux-staging@lists.linux.dev>; Mon,  3 Apr 2023 15:40:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 252797465
+	for <linux-staging@lists.linux.dev>; Mon,  3 Apr 2023 15:40:31 +0000 (UTC)
 Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
 	by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
 	(Exim 4.92)
 	(envelope-from <ukl@pengutronix.de>)
-	id 1pjMI9-0004fz-IM; Mon, 03 Apr 2023 17:40:21 +0200
+	id 1pjMI8-0004c5-Cd; Mon, 03 Apr 2023 17:40:20 +0200
 Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
 	by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
 	(envelope-from <ukl@pengutronix.de>)
-	id 1pjMI8-008ibS-Ko; Mon, 03 Apr 2023 17:40:20 +0200
+	id 1pjMI7-008ib3-LZ; Mon, 03 Apr 2023 17:40:19 +0200
 Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
 	(envelope-from <ukl@pengutronix.de>)
-	id 1pjMI6-00AHx5-RU; Mon, 03 Apr 2023 17:40:18 +0200
+	id 1pjMI6-00AHx1-MH; Mon, 03 Apr 2023 17:40:18 +0200
 From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
 To: Steve Longerbeam <slongerbeam@gmail.com>,
 	Philipp Zabel <p.zabel@pengutronix.de>,
@@ -28,9 +28,9 @@ Cc: Fabio Estevam <festevam@gmail.com>,
 	linux-staging@lists.linux.dev,
 	linux-arm-kernel@lists.infradead.org,
 	kernel@pengutronix.de
-Subject: [PATCH 10/24] staging: media: imx6-mipi-csi2: Convert to platform remove callback returning void
-Date: Mon,  3 Apr 2023 17:40:00 +0200
-Message-Id: <20230403154014.2564054-11-u.kleine-koenig@pengutronix.de>
+Subject: [PATCH 09/24] staging: media: imx-media-dev: Convert to platform remove callback returning void
+Date: Mon,  3 Apr 2023 17:39:59 +0200
+Message-Id: <20230403154014.2564054-10-u.kleine-koenig@pengutronix.de>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230403154014.2564054-1-u.kleine-koenig@pengutronix.de>
 References: <20230403154014.2564054-1-u.kleine-koenig@pengutronix.de>
@@ -41,7 +41,7 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1806; i=u.kleine-koenig@pengutronix.de; h=from:subject; bh=VesGfwY/ab0E1llkf0F+Vslp4R6aXn1eFkcaZUb2W4Q=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBkKvNACvBqADPgwr9lh28+4Lhr5AMNZU5h8/1to pxo6FjU3KeJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZCrzQAAKCRCPgPtYfRL+ TufhCAChTeHFINMnRjLTCpO32W6HiMcXL5Sxx2hNavwpVrNk84jzdUB4NFBkJe1uLyGlV/V2tQC CFAyUmV4wNi+1D4mW3EaI1vqOTF10psjCNG2Fl6CzG9xiEKwNlM3otzSds5HHxLbi8Qw03YXuTY rJMk8begR7/6IlN9KZSjEMux7HUz3j+Kp3WgfcJ1lbcRr48oTwSxGCK7ZwnjJFECeoiSEUpiZuH SCrQ+4o1kSgMc6yzZJx5llt0V4H5lvkIoLN8lHjI+kNxfYYhxpF2kE1pYnTAx6drRzBFAMVEU2U XmykB4tdmpKvBgA5HpCo89iP26B17CnEz8qMqphcYUDHKUj3
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1887; i=u.kleine-koenig@pengutronix.de; h=from:subject; bh=NfhFuPcQjvCDS+hPh2b2lfedYrohw4g+Wp/gtONhiGU=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBkKvM/opFPgRJzRAhQ0djBHR+kH4ijtoQZPxQSH vRqdlr0X0OJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZCrzPwAKCRCPgPtYfRL+ TqPrB/9lhe/gnMCeqND74AwxIS0CZ3tnSl3XYP4sBB4SzKl5yi/apYC5nuVR4nyttzMCh/U8YcB M2eGZJ9NSsA+GeU8NlBYLVr61c92He+T8fZQvcXwszDnmse8145ZtYfc0ek0fLnQSARM9jtpTJN ZrBz+68WjU+W3GJAnCfQl+/8lpKvrML3CD2Ex4uHYgUerRQxERxjelNJXphrB9QJB3DMbOerG3t D2i+09jtILM/XMTy9dn9QtvR4V4cZtngP9Zu9ziYzJzmV+GLgSiLpxyl70XfXxKEPc6OKtpRIQB mP6NdUb0C5YCppdg5Li38YiTkyPp10G3sSZ7T3r6uIkUBBS0
 X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
@@ -62,40 +62,40 @@ callback to the void returning variant.
 
 Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
 ---
- drivers/staging/media/imx/imx6-mipi-csi2.c | 6 ++----
+ drivers/staging/media/imx/imx-media-dev.c | 6 ++----
  1 file changed, 2 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/staging/media/imx/imx6-mipi-csi2.c b/drivers/staging/media/imx/imx6-mipi-csi2.c
-index c4cb558a85c6..c07994ea6e96 100644
---- a/drivers/staging/media/imx/imx6-mipi-csi2.c
-+++ b/drivers/staging/media/imx/imx6-mipi-csi2.c
-@@ -765,7 +765,7 @@ static int csi2_probe(struct platform_device *pdev)
+diff --git a/drivers/staging/media/imx/imx-media-dev.c b/drivers/staging/media/imx/imx-media-dev.c
+index f85462214e22..c80113905069 100644
+--- a/drivers/staging/media/imx/imx-media-dev.c
++++ b/drivers/staging/media/imx/imx-media-dev.c
+@@ -101,7 +101,7 @@ static int imx_media_probe(struct platform_device *pdev)
  	return ret;
  }
  
--static int csi2_remove(struct platform_device *pdev)
-+static void csi2_remove(struct platform_device *pdev)
+-static int imx_media_remove(struct platform_device *pdev)
++static void imx_media_remove(struct platform_device *pdev)
  {
- 	struct v4l2_subdev *sd = platform_get_drvdata(pdev);
- 	struct csi2_dev *csi2 = sd_to_dev(sd);
-@@ -777,8 +777,6 @@ static int csi2_remove(struct platform_device *pdev)
- 	clk_disable_unprepare(csi2->pllref_clk);
- 	mutex_destroy(&csi2->lock);
- 	media_entity_cleanup(&sd->entity);
+ 	struct imx_media_dev *imxmd =
+ 		(struct imx_media_dev *)platform_get_drvdata(pdev);
+@@ -119,8 +119,6 @@ static int imx_media_remove(struct platform_device *pdev)
+ 	media_device_unregister(&imxmd->md);
+ 	v4l2_device_unregister(&imxmd->v4l2_dev);
+ 	media_device_cleanup(&imxmd->md);
 -
 -	return 0;
  }
  
- static const struct of_device_id csi2_dt_ids[] = {
-@@ -793,7 +791,7 @@ static struct platform_driver csi2_driver = {
- 		.of_match_table = csi2_dt_ids,
- 	},
- 	.probe = csi2_probe,
--	.remove = csi2_remove,
-+	.remove_new = csi2_remove,
- };
+ static const struct of_device_id imx_media_dt_ids[] = {
+@@ -131,7 +129,7 @@ MODULE_DEVICE_TABLE(of, imx_media_dt_ids);
  
- module_platform_driver(csi2_driver);
+ static struct platform_driver imx_media_pdrv = {
+ 	.probe		= imx_media_probe,
+-	.remove		= imx_media_remove,
++	.remove_new	= imx_media_remove,
+ 	.driver		= {
+ 		.name	= "imx-media",
+ 		.of_match_table	= imx_media_dt_ids,
 -- 
 2.39.2
 
