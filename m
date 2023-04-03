@@ -1,30 +1,30 @@
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [85.220.165.71])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22DD86FD5
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78EC46FDA
 	for <linux-staging@lists.linux.dev>; Mon,  3 Apr 2023 15:40:27 +0000 (UTC)
 Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
 	by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
 	(Exim 4.92)
 	(envelope-from <ukl@pengutronix.de>)
-	id 1pjMIA-0004iZ-FE; Mon, 03 Apr 2023 17:40:22 +0200
+	id 1pjMI9-0004dE-EM; Mon, 03 Apr 2023 17:40:21 +0200
 Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
 	by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
 	(envelope-from <ukl@pengutronix.de>)
-	id 1pjMI9-008ibq-IG; Mon, 03 Apr 2023 17:40:21 +0200
+	id 1pjMI8-008ibF-9k; Mon, 03 Apr 2023 17:40:20 +0200
 Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
 	(envelope-from <ukl@pengutronix.de>)
-	id 1pjMI8-00AHxj-LM; Mon, 03 Apr 2023 17:40:20 +0200
+	id 1pjMI7-00AHxH-C1; Mon, 03 Apr 2023 17:40:19 +0200
 From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To: Marc Dietrich <marvin24@gmx.de>,
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: ac100@lists.launchpad.net,
-	linux-tegra@vger.kernel.org,
+Cc: linux-media@vger.kernel.org,
 	linux-staging@lists.linux.dev,
 	kernel@pengutronix.de
-Subject: [PATCH 20/24] staging: nvec_power: Convert to platform remove callback returning void
-Date: Mon,  3 Apr 2023 17:40:10 +0200
-Message-Id: <20230403154014.2564054-21-u.kleine-koenig@pengutronix.de>
+Subject: [PATCH 13/24] staging: media: omap4iss: Convert to platform remove callback returning void
+Date: Mon,  3 Apr 2023 17:40:03 +0200
+Message-Id: <20230403154014.2564054-14-u.kleine-koenig@pengutronix.de>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230403154014.2564054-1-u.kleine-koenig@pengutronix.de>
 References: <20230403154014.2564054-1-u.kleine-koenig@pengutronix.de>
@@ -35,7 +35,7 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1629; i=u.kleine-koenig@pengutronix.de; h=from:subject; bh=3eBUNo45vjxvrBmmVKCpUHSK66vNsaxQ36fJe1/a9to=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBkKvNM6PtFor8y59/Ocn0av359hfYdhT6dBy3R+ e/HNoGRaA6JATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZCrzTAAKCRCPgPtYfRL+ Tga9CACSCr4vj3XnYT2TpK8WO0w9xvHUfCl3hcMcy0GFM+w8f5XWBzG/oipaaEapdXtEklrF0Ld C4RXSYk/zHMYAPNcS+641HKRyAcjoXmUYwfBOJC9HuqSDJ/aO3qB8JOL6B7jxW7/eDr2JDqh5f0 DUaL2qZ31PP35jF8Bm/F9hqguinhqxSIO73luvzOsiPhRaEC8d3FPXxqHoxAxtpR/ZBq4xRQ0lf 4rwBQxQGtbjxBu/JD6uXHh+SoWh/FZxalIexnxCMSnO79cvH6pOSY/rIbJStXM7f+ZtimigKNTN oxa6v+nu5JMLm/rCNqlxKXdpQDtu79IPlY6mUB9MUcJYCECY
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1710; i=u.kleine-koenig@pengutronix.de; h=from:subject; bh=LmttZmjRipsYfunmAVzJW77JKrXaCtcrPUXwbO+3O+o=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBkKvNEs/ISVMXu+uvDduq6KvwDWXFnAeckCQiAJ K6+3i+469aJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZCrzRAAKCRCPgPtYfRL+ Tvw8B/4yHEFO6+EDpP4SnSGogp/Z2+nk8ljGPuz0Huq4ih/Atu70vz35GiRFCSBNOCLvHk4oqVA X2Xln/pEg8nHoBfT4JqHx4xv9zeMZF7enIQLUk0yIGjRiW0bGLadKBmtGn6GYmp0QVIyy/aPD4z uYagMWp7KNB9t44WH2F9emFxhNbBGi8QU7wOxSUgKOvdpRsFqO6yrnirz2FoBBkbuB26srB8vA5 8oVOfijSGh7HxUD2ghdR5wnlfifaPCg/WRVD5MLy6pSOgn9bm01xChiA4HVbTXvAFSIraqXC82m kY7KDY1cNT5gHMziSJyAkWVhwcNMVNds1PO8rj6qDlnMTKAk
 X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
@@ -56,37 +56,39 @@ callback to the void returning variant.
 
 Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
 ---
- drivers/staging/nvec/nvec_power.c | 6 ++----
+ drivers/staging/media/omap4iss/iss.c | 6 ++----
  1 file changed, 2 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/staging/nvec/nvec_power.c b/drivers/staging/nvec/nvec_power.c
-index b1ef196e1cfe..9943b1fff190 100644
---- a/drivers/staging/nvec/nvec_power.c
-+++ b/drivers/staging/nvec/nvec_power.c
-@@ -416,7 +416,7 @@ static int nvec_power_probe(struct platform_device *pdev)
- 	return PTR_ERR_OR_ZERO(*psy);
+diff --git a/drivers/staging/media/omap4iss/iss.c b/drivers/staging/media/omap4iss/iss.c
+index fa2a36d829d3..0c4283bb48ad 100644
+--- a/drivers/staging/media/omap4iss/iss.c
++++ b/drivers/staging/media/omap4iss/iss.c
+@@ -1323,15 +1323,13 @@ static int iss_probe(struct platform_device *pdev)
+ 	return ret;
  }
  
--static int nvec_power_remove(struct platform_device *pdev)
-+static void nvec_power_remove(struct platform_device *pdev)
+-static int iss_remove(struct platform_device *pdev)
++static void iss_remove(struct platform_device *pdev)
  {
- 	struct nvec_power *power = platform_get_drvdata(pdev);
+ 	struct iss_device *iss = platform_get_drvdata(pdev);
  
-@@ -429,13 +429,11 @@ static int nvec_power_remove(struct platform_device *pdev)
- 	case BAT:
- 		power_supply_unregister(nvec_bat_psy);
- 	}
+ 	iss_unregister_entities(iss);
+ 	media_entity_enum_cleanup(&iss->crashed);
+ 	iss_cleanup_modules(iss);
 -
 -	return 0;
  }
  
- static struct platform_driver nvec_power_driver = {
- 	.probe = nvec_power_probe,
--	.remove = nvec_power_remove,
-+	.remove_new = nvec_power_remove,
+ static const struct platform_device_id omap4iss_id_table[] = {
+@@ -1342,7 +1340,7 @@ MODULE_DEVICE_TABLE(platform, omap4iss_id_table);
+ 
+ static struct platform_driver iss_driver = {
+ 	.probe		= iss_probe,
+-	.remove		= iss_remove,
++	.remove_new	= iss_remove,
+ 	.id_table	= omap4iss_id_table,
  	.driver = {
- 		   .name = "nvec-power",
- 	}
+ 		.name	= "omap4iss",
 -- 
 2.39.2
 
