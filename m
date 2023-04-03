@@ -1,47 +1,56 @@
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6E097C;
-	Mon,  3 Apr 2023 03:15:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1680491711; x=1712027711;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=5/aGi2f/6EiulSB2KOAHTAyAiYCY2CyKwnlMGSiRbBQ=;
-  b=gGhJ6gamG21Xipb1mVcOb6UXPrRqhifdw94JvW1pl6PfiZeZJpG71mhL
-   2UMVy7Cl0NHDdJT+EeYReOpSEZ4eW/DNJztVx2CPL5fzU2dYkiPGxNywo
-   r1jeS1lBFb8KvZcqNs/cQ3gpkZtZrTzke+NHm2N8iLBKbpJ1zYGllU+ui
-   qgyCyNmEaVGKkDjAjiwZF5FO6h1FQVEEzfoZG7bFH5y6Dn4B5VHZkX/zb
-   K+7KUZ0fsYizpeGt60738i8CxhoNAg2p0vYsRgtLfrOlLiYxgoJHlmfjJ
-   L+vu0KQEYaHA5qaD9PJ9DM66n+q3/FTlrAc23wxHoZMjgV8l7snwabQn2
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10668"; a="322193534"
-X-IronPort-AV: E=Sophos;i="5.98,313,1673942400"; 
-   d="scan'208";a="322193534"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Apr 2023 20:15:11 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10668"; a="750341088"
-X-IronPort-AV: E=Sophos;i="5.98,313,1673942400"; 
-   d="scan'208";a="750341088"
-Received: from aschofie-mobl2.amr.corp.intel.com (HELO aschofie-mobl2) ([10.209.19.220])
-  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Apr 2023 20:15:10 -0700
-Date: Sun, 2 Apr 2023 20:15:08 -0700
-From: Alison Schofield <alison.schofield@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 237127C;
+	Mon,  3 Apr 2023 04:29:43 +0000 (UTC)
+Received: by mail-ed1-f52.google.com with SMTP id i5so112275102eda.0;
+        Sun, 02 Apr 2023 21:29:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1680496181;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=0+jcEm/umXiKxj33UWcwhHckJKdBkBpU3hyzsLfjMvA=;
+        b=Fy8VjOwSwpwI1ksHIQhvJN9cc7dd0AL/usn9dPPsOmfay4L3YpmQxsE/cG4wG67xfn
+         3UKcwW41butcDqsY307Gam4LB8cXgR1XAySBqR5J9PE+QsBERuhkcpemfMqJ57w71g0N
+         VVmBgCHfysEM6o5aFRkpRgMvCqAaX9zl94fwa+qKHQKkeQlx92QqQysGbsihS7HXcmz1
+         yIhe1JzI7i2pIYyBEF8RbMnW53psGCowl+Oa7EXxTN59gUrvxRL3S7g4WlpbmoXJHGpp
+         n8otfAtKo0sxMHiIgLVa6xtGECMjNu46UfXPm+51Hue7UdwEz3zwH5kPvEP14rdaGWhl
+         gk8Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1680496181;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=0+jcEm/umXiKxj33UWcwhHckJKdBkBpU3hyzsLfjMvA=;
+        b=I16H/FhkRlDfyTqpIAhDEHp4nh+lTkvvzqh/woN4CZUba077IVSE7skcdAGFkQk/Ip
+         gGdmFZtwDiOeeuuoSv88x9/sF0HOWUvJzFsGANt7fQljN9rtZugTmB7hsgowdSVqv8aW
+         jyvpRNuJC+IvmeV+Sqe1yB8Y8D1IS/mtpLQsEBjI0jM9QCTJVM7jNOejinj6E0cIduCB
+         y+yErM/E8wGJUL0gXk1z4W6/ZE/K8rwhbRuwh9qKF8vomoyEHfGRv32fVHmW59HkOJDK
+         8Oo+0ZHYfqlk27ViiW1LRhaVdXwe3/35gYz+lKtLI2ofEPVU3bQh7VqxeicKxftaI+BP
+         LJpw==
+X-Gm-Message-State: AAQBX9el9fDdp9lsjnpIP0YZ2OGAcjXR4AIiYgZW4pgo33srX5O+PjXG
+	FpzAePG+YBcURRmWWBCUIhg=
+X-Google-Smtp-Source: AKy350Yuy8uDeMonDQ7b86zEISWdqvmRyRD2Bz4PYcHY4udEA3IvmVg6cfFd7ZnAk0dlXK3ghr4PcQ==
+X-Received: by 2002:a17:906:ac1:b0:92d:9767:8e0a with SMTP id z1-20020a1709060ac100b0092d97678e0amr30159313ejf.13.1680496181093;
+        Sun, 02 Apr 2023 21:29:41 -0700 (PDT)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id l2-20020a170906938200b00948a57aac08sm445563ejx.204.2023.04.02.21.29.39
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 02 Apr 2023 21:29:40 -0700 (PDT)
+Date: Mon, 3 Apr 2023 07:29:36 +0300
+From: Dan Carpenter <error27@gmail.com>
 To: Khadija Kamran <kamrankhadijadj@gmail.com>
-Cc: Ira Weiny <ira.weiny@intel.com>, outreachy@lists.linux.dev,
-	hvaibhav.linux@gmail.com, johan@kernel.org, elder@kernel.org,
-	gregkh@linuxfoundation.org, greybus-dev@lists.linaro.org,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/2] staging: greybus: add a single exit path to
- arche_platform_wd_irq()
-Message-ID: <ZCpEvPR7KNkG+xsj@aschofie-mobl2>
+Cc: outreachy@lists.linux.dev, hvaibhav.linux@gmail.com, johan@kernel.org,
+	elder@kernel.org, gregkh@linuxfoundation.org,
+	greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Alison Schofield <alison.schofield@intel.com>
+Subject: Re: [PATCH 2/2] staging: greybus: refactor arche_platform_wd_irq()
+Message-ID: <9688d93f-5ece-4799-898d-98515a98f9be@kili.mountain>
 References: <cover.1680185025.git.kamrankhadijadj@gmail.com>
- <e670baa9bde47a3bdb02e59ec37a438a62c52dd1.1680185025.git.kamrankhadijadj@gmail.com>
- <642a1fdcb2648_394c3829469@iweiny-mobl.notmuch>
- <ZCoqMSy1Ary0sAp9@khadija-virtual-machine>
- <ZCpC7wpDsUFZVWkQ@aschofie-mobl2>
+ <96d04a4ff3d4a46293355f5afae3a8ece65f2c5b.1680185025.git.kamrankhadijadj@gmail.com>
+ <6ce8aa34-e600-4d6a-adad-ead8255342e5@kili.mountain>
+ <ZChs5jB7DMCUnVzr@khadija-virtual-machine>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -50,90 +59,143 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ZCpC7wpDsUFZVWkQ@aschofie-mobl2>
+In-Reply-To: <ZChs5jB7DMCUnVzr@khadija-virtual-machine>
 
-On Sun, Apr 02, 2023 at 08:07:27PM -0700, Alison Schofield wrote:
-> On Mon, Apr 03, 2023 at 06:21:53AM +0500, Khadija Kamran wrote:
-> > On Sun, Apr 02, 2023 at 05:37:48PM -0700, Ira Weiny wrote:
-> > > Khadija Kamran wrote:
-> > > > arche_platform_wd_irq() function has two exit paths. To make the code
-> > > > more readable, use only one exit path.
-> > > > 
-> > > > Suggested-by: Alison Schofield <alison.schofield@intel.com>
+On Sat, Apr 01, 2023 at 10:41:58PM +0500, Khadija Kamran wrote:
+> On Thu, Mar 30, 2023 at 06:23:19PM +0300, Dan Carpenter wrote:
+> > On Thu, Mar 30, 2023 at 07:11:25PM +0500, Khadija Kamran wrote:
+> > > Linux kernel coding-style suggests to fix your program if it needs more
+> > > than 3 levels of indentation. Due to indentation, line length also
+> > > exceeds 100 columns, resulting in issues reported by checkpatch.
 > > > 
-> > > Reviewed-by: Ira Weiny <ira.weiny@intel.com>
-> > >
+> > > Refactor the arche_platform_wd_irq() function and reduce the indentation
+> > > with the help of goto statement.
+> > > 
+> > > Suggested-by: Alison Schofield <alison.schofield@intel.com>
+> > > Signed-off-by: Khadija Kamran <kamrankhadijadj@gmail.com>
+> > > ---
+> > >  drivers/staging/greybus/arche-platform.c | 79 ++++++++++++------------
+> > >  1 file changed, 41 insertions(+), 38 deletions(-)
+> > > 
+> > > diff --git a/drivers/staging/greybus/arche-platform.c b/drivers/staging/greybus/arche-platform.c
+> > > index a64c1af091b0..dde30c8da1a1 100644
+> > > --- a/drivers/staging/greybus/arche-platform.c
+> > > +++ b/drivers/staging/greybus/arche-platform.c
+> > > @@ -158,49 +158,52 @@ static irqreturn_t arche_platform_wd_irq(int irq, void *devid)
+> > >  
+> > >  	spin_lock_irqsave(&arche_pdata->wake_lock, flags);
+> > >  
+> > > -	if (gpiod_get_value(arche_pdata->wake_detect)) {
+> > > -		/* wake/detect rising */
+> > > +	if (!gpiod_get_value(arche_pdata->wake_detect))
+> > > +		goto falling;
+> > >  
+> > > +	/* wake/detect rising */
+> > > +
+> > > +	/*
+> > > +	 * If wake/detect line goes high after low, within less than
+> > > +	 * 30msec, then standby boot sequence is initiated, which is not
+> > > +	 * supported/implemented as of now. So ignore it.
+> > > +	 */
+> > > +	if (arche_pdata->wake_detect_state != WD_STATE_BOOT_INIT)
+> > > +		goto out;
 > > 
-> > Okay, noted.
+> > This checks that we are in WD_STATE_BOOT_INIT state.
 > > 
-> > Also, would it be okay to send a patch revision with the changes or
-> > should I wait for the feedback on Dan's comment. Here is a link to it:
-> > https://lore.kernel.org/outreachy/6ce8aa34-e600-4d6a-adad-ead8255342e5@kili.mountain/
+> > > +
+> > > +	if (time_before(jiffies,
+> > > +			arche_pdata->wake_detect_start +
+> > > +			msecs_to_jiffies(WD_COLDBOOT_PULSE_WIDTH_MS))) {
+> > > +		arche_platform_set_wake_detect_state(arche_pdata,
+> > > +						     WD_STATE_IDLE);
+> > > +		got out;
+> > > +	}
+> > > +
+> > > +	/* Check we are not in middle of irq thread already */
+> > > +	if (arche_pdata->wake_detect_state !=
+> > > +			WD_STATE_COLDBOOT_START) {
+> > 
+> > This checks that we are not in WD_STATE_COLDBOOT_START state.  How are
+> > we going to be in COLDBOOT if we are in INIT?  Is this changing in the
+> > background?  Can this check be removed?  This might be took tricky to
+> > answer but it's important that we understand this before we continue.
+> > 
+> > 
+> > > +		arche_platform_set_wake_detect_state(arche_pdata,
+> > > +						     WD_STATE_COLDBOOT_TRIG);
+> > > +		rc = IRQ_WAKE_THREAD;
+> > > +		goto out;
+> > > +	}
+> > 
+> > Let's assume the above check cannot be removed.
+> > 
+> > In the original code if gpiod_get_value(arche_pdata->wake_detect)
+> > returned true and arche_pdata->wake_detect_state == WD_STATE_IDLE then
+> > it just returned without doing anything, but now we fall through to the
+> > falling: label below.
 > 
-> Khadija,
+> Hey Dan,
 > 
-> It's customary to wait for folks to respond to your follow ups, and
-> address  all the current feedback before sending out a new revision.
+> Just to clear my undrstanding in the new code, if
+> gpiod_get_value(arche_pdata->wake_detect) returned true, we go to the
+> rising section. In the rising section if arche_pdata->wake_detect_state
+> == WD_STATE_IDLE then the condition,
+> if (arche_pdata->wake_detect_state != WD_STATE_BOOT_INIT) becomes true
+> so we goto out label. I do not understand how we go to falling label.
 > 
-> Ira asked a question about using positive instead of negative logic.
-> I probably steered you down the negative logic path, perhaps it can
-> be flipped to a more preferable positive logic. 
+> Regards,
+> Khadija
 
-After I hit send, I worried that wasn't written clearly.
-All the current feedback includes, Dan's, Ira',s and the compile issue.
-(not only Ira's)
+Let me show you in the original code:
 
-> 
-> Alison
-> 
-> 
-> 
-> > 
-> > Thank you!
-> > Regards,
-> > Khadija 
-> > 
-> > > > Signed-off-by: Khadija Kamran <kamrankhadijadj@gmail.com>
-> > > > ---
-> > > >  drivers/staging/greybus/arche-platform.c | 7 +++----
-> > > >  1 file changed, 3 insertions(+), 4 deletions(-)
-> > > > 
-> > > > diff --git a/drivers/staging/greybus/arche-platform.c b/drivers/staging/greybus/arche-platform.c
-> > > > index fcbd5f71eff2..a64c1af091b0 100644
-> > > > --- a/drivers/staging/greybus/arche-platform.c
-> > > > +++ b/drivers/staging/greybus/arche-platform.c
-> > > > @@ -153,6 +153,7 @@ static irqreturn_t arche_platform_wd_irq_thread(int irq, void *devid)
-> > > >  static irqreturn_t arche_platform_wd_irq(int irq, void *devid)
-> > > >  {
-> > > >  	struct arche_platform_drvdata *arche_pdata = devid;
-> > > > +	irqreturn_t rc = IRQ_HANDLED;
-> > > >  	unsigned long flags;
-> > > >  
-> > > >  	spin_lock_irqsave(&arche_pdata->wake_lock, flags);
-> > > > @@ -180,9 +181,7 @@ static irqreturn_t arche_platform_wd_irq(int irq, void *devid)
-> > > >  						WD_STATE_COLDBOOT_START) {
-> > > >  					arche_platform_set_wake_detect_state(arche_pdata,
-> > > >  									     WD_STATE_COLDBOOT_TRIG);
-> > > > -					spin_unlock_irqrestore(&arche_pdata->wake_lock,
-> > > > -							       flags);
-> > > > -					return IRQ_WAKE_THREAD;
-> > > > +					rc = IRQ_WAKE_THREAD;
-> > > >  				}
-> > > >  			}
-> > > >  		}
-> > > > @@ -204,7 +203,7 @@ static irqreturn_t arche_platform_wd_irq(int irq, void *devid)
-> > > >  
-> > > >  	spin_unlock_irqrestore(&arche_pdata->wake_lock, flags);
-> > > >  
-> > > > -	return IRQ_HANDLED;
-> > > > +	return rc;
-> > > >  }
-> > > >  
-> > > >  /*
-> > > > -- 
-> > > > 2.34.1
-> > > > 
-> > > > 
-> > > 
-> > > 
-> 
+STEP 1:	if (gpiod_get_value(arche_pdata->wake_detect)) {
+
+Assume this condition is true.
+
+STEP 2:		if (arche_pdata->wake_detect_state == WD_STATE_BOOT_INIT) {
+
+Assume this condition is true.
+
+STEP 3:		if (time_before(jiffies, ...)
+
+Assume that time is up.
+
+STEP 4:			if (arche_pdata->wake_detect_state !=
+					WD_STATE_COLDBOOT_START) {
+
+Assume that it is equal.  We are done.  return IRQ_HANDLED;
+
+Now in the new code:
+
+STEP 1:	if (!gpiod_get_value(arche_pdata->wake_detect))
+		goto falling;
+
+Assume we don't goto falling.
+
+STEP 2:	if (arche_pdata->wake_detect_state != WD_STATE_BOOT_INIT)
+
+Assume that it == WD_STATE_BOOT_INIT.
+
+STEP 3:	if (time_before(jiffies, ...)
+
+Assume that time is up.
+
+STEP 4:	if (arche_pdata->wake_detect_state != WD_STATE_COLDBOOT_START) {
+
+Assume that it is equal.  Before, in the old code it would return
+return IRQ_HANDLED; at this point.  But now it does:
+
+STEP 5:	if (arche_pdata->wake_detect_state == WD_STATE_IDLE) {
+
+Which seems like it's a contradictory condition with STEP 4 so it's
+probably impossible.  But on the other hand, we have already checked
+contradictory conditions between STEP 2 and STEP 4 so who knows what's
+going on?
+
+This function is very hard to understand.
+
+Also if stuff is changing in the background and there is no way the
+locking is correct.
+
+regards,
+dan carpenter
