@@ -1,31 +1,30 @@
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [85.220.165.71])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 822436FD4
-	for <linux-staging@lists.linux.dev>; Mon,  3 Apr 2023 15:40:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22DD86FD5
+	for <linux-staging@lists.linux.dev>; Mon,  3 Apr 2023 15:40:27 +0000 (UTC)
 Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
 	by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
 	(Exim 4.92)
 	(envelope-from <ukl@pengutronix.de>)
-	id 1pjMI7-0004bE-E4; Mon, 03 Apr 2023 17:40:19 +0200
+	id 1pjMIA-0004iZ-FE; Mon, 03 Apr 2023 17:40:22 +0200
 Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
 	by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
 	(envelope-from <ukl@pengutronix.de>)
-	id 1pjMI6-008iah-Mb; Mon, 03 Apr 2023 17:40:18 +0200
+	id 1pjMI9-008ibq-IG; Mon, 03 Apr 2023 17:40:21 +0200
 Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
 	(envelope-from <ukl@pengutronix.de>)
-	id 1pjMI5-00AHwd-Vy; Mon, 03 Apr 2023 17:40:18 +0200
+	id 1pjMI8-00AHxj-LM; Mon, 03 Apr 2023 17:40:20 +0200
 From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To: Vaibhav Hiremath <hvaibhav.linux@gmail.com>,
-	Johan Hovold <johan@kernel.org>,
-	Alex Elder <elder@kernel.org>,
+To: Marc Dietrich <marvin24@gmx.de>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: greybus-dev@lists.linaro.org,
+Cc: ac100@lists.launchpad.net,
+	linux-tegra@vger.kernel.org,
 	linux-staging@lists.linux.dev,
 	kernel@pengutronix.de
-Subject: [PATCH 05/24] staging: greybus: arche: Convert to platform remove callback returning void
-Date: Mon,  3 Apr 2023 17:39:55 +0200
-Message-Id: <20230403154014.2564054-6-u.kleine-koenig@pengutronix.de>
+Subject: [PATCH 20/24] staging: nvec_power: Convert to platform remove callback returning void
+Date: Mon,  3 Apr 2023 17:40:10 +0200
+Message-Id: <20230403154014.2564054-21-u.kleine-koenig@pengutronix.de>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230403154014.2564054-1-u.kleine-koenig@pengutronix.de>
 References: <20230403154014.2564054-1-u.kleine-koenig@pengutronix.de>
@@ -36,7 +35,7 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1977; i=u.kleine-koenig@pengutronix.de; h=from:subject; bh=1Hhb2uBDpN1VmnjqHoToZqj1BNXe80rbfoyr/UEIjx4=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBkKvM6dnl8Evw4sufYPKXfzEKjbsSGaRCXd6ti6 06HnnxS18yJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZCrzOgAKCRCPgPtYfRL+ TpT/B/wJFcKlBBSJP0f9im+eMTosv//i202BPenc/RdMDRK7ne0muB4FzgqvFzc0wPCI1pC+RTl Ga7oMAvwtWxrJ7eKMpceS/lpKmof4tCeu7SzPjBhf1wZLqKbGiU+hF5l3j6mDy9+KwuG+2Q9j8j xkklECABsHhjI2Sbxm6pOZFRBmaaXCQb1rHC77HmlwIren3gOgPMguf9nhpk2NBwv9bW2XUkEmg kyWWSWv33EggfzOOfVkBBVyQLmEiYM3VQgB8XIS9g4SDdnNqXMQW9wOS123+U3S9lGDR6rmy16o BeKuJJ+I80EYE9voILGKh8aKk/ZwqxDaTRKAHGMqhRrZ93Ta
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1629; i=u.kleine-koenig@pengutronix.de; h=from:subject; bh=3eBUNo45vjxvrBmmVKCpUHSK66vNsaxQ36fJe1/a9to=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBkKvNM6PtFor8y59/Ocn0av359hfYdhT6dBy3R+ e/HNoGRaA6JATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZCrzTAAKCRCPgPtYfRL+ Tga9CACSCr4vj3XnYT2TpK8WO0w9xvHUfCl3hcMcy0GFM+w8f5XWBzG/oipaaEapdXtEklrF0Ld C4RXSYk/zHMYAPNcS+641HKRyAcjoXmUYwfBOJC9HuqSDJ/aO3qB8JOL6B7jxW7/eDr2JDqh5f0 DUaL2qZ31PP35jF8Bm/F9hqguinhqxSIO73luvzOsiPhRaEC8d3FPXxqHoxAxtpR/ZBq4xRQ0lf 4rwBQxQGtbjxBu/JD6uXHh+SoWh/FZxalIexnxCMSnO79cvH6pOSY/rIbJStXM7f+ZtimigKNTN oxa6v+nu5JMLm/rCNqlxKXdpQDtu79IPlY6mUB9MUcJYCECY
 X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
@@ -57,40 +56,37 @@ callback to the void returning variant.
 
 Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
 ---
- drivers/staging/greybus/arche-platform.c | 6 ++----
+ drivers/staging/nvec/nvec_power.c | 6 ++----
  1 file changed, 2 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/staging/greybus/arche-platform.c b/drivers/staging/greybus/arche-platform.c
-index fcbd5f71eff2..ebe835f25d13 100644
---- a/drivers/staging/greybus/arche-platform.c
-+++ b/drivers/staging/greybus/arche-platform.c
-@@ -559,7 +559,7 @@ static int arche_remove_child(struct device *dev, void *unused)
- 	return 0;
+diff --git a/drivers/staging/nvec/nvec_power.c b/drivers/staging/nvec/nvec_power.c
+index b1ef196e1cfe..9943b1fff190 100644
+--- a/drivers/staging/nvec/nvec_power.c
++++ b/drivers/staging/nvec/nvec_power.c
+@@ -416,7 +416,7 @@ static int nvec_power_probe(struct platform_device *pdev)
+ 	return PTR_ERR_OR_ZERO(*psy);
  }
  
--static int arche_platform_remove(struct platform_device *pdev)
-+static void arche_platform_remove(struct platform_device *pdev)
+-static int nvec_power_remove(struct platform_device *pdev)
++static void nvec_power_remove(struct platform_device *pdev)
  {
- 	struct arche_platform_drvdata *arche_pdata = platform_get_drvdata(pdev);
+ 	struct nvec_power *power = platform_get_drvdata(pdev);
  
-@@ -570,8 +570,6 @@ static int arche_platform_remove(struct platform_device *pdev)
- 
- 	if (usb3613_hub_mode_ctrl(false))
- 		dev_warn(arche_pdata->dev, "failed to control hub device\n");
--		/* TODO: Should we do anything more here ?? */
+@@ -429,13 +429,11 @@ static int nvec_power_remove(struct platform_device *pdev)
+ 	case BAT:
+ 		power_supply_unregister(nvec_bat_psy);
+ 	}
+-
 -	return 0;
  }
  
- static __maybe_unused int arche_platform_suspend(struct device *dev)
-@@ -631,7 +629,7 @@ MODULE_DEVICE_TABLE(of, arche_combined_id);
- 
- static struct platform_driver arche_platform_device_driver = {
- 	.probe		= arche_platform_probe,
--	.remove		= arche_platform_remove,
-+	.remove_new	= arche_platform_remove,
- 	.shutdown	= arche_platform_shutdown,
- 	.driver		= {
- 		.name	= "arche-platform-ctrl",
+ static struct platform_driver nvec_power_driver = {
+ 	.probe = nvec_power_probe,
+-	.remove = nvec_power_remove,
++	.remove_new = nvec_power_remove,
+ 	.driver = {
+ 		   .name = "nvec-power",
+ 	}
 -- 
 2.39.2
 
