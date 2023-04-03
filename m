@@ -1,30 +1,28 @@
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [85.220.165.71])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78EC46FDA
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 720E16FD9
 	for <linux-staging@lists.linux.dev>; Mon,  3 Apr 2023 15:40:27 +0000 (UTC)
 Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
 	by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
 	(Exim 4.92)
 	(envelope-from <ukl@pengutronix.de>)
-	id 1pjMI9-0004dE-EM; Mon, 03 Apr 2023 17:40:21 +0200
+	id 1pjMI7-0004b9-6S; Mon, 03 Apr 2023 17:40:19 +0200
 Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
 	by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
 	(envelope-from <ukl@pengutronix.de>)
-	id 1pjMI8-008ibF-9k; Mon, 03 Apr 2023 17:40:20 +0200
+	id 1pjMI6-008iaa-E0; Mon, 03 Apr 2023 17:40:18 +0200
 Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
 	(envelope-from <ukl@pengutronix.de>)
-	id 1pjMI7-00AHxH-C1; Mon, 03 Apr 2023 17:40:19 +0200
+	id 1pjMI5-00AHwX-LS; Mon, 03 Apr 2023 17:40:17 +0200
 From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
+To: Sven Van Asbroeck <TheSven73@gmail.com>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev,
+Cc: linux-staging@lists.linux.dev,
 	kernel@pengutronix.de
-Subject: [PATCH 13/24] staging: media: omap4iss: Convert to platform remove callback returning void
-Date: Mon,  3 Apr 2023 17:40:03 +0200
-Message-Id: <20230403154014.2564054-14-u.kleine-koenig@pengutronix.de>
+Subject: [PATCH 03/24] staging: fieldbus: arcx-anybus: Convert to platform remove callback returning void
+Date: Mon,  3 Apr 2023 17:39:53 +0200
+Message-Id: <20230403154014.2564054-4-u.kleine-koenig@pengutronix.de>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230403154014.2564054-1-u.kleine-koenig@pengutronix.de>
 References: <20230403154014.2564054-1-u.kleine-koenig@pengutronix.de>
@@ -35,7 +33,7 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1710; i=u.kleine-koenig@pengutronix.de; h=from:subject; bh=LmttZmjRipsYfunmAVzJW77JKrXaCtcrPUXwbO+3O+o=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBkKvNEs/ISVMXu+uvDduq6KvwDWXFnAeckCQiAJ K6+3i+469aJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZCrzRAAKCRCPgPtYfRL+ Tvw8B/4yHEFO6+EDpP4SnSGogp/Z2+nk8ljGPuz0Huq4ih/Atu70vz35GiRFCSBNOCLvHk4oqVA X2Xln/pEg8nHoBfT4JqHx4xv9zeMZF7enIQLUk0yIGjRiW0bGLadKBmtGn6GYmp0QVIyy/aPD4z uYagMWp7KNB9t44WH2F9emFxhNbBGi8QU7wOxSUgKOvdpRsFqO6yrnirz2FoBBkbuB26srB8vA5 8oVOfijSGh7HxUD2ghdR5wnlfifaPCg/WRVD5MLy6pSOgn9bm01xChiA4HVbTXvAFSIraqXC82m kY7KDY1cNT5gHMziSJyAkWVhwcNMVNds1PO8rj6qDlnMTKAk
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1969; i=u.kleine-koenig@pengutronix.de; h=from:subject; bh=C44I0agQDCYDDOA4RMDCHovZvY5vNJweZE4AFUpTY84=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBkKvM4sHGXFreIgJI8LrvuOF+sV3qVt4GsQNh7D DcyKlINGf2JATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZCrzOAAKCRCPgPtYfRL+ TtudB/9yiy2msEDcNtZmea7R2Qee+73f+mKJS5gzv+bimlIZHFDWv+EtWL6TwQq/q23X0a6ejq8 Q964FGkbVXTFDrGluCIA3QSyVc/WBKK6NtVRWq5TtbKwXsX5duw04lDXdVmvpBRQGcYK3UdDjyq CtZWmDEH3aUnyylCItJt6+/h2bElszibdpu8r+KO4xcPZ5Duxy3UHaRkhYnOi4Yhnv0NPzyZD7J ucG052YQU8t87/EeBPNoLdzAkMjoZZinNXSO5T402v1ogWfmjv2fI9X6GiREvvrOiO3pHAZ+b6p PBatvoPIboiU4CoCewDXecMTcI8UZT20FL3zqpttxBFzM66q
 X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
@@ -56,39 +54,39 @@ callback to the void returning variant.
 
 Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
 ---
- drivers/staging/media/omap4iss/iss.c | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
+ drivers/staging/fieldbus/anybuss/arcx-anybus.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/staging/media/omap4iss/iss.c b/drivers/staging/media/omap4iss/iss.c
-index fa2a36d829d3..0c4283bb48ad 100644
---- a/drivers/staging/media/omap4iss/iss.c
-+++ b/drivers/staging/media/omap4iss/iss.c
-@@ -1323,15 +1323,13 @@ static int iss_probe(struct platform_device *pdev)
- 	return ret;
+diff --git a/drivers/staging/fieldbus/anybuss/arcx-anybus.c b/drivers/staging/fieldbus/anybuss/arcx-anybus.c
+index 9af2e63050d1..afef35bbea74 100644
+--- a/drivers/staging/fieldbus/anybuss/arcx-anybus.c
++++ b/drivers/staging/fieldbus/anybuss/arcx-anybus.c
+@@ -321,7 +321,7 @@ static int controller_probe(struct platform_device *pdev)
+ 	return err;
  }
  
--static int iss_remove(struct platform_device *pdev)
-+static void iss_remove(struct platform_device *pdev)
+-static int controller_remove(struct platform_device *pdev)
++static void controller_remove(struct platform_device *pdev)
  {
- 	struct iss_device *iss = platform_get_drvdata(pdev);
- 
- 	iss_unregister_entities(iss);
- 	media_entity_enum_cleanup(&iss->crashed);
- 	iss_cleanup_modules(iss);
--
+ 	struct controller_priv *cd = platform_get_drvdata(pdev);
+ 	int id = cd->class_dev->id;
+@@ -329,7 +329,6 @@ static int controller_remove(struct platform_device *pdev)
+ 	device_unregister(cd->class_dev);
+ 	ida_simple_remove(&controller_index_ida, id);
+ 	gpiod_set_value_cansleep(cd->reset_gpiod, 1);
 -	return 0;
  }
  
- static const struct platform_device_id omap4iss_id_table[] = {
-@@ -1342,7 +1340,7 @@ MODULE_DEVICE_TABLE(platform, omap4iss_id_table);
+ static const struct of_device_id controller_of_match[] = {
+@@ -341,7 +340,7 @@ MODULE_DEVICE_TABLE(of, controller_of_match);
  
- static struct platform_driver iss_driver = {
- 	.probe		= iss_probe,
--	.remove		= iss_remove,
-+	.remove_new	= iss_remove,
- 	.id_table	= omap4iss_id_table,
- 	.driver = {
- 		.name	= "omap4iss",
+ static struct platform_driver controller_driver = {
+ 	.probe = controller_probe,
+-	.remove = controller_remove,
++	.remove_new = controller_remove,
+ 	.driver		= {
+ 		.name   = "arcx-anybus-controller",
+ 		.of_match_table	= of_match_ptr(controller_of_match),
 -- 
 2.39.2
 
