@@ -1,162 +1,164 @@
-Received: from mail-qt1-f181.google.com (mail-qt1-f181.google.com [209.85.160.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B1BA53AA
-	for <linux-staging@lists.linux.dev>; Sun,  2 Apr 2023 19:14:07 +0000 (UTC)
-Received: by mail-qt1-f181.google.com with SMTP id cn12so23082872qtb.8
-        for <linux-staging@lists.linux.dev>; Sun, 02 Apr 2023 12:14:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1680462846;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=5v9GlX1T7ZM1sBgeii4HjL7yxvfpgxFNmJU4LIcBn7I=;
-        b=a3FGW9JxiJPGrj08W/SVrKDz3RYlqTwwM3J6EODEiFEWXgguVJmFMNB92g54bszws9
-         LADuqy+ddIWoJt0m8n2tRNkwYBv69gx4s2LPtEmzEgPQ0rBDDgygPG7tuZ5YPkGdOfq6
-         MkvreOPfi7rS6yz+9+7U8M4NwDVA8U4E7ana4AkhZQaXiRiNL0YeyDhaF4IIyVzuD3vt
-         H2Pg6s7l7G9/5/XWP67lgBVRCTBcLddrJqtZooI/huStcC0hoKu6UzfmY3JwfPAsjJqX
-         RqLedHdnZEL7qNr5chNYV5PP8GhuGRdaclhrMSleeYjWtmfhsXqD9Dj/V4JLdhqrXkgZ
-         eMHA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680462846;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=5v9GlX1T7ZM1sBgeii4HjL7yxvfpgxFNmJU4LIcBn7I=;
-        b=LLGsUH71oL3MaQwS5qIVjNkA95iaRQ7kzG7WPJP1j+IY5izUQKGN2fSxy7PCOmngL/
-         V9PQpitts3VM7KEYaC9oGUJZl/ljnovU/VGjEVjnqPAzcQc0s/XHn8KUmkPrU3llk4DX
-         eY+li7DLtY2L1wqRFT4vKMg/oAHpt0MFjZb1a7i2GpNnd9qNTc70of0EZUAEJwXLOQlF
-         L9MQE4OnhMVrZeVVoK6+FMGeRaKmqDVHgq7XpWv4XWKQ+oQq3VZopQu/n0wcvERjzg4U
-         a0i14MFiJsDjvUJdUuIrE9IvgIbs2+XmpfwINp86cDZ+ReEL+OuEqtNA+7vNItd58pl3
-         11lw==
-X-Gm-Message-State: AO0yUKUoS1b6JPo6lopgQA0xTBSsFxAZG5orFTIQB9sJPpGpuBQZ+FwL
-	NSZmLvVUZip+wWLDc65giMVZI72mVaQZosC46jU=
-X-Google-Smtp-Source: AK7set/J3ZuetDvEIfnxajUZIDdEnzej4WLxI7Z3rJ4otOxkOG/elIxSZuspm9fmQuwZHIGd7EhXdJXkBzkYhx+GzMg=
-X-Received: by 2002:a05:622a:199a:b0:3e2:efb6:9d9e with SMTP id
- u26-20020a05622a199a00b003e2efb69d9emr11632222qtc.0.1680462846534; Sun, 02
- Apr 2023 12:14:06 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B1747E;
+	Mon,  3 Apr 2023 00:36:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1680482192; x=1712018192;
+  h=date:from:to:cc:subject:message-id:references:
+   in-reply-to:mime-version;
+  bh=MmcExwkhMfSAtskDKsDtX1ypfgPIx/GvhVI9Ld44pWg=;
+  b=aoKagQGqLzt7YNeoFmha3aP6oOpRGvK608lw5gUJVIKzwV6kH7EFQa7T
+   nBC74FjcU0PYE/SZI4NCRMOTjrPrg66LWNXbjcz3EH2u2kdUuU34buQ9r
+   WFuLOb7cpRwTkbvtIY3xbJfBFssc+LygMwt7P8S+QUdgEK4Vf3gDfmXfX
+   +iFvfpn5C6FfjINmrp36fnnSaJBx+A1t7BgT3SJZdvsfhBJh8HF8AjAIs
+   ZT2tpf7mIJnHe+MGCsfwJ1puwmW5HxvjZqAiUfb3Etu/vRsgciYEFHYv6
+   +ODArcGtmda6ZYj5bPxnFaq8BdSwz+T8cyKxVjUY3r5mbBvW+Q19mDBWm
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10668"; a="321440288"
+X-IronPort-AV: E=Sophos;i="5.98,313,1673942400"; 
+   d="scan'208";a="321440288"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Apr 2023 17:36:31 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10668"; a="809668302"
+X-IronPort-AV: E=Sophos;i="5.98,313,1673942400"; 
+   d="scan'208";a="809668302"
+Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
+  by orsmga004.jf.intel.com with ESMTP; 02 Apr 2023 17:36:31 -0700
+Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.21; Sun, 2 Apr 2023 17:36:30 -0700
+Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.21; Sun, 2 Apr 2023 17:36:30 -0700
+Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
+ orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.21 via Frontend Transport; Sun, 2 Apr 2023 17:36:30 -0700
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com (104.47.66.43) by
+ edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.21; Sun, 2 Apr 2023 17:36:30 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Jj62rnht5vvx1jagptuawur7YYTSp4TJuWLB8KI1AliKLIZkCF2TzRHsVziZkI1p3IYvGZni/awdiO7GgSLU2ut9yv1R4VqP+KZpmQ1N/UY5lrhkudiSF2gHVGhBnFZ0jR10He3kgS5/lvoYaFw6BMPK9mnCPAMiMVlWKf5n5jIPmU+H8LQZANIksmLThQXesO+BqBZC6LaqnixwWbhmHv8JI7xyTXZG3r7dXesEyP2e3Y8c80tup3/2YZcI68kFSlzLVP+DZ9pMSxVWzZgdB9FKvuaWcQ447V6HPl5UigXyp39oHb0MOXZTV96Fa8af0JPABkEe6dt/bKl5OvIxnA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=k+kbqxp780ukfkIo+GPLWB2+yt66NQIr5RDayw1jg9Q=;
+ b=f7yUe3HI8qHSHXLvdbYNYx7+0lGlUjpHhE+eU+ZsdhAHIRJ+4PdXQ1sj1BC36nkvTNeHyORd0KWI0AWNrCUiU44AXGEK3rWMXXQ3/Oz9izc4xwNPzRDlYqMMII+j2mAOrfh4r6MzRuI41MXJRZTilxRQCwFNp7rrJnYANIhouf3Xl5J78/b4hgEfcZpf77djkCNzSz2mWq0pxTrGSZJwqBqU0XqJ2y2FCIdWQrCaT3iIH+rsFmlvHlnT67djEZS2bDpFF1BN11R376vsudtDjy3UJ8spJmdemgYxeElKfYjMbL2LZ5JMf7EPSQMzRA7nb9es29AcYVIcZ5Lsqkxuhw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from SA1PR11MB6733.namprd11.prod.outlook.com (2603:10b6:806:25c::17)
+ by CH0PR11MB5281.namprd11.prod.outlook.com (2603:10b6:610:bc::21) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6254.30; Mon, 3 Apr
+ 2023 00:36:28 +0000
+Received: from SA1PR11MB6733.namprd11.prod.outlook.com
+ ([fe80::c5b2:6996:5aee:91db]) by SA1PR11MB6733.namprd11.prod.outlook.com
+ ([fe80::c5b2:6996:5aee:91db%8]) with mapi id 15.20.6254.030; Mon, 3 Apr 2023
+ 00:36:28 +0000
+Date: Sun, 2 Apr 2023 17:36:24 -0700
+From: Ira Weiny <ira.weiny@intel.com>
+To: Khadija Kamran <kamrankhadijadj@gmail.com>, <outreachy@lists.linux.dev>
+CC: <hvaibhav.linux@gmail.com>, <johan@kernel.org>, <elder@kernel.org>,
+	<gregkh@linuxfoundation.org>, <greybus-dev@lists.linaro.org>,
+	<linux-staging@lists.linux.dev>, <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH 0/2] improve arche_platform_wd_irq() function
+Message-ID: <642a1f88bd232_394c38294a5@iweiny-mobl.notmuch>
+References: <cover.1680185025.git.kamrankhadijadj@gmail.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <cover.1680185025.git.kamrankhadijadj@gmail.com>
+X-ClientProxiedBy: BY3PR10CA0001.namprd10.prod.outlook.com
+ (2603:10b6:a03:255::6) To SA1PR11MB6733.namprd11.prod.outlook.com
+ (2603:10b6:806:25c::17)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20230401145926.596216-1-hdegoede@redhat.com>
-In-Reply-To: <20230401145926.596216-1-hdegoede@redhat.com>
-From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Sun, 2 Apr 2023 21:13:30 +0200
-Message-ID: <CAHp75Vd8kcr0YCU7_oCSc8YqW5ZarP4RpQLexGV10A-auZi=Fg@mail.gmail.com>
-Subject: Re: [PATCH 00/28] media: atomisp: Further sensor rework + exotic
- features removal
-To: Hans de Goede <hdegoede@redhat.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
-	Kate Hsuan <hpa@redhat.com>, Tsuchiya Yuto <kitakar@gmail.com>, Andy Shevchenko <andy@kernel.org>, 
-	Yury Luneff <yury.lunev@gmail.com>, Nable <nable.maininbox@googlemail.com>, 
-	andrey.i.trufanov@gmail.com, Fabio Aiuto <fabioaiuto83@gmail.com>, 
-	linux-media@vger.kernel.org, linux-staging@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SA1PR11MB6733:EE_|CH0PR11MB5281:EE_
+X-MS-Office365-Filtering-Correlation-Id: 9082288f-14c4-421b-2bda-08db33db7672
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: ceyMWUXZ+m681mPOD9vUDu50eMjcqDw//iFNqkrlMVFkrsaMoJbRjgaBOPHntyCy8TfoD2YCCp1qau7stIoNd5i6zIknp6F5fkaEvcwn9RK3JQeQE0s5T6+ZB81pyv/vl4QS81RdAtpmEL1cjVux3jpg2oDDPXnjFATK9qZU4mQlLsOKKkc3wD8i+afFmhQl2BN+64I2efqYjJjwg4Ek5FAsdTxNnaZV07F3rew3DMC+HaIhRejeVaLotdS1c3bdm1mxi3mFPOQSRwX2Qec9dKhX1Fcc/UC5ViDM9hF3yFCBGWbc3rcIgrU3jgnxX1jRnNJSXAch5m03gJIfy8xMmDcMDlNvDiIb/0ZkKTf+Wz8M6QX7pUJOyapid9TvyFcrRZ4BGtzZTk14soqap4KSoS28VHoFQAqyFMdG5QN7P1pcr9pb7XVb5FJe9uO/8hb/vjXpvJ+KFjAt0R7lMkEQRWIjZIFoV2cssHPVPZDUhiFWt7oTAMUUElQbrvLWrcAV4FxCjqBsBpAnN+WJVIRAgAX0pcc9bXBuBJ8PKaaRODQFNOa0DggfsDBGpN6Abesb
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SA1PR11MB6733.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(396003)(136003)(366004)(346002)(39860400002)(376002)(451199021)(4326008)(8676002)(66556008)(66946007)(66476007)(478600001)(316002)(8936002)(4744005)(44832011)(5660300002)(41300700001)(82960400001)(38100700002)(186003)(83380400001)(6486002)(6666004)(9686003)(6512007)(6506007)(26005)(86362001)(2906002);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?eCnuJA4YNbeZLt1ZHgCgZsLVXgiSttx+GO3dqiq+0zLMNaJXJ/vZYTVfTbcQ?=
+ =?us-ascii?Q?k23o4SUnfcMX31zf4+EwLi9hDn657ijJV40olQzNfOzu0mPc0Ssd4PqeqmWy?=
+ =?us-ascii?Q?lSEmuyICtBsQK8hRIV9Lr6y2zOzhWoerk+OZ4icLrLM3mAFEual82GoHmDqO?=
+ =?us-ascii?Q?SEMgz2eVZW04FWCubv9u0ZTrWbUIllacpnSx14E0QXZ/kXZwzzJU82L8WhxE?=
+ =?us-ascii?Q?6IX5glvZjmUa/ZPouc5nKfopzqZpCyhu7DXrBWE8TN5eN9lwLRwEX0q4sfmB?=
+ =?us-ascii?Q?S3a0DElKecw9886+tNS3lTm6duvG5EnDsvb3tAa2Kbbs16Ek3xB5F/eBADWy?=
+ =?us-ascii?Q?dU0XCxTW3LkNbPdKtTOPhwLiUhlhnqleo56Q6h18W0B84yFvUEKdeAl8fIOv?=
+ =?us-ascii?Q?hhMAm2VenB3+0YH+efUoV5A+l0aBdxhFdLow3S5LoZl9zMrpTOxnbyIUl9li?=
+ =?us-ascii?Q?/xepzbvpy9fpLk4oJ+ZIP0kDK1JLPU9Lt3mVQbvGWecJ3Qu24gJo8hODjRuN?=
+ =?us-ascii?Q?uIc6PFG9OXcDW6t7CiW94iNoWxgWs5FpfzWH52dmmNAUk0Qd85daH5TmVjQA?=
+ =?us-ascii?Q?osgYhf7Fa1tV/gMpRTfiGZRBalMXKkWzWL4i3BKRI2C2mWTcz8fc1zecH3yN?=
+ =?us-ascii?Q?yqH6VRmcthPFRBpHh32s+T+Q/qvZX0YfrARhMhGVhMXdEvrRMzZjDn8bDMkp?=
+ =?us-ascii?Q?1PgI82O3GaYShO/yedw6mTBclvXfoMcvpnARls15e6P83UTySg1qUEcPqDx4?=
+ =?us-ascii?Q?Ib+opg2T8EoIdV57zl+2yYB2DA32h1+V64fv3zEgCWXwaZQfjO/Cdhdqn40u?=
+ =?us-ascii?Q?NjR8lVr30+OXrb0HBAH77lX04iX6+6jODlbgBhTbTQ6Ahf9mphrxgcp76vyu?=
+ =?us-ascii?Q?Bx7YnwR8H9JrNsFbCbeQEPu2WW0z2k426yJKAeTv8bQHSfwiNLcG1IxKzR8Z?=
+ =?us-ascii?Q?a2/eVZQQbB5hXXDtPwkh8XogwpaxuazCv5kHRhMzuJsR2ofuWEiE1AcuDcsj?=
+ =?us-ascii?Q?iOc34ZJkHCYUrWnZKkwZENouEKNsVEB8/9E4bNz36kG78O7/tuH7xIABrgpv?=
+ =?us-ascii?Q?a2AyJRQPq3BjoVx33X5kNMdsZWxHNDXKKp+rSwdhoxRu1hn3SakWyC56B1gD?=
+ =?us-ascii?Q?M1B+5AvFyUyaMeuz+bp1XOjrXrXVxPUgwEDrpDQHyJAWYTY1vxwZr/NzI7iz?=
+ =?us-ascii?Q?ZIE7pdxtc+FWzK1HuAJltzXdVXNCQazuNkjrAnNqUNXymU7Ds4qHJSKIyYx4?=
+ =?us-ascii?Q?D6YOKIGyGU2gcm6vfefxCTEpSEkKwwi3g/RLZn1TW9inGSzqOaCN3k1otzew?=
+ =?us-ascii?Q?PEhTjhhg1sWMzrVlCviHdEqdtAyllSDOkOw6Xb61Q5yv+kZEZhluW6T8Iz5k?=
+ =?us-ascii?Q?5LclualqHUGnyFvf/34OB/aVAMG+9W2xq7eJB0FCjiC5KK89mwv+Q2fLH5fq?=
+ =?us-ascii?Q?rzaDP8tqhl8Wnu//Dx4yciLnWedFUHVitolppnxrAQ0IZMYOdIMzFPxgTG2c?=
+ =?us-ascii?Q?paDw/4wo9x4H3xZqJawNnxl2qgPY7Ro1rGPzrpDYV3Mw9QblNz43EvSLAidE?=
+ =?us-ascii?Q?KVxSOvnDBCtr0dOfpddkEdg7zVsZeSH+bZecDfam?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9082288f-14c4-421b-2bda-08db33db7672
+X-MS-Exchange-CrossTenant-AuthSource: SA1PR11MB6733.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Apr 2023 00:36:28.4282
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: kn1WxvguhbLSmM5fbCGXsIAnpDBy2DD/J7hLu/xyMFbSgFDnrwrJMwhudpBng7f7hAJrW0KkBwzFqBMLpik6jQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH0PR11MB5281
+X-OriginatorOrg: intel.com
 
-On Sat, Apr 1, 2023 at 4:59=E2=80=AFPM Hans de Goede <hdegoede@redhat.com> =
-wrote:
->
-> Hi All,
->
-> Here is another set of atomisp patches from yours truely.
->
-> This basically consists of 2 parts:
->
-> 1.  Further sensor driver modernization to work towards using standard
->     v4l2 sensor drivers instead of atomisp specific copies
-> 1a. For some sensors some GPIOs have different polarity depending on
->     which board they are on and the order in which GPIOs are listed in
->     in the ACPI resources also is not consistent between boards.
->     Fixing this without relying on per board DMI quirks requires parsing
->     the results of a special Intel ACPI _DSM. Add a new
->     v4l2_get_acpi_sensor_info() helper for this
-> 1b. Convert the gc0310 driver to use ACPI runtime pm instead of relying
->     on the direct PMIC poking from atomisp_gmin_platform
->
-> 2.  Further work on removing various exotic features, specifically
->     prep work + remove support for streaming from 2 sensors at once,
->     as discussed here:
->     https://lore.kernel.org/linux-media/5309d845-063b-6dd9-529d-0f8265429=
-0f2@redhat.com/
+Khadija Kamran wrote:
+> Improve arche_platform_wd_irq() function to minimize indentation and fix
+> checkpatch issues.
 
-Traditionally, for the non-commented ones:
-Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
+Minor point but the cover should have
 
-For the rest depending on the severity of the comment. Feel free to
-add my tag where it makes sense in your opinion (no discussion
-required).
+'staging: greybus: ...'
 
+... for the subject.
 
-> Regards,
->
-> Hans
->
->
-> Hans de Goede (28):
->   media: atomisp: Add v4l2_get_acpi_sensor_info() helper
->   media: atomisp: ov2680: Use v4l2_get_acpi_sensor_info() for the GPIO
->     lookups
->   media: atomisp: ov2680: Error handling fixes
->   media: atomisp: gc0310: Remove some unused structure definitions
->   media: atomisp: gc0310: Remove GC0310_TOK_*
->   media: atomisp: gc0310: Simplify gc0310_write_reg_array()
->   media: atomisp: gc0310: Remove enum gc0310_tok_type
->   media: atomisp: gc0310: Replace custom reg access functions with smbus
->     helpers
->   media: atomisp: gc0310: Remove non working flip-controls
->   media: atomisp: gc0310: Remove read-only exposure control
->   media: atomisp: gc0310: Drop custom ATOMISP_IOC_S_EXPOSURE support
->   media: atomisp: gc0310: Add exposure and gain controls
->   media: atomisp: gc0310: Add error_unlock label to s_stream()
->   media: atomisp: gc0310: Modernize and simply set_fmt(), get_fmt(),
->     etc.
->   media: atomisp: gc0310: Delay power-on till streaming is started
->   media: atomisp: gc0310: Add runtime-pm support
->   media: atomisp: gc0310: Use devm_kzalloc() for data struct
->   media: atomisp: gc0310: Switch over to ACPI powermanagement
->   media: atomisp: Remove duplicate atomisp_[start|stop]_streaming
->     prototypes
->   media: atomisp: Remove continuous mode related code from
->     atomisp_set_fmt()
->   media: atomisp: Remove custom V4L2_CID_FMT_AUTO control
->   media: atomisp: Remove snr_mbus_fmt local var from atomisp_try_fmt()
->   media: atomisp: Remove unused ATOM_ISP_MAX_WIDTH_TMP and
->     ATOM_ISP_MAX_HEIGHT_TMP
->   media: atomisp: Remove atomisp_try_fmt() call from atomisp_set_fmt()
->   media: atomisp: Drop support for streaming from 2 sensors at once
->   media: atomisp: Remove struct atomisp_sub_device index field
->   media: atomisp: gmin_platform: Make DMI quirks take precedence over
->     the _DSM table
->   media: atomisp: gmin_platform: Add Lenovo Ideapad Miix 310 gmin_vars
->
->  .../media/atomisp/i2c/atomisp-gc0310.c        | 999 ++++--------------
->  .../media/atomisp/i2c/atomisp-ov2680.c        |  33 +-
->  drivers/staging/media/atomisp/i2c/gc0310.h    | 416 +++-----
->  drivers/staging/media/atomisp/i2c/ov2680.h    |   1 -
->  .../media/atomisp/include/linux/atomisp.h     |   2 -
->  .../atomisp/include/linux/atomisp_platform.h  |   2 +
->  .../staging/media/atomisp/pci/atomisp_cmd.c   | 356 ++-----
->  .../media/atomisp/pci/atomisp_compat.h        |   4 +-
->  .../media/atomisp/pci/atomisp_compat_css20.c  |  89 +-
->  .../staging/media/atomisp/pci/atomisp_fops.c  |   9 +-
->  .../media/atomisp/pci/atomisp_gmin_platform.c | 289 ++++-
->  .../media/atomisp/pci/atomisp_internal.h      |  20 +-
->  .../staging/media/atomisp/pci/atomisp_ioctl.c |  64 +-
->  .../staging/media/atomisp/pci/atomisp_ioctl.h |   3 -
->  .../media/atomisp/pci/atomisp_subdev.c        | 111 +-
->  .../media/atomisp/pci/atomisp_subdev.h        |   6 -
->  .../staging/media/atomisp/pci/atomisp_v4l2.c  |  36 +-
->  17 files changed, 844 insertions(+), 1596 deletions(-)
->
-> --
-> 2.39.1
->
+The function name is nice but it is a pain to look in the code to know
+what part of the kernel this series is for.
+
+Ira
+
+> 
+> Khadija Kamran (2):
+>   staging: greybus: add a single exit path to arche_platform_wd_irq()
+>   staging: greybus: refactor arche_platform_wd_irq()
+> 
+>  drivers/staging/greybus/arche-platform.c | 84 ++++++++++++------------
+>  1 file changed, 43 insertions(+), 41 deletions(-)
+> 
+> -- 
+> 2.34.1
+> 
+> 
 
 
---=20
-With Best Regards,
-Andy Shevchenko
