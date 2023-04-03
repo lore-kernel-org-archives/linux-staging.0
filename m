@@ -1,56 +1,51 @@
-Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
+Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 237127C;
-	Mon,  3 Apr 2023 04:29:43 +0000 (UTC)
-Received: by mail-ed1-f52.google.com with SMTP id i5so112275102eda.0;
-        Sun, 02 Apr 2023 21:29:42 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 611D8631
+	for <linux-staging@lists.linux.dev>; Mon,  3 Apr 2023 06:17:56 +0000 (UTC)
+Received: by mail-ed1-f54.google.com with SMTP id t10so112582673edd.12
+        for <linux-staging@lists.linux.dev>; Sun, 02 Apr 2023 23:17:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1680496181;
+        d=gmail.com; s=20210112; t=1680502674;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=0+jcEm/umXiKxj33UWcwhHckJKdBkBpU3hyzsLfjMvA=;
-        b=Fy8VjOwSwpwI1ksHIQhvJN9cc7dd0AL/usn9dPPsOmfay4L3YpmQxsE/cG4wG67xfn
-         3UKcwW41butcDqsY307Gam4LB8cXgR1XAySBqR5J9PE+QsBERuhkcpemfMqJ57w71g0N
-         VVmBgCHfysEM6o5aFRkpRgMvCqAaX9zl94fwa+qKHQKkeQlx92QqQysGbsihS7HXcmz1
-         yIhe1JzI7i2pIYyBEF8RbMnW53psGCowl+Oa7EXxTN59gUrvxRL3S7g4WlpbmoXJHGpp
-         n8otfAtKo0sxMHiIgLVa6xtGECMjNu46UfXPm+51Hue7UdwEz3zwH5kPvEP14rdaGWhl
-         gk8Q==
+        bh=sPU+k5Dii+Pl5dwm1iVz6jH2SOAHhEPucNsoSGY5PvI=;
+        b=PRe6QUC3nR/2OZdR9bXdXcRvsn08hKPaw8sdWaDoplmtW9vqt5OYLYcyO38rKrL/Dn
+         nU4Sw1lGkmHh76GjuHzgUycbrA9GkQoSv9Kl5HLTjsNgTUjHoT+oVlEv4dP9WzxOYl6R
+         5bO6MExFkFUiEC77LcZsntbHEeVpArDeuekF47tZHrgZ6ok+xbVLiPlWzSX/7oKlnu98
+         VIPnsdMK5TzEw5P7J5KGX2xXTdTqv4VOEcmRxyN8PJ8GcWRT7KxXRzvkFk5ZoM4kHC0X
+         15fSd9ecTmlp5wm0mSzdVC8vDPX61hybelW+V/YLEi8g95WCws5a7BS3YLjG747Oa/cd
+         O6Wg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680496181;
+        d=1e100.net; s=20210112; t=1680502674;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=0+jcEm/umXiKxj33UWcwhHckJKdBkBpU3hyzsLfjMvA=;
-        b=I16H/FhkRlDfyTqpIAhDEHp4nh+lTkvvzqh/woN4CZUba077IVSE7skcdAGFkQk/Ip
-         gGdmFZtwDiOeeuuoSv88x9/sF0HOWUvJzFsGANt7fQljN9rtZugTmB7hsgowdSVqv8aW
-         jyvpRNuJC+IvmeV+Sqe1yB8Y8D1IS/mtpLQsEBjI0jM9QCTJVM7jNOejinj6E0cIduCB
-         y+yErM/E8wGJUL0gXk1z4W6/ZE/K8rwhbRuwh9qKF8vomoyEHfGRv32fVHmW59HkOJDK
-         8Oo+0ZHYfqlk27ViiW1LRhaVdXwe3/35gYz+lKtLI2ofEPVU3bQh7VqxeicKxftaI+BP
-         LJpw==
-X-Gm-Message-State: AAQBX9el9fDdp9lsjnpIP0YZ2OGAcjXR4AIiYgZW4pgo33srX5O+PjXG
-	FpzAePG+YBcURRmWWBCUIhg=
-X-Google-Smtp-Source: AKy350Yuy8uDeMonDQ7b86zEISWdqvmRyRD2Bz4PYcHY4udEA3IvmVg6cfFd7ZnAk0dlXK3ghr4PcQ==
-X-Received: by 2002:a17:906:ac1:b0:92d:9767:8e0a with SMTP id z1-20020a1709060ac100b0092d97678e0amr30159313ejf.13.1680496181093;
-        Sun, 02 Apr 2023 21:29:41 -0700 (PDT)
+        bh=sPU+k5Dii+Pl5dwm1iVz6jH2SOAHhEPucNsoSGY5PvI=;
+        b=XON5A2wTYNp7Qcd+BF4LkSKfJ4edzJ/IxSV/x2r+OxYIrnku93RcnBB/JUtLw8Ribb
+         6mD+0K8Jx9LZN0fjvHPsqV5CklWkIOWCMnyTur9TVJQGQab7CzAy4KlSZkQQhCdU/mtY
+         Xjpic5vGwypV+svYTx+WKNC93WpfslC1CggOfZff2oMC/Q7JGiIpf8A4cES3OgPIkv37
+         sgrbCqs0LeoWyGAfTHnG1ZKcPB0M9AUScbau4gMLQH/KhWVYj7qgiydJl10wS7CnvETW
+         bHJpV8NhP7Fjk0yITzKUl+VV+N2zF1+MCcEzGJJE1WDvWWGj8quoBzH3x4OABnlH3ALq
+         Qqhw==
+X-Gm-Message-State: AAQBX9da/3ygOxgYpqOytPwGVQ6O832Y5I8eAFZVxMbxVrV9mBZHXLai
+	giwTqSDcKvjDVhGcSuK7HTo=
+X-Google-Smtp-Source: AKy350YHSbxzegcW2mkTpFZYnRIASQMU5daFkaJAvd++9Zrz/s2TZQaQYfadfF9e+ePuR/fXgHUcew==
+X-Received: by 2002:a05:6402:2693:b0:4bc:edde:150d with SMTP id w19-20020a056402269300b004bcedde150dmr16404444edd.0.1680502674566;
+        Sun, 02 Apr 2023 23:17:54 -0700 (PDT)
 Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id l2-20020a170906938200b00948a57aac08sm445563ejx.204.2023.04.02.21.29.39
+        by smtp.gmail.com with ESMTPSA id f24-20020a50a6d8000000b004acbda55f6bsm4108176edc.27.2023.04.02.23.17.53
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 02 Apr 2023 21:29:40 -0700 (PDT)
-Date: Mon, 3 Apr 2023 07:29:36 +0300
+        Sun, 02 Apr 2023 23:17:54 -0700 (PDT)
+Date: Mon, 3 Apr 2023 09:17:51 +0300
 From: Dan Carpenter <error27@gmail.com>
-To: Khadija Kamran <kamrankhadijadj@gmail.com>
-Cc: outreachy@lists.linux.dev, hvaibhav.linux@gmail.com, johan@kernel.org,
-	elder@kernel.org, gregkh@linuxfoundation.org,
-	greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Alison Schofield <alison.schofield@intel.com>
-Subject: Re: [PATCH 2/2] staging: greybus: refactor arche_platform_wd_irq()
-Message-ID: <9688d93f-5ece-4799-898d-98515a98f9be@kili.mountain>
-References: <cover.1680185025.git.kamrankhadijadj@gmail.com>
- <96d04a4ff3d4a46293355f5afae3a8ece65f2c5b.1680185025.git.kamrankhadijadj@gmail.com>
- <6ce8aa34-e600-4d6a-adad-ead8255342e5@kili.mountain>
- <ZChs5jB7DMCUnVzr@khadija-virtual-machine>
+To: Dalvin-Ehinoma Noah Aiguobas <pharcodra@gmail.com>
+Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: octeon: remove typedef declaration for
+ cvmx_fau_op_size
+Message-ID: <ef806781-72b1-457b-bb01-570c8145ab41@kili.mountain>
+References: <20230401212002.GA30519@koolguy>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -59,143 +54,38 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ZChs5jB7DMCUnVzr@khadija-virtual-machine>
+In-Reply-To: <20230401212002.GA30519@koolguy>
 
-On Sat, Apr 01, 2023 at 10:41:58PM +0500, Khadija Kamran wrote:
-> On Thu, Mar 30, 2023 at 06:23:19PM +0300, Dan Carpenter wrote:
-> > On Thu, Mar 30, 2023 at 07:11:25PM +0500, Khadija Kamran wrote:
-> > > Linux kernel coding-style suggests to fix your program if it needs more
-> > > than 3 levels of indentation. Due to indentation, line length also
-> > > exceeds 100 columns, resulting in issues reported by checkpatch.
-> > > 
-> > > Refactor the arche_platform_wd_irq() function and reduce the indentation
-> > > with the help of goto statement.
-> > > 
-> > > Suggested-by: Alison Schofield <alison.schofield@intel.com>
-> > > Signed-off-by: Khadija Kamran <kamrankhadijadj@gmail.com>
-> > > ---
-> > >  drivers/staging/greybus/arche-platform.c | 79 ++++++++++++------------
-> > >  1 file changed, 41 insertions(+), 38 deletions(-)
-> > > 
-> > > diff --git a/drivers/staging/greybus/arche-platform.c b/drivers/staging/greybus/arche-platform.c
-> > > index a64c1af091b0..dde30c8da1a1 100644
-> > > --- a/drivers/staging/greybus/arche-platform.c
-> > > +++ b/drivers/staging/greybus/arche-platform.c
-> > > @@ -158,49 +158,52 @@ static irqreturn_t arche_platform_wd_irq(int irq, void *devid)
-> > >  
-> > >  	spin_lock_irqsave(&arche_pdata->wake_lock, flags);
-> > >  
-> > > -	if (gpiod_get_value(arche_pdata->wake_detect)) {
-> > > -		/* wake/detect rising */
-> > > +	if (!gpiod_get_value(arche_pdata->wake_detect))
-> > > +		goto falling;
-> > >  
-> > > +	/* wake/detect rising */
-> > > +
-> > > +	/*
-> > > +	 * If wake/detect line goes high after low, within less than
-> > > +	 * 30msec, then standby boot sequence is initiated, which is not
-> > > +	 * supported/implemented as of now. So ignore it.
-> > > +	 */
-> > > +	if (arche_pdata->wake_detect_state != WD_STATE_BOOT_INIT)
-> > > +		goto out;
-> > 
-> > This checks that we are in WD_STATE_BOOT_INIT state.
-> > 
-> > > +
-> > > +	if (time_before(jiffies,
-> > > +			arche_pdata->wake_detect_start +
-> > > +			msecs_to_jiffies(WD_COLDBOOT_PULSE_WIDTH_MS))) {
-> > > +		arche_platform_set_wake_detect_state(arche_pdata,
-> > > +						     WD_STATE_IDLE);
-> > > +		got out;
-> > > +	}
-> > > +
-> > > +	/* Check we are not in middle of irq thread already */
-> > > +	if (arche_pdata->wake_detect_state !=
-> > > +			WD_STATE_COLDBOOT_START) {
-> > 
-> > This checks that we are not in WD_STATE_COLDBOOT_START state.  How are
-> > we going to be in COLDBOOT if we are in INIT?  Is this changing in the
-> > background?  Can this check be removed?  This might be took tricky to
-> > answer but it's important that we understand this before we continue.
-> > 
-> > 
-> > > +		arche_platform_set_wake_detect_state(arche_pdata,
-> > > +						     WD_STATE_COLDBOOT_TRIG);
-> > > +		rc = IRQ_WAKE_THREAD;
-> > > +		goto out;
-> > > +	}
-> > 
-> > Let's assume the above check cannot be removed.
-> > 
-> > In the original code if gpiod_get_value(arche_pdata->wake_detect)
-> > returned true and arche_pdata->wake_detect_state == WD_STATE_IDLE then
-> > it just returned without doing anything, but now we fall through to the
-> > falling: label below.
+On Sat, Apr 01, 2023 at 11:20:02PM +0200, Dalvin-Ehinoma Noah Aiguobas wrote:
+> Fix checkpatch.pl warning: do not add new typedefs in
+> drivers/staging/octeon/octeon-stubs.h:216
 > 
-> Hey Dan,
+> Signed-off-by: Dalvin-Ehinoma Noah Aiguobas <pharcodra@gmail.com>
+> ---
+>  drivers/staging/octeon/octeon-stubs.h | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
 > 
-> Just to clear my undrstanding in the new code, if
-> gpiod_get_value(arche_pdata->wake_detect) returned true, we go to the
-> rising section. In the rising section if arche_pdata->wake_detect_state
-> == WD_STATE_IDLE then the condition,
-> if (arche_pdata->wake_detect_state != WD_STATE_BOOT_INIT) becomes true
-> so we goto out label. I do not understand how we go to falling label.
-> 
-> Regards,
-> Khadija
+> diff --git a/drivers/staging/octeon/octeon-stubs.h b/drivers/staging/octeon/octeon-stubs.h
+> index 3e7b92cd2e35..cf560c321c92 100644
+> --- a/drivers/staging/octeon/octeon-stubs.h
+> +++ b/drivers/staging/octeon/octeon-stubs.h
+> @@ -213,12 +213,12 @@ enum cvmx_fau_op_size {
+>  	CVMX_FAU_OP_SIZE_64 = 3
+>  };
+>  
+> -typedef enum {
+> +enum cvmx_spi_mode_t {
 
-Let me show you in the original code:
+The _t means typedef and it isn't a typedef now.  Change the name to
+"cvmx_spi_mode".
 
-STEP 1:	if (gpiod_get_value(arche_pdata->wake_detect)) {
-
-Assume this condition is true.
-
-STEP 2:		if (arche_pdata->wake_detect_state == WD_STATE_BOOT_INIT) {
-
-Assume this condition is true.
-
-STEP 3:		if (time_before(jiffies, ...)
-
-Assume that time is up.
-
-STEP 4:			if (arche_pdata->wake_detect_state !=
-					WD_STATE_COLDBOOT_START) {
-
-Assume that it is equal.  We are done.  return IRQ_HANDLED;
-
-Now in the new code:
-
-STEP 1:	if (!gpiod_get_value(arche_pdata->wake_detect))
-		goto falling;
-
-Assume we don't goto falling.
-
-STEP 2:	if (arche_pdata->wake_detect_state != WD_STATE_BOOT_INIT)
-
-Assume that it == WD_STATE_BOOT_INIT.
-
-STEP 3:	if (time_before(jiffies, ...)
-
-Assume that time is up.
-
-STEP 4:	if (arche_pdata->wake_detect_state != WD_STATE_COLDBOOT_START) {
-
-Assume that it is equal.  Before, in the old code it would return
-return IRQ_HANDLED; at this point.  But now it does:
-
-STEP 5:	if (arche_pdata->wake_detect_state == WD_STATE_IDLE) {
-
-Which seems like it's a contradictory condition with STEP 4 so it's
-probably impossible.  But on the other hand, we have already checked
-contradictory conditions between STEP 2 and STEP 4 so who knows what's
-going on?
-
-This function is very hard to understand.
-
-Also if stuff is changing in the background and there is no way the
-locking is correct.
+>  	CVMX_SPI_MODE_UNKNOWN = 0,
+>  	CVMX_SPI_MODE_TX_HALFPLEX = 1,
+>  	CVMX_SPI_MODE_RX_HALFPLEX = 2,
+>  	CVMX_SPI_MODE_DUPLEX = 3
+> -} cvmx_spi_mode_t;
+> +};
 
 regards,
 dan carpenter
+
