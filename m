@@ -1,92 +1,89 @@
-Received: from relay11.mail.gandi.net (relay11.mail.gandi.net [217.70.178.231])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 396FD6D22
-	for <linux-staging@lists.linux.dev>; Tue,  4 Apr 2023 14:13:08 +0000 (UTC)
-Received: from booty (unknown [77.244.183.192])
-	(Authenticated sender: luca.ceresoli@bootlin.com)
-	by mail.gandi.net (Postfix) with ESMTPSA id 3D7E6100005;
-	Tue,  4 Apr 2023 14:12:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1680617587;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Zl7MLykOKA8UlNhyqu3tWD/vjZRODEGN3E9wOmRfmr8=;
-	b=HERL1THee0w4ARcbmdqBbW9M2FrPt7M+4Zaeh/18I2OVyQ3MM0Usdk7NaPHFHD9vHrkI+I
-	e6Rw2Qo8DqxzMLNRPH7tdMTM4sXVOKb3byVmNQw1hU9hyte98VxCkOevjiFKXUjndP7l0o
-	fQXdMmYky22zAt7WMMTqJNETXimQFN7kaXSK2gu+vzkgvcXwnoMVA+S4byJsnO9o0TyEdL
-	NTpBE/7o4qGE7Tm1KSr5epsIsp2X3gs1bhxOKwvfmoWs1fJ9uXdwMxKdp72zRd/W2yJ+BC
-	2f5+NrOZt/WcDePLlFvQ+Cr+DbQfAOEuR513WeF4ixVoJRbe1FkVNLOkeaT62Q==
-Date: Tue, 4 Apr 2023 16:12:51 +0200
-From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-To: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc: Thierry Reding <thierry.reding@gmail.com>, Jonathan Hunter
- <jonathanh@nvidia.com>, Sowjanya Komatineni <skomatineni@nvidia.com>, David
- Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, Rob Herring
- <robh+dt@kernel.org>, Krzysztof Kozlowski
- <krzysztof.kozlowski+dt@linaro.org>, Mauro Carvalho Chehab
- <mchehab@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Dmitry Osipenko <digetx@gmail.com>, linux-media@vger.kernel.org,
- linux-tegra@vger.kernel.org, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-staging@lists.linux.dev, Thomas Petazzoni
- <thomas.petazzoni@bootlin.com>, Paul Kocialkowski
- <paul.kocialkowski@bootlin.com>, Richard Leitner
- <richard.leitner@skidata.com>, Laurent Pinchart
- <laurent.pinchart@ideasonboard.com>
-Subject: Re: [RESEND PATCH v4 03/21] staging: media: tegra-video: fix
- .vidioc_enum_fmt_vid_cap to return all formats
-Message-ID: <20230404161251.272cc78b@booty>
-In-Reply-To: <85268d69-3d3b-2c0f-ba26-073f09052362@xs4all.nl>
-References: <20230309144320.2937553-1-luca.ceresoli@bootlin.com>
-	<20230309144320.2937553-4-luca.ceresoli@bootlin.com>
-	<85268d69-3d3b-2c0f-ba26-073f09052362@xs4all.nl>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E9E428F3;
+	Tue,  4 Apr 2023 16:54:01 +0000 (UTC)
+Received: by mail-ed1-f45.google.com with SMTP id er13so92269259edb.9;
+        Tue, 04 Apr 2023 09:54:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1680627240;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=sGzZwlArkCanfjz3209OKEfk0hXSgBO1tQBC1EAfOQs=;
+        b=RtSnDTr1VANEwCyMGM+vEm53Kdt9EoAiFNvRS2f4emGqMqIA7o3Ois6LHXR1pKkb9G
+         a7CSUA7lswHy8kM/nTNSDAMRVV6bjG7f8+6RKyYWETlq+PiUU/Gb2Js9uNu0c/gSg+Xj
+         dM1SCz1cPMmNOdc+N3jVPfcwjkx7O+vDTt+8WIJKdZzOd3DjwpE7kRVeTSdPF/c3Y0ga
+         KO82tzmJaW4G7KOADVI37ICZ6gxdYOZp1Elir/OFa0uXinSne8pQEmu4IzwZy/1wPZcm
+         VlJe/8i6chRPUUJnNgs66kPhEAT0kXC0hulAm9ZAqj9+66UZJNLV9M/ySsdgxbvxOGUH
+         0vJA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1680627240;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=sGzZwlArkCanfjz3209OKEfk0hXSgBO1tQBC1EAfOQs=;
+        b=OmlxFbEWSMgBL94zO2MuTognzVW5o+1dpiVEeCHPbeeVkAteE42MKEMlKcRtWOEZGj
+         sLm32UaFiZls9sDzrbq2g9seeSb1ayC8xj2ceodUyG130TmES0XHkGeTcTYBgQeOeJSL
+         wFCEeXZq6eSDcgxjZNnv29d6uZpTrADFn9TOigQ1OXbe6cxAeQAEPrPHaKkZheQT7yON
+         sBNM6UsG3m69C1wuDi0LFjh7MmkyAvMfdqw1veUqmAWiWVs7tFpTUbuAACLb2RIkM2yS
+         KEkuLFydICg5Ea00Yauf2qArdyY/6VmcyD3xgqSkr3wxjhpogAdWebhHDb4TiIom8TNR
+         Xofw==
+X-Gm-Message-State: AAQBX9dIuT6App7Arjdp6mICC5zmsR1Xq0FSp2F3BcYJJksGEf6gNb48
+	zaBgLTLa3apxV/8mlAet8Fs=
+X-Google-Smtp-Source: AKy350ZKXk3hfK516A/weJLnTJBSMLsovyookq63ehsy6W9OCLNvhirELuhDUofyxwVNkDU2Gor1fQ==
+X-Received: by 2002:a17:906:c784:b0:92d:591f:6586 with SMTP id cw4-20020a170906c78400b0092d591f6586mr220041ejb.34.1680627239992;
+        Tue, 04 Apr 2023 09:53:59 -0700 (PDT)
+Received: from jernej-laptop.localnet (82-149-1-233.dynamic.telemach.net. [82.149.1.233])
+        by smtp.gmail.com with ESMTPSA id k26-20020a1709062a5a00b009331450d04esm6284487eje.178.2023.04.04.09.53.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 04 Apr 2023 09:53:59 -0700 (PDT)
+From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
+To: Maxime Ripard <mripard@kernel.org>,
+ Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>,
+ Uwe =?ISO-8859-1?Q?Kleine=2DK=F6nig?= <u.kleine-koenig@pengutronix.de>
+Cc: linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+ kernel@pengutronix.de
+Subject:
+ Re: [PATCH 15/24] staging: media: sunxi: cedrus: Convert to platform remove
+ callback returning void
+Date: Tue, 04 Apr 2023 18:53:58 +0200
+Message-ID: <2673737.mvXUDI8C0e@jernej-laptop>
+In-Reply-To: <20230403154014.2564054-16-u.kleine-koenig@pengutronix.de>
+References:
+ <20230403154014.2564054-1-u.kleine-koenig@pengutronix.de>
+ <20230403154014.2564054-16-u.kleine-koenig@pengutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="iso-8859-1"
 
-Hello Hans,
+Dne ponedeljek, 03. april 2023 ob 17:40:05 CEST je Uwe Kleine-K=F6nig=20
+napisal(a):
+> The .remove() callback for a platform driver returns an int which makes
+> many driver authors wrongly assume it's possible to do error handling by
+> returning an error code. However the value returned is (mostly) ignored
+> and this typically results in resource leaks. To improve here there is a
+> quest to make the remove callback return void. In the first step of this
+> quest all drivers are converted to .remove_new() which already returns
+> void.
+>=20
+> Trivially convert this driver from always returning zero in the remove
+> callback to the void returning variant.
+>=20
+> Signed-off-by: Uwe Kleine-K=F6nig <u.kleine-koenig@pengutronix.de>
 
-On Wed, 29 Mar 2023 13:16:22 +0200
-Hans Verkuil <hverkuil-cisco@xs4all.nl> wrote:
-
-> Hi Luca,
-> 
-> I finally found the time to test this series. It looks OK, except for this patch.
-
-Thank you very much for taking the time!
-
-> The list of supported formats really has to be the intersection of what the tegra
-> supports and what the sensor supports.
-> 
-> Otherwise you would advertise pixelformats that cannot be used, and the application
-> would have no way of knowing that.
-
-As far as I understand, I think we should rather make this driver fully
-behave as an MC-centric device. It is already using MC quite
-successfully after all.
-
-Do you think this is correct?
-
-If you do, then I think the plan would be:
-
- - Add the V4L2_CAP_IO_MC flag
- - As the mbus_code in get_format appropriately
- - Leave the changes in this patch unmodified otherwise
+Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 
 Best regards,
-Luca
+Jernej
 
--- 
-Luca Ceresoli, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+
