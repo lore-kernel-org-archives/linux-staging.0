@@ -1,138 +1,158 @@
-Received: from mslow1.mail.gandi.net (mslow1.mail.gandi.net [217.70.178.240])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15C277E;
-	Tue,  4 Apr 2023 09:02:55 +0000 (UTC)
-Received: from relay2-d.mail.gandi.net (unknown [IPv6:2001:4b98:dc4:8::222])
-	by mslow1.mail.gandi.net (Postfix) with ESMTP id 2F1A4CEBCA;
-	Tue,  4 Apr 2023 08:47:11 +0000 (UTC)
-Received: (Authenticated sender: paul.kocialkowski@bootlin.com)
-	by mail.gandi.net (Postfix) with ESMTPSA id D2E9C40018;
-	Tue,  4 Apr 2023 08:47:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1680598023;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E0B17C
+	for <linux-staging@lists.linux.dev>; Tue,  4 Apr 2023 11:36:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1680608206;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=6bINFhzmdTa6KM0KrBA3I4IJBmsVMvlZkHyY+xaRQxU=;
-	b=dChcN4ngozhcMpNR78w+uaWsrIAVm7KxfS+aUBZJCJXVFBM6f/+RfKc3FMcV4GJF1aTzlN
-	4i9uym1+1FD9mojS2vCSmI1v6+o0Kvf52vZhYK6n8jxBFl4quiafnvmiKCcVnXQ4tWjl9A
-	qqcWcV4NmN6JlArqb9HCpLB7JKhjezRewCdlVzjI4kb2ijzKvsFP/ZXSf1wk9Mjet9tBa/
-	cpPmB/2rpC6S/B3TVnsRbE4ywJvrtBzAW5qy46bK4p4mPNRQK5iaJ8PhlDAHiwuurzoQBR
-	mdOBgUXHV1vzdd5W7K8hPll8vVAQgfLzOMSWuZj4zstXCfonxgN+qUb0coX54w==
-Date: Tue, 4 Apr 2023 10:47:00 +0200
-From: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-To: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-Cc: Maxime Ripard <mripard@kernel.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>, linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev, kernel@pengutronix.de
-Subject: Re: [PATCH 15/24] staging: media: sunxi: cedrus: Convert to platform
- remove callback returning void
-Message-ID: <ZCvkBEddzwUDcdu-@aptenodytes>
-References: <20230403154014.2564054-1-u.kleine-koenig@pengutronix.de>
- <20230403154014.2564054-16-u.kleine-koenig@pengutronix.de>
+	bh=ojOFhnhp4SsyD0rEUsce5/2jxSoNGXx6ELi80cUBriI=;
+	b=P0cgxf+G5VInhk/EbrcA/bbDZ3f4XrwrL0KoHfPqvKBU/r1dDtcJWRGqXLEQIx7TeOguwi
+	HxbgHeLcrYBRYs8rkyRoiW62Q14UHtT2U6dvdkhfoapJkgIUUaxfnzizQXort4CYRgqlrK
+	TANzUewYPIf5UeHwsP3TW8Yt1tqYUXo=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-204--nClAz4cNv-5sBAp_-TCGA-1; Tue, 04 Apr 2023 07:36:45 -0400
+X-MC-Unique: -nClAz4cNv-5sBAp_-TCGA-1
+Received: by mail-wm1-f70.google.com with SMTP id r11-20020a05600c458b00b003eea8d25f06so16181979wmo.1
+        for <linux-staging@lists.linux.dev>; Tue, 04 Apr 2023 04:36:45 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1680608204;
+        h=content-transfer-encoding:mime-version:message-id:date:references
+         :in-reply-to:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=ojOFhnhp4SsyD0rEUsce5/2jxSoNGXx6ELi80cUBriI=;
+        b=ysWv1TtKa2m6SWLg5sumySpC/w83+WUwc4tUtVcgGGldbA82Ma3Xfc4ekNAiFkRiBo
+         NbUeppx4KNtcdu89+52OEAZRcr9INc8xU7iU/q2uiSm9I9BompTCft5V3VyPKuB5IX5F
+         xft0EI8zEMSfLDju/JF7BOxDGVpK/VKWdKLnKqLCHlMGgOoRtrq5p8zijaP/U7BIyZ6S
+         9Kph1JwfslFECyxtLQHd05Ee+H70/I9d6MI2wJUsCTkIr6TEyVZAtT/uLmdzN0mY+RUz
+         20Ufy/umzFduV6gJv8exjhM8+hnpTT6HuO6Zx3fsOVRri0sZt2PD6CvHyJWx5eWmAF0h
+         HeHg==
+X-Gm-Message-State: AAQBX9emS0QrT/AsRePizRUNGjw8SzGUy/QJXdbQVqU3HV42saOUAGNp
+	nwDh+xmMQKBS+1CKkqEK3ESclWizJeglkGg3N2MD8ijAyRIVnXqzJWPz0PY9I3d1CSCYYnriizC
+	2shJrL+u2wmE31KUf+SIR8K3nHQ==
+X-Received: by 2002:a7b:ce99:0:b0:3ea:e4f8:be09 with SMTP id q25-20020a7bce99000000b003eae4f8be09mr1997463wmj.30.1680608204167;
+        Tue, 04 Apr 2023 04:36:44 -0700 (PDT)
+X-Google-Smtp-Source: AKy350ZBl7sxG9qT96buUn7fCxResMaGdQnJeglH7Vd76qcVabWIRkxQ82wcbXV5wbZuVW0Aj/hJaw==
+X-Received: by 2002:a7b:ce99:0:b0:3ea:e4f8:be09 with SMTP id q25-20020a7bce99000000b003eae4f8be09mr1997442wmj.30.1680608203876;
+        Tue, 04 Apr 2023 04:36:43 -0700 (PDT)
+Received: from localhost (205.pool92-176-231.dynamic.orange.es. [92.176.231.205])
+        by smtp.gmail.com with ESMTPSA id y5-20020a05600c364500b003ee0d191539sm15036395wmq.10.2023.04.04.04.36.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 04 Apr 2023 04:36:43 -0700 (PDT)
+From: Javier Martinez Canillas <javierm@redhat.com>
+To: Samuel =?utf-8?Q?=C4=8Cavoj?= <samuel@cavoj.net>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, deller@gmx.de, daniel@ffwll.ch,
+ sam@ravnborg.org, maxime@cerno.tech, linux-fbdev@vger.kernel.org,
+ linux-staging@lists.linux.dev, dri-devel@lists.freedesktop.org, Zack Rusin
+ <zackr@vmware.com>, Daniel Vetter <daniel.vetter@ffwll.ch>, Alex Deucher
+ <alexander.deucher@amd.com>, Zhen Lei <thunder.leizhen@huawei.com>,
+ Changcheng Deng <deng.changcheng@zte.com.cn>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>
+Subject: Re: [PATCH v2 07/11] video/aperture: Disable and unregister sysfb
+ devices via aperture helpers
+In-Reply-To: <e556191a3cc9730f3d83c7aaea7d3b3e@cavoj.net>
+References: <20220718072322.8927-1-tzimmermann@suse.de>
+ <20220718072322.8927-8-tzimmermann@suse.de>
+ <9f682c15a5484b4a94f63e20d41f67d0@cavoj.net>
+ <e881f6d6-0d2b-5775-68f2-35cc4d666d63@suse.de>
+ <874jqfpw7k.fsf@minerva.mail-host-address-is-not-set>
+ <87706a167c1e490a12371e2edf0f34e3@cavoj.net>
+ <87v8ivoc3r.fsf@minerva.mail-host-address-is-not-set>
+ <e556191a3cc9730f3d83c7aaea7d3b3e@cavoj.net>
+Date: Tue, 04 Apr 2023 13:36:42 +0200
+Message-ID: <87wn2rdgl1.fsf@minerva.mail-host-address-is-not-set>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="gTlsYDrwY4RlCnWi"
-Content-Disposition: inline
-In-Reply-To: <20230403154014.2564054-16-u.kleine-koenig@pengutronix.de>
-
-
---gTlsYDrwY4RlCnWi
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-Hi,
+Samuel =C4=8Cavoj <samuel@cavoj.net> writes:
 
-On Mon 03 Apr 23, 17:40, Uwe Kleine-K=C3=B6nig wrote:
-> The .remove() callback for a platform driver returns an int which makes
-> many driver authors wrongly assume it's possible to do error handling by
-> returning an error code. However the value returned is (mostly) ignored
-> and this typically results in resource leaks. To improve here there is a
-> quest to make the remove callback return void. In the first step of this
-> quest all drivers are converted to .remove_new() which already returns
-> void.
->=20
-> Trivially convert this driver from always returning zero in the remove
-> callback to the void returning variant.
->=20
-> Signed-off-by: Uwe Kleine-K=C3=B6nig <u.kleine-koenig@pengutronix.de>
+Hello Samuel,
 
-Reviewed-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+> On 2023-03-20 13:12, Javier Martinez Canillas wrote:
+>> Samuel =C4=8Cavoj <samuel@cavoj.net> writes:
+>>=20
+>> [...]
+>>=20
+>>>>>> This call to sysfb_disable() has been causing trouble with regard=20
+>>>>>> to
+>>>>>> VFIO. VFIO has been calling aperture_remove_conflicting_pci_devices
+>>>>>> to
+>>>>>> get rid of any console drivers (d173780620792c) using the device in
+>>>>>> question, but now even unrelated drivers are getting killed.=20
+>>>>>> Example
+>>>>>> situation:
+>>>>>=20
+>>>>> Which drivers do you use?
+>>>=20
+>>> This happens with either no drivers loaded or the proprietary nvidia
+>>> driver. Nouveau is fine as it doesn't rely on efifb but brings its=20
+>>> own.
+>>>=20
+>>=20
+>> Which is what all DRM drivers should do. If they want to make sure that=
+=20
+>> a
+>> fbdev will be present after the DRM driver probes, then should register=
+=20
+>> an
+>> emulated fbdev.
+>
+> I don't see how this is specific to Nvidia or DRM drivers.
+>
 
-Thanks,
+Not specific to Nvidia per se but as mentioned it only affected Nvidia due
+that driver relying on a different graphics driver to get a VT console.
 
-Paul
+> The efifb is killed if vfio-pci (or another driver which uses the
+> aperture system to remove conflicting drivers) is bound to ANY pci
+> device, regardless of whether it's nvidia's fault for not implementing
+> a framebuffer. Fair enough, I agree that they should, but
+> I for one expect my efifb to not die at a random time
+> when a random unrelated driver does a random thing with another
+> unrelated GPU.
+>
 
-> ---
->  drivers/staging/media/sunxi/cedrus/cedrus.c | 6 ++----
->  1 file changed, 2 insertions(+), 4 deletions(-)
->=20
-> diff --git a/drivers/staging/media/sunxi/cedrus/cedrus.c b/drivers/stagin=
-g/media/sunxi/cedrus/cedrus.c
-> index a43d5ff66716..3c62376c3e94 100644
-> --- a/drivers/staging/media/sunxi/cedrus/cedrus.c
-> +++ b/drivers/staging/media/sunxi/cedrus/cedrus.c
-> @@ -543,7 +543,7 @@ static int cedrus_probe(struct platform_device *pdev)
->  	return ret;
->  }
-> =20
-> -static int cedrus_remove(struct platform_device *pdev)
-> +static void cedrus_remove(struct platform_device *pdev)
->  {
->  	struct cedrus_dev *dev =3D platform_get_drvdata(pdev);
-> =20
-> @@ -558,8 +558,6 @@ static int cedrus_remove(struct platform_device *pdev)
->  	v4l2_device_unregister(&dev->v4l2_dev);
-> =20
->  	cedrus_hw_remove(dev);
-> -
-> -	return 0;
->  }
-> =20
->  static const struct cedrus_variant sun4i_a10_cedrus_variant =3D {
-> @@ -706,7 +704,7 @@ static const struct dev_pm_ops cedrus_dev_pm_ops =3D {
-> =20
->  static struct platform_driver cedrus_driver =3D {
->  	.probe		=3D cedrus_probe,
-> -	.remove		=3D cedrus_remove,
-> +	.remove_new	=3D cedrus_remove,
->  	.driver		=3D {
->  		.name		=3D CEDRUS_NAME,
->  		.of_match_table	=3D of_match_ptr(cedrus_dt_match),
-> --=20
-> 2.39.2
->=20
+There was a patch series to address that:
+
+https://patchwork.kernel.org/project/dri-devel/list/?series=3D711019&archiv=
+e=3Dboth
+
+In particular, this patch:
+
+https://patchwork.kernel.org/project/dri-devel/patch/20230111154112.90575-1=
+1-daniel.vetter@ffwll.ch/
+
+> Or is the efifb considered a stop-gap solution the only purpose of
+> which is early boot--before another GPU driver is loaded?
+>
+
+All the firmware-provided graphics drivers are really a best effort IMO,
+that is something only to be used to get early video output and any in the
+case of "nomodeset" (i.e: some distros have a "Safe graphics mode" boot
+entry that prevents DRM drivers to be loaded but used for troubleshooting.
+
+But as soon as a real DRM driver is probed (either in the host or a guest
+when the device is passed-through), I believe that is very likely that it
+won't work anymore. In other words, is not a robust way to get output and
+is just a best effort.
 
 --=20
-Paul Kocialkowski, Bootlin
-Embedded Linux and kernel engineering
-https://bootlin.com
+Best regards,
 
---gTlsYDrwY4RlCnWi
-Content-Type: application/pgp-signature; name="signature.asc"
+Javier Martinez Canillas
+Core Platforms
+Red Hat
 
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAmQr5AQACgkQ3cLmz3+f
-v9HVoAf/ZFWVcxlp+nKEAO4U+Wc8jLdyCLr/KHKRR6ahmcD5jYhiFeROgA8zoYFM
-PFQveoIR1/Eu6MERX4KvcEOWnQ960Exa+DJZCFi2mC5dXq+0C97drEX8VC0LoFY+
-1NjNTmiXA4ztPohliyR6tMw2AfeEsBk58wX3L6Zo7xNxnpV2cCZOlUMYk+BPiGfT
-/FIHYsHUmhsdbqWJdx9h95J0B9GzXxK97aOt/NAfjMjVR9fLv4pFeysqfH44uHFa
-uggwWp2oAC8aBWd/tKL/EvjWgrlM1pyL0NwvLCUqrZj04/H7B9x39Mv9VRXIRPR2
-ql8OOUb/Od90EdIjkP0Xy87lsVGOSw==
-=V70N
------END PGP SIGNATURE-----
-
---gTlsYDrwY4RlCnWi--
