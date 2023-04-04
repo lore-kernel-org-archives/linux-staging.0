@@ -1,22 +1,22 @@
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [85.220.165.71])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20E6E7E
-	for <linux-staging@lists.linux.dev>; Tue,  4 Apr 2023 08:39:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A3167E
+	for <linux-staging@lists.linux.dev>; Tue,  4 Apr 2023 08:39:04 +0000 (UTC)
 Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
 	by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
 	(Exim 4.92)
 	(envelope-from <p.zabel@pengutronix.de>)
-	id 1pjcBp-0001uz-5Z; Tue, 04 Apr 2023 10:38:53 +0200
+	id 1pjcBt-0001y3-Bi; Tue, 04 Apr 2023 10:38:57 +0200
 Received: from [2a0a:edc0:0:900:1d::4e] (helo=lupine)
 	by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
 	(envelope-from <p.zabel@pengutronix.de>)
-	id 1pjcBo-008sIF-F9; Tue, 04 Apr 2023 10:38:52 +0200
+	id 1pjcBs-008sIK-J9; Tue, 04 Apr 2023 10:38:56 +0200
 Received: from pza by lupine with local (Exim 4.94.2)
 	(envelope-from <p.zabel@pengutronix.de>)
-	id 1pjcBn-00034m-Nj; Tue, 04 Apr 2023 10:38:51 +0200
-Message-ID: <e973ebc8f88e389375af19325b69e33ff24190b9.camel@pengutronix.de>
-Subject: Re: [PATCH 10/24] staging: media: imx6-mipi-csi2: Convert to
+	id 1pjcBr-00035A-Tv; Tue, 04 Apr 2023 10:38:55 +0200
+Message-ID: <c89386c4da3be10793e8989447b7e19944625d76.camel@pengutronix.de>
+Subject: Re: [PATCH 11/24] staging: media: imx8mq-mipi-csi2: Convert to
  platform remove callback returning void
 From: Philipp Zabel <p.zabel@pengutronix.de>
 To: Uwe =?ISO-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>, 
@@ -26,10 +26,10 @@ To: Uwe =?ISO-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
 Cc: Fabio Estevam <festevam@gmail.com>, NXP Linux Team <linux-imx@nxp.com>, 
 	linux-media@vger.kernel.org, linux-staging@lists.linux.dev, 
 	linux-arm-kernel@lists.infradead.org, kernel@pengutronix.de
-Date: Tue, 04 Apr 2023 10:38:51 +0200
-In-Reply-To: <20230403154014.2564054-11-u.kleine-koenig@pengutronix.de>
+Date: Tue, 04 Apr 2023 10:38:55 +0200
+In-Reply-To: <20230403154014.2564054-12-u.kleine-koenig@pengutronix.de>
 References: <20230403154014.2564054-1-u.kleine-koenig@pengutronix.de>
-	 <20230403154014.2564054-11-u.kleine-koenig@pengutronix.de>
+	 <20230403154014.2564054-12-u.kleine-koenig@pengutronix.de>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 User-Agent: Evolution 3.38.3-1+deb11u1 
