@@ -1,49 +1,48 @@
-Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
+Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD782C950
-	for <linux-staging@lists.linux.dev>; Wed,  5 Apr 2023 21:48:18 +0000 (UTC)
-Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-93b8c095335so6727866b.0
-        for <linux-staging@lists.linux.dev>; Wed, 05 Apr 2023 14:48:18 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D683EC950
+	for <linux-staging@lists.linux.dev>; Wed,  5 Apr 2023 21:48:23 +0000 (UTC)
+Received: by mail-ed1-f42.google.com with SMTP id 4fb4d7f45d1cf-502507c7da4so266537a12.0
+        for <linux-staging@lists.linux.dev>; Wed, 05 Apr 2023 14:48:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1680731297; x=1683323297;
+        d=gmail.com; s=20210112; t=1680731302; x=1683323302;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=JGf4CDz/ojeKgq8HqlEbK5p5WGgynUCEomlEJjCxWhM=;
-        b=aghOJD4TuORdaH/ZUiY+JDoFWh3nrYi3NeUlaYtq/KLt7TYl0mM8AcXkee9Ho5PKUC
-         NkWPS5ZfJEjKU8PH2cvxqzgPdHeYnvPk0Fl2bjbIKHQUvgu1OKwh/Hyvgb8lgk1QAU4u
-         zJaxcHbIvjYZZBjQ5PzrXHS55I8XMI/D6gU+OLv1ufgczgt6pBB9hVXRWgmW0+jY/aPG
-         URRp++npKhL2RPM9oaFW8p1hZ0BxWbUp5PZlhKy77QzPcGS0F1b1MfBD3EG3YsQoEEAE
-         uI9BCGsJnik/QEB8RUYafedIjtC5OqMmAK09FAplhBRB2R0GAF5eavKIZgZ89qRTHpTP
-         ThiA==
+        bh=MCqBVJ5FUAqz6et7gCXC65lddEZjuyWxiqbGgbtDS3g=;
+        b=OddqGCVQ9nguKkoLetqbQq9AWu6vI93zintV3cneVBEclDnwlebshfdw2KJ1RnFS4Y
+         2sXG/aRTSQ+Hq92MJ4CXM10zB7bau3pkNmAyMclQ4nfhjk4/C1z4XXzhEilgRYy/Pnf0
+         D/8ocAm7myGvsbgbrQLrRYcyHeVXQOVbKyHBv5TrAOmdXxzN3XvHI1VGmPjO2zo/Mstm
+         X4+6x2ogjas8UYmc/Czy7rOzfp3AXz0BqwWcK+cr8IKLPWPOWQT6qWJe18M/+aEQaIVM
+         aVwH18TW2wFqarg7LplLeFXE0ptgWP1EN1XD5MHnlx/7MKcjiTt4MWsfxXlCzb7TIVxR
+         k4Sg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680731297; x=1683323297;
+        d=1e100.net; s=20210112; t=1680731302; x=1683323302;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=JGf4CDz/ojeKgq8HqlEbK5p5WGgynUCEomlEJjCxWhM=;
-        b=6D1aYpykNLB/MnOG2aTkxDRl/jvDUqvyFWnMs4YOHAUtBP8mnCTgbztO3tDrNxZEEX
-         JJlTRzPVj4+qEumguQ5HOVMrrz5jcnYLsR3RmZaHSrHNCKUUiyXUD9kzcQi2ogDGMmaX
-         JW6h2MZl4J4aZsMLwrJCF2La8ZFiIYToGsgchSKrjnynTJ9Sh3o+GZPW4JynDge7ru7U
-         t+BO8iWuhIvrGXqcHczQzvNrmpxmdnqzoEEQFzw8NGFsZT6jZ/bGi4JtBa/Pliqz5JXo
-         4bOyuskh+4eXxS1rIQMX+y8XQ2m88rki/IjlPITrLsXSIsVkUFLCYkhFeRQRZWGhfsRK
-         4snQ==
-X-Gm-Message-State: AAQBX9fn+jVmdu9kH7mJH/IaxatDcX5fLJz2lEeLrGpJUs8+/0ZpfArQ
-	E0dB/yuIKC9UbYCMM+9W4/c=
-X-Google-Smtp-Source: AKy350aL32Ata6jTzeVFU+FFgZdQzbZAcE5vD6P7WpyYuKK35Q/PXqvwYGS8MKPO1PheAtfXzBEFcg==
-X-Received: by 2002:a05:6402:268b:b0:501:ea97:519c with SMTP id w11-20020a056402268b00b00501ea97519cmr3797657edd.4.1680731296918;
-        Wed, 05 Apr 2023 14:48:16 -0700 (PDT)
+        bh=MCqBVJ5FUAqz6et7gCXC65lddEZjuyWxiqbGgbtDS3g=;
+        b=yKIL+al4AMRBc03OJbq7cPiAlHBOPteJQIsA48DzyMMmqjkA+ysvFKPQ96iHkD5KEj
+         DzUcR+sqECnw23cKKZy2apoQiV9ctyYoIroyT7yxFN+dzS9MZTFLzizvUKC9E1rPbzGH
+         oOLJ3CZB8lDJkS8wnCSLSLwvT8ZrLna2Tk7+X6DuRt8TFxj8vOO9knv4pUDxgZABPdZw
+         LZGzAIwEs2SAWQ/jikTU6sJF4vQq4G/jVQbGWSGyjgQfRILTVgsyBFgmMb16pnbp8tl2
+         B9Cl/N+iW7oQ3D3nAu5AvhPQOMWc+tmjPejALo+MAh/W4/vKsRok+UjbMAJPC/c+cf+R
+         M7GQ==
+X-Gm-Message-State: AAQBX9cvk0RQGElmRT9m5S59Fh9Otn8Stdwg2t6Zbq7Gwc+5EohUrbDl
+	9tWqhCjpQppUSwBcTbIxk/A=
+X-Google-Smtp-Source: AKy350ZiqXN0VUogUx+7XtQuAAa4tmYb5kYNfV+HwIMGR9f8ezTep7UPNCtho/PsZ1Fr7C/0+5je3g==
+X-Received: by 2002:a05:6402:27cc:b0:4bb:afe3:e0a with SMTP id c12-20020a05640227cc00b004bbafe30e0amr4846026ede.3.1680731302114;
+        Wed, 05 Apr 2023 14:48:22 -0700 (PDT)
 Received: from matrix-ESPRIMO-P710 (p57935146.dip0.t-ipconnect.de. [87.147.81.70])
-        by smtp.gmail.com with ESMTPSA id u3-20020a509503000000b005024a7013ecsm7755606eda.35.2023.04.05.14.48.16
+        by smtp.gmail.com with ESMTPSA id n19-20020a509353000000b004c09527d62dsm7867721eda.30.2023.04.05.14.48.21
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 05 Apr 2023 14:48:16 -0700 (PDT)
-Date: Wed, 5 Apr 2023 23:48:13 +0200
+        Wed, 05 Apr 2023 14:48:21 -0700 (PDT)
+Date: Wed, 5 Apr 2023 23:48:20 +0200
 From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [PATCH 3/5] staging: rtl8192e: Remove one of two checks for hardware
- RTL8192SE
-Message-ID: <ca07333d0d03878935183025ffab969759aff3cd.1680729715.git.philipp.g.hortmann@gmail.com>
+Subject: [PATCH 4/5] staging: rtl8192e: Remove unused local variable irq_line
+Message-ID: <6ec702e12cb30501fc81693a71a96b238bf09ea0.1680729716.git.philipp.g.hortmann@gmail.com>
 References: <cover.1680729715.git.philipp.g.hortmann@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -55,38 +54,28 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 In-Reply-To: <cover.1680729715.git.philipp.g.hortmann@gmail.com>
 
-Check for hardware RTL8192SE is done in function _rtl92e_pci_probe()
-directly and also two lines later in function rtl92e_check_adapter().
-Remove top level check to increase readability.
+Remove unused local variable irq_line.
 
 Signed-off-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
 ---
- drivers/staging/rtl8192e/rtl8192e/rtl_core.c | 6 ------
- 1 file changed, 6 deletions(-)
+ drivers/staging/rtl8192e/rtl8192e/rtl_pci.c | 2 --
+ 1 file changed, 2 deletions(-)
 
-diff --git a/drivers/staging/rtl8192e/rtl8192e/rtl_core.c b/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
-index 7506d7eb7b4c..45989a77a27c 100644
---- a/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
-+++ b/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
-@@ -2130,7 +2130,6 @@ static int _rtl92e_pci_probe(struct pci_dev *pdev,
- 	struct r8192_priv *priv = NULL;
- 	unsigned long pmem_start, pmem_len, pmem_flags;
- 	int err = -ENOMEM;
--	u8 revision_id;
+diff --git a/drivers/staging/rtl8192e/rtl8192e/rtl_pci.c b/drivers/staging/rtl8192e/rtl8192e/rtl_pci.c
+index 0bc3e013001e..1c3ccd2aabc3 100644
+--- a/drivers/staging/rtl8192e/rtl8192e/rtl_pci.c
++++ b/drivers/staging/rtl8192e/rtl8192e/rtl_pci.c
+@@ -33,11 +33,9 @@ bool rtl92e_check_adapter(struct pci_dev *pdev, struct net_device *dev)
+ 	struct r8192_priv *priv = (struct r8192_priv *)rtllib_priv(dev);
+ 	u16 device_id;
+ 	u8  revision_id;
+-	u16 irq_line;
  
- 	if (pci_enable_device(pdev)) {
- 		dev_err(&pdev->dev, "Failed to enable PCI device");
-@@ -2189,11 +2188,6 @@ static int _rtl92e_pci_probe(struct pci_dev *pdev,
- 	dev->mem_start = ioaddr;
- 	dev->mem_end = ioaddr + pci_resource_len(pdev, 0);
+ 	device_id = pdev->device;
+ 	revision_id = pdev->revision;
+-	pci_read_config_word(pdev, 0x3C, &irq_line);
  
--	pci_read_config_byte(pdev, 0x08, &revision_id);
--	/* If the revisionid is 0x10, the device uses rtl8192se. */
--	if (pdev->device == 0x8192 && revision_id == 0x10)
--		goto err_unmap;
--
- 	if (!rtl92e_check_adapter(pdev, dev))
- 		goto err_unmap;
+ 	priv->card_8192 = NIC_8192E;
  
 -- 
 2.40.0
