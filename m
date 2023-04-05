@@ -1,93 +1,103 @@
-Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
+Received: from mail-ot1-f54.google.com (mail-ot1-f54.google.com [209.85.210.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 460AB7470
-	for <linux-staging@lists.linux.dev>; Wed,  5 Apr 2023 18:18:46 +0000 (UTC)
-Received: by mail-ed1-f52.google.com with SMTP id w9so143303233edc.3
-        for <linux-staging@lists.linux.dev>; Wed, 05 Apr 2023 11:18:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1680718724;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=LbPoISbRHHbgx/EIizLjiaK4a2+6FCKivzxh5KJKvX4=;
-        b=Lj/8r+Ls2RV3REtyjYQ+5sXQz9P56r8nQJkhObC/47JPCQx0EWgDyYzOeRCjWWRTNi
-         rrqhKJ9TBOzhCub4MpOmg82OmGMtxMlnS0XQVt9AL74yYaiE0APwebn6yLDP4F6w2RNe
-         sXZDJzQTcGYyPBBb4JOtGiWRpIA7uRLJkEMcAv16YSCpz9IBLexYdy0TLZuG0E2JzA6T
-         1Os0NyBJzDGwF7XkdiNYEw7fXWkZz8qpVNZlseeLA3a49xYpHiRPA5KtDyTFMM4Dzran
-         XPtHEjtooP/RAyzrPQCs7mwts6pgAAV5TExop2m0g3jNW8XraeI8y79OaU2s53/rT/6F
-         yx5g==
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B741749A
+	for <linux-staging@lists.linux.dev>; Wed,  5 Apr 2023 20:27:20 +0000 (UTC)
+Received: by mail-ot1-f54.google.com with SMTP id k14-20020a9d700e000000b0069faa923e7eso19667771otj.10
+        for <linux-staging@lists.linux.dev>; Wed, 05 Apr 2023 13:27:20 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680718724;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=LbPoISbRHHbgx/EIizLjiaK4a2+6FCKivzxh5KJKvX4=;
-        b=2C9FYBG+5vsWH9MQZuG5eMuEmeTEEkasGeRch9mec+I5iyPKH9SalKdkyPM2NuMBHv
-         W+kNQE+xWWfZtfPVuFxD8jL0JIGPkzoLF6X4yyN9YC9pzSLk3vdaD3Ul9DvGFUudMqxi
-         4YXPGm946qPCDXWu3SoG7WVQ1fr3ZFjVMgX9Ticm0e/4+kHR0tIlrtBjo3hwbn6HVz0t
-         HYu1tmr7hHQb+O+ctfpkGmB3EooaiWh7ElayPX6URHI+s3mYgL0ulde0fUV34OwNy38Q
-         lCWZ0065XXc+urp6scn8kpSPJnIugS28mrgJoV6gwAscgJo1jR6aBw69Ymi4mbO5apwK
-         WIpQ==
-X-Gm-Message-State: AAQBX9d4sQJ3kzOf2E+0w0WS8YIdHL1wLsNozGkQE/bNJTO/HYR1w4eq
-	AAueSyYAgljQZSg+9HJSmw==
-X-Google-Smtp-Source: AKy350YCNMvymqNqKy5WInMMa5oFPLUY5LNygeL9fColk5yKXlmxQMUOFvy+jvvLnBmzhOQoqImERQ==
-X-Received: by 2002:a17:906:3d71:b0:8b1:820a:7b60 with SMTP id r17-20020a1709063d7100b008b1820a7b60mr3383770ejf.6.1680718724381;
-        Wed, 05 Apr 2023 11:18:44 -0700 (PDT)
-Received: from koolguy (dslb-002-205-192-117.002.205.pools.vodafone-ip.de. [2.205.192.117])
-        by smtp.gmail.com with ESMTPSA id v13-20020a170906b00d00b009373f1b5c4esm7641255ejy.161.2023.04.05.11.18.42
+        d=1e100.net; s=20210112; t=1680726439;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=jhywZUom6FVbbnxuIEEwYSdDwpixbUY1lehHpDBSgWw=;
+        b=eilka+r5ZP7sxooQQQWaF92S+8xRRgStRcjp1YgcIOXRSqrvlxXXSP/PWXZp69LSWh
+         x2FlVbuY9RQ1LjSHP3hLrzJY+Sr16S4pwenYPP/7Hf6aFRjSBdEP0Ape+Gczu8J0Qaaf
+         mTGxidpZmQ7TqugdJW7SKc0/0+P/d3giSeSgaNcLPjFTQR48AOP+UXCaa7grzYC9GVqO
+         TXdLaOVjTIW/+HRWEMCfNnZiYzQl9LkIB4Ixy3WAUP8/TTZEdyWQF5dElq0Pn9Ve8NWf
+         Pn131wtBLNVJCwHJGSEir52UPBPbJHdCu8RitJ8gtutqaGH50afYpy2yR3Vayj+rvlND
+         9LSQ==
+X-Gm-Message-State: AAQBX9eSfC3aolC06zbZNvn524r+uaNRAFSVhNHX0AxbAhVQNauuD+yY
+	CZvTWoYgHVP9t+7xp0OE1w==
+X-Google-Smtp-Source: AKy350Y6PkxJ1TeFc3rYqzBfJAZxJAKrftIpgaCSmMTQOsLNxNqW3HlLQ0Djx2CJiGesOvR3DIQFAA==
+X-Received: by 2002:a9d:4f16:0:b0:697:3da3:e404 with SMTP id d22-20020a9d4f16000000b006973da3e404mr3621048otl.38.1680726439129;
+        Wed, 05 Apr 2023 13:27:19 -0700 (PDT)
+Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
+        by smtp.gmail.com with ESMTPSA id w3-20020a9d6383000000b006a11c15a097sm7271960otk.4.2023.04.05.13.27.17
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 05 Apr 2023 11:18:43 -0700 (PDT)
-Date: Wed, 5 Apr 2023 20:18:41 +0200
-From: Dalvin-Ehinoma Noah Aiguobas <pharcodra@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [PATCH] staging: octeon: remove typedef declaration for
- cvmx_fau_op_size
-Message-ID: <20230405181841.GA6820@koolguy>
+        Wed, 05 Apr 2023 13:27:18 -0700 (PDT)
+Received: (nullmailer pid 425877 invoked by uid 1000);
+	Wed, 05 Apr 2023 20:27:17 -0000
+From: Rob Herring <robh@kernel.org>
+Subject: [PATCH v2 00/10] Remove acpi.h implicit include of of.h
+Date: Wed, 05 Apr 2023 15:27:14 -0500
+Message-Id: <20230329-acpi-header-cleanup-v2-0-c902e581923b@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAKLZLWQC/32NSwrCMBQAryJZ+yQfG6or7yFdpC/PJhjS8mKLU
+ np3Yw/gcgaGWUUhjlTE9bAKpiWWOOYK+ngQGFweCKKvLLTURhp9AYdThEDOEwMmcnmewNrGGNX
+ q9mysqGXvCkHPLmOobZ5TqnJiesT3vrp3lUMsr5E/+3lRP/t/siiQ0Hps0Bu0StLtSZwpnUYeR
+ Ldt2xfkJNhrzAAAAA==
+To: "Rafael J. Wysocki" <rafael@kernel.org>, Len Brown <lenb@kernel.org>, Marcelo Schmitt <marcelo.schmitt1@gmail.com>, Lars-Peter Clausen <lars@metafoo.de>, Michael Hennerich <Michael.Hennerich@analog.com>, Jonathan Cameron <jic23@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Johannes Berg <johannes@sipsolutions.net>, "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Jiri Slaby <jirislaby@kernel.org>, Thierry Reding <thierry.reding@gmail.com>, Jonathan Hunter <jonathanh@nvidia.com>, Marc Zyngier <maz@kernel.org>
+Cc: linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev, linux-wireless@vger.kernel.org, netdev@vger.kernel.org, linux-serial@vger.kernel.org, linux-tegra@vger.kernel.org, linux-acpi@vger.kernel.org, devicetree@vger.kernel.org, Stephen Rothwell <sfr@canb.auug.org.au>, Jacob Keller <jacob.e.keller@intel.com>, Jonathan Cameron <Jonathan.Cameron@huawei.com>
+X-Mailer: b4 0.13-dev
 
-Fix checkpatch.pl warning: do not add new typedefs in
-drivers/staging/octeon/octeon-stubs.h:216
+In the process of cleaning up DT includes, I found that some drivers 
+using DT functions could build without any explicit DT include. I traced 
+the include to be coming from acpi.h via irqdomain.h.
 
-Signed-off-by: Dalvin-Ehinoma Noah Aiguobas <pharcodra@gmail.com>
+I was pleasantly surprised that there were not 100s or even 10s of 
+warnings when breaking the include chain. So here's the resulting 
+series.
+
+I'd suggest Rafael take the whole series. Alternatively,the fixes can be 
+applied in 6.4 and then the last patch either after rc1 or the 
+following cycle.
+
+Compile tested on x86 and powerpc allmodconfig and arm64 allmodconfig 
+minus CONFIG_ACPI.
+
+Signed-off-by: Rob Herring <robh@kernel.org>
 ---
- drivers/staging/octeon/octeon-stubs.h | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+Changes in v2:
+- More explicit include fixes reported by Stephen
+- Link to v1: https://lore.kernel.org/r/20230329-acpi-header-cleanup-v1-0-8dc5cd3c610e@kernel.org
 
-diff --git a/drivers/staging/octeon/octeon-stubs.h b/drivers/staging/octeon/octeon-stubs.h
-index 3e7b92cd2e35..9f269626b862 100644
---- a/drivers/staging/octeon/octeon-stubs.h
-+++ b/drivers/staging/octeon/octeon-stubs.h
-@@ -213,12 +213,12 @@ enum cvmx_fau_op_size {
- 	CVMX_FAU_OP_SIZE_64 = 3
- };
- 
--typedef enum {
-+enum cvmx_spi_mode {
- 	CVMX_SPI_MODE_UNKNOWN = 0,
- 	CVMX_SPI_MODE_TX_HALFPLEX = 1,
- 	CVMX_SPI_MODE_RX_HALFPLEX = 2,
- 	CVMX_SPI_MODE_DUPLEX = 3
--} cvmx_spi_mode_t;
-+};
- 
- typedef enum {
- 	CVMX_HELPER_INTERFACE_MODE_DISABLED,
-@@ -1362,7 +1362,7 @@ static inline struct cvmx_wqe *cvmx_pow_work_request_sync(cvmx_pow_wait_t wait)
- }
- 
- static inline int cvmx_spi_restart_interface(int interface,
--					cvmx_spi_mode_t mode, int timeout)
-+					enum cvmx_spi_mode mode, int timeout)
- {
- 	return 0;
- }
+---
+Rob Herring (10):
+      iio: adc: ad7292: Add explicit include for of.h
+      staging: iio: resolver: ad2s1210: Add explicit include for of.h
+      net: rfkill-gpio: Add explicit include for of.h
+      serial: 8250_tegra: Add explicit include for of.h
+      ata: pata_macio: Add explicit include of irqdomain.h
+      pata: ixp4xx: Add explicit include for of.h
+      virtio-mmio: Add explicit include for of.h
+      tpm: atmel: Add explicit include for of.h
+      fpga: lattice-sysconfig-spi: Add explicit include for of.h
+      ACPI: Replace irqdomain.h include with struct declarations
+
+ drivers/ata/pata_ixp4xx_cf.c            | 1 +
+ drivers/ata/pata_macio.c                | 1 +
+ drivers/char/tpm/tpm_atmel.h            | 2 +-
+ drivers/fpga/lattice-sysconfig-spi.c    | 1 +
+ drivers/iio/adc/ad7292.c                | 1 +
+ drivers/staging/iio/resolver/ad2s1210.c | 1 +
+ drivers/tty/serial/8250/8250_tegra.c    | 1 +
+ drivers/virtio/virtio_mmio.c            | 1 +
+ include/linux/acpi.h                    | 6 ++++--
+ net/rfkill/rfkill-gpio.c                | 1 +
+ 10 files changed, 13 insertions(+), 3 deletions(-)
+---
+base-commit: fe15c26ee26efa11741a7b632e9f23b01aca4cc6
+change-id: 20230329-acpi-header-cleanup-665331828436
+
+Best regards,
 -- 
-2.25.1
+Rob Herring <robh@kernel.org>
 
