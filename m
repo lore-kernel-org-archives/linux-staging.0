@@ -1,128 +1,80 @@
-Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
+Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C39E79E2
-	for <linux-staging@lists.linux.dev>; Wed,  5 Apr 2023 21:19:29 +0000 (UTC)
-Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-9333b408ee7so6556266b.1
-        for <linux-staging@lists.linux.dev>; Wed, 05 Apr 2023 14:19:28 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A463779E2
+	for <linux-staging@lists.linux.dev>; Wed,  5 Apr 2023 21:47:58 +0000 (UTC)
+Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-9333b408ee7so6783166b.1
+        for <linux-staging@lists.linux.dev>; Wed, 05 Apr 2023 14:47:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1680729567; x=1683321567;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
+        d=gmail.com; s=20210112; t=1680731277; x=1683323277;
+        h=content-disposition:mime-version:message-id:subject:to:from:date
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=FPYPYBwrFLM1Tz4ngJkdSSxofCmahHCM6HK4CfJ1m8U=;
-        b=Tlgkwsoa764zsgCz1nG42H24NpfFhgDeowsLmT9bMYIlTMOUQ+YLl6jpcXzixeLVtU
-         e+M5ZIYEY0mdvWJG82r4Hv8wk/A5j9sXGUbEOzP6UJhDf72LiqTDDx7oyQ+9ATtAk21t
-         4DN+aUEP7vpAgixmH2ixxTsCAy3wWACobv9l/eGgldk5mh0tKDQRisU8tiFUDRsDZ9Z7
-         eqVkNW4JlSruhPxYXw2Hhm5Z2QGnvq9AsfNX95oZRWPbQokbvGZqSgBaaGfIAmPdyPE+
-         28Rxwj+gRpMs8JrZ6gcwr+DO70Vk5QJ13dmd1DraFk0WlcyN6oSqUuhVbtKCKYaNAawm
-         HIig==
+        bh=iehfqAb2+mLggzs2gHVsdI0okskRQgfHIl/m02R70JY=;
+        b=dua4/AN7bMNF1xUf0vNDOYp3Q7eM8C514AFsYpdUZ1hu3mo+CojQH1Lmof+w1xDn+W
+         k+Al0fnEDp2gxzbbYZsUvqW4oCweX+SpYm5O/lnAUrVsLCYWvYtyy73ldX1+dRFvxCRX
+         MjuL280E7SOYpaAHlDwiRN+5/jUslZI0mJ3h/cl6XR+OY9XA0aHn9q4haZWo3/8tKoJ5
+         MVciGlxMpHo0HE7tK01rCT9CEY389h9Ww/sN/VlFGn7tEE/cGwgmj5nb/2yHvFXg+Kox
+         elsJ5EZnnjba/Bm949bhACuWYIm/qW7Bw20K2EYXAA2/UeCsyLGF8UXbM3hOx6U6w4Mk
+         IFSQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680729567; x=1683321567;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
+        d=1e100.net; s=20210112; t=1680731277; x=1683323277;
+        h=content-disposition:mime-version:message-id:subject:to:from:date
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=FPYPYBwrFLM1Tz4ngJkdSSxofCmahHCM6HK4CfJ1m8U=;
-        b=2Fu+c6M5ZjvE4o1v2tE4VEEJuEuuvxBwgGbfjXCz1E+If+E0jCb9UtN3zS+a7hTQPD
-         /2RVaSATjfGhKb/ee6niivfXNL5CM/weLB9mWSvh4WGcwjWZmMwqpyCE/mA0W9oImfws
-         BfOboubwDOkRGDWifCIC7jQwT4pyLeVSZkXv1c/Jh5ipU4sOw5H1AFoRjruxCrKYzsFw
-         kXDsTY4jNahcb3QOhqdS4zxY3fq8tA2K4Rpl1Kz2IUqoweuGCMlQ+KqC8mWrfl4HXB/x
-         4H+95BkgrL6BeQGOGTWQSoMT+o57krSCTDeZBcqIwzSsi85DyKjWBtU3a7IPPmc/ibQ0
-         SVVw==
-X-Gm-Message-State: AAQBX9cz9kydbb/YUgrXRIEwK6CiypLudOEjSctoWr/z3Up87q2X4v7y
-	bt9InQ7sm2kxGS/Es45BNAPNfSJl2+Q=
-X-Google-Smtp-Source: AKy350ZY+QvRCNYWzU4QCyFFs92LG9Ed7ePnEQ5+K47gzGGZ3cMwrjAh7YljUkDNNNAe2IC1EWxXFA==
-X-Received: by 2002:a17:906:51d9:b0:8d2:78c5:1d4e with SMTP id v25-20020a17090651d900b008d278c51d4emr2575482ejk.5.1680729567153;
-        Wed, 05 Apr 2023 14:19:27 -0700 (PDT)
-Received: from [192.168.0.103] (p57935146.dip0.t-ipconnect.de. [87.147.81.70])
-        by smtp.gmail.com with ESMTPSA id 19-20020a170906309300b0092be390b51asm7777889ejv.113.2023.04.05.14.19.25
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 05 Apr 2023 14:19:26 -0700 (PDT)
-Message-ID: <d0642a21-4675-76f7-a470-b0dc1ef37cec@gmail.com>
-Date: Wed, 5 Apr 2023 23:19:25 +0200
+        bh=iehfqAb2+mLggzs2gHVsdI0okskRQgfHIl/m02R70JY=;
+        b=uyiPsC065N0ZvzBwuhbSlCL7172vG038Iz1GH7TfdedQDGxfPTGaYIF9Bzj+S6i0WB
+         cnNjvhWlV3AGswWYRXFQE7nLCna56mdeFTLw809/5wPsq4qO+T8cwTCKyCvpGyBvFkIw
+         cIqGR7sqVdsw9qaHNC8KFGASwsWM4ds4y4/5yFZEt4KWNnvh1arolb4ZuAaerLRiGIQt
+         F1yLhwZZtfXvqChhj4hFXlfFdOpcjjcVQelAonEb52W2pMavHAvO9j9TG0NY5Att/imr
+         4ZQNd2Heb2gwHMYtHTHJdqDlI2rugCuM0lyCByuiOCVFG75PnAXp2rT8M4qUoVy48U2x
+         qacg==
+X-Gm-Message-State: AAQBX9e3ViecSH89AUywiLtieBGErMfNKchSOoQk4TGGsa9Zo7UPkEOF
+	JIV9IhoWxvFxdzI7FkqJVVg=
+X-Google-Smtp-Source: AKy350Zzs6jn9VX0EaR/JVOLwxEruJGkn/HztJ6+kLrbv3qiyjK82l75KwxRCI6xahKLzdZgAKzMeQ==
+X-Received: by 2002:a17:906:208a:b0:947:bff2:1c2b with SMTP id 10-20020a170906208a00b00947bff21c2bmr2756156ejq.1.1680731276603;
+        Wed, 05 Apr 2023 14:47:56 -0700 (PDT)
+Received: from matrix-ESPRIMO-P710 (p57935146.dip0.t-ipconnect.de. [87.147.81.70])
+        by smtp.gmail.com with ESMTPSA id sz22-20020a1709078b1600b00948da767832sm3573447ejc.152.2023.04.05.14.47.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 05 Apr 2023 14:47:55 -0700 (PDT)
+Date: Wed, 5 Apr 2023 23:47:53 +0200
+From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: [PATCH 0/5] staging: rtl8192e: Remove unused code for hardware
+ rtl8192se
+Message-ID: <cover.1680729715.git.philipp.g.hortmann@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [BUG] staging: rtl8192e: oops occurs when finding hardware
- rtl8192se
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-References: <39dc735c-fd6d-e405-856c-788a52704d63@gmail.com>
- <2023040521-angelic-emptier-1367@gregkh>
-Content-Language: en-US
-From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-In-Reply-To: <2023040521-angelic-emptier-1367@gregkh>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On 4/5/23 16:37, Greg Kroah-Hartman wrote:
-> On Sun, Apr 02, 2023 at 05:00:13PM +0200, Philipp Hortmann wrote:
->> Hi,
->>
->> when I use the hardware rtl8192se the driver
->> drivers/staging/rtl8192e/rtl8192e/r8192e_pci.ko detects that it should not
->> run on this hardware and aborts.
->> But when the driver is freeing the resources an oops occures. Find oops at
->> the end of this Email.
->>
->> When I comment out the following lines those errors disappear:
->> cancel_delayed_work_sync(&ieee->hw_wakeup_wq);
->> cancel_delayed_work_sync(&ieee->hw_sleep_wq);
->> cancel_work_sync(&ieee->ips_leave_wq);
->>
->> When I do an init before the cancel:
->> INIT_DELAYED_WORK(&priv->rtllib->hw_wakeup_wq, (void *)rtl92e_hw_wakeup_wq);
->> The oops are gone as well.
->>
->> When I use cancel_delayed_work() instead of cancel_delayed_work_sync() it
->> also works.
->>
->> Can somebody give me a hint what the expected way is to solve this?
-> 
-> Is this a new thing, or has it always been there?
-I would need to check in several places.
-It seems to me that it was an issue in kernel 4.0 already.
+Remove unused macro IS_HARDWARE_TYPE_8192SE and unused function
+_rtl92e_dm_init_wa_broadcom_iot. Remove a double check for hardware
+rtl8192se. Remove unused variables.
 
+Tested with rtl8192e
+Transferred this patch over wlan connection of rtl8192e
 
-> 
-> Why is the driver loading if you don't have hardware for it?  Or are you
-> manually loading it?
-Reason why they two drivers are loaded is that realtek managed to have
-two different devices with the same vid and did.
+Philipp Hortmann (5):
+  staging: rtl8192e: Remove macro IS_HARDWARE_TYPE_8192SE
+  staging: rtl8192e: Remove unused function
+    _rtl92e_dm_init_wa_broadcom_iot
+  staging: rtl8192e: Remove one of two checks for hardware RTL8192SE
+  staging: rtl8192e: Remove unused local variable irq_line
+  staging: rtl8192e: Remove unused variable RF_Type
 
-from rtl8192se/sw.c:
-static const struct pci_device_id rtl92se_pci_ids[] = {
-	{RTL_PCI_DEVICE(PCI_VENDOR_ID_REALTEK, 0x8192, rtl92se_hal_cfg)},
-	...
+ drivers/staging/rtl8192e/rtl8192e/rtl_core.c |  6 ------
+ drivers/staging/rtl8192e/rtl8192e/rtl_core.h |  3 ---
+ drivers/staging/rtl8192e/rtl8192e/rtl_dm.c   | 18 +-----------------
+ drivers/staging/rtl8192e/rtl8192e/rtl_pci.c  |  2 --
+ drivers/staging/rtl8192e/rtl819x_HT.h        |  3 ---
+ drivers/staging/rtl8192e/rtllib.h            |  1 -
+ 6 files changed, 1 insertion(+), 32 deletions(-)
 
-from rtl8192e/rtl8192e/rtl_core.c
-static struct pci_device_id rtl8192_pci_id_tbl[] = {
-	{RTL_PCI_DEVICE(0x10ec, 0x8192, rtl819xp_ops)},
-
-#define PCI_VENDOR_ID_REALTEK		0x10ec
-
-The drivers are loaded both and find out with the pci revision_id if 
-they are in charge.
-
-> 
-> thanks,
-> 
-> greg k-h
-
-May be I should mention that I do have an rtl8192se. But it does use a 
-different device id.
-
-I am simulating the driver that it is rtl8192se hardware by changing the 
-revision_id.
-
-
-Thanks for your response.
-
-Bye Philipp
-
+-- 
+2.40.0
 
