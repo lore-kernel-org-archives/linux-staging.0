@@ -1,36 +1,37 @@
-Received: from mail-oa1-f43.google.com (mail-oa1-f43.google.com [209.85.160.43])
+Received: from mail-oi1-f170.google.com (mail-oi1-f170.google.com [209.85.167.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C67B779D3
-	for <linux-staging@lists.linux.dev>; Wed,  5 Apr 2023 20:27:24 +0000 (UTC)
-Received: by mail-oa1-f43.google.com with SMTP id 586e51a60fabf-17fcc07d6c4so25867274fac.8
-        for <linux-staging@lists.linux.dev>; Wed, 05 Apr 2023 13:27:24 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 995E779D3
+	for <linux-staging@lists.linux.dev>; Wed,  5 Apr 2023 20:27:26 +0000 (UTC)
+Received: by mail-oi1-f170.google.com with SMTP id bj20so27582833oib.3
+        for <linux-staging@lists.linux.dev>; Wed, 05 Apr 2023 13:27:26 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680726444;
+        d=1e100.net; s=20210112; t=1680726445;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=yg1K4foqDaidaPo4/5C6TY3pSXqX5fHqLYuPmpMmEgg=;
-        b=YiSj99rCOCsJaUeylOBAp7zN2xt517j+s/yEVbp86+zvuRqF+9p6RTQ4SsZDr7CLhV
-         5dE26qMg5cj12zvhT8CTcGF4fg4b2gwK6bVp74e6hrr/mat3Es7kCupr7gG9eEYASY48
-         4iF5bKuCEFwURqUxwgIMTqrrInr6ahvJOv0cOnLLUxW3COUPXVtlx/o2y2qb9beDPff6
-         v1yB/QKYPmwmlRJXPWaPGenCjBqfJDblw8k10NgweCCX6MRUCPa5d8mZifpTp47emNmc
-         3EMB1aTTbV2/97Xu4kGrCwizr90QhHPa8E1VD2NO9tbWkiRpTbBeU7zN9+zh0e0tI4Ro
-         IPPQ==
-X-Gm-Message-State: AAQBX9etQAqYvhEujoZSpKzr4EHNwJxsjTE3M4NfnHgR8EDxjLXE8emm
-	DS12lZecBB8TinTQ4r3jEg==
-X-Google-Smtp-Source: AKy350bTANSJNYjcjMqwec2FcT3JaHREFNy2cg8JiUp8B+fT5fTAH8S+FermWNwrA9+XTX/0poqDFg==
-X-Received: by 2002:a05:6870:9614:b0:177:9ece:6b32 with SMTP id d20-20020a056870961400b001779ece6b32mr4080421oaq.34.1680726443848;
-        Wed, 05 Apr 2023 13:27:23 -0700 (PDT)
+        bh=amARnlOF1iPOroaq57gvCO3EUIjXtRKKLgV+BAa7GyA=;
+        b=fYU4/x0QROcW9GmNJt+zuNBMIEVtHcnsheFahkWs4Yuyp/7qRC/7JWJVZPyPtqrxAn
+         fAF5LW7DbgB6qT1U7ctVolAyMqjL7lPh1btDi6fwrGFkoyCptRJN07H46d4DU/NFHa8m
+         7fvh697DUy6EPxrNX5Es1GnSEYlnRvfM/P86ZBxvaMnC5hy3nqe9lPnaBDVvTuCGKuzV
+         KawH2kYwW3e7VXq+QZnoCYKkx+t6glUoX6iaMgUpHkC1+X44rQFGM0fB1OlKtKz3g/OO
+         urQvAQyOnrckjHbVmSYmgZWYExs/lsptPOP4g7cv0ejRxb30l25rPHf5d5CayqUQfMt7
+         DYOg==
+X-Gm-Message-State: AAQBX9dcBO4Em63SGiQ5i7b4G5vQfkWGXDzApOmxlahvGZW/sMVPxtEm
+	xjuU4NMrmfElr/dh7lkEOg==
+X-Google-Smtp-Source: AKy350ajTaLy0qTbb9yH+lxLfyhHHpsFZm2vXmFygDhy0JelJ9qq76gGsOP0SKY6SaEK7ABF4E+UaA==
+X-Received: by 2002:a05:6808:1a09:b0:389:4f05:5fa8 with SMTP id bk9-20020a0568081a0900b003894f055fa8mr1613117oib.9.1680726445531;
+        Wed, 05 Apr 2023 13:27:25 -0700 (PDT)
 Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
-        by smtp.gmail.com with ESMTPSA id us16-20020a056870df9000b00177b33ce85bsm6324810oab.30.2023.04.05.13.27.22
+        by smtp.gmail.com with ESMTPSA id r204-20020acadad5000000b00383eaf88e75sm6759620oig.39.2023.04.05.13.27.24
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 05 Apr 2023 13:27:23 -0700 (PDT)
-Received: (nullmailer pid 425880 invoked by uid 1000);
+        Wed, 05 Apr 2023 13:27:25 -0700 (PDT)
+Received: (nullmailer pid 425898 invoked by uid 1000);
 	Wed, 05 Apr 2023 20:27:17 -0000
 From: Rob Herring <robh@kernel.org>
-Date: Wed, 05 Apr 2023 15:27:15 -0500
-Subject: [PATCH v2 01/10] iio: adc: ad7292: Add explicit include for of.h
+Date: Wed, 05 Apr 2023 15:27:24 -0500
+Subject: [PATCH v2 10/10] ACPI: Replace irqdomain.h include with struct
+ declarations
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -39,39 +40,61 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20230329-acpi-header-cleanup-v2-1-c902e581923b@kernel.org>
+Message-Id: <20230329-acpi-header-cleanup-v2-10-c902e581923b@kernel.org>
 References: <20230329-acpi-header-cleanup-v2-0-c902e581923b@kernel.org>
 In-Reply-To: <20230329-acpi-header-cleanup-v2-0-c902e581923b@kernel.org>
 To: "Rafael J. Wysocki" <rafael@kernel.org>, Len Brown <lenb@kernel.org>, Marcelo Schmitt <marcelo.schmitt1@gmail.com>, Lars-Peter Clausen <lars@metafoo.de>, Michael Hennerich <Michael.Hennerich@analog.com>, Jonathan Cameron <jic23@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Johannes Berg <johannes@sipsolutions.net>, "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Jiri Slaby <jirislaby@kernel.org>, Thierry Reding <thierry.reding@gmail.com>, Jonathan Hunter <jonathanh@nvidia.com>, Marc Zyngier <maz@kernel.org>
-Cc: linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev, linux-wireless@vger.kernel.org, netdev@vger.kernel.org, linux-serial@vger.kernel.org, linux-tegra@vger.kernel.org, linux-acpi@vger.kernel.org, devicetree@vger.kernel.org, Stephen Rothwell <sfr@canb.auug.org.au>, Jacob Keller <jacob.e.keller@intel.com>, Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Cc: linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev, linux-wireless@vger.kernel.org, netdev@vger.kernel.org, linux-serial@vger.kernel.org, linux-tegra@vger.kernel.org, linux-acpi@vger.kernel.org, devicetree@vger.kernel.org, Stephen Rothwell <sfr@canb.auug.org.au>, Jacob Keller <jacob.e.keller@intel.com>
 X-Mailer: b4 0.13-dev
 
-With linux/acpi.h no longer implicitly including of.h, add an explicit
-include of of.h to fix the following error:
+linux/acpi.h includes irqdomain.h which includes of.h. Break the include
+chain by replacing the irqdomain include with forward declarations for
+struct irq_domain and irq_domain_ops which is sufficient for acpi.h.
 
-drivers/iio/adc/ad7292.c:307:9: error: implicit declaration of function 'for_each_available_child_of_node'; did you mean 'fwnode_for_each_available_child_node'? [-Werror=implicit-function-declaration]
+of.h also includes mod_devicetable.h which many drivers implicitly
+depend on. As acpi.h already includes it, just move it out of the
+'#ifdef CONFIG_ACPI'.
 
-Acked-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-Acked-by: Marcelo Schmitt <marcelo.schmitt1@gmail.com>
+Cc: Marc Zyngier <maz@kernel.org>
 Reviewed-by: Jacob Keller <jacob.e.keller@intel.com>
 Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Signed-off-by: Rob Herring <robh@kernel.org>
 ---
- drivers/iio/adc/ad7292.c | 1 +
- 1 file changed, 1 insertion(+)
+v2:
+ - Move mod_devicetable.h out of #ifdef
+---
+ include/linux/acpi.h | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/iio/adc/ad7292.c b/drivers/iio/adc/ad7292.c
-index a2f9fda25ff3..cccacec5db6d 100644
---- a/drivers/iio/adc/ad7292.c
-+++ b/drivers/iio/adc/ad7292.c
-@@ -8,6 +8,7 @@
- #include <linux/bitfield.h>
- #include <linux/device.h>
- #include <linux/module.h>
-+#include <linux/of.h>
- #include <linux/regulator/consumer.h>
- #include <linux/spi/spi.h>
+diff --git a/include/linux/acpi.h b/include/linux/acpi.h
+index efff750f326d..96bd672dc336 100644
+--- a/include/linux/acpi.h
++++ b/include/linux/acpi.h
+@@ -10,12 +10,15 @@
  
+ #include <linux/errno.h>
+ #include <linux/ioport.h>	/* for struct resource */
+-#include <linux/irqdomain.h>
+ #include <linux/resource_ext.h>
+ #include <linux/device.h>
++#include <linux/mod_devicetable.h>
+ #include <linux/property.h>
+ #include <linux/uuid.h>
+ 
++struct irq_domain;
++struct irq_domain_ops;
++
+ #ifndef _LINUX
+ #define _LINUX
+ #endif
+@@ -24,7 +27,6 @@
+ #ifdef	CONFIG_ACPI
+ 
+ #include <linux/list.h>
+-#include <linux/mod_devicetable.h>
+ #include <linux/dynamic_debug.h>
+ #include <linux/module.h>
+ #include <linux/mutex.h>
 
 -- 
 2.39.2
