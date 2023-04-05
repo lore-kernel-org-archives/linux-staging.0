@@ -1,44 +1,37 @@
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 771D536B
-	for <linux-staging@lists.linux.dev>; Wed,  5 Apr 2023 02:30:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89786624;
+	Wed,  5 Apr 2023 04:21:26 +0000 (UTC)
 Received: from pendragon.ideasonboard.com (fp76f193f3.tkyc206.ap.nuro.jp [118.241.147.243])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 622C2905;
-	Wed,  5 Apr 2023 04:30:40 +0200 (CEST)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 33E95496;
+	Wed,  5 Apr 2023 06:21:22 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1680661841;
-	bh=92JxqutkaA7MOBZzEsI8JVLAVvvA2FVlO8U5Q3EjmSo=;
+	s=mail; t=1680668484;
+	bh=06b+qUYIeMEy2j8ZVYH6n4c5h8AQzDzTI/K0SUs6hpU=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=mWO+SH7/XV27sw9R9Rw+KgqItm8rURI5GQYFV1sl6pR8XqDB6GW41gIU2YwetbYJf
-	 AtRC/91JVGQs52YzgrvoES/zkyNKZ3kM/rEVQD8Wdrh/kfYVzeVJvyDFcz5Eo0QXhG
-	 Cc25z/I3g+l6D2expqUK61OIFTqhI2ZjYHVrjfc4=
-Date: Wed, 5 Apr 2023 05:30:48 +0300
+	b=g3DXZAgPSkFBSo349r719aTrMG7jL1OCfZ9KbK4o1fsp7QOcrbMaCRgkDyEV9l+tL
+	 8Rfv6IRNp4kn9ARMeNqKbl9eJJSgw/Dc6xBDN8wdyXmxC1B4CIGSaSa3KHRae7vWtB
+	 DUwjObQxnBwC+v856IkhPUrrk+TgLUIXLO6dLmKI=
+Date: Wed, 5 Apr 2023 07:21:31 +0300
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Cc: Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-	Thierry Reding <thierry.reding@gmail.com>,
-	Jonathan Hunter <jonathanh@nvidia.com>,
-	Sowjanya Komatineni <skomatineni@nvidia.com>,
-	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Dmitry Osipenko <digetx@gmail.com>, linux-media@vger.kernel.org,
-	linux-tegra@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+To: Nicolas Dufresne <nicolas@ndufresne.ca>
+Cc: Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+	linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
 	linux-staging@lists.linux.dev,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-	Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-	Richard Leitner <richard.leitner@skidata.com>
-Subject: Re: [RESEND PATCH v4 03/21] staging: media: tegra-video: fix
- .vidioc_enum_fmt_vid_cap to return all formats
-Message-ID: <20230405023048.GD9915@pendragon.ideasonboard.com>
-References: <20230309144320.2937553-1-luca.ceresoli@bootlin.com>
- <20230309144320.2937553-4-luca.ceresoli@bootlin.com>
- <85268d69-3d3b-2c0f-ba26-073f09052362@xs4all.nl>
- <20230404161251.272cc78b@booty>
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>, Adam Pigg <adam@piggz.co.uk>,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+Subject: Re: [PATCH 2/9] media: v4l2: Add NV12_16L16 pixel format to v4l2
+ format info
+Message-ID: <20230405042131.GO9915@pendragon.ideasonboard.com>
+References: <20230324151228.2778112-1-paul.kocialkowski@bootlin.com>
+ <20230324151228.2778112-3-paul.kocialkowski@bootlin.com>
+ <20230325210120.GB22214@pendragon.ideasonboard.com>
+ <40774dc0ef32246af76a202caca3632abc1ae25f.camel@ndufresne.ca>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -47,38 +40,49 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20230404161251.272cc78b@booty>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <40774dc0ef32246af76a202caca3632abc1ae25f.camel@ndufresne.ca>
 
-Hi Luca,
+Hi Nicolas,
 
-On Tue, Apr 04, 2023 at 04:12:51PM +0200, Luca Ceresoli wrote:
-> On Wed, 29 Mar 2023 13:16:22 +0200 Hans Verkuil wrote:
-> 
-> > Hi Luca,
+On Fri, Mar 31, 2023 at 02:54:20PM -0400, Nicolas Dufresne wrote:
+> Le samedi 25 mars 2023 à 23:01 +0200, Laurent Pinchart a écrit :
+> > On Fri, Mar 24, 2023 at 04:12:21PM +0100, Paul Kocialkowski wrote:
+> > > Represent the NV12_16L16 pixel format in the v4l2 format info table.
+> > > This is a 16x16 tiled version of NV12.
+> > > 
+> > > Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+> > > ---
+> > >  drivers/media/v4l2-core/v4l2-common.c | 2 ++
+> > >  1 file changed, 2 insertions(+)
+> > > 
+> > > diff --git a/drivers/media/v4l2-core/v4l2-common.c b/drivers/media/v4l2-core/v4l2-common.c
+> > > index 3d044b31caad..5101989716aa 100644
+> > > --- a/drivers/media/v4l2-core/v4l2-common.c
+> > > +++ b/drivers/media/v4l2-core/v4l2-common.c
+> > > @@ -280,6 +280,8 @@ const struct v4l2_format_info *v4l2_format_info(u32 format)
+> > >  		/* Tiled YUV formats */
+> > >  		{ .format = V4L2_PIX_FMT_NV12_4L4, .pixel_enc = V4L2_PIXEL_ENC_YUV, .mem_planes = 1, .comp_planes = 2, .bpp = { 1, 2, 0, 0 }, .hdiv = 2, .vdiv = 2 },
+> > >  		{ .format = V4L2_PIX_FMT_P010_4L4, .pixel_enc = V4L2_PIXEL_ENC_YUV, .mem_planes = 1, .comp_planes = 2, .bpp = { 2, 4, 0, 0 }, .hdiv = 2, .vdiv = 2 },
+> > > +		{ .format = V4L2_PIX_FMT_NV12_16L16,	.pixel_enc = V4L2_PIXEL_ENC_YUV, .mem_planes = 1, .comp_planes = 2, .bpp = { 1, 2, 0, 0 }, .hdiv = 2, .vdiv = 2,
+> > > +		  .block_w = { 16, 16, 0, 0 }, .block_h = { 16, 16, 0, 0 } },
 > > 
-> > I finally found the time to test this series. It looks OK, except for this patch.
+> > Not necessarily related to this patch, but I'm a bit puzzled by why
+> > V4L2_PIX_FMT_NV12_4L4 doesn't list block sizes.
 > 
-> Thank you very much for taking the time!
+> It looks like Ezequiel introduced that initially, but didn't introduce any tiled
+> format, as a side effect, we missed it and no one ever used it.
 > 
-> > The list of supported formats really has to be the intersection of what the tegra
-> > supports and what the sensor supports.
-> > 
-> > Otherwise you would advertise pixelformats that cannot be used, and the application
-> > would have no way of knowing that.
-> 
-> As far as I understand, I think we should rather make this driver fully
-> behave as an MC-centric device. It is already using MC quite
-> successfully after all.
-> 
-> Do you think this is correct?
+> In practice, its not dramatic, since most of the time, the alignment needed is
+> bigger then the block (specially with only 4x4 tiles), but we should certainly
+> fix that, thanks for spotting.
 
-Given the use cases for this driver, I agree.
+Just to make sure this won't fall through the cracks, will you send a
+patch ?
 
-> If you do, then I think the plan would be:
-> 
->  - Add the V4L2_CAP_IO_MC flag
->  - As the mbus_code in get_format appropriately
->  - Leave the changes in this patch unmodified otherwise
+> > >  
+> > >  		/* YUV planar formats, non contiguous variant */
+> > >  		{ .format = V4L2_PIX_FMT_YUV420M, .pixel_enc = V4L2_PIXEL_ENC_YUV, .mem_planes = 3, .comp_planes = 3, .bpp = { 1, 1, 1, 0 }, .hdiv = 2, .vdiv = 2 },
 
 -- 
 Regards,
