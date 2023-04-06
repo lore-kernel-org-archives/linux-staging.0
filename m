@@ -1,108 +1,79 @@
-Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1241320D
-	for <linux-staging@lists.linux.dev>; Thu,  6 Apr 2023 18:40:19 +0000 (UTC)
-Received: by mail-ej1-f46.google.com with SMTP id 18so3627506ejo.13
-        for <linux-staging@lists.linux.dev>; Thu, 06 Apr 2023 11:40:19 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680806418;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=r/vRP03cMBwPFFIUCdAcydaIAi3iMXexWFOT2Es7xP4=;
-        b=6NllBtItjPVG2fuKo681LFtrQGOr6JJNDbw71HcMD9O/iR2S731xYK7o8+6Z+Z4h3o
-         T7ADp8Wihq7SUBFvZPWmRJDqU4BiALr+57DgfLUgnlgpZrx8Y7o5PjG7FE7OoCk17x92
-         Z51lqcMoeu3NP+nheRZjVBFE6vA3kHVipGB2lUTYJZTdE8xAVBEA1JojFHvJWF0Cf/XV
-         GI70QIGV8m/WhvA8P2ivzDxcZhwOiJ+LhZ1o2s+L80jYYj7be+lzEWCli1Y8atfvW4NC
-         opug2LYuYlO6Q+oxyuUPKYf3I1mX1E8D0C9zY1O30DbZq+qxiDQsmBKxAeii8fQBz58q
-         GTZw==
-X-Gm-Message-State: AAQBX9dTQwRuwm6qiTu/TG0926CzCmWhgLdxL7s69c/OjYdqGyyyUFDv
-	2PnwrU0oqaxkOMAuzgwCR8eGf+HX7/i40Zgyrdg=
-X-Google-Smtp-Source: AKy350bccWL6lt0+zXbInPBQWvnVq/LZTLhcL/dc5uLFWGZYlhaLZYqBvMQBJhuHAdHL0grMZu37PeKYaqj61CBd4QU=
-X-Received: by 2002:a17:907:8c18:b0:93e:c1ab:ae67 with SMTP id
- ta24-20020a1709078c1800b0093ec1abae67mr3885095ejc.2.1680806417910; Thu, 06
- Apr 2023 11:40:17 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 017D6AD47
+	for <linux-staging@lists.linux.dev>; Thu,  6 Apr 2023 19:54:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1680810866; x=1712346866;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=dBwR6d65NhaZa59aMDdtZHdCzTe7JiUQkdICsAhmmks=;
+  b=Qb+hzsr0B4Ns3Nxm3YdfG4AZGHdkSkWpWk44trh5UknxViMYHBGI368a
+   sK162HSjmxLxs7CO0KfEeW4lpw2QtwrAqGufG2yw9xsDS2glJ5J2Be2s0
+   W7j5XFC8QuOCp26ZHZVYgOlq/LSShyUAAYs8qS0vHxqkj3P4JjjVFngt9
+   4LRGriwmy7Tl9PYiYPWa7zXmD2q4y1XCWqk3sdg7Ijtt8LLLcxAH86V6g
+   Y8agqwKS26IUkU8fn0oaKvMAhS2SxmYSI3Xm+6PIgMc0MdLYAHe7LpG9X
+   PUZSPKbiKAmCzfdeTgD2xf5Uw9bwbktVMO6kSY+OJ3CKdIsEZxkueSn8E
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10672"; a="341572510"
+X-IronPort-AV: E=Sophos;i="5.98,323,1673942400"; 
+   d="scan'208";a="341572510"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Apr 2023 12:54:12 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10672"; a="664620036"
+X-IronPort-AV: E=Sophos;i="5.98,323,1673942400"; 
+   d="scan'208";a="664620036"
+Received: from aschofie-mobl2.amr.corp.intel.com (HELO aschofie-mobl2) ([10.212.219.12])
+  by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Apr 2023 12:54:12 -0700
+Date: Thu, 6 Apr 2023 12:54:10 -0700
+From: Alison Schofield <alison.schofield@intel.com>
+To: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 4/5] staging: rtl8192e: Remove unused local variable
+ irq_line
+Message-ID: <ZC8jYs/m47SeKkuZ@aschofie-mobl2>
+References: <cover.1680729715.git.philipp.g.hortmann@gmail.com>
+ <6ec702e12cb30501fc81693a71a96b238bf09ea0.1680729716.git.philipp.g.hortmann@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20230329-acpi-header-cleanup-v2-0-c902e581923b@kernel.org>
-In-Reply-To: <20230329-acpi-header-cleanup-v2-0-c902e581923b@kernel.org>
-From: "Rafael J. Wysocki" <rafael@kernel.org>
-Date: Thu, 6 Apr 2023 20:40:05 +0200
-Message-ID: <CAJZ5v0j+DP=PB8thzFPMPQgTATGdo9ZA70Q6heUy=OLo3aU96g@mail.gmail.com>
-Subject: Re: [PATCH v2 00/10] Remove acpi.h implicit include of of.h
-To: Rob Herring <robh@kernel.org>
-Cc: "Rafael J. Wysocki" <rafael@kernel.org>, Len Brown <lenb@kernel.org>, 
-	Marcelo Schmitt <marcelo.schmitt1@gmail.com>, Lars-Peter Clausen <lars@metafoo.de>, 
-	Michael Hennerich <Michael.Hennerich@analog.com>, Jonathan Cameron <jic23@kernel.org>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Johannes Berg <johannes@sipsolutions.net>, 
-	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Jiri Slaby <jirislaby@kernel.org>, 
-	Thierry Reding <thierry.reding@gmail.com>, Jonathan Hunter <jonathanh@nvidia.com>, 
-	Marc Zyngier <maz@kernel.org>, linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-staging@lists.linux.dev, linux-wireless@vger.kernel.org, 
-	netdev@vger.kernel.org, linux-serial@vger.kernel.org, 
-	linux-tegra@vger.kernel.org, linux-acpi@vger.kernel.org, 
-	devicetree@vger.kernel.org, Stephen Rothwell <sfr@canb.auug.org.au>, 
-	Jacob Keller <jacob.e.keller@intel.com>, Jonathan Cameron <Jonathan.Cameron@huawei.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <6ec702e12cb30501fc81693a71a96b238bf09ea0.1680729716.git.philipp.g.hortmann@gmail.com>
 
-On Wed, Apr 5, 2023 at 10:27=E2=80=AFPM Rob Herring <robh@kernel.org> wrote=
-:
->
-> In the process of cleaning up DT includes, I found that some drivers
-> using DT functions could build without any explicit DT include. I traced
-> the include to be coming from acpi.h via irqdomain.h.
->
-> I was pleasantly surprised that there were not 100s or even 10s of
-> warnings when breaking the include chain. So here's the resulting
-> series.
->
-> I'd suggest Rafael take the whole series. Alternatively,the fixes can be
-> applied in 6.4 and then the last patch either after rc1 or the
-> following cycle.
->
-> Compile tested on x86 and powerpc allmodconfig and arm64 allmodconfig
-> minus CONFIG_ACPI.
->
-> Signed-off-by: Rob Herring <robh@kernel.org>
-> ---
-> Changes in v2:
-> - More explicit include fixes reported by Stephen
-> - Link to v1: https://lore.kernel.org/r/20230329-acpi-header-cleanup-v1-0=
--8dc5cd3c610e@kernel.org
->
-> ---
-> Rob Herring (10):
->       iio: adc: ad7292: Add explicit include for of.h
->       staging: iio: resolver: ad2s1210: Add explicit include for of.h
->       net: rfkill-gpio: Add explicit include for of.h
->       serial: 8250_tegra: Add explicit include for of.h
->       ata: pata_macio: Add explicit include of irqdomain.h
->       pata: ixp4xx: Add explicit include for of.h
->       virtio-mmio: Add explicit include for of.h
->       tpm: atmel: Add explicit include for of.h
->       fpga: lattice-sysconfig-spi: Add explicit include for of.h
->       ACPI: Replace irqdomain.h include with struct declarations
->
->  drivers/ata/pata_ixp4xx_cf.c            | 1 +
->  drivers/ata/pata_macio.c                | 1 +
->  drivers/char/tpm/tpm_atmel.h            | 2 +-
->  drivers/fpga/lattice-sysconfig-spi.c    | 1 +
->  drivers/iio/adc/ad7292.c                | 1 +
->  drivers/staging/iio/resolver/ad2s1210.c | 1 +
->  drivers/tty/serial/8250/8250_tegra.c    | 1 +
->  drivers/virtio/virtio_mmio.c            | 1 +
->  include/linux/acpi.h                    | 6 ++++--
->  net/rfkill/rfkill-gpio.c                | 1 +
->  10 files changed, 13 insertions(+), 3 deletions(-)
-> ---
-> base-commit: fe15c26ee26efa11741a7b632e9f23b01aca4cc6
-> change-id: 20230329-acpi-header-cleanup-665331828436
+On Wed, Apr 05, 2023 at 11:48:20PM +0200, Philipp Hortmann wrote:
+> Remove unused local variable irq_line.
 
-All applied as 6.4 material, thanks!
+This does more than just remove the unused variable.
+
+> 
+> Signed-off-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+> ---
+>  drivers/staging/rtl8192e/rtl8192e/rtl_pci.c | 2 --
+>  1 file changed, 2 deletions(-)
+> 
+> diff --git a/drivers/staging/rtl8192e/rtl8192e/rtl_pci.c b/drivers/staging/rtl8192e/rtl8192e/rtl_pci.c
+> index 0bc3e013001e..1c3ccd2aabc3 100644
+> --- a/drivers/staging/rtl8192e/rtl8192e/rtl_pci.c
+> +++ b/drivers/staging/rtl8192e/rtl8192e/rtl_pci.c
+> @@ -33,11 +33,9 @@ bool rtl92e_check_adapter(struct pci_dev *pdev, struct net_device *dev)
+>  	struct r8192_priv *priv = (struct r8192_priv *)rtllib_priv(dev);
+>  	u16 device_id;
+>  	u8  revision_id;
+> -	u16 irq_line;
+>  
+>  	device_id = pdev->device;
+>  	revision_id = pdev->revision;
+> -	pci_read_config_word(pdev, 0x3C, &irq_line);
+>  
+>  	priv->card_8192 = NIC_8192E;
+>  
+> -- 
+> 2.40.0
+> 
