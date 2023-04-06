@@ -1,29 +1,53 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 522F68476
-	for <linux-staging@lists.linux.dev>; Thu,  6 Apr 2023 14:57:48 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 948FDC433EF;
-	Thu,  6 Apr 2023 14:57:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1680793067;
-	bh=X2TdDr4EBPsChITOsKBopced6tBmgsIA23enF7T+fns=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=gTe6YRdQW38Al73wWDXivqX1gdptCxT4THjxOE/gyumvuh47lq2p9oG7ZkhOK8jtC
-	 XGXfSrbDnmq7l07HV6LBDGy+GIWDtpJjWtuzrBKhoCVaTpRuO+JLpDR5tDzESU17H5
-	 W4GHEB3IAkBYsshGMxI2dkYHVa0pAFNSScIKM3H8=
-Date: Thu, 6 Apr 2023 16:57:44 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 124518476
+	for <linux-staging@lists.linux.dev>; Thu,  6 Apr 2023 15:06:34 +0000 (UTC)
+Received: by mail-ej1-f50.google.com with SMTP id 18so2141586ejo.13
+        for <linux-staging@lists.linux.dev>; Thu, 06 Apr 2023 08:06:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1680793593; x=1683385593;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=jpVWorwXOmwB6F9aalVF/BJLXYdyvcrGxRcPnrYyuGY=;
+        b=Mq/ugyTreF1tq8eO1viaJiMjXXsdq1csjTuAMrBlPqXOtwE1uxjW/+HGWe2364Hq58
+         +zdEpFb5xdsShlJiYKOqsenhVwfK9AMiL5HW1P9Dew8esiiPTyh/xZJgn946Od9skPdm
+         Jkg2d1Mg2dbnFxmaVqAKmm4e7QzmiyMGZaugpC5GGPfCwgBe2XoK9mUD5YRu54kWSe7s
+         ZN/s4P0XGE3ftLr889p1ivMrEc2GzxheqtdLERo9rVG3XcKNd1iUxwllDkFfFveanllP
+         +MVT0d79C2Ev+vpDV6xb0Gc4QBChRY5a8aU6XsBZJCcyidoRlX+i9GTcpsRLgijRyPGt
+         DG/g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1680793593; x=1683385593;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=jpVWorwXOmwB6F9aalVF/BJLXYdyvcrGxRcPnrYyuGY=;
+        b=TZKEahqT0kef0Mgwc6bDEtcf5XsY0chaqV2QA6sjq2kfuStzIHbm8uqSq+DocxHong
+         r1zfhuoQPdx5axQEwAeLW8s6V1OlJ5o25NzVcD2iQ7xBgUg2Wv0WgsII7WY0vWxmqVdH
+         sTHhGg257j1X3oTLkhJCcnCPfwctdBIHlfbrZkMmkDMYqZRprWhRnI/DUJpK3hPq+QqP
+         3mnfPQdqmS5VtUYmCXhAMKp+bxS+T/JTTTb3Nug1grEGK4lu+wm1upjXAk6I9VkhZJ+Y
+         TpwJ2dy6dr8IKlJVFqaEHEhNDR3Uq5xSPw6wIkMK/EU3GWphj5gz/gFZN0slDvSnURZw
+         uB+g==
+X-Gm-Message-State: AAQBX9fOpxhcikVqOjxR07Y/ErnVlgYuh3gPoZO8LD+idUA5gVdzvDFc
+	U9e/9phZx9oGPkmVP2v3rWM=
+X-Google-Smtp-Source: AKy350bwkLXyJWEmQ5ppR9OTGGlu3H0nRdbtPmGaReJArAh1ETH2lWrPn2HUHAehrCEUaoIfSsjY9A==
+X-Received: by 2002:a17:907:6c17:b0:931:6f5b:d284 with SMTP id rl23-20020a1709076c1700b009316f5bd284mr6443576ejc.57.1680793592963;
+        Thu, 06 Apr 2023 08:06:32 -0700 (PDT)
+Received: from localhost (h130e.n1.ips.mtn.co.ug. [41.210.147.14])
+        by smtp.gmail.com with ESMTPSA id lr7-20020a170906fb8700b009476dafa705sm908185ejb.193.2023.04.06.08.06.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 06 Apr 2023 08:06:32 -0700 (PDT)
+Date: Thu, 6 Apr 2023 18:06:28 +0300
+From: Dan Carpenter <error27@gmail.com>
 To: Sumitra Sharma <sumitraartsy@gmail.com>
-Cc: Simon Horman <simon.horman@corigine.com>,
-	Manish Chopra <manishc@marvell.com>, GR-Linux-NIC-Dev@marvell.com,
-	Coiby Xu <coiby.xu@gmail.com>, netdev@vger.kernel.org,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Cc: Manish Chopra <manishc@marvell.com>, GR-Linux-NIC-Dev@marvell.com,
+	Coiby Xu <coiby.xu@gmail.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	netdev@vger.kernel.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
 Subject: Re: [PATCH] staging: qlge: Remove macro FILL_SEG
-Message-ID: <2023040648-zeppelin-escapist-86d1@gregkh>
+Message-ID: <bff9626d-095c-4bed-ae8b-2be50610aee7@kili.mountain>
 References: <20230405150627.GA227254@sumitra.com>
- <ZC2gJdUA6zGOjX4P@corigine.com>
- <20230406144644.GB231658@sumitra.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -32,48 +56,30 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230406144644.GB231658@sumitra.com>
+In-Reply-To: <20230405150627.GA227254@sumitra.com>
 
-On Thu, Apr 06, 2023 at 07:46:44AM -0700, Sumitra Sharma wrote:
-> On Wed, Apr 05, 2023 at 06:21:57PM +0200, Simon Horman wrote:
-> > On Wed, Apr 05, 2023 at 08:06:27AM -0700, Sumitra Sharma wrote:
-> > > Remove macro FILL_SEG to fix the checkpatch warning:
-> > > 
-> > > WARNING: Macros with flow control statements should be avoided
-> > > 
-> > > Macros with flow control statements must be avoided as they
-> > > break the flow of the calling function and make it harder to
-> > > test the code.
-> > > 
-> > > Replace all FILL_SEG() macro calls with:
-> > > 
-> > > err = err || qlge_fill_seg_(...);
-> > 
-> > Perhaps I'm missing the point here.
-> > But won't this lead to err always either being true or false (1 or 0).
-> > Rather than the current arrangement where err can be
-> > either 0 or a negative error value, such as -EINVAL.
-> >
-> 
-> Hi Simon
-> 
-> 
-> Thank you for the point you mentioned which I missed while working on this
-> patch. 
-> 
-> However, after thinking on it, I am still not able to get any fix to this
-> except that we can possibly implement the Ira's solution here which is:
-> 
-> https://lore.kernel.org/outreachy/64154d438f0c8_28ae5229421@iweiny-mobl.notmuch/
-> 
-> Although we have to then deal with 40 lines of ifs.
+On Wed, Apr 05, 2023 at 08:06:27AM -0700, Sumitra Sharma wrote:
+> +	err = err || qlge_fill_seg_(fmsg, &dump->core_regs_seg_hdr, dump->mpi_core_regs);
 
-Which implies that the current solution is the best one, so I would
-recommend just leaving it as-is.
+I have not seen anyone do this before.  I sometimes see people do:
 
-Remember, checkpatch.pl is a tool to provide hints, it does not have
-much context, if any, to determine if it's hints actually make sense.
+	err |= frob1();
+	err |= frob2();
+	err |= frob3();
 
-thanks,
+I don't like this very much, but it basically works-ish...  I don't like
+that it ORs all the errors together and that it continues after it has
+errors.
 
-greg k-h
+Another idea would be to do:
+
+	err = err ?: frob1();
+	err = err ?: frob2();
+	err = err ?: frob3();
+
+BPF and networking have a couple place which do it this way so maybe
+it's going to become trendy.
+
+regards,
+dan carpenter
+
