@@ -1,91 +1,135 @@
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70A07D53E
-	for <linux-staging@lists.linux.dev>; Thu,  6 Apr 2023 21:58:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1680818315; x=1712354315;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=kdKSu0Ilf3scrWldP6tXEaPIfWisiYg96qJ2ydXFqLQ=;
-  b=iPnK82++uVYH8Qszv8redkWJaTMx5yRRmnXyMJkpIhTW6xuX+1eKF1eW
-   HqdnH95MS4I3E+JT6j5VPP0vLKWyPEApLsr0oOqCIoypJXe9NI50uiWU3
-   azbGmubUZK+A6a7pmMbMvCPbrZVDYOu50IROtdCsDqsQPpvNESi7ECcf9
-   Yxk1yI2v6ylWxBoOuwE5XQvYgx2d35cPLCCMjPWPEtaMEsvc3TD/Fi51Q
-   jYlNMA5Y5uRJU46H+8IzNIUQAUE2pJYYao3nGkZLMkA31qsxoVun+bo59
-   P0a9VU8N8M3OIFbHEAfkNDPzi31hbyv77xG0n7oKjiQ3qybpOJP42Adqq
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10672"; a="405667974"
-X-IronPort-AV: E=Sophos;i="5.98,323,1673942400"; 
-   d="scan'208";a="405667974"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Apr 2023 14:58:34 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10672"; a="664652583"
-X-IronPort-AV: E=Sophos;i="5.98,323,1673942400"; 
-   d="scan'208";a="664652583"
-Received: from aschofie-mobl2.amr.corp.intel.com (HELO aschofie-mobl2) ([10.212.219.12])
-  by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Apr 2023 14:58:34 -0700
-Date: Thu, 6 Apr 2023 14:58:33 -0700
-From: Alison Schofield <alison.schofield@intel.com>
-To: Dalvin-Ehinoma Noah Aiguobas <pharcodra@gmail.com>
-Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: octeon: remove typedef declaration for
- cvmx_fau_op_size
-Message-ID: <ZC9AieBk+Z9Sgn/b@aschofie-mobl2>
-References: <20230405181841.GA6820@koolguy>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41172C2C1
+	for <linux-staging@lists.linux.dev>; Fri,  7 Apr 2023 08:09:00 +0000 (UTC)
+Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-93b8c095335so19130266b.0
+        for <linux-staging@lists.linux.dev>; Fri, 07 Apr 2023 01:09:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1680854938; x=1683446938;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=chM+aOuRzB7CkSudk4w7H6Qb4P5pnNlrP1RR+AKS8Os=;
+        b=iSQScGwbd8Xo1rkfffuHE5wo++SEQieFziBhIbwNp03vvlG0Olj4tlPrJh9QRpdcyv
+         R0zR8h995hiTbwbKr3yNfnmRpCsAMrl8rsp1+Al+eXw8PEXyXNJXgjrAbiMe3HhPYcFn
+         65rXJpmRe2fpaMxnFiLxZtlvS8pAtdUfNR7I+vDUTVVsbEicYh+TfOtjswa5JdRr0Abx
+         t3rMgKScRi1cMiOHgW+Ebc9ITazb0CDIkfJr3M/6b0iEfGLyu4OzrNUg2F1arsaUndlm
+         P9+61A2R2z7NBTuNZD8qYUMW82ZEzrpaDk3lEaRL5iSR9Xj5Tg3qwi/7mCW+GQ+YiF1J
+         Zvnw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1680854938; x=1683446938;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=chM+aOuRzB7CkSudk4w7H6Qb4P5pnNlrP1RR+AKS8Os=;
+        b=SRDgTbN7FbdSTtYeeLOaja8uytmBmCJFzEk8jYqje859QB5KDTeDVXS0ziGbQTPUMn
+         z2VKswbL3o92a4AAADGtCXzt8syP+9fYfdoykST9wA0/o1GcrcA59MpZyvMDO2733H92
+         ndZMhZLXuw4jF5yM+fNaZlg6T9AepcjzB2psAOto+r1U6Vs5wX1qA7fzikDDv90NLjmU
+         cqWMqb7lxYpGAoMhOwxwZ7M0lanELlosiOtCHA4MtZq5MCDqWdLvHcDyR+/SfF8YMd+T
+         MGMllLobZXSyCGLtcCQvhoEtZgEVtRE625QdYkyTpJaHlhV/XnKv93XU7/EyjzgSr7GN
+         Sm7A==
+X-Gm-Message-State: AAQBX9cwaLoG5ta0iGEbPVhYVna0AxZfd+zuri7XEHiHN7XDjn2mWo1R
+	HwyVcODpaYLVIzREtm9DPyE=
+X-Google-Smtp-Source: AKy350aQmBXc9Vys7GOF9dMrPtvkrmkMVcOzaImMuNqqJY/Z3PK9o8zsFsOVLVfTIcwIohylZs4Ocg==
+X-Received: by 2002:a17:906:73c5:b0:92f:39d9:1e50 with SMTP id n5-20020a17090673c500b0092f39d91e50mr1346683ejl.3.1680854938270;
+        Fri, 07 Apr 2023 01:08:58 -0700 (PDT)
+Received: from [192.168.0.103] (p57935146.dip0.t-ipconnect.de. [87.147.81.70])
+        by smtp.gmail.com with ESMTPSA id v9-20020a170906488900b0093de5b42856sm1787294ejq.119.2023.04.07.01.08.51
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 07 Apr 2023 01:08:55 -0700 (PDT)
+Message-ID: <7ce977bb-a5b9-080c-4c27-58c12899759e@gmail.com>
+Date: Fri, 7 Apr 2023 10:08:50 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230405181841.GA6820@koolguy>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: [PATCH 4/5] staging: rtl8192e: Remove unused local variable
+ irq_line
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+References: <cover.1680729715.git.philipp.g.hortmann@gmail.com>
+ <6ec702e12cb30501fc81693a71a96b238bf09ea0.1680729716.git.philipp.g.hortmann@gmail.com>
+ <ZC8mR9OjVlEdDMV-@kroah.com>
+Content-Language: en-US
+From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+In-Reply-To: <ZC8mR9OjVlEdDMV-@kroah.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Wed, Apr 05, 2023 at 08:18:41PM +0200, Dalvin-Ehinoma Noah Aiguobas wrote:
-> Fix checkpatch.pl warning: do not add new typedefs in
-> drivers/staging/octeon/octeon-stubs.h:216
+On 4/6/23 22:06, Greg Kroah-Hartman wrote:
+> On Wed, Apr 05, 2023 at 11:48:20PM +0200, Philipp Hortmann wrote:
+>> Remove unused local variable irq_line.
+>>
+>> Signed-off-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+>> ---
+>>   drivers/staging/rtl8192e/rtl8192e/rtl_pci.c | 2 --
+>>   1 file changed, 2 deletions(-)
+>>
+>> diff --git a/drivers/staging/rtl8192e/rtl8192e/rtl_pci.c b/drivers/staging/rtl8192e/rtl8192e/rtl_pci.c
+>> index 0bc3e013001e..1c3ccd2aabc3 100644
+>> --- a/drivers/staging/rtl8192e/rtl8192e/rtl_pci.c
+>> +++ b/drivers/staging/rtl8192e/rtl8192e/rtl_pci.c
+>> @@ -33,11 +33,9 @@ bool rtl92e_check_adapter(struct pci_dev *pdev, struct net_device *dev)
+>>   	struct r8192_priv *priv = (struct r8192_priv *)rtllib_priv(dev);
+>>   	u16 device_id;
+>>   	u8  revision_id;
+>> -	u16 irq_line;
+>>   
+>>   	device_id = pdev->device;
+>>   	revision_id = pdev->revision;
+>> -	pci_read_config_word(pdev, 0x3C, &irq_line);
 > 
-> Signed-off-by: Dalvin-Ehinoma Noah Aiguobas <pharcodra@gmail.com>
-> ---
->  drivers/staging/octeon/octeon-stubs.h | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
+> As was pointed out, that might not be "unused".
 > 
-> diff --git a/drivers/staging/octeon/octeon-stubs.h b/drivers/staging/octeon/octeon-stubs.h
-> index 3e7b92cd2e35..9f269626b862 100644
-> --- a/drivers/staging/octeon/octeon-stubs.h
-> +++ b/drivers/staging/octeon/octeon-stubs.h
-> @@ -213,12 +213,12 @@ enum cvmx_fau_op_size {
->  	CVMX_FAU_OP_SIZE_64 = 3
->  };
->  
-> -typedef enum {
-> +enum cvmx_spi_mode {
->  	CVMX_SPI_MODE_UNKNOWN = 0,
->  	CVMX_SPI_MODE_TX_HALFPLEX = 1,
->  	CVMX_SPI_MODE_RX_HALFPLEX = 2,
->  	CVMX_SPI_MODE_DUPLEX = 3
-> -} cvmx_spi_mode_t;
-> +};
+> When doing a PCI write, the only way to know it has completed is to
+> issue a read.  Are you sure this isn't a read that is flushing out a
+> pending write?  Look at who calls this function and verify that this
+> read really is safe to remove and then document that really really well
+> in the changelog text when doing so.
+> 
+> Be careful about removing seemingly-unused PCI read/writes, they often
+> times are actually needed.
+> 
+> thanks,
+> 
+> greg k-h
 
-Commit msg says typedef cvmx_fau_op_size was removed, not this one.
+Hi,
 
->  
->  typedef enum {
->  	CVMX_HELPER_INTERFACE_MODE_DISABLED,
-> @@ -1362,7 +1362,7 @@ static inline struct cvmx_wqe *cvmx_pow_work_request_sync(cvmx_pow_wait_t wait)
->  }
->  
->  static inline int cvmx_spi_restart_interface(int interface,
-> -					cvmx_spi_mode_t mode, int timeout)
-> +					enum cvmx_spi_mode mode, int timeout)
->  {
->  	return 0;
->  }
-> -- 
-> 2.25.1
-> 
+The first function that is called of the driver is: _rtl92e_pci_probe().
+66 Lines later the function rtl92e_check_adapter() is called. The line
+pci_read_config_word() is the 10th line of this function.
+
+No other pci function before in function rtl92e_check_adapter().
+
+The following functions are used in the probe function before the
+rtl92e_check_adapter():
+
+pci_enable_device()		Does not require a pci read.
+pci_set_master()		Does not require a pci read.
+dma_set_mask()			Does not require a pci read.
+alloc_rtllib()			Does not require a pci read.
+pci_set_drvdata()		Does not require a pci read.
+SET_NETDEV_DEV()		Does not require a pci read.
+rtllib_priv()			Does not require a pci read.
+pci_resource_start()		Does not require a pci read.
+pci_resource_len()		Does not require a pci read.
+pci_resource_flags()		Does not require a pci read.
+request_mem_region()		Does not require a pci read.
+ioremap()			Does not require a pci read.
+pci_resource_len()		Does not require a pci read.
+pci_read_config_byte()		Which is deleted in this
+				patch series. So Gregs hint is
+  				applicable for this patch as well.
+
+I am going to issue a v2.
+
+Thanks for your support.
+
+Bye Philipp
+
