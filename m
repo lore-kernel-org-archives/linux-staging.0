@@ -1,24 +1,24 @@
 Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net [217.70.183.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DEF15380
-	for <linux-staging@lists.linux.dev>; Fri,  7 Apr 2023 13:40:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 126B05380
+	for <linux-staging@lists.linux.dev>; Fri,  7 Apr 2023 13:40:10 +0000 (UTC)
 Received: from booty.fritz.box (unknown [77.244.183.192])
 	(Authenticated sender: luca.ceresoli@bootlin.com)
-	by mail.gandi.net (Postfix) with ESMTPA id 52C121BF209;
-	Fri,  7 Apr 2023 13:39:57 +0000 (UTC)
+	by mail.gandi.net (Postfix) with ESMTPA id 090971BF205;
+	Fri,  7 Apr 2023 13:40:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1680874800;
+	t=1680874809;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=3iC8kRXcLuBDuHKQdXlAD3W7mWqK6ZwJx/sRZ81bY2A=;
-	b=iyovwNrHQnq9EQUBnAVD4AMngQ/S2sXnrf6TLMcZUvdUEE97CAwLt6n0cqp5hv80WSw2nS
-	78cKButm0dtGq+fANd+CEDfP8MZJ1yGZ9afG2Djp3F8dYdbUM2/mKzrbk44zzt0UWkgY7z
-	W39OJ1MR1gSveQOM+MJ4xrAfvdCJwMQijrtrcUvTDgJdjLKv9ftMvbEBZPrP0/YLQ2GEpn
-	FM6FqoWFSceIu+FwmAK+ACZ1ICCTRvqFWm2nGYcArsDZ01mTfGSrfQvsWWoMmz7LdDK7mJ
-	X0SGncGKgjbZhH5CuVZ9PtsFNiqxfozn0H6Ztq+UcpFpoerv2L9wqBxSzfyPGg==
+	bh=kUmFRT8Feq147dzZJ+UxUhEHuVDTM6lRC0Uxl+5isTk=;
+	b=P1BHlCptoOBpfPSARHdqgL3Ju3Mdf4pm7N2XVSePnEwwERXbbNDV3KcdciwMM4O6PY9qvP
+	MlgBBcj/+jn+pkfsDN+byAoiyaQVd9N7L6MGvLItzbA2yQOD13cQM7NiDBMzwfxTEY6ci+
+	xbvL8vYD3gO9FyDJaO0OB4EnIIJgpb0XeIJbd524B07CmyC0ZbZ3j5SpPKu4/4km0xPWbE
+	D0UQaKqitVK+/FwpEfUSW8IBM4saKddE8tMNBRu7Pod0Ma3BolEPfjdvfAeTudllxa6vvb
+	Ijj9pzn7QvHLZIJ+HY1HuCEwG7Dr0pjPZXQ4B4Ep27orh/3cO+IfjkQZlHPbJA==
 From: Luca Ceresoli <luca.ceresoli@bootlin.com>
 To: linux-tegra@vger.kernel.org
 Cc: Luca Ceresoli <luca.ceresoli@bootlin.com>,
@@ -42,9 +42,9 @@ Cc: Luca Ceresoli <luca.ceresoli@bootlin.com>,
 	Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
 	Richard Leitner <richard.leitner@skidata.com>,
 	Dmitry Osipenko <digetx@gmail.com>
-Subject: [PATCH v5 09/20] staging: media: tegra-video: move tegra210_csi_soc to C file
-Date: Fri,  7 Apr 2023 15:38:41 +0200
-Message-Id: <20230407133852.2850145-10-luca.ceresoli@bootlin.com>
+Subject: [PATCH v5 10/20] staging: media: tegra-video: remove unneeded include
+Date: Fri,  7 Apr 2023 15:38:42 +0200
+Message-Id: <20230407133852.2850145-11-luca.ceresoli@bootlin.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230407133852.2850145-1-luca.ceresoli@bootlin.com>
 References: <20230407133852.2850145-1-luca.ceresoli@bootlin.com>
@@ -56,7 +56,8 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This declaration is used only in csi.c, no need to export it elsewhere.
+There is only a pointer reference to struct tegra_vi in video.h, thus vi.h
+is not needed.
 
 Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 Reviewed-by: Dmitry Osipenko <digetx@gmail.com>
@@ -68,42 +69,24 @@ No changes in v5
 Changed in v4:
  - Added review tags
 
-This patch was added in v3.
+No changes in v3
+No changes in v2
 ---
- drivers/staging/media/tegra-video/csi.c | 4 ++++
- drivers/staging/media/tegra-video/csi.h | 4 ----
- 2 files changed, 4 insertions(+), 4 deletions(-)
+ drivers/staging/media/tegra-video/video.h | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/drivers/staging/media/tegra-video/csi.c b/drivers/staging/media/tegra-video/csi.c
-index 426e653bd55d..9a03d5ccdf3c 100644
---- a/drivers/staging/media/tegra-video/csi.c
-+++ b/drivers/staging/media/tegra-video/csi.c
-@@ -792,6 +792,10 @@ static int tegra_csi_remove(struct platform_device *pdev)
- 	return 0;
- }
+diff --git a/drivers/staging/media/tegra-video/video.h b/drivers/staging/media/tegra-video/video.h
+index fadaf2189dc9..1e9be1474a9c 100644
+--- a/drivers/staging/media/tegra-video/video.h
++++ b/drivers/staging/media/tegra-video/video.h
+@@ -12,7 +12,6 @@
+ #include <media/v4l2-device.h>
  
-+#if defined(CONFIG_ARCH_TEGRA_210_SOC)
-+extern const struct tegra_csi_soc tegra210_csi_soc;
-+#endif
-+
- static const struct of_device_id tegra_csi_of_id_table[] = {
- #if defined(CONFIG_ARCH_TEGRA_210_SOC)
- 	{ .compatible = "nvidia,tegra210-csi", .data = &tegra210_csi_soc },
-diff --git a/drivers/staging/media/tegra-video/csi.h b/drivers/staging/media/tegra-video/csi.h
-index 6960ea2e3d36..3e6e5ee1bb1e 100644
---- a/drivers/staging/media/tegra-video/csi.h
-+++ b/drivers/staging/media/tegra-video/csi.h
-@@ -151,10 +151,6 @@ struct tegra_csi {
- 	struct list_head csi_chans;
- };
+ #include "vi.h"
+-#include "csi.h"
  
--#if defined(CONFIG_ARCH_TEGRA_210_SOC)
--extern const struct tegra_csi_soc tegra210_csi_soc;
--#endif
--
- void tegra_csi_error_recover(struct v4l2_subdev *subdev);
- void tegra_csi_calc_settle_time(struct tegra_csi_channel *csi_chan,
- 				u8 csi_port_num,
+ struct tegra_video_device {
+ 	struct v4l2_device v4l2_dev;
 -- 
 2.34.1
 
