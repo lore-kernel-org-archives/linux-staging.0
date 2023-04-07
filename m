@@ -1,81 +1,86 @@
-Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
+Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5273D2582
-	for <linux-staging@lists.linux.dev>; Fri,  7 Apr 2023 21:02:10 +0000 (UTC)
-Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-947a47eb908so89715066b.0
-        for <linux-staging@lists.linux.dev>; Fri, 07 Apr 2023 14:02:10 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27A1C2582
+	for <linux-staging@lists.linux.dev>; Fri,  7 Apr 2023 21:50:17 +0000 (UTC)
+Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-947a47eb908so90102866b.0
+        for <linux-staging@lists.linux.dev>; Fri, 07 Apr 2023 14:50:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1680901328; x=1683493328;
-        h=content-transfer-encoding:in-reply-to:references:to:from
-         :content-language:subject:user-agent:mime-version:date:message-id
+        d=gmail.com; s=20210112; t=1680904215; x=1683496215;
+        h=content-disposition:mime-version:message-id:subject:to:from:date
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=YPcKdBRSdTG+FoVQj+kLiPvFB7VrPFru5LsqZmAmx20=;
-        b=l4F/ErgZZ6pMP8I8zZc3yQHipp9CKB7I6l//amZdnTi84bFTdEUpePK+nAZnoJaHto
-         UJhhWFDiuAXIaRrUy/NIlHF5V+JYyNjuRo5irbhxvTIPbo+kJB+5iKce2VKMAhSf/5Ij
-         hKnIdNnBPw6IJU+xwM264fRHWIrOO0KirRGIyvDYyklVvbdVnHM7dVk0KiyHhc/9WRUH
-         sJqoAPmrFe7mFgUMfkEzycqRDfLE/JAijMXKMenueVZ81YCRkL2zwNsdBSE+yB8rM1ga
-         0TerRYP+/lp96gMaFWbz7yT3TGsXmzmz2f/A13SgyNFw1gDZck9Tid7+VeUvRHKRyvgY
-         dlwA==
+        bh=Fq8RUQdzJGvVRHtSpwTfubZBnwWXomggCH4yTMLMhUA=;
+        b=YZoa6b1LgZLhTRKbgPtIevcXFYpMcLDHzfzwnFNrW73isDDqzdc5rlJPsYyZX/8Cdp
+         1v4LjfMk6+ssbGWHTOo0SDXN1N3FOLF9f5rmyHmVDKuO6X27N++FQ7BZzuAOFBn/gj+c
+         cuYMaEnjWHWRGBFXWA1NcKPGUdquJA4BCymYefa4NFo6mnDH5JBc0Efi9zziVB3p9npY
+         LBCPNqxcXVdtAg9PPEm0KhFKHO1BbT4fdwnevZibhjkVwxyonTWhdpHxgk7QHDZ15Pfz
+         beZc1hbz5yfen7oOIeq2RqTLUUq0kPyQFOfJNpFX+6Q7z6jaUxOQhCJIyquFj/on/vUb
+         D75Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680901328; x=1683493328;
-        h=content-transfer-encoding:in-reply-to:references:to:from
-         :content-language:subject:user-agent:mime-version:date:message-id
+        d=1e100.net; s=20210112; t=1680904215; x=1683496215;
+        h=content-disposition:mime-version:message-id:subject:to:from:date
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=YPcKdBRSdTG+FoVQj+kLiPvFB7VrPFru5LsqZmAmx20=;
-        b=CyAmPju+McyF85u4D1kZXkenQX1R/DExzPQVL1QS5LHAbzI6vUHZl3W9+z1lOg4tn6
-         AScQQHBmQxxG8xQnyf7PimYQBTFUBTsCDYB8MY7o1/t+qktJZcQQGVr9EmzNah1JNyle
-         fXGMJ/VQ1jgxndtynuPZQmDLjNgFDpnODWbEKkSZhMfkbmC0pBfms0RMs0GqN5fQpAov
-         epe0GQFkHAc90SwmjgDDRF62b0M6E16DthHrNyVyirFRWpn81vQtucYve1TH3Vso2C6G
-         xluHzvP5sz6kx1Xa9WvQKS3pcgCZQlFMvx1FDPvlGVURF/Hip6N1ScTTYgkZqkf1YC9a
-         8NTg==
-X-Gm-Message-State: AAQBX9cE+/5z+XH991QAkBGEXeKwUph+HekvSaffv3s1ET/74W5VpV9R
-	DXt4bNZ+uAULYila2LxOTho=
-X-Google-Smtp-Source: AKy350YrQLmUc4IVssaOzvjGV2ceDC4ifXsiXlT8LRI7cfgURUDQWMNpPVC1cttXrVeZZq5SPi5PRQ==
-X-Received: by 2002:a05:6402:4413:b0:502:465:28d4 with SMTP id y19-20020a056402441300b00502046528d4mr763142eda.1.1680901328081;
-        Fri, 07 Apr 2023 14:02:08 -0700 (PDT)
-Received: from [192.168.0.102] (p57935146.dip0.t-ipconnect.de. [87.147.81.70])
-        by smtp.gmail.com with ESMTPSA id ek14-20020a056402370e00b005028e87068fsm2228219edb.73.2023.04.07.14.02.06
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 07 Apr 2023 14:02:06 -0700 (PDT)
-Message-ID: <248ec330-b4c3-aa7b-61eb-69ce8d333b69@gmail.com>
-Date: Fri, 7 Apr 2023 23:02:05 +0200
+        bh=Fq8RUQdzJGvVRHtSpwTfubZBnwWXomggCH4yTMLMhUA=;
+        b=KleqhdP9dwlnQaeEAzn2KWlc/gzqR5xhiC4GpfBy1O+2EJFZEftuM0EO5S1JGbwSWj
+         HzRoY2BDm8bdBaVyndeYpHeODQhwfdf+TzZcA5gqHtjUz0YrnfqUy5doLzzvt9hbsySB
+         4/cF6fAuu4caWUlhGxzaJVSbz8g5CfcR0t8ULlJm30D8cxOni06ZU//NRUVTO+QkxiQv
+         j/RuJJT6WN+3x7CL2fyketCsbH96z6NNR85fEf/g4r5rfPLjNzd13nMyjlu1Ko4l6MUg
+         vGshg34MbbVe0qzcg5dkrOLT9kcg8oMd2UQ1mAn/98E4JmwryXDKa1KzqsZIYfeXgnqO
+         0nOQ==
+X-Gm-Message-State: AAQBX9dNB9Ul9o42RlLSTbPNhp+HwftFyKdTsEfGHtShrZU7fLqsHz1R
+	25f2drPuXa6Og3GtYepEOsk=
+X-Google-Smtp-Source: AKy350aRz71SCGQ3kQveFF5UROzvL+o0nTf8PrYR8yyMN4DiOl6b3SgDcbkFJvpeCSyh1uM9PqTsPQ==
+X-Received: by 2002:a17:906:19c:b0:947:bff2:1c2d with SMTP id 28-20020a170906019c00b00947bff21c2dmr720729ejb.3.1680904215069;
+        Fri, 07 Apr 2023 14:50:15 -0700 (PDT)
+Received: from matrix-ESPRIMO-P710 (p57935146.dip0.t-ipconnect.de. [87.147.81.70])
+        by smtp.gmail.com with ESMTPSA id k16-20020a17090646d000b0094863433fdcsm2452572ejs.51.2023.04.07.14.50.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 07 Apr 2023 14:50:14 -0700 (PDT)
+Date: Fri, 7 Apr 2023 23:50:12 +0200
+From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: [PATCH v2 0/4] staging: rtl8192e: Remove unused code for hardware
+ rtl8192se
+Message-ID: <cover.1680902603.git.philipp.g.hortmann@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: [BUG] staging: rtl8192e: W_DISABLE# does not work after stop/start
-Content-Language: en-US
-From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-References: <39dc735c-fd6d-e405-856c-788a52704d63@gmail.com>
-In-Reply-To: <39dc735c-fd6d-e405-856c-788a52704d63@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-When loading the driver for rtl8192e, the W_DISABLE# switch is working 
-as intended. But when the WLAN is turned off in software and then turned 
-on again the W_DISABLE# does not work anymore.
+Remove unused macro IS_HARDWARE_TYPE_8192SE and unused function
+_rtl92e_dm_init_wa_broadcom_iot. Remove a double check for hardware
+rtl8192se. Remove unused variable.
 
-Reason for this is that in the function _rtl92e_dm_check_rf_ctrl_gpio()
-checking this every two seconds is an conditional return.
+Tested with rtl8192e
+Transferred this patch over wlan connection of rtl8192e
+---
+v1->v2: Removed patch "staging: rtl8192e: Remove unused local
+        variable irq_line" as it is unclear if the pci_read is needed
+        for a hidden feature.
+        Checked in patch "staging: rtl8192e: Remove one of two checks
+        for hardware RTL8192SE" that the pci_read does not follow a
+        pci_write
+        No changes to other patches.
 
-	if (priv->bfirst_after_down) {
-		priv->bfirst_after_down = true; // PH: useless line
-		return;
-	}
+Philipp Hortmann (4):
+  staging: rtl8192e: Remove macro IS_HARDWARE_TYPE_8192SE
+  staging: rtl8192e: Remove unused function
+    _rtl92e_dm_init_wa_broadcom_iot
+  staging: rtl8192e: Remove one of two checks for hardware RTL8192SE
+  staging: rtl8192e: Remove unused variable RF_Type
 
-	tmp1byte = rtl92e_readb(dev, GPI); // PH: GPI for W_DISABLE#
+ drivers/staging/rtl8192e/rtl8192e/rtl_core.c |  6 ------
+ drivers/staging/rtl8192e/rtl8192e/rtl_core.h |  3 ---
+ drivers/staging/rtl8192e/rtl8192e/rtl_dm.c   | 18 +-----------------
+ drivers/staging/rtl8192e/rtl819x_HT.h        |  3 ---
+ drivers/staging/rtl8192e/rtllib.h            |  1 -
+ 5 files changed, 1 insertion(+), 30 deletions(-)
 
-bfirst_after_down is set true when switching the WLAN off in software. 
-But it is not set to false again when WLAN is turned on again.
-
-Thanks for your support.
-
-Bye Philipp
+-- 
+2.40.0
 
