@@ -1,217 +1,195 @@
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net [217.70.183.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55EB62583
-	for <linux-staging@lists.linux.dev>; Fri,  7 Apr 2023 13:05:48 +0000 (UTC)
-Received: by mail-wm1-f43.google.com with SMTP id v14-20020a05600c470e00b003f06520825fso4362911wmo.0
-        for <linux-staging@lists.linux.dev>; Fri, 07 Apr 2023 06:05:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1680872746;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=Q65I8oJNkk5OeaspjtyS5YaULgJm8HOY8RaqcBgw9yM=;
-        b=W7/GLKKOXuw/+Aud8XTnR6E0qxxLEsg8YDxPsknmJttZZnNJ1oudkNTmggjMzPFTpo
-         71H6PZO0ZuYLkTqR9HTAvNGsU0DQeOqHliUUenbeRehy/ZMoiypicqMD2PFKBEkLy1Sa
-         ru6S/EbyP+XdSXV+J7zriQTj2SVP4TfabGz7BWZkevm5fs5i2akII8sRkZD4E9UGKHMD
-         ulEO/tbQa2S19OFXvZsgJKMMUHvwA1pz51GCHQVBSFGudsCNG6KfVCny8imT2U9k9e/E
-         fOn7VIAu/SKuKGwa3XNJSAfLClamkHscxib/JzIHI0mm2ruJig7R2/hkI3gFFq48dvXs
-         hDvw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680872746;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Q65I8oJNkk5OeaspjtyS5YaULgJm8HOY8RaqcBgw9yM=;
-        b=jxFNYKJ9M7TSkAzR7Gf1nnhLTHfDtDQ79mdBQobPn3y/HRPwx32PO1q4cWaExvaMxK
-         TyFjOXf3K7Im41xbTIh5yp4wKZADMnQbaTc6FzHvM1JDeO3bp4Nglnb8vSAFe8kfv17R
-         bXD6yZFO0EQdYQyAxmniq79Q30qeDU3HoThQOPYOP8bUw/DtMFbhGJO9es1haiGjx+AO
-         VNEbR+cuRVdXlO7fAchRq4AsLBHmLMYYtGobygMNipT4HKiCR+62f1h9HUxqDpIPSMrC
-         aypBBwg0Jq6/k8BOQA4bknJsymlVnVKFrbPRTJN6lCaoqmGOmdt2+BPuicT6eUAsSgSN
-         9fBg==
-X-Gm-Message-State: AAQBX9d0TBj9C8JneuEQOy8Fq7guSUlldIr9pFYZ7xyYeXvgJ9mQrJ5I
-	C9mgN0lljvUiWo0JIGTQUQ==
-X-Google-Smtp-Source: AKy350ZHfRTS94vuajAxTUng211GRem8ZbX9yAqH+g9GfuHv6BJ7Clo6VEHHux/SkPMc12lfcsvJeA==
-X-Received: by 2002:a1c:7409:0:b0:3dc:5b88:e6dd with SMTP id p9-20020a1c7409000000b003dc5b88e6ddmr1243588wmc.10.1680872746341;
-        Fri, 07 Apr 2023 06:05:46 -0700 (PDT)
-Received: from koolguy (dslb-002-205-192-117.002.205.pools.vodafone-ip.de. [2.205.192.117])
-        by smtp.gmail.com with ESMTPSA id fc9-20020a05600c524900b003f046ad52efsm8434226wmb.31.2023.04.07.06.05.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 07 Apr 2023 06:05:45 -0700 (PDT)
-Date: Fri, 7 Apr 2023 15:05:43 +0200
-From: Dalvin-Ehinoma Noah Aiguobas <pharcodra@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [PATCH] staging: octeon: remove typedef declaration for enums
-Message-ID: <20230407130543.GA32964@koolguy>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0611C4C79
+	for <linux-staging@lists.linux.dev>; Fri,  7 Apr 2023 13:39:15 +0000 (UTC)
+Received: from booty.fritz.box (unknown [77.244.183.192])
+	(Authenticated sender: luca.ceresoli@bootlin.com)
+	by mail.gandi.net (Postfix) with ESMTPA id C45F31BF20A;
+	Fri,  7 Apr 2023 13:39:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1680874747;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=VVN0XOngDYz3uGp4wCGBZNM2OHBQACSdvb++Rh+7vvs=;
+	b=SI+lxDSNzORAqgYxur6f7/ldWLJSIqGCO7TYflpS2hfjrz59oR4h0iczIYxpetpxUf+UhJ
+	ESeHWh7albPLHlQ/J4cWqCntV9KwjfOF7psQW/fM+4ly4SFdB0/FJ4q1eRb+V+h1GOdhe2
+	ywHf3Uf46Bc/plUn+c8gkzkAtKWAt+XYyOsOj3FiV6JvbSvDC1RpnEVktRkcXTnr7jRuwf
+	uOY+o5MEFLOMTiK3qKAxqbPEuzcyJavXwtzahTOHaA9XGr2944bS+GGLkyi0rJxA3aUNTV
+	8KU4XvQMUCATp9HPQf5PBl6TbvSf/xIaUsJoIC854ZpmFjQMeb58YyOzd+wxSQ==
+From: Luca Ceresoli <luca.ceresoli@bootlin.com>
+To: linux-tegra@vger.kernel.org
+Cc: Luca Ceresoli <luca.ceresoli@bootlin.com>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Sowjanya Komatineni <skomatineni@nvidia.com>,
+	David Airlie <airlied@gmail.com>,
+	Daniel Vetter <daniel@ffwll.ch>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-media@vger.kernel.org,
+	dri-devel@lists.freedesktop.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+	Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+	Richard Leitner <richard.leitner@skidata.com>
+Subject: [PATCH v5 00/20] Add Tegra20 parallel video input capture
+Date: Fri,  7 Apr 2023 15:38:32 +0200
+Message-Id: <20230407133852.2850145-1-luca.ceresoli@bootlin.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-Fix checkpatch.pl warning for enums in drivers/staging/octeon/octeon-stubs.h:
-cvmx_helper_interface_mode_t,
-cvmx_spi_mode_t,
-cvmx_pow_wait_t,
-cvmx_pko_lock_t,
-cvmx_pko_status_t
+New in v5: dropped the patch that was removing lots of the logic behind
+enum_format, after discussion with Hans. The rest is unmodified except for
+rebasing and fixing a couple typos in comments.
 
-Change typedef cvmx_helper_interface_mode_t to
-enum cvmx_helper_interface_mode in ethernet.c
+Full details follow.
 
-Signed-off-by: Dalvin-Ehinoma Noah Aiguobas <pharcodra@gmail.com>
----
- drivers/staging/octeon/ethernet.c     |  2 +-
- drivers/staging/octeon/octeon-stubs.h | 50 +++++++++++++++------------
- 2 files changed, 29 insertions(+), 23 deletions(-)
+Tegra20 and other Tegra SoCs have a video input (VI) peripheral that can
+receive from either MIPI CSI-2 or parallel video (called respectively "CSI"
+and "VIP" in the documentation). The kernel currently has a staging driver
+for Tegra210 CSI capture. This patch set adds support for Tegra20 VIP
+capture.
 
-diff --git a/drivers/staging/octeon/ethernet.c b/drivers/staging/octeon/ethernet.c
-index 9eee28f2940c..023b107e077a 100644
---- a/drivers/staging/octeon/ethernet.c
-+++ b/drivers/staging/octeon/ethernet.c
-@@ -798,7 +798,7 @@ static int cvm_oct_probe(struct platform_device *pdev)
- 
- 	num_interfaces = cvmx_helper_get_number_of_interfaces();
- 	for (interface = 0; interface < num_interfaces; interface++) {
--		cvmx_helper_interface_mode_t imode =
-+		enum cvmx_helper_interface_mode imode =
- 		    cvmx_helper_interface_get_mode(interface);
- 		int num_ports = cvmx_helper_ports_on_interface(interface);
- 		int port;
-diff --git a/drivers/staging/octeon/octeon-stubs.h b/drivers/staging/octeon/octeon-stubs.h
-index 3e7b92cd2e35..3d613dc725e8 100644
---- a/drivers/staging/octeon/octeon-stubs.h
-+++ b/drivers/staging/octeon/octeon-stubs.h
-@@ -213,14 +213,14 @@ enum cvmx_fau_op_size {
- 	CVMX_FAU_OP_SIZE_64 = 3
- };
- 
--typedef enum {
-+enum cvmx_spi_mode {
- 	CVMX_SPI_MODE_UNKNOWN = 0,
- 	CVMX_SPI_MODE_TX_HALFPLEX = 1,
- 	CVMX_SPI_MODE_RX_HALFPLEX = 2,
- 	CVMX_SPI_MODE_DUPLEX = 3
--} cvmx_spi_mode_t;
-+};
- 
--typedef enum {
-+enum cvmx_helper_interface_mode {
- 	CVMX_HELPER_INTERFACE_MODE_DISABLED,
- 	CVMX_HELPER_INTERFACE_MODE_RGMII,
- 	CVMX_HELPER_INTERFACE_MODE_GMII,
-@@ -231,20 +231,20 @@ typedef enum {
- 	CVMX_HELPER_INTERFACE_MODE_PICMG,
- 	CVMX_HELPER_INTERFACE_MODE_NPI,
- 	CVMX_HELPER_INTERFACE_MODE_LOOP,
--} cvmx_helper_interface_mode_t;
-+};
- 
--typedef enum {
-+enum cvmx_pow_wait {
- 	CVMX_POW_WAIT = 1,
- 	CVMX_POW_NO_WAIT = 0,
--} cvmx_pow_wait_t;
-+};
- 
--typedef enum {
-+enum cvmx_pko_lock {
- 	CVMX_PKO_LOCK_NONE = 0,
- 	CVMX_PKO_LOCK_ATOMIC_TAG = 1,
- 	CVMX_PKO_LOCK_CMD_QUEUE = 2,
--} cvmx_pko_lock_t;
-+};
- 
--typedef enum {
-+enum cvmx_pko_status {
- 	CVMX_PKO_SUCCESS,
- 	CVMX_PKO_INVALID_PORT,
- 	CVMX_PKO_INVALID_QUEUE,
-@@ -252,7 +252,7 @@ typedef enum {
- 	CVMX_PKO_NO_MEMORY,
- 	CVMX_PKO_PORT_ALREADY_SETUP,
- 	CVMX_PKO_CMD_QUEUE_INIT_ERROR
--} cvmx_pko_status_t;
-+};
- 
- enum cvmx_pow_tag_type {
- 	CVMX_POW_TAG_TYPE_ORDERED   = 0L,
-@@ -1257,15 +1257,17 @@ static inline int octeon_is_simulation(void)
- 	return 1;
- }
- 
--static inline void cvmx_pip_get_port_status(uint64_t port_num, uint64_t clear,
-+static inline void cvmx_pip_get_port_status(uint64_t port_num,
-+					    uint64_t clear,
- 					    cvmx_pip_port_status_t *status)
- { }
- 
--static inline void cvmx_pko_get_port_status(uint64_t port_num, uint64_t clear,
-+static inline void cvmx_pko_get_port_status(uint64_t port_num,
-+					    uint64_t clear,
- 					    cvmx_pko_port_status_t *status)
- { }
- 
--static inline cvmx_helper_interface_mode_t cvmx_helper_interface_get_mode(int
-+static inline enum cvmx_helper_interface_mode cvmx_helper_interface_get_mode(int
- 								   interface)
- {
- 	return 0;
-@@ -1342,11 +1344,11 @@ static inline unsigned int cvmx_get_core_num(void)
- }
- 
- static inline void cvmx_pow_work_request_async_nocheck(int scr_addr,
--						       cvmx_pow_wait_t wait)
-+						       enum cvmx_pow_wait wait)
- { }
- 
- static inline void cvmx_pow_work_request_async(int scr_addr,
--					       cvmx_pow_wait_t wait)
-+					       enum cvmx_pow_wait wait)
- { }
- 
- static inline struct cvmx_wqe *cvmx_pow_work_response_async(int scr_addr)
-@@ -1356,13 +1358,14 @@ static inline struct cvmx_wqe *cvmx_pow_work_response_async(int scr_addr)
- 	return wqe;
- }
- 
--static inline struct cvmx_wqe *cvmx_pow_work_request_sync(cvmx_pow_wait_t wait)
-+static inline struct cvmx_wqe *cvmx_pow_work_request_sync(enum cvmx_pow_wait wait)
- {
- 	return (void *)(unsigned long)wait;
- }
- 
- static inline int cvmx_spi_restart_interface(int interface,
--					cvmx_spi_mode_t mode, int timeout)
-+					     enum cvmx_spi_mode mode,
-+					     int timeout)
- {
- 	return 0;
- }
-@@ -1380,13 +1383,16 @@ static inline union cvmx_gmxx_rxx_rx_inbnd cvmx_spi4000_check_speed(int interfac
- 	return r;
- }
- 
--static inline void cvmx_pko_send_packet_prepare(uint64_t port, uint64_t queue,
--						cvmx_pko_lock_t use_locking)
-+static inline void cvmx_pko_send_packet_prepare(uint64_t port,
-+						uint64_t queue,
-+						enum cvmx_pko_lock use_locking)
- { }
- 
--static inline cvmx_pko_status_t cvmx_pko_send_packet_finish(uint64_t port,
--		uint64_t queue, union cvmx_pko_command_word0 pko_command,
--		union cvmx_buf_ptr packet, cvmx_pko_lock_t use_locking)
-+static inline enum cvmx_pko_status cvmx_pko_send_packet_finish(uint64_t port,
-+							    uint64_t queue,
-+							    union cvmx_pko_command_word0 pko_command,
-+							    union cvmx_buf_ptr packet,
-+							    enum cvmx_pko_lock use_locking)
- {
- 	return 0;
- }
+Unfortunately I had no real documentation available to base this work on.
+I only had a working downstream 3.1 kernel, so I started with the driver
+found there and heavily reworked it to fit into the mainline tegra-video
+driver structure. The existing code appears written with the intent of
+being modular and allow adding new input mechanisms and new SoCs while
+keeping a unique VI core module. However its modularity and extensibility
+was not enough to add Tegra20 VIP support, so I added some hooks to turn
+hard-coded behaviour into per-SoC or per-bus customizable code. There are
+also a fix, some generic cleanups and DT bindings.
+
+Quick tour of the patches:
+
+ * Device tree bindings
+
+   01. dt-bindings: display: tegra: add Tegra20 VIP
+   02. dt-bindings: display: tegra: vi: add 'vip' property and example
+
+ * Minor improvements to logging, comments, cleanups
+
+   03. staging: media: tegra-video: improve documentation of tegra_video_format fields
+   04. staging: media: tegra-video: document tegra_channel_get_remote_source_subdev
+   05. staging: media: tegra-video: fix typos in comment
+   06. staging: media: tegra-video: improve error messages
+   07. staging: media: tegra-video: slightly simplify cleanup on errors
+   08. staging: media: tegra-video: move private struct declaration to C file
+   09. staging: media: tegra-video: move tegra210_csi_soc to C file
+   10. staging: media: tegra-video: remove unneeded include
+
+ * Preparation to make the VI module generic enough to host Tegra20 and VIP
+
+   11. staging: media: tegra-video: Kconfig: allow TPG only on Tegra210
+   12. staging: media: tegra-video: move tegra_channel_fmt_align to a per-soc op
+   13. staging: media: tegra-video: move default format to soc-specific data
+   14. staging: media: tegra-video: move MIPI calibration calls from VI to CSI
+   15. staging: media: tegra-video: add a per-soc enable/disable op
+   16. staging: media: tegra-video: move syncpt init/free to a per-soc op
+   17. staging: media: tegra-video: add syncpts for Tegra20 to struct tegra_vi
+   18. staging: media: tegra-video: add hooks for planar YUV and H/V flip
+   19. staging: media: tegra-video: add H/V flip controls
+
+ * Implementation of VIP and Tegra20
+
+   20. staging: media: tegra-video: add support for Tegra20 parallel input
+
+Enjoy!
+
+Changed in v5:
+- removed patch 3 as requested by Hans Verkuil; now the driver is kept
+  video-node-centric and the enum_format logic is unchanged
+- rebased on top of that
+- trivial fixes (typos)
+
+Changed in RESEND,v4:
+- add Rob's review tag on patch 2
+
+Changed in v4:
+- fixed the leftovers after the removal of 'channel@0' in DT
+- added review tags by Dimtry
+
+Changed in v3:
+- removed the 'channel@0' node from the device tree representation of vip
+- squashed the last two patches (VIP + T20) into one
+- small cleanups
+- rebase on v6.2-rc1
+
+Changed in v2:
+- improved dt-bindings patches based on reviews
+- removed patches 3 and 4 adding DT labels without a mainline user
+- two small fixes to the last patch
+
+[v4,resend] https://lore.kernel.org/linux-tegra/20230309144320.2937553-1-luca.ceresoli@bootlin.com/
+[v4] https://lore.kernel.org/linux-tegra/20230130141603.323221-1-luca.ceresoli@bootlin.com/
+[v3] https://lore.kernel.org/linux-media/20221229133205.981397-1-luca.ceresoli@bootlin.com/
+[v2] https://lore.kernel.org/linux-tegra/20221222100328.6e341874@booty/T/#t
+[v1] https://lore.kernel.org/linux-tegra/20221124155634.5bc2a423@booty/T/#t
+
+Luca
+
+Luca Ceresoli (20):
+  dt-bindings: display: tegra: add Tegra20 VIP
+  dt-bindings: display: tegra: vi: add 'vip' property and example
+  staging: media: tegra-video: improve documentation of
+    tegra_video_format fields
+  staging: media: tegra-video: document
+    tegra_channel_get_remote_source_subdev
+  staging: media: tegra-video: fix typos in comment
+  staging: media: tegra-video: improve error messages
+  staging: media: tegra-video: slightly simplify cleanup on errors
+  staging: media: tegra-video: move private struct declaration to C file
+  staging: media: tegra-video: move tegra210_csi_soc to C file
+  staging: media: tegra-video: remove unneeded include
+  staging: media: tegra-video: Kconfig: allow TPG only on Tegra210
+  staging: media: tegra-video: move tegra_channel_fmt_align to a per-soc
+    op
+  staging: media: tegra-video: move default format to soc-specific data
+  staging: media: tegra-video: move MIPI calibration calls from VI to
+    CSI
+  staging: media: tegra-video: add a per-soc enable/disable op
+  staging: media: tegra-video: move syncpt init/free to a per-soc op
+  staging: media: tegra-video: add syncpts for Tegra20 to struct
+    tegra_vi
+  staging: media: tegra-video: add hooks for planar YUV and H/V flip
+  staging: media: tegra-video: add H/V flip controls
+  staging: media: tegra-video: add support for Tegra20 parallel input
+
+ .../display/tegra/nvidia,tegra20-vi.yaml      |  59 ++
+ .../display/tegra/nvidia,tegra20-vip.yaml     |  41 ++
+ MAINTAINERS                                   |   3 +
+ drivers/staging/media/tegra-video/Kconfig     |   1 +
+ drivers/staging/media/tegra-video/Makefile    |   2 +
+ drivers/staging/media/tegra-video/csi.c       |  48 ++
+ drivers/staging/media/tegra-video/csi.h       |   4 -
+ drivers/staging/media/tegra-video/tegra20.c   | 661 ++++++++++++++++++
+ drivers/staging/media/tegra-video/tegra210.c  |  90 +++
+ drivers/staging/media/tegra-video/vi.c        | 222 ++----
+ drivers/staging/media/tegra-video/vi.h        |  71 +-
+ drivers/staging/media/tegra-video/video.c     |   5 +
+ drivers/staging/media/tegra-video/video.h     |   2 +-
+ drivers/staging/media/tegra-video/vip.c       | 290 ++++++++
+ drivers/staging/media/tegra-video/vip.h       |  68 ++
+ 15 files changed, 1380 insertions(+), 187 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-vip.yaml
+ create mode 100644 drivers/staging/media/tegra-video/tegra20.c
+ create mode 100644 drivers/staging/media/tegra-video/vip.c
+ create mode 100644 drivers/staging/media/tegra-video/vip.h
+
 -- 
-2.25.1
+2.34.1
 
