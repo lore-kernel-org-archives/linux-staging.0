@@ -1,76 +1,79 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com [209.85.216.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BAED1841
-	for <linux-staging@lists.linux.dev>; Sat,  8 Apr 2023 11:29:24 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 456E3C433D2;
-	Sat,  8 Apr 2023 11:29:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1680953363;
-	bh=3hCUEw4+sq86IrKsrawaMlZ/p+hC7wvYN9WX4oBCENs=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=zty+tYDanBiDXGRzHxC0jelAYSRHyLIyaHWQs6SIIuIhblUf6u24ZpRowl/HM4CN9
-	 xURvUPcdeJeCgE+iNpxnlJqwU2Uj/vYbLtDG7ot0IL+OIEqjkfv25nd3NwQY/i1gzH
-	 SHG8lao4dg5ZakDy2EGpCPQhI3024xorut+dd744=
-Date: Sat, 8 Apr 2023 13:29:20 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Dalvin-Ehinoma Noah Aiguobas <pharcodra@gmail.com>
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: octeon: remove typedef declaration for enums
-Message-ID: <2023040806-revise-tiptoeing-81a3@gregkh>
-References: <20230407130543.GA32964@koolguy>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FE5D1854
+	for <linux-staging@lists.linux.dev>; Sat,  8 Apr 2023 15:17:39 +0000 (UTC)
+Received: by mail-pj1-f49.google.com with SMTP id c3so1457013pjg.1
+        for <linux-staging@lists.linux.dev>; Sat, 08 Apr 2023 08:17:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1680967059;
+        h=message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=VQF+x/Vrt5/tZDK+Ca2xiyhVaw4/7AwabkDs9XafNQc=;
+        b=dC14lwBJk/GvmKFC7kvGBghySJbumZsqhxJkHsNbfHIdpjv0Xt86lURgbw+aAAXMQG
+         yRms8Z5RPom7rI0BB5z87qNfneQKqVcwZmWZirzOqVTgtNfiuNr6Gn51fFe94SJ98iAE
+         Q83X5yVHZfvR1fLbaVOE2ENlbgieYQHvLYYFFixp0f4KUGVd5cTY4wk7lhdPW3Qb9VFu
+         DNK2ZqLsrj9YfNIk2kasvTBgOtYRDgcsbPGqRxh/LoNEL0fv7txT/+svba4GQT2rHuli
+         gmWYOGuEySCLn7/RB8UdOufD544Ed5eUE2HHA5ZlHrV2oyAexLPuFDwbVkMUxIdvZVoN
+         +94g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1680967059;
+        h=message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=VQF+x/Vrt5/tZDK+Ca2xiyhVaw4/7AwabkDs9XafNQc=;
+        b=1wK8VXomX1ooOtujxYKVoDJDt8horRBfoOjZaSoabhxnrC0RGz5JjvmJUrLHzNKyco
+         UbjdIz6EBcfeWoMBjEYEMOANVSVRXesnkOCSxyHPlAQK3xdBRKpKyIPccfFJDtg0elob
+         qzWMGCl0Sy+1beLs/+H7PMz2v7OVpXfKhnaoMiHFXaJSO62ddCjbd1RNnwnHpJYX9v00
+         guBr+iI715N/Fo/YsXO2Rl3TP0ZlYwyI/F8yYD50gezOj+bXy3vhNSPXRRQqZDnTppcl
+         27PksRN5qXxbNN+up8+YvCLkyDYV3IUnB8jSsg5ZJmXbXJHupbx9J0Vmnr3ZLKWp3STF
+         Xh4A==
+X-Gm-Message-State: AAQBX9dIibRfaaxkzdRobXfJjOOi3d7Kdepjt5e/vRNEx0BksnU8WpaY
+	DkIkCyVnkzhWAHuDT0VDdDc=
+X-Google-Smtp-Source: AKy350bG6YqzVinTucwUgGmZ63Ih/GZK8PeehuCsMjGbe4D1GIOiz4GhwHMay9/YVl+iTRxY6QJ1Lg==
+X-Received: by 2002:a05:6a20:a91f:b0:d5:9216:9182 with SMTP id cd31-20020a056a20a91f00b000d592169182mr2156753pzb.9.1680967058703;
+        Sat, 08 Apr 2023 08:17:38 -0700 (PDT)
+Received: from localhost.localdomain ([2405:201:d006:70ae:79eb:2282:4b7:7161])
+        by smtp.gmail.com with ESMTPSA id n3-20020a62e503000000b0062db34242aesm4852557pff.167.2023.04.08.08.17.36
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Sat, 08 Apr 2023 08:17:37 -0700 (PDT)
+From: Srihari S <sriharisat@gmail.com>
+To: Larry Finger <Larry.Finger@lwfinger.net>,
+	Florian Schilhabel <florian.c.schilhabel@googlemail.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Cc: Srihari S <sriharisat@gmail.com>
+Subject: [PATCH] staging: rtl8172: Add blank lines after declarations
+Date: Sat,  8 Apr 2023 20:46:23 +0530
+Message-Id: <1680966983-11609-1-git-send-email-sriharisat@gmail.com>
+X-Mailer: git-send-email 2.7.4
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230407130543.GA32964@koolguy>
 
-On Fri, Apr 07, 2023 at 03:05:43PM +0200, Dalvin-Ehinoma Noah Aiguobas wrote:
-> Fix checkpatch.pl warning for enums in drivers/staging/octeon/octeon-stubs.h:
-> cvmx_helper_interface_mode_t,
-> cvmx_spi_mode_t,
-> cvmx_pow_wait_t,
-> cvmx_pko_lock_t,
-> cvmx_pko_status_t
-> 
-> Change typedef cvmx_helper_interface_mode_t to
-> enum cvmx_helper_interface_mode in ethernet.c
-> 
-> Signed-off-by: Dalvin-Ehinoma Noah Aiguobas <pharcodra@gmail.com>
-> ---
->  drivers/staging/octeon/ethernet.c     |  2 +-
->  drivers/staging/octeon/octeon-stubs.h | 50 +++++++++++++++------------
->  2 files changed, 29 insertions(+), 23 deletions(-)
-> 
+Add blank lines as reported by checkpatch.pl as below
 
-Hi,
+CHECK: Please use a blank line after function/struct/union/enum declarations
 
-This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
-a patch that has triggered this response.  He used to manually respond
-to these common problems, but in order to save his sanity (he kept
-writing the same thing over and over, yet to different people), I was
-created.  Hopefully you will not take offence and will fix the problem
-in your patch and resubmit it so that it can be accepted into the Linux
-kernel tree.
+Signed-off-by: Srihari S <sriharisat@gmail.com>
+---
+ drivers/staging/rtl8712/rtl8712_efuse.h | 1 +
+ 1 file changed, 1 insertion(+)
 
-You are receiving this message because of the following common error(s)
-as indicated below:
+diff --git a/drivers/staging/rtl8712/rtl8712_efuse.h b/drivers/staging/rtl8712/rtl8712_efuse.h
+index 2e1ea9d..7a49740 100644
+--- a/drivers/staging/rtl8712/rtl8712_efuse.h
++++ b/drivers/staging/rtl8712/rtl8712_efuse.h
+@@ -23,6 +23,7 @@ struct PGPKT_STRUCT {
+ 	u8 word_en;
+ 	u8 data[PGPKT_DATA_SIZE];
+ };
++
+ /*--------------------------------------------------------------------------*/
+ u8 r8712_efuse_reg_init(struct _adapter *padapter);
+ void r8712_efuse_reg_uninit(struct _adapter *padapter);
+-- 
+2.7.4
 
-- This looks like a new version of a previously submitted patch, but you
-  did not list below the --- line any changes from the previous version.
-  Please read the section entitled "The canonical patch format" in the
-  kernel file, Documentation/process/submitting-patches.rst for what
-  needs to be done here to properly describe this.
-
-If you wish to discuss this problem further, or you have questions about
-how to resolve this issue, please feel free to respond to this email and
-Greg will reply once he has dug out from the pending patches received
-from other developers.
-
-thanks,
-
-greg k-h's patch email bot
