@@ -1,47 +1,24 @@
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5DAE1847;
-	Sat,  8 Apr 2023 10:38:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1680950333; x=1712486333;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=tj/ggpYw50HfAyBFPq7ICd0Kc7tgKVtlkma/BblHx2Y=;
-  b=fMteUlNDmv2Nw3G7d1z29TVFGCYd9nkcKlO/H1x12yPOjhxxrsWQcsqZ
-   ZJtwifZjeIna+48tGVBvmXVGnUe+44oBAjo/q+014Bn6ONhJTyQwGbE6d
-   n0TssVJzTwhEX4PCQ05EKCZK1dhUYzskFKGALKvuz9Mt792bY5tMj5P0i
-   kcb9bQ3MCW1RgfYl7wiOCeNgsiDvH94cCh1jLmKwjw3CExcHGYJ9VFs0w
-   54phoF2883NiGMiYpyRO0hoWnQUPVW0Pd+SU6pfFxPPWMbtxg0o3pKUFP
-   qhe/uaKQr+R1wFsxUI9xfzFYIuWXaw+z8gnb2JEiFPzEwPwgI7pCaqQfD
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10673"; a="344911163"
-X-IronPort-AV: E=Sophos;i="5.98,329,1673942400"; 
-   d="scan'208";a="344911163"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Apr 2023 03:38:52 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10673"; a="665149579"
-X-IronPort-AV: E=Sophos;i="5.98,329,1673942400"; 
-   d="scan'208";a="665149579"
-Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga006.jf.intel.com with ESMTP; 08 Apr 2023 03:38:48 -0700
-Received: from kbuild by b613635ddfff with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1pl5y0-000Tdf-0b;
-	Sat, 08 Apr 2023 10:38:44 +0000
-Date: Sat, 8 Apr 2023 18:38:33 +0800
-From: kernel test robot <lkp@intel.com>
-To: Deepanshu Kartikey <kartikey406@gmail.com>, gregkh@linuxfoundation.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Deepanshu Kartikey <kartikey406@gmail.com>
-Subject: Re: [PATCH] Staging: fbtft: fbtft-bus: fixed extra space and
- parenthesis issue
-Message-ID: <202304081830.7kKqUkLL-lkp@intel.com>
-References: <20230408050323.70919-1-kartikey406@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BAED1841
+	for <linux-staging@lists.linux.dev>; Sat,  8 Apr 2023 11:29:24 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 456E3C433D2;
+	Sat,  8 Apr 2023 11:29:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1680953363;
+	bh=3hCUEw4+sq86IrKsrawaMlZ/p+hC7wvYN9WX4oBCENs=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=zty+tYDanBiDXGRzHxC0jelAYSRHyLIyaHWQs6SIIuIhblUf6u24ZpRowl/HM4CN9
+	 xURvUPcdeJeCgE+iNpxnlJqwU2Uj/vYbLtDG7ot0IL+OIEqjkfv25nd3NwQY/i1gzH
+	 SHG8lao4dg5ZakDy2EGpCPQhI3024xorut+dd744=
+Date: Sat, 8 Apr 2023 13:29:20 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Dalvin-Ehinoma Noah Aiguobas <pharcodra@gmail.com>
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: octeon: remove typedef declaration for enums
+Message-ID: <2023040806-revise-tiptoeing-81a3@gregkh>
+References: <20230407130543.GA32964@koolguy>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -50,117 +27,50 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230408050323.70919-1-kartikey406@gmail.com>
+In-Reply-To: <20230407130543.GA32964@koolguy>
 
-Hi Deepanshu,
+On Fri, Apr 07, 2023 at 03:05:43PM +0200, Dalvin-Ehinoma Noah Aiguobas wrote:
+> Fix checkpatch.pl warning for enums in drivers/staging/octeon/octeon-stubs.h:
+> cvmx_helper_interface_mode_t,
+> cvmx_spi_mode_t,
+> cvmx_pow_wait_t,
+> cvmx_pko_lock_t,
+> cvmx_pko_status_t
+> 
+> Change typedef cvmx_helper_interface_mode_t to
+> enum cvmx_helper_interface_mode in ethernet.c
+> 
+> Signed-off-by: Dalvin-Ehinoma Noah Aiguobas <pharcodra@gmail.com>
+> ---
+>  drivers/staging/octeon/ethernet.c     |  2 +-
+>  drivers/staging/octeon/octeon-stubs.h | 50 +++++++++++++++------------
+>  2 files changed, 29 insertions(+), 23 deletions(-)
+> 
 
-kernel test robot noticed the following build errors:
+Hi,
 
-[auto build test ERROR on staging/staging-testing]
+This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
+a patch that has triggered this response.  He used to manually respond
+to these common problems, but in order to save his sanity (he kept
+writing the same thing over and over, yet to different people), I was
+created.  Hopefully you will not take offence and will fix the problem
+in your patch and resubmit it so that it can be accepted into the Linux
+kernel tree.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Deepanshu-Kartikey/Staging-fbtft-fbtft-bus-fixed-extra-space-and-parenthesis-issue/20230408-130429
-patch link:    https://lore.kernel.org/r/20230408050323.70919-1-kartikey406%40gmail.com
-patch subject: [PATCH] Staging: fbtft: fbtft-bus: fixed extra space and parenthesis issue
-config: i386-randconfig-a002-20230403 (https://download.01.org/0day-ci/archive/20230408/202304081830.7kKqUkLL-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/a5c79ed6665465f3101e8251ca030a600cf1ea88
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Deepanshu-Kartikey/Staging-fbtft-fbtft-bus-fixed-extra-space-and-parenthesis-issue/20230408-130429
-        git checkout a5c79ed6665465f3101e8251ca030a600cf1ea88
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 SHELL=/bin/bash
+You are receiving this message because of the following common error(s)
+as indicated below:
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304081830.7kKqUkLL-lkp@intel.com/
+- This looks like a new version of a previously submitted patch, but you
+  did not list below the --- line any changes from the previous version.
+  Please read the section entitled "The canonical patch format" in the
+  kernel file, Documentation/process/submitting-patches.rst for what
+  needs to be done here to properly describe this.
 
-All errors (new ones prefixed by >>):
+If you wish to discuss this problem further, or you have questions about
+how to resolve this issue, please feel free to respond to this email and
+Greg will reply once he has dug out from the pending patches received
+from other developers.
 
->> drivers/staging/fbtft/fbtft-bus.c:65:53: error: too few arguments provided to function-like macro invocation
-   define_fbtft_write_reg(fbtft_write_reg8_bus8, u8, u8)
-                                                       ^
-   drivers/staging/fbtft/fbtft-bus.c:14:9: note: macro 'define_fbtft_write_reg' defined here
-   #define define_fbtft_write_reg(func, buffer_type, data_type, modifier)        \
-           ^
->> drivers/staging/fbtft/fbtft-bus.c:65:1: error: unknown type name 'define_fbtft_write_reg'
-   define_fbtft_write_reg(fbtft_write_reg8_bus8, u8, u8)
-   ^
-   drivers/staging/fbtft/fbtft-bus.c:67:57: error: too few arguments provided to function-like macro invocation
-   define_fbtft_write_reg(fbtft_write_reg16_bus16, u16, u16)
-                                                           ^
-   drivers/staging/fbtft/fbtft-bus.c:14:9: note: macro 'define_fbtft_write_reg' defined here
-   #define define_fbtft_write_reg(func, buffer_type, data_type, modifier)        \
-           ^
-   drivers/staging/fbtft/fbtft-bus.c:67:1: error: unknown type name 'define_fbtft_write_reg'
-   define_fbtft_write_reg(fbtft_write_reg16_bus16, u16, u16)
-   ^
->> drivers/staging/fbtft/fbtft-bus.c:86:3: error: non-void function 'fbtft_write_reg8_bus9' should return a value [-Wreturn-type]
-                   return;
-                   ^
-   drivers/staging/fbtft/fbtft-bus.c:109:3: error: non-void function 'fbtft_write_reg8_bus9' should return a value [-Wreturn-type]
-                   return;
-                   ^
-   6 errors generated.
+thanks,
 
-
-vim +65 drivers/staging/fbtft/fbtft-bus.c
-
-    64	
-  > 65	define_fbtft_write_reg(fbtft_write_reg8_bus8, u8, u8)
-    66	define_fbtft_write_reg(fbtft_write_reg16_bus8, __be16, u16, cpu_to_be16)
-  > 67	define_fbtft_write_reg(fbtft_write_reg16_bus16, u16, u16)
-    68	
-    69	void fbtft_write_reg8_bus9(struct fbtft_par *par, int len, ...)
-    70	{
-    71		va_list args;
-    72		int i, ret;
-    73		int pad = 0;
-    74		u16 *buf = (u16 *)par->buf;
-    75	
-    76		if (unlikely(par->debug & DEBUG_WRITE_REGISTER)) {
-    77			va_start(args, len);
-    78			for (i = 0; i < len; i++)
-    79				*(((u8 *)buf) + i) = (u8)va_arg(args, unsigned int);
-    80			va_end(args);
-    81			fbtft_par_dbg_hex(DEBUG_WRITE_REGISTER, par,
-    82					  par->info->device, u8, buf, len, "%s: ",
-    83					  __func__);
-    84		}
-    85		if (len <= 0)
-  > 86			return;
-    87	
-    88		if (par->spi && (par->spi->bits_per_word == 8)) {
-    89			/* we're emulating 9-bit, pad start of buffer with no-ops
-    90			 * (assuming here that zero is a no-op)
-    91			 */
-    92			pad = (len % 4) ? 4 - (len % 4) : 0;
-    93			for (i = 0; i < pad; i++)
-    94				*buf++ = 0x000;
-    95		}
-    96	
-    97		va_start(args, len);
-    98		*buf++ = (u8)va_arg(args, unsigned int);
-    99		i = len - 1;
-   100		while (i--) {
-   101			*buf = (u8)va_arg(args, unsigned int);
-   102			*buf++ |= 0x100; /* dc=1 */
-   103		}
-   104		va_end(args);
-   105		ret = par->fbtftops.write(par, par->buf, (len + pad) * sizeof(u16));
-   106		if (ret < 0) {
-   107			dev_err(par->info->device,
-   108				"write() failed and returned %d\n", ret);
-   109			return;
-   110		}
-   111	}
-   112	EXPORT_SYMBOL(fbtft_write_reg8_bus9);
-   113	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+greg k-h's patch email bot
