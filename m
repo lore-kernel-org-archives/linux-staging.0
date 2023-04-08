@@ -1,47 +1,46 @@
-Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40BB01FB8
-	for <linux-staging@lists.linux.dev>; Sat,  8 Apr 2023 17:18:11 +0000 (UTC)
-Received: by mail-pl1-f173.google.com with SMTP id e13so1050312plc.12
-        for <linux-staging@lists.linux.dev>; Sat, 08 Apr 2023 10:18:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1680974290;
-        h=content-disposition:mime-version:message-id:subject:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=EP0xHsBJuGQ8+LLXtPS0+w3ttj9z4w16bhu80ACSGOk=;
-        b=O+SylsnpuMNH6HnC5Jme0ln//6knJgePalkuF79wOu/ALcbq6z40JvVyUy05RNVO8G
-         mxtPOt/qBujPn/wFHAMKBtlldwivvRzs0EI2yVqP8ogciBMUtdofB1MogM0AFXoOYxsB
-         16rNpvSEH8oUGjQ9MFmYocgdOH8C7kK0mzHm4KUdNPdIbMuliWYRKIGVN5nEubVLYa75
-         GYSLG+xDsW+lahjzo+ibEjIMDY2CrEm7N+PeqAZwDQJmaKDibCQBS+XmDb6T1w/ghsaK
-         7SIuVWdTGb+yZ8HHzDmV/r7orD29mwB8Mc9FWafhMLv8d9gOMneAUOB7Y/lYf+f4ZAQx
-         5EHA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680974290;
-        h=content-disposition:mime-version:message-id:subject:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=EP0xHsBJuGQ8+LLXtPS0+w3ttj9z4w16bhu80ACSGOk=;
-        b=cP8Ytm6MZfFNoK3C9Znww14i26d/dctaMpcJLhIJl5F98J7AODDKSUNdX/vPpU4OAn
-         HB75KOndBihoCi8z6dUekSSHVWWXOjgrIcX+OiwJpJO/F3cYsAPqEhN5546iEXWBtOPU
-         Ay3UhevQmKwUvPGGM4GNMnybCimrhw1rBDf73ZfVhtQwf1+rOjKBPqmzqItT76q+Li2r
-         Ro0waobXzJZ3FvzW8PCu7qQ1q0FwXCdW3kHnOmqiumNcIWp2t9EbF6SDM813oG4UGKjj
-         Y7GJEdipaZMXnfdPeBYOJv+5FqmWNkMvCH5AtkuFtzqwFhP9fxFbhjXI86pE7uY2C+gN
-         XqnQ==
-X-Gm-Message-State: AAQBX9dkL9Euwmpy5XAFeLwrD4C6ePywtLcT28uzu8pvyJcs/ELuriS3
-	Jwt1aJJIGyWRot1NI5GTP+I=
-X-Google-Smtp-Source: AKy350b0iFKnWt9b+S7PUE1tvOtQQDFxnoSrY2EuGsYnKtN3Twh/DDfSRGWG1W4158J1SdY9f9KXyA==
-X-Received: by 2002:a17:902:ea03:b0:19d:1a8e:836f with SMTP id s3-20020a170902ea0300b0019d1a8e836fmr3215037plg.27.1680974290532;
-        Sat, 08 Apr 2023 10:18:10 -0700 (PDT)
-Received: from sumitra.com ([117.207.136.97])
-        by smtp.gmail.com with ESMTPSA id y3-20020a170902864300b001960706141fsm4766560plt.149.2023.04.08.10.18.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 08 Apr 2023 10:18:09 -0700 (PDT)
-Date: Sat, 8 Apr 2023 10:18:03 -0700
-From: Sumitra Sharma <sumitraartsy@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [PATCH] staging: rtl8192e: Fix logical operator continuations
-Message-ID: <20230408171803.GA262580@sumitra.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C50711FB8;
+	Sat,  8 Apr 2023 17:27:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1680974828; x=1712510828;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=20Gp8Ob9sY0l7Q3kLwGChvRjnxAHs9YuVEd44YUhsWE=;
+  b=KwT1e59dSzu6B5HHy8L27MPtJ+dPtxm8ocGOf3c6zFtJ7F/pgJPRsKPn
+   Y4YIjXwnh35ofbD7IHDopoTDgMvdUSYq3NAw32r0YeiSQCLEcVox7jfxz
+   GF9xX/pUedsw3vgdQ85lBgu5jdA40pGnlNX8kwW7TW+ExjjnJBrEwZ9VS
+   v1iGnlzzxpT4JlCBKvNLqsF2P/HUcRCmJcFR8E+F8ifK7iTqUFbD/g1fE
+   5UN7s+Th8Xp5ZmgwNSCnMuhr52gkhLfjHVFmbpQNxG151s0WvToYsyIjI
+   OtIzAJPdxDaaI+j7EauQCWG3l4p1GbOk25HiH8gjJst+L4kuX8aUzyizF
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10674"; a="322789167"
+X-IronPort-AV: E=Sophos;i="5.98,329,1673942400"; 
+   d="scan'208";a="322789167"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Apr 2023 10:27:07 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10674"; a="681311839"
+X-IronPort-AV: E=Sophos;i="5.98,329,1673942400"; 
+   d="scan'208";a="681311839"
+Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
+  by orsmga007.jf.intel.com with ESMTP; 08 Apr 2023 10:27:04 -0700
+Received: from kbuild by b613635ddfff with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1plCLA-000Twb-01;
+	Sat, 08 Apr 2023 17:27:04 +0000
+Date: Sun, 9 Apr 2023 01:26:13 +0800
+From: kernel test robot <lkp@intel.com>
+To: Deepanshu Kartikey <kartikey406@gmail.com>, gregkh@linuxfoundation.org
+Cc: oe-kbuild-all@lists.linux.dev, dri-devel@lists.freedesktop.org,
+	linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Deepanshu Kartikey <kartikey406@gmail.com>
+Subject: Re: [PATCH] staging: fbtft: fbtft-bus.c added params
+Message-ID: <202304090139.b8XZpHpu-lkp@intel.com>
+References: <20230408081817.81562-1-kartikey406@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -50,32 +49,63 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230408081817.81562-1-kartikey406@gmail.com>
 
-Fix logical operator continuation as suggested by Linux kernel
-coding-style. Check reported by checkpatch:
+Hi Deepanshu,
 
-CHECK: Logical continuations should be on the previous line
+kernel test robot noticed the following build warnings:
 
-Signed-off-by: Sumitra Sharma <sumitraartsy@gmail.com>
----
- drivers/staging/rtl8192e/rtl8192e/rtl_ps.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+[auto build test WARNING on staging/staging-testing]
 
-diff --git a/drivers/staging/rtl8192e/rtl8192e/rtl_ps.c b/drivers/staging/rtl8192e/rtl8192e/rtl_ps.c
-index 5a1cd22f5e25..58ed394202ae 100644
---- a/drivers/staging/rtl8192e/rtl8192e/rtl_ps.c
-+++ b/drivers/staging/rtl8192e/rtl8192e/rtl_ps.c
-@@ -209,8 +209,8 @@ void rtl92e_leisure_ps_enter(struct net_device *dev)
- 					&priv->rtllib->pwr_save_ctrl;
- 
- 	if (!((priv->rtllib->iw_mode == IW_MODE_INFRA) &&
--	    (priv->rtllib->state == RTLLIB_LINKED))
--	    || (priv->rtllib->iw_mode == IW_MODE_ADHOC) ||
-+	    (priv->rtllib->state == RTLLIB_LINKED)) ||
-+	    (priv->rtllib->iw_mode == IW_MODE_ADHOC) ||
- 	    (priv->rtllib->iw_mode == IW_MODE_MASTER))
- 		return;
- 
+url:    https://github.com/intel-lab-lkp/linux/commits/Deepanshu-Kartikey/staging-fbtft-fbtft-bus-c-added-params/20230408-161947
+patch link:    https://lore.kernel.org/r/20230408081817.81562-1-kartikey406%40gmail.com
+patch subject: [PATCH] staging: fbtft: fbtft-bus.c added params
+config: i386-randconfig-s001-20230403 (https://download.01.org/0day-ci/archive/20230409/202304090139.b8XZpHpu-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+reproduce:
+        # apt-get install sparse
+        # sparse version: v0.6.4-39-gce1a6720-dirty
+        # https://github.com/intel-lab-lkp/linux/commit/038bedbb2c34ffc5e5ce77d5f49811778be8d631
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Deepanshu-Kartikey/staging-fbtft-fbtft-bus-c-added-params/20230408-161947
+        git checkout 038bedbb2c34ffc5e5ce77d5f49811778be8d631
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        make W=1 C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=i386 olddefconfig
+        make W=1 C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=i386 SHELL=/bin/bash drivers/staging/fbtft/
+
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202304090139.b8XZpHpu-lkp@intel.com/
+
+sparse warnings: (new ones prefixed by >>)
+>> drivers/staging/fbtft/fbtft-bus.c:65:1: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned char [usertype] @@     got restricted __be16 [usertype] @@
+   drivers/staging/fbtft/fbtft-bus.c:65:1: sparse:     expected unsigned char [usertype]
+   drivers/staging/fbtft/fbtft-bus.c:65:1: sparse:     got restricted __be16 [usertype]
+>> drivers/staging/fbtft/fbtft-bus.c:65:1: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned char [usertype] @@     got restricted __be16 [usertype] @@
+   drivers/staging/fbtft/fbtft-bus.c:65:1: sparse:     expected unsigned char [usertype]
+   drivers/staging/fbtft/fbtft-bus.c:65:1: sparse:     got restricted __be16 [usertype]
+>> drivers/staging/fbtft/fbtft-bus.c:65:1: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned char [usertype] @@     got restricted __be16 [usertype] @@
+   drivers/staging/fbtft/fbtft-bus.c:65:1: sparse:     expected unsigned char [usertype]
+   drivers/staging/fbtft/fbtft-bus.c:65:1: sparse:     got restricted __be16 [usertype]
+   drivers/staging/fbtft/fbtft-bus.c:67:1: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned short [usertype] @@     got restricted __be16 [usertype] @@
+   drivers/staging/fbtft/fbtft-bus.c:67:1: sparse:     expected unsigned short [usertype]
+   drivers/staging/fbtft/fbtft-bus.c:67:1: sparse:     got restricted __be16 [usertype]
+   drivers/staging/fbtft/fbtft-bus.c:67:1: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned short [usertype] @@     got restricted __be16 [usertype] @@
+   drivers/staging/fbtft/fbtft-bus.c:67:1: sparse:     expected unsigned short [usertype]
+   drivers/staging/fbtft/fbtft-bus.c:67:1: sparse:     got restricted __be16 [usertype]
+   drivers/staging/fbtft/fbtft-bus.c:67:1: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned short [usertype] @@     got restricted __be16 [usertype] @@
+   drivers/staging/fbtft/fbtft-bus.c:67:1: sparse:     expected unsigned short [usertype]
+   drivers/staging/fbtft/fbtft-bus.c:67:1: sparse:     got restricted __be16 [usertype]
+
+vim +65 drivers/staging/fbtft/fbtft-bus.c
+
+    64	
+  > 65	define_fbtft_write_reg(fbtft_write_reg8_bus8, u8, u8, cpu_to_be16);
+    66	define_fbtft_write_reg(fbtft_write_reg16_bus8, __be16, u16, cpu_to_be16);
+    67	define_fbtft_write_reg(fbtft_write_reg16_bus16, u16, u16, cpu_to_be16);
+    68	
+
 -- 
-2.25.1
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
