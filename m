@@ -1,121 +1,335 @@
-Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
+Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D261B1FB8
-	for <linux-staging@lists.linux.dev>; Sat,  8 Apr 2023 17:57:37 +0000 (UTC)
-Received: by mail-pl1-f174.google.com with SMTP id w11so1420103plp.13
-        for <linux-staging@lists.linux.dev>; Sat, 08 Apr 2023 10:57:37 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8371E184F
+	for <linux-staging@lists.linux.dev>; Sun,  9 Apr 2023 07:05:23 +0000 (UTC)
+Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-94971337b10so42043366b.1
+        for <linux-staging@lists.linux.dev>; Sun, 09 Apr 2023 00:05:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1680976657;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=jvEbHjnUF838lN07cBQDokhrXS5LHQhlJGEDy+0X8dg=;
-        b=pKaCg9NvbIVEK6K78TRDwr7ES8jioxY4sJm/msDIOVRDyJt+iA1bmB53dmkiZOVL1d
-         fOC6DNKI9nUj/jCL38UkC+xWXTwKXzQLBRExgCZ6RQ+2xWDncceniZG9LaIhYY4HzVy3
-         L/pamZjnVlGcZ1+N54NEaX5YpYVNnAoRTUFWd5JE5nGQ27nKn3uBuIimLSuuPMjqZ5J6
-         CSrcKn5tbqQqQlYEyJfUeFgmJ97xtzDsNwV7w90ErX3Lz/aPgbJ8cka8fImuXYX0AhCW
-         5T19DZ53L/uH3KR5juYWxPBzLZCtR86SxXIwqWMCiJgcMgfIe1KZtXAeFgnPdqNzVE4f
-         yIXA==
+        d=gmail.com; s=20210112; t=1681023921; x=1683615921;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:to:subject:user-agent:mime-version:date:message-id:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=BOkY+ky4SbuSPBMaY8sn3NPpyr+PwRWOIJ+MmW4WIDA=;
+        b=l/tBpFX0FFU+EtBzHL8hU3vw0WpMuXEzmUzIrZ5GoOSKnRVI+Vd78RNIiMorYQIjH6
+         gyxdiN64KR1YacceImXOHtiB+bEa+PzuPgdvm2ZFsvF9hBzhoRE+q1MYZZIZWactLzFb
+         fiX2WOR9xMqp1F9ARTsTHw7AI3YPFD2QrDtMwiPYGCYNXJxVS7iIJNnyAlAUa7WlxPOg
+         HJQ6LL7XQnkGOQypnPOnBxS/oXACQ64eOazD3wCqb7I+pxrOc5e2tJedrdJZx/xU27JM
+         f1BGFD6DTUQURPH/uNSLv7D/SAPIRSEZ0A2fE1WYvZKUHUe/VsEt3UjkUUysR4UXfjDH
+         iQcQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680976657;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=jvEbHjnUF838lN07cBQDokhrXS5LHQhlJGEDy+0X8dg=;
-        b=a0LdkXeptbG8hMpvqX4ABb4itc0rgGAVCN0FdXhFohIGPk8URXUraKdznkHGwXMtl9
-         G8l9cRsZ64Sz1CGdOd4ERFxFRiN91AhoFDSQN1ONw9G+pXkjddfFraYkjsrd9T72Ge6T
-         bww0h+198smGq3/2H9/UdkS+FncnR5sGVD3kZR+FA7f7UqNaC5WNanbLbUs7HGbTWC5G
-         /yUF8tLFyMrHrB8Nr5RcqQPhse2q5ErKiwRCqsCEnV5JVevondk9EgvWszlR7AdeJqCZ
-         7otFI4lHNfca4RF3mQ834JCF/N7Bx6XxfrjoxWRCvoCcGHwbjZDJrykukoRDvzH84qoN
-         rh5w==
-X-Gm-Message-State: AAQBX9c5vmBWlMrnQzicth8G7xCLTbL0QqPufvk4tO2kA0M6KQ9YNdEz
-	nsptX1SSqlU9XR3NlDinFdY=
-X-Google-Smtp-Source: AKy350Z1B6z5jcbAMhr2nmOFpTuBNq3vRV61NMkFifG3bVxk0EXXWJZFza2ZQhnwbrNXiJbTG/UP2g==
-X-Received: by 2002:a05:6a20:6014:b0:db:f682:65ed with SMTP id r20-20020a056a20601400b000dbf68265edmr6704234pza.61.1680976657232;
-        Sat, 08 Apr 2023 10:57:37 -0700 (PDT)
-Received: from sumitra.com ([117.207.136.97])
-        by smtp.gmail.com with ESMTPSA id y15-20020aa7804f000000b00590ede84b1csm5178202pfm.147.2023.04.08.10.57.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 08 Apr 2023 10:57:36 -0700 (PDT)
-Date: Sat, 8 Apr 2023 10:57:29 -0700
-From: Sumitra Sharma <sumitraartsy@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Simon Horman <simon.horman@corigine.com>,
-	Manish Chopra <manishc@marvell.com>, GR-Linux-NIC-Dev@marvell.com,
-	Coiby Xu <coiby.xu@gmail.com>, netdev@vger.kernel.org,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: qlge: Remove macro FILL_SEG
-Message-ID: <20230408175729.GA263118@sumitra.com>
-References: <20230405150627.GA227254@sumitra.com>
- <ZC2gJdUA6zGOjX4P@corigine.com>
- <20230406144644.GB231658@sumitra.com>
- <2023040648-zeppelin-escapist-86d1@gregkh>
- <20230406152855.GC231658@sumitra.com>
- <2023040618-dedicate-rebalance-90c6@gregkh>
+        d=1e100.net; s=20210112; t=1681023921; x=1683615921;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=BOkY+ky4SbuSPBMaY8sn3NPpyr+PwRWOIJ+MmW4WIDA=;
+        b=jnttmw7lsmFo4zIWXVIUX/Vg6O1vreT5mHkpK5ez5akkdcSt7itsAoKsz417fKqMdZ
+         sy34xKfehHE1uCHi8DQDfTOLOb81BrQ7jxFzjbqOD8+n2IdEXFb5mmt+10dTyRn39egE
+         L/a4knkXj+Uq4FwgrTJm/J4R+BhYyeWrb63/LkqjqfjXv4cwLPUkH7/+U9KL9huiDVWc
+         Lb47tbMV2jjtFjPBLg5EmYdAxcLI6RJbuW3sBOvKizGRSvagYc1tAzDa7S2Iqo6TmLRw
+         utgmM1TJdvPGGloE8cA5p5wXOxyAwh6B+L57K0EZLVXQHE+y1W0hlt9vMk2tGVl2GMK/
+         +buQ==
+X-Gm-Message-State: AAQBX9eoox+vjYwsWFE8QJut1md1U/gS/yApnA7HQ9GrHutHc2V6Iy+F
+	atKWUdmUa91P7n279YPH+Do=
+X-Google-Smtp-Source: AKy350aAtXTROEf7m2xmmABAXLiAMJ6sj+BkCkpOvk4zo093HT61Oku3vmG/9TnsksBhUX7WHj4ntg==
+X-Received: by 2002:a17:906:1041:b0:92e:f520:7762 with SMTP id j1-20020a170906104100b0092ef5207762mr3918548ejj.6.1681023921480;
+        Sun, 09 Apr 2023 00:05:21 -0700 (PDT)
+Received: from [192.168.0.103] (p57935146.dip0.t-ipconnect.de. [87.147.81.70])
+        by smtp.gmail.com with ESMTPSA id oz8-20020a1709077d8800b0093120a11a5dsm3878383ejc.92.2023.04.09.00.05.20
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 09 Apr 2023 00:05:20 -0700 (PDT)
+Message-ID: <052468bd-98db-a564-cf5f-0ea287b1025f@gmail.com>
+Date: Sun, 9 Apr 2023 09:05:19 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <2023040618-dedicate-rebalance-90c6@gregkh>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: [PATCH] staging: rtl8192e: Remove unnecessary blank lines
+To: Sumitra Sharma <sumitraartsy@gmail.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+References: <20230408155545.GA261160@sumitra.com>
+Content-Language: en-US
+From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+In-Reply-To: <20230408155545.GA261160@sumitra.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Thu, Apr 06, 2023 at 06:33:31PM +0200, Greg Kroah-Hartman wrote:
-> On Thu, Apr 06, 2023 at 08:28:55AM -0700, Sumitra Sharma wrote:
-> > On Thu, Apr 06, 2023 at 04:57:44PM +0200, Greg Kroah-Hartman wrote:
-> > > On Thu, Apr 06, 2023 at 07:46:44AM -0700, Sumitra Sharma wrote:
-> > > > On Wed, Apr 05, 2023 at 06:21:57PM +0200, Simon Horman wrote:
-> > > > > On Wed, Apr 05, 2023 at 08:06:27AM -0700, Sumitra Sharma wrote:
-> > > > > > Remove macro FILL_SEG to fix the checkpatch warning:
-> > > > > > 
-> > > > > > WARNING: Macros with flow control statements should be avoided
-> > > > > > 
-> > > > > > Macros with flow control statements must be avoided as they
-> > > > > > break the flow of the calling function and make it harder to
-> > > > > > test the code.
-> > > > > > 
-> > > > > > Replace all FILL_SEG() macro calls with:
-> > > > > > 
-> > > > > > err = err || qlge_fill_seg_(...);
-> > > > > 
-> > > > > Perhaps I'm missing the point here.
-> > > > > But won't this lead to err always either being true or false (1 or 0).
-> > > > > Rather than the current arrangement where err can be
-> > > > > either 0 or a negative error value, such as -EINVAL.
-> > > > >
-> > > > 
-> > > > Hi Simon
-> > > > 
-> > > > 
-> > > > Thank you for the point you mentioned which I missed while working on this
-> > > > patch. 
-> > > > 
-> > > > However, after thinking on it, I am still not able to get any fix to this
-> > > > except that we can possibly implement the Ira's solution here which is:
-> > > > 
-> > > > https://lore.kernel.org/outreachy/64154d438f0c8_28ae5229421@iweiny-mobl.notmuch/
-> > > > 
-> > > > Although we have to then deal with 40 lines of ifs.
-> > > 
-> > > Which implies that the current solution is the best one, so I would
-> > > recommend just leaving it as-is.
-> > >
-> > 
-> > Hi greg
-> > 
-> > Before leaving it I would like to know your opinion on the solution Dan is offering.
+On 4/8/23 17:55, Sumitra Sharma wrote:
+> Remove extra blank lines as suggested by the Linux kernel
+> coding-style. These issues were reported by checkpatch.
 > 
-> I still think you should leave it as-is.
->
-
-Okay, Thank you.
-
-
-Regards
-
-Sumitra Sharma
-> thanks,
+> CHECK: Blank lines aren't necessary before a close brace '}'
+> CHECK: Blank lines aren't necessary after an open brace '{'
+> CHECK: Please don't use multiple blank lines
 > 
-> greg k-h
+> Signed-off-by: Sumitra Sharma <sumitraartsy@gmail.com>
+> ---
+>   drivers/staging/rtl8192e/rtl8192e/rtl_dm.c | 33 ----------------------
+>   1 file changed, 33 deletions(-)
+> 
+> diff --git a/drivers/staging/rtl8192e/rtl8192e/rtl_dm.c b/drivers/staging/rtl8192e/rtl8192e/rtl_dm.c
+> index cde41111012a..421265261c73 100644
+> --- a/drivers/staging/rtl8192e/rtl8192e/rtl_dm.c
+> +++ b/drivers/staging/rtl8192e/rtl8192e/rtl_dm.c
+> @@ -140,26 +140,22 @@ const u8 dm_cck_tx_bb_gain_ch14[CCK_TX_BB_GAIN_TABLE_LEN][8] = {
+>   
+>   /*---------------------------Define Local Constant---------------------------*/
+>   
+> -
+>   /*------------------------Define global variable-----------------------------*/
+>   struct dig_t dm_digtable;
+>   
+>   struct drx_path_sel dm_rx_path_sel_table;
+>   /*------------------------Define global variable-----------------------------*/
+>   
+> -
+>   /*------------------------Define local variable------------------------------*/
+>   /*------------------------Define local variable------------------------------*/
+>   
+>   
+> -
+>   /*---------------------Define local function prototype-----------------------*/
+>   static void _rtl92e_dm_check_rate_adaptive(struct net_device *dev);
+>   
+>   static void _rtl92e_dm_init_bandwidth_autoswitch(struct net_device *dev);
+>   static	void	_rtl92e_dm_bandwidth_autoswitch(struct net_device *dev);
+>   
+> -
+>   static	void	_rtl92e_dm_check_tx_power_tracking(struct net_device *dev);
+>   
+>   static void _rtl92e_dm_bb_initialgain_restore(struct net_device *dev);
+> @@ -180,7 +176,6 @@ static void _rtl92e_dm_check_rx_path_selection(struct net_device *dev);
+>   static void _rtl92e_dm_init_rx_path_selection(struct net_device *dev);
+>   static void _rtl92e_dm_rx_path_sel_byrssi(struct net_device *dev);
+>   
+> -
+>   static void _rtl92e_dm_init_fsync(struct net_device *dev);
+>   static void _rtl92e_dm_deinit_fsync(struct net_device *dev);
+>   
+> @@ -222,9 +217,7 @@ void rtl92e_dm_init(struct net_device *dev)
+>   
+>   void rtl92e_dm_deinit(struct net_device *dev)
+>   {
+> -
+>   	_rtl92e_dm_deinit_fsync(dev);
+> -
+>   }
+>   
+>   void rtl92e_dm_watchdog(struct net_device *dev)
+> @@ -253,7 +246,6 @@ void rtl92e_dm_watchdog(struct net_device *dev)
+>   
+>   void rtl92e_init_adaptive_rate(struct net_device *dev)
+>   {
+> -
+>   	struct r8192_priv *priv = rtllib_priv(dev);
+>   	struct rate_adaptive *pra = &priv->rate_adaptive;
+>   
+> @@ -300,7 +292,6 @@ static void _rtl92e_dm_check_rate_adaptive(struct net_device *dev)
+>   		return;
+>   
+>   	if (priv->rtllib->state == RTLLIB_LINKED) {
+> -
+>   		bshort_gi_enabled = (ht_info->cur_tx_bw40mhz &&
+>   				     ht_info->bCurShortGI40MHz) ||
+>   				    (!ht_info->cur_tx_bw40mhz &&
+> @@ -527,7 +518,6 @@ static void _rtl92e_dm_tx_power_tracking_callback_tssi(struct net_device *dev)
+>   	priv->rtllib->bdynamic_txpower_enable = false;
+>   
+>   	for (j = 0; j <= 30; j++) {
+> -
+>   		tx_cmd.op	= TXCMD_SET_TX_PWR_TRACKING;
+>   		tx_cmd.length	= 4;
+>   		tx_cmd.value	= priv->pwr_track >> 24;
+> @@ -759,20 +749,17 @@ void rtl92e_dm_txpower_tracking_wq(void *data)
+>   
+>   static void _rtl92e_dm_initialize_tx_power_tracking_tssi(struct net_device *dev)
+>   {
+> -
+>   	struct r8192_priv *priv = rtllib_priv(dev);
+>   
+>   	priv->btxpower_tracking = true;
+>   	priv->txpower_count       = 0;
+>   	priv->tx_pwr_tracking_init = false;
+> -
+>   }
+>   
+>   static void _rtl92e_dm_init_tx_power_tracking_thermal(struct net_device *dev)
+>   {
+>   	struct r8192_priv *priv = rtllib_priv(dev);
+>   
+> -
+>   	if (priv->rtllib->FwRWRF)
+>   		priv->btxpower_tracking = true;
+>   	else
+> @@ -802,12 +789,10 @@ static void _rtl92e_dm_check_tx_power_tracking_tssi(struct net_device *dev)
+>   		return;
+>   	tx_power_track_counter++;
+>   
+> -
+>   	if (tx_power_track_counter >= 180) {
+>   		schedule_delayed_work(&priv->txpower_tracking_wq, 0);
+>   		tx_power_track_counter = 0;
+>   	}
+> -
+>   }
+>   
+>   static void _rtl92e_dm_check_tx_power_tracking_thermal(struct net_device *dev)
+> @@ -839,7 +824,6 @@ static void _rtl92e_dm_check_tx_power_tracking_thermal(struct net_device *dev)
+>   	netdev_info(dev, "===============>Schedule TxPowerTrackingWorkItem\n");
+>   	schedule_delayed_work(&priv->txpower_tracking_wq, 0);
+>   	TM_Trigger = 0;
+> -
+>   }
+>   
+>   static void _rtl92e_dm_check_tx_power_tracking(struct net_device *dev)
+> @@ -971,7 +955,6 @@ void rtl92e_dm_restore_state(struct net_device *dev)
+>   		_rtl92e_dm_tx_power_reset_recovery(dev);
+>   
+>   	_rtl92e_dm_bb_initialgain_restore(dev);
+> -
+>   }
+>   
+>   static void _rtl92e_dm_bb_initialgain_restore(struct net_device *dev)
+> @@ -995,7 +978,6 @@ static void _rtl92e_dm_bb_initialgain_restore(struct net_device *dev)
+>   	rtl92e_set_bb_reg(dev, rCCK0_CCA, bit_mask,
+>   			  (u32)priv->initgain_backup.cca);
+>   	rtl92e_set_bb_reg(dev, UFWP, bMaskByte1, 0x1);
+> -
+>   }
+>   
+>   void rtl92e_dm_backup_state(struct net_device *dev)
+> @@ -1050,7 +1032,6 @@ static void _rtl92e_dm_dig_init(struct net_device *dev)
+>   
+>   static void _rtl92e_dm_ctrl_initgain_byrssi(struct net_device *dev)
+>   {
+> -
+>   	if (!dm_digtable.dig_enable_flag)
+>   		return;
+>   
+> @@ -1103,7 +1084,6 @@ static void _rtl92e_dm_ctrl_initgain_byrssi_driver(struct net_device *dev)
+>   	else
+>   		dm_digtable.cur_sta_connect_state = DIG_STA_DISCONNECT;
+>   
+> -
+>   	dm_digtable.rssi_val = priv->undecorated_smoothed_pwdb;
+>   	_rtl92e_dm_initial_gain(dev);
+>   	_rtl92e_dm_pd_th(dev);
+> @@ -1111,7 +1091,6 @@ static void _rtl92e_dm_ctrl_initgain_byrssi_driver(struct net_device *dev)
+>   	if (dm_digtable.dig_algorithm_switch)
+>   		dm_digtable.dig_algorithm_switch = 0;
+>   	dm_digtable.pre_sta_connect_state = dm_digtable.cur_sta_connect_state;
+> -
+>   }
+>   
+>   static void _rtl92e_dm_ctrl_initgain_byrssi_false_alarm(struct net_device *dev)
+> @@ -1201,7 +1180,6 @@ static void _rtl92e_dm_ctrl_initgain_byrssi_false_alarm(struct net_device *dev)
+>   	_rtl92e_dm_ctrl_initgain_byrssi_highpwr(dev);
+>   }
+>   
+> -
+>   static void _rtl92e_dm_ctrl_initgain_byrssi_highpwr(struct net_device *dev)
+>   {
+>   	struct r8192_priv *priv = rtllib_priv(dev);
+> @@ -1399,7 +1377,6 @@ static void _rtl92e_dm_cs_ratio(struct net_device *dev)
+>   		reset_cnt = priv->reset_count;
+>   	}
+>   
+> -
+>   	if ((dm_digtable.precs_ratio_state != dm_digtable.curcs_ratio_state) ||
+>   	    !initialized || force_write) {
+>   		if (dm_digtable.curcs_ratio_state == DIG_CS_RATIO_LOWER)
+> @@ -1481,7 +1458,6 @@ static void _rtl92e_dm_check_edca_turbo(struct net_device *dev)
+>   						      edca_setting_UL[ht_info->IOTPeer]);
+>   					priv->bis_cur_rdlstate = false;
+>   				}
+> -
+>   			}
+>   
+>   			priv->bcurrent_turbo_EDCA = true;
+> @@ -1496,7 +1472,6 @@ static void _rtl92e_dm_check_edca_turbo(struct net_device *dev)
+>   		}
+>   	}
+>   
+> -
+>   dm_CheckEdcaTurbo_EXIT:
+>   	priv->rtllib->bis_any_nonbepkts = false;
+>   	lastTxOkCnt = priv->stats.txbytesunicast;
+> @@ -1536,7 +1511,6 @@ static void _rtl92e_dm_cts_to_self(struct net_device *dev)
+>   	}
+>   }
+>   
+> -
+>   static void _rtl92e_dm_init_wa_broadcom_iot(struct net_device *dev)
+>   {
+>   	struct r8192_priv *priv = rtllib_priv((struct net_device *)dev);
+> @@ -1767,7 +1741,6 @@ static void _rtl92e_dm_rx_path_sel_byrssi(struct net_device *dev)
+>   						tmp_cck_min_pwdb = cur_cck_pwdb;
+>   					}
+>   				}
+> -
+>   			}
+>   		}
+>   	}
+> @@ -1833,7 +1806,6 @@ static void _rtl92e_dm_check_rx_path_selection(struct net_device *dev)
+>   	schedule_delayed_work(&priv->rfpath_check_wq, 0);
+>   }
+>   
+> -
+>   static void _rtl92e_dm_init_fsync(struct net_device *dev)
+>   {
+>   	struct r8192_priv *priv = rtllib_priv(dev);
+> @@ -1851,7 +1823,6 @@ static void _rtl92e_dm_init_fsync(struct net_device *dev)
+>   	timer_setup(&priv->fsync_timer, _rtl92e_dm_fsync_timer_callback, 0);
+>   }
+>   
+> -
+>   static void _rtl92e_dm_deinit_fsync(struct net_device *dev)
+>   {
+>   	struct r8192_priv *priv = rtllib_priv(dev);
+> @@ -1886,7 +1857,6 @@ static void _rtl92e_dm_fsync_timer_callback(struct timer_list *t)
+>   		else
+>   			rate_count_diff = rate_count - priv->rate_record;
+>   		if (rate_count_diff < priv->rate_count_diff_rec) {
+> -
+>   			u32 DiffNum = priv->rate_count_diff_rec -
+>   				      rate_count_diff;
+>   			if (DiffNum >=
+> @@ -2027,7 +1997,6 @@ static void _rtl92e_dm_start_sw_fsync(struct net_device *dev)
+>   	add_timer(&priv->fsync_timer);
+>   
+>   	rtl92e_writel(dev, rOFDM0_RxDetector2, 0x465c12cd);
+> -
+>   }
+>   
+>   static void _rtl92e_dm_check_fsync(struct net_device *dev)
+> @@ -2070,7 +2039,6 @@ static void _rtl92e_dm_check_fsync(struct net_device *dev)
+>   			case SW_Fsync:
+>   			default:
+>   				break;
+> -
+>   			}
+>   		}
+>   		if (priv->frame_sync_monitor) {
+> @@ -2198,7 +2166,6 @@ static void _rtl92e_dm_dynamic_tx_power(struct net_device *dev)
+>   	}
+>   	priv->last_dtp_flag_high = priv->dynamic_tx_high_pwr;
+>   	priv->last_dtp_flag_low = priv->dynamic_tx_low_pwr;
+> -
+>   }
+>   
+>   static void _rtl92e_dm_check_txrateandretrycount(struct net_device *dev)
+
+Hi,
+
+Please do not send in patches at almost the same time with exactly the 
+same name. I need to look into the patch to find out which one is which.
+
+This patch interfears with one of my patches. So only one can be 
+accepted and the otherone has to rebase. Will see what happens.
+
+Bye Philipp
