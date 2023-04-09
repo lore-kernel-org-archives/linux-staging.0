@@ -1,116 +1,91 @@
-Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9EB041FDA
-	for <linux-staging@lists.linux.dev>; Sun,  9 Apr 2023 15:12:49 +0000 (UTC)
-Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-947a47eb908so105752966b.0
-        for <linux-staging@lists.linux.dev>; Sun, 09 Apr 2023 08:12:49 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABC031FA0
+	for <linux-staging@lists.linux.dev>; Sun,  9 Apr 2023 20:05:20 +0000 (UTC)
+Received: by mail-wm1-f46.google.com with SMTP id l10-20020a05600c1d0a00b003f04bd3691eso12746012wms.5
+        for <linux-staging@lists.linux.dev>; Sun, 09 Apr 2023 13:05:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1681053168; x=1683645168;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:to:subject:user-agent:mime-version:date:message-id:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=+F3m/Z1uNGrSrVyh1TkFgL4DP+S57DCP37l7qhIJQgc=;
-        b=M1RAi9Y3eZ4oDqaOiEgfRPTe/gFBcbz7h93AcksETsvCtZ04/kx4YmzrlzVm/ifNwu
-         MCw6qFNZE7iA5jmtIVXIcNLwlYMfAi+E63iZ93a7Ytms3b22G4ePknBKZDCe+Q3pVkql
-         VM66Rosv6gKKASVmYOozZKyL7ALolz7ckIviCyEpfJJcHpmBjXQlOJhnvWxONOHzuNq7
-         scmSYOLPLqzOiUxkLdmhX3OVRXmtY4LC3F4GQqyt245bn44/7xEuG+Q40g6EMBzvI5ZE
-         b10UhGc13YUmGnL/gaddvWvVTW/vT9WxZWfMni2/nzZA6tFS+e030DPw0NAtdCbY0GTD
-         iE1w==
+        d=gmail.com; s=20210112; t=1681070719;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Ngtqh6lY40sQa87FOJ7Q2UWB/nz6Pl08B/HLHoV4Hq0=;
+        b=Xgf0dDYycuvGmqNiN2WXKEJtkoCH1kC7TyOUemxXG/tjLD+H5Y2RsKUuLQuobjFb18
+         UqG2mGJb2xLrGlCxYFBRPQjOFDGR1ro46SD3osB1sT9dmfCBTgC6/FBJc2gBfMrvLqQX
+         tB1HB93NwC/N17g3lUGSz0jZW3Qy5h8+nmlB1QmmaKVd1oF/iIus4aUMOpeuuxko6pmL
+         Ul9sCDbAXTae8je+LQr9CnJk14+yeGfQlVLdpXbToSGJgQrVhvv7oibH37vbP9TG0cEL
+         YvZscBXqppQFrYHjzJWdcgiAYrAFl4FG1TfSSYB6460xvwUgb4wG8OfXgSXFCLyZgNs9
+         S6tQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1681053168; x=1683645168;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=+F3m/Z1uNGrSrVyh1TkFgL4DP+S57DCP37l7qhIJQgc=;
-        b=jrJPorjHgqaw3pFuC6QrECjeQESbdycpKBcpJjTfShR12gjki9WNdpDUTOnNYoiZ5e
-         TmhUxMKCEoP2uqUXEnq0qZo9QJoW+6fMoRMUbUAd6GElbFcXkEPPGCHLa/i8YbcV7B6l
-         dlXQPA6pesYpMeil95IO0H0bis5v8ofoVzy9R9E4SyQi+/g0VtrqX7iad3EeiHIo0l9D
-         /N9oJNjDq0i9edQg4dOMSPuBjxN6elk6fivH391bQwUN0M0LBr9cfQlq9VE8PubQ9rIS
-         fOLspgpkBm0SpLjy8dih7DazASnnIpZ91KlYFtZgyM7+vVEB5Oz6RBt9+7rIBefbHxu/
-         wzOQ==
-X-Gm-Message-State: AAQBX9fe8mswkNtb/dN7bh56eYvYSfohLKx45KUp0ewSef2csmMRYozn
-	H1WWPAJG7EpxbxvTywP66XA=
-X-Google-Smtp-Source: AKy350aXdP/4zcTH5rfZ8DrW36jFFGlRTxXaKkWpBLRu6s7JDmhShcva6dhqne+aieO/JmSVru2nIQ==
-X-Received: by 2002:a17:906:10c7:b0:947:f415:db23 with SMTP id v7-20020a17090610c700b00947f415db23mr4727852ejv.1.1681053167642;
-        Sun, 09 Apr 2023 08:12:47 -0700 (PDT)
-Received: from [192.168.0.103] (p57935146.dip0.t-ipconnect.de. [87.147.81.70])
-        by smtp.gmail.com with ESMTPSA id dd20-20020a1709069b9400b009475bf82935sm4177550ejc.31.2023.04.09.08.12.46
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 09 Apr 2023 08:12:47 -0700 (PDT)
-Message-ID: <004210bd-0ed1-58d5-0315-47499c850444@gmail.com>
-Date: Sun, 9 Apr 2023 17:12:45 +0200
+        d=1e100.net; s=20210112; t=1681070719;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Ngtqh6lY40sQa87FOJ7Q2UWB/nz6Pl08B/HLHoV4Hq0=;
+        b=cBdE2zu7t4cX3BdUFiSHAyvpOIOqX9m/m9cGI69MCtNGOJuwYcNjTPz0iF6FkZi/dw
+         6KNkh2O71FIAcpiiGEZAcUTlqyKglzYqPjr0mxo2lYZKbsrU5JNdH7hY1aOV1h2ouv4P
+         fsLHUpbZmtKYYGOJx7sqJy/vGKrZit2Kp+lRx5c59Dm3/bdZ5OOoZXF4Hcuv41TLXDaq
+         4eJjgKYvwrBmGSP888E/pWtLRp7oa0UI+lsoRUyxTFzAIiJmZ1tEuWMeD5/HzipNb3ce
+         RyksaMhml+uGkBTKfV4j3Ct4O8qZxLF1trPhfMU4tPfVSveAFUYDL3ldTZyeDWRFRw+6
+         Fp9g==
+X-Gm-Message-State: AAQBX9e47NLwAoZ+1iLwMndqCpOGs+X5ibnnWq22tLzU41VzF6rbvMIm
+	+eokFoB7SLxb10Li4vDT4As=
+X-Google-Smtp-Source: AKy350aOz9m2VO8vtaf6WmEDkfzKOZGRq9rYc5QamRJ7rCyeFNgRJMSwNWs11M97CF5BWn2A0mFDRg==
+X-Received: by 2002:a05:600c:2048:b0:3ef:8b0:dbb1 with SMTP id p8-20020a05600c204800b003ef08b0dbb1mr3473794wmg.7.1681070718740;
+        Sun, 09 Apr 2023 13:05:18 -0700 (PDT)
+Received: from arch.localdomain ([2a0c:5a82:e704:7800:4aa3:3ca0:c843:43e3])
+        by smtp.googlemail.com with ESMTPSA id b5-20020adfee85000000b002c557f82e27sm9846711wro.99.2023.04.09.13.05.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 09 Apr 2023 13:05:18 -0700 (PDT)
+From: Angel Alberto Carretero <angelalbertoc.r@gmail.com>
+To: Steve Longerbeam <slongerbeam@gmail.com>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	NXP Linux Team <linux-imx@nxp.com>
+Cc: Angel Alberto Carretero <angelalbertoc.r@gmail.com>,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] media: imx: fix macro style error
+Date: Sun,  9 Apr 2023 22:01:36 +0200
+Message-Id: <20230409200135.1033677-1-angelalbertoc.r@gmail.com>
+X-Mailer: git-send-email 2.40.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [PATCH] staging: rtl8192e: Fix comparison to NULL of variable
- rf_set_sens
-To: Yogesh Hegde <yogi.kernel@gmail.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-References: <ZDK5UvVHa96ejEfU@Zephyrus-G14>
-Content-Language: en-US
-From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-In-Reply-To: <ZDK5UvVHa96ejEfU@Zephyrus-G14>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 4/9/23 15:10, Yogesh Hegde wrote:
-> Fix comparision to NULL of variable rf_set_sens as per Linux kernel
-> coding-style. These issues were reported by checkpatch.pl.
-> 
-> CHECK: Comparison to NULL could be written "priv->rf_set_sens"
-> CHECK: Comparison to NULL could be written "!priv->rf_set_sens"
-> 
-> Signed-off-by: Yogesh Hegde <yogi.kernel@gmail.com>
-> ---
->   drivers/staging/rtl8192e/rtl8192e/rtl_wx.c | 6 +++---
->   1 file changed, 3 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/staging/rtl8192e/rtl8192e/rtl_wx.c b/drivers/staging/rtl8192e/rtl8192e/rtl_wx.c
-> index cb28288a618b..a67edb81a820 100644
-> --- a/drivers/staging/rtl8192e/rtl8192e/rtl_wx.c
-> +++ b/drivers/staging/rtl8192e/rtl8192e/rtl_wx.c
-> @@ -311,7 +311,7 @@ static int _rtl92e_wx_get_range(struct net_device *dev,
->   	/* ~130 Mb/s real (802.11n) */
->   	range->throughput = 130 * 1000 * 1000;
->   
-> -	if (priv->rf_set_sens != NULL)
-> +	if (priv->rf_set_sens)
->   		/* signal level threshold range */
->   		range->sensitivity = priv->max_sens;
->   
-> @@ -813,7 +813,7 @@ static int _rtl92e_wx_get_sens(struct net_device *dev,
->   {
->   	struct r8192_priv *priv = rtllib_priv(dev);
->   
-> -	if (priv->rf_set_sens == NULL)
-> +	if (!priv->rf_set_sens)
->   		return -1; /* we have not this support for this radio */
->   	wrqu->sens.value = priv->sens;
->   	return 0;
-> @@ -831,7 +831,7 @@ static int _rtl92e_wx_set_sens(struct net_device *dev,
->   		return 0;
->   
->   	mutex_lock(&priv->wx_mutex);
-> -	if (priv->rf_set_sens == NULL) {
-> +	if (!priv->rf_set_sens) {
->   		err = -1; /* we have not this support for this radio */
->   		goto exit;
->   	}
+Wrap macro in parenthesis to fix checkpatch error.
 
+Tested it by compiling the driver successfully.
 
-I would like you to do more.
-I you search for rf_set_sens you will see that it is declared as a function.
-But there is no definition of the function which will cause an oops when 
-this function is called.
+Signed-off-by: Angel Alberto Carretero <angelalbertoc.r@gmail.com>
+---
+ drivers/staging/media/imx/imx-media-utils.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Because there is no definition of the function the priv->rf_set_sens 
-will result always NULL
+diff --git a/drivers/staging/media/imx/imx-media-utils.c b/drivers/staging/media/imx/imx-media-utils.c
+index 411e907b68eb..eb44c09071de 100644
+--- a/drivers/staging/media/imx/imx-media-utils.c
++++ b/drivers/staging/media/imx/imx-media-utils.c
+@@ -7,7 +7,7 @@
+ #include <linux/module.h>
+ #include "imx-media.h"
+ 
+-#define IMX_BUS_FMTS(fmt...) (const u32[]) {fmt, 0}
++#define IMX_BUS_FMTS(fmt...) ((const u32[]) {fmt, 0})
+ 
+ /*
+  * List of supported pixel formats for the subdevs.
+-- 
+2.40.0
 
-Bye Philipp
