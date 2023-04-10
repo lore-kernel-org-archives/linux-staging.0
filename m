@@ -1,91 +1,171 @@
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+Received: from mail-pg1-f171.google.com (mail-pg1-f171.google.com [209.85.215.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABC031FA0
-	for <linux-staging@lists.linux.dev>; Sun,  9 Apr 2023 20:05:20 +0000 (UTC)
-Received: by mail-wm1-f46.google.com with SMTP id l10-20020a05600c1d0a00b003f04bd3691eso12746012wms.5
-        for <linux-staging@lists.linux.dev>; Sun, 09 Apr 2023 13:05:20 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECAC92598
+	for <linux-staging@lists.linux.dev>; Mon, 10 Apr 2023 08:49:44 +0000 (UTC)
+Received: by mail-pg1-f171.google.com with SMTP id 41be03b00d2f7-517baf1c496so128640a12.0
+        for <linux-staging@lists.linux.dev>; Mon, 10 Apr 2023 01:49:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1681070719;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=Ngtqh6lY40sQa87FOJ7Q2UWB/nz6Pl08B/HLHoV4Hq0=;
-        b=Xgf0dDYycuvGmqNiN2WXKEJtkoCH1kC7TyOUemxXG/tjLD+H5Y2RsKUuLQuobjFb18
-         UqG2mGJb2xLrGlCxYFBRPQjOFDGR1ro46SD3osB1sT9dmfCBTgC6/FBJc2gBfMrvLqQX
-         tB1HB93NwC/N17g3lUGSz0jZW3Qy5h8+nmlB1QmmaKVd1oF/iIus4aUMOpeuuxko6pmL
-         Ul9sCDbAXTae8je+LQr9CnJk14+yeGfQlVLdpXbToSGJgQrVhvv7oibH37vbP9TG0cEL
-         YvZscBXqppQFrYHjzJWdcgiAYrAFl4FG1TfSSYB6460xvwUgb4wG8OfXgSXFCLyZgNs9
-         S6tQ==
+        d=gmail.com; s=20210112; t=1681116584; x=1683708584;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=umDFBP5ADUurtK4IUTyxudUc2wuZVQg0JpEeV/qBi+I=;
+        b=SHQYCqhum56VvZP3Q/lMEy7r75JNq87Dzq4OLQ4tUD0syNI3nflS2QTSo6BfR6D3qa
+         syizqdVpso38tqGHxu9FncfyEmjxT/aV4jn04j50v66DBIGWfwzcA1mg24CNHo7Zoyzr
+         ujw19hEwTDkBcRsFgO1aVjq8yfZpkoldX2NWQ8Hi6u5cLRGKryGzp8Fxs61BAuRNWNYJ
+         TrfPChTLAaG7EcS1ybB4/HIrEChUtqDRvC4/H91+38cPBwCUT6VKrn3hArRuIk14yBgM
+         hlhJex9LsPkbtYza2IvnFXcdiCzqAtK5UsxHaygaa/YAA4Sypx1x58TC3KtY407aBnem
+         B7/Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1681070719;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Ngtqh6lY40sQa87FOJ7Q2UWB/nz6Pl08B/HLHoV4Hq0=;
-        b=cBdE2zu7t4cX3BdUFiSHAyvpOIOqX9m/m9cGI69MCtNGOJuwYcNjTPz0iF6FkZi/dw
-         6KNkh2O71FIAcpiiGEZAcUTlqyKglzYqPjr0mxo2lYZKbsrU5JNdH7hY1aOV1h2ouv4P
-         fsLHUpbZmtKYYGOJx7sqJy/vGKrZit2Kp+lRx5c59Dm3/bdZ5OOoZXF4Hcuv41TLXDaq
-         4eJjgKYvwrBmGSP888E/pWtLRp7oa0UI+lsoRUyxTFzAIiJmZ1tEuWMeD5/HzipNb3ce
-         RyksaMhml+uGkBTKfV4j3Ct4O8qZxLF1trPhfMU4tPfVSveAFUYDL3ldTZyeDWRFRw+6
-         Fp9g==
-X-Gm-Message-State: AAQBX9e47NLwAoZ+1iLwMndqCpOGs+X5ibnnWq22tLzU41VzF6rbvMIm
-	+eokFoB7SLxb10Li4vDT4As=
-X-Google-Smtp-Source: AKy350aOz9m2VO8vtaf6WmEDkfzKOZGRq9rYc5QamRJ7rCyeFNgRJMSwNWs11M97CF5BWn2A0mFDRg==
-X-Received: by 2002:a05:600c:2048:b0:3ef:8b0:dbb1 with SMTP id p8-20020a05600c204800b003ef08b0dbb1mr3473794wmg.7.1681070718740;
-        Sun, 09 Apr 2023 13:05:18 -0700 (PDT)
-Received: from arch.localdomain ([2a0c:5a82:e704:7800:4aa3:3ca0:c843:43e3])
-        by smtp.googlemail.com with ESMTPSA id b5-20020adfee85000000b002c557f82e27sm9846711wro.99.2023.04.09.13.05.17
+        d=1e100.net; s=20210112; t=1681116584; x=1683708584;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=umDFBP5ADUurtK4IUTyxudUc2wuZVQg0JpEeV/qBi+I=;
+        b=Qz5mMXOScGQ7WlAliHfq3pEI5Sd/8rbonRE6CfaPfcKg+YFOIiVYOpt/s4ZHhDhtIF
+         1oG+/NffeZcyx72Pn+Gdchxmuby0Ini9G09LIcK98Q2XqV1I/KVnSjvhg0t86jrMQ8wJ
+         goYRke6WwWfDhYqml2aBb3dewB0aMNv45TKrqdicDdvJq3HlgMiAhyZBYT1XVkmnU/Y8
+         LjVPTJa5qpPifhixmMZSEM+3ty0G0+vlcGVNHWXW1Au0bmG2n2nagSGPBM79XHLSFzZD
+         kIkH1K/VEbXY+SlHmmilojSLadmY7eo0AiL4T033/GDtZslYeiQubk4mfzZqCrspM8OG
+         i5jw==
+X-Gm-Message-State: AAQBX9ezQhLfBuTCHo909T03yJdIzlk1u0APXcKJ25R0TmKDuj4zwj0Q
+	wHoQVFV0eqhzPeQ3uG8v0orZIW1Q7Ls=
+X-Google-Smtp-Source: AKy350YMFk+1vteUW1ylnR25fm6rXSHKvO6WhmdfPrVOV4BEibHm3vp9XTVvNtE0zuta0qNcsu+aWw==
+X-Received: by 2002:a62:1850:0:b0:62d:8376:3712 with SMTP id 77-20020a621850000000b0062d83763712mr6383716pfy.28.1681116584239;
+        Mon, 10 Apr 2023 01:49:44 -0700 (PDT)
+Received: from Zephyrus-G14 ([103.251.210.208])
+        by smtp.gmail.com with ESMTPSA id l19-20020a62be13000000b006249928aba2sm7318598pff.59.2023.04.10.01.49.41
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 09 Apr 2023 13:05:18 -0700 (PDT)
-From: Angel Alberto Carretero <angelalbertoc.r@gmail.com>
-To: Steve Longerbeam <slongerbeam@gmail.com>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	NXP Linux Team <linux-imx@nxp.com>
-Cc: Angel Alberto Carretero <angelalbertoc.r@gmail.com>,
-	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] media: imx: fix macro style error
-Date: Sun,  9 Apr 2023 22:01:36 +0200
-Message-Id: <20230409200135.1033677-1-angelalbertoc.r@gmail.com>
-X-Mailer: git-send-email 2.40.0
+        Mon, 10 Apr 2023 01:49:43 -0700 (PDT)
+Date: Mon, 10 Apr 2023 14:19:39 +0530
+From: Yogesh Hegde <yogi.kernel@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Cc: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+Subject: [PATCH] staging: rtl8192e: Remove functions _rtl92e_wx_get_sens and
+ _rtl92e_wx_set_sens
+Message-ID: <ZDPNo9HI1vrdyD64@Zephyrus-G14>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Wrap macro in parenthesis to fix checkpatch error.
+Both of these functions depend on the function rf_set_sens, which is declared
+but never defined. Hence calling this function will cause an oops.
+Because there is no definition of the function priv->rf_set_sens will always be NULL.
 
-Tested it by compiling the driver successfully.
+As a result _rtl92e_wx_set_sens and _rtl92e_wx_get_sens will always return -1.
 
-Signed-off-by: Angel Alberto Carretero <angelalbertoc.r@gmail.com>
+Hence,
+* Removed function definition rf_set_sens
+* Removed usage of variable priv->rf_set_sens
+* Removed functions _rtl92e_wx_get_sens and _rtl92e_wx_set_sens
+* Cleaned up the variables sens and max_sens used in these functions
+
+This bug was pointed out by Philipp Hortmann[1].
+
+[1]: https://lore.kernel.org/linux-staging/004210bd-0ed1-58d5-0315-47499c850444@gmail.com/
+
+Signed-off-by: Yogesh Hegde <yogi.kernel@gmail.com>
 ---
- drivers/staging/media/imx/imx-media-utils.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/staging/rtl8192e/rtl8192e/rtl_core.h |  3 --
+ drivers/staging/rtl8192e/rtl8192e/rtl_wx.c   | 45 --------------------
+ 2 files changed, 48 deletions(-)
 
-diff --git a/drivers/staging/media/imx/imx-media-utils.c b/drivers/staging/media/imx/imx-media-utils.c
-index 411e907b68eb..eb44c09071de 100644
---- a/drivers/staging/media/imx/imx-media-utils.c
-+++ b/drivers/staging/media/imx/imx-media-utils.c
-@@ -7,7 +7,7 @@
- #include <linux/module.h>
- #include "imx-media.h"
+diff --git a/drivers/staging/rtl8192e/rtl8192e/rtl_core.h b/drivers/staging/rtl8192e/rtl8192e/rtl_core.h
+index 2b2d8af4cf6e..a949a3833cca 100644
+--- a/drivers/staging/rtl8192e/rtl8192e/rtl_core.h
++++ b/drivers/staging/rtl8192e/rtl8192e/rtl_core.h
+@@ -234,7 +234,6 @@ struct r8192_priv {
+ 	struct rt_stats stats;
+ 	struct iw_statistics			wstats;
  
--#define IMX_BUS_FMTS(fmt...) (const u32[]) {fmt, 0}
-+#define IMX_BUS_FMTS(fmt...) ((const u32[]) {fmt, 0})
+-	short (*rf_set_sens)(struct net_device *dev, short sens);
+ 	u8 (*rf_set_chan)(struct net_device *dev, u8 ch);
  
- /*
-  * List of supported pixel formats for the subdevs.
+ 	struct rx_desc *rx_ring[MAX_RX_QUEUE];
+@@ -274,8 +273,6 @@ struct r8192_priv {
+ 	short	promisc;
+ 
+ 	short	chan;
+-	short	sens;
+-	short	max_sens;
+ 	bool ps_force;
+ 
+ 	u32 irq_mask[2];
+diff --git a/drivers/staging/rtl8192e/rtl8192e/rtl_wx.c b/drivers/staging/rtl8192e/rtl8192e/rtl_wx.c
+index cb28288a618b..0bb657fda06c 100644
+--- a/drivers/staging/rtl8192e/rtl8192e/rtl_wx.c
++++ b/drivers/staging/rtl8192e/rtl8192e/rtl_wx.c
+@@ -311,10 +311,6 @@ static int _rtl92e_wx_get_range(struct net_device *dev,
+ 	/* ~130 Mb/s real (802.11n) */
+ 	range->throughput = 130 * 1000 * 1000;
+ 
+-	if (priv->rf_set_sens != NULL)
+-		/* signal level threshold range */
+-		range->sensitivity = priv->max_sens;
+-
+ 	range->max_qual.qual = 100;
+ 	range->max_qual.level = 0;
+ 	range->max_qual.noise = 0;
+@@ -807,45 +803,6 @@ static int _rtl92e_wx_get_retry(struct net_device *dev,
+ 	return 0;
+ }
+ 
+-static int _rtl92e_wx_get_sens(struct net_device *dev,
+-			       struct iw_request_info *info,
+-			       union iwreq_data *wrqu, char *extra)
+-{
+-	struct r8192_priv *priv = rtllib_priv(dev);
+-
+-	if (priv->rf_set_sens == NULL)
+-		return -1; /* we have not this support for this radio */
+-	wrqu->sens.value = priv->sens;
+-	return 0;
+-}
+-
+-static int _rtl92e_wx_set_sens(struct net_device *dev,
+-			       struct iw_request_info *info,
+-			       union iwreq_data *wrqu, char *extra)
+-{
+-	struct r8192_priv *priv = rtllib_priv(dev);
+-
+-	short err = 0;
+-
+-	if (priv->hw_radio_off)
+-		return 0;
+-
+-	mutex_lock(&priv->wx_mutex);
+-	if (priv->rf_set_sens == NULL) {
+-		err = -1; /* we have not this support for this radio */
+-		goto exit;
+-	}
+-	if (priv->rf_set_sens(dev, wrqu->sens.value) == 0)
+-		priv->sens = wrqu->sens.value;
+-	else
+-		err = -EINVAL;
+-
+-exit:
+-	mutex_unlock(&priv->wx_mutex);
+-
+-	return err;
+-}
+-
+ static int _rtl92e_wx_set_encode_ext(struct net_device *dev,
+ 				     struct iw_request_info *info,
+ 				     union iwreq_data *wrqu, char *extra)
+@@ -1066,8 +1023,6 @@ static iw_handler r8192_wx_handlers[] = {
+ 	[IW_IOCTL(SIOCGIWFREQ)] = _rtl92e_wx_get_freq,
+ 	[IW_IOCTL(SIOCSIWMODE)] = _rtl92e_wx_set_mode,
+ 	[IW_IOCTL(SIOCGIWMODE)] = _rtl92e_wx_get_mode,
+-	[IW_IOCTL(SIOCSIWSENS)] = _rtl92e_wx_set_sens,
+-	[IW_IOCTL(SIOCGIWSENS)] = _rtl92e_wx_get_sens,
+ 	[IW_IOCTL(SIOCGIWRANGE)] = _rtl92e_wx_get_range,
+ 	[IW_IOCTL(SIOCSIWAP)] = _rtl92e_wx_set_wap,
+ 	[IW_IOCTL(SIOCGIWAP)] = _rtl92e_wx_get_wap,
 -- 
-2.40.0
+2.34.1
 
