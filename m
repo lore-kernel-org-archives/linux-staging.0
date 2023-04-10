@@ -1,54 +1,53 @@
-Received: from mail-qt1-f179.google.com (mail-qt1-f179.google.com [209.85.160.179])
+Received: from mail-qk1-f178.google.com (mail-qk1-f178.google.com [209.85.222.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D9B22598
-	for <linux-staging@lists.linux.dev>; Mon, 10 Apr 2023 09:35:52 +0000 (UTC)
-Received: by mail-qt1-f179.google.com with SMTP id bn8so3769717qtb.2
-        for <linux-staging@lists.linux.dev>; Mon, 10 Apr 2023 02:35:52 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C326928FC
+	for <linux-staging@lists.linux.dev>; Mon, 10 Apr 2023 09:37:27 +0000 (UTC)
+Received: by mail-qk1-f178.google.com with SMTP id f11so7797462qka.5
+        for <linux-staging@lists.linux.dev>; Mon, 10 Apr 2023 02:37:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1681119351;
+        d=gmail.com; s=20210112; t=1681119446;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Pj4u/VM2tLafsVTTHqQ6bFQ/JVOaZ1YbRnbgt9nw2r0=;
-        b=Z1ouqlr5JcO/3VI3aYIxywOdWZfpPVHqNs+VEqPdQWkbfvbjLqtBXXluhRNG6tyh+C
-         jaL/EkbaeBymLQwFYIEBr6koTTihAP3MpMhyn2s/L0g0o5KiaNmcq6bfIlxEl4m7BOEC
-         BClZtR5bE806gNKo7mSYenJih2dn8KctHYBd09faZHbhXsCq54EdTUEardsqjTRgLZ4m
-         i36SI1h94cM/cewyLHolhqvJJoKGVnFCbYBZ/33xj4XPYm/poUf5umLojdZdIufb0mnM
-         89iDNWlb2PKnDUb8h0wXOCuzqZVHEyFYxV2n2iVS4x8zY4ZVpee9KkRYHIGUnhpZpeWm
-         2r5w==
+        bh=5jthNyQkmn9jVGfXHEJznswalLNKHvuA3wBbZAlFBgM=;
+        b=ixlyzKwk9nLyfIFudo2nN6bGufDge92EL6hb7lFtW8wPyI2OUoGFi2sFg2fVhw5/tv
+         6GarRqhTrOLIJjiEaF5LuxL09mI3Ijz/f/qu15qi3BB2JDZq5cbXKIIynrCKvVsZplGF
+         M+U0D6atE/P8TZdmmTQiUrLeSLzE3ccME9+gd9xhvuH/GB2QA+NWqp6HgfQprb43e6eC
+         C38dEdkQhcgjnTLO4T5b52t3TdE+nwz+TBMOf/RaQI2WhcKI4C1Rd6b8D2k+tlNe/1xJ
+         hfUNfQ8m/eb2iskySHp1h0vhtQBtAGIcpybf7k4YPYiqbVugsOoGnUiPZupl8CQLOn5N
+         ThKw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1681119351;
+        d=1e100.net; s=20210112; t=1681119446;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=Pj4u/VM2tLafsVTTHqQ6bFQ/JVOaZ1YbRnbgt9nw2r0=;
-        b=GcwBT3IY1kSfJeMpPXJi/aM+HuUOrmGXX5zi00Gsji4qYdv7yTWJEDt6U/+Aa2LIMg
-         w9G2uz6cqqLS8nB+HpgubEdRZw97YdPuNI7QRQEjR3Wc51PiwfDvMOd5n2ywgfB+UJJs
-         B63z23Dk6PGOw75IKH+vriuh2stfsn806kSBK9L6egwFW8ID6y8qxAkmvCIKFYuElj6M
-         kY2GN8RJ3EWVriksjmQUeIEYdoJF3EcDrWbBJPPDD2NTkVOp+/wCFTI09t1Zqq3NYe5k
-         l/CCbgkc5e3BAfDpDzMIixfyHAblnIt7vkiMFtw8F9g4WxqH6rZwwtrozXph1389TToa
-         VSsQ==
-X-Gm-Message-State: AAQBX9dwMgZ1IOiX/N7ZQlCvCvW9FKqpAoUCRZPLifNWoPyOIOqBal+H
-	pxFxuMeMgsoIxqVp0lcYQTeXYlXD3GCvfiPy5QM=
-X-Google-Smtp-Source: AKy350aXAPmea4HxO+UOCzhAuoxDYmCSq1YsgvoixMFMX+4pyD4lfB3dLbXlU9mSbJnNXDTfFkh38aaEUXF97eOBukM=
-X-Received: by 2002:a05:622a:152:b0:3de:d15a:847f with SMTP id
- v18-20020a05622a015200b003ded15a847fmr3750305qtw.0.1681119351225; Mon, 10 Apr
- 2023 02:35:51 -0700 (PDT)
+        bh=5jthNyQkmn9jVGfXHEJznswalLNKHvuA3wBbZAlFBgM=;
+        b=DJSI3p6eUXysEZ8yiD/fuhGmtUl/HPrO79kuyeLAGEPvLc4WlwIFkEQxL3501Gv2T1
+         /eYsNMz2pMcRSoI0n0NngwUGvLdOOxCq8ZMQ153HkBXvV2KhsOo7eEGwLS9pGbXAuluP
+         I0gxKS2v5JBcx7F6NRAveS8PrtqFNaypFQZNFmQpBDLIuTCEgsHmsMhgIVQfbuz+6sLE
+         buUVFJsp5K1hD0DDZDExxsYeqmMm4xKvQS9Pt2zhEfZ4JhYzuFhK6kYkHoStxrJSWTbQ
+         lg15gZPMDx1As2B1NL5+BYuBPzKN9HP4eGK7gQEgGE3d/5/cFqCwFxy7JILByD0U01Kg
+         HlyA==
+X-Gm-Message-State: AAQBX9d8Dc0qmlW2bwCjujOkD3qlhRFrG/HO7rns+iH2axwGfnTVOfqt
+	V5qWnVh6uiHruoFxgObrSCawqfBe9hqqAkabBfs=
+X-Google-Smtp-Source: AKy350bk1n4WY3nxbMaUru+S3zykyBQmFjYm2yrfkUptem2sQyypM5XJ2uKLGPb7Jhl9NtswVe0FPV3XUbitrDTXbMY=
+X-Received: by 2002:a05:620a:400a:b0:746:7857:d28b with SMTP id
+ h10-20020a05620a400a00b007467857d28bmr3330927qko.14.1681119446583; Mon, 10
+ Apr 2023 02:37:26 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20230401145926.596216-1-hdegoede@redhat.com> <20230401145926.596216-29-hdegoede@redhat.com>
- <CAHp75VcOpL=aL9suDvBxiCK3cqm4vqCwVfwUp9SSFc31H+15cQ@mail.gmail.com> <7a7d442b-938d-4d99-a368-a6ce917d571b@redhat.com>
-In-Reply-To: <7a7d442b-938d-4d99-a368-a6ce917d571b@redhat.com>
+References: <20230401145926.596216-1-hdegoede@redhat.com> <20230401145926.596216-2-hdegoede@redhat.com>
+ <CAHp75Vea_S-Sw+BYFCPbZ_aTy83kotMOofpqjyGYO7sVywpdYg@mail.gmail.com> <c9a85d8a-b920-391a-8738-ec34d3c88eae@redhat.com>
+In-Reply-To: <c9a85d8a-b920-391a-8738-ec34d3c88eae@redhat.com>
 From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Mon, 10 Apr 2023 12:35:15 +0300
-Message-ID: <CAHp75Vdoha0WT0fvt8_+AtCPRvQYQ0ucRjNHu+qgbRC_BTzedw@mail.gmail.com>
-Subject: Re: [PATCH 28/28] media: atomisp: gmin_platform: Add Lenovo Ideapad
- Miix 310 gmin_vars
+Date: Mon, 10 Apr 2023 12:36:50 +0300
+Message-ID: <CAHp75VdcL3b7XkgoGJm=Q-GU4p0qkZy8OrCSHCQwcC9c0SR7jA@mail.gmail.com>
+Subject: Re: [PATCH 01/28] media: atomisp: Add v4l2_get_acpi_sensor_info() helper
 To: Hans de Goede <hdegoede@redhat.com>
 Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
 	Kate Hsuan <hpa@redhat.com>, Tsuchiya Yuto <kitakar@gmail.com>, Andy Shevchenko <andy@kernel.org>, 
@@ -58,25 +57,41 @@ Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, Sakari Ailus <sakari.ailus@linux
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Sun, Apr 9, 2023 at 4:01=E2=80=AFPM Hans de Goede <hdegoede@redhat.com> =
+On Sun, Apr 9, 2023 at 3:28=E2=80=AFPM Hans de Goede <hdegoede@redhat.com> =
 wrote:
-> On 4/2/23 21:12, Andy Shevchenko wrote:
-> > On Sat, Apr 1, 2023 at 5:00=E2=80=AFPM Hans de Goede <hdegoede@redhat.c=
+> On 4/2/23 08:17, Andy Shevchenko wrote:
+> > On Sat, Apr 1, 2023 at 4:59=E2=80=AFPM Hans de Goede <hdegoede@redhat.c=
 om> wrote:
 
 ...
 
-> > MRD7 and FFD8 are the reference designs. At least MRD7 is what we have
-> > in the lab and we can run some tests there. That's, for example, one
-> > which I used to run atomisp before it got removed from the kernel a
-> > few years ago.
+> >> +       obj =3D acpi_evaluate_dsm_typed(adev->handle, &intel_sensor_mo=
+dule_guid,
+> >> +                                     0x00, 0x01, NULL, ACPI_TYPE_STRI=
+NG);
+> >> +       if (obj) {
+> >> +               dev_info(dev, "Sensor module id: '%s'\n", obj->string.=
+pointer);
+> >> +               if (module_id_str)
+> >> +                       *module_id_str =3D kstrdup(obj->string.pointer=
+, GFP_KERNEL);
+> >> +
+> >> +               ACPI_FREE(obj);
+> >> +       }
+> >
+> >> +       if (!soc_intel_is_byt() && !soc_intel_is_cht())
+> >> +               return 0;
+> >
+> > So, you (might) call the previous _DSM for any SoC, is it intentional?
 >
-> Right, but do these need the quirks ? Or is our auto-detection code
-> good enough to get the right values ?
+> Yes the previous _DSM which gives a sensor-module-id string is also used =
+on IPU3 and IPU6 so we want to at least try it on all x86/ACPI platforms. I=
+f the _DSM with that GUID is not supported then the call should be harmless=
+.
 
-I will try to allocate some time to check it against the latest
-AtomISP code. Do you have a branch where you have been collecting the
-all related patches?
+Still there is a probability to have it being run on some broken ACPI
+tables on non-BYT/CHT platforms. Yes, it will be very unlikely, but
+still I think the more robust is to check for SoC CPU ID first.
 
 --=20
 With Best Regards,
