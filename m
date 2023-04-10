@@ -1,213 +1,201 @@
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89D7F3217
-	for <linux-staging@lists.linux.dev>; Mon, 10 Apr 2023 17:07:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1681146437; x=1712682437;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=XA+xPMbSaSeMbe/zeukVKgHgF9UxfEMsFmYINUq+nCE=;
-  b=FjEEka5Uq7ShiizoG6wRCyQQXaNasOv/CrlQr7ZfRJ1CJ5hf5xlaDdEq
-   wvd1XYYElCxwkWziZmKKlBbGHI3Cy/JOEaCs+boOMvb2eU7XnbsROMsgd
-   6w+GcyadvLHzCS0Z5OrAnUGg49CbwNEhOBWF1cHdQtbeNUaIJWWiElqsU
-   Mevbtlzl7jnDhu2HkJPWxpwPfGFn+ZJpMdITTujoHbjI7mcTE6xTW82OE
-   GTDkzl3KM2CWIWuEbaAjVAin0j8mVX97borIyLfPJp0z9qo9lEiJLYHbe
-   UR+oLWLvwcq6H837A2kSAc3vxJb6I78XRjOUCgFhwRojy6GbVqGt5HXQp
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10676"; a="340893982"
-X-IronPort-AV: E=Sophos;i="5.98,333,1673942400"; 
-   d="scan'208";a="340893982"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Apr 2023 10:07:16 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10676"; a="638516862"
-X-IronPort-AV: E=Sophos;i="5.98,333,1673942400"; 
-   d="scan'208";a="638516862"
-Received: from aschofie-mobl2.amr.corp.intel.com (HELO aschofie-mobl2) ([10.212.230.103])
-  by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Apr 2023 10:07:16 -0700
-Date: Mon, 10 Apr 2023 10:07:14 -0700
-From: Alison Schofield <alison.schofield@intel.com>
-To: Dalvin-Ehinoma Noah Aiguobas <pharcodra@gmail.com>
-Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: octeon: remove typedef declaration for enums in
- octeon-stubs
-Message-ID: <ZDRCQuXMxGwVA5Ei@aschofie-mobl2>
-References: <20230410150852.GA57989@koolguy>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D8803220
+	for <linux-staging@lists.linux.dev>; Mon, 10 Apr 2023 18:33:19 +0000 (UTC)
+Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-947a47eb908so119875766b.0
+        for <linux-staging@lists.linux.dev>; Mon, 10 Apr 2023 11:33:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1681151597; x=1683743597;
+        h=content-transfer-encoding:in-reply-to:content-language:references
+         :to:subject:from:user-agent:mime-version:date:message-id:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=nZFeRkYCJo0iqZMbAfv9fGEdJHowxuiq/Bt59UpUq00=;
+        b=aksNfi5N9Kf91Kl8ogtFznlyfV3va1w5ZOLKLBbauYqBFbdhhmmKV/laqb6qDxYPFB
+         hscr2iYR8SB5qeEND00rgMKv0wN3T99zMs88JFqXZW5al3R/lbbYWogReL2yAI2SaEfD
+         pQGa2iHI2mnd9Ou7x9CZAQAb5YtQt0s7J6BV6vajdiWT2eR5VC97bXEknz9jyK454beT
+         VysqbhCedtavTqsTOB2Ypu1c/wNVaS+AC/57tG0DjO3v2IXJr4xdsR23U0B7X8OtJNEs
+         jMXZhYZz2gMORNA674KqbuLOzTknRiFKGPOhOGX6PhtVLdJYTXrUP0xkIlZWNe5O55lt
+         vdOg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1681151597; x=1683743597;
+        h=content-transfer-encoding:in-reply-to:content-language:references
+         :to:subject:from:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=nZFeRkYCJo0iqZMbAfv9fGEdJHowxuiq/Bt59UpUq00=;
+        b=zXjywBVh0BBwnebuKujpgf6MXKwda7ROWS6oJ26MvHuhQfTAXvCHJCt53yxbvBjRvy
+         OnCeIRivWxYj9cP4XEPUVq79bqKvNLslu7TVqO/UKTLZEuyQU7SCvvLH1k3PR2nRFfwf
+         kM7b8A+H1oOD1FBlBALJ1B8SUTJ3eVfP83mYxEzA+XAz4dsDw+eYjyO3z6Km2o2IO6Ji
+         NgTq1zTTBb/mKD6V/0LfVCW8esuBntwG0c3OPRxnG2drbg9NUQf5xK9YScwyLQb5N+rH
+         EXPiY0m3wDAseizqcQO024J/hhqGntEhsLEGCpWlmAPhbnIYHaB8OEq5cnUkZNZkjY8/
+         ejHg==
+X-Gm-Message-State: AAQBX9cFy5ylktSFW+7cJRQMVBqxXBEGnGMKkn+2FDfge+JvjulyNUIu
+	pmSNeCgUhOccYjJX8J6fhE0=
+X-Google-Smtp-Source: AKy350ZIPvZ2Cxzd+SprtIXznT+1BROVxLGVn36lSz/30/vVZ3YhYknh/2HLdQS9sKPdeZrX0k7N9w==
+X-Received: by 2002:a17:906:19c:b0:947:bff2:1c2d with SMTP id 28-20020a170906019c00b00947bff21c2dmr7347711ejb.3.1681151597207;
+        Mon, 10 Apr 2023 11:33:17 -0700 (PDT)
+Received: from [192.168.0.102] (p57935146.dip0.t-ipconnect.de. [87.147.81.70])
+        by smtp.gmail.com with ESMTPSA id v21-20020a170906859500b0094a7c882638sm1522518ejx.90.2023.04.10.11.33.13
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 10 Apr 2023 11:33:14 -0700 (PDT)
+Message-ID: <0c8fcf29-7264-690e-2d7b-8de174f2e0e4@gmail.com>
+Date: Mon, 10 Apr 2023 20:33:12 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230410150852.GA57989@koolguy>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+Subject: Re: [PATCH] staging: rtl8192e: Remove functions _rtl92e_wx_get_sens
+ and _rtl92e_wx_set_sens
+To: Yogesh Hegde <yogi.kernel@gmail.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+References: <ZDPNo9HI1vrdyD64@Zephyrus-G14>
+Content-Language: en-US
+In-Reply-To: <ZDPNo9HI1vrdyD64@Zephyrus-G14>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Mon, Apr 10, 2023 at 05:08:52PM +0200, Dalvin-Ehinoma Noah Aiguobas wrote:
-
-Hi Dalvin-Ehinoma,
-
-I recognize this as a revision of an earlier patch. It needs to be
-labeled [PATCH v2] in your subject line and a changelog included.
-
-How to revise and resend patches:
-https://www.kernel.org/doc/html/latest/process/submitting-patches.html
-https://kernelnewbies.org/PatchPhilosophy
-
-Checkpatch is emitting this warning:
-WARNING: Possible unwrapped commit description (prefer a maximum 75 chars per line)
-#56:
-Fix checkpatch.pl warning for enums in drivers/staging/octeon/octeon-stubs.h:
-
-Alison
-
-> Fix checkpatch.pl warning for enums in drivers/staging/octeon/octeon-stubs.h:
-> cvmx_helper_interface_mode_t,
-> cvmx_spi_mode_t,
-> cvmx_pow_wait_t,
-> cvmx_pko_lock_t,
-> cvmx_pko_status_t
+On 4/10/23 10:49, Yogesh Hegde wrote:
+> Both of these functions depend on the function rf_set_sens, which is declared
+> but never defined. Hence calling this function will cause an oops.
+> Because there is no definition of the function priv->rf_set_sens will always be NULL.
 > 
-> Change typedef cvmx_helper_interface_mode_t to
-> enum cvmx_helper_interface_mode in ethernet.c
+> As a result _rtl92e_wx_set_sens and _rtl92e_wx_get_sens will always return -1.
 > 
-> Signed-off-by: Dalvin-Ehinoma Noah Aiguobas <pharcodra@gmail.com>
+> Hence,
+> * Removed function definition rf_set_sens
+> * Removed usage of variable priv->rf_set_sens
+> * Removed functions _rtl92e_wx_get_sens and _rtl92e_wx_set_sens
+> * Cleaned up the variables sens and max_sens used in these functions
+> 
+> This bug was pointed out by Philipp Hortmann[1].
+> 
+> [1]: https://lore.kernel.org/linux-staging/004210bd-0ed1-58d5-0315-47499c850444@gmail.com/
+> 
+> Signed-off-by: Yogesh Hegde <yogi.kernel@gmail.com>
 > ---
->  drivers/staging/octeon/ethernet.c     |  2 +-
->  drivers/staging/octeon/octeon-stubs.h | 39 +++++++++++++--------------
->  2 files changed, 20 insertions(+), 21 deletions(-)
+>   drivers/staging/rtl8192e/rtl8192e/rtl_core.h |  3 --
+>   drivers/staging/rtl8192e/rtl8192e/rtl_wx.c   | 45 --------------------
+>   2 files changed, 48 deletions(-)
 > 
-> diff --git a/drivers/staging/octeon/ethernet.c b/drivers/staging/octeon/ethernet.c
-> index 9eee28f2940c..023b107e077a 100644
-> --- a/drivers/staging/octeon/ethernet.c
-> +++ b/drivers/staging/octeon/ethernet.c
-> @@ -798,7 +798,7 @@ static int cvm_oct_probe(struct platform_device *pdev)
->  
->  	num_interfaces = cvmx_helper_get_number_of_interfaces();
->  	for (interface = 0; interface < num_interfaces; interface++) {
-> -		cvmx_helper_interface_mode_t imode =
-> +		enum cvmx_helper_interface_mode imode =
->  		    cvmx_helper_interface_get_mode(interface);
->  		int num_ports = cvmx_helper_ports_on_interface(interface);
->  		int port;
-> diff --git a/drivers/staging/octeon/octeon-stubs.h b/drivers/staging/octeon/octeon-stubs.h
-> index 3e7b92cd2e35..58708a7f727a 100644
-> --- a/drivers/staging/octeon/octeon-stubs.h
-> +++ b/drivers/staging/octeon/octeon-stubs.h
-> @@ -213,14 +213,14 @@ enum cvmx_fau_op_size {
->  	CVMX_FAU_OP_SIZE_64 = 3
->  };
->  
-> -typedef enum {
-> +enum cvmx_spi_mode {
->  	CVMX_SPI_MODE_UNKNOWN = 0,
->  	CVMX_SPI_MODE_TX_HALFPLEX = 1,
->  	CVMX_SPI_MODE_RX_HALFPLEX = 2,
->  	CVMX_SPI_MODE_DUPLEX = 3
-> -} cvmx_spi_mode_t;
-> +};
->  
-> -typedef enum {
-> +enum cvmx_helper_interface_mode {
->  	CVMX_HELPER_INTERFACE_MODE_DISABLED,
->  	CVMX_HELPER_INTERFACE_MODE_RGMII,
->  	CVMX_HELPER_INTERFACE_MODE_GMII,
-> @@ -231,20 +231,20 @@ typedef enum {
->  	CVMX_HELPER_INTERFACE_MODE_PICMG,
->  	CVMX_HELPER_INTERFACE_MODE_NPI,
->  	CVMX_HELPER_INTERFACE_MODE_LOOP,
-> -} cvmx_helper_interface_mode_t;
-> +};
->  
-> -typedef enum {
-> +enum cvmx_pow_wait {
->  	CVMX_POW_WAIT = 1,
->  	CVMX_POW_NO_WAIT = 0,
-> -} cvmx_pow_wait_t;
-> +};
->  
-> -typedef enum {
-> +enum cvmx_pko_lock {
->  	CVMX_PKO_LOCK_NONE = 0,
->  	CVMX_PKO_LOCK_ATOMIC_TAG = 1,
->  	CVMX_PKO_LOCK_CMD_QUEUE = 2,
-> -} cvmx_pko_lock_t;
-> +};
->  
-> -typedef enum {
-> +enum cvmx_pko_status {
->  	CVMX_PKO_SUCCESS,
->  	CVMX_PKO_INVALID_PORT,
->  	CVMX_PKO_INVALID_QUEUE,
-> @@ -252,7 +252,7 @@ typedef enum {
->  	CVMX_PKO_NO_MEMORY,
->  	CVMX_PKO_PORT_ALREADY_SETUP,
->  	CVMX_PKO_CMD_QUEUE_INIT_ERROR
-> -} cvmx_pko_status_t;
-> +};
->  
->  enum cvmx_pow_tag_type {
->  	CVMX_POW_TAG_TYPE_ORDERED   = 0L,
-> @@ -1265,8 +1265,7 @@ static inline void cvmx_pko_get_port_status(uint64_t port_num, uint64_t clear,
->  					    cvmx_pko_port_status_t *status)
->  { }
->  
-> -static inline cvmx_helper_interface_mode_t cvmx_helper_interface_get_mode(int
-> -								   interface)
-> +static inline enum cvmx_helper_interface_mode cvmx_helper_interface_get_mode(int interface)
->  {
->  	return 0;
->  }
-> @@ -1342,11 +1341,11 @@ static inline unsigned int cvmx_get_core_num(void)
->  }
->  
->  static inline void cvmx_pow_work_request_async_nocheck(int scr_addr,
-> -						       cvmx_pow_wait_t wait)
-> +						       enum cvmx_pow_wait wait)
->  { }
->  
->  static inline void cvmx_pow_work_request_async(int scr_addr,
-> -					       cvmx_pow_wait_t wait)
-> +					       enum cvmx_pow_wait wait)
->  { }
->  
->  static inline struct cvmx_wqe *cvmx_pow_work_response_async(int scr_addr)
-> @@ -1356,13 +1355,13 @@ static inline struct cvmx_wqe *cvmx_pow_work_response_async(int scr_addr)
->  	return wqe;
->  }
->  
-> -static inline struct cvmx_wqe *cvmx_pow_work_request_sync(cvmx_pow_wait_t wait)
-> +static inline struct cvmx_wqe *cvmx_pow_work_request_sync(enum cvmx_pow_wait wait)
->  {
->  	return (void *)(unsigned long)wait;
->  }
->  
->  static inline int cvmx_spi_restart_interface(int interface,
-> -					cvmx_spi_mode_t mode, int timeout)
-> +				       enum cvmx_spi_mode mode, int timeout)
->  {
->  	return 0;
->  }
-> @@ -1381,12 +1380,12 @@ static inline union cvmx_gmxx_rxx_rx_inbnd cvmx_spi4000_check_speed(int interfac
->  }
->  
->  static inline void cvmx_pko_send_packet_prepare(uint64_t port, uint64_t queue,
-> -						cvmx_pko_lock_t use_locking)
-> +						enum cvmx_pko_lock use_locking)
->  { }
->  
-> -static inline cvmx_pko_status_t cvmx_pko_send_packet_finish(uint64_t port,
-> -		uint64_t queue, union cvmx_pko_command_word0 pko_command,
-> -		union cvmx_buf_ptr packet, cvmx_pko_lock_t use_locking)
-> +static inline enum cvmx_pko_status cvmx_pko_send_packet_finish(uint64_t port,
-> +		    uint64_t queue, union cvmx_pko_command_word0 pko_command,
-> +		    union cvmx_buf_ptr packet, enum cvmx_pko_lock use_locking)
->  {
->  	return 0;
->  }
-> -- 
-> 2.25.1
-> 
+> diff --git a/drivers/staging/rtl8192e/rtl8192e/rtl_core.h b/drivers/staging/rtl8192e/rtl8192e/rtl_core.h
+> index 2b2d8af4cf6e..a949a3833cca 100644
+> --- a/drivers/staging/rtl8192e/rtl8192e/rtl_core.h
+> +++ b/drivers/staging/rtl8192e/rtl8192e/rtl_core.h
+> @@ -234,7 +234,6 @@ struct r8192_priv {
+>   	struct rt_stats stats;
+>   	struct iw_statistics			wstats;
+>   
+> -	short (*rf_set_sens)(struct net_device *dev, short sens);
+>   	u8 (*rf_set_chan)(struct net_device *dev, u8 ch);
+>   
+>   	struct rx_desc *rx_ring[MAX_RX_QUEUE];
+> @@ -274,8 +273,6 @@ struct r8192_priv {
+>   	short	promisc;
+>   
+>   	short	chan;
+> -	short	sens;
+> -	short	max_sens;
+>   	bool ps_force;
+>   
+>   	u32 irq_mask[2];
+> diff --git a/drivers/staging/rtl8192e/rtl8192e/rtl_wx.c b/drivers/staging/rtl8192e/rtl8192e/rtl_wx.c
+> index cb28288a618b..0bb657fda06c 100644
+> --- a/drivers/staging/rtl8192e/rtl8192e/rtl_wx.c
+> +++ b/drivers/staging/rtl8192e/rtl8192e/rtl_wx.c
+> @@ -311,10 +311,6 @@ static int _rtl92e_wx_get_range(struct net_device *dev,
+>   	/* ~130 Mb/s real (802.11n) */
+>   	range->throughput = 130 * 1000 * 1000;
+>   
+> -	if (priv->rf_set_sens != NULL)
+> -		/* signal level threshold range */
+> -		range->sensitivity = priv->max_sens;
+> -
+>   	range->max_qual.qual = 100;
+>   	range->max_qual.level = 0;
+>   	range->max_qual.noise = 0;
+> @@ -807,45 +803,6 @@ static int _rtl92e_wx_get_retry(struct net_device *dev,
+>   	return 0;
+>   }
+>   
+> -static int _rtl92e_wx_get_sens(struct net_device *dev,
+> -			       struct iw_request_info *info,
+> -			       union iwreq_data *wrqu, char *extra)
+> -{
+> -	struct r8192_priv *priv = rtllib_priv(dev);
+> -
+> -	if (priv->rf_set_sens == NULL)
+> -		return -1; /* we have not this support for this radio */
+> -	wrqu->sens.value = priv->sens;
+> -	return 0;
+> -}
+> -
+> -static int _rtl92e_wx_set_sens(struct net_device *dev,
+> -			       struct iw_request_info *info,
+> -			       union iwreq_data *wrqu, char *extra)
+> -{
+> -	struct r8192_priv *priv = rtllib_priv(dev);
+> -
+> -	short err = 0;
+> -
+> -	if (priv->hw_radio_off)
+> -		return 0;
+> -
+> -	mutex_lock(&priv->wx_mutex);
+> -	if (priv->rf_set_sens == NULL) {
+> -		err = -1; /* we have not this support for this radio */
+> -		goto exit;
+> -	}
+> -	if (priv->rf_set_sens(dev, wrqu->sens.value) == 0)
+> -		priv->sens = wrqu->sens.value;
+> -	else
+> -		err = -EINVAL;
+> -
+> -exit:
+> -	mutex_unlock(&priv->wx_mutex);
+> -
+> -	return err;
+> -}
+> -
+>   static int _rtl92e_wx_set_encode_ext(struct net_device *dev,
+>   				     struct iw_request_info *info,
+>   				     union iwreq_data *wrqu, char *extra)
+> @@ -1066,8 +1023,6 @@ static iw_handler r8192_wx_handlers[] = {
+>   	[IW_IOCTL(SIOCGIWFREQ)] = _rtl92e_wx_get_freq,
+>   	[IW_IOCTL(SIOCSIWMODE)] = _rtl92e_wx_set_mode,
+>   	[IW_IOCTL(SIOCGIWMODE)] = _rtl92e_wx_get_mode,
+> -	[IW_IOCTL(SIOCSIWSENS)] = _rtl92e_wx_set_sens,
+> -	[IW_IOCTL(SIOCGIWSENS)] = _rtl92e_wx_get_sens,
+>   	[IW_IOCTL(SIOCGIWRANGE)] = _rtl92e_wx_get_range,
+>   	[IW_IOCTL(SIOCSIWAP)] = _rtl92e_wx_set_wap,
+>   	[IW_IOCTL(SIOCGIWAP)] = _rtl92e_wx_get_wap,
+
+
+You need to watch the messages from checkpatch. Two lines are too long 
+from your description. Over 75 chars....
+
+I think that the maintainer wants that this patch is a v2 even when 
+almost everything of this patch has changed. So if you resend, name the 
+patch v3 with revision change history.
+
+Instead of the pointed out by you need to choose from:
+13) Using Reported-by:, Tested-by:, Reviewed-by:, Suggested-by:
+https://www.kernel.org/doc/html/v4.17/process/submitting-patches.html
+Please look for the place as this is critical. Or omit this line...
+As I will test this patch and get therefore credit... hopefully...
+
+applied, compiled and tested... all OK.
+
+Thanks for your support,
+
+Bye Philipp
+
+
+
+
+
