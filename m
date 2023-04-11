@@ -1,104 +1,203 @@
-Received: from mail-qt1-f176.google.com (mail-qt1-f176.google.com [209.85.160.176])
+Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A10B8F51
-	for <linux-staging@lists.linux.dev>; Tue, 11 Apr 2023 15:30:56 +0000 (UTC)
-Received: by mail-qt1-f176.google.com with SMTP id cg4so376359qtb.11
-        for <linux-staging@lists.linux.dev>; Tue, 11 Apr 2023 08:30:56 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A7D5944C
+	for <linux-staging@lists.linux.dev>; Tue, 11 Apr 2023 17:51:25 +0000 (UTC)
+Received: by mail-ej1-f43.google.com with SMTP id kt17so10278495ejb.11
+        for <linux-staging@lists.linux.dev>; Tue, 11 Apr 2023 10:51:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ndufresne-ca.20210112.gappssmtp.com; s=20210112; t=1681227055; x=1683819055;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=cfTBJGcArvpMvQorRR/sDUXlP2hWx7bq+L50IV9DIms=;
-        b=JKZPjE5NStYFMsyKIK+QBmpGoGQK5yp5uKuW4jvH8JOoyl5W/KcBtlebcPLgyZpB8R
-         r/eXObo8oZId0qiXxdDmIY6RII3S7Z4bHBThx9Nw7CKGTl48ToVAkcaQYs6qFNojsl+R
-         y+MMllVyCd5SGUfPsMvA8/qt8bgYnjwJIM83kvu1MOuNOAv8YuVUuILmkIgV8zwGDb3Y
-         k6jTM8A5W0np+KUdxQP2T+eptr44mVGsjeSIHM08lq9LMb5XTrkIsZaPMkVNOHwPhvOG
-         /o7ba1w6i1gE6rxqaPP+u5yQ00cE64lXGP5TfpgpPd0qtoWJ9CE+sfBMQf8KNLbBjKpk
-         JDiQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1681227055; x=1683819055;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+        d=gmail.com; s=20210112; t=1681235484;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=cfTBJGcArvpMvQorRR/sDUXlP2hWx7bq+L50IV9DIms=;
-        b=ivV4foQBM2GMuqr1m3KmwaAtnmyhmeCCgaLRK2sBamsPJjPDdhmpDO8lVHYM+d9UqK
-         ud/wxUkWEw/upm/Y2G4oqJCQuNnP+JemWEYdzDsfgQmUVIz5/OqvCDNwxsrBfZOvREf1
-         8qt7zJhPeaCgrx+eYoVxXBZnRbeoR4N3oNtJS1UsRCytrZdwn6htoQmgOZB+GUkY/A6l
-         22/OYK8jqWkYIU69GDWAUHQXvDcFEUOSLKp7sLBOzSKFXZC3X3Yyb/oAYDtEneV6qG5J
-         xFberUHLJrrG702hsd7xsNKBbYHQA+s8YlTC34+YV6o4TuF3AVo3bvwjz6InUkzgeCwB
-         fhGg==
-X-Gm-Message-State: AAQBX9dqdxvW+WNc+AsBteBKzuep39NbcEkaT7tO7WCXLrLfOVylIICi
-	1tGmWeyx8MIerW9ttXlQiAW8QQ==
-X-Google-Smtp-Source: AKy350aFEJeoltoyWsD6S1OqbhVS42G2M1t36SP58Nd2uIo2BOAovB2zr1zgb510F7xMjZesc4AYiQ==
-X-Received: by 2002:a05:622a:291:b0:3bf:d9f3:debe with SMTP id z17-20020a05622a029100b003bfd9f3debemr4919958qtw.59.1681227055380;
-        Tue, 11 Apr 2023 08:30:55 -0700 (PDT)
-Received: from nicolas-tpx395.localdomain ([2606:6d00:15:199e::580])
-        by smtp.gmail.com with ESMTPSA id x1-20020ac87301000000b003e6610471c1sm3634284qto.16.2023.04.11.08.30.54
+        bh=kaCf7WeXfgPCNxtzPrrsVGzdV7NlqSNHXFoaeqRcjvE=;
+        b=DCsidmOrS1rX14icJcRTFa+oCTMr3rSk2Bh7wPM6AZZxmZSMQFTzOkOipblMiyM/AZ
+         tOfXR/Efyncxj9jH37UettBr8kNhC+bGrk0OpJ70g/ouPxVpzt9K4kokF166WwJQJg6P
+         lLhMIzRpyyngviUM0J3kKAgnp7fH+LrgZe+79CeaTvfI5Zo9O68DnVvYM0qSO4sZnuFD
+         9mwNa4fg6WUapwTU7C3MgFx3/+bJLKgWJAGSpg2jPi/JTiKzVNGsMuVOsfsFjPIk7iGm
+         noHvSZRu6B6cQk25WQUpEeakDMRYdk1ZvKN0LMnvti83xZ+a7qu8DVDvkENYb3Kx+XSw
+         hTig==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1681235484;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=kaCf7WeXfgPCNxtzPrrsVGzdV7NlqSNHXFoaeqRcjvE=;
+        b=TTAPLdND7G+vilhHVjRlhyRDUOUnm9faIA8rX1vIxKK1BMa/u9/oqNzkdvKkLNIlui
+         +fIA/TT43sJfK6qC64hsbXs+GHr0ejmCUcV0Btb2uBfGIN8xZ5AVlEClr+gGZkHqLSUo
+         9CxfLSvaPdgzatH8LzRFEJFDu5rXrZR3O+5xJCCSX44T/jpSjxZ+yrhj/RN6YoaokmbV
+         iHtfAMRXL12zmze/le5/Be7DC/alnREU0owkVP2eOXdUng80GO8r8ZeOi0Ss0zRplVHK
+         9kAfWQVnEFyDW+XT35DFuOgw3CYDtGOWoo+9cwbXY7IoHCPPwJSJHPRPor2PhM84RPt6
+         PorQ==
+X-Gm-Message-State: AAQBX9ce3vsYAtqf74aqA93dbcV0L9P3EoGiGBB0FT6QNbRnKWk3U/UH
+	krNygUTW1hYwamSGhls6WA==
+X-Google-Smtp-Source: AKy350alHDQp0B3yx4fKt0ng9yNT0nLwrB3ldsPa5HTljljoY2tsBUhkuxoud3+LQGScqaZTwNZagQ==
+X-Received: by 2002:a17:907:7e95:b0:94a:88aa:93b3 with SMTP id qb21-20020a1709077e9500b0094a88aa93b3mr8304179ejc.44.1681235483382;
+        Tue, 11 Apr 2023 10:51:23 -0700 (PDT)
+Received: from koolguy (dslb-002-205-192-117.002.205.pools.vodafone-ip.de. [2.205.192.117])
+        by smtp.gmail.com with ESMTPSA id s21-20020a1709060c1500b0094a85f6074bsm2422256ejf.33.2023.04.11.10.51.22
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 11 Apr 2023 08:30:55 -0700 (PDT)
-Message-ID: <ebbfcf603930f0414abff23b329e66a59bf1f812.camel@ndufresne.ca>
-Subject: Re: [PATCH 2/9] media: v4l2: Add NV12_16L16 pixel format to v4l2
- format info
-From: Nicolas Dufresne <nicolas@ndufresne.ca>
-To: Paul Kocialkowski <paul.kocialkowski@bootlin.com>, 
-	linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	linux-staging@lists.linux.dev
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, Chen-Yu Tsai
- <wens@csie.org>,  Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland
- <samuel@sholland.org>, Laurent Pinchart
- <laurent.pinchart@ideasonboard.com>, Adam Pigg <adam@piggz.co.uk>, Thomas
- Petazzoni <thomas.petazzoni@bootlin.com>
-Date: Tue, 11 Apr 2023 11:30:54 -0400
-In-Reply-To: <20230324151228.2778112-3-paul.kocialkowski@bootlin.com>
-References: <20230324151228.2778112-1-paul.kocialkowski@bootlin.com>
-	 <20230324151228.2778112-3-paul.kocialkowski@bootlin.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.46.4 (3.46.4-1.fc37) 
+        Tue, 11 Apr 2023 10:51:22 -0700 (PDT)
+Date: Tue, 11 Apr 2023 19:51:21 +0200
+From: Dalvin-Ehinoma Noah Aiguobas <pharcodra@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: [PATCH v2] staging: octeon: remove typedef declaration for enums
+Message-ID: <20230411175121.GA71709@koolguy>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Le vendredi 24 mars 2023 =C3=A0 16:12 +0100, Paul Kocialkowski a =C3=A9crit=
-=C2=A0:
-> Represent the NV12_16L16 pixel format in the v4l2 format info table.
-> This is a 16x16 tiled version of NV12.
->=20
-> Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+Fix checkpatch.pl warning for enums in drivers/staging/octeon/octeon-stubs.h:
+cvmx_helper_interface_mode_t,
+cvmx_spi_mode_t,
+cvmx_pow_wait_t,
+cvmx_pko_lock_t,
+cvmx_pko_status_t
 
-Reviewed-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+Change typedef cvmx_helper_interface_mode_t to
+enum cvmx_helper_interface_mode in ethernet.c
 
-> ---
->  drivers/media/v4l2-core/v4l2-common.c | 2 ++
->  1 file changed, 2 insertions(+)
->=20
-> diff --git a/drivers/media/v4l2-core/v4l2-common.c b/drivers/media/v4l2-c=
-ore/v4l2-common.c
-> index 3d044b31caad..5101989716aa 100644
-> --- a/drivers/media/v4l2-core/v4l2-common.c
-> +++ b/drivers/media/v4l2-core/v4l2-common.c
-> @@ -280,6 +280,8 @@ const struct v4l2_format_info *v4l2_format_info(u32 f=
-ormat)
->  		/* Tiled YUV formats */
->  		{ .format =3D V4L2_PIX_FMT_NV12_4L4, .pixel_enc =3D V4L2_PIXEL_ENC_YUV=
-, .mem_planes =3D 1, .comp_planes =3D 2, .bpp =3D { 1, 2, 0, 0 }, .hdiv =3D=
- 2, .vdiv =3D 2 },
->  		{ .format =3D V4L2_PIX_FMT_P010_4L4, .pixel_enc =3D V4L2_PIXEL_ENC_YUV=
-, .mem_planes =3D 1, .comp_planes =3D 2, .bpp =3D { 2, 4, 0, 0 }, .hdiv =3D=
- 2, .vdiv =3D 2 },
-> +		{ .format =3D V4L2_PIX_FMT_NV12_16L16,	.pixel_enc =3D V4L2_PIXEL_ENC_Y=
-UV, .mem_planes =3D 1, .comp_planes =3D 2, .bpp =3D { 1, 2, 0, 0 }, .hdiv =
-=3D 2, .vdiv =3D 2,
-> +		  .block_w =3D { 16, 16, 0, 0 }, .block_h =3D { 16, 16, 0, 0 } },
-> =20
->  		/* YUV planar formats, non contiguous variant */
->  		{ .format =3D V4L2_PIX_FMT_YUV420M, .pixel_enc =3D V4L2_PIXEL_ENC_YUV,=
- .mem_planes =3D 3, .comp_planes =3D 3, .bpp =3D { 1, 1, 1, 0 }, .hdiv =3D =
-2, .vdiv =3D 2 },
+Signed-off-by: Dalvin-Ehinoma Noah Aiguobas <pharcodra@gmail.com>
+---
+Changes in v2:
+-Remove Alignment fixes from previous version.
+
+ drivers/staging/octeon/ethernet.c     |  2 +-
+ drivers/staging/octeon/octeon-stubs.h | 39 +++++++++++++--------------
+ 2 files changed, 20 insertions(+), 21 deletions(-)
+
+diff --git a/drivers/staging/octeon/ethernet.c b/drivers/staging/octeon/ethernet.c
+index 9eee28f2940c..023b107e077a 100644
+--- a/drivers/staging/octeon/ethernet.c
++++ b/drivers/staging/octeon/ethernet.c
+@@ -798,7 +798,7 @@ static int cvm_oct_probe(struct platform_device *pdev)
+ 
+ 	num_interfaces = cvmx_helper_get_number_of_interfaces();
+ 	for (interface = 0; interface < num_interfaces; interface++) {
+-		cvmx_helper_interface_mode_t imode =
++		enum cvmx_helper_interface_mode imode =
+ 		    cvmx_helper_interface_get_mode(interface);
+ 		int num_ports = cvmx_helper_ports_on_interface(interface);
+ 		int port;
+diff --git a/drivers/staging/octeon/octeon-stubs.h b/drivers/staging/octeon/octeon-stubs.h
+index 3e7b92cd2e35..58708a7f727a 100644
+--- a/drivers/staging/octeon/octeon-stubs.h
++++ b/drivers/staging/octeon/octeon-stubs.h
+@@ -213,14 +213,14 @@ enum cvmx_fau_op_size {
+ 	CVMX_FAU_OP_SIZE_64 = 3
+ };
+ 
+-typedef enum {
++enum cvmx_spi_mode {
+ 	CVMX_SPI_MODE_UNKNOWN = 0,
+ 	CVMX_SPI_MODE_TX_HALFPLEX = 1,
+ 	CVMX_SPI_MODE_RX_HALFPLEX = 2,
+ 	CVMX_SPI_MODE_DUPLEX = 3
+-} cvmx_spi_mode_t;
++};
+ 
+-typedef enum {
++enum cvmx_helper_interface_mode {
+ 	CVMX_HELPER_INTERFACE_MODE_DISABLED,
+ 	CVMX_HELPER_INTERFACE_MODE_RGMII,
+ 	CVMX_HELPER_INTERFACE_MODE_GMII,
+@@ -231,20 +231,20 @@ typedef enum {
+ 	CVMX_HELPER_INTERFACE_MODE_PICMG,
+ 	CVMX_HELPER_INTERFACE_MODE_NPI,
+ 	CVMX_HELPER_INTERFACE_MODE_LOOP,
+-} cvmx_helper_interface_mode_t;
++};
+ 
+-typedef enum {
++enum cvmx_pow_wait {
+ 	CVMX_POW_WAIT = 1,
+ 	CVMX_POW_NO_WAIT = 0,
+-} cvmx_pow_wait_t;
++};
+ 
+-typedef enum {
++enum cvmx_pko_lock {
+ 	CVMX_PKO_LOCK_NONE = 0,
+ 	CVMX_PKO_LOCK_ATOMIC_TAG = 1,
+ 	CVMX_PKO_LOCK_CMD_QUEUE = 2,
+-} cvmx_pko_lock_t;
++};
+ 
+-typedef enum {
++enum cvmx_pko_status {
+ 	CVMX_PKO_SUCCESS,
+ 	CVMX_PKO_INVALID_PORT,
+ 	CVMX_PKO_INVALID_QUEUE,
+@@ -252,7 +252,7 @@ typedef enum {
+ 	CVMX_PKO_NO_MEMORY,
+ 	CVMX_PKO_PORT_ALREADY_SETUP,
+ 	CVMX_PKO_CMD_QUEUE_INIT_ERROR
+-} cvmx_pko_status_t;
++};
+ 
+ enum cvmx_pow_tag_type {
+ 	CVMX_POW_TAG_TYPE_ORDERED   = 0L,
+@@ -1265,8 +1265,7 @@ static inline void cvmx_pko_get_port_status(uint64_t port_num, uint64_t clear,
+ 					    cvmx_pko_port_status_t *status)
+ { }
+ 
+-static inline cvmx_helper_interface_mode_t cvmx_helper_interface_get_mode(int
+-								   interface)
++static inline enum cvmx_helper_interface_mode cvmx_helper_interface_get_mode(int interface)
+ {
+ 	return 0;
+ }
+@@ -1342,11 +1341,11 @@ static inline unsigned int cvmx_get_core_num(void)
+ }
+ 
+ static inline void cvmx_pow_work_request_async_nocheck(int scr_addr,
+-						       cvmx_pow_wait_t wait)
++						       enum cvmx_pow_wait wait)
+ { }
+ 
+ static inline void cvmx_pow_work_request_async(int scr_addr,
+-					       cvmx_pow_wait_t wait)
++					       enum cvmx_pow_wait wait)
+ { }
+ 
+ static inline struct cvmx_wqe *cvmx_pow_work_response_async(int scr_addr)
+@@ -1356,13 +1355,13 @@ static inline struct cvmx_wqe *cvmx_pow_work_response_async(int scr_addr)
+ 	return wqe;
+ }
+ 
+-static inline struct cvmx_wqe *cvmx_pow_work_request_sync(cvmx_pow_wait_t wait)
++static inline struct cvmx_wqe *cvmx_pow_work_request_sync(enum cvmx_pow_wait wait)
+ {
+ 	return (void *)(unsigned long)wait;
+ }
+ 
+ static inline int cvmx_spi_restart_interface(int interface,
+-					cvmx_spi_mode_t mode, int timeout)
++				       enum cvmx_spi_mode mode, int timeout)
+ {
+ 	return 0;
+ }
+@@ -1381,12 +1380,12 @@ static inline union cvmx_gmxx_rxx_rx_inbnd cvmx_spi4000_check_speed(int interfac
+ }
+ 
+ static inline void cvmx_pko_send_packet_prepare(uint64_t port, uint64_t queue,
+-						cvmx_pko_lock_t use_locking)
++						enum cvmx_pko_lock use_locking)
+ { }
+ 
+-static inline cvmx_pko_status_t cvmx_pko_send_packet_finish(uint64_t port,
+-		uint64_t queue, union cvmx_pko_command_word0 pko_command,
+-		union cvmx_buf_ptr packet, cvmx_pko_lock_t use_locking)
++static inline enum cvmx_pko_status cvmx_pko_send_packet_finish(uint64_t port,
++		    uint64_t queue, union cvmx_pko_command_word0 pko_command,
++		    union cvmx_buf_ptr packet, enum cvmx_pko_lock use_locking)
+ {
+ 	return 0;
+ }
+-- 
+2.25.1
 
