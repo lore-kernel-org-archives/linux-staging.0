@@ -1,48 +1,155 @@
-Received: from mail.lokoho.com (mail.lokoho.com [217.61.105.98])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f174.google.com (mail-qt1-f174.google.com [209.85.160.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57E602F2D
-	for <linux-staging@lists.linux.dev>; Tue, 11 Apr 2023 07:49:41 +0000 (UTC)
-Received: by mail.lokoho.com (Postfix, from userid 1001)
-	id 3503582BFD; Tue, 11 Apr 2023 08:41:02 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=lokoho.com; s=mail;
-	t=1681198911; bh=Z0N5VlX9/JlryGOL5I747Le9USomZJCRNNGRT3LbbKc=;
-	h=Date:From:To:Subject:From;
-	b=DuO7Qwt7QcEWdf78Hvguib2eR7ac8+41g/ehkVyAQA5rIaeevW3rZevHadg+rixrR
-	 xNY8XhT4pXkzxCt1bMBW271GN5hZqdNWVfSufTyNJSejAm24mdQyig9E2QyF/LMR14
-	 AAqa5040qkBsHBQy5bYiEF1E13rNWX/Y4M+atV+X4Gv2qYRSU8Ti48Wg7XvRpA3t4O
-	 RyDRU0jXKDjoiCVb0MqlTHJc5Y6+6BdegH38kAc1dXqm3KD5F4YRHWSU2Qj49XvLDN
-	 FpqnBrFL/IljiDkcIqP9645vNgdGXDQT4wSGiyz/z7EiUjo1BHY94oq5ydTA5hKBzo
-	 EHyzZi5USujhQ==
-Received: by mail.lokoho.com for <linux-staging@lists.linux.dev>; Tue, 11 Apr 2023 07:40:45 GMT
-Message-ID: <20230411074501-0.1.58.1tilu.0.qge47xz356@lokoho.com>
-Date: Tue, 11 Apr 2023 07:40:45 GMT
-From: "Adam Charachuta" <adam.charachuta@lokoho.com>
-To: <linux-staging@lists.linux.dev>
-Subject: =?UTF-8?Q?S=C5=82owa_kluczowe_do_wypozycjonowania?=
-X-Mailer: mail.lokoho.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 095718C0D
+	for <linux-staging@lists.linux.dev>; Tue, 11 Apr 2023 13:03:18 +0000 (UTC)
+Received: by mail-qt1-f174.google.com with SMTP id y26so6835561qtv.9
+        for <linux-staging@lists.linux.dev>; Tue, 11 Apr 2023 06:03:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ndufresne-ca.20210112.gappssmtp.com; s=20210112; t=1681218198; x=1683810198;
+        h=mime-version:user-agent:content-transfer-encoding:in-reply-to
+         :references:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=48ZGep8agVIFkiKE+tF0Dg09U1koXWBDBYS5oLlDvgg=;
+        b=jfGr5vDhO1nCeS1BPKy/6jcPL/nbtsUnP+qSUfZAKACMjdqurJGcbuAg2QcIYZD7Ep
+         fT59oMiXtpoxM1AnuQiduw4wcQduXHyhLVRgYK9AnM9s7XhA3XDZJcTTdXnlPiuYHjlL
+         tnzYKwauLk5zpCwIatktnpWTqzJv5UKifhk25R6HaCcuXIIWmDmesHUm/6qz+cfJBhKv
+         vforoFP0o4swuf30u2n+2GzWzI8P06XIkJWF7/wu1Eti5RslBATLEM5syPD4PPH5Env7
+         hChzFVbUfkMLiD4NhjroPdczd2zrFDswPIk1UzsF2V9HwyPaze0pz70QqwRJPcYeYBlv
+         sVkg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1681218198; x=1683810198;
+        h=mime-version:user-agent:content-transfer-encoding:in-reply-to
+         :references:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=48ZGep8agVIFkiKE+tF0Dg09U1koXWBDBYS5oLlDvgg=;
+        b=eXXsl2J/Swz9f2twU82iRC7nbPvEGL1TK4nKjqpA1WmHilBBNhIm2CvAfqPhoao8eF
+         EZZBeJHazRQru3/qUsZ1kFLbE3DnBdWeDTNG7ckf3n4Z8ecBMDWV4aJT7maB8+TSoKS7
+         5AghXaB+/9y+U0JPNqlDggPKkVAX67+GbzgKONuwZx6FpCt4nMSV6EpLLXBT3mA8i3ug
+         kM1qARVqKekY6Lq/vYnio1AuvNG7H1h6LyzNYpOWWFq82cdaX3aWHGKN3u+vBPwYukwY
+         TVAd9pm4k2YCUqBpIZkDkJqM1luJ8/d9JrTzUt9LiIPxGvRPkvDfARRoMuQUJs5CPKxN
+         cCzg==
+X-Gm-Message-State: AAQBX9eJnmNsGOmdk8up1Lxwq0DfeovRiC00vH08Ikj9JQMkdPEHv7WL
+	Im+Wzmbut8ITbBDhPkqGa0iNaQ==
+X-Google-Smtp-Source: AKy350aBNqc9Nqhi4ZcBbIoTNhKQwdXmy00nuSQAUSrAiCgNfMG2bBNrHukz3572jhBTZ0lBRoqKOQ==
+X-Received: by 2002:a05:622a:5d1:b0:3e4:e2f3:3776 with SMTP id d17-20020a05622a05d100b003e4e2f33776mr17808603qtb.16.1681218197534;
+        Tue, 11 Apr 2023 06:03:17 -0700 (PDT)
+Received: from nicolas-tpx395.localdomain ([2606:6d00:15:199e::580])
+        by smtp.gmail.com with ESMTPSA id b16-20020ac844d0000000b003e64303bd2dsm3541983qto.63.2023.04.11.06.03.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 11 Apr 2023 06:03:17 -0700 (PDT)
+Message-ID: <08dc61aa2c61771e99c73b308d4c36d40ea28c2f.camel@ndufresne.ca>
+Subject: Re: [PATCH 2/9] media: v4l2: Add NV12_16L16 pixel format to v4l2
+ format info
+From: Nicolas Dufresne <nicolas@ndufresne.ca>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Andrzej
+	Pietrasiewicz <andrzej.p@collabora.com>
+Cc: Paul Kocialkowski <paul.kocialkowski@bootlin.com>, DVB_Linux_Media
+ <linux-media@vger.kernel.org>, linux-arm-kernel
+ <linux-arm-kernel@lists.infradead.org>, linux-sunxi@lists.linux.dev, Linux
+ Kernel Mailing List <linux-kernel@vger.kernel.org>, "open list:STAGING
+ SUBSYSTEM" <linux-staging@lists.linux.dev>,  Mauro Carvalho Chehab
+ <mchehab@kernel.org>, Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec
+ <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, Adam Pigg
+ <adam@piggz.co.uk>, Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+Date: Tue, 11 Apr 2023 09:03:16 -0400
+References: <20230324151228.2778112-1-paul.kocialkowski@bootlin.com>
+	 <20230324151228.2778112-3-paul.kocialkowski@bootlin.com>
+	 <20230325210120.GB22214@pendragon.ideasonboard.com>
+	 <40774dc0ef32246af76a202caca3632abc1ae25f.camel@ndufresne.ca>
+	 <20230405042131.GO9915@pendragon.ideasonboard.com>
+In-Reply-To: <20230405042131.GO9915@pendragon.ideasonboard.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.46.4 (3.46.4-1.fc37) 
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-Dzie=C5=84 dobry,
+Hi Laurent,
 
-zapozna=C5=82em si=C4=99 z Pa=C5=84stwa ofert=C4=85 i z przyjemno=C5=9Bci=
-=C4=85 przyznaj=C4=99, =C5=BCe przyci=C4=85ga uwag=C4=99 i zach=C4=99ca d=
-o dalszych rozm=C3=B3w.=20
+Le mer. 5 avr. 2023, 00 h 21, Laurent Pinchart
+<laurent.pinchart@ideasonboard.com> a =C3=A9crit=C2=A0:
+> Hi Nicolas,
+>=20
+> On Fri, Mar 31, 2023 at 02:54:20PM -0400, Nicolas Dufresne wrote:
+> > Le samedi 25 mars 2023 =C3=A0 23:01 +0200, Laurent Pinchart a =C3=A9cri=
+t=C2=A0:
+> > > On Fri, Mar 24, 2023 at 04:12:21PM +0100, Paul Kocialkowski wrote:
+> > > > Represent the NV12_16L16 pixel format in the v4l2 format info table=
+.
+> > > > This is a 16x16 tiled version of NV12.
+> > > >=20
+> > > > Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+> > > > ---
+> > > >=C2=A0 drivers/media/v4l2-core/v4l2-common.c | 2 ++
+> > > >=C2=A0 1 file changed, 2 insertions(+)
+> > > >=20
+> > > > diff --git a/drivers/media/v4l2-core/v4l2-common.c b/drivers/media/=
+v4l2-
+core/v4l2-common.c
+> > > > index 3d044b31caad..5101989716aa 100644
+> > > > --- a/drivers/media/v4l2-core/v4l2-common.c
+> > > > +++ b/drivers/media/v4l2-core/v4l2-common.c
+> > > > @@ -280,6 +280,8 @@ const struct v4l2_format_info *v4l2_format_info=
+(u32
+format)
+> > > >=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* Tiled YUV formats */
+> > > >=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0{ .format =3D V4L2_PIX_FMT_=
+NV12_4L4, .pixel_enc =3D
+V4L2_PIXEL_ENC_YUV, .mem_planes =3D 1, .comp_planes =3D 2, .bpp =3D { 1, 2,=
+ 0, 0 },
+.hdiv =3D 2, .vdiv =3D 2 },
+> > > >=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0{ .format =3D V4L2_PIX_FMT_=
+P010_4L4, .pixel_enc =3D
+V4L2_PIXEL_ENC_YUV, .mem_planes =3D 1, .comp_planes =3D 2, .bpp =3D { 2, 4,=
+ 0, 0 },
+.hdiv =3D 2, .vdiv =3D 2 },
+> > > > +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0{ .format =3D V4L2_PIX_FMT_NV12_=
+16L16,=C2=A0 =C2=A0 .pixel_enc =3D
+V4L2_PIXEL_ENC_YUV, .mem_planes =3D 1, .comp_planes =3D 2, .bpp =3D { 1, 2,=
+ 0, 0 },
+.hdiv =3D 2, .vdiv =3D 2,
+> > > > +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0.block_w =3D { 16, 16, 0,=
+ 0 }, .block_h =3D { 16, 16, 0, 0 } },
+> > >=20
+> > > Not necessarily related to this patch, but I'm a bit puzzled by why
+> > > V4L2_PIX_FMT_NV12_4L4 doesn't list block sizes.
+> >=20
+> > It looks like Ezequiel introduced that initially, but didn't introduce =
+any
+tiled
+> > format, as a side effect, we missed it and no one ever used it.
+> >=20
+> > In practice, its not dramatic, since most of the time, the alignment ne=
+eded
+is
+> > bigger then the block (specially with only 4x4 tiles), but we should
+certainly
+> > fix that, thanks for spotting.
+>=20
+> Just to make sure this won't fall through the cracks, will you send a
+> patch ?
 
-Pomy=C5=9Bla=C5=82em, =C5=BCe mo=C5=BCe m=C3=B3g=C5=82bym mie=C4=87 sw=C3=
-=B3j wk=C5=82ad w Pa=C5=84stwa rozw=C3=B3j i pom=C3=B3c dotrze=C4=87 z t=C4=
-=85 ofert=C4=85 do wi=C4=99kszego grona odbiorc=C3=B3w. Pozycjonuj=C4=99 =
-strony www, dzi=C4=99ki czemu generuj=C4=85 =C5=9Bwietny ruch w sieci.
+I didn't had any immediate plan to fix it (lack of time, absence of related
+bugs). Andrzej, do you happen to have some time ? The SUNXI pixel format sh=
+ould
+have that too, along with some NXP format.
 
-Mo=C5=BCemy porozmawia=C4=87 w najbli=C5=BCszym czasie?
-
-
-Pozdrawiam
-Adam Charachuta
+regards,
+Nicolas
+>=20
+> > > >=C2=A0=20
+> > > >=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* YUV planar formats, non =
+contiguous variant */
+> > > >=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0{ .format =3D V4L2_PIX_FMT_=
+YUV420M, .pixel_enc =3D V4L2_PIXEL_ENC_YUV, .mem_planes =3D 3, .comp_planes=
+ =3D 3, .bpp =3D { 1, 1, 1, 0 }, .hdiv =3D 2, .vdiv =3D 2 },
+>=20
+> --=20
+> Regards,
+>=20
+> Laurent Pinchart
