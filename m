@@ -1,49 +1,40 @@
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C47623D0
-	for <linux-staging@lists.linux.dev>; Mon, 10 Apr 2023 23:48:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4285317E
+	for <linux-staging@lists.linux.dev>; Tue, 11 Apr 2023 00:07:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1681170524; x=1712706524;
+  t=1681171642; x=1712707642;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=HLABFzxIaBKdwMWhvhRoqNf4XliHa9M847b79qETyi0=;
-  b=n3oaUx3W4B5p+hfxHTzGsD62dKB2EcYFNEOQUPEfdhID0YodKSAH4u4f
-   jLSMiEtM39stn4jFcM4H9f2zj1hEgP6x8XNCiv2c2NYFFSmJSj7tHw7SQ
-   BftouZNbh+mXJ+BVkC4z+3xeP3RlBY7WS1ikLDnNWlxG8hcss4UpQuHBU
-   FunXwNBaaav8TO3Fq8biY1EzDD8pNZSJfnptTSKkBPv9dW6co0Zc2sKSD
-   MnlDSHvmLjpuz4F1inlBXx/oWmmxAfF6r+gQSDKO65yPRj8f1ZIdELiNe
-   mfGiDWCgWtplhocoxw376KqENA5vhyvLj48+1jLy2UF5pyhXmNnFwteom
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10676"; a="332160675"
+  bh=/SkNd/K8iVvE77gyQWPYM8xlrW/4KpOW5swb5hDLO/8=;
+  b=R+mSyP/fe/qSr2RMOTdcPpvton0Rf6Vf+fenTpJXOqKrnua/dM+7PIAI
+   tQAqHcJbwLhZPCG6KylLRPsH+65La/UK7hbRU04ylA5seci6dfsrefzMv
+   8KA9zsXRzNldUQdDtsCgVjwBRepQZDq6fdBiAa6gPNpfhPbQjvXvo5jM1
+   m38L5SSLgTkNNrA4mBVt2SVnPm9VG7wKzylBe3Wk3HK4IjSVq8czYnssL
+   bh8qlaOQ9loiaNQ1O1NKliOYGk/E9lk7wXAipeEnjpO9yZBv+OBAgfMYm
+   zwINSath/Vi/OQeylzkpcIIC9XZ8DIYbka27PETTdy7FcT+wzByR0GkcT
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10676"; a="371328676"
 X-IronPort-AV: E=Sophos;i="5.98,335,1673942400"; 
-   d="scan'208";a="332160675"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Apr 2023 16:48:44 -0700
+   d="scan'208";a="371328676"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Apr 2023 17:07:14 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10676"; a="718761257"
+X-IronPort-AV: E=McAfee;i="6600,9927,10676"; a="638617968"
 X-IronPort-AV: E=Sophos;i="5.98,335,1673942400"; 
-   d="scan'208";a="718761257"
+   d="scan'208";a="638617968"
 Received: from aschofie-mobl2.amr.corp.intel.com (HELO aschofie-mobl2) ([10.212.230.103])
-  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Apr 2023 16:48:43 -0700
-Date: Mon, 10 Apr 2023 16:48:41 -0700
+  by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Apr 2023 17:07:14 -0700
+Date: Mon, 10 Apr 2023 17:07:12 -0700
 From: Alison Schofield <alison.schofield@intel.com>
-To: Angel Alberto Carretero <angelalbertoc.r@gmail.com>
-Cc: Steve Longerbeam <slongerbeam@gmail.com>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	NXP Linux Team <linux-imx@nxp.com>, linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] media: imx: fix macro style error
-Message-ID: <ZDSgWU5GXPFdJ99o@aschofie-mobl2>
-References: <20230409200135.1033677-1-angelalbertoc.r@gmail.com>
+To: Sumitra Sharma <sumitraartsy@gmail.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: rtl8192e: Fix logical operator continuations
+Message-ID: <ZDSksGyxnu5eIo+1@aschofie-mobl2>
+References: <20230408171803.GA262580@sumitra.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -52,50 +43,43 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230409200135.1033677-1-angelalbertoc.r@gmail.com>
+In-Reply-To: <20230408171803.GA262580@sumitra.com>
 
-On Sun, Apr 09, 2023 at 10:01:36PM +0200, Angel Alberto Carretero wrote:
-> Wrap macro in parenthesis to fix checkpatch error.
+On Sat, Apr 08, 2023 at 10:18:03AM -0700, Sumitra Sharma wrote:
+> Fix logical operator continuation as suggested by Linux kernel
+> coding-style. Check reported by checkpatch:
 > 
-> Tested it by compiling the driver successfully.
+> CHECK: Logical continuations should be on the previous line
 > 
-> Signed-off-by: Angel Alberto Carretero <angelalbertoc.r@gmail.com>
-> ---
+> Signed-off-by: Sumitra Sharma <sumitraartsy@gmail.com>
 
-Hi Angel,
+Hi Sumitra,
 
-The code change looks fine. Here are a few patch style suggestions:
-
-- If you do 'git log --oneline imx-media-utils.c' you'll see that
-  changes in utils file only, seem to have utils in the patch subject
-  prefix. "media: imx: utils:"
-
-- Commit message is vague. How about being explicit so anyone persuing
-  those one-liners knows exactly what change was made.
-  "Enclose IMX_BUS_FMTS macro in parentheses"
-
-- The commit log 'why' is to conform to the kernel coding style, not
-  to fix a checkpatch error. It is good to say Issue found by
-  checkpatch, but that itself is not the 'why'.
+That commit message can be explicit, like "Move logical operator
+to previous line"
 
 Alison
 
->  drivers/staging/media/imx/imx-media-utils.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+
+> ---
+>  drivers/staging/rtl8192e/rtl8192e/rtl_ps.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 > 
-> diff --git a/drivers/staging/media/imx/imx-media-utils.c b/drivers/staging/media/imx/imx-media-utils.c
-> index 411e907b68eb..eb44c09071de 100644
-> --- a/drivers/staging/media/imx/imx-media-utils.c
-> +++ b/drivers/staging/media/imx/imx-media-utils.c
-> @@ -7,7 +7,7 @@
->  #include <linux/module.h>
->  #include "imx-media.h"
+> diff --git a/drivers/staging/rtl8192e/rtl8192e/rtl_ps.c b/drivers/staging/rtl8192e/rtl8192e/rtl_ps.c
+> index 5a1cd22f5e25..58ed394202ae 100644
+> --- a/drivers/staging/rtl8192e/rtl8192e/rtl_ps.c
+> +++ b/drivers/staging/rtl8192e/rtl8192e/rtl_ps.c
+> @@ -209,8 +209,8 @@ void rtl92e_leisure_ps_enter(struct net_device *dev)
+>  					&priv->rtllib->pwr_save_ctrl;
 >  
-> -#define IMX_BUS_FMTS(fmt...) (const u32[]) {fmt, 0}
-> +#define IMX_BUS_FMTS(fmt...) ((const u32[]) {fmt, 0})
+>  	if (!((priv->rtllib->iw_mode == IW_MODE_INFRA) &&
+> -	    (priv->rtllib->state == RTLLIB_LINKED))
+> -	    || (priv->rtllib->iw_mode == IW_MODE_ADHOC) ||
+> +	    (priv->rtllib->state == RTLLIB_LINKED)) ||
+> +	    (priv->rtllib->iw_mode == IW_MODE_ADHOC) ||
+>  	    (priv->rtllib->iw_mode == IW_MODE_MASTER))
+>  		return;
 >  
->  /*
->   * List of supported pixel formats for the subdevs.
 > -- 
-> 2.40.0
+> 2.25.1
 > 
