@@ -1,47 +1,40 @@
-Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A7D5944C
-	for <linux-staging@lists.linux.dev>; Tue, 11 Apr 2023 17:51:25 +0000 (UTC)
-Received: by mail-ej1-f43.google.com with SMTP id kt17so10278495ejb.11
-        for <linux-staging@lists.linux.dev>; Tue, 11 Apr 2023 10:51:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1681235484;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=kaCf7WeXfgPCNxtzPrrsVGzdV7NlqSNHXFoaeqRcjvE=;
-        b=DCsidmOrS1rX14icJcRTFa+oCTMr3rSk2Bh7wPM6AZZxmZSMQFTzOkOipblMiyM/AZ
-         tOfXR/Efyncxj9jH37UettBr8kNhC+bGrk0OpJ70g/ouPxVpzt9K4kokF166WwJQJg6P
-         lLhMIzRpyyngviUM0J3kKAgnp7fH+LrgZe+79CeaTvfI5Zo9O68DnVvYM0qSO4sZnuFD
-         9mwNa4fg6WUapwTU7C3MgFx3/+bJLKgWJAGSpg2jPi/JTiKzVNGsMuVOsfsFjPIk7iGm
-         noHvSZRu6B6cQk25WQUpEeakDMRYdk1ZvKN0LMnvti83xZ+a7qu8DVDvkENYb3Kx+XSw
-         hTig==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1681235484;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=kaCf7WeXfgPCNxtzPrrsVGzdV7NlqSNHXFoaeqRcjvE=;
-        b=TTAPLdND7G+vilhHVjRlhyRDUOUnm9faIA8rX1vIxKK1BMa/u9/oqNzkdvKkLNIlui
-         +fIA/TT43sJfK6qC64hsbXs+GHr0ejmCUcV0Btb2uBfGIN8xZ5AVlEClr+gGZkHqLSUo
-         9CxfLSvaPdgzatH8LzRFEJFDu5rXrZR3O+5xJCCSX44T/jpSjxZ+yrhj/RN6YoaokmbV
-         iHtfAMRXL12zmze/le5/Be7DC/alnREU0owkVP2eOXdUng80GO8r8ZeOi0Ss0zRplVHK
-         9kAfWQVnEFyDW+XT35DFuOgw3CYDtGOWoo+9cwbXY7IoHCPPwJSJHPRPor2PhM84RPt6
-         PorQ==
-X-Gm-Message-State: AAQBX9ce3vsYAtqf74aqA93dbcV0L9P3EoGiGBB0FT6QNbRnKWk3U/UH
-	krNygUTW1hYwamSGhls6WA==
-X-Google-Smtp-Source: AKy350alHDQp0B3yx4fKt0ng9yNT0nLwrB3ldsPa5HTljljoY2tsBUhkuxoud3+LQGScqaZTwNZagQ==
-X-Received: by 2002:a17:907:7e95:b0:94a:88aa:93b3 with SMTP id qb21-20020a1709077e9500b0094a88aa93b3mr8304179ejc.44.1681235483382;
-        Tue, 11 Apr 2023 10:51:23 -0700 (PDT)
-Received: from koolguy (dslb-002-205-192-117.002.205.pools.vodafone-ip.de. [2.205.192.117])
-        by smtp.gmail.com with ESMTPSA id s21-20020a1709060c1500b0094a85f6074bsm2422256ejf.33.2023.04.11.10.51.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 11 Apr 2023 10:51:22 -0700 (PDT)
-Date: Tue, 11 Apr 2023 19:51:21 +0200
-From: Dalvin-Ehinoma Noah Aiguobas <pharcodra@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [PATCH v2] staging: octeon: remove typedef declaration for enums
-Message-ID: <20230411175121.GA71709@koolguy>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 042C8364
+	for <linux-staging@lists.linux.dev>; Wed, 12 Apr 2023 00:50:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1681260603; x=1712796603;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=zG3bK+4nghoXrgsY2rov2EDt5iV2SjCPvgOpENQ+qr8=;
+  b=Hp/Li+Joty4ozpk1EubStpFAfLXsghVvrrNTBd1LQB0WEq4h5ITKwq/R
+   WoA6Dzb+FHuJdwSHE2bYElASBI5ELhMsY2v0sn3AzmEyoxnLvpvmmuMpz
+   PEcA02eFYVqgMFATxybEUeRvfiFYqceFoRXaG6zkiwj1oOwHJKRPqQmIL
+   sRLKa64cBpckZK+PuSDyS4rVhgBsDOjDNu1CWIlFYrrW64x18MIRWkuiO
+   26Zw442oCdjoo5qYDEo6WVdC9EnVsesDtvH6qjsodMQs2uevkBJnHyTAY
+   yyFJeFP3wOJ4FgEXPevF+P3HFPrBJyoLsEg//VpI42hCiNDdMh7qiwj3u
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10677"; a="346445400"
+X-IronPort-AV: E=Sophos;i="5.98,336,1673942400"; 
+   d="scan'208";a="346445400"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Apr 2023 17:50:03 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10677"; a="758045016"
+X-IronPort-AV: E=Sophos;i="5.98,336,1673942400"; 
+   d="scan'208";a="758045016"
+Received: from aschofie-mobl2.amr.corp.intel.com (HELO aschofie-mobl2) ([10.209.39.92])
+  by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Apr 2023 17:50:02 -0700
+Date: Tue, 11 Apr 2023 17:50:00 -0700
+From: Alison Schofield <alison.schofield@intel.com>
+To: Dalvin-Ehinoma Noah Aiguobas <pharcodra@gmail.com>
+Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] staging: octeon: remove typedef declaration for enums
+Message-ID: <ZDYAOBq7+8r/kJaf@aschofie-mobl2>
+References: <20230411175121.GA71709@koolguy>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -50,154 +43,162 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230411175121.GA71709@koolguy>
 
-Fix checkpatch.pl warning for enums in drivers/staging/octeon/octeon-stubs.h:
-cvmx_helper_interface_mode_t,
-cvmx_spi_mode_t,
-cvmx_pow_wait_t,
-cvmx_pko_lock_t,
-cvmx_pko_status_t
+On Tue, Apr 11, 2023 at 07:51:21PM +0200, Dalvin-Ehinoma Noah Aiguobas wrote:
+> Fix checkpatch.pl warning for enums in drivers/staging/octeon/octeon-stubs.h:
 
-Change typedef cvmx_helper_interface_mode_t to
-enum cvmx_helper_interface_mode in ethernet.c
+This line above is still leading to a checkpatch warning.
+If you are not seeing, then perhaps you are not running checkpatch
+on the HEAD commit, or on your formatted patch file. Either will
+show it.
 
-Signed-off-by: Dalvin-Ehinoma Noah Aiguobas <pharcodra@gmail.com>
----
-Changes in v2:
--Remove Alignment fixes from previous version.
-
- drivers/staging/octeon/ethernet.c     |  2 +-
- drivers/staging/octeon/octeon-stubs.h | 39 +++++++++++++--------------
- 2 files changed, 20 insertions(+), 21 deletions(-)
-
-diff --git a/drivers/staging/octeon/ethernet.c b/drivers/staging/octeon/ethernet.c
-index 9eee28f2940c..023b107e077a 100644
---- a/drivers/staging/octeon/ethernet.c
-+++ b/drivers/staging/octeon/ethernet.c
-@@ -798,7 +798,7 @@ static int cvm_oct_probe(struct platform_device *pdev)
- 
- 	num_interfaces = cvmx_helper_get_number_of_interfaces();
- 	for (interface = 0; interface < num_interfaces; interface++) {
--		cvmx_helper_interface_mode_t imode =
-+		enum cvmx_helper_interface_mode imode =
- 		    cvmx_helper_interface_get_mode(interface);
- 		int num_ports = cvmx_helper_ports_on_interface(interface);
- 		int port;
-diff --git a/drivers/staging/octeon/octeon-stubs.h b/drivers/staging/octeon/octeon-stubs.h
-index 3e7b92cd2e35..58708a7f727a 100644
---- a/drivers/staging/octeon/octeon-stubs.h
-+++ b/drivers/staging/octeon/octeon-stubs.h
-@@ -213,14 +213,14 @@ enum cvmx_fau_op_size {
- 	CVMX_FAU_OP_SIZE_64 = 3
- };
- 
--typedef enum {
-+enum cvmx_spi_mode {
- 	CVMX_SPI_MODE_UNKNOWN = 0,
- 	CVMX_SPI_MODE_TX_HALFPLEX = 1,
- 	CVMX_SPI_MODE_RX_HALFPLEX = 2,
- 	CVMX_SPI_MODE_DUPLEX = 3
--} cvmx_spi_mode_t;
-+};
- 
--typedef enum {
-+enum cvmx_helper_interface_mode {
- 	CVMX_HELPER_INTERFACE_MODE_DISABLED,
- 	CVMX_HELPER_INTERFACE_MODE_RGMII,
- 	CVMX_HELPER_INTERFACE_MODE_GMII,
-@@ -231,20 +231,20 @@ typedef enum {
- 	CVMX_HELPER_INTERFACE_MODE_PICMG,
- 	CVMX_HELPER_INTERFACE_MODE_NPI,
- 	CVMX_HELPER_INTERFACE_MODE_LOOP,
--} cvmx_helper_interface_mode_t;
-+};
- 
--typedef enum {
-+enum cvmx_pow_wait {
- 	CVMX_POW_WAIT = 1,
- 	CVMX_POW_NO_WAIT = 0,
--} cvmx_pow_wait_t;
-+};
- 
--typedef enum {
-+enum cvmx_pko_lock {
- 	CVMX_PKO_LOCK_NONE = 0,
- 	CVMX_PKO_LOCK_ATOMIC_TAG = 1,
- 	CVMX_PKO_LOCK_CMD_QUEUE = 2,
--} cvmx_pko_lock_t;
-+};
- 
--typedef enum {
-+enum cvmx_pko_status {
- 	CVMX_PKO_SUCCESS,
- 	CVMX_PKO_INVALID_PORT,
- 	CVMX_PKO_INVALID_QUEUE,
-@@ -252,7 +252,7 @@ typedef enum {
- 	CVMX_PKO_NO_MEMORY,
- 	CVMX_PKO_PORT_ALREADY_SETUP,
- 	CVMX_PKO_CMD_QUEUE_INIT_ERROR
--} cvmx_pko_status_t;
-+};
- 
- enum cvmx_pow_tag_type {
- 	CVMX_POW_TAG_TYPE_ORDERED   = 0L,
-@@ -1265,8 +1265,7 @@ static inline void cvmx_pko_get_port_status(uint64_t port_num, uint64_t clear,
- 					    cvmx_pko_port_status_t *status)
- { }
- 
--static inline cvmx_helper_interface_mode_t cvmx_helper_interface_get_mode(int
--								   interface)
-+static inline enum cvmx_helper_interface_mode cvmx_helper_interface_get_mode(int interface)
- {
- 	return 0;
- }
-@@ -1342,11 +1341,11 @@ static inline unsigned int cvmx_get_core_num(void)
- }
- 
- static inline void cvmx_pow_work_request_async_nocheck(int scr_addr,
--						       cvmx_pow_wait_t wait)
-+						       enum cvmx_pow_wait wait)
- { }
- 
- static inline void cvmx_pow_work_request_async(int scr_addr,
--					       cvmx_pow_wait_t wait)
-+					       enum cvmx_pow_wait wait)
- { }
- 
- static inline struct cvmx_wqe *cvmx_pow_work_response_async(int scr_addr)
-@@ -1356,13 +1355,13 @@ static inline struct cvmx_wqe *cvmx_pow_work_response_async(int scr_addr)
- 	return wqe;
- }
- 
--static inline struct cvmx_wqe *cvmx_pow_work_request_sync(cvmx_pow_wait_t wait)
-+static inline struct cvmx_wqe *cvmx_pow_work_request_sync(enum cvmx_pow_wait wait)
- {
- 	return (void *)(unsigned long)wait;
- }
- 
- static inline int cvmx_spi_restart_interface(int interface,
--					cvmx_spi_mode_t mode, int timeout)
-+				       enum cvmx_spi_mode mode, int timeout)
- {
- 	return 0;
- }
-@@ -1381,12 +1380,12 @@ static inline union cvmx_gmxx_rxx_rx_inbnd cvmx_spi4000_check_speed(int interfac
- }
- 
- static inline void cvmx_pko_send_packet_prepare(uint64_t port, uint64_t queue,
--						cvmx_pko_lock_t use_locking)
-+						enum cvmx_pko_lock use_locking)
- { }
- 
--static inline cvmx_pko_status_t cvmx_pko_send_packet_finish(uint64_t port,
--		uint64_t queue, union cvmx_pko_command_word0 pko_command,
--		union cvmx_buf_ptr packet, cvmx_pko_lock_t use_locking)
-+static inline enum cvmx_pko_status cvmx_pko_send_packet_finish(uint64_t port,
-+		    uint64_t queue, union cvmx_pko_command_word0 pko_command,
-+		    union cvmx_buf_ptr packet, enum cvmx_pko_lock use_locking)
- {
- 	return 0;
- }
--- 
-2.25.1
-
+> cvmx_helper_interface_mode_t,
+> cvmx_spi_mode_t,
+> cvmx_pow_wait_t,
+> cvmx_pko_lock_t,
+> cvmx_pko_status_t
+> 
+> Change typedef cvmx_helper_interface_mode_t to
+> enum cvmx_helper_interface_mode in ethernet.c
+> 
+> Signed-off-by: Dalvin-Ehinoma Noah Aiguobas <pharcodra@gmail.com>
+> ---
+> Changes in v2:
+> -Remove Alignment fixes from previous version.
+> 
+>  drivers/staging/octeon/ethernet.c     |  2 +-
+>  drivers/staging/octeon/octeon-stubs.h | 39 +++++++++++++--------------
+>  2 files changed, 20 insertions(+), 21 deletions(-)
+> 
+> diff --git a/drivers/staging/octeon/ethernet.c b/drivers/staging/octeon/ethernet.c
+> index 9eee28f2940c..023b107e077a 100644
+> --- a/drivers/staging/octeon/ethernet.c
+> +++ b/drivers/staging/octeon/ethernet.c
+> @@ -798,7 +798,7 @@ static int cvm_oct_probe(struct platform_device *pdev)
+>  
+>  	num_interfaces = cvmx_helper_get_number_of_interfaces();
+>  	for (interface = 0; interface < num_interfaces; interface++) {
+> -		cvmx_helper_interface_mode_t imode =
+> +		enum cvmx_helper_interface_mode imode =
+>  		    cvmx_helper_interface_get_mode(interface);
+>  		int num_ports = cvmx_helper_ports_on_interface(interface);
+>  		int port;
+> diff --git a/drivers/staging/octeon/octeon-stubs.h b/drivers/staging/octeon/octeon-stubs.h
+> index 3e7b92cd2e35..58708a7f727a 100644
+> --- a/drivers/staging/octeon/octeon-stubs.h
+> +++ b/drivers/staging/octeon/octeon-stubs.h
+> @@ -213,14 +213,14 @@ enum cvmx_fau_op_size {
+>  	CVMX_FAU_OP_SIZE_64 = 3
+>  };
+>  
+> -typedef enum {
+> +enum cvmx_spi_mode {
+>  	CVMX_SPI_MODE_UNKNOWN = 0,
+>  	CVMX_SPI_MODE_TX_HALFPLEX = 1,
+>  	CVMX_SPI_MODE_RX_HALFPLEX = 2,
+>  	CVMX_SPI_MODE_DUPLEX = 3
+> -} cvmx_spi_mode_t;
+> +};
+>  
+> -typedef enum {
+> +enum cvmx_helper_interface_mode {
+>  	CVMX_HELPER_INTERFACE_MODE_DISABLED,
+>  	CVMX_HELPER_INTERFACE_MODE_RGMII,
+>  	CVMX_HELPER_INTERFACE_MODE_GMII,
+> @@ -231,20 +231,20 @@ typedef enum {
+>  	CVMX_HELPER_INTERFACE_MODE_PICMG,
+>  	CVMX_HELPER_INTERFACE_MODE_NPI,
+>  	CVMX_HELPER_INTERFACE_MODE_LOOP,
+> -} cvmx_helper_interface_mode_t;
+> +};
+>  
+> -typedef enum {
+> +enum cvmx_pow_wait {
+>  	CVMX_POW_WAIT = 1,
+>  	CVMX_POW_NO_WAIT = 0,
+> -} cvmx_pow_wait_t;
+> +};
+>  
+> -typedef enum {
+> +enum cvmx_pko_lock {
+>  	CVMX_PKO_LOCK_NONE = 0,
+>  	CVMX_PKO_LOCK_ATOMIC_TAG = 1,
+>  	CVMX_PKO_LOCK_CMD_QUEUE = 2,
+> -} cvmx_pko_lock_t;
+> +};
+>  
+> -typedef enum {
+> +enum cvmx_pko_status {
+>  	CVMX_PKO_SUCCESS,
+>  	CVMX_PKO_INVALID_PORT,
+>  	CVMX_PKO_INVALID_QUEUE,
+> @@ -252,7 +252,7 @@ typedef enum {
+>  	CVMX_PKO_NO_MEMORY,
+>  	CVMX_PKO_PORT_ALREADY_SETUP,
+>  	CVMX_PKO_CMD_QUEUE_INIT_ERROR
+> -} cvmx_pko_status_t;
+> +};
+>  
+>  enum cvmx_pow_tag_type {
+>  	CVMX_POW_TAG_TYPE_ORDERED   = 0L,
+> @@ -1265,8 +1265,7 @@ static inline void cvmx_pko_get_port_status(uint64_t port_num, uint64_t clear,
+>  					    cvmx_pko_port_status_t *status)
+>  { }
+>  
+> -static inline cvmx_helper_interface_mode_t cvmx_helper_interface_get_mode(int
+> -								   interface)
+> +static inline enum cvmx_helper_interface_mode cvmx_helper_interface_get_mode(int interface)
+>  {
+>  	return 0;
+>  }
+> @@ -1342,11 +1341,11 @@ static inline unsigned int cvmx_get_core_num(void)
+>  }
+>  
+>  static inline void cvmx_pow_work_request_async_nocheck(int scr_addr,
+> -						       cvmx_pow_wait_t wait)
+> +						       enum cvmx_pow_wait wait)
+>  { }
+>  
+>  static inline void cvmx_pow_work_request_async(int scr_addr,
+> -					       cvmx_pow_wait_t wait)
+> +					       enum cvmx_pow_wait wait)
+>  { }
+>  
+>  static inline struct cvmx_wqe *cvmx_pow_work_response_async(int scr_addr)
+> @@ -1356,13 +1355,13 @@ static inline struct cvmx_wqe *cvmx_pow_work_response_async(int scr_addr)
+>  	return wqe;
+>  }
+>  
+> -static inline struct cvmx_wqe *cvmx_pow_work_request_sync(cvmx_pow_wait_t wait)
+> +static inline struct cvmx_wqe *cvmx_pow_work_request_sync(enum cvmx_pow_wait wait)
+>  {
+>  	return (void *)(unsigned long)wait;
+>  }
+>  
+>  static inline int cvmx_spi_restart_interface(int interface,
+> -					cvmx_spi_mode_t mode, int timeout)
+> +				       enum cvmx_spi_mode mode, int timeout)
+>  {
+>  	return 0;
+>  }
+> @@ -1381,12 +1380,12 @@ static inline union cvmx_gmxx_rxx_rx_inbnd cvmx_spi4000_check_speed(int interfac
+>  }
+>  
+>  static inline void cvmx_pko_send_packet_prepare(uint64_t port, uint64_t queue,
+> -						cvmx_pko_lock_t use_locking)
+> +						enum cvmx_pko_lock use_locking)
+>  { }
+>  
+> -static inline cvmx_pko_status_t cvmx_pko_send_packet_finish(uint64_t port,
+> -		uint64_t queue, union cvmx_pko_command_word0 pko_command,
+> -		union cvmx_buf_ptr packet, cvmx_pko_lock_t use_locking)
+> +static inline enum cvmx_pko_status cvmx_pko_send_packet_finish(uint64_t port,
+> +		    uint64_t queue, union cvmx_pko_command_word0 pko_command,
+> +		    union cvmx_buf_ptr packet, enum cvmx_pko_lock use_locking)
+>  {
+>  	return 0;
+>  }
+> -- 
+> 2.25.1
+> 
