@@ -1,158 +1,101 @@
-Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2DE2AD28
-	for <linux-staging@lists.linux.dev>; Thu, 13 Apr 2023 16:07:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-	s=20171124; h=In-Reply-To:Content-Transfer-Encoding:Content-Disposition:
-	Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:From:
-	Sender:Reply-To:Subject:Date:Message-ID:To:Cc:MIME-Version:Content-Type:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Content-Disposition:
-	In-Reply-To:References; bh=yfTSEM+Qw/SLv9wrwZYQ5tfQbBTCHdddCkzb9gTB2V4=; b=EI
-	/3XmgrlG9ZPWCo+E/ZkvtUVlMUDGKxAeitVHkjduVzcEsSRo+m+GYhXqagsYk45/ySc4g3jLPTK6/
-	Ol3JtHdlzm6/diEs/S2ihrbigX/1SqIZ9hfPnYstOhEvZaiD0VVcCJTIYnOREkK14r5P6UEW4IabC
-	+scLxurE0CQ8vu8=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-	(envelope-from <andrew@lunn.ch>)
-	id 1pmz8M-00ACbp-06; Thu, 13 Apr 2023 17:45:14 +0200
-Date: Thu, 13 Apr 2023 17:45:13 +0200
-From: Andrew Lunn <andrew@lunn.ch>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F7EEAD28
+	for <linux-staging@lists.linux.dev>; Thu, 13 Apr 2023 16:10:52 +0000 (UTC)
+Received: by mail-wr1-f46.google.com with SMTP id o29so3664091wro.0
+        for <linux-staging@lists.linux.dev>; Thu, 13 Apr 2023 09:10:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1681402251; x=1683994251;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=xxhfaeVmSMj1ooJ+GI5JYtziwZS5hnJz5+YIfhecAsY=;
+        b=JZGS3Cx9dJu4XC/Z2tGHpQhSaw4QPoqfih9/B5HS4OW/nWd5q4b1LQsavW/EG1VKTK
+         P0/5/utyOkzKjMKz0ry5WoJKUrMbj7T0EAZUqqmzFQ3EkNav2dQUf2fCAggccYt6Np1g
+         gvFyaIzDa/Shb0tRlWshEcoUxQN0p/2OPcZjaLkAORwPJ0ZWqm/GobyuU0YKSYNB6+rA
+         Nqo/9QEVcqDM5EczCK0vLsGOWfzkRTvygNyERGSE904FW1xZfXejqIoT+D5TfdDK78/K
+         XF+4NhPpx7OnACQDNCtP1fxVcSZPQaq1/lz5sBIHXuoVNp3Y+XlFQxNaari3xVSoqxgH
+         aSDg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1681402251; x=1683994251;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=xxhfaeVmSMj1ooJ+GI5JYtziwZS5hnJz5+YIfhecAsY=;
+        b=HT54ONVyymP+w1RaKrgPhAlGn/yeCEOBZsZ2OMwCOhEnuDOl16L6vhK/tW5bcMQWES
+         gipxy51GI0rmzg/isAcnyK2EKH4bwZTH8T5qJenM37rOgO4BZ3+PKJ2+K5b6qHmr0rOX
+         Rz/uZRkwSzRndVSUa/dJMDx66UPdYgdFZ+u1M0BRZnAk/cj7HJBS1qQER/KY8aL3UPsR
+         c6gbDGei+Bl0d4IEaOkgcO8GFuzxmJFF1X4tn2Dw4pnV4BM12FK5TVyr/EOWNLoINZwF
+         nx8S2FaSPaxLNOJbyqY+O22aIzlxK0czzvXLOfhydgKp6ltdCFLFczpqV52uSWGF3Biz
+         LTKg==
+X-Gm-Message-State: AAQBX9fY33rU8XNyBwejws8y4Um12qksLpoVf7hIARaTgdcjIfsHVAZD
+	vvVCGiimPOaZqKcm1ARW7PQ=
+X-Google-Smtp-Source: AKy350ZmL0jv9Fv0h834EwT/L4/OH9X+H2tpoq3EcZanDBDsPudFnSBoOEgKQrERrEaFMWdGIfwBYg==
+X-Received: by 2002:a5d:6450:0:b0:2f0:15b8:d2a3 with SMTP id d16-20020a5d6450000000b002f015b8d2a3mr2047445wrw.29.1681402250871;
+        Thu, 13 Apr 2023 09:10:50 -0700 (PDT)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id z1-20020a5d4d01000000b002e5f6f8fc4fsm1563370wrt.100.2023.04.13.09.10.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 13 Apr 2023 09:10:50 -0700 (PDT)
+Date: Thu, 13 Apr 2023 19:10:47 +0300
+From: Dan Carpenter <error27@gmail.com>
 To: Ladislav Michl <oss-lists@triops.cz>
 Cc: linux-staging@lists.linux.dev, netdev@vger.kernel.org,
 	linux-mips@vger.kernel.org,
 	Chris Packham <chris.packham@alliedtelesis.co.nz>
-Subject: Re: [PATCH 0/3] staging: octeon: Convert to use phylink
-Message-ID: <b70d9361-c689-4837-bc9d-8e800cda380c@lunn.ch>
+Subject: Re: [RFC 3/3] staging: octeon: convert to use phylink
+Message-ID: <4ba4bab4-c9ab-468f-ac35-510612529b89@kili.mountain>
 References: <ZDgNexVTEfyGo77d@lenoch>
+ <ZDgOZZb2LrlFEEbv@lenoch>
+ <0af60abb-d599-4fdd-9bf6-ccf14524fe44@kili.mountain>
+ <ZDgoH0KQ/Q0ydxn3@lenoch>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <ZDgNexVTEfyGo77d@lenoch>
+In-Reply-To: <ZDgoH0KQ/Q0ydxn3@lenoch>
 
-Hi Ladislav
-
-For phylink questions, it is a good idea to Cc: the phylink
-Maintainer. And for general PHY problems, Cc: the phy Maintainers.
-
-On Thu, Apr 13, 2023 at 04:11:07PM +0200, Ladislav Michl wrote:
-> The purpose of this patches is to provide support for SFP cage to
-> Octeon ethernet driver. This is tested with following DT snippet:
+On Thu, Apr 13, 2023 at 06:04:47PM +0200, Ladislav Michl wrote:
+> > > diff --git a/drivers/staging/octeon/ethernet-rgmii.c b/drivers/staging/octeon/ethernet-rgmii.c
+> > > index 0c4fac31540a..8c6eb0b87254 100644
+> > > --- a/drivers/staging/octeon/ethernet-rgmii.c
+> > > +++ b/drivers/staging/octeon/ethernet-rgmii.c
+> > > @@ -115,17 +115,8 @@ static void cvm_oct_rgmii_poll(struct net_device *dev)
+> > >  
+> > >  	cvm_oct_check_preamble_errors(dev);
+> > >  
+> > > -	if (likely(!status_change))
+> >                    ^
+> > Negated.
 > 
-> 	smi0: mdio@1180000001800 {
-> 		compatible = "cavium,octeon-3860-mdio";
-> 		#address-cells = <1>;
-> 		#size-cells = <0>;
-> 		reg = <0x11800 0x00001800 0x0 0x40>;
+> On purpose.
 > 
-> 		/* QSGMII PHY */
-> 		phy0: ethernet-phy@0 {
-> 			compatible = "marvell,88e154", "ethernet-phy-ieee802.3-c22";
-
-Please don't use a compatible for the specific PHY. In fact,
-compatibles are only used for things which are not PHYs, like Ethernet
-switches. phylib reads the ID registers of the PHY and uses them to
-load the correct PHY driver.
-
-Also, C22 is the default, so you don't need that either.
-
-> 			reg = <0>;
-> 			interrupt-parent = <&gpio>;
-> 			interrupts = <6 IRQ_TYPE_LEVEL_LOW>;
-> 			marvell,reg-init =
-> 			  <0xff 24 0 0x2800>, <0xff 23 0 0x2001>, /* errata 3.1.1 - PHY Initialization #1 */
-> 			  <0 29 0 3>, <0 30 0 2>, <0 29 0 0>,	  /* errata 3.1.2 - PHY Initialization #2 */
-
-Please add C code to deal with these erratas in the marvell PHY
-driver.
-
-> 			  <4 26 0 0x2>, 			  /* prekrizeni RX a TX QSGMII sbernice */
-> 			  <4 0 0x1000 0x1000>, 			  /* Q_ANEG workaround: P4R0B12 = 1 */
-> 			  <3 16 0 0x1117>;			  /* nastavení LED: G=link+act, Y=1Gbit */
-> 		};
-
-Comments are normally in English. The last one seems to be setting the
-LED. This is tolerated, but not ideal. It is not clear to me what the
-other two do.
-
-> 	pip: pip@11800a0000000 {
-> 		compatible = "cavium,octeon-3860-pip";
-> 		#address-cells = <1>;
-> 		#size-cells = <0>;
-> 		reg = <0x11800 0xa0000000 0x0 0x2000>;
+> > > -		return;
+> > > -
+> > > -	/* Tell core. */
+> > > -	if (link_info.s.link_up) {
+> > > -		if (!netif_carrier_ok(dev))
+> > > -			netif_carrier_on(dev);
+> > > -	} else if (netif_carrier_ok(dev)) {
+> > > -		netif_carrier_off(dev);
+> > > -	}
+> > > -	cvm_oct_note_carrier(priv, link_info);
+> > > +	if (likely(status_change))
+> > 
+> > Originally a status_change was unlikely but now it is likely.
 > 
-> 		/* Interface 0 goes to SFP */
-> 		interface@0 {
-> 			compatible = "cavium,octeon-3860-pip-interface";
-> 			#address-cells = <1>;
-> 			#size-cells = <0>;
-> 			reg = <0>; /* interface */
-> 
-> 			ethernet@0 {
-> 				compatible = "cavium,octeon-3860-pip-port";
-> 				reg = <0>; /* Port */
-> 				local-mac-address = [ 00 00 00 00 00 00 ];
-> 				managed = "in-band-status";
-> 				phy-connection-type = "1000base-x";
-> 				sfp = <&sfp>;
-> 			};
-> 		};
+> Yes, but originally it returned after condition and now it executes
+> phylink_mac_change. This is just to emulate current bahaviour.
+> Later mac interrupts should be used to drive link change.
 
-> 		/* Interface 1 goes to eth1-eth4 and is QSGMII */
-> 		interface@1 {
-> 			compatible = "cavium,octeon-3860-pip-interface";
-> 			#address-cells = <1>;
-> 			#size-cells = <0>;
-> 			reg = <1>; /* interface */
-> 
-> 			ethernet@0 {
-> 				compatible = "cavium,octeon-3860-pip-port";
-> 				reg = <0>; /* Port */
-> 				local-mac-address = [ 00 00 00 00 00 00 ];
-> 				phy-handle = <&phy0>;
+I don't think you have seen the (minor) issue.  Originally it was
+likely that status_change was NOT set.  But now it is likely that is
+*IS* set.
 
-If this is a QSGMII link, don't you need phy-mode property?
- 
-> However testing revealed some glitches:
-> 1. driver previously returned -EPROBE_DEFER when no phy was attached.
-> Phylink stack does not seem to do so, which end up with:
-> 
-> Marvell PHY driver as a module:
-> octeon_ethernet 11800a0000000.pip eth0: configuring for inband/1000base-x link mode
-> octeon_ethernet 11800a0000000.pip eth1: PHY [8001180000001800:00] driver [Generic PHY] (irq=POLL)
-> octeon_ethernet 11800a0000000.pip eth1: configuring for phy/sgmii link mode
-> octeon_ethernet 11800a0000000.pip eth2: PHY [8001180000001800:01] driver [Generic PHY] (irq=POLL)
-> octeon_ethernet 11800a0000000.pip eth2: configuring for phy/sgmii link mode
-> octeon_ethernet 11800a0000000.pip eth0: switched to inband/sgmii link mode
-> octeon_ethernet 11800a0000000.pip eth0: PHY [i2c:sfp:16] driver [Marvell 88E1111] (irq=POLL)
-> octeon_ethernet 11800a0000000.pip eth3: PHY [8001180000001800:02] driver [Marvell 88E1340S] (irq=25)
-> octeon_ethernet 11800a0000000.pip eth3: configuring for phy/sgmii link mode
-> octeon_ethernet 11800a0000000.pip eth4: PHY [8001180000001800:03] driver [Marvell 88E1340S] (irq=25)
-> octeon_ethernet 11800a0000000.pip eth4: configuring for phy/sgmii link mode
-> octeon_ethernet 11800a0000000.pip eth1: Link is Up - 100Mbps/Full - flow control off
-> 
-> Marvell PHY driver built-in:
-> octeon_ethernet 11800a0000000.pip eth0: configuring for inband/1000base-x link mode
-> octeon_ethernet 11800a0000000.pip eth1: PHY [8001180000001800:00] driver [Marvell 88E1340S] (irq=25)
-> octeon_ethernet 11800a0000000.pip eth1: configuring for phy/sgmii link mode
-> Error: Driver 'Marvell 88E1101' is already registered, aborting...
-> libphy: Marvell 88E1101: Error -16 in registering driver
-> Error: Driver 'Marvell 88E1101' is already registered, aborting...
-> libphy: Marvell 88E1101: Error -16 in registering driver
+regards,
+dan carpenter
 
-This is very odd. But it could be a side effect of the
-compatible. Please try with it removed.
-
-> 2. It is not possible to call phylink_create from ndo_init callcack as
-> it evetually calls sfp_bus_add_upstream which calls rtnl_lock().
-> As this lock is already taken, it just deadlocks. Is this an unsupported
-> scenario?
-
-You normally call phylink_create() in _probe().
-
-    Andrew
