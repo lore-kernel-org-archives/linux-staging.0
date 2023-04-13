@@ -1,215 +1,198 @@
 Received: from h2.cmg1.smtp.forpsi.com (h2.cmg1.smtp.forpsi.com [81.2.195.163])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5738A6AB4
-	for <linux-staging@lists.linux.dev>; Thu, 13 Apr 2023 14:19:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D840748F
+	for <linux-staging@lists.linux.dev>; Thu, 13 Apr 2023 14:19:24 +0000 (UTC)
 Received: from lenoch ([91.218.190.200])
 	by cmgsmtp with ESMTPSA
-	id mxi8pEi7aPm6Cmxi9pKcoR; Thu, 13 Apr 2023 16:14:05 +0200
+	id mxfHpEhAtPm6CmxfIpKcR6; Thu, 13 Apr 2023 16:11:10 +0200
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=triops.cz; s=f2019;
-	t=1681395245; bh=d4RY8XHU9yr1d2C7YF4zciMiPeh9xjFTvv8n5kIJFCg=;
+	t=1681395070; bh=/xxAYZbH9E6YSxbjqKxa1nq30Q75rv6dW1p88SKzXDE=;
 	h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type;
-	b=jHP1KzIJtaiYWVt32Li+nEIMNegwokCKrWVBGagI3+pzvSdLwhqZG0KdfJFIST938
-	 UfSP95+l/S516/Ntecy7CYWhCM8MAfN/nJZuDyn7sbGIA0vXNLfZeh/NPmpOYU93Rz
-	 jMMTwt0VWhbeqSz2B0Lq8pQvh/QN0MSpmKWSvCHB5LB9We+yXoRO+M1c7edzojUIWJ
-	 k1dYxg4zzAxw+QypoZ9kX/fSYFknfY536ySHm8zWOihQlaj4muM54RUEz8Dbovc4O4
-	 Pkc4XmS2fA2LxxJo/BJqPkLPq9HyEy2gjFymJ1Z/Jv6p7xAdE+29msMx9pKkf28OvO
-	 TeKVPjmqMuZ9A==
+	b=cXmWmb+Y1dl4TDG2tFVlZ3TUstovGRGNCnSrane8URthWm6wanRkHK81pX8C7zgnJ
+	 r0a+skLXaJ7ADSV5ZKT+xrAyJ2uNGBQEVCeCWaVhY3ll/lxQIzWmfPLjizabm9DnZK
+	 lEY8tUbwRrZoC3IzsUp9BMC5/cZOYv1HCCh0zhBPZ1D4TURmMtKEqUUuBc5HSrXiz3
+	 I90T85vcVdTd2j4ZHhRlGzX7GvNjaESrYVol6BCvBwlFkaQZntQn5tyIYdvqErAoj3
+	 MMsrlBWQXsPct3PMLO+33+1I8Of/DqZqmz55hNJDaqmQtsbpU8ECIrIVCWX9k5p0qG
+	 C+UmGvJfSalHA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=triops.cz; s=f2019;
-	t=1681395245; bh=d4RY8XHU9yr1d2C7YF4zciMiPeh9xjFTvv8n5kIJFCg=;
+	t=1681395070; bh=/xxAYZbH9E6YSxbjqKxa1nq30Q75rv6dW1p88SKzXDE=;
 	h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type;
-	b=jHP1KzIJtaiYWVt32Li+nEIMNegwokCKrWVBGagI3+pzvSdLwhqZG0KdfJFIST938
-	 UfSP95+l/S516/Ntecy7CYWhCM8MAfN/nJZuDyn7sbGIA0vXNLfZeh/NPmpOYU93Rz
-	 jMMTwt0VWhbeqSz2B0Lq8pQvh/QN0MSpmKWSvCHB5LB9We+yXoRO+M1c7edzojUIWJ
-	 k1dYxg4zzAxw+QypoZ9kX/fSYFknfY536ySHm8zWOihQlaj4muM54RUEz8Dbovc4O4
-	 Pkc4XmS2fA2LxxJo/BJqPkLPq9HyEy2gjFymJ1Z/Jv6p7xAdE+29msMx9pKkf28OvO
-	 TeKVPjmqMuZ9A==
-Date: Thu, 13 Apr 2023 16:14:04 +0200
+	b=cXmWmb+Y1dl4TDG2tFVlZ3TUstovGRGNCnSrane8URthWm6wanRkHK81pX8C7zgnJ
+	 r0a+skLXaJ7ADSV5ZKT+xrAyJ2uNGBQEVCeCWaVhY3ll/lxQIzWmfPLjizabm9DnZK
+	 lEY8tUbwRrZoC3IzsUp9BMC5/cZOYv1HCCh0zhBPZ1D4TURmMtKEqUUuBc5HSrXiz3
+	 I90T85vcVdTd2j4ZHhRlGzX7GvNjaESrYVol6BCvBwlFkaQZntQn5tyIYdvqErAoj3
+	 MMsrlBWQXsPct3PMLO+33+1I8Of/DqZqmz55hNJDaqmQtsbpU8ECIrIVCWX9k5p0qG
+	 C+UmGvJfSalHA==
+Date: Thu, 13 Apr 2023 16:11:07 +0200
 From: Ladislav Michl <oss-lists@triops.cz>
 To: linux-staging@lists.linux.dev
 Cc: netdev@vger.kernel.org, linux-mips@vger.kernel.org,
 	Chris Packham <chris.packham@alliedtelesis.co.nz>
-Subject: [PATCH 2/3] staging: octeon: avoid needless device allocation
-Message-ID: <ZDgOLHw1IkmWVU79@lenoch>
-References: <ZDgNexVTEfyGo77d@lenoch>
+Subject: [PATCH 0/3] staging: octeon: Convert to use phylink
+Message-ID: <ZDgNexVTEfyGo77d@lenoch>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-2
 Content-Disposition: inline
-In-Reply-To: <ZDgNexVTEfyGo77d@lenoch>
-X-CMAE-Envelope: MS4wfGHwwZS7Gk02EBad2RtgD3BzQprvwVOWYEp597MhjkvcfpbgvgIOuKGnZhOoMV21xs8mMfVr0nzK7NJkl7UwEmuxp4jrRveq7hurxt49iIbXvlC3DsAE
- EIgbcy43VJg1jeqdVVt3MUHjpk+5pakgDChGNvgnUj7G1rSFJ9l1VNutAC2EoIcr5SCdx4OEvF3rjsUKHsR5Q+v+WXhYSyG0KaoRmlATE0HNCNi7RPSwjgid
- BPWROsR80bOq2Mb784p7jJXdB8toFukFh7z1EeOg174KBLrPlg46QykBD7U7yLUh
+Content-Transfer-Encoding: 8bit
+X-CMAE-Envelope: MS4wfL8Nmxz6tRftiRMLG59T7itoGSQnmDDLU8K/vA/DTd7k6nblm+j8rzfHeSbnDrv1J8eW6FqPzW/4yNXdY6gCPGcKpzAhQ5L5TPBwdRZQBWgTxluc1rJx
+ UrtQ72tjptssgKuspgdSTac9lWSQsfg3sZDnY6HQ8G4uqXg2LkGX37Y8zDbc4v5DTWmtKzC/3j4zesQhoyq9zX/RMRoPvydDT83AE5OjU4GUZN0koaW3qSAJ
+ 6FC7JAIzwVAuYZf46InIbWCwll7yZoHOz/HX5fLi5fBjQCnGpeDcJlG+iH258b6J
 
-From: Ladislav Michl <ladis@linux-mips.org>
+The purpose of this patches is to provide support for SFP cage to
+Octeon ethernet driver. This is tested with following DT snippet:
 
-Etherdev is allocated and then tested for valid interface,
-then it is immediately freed after port is found unsupported.
-Move that decision out of the port loop.
+	smi0: mdio@1180000001800 {
+		compatible = "cavium,octeon-3860-mdio";
+		#address-cells = <1>;
+		#size-cells = <0>;
+		reg = <0x11800 0x00001800 0x0 0x40>;
 
-Signed-off-by: Ladislav Michl <ladis@linux-mips.org>
----
- drivers/staging/octeon/ethernet.c | 114 +++++++++++++++---------------
- 1 file changed, 58 insertions(+), 56 deletions(-)
+		/* QSGMII PHY */
+		phy0: ethernet-phy@0 {
+			compatible = "marvell,88e154", "ethernet-phy-ieee802.3-c22";
+			reg = <0>;
+			interrupt-parent = <&gpio>;
+			interrupts = <6 IRQ_TYPE_LEVEL_LOW>;
+			marvell,reg-init =
+			  <0xff 24 0 0x2800>, <0xff 23 0 0x2001>, /* errata 3.1.1 - PHY Initialization #1 */
+			  <0 29 0 3>, <0 30 0 2>, <0 29 0 0>,	  /* errata 3.1.2 - PHY Initialization #2 */
+			  <4 26 0 0x2>, 			  /* prekrizeni RX a TX QSGMII sbernice */
+			  <4 0 0x1000 0x1000>, 			  /* Q_ANEG workaround: P4R0B12 = 1 */
+			  <3 16 0 0x1117>;			  /* nastavení LED: G=link+act, Y=1Gbit */
+		};
+		phy1: ethernet-phy@1 {
+			compatible = "marvell,88e154", "ethernet-phy-ieee802.3-c22";
+			reg = <1>;
+			interrupt-parent = <&gpio>;
+			interrupts = <6 IRQ_TYPE_LEVEL_LOW>;
+			marvell,reg-init =
+			  <4 0 0x1000 0x1000>,			  /* Q_ANEG workaround: P4R0B12 = 1 */
+			  <3 16 0 0x1117>;			  /* nastavení LED: G=link+act, Y=1Gbit */
+		};
+		phy2: ethernet-phy@2 {
+			compatible = "marvell,88e154", "ethernet-phy-ieee802.3-c22";
+			reg = <2>;
+			interrupt-parent = <&gpio>;
+			interrupts = <6 IRQ_TYPE_LEVEL_LOW>;
+			marvell,reg-init =
+			  <4 0 0x1000 0x1000>,			  /* Q_ANEG workaround: P4R0B12 = 1 */
+			  <3 16 0 0x1117>;			  /* nastavení LED: G=link+act, Y=1Gbit */
+		};
+		phy3: ethernet-phy@3 {
+			compatible = "marvell,88e154", "ethernet-phy-ieee802.3-c22";
+			reg = <3>;
+			interrupt-parent = <&gpio>;
+			interrupts = <6 IRQ_TYPE_LEVEL_LOW>;
+			marvell,reg-init =
+			  <4 0 0x1000 0x1000>,			  /* Q_ANEG workaround: P4R0B12 = 1 */
+			  <3 16 0 0x1117>;			  /* nastavení LED: G=link+act, Y=1Gbit */
+		};
+	};
 
-diff --git a/drivers/staging/octeon/ethernet.c b/drivers/staging/octeon/ethernet.c
-index 949ef51bf896..466d43a71d34 100644
---- a/drivers/staging/octeon/ethernet.c
-+++ b/drivers/staging/octeon/ethernet.c
-@@ -799,18 +799,63 @@ static int cvm_oct_probe(struct platform_device *pdev)
- 
- 	num_interfaces = cvmx_helper_get_number_of_interfaces();
- 	for (interface = 0; interface < num_interfaces; interface++) {
-+		int num_ports, port_index;
-+		const struct net_device_ops *ops;
-+		const char *name;
-+		phy_interface_t phy_mode = PHY_INTERFACE_MODE_NA;
- 		cvmx_helper_interface_mode_t imode =
--		    cvmx_helper_interface_get_mode(interface);
--		int num_ports = cvmx_helper_ports_on_interface(interface);
--		int port_index;
-+			cvmx_helper_interface_get_mode(interface);
-+
-+		switch (imode) {
-+		case CVMX_HELPER_INTERFACE_MODE_NPI:
-+			ops = &cvm_oct_npi_netdev_ops;
-+			name = "npi%d";
-+			break;
-+
-+		case CVMX_HELPER_INTERFACE_MODE_XAUI:
-+			ops = &cvm_oct_xaui_netdev_ops;
-+			name = "xaui%d";
-+			break;
-+
-+		case CVMX_HELPER_INTERFACE_MODE_LOOP:
-+			ops = &cvm_oct_npi_netdev_ops;
-+			name = "loop%d";
-+			break;
-+
-+		case CVMX_HELPER_INTERFACE_MODE_SGMII:
-+			ops = &cvm_oct_sgmii_netdev_ops;
-+			name = "eth%d";
-+			phy_mode = PHY_INTERFACE_MODE_SGMII;
-+			break;
-+
-+		case CVMX_HELPER_INTERFACE_MODE_SPI:
-+			ops = &cvm_oct_spi_netdev_ops;
-+			name = "spi%d";
-+			break;
-+
-+		case CVMX_HELPER_INTERFACE_MODE_GMII:
-+			ops = &cvm_oct_rgmii_netdev_ops;
-+			name = "eth%d";
-+			phy_mode = PHY_INTERFACE_MODE_GMII;
-+			break;
- 
-+		case CVMX_HELPER_INTERFACE_MODE_RGMII:
-+			ops = &cvm_oct_rgmii_netdev_ops;
-+			name = "eth%d";
-+			break;
-+
-+		default:
-+			continue;
-+		}
-+
-+		num_ports = cvmx_helper_ports_on_interface(interface);
- 		for (port_index = 0,
- 		     port = cvmx_helper_get_ipd_port(interface, 0);
- 		     port < cvmx_helper_get_ipd_port(interface, num_ports);
- 		     port_index++, port++) {
- 			struct octeon_ethernet *priv;
- 			struct net_device *dev =
--			    alloc_etherdev(sizeof(struct octeon_ethernet));
-+				alloc_etherdev(sizeof(struct octeon_ethernet));
- 			if (!dev) {
- 				pr_err("Failed to allocate ethernet device for port %d\n",
- 				       port);
-@@ -830,7 +875,12 @@ static int cvm_oct_probe(struct platform_device *pdev)
- 			priv->port = port;
- 			priv->queue = cvmx_pko_get_base_queue(priv->port);
- 			priv->fau = fau - cvmx_pko_get_num_queues(port) * 4;
--			priv->phy_mode = PHY_INTERFACE_MODE_NA;
-+			priv->phy_mode = phy_mode;
-+			if (imode == CVMX_HELPER_INTERFACE_MODE_RGMII)
-+				cvm_set_rgmii_delay(priv, interface,
-+						    port_index);
-+			dev->netdev_ops = ops;
-+			strscpy(dev->name, name, sizeof(dev->name));
- 			for (qos = 0; qos < 16; qos++)
- 				skb_queue_head_init(&priv->tx_free_list[qos]);
- 			for (qos = 0; qos < cvmx_pko_get_num_queues(port);
-@@ -839,64 +889,16 @@ static int cvm_oct_probe(struct platform_device *pdev)
- 			dev->min_mtu = VLAN_ETH_ZLEN - mtu_overhead;
- 			dev->max_mtu = OCTEON_MAX_MTU - mtu_overhead;
- 
--			switch (priv->imode) {
--			/* These types don't support ports to IPD/PKO */
--			case CVMX_HELPER_INTERFACE_MODE_DISABLED:
--			case CVMX_HELPER_INTERFACE_MODE_PCIE:
--			case CVMX_HELPER_INTERFACE_MODE_PICMG:
--				break;
--
--			case CVMX_HELPER_INTERFACE_MODE_NPI:
--				dev->netdev_ops = &cvm_oct_npi_netdev_ops;
--				strscpy(dev->name, "npi%d", sizeof(dev->name));
--				break;
--
--			case CVMX_HELPER_INTERFACE_MODE_XAUI:
--				dev->netdev_ops = &cvm_oct_xaui_netdev_ops;
--				strscpy(dev->name, "xaui%d", sizeof(dev->name));
--				break;
--
--			case CVMX_HELPER_INTERFACE_MODE_LOOP:
--				dev->netdev_ops = &cvm_oct_npi_netdev_ops;
--				strscpy(dev->name, "loop%d", sizeof(dev->name));
--				break;
--
--			case CVMX_HELPER_INTERFACE_MODE_SGMII:
--				priv->phy_mode = PHY_INTERFACE_MODE_SGMII;
--				dev->netdev_ops = &cvm_oct_sgmii_netdev_ops;
--				strscpy(dev->name, "eth%d", sizeof(dev->name));
--				break;
--
--			case CVMX_HELPER_INTERFACE_MODE_SPI:
--				dev->netdev_ops = &cvm_oct_spi_netdev_ops;
--				strscpy(dev->name, "spi%d", sizeof(dev->name));
--				break;
--
--			case CVMX_HELPER_INTERFACE_MODE_GMII:
--				priv->phy_mode = PHY_INTERFACE_MODE_GMII;
--				dev->netdev_ops = &cvm_oct_rgmii_netdev_ops;
--				strscpy(dev->name, "eth%d", sizeof(dev->name));
--				break;
--
--			case CVMX_HELPER_INTERFACE_MODE_RGMII:
--				dev->netdev_ops = &cvm_oct_rgmii_netdev_ops;
--				strscpy(dev->name, "eth%d", sizeof(dev->name));
--				cvm_set_rgmii_delay(priv, interface,
--						    port_index);
--				break;
--			}
--
- 			if (priv->of_node && of_phy_is_fixed_link(priv->of_node)) {
- 				if (of_phy_register_fixed_link(priv->of_node)) {
- 					netdev_err(dev, "Failed to register fixed link for interface %d, port %d\n",
- 						   interface, priv->port);
--					dev->netdev_ops = NULL;
-+					free_netdev(dev);
-+					continue;
- 				}
- 			}
- 
--			if (!dev->netdev_ops) {
--				free_netdev(dev);
--			} else if (register_netdev(dev) < 0) {
-+			if (register_netdev(dev) < 0) {
- 				pr_err("Failed to register ethernet device for interface %d, port %d\n",
- 				       interface, priv->port);
- 				free_netdev(dev);
--- 
-2.32.0
+	pip: pip@11800a0000000 {
+		compatible = "cavium,octeon-3860-pip";
+		#address-cells = <1>;
+		#size-cells = <0>;
+		reg = <0x11800 0xa0000000 0x0 0x2000>;
 
+		/* Interface 0 goes to SFP */
+		interface@0 {
+			compatible = "cavium,octeon-3860-pip-interface";
+			#address-cells = <1>;
+			#size-cells = <0>;
+			reg = <0>; /* interface */
+
+			ethernet@0 {
+				compatible = "cavium,octeon-3860-pip-port";
+				reg = <0>; /* Port */
+				local-mac-address = [ 00 00 00 00 00 00 ];
+				managed = "in-band-status";
+				phy-connection-type = "1000base-x";
+				sfp = <&sfp>;
+			};
+		};
+		/* Interface 1 goes to eth1-eth4 and is QSGMII */
+		interface@1 {
+			compatible = "cavium,octeon-3860-pip-interface";
+			#address-cells = <1>;
+			#size-cells = <0>;
+			reg = <1>; /* interface */
+
+			ethernet@0 {
+				compatible = "cavium,octeon-3860-pip-port";
+				reg = <0>; /* Port */
+				local-mac-address = [ 00 00 00 00 00 00 ];
+				phy-handle = <&phy0>;
+			};
+			ethernet@1 {
+				compatible = "cavium,octeon-3860-pip-port";
+				reg = <1>; /* Port */
+				local-mac-address = [ 00 00 00 00 00 00 ];
+				phy-handle = <&phy1>;
+			};
+			ethernet@2 {
+				compatible = "cavium,octeon-3860-pip-port";
+				reg = <2>; /* Port */
+				local-mac-address = [ 00 00 00 00 00 00 ];
+				phy-handle = <&phy2>;
+			};
+			ethernet@3 {
+				compatible = "cavium,octeon-3860-pip-port";
+				reg = <3>; /* Port */
+				local-mac-address = [ 00 00 00 00 00 00 ];
+				phy-handle = <&phy3>;
+			};
+		};
+	};
+
+However testing revealed some glitches:
+1. driver previously returned -EPROBE_DEFER when no phy was attached.
+Phylink stack does not seem to do so, which end up with:
+
+Marvell PHY driver as a module:
+octeon_ethernet 11800a0000000.pip eth0: configuring for inband/1000base-x link mode
+octeon_ethernet 11800a0000000.pip eth1: PHY [8001180000001800:00] driver [Generic PHY] (irq=POLL)
+octeon_ethernet 11800a0000000.pip eth1: configuring for phy/sgmii link mode
+octeon_ethernet 11800a0000000.pip eth2: PHY [8001180000001800:01] driver [Generic PHY] (irq=POLL)
+octeon_ethernet 11800a0000000.pip eth2: configuring for phy/sgmii link mode
+octeon_ethernet 11800a0000000.pip eth0: switched to inband/sgmii link mode
+octeon_ethernet 11800a0000000.pip eth0: PHY [i2c:sfp:16] driver [Marvell 88E1111] (irq=POLL)
+octeon_ethernet 11800a0000000.pip eth3: PHY [8001180000001800:02] driver [Marvell 88E1340S] (irq=25)
+octeon_ethernet 11800a0000000.pip eth3: configuring for phy/sgmii link mode
+octeon_ethernet 11800a0000000.pip eth4: PHY [8001180000001800:03] driver [Marvell 88E1340S] (irq=25)
+octeon_ethernet 11800a0000000.pip eth4: configuring for phy/sgmii link mode
+octeon_ethernet 11800a0000000.pip eth1: Link is Up - 100Mbps/Full - flow control off
+
+Marvell PHY driver built-in:
+octeon_ethernet 11800a0000000.pip eth0: configuring for inband/1000base-x link mode
+octeon_ethernet 11800a0000000.pip eth1: PHY [8001180000001800:00] driver [Marvell 88E1340S] (irq=25)
+octeon_ethernet 11800a0000000.pip eth1: configuring for phy/sgmii link mode
+Error: Driver 'Marvell 88E1101' is already registered, aborting...
+libphy: Marvell 88E1101: Error -16 in registering driver
+Error: Driver 'Marvell 88E1101' is already registered, aborting...
+libphy: Marvell 88E1101: Error -16 in registering driver
+octeon_ethernet 11800a0000000.pip eth0: switched to inband/sgmii link mode
+octeon_ethernet 11800a0000000.pip eth0: PHY [i2c:sfp:16] driver [Marvell 88E1111] (irq=POLL)
+octeon_ethernet 11800a0000000.pip eth2: PHY [8001180000001800:01] driver [Marvell 88E1340S] (irq=25)
+octeon_ethernet 11800a0000000.pip eth2: configuring for phy/sgmii link mode
+octeon_ethernet 11800a0000000.pip eth3: PHY [8001180000001800:02] driver [Marvell 88E1340S] (irq=25)
+octeon_ethernet 11800a0000000.pip eth3: configuring for phy/sgmii link mode
+octeon_ethernet 11800a0000000.pip eth4: PHY [8001180000001800:03] driver [Marvell 88E1340S] (irq=25)
+octeon_ethernet 11800a0000000.pip eth4: configuring for phy/sgmii link mode
+octeon_ethernet 11800a0000000.pip eth1: Link is Up - 100Mbps/Full - flow control off
+
+How it is supposed to deal with that?
+
+2. It is not possible to call phylink_create from ndo_init callcack as
+it evetually calls sfp_bus_add_upstream which calls rtnl_lock().
+As this lock is already taken, it just deadlocks. Is this an unsupported
+scenario?
+
+Comments welcome and appreciated,
+	ladis
