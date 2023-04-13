@@ -1,88 +1,109 @@
-Received: from h1.cmg1.smtp.forpsi.com (h1.cmg1.smtp.forpsi.com [81.2.195.162])
+Received: from mout.web.de (mout.web.de [212.227.17.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61769626
-	for <linux-staging@lists.linux.dev>; Thu, 13 Apr 2023 17:51:25 +0000 (UTC)
-Received: from lenoch ([91.218.190.200])
-	by cmgsmtp with ESMTPSA
-	id n16OpG71YPm6Cn16PpL1GB; Thu, 13 Apr 2023 19:51:21 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=triops.cz; s=f2019;
-	t=1681408281; bh=+M55RhzimdGlvhG2v0FUhuXlIiFHLzcmsDSW7A4RngA=;
-	h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type;
-	b=CoOtyzT9gLiSw0+G/Jn89SFqwUPRlRDY+ENtSxa0VoCkTYZEXos9P0nPKdAwuqbRd
-	 vEnCNMLsgpU6HhG97Jh8v8joj9SL7r3R/tEFpPISCmi6rl5BhlojyB+wngpoIm8eUO
-	 4601XTsgqXXNTxe3Yy5OpQLgnslcSONqxqJN3e7LsipRgPEeFxxRcbWoSwin6qnpOx
-	 vjttTEqy+wN6S3qHXV/tYmWmn+gWfom21EME6iQ2mMMegxkdhLOG9xzQqQr8813nHb
-	 dtE1TLtMVL90fAh/GRvKi9LLBMdZ++a0zitviUn4oyI3bkPxIYk0/SU/ZaS/oRwKbD
-	 vZLdbpaJ+bINQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=triops.cz; s=f2019;
-	t=1681408281; bh=+M55RhzimdGlvhG2v0FUhuXlIiFHLzcmsDSW7A4RngA=;
-	h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type;
-	b=CoOtyzT9gLiSw0+G/Jn89SFqwUPRlRDY+ENtSxa0VoCkTYZEXos9P0nPKdAwuqbRd
-	 vEnCNMLsgpU6HhG97Jh8v8joj9SL7r3R/tEFpPISCmi6rl5BhlojyB+wngpoIm8eUO
-	 4601XTsgqXXNTxe3Yy5OpQLgnslcSONqxqJN3e7LsipRgPEeFxxRcbWoSwin6qnpOx
-	 vjttTEqy+wN6S3qHXV/tYmWmn+gWfom21EME6iQ2mMMegxkdhLOG9xzQqQr8813nHb
-	 dtE1TLtMVL90fAh/GRvKi9LLBMdZ++a0zitviUn4oyI3bkPxIYk0/SU/ZaS/oRwKbD
-	 vZLdbpaJ+bINQ==
-Date: Thu, 13 Apr 2023 19:51:19 +0200
-From: Ladislav Michl <oss-lists@triops.cz>
-To: Andrew Lunn <andrew@lunn.ch>
-Cc: linux-staging@lists.linux.dev, netdev@vger.kernel.org,
-	linux-mips@vger.kernel.org,
-	Chris Packham <chris.packham@alliedtelesis.co.nz>
-Subject: Re: [PATCH 2/3] staging: octeon: avoid needless device allocation
-Message-ID: <ZDhBFzRr7tsCVRPd@lenoch>
-References: <ZDgNexVTEfyGo77d@lenoch>
- <ZDgOLHw1IkmWVU79@lenoch>
- <543bfbb6-af60-4b5d-abf8-0274ab0b713f@lunn.ch>
- <ZDgxPet9RIDC9Oz1@lenoch>
- <e2f5462d-5573-483c-9428-5f2b052cf939@lunn.ch>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DA8BBA36
+	for <linux-staging@lists.linux.dev>; Thu, 13 Apr 2023 20:26:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de; s=s29768273;
+	t=1681417561; i=markus.elfring@web.de;
+	bh=E0mXNV18qxwFw4wpLkiA8jyeLw0uAf7GW3H0TvcZAHc=;
+	h=X-UI-Sender-Class:Date:Subject:From:To:References:Cc:In-Reply-To;
+	b=N+bH02hSc+NNBSsYJ4qsh2IUEqdTPlrokvbjIbIy8/ENHht6Ra4MqgCjTUcqihs7f
+	 AvSyS6v68yx3JJ0ckm3hpvqevQK84iCiC1Y70VSy0qsjBv6/3gTvuWa95LCBjssnN+
+	 I6RZ2yI+mZdiwJOs4+RztVxq3IXzVyXiDeNMG7f+m8i1bvjLzkVXblY8rr45GuW3rT
+	 sxKvMDplI1ykXrIa/XoDnlDN/Yedw+ZTAZfZ4id560qmgJ/suaHwIf4517BEicfDsR
+	 kuxJut0OoCiIMC88L3qE1KtiQikk5LXIQM0brsA6oOMv5zGhWw7X4emFxde5l9VEhm
+	 nmWL07AjO777g==
+X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
+Received: from [192.168.178.21] ([94.31.85.83]) by smtp.web.de (mrweb106
+ [213.165.67.124]) with ESMTPSA (Nemesis) id 1MI3p7-1pblIs3TzL-00ErDf; Thu, 13
+ Apr 2023 22:20:17 +0200
+Message-ID: <d8ed4e5d-49d4-ca7e-1283-1ec166bf643d@web.de>
+Date: Thu, 13 Apr 2023 22:20:15 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <e2f5462d-5573-483c-9428-5f2b052cf939@lunn.ch>
-X-CMAE-Envelope: MS4wfMaZQ0Ggd85BQYsC1HXf1jU4yQBbbLL+fZtWemE4sg59r/Ene4Xn4kQI24CKD6BmXxfw9P4/tqWd004j97wjGszLQWZEGxY800p5cJ4dnArChc18FMY4
- ncapD+/GhrC3N34NCtNjvaRE4kTss3F5EwBOXGsjm6iXy53D2NQSoGsd+2xb+iu23ki5/HfhZ5/9wkcEfzBBkzseao7aMTC1G4dXcKiNbN3qyjr8WYfogdIU
- 2Xx2mFWCyDP/2VUrAJPItGo+59OVcVEhnstaLwKUo9MhTcRFTe2xM/EeSfl926Rbbf6jA0Fj/MJ4GW5w1TCR5Q==
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: [PATCH] media: atomisp: Move a variable assignment behind a null
+ pointer check in atomisp_cp_general_isp_parameters()
+Content-Language: en-GB
+From: Markus Elfring <Markus.Elfring@web.de>
+To: kernel-janitors@vger.kernel.org, linux-media@vger.kernel.org,
+ linux-staging@lists.linux.dev, Andy Shevchenko <andy@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Hans de Goede <hdegoede@redhat.com>, Hans Verkuil
+ <hverkuil-cisco@xs4all.nl>, Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Xiaomeng Tong <xiam0nd.tong@gmail.com>
+References: <40c60719-4bfe-b1a4-ead7-724b84637f55@web.de>
+ <1a11455f-ab57-dce0-1677-6beb8492a257@web.de>
+Cc: cocci@inria.fr, LKML <linux-kernel@vger.kernel.org>
+In-Reply-To: <1a11455f-ab57-dce0-1677-6beb8492a257@web.de>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:Kc4GVntHKdnb1UAYA6Irt+uVFidshrQqzT4A3EW+7hNpqnvtCMi
+ astMuaz4BUzEuBIfDboWfaS22JnJ+fUUk0OQhV4H/I6PSKfQn2NJzO5my+klSMtGNA9+Nk4
+ irHZTP0GFzvyQdurj0fZVA3lJCyf1bdvHGr6E3S3+w5R46TDyLOk4WjtaEvtljTE4o+9X/R
+ tbiU4r28adfJqcnpHTvNg==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:9aTo2VfwJ0c=;/CyD8gL43TFxuZg08kgiWb11hWK
+ Jh6K23DpiGVK1CTy3wGRXshREjcYgPCQ0Xk3ytWbrko37wSh08yp3oILx6LOiL6Bc8cGqYB8J
+ adGo5ug/n1/YeXxtgIt0O944/fGYMHeATh8zrHuAm0z0HKxFWG+1Jw9fTVK61kXvbS+rCtnRQ
+ BzTlKUtx7rlbDuhqJlu09ngjYP1YUN2uJB6KLlFCzeAImH1uBn4QnexJPYOVEWs+xBkx4bB7e
+ 97udLJFJ5vUcSrWOznnhA4/XH7FeugGlOxTjPUbeD5STzL/b6smmFoL/WEfRvfT4TxyasaK4H
+ PUMyo3MOPZL4vN+tm8Uo5+bJbs10rgGOXBg4z9HUxGD6kn8yZEkvU83DsOjojrR6EtKVFo2NH
+ lRtQdnb/YV7PIJDTf5SbgOUw2SWxgIxtBo+skNpc2DRwwL/fRt4+vr/F6BjHtWFpPxNv34lV2
+ E3wuk6nEj+6vcj9VxrGW+wCQnkZOdyInBGxc8/valfk+Z/LGrvqZWyjcgxs2UHfDjlytnvlSv
+ kYs7WboIDXrauzs3Y6NLwGJIxDDQS8Yh234GRSMmruIzbWLxtcAkyK3OcR8IjTrjU/szXTylu
+ 2GzPfrDWmfTtSDAMJYf+NImAwNUBtzPvax0pf/rFxl+VMTFQIHMH6A+KckOY5inyvyPE1mZiM
+ mS3vQVn9DKmfMgsqZLZMRL2XTF3g+mMWoaW4nDoEe9kb1ttv0C1MOPPFOiHRtcGah/9dDW7Cl
+ fd18ZfDwAG8RrWcZMy9TZlZc8ODezksevUAtLNxFtWCUVG1Oo3iX9HXe3wPvndSC8CE4Y390/
+ VzaYvOZf/7TVyYZHOIx5UA5ZM0B9mqZkuVGtxf3OPliiYXCgsxqSX7K2/1FGW0U+UjrTIDXud
+ XKGmXfRFxjEskmIZHy/CIXdcLrOlExgcYtz7/9xiU8A/2hWQrJ7y4PS5b
 
-On Thu, Apr 13, 2023 at 07:20:08PM +0200, Andrew Lunn wrote:
-> > I was asking this question myself and then came to this:
-> > Converting driver to phylink makes separating different macs easier as
-> > this driver is splitted between staging and arch/mips/cavium-octeon/executive/
-> > However I'll provide changes spotted previously as separate preparational
-> > patches. Would that work for you?
-> 
-> Is you end goal to get this out of staging? phylib vs phylink is not a
-> reason to keep it in staging.
+Date: Thu, 13 Apr 2023 22:08:42 +0200
 
-I agree. However it is a way to move it out as once phylink_mac_ops
-for each mac gets implemented, most code from
-arch/mips/cavium-octeon/executive could then be moved into respective
-phylink_mac_op, so driver become self contained.
+The address of a data structure member was determined before
+a corresponding null pointer check in the implementation of
+the function =E2=80=9Catomisp_cp_general_isp_parameters=E2=80=9D.
 
-> It just seems odd to be adding new features to a staging driver. As a
-> bit of a "carrot and stick" maybe we should say you cannot add new
-> features until it is ready to move out of staging?
+Thus avoid the risk for undefined behaviour by moving the assignment
+for the variable =E2=80=9Ccur_config=E2=80=9D behind the null pointer chec=
+k.
 
-Ok. I will continue to add cleanup patches before phylink support and
-we'll see how far we can get. That oddity has pretty simple reasoning:
-mainline kernel should be useable instead of vendor's solution (which
-does dirty SFP tricks from userpace and also supports AGL interface
-which is missing in staging driver). Without this, it will end as a
-spare time activity with a low priority. See this thread for context:
-https://lore.kernel.org/linux-mips/Y6rsbaT0l5cNBGbu@lenoch/
+This issue was detected by using the Coccinelle software.
 
-> But staging is not my usual domain.
+Fixes: ad85094b293e40e7a2f831b0311a389d952ebd5e ("Revert 'media: staging: =
+atomisp: Remove driver'")
+Signed-off-by: Markus Elfring <elfring@users.sourceforge.net>
+=2D--
+ drivers/staging/media/atomisp/pci/atomisp_cmd.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-Network drivers are not my usual domain, but I'll try to deal
-with that :)
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_cmd.c b/drivers/sta=
+ging/media/atomisp/pci/atomisp_cmd.c
+index 47f18ac5e40e..733a239b5d8a 100644
+=2D-- a/drivers/staging/media/atomisp/pci/atomisp_cmd.c
++++ b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
+@@ -2723,11 +2723,13 @@ int atomisp_cp_general_isp_parameters(struct atomi=
+sp_sub_device *asd,
+ 				      struct atomisp_css_params *css_param,
+ 				      bool from_user)
+ {
+-	struct atomisp_parameters *cur_config =3D &css_param->update_flag;
++	struct atomisp_parameters *cur_config;
 
-> 	 Andrew
+ 	if (!arg || !asd || !css_param)
+ 		return -EINVAL;
 
-Thanks for the patience,
-	ladis
++	cur_config =3D &css_param->update_flag;
++
+ 	if (arg->wb_config && (from_user || !cur_config->wb_config)) {
+ 		if (copy_from_compatible(&css_param->wb_config, arg->wb_config,
+ 					 sizeof(struct ia_css_wb_config),
+=2D-
+2.40.0
+
