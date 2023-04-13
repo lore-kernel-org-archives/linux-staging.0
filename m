@@ -1,96 +1,166 @@
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com [209.85.216.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2EE36FD2
-	for <linux-staging@lists.linux.dev>; Wed, 12 Apr 2023 17:51:37 +0000 (UTC)
-Received: by mail-wm1-f51.google.com with SMTP id l16so6594553wms.1
-        for <linux-staging@lists.linux.dev>; Wed, 12 Apr 2023 10:51:37 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0C3F62F
+	for <linux-staging@lists.linux.dev>; Thu, 13 Apr 2023 03:20:17 +0000 (UTC)
+Received: by mail-pj1-f46.google.com with SMTP id l9-20020a17090a3f0900b0023d32684e7fso5291661pjc.1
+        for <linux-staging@lists.linux.dev>; Wed, 12 Apr 2023 20:20:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1681321896;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=tjAgg+1rXP/ibl8SV/Shge5MrmdpY6vrV27SsO06MJQ=;
-        b=NRi333288ZygCOmiAdCNJosEPjp914KSfy4zw6TQ3mpCB2NW2Oc7MLkDl8u+fxJ2F+
-         lBgeTJ6H3PlMjRFGgQ7EWGxUGtJ5zd+9Q8jcFRgo2oly7eOp0UDea1KLH8wwJtrHufMT
-         yOEw/VYQlWjWE5Hvjux8cq/wMUKuWlP47MVE6XZ68LzlAL0k2wvWT5a0p4NO7shZ12S3
-         eWFWqYwWrF/t6EV46O22tHBrWYUXROl6BmhjQbyE0xrbHQHahqyjrhCgqD9sNntTcD5F
-         6Eum7Qg/RBPgxE59ARg7HrC3/2XVqKILrev6CHuHrWMkk5O9oU3OQr1qsXbGe3cIV8ep
-         FYGA==
+        d=gmail.com; s=20221208; t=1681356017; x=1683948017;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=Z4RSl7MgASHbzKIb7HhpZajJUXMszG/Shm2pafDVnjk=;
+        b=qzaGpjnJ7PckXQI5bl8QNUYnqNY9xzcX8MolKXiByTmUx42X79Ec5E91+W+NB4IBBu
+         Lj5fAZKHMS4mGloxAqwT/AL3IY4RP+RT+PKbKEpIEe2PgXE7HOMq9mq82QeLZFLG0bRh
+         5YMe5dSOEd7BRFtnC7skjHVc0OZdt5AG/KIsJKNS8p4xZszonCCByHbBfEomtVtOfcoO
+         g7zvC9+L/Uyy+nwnQESSZYt7/gXYJ696JLoeOs2hVL7oC2f4TeHo54vIFHfK5m2INQS9
+         JKjr436yAp10Y2VumV8qbVNJwEhyHPlIYWfaw13UQQne5/zHgf/+QsTYa7V4U7H+6L3H
+         /L8A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1681321896;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=tjAgg+1rXP/ibl8SV/Shge5MrmdpY6vrV27SsO06MJQ=;
-        b=RzhHwbjX8qDhUUGhSRVpssbRbzSezeGKm4eoJvXk9ZwDy/Yiwlp3WHlhrBS/yctgos
-         KKKuaLeoRHf5hQ1E41EHzSktAyl7IVqzhCq2wM9Lem0g/6gr9xs7CM0g07CqYsTO0e+T
-         V3nEsVj9IBWsw2LgNK1qtTFeUJbbrpPHI2lRr6hLiZ3FV7JEYMQVIOqTbLI5uwK6b562
-         2i+11MHCsa6NeQlhrfqow8FOaMyM5BNk4oBUdI+D7JvVUHDjGBi13aggJhNasxlkMmKD
-         ziFfNKrvOHIPqirgz/h7Tnu4+ekLg7radAHogfgUd3wxeBcxk6Tpuc5yozE+p/YuwgTB
-         YInQ==
-X-Gm-Message-State: AAQBX9daGUep592Zklk4wqzo12vsic/7pDxOd6TDj0LlnnE+M8U5O6HT
-	r4XJaGUib/fXhIAbQm1wq20=
-X-Google-Smtp-Source: AKy350aAdus6rK7PINuCvPZWM6juWt+b37hP4pj28oYO6b0OU/bUNn3+Jc4vYAMOYLhaHLJsJGvrBw==
-X-Received: by 2002:a05:600c:378a:b0:3ee:b3bf:5f7c with SMTP id o10-20020a05600c378a00b003eeb3bf5f7cmr12625430wmr.23.1681321895701;
-        Wed, 12 Apr 2023 10:51:35 -0700 (PDT)
-Received: from arch.localdomain ([2a0c:5a82:e704:7800:4aa3:3ca0:c843:43e3])
-        by smtp.googlemail.com with ESMTPSA id v13-20020a05600c214d00b003edf2dc7ca3sm3056020wml.34.2023.04.12.10.51.34
+        d=1e100.net; s=20221208; t=1681356017; x=1683948017;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Z4RSl7MgASHbzKIb7HhpZajJUXMszG/Shm2pafDVnjk=;
+        b=l/S/A/U9NXGcFtpjInnNw81DMQ3K9fPqEl9vNvK4ZZrt02qD2HOqFGtowIx5KPG46g
+         ZKhOxc2gU+LON/KyFS7NgFeyXaleGnOUAbsSbMLu/BXVhKVibHZY9FScBe5frCMsGKF5
+         QfnYJmkOHwbfmbiYohrGIX114v4QMPPsVrcE9Nnx6xIAUKfYgddT+HG4L+jwIB42fQlm
+         1hlWbKAe1uf9K0l/HYc2T7T9Aocf2NHN8rDmfqjJxKDyHz3XJjzT/VZX/LvnPclGjjZN
+         UDRcGtGyc8emgvOkssFzjntwfUc1/z6pR0wGKVdt4PkPZ63FCjdI6r6k0p0uts4ZFHTe
+         f+Bg==
+X-Gm-Message-State: AAQBX9c4kKLYakTrAVHMuZ38U9m1xxsKg3NgrAUzxWc7RbYn7SD1TY3r
+	WKQWNOTtW5lv8bhPrmGhtVA=
+X-Google-Smtp-Source: AKy350aTx2d1dYj6keJNuEa8XSi9ScGAirAoqJwKAKDnJjmGAXV2NmXJIMg90mCFD9PHBxDIHHfqSQ==
+X-Received: by 2002:a17:903:114:b0:1a5:2809:97f3 with SMTP id y20-20020a170903011400b001a5280997f3mr594763plc.14.1681356017131;
+        Wed, 12 Apr 2023 20:20:17 -0700 (PDT)
+Received: from Zephyrus-G14 ([103.251.210.208])
+        by smtp.gmail.com with ESMTPSA id u1-20020a170902a60100b001a671a396efsm299493plq.214.2023.04.12.20.20.14
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 12 Apr 2023 10:51:35 -0700 (PDT)
-From: Angel Alberto Carretero <angelalbertoc.r@gmail.com>
-To: Alison Schofield <alison.schofield@intel.com>,
-	Steve Longerbeam <slongerbeam@gmail.com>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	NXP Linux Team <linux-imx@nxp.com>
-Cc: Angel Alberto Carretero <angelalbertoc.r@gmail.com>,
-	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v2] media: imx: utils: Enclose IMX_BUS_FMTS macro in parenthesis
-Date: Wed, 12 Apr 2023 19:51:01 +0200
-Message-Id: <20230412175101.8746-1-angelalbertoc.r@gmail.com>
-X-Mailer: git-send-email 2.40.0
-In-Reply-To: <ZDSgWU5GXPFdJ99o@aschofie-mobl2>
-References: <ZDSgWU5GXPFdJ99o@aschofie-mobl2>
+        Wed, 12 Apr 2023 20:20:16 -0700 (PDT)
+Date: Thu, 13 Apr 2023 08:50:12 +0530
+From: Yogesh Hegde <yogi.kernel@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Cc: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+Subject: [PATCH] staging: rtl8192u: Remove functions rtl8192_wx_get_sens and
+ rtl8192_wx_set_sens
+Message-ID: <ZDd07Hgfe+Dxlus8@Zephyrus-G14>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Conform to kernel coding style by wrapping macro in parenthesis. Issue
-found by checkpatch.
+Both of these functions depend on the function rf_set_sens, which is
+declared but never defined. Hence calling this function will cause an
+oops. Because there is no definition of the function, priv->rf_set_sens
+will always be NULL.
 
-Signed-off-by: Angel Alberto Carretero <angelalbertoc.r@gmail.com>
+As a result rtl8192_wx_set_sens and rtl8192_wx_get_sens will always
+return -1.
+
+Hence,
+* Removed function definition rf_set_sens
+* Removed usage of variable priv->rf_set_sens
+* Removed functions rtl8192_wx_get_sens and rtl8192_wx_set_sens
+* Cleaned up the variables sens and max_sens used in these functions
+
+Suggested-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+
+Signed-off-by: Yogesh Hegde <yogi.kernel@gmail.com>
 ---
-v2: changed commit message and description thanks to Alison suggestion
----
- drivers/staging/media/imx/imx-media-utils.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/staging/rtl8192u/r8192U.h    |  3 ---
+ drivers/staging/rtl8192u/r8192U_wx.c | 40 ++--------------------------
+ 2 files changed, 2 insertions(+), 41 deletions(-)
 
-diff --git a/drivers/staging/media/imx/imx-media-utils.c b/drivers/staging/media/imx/imx-media-utils.c
-index 411e907b68eb..eb44c09071de 100644
---- a/drivers/staging/media/imx/imx-media-utils.c
-+++ b/drivers/staging/media/imx/imx-media-utils.c
-@@ -7,7 +7,7 @@
- #include <linux/module.h>
- #include "imx-media.h"
+diff --git a/drivers/staging/rtl8192u/r8192U.h b/drivers/staging/rtl8192u/r8192U.h
+index ff0ada00bf41..7da15b03519c 100644
+--- a/drivers/staging/rtl8192u/r8192U.h
++++ b/drivers/staging/rtl8192u/r8192U.h
+@@ -842,8 +842,6 @@ typedef struct r8192_priv {
  
--#define IMX_BUS_FMTS(fmt...) (const u32[]) {fmt, 0}
-+#define IMX_BUS_FMTS(fmt...) ((const u32[]) {fmt, 0})
+ 	u16 irq_mask;
+ 	short chan;
+-	short sens;
+-	short max_sens;
  
- /*
-  * List of supported pixel formats for the subdevs.
+ 	short up;
+ 	/* If 1, allow bad crc frame, reception in monitor mode */
+@@ -854,7 +852,6 @@ typedef struct r8192_priv {
+ 	enum rt_rf_type   rf_type;	    /* 0: 1T2R, 1: 2T4R */
+ 	RT_RF_TYPE_819xU rf_chip;
+ 
+-	short (*rf_set_sens)(struct net_device *dev, short sens);
+ 	u8 (*rf_set_chan)(struct net_device *dev, u8 ch);
+ 	void (*rf_close)(struct net_device *dev);
+ 	void (*rf_init)(struct net_device *dev);
+diff --git a/drivers/staging/rtl8192u/r8192U_wx.c b/drivers/staging/rtl8192u/r8192U_wx.c
+index 203ea3bfc843..2852f79204c0 100644
+--- a/drivers/staging/rtl8192u/r8192U_wx.c
++++ b/drivers/staging/rtl8192u/r8192U_wx.c
+@@ -250,8 +250,6 @@ static int rtl8180_wx_get_range(struct net_device *dev,
+ 	/* range->old_num_channels; */
+ 	/* range->old_num_frequency; */
+ 	/* range->old_freq[6]; */ /* Filler to keep "version" at the same offset */
+-	if (priv->rf_set_sens)
+-		range->sensitivity = priv->max_sens;	/* signal level threshold range */
+ 
+ 	range->max_qual.qual = 100;
+ 	/* TODO: Find real max RSSI and stick here */
+@@ -662,40 +660,6 @@ static int r8192_wx_get_retry(struct net_device *dev,
+ 	return 0;
+ }
+ 
+-static int r8192_wx_get_sens(struct net_device *dev,
+-			     struct iw_request_info *info,
+-			     union iwreq_data *wrqu, char *extra)
+-{
+-	struct r8192_priv *priv = ieee80211_priv(dev);
+-
+-	if (!priv->rf_set_sens)
+-		return -1; /* we have not this support for this radio */
+-	wrqu->sens.value = priv->sens;
+-	return 0;
+-}
+-
+-static int r8192_wx_set_sens(struct net_device *dev,
+-			     struct iw_request_info *info,
+-			     union iwreq_data *wrqu, char *extra)
+-{
+-	struct r8192_priv *priv = ieee80211_priv(dev);
+-	short err = 0;
+-
+-	mutex_lock(&priv->wx_mutex);
+-	if (!priv->rf_set_sens) {
+-		err = -1; /* we have not this support for this radio */
+-		goto exit;
+-	}
+-	if (priv->rf_set_sens(dev, wrqu->sens.value) == 0)
+-		priv->sens = wrqu->sens.value;
+-	else
+-		err = -EINVAL;
+-
+-exit:
+-	mutex_unlock(&priv->wx_mutex);
+-
+-	return err;
+-}
+ 
+ /* hw security need to reorganized. */
+ static int r8192_wx_set_enc_ext(struct net_device *dev,
+@@ -825,8 +789,8 @@ static iw_handler r8192_wx_handlers[] = {
+ 	r8192_wx_get_freq,        /* SIOCGIWFREQ */
+ 	r8192_wx_set_mode,        /* SIOCSIWMODE */
+ 	r8192_wx_get_mode,        /* SIOCGIWMODE */
+-	r8192_wx_set_sens,        /* SIOCSIWSENS */
+-	r8192_wx_get_sens,        /* SIOCGIWSENS */
++	NULL,                     /* SIOCSIWSENS */
++	NULL,                     /* SIOCGIWSENS */
+ 	NULL,                     /* SIOCSIWRANGE */
+ 	rtl8180_wx_get_range,	  /* SIOCGIWRANGE */
+ 	NULL,                     /* SIOCSIWPRIV */
 -- 
-2.40.0
+2.34.1
 
