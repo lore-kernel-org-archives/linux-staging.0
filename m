@@ -1,52 +1,37 @@
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from h2.cmg1.smtp.forpsi.com (h2.cmg1.smtp.forpsi.com [81.2.195.163])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F4F72CA5
-	for <linux-staging@lists.linux.dev>; Thu, 13 Apr 2023 09:34:26 +0000 (UTC)
-Received: by mail-wr1-f41.google.com with SMTP id e16so282381wra.6
-        for <linux-staging@lists.linux.dev>; Thu, 13 Apr 2023 02:34:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1681378464; x=1683970464;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=EgPI3gMFMJEkAVADKRKSeSLuWmFN3Bcqi6q46VgRbTA=;
-        b=JFWqqQBu8G5gyyjXXDCP43dCBt/tUf9DdkbxPWRKp18d12TOj45oCjHZXqABhYgHN+
-         C7N0nXnmz2C2spc++Xe1FFlF5hrjnAYJnfmmaF3GyZBf49QCqhbDVRrhdfE9PuuWgfJT
-         977UPgd6Aj92JJa3ck9tIhBTTf6AmU4hGsYGeJVGDAzQHWgdNN7qQmkG3b6AjueGBfFd
-         XsR8UqakRmH/qBW0VuLiLGcjWJZcfL0AZ9sROjFCm7QQF9SYgvH7bx6IwlLNNJaq55Bf
-         Bd8nxdI1IsEUiy21+CL0qj/TrNODhltA4F4CjgCGFaSILjGUdJXiYDuLeY0mVV2/Svc/
-         HB8A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1681378464; x=1683970464;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=EgPI3gMFMJEkAVADKRKSeSLuWmFN3Bcqi6q46VgRbTA=;
-        b=MNAeRtI+huZ4DrLShN0zHHLR7auJO9lqIXdWPzoNr+StcioEOEWtaAQB45YWv8YSqE
-         HgLHGqbYWemxc1Ze9dwPy2WvIUTDj37yNhkjDgFYqts4Zmr6tkOU3lb1+Y6+RvlOAsx8
-         5QNpcY5v2lt273LOJvsBAJR1Lz+L+DCJyWXdhjaVbmuXNMnIAfPKeYPjfK9oWwhvoGjy
-         RgIwOlgSKNYEptODISiwPPBvyKgEyTt31vcGpELgkY1PZ8lQjvYzd2BK8X8wfhnaa24g
-         Yvy5AyPbJWV/UmPa4UUrCBOzH3kmJkssYHNUAL6XPe4MXu8FrtH74+1Wts8a9Jarq7Vd
-         xumQ==
-X-Gm-Message-State: AAQBX9dqsPUZqxz0BwXMIOLlZFysHLtSUyPMN3DEGjbluPhJYUGhsZ0A
-	mRyYJzjfUE0GYw9uSpvbMz8=
-X-Google-Smtp-Source: AKy350aPY+Add69Yo0JYmqkazACQr3ccWteMx5Yc6vXPq40qd7bw4l7wVUHyG2x0kTTH+ksosS1nLQ==
-X-Received: by 2002:adf:ef03:0:b0:2ef:ba57:ee2d with SMTP id e3-20020adfef03000000b002efba57ee2dmr1037772wro.51.1681378464532;
-        Thu, 13 Apr 2023 02:34:24 -0700 (PDT)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id h8-20020adfe988000000b002efdf3e5be0sm883657wrm.44.2023.04.13.02.34.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 13 Apr 2023 02:34:24 -0700 (PDT)
-Date: Thu, 13 Apr 2023 12:34:15 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [BUG] staging: rtl8192e: W_DISABLE# does not work after
- stop/start
-Message-ID: <3f71b782-e52e-48cb-9a41-4097a3329ae3@kili.mountain>
-References: <39dc735c-fd6d-e405-856c-788a52704d63@gmail.com>
- <248ec330-b4c3-aa7b-61eb-69ce8d333b69@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5738A6AB4
+	for <linux-staging@lists.linux.dev>; Thu, 13 Apr 2023 14:19:00 +0000 (UTC)
+Received: from lenoch ([91.218.190.200])
+	by cmgsmtp with ESMTPSA
+	id mxi8pEi7aPm6Cmxi9pKcoR; Thu, 13 Apr 2023 16:14:05 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=triops.cz; s=f2019;
+	t=1681395245; bh=d4RY8XHU9yr1d2C7YF4zciMiPeh9xjFTvv8n5kIJFCg=;
+	h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type;
+	b=jHP1KzIJtaiYWVt32Li+nEIMNegwokCKrWVBGagI3+pzvSdLwhqZG0KdfJFIST938
+	 UfSP95+l/S516/Ntecy7CYWhCM8MAfN/nJZuDyn7sbGIA0vXNLfZeh/NPmpOYU93Rz
+	 jMMTwt0VWhbeqSz2B0Lq8pQvh/QN0MSpmKWSvCHB5LB9We+yXoRO+M1c7edzojUIWJ
+	 k1dYxg4zzAxw+QypoZ9kX/fSYFknfY536ySHm8zWOihQlaj4muM54RUEz8Dbovc4O4
+	 Pkc4XmS2fA2LxxJo/BJqPkLPq9HyEy2gjFymJ1Z/Jv6p7xAdE+29msMx9pKkf28OvO
+	 TeKVPjmqMuZ9A==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=triops.cz; s=f2019;
+	t=1681395245; bh=d4RY8XHU9yr1d2C7YF4zciMiPeh9xjFTvv8n5kIJFCg=;
+	h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type;
+	b=jHP1KzIJtaiYWVt32Li+nEIMNegwokCKrWVBGagI3+pzvSdLwhqZG0KdfJFIST938
+	 UfSP95+l/S516/Ntecy7CYWhCM8MAfN/nJZuDyn7sbGIA0vXNLfZeh/NPmpOYU93Rz
+	 jMMTwt0VWhbeqSz2B0Lq8pQvh/QN0MSpmKWSvCHB5LB9We+yXoRO+M1c7edzojUIWJ
+	 k1dYxg4zzAxw+QypoZ9kX/fSYFknfY536ySHm8zWOihQlaj4muM54RUEz8Dbovc4O4
+	 Pkc4XmS2fA2LxxJo/BJqPkLPq9HyEy2gjFymJ1Z/Jv6p7xAdE+29msMx9pKkf28OvO
+	 TeKVPjmqMuZ9A==
+Date: Thu, 13 Apr 2023 16:14:04 +0200
+From: Ladislav Michl <oss-lists@triops.cz>
+To: linux-staging@lists.linux.dev
+Cc: netdev@vger.kernel.org, linux-mips@vger.kernel.org,
+	Chris Packham <chris.packham@alliedtelesis.co.nz>
+Subject: [PATCH 2/3] staging: octeon: avoid needless device allocation
+Message-ID: <ZDgOLHw1IkmWVU79@lenoch>
+References: <ZDgNexVTEfyGo77d@lenoch>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -55,30 +40,176 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <248ec330-b4c3-aa7b-61eb-69ce8d333b69@gmail.com>
+In-Reply-To: <ZDgNexVTEfyGo77d@lenoch>
+X-CMAE-Envelope: MS4wfGHwwZS7Gk02EBad2RtgD3BzQprvwVOWYEp597MhjkvcfpbgvgIOuKGnZhOoMV21xs8mMfVr0nzK7NJkl7UwEmuxp4jrRveq7hurxt49iIbXvlC3DsAE
+ EIgbcy43VJg1jeqdVVt3MUHjpk+5pakgDChGNvgnUj7G1rSFJ9l1VNutAC2EoIcr5SCdx4OEvF3rjsUKHsR5Q+v+WXhYSyG0KaoRmlATE0HNCNi7RPSwjgid
+ BPWROsR80bOq2Mb784p7jJXdB8toFukFh7z1EeOg174KBLrPlg46QykBD7U7yLUh
 
-On Fri, Apr 07, 2023 at 11:02:05PM +0200, Philipp Hortmann wrote:
-> When loading the driver for rtl8192e, the W_DISABLE# switch is working as
-> intended. But when the WLAN is turned off in software and then turned on
-> again the W_DISABLE# does not work anymore.
-> 
-> Reason for this is that in the function _rtl92e_dm_check_rf_ctrl_gpio()
-> checking this every two seconds is an conditional return.
-> 
-> 	if (priv->bfirst_after_down) {
-> 		priv->bfirst_after_down = true; // PH: useless line
-> 		return;
-> 	}
-> 
-> 	tmp1byte = rtl92e_readb(dev, GPI); // PH: GPI for W_DISABLE#
-> 
-> bfirst_after_down is set true when switching the WLAN off in software. But
-> it is not set to false again when WLAN is turned on again.
-> 
+From: Ladislav Michl <ladis@linux-mips.org>
 
-Is there a question here?  You're like the expert on this driver and you
-seem to have figured out the solution...  I'm confused.
+Etherdev is allocated and then tested for valid interface,
+then it is immediately freed after port is found unsupported.
+Move that decision out of the port loop.
 
-regards,
-dan carpenter
+Signed-off-by: Ladislav Michl <ladis@linux-mips.org>
+---
+ drivers/staging/octeon/ethernet.c | 114 +++++++++++++++---------------
+ 1 file changed, 58 insertions(+), 56 deletions(-)
+
+diff --git a/drivers/staging/octeon/ethernet.c b/drivers/staging/octeon/ethernet.c
+index 949ef51bf896..466d43a71d34 100644
+--- a/drivers/staging/octeon/ethernet.c
++++ b/drivers/staging/octeon/ethernet.c
+@@ -799,18 +799,63 @@ static int cvm_oct_probe(struct platform_device *pdev)
+ 
+ 	num_interfaces = cvmx_helper_get_number_of_interfaces();
+ 	for (interface = 0; interface < num_interfaces; interface++) {
++		int num_ports, port_index;
++		const struct net_device_ops *ops;
++		const char *name;
++		phy_interface_t phy_mode = PHY_INTERFACE_MODE_NA;
+ 		cvmx_helper_interface_mode_t imode =
+-		    cvmx_helper_interface_get_mode(interface);
+-		int num_ports = cvmx_helper_ports_on_interface(interface);
+-		int port_index;
++			cvmx_helper_interface_get_mode(interface);
++
++		switch (imode) {
++		case CVMX_HELPER_INTERFACE_MODE_NPI:
++			ops = &cvm_oct_npi_netdev_ops;
++			name = "npi%d";
++			break;
++
++		case CVMX_HELPER_INTERFACE_MODE_XAUI:
++			ops = &cvm_oct_xaui_netdev_ops;
++			name = "xaui%d";
++			break;
++
++		case CVMX_HELPER_INTERFACE_MODE_LOOP:
++			ops = &cvm_oct_npi_netdev_ops;
++			name = "loop%d";
++			break;
++
++		case CVMX_HELPER_INTERFACE_MODE_SGMII:
++			ops = &cvm_oct_sgmii_netdev_ops;
++			name = "eth%d";
++			phy_mode = PHY_INTERFACE_MODE_SGMII;
++			break;
++
++		case CVMX_HELPER_INTERFACE_MODE_SPI:
++			ops = &cvm_oct_spi_netdev_ops;
++			name = "spi%d";
++			break;
++
++		case CVMX_HELPER_INTERFACE_MODE_GMII:
++			ops = &cvm_oct_rgmii_netdev_ops;
++			name = "eth%d";
++			phy_mode = PHY_INTERFACE_MODE_GMII;
++			break;
+ 
++		case CVMX_HELPER_INTERFACE_MODE_RGMII:
++			ops = &cvm_oct_rgmii_netdev_ops;
++			name = "eth%d";
++			break;
++
++		default:
++			continue;
++		}
++
++		num_ports = cvmx_helper_ports_on_interface(interface);
+ 		for (port_index = 0,
+ 		     port = cvmx_helper_get_ipd_port(interface, 0);
+ 		     port < cvmx_helper_get_ipd_port(interface, num_ports);
+ 		     port_index++, port++) {
+ 			struct octeon_ethernet *priv;
+ 			struct net_device *dev =
+-			    alloc_etherdev(sizeof(struct octeon_ethernet));
++				alloc_etherdev(sizeof(struct octeon_ethernet));
+ 			if (!dev) {
+ 				pr_err("Failed to allocate ethernet device for port %d\n",
+ 				       port);
+@@ -830,7 +875,12 @@ static int cvm_oct_probe(struct platform_device *pdev)
+ 			priv->port = port;
+ 			priv->queue = cvmx_pko_get_base_queue(priv->port);
+ 			priv->fau = fau - cvmx_pko_get_num_queues(port) * 4;
+-			priv->phy_mode = PHY_INTERFACE_MODE_NA;
++			priv->phy_mode = phy_mode;
++			if (imode == CVMX_HELPER_INTERFACE_MODE_RGMII)
++				cvm_set_rgmii_delay(priv, interface,
++						    port_index);
++			dev->netdev_ops = ops;
++			strscpy(dev->name, name, sizeof(dev->name));
+ 			for (qos = 0; qos < 16; qos++)
+ 				skb_queue_head_init(&priv->tx_free_list[qos]);
+ 			for (qos = 0; qos < cvmx_pko_get_num_queues(port);
+@@ -839,64 +889,16 @@ static int cvm_oct_probe(struct platform_device *pdev)
+ 			dev->min_mtu = VLAN_ETH_ZLEN - mtu_overhead;
+ 			dev->max_mtu = OCTEON_MAX_MTU - mtu_overhead;
+ 
+-			switch (priv->imode) {
+-			/* These types don't support ports to IPD/PKO */
+-			case CVMX_HELPER_INTERFACE_MODE_DISABLED:
+-			case CVMX_HELPER_INTERFACE_MODE_PCIE:
+-			case CVMX_HELPER_INTERFACE_MODE_PICMG:
+-				break;
+-
+-			case CVMX_HELPER_INTERFACE_MODE_NPI:
+-				dev->netdev_ops = &cvm_oct_npi_netdev_ops;
+-				strscpy(dev->name, "npi%d", sizeof(dev->name));
+-				break;
+-
+-			case CVMX_HELPER_INTERFACE_MODE_XAUI:
+-				dev->netdev_ops = &cvm_oct_xaui_netdev_ops;
+-				strscpy(dev->name, "xaui%d", sizeof(dev->name));
+-				break;
+-
+-			case CVMX_HELPER_INTERFACE_MODE_LOOP:
+-				dev->netdev_ops = &cvm_oct_npi_netdev_ops;
+-				strscpy(dev->name, "loop%d", sizeof(dev->name));
+-				break;
+-
+-			case CVMX_HELPER_INTERFACE_MODE_SGMII:
+-				priv->phy_mode = PHY_INTERFACE_MODE_SGMII;
+-				dev->netdev_ops = &cvm_oct_sgmii_netdev_ops;
+-				strscpy(dev->name, "eth%d", sizeof(dev->name));
+-				break;
+-
+-			case CVMX_HELPER_INTERFACE_MODE_SPI:
+-				dev->netdev_ops = &cvm_oct_spi_netdev_ops;
+-				strscpy(dev->name, "spi%d", sizeof(dev->name));
+-				break;
+-
+-			case CVMX_HELPER_INTERFACE_MODE_GMII:
+-				priv->phy_mode = PHY_INTERFACE_MODE_GMII;
+-				dev->netdev_ops = &cvm_oct_rgmii_netdev_ops;
+-				strscpy(dev->name, "eth%d", sizeof(dev->name));
+-				break;
+-
+-			case CVMX_HELPER_INTERFACE_MODE_RGMII:
+-				dev->netdev_ops = &cvm_oct_rgmii_netdev_ops;
+-				strscpy(dev->name, "eth%d", sizeof(dev->name));
+-				cvm_set_rgmii_delay(priv, interface,
+-						    port_index);
+-				break;
+-			}
+-
+ 			if (priv->of_node && of_phy_is_fixed_link(priv->of_node)) {
+ 				if (of_phy_register_fixed_link(priv->of_node)) {
+ 					netdev_err(dev, "Failed to register fixed link for interface %d, port %d\n",
+ 						   interface, priv->port);
+-					dev->netdev_ops = NULL;
++					free_netdev(dev);
++					continue;
+ 				}
+ 			}
+ 
+-			if (!dev->netdev_ops) {
+-				free_netdev(dev);
+-			} else if (register_netdev(dev) < 0) {
++			if (register_netdev(dev) < 0) {
+ 				pr_err("Failed to register ethernet device for interface %d, port %d\n",
+ 				       interface, priv->port);
+ 				free_netdev(dev);
+-- 
+2.32.0
 
