@@ -1,76 +1,88 @@
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F5D77C
-	for <linux-staging@lists.linux.dev>; Fri, 14 Apr 2023 17:13:28 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6600,9927,10680"; a="409720700"
-X-IronPort-AV: E=Sophos;i="5.99,197,1677571200"; 
-   d="scan'208";a="409720700"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Apr 2023 10:13:27 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10680"; a="779249884"
-X-IronPort-AV: E=Sophos;i="5.99,197,1677571200"; 
-   d="scan'208";a="779249884"
-Received: from smile.fi.intel.com ([10.237.72.54])
-  by FMSMGA003.fm.intel.com with ESMTP; 14 Apr 2023 10:13:24 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.96)
-	(envelope-from <andy@kernel.org>)
-	id 1pnMzC-00HDU9-0N;
-	Fri, 14 Apr 2023 20:13:22 +0300
-Date: Fri, 14 Apr 2023 20:13:21 +0300
-From: Andy Shevchenko <andy@kernel.org>
-To: Markus Elfring <Markus.Elfring@web.de>
-Cc: kernel-janitors@vger.kernel.org, linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Hans de Goede <hdegoede@redhat.com>,
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Xiaomeng Tong <xiam0nd.tong@gmail.com>, cocci@inria.fr,
-	LKML <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] media: atomisp: Move a variable assignment behind a null
- pointer check in atomisp_cp_general_isp_parameters()
-Message-ID: <ZDmJsemYldOsMMrH@smile.fi.intel.com>
-References: <40c60719-4bfe-b1a4-ead7-724b84637f55@web.de>
- <1a11455f-ab57-dce0-1677-6beb8492a257@web.de>
- <d8ed4e5d-49d4-ca7e-1283-1ec166bf643d@web.de>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA4A92CA9
+	for <linux-staging@lists.linux.dev>; Fri, 14 Apr 2023 18:34:56 +0000 (UTC)
+Received: by mail-ej1-f46.google.com with SMTP id a640c23a62f3a-94ea38c90ccso14098966b.1
+        for <linux-staging@lists.linux.dev>; Fri, 14 Apr 2023 11:34:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1681497295; x=1684089295;
+        h=content-disposition:mime-version:message-id:subject:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=/J+vjdb6cOyet1NlcJdx7Gney2QIkG13+uv7x6+rlKE=;
+        b=G05SBNFy+5LmoPB7N11GwA1JML3OifQBNYPoauP/kLqe28fX59OGvQikVdsU4O2tDh
+         zOVj501kf2xTO+zvTMDq+Kp3aZf+eYqSK5ua93Kja/71tEvabIKH1sKsPC43lAsaDyxa
+         2tEn0/DMof+CP2PLedntGb1xlx8uKxCHbsofChiYZtDQXfp+80LxC7owTaumdLcudxSk
+         9DNIyE9PdqzsdES5sUSsGT2tGVek6S186vBvQTOs4T63Y2DZpHmZQzFOVppbxnt0IKZw
+         5pjqR1HRtfrwumCZwBC+wyXKi2zgAqi04XXYr4NdQDbBD0wZkL5pSDSiK72I/3J/RVIY
+         SqtA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1681497295; x=1684089295;
+        h=content-disposition:mime-version:message-id:subject:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=/J+vjdb6cOyet1NlcJdx7Gney2QIkG13+uv7x6+rlKE=;
+        b=jhgbrVaTKpYUAlQ57g+VwMuV4kGgIQS2i4JXkVMrFMQnM7kvYKePnZN/th+gbdlw9V
+         U+gOiMO81h46HaedGrRwImjgV9WbMw1vfyo0IP2lfKkJytDclF5399mSQkmB/rayIfSf
+         BPWnecbZdn2FoIlZDgNEEWka+lLuubzQjX6eYPylF0MpAaPm+gsfrrM6E7/Ba/OJw2rm
+         7GRsuZgfue9e6PKWtkewCSixDROW0+evjGX7aDa/JzNFZ4Q9ZjFz7V7x/1TbiVFIS4AM
+         6e4pl/dz5YQjWg+RaHe0us44TvZyhcmtR3zi6bpG2Xs3zP5p2t1JZ63xr9Nwb6YEoW83
+         vu0w==
+X-Gm-Message-State: AAQBX9eNmM4C1ibQYrToo3ZdQXPjlx8/vpth36QB67w5KlWsDnMMmfAB
+	1CW4glooLgxjObdAG7hYRc0=
+X-Google-Smtp-Source: AKy350Yfsz8pokbm+WLlXGCqYoauSB33GAtn2ZEuFtPM657L3N+8DOR1vE+fbxwQQ7ZaL7nCXRMN1w==
+X-Received: by 2002:a17:906:d4:b0:947:bff2:1c2b with SMTP id 20-20020a17090600d400b00947bff21c2bmr2971926eji.1.1681497294723;
+        Fri, 14 Apr 2023 11:34:54 -0700 (PDT)
+Received: from matrix-ESPRIMO-P710 (p57935146.dip0.t-ipconnect.de. [87.147.81.70])
+        by smtp.gmail.com with ESMTPSA id m9-20020a1709062b8900b0094a9b9c4979sm2781449ejg.88.2023.04.14.11.34.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 14 Apr 2023 11:34:54 -0700 (PDT)
+Date: Fri, 14 Apr 2023 20:34:52 +0200
+From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: [PATCH] staging: rtl8192e: Fix W_DISABLE# does not work after
+ stop/start
+Message-ID: <20230414183452.GA12295@matrix-ESPRIMO-P710>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <d8ed4e5d-49d4-ca7e-1283-1ec166bf643d@web.de>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-On Thu, Apr 13, 2023 at 10:20:15PM +0200, Markus Elfring wrote:
-> Date: Thu, 13 Apr 2023 22:08:42 +0200
-> 
-> The address of a data structure member was determined before
-> a corresponding null pointer check in the implementation of
-> the function “atomisp_cp_general_isp_parameters”.
-> 
-> Thus avoid the risk for undefined behaviour by moving the assignment
-> for the variable “cur_config” behind the null pointer check.
+When loading the driver for rtl8192e, the W_DISABLE# switch is working as
+intended. But when the WLAN is turned off in software and then turned on
+again the W_DISABLE# does not work anymore. Reason for this is that in
+the function _rtl92e_dm_check_rf_ctrl_gpio() the bfirst_after_down is
+checked and returned when true. bfirst_after_down is set true when
+switching the WLAN off in software. But it is not set to false again
+when WLAN is turned on again.
 
-I don't think this is what is happening here. The check might be removed by
-optimizer in the compiler.
+Add bfirst_after_down = false in _rtl92e_sta_up to reset bit and fix
+above described bug.
 
-> This issue was detected by using the Coccinelle software.
-> 
-> Fixes: ad85094b293e40e7a2f831b0311a389d952ebd5e ("Revert 'media: staging: atomisp: Remove driver'")
+Signed-off-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+---
+Tested with rtl8192e (WLL6130-D99)
+Transferred this patch over wlan connection of rtl8192e
+---
+ drivers/staging/rtl8192e/rtl8192e/rtl_core.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-Wrong tag format.
-
-Code-wise I'm not against this, but it's up to Hans.
-
+diff --git a/drivers/staging/rtl8192e/rtl8192e/rtl_core.c b/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
+index 45989a77a27c..a644543015ee 100644
+--- a/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
++++ b/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
+@@ -648,6 +648,7 @@ static int _rtl92e_sta_up(struct net_device *dev, bool is_silent_reset)
+ 	else
+ 		netif_wake_queue(dev);
+ 
++	priv->bfirst_after_down = false;
+ 	return 0;
+ }
+ 
 -- 
-With Best Regards,
-Andy Shevchenko
-
+2.40.0
 
