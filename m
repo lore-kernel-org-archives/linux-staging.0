@@ -1,48 +1,44 @@
-Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from h1.cmg2.smtp.forpsi.com (h1.cmg2.smtp.forpsi.com [81.2.195.188])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA4A92CA9
-	for <linux-staging@lists.linux.dev>; Fri, 14 Apr 2023 18:34:56 +0000 (UTC)
-Received: by mail-ej1-f46.google.com with SMTP id a640c23a62f3a-94ea38c90ccso14098966b.1
-        for <linux-staging@lists.linux.dev>; Fri, 14 Apr 2023 11:34:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1681497295; x=1684089295;
-        h=content-disposition:mime-version:message-id:subject:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=/J+vjdb6cOyet1NlcJdx7Gney2QIkG13+uv7x6+rlKE=;
-        b=G05SBNFy+5LmoPB7N11GwA1JML3OifQBNYPoauP/kLqe28fX59OGvQikVdsU4O2tDh
-         zOVj501kf2xTO+zvTMDq+Kp3aZf+eYqSK5ua93Kja/71tEvabIKH1sKsPC43lAsaDyxa
-         2tEn0/DMof+CP2PLedntGb1xlx8uKxCHbsofChiYZtDQXfp+80LxC7owTaumdLcudxSk
-         9DNIyE9PdqzsdES5sUSsGT2tGVek6S186vBvQTOs4T63Y2DZpHmZQzFOVppbxnt0IKZw
-         5pjqR1HRtfrwumCZwBC+wyXKi2zgAqi04XXYr4NdQDbBD0wZkL5pSDSiK72I/3J/RVIY
-         SqtA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1681497295; x=1684089295;
-        h=content-disposition:mime-version:message-id:subject:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=/J+vjdb6cOyet1NlcJdx7Gney2QIkG13+uv7x6+rlKE=;
-        b=jhgbrVaTKpYUAlQ57g+VwMuV4kGgIQS2i4JXkVMrFMQnM7kvYKePnZN/th+gbdlw9V
-         U+gOiMO81h46HaedGrRwImjgV9WbMw1vfyo0IP2lfKkJytDclF5399mSQkmB/rayIfSf
-         BPWnecbZdn2FoIlZDgNEEWka+lLuubzQjX6eYPylF0MpAaPm+gsfrrM6E7/Ba/OJw2rm
-         7GRsuZgfue9e6PKWtkewCSixDROW0+evjGX7aDa/JzNFZ4Q9ZjFz7V7x/1TbiVFIS4AM
-         6e4pl/dz5YQjWg+RaHe0us44TvZyhcmtR3zi6bpG2Xs3zP5p2t1JZ63xr9Nwb6YEoW83
-         vu0w==
-X-Gm-Message-State: AAQBX9eNmM4C1ibQYrToo3ZdQXPjlx8/vpth36QB67w5KlWsDnMMmfAB
-	1CW4glooLgxjObdAG7hYRc0=
-X-Google-Smtp-Source: AKy350Yfsz8pokbm+WLlXGCqYoauSB33GAtn2ZEuFtPM657L3N+8DOR1vE+fbxwQQ7ZaL7nCXRMN1w==
-X-Received: by 2002:a17:906:d4:b0:947:bff2:1c2b with SMTP id 20-20020a17090600d400b00947bff21c2bmr2971926eji.1.1681497294723;
-        Fri, 14 Apr 2023 11:34:54 -0700 (PDT)
-Received: from matrix-ESPRIMO-P710 (p57935146.dip0.t-ipconnect.de. [87.147.81.70])
-        by smtp.gmail.com with ESMTPSA id m9-20020a1709062b8900b0094a9b9c4979sm2781449ejg.88.2023.04.14.11.34.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 14 Apr 2023 11:34:54 -0700 (PDT)
-Date: Fri, 14 Apr 2023 20:34:52 +0200
-From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [PATCH] staging: rtl8192e: Fix W_DISABLE# does not work after
- stop/start
-Message-ID: <20230414183452.GA12295@matrix-ESPRIMO-P710>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE29E363
+	for <linux-staging@lists.linux.dev>; Sat, 15 Apr 2023 00:21:36 +0000 (UTC)
+Received: from lenoch ([91.218.190.200])
+	by cmgsmtp with ESMTPSA
+	id nTfRpxKEOv5uInTfSp7BlT; Sat, 15 Apr 2023 02:21:28 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=triops.cz; s=f2019;
+	t=1681518088; bh=9ilePXRoNUCDch556gtjeLIsfgDIoTn3Fmaci6x9Kw0=;
+	h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type;
+	b=oi0iu4XGJWZ7tHkF+Mg9KDiSQaLzb6eMD0uFy5lKUy+LNQ+JssRtUSuXEeBfh8Yu+
+	 03+BLgiusjG3KN/GrqDP9g+0wsn3jU07TPUr5ZX9MAr39kll6KO6+nIIQ5FoGVNXEH
+	 1fL2oBJzb1schTPes/MbmchR9YwIqQjf09wo7Ehl4xG7nMpnxWSqyU/NcZ3y6EdPb4
+	 hNan+hDVcUNTAGIArZiquzlxRSfYh5PBC1uYuNmW5V/qPWVU6DW3kHDRr0uDoOKPlB
+	 ARdrhoPqssugooP1JlMg0i15y4nxktfQYBSGyW+WG9xnxEOgkIKW9A1KPmKMEIqOfD
+	 7Yl3+Nu4SoMcA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=triops.cz; s=f2019;
+	t=1681518088; bh=9ilePXRoNUCDch556gtjeLIsfgDIoTn3Fmaci6x9Kw0=;
+	h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type;
+	b=oi0iu4XGJWZ7tHkF+Mg9KDiSQaLzb6eMD0uFy5lKUy+LNQ+JssRtUSuXEeBfh8Yu+
+	 03+BLgiusjG3KN/GrqDP9g+0wsn3jU07TPUr5ZX9MAr39kll6KO6+nIIQ5FoGVNXEH
+	 1fL2oBJzb1schTPes/MbmchR9YwIqQjf09wo7Ehl4xG7nMpnxWSqyU/NcZ3y6EdPb4
+	 hNan+hDVcUNTAGIArZiquzlxRSfYh5PBC1uYuNmW5V/qPWVU6DW3kHDRr0uDoOKPlB
+	 ARdrhoPqssugooP1JlMg0i15y4nxktfQYBSGyW+WG9xnxEOgkIKW9A1KPmKMEIqOfD
+	 7Yl3+Nu4SoMcA==
+Date: Sat, 15 Apr 2023 02:21:24 +0200
+From: Ladislav Michl <oss-lists@triops.cz>
+To: Andrew Lunn <andrew@lunn.ch>
+Cc: linux-staging@lists.linux.dev, netdev@vger.kernel.org,
+	linux-mips@vger.kernel.org,
+	Chris Packham <chris.packham@alliedtelesis.co.nz>,
+	David Daney <ddaney.cavm@gmail.com>,
+	"Steven J. Hill" <sjhill@realitydiluted.com>
+Subject: Re: [PATCH 2/3] staging: octeon: avoid needless device allocation
+Message-ID: <ZDnuBDruWPFNwvWX@lenoch>
+References: <ZDgNexVTEfyGo77d@lenoch>
+ <ZDgOLHw1IkmWVU79@lenoch>
+ <543bfbb6-af60-4b5d-abf8-0274ab0b713f@lunn.ch>
+ <ZDgxPet9RIDC9Oz1@lenoch>
+ <e2f5462d-5573-483c-9428-5f2b052cf939@lunn.ch>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -51,38 +47,40 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <e2f5462d-5573-483c-9428-5f2b052cf939@lunn.ch>
+X-CMAE-Envelope: MS4wfHTE2Vck/h8W4fgx8xmu6CI4hbI5QppxWbMKXo3GzPtS6srSky59yVtjcwCpB0HHncUofK13zOD2KvqCZEplxTdeoBqsJbau4wHKuh0ncJwc7pH35w8B
+ nTbdLB7c1JGHO89ab2asZ+cdDF2rpRygGdy71uI3KhV9nVpERt5keM3wJAFRbjxBKX2koMLJy8s/lVC6ZoOunOlxCD2WDNbY4in5gKyVtpXMxL40qITirFnv
+ 954ToH/jss2hpTd2Q6Hkmb/W38gLlAVNd0EJ2+ioXjukGmNZpDZ4JJFxUyygasxTq8lmI5UzkvvRB5f17Te2O5V6PI/xSUddJWfKGp/ZluinM2hGYi2/FVGX
+ N0dPC6WBem5NNXjPCfee8fKUBsEUXp9I7Os0IsGFzJd7k0jj8Q8=
 
-When loading the driver for rtl8192e, the W_DISABLE# switch is working as
-intended. But when the WLAN is turned off in software and then turned on
-again the W_DISABLE# does not work anymore. Reason for this is that in
-the function _rtl92e_dm_check_rf_ctrl_gpio() the bfirst_after_down is
-checked and returned when true. bfirst_after_down is set true when
-switching the WLAN off in software. But it is not set to false again
-when WLAN is turned on again.
++David Daney, Steven J. Hill
 
-Add bfirst_after_down = false in _rtl92e_sta_up to reset bit and fix
-above described bug.
+On Thu, Apr 13, 2023 at 07:20:08PM +0200, Andrew Lunn wrote:
+> > I was asking this question myself and then came to this:
+> > Converting driver to phylink makes separating different macs easier as
+> > this driver is splitted between staging and arch/mips/cavium-octeon/executive/
+> > However I'll provide changes spotted previously as separate preparational
+> > patches. Would that work for you?
+> 
+> Is you end goal to get this out of staging? phylib vs phylink is not a
+> reason to keep it in staging.
 
-Signed-off-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
----
-Tested with rtl8192e (WLL6130-D99)
-Transferred this patch over wlan connection of rtl8192e
----
- drivers/staging/rtl8192e/rtl8192e/rtl_core.c | 1 +
- 1 file changed, 1 insertion(+)
+A side question here: Once upon the time there was an "Cavium OCTEON-III
+network driver" patchset floating around, reached v9, at least that's
+the last one I was able to find [1]. Prerequisites were intended to go
+via linux-mips tree [2].
 
-diff --git a/drivers/staging/rtl8192e/rtl8192e/rtl_core.c b/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
-index 45989a77a27c..a644543015ee 100644
---- a/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
-+++ b/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
-@@ -648,6 +648,7 @@ static int _rtl92e_sta_up(struct net_device *dev, bool is_silent_reset)
- 	else
- 		netif_wake_queue(dev);
- 
-+	priv->bfirst_after_down = false;
- 	return 0;
- }
- 
--- 
-2.40.0
+I was unable to find any further traces and this driver is not even
+in Cavium's 5.4 vendor tree. What happened with that? It is for different
+hardware, but some design decisions might be interesting here as well.
 
+> It just seems odd to be adding new features to a staging driver. As a
+> bit of a "carrot and stick" maybe we should say you cannot add new
+> features until it is ready to move out of staging?
+> 
+> But staging is not my usual domain.
+> 
+> 	 Andrew
+
+[1] https://www.spinics.net/lists/netdev/msg498700.html
+[2] https://www.spinics.net/lists/netdev/msg498696.html
