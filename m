@@ -1,47 +1,48 @@
-Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
+Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCB2229A9
-	for <linux-staging@lists.linux.dev>; Sat, 15 Apr 2023 13:51:43 +0000 (UTC)
-Received: by mail-ed1-f45.google.com with SMTP id 4fb4d7f45d1cf-50506111a6eso3171845a12.1
-        for <linux-staging@lists.linux.dev>; Sat, 15 Apr 2023 06:51:43 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E35C29AC
+	for <linux-staging@lists.linux.dev>; Sat, 15 Apr 2023 14:10:48 +0000 (UTC)
+Received: by mail-ej1-f47.google.com with SMTP id q23so43214686ejz.3
+        for <linux-staging@lists.linux.dev>; Sat, 15 Apr 2023 07:10:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1681566702; x=1684158702;
-        h=content-disposition:mime-version:message-id:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=v5NGWM3o2GaqdwID0upo2WthgZAEDdDsYwYXfBe+fZg=;
-        b=DzXSXDMTa//VKLuFIW7Z0WjyG6E5cewiG8T2900LoDmIvj+NvoAqQ1NCJF4q0nEzi1
-         4g5tpVZwMJO6Zvut1ix8WoKuYAAwtPpJe1APO3wa4iMN8DNwDJOUKtz4G5f1EcXA6GrH
-         E/hxLrmqX5ERdkcwJ1jacjepOb2YxITzCpuFvqs2uzd7Uo09BjakTEzm/UxnYJNdBqPO
-         4UxXhc99byxfC31h2W5ZGD1jijLV4L8ABkXtx/zAkqVKKF64omWpFoRa/ZEaJTH/+QtO
-         YCwMZJskleIXsfAYkiXC3hO5hT8jXmCbhRE27IwBQQ0VGZA6LPnGJrTw5tFwdyrVGWeH
-         x0VQ==
+        d=gmail.com; s=20221208; t=1681567846; x=1684159846;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=76jxwJ6jG3EVovd2wqVi8mn9JUvzlGKza5NgD7JN3r0=;
+        b=mWCl76CaG5oaPuUkZ1jW+U7kaBetwb0e3ZidvqL9neEoU6nHcW1kPTNml+OFOiEEyf
+         9l6uJCBhfYeiNS7tH+XBwgSjyufzOKPAt93KKNKKeMvzjd3uViYoGcAMOZv96y0H4Vfv
+         OvmAjj0MVe9i51vPEjwwd4Fu+fQEo9+2U4zWaWMW038fGuY1G/ZBYzSIw1iCzDan8KTE
+         dJex03DSIudUf7hZvZg44MCpEeQBVHSZ8xzWqT25ygaxOVFR6dCybYpQk0GdHokd8LT6
+         xdDJ9xOH/X3gUfr6/1LY1j/f2Z1feZ2xWCEx1uJOhRKXvDC37Em+aS4jfeipp0uS6DST
+         pI9Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1681566702; x=1684158702;
-        h=content-disposition:mime-version:message-id:cc:to:from:date
+        d=1e100.net; s=20221208; t=1681567846; x=1684159846;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=v5NGWM3o2GaqdwID0upo2WthgZAEDdDsYwYXfBe+fZg=;
-        b=ifdiwGEXK/h8Tzy2/Z9U2JX5ItAZhma1P53aYDXqaZPBLLZIYi8FQ6DIFQR8LmZ18P
-         kfitgl+TJ1Z2EJKyBTJJGm17j1cr66zETwTQ+XHFw6lntDGs0Xv27pJMuL8wFBjQJlgD
-         CuLMLM5zaTlUU+ScMxp4iA8CYtNK2iS8/7oK2HUIn/e4FYUPVVO2zdW6Pnosp2syocfv
-         dHrAS0ouuhkIz72sb4TkSRq6ON03by5AUCjtP/gthZ9XdqzPu/v+FLPb7NoNCk4wdC1v
-         aFgCbZNwcKtjZ9pPKkaImqkvyzPO78pvAMU3zkzbnSrZUhEKiCEkUi23OAhg0olb0IUB
-         S80Q==
-X-Gm-Message-State: AAQBX9fNuyE+FmOi6TVi0scjG41ZoOh9MSjWxcJxK5+aFiUqABzWeIoT
-	bcSeaNdgQ3dINrsvfqtYak0=
-X-Google-Smtp-Source: AKy350YOq+EfkYi7INh6Bbryu3v6RU7RuTzVauu+pzGKrbaXUqN/tAgJaVMWuLdwXQE+w7Zk83wbRQ==
-X-Received: by 2002:a05:6402:157:b0:506:77e5:fbb3 with SMTP id s23-20020a056402015700b0050677e5fbb3mr6436134edu.35.1681566701840;
-        Sat, 15 Apr 2023 06:51:41 -0700 (PDT)
+        bh=76jxwJ6jG3EVovd2wqVi8mn9JUvzlGKza5NgD7JN3r0=;
+        b=g9oMdbAdaJoPViSpMvhuHI/sfOgAmk3WbakFmolO2hPY/LEkDXbls4x7aEuzA7tsh2
+         mc/+WbBqQg8RiUsRcS9fNPOPzsu107nlH/IHlQ1l+zAlmkD1+perEg+GZeRIrBN8z4HD
+         7nVkQprmW0BrGYwsI8PkbvnpRqq5EyP6e2cVMIABYfK8JIzSud2Z2rxbKL67xc9sFD9e
+         8Lepx3kvaTmP04BPAwCFZLolNnqwI1zEmGWlWHXpS5hH1bVhGjZVXrIuMGpKfsu0Edty
+         vVG9VNd5v2fVLSM5zPaLTByPDBeFM3JbM0MtHb4/OllnJr1qcqMD9nbw9PdHMdfSEX6q
+         B6zg==
+X-Gm-Message-State: AAQBX9fdNrfuCzwBNNMizOaE3p7XdEtJxdEzRJSaTIdcCCGSGwmwOnZW
+	GBYLh0seNdav2rlwZ+4ni6c=
+X-Google-Smtp-Source: AKy350Z1+uwvDnkMqDZiym8jlIpJgo0Qj6dRh5uoZNYz1mab6V0egraY0VmLgy5oNjiddINwb6BI7w==
+X-Received: by 2002:a17:906:5610:b0:94e:ff98:44a7 with SMTP id f16-20020a170906561000b0094eff9844a7mr2292516ejq.72.1681567846100;
+        Sat, 15 Apr 2023 07:10:46 -0700 (PDT)
 Received: from kernelhacking.kernelhacking.example.com (dslb-088-067-245-126.088.067.pools.vodafone-ip.de. [88.67.245.126])
-        by smtp.gmail.com with ESMTPSA id g25-20020a056402115900b004c4eed3fe20sm3380348edw.5.2023.04.15.06.51.41
+        by smtp.gmail.com with ESMTPSA id b11-20020a17090636cb00b00930aa50372csm3851696ejc.43.2023.04.15.07.10.45
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 15 Apr 2023 06:51:41 -0700 (PDT)
-Date: Sat, 15 Apr 2023 15:51:39 +0200
+        Sat, 15 Apr 2023 07:10:45 -0700 (PDT)
+Date: Sat, 15 Apr 2023 16:10:44 +0200
 From: Luke Koch <lu.ale.koch@gmail.com>
 To: error27@gmail.com
 Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Message-ID: <ZDqr62DTxJVXGKum@kernelhacking.kernelhacking.example.com>
+Subject: [PATCH v2] staging: wlan-ng: replace rate macros
+Message-ID: <ZDqwZKZHyZZX4b2J@kernelhacking.kernelhacking.example.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -50,11 +51,6 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-
-linux-kernel@vger.org
-Bcc: 
-Subject: [PATCH v2] staging: wlan-ng: replace rate macros
-Reply-To: <714c5d3f-438a-4633-a46e-127f876ffec4@kili.mountain>
 
 Change p80211msg_dot11req_scan_results rate members to struct arrays
 instead of individually numbered member structs.
