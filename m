@@ -1,47 +1,47 @@
-Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
+Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6EAC1868
-	for <linux-staging@lists.linux.dev>; Sat, 15 Apr 2023 11:28:51 +0000 (UTC)
-Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-94a356c7419so480314966b.2
-        for <linux-staging@lists.linux.dev>; Sat, 15 Apr 2023 04:28:51 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 235581868
+	for <linux-staging@lists.linux.dev>; Sat, 15 Apr 2023 12:01:46 +0000 (UTC)
+Received: by mail-ej1-f44.google.com with SMTP id fy21so9195983ejb.9
+        for <linux-staging@lists.linux.dev>; Sat, 15 Apr 2023 05:01:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1681558130; x=1684150130;
+        d=gmail.com; s=20221208; t=1681560104; x=1684152104;
         h=content-disposition:mime-version:message-id:subject:cc:to:from:date
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=D2SXCABXMJw2Utfpn8E3EkbXRW2aNrcQgn0l3F4VNnc=;
-        b=sHIZCNtJ9y16xrCG/zBUef83xsgyhnRB/sMpU48toIUQYQOH8dWA4qnuEkuRTs+UGH
-         Cd/BJjzY+EOpdV5KwUfGPR4jCzIOcvff3mFPoEhOFvfakA/Len1R0jBSpp4U6TuEvwGL
-         XH7mOiEqJv73Bxe1HLe5tHoZxv1j8ed0D5S9Ij/fm1F/xiSUyNl+lBzDyQwjP0j0nVn0
-         nXPdgSGCC9mEKfrABw2N52i5J5ZVR9x82WOIsC8Oq4ib4Y6fHn/ytB/A+3RpdDHXDMy4
-         sW6tHUBz/2ToRDYS2C/N+uwnV/OM8gxI51iY8ZkvOKLoX3epsH7HWvdEd0okqhQH/qTU
-         VnyA==
+        bh=loYQo7M8BRPGuxyliqbEUne9rPks6JWwMjKdxM22SSs=;
+        b=jGVB7otariHvjr7dnZp+PuOdufOikW2BI2GlBSWMchRZ/oWSZKSFOjFNHoRnRBMg1t
+         nNAw7Wzxsi7+Lis/dyrW0cGw6pqTWLQ0u+Z3K3znc92K1AaKAolwEnuU3q1OKDkUhe5N
+         NDbJ7VLGeiCuHcjkNpSrY+nMJ/YHAaI3rtL2S+9LaMhwqCbDFpmXzAI4pdZ1u6sL11bp
+         IFPFDALNa4XEz0TQ8YVZEbW8cjsVaxW287NPOj7wdl/r3BEfulTpE2xkSaxhI1N+a6pN
+         dmYUD/MJPssGuHVLPvmoNmAjP+7dESXdwTQ9SRRrOClps9xT1rf4icBZVBxjSgD+9ZBz
+         TaPg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1681558130; x=1684150130;
+        d=1e100.net; s=20221208; t=1681560104; x=1684152104;
         h=content-disposition:mime-version:message-id:subject:cc:to:from:date
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=D2SXCABXMJw2Utfpn8E3EkbXRW2aNrcQgn0l3F4VNnc=;
-        b=K2ZwqeiJwiyw8WmTDR1Vb/aTod/dGji4DYB79D3J+8I8wT1TQK1nQfTkFYjYr/CHy+
-         gcyT2pje5p2ydCbm9SeAqAloRNuhcSmqiqHtaUbUgp3jJmy0kCXArUx/h+ECNVobGxe7
-         9QrOyIvwNH/hTiJswCcTx+vcxdIwM8F+JoT0uvA2w4n+nirptAulEOIEXJp6JNmVYbFM
-         8YmQF0ZWZF0N+bHwkUVqRusTSy76OhddKHnTsgg+Wrxj77/idUooQ0QbC1hgBAUeD1e+
-         hCX70DtMSRetf+N1d97sCA+X7JiUh3TU7FfPlIsOHMzPxN1NfpRElPHmx+zLuKokV6Yd
-         UuQw==
-X-Gm-Message-State: AAQBX9ddLzXDMplVZdwRNHAv7yLURFKMop+jsMEym6mHDmXhs+cE65SD
-	5EK2CqwmZlyUEyrfUAcywY8=
-X-Google-Smtp-Source: AKy350aTvg6wS6wHuMYvaQNE+YmQBme33Tb/AgUkYfc79YyLwhvlRM6h/VcmBcA5+baEnQ0Op7vQLw==
-X-Received: by 2002:a05:6402:b27:b0:502:20f0:3ee1 with SMTP id bo7-20020a0564020b2700b0050220f03ee1mr8801268edb.31.1681558129831;
-        Sat, 15 Apr 2023 04:28:49 -0700 (PDT)
-Received: from kernelhacking.kernelhacking.example.com (dslb-088-067-245-126.088.067.pools.vodafone-ip.de. [88.67.245.126])
-        by smtp.gmail.com with ESMTPSA id u11-20020aa7d98b000000b004ad601533a3sm3221121eds.55.2023.04.15.04.28.49
+        bh=loYQo7M8BRPGuxyliqbEUne9rPks6JWwMjKdxM22SSs=;
+        b=eqGWqNhGY0EEXxUi9QCgotx4OVjj//1rxI3/ULbKM2gf03FB5AyZmK4PWVk4Mces5E
+         Sm8oBHi8kg+P9mmbE+oJGp4HKvXrk8li6Dp4f4/L3tM0lAOLJ4yfDqm/A1Xssdow8jpU
+         GQZbRSFMDLThvspuLetWvXgVwyaRqPPGWvJXkkE+gYTyAXQ9UZuT06HR+NFxTbSauobl
+         qrhDOVKCJTd099virSCcmgQFM8aTF/aRWXxBrjthCWCXtQ3H5TjC5kl3Yuwgs0a4XLhx
+         q0burZRFL15PyGKGd0WCOAU8rGjYXEt6CMtxkQueehtDZDZUwPskPhU3kbuwMx7+RN1S
+         qo3Q==
+X-Gm-Message-State: AAQBX9f/LTwNDa5N4c54G68p/ueD3+MEMqfVNFVSfjAgL2ASnyt39FLC
+	Bk3RLTCZttb022gmnUaKyQ==
+X-Google-Smtp-Source: AKy350YmaFJs1/xmFhjwsAqRQVbz9nW/no3u7zgOjqOjWNPqPuCBTPhi2s2MDnm4zhfZCCNPVriEgw==
+X-Received: by 2002:a17:906:b756:b0:94a:82ca:12e5 with SMTP id fx22-20020a170906b75600b0094a82ca12e5mr1872166ejb.45.1681560104212;
+        Sat, 15 Apr 2023 05:01:44 -0700 (PDT)
+Received: from koolguy (dslb-002-205-192-117.002.205.pools.vodafone-ip.de. [2.205.192.117])
+        by smtp.gmail.com with ESMTPSA id wz4-20020a170906fe4400b0094eeda0df09sm1930184ejb.179.2023.04.15.05.01.43
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 15 Apr 2023 04:28:49 -0700 (PDT)
-Date: Sat, 15 Apr 2023 13:28:47 +0200
-From: Luke Koch <lu.ale.koch@gmail.com>
+        Sat, 15 Apr 2023 05:01:43 -0700 (PDT)
+Date: Sat, 15 Apr 2023 14:01:41 +0200
+From: Dalvin-Ehinoma Noah Aiguobas <pharcodra@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [PATCH] staging: wlan-ng: replace rate macros
-Message-ID: <ZDqKb1iuoSQTYXJM@kernelhacking.kernelhacking.example.com>
+Subject: [PATCH v2] staging: octeon: remove typedef declaration
+Message-ID: <20230415120141.GA6585@koolguy>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -51,113 +51,148 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Change p80211msg_dot11req_scan_results rate members to struct arrays
-instead of individually numbered member structs.
-Replace macros to set rates with loops to avoid checkpatch warning
-and adhere to linux coding style.
+Fix checkpatch.pl warning for enums.
 
-Reported by checkpatch:
+Change typedef cvmx_helper_interface_mode_t to
+enum cvmx_helper_interface_mode in ethernet.c
 
-CHECK: Macro argument reuse 'N' - possible side-effects?
-
-Signed off by: Luke Koch <lu.ale.koch@gmail.com>
+Signed-off-by: Dalvin-Ehinoma Noah Aiguobas <pharcodra@gmail.com>
 ---
- drivers/staging/wlan-ng/p80211metastruct.h | 18 +-------
- drivers/staging/wlan-ng/prism2mgmt.c       | 52 +++++++---------------
- 2 files changed, 18 insertions(+), 52 deletions(-)
+Changes in V2:
+-Remove Alignment fixes from previous version.
 
-diff --git a/drivers/staging/wlan-ng/p80211metastruct.h b/drivers/staging/wlan-ng/p80211metastruct.h
-index 4adc64580185..e963227f797c 100644
---- a/drivers/staging/wlan-ng/p80211metastruct.h
-+++ b/drivers/staging/wlan-ng/p80211metastruct.h
-@@ -114,22 +114,8 @@ struct p80211msg_dot11req_scan_results {
- 	struct p80211item_uint32 cfpollreq;
- 	struct p80211item_uint32 privacy;
- 	struct p80211item_uint32 capinfo;
--	struct p80211item_uint32 basicrate1;
--	struct p80211item_uint32 basicrate2;
--	struct p80211item_uint32 basicrate3;
--	struct p80211item_uint32 basicrate4;
--	struct p80211item_uint32 basicrate5;
--	struct p80211item_uint32 basicrate6;
--	struct p80211item_uint32 basicrate7;
--	struct p80211item_uint32 basicrate8;
--	struct p80211item_uint32 supprate1;
--	struct p80211item_uint32 supprate2;
--	struct p80211item_uint32 supprate3;
--	struct p80211item_uint32 supprate4;
--	struct p80211item_uint32 supprate5;
--	struct p80211item_uint32 supprate6;
--	struct p80211item_uint32 supprate7;
--	struct p80211item_uint32 supprate8;
-+	struct p80211item_uint32 basicrate[8];
-+	struct p80211item_uint32 supprate[8];
- } __packed;
+ drivers/staging/octeon/ethernet.c     |  2 +-
+ drivers/staging/octeon/octeon-stubs.h | 39 +++++++++++++--------------
+ 2 files changed, 20 insertions(+), 21 deletions(-)
 
- struct p80211msg_dot11req_start {
-diff --git a/drivers/staging/wlan-ng/prism2mgmt.c b/drivers/staging/wlan-ng/prism2mgmt.c
-index 9030a8939a9b..069c39c36753 100644
---- a/drivers/staging/wlan-ng/prism2mgmt.c
-+++ b/drivers/staging/wlan-ng/prism2mgmt.c
-@@ -437,42 +437,22 @@ int prism2mgmt_scan_results(struct wlandevice *wlandev, void *msgp)
- 		if (item->supprates[count] == 0)
- 			break;
-
--#define REQBASICRATE(N) \
--	do { \
--		if ((count >= (N)) && DOT11_RATE5_ISBASIC_GET(	\
--			item->supprates[(N) - 1])) { \
--			req->basicrate ## N .data = item->supprates[(N) - 1]; \
--			req->basicrate ## N .status = \
--				P80211ENUM_msgitem_status_data_ok; \
--		} \
--	} while (0)
--
--	REQBASICRATE(1);
--	REQBASICRATE(2);
--	REQBASICRATE(3);
--	REQBASICRATE(4);
--	REQBASICRATE(5);
--	REQBASICRATE(6);
--	REQBASICRATE(7);
--	REQBASICRATE(8);
--
--#define REQSUPPRATE(N) \
--	do { \
--		if (count >= (N)) {					\
--			req->supprate ## N .data = item->supprates[(N) - 1]; \
--			req->supprate ## N .status = \
--				P80211ENUM_msgitem_status_data_ok; \
--		} \
--	} while (0)
--
--	REQSUPPRATE(1);
--	REQSUPPRATE(2);
--	REQSUPPRATE(3);
--	REQSUPPRATE(4);
--	REQSUPPRATE(5);
--	REQSUPPRATE(6);
--	REQSUPPRATE(7);
--	REQSUPPRATE(8);
-+	for (int i = 0; i < 8; i++) {
-+		if (count >= i &&
-+		    DOT11_RATE5_ISBASIC_GET(item->supprates[i - 1])) {
-+			req->basicrate[i] .data = item->supprates[i - 1];
-+			req->basicrate[i] .status =
-+				P80211ENUM_msgitem_status_data_ok;
-+		}
-+	}
-+
-+	for (int i = 0; i < 8; i++) {
-+		if (count >= i) {
-+			req->supprate[i] .data = item->supprates[i - 1];
-+			req->supprate[i] .status =
-+				P80211ENUM_msgitem_status_data_ok;
-+		}
-+	}
+diff --git a/drivers/staging/octeon/ethernet.c b/drivers/staging/octeon/ethernet.c
+index 9eee28f2940c..023b107e077a 100644
+--- a/drivers/staging/octeon/ethernet.c
++++ b/drivers/staging/octeon/ethernet.c
+@@ -798,7 +798,7 @@ static int cvm_oct_probe(struct platform_device *pdev)
  
- 	/* beacon period */
- 	req->beaconperiod.status = P80211ENUM_msgitem_status_data_ok;
+ 	num_interfaces = cvmx_helper_get_number_of_interfaces();
+ 	for (interface = 0; interface < num_interfaces; interface++) {
+-		cvmx_helper_interface_mode_t imode =
++		enum cvmx_helper_interface_mode imode =
+ 		    cvmx_helper_interface_get_mode(interface);
+ 		int num_ports = cvmx_helper_ports_on_interface(interface);
+ 		int port;
+diff --git a/drivers/staging/octeon/octeon-stubs.h b/drivers/staging/octeon/octeon-stubs.h
+index 3e7b92cd2e35..58708a7f727a 100644
+--- a/drivers/staging/octeon/octeon-stubs.h
++++ b/drivers/staging/octeon/octeon-stubs.h
+@@ -213,14 +213,14 @@ enum cvmx_fau_op_size {
+ 	CVMX_FAU_OP_SIZE_64 = 3
+ };
+ 
+-typedef enum {
++enum cvmx_spi_mode {
+ 	CVMX_SPI_MODE_UNKNOWN = 0,
+ 	CVMX_SPI_MODE_TX_HALFPLEX = 1,
+ 	CVMX_SPI_MODE_RX_HALFPLEX = 2,
+ 	CVMX_SPI_MODE_DUPLEX = 3
+-} cvmx_spi_mode_t;
++};
+ 
+-typedef enum {
++enum cvmx_helper_interface_mode {
+ 	CVMX_HELPER_INTERFACE_MODE_DISABLED,
+ 	CVMX_HELPER_INTERFACE_MODE_RGMII,
+ 	CVMX_HELPER_INTERFACE_MODE_GMII,
+@@ -231,20 +231,20 @@ typedef enum {
+ 	CVMX_HELPER_INTERFACE_MODE_PICMG,
+ 	CVMX_HELPER_INTERFACE_MODE_NPI,
+ 	CVMX_HELPER_INTERFACE_MODE_LOOP,
+-} cvmx_helper_interface_mode_t;
++};
+ 
+-typedef enum {
++enum cvmx_pow_wait {
+ 	CVMX_POW_WAIT = 1,
+ 	CVMX_POW_NO_WAIT = 0,
+-} cvmx_pow_wait_t;
++};
+ 
+-typedef enum {
++enum cvmx_pko_lock {
+ 	CVMX_PKO_LOCK_NONE = 0,
+ 	CVMX_PKO_LOCK_ATOMIC_TAG = 1,
+ 	CVMX_PKO_LOCK_CMD_QUEUE = 2,
+-} cvmx_pko_lock_t;
++};
+ 
+-typedef enum {
++enum cvmx_pko_status {
+ 	CVMX_PKO_SUCCESS,
+ 	CVMX_PKO_INVALID_PORT,
+ 	CVMX_PKO_INVALID_QUEUE,
+@@ -252,7 +252,7 @@ typedef enum {
+ 	CVMX_PKO_NO_MEMORY,
+ 	CVMX_PKO_PORT_ALREADY_SETUP,
+ 	CVMX_PKO_CMD_QUEUE_INIT_ERROR
+-} cvmx_pko_status_t;
++};
+ 
+ enum cvmx_pow_tag_type {
+ 	CVMX_POW_TAG_TYPE_ORDERED   = 0L,
+@@ -1265,8 +1265,7 @@ static inline void cvmx_pko_get_port_status(uint64_t port_num, uint64_t clear,
+ 					    cvmx_pko_port_status_t *status)
+ { }
+ 
+-static inline cvmx_helper_interface_mode_t cvmx_helper_interface_get_mode(int
+-								   interface)
++static inline enum cvmx_helper_interface_mode cvmx_helper_interface_get_mode(int interface)
+ {
+ 	return 0;
+ }
+@@ -1342,11 +1341,11 @@ static inline unsigned int cvmx_get_core_num(void)
+ }
+ 
+ static inline void cvmx_pow_work_request_async_nocheck(int scr_addr,
+-						       cvmx_pow_wait_t wait)
++						       enum cvmx_pow_wait wait)
+ { }
+ 
+ static inline void cvmx_pow_work_request_async(int scr_addr,
+-					       cvmx_pow_wait_t wait)
++					       enum cvmx_pow_wait wait)
+ { }
+ 
+ static inline struct cvmx_wqe *cvmx_pow_work_response_async(int scr_addr)
+@@ -1356,13 +1355,13 @@ static inline struct cvmx_wqe *cvmx_pow_work_response_async(int scr_addr)
+ 	return wqe;
+ }
+ 
+-static inline struct cvmx_wqe *cvmx_pow_work_request_sync(cvmx_pow_wait_t wait)
++static inline struct cvmx_wqe *cvmx_pow_work_request_sync(enum cvmx_pow_wait wait)
+ {
+ 	return (void *)(unsigned long)wait;
+ }
+ 
+ static inline int cvmx_spi_restart_interface(int interface,
+-					cvmx_spi_mode_t mode, int timeout)
++				       enum cvmx_spi_mode mode, int timeout)
+ {
+ 	return 0;
+ }
+@@ -1381,12 +1380,12 @@ static inline union cvmx_gmxx_rxx_rx_inbnd cvmx_spi4000_check_speed(int interfac
+ }
+ 
+ static inline void cvmx_pko_send_packet_prepare(uint64_t port, uint64_t queue,
+-						cvmx_pko_lock_t use_locking)
++						enum cvmx_pko_lock use_locking)
+ { }
+ 
+-static inline cvmx_pko_status_t cvmx_pko_send_packet_finish(uint64_t port,
+-		uint64_t queue, union cvmx_pko_command_word0 pko_command,
+-		union cvmx_buf_ptr packet, cvmx_pko_lock_t use_locking)
++static inline enum cvmx_pko_status cvmx_pko_send_packet_finish(uint64_t port,
++		    uint64_t queue, union cvmx_pko_command_word0 pko_command,
++		    union cvmx_buf_ptr packet, enum cvmx_pko_lock use_locking)
+ {
+ 	return 0;
+ }
 -- 
-2.34.1
+2.25.1
 
