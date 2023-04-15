@@ -1,47 +1,50 @@
-Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
+Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 235581868
-	for <linux-staging@lists.linux.dev>; Sat, 15 Apr 2023 12:01:46 +0000 (UTC)
-Received: by mail-ej1-f44.google.com with SMTP id fy21so9195983ejb.9
-        for <linux-staging@lists.linux.dev>; Sat, 15 Apr 2023 05:01:45 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AF772103
+	for <linux-staging@lists.linux.dev>; Sat, 15 Apr 2023 12:43:27 +0000 (UTC)
+Received: by mail-ej1-f53.google.com with SMTP id kt6so14163886ejb.0
+        for <linux-staging@lists.linux.dev>; Sat, 15 Apr 2023 05:43:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1681560104; x=1684152104;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=loYQo7M8BRPGuxyliqbEUne9rPks6JWwMjKdxM22SSs=;
-        b=jGVB7otariHvjr7dnZp+PuOdufOikW2BI2GlBSWMchRZ/oWSZKSFOjFNHoRnRBMg1t
-         nNAw7Wzxsi7+Lis/dyrW0cGw6pqTWLQ0u+Z3K3znc92K1AaKAolwEnuU3q1OKDkUhe5N
-         NDbJ7VLGeiCuHcjkNpSrY+nMJ/YHAaI3rtL2S+9LaMhwqCbDFpmXzAI4pdZ1u6sL11bp
-         IFPFDALNa4XEz0TQ8YVZEbW8cjsVaxW287NPOj7wdl/r3BEfulTpE2xkSaxhI1N+a6pN
-         dmYUD/MJPssGuHVLPvmoNmAjP+7dESXdwTQ9SRRrOClps9xT1rf4icBZVBxjSgD+9ZBz
-         TaPg==
+        d=gmail.com; s=20221208; t=1681562605; x=1684154605;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=u/U1EVhvmioxEWIZgOSAGDZ+lg8zKWYdBXw2nRcSafA=;
+        b=XdjZ0ecoe3m5GeprHd2E/skpAQs49TAHnmG5JRrbqT79yKHwlx0WppkOsNO0w3GrfQ
+         of0bdSWPjwrH7HgQXc4a9+alX6mpY8O444oxwYYRkYCiv7m5q2OtQWnxHKQApsdV5bDF
+         UA6sS5HVCw5Vffyib2DLyQjmWqXmp6Wm5PQVjZWASBdrxfXmDKqAdwB/jZ6ct8rTgWRq
+         xO6+OwSxwl4vRVIY+6cppz4+7eAvwEPABG/UCZrnAbCmHRkN05d+FC9FH7l445+4Rp2S
+         Yvk5FAMEOKjOyM8MA5N/Z+AIZsDLr0r7c8MpIMmPyD5iC7O+8NHMRv1Zh5A4erZ0kDCR
+         csHQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1681560104; x=1684152104;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=loYQo7M8BRPGuxyliqbEUne9rPks6JWwMjKdxM22SSs=;
-        b=eqGWqNhGY0EEXxUi9QCgotx4OVjj//1rxI3/ULbKM2gf03FB5AyZmK4PWVk4Mces5E
-         Sm8oBHi8kg+P9mmbE+oJGp4HKvXrk8li6Dp4f4/L3tM0lAOLJ4yfDqm/A1Xssdow8jpU
-         GQZbRSFMDLThvspuLetWvXgVwyaRqPPGWvJXkkE+gYTyAXQ9UZuT06HR+NFxTbSauobl
-         qrhDOVKCJTd099virSCcmgQFM8aTF/aRWXxBrjthCWCXtQ3H5TjC5kl3Yuwgs0a4XLhx
-         q0burZRFL15PyGKGd0WCOAU8rGjYXEt6CMtxkQueehtDZDZUwPskPhU3kbuwMx7+RN1S
-         qo3Q==
-X-Gm-Message-State: AAQBX9f/LTwNDa5N4c54G68p/ueD3+MEMqfVNFVSfjAgL2ASnyt39FLC
-	Bk3RLTCZttb022gmnUaKyQ==
-X-Google-Smtp-Source: AKy350YmaFJs1/xmFhjwsAqRQVbz9nW/no3u7zgOjqOjWNPqPuCBTPhi2s2MDnm4zhfZCCNPVriEgw==
-X-Received: by 2002:a17:906:b756:b0:94a:82ca:12e5 with SMTP id fx22-20020a170906b75600b0094a82ca12e5mr1872166ejb.45.1681560104212;
-        Sat, 15 Apr 2023 05:01:44 -0700 (PDT)
-Received: from koolguy (dslb-002-205-192-117.002.205.pools.vodafone-ip.de. [2.205.192.117])
-        by smtp.gmail.com with ESMTPSA id wz4-20020a170906fe4400b0094eeda0df09sm1930184ejb.179.2023.04.15.05.01.43
+        d=1e100.net; s=20221208; t=1681562605; x=1684154605;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=u/U1EVhvmioxEWIZgOSAGDZ+lg8zKWYdBXw2nRcSafA=;
+        b=boGtGPigBhvjAoFlvWOGkQ1aSFmzX+1UgNHXzxYuuNpHQLK2xK5D+0MXU2EpG//jyX
+         2k0UZqh3/TxD45wsmDX1aRGwy8Ve0k0POFxIwdgwrBdawHXrcx+x4f8Hnh1v5pDtRoJJ
+         jNdMFF5r8jxKphivENuoqefd+p524ugmQ6NOEIl77LuLfBtm8VAnLgArPcIWb6OkrbcZ
+         d0d+0TjQaMm8WsOKSaWlUcHVCX5GgO6zgjQUbYANbSU+XiD+XH9welMZN3T4VYRQlJQU
+         JLul5cdhwmOM8clcj6KsdO8zfS1cYhxiWacmGzkaumxosLp90M5fOA29x1e+ZDhmG2pW
+         yXNg==
+X-Gm-Message-State: AAQBX9dnJtxhc3RWKb+1HAoHPfIw7kk6RoU3awOXXHIbjWzO39Br+JAQ
+	ssxsXSbwCCc4fJmnoZjQmmbs8Xc3coo=
+X-Google-Smtp-Source: AKy350bpAeF1kQWWtp+NVI6jLeI+pEP8H1bmjGpmwhUF0/v/EjW29kjm9IGnzOKQGPIdU/IxKvu7Ew==
+X-Received: by 2002:a17:907:77ce:b0:94f:3d8:3d80 with SMTP id kz14-20020a17090777ce00b0094f03d83d80mr2054728ejc.11.1681562605528;
+        Sat, 15 Apr 2023 05:43:25 -0700 (PDT)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id qc27-20020a170906d8bb00b0094f364b36acsm138665ejb.165.2023.04.15.05.43.24
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 15 Apr 2023 05:01:43 -0700 (PDT)
-Date: Sat, 15 Apr 2023 14:01:41 +0200
-From: Dalvin-Ehinoma Noah Aiguobas <pharcodra@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [PATCH v2] staging: octeon: remove typedef declaration
-Message-ID: <20230415120141.GA6585@koolguy>
+        Sat, 15 Apr 2023 05:43:25 -0700 (PDT)
+Date: Sat, 15 Apr 2023 15:43:20 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: Luke Koch <lu.ale.koch@gmail.com>
+Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: wlan-ng: replace rate macros
+Message-ID: <714c5d3f-438a-4633-a46e-127f876ffec4@kili.mountain>
+References: <ZDqKb1iuoSQTYXJM@kernelhacking.kernelhacking.example.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -50,149 +53,134 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <ZDqKb1iuoSQTYXJM@kernelhacking.kernelhacking.example.com>
 
-Fix checkpatch.pl warning for enums.
+On Sat, Apr 15, 2023 at 01:28:47PM +0200, Luke Koch wrote:
+> Change p80211msg_dot11req_scan_results rate members to struct arrays
+> instead of individually numbered member structs.
+> Replace macros to set rates with loops to avoid checkpatch warning
+> and adhere to linux coding style.
 
-Change typedef cvmx_helper_interface_mode_t to
-enum cvmx_helper_interface_mode in ethernet.c
+Writing every sentence in imperative tense makes people sound like space
+aliens in human skin...  You can if you want to but it's not a
+requirement in staging.  There are two maintainers who have that
+requirement and the Outreachy people.
 
-Signed-off-by: Dalvin-Ehinoma Noah Aiguobas <pharcodra@gmail.com>
----
-Changes in V2:
--Remove Alignment fixes from previous version.
+> 
+> Reported by checkpatch:
+> 
+> CHECK: Macro argument reuse 'N' - possible side-effects?
+> 
+> Signed off by: Luke Koch <lu.ale.koch@gmail.com>
+> ---
+>  drivers/staging/wlan-ng/p80211metastruct.h | 18 +-------
+>  drivers/staging/wlan-ng/prism2mgmt.c       | 52 +++++++---------------
+>  2 files changed, 18 insertions(+), 52 deletions(-)
+> 
+> diff --git a/drivers/staging/wlan-ng/p80211metastruct.h b/drivers/staging/wlan-ng/p80211metastruct.h
+> index 4adc64580185..e963227f797c 100644
+> --- a/drivers/staging/wlan-ng/p80211metastruct.h
+> +++ b/drivers/staging/wlan-ng/p80211metastruct.h
+> @@ -114,22 +114,8 @@ struct p80211msg_dot11req_scan_results {
+>  	struct p80211item_uint32 cfpollreq;
+>  	struct p80211item_uint32 privacy;
+>  	struct p80211item_uint32 capinfo;
+> -	struct p80211item_uint32 basicrate1;
+                                 ^^^^^^^^^^
+This starts at 1 instead of 0.
 
- drivers/staging/octeon/ethernet.c     |  2 +-
- drivers/staging/octeon/octeon-stubs.h | 39 +++++++++++++--------------
- 2 files changed, 20 insertions(+), 21 deletions(-)
+> -	struct p80211item_uint32 basicrate2;
+> -	struct p80211item_uint32 basicrate3;
+> -	struct p80211item_uint32 basicrate4;
+> -	struct p80211item_uint32 basicrate5;
+> -	struct p80211item_uint32 basicrate6;
+> -	struct p80211item_uint32 basicrate7;
+> -	struct p80211item_uint32 basicrate8;
+> -	struct p80211item_uint32 supprate1;
+> -	struct p80211item_uint32 supprate2;
+> -	struct p80211item_uint32 supprate3;
+> -	struct p80211item_uint32 supprate4;
+> -	struct p80211item_uint32 supprate5;
+> -	struct p80211item_uint32 supprate6;
+> -	struct p80211item_uint32 supprate7;
+> -	struct p80211item_uint32 supprate8;
+> +	struct p80211item_uint32 basicrate[8];
+> +	struct p80211item_uint32 supprate[8];
+>  } __packed;
+> 
+>  struct p80211msg_dot11req_start {
+> diff --git a/drivers/staging/wlan-ng/prism2mgmt.c b/drivers/staging/wlan-ng/prism2mgmt.c
+> index 9030a8939a9b..069c39c36753 100644
+> --- a/drivers/staging/wlan-ng/prism2mgmt.c
+> +++ b/drivers/staging/wlan-ng/prism2mgmt.c
+> @@ -437,42 +437,22 @@ int prism2mgmt_scan_results(struct wlandevice *wlandev, void *msgp)
+>  		if (item->supprates[count] == 0)
+>  			break;
+> 
+> -#define REQBASICRATE(N) \
+> -	do { \
+> -		if ((count >= (N)) && DOT11_RATE5_ISBASIC_GET(	\
+> -			item->supprates[(N) - 1])) { \
+> -			req->basicrate ## N .data = item->supprates[(N) - 1]; \
+> -			req->basicrate ## N .status = \
+> -				P80211ENUM_msgitem_status_data_ok; \
+> -		} \
+> -	} while (0)
+> -
+> -	REQBASICRATE(1);
+> -	REQBASICRATE(2);
+> -	REQBASICRATE(3);
+> -	REQBASICRATE(4);
+> -	REQBASICRATE(5);
+> -	REQBASICRATE(6);
+> -	REQBASICRATE(7);
+> -	REQBASICRATE(8);
+> -
+> -#define REQSUPPRATE(N) \
+> -	do { \
+> -		if (count >= (N)) {					\
+> -			req->supprate ## N .data = item->supprates[(N) - 1]; \
+> -			req->supprate ## N .status = \
+> -				P80211ENUM_msgitem_status_data_ok; \
+> -		} \
+> -	} while (0)
+> -
+> -	REQSUPPRATE(1);
+> -	REQSUPPRATE(2);
+> -	REQSUPPRATE(3);
+> -	REQSUPPRATE(4);
+> -	REQSUPPRATE(5);
+> -	REQSUPPRATE(6);
+> -	REQSUPPRATE(7);
+> -	REQSUPPRATE(8);
+> +	for (int i = 0; i < 8; i++) {
+                 ^^^^^
+Now it starts at zero.
 
-diff --git a/drivers/staging/octeon/ethernet.c b/drivers/staging/octeon/ethernet.c
-index 9eee28f2940c..023b107e077a 100644
---- a/drivers/staging/octeon/ethernet.c
-+++ b/drivers/staging/octeon/ethernet.c
-@@ -798,7 +798,7 @@ static int cvm_oct_probe(struct platform_device *pdev)
- 
- 	num_interfaces = cvmx_helper_get_number_of_interfaces();
- 	for (interface = 0; interface < num_interfaces; interface++) {
--		cvmx_helper_interface_mode_t imode =
-+		enum cvmx_helper_interface_mode imode =
- 		    cvmx_helper_interface_get_mode(interface);
- 		int num_ports = cvmx_helper_ports_on_interface(interface);
- 		int port;
-diff --git a/drivers/staging/octeon/octeon-stubs.h b/drivers/staging/octeon/octeon-stubs.h
-index 3e7b92cd2e35..58708a7f727a 100644
---- a/drivers/staging/octeon/octeon-stubs.h
-+++ b/drivers/staging/octeon/octeon-stubs.h
-@@ -213,14 +213,14 @@ enum cvmx_fau_op_size {
- 	CVMX_FAU_OP_SIZE_64 = 3
- };
- 
--typedef enum {
-+enum cvmx_spi_mode {
- 	CVMX_SPI_MODE_UNKNOWN = 0,
- 	CVMX_SPI_MODE_TX_HALFPLEX = 1,
- 	CVMX_SPI_MODE_RX_HALFPLEX = 2,
- 	CVMX_SPI_MODE_DUPLEX = 3
--} cvmx_spi_mode_t;
-+};
- 
--typedef enum {
-+enum cvmx_helper_interface_mode {
- 	CVMX_HELPER_INTERFACE_MODE_DISABLED,
- 	CVMX_HELPER_INTERFACE_MODE_RGMII,
- 	CVMX_HELPER_INTERFACE_MODE_GMII,
-@@ -231,20 +231,20 @@ typedef enum {
- 	CVMX_HELPER_INTERFACE_MODE_PICMG,
- 	CVMX_HELPER_INTERFACE_MODE_NPI,
- 	CVMX_HELPER_INTERFACE_MODE_LOOP,
--} cvmx_helper_interface_mode_t;
-+};
- 
--typedef enum {
-+enum cvmx_pow_wait {
- 	CVMX_POW_WAIT = 1,
- 	CVMX_POW_NO_WAIT = 0,
--} cvmx_pow_wait_t;
-+};
- 
--typedef enum {
-+enum cvmx_pko_lock {
- 	CVMX_PKO_LOCK_NONE = 0,
- 	CVMX_PKO_LOCK_ATOMIC_TAG = 1,
- 	CVMX_PKO_LOCK_CMD_QUEUE = 2,
--} cvmx_pko_lock_t;
-+};
- 
--typedef enum {
-+enum cvmx_pko_status {
- 	CVMX_PKO_SUCCESS,
- 	CVMX_PKO_INVALID_PORT,
- 	CVMX_PKO_INVALID_QUEUE,
-@@ -252,7 +252,7 @@ typedef enum {
- 	CVMX_PKO_NO_MEMORY,
- 	CVMX_PKO_PORT_ALREADY_SETUP,
- 	CVMX_PKO_CMD_QUEUE_INIT_ERROR
--} cvmx_pko_status_t;
-+};
- 
- enum cvmx_pow_tag_type {
- 	CVMX_POW_TAG_TYPE_ORDERED   = 0L,
-@@ -1265,8 +1265,7 @@ static inline void cvmx_pko_get_port_status(uint64_t port_num, uint64_t clear,
- 					    cvmx_pko_port_status_t *status)
- { }
- 
--static inline cvmx_helper_interface_mode_t cvmx_helper_interface_get_mode(int
--								   interface)
-+static inline enum cvmx_helper_interface_mode cvmx_helper_interface_get_mode(int interface)
- {
- 	return 0;
- }
-@@ -1342,11 +1341,11 @@ static inline unsigned int cvmx_get_core_num(void)
- }
- 
- static inline void cvmx_pow_work_request_async_nocheck(int scr_addr,
--						       cvmx_pow_wait_t wait)
-+						       enum cvmx_pow_wait wait)
- { }
- 
- static inline void cvmx_pow_work_request_async(int scr_addr,
--					       cvmx_pow_wait_t wait)
-+					       enum cvmx_pow_wait wait)
- { }
- 
- static inline struct cvmx_wqe *cvmx_pow_work_response_async(int scr_addr)
-@@ -1356,13 +1355,13 @@ static inline struct cvmx_wqe *cvmx_pow_work_response_async(int scr_addr)
- 	return wqe;
- }
- 
--static inline struct cvmx_wqe *cvmx_pow_work_request_sync(cvmx_pow_wait_t wait)
-+static inline struct cvmx_wqe *cvmx_pow_work_request_sync(enum cvmx_pow_wait wait)
- {
- 	return (void *)(unsigned long)wait;
- }
- 
- static inline int cvmx_spi_restart_interface(int interface,
--					cvmx_spi_mode_t mode, int timeout)
-+				       enum cvmx_spi_mode mode, int timeout)
- {
- 	return 0;
- }
-@@ -1381,12 +1380,12 @@ static inline union cvmx_gmxx_rxx_rx_inbnd cvmx_spi4000_check_speed(int interfac
- }
- 
- static inline void cvmx_pko_send_packet_prepare(uint64_t port, uint64_t queue,
--						cvmx_pko_lock_t use_locking)
-+						enum cvmx_pko_lock use_locking)
- { }
- 
--static inline cvmx_pko_status_t cvmx_pko_send_packet_finish(uint64_t port,
--		uint64_t queue, union cvmx_pko_command_word0 pko_command,
--		union cvmx_buf_ptr packet, cvmx_pko_lock_t use_locking)
-+static inline enum cvmx_pko_status cvmx_pko_send_packet_finish(uint64_t port,
-+		    uint64_t queue, union cvmx_pko_command_word0 pko_command,
-+		    union cvmx_buf_ptr packet, enum cvmx_pko_lock use_locking)
- {
- 	return 0;
- }
--- 
-2.25.1
+> +		if (count >= i &&
+> +		    DOT11_RATE5_ISBASIC_GET(item->supprates[i - 1])) {
+                                                            ^^^^^
+This is an array underflow.
 
+regards,
+dan carpenter
+
+> +			req->basicrate[i] .data = item->supprates[i - 1];
+> +			req->basicrate[i] .status =
+> +				P80211ENUM_msgitem_status_data_ok;
+> +		}
+> +	}
+> +
+> +	for (int i = 0; i < 8; i++) {
+> +		if (count >= i) {
+> +			req->supprate[i] .data = item->supprates[i - 1];
+> +			req->supprate[i] .status =
+> +				P80211ENUM_msgitem_status_data_ok;
+> +		}
+> +	}
+>  
+>  	/* beacon period */
+>  	req->beaconperiod.status = P80211ENUM_msgitem_status_data_ok;
+> -- 
+> 2.34.1
+> 
