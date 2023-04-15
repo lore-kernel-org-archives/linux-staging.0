@@ -1,44 +1,47 @@
-Received: from h1.cmg2.smtp.forpsi.com (h1.cmg2.smtp.forpsi.com [81.2.195.188])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE29E363
-	for <linux-staging@lists.linux.dev>; Sat, 15 Apr 2023 00:21:36 +0000 (UTC)
-Received: from lenoch ([91.218.190.200])
-	by cmgsmtp with ESMTPSA
-	id nTfRpxKEOv5uInTfSp7BlT; Sat, 15 Apr 2023 02:21:28 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=triops.cz; s=f2019;
-	t=1681518088; bh=9ilePXRoNUCDch556gtjeLIsfgDIoTn3Fmaci6x9Kw0=;
-	h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type;
-	b=oi0iu4XGJWZ7tHkF+Mg9KDiSQaLzb6eMD0uFy5lKUy+LNQ+JssRtUSuXEeBfh8Yu+
-	 03+BLgiusjG3KN/GrqDP9g+0wsn3jU07TPUr5ZX9MAr39kll6KO6+nIIQ5FoGVNXEH
-	 1fL2oBJzb1schTPes/MbmchR9YwIqQjf09wo7Ehl4xG7nMpnxWSqyU/NcZ3y6EdPb4
-	 hNan+hDVcUNTAGIArZiquzlxRSfYh5PBC1uYuNmW5V/qPWVU6DW3kHDRr0uDoOKPlB
-	 ARdrhoPqssugooP1JlMg0i15y4nxktfQYBSGyW+WG9xnxEOgkIKW9A1KPmKMEIqOfD
-	 7Yl3+Nu4SoMcA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=triops.cz; s=f2019;
-	t=1681518088; bh=9ilePXRoNUCDch556gtjeLIsfgDIoTn3Fmaci6x9Kw0=;
-	h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type;
-	b=oi0iu4XGJWZ7tHkF+Mg9KDiSQaLzb6eMD0uFy5lKUy+LNQ+JssRtUSuXEeBfh8Yu+
-	 03+BLgiusjG3KN/GrqDP9g+0wsn3jU07TPUr5ZX9MAr39kll6KO6+nIIQ5FoGVNXEH
-	 1fL2oBJzb1schTPes/MbmchR9YwIqQjf09wo7Ehl4xG7nMpnxWSqyU/NcZ3y6EdPb4
-	 hNan+hDVcUNTAGIArZiquzlxRSfYh5PBC1uYuNmW5V/qPWVU6DW3kHDRr0uDoOKPlB
-	 ARdrhoPqssugooP1JlMg0i15y4nxktfQYBSGyW+WG9xnxEOgkIKW9A1KPmKMEIqOfD
-	 7Yl3+Nu4SoMcA==
-Date: Sat, 15 Apr 2023 02:21:24 +0200
-From: Ladislav Michl <oss-lists@triops.cz>
-To: Andrew Lunn <andrew@lunn.ch>
-Cc: linux-staging@lists.linux.dev, netdev@vger.kernel.org,
-	linux-mips@vger.kernel.org,
-	Chris Packham <chris.packham@alliedtelesis.co.nz>,
-	David Daney <ddaney.cavm@gmail.com>,
-	"Steven J. Hill" <sjhill@realitydiluted.com>
-Subject: Re: [PATCH 2/3] staging: octeon: avoid needless device allocation
-Message-ID: <ZDnuBDruWPFNwvWX@lenoch>
-References: <ZDgNexVTEfyGo77d@lenoch>
- <ZDgOLHw1IkmWVU79@lenoch>
- <543bfbb6-af60-4b5d-abf8-0274ab0b713f@lunn.ch>
- <ZDgxPet9RIDC9Oz1@lenoch>
- <e2f5462d-5573-483c-9428-5f2b052cf939@lunn.ch>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6EAC1868
+	for <linux-staging@lists.linux.dev>; Sat, 15 Apr 2023 11:28:51 +0000 (UTC)
+Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-94a356c7419so480314966b.2
+        for <linux-staging@lists.linux.dev>; Sat, 15 Apr 2023 04:28:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1681558130; x=1684150130;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=D2SXCABXMJw2Utfpn8E3EkbXRW2aNrcQgn0l3F4VNnc=;
+        b=sHIZCNtJ9y16xrCG/zBUef83xsgyhnRB/sMpU48toIUQYQOH8dWA4qnuEkuRTs+UGH
+         Cd/BJjzY+EOpdV5KwUfGPR4jCzIOcvff3mFPoEhOFvfakA/Len1R0jBSpp4U6TuEvwGL
+         XH7mOiEqJv73Bxe1HLe5tHoZxv1j8ed0D5S9Ij/fm1F/xiSUyNl+lBzDyQwjP0j0nVn0
+         nXPdgSGCC9mEKfrABw2N52i5J5ZVR9x82WOIsC8Oq4ib4Y6fHn/ytB/A+3RpdDHXDMy4
+         sW6tHUBz/2ToRDYS2C/N+uwnV/OM8gxI51iY8ZkvOKLoX3epsH7HWvdEd0okqhQH/qTU
+         VnyA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1681558130; x=1684150130;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=D2SXCABXMJw2Utfpn8E3EkbXRW2aNrcQgn0l3F4VNnc=;
+        b=K2ZwqeiJwiyw8WmTDR1Vb/aTod/dGji4DYB79D3J+8I8wT1TQK1nQfTkFYjYr/CHy+
+         gcyT2pje5p2ydCbm9SeAqAloRNuhcSmqiqHtaUbUgp3jJmy0kCXArUx/h+ECNVobGxe7
+         9QrOyIvwNH/hTiJswCcTx+vcxdIwM8F+JoT0uvA2w4n+nirptAulEOIEXJp6JNmVYbFM
+         8YmQF0ZWZF0N+bHwkUVqRusTSy76OhddKHnTsgg+Wrxj77/idUooQ0QbC1hgBAUeD1e+
+         hCX70DtMSRetf+N1d97sCA+X7JiUh3TU7FfPlIsOHMzPxN1NfpRElPHmx+zLuKokV6Yd
+         UuQw==
+X-Gm-Message-State: AAQBX9ddLzXDMplVZdwRNHAv7yLURFKMop+jsMEym6mHDmXhs+cE65SD
+	5EK2CqwmZlyUEyrfUAcywY8=
+X-Google-Smtp-Source: AKy350aTvg6wS6wHuMYvaQNE+YmQBme33Tb/AgUkYfc79YyLwhvlRM6h/VcmBcA5+baEnQ0Op7vQLw==
+X-Received: by 2002:a05:6402:b27:b0:502:20f0:3ee1 with SMTP id bo7-20020a0564020b2700b0050220f03ee1mr8801268edb.31.1681558129831;
+        Sat, 15 Apr 2023 04:28:49 -0700 (PDT)
+Received: from kernelhacking.kernelhacking.example.com (dslb-088-067-245-126.088.067.pools.vodafone-ip.de. [88.67.245.126])
+        by smtp.gmail.com with ESMTPSA id u11-20020aa7d98b000000b004ad601533a3sm3221121eds.55.2023.04.15.04.28.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 15 Apr 2023 04:28:49 -0700 (PDT)
+Date: Sat, 15 Apr 2023 13:28:47 +0200
+From: Luke Koch <lu.ale.koch@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: [PATCH] staging: wlan-ng: replace rate macros
+Message-ID: <ZDqKb1iuoSQTYXJM@kernelhacking.kernelhacking.example.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -47,40 +50,114 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <e2f5462d-5573-483c-9428-5f2b052cf939@lunn.ch>
-X-CMAE-Envelope: MS4wfHTE2Vck/h8W4fgx8xmu6CI4hbI5QppxWbMKXo3GzPtS6srSky59yVtjcwCpB0HHncUofK13zOD2KvqCZEplxTdeoBqsJbau4wHKuh0ncJwc7pH35w8B
- nTbdLB7c1JGHO89ab2asZ+cdDF2rpRygGdy71uI3KhV9nVpERt5keM3wJAFRbjxBKX2koMLJy8s/lVC6ZoOunOlxCD2WDNbY4in5gKyVtpXMxL40qITirFnv
- 954ToH/jss2hpTd2Q6Hkmb/W38gLlAVNd0EJ2+ioXjukGmNZpDZ4JJFxUyygasxTq8lmI5UzkvvRB5f17Te2O5V6PI/xSUddJWfKGp/ZluinM2hGYi2/FVGX
- N0dPC6WBem5NNXjPCfee8fKUBsEUXp9I7Os0IsGFzJd7k0jj8Q8=
 
-+David Daney, Steven J. Hill
+Change p80211msg_dot11req_scan_results rate members to struct arrays
+instead of individually numbered member structs.
+Replace macros to set rates with loops to avoid checkpatch warning
+and adhere to linux coding style.
 
-On Thu, Apr 13, 2023 at 07:20:08PM +0200, Andrew Lunn wrote:
-> > I was asking this question myself and then came to this:
-> > Converting driver to phylink makes separating different macs easier as
-> > this driver is splitted between staging and arch/mips/cavium-octeon/executive/
-> > However I'll provide changes spotted previously as separate preparational
-> > patches. Would that work for you?
-> 
-> Is you end goal to get this out of staging? phylib vs phylink is not a
-> reason to keep it in staging.
+Reported by checkpatch:
 
-A side question here: Once upon the time there was an "Cavium OCTEON-III
-network driver" patchset floating around, reached v9, at least that's
-the last one I was able to find [1]. Prerequisites were intended to go
-via linux-mips tree [2].
+CHECK: Macro argument reuse 'N' - possible side-effects?
 
-I was unable to find any further traces and this driver is not even
-in Cavium's 5.4 vendor tree. What happened with that? It is for different
-hardware, but some design decisions might be interesting here as well.
+Signed off by: Luke Koch <lu.ale.koch@gmail.com>
+---
+ drivers/staging/wlan-ng/p80211metastruct.h | 18 +-------
+ drivers/staging/wlan-ng/prism2mgmt.c       | 52 +++++++---------------
+ 2 files changed, 18 insertions(+), 52 deletions(-)
 
-> It just seems odd to be adding new features to a staging driver. As a
-> bit of a "carrot and stick" maybe we should say you cannot add new
-> features until it is ready to move out of staging?
-> 
-> But staging is not my usual domain.
-> 
-> 	 Andrew
+diff --git a/drivers/staging/wlan-ng/p80211metastruct.h b/drivers/staging/wlan-ng/p80211metastruct.h
+index 4adc64580185..e963227f797c 100644
+--- a/drivers/staging/wlan-ng/p80211metastruct.h
++++ b/drivers/staging/wlan-ng/p80211metastruct.h
+@@ -114,22 +114,8 @@ struct p80211msg_dot11req_scan_results {
+ 	struct p80211item_uint32 cfpollreq;
+ 	struct p80211item_uint32 privacy;
+ 	struct p80211item_uint32 capinfo;
+-	struct p80211item_uint32 basicrate1;
+-	struct p80211item_uint32 basicrate2;
+-	struct p80211item_uint32 basicrate3;
+-	struct p80211item_uint32 basicrate4;
+-	struct p80211item_uint32 basicrate5;
+-	struct p80211item_uint32 basicrate6;
+-	struct p80211item_uint32 basicrate7;
+-	struct p80211item_uint32 basicrate8;
+-	struct p80211item_uint32 supprate1;
+-	struct p80211item_uint32 supprate2;
+-	struct p80211item_uint32 supprate3;
+-	struct p80211item_uint32 supprate4;
+-	struct p80211item_uint32 supprate5;
+-	struct p80211item_uint32 supprate6;
+-	struct p80211item_uint32 supprate7;
+-	struct p80211item_uint32 supprate8;
++	struct p80211item_uint32 basicrate[8];
++	struct p80211item_uint32 supprate[8];
+ } __packed;
 
-[1] https://www.spinics.net/lists/netdev/msg498700.html
-[2] https://www.spinics.net/lists/netdev/msg498696.html
+ struct p80211msg_dot11req_start {
+diff --git a/drivers/staging/wlan-ng/prism2mgmt.c b/drivers/staging/wlan-ng/prism2mgmt.c
+index 9030a8939a9b..069c39c36753 100644
+--- a/drivers/staging/wlan-ng/prism2mgmt.c
++++ b/drivers/staging/wlan-ng/prism2mgmt.c
+@@ -437,42 +437,22 @@ int prism2mgmt_scan_results(struct wlandevice *wlandev, void *msgp)
+ 		if (item->supprates[count] == 0)
+ 			break;
+
+-#define REQBASICRATE(N) \
+-	do { \
+-		if ((count >= (N)) && DOT11_RATE5_ISBASIC_GET(	\
+-			item->supprates[(N) - 1])) { \
+-			req->basicrate ## N .data = item->supprates[(N) - 1]; \
+-			req->basicrate ## N .status = \
+-				P80211ENUM_msgitem_status_data_ok; \
+-		} \
+-	} while (0)
+-
+-	REQBASICRATE(1);
+-	REQBASICRATE(2);
+-	REQBASICRATE(3);
+-	REQBASICRATE(4);
+-	REQBASICRATE(5);
+-	REQBASICRATE(6);
+-	REQBASICRATE(7);
+-	REQBASICRATE(8);
+-
+-#define REQSUPPRATE(N) \
+-	do { \
+-		if (count >= (N)) {					\
+-			req->supprate ## N .data = item->supprates[(N) - 1]; \
+-			req->supprate ## N .status = \
+-				P80211ENUM_msgitem_status_data_ok; \
+-		} \
+-	} while (0)
+-
+-	REQSUPPRATE(1);
+-	REQSUPPRATE(2);
+-	REQSUPPRATE(3);
+-	REQSUPPRATE(4);
+-	REQSUPPRATE(5);
+-	REQSUPPRATE(6);
+-	REQSUPPRATE(7);
+-	REQSUPPRATE(8);
++	for (int i = 0; i < 8; i++) {
++		if (count >= i &&
++		    DOT11_RATE5_ISBASIC_GET(item->supprates[i - 1])) {
++			req->basicrate[i] .data = item->supprates[i - 1];
++			req->basicrate[i] .status =
++				P80211ENUM_msgitem_status_data_ok;
++		}
++	}
++
++	for (int i = 0; i < 8; i++) {
++		if (count >= i) {
++			req->supprate[i] .data = item->supprates[i - 1];
++			req->supprate[i] .status =
++				P80211ENUM_msgitem_status_data_ok;
++		}
++	}
+ 
+ 	/* beacon period */
+ 	req->beaconperiod.status = P80211ENUM_msgitem_status_data_ok;
+-- 
+2.34.1
+
