@@ -1,103 +1,81 @@
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75D8A7B
-	for <linux-staging@lists.linux.dev>; Sun, 16 Apr 2023 05:55:36 +0000 (UTC)
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-3f05f61adbeso5790815e9.0
-        for <linux-staging@lists.linux.dev>; Sat, 15 Apr 2023 22:55:36 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12C5710FB
+	for <linux-staging@lists.linux.dev>; Sun, 16 Apr 2023 07:19:32 +0000 (UTC)
+Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-3f0769b0699so4541745e9.1
+        for <linux-staging@lists.linux.dev>; Sun, 16 Apr 2023 00:19:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1681624534; x=1684216534;
-        h=content-transfer-encoding:in-reply-to:content-language:references
-         :cc:to:subject:from:user-agent:mime-version:date:message-id:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=QCSqWDW+qJYJwIe/lPu0QIUfnGCKktR+2GZI90qNM8M=;
-        b=Ch79Xe6mcOjCx/3/DfF1n8lf7h00E09ao9g3jmzY66+EZwSvKIzWV5nX3bTxXLOCMz
-         ULIejoKYbV7JnfZLcKQltZsV4x690NMO+bp3z5BtnxZVJcV1DAKSj2c237pnnIK8OklT
-         r/FRdGh/EOft7qPAfHtlt2Ui1UiistF5ml6qHDxYgdeD+g3ZOZz47Noasx9SmHr+2On/
-         JIJzNU04Qf7pjFfUxjnXyO/9cUs7ZUVsDqDsSo3aZc2U9SV1AUx/+jvVVF1RtdKJS+07
-         Y/1BMEvAdKIYvbEAXvqE3bhHhhljCHGY7g48KLdoS8xqqMTogFajIUm41h09QJhfrWk0
-         x8IA==
+        d=gmail.com; s=20221208; t=1681629571; x=1684221571;
+        h=content-disposition:mime-version:message-id:subject:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=g0O0XIvH4c4BlzigY67Qd5l1PmbnHpON5HYPfEl0I6o=;
+        b=l96tVkmH6rqdKGLfwHfo4oJWdyRHWk4S2wsULtoPjsL15wlME0iALUOpNyId5USsF7
+         4AYrXGAIEGLbAY8hMZco48+Ve5XSxUEmimEhR5nyhjYGgSQVhSeDJ+TUrqP/2HSeV+im
+         6BAJSeU1lEq6fpbhas4NFvvQAed+sgH3kl/QJDZ5YXZKg7h9OhrTzhHuEUWSe+RYKp/P
+         0+VPPHZ2e469Vyt0wKoQS4C20d2SAxZsogHfvARIHsMBLw2W3J7QpDM/fBrx1ww9tgL5
+         wgpBP84pr5R9qLMzaLLkkzjRkk6o92HcjNVDMMssVe8K5zXXP8WZxAhBgVozfOHrRVJp
+         VKlA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1681624534; x=1684216534;
-        h=content-transfer-encoding:in-reply-to:content-language:references
-         :cc:to:subject:from:user-agent:mime-version:date:message-id
+        d=1e100.net; s=20221208; t=1681629571; x=1684221571;
+        h=content-disposition:mime-version:message-id:subject:to:from:date
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=QCSqWDW+qJYJwIe/lPu0QIUfnGCKktR+2GZI90qNM8M=;
-        b=fCuFtFK1OfkIbabWIMZol9daruR68wrFnlbbTd5wcRtnQC0swQn5+PZdULc68o5g3L
-         mnivbQmqtH9M3QIIBhUDgy4YELt8PBGp47sWh5ylAp7zbWbEfZoV95QgI131hV9sWWsa
-         4DvEMprjn7WdZe5FvRisg92poqx4gBy9deIb5Wb1KfUS7523FkkZ9yVMZAdZlEYk1CRL
-         O7qGvjV21VksG4EcpJWBCxX7Q9S7lnpPQ/H+sECce575FzphQz4DCuAlF16/INSrco9p
-         uzY9xdMMkQaQjJTzqSNwSPb/kFCws6PAe33/gnUY3O2UgBxkvMGnNQooI025MJQANOT0
-         o/4Q==
-X-Gm-Message-State: AAQBX9drWen90ei4MqvJ7Zp2me6Xj8mqJH0aqy8DCxcF1xV86VFt+SiU
-	psckncQaSIV7FsPyuhUCt9w=
-X-Google-Smtp-Source: AKy350aKqPcuBbL60uRffrNjEK7HJFtXzv2BNSXJcFsCjwI17kNXcNfYLrD09YCR2hohWko3yPbniA==
-X-Received: by 2002:a05:600c:3ca0:b0:3f0:a845:f215 with SMTP id bg32-20020a05600c3ca000b003f0a845f215mr5228353wmb.3.1681624534454;
-        Sat, 15 Apr 2023 22:55:34 -0700 (PDT)
-Received: from [192.168.0.105] (p57935146.dip0.t-ipconnect.de. [87.147.81.70])
-        by smtp.gmail.com with ESMTPSA id s6-20020a7bc386000000b003f172ec4022sm370187wmj.18.2023.04.15.22.55.33
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 15 Apr 2023 22:55:33 -0700 (PDT)
-Message-ID: <18cc3a02-dd57-787f-4c99-cbae259e838d@gmail.com>
-Date: Sun, 16 Apr 2023 07:55:32 +0200
+        bh=g0O0XIvH4c4BlzigY67Qd5l1PmbnHpON5HYPfEl0I6o=;
+        b=kzoYUVUKaHHToO0nHcCQp6ZyqcGUTp/djZpPje5Z+Y5tN3aT9iKQkThOQ1LJP84W8p
+         RcjqfUjZepubKEwWuh5C+2KvU1us6j1UQ38WtuKso1XMLcYthnhiQbfQcAVXVAZQtHmB
+         9szUWVUSGQ91t5c2+naK9hfH8xU/vay2RoipDg8F1NWwQRThtN+qkReImi318JtoJ08l
+         OT51SwonFKJ8EObcvb7psJ9Z1scQ88KuGtgBLNUmRU6wRcmuGjh5wkuy3DZjQ2lv9BKu
+         i++Ug9pllo7faWSMD70cgcDTP3uvlxTmUKKICbQYPPfsK6+I4dDlZYluhZSF0BP9fWrs
+         rg3w==
+X-Gm-Message-State: AAQBX9crYWaTdJU2bhVh/16JvH2lxuPRolSzw3BhXiiMvbPcV/BfvDLL
+	YJP9vRcU6iTo9gDIzSnw3tU=
+X-Google-Smtp-Source: AKy350bsn31PH4Q/fBL4XCI/dte4Oc0jQMBhU2HtOaiMtVZUQbwrULlIjhx8u/FGKZPeFLYsCjWWKA==
+X-Received: by 2002:a05:600c:1c0a:b0:3f0:5a8c:fee4 with SMTP id j10-20020a05600c1c0a00b003f05a8cfee4mr5379324wms.4.1681629571163;
+        Sun, 16 Apr 2023 00:19:31 -0700 (PDT)
+Received: from matrix-ESPRIMO-P710 (p57935146.dip0.t-ipconnect.de. [87.147.81.70])
+        by smtp.gmail.com with ESMTPSA id o8-20020a05600c378800b003ed2433aa4asm8461793wmr.41.2023.04.16.00.19.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 16 Apr 2023 00:19:30 -0700 (PDT)
+Date: Sun, 16 Apr 2023 09:19:28 +0200
+From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: [PATCH 0/8] staging: rtl8192e: Remove unchanged variables around
+ rf_power_state
+Message-ID: <cover.1681627603.git.philipp.g.hortmann@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-Subject: Re: [PATCH] staging: rtl8192e: Fix W_DISABLE# does not work after
- stop/start
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-References: <20230414183452.GA12295@matrix-ESPRIMO-P710>
- <2023041515-overhung-grime-d9fc@gregkh>
-Content-Language: en-US
-In-Reply-To: <2023041515-overhung-grime-d9fc@gregkh>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On 4/15/23 18:02, Greg Kroah-Hartman wrote:
-> On Fri, Apr 14, 2023 at 08:34:52PM +0200, Philipp Hortmann wrote:
->> When loading the driver for rtl8192e, the W_DISABLE# switch is working as
->> intended. But when the WLAN is turned off in software and then turned on
->> again the W_DISABLE# does not work anymore. Reason for this is that in
->> the function _rtl92e_dm_check_rf_ctrl_gpio() the bfirst_after_down is
->> checked and returned when true. bfirst_after_down is set true when
->> switching the WLAN off in software. But it is not set to false again
->> when WLAN is turned on again.
->>
->> Add bfirst_after_down = false in _rtl92e_sta_up to reset bit and fix
->> above described bug.
->>
->> Signed-off-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
->> ---
->> Tested with rtl8192e (WLL6130-D99)
->> Transferred this patch over wlan connection of rtl8192e
->> ---
->>   drivers/staging/rtl8192e/rtl8192e/rtl_core.c | 1 +
->>   1 file changed, 1 insertion(+)
-> 
-> 
-> What commit id does this fix?
-To me the driver was introduced in V3.2 and the issue did not change up 
-to now. Have a look at:
-https://elixir.bootlin.com/linux/v3.2-rc1/A/ident/bfirst_after_down
-https://elixir.bootlin.com/linux/v6.2.11/A/ident/bfirst_after_down
+Remove unchanged/unused variables and resulting dead code in conjunction
+with the state machine of rf_power_state.
 
- > Should it go to the stable kernels?  If
-> so, how far back?
-The second issue that is related to the W_DISABLE# signal is that the 
-connection is not reestablished when the signal is released. I need more 
-time to fix this issue. When I have fixed both we could backport them.
-> 
-> thanks,
-> 
-> greg k-h
+Tested with rtl8192e (WLL6130-D99)
+Transferred this patch over wlan connection of rtl8192e
 
-thanks,
+Philipp Hortmann (8):
+  staging: rtl8192e: Remove unchanged variable RegRfPsLevel
+  staging: rtl8192e: Remove unused function rtl92e_disable_nic
+  staging: rtl8192e: Remove unused macro RT_SET_PS_LEVEL
+  staging: rtl8192e: Remove second initialization of bActuallySet
+  staging: rtl8192e: Remove set to true while true of bfirst_after_down
+  staging: rtl8192e: Remove unchanged variable chan_forced
+  staging: rtl8192e: Remove unchanged variable frame_sync_monitor
+  staging: rtl8192e: Remove unchanged variables bfsync_processing and
+    more
 
-Philipp
+ .../staging/rtl8192e/rtl8192e/r8192E_phy.c    |  9 +--
+ drivers/staging/rtl8192e/rtl8192e/rtl_core.c  | 20 -----
+ drivers/staging/rtl8192e/rtl8192e/rtl_core.h  |  7 --
+ drivers/staging/rtl8192e/rtl8192e/rtl_dm.c    | 80 +++++++------------
+ drivers/staging/rtl8192e/rtllib.h             |  2 -
+ 5 files changed, 32 insertions(+), 86 deletions(-)
+
+-- 
+2.40.0
+
