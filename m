@@ -1,50 +1,52 @@
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
+Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8EBB210FB
-	for <linux-staging@lists.linux.dev>; Sun, 16 Apr 2023 07:20:02 +0000 (UTC)
-Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-2ef1e98d6bfso847238f8f.0
-        for <linux-staging@lists.linux.dev>; Sun, 16 Apr 2023 00:20:02 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2522810FB
+	for <linux-staging@lists.linux.dev>; Sun, 16 Apr 2023 07:20:05 +0000 (UTC)
+Received: by mail-pl1-f177.google.com with SMTP id kc3so5596927plb.6
+        for <linux-staging@lists.linux.dev>; Sun, 16 Apr 2023 00:20:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1681629601; x=1684221601;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=90mE4vdn9DzTlSbEbDUJ0ZvC16lpbnbcfCKswzbdsYs=;
-        b=VSdKfd6tV+8i05h89Gqj1/SH4zXlr3DvwA7iTIRF3rbn0aSxn7thUq4cJNwm4a/nDP
-         viD1eCUNbN/SwsZwS6SbnljvK0WLZVu0x9kpv/6LkJNzRgqvi6IIpHftz8efjIubOJvR
-         +JcupzZiYw8X0HNjGoTh/nxDMq/JP6Tgyi38p8RnaicRp0YrqMra6uP/OkevglzP9QF2
-         3OqTWTmhi/xu/s9iHs7c+HfbOrPJG57tbTo3gPZMhuHrodS/WbAsr2zZulFTnGHpILNH
-         otGQh1JxICB4TiNMaVGgP/6Yna9VBdCYmHYbapv7x2UiS6Hryn4gN0v7eHxa/xMpI1hT
-         KCOg==
+        d=gmail.com; s=20221208; t=1681629604; x=1684221604;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=UeH9tea2qoqcclHq5XTuR+lIyQ2Iiw2V+4Ly8KEi4p0=;
+        b=gWMGCFrljEv5xhYJNrAFgvvt3al9oD3eeSaMWskBLyDUSHZyTGUljzDZNc0Gh6x0N2
+         AsNY/dutCtc8+lhfjzD+oelsyERuST2mffdMqCCHVNUgGsz6rQ4hPQp4IcqaKm2FT8QG
+         yZRI9N6P6RrlIgmMv0nl6/3ZbMTnAD8cMb4v7FXTC0pg8E5ayFUVLHgOSg9Shoo4uMgR
+         CM69m/CCwUzuz9cLjP7dG8EEaNzuESpRpLuAvWUJUXELX1VMC/ccOvpwqFPd+7kuEF1t
+         jif9ufVumtG6de033nZC/CZth/tZhx4vbcITu6VPzzOcGMhJLDIjyqrGoR4QWAjj8qZe
+         VeDw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1681629601; x=1684221601;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=90mE4vdn9DzTlSbEbDUJ0ZvC16lpbnbcfCKswzbdsYs=;
-        b=ZioVOGBIqHF1xhu1yUk/ESCD7vTMO1NK2pC2bCBsBBOEMUJBqAprfrceBnf1RHCLeT
-         qCY/VXwl7MV1ZVKcbJUurp/xdZo2cZtmofiTbiBvIFrzUlE79Uj1vcQ17Tme8jBBorBP
-         hFCQJ0nNLpuIuZggTXPoydaWmRblV/IxzSbsXMN5dkMuFw6Q5+xBYLYPY8D6bUiyzdbt
-         H4zENO33jLfHQKd8Tqo+dJoYD8sqLNKdNsiez7t4cPGp0pfIKeMOJ0FaIcOu2Ii9Xqto
-         YgWlMekPZdrTiHcg2SCq2XhYGdB91GEC7Q8tnxz80RJOAb/ra0nRs6L0GvBZWJuyAO/m
-         00Ew==
-X-Gm-Message-State: AAQBX9fKygdVcubJNJk043pVdjBq8KBUP3By1ZXvWizVK4dN7CqJEZgW
-	dh2Dla1HDlIUnaozTXhpuS8F0RTfWu0=
-X-Google-Smtp-Source: AKy350a4IN4nnH5XTOwrfTuJMdHp0biWw11GVr9plvTPUzlCsevkSGG8ElTmF0/m7+UA5g4YDCZa7w==
-X-Received: by 2002:a5d:6d4c:0:b0:2f7:dc6a:9468 with SMTP id k12-20020a5d6d4c000000b002f7dc6a9468mr3384392wri.3.1681629600725;
-        Sun, 16 Apr 2023 00:20:00 -0700 (PDT)
-Received: from matrix-ESPRIMO-P710 (p57935146.dip0.t-ipconnect.de. [87.147.81.70])
-        by smtp.gmail.com with ESMTPSA id s15-20020adfea8f000000b002d1801018e2sm7388202wrm.63.2023.04.16.00.19.59
+        d=1e100.net; s=20221208; t=1681629604; x=1684221604;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=UeH9tea2qoqcclHq5XTuR+lIyQ2Iiw2V+4Ly8KEi4p0=;
+        b=HxgAcFRD9y3GnZhv1B5atW9DTi30Q8wCKMri1WjbGO208L0iRJ9SRNsTrlwqiGh12u
+         Zm7VlKOVxSJ/vDOBDfpCC5nuv+2uiHP+BVh+2MwwQCCsBApgSRHOmJBA7GZYHO0aM2yX
+         YzKCQDz42hPiiNH3EGlvU8dq8Zt7A7sDmHuig/+YhLezx4ORKDPMArUEP6l7IF/qp/kg
+         /jWYXm6sAm89ALh/usO+otXbiADGKubn5PT3ViiJ0zxqTlygsr362d6G8kTQXmL3Cg+n
+         8qp0GwSX9l1Q0D06/1mbnzsfkUBAqOAqoSFPDywFCPumHuo6Kz92mlq59xlccBdwJMYG
+         9z4w==
+X-Gm-Message-State: AAQBX9fmi5NETQO7dN0bD4vftVz81R63eKi49aBhF/G99/jgzkfaXSRV
+	VIdbrM0jFv6shZFzQAZfKg4=
+X-Google-Smtp-Source: AKy350a+Unge9hffAbLPDjXT1FWy3HTMLX8iGJJxFBttYJyHRfELOce78IUhuQdUCk9oolK1gv2xwg==
+X-Received: by 2002:a17:902:e748:b0:1a6:7570:5368 with SMTP id p8-20020a170902e74800b001a675705368mr9510932plf.19.1681629604404;
+        Sun, 16 Apr 2023 00:20:04 -0700 (PDT)
+Received: from yoga ([2400:1f00:13:db5a:e583:1107:fa06:3a11])
+        by smtp.gmail.com with UTF8SMTPSA id jm15-20020a17090304cf00b001a045f45d49sm5459816plb.281.2023.04.16.00.19.59
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 16 Apr 2023 00:20:00 -0700 (PDT)
-Date: Sun, 16 Apr 2023 09:19:58 +0200
-From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [PATCH 4/8] staging: rtl8192e: Remove second initialization of
- bActuallySet
-Message-ID: <ebf51fbd56bad4f8fd7fb51fe031f376c3ab6d2c.1681627603.git.philipp.g.hortmann@gmail.com>
-References: <cover.1681627603.git.philipp.g.hortmann@gmail.com>
+        Sun, 16 Apr 2023 00:20:03 -0700 (PDT)
+Date: Sun, 16 Apr 2023 12:49:56 +0530
+From: Anup Sharma <anupnewsmail@gmail.com>
+To: hdegoede@redhat.com, mchehab@kernel.org, sakari.ailus@linux.intel.com,
+	gregkh@linuxfoundation.org, andy@kernel.org
+Cc: linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	 linux-kernel-mentees@lists.linuxfoundation.org,
+	skhan@linuxfoundation.org, anupnewsmail@gmail.com
+Subject: [PATCH] Staging: media: atomisp: include: mmu: include
+ <linux/processor.h> instead of <asm/processor.h>
+Message-ID: <ZDuhnLPczec5qJnq@yoga>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -53,28 +55,28 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <cover.1681627603.git.philipp.g.hortmann@gmail.com>
 
-Remove second initialization of bActuallySet to shorten code.
+Fix following checkpatch.pl warning by including
+<linux/processor.h> instead of <asm/processor.h>
 
-Signed-off-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+Signed-off-by: Anup Sharma <anupnewsmail@gmail.com>
 ---
- drivers/staging/rtl8192e/rtl8192e/rtl_dm.c | 2 --
- 1 file changed, 2 deletions(-)
+ drivers/staging/media/atomisp/include/linux/atomisp_platform.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/staging/rtl8192e/rtl8192e/rtl_dm.c b/drivers/staging/rtl8192e/rtl8192e/rtl_dm.c
-index 93504d5a8578..7342ef591169 100644
---- a/drivers/staging/rtl8192e/rtl8192e/rtl_dm.c
-+++ b/drivers/staging/rtl8192e/rtl8192e/rtl_dm.c
-@@ -1539,8 +1539,6 @@ static void _rtl92e_dm_check_rf_ctrl_gpio(void *data)
- 	enum rt_rf_power_state rf_power_state_to_set;
- 	bool bActuallySet = false;
+diff --git a/drivers/staging/media/atomisp/include/linux/atomisp_platform.h b/drivers/staging/media/atomisp/include/linux/atomisp_platform.h
+index 539b21d39d3b..d85fd168fcd3 100644
+--- a/drivers/staging/media/atomisp/include/linux/atomisp_platform.h
++++ b/drivers/staging/media/atomisp/include/linux/atomisp_platform.h
+@@ -19,7 +19,7 @@
+ #define ATOMISP_PLATFORM_H_
  
--	bActuallySet = false;
--
- 	if ((priv->up_first_time == 1) || (priv->being_init_adapter))
- 		return;
+ #include <asm/intel-family.h>
+-#include <asm/processor.h>
++#include <linux/processor.h>
  
+ #include <linux/i2c.h>
+ #include <media/v4l2-subdev.h>
 -- 
-2.40.0
+2.34.1
 
