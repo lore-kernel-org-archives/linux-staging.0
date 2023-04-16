@@ -1,88 +1,103 @@
-Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12E24EA8
-	for <linux-staging@lists.linux.dev>; Sun, 16 Apr 2023 03:50:50 +0000 (UTC)
-Received: by mail-pl1-f174.google.com with SMTP id lh8so9411314plb.1
-        for <linux-staging@lists.linux.dev>; Sat, 15 Apr 2023 20:50:50 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75D8A7B
+	for <linux-staging@lists.linux.dev>; Sun, 16 Apr 2023 05:55:36 +0000 (UTC)
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-3f05f61adbeso5790815e9.0
+        for <linux-staging@lists.linux.dev>; Sat, 15 Apr 2023 22:55:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1681617050; x=1684209050;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=1EV7rnGqgJooE9h+THqYmlRcBxwugQCSpvoxAvYNE/A=;
-        b=QaOHvAewGQw2YCpt8SdVomtjueUEB4Rf9npQkKcK1CwjYD5Tl+Nm8qVhTe3PVWbutt
-         BASIhdjxVHTKQwBxQEqWLZirgs8ezoU1p0PnMPzcWoKjVWngE9SwCvdVUO3C/rHJJPHw
-         VJKrPTBNYGieAYQdvUsBqJNE9Q4ADFiHwqthEfvrkixBAciL4BOIbOnmRHh3JS7ntuPQ
-         vXkpBp4SLgKdMJNmYf6xjFmI0cLtozC/6lFcsPoblypTNN//GshPVErdwzpDpAjiYGmX
-         HjfqfHLMCylQ60BLI8qPG+VFRTcl3BicUVpyoAvajkg0GbxtnBUOzHB56DeoD82n7ZZ7
-         PMhw==
+        d=gmail.com; s=20221208; t=1681624534; x=1684216534;
+        h=content-transfer-encoding:in-reply-to:content-language:references
+         :cc:to:subject:from:user-agent:mime-version:date:message-id:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=QCSqWDW+qJYJwIe/lPu0QIUfnGCKktR+2GZI90qNM8M=;
+        b=Ch79Xe6mcOjCx/3/DfF1n8lf7h00E09ao9g3jmzY66+EZwSvKIzWV5nX3bTxXLOCMz
+         ULIejoKYbV7JnfZLcKQltZsV4x690NMO+bp3z5BtnxZVJcV1DAKSj2c237pnnIK8OklT
+         r/FRdGh/EOft7qPAfHtlt2Ui1UiistF5ml6qHDxYgdeD+g3ZOZz47Noasx9SmHr+2On/
+         JIJzNU04Qf7pjFfUxjnXyO/9cUs7ZUVsDqDsSo3aZc2U9SV1AUx/+jvVVF1RtdKJS+07
+         Y/1BMEvAdKIYvbEAXvqE3bhHhhljCHGY7g48KLdoS8xqqMTogFajIUm41h09QJhfrWk0
+         x8IA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1681617050; x=1684209050;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=1EV7rnGqgJooE9h+THqYmlRcBxwugQCSpvoxAvYNE/A=;
-        b=h1s76WJP6zGVaTPgHYIDh6GYErotu92gdAwc0kPzg4szB4+CPBypUTG4feM1SawyvL
-         P8uyUVRb7mWh4qKLvkAbpaiZxLypCezIs+5d8qxHD8blDVwsaH1whSwPF/RL3h220d3H
-         XxDc8rQYA3Aq/JlRafDqw8isVRGrTPlF6N4QM6XGw6f659PurwO7IxUCbSY8QwOWrL+M
-         tfdcTIXTYrKs66ur41sZtZVSxCnGGP+BALpoTcp/SON2+JrnxTr6Qo+pXOp3m5obpIsZ
-         OHAVHPz0feW83CCfekM8/y+9qGsP9iPHEyYrCKZ3DbACsUMmaZ9AdvugzxYyqlxcdqEZ
-         8xWw==
-X-Gm-Message-State: AAQBX9cFllIRIcNTbogCj5IFYrrq/SU/pOBDZqzDRHMGtSSRFlwblVil
-	bHNYN4hqCIMkp2xm5CuttCm/A53ElpMPpA==
-X-Google-Smtp-Source: AKy350ZE81+STyKF0GnwRNnbKMaXqxVv54pCFm7VyRJzQ96AFcqUKVg5XTm1jFGnDqNJSJsz+DIW9A==
-X-Received: by 2002:a17:903:1d1:b0:1a6:c12d:9027 with SMTP id e17-20020a17090301d100b001a6c12d9027mr2481121plh.56.1681617050357;
-        Sat, 15 Apr 2023 20:50:50 -0700 (PDT)
-Received: from sumitra.com ([59.95.146.80])
-        by smtp.gmail.com with ESMTPSA id 1-20020a170902c24100b001a0667822c8sm5308585plg.94.2023.04.15.20.50.48
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 15 Apr 2023 20:50:49 -0700 (PDT)
-Date: Sat, 15 Apr 2023 20:50:46 -0700
-From: Sumitra Sharma <sumitraartsy@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: rtl8192e: Fix alignment to match open
- parenthesis
-Message-ID: <20230416035046.GA267177@sumitra.com>
-References: <20230408165151.GA261885@sumitra.com>
- <2023041516-lushness-neurology-a728@gregkh>
+        d=1e100.net; s=20221208; t=1681624534; x=1684216534;
+        h=content-transfer-encoding:in-reply-to:content-language:references
+         :cc:to:subject:from:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=QCSqWDW+qJYJwIe/lPu0QIUfnGCKktR+2GZI90qNM8M=;
+        b=fCuFtFK1OfkIbabWIMZol9daruR68wrFnlbbTd5wcRtnQC0swQn5+PZdULc68o5g3L
+         mnivbQmqtH9M3QIIBhUDgy4YELt8PBGp47sWh5ylAp7zbWbEfZoV95QgI131hV9sWWsa
+         4DvEMprjn7WdZe5FvRisg92poqx4gBy9deIb5Wb1KfUS7523FkkZ9yVMZAdZlEYk1CRL
+         O7qGvjV21VksG4EcpJWBCxX7Q9S7lnpPQ/H+sECce575FzphQz4DCuAlF16/INSrco9p
+         uzY9xdMMkQaQjJTzqSNwSPb/kFCws6PAe33/gnUY3O2UgBxkvMGnNQooI025MJQANOT0
+         o/4Q==
+X-Gm-Message-State: AAQBX9drWen90ei4MqvJ7Zp2me6Xj8mqJH0aqy8DCxcF1xV86VFt+SiU
+	psckncQaSIV7FsPyuhUCt9w=
+X-Google-Smtp-Source: AKy350aKqPcuBbL60uRffrNjEK7HJFtXzv2BNSXJcFsCjwI17kNXcNfYLrD09YCR2hohWko3yPbniA==
+X-Received: by 2002:a05:600c:3ca0:b0:3f0:a845:f215 with SMTP id bg32-20020a05600c3ca000b003f0a845f215mr5228353wmb.3.1681624534454;
+        Sat, 15 Apr 2023 22:55:34 -0700 (PDT)
+Received: from [192.168.0.105] (p57935146.dip0.t-ipconnect.de. [87.147.81.70])
+        by smtp.gmail.com with ESMTPSA id s6-20020a7bc386000000b003f172ec4022sm370187wmj.18.2023.04.15.22.55.33
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 15 Apr 2023 22:55:33 -0700 (PDT)
+Message-ID: <18cc3a02-dd57-787f-4c99-cbae259e838d@gmail.com>
+Date: Sun, 16 Apr 2023 07:55:32 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <2023041516-lushness-neurology-a728@gregkh>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+Subject: Re: [PATCH] staging: rtl8192e: Fix W_DISABLE# does not work after
+ stop/start
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+References: <20230414183452.GA12295@matrix-ESPRIMO-P710>
+ <2023041515-overhung-grime-d9fc@gregkh>
+Content-Language: en-US
+In-Reply-To: <2023041515-overhung-grime-d9fc@gregkh>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Sat, Apr 15, 2023 at 05:54:24PM +0200, Greg Kroah-Hartman wrote:
-> On Sat, Apr 08, 2023 at 09:51:51AM -0700, Sumitra Sharma wrote:
-> > Fix alignment to match opening parenthesis as suggested by Linux kernel
-> > coding-style. This issue is reported by checkpatch.
-> > 
-> > CHECK: Alignment should match open parenthesis
-> > 
-> > Signed-off-by: Sumitra Sharma <sumitraartsy@gmail.com>
-> > ---
-> >  drivers/staging/rtl8192e/rtl8192e/rtl_dm.c | 21 +++++++++------------
-> >  1 file changed, 9 insertions(+), 12 deletions(-)
+On 4/15/23 18:02, Greg Kroah-Hartman wrote:
+> On Fri, Apr 14, 2023 at 08:34:52PM +0200, Philipp Hortmann wrote:
+>> When loading the driver for rtl8192e, the W_DISABLE# switch is working as
+>> intended. But when the WLAN is turned off in software and then turned on
+>> again the W_DISABLE# does not work anymore. Reason for this is that in
+>> the function _rtl92e_dm_check_rf_ctrl_gpio() the bfirst_after_down is
+>> checked and returned when true. bfirst_after_down is set true when
+>> switching the WLAN off in software. But it is not set to false again
+>> when WLAN is turned on again.
+>>
+>> Add bfirst_after_down = false in _rtl92e_sta_up to reset bit and fix
+>> above described bug.
+>>
+>> Signed-off-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+>> ---
+>> Tested with rtl8192e (WLL6130-D99)
+>> Transferred this patch over wlan connection of rtl8192e
+>> ---
+>>   drivers/staging/rtl8192e/rtl8192e/rtl_core.c | 1 +
+>>   1 file changed, 1 insertion(+)
 > 
-> You have sent a lot of different patches for the same driver, with the
-> same subject line, but yet doing different things.  I am totally
-> confused as to what is, and is not, the latest versions, so I am
-> dropping all of these from my review queue.
 > 
-> Please resend them all, as a numbered patch series, so that we have a
-> clue as to what to review here.
->
+> What commit id does this fix?
+To me the driver was introduced in V3.2 and the issue did not change up 
+to now. Have a look at:
+https://elixir.bootlin.com/linux/v3.2-rc1/A/ident/bfirst_after_down
+https://elixir.bootlin.com/linux/v6.2.11/A/ident/bfirst_after_down
 
-Okay. Thank you.
-
-Regards
-
-Sumitra
-
+ > Should it go to the stable kernels?  If
+> so, how far back?
+The second issue that is related to the W_DISABLE# signal is that the 
+connection is not reestablished when the signal is released. I need more 
+time to fix this issue. When I have fixed both we could backport them.
+> 
 > thanks,
 > 
 > greg k-h
+
+thanks,
+
+Philipp
