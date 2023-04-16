@@ -1,49 +1,48 @@
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1130E10FB
-	for <linux-staging@lists.linux.dev>; Sun, 16 Apr 2023 07:20:09 +0000 (UTC)
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-3f0968734f6so7961575e9.0
-        for <linux-staging@lists.linux.dev>; Sun, 16 Apr 2023 00:20:09 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F77B10FB
+	for <linux-staging@lists.linux.dev>; Sun, 16 Apr 2023 07:20:15 +0000 (UTC)
+Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-3f0769b0699so4542245e9.1
+        for <linux-staging@lists.linux.dev>; Sun, 16 Apr 2023 00:20:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1681629608; x=1684221608;
+        d=gmail.com; s=20221208; t=1681629615; x=1684221615;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=3sQy4s8gKGVczlWnljrStDth9N5l0gCvMunNzrUK7V4=;
-        b=dquZOYPM9/nNsKWfMEHGolT2T5M7XCO/lBux8GNZUVpURx63aXgcknmp0dYLkkRXlV
-         BqOObD6pWZ16ZK89eDqEjCipG5TIhBzdU1Vk9/SnwJusVksnrwJ/DNoDW8WAyTQJpu92
-         45UPoFAXANVPRScQigVBTdBdiyd4/TfcW/IAqHfFtQLADHFWDWHTmK05qKvv6Dd6kJZv
-         5liMO3fd5o4FzQ4EGVQIJrOx273lOwVfEIyNJuC++NaE1WKRM+x+fcTsEeQTrjUPGaCs
-         AEF4GuX0uUCrTe8vOHzqcvfwQFyfCXsQg4fA1pikYjzF98VWpB6r9BwBm8YyklZBt258
-         mWTQ==
+        bh=K6KW2PuE6P/kp4akhCiH7Sdg4oCedA/I/EoMEq7tlfU=;
+        b=CZn/S7FnVfpzAK2O+MIC993MubTweoYi2b0kLcTR3DfnbjRf6cQ4pzcSSmkDpfSzm9
+         R8VObwR6/8AG3HzELGMGv8dDvLzys99MxhaOU4bAfCKZm+toknizX+Tl2sfK2N3p/9yJ
+         3G2O7PvMV6OfSOIWZ1ZRXVUlrp18DKWiCflvdDKrQXC/h5UOx2eEbNSXHh0xx05p8es0
+         xu5ahE5zI/MlpLX/gHB5+4rr1CGB8Ns7uJQMADOYE02YOwp5bF+XvQMyKL+gaXQW+RSg
+         MxrvIU/3puKczz5nrPJcfN1HxSNuYyhAj01Ko8tHcqgO+huRw5MfTQcmcZrIn4BTDVsY
+         qFgQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1681629608; x=1684221608;
+        d=1e100.net; s=20221208; t=1681629615; x=1684221615;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=3sQy4s8gKGVczlWnljrStDth9N5l0gCvMunNzrUK7V4=;
-        b=koJzY6jlDoEvI+Dz2vICeIaiwSf8uKsfRKPw8B4bSjE7I9zgNy4moUpm5Qe1rmWVF/
-         Z7DPj5z0QvyWjUQzMN+JAWpPcFbJ8Vg7TpTD+h32+AONLGB6+qBc5Gw5de7jD/K3uzSJ
-         jRRhSNmw3hT2DIUwu3tLKKsN8frUucWC8fmVzCOGvLCDNmDgDS8rBTMtbCxs550cNrl+
-         745qNdZ8NX3R6jEaE+8afRJhd5KpWyWvF3VJojPxL4/Vh/nUGMSdBp7AcuPnAIoGdWi2
-         6A840/hD/GBwVvF0tsCzpNIi6GZ8hHP3Z22fmIKbSw9YNv5hdbf+sefo785honKumLSV
-         2YRQ==
-X-Gm-Message-State: AAQBX9enFy5tGUoeScNMgwgQd9qRdOVVK39E8rZL62G2zh/dAEOFK5/E
-	WGgV7CIB677Hni1Swt3NGdQ=
-X-Google-Smtp-Source: AKy350YZQstyORQTHMwBxbX2MVAYnNGd4gNX/Rg5+KRPqNYjBK3ui7IUxuh9uhUDhy6ZoohJCYpnsw==
-X-Received: by 2002:a05:600c:450f:b0:3f1:714d:c40b with SMTP id t15-20020a05600c450f00b003f1714dc40bmr855206wmo.3.1681629608269;
-        Sun, 16 Apr 2023 00:20:08 -0700 (PDT)
+        bh=K6KW2PuE6P/kp4akhCiH7Sdg4oCedA/I/EoMEq7tlfU=;
+        b=cjBheKYo9ZwsLm2/wFVhxIaPMiAgQqsX/5BF2aClGxLndNzfqrIHxH6chX1N9l5WMa
+         c1YurTl/+pm0hfk39jCdeCj+48tTE1nUTPkzrkCUN5QVHv6BkqV29dqVrYC8P0FmXXx3
+         04s4Q6mWhLoFrcl46DHTT43PKGs3ArblWJqfAtajQoZwO+wIPA8KpfmBYAjcwhATMPwW
+         /akXTLqPqZoiairWhQqHWsEhppiqyD78NojQ6EE+AXoD7ye2YbALhbSyCdXZKD5YpKpe
+         +vbKi9Vy5KHk6gvH5zlwMFbVXvfeuw8WpNEQ6Ybt9DH9bahyAs72/p5KiRQ6rmAjBSut
+         sy0g==
+X-Gm-Message-State: AAQBX9fPMWKXtF/lNev1dAuhYKUR3yn0FPt4dg4DAfq527tcOBHhGFSA
+	0F+OYabuJw9yByWSWmDtdVJEaN6AasA=
+X-Google-Smtp-Source: AKy350bGjtWeR3gK8kXbPzhir2vkzZs20IZA8ABoWWJWn7J+vjLNB6cMWP/Dn13R6eMaDYboT9i/wQ==
+X-Received: by 2002:a05:600c:3ca0:b0:3f0:a845:f215 with SMTP id bg32-20020a05600c3ca000b003f0a845f215mr5380689wmb.3.1681629614746;
+        Sun, 16 Apr 2023 00:20:14 -0700 (PDT)
 Received: from matrix-ESPRIMO-P710 (p57935146.dip0.t-ipconnect.de. [87.147.81.70])
-        by smtp.gmail.com with ESMTPSA id iz19-20020a05600c555300b003f1733feb3dsm167648wmb.0.2023.04.16.00.20.07
+        by smtp.gmail.com with ESMTPSA id 14-20020a05600c020e00b003eb596cbc54sm8547121wmi.0.2023.04.16.00.20.13
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 16 Apr 2023 00:20:07 -0700 (PDT)
-Date: Sun, 16 Apr 2023 09:20:06 +0200
+        Sun, 16 Apr 2023 00:20:14 -0700 (PDT)
+Date: Sun, 16 Apr 2023 09:20:12 +0200
 From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [PATCH 5/8] staging: rtl8192e: Remove set to true while true of
- bfirst_after_down
-Message-ID: <053ab341e80909e81867e42ec4c077e76b762051.1681627603.git.philipp.g.hortmann@gmail.com>
+Subject: [PATCH 6/8] staging: rtl8192e: Remove unchanged variable chan_forced
+Message-ID: <3f218531a9d31c399d1351d3da7f9ca13d20df0c.1681627603.git.philipp.g.hortmann@gmail.com>
 References: <cover.1681627603.git.philipp.g.hortmann@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -55,29 +54,42 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 In-Reply-To: <cover.1681627603.git.philipp.g.hortmann@gmail.com>
 
-Remove set to true while true of bfirst_after_down to shorten code.
+Remove unchanged variable chan_forced and equations that have always the
+same result to shorten code.
 
 Signed-off-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
 ---
- drivers/staging/rtl8192e/rtl8192e/rtl_dm.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+ drivers/staging/rtl8192e/rtl8192e/rtl_core.c | 3 ---
+ drivers/staging/rtl8192e/rtl8192e/rtl_core.h | 2 --
+ 2 files changed, 5 deletions(-)
 
-diff --git a/drivers/staging/rtl8192e/rtl8192e/rtl_dm.c b/drivers/staging/rtl8192e/rtl8192e/rtl_dm.c
-index 7342ef591169..ed8b39d3c856 100644
---- a/drivers/staging/rtl8192e/rtl8192e/rtl_dm.c
-+++ b/drivers/staging/rtl8192e/rtl8192e/rtl_dm.c
-@@ -1542,10 +1542,8 @@ static void _rtl92e_dm_check_rf_ctrl_gpio(void *data)
- 	if ((priv->up_first_time == 1) || (priv->being_init_adapter))
- 		return;
+diff --git a/drivers/staging/rtl8192e/rtl8192e/rtl_core.c b/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
+index a0c6d117211a..88ff54173a1f 100644
+--- a/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
++++ b/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
+@@ -249,9 +249,6 @@ static void _rtl92e_set_chan(struct net_device *dev, short ch)
+ {
+ 	struct r8192_priv *priv = rtllib_priv(dev);
  
--	if (priv->bfirst_after_down) {
--		priv->bfirst_after_down = true;
-+	if (priv->bfirst_after_down)
- 		return;
--	}
+-	if (priv->chan_forced)
+-		return;
+-
+ 	priv->chan = ch;
  
- 	tmp1byte = rtl92e_readb(dev, GPI);
+ 	if (priv->rf_set_chan)
+diff --git a/drivers/staging/rtl8192e/rtl8192e/rtl_core.h b/drivers/staging/rtl8192e/rtl8192e/rtl_core.h
+index 51240cbde0d3..0eca73e4540f 100644
+--- a/drivers/staging/rtl8192e/rtl8192e/rtl_core.h
++++ b/drivers/staging/rtl8192e/rtl8192e/rtl_core.h
+@@ -392,8 +392,6 @@ struct r8192_priv {
+ 	bool		reset_in_progress;
+ 	bool		force_reset;
+ 	bool		force_lps;
+-
+-	bool		chan_forced;
+ };
  
+ extern const struct ethtool_ops rtl819x_ethtool_ops;
 -- 
 2.40.0
 
