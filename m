@@ -1,114 +1,89 @@
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
+Received: from mail-qt1-f173.google.com (mail-qt1-f173.google.com [209.85.160.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A757F10FB
-	for <linux-staging@lists.linux.dev>; Sun, 16 Apr 2023 07:20:28 +0000 (UTC)
-Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-2ef1e98d6bfso847307f8f.0
-        for <linux-staging@lists.linux.dev>; Sun, 16 Apr 2023 00:20:28 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73C84C2C7
+	for <linux-staging@lists.linux.dev>; Sun, 16 Apr 2023 10:02:09 +0000 (UTC)
+Received: by mail-qt1-f173.google.com with SMTP id gb12so20382518qtb.6
+        for <linux-staging@lists.linux.dev>; Sun, 16 Apr 2023 03:02:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1681629628; x=1684221628;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=8k9nO2fKVUUnwg/PlGeQfjbj4jMnL8QuYn9ONfwhXe4=;
-        b=sNI+KFfcbiffyf/EojEIoeeerwb5EobglE7DpjCOkmAa3g0CQ+eysVPTAHBhgG8ztK
-         AxIpWSVoKAkW5WMzFvz2ERsWrlDub+4d8ut8NKFTwa4eqc3juDJuHWrxeZ4CjOl3NIUj
-         NxTS8tFIPAbkL9gpf3/mKn5hqzLkZCiBl9TqJpUMXXO3Fty5Q+20iTS19A2EVWfx62hg
-         MKIMOqqcYocgRxy0oNJqw3HheaHOJNiou7SNplPGqTGdjui/kHmxhnWlsXYhqNb0t0AZ
-         TFG17W6y/pOz6lJPHzGGyaAUDDga50KIDSb0VI/3w12h74WCoj8b0Ur1tju4aK+GW04i
-         gduw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1681629628; x=1684221628;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:to:from:date:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20221208; t=1681639328; x=1684231328;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=8k9nO2fKVUUnwg/PlGeQfjbj4jMnL8QuYn9ONfwhXe4=;
-        b=F7A3oijjyXvHthKyavqYpwylp718BPaSk2kW7AbFW8jQ3zLVXF8THX9wGQDw5r1oci
-         +/c2ysoyBkQIqZ0gt88eOBOlDyEvecNXRMbXELejvrzIHRkCaBnOxOAww+VAz1V5T6fW
-         IYJeDprBu6MEa89WHlBWN5CtwReMU/q0llqKiK6DlexhPGLP3HEwNZQRoMJ6HQVT1seI
-         srvha6bAWpIou3EfTHs91K7DUKeY4wE7FDS10NmD33i5swIvJGWP5nEVBAFFV8s5vDqr
-         KH6txU5njuR4OrUgugQ9KWw83Y+DWiiptYnVV9oOe9H2xaWyRIVrB+EfODJLzn87bSUH
-         jadw==
-X-Gm-Message-State: AAQBX9fc9ME5dW91lr+j+0CKrxwekqRYrFzeUfKqXbBjS9iKTogAzCYm
-	n80grXuNxruooPFxXgNoMDA=
-X-Google-Smtp-Source: AKy350btAN4DW4CTH6qT6sz3xd8RKmz9VH32cpkb6NnPX0LeUxjcUaGl8ZGZzJGvd9Sq5U24p8uI9g==
-X-Received: by 2002:a05:600c:1d11:b0:3f1:7138:91ee with SMTP id l17-20020a05600c1d1100b003f1713891eemr899513wms.2.1681629628131;
-        Sun, 16 Apr 2023 00:20:28 -0700 (PDT)
-Received: from matrix-ESPRIMO-P710 (p57935146.dip0.t-ipconnect.de. [87.147.81.70])
-        by smtp.gmail.com with ESMTPSA id f20-20020a1c6a14000000b003f17329f7f2sm291552wmc.38.2023.04.16.00.20.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 16 Apr 2023 00:20:27 -0700 (PDT)
-Date: Sun, 16 Apr 2023 09:20:25 +0200
-From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [PATCH 8/8] staging: rtl8192e: Remove unchanged variables
- bfsync_processing and more
-Message-ID: <cb609f904d988febaa579526514586877b1dabf7.1681627603.git.philipp.g.hortmann@gmail.com>
-References: <cover.1681627603.git.philipp.g.hortmann@gmail.com>
+        bh=hZxoONYjpiy9MbL4YVRp8r9eBFiaHPQlZt2qQpuRD4E=;
+        b=dQmdjtW//P7QvRzA1jFWg/37TrB91+CVHWJc7uOBy7vtwvOCFesVXJJFUUNR0Okvtz
+         1n2croOfOLaaYQG6dneCb9LUqgG4SD7keQYz8A/4ofuVJpBCpJwcUIMACAYe0rOwzBuQ
+         XdfooiY2KlxVs05fT/BCO30VDjxsJZRFLbGTZOlA0+EcFCkOXiG3j/ZAkf9pQIeiOLgt
+         kkpL6CfRQTvHpAokWVtJGXiQsXeW8ekJf0GK3FB6UcaRtpHP9uKd9YHzJPVGtUYaxFZ0
+         VTBsTtqEtiY+Fhh8rn5nzk6MY9ItvL6J0pwQklkGRIPPM33JFwRm4qX2C0IliDIB24pD
+         7Vqg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1681639328; x=1684231328;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=hZxoONYjpiy9MbL4YVRp8r9eBFiaHPQlZt2qQpuRD4E=;
+        b=LfHxaFOIFQseOm6uo1OVf8mqeReT7uXUb7DqmuG5NMORw5l3KDJ9o2jerQvjVC+Lnq
+         BjI/iI0bFbsQkIokQZh9kfC7qjD1YdGdMdz3PTKtqljAQk1AQwjU0LRz/NlN/CtraPtg
+         wJPx/vQQmFC0F5SNKGhVA8IOrwPeHEL+3TLqQZbxvJ9HTpn/M6Yr4TvH+O/K9iL1+F80
+         8jh581vIgxw/+j3A2ExYmCFkm2NBscmzu57LIB2aT6efiFBFNEwTcS1wpF8kVuDall2Z
+         YFKfCOAYy8odaJOQsabE2qCqGkpJyr4jY+9QDkrfwfxqM9boNmKbF2Kt4lTeMIFlXgez
+         s9ZQ==
+X-Gm-Message-State: AAQBX9cGRM+z54GYXJbdm1edsq3M8bruEzfz8dF302ieOoVR7zhjB9zI
+	AtRTmFuYPgCqTe37CnCKyk/Jbcc7imNacbRUjL8=
+X-Google-Smtp-Source: AKy350Z47+6bGxd1xRNHZnacl2G7aVI+x9MNtKPtsyKz0oTUv0XV1DinXFuPbSmxP5mkntBADuGSYGcFlwRkwkGdGGQ=
+X-Received: by 2002:a05:622a:1a9b:b0:3e8:f79d:bdfa with SMTP id
+ s27-20020a05622a1a9b00b003e8f79dbdfamr3499947qtc.0.1681639328272; Sun, 16 Apr
+ 2023 03:02:08 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <cover.1681627603.git.philipp.g.hortmann@gmail.com>
+References: <ZDuhnLPczec5qJnq@yoga>
+In-Reply-To: <ZDuhnLPczec5qJnq@yoga>
+From: Andy Shevchenko <andy.shevchenko@gmail.com>
+Date: Sun, 16 Apr 2023 13:01:32 +0300
+Message-ID: <CAHp75Veaqp4O1jcBHZZh2L5ReMU1+2vH+FfRzfLyY8CdwZwq+w@mail.gmail.com>
+Subject: Re: [PATCH] Staging: media: atomisp: include: mmu: include
+ <linux/processor.h> instead of <asm/processor.h>
+To: Anup Sharma <anupnewsmail@gmail.com>
+Cc: hdegoede@redhat.com, mchehab@kernel.org, sakari.ailus@linux.intel.com, 
+	gregkh@linuxfoundation.org, andy@kernel.org, linux-media@vger.kernel.org, 
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	linux-kernel-mentees@lists.linuxfoundation.org, skhan@linuxfoundation.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Remove unchanged variable bfsync_processing and
-rfc_txpowertrackingindex_real to shorten code.
+On Sun, Apr 16, 2023 at 10:20=E2=80=AFAM Anup Sharma <anupnewsmail@gmail.co=
+m> wrote:
+>
+> Fix following checkpatch.pl warning by including
+> <linux/processor.h> instead of <asm/processor.h>
 
-Signed-off-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
----
- drivers/staging/rtl8192e/rtl8192e/rtl_core.c | 1 -
- drivers/staging/rtl8192e/rtl8192e/rtl_core.h | 2 --
- drivers/staging/rtl8192e/rtl8192e/rtl_dm.c   | 1 -
- 3 files changed, 4 deletions(-)
+Missing period at the end. But the entire patch seems unnecessary
+since it's all about x86, and we have more arch headers there anyway.
+Anyway it's up to Hans. Also see below.
 
-diff --git a/drivers/staging/rtl8192e/rtl8192e/rtl_core.c b/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
-index 88ff54173a1f..27040d1e3230 100644
---- a/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
-+++ b/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
-@@ -786,7 +786,6 @@ static void _rtl92e_init_priv_variable(struct net_device *dev)
- 	priv->rtllib->short_slot = 1;
- 	priv->promisc = (dev->flags & IFF_PROMISC) ? 1 : 0;
- 	priv->bcck_in_ch14 = false;
--	priv->bfsync_processing  = false;
- 	priv->cck_present_attn = 0;
- 	priv->rfa_txpowertrackingindex = 0;
- 	priv->rfc_txpowertrackingindex = 0;
-diff --git a/drivers/staging/rtl8192e/rtl8192e/rtl_core.h b/drivers/staging/rtl8192e/rtl8192e/rtl_core.h
-index c97e315a9091..285dac32c074 100644
---- a/drivers/staging/rtl8192e/rtl8192e/rtl_core.h
-+++ b/drivers/staging/rtl8192e/rtl8192e/rtl_core.h
-@@ -357,7 +357,6 @@ struct r8192_priv {
- 	u8		rfa_txpowertrackingindex_real;
- 	u8		rfa_txpowertracking_default;
- 	u8		rfc_txpowertrackingindex;
--	u8		rfc_txpowertrackingindex_real;
- 	bool		btxpower_tracking;
- 	bool		bcck_in_ch14;
- 
-@@ -376,7 +375,6 @@ struct r8192_priv {
- 	bool		bcurrent_turbo_EDCA;
- 	bool		bis_cur_rdlstate;
- 
--	bool		bfsync_processing;
- 	u32		rate_record;
- 	u32		rate_count_diff_rec;
- 	u32		continue_diff_count;
-diff --git a/drivers/staging/rtl8192e/rtl8192e/rtl_dm.c b/drivers/staging/rtl8192e/rtl8192e/rtl_dm.c
-index 43e335ab0733..56a8ec517c06 100644
---- a/drivers/staging/rtl8192e/rtl8192e/rtl_dm.c
-+++ b/drivers/staging/rtl8192e/rtl8192e/rtl_dm.c
-@@ -998,7 +998,6 @@ void rtl92e_dm_backup_state(struct net_device *dev)
- 	u32 bit_mask = bMaskByte0;
- 
- 	priv->bswitch_fsync  = false;
--	priv->bfsync_processing = false;
- 
- 	if (dm_digtable.dig_algorithm == DIG_ALGO_BY_RSSI)
- 		return;
--- 
-2.40.0
+...
 
+>  #include <asm/intel-family.h>
+> -#include <asm/processor.h>
+> +#include <linux/processor.h>
+>
+>  #include <linux/i2c.h>
+>  #include <media/v4l2-subdev.h>
+
+This seems a bit chaotic with the ordering of the headers here.
+
+...
+
+If you want a good patch, you need to understand what headers are
+_really_ being used in the header file. Then drop unused, try to
+compile that and fix all files that will have missing headers after
+that. This will be a very useful clean up!
+
+--=20
+With Best Regards,
+Andy Shevchenko
