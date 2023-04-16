@@ -1,49 +1,49 @@
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F36AB10FB
-	for <linux-staging@lists.linux.dev>; Sun, 16 Apr 2023 07:20:21 +0000 (UTC)
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-3f04eb5d1a7so8624565e9.1
-        for <linux-staging@lists.linux.dev>; Sun, 16 Apr 2023 00:20:21 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A757F10FB
+	for <linux-staging@lists.linux.dev>; Sun, 16 Apr 2023 07:20:28 +0000 (UTC)
+Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-2ef1e98d6bfso847307f8f.0
+        for <linux-staging@lists.linux.dev>; Sun, 16 Apr 2023 00:20:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1681629621; x=1684221621;
+        d=gmail.com; s=20221208; t=1681629628; x=1684221628;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=AUb4sZWN17aC9uOKE2iR6leNu0T6NHURX++nzdcY5IQ=;
-        b=MylfWUa6l5E2JtYJ7hpuPbEowIeba5IImp/dH6hgWNM0p9QGdUDaDmtisIubZwQikE
-         mxbLM6ZUClNtfMR3LTvZcpcsGxu1aOWLXm2yEgq1hwd7Cw5rsfinlP41oSTV2yuf5i5b
-         VJsHlBQBQpco06d6T6/kDyihQwNxfJWEKIpdYAP16tzjwrs4ugGWk1l1+il/z6qYeNPX
-         /XENEnca5zJTrglitawS/ZrwzBcZLlUTuY33QE7DbTvi0lRwUVuLl1oGdyu+w8pZDJvU
-         Dn083f7fDbTaIIsK2PKzZKG9anqP3xoYXaII+lj/QRY7onhngkOWpy84Lj8kq3YpJSxp
-         lUKQ==
+        bh=8k9nO2fKVUUnwg/PlGeQfjbj4jMnL8QuYn9ONfwhXe4=;
+        b=sNI+KFfcbiffyf/EojEIoeeerwb5EobglE7DpjCOkmAa3g0CQ+eysVPTAHBhgG8ztK
+         AxIpWSVoKAkW5WMzFvz2ERsWrlDub+4d8ut8NKFTwa4eqc3juDJuHWrxeZ4CjOl3NIUj
+         NxTS8tFIPAbkL9gpf3/mKn5hqzLkZCiBl9TqJpUMXXO3Fty5Q+20iTS19A2EVWfx62hg
+         MKIMOqqcYocgRxy0oNJqw3HheaHOJNiou7SNplPGqTGdjui/kHmxhnWlsXYhqNb0t0AZ
+         TFG17W6y/pOz6lJPHzGGyaAUDDga50KIDSb0VI/3w12h74WCoj8b0Ur1tju4aK+GW04i
+         gduw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1681629621; x=1684221621;
+        d=1e100.net; s=20221208; t=1681629628; x=1684221628;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=AUb4sZWN17aC9uOKE2iR6leNu0T6NHURX++nzdcY5IQ=;
-        b=CUC2S5cNkOmw6ShHCvCtejFfnef73KKWQAg3r485btUy3DcjL5Ivh8jTqCHfiNgrKl
-         2KFG/3epPl9ps9n9riBZ2Y8vYNLTj1V912vpmBPmoR6ZitFTseSZqvsULhlyPtUjUhpz
-         Hpiii69q7S0nLH4ZZgP89ULU6Qe8YtUsZVZr9HjAtVAklfGk543zlMSTVR0fDQIPJME5
-         hjWA/DVzRrxLGcr/ORd3PTvUejEF9M/Ua4jFzc3NSDlNN1nhnVhxQ5Cmr9cl6MJ/3cF3
-         bUg6QrcQYZg2QP9dvaFT2kfkG99z8Aqqo6YP5yRX1hVMO9TBlGsc4JuSNf7G7gbS2gYh
-         w0xg==
-X-Gm-Message-State: AAQBX9dkPm+0URgxUq0gMC74nDQCFyxLTQXDpjbslSMd91SQnhLiQwC+
-	6QetijBMfVKeIHiR3WLj39I=
-X-Google-Smtp-Source: AKy350YitU+UU2jw5wDn+l9M1NI73lhAQ0cERXBFyYf6PJFI8vTl1eBeYIT5zZaG79bcRBNm5JGTEw==
-X-Received: by 2002:a5d:58d8:0:b0:2f7:ee2:c2a3 with SMTP id o24-20020a5d58d8000000b002f70ee2c2a3mr4343301wrf.3.1681629621442;
-        Sun, 16 Apr 2023 00:20:21 -0700 (PDT)
+        bh=8k9nO2fKVUUnwg/PlGeQfjbj4jMnL8QuYn9ONfwhXe4=;
+        b=F7A3oijjyXvHthKyavqYpwylp718BPaSk2kW7AbFW8jQ3zLVXF8THX9wGQDw5r1oci
+         +/c2ysoyBkQIqZ0gt88eOBOlDyEvecNXRMbXELejvrzIHRkCaBnOxOAww+VAz1V5T6fW
+         IYJeDprBu6MEa89WHlBWN5CtwReMU/q0llqKiK6DlexhPGLP3HEwNZQRoMJ6HQVT1seI
+         srvha6bAWpIou3EfTHs91K7DUKeY4wE7FDS10NmD33i5swIvJGWP5nEVBAFFV8s5vDqr
+         KH6txU5njuR4OrUgugQ9KWw83Y+DWiiptYnVV9oOe9H2xaWyRIVrB+EfODJLzn87bSUH
+         jadw==
+X-Gm-Message-State: AAQBX9fc9ME5dW91lr+j+0CKrxwekqRYrFzeUfKqXbBjS9iKTogAzCYm
+	n80grXuNxruooPFxXgNoMDA=
+X-Google-Smtp-Source: AKy350btAN4DW4CTH6qT6sz3xd8RKmz9VH32cpkb6NnPX0LeUxjcUaGl8ZGZzJGvd9Sq5U24p8uI9g==
+X-Received: by 2002:a05:600c:1d11:b0:3f1:7138:91ee with SMTP id l17-20020a05600c1d1100b003f1713891eemr899513wms.2.1681629628131;
+        Sun, 16 Apr 2023 00:20:28 -0700 (PDT)
 Received: from matrix-ESPRIMO-P710 (p57935146.dip0.t-ipconnect.de. [87.147.81.70])
-        by smtp.gmail.com with ESMTPSA id d4-20020a056000114400b002cea8f07813sm7351663wrx.81.2023.04.16.00.20.20
+        by smtp.gmail.com with ESMTPSA id f20-20020a1c6a14000000b003f17329f7f2sm291552wmc.38.2023.04.16.00.20.27
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 16 Apr 2023 00:20:20 -0700 (PDT)
-Date: Sun, 16 Apr 2023 09:20:19 +0200
+        Sun, 16 Apr 2023 00:20:27 -0700 (PDT)
+Date: Sun, 16 Apr 2023 09:20:25 +0200
 From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [PATCH 7/8] staging: rtl8192e: Remove unchanged variable
- frame_sync_monitor
-Message-ID: <0c4bdca5f5dbb93bb05c6b7f32136d4dfb3b0e4b.1681627603.git.philipp.g.hortmann@gmail.com>
+Subject: [PATCH 8/8] staging: rtl8192e: Remove unchanged variables
+ bfsync_processing and more
+Message-ID: <cb609f904d988febaa579526514586877b1dabf7.1681627603.git.philipp.g.hortmann@gmail.com>
 References: <cover.1681627603.git.philipp.g.hortmann@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -55,134 +55,60 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 In-Reply-To: <cover.1681627603.git.philipp.g.hortmann@gmail.com>
 
-Remove unchanged variable frame_sync_monitor and equations that have
-always the same result to shorten code.
+Remove unchanged variable bfsync_processing and
+rfc_txpowertrackingindex_real to shorten code.
 
 Signed-off-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
 ---
- drivers/staging/rtl8192e/rtl8192e/rtl_core.h |  2 -
- drivers/staging/rtl8192e/rtl8192e/rtl_dm.c   | 73 ++++++++------------
- 2 files changed, 30 insertions(+), 45 deletions(-)
+ drivers/staging/rtl8192e/rtl8192e/rtl_core.c | 1 -
+ drivers/staging/rtl8192e/rtl8192e/rtl_core.h | 2 --
+ drivers/staging/rtl8192e/rtl8192e/rtl_dm.c   | 1 -
+ 3 files changed, 4 deletions(-)
 
+diff --git a/drivers/staging/rtl8192e/rtl8192e/rtl_core.c b/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
+index 88ff54173a1f..27040d1e3230 100644
+--- a/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
++++ b/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
+@@ -786,7 +786,6 @@ static void _rtl92e_init_priv_variable(struct net_device *dev)
+ 	priv->rtllib->short_slot = 1;
+ 	priv->promisc = (dev->flags & IFF_PROMISC) ? 1 : 0;
+ 	priv->bcck_in_ch14 = false;
+-	priv->bfsync_processing  = false;
+ 	priv->cck_present_attn = 0;
+ 	priv->rfa_txpowertrackingindex = 0;
+ 	priv->rfc_txpowertrackingindex = 0;
 diff --git a/drivers/staging/rtl8192e/rtl8192e/rtl_core.h b/drivers/staging/rtl8192e/rtl8192e/rtl_core.h
-index 0eca73e4540f..c97e315a9091 100644
+index c97e315a9091..285dac32c074 100644
 --- a/drivers/staging/rtl8192e/rtl8192e/rtl_core.h
 +++ b/drivers/staging/rtl8192e/rtl8192e/rtl_core.h
-@@ -382,8 +382,6 @@ struct r8192_priv {
- 	u32		continue_diff_count;
- 	bool		bswitch_fsync;
- 	u8		framesync;
--	u8		frame_sync_monitor;
--
- 	u32		reset_count;
+@@ -357,7 +357,6 @@ struct r8192_priv {
+ 	u8		rfa_txpowertrackingindex_real;
+ 	u8		rfa_txpowertracking_default;
+ 	u8		rfc_txpowertrackingindex;
+-	u8		rfc_txpowertrackingindex_real;
+ 	bool		btxpower_tracking;
+ 	bool		bcck_in_ch14;
  
- 	enum reset_type rst_progress;
+@@ -376,7 +375,6 @@ struct r8192_priv {
+ 	bool		bcurrent_turbo_EDCA;
+ 	bool		bis_cur_rdlstate;
+ 
+-	bool		bfsync_processing;
+ 	u32		rate_record;
+ 	u32		rate_count_diff_rec;
+ 	u32		continue_diff_count;
 diff --git a/drivers/staging/rtl8192e/rtl8192e/rtl_dm.c b/drivers/staging/rtl8192e/rtl8192e/rtl_dm.c
-index ed8b39d3c856..43e335ab0733 100644
+index 43e335ab0733..56a8ec517c06 100644
 --- a/drivers/staging/rtl8192e/rtl8192e/rtl_dm.c
 +++ b/drivers/staging/rtl8192e/rtl8192e/rtl_dm.c
-@@ -1826,7 +1826,6 @@ static void _rtl92e_dm_init_fsync(struct net_device *dev)
- 	priv->rtllib->fsync_firstdiff_ratethreshold = 100;
- 	priv->rtllib->fsync_seconddiff_ratethreshold = 200;
- 	priv->rtllib->fsync_state = Default_Fsync;
--	priv->frame_sync_monitor = 1;
+@@ -998,7 +998,6 @@ void rtl92e_dm_backup_state(struct net_device *dev)
+ 	u32 bit_mask = bMaskByte0;
  
- 	timer_setup(&priv->fsync_timer, _rtl92e_dm_fsync_timer_callback, 0);
- }
-@@ -2053,12 +2052,10 @@ static void _rtl92e_dm_check_fsync(struct net_device *dev)
+ 	priv->bswitch_fsync  = false;
+-	priv->bfsync_processing = false;
  
- 			}
- 		}
--		if (priv->frame_sync_monitor) {
--			if (reg_c38_State != RegC38_Fsync_AP_BCM) {
--				rtl92e_writeb(dev, rOFDM0_RxDetector3, 0x95);
-+		if (reg_c38_State != RegC38_Fsync_AP_BCM) {
-+			rtl92e_writeb(dev, rOFDM0_RxDetector3, 0x95);
- 
--				reg_c38_State = RegC38_Fsync_AP_BCM;
--			}
-+			reg_c38_State = RegC38_Fsync_AP_BCM;
- 		}
- 	} else {
- 		switch (priv->rtllib->fsync_state) {
-@@ -2075,50 +2072,40 @@ static void _rtl92e_dm_check_fsync(struct net_device *dev)
- 			break;
- 		}
- 
--		if (priv->frame_sync_monitor) {
--			if (priv->rtllib->state == RTLLIB_LINKED) {
--				if (priv->undecorated_smoothed_pwdb <=
--				    RegC38_TH) {
--					if (reg_c38_State !=
--					    RegC38_NonFsync_Other_AP) {
--						rtl92e_writeb(dev,
--							      rOFDM0_RxDetector3,
--							      0x90);
--
--						reg_c38_State =
--						     RegC38_NonFsync_Other_AP;
--					}
--				} else if (priv->undecorated_smoothed_pwdb >=
--					   (RegC38_TH+5)) {
--					if (reg_c38_State) {
--						rtl92e_writeb(dev,
--							rOFDM0_RxDetector3,
--							priv->framesync);
--						reg_c38_State = RegC38_Default;
--					}
-+		if (priv->rtllib->state == RTLLIB_LINKED) {
-+			if (priv->undecorated_smoothed_pwdb <=
-+			    RegC38_TH) {
-+				if (reg_c38_State !=
-+				    RegC38_NonFsync_Other_AP) {
-+					rtl92e_writeb(dev,
-+						      rOFDM0_RxDetector3,
-+						      0x90);
-+
-+					reg_c38_State =
-+					     RegC38_NonFsync_Other_AP;
- 				}
--			} else {
-+			} else if (priv->undecorated_smoothed_pwdb >=
-+				   (RegC38_TH+5)) {
- 				if (reg_c38_State) {
--					rtl92e_writeb(dev, rOFDM0_RxDetector3,
--						      priv->framesync);
-+					rtl92e_writeb(dev,
-+						rOFDM0_RxDetector3,
-+						priv->framesync);
- 					reg_c38_State = RegC38_Default;
- 				}
- 			}
-+		} else {
-+			if (reg_c38_State) {
-+				rtl92e_writeb(dev, rOFDM0_RxDetector3,
-+					      priv->framesync);
-+				reg_c38_State = RegC38_Default;
-+			}
- 		}
- 	}
--	if (priv->frame_sync_monitor) {
--		if (priv->reset_count != reset_cnt) {
--			rtl92e_writeb(dev, rOFDM0_RxDetector3,
--				       priv->framesync);
--			reg_c38_State = RegC38_Default;
--			reset_cnt = priv->reset_count;
--		}
--	} else {
--		if (reg_c38_State) {
--			rtl92e_writeb(dev, rOFDM0_RxDetector3,
--				       priv->framesync);
--			reg_c38_State = RegC38_Default;
--		}
-+	if (priv->reset_count != reset_cnt) {
-+		rtl92e_writeb(dev, rOFDM0_RxDetector3,
-+			       priv->framesync);
-+		reg_c38_State = RegC38_Default;
-+		reset_cnt = priv->reset_count;
- 	}
- }
- 
+ 	if (dm_digtable.dig_algorithm == DIG_ALGO_BY_RSSI)
+ 		return;
 -- 
 2.40.0
 
