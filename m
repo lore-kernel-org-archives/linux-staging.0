@@ -1,51 +1,51 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6310E1C11
-	for <linux-staging@lists.linux.dev>; Sun, 16 Apr 2023 13:09:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E98921C11
+	for <linux-staging@lists.linux.dev>; Sun, 16 Apr 2023 13:12:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1681650540;
+	s=mimecast20190719; t=1681650752;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=YYjPZsCNrqGMbLHPtu1l9hSHzXZoEudtLitWN2eVd14=;
-	b=hQ4ZSAFnL0dRuhZPv29tZkpqqJNod9B+prjdQYeboj7zntc32NUOYSOMjEHPMgGBDSSUQ0
-	RpGGrGJxUWcz7gB8SJ3Dgcvr7WCtHCvAg6qUMZT3XHAiASw3Kam4y7BbLdtAMkKYQ0vKhB
-	8bmha8QRVxCybpDGTSHZ0Zq15RmEc/o=
+	bh=ecW/u7CjtCVSaHYPl096FXbBaM+YOFYAJMZvfjOeWGs=;
+	b=cx0XHXlC+H5IFtWDZ+xVe4Gl/iBJ27p6xZWyqrTJXMTM/WUPzBud21p3bNLd5GaNuipVn9
+	zU+z7Vb/HcqyzvI2/YUCRoPCtHpbjscE6bLeQjR/tgJPlISiCwieWahlEfqCQ2/Xq2Axy5
+	se3sqeC59vGqf0XoXXy8FuO5KtpZpys=
 Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
  [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-668-_ybz73WuPqSAnu-8x41vSg-1; Sun, 16 Apr 2023 09:08:59 -0400
-X-MC-Unique: _ybz73WuPqSAnu-8x41vSg-1
-Received: by mail-ed1-f69.google.com with SMTP id b60-20020a509f42000000b00504eca73d05so7378378edf.18
-        for <linux-staging@lists.linux.dev>; Sun, 16 Apr 2023 06:08:58 -0700 (PDT)
+ us-mta-557-emY96EmrMtuZA8_AKdgniQ-1; Sun, 16 Apr 2023 09:12:31 -0400
+X-MC-Unique: emY96EmrMtuZA8_AKdgniQ-1
+Received: by mail-ed1-f69.google.com with SMTP id u12-20020a50c04c000000b00506880aeb5dso2716694edd.10
+        for <linux-staging@lists.linux.dev>; Sun, 16 Apr 2023 06:12:31 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1681650538; x=1684242538;
+        d=1e100.net; s=20221208; t=1681650750; x=1684242750;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=YYjPZsCNrqGMbLHPtu1l9hSHzXZoEudtLitWN2eVd14=;
-        b=Q9lzcbnkj9Iz4kjd+lwZiz1u0EQbafYwTnnnA58J9mfhLoh7zA54dHZHhQzoIimrcl
-         3Jp4kAHRotmJgaRnTLCHq3D2vvGchQ9Km+tJvCEhTjOc5iip5ZuLcavnhUX3dLmMdZE5
-         GpjeCqBCY0SpaksYtQs9agLsKKJvqAVMDhICLiJMOq4x3yJd7P/N08zE25X1rCz+s92P
-         kAzW9CFKCsxINJ1HTn6NqkNNDY8CR0p3LLu6QpC28luBOH9Bjwx2+jpsAftid3QQfvjr
-         mUPpoHUDqdzDpmIiCv/Lh0sWa/JXo8qgadmUv+VggPmdRhB3mg1+fzmMtUcZraQpvcR9
-         cenQ==
-X-Gm-Message-State: AAQBX9ekyGR/DiSHT69BvD/w3AGwVNFwZlIkCXsfNf8oy6ydTC/SJWdj
-	SzarTaYsiJ4mLsR4H8JaaSrC5IOp84//wz/ZKkIccGm84XRTzrgP2umw2zqF5KXnVjwgcrZx2wo
-	hGJ6/RmiM5tyu1kSK2JdPjuI6Fw==
-X-Received: by 2002:a17:906:5616:b0:94a:4107:3975 with SMTP id f22-20020a170906561600b0094a41073975mr3988003ejq.76.1681650537909;
-        Sun, 16 Apr 2023 06:08:57 -0700 (PDT)
-X-Google-Smtp-Source: AKy350Y8T5yCBh6wbbbBr7heC2qmakzdZtsbI8F4J0aabpm/Yfbud6LdMSwb8q3jPy/KSS4e7PhRhQ==
-X-Received: by 2002:a17:906:5616:b0:94a:4107:3975 with SMTP id f22-20020a170906561600b0094a41073975mr3987989ejq.76.1681650537667;
-        Sun, 16 Apr 2023 06:08:57 -0700 (PDT)
+        bh=ecW/u7CjtCVSaHYPl096FXbBaM+YOFYAJMZvfjOeWGs=;
+        b=SL+dNRn/SbZGg1BaKVD9YaW+E/N0aBY18RLJvZRzQksAJO6bohWASNIyIzb36Fo3t+
+         9Mur6A5lj/s732ne0Kt2yB+u1emxQ+UcfPXhGF1lXAxvlhfT0tNx5QH+PTTKJzW+xqcl
+         2R8KXFcVxE+FZ72tSZNiZkruuMOeg+tX5M0DuQjKLVeEwBCZRgRG0O84W7MwmIuf89CA
+         B27x9wyB3ovd8szPooqSHGDBcSU7aBrqaS5YjDI5DRccUbIUvaYpthceDMYPK7gdUtTJ
+         odFQyN/H7n7+Pul1bAV8XrroOLaGxEv+5qQDdtu0RajUbWv86Y1wrFyBUOWcIxiwYTyU
+         3pkQ==
+X-Gm-Message-State: AAQBX9fN/8aINSEq5sJsLkuedhSB/lB6z8nx3GS/aFR4JUDuXA7rqChO
+	e6XJ45rlnsGf0MtgYYf+qtbmt0Lc9XZ2xp7ppFNPBnf0cd8hFFD9+clIq6VMa1/nfHT9Uf66Mvf
+	kRIqX3odYg+2Tl342rEdduNxrHsqK8LUf/Q==
+X-Received: by 2002:a17:907:7809:b0:949:c05d:73b6 with SMTP id la9-20020a170907780900b00949c05d73b6mr4080300ejc.17.1681650750402;
+        Sun, 16 Apr 2023 06:12:30 -0700 (PDT)
+X-Google-Smtp-Source: AKy350Zvy4OWUGG7/uKcn/guQnbp5MOYixLaUbua5xOk1r9lVf96E10h0El+lKgLR9svlpzbszXUTg==
+X-Received: by 2002:a17:907:7809:b0:949:c05d:73b6 with SMTP id la9-20020a170907780900b00949c05d73b6mr4080287ejc.17.1681650750153;
+        Sun, 16 Apr 2023 06:12:30 -0700 (PDT)
 Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
-        by smtp.gmail.com with ESMTPSA id g25-20020a17090613d900b0094edfbd475csm3581864ejc.127.2023.04.16.06.08.56
+        by smtp.gmail.com with ESMTPSA id xh5-20020a170906da8500b0094edd8e38fasm3665933ejb.76.2023.04.16.06.12.29
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 16 Apr 2023 06:08:57 -0700 (PDT)
-Message-ID: <1a4a7016-a871-abbe-e8cb-c8a7241de50f@redhat.com>
-Date: Sun, 16 Apr 2023 15:08:56 +0200
+        Sun, 16 Apr 2023 06:12:29 -0700 (PDT)
+Message-ID: <9b243f3e-92ad-197f-f0a6-b22eaf71238a@redhat.com>
+Date: Sun, 16 Apr 2023 15:12:28 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -54,18 +54,23 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.7.1
-Subject: Re: [PATCH] Staging: media: atomisp: include: mmu: include
- <linux/processor.h> instead of <asm/processor.h>
-To: Andy Shevchenko <andy.shevchenko@gmail.com>,
- Anup Sharma <anupnewsmail@gmail.com>
-Cc: mchehab@kernel.org, sakari.ailus@linux.intel.com,
- gregkh@linuxfoundation.org, andy@kernel.org, linux-media@vger.kernel.org,
- linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
- linux-kernel-mentees@lists.linuxfoundation.org, skhan@linuxfoundation.org
-References: <ZDuhnLPczec5qJnq@yoga>
- <CAHp75Veaqp4O1jcBHZZh2L5ReMU1+2vH+FfRzfLyY8CdwZwq+w@mail.gmail.com>
+Subject: Re: [PATCH] media: atomisp: Move a variable assignment behind a null
+ pointer check in atomisp_cp_general_isp_parameters()
+To: Andy Shevchenko <andy@kernel.org>, Markus Elfring <Markus.Elfring@web.de>
+Cc: kernel-janitors@vger.kernel.org, linux-media@vger.kernel.org,
+ linux-staging@lists.linux.dev,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Xiaomeng Tong <xiam0nd.tong@gmail.com>, cocci@inria.fr,
+ LKML <linux-kernel@vger.kernel.org>
+References: <40c60719-4bfe-b1a4-ead7-724b84637f55@web.de>
+ <1a11455f-ab57-dce0-1677-6beb8492a257@web.de>
+ <d8ed4e5d-49d4-ca7e-1283-1ec166bf643d@web.de>
+ <ZDmJsemYldOsMMrH@smile.fi.intel.com>
 From: Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <CAHp75Veaqp4O1jcBHZZh2L5ReMU1+2vH+FfRzfLyY8CdwZwq+w@mail.gmail.com>
+In-Reply-To: <ZDmJsemYldOsMMrH@smile.fi.intel.com>
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Language: en-US, nl
@@ -74,19 +79,30 @@ Content-Transfer-Encoding: 8bit
 
 Hi,
 
-On 4/16/23 12:01, Andy Shevchenko wrote:
-> On Sun, Apr 16, 2023 at 10:20 AM Anup Sharma <anupnewsmail@gmail.com> wrote:
+On 4/14/23 19:13, Andy Shevchenko wrote:
+> On Thu, Apr 13, 2023 at 10:20:15PM +0200, Markus Elfring wrote:
+>> Date: Thu, 13 Apr 2023 22:08:42 +0200
 >>
->> Fix following checkpatch.pl warning by including
->> <linux/processor.h> instead of <asm/processor.h>
+>> The address of a data structure member was determined before
+>> a corresponding null pointer check in the implementation of
+>> the function “atomisp_cp_general_isp_parameters”.
+>>
+>> Thus avoid the risk for undefined behaviour by moving the assignment
+>> for the variable “cur_config” behind the null pointer check.
 > 
-> Missing period at the end. But the entire patch seems unnecessary
-> since it's all about x86, and we have more arch headers there anyway.
-> Anyway it's up to Hans. Also see below.
+> I don't think this is what is happening here. The check might be removed by
+> optimizer in the compiler.
 
-Right, given how much real work this driver still needs this
-really feels like needless churn, so I'm not going to take
-this patch, sorry.
+Right, Markus thank you for the patch.
+
+Instead of this patch, can you please audit the callers of this
+function? I expect that you will likely find that the callers
+already unconditionally deref css_param themselves, or they
+guarantee a non NULL value in other ways (e.g. address of local
+variable).
+
+So I expect that the check can simply be dropped completely,
+which would be a much better fix.
 
 Regards,
 
@@ -94,23 +110,15 @@ Hans
 
 
 
+
+
 > 
-> ...
-> 
->>  #include <asm/intel-family.h>
->> -#include <asm/processor.h>
->> +#include <linux/processor.h>
+>> This issue was detected by using the Coccinelle software.
 >>
->>  #include <linux/i2c.h>
->>  #include <media/v4l2-subdev.h>
+>> Fixes: ad85094b293e40e7a2f831b0311a389d952ebd5e ("Revert 'media: staging: atomisp: Remove driver'")
 > 
-> This seems a bit chaotic with the ordering of the headers here.
+> Wrong tag format.
 > 
-> ...
-> 
-> If you want a good patch, you need to understand what headers are
-> _really_ being used in the header file. Then drop unused, try to
-> compile that and fix all files that will have missing headers after
-> that. This will be a very useful clean up!
+> Code-wise I'm not against this, but it's up to Hans.
 > 
 
