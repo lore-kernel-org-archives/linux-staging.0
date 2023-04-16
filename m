@@ -1,25 +1,51 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E4C433D9
-	for <linux-staging@lists.linux.dev>; Sat, 15 Apr 2023 16:02:43 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A6908C433D2;
-	Sat, 15 Apr 2023 16:02:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1681574563;
-	bh=Keho5jZUf9JoMSbHmX57TIOBY/LQblSMA+MdqWd6VXc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=CmWfuR3uSekN6HhPeC3PBfkOM6/U+mAO6TNArkm/CpYFEZOpXE3G6j9SZM54hvhw9
-	 I8aKbZdhpUOpdwQM03SAEvB3mNX9SNwsf/8iuo0YqdQJGHYNA4dsumZ1RdjjpFC+2C
-	 VW7a3a866ltfvQpIK/zlw/YeYnXoIKRukvV3QmFc=
-Date: Sat, 15 Apr 2023 18:02:40 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12E24EA8
+	for <linux-staging@lists.linux.dev>; Sun, 16 Apr 2023 03:50:50 +0000 (UTC)
+Received: by mail-pl1-f174.google.com with SMTP id lh8so9411314plb.1
+        for <linux-staging@lists.linux.dev>; Sat, 15 Apr 2023 20:50:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1681617050; x=1684209050;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=1EV7rnGqgJooE9h+THqYmlRcBxwugQCSpvoxAvYNE/A=;
+        b=QaOHvAewGQw2YCpt8SdVomtjueUEB4Rf9npQkKcK1CwjYD5Tl+Nm8qVhTe3PVWbutt
+         BASIhdjxVHTKQwBxQEqWLZirgs8ezoU1p0PnMPzcWoKjVWngE9SwCvdVUO3C/rHJJPHw
+         VJKrPTBNYGieAYQdvUsBqJNE9Q4ADFiHwqthEfvrkixBAciL4BOIbOnmRHh3JS7ntuPQ
+         vXkpBp4SLgKdMJNmYf6xjFmI0cLtozC/6lFcsPoblypTNN//GshPVErdwzpDpAjiYGmX
+         HjfqfHLMCylQ60BLI8qPG+VFRTcl3BicUVpyoAvajkg0GbxtnBUOzHB56DeoD82n7ZZ7
+         PMhw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1681617050; x=1684209050;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=1EV7rnGqgJooE9h+THqYmlRcBxwugQCSpvoxAvYNE/A=;
+        b=h1s76WJP6zGVaTPgHYIDh6GYErotu92gdAwc0kPzg4szB4+CPBypUTG4feM1SawyvL
+         P8uyUVRb7mWh4qKLvkAbpaiZxLypCezIs+5d8qxHD8blDVwsaH1whSwPF/RL3h220d3H
+         XxDc8rQYA3Aq/JlRafDqw8isVRGrTPlF6N4QM6XGw6f659PurwO7IxUCbSY8QwOWrL+M
+         tfdcTIXTYrKs66ur41sZtZVSxCnGGP+BALpoTcp/SON2+JrnxTr6Qo+pXOp3m5obpIsZ
+         OHAVHPz0feW83CCfekM8/y+9qGsP9iPHEyYrCKZ3DbACsUMmaZ9AdvugzxYyqlxcdqEZ
+         8xWw==
+X-Gm-Message-State: AAQBX9cFllIRIcNTbogCj5IFYrrq/SU/pOBDZqzDRHMGtSSRFlwblVil
+	bHNYN4hqCIMkp2xm5CuttCm/A53ElpMPpA==
+X-Google-Smtp-Source: AKy350ZE81+STyKF0GnwRNnbKMaXqxVv54pCFm7VyRJzQ96AFcqUKVg5XTm1jFGnDqNJSJsz+DIW9A==
+X-Received: by 2002:a17:903:1d1:b0:1a6:c12d:9027 with SMTP id e17-20020a17090301d100b001a6c12d9027mr2481121plh.56.1681617050357;
+        Sat, 15 Apr 2023 20:50:50 -0700 (PDT)
+Received: from sumitra.com ([59.95.146.80])
+        by smtp.gmail.com with ESMTPSA id 1-20020a170902c24100b001a0667822c8sm5308585plg.94.2023.04.15.20.50.48
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 15 Apr 2023 20:50:49 -0700 (PDT)
+Date: Sat, 15 Apr 2023 20:50:46 -0700
+From: Sumitra Sharma <sumitraartsy@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: rtl8192e: Fix W_DISABLE# does not work after
- stop/start
-Message-ID: <2023041515-overhung-grime-d9fc@gregkh>
-References: <20230414183452.GA12295@matrix-ESPRIMO-P710>
+Subject: Re: [PATCH] staging: rtl8192e: Fix alignment to match open
+ parenthesis
+Message-ID: <20230416035046.GA267177@sumitra.com>
+References: <20230408165151.GA261885@sumitra.com>
+ <2023041516-lushness-neurology-a728@gregkh>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -28,32 +54,35 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230414183452.GA12295@matrix-ESPRIMO-P710>
+In-Reply-To: <2023041516-lushness-neurology-a728@gregkh>
 
-On Fri, Apr 14, 2023 at 08:34:52PM +0200, Philipp Hortmann wrote:
-> When loading the driver for rtl8192e, the W_DISABLE# switch is working as
-> intended. But when the WLAN is turned off in software and then turned on
-> again the W_DISABLE# does not work anymore. Reason for this is that in
-> the function _rtl92e_dm_check_rf_ctrl_gpio() the bfirst_after_down is
-> checked and returned when true. bfirst_after_down is set true when
-> switching the WLAN off in software. But it is not set to false again
-> when WLAN is turned on again.
+On Sat, Apr 15, 2023 at 05:54:24PM +0200, Greg Kroah-Hartman wrote:
+> On Sat, Apr 08, 2023 at 09:51:51AM -0700, Sumitra Sharma wrote:
+> > Fix alignment to match opening parenthesis as suggested by Linux kernel
+> > coding-style. This issue is reported by checkpatch.
+> > 
+> > CHECK: Alignment should match open parenthesis
+> > 
+> > Signed-off-by: Sumitra Sharma <sumitraartsy@gmail.com>
+> > ---
+> >  drivers/staging/rtl8192e/rtl8192e/rtl_dm.c | 21 +++++++++------------
+> >  1 file changed, 9 insertions(+), 12 deletions(-)
 > 
-> Add bfirst_after_down = false in _rtl92e_sta_up to reset bit and fix
-> above described bug.
+> You have sent a lot of different patches for the same driver, with the
+> same subject line, but yet doing different things.  I am totally
+> confused as to what is, and is not, the latest versions, so I am
+> dropping all of these from my review queue.
 > 
-> Signed-off-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-> ---
-> Tested with rtl8192e (WLL6130-D99)
-> Transferred this patch over wlan connection of rtl8192e
-> ---
->  drivers/staging/rtl8192e/rtl8192e/rtl_core.c | 1 +
->  1 file changed, 1 insertion(+)
+> Please resend them all, as a numbered patch series, so that we have a
+> clue as to what to review here.
+>
 
+Okay. Thank you.
 
-What commit id does this fix?  Should it go to the stable kernels?  If
-so, how far back?
+Regards
 
-thanks,
+Sumitra
 
-greg k-h
+> thanks,
+> 
+> greg k-h
