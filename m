@@ -1,166 +1,160 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mslow1.mail.gandi.net (mslow1.mail.gandi.net [217.70.178.240])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBA851C02
-	for <linux-staging@lists.linux.dev>; Tue, 18 Apr 2023 08:09:38 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D6F15C433EF;
-	Tue, 18 Apr 2023 08:09:34 +0000 (UTC)
-Message-ID: <5c649a34-90cb-d02b-2737-7c9a858c3faa@xs4all.nl>
-Date: Tue, 18 Apr 2023 10:09:33 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68B751C02
+	for <linux-staging@lists.linux.dev>; Tue, 18 Apr 2023 08:10:14 +0000 (UTC)
+Received: from relay10.mail.gandi.net (unknown [217.70.178.230])
+	by mslow1.mail.gandi.net (Postfix) with ESMTP id 45EC3D1D04
+	for <linux-staging@lists.linux.dev>; Tue, 18 Apr 2023 08:01:14 +0000 (UTC)
+Received: from booty.fritz.box (unknown [77.244.183.192])
+	(Authenticated sender: luca.ceresoli@bootlin.com)
+	by mail.gandi.net (Postfix) with ESMTPA id 0E022240015;
+	Tue, 18 Apr 2023 08:01:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1681804866;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=z7GfPWRpbf9UqB83Mc5mi8nxcPDTIomI81207IaIT4I=;
+	b=mvxsrb+RgiiH0AOwHdobQcIJeWlosCy3nftmZzt0AM78e/sCGdJZT+WrWUctOFRMB5FmL0
+	ph3YVCL3l1c0kG2n5lJN2BKqq/AUSmAayrx5P7EXoAEbTVH5xmiQE77OmW5fBtheOOu33I
+	mK/l+QDv+dOsnCQSrkw0QXs0Cm6kMUWAVkbBQXJ3HUNTsQA2bCbknJEoHV9DryroscK9Ei
+	cy6oKIL544o1ftZQ9wiDeaaqWKixR0kGPQtmjldoTWxPWJlKdk0pO4ygth8V6vyCmDfEFu
+	zZvcdJ+Gc6qKSYCMgzk7Gx7XTcDXc6e2InPbSI6KIUz6hcKsrxts+erV99/vDw==
+From: Luca Ceresoli <luca.ceresoli@bootlin.com>
+To: linux-tegra@vger.kernel.org
+Cc: Luca Ceresoli <luca.ceresoli@bootlin.com>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Sowjanya Komatineni <skomatineni@nvidia.com>,
+	David Airlie <airlied@gmail.com>,
+	Daniel Vetter <daniel@ffwll.ch>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-media@vger.kernel.org,
+	dri-devel@lists.freedesktop.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+	Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+	Richard Leitner <richard.leitner@skidata.com>,
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+	Dmitry Osipenko <digetx@gmail.com>
+Subject: [PATCH v6 01/20] dt-bindings: display: tegra: add Tegra20 VIP
+Date: Tue, 18 Apr 2023 10:00:35 +0200
+Message-Id: <20230418080054.452955-2-luca.ceresoli@bootlin.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20230418080054.452955-1-luca.ceresoli@bootlin.com>
+References: <20230418080054.452955-1-luca.ceresoli@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH v5 14/20] staging: media: tegra-video: move MIPI
- calibration calls from VI to CSI
-Content-Language: en-US
-To: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Cc: linux-tegra@vger.kernel.org, Thierry Reding <thierry.reding@gmail.com>,
- Jonathan Hunter <jonathanh@nvidia.com>,
- Sowjanya Komatineni <skomatineni@nvidia.com>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-staging@lists.linux.dev,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
- Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
- Richard Leitner <richard.leitner@skidata.com>,
- Dmitry Osipenko <digetx@gmail.com>
-References: <20230407133852.2850145-1-luca.ceresoli@bootlin.com>
- <20230407133852.2850145-15-luca.ceresoli@bootlin.com>
- <04e89fcc-87db-8677-daf9-48aa3cb61b8c@xs4all.nl>
- <20230418100756.329305ca@booty>
-From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-In-Reply-To: <20230418100756.329305ca@booty>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 18/04/2023 10:07, Luca Ceresoli wrote:
-> Hi Hans,
-> 
-> On Fri, 14 Apr 2023 17:51:34 +0200
-> Hans Verkuil <hverkuil-cisco@xs4all.nl> wrote:
-> 
->> Hi Luca,
->>
->> I just encountered an error in this patch, so I have rejected the PR I made.
->>
->> See below for the details:
->>
->> On 07/04/2023 15:38, Luca Ceresoli wrote:
->>> The CSI module does not handle all the MIPI lane calibration procedure,
->>> leaving a small part of it to the VI module. In doing this,
->>> tegra_channel_enable_stream() (vi.c) manipulates the private data of the
->>> upstream subdev casting it to struct 'tegra_csi_channel', which will be
->>> wrong after introducing a VIP (parallel video input) channel.
->>>
->>> This prevents adding support for the VIP module.  It also breaks the
->>> logical isolation between modules.
->>>
->>> Since the lane calibration requirement does not exist in the parallel input
->>> module, moving the calibration function to a per-module op is not
->>> optimal. Instead move the calibration procedure in the CSI module, together
->>> with the rest of the calibration procedures. After this change,
->>> tegra_channel_enable_stream() just calls v4l2_subdev_call() to ask for a
->>> stream start/stop to the CSI module, which in turn knows all the
->>> CSI-specific details to implement it.
->>>
->>> Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
->>> Reviewed-by: Dmitry Osipenko <digetx@gmail.com>
->>>
->>> ---
->>>
->>> No changes in v5
->>>
->>> Changed in v4:
->>>  - Added review tags
->>>
->>> No changes in v3
->>> No changes in v2
->>> ---
->>>  drivers/staging/media/tegra-video/csi.c | 44 ++++++++++++++++++++
->>>  drivers/staging/media/tegra-video/vi.c  | 54 ++-----------------------
->>>  2 files changed, 48 insertions(+), 50 deletions(-)
->>>
->>> diff --git a/drivers/staging/media/tegra-video/csi.c b/drivers/staging/media/tegra-video/csi.c
->>> index 9a03d5ccdf3c..b93fc879ef3a 100644
->>> --- a/drivers/staging/media/tegra-video/csi.c
->>> +++ b/drivers/staging/media/tegra-video/csi.c
->>> @@ -328,12 +328,42 @@ static int tegra_csi_enable_stream(struct v4l2_subdev *subdev)
->>>  	}
->>>  
->>>  	csi_chan->pg_mode = chan->pg_mode;
->>> +
->>> +	/*
->>> +	 * Tegra CSI receiver can detect the first LP to HS transition.
->>> +	 * So, start the CSI stream-on prior to sensor stream-on and
->>> +	 * vice-versa for stream-off.
->>> +	 */
->>>  	ret = csi->ops->csi_start_streaming(csi_chan);
->>>  	if (ret < 0)
->>>  		goto finish_calibration;
->>>  
->>> +	if (csi_chan->mipi) {
->>> +		struct v4l2_subdev *src_subdev;
->>> +		/*
->>> +		 * TRM has incorrectly documented to wait for done status from
->>> +		 * calibration logic after CSI interface power on.
->>> +		 * As per the design, calibration results are latched and applied
->>> +		 * to the pads only when the link is in LP11 state which will happen
->>> +		 * during the sensor stream-on.
->>> +		 * CSI subdev stream-on triggers start of MIPI pads calibration.
->>> +		 * Wait for calibration to finish here after sensor subdev stream-on.
->>> +		 */
->>> +		src_subdev = tegra_channel_get_remote_source_subdev(chan);
->>> +		ret = v4l2_subdev_call(src_subdev, video, s_stream, true);
->>> +		err = tegra_mipi_finish_calibration(csi_chan->mipi);
->>> +
->>> +		if (ret < 0 && ret != -ENOIOCTLCMD)
->>> +			goto disable_csi_stream;  
->>
->> If there was an error from s_stream, then tegra_mipi_finish_calibration is called
->> and it goes to disable_csi_stream...
->>
->>> +
->>> +		if (err < 0)
->>> +			dev_warn(csi->dev, "MIPI calibration failed: %d\n", err);
->>> +	}
->>> +
->>>  	return 0;
->>>  
->>> +disable_csi_stream:
->>> +	csi->ops->csi_stop_streaming(csi_chan);
->>>  finish_calibration:
->>>  	if (csi_chan->mipi)
->>>  		tegra_mipi_finish_calibration(csi_chan->mipi);  
->>
->> ...but here tegra_mipi_finish_calibration() is called again, leading to an unlock
->> imbalance.
-> 
-> Many thanks for your testing! Unfortunately I have no Tegra210 hardware
-> so this never happened here, but with your report the problem got
-> obvious and, luckily, the fix appeared to be just a oneliner.
-> 
-> v6 just sent! I'm wondering whether there is still hope to get this
-> 6.4...
+VIP is the parallel video capture component within the video input
+subsystem of Tegra20 (and other Tegra chips, apparently).
 
-Sorry, it's too late for 6.4 now. Only fixes can go in for 6.4.
+Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Reviewed-by: Dmitry Osipenko <digetx@gmail.com>
 
-Regards,
+---
 
-	Hans
+No changes in v6
+No changes in v5
 
-> 
-> Best regards,
-> Luca
-> 
+Changed in v4:
+ - Added review tags
+ - remove leftover lines after removal of 'channel@0'
+
+Changed in v3:
+ - remove channel@0 node (Krzysztof, Rob, Dmitry)
+ - add myself as a maintainer of the whole Tegra video driver (Dmitry)
+
+Changed in v2 (suggested by Krzysztof Kozlowski):
+ - remove redundant "bindings" from subject line
+ - remove $nodename
+ - add channel@0 description
+ - add reg: const: 0
+---
+ .../display/tegra/nvidia,tegra20-vip.yaml     | 41 +++++++++++++++++++
+ MAINTAINERS                                   |  2 +
+ 2 files changed, 43 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-vip.yaml
+
+diff --git a/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-vip.yaml b/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-vip.yaml
+new file mode 100644
+index 000000000000..14294edb8d8c
+--- /dev/null
++++ b/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-vip.yaml
+@@ -0,0 +1,41 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/display/tegra/nvidia,tegra20-vip.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: NVIDIA Tegra VIP (parallel video capture) controller
++
++maintainers:
++  - Luca Ceresoli <luca.ceresoli@bootlin.com>
++
++properties:
++  compatible:
++    enum:
++      - nvidia,tegra20-vip
++
++  ports:
++    $ref: /schemas/graph.yaml#/properties/ports
++
++    properties:
++      port@0:
++        $ref: /schemas/graph.yaml#/properties/port
++        description:
++          Port receiving the video stream from the sensor
++
++      port@1:
++        $ref: /schemas/graph.yaml#/properties/port
++        description:
++          Port sending the video stream to the VI
++
++    required:
++      - port@0
++      - port@1
++
++unevaluatedProperties: false
++
++required:
++  - compatible
++  - ports
++
++# see nvidia,tegra20-vi.yaml for an example
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 0e64787aace8..8d8b0aa8e009 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -20610,10 +20610,12 @@ TEGRA VIDEO DRIVER
+ M:	Thierry Reding <thierry.reding@gmail.com>
+ M:	Jonathan Hunter <jonathanh@nvidia.com>
+ M:	Sowjanya Komatineni <skomatineni@nvidia.com>
++M:	Luca Ceresoli <luca.ceresoli@bootlin.com>
+ L:	linux-media@vger.kernel.org
+ L:	linux-tegra@vger.kernel.org
+ S:	Maintained
+ F:	Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-host1x.yaml
++F:	Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-vip.yaml
+ F:	drivers/staging/media/tegra-video/
+ 
+ TEGRA XUSB PADCTL DRIVER
+-- 
+2.34.1
 
