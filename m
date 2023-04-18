@@ -1,54 +1,187 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from relay10.mail.gandi.net (relay10.mail.gandi.net [217.70.178.230])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A23015C7
-	for <linux-staging@lists.linux.dev>; Tue, 18 Apr 2023 06:17:49 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 49987C433D2;
-	Tue, 18 Apr 2023 06:17:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1681798669;
-	bh=nqidHXv6ILSq69xfot9dCKAiN14YUM8TTkLugS/sXR0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=fWW9LEj2tcDjD1rXsRHaF6X3bPRL4QNL3gPZzu19VZUA1qudoAVrhPcDsPG0ic8yw
-	 Z9Ct/VWdGoXp2xwX3drmIAiqVWYMNCR/4cgaXhrt+88O6L00M2WgIV1cTJpcer/6CA
-	 /ZcKmwLr+RJyj2Sxab9leqYiP27z52ManLb4q7Yo=
-Date: Tue, 18 Apr 2023 08:17:46 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] staging: rtl8192e: Fix W_DISABLE# does not work after
- stop/start
-Message-ID: <ZD42Cn9OkovF5bho@kroah.com>
-References: <20230417185723.GA11245@matrix-ESPRIMO-P710>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5ABAC185A
+	for <linux-staging@lists.linux.dev>; Tue, 18 Apr 2023 08:01:13 +0000 (UTC)
+Received: from booty.fritz.box (unknown [77.244.183.192])
+	(Authenticated sender: luca.ceresoli@bootlin.com)
+	by mail.gandi.net (Postfix) with ESMTPA id E2758240008;
+	Tue, 18 Apr 2023 08:01:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1681804871;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=+KUWvGYikatFyyoz0R9fUwy3FH2dfnuJpHoufok0Upc=;
+	b=KMKSV/hpssetkSA9DSlp2h/+T8gLtAkR4PiCPjWV8Q5A8rfTd5n+fzGuGA2sZT7WW4wOep
+	3rdeXAGGHXAjkxACULVhomVslIz2auUnbyC49XTV17u73XX991uZU+YNOHd1VkT3jv1J/8
+	rzfXx+9szN8l7JxjcFCeDVccc6ok1ptf/2kUk59rd88TxQdNCKz/OMUXA6NNK9KI5rtnaC
+	h9CadxaW7tc/N2QmBm6aSdZFj+gVoU1i6Pq+F8NP7RtoS751oZP64UEYbaKtzfkTjEL5EE
+	fJYK0q9kxrJmlU9+MXpHhThJf9egPYZ7Ny2Nt97RJxeL/EF2oRHHchxyHtAFKw==
+From: Luca Ceresoli <luca.ceresoli@bootlin.com>
+To: linux-tegra@vger.kernel.org
+Cc: Luca Ceresoli <luca.ceresoli@bootlin.com>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Sowjanya Komatineni <skomatineni@nvidia.com>,
+	David Airlie <airlied@gmail.com>,
+	Daniel Vetter <daniel@ffwll.ch>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-media@vger.kernel.org,
+	dri-devel@lists.freedesktop.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+	Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+	Richard Leitner <richard.leitner@skidata.com>,
+	Rob Herring <robh@kernel.org>
+Subject: [PATCH v6 02/20] dt-bindings: display: tegra: vi: add 'vip' property and example
+Date: Tue, 18 Apr 2023 10:00:36 +0200
+Message-Id: <20230418080054.452955-3-luca.ceresoli@bootlin.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20230418080054.452955-1-luca.ceresoli@bootlin.com>
+References: <20230418080054.452955-1-luca.ceresoli@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230417185723.GA11245@matrix-ESPRIMO-P710>
+Content-Transfer-Encoding: 8bit
 
-On Mon, Apr 17, 2023 at 08:57:23PM +0200, Philipp Hortmann wrote:
-> When loading the driver for rtl8192e, the W_DISABLE# switch is working as
-> intended. But when the WLAN is turned off in software and then turned on
-> again the W_DISABLE# does not work anymore. Reason for this is that in
-> the function _rtl92e_dm_check_rf_ctrl_gpio() the bfirst_after_down is
-> checked and returned when true. bfirst_after_down is set true when
-> switching the WLAN off in software. But it is not set to false again
-> when WLAN is turned on again.
-> 
-> Add bfirst_after_down = false in _rtl92e_sta_up to reset bit and fix
-> above described bug.
-> 
-> Fixes: https://lore.kernel.org/linux-staging/248ec330-b4c3-aa7b-61eb-69ce8d333b69@gmail.com/
-> Signed-off-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-> ---
-> v1->v2: Added Fixes Tag
+The Tegra20 VI peripheral can receive parallel input from the VIP parallel
+input module. Add it to the allowed properties and augment the existing
+nvidia,tegra20-vi example to show a 'vip' property.
 
-"Fixes:" needs to point to a git commit id, not a url.
+Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+Reviewed-by: Rob Herring <robh@kernel.org>
 
-thanks,
+---
 
-greg k-h
+No changes in v6
+No changes in v5
+
+Changed in RESEND,v4:
+ - Add Reviewed-by: Rob Herring <robh@kernel.org>
+
+Changed in v4:
+ - complete the removal of 'channel@0'
+
+Changed in v3 (suggested by Rob Herring):
+ - drop 'endpoint', unneeded as there's no extra properties in the
+   endpoints
+
+Changed in v2 (suggested by Krzysztof Kozlowski):
+ - rename "i2c3" -> "ic2"
+ - add review tag
+---
+ .../display/tegra/nvidia,tegra20-vi.yaml      | 59 +++++++++++++++++++
+ MAINTAINERS                                   |  1 +
+ 2 files changed, 60 insertions(+)
+
+diff --git a/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-vi.yaml b/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-vi.yaml
+index a42bf33d1e7d..2181855a0920 100644
+--- a/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-vi.yaml
++++ b/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-vi.yaml
+@@ -73,6 +73,18 @@ properties:
+   avdd-dsi-csi-supply:
+     description: DSI/CSI power supply. Must supply 1.2 V.
+ 
++  vip:
++    $ref: /schemas/display/tegra/nvidia,tegra20-vip.yaml
++
++  ports:
++    $ref: /schemas/graph.yaml#/properties/ports
++
++    properties:
++      port@0:
++        $ref: /schemas/graph.yaml#/properties/port
++        description:
++          Input from the VIP (parallel input capture) module
++
+ patternProperties:
+   "^csi@[0-9a-f]+$":
+     type: object
+@@ -108,6 +120,22 @@ examples:
+     #include <dt-bindings/clock/tegra20-car.h>
+     #include <dt-bindings/interrupt-controller/arm-gic.h>
+ 
++    i2c {
++        #address-cells = <1>;
++        #size-cells = <0>;
++        camera@48 {
++            compatible = "aptina,mt9v111";
++            reg = <0x48>;
++            clocks = <&camera_clk>;
++
++            port {
++                mt9v111_out: endpoint {
++                    remote-endpoint = <&vi_vip_in>;
++                };
++            };
++        };
++    };
++
+     vi@54080000 {
+         compatible = "nvidia,tegra20-vi";
+         reg = <0x54080000 0x00040000>;
+@@ -115,6 +143,37 @@ examples:
+         clocks = <&tegra_car TEGRA20_CLK_VI>;
+         resets = <&tegra_car 100>;
+         reset-names = "vi";
++
++        vip {
++            compatible = "nvidia,tegra20-vip";
++            ports {
++                #address-cells = <1>;
++                #size-cells = <0>;
++                port@0 {
++                    reg = <0>;
++                    vi_vip_in: endpoint {
++                        remote-endpoint = <&mt9v111_out>;
++                    };
++                };
++                port@1 {
++                    reg = <1>;
++                    vi_vip_out: endpoint {
++                        remote-endpoint = <&vi_in>;
++                    };
++                };
++            };
++        };
++
++        ports {
++            #address-cells = <1>;
++            #size-cells = <0>;
++            port@0 {
++                reg = <0>;
++                vi_in: endpoint {
++                    remote-endpoint = <&vi_vip_out>;
++                };
++            };
++        };
+     };
+ 
+   - |
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 8d8b0aa8e009..90594131be4f 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -20615,6 +20615,7 @@ L:	linux-media@vger.kernel.org
+ L:	linux-tegra@vger.kernel.org
+ S:	Maintained
+ F:	Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-host1x.yaml
++F:	Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-vi.yaml
+ F:	Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-vip.yaml
+ F:	drivers/staging/media/tegra-video/
+ 
+-- 
+2.34.1
+
