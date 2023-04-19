@@ -1,75 +1,80 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mout.web.de (mout.web.de [212.227.15.3])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9641B2580;
-	Wed, 19 Apr 2023 08:51:12 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 14E2DC433D2;
-	Wed, 19 Apr 2023 08:51:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1681894272;
-	bh=VXrpOSBlujFi+hh3tYsCGOxDWdKBsM/QYjcPSg9RskE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ka7ocJbBGzZMh64ujq3JPqaSiDyCzuUb7UQ9jIjPNctNl3tAHXyS8iPrzTBzXW1Xa
-	 ZTGaaPFwNEwOu7/T10uoT2AkUtvvCGw/iA/ZR9TTHzez4wCnGxcJp/2Vm81M7vrrbU
-	 fxsGgIobRAncv2vykywEOcofgyQ764C3vAxebwBJ+Z2hT29ZkA+MHKw3/kCqY1xyhR
-	 dcme4FK8dkQqDIuDM3FCPmY7r98xH0fSn6MUZ6YNIlgjpshkyvdISA2RLN3nFCt+XV
-	 s7hbeuWt0UGXek2grLzYh3MWx7qjwJoBYJdVk+o/bTT+eu6AON8ZKym8aAEVECXkkX
-	 dClvpK4JcuaTA==
-Date: Wed, 19 Apr 2023 10:51:06 +0200
-From: Simon Horman <horms@kernel.org>
-To: Stefan Wahren <stefan.wahren@i2se.com>
-Cc: Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nick Desaulniers <ndesaulniers@google.com>,
-	Tom Rix <trix@redhat.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-rpi-kernel@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org, linux-staging@lists.linux.dev,
-	llvm@lists.linux.dev, Florian Fainelli <f.fainelli@gmail.com>
-Subject: Re: [PATCH] staging: vchiq_arm: Make vchiq_platform_init() static
-Message-ID: <ZD+rethobzN+rONr@kernel.org>
-References: <20230418-vchiq_platform_init-static-v1-1-3c38ba81bc66@kernel.org>
- <e1fed875-059d-bf98-f9da-09c51f362be8@i2se.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 567C123A2
+	for <linux-staging@lists.linux.dev>; Wed, 19 Apr 2023 15:51:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de; s=s29768273;
+	t=1681919453; i=markus.elfring@web.de;
+	bh=mZXtJ6fNtvkIltdDYa8v3MhZsN0r27fPYvulUxn1iyQ=;
+	h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=BFopDl9iB632j1+gM/dotHZV0G9rN8hgrNvLAi1MC2cZeJkoAVj5EdWy0hYDNebev
+	 g9nTk2pfuRbQ3ZQh8PKpS6Ff3Z6PFb1KNG9MfWHGHvyweKOKBmkVWjKLVGZeMR3hBc
+	 DO6EJEgmci3xBErMgrihsUpcs/hTlKu1P/HxbBwyGqGxkOoDLuZrESL/uBj5I/dR2I
+	 ebJtFM2baKrEUf4TfYurFFocgX/PmqFazjh6WP1CXK2/GS4qz71xESL9VjzyMSslli
+	 Vgkw7+ca/HJQCmZPKBhN0UkLsOzTEJG608fVVcxbq9WFeVVGfYbKEB/I3zE0FRQNrf
+	 BAusb8Xl1p6Og==
+X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
+Received: from [192.168.178.21] ([94.31.85.83]) by smtp.web.de (mrweb006
+ [213.165.67.108]) with ESMTPSA (Nemesis) id 1MA4fW-1q0jsF1ugc-00C0xb; Wed, 19
+ Apr 2023 17:50:53 +0200
+Message-ID: <6089720a-574c-c607-c9d5-7bb026806feb@web.de>
+Date: Wed, 19 Apr 2023 17:50:38 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <e1fed875-059d-bf98-f9da-09c51f362be8@i2se.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [PATCH] media: atomisp: Move a variable assignment behind a null
+ pointer check in atomisp_cp_general_isp_parameters()
+Content-Language: en-GB
+To: Hans de Goede <hdegoede@redhat.com>, Andy Shevchenko <andy@kernel.org>,
+ kernel-janitors@vger.kernel.org, linux-media@vger.kernel.org,
+ linux-staging@lists.linux.dev,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Xiaomeng Tong <xiam0nd.tong@gmail.com>
+Cc: cocci@inria.fr, LKML <linux-kernel@vger.kernel.org>
+References: <40c60719-4bfe-b1a4-ead7-724b84637f55@web.de>
+ <1a11455f-ab57-dce0-1677-6beb8492a257@web.de>
+ <d8ed4e5d-49d4-ca7e-1283-1ec166bf643d@web.de>
+ <ZDmJsemYldOsMMrH@smile.fi.intel.com>
+ <9b243f3e-92ad-197f-f0a6-b22eaf71238a@redhat.com>
+From: Markus Elfring <Markus.Elfring@web.de>
+In-Reply-To: <9b243f3e-92ad-197f-f0a6-b22eaf71238a@redhat.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:DLjqWpg9bOFnVLWT6MWNo18Pxf59m4of0cfkZHDwBZLf39gjeUO
+ RtU6KTgpcLLbiAc5IfxscYK2ykatgWJpF0k4spFWKuuX/Lkjo/eM60BWk22drFQiwza/ZDc
+ twldF7/LN/ulMiEv+oI00I9P1yUYgwZiFoqsajYn9/+ZWas1dCj3qgIENn2BqqIY4KRNbdE
+ 8504T3y4QatdTyHS/C1FQ==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:87qkBYVd3W8=;sNHOOakk3oUaBOA4EY394fAKrCV
+ ZdrY96O2K8VED16RqNxDgB6BDDkTf/oxSYq4YHjiCLJox6iNiDRzgVYbrHLv86Pz5dIfsdXPk
+ S+C7ozw0vF57LIWxKAVh40OPpHz+RghLJRQzZ5dO/GwqsEZkooDkhHT4vHzPpxv0JMpnGDMnd
+ zm8gBrTXFtydnVjTXzWiMT35/xduxDNY0u0+M2Dc9pD6y6G1VdD7oCrpo/hbrCTxDlSKYiuvG
+ IcoBWoTp750dqdTrNealvrMqQzbUl/rUmnuI3EinivFZaheOqtNtK+d1ZA/1k3//bYqgdpzC1
+ Od6XuKQHiN3kQjQS7K8TwFq1OTxBptlRj3t8xpQ6Z8Ayhp04f4Y9svJ/KE1YBC1ttSdTjcyLP
+ meJFh4MLN9OB+AFRqISDbOn+p0UMcIdFHKa5bR7GAWGKWbhWgHEVqmJY7cjZ6hwexdzu4RUFM
+ V10ejeH5Mnewi7IEOuWKCGeNPx/VGhH4xccyjgGrMkxV5BIY+2AzB7PIM02R46/f/E0BpbaY0
+ RpSPoszbdbBQ+q1xiLEbjy3rt0Rwlx5PHcaKJZAiBIE4zEsT7Tmu5bHQyevQJT1TRPsLJYVHM
+ QCHdsIwGm8AEl3fn69RRpS1u7lYNCQueHUqGB8DrTkQaCulw8KkxqB9f9p1fvGnAiNky2I/h/
+ MCzX14Jd9GipEmsYCgTQc9g4jJXo9LI3DAbIldERzFJ1WIyGtK8jpf8ylbNgKYhXmVlWsXddJ
+ 0V65AmG+QDCUf+JNecbdyyOw3Y7RdRSD1zFnqnsBO0675HTeHjOEJfiKgDmSFxgcx0/3SB6Hk
+ hE6Hj3xKvuF44gqeRhozsbvlMbU22SR4uJ2I4C7ClKuDFCw6Eifsi2xyauoODuuM8owjSVlhu
+ lx7JbN4vSQKH+363t7oe6FqHPM+Sa3mkCyU5ukPQ0T21yw08r1WL8BDph
 
-On Wed, Apr 19, 2023 at 08:37:58AM +0200, Stefan Wahren wrote:
-> Hi Simon,
-> 
-> Am 18.04.23 um 13:23 schrieb Simon Horman:
-> > vchiq_platform_init() is only used in this file so it can be static.
-> > 
-> > clang-16 with W=1 reports:
-> > 
-> >   drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c:465:5: error: no previous prototype for function 'vchiq_platform_init' [-Werror,-Wmissing-prototypes]
-> >   int vchiq_platform_init(struct platform_device *pdev, struct vchiq_state *state)
-> >       ^
-> >   drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c:465:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-> > 
-> > Signed-off-by: Simon Horman <horms@kernel.org>
-> 
-> this is not the first attempt to fix this [1]. But maybe this has been fixed
-> in the meantime.
-> 
-> [1] - https://lore.kernel.org/linux-staging/20221022043548.1671644-1-scottjcrouch@gmail.com/#t
+> Instead of this patch, can you please audit the callers of this function=
+?
 
-Thanks,
+Would you like to add any advices for a similarly affected implementation
+of the function =E2=80=9Catomisp_set_parameters=E2=80=9D?
+https://elixir.bootlin.com/linux/v6.3-rc7/source/drivers/staging/media/ato=
+misp/pci/atomisp_cmd.c#L3619
 
-I see in that thread that Greg notes that "this breaks the build in a very
-horrible and strange way" [2].
-
-I'm a bit surprised as I didn't observe such a thing.
-But I also don't dispute it - clearly my testing was inadequate.
-
-I'll try and dig a bit deeper into this one.
-Perhaps starting with the report from the kernel test robot [3]
-
-[2] https://lore.kernel.org/linux-staging/Y1Okpjbi2kKU2GFz@kroah.com/
-[3] https://lore.kernel.org/linux-staging/202210230127.p1Dp295m-lkp@intel.com/
+Regards,
+Markus
