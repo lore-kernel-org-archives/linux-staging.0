@@ -1,92 +1,90 @@
-Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F344AFED
-	for <linux-staging@lists.linux.dev>; Tue, 18 Apr 2023 20:02:06 +0000 (UTC)
-Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-94f161ee14fso50736566b.0
-        for <linux-staging@lists.linux.dev>; Tue, 18 Apr 2023 13:02:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1681848124; x=1684440124;
-        h=content-disposition:mime-version:message-id:subject:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=HsFVuXE61PbLw9YtM+jxEDcHooXCuW3K6esrr2BCHUs=;
-        b=RJSd8ztUkMXfjKj2IFMPJud3LXOVWy9ZT+F1FDzl/BveJrXCo7/SuFeiZtjIEV6v1l
-         JLvipWe+etghOYMPkO1N4WGyAsDjtyY8zagft20AJAomxd5uYUtpBfVExN5sCgCewMcL
-         WPhPxa0i3pN/23Dmj2tqxL3Z2xZdfrpkcreZte53NtKrhNSqhfoZic2eIn0KuRsfk8mg
-         ks+vQlGhdXKNOrUoF/EgWy6EOKzIlAKGqxCGeM9vn+Iu93/vVeHpW7yGx6TpxbzfBa8y
-         SZTpEZ3ohNPRjz3VUjM0rRPCW79jPnsSPHhLYi5EWDmgjfsCpIz7lbWcp3uuwvkQVv3v
-         UAqg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1681848124; x=1684440124;
-        h=content-disposition:mime-version:message-id:subject:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=HsFVuXE61PbLw9YtM+jxEDcHooXCuW3K6esrr2BCHUs=;
-        b=ZG6tSx0OPaTzs8tpMMkgDVzw1tO2Y6RntmeY7zYhe5JVsITak9Ubp8DNUEsm4vPg1x
-         FqQxD1E1Et0SJaBviPR6Pp6sb6TwhqWFeMm3LcGN1CXKWBDswpZkA7pP4o1aHjtVov6g
-         qDRbBgda+0FxWSqh13wZSFjU/ML5q8fKcpXUJoiIEg3Tb/18h7p0qR/sgRoX8BbXwX/A
-         Yf5/w4/uqyl7/EXdlozxK0/jQJXObkOBVT1K8TZW35jDGSpJMK1qlfWFJ+/t9Jp+MhFx
-         NlTCvNiT6R7gqCEwvD/cjjDf0u32a5XeqsB50cnEnJ5S4RIqYKxx3QGWf+ft6ihUIA6K
-         9haQ==
-X-Gm-Message-State: AAQBX9f43L2bN4dWI7WCRVogn+EsMVeU4ZiMKnhk0JpZRiOpzGOZHxzY
-	j8Z+vP1PvyGhECuuJJ3CzIM=
-X-Google-Smtp-Source: AKy350ZwNs3E8lPGplBIvyWZE2u91zV7h78+pgwfvhHLpZndxunn86Wb3edvlIvy4Il+7UWVtUYaOg==
-X-Received: by 2002:a17:906:19c:b0:94f:66af:b1f7 with SMTP id 28-20020a170906019c00b0094f66afb1f7mr7316763ejb.1.1681848124259;
-        Tue, 18 Apr 2023 13:02:04 -0700 (PDT)
-Received: from matrix-ESPRIMO-P710 (p57935146.dip0.t-ipconnect.de. [87.147.81.70])
-        by smtp.gmail.com with ESMTPSA id ay18-20020a056402203200b0050504648fc4sm7394370edb.80.2023.04.18.13.02.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 18 Apr 2023 13:02:03 -0700 (PDT)
-Date: Tue, 18 Apr 2023 22:02:01 +0200
-From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [PATCH v3] staging: rtl8192e: Fix W_DISABLE# does not work after
- stop/start
-Message-ID: <20230418200201.GA17398@matrix-ESPRIMO-P710>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FE671C04;
+	Wed, 19 Apr 2023 05:39:52 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CC4B7C433D2;
+	Wed, 19 Apr 2023 05:39:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1681882792;
+	bh=rOihxUe8QABONitDvwQdh6idsB15LI4P6UVu3IhCaok=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=UQk5pDyTn5vXNJfDchHNuRH+vQpt0H359HhJimZ4v8BEbCbk3NIAWSfhAKVCoMlag
+	 Nh2ocXN8u/yGNTn9VRuYMMxjJP/+X+wjC78w+Mv8QckKPFSye1WCVomTi/kBwdK6dV
+	 536d1GWdBDIgABad6v7AM2yfVPNyh1MwfJzMcayi0GzWAwMB+YUqMSxwa/u69OJPbU
+	 Yq6Zw20wFsj8+aoR34mVZ0Ci3wK65hAbvAP6FRWb2SI/OA5g3iyj0iI07KRDG6q+Ge
+	 8obtsx3cXXgyb6/OY0XC4DvWZqzcwyTEHP0G0YWMx196lWuZgGlSvAEinishWYDz2+
+	 v0HiuHH++ZZbg==
+Date: Wed, 19 Apr 2023 07:39:47 +0200
+From: Simon Horman <horms@kernel.org>
+To: Nick Desaulniers <ndesaulniers@google.com>
+Cc: Florian Fainelli <f.fainelli@gmail.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+	Nathan Chancellor <nathan@kernel.org>, Tom Rix <trix@redhat.com>,
+	linux-rpi-kernel@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org, linux-staging@lists.linux.dev,
+	llvm@lists.linux.dev
+Subject: Re: [PATCH] staging: vchiq_arm: Make vchiq_platform_init() static
+Message-ID: <ZD9+o7dUheMZgPAx@kernel.org>
+References: <20230418-vchiq_platform_init-static-v1-1-3c38ba81bc66@kernel.org>
+ <CAKwvOdmuwuSn+4csSCwsNXM01ohsp+ZzcWQ1WfM_kgj_NRugZA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAKwvOdmuwuSn+4csSCwsNXM01ohsp+ZzcWQ1WfM_kgj_NRugZA@mail.gmail.com>
 
-When loading the driver for rtl8192e, the W_DISABLE# switch is working as
-intended. But when the WLAN is turned off in software and then turned on
-again the W_DISABLE# does not work anymore. Reason for this is that in
-the function _rtl92e_dm_check_rf_ctrl_gpio() the bfirst_after_down is
-checked and returned when true. bfirst_after_down is set true when
-switching the WLAN off in software. But it is not set to false again
-when WLAN is turned on again.
+On Tue, Apr 18, 2023 at 11:39:58AM -0700, Nick Desaulniers wrote:
+> On Tue, Apr 18, 2023 at 4:23 AM Simon Horman <horms@kernel.org> wrote:
+> >
+> > vchiq_platform_init() is only used in this file so it can be static.
+> >
+> > clang-16 with W=1 reports:
+> >
+> >  drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c:465:5: error: no previous prototype for function 'vchiq_platform_init' [-Werror,-Wmissing-prototypes]
+> >  int vchiq_platform_init(struct platform_device *pdev, struct vchiq_state *state)
+> >      ^
+> >  drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c:465:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+> >
+> > Signed-off-by: Simon Horman <horms@kernel.org>
+> 
+> I would have kept the return type on the original line and just added
+> the explicit linkage on top, but it's fine and checkpatch doesn't
+> complain. Thanks for the patch!
 
-Add bfirst_after_down = false in _rtl92e_sta_up to reset bit and fix
-above described bug.
+Thanks, I wasn't sure which was the best way to to on that.
+I'll keep this in mind in future.
 
-Fixes: 94a799425eee ("From: wlanfae <wlanfae@realtek.com> [PATCH 1/8] rtl8192e: Import new version of driver from realtek")
-Signed-off-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
----
-v1->v2: Added Fixes Tag
-v2->v3: Changed Fixes Tag from https to git commit id
-
-Tested with rtl8192e (WLL6130-D99)
-Transferred this patch over wlan connection of rtl8192e
----
- drivers/staging/rtl8192e/rtl8192e/rtl_core.c | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/drivers/staging/rtl8192e/rtl8192e/rtl_core.c b/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
-index 4cf84b5666a7..27040d1e3230 100644
---- a/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
-+++ b/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
-@@ -645,6 +645,7 @@ static int _rtl92e_sta_up(struct net_device *dev, bool is_silent_reset)
- 	else
- 		netif_wake_queue(dev);
- 
-+	priv->bfirst_after_down = false;
- 	return 0;
- }
- 
--- 
-2.40.0
-
+> Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
+> 
+> > ---
+> >  drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c | 3 ++-
+> >  1 file changed, 2 insertions(+), 1 deletion(-)
+> >
+> > diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
+> > index 40dd62cf7399..59312b9f2058 100644
+> > --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
+> > +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
+> > @@ -462,7 +462,8 @@ free_pagelist(struct vchiq_instance *instance, struct vchiq_pagelist_info *pagel
+> >         cleanup_pagelistinfo(instance, pagelistinfo);
+> >  }
+> >
+> > -int vchiq_platform_init(struct platform_device *pdev, struct vchiq_state *state)
+> > +static int
+> > +vchiq_platform_init(struct platform_device *pdev, struct vchiq_state *state)
+> >  {
+> >         struct device *dev = &pdev->dev;
+> >         struct vchiq_drvdata *drvdata = platform_get_drvdata(pdev);
+> >
+> 
+> 
+> -- 
+> Thanks,
+> ~Nick Desaulniers
+> 
