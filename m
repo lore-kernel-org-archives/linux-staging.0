@@ -1,104 +1,79 @@
-Received: from mail-pg1-f169.google.com (mail-pg1-f169.google.com [209.85.215.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mout.web.de (mout.web.de [212.227.15.14])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4D27D2FD
-	for <linux-staging@lists.linux.dev>; Wed, 19 Apr 2023 21:48:30 +0000 (UTC)
-Received: by mail-pg1-f169.google.com with SMTP id 41be03b00d2f7-52019617020so224075a12.3
-        for <linux-staging@lists.linux.dev>; Wed, 19 Apr 2023 14:48:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20221208; t=1681940910; x=1684532910;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=3umHbQ49oYLkecPTCD3JSlHIMiNfIqcecI+C874KcLU=;
-        b=57b1kFmCr0701sHULhDh6hJvbcA/JCF8T9BfMwXm6gNKjpoFgqkiRNbbSCJ4usngpL
-         DKoGEALP4T49ns+mn9Gjv4wAwMsxJXX2CEhhTwvjiI9gSUad8Xf6JwRPGb/31lPG8QXt
-         k9LnwFASj/5ONaJ3FyRZZ7Jw6CRyA8Kfb/FtlTr3dCsIMd6gxEXqr9vnxM756KUQjIyW
-         1vIED6gatAIMxxqosz2P5t1Ftk7rQ1zIiTjX2GU3joytTkiefDxjc4cApJWVgXQ4kQQV
-         E9Kyj2dEfkawcnBtSLuq4vJ3lTHiSMyVhXtmT47lT2Sk4GoMX+MRU7WkNiSgCJGCzFgh
-         Z/iA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1681940910; x=1684532910;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=3umHbQ49oYLkecPTCD3JSlHIMiNfIqcecI+C874KcLU=;
-        b=PJn2dOuWSiOz3t+f4OijARuaMtrMIOwPfFj7t1ATJxfAJZb9TuZUdn79BAmdk0HLeD
-         VaOMFwSSHdYLYOytjcYbXoFo62jIiVcU/OklICxMSJzKAgC87nZKTShWH6I2f1gENQQB
-         Vhrg/p1Ici1Y/Ao4SeaE5FULGqg/18cmNwzyY523hWurn9IRKdwmJh9jZx/rpAjs5Btf
-         AfZ6LjXwcPgoLuiT2ky6sfkxkJ2LaGAaPEK5KhNY1L9CvynY7a+RyYFIaaJJ4FQnXzt0
-         FK5wpfH+uO7vA9hCwizkX2YL4OT8L/wDlfOlYBGe2hDv90jgcJ5fnn7dKCYhIskR2g58
-         J+aw==
-X-Gm-Message-State: AAQBX9eCLbTjd703RNkMSPjNLwwvCLnIkre/HjV1fbMtcj3TlD7NOuOc
-	wYhIVbS9PKigAWwLy78fIqiFoGWKQp9WNDYo0EHdxg==
-X-Google-Smtp-Source: AKy350aYZAOdqbv0OVmtpCPAntPobWMY0GOLA+cGXP3stu82EOGCdTmpnZBPzc3tJVfo/0nrqABBLXLtnhTK11hhUxg=
-X-Received: by 2002:a17:90b:33c7:b0:23e:f855:79ed with SMTP id
- lk7-20020a17090b33c700b0023ef85579edmr4217873pjb.28.1681940909903; Wed, 19
- Apr 2023 14:48:29 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3AA6453BF
+	for <linux-staging@lists.linux.dev>; Thu, 20 Apr 2023 10:54:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de; s=s29768273;
+	t=1681988069; i=markus.elfring@web.de;
+	bh=5Hd0u5JOugHNMhUh8SCnU+ikBmTrD5in2V/ZBCXNYm4=;
+	h=X-UI-Sender-Class:Date:Subject:From:To:References:Cc:In-Reply-To;
+	b=kLeYlNIxfBwU8DyHbUoEKDvCBFgZPk0V4JC9O8e+7m7Nw7bfHyamFWxablhHNIlG8
+	 z8Dm7LXgiMyEd9HIZ1th5qZk9h2VINd4MuZVqz+24gHgs4kdYp+OV0UNalOenznpTM
+	 r9BHDw22Gu+kCU0/5SAyFW0Z8TpgmYy7WUyKr4lpjW96EaXtEoufr10QZq7dLD3m9N
+	 woflFsMAUaUoUCYKuZOO4SaEJ11GcJpkvIvupin2bL3Oo7pt6hUZgwOCm+nb85Gch5
+	 NNO9DR3VvDE8+xUpZbrXXOTIssWieqMJOiL9tseg3y15n5nXHVd9M+VJez9jA+W1bs
+	 OQP0/kkus8WpA==
+X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
+Received: from [192.168.178.21] ([94.31.85.83]) by smtp.web.de (mrweb005
+ [213.165.67.108]) with ESMTPSA (Nemesis) id 1MT7aV-1pkKAk0iqd-00UaU9; Thu, 20
+ Apr 2023 12:54:29 +0200
+Message-ID: <93913f0c-4699-cf9a-0f10-8edd478fd2b3@web.de>
+Date: Thu, 20 Apr 2023 12:54:20 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20230418-vchiq_platform_init-static-v1-1-3c38ba81bc66@kernel.org>
- <e1fed875-059d-bf98-f9da-09c51f362be8@i2se.com> <ZD+rethobzN+rONr@kernel.org>
- <CAKwvOdkKACfOvZ4BcG9NcO1Kh97vqSx0y7ZBc+BOJnHUpq8qWw@mail.gmail.com>
- <20ac24d6-4d94-4003-9203-d852714e1a46@app.fastmail.com> <CAKwvOd=kShNVxFvjODEghrHGXK7Gekwcwb3cEFUgEBhZcOHC_Q@mail.gmail.com>
- <8d070a27-fa53-4965-95b0-e0bf8bb90609@app.fastmail.com>
-In-Reply-To: <8d070a27-fa53-4965-95b0-e0bf8bb90609@app.fastmail.com>
-From: Nick Desaulniers <ndesaulniers@google.com>
-Date: Wed, 19 Apr 2023 14:48:17 -0700
-Message-ID: <CAKwvOdkCPy7XQS4dZ0=Ka8TNEStwqLhaW7idPJ+fA9d+A0Sjxg@mail.gmail.com>
-Subject: Re: [PATCH] staging: vchiq_arm: Make vchiq_platform_init() static
-To: Arnd Bergmann <arnd@kernel.org>
-Cc: Simon Horman <horms@kernel.org>, Stefan Wahren <stefan.wahren@i2se.com>, 
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, 
-	Nathan Chancellor <nathan@kernel.org>, Tom Rix <trix@redhat.com>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-rpi-kernel@lists.infradead.org, 
-	linux-arm-kernel@lists.infradead.org, linux-staging@lists.linux.dev, 
-	llvm@lists.linux.dev, Florian Fainelli <f.fainelli@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: [PATCH 0/4] staging: rtl8712: Adjustments for process_link_qual()
+From: Markus Elfring <Markus.Elfring@web.de>
+To: kernel-janitors@vger.kernel.org, linux-staging@lists.linux.dev,
+ Florian Schilhabel <florian.c.schilhabel@googlemail.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Larry Finger <Larry.Finger@lwfinger.net>, Nam Cao <namcaov@gmail.com>
+References: <40c60719-4bfe-b1a4-ead7-724b84637f55@web.de>
+ <1a11455f-ab57-dce0-1677-6beb8492a257@web.de>
+Content-Language: en-GB
+Cc: cocci@inria.fr, LKML <linux-kernel@vger.kernel.org>
+In-Reply-To: <1a11455f-ab57-dce0-1677-6beb8492a257@web.de>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:m0x13uBkifOdccciCosExyWr/uBZXNH8rt7g/Wu4MO1yifXH0Fz
+ 1enfkvRlYt2jXnVwkUrXaRym6InblfePcSybRazqk8mhlHbu2vSVToPqM1IZLheWmC5RbiW
+ Ak0UlEbuaLxyor+u3PiUOKZwj0G8PEylvXL8Pa0sj7pzx8Nb0IOxOk53BkiBY2L92VGGpyt
+ 2CALgLeTvUOunOO0sItIA==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:+jsE5C7a9oc=;oKiJu5EXKhvMxJDWVjXRlYD1mq/
+ 30gksJr/qibHbUijVGadV9uIHnmEOuhAL9T3WUi26i7J3SPbnZQoao6hE1gnB1Pz8kjDGpW1Y
+ KyTg7Qf40R/dzWsX5KC9u202Svexmhy/pvxo7pUfpbZ2KksgYQ9EQbc+D7SZIt6qk/EItVIwE
+ 9Ps4WIokrNhB7+XeC5zlKo6vflkjslVZEPysIGUxCC0y1anacP3F4898BlzCpmv7uaGnEmkqv
+ B96kZeYxBal2iQub7GpHEKCdey56lDA4NhExK0WPPHIgMgF7K+WI0yzd9w877Jr7HdG7NVTCT
+ hLx5nUVIccaHYPqxKKyMPnwcroG4yqkDiA43C3UMngKqH+uEUsQJjPRa8c6Zyev3OKmC7mvzb
+ hWKD93mI0QjZXwC6viS1HGDf1Hq5WkOs8tCoKnrzmySSPmbKcOFN6+zEQXBC4Vssgz2kvxW/G
+ mKLty/k/JCZ0y+96qFKzR24e5qeFEqpMJnaFFCu3FPIEFSf3C0FG/0CFTjWH7oFwzBssk/Ubh
+ qUa91CIzOAMA7pxS4892hM9esCrCgQQFNVG7VRkgdIrU4YEgNivSHD/Y2o7yAivQpaBsK8Vlp
+ BqQ/VymCTOfR6f50AQQfbgwIpwGZldoJcNHYHgVOB2Lug1dMpLfLPAwzu0thtv+4pcSDD4XVC
+ OEF2zkWFJjEsJ13fBk8UrgA23Hs6QaR7yQ2ys+mDuVO8CE6l6l87adWNLddWTw5I2qsuKZxfj
+ ITKmU4t5I767PmFdF4G/7J+g5SiNxtGMGhRZ9jjlfg4wsI2cY/tgADK9Y05d0xNDYAhv5XdRb
+ 5jl3QaoVB75RB/W+I8/0UbKLvUJQQYvMoz03zNhJbeMF/Xag6Jr7+H+K6g5H7D1eDfe2+5zRS
+ 96X4b/yqX0Cz06UVea4RmPQNc3W/TAUxUlzkNTI2jhshDDfrJBjX4yA1Z
 
-On Wed, Apr 19, 2023 at 2:42=E2=80=AFPM Arnd Bergmann <arnd@kernel.org> wro=
-te:
->
-> On Wed, Apr 19, 2023, at 23:38, Nick Desaulniers wrote:
-> > On Wed, Apr 19, 2023 at 2:35=E2=80=AFPM Arnd Bergmann <arnd@kernel.org>=
- wrote:
-> >>
-> >> On Wed, Apr 19, 2023, at 23:21, Nick Desaulniers wrote:
-> >> > On Wed, Apr 19, 2023 at 1:51=E2=80=AFAM Simon Horman <horms@kernel.o=
-rg> wrote:
-> >>
-> >> > Marking something as `depends on OF_DYNAMIC`. (Not sure whether Arnd
-> >> > meant that for BCM2835_VCHIQ or BCM_VIDEOCORE).
-> >> > Perhaps try that?
-> >> >
-> >> >>
-> >> >> I'm a bit surprised as I didn't observe such a thing.
-> >> >> But I also don't dispute it - clearly my testing was inadequate.
-> >> >>
-> >> >> I'll try and dig a bit deeper into this one.
-> >> >> Perhaps starting with the report from the kernel test robot [3]
-> >>
-> >> I have this in my randconfig build tree, but it looks like I never
-> >> sent it out.
-> >
-> > What else have you got hidden up in there? ;)
-> > Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
->
-> Actually, I have fixes for all missing-prototype warnings
-> in my tree, just remembered that this one is part of my
-> longer series. I have about 150 patches that are already split
-> up and just need to be sent out, plus more that are currently
-> sitting in a combined changeset.
+Date: Thu, 20 Apr 2023 12:05:12 +0200
 
-All? Wanna bet we can introduce new instances of that warning faster
-than you can fix all of them? Actually, no I would not take that bet.
+A few update suggestions were taken into account
+from static source code analysis.
 
-I'm just having fun, thanks for all of that cleanup work!
---=20
-Thanks,
-~Nick Desaulniers
+Markus Elfring (4):
+  Delete null pointer checks
+  Delete two variables
+  Reduce scope for the variable =E2=80=9Csqd=E2=80=9D
+  Simplify the usage of an expression
+
+ drivers/staging/rtl8712/rtl8712_recv.c | 24 +++++++++++-------------
+ 1 file changed, 11 insertions(+), 13 deletions(-)
+
+=2D-
+2.40.0
+
