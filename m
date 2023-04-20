@@ -1,24 +1,24 @@
 Received: from mout.web.de (mout.web.de [212.227.15.4])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4CC123A3
-	for <linux-staging@lists.linux.dev>; Thu, 20 Apr 2023 14:32:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA82B8C06
+	for <linux-staging@lists.linux.dev>; Thu, 20 Apr 2023 14:34:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de; s=s29768273;
-	t=1682001127; i=markus.elfring@web.de;
-	bh=qo+bG1q0U33/ld0dMM3MRlRvSbwgrbkLHvDLzo4qX10=;
+	t=1682001262; i=markus.elfring@web.de;
+	bh=uAeIY80p5MhUuLcqefnnFblRiL2V9PhZBf8nL2GOy+g=;
 	h=X-UI-Sender-Class:Date:Subject:From:To:Cc:References:In-Reply-To;
-	b=G9JEsqdX068ZHqDiZsy8mJ/kvHHeEETJeRRzqF7gVQj0mtbSjUDgmjN3lAZS7t9y3
-	 Ecmu4sK91jhjVgMpj0P3wz4EkFeiYBuRxtfcs5PWCB5PoOJ2Gf4e9FU+sc6Eadcd9S
-	 J/cBjJE25C/rgA0PYOCZ6VM28suq4KnkYym6dtCvEIs2V+rmF8M5nUv3zOVhXNjJGG
-	 qaJLmfEVPZHvnNLhy1BnzFeyE77ZSd/vheE22CL5U7w3ynbleQhtQaoOERzdiJLUFd
-	 5c0aPvOadEKt8vjZsSWlokSNk6fnYqiXuX3y9eQ/+9++r6wclpWT7hSJgPeokCqaqF
-	 MuVJksGu5HyvA==
+	b=bXO4YOi5cGQ3vNuSM9l4llV9N81CabYe1YziQfd2pa1/0C1inOES5KHp9M/lTkYt2
+	 vVrLCa0DxCPLZCL04BToZoDuQKlb1qVwDVgHuEmQM0d1gOqw/WuD1JB3JG8hGJTWAe
+	 X770mN3k2sr8Cy2nqb515oH1IWgWfHJqxFtJjsxu1exlMFtekMWgkLom0qPDOnLriQ
+	 1HND9KVhbpyvO5eldE/N7xYlfP6BEfpEAk9I9UIQqwLxamdNXrRLi15fhAOlTcOGz9
+	 A0FGxlwOCKNfQqkcizOh+tsggp6etAKTXhYKagPsQFrATQBKiImdNtpFsUcO8X6XHM
+	 q868b6t8vCB6A==
 X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
-Received: from [192.168.178.21] ([94.31.85.83]) by smtp.web.de (mrweb005
- [213.165.67.108]) with ESMTPSA (Nemesis) id 1MqqTV-1qboda1OUL-00mUTO; Thu, 20
- Apr 2023 16:32:07 +0200
-Message-ID: <03e39afd-f588-6201-cce0-46faef9deb8d@web.de>
-Date: Thu, 20 Apr 2023 16:32:06 +0200
+Received: from [192.168.178.21] ([94.31.85.83]) by smtp.web.de (mrweb006
+ [213.165.67.108]) with ESMTPSA (Nemesis) id 1N79RI-1qNi661JBE-017g3b; Thu, 20
+ Apr 2023 16:34:22 +0200
+Message-ID: <e988a5e2-31d7-051e-b818-58f9f40f26a8@web.de>
+Date: Thu, 20 Apr 2023 16:34:21 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -27,8 +27,8 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.10.0
-Subject: [PATCH 3/4] staging: rtl8723bs: Delete an unnecessary variable
- initialisation in rtw_set_802_11_bssid_list_scan()
+Subject: [PATCH 4/4] staging: rtl8723bs: Move a variable assignment behind a
+ condition check in rtw_set_802_11_bssid_list_scan()
 Content-Language: en-GB
 From: Markus Elfring <Markus.Elfring@web.de>
 To: kernel-janitors@vger.kernel.org, linux-staging@lists.linux.dev,
@@ -41,54 +41,61 @@ References: <40c60719-4bfe-b1a4-ead7-724b84637f55@web.de>
 In-Reply-To: <1f72786d-7ef2-80fa-58d2-98e379dd8ad7@web.de>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:kA/0AaqPUba7hec/pzDaLlzetU05R6/6ygc/N4ehh1n1BrOkWZF
- PutBrf26Ve7hoPi219s/otplM9WWQ3YG+7OlQswgR56SJBKgw8YK/0LMZrRu5alzhmJusZ4
- oPR36ar+j8SzhgruyFc343820ZRGiv+XLVXg6EAAlF2utmyRdaqTGhnaGWNuigDLEPyWav4
- M5waOz/OOMjWdyPf7MlIA==
+X-Provags-ID: V03:K1:APVPZD2CDY++TX90TXRFW+9fXJfnlZm6neOTRsveKteYrwTnm80
+ SDBSETchc0vSyrS4wUcwBhFAUCuCDgnDm6glwFQXgXBM+ZZF7HNXdiT0X5mt+mtg4EbvNe6
+ dYKZrk1RD1BucC7wKVWQYKblVthFyT/TKpcBHPMA8djTVD3jXGALnjF3cF24QQE/o88Xs1+
+ CcQKEb/QGMhEyuuQpZ8lg==
 X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:764KsoPQonU=;/4cCV5wxJKNMPSa5oxBuBGhpCI+
- gXqDIK5WFJaAPyVQeGbwaRmK4IH56I15VzshvIf2arAKQRd/e8xvyYYrGE09ti1atoE0AxCy0
- wApUiDlnVEalfaHZSPMiZ6TaK/+iWgyCsUhafC6/fNfw/MCsRRSC5uYXAYrD3+WBtWsqVmA6F
- 1YfpIwn3HCmMCRKOFggQrD5+N4l3LDB0CJaDXZLPWlbusuElHs2wmWxOq3qcpXM/4HJ56L+cp
- TAOvCdyF2KI3x6J4Kfln4Yf4bAe9Ip8e/QILqEif1/yNJXJW4Am0saJg/4T1rIvkNFO94KL8n
- bSwETEdHNEMVGuvW0aNnWSr1ARvZ0SJ5pNTrn3oUAdK4iwCBlE20k+YFfuUbZKWa1NzKeVMEE
- +FfeDF9AjINCMYq+xr2XRbIejB3EOiEuiVuQfkIhbfFKQPSGK3xC8/rjdEX4rgGfnJGX9BRDR
- j7+UIAg9DVjKb5JacLxd6kahl3Thi7zdDL3SJfT5/7z0NqMjUzl8y5lLyrvgmFdNmwi/g0CG8
- BUuilJitZF3rjQ+lLGI1VHnRrVAoNBlgbsbVCQqK8qnLt0d2F6XyIqBHGp6LZAFwG+tNMNX+2
- OvO7ygNRJB9sgmZfz7Md1dfQ8ByMwt68W08UvKxAF0EYKJ9mBBnq90STtgnpQqDNTqyKaZm8n
- UL4CoAXYQC1euy/+2uTemO08ItkvApDuiriVhN5ekAzwmDxCW4XY9PfNXpQlKh0tbPiR8IeBk
- gLMA3nKTjUTVKiF19TRJWwJo5tPoVJnEuaDuSmDerVenLoBY/LZ7D4jmXmsJjXNXfQ7oA8ZIH
- qQAF4R7kfdd+mpLNMxWMFWYPo0uzjt/vx5Yyllwljql6kcqSW6xL4ed3/SPLTZTCtzBmQpzcf
- HoUieHPsLX4/jyr4ZYl4O8vnU/3Y/5ecok9Y5z9gECvWh4GtIPcmyC1NW
+UI-OutboundReport: notjunk:1;M01:P0:wVbcBAyKbuQ=;puXYyQXaxICD0sCOx1srurG149Z
+ yPzQvDDvoBKxWwAHrMvZLkDZDn5o7NvccYXGg5oD0V9/WzNgslhRau+bo5qsKSFJglATSvivs
+ Vst/lXnl1ibMmUtmSDU7GPnkFcvl6JMRRj0sm8hoNfDItLnm8qmsJ2PaMbjm1lF53TsPyfNiZ
+ 8/8lr3Y6PAjuA655SPEJU0SWwaD6E4SnHf084GNr79eJWs0MhUy/YPvVJ8SBsQ5uUI029QczI
+ KzaQbkjDQUYsVqAx5agfLmN2ZcfD6gvEyogS9nRT0S4ccLZ6gkmalLewTdq7FruZpM70uakbu
+ /s+WyN4M4SVlV+5FRilJ2IqxvO2pnJ18jPzmxNY+Oji5LLPiG/QVVsYRR6fyPeqsi1wYMM3jO
+ HsLz87lXdcsVfQN1Eed8fvt7+WhwOsUugzOVMGQ/SRj5bywP/AGc27uY09GsBHZjDzEJ+woCU
+ OVnoupMV4nykgjcTWY6t0Ty9gXDktjvJRSm3XyrZNzF6Uu8HqpHHKlbAjK6GugF09FLxcpUk7
+ wyrerDBg3VQysjtcXw+FR/ArulNzflYksU3rJj5sn1plBoS4OVuR37zAjHUWbDakS85ApkF4t
+ Q5JMn2v2UzpiynmwKWw5y7EzBlaWUbdFc1iMM17/ftbfN89TZsLjeJPX29geUUopR4+Y3DyWY
+ 0GNc0mWIObDMRSY2mKX9uGVpUpn9X3rDTZclAJ18tAkGdQiNoU0clrB3PZi/7ut7pCYOSYEln
+ Ih3pBk104xwg1W9484nl7Nrlt8PYuHHL7tbYho6FeVcfJC6bDOIpKMmyq3v/vG9//1DSLSvg7
+ RMgZLYekFSwlSlaXYyQu8Q0+J5l8uwEtwi0Nys8SuhhKwtgbWqScflE+aiyYfvmwG9OBPWpzz
+ I3iiHGFhB1ouU6yfk1Q0Y29q4Tvk/Z2viHAU+YrJe/VRvfhnXun/nUhG0
 
-Date: Thu, 20 Apr 2023 15:55:48 +0200
+Date: Thu, 20 Apr 2023 16:06:08 +0200
 
-The variable =E2=80=9Cres=E2=80=9D will eventually be set to an appropriat=
-e value
-a bit later.
-Thus omit the explicit initialisation at the beginning.
+Convert the explicit initialisation of the local variable =E2=80=9Cpmlmepr=
+iv=E2=80=9D
+at the beginning to an assignment statement directly before
+the source code place where this pointer is used.
 
 Signed-off-by: Markus Elfring <elfring@users.sourceforge.net>
 =2D--
- drivers/staging/rtl8723bs/core/rtw_ioctl_set.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/staging/rtl8723bs/core/rtw_ioctl_set.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/staging/rtl8723bs/core/rtw_ioctl_set.c b/drivers/stag=
 ing/rtl8723bs/core/rtw_ioctl_set.c
-index 0c2df854afe7..0716b704106d 100644
+index 0716b704106d..fc6875b4697e 100644
 =2D-- a/drivers/staging/rtl8723bs/core/rtw_ioctl_set.c
 +++ b/drivers/staging/rtl8723bs/core/rtw_ioctl_set.c
-@@ -369,7 +369,7 @@ u8 rtw_set_802_11_disassociate(struct adapter *padapte=
-r)
+@@ -368,12 +368,13 @@ u8 rtw_set_802_11_disassociate(struct adapter *padap=
+ter)
+
  u8 rtw_set_802_11_bssid_list_scan(struct adapter *padapter, struct ndis_8=
 02_11_ssid *pssid, int ssid_max_num)
  {
- 	struct mlme_priv *pmlmepriv =3D &padapter->mlmepriv;
--	u8 res =3D true;
-+	u8 res;
+-	struct mlme_priv *pmlmepriv =3D &padapter->mlmepriv;
++	struct mlme_priv *pmlmepriv;
+ 	u8 res;
 
  	if (!padapter->hw_init_completed)
  		return false;
+
++	pmlmepriv =3D &padapter->mlmepriv;
+ 	if ((check_fwstate(pmlmepriv, _FW_UNDER_SURVEY|_FW_UNDER_LINKING) =3D=3D=
+ true) ||
+ 		(pmlmepriv->LinkDetectInfo.bBusyTraffic =3D=3D true)) {
+ 		/*  Scan or linking is in progress, do nothing. */
 =2D-
 2.40.0
 
