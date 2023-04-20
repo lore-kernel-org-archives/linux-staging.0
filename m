@@ -1,24 +1,24 @@
-Received: from mout.web.de (mout.web.de [212.227.15.4])
+Received: from mout.web.de (mout.web.de [212.227.15.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DCEA5661
-	for <linux-staging@lists.linux.dev>; Thu, 20 Apr 2023 10:56:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A199653BF
+	for <linux-staging@lists.linux.dev>; Thu, 20 Apr 2023 10:57:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de; s=s29768273;
-	t=1681988158; i=markus.elfring@web.de;
-	bh=4gvbu9uBE2LJtc7zzGzEmB1piY0xjV0di6DkC4cnuB8=;
+	t=1681988236; i=markus.elfring@web.de;
+	bh=SZE0cUCDOOXWg8zRxrGD0Q4HTIB4ikPnukA8nJ2WvJw=;
 	h=X-UI-Sender-Class:Date:Subject:From:To:Cc:References:In-Reply-To;
-	b=RJ7hyD7jNZJMSGZE6XqTzxoGc494xPugUN2pgZME5m4N5iFnHeBbAOsSzXgUuUy1F
-	 /fulv6FK+dnOZ3Ip6WvbNh/L9kXFfqyBVIvPBpNEfQixifMfAoXeojqjy8hFfEvYD6
-	 Enpoz40iH6w17dxdlDxoCRa5ewo3pslXY6Rhr4N0aqgcrH4Z+iKaZG3gkZkvf/Y6rU
-	 h1KEu2pAGrrMkcgPqoyF0P+5af1mOCRp5LT5WgXRPhviWD1k9C750EDvNXOISSfJVs
-	 vy08Vp//PQ0LbPCO/wOU3ZaYoEIVh3JkzQ2zI8mCcg21AsDxAAB1kaeXhUNmt42bT5
-	 M2/do+RAwnflg==
+	b=nQmmMWw6kXtgLnkt2T/mEMl046gd/PNc+Fy+EOMDpg8jmKQlbHXD05fFXj6AsM+4Y
+	 rYgEpKn1uEawwtxE4xJBYuuCRhY4Q6tqNku4Ci9+BcvodfL7vdKyIkp53/uzjJGseG
+	 BUIqt42HfMVz6ud0zGFCM8YZQEGiGzdwUvUQvQyq8c8QwittbNmvnZS2oB++LpxM/q
+	 90xzfXbVyzDpEEC9OiD1PlA17a8uf/MxVjZYrhaPVwjCBotKIMohJN+HXWVPLTjSyV
+	 PeB7+J1JtvABrVMazlQZx+XbokKyNFVfm7UEBoVuo+mt3sctMGk1jfqEIvt9c1M/Tw
+	 ZDx18zuC/wAaQ==
 X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
 Received: from [192.168.178.21] ([94.31.85.83]) by smtp.web.de (mrweb005
- [213.165.67.108]) with ESMTPSA (Nemesis) id 1MTOhc-1pk36o0bWO-00Tl8m; Thu, 20
- Apr 2023 12:55:58 +0200
-Message-ID: <909c3901-c414-b600-388c-c4b06cde3847@web.de>
-Date: Thu, 20 Apr 2023 12:55:57 +0200
+ [213.165.67.108]) with ESMTPSA (Nemesis) id 1Md6xz-1qP3hw3fWt-00aFmh; Thu, 20
+ Apr 2023 12:57:15 +0200
+Message-ID: <ce12ea4b-236b-d04f-a804-6afdbd38aa4a@web.de>
+Date: Thu, 20 Apr 2023 12:57:15 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -27,7 +27,7 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.10.0
-Subject: [PATCH 1/4] staging: rtl8712: Delete null pointer checks in
+Subject: [PATCH 2/4] staging: rtl8712: Delete two variables in
  process_link_qual()
 Content-Language: en-GB
 From: Markus Elfring <Markus.Elfring@web.de>
@@ -42,53 +42,77 @@ References: <40c60719-4bfe-b1a4-ead7-724b84637f55@web.de>
 In-Reply-To: <93913f0c-4699-cf9a-0f10-8edd478fd2b3@web.de>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:38DtJfAfoeuph+b/0A9v+OT0epFNQvTacrFXvf5nzl01pAG7qYX
- u3E+ecmXGvNDWss4dAoyQ7FGM7ZvKpTxwmxtdiUC3wufEXqd0h+31OpilTvSM+5Qg+SGIM+
- zU07HKm/7lzmpxAuXseeXfd1Jp/gKJV7UuoisxuoBYqwypRFOPQdHZQOPnQxOKsgMgMqY0o
- /mF93d4lvC0SGbyfAriEg==
+X-Provags-ID: V03:K1:oYEnXOgTbBYG+N+9oPcwOtYEbImxYiNKTRdLmJXL7Fi7Vb96n68
+ gcz1GA/bpP89NLPWyqUzIU0wdMMQ1qTPiuoETdSg4WqHafTtHnYL7H0dAsZgPKPmNEa8rHt
+ 933pzwi/uaPOmEuK+Stm9Ff/mgJPsj1hygoqdkIT9umRKXCgnBYiE79EGXpH4BxSpc/1gd2
+ uwMde8KGc+GaSHBvkyb/A==
 X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:/42JqFFAoFo=;w5XSQJKinwf0/ug4YncKUZyEcxn
- KR8Xv2fJTeG0llQPApUrIvw/q5kBPsbsnJU3H8QEosTiQofkVciw9PN52w80IsKKxFCRQk6di
- 7C//0rappcNnVi9I0vgRGEFiw72t1m4Y7OVfzGkbVI+tlhOqefx9qokKJa4QWa768m0fGP/IA
- O+LjVrfTp+NHS//yDyIbT2CJ7kFjsNJkebh8PIvh3FQAPchOyteHxzRy7Dap1Umsh+3r0iDQT
- 2j26hv08GsueCs+sT90HEAQ2i5EfXDkeJyVMbDBJq9Iz50MIwOh3PyDhOq7/hlh6oOLxVtgk4
- C6RhxC3ULWWeSsugKY7EVkkbrFj33lWqijJo4xhu4sJONGQv2VpM61RrAntuB/LUT9UvGBlSs
- ZMfpAwqnfZeaww5h3P9HZMXbulhteZcq2+3u2fSAxBS5z3LRt84yDuC1p9AQKFLh1ltq0gDDP
- FVwcccDrcDoEE2yjQX7r9+QOxpMXs7B/buImemKVGDQmqZudS2BPEkjaOD13krdKtAngI4zs+
- U/KXzPxA293pC+a6+PplwPDWEN2BLiE0pvyk0iE1Z+SsGJDMc8QQHzY7h+d/1p1YZhZle7dY7
- VfpS7tjkh4RWeAv0YjVpf9Fj6bZkzTpPbGpzjbxqLLcYVoDmUezVd9cZszRZWTh7fvcuH0b/K
- Cc6X48HB1YMP14nUVi0JgUG52sILXSxrn56nTCFgVv/a5/P+HoEAEnkSz2AQCMefoEykPBLx4
- jWnSR7BpgCYvAxY5a4oj0XJ1w4vKd1TEtbydaJQlbRlRLjS1qPrdQ8xjbpXqFyGQ0ripmGq7q
- YGakUIBViAFXeUQa0NWffDV/sNe4UsO0sr4idqNujvH/yUMxbl9aYbJsfn4hlYTarp0RWzLHV
- v2nZnqiCullzBRBCejkBQ6mojQ0X5vKC9nlxgX3TWUyxNBgbvb1nKp6sC
+UI-OutboundReport: notjunk:1;M01:P0:g7reQkIlh1I=;qKvl7wWpwxIcjcBGfTsv+zv8odN
+ 7/P+L1Z0VLztrj60F7X/fCV2w64J3Yh4m7lBorm+PfOL3mi4oU0NY3/RpHohLNxVQG1Wsb2SC
+ 3+2XWznzWV1kzBc6g2dYE7IPGDsxH/i/OzzM+XCZ25wBBI8PEX6m4QKX7HsODUfvU2Iy3JTUp
+ tdfo196oSMbBx6dTYpaQ89ZPfMXZUvzJK5TSYOkqCyWHbJhj/vROqfJbeZ6TuH9Dk4DpXlDj6
+ uTudaqmSorVp2Jby0dZWNL2XlJbYwhkDn5MoiIKSrq+07Uy2MyweqYHkQ/eLX18x/Mj3a5642
+ OA5kpJvxHz7HxT2qXRqmeLSOidYA/w60VKjSrfAjWeonfbSFO+Q2UlTaF4N1VmWGoDLOM+3nu
+ AcTF++4EE2OwyPRb19E43yEzheqbdkq1dX68zac0ce7M6jjtRAuP9Wcy3nvi1voSZQJx/0kUG
+ wCJcuwGxgomAx3BDZq7KT5mSNoAQxxPCcPfyUl32ZRTaoqIYClU4ImLm0KZ5WzRdOhFH6NTrD
+ DDh5gdNHhOBD7VeTdg+P1nOkkjvLKVrWdUzEOwVPlBO0byIye81rAvyr03dXhrqeEYPtfm8rU
+ CI8bDI7DH8oYlrZfhuxAT6RPtCv78Ng5m8/fB0AygAjd9MSTKoFtt/FaE95kzuhy/G5FW/LiK
+ s5+C05q3aUa5TX49SjeQK0iG3LfkOBhy36KYms+bxcyKycMEqBquD5Tq1U4gI/9ImP+Y991ra
+ yT/nEEpOGi/f0crXQ7DMXAxOD8eYh1Kvf7ytEvKKiDi7NRbsMhlvwFVTpgHmxTmTB73XjNNyg
+ OoAKbRo5hGWysrFXj/qKv2fidbBV7XsD2Ob2ehX5KPj4U3ucMi+sK4EIN3DOBl8jhG968nZTu
+ exgJtM5iMcPdt4Bm35sYNW3zVx3hdIX3MrcX2GGf4Nr5woMpA/VFrQjTr
 
-Date: Thu, 20 Apr 2023 09:54:06 +0200
+Date: Thu, 20 Apr 2023 10:42:40 +0200
 
-Omit extra null pointer checks for the input parameter validation
-in the implementation of the function =E2=80=9Cprocess_link_qual=E2=80=9D =
-because
-it should be called only with valid pointers.
+* Use two values for computations (in one if branch)
+  without storing them in intermediate variables.
+
+* Remove the local variables =E2=80=9Clast_evm=E2=80=9D and =E2=80=9CtmpVa=
+l=E2=80=9D
+  which became unnecessary with this refactoring.
 
 Signed-off-by: Markus Elfring <elfring@users.sourceforge.net>
 =2D--
- drivers/staging/rtl8712/rtl8712_recv.c | 2 --
- 1 file changed, 2 deletions(-)
+ drivers/staging/rtl8712/rtl8712_recv.c | 8 +++-----
+ 1 file changed, 3 insertions(+), 5 deletions(-)
 
 diff --git a/drivers/staging/rtl8712/rtl8712_recv.c b/drivers/staging/rtl8=
 712/rtl8712_recv.c
-index 7da014ab0723..f0789b5ef59b 100644
+index f0789b5ef59b..3a72d0601dc0 100644
 =2D-- a/drivers/staging/rtl8712/rtl8712_recv.c
 +++ b/drivers/staging/rtl8712/rtl8712_recv.c
-@@ -866,8 +866,6 @@ static void process_link_qual(struct _adapter *padapte=
-r,
+@@ -862,7 +862,6 @@ static void query_rx_phy_status(struct _adapter *padap=
+ter,
+ static void process_link_qual(struct _adapter *padapter,
+ 			      union recv_frame *prframe)
+ {
+-	u32	last_evm =3D 0, tmpVal;
  	struct rx_pkt_attrib *pattrib;
  	struct smooth_rssi_data *sqd =3D &padapter->recvpriv.signal_qual_data;
 
--	if (!prframe || !padapter)
--		return;
- 	pattrib =3D &prframe->u.hdr.attrib;
- 	if (pattrib->signal_qual !=3D 0) {
- 		/*
+@@ -873,8 +872,7 @@ static void process_link_qual(struct _adapter *padapte=
+r,
+ 		 */
+ 		if (sqd->total_num++ >=3D PHY_LINKQUALITY_SLID_WIN_MAX) {
+ 			sqd->total_num =3D PHY_LINKQUALITY_SLID_WIN_MAX;
+-			last_evm =3D sqd->elements[sqd->index];
+-			sqd->total_val -=3D last_evm;
++			sqd->total_val -=3D sqd->elements[sqd->index];
+ 		}
+ 		sqd->total_val +=3D pattrib->signal_qual;
+ 		sqd->elements[sqd->index++] =3D pattrib->signal_qual;
+@@ -882,8 +880,8 @@ static void process_link_qual(struct _adapter *padapte=
+r,
+ 			sqd->index =3D 0;
+
+ 		/* <1> Showed on UI for user, in percentage. */
+-		tmpVal =3D sqd->total_val / sqd->total_num;
+-		padapter->recvpriv.signal =3D (u8)tmpVal;
++		padapter->recvpriv.signal =3D (u8)(sqd->total_val
++						/ sqd->total_num);
+ 	}
+ }
+
 =2D-
 2.40.0
 
