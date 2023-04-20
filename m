@@ -1,24 +1,24 @@
-Received: from mout.web.de (mout.web.de [212.227.15.14])
+Received: from mout.web.de (mout.web.de [212.227.15.4])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3AA6453BF
-	for <linux-staging@lists.linux.dev>; Thu, 20 Apr 2023 10:54:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DCEA5661
+	for <linux-staging@lists.linux.dev>; Thu, 20 Apr 2023 10:56:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de; s=s29768273;
-	t=1681988069; i=markus.elfring@web.de;
-	bh=5Hd0u5JOugHNMhUh8SCnU+ikBmTrD5in2V/ZBCXNYm4=;
-	h=X-UI-Sender-Class:Date:Subject:From:To:References:Cc:In-Reply-To;
-	b=kLeYlNIxfBwU8DyHbUoEKDvCBFgZPk0V4JC9O8e+7m7Nw7bfHyamFWxablhHNIlG8
-	 z8Dm7LXgiMyEd9HIZ1th5qZk9h2VINd4MuZVqz+24gHgs4kdYp+OV0UNalOenznpTM
-	 r9BHDw22Gu+kCU0/5SAyFW0Z8TpgmYy7WUyKr4lpjW96EaXtEoufr10QZq7dLD3m9N
-	 woflFsMAUaUoUCYKuZOO4SaEJ11GcJpkvIvupin2bL3Oo7pt6hUZgwOCm+nb85Gch5
-	 NNO9DR3VvDE8+xUpZbrXXOTIssWieqMJOiL9tseg3y15n5nXHVd9M+VJez9jA+W1bs
-	 OQP0/kkus8WpA==
+	t=1681988158; i=markus.elfring@web.de;
+	bh=4gvbu9uBE2LJtc7zzGzEmB1piY0xjV0di6DkC4cnuB8=;
+	h=X-UI-Sender-Class:Date:Subject:From:To:Cc:References:In-Reply-To;
+	b=RJ7hyD7jNZJMSGZE6XqTzxoGc494xPugUN2pgZME5m4N5iFnHeBbAOsSzXgUuUy1F
+	 /fulv6FK+dnOZ3Ip6WvbNh/L9kXFfqyBVIvPBpNEfQixifMfAoXeojqjy8hFfEvYD6
+	 Enpoz40iH6w17dxdlDxoCRa5ewo3pslXY6Rhr4N0aqgcrH4Z+iKaZG3gkZkvf/Y6rU
+	 h1KEu2pAGrrMkcgPqoyF0P+5af1mOCRp5LT5WgXRPhviWD1k9C750EDvNXOISSfJVs
+	 vy08Vp//PQ0LbPCO/wOU3ZaYoEIVh3JkzQ2zI8mCcg21AsDxAAB1kaeXhUNmt42bT5
+	 M2/do+RAwnflg==
 X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
 Received: from [192.168.178.21] ([94.31.85.83]) by smtp.web.de (mrweb005
- [213.165.67.108]) with ESMTPSA (Nemesis) id 1MT7aV-1pkKAk0iqd-00UaU9; Thu, 20
- Apr 2023 12:54:29 +0200
-Message-ID: <93913f0c-4699-cf9a-0f10-8edd478fd2b3@web.de>
-Date: Thu, 20 Apr 2023 12:54:20 +0200
+ [213.165.67.108]) with ESMTPSA (Nemesis) id 1MTOhc-1pk36o0bWO-00Tl8m; Thu, 20
+ Apr 2023 12:55:58 +0200
+Message-ID: <909c3901-c414-b600-388c-c4b06cde3847@web.de>
+Date: Thu, 20 Apr 2023 12:55:57 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -27,53 +27,68 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.10.0
-Subject: [PATCH 0/4] staging: rtl8712: Adjustments for process_link_qual()
+Subject: [PATCH 1/4] staging: rtl8712: Delete null pointer checks in
+ process_link_qual()
+Content-Language: en-GB
 From: Markus Elfring <Markus.Elfring@web.de>
 To: kernel-janitors@vger.kernel.org, linux-staging@lists.linux.dev,
  Florian Schilhabel <florian.c.schilhabel@googlemail.com>,
  Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
  Larry Finger <Larry.Finger@lwfinger.net>, Nam Cao <namcaov@gmail.com>
+Cc: cocci@inria.fr, LKML <linux-kernel@vger.kernel.org>
 References: <40c60719-4bfe-b1a4-ead7-724b84637f55@web.de>
  <1a11455f-ab57-dce0-1677-6beb8492a257@web.de>
-Content-Language: en-GB
-Cc: cocci@inria.fr, LKML <linux-kernel@vger.kernel.org>
-In-Reply-To: <1a11455f-ab57-dce0-1677-6beb8492a257@web.de>
+ <93913f0c-4699-cf9a-0f10-8edd478fd2b3@web.de>
+In-Reply-To: <93913f0c-4699-cf9a-0f10-8edd478fd2b3@web.de>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:m0x13uBkifOdccciCosExyWr/uBZXNH8rt7g/Wu4MO1yifXH0Fz
- 1enfkvRlYt2jXnVwkUrXaRym6InblfePcSybRazqk8mhlHbu2vSVToPqM1IZLheWmC5RbiW
- Ak0UlEbuaLxyor+u3PiUOKZwj0G8PEylvXL8Pa0sj7pzx8Nb0IOxOk53BkiBY2L92VGGpyt
- 2CALgLeTvUOunOO0sItIA==
+X-Provags-ID: V03:K1:38DtJfAfoeuph+b/0A9v+OT0epFNQvTacrFXvf5nzl01pAG7qYX
+ u3E+ecmXGvNDWss4dAoyQ7FGM7ZvKpTxwmxtdiUC3wufEXqd0h+31OpilTvSM+5Qg+SGIM+
+ zU07HKm/7lzmpxAuXseeXfd1Jp/gKJV7UuoisxuoBYqwypRFOPQdHZQOPnQxOKsgMgMqY0o
+ /mF93d4lvC0SGbyfAriEg==
 X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:+jsE5C7a9oc=;oKiJu5EXKhvMxJDWVjXRlYD1mq/
- 30gksJr/qibHbUijVGadV9uIHnmEOuhAL9T3WUi26i7J3SPbnZQoao6hE1gnB1Pz8kjDGpW1Y
- KyTg7Qf40R/dzWsX5KC9u202Svexmhy/pvxo7pUfpbZ2KksgYQ9EQbc+D7SZIt6qk/EItVIwE
- 9Ps4WIokrNhB7+XeC5zlKo6vflkjslVZEPysIGUxCC0y1anacP3F4898BlzCpmv7uaGnEmkqv
- B96kZeYxBal2iQub7GpHEKCdey56lDA4NhExK0WPPHIgMgF7K+WI0yzd9w877Jr7HdG7NVTCT
- hLx5nUVIccaHYPqxKKyMPnwcroG4yqkDiA43C3UMngKqH+uEUsQJjPRa8c6Zyev3OKmC7mvzb
- hWKD93mI0QjZXwC6viS1HGDf1Hq5WkOs8tCoKnrzmySSPmbKcOFN6+zEQXBC4Vssgz2kvxW/G
- mKLty/k/JCZ0y+96qFKzR24e5qeFEqpMJnaFFCu3FPIEFSf3C0FG/0CFTjWH7oFwzBssk/Ubh
- qUa91CIzOAMA7pxS4892hM9esCrCgQQFNVG7VRkgdIrU4YEgNivSHD/Y2o7yAivQpaBsK8Vlp
- BqQ/VymCTOfR6f50AQQfbgwIpwGZldoJcNHYHgVOB2Lug1dMpLfLPAwzu0thtv+4pcSDD4XVC
- OEF2zkWFJjEsJ13fBk8UrgA23Hs6QaR7yQ2ys+mDuVO8CE6l6l87adWNLddWTw5I2qsuKZxfj
- ITKmU4t5I767PmFdF4G/7J+g5SiNxtGMGhRZ9jjlfg4wsI2cY/tgADK9Y05d0xNDYAhv5XdRb
- 5jl3QaoVB75RB/W+I8/0UbKLvUJQQYvMoz03zNhJbeMF/Xag6Jr7+H+K6g5H7D1eDfe2+5zRS
- 96X4b/yqX0Cz06UVea4RmPQNc3W/TAUxUlzkNTI2jhshDDfrJBjX4yA1Z
+UI-OutboundReport: notjunk:1;M01:P0:/42JqFFAoFo=;w5XSQJKinwf0/ug4YncKUZyEcxn
+ KR8Xv2fJTeG0llQPApUrIvw/q5kBPsbsnJU3H8QEosTiQofkVciw9PN52w80IsKKxFCRQk6di
+ 7C//0rappcNnVi9I0vgRGEFiw72t1m4Y7OVfzGkbVI+tlhOqefx9qokKJa4QWa768m0fGP/IA
+ O+LjVrfTp+NHS//yDyIbT2CJ7kFjsNJkebh8PIvh3FQAPchOyteHxzRy7Dap1Umsh+3r0iDQT
+ 2j26hv08GsueCs+sT90HEAQ2i5EfXDkeJyVMbDBJq9Iz50MIwOh3PyDhOq7/hlh6oOLxVtgk4
+ C6RhxC3ULWWeSsugKY7EVkkbrFj33lWqijJo4xhu4sJONGQv2VpM61RrAntuB/LUT9UvGBlSs
+ ZMfpAwqnfZeaww5h3P9HZMXbulhteZcq2+3u2fSAxBS5z3LRt84yDuC1p9AQKFLh1ltq0gDDP
+ FVwcccDrcDoEE2yjQX7r9+QOxpMXs7B/buImemKVGDQmqZudS2BPEkjaOD13krdKtAngI4zs+
+ U/KXzPxA293pC+a6+PplwPDWEN2BLiE0pvyk0iE1Z+SsGJDMc8QQHzY7h+d/1p1YZhZle7dY7
+ VfpS7tjkh4RWeAv0YjVpf9Fj6bZkzTpPbGpzjbxqLLcYVoDmUezVd9cZszRZWTh7fvcuH0b/K
+ Cc6X48HB1YMP14nUVi0JgUG52sILXSxrn56nTCFgVv/a5/P+HoEAEnkSz2AQCMefoEykPBLx4
+ jWnSR7BpgCYvAxY5a4oj0XJ1w4vKd1TEtbydaJQlbRlRLjS1qPrdQ8xjbpXqFyGQ0ripmGq7q
+ YGakUIBViAFXeUQa0NWffDV/sNe4UsO0sr4idqNujvH/yUMxbl9aYbJsfn4hlYTarp0RWzLHV
+ v2nZnqiCullzBRBCejkBQ6mojQ0X5vKC9nlxgX3TWUyxNBgbvb1nKp6sC
 
-Date: Thu, 20 Apr 2023 12:05:12 +0200
+Date: Thu, 20 Apr 2023 09:54:06 +0200
 
-A few update suggestions were taken into account
-from static source code analysis.
+Omit extra null pointer checks for the input parameter validation
+in the implementation of the function =E2=80=9Cprocess_link_qual=E2=80=9D =
+because
+it should be called only with valid pointers.
 
-Markus Elfring (4):
-  Delete null pointer checks
-  Delete two variables
-  Reduce scope for the variable =E2=80=9Csqd=E2=80=9D
-  Simplify the usage of an expression
+Signed-off-by: Markus Elfring <elfring@users.sourceforge.net>
+=2D--
+ drivers/staging/rtl8712/rtl8712_recv.c | 2 --
+ 1 file changed, 2 deletions(-)
 
- drivers/staging/rtl8712/rtl8712_recv.c | 24 +++++++++++-------------
- 1 file changed, 11 insertions(+), 13 deletions(-)
+diff --git a/drivers/staging/rtl8712/rtl8712_recv.c b/drivers/staging/rtl8=
+712/rtl8712_recv.c
+index 7da014ab0723..f0789b5ef59b 100644
+=2D-- a/drivers/staging/rtl8712/rtl8712_recv.c
++++ b/drivers/staging/rtl8712/rtl8712_recv.c
+@@ -866,8 +866,6 @@ static void process_link_qual(struct _adapter *padapte=
+r,
+ 	struct rx_pkt_attrib *pattrib;
+ 	struct smooth_rssi_data *sqd =3D &padapter->recvpriv.signal_qual_data;
 
+-	if (!prframe || !padapter)
+-		return;
+ 	pattrib =3D &prframe->u.hdr.attrib;
+ 	if (pattrib->signal_qual !=3D 0) {
+ 		/*
 =2D-
 2.40.0
 
