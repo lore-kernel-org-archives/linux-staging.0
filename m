@@ -1,168 +1,126 @@
-Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
+Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8958F8C04
-	for <linux-staging@lists.linux.dev>; Thu, 20 Apr 2023 16:50:05 +0000 (UTC)
-Received: by mail-ej1-f51.google.com with SMTP id kt6so8034103ejb.0
-        for <linux-staging@lists.linux.dev>; Thu, 20 Apr 2023 09:50:05 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5106376
+	for <linux-staging@lists.linux.dev>; Fri, 21 Apr 2023 05:19:48 +0000 (UTC)
+Received: by mail-ed1-f46.google.com with SMTP id 4fb4d7f45d1cf-506bcf9aa50so406960a12.1
+        for <linux-staging@lists.linux.dev>; Thu, 20 Apr 2023 22:19:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1682009403; x=1684601403;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+        d=gmail.com; s=20221208; t=1682054387; x=1684646387;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=xaW8BKnB9AXdJCUm0/4rCDbhYef/y3Ah2np3hfcySj0=;
-        b=Phv0EpTIwpZsOfHWQIfO87oCQOymqo1XJxF4sIrfftuwLteJkfNul8LhyYePIGonX6
-         KY1ElWxJq6xoLxwtJc2o62yrQtmAl7ADKtnNTkl7gNBZWtKLg+Bwxdt1bR8YtEfcJ0gu
-         pTspADy8HzxmS/gGIf0X1JWveEZnvAbj4yTyceyn4lqaV1jvamGmyTu7xrHh0AtxqqQ6
-         qoAzpKoNSTUotgb/xit3f/G7NdMHqwdzG06dSgsHZdZ3rzLok+ELGcwy+Zsef2hem7kj
-         2RCf7duqMDeYvyapWbsXqOMz0VYE3PCHnAm/S11JAuOxGm28mZpa7N3YeTbDhZOn1h6G
-         34uQ==
+        bh=5jztjxvTx1Nd++gm+Nl8nvs6/BoVGQCjSa4YLbCS/iU=;
+        b=CIY5AfUxax/7lRHV9DD2QQDT3fYJQ85qqpt+ukT59YfzWsQMfXVdRjMu0Y5vOuTS8Q
+         9oNJdrlThg9nxiONZCnqHt8qI7ESvPvIL7+krHMezSDxJy4E4VQFBK2tgxIMqXAiREKw
+         2JCQb5WaNpU5xupy9oj73B5tpEd9eEusED8BSt/XDHa91sGFG4pYFMYTB/Dy5PvDQ9H8
+         9lqbJdsLBiz1LlXNtWDKlNSOK0HdnwQaLEfIKaVmQO26ggAfimeTlS5nrqI2Q2hItW3N
+         M7LDwGlQsroN+TgWM+Y0ypCMFxqy9KuaNjeZzvm8P2Sp0+hE7XqeCzDgPTHQv6h4isp1
+         LZ6g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1682009403; x=1684601403;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+        d=1e100.net; s=20221208; t=1682054387; x=1684646387;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=xaW8BKnB9AXdJCUm0/4rCDbhYef/y3Ah2np3hfcySj0=;
-        b=iuCyUZ+qdLhoT5TILCMHQyqMLy9rxUgD/0eov+hlbFg2bdUwNaR/uhr0zfnQPT0k8B
-         th0JCCSBEm9GGbo3RyLaFhu0B7STwVAVHXUluH08nb7q43e4N9Voc8IZ8K5vBA+GTUqf
-         tIzPUIz9+somdWKOe+afH4Lz/ocVYN9mTMZ/9UoKgmO+yvPH/d0mZxicJesyKC9+asgc
-         43KsnQEWbdYivwUML4QSV3z9G9VAt29LIAAc0xECBdjoVr19GDF+sOZtwkg+8B9UBbCq
-         dswHpGqHdVAqdwgh5o3PZJxGlE8QEbLNcTHThKAD54FST9bDlFnKd3X3zvVG+un8YFHq
-         kS/Q==
-X-Gm-Message-State: AAQBX9cDA5Gpl7cfX+beyQ96ef5hlwgPH2SxAD8VKoy23Mu46fC+xf1b
-	KDVgFLMFsXMVRTcLo30OwAQ=
-X-Google-Smtp-Source: AKy350ZLBskg9wFRTTxQZ7ZvJQ14ISyGVukmHxIwnJqVW9I2lLHySE8zwE2noxFNYAAic8dVvDLjLQ==
-X-Received: by 2002:a17:907:1ca7:b0:92b:e1ff:be30 with SMTP id nb39-20020a1709071ca700b0092be1ffbe30mr2574322ejc.4.1682009403542;
-        Thu, 20 Apr 2023 09:50:03 -0700 (PDT)
-Received: from kernelhacking.kernelhacking.example.com (dslb-088-067-245-126.088.067.pools.vodafone-ip.de. [88.67.245.126])
-        by smtp.gmail.com with ESMTPSA id og38-20020a1709071de600b0095365e61e9fsm938653ejc.2.2023.04.20.09.50.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 20 Apr 2023 09:50:02 -0700 (PDT)
-Date: Thu, 20 Apr 2023 18:50:00 +0200
-From: Luke Koch <lu.ale.koch@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: error27@gmail.com, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v4] staging: wlan-ng: replace rate macros
-Message-ID: <ZEFtOH83frrrireN@kernelhacking.kernelhacking.example.com>
+        bh=5jztjxvTx1Nd++gm+Nl8nvs6/BoVGQCjSa4YLbCS/iU=;
+        b=CXqbYnS4IIb9xvBExCZP+FcH7tGXCqc8lmm5CJRA13i6LUYhSco4CA/cbnP5pSa0+n
+         2lyavLu8Ti71DYn+vmJA5i2cO4xFHTeP/huUYElsgKokQnV/DZ9aI2UgusgRf7Dgnq98
+         20gNq0OKexebpchEHx+JoDw9slTfF7JLs+8hbbg1pqgJdll7jfxMu5D9731kOCdGx0Ao
+         iAQMXZ4cT6mmsimmglfRmiogWVPYfA4zt5ApCzBQLkjCVigijV3AIO+Me1CrDrsHgsZH
+         f1LuoHYbI4VEKP/gPZQwzsrQsNgL8GaVfqyseBzjoH8iiGTChJiZh/myiZMRvWUUY14l
+         M3Dg==
+X-Gm-Message-State: AAQBX9fRtwCKViflEnKqRK3PRm2erEFK1NAJi/L/PX2OegRiZyDkagcF
+	uGnwbbS8s69bDmdEMlxqdzk=
+X-Google-Smtp-Source: AKy350b+lT274nfvY5/Go1LqODkZ2O2wa5me4diBj1+Ep8OdDKGWoybWiZ+AeUI46H2HAP38N8jBkg==
+X-Received: by 2002:a05:6402:5202:b0:504:b68e:9676 with SMTP id s2-20020a056402520200b00504b68e9676mr3763948edd.2.1682054386589;
+        Thu, 20 Apr 2023 22:19:46 -0700 (PDT)
+Received: from [192.168.0.102] (p57935146.dip0.t-ipconnect.de. [87.147.81.70])
+        by smtp.gmail.com with ESMTPSA id f7-20020a05640214c700b004fa380a14e7sm1478416edx.77.2023.04.20.22.19.45
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 20 Apr 2023 22:19:45 -0700 (PDT)
+Message-ID: <89c16e6f-4120-c358-3961-8ec1bbdae3f2@gmail.com>
+Date: Fri, 21 Apr 2023 07:19:44 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [PATCH] staging: rtl8192e: add missing braces {}
+Content-Language: en-US
+To: Stephan Snyman <rooiratel@tinyglitch.net>, gregkh@linuxfoundation.org
+Cc: kamrankhadijadj@gmail.com, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+References: <20230420133209.4661-1-rooiratel@tinyglitch.net>
+From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+In-Reply-To: <20230420133209.4661-1-rooiratel@tinyglitch.net>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Change p80211msg_dot11req_scan_results rate members to struct arrays
-instead of individually numbered member structs.
-Replace macros to set rates with loops to avoid checkpatch warning
-and adhere to linux coding style.
+On 4/20/23 15:32, Stephan Snyman wrote:
+> Add missing braces to if/else statements to adhere to the
+> Linux kernel coding-style guidelines.
+> These issues were reported by checkpatch.pl
+> 
+> "CHECK: braces {} should be used on all arms of this statement"
+> 
+> Signed-off-by: Stephan Snyman <rooiratel@tinyglitch.net>
+> ---
+>   drivers/staging/rtl8192e/rtllib_rx.c | 14 +++++++++-----
+>   1 file changed, 9 insertions(+), 5 deletions(-)
+> 
+> diff --git a/drivers/staging/rtl8192e/rtllib_rx.c b/drivers/staging/rtl8192e/rtllib_rx.c
+> index b649d02dc5c8..d44bf261de54 100644
+> --- a/drivers/staging/rtl8192e/rtllib_rx.c
+> +++ b/drivers/staging/rtl8192e/rtllib_rx.c
+> @@ -264,8 +264,9 @@ static int rtllib_is_eapol_frame(struct rtllib_device *ieee,
+>   		   RTLLIB_FCTL_FROMDS &&
+>   		   memcmp(hdr->addr1, dev->dev_addr, ETH_ALEN) == 0) {
+>   		/* FromDS frame with own addr as DA */
+> -	} else
+> +	} else {
+>   		return 0;
+> +	}
+>   
+>   	if (skb->len < 24 + 8)
+>   		return 0;
+> @@ -433,8 +434,9 @@ static int is_duplicate_packet(struct rtllib_device *ieee,
+>   		if (*last_frag + 1 != frag)
+>   			/* out-of-order fragment */
+>   			goto drop;
+> -	} else
+> +	} else {
+>   		*last_seq = seq;
+> +	}
+>   
+>   	*last_frag = frag;
+>   	*last_time = jiffies;
+> @@ -2314,8 +2316,9 @@ static inline int rtllib_network_init(
+>   	if (stats->freq == RTLLIB_52GHZ_BAND) {
+>   		/* for A band (No DS info) */
+>   		network->channel = stats->received_channel;
+> -	} else
+> +	} else {
+>   		network->flags |= NETWORK_HAS_CCK;
+> +	}
+>   
+>   	network->wpa_ie_len = 0;
+>   	network->rsn_ie_len = 0;
+> @@ -2329,9 +2332,10 @@ static inline int rtllib_network_init(
+>   		return 1;
+>   
+>   	network->mode = 0;
+> -	if (stats->freq == RTLLIB_52GHZ_BAND)
+> +
+> +	if (stats->freq == RTLLIB_52GHZ_BAND) {
+>   		network->mode = IEEE_A;
+> -	else {
+> +	} else {
+>   		if (network->flags & NETWORK_HAS_OFDM)
+>   			network->mode |= IEEE_G;
+>   		if (network->flags & NETWORK_HAS_CCK)
 
-Reported by checkpatch:
-
-CHECK: Macro argument reuse 'N' - possible side-effects?
-
-Signed-off-by: Luke Koch <lu.ale.koch@gmail.com>
----
-v2: - Fix array underflow and conditions with respect to the start at 0
-v3: - Remove unnecessary spaces
-v4: - Fix patch formatting
----
- drivers/staging/wlan-ng/p80211metastruct.h | 18 +-------
- drivers/staging/wlan-ng/prism2mgmt.c       | 52 +++++++---------------
- 2 files changed, 18 insertions(+), 52 deletions(-)
-
-diff --git a/drivers/staging/wlan-ng/p80211metastruct.h b/drivers/staging/wlan-ng/p80211metastruct.h
-index 4adc64580185..e963227f797c 100644
---- a/drivers/staging/wlan-ng/p80211metastruct.h
-+++ b/drivers/staging/wlan-ng/p80211metastruct.h
-@@ -114,22 +114,8 @@ struct p80211msg_dot11req_scan_results {
- 	struct p80211item_uint32 cfpollreq;
- 	struct p80211item_uint32 privacy;
- 	struct p80211item_uint32 capinfo;
--	struct p80211item_uint32 basicrate1;
--	struct p80211item_uint32 basicrate2;
--	struct p80211item_uint32 basicrate3;
--	struct p80211item_uint32 basicrate4;
--	struct p80211item_uint32 basicrate5;
--	struct p80211item_uint32 basicrate6;
--	struct p80211item_uint32 basicrate7;
--	struct p80211item_uint32 basicrate8;
--	struct p80211item_uint32 supprate1;
--	struct p80211item_uint32 supprate2;
--	struct p80211item_uint32 supprate3;
--	struct p80211item_uint32 supprate4;
--	struct p80211item_uint32 supprate5;
--	struct p80211item_uint32 supprate6;
--	struct p80211item_uint32 supprate7;
--	struct p80211item_uint32 supprate8;
-+	struct p80211item_uint32 basicrate[8];
-+	struct p80211item_uint32 supprate[8];
- } __packed;
- 
- struct p80211msg_dot11req_start {
-diff --git a/drivers/staging/wlan-ng/prism2mgmt.c b/drivers/staging/wlan-ng/prism2mgmt.c
-index 9030a8939a9b..fc465261baa1 100644
---- a/drivers/staging/wlan-ng/prism2mgmt.c
-+++ b/drivers/staging/wlan-ng/prism2mgmt.c
-@@ -437,42 +437,22 @@ int prism2mgmt_scan_results(struct wlandevice *wlandev, void *msgp)
- 		if (item->supprates[count] == 0)
- 			break;
- 
--#define REQBASICRATE(N) \
--	do { \
--		if ((count >= (N)) && DOT11_RATE5_ISBASIC_GET(	\
--			item->supprates[(N) - 1])) { \
--			req->basicrate ## N .data = item->supprates[(N) - 1]; \
--			req->basicrate ## N .status = \
--				P80211ENUM_msgitem_status_data_ok; \
--		} \
--	} while (0)
--
--	REQBASICRATE(1);
--	REQBASICRATE(2);
--	REQBASICRATE(3);
--	REQBASICRATE(4);
--	REQBASICRATE(5);
--	REQBASICRATE(6);
--	REQBASICRATE(7);
--	REQBASICRATE(8);
--
--#define REQSUPPRATE(N) \
--	do { \
--		if (count >= (N)) {					\
--			req->supprate ## N .data = item->supprates[(N) - 1]; \
--			req->supprate ## N .status = \
--				P80211ENUM_msgitem_status_data_ok; \
--		} \
--	} while (0)
--
--	REQSUPPRATE(1);
--	REQSUPPRATE(2);
--	REQSUPPRATE(3);
--	REQSUPPRATE(4);
--	REQSUPPRATE(5);
--	REQSUPPRATE(6);
--	REQSUPPRATE(7);
--	REQSUPPRATE(8);
-+	for (int i = 0; i < 8; i++) {
-+		if (count > i &&
-+		    DOT11_RATE5_ISBASIC_GET(item->supprates[i])) {
-+			req->basicrate[i].data = item->supprates[i];
-+			req->basicrate[i].status =
-+				P80211ENUM_msgitem_status_data_ok;
-+		}
-+	}
-+
-+	for (int i = 0; i < 8; i++) {
-+		if (count > i) {
-+			req->supprate[i].data = item->supprates[i];
-+			req->supprate[i].status =
-+				P80211ENUM_msgitem_status_data_ok;
-+		}
-+	}
- 
- 	/* beacon period */
- 	req->beaconperiod.status = P80211ENUM_msgitem_status_data_ok;
--- 
-2.34.1
+Tested-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
 
