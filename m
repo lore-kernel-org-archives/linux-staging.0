@@ -1,94 +1,92 @@
-Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
+Received: from mail-pg1-f178.google.com (mail-pg1-f178.google.com [209.85.215.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6EF7649
-	for <linux-staging@lists.linux.dev>; Fri, 21 Apr 2023 05:32:55 +0000 (UTC)
-Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-94f59fbe2cbso41788566b.1
-        for <linux-staging@lists.linux.dev>; Thu, 20 Apr 2023 22:32:55 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0ACB20E1
+	for <linux-staging@lists.linux.dev>; Sun, 23 Apr 2023 14:22:07 +0000 (UTC)
+Received: by mail-pg1-f178.google.com with SMTP id 41be03b00d2f7-51452556acdso2708492a12.2
+        for <linux-staging@lists.linux.dev>; Sun, 23 Apr 2023 07:22:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1682055174; x=1684647174;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
+        d=gmail.com; s=20221208; t=1682259727; x=1684851727;
+        h=content-disposition:mime-version:message-id:subject:to:from:date
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=FFW7Gg1SgGBbBJt5owgBHTN5D7RxDmj2irhm6z31MIQ=;
-        b=VxiYdLrE1afaqY5HkATYYMkJb8GawuWMByr4Cnuu4TCSxIO9qF4emDfIiTguKIRkD3
-         7QBWafFYwaVQseFDu2qMwMedVO4LFCSbENEVcUdyfTniSaC5eq6N1wxvsGlZajUzkl1H
-         e7ljqj5zbwu858s53seRVTSKP2l5FFGynKhpJ/eAQu1eJs3CMwY0nqNiIwjDXB6SqdJ1
-         QBNTeeh9ogt9JVHMkEMfTlQ6N53PkAHY+cUlhG95De4FKk8ZogU6+QdTMGOQj762UiYH
-         1xIGvodhYAeTSIV+493oDYJbdhvWx7nYTRTD50c04793W47IUhpTTvRcfPXbEghJIict
-         RMrg==
+        bh=mVt7yDbi/0+T9A3kskBIqFMz5JWCsfF4sEoLpMEoXSs=;
+        b=gZeRNCEboFtFuzswRDftVtw5ef6noYVrDAGPpESkhflCUZOvCQ67A/ZnG00pPh9w/h
+         hHPyJyKBnzwFTSmK4Rcbsj5tKGudkYoq3cg4RXZ/a5ApjmhuM6vaoV2jbO9mNPkEcmX/
+         KKGX1x+ol2BZRH+nAMsFrocqHw7ArIZMJDjQboPTkMvfaX128ThcQWa+3kA+4GBFRnlW
+         jz95jh73NVmasYVkE1nEm8ubnPV3LKe9E0lg210IWfMeG9w5bFtDzOuZcCZX1n6dVyhD
+         rQAPw/eDYMPBvbLe4L/FXcJ53XLs4zmreonjyXe7N7e7qTiRiDobq+ZR1ZmNqVO84tkF
+         n/CA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1682055174; x=1684647174;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
+        d=1e100.net; s=20221208; t=1682259727; x=1684851727;
+        h=content-disposition:mime-version:message-id:subject:to:from:date
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=FFW7Gg1SgGBbBJt5owgBHTN5D7RxDmj2irhm6z31MIQ=;
-        b=gnERH9RfvxmPpeKes4RtLpV8Z0IDcGyNA59r23YFZjCHH8jOxYScR53SAG43GF3AGx
-         /Lp5HmTQUHBLXTQXaDdWawYFGzbn3s4xGb1Hma2zLQtxH+aROMis01HLB53VWj9mnV5j
-         q+Q7MK6C67Tli9m7upi9DOv3OA2lf6yMzo1Y14n4Itm9x+wtA8N/1D+EC3uH2uYz65qI
-         6zKXJXpm1wp4AaSkGTb1rAOf++xJUtJz06q6Mo1JV2DrMIpIpoYK6tSXx2SYLiOTF6R5
-         cKk03GnGvvchcKlKCxko5p6p0dZqo/nQZBbcTnQd/70RqHnhYro9rqnCn4KqeHr6h6sW
-         TA9Q==
-X-Gm-Message-State: AAQBX9ewiHUYMKZIZId+DPtzYnisSYk9Cb9pbWI8VRWR6pRoVpPpVWwr
-	j70JjD1Ckymn0xxDU2njBn0=
-X-Google-Smtp-Source: AKy350Z/TfHG2ZHB6XiI5P2UxmdymQ0V+AbYUHsq26ml8FoULXU8BIx3YGBKeVyQ+boAr4AqINfHOw==
-X-Received: by 2002:a17:906:35d1:b0:94f:4ec3:f0f5 with SMTP id p17-20020a17090635d100b0094f4ec3f0f5mr3504174ejb.4.1682055173642;
-        Thu, 20 Apr 2023 22:32:53 -0700 (PDT)
-Received: from [192.168.0.101] (p57935146.dip0.t-ipconnect.de. [87.147.81.70])
-        by smtp.gmail.com with ESMTPSA id d13-20020a170906174d00b0094e477eb441sm1573171eje.110.2023.04.20.22.32.52
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 20 Apr 2023 22:32:53 -0700 (PDT)
-Message-ID: <d5140404-6b11-6755-a086-7e473d093494@gmail.com>
-Date: Fri, 21 Apr 2023 07:32:52 +0200
+        bh=mVt7yDbi/0+T9A3kskBIqFMz5JWCsfF4sEoLpMEoXSs=;
+        b=c+c47KsNUWar/LsTgSvdt6s53Igo/XPe+QKK+VwiB+Rj1Zkuaqxp3noTOGHkRRIe7W
+         ayr3U3VpDnznsO3VolS7BiNWKyhyHEOf78umLx1H6rqicFZoWNZSwad0rQP1coOFKZUU
+         GTxFimM5azCOrYX3+1Zm7ILj2mj7ujBhYfwwa+7NYSenidJ3JD9mD9kAnu7KnVO/H4aL
+         Df/tkK+cVljYm+gBt24AuDObFJbuoUw0xfh/ORU4aXgmR+IKVsBjQWVURNWX8FI1Z87Q
+         3fhIOe2pAOO4zka1N0FpUYRWnfkkVJEfCHFZidlvyAyFJjwx9Uze7uemSin68rPja9yh
+         aWag==
+X-Gm-Message-State: AAQBX9c3yIuWtEnq9rOi+SkDGliomiXnqhmJBDyOAV/l2ajfJNN51KdZ
+	/yzRgOwglbVoO32DU1Lc1K4=
+X-Google-Smtp-Source: AKy350ZL6PsANWh7JqFcxX+XhAOLY9xBXDIz+XG6HwbghAwtgd0H1ZXYmW8NIIz2+O5syNTA2Vny9g==
+X-Received: by 2002:a17:90b:4acc:b0:24b:8b39:cd7f with SMTP id mh12-20020a17090b4acc00b0024b8b39cd7fmr5213575pjb.41.1682259727343;
+        Sun, 23 Apr 2023 07:22:07 -0700 (PDT)
+Received: from pop-os.localdomain ([103.251.210.208])
+        by smtp.gmail.com with ESMTPSA id f3-20020a17090a9b0300b0024b960de793sm1716290pjp.40.2023.04.23.07.22.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 23 Apr 2023 07:22:07 -0700 (PDT)
+Date: Sun, 23 Apr 2023 19:52:02 +0530
+From: Yogesh Hegde <yogi.kernel@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: [PATCH v4 0/4] Remove unused rf_set_sens variable
+Message-ID: <cover.1682257566.git.yogi.kernel@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH 0/4] staging: rtl8712: Adjustments for process_link_qual()
-Content-Language: en-US
-To: Markus Elfring <Markus.Elfring@web.de>, kernel-janitors@vger.kernel.org,
- linux-staging@lists.linux.dev,
- Florian Schilhabel <florian.c.schilhabel@googlemail.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Larry Finger <Larry.Finger@lwfinger.net>, Nam Cao <namcaov@gmail.com>
-Cc: cocci@inria.fr, LKML <linux-kernel@vger.kernel.org>
-References: <40c60719-4bfe-b1a4-ead7-724b84637f55@web.de>
- <1a11455f-ab57-dce0-1677-6beb8492a257@web.de>
- <93913f0c-4699-cf9a-0f10-8edd478fd2b3@web.de>
-From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-In-Reply-To: <93913f0c-4699-cf9a-0f10-8edd478fd2b3@web.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On 4/20/23 12:54, Markus Elfring wrote:
-> Date: Thu, 20 Apr 2023 12:05:12 +0200
-> 
-> A few update suggestions were taken into account
-> from static source code analysis.
-> 
-> Markus Elfring (4):
->    Delete null pointer checks
->    Delete two variables
->    Reduce scope for the variable “sqd”
->    Simplify the usage of an expression
-> 
->   drivers/staging/rtl8712/rtl8712_recv.c | 24 +++++++++++-------------
->   1 file changed, 11 insertions(+), 13 deletions(-)
-> 
-> --
-> 2.40.0
-> 
-> 
+The rf_set_sens variable is declared but never set, so it is always NULL.
+Cleanup the unused rf_set_sens variable. Remove functions
+_rtl92e_wx_get_sens and _rtl92e_wx_set_sens which always returned 
+error code after removal of rf_set_sens variable. 
+Cleanup unused max_sens and sens variable.
+The patches are required to be applied in sequence.
 
-Hi, you get the following checkpatch warning. Is this wanted?
+Changes in v4:
+    1. Split changes into patch series per feedback from
+       gregkh@linuxfoundation.org
 
-WARNING: From:/Signed-off-by: email address mismatch: 'From: Markus 
-Elfring <Markus.Elfring@web.de>' != 'Signed-off-by: Markus Elfring 
-<elfring@users.sourceforge.net>'
+Changes in v3:
+    1. Fixed description to fit within 75 chars
+    2. Added suggested tags
+    per feedback from philipp.g.hortmann@gmail.com
 
+Changes in v2:
+    1. Removed function definition rf_set_sens
+    2. Removed usage of variable priv->rf_set_sens
+    3. Removed functions _rtl92e_wx_get_sens and _rtl92e_wx_set_sens
+    4. Cleaned up the variables sens and max_sens used in these functions
 
-Tested-by: Philipp Hortmann <philipp.g.hortmann@gmail.com> AW-NU120
+Changes in v1:
+    1. Fix comparison to NULL of variable rf_set_sens
+
+Yogesh Hegde (4):
+  staging: rtl8192e: Remove unused rf_set_sens variable
+  staging: rtl8192e: Remove unused _rtl92e_wx_get_sens function
+  staging: rtl8192e: Remove unused _rtl92e_wx_set_sens function
+  staging: rtl8192e: Remove unused sens and max_sens from r8192_priv
+    struct
+
+ drivers/staging/rtl8192e/rtl8192e/rtl_core.h |  3 --
+ drivers/staging/rtl8192e/rtl8192e/rtl_wx.c   | 45 --------------------
+ 2 files changed, 48 deletions(-)
+
+-- 
+2.34.1
+
