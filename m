@@ -1,198 +1,96 @@
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AEBE47C
-	for <linux-staging@lists.linux.dev>; Mon, 24 Apr 2023 09:12:05 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (133-32-181-51.west.xps.vectant.ne.jp [133.32.181.51])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 68EB79DE;
-	Mon, 24 Apr 2023 11:11:46 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1682327507;
-	bh=JttGT14krNRj5WYQKdQI7bhCw/cOBk/ZkWpXFncAIpg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=hWWKK+BZL+C7MgV3YcFmIMKYEnjNsg7Mf91X2aIHJlyrWt1QJwBvoloZEgVMQFTBA
-	 R2nj+k83UMoPtkEQZK6h/dxUYGD7HyiTygZPC1362dh8z4SR5hmpqGqs0ZCNDlxQAG
-	 lzLvjaLi1g6T9atDtnceUCksIvN9SEFQMzvA4fcY=
-Date: Mon, 24 Apr 2023 12:12:09 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Martin Kepplinger <martin.kepplinger@puri.sm>
-Cc: mchehab@kernel.org, shawnguo@kernel.org, festevam@gmail.com,
-	slongerbeam@gmail.com, gregkh@linuxfoundation.org,
-	hverkuil-cisco@xs4all.nl, rmfrfs@gmail.com, kernel@pengutronix.de,
-	linux-imx@nxp.com, kernel@puri.sm, linux-media@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] media: imx: Unstage the imx8mq-mipi-csi2 driver
-Message-ID: <20230424091209.GC14888@pendragon.ideasonboard.com>
-References: <20230424082945.2580298-1-martin.kepplinger@puri.sm>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A44D43214
+	for <linux-staging@lists.linux.dev>; Mon, 24 Apr 2023 18:03:53 +0000 (UTC)
+Received: by mail-pf1-f175.google.com with SMTP id d2e1a72fcca58-63b35789313so3551166b3a.3
+        for <linux-staging@lists.linux.dev>; Mon, 24 Apr 2023 11:03:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1682359433; x=1684951433;
+        h=content-disposition:mime-version:message-id:subject:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=T1NUtVt3knB/HcXq8IIUhsyBrwMDib57ziNBiOWDoTI=;
+        b=CkeLkg5KKm0VfGJuk5lq/38olMkTW7PTeFFmDiDckPTrlzJgywQfut52O+UPNqV1A9
+         K5KaXcu5BLzfG9x1VwslhDrA989OPGEx4MvEcr8joRS7ofdpZUuViB0NlLjWps00q/9I
+         a6f77xX+CHYg0L5KwLa/L6MNUI6c3mYdjBVQnrxHNiI15oM5yo81MsoyIZ8OVsmWgR+G
+         yquL/JyhEvfFifD1iLb4KPUDtf8ntADaWP2l8YJ8bj5T4MZSg0Vihn6RuBY4AysV6Yw/
+         qnPzWbTQpjrRHhm1Mqt6+BDa23GOZlx2fGdXSXuglm+76iqK9TQ0HMhY47FLZCD4oTLF
+         XOGg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1682359433; x=1684951433;
+        h=content-disposition:mime-version:message-id:subject:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=T1NUtVt3knB/HcXq8IIUhsyBrwMDib57ziNBiOWDoTI=;
+        b=Dfvzn104eYTpWMlD42JeTIGXQ0ugD/zZHcwJlcXYXhuSVC2bpvrUZxn+nyziIuiKKO
+         w3woehhY+/IWexetLrZy2sFTUgS0YxQ5gHiH792PYwRPmU+Xa0UlvAftB7/mFU3ai2+S
+         +Lo8J7v8JaG3MMHe+NB85Xye8So9TXBb2h0w8BZYobouqVRnWgYUpCgsC9KFVKwprslf
+         qPCHJ/k2dqlRMAe/6e77ACv3F2wRpATNH22iTpNplr0RAZxsAGF8GBPvZHDpdbeqBgax
+         janbb1Ok+IY05eDNrt0MoUOJqlAajEatne3Q/gXGkv+w86e35o6Db75Ir6lqT4gyxbgw
+         plew==
+X-Gm-Message-State: AAQBX9cli1IWm3jD2clto1ynVMWhpBfcBrY9psXWGKZw5vDsPyPgH6CF
+	cM/J3feL9XW3LdP1K2l+P5o=
+X-Google-Smtp-Source: AKy350ZA91Hw7jALmRYigNL9sAR+S2RLG796GhOl37Oju8SnrS+eaj2ZhA4j9lhMUwSNn+CXqlijYQ==
+X-Received: by 2002:a05:6a20:1449:b0:d6:91f5:2b10 with SMTP id a9-20020a056a20144900b000d691f52b10mr17617976pzi.58.1682359432995;
+        Mon, 24 Apr 2023 11:03:52 -0700 (PDT)
+Received: from pop-os.localdomain ([103.251.210.208])
+        by smtp.gmail.com with ESMTPSA id x185-20020a6286c2000000b0063f00898245sm7948417pfd.146.2023.04.24.11.03.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 24 Apr 2023 11:03:52 -0700 (PDT)
+Date: Mon, 24 Apr 2023 23:33:48 +0530
+From: Yogesh Hegde <yogi.kernel@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: [PATCH v5 0/4] Remove unused rf_set_sens variable
+Message-ID: <cover.1682358035.git.yogi.kernel@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230424082945.2580298-1-martin.kepplinger@puri.sm>
 
-Hi Martin,
+The rf_set_sens variable is declared but never set, so it is always NULL.
+Cleanup the unused rf_set_sens variable. Remove functions
+_rtl92e_wx_get_sens and _rtl92e_wx_set_sens which always returned 
+error code after removal of rf_set_sens variable. 
+Cleanup unused max_sens and sens variable.
+The patches are required to be applied in sequence.
 
-Thank you for the patch.
+Changes in v5:
+    1. Rebased onto latest staging-testing branch per feedback from
+       philipp.g.hortmann@gmail.com
 
-On Mon, Apr 24, 2023 at 10:29:45AM +0200, Martin Kepplinger wrote:
-> The imx8mq-mipi-csi2 mipi receiver driver is used and maintained. There
+Changes in v4:
+    1. Split changes into patch series per feedback from
+       gregkh@linuxfoundation.org
 
-s/mipi/MIPI CSI-2/
+Changes in v3:
+    1. Fixed description to fit within 75 chars
+    2. Added suggested tags
+    per feedback from philipp.g.hortmann@gmail.com
 
-> is no reason to keep it in staging. The accompanying CSI bridge driver that
-> uses it is in drivers/media/platform/nxp as well.
-> 
-> One TODO is to get rid of csi_state's "state" and "lock" variables. Especially
-> make sure suspend/resume is working without them. That can very well be worked
-> on from the new location.
-> 
-> Add a MAINTAINERS section for the imx8mq-mipi-csi2 mipi receiver driver.
-> It shares the CSI Bridge driver with the one from imx7 and imx8mm so the
-> sections overlap a bit.
->
-> Signed-off-by: Martin Kepplinger <martin.kepplinger@puri.sm>
-> ---
->  MAINTAINERS                                         | 13 +++++++++++++
->  drivers/media/platform/nxp/Kconfig                  | 11 +++++++++++
->  drivers/media/platform/nxp/Makefile                 |  1 +
->  .../imx => media/platform/nxp}/imx8mq-mipi-csi2.c   |  0
->  drivers/staging/media/imx/Kconfig                   | 12 +-----------
->  drivers/staging/media/imx/Makefile                  |  2 --
->  6 files changed, 26 insertions(+), 13 deletions(-)
->  rename drivers/{staging/media/imx => media/platform/nxp}/imx8mq-mipi-csi2.c (100%)
-> 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index f50945bb7d1b..fcd48408fc1f 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -12919,6 +12919,19 @@ F:	Documentation/devicetree/bindings/media/nxp,imx7-csi.yaml
->  F:	drivers/media/platform/nxp/imx-mipi-csis.c
->  F:	drivers/media/platform/nxp/imx7-media-csi.c
->  
-> +MEDIA DRIVERS FOR FREESCALE IMX8MQ
-> +M:	Martin Kepplinger <martin.kepplinger@puri.sm>
-> +R:	Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> +R:	Purism Kernel Team <kernel@puri.sm>
-> +L:	linux-media@vger.kernel.org
-> +S:	Maintained
-> +T:	git git://linuxtv.org/media_tree.git
-> +F:	Documentation/admin-guide/media/imx7.rst
-> +F:	Documentation/devicetree/bindings/media/nxp,imx7-csi.yaml
-> +F:	Documentation/devicetree/bindings/media/nxp,imx8mq-mipi-csi2.yaml
-> +F:	drivers/media/platform/nxp/imx7-media-csi.c
-> +F:	drivers/media/platform/nxp/imx8mq-mipi-csi.c
-> +
+Changes in v2:
+    1. Removed function definition rf_set_sens
+    2. Removed usage of variable priv->rf_set_sens
+    3. Removed functions _rtl92e_wx_get_sens and _rtl92e_wx_set_sens
+    4. Cleaned up the variables sens and max_sens used in these functions
 
-I'm not sure overlaps will be properly supported by all tools. I'd
-rather avoid them. You can either
+Changes in v1:
+    1. Fix comparison to NULL of variable rf_set_sens
 
-- Add this driver to the existing "MEDIA DRIVERS FOR FREESCALE IMX7"
-  section (possibly renaming it to 'IMX7/8'), and add yourself as a
-  maintainer to that section if desired.
+Yogesh Hegde (4):
+  staging: rtl8192e: Remove unused rf_set_sens variable
+  staging: rtl8192e: Remove unused _rtl92e_wx_get_sens function
+  staging: rtl8192e: Remove unused _rtl92e_wx_set_sens function
+  staging: rtl8192e: Remove unused sens and max_sens from r8192_priv
+    struct
 
-- Create a new section as you're doing here, with just the CSI-2
-  receiver driver in it.
-
-Additionally, I'd rename the "MEDIA DRIVERS FOR FREESCALE IMX" entry to
-"MEDIA DRIVERS FOR FREESCALE IMX5/6". This could be done in a separate
-patch though.
-
->  MEDIA DRIVERS FOR HELENE
->  M:	Abylay Ospan <aospan@netup.ru>
->  L:	linux-media@vger.kernel.org
-> diff --git a/drivers/media/platform/nxp/Kconfig b/drivers/media/platform/nxp/Kconfig
-> index a0ca6b297fb8..efa985ec8a5f 100644
-> --- a/drivers/media/platform/nxp/Kconfig
-> +++ b/drivers/media/platform/nxp/Kconfig
-> @@ -28,6 +28,17 @@ config VIDEO_IMX_MIPI_CSIS
->  	  Video4Linux2 sub-device driver for the MIPI CSI-2 CSIS receiver
->  	  v3.3/v3.6.3 found on some i.MX7 and i.MX8 SoCs.
->  
-> +config VIDEO_IMX8MQ_MIPI_CSI2
-
-VIDEO_IMX8MQ_MIPI_CSI2 goes before VIDEO_IMX_MIPI_CSIS in alphabetical
-order.
-
-> +	tristate "NXP i.MX8MQ MIPI CSI-2 receiver"
-> +	depends on ARCH_MXC || COMPILE_TEST
-> +	depends on VIDEO_DEV
-> +	select MEDIA_CONTROLLER
-> +	select V4L2_FWNODE
-> +	select VIDEO_V4L2_SUBDEV_API
-> +	help
-> +	  Video4Linux2 driver for the MIPI CSI-2 receiver found on the i.MX8MQ
-> +	  SoC. The i.MX8MQ CSI Bridge is the same as on i.MX7.
-
-Drop the second sentence, it's irrelevant here.
-
-> +
->  source "drivers/media/platform/nxp/imx8-isi/Kconfig"
->  
->  # mem2mem drivers
-> diff --git a/drivers/media/platform/nxp/Makefile b/drivers/media/platform/nxp/Makefile
-> index b8e672b75fed..4d90eb713652 100644
-> --- a/drivers/media/platform/nxp/Makefile
-> +++ b/drivers/media/platform/nxp/Makefile
-> @@ -5,6 +5,7 @@ obj-y += imx-jpeg/
->  obj-y += imx8-isi/
->  
->  obj-$(CONFIG_VIDEO_IMX7_CSI) += imx7-media-csi.o
->  obj-$(CONFIG_VIDEO_IMX8MQ_MIPI_CSI2) += imx8mq-mipi-csi2.o
->  obj-$(CONFIG_VIDEO_IMX_MIPI_CSIS) += imx-mipi-csis.o
->  obj-$(CONFIG_VIDEO_IMX_PXP) += imx-pxp.o
->  obj-$(CONFIG_VIDEO_MX2_EMMAPRP) += mx2_emmaprp.o
-> diff --git a/drivers/staging/media/imx/imx8mq-mipi-csi2.c b/drivers/media/platform/nxp/imx8mq-mipi-csi2.c
-> similarity index 100%
-> rename from drivers/staging/media/imx/imx8mq-mipi-csi2.c
-> rename to drivers/media/platform/nxp/imx8mq-mipi-csi2.c
-> diff --git a/drivers/staging/media/imx/Kconfig b/drivers/staging/media/imx/Kconfig
-> index 21fd79515042..5b393e29d29e 100644
-> --- a/drivers/staging/media/imx/Kconfig
-> +++ b/drivers/staging/media/imx/Kconfig
-> @@ -15,7 +15,7 @@ config VIDEO_IMX_MEDIA
->  	  driver for the i.MX5/6 SOC.
->  
->  if VIDEO_IMX_MEDIA
-> -menu "i.MX5/6/7/8 Media Sub devices"
-> +menu "i.MX5/6 Media Sub devices"
->  
->  config VIDEO_IMX_CSI
-
-I'm tempted to merge the VIDEO_IMX_MEDIA and VIDEO_IMX_CSI Kconfig
-symbols. I'll send a patch to do so.
-
->  	tristate "i.MX5/6 Camera Sensor Interface driver"
-> @@ -25,13 +25,3 @@ config VIDEO_IMX_CSI
->  	  A video4linux camera sensor interface driver for i.MX5/6.
->  endmenu
->  endif
-> -
-> -config VIDEO_IMX8MQ_MIPI_CSI2
-> -	tristate "NXP i.MX8MQ MIPI CSI-2 receiver"
-> -	depends on ARCH_MXC || COMPILE_TEST
-> -	depends on VIDEO_DEV
-> -	select MEDIA_CONTROLLER
-> -	select V4L2_FWNODE
-> -	select VIDEO_V4L2_SUBDEV_API
-> -	help
-> -	  V4L2 driver for the MIPI CSI-2 receiver found in the i.MX8MQ SoC.
-> diff --git a/drivers/staging/media/imx/Makefile b/drivers/staging/media/imx/Makefile
-> index 906a422aa656..b69951deff9a 100644
-> --- a/drivers/staging/media/imx/Makefile
-> +++ b/drivers/staging/media/imx/Makefile
-> @@ -13,5 +13,3 @@ obj-$(CONFIG_VIDEO_IMX_MEDIA) += imx-media-common.o
->  obj-$(CONFIG_VIDEO_IMX_CSI) += imx6-media.o
->  obj-$(CONFIG_VIDEO_IMX_CSI) += imx6-media-csi.o
->  obj-$(CONFIG_VIDEO_IMX_CSI) += imx6-mipi-csi2.o
-> -
-> -obj-$(CONFIG_VIDEO_IMX8MQ_MIPI_CSI2) += imx8mq-mipi-csi2.o
+ drivers/staging/rtl8192e/rtl8192e/rtl_core.h |  3 --
+ drivers/staging/rtl8192e/rtl8192e/rtl_wx.c   | 45 --------------------
+ 2 files changed, 48 deletions(-)
 
 -- 
-Regards,
+2.34.1
 
-Laurent Pinchart
