@@ -1,170 +1,76 @@
-Received: from mail-yb1-f169.google.com (mail-yb1-f169.google.com [209.85.219.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 117297B
-	for <linux-staging@lists.linux.dev>; Tue, 25 Apr 2023 00:48:57 +0000 (UTC)
-Received: by mail-yb1-f169.google.com with SMTP id 3f1490d57ef6-b99efd7c335so293536276.0
-        for <linux-staging@lists.linux.dev>; Mon, 24 Apr 2023 17:48:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1682383737; x=1684975737;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=xXD5oGyMJssR+MDeqCzSsR7IyyxKZwzZZxJX7GfHDyU=;
-        b=rxYow8BQeAzw6gWcIH92VTnMPVFbAkixDKX0kYRwMzsfNmf59vDL1L8BHGoOyNjLpj
-         1rocSm9QFZ7lEeoIknj/vJA5xiRyHEz/X6or2Jq1g4qlF9AwP/ZWkjUfW1FOpDSd6b0X
-         y1h03z1/XXIhtR6yQWE2Wkkm6VuRuuYdQm2AksNIXpyIaCZz3jAPyxn8sqAx8ELvWP/G
-         K6Fg10LlFyLtPYkX6VUVi5VFCL/YZmzv2AnL8ah87Re0ctd4LHmjTMRyvw8au9fJWWOk
-         cN9uAeC0E5Yk5L3LW5KRpNMAT9xQ4PG0aXrYKl+fqaZYsTIV+mxOpAXWR89uVg6ZxzRu
-         xp9w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1682383737; x=1684975737;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=xXD5oGyMJssR+MDeqCzSsR7IyyxKZwzZZxJX7GfHDyU=;
-        b=bz8ZYZQ1wx9/mbfbCR5SoCQKKpjVjkhBmT7YSFdTAjnVd5ZYLVIoUd0z0QRAJe0uP9
-         qGzV8TmROjKl/NecqWJqv3sEKin3WG8wsd6WOnNsplpBYpB7i7B+07ZxiKVOSkV4sS8l
-         Yz0cmSvfmnGKtqzmumkf1egmvzbBKuDuZQpFMYh+7BIXZzz742YW0C7zvspDR+0cpvbn
-         dcMv8ecOaHCXihtHQnhnqS6x1UAYlwb3UmDzaiijugI6yV46q6YVntTiVQCx3sXxqE89
-         i787ptAGBAwB5qYU3kqTGhjGCqzB+z0H/QPUO9ZaR4uOtHz1w8qXYf4qxiAkLvYgUi52
-         0QUw==
-X-Gm-Message-State: AAQBX9dpEEjcV0ZiZ0Sn9PnOLFjsAn5RebSePw1KBm1w12tJCGl+6VnB
-	qOZhWyemAOWXCBekEX/KS38=
-X-Google-Smtp-Source: AKy350bVESRWlrwo6kChB+EgNF9IXa+vTp+dUn4x92fGqFOB1BOKm9YGNnGCdhvxdug5UuqclOz6Qg==
-X-Received: by 2002:a25:ae95:0:b0:b8f:327f:acab with SMTP id b21-20020a25ae95000000b00b8f327facabmr11830765ybj.13.1682383736701;
-        Mon, 24 Apr 2023 17:48:56 -0700 (PDT)
-Received: from iris ([2600:1700:ce00:d6f0::659])
-        by smtp.gmail.com with ESMTPSA id b198-20020a0dd9cf000000b00545a0818487sm3260223ywe.23.2023.04.24.17.48.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 24 Apr 2023 17:48:56 -0700 (PDT)
-Date: Mon, 24 Apr 2023 20:48:53 -0400
-From: John Grace <johnmgrace1@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: linux-staging@lists.linux.dev
-Subject: [PATCH] staging: rtl8192e: avoid CamelCase <RATRIndex>
-Message-ID: <ZEcjdUR/bnln7Z1J@iris>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BFAF7B
+	for <linux-staging@lists.linux.dev>; Tue, 25 Apr 2023 07:49:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1682408950;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=5RHO07m1f9W2RKPCP1klHGEZU5kaUC4LlrOjGSFX8WQ=;
+	b=fzXBx8fDZhHYCJF2MMBx0iPa9ZUkeb/V3DzVKUhkYVQtjLMJXS0HDPwKsNEVAQYSitOjXn
+	+RgSlotN7v7RrWdsMEzDm5lHsLouat8b9yKk2YX++2m3q3bqRB/kBZBcMHe08GMtlNkqYI
+	32OM7Mkut0sACXHx04Sl1/8OE7qdDGU=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-283-GVLX56wXOSmNYAQtP5_adQ-1; Tue, 25 Apr 2023 03:49:06 -0400
+X-MC-Unique: GVLX56wXOSmNYAQtP5_adQ-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com [10.11.54.7])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 616A71C07587;
+	Tue, 25 Apr 2023 07:49:06 +0000 (UTC)
+Received: from fedora.redhat.com (unknown [10.67.24.153])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 56A07140263F;
+	Tue, 25 Apr 2023 07:49:02 +0000 (UTC)
+From: Kate Hsuan <hpa@redhat.com>
+To: Hans de Goede <hdegoede@redhat.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev
+Cc: Kate Hsuan <hpa@redhat.com>
+Subject: [PATCH 0/5] staging: media: atomisp: Remove #ifdef 2401
+Date: Tue, 25 Apr 2023 15:48:36 +0800
+Message-Id: <20230425074841.29063-1-hpa@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
 
-Linux kernel coding-style suggests to not use mixed-case names. Fix
-checkpatch issue by changing the variable name from camel case to snake
-case.
+Since #ifdef ISP2401 is used to determine the action of both models in compiler
+time, we have to provide two binaries for both models. It is very unfriendly for
+the users and for the package management aspect.
 
-Signed-off-by: John Grace <johnmgrace1@gmail.com>
----
- drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c | 2 +-
- drivers/staging/rtl8192e/rtl8192e/rtl_core.c   | 4 ++--
- drivers/staging/rtl8192e/rtllib.h              | 2 +-
- drivers/staging/rtl8192e/rtllib_softmac.c      | 4 ++--
- drivers/staging/rtl8192e/rtllib_tx.c           | 6 +++---
- 5 files changed, 9 insertions(+), 9 deletions(-)
+The proposed patch removed the #ifdef ISP2041 from the codes and made the 
+path for both models can be determined at the runtime. Some of the #ifdef is 
+highly integrated with functions and data structures. If we try to remove 
+them, it will cause many issues, such as duplicated variable/function name
+and data length. Therefore, these patches focus on removing the #ifdef
+without affecting the change of structure.
 
-diff --git a/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c b/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c
-index aed53fedeb61..c612e31d1a84 100644
---- a/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c
-+++ b/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c
-@@ -1008,7 +1008,7 @@ void  rtl92e_fill_tx_desc(struct net_device *dev, struct tx_desc *pdesc,
- 	pdesc->PktSize = skb->len - sizeof(struct tx_fwinfo_8190pci);
- 
- 	pdesc->SecCAMID = 0;
--	pdesc->RATid = cb_desc->RATRIndex;
-+	pdesc->RATid = cb_desc->ratr_index;
- 
- 
- 	pdesc->NoEnc = 1;
-diff --git a/drivers/staging/rtl8192e/rtl8192e/rtl_core.c b/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
-index 27040d1e3230..b58a30d68f2f 100644
---- a/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
-+++ b/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
-@@ -466,7 +466,7 @@ static void _rtl92e_prepare_beacon(struct tasklet_struct *t)
- 	tcb_desc = (struct cb_desc *)(pnewskb->cb + 8);
- 	tcb_desc->queue_index = BEACON_QUEUE;
- 	tcb_desc->data_rate = 2;
--	tcb_desc->RATRIndex = 7;
-+	tcb_desc->ratr_index = 7;
- 	tcb_desc->tx_dis_rate_fallback = 1;
- 	tcb_desc->tx_use_drv_assinged_rate = 1;
- 	skb_push(pnewskb, priv->rtllib->tx_headroom);
-@@ -1440,7 +1440,7 @@ static int _rtl92e_hard_start_xmit(struct sk_buff *skb, struct net_device *dev)
- 		return 0;
- 	}
- 
--	tcb_desc->RATRIndex = 7;
-+	tcb_desc->ratr_index = 7;
- 	tcb_desc->tx_dis_rate_fallback = 1;
- 	tcb_desc->tx_use_drv_assinged_rate = 1;
- 	tcb_desc->bTxEnableFwCalcDur = 1;
-diff --git a/drivers/staging/rtl8192e/rtllib.h b/drivers/staging/rtl8192e/rtllib.h
-index 6e665e866f1f..d5f5ea5615fc 100644
---- a/drivers/staging/rtl8192e/rtllib.h
-+++ b/drivers/staging/rtl8192e/rtllib.h
-@@ -139,7 +139,7 @@ struct cb_desc {
- 	u8 rata_index;
- 	u8 queue_index;
- 	u16 txbuf_size;
--	u8 RATRIndex;
-+	u8 ratr_index;
- 	u8 bAMSDU:1;
- 	u8 bFromAggrQ:1;
- 	u8 reserved6:6;
-diff --git a/drivers/staging/rtl8192e/rtllib_softmac.c b/drivers/staging/rtl8192e/rtllib_softmac.c
-index b9886e83a6dc..1ca77cdbafa3 100644
---- a/drivers/staging/rtl8192e/rtllib_softmac.c
-+++ b/drivers/staging/rtl8192e/rtllib_softmac.c
-@@ -219,7 +219,7 @@ inline void softmac_mgmt_xmit(struct sk_buff *skb, struct rtllib_device *ieee)
- 		tcb_desc->queue_index = HIGH_QUEUE;
- 
- 	tcb_desc->data_rate = MgntQuery_MgntFrameTxRate(ieee);
--	tcb_desc->RATRIndex = 7;
-+	tcb_desc->ratr_index = 7;
- 	tcb_desc->tx_dis_rate_fallback = 1;
- 	tcb_desc->tx_use_drv_assinged_rate = 1;
- 	if (single) {
-@@ -297,7 +297,7 @@ softmac_ps_mgmt_xmit(struct sk_buff *skb,
- 
- 
- 	tcb_desc->data_rate = MgntQuery_MgntFrameTxRate(ieee);
--	tcb_desc->RATRIndex = 7;
-+	tcb_desc->ratr_index = 7;
- 	tcb_desc->tx_dis_rate_fallback = 1;
- 	tcb_desc->tx_use_drv_assinged_rate = 1;
- 	if (single) {
-diff --git a/drivers/staging/rtl8192e/rtllib_tx.c b/drivers/staging/rtl8192e/rtllib_tx.c
-index 9ab8ee46ef66..54119fba8a57 100644
---- a/drivers/staging/rtl8192e/rtllib_tx.c
-+++ b/drivers/staging/rtl8192e/rtllib_tx.c
-@@ -486,7 +486,7 @@ static void rtllib_txrate_selectmode(struct rtllib_device *ieee,
- 	    !tcb_desc->tx_use_drv_assinged_rate) {
- 		if (ieee->iw_mode == IW_MODE_INFRA ||
- 		    ieee->iw_mode == IW_MODE_ADHOC)
--			tcb_desc->RATRIndex = 0;
-+			tcb_desc->ratr_index = 0;
- 	}
- }
- 
-@@ -892,7 +892,7 @@ static int rtllib_xmit_inter(struct sk_buff *skb, struct net_device *dev)
- 				tcb_desc->tx_dis_rate_fallback = 1;
- 			}
- 
--			tcb_desc->RATRIndex = 7;
-+			tcb_desc->ratr_index = 7;
- 			tcb_desc->tx_use_drv_assinged_rate = 1;
- 		} else {
- 			if (is_multicast_ether_addr(header.addr1))
-@@ -916,7 +916,7 @@ static int rtllib_xmit_inter(struct sk_buff *skb, struct net_device *dev)
- 					tcb_desc->tx_dis_rate_fallback = 1;
- 				}
- 
--				tcb_desc->RATRIndex = 7;
-+				tcb_desc->ratr_index = 7;
- 				tcb_desc->tx_use_drv_assinged_rate = 1;
- 				tcb_desc->bdhcp = 1;
- 			}
+Kate Hsuan (5):
+  staging: media: atomisp: sh_css: Remove #ifdef ISP2401
+  staging: media: atomisp: runtime: frame: remove #ifdef ISP2401
+  staging: media: atomisp: sh_css_sp: Remove #ifdef ISP2401
+  staging: media: atomisp: sh_css_firmware: determine firmware version
+    at runtime
+  staging: media: atomisp: sh_css_mipi: Remove #ifdef 2041
+
+ .../atomisp/pci/runtime/frame/src/frame.c     |  15 +-
+ drivers/staging/media/atomisp/pci/sh_css.c    | 584 +++++++++---------
+ .../media/atomisp/pci/sh_css_firmware.c       |  18 +-
+ .../staging/media/atomisp/pci/sh_css_mipi.c   | 101 ++-
+ drivers/staging/media/atomisp/pci/sh_css_sp.c |  10 +-
+ 5 files changed, 359 insertions(+), 369 deletions(-)
+
 -- 
 2.39.2
 
