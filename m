@@ -1,105 +1,170 @@
-Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
+Received: from mail-yb1-f169.google.com (mail-yb1-f169.google.com [209.85.219.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F340129A9
-	for <linux-staging@lists.linux.dev>; Mon, 24 Apr 2023 18:37:34 +0000 (UTC)
-Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-95227e5164dso140923466b.1
-        for <linux-staging@lists.linux.dev>; Mon, 24 Apr 2023 11:37:34 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 117297B
+	for <linux-staging@lists.linux.dev>; Tue, 25 Apr 2023 00:48:57 +0000 (UTC)
+Received: by mail-yb1-f169.google.com with SMTP id 3f1490d57ef6-b99efd7c335so293536276.0
+        for <linux-staging@lists.linux.dev>; Mon, 24 Apr 2023 17:48:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1682361453; x=1684953453;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:to:subject:user-agent:mime-version:date:message-id:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=bK4MMoXKg4ULLWukLYcP4UXrLxtpZwZjuZPAMicfii8=;
-        b=mvU9HFEhh369bW2OC9zsu7Te+7wYuxkW+0Yez6er5px0FYYusK0sxE//hdnPKXjOiK
-         d0XFkZjSz+8/eahZLx3BJoeewemyHF9qFDGeYtITvrQj32gmMHt94IVKfmJqhTXzsMNt
-         dpAP7Ww0cnmFTJhhi05Do/ZRA3/ZFVEArQ50HfGWGGCApyP6j9c+2X/bSbtfXzq78Kwa
-         3b/H53gJFsxaaCU2xb5LERV3TFqSJFAN5fpqW9utandE6cUTIdiWBqxjZDsK+NheGejC
-         X7kftoPR1y6d6Tbkk/beFVJuB1iwbvq2xYwD9yfK4dnqH+Mm65WccDCar+XMw7hp8Y57
-         YuHw==
+        d=gmail.com; s=20221208; t=1682383737; x=1684975737;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=xXD5oGyMJssR+MDeqCzSsR7IyyxKZwzZZxJX7GfHDyU=;
+        b=rxYow8BQeAzw6gWcIH92VTnMPVFbAkixDKX0kYRwMzsfNmf59vDL1L8BHGoOyNjLpj
+         1rocSm9QFZ7lEeoIknj/vJA5xiRyHEz/X6or2Jq1g4qlF9AwP/ZWkjUfW1FOpDSd6b0X
+         y1h03z1/XXIhtR6yQWE2Wkkm6VuRuuYdQm2AksNIXpyIaCZz3jAPyxn8sqAx8ELvWP/G
+         K6Fg10LlFyLtPYkX6VUVi5VFCL/YZmzv2AnL8ah87Re0ctd4LHmjTMRyvw8au9fJWWOk
+         cN9uAeC0E5Yk5L3LW5KRpNMAT9xQ4PG0aXrYKl+fqaZYsTIV+mxOpAXWR89uVg6ZxzRu
+         xp9w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1682361453; x=1684953453;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:to:subject:user-agent:mime-version:date:message-id
+        d=1e100.net; s=20221208; t=1682383737; x=1684975737;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=bK4MMoXKg4ULLWukLYcP4UXrLxtpZwZjuZPAMicfii8=;
-        b=VrRN/XMVG5JujoEln0LarEtpMf8zAjDSpeJ4OidMyrQExwjbJ6X6Iaxh2wjRCLYSt/
-         iWbNJDfNpVUty7MNukAUR9fVmjeBo8uJGnNLWIPzHPeGbzCOgC/t0skCbMM4IY1In8jV
-         P/M+LBDEh2d4xgyZNQ5z4MKcKMFfaRlHmDXbROjMOJJmG4x24c5iM/O0L8cdFkhPEOXl
-         nYaRoxkgUJmjGIaomDZS3Tx817+pJh2+weqFk8e8kD1wEPSBH9piFC1A5kbdXZBGV6xd
-         pDtyw+zqtRDEwRBgoeDnNIqMNsiMbpWPmiQQAnB76avVhLQWKCzVOnTgm7HzHU94a2HR
-         CnRg==
-X-Gm-Message-State: AAQBX9f0dZFoWQls7rYfc+d6IY224oZEZ0C4e9+dHwKah20yvVBLBWpO
-	qq86+NNjFlSlMTsM/AJ5Zks=
-X-Google-Smtp-Source: AKy350brImQXUbFrBUSAHxEvyP2HKo9rOfKEQbvNEbyhiyLaRc4Y+bUAKMocgR22ATBRDE/NOtCD4g==
-X-Received: by 2002:a17:906:4bc2:b0:94f:31ed:7543 with SMTP id x2-20020a1709064bc200b0094f31ed7543mr12035416ejv.7.1682361453064;
-        Mon, 24 Apr 2023 11:37:33 -0700 (PDT)
-Received: from [192.168.0.103] (p57935146.dip0.t-ipconnect.de. [87.147.81.70])
-        by smtp.gmail.com with ESMTPSA id gz19-20020a170907a05300b0095076890fc1sm5820081ejc.1.2023.04.24.11.37.29
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 24 Apr 2023 11:37:30 -0700 (PDT)
-Message-ID: <695a4474-9a46-a9ee-2ec5-04dbcb68ca0c@gmail.com>
-Date: Mon, 24 Apr 2023 20:37:29 +0200
+        bh=xXD5oGyMJssR+MDeqCzSsR7IyyxKZwzZZxJX7GfHDyU=;
+        b=bz8ZYZQ1wx9/mbfbCR5SoCQKKpjVjkhBmT7YSFdTAjnVd5ZYLVIoUd0z0QRAJe0uP9
+         qGzV8TmROjKl/NecqWJqv3sEKin3WG8wsd6WOnNsplpBYpB7i7B+07ZxiKVOSkV4sS8l
+         Yz0cmSvfmnGKtqzmumkf1egmvzbBKuDuZQpFMYh+7BIXZzz742YW0C7zvspDR+0cpvbn
+         dcMv8ecOaHCXihtHQnhnqS6x1UAYlwb3UmDzaiijugI6yV46q6YVntTiVQCx3sXxqE89
+         i787ptAGBAwB5qYU3kqTGhjGCqzB+z0H/QPUO9ZaR4uOtHz1w8qXYf4qxiAkLvYgUi52
+         0QUw==
+X-Gm-Message-State: AAQBX9dpEEjcV0ZiZ0Sn9PnOLFjsAn5RebSePw1KBm1w12tJCGl+6VnB
+	qOZhWyemAOWXCBekEX/KS38=
+X-Google-Smtp-Source: AKy350bVESRWlrwo6kChB+EgNF9IXa+vTp+dUn4x92fGqFOB1BOKm9YGNnGCdhvxdug5UuqclOz6Qg==
+X-Received: by 2002:a25:ae95:0:b0:b8f:327f:acab with SMTP id b21-20020a25ae95000000b00b8f327facabmr11830765ybj.13.1682383736701;
+        Mon, 24 Apr 2023 17:48:56 -0700 (PDT)
+Received: from iris ([2600:1700:ce00:d6f0::659])
+        by smtp.gmail.com with ESMTPSA id b198-20020a0dd9cf000000b00545a0818487sm3260223ywe.23.2023.04.24.17.48.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 24 Apr 2023 17:48:56 -0700 (PDT)
+Date: Mon, 24 Apr 2023 20:48:53 -0400
+From: John Grace <johnmgrace1@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: linux-staging@lists.linux.dev
+Subject: [PATCH] staging: rtl8192e: avoid CamelCase <RATRIndex>
+Message-ID: <ZEcjdUR/bnln7Z1J@iris>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH v5 0/4] Remove unused rf_set_sens variable
-To: Yogesh Hegde <yogi.kernel@gmail.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-References: <cover.1682358035.git.yogi.kernel@gmail.com>
-Content-Language: en-US
-From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-In-Reply-To: <cover.1682358035.git.yogi.kernel@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On 4/24/23 20:03, Yogesh Hegde wrote:
-> The rf_set_sens variable is declared but never set, so it is always NULL.
-> Cleanup the unused rf_set_sens variable. Remove functions
-> _rtl92e_wx_get_sens and _rtl92e_wx_set_sens which always returned
-> error code after removal of rf_set_sens variable.
-> Cleanup unused max_sens and sens variable.
-> The patches are required to be applied in sequence.
-> 
-> Changes in v5:
->      1. Rebased onto latest staging-testing branch per feedback from
->         philipp.g.hortmann@gmail.com
-> 
-> Changes in v4:
->      1. Split changes into patch series per feedback from
->         gregkh@linuxfoundation.org
-> 
-> Changes in v3:
->      1. Fixed description to fit within 75 chars
->      2. Added suggested tags
->      per feedback from philipp.g.hortmann@gmail.com
-> 
-> Changes in v2:
->      1. Removed function definition rf_set_sens
->      2. Removed usage of variable priv->rf_set_sens
->      3. Removed functions _rtl92e_wx_get_sens and _rtl92e_wx_set_sens
->      4. Cleaned up the variables sens and max_sens used in these functions
-> 
-> Changes in v1:
->      1. Fix comparison to NULL of variable rf_set_sens
-> 
-> Yogesh Hegde (4):
->    staging: rtl8192e: Remove unused rf_set_sens variable
->    staging: rtl8192e: Remove unused _rtl92e_wx_get_sens function
->    staging: rtl8192e: Remove unused _rtl92e_wx_set_sens function
->    staging: rtl8192e: Remove unused sens and max_sens from r8192_priv
->      struct
-> 
->   drivers/staging/rtl8192e/rtl8192e/rtl_core.h |  3 --
->   drivers/staging/rtl8192e/rtl8192e/rtl_wx.c   | 45 --------------------
->   2 files changed, 48 deletions(-)
-> 
+Linux kernel coding-style suggests to not use mixed-case names. Fix
+checkpatch issue by changing the variable name from camel case to snake
+case.
 
-Tested-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+Signed-off-by: John Grace <johnmgrace1@gmail.com>
+---
+ drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c | 2 +-
+ drivers/staging/rtl8192e/rtl8192e/rtl_core.c   | 4 ++--
+ drivers/staging/rtl8192e/rtllib.h              | 2 +-
+ drivers/staging/rtl8192e/rtllib_softmac.c      | 4 ++--
+ drivers/staging/rtl8192e/rtllib_tx.c           | 6 +++---
+ 5 files changed, 9 insertions(+), 9 deletions(-)
+
+diff --git a/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c b/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c
+index aed53fedeb61..c612e31d1a84 100644
+--- a/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c
++++ b/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c
+@@ -1008,7 +1008,7 @@ void  rtl92e_fill_tx_desc(struct net_device *dev, struct tx_desc *pdesc,
+ 	pdesc->PktSize = skb->len - sizeof(struct tx_fwinfo_8190pci);
+ 
+ 	pdesc->SecCAMID = 0;
+-	pdesc->RATid = cb_desc->RATRIndex;
++	pdesc->RATid = cb_desc->ratr_index;
+ 
+ 
+ 	pdesc->NoEnc = 1;
+diff --git a/drivers/staging/rtl8192e/rtl8192e/rtl_core.c b/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
+index 27040d1e3230..b58a30d68f2f 100644
+--- a/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
++++ b/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
+@@ -466,7 +466,7 @@ static void _rtl92e_prepare_beacon(struct tasklet_struct *t)
+ 	tcb_desc = (struct cb_desc *)(pnewskb->cb + 8);
+ 	tcb_desc->queue_index = BEACON_QUEUE;
+ 	tcb_desc->data_rate = 2;
+-	tcb_desc->RATRIndex = 7;
++	tcb_desc->ratr_index = 7;
+ 	tcb_desc->tx_dis_rate_fallback = 1;
+ 	tcb_desc->tx_use_drv_assinged_rate = 1;
+ 	skb_push(pnewskb, priv->rtllib->tx_headroom);
+@@ -1440,7 +1440,7 @@ static int _rtl92e_hard_start_xmit(struct sk_buff *skb, struct net_device *dev)
+ 		return 0;
+ 	}
+ 
+-	tcb_desc->RATRIndex = 7;
++	tcb_desc->ratr_index = 7;
+ 	tcb_desc->tx_dis_rate_fallback = 1;
+ 	tcb_desc->tx_use_drv_assinged_rate = 1;
+ 	tcb_desc->bTxEnableFwCalcDur = 1;
+diff --git a/drivers/staging/rtl8192e/rtllib.h b/drivers/staging/rtl8192e/rtllib.h
+index 6e665e866f1f..d5f5ea5615fc 100644
+--- a/drivers/staging/rtl8192e/rtllib.h
++++ b/drivers/staging/rtl8192e/rtllib.h
+@@ -139,7 +139,7 @@ struct cb_desc {
+ 	u8 rata_index;
+ 	u8 queue_index;
+ 	u16 txbuf_size;
+-	u8 RATRIndex;
++	u8 ratr_index;
+ 	u8 bAMSDU:1;
+ 	u8 bFromAggrQ:1;
+ 	u8 reserved6:6;
+diff --git a/drivers/staging/rtl8192e/rtllib_softmac.c b/drivers/staging/rtl8192e/rtllib_softmac.c
+index b9886e83a6dc..1ca77cdbafa3 100644
+--- a/drivers/staging/rtl8192e/rtllib_softmac.c
++++ b/drivers/staging/rtl8192e/rtllib_softmac.c
+@@ -219,7 +219,7 @@ inline void softmac_mgmt_xmit(struct sk_buff *skb, struct rtllib_device *ieee)
+ 		tcb_desc->queue_index = HIGH_QUEUE;
+ 
+ 	tcb_desc->data_rate = MgntQuery_MgntFrameTxRate(ieee);
+-	tcb_desc->RATRIndex = 7;
++	tcb_desc->ratr_index = 7;
+ 	tcb_desc->tx_dis_rate_fallback = 1;
+ 	tcb_desc->tx_use_drv_assinged_rate = 1;
+ 	if (single) {
+@@ -297,7 +297,7 @@ softmac_ps_mgmt_xmit(struct sk_buff *skb,
+ 
+ 
+ 	tcb_desc->data_rate = MgntQuery_MgntFrameTxRate(ieee);
+-	tcb_desc->RATRIndex = 7;
++	tcb_desc->ratr_index = 7;
+ 	tcb_desc->tx_dis_rate_fallback = 1;
+ 	tcb_desc->tx_use_drv_assinged_rate = 1;
+ 	if (single) {
+diff --git a/drivers/staging/rtl8192e/rtllib_tx.c b/drivers/staging/rtl8192e/rtllib_tx.c
+index 9ab8ee46ef66..54119fba8a57 100644
+--- a/drivers/staging/rtl8192e/rtllib_tx.c
++++ b/drivers/staging/rtl8192e/rtllib_tx.c
+@@ -486,7 +486,7 @@ static void rtllib_txrate_selectmode(struct rtllib_device *ieee,
+ 	    !tcb_desc->tx_use_drv_assinged_rate) {
+ 		if (ieee->iw_mode == IW_MODE_INFRA ||
+ 		    ieee->iw_mode == IW_MODE_ADHOC)
+-			tcb_desc->RATRIndex = 0;
++			tcb_desc->ratr_index = 0;
+ 	}
+ }
+ 
+@@ -892,7 +892,7 @@ static int rtllib_xmit_inter(struct sk_buff *skb, struct net_device *dev)
+ 				tcb_desc->tx_dis_rate_fallback = 1;
+ 			}
+ 
+-			tcb_desc->RATRIndex = 7;
++			tcb_desc->ratr_index = 7;
+ 			tcb_desc->tx_use_drv_assinged_rate = 1;
+ 		} else {
+ 			if (is_multicast_ether_addr(header.addr1))
+@@ -916,7 +916,7 @@ static int rtllib_xmit_inter(struct sk_buff *skb, struct net_device *dev)
+ 					tcb_desc->tx_dis_rate_fallback = 1;
+ 				}
+ 
+-				tcb_desc->RATRIndex = 7;
++				tcb_desc->ratr_index = 7;
+ 				tcb_desc->tx_use_drv_assinged_rate = 1;
+ 				tcb_desc->bdhcp = 1;
+ 			}
+-- 
+2.39.2
 
