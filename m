@@ -1,44 +1,43 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from comms.puri.sm (comms.puri.sm [159.203.221.185])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35BF07B
-	for <linux-staging@lists.linux.dev>; Tue, 25 Apr 2023 07:49:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1682408976;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=5SK1BiWn6pubDk+30Wb1jKHNKZzFMp3YyI/Avt7L1O4=;
-	b=b+6mFgFV5VxJHIGN08rd8CcxHa2TMhMSMwDLYXTMtJgDspOSdGhgYSVABeb3w31L/m1IFR
-	j5108O+pXXT5xywuKqaK8tvngToIMSc7STqRRDzG6/CWTXq+mPu+ZcUBJeliVoLJTCp9vx
-	xmiatEm5vpBXgraDllXP/xFJZim6cHc=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-118-vkH1kteIO7-0P51fB31BjA-1; Tue, 25 Apr 2023 03:49:34 -0400
-X-MC-Unique: vkH1kteIO7-0P51fB31BjA-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com [10.11.54.7])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 3B03488B7A0;
-	Tue, 25 Apr 2023 07:49:34 +0000 (UTC)
-Received: from fedora.redhat.com (unknown [10.67.24.153])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 299BB14171B8;
-	Tue, 25 Apr 2023 07:49:30 +0000 (UTC)
-From: Kate Hsuan <hpa@redhat.com>
-To: Hans de Goede <hdegoede@redhat.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE3CB7B
+	for <linux-staging@lists.linux.dev>; Tue, 25 Apr 2023 09:08:30 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by comms.puri.sm (Postfix) with ESMTP id 96648E2183;
+	Tue, 25 Apr 2023 02:08:24 -0700 (PDT)
+Received: from comms.puri.sm ([127.0.0.1])
+	by localhost (comms.puri.sm [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id Jdee2LPDzAn0; Tue, 25 Apr 2023 02:08:23 -0700 (PDT)
+From: Martin Kepplinger <martin.kepplinger@puri.sm>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=puri.sm; s=comms;
+	t=1682413703; bh=RANDJgVEZfcC+aHTZtmkEYXohM3JUlJ0SajyC9WzVnk=;
+	h=From:To:Cc:Subject:Date:From;
+	b=dzxxqQpZ3r1A8fN9PdN6IME5MXJtWoY26q5WUDTcK1BLVrkbNsTnxUCapey+L2k1K
+	 x1ZVSkh+bWtb+AtAlgxPMjJK6mw+5tRDlhpcvqcLngb8FvVLvQKpUwlRMvRuGEOg93
+	 +vdFkCy7iwIAQr7xQWH3lBcONDkv2Nyj7cFRe0wY8VEMiA1luZ1/RpBmOJkWQyfCb1
+	 Vb9Ers8IRXTbV3FQQ5V0UVA3XLe/6eOeYUUVO5kFz1ZIBewYa87ifUudoOLB7hOGmA
+	 5akAEQYts5/tFiCxzq/juWt0NvssA35rmcpBRgguyNq50Il9Tnuj/+PFsMrLKpY91Q
+	 uxqhfaOgjLK8g==
+To: mchehab@kernel.org,
+	shawnguo@kernel.org,
+	festevam@gmail.com,
+	slongerbeam@gmail.com,
+	gregkh@linuxfoundation.org,
+	laurent.pinchart@ideasonboard.com,
+	hverkuil-cisco@xs4all.nl,
+	rmfrfs@gmail.com
+Cc: kernel@pengutronix.de,
+	linux-imx@nxp.com,
+	kernel@puri.sm,
 	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev
-Cc: Kate Hsuan <hpa@redhat.com>
-Subject: [PATCH 5/5] staging: media: atomisp: sh_css_mipi: Remove #ifdef 2041
-Date: Tue, 25 Apr 2023 15:48:41 +0800
-Message-Id: <20230425074841.29063-6-hpa@redhat.com>
-In-Reply-To: <20230425074841.29063-1-hpa@redhat.com>
-References: <20230425074841.29063-1-hpa@redhat.com>
+	linux-arm-kernel@lists.infradead.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Martin Kepplinger <martin.kepplinger@puri.sm>
+Subject: [PATCH v2] media: imx: Unstage the imx8mq-mipi-csi2 driver
+Date: Tue, 25 Apr 2023 11:08:04 +0200
+Message-Id: <20230425090804.2664466-1-martin.kepplinger@puri.sm>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -46,179 +45,134 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
 
-The actions of ISP2401 and 2400 are determined at the runtime.
+The imx8mq-mipi-csi2 MIPI CSI-2 receiver driver is used and maintained.
+There is no reason to keep it in staging. The accompanying CSI bridge
+driver that uses it is in drivers/media/platform/nxp as well.
 
-Signed-off-by: Kate Hsuan <hpa@redhat.com>
+One TODO is to get rid of csi_state's "state" and "lock" variables.
+Especially make sure suspend/resume is working without them. That can
+very well be worked on from the new location.
+
+Also add a MAINTAINERS section for the imx8mq-mipi-csi2 mipi receiver
+driver.
+
+Signed-off-by: Martin Kepplinger <martin.kepplinger@puri.sm>
 ---
- .../staging/media/atomisp/pci/sh_css_mipi.c   | 101 +++++++++---------
- 1 file changed, 49 insertions(+), 52 deletions(-)
 
-diff --git a/drivers/staging/media/atomisp/pci/sh_css_mipi.c b/drivers/staging/media/atomisp/pci/sh_css_mipi.c
-index bc6e8598a776..9c9d3b27ded4 100644
---- a/drivers/staging/media/atomisp/pci/sh_css_mipi.c
-+++ b/drivers/staging/media/atomisp/pci/sh_css_mipi.c
-@@ -67,13 +67,12 @@ ia_css_mipi_frame_calculate_size(const unsigned int width,
- 	unsigned int mem_words = 0;
- 	unsigned int width_padded = width;
+revision history
+----------------
+v2: (thank you Laurent)
+* simplify MAINTAINERS entries by adding to existing one
+* minor ordering fixes and drop unrelated changes
+
+v1:
+* initial patch
+  https://lore.kernel.org/linux-media/20230424091209.GC14888@pendragon.ideasonboard.com/T/#t
+
+
+ MAINTAINERS                                           |  6 +++++-
+ drivers/media/platform/nxp/Kconfig                    | 11 +++++++++++
+ drivers/media/platform/nxp/Makefile                   |  1 +
+ .../imx => media/platform/nxp}/imx8mq-mipi-csi2.c     |  0
+ drivers/staging/media/imx/Kconfig                     | 10 ----------
+ drivers/staging/media/imx/Makefile                    |  2 --
+ 6 files changed, 17 insertions(+), 13 deletions(-)
+ rename drivers/{staging/media/imx => media/platform/nxp}/imx8mq-mipi-csi2.c (100%)
+
+diff --git a/MAINTAINERS b/MAINTAINERS
+index f50945bb7d1b..711aabed0e19 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -12907,17 +12907,21 @@ F:	drivers/staging/media/imx/
+ F:	include/linux/imx-media.h
+ F:	include/media/imx.h
  
--#if defined(ISP2401)
- 	/* The changes will be reverted as soon as RAW
- 	 * Buffers are deployed by the 2401 Input System
- 	 * in the non-continuous use scenario.
- 	 */
--	width_padded += (2 * ISP_VEC_NELEMS);
--#endif
-+	if (IS_ISP2401)
-+		width_padded += (2 * ISP_VEC_NELEMS);
+-MEDIA DRIVERS FOR FREESCALE IMX7
++MEDIA DRIVERS FOR FREESCALE IMX7/8
+ M:	Rui Miguel Silva <rmfrfs@gmail.com>
+ M:	Laurent Pinchart <laurent.pinchart@ideasonboard.com>
++M:	Martin Kepplinger <martin.kepplinger@puri.sm>
++R:	Purism Kernel Team <kernel@puri.sm>
+ L:	linux-media@vger.kernel.org
+ S:	Maintained
+ T:	git git://linuxtv.org/media_tree.git
+ F:	Documentation/admin-guide/media/imx7.rst
+ F:	Documentation/devicetree/bindings/media/nxp,imx-mipi-csi2.yaml
+ F:	Documentation/devicetree/bindings/media/nxp,imx7-csi.yaml
++F:	Documentation/devicetree/bindings/media/nxp,imx8mq-mipi-csi2.yaml
+ F:	drivers/media/platform/nxp/imx-mipi-csis.c
+ F:	drivers/media/platform/nxp/imx7-media-csi.c
++F:	drivers/media/platform/nxp/imx8mq-mipi-csi.c
  
- 	IA_CSS_ENTER("padded_width=%d, height=%d, format=%d, hasSOLandEOL=%d, embedded_data_size_words=%d\n",
- 		     width_padded, height, format, hasSOLandEOL, embedded_data_size_words);
-@@ -235,7 +234,6 @@ bool mipi_is_free(void)
- 	return true;
- }
+ MEDIA DRIVERS FOR HELENE
+ M:	Abylay Ospan <aospan@netup.ru>
+diff --git a/drivers/media/platform/nxp/Kconfig b/drivers/media/platform/nxp/Kconfig
+index a0ca6b297fb8..40e3436669e2 100644
+--- a/drivers/media/platform/nxp/Kconfig
++++ b/drivers/media/platform/nxp/Kconfig
+@@ -17,6 +17,17 @@ config VIDEO_IMX7_CSI
+ 	  Driver for the NXP Camera Sensor Interface (CSI) Bridge. This device
+ 	  is found in the i.MX6UL/L, i.MX7 and i.MX8M[MQ] SoCs.
  
--#if defined(ISP2401)
- /*
-  * @brief Calculate the required MIPI buffer sizes.
-  * Based on the stream configuration, calculate the
-@@ -342,7 +340,6 @@ static int calculate_mipi_buff_size(struct ia_css_stream_config *stream_cfg,
- 	IA_CSS_LEAVE_ERR(err);
- 	return err;
- }
--#endif
++config VIDEO_IMX8MQ_MIPI_CSI2
++	tristate "NXP i.MX8MQ MIPI CSI-2 receiver"
++	depends on ARCH_MXC || COMPILE_TEST
++	depends on VIDEO_DEV
++	select MEDIA_CONTROLLER
++	select V4L2_FWNODE
++	select VIDEO_V4L2_SUBDEV_API
++	help
++	  Video4Linux2 driver for the MIPI CSI-2 receiver found on the i.MX8MQ
++	  SoC.
++
+ config VIDEO_IMX_MIPI_CSIS
+ 	tristate "NXP MIPI CSI-2 CSIS receiver found on i.MX7 and i.MX8 models"
+ 	depends on ARCH_MXC || COMPILE_TEST
+diff --git a/drivers/media/platform/nxp/Makefile b/drivers/media/platform/nxp/Makefile
+index b8e672b75fed..4d90eb713652 100644
+--- a/drivers/media/platform/nxp/Makefile
++++ b/drivers/media/platform/nxp/Makefile
+@@ -5,6 +5,7 @@ obj-y += imx-jpeg/
+ obj-y += imx8-isi/
  
- int
- allocate_mipi_frames(struct ia_css_pipe *pipe,
-@@ -363,15 +360,15 @@ allocate_mipi_frames(struct ia_css_pipe *pipe,
- 		return -EINVAL;
- 	}
- 
--#ifdef ISP2401
--	if (pipe->stream->config.online) {
--		ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE,
--				    "allocate_mipi_frames(%p) exit: no buffers needed for 2401 pipe mode.\n",
--				    pipe);
--		return 0;
-+	if (IS_ISP2401) {
-+		if (pipe->stream->config.online) {
-+			ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE,
-+					    "allocate_mipi_frames(%p) exit: no buffers needed for 2401 pipe mode.\n",
-+					    pipe);
-+			return 0;
-+		}
- 	}
- 
--#endif
- 	if (pipe->stream->config.mode != IA_CSS_INPUT_MODE_BUFFERED_SENSOR) {
- 		ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE,
- 				    "allocate_mipi_frames(%p) exit: no buffers needed for pipe mode.\n",
-@@ -386,30 +383,30 @@ allocate_mipi_frames(struct ia_css_pipe *pipe,
- 		return -EINVAL;
- 	}
- 
--#ifdef ISP2401
--	err = calculate_mipi_buff_size(&pipe->stream->config,
--				       &my_css.mipi_frame_size[port]);
--	/*
--	 * 2401 system allows multiple streams to use same physical port. This is not
--	 * true for 2400 system. Currently 2401 uses MIPI buffers as a temporary solution.
--	 * TODO AM: Once that is changed (removed) this code should be removed as well.
--	 * In that case only 2400 related code should remain.
--	 */
--	if (ref_count_mipi_allocation[port] != 0) {
--		ref_count_mipi_allocation[port]++;
--		ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE,
--				    "allocate_mipi_frames(%p) leave: nothing to do, already allocated for this port (port=%d).\n",
--				    pipe, port);
--		return 0;
--	}
--#else
--	if (ref_count_mipi_allocation[port] != 0) {
--		ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE,
--				    "allocate_mipi_frames(%p) exit: already allocated for this port (port=%d).\n",
--				    pipe, port);
--		return 0;
-+	if (IS_ISP2401) {
-+		err = calculate_mipi_buff_size(&pipe->stream->config,
-+					       &my_css.mipi_frame_size[port]);
-+		/*
-+		 * 2401 system allows multiple streams to use same physical port. This is not
-+		 * true for 2400 system. Currently 2401 uses MIPI buffers as a temporary solution.
-+		 * TODO AM: Once that is changed (removed) this code should be removed as well.
-+		 * In that case only 2400 related code should remain.
-+		 */
-+		if (ref_count_mipi_allocation[port] != 0) {
-+			ref_count_mipi_allocation[port]++;
-+			ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE,
-+					    "allocate_mipi_frames(%p) leave: nothing to do, already allocated for this port (port=%d).\n",
-+					    pipe, port);
-+			return 0;
-+		}
-+	} else {
-+		if (ref_count_mipi_allocation[port] != 0) {
-+			ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE,
-+					    "allocate_mipi_frames(%p) exit: already allocated for this port (port=%d).\n",
-+					    pipe, port);
-+			return 0;
-+		}
- 	}
--#endif
- 
- 	ref_count_mipi_allocation[port]++;
- 
-@@ -503,14 +500,14 @@ free_mipi_frames(struct ia_css_pipe *pipe)
- 		}
- 
- 		if (ref_count_mipi_allocation[port] > 0) {
--#if !defined(ISP2401)
--			assert(ref_count_mipi_allocation[port] == 1);
--			if (ref_count_mipi_allocation[port] != 1) {
--				IA_CSS_ERROR("free_mipi_frames(%p) exit: wrong ref_count (ref_count=%d).",
--					     pipe, ref_count_mipi_allocation[port]);
--				return err;
-+			if (!IS_ISP2401) {
-+				assert(ref_count_mipi_allocation[port] == 1);
-+				if (ref_count_mipi_allocation[port] != 1) {
-+					IA_CSS_ERROR("free_mipi_frames(%p) exit: wrong ref_count (ref_count=%d).",
-+						     pipe, ref_count_mipi_allocation[port]);
-+					return err;
-+				}
- 			}
--#endif
- 
- 			ref_count_mipi_allocation[port]--;
- 
-@@ -534,18 +531,18 @@ free_mipi_frames(struct ia_css_pipe *pipe)
- 				ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE,
- 						    "free_mipi_frames(%p) exit (deallocated).\n", pipe);
- 			}
--#if defined(ISP2401)
- 			else {
--				/* 2401 system allows multiple streams to use same physical port. This is not
--				 * true for 2400 system. Currently 2401 uses MIPI buffers as a temporary solution.
--				 * TODO AM: Once that is changed (removed) this code should be removed as well.
--				 * In that case only 2400 related code should remain.
--				 */
--				ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE,
--						    "free_mipi_frames(%p) leave: nothing to do, other streams still use this port (port=%d).\n",
--						    pipe, port);
-+				if (IS_ISP2401) {
-+					/* 2401 system allows multiple streams to use same physical port. This is not
-+					 * true for 2400 system. Currently 2401 uses MIPI buffers as a temporary solution.
-+					 * TODO AM: Once that is changed (removed) this code should be removed as well.
-+					 * In that case only 2400 related code should remain.
-+					 */
-+					ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE,
-+							    "free_mipi_frames(%p) leave: nothing to do, other streams still use this port (port=%d).\n",
-+							    pipe, port);
-+				}
- 			}
--#endif
- 		}
- 	} else { /* pipe ==NULL */
- 		/* AM TEMP: free-ing all mipi buffers just like a legacy code. */
+ obj-$(CONFIG_VIDEO_IMX7_CSI) += imx7-media-csi.o
++obj-$(CONFIG_VIDEO_IMX8MQ_MIPI_CSI2) += imx8mq-mipi-csi2.o
+ obj-$(CONFIG_VIDEO_IMX_MIPI_CSIS) += imx-mipi-csis.o
+ obj-$(CONFIG_VIDEO_IMX_PXP) += imx-pxp.o
+ obj-$(CONFIG_VIDEO_MX2_EMMAPRP) += mx2_emmaprp.o
+diff --git a/drivers/staging/media/imx/imx8mq-mipi-csi2.c b/drivers/media/platform/nxp/imx8mq-mipi-csi2.c
+similarity index 100%
+rename from drivers/staging/media/imx/imx8mq-mipi-csi2.c
+rename to drivers/media/platform/nxp/imx8mq-mipi-csi2.c
+diff --git a/drivers/staging/media/imx/Kconfig b/drivers/staging/media/imx/Kconfig
+index 21fd79515042..b42af427b88b 100644
+--- a/drivers/staging/media/imx/Kconfig
++++ b/drivers/staging/media/imx/Kconfig
+@@ -25,13 +25,3 @@ config VIDEO_IMX_CSI
+ 	  A video4linux camera sensor interface driver for i.MX5/6.
+ endmenu
+ endif
+-
+-config VIDEO_IMX8MQ_MIPI_CSI2
+-	tristate "NXP i.MX8MQ MIPI CSI-2 receiver"
+-	depends on ARCH_MXC || COMPILE_TEST
+-	depends on VIDEO_DEV
+-	select MEDIA_CONTROLLER
+-	select V4L2_FWNODE
+-	select VIDEO_V4L2_SUBDEV_API
+-	help
+-	  V4L2 driver for the MIPI CSI-2 receiver found in the i.MX8MQ SoC.
+diff --git a/drivers/staging/media/imx/Makefile b/drivers/staging/media/imx/Makefile
+index 906a422aa656..b69951deff9a 100644
+--- a/drivers/staging/media/imx/Makefile
++++ b/drivers/staging/media/imx/Makefile
+@@ -13,5 +13,3 @@ obj-$(CONFIG_VIDEO_IMX_MEDIA) += imx-media-common.o
+ obj-$(CONFIG_VIDEO_IMX_CSI) += imx6-media.o
+ obj-$(CONFIG_VIDEO_IMX_CSI) += imx6-media-csi.o
+ obj-$(CONFIG_VIDEO_IMX_CSI) += imx6-mipi-csi2.o
+-
+-obj-$(CONFIG_VIDEO_IMX8MQ_MIPI_CSI2) += imx8mq-mipi-csi2.o
 -- 
-2.39.2
+2.30.2
 
