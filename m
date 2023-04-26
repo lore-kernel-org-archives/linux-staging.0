@@ -1,51 +1,45 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDE411FA7
-	for <linux-staging@lists.linux.dev>; Wed, 26 Apr 2023 12:16:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1682511401;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=N7JsSpHKRygF4heZCdYSw4B9AwIhapm0I11x8rY3w60=;
-	b=CZv2ponVg9Pw+UV9lX/utE/1ACp7njTAERfafxVoNFSMgfem6NNMoAVM61j5Fb0RqPUuoo
-	bFrzAT986WUEDu/JyIi2bl/m0WNOdTDfJCX1XEIv9+gkH3gw0xFFMq+v9jPPhE9BgVs2OU
-	m6A61bcTXel4Spdx8kBqDrb3Kq9pygI=
-Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
- [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-274-pvVSEZP4NCaJV60-Bh_Now-1; Wed, 26 Apr 2023 08:16:40 -0400
-X-MC-Unique: pvVSEZP4NCaJV60-Bh_Now-1
-Received: by mail-ej1-f69.google.com with SMTP id a640c23a62f3a-94ecfab8993so817418266b.1
-        for <linux-staging@lists.linux.dev>; Wed, 26 Apr 2023 05:16:39 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C22D2CA9
+	for <linux-staging@lists.linux.dev>; Wed, 26 Apr 2023 22:54:13 +0000 (UTC)
+Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-95227e5164dso221976366b.1
+        for <linux-staging@lists.linux.dev>; Wed, 26 Apr 2023 15:54:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1682549651; x=1685141651;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=jcdcPneC4h+EAp1/88eKvrZbB5n2MW+1FCC3sLF0pGo=;
+        b=dQC8+stSwibicT85yS4qeCq6Cxdrisph1xvLEm4kYH/54UA5VPsO5pRYOOA8oogn0o
+         6pF/yHMQNvm1+vZvEf2GYk6j0EdTXAXGt9/a60NL/GR4f/khqAzj+XGOfkMBSs3eAwBH
+         j3xc8fH27i00GzsqsqePFqfVFayu6eKRdoTS9NQ+A9DBLCR7fOSBfZHHmfCCqS1FXSa5
+         z9ZBy1AloBNASETOaQbSz49FJRNwuXoE9Noxs3AxUvnafnALncktNj7PhzvFwwGgn7QC
+         1m3cn62m1Pj6nuqQ4uIvvMISTZ7hKCMBic3/awFLCW35BDOdy2E+3l535E1tekjBHWbX
+         vbvQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1682511399; x=1685103399;
-        h=content-transfer-encoding:in-reply-to:from:references:to
-         :content-language:subject:user-agent:mime-version:date:message-id
+        d=1e100.net; s=20221208; t=1682549651; x=1685141651;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=N7JsSpHKRygF4heZCdYSw4B9AwIhapm0I11x8rY3w60=;
-        b=KyQ66+PSIC81BKLY9VKJR7eLk5wlPtq6X9tIo3M1eyx35I0uDMC8IDZaOVj734/AMe
-         3RUX3iqMNwlmbJXExh7zfrUp7/dcvfIB58mIfA6L7CH494z5QtGFbqnYwKkmbSmYVXEy
-         rgc8z6vV8+IB+PNZ+jn0o4CnvPNqIVzu8Eej9f59hr5JvQsH/law/KLIyvYRzes+xDmj
-         PRQzTxewQ+6FkAFAt9sVPpL9mAWCM8xfHUp+GwPlzt4GMnXTvc1HHDknIBAIXZ29G4Zn
-         mbb9vET3d/PrF9HOxjgWTYnZcGxfOu9rZlZ9WO0Bp1FcGjR/VrwyjR3UipKMu73xxAep
-         blfQ==
-X-Gm-Message-State: AAQBX9cfPGCraCPAEpBvDDUF+t1mhgPnQ3/QZ46tlnhR7qZDguTnmM8P
-	iyI3PqZDD4z2HbFlmBaivWpJMnaBShM7YXBOPjn9KDUkUPQGdCsyQHhMvH9zVo96g/Puv2UeRTG
-	ONmrxcWcnr/1DEowGUD36SCwIhA==
-X-Received: by 2002:a17:906:8a62:b0:94f:969e:c52b with SMTP id hy2-20020a1709068a6200b0094f969ec52bmr13910129ejc.74.1682511399044;
-        Wed, 26 Apr 2023 05:16:39 -0700 (PDT)
-X-Google-Smtp-Source: AKy350ZQCHJm7i0OVIE57JNbrh1L8v1afyTSLhVKP3rbcQGzwHLbYqyKZtimY1ZyU7Eu7k6wWilf0A==
-X-Received: by 2002:a17:906:8a62:b0:94f:969e:c52b with SMTP id hy2-20020a1709068a6200b0094f969ec52bmr13910112ejc.74.1682511398721;
-        Wed, 26 Apr 2023 05:16:38 -0700 (PDT)
-Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
-        by smtp.gmail.com with ESMTPSA id la5-20020a170906ad8500b0094e877ec197sm8293858ejb.148.2023.04.26.05.16.37
+        bh=jcdcPneC4h+EAp1/88eKvrZbB5n2MW+1FCC3sLF0pGo=;
+        b=Hf0WBCpOLvzUts8rt4bOvKUF+F8xwK4T3Jk7Jjhuzewt+NwH9lua93aNDh6YRkzhUl
+         BxW27MeLdrs5zkHJN4FtWllP+VYWM5249lXbaeBiA42JaFPwMcvlktW7r2S0EQccpRwE
+         shmpgGcDkta6+yN4JGkkfI2Nw0IxsRcpFj1uIMOblDeAHLZTcjaZIUxKPY4YGaV9nKCe
+         sai3I/kOe1LL4GnFAO9jSHPO669J9i8zPxO1ShJDmz4GsetXXgSVRogADtcgnQk/XW0H
+         idFBgUd69h30i12SDxqLN0NlmcHf7P5g++7zIv8xIsjof4Zj7R7lXZKBfXamv/FcjGNe
+         dL9w==
+X-Gm-Message-State: AC+VfDwy9C2aggK4GDx2X3dkIhwbHPshrcEFqJOy/nhykioTzBt0OKrV
+	liZihvsRj5aoS2RKiHkgDFM=
+X-Google-Smtp-Source: ACHHUZ6tJGRrWHXw1Mh4MYD1H3bs3tBriPOiZU+J6ZP6yG4qPJ3TC4QcwBhSLKqeCn6/lM1fBQRMCg==
+X-Received: by 2002:a17:906:72dc:b0:94e:d688:fca8 with SMTP id m28-20020a17090672dc00b0094ed688fca8mr295110ejl.3.1682549651282;
+        Wed, 26 Apr 2023 15:54:11 -0700 (PDT)
+Received: from [192.168.0.103] (p57935146.dip0.t-ipconnect.de. [87.147.81.70])
+        by smtp.gmail.com with ESMTPSA id h11-20020a170906828b00b0094f23480619sm8901783ejx.172.2023.04.26.15.54.10
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 26 Apr 2023 05:16:38 -0700 (PDT)
-Message-ID: <68e8825f-f0d4-4ccd-ba8d-2587b5bc34ec@redhat.com>
-Date: Wed, 26 Apr 2023 14:16:37 +0200
+        Wed, 26 Apr 2023 15:54:10 -0700 (PDT)
+Message-ID: <b61a2bc8-ce4b-3670-998d-8130d61c7f9a@gmail.com>
+Date: Thu, 27 Apr 2023 00:54:09 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -54,169 +48,131 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.10.0
-Subject: Re: [PATCH 5/5] staging: media: atomisp: sh_css_mipi: Remove #ifdef
- 2041
-To: Kate Hsuan <hpa@redhat.com>, Mauro Carvalho Chehab <mchehab@kernel.org>,
- Sakari Ailus <sakari.ailus@linux.intel.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- linux-media@vger.kernel.org, linux-staging@lists.linux.dev
-References: <20230425074841.29063-1-hpa@redhat.com>
- <20230425074841.29063-6-hpa@redhat.com>
-From: Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <20230425074841.29063-6-hpa@redhat.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US, nl
-Content-Type: text/plain; charset=UTF-8
+Subject: Re: [PATCH] staging: rtl8192e: avoid CamelCase <RATRIndex>
+To: John Grace <johnmgrace1@gmail.com>, gregkh@linuxfoundation.org
+Cc: linux-staging@lists.linux.dev
+References: <ZEcjdUR/bnln7Z1J@iris>
+Content-Language: en-US
+From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+In-Reply-To: <ZEcjdUR/bnln7Z1J@iris>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-Hi Kate,
-
-On 4/25/23 09:48, Kate Hsuan wrote:
-> The actions of ISP2401 and 2400 are determined at the runtime.
+On 4/25/23 02:48, John Grace wrote:
+> Linux kernel coding-style suggests to not use mixed-case names. Fix
+> checkpatch issue by changing the variable name from camel case to snake
+> case.
 > 
-> Signed-off-by: Kate Hsuan <hpa@redhat.com>
+> Signed-off-by: John Grace <johnmgrace1@gmail.com>
 > ---
->  .../staging/media/atomisp/pci/sh_css_mipi.c   | 101 +++++++++---------
->  1 file changed, 49 insertions(+), 52 deletions(-)
+>   drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c | 2 +-
+>   drivers/staging/rtl8192e/rtl8192e/rtl_core.c   | 4 ++--
+>   drivers/staging/rtl8192e/rtllib.h              | 2 +-
+>   drivers/staging/rtl8192e/rtllib_softmac.c      | 4 ++--
+>   drivers/staging/rtl8192e/rtllib_tx.c           | 6 +++---
+>   5 files changed, 9 insertions(+), 9 deletions(-)
 > 
-> diff --git a/drivers/staging/media/atomisp/pci/sh_css_mipi.c b/drivers/staging/media/atomisp/pci/sh_css_mipi.c
-> index bc6e8598a776..9c9d3b27ded4 100644
-> --- a/drivers/staging/media/atomisp/pci/sh_css_mipi.c
-> +++ b/drivers/staging/media/atomisp/pci/sh_css_mipi.c
+> diff --git a/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c b/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c
+> index aed53fedeb61..c612e31d1a84 100644
+> --- a/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c
+> +++ b/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c
+> @@ -1008,7 +1008,7 @@ void  rtl92e_fill_tx_desc(struct net_device *dev, struct tx_desc *pdesc,
+>   	pdesc->PktSize = skb->len - sizeof(struct tx_fwinfo_8190pci);
+>   
+>   	pdesc->SecCAMID = 0;
+> -	pdesc->RATid = cb_desc->RATRIndex;
+> +	pdesc->RATid = cb_desc->ratr_index;
+>   
+>   
+>   	pdesc->NoEnc = 1;
+> diff --git a/drivers/staging/rtl8192e/rtl8192e/rtl_core.c b/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
+> index 27040d1e3230..b58a30d68f2f 100644
+> --- a/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
+> +++ b/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
+> @@ -466,7 +466,7 @@ static void _rtl92e_prepare_beacon(struct tasklet_struct *t)
+>   	tcb_desc = (struct cb_desc *)(pnewskb->cb + 8);
+>   	tcb_desc->queue_index = BEACON_QUEUE;
+>   	tcb_desc->data_rate = 2;
+> -	tcb_desc->RATRIndex = 7;
+> +	tcb_desc->ratr_index = 7;
+>   	tcb_desc->tx_dis_rate_fallback = 1;
+>   	tcb_desc->tx_use_drv_assinged_rate = 1;
+>   	skb_push(pnewskb, priv->rtllib->tx_headroom);
+> @@ -1440,7 +1440,7 @@ static int _rtl92e_hard_start_xmit(struct sk_buff *skb, struct net_device *dev)
+>   		return 0;
+>   	}
+>   
+> -	tcb_desc->RATRIndex = 7;
+> +	tcb_desc->ratr_index = 7;
+>   	tcb_desc->tx_dis_rate_fallback = 1;
+>   	tcb_desc->tx_use_drv_assinged_rate = 1;
+>   	tcb_desc->bTxEnableFwCalcDur = 1;
+> diff --git a/drivers/staging/rtl8192e/rtllib.h b/drivers/staging/rtl8192e/rtllib.h
+> index 6e665e866f1f..d5f5ea5615fc 100644
+> --- a/drivers/staging/rtl8192e/rtllib.h
+> +++ b/drivers/staging/rtl8192e/rtllib.h
+> @@ -139,7 +139,7 @@ struct cb_desc {
+>   	u8 rata_index;
+>   	u8 queue_index;
+>   	u16 txbuf_size;
+> -	u8 RATRIndex;
+> +	u8 ratr_index;
+>   	u8 bAMSDU:1;
+>   	u8 bFromAggrQ:1;
+>   	u8 reserved6:6;
+> diff --git a/drivers/staging/rtl8192e/rtllib_softmac.c b/drivers/staging/rtl8192e/rtllib_softmac.c
+> index b9886e83a6dc..1ca77cdbafa3 100644
+> --- a/drivers/staging/rtl8192e/rtllib_softmac.c
+> +++ b/drivers/staging/rtl8192e/rtllib_softmac.c
+> @@ -219,7 +219,7 @@ inline void softmac_mgmt_xmit(struct sk_buff *skb, struct rtllib_device *ieee)
+>   		tcb_desc->queue_index = HIGH_QUEUE;
+>   
+>   	tcb_desc->data_rate = MgntQuery_MgntFrameTxRate(ieee);
+> -	tcb_desc->RATRIndex = 7;
+> +	tcb_desc->ratr_index = 7;
+>   	tcb_desc->tx_dis_rate_fallback = 1;
+>   	tcb_desc->tx_use_drv_assinged_rate = 1;
+>   	if (single) {
+> @@ -297,7 +297,7 @@ softmac_ps_mgmt_xmit(struct sk_buff *skb,
+>   
+>   
+>   	tcb_desc->data_rate = MgntQuery_MgntFrameTxRate(ieee);
+> -	tcb_desc->RATRIndex = 7;
+> +	tcb_desc->ratr_index = 7;
+>   	tcb_desc->tx_dis_rate_fallback = 1;
+>   	tcb_desc->tx_use_drv_assinged_rate = 1;
+>   	if (single) {
+> diff --git a/drivers/staging/rtl8192e/rtllib_tx.c b/drivers/staging/rtl8192e/rtllib_tx.c
+> index 9ab8ee46ef66..54119fba8a57 100644
+> --- a/drivers/staging/rtl8192e/rtllib_tx.c
+> +++ b/drivers/staging/rtl8192e/rtllib_tx.c
+> @@ -486,7 +486,7 @@ static void rtllib_txrate_selectmode(struct rtllib_device *ieee,
+>   	    !tcb_desc->tx_use_drv_assinged_rate) {
+>   		if (ieee->iw_mode == IW_MODE_INFRA ||
+>   		    ieee->iw_mode == IW_MODE_ADHOC)
+> -			tcb_desc->RATRIndex = 0;
+> +			tcb_desc->ratr_index = 0;
+>   	}
+>   }
+>   
+> @@ -892,7 +892,7 @@ static int rtllib_xmit_inter(struct sk_buff *skb, struct net_device *dev)
+>   				tcb_desc->tx_dis_rate_fallback = 1;
+>   			}
+>   
+> -			tcb_desc->RATRIndex = 7;
+> +			tcb_desc->ratr_index = 7;
+>   			tcb_desc->tx_use_drv_assinged_rate = 1;
+>   		} else {
+>   			if (is_multicast_ether_addr(header.addr1))
+> @@ -916,7 +916,7 @@ static int rtllib_xmit_inter(struct sk_buff *skb, struct net_device *dev)
+>   					tcb_desc->tx_dis_rate_fallback = 1;
+>   				}
+>   
+> -				tcb_desc->RATRIndex = 7;
+> +				tcb_desc->ratr_index = 7;
+>   				tcb_desc->tx_use_drv_assinged_rate = 1;
+>   				tcb_desc->bdhcp = 1;
+>   			}
 
-<snip>
-
-> @@ -363,15 +360,15 @@ allocate_mipi_frames(struct ia_css_pipe *pipe,
->  		return -EINVAL;
->  	}
->  
-> -#ifdef ISP2401
-> -	if (pipe->stream->config.online) {
-> -		ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE,
-> -				    "allocate_mipi_frames(%p) exit: no buffers needed for 2401 pipe mode.\n",
-> -				    pipe);
-> -		return 0;
-> +	if (IS_ISP2401) {
-> +		if (pipe->stream->config.online) {
-> +			ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE,
-> +					    "allocate_mipi_frames(%p) exit: no buffers needed for 2401 pipe mode.\n",
-> +					    pipe);
-> +			return 0;
-> +		}
->  	}
->  
-> -#endif
->  	if (pipe->stream->config.mode != IA_CSS_INPUT_MODE_BUFFERED_SENSOR) {
->  		ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE,
->  				    "allocate_mipi_frames(%p) exit: no buffers needed for pipe mode.\n",
-
-Please combine the 2 conditions with && instead of using nested if-s:
-
-	if (IS_ISP2401 && pipe->stream->config.online) {
-		ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE,
-				    "allocate_mipi_frames(%p) exit: no buffers needed for 2401 pipe mode.\n",
-				    pipe);
-		return 0;
-	}
-
-
-> @@ -386,30 +383,30 @@ allocate_mipi_frames(struct ia_css_pipe *pipe,
->  		return -EINVAL;
->  	}
->  
-> -#ifdef ISP2401
-> -	err = calculate_mipi_buff_size(&pipe->stream->config,
-> -				       &my_css.mipi_frame_size[port]);
-> -	/*
-> -	 * 2401 system allows multiple streams to use same physical port. This is not
-> -	 * true for 2400 system. Currently 2401 uses MIPI buffers as a temporary solution.
-> -	 * TODO AM: Once that is changed (removed) this code should be removed as well.
-> -	 * In that case only 2400 related code should remain.
-> -	 */
-> -	if (ref_count_mipi_allocation[port] != 0) {
-> -		ref_count_mipi_allocation[port]++;
-> -		ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE,
-> -				    "allocate_mipi_frames(%p) leave: nothing to do, already allocated for this port (port=%d).\n",
-> -				    pipe, port);
-> -		return 0;
-> -	}
-> -#else
-> -	if (ref_count_mipi_allocation[port] != 0) {
-> -		ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE,
-> -				    "allocate_mipi_frames(%p) exit: already allocated for this port (port=%d).\n",
-> -				    pipe, port);
-> -		return 0;
-> +	if (IS_ISP2401) {
-> +		err = calculate_mipi_buff_size(&pipe->stream->config,
-> +					       &my_css.mipi_frame_size[port]);
-> +		/*
-> +		 * 2401 system allows multiple streams to use same physical port. This is not
-> +		 * true for 2400 system. Currently 2401 uses MIPI buffers as a temporary solution.
-> +		 * TODO AM: Once that is changed (removed) this code should be removed as well.
-> +		 * In that case only 2400 related code should remain.
-> +		 */
-> +		if (ref_count_mipi_allocation[port] != 0) {
-> +			ref_count_mipi_allocation[port]++;
-> +			ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE,
-> +					    "allocate_mipi_frames(%p) leave: nothing to do, already allocated for this port (port=%d).\n",
-> +					    pipe, port);
-> +			return 0;
-> +		}
-> +	} else {
-> +		if (ref_count_mipi_allocation[port] != 0) {
-> +			ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE,
-> +					    "allocate_mipi_frames(%p) exit: already allocated for this port (port=%d).\n",
-> +					    pipe, port);
-> +			return 0;
-> +		}
->  	}
-> -#endif
-
-The "if (ref_count_mipi_allocation[port] != 0) { log-message; return 0; }"
-block is shared between the ISP2400 and ISP2401. Except for one debug log
-message using "leave" and the other using "exit" these 2 blocks are 100%
-the same, so please pick one of the 2 log messages and move this block
-out of the if (IS_ISP2401) {} block (and drop the else branch).
-
-> @@ -534,18 +531,18 @@ free_mipi_frames(struct ia_css_pipe *pipe)
->  				ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE,
->  						    "free_mipi_frames(%p) exit (deallocated).\n", pipe);
->  			}
-> -#if defined(ISP2401)
->  			else {
-> -				/* 2401 system allows multiple streams to use same physical port. This is not
-> -				 * true for 2400 system. Currently 2401 uses MIPI buffers as a temporary solution.
-> -				 * TODO AM: Once that is changed (removed) this code should be removed as well.
-> -				 * In that case only 2400 related code should remain.
-> -				 */
-> -				ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE,
-> -						    "free_mipi_frames(%p) leave: nothing to do, other streams still use this port (port=%d).\n",
-> -						    pipe, port);
-> +				if (IS_ISP2401) {
-> +					/* 2401 system allows multiple streams to use same physical port. This is not
-> +					 * true for 2400 system. Currently 2401 uses MIPI buffers as a temporary solution.
-> +					 * TODO AM: Once that is changed (removed) this code should be removed as well.
-> +					 * In that case only 2400 related code should remain.
-> +					 */
-> +					ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE,
-> +							    "free_mipi_frames(%p) leave: nothing to do, other streams still use this port (port=%d).\n",
-> +							    pipe, port);
-> +				}
->  			}
-> -#endif
->  		}
->  	} else { /* pipe ==NULL */
->  		/* AM TEMP: free-ing all mipi buffers just like a legacy code. */
-
-Hmm maybe just drop the entire ia_css_debug_dtrace() call here
-instead of replace the #ifdef with if (IS_ISP2401) { } ?
-
-I don't see much value in the ia_css_debug_dtrace() call, so to
-me just dropping it seems best.
-
-Regards,
-
-Hans
-
+Tested-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
 
