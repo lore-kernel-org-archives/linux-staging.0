@@ -1,53 +1,90 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from lahtoruutu.iki.fi (lahtoruutu.iki.fi [185.185.170.37])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18878C2CB
-	for <linux-staging@lists.linux.dev>; Thu, 27 Apr 2023 19:20:06 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id B4974C4339B;
-	Thu, 27 Apr 2023 19:20:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1682623206;
-	bh=sS4bUyfgg8PGDGHCj1u7YHlEQYWpHacmL+PeSq65mvw=;
-	h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
-	b=URUzk60G6uDx3evCVXLK1A8jyxpi946MWQPgYm66vwFBAyCdu0VprSeab5RgQs8yE
-	 ujXKIUZt6Cs9hMj83v3GrY0nYmQGyVfX9to1l2H8pGFhGV+Llpht1UuLIFAEPxWrHs
-	 /ayadE0NuOrj5zZ7Dk6ocJnjLp8n+neYRdc7JMekRmBg6A5GgzhhF8tdUXQI83kAkw
-	 yXYnIb44vq57yU6ApNYDEPUoYt0iYZZsAkXUPcwDwQmOFCEZMIvb3miUrgjl5mzGhs
-	 Sjd0tXXwS1p17pNswbch09JrCdwJqBXhuwZiBzH7YApoqHcm/xAE0g5VZHr1zNMUUS
-	 tTp4pt/bfb5IQ==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id A1A55E5FFC8;
-	Thu, 27 Apr 2023 19:20:06 +0000 (UTC)
-Subject: Re: [GIT PULL] Staging driver updates for 6.4-rc1
-From: pr-tracker-bot@kernel.org
-In-Reply-To: <ZEqEqsEJZZEQSzLl@kroah.com>
-References: <ZEqEqsEJZZEQSzLl@kroah.com>
-X-PR-Tracked-List-Id: <linux-staging.lists.linux.dev>
-X-PR-Tracked-Message-Id: <ZEqEqsEJZZEQSzLl@kroah.com>
-X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git tags/staging-6.4-rc1
-X-PR-Tracked-Commit-Id: 3fac2397f562eb669ddc2f45867a253f3fc26184
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: 97b2ff294381d05e59294a931c4db55276470cb5
-Message-Id: <168262320665.21394.7244420994513669206.pr-tracker-bot@kernel.org>
-Date: Thu, 27 Apr 2023 19:20:06 +0000
-To: Greg KH <gregkh@linuxfoundation.org>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>, Andrew Morton <akpm@linux-foundation.org>, Stephen Rothwell <sfr@canb.auug.org.au>, linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B52B8827
+	for <linux-staging@lists.linux.dev>; Thu, 27 Apr 2023 21:24:31 +0000 (UTC)
+Received: from meesny.iki.fi (meesny.iki.fi [IPv6:2001:67c:2b0:1c1::201])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by lahtoruutu.iki.fi (Postfix) with ESMTPS id 4Q6pSl4NrBz49Q1Y
+	for <linux-staging@lists.linux.dev>; Fri, 28 Apr 2023 00:16:23 +0300 (EEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu;
+	t=1682630183;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:mime-version:mime-version:content-type:content-type;
+	bh=I/n3uS94co8BNPTwp6zmfk8PIZTBgMaZTOtf11T/5us=;
+	b=pIx8tgDjJGRZSuh31z8w9yqFXVDSNmn1XkE7xrf+dadFgwZLSVNBkHO2mpTPU+korszHnj
+	1tt1S5rZlyqGG/EMyC10qErilQzCsKvXEhShfsECkN7aLfKMPoDzduogvToJbFjW88KmuU
+	oUXGNOp5bkuuRnHMzZ1a3JDNa4xJYOFgTdv1vaHXTi6+Pd5sTZCGz0AOXKTr5KA7dE3Tws
+	gKs6Cg5/tmJHAX+MSVXAHbslXOC26deMX4DgAdktnF9yYsyqX8oHWeCYjhoXHlaaMi2+Yx
+	+ygZZ944eCI6UcUjpJGt6kcOL15cYbADFviln5FHQxEgut2z/byrjKrKdNJNIQ==
+Received: from darkstar.musicnaut.iki.fi (85-76-14-243-nat.elisa-mobile.fi [85.76.14.243])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: aaro.koskinen)
+	by meesny.iki.fi (Postfix) with ESMTPSA id 4Q6pSS28BLzyXq;
+	Fri, 28 Apr 2023 00:16:07 +0300 (EEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=meesny;
+	t=1682630174;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:mime-version:mime-version:content-type:content-type;
+	bh=I/n3uS94co8BNPTwp6zmfk8PIZTBgMaZTOtf11T/5us=;
+	b=PpR61pCBkbTem5N/A1chGIBVAuoMOs0QZSwh2QzF6L6wXtKhWrrpwqv9UHIA2rXPLRxuT2
+	aPkCptI6M0btcVOf2lnQRvmTvYbVtY8ALCA4Dt17N2VH2CMkSnPdp6cxlrj2uckmlECDGB
+	6tvxr3fgCbjwVElWvDp7RFAQaP78Uuc=
+ARC-Seal: i=1; s=meesny; d=iki.fi; t=1682630174; a=rsa-sha256; cv=none;
+	b=yUHcnHt/o5aWrRRxoMkHkqBgSNPW8PAIaKUZzGy0l3itqunIElD5JNqsn3ie/XjLNDrqgQ
+	pW0ygg9qQODhH6sokXHtBFgoFLKhy3cX0tnuP+AeGHQy+DvQ0rlVmNhBssYawUCQHEd3Pc
+	tgSftJ6/WvgKTF3djXj6keK7DMFZ29M=
+ARC-Authentication-Results: i=1;
+	ORIGINATING;
+	auth=pass smtp.auth=aaro.koskinen smtp.mailfrom=aaro.koskinen@iki.fi
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
+	s=meesny; t=1682630174;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:mime-version:mime-version:content-type:content-type;
+	bh=I/n3uS94co8BNPTwp6zmfk8PIZTBgMaZTOtf11T/5us=;
+	b=M0blky4OjUv13t8VaotolpeotVWDa+pNTY+mTI21wiWuSGdQ162DbwWEdTMu3hASuOZzJr
+	aHJ/eL8Vyb8G9GrZpdtLx/kcZRJGxxNJIRuZfY/yFCz0ljqzDIYgAsAaoCEMuDFvkWZyeV
+	2j4c+S1hfYKc5ctLC+t3ZTI3c51aUv0=
+Date: Fri, 28 Apr 2023 00:16:06 +0300
+From: Aaro Koskinen <aaro.koskinen@iki.fi>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Chris Packham <chris.packham@alliedtelesis.co.nz>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: [PATCH] staging: octeon: delete my name from TODO contact
+Message-ID: <20230427211606.GD881984@darkstar.musicnaut.iki.fi>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-The pull request you sent on Thu, 27 Apr 2023 16:20:26 +0200:
+I gave up using MIPS OCTEON hardware after the drivers were deleted from
+staging in 2019. Afterwards, the driver seems to be added back but the TODO
+contact name was not updated accordingly. Delete my name, as I still get
+mails from people asking help with the driver and their systems.
 
-> git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git tags/staging-6.4-rc1
+Fixes: 422d97b8b05e ("Revert "staging: octeon: delete driver"")
+Signed-off-by: Aaro Koskinen <aaro.koskinen@iki.fi>
+---
+ drivers/staging/octeon/TODO | 1 -
+ 1 file changed, 1 deletion(-)
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/97b2ff294381d05e59294a931c4db55276470cb5
-
-Thank you!
-
+diff --git a/drivers/staging/octeon/TODO b/drivers/staging/octeon/TODO
+index 67a0a1f6b922..044e48e3d65f 100644
+--- a/drivers/staging/octeon/TODO
++++ b/drivers/staging/octeon/TODO
+@@ -6,4 +6,3 @@ TODO:
+ 	- make driver self-contained instead of being split between staging and
+ 	  arch/mips/cavium-octeon.
+ 
+-Contact: Aaro Koskinen <aaro.koskinen@iki.fi>
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/prtracker.html
+2.39.2
+
