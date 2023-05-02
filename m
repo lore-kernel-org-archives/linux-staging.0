@@ -1,30 +1,30 @@
 Received: from mail.sudeaseg.gob.ve (mail.sudeaseg.gob.ve [190.202.88.12])
-	by smtp.subspace.kernel.org (Postfix) with SMTP id 134FD64E
-	for <linux-staging@lists.linux.dev>; Mon,  1 May 2023 07:17:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E82491396
+	for <linux-staging@lists.linux.dev>; Tue,  2 May 2023 12:19:32 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by mail.sudeaseg.gob.ve (Postfix) with ESMTP id 793CC38287C1
-	for <linux-staging@lists.linux.dev>; Mon,  1 May 2023 07:10:20 +0000 (UTC)
+	by mail.sudeaseg.gob.ve (Postfix) with ESMTP id C86823820FB6
+	for <linux-staging@lists.linux.dev>; Tue,  2 May 2023 12:17:38 +0000 (UTC)
 Received: from mail.sudeaseg.gob.ve ([127.0.0.1])
 	by localhost (mail.sudeaseg.gob.ve [127.0.0.1]) (amavisd-new, port 10032)
-	with ESMTP id r6M3mPGkjYDE for <linux-staging@lists.linux.dev>;
-	Mon,  1 May 2023 07:10:20 +0000 (UTC)
+	with ESMTP id Cyua3GLfInUI for <linux-staging@lists.linux.dev>;
+	Tue,  2 May 2023 12:17:38 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by mail.sudeaseg.gob.ve (Postfix) with ESMTP id 484CF38287BC
-	for <linux-staging@lists.linux.dev>; Mon,  1 May 2023 07:10:20 +0000 (UTC)
+	by mail.sudeaseg.gob.ve (Postfix) with ESMTP id 847743820EEF
+	for <linux-staging@lists.linux.dev>; Tue,  2 May 2023 12:17:38 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at mail.sudeaseg.gob.ve
 Received: from mail.sudeaseg.gob.ve ([127.0.0.1])
 	by localhost (mail.sudeaseg.gob.ve [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id cez_WlqsLSct for <linux-staging@lists.linux.dev>;
-	Mon,  1 May 2023 07:10:20 +0000 (UTC)
+	with ESMTP id Gl3wfAdp3Z3p for <linux-staging@lists.linux.dev>;
+	Tue,  2 May 2023 12:17:38 +0000 (UTC)
 Received: from danielstores.co.uk (ip138.ip-51-254-149.eu [51.254.149.138])
-	by mail.sudeaseg.gob.ve (Postfix) with ESMTPSA id B3B3938287C2
-	for <linux-staging@lists.linux.dev>; Mon,  1 May 2023 07:10:19 +0000 (UTC)
+	by mail.sudeaseg.gob.ve (Postfix) with ESMTPSA id F21E73820CF6
+	for <linux-staging@lists.linux.dev>; Tue,  2 May 2023 12:17:37 +0000 (UTC)
 Reply-To: albert.derek@danielstoresgroup.com, albert.derekdanielcoltd@gmail.com
-From: W.J Daniel & Co Ltd <a.derek8@danielstores.co.uk>
+From: W.J Daniel & Co Ltd <a.derek44@danielstores.co.uk>
 To: linux-staging@lists.linux.dev
-Subject: Pr Order Enquiry 2023
-Date: 01 May 2023 00:12:02 -0700
-Message-ID: <20230430125612.CF1503E2049DE9F5@danielstores.co.uk>
+Subject: Pr Order Enquiry 5/2/2023
+Date: 02 May 2023 05:19:22 -0700
+Message-ID: <20230502001640.A079B469E18D2166@danielstores.co.uk>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
