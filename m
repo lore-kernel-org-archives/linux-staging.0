@@ -1,157 +1,234 @@
-Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 475577E
-	for <linux-staging@lists.linux.dev>; Tue,  2 May 2023 14:10:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
-  t=1683036616; x=1714572616;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=Po284pkusD+oh26TkRbRThDBdVYfcNJXuLPkM5pnIbQ=;
-  b=o/yGpWsyl+6ywsmYaKf7RVK0eGgYUvIY8wOzsPDfXDgVpDFhUXiF/58d
-   PGfK7H0ol9e6GWx5JryeO2K3OBhY94qaGLpjdD/4vSnZYrBklrXCw68qf
-   uGss19LZ9hKeuqtTkY0xj309S0rp4X7C8cBz2rBgS7w9ejyduoymkcnif
-   lZLy1VFsITGAcEakhqeKiztyz1qImp/VkBd8LG0AltrkP9Q8C25lG9pY8
-   RW8Hw1lDt2U+rFz6BpT6lOLUPJZkAv7415TyEkHjEjhUNb3eZZX0D6Nci
-   JHbrI70fnkjpRQAnIY/ewnWgjki+Ts7bgS2ix56esVT3m6rlpbjR48Vz9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13F3CFBF0;
+	Wed,  3 May 2023 22:16:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1683152199; x=1714688199;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=U2RkwWDWwvP3/HeZFRjgqWJRs2v9sGGHsRUT5S3DVmk=;
+  b=a16QoXMn1GIzuYGY/Bg+8eIai+9zeYQnzNMW5EciTKv4fUhCaqnDVaL3
+   gMUVR1Bn/CIET2iEHqQ8zEvujrSxhumiInXpELkz32ATioVx0mYZnTgUo
+   Mn7k4FOVXO5pj8fjTHTsc4VKQisyaMX6xT5Dxi++dpOgUu5pcVjp1rjI3
+   vxwKIgxZwRNyGn5CjMNQ6Zz9I/16TKXAlS4gLG5AtMmM//0Lyi8ti5IOr
+   3vkMZHt01hBB+yKUDQRB8PQhxGMtDmp0HD6g06kIQTVv0HfnrIUA3zV+I
+   Kihgj+zGgir/5M7vliOb+pLpXyGaghbt5HpCQuEQXeBWCcp8F0s2uOVdi
    g==;
-X-IronPort-AV: E=Sophos;i="5.99,244,1677538800"; 
-   d="scan'208";a="30671759"
-Received: from unknown (HELO tq-pgp-pr1.tq-net.de) ([192.168.6.15])
-  by mx1-pgp.tq-group.com with ESMTP; 02 May 2023 16:09:04 +0200
-Received: from mx1.tq-group.com ([192.168.6.7])
-  by tq-pgp-pr1.tq-net.de (PGP Universal service);
-  Tue, 02 May 2023 16:09:04 +0200
-X-PGP-Universal: processed;
-	by tq-pgp-pr1.tq-net.de on Tue, 02 May 2023 16:09:04 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
-  t=1683036544; x=1714572544;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=Po284pkusD+oh26TkRbRThDBdVYfcNJXuLPkM5pnIbQ=;
-  b=RFeGnDP4JGZChE7tW5kzhNXyqsTOVV3k92MZYySGSdHER9ETTrU0Pklf
-   RjlEhujqB1r6a2jv2Ej06vX8hxPT/9nyh6b74s7/5ShbP5Md1gapsvSwg
-   1h52TnmC+qHhXVP+nsyaP6a7/u5yKqxTlXlKTI8JVONAbMExQbarqzuLe
-   yfclzyMdzLiXLoJ9IoVRA4dwCXkQxudQQ0KZx4dCqb9a4p/KFjpzldQok
-   I9lpcQV4LMQ9Sf6blhXVs4vU+aYwGPQfkSTtb0XLcb6nSiqCXQesOeCRw
-   ltPpnHVk6XgMgFKIsm7HjoThW6I/+GLTmrZmCorFhfoP3HGUFq7+7MqlF
-   w==;
-X-IronPort-AV: E=Sophos;i="5.99,244,1677538800"; 
-   d="scan'208";a="30671758"
-Received: from vtuxmail01.tq-net.de ([10.115.0.20])
-  by mx1.tq-group.com with ESMTP; 02 May 2023 16:09:04 +0200
-Received: from steina-w.tq-net.de (unknown [10.123.53.21])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
-	(No client certificate requested)
-	by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id 1DB3F280056;
-	Tue,  2 May 2023 16:09:04 +0200 (CEST)
-From: Alexander Stein <alexander.stein@ew.tq-group.com>
-To: Steve Longerbeam <slongerbeam@gmail.com>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>
-Cc: Alexander Stein <alexander.stein@ew.tq-group.com>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	NXP Linux Team <linux-imx@nxp.com>,
-	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org
-Subject: [PATCH 1/1] media: staging: media: imx6-mipi-csi2: Add log_status core callback
-Date: Tue,  2 May 2023 16:09:02 +0200
-Message-Id: <20230502140902.2324813-1-alexander.stein@ew.tq-group.com>
-X-Mailer: git-send-email 2.34.1
+X-IronPort-AV: E=McAfee;i="6600,9927,10699"; a="376844632"
+X-IronPort-AV: E=Sophos;i="5.99,248,1677571200"; 
+   d="scan'208";a="376844632"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 May 2023 15:16:23 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10699"; a="786266224"
+X-IronPort-AV: E=Sophos;i="5.99,248,1677571200"; 
+   d="scan'208";a="786266224"
+Received: from aschofie-mobl2.amr.corp.intel.com (HELO aschofie-mobl2) ([10.212.181.38])
+  by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 May 2023 15:16:22 -0700
+Date: Wed, 3 May 2023 15:16:20 -0700
+From: Alison Schofield <alison.schofield@intel.com>
+To: Khadija Kamran <kamrankhadijadj@gmail.com>
+Cc: Dan Carpenter <error27@gmail.com>, outreachy@lists.linux.dev,
+	hvaibhav.linux@gmail.com, johan@kernel.org, elder@kernel.org,
+	gregkh@linuxfoundation.org, greybus-dev@lists.linaro.org,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 2/2] staging: greybus: refactor arche_platform_wd_irq()
+Message-ID: <ZFLdNKJUo3RMbwiU@aschofie-mobl2>
+References: <cover.1680185025.git.kamrankhadijadj@gmail.com>
+ <96d04a4ff3d4a46293355f5afae3a8ece65f2c5b.1680185025.git.kamrankhadijadj@gmail.com>
+ <6ce8aa34-e600-4d6a-adad-ead8255342e5@kili.mountain>
+ <ZChs5jB7DMCUnVzr@khadija-virtual-machine>
+ <9688d93f-5ece-4799-898d-98515a98f9be@kili.mountain>
+ <ZEoV5/S3owfPVil7@khadija-virtual-machine>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ZEoV5/S3owfPVil7@khadija-virtual-machine>
 
-This prints all register values.
+On Thu, Apr 27, 2023 at 11:27:51AM +0500, Khadija Kamran wrote:
+> On Mon, Apr 03, 2023 at 07:29:36AM +0300, Dan Carpenter wrote:
+> > On Sat, Apr 01, 2023 at 10:41:58PM +0500, Khadija Kamran wrote:
+> > > On Thu, Mar 30, 2023 at 06:23:19PM +0300, Dan Carpenter wrote:
+> > > > On Thu, Mar 30, 2023 at 07:11:25PM +0500, Khadija Kamran wrote:
+> > > > > Linux kernel coding-style suggests to fix your program if it needs more
+> > > > > than 3 levels of indentation. Due to indentation, line length also
+> > > > > exceeds 100 columns, resulting in issues reported by checkpatch.
+> > > > > 
+> > > > > Refactor the arche_platform_wd_irq() function and reduce the indentation
+> > > > > with the help of goto statement.
+> > > > > 
+> > > > > Suggested-by: Alison Schofield <alison.schofield@intel.com>
+> > > > > Signed-off-by: Khadija Kamran <kamrankhadijadj@gmail.com>
+> > > > > ---
+> > > > >  drivers/staging/greybus/arche-platform.c | 79 ++++++++++++------------
+> > > > >  1 file changed, 41 insertions(+), 38 deletions(-)
+> > > > > 
+> > > > > diff --git a/drivers/staging/greybus/arche-platform.c b/drivers/staging/greybus/arche-platform.c
+> > > > > index a64c1af091b0..dde30c8da1a1 100644
+> > > > > --- a/drivers/staging/greybus/arche-platform.c
+> > > > > +++ b/drivers/staging/greybus/arche-platform.c
+> > > > > @@ -158,49 +158,52 @@ static irqreturn_t arche_platform_wd_irq(int irq, void *devid)
+> > > > >  
+> > > > >  	spin_lock_irqsave(&arche_pdata->wake_lock, flags);
+> > > > >  
+> > > > > -	if (gpiod_get_value(arche_pdata->wake_detect)) {
+> > > > > -		/* wake/detect rising */
+> > > > > +	if (!gpiod_get_value(arche_pdata->wake_detect))
+> > > > > +		goto falling;
+> > > > >  
+> > > > > +	/* wake/detect rising */
+> > > > > +
+> > > > > +	/*
+> > > > > +	 * If wake/detect line goes high after low, within less than
+> > > > > +	 * 30msec, then standby boot sequence is initiated, which is not
+> > > > > +	 * supported/implemented as of now. So ignore it.
+> > > > > +	 */
+> > > > > +	if (arche_pdata->wake_detect_state != WD_STATE_BOOT_INIT)
+> > > > > +		goto out;
+> > > > 
+> > > > This checks that we are in WD_STATE_BOOT_INIT state.
+> > > > 
+> > > > > +
+> > > > > +	if (time_before(jiffies,
+> > > > > +			arche_pdata->wake_detect_start +
+> > > > > +			msecs_to_jiffies(WD_COLDBOOT_PULSE_WIDTH_MS))) {
+> > > > > +		arche_platform_set_wake_detect_state(arche_pdata,
+> > > > > +						     WD_STATE_IDLE);
+> > > > > +		got out;
+> > > > > +	}
+> > > > > +
+> > > > > +	/* Check we are not in middle of irq thread already */
+> > > > > +	if (arche_pdata->wake_detect_state !=
+> > > > > +			WD_STATE_COLDBOOT_START) {
+> > > > 
+> > > > This checks that we are not in WD_STATE_COLDBOOT_START state.  How are
+> > > > we going to be in COLDBOOT if we are in INIT?  Is this changing in the
+> > > > background?  Can this check be removed?  This might be took tricky to
+> > > > answer but it's important that we understand this before we continue.
+> > > > 
+> > > > 
+> > > > > +		arche_platform_set_wake_detect_state(arche_pdata,
+> > > > > +						     WD_STATE_COLDBOOT_TRIG);
+> > > > > +		rc = IRQ_WAKE_THREAD;
+> > > > > +		goto out;
+> > > > > +	}
+> > > > 
+> > > > Let's assume the above check cannot be removed.
+> > > > 
+> > > > In the original code if gpiod_get_value(arche_pdata->wake_detect)
+> > > > returned true and arche_pdata->wake_detect_state == WD_STATE_IDLE then
+> > > > it just returned without doing anything, but now we fall through to the
+> > > > falling: label below.
+> > 
+> > Let me show you in the original code:
+> > 
+> > STEP 1:	if (gpiod_get_value(arche_pdata->wake_detect)) {
+> > 
+> > Assume this condition is true.
+> > 
+> > STEP 2:		if (arche_pdata->wake_detect_state == WD_STATE_BOOT_INIT) {
+> > 
+> > Assume this condition is true.
+> > 
+> > STEP 3:		if (time_before(jiffies, ...)
+> > 
+> > Assume that time is up.
+> > 
+> > STEP 4:			if (arche_pdata->wake_detect_state !=
+> > 					WD_STATE_COLDBOOT_START) {
+> > 
+> > Assume that it is equal.  We are done.  return IRQ_HANDLED;
+> > 
+> > Now in the new code:
+> > 
+> > STEP 1:	if (!gpiod_get_value(arche_pdata->wake_detect))
+> > 		goto falling;
+> > 
+> > Assume we don't goto falling.
+> > 
+> > STEP 2:	if (arche_pdata->wake_detect_state != WD_STATE_BOOT_INIT)
+> > 
+> > Assume that it == WD_STATE_BOOT_INIT.
+> > 
+> > STEP 3:	if (time_before(jiffies, ...)
+> > 
+> > Assume that time is up.
+> > 
+> > STEP 4:	if (arche_pdata->wake_detect_state != WD_STATE_COLDBOOT_START) {
+> > 
+> > Assume that it is equal.  Before, in the old code it would return
+> > return IRQ_HANDLED; at this point.  But now it does:
+> > 
+> > STEP 5:	if (arche_pdata->wake_detect_state == WD_STATE_IDLE) {
+> > 
+> > Which seems like it's a contradictory condition with STEP 4 so it's
+> > probably impossible.  But on the other hand, we have already checked
+> > contradictory conditions between STEP 2 and STEP 4 so who knows what's
+> > going on?
+> 
+> 
+> Hey Dan!
+> 
+> Sorry about the delay in the reply. I want to continue working on the
+> completion of this thread. 
+> 
+> Thank you for the above steps, they clearly explain the problem you
+> addressed in the new code. Can't this problem be resolved by "goto out;"
+> right above the 'falling:' label?
+> 
+> I'm copy pasting your mail here,
+> 
+> On Mon, Apr 03, 2023 at 07:29:36AM +0300, Dan Carpenter wrote:
+> > > > This checks that we are not in WD_STATE_COLDBOOT_START state.  How are
+> > > > we going to be in COLDBOOT if we are in INIT?  Is this changing in the
+> > > > background?  Can this check be removed?
+> 
+> > It turned out the answer was yes, it can be removed.
+> 
+> > > Also if stuff is changing in the background and there is no way the
+> > > locking is correct.
+> 
+> > The locking is correct.  Take a look at it.
+> 
+> > We are holding the &arche_pdata->wake_lock in arche_platform_wd_irq()
+> > and every place that calls arche_platform_set_wake_detect_state() takes
+> > that lock first.  So it can't change in the background.
+> 
+> > Delete the check like so.
+> 
+> If we delete the check then the indentation problem would be
+> automatically addressed. Also, there would be a single exit path to the
+> function. Should I send a patch or is there anything else that should be
+> addressed. 
 
-Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
----
-This might help when trying to figure if capturing does not work.
+Hi Khadija,
 
- drivers/staging/media/imx/imx6-mipi-csi2.c | 45 ++++++++++++++++++++++
- 1 file changed, 45 insertions(+)
+Thanks for picking this up again. I suggest posting an updated version
+and let folks take a look at it again. It's a bit stale in my mind now,
+but I'm happy to iterate on it with you further.
 
-diff --git a/drivers/staging/media/imx/imx6-mipi-csi2.c b/drivers/staging/media/imx/imx6-mipi-csi2.c
-index c07994ea6e96..ab565b4e29ec 100644
---- a/drivers/staging/media/imx/imx6-mipi-csi2.c
-+++ b/drivers/staging/media/imx/imx6-mipi-csi2.c
-@@ -12,6 +12,7 @@
- #include <linux/module.h>
- #include <linux/of_graph.h>
- #include <linux/platform_device.h>
-+#include <media/v4l2-common.h>
- #include <media/v4l2-device.h>
- #include <media/v4l2-fwnode.h>
- #include <media/v4l2-mc.h>
-@@ -564,6 +565,49 @@ static int csi2_registered(struct v4l2_subdev *sd)
- 				      V4L2_FIELD_NONE, NULL);
- }
- 
-+/* --------------- CORE OPS --------------- */
-+
-+static int csi2_log_status(struct v4l2_subdev *sd)
-+{
-+	struct csi2_dev *csi2 = sd_to_dev(sd);
-+
-+	v4l2_info(sd, "-----MIPI CSI status-----\n");
-+	v4l2_info(sd, "VERSION: 0x%x\n",
-+		  readl(csi2->base + CSI2_VERSION));
-+	v4l2_info(sd, "N_LANES: 0x%x\n",
-+		  readl(csi2->base + CSI2_N_LANES));
-+	v4l2_info(sd, "PHY_SHUTDOWNZ: 0x%x\n",
-+		  readl(csi2->base + CSI2_PHY_SHUTDOWNZ));
-+	v4l2_info(sd, "DPHY_RSTZ: 0x%x\n",
-+		  readl(csi2->base + CSI2_DPHY_RSTZ));
-+	v4l2_info(sd, "RESETN: 0x%x\n",
-+		  readl(csi2->base + CSI2_RESETN));
-+	v4l2_info(sd, "PHY_STATE: 0x%x\n",
-+		  readl(csi2->base + CSI2_PHY_STATE));
-+	v4l2_info(sd, "DATA_IDS_1: 0x%x\n",
-+		  readl(csi2->base + CSI2_DATA_IDS_1));
-+	v4l2_info(sd, "DATA_IDS_2: 0x%x\n",
-+		  readl(csi2->base + CSI2_DATA_IDS_2));
-+	v4l2_info(sd, "ERR1: 0x%x\n",
-+		  readl(csi2->base + CSI2_ERR1));
-+	v4l2_info(sd, "ERR2: 0x%x\n",
-+		  readl(csi2->base + CSI2_ERR2));
-+	v4l2_info(sd, "MSK1: 0x%x\n",
-+		  readl(csi2->base + CSI2_MSK1));
-+	v4l2_info(sd, "MSK2: 0x%x\n",
-+		  readl(csi2->base + CSI2_MSK2));
-+	v4l2_info(sd, "PHY_TST_CTRL0: 0x%x\n",
-+		  readl(csi2->base + CSI2_PHY_TST_CTRL0));
-+	v4l2_info(sd, "PHY_TST_CTRL1: 0x%x\n",
-+		  readl(csi2->base + CSI2_PHY_TST_CTRL1));
-+
-+	return 0;
-+}
-+
-+static const struct v4l2_subdev_core_ops csi2_core_ops = {
-+	.log_status = csi2_log_status,
-+};
-+
- static const struct media_entity_operations csi2_entity_ops = {
- 	.link_setup = csi2_link_setup,
- 	.link_validate = v4l2_subdev_link_validate,
-@@ -581,6 +625,7 @@ static const struct v4l2_subdev_pad_ops csi2_pad_ops = {
- };
- 
- static const struct v4l2_subdev_ops csi2_subdev_ops = {
-+	.core = &csi2_core_ops,
- 	.video = &csi2_video_ops,
- 	.pad = &csi2_pad_ops,
- };
--- 
-2.34.1
+Thanks,
+Alison
 
+> 
+> Thank you!
+> 
+> Regards,
+> Khadija
+> 
+> > 
+> > This function is very hard to understand.
+> > 
+> > Also if stuff is changing in the background and there is no way the
+> > locking is correct.
+> > 
+> > regards,
+> > dan carpenter
+> 
