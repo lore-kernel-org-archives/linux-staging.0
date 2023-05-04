@@ -1,234 +1,69 @@
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f50.google.com (mail-qv1-f50.google.com [209.85.219.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13F3CFBF0;
-	Wed,  3 May 2023 22:16:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1683152199; x=1714688199;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=U2RkwWDWwvP3/HeZFRjgqWJRs2v9sGGHsRUT5S3DVmk=;
-  b=a16QoXMn1GIzuYGY/Bg+8eIai+9zeYQnzNMW5EciTKv4fUhCaqnDVaL3
-   gMUVR1Bn/CIET2iEHqQ8zEvujrSxhumiInXpELkz32ATioVx0mYZnTgUo
-   Mn7k4FOVXO5pj8fjTHTsc4VKQisyaMX6xT5Dxi++dpOgUu5pcVjp1rjI3
-   vxwKIgxZwRNyGn5CjMNQ6Zz9I/16TKXAlS4gLG5AtMmM//0Lyi8ti5IOr
-   3vkMZHt01hBB+yKUDQRB8PQhxGMtDmp0HD6g06kIQTVv0HfnrIUA3zV+I
-   Kihgj+zGgir/5M7vliOb+pLpXyGaghbt5HpCQuEQXeBWCcp8F0s2uOVdi
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10699"; a="376844632"
-X-IronPort-AV: E=Sophos;i="5.99,248,1677571200"; 
-   d="scan'208";a="376844632"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 May 2023 15:16:23 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10699"; a="786266224"
-X-IronPort-AV: E=Sophos;i="5.99,248,1677571200"; 
-   d="scan'208";a="786266224"
-Received: from aschofie-mobl2.amr.corp.intel.com (HELO aschofie-mobl2) ([10.212.181.38])
-  by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 May 2023 15:16:22 -0700
-Date: Wed, 3 May 2023 15:16:20 -0700
-From: Alison Schofield <alison.schofield@intel.com>
-To: Khadija Kamran <kamrankhadijadj@gmail.com>
-Cc: Dan Carpenter <error27@gmail.com>, outreachy@lists.linux.dev,
-	hvaibhav.linux@gmail.com, johan@kernel.org, elder@kernel.org,
-	gregkh@linuxfoundation.org, greybus-dev@lists.linaro.org,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/2] staging: greybus: refactor arche_platform_wd_irq()
-Message-ID: <ZFLdNKJUo3RMbwiU@aschofie-mobl2>
-References: <cover.1680185025.git.kamrankhadijadj@gmail.com>
- <96d04a4ff3d4a46293355f5afae3a8ece65f2c5b.1680185025.git.kamrankhadijadj@gmail.com>
- <6ce8aa34-e600-4d6a-adad-ead8255342e5@kili.mountain>
- <ZChs5jB7DMCUnVzr@khadija-virtual-machine>
- <9688d93f-5ece-4799-898d-98515a98f9be@kili.mountain>
- <ZEoV5/S3owfPVil7@khadija-virtual-machine>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 638E37E
+	for <linux-staging@lists.linux.dev>; Thu,  4 May 2023 13:32:10 +0000 (UTC)
+Received: by mail-qv1-f50.google.com with SMTP id 6a1803df08f44-61a9bb1b3a0so2378836d6.1
+        for <linux-staging@lists.linux.dev>; Thu, 04 May 2023 06:32:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1683207129; x=1685799129;
+        h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=nxm+pDgY9Nl9paZjWNUsBfXYMyVotcPumkIkdiInpQg=;
+        b=N7kwMTzLTMjzJploBYizW5dRn8msuTZH085OybPddCQ3QQv3T7X3whQ2wimrT5Fm03
+         rmBc77IokNnHli/CInccuyhH3zhfr83cxJN7XjvhCkWZwCHvuZBlpYu+W3yNFNfg8Qld
+         g0AVM+1BRg5pysuLAEoLYBgRhMg7gVQYQdPYxGTkJwdJpxgW0jblHON02ZRj3DzA6K7y
+         wrU4ApGX9XmgBlRg8ezgHUp3p1lKBq0xJqd4MX8eXqvsdO9BhfXHogjMeanvF7NIOF5K
+         HSuIsycX/qHBrBS6WKhHsosZ/nMVqj0sYNty48nboxIrF+MjPRlIUJa81JPsvn5w/yly
+         kZKg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1683207129; x=1685799129;
+        h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=nxm+pDgY9Nl9paZjWNUsBfXYMyVotcPumkIkdiInpQg=;
+        b=aGsC1BZfusFPZGpvheZ+FcOWYO6ES0HnkykFOEtKpQTLGRbKQ9XH3xoqEIx2A5VHUt
+         dyni5aNyq4UaHxBNIBBUN8Yv5fr/+Nxr3tSWFOWaUSJJdDV5+U9M2MNdyFrTrYLSZWBV
+         LO25yi8wqwcQZLx+k0aklKx/jDMDPZounWD/zhcgCjwLfku1pxFGhcqzhY9fGTwkEbhV
+         H1TZrEZiv3MQG8pOtFixdgIWYaQk4CEBzWzgY23wwSsfgKxkFo15Ly1ZTnmxPNjXYr3o
+         TQMbDSVQLdfaqef2TaqnVMR/KqtA6aJGKx4ao0wXiKdLbKbUwoUmFNF/TWs+gpcws9hK
+         bxlQ==
+X-Gm-Message-State: AC+VfDxZ/HUApw735cISqEBwmg30iCY7Iad1sFjS1fpX5Jy9kvr+W3YC
+	XRvCTFbGAOf5rHAC8hW2L0zpZNU9CeADMX8R22E=
+X-Google-Smtp-Source: ACHHUZ6UWMnsNcdI+lHc27gE8HjgqRzOVNhB9CxofE7vmtCb/FAlpz5oMZL4NcI9JnC7jHnmyjV0KhIuRyCfOinhRrQ=
+X-Received: by 2002:a05:6214:2307:b0:5e6:1723:a7e4 with SMTP id
+ gc7-20020a056214230700b005e61723a7e4mr13963480qvb.30.1683207129109; Thu, 04
+ May 2023 06:32:09 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZEoV5/S3owfPVil7@khadija-virtual-machine>
+From: Dongliang Mu <mudongliangabcd@gmail.com>
+Date: Thu, 4 May 2023 21:28:44 +0800
+Message-ID: <CAD-N9QUCi5xesDe3L_tFTDmRk85vrKXxLpYxbn=4bkkmGAj3uQ@mail.gmail.com>
+Subject: Redundant assignment of 'pdev_network->IELength' to itself
+To: Larry Finger <Larry.Finger@lwfinger.net>, florian.c.schilhabel@googlemail.com, 
+	Greg KH <gregkh@linuxfoundation.org>
+Cc: linux-staging@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
 
-On Thu, Apr 27, 2023 at 11:27:51AM +0500, Khadija Kamran wrote:
-> On Mon, Apr 03, 2023 at 07:29:36AM +0300, Dan Carpenter wrote:
-> > On Sat, Apr 01, 2023 at 10:41:58PM +0500, Khadija Kamran wrote:
-> > > On Thu, Mar 30, 2023 at 06:23:19PM +0300, Dan Carpenter wrote:
-> > > > On Thu, Mar 30, 2023 at 07:11:25PM +0500, Khadija Kamran wrote:
-> > > > > Linux kernel coding-style suggests to fix your program if it needs more
-> > > > > than 3 levels of indentation. Due to indentation, line length also
-> > > > > exceeds 100 columns, resulting in issues reported by checkpatch.
-> > > > > 
-> > > > > Refactor the arche_platform_wd_irq() function and reduce the indentation
-> > > > > with the help of goto statement.
-> > > > > 
-> > > > > Suggested-by: Alison Schofield <alison.schofield@intel.com>
-> > > > > Signed-off-by: Khadija Kamran <kamrankhadijadj@gmail.com>
-> > > > > ---
-> > > > >  drivers/staging/greybus/arche-platform.c | 79 ++++++++++++------------
-> > > > >  1 file changed, 41 insertions(+), 38 deletions(-)
-> > > > > 
-> > > > > diff --git a/drivers/staging/greybus/arche-platform.c b/drivers/staging/greybus/arche-platform.c
-> > > > > index a64c1af091b0..dde30c8da1a1 100644
-> > > > > --- a/drivers/staging/greybus/arche-platform.c
-> > > > > +++ b/drivers/staging/greybus/arche-platform.c
-> > > > > @@ -158,49 +158,52 @@ static irqreturn_t arche_platform_wd_irq(int irq, void *devid)
-> > > > >  
-> > > > >  	spin_lock_irqsave(&arche_pdata->wake_lock, flags);
-> > > > >  
-> > > > > -	if (gpiod_get_value(arche_pdata->wake_detect)) {
-> > > > > -		/* wake/detect rising */
-> > > > > +	if (!gpiod_get_value(arche_pdata->wake_detect))
-> > > > > +		goto falling;
-> > > > >  
-> > > > > +	/* wake/detect rising */
-> > > > > +
-> > > > > +	/*
-> > > > > +	 * If wake/detect line goes high after low, within less than
-> > > > > +	 * 30msec, then standby boot sequence is initiated, which is not
-> > > > > +	 * supported/implemented as of now. So ignore it.
-> > > > > +	 */
-> > > > > +	if (arche_pdata->wake_detect_state != WD_STATE_BOOT_INIT)
-> > > > > +		goto out;
-> > > > 
-> > > > This checks that we are in WD_STATE_BOOT_INIT state.
-> > > > 
-> > > > > +
-> > > > > +	if (time_before(jiffies,
-> > > > > +			arche_pdata->wake_detect_start +
-> > > > > +			msecs_to_jiffies(WD_COLDBOOT_PULSE_WIDTH_MS))) {
-> > > > > +		arche_platform_set_wake_detect_state(arche_pdata,
-> > > > > +						     WD_STATE_IDLE);
-> > > > > +		got out;
-> > > > > +	}
-> > > > > +
-> > > > > +	/* Check we are not in middle of irq thread already */
-> > > > > +	if (arche_pdata->wake_detect_state !=
-> > > > > +			WD_STATE_COLDBOOT_START) {
-> > > > 
-> > > > This checks that we are not in WD_STATE_COLDBOOT_START state.  How are
-> > > > we going to be in COLDBOOT if we are in INIT?  Is this changing in the
-> > > > background?  Can this check be removed?  This might be took tricky to
-> > > > answer but it's important that we understand this before we continue.
-> > > > 
-> > > > 
-> > > > > +		arche_platform_set_wake_detect_state(arche_pdata,
-> > > > > +						     WD_STATE_COLDBOOT_TRIG);
-> > > > > +		rc = IRQ_WAKE_THREAD;
-> > > > > +		goto out;
-> > > > > +	}
-> > > > 
-> > > > Let's assume the above check cannot be removed.
-> > > > 
-> > > > In the original code if gpiod_get_value(arche_pdata->wake_detect)
-> > > > returned true and arche_pdata->wake_detect_state == WD_STATE_IDLE then
-> > > > it just returned without doing anything, but now we fall through to the
-> > > > falling: label below.
-> > 
-> > Let me show you in the original code:
-> > 
-> > STEP 1:	if (gpiod_get_value(arche_pdata->wake_detect)) {
-> > 
-> > Assume this condition is true.
-> > 
-> > STEP 2:		if (arche_pdata->wake_detect_state == WD_STATE_BOOT_INIT) {
-> > 
-> > Assume this condition is true.
-> > 
-> > STEP 3:		if (time_before(jiffies, ...)
-> > 
-> > Assume that time is up.
-> > 
-> > STEP 4:			if (arche_pdata->wake_detect_state !=
-> > 					WD_STATE_COLDBOOT_START) {
-> > 
-> > Assume that it is equal.  We are done.  return IRQ_HANDLED;
-> > 
-> > Now in the new code:
-> > 
-> > STEP 1:	if (!gpiod_get_value(arche_pdata->wake_detect))
-> > 		goto falling;
-> > 
-> > Assume we don't goto falling.
-> > 
-> > STEP 2:	if (arche_pdata->wake_detect_state != WD_STATE_BOOT_INIT)
-> > 
-> > Assume that it == WD_STATE_BOOT_INIT.
-> > 
-> > STEP 3:	if (time_before(jiffies, ...)
-> > 
-> > Assume that time is up.
-> > 
-> > STEP 4:	if (arche_pdata->wake_detect_state != WD_STATE_COLDBOOT_START) {
-> > 
-> > Assume that it is equal.  Before, in the old code it would return
-> > return IRQ_HANDLED; at this point.  But now it does:
-> > 
-> > STEP 5:	if (arche_pdata->wake_detect_state == WD_STATE_IDLE) {
-> > 
-> > Which seems like it's a contradictory condition with STEP 4 so it's
-> > probably impossible.  But on the other hand, we have already checked
-> > contradictory conditions between STEP 2 and STEP 4 so who knows what's
-> > going on?
-> 
-> 
-> Hey Dan!
-> 
-> Sorry about the delay in the reply. I want to continue working on the
-> completion of this thread. 
-> 
-> Thank you for the above steps, they clearly explain the problem you
-> addressed in the new code. Can't this problem be resolved by "goto out;"
-> right above the 'falling:' label?
-> 
-> I'm copy pasting your mail here,
-> 
-> On Mon, Apr 03, 2023 at 07:29:36AM +0300, Dan Carpenter wrote:
-> > > > This checks that we are not in WD_STATE_COLDBOOT_START state.  How are
-> > > > we going to be in COLDBOOT if we are in INIT?  Is this changing in the
-> > > > background?  Can this check be removed?
-> 
-> > It turned out the answer was yes, it can be removed.
-> 
-> > > Also if stuff is changing in the background and there is no way the
-> > > locking is correct.
-> 
-> > The locking is correct.  Take a look at it.
-> 
-> > We are holding the &arche_pdata->wake_lock in arche_platform_wd_irq()
-> > and every place that calls arche_platform_set_wake_detect_state() takes
-> > that lock first.  So it can't change in the background.
-> 
-> > Delete the check like so.
-> 
-> If we delete the check then the indentation problem would be
-> automatically addressed. Also, there would be a single exit path to the
-> function. Should I send a patch or is there anything else that should be
-> addressed. 
+Hi maintainers,
 
-Hi Khadija,
+In r8712_createbss_cmd(), there are two redundant assignments [1][2].
 
-Thanks for picking this up again. I suggest posting an updated version
-and let folks take a look at it again. It's a bit stale in my mind now,
-but I'm happy to iterate on it with you further.
+pdev_network->IELength = pdev_network->IELength;
+pdev_network->Ssid.SsidLength = pdev_network->Ssid.SsidLength;
 
-Thanks,
-Alison
+However, I am not sure how to write a patch to fix this issue.
 
-> 
-> Thank you!
-> 
-> Regards,
-> Khadija
-> 
-> > 
-> > This function is very hard to understand.
-> > 
-> > Also if stuff is changing in the background and there is no way the
-> > locking is correct.
-> > 
-> > regards,
-> > dan carpenter
-> 
+[1] https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/tree/drivers/staging/rtl8712/rtl871x_cmd.c#n333
+
+[2] https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/tree/drivers/staging/rtl8712/rtl871x_cmd.c#n334
+
+
+--
+My best regards to you.
+
+     No System Is Safe!
+     Dongliang Mu
