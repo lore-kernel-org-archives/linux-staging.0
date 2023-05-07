@@ -1,74 +1,92 @@
-Received: from hust.edu.cn (mail.hust.edu.cn [202.114.0.240])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8468379E1
-	for <linux-staging@lists.linux.dev>; Thu,  4 May 2023 15:10:54 +0000 (UTC)
-Received: from [192.168.1.5] ([183.94.69.234])
-	(user=dzm91@hust.edu.cn mech=PLAIN bits=0)
-	by mx1.hust.edu.cn  with ESMTP id 344F9wQT006378-344F9wQU006378
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NO);
-	Thu, 4 May 2023 23:09:58 +0800
-Message-ID: <e1feb1ba-4459-f160-25ad-328fbae90afe@hust.edu.cn>
-Date: Thu, 4 May 2023 23:09:53 +0800
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1248415AA
+	for <linux-staging@lists.linux.dev>; Sun,  7 May 2023 00:30:34 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2A2C0C433D2;
+	Sun,  7 May 2023 00:30:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1683419434;
+	bh=OmUhRWXwyjY5pMuCyXm9DQ2TzGvY7F6yB+6+awWvdpE=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=nBkE1zO9BcQkEPDbwUwVYYyLPqAUDRuTJOJ6JqzZKqUbL0wIa74IAUGoxQNqTO3fX
+	 nqr3AhT671l806Ve1S6cP5sk+XVzYvm6Iha7DM6eqqVjfINwoBSYIdOq2L5uq5P0Dw
+	 SiyIu41O/ZtUKCDKGjLE2iRcvMMJ49g9cDL9T9XQpWdcXZVqXURhWbN7lqg3m9dMUj
+	 4g/tQ1fUHWePLS6/x/zmgACMws6b1EtAM9RTAzH9FUrigMvROPiwCvepXZe+N1Buyx
+	 dJeK4+weGmRV/2o2zSrEAB/mswU16KMpvcWuJDPWAt/a67NdV/NSIL69J13z6eQUPK
+	 fDTkG7ZY2FAKg==
+From: Sasha Levin <sashal@kernel.org>
+To: linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Cc: Philipp Hortmann <philipp.g.hortmann@gmail.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Sasha Levin <sashal@kernel.org>,
+	linux-staging@lists.linux.dev
+Subject: [PATCH AUTOSEL 6.3 02/24] staging: rtl8192e: Replace macro RTL_PCI_DEVICE with PCI_DEVICE
+Date: Sat,  6 May 2023 20:29:58 -0400
+Message-Id: <20230507003022.4070535-2-sashal@kernel.org>
+X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20230507003022.4070535-1-sashal@kernel.org>
+References: <20230507003022.4070535-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.9.1
-Subject: Re: [PATCH] drivers: staging: greybus: fix GPF issue in
- gb_camera_capture
-To: Johan Hovold <johan@kernel.org>
-Cc: Alex Elder <elder@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jacopo Mondi <jacopo.mondi@linaro.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Greg Kroah-Hartman <gregkh@google.com>, greybus-dev@lists.linaro.org,
-        linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-References: <20230504135841.1566958-1-dzm91@hust.edu.cn>
- <ZFPHHImqiVRRV5Cd@hovoldconsulting.com>
-From: Dongliang Mu <dzm91@hust.edu.cn>
-In-Reply-To: <ZFPHHImqiVRRV5Cd@hovoldconsulting.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-FEAS-AUTH-USER: dzm91@hust.edu.cn
+X-stable: review
+X-Patchwork-Hint: Ignore
+Content-Transfer-Encoding: 8bit
 
+From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
 
-On 5/4/23 PM10:54, Johan Hovold wrote:
-> On Thu, May 04, 2023 at 09:58:41PM +0800, Dongliang Mu wrote:
->> In gb_camera_capture(), it does not check the value of settings
->> before dereferencing it. And gb_camera_debugfs_capture calls
->> gb_camera_capture with the 6th parameter settings as NULL.
-> Looks like you just broke gb_camera_debugfs_capture() which relies on
-> passing NULL as settings.
+[ Upstream commit fda2093860df4812d69052a8cf4997e53853a340 ]
 
-Yes, just mentioned by Dan, this memcpy is intended with zero length and 
-NULL src.
+Replace macro RTL_PCI_DEVICE with PCI_DEVICE to get rid of rtl819xp_ops
+which is empty.
 
-Please ignore this patch.
+Signed-off-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+Link: https://lore.kernel.org/r/8b45ee783fa91196b7c9d6fc840a189496afd2f4.1677133271.git.philipp.g.hortmann@gmail.com
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/staging/rtl8192e/rtl8192e/rtl_core.c | 6 +++---
+ drivers/staging/rtl8192e/rtl8192e/rtl_core.h | 5 -----
+ 2 files changed, 3 insertions(+), 8 deletions(-)
 
->> Fix this by checking the value of setting at the starting of
->> gb_camera_capture.
->>
->> Fixes: 3265edaf0d70 ("greybus: Add driver for the camera class protocol")
->> Signed-off-by: Dongliang Mu <dzm91@hust.edu.cn>
->> ---
->>   drivers/staging/greybus/camera.c | 2 +-
->>   1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> diff --git a/drivers/staging/greybus/camera.c b/drivers/staging/greybus/camera.c
->> index cdbb42cd413b..5a4b26e7f645 100644
->> --- a/drivers/staging/greybus/camera.c
->> +++ b/drivers/staging/greybus/camera.c
->> @@ -659,7 +659,7 @@ static int gb_camera_capture(struct gb_camera *gcam, u32 request_id,
->>   	size_t req_size;
->>   	int ret;
->>   
->> -	if (settings_size > GB_CAMERA_MAX_SETTINGS_SIZE)
->> +	if (settings_size > GB_CAMERA_MAX_SETTINGS_SIZE || !settings)
->>   		return -EINVAL;
->>   
->>   	req_size = sizeof(*req) + settings_size;
-> Johan
+diff --git a/drivers/staging/rtl8192e/rtl8192e/rtl_core.c b/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
+index 104b16cfa9790..401fe2e501ede 100644
+--- a/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
++++ b/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
+@@ -48,9 +48,9 @@ static const struct rtl819x_ops rtl819xp_ops = {
+ };
+ 
+ static struct pci_device_id rtl8192_pci_id_tbl[] = {
+-	{RTL_PCI_DEVICE(0x10ec, 0x8192, rtl819xp_ops)},
+-	{RTL_PCI_DEVICE(0x07aa, 0x0044, rtl819xp_ops)},
+-	{RTL_PCI_DEVICE(0x07aa, 0x0047, rtl819xp_ops)},
++	{PCI_DEVICE(0x10ec, 0x8192)},
++	{PCI_DEVICE(0x07aa, 0x0044)},
++	{PCI_DEVICE(0x07aa, 0x0047)},
+ 	{}
+ };
+ 
+diff --git a/drivers/staging/rtl8192e/rtl8192e/rtl_core.h b/drivers/staging/rtl8192e/rtl8192e/rtl_core.h
+index fd96eef90c7fa..bbc1c4bac3588 100644
+--- a/drivers/staging/rtl8192e/rtl8192e/rtl_core.h
++++ b/drivers/staging/rtl8192e/rtl8192e/rtl_core.h
+@@ -55,11 +55,6 @@
+ #define IS_HARDWARE_TYPE_8192SE(_priv)		\
+ 	(((struct r8192_priv *)rtllib_priv(dev))->card_8192 == NIC_8192SE)
+ 
+-#define RTL_PCI_DEVICE(vend, dev, cfg) \
+-	.vendor = (vend), .device = (dev), \
+-	.subvendor = PCI_ANY_ID, .subdevice = PCI_ANY_ID, \
+-	.driver_data = (kernel_ulong_t)&(cfg)
+-
+ #define TOTAL_CAM_ENTRY		32
+ #define CAM_CONTENT_COUNT	8
+ 
+-- 
+2.39.2
+
