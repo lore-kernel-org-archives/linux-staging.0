@@ -1,20 +1,20 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD2BD7E
-	for <linux-staging@lists.linux.dev>; Sun,  7 May 2023 00:35:26 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F0558C433D2;
-	Sun,  7 May 2023 00:35:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C5CA7E
+	for <linux-staging@lists.linux.dev>; Sun,  7 May 2023 00:35:55 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 545E3C4339B;
+	Sun,  7 May 2023 00:35:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1683419726;
-	bh=CMvlrlyOjabN6Is5vk5sBrNyteEXDKTkYWuJRzFFcLM=;
+	s=k20201202; t=1683419754;
+	bh=oNd2cvww11Nqj+dClQFk7a9aKiQ2CPz0rzAszlTImpU=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=ST3G0C+BTIzvOy/wS2BhTjJlhwjbQMayHMVuwMRtIBSp22Yw/DFYPzlwoVBKrGhB8
-	 Cmy1Jvk59YCjxcMA4kbHaA/zYXNqm9YwF5wCm7PF9o3JDUeeSW6KPXsP1fWX1XE4Vv
-	 25SOsjbrdVTlDC9n2e2GZMpBCV3wGa+yBHQ9WC5NtpobROCCZfhnA049kC3bOcCpWE
-	 Lhb9cvIK2Ub73dkOA7jJqmbf4EbSMcyYe5UOcu9vF27xBaktVwgl+dLkBRji6RIRs0
-	 iBDAVsxfGdzYUJvdZ21kNQzPYBFeHN7QZKS+1QYGr4K+ROg2Byl1Z4C1B8r5xyXbod
-	 RkZOSWndNU8Lw==
+	b=NNgJAkQLCNRVINIVhgIVl1MjCbvIMmvmj4Gz+3tzxvb8ldt9GRnVLTI483dcXOToa
+	 pmsebjUaTCGp0Wnm4SHFfRSB6fbogjp1y2NVKHL+0is/ySZtHAb6QvmKiwpYpHqlQ4
+	 ZqXalYapTf5kkknHx1Qu7cPBrNMzeq3OF243U53Ce9qG2xN/3yhW1nvJnunByq+EGS
+	 MyUAIUNTxBVV/55zgRkWNonMfd0adU2/NyoyR3n6/29jz22//8ml1JpNKH91jnepus
+	 wgIW7eNNz1t9kK0DJ+LSvvJdH5OGogO/5kacUzaXbKDGdmmCzBbaCByimEE8tcw8/N
+	 oqgkxgDwLm9Ig==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
@@ -22,12 +22,12 @@ Cc: Philipp Hortmann <philipp.g.hortmann@gmail.com>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Sasha Levin <sashal@kernel.org>,
 	linux-staging@lists.linux.dev
-Subject: [PATCH AUTOSEL 5.15 02/10] staging: rtl8192e: Replace macro RTL_PCI_DEVICE with PCI_DEVICE
-Date: Sat,  6 May 2023 20:35:08 -0400
-Message-Id: <20230507003517.4078384-2-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.10 2/9] staging: rtl8192e: Replace macro RTL_PCI_DEVICE with PCI_DEVICE
+Date: Sat,  6 May 2023 20:35:38 -0400
+Message-Id: <20230507003545.4078941-2-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230507003517.4078384-1-sashal@kernel.org>
-References: <20230507003517.4078384-1-sashal@kernel.org>
+In-Reply-To: <20230507003545.4078941-1-sashal@kernel.org>
+References: <20230507003545.4078941-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -55,10 +55,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  2 files changed, 3 insertions(+), 8 deletions(-)
 
 diff --git a/drivers/staging/rtl8192e/rtl8192e/rtl_core.c b/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
-index 616ab3c8fde4f..58dc69de94fd8 100644
+index 99c27d6b42333..5b526b2d413d6 100644
 --- a/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
 +++ b/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
-@@ -49,9 +49,9 @@ static const struct rtl819x_ops rtl819xp_ops = {
+@@ -50,9 +50,9 @@ static const struct rtl819x_ops rtl819xp_ops = {
  };
  
  static struct pci_device_id rtl8192_pci_id_tbl[] = {
@@ -72,7 +72,7 @@ index 616ab3c8fde4f..58dc69de94fd8 100644
  };
  
 diff --git a/drivers/staging/rtl8192e/rtl8192e/rtl_core.h b/drivers/staging/rtl8192e/rtl8192e/rtl_core.h
-index 698552a921009..197f1e3d7aca7 100644
+index 736f1a824cd2e..7bbd884aa5f13 100644
 --- a/drivers/staging/rtl8192e/rtl8192e/rtl_core.h
 +++ b/drivers/staging/rtl8192e/rtl8192e/rtl_core.h
 @@ -55,11 +55,6 @@
