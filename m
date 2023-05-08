@@ -1,195 +1,52 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from mail.rawlinsfis.com (mail.rawlinsfis.com [89.40.118.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E7927E
-	for <linux-staging@lists.linux.dev>; Mon,  8 May 2023 06:27:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1683527241;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=0RLwYDbrwRWpe99eomy19bkqFJRSugDJBBANf0hGU6A=;
-	b=hYAtMaOec0i3cES3H4iJRGI8hp10Zx+Xd5aqeaBWlFgnu3mLlGTa5hwRu84t4KxajgiPLT
-	LTpIGZoU2LazrBuE/dGeY5An59EWncKZq3FXoISZzFLjXQbq3YNMRnprjIiLbfstuiZRwS
-	5xNicVDOGUCyiVwPHDnvGpZmtdZ5Kpw=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-554-7R1uH66CPkKL4VzX-f7xXg-1; Mon, 08 May 2023 02:27:19 -0400
-X-MC-Unique: 7R1uH66CPkKL4VzX-f7xXg-1
-Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com [10.11.54.10])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 6D850101A531;
-	Mon,  8 May 2023 06:27:19 +0000 (UTC)
-Received: from fedora.redhat.com (unknown [10.67.24.158])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 5F692492C13;
-	Mon,  8 May 2023 06:27:16 +0000 (UTC)
-From: Kate Hsuan <hpa@redhat.com>
-To: Hans de Goede <hdegoede@redhat.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev
-Cc: Kate Hsuan <hpa@redhat.com>
-Subject: [PATCH v2 5/5] staging: media: atomisp: sh_css_mipi: Remove #ifdef 2041
-Date: Mon,  8 May 2023 14:26:32 +0800
-Message-Id: <20230508062632.34537-5-hpa@redhat.com>
-In-Reply-To: <20230508062632.34537-1-hpa@redhat.com>
-References: <20230508062632.34537-1-hpa@redhat.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F3B51548F
+	for <linux-staging@lists.linux.dev>; Mon,  8 May 2023 07:57:04 +0000 (UTC)
+Received: by mail.rawlinsfis.com (Postfix, from userid 1001)
+	id 5734281EF9; Mon,  8 May 2023 08:51:23 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=rawlinsfis.com;
+	s=mail; t=1683532297;
+	bh=lDo1OjfzzJ3sOfR9tSDg5RMmT4aDyBP45hIVJCLtIrE=;
+	h=Date:From:To:Subject:From;
+	b=M+pjjd6e8frSdApzi4ykkIsGs3e2vcmiBUSMYCFb2eQyVao7kNN5bFQk69GQk6pBT
+	 Yj8rcv6VUWLK/zp5EGZBDiszASFlD+CJANUq8WS7+xLlLn/HsjXP7eAh9g146x/L13
+	 XunI1083j8lVtY7H2IQHXDaadTtnydgxLPXcGTQSmBtVpwIo4xonHDaN28Hpo0+NL4
+	 pz9hj+w7uD6bOKB314CTEqX4049x0eDjJqxD55ZEel7fEs7SgSUFMPhxRQ5VoOnox8
+	 bKiz9eIVdFX+KC9uBB/Bsidx0gkS7H+KfG4Yi4iHyXcVNA+mW44QPjL4inF5p6oPQP
+	 qX82YG4u/v62g==
+Received: by mail.rawlinsfis.com for <linux-staging@lists.linux.dev>; Mon,  8 May 2023 07:51:17 GMT
+Message-ID: <20230508074500-0.1.3d.5mri.0.icmckcwt56@rawlinsfis.com>
+Date: Mon,  8 May 2023 07:51:17 GMT
+From: "Damian Hordych" <damian.hordych@rawlinsfis.com>
+To: <linux-staging@lists.linux.dev>
+Subject: =?UTF-8?Q?Pompy_ciep=C5=82a_-_nowe_warunki_?=
+X-Mailer: mail.rawlinsfis.com
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-The actions of ISP2401 and 2400 are determined at the runtime.
+Dzie=C5=84 dobry,
 
-Signed-off-by: Kate Hsuan <hpa@redhat.com>
----
- .../staging/media/atomisp/pci/sh_css_mipi.c   | 65 ++++++-------------
- 1 file changed, 20 insertions(+), 45 deletions(-)
+w ramach nowej edycji programu Czyste Powietrze dla klient=C3=B3w indywid=
+ualnych mog=C4=85 otrzyma=C4=87 Pa=C5=84stwo do 135 tys. z=C5=82 wsparcia=
+ na zakup pompy ciep=C5=82a.
 
-diff --git a/drivers/staging/media/atomisp/pci/sh_css_mipi.c b/drivers/staging/media/atomisp/pci/sh_css_mipi.c
-index bc6e8598a776..52a1ed63e9a5 100644
---- a/drivers/staging/media/atomisp/pci/sh_css_mipi.c
-+++ b/drivers/staging/media/atomisp/pci/sh_css_mipi.c
-@@ -67,13 +67,12 @@ ia_css_mipi_frame_calculate_size(const unsigned int width,
- 	unsigned int mem_words = 0;
- 	unsigned int width_padded = width;
- 
--#if defined(ISP2401)
- 	/* The changes will be reverted as soon as RAW
- 	 * Buffers are deployed by the 2401 Input System
- 	 * in the non-continuous use scenario.
- 	 */
--	width_padded += (2 * ISP_VEC_NELEMS);
--#endif
-+	if (IS_ISP2401)
-+		width_padded += (2 * ISP_VEC_NELEMS);
- 
- 	IA_CSS_ENTER("padded_width=%d, height=%d, format=%d, hasSOLandEOL=%d, embedded_data_size_words=%d\n",
- 		     width_padded, height, format, hasSOLandEOL, embedded_data_size_words);
-@@ -235,7 +234,6 @@ bool mipi_is_free(void)
- 	return true;
- }
- 
--#if defined(ISP2401)
- /*
-  * @brief Calculate the required MIPI buffer sizes.
-  * Based on the stream configuration, calculate the
-@@ -342,7 +340,6 @@ static int calculate_mipi_buff_size(struct ia_css_stream_config *stream_cfg,
- 	IA_CSS_LEAVE_ERR(err);
- 	return err;
- }
--#endif
- 
- int
- allocate_mipi_frames(struct ia_css_pipe *pipe,
-@@ -363,15 +360,13 @@ allocate_mipi_frames(struct ia_css_pipe *pipe,
- 		return -EINVAL;
- 	}
- 
--#ifdef ISP2401
--	if (pipe->stream->config.online) {
-+	if (IS_ISP2401 && pipe->stream->config.online) {
- 		ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE,
- 				    "allocate_mipi_frames(%p) exit: no buffers needed for 2401 pipe mode.\n",
- 				    pipe);
- 		return 0;
- 	}
- 
--#endif
- 	if (pipe->stream->config.mode != IA_CSS_INPUT_MODE_BUFFERED_SENSOR) {
- 		ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE,
- 				    "allocate_mipi_frames(%p) exit: no buffers needed for pipe mode.\n",
-@@ -386,30 +381,22 @@ allocate_mipi_frames(struct ia_css_pipe *pipe,
- 		return -EINVAL;
- 	}
- 
--#ifdef ISP2401
--	err = calculate_mipi_buff_size(&pipe->stream->config,
--				       &my_css.mipi_frame_size[port]);
--	/*
--	 * 2401 system allows multiple streams to use same physical port. This is not
--	 * true for 2400 system. Currently 2401 uses MIPI buffers as a temporary solution.
--	 * TODO AM: Once that is changed (removed) this code should be removed as well.
--	 * In that case only 2400 related code should remain.
--	 */
--	if (ref_count_mipi_allocation[port] != 0) {
--		ref_count_mipi_allocation[port]++;
--		ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE,
--				    "allocate_mipi_frames(%p) leave: nothing to do, already allocated for this port (port=%d).\n",
--				    pipe, port);
--		return 0;
--	}
--#else
- 	if (ref_count_mipi_allocation[port] != 0) {
- 		ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE,
- 				    "allocate_mipi_frames(%p) exit: already allocated for this port (port=%d).\n",
- 				    pipe, port);
- 		return 0;
-+	} else {
-+		/*
-+		 * 2401 system allows multiple streams to use same physical port. This is not
-+		 * true for 2400 system. Currently 2401 uses MIPI buffers as a temporary solution.
-+		 * TODO AM: Once that is changed (removed) this code should be removed as well.
-+		 * In that case only 2400 related code should remain.
-+		 */
-+		if (IS_ISP2401)
-+			err = calculate_mipi_buff_size(&pipe->stream->config,
-+						       &my_css.mipi_frame_size[port]);
- 	}
--#endif
- 
- 	ref_count_mipi_allocation[port]++;
- 
-@@ -503,14 +490,14 @@ free_mipi_frames(struct ia_css_pipe *pipe)
- 		}
- 
- 		if (ref_count_mipi_allocation[port] > 0) {
--#if !defined(ISP2401)
--			assert(ref_count_mipi_allocation[port] == 1);
--			if (ref_count_mipi_allocation[port] != 1) {
--				IA_CSS_ERROR("free_mipi_frames(%p) exit: wrong ref_count (ref_count=%d).",
--					     pipe, ref_count_mipi_allocation[port]);
--				return err;
-+			if (!IS_ISP2401) {
-+				assert(ref_count_mipi_allocation[port] == 1);
-+				if (ref_count_mipi_allocation[port] != 1) {
-+					IA_CSS_ERROR("free_mipi_frames(%p) exit: wrong ref_count (ref_count=%d).",
-+						     pipe, ref_count_mipi_allocation[port]);
-+					return err;
-+				}
- 			}
--#endif
- 
- 			ref_count_mipi_allocation[port]--;
- 
-@@ -534,18 +521,6 @@ free_mipi_frames(struct ia_css_pipe *pipe)
- 				ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE,
- 						    "free_mipi_frames(%p) exit (deallocated).\n", pipe);
- 			}
--#if defined(ISP2401)
--			else {
--				/* 2401 system allows multiple streams to use same physical port. This is not
--				 * true for 2400 system. Currently 2401 uses MIPI buffers as a temporary solution.
--				 * TODO AM: Once that is changed (removed) this code should be removed as well.
--				 * In that case only 2400 related code should remain.
--				 */
--				ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE,
--						    "free_mipi_frames(%p) leave: nothing to do, other streams still use this port (port=%d).\n",
--						    pipe, port);
--			}
--#endif
- 		}
- 	} else { /* pipe ==NULL */
- 		/* AM TEMP: free-ing all mipi buffers just like a legacy code. */
--- 
-2.40.1
+Pr=C3=B3cz wy=C5=BCszego dofinansowania program zak=C5=82ada m.in. podwy=C5=
+=BCszenie prog=C3=B3w dochodowych oraz mo=C5=BCliwo=C5=9B=C4=87 z=C5=82o=C5=
+=BCenia kolejnego wniosku o dofinansowanie dla tych, kt=C3=B3rzy ju=C5=BC=
+ wcze=C5=9Bniej skorzystali z Programu.
 
+Jako firma specjalizuj=C4=85ca si=C4=99 w dostawie, monta=C5=BCu i serwis=
+ie pomp ciep=C5=82a pomo=C5=BCemy Pa=C5=84stwu w uzyskaniu dofinansowania=
+ wraz z kompleksow=C4=85 realizacj=C4=85 ca=C5=82ego projektu.
+
+S=C4=85 Pa=C5=84stwo zainteresowani?
+
+Pozdrawiam
+Damian Hordych
