@@ -1,52 +1,216 @@
-Received: from mail.rawlinsfis.com (mail.rawlinsfis.com [89.40.118.140])
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F3B51548F
-	for <linux-staging@lists.linux.dev>; Mon,  8 May 2023 07:57:04 +0000 (UTC)
-Received: by mail.rawlinsfis.com (Postfix, from userid 1001)
-	id 5734281EF9; Mon,  8 May 2023 08:51:23 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=rawlinsfis.com;
-	s=mail; t=1683532297;
-	bh=lDo1OjfzzJ3sOfR9tSDg5RMmT4aDyBP45hIVJCLtIrE=;
-	h=Date:From:To:Subject:From;
-	b=M+pjjd6e8frSdApzi4ykkIsGs3e2vcmiBUSMYCFb2eQyVao7kNN5bFQk69GQk6pBT
-	 Yj8rcv6VUWLK/zp5EGZBDiszASFlD+CJANUq8WS7+xLlLn/HsjXP7eAh9g146x/L13
-	 XunI1083j8lVtY7H2IQHXDaadTtnydgxLPXcGTQSmBtVpwIo4xonHDaN28Hpo0+NL4
-	 pz9hj+w7uD6bOKB314CTEqX4049x0eDjJqxD55ZEel7fEs7SgSUFMPhxRQ5VoOnox8
-	 bKiz9eIVdFX+KC9uBB/Bsidx0gkS7H+KfG4Yi4iHyXcVNA+mW44QPjL4inF5p6oPQP
-	 qX82YG4u/v62g==
-Received: by mail.rawlinsfis.com for <linux-staging@lists.linux.dev>; Mon,  8 May 2023 07:51:17 GMT
-Message-ID: <20230508074500-0.1.3d.5mri.0.icmckcwt56@rawlinsfis.com>
-Date: Mon,  8 May 2023 07:51:17 GMT
-From: "Damian Hordych" <damian.hordych@rawlinsfis.com>
-To: <linux-staging@lists.linux.dev>
-Subject: =?UTF-8?Q?Pompy_ciep=C5=82a_-_nowe_warunki_?=
-X-Mailer: mail.rawlinsfis.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0574F9ED
+	for <linux-staging@lists.linux.dev>; Tue,  9 May 2023 16:57:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1683651429; x=1715187429;
+  h=date:from:to:cc:subject:message-id:references:
+   content-transfer-encoding:in-reply-to:mime-version;
+  bh=Ul8IPCwkb4oIHx1B6WDzggsWBwPboJNa9ftks4uuZ1g=;
+  b=V1AVyQbZaSgRUbeBl/KGtj0kvQdozKZm1fLz03VQG1nT0iLKnP8U3H/W
+   PyfJoi4bus69i0/P6FTkTcwwCCVZbB6WE1uJ8+eo+GEl97laAjLJPizU6
+   KGGVHsUkNvEv9NhbHTIJjsCua5OSSIIn54EVfQpDrZEpCogBs8SAg3B2T
+   jNl4CwcxLHSHvsfY3RvMSwILc7a0AhpQXL29VRomdibZUWYRAOcr4HVJa
+   +rjYW3+G5jXVeCG1NzWxr22tr4Jjh89gksOQL9aizVmIVDzCw6/ZEARhj
+   if1b6MWS0yaShUpj7s20ogwzBi6wEOgAWYdWNwhScPT7hoYZR4dK7JdWV
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10705"; a="347452619"
+X-IronPort-AV: E=Sophos;i="5.99,262,1677571200"; 
+   d="scan'208";a="347452619"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 May 2023 09:56:45 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10705"; a="810787801"
+X-IronPort-AV: E=Sophos;i="5.99,262,1677571200"; 
+   d="scan'208";a="810787801"
+Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
+  by fmsmga002.fm.intel.com with ESMTP; 09 May 2023 09:56:39 -0700
+Received: from orsmsx612.amr.corp.intel.com (10.22.229.25) by
+ ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.23; Tue, 9 May 2023 09:56:38 -0700
+Received: from orsmsx612.amr.corp.intel.com (10.22.229.25) by
+ ORSMSX612.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.23; Tue, 9 May 2023 09:56:38 -0700
+Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
+ orsmsx612.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.23 via Frontend Transport; Tue, 9 May 2023 09:56:38 -0700
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com (104.47.58.106)
+ by edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.23; Tue, 9 May 2023 09:56:38 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=AVbpBeYQ/Xb+m+V0kYeDiyllV6NRwvoYgOeY503p0s2hogZZF4aaPbV/EcTeff/ESVDGy07NtU60f9fZTApB+890h5NwcWL/AV8X/ooJIRUymGACnl4To3/ll+B/2uDBrS5820UFhHM6T3D79009B8jHfbl3smtH7zCFDivlElF1oszqyVPsZJ64cuGuG6jdbS4wrn5bvZyEY/ndKsdITfVKOQv6zcCXBg49CFDrRpU8Y/OI4ekTyZ8tuecLiIsfmVFRt2iKfpJO7xJtPSgucattLAIR72TtGNtdCvSPz2r7UDpoJlUdTWnz2Wu2hemfMppxQSUkdIscgm9X4HHCmg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=fPzf19JLageo9SOVdwQM/pgHcBt7gDe4Tibpsrb/BaY=;
+ b=cTLnLDA4TFJmMUVWj83UoWgcEaCDdZSE1/tbJBgvSq2SYsvlTe7T2TdaTtv4KKrscjehERtm3NOuV1w2Z+7AEn8fSgfSFkSxxjm7ggSTFLj8qnyYffrkbN7TqTk6VgHoN5NX6kNNjQkVZm00AEErK4sApb3WIiEJCYwo7dXZawjcpwQffDuYGSna9/qx7YsdH6qKJeneUME/rNNc8dW8TSGzRqpfCGscyacpmWwBxEoyjLcn8tnnektryKQVpMPJ5t2uVfLgvzZNninXqOo7TRn+mWD0hK7Q3Pc6YhY1v3UGyPH2aDfnqUjcObSoWr+awGrAqIHLj8aJgFJ7FrnKvg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from CY5PR11MB6139.namprd11.prod.outlook.com (2603:10b6:930:29::17)
+ by CO1PR11MB5108.namprd11.prod.outlook.com (2603:10b6:303:92::9) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6387.18; Tue, 9 May
+ 2023 16:56:36 +0000
+Received: from CY5PR11MB6139.namprd11.prod.outlook.com
+ ([fe80::44e7:c479:62f4:3eb4]) by CY5PR11MB6139.namprd11.prod.outlook.com
+ ([fe80::44e7:c479:62f4:3eb4%3]) with mapi id 15.20.6363.033; Tue, 9 May 2023
+ 16:56:36 +0000
+Date: Tue, 9 May 2023 09:56:33 -0700
+From: Lucas De Marchi <lucas.demarchi@intel.com>
+To: Rodrigo Vivi <rodrigo.vivi@intel.com>
+CC: <intel-xe@lists.freedesktop.org>, Mauro Carvalho Chehab
+	<mchehab@kernel.org>, Radoslaw Szwichtenberg
+	<radoslaw.szwichtenberg@intel.com>, Maciej Ramotowski
+	<maciej.ramotowski@intel.com>, Kamil Konieczny
+	<kamil.konieczny@linux.intel.com>, Greg Kroah-Hartman
+	<gregkh@linuxfoundation.org>, <linux-staging@lists.linux.dev>,
+	<dri-devel@lists.freedesktop.org>
+Subject: Re: [PATCH] drm/xe: Make xe build dependent on STAGING.
+Message-ID: <ro2hcqlyzx4sfd7atm7r2kmqk74gymkpyo2kgt7heabvkolpre@xcfkmdn77ot4>
+X-Patchwork-Hint: comment
+References: <20230509151008.1434683-1-rodrigo.vivi@intel.com>
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230509151008.1434683-1-rodrigo.vivi@intel.com>
+X-ClientProxiedBy: SJ0PR03CA0248.namprd03.prod.outlook.com
+ (2603:10b6:a03:3a0::13) To CY5PR11MB6139.namprd11.prod.outlook.com
+ (2603:10b6:930:29::17)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CY5PR11MB6139:EE_|CO1PR11MB5108:EE_
+X-MS-Office365-Filtering-Correlation-Id: 51f0ab5f-4386-4ab8-8546-08db50ae59c5
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: AaNQwBbQQFFNhTuVEOlWb0NnAHtSQ+hk5ZRHwOsx3v3o0znaKRUF+O5OrRs0jXRMI0GJq6ap6BkDpy/Lp2RHiEXeCaYOaSm3D8/T0sA6A0BHVs77s+qoddLK2skdO4QHqP+3atYKV5jtoa/8C2/vMmb+MIpWsgseUIvHmx03KOdVPAndET4/2mAQLIgXGeq73uzLhu96KrJsqbYVVwM41uJfmOIx/fi0OVk8m7/tMV9EWKCJtlm4mr9HwhgCClAnZH7xzw1rIlsCkplClVVky8GQqoQ7CwqbNlw4zVz7u/rBUhYhjFroelCchHPdLMi4FvaPZzEnGaf7/rxksSLA5Vn/a3aIoAj9GRZdsttjKUPjbBC/sPrn77WQp+y3iaJqqVO8AfrgXtgA/b75K9b86WP8jP+eKg50XWm0yorkqTeUOd2gpeMyM0W/LJGM3jv7sCLyfN2ALFPQDXcUXivjbJ1FWHVrFAMbXZvKooP18Oixb/RMqi67SDaC7fMQ0cnXylEhSk+fikhyy+8Pza/UPReFKi79dP4h52cQnvnXg2shlaUC0iGPDpf5FoLHAZls
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CY5PR11MB6139.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(7916004)(366004)(346002)(136003)(39860400002)(396003)(376002)(451199021)(186003)(66946007)(66476007)(66556008)(6636002)(6666004)(4326008)(316002)(33716001)(38100700002)(41300700001)(5660300002)(86362001)(82960400001)(8936002)(6862004)(8676002)(478600001)(26005)(6506007)(6512007)(9686003)(6486002)(54906003)(2906002);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?ZUUwdjQ0VWxSbVgvRXZkUGRRQSt3SHNkdFQ3cC93MEdXYUdoN3UxRWVqK1Bm?=
+ =?utf-8?B?a0dkaXdxcWV2SCsreUZpOEtibjVRelZ6VGNLMUZERllCb21xZTN5anRpUHdX?=
+ =?utf-8?B?b3YzUkh4MG1vQy9reVlQalhNRzJpRTBsZHBrZEc4MlZCTjB6bDE3R3ZNMWxQ?=
+ =?utf-8?B?ZlZEamZYNjk0YXNhams3RWQ0b1J0d3RUaC93NGpmS2lZWDRKbEl4dCtkMGJt?=
+ =?utf-8?B?ZGVJcG13bzI2TFdFd0tiWXNndzFDcmNkOStkbXZCTmlNdTBGZkhDYW5xQnll?=
+ =?utf-8?B?ZHNtNGtJT0IvaGVuSTNCN3UzS2ljQ1c0UjNOUHZ4OWFrT0Q5QzZaV1pYVzln?=
+ =?utf-8?B?ZWR5allGUTZnS3Vlb2lyYks3L3JpNU1ha2dZR1UrekFjWVh5MkRwUU9hRllO?=
+ =?utf-8?B?V2d5YmxUSTFSWUtKaTM4L1IxalduUkJkZktYeXFCeERveXIydlVWeG9rZnRG?=
+ =?utf-8?B?SHJBZElVYUdHZFBuQmUrVEJMQ1daUWJ2WGRvS0JlTk5OaE84VU9UTC8yVitT?=
+ =?utf-8?B?UHZaSkJ5U3VscnE1NDI4b3lWNGRPWHBId2JTNkVqTGtISFVwd2dzR09VWEpI?=
+ =?utf-8?B?SVVyaDRKRGFxZDVhb1dmenB0UkhkMGFuRHRtSG10WlJrQkRlTmV6SWNnU2dY?=
+ =?utf-8?B?NngyVVdIdzhRbFNEbFRia1crdTgwR1JjNUExR2l6U2c0WUVQeHQ0ekR4NDJm?=
+ =?utf-8?B?Q3hTdnNIbG01UCthRFE4bG1BckN4VVU1S3F5ZXowNURONkJra1FiUDNYbjFn?=
+ =?utf-8?B?blFNRitmK2UwWWpFdE9XaG8xS0tZR1BEeXg5Yi9wdDhMTTJxbzZvSG8rYUNJ?=
+ =?utf-8?B?SGxvZ2lyR2tHWXQvaS9VYW1nQzB4Y1ZpQlcxbXErTnpISk5RMnE2UThrVkNU?=
+ =?utf-8?B?TkpYbG5reUNDRGxjSExHWFcyV1UyeTNuMU96WkEyMllreFd1M21sLzVMa2Fj?=
+ =?utf-8?B?ZllnOFZVdEQvSlprbzJKYloyNTB1dHYwWlVTT3kzcnBrOFBGRGVXL1gwOXNn?=
+ =?utf-8?B?YkNGUTlYaWptMEIrZlZ4VG5HNVhaQVd6MzlOWmFybGliQ0V6WllWVFFmYWFY?=
+ =?utf-8?B?dzdPSWhLbzhQaUJFUHd0ZTF4RFNKenFNRDhVWms4c3Y2b01zZFlDdndtdjIy?=
+ =?utf-8?B?WmRQeGFILzk0Mk1jd055RTRmd3VyNXhvM1pCRmNRWUwxOHE1VWNLclVJRkZB?=
+ =?utf-8?B?T2p0Qkp4TnRUcjNsT1VUeUNMbzRVaUxVbE9sSzJ4TFNwV0o4YWlybytGcVlz?=
+ =?utf-8?B?aER4aWh6Z1FaalBwRTdFdFB4OVNHdHNUZytCS1YyN0N4THhwMjNpNzJzRkJy?=
+ =?utf-8?B?QUIvUEVISWpHYklORlpucXFRejloQ01GQlI0T213ejN5NXdHUXh0TUMrc3VL?=
+ =?utf-8?B?c3BnUDkrM3NtNmtDMGxlU0xaVlFVd040SC8wMUZZTmt2Q3cxMFRGWEsvMjAw?=
+ =?utf-8?B?ckczT205ZmxWa1dxN2U4cEJSYUZROWR1aEgzcVlqMGxZYXRHaW5EM2Fid3FD?=
+ =?utf-8?B?RERCbmViS0crN0VxcW9Ld0c2dUp0RllhZ0NMcWZsaGZocUJUWHFSdHJGcmdS?=
+ =?utf-8?B?TWRGakJYUlNqWUlsSjFjUFl3dGhsMmJSTi9FUVpJVXNPQTZieGhoR1oyanBm?=
+ =?utf-8?B?RlFlOW03YkVQRW81Z0tTUGcwOFU2dU1rNzNTN3ZuRmxIZDErejFiM0ZZaVBB?=
+ =?utf-8?B?Vldpa1JHQ2Y3aHdnN2VIWHBuSHNFYVZabnJwOTNEeEtzMzdsSnJxZUZRNUJo?=
+ =?utf-8?B?SjNFR3FsWTdXWkRpa2tjMEdZNGZRNmgzY291MEltWjB5Yko4YWllTEVNbWxq?=
+ =?utf-8?B?NW5xTlhLV3czbzlBckdqRlp6NGJRRVVSeXd4bWtWOUY0d0h3TlpsSGh5Uy9X?=
+ =?utf-8?B?Mk9JZ2d6REZvUnlETUwwa1hXZnVrU3RaaVBKRnp3K1Q2bGp0UzkwTWRLcWxm?=
+ =?utf-8?B?VVV5b09SdnBQcEc2SFZrWURJNVNIMzF5R3V2SWNGNk50dmJOdnJRY2xnOFlr?=
+ =?utf-8?B?U0NSUmNuTkFyS1p4cjlYR0NmZ3lwQUtyaE1xUTliM21GVmJnWW1UMjFaR3FJ?=
+ =?utf-8?B?MHFaUU1CQVZqbVRGM1VYSlR6WWFVU3E1a3JTZXdDbmEwa1VNU0JvdStNVExG?=
+ =?utf-8?B?WGVTNUVpTTlVNWloMzY3cU9HVFZWQlZVbnFrTXNoaXlMTEVGVjlwZXVzVHVW?=
+ =?utf-8?B?Y1E9PQ==?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 51f0ab5f-4386-4ab8-8546-08db50ae59c5
+X-MS-Exchange-CrossTenant-AuthSource: CY5PR11MB6139.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 May 2023 16:56:36.6162
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: tcz2UpeFdg7OVWwmIiUVb+tIyeu6hVKUjZHeTW55HlCqpLj5DuFEoFhqEvkZUnDmxNYCjrvNnRZv7U8h5G79P7fVZv184FwY/MfmTsvEkAY=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO1PR11MB5108
+X-OriginatorOrg: intel.com
 
-Dzie=C5=84 dobry,
+On Tue, May 09, 2023 at 11:10:08AM -0400, Rodrigo Vivi wrote:
+>As documented in drivers/staging/Kconfig:
+>
+>STAGING means "that these drivers are under heavy development" and
+>"may contain userspace interfaces that most likely will be changed
+>in the near future."
+>
+>As explained in Documentation/gpu/rfc/xe.rst:
+>
+>"
+>Xe driver will be protected with both STAGING Kconfig and force_probe.
+>Changes in the uAPI are expected while the driver is behind these
+>protections. STAGING will be removed when the driver uAPI gets to a
+>mature state where we can guarantee the ‘no regression’ rule.
+>Then force_probe will be lifted only for future platforms that will be
+>productized with Xe driver, but not with i915.
+>"
+>
+>Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
+>Cc: Lucas De Marchi <lucas.demarchi@intel.com>
+>Cc: Radoslaw Szwichtenberg <radoslaw.szwichtenberg@intel.com>
+>Cc: Maciej Ramotowski <maciej.ramotowski@intel.com>
+>Cc: Kamil Konieczny <kamil.konieczny@linux.intel.com>
+>Signed-off-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
 
-w ramach nowej edycji programu Czyste Powietrze dla klient=C3=B3w indywid=
-ualnych mog=C4=85 otrzyma=C4=87 Pa=C5=84stwo do 135 tys. z=C5=82 wsparcia=
- na zakup pompy ciep=C5=82a.
+I agree with the idea, but I was expecting a few more hits:
 
-Pr=C3=B3cz wy=C5=BCszego dofinansowania program zak=C5=82ada m.in. podwy=C5=
-=BCszenie prog=C3=B3w dochodowych oraz mo=C5=BCliwo=C5=9B=C4=87 z=C5=82o=C5=
-=BCenia kolejnego wniosku o dofinansowanie dla tych, kt=C3=B3rzy ju=C5=BC=
- wcze=C5=9Bniej skorzystali z Programu.
+	$ git grep "\bSTAGING\b" -- '*Kconfig'
+	drivers/gpu/drm/nouveau/Kconfig:        depends on STAGING
+	drivers/gpu/drm/tegra/Kconfig:  depends on STAGING
+	drivers/staging/Kconfig:menuconfig STAGING
+	drivers/staging/Kconfig:if STAGING
+	drivers/staging/Kconfig:endif # STAGING
+	drivers/staging/vme_user/Kconfig:       depends on STAGING && PCI
+	drivers/staging/vme_user/Kconfig:       depends on STAGING && VME_BUS
 
-Jako firma specjalizuj=C4=85ca si=C4=99 w dostawie, monta=C5=BCu i serwis=
-ie pomp ciep=C5=82a pomo=C5=BCemy Pa=C5=84stwu w uzyskaniu dofinansowania=
- wraz z kompleksow=C4=85 realizacj=C4=85 ca=C5=82ego projektu.
+Are we doing something wrong here? Documentation/process/2.Process.rst
+talks about drivers under staging/ directory rather than drivers
+depending on CONFIG_STAGING.
 
-S=C4=85 Pa=C5=84stwo zainteresowani?
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-staging@lists.linux.dev
+Cc: dri-devel@lists.freedesktop.org
 
-Pozdrawiam
-Damian Hordych
+Lucas De Marchi
+
+>---
+> drivers/gpu/drm/xe/Kconfig | 1 +
+> 1 file changed, 1 insertion(+)
+>
+>diff --git a/drivers/gpu/drm/xe/Kconfig b/drivers/gpu/drm/xe/Kconfig
+>index f6f3b491d162..1a410edd38e4 100644
+>--- a/drivers/gpu/drm/xe/Kconfig
+>+++ b/drivers/gpu/drm/xe/Kconfig
+>@@ -2,6 +2,7 @@
+> config DRM_XE
+> 	tristate "Intel Xe Graphics"
+> 	depends on DRM && PCI && MMU
+>+	depends on STAGING
+> 	select INTERVAL_TREE
+> 	# we need shmfs for the swappable backing store, and in particular
+> 	# the shmem_readpage() which depends upon tmpfs
+>-- 
+>2.39.2
+>
