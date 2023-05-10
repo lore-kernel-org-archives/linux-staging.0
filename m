@@ -1,48 +1,49 @@
-Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
+Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DCE314AB8
-	for <linux-staging@lists.linux.dev>; Wed, 10 May 2023 15:09:31 +0000 (UTC)
-Received: by mail-pf1-f169.google.com with SMTP id d2e1a72fcca58-64115e652eeso50937728b3a.0
-        for <linux-staging@lists.linux.dev>; Wed, 10 May 2023 08:09:31 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0468814AB8
+	for <linux-staging@lists.linux.dev>; Wed, 10 May 2023 15:09:47 +0000 (UTC)
+Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-1ab032d9266so68781695ad.0
+        for <linux-staging@lists.linux.dev>; Wed, 10 May 2023 08:09:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1683731371; x=1686323371;
+        d=gmail.com; s=20221208; t=1683731387; x=1686323387;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=g/+U69i+oXYARFhfnLN9Kpm6lIKqslW4ET+ngsmdlTA=;
-        b=m6+LJ+C98J+VMJZwyIS8bNLITH3vIYwmhU76QbeV60Ni9XrJdFPl24ysp0a9SJHXrN
-         ttDHsECNj0XpoY8AhZaOfD1Gct0yfoADGWc/60E8uvTEQpjkI0dhA6K0gv4XlflnvxjJ
-         6xb8XyfIuEEm9jJ40iso744+nePhMxLkUJrYSgPaVKQDvCz0fMx7xQhil78gq0HtkDy0
-         VXwemSTb0P1JG1L+ZzZNFYR5kfq1Igvaik+go+FYAzx0ZQus7aoUdhdcZSqtd7Zg9Szp
-         GIMC8Su1WaOnPew8TBgKO5kkjWcGaUkZvvu3dWA6Brg81kYdHWQt6D+NyZ0RO16VOttJ
-         +6Fg==
+        bh=2MdUvkOQf/H6u+bsf32R+0B6I/OaVbOPJFXkpsnz650=;
+        b=XceF3oromGb5RS/guK2wNN+F2+fqB6JGxs7JAUfy+IEbKlO7bEtxA6sXW708RRTFWP
+         ZqnxwP405zkdO0YTUCrGlt/lBHeiWf0E4tUX1GA+PCCAPYxJonNfE5GpahOwbHlqAj+3
+         il9lkE7h45xz7Wcv/OZancE5Se6+GhgCnxaCYqcGYmHbFQJRJw+O+axe9tF1tn/T5/4Y
+         qj3h0h39+rZHEOEs/Lhz4DUAnZQaleeubwdAATBlQqxi4QG787tbarETiRuOPQByXxdX
+         GkLgea/YP03ocP4r7LJBMAcxzqi9T65axWaC7446iyfMeCMPU2/KqoRWejisvI539GxW
+         47ng==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683731371; x=1686323371;
+        d=1e100.net; s=20221208; t=1683731387; x=1686323387;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=g/+U69i+oXYARFhfnLN9Kpm6lIKqslW4ET+ngsmdlTA=;
-        b=Uv0LLPWljwJW7bTIhC5y3Md3OYMtqV3AFkAW+g2ex0ox/DX6OyHAak8YTBJu+/FLXJ
-         5ME3jAx5wNeBQqtFpm/HUXnIFtTEg7gjV3uRAHnW4AIM6oT1tN99yP2reX5k4GsalFsw
-         n2euM0/SfC2HiysFDOHHCkYiR5aweqyg7vSHUMSowwGdfF+MSfHzF2Xn/9P9WHzcKDnN
-         ARNtu6NSc9y8baLtP50YtcVlkAaCbd27pSU+pvxxO9+hQA75tdigGbK8ABDwh0l/EKYU
-         8+q2ze47NlXBYnbtEivk1hanwgzrxUS2SqL1JxeWjAtcwIgdR0N2yIWLnVLIGg2d4skE
-         hbQA==
-X-Gm-Message-State: AC+VfDw93nSDqVGeqnmb8NAONgTAUbsoRaT1WGLlC8yaVzft4rGkGmux
-	vbaJmzOF6CEpopIGrvZ+v0rCgdULQhA=
-X-Google-Smtp-Source: ACHHUZ43znpN4GPGFdQLAMPHvVbbEvcH4cZz8x4AHB+vSapQoQWLDQThNumZ5hWAcMFZ0FlWB58xvw==
-X-Received: by 2002:a17:90a:db07:b0:250:50c5:cabc with SMTP id g7-20020a17090adb0700b0025050c5cabcmr16937872pjv.3.1683731370599;
-        Wed, 10 May 2023 08:09:30 -0700 (PDT)
+        bh=2MdUvkOQf/H6u+bsf32R+0B6I/OaVbOPJFXkpsnz650=;
+        b=EdMbKIvXzChaGTT368WPA2s6tes76nguCA8Ba1TLwLsaGWrMnBBxziSCzFZAJ54jXH
+         rsq4AmqtUQmMFyTPJjhorIlnsLaZ9hU/BuNy9+DJjDvw48AfXRgw6TSN8JY1x8KD33Mf
+         HMIZmQBTDJffcvALBcRnp5RTlwuZawrItQloZCN3Svyivh1DLA+2044h1UMQ4kdR4Jr7
+         UpCbcGoFjxt3YTSxA6BcbJS2rD//Ka1ZFVLCaw/i7P+w+Ro6RSsCqMmcq3fpQdQTc8gA
+         i3+SUJSf0W5mD10ztWF2ZP0C5TZhD3cEVqxf5RMOPtn380g1TG/i/mY3Wdsq26Mpl4dH
+         W+pQ==
+X-Gm-Message-State: AC+VfDwvGx6rtv2lDH2vw5B+5FxBmJNc2ge6L62281alFYLA+p6h7IrC
+	+INt2952gZbvavrcTP5uynU=
+X-Google-Smtp-Source: ACHHUZ5h/G3A7pgdl0GfHmqF4GkzWayqzY9cVOhrOcG4jGAppA16m8qxu+4Svg3UWJ/bUXfGwNxSwA==
+X-Received: by 2002:a17:902:c94b:b0:1ab:14f2:e7e6 with SMTP id i11-20020a170902c94b00b001ab14f2e7e6mr21581496pla.65.1683731387410;
+        Wed, 10 May 2023 08:09:47 -0700 (PDT)
 Received: from pop-os.localdomain ([103.251.210.208])
-        by smtp.gmail.com with ESMTPSA id t15-20020a17090ad14f00b0024b6a90741esm13456870pjw.49.2023.05.10.08.09.28
+        by smtp.gmail.com with ESMTPSA id m2-20020a1709026bc200b001a045f45d49sm3869439plt.281.2023.05.10.08.09.45
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 10 May 2023 08:09:30 -0700 (PDT)
-Date: Wed, 10 May 2023 20:39:25 +0530
+        Wed, 10 May 2023 08:09:47 -0700 (PDT)
+Date: Wed, 10 May 2023 20:39:42 +0530
 From: Yogesh Hegde <yogi.kernel@gmail.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [PATCH 2/4] staging: rtl8192e: Rename tmpOFDMindex and tmpCCKindex
-Message-ID: <48098479094e4562fe196cbce813476041a664df.1683730854.git.yogi.kernel@gmail.com>
+Subject: [PATCH 3/4] staging: rtl8192e: Rename tmpCCK20Mindex and
+ tmpCCK40Mindex
+Message-ID: <3e8b6cd85e6e4fcc934cc1d813f5f594cef8ff92.1683730854.git.yogi.kernel@gmail.com>
 References: <cover.1683730854.git.yogi.kernel@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -54,86 +55,75 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 In-Reply-To: <cover.1683730854.git.yogi.kernel@gmail.com>
 
-Rename variable tmpOFDMindex to tmp_ofdm_index and
-tmpCCKindex to tmp_cck_index to avoid CamelCase which
+Rename variable tmpCCK20Mindex to tmp_cck_20m_index and
+tmpCCK40Mindex to tmp_cck_40m_index to avoid CamelCase which
 is not accepted by checkpatch.
 
 Signed-off-by: Yogesh Hegde <yogi.kernel@gmail.com>
 ---
- drivers/staging/rtl8192e/rtl8192e/rtl_dm.c | 24 +++++++++++-----------
- 1 file changed, 12 insertions(+), 12 deletions(-)
+ drivers/staging/rtl8192e/rtl8192e/rtl_dm.c | 28 +++++++++++-----------
+ 1 file changed, 14 insertions(+), 14 deletions(-)
 
 diff --git a/drivers/staging/rtl8192e/rtl8192e/rtl_dm.c b/drivers/staging/rtl8192e/rtl8192e/rtl_dm.c
-index af136abc595c..117c0538cf5f 100644
+index 117c0538cf5f..a44be3f810ab 100644
 --- a/drivers/staging/rtl8192e/rtl8192e/rtl_dm.c
 +++ b/drivers/staging/rtl8192e/rtl8192e/rtl_dm.c
 @@ -658,7 +658,7 @@ static void _rtl92e_dm_tx_power_tracking_cb_thermal(struct net_device *dev)
  #define ThermalMeterVal	9
  	struct r8192_priv *priv = rtllib_priv(dev);
  	u32 tmp_reg, tmp_cck;
--	u8 tmpOFDMindex, tmpCCKindex, tmpCCK20Mindex, tmpCCK40Mindex, tmpval;
-+	u8 tmp_ofdm_index, tmp_cck_index, tmpCCK20Mindex, tmpCCK40Mindex, tmpval;
+-	u8 tmp_ofdm_index, tmp_cck_index, tmpCCK20Mindex, tmpCCK40Mindex, tmpval;
++	u8 tmp_ofdm_index, tmp_cck_index, tmp_cck_20m_index, tmp_cck_40m_index, tmpval;
  	int i = 0, CCKSwingNeedUpdate = 0;
  
  	if (!priv->tx_pwr_tracking_init) {
-@@ -689,11 +689,11 @@ static void _rtl92e_dm_tx_power_tracking_cb_thermal(struct net_device *dev)
+@@ -689,33 +689,33 @@ static void _rtl92e_dm_tx_power_tracking_cb_thermal(struct net_device *dev)
  	priv->thermal_meter[1] = ThermalMeterVal;
  
  	if (priv->thermal_meter[0] >= (u8)tmp_reg) {
--		tmpOFDMindex = tmpCCK20Mindex = 6+(priv->thermal_meter[0] -
-+		tmp_ofdm_index = tmpCCK20Mindex = 6+(priv->thermal_meter[0] -
+-		tmp_ofdm_index = tmpCCK20Mindex = 6+(priv->thermal_meter[0] -
++		tmp_ofdm_index = tmp_cck_20m_index = 6+(priv->thermal_meter[0] -
  			      (u8)tmp_reg);
- 		tmpCCK40Mindex = tmpCCK20Mindex - 6;
--		if (tmpOFDMindex >= OFDM_TABLE_LEN)
--			tmpOFDMindex = OFDM_TABLE_LEN - 1;
-+		if (tmp_ofdm_index >= OFDM_TABLE_LEN)
-+			tmp_ofdm_index = OFDM_TABLE_LEN - 1;
- 		if (tmpCCK20Mindex >= CCK_TABLE_LEN)
- 			tmpCCK20Mindex = CCK_TABLE_LEN - 1;
- 		if (tmpCCK40Mindex >= CCK_TABLE_LEN)
-@@ -701,18 +701,18 @@ static void _rtl92e_dm_tx_power_tracking_cb_thermal(struct net_device *dev)
+-		tmpCCK40Mindex = tmpCCK20Mindex - 6;
++		tmp_cck_40m_index = tmp_cck_20m_index - 6;
+ 		if (tmp_ofdm_index >= OFDM_TABLE_LEN)
+ 			tmp_ofdm_index = OFDM_TABLE_LEN - 1;
+-		if (tmpCCK20Mindex >= CCK_TABLE_LEN)
+-			tmpCCK20Mindex = CCK_TABLE_LEN - 1;
+-		if (tmpCCK40Mindex >= CCK_TABLE_LEN)
+-			tmpCCK40Mindex = CCK_TABLE_LEN - 1;
++		if (tmp_cck_20m_index >= CCK_TABLE_LEN)
++			tmp_cck_20m_index = CCK_TABLE_LEN - 1;
++		if (tmp_cck_40m_index >= CCK_TABLE_LEN)
++			tmp_cck_40m_index = CCK_TABLE_LEN - 1;
  	} else {
  		tmpval = (u8)tmp_reg - priv->thermal_meter[0];
  		if (tmpval >= 6) {
--			tmpOFDMindex = 0;
-+			tmp_ofdm_index = 0;
- 			tmpCCK20Mindex = 0;
+ 			tmp_ofdm_index = 0;
+-			tmpCCK20Mindex = 0;
++			tmp_cck_20m_index = 0;
  		} else {
--			tmpOFDMindex = 6 - tmpval;
-+			tmp_ofdm_index = 6 - tmpval;
- 			tmpCCK20Mindex = 6 - tmpval;
+ 			tmp_ofdm_index = 6 - tmpval;
+-			tmpCCK20Mindex = 6 - tmpval;
++			tmp_cck_20m_index = 6 - tmpval;
  		}
- 		tmpCCK40Mindex = 0;
+-		tmpCCK40Mindex = 0;
++		tmp_cck_40m_index = 0;
  	}
  	if (priv->current_chnl_bw != HT_CHANNEL_WIDTH_20)
--		tmpCCKindex = tmpCCK40Mindex;
-+		tmp_cck_index = tmpCCK40Mindex;
+-		tmp_cck_index = tmpCCK40Mindex;
++		tmp_cck_index = tmp_cck_40m_index;
  	else
--		tmpCCKindex = tmpCCK20Mindex;
-+		tmp_cck_index = tmpCCK20Mindex;
+-		tmp_cck_index = tmpCCK20Mindex;
++		tmp_cck_index = tmp_cck_20m_index;
  
- 	priv->rec_cck_20m_idx = tmpCCK20Mindex;
- 	priv->rec_cck_40m_idx = tmpCCK40Mindex;
-@@ -727,15 +727,15 @@ static void _rtl92e_dm_tx_power_tracking_cb_thermal(struct net_device *dev)
- 		CCKSwingNeedUpdate = 1;
- 	}
+-	priv->rec_cck_20m_idx = tmpCCK20Mindex;
+-	priv->rec_cck_40m_idx = tmpCCK40Mindex;
++	priv->rec_cck_20m_idx = tmp_cck_20m_index;
++	priv->rec_cck_40m_idx = tmp_cck_40m_index;
  
--	if (priv->cck_index != tmpCCKindex) {
--		priv->cck_index = tmpCCKindex;
-+	if (priv->cck_index != tmp_cck_index) {
-+		priv->cck_index = tmp_cck_index;
- 		CCKSwingNeedUpdate = 1;
- 	}
- 
- 	if (CCKSwingNeedUpdate)
- 		rtl92e_dm_cck_txpower_adjust(dev, priv->bcck_in_ch14);
--	if (priv->ofdm_index[0] != tmpOFDMindex) {
--		priv->ofdm_index[0] = tmpOFDMindex;
-+	if (priv->ofdm_index[0] != tmp_ofdm_index) {
-+		priv->ofdm_index[0] = tmp_ofdm_index;
- 		rtl92e_set_bb_reg(dev, rOFDM0_XATxIQImbalance, bMaskDWord,
- 				  OFDMSwingTable[priv->ofdm_index[0]]);
- 	}
+ 	if (priv->rtllib->current_network.channel == 14 &&
+ 	    !priv->bcck_in_ch14) {
 -- 
 2.34.1
 
