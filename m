@@ -1,96 +1,69 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E1596129
-	for <linux-staging@lists.linux.dev>; Wed, 10 May 2023 08:24:02 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 869FFC433D2;
-	Wed, 10 May 2023 08:24:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1683707041;
-	bh=QHl9O0+GyO3IxzYRQZ+Cvm8DVVpWm/ZqfcJpbla8hnA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=dr/bMcqj19gk6I9n/0MWgpijKmDcL7HAxKmE2zIcTS5maP99icKPJ1rwmQZoIqJMU
-	 AzXU2oJ3jESPUUNLI1edrrQEj1O3zCHlCzSXJj7tNq4eZ5XDFcCDDz4O32uuz9m6u1
-	 /bFlR9p2XsT0cTtLdQBuCh648zWP/tY+eK9WhbEo=
-Date: Wed, 10 May 2023 10:23:59 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Lucas De Marchi <lucas.demarchi@intel.com>
-Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>, intel-xe@lists.freedesktop.org,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Radoslaw Szwichtenberg <radoslaw.szwichtenberg@intel.com>,
-	Maciej Ramotowski <maciej.ramotowski@intel.com>,
-	Kamil Konieczny <kamil.konieczny@linux.intel.com>,
-	linux-staging@lists.linux.dev, dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH] drm/xe: Make xe build dependent on STAGING.
-Message-ID: <2023051029-overspend-sherry-1b85@gregkh>
-References: <20230509151008.1434683-1-rodrigo.vivi@intel.com>
- <ro2hcqlyzx4sfd7atm7r2kmqk74gymkpyo2kgt7heabvkolpre@xcfkmdn77ot4>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DD0114AB8
+	for <linux-staging@lists.linux.dev>; Wed, 10 May 2023 15:08:55 +0000 (UTC)
+Received: by mail-pf1-f170.google.com with SMTP id d2e1a72fcca58-643557840e4so7925334b3a.2
+        for <linux-staging@lists.linux.dev>; Wed, 10 May 2023 08:08:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1683731334; x=1686323334;
+        h=content-disposition:mime-version:message-id:subject:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=ISNEZENIG6K3IyfhajA3k/qhhHWtHVV6rKzQTcXTN74=;
+        b=eSNGpnZob1N6NvKSRItpN5FKrkUL3QRuF2vJVxZAvSr0qq6KO077KassFOMkOVrQ8e
+         ffrirAM5v461+Urxohi5sOtjnGAIaA+Jy90m4AfWgTlkmG86W/D6kJqn8Nikg+DR9RfY
+         4CrrN8+mCYGWuvxKinSzkB66Um3HYsbDROl2n1PsU//deaojS6WQs647/oS1rCOERRvj
+         EMkArPQLd5jF9u+Q5Qo7UW7GCojGaTOXqMe8Tc5WGg/fF7u7EhlID98APoQ/slvnzOT/
+         oCpGaHETsvWcZp5pyMnRuSeX7gS7X77XlekN94Z7xXt0O8DXImVYH/QmlKK5SDBjQWL3
+         LAcg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1683731334; x=1686323334;
+        h=content-disposition:mime-version:message-id:subject:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=ISNEZENIG6K3IyfhajA3k/qhhHWtHVV6rKzQTcXTN74=;
+        b=NHfPbTTWR9A5efTVlhRS/Ak7IACD2nhuVvI35BcrhKBIw2Cua8p/SmYodHVlbwBe+w
+         01UiRYShjKMEyjXRIA9xezEMIqBXkdNAp8qqUwS2jngZtOOAcmtXk1D4dKQZrpa2LOim
+         CeFkDDy0MlLf5mhYnzwxYZCtiKgcAlaTUcosDChxIQ8IAR8rMXWD5Gqj6GaPeaCrFkvG
+         mcV2ZbfmFLKPbK55LvTmIos3QKGFIFK38K7++47RP+Ns72gh/bOmsekq6EPx4yg1oZqR
+         ShqAoA/RI9zojckBE5sjS7/LIzutJzAjt/xAZo6BTZ9pSvByZifTacre58M7fQ+41/F6
+         lGiw==
+X-Gm-Message-State: AC+VfDyim2KE92QVn0PH8SesJI9CxDLthgKn57QmntEgaUojQep81Aq1
+	GNJ8g79wkG40wnLBITv7+Og=
+X-Google-Smtp-Source: ACHHUZ5OKb+xGZ0+LVt5TlLyoXHbLdDwHqsFFp5uVw69JE4irlr+jT+179PZOynhNCkE4by/dJrfmA==
+X-Received: by 2002:a05:6a00:1acf:b0:643:d40c:7da0 with SMTP id f15-20020a056a001acf00b00643d40c7da0mr18027552pfv.31.1683731334516;
+        Wed, 10 May 2023 08:08:54 -0700 (PDT)
+Received: from pop-os.localdomain ([103.251.210.208])
+        by smtp.gmail.com with ESMTPSA id j11-20020a62e90b000000b00571cdbd0771sm3636931pfh.102.2023.05.10.08.08.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 10 May 2023 08:08:53 -0700 (PDT)
+Date: Wed, 10 May 2023 20:38:49 +0530
+From: Yogesh Hegde <yogi.kernel@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: [PATCH 0/4] staging: rtl8192e: Trivial code cleanup patches
+Message-ID: <cover.1683730854.git.yogi.kernel@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <ro2hcqlyzx4sfd7atm7r2kmqk74gymkpyo2kgt7heabvkolpre@xcfkmdn77ot4>
 
-On Tue, May 09, 2023 at 09:56:33AM -0700, Lucas De Marchi wrote:
-> On Tue, May 09, 2023 at 11:10:08AM -0400, Rodrigo Vivi wrote:
-> > As documented in drivers/staging/Kconfig:
-> > 
-> > STAGING means "that these drivers are under heavy development" and
-> > "may contain userspace interfaces that most likely will be changed
-> > in the near future."
-> > 
-> > As explained in Documentation/gpu/rfc/xe.rst:
-> > 
-> > "
-> > Xe driver will be protected with both STAGING Kconfig and force_probe.
-> > Changes in the uAPI are expected while the driver is behind these
-> > protections. STAGING will be removed when the driver uAPI gets to a
-> > mature state where we can guarantee the ‘no regression’ rule.
-> > Then force_probe will be lifted only for future platforms that will be
-> > productized with Xe driver, but not with i915.
-> > "
-> > 
-> > Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
-> > Cc: Lucas De Marchi <lucas.demarchi@intel.com>
-> > Cc: Radoslaw Szwichtenberg <radoslaw.szwichtenberg@intel.com>
-> > Cc: Maciej Ramotowski <maciej.ramotowski@intel.com>
-> > Cc: Kamil Konieczny <kamil.konieczny@linux.intel.com>
-> > Signed-off-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
-> 
-> I agree with the idea, but I was expecting a few more hits:
-> 
-> 	$ git grep "\bSTAGING\b" -- '*Kconfig'
-> 	drivers/gpu/drm/nouveau/Kconfig:        depends on STAGING
-> 	drivers/gpu/drm/tegra/Kconfig:  depends on STAGING
-> 	drivers/staging/Kconfig:menuconfig STAGING
-> 	drivers/staging/Kconfig:if STAGING
-> 	drivers/staging/Kconfig:endif # STAGING
-> 	drivers/staging/vme_user/Kconfig:       depends on STAGING && PCI
-> 	drivers/staging/vme_user/Kconfig:       depends on STAGING && VME_BUS
-> 
-> Are we doing something wrong here? Documentation/process/2.Process.rst
-> talks about drivers under staging/ directory rather than drivers
-> depending on CONFIG_STAGING.
+Rename variables in function _rtl92e_dm_tx_power_tracking_cb_thermal
+and Refactor variable assignment to avoid checkpatch complains.
+The patches are required to be applied in sequence.
 
-Yes, you are doing something wrong here :)
+Yogesh Hegde (4):
+  staging: rtl8192e: Rename tmpRegA and TempCCk
+  staging: rtl8192e: Rename tmpOFDMindex and tmpCCKindex
+  staging: rtl8192e: Rename tmpCCK20Mindex and tmpCCK40Mindex
+  staging: rtl8192e: Refactor tmp_ofdm_index variable assignment
 
-CONFIG_STAGING is only to be used for drivers/staging/.  But I will not
-take drm drivers into that directory as the DRM developers don't want me
-to (and that's wonderful, no objection from me).
+ drivers/staging/rtl8192e/rtl8192e/rtl_dm.c | 68 +++++++++++-----------
+ 1 file changed, 34 insertions(+), 34 deletions(-)
 
-If you just use the CONFIG dependancy here you will not get the taint
-flag set properly if they are out of that directory (and you want that
-taint flag, TAINT_CRAP is there for that reason.)
+-- 
+2.34.1
 
-But hey, it's your subsystem, if you want to depend on this random
-config variable, wonderful!  But realize that it means nothing, and has
-nothing to do with user/kernel api stability issues at all.
-
-thanks,
-
-greg k-h
