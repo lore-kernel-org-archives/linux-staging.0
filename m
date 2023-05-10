@@ -1,50 +1,51 @@
-Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8837D1548F
-	for <linux-staging@lists.linux.dev>; Wed, 10 May 2023 15:10:09 +0000 (UTC)
-Received: by mail-pf1-f180.google.com with SMTP id d2e1a72fcca58-6436e075166so5538148b3a.0
-        for <linux-staging@lists.linux.dev>; Wed, 10 May 2023 08:10:09 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAB84154A9
+	for <linux-staging@lists.linux.dev>; Wed, 10 May 2023 16:56:38 +0000 (UTC)
+Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-3078cc99232so4488891f8f.3
+        for <linux-staging@lists.linux.dev>; Wed, 10 May 2023 09:56:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1683731409; x=1686323409;
+        d=linaro.org; s=google; t=1683737797; x=1686329797;
         h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=BbmQvMf9KzmVdxCSRKyarW++yF6GCnmLwgE9M2RotW4=;
-        b=ZtJb+YQhL1NxXiVYXH/As6s0vhSNRYSvBGb+N15NM9sSTgykg2AjFG9qO3PG1SSAdX
-         3CzT1p1aXATma9d/PmwuFlgGVy7iPV0mFxdq0s4DTw30wK9x5u6+A4moyvlsOiikgmKe
-         AebpEZLZg5GoW77NMWMF3/j1eyyDOkLUUU0EqMnk6swb6Fa0hyQ0dXmmyn2aywJMC7Kg
-         zOTes6Wbgk23IVk/ItcrUYD/ki8KW08GvSbIgX6luFY4S1pMla1MDbBqgHS6hjyOjwtC
-         ShxaC9GcJ/6967chkJuXT2NCet7fFBrtkg8OgXdS0F6KlQH5bM+1Nbl+4E+PuaK1vc+S
-         7C8A==
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=8Gc42bzaewvbzuVY4XS1BAUy3IQI/qYsbZWzsf3GfP0=;
+        b=cVqT1ib9QJ9/kzKSOTrNRKUbrjFXsGdqeYhc+sl3GIaaiQoSSiWjaiKpzzyY7nVDul
+         b7EiokHUG3Gt+0er8OBdwhd9EfIySBdyvkXcbFe07PpYc17OSHvGFkksgsmZpa8sdxre
+         jNADZnOp0yzjwZqfnJrO9mWcPtNlUdF51ebwYeeury3NNZqR8Zp87b8Y9ixIJMPq2TJN
+         0xdVoNAvjTK59i8wYlIDb2FZoKUII5pTdx5egOrA4n4SQ4I/EcTP189nw1o3FYYGkbwj
+         eaHvBihLqCUKVZBGXFPokDC8Hvrm91tXUoANiG7GRwYINzuFxC0KjDzZ2X063f4rwrjx
+         oEew==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683731409; x=1686323409;
+        d=1e100.net; s=20221208; t=1683737797; x=1686329797;
         h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=BbmQvMf9KzmVdxCSRKyarW++yF6GCnmLwgE9M2RotW4=;
-        b=WHJ0Q9oY0vK9KmrnqsgJR1zEkDQnzL+zlpyKY9DtxRV+FkbgdI1TzPoya7MnQWCGHG
-         0ard7l67eiVJVOaj9acG3ndN8qiTfptmgx2NsowPeEEEZZ9ETMpBGg/K3yeLVYnp+1JS
-         1TfX6uNHoiL8luUdpLDnmGUOTzNf4pozBJJszl20/YgMI+rfJ90jSymc0NBQ79iZAnAF
-         LFFrxUiFhlCnbvrl3lpeTqsKPmcPeHZjXdTf917tdw1/Yz7H3PzFGp4d5RNWTWxt8KxZ
-         1hdRYGH+eOySVKJ0bBifuU2nGo0/8dBq4YmY1dJsfmDbZPAvIsolhj5HMNWssRocolli
-         yslw==
-X-Gm-Message-State: AC+VfDyb7oEtz9APaF45uXbOkCnuEkx9efUlmd3nPbqS+U5rVMUqA69B
-	9t7/lxN6KaUJ05fcnpucVsIGu7MuaeM=
-X-Google-Smtp-Source: ACHHUZ4t+R6GTCWUl02uKMGgbAc5ywYmosUfP/6Gl+Jt3HupOylaw31Ww4uk5dzkv3/izFGWD7N64g==
-X-Received: by 2002:a05:6a21:788f:b0:101:37b2:62f3 with SMTP id bf15-20020a056a21788f00b0010137b262f3mr8536263pzc.61.1683731408908;
-        Wed, 10 May 2023 08:10:08 -0700 (PDT)
-Received: from pop-os.localdomain ([103.251.210.208])
-        by smtp.gmail.com with ESMTPSA id x6-20020aa793a6000000b00640f588b36dsm3697217pff.8.2023.05.10.08.10.06
+        bh=8Gc42bzaewvbzuVY4XS1BAUy3IQI/qYsbZWzsf3GfP0=;
+        b=i7R0nw1nGnQbEdxgzmULCUywRBucgEXZeZrOcNTl4eXdDHnwqJHMppNx4Nt9cDgXZo
+         IIbXcCXQ2EK4XR0sYaA2JFF1/rhVjzQ6OD6wrsJwJL5pgkWbaUkFExygFTn8/+nhHlY7
+         M6erZOULQ8zwRLEysI15uzGy5AiWy6mx7bxvL//tFz9Ffe/QbbbDrST7FFxvWCCQzExX
+         wtTBqcFc7HRpLH/2TB2y16AtgTFUOgPjQ4/jJfcw08TyEjhZNkNJ8bR+vydQRuCGinGf
+         7Z3CBz7kQHl0w8LD+hwplkQ+Gi2DOO+1cF6is9Koq3DXO7anUIvkTWNvw03m9z2atwDU
+         LFYQ==
+X-Gm-Message-State: AC+VfDz9a1O12BVlPmFMKBANhPukXFt1gEdRxfSTedUCfYrACbtqbSJR
+	7p0WwslKAElwHILD5OSqIdhvcQ==
+X-Google-Smtp-Source: ACHHUZ6qVCedZJaUlxkTnZAmvQ1PaaZpHadEIgUXazjoLAIMDpp9IpqCHyYK3Ho/Q75x73mF1RUMGA==
+X-Received: by 2002:adf:ecc4:0:b0:306:2c5b:9da6 with SMTP id s4-20020adfecc4000000b003062c5b9da6mr13711866wro.56.1683737797002;
+        Wed, 10 May 2023 09:56:37 -0700 (PDT)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id o2-20020a5d62c2000000b003062c609115sm17818387wrv.21.2023.05.10.09.56.33
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 10 May 2023 08:10:08 -0700 (PDT)
-Date: Wed, 10 May 2023 20:40:04 +0530
-From: Yogesh Hegde <yogi.kernel@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Wed, 10 May 2023 09:56:35 -0700 (PDT)
+Date: Wed, 10 May 2023 19:56:29 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Yogesh Hegde <yogi.kernel@gmail.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [PATCH 4/4] staging: rtl8192e: Refactor tmp_ofdm_index variable
- assignment
-Message-ID: <af7bc22ec142c33cf7346c1ab13d192b55095d1e.1683730854.git.yogi.kernel@gmail.com>
+Subject: Re: [PATCH 1/4] staging: rtl8192e: Rename tmpRegA and TempCCk
+Message-ID: <290473de-5946-49d4-9309-6bebf7cc9873@kili.mountain>
 References: <cover.1683730854.git.yogi.kernel@gmail.com>
+ <c9c67f832db3a776c04f26e0afb083ae3ba99c07.1683730854.git.yogi.kernel@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -53,31 +54,37 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <cover.1683730854.git.yogi.kernel@gmail.com>
+In-Reply-To: <c9c67f832db3a776c04f26e0afb083ae3ba99c07.1683730854.git.yogi.kernel@gmail.com>
 
-Refactor tmp_ofdm_index variable assignment to avoid multiple
-assignments which is not accepted by checkpatch.
+On Wed, May 10, 2023 at 08:39:07PM +0530, Yogesh Hegde wrote:
+> @@ -680,17 +680,17 @@ static void _rtl92e_dm_tx_power_tracking_cb_thermal(struct net_device *dev)
+>  		return;
+>  	}
+>  
+> -	tmpRegA = rtl92e_get_rf_reg(dev, RF90_PATH_A, 0x12, 0x078);
+> -	if (tmpRegA < 3 || tmpRegA > 13)
+> +	tmp_reg = rtl92e_get_rf_reg(dev, RF90_PATH_A, 0x12, 0x078);
+> +	if (tmp_reg < 3 || tmp_reg > 13)
+>  		return;
+> -	if (tmpRegA >= 12)
+> -		tmpRegA = 12;
+> +	if (tmp_reg >= 12)
+> +		tmp_reg = 12;
 
-Signed-off-by: Yogesh Hegde <yogi.kernel@gmail.com>
----
- drivers/staging/rtl8192e/rtl8192e/rtl_dm.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Not related to your patch (which is fine) but this if statement can be
+deleted.
 
-diff --git a/drivers/staging/rtl8192e/rtl8192e/rtl_dm.c b/drivers/staging/rtl8192e/rtl8192e/rtl_dm.c
-index a44be3f810ab..feac50cd8fa0 100644
---- a/drivers/staging/rtl8192e/rtl8192e/rtl_dm.c
-+++ b/drivers/staging/rtl8192e/rtl8192e/rtl_dm.c
-@@ -689,8 +689,8 @@ static void _rtl92e_dm_tx_power_tracking_cb_thermal(struct net_device *dev)
- 	priv->thermal_meter[1] = ThermalMeterVal;
- 
- 	if (priv->thermal_meter[0] >= (u8)tmp_reg) {
--		tmp_ofdm_index = tmp_cck_20m_index = 6+(priv->thermal_meter[0] -
--			      (u8)tmp_reg);
-+		tmp_ofdm_index = 6 + (priv->thermal_meter[0] - (u8)tmp_reg);
-+		tmp_cck_20m_index = tmp_ofdm_index;
- 		tmp_cck_40m_index = tmp_cck_20m_index - 6;
- 		if (tmp_ofdm_index >= OFDM_TABLE_LEN)
- 			tmp_ofdm_index = OFDM_TABLE_LEN - 1;
--- 
-2.34.1
+>  	priv->thermal_meter[0] = ThermalMeterVal;
+>  	priv->thermal_meter[1] = ThermalMeterVal;
+>  
+> -	if (priv->thermal_meter[0] >= (u8)tmpRegA) {
+> +	if (priv->thermal_meter[0] >= (u8)tmp_reg) {
+
+And casting tmp_reg to u8 is nonsense so that casting can be deleted too.
+2 separate patches:
+patch 1: delete unecessary if statement
+patch 2: delete unecessary casting
+
+regards,
+dan carpenter
 
