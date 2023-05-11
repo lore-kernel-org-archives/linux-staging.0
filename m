@@ -1,45 +1,45 @@
-Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
+Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 729FD19BDA
-	for <linux-staging@lists.linux.dev>; Thu, 11 May 2023 13:34:20 +0000 (UTC)
-Received: by mail-pf1-f180.google.com with SMTP id d2e1a72fcca58-64388cf3263so6137506b3a.3
-        for <linux-staging@lists.linux.dev>; Thu, 11 May 2023 06:34:20 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 436EE19BCE
+	for <linux-staging@lists.linux.dev>; Thu, 11 May 2023 13:34:19 +0000 (UTC)
+Received: by mail-pf1-f173.google.com with SMTP id d2e1a72fcca58-6439d505274so5135133b3a.0
+        for <linux-staging@lists.linux.dev>; Thu, 11 May 2023 06:34:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1683812060; x=1686404060;
+        d=gmail.com; s=20221208; t=1683812059; x=1686404059;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=nFOqkcQLLXbcUCNMC4nXxtnD0IYkCz/oJKuj034INls=;
-        b=ZCUHyyVcvAAoCdOafCtA4n7c8liYHGSBLP/9JWCiIyfBsuOFYnb9Od2VddtQTddZsB
-         tSZdSk7DSwOjGdyyZAqeYlijt6hojNfFE9q+yFk2EvKYTCzx0UEv7g3XyibLY81uTKaa
-         o4AZJt2FbG4isB7qvKcMsxVon1NizgL13UxUJaWMwemV/epyrmm6IrXao1eYUrabtyRp
-         MOZ4P5hGjVnMhCXIwpGBAp+rGz86SHC0XtIl7cC3iFruuaXK+pZ+R4Db9QVFVxjFiUTB
-         vx6puMKL8dLHZqnrsnHVyysyczSXGGLH9GmpAda5Os8zbpmx0AQLNgPvUxmQxiIugo85
-         IGag==
+        bh=TvQJn1ZYg8v6mzW/3fuRQrh0U5JZY6q45my8do7wZYs=;
+        b=FR+lzS6ws1s4+0BrEjJOxT3QCZs1zlHFw3iwFQrRdE7KhykZ7Sp0+htFAd1PSSpalK
+         mKR095SMhXajOz7nXdpXAV4iTrCmPghLd7jHkIlnJhAyKwcS9jlNiSxnsZ5zsKyoAZ0w
+         Q+jD/SjjqThiD8VaYNFNqg3LHzly1stKY0Qtx7PIngeyD7udj7WpeighIV9ovfsPyRH3
+         uQVMsDINQTkpGWe583FbNKG59vQRYyChe5Ytug1DzKUlyMAUZJh2xhRhA2Xtg8uOYyMb
+         i9AsIm25FzQm3J9Q2zbEGteOfrDBkFsh7aXa8N/f9udABiEeROrBrYCdC6NJdS/MVUR3
+         ROIw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683812060; x=1686404060;
+        d=1e100.net; s=20221208; t=1683812059; x=1686404059;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=nFOqkcQLLXbcUCNMC4nXxtnD0IYkCz/oJKuj034INls=;
-        b=fXXNEhxv+wukM0IEdqIVZOCE5zWKuw++25HkW5bl5nwyksd9MmqEdVtBtJQ2QeBWbK
-         Nrou/uSgeD5UwIK/8HY5eQnN9RIngvwUl3DQ5SD6d62GW0gRG02D8oRFSz9/EmDMyWid
-         Clp9QuDYpGL6jUeUVtzn5vwkGyp0Njl2uERCtsFsZftsW0MR+aYMuGgpQ5b8SS153eK7
-         aKHxC7jBQRaT1kGWkUWmum4hx+NG3RBH0OO2tNjbkcURjVj02wO9C3M8DsiveffDw46c
-         o57dSyKZApwTt46zoeTHUG5bIrX3HI8CGgEcBmEo1fO/fMzw/nwvUbOvQ5adzLJeXOZn
-         RTgw==
-X-Gm-Message-State: AC+VfDxd5xSXKyqXEcYD3boszv7yMyuD+ViMu7p5nMG+ia+x6g0q5S3t
-	o4pmqvftwHyeLsEOzDpD94Q=
-X-Google-Smtp-Source: ACHHUZ5Yi06llRCu2mM9uS4jssvYi6G9YBgC/4EKP+eX38MkFDoX6HanBhqoBSMudy9nftfmGF4Umg==
-X-Received: by 2002:a05:6a00:24d1:b0:646:ec88:998c with SMTP id d17-20020a056a0024d100b00646ec88998cmr14586028pfv.15.1683812059640;
-        Thu, 11 May 2023 06:34:19 -0700 (PDT)
+        bh=TvQJn1ZYg8v6mzW/3fuRQrh0U5JZY6q45my8do7wZYs=;
+        b=BMOJvsaaxyWp9oxOtpbDp5I40Y9zGrB7hWMVwRkzZIaETazDiOGnJp+pvJVAxJKsg6
+         Ds+dp1IDa9lkuafIfqxEOnRfiunoe1QAtUiFCyh1U5UD0Oza1hnoJWWgnUT7Vsn3Z+WH
+         GaOMXMX5bq5doYabkhRvzKZY6FYzaNYYSyjwjsJHYcfvHdYmUT5O+OSd77u8SMD9cHsG
+         wnqxqWk1B4PTqoU2kjMXuYtsU1nZ800QgvlDB6udvGU8cZN4Wd96TSz/i2JKa7n/YJEU
+         YN+RG1I11T7iL+YuPsZt2S/8BDBlcekZDY7mX+Nlz+n4dgz3Rc7125cDKHdGiH0jFGBM
+         fC1w==
+X-Gm-Message-State: AC+VfDwi05XwXjuEqyxeHSw4T4Q1jVH5iGsUakmlX1Aoe0UTweIzJuvL
+	7eZWjoCOdjFWrERyt2EU/wc=
+X-Google-Smtp-Source: ACHHUZ5NDjpLkh72vHHJby/leGVfGAdpd/rXrohEx64pMCXFR9O2axrH/afoz3S2ysKgGwKiIxuQKA==
+X-Received: by 2002:a05:6a20:144b:b0:101:3c60:67b6 with SMTP id a11-20020a056a20144b00b001013c6067b6mr13479679pzi.12.1683812058680;
+        Thu, 11 May 2023 06:34:18 -0700 (PDT)
 Received: from debian.me (subs02-180-214-232-92.three.co.id. [180.214.232.92])
-        by smtp.gmail.com with ESMTPSA id u18-20020aa78492000000b006470a6ef529sm4895458pfn.88.2023.05.11.06.34.18
+        by smtp.gmail.com with ESMTPSA id t23-20020a634457000000b0051afa49e07asm4963031pgk.50.2023.05.11.06.34.17
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Thu, 11 May 2023 06:34:18 -0700 (PDT)
 Received: by debian.me (Postfix, from userid 1000)
-	id CE01210680B; Thu, 11 May 2023 20:34:10 +0700 (WIB)
+	id 99EC5106778; Thu, 11 May 2023 20:34:10 +0700 (WIB)
 From: Bagas Sanjaya <bagasdotme@gmail.com>
 To: Linux DRI Development <dri-devel@lists.freedesktop.org>,
 	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
@@ -87,19 +87,11 @@ Cc: Diederik de Haas <didi.debian@cknow.org>,
 	Gaosheng Cui <cuigaosheng1@huawei.com>,
 	Dan Carpenter <error27@gmail.com>,
 	Archana <craechal@gmail.com>,
-	Ray Lehtiniemi <rayl@mail.com>,
-	Alessandro Zummo <a.zummo@towertech.it>,
-	Andrey Panin <pazke@donpac.ru>,
-	Oleg Drokin <green@crimea.edu>,
-	Marc Zyngier <maz@kernel.org>,
-	Jonas Jensen <jonas.jensen@gmail.com>,
-	Sylver Bruneau <sylver.bruneau@googlemail.com>,
-	Andrew Sharp <andy.sharp@lsi.com>,
-	Denis Turischev <denis@compulab.co.il>,
-	Mika Westerberg <mika.westerberg@linux.intel.com>
-Subject: [PATCH 08/10] drivers: watchdog: Replace GPL license notice with SPDX identifier
-Date: Thu, 11 May 2023 20:34:04 +0700
-Message-Id: <20230511133406.78155-9-bagasdotme@gmail.com>
+	Donald Becker <becker@scyld.com>,
+	Michael Hipp <hippm@informatik.uni-tuebingen.de>
+Subject: [PATCH 05/10] net: ethernet: i825xx: Replace GPL boilerplate with SPDX identifier
+Date: Thu, 11 May 2023 20:34:01 +0700
+Message-Id: <20230511133406.78155-6-bagasdotme@gmail.com>
 X-Mailer: git-send-email 2.40.1
 In-Reply-To: <20230511133406.78155-1-bagasdotme@gmail.com>
 References: <20230511133406.78155-1-bagasdotme@gmail.com>
@@ -109,261 +101,120 @@ List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=9182; i=bagasdotme@gmail.com; h=from:subject; bh=48g2oyfhDHzUYBcXnko4ERoWGH+5mzIFU4TjL0WXw5E=; b=owGbwMvMwCX2bWenZ2ig32LG02pJDCkx706EdjQ3Bpu1Twi42FI6vT95XrVWDUdKo+Hmoq+Bp R2m/7Z3lLIwiHExyIopskxK5Gs6vctI5EL7WkeYOaxMIEMYuDgFYCJqUxkZ2pLttPzk0g/vXPhS MiFKNqeiidehNv92k+mC+nWTpsgfYfjvZ5//pTFbMiRnzwGOuooo1XJXIwnOZy0ZVfO3H11z5gs vAA==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=4893; i=bagasdotme@gmail.com; h=from:subject; bh=GwswZdBixKoBuDzSlGkyZUlVCYOt8JMfPk9+Zwjys5g=; b=owGbwMvMwCX2bWenZ2ig32LG02pJDCkx746n20wxN5ibc33GrsQ9MRt3hN341Lkzte7MBAGDh 0cn1x4811HKwiDGxSArpsgyKZGv6fQuI5EL7WsdYeawMoEMYeDiFICJHHnG8L9q2uNAqbXrtkRf YmAKTJ9zmN12Ue462eNHZDvmKGwRKJnPyPBLMdJ7QUHKXY3pb94UCma26GYniZd7zNmq6ajdpnO xmREA
 X-Developer-Key: i=bagasdotme@gmail.com; a=openpgp; fpr=701B806FDCA5D3A58FFB8F7D7C276C64A5E44A1D
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Many watchdog drivers's source files has already SPDX license
-identifier, while some remaining doesn't.
+Replace unversioned GPL boilerplate notice on remaining i825xx files
+with appropriate SPDX identifier. For files that contains "extension to
+Linux kernel", use GPL 2.0, otherwise GPL 1.0+.
 
-Convert notices on remaining files to SPDX identifier.
-
-Cc: Ray Lehtiniemi <rayl@mail.com>
-Cc: Alessandro Zummo <a.zummo@towertech.it>
-Cc: Andrey Panin <pazke@donpac.ru>
-Cc: Oleg Drokin <green@crimea.edu>
-Cc: Marc Zyngier <maz@kernel.org>
-Cc: Jonas Jensen <jonas.jensen@gmail.com>
-Cc: Sylver Bruneau <sylver.bruneau@googlemail.com>
-Cc: Andrew Sharp <andy.sharp@lsi.com>
-Cc: Denis Turischev <denis@compulab.co.il>
-Cc: Mika Westerberg <mika.westerberg@linux.intel.com>
+Cc: Donald Becker <becker@scyld.com>
+Cc: Michael Hipp <hippm@informatik.uni-tuebingen.de>
+Cc: Simon Horman <simon.horman@corigine.com>
 Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
 ---
- drivers/watchdog/ep93xx_wdt.c     | 5 +----
- drivers/watchdog/ibmasr.c         | 3 +--
- drivers/watchdog/m54xx_wdt.c      | 4 +---
- drivers/watchdog/max63xx_wdt.c    | 5 +----
- drivers/watchdog/moxart_wdt.c     | 4 +---
- drivers/watchdog/octeon-wdt-nmi.S | 5 +----
- drivers/watchdog/orion_wdt.c      | 4 +---
- drivers/watchdog/rtd119x_wdt.c    | 2 +-
- drivers/watchdog/sb_wdog.c        | 5 +----
- drivers/watchdog/sbc_fitpc2_wdt.c | 4 +---
- drivers/watchdog/ts4800_wdt.c     | 4 +---
- drivers/watchdog/ts72xx_wdt.c     | 4 +---
- 12 files changed, 12 insertions(+), 37 deletions(-)
+ drivers/net/ethernet/i825xx/82596.c      | 5 ++---
+ drivers/net/ethernet/i825xx/lasi_82596.c | 5 ++---
+ drivers/net/ethernet/i825xx/lib82596.c   | 5 ++---
+ drivers/net/ethernet/i825xx/sun3_82586.c | 4 +---
+ drivers/net/ethernet/i825xx/sun3_82586.h | 4 +---
+ 5 files changed, 8 insertions(+), 15 deletions(-)
 
-diff --git a/drivers/watchdog/ep93xx_wdt.c b/drivers/watchdog/ep93xx_wdt.c
-index 38e26f160b9a57..f5d70842617fe9 100644
---- a/drivers/watchdog/ep93xx_wdt.c
-+++ b/drivers/watchdog/ep93xx_wdt.c
-@@ -1,3 +1,4 @@
-+/* SPDX-License-Identifier: GPL-2.0-only */
- /*
-  * Watchdog driver for Cirrus Logic EP93xx family of devices.
-  *
-@@ -11,10 +12,6 @@
-  * Copyright (c) 2012 H Hartley Sweeten <hsweeten@visionengravers.com>
-  *	Convert to a platform device and use the watchdog framework API
-  *
-- * This file is licensed under the terms of the GNU General Public
-- * License version 2. This program is licensed "as is" without any
-- * warranty of any kind, whether express or implied.
-- *
-  * This watchdog fires after 250msec, which is a too short interval
-  * for us to rely on the user space daemon alone. So we ping the
-  * wdt each ~200msec and eventually stop doing it if the user space
-diff --git a/drivers/watchdog/ibmasr.c b/drivers/watchdog/ibmasr.c
-index 4a22fe15208630..df03f3b2659a3e 100644
---- a/drivers/watchdog/ibmasr.c
-+++ b/drivers/watchdog/ibmasr.c
+diff --git a/drivers/net/ethernet/i825xx/82596.c b/drivers/net/ethernet/i825xx/82596.c
+index 3ee89ae496d0ca..cfca25a6c5c03e 100644
+--- a/drivers/net/ethernet/i825xx/82596.c
++++ b/drivers/net/ethernet/i825xx/82596.c
 @@ -1,3 +1,4 @@
 +/* SPDX-License-Identifier: GPL-1.0-or-later */
+ /* 82596.c: A generic 82596 ethernet driver for linux. */
  /*
-  * IBM Automatic Server Restart driver.
-  *
-@@ -6,8 +7,6 @@
-  * Based on driver written by Pete Reynolds.
-  * Copyright (c) IBM Corporation, 1998-2004.
-  *
-- * This software may be used and distributed according to the terms
-- * of the GNU Public License, incorporated herein by reference.
-  */
+    Based on Apricot.c
+@@ -31,9 +32,7 @@
+    Driver skeleton
+    Written 1993 by Donald Becker.
+    Copyright 1993 United States Government as represented by the Director,
+-   National Security Agency. This software may only be used and distributed
+-   according to the terms of the GNU General Public License as modified by SRC,
+-   incorporated herein by reference.
++   National Security Agency.
  
- #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
-diff --git a/drivers/watchdog/m54xx_wdt.c b/drivers/watchdog/m54xx_wdt.c
-index f388a769dbd33d..9ca80b6c1790b6 100644
---- a/drivers/watchdog/m54xx_wdt.c
-+++ b/drivers/watchdog/m54xx_wdt.c
+    The author may be reached as becker@scyld.com, or C/O
+    Scyld Computing Corporation, 410 Severn Ave., Suite 210, Annapolis MD 21403
+diff --git a/drivers/net/ethernet/i825xx/lasi_82596.c b/drivers/net/ethernet/i825xx/lasi_82596.c
+index 0af70094aba341..a5bb26d101bc97 100644
+--- a/drivers/net/ethernet/i825xx/lasi_82596.c
++++ b/drivers/net/ethernet/i825xx/lasi_82596.c
+@@ -1,3 +1,4 @@
++/* SPDX-License-Identifier: GPL-1.0-or-later */
+ /* lasi_82596.c -- driver for the intel 82596 ethernet controller, as
+    munged into HPPA boxen .
+ 
+@@ -59,9 +60,7 @@
+    Driver skeleton
+    Written 1993 by Donald Becker.
+    Copyright 1993 United States Government as represented by the Director,
+-   National Security Agency. This software may only be used and distributed
+-   according to the terms of the GNU General Public License as modified by SRC,
+-   incorporated herein by reference.
++   National Security Agency.
+ 
+    The author may be reached as becker@scyld.com, or C/O
+    Scyld Computing Corporation, 410 Severn Ave., Suite 210, Annapolis MD 21403
+diff --git a/drivers/net/ethernet/i825xx/lib82596.c b/drivers/net/ethernet/i825xx/lib82596.c
+index ca2fb303fcc6f6..f158484c82dd86 100644
+--- a/drivers/net/ethernet/i825xx/lib82596.c
++++ b/drivers/net/ethernet/i825xx/lib82596.c
+@@ -1,3 +1,4 @@
++/* SPDX-License-Identifier: GPL-1.0-or-later */
+ /* lasi_82596.c -- driver for the intel 82596 ethernet controller, as
+    munged into HPPA boxen .
+ 
+@@ -59,9 +60,7 @@
+    Driver skeleton
+    Written 1993 by Donald Becker.
+    Copyright 1993 United States Government as represented by the Director,
+-   National Security Agency. This software may only be used and distributed
+-   according to the terms of the GNU General Public License as modified by SRC,
+-   incorporated herein by reference.
++   National Security Agency.
+ 
+    The author may be reached as becker@scyld.com, or C/O
+    Scyld Computing Corporation, 410 Severn Ave., Suite 210, Annapolis MD 21403
+diff --git a/drivers/net/ethernet/i825xx/sun3_82586.c b/drivers/net/ethernet/i825xx/sun3_82586.c
+index 3909c6a0af89f9..c64bf2d8ae8add 100644
+--- a/drivers/net/ethernet/i825xx/sun3_82586.c
++++ b/drivers/net/ethernet/i825xx/sun3_82586.c
 @@ -1,3 +1,4 @@
 +/* SPDX-License-Identifier: GPL-2.0-only */
  /*
-  * drivers/watchdog/m54xx_wdt.c
+  * Sun3 i82586 Ethernet driver
   *
-@@ -11,9 +12,6 @@
-  *  Copyright 2004 (c) MontaVista, Software, Inc.
-  *  Based on sa1100 driver, Copyright (C) 2000 Oleg Drokin <green@crimea.edu>
-  *
-- * This file is licensed under  the terms of the GNU General Public
-- * License version 2. This program is licensed "as is" without any
-- * warranty of any kind, whether express or implied.
-  */
- 
- #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
-diff --git a/drivers/watchdog/max63xx_wdt.c b/drivers/watchdog/max63xx_wdt.c
-index 9e1541cfae0d89..811f6dabad2c08 100644
---- a/drivers/watchdog/max63xx_wdt.c
-+++ b/drivers/watchdog/max63xx_wdt.c
-@@ -1,3 +1,4 @@
-+/* SPDX-License-Identifier: GPL-2.0-only */
- /*
-  * drivers/char/watchdog/max63xx_wdt.c
-  *
-@@ -5,10 +6,6 @@
-  *
-  * Copyright (C) 2009 Marc Zyngier <maz@misterjones.org>
-  *
-- * This file is licensed under the terms of the GNU General Public
-- * License version 2. This program is licensed "as is" without any
-- * warranty of any kind, whether express or implied.
-- *
-  * This driver assumes the watchdog pins are memory mapped (as it is
-  * the case for the Arcom Zeus). Should it be connected over GPIOs or
-  * another interface, some abstraction will have to be introduced.
-diff --git a/drivers/watchdog/moxart_wdt.c b/drivers/watchdog/moxart_wdt.c
-index 6340a1f5f471b2..c87873c7d13f86 100644
---- a/drivers/watchdog/moxart_wdt.c
-+++ b/drivers/watchdog/moxart_wdt.c
-@@ -1,3 +1,4 @@
-+/* SPDX-License-Identifier: GPL-2.0-only */
- /*
-  * MOXA ART SoCs watchdog driver.
-  *
-@@ -5,9 +6,6 @@
-  *
-  * Jonas Jensen <jonas.jensen@gmail.com>
-  *
-- * This file is licensed under the terms of the GNU General Public
-- * License version 2.  This program is licensed "as is" without any
-- * warranty of any kind, whether express or implied.
-  */
- 
- #include <linux/clk.h>
-diff --git a/drivers/watchdog/octeon-wdt-nmi.S b/drivers/watchdog/octeon-wdt-nmi.S
-index 97f6eb7b5a8e04..e308cc74392018 100644
---- a/drivers/watchdog/octeon-wdt-nmi.S
-+++ b/drivers/watchdog/octeon-wdt-nmi.S
-@@ -1,8 +1,5 @@
-+/* SPDX-License-Identifier: GPL-2.0-only */
- /*
-- * This file is subject to the terms and conditions of the GNU General Public
-- * License.  See the file "COPYING" in the main directory of this archive
-- * for more details.
-- *
-  * Copyright (C) 2007-2017 Cavium, Inc.
-  */
- #include <asm/asm.h>
-diff --git a/drivers/watchdog/orion_wdt.c b/drivers/watchdog/orion_wdt.c
-index 5ec2dd8fd5fa3d..938b357a12b911 100644
---- a/drivers/watchdog/orion_wdt.c
-+++ b/drivers/watchdog/orion_wdt.c
-@@ -1,3 +1,4 @@
-+/* SPDX-License-Identifier: GPL-2.0-only */
- /*
-  * drivers/watchdog/orion_wdt.c
-  *
-@@ -5,9 +6,6 @@
-  *
-  * Author: Sylver Bruneau <sylver.bruneau@googlemail.com>
-  *
-- * This file is licensed under  the terms of the GNU General Public
-- * License version 2. This program is licensed "as is" without any
-- * warranty of any kind, whether express or implied.
-  */
- 
- #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
-diff --git a/drivers/watchdog/rtd119x_wdt.c b/drivers/watchdog/rtd119x_wdt.c
-index 95c8d7abce42e6..1c3c36e9779739 100644
---- a/drivers/watchdog/rtd119x_wdt.c
-+++ b/drivers/watchdog/rtd119x_wdt.c
-@@ -1,9 +1,9 @@
-+/* SPDX-License-Identifier: GPL-2.0+ */
- /*
-  * Realtek RTD129x watchdog
-  *
-  * Copyright (c) 2017 Andreas Färber
-  *
-- * SPDX-License-Identifier: GPL-2.0+
-  */
- 
- #include <linux/bitops.h>
-diff --git a/drivers/watchdog/sb_wdog.c b/drivers/watchdog/sb_wdog.c
-index 504be461f992a9..00b35eddf9395f 100644
---- a/drivers/watchdog/sb_wdog.c
-+++ b/drivers/watchdog/sb_wdog.c
-@@ -1,3 +1,4 @@
-+/* SPDX-License-Identifier: GPL-1.0 OR GPL-2.0 */
- /*
-  * Watchdog driver for SiByte SB1 SoCs
-  *
-@@ -38,10 +39,6 @@
-  *	(c) Copyright 1996 Alan Cox <alan@lxorguk.ukuu.org.uk>,
-  *						All Rights Reserved.
-  *
-- *	This program is free software; you can redistribute it and/or
-- *	modify it under the terms of the GNU General Public License
-- *	version 1 or 2 as published by the Free Software Foundation.
-- *
-  */
- 
- #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
-diff --git a/drivers/watchdog/sbc_fitpc2_wdt.c b/drivers/watchdog/sbc_fitpc2_wdt.c
-index 13db71e165836e..141fcbd11c4c82 100644
---- a/drivers/watchdog/sbc_fitpc2_wdt.c
-+++ b/drivers/watchdog/sbc_fitpc2_wdt.c
-@@ -1,3 +1,4 @@
-+/* SPDX-License-Identifier: GPL-2.0-only */
- /*
-  * Watchdog driver for SBC-FITPC2 board
-  *
-@@ -5,9 +6,6 @@
-  *
-  * Adapted from the IXP2000 watchdog driver by Deepak Saxena.
-  *
-- * This file is licensed under  the terms of the GNU General Public
-- * License version 2. This program is licensed "as is" without any
-- * warranty of any kind, whether express or implied.
-  */
- 
- #define pr_fmt(fmt) KBUILD_MODNAME " WATCHDOG: " fmt
-diff --git a/drivers/watchdog/ts4800_wdt.c b/drivers/watchdog/ts4800_wdt.c
-index 0ea554c7cda579..9d7d7ad876a788 100644
---- a/drivers/watchdog/ts4800_wdt.c
-+++ b/drivers/watchdog/ts4800_wdt.c
-@@ -1,11 +1,9 @@
-+/* SPDX-License-Identifier: GPL-2.0-only */
- /*
-  * Watchdog driver for TS-4800 based boards
-  *
-  * Copyright (c) 2015 - Savoir-faire Linux
-  *
-- * This file is licensed under the terms of the GNU General Public
-- * License version 2. This program is licensed "as is" without any
-- * warranty of any kind, whether express or implied.
-  */
- 
- #include <linux/kernel.h>
-diff --git a/drivers/watchdog/ts72xx_wdt.c b/drivers/watchdog/ts72xx_wdt.c
-index bf918f5fa13175..bb53dc481006c9 100644
---- a/drivers/watchdog/ts72xx_wdt.c
-+++ b/drivers/watchdog/ts72xx_wdt.c
-@@ -1,3 +1,4 @@
-+/* SPDX-License-Identifier: GPL-2.0-only */
- /*
-  * Watchdog driver for Technologic Systems TS-72xx based SBCs
-  * (TS-7200, TS-7250 and TS-7260). These boards have external
 @@ -8,9 +9,6 @@
   *
-  * This driver is based on ep93xx_wdt and wm831x_wdt drivers.
+  * net-3-driver for the NI5210 card (i82586 Ethernet chip)
   *
-- * This file is licensed under the terms of the GNU General Public
-- * License version 2. This program is licensed "as is" without any
-- * warranty of any kind, whether express or implied.
-  */
- 
- #include <linux/platform_device.h>
+- * This is an extension to the Linux operating system, and is covered by the
+- * same Gnu Public License that covers that work.
+- *
+  * Alphacode 0.82 (96/09/29) for Linux 2.0.0 (or later)
+  * Copyrights (c) 1994,1995,1996 by M.Hipp (hippm@informatik.uni-tuebingen.de)
+  * --------------------------
+diff --git a/drivers/net/ethernet/i825xx/sun3_82586.h b/drivers/net/ethernet/i825xx/sun3_82586.h
+index d82eca563266a1..82702b32c61fec 100644
+--- a/drivers/net/ethernet/i825xx/sun3_82586.h
++++ b/drivers/net/ethernet/i825xx/sun3_82586.h
+@@ -1,9 +1,7 @@
++/* SPDX-License-Identifier: GPL-2.0-only */
+ /*
+  * Intel i82586 Ethernet definitions
+  *
+- * This is an extension to the Linux operating system, and is covered by the
+- * same Gnu Public License that covers that work.
+- *
+  * copyrights (c) 1994 by Michael Hipp (hippm@informatik.uni-tuebingen.de)
+  *
+  * I have done a look in the following sources:
 -- 
 An old man doll... just what I always wanted! - Clara
 
