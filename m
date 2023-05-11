@@ -1,104 +1,151 @@
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from NAM02-SN1-obe.outbound.protection.outlook.com (mail-sn1nam02on2132.outbound.protection.outlook.com [40.107.96.132])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED1471F920
-	for <linux-staging@lists.linux.dev>; Thu, 11 May 2023 14:21:23 +0000 (UTC)
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-3f423ac6e2dso36927355e9.2
-        for <linux-staging@lists.linux.dev>; Thu, 11 May 2023 07:21:23 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08E081B8F3
+	for <linux-staging@lists.linux.dev>; Thu, 11 May 2023 14:24:52 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=eNEZR1V9cicsPIicS3u3akllebJseEm0z6EEGUCSAaE9LCr23X4wrU5xmq1rv3YoqovC+pEfgh22IxL3yOB0ui3osv25aepnAw2ZYdPjhfBk0HR6Fk1gcIm/wTfzy1H0WAhtvuoHfVnXYnKbmLSh7dyMk3Kqsx0cf3S2sMc14kyKC6/aB4baT9v2NAGTUKng0t+qoJfFGDt94Bhth75JfKvQABP1hM2+Kn8yLQcAs6GpIGxpRI+Yx4nHychUSPuuAp7qzOLcJhdpLy8RbHQ74DPg4h1Fhdbn3HlxgWgX7kdajPYFVvsGLr+ZoADiicxV8SL548hYkcf4S5UcYWyGVQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=7RYmxkQ/ji41+jhyUAH9q4OQql59eG1Qtdit4nAaHJ0=;
+ b=AcEpL3EcPvnepJTN1YSHawQ05MV6ULxAbbXycoavMjIAw/AMOSh0ZfMtSuDS0PipAojo24bU9WW9lTCiZjvTzXG+dOdiWNKTVPlyiccNK4rBeYP0nKPx60WYcybo63/IXodgM9hz9Z3K4SkylMCiMGJRg+atK12buejwWJkzf5YPl0wYhGFqXNJPeXFa+LhD1lov/Y5tfi22nIDEGnbKCcVKtBGpEn5ciqgOQWAiqGbeLVXyL92Wifmh6Ef50qnjHhUYHdU6sofHWOC3zKGpsONOpP9HlhGtZRQRpFp2mJZIpjWP3p870mXrOARpYD+/sS87rzThipmPjPbRny4w7A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=corigine.com; dmarc=pass action=none header.from=corigine.com;
+ dkim=pass header.d=corigine.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1683814882; x=1686406882;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=X4TGtpdbw9bD18atN5kE/HuvcKSp7uR+zidBNAhHlJo=;
-        b=SVoR1J5McR7bzOwVTqcF5UTRFeXPjduzAUfjR5e4d1fFZGppSENYT+4/M5FKd5sAnZ
-         UFCsYfKLeXcEVpdXeeqCa+KuBllAsamed2Be2fRc8d/bvuPMtaAYe4rUBbXReBCvkA/X
-         fCxD8dXOg1dXI9oawBSOcUnvBISvIOvvok8GZpNfj8vihZePcMQrm5hhk7x8bXltS0YW
-         60bcm/324w4kkzlVqEEvemM3mqVzaF+yEtE0jXj8q6NUTxfcRzsGU1B5YudNgocuMXeS
-         GiVaQAkpDY9e4WHr9Mg34YLZSFJ2lrJLdZgTF1JYBbLzV5uGkNObqv5rmBy3sIEAR7s4
-         lciQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683814882; x=1686406882;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=X4TGtpdbw9bD18atN5kE/HuvcKSp7uR+zidBNAhHlJo=;
-        b=QZ1LvJaprf6sMJVNyhLqMjzt5bpyIZqUYEday4waY/bLe6w6UHjZDC2Gp5AuXx+KBK
-         yyxm6T7fCwiDnfUuJPF/wrvlFePZEWvRvDZIbs0wCPXuQZ+TuPonpTyoJqrnkMFid2Y9
-         ZcvWo8q065nDb8WfRbgrc717M0bv6coGEx85WoXH4QPBrLZ7UR1Mpyy44g9jQMQUwYST
-         u2zj5YHpzNPeXpUNtkg00HKUWuwM3loHQ2SoBo02Zub5zkviPllyT7VMVWI3kyLpiZOS
-         mtVUyfOHsE1drprj0aLf1j7vZ3GCJgaVJzz1JZ6yc6JAjTl9vhKEU6jOzhsWXZts5pX+
-         84fQ==
-X-Gm-Message-State: AC+VfDycCsPpn58xQZffm9VgUT6teAV4KjUmPGalGZGGc+P3S7lPwjoM
-	si5hXa3Pu6x/6VV5XldoBhdGng==
-X-Google-Smtp-Source: ACHHUZ7QUXYkrnHkb0i+q6zk4yZEtJTc2jM2rdWoYHjLfSdxde8JMO4u63TJKBpnd3HN7PadpUGHkQ==
-X-Received: by 2002:a5d:4c85:0:b0:307:904b:29e1 with SMTP id z5-20020a5d4c85000000b00307904b29e1mr10675394wrs.20.1683814882088;
-        Thu, 11 May 2023 07:21:22 -0700 (PDT)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id a11-20020adfeecb000000b003048477729asm20472093wrp.81.2023.05.11.07.21.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 11 May 2023 07:21:20 -0700 (PDT)
-Date: Thu, 11 May 2023 17:21:07 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Yogesh Hegde <yogi.kernel@gmail.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/4] staging: rtl8192e: Rename tmpRegA and TempCCk
-Message-ID: <613ae5dd-2b36-4c87-8b6e-959e58d077fd@kili.mountain>
-References: <cover.1683730854.git.yogi.kernel@gmail.com>
- <c9c67f832db3a776c04f26e0afb083ae3ba99c07.1683730854.git.yogi.kernel@gmail.com>
- <290473de-5946-49d4-9309-6bebf7cc9873@kili.mountain>
- <ZFz5Lxc/gUTKkLNX@pop-os.localdomain>
+ d=corigine.onmicrosoft.com; s=selector2-corigine-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=7RYmxkQ/ji41+jhyUAH9q4OQql59eG1Qtdit4nAaHJ0=;
+ b=amgmYNBn6odxr/Ufgxx53TbqXMQcjOWtwwLIkIlJGvsvVqg+k/0524ZsE84OR5CI7lQB+xiKV7clVfTzMppBR653B+++eqnwnqBwH2gcsh9Y/ycZ81Zz268QjNQNjKQWnCsamtJ630TA8jR5x+MhBhz6k3MMX3kKn3jW8f6CptY=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=corigine.com;
+Received: from PH0PR13MB4842.namprd13.prod.outlook.com (2603:10b6:510:78::6)
+ by SJ2PR13MB6522.namprd13.prod.outlook.com (2603:10b6:a03:561::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6387.18; Thu, 11 May
+ 2023 14:24:48 +0000
+Received: from PH0PR13MB4842.namprd13.prod.outlook.com
+ ([fe80::f416:544d:18b7:bb34]) by PH0PR13MB4842.namprd13.prod.outlook.com
+ ([fe80::f416:544d:18b7:bb34%5]) with mapi id 15.20.6387.020; Thu, 11 May 2023
+ 14:24:48 +0000
+Date: Thu, 11 May 2023 16:24:35 +0200
+From: Simon Horman <simon.horman@corigine.com>
+To: Bagas Sanjaya <bagasdotme@gmail.com>
+Cc: Linux DRI Development <dri-devel@lists.freedesktop.org>,
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+	Linux Networking <netdev@vger.kernel.org>,
+	Linux ARM <linux-arm-kernel@lists.infradead.org>,
+	Linux Staging Drivers <linux-staging@lists.linux.dev>,
+	Linux Watchdog Devices <linux-watchdog@vger.kernel.org>,
+	Linux Kernel Actions <linux-actions@lists.infradead.org>,
+	Diederik de Haas <didi.debian@cknow.org>,
+	Kate Stewart <kstewart@linuxfoundation.org>,
+	David Airlie <airlied@redhat.com>,
+	Karsten Keil <isdn@linux-pingi.de>,
+	Jay Vosburgh <j.vosburgh@gmail.com>,
+	Andy Gospodarek <andy@greyhouse.net>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Sam Creasey <sammy@sammy.net>,
+	Dominik Brodowski <linux@dominikbrodowski.net>,
+	Daniel Mack <daniel@zonque.org>,
+	Haojian Zhuang <haojian.zhuang@gmail.com>,
+	Robert Jarzmik <robert.jarzmik@free.fr>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Wim Van Sebroeck <wim@linux-watchdog.org>,
+	Guenter Roeck <linux@roeck-us.net>, Jan Kara <jack@suse.com>,
+	Andreas =?utf-8?Q?F=C3=A4rber?= <afaerber@suse.de>,
+	Manivannan Sadhasivam <mani@kernel.org>, Tom Rix <trix@redhat.com>,
+	Yang Yingliang <yangyingliang@huawei.com>,
+	"Steven Rostedt (Google)" <rostedt@goodmis.org>,
+	Pavel Machek <pavel@ucw.cz>, Minghao Chi <chi.minghao@zte.com.cn>,
+	Kalle Valo <kvalo@kernel.org>,
+	Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
+	Viresh Kumar <viresh.kumar@linaro.org>,
+	Arnd Bergmann <arnd@arndb.de>, Deepak R Varma <drv@mailo.com>,
+	Davidlohr Bueso <dave@stgolabs.net>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Jacob Keller <jacob.e.keller@intel.com>,
+	Gaosheng Cui <cuigaosheng1@huawei.com>,
+	Dan Carpenter <error27@gmail.com>, Archana <craechal@gmail.com>,
+	"David A . Hinds" <dahinds@users.sourceforge.net>,
+	Donald Becker <becker@scyld.com>, Peter De Schrijver <p2@mind.be>,
+	Greg Ungerer <gerg@linux-m68k.org>
+Subject: Re: [PATCH 04/10] net: ethernet: 8390: Replace GPL boilerplate with
+ SPDX identifier
+Message-ID: <ZFz6o4NerIKW/db9@corigine.com>
+References: <20230511133406.78155-1-bagasdotme@gmail.com>
+ <20230511133406.78155-5-bagasdotme@gmail.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230511133406.78155-5-bagasdotme@gmail.com>
+X-ClientProxiedBy: AM4PR0202CA0012.eurprd02.prod.outlook.com
+ (2603:10a6:200:89::22) To PH0PR13MB4842.namprd13.prod.outlook.com
+ (2603:10b6:510:78::6)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZFz5Lxc/gUTKkLNX@pop-os.localdomain>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH0PR13MB4842:EE_|SJ2PR13MB6522:EE_
+X-MS-Office365-Filtering-Correlation-Id: 079f9e82-b533-41d1-0fed-08db522b79a8
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	HrO3qMY54g7s+R0TY4gShgDySFw43IfO6KpRR+xtG/HFFRTYZOW4LihUwTk+XVMvcHVeEFdReuuaKKCP/KyLEBPk1Knw22J0e8XMeRyt77azpb0D4MD4LWC7jRiXFXHIoOstAZV3xesKrD2gEWQHzFYNUEhocVhEk6YFV2WR5Sz6/k7/xbpN2WvepaAUvJ4VQI+B54Ux1EIM+iMvQE7tK6e/M79j2ThBLAW/bt2gBmY6p/F5Pq7x+XGTleGZTi0TN5z1Bh1xTaW7GwEgXdSFKhKxhp7yNrvVxxjJVqNDwHgDyTGayf+0KlWDndYlNH/+csh8sjK/ogsLGBGQW3f+VYx+DFnzBY31mlEgpkOMqFBYS/m2jaSBecCPJQ68k+hZYbxudBncvrNowNKKaXINGJ3PMQW812NEUC9tlxBj7UtiY3IjhUAsIQgt+QBXUMOGXac05CnW7QLPRErkq3ptO1fbiPY5fippTwIwWdjQqXCLuoWTDVpnLc7WzaM6IHBorIk4IYgq+Wok2pdRg2iHxe9eB+uQx7dRF7yir0SG8og0f0KTZYbZcJb8c8vbY7G/EmU45ldOZw51cbi2HUukZ4wkyDQZ53m2sU1a4Mr0WP2siQ104ucuoCTd9i7uBQuK
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH0PR13MB4842.namprd13.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(366004)(136003)(396003)(39840400004)(376002)(346002)(451199021)(186003)(6506007)(2906002)(41300700001)(4326008)(6512007)(6916009)(66556008)(66476007)(316002)(558084003)(38100700002)(83380400001)(7406005)(7416002)(2616005)(8676002)(86362001)(44832011)(8936002)(36756003)(5660300002)(54906003)(478600001)(6666004)(6486002)(66946007)(41080700001);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?1IW8BJyNoU4F6B3Cw5ECWGrwPpkI7fzqw+DqvlkAdzMXhNp82XKG24BzhXe4?=
+ =?us-ascii?Q?HE699Uj5M2/NNyPRonVMg5B0NBivACNj7PY2hNlbNU8eUzgmBcKt81xvvMz4?=
+ =?us-ascii?Q?WjA7BNVWZ+78c+g8jsy0bjPrrZf1NDOn8yv48JZfHzznVca3AopY4SxMpEvo?=
+ =?us-ascii?Q?Y+HqngUJ3uhCdp5rX8IV4kVLqpQlLkK7P1tQ9fzkk5uMfrv2lbX5SP929+ud?=
+ =?us-ascii?Q?ToCK7+85eWizKEsWddR3nkLd6N6TN/rfGHL+b2i21lrSBG5aXEtGOQwXV8uS?=
+ =?us-ascii?Q?3SUAe7YZljodex9ntwNQskXCnA+P1+NUTXSGz7VgFtJDeYdXaMg8OdimTDvx?=
+ =?us-ascii?Q?vtZ4xUSUe5p4/kZ1WKwuo8RbaMRJ59snhWUwHiybgt8NRrihnl+OfVzsJ4wB?=
+ =?us-ascii?Q?zRGRtZMpaq9h4zGXCsYjKcxlGTiPFTstdKFkiT8ZHj1NCqLLCzwO0GZIrvIi?=
+ =?us-ascii?Q?aSo1TJujNZj5P/M1APR6i6dwmHMBtq75tOXsBrRou5YY8MEK54EzAcePv28U?=
+ =?us-ascii?Q?Y7rxCekp8UGMURQB7uWTGaa9En6EcuwANyVr9C2LvohgrBTcxheUZWxMvFda?=
+ =?us-ascii?Q?IrQ2x409VAsMiYWDy8Erw7glaZFNEhbMIQnFin2cC5wZJgX11s8uWfdUwMgA?=
+ =?us-ascii?Q?oKV9me7NjhSBbv2cLb+k1+Nn8+Y3isiuO3bFtm4ViipBgr9quMTwrfJCfv0c?=
+ =?us-ascii?Q?fsj2T0lyLylElGI/9KjJN3Cgy/Z5o8YhyEUIlN/1ANeDlm3KfetluJu0ryei?=
+ =?us-ascii?Q?5I7GXJkz3bNlsmXuru8lvEsF53t66DFFpZh+2NyANXohmwn387ut0u/13zMi?=
+ =?us-ascii?Q?aEcJErVziXTSyw+hYRwnracOhqbBmrpZunwMnSBY7zMzdqwHbLISN9W9N6hr?=
+ =?us-ascii?Q?U+58OrRs1xMCgdsk8dqkPbGHXITaRx9sGqLmwUMY0RItcPntlxEcYilZ3eP4?=
+ =?us-ascii?Q?j+umMdTFpJKo/X6wALnIUdZx1OrNGZMyvU0UtIgEvVF8UTD5cEOu1Vl5CHIl?=
+ =?us-ascii?Q?E4tz0SoLmiXEP3/yPzMJmbpYEW8JPR/m5pdOt6oeIaSZcGMBHNQ2CkROpNs0?=
+ =?us-ascii?Q?0f7W2QiOzECYO/bQmsl0gLRvEuxnMX8yahd9nGlGMcriCIblWiio2BLpNiec?=
+ =?us-ascii?Q?0bSoY9m8q+4NPND6RsxAKwE3GVvG3HuR52FjHuP8tHjITT1+BE1GQGAXXMUJ?=
+ =?us-ascii?Q?yUnyFlENLpR6DNGTcYhIE2GGafTN0o5nOPPqt61vIA5e2eRLKrZhDJHEaSU0?=
+ =?us-ascii?Q?EBlSy/Zv/9YcWyYc61/D7lcjfBAfOlGw1pwQcjS2B/NEFuAmTD0q8iorovn8?=
+ =?us-ascii?Q?TZRhXZ97P/GxIqVG9riroJcqKd3WfxhS3o1Odk9xyLoNkdixw73HOWdP6cU0?=
+ =?us-ascii?Q?9GFIA5FpZH2bJx5J08v+hOPq13NVH+MA5njcfN+3UKw9YpLADXTf9WjeTk4+?=
+ =?us-ascii?Q?XWAe0nnSFVL9TGjZAOzbyz3dNK9yteJuOmP6KBKc5GlN8ShXGczioxSFSvAz?=
+ =?us-ascii?Q?n6ja/7lKL8+77iCRc0IlnLAt1yE8rRthRCHSLfHjTfuoAnr1w4hiJYjg48E3?=
+ =?us-ascii?Q?FWSwMsAl5uZoshw82UmDyaoUH7iplGdZOu3GbXyGana0+7QTT7+4EQBq60js?=
+ =?us-ascii?Q?aEQgScSLGfbz1dR/4dNz5WgjwRPeJNOd+nj1WCZsEeAvjoC7H+PIOlqWZain?=
+ =?us-ascii?Q?IXJlqA=3D=3D?=
+X-OriginatorOrg: corigine.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 079f9e82-b533-41d1-0fed-08db522b79a8
+X-MS-Exchange-CrossTenant-AuthSource: PH0PR13MB4842.namprd13.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 May 2023 14:24:48.4821
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: fe128f2c-073b-4c20-818e-7246a585940c
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: eBYa4i0225d+FWEhZcGlcrSsF4Rw6q8PM3lEkU6283qEywrGDDidvQtc3+5Xnfb2Oua5HZuJYc46tFhAXujJMZqJDxVGnJCURPBtYL0Pa/8=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ2PR13MB6522
 
-On Thu, May 11, 2023 at 07:48:23PM +0530, Yogesh Hegde wrote:
-> On Wed, May 10, 2023 at 07:56:29PM +0300, Dan Carpenter wrote:
-> > On Wed, May 10, 2023 at 08:39:07PM +0530, Yogesh Hegde wrote:
-> > > @@ -680,17 +680,17 @@ static void _rtl92e_dm_tx_power_tracking_cb_thermal(struct net_device *dev)
-> > >  		return;
-> > >  	}
-> > >  
-> > > -	tmpRegA = rtl92e_get_rf_reg(dev, RF90_PATH_A, 0x12, 0x078);
-> > > -	if (tmpRegA < 3 || tmpRegA > 13)
-> > > +	tmp_reg = rtl92e_get_rf_reg(dev, RF90_PATH_A, 0x12, 0x078);
-> > > +	if (tmp_reg < 3 || tmp_reg > 13)
-> > >  		return;
-> > > -	if (tmpRegA >= 12)
-> > > -		tmpRegA = 12;
-> > > +	if (tmp_reg >= 12)
-> > > +		tmp_reg = 12;
-> > 
-> > Not related to your patch (which is fine) but this if statement can be
-> > deleted.
-> > 
-> > >  	priv->thermal_meter[0] = ThermalMeterVal;
-> > >  	priv->thermal_meter[1] = ThermalMeterVal;
-> > >  
-> > > -	if (priv->thermal_meter[0] >= (u8)tmpRegA) {
-> > > +	if (priv->thermal_meter[0] >= (u8)tmp_reg) {
-> > 
-> > And casting tmp_reg to u8 is nonsense so that casting can be deleted too.
-> > 2 separate patches:
-> > patch 1: delete unecessary if statement
-> > patch 2: delete unecessary casting
-> 
-> Thank you for taking the time to review my patch and provide your
-> feedback. Your suggestions are duly noted, and I appreciate your 
-> guidance.
-> 
-> I will make them into separate patches and submit it. 
+On Thu, May 11, 2023 at 08:34:00PM +0700, Bagas Sanjaya wrote:
+> Replace GPL boilerplate notice on remaining files with appropriate SPDX
+> tag. For files mentioning COPYING, use GPL 2.0; otherwise GPL 1.0+.
 
-You don't have to if you don't want to.  We can apply the patches you
-sent as-is.  (No need to resend).  This was just in case anyone felt
-motivated to do some more clean up work.
-
-regards,
-dan carpenter
+Reviewed-by: Simon Horman <simon.horman@corigine.com>
 
