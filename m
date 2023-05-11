@@ -1,216 +1,172 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10AA01C774
-	for <linux-staging@lists.linux.dev>; Thu, 11 May 2023 11:18:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1683803913;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Uh7FfgfYAQZQJkeLx1lJ/e68IQ6SK/qzygHnfuKMTrg=;
-	b=VZvXJ6mo0kJyLl7oraVY5iQPjntRsQIvpaZFmOp6VUq5yZ6lNVCTUCFP17882+keMU0455
-	mOA+uOqFfmiz5ieyKyM5XtRB4wJZKU0OxWW+CNxqlEuH2Q6nK3guIU3xLE3iEVHhohyWuZ
-	Bd9cImK7gkYKJzl9sfWjm5rOLIdRG88=
-Received: from mail-pl1-f200.google.com (mail-pl1-f200.google.com
- [209.85.214.200]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-300-VLU7XRWJNTCrtUFcX1E3qA-1; Thu, 11 May 2023 07:18:29 -0400
-X-MC-Unique: VLU7XRWJNTCrtUFcX1E3qA-1
-Received: by mail-pl1-f200.google.com with SMTP id d9443c01a7336-1ab0d11847eso85028595ad.0
-        for <linux-staging@lists.linux.dev>; Thu, 11 May 2023 04:18:29 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 838D419BCE
+	for <linux-staging@lists.linux.dev>; Thu, 11 May 2023 13:34:16 +0000 (UTC)
+Received: by mail-pf1-f174.google.com with SMTP id d2e1a72fcca58-64359d9c531so6471458b3a.3
+        for <linux-staging@lists.linux.dev>; Thu, 11 May 2023 06:34:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1683812056; x=1686404056;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=HoKyuHLfT/Y/QsL6VxzM/0MIfBb45C0FJHVlIVZz104=;
+        b=kkVZKiYfEcCdoefsHaMhY1LIJItNpc1tc2IkQ/P+y072+Ftr3ATNGwAODW9yC5oabG
+         lEVaDH26i2znzLMUxRJPlsSCkYKqfolieTzP6Op/omkT7lGqQNPID45STOHP88j40PHE
+         puk1llPOZExeQrW5GiXQmUvCU68ptpxpzfambpAih93AlGWzJXCamE4pEMGY6qBxi0/N
+         zX5gKuRwM5LL7wVXU6dm8aK+rKng53ZDCsV6QLz9opk7Gl8I2gx3cad5YOuCQ1OBYycl
+         y1ZR0SEmToaFBNROxpc8cIoUbIQfEQ5lbLJZbtSRWlIpPfcakFPxkySVAmqnm2WFEtJD
+         hP1A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683803908; x=1686395908;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20221208; t=1683812056; x=1686404056;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=Uh7FfgfYAQZQJkeLx1lJ/e68IQ6SK/qzygHnfuKMTrg=;
-        b=g1HpCzDDnYJP2iOjEbkW4GgWletR2eLzwYmJcGjPnt9iBx0SY+aNFiQP9WkAfAoUQ6
-         EuE2LFyrA9c9NMytr1pV4U7lpf4suJzDYV/Wuun1LK62SNloGBlmXpJZNHwOw6TiLu1j
-         dpjsenaov4bdvFa9JmpJGsQKapKK+6F0wT2I8u1myUTmiEUjPhGelP5YsUddJ+RZgSmG
-         F83rW1jWkJ1uAlHfqB1ZilGF4yAQWTKWZGaNz44I+GvAyv77mGdURI+DFKP2V3Z60wtd
-         P8xzXSdmnqLCzHxsMWl+9cyvZdepRaQ7wJvq3F1xAHfSOuNJLe6JNLRZ6E40G0K0rEgO
-         grYQ==
-X-Gm-Message-State: AC+VfDxJMTNYHdr8QeMs7wde9R/l0gE6l+DAldzaccxpqRy+drV5AARF
-	EyURe7lrfxvNHr3Z4MsyYQZbUXX/umi4Oo0bQrOZXO338xDoIcwB4HlmHMHn1wzdvhJBEe8p2jh
-	smro3rXxo3rd0CGavGreHG/ejdFXRVHJITTSdUFOhAg==
-X-Received: by 2002:a17:902:d48d:b0:1ac:8835:b89b with SMTP id c13-20020a170902d48d00b001ac8835b89bmr14381144plg.5.1683803908554;
-        Thu, 11 May 2023 04:18:28 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ6Ja4ir5O4k+WlQPJShFsjIJrccV/8GOpyGJzuT/1F6Ed6hKLMMCDA7G4j8JX/EryADiUyCHg1rsWFyHnnDxZg=
-X-Received: by 2002:a17:902:d48d:b0:1ac:8835:b89b with SMTP id
- c13-20020a170902d48d00b001ac8835b89bmr14381119plg.5.1683803908160; Thu, 11
- May 2023 04:18:28 -0700 (PDT)
+        bh=HoKyuHLfT/Y/QsL6VxzM/0MIfBb45C0FJHVlIVZz104=;
+        b=hw62Pyql5/Uj8aUVONIkFPobskbEdBvO0qYVTw0cl6YnC6n8hHAgwzpOkfkmsN249v
+         x6+o6C0Bl+5gG68WR2upXM1SF8fGqTlTl1wH27bHhLwNdFls78bPppcagtjm7GLk14YQ
+         wuN5SYhDU88Qzd+jmt+3GSpAUvNOsQIeWoksfmAzjBtwE6tdHL2iu8LmzkXnsuA6ZfNP
+         Q9qesJE3MXPQ75pu+zC9wJsV+YKy8RncBc2MbqEojYAhdRE0oRs7zlTSmZes5WYUPDiC
+         IFGVGggwwLSz+08V3+ce3i+uqqAGXAzwfATZpQAd0JN4+NDg3hYOc5GIUqhD853KDI98
+         xBZQ==
+X-Gm-Message-State: AC+VfDxcn8RiuZ/IeqI6+SR5lDB6ynhW8fIR4wCkyOonhpjGbDo3Jb0N
+	FYFUYPr71zo6YOcebMmEsuY=
+X-Google-Smtp-Source: ACHHUZ4262YHOoAdK0Uxg1/cglS/7wigxDC7J/l5c10IuMlaf9GDBAHt/NGAsZh1zd2FtAkAw0wtWA==
+X-Received: by 2002:a05:6a00:14c8:b0:63b:4e99:807d with SMTP id w8-20020a056a0014c800b0063b4e99807dmr30877582pfu.8.1683812055845;
+        Thu, 11 May 2023 06:34:15 -0700 (PDT)
+Received: from debian.me (subs02-180-214-232-92.three.co.id. [180.214.232.92])
+        by smtp.gmail.com with ESMTPSA id t23-20020a62ea17000000b0062cf75a9e6bsm5304247pfh.131.2023.05.11.06.34.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 11 May 2023 06:34:15 -0700 (PDT)
+Received: by debian.me (Postfix, from userid 1000)
+	id 1E783106796; Thu, 11 May 2023 20:34:09 +0700 (WIB)
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+To: Linux DRI Development <dri-devel@lists.freedesktop.org>,
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+	Linux Networking <netdev@vger.kernel.org>,
+	Linux ARM <linux-arm-kernel@lists.infradead.org>,
+	Linux Staging Drivers <linux-staging@lists.linux.dev>,
+	Linux Watchdog Devices <linux-watchdog@vger.kernel.org>,
+	Linux Kernel Actions <linux-actions@lists.infradead.org>
+Cc: Diederik de Haas <didi.debian@cknow.org>,
+	Kate Stewart <kstewart@linuxfoundation.org>,
+	David Airlie <airlied@redhat.com>,
+	Karsten Keil <isdn@linux-pingi.de>,
+	Jay Vosburgh <j.vosburgh@gmail.com>,
+	Andy Gospodarek <andy@greyhouse.net>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Sam Creasey <sammy@sammy.net>,
+	Dominik Brodowski <linux@dominikbrodowski.net>,
+	Daniel Mack <daniel@zonque.org>,
+	Haojian Zhuang <haojian.zhuang@gmail.com>,
+	Robert Jarzmik <robert.jarzmik@free.fr>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Wim Van Sebroeck <wim@linux-watchdog.org>,
+	Guenter Roeck <linux@roeck-us.net>,
+	Jan Kara <jack@suse.com>,
+	=?UTF-8?q?Andreas=20F=C3=A4rber?= <afaerber@suse.de>,
+	Manivannan Sadhasivam <mani@kernel.org>,
+	Bagas Sanjaya <bagasdotme@gmail.com>,
+	Tom Rix <trix@redhat.com>,
+	Simon Horman <simon.horman@corigine.com>,
+	Yang Yingliang <yangyingliang@huawei.com>,
+	"Steven Rostedt (Google)" <rostedt@goodmis.org>,
+	Pavel Machek <pavel@ucw.cz>,
+	Minghao Chi <chi.minghao@zte.com.cn>,
+	Kalle Valo <kvalo@kernel.org>,
+	=?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
+	Viresh Kumar <viresh.kumar@linaro.org>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Deepak R Varma <drv@mailo.com>,
+	Davidlohr Bueso <dave@stgolabs.net>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Jacob Keller <jacob.e.keller@intel.com>,
+	Gaosheng Cui <cuigaosheng1@huawei.com>,
+	Dan Carpenter <error27@gmail.com>,
+	Archana <craechal@gmail.com>,
+	Thomas Davis <tadavis@lbl.gov>,
+	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+	Stephen Hemminger <stephen@networkplumber.org>
+Subject: [PATCH 03/10] net: bonding: Add SPDX identifier to remaining files
+Date: Thu, 11 May 2023 20:33:59 +0700
+Message-Id: <20230511133406.78155-4-bagasdotme@gmail.com>
+X-Mailer: git-send-email 2.40.1
+In-Reply-To: <20230511133406.78155-1-bagasdotme@gmail.com>
+References: <20230511133406.78155-1-bagasdotme@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20230508062632.34537-1-hpa@redhat.com> <20230508062632.34537-5-hpa@redhat.com>
- <b718122b-7935-d0e2-4e1d-a09e0943a84b@redhat.com>
-In-Reply-To: <b718122b-7935-d0e2-4e1d-a09e0943a84b@redhat.com>
-From: Kate Hsuan <hpa@redhat.com>
-Date: Thu, 11 May 2023 19:18:16 +0800
-Message-ID: <CAEth8oGtNoC2R6NPzbwyVuB2LCbWPnboqhaOFOoMRgsZw=ampg@mail.gmail.com>
-Subject: Re: [PATCH v2 5/5] staging: media: atomisp: sh_css_mipi: Remove
- #ifdef 2041
-To: Hans de Goede <hdegoede@redhat.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-media@vger.kernel.org, 
-	linux-staging@lists.linux.dev
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2266; i=bagasdotme@gmail.com; h=from:subject; bh=AbejYIDoCHeefbQ32iun0DrWErMv9kzK4SAlm6OQaX4=; b=owGbwMvMwCX2bWenZ2ig32LG02pJDCkx747PkA9/cfxz2Ifqa3XbZI53SLo7dFo4Oppqt3OfP Ggdve1YRykLgxgXg6yYIsukRL6m07uMRC60r3WEmcPKBDKEgYtTACbi/4CRoe3mvdbgL1GSWv5G P7/8TQrJdrn+UtAjeFv6ncg1f632X2Vk2Cwokqki0NzUGPFRxdqA694fs0/OHL+elKf5NGY18m9 kAwA=
+X-Developer-Key: i=bagasdotme@gmail.com; a=openpgp; fpr=701B806FDCA5D3A58FFB8F7D7C276C64A5E44A1D
+Content-Transfer-Encoding: 8bit
 
-Hi Hans,
+Previous batches of SPDX conversion missed bond_main.c and bonding_priv.h
+because these files doesn't mention intended GPL version. Add SPDX identifier
+to these files, assuming GPL 1.0+.
 
-On Thu, May 11, 2023 at 2:34=E2=80=AFAM Hans de Goede <hdegoede@redhat.com>=
- wrote:
->
-> Hi Kate,
->
-> On 5/8/23 08:26, Kate Hsuan wrote:
-> > The actions of ISP2401 and 2400 are determined at the runtime.
-> >
-> > Signed-off-by: Kate Hsuan <hpa@redhat.com>
-> > ---
-> >  .../staging/media/atomisp/pci/sh_css_mipi.c   | 65 ++++++-------------
-> >  1 file changed, 20 insertions(+), 45 deletions(-)
-> >
-> > diff --git a/drivers/staging/media/atomisp/pci/sh_css_mipi.c b/drivers/=
-staging/media/atomisp/pci/sh_css_mipi.c
-> > index bc6e8598a776..52a1ed63e9a5 100644
-> > --- a/drivers/staging/media/atomisp/pci/sh_css_mipi.c
-> > +++ b/drivers/staging/media/atomisp/pci/sh_css_mipi.c
-> > @@ -386,30 +381,22 @@ allocate_mipi_frames(struct ia_css_pipe *pipe,
-> >               return -EINVAL;
-> >       }
-> >
-> > -#ifdef ISP2401
-> > -     err =3D calculate_mipi_buff_size(&pipe->stream->config,
-> > -                                    &my_css.mipi_frame_size[port]);
->
-> Before you changes this code always run ISP2401, now it only runs
-> when (ref_count_mipi_allocation[port] !=3D 0) is not true.
->
-> So this statement should stay here in the code, just prefixed
-> with a if (IS_ISP2401) condition.
->
-> > -     /*
-> > -      * 2401 system allows multiple streams to use same physical port.=
- This is not
-> > -      * true for 2400 system. Currently 2401 uses MIPI buffers as a te=
-mporary solution.
-> > -      * TODO AM: Once that is changed (removed) this code should be re=
-moved as well.
-> > -      * In that case only 2400 related code should remain.
-> > -      */
-> > -     if (ref_count_mipi_allocation[port] !=3D 0) {
-> > -             ref_count_mipi_allocation[port]++;
-> > -             ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE,
-> > -                                 "allocate_mipi_frames(%p) leave: noth=
-ing to do, already allocated for this port (port=3D%d).\n",
-> > -                                 pipe, port);
-> > -             return 0;
-> > -     }
-> > -#else
-> >       if (ref_count_mipi_allocation[port] !=3D 0) {
-> >               ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE,
-> >                                   "allocate_mipi_frames(%p) exit: alrea=
-dy allocated for this port (port=3D%d).\n",
-> >                                   pipe, port);
-> >               return 0;
-> > +     } else {
-> > +             /*
-> > +              * 2401 system allows multiple streams to use same physic=
-al port. This is not
-> > +              * true for 2400 system. Currently 2401 uses MIPI buffers=
- as a temporary solution.
-> > +              * TODO AM: Once that is changed (removed) this code shou=
-ld be removed as well.
-> > +              * In that case only 2400 related code should remain.
-> > +              */
->
-> This comment block actually belongs to the if (ref_count_mipi_allocation[=
-port] !=3D 0)
-> check, the code executed if that check passes was actually different betw=
-een
-> the ISP2400 and ISP2401 (my bad, sorry). The ISP2401 case did an extra:
->
->                 ref_count_mipi_allocation[port]++;
->
-> when (ref_count_mipi_allocation[port] !=3D 0), so we need to add:
->
->                 if (IS_ISP2401)
->                         ref_count_mipi_allocation[port]++;
->
-> above the return 0 above.
->
-> > +             if (IS_ISP2401)
-> > +                     err =3D calculate_mipi_buff_size(&pipe->stream->c=
-onfig,
-> > +                                                    &my_css.mipi_frame=
-_size[port]);
->
-> I have fixed this all up while merging your series and the new
-> diff for this code-block now looks like this:
->
-> @@ -386,9 +381,10 @@ allocate_mipi_frames(struct ia_css_pipe *pipe,
->                 return -EINVAL;
->         }
->
-> -#ifdef ISP2401
-> -       err =3D calculate_mipi_buff_size(&pipe->stream->config,
-> -                                      &my_css.mipi_frame_size[port]);
-> +       if (IS_ISP2401)
-> +               err =3D calculate_mipi_buff_size(&pipe->stream->config,
-> +                                              &my_css.mipi_frame_size[po=
-rt]);
-> +
->         /*
->          * 2401 system allows multiple streams to use same physical port.=
- This is not
->          * true for 2400 system. Currently 2401 uses MIPI buffers as a te=
-mporary solution.
-> @@ -396,20 +392,14 @@ allocate_mipi_frames(struct ia_css_pipe *pipe,
->          * In that case only 2400 related code should remain.
->          */
->         if (ref_count_mipi_allocation[port] !=3D 0) {
-> -               ref_count_mipi_allocation[port]++;
-> +               if (IS_ISP2401)
-> +                       ref_count_mipi_allocation[port]++;
-> +
->                 ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE,
->                                     "allocate_mipi_frames(%p) leave: noth=
-ing to do, already allocated for this port (port=3D%d).\n",
->                                     pipe, port);
->                 return 0;
->         }
-> -#else
-> -       if (ref_count_mipi_allocation[port] !=3D 0) {
-> -               ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE,
-> -                                   "allocate_mipi_frames(%p) exit: alrea=
-dy allocated for this port (port=3D%d).\n",
-> -                                   pipe, port);
-> -               return 0;
-> -       }
-> -#endif
->
->         ref_count_mipi_allocation[port]++;
->
->
->
-> Regards,
->
-> Hans
->
+Cc: Thomas Davis <tadavis@lbl.gov>
+Cc: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+Cc: Stephen Hemminger <stephen@networkplumber.org>
+Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
+---
+ drivers/net/bonding/bond_main.c    | 1 +
+ drivers/net/bonding/bonding_priv.h | 4 +---
+ include/net/bonding.h              | 4 +---
+ 3 files changed, 3 insertions(+), 6 deletions(-)
 
-It's my bad when trying to simplify the if expressions.
-Thank you for fixing this. :)
-
---=20
-BR,
-Kate
+diff --git a/drivers/net/bonding/bond_main.c b/drivers/net/bonding/bond_main.c
+index 3fed888629f7b5..93fc7b38835c07 100644
+--- a/drivers/net/bonding/bond_main.c
++++ b/drivers/net/bonding/bond_main.c
+@@ -1,3 +1,4 @@
++/* SPDX-License-Identifier: GPL-1.0-or-later */
+ /*
+  * originally based on the dummy device.
+  *
+diff --git a/drivers/net/bonding/bonding_priv.h b/drivers/net/bonding/bonding_priv.h
+index 48cdf3a49a7d74..9570ceb0830327 100644
+--- a/drivers/net/bonding/bonding_priv.h
++++ b/drivers/net/bonding/bonding_priv.h
+@@ -1,3 +1,4 @@
++/* SPDX-License-Identifier: GPL-1.0-or-later */
+ /*
+  * Bond several ethernet interfaces into a Cisco, running 'Etherchannel'.
+  *
+@@ -7,9 +8,6 @@
+  * BUT, I'm the one who modified it for ethernet, so:
+  * (c) Copyright 1999, Thomas Davis, tadavis@lbl.gov
+  *
+- *	This software may be used and distributed according to the terms
+- *	of the GNU Public License, incorporated herein by reference.
+- *
+  */
+ 
+ #ifndef _BONDING_PRIV_H
+diff --git a/include/net/bonding.h b/include/net/bonding.h
+index a60a24923b5599..09053e1107d095 100644
+--- a/include/net/bonding.h
++++ b/include/net/bonding.h
+@@ -1,3 +1,4 @@
++/* SPDX-License-Identifier: GPL-1.0-or-later */
+ /*
+  * Bond several ethernet interfaces into a Cisco, running 'Etherchannel'.
+  *
+@@ -7,9 +8,6 @@
+  * BUT, I'm the one who modified it for ethernet, so:
+  * (c) Copyright 1999, Thomas Davis, tadavis@lbl.gov
+  *
+- *	This software may be used and distributed according to the terms
+- *	of the GNU Public License, incorporated herein by reference.
+- *
+  */
+ 
+ #ifndef _NET_BONDING_H
+-- 
+An old man doll... just what I always wanted! - Clara
 
