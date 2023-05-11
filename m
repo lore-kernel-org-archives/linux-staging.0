@@ -1,45 +1,45 @@
-Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
+Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0600B1F95D
-	for <linux-staging@lists.linux.dev>; Thu, 11 May 2023 13:34:15 +0000 (UTC)
-Received: by mail-pj1-f41.google.com with SMTP id 98e67ed59e1d1-24df4ecdb87so5967284a91.0
-        for <linux-staging@lists.linux.dev>; Thu, 11 May 2023 06:34:15 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A65F619BDB
+	for <linux-staging@lists.linux.dev>; Thu, 11 May 2023 13:34:21 +0000 (UTC)
+Received: by mail-pf1-f178.google.com with SMTP id d2e1a72fcca58-643bb9cdd6eso6252631b3a.1
+        for <linux-staging@lists.linux.dev>; Thu, 11 May 2023 06:34:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1683812055; x=1686404055;
+        d=gmail.com; s=20221208; t=1683812061; x=1686404061;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=jZJgd1J/yhpIEPxETlLE5U9uKTj61DHL8mLsf2B7J04=;
-        b=Q38OyEzdg7CS9Wc8ZD+5BjNcaWS8Kgar4wv+xF8w2kPAsi+UnKgNrxIPWyFqu+pygN
-         fqUCBrp1eBV6DtqXgW0Xrj4jd+zRIeDvYV0EawaP9XMEyATr4wgrGme4cJFUNf64Q6eW
-         r1zY7p/scMzGLYZ2wGk50v9xUheiQXvt2GOA0FcVkJvGV4Xk69hSTQk+JGIZrucEcUVb
-         nolWl/a1D1x8tFuYyjtotwArb2yPA3B/U1LcPkQWBw7P2YQu2hoCg4zq0nY2XXrC+pmg
-         KHcWpE8OkXXhV3Q3TBUCMa0JO71tRnfrjM4Mfvt6GzLGfLQ+BMuD/fWVFfaajnhMgVPf
-         W5Lg==
+        bh=RsvhjdJ96ntIxsMiGpISSADki1JCUqV8akNIjg6qYNQ=;
+        b=RLm1Z4+I9ZqxDMfqOxEbRktK7MHUZ6BislKFd4vk5MQP+hxHsvNxlRQ8huH7AWczGC
+         Pt4wVDz7ub/1CgQq/Aa5t/bMPvFUIEMBnkr6valeDJpX2IeFWOsxOmjV8Wna3MGkHui4
+         wdbswQLL4Gr0mOBaIDqesz6VbdR7l9fsFoVhUsAkN5lxQm38Fhhu9GhQOjFYujPXWprb
+         wH4pivA+QYm9wLlOwQ4hTSLstz2xFFDn2SBWWnsIPrInKhcUHww1zgY22V/vk8tPLi4C
+         x0BLH0qa7nMWUmcgKaoFVIIP6uaFF+2BNMqTnbq25qkcCNwPzPEJqqR2MxUXHolmDunM
+         0UuQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683812055; x=1686404055;
+        d=1e100.net; s=20221208; t=1683812061; x=1686404061;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=jZJgd1J/yhpIEPxETlLE5U9uKTj61DHL8mLsf2B7J04=;
-        b=b8OXFDwpiIHj/KWL/R+QyeFvv+GL6HvmNBOW4Pyu9Egs2Cem+K11/3hB8TzrF2VIlJ
-         cLK6HBc4Kasa+R5EuYkGxNmlLg564QsccR3ZnMxSR3C2CSFOsJrD2KYhx/wRUOP4d5yY
-         10FCveJhKgGUicW3Pa0o3YpfbEYb7+gQcDVkb1sKWxS9tEqe1OEowdBv5C5GbYW3urdx
-         CROamgDYMjtAmtouaGOmTmR7Ue6FILLpefkV5gVzT11D6VEnJERsVXbP84qvdSt+179u
-         2QIyhfVSzCVXgS23dl9+zFaZnNYD1ZY5kCegriiK5se9mbMy8rJIFB+qFx0zFuc+w55n
-         vcoQ==
-X-Gm-Message-State: AC+VfDyvTDYL2R/pr1TLrYnpGqAbhXPqRI+oTlz7B1A4fSWS3nGAYtYl
-	uuiyMHmwXfzz9QP0wiAnaLg=
-X-Google-Smtp-Source: ACHHUZ5jN/0ts75KhdoLwqc2irXOTUrehxCBlN6tUqbiPb++pl8Az5O3mDzXUIR5ZNe60Nm8ernISA==
-X-Received: by 2002:a17:90b:1103:b0:250:6c76:fd9b with SMTP id gi3-20020a17090b110300b002506c76fd9bmr15464060pjb.38.1683812055308;
-        Thu, 11 May 2023 06:34:15 -0700 (PDT)
+        bh=RsvhjdJ96ntIxsMiGpISSADki1JCUqV8akNIjg6qYNQ=;
+        b=QREoIhb+fo0zK8nGYRPjA2BbbktzwSM24dsnUgDEpFCeiQoTirYJB0LoKdefW4QL2c
+         mPdMv8IANPRJcSOVDmBMOmLziGWuY6oK3H9Y3pZ4NG/6e3kLCeTFuCB21N45K8LkknTJ
+         zOsZGEqCwx9X4WhJQ6TU/Jp3XfoeJo0Zof6l+3cnuxW9QhcYe1jpKdxbVJK9RYYAYM+m
+         e3zyTOtFShKJtVNjejuqVWHs7VSVM6rY56Iy5IKvNAFni6OJ2RBnqN/dDIKNbO2UGnQn
+         RLSZfAfvIl7dnTclds0BJhzih7jdBbW1jpbHALZMRkvKhVofaYfq7xE3Z2Xm58CX+y16
+         ds9w==
+X-Gm-Message-State: AC+VfDyeWWkYie6f0KeuLgVj8mEU67uWlLaNIXAkjO8ms5MdN3tcZ5yP
+	FkDlytuDUXlpUJwbclbgTfo=
+X-Google-Smtp-Source: ACHHUZ6zECQCJE3075jyqS4CM91H1WwzMQ84EOryKcwcxEnrXxgMjgj2hgcfxD9eruWg6E8IW/VTgA==
+X-Received: by 2002:a05:6a20:918b:b0:101:4348:3e44 with SMTP id v11-20020a056a20918b00b0010143483e44mr12787576pzd.12.1683812060884;
+        Thu, 11 May 2023 06:34:20 -0700 (PDT)
 Received: from debian.me (subs02-180-214-232-92.three.co.id. [180.214.232.92])
-        by smtp.gmail.com with ESMTPSA id jb4-20020a170903258400b001aaf6353736sm5896810plb.80.2023.05.11.06.34.14
+        by smtp.gmail.com with ESMTPSA id e35-20020a635463000000b0051b70c8d446sm4968249pgm.73.2023.05.11.06.34.18
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 11 May 2023 06:34:15 -0700 (PDT)
+        Thu, 11 May 2023 06:34:19 -0700 (PDT)
 Received: by debian.me (Postfix, from userid 1000)
-	id A66971037B5; Thu, 11 May 2023 20:34:10 +0700 (WIB)
+	id 0C9BD106979; Thu, 11 May 2023 20:34:11 +0700 (WIB)
 From: Bagas Sanjaya <bagasdotme@gmail.com>
 To: Linux DRI Development <dri-devel@lists.freedesktop.org>,
 	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
@@ -86,14 +86,10 @@ Cc: Diederik de Haas <didi.debian@cknow.org>,
 	Jacob Keller <jacob.e.keller@intel.com>,
 	Gaosheng Cui <cuigaosheng1@huawei.com>,
 	Dan Carpenter <error27@gmail.com>,
-	Archana <craechal@gmail.com>,
-	"David A . Hinds" <dahinds@users.sourceforge.net>,
-	Donald Becker <becker@scyld.com>,
-	Peter De Schrijver <p2@mind.be>,
-	Greg Ungerer <gerg@linux-m68k.org>
-Subject: [PATCH 04/10] net: ethernet: 8390: Replace GPL boilerplate with SPDX identifier
-Date: Thu, 11 May 2023 20:34:00 +0700
-Message-Id: <20230511133406.78155-5-bagasdotme@gmail.com>
+	Archana <craechal@gmail.com>
+Subject: [PATCH 09/10] udf: Replace license notice with SPDX identifier
+Date: Thu, 11 May 2023 20:34:05 +0700
+Message-Id: <20230511133406.78155-10-bagasdotme@gmail.com>
 X-Mailer: git-send-email 2.40.1
 In-Reply-To: <20230511133406.78155-1-bagasdotme@gmail.com>
 References: <20230511133406.78155-1-bagasdotme@gmail.com>
@@ -103,299 +99,435 @@ List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=12216; i=bagasdotme@gmail.com; h=from:subject; bh=Qt/i4eQgMuIgsiTGQ80teX3SuDZ7RNq5Fn4UY3gpc7Y=; b=owGbwMvMwCX2bWenZ2ig32LG02pJDCkx745vV5y/9MIL7u/LGNt8FT1ffft1Nv5E7vXolzbbB b8K1l3e21HKwiDGxSArpsgyKZGv6fQuI5EL7WsdYeawMoEMYeDiFICJbOBg+MMVwa8SLHJm3tvd V03W3uNbF1Y/YVWLyJWW/ybV7Tv1WDQZGfYdm79lD+/OhTX2rHf7/l8ziJAJNRb7fo3nyox+U72 1s3gA
+X-Developer-Signature: v=1; a=openpgp-sha256; l=14877; i=bagasdotme@gmail.com; h=from:subject; bh=tey5LajupxhReMk4nez7njbiOBtLjbLleZ6OYhO4cd8=; b=owGbwMvMwCX2bWenZ2ig32LG02pJDCkx7074Bv5MzL4mdvT4uTkNi1r4w956vDarXWsQ+Kpvj 0tyvtLxjlIWBjEuBlkxRZZJiXxNp3cZiVxoX+sIM4eVCWQIAxenAEyEwZqR4WnbjTsTFl7b2ewf wtlm4yVpkjePZ4GwR56A9rtXf+dqJDD8r2+fKLXuK2tyBUusyTe3D48/pJW5Pp3X+TTXcZVBxtJ TnAA=
 X-Developer-Key: i=bagasdotme@gmail.com; a=openpgp; fpr=701B806FDCA5D3A58FFB8F7D7C276C64A5E44A1D
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Replace GPL boilerplate notice on remaining files with appropriate SPDX
-tag. For files mentioning COPYING, use GPL 2.0; otherwise GPL 1.0+.
+Except Kconfig and Makefile, all source files for UDF filesystem doesn't
+bear SPDX license identifier. Add appropriate license identifier while
+replacing boilerplates.
 
-Cc: David A. Hinds <dahinds@users.sourceforge.net>
-Cc: Donald Becker <becker@scyld.com>
-Cc: Peter De Schrijver <p2@mind.be>
-Cc: Greg Ungerer <gerg@linux-m68k.org>
-Cc: Simon Horman <simon.horman@corigine.com>
+Cc: Thomas Gleixner <tglx@linutronix.de>
 Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
 ---
- drivers/net/ethernet/8390/8390.h      | 2 ++
- drivers/net/ethernet/8390/apne.c      | 7 +------
- drivers/net/ethernet/8390/axnet_cs.c  | 6 +++---
- drivers/net/ethernet/8390/hydra.c     | 6 ++----
- drivers/net/ethernet/8390/lib8390.c   | 5 ++---
- drivers/net/ethernet/8390/mac8390.c   | 6 ++----
- drivers/net/ethernet/8390/mcf8390.c   | 4 +---
- drivers/net/ethernet/8390/ne.c        | 4 +---
- drivers/net/ethernet/8390/ne2k-pci.c  | 8 +-------
- drivers/net/ethernet/8390/pcnet_cs.c  | 5 ++---
- drivers/net/ethernet/8390/smc-ultra.c | 4 +---
- drivers/net/ethernet/8390/stnic.c     | 5 +----
- drivers/net/ethernet/8390/wd.c        | 4 +---
- drivers/net/ethernet/8390/zorro8390.c | 7 +------
- 14 files changed, 21 insertions(+), 52 deletions(-)
+ fs/udf/balloc.c    |  6 +-----
+ fs/udf/dir.c       |  6 +-----
+ fs/udf/directory.c |  6 +-----
+ fs/udf/ecma_167.h  | 24 +-----------------------
+ fs/udf/file.c      |  6 +-----
+ fs/udf/ialloc.c    |  6 +-----
+ fs/udf/inode.c     |  6 +-----
+ fs/udf/lowlevel.c  |  6 +-----
+ fs/udf/misc.c      |  6 +-----
+ fs/udf/namei.c     |  6 +-----
+ fs/udf/osta_udf.h  | 24 +-----------------------
+ fs/udf/partition.c |  6 +-----
+ fs/udf/super.c     |  6 +-----
+ fs/udf/symlink.c   |  6 +-----
+ fs/udf/truncate.c  |  6 +-----
+ fs/udf/udftime.c   | 19 +------------------
+ fs/udf/unicode.c   |  6 +-----
+ 17 files changed, 17 insertions(+), 134 deletions(-)
 
-diff --git a/drivers/net/ethernet/8390/8390.h b/drivers/net/ethernet/8390/8390.h
-index e5226446599884..b0e3df9779ddbb 100644
---- a/drivers/net/ethernet/8390/8390.h
-+++ b/drivers/net/ethernet/8390/8390.h
-@@ -1,3 +1,5 @@
-+/* SPDX-License-Identifier: GPL-1.0-or-later */
-+
- /* Generic NS8390 register definitions. */
- 
- /* This file is part of Donald Becker's 8390 drivers, and is distributed
-diff --git a/drivers/net/ethernet/8390/apne.c b/drivers/net/ethernet/8390/apne.c
-index 991ad953aa7906..ef1f40e8801ccc 100644
---- a/drivers/net/ethernet/8390/apne.c
-+++ b/drivers/net/ethernet/8390/apne.c
-@@ -1,3 +1,4 @@
-+/* SPDX-License-Identifier: GPL-1.0-or-later */
- /*
-  * Amiga Linux/68k 8390 based PCMCIA Ethernet Driver for the Amiga 1200
-  *
-@@ -19,12 +20,6 @@
-  *
-  * ----------------------------------------------------------------------------
-  *
-- * This file is subject to the terms and conditions of the GNU General Public
-- * License.  See the file COPYING in the main directory of the Linux
-- * distribution for more details.
-- *
-- * ----------------------------------------------------------------------------
-- *
-  */
- 
- 
-diff --git a/drivers/net/ethernet/8390/axnet_cs.c b/drivers/net/ethernet/8390/axnet_cs.c
-index 78f985885547ea..937485fa87825a 100644
---- a/drivers/net/ethernet/8390/axnet_cs.c
-+++ b/drivers/net/ethernet/8390/axnet_cs.c
-@@ -1,3 +1,5 @@
-+/* SPDX-License-Identifier: GPL-1.0-or-later */
-+
- /*======================================================================
- 
-     A PCMCIA ethernet driver for Asix AX88190-based cards
-@@ -17,9 +19,7 @@
- 
-     Written 1992,1993 by Donald Becker.
-     Copyright 1993 United States Government as represented by the
--    Director, National Security Agency.  This software may be used and
--    distributed according to the terms of the GNU General Public License,
--    incorporated herein by reference.
-+    Director, National Security Agency.
-     Donald Becker may be reached at becker@scyld.com
- 
- ======================================================================*/
-diff --git a/drivers/net/ethernet/8390/hydra.c b/drivers/net/ethernet/8390/hydra.c
-index 1df7601af86a40..9fae05dd12a3e3 100644
---- a/drivers/net/ethernet/8390/hydra.c
-+++ b/drivers/net/ethernet/8390/hydra.c
-@@ -1,10 +1,8 @@
-+/* SPDX-License-Identifier: GPL-1.0-only */
-+
- /* New Hydra driver using generic 8390 core */
- /* Based on old hydra driver by Topi Kanerva (topi@susanna.oulu.fi) */
- 
--/* This file is subject to the terms and conditions of the GNU General      */
--/* Public License.  See the file COPYING in the main directory of the       */
--/* Linux distribution for more details.                                     */
--
- /* Peter De Schrijver (p2@mind.be) */
- /* Oldenburg 2000 */
- 
-diff --git a/drivers/net/ethernet/8390/lib8390.c b/drivers/net/ethernet/8390/lib8390.c
-index e84021282edf30..14ab1e4d9a5c36 100644
---- a/drivers/net/ethernet/8390/lib8390.c
-+++ b/drivers/net/ethernet/8390/lib8390.c
-@@ -1,3 +1,5 @@
-+/* SPDX-License-Identifier: GPL-1.0-or-later */
-+
- /* 8390.c: A general NS8390 ethernet driver core for linux. */
- /*
- 	Written 1992-94 by Donald Becker.
-@@ -5,9 +7,6 @@
- 	Copyright 1993 United States Government as represented by the
- 	Director, National Security Agency.
- 
--	This software may be used and distributed according to the terms
--	of the GNU General Public License, incorporated herein by reference.
--
- 	The author may be reached as becker@scyld.com, or C/O
- 	Scyld Computing Corporation
- 	410 Severn Ave., Suite 210
-diff --git a/drivers/net/ethernet/8390/mac8390.c b/drivers/net/ethernet/8390/mac8390.c
-index 7fb819b9b89a5b..e09f0f20516593 100644
---- a/drivers/net/ethernet/8390/mac8390.c
-+++ b/drivers/net/ethernet/8390/mac8390.c
-@@ -1,11 +1,9 @@
-+/* SPDX-License-Identifier: GPL-1.0-or-later */
- /* mac8390.c: New driver for 8390-based Nubus (or Nubus-alike)
-    Ethernet cards on Linux */
- /* Based on the former daynaport.c driver, by Alan Cox.  Some code
-    taken from or inspired by skeleton.c by Donald Becker, acenic.c by
--   Jes Sorensen, and ne2k-pci.c by Donald Becker and Paul Gortmaker.
--
--   This software may be used and distributed according to the terms of
--   the GNU Public License, incorporated herein by reference.  */
-+   Jes Sorensen, and ne2k-pci.c by Donald Becker and Paul Gortmaker. */
- 
- /* 2000-02-28: support added for Dayna and Kinetics cards by
-    A.G.deWijn@phys.uu.nl */
-diff --git a/drivers/net/ethernet/8390/mcf8390.c b/drivers/net/ethernet/8390/mcf8390.c
-index 8a7918d3341965..e2dbc4b858c658 100644
---- a/drivers/net/ethernet/8390/mcf8390.c
-+++ b/drivers/net/ethernet/8390/mcf8390.c
+diff --git a/fs/udf/balloc.c b/fs/udf/balloc.c
+index 14b9db4c80f03f..a56eb6975d19c8 100644
+--- a/fs/udf/balloc.c
++++ b/fs/udf/balloc.c
 @@ -1,3 +1,4 @@
 +/* SPDX-License-Identifier: GPL-2.0-only */
  /*
-  *  Support for ColdFire CPU based boards using a NS8390 Ethernet device.
+  * balloc.c
   *
-@@ -5,9 +6,6 @@
+@@ -5,11 +6,6 @@
+  *	Block allocation handling routines for the OSTA-UDF(tm) filesystem.
   *
-  *  (C) Copyright 2012,  Greg Ungerer <gerg@uclinux.org>
-  *
-- *  This file is subject to the terms and conditions of the GNU General Public
-- *  License.  See the file COPYING in the main directory of the Linux
-- *  distribution for more details.
-  */
- 
- #include <linux/module.h>
-diff --git a/drivers/net/ethernet/8390/ne.c b/drivers/net/ethernet/8390/ne.c
-index 0a9118b8be0c64..053c7cf201b27f 100644
---- a/drivers/net/ethernet/8390/ne.c
-+++ b/drivers/net/ethernet/8390/ne.c
-@@ -1,3 +1,4 @@
-+/* SPDX-License-Identifier: GPL-1.0-or-later */
- /* ne.c: A general non-shared-memory NS8390 ethernet driver for linux. */
- /*
-     Written 1992-94 by Donald Becker.
-@@ -5,9 +6,6 @@
-     Copyright 1993 United States Government as represented by the
-     Director, National Security Agency.
- 
--    This software may be used and distributed according to the terms
--    of the GNU General Public License, incorporated herein by reference.
--
-     The author may be reached as becker@scyld.com, or C/O
-     Scyld Computing Corporation, 410 Severn Ave., Suite 210, Annapolis MD 21403
- 
-diff --git a/drivers/net/ethernet/8390/ne2k-pci.c b/drivers/net/ethernet/8390/ne2k-pci.c
-index 6a0a2039600a0a..01348d6ff47820 100644
---- a/drivers/net/ethernet/8390/ne2k-pci.c
-+++ b/drivers/net/ethernet/8390/ne2k-pci.c
-@@ -1,3 +1,4 @@
-+/* SPDX-License-Identifier: GPL-1.0-or-later */
- /* A Linux device driver for PCI NE2000 clones.
-  *
-  * Authors and other copyright holders:
-@@ -6,13 +7,6 @@
-  * Copyright 1993 assigned to the United States Government as represented
-  * by the Director, National Security Agency.
-  *
-- * This software may be used and distributed according to the terms of
-- * the GNU General Public License (GPL), incorporated herein by reference.
-- * Drivers based on or derived from this code fall under the GPL and must
-- * retain the authorship, copyright and license notice.  This file is not
-- * a complete program and may only be used when the entire operating
-- * system is licensed under the GPL.
+  * COPYRIGHT
+- *	This file is distributed under the terms of the GNU General Public
+- *	License (GPL). Copies of the GPL can be obtained from:
+- *		ftp://prep.ai.mit.edu/pub/gnu/GPL
+- *	Each contributing author retains all rights to their own work.
 - *
-  * The author may be reached as becker@scyld.com, or C/O
-  * Scyld Computing Corporation
-  * 410 Severn Ave., Suite 210
-diff --git a/drivers/net/ethernet/8390/pcnet_cs.c b/drivers/net/ethernet/8390/pcnet_cs.c
-index 0f07fe03da98c8..0512472cf7800c 100644
---- a/drivers/net/ethernet/8390/pcnet_cs.c
-+++ b/drivers/net/ethernet/8390/pcnet_cs.c
-@@ -1,3 +1,4 @@
-+/* SPDX-License-Identifier: GPL-1.0-or-later */
- /*======================================================================
- 
-     A PCMCIA ethernet driver for NS8390-based cards
-@@ -17,9 +18,7 @@
- 
-     Written 1992,1993 by Donald Becker.
-     Copyright 1993 United States Government as represented by the
--    Director, National Security Agency.  This software may be used and
--    distributed according to the terms of the GNU General Public License,
--    incorporated herein by reference.
-+    Director, National Security Agency.
-     Donald Becker may be reached at becker@scyld.com
- 
-     Based also on Keith Moore's changes to Don Becker's code, for IBM
-diff --git a/drivers/net/ethernet/8390/smc-ultra.c b/drivers/net/ethernet/8390/smc-ultra.c
-index 6e62c37c940056..deb869995eabf6 100644
---- a/drivers/net/ethernet/8390/smc-ultra.c
-+++ b/drivers/net/ethernet/8390/smc-ultra.c
-@@ -1,3 +1,4 @@
-+/* SPDX-License-Identifier: GPL-1.0-or-later */
- /* smc-ultra.c: A SMC Ultra ethernet driver for linux. */
- /*
- 	This is a driver for the SMC Ultra and SMC EtherEZ ISA ethercards.
-@@ -7,9 +8,6 @@
- 	Copyright 1993 United States Government as represented by the
- 	Director, National Security Agency.
- 
--	This software may be used and distributed according to the terms
--	of the GNU General Public License, incorporated herein by reference.
--
- 	The author may be reached as becker@scyld.com, or C/O
- 	Scyld Computing Corporation
- 	410 Severn Ave., Suite 210
-diff --git a/drivers/net/ethernet/8390/stnic.c b/drivers/net/ethernet/8390/stnic.c
-index bd89ca8a92dfbc..31945bae451989 100644
---- a/drivers/net/ethernet/8390/stnic.c
-+++ b/drivers/net/ethernet/8390/stnic.c
-@@ -1,8 +1,5 @@
-+/* SPDX-License-Identifier: GPL-2.0-only */
- /* stnic.c : A SH7750 specific part of driver for NS DP83902A ST-NIC.
-- *
-- * This file is subject to the terms and conditions of the GNU General Public
-- * License.  See the file "COPYING" in the main directory of this archive
-- * for more details.
+  *  (C) 1999-2001 Ben Fennema
+  *  (C) 1999 Stelias Computing Inc
   *
-  * Copyright (C) 1999 kaz Kojima
-  */
-diff --git a/drivers/net/ethernet/8390/wd.c b/drivers/net/ethernet/8390/wd.c
-index 5b00c452bede64..6ecd63b8f8976e 100644
---- a/drivers/net/ethernet/8390/wd.c
-+++ b/drivers/net/ethernet/8390/wd.c
-@@ -1,3 +1,4 @@
-+/* SPDX-License-Identifier: GPL-1.0-or-later */
- /* wd.c: A WD80x3 ethernet driver for linux. */
- /*
- 	Written 1993-94 by Donald Becker.
-@@ -5,9 +6,6 @@
- 	Copyright 1993 United States Government as represented by the
- 	Director, National Security Agency.
- 
--	This software may be used and distributed according to the terms
--	of the GNU General Public License, incorporated herein by reference.
--
- 	The author may be reached as becker@scyld.com, or C/O
- 	Scyld Computing Corporation
- 	410 Severn Ave., Suite 210
-diff --git a/drivers/net/ethernet/8390/zorro8390.c b/drivers/net/ethernet/8390/zorro8390.c
-index e8b4fe813a0828..e6abb22c82b514 100644
---- a/drivers/net/ethernet/8390/zorro8390.c
-+++ b/drivers/net/ethernet/8390/zorro8390.c
+diff --git a/fs/udf/dir.c b/fs/udf/dir.c
+index 212393b12c2266..015e17382f975e 100644
+--- a/fs/udf/dir.c
++++ b/fs/udf/dir.c
 @@ -1,3 +1,4 @@
 +/* SPDX-License-Identifier: GPL-2.0-only */
  /*
-  *  Amiga Linux/m68k and Linux/PPC Zorro NS8390 Ethernet Driver
+  * dir.c
   *
-@@ -9,12 +10,6 @@
+@@ -5,11 +6,6 @@
+  *  Directory handling routines for the OSTA-UDF(tm) filesystem.
   *
-  *  ---------------------------------------------------------------------------
-  *
-- *  This file is subject to the terms and conditions of the GNU General Public
-- *  License.  See the file COPYING in the main directory of the Linux
-- *  distribution for more details.
+  * COPYRIGHT
+- *	This file is distributed under the terms of the GNU General Public
+- *	License (GPL). Copies of the GPL can be obtained from:
+- *		ftp://prep.ai.mit.edu/pub/gnu/GPL
+- *	Each contributing author retains all rights to their own work.
 - *
-- *  ---------------------------------------------------------------------------
-- *
-  *  The Ariadne II and X-Surf are Zorro-II boards containing Realtek RTL8019AS
-  *  Ethernet Controllers.
+  *  (C) 1998-2004 Ben Fennema
+  *
+  * HISTORY
+diff --git a/fs/udf/directory.c b/fs/udf/directory.c
+index 654536d2b60976..3b65d5dc70b008 100644
+--- a/fs/udf/directory.c
++++ b/fs/udf/directory.c
+@@ -1,14 +1,10 @@
++/* SPDX-License-Identifier: GPL-2.0-only */
+ /*
+  * directory.c
+  *
+  * PURPOSE
+  *	Directory related functions
+  *
+- * COPYRIGHT
+- *	This file is distributed under the terms of the GNU General Public
+- *	License (GPL). Copies of the GPL can be obtained from:
+- *		ftp://prep.ai.mit.edu/pub/gnu/GPL
+- *	Each contributing author retains all rights to their own work.
   */
+ 
+ #include "udfdecl.h"
+diff --git a/fs/udf/ecma_167.h b/fs/udf/ecma_167.h
+index de17a97e866742..961e7bf5cb5c00 100644
+--- a/fs/udf/ecma_167.h
++++ b/fs/udf/ecma_167.h
+@@ -1,3 +1,4 @@
++/* SPDX-License-Identifier: BSD-2-Clause OR GPL-1.0-only */
+ /*
+  * ecma_167.h
+  *
+@@ -8,29 +9,6 @@
+  * Copyright (c) 2017-2019  Pali Rohár <pali@kernel.org>
+  * All rights reserved.
+  *
+- * Redistribution and use in source and binary forms, with or without
+- * modification, are permitted provided that the following conditions
+- * are met:
+- * 1. Redistributions of source code must retain the above copyright
+- *    notice, this list of conditions, and the following disclaimer,
+- *    without modification.
+- * 2. The name of the author may not be used to endorse or promote products
+- *    derived from this software without specific prior written permission.
+- *
+- * Alternatively, this software may be distributed under the terms of the
+- * GNU Public License ("GPL").
+- *
+- * THIS SOFTWARE IS PROVIDED BY THE AUTHOR AND CONTRIBUTORS ``AS IS'' AND
+- * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+- * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+- * ARE DISCLAIMED. IN NO EVENT SHALL THE AUTHOR OR CONTRIBUTORS BE LIABLE FOR
+- * ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+- * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS
+- * OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+- * HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
+- * LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
+- * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
+- * SUCH DAMAGE.
+  */
+ 
+ /**
+diff --git a/fs/udf/file.c b/fs/udf/file.c
+index 8238f742377bab..a13622121a63c5 100644
+--- a/fs/udf/file.c
++++ b/fs/udf/file.c
+@@ -1,3 +1,4 @@
++/* SPDX-License-Identifier: GPL-2.0-only */
+ /*
+  * file.c
+  *
+@@ -5,11 +6,6 @@
+  *  File handling routines for the OSTA-UDF(tm) filesystem.
+  *
+  * COPYRIGHT
+- *  This file is distributed under the terms of the GNU General Public
+- *  License (GPL). Copies of the GPL can be obtained from:
+- *    ftp://prep.ai.mit.edu/pub/gnu/GPL
+- *  Each contributing author retains all rights to their own work.
+- *
+  *  (C) 1998-1999 Dave Boynton
+  *  (C) 1998-2004 Ben Fennema
+  *  (C) 1999-2000 Stelias Computing Inc
+diff --git a/fs/udf/ialloc.c b/fs/udf/ialloc.c
+index 8d50121778a57d..67a869cbf5987b 100644
+--- a/fs/udf/ialloc.c
++++ b/fs/udf/ialloc.c
+@@ -1,3 +1,4 @@
++/* SPDX-License-Identifier: GPL-2.0-only */
+ /*
+  * ialloc.c
+  *
+@@ -5,11 +6,6 @@
+  *	Inode allocation handling routines for the OSTA-UDF(tm) filesystem.
+  *
+  * COPYRIGHT
+- *	This file is distributed under the terms of the GNU General Public
+- *	License (GPL). Copies of the GPL can be obtained from:
+- *		ftp://prep.ai.mit.edu/pub/gnu/GPL
+- *	Each contributing author retains all rights to their own work.
+- *
+  *  (C) 1998-2001 Ben Fennema
+  *
+  * HISTORY
+diff --git a/fs/udf/inode.c b/fs/udf/inode.c
+index 1e71e04ae8f6b9..7c1e083223211c 100644
+--- a/fs/udf/inode.c
++++ b/fs/udf/inode.c
+@@ -1,3 +1,4 @@
++/* SPDX-License-Identifier: GPL-2.0-only */
+ /*
+  * inode.c
+  *
+@@ -5,11 +6,6 @@
+  *  Inode handling routines for the OSTA-UDF(tm) filesystem.
+  *
+  * COPYRIGHT
+- *  This file is distributed under the terms of the GNU General Public
+- *  License (GPL). Copies of the GPL can be obtained from:
+- *    ftp://prep.ai.mit.edu/pub/gnu/GPL
+- *  Each contributing author retains all rights to their own work.
+- *
+  *  (C) 1998 Dave Boynton
+  *  (C) 1998-2004 Ben Fennema
+  *  (C) 1999-2000 Stelias Computing Inc
+diff --git a/fs/udf/lowlevel.c b/fs/udf/lowlevel.c
+index c87ed942d07653..28fc91f12da911 100644
+--- a/fs/udf/lowlevel.c
++++ b/fs/udf/lowlevel.c
+@@ -1,3 +1,4 @@
++/* SPDX-License-Identifier: GPL-2.0-only */
+ /*
+  * lowlevel.c
+  *
+@@ -5,11 +6,6 @@
+  *  Low Level Device Routines for the UDF filesystem
+  *
+  * COPYRIGHT
+- *	This file is distributed under the terms of the GNU General Public
+- *	License (GPL). Copies of the GPL can be obtained from:
+- *		ftp://prep.ai.mit.edu/pub/gnu/GPL
+- *	Each contributing author retains all rights to their own work.
+- *
+  *  (C) 1999-2001 Ben Fennema
+  *
+  * HISTORY
+diff --git a/fs/udf/misc.c b/fs/udf/misc.c
+index 3777468d06ce58..c0eaad4d0d86ff 100644
+--- a/fs/udf/misc.c
++++ b/fs/udf/misc.c
+@@ -1,3 +1,4 @@
++/* SPDX-License-Identifier: GPL-2.0-only */
+ /*
+  * misc.c
+  *
+@@ -5,11 +6,6 @@
+  *	Miscellaneous routines for the OSTA-UDF(tm) filesystem.
+  *
+  * COPYRIGHT
+- *	This file is distributed under the terms of the GNU General Public
+- *	License (GPL). Copies of the GPL can be obtained from:
+- *		ftp://prep.ai.mit.edu/pub/gnu/GPL
+- *	Each contributing author retains all rights to their own work.
+- *
+  *  (C) 1998 Dave Boynton
+  *  (C) 1998-2004 Ben Fennema
+  *  (C) 1999-2000 Stelias Computing Inc
+diff --git a/fs/udf/namei.c b/fs/udf/namei.c
+index fd20423d3ed24c..6d6cd24c7c2536 100644
+--- a/fs/udf/namei.c
++++ b/fs/udf/namei.c
+@@ -1,3 +1,4 @@
++/* SPDX-License-Identifier: GPL-2.0-only */
+ /*
+  * namei.c
+  *
+@@ -5,11 +6,6 @@
+  *      Inode name handling routines for the OSTA-UDF(tm) filesystem.
+  *
+  * COPYRIGHT
+- *      This file is distributed under the terms of the GNU General Public
+- *      License (GPL). Copies of the GPL can be obtained from:
+- *              ftp://prep.ai.mit.edu/pub/gnu/GPL
+- *      Each contributing author retains all rights to their own work.
+- *
+  *  (C) 1998-2004 Ben Fennema
+  *  (C) 1999-2000 Stelias Computing Inc
+  *
+diff --git a/fs/udf/osta_udf.h b/fs/udf/osta_udf.h
+index 157de0ec0cd530..85a5924873aeb5 100644
+--- a/fs/udf/osta_udf.h
++++ b/fs/udf/osta_udf.h
+@@ -1,3 +1,4 @@
++/* SPDX-License-Identifier: BSD-2-Clause OR GPL-1.0-only */
+ /*
+  * osta_udf.h
+  *
+@@ -8,29 +9,6 @@
+  * Copyright (c) 2017-2019  Pali Rohár <pali@kernel.org>
+  * All rights reserved.
+  *
+- * Redistribution and use in source and binary forms, with or without
+- * modification, are permitted provided that the following conditions
+- * are met:
+- * 1. Redistributions of source code must retain the above copyright
+- *    notice, this list of conditions, and the following disclaimer,
+- *    without modification.
+- * 2. The name of the author may not be used to endorse or promote products
+- *    derived from this software without specific prior written permission.
+- *
+- * Alternatively, this software may be distributed under the terms of the
+- * GNU Public License ("GPL").
+- *
+- * THIS SOFTWARE IS PROVIDED BY THE AUTHOR AND CONTRIBUTORS ``AS IS'' AND
+- * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+- * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+- * ARE DISCLAIMED. IN NO EVENT SHALL THE AUTHOR OR CONTRIBUTORS BE LIABLE FOR
+- * ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+- * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS
+- * OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+- * HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
+- * LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
+- * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
+- * SUCH DAMAGE.
+  */
+ 
+ /**
+diff --git a/fs/udf/partition.c b/fs/udf/partition.c
+index 5bcfe78d5cabe9..7d78be28929906 100644
+--- a/fs/udf/partition.c
++++ b/fs/udf/partition.c
+@@ -1,3 +1,4 @@
++/* SPDX-License-Identifier: GPL-2.0-only */
+ /*
+  * partition.c
+  *
+@@ -5,11 +6,6 @@
+  *      Partition handling routines for the OSTA-UDF(tm) filesystem.
+  *
+  * COPYRIGHT
+- *      This file is distributed under the terms of the GNU General Public
+- *      License (GPL). Copies of the GPL can be obtained from:
+- *              ftp://prep.ai.mit.edu/pub/gnu/GPL
+- *      Each contributing author retains all rights to their own work.
+- *
+  *  (C) 1998-2001 Ben Fennema
+  *
+  * HISTORY
+diff --git a/fs/udf/super.c b/fs/udf/super.c
+index 6304e3c5c3d969..80bee18ec6e1f4 100644
+--- a/fs/udf/super.c
++++ b/fs/udf/super.c
+@@ -1,3 +1,4 @@
++/* SPDX-License-Identifier: GPL-2.0-only */
+ /*
+  * super.c
+  *
+@@ -15,11 +16,6 @@
+  *    https://www.iso.org/
+  *
+  * COPYRIGHT
+- *  This file is distributed under the terms of the GNU General Public
+- *  License (GPL). Copies of the GPL can be obtained from:
+- *    ftp://prep.ai.mit.edu/pub/gnu/GPL
+- *  Each contributing author retains all rights to their own work.
+- *
+  *  (C) 1998 Dave Boynton
+  *  (C) 1998-2004 Ben Fennema
+  *  (C) 2000 Stelias Computing Inc
+diff --git a/fs/udf/symlink.c b/fs/udf/symlink.c
+index a34c8c4e6d2109..0b91b2c92bddb8 100644
+--- a/fs/udf/symlink.c
++++ b/fs/udf/symlink.c
+@@ -1,3 +1,4 @@
++/* SPDX-License-Identifier: GPL-2.0-only */
+ /*
+  * symlink.c
+  *
+@@ -5,11 +6,6 @@
+  *	Symlink handling routines for the OSTA-UDF(tm) filesystem.
+  *
+  * COPYRIGHT
+- *	This file is distributed under the terms of the GNU General Public
+- *	License (GPL). Copies of the GPL can be obtained from:
+- *		ftp://prep.ai.mit.edu/pub/gnu/GPL
+- *	Each contributing author retains all rights to their own work.
+- *
+  *  (C) 1998-2001 Ben Fennema
+  *  (C) 1999 Stelias Computing Inc
+  *
+diff --git a/fs/udf/truncate.c b/fs/udf/truncate.c
+index 2e7ba234bab8b8..3fb6c2abb4dc34 100644
+--- a/fs/udf/truncate.c
++++ b/fs/udf/truncate.c
+@@ -1,3 +1,4 @@
++/* SPDX-License-Identifier: GPL-2.0-only */
+ /*
+  * truncate.c
+  *
+@@ -5,11 +6,6 @@
+  *	Truncate handling routines for the OSTA-UDF(tm) filesystem.
+  *
+  * COPYRIGHT
+- *	This file is distributed under the terms of the GNU General Public
+- *	License (GPL). Copies of the GPL can be obtained from:
+- *		ftp://prep.ai.mit.edu/pub/gnu/GPL
+- *	Each contributing author retains all rights to their own work.
+- *
+  *  (C) 1999-2004 Ben Fennema
+  *  (C) 1999 Stelias Computing Inc
+  *
+diff --git a/fs/udf/udftime.c b/fs/udf/udftime.c
+index fce4ad976c8c29..d525ea68725f1c 100644
+--- a/fs/udf/udftime.c
++++ b/fs/udf/udftime.c
+@@ -1,21 +1,4 @@
+-/* Copyright (C) 1993, 1994, 1995, 1996, 1997 Free Software Foundation, Inc.
+-   This file is part of the GNU C Library.
+-   Contributed by Paul Eggert (eggert@twinsun.com).
+-
+-   The GNU C Library is free software; you can redistribute it and/or
+-   modify it under the terms of the GNU Library General Public License as
+-   published by the Free Software Foundation; either version 2 of the
+-   License, or (at your option) any later version.
+-
+-   The GNU C Library is distributed in the hope that it will be useful,
+-   but WITHOUT ANY WARRANTY; without even the implied warranty of
+-   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+-   Library General Public License for more details.
+-
+-   You should have received a copy of the GNU Library General Public
+-   License along with the GNU C Library; see the file COPYING.LIB.  If not,
+-   write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330,
+-   Boston, MA 02111-1307, USA.  */
++/* SPDX-License-Identifier: GPL-2.0-only */
+ 
+ /*
+  * dgb 10/02/98: ripped this from glibc source to help convert timestamps
+diff --git a/fs/udf/unicode.c b/fs/udf/unicode.c
+index 622569007b530b..5d6b66e15fcded 100644
+--- a/fs/udf/unicode.c
++++ b/fs/udf/unicode.c
+@@ -1,3 +1,4 @@
++/* SPDX-License-Identifier: GPL-2.0-only */
+ /*
+  * unicode.c
+  *
+@@ -11,11 +12,6 @@
+  *	UTF-8 is explained in the IETF RFC XXXX.
+  *		ftp://ftp.internic.net/rfc/rfcxxxx.txt
+  *
+- * COPYRIGHT
+- *	This file is distributed under the terms of the GNU General Public
+- *	License (GPL). Copies of the GPL can be obtained from:
+- *		ftp://prep.ai.mit.edu/pub/gnu/GPL
+- *	Each contributing author retains all rights to their own work.
+  */
+ 
+ #include "udfdecl.h"
 -- 
 An old man doll... just what I always wanted! - Clara
 
