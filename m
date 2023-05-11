@@ -1,82 +1,78 @@
-Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
+Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 532DA656
-	for <linux-staging@lists.linux.dev>; Thu, 11 May 2023 16:44:36 +0000 (UTC)
-Received: by mail-pj1-f50.google.com with SMTP id 98e67ed59e1d1-24df758db1cso6133302a91.2
-        for <linux-staging@lists.linux.dev>; Thu, 11 May 2023 09:44:36 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25B852918
+	for <linux-staging@lists.linux.dev>; Thu, 11 May 2023 20:55:24 +0000 (UTC)
+Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-965aa9d1d19so249901666b.0
+        for <linux-staging@lists.linux.dev>; Thu, 11 May 2023 13:55:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1683823476; x=1686415476;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=+CQciB2RKFm7DX+nj1X2SqY+0xRx25wMssqvf1i/LxY=;
-        b=aYxaMVnUt8QmVNu4qWGR9RFchQvr16wGL64RHAjtsEfvgmWv+KKzDT+CqWaM9CMsY1
-         256G7Mlg5QtEH7Ak19oO+sYA+1uSB94CYKAwmy1aYGGMnCjL8uZvqZDhP0A2x8xszwA0
-         YMgllLeC2oOmCVAR2Nw7R5RU/7H0SL5j6uh8i8Hnk/fEfNx6WWeuPoCa5S6kO0F97eLc
-         Z4Qo/s8buozwF8Qho564hZBj9E6udh93T6WgG6bDlbA+2yfeOy6HyexZSL+QSdkaX9v/
-         rPN7i4C3UoO39pEANdmX6uY2b6DHuII4T6gwYAeY0icigVoX2ziB37lKvEajiJS8d+Fw
-         ETCA==
+        d=gmail.com; s=20221208; t=1683838522; x=1686430522;
+        h=content-transfer-encoding:in-reply-to:from:references:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=UyU2yJMTTWP+TqXiAQ39h3qUzT30tuE4shvQs3raY5g=;
+        b=blS8/1iEX/8TMezsdHFUshFcOmFv4OetqL6BKXdZxZDDj0uBt7/282csgzqaBBJMZC
+         79JEYdwFrsUhNoHfv2VNX3dmSukMy6FLXxDpU0eHOa/hVqzUVl7+VEaVCcOpYIW3iFQ1
+         LnjtVQuX9Hjfd4t7vCZ4LJhrI2ijSrcBtd3qXZlxXlFWw+t2xv7WCWd8wFKsb1Un5kMl
+         zA/sgRpFXGJ04R1XAh0b6HqTWgfrFteJTva2x5TiPIUXr9Vlu5YDHVYzGIjtlWqy17p8
+         5WmJkFf1mRpOOzWRxQT/o/zX59zzaLWPR5/5cUrz3m0wpiF3HjzdBq2nQOTca++lKUlL
+         7JBw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683823476; x=1686415476;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=+CQciB2RKFm7DX+nj1X2SqY+0xRx25wMssqvf1i/LxY=;
-        b=eN3tZSsqsg9Do9H2yAcBLmNkxmooNdg+0UoWYqiBFQfG6hRfusBKDuLyW2zNjExRdm
-         AMQt9BVP3hKMCtlt3Ex2qE3sSqFrAfHaQ7aYlCvaeaZ816mLgZDmkUA/ovOnJgoeLgzS
-         8zP8Fqe8rFlLVNg/0C210H2KEgSaG/sGjMpij6tyzcy/CQLWm7iua2sDYGtfS6Os8XGY
-         zh0gGTOPrSI0cDxK2en3zInX6pMlZzzIYt6o9pNcJiVkoThR6axkzdgZZPZgRaC1dlmV
-         cCsju8bI6+Ofrzif9h6N/cO9V03O51ylaQ2A4an8Rx+KK2M6zOlELV6sZ/xENF5LzRxW
-         roTw==
-X-Gm-Message-State: AC+VfDx/OCGvADi8EmtQOomsNz8YziK+ZUWRrPJyuzuIZpFmALkrGcVt
-	Fz4lkCMyiRPPxdYjx52yDu+PZ7qJmac=
-X-Google-Smtp-Source: ACHHUZ5RtBPZyTlPH3yHPYQRYYJU4+SWcQdpqlI61y+qzo/ew5YYMRSlmAXEGIOuvc7h8uFsFCy8kg==
-X-Received: by 2002:a17:90b:a48:b0:24d:f2f5:f571 with SMTP id gw8-20020a17090b0a4800b0024df2f5f571mr22203677pjb.36.1683823475682;
-        Thu, 11 May 2023 09:44:35 -0700 (PDT)
-Received: from pop-os.localdomain ([103.251.210.208])
-        by smtp.gmail.com with ESMTPSA id g24-20020a17090a579800b0024dee5cbe29sm20148662pji.27.2023.05.11.09.44.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 11 May 2023 09:44:35 -0700 (PDT)
-Date: Thu, 11 May 2023 22:14:30 +0530
-From: Yogesh Hegde <yogi.kernel@gmail.com>
-To: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/4] staging: rtl8192e: Rename tmpRegA and TempCCk
-Message-ID: <ZF0bbv4b84eiIHe4@pop-os.localdomain>
-References: <cover.1683730854.git.yogi.kernel@gmail.com>
- <c9c67f832db3a776c04f26e0afb083ae3ba99c07.1683730854.git.yogi.kernel@gmail.com>
- <290473de-5946-49d4-9309-6bebf7cc9873@kili.mountain>
- <ZFz5Lxc/gUTKkLNX@pop-os.localdomain>
- <613ae5dd-2b36-4c87-8b6e-959e58d077fd@kili.mountain>
+        d=1e100.net; s=20221208; t=1683838522; x=1686430522;
+        h=content-transfer-encoding:in-reply-to:from:references:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=UyU2yJMTTWP+TqXiAQ39h3qUzT30tuE4shvQs3raY5g=;
+        b=VN2/RXXhPlw9Y5C4EyTgEf5UDA/ZxoBcbrJ5c2D/gPW7FBBEeq6oqVDwn17fVfEZ8v
+         WmX6lsA2rDkje0sDez1fPP07qzHSVwpJmIWP5y48HkbLtP5IXdX9j8+gDJCiswLtNs6J
+         01RvBqV2jce3B7QYquIVpdroFYMvBCs0kDhU0gqX/ax63jDMWkvoa9nvTi3hphRre0Dj
+         CFNsxBNZHCYbnlU7RXJustRAoPZVIyYne9wCViLP0DKZRMjwh+H65/SKS+lGDXsAMRRo
+         ctTpwVtb6lp079UdS8mKodmYx1Hey64MIFlKnYx873O1rKUJvCipZYa2bQpM/45pPk4J
+         MpMw==
+X-Gm-Message-State: AC+VfDzifJ7BxsRExVnFxWC4w402GD6qfJcTVSo3+HFVhK25HQAG5431
+	Vdkp2i/uSo6Gv/OWuepohHo=
+X-Google-Smtp-Source: ACHHUZ7dRy/liazszbJG1nvxuu2yJ/7t4rA/ZngmnLiUv8UzPGH7twOGifXyyj9jb9ELW4g9nf5RJA==
+X-Received: by 2002:a17:906:72cd:b0:965:9db5:3824 with SMTP id m13-20020a17090672cd00b009659db53824mr18151141ejl.6.1683838522092;
+        Thu, 11 May 2023 13:55:22 -0700 (PDT)
+Received: from [192.168.0.103] (p57935e01.dip0.t-ipconnect.de. [87.147.94.1])
+        by smtp.gmail.com with ESMTPSA id jl21-20020a17090775d500b00965b5540ad7sm4562442ejc.17.2023.05.11.13.55.21
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 11 May 2023 13:55:21 -0700 (PDT)
+Message-ID: <ecdd4474-d570-e0b9-f30f-278d2ce36f1e@gmail.com>
+Date: Thu, 11 May 2023 22:55:20 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <613ae5dd-2b36-4c87-8b6e-959e58d077fd@kili.mountain>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [PATCH 0/4] staging: rtl8192e: Trivial code cleanup patches
+Content-Language: en-US
+To: Yogesh Hegde <yogi.kernel@gmail.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+References: <cover.1683730854.git.yogi.kernel@gmail.com>
+From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+In-Reply-To: <cover.1683730854.git.yogi.kernel@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Thu, May 11, 2023 at 05:21:07PM +0300, Dan Carpenter wrote:
-> On Thu, May 11, 2023 at 07:48:23PM +0530, Yogesh Hegde wrote:
-> > 
-> > Thank you for taking the time to review my patch and provide your
-> > feedback. Your suggestions are duly noted, and I appreciate your 
-> > guidance.
-> > 
-> > I will make them into separate patches and submit it. 
+On 5/10/23 17:08, Yogesh Hegde wrote:
+> Rename variables in function _rtl92e_dm_tx_power_tracking_cb_thermal
+> and Refactor variable assignment to avoid checkpatch complains.
+> The patches are required to be applied in sequence.
 > 
-> You don't have to if you don't want to.  We can apply the patches you
-> sent as-is.  (No need to resend).  This was just in case anyone felt
-> motivated to do some more clean up work.
-Ok noted. Since the patches can be applied without further changes,
-I won't resend the current patchset. But I am eager to do more
-clean up work, so I will definitely take your suggestions into
-account and incorporate them in my future patches.
+> Yogesh Hegde (4):
+>    staging: rtl8192e: Rename tmpRegA and TempCCk
+>    staging: rtl8192e: Rename tmpOFDMindex and tmpCCKindex
+>    staging: rtl8192e: Rename tmpCCK20Mindex and tmpCCK40Mindex
+>    staging: rtl8192e: Refactor tmp_ofdm_index variable assignment
+> 
+>   drivers/staging/rtl8192e/rtl8192e/rtl_dm.c | 68 +++++++++++-----------
+>   1 file changed, 34 insertions(+), 34 deletions(-)
+>
 
-Thank you for your feedback and support.
 
-Regards
-Yogesh
+Tested-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
