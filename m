@@ -1,91 +1,138 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A584A19E6C
-	for <linux-staging@lists.linux.dev>; Fri, 12 May 2023 12:47:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1683895626;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=dJgqlXLztFl0MBoQFQIqJTCsGooWxTVjQq7Oro5jGqw=;
-	b=c3OBITSi0iAvjxYyegQPs7BuhxJZVs3ltIJyrOoR/jQf39v/6qbqFdRMyeKrenJYJN/P34
-	eVIjwn7XrDEwr9ItFT3hJ6Bac++h3TvU5fy4zhXLdorqkr9WJ7ZhLjCJItmG9HZkQvyaxP
-	yM/syhzx2v2XClpYbdypIhisEDoOQSA=
-Received: from mail-vk1-f200.google.com (mail-vk1-f200.google.com
- [209.85.221.200]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-630-2AMT_Z3nOwqLDLHQKp0eqQ-1; Fri, 12 May 2023 08:47:05 -0400
-X-MC-Unique: 2AMT_Z3nOwqLDLHQKp0eqQ-1
-Received: by mail-vk1-f200.google.com with SMTP id 71dfb90a1353d-44fb0ee32e3so2089963e0c.3
-        for <linux-staging@lists.linux.dev>; Fri, 12 May 2023 05:47:05 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2AB369466
+	for <linux-staging@lists.linux.dev>; Fri, 12 May 2023 12:49:23 +0000 (UTC)
+Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-1aaf706768cso76155805ad.0
+        for <linux-staging@lists.linux.dev>; Fri, 12 May 2023 05:49:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1683895762; x=1686487762;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=T4Bwu1/m+mf+/AYH3YMI2am9lWYECxCgwTG6fxXqnDM=;
+        b=Mu6B2Vvx/likXVwX5YSuCzcOyDhO3nyIbg5DJAFv4Fh6jqbdmg/ukbC0//k395sBq/
+         zVK+X/GG2r5Zm6ZyZ2JxbaCx/rUZaCr7KVsSsrT6KC5jSfYNuZuxfCHeG35Vhvc4Do2e
+         HPsmgPNlHgGU+b1IHVepxDytxTHrhHw+ik87sxTJtVk4E0v08GlUHENGtbK6TvDnAiTr
+         yLbe6CXu1c0z8pJq0TrNYPohEzWnU0+YTl8XG8FOsVsM2KV7G+Ooyrj1KM+ReEmsVoDZ
+         p2y7O1CDheFOJkuoQN8OZPPJmSCJdpdz5Hy07XkF0K0C7bCoeMpZXxj/4VryZjvx3ol4
+         rNKQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683895624; x=1686487624;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20221208; t=1683895762; x=1686487762;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=dJgqlXLztFl0MBoQFQIqJTCsGooWxTVjQq7Oro5jGqw=;
-        b=AvqnZEqfGMw45g4mTCTnT3eDoAjdX2Ln2P9pYLFC5BehVFOzqJ+6wdhMp4CIuu3S2k
-         paq0MwuXtt3BNuGqEkUgdUSLSpun7rrN/o6XPZJa1DYwHp09F0vICDHcSCQtXZt5EhDx
-         bVPAGA0GBZyOcZRaTDDhMOxNpZlxdqNDXBU7JSBSuegEAU2o6aoJ1msSzzA+A+U7aAac
-         3Y7K1x3+2GN29hpZalEvxwt8VDRdAbohpEIJyJna1gD2X20VpUV/Sm9DL8jWh2E5hETw
-         53TjeU8P002gjvAoaha/tNUi90yJi16ljpsKanrSC4WaY0yilaaDy3gXlpnYZPaupfNm
-         111w==
-X-Gm-Message-State: AC+VfDwyk22D5Pxd4InZ1+FmcF+WISX+dCa/fR8pO5HgZM/LlmuCLkl2
-	rkdvu2cfTSfdBI1/wiPGUHN3XoscB0/er0rMn90GBM444wOQsgxKh1+dyBBZsDEhsk7TNKMlvyO
-	zbEvrTWDUvTiZ/Fhz+B9vQJimVKZocu2BYYmcmKTp6Q==
-X-Received: by 2002:a1f:dd42:0:b0:43c:290c:25e8 with SMTP id u63-20020a1fdd42000000b0043c290c25e8mr8337230vkg.6.1683895624618;
-        Fri, 12 May 2023 05:47:04 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ7yZxumejHu+zJzEaaKqa6xt9pvg90H/4AFuwccsjqfjD5b2ojZakUIS11JCd4jdY0ELP7Fv4O8lj5wR8QlcEU=
-X-Received: by 2002:a1f:dd42:0:b0:43c:290c:25e8 with SMTP id
- u63-20020a1fdd42000000b0043c290c25e8mr8337198vkg.6.1683895624367; Fri, 12 May
- 2023 05:47:04 -0700 (PDT)
+        bh=T4Bwu1/m+mf+/AYH3YMI2am9lWYECxCgwTG6fxXqnDM=;
+        b=cUTCeaWG5l4SIOA90nPuWZmp1RNvENjNMX0VTI8JCX1KrRtnwGBH+VuzJlvM9SCxWf
+         LdUo5eVsSPJrF0sPrd37hdVVSJtHAb7tV4DBPK7ClBuoPvGGU0mnw2Mw/uYPuylOKhwK
+         d9vX0WNnABYd2NffGerXBORx8MFZ8KoyVxaF6ea3dLoWO3oW9TgSMYMG8bdUz5TqBfGn
+         TlKaxAzmb6mD0bA4jtQLrxh8+hyxI9taWYA1huCs4tvHJncvbt/1ZnjfxenL+7OrJKtQ
+         nKmIK/vACZOazcjtqu0wa2ADwZ7qz3KTV6p8yRqxdgUUKfBkRuTcv202PN1zAfJnuOkv
+         K9Hw==
+X-Gm-Message-State: AC+VfDz4Y8KwzgEAXHYA8AD7rtYfUbqQKNIeKqA3HGCWKdPWbVrWUmY2
+	cwgU2aYrsLdaeOm56+sZE8w=
+X-Google-Smtp-Source: ACHHUZ4QC7nOkGyG6InsWHZK7DO6lQ0Qk5Iwug1SSjWnugCY3MVofbA1+NsVDZnCTOxusMijiERaQg==
+X-Received: by 2002:a17:902:d34b:b0:1a6:386f:39a3 with SMTP id l11-20020a170902d34b00b001a6386f39a3mr26966779plk.31.1683895762478;
+        Fri, 12 May 2023 05:49:22 -0700 (PDT)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id n13-20020a170903110d00b001ac741db80csm7882876plh.88.2023.05.12.05.49.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 12 May 2023 05:49:22 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Date: Fri, 12 May 2023 05:49:20 -0700
+From: Guenter Roeck <linux@roeck-us.net>
+To: Bagas Sanjaya <bagasdotme@gmail.com>
+Cc: Linux SPDX Licenses <linux-spdx@vger.kernel.org>,
+	Linux DRI Development <dri-devel@lists.freedesktop.org>,
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+	Linux Networking <netdev@vger.kernel.org>,
+	Linux ARM <linux-arm-kernel@lists.infradead.org>,
+	Linux Staging Drivers <linux-staging@lists.linux.dev>,
+	Linux Watchdog Devices <linux-watchdog@vger.kernel.org>,
+	Linux Kernel Actions <linux-actions@lists.infradead.org>,
+	Diederik de Haas <didi.debian@cknow.org>,
+	Kate Stewart <kstewart@linuxfoundation.org>,
+	Philippe Ombredanne <pombredanne@nexb.com>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	David Airlie <airlied@redhat.com>,
+	Karsten Keil <isdn@linux-pingi.de>,
+	Jay Vosburgh <j.vosburgh@gmail.com>,
+	Andy Gospodarek <andy@greyhouse.net>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Sam Creasey <sammy@sammy.net>,
+	Dominik Brodowski <linux@dominikbrodowski.net>,
+	Daniel Mack <daniel@zonque.org>,
+	Haojian Zhuang <haojian.zhuang@gmail.com>,
+	Robert Jarzmik <robert.jarzmik@free.fr>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Wim Van Sebroeck <wim@linux-watchdog.org>, Jan Kara <jack@suse.com>,
+	Andreas =?iso-8859-1?Q?F=E4rber?= <afaerber@suse.de>,
+	Manivannan Sadhasivam <mani@kernel.org>,
+	Ray Lehtiniemi <rayl@mail.com>,
+	Alessandro Zummo <a.zummo@towertech.it>,
+	Andrey Panin <pazke@donpac.ru>, Oleg Drokin <green@crimea.edu>,
+	Marc Zyngier <maz@kernel.org>,
+	Jonas Jensen <jonas.jensen@gmail.com>,
+	Sylver Bruneau <sylver.bruneau@googlemail.com>,
+	Andrew Sharp <andy.sharp@lsi.com>,
+	Denis Turischev <denis@compulab.co.il>,
+	Mika Westerberg <mika.westerberg@linux.intel.com>,
+	Alan Cox <alan@linux.intel.com>,
+	Simon Horman <simon.horman@corigine.com>
+Subject: Re: [PATCH v2 08/10] drivers: watchdog: Replace GPL license notice
+ with SPDX identifier
+Message-ID: <08b5be32-0da5-4614-9c3c-b3a821492397@roeck-us.net>
+References: <20230512100620.36807-1-bagasdotme@gmail.com>
+ <20230512100620.36807-9-bagasdotme@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20230512100620.36807-1-bagasdotme@gmail.com> <20230512100620.36807-9-bagasdotme@gmail.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 In-Reply-To: <20230512100620.36807-9-bagasdotme@gmail.com>
-From: Richard Fontana <rfontana@redhat.com>
-Date: Fri, 12 May 2023 08:46:53 -0400
-Message-ID: <CAC1cPGy=78yo2XcJPNZVvdjBr2-XzSq76JrAinSe42=sNdGv3w@mail.gmail.com>
-Subject: Re: [PATCH v2 08/10] drivers: watchdog: Replace GPL license notice
- with SPDX identifier
-To: Bagas Sanjaya <bagasdotme@gmail.com>
-Cc: Linux SPDX Licenses <linux-spdx@vger.kernel.org>, 
-	Linux DRI Development <dri-devel@lists.freedesktop.org>, 
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Linux Networking <netdev@vger.kernel.org>, 
-	Linux ARM <linux-arm-kernel@lists.infradead.org>, 
-	Linux Staging Drivers <linux-staging@lists.linux.dev>, 
-	Linux Watchdog Devices <linux-watchdog@vger.kernel.org>, 
-	Linux Kernel Actions <linux-actions@lists.infradead.org>, 
-	Diederik de Haas <didi.debian@cknow.org>, Kate Stewart <kstewart@linuxfoundation.org>, 
-	Philippe Ombredanne <pombredanne@nexb.com>, Thomas Gleixner <tglx@linutronix.de>, 
-	David Airlie <airlied@redhat.com>, Karsten Keil <isdn@linux-pingi.de>, 
-	Jay Vosburgh <j.vosburgh@gmail.com>, Andy Gospodarek <andy@greyhouse.net>, 
-	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Sam Creasey <sammy@sammy.net>, 
-	Dominik Brodowski <linux@dominikbrodowski.net>, Daniel Mack <daniel@zonque.org>, 
-	Haojian Zhuang <haojian.zhuang@gmail.com>, Robert Jarzmik <robert.jarzmik@free.fr>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Wim Van Sebroeck <wim@linux-watchdog.org>, 
-	Guenter Roeck <linux@roeck-us.net>, Jan Kara <jack@suse.com>, =?UTF-8?Q?Andreas_F=C3=A4rber?= <afaerber@suse.de>, 
-	Manivannan Sadhasivam <mani@kernel.org>, Ray Lehtiniemi <rayl@mail.com>, Alessandro Zummo <a.zummo@towertech.it>, 
-	Andrey Panin <pazke@donpac.ru>, Oleg Drokin <green@crimea.edu>, Marc Zyngier <maz@kernel.org>, 
-	Jonas Jensen <jonas.jensen@gmail.com>, Sylver Bruneau <sylver.bruneau@googlemail.com>, 
-	Andrew Sharp <andy.sharp@lsi.com>, Denis Turischev <denis@compulab.co.il>, 
-	Mika Westerberg <mika.westerberg@linux.intel.com>, Alan Cox <alan@linux.intel.com>, 
-	Simon Horman <simon.horman@corigine.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Fri, May 12, 2023 at 6:07=E2=80=AFAM Bagas Sanjaya <bagasdotme@gmail.com=
-> wrote:
-
+On Fri, May 12, 2023 at 05:06:19PM +0700, Bagas Sanjaya wrote:
+> Many watchdog drivers's source files has already SPDX license
+> identifier, while some remaining doesn't.
+> 
+> Convert notices on remaining files to SPDX identifier. While at it,
+> also move SPDX identifier for drivers/watchdog/rtd119x_wdt.c to the
+> top of file (as in other files).
+> 
+> Cc: Ray Lehtiniemi <rayl@mail.com>
+> Cc: Alessandro Zummo <a.zummo@towertech.it>
+> Cc: Andrey Panin <pazke@donpac.ru>
+> Cc: Oleg Drokin <green@crimea.edu>
+> Cc: Marc Zyngier <maz@kernel.org>
+> Cc: Jonas Jensen <jonas.jensen@gmail.com>
+> Cc: Sylver Bruneau <sylver.bruneau@googlemail.com>
+> Cc: Andrew Sharp <andy.sharp@lsi.com>
+> Cc: Denis Turischev <denis@compulab.co.il>
+> Cc: Mika Westerberg <mika.westerberg@linux.intel.com>
+> Cc: Alan Cox <alan@linux.intel.com>
+> Reviewed-by: Simon Horman <simon.horman@corigine.com>
+> Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
+> ---
+>  drivers/watchdog/ep93xx_wdt.c     | 5 +----
+>  drivers/watchdog/ibmasr.c         | 3 +--
+>  drivers/watchdog/m54xx_wdt.c      | 4 +---
+>  drivers/watchdog/max63xx_wdt.c    | 5 +----
+>  drivers/watchdog/moxart_wdt.c     | 4 +---
+>  drivers/watchdog/octeon-wdt-nmi.S | 5 +----
+>  drivers/watchdog/orion_wdt.c      | 4 +---
+>  drivers/watchdog/rtd119x_wdt.c    | 2 +-
+>  drivers/watchdog/sb_wdog.c        | 5 +----
+>  drivers/watchdog/sbc_fitpc2_wdt.c | 4 +---
+>  drivers/watchdog/ts4800_wdt.c     | 4 +---
+>  drivers/watchdog/ts72xx_wdt.c     | 4 +---
+>  12 files changed, 12 insertions(+), 37 deletions(-)
+> 
+[ ... ]
 
 > diff --git a/drivers/watchdog/sb_wdog.c b/drivers/watchdog/sb_wdog.c
 > index 504be461f992a9..822bf8905bf3ce 100644
@@ -93,18 +140,21 @@ On Fri, May 12, 2023 at 6:07=E2=80=AFAM Bagas Sanjaya <bagasdotme@gmail.com=
 > +++ b/drivers/watchdog/sb_wdog.c
 > @@ -1,3 +1,4 @@
 > +// SPDX-License-Identifier: GPL-1.0+
+
+This would include GPL 3, but the text below explicitly excludes that.
+No idea how to handle that.
+
+Guenter
+
 >  /*
 >   * Watchdog driver for SiByte SB1 SoCs
 >   *
 > @@ -38,10 +39,6 @@
->   *     (c) Copyright 1996 Alan Cox <alan@lxorguk.ukuu.org.uk>,
->   *                                             All Rights Reserved.
+>   *	(c) Copyright 1996 Alan Cox <alan@lxorguk.ukuu.org.uk>,
+>   *						All Rights Reserved.
 >   *
-> - *     This program is free software; you can redistribute it and/or
-> - *     modify it under the terms of the GNU General Public License
-> - *     version 1 or 2 as published by the Free Software Foundation.
-
-Shouldn't this be
-// SPDX-License-Identifier: GPL-1.0 OR GPL-2.0
-(or in current SPDX notation GPL-1.0-only OR GPL-2.0-only) ?
-
+> - *	This program is free software; you can redistribute it and/or
+> - *	modify it under the terms of the GNU General Public License
+> - *	version 1 or 2 as published by the Free Software Foundation.
+> - *
+>   */
