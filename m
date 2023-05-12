@@ -1,45 +1,45 @@
-Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4155CD515
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AE49D52B
 	for <linux-staging@lists.linux.dev>; Fri, 12 May 2023 10:07:04 +0000 (UTC)
-Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-1ab032d9266so90318195ad.0
+Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-1aad5245571so67705755ad.1
         for <linux-staging@lists.linux.dev>; Fri, 12 May 2023 03:07:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20221208; t=1683886024; x=1686478024;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=91yi06xLF2ixkxLxpr3QLIL+JikkiNbbtse+nlfJyhw=;
-        b=UnbpswQJRWvRzMcbluMbM8TeE2waO6BN/OyUBrA4lA/sYx8Svp3o9Tc+iSJvCEf0+e
-         v7UkX+wg0JD7nkVpKLwLjHC9ThtWjJPEyHnKhfVPhCgFUc+S+MXpPLJ2lzHU5Z7F+O+t
-         eOcCZxnZA/Y+JUQ3eV739S7BE+APuVg5P1Z8F9BlmdE227yvYD+L/QzkqqKRDCrrg4QF
-         /RvrJuRCvH5GxAxKBnuixRv3RrSzGyGGsUSyOQ+56JfuJyH33l1cEi/+fNMOADDDZwL+
-         xn99REELqSdClTAkv7odXx3CZ5ZaOeZG6KbzDH8SZdiIWTxC6VHyWpR/tZXKMpJvysKp
-         l80A==
+        bh=AEkf8gWG96+9b1qBPiSXz5T2EndzrX4ufiHLwT0g7bA=;
+        b=NtT2Weul5m/pMpgN7JMgRZwAS7itAs93/P0LzS4vUShEcK4Wgq6OBo6+Iatwn9wpVD
+         gjwOOVQF9lpQUpgZtCaIQd72ZQugKVSyWb/PZE3vbwTwZfVQOVRMM5yFDD9yOMR8F8v9
+         Q6mqq6T2rl9lqGnp0ASIgno/r7T1raas8x36CbHSlmTglCyt796jfNmZNms+AHHWvurY
+         bpdR4yzAgfnxl9sTBuFoAQ83WYpg4uDnVq+BVTki6Qok27DFkNkCpOj+hRAet1+egzhD
+         pOlOJRvO3bBmkfuIVwyM2IrmdnbNpKYJ1dCyJSgwjBaFgR6C5YpCvelGbphwVnKpkpl7
+         XTUA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20221208; t=1683886024; x=1686478024;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=91yi06xLF2ixkxLxpr3QLIL+JikkiNbbtse+nlfJyhw=;
-        b=hS+A4hFckRojUrDq3QSpwgnGJYy7r8ECy762g4Bi+USn3Z39m/CfJQ1EcXifHA0ync
-         1C3+QVfQXdFK+UuFjgDdAqnVigkIj7DT/HmfPsWox/8M0kZrPpBJwGixC2wzneaonIHg
-         L4kcJ9zAig0wP7tKXRaMXcgJD6LSXZ04m2ZLNvzb2fFTUMSiRWLcxe6ZrT/mIdVp7Vtx
-         ZtYJnzwRyTin8zThtcEgLnQtgHzOZiaHLIsT7k7wgwo4BUrTvOh40o70SDyqRq8x4EHO
-         rDKCwOKqwwlLo0pQmjNBFs5xZUpDyFM20xlXPIZRFwqHYhAQND6jii4ebMeJPnWjkRbV
-         eHyA==
-X-Gm-Message-State: AC+VfDxaJ+GFAo4U9tTZ3m3wV1x8aCNAwM/aFvVbqqBebLmKXR74XlwK
-	VeZcsYAZMpycI/FYmAH4B54=
-X-Google-Smtp-Source: ACHHUZ7n0t32yMOYWRvZuuT/OzDaSwA+wYobk0k0kMWFO+/YCVLDSoAWxBstY0ckRQKHirEC+MlElA==
-X-Received: by 2002:a17:902:ea12:b0:1ad:e2b6:d292 with SMTP id s18-20020a170902ea1200b001ade2b6d292mr2078501plg.4.1683886023553;
+        bh=AEkf8gWG96+9b1qBPiSXz5T2EndzrX4ufiHLwT0g7bA=;
+        b=AxS9IUlceZHAmu8Z2H7dAdquMMczqVP/tXGFVKi+4ISbkA/PCvA1xJQrU5vmW9bN/l
+         yAJuHYWIOYUzOF6bwRj0yHZSRgjCdlUlEdpnGSe4aavX6SpdraSOai4XX+66DHhwX16v
+         CUiAE7FkTYkclDqE3yoLiqHHihCHu9tFyWBTDGP4heUZqz6PrYi7bUSI3lftNcIZPmW0
+         GyitmW+CB/jQemzaE+yj6FYjKUDApw2q71g+QK/jVUE0z+FLMvpRqZn4AfEZTq7QLh2K
+         F5e3WinzxWJ1W4Tz8fpdVQW8KNCdA22UaPkP+29FT840NCjgUnpTSYsZpgYrDZsu1n9w
+         tHwg==
+X-Gm-Message-State: AC+VfDxNwwzkcIx3sKCfeMiV/VPk3Btgt/75Hx3Lq1+Bv8YEJsOEnlYX
+	IsYLtvWMeiJ1MFPT+Z7KNgs=
+X-Google-Smtp-Source: ACHHUZ7imq7bgHR/sJmRlazsESDion5s8yIT3WhCK3D8T5obXOuXCzu+YMDtulbCky0jUvuEXkpPNA==
+X-Received: by 2002:a17:902:a609:b0:1ac:946e:4690 with SMTP id u9-20020a170902a60900b001ac946e4690mr12908005plq.49.1683886023679;
         Fri, 12 May 2023 03:07:03 -0700 (PDT)
 Received: from debian.me (subs28-116-206-12-58.three.co.id. [116.206.12.58])
-        by smtp.gmail.com with ESMTPSA id n18-20020a170902d2d200b001aaeba5ce0fsm7514313plc.68.2023.05.12.03.07.02
+        by smtp.gmail.com with ESMTPSA id n21-20020a170902969500b001a634e79af0sm7528924plp.283.2023.05.12.03.07.02
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Fri, 12 May 2023 03:07:03 -0700 (PDT)
 Received: by debian.me (Postfix, from userid 1000)
-	id AF8CB106B42; Fri, 12 May 2023 17:06:55 +0700 (WIB)
+	id 49702106B43; Fri, 12 May 2023 17:06:56 +0700 (WIB)
 From: Bagas Sanjaya <bagasdotme@gmail.com>
 To: Linux SPDX Licenses <linux-spdx@vger.kernel.org>,
 	Linux DRI Development <dri-devel@lists.freedesktop.org>,
@@ -73,11 +73,10 @@ Cc: Diederik de Haas <didi.debian@cknow.org>,
 	=?UTF-8?q?Andreas=20F=C3=A4rber?= <afaerber@suse.de>,
 	Manivannan Sadhasivam <mani@kernel.org>,
 	Bagas Sanjaya <bagasdotme@gmail.com>,
-	Dan Carpenter <error27@gmail.com>,
 	Simon Horman <simon.horman@corigine.com>
-Subject: [PATCH v2 07/10] drivers: staging: wlan-ng: Remove GPL/MPL boilerplate
-Date: Fri, 12 May 2023 17:06:18 +0700
-Message-Id: <20230512100620.36807-8-bagasdotme@gmail.com>
+Subject: [PATCH v2 10/10] include: synclink: Replace GPL license notice with SPDX identifier
+Date: Fri, 12 May 2023 17:06:21 +0700
+Message-Id: <20230512100620.36807-11-bagasdotme@gmail.com>
 X-Mailer: git-send-email 2.40.1
 In-Reply-To: <20230512100620.36807-1-bagasdotme@gmail.com>
 References: <20230512100620.36807-1-bagasdotme@gmail.com>
@@ -87,717 +86,37 @@ List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=36222; i=bagasdotme@gmail.com; h=from:subject; bh=pDKND6kxrMZMIgikM89EZnWyHuNOrHokIVM19TuzgCU=; b=owGbwMvMwCX2bWenZ2ig32LG02pJDClx/DPm5MrpSmyVd/7yOSUppzqg/lZtMhPPkiXHttqvX nVj9YcTHaUsDGJcDLJiiiyTEvmaTu8yErnQvtYRZg4rE8gQBi5OAZgI00eG/6nH2vTlM72OfOph b0qxvTF90x01K7ZpExQ+1p8Kf9wWO4WR4UlK3cXWD9dnaLzZU2YY+/ds5SPerF/9DQkJJ3Pre/X nMAEA
+X-Developer-Signature: v=1; a=openpgp-sha256; l=881; i=bagasdotme@gmail.com; h=from:subject; bh=PkQY9HnKXIwg0IaXpF33XHuRDzB1ZRiNQ1FLD5oV4q4=; b=owGbwMvMwCX2bWenZ2ig32LG02pJDClx/DNlZ3lanJT7p1ayYymLq+t2lUf7xU5xTbIv2zq/P c1cwzS3o5SFQYyLQVZMkWVSIl/T6V1GIhfa1zrCzGFlAhnCwMUpABPZwsnI0DSB1bvrwoZSud8H 0ne/3frdnuH0pjxjmXVPMvvE5m9y3cPwP/SEaKC5kN1FhVtfGU8aFdcIxYbGRS4xOZrN1MAp9PA sNwA=
 X-Developer-Key: i=bagasdotme@gmail.com; a=openpgp; fpr=701B806FDCA5D3A58FFB8F7D7C276C64A5E44A1D
 Content-Transfer-Encoding: 8bit
 
-Remove the license boilerplate as there is already SPDX license
-identifier added in b24413180f5600 ("License cleanup: add SPDX GPL-2.0
-license identifier to files with no license") which fulfills the same
-intention as the boilerplate.
+Replace unversioned GPL license notice with appropriate SPDX
+identifier, which is GPL 1.0+.
 
-Cc: Dan Carpenter <error27@gmail.com>
-Cc: Kate Stewart <kstewart@linuxfoundation.org>
-Cc: Philippe Ombredanne <pombredanne@nexb.com>
-Cc: Thomas Gleixner <tglx@linutronix.de>
 Reviewed-by: Simon Horman <simon.horman@corigine.com>
 Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
 ---
- drivers/staging/wlan-ng/hfa384x.h          | 21 ---------------------
- drivers/staging/wlan-ng/hfa384x_usb.c      | 21 ---------------------
- drivers/staging/wlan-ng/p80211conv.c       | 21 ---------------------
- drivers/staging/wlan-ng/p80211conv.h       | 21 ---------------------
- drivers/staging/wlan-ng/p80211hdr.h        | 21 ---------------------
- drivers/staging/wlan-ng/p80211ioctl.h      | 21 ---------------------
- drivers/staging/wlan-ng/p80211metadef.h    | 21 ---------------------
- drivers/staging/wlan-ng/p80211metastruct.h | 21 ---------------------
- drivers/staging/wlan-ng/p80211mgmt.h       | 21 ---------------------
- drivers/staging/wlan-ng/p80211msg.h        | 21 ---------------------
- drivers/staging/wlan-ng/p80211netdev.c     | 21 ---------------------
- drivers/staging/wlan-ng/p80211netdev.h     | 21 ---------------------
- drivers/staging/wlan-ng/p80211req.c        | 21 ---------------------
- drivers/staging/wlan-ng/p80211req.h        | 21 ---------------------
- drivers/staging/wlan-ng/p80211types.h      | 21 ---------------------
- drivers/staging/wlan-ng/p80211wep.c        | 21 ---------------------
- drivers/staging/wlan-ng/prism2fw.c         | 21 ---------------------
- drivers/staging/wlan-ng/prism2mgmt.c       | 21 ---------------------
- drivers/staging/wlan-ng/prism2mgmt.h       | 21 ---------------------
- drivers/staging/wlan-ng/prism2mib.c        | 21 ---------------------
- drivers/staging/wlan-ng/prism2sta.c        | 21 ---------------------
- 21 files changed, 441 deletions(-)
+ include/linux/synclink.h | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/drivers/staging/wlan-ng/hfa384x.h b/drivers/staging/wlan-ng/hfa384x.h
-index e33dd1b9c40e58..a4799589e46945 100644
---- a/drivers/staging/wlan-ng/hfa384x.h
-+++ b/drivers/staging/wlan-ng/hfa384x.h
-@@ -8,27 +8,6 @@
+diff --git a/include/linux/synclink.h b/include/linux/synclink.h
+index f1405b1c71ba15..85195634c81dfa 100644
+--- a/include/linux/synclink.h
++++ b/include/linux/synclink.h
+@@ -1,3 +1,4 @@
++/* SPDX-License-Identifier: GPL-1.0+ */
+ /*
+  * SyncLink Multiprotocol Serial Adapter Driver
   *
-  * linux-wlan
+@@ -5,8 +6,6 @@
   *
-- *   The contents of this file are subject to the Mozilla Public
-- *   License Version 1.1 (the "License"); you may not use this file
-- *   except in compliance with the License. You may obtain a copy of
-- *   the License at http://www.mozilla.org/MPL/
-- *
-- *   Software distributed under the License is distributed on an "AS
-- *   IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or
-- *    implied. See the License for the specific language governing
-- *   rights and limitations under the License.
-- *
-- *   Alternatively, the contents of this file may be used under the
-- *   terms of the GNU Public License version 2 (the "GPL"), in which
-- *   case the provisions of the GPL are applicable instead of the
-- *   above.  If you wish to allow the use of your version of this file
-- *   only under the terms of the GPL and not to allow others to use
-- *   your version of this file under the MPL, indicate your decision
-- *   by deleting the provisions above and replace them with the notice
-- *   and other provisions required by the GPL.  If you do not delete
-- *   the provisions above, a recipient may use your version of this
-- *   file under either the MPL or the GPL.
-- *
-  * --------------------------------------------------------------------
+  * Copyright (C) 1998-2000 by Microgate Corporation
   *
-  * Inquiries regarding the linux-wlan Open Source project can be
-diff --git a/drivers/staging/wlan-ng/hfa384x_usb.c b/drivers/staging/wlan-ng/hfa384x_usb.c
-index c7cd54171d9943..3e8c92675c8234 100644
---- a/drivers/staging/wlan-ng/hfa384x_usb.c
-+++ b/drivers/staging/wlan-ng/hfa384x_usb.c
-@@ -8,27 +8,6 @@
-  *
-  * linux-wlan
-  *
-- *   The contents of this file are subject to the Mozilla Public
-- *   License Version 1.1 (the "License"); you may not use this file
-- *   except in compliance with the License. You may obtain a copy of
-- *   the License at http://www.mozilla.org/MPL/
-- *
-- *   Software distributed under the License is distributed on an "AS
-- *   IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or
-- *   implied. See the License for the specific language governing
-- *   rights and limitations under the License.
-- *
-- *   Alternatively, the contents of this file may be used under the
-- *   terms of the GNU Public License version 2 (the "GPL"), in which
-- *   case the provisions of the GPL are applicable instead of the
-- *   above.  If you wish to allow the use of your version of this file
-- *   only under the terms of the GPL and not to allow others to use
-- *   your version of this file under the MPL, indicate your decision
-- *   by deleting the provisions above and replace them with the notice
-- *   and other provisions required by the GPL.  If you do not delete
-- *   the provisions above, a recipient may use your version of this
-- *   file under either the MPL or the GPL.
-- *
-  * --------------------------------------------------------------------
-  *
-  * Inquiries regarding the linux-wlan Open Source project can be
-diff --git a/drivers/staging/wlan-ng/p80211conv.c b/drivers/staging/wlan-ng/p80211conv.c
-index cd271b1da69f64..048e1c3fe19b32 100644
---- a/drivers/staging/wlan-ng/p80211conv.c
-+++ b/drivers/staging/wlan-ng/p80211conv.c
-@@ -8,27 +8,6 @@
-  *
-  * linux-wlan
-  *
-- *   The contents of this file are subject to the Mozilla Public
-- *   License Version 1.1 (the "License"); you may not use this file
-- *   except in compliance with the License. You may obtain a copy of
-- *   the License at http://www.mozilla.org/MPL/
-- *
-- *   Software distributed under the License is distributed on an "AS
-- *   IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or
-- *   implied. See the License for the specific language governing
-- *   rights and limitations under the License.
-- *
-- *   Alternatively, the contents of this file may be used under the
-- *   terms of the GNU Public License version 2 (the "GPL"), in which
-- *   case the provisions of the GPL are applicable instead of the
-- *   above.  If you wish to allow the use of your version of this file
-- *   only under the terms of the GPL and not to allow others to use
-- *   your version of this file under the MPL, indicate your decision
-- *   by deleting the provisions above and replace them with the notice
-- *   and other provisions required by the GPL.  If you do not delete
-- *   the provisions above, a recipient may use your version of this
-- *   file under either the MPL or the GPL.
-- *
-  * --------------------------------------------------------------------
-  *
-  * Inquiries regarding the linux-wlan Open Source project can be
-diff --git a/drivers/staging/wlan-ng/p80211conv.h b/drivers/staging/wlan-ng/p80211conv.h
-index dfb762bce84d07..45234769f45d6e 100644
---- a/drivers/staging/wlan-ng/p80211conv.h
-+++ b/drivers/staging/wlan-ng/p80211conv.h
-@@ -8,27 +8,6 @@
-  *
-  * linux-wlan
-  *
-- *   The contents of this file are subject to the Mozilla Public
-- *   License Version 1.1 (the "License"); you may not use this file
-- *   except in compliance with the License. You may obtain a copy of
-- *   the License at http://www.mozilla.org/MPL/
-- *
-- *   Software distributed under the License is distributed on an "AS
-- *   IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or
-- *   implied. See the License for the specific language governing
-- *   rights and limitations under the License.
-- *
-- *   Alternatively, the contents of this file may be used under the
-- *   terms of the GNU Public License version 2 (the "GPL"), in which
-- *   case the provisions of the GPL are applicable instead of the
-- *   above.  If you wish to allow the use of your version of this file
-- *   only under the terms of the GPL and not to allow others to use
-- *   your version of this file under the MPL, indicate your decision
-- *   by deleting the provisions above and replace them with the notice
-- *   and other provisions required by the GPL.  If you do not delete
-- *   the provisions above, a recipient may use your version of this
-- *   file under either the MPL or the GPL.
-- *
-  * --------------------------------------------------------------------
-  *
-  * Inquiries regarding the linux-wlan Open Source project can be
-diff --git a/drivers/staging/wlan-ng/p80211hdr.h b/drivers/staging/wlan-ng/p80211hdr.h
-index 93195a4c5b014a..7ea1c8ec05ed05 100644
---- a/drivers/staging/wlan-ng/p80211hdr.h
-+++ b/drivers/staging/wlan-ng/p80211hdr.h
-@@ -8,27 +8,6 @@
-  *
-  * linux-wlan
-  *
-- *   The contents of this file are subject to the Mozilla Public
-- *   License Version 1.1 (the "License"); you may not use this file
-- *   except in compliance with the License. You may obtain a copy of
-- *   the License at http://www.mozilla.org/MPL/
-- *
-- *   Software distributed under the License is distributed on an "AS
-- *   IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or
-- *   implied. See the License for the specific language governing
-- *   rights and limitations under the License.
-- *
-- *   Alternatively, the contents of this file may be used under the
-- *   terms of the GNU Public License version 2 (the "GPL"), in which
-- *   case the provisions of the GPL are applicable instead of the
-- *   above.  If you wish to allow the use of your version of this file
-- *   only under the terms of the GPL and not to allow others to use
-- *   your version of this file under the MPL, indicate your decision
-- *   by deleting the provisions above and replace them with the notice
-- *   and other provisions required by the GPL.  If you do not delete
-- *   the provisions above, a recipient may use your version of this
-- *   file under either the MPL or the GPL.
-- *
-  * --------------------------------------------------------------------
-  *
-  * Inquiries regarding the linux-wlan Open Source project can be
-diff --git a/drivers/staging/wlan-ng/p80211ioctl.h b/drivers/staging/wlan-ng/p80211ioctl.h
-index b50ce11147dd78..176e327a45bc4b 100644
---- a/drivers/staging/wlan-ng/p80211ioctl.h
-+++ b/drivers/staging/wlan-ng/p80211ioctl.h
-@@ -8,27 +8,6 @@
-  *
-  * linux-wlan
-  *
-- *   The contents of this file are subject to the Mozilla Public
-- *   License Version 1.1 (the "License"); you may not use this file
-- *   except in compliance with the License. You may obtain a copy of
-- *   the License at http://www.mozilla.org/MPL/
-- *
-- *   Software distributed under the License is distributed on an "AS
-- *   IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or
-- *   implied. See the License for the specific language governing
-- *   rights and limitations under the License.
-- *
-- *   Alternatively, the contents of this file may be used under the
-- *   terms of the GNU Public License version 2 (the "GPL"), in which
-- *   case the provisions of the GPL are applicable instead of the
-- *   above.  If you wish to allow the use of your version of this file
-- *   only under the terms of the GPL and not to allow others to use
-- *   your version of this file under the MPL, indicate your decision
-- *   by deleting the provisions above and replace them with the notice
-- *   and other provisions required by the GPL.  If you do not delete
-- *   the provisions above, a recipient may use your version of this
-- *   file under either the MPL or the GPL.
-- *
-  * --------------------------------------------------------------------
-  *
-  * Inquiries regarding the linux-wlan Open Source project can be
-diff --git a/drivers/staging/wlan-ng/p80211metadef.h b/drivers/staging/wlan-ng/p80211metadef.h
-index 1b91b64c12ed1a..1cbb4b67a9a6a6 100644
---- a/drivers/staging/wlan-ng/p80211metadef.h
-+++ b/drivers/staging/wlan-ng/p80211metadef.h
-@@ -6,27 +6,6 @@
-  *
-  * linux-wlan
-  *
-- *   The contents of this file are subject to the Mozilla Public
-- *   License Version 1.1 (the "License"); you may not use this file
-- *   except in compliance with the License. You may obtain a copy of
-- *   the License at http://www.mozilla.org/MPL/
-- *
-- *   Software distributed under the License is distributed on an "AS
-- *   IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or
-- *   implied. See the License for the specific language governing
-- *   rights and limitations under the License.
-- *
-- *   Alternatively, the contents of this file may be used under the
-- *   terms of the GNU Public License version 2 (the "GPL"), in which
-- *   case the provisions of the GPL are applicable instead of the
-- *   above.  If you wish to allow the use of your version of this file
-- *   only under the terms of the GPL and not to allow others to use
-- *   your version of this file under the MPL, indicate your decision
-- *   by deleting the provisions above and replace them with the notice
-- *   and other provisions required by the GPL.  If you do not delete
-- *   the provisions above, a recipient may use your version of this
-- *   file under either the MPL or the GPL.
-- *
-  * --------------------------------------------------------------------
-  *
-  * Inquiries regarding the linux-wlan Open Source project can be
-diff --git a/drivers/staging/wlan-ng/p80211metastruct.h b/drivers/staging/wlan-ng/p80211metastruct.h
-index 4adc64580185a1..ea8b7ee108171f 100644
---- a/drivers/staging/wlan-ng/p80211metastruct.h
-+++ b/drivers/staging/wlan-ng/p80211metastruct.h
-@@ -6,27 +6,6 @@
-  *
-  * linux-wlan
-  *
-- *   The contents of this file are subject to the Mozilla Public
-- *   License Version 1.1 (the "License"); you may not use this file
-- *   except in compliance with the License. You may obtain a copy of
-- *   the License at http://www.mozilla.org/MPL/
-- *
-- *   Software distributed under the License is distributed on an "AS
-- *   IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or
-- *   implied. See the License for the specific language governing
-- *   rights and limitations under the License.
-- *
-- *   Alternatively, the contents of this file may be used under the
-- *   terms of the GNU Public License version 2 (the "GPL"), in which
-- *   case the provisions of the GPL are applicable instead of the
-- *   above.  If you wish to allow the use of your version of this file
-- *   only under the terms of the GPL and not to allow others to use
-- *   your version of this file under the MPL, indicate your decision
-- *   by deleting the provisions above and replace them with the notice
-- *   and other provisions required by the GPL.  If you do not delete
-- *   the provisions above, a recipient may use your version of this
-- *   file under either the MPL or the GPL.
-- *
-  * --------------------------------------------------------------------
-  *
-  * Inquiries regarding the linux-wlan Open Source project can be
-diff --git a/drivers/staging/wlan-ng/p80211mgmt.h b/drivers/staging/wlan-ng/p80211mgmt.h
-index fc23fae5651b9e..7ffc202d90074b 100644
---- a/drivers/staging/wlan-ng/p80211mgmt.h
-+++ b/drivers/staging/wlan-ng/p80211mgmt.h
-@@ -8,27 +8,6 @@
-  *
-  * linux-wlan
-  *
-- *   The contents of this file are subject to the Mozilla Public
-- *   License Version 1.1 (the "License"); you may not use this file
-- *   except in compliance with the License. You may obtain a copy of
-- *   the License at http://www.mozilla.org/MPL/
-- *
-- *   Software distributed under the License is distributed on an "AS
-- *   IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or
-- *   implied. See the License for the specific language governing
-- *   rights and limitations under the License.
-- *
-- *   Alternatively, the contents of this file may be used under the
-- *   terms of the GNU Public License version 2 (the "GPL"), in which
-- *   case the provisions of the GPL are applicable instead of the
-- *   above.  If you wish to allow the use of your version of this file
-- *   only under the terms of the GPL and not to allow others to use
-- *   your version of this file under the MPL, indicate your decision
-- *   by deleting the provisions above and replace them with the notice
-- *   and other provisions required by the GPL.  If you do not delete
-- *   the provisions above, a recipient may use your version of this
-- *   file under either the MPL or the GPL.
-- *
-  * --------------------------------------------------------------------
-  *
-  * Inquiries regarding the linux-wlan Open Source project can be
-diff --git a/drivers/staging/wlan-ng/p80211msg.h b/drivers/staging/wlan-ng/p80211msg.h
-index f68d8b7d5ad883..d56bc6079ed4f8 100644
---- a/drivers/staging/wlan-ng/p80211msg.h
-+++ b/drivers/staging/wlan-ng/p80211msg.h
-@@ -8,27 +8,6 @@
-  *
-  * linux-wlan
-  *
-- *   The contents of this file are subject to the Mozilla Public
-- *   License Version 1.1 (the "License"); you may not use this file
-- *   except in compliance with the License. You may obtain a copy of
-- *   the License at http://www.mozilla.org/MPL/
-- *
-- *   Software distributed under the License is distributed on an "AS
-- *   IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or
-- *   implied. See the License for the specific language governing
-- *   rights and limitations under the License.
-- *
-- *   Alternatively, the contents of this file may be used under the
-- *   terms of the GNU Public License version 2 (the "GPL"), in which
-- *   case the provisions of the GPL are applicable instead of the
-- *   above.  If you wish to allow the use of your version of this file
-- *   only under the terms of the GPL and not to allow others to use
-- *   your version of this file under the MPL, indicate your decision
-- *   by deleting the provisions above and replace them with the notice
-- *   and other provisions required by the GPL.  If you do not delete
-- *   the provisions above, a recipient may use your version of this
-- *   file under either the MPL or the GPL.
-- *
-  * --------------------------------------------------------------------
-  *
-  * Inquiries regarding the linux-wlan Open Source project can be
-diff --git a/drivers/staging/wlan-ng/p80211netdev.c b/drivers/staging/wlan-ng/p80211netdev.c
-index 6bef419e8ad0c8..8634fc89a6c22f 100644
---- a/drivers/staging/wlan-ng/p80211netdev.c
-+++ b/drivers/staging/wlan-ng/p80211netdev.c
-@@ -8,27 +8,6 @@
-  *
-  * linux-wlan
-  *
-- *   The contents of this file are subject to the Mozilla Public
-- *   License Version 1.1 (the "License"); you may not use this file
-- *   except in compliance with the License. You may obtain a copy of
-- *   the License at http://www.mozilla.org/MPL/
-- *
-- *   Software distributed under the License is distributed on an "AS
-- *   IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or
-- *   implied. See the License for the specific language governing
-- *   rights and limitations under the License.
-- *
-- *   Alternatively, the contents of this file may be used under the
-- *   terms of the GNU Public License version 2 (the "GPL"), in which
-- *   case the provisions of the GPL are applicable instead of the
-- *   above.  If you wish to allow the use of your version of this file
-- *   only under the terms of the GPL and not to allow others to use
-- *   your version of this file under the MPL, indicate your decision
-- *   by deleting the provisions above and replace them with the notice
-- *   and other provisions required by the GPL.  If you do not delete
-- *   the provisions above, a recipient may use your version of this
-- *   file under either the MPL or the GPL.
-- *
-  * --------------------------------------------------------------------
-  *
-  * Inquiries regarding the linux-wlan Open Source project can be
-diff --git a/drivers/staging/wlan-ng/p80211netdev.h b/drivers/staging/wlan-ng/p80211netdev.h
-index 1cee51a1075ed6..f5186380b6290a 100644
---- a/drivers/staging/wlan-ng/p80211netdev.h
-+++ b/drivers/staging/wlan-ng/p80211netdev.h
-@@ -8,27 +8,6 @@
-  *
-  * linux-wlan
-  *
-- *   The contents of this file are subject to the Mozilla Public
-- *   License Version 1.1 (the "License"); you may not use this file
-- *   except in compliance with the License. You may obtain a copy of
-- *   the License at http://www.mozilla.org/MPL/
-- *
-- *   Software distributed under the License is distributed on an "AS
-- *   IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or
-- *   implied. See the License for the specific language governing
-- *   rights and limitations under the License.
-- *
-- *   Alternatively, the contents of this file may be used under the
-- *   terms of the GNU Public License version 2 (the "GPL"), in which
-- *   case the provisions of the GPL are applicable instead of the
-- *   above.  If you wish to allow the use of your version of this file
-- *   only under the terms of the GPL and not to allow others to use
-- *   your version of this file under the MPL, indicate your decision
-- *   by deleting the provisions above and replace them with the notice
-- *   and other provisions required by the GPL.  If you do not delete
-- *   the provisions above, a recipient may use your version of this
-- *   file under either the MPL or the GPL.
-- *
-  * --------------------------------------------------------------------
-  *
-  * Inquiries regarding the linux-wlan Open Source project can be
-diff --git a/drivers/staging/wlan-ng/p80211req.c b/drivers/staging/wlan-ng/p80211req.c
-index 809cf3d480e952..6ec559ffd2f991 100644
---- a/drivers/staging/wlan-ng/p80211req.c
-+++ b/drivers/staging/wlan-ng/p80211req.c
-@@ -8,27 +8,6 @@
-  *
-  * linux-wlan
-  *
-- *   The contents of this file are subject to the Mozilla Public
-- *   License Version 1.1 (the "License"); you may not use this file
-- *   except in compliance with the License. You may obtain a copy of
-- *   the License at http://www.mozilla.org/MPL/
-- *
-- *   Software distributed under the License is distributed on an "AS
-- *   IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or
-- *   implied. See the License for the specific language governing
-- *   rights and limitations under the License.
-- *
-- *   Alternatively, the contents of this file may be used under the
-- *   terms of the GNU Public License version 2 (the "GPL"), in which
-- *   case the provisions of the GPL are applicable instead of the
-- *   above.  If you wish to allow the use of your version of this file
-- *   only under the terms of the GPL and not to allow others to use
-- *   your version of this file under the MPL, indicate your decision
-- *   by deleting the provisions above and replace them with the notice
-- *   and other provisions required by the GPL.  If you do not delete
-- *   the provisions above, a recipient may use your version of this
-- *   file under either the MPL or the GPL.
-- *
-  * --------------------------------------------------------------------
-  *
-  * Inquiries regarding the linux-wlan Open Source project can be
-diff --git a/drivers/staging/wlan-ng/p80211req.h b/drivers/staging/wlan-ng/p80211req.h
-index bc45cd5f91e464..39213f73913c56 100644
---- a/drivers/staging/wlan-ng/p80211req.h
-+++ b/drivers/staging/wlan-ng/p80211req.h
-@@ -8,27 +8,6 @@
-  *
-  * linux-wlan
-  *
-- *   The contents of this file are subject to the Mozilla Public
-- *   License Version 1.1 (the "License"); you may not use this file
-- *   except in compliance with the License. You may obtain a copy of
-- *   the License at http://www.mozilla.org/MPL/
-- *
-- *   Software distributed under the License is distributed on an "AS
-- *   IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or
-- *   implied. See the License for the specific language governing
-- *   rights and limitations under the License.
-- *
-- *   Alternatively, the contents of this file may be used under the
-- *   terms of the GNU Public License version 2 (the "GPL"), in which
-- *   case the provisions of the GPL are applicable instead of the
-- *   above.  If you wish to allow the use of your version of this file
-- *   only under the terms of the GPL and not to allow others to use
-- *   your version of this file under the MPL, indicate your decision
-- *   by deleting the provisions above and replace them with the notice
-- *   and other provisions required by the GPL.  If you do not delete
-- *   the provisions above, a recipient may use your version of this
-- *   file under either the MPL or the GPL.
-- *
-  * --------------------------------------------------------------------
-  *
-  * Inquiries regarding the linux-wlan Open Source project can be
-diff --git a/drivers/staging/wlan-ng/p80211types.h b/drivers/staging/wlan-ng/p80211types.h
-index b2ed969604133e..5e4ea5f92058e5 100644
---- a/drivers/staging/wlan-ng/p80211types.h
-+++ b/drivers/staging/wlan-ng/p80211types.h
-@@ -9,27 +9,6 @@
-  *
-  * linux-wlan
-  *
-- *   The contents of this file are subject to the Mozilla Public
-- *   License Version 1.1 (the "License"); you may not use this file
-- *   except in compliance with the License. You may obtain a copy of
-- *   the License at http://www.mozilla.org/MPL/
-- *
-- *   Software distributed under the License is distributed on an "AS
-- *   IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or
-- *   implied. See the License for the specific language governing
-- *   rights and limitations under the License.
-- *
-- *   Alternatively, the contents of this file may be used under the
-- *   terms of the GNU Public License version 2 (the "GPL"), in which
-- *   case the provisions of the GPL are applicable instead of the
-- *   above.  If you wish to allow the use of your version of this file
-- *   only under the terms of the GPL and not to allow others to use
-- *   your version of this file under the MPL, indicate your decision
-- *   by deleting the provisions above and replace them with the notice
-- *   and other provisions required by the GPL.  If you do not delete
-- *   the provisions above, a recipient may use your version of this
-- *   file under either the MPL or the GPL.
-- *
-  * --------------------------------------------------------------------
-  *
-  * Inquiries regarding the linux-wlan Open Source project can be
-diff --git a/drivers/staging/wlan-ng/p80211wep.c b/drivers/staging/wlan-ng/p80211wep.c
-index 3ff7ee7011df35..e7b26b057124ab 100644
---- a/drivers/staging/wlan-ng/p80211wep.c
-+++ b/drivers/staging/wlan-ng/p80211wep.c
-@@ -8,27 +8,6 @@
-  *
-  * linux-wlan
-  *
-- *   The contents of this file are subject to the Mozilla Public
-- *   License Version 1.1 (the "License"); you may not use this file
-- *   except in compliance with the License. You may obtain a copy of
-- *   the License at http://www.mozilla.org/MPL/
-- *
-- *   Software distributed under the License is distributed on an "AS
-- *   IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or
-- *   implied. See the License for the specific language governing
-- *   rights and limitations under the License.
-- *
-- *   Alternatively, the contents of this file may be used under the
-- *   terms of the GNU Public License version 2 (the "GPL"), in which
-- *   case the provisions of the GPL are applicable instead of the
-- *   above.  If you wish to allow the use of your version of this file
-- *   only under the terms of the GPL and not to allow others to use
-- *   your version of this file under the MPL, indicate your decision
-- *   by deleting the provisions above and replace them with the notice
-- *   and other provisions required by the GPL.  If you do not delete
-- *   the provisions above, a recipient may use your version of this
-- *   file under either the MPL or the GPL.
-- *
-  * --------------------------------------------------------------------
-  *
-  * Inquiries regarding the linux-wlan Open Source project can be
-diff --git a/drivers/staging/wlan-ng/prism2fw.c b/drivers/staging/wlan-ng/prism2fw.c
-index 11658865ca5050..5d03b2b9aab40a 100644
---- a/drivers/staging/wlan-ng/prism2fw.c
-+++ b/drivers/staging/wlan-ng/prism2fw.c
-@@ -8,27 +8,6 @@
-  *
-  * linux-wlan
-  *
-- *   The contents of this file are subject to the Mozilla Public
-- *   License Version 1.1 (the "License"); you may not use this file
-- *   except in compliance with the License. You may obtain a copy of
-- *   the License at http://www.mozilla.org/MPL/
-- *
-- *   Software distributed under the License is distributed on an "AS
-- *   IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or
-- *   implied. See the License for the specific language governing
-- *   rights and limitations under the License.
-- *
-- *   Alternatively, the contents of this file may be used under the
-- *   terms of the GNU Public License version 2 (the "GPL"), in which
-- *   case the provisions of the GPL are applicable instead of the
-- *   above.  If you wish to allow the use of your version of this file
-- *   only under the terms of the GPL and not to allow others to use
-- *   your version of this file under the MPL, indicate your decision
-- *   by deleting the provisions above and replace them with the notice
-- *   and other provisions required by the GPL.  If you do not delete
-- *   the provisions above, a recipient may use your version of this
-- *   file under either the MPL or the GPL.
-- *
-  * --------------------------------------------------------------------
-  *
-  * Inquiries regarding the linux-wlan Open Source project can be
-diff --git a/drivers/staging/wlan-ng/prism2mgmt.c b/drivers/staging/wlan-ng/prism2mgmt.c
-index 9030a8939a9bf3..e7820b212b4fa1 100644
---- a/drivers/staging/wlan-ng/prism2mgmt.c
-+++ b/drivers/staging/wlan-ng/prism2mgmt.c
-@@ -8,27 +8,6 @@
-  *
-  * linux-wlan
-  *
-- *   The contents of this file are subject to the Mozilla Public
-- *   License Version 1.1 (the "License"); you may not use this file
-- *   except in compliance with the License. You may obtain a copy of
-- *   the License at http://www.mozilla.org/MPL/
-- *
-- *   Software distributed under the License is distributed on an "AS
-- *   IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or
-- *   implied. See the License for the specific language governing
-- *   rights and limitations under the License.
-- *
-- *   Alternatively, the contents of this file may be used under the
-- *   terms of the GNU Public License version 2 (the "GPL"), in which
-- *   case the provisions of the GPL are applicable instead of the
-- *   above.  If you wish to allow the use of your version of this file
-- *   only under the terms of the GPL and not to allow others to use
-- *   your version of this file under the MPL, indicate your decision
-- *   by deleting the provisions above and replace them with the notice
-- *   and other provisions required by the GPL.  If you do not delete
-- *   the provisions above, a recipient may use your version of this
-- *   file under either the MPL or the GPL.
-- *
-  * --------------------------------------------------------------------
-  *
-  * Inquiries regarding the linux-wlan Open Source project can be
-diff --git a/drivers/staging/wlan-ng/prism2mgmt.h b/drivers/staging/wlan-ng/prism2mgmt.h
-index 7132cec2d7eb80..083a055ee98662 100644
---- a/drivers/staging/wlan-ng/prism2mgmt.h
-+++ b/drivers/staging/wlan-ng/prism2mgmt.h
-@@ -8,27 +8,6 @@
-  *
-  * linux-wlan
-  *
-- *   The contents of this file are subject to the Mozilla Public
-- *   License Version 1.1 (the "License"); you may not use this file
-- *   except in compliance with the License. You may obtain a copy of
-- *   the License at http://www.mozilla.org/MPL/
-- *
-- *   Software distributed under the License is distributed on an "AS
-- *   IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or
-- *   implied. See the License for the specific language governing
-- *   rights and limitations under the License.
-- *
-- *   Alternatively, the contents of this file may be used under the
-- *   terms of the GNU Public License version 2 (the "GPL"), in which
-- *   case the provisions of the GPL are applicable instead of the
-- *   above.  If you wish to allow the use of your version of this file
-- *   only under the terms of the GPL and not to allow others to use
-- *   your version of this file under the MPL, indicate your decision
-- *   by deleting the provisions above and replace them with the notice
-- *   and other provisions required by the GPL.  If you do not delete
-- *   the provisions above, a recipient may use your version of this
-- *   file under either the MPL or the GPL.
-- *
-  * --------------------------------------------------------------------
-  *
-  * Inquiries regarding the linux-wlan Open Source project can be
-diff --git a/drivers/staging/wlan-ng/prism2mib.c b/drivers/staging/wlan-ng/prism2mib.c
-index fcf8313870af48..4346b90c1a770e 100644
---- a/drivers/staging/wlan-ng/prism2mib.c
-+++ b/drivers/staging/wlan-ng/prism2mib.c
-@@ -8,27 +8,6 @@
-  *
-  * linux-wlan
-  *
-- *   The contents of this file are subject to the Mozilla Public
-- *   License Version 1.1 (the "License"); you may not use this file
-- *   except in compliance with the License. You may obtain a copy of
-- *   the License at http://www.mozilla.org/MPL/
-- *
-- *   Software distributed under the License is distributed on an "AS
-- *   IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or
-- *   implied. See the License for the specific language governing
-- *   rights and limitations under the License.
-- *
-- *   Alternatively, the contents of this file may be used under the
-- *   terms of the GNU Public License version 2 (the "GPL"), in which
-- *   case the provisions of the GPL are applicable instead of the
-- *   above.  If you wish to allow the use of your version of this file
-- *   only under the terms of the GPL and not to allow others to use
-- *   your version of this file under the MPL, indicate your decision
-- *   by deleting the provisions above and replace them with the notice
-- *   and other provisions required by the GPL.  If you do not delete
-- *   the provisions above, a recipient may use your version of this
-- *   file under either the MPL or the GPL.
-- *
-  * --------------------------------------------------------------------
-  *
-  * Inquiries regarding the linux-wlan Open Source project can be
-diff --git a/drivers/staging/wlan-ng/prism2sta.c b/drivers/staging/wlan-ng/prism2sta.c
-index daa7cc4e897c91..57180bb71699f7 100644
---- a/drivers/staging/wlan-ng/prism2sta.c
-+++ b/drivers/staging/wlan-ng/prism2sta.c
-@@ -8,27 +8,6 @@
-  *
-  * linux-wlan
-  *
-- *   The contents of this file are subject to the Mozilla Public
-- *   License Version 1.1 (the "License"); you may not use this file
-- *   except in compliance with the License. You may obtain a copy of
-- *   the License at http://www.mozilla.org/MPL/
-- *
-- *   Software distributed under the License is distributed on an "AS
-- *   IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or
-- *   implied. See the License for the specific language governing
-- *   rights and limitations under the License.
-- *
-- *   Alternatively, the contents of this file may be used under the
-- *   terms of the GNU Public License version 2 (the "GPL"), in which
-- *   case the provisions of the GPL are applicable instead of the
-- *   above.  If you wish to allow the use of your version of this file
-- *   only under the terms of the GPL and not to allow others to use
-- *   your version of this file under the MPL, indicate your decision
-- *   by deleting the provisions above and replace them with the notice
-- *   and other provisions required by the GPL.  If you do not delete
-- *   the provisions above, a recipient may use your version of this
-- *   file under either the MPL or the GPL.
-- *
-  * --------------------------------------------------------------------
-  *
-  * Inquiries regarding the linux-wlan Open Source project can be
+- * Redistribution of this file is permitted under
+- * the terms of the GNU Public License (GPL)
+  */
+ #ifndef _SYNCLINK_H_
+ #define _SYNCLINK_H_
 -- 
 An old man doll... just what I always wanted! - Clara
 
