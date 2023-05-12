@@ -1,50 +1,58 @@
-Received: from mail-yb1-f181.google.com (mail-yb1-f181.google.com [209.85.219.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BECDBA56
-	for <linux-staging@lists.linux.dev>; Fri, 12 May 2023 11:28:10 +0000 (UTC)
-Received: by mail-yb1-f181.google.com with SMTP id 3f1490d57ef6-ba724ec3b06so587531276.2
-        for <linux-staging@lists.linux.dev>; Fri, 12 May 2023 04:28:09 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A584A19E6C
+	for <linux-staging@lists.linux.dev>; Fri, 12 May 2023 12:47:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1683895626;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=dJgqlXLztFl0MBoQFQIqJTCsGooWxTVjQq7Oro5jGqw=;
+	b=c3OBITSi0iAvjxYyegQPs7BuhxJZVs3ltIJyrOoR/jQf39v/6qbqFdRMyeKrenJYJN/P34
+	eVIjwn7XrDEwr9ItFT3hJ6Bac++h3TvU5fy4zhXLdorqkr9WJ7ZhLjCJItmG9HZkQvyaxP
+	yM/syhzx2v2XClpYbdypIhisEDoOQSA=
+Received: from mail-vk1-f200.google.com (mail-vk1-f200.google.com
+ [209.85.221.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-630-2AMT_Z3nOwqLDLHQKp0eqQ-1; Fri, 12 May 2023 08:47:05 -0400
+X-MC-Unique: 2AMT_Z3nOwqLDLHQKp0eqQ-1
+Received: by mail-vk1-f200.google.com with SMTP id 71dfb90a1353d-44fb0ee32e3so2089963e0c.3
+        for <linux-staging@lists.linux.dev>; Fri, 12 May 2023 05:47:05 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683890889; x=1686482889;
+        d=1e100.net; s=20221208; t=1683895624; x=1686487624;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=jRL0mFkBIJ4KpIHNQ0nXnFUPNdCjxMZJfjytXJxyHUs=;
-        b=l7fqKq0DCCYcBzEhr+VMVsjbwTWlo+xMHpxCpOX3Co3N37m87xrWzBWd+fspbQf4Tu
-         6Mpqy9vsOe4eAQdGqA1BZ0/W/cLMX1KnRriDO0ltXjc53v55FEuIWjFH6bnFuDpYLY/T
-         fB8ilXduRtpw62AqXiL9BWuLYm3meEm8XdK3V/MbTfLKdU47EX+25CdskHtVYQlH6siG
-         Kuq1x5b2FXLsgt8YJcSvX0kW9KAg1qpiUfYKebkEsEBVtCrb62DGeyZuuRRH6DjzVsHg
-         NQWMZpMs/P6dzYhJz3ou1z2+IBejOL/LgD8dQUTJrToGC8eavcawiqoJ3506xuoj15Tf
-         UiOA==
-X-Gm-Message-State: AC+VfDxKRSa4mW40rK2ZOwj3qkoQ4+tMMuVeIi2vK9GISMb4PEMnzVEg
-	YKfM5nZAQS7p902bOl4ZEEjZ83zwH/hKlA==
-X-Google-Smtp-Source: ACHHUZ4d70gE0Opfjj22GQyXvolCA8W4S0qz/mJUU51+h7Ia+xopYSF1d+LdUw9USL4L/g+tz83R6A==
-X-Received: by 2002:a25:3212:0:b0:ba7:1ea1:1298 with SMTP id y18-20020a253212000000b00ba71ea11298mr854603yby.46.1683890888730;
-        Fri, 12 May 2023 04:28:08 -0700 (PDT)
-Received: from mail-yw1-f175.google.com (mail-yw1-f175.google.com. [209.85.128.175])
-        by smtp.gmail.com with ESMTPSA id k66-20020a0dc845000000b00545a081847fsm5611806ywd.15.2023.05.12.04.28.07
-        for <linux-staging@lists.linux.dev>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 12 May 2023 04:28:07 -0700 (PDT)
-Received: by mail-yw1-f175.google.com with SMTP id 00721157ae682-55a20a56a01so173327427b3.3
-        for <linux-staging@lists.linux.dev>; Fri, 12 May 2023 04:28:07 -0700 (PDT)
-X-Received: by 2002:a0d:d691:0:b0:539:1b13:3d64 with SMTP id
- y139-20020a0dd691000000b005391b133d64mr23825102ywd.48.1683890887026; Fri, 12
- May 2023 04:28:07 -0700 (PDT)
+        bh=dJgqlXLztFl0MBoQFQIqJTCsGooWxTVjQq7Oro5jGqw=;
+        b=AvqnZEqfGMw45g4mTCTnT3eDoAjdX2Ln2P9pYLFC5BehVFOzqJ+6wdhMp4CIuu3S2k
+         paq0MwuXtt3BNuGqEkUgdUSLSpun7rrN/o6XPZJa1DYwHp09F0vICDHcSCQtXZt5EhDx
+         bVPAGA0GBZyOcZRaTDDhMOxNpZlxdqNDXBU7JSBSuegEAU2o6aoJ1msSzzA+A+U7aAac
+         3Y7K1x3+2GN29hpZalEvxwt8VDRdAbohpEIJyJna1gD2X20VpUV/Sm9DL8jWh2E5hETw
+         53TjeU8P002gjvAoaha/tNUi90yJi16ljpsKanrSC4WaY0yilaaDy3gXlpnYZPaupfNm
+         111w==
+X-Gm-Message-State: AC+VfDwyk22D5Pxd4InZ1+FmcF+WISX+dCa/fR8pO5HgZM/LlmuCLkl2
+	rkdvu2cfTSfdBI1/wiPGUHN3XoscB0/er0rMn90GBM444wOQsgxKh1+dyBBZsDEhsk7TNKMlvyO
+	zbEvrTWDUvTiZ/Fhz+B9vQJimVKZocu2BYYmcmKTp6Q==
+X-Received: by 2002:a1f:dd42:0:b0:43c:290c:25e8 with SMTP id u63-20020a1fdd42000000b0043c290c25e8mr8337230vkg.6.1683895624618;
+        Fri, 12 May 2023 05:47:04 -0700 (PDT)
+X-Google-Smtp-Source: ACHHUZ7yZxumejHu+zJzEaaKqa6xt9pvg90H/4AFuwccsjqfjD5b2ojZakUIS11JCd4jdY0ELP7Fv4O8lj5wR8QlcEU=
+X-Received: by 2002:a1f:dd42:0:b0:43c:290c:25e8 with SMTP id
+ u63-20020a1fdd42000000b0043c290c25e8mr8337198vkg.6.1683895624367; Fri, 12 May
+ 2023 05:47:04 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20230512100620.36807-1-bagasdotme@gmail.com> <20230512100620.36807-5-bagasdotme@gmail.com>
-In-Reply-To: <20230512100620.36807-5-bagasdotme@gmail.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Fri, 12 May 2023 13:27:55 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdWrApnnmC+p_+jeVsswc-_JRSK3FtvpS2X4PrscBCZtAA@mail.gmail.com>
-Message-ID: <CAMuHMdWrApnnmC+p_+jeVsswc-_JRSK3FtvpS2X4PrscBCZtAA@mail.gmail.com>
-Subject: Re: [PATCH v2 04/10] net: ethernet: 8390: Replace GPL boilerplate
+References: <20230512100620.36807-1-bagasdotme@gmail.com> <20230512100620.36807-9-bagasdotme@gmail.com>
+In-Reply-To: <20230512100620.36807-9-bagasdotme@gmail.com>
+From: Richard Fontana <rfontana@redhat.com>
+Date: Fri, 12 May 2023 08:46:53 -0400
+Message-ID: <CAC1cPGy=78yo2XcJPNZVvdjBr2-XzSq76JrAinSe42=sNdGv3w@mail.gmail.com>
+Subject: Re: [PATCH v2 08/10] drivers: watchdog: Replace GPL license notice
  with SPDX identifier
 To: Bagas Sanjaya <bagasdotme@gmail.com>
 Cc: Linux SPDX Licenses <linux-spdx@vger.kernel.org>, 
@@ -64,93 +72,39 @@ Cc: Linux SPDX Licenses <linux-spdx@vger.kernel.org>,
 	Haojian Zhuang <haojian.zhuang@gmail.com>, Robert Jarzmik <robert.jarzmik@free.fr>, 
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Wim Van Sebroeck <wim@linux-watchdog.org>, 
 	Guenter Roeck <linux@roeck-us.net>, Jan Kara <jack@suse.com>, =?UTF-8?Q?Andreas_F=C3=A4rber?= <afaerber@suse.de>, 
-	Manivannan Sadhasivam <mani@kernel.org>, "David A . Hinds" <dahinds@users.sourceforge.net>, 
-	Donald Becker <becker@scyld.com>, Peter De Schrijver <p2@mind.be>, Topi Kanerva <topi@susanna.oulu.fi>, 
-	Alain Malek <Alain.Malek@cryogen.com>, Bruce Abbott <bhabbott@inhb.co.nz>, 
-	Alan Cox <alan@linux.intel.com>, Greg Ungerer <gerg@linux-m68k.org>, 
+	Manivannan Sadhasivam <mani@kernel.org>, Ray Lehtiniemi <rayl@mail.com>, Alessandro Zummo <a.zummo@towertech.it>, 
+	Andrey Panin <pazke@donpac.ru>, Oleg Drokin <green@crimea.edu>, Marc Zyngier <maz@kernel.org>, 
+	Jonas Jensen <jonas.jensen@gmail.com>, Sylver Bruneau <sylver.bruneau@googlemail.com>, 
+	Andrew Sharp <andy.sharp@lsi.com>, Denis Turischev <denis@compulab.co.il>, 
+	Mika Westerberg <mika.westerberg@linux.intel.com>, Alan Cox <alan@linux.intel.com>, 
 	Simon Horman <simon.horman@corigine.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hi Bagas,
+On Fri, May 12, 2023 at 6:07=E2=80=AFAM Bagas Sanjaya <bagasdotme@gmail.com=
+> wrote:
 
-On Fri, May 12, 2023 at 12:08=E2=80=AFPM Bagas Sanjaya <bagasdotme@gmail.co=
-m> wrote:
-> Replace GPL boilerplate notice on remaining files with appropriate SPDX
-> tag. For files mentioning COPYING, use GPL 2.0; otherwise GPL 1.0+.
->
-> Cc: David A. Hinds <dahinds@users.sourceforge.net>
-> Cc: Donald Becker <becker@scyld.com>
-> Cc: Peter De Schrijver <p2@mind.be>
-> Cc: Topi Kanerva <topi@susanna.oulu.fi>
-> Cc: Alain Malek <Alain.Malek@cryogen.com>
-> Cc: Bruce Abbott <bhabbott@inhb.co.nz>
-> Cc: Alan Cox <alan@linux.intel.com>
-> Acked-by: Greg Ungerer <gerg@linux-m68k.org>
-> Reviewed-by: Simon Horman <simon.horman@corigine.com>
-> Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
 
-Thanks for your patch!
-
-> --- a/drivers/net/ethernet/8390/apne.c
-> +++ b/drivers/net/ethernet/8390/apne.c
+> diff --git a/drivers/watchdog/sb_wdog.c b/drivers/watchdog/sb_wdog.c
+> index 504be461f992a9..822bf8905bf3ce 100644
+> --- a/drivers/watchdog/sb_wdog.c
+> +++ b/drivers/watchdog/sb_wdog.c
 > @@ -1,3 +1,4 @@
 > +// SPDX-License-Identifier: GPL-1.0+
-
-As per the removed lines below, this should be GPL-2.0-only.
-
 >  /*
->   * Amiga Linux/68k 8390 based PCMCIA Ethernet Driver for the Amiga 1200
+>   * Watchdog driver for SiByte SB1 SoCs
 >   *
-> @@ -19,12 +20,6 @@
+> @@ -38,10 +39,6 @@
+>   *     (c) Copyright 1996 Alan Cox <alan@lxorguk.ukuu.org.uk>,
+>   *                                             All Rights Reserved.
 >   *
->   * ---------------------------------------------------------------------=
--------
->   *
-> - * This file is subject to the terms and conditions of the GNU General P=
-ublic
-> - * License.  See the file COPYING in the main directory of the Linux
-> - * distribution for more details.
-> - *
-> - * ---------------------------------------------------------------------=
--------
-> - *
->   */
->
->
+> - *     This program is free software; you can redistribute it and/or
+> - *     modify it under the terms of the GNU General Public License
+> - *     version 1 or 2 as published by the Free Software Foundation.
 
-> --- a/drivers/net/ethernet/8390/hydra.c
-> +++ b/drivers/net/ethernet/8390/hydra.c
-> @@ -1,10 +1,8 @@
-> +// SPDX-License-Identifier: GPL-1.0+
+Shouldn't this be
+// SPDX-License-Identifier: GPL-1.0 OR GPL-2.0
+(or in current SPDX notation GPL-1.0-only OR GPL-2.0-only) ?
 
-Likewise.
-
-> +
->  /* New Hydra driver using generic 8390 core */
->  /* Based on old hydra driver by Topi Kanerva (topi@susanna.oulu.fi) */
->
-> -/* This file is subject to the terms and conditions of the GNU General  =
-    */
-> -/* Public License.  See the file COPYING in the main directory of the   =
-    */
-> -/* Linux distribution for more details.                                 =
-    */
-> -
->  /* Peter De Schrijver (p2@mind.be) */
->  /* Oldenburg 2000 */
->
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
-
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
