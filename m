@@ -1,44 +1,45 @@
-Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com [209.85.215.172])
+Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 912AFBE54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E855D2F7
 	for <linux-staging@lists.linux.dev>; Fri, 12 May 2023 10:07:00 +0000 (UTC)
-Received: by mail-pg1-f172.google.com with SMTP id 41be03b00d2f7-5304d0d1eddso2167529a12.2
+Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-64a9335a8e7so4469323b3a.0
         for <linux-staging@lists.linux.dev>; Fri, 12 May 2023 03:07:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20221208; t=1683886020; x=1686478020;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=MF1kClHwqeIfcYl89hzofL9vZWLuExWhfi4hFZftNQc=;
-        b=OcUcPzMZPjhSctBLIUIJJQCgYOzU04AKhWQr9M5X5E2GKoXeofLGVSOfGNKkoSsuN8
-         2Hn8RB6mk66r9DOH8GJq0TmL2FSoEN9ljvskjp9erxdT+L8nsW1pVdVKUvVbqOHECJuk
-         7aDSaRe96lAx+THfaH8yCaiTyV3fYDYHwUHP8dGcfsqz+IHvxbkBKzQXouy1fI6BfD+0
-         K9tqc3j7FCyLXWsSncoupm8V7bnHAHSmTTuF6NPosxTX2EN9ilHKTtT7nbSobIbRcwRo
-         DYXicNpXe5y4OhBS4/HSAObZKVpfwJ1sWijsHQ+z8oztzT6fNLUGlljPIdz9ZHYK3/O+
-         rQPg==
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=NkLNdeDn6hMP5F0r+T8wUttQQ19WSpWtWoPCipbjjYk=;
+        b=C2+j8v8rPTIb6HnSvnFUQwRZ66d3mXZZSmgIfsh6FVupo5JbwYPTQxueQITyQhUyTE
+         XwDGChK3UNv+U1yJxKtNWgdNH59S1wnnb41F5rM5S4lZGFGbL2Vk0EgF+rzxZJydj74u
+         d6Jk4j0yuBZn+Ia57JZxzq1D7JXICpZG03MRJhZD+dcsewY1jruPow6YZRNSFRaCJFsv
+         6x+yo/3iVJhPuv/fvu2hMT0F4OrD+DWMCuLCPqt0Fzygq/E9VfhsedqCVUDYddgRWsw9
+         vV8dxqqeq9tItBeaKZfHNLW9omhOjhh1aTduDjMAKPQv2LssIWhToyNxoodHXrI/tdwF
+         BbgQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20221208; t=1683886020; x=1686478020;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=MF1kClHwqeIfcYl89hzofL9vZWLuExWhfi4hFZftNQc=;
-        b=DHHGsdqaumm4yBoEgfFgKu8rKIoBIcUjB1L0bX1BTp3+xu/i0sS2grPkvsgiiZA3g5
-         YmlhXGDu79gE5KZvdsjrZBs6C4sbHJrLBCLVlM5dabvp7aIwadNQ3mpAWFBD+fNJ/OFT
-         P3BVKNNczFuGVJ63umoY+o5s5kda/BBF6QjF54NLtPvuRZVHAmePhaHupU3nVSUysRMA
-         Z+JDGzm0nm07jjXEWGhUiKIUWSHwnU5X74mtwAfU0CpRc27wWLxUUFCKxOqpbtHurH6/
-         +dPyxEh10qP/AoNCifx84glD35UO6K68k0XxyOsCVNQ19g3oWldpvs/HZpVQGiEh1wdt
-         +Kgg==
-X-Gm-Message-State: AC+VfDzS6H+2hdENXDg4QSyUsQ6Tr2yfd+dR2ykS64LMVkp1ecmYEZ5W
-	5RksUF3e98jEZOvfVxL5Y5Y=
-X-Google-Smtp-Source: ACHHUZ50IUxu1FhvLcpiZZIKLIroOklQP/UisO3FYeKOr7ewmmJz8X2IVf1EqqtbwW8nYPw9TSpqfw==
-X-Received: by 2002:a17:902:7407:b0:1a6:3ffb:8997 with SMTP id g7-20020a170902740700b001a63ffb8997mr26433375pll.42.1683886019859;
-        Fri, 12 May 2023 03:06:59 -0700 (PDT)
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=NkLNdeDn6hMP5F0r+T8wUttQQ19WSpWtWoPCipbjjYk=;
+        b=hvLCQK77VWqBpa7t+AUOul9bBQWV3acujg7bEsapyjzemQmG6Y/Lim+jT6G9TmOg/L
+         2EI1olMS0UPaVo4nwkT0+1N+xceV2qUas/UiBl6utQWFniHGvS0Erd2ne/q9Dex8U1FV
+         zsofQLgFd8ku9nDInEG1EMh0f/qsH8EhBRsxfA9ztI+/Je9eMQr531LbegcSM1Ot3geW
+         LdPkkr1VDLyVPhGnxRxMoujvP+D/UAt8GtTn5cLf8Uv9AENBtcH3KJt8tC2aQ9FcMlVz
+         0nbwA/L9HOgOb0Ne4E/+1UQ8fGUJIffF1voWEmndW7DSpQLCpHIAFJe8UsF/5lWzwKPY
+         eVmA==
+X-Gm-Message-State: AC+VfDzU3WFnBY3SPkxv5ajVrCARA4okKtGGMK6lAzIg7njSWjcBdJR6
+	HzFKTlmUaE4rXk+5amcgwTE=
+X-Google-Smtp-Source: ACHHUZ6aNdgEG2xNAjNjCSF7H8MeFm2CvViH4BalJUiUcf1A7xoIMDscaLxs+Ef+R6vxs1eys44OGw==
+X-Received: by 2002:a17:902:da92:b0:1ac:94b3:3ab4 with SMTP id j18-20020a170902da9200b001ac94b33ab4mr15640725plx.27.1683886020395;
+        Fri, 12 May 2023 03:07:00 -0700 (PDT)
 Received: from debian.me (subs28-116-206-12-58.three.co.id. [116.206.12.58])
-        by smtp.gmail.com with ESMTPSA id q14-20020a17090311ce00b001a24e2eec75sm7527379plh.193.2023.05.12.03.06.59
+        by smtp.gmail.com with ESMTPSA id k25-20020a63ba19000000b0050f93a3586fsm6141726pgf.37.2023.05.12.03.06.59
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Fri, 12 May 2023 03:06:59 -0700 (PDT)
 Received: by debian.me (Postfix, from userid 1000)
-	id 80D44106B32; Fri, 12 May 2023 17:06:54 +0700 (WIB)
+	id 762BF106B36; Fri, 12 May 2023 17:06:54 +0700 (WIB)
 From: Bagas Sanjaya <bagasdotme@gmail.com>
 To: Linux SPDX Licenses <linux-spdx@vger.kernel.org>,
 	Linux DRI Development <dri-devel@lists.freedesktop.org>,
@@ -71,160 +72,47 @@ Cc: Diederik de Haas <didi.debian@cknow.org>,
 	Jan Kara <jack@suse.com>,
 	=?UTF-8?q?Andreas=20F=C3=A4rber?= <afaerber@suse.de>,
 	Manivannan Sadhasivam <mani@kernel.org>,
-	Bagas Sanjaya <bagasdotme@gmail.com>
-Subject: [PATCH v2 00/10] Treewide GPL SPDX conversion and cleanup (in response to Didi's GPL full name fixes)
-Date: Fri, 12 May 2023 17:06:11 +0700
-Message-Id: <20230512100620.36807-1-bagasdotme@gmail.com>
+	Bagas Sanjaya <bagasdotme@gmail.com>,
+	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+	Simon Horman <simon.horman@corigine.com>
+Subject: [PATCH v2 01/10] agp/amd64: Remove GPL distribution notice
+Date: Fri, 12 May 2023 17:06:12 +0700
+Message-Id: <20230512100620.36807-2-bagasdotme@gmail.com>
 X-Mailer: git-send-email 2.40.1
+In-Reply-To: <20230512100620.36807-1-bagasdotme@gmail.com>
+References: <20230512100620.36807-1-bagasdotme@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=7996; i=bagasdotme@gmail.com; h=from:subject; bh=b4eQ13BRmR9+v89nmhYi5AatdBClhH8kt45zmkpWvis=; b=owGbwMvMwCX2bWenZ2ig32LG02pJDClx/H0mZ5eHqLJFfnnzs/0426p5G19/O9LL36j1XktHn vnm74cWHaUsDGJcDLJiiiyTEvmaTu8yErnQvtYRZg4rE8gQBi5OAZiIxzOG/wXa07+I2XO8LdGS flltLnyw4grDC09VpeI9jkp/0y8pBTMyXCp4bmSRqS6UuFXk373N708uORazIPyqyM5MlwtGH02 usgIA
+X-Developer-Signature: v=1; a=openpgp-sha256; l=865; i=bagasdotme@gmail.com; h=from:subject; bh=BnhAyHqAAXZPpElC1S7AamhQL42pHpYqVocWHPx47Os=; b=owGbwMvMwCX2bWenZ2ig32LG02pJDClx/NO3Lfyz29rtyKsS8//3lktmcG+LcrlZPfXRzne6r BeWG8sf7ihlYRDjYpAVU2SZlMjXdHqXkciF9rWOMHNYmUCGMHBxCsBEpksz/E+ZHn/97Pa1mcsX SRe79U8LfWr+1jyuJsSJ9dwmz6+TtfUY/ilqCr+WT7wnuHO1tmnp0jLPvboarTN8C/QeXSxye3Z oLw8A
 X-Developer-Key: i=bagasdotme@gmail.com; a=openpgp; fpr=701B806FDCA5D3A58FFB8F7D7C276C64A5E44A1D
 Content-Transfer-Encoding: 8bit
 
-I trigger this patch series as a response to Didi's GPL full name fix
-patches [1], for which all of them had been NAKed. In many cases, the
-appropriate correction is to use SPDX license identifier instead.
+There is already SPDX tag which does the job, so remove the redundant
+notice.
 
-Often, when replacing license notice boilerplates with their equivalent
-SPDX identifier, the notice doesn't mention explicit GPL version. Greg
-[2] replied this question by falling back to GPL 1.0 (more precisely
-GPL 1.0+ in order to be compatible with GPL 2.0 used by Linux kernel),
-although there are exceptions (mostly resolved by inferring from
-older patches covering similar situation).
+Cc: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+Reviewed-by: Simon Horman <simon.horman@corigine.com>
+Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
+---
+ drivers/char/agp/amd64-agp.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-The series covers the same directories touched as Didi's ones, minus
-Documentation/ (as should have been inferred by SPDX tags on respective
-docs).
-
-Changes since v1 ([3]):
-  * Cc: additional original authors that are missed in v1
-  * Pick up Reviewed-by: and Acked-by: tags from review
-  * Fix spdxcheck and SPDX-related checkpatch warnings
-  * Fix a few tag oversights.
-
-[1]: https://lore.kernel.org/all/?q=f%3A%22didi.debian%40cknow.org%22+AND+s%3A%22GPL%22+AND+NOT+s%3A%22Re%3A%22
-[2]: https://lore.kernel.org/all/20181028112728.GD8826@kroah.com/ 
-[3]: https://lore.kernel.org/netdev/20230511133406.78155-1-bagasdotme@gmail.com/
-
-Bagas Sanjaya (10):
-  agp/amd64: Remove GPL distribution notice
-  mISDN: Replace GPL notice boilerplate with SPDX identifier
-  net: bonding: Add SPDX identifier to remaining files
-  net: ethernet: 8390: Replace GPL boilerplate with SPDX identifier
-  net: ethernet: i825xx: Replace GPL boilerplate with SPDX identifier
-  pcmcia: Add SPDX identifier
-  drivers: staging: wlan-ng: Remove GPL/MPL boilerplate
-  drivers: watchdog: Replace GPL license notice with SPDX identifier
-  udf: Replace license notice with SPDX identifier
-  include: synclink: Replace GPL license notice with SPDX identifier
-
- drivers/char/agp/amd64-agp.c               |  1 -
- drivers/isdn/mISDN/dsp_audio.c             |  4 +---
- drivers/isdn/mISDN/dsp_blowfish.c          |  4 +---
- drivers/isdn/mISDN/dsp_cmx.c               |  4 +---
- drivers/isdn/mISDN/dsp_core.c              |  3 +--
- drivers/isdn/mISDN/dsp_dtmf.c              |  4 +---
- drivers/isdn/mISDN/dsp_tones.c             |  4 +---
- drivers/net/bonding/bond_main.c            |  3 ++-
- drivers/net/bonding/bonding_priv.h         |  4 +---
- drivers/net/ethernet/8390/8390.h           |  2 ++
- drivers/net/ethernet/8390/apne.c           |  7 +------
- drivers/net/ethernet/8390/axnet_cs.c       |  6 +++---
- drivers/net/ethernet/8390/hydra.c          |  6 ++----
- drivers/net/ethernet/8390/lib8390.c        |  5 ++---
- drivers/net/ethernet/8390/mac8390.c        |  6 ++----
- drivers/net/ethernet/8390/mcf8390.c        |  4 +---
- drivers/net/ethernet/8390/ne.c             |  4 +---
- drivers/net/ethernet/8390/ne2k-pci.c       |  8 +-------
- drivers/net/ethernet/8390/pcnet_cs.c       |  5 ++---
- drivers/net/ethernet/8390/smc-ultra.c      |  4 +---
- drivers/net/ethernet/8390/stnic.c          |  5 +----
- drivers/net/ethernet/8390/wd.c             |  4 +---
- drivers/net/ethernet/8390/zorro8390.c      |  7 +------
- drivers/net/ethernet/i825xx/82596.c        |  5 ++---
- drivers/net/ethernet/i825xx/lasi_82596.c   |  5 ++---
- drivers/net/ethernet/i825xx/lib82596.c     |  5 ++---
- drivers/net/ethernet/i825xx/sun3_82586.c   |  4 +---
- drivers/net/ethernet/i825xx/sun3_82586.h   |  4 +---
- drivers/pcmcia/bcm63xx_pcmcia.c            |  5 +----
- drivers/pcmcia/cirrus.h                    | 21 +------------------
- drivers/pcmcia/i82365.c                    | 22 +-------------------
- drivers/pcmcia/i82365.h                    | 21 +------------------
- drivers/pcmcia/o2micro.h                   | 21 +------------------
- drivers/pcmcia/pd6729.c                    |  3 +--
- drivers/pcmcia/pxa2xx_base.h               |  1 +
- drivers/pcmcia/ricoh.h                     | 21 +------------------
- drivers/pcmcia/sa1100_generic.c            | 22 +-------------------
- drivers/pcmcia/sa11xx_base.c               | 22 +-------------------
- drivers/pcmcia/sa11xx_base.h               | 22 +-------------------
- drivers/pcmcia/soc_common.c                | 22 +-------------------
- drivers/pcmcia/tcic.c                      | 22 +-------------------
- drivers/pcmcia/tcic.h                      | 21 +------------------
- drivers/pcmcia/ti113x.h                    | 21 +------------------
- drivers/pcmcia/topic.h                     | 23 +--------------------
- drivers/pcmcia/vg468.h                     | 21 +------------------
- drivers/staging/wlan-ng/hfa384x.h          | 21 -------------------
- drivers/staging/wlan-ng/hfa384x_usb.c      | 21 -------------------
- drivers/staging/wlan-ng/p80211conv.c       | 21 -------------------
- drivers/staging/wlan-ng/p80211conv.h       | 21 -------------------
- drivers/staging/wlan-ng/p80211hdr.h        | 21 -------------------
- drivers/staging/wlan-ng/p80211ioctl.h      | 21 -------------------
- drivers/staging/wlan-ng/p80211metadef.h    | 21 -------------------
- drivers/staging/wlan-ng/p80211metastruct.h | 21 -------------------
- drivers/staging/wlan-ng/p80211mgmt.h       | 21 -------------------
- drivers/staging/wlan-ng/p80211msg.h        | 21 -------------------
- drivers/staging/wlan-ng/p80211netdev.c     | 21 -------------------
- drivers/staging/wlan-ng/p80211netdev.h     | 21 -------------------
- drivers/staging/wlan-ng/p80211req.c        | 21 -------------------
- drivers/staging/wlan-ng/p80211req.h        | 21 -------------------
- drivers/staging/wlan-ng/p80211types.h      | 21 -------------------
- drivers/staging/wlan-ng/p80211wep.c        | 21 -------------------
- drivers/staging/wlan-ng/prism2fw.c         | 21 -------------------
- drivers/staging/wlan-ng/prism2mgmt.c       | 21 -------------------
- drivers/staging/wlan-ng/prism2mgmt.h       | 21 -------------------
- drivers/staging/wlan-ng/prism2mib.c        | 21 -------------------
- drivers/staging/wlan-ng/prism2sta.c        | 21 -------------------
- drivers/watchdog/ep93xx_wdt.c              |  5 +----
- drivers/watchdog/ibmasr.c                  |  3 +--
- drivers/watchdog/m54xx_wdt.c               |  4 +---
- drivers/watchdog/max63xx_wdt.c             |  5 +----
- drivers/watchdog/moxart_wdt.c              |  4 +---
- drivers/watchdog/octeon-wdt-nmi.S          |  5 +----
- drivers/watchdog/orion_wdt.c               |  4 +---
- drivers/watchdog/rtd119x_wdt.c             |  2 +-
- drivers/watchdog/sb_wdog.c                 |  5 +----
- drivers/watchdog/sbc_fitpc2_wdt.c          |  4 +---
- drivers/watchdog/ts4800_wdt.c              |  4 +---
- drivers/watchdog/ts72xx_wdt.c              |  4 +---
- fs/udf/balloc.c                            |  6 +-----
- fs/udf/dir.c                               |  6 +-----
- fs/udf/directory.c                         |  6 +-----
- fs/udf/ecma_167.h                          | 24 +---------------------
- fs/udf/file.c                              |  6 +-----
- fs/udf/ialloc.c                            |  6 +-----
- fs/udf/inode.c                             |  6 +-----
- fs/udf/lowlevel.c                          |  6 +-----
- fs/udf/misc.c                              |  6 +-----
- fs/udf/namei.c                             |  6 +-----
- fs/udf/osta_udf.h                          | 24 +---------------------
- fs/udf/partition.c                         |  6 +-----
- fs/udf/super.c                             |  6 +-----
- fs/udf/symlink.c                           |  6 +-----
- fs/udf/truncate.c                          |  6 +-----
- fs/udf/udftime.c                           | 19 +----------------
- fs/udf/unicode.c                           |  6 +-----
- include/linux/synclink.h                   |  3 +--
- include/net/bonding.h                      |  4 +---
- 97 files changed, 86 insertions(+), 1000 deletions(-)
-
-
-base-commit: ac9a78681b921877518763ba0e89202254349d1b
+diff --git a/drivers/char/agp/amd64-agp.c b/drivers/char/agp/amd64-agp.c
+index ce8651436609fc..b93b0f836e52ba 100644
+--- a/drivers/char/agp/amd64-agp.c
++++ b/drivers/char/agp/amd64-agp.c
+@@ -1,7 +1,6 @@
+ // SPDX-License-Identifier: GPL-2.0-only
+ /*
+  * Copyright 2001-2003 SuSE Labs.
+- * Distributed under the GNU public license, v2.
+  *
+  * This is a GART driver for the AMD Opteron/Athlon64 on-CPU northbridge.
+  * It also includes support for the AMD 8151 AGP bridge,
 -- 
 An old man doll... just what I always wanted! - Clara
 
