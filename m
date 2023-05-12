@@ -1,37 +1,37 @@
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 354157E9;
-	Fri, 12 May 2023 03:29:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B2DCA32;
+	Fri, 12 May 2023 03:52:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1683862181; x=1715398181;
+  t=1683863562; x=1715399562;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=OvzogAHeqtJArkfFrwuVlPlMN6TAJPqwHgCuw/bj4WA=;
-  b=c6LQ9iptNz7poXlfU857/mw5migFLWOgH3Q5k3sLB8MBuokCIU48J0qg
-   TaJiVwdjJt2KX3zGarfCYhQcHxy3tkyIPYNG4zoFFPtL36rT1SAClG7Uk
-   D2S5DKA22Y4RDL04unylJosz5ud/jytAM45+R1bUIyeAPbw+lYkAFo2bE
-   ejnB8ed3h1dVRCqXqhp/HxCFrLWTKu90SodyC5tNA6SV3CBwt8oFKVLOI
-   SZUE8Kfsihpa98FK1IZ4FjxvkYcApRuuSr2W/7dCn+FJxW/LjRkFA+qVJ
-   rjKA9kFp3L/MpaR3yJqvaPlbuq+C2j/652WDX0PuQDMyj6+p+VidEuLhE
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10707"; a="335209097"
+  bh=pmopDKLIc4zl+fq5xL7xMuzECz1xDAHg5SvtSuERXKQ=;
+  b=O6od6CE021N3vV5WMGIQo2pdaT7q5QxsVjHf2HuFwkZHuVqMGF+Ul8aG
+   86voWjU7WlVxifh9RjQYuAwUQ+ct5fXV61jSiJTs9/KNCF16BoxeLcUk7
+   vR1qPt4Kb4VoawPMUkuIOi20lSwve2ipqBSGj0E9jQ4Rwjeb60NDx23HA
+   Wm0oeGNxUPsmIII89hrxpIhT/QWGEKM3IXhQP2YBuyUYwl50Jq6OmYVEa
+   8pR0VWEF921OUTFCiM3j/MRZJu6U8SETTzPS1yRGFXSDMwZed240g3Pz2
+   0VC9sV1it3edrduKMq3APU5+XS3Ooa+HKgXf2HBy54CTIe8rnZhnSRiKO
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10707"; a="437027748"
 X-IronPort-AV: E=Sophos;i="5.99,269,1677571200"; 
-   d="scan'208";a="335209097"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 May 2023 20:29:40 -0700
+   d="scan'208";a="437027748"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 May 2023 20:52:41 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10707"; a="844244718"
+X-IronPort-AV: E=McAfee;i="6600,9927,10707"; a="769629426"
 X-IronPort-AV: E=Sophos;i="5.99,269,1677571200"; 
-   d="scan'208";a="844244718"
+   d="scan'208";a="769629426"
 Received: from lkp-server01.sh.intel.com (HELO dea6d5a4f140) ([10.239.97.150])
-  by fmsmga001.fm.intel.com with ESMTP; 11 May 2023 20:29:34 -0700
+  by fmsmga004.fm.intel.com with ESMTP; 11 May 2023 20:52:35 -0700
 Received: from kbuild by dea6d5a4f140 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pxJTK-0004S8-0W;
-	Fri, 12 May 2023 03:29:34 +0000
-Date: Fri, 12 May 2023 11:28:55 +0800
+	id 1pxJpa-0004TA-28;
+	Fri, 12 May 2023 03:52:34 +0000
+Date: Fri, 12 May 2023 11:52:21 +0800
 From: kernel test robot <lkp@intel.com>
 To: Bagas Sanjaya <bagasdotme@gmail.com>,
 	Linux DRI Development <dri-devel@lists.freedesktop.org>,
@@ -61,10 +61,10 @@ Cc: oe-kbuild-all@lists.linux.dev, Diederik de Haas <didi.debian@cknow.org>,
 	Manivannan Sadhasivam <mani@kernel.org>,
 	Bagas Sanjaya <bagasdotme@gmail.com>, Tom Rix <trix@redhat.com>,
 	Simon Horman <simon.horman@corigine.com>
-Subject: Re: [PATCH 02/10] mISDN: Replace GPL notice boilerplate with SPDX
- identifier
-Message-ID: <202305121151.UPlaFk6c-lkp@intel.com>
-References: <20230511133406.78155-3-bagasdotme@gmail.com>
+Subject: Re: [PATCH 03/10] net: bonding: Add SPDX identifier to remaining
+ files
+Message-ID: <202305121116.pEUebm1s-lkp@intel.com>
+References: <20230511133406.78155-4-bagasdotme@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -73,7 +73,7 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230511133406.78155-3-bagasdotme@gmail.com>
+In-Reply-To: <20230511133406.78155-4-bagasdotme@gmail.com>
 
 Hi Bagas,
 
@@ -83,22 +83,25 @@ kernel test robot noticed the following build warnings:
 
 url:    https://github.com/intel-lab-lkp/linux/commits/Bagas-Sanjaya/agp-amd64-Remove-GPL-distribution-notice/20230511-214307
 base:   ac9a78681b921877518763ba0e89202254349d1b
-patch link:    https://lore.kernel.org/r/20230511133406.78155-3-bagasdotme%40gmail.com
-patch subject: [PATCH 02/10] mISDN: Replace GPL notice boilerplate with SPDX identifier
+patch link:    https://lore.kernel.org/r/20230511133406.78155-4-bagasdotme%40gmail.com
+patch subject: [PATCH 03/10] net: bonding: Add SPDX identifier to remaining files
 reproduce:
         scripts/spdxcheck.py
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202305121151.UPlaFk6c-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202305121116.pEUebm1s-lkp@intel.com/
 
 spdxcheck warnings: (new ones prefixed by >>)
->> drivers/isdn/mISDN/dsp_audio.c: 1:28 Invalid License ID: GPL-1.0-or-later
->> drivers/isdn/mISDN/dsp_blowfish.c: 1:28 Invalid License ID: GPL-1.0-or-later
->> drivers/isdn/mISDN/dsp_cmx.c: 1:28 Invalid License ID: GPL-1.0-or-later
->> drivers/isdn/mISDN/dsp_core.c: 1:28 Invalid License ID: GPL-1.0-or-later
->> drivers/isdn/mISDN/dsp_dtmf.c: 1:28 Invalid License ID: GPL-1.0-or-later
->> drivers/isdn/mISDN/dsp_tones.c: 1:28 Invalid License ID: GPL-1.0-or-later
+>> include/net/bonding.h: 1:28 Invalid License ID: GPL-1.0-or-later
+   drivers/isdn/mISDN/dsp_audio.c: 1:28 Invalid License ID: GPL-1.0-or-later
+   drivers/isdn/mISDN/dsp_blowfish.c: 1:28 Invalid License ID: GPL-1.0-or-later
+   drivers/isdn/mISDN/dsp_cmx.c: 1:28 Invalid License ID: GPL-1.0-or-later
+   drivers/isdn/mISDN/dsp_core.c: 1:28 Invalid License ID: GPL-1.0-or-later
+   drivers/isdn/mISDN/dsp_dtmf.c: 1:28 Invalid License ID: GPL-1.0-or-later
+   drivers/isdn/mISDN/dsp_tones.c: 1:28 Invalid License ID: GPL-1.0-or-later
+>> drivers/net/bonding/bond_main.c: 1:28 Invalid License ID: GPL-1.0-or-later
+>> drivers/net/bonding/bonding_priv.h: 1:28 Invalid License ID: GPL-1.0-or-later
 
 -- 
 0-DAY CI Kernel Test Service
