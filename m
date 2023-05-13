@@ -1,53 +1,52 @@
-Received: from mail-qv1-f54.google.com (mail-qv1-f54.google.com [209.85.219.54])
+Received: from mail-qv1-f46.google.com (mail-qv1-f46.google.com [209.85.219.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55D2979F9
-	for <linux-staging@lists.linux.dev>; Sat, 13 May 2023 20:08:06 +0000 (UTC)
-Received: by mail-qv1-f54.google.com with SMTP id 6a1803df08f44-61b58b6e864so98772816d6.3
-        for <linux-staging@lists.linux.dev>; Sat, 13 May 2023 13:08:06 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BA6F22622
+	for <linux-staging@lists.linux.dev>; Sat, 13 May 2023 21:00:20 +0000 (UTC)
+Received: by mail-qv1-f46.google.com with SMTP id 6a1803df08f44-61a4e03ccbcso103404326d6.2
+        for <linux-staging@lists.linux.dev>; Sat, 13 May 2023 14:00:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1684008485; x=1686600485;
+        d=gmail.com; s=20221208; t=1684011619; x=1686603619;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=SdNmNHC84vpIL/xdTBhXhO5chobgOJLGt1mZTKwHFw4=;
-        b=C3mmC+HVXHxPik65w0WLQ0CQXp9DTDAWWCXkkxuuT0indLJBs1nd8J56dwR03qmKNk
-         5DwMf1/8apfVocyaTpMQuDbCRBL7e0Pm0+lxmNkQcDwfQ2TBjf4gn/ttn5ixOkpTXJrI
-         WVOrEehQN9P1HVJ/MLnxy8+9IR2iiNyL51fPFfI5g0FseI/4GPyN2f86njI8gn0oHjHB
-         e3yVwvHp6+D8JVB3sxFBp8cZI2+6G+zLMdjUsSD1YFWAiZHbKBwu/xpUF/h0/srjO6ti
-         +bzbdvnkK8wkz+8MOtVIS548HrVaLQiwu3UIaQY5cceKPJsrf5P8WvXqJpeI1e6ZXCPl
-         1k8Q==
+        bh=MBW31pof8U7JTyTG4H9UR8Byn7pBNVG1sdNfQzahcps=;
+        b=Q1pQ/R7O807K0QZcLpy/a2OsFtwWI/GTC+ZtCUcvSAji6ri9Ecu0DYWtxMyT1SUiAt
+         4wOKSVUmO3yiybktUvj1aG+GsTTgnlWrDoYFYY1JqhX0Kq73QIakH/0whQz+6fHdXGjM
+         jX7ky8cs8zdCWf6K7d1tGs4ktXItS/E6whtcNmBVwdbJwATXtD8hLzGmUzhWuEnibHjV
+         4J009SDCubKfzomTP1kZBdM+WWkzcBO4yEalleqWWMytzLoeTeRk8y6+X4fCazsOxjOz
+         Iej3RJ7i8s75IW8aCAuTkg9ihCaliRwqTbSVv23HdSA71oLDaa2rTps1/bbVwQcrKvtn
+         AtBQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1684008485; x=1686600485;
+        d=1e100.net; s=20221208; t=1684011619; x=1686603619;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=SdNmNHC84vpIL/xdTBhXhO5chobgOJLGt1mZTKwHFw4=;
-        b=NJCHUeQDV5C1qhv8W6aVolfsxoj+Nl5VXn61V8GjDpkaMF2bOYjJMLy/Gy+nahWmvA
-         wI92dkHUw8v7nhn31MpnxsYM6YGAChQwtMtqqT0LvQLVphtzZyUNc/gW3Rm1cuTCC94h
-         bkiRyrreq6yEBurRsFp7N+dSbjfnQcDKKisB5PoynHVYgpezXdOWPAJuH5+VQbnfGrHL
-         SmDqEKMwt5M8st/2JWcJcAj8IN7bcGnd7eeQYzJBvX5iEpncToXw6vPoNZWr2Oxv1OXX
-         /U6vyNMjFMQF+zdajdbeqBkQBUxgAKV5u+vP+zGFbO2KuZa9tgLwZM33mYcQHJU/FGh1
-         LSHw==
-X-Gm-Message-State: AC+VfDwOjrbHuPn6/Dl6zoAtdEqHs8yeES1olRNfenfpwKJes9Jnx3tg
-	x5+lo0rmncoCfM3BmgzCxBsPwVm0V0dWqWfcc9o=
-X-Google-Smtp-Source: ACHHUZ45u+MZKaF7R2aAfAlewh/oC5OhIc/IL4auXfoEwJ9Rz3s16Dd2aXw6gbPxV2rl2x29RqzuTgV4VfS0ZgFvij8=
-X-Received: by 2002:a05:6214:d03:b0:623:46d8:535 with SMTP id
- 3-20020a0562140d0300b0062346d80535mr4198128qvh.34.1684008485187; Sat, 13 May
- 2023 13:08:05 -0700 (PDT)
+        bh=MBW31pof8U7JTyTG4H9UR8Byn7pBNVG1sdNfQzahcps=;
+        b=eloEtmIfOwZE9d0BtmIF23Ft8vdHtoTrWhUOXUUWbBi8AWdE+ppvgE3U5x977n7ONZ
+         cn31bDEdwcnIeIZBRcouhFd/X74yUYxH2plT14xGrDD7CACySRY9IF/LPjNKp/10aaO3
+         IhOpy999OgZ/r8Rn+NLS2OElaIL+tHf+zNoLZR7RogsI4N2Ukia7M7LfRjAcwHD8siNo
+         f2uR0CO/mEdMcWFix9ydgfAWHI3cVmYWEh59aloPLStbNOCI5obSrXbhgDnRk3v5GHx7
+         wlZcNvjmmE2bUlCPxSiQzlZkLrwX3j2aCHcnAJteNEI8KMaxqAbL8RK1nfZ3UVxUM6NM
+         yAsQ==
+X-Gm-Message-State: AC+VfDyRnXCHYH5Tcl2TojJfHZg0fauQ3UUqATVyVNEhN0Os8pPVn53i
+	zfTrq6aWhnfToy31RbaGuXBmmXpHx4xZ8zWZSQo=
+X-Google-Smtp-Source: ACHHUZ6suIKuv3NjLUbdApii3uNgQoxsnjNnlmFrppV/65JRTdetReF6gcblQMdaqEsJspAHCiqlde+Tngc031xgJdY=
+X-Received: by 2002:ad4:4ee5:0:b0:621:68e8:99a4 with SMTP id
+ dv5-20020ad44ee5000000b0062168e899a4mr18306226qvb.8.1684011618996; Sat, 13
+ May 2023 14:00:18 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20230513123159.33234-1-hdegoede@redhat.com> <20230513123159.33234-6-hdegoede@redhat.com>
-In-Reply-To: <20230513123159.33234-6-hdegoede@redhat.com>
+References: <20230513123159.33234-1-hdegoede@redhat.com>
+In-Reply-To: <20230513123159.33234-1-hdegoede@redhat.com>
 From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Sat, 13 May 2023 23:07:29 +0300
-Message-ID: <CAHp75Ve=G_-8vdtVdK61zhPs45j44sFgF0JwZHV0XW9fMWXwQw@mail.gmail.com>
-Subject: Re: [PATCH 05/30] media: atomisp: Replace source-pad checks with
- run-mode checks
+Date: Sat, 13 May 2023 23:59:42 +0300
+Message-ID: <CAHp75Ve413+r6jE=h-n0tibU5xy5iAMfbB3H8MPpgjRD3bj-eA@mail.gmail.com>
+Subject: Re: [PATCH 00/30] media: atomisp: Register only 1 /dev/video# node + cleanups
 To: Hans de Goede <hdegoede@redhat.com>
 Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
 	Andy Shevchenko <andy@kernel.org>, Kate Hsuan <hpa@redhat.com>, Tsuchiya Yuto <kitakar@gmail.com>, 
@@ -60,66 +59,25 @@ Content-Transfer-Encoding: quoted-printable
 On Sat, May 13, 2023 at 3:32=E2=80=AFPM Hans de Goede <hdegoede@redhat.com>=
  wrote:
 >
-> Currently atomisp behavior is determined by a mix of which /dev/video# no=
-de
-> (which isp-subdev source-pad) is opened + which run-mode is set.
-> With various combinations not being allowed and likely leading to crashes
-> due to lack of error checking.
+> Hi All,
 >
-> Now that we no longer support continuous mode and thus no longer support
-> streaming from 2 /dev/video# nodes at the same time, there is no need
-> to have a separate /dev/video# node for each run-mode. Instead the plan i=
-s
-> to support the 3 different run-modes on a single /dev/video# node.
-> Since we are moving to a single isp-subdev source-pad, the behavior shoul=
-d
-> then be solely and consistently be defined by the run-mode.
+> Here is an atomisp patch-series to continue the simplification /
+> exotic feature removal of atomisp. Specifically this series
+> makes atomisp register only 1 /dev/video# node.
 >
-> Replace various source-pad checks with run-mode checks in preparation for
-> moving to a single source-pad. In some places the new run-mode checks
-> overlap with existing run-mode checks and the checks are folded together
-> into a single check.
+> The other patches are some preparation + follow-up work for
+> this change, as well as a whole bunch of folow-up clean-ups.
 >
-> This removes handling of the ATOMISP_SUBDEV_PAD_SOURCE_VF source-pad,
-> this source-pad was only useful for continuous mode, for which support ha=
-s
-> been removed.
->
-> Note that currently the only run-mode which we actually have been able to
-> get to work is the video-capture with scaler aka preview mode and as such
-> that is also the only run-mode tested. This patch is intended to preserve
-> the current (known to not work 100%) behavior of the other run-modes, so
-> that those maybe can be enabled later.
+> The cleanups focus on removing the various count / users functions
+> which atomisp used before when there were multiple nodes. This
+> is preparation work for eventually allowing opening the same
+> node multipe-times, as is normal for standard v4l2 /dev/video#
+> nodes.
 
-...
-
-> @@ -5005,16 +4993,11 @@ static int atomisp_get_pipe_id(struct atomisp_vid=
-eo_pipe *pipe)
-
-It seems to me that all 'else':s in this function are redundant.
-At least you can probably drop them either here or in a separate change.
-
->                 return IA_CSS_PIPE_ID_VIDEO;
->         } else if (asd->vfpp->val =3D=3D ATOMISP_VFPP_DISABLE_LOWLAT) {
->                 return IA_CSS_PIPE_ID_CAPTURE;
-> -       } else if (pipe =3D=3D &asd->video_out_video_capture) {
-> +       } else if (asd->run_mode->val =3D=3D ATOMISP_RUN_MODE_VIDEO) {
->                 return IA_CSS_PIPE_ID_VIDEO;
-> -       } else if (pipe =3D=3D &asd->video_out_vf) {
-> -               return IA_CSS_PIPE_ID_CAPTURE;
-> -       } else if (pipe =3D=3D &asd->video_out_preview) {
-> -               if (asd->run_mode->val =3D=3D ATOMISP_RUN_MODE_VIDEO)
-> -                       return IA_CSS_PIPE_ID_VIDEO;
-> -               else
-> -                       return IA_CSS_PIPE_ID_PREVIEW;
-> -       } else if (pipe =3D=3D &asd->video_out_capture) {
-> +       } else if (asd->run_mode->val =3D=3D ATOMISP_RUN_MODE_PREVIEW) {
-> +               return IA_CSS_PIPE_ID_PREVIEW;
-> +       } else if (asd->run_mode->val =3D=3D ATOMISP_RUN_MODE_STILL_CAPTU=
-RE) {
->                 if (asd->copy_mode)
->                         return IA_CSS_PIPE_ID_COPY;
->                 else
+As usual
+Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
+for non-commented and otherwise depending on your answers. I.o.w. feel
+free to add if you are going to address as I suggested.
 
 --=20
 With Best Regards,
