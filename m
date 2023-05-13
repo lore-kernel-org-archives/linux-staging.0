@@ -1,52 +1,52 @@
-Received: from mail-qk1-f173.google.com (mail-qk1-f173.google.com [209.85.222.173])
+Received: from mail-qv1-f49.google.com (mail-qv1-f49.google.com [209.85.219.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 255EE2263B
-	for <linux-staging@lists.linux.dev>; Sat, 13 May 2023 13:29:50 +0000 (UTC)
-Received: by mail-qk1-f173.google.com with SMTP id af79cd13be357-7577ef2fa31so2215367785a.0
-        for <linux-staging@lists.linux.dev>; Sat, 13 May 2023 06:29:50 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29E722263E
+	for <linux-staging@lists.linux.dev>; Sat, 13 May 2023 13:38:56 +0000 (UTC)
+Received: by mail-qv1-f49.google.com with SMTP id 6a1803df08f44-61a62fc8b5bso86425326d6.2
+        for <linux-staging@lists.linux.dev>; Sat, 13 May 2023 06:38:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1683984589; x=1686576589;
+        d=gmail.com; s=20221208; t=1683985135; x=1686577135;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Mmjfa5yVgz89XK2CMXoqtiI9C/6FTHnHaGEc1CV8zIY=;
-        b=ePmeH3PY6l9BJtG/C3Rt3ze+8sLB1NnBglebTapvtn1SOIB53m1kQAbu89TeoQSEpk
-         we3Ydhhv1eFKJ+4s8YvcQED8Sw6K2hHAdgyoLcvTgSGXTqhGmWVm1cc1qCnEJVutAryK
-         02FE0mFPV+WFgRREzTq32g+8ci6Nw5+Q9uoZGSVbFeFGJKtjxkekUL4Tds4aXKq+R291
-         zJq4G2PIMY0DomXSInEX2chVCHfnrXK9cr088B0yzIsAc2o7c9DwZeOUN//zNd/aiIPa
-         VyYzejP7NGkP6W69e53xwyDoZR2W/c7wM2nWSTaZmIANjABi+C1kFwm5RJew0oK4EeNg
-         /nCw==
+        bh=iP/xjhOGCEWodxWCKUQcVzDPFWWe6m70q3NDT9usq1c=;
+        b=PxM3/4NnM1HGl1zpifqWIlnZMJ5AtYZPMnUwGeWmO4VyQtRRWA21HW9P7MJd4+HwR/
+         4tyCnecnDx7UNDMNAz1KfBXP1rsMPdajfqedYAWG1YNSyKHrZOMht4x/S3w+2sn13WED
+         I2zq3AsBWJ7K0KLRy5LiVJTIg0aO+x5aNnRnAqPgkq7hEfxn9+ZPAe7mz88sQF8m8Bk7
+         wGysaL1v7raipSAq9y3eDfk45AVxwzEhyfV08gSKFBZkO11XEOdbDt+Nn8jKQGIJQgeL
+         irRNpm3oVpkLywvT/xki63veHBgyS6io5YdnJz7Q8DmfzadW011GU2GzxEl5odVBmzF5
+         Fz+g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683984589; x=1686576589;
+        d=1e100.net; s=20221208; t=1683985135; x=1686577135;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=Mmjfa5yVgz89XK2CMXoqtiI9C/6FTHnHaGEc1CV8zIY=;
-        b=EpfoxJkA5XFskAuChlm+yLi0Eo/hQP7X0jlKeOx9KTSKz6Yf0dOUTmVzNfrXPa2kWS
-         YCH/F5LVXemjDHQaQhhnUzlpI9PgXN2LVym6ubhBncCo8KQq4vdl7WJMncN14E72k6VG
-         +1R9dJGPN3DWh+ZD4US8iGusVU8jrm/lrN/S04qqf5e70H3tqEsx5Zc68hFhbcxQoVfa
-         4P+RFf5mM8BnXKnb7XzG8X4zcob2+ntIsGzsKzjMqdxjsmupcOwpQ8tQcxzpIR4g6IL9
-         OBSdomodHrDOfX9XSb6ne9POdKvO5mgVVqn9Z+05FKB+W1UFE9709RYkRQsBrBweKZ4X
-         Bh/g==
-X-Gm-Message-State: AC+VfDzP8Lr9DEX2po1Lz7CMxiqWklzyq09Sii6gFreI6QNpGGk/DMUi
-	5pOP/un9cPrvZ87VPM158C4LpeMnEMIELbfnU/k=
-X-Google-Smtp-Source: ACHHUZ407gP13ItmzQi75curzOMniseqHxeHblJZE3AW1Ptm2LcY0iYe0blnaUUHM79KO6r5SYWab0yGZ+TWtas4ZwU=
-X-Received: by 2002:a05:6214:5297:b0:61b:58ec:24c8 with SMTP id
- kj23-20020a056214529700b0061b58ec24c8mr46320532qvb.10.1683984588864; Sat, 13
- May 2023 06:29:48 -0700 (PDT)
+        bh=iP/xjhOGCEWodxWCKUQcVzDPFWWe6m70q3NDT9usq1c=;
+        b=ge4VBBcGZk7SElKI+1pANKvQHtkhpGaS5hBqa6xjmq7eRSU8VsiuFD+ZFrIDxorbvS
+         4oLG1QGzKHkpCHT9dfWLyx4YbQka3xItEyq6F6EARJqNXAMt3Xk6R9FVBDFMIat5HzyE
+         eVZgfBUhI1lnlpaE1diGf8gGepiTR7UxM3vDsLlZo4H84jS6ylSl9hdO4nLgdaXgP8tu
+         Is+YUBLt04/r6Cwwk9xTLPeScDu5lrS9XGb5Jilran231LjFHZpBiSk+EEEOgk5Xwom0
+         MACNh4K+wsVfcJEsqiSaU1jVXhP5WZnuCFhGOMaF7CPGL9zgl4JcIvlzckWx7JqHOCnD
+         DeAQ==
+X-Gm-Message-State: AC+VfDyGYflSV2ncRNKKPCGwAO5IVi4mZ2ppYHk5sW7nUIh7qpRx95Jl
+	QJ6ml7Wy3dhiIqPQ8JBAbPTqdKSLVoIIVBvPTUQ=
+X-Google-Smtp-Source: ACHHUZ6mrdkS0p/F4N/xrBokQ6SExd+idrDSSHjSbM0JjbqSiw5BMCANG4D+KW+qGUq8ZLcpZWD219dxreihT9TfHUs=
+X-Received: by 2002:a05:6214:20ec:b0:621:331b:f55d with SMTP id
+ 12-20020a05621420ec00b00621331bf55dmr25728307qvk.19.1683985134789; Sat, 13
+ May 2023 06:38:54 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20230513123159.33234-1-hdegoede@redhat.com> <20230513123159.33234-3-hdegoede@redhat.com>
-In-Reply-To: <20230513123159.33234-3-hdegoede@redhat.com>
+References: <20230513123159.33234-1-hdegoede@redhat.com> <20230513123159.33234-7-hdegoede@redhat.com>
+In-Reply-To: <20230513123159.33234-7-hdegoede@redhat.com>
 From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Sat, 13 May 2023 16:29:12 +0300
-Message-ID: <CAHp75VetX5LD-kXC0iVGc6ckguTN_s0k+Sww3MuuvyUEth3wZQ@mail.gmail.com>
-Subject: Re: [PATCH 02/30] media: atomisp: Remove Continuous capture and SDV run-modes
+Date: Sat, 13 May 2023 16:38:18 +0300
+Message-ID: <CAHp75VdFzAzbTLQby8rRkg6yoPbA5xy11pH1Mr7c8ExrgBJFmw@mail.gmail.com>
+Subject: Re: [PATCH 06/30] media: atomisp: Register only 1 /dev/video# node
 To: Hans de Goede <hdegoede@redhat.com>
 Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
 	Andy Shevchenko <andy@kernel.org>, Kate Hsuan <hpa@redhat.com>, Tsuchiya Yuto <kitakar@gmail.com>, 
@@ -59,56 +59,20 @@ Content-Transfer-Encoding: quoted-printable
 On Sat, May 13, 2023 at 3:32=E2=80=AFPM Hans de Goede <hdegoede@redhat.com>=
  wrote:
 >
-> Since we no longer support Continuous mode, setting the run_mode to
-> ATOMISP_RUN_MODE_CONTINUOUS_CAPTURE no longer make sense, so remove
-> this.
->
-> While at it also remove ATOMISP_RUN_MODE_SDV, which was never exposed
+> Now that we no longer support continuous mode and thus no longer support
+> streaming from 2 /dev/video# nodes at the same time, there is no need
+> to have a separate /dev/video# node (+ matching v4l2-subdev pads)
+> for each run-mode.
 
-it, also
+> Keep the video_out_preview /dev/video0 device and remove
 
-> to userspace in the first place.
+> the video_out_video_capture / video_out_video_vf / video_out_capture
 
-...
+video_out_vf I assume.
 
->  #define V4L2_CID_RUN_MODE                      (V4L2_CID_CAMERA_LASTP1 +=
- 20)
->  #define ATOMISP_RUN_MODE_VIDEO                 1
->  #define ATOMISP_RUN_MODE_STILL_CAPTURE         2
-> -#define ATOMISP_RUN_MODE_CONTINUOUS_CAPTURE    3
-> -#define ATOMISP_RUN_MODE_PREVIEW               4
-> -#define ATOMISP_RUN_MODE_SDV                   5
-> +#define ATOMISP_RUN_MODE_PREVIEW               3
-
-Wouldn't it be better to add here a _MODE_MIN and _MODE_MAX and...
-(see at the end of this message)
-
-...
-
-> @@ -758,7 +758,6 @@ static const char *const ctrl_run_mode_menu[] =3D {
->         NULL,
->         "Video",
->         "Still capture",
-> -       "Continuous capture",
->         "Preview",
-
-Wouldn't be more robust to use indices like
-
-  [_MODE_PREVIEW] =3D "Preview",
-
-?
-
-...
-
->         .type =3D V4L2_CTRL_TYPE_MENU,
->         .min =3D 1,
->         .def =3D 1,
-> -       .max =3D 4,
-> +       .max =3D 3,
-
-...use it here? Or did I miss these min and max meanings?
-
->         .qmenu =3D ctrl_run_mode_menu,
+> video-devices (atomisp_pipe-s) and also remove the matching
+> ATOMISP_SUBDEV_PAD_SOURCE_VIDEO / ATOMISP_SUBDEV_PAD_SOURCE_VF /
+> ATOMISP_SUBDEV_PAD_SOURCE_CAPTURE source-pads.
 
 --=20
 With Best Regards,
