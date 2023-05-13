@@ -1,83 +1,122 @@
-Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D874F137B
-	for <linux-staging@lists.linux.dev>; Sun, 14 May 2023 03:09:52 +0000 (UTC)
-Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-1aaf7067647so78223175ad.0
-        for <linux-staging@lists.linux.dev>; Sat, 13 May 2023 20:09:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1684033792; x=1686625792;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=i/y2Q9D0CfiPbFjFqVeY6UhKR07Cv8DHbxpO7JqJ2YI=;
-        b=NY3eZzfl62OfyDFlsWmAkeZIOqL8aEQS0lt11umcLuzSUSIOZUtGPpbqwxo1mTLmX2
-         AjhBR7CdzjzqqOxACqzuyoF31PL8ljXafbKf4Ra0Zu36F6qPpGjl3+cnt+e4S77tI0Nb
-         yuSQFU9+lGLaPxaHLi55jemfG5vvAo254w973pURlMoNMzm5M8Lz0ytpq5PxpJJg5DD4
-         iNbX+NtvYPqQrKHkjFVXgCl3OBV3Dvu+0MbnU93qYH6uKBEDhut8InyAzeKAycH6ukPK
-         euY+Kv/Y8rY7//drIuXZjNPY5TaHfL8fUrjMJNvNHf3SYvmNeVqeiAilHPZb+HH/rpck
-         Qthw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1684033792; x=1686625792;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=i/y2Q9D0CfiPbFjFqVeY6UhKR07Cv8DHbxpO7JqJ2YI=;
-        b=NIu5eYOKutOO7FvtuHhJR9vP0pySqA1g5L/p5ham2C4btHAiUq0Kb+6+4I9Jl9pfpz
-         +usMb7rtrQ7+91yzEZovveEXJ6aGtX/qJM3NYguKvGqcgqJ7NaqMRO9vkhAlizGe9cYI
-         OM8Pj0d+Djn8Jv7p9W0zt6GwM0PEsf2yF+8ny6yJuY3S0VvNA3u+OvOCsEsMKvaGV9Ve
-         Qw8QWvVLKdAAdj2caBkYgaH/P/LxaLqiHsTizqbH9EH0TlSWLqjEQHQ1IubexfTil26p
-         XxOdgRmU+cDbWQtz2wLk7QwSmZrSU4RmFFEFwh3/VIT+mSHdEtOt8AUo/5qji6V03UEr
-         qYnQ==
-X-Gm-Message-State: AC+VfDxzklkmEszksZcdnRjmxvgDyYoxbNljGktUNglOqhhOsh5NYo1w
-	rFKKma+zlY/fldRi7nCxjiM=
-X-Google-Smtp-Source: ACHHUZ4yzDyb3+1MJW6BO1BvzSA+zsUs6/q4VKM8nhZmLQgEwJoUXDmy5/k027R+RymdbL6dhFb3jA==
-X-Received: by 2002:a17:902:d486:b0:1ad:d2b1:3faf with SMTP id c6-20020a170902d48600b001add2b13fafmr11320550plg.21.1684033792230;
-        Sat, 13 May 2023 20:09:52 -0700 (PDT)
-Received: from localhost.localdomain ([2405:201:682f:3808:354c:21fc:fb33:cae9])
-        by smtp.gmail.com with ESMTPSA id p15-20020a170902b08f00b001add653dba2sm5095575plr.108.2023.05.13.20.09.49
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 13 May 2023 20:09:51 -0700 (PDT)
-From: Deepanshu Kartikey <kartikey406@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Deepanshu Kartikey <kartikey406@gmail.com>
-Subject: [PATCH] Staging: rts5208 :rtsx : fixed  a brace coding style issue
-Date: Sun, 14 May 2023 08:39:40 +0530
-Message-Id: <20230514030940.4820-1-kartikey406@gmail.com>
-X-Mailer: git-send-email 2.25.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 499681376;
+	Sun, 14 May 2023 06:33:00 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7C435C433EF;
+	Sun, 14 May 2023 06:32:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1684045980;
+	bh=1dZ7d937g3cEehK4Bk2L/HX89vq34GtVVpU+t+w4bes=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=YR+Cf42wmgwUAKpVoPu7zi/HZsELdI7vnMIwpriO5yuT2WZb0z8wbgLyNfDEu7Xqf
+	 8Yabcdp8jdKn4jvlVbZggOodgMhjV2nFOzalYBcvgbfhh38YMKt8KEzh0wUKzMjzn8
+	 an+gOaOOS9yOngVUTSsyoY/GIUOMV/UmprUY7Z74=
+Date: Sun, 14 May 2023 00:07:28 +0900
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Richard Fontana <rfontana@redhat.com>
+Cc: Bagas Sanjaya <bagasdotme@gmail.com>,
+	Linux SPDX Licenses <linux-spdx@vger.kernel.org>,
+	Linux DRI Development <dri-devel@lists.freedesktop.org>,
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+	Linux Networking <netdev@vger.kernel.org>,
+	Linux ARM <linux-arm-kernel@lists.infradead.org>,
+	Linux Staging Drivers <linux-staging@lists.linux.dev>,
+	Linux Watchdog Devices <linux-watchdog@vger.kernel.org>,
+	Linux Kernel Actions <linux-actions@lists.infradead.org>,
+	Diederik de Haas <didi.debian@cknow.org>,
+	Kate Stewart <kstewart@linuxfoundation.org>,
+	Philippe Ombredanne <pombredanne@nexb.com>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	David Airlie <airlied@redhat.com>,
+	Karsten Keil <isdn@linux-pingi.de>,
+	Jay Vosburgh <j.vosburgh@gmail.com>,
+	Andy Gospodarek <andy@greyhouse.net>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Sam Creasey <sammy@sammy.net>,
+	Dominik Brodowski <linux@dominikbrodowski.net>,
+	Daniel Mack <daniel@zonque.org>,
+	Haojian Zhuang <haojian.zhuang@gmail.com>,
+	Robert Jarzmik <robert.jarzmik@free.fr>,
+	Wim Van Sebroeck <wim@linux-watchdog.org>,
+	Guenter Roeck <linux@roeck-us.net>, Jan Kara <jack@suse.com>,
+	Andreas =?iso-8859-1?Q?F=E4rber?= <afaerber@suse.de>,
+	Manivannan Sadhasivam <mani@kernel.org>,
+	Ray Lehtiniemi <rayl@mail.com>,
+	Alessandro Zummo <a.zummo@towertech.it>,
+	Andrey Panin <pazke@donpac.ru>, Oleg Drokin <green@crimea.edu>,
+	Marc Zyngier <maz@kernel.org>,
+	Jonas Jensen <jonas.jensen@gmail.com>,
+	Sylver Bruneau <sylver.bruneau@googlemail.com>,
+	Andrew Sharp <andy.sharp@lsi.com>,
+	Denis Turischev <denis@compulab.co.il>,
+	Mika Westerberg <mika.westerberg@linux.intel.com>,
+	Alan Cox <alan@linux.intel.com>,
+	Simon Horman <simon.horman@corigine.com>
+Subject: Re: [PATCH v2 08/10] drivers: watchdog: Replace GPL license notice
+ with SPDX identifier
+Message-ID: <2023051414-headroom-maimed-553c@gregkh>
+References: <20230512100620.36807-1-bagasdotme@gmail.com>
+ <20230512100620.36807-9-bagasdotme@gmail.com>
+ <CAC1cPGy=78yo2XcJPNZVvdjBr2-XzSq76JrAinSe42=sNdGv3w@mail.gmail.com>
+ <ef31b33f-8e66-4194-37e3-916b53cf7088@gmail.com>
+ <CAC1cPGzznK8zoLaT1gBjpHP1eKFvTKKi+SW6xuXF3B8aHN27=g@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAC1cPGzznK8zoLaT1gBjpHP1eKFvTKKi+SW6xuXF3B8aHN27=g@mail.gmail.com>
 
-Fixed  a coding style issue
+On Sat, May 13, 2023 at 09:43:39AM -0400, Richard Fontana wrote:
+> On Sat, May 13, 2023 at 6:53 AM Bagas Sanjaya <bagasdotme@gmail.com> wrote:
+> >
+> > On 5/12/23 19:46, Richard Fontana wrote:
+> > > On Fri, May 12, 2023 at 6:07 AM Bagas Sanjaya <bagasdotme@gmail.com> wrote:
+> > >
+> > >
+> > >> diff --git a/drivers/watchdog/sb_wdog.c b/drivers/watchdog/sb_wdog.c
+> > >> index 504be461f992a9..822bf8905bf3ce 100644
+> > >> --- a/drivers/watchdog/sb_wdog.c
+> > >> +++ b/drivers/watchdog/sb_wdog.c
+> > >> @@ -1,3 +1,4 @@
+> > >> +// SPDX-License-Identifier: GPL-1.0+
+> > >>  /*
+> > >>   * Watchdog driver for SiByte SB1 SoCs
+> > >>   *
+> > >> @@ -38,10 +39,6 @@
+> > >>   *     (c) Copyright 1996 Alan Cox <alan@lxorguk.ukuu.org.uk>,
+> > >>   *                                             All Rights Reserved.
+> > >>   *
+> > >> - *     This program is free software; you can redistribute it and/or
+> > >> - *     modify it under the terms of the GNU General Public License
+> > >> - *     version 1 or 2 as published by the Free Software Foundation.
+> > >
+> > > Shouldn't this be
+> > > // SPDX-License-Identifier: GPL-1.0 OR GPL-2.0
+> > > (or in current SPDX notation GPL-1.0-only OR GPL-2.0-only) ?
+> > >
+> >
+> > Nope, as it will fail spdxcheck.py. Also, SPDX specification [1]
+> > doesn't have negation operator (NOT), thus the licensing requirement
+> > on the above notice can't be expressed reliably in SPDX here.
+> >
+> > [1]: https://spdx.github.io/spdx-spec/v2.3/SPDX-license-expressions/
+> 
+> The GPL identifiers in recent versions of SPDX include an `-only` and
+> an `-or-later` variant.
 
-Signed-off-by: Deepanshu Kartikey <kartikey406@gmail.com>
----
- drivers/staging/rts5208/rtsx.c | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
+But Linux does not use the newer versions of SPDX given that we started
+the conversion before the "-only" variant came out.  Let's stick with
+the original one please before worrying about converting to a newer
+version of SPDX and mixing things up.
 
-diff --git a/drivers/staging/rts5208/rtsx.c b/drivers/staging/rts5208/rtsx.c
-index 2284a96abcff..0ab9355873f7 100644
---- a/drivers/staging/rts5208/rtsx.c
-+++ b/drivers/staging/rts5208/rtsx.c
-@@ -399,10 +399,8 @@ static int rtsx_control_thread(void *__dev)
- 				chip->srb->device->id,
- 				(u8)chip->srb->device->lun);
- 			chip->srb->result = DID_BAD_TARGET << 16;
--		}
--
--		/* we've got a command, let's do it! */
--		else {
-+		} else {
-+			//we've got a command, let's do it!
- 			scsi_show_command(chip);
- 			rtsx_invoke_transport(chip->srb, chip);
- 		}
--- 
-2.25.1
+thanks,
 
+greg k-h
