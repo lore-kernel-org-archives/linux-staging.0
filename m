@@ -1,31 +1,31 @@
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 729B94C66
-	for <linux-staging@lists.linux.dev>; Sat, 13 May 2023 12:32:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27D284C67
+	for <linux-staging@lists.linux.dev>; Sat, 13 May 2023 12:32:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1683981159;
+	s=mimecast20190719; t=1683981161;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=4qQC9AZk1hyB/CxFkDpkzzL8TjfgWZyDGsM1vODpQzw=;
-	b=h5AsRcPw00SvTgx0NoB8tPEGPneLb5X7iFLwKd/3ZTwxVG2slDdehPbO5mwGdQ0InryrP7
-	HMRWmlYHOhcPYqIuS/SeR7wWy45h/w8JzLg/GUYgtQQiSUTvfamCOA0N+ALHCb4tcsQpGk
-	R6xqpToUST19sHkimSCiNnxUzohVQjY=
+	bh=4HkEplNlc2fK+7LvqaNXv7APsTheUIvNpX+DSOhAxqI=;
+	b=jHJstTlRfKz5o1MV2+bm/qs/O1i2dZyEwQyAPx1Yd7AF6MkaSNKtIyYaZuM4BhOZo6XcZE
+	TzXisUdiMszYAts5s3TNuAYmlQA5RA5XYGYSIDW30Bqj4U3KjYYl2BeqiU9bLw1eHyC9xx
+	xl0/rQ031fsRBgTBLswIFZXjmCzTziQ=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-126-omNpJGPbOJ-1ludP0wc_og-1; Sat, 13 May 2023 08:32:33 -0400
-X-MC-Unique: omNpJGPbOJ-1ludP0wc_og-1
+ us-mta-588-UD96skoxMKeUyfKlIH-pEg-1; Sat, 13 May 2023 08:32:37 -0400
+X-MC-Unique: UD96skoxMKeUyfKlIH-pEg-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com [10.11.54.1])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 58538857E60;
-	Sat, 13 May 2023 12:32:32 +0000 (UTC)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id DD9A6857E60;
+	Sat, 13 May 2023 12:32:35 +0000 (UTC)
 Received: from shalem.redhat.com (unknown [10.39.192.46])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id C8DFC40C2076;
-	Sat, 13 May 2023 12:32:30 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 5698040C2076;
+	Sat, 13 May 2023 12:32:34 +0000 (UTC)
 From: Hans de Goede <hdegoede@redhat.com>
 To: Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Sakari Ailus <sakari.ailus@linux.intel.com>,
@@ -39,9 +39,9 @@ Cc: Hans de Goede <hdegoede@redhat.com>,
 	Fabio Aiuto <fabioaiuto83@gmail.com>,
 	linux-media@vger.kernel.org,
 	linux-staging@lists.linux.dev
-Subject: [PATCH 17/30] media: atomisp: Simplify atomisp_css_[start|stop]()
-Date: Sat, 13 May 2023 14:31:46 +0200
-Message-Id: <20230513123159.33234-18-hdegoede@redhat.com>
+Subject: [PATCH 19/30] media: atomisp: Simplify atomisp_pipe_check()
+Date: Sat, 13 May 2023 14:31:48 +0200
+Message-Id: <20230513123159.33234-20-hdegoede@redhat.com>
 In-Reply-To: <20230513123159.33234-1-hdegoede@redhat.com>
 References: <20230513123159.33234-1-hdegoede@redhat.com>
 Precedence: bulk
@@ -53,132 +53,56 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
 
-Now that continuous mode is gone and we only have 1 /dev/video# node,
-the videobuf2 core guarantees that atomisp_css_[start|stop]() will
-only be called one at a time.
+All switch (pipe->asd->streaming) cases in atomisp_pipe_check()
+are either no-ops or never happen:
 
-So there is no need for atomisp_streaming_count() counts.
+1. ATOMISP_DEVICE_STREAMING_DISABLED already is a no-op
 
-When reqbufs has been done then the streams are guaranteed to be created,
-and streaming cannot be started without reqbufs so there is no need for
-atomisp_css_start() to check if it needs to create the streams.
+2. The videobuf2 core guarantees that when we are streaming
+vb2_is_busy() returns true. So the ATOMISP_DEVICE_STREAMING_ENABLED case
+is already handled by the if above the switch (pipe->asd->streaming).
 
-Use this to clean-up atomisp_css_[start|stop]().
+3. After recent changes pipe->asd->streaming is only ever set to
+ATOMISP_DEVICE_STREAMING_STOPPING in atomisp_assert_recovery_work() and
+that function holds isp->mutex and always transitions the streaming state
+to ATOMISP_DEVICE_STREAMING_DISABLED or ATOMISP_DEVICE_STREAMING_ENABLED
+before releasing the mutex. So atomisp_pipe_check() never sees
+ATOMISP_DEVICE_STREAMING_STOPPING.
 
-While at it also fix atomisp_css_start() not re-creating the streams
-on an error, breaking the guarantee that the streams are always there
-after a succesfull reqbufs call.
+Remove the entire switch-case.
 
 Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 ---
- .../media/atomisp/pci/atomisp_compat_css20.c  | 68 ++++++-------------
- 1 file changed, 20 insertions(+), 48 deletions(-)
+ .../staging/media/atomisp/pci/atomisp_ioctl.c    | 16 ----------------
+ 1 file changed, 16 deletions(-)
 
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c b/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c
-index 43760fcc0d43..092262e1b7ec 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c
-+++ b/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c
-@@ -1001,42 +1001,17 @@ int atomisp_css_start(struct atomisp_sub_device *asd,
- 		wbinvd();
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_ioctl.c b/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
+index 087ec5120bce..08a3d98794df 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
++++ b/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
+@@ -528,22 +528,6 @@ int atomisp_pipe_check(struct atomisp_video_pipe *pipe, bool settings_change)
+ 		return -EBUSY;
  	}
  
--	/*
--	 * For dual steam case, it is possible that:
--	 * 1: for this stream, it is at the stage that:
--	 * - after set_fmt is called
--	 * - before stream on is called
--	 * 2: for the other stream, the stream off is called which css reset
--	 * has been done.
--	 *
--	 * Thus the stream created in set_fmt get destroyed and need to be
--	 * recreated in the next stream on.
--	 */
--	if (!asd->stream_prepared) {
--		ret = atomisp_create_pipes_stream(asd);
--		if (ret)
--			return ret;
--	}
--	/*
--	 * SP can only be started one time
--	 * if atomisp_subdev_streaming_count() tell there already has some
--	 * subdev at streamming, then SP should already be started previously,
--	 * so need to skip start sp procedure
--	 */
--	if (atomisp_streaming_count(isp)) {
--		dev_dbg(isp->dev, "skip start sp\n");
--	} else {
--		if (!sh_css_hrt_system_is_idle())
--			dev_err(isp->dev, "CSS HW not idle before starting SP\n");
--		if (ia_css_start_sp()) {
--			dev_err(isp->dev, "start sp error.\n");
--			ret = -EINVAL;
--			goto start_err;
--		} else {
--			sp_is_started = true;
+-	switch (pipe->asd->streaming) {
+-	case ATOMISP_DEVICE_STREAMING_DISABLED:
+-		break;
+-	case ATOMISP_DEVICE_STREAMING_ENABLED:
+-		if (settings_change) {
+-			dev_err(pipe->isp->dev, "Set fmt/input IOCTL while streaming\n");
+-			return -EBUSY;
 -		}
-+	if (!sh_css_hrt_system_is_idle())
-+		dev_err(isp->dev, "CSS HW not idle before starting SP\n");
-+
-+	if (ia_css_start_sp()) {
-+		dev_err(isp->dev, "start sp error.\n");
-+		ret = -EINVAL;
-+		goto start_err;
- 	}
- 
-+	sp_is_started = true;
-+
- 	for (i = 0; i < ATOMISP_INPUT_STREAM_NUM; i++) {
- 		if (asd->stream_env[i].stream) {
- 			if (ia_css_stream_start(asd->stream_env[i]
-@@ -1054,16 +1029,15 @@ int atomisp_css_start(struct atomisp_sub_device *asd,
- 	return 0;
- 
- start_err:
--	atomisp_destroy_pipes_stream_force(asd);
+-		break;
+-	case ATOMISP_DEVICE_STREAMING_STOPPING:
+-		dev_err(pipe->isp->dev, "IOCTL issued while stopping\n");
+-		return -EBUSY;
+-	default:
+-		return -EINVAL;
+-	}
 -
--	/* css 2.0 API limitation: ia_css_stop_sp() could be only called after
--	 * destroy all pipes
--	 */
- 	/*
--	 * SP can not be stop if other streams are in use
-+	 * CSS 2.0 API limitation: ia_css_stop_sp() can only be called after
-+	 * destroying all pipes.
- 	 */
--	if ((atomisp_streaming_count(isp) == 0) && sp_is_started)
-+	if (sp_is_started) {
-+		atomisp_destroy_pipes_stream_force(asd);
- 		ia_css_stop_sp();
-+		atomisp_create_pipes_stream(asd);
-+	}
- 
- 	return ret;
+ 	return 0;
  }
-@@ -1843,20 +1817,18 @@ int atomisp_css_input_configure_port(
- void atomisp_css_stop(struct atomisp_sub_device *asd,
- 		      enum ia_css_pipe_id pipe_id, bool in_reset)
- {
--	struct atomisp_device *isp = asd->isp;
- 	unsigned long irqflags;
- 	unsigned int i;
  
--	/* if is called in atomisp_reset(), force destroy streams and pipes */
-+	/*
-+	 * CSS 2.0 API limitation: ia_css_stop_sp() can only be called after
-+	 * destroying all pipes.
-+	 */
- 	atomisp_destroy_pipes_stream_force(asd);
- 
- 	atomisp_init_raw_buffer_bitmap(asd);
- 
--	/*
--	 * SP can not be stop if other streams are in use
--	 */
--	if (atomisp_streaming_count(isp) == 0)
--		ia_css_stop_sp();
-+	ia_css_stop_sp();
- 
- 	if (!in_reset) {
- 		struct atomisp_stream_env *stream_env;
 -- 
 2.40.1
 
