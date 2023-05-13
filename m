@@ -1,48 +1,50 @@
 Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A416B6FA3
-	for <linux-staging@lists.linux.dev>; Sat, 13 May 2023 18:08:37 +0000 (UTC)
-Received: by mail-ed1-f54.google.com with SMTP id 4fb4d7f45d1cf-50d897af77bso2055142a12.1
-        for <linux-staging@lists.linux.dev>; Sat, 13 May 2023 11:08:37 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 093236FA3
+	for <linux-staging@lists.linux.dev>; Sat, 13 May 2023 18:08:47 +0000 (UTC)
+Received: by mail-ed1-f54.google.com with SMTP id 4fb4d7f45d1cf-50d897af77bso2055174a12.1
+        for <linux-staging@lists.linux.dev>; Sat, 13 May 2023 11:08:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1684001316; x=1686593316;
-        h=content-disposition:mime-version:message-id:subject:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=0/Ioy8XlRnjB8ru+h/B/Hj91TYAz5qdB/2jxU9JJT48=;
-        b=S/ki23hiafepWJHtrUUN1PiZ/5CBuliXK5EwGjgpfkjpcFectnHMxX1k6ZEdmwd+lD
-         YvsI5FoTatP69I3wWzpTGgPZVbBwnsjftnVsHVUFjMJMy4wTxY50os8GJJ+WkmdFg8em
-         /iud1Yk2QVko9FVA3RRB1AyW3JcIx3TFo+Sutr3PW9rM0AaZMNynHGUxRIpXYZKDc1UP
-         Lj7aFAgiLTL+pzmjIKnshWQPYxO4NNPZO8DkdDqxg0taxELjYvs9cphfBnS3P1NWNjbJ
-         hNF/HuBCgPY6ZFijhvqgjyzsnp1cVOS9EWPHNysFuQBIXpWudOVZf9HTk8oEzCoVueKm
-         9e8A==
+        d=gmail.com; s=20221208; t=1684001326; x=1686593326;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=XhqmfTNs3O4aemS47cLwnp5JHS1eigTcrbPVaEBITLY=;
+        b=ssrGWKWHZqt4kX9TGCoHYjCmXiv+JT50D42PU4JEFfcPO6OJ0xaI7vMIBhxZ9aa1HM
+         PBePBa8L8W3u3xZNfzPL4B9d3s524aWJ27R9UHRlxGAgqFHGXbBiYho/YEW5uy4exhPe
+         cw/+O6jgjp+hTfjSUSeNzatRSF5yDv7PP+hhBNTHKxCHlJqWs3qOpWCHMmNFQzjH5jXM
+         feP8pUQ5GzaqDYJcrURDjT+CIfHwD9EaQ4FQjCM0ysry2fgikuAjR+KW5FgVI4TonX0f
+         ktFE1ILID6m9co9vfx+P5NlmL96TAR+qlTn8jbixMeHz23HpISi451Q2IHp/nI/fPtr1
+         b/sA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1684001316; x=1686593316;
-        h=content-disposition:mime-version:message-id:subject:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=0/Ioy8XlRnjB8ru+h/B/Hj91TYAz5qdB/2jxU9JJT48=;
-        b=DicbQbXq6kSVwHurNj32ak3Q46e8XIZpyvZj1i1dpoP5rRRi7T+oFfARpS4DNZ09mZ
-         UvqvlpJSbhvT/bWTFbrOGqPsSTUYnA4BmP6tlKQdhOA25G9hACu0e5TockeoGEVQsEa0
-         kmAlpjZA8mMJkS64iv1TGu6pPMBYQeeiperyNMxECQGQEFeSHopti9uuzY1xcO4B73RJ
-         4fdEp/ZdChYNe71Ijtw6nbdRADwuYvFXwNjIAcACTRjz02A3Z0UeKgJRQbkUvYE+HYpG
-         KXUU8+qriJONGtscyXmV0uek6jSEm/AJf5vdhYWY/G73LtodLU3V1DGAmZnodlh7ByfA
-         pooA==
-X-Gm-Message-State: AC+VfDyQWnf9CDduN3nn/UfGxF7jJrWcHgPiEs4ienq2oxzesWz8vUMK
-	Lg0r+xhuWfwxukOd+PyOxsc=
-X-Google-Smtp-Source: ACHHUZ7wiMuttM7PWHLFpY+5haQzYJEPOFF/cVLbyQn1A/6kh6P80JhMvIHYk17ZD0LVpQ7vysJ9KA==
-X-Received: by 2002:a05:6402:510c:b0:50d:a9bb:356c with SMTP id m12-20020a056402510c00b0050da9bb356cmr18787278edd.0.1684001315602;
-        Sat, 13 May 2023 11:08:35 -0700 (PDT)
+        d=1e100.net; s=20221208; t=1684001326; x=1686593326;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=XhqmfTNs3O4aemS47cLwnp5JHS1eigTcrbPVaEBITLY=;
+        b=am7i7pyrlUJs+gJPWseePzHlvuL6EactIFKnH4GLC+Qd+2Nt+ZxNP9V7vxPmGnBiH9
+         Ud420I4pLlu80GAFBwx/pZ6iTb++Tne2ABaQpz3RdXAFFxJoecV7ZCqxdWgaL4kuKUQe
+         QayeJGLMJ25FNHce2L+dgqlU6YDi8CGr1Rgg3Zg3ceId3FmufMOAT4So6yoP8lvGRAuQ
+         NyRtfRU2AIvQA0f8OmxPBPtOfhMNLq4u8/w52zMpo0eSHIWcTXhyed3xvx2vuod7a3rV
+         lY88lwaNOssaHQUtybcokWT0RrN06bKo057oi5yQ6o53uFIjP4uqP4jJSeitnWPu0hGB
+         T0/w==
+X-Gm-Message-State: AC+VfDx3kL0ZyZ+svDGzj5pislURQklkBfzjZLb1J5xBxDEn1DV8hAcI
+	H1prn8yA9Tfif084X2SSYiU=
+X-Google-Smtp-Source: ACHHUZ6fPHC+SO/3fr62xNUQkvSYxn6BfeekkuRqg+xGpyP/T8HtkimK2xcAGkKrY6iQQxKeLGKwKg==
+X-Received: by 2002:a17:906:217:b0:94f:66af:b1f7 with SMTP id 23-20020a170906021700b0094f66afb1f7mr22945364ejd.1.1684001326063;
+        Sat, 13 May 2023 11:08:46 -0700 (PDT)
 Received: from matrix-ESPRIMO-P710 (p57935e01.dip0.t-ipconnect.de. [87.147.94.1])
-        by smtp.gmail.com with ESMTPSA id hg14-20020a1709072cce00b009662de1937dsm7006316ejc.131.2023.05.13.11.08.34
+        by smtp.gmail.com with ESMTPSA id mm10-20020a170906cc4a00b00960005e09a3sm7096686ejb.61.2023.05.13.11.08.45
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 13 May 2023 11:08:35 -0700 (PDT)
-Date: Sat, 13 May 2023 20:08:33 +0200
+        Sat, 13 May 2023 11:08:45 -0700 (PDT)
+Date: Sat, 13 May 2023 20:08:43 +0200
 From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [PATCH 0/9] staging: rtl8192e: Remove undefined functions like
+Subject: [PATCH 1/9] staging: rtl8192e: Remove undefined function
  data_hard_stop
-Message-ID: <cover.1683960684.git.philipp.g.hortmann@gmail.com>
+Message-ID: <4cc180b9538d6c9c32ff0f56646a642fa217a4a4.1683960684.git.philipp.g.hortmann@gmail.com>
+References: <cover.1683960684.git.philipp.g.hortmann@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -51,35 +53,71 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <cover.1683960684.git.philipp.g.hortmann@gmail.com>
 
-Remove functions that are declared but not defined.
+Remove function data_hard_stop as it is not defined.
 
-Tested with rtl8192e (WLL6130-D99)
-Transferred this patch over wlan connection of rtl8192e
+Signed-off-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+---
+ drivers/staging/rtl8192e/rtllib.h            | 6 ------
+ drivers/staging/rtl8192e/rtllib_softmac.c    | 5 -----
+ drivers/staging/rtl8192e/rtllib_softmac_wx.c | 3 ---
+ 3 files changed, 14 deletions(-)
 
-Philipp Hortmann (9):
-  staging: rtl8192e: Remove undefined function data_hard_stop
-  staging: rtl8192e: Remove undefined function data_hard_resume
-  staging: rtl8192e: Remove functions rtllib_start_hw_scan and stop
-  staging: rtl8192e: Remove undefined function reset_port
-  staging: rtl8192e: Remove undefined function hard_start_xmit
-  staging: rtl8192e: Remove undefined function set_security
-  staging: rtl8192e: Remove undefined function SetFwCmdHandler
-  staging: rtl8192e: Remove undefined function
-    UpdateBeaconInterruptHandler
-  staging: rtl8192e: Remove undefined function LedControlHandler
-
- .../staging/rtl8192e/rtl8192e/r8192E_dev.c    |  4 --
- drivers/staging/rtl8192e/rtl8192e/rtl_core.c  | 29 ---------
- drivers/staging/rtl8192e/rtl8192e/rtl_ps.c    | 13 +---
- drivers/staging/rtl8192e/rtl8192e/rtl_wx.c    |  4 --
- drivers/staging/rtl8192e/rtllib.h             | 29 ---------
- drivers/staging/rtl8192e/rtllib_softmac.c     | 60 ++-----------------
- drivers/staging/rtl8192e/rtllib_softmac_wx.c  | 13 +---
- drivers/staging/rtl8192e/rtllib_tx.c          |  8 +--
- drivers/staging/rtl8192e/rtllib_wx.c          | 25 --------
- 9 files changed, 9 insertions(+), 176 deletions(-)
-
+diff --git a/drivers/staging/rtl8192e/rtllib.h b/drivers/staging/rtl8192e/rtllib.h
+index d5f5ea5615fc..b356cde80f84 100644
+--- a/drivers/staging/rtl8192e/rtllib.h
++++ b/drivers/staging/rtl8192e/rtllib.h
+@@ -1682,12 +1682,6 @@ struct rtllib_device {
+ 	void (*softmac_data_hard_start_xmit)(struct sk_buff *skb,
+ 			       struct net_device *dev, int rate);
+ 
+-	/* stops the HW queue for DATA frames. Useful to avoid
+-	 * waste time to TX data frame when we are reassociating
+-	 * This function can sleep.
+-	 */
+-	void (*data_hard_stop)(struct net_device *dev);
+-
+ 	/* OK this is complementing to data_poll_hard_stop */
+ 	void (*data_hard_resume)(struct net_device *dev);
+ 
+diff --git a/drivers/staging/rtl8192e/rtllib_softmac.c b/drivers/staging/rtl8192e/rtllib_softmac.c
+index 1ca77cdbafa3..65eecbc94b93 100644
+--- a/drivers/staging/rtl8192e/rtllib_softmac.c
++++ b/drivers/staging/rtl8192e/rtllib_softmac.c
+@@ -1575,9 +1575,6 @@ static void rtllib_associate_procedure_wq(void *data)
+ 	ieee->rtllib_ips_leave(ieee->dev);
+ 	mutex_lock(&ieee->wx_mutex);
+ 
+-	if (ieee->data_hard_stop)
+-		ieee->data_hard_stop(ieee->dev);
+-
+ 	rtllib_stop_scan(ieee);
+ 	HTSetConnectBwMode(ieee, HT_CHANNEL_WIDTH_20, HT_EXTCHNL_OFFSET_NO_EXT);
+ 	if (ieee->rf_power_state == rf_off) {
+@@ -2734,8 +2731,6 @@ void rtllib_disassociate(struct rtllib_device *ieee)
+ 	if (ieee->softmac_features & IEEE_SOFTMAC_TX_QUEUE)
+ 		rtllib_reset_queue(ieee);
+ 
+-	if (ieee->data_hard_stop)
+-		ieee->data_hard_stop(ieee->dev);
+ 	if (IS_DOT11D_ENABLE(ieee))
+ 		dot11d_reset(ieee);
+ 	ieee->state = RTLLIB_NOLINK;
+diff --git a/drivers/staging/rtl8192e/rtllib_softmac_wx.c b/drivers/staging/rtl8192e/rtllib_softmac_wx.c
+index 1f2fa711e60b..d7166d6772df 100644
+--- a/drivers/staging/rtl8192e/rtllib_softmac_wx.c
++++ b/drivers/staging/rtl8192e/rtllib_softmac_wx.c
+@@ -345,9 +345,6 @@ void rtllib_wx_sync_scan_wq(void *data)
+ 	rtllib_sta_ps_send_null_frame(ieee, 1);
+ 
+ 	rtllib_stop_all_queues(ieee);
+-
+-	if (ieee->data_hard_stop)
+-		ieee->data_hard_stop(ieee->dev);
+ 	rtllib_stop_send_beacons(ieee);
+ 	ieee->state = RTLLIB_LINKED_SCANNING;
+ 	ieee->link_change(ieee->dev);
 -- 
 2.40.1
 
