@@ -1,49 +1,48 @@
-Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
+Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBA8C7477
-	for <linux-staging@lists.linux.dev>; Sat, 13 May 2023 18:09:13 +0000 (UTC)
-Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-94a342f4c8eso281502766b.0
-        for <linux-staging@lists.linux.dev>; Sat, 13 May 2023 11:09:13 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFE667477
+	for <linux-staging@lists.linux.dev>; Sat, 13 May 2023 18:09:19 +0000 (UTC)
+Received: by mail-ed1-f44.google.com with SMTP id 4fb4d7f45d1cf-5068638856dso2565055a12.1
+        for <linux-staging@lists.linux.dev>; Sat, 13 May 2023 11:09:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1684001352; x=1686593352;
+        d=gmail.com; s=20221208; t=1684001359; x=1686593359;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=ecItjrrmoNNrjpM5Xnudv7ep0+/pzn0LcIKgPQDDuqk=;
-        b=OhW9IXYNc9c1cy5QoUcNc4Q2EhO0kguK4lHy+NQU2OEOLZE3WddNOxATsr2MtTdlW7
-         IHYLhbtxYXiGO1Ztmgvh3jQCckjDZOJqzzqoQhKK784v2h4iI0GcJZIvQjCgFYtHT8pA
-         zCLg4Ulx8WDsrAcd+MYr6B+EnmPTwSPJJGJuiadpZn2DoK5LDlLmXLhnsHRk8OkXGqIq
-         SnbU7pTEt4yJwZAPAv0bAw/F8PZuQIAVCxRtDNOWBbSFlyAQvPPa97TKaSh0k0bDDTGP
-         xZZifLnziLqjfb/g5hRumer2e8BLvIuUXPit8ET99ZoH8Mf6pxq5OSrh61lTOhIQeT0V
-         WX5Q==
+        bh=f90+s7Igr7R0Bh3E9BN/GprSOguGxSIypRawQW0lt1w=;
+        b=GBAyjJwgrlQBo4qCirom1I3kazZPGDJHZ8/vLMAev4jETPYQ5ZI8oaf+GfYlRDB+ih
+         Hm9HffyZ1EldF6ZrrrnxhFScj9LDNi9JmJEx0wm0zzp5c5HEDHMo8A/cih+DV+sgx2p8
+         fK+vQNhNXIEhnYG+ArEnjrk8a6G/RHGPpcJ72HcTPy2fk9RZj8RJdrNB45Leii2kQ9Lt
+         kii+y9JQWkh0MSd4iIn0LX+0vJFIRvzNCd/vq3VxroUaOY1sl9pT4mf3dTauY1GLjmxW
+         PYC5aFncSAvzVOkT2r5RVj0gdjAAVIiO45Civ66G/Ywno29kQlKqvddTszJi1HOpRkV+
+         WFYQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1684001352; x=1686593352;
+        d=1e100.net; s=20221208; t=1684001359; x=1686593359;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=ecItjrrmoNNrjpM5Xnudv7ep0+/pzn0LcIKgPQDDuqk=;
-        b=efjLukFBOZWsCAmPzA768S+FerK3L6a12RRyVTwlVQZGgNWxg/jjACNTDHV4UHr/VA
-         Sm69dDvHivVqoHEIiHZgNvz0xV9mov1F6JbCgdREbg2AVIIj8pdIgXbJM6f8tTyYUiJa
-         UXr+WrrpkKTZuzsnRr6nUHEY14pLer/UKL6HweieIQ/rwlx8cRIylgRKLRHHGtU/TZO0
-         o/gD00wOW2F27NSMxLnAjaHaN6rR0ntLig913QCGjE9qSz2tiCKZa/AWMOCmyxZHmrr9
-         JbmKCRQjI5s2EuzvOzhjj9ClCpSDb2tkdepv0xGAIMoY3RRLdf0bvHMD3HtOnY0EzTFg
-         b6Sw==
-X-Gm-Message-State: AC+VfDyJeyJF/A69efewJH/xz7of1z9MRl3kHJh8dFI/kOeHHUMWQWW9
-	3z0QMw5MUKKNwz5ak2m/JL4Ve0+uPxg=
-X-Google-Smtp-Source: ACHHUZ4nfwDHku7aKvlbwj61Ico7w84ukD4Dneu3ddMfP2G+h5jX0bdNZ6yHEZC3yNpZkiL3T+glLA==
-X-Received: by 2002:a17:906:5349:b0:953:2918:71e7 with SMTP id j9-20020a170906534900b00953291871e7mr2464704ejo.5.1684001352023;
-        Sat, 13 May 2023 11:09:12 -0700 (PDT)
+        bh=f90+s7Igr7R0Bh3E9BN/GprSOguGxSIypRawQW0lt1w=;
+        b=FPvzllKik6ZqRjtd9+wdDIdWUq8b6vrBkTl2jxTK92QvVEtU9PzWRNZwZGzAo+Up8R
+         ANyWrjqlUn3lvu80eyiCKxg6tbFsXt9tD7yZx4quWobYDl7JgkEBm2QoLrehaMuDr+N4
+         5Ijfuy5tFYJrOzEXB19/NjHVn5KR0QUbmQYQyWIpaZrht3I9pcMbB5rp91PRbSuBH+7F
+         WTKQx+00DRE5+Mz9z7g0tf4rHKhQHB5iPFs37nYUQp/mmau0ckjHAg66BhqHRXr9R2A8
+         BuBGWgir9Naxjg7BXNlP03N0VKHCBPpvJiJBXvewP7dtimI844cpCdoyJbtbOvFkqZbD
+         VZKg==
+X-Gm-Message-State: AC+VfDwdjLAkbp9CbA+cLZW6IZkT61icbP4J83GEnULRjFzrTeAtz+uV
+	E8ymGGxZrSt0Xv+RjRiIET6H77I0fiw=
+X-Google-Smtp-Source: ACHHUZ4HDT3yZlY7XILkad4uBH71A/7AoaB5cNMR6d6DGOHLDzP21vRLhXERUMNrwPu4Il7VkzJqSg==
+X-Received: by 2002:a17:906:7a50:b0:94a:5f0d:d9d6 with SMTP id i16-20020a1709067a5000b0094a5f0dd9d6mr23904887ejo.4.1684001359187;
+        Sat, 13 May 2023 11:09:19 -0700 (PDT)
 Received: from matrix-ESPRIMO-P710 (p57935e01.dip0.t-ipconnect.de. [87.147.94.1])
-        by smtp.gmail.com with ESMTPSA id jy11-20020a170907762b00b0094f3b18044bsm7040634ejc.218.2023.05.13.11.09.11
+        by smtp.gmail.com with ESMTPSA id ig25-20020a1709072e1900b0094ee3e4c934sm7039695ejc.221.2023.05.13.11.09.18
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 13 May 2023 11:09:11 -0700 (PDT)
-Date: Sat, 13 May 2023 20:09:09 +0200
+        Sat, 13 May 2023 11:09:18 -0700 (PDT)
+Date: Sat, 13 May 2023 20:09:17 +0200
 From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [PATCH 5/9] staging: rtl8192e: Remove undefined function
- hard_start_xmit
-Message-ID: <603a143ba506ca031d7bd70a844b9f080872d601.1683960684.git.philipp.g.hortmann@gmail.com>
+Subject: [PATCH 6/9] staging: rtl8192e: Remove undefined function set_security
+Message-ID: <bdc9bc3a70ca2b5d86bdd2cb5c815d0b3c67972f.1683960684.git.philipp.g.hortmann@gmail.com>
 References: <cover.1683960684.git.philipp.g.hortmann@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -55,61 +54,51 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 In-Reply-To: <cover.1683960684.git.philipp.g.hortmann@gmail.com>
 
-Remove function hard_start_xmit as it is not defined. Equation
-!ieee->hard_start_xmit always evaluates to true. When
-(*ieee->hard_start_xmit)(txb, dev) == 0 is called the my computer is
-freezing.
+Remove function set_security as it is not defined.
 
 Signed-off-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
 ---
- drivers/staging/rtl8192e/rtllib.h    | 7 -------
- drivers/staging/rtl8192e/rtllib_tx.c | 8 +-------
- 2 files changed, 1 insertion(+), 14 deletions(-)
+ drivers/staging/rtl8192e/rtllib.h    | 2 --
+ drivers/staging/rtl8192e/rtllib_wx.c | 6 ------
+ 2 files changed, 8 deletions(-)
 
 diff --git a/drivers/staging/rtl8192e/rtllib.h b/drivers/staging/rtl8192e/rtllib.h
-index cc4247ebea6b..7be02cfe56fe 100644
+index 7be02cfe56fe..cc1ce106678c 100644
 --- a/drivers/staging/rtl8192e/rtllib.h
 +++ b/drivers/staging/rtl8192e/rtllib.h
-@@ -1654,13 +1654,6 @@ struct rtllib_device {
- 	void (*set_security)(struct net_device *dev,
- 			     struct rtllib_security *sec);
+@@ -1651,8 +1651,6 @@ struct rtllib_device {
+ 	};
  
--	/* Used to TX data frame by using txb structs.
--	 * this is not used if in the softmac_features
--	 * is set the flag IEEE_SOFTMAC_TX_QUEUE
--	 */
--	int (*hard_start_xmit)(struct rtllib_txb *txb,
--			       struct net_device *dev);
--
+ 	/* Callback functions */
+-	void (*set_security)(struct net_device *dev,
+-			     struct rtllib_security *sec);
+ 
  	/* Softmac-generated frames (management) are TXed via this
  	 * callback if the flag IEEE_SOFTMAC_SINGLE_QUEUE is
- 	 * not set. As some cards may have different HW queues that
-diff --git a/drivers/staging/rtl8192e/rtllib_tx.c b/drivers/staging/rtl8192e/rtllib_tx.c
-index 54119fba8a57..c3f1910d9f58 100644
---- a/drivers/staging/rtl8192e/rtllib_tx.c
-+++ b/drivers/staging/rtl8192e/rtllib_tx.c
-@@ -572,8 +572,7 @@ static int rtllib_xmit_inter(struct sk_buff *skb, struct net_device *dev)
- 	/* If there is no driver handler to take the TXB, don't bother
- 	 * creating it...
+diff --git a/drivers/staging/rtl8192e/rtllib_wx.c b/drivers/staging/rtl8192e/rtllib_wx.c
+index 1876ff75c31c..82b537da8b21 100644
+--- a/drivers/staging/rtl8192e/rtllib_wx.c
++++ b/drivers/staging/rtl8192e/rtllib_wx.c
+@@ -416,10 +416,6 @@ int rtllib_wx_set_encode(struct rtllib_device *ieee,
  	 */
--	if ((!ieee->hard_start_xmit && !(ieee->softmac_features &
--	   IEEE_SOFTMAC_TX_QUEUE)) ||
-+	if (!(ieee->softmac_features & IEEE_SOFTMAC_TX_QUEUE) ||
- 	   ((!ieee->softmac_data_hard_start_xmit &&
- 	   (ieee->softmac_features & IEEE_SOFTMAC_TX_QUEUE)))) {
- 		netdev_warn(ieee->dev, "No xmit handler.\n");
-@@ -938,11 +937,6 @@ static int rtllib_xmit_inter(struct sk_buff *skb, struct net_device *dev)
- 			dev->stats.tx_bytes += le16_to_cpu(txb->payload_size);
- 			rtllib_softmac_xmit(txb, ieee);
- 		} else {
--			if ((*ieee->hard_start_xmit)(txb, dev) == 0) {
--				stats->tx_packets++;
--				stats->tx_bytes += le16_to_cpu(txb->payload_size);
--				return 0;
--			}
- 			rtllib_txb_free(txb);
- 		}
+ 	sec.flags |= SEC_LEVEL;
+ 	sec.level = SEC_LEVEL_1; /* 40 and 104 bit WEP */
+-
+-	if (ieee->set_security)
+-		ieee->set_security(dev, &sec);
+-
+ 	return 0;
+ }
+ EXPORT_SYMBOL(rtllib_wx_set_encode);
+@@ -611,8 +607,6 @@ int rtllib_wx_set_encode_ext(struct rtllib_device *ieee,
+ 			sec.flags &= ~SEC_LEVEL;
  	}
+ done:
+-	if (ieee->set_security)
+-		ieee->set_security(ieee->dev, &sec);
+ 	return ret;
+ }
+ EXPORT_SYMBOL(rtllib_wx_set_encode_ext);
 -- 
 2.40.1
 
