@@ -1,31 +1,31 @@
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BE854C6A
-	for <linux-staging@lists.linux.dev>; Sat, 13 May 2023 12:32:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C549B4C66
+	for <linux-staging@lists.linux.dev>; Sat, 13 May 2023 12:32:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1683981153;
+	s=mimecast20190719; t=1683981157;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=7l81+Cp7XMW5iWMabugy2rIllnoZqrFiCz5vQQvHa4Q=;
-	b=Hbn9P0Zac56EGYUuq2TOhp+1PFkaXP3B/u0exq7WAqhAl4yhinZBcAlNJoTyMWXFD0p+TL
-	R5aNU3egP5pPwJrv0pvoNB+KQgImyseYqe2Kb9SnT1DAegGD0aJxj2Ne695u244/hI4qve
-	+A/Book2xDhuBhpk9Z0oCh6y3iiKMBM=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=DapL5BRvh+yWg9dp4bmdu30CsoBCEbuaDPr4vxVl/WM=;
+	b=PwcdMFepbPQhnR0kKUSx3Nb15wNELXCHM/l16Ui0Vbfdtp3trSeP2R1LH4sgzUABAleJKi
+	tcRuurZ8PvbiU00yFgcx+uLLZTMvdCJlqGeCPZH4XvHZ4FS74aXD4pPU7YUBSYacrph0AZ
+	oWqc178GfaSIG3o2eRwMOPAz5xQUhKE=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-84-291yrfo0MqyNrmdZ8SjkVg-1; Sat, 13 May 2023 08:32:31 -0400
-X-MC-Unique: 291yrfo0MqyNrmdZ8SjkVg-1
+ us-mta-364--unlTPw1Nayf8-yjYlPkFw-1; Sat, 13 May 2023 08:32:20 -0400
+X-MC-Unique: -unlTPw1Nayf8-yjYlPkFw-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com [10.11.54.1])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 950B988B767;
-	Sat, 13 May 2023 12:32:30 +0000 (UTC)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 0741A29AA3B0;
+	Sat, 13 May 2023 12:32:20 +0000 (UTC)
 Received: from shalem.redhat.com (unknown [10.39.192.46])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 0F2A340C2076;
-	Sat, 13 May 2023 12:32:28 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 72B8340C2076;
+	Sat, 13 May 2023 12:32:18 +0000 (UTC)
 From: Hans de Goede <hdegoede@redhat.com>
 To: Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Sakari Ailus <sakari.ailus@linux.intel.com>,
@@ -39,9 +39,9 @@ Cc: Hans de Goede <hdegoede@redhat.com>,
 	Fabio Aiuto <fabioaiuto83@gmail.com>,
 	linux-media@vger.kernel.org,
 	linux-staging@lists.linux.dev
-Subject: [PATCH 16/30] media: atomisp: Simplify atomisp_[start|stop]_streaming()
-Date: Sat, 13 May 2023 14:31:45 +0200
-Message-Id: <20230513123159.33234-17-hdegoede@redhat.com>
+Subject: [PATCH 10/30] media: atomisp: Remove 1 line atomisp_flush_bufs_and_wakeup() helper
+Date: Sat, 13 May 2023 14:31:39 +0200
+Message-Id: <20230513123159.33234-11-hdegoede@redhat.com>
 In-Reply-To: <20230513123159.33234-1-hdegoede@redhat.com>
 References: <20230513123159.33234-1-hdegoede@redhat.com>
 Precedence: bulk
@@ -53,197 +53,54 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
 
-Now that continuous mode is gone and we only have 1 /dev/video# node,
-the videobuf2 core guarantees that atomisp_[start|stop]_streaming() will
-only be called one at a time.
-
-So there is no need to check for things like the isp is already streaming
-when starting, or other streams still being active while stopping.
-Remove checks for these from atomisp_[start|stop]_streaming().
-
-While at it also improve the logging a bit:
-1. Remove the dev_err(isp->dev, "atomisp_reset") logged on every
-   stream stop (even though everything is fine.
-2. Log a message when starting/stopping the sensor stream fails
+After recent changes this now is just a wrapper around
+atomisp_flush_video_pipe(). Make its single caller call
+atomisp_flush_video_pipe() directly and drop the helper.
 
 Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 ---
- .../staging/media/atomisp/pci/atomisp_ioctl.c | 89 ++++---------------
- 1 file changed, 17 insertions(+), 72 deletions(-)
+ drivers/staging/media/atomisp/pci/atomisp_cmd.c | 8 +-------
+ drivers/staging/media/atomisp/pci/atomisp_cmd.h | 1 -
+ 2 files changed, 1 insertion(+), 8 deletions(-)
 
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_ioctl.c b/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
-index 13e00a2af8e1..087ec5120bce 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
-+++ b/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
-@@ -615,12 +615,6 @@ static int atomisp_enum_input(struct file *file, void *fh,
- 	return 0;
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_cmd.c b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
+index 3dcf81e431cb..42a2a8f0da06 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_cmd.c
++++ b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
+@@ -640,12 +640,6 @@ void atomisp_flush_video_pipe(struct atomisp_video_pipe *pipe, enum vb2_buffer_s
+ 	spin_unlock_irqrestore(&pipe->irq_lock, irqflags);
  }
  
--static unsigned int
--atomisp_subdev_streaming_count(struct atomisp_sub_device *asd)
+-/* Returns queued buffers back to video-core */
+-void atomisp_flush_bufs_and_wakeup(struct atomisp_sub_device *asd)
 -{
--	return vb2_start_streaming_called(&asd->video_out.vb_queue);
+-	atomisp_flush_video_pipe(&asd->video_out, VB2_BUF_STATE_ERROR, false);
 -}
 -
- unsigned int atomisp_streaming_count(struct atomisp_device *isp)
+ /* clean out the parameters that did not apply */
+ void atomisp_flush_params_queue(struct atomisp_video_pipe *pipe)
  {
- 	return isp->asd.streaming == ATOMISP_DEVICE_STREAMING_ENABLED;
-@@ -1162,11 +1156,6 @@ int atomisp_start_streaming(struct vb2_queue *vq, unsigned int count)
- 	/* Input system HW workaround */
- 	atomisp_dma_burst_len_cfg(asd);
+@@ -1029,7 +1023,7 @@ static void __atomisp_css_recover(struct atomisp_device *isp, bool isp_timeout)
+ 		 * dequeueing buffers is not needed. CSS will recycle
+ 		 * buffers that it has.
+ 		 */
+-		atomisp_flush_bufs_and_wakeup(&isp->asd);
++		atomisp_flush_video_pipe(&isp->asd.video_out, VB2_BUF_STATE_ERROR, false);
  
--	if (asd->streaming == ATOMISP_DEVICE_STREAMING_ENABLED) {
--		atomisp_qbuffers_to_css(asd);
--		goto start_sensor;
--	}
--
- 	css_pipe_id = atomisp_get_css_pipe_id(asd);
+ 		/* Requeue unprocessed per-frame parameters. */
+ 		atomisp_recover_params_queue(&isp->asd.video_out);
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_cmd.h b/drivers/staging/media/atomisp/pci/atomisp_cmd.h
+index cbe2f48d3dfa..1cb973ddf2dc 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_cmd.h
++++ b/drivers/staging/media/atomisp/pci/atomisp_cmd.h
+@@ -59,7 +59,6 @@ int atomisp_buffers_in_css(struct atomisp_video_pipe *pipe);
+ void atomisp_buffer_done(struct ia_css_frame *frame, enum vb2_buffer_state state);
+ void atomisp_flush_video_pipe(struct atomisp_video_pipe *pipe, enum vb2_buffer_state state,
+ 			      bool warn_on_css_frames);
+-void atomisp_flush_bufs_and_wakeup(struct atomisp_sub_device *asd);
+ void atomisp_clear_css_buffer_counters(struct atomisp_sub_device *asd);
  
- 	/* Invalidate caches. FIXME: should flush only necessary buffers */
-@@ -1206,7 +1195,6 @@ int atomisp_start_streaming(struct vb2_queue *vq, unsigned int count)
- 
- 	atomisp_qbuffers_to_css(asd);
- 
--start_sensor:
- 	if (isp->flash) {
- 		asd->params.num_flash_frames = 0;
- 		asd->params.flash_state = ATOMISP_FLASH_IDLE;
-@@ -1216,19 +1204,9 @@ int atomisp_start_streaming(struct vb2_queue *vq, unsigned int count)
- 	atomisp_css_irq_enable(isp, IA_CSS_IRQ_INFO_CSS_RECEIVER_SOF,
- 			       atomisp_css_valid_sof(isp));
- 	atomisp_csi2_configure(asd);
--	/*
--	 * set freq to max when streaming count > 1 which indicate
--	 * dual camera would run
--	 */
--	if (atomisp_streaming_count(isp) > 1) {
--		if (atomisp_freq_scaling(isp,
--					 ATOMISP_DFS_MODE_MAX, false) < 0)
--			dev_dbg(isp->dev, "DFS max mode failed!\n");
--	} else {
--		if (atomisp_freq_scaling(isp,
--					 ATOMISP_DFS_MODE_AUTO, false) < 0)
--			dev_dbg(isp->dev, "DFS auto mode failed!\n");
--	}
-+
-+	if (atomisp_freq_scaling(isp, ATOMISP_DFS_MODE_AUTO, false) < 0)
-+		dev_dbg(isp->dev, "DFS auto mode failed!\n");
- 
- 	/* Enable the CSI interface on ANN B0/K0 */
- 	if (isp->media_dev.hw_revision >= ((ATOMISP_HW_REVISION_ISP2401 <<
-@@ -1241,6 +1219,7 @@ int atomisp_start_streaming(struct vb2_queue *vq, unsigned int count)
- 	ret = v4l2_subdev_call(isp->inputs[asd->input_curr].camera,
- 			       video, s_stream, 1);
- 	if (ret) {
-+		dev_err(isp->dev, "Starting sensor stream failed: %d\n", ret);
- 		spin_lock_irqsave(&isp->lock, irqflags);
- 		asd->streaming = ATOMISP_DEVICE_STREAMING_DISABLED;
- 		spin_unlock_irqrestore(&isp->lock, irqflags);
-@@ -1260,8 +1239,6 @@ void atomisp_stop_streaming(struct vb2_queue *vq)
- 	struct atomisp_device *isp = asd->isp;
- 	struct pci_dev *pdev = to_pci_dev(isp->dev);
- 	enum ia_css_pipe_id css_pipe_id;
--	bool recreate_stream = false;
--	bool first_streamoff = false;
- 	unsigned long flags;
- 	int ret;
- 
-@@ -1284,19 +1261,10 @@ void atomisp_stop_streaming(struct vb2_queue *vq)
- 	if (ret == 0)
- 		dev_warn(isp->dev, "Warning timeout waiting for CSS to return buffers\n");
- 
--	if (asd->streaming == ATOMISP_DEVICE_STREAMING_ENABLED)
--		first_streamoff = true;
--
- 	spin_lock_irqsave(&isp->lock, flags);
--	if (atomisp_subdev_streaming_count(asd) == 1)
--		asd->streaming = ATOMISP_DEVICE_STREAMING_DISABLED;
--	else
--		asd->streaming = ATOMISP_DEVICE_STREAMING_STOPPING;
-+	asd->streaming = ATOMISP_DEVICE_STREAMING_DISABLED;
- 	spin_unlock_irqrestore(&isp->lock, flags);
- 
--	if (!first_streamoff)
--		goto stopsensor;
--
- 	atomisp_clear_css_buffer_counters(asd);
- 	atomisp_css_irq_enable(isp, IA_CSS_IRQ_INFO_CSS_RECEIVER_SOF, false);
- 
-@@ -1306,21 +1274,17 @@ void atomisp_stop_streaming(struct vb2_queue *vq)
- 	atomisp_flush_video_pipe(pipe, VB2_BUF_STATE_ERROR, true);
- 
- 	atomisp_subdev_cleanup_pending_events(asd);
--stopsensor:
-+
- 	ret = v4l2_subdev_call(isp->inputs[asd->input_curr].camera,
- 			       video, s_stream, 0);
-+	if (ret)
-+		dev_warn(isp->dev, "Stopping sensor stream failed: %d\n", ret);
- 
- 	if (isp->flash) {
- 		asd->params.num_flash_frames = 0;
- 		asd->params.flash_state = ATOMISP_FLASH_IDLE;
- 	}
- 
--	/* if other streams are running, isp should not be powered off */
--	if (atomisp_streaming_count(isp)) {
--		atomisp_css_flush(isp);
--		goto out_unlock;
--	}
--
- 	/* Disable the CSI interface on ANN B0/K0 */
- 	if (isp->media_dev.hw_revision >= ((ATOMISP_HW_REVISION_ISP2401 <<
- 					    ATOMISP_HW_REVISION_SHIFT) | ATOMISP_HW_STEPPING_B0)) {
-@@ -1330,40 +1294,21 @@ void atomisp_stop_streaming(struct vb2_queue *vq)
- 
- 	if (atomisp_freq_scaling(isp, ATOMISP_DFS_MODE_LOW, false))
- 		dev_warn(isp->dev, "DFS failed.\n");
--	/*
--	 * ISP work around, need to reset isp
--	 * Is it correct time to reset ISP when first node does streamoff?
--	 *
--	 * It is possible that the other asd stream is in the stage
--	 * that v4l2_setfmt is just get called on it, which will
--	 * create css stream on that stream. But at this point, there
--	 * is no way to destroy the css stream created on that stream.
--	 *
--	 * So force stream destroy here.
--	 */
--	if (isp->asd.stream_prepared) {
--		atomisp_destroy_pipes_stream_force(&isp->asd);
--		recreate_stream = true;
--	}
- 
--	/* disable  PUNIT/ISP acknowlede/handshake - SRSE=3 */
-+	/*
-+	 * ISP work around, need to reset ISP to allow next stream on to work.
-+	 * Streams have already been destroyed by atomisp_css_stop().
-+	 * Disable PUNIT/ISP acknowlede/handshake - SRSE=3 and then reset.
-+	 */
- 	pci_write_config_dword(pdev, PCI_I_CONTROL,
- 			       isp->saved_regs.i_control | MRFLD_PCI_I_CONTROL_SRSE_RESET_MASK);
--	dev_err(isp->dev, "atomisp_reset");
- 	atomisp_reset(isp);
- 
--	if (recreate_stream) {
--		int ret2;
-+	/* Streams were destroyed by atomisp_css_stop(), recreate them. */
-+	ret = atomisp_create_pipes_stream(&isp->asd);
-+	if (ret)
-+		dev_warn(isp->dev, "Recreating streams failed: %d\n", ret);
- 
--		ret2 = atomisp_create_pipes_stream(&isp->asd);
--		if (ret2) {
--			dev_err(isp->dev, "%s error re-creating streams: %d\n", __func__, ret2);
--			if (!ret)
--				ret = ret2;
--		}
--	}
--
--out_unlock:
- 	mutex_unlock(&isp->mutex);
- }
- 
+ /* Interrupt functions */
 -- 
 2.40.1
 
