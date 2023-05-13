@@ -1,30 +1,31 @@
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D01B54C67
-	for <linux-staging@lists.linux.dev>; Sat, 13 May 2023 12:32:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4CB54C66
+	for <linux-staging@lists.linux.dev>; Sat, 13 May 2023 12:32:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1683981138;
+	s=mimecast20190719; t=1683981140;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=YsbJ7qSNvpq2XigXMR+ACHOqZQpsDFBJl45yzFLRe6o=;
-	b=JgqHqhIilI3lxIdBrbCDMr7IwZNjslqlvu7dnPGMJtjMTVh64AX1imSVVkKPfkkgM/TUVb
-	roCUfeEh8S/I8EQm6RKGkzRu0a0Eh2wyVGKHnERdeitmgAa6qaXfSaAp0B7+X5u1wIO3hX
-	16Nyunex/rqz0lc7RhNCl9a/wfHxSwQ=
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=FiXmlfPowoYCYUQr47xgT8t+KlyVCADqJFszW5TdIus=;
+	b=cZmmNbq31WlsJRSvF9ZJ8P7t3lSQ1Yizv0f4LgSD9KmT8JtB1COhEMZQhh4Y4cpSphTH1F
+	peG8RRZ6zo5hseaJlC8VDC09Df5beeubTbwpcKkC3wL8SrTHALSIk2jTaQak9m3k6p9YRm
+	/0cmUc0mMXqaSU2KdoYJMXbJsY3PRFY=
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-558-7T8HJ010OA-1PHSzt5y4-g-1; Sat, 13 May 2023 08:32:02 -0400
-X-MC-Unique: 7T8HJ010OA-1PHSzt5y4-g-1
+ us-mta-92-y1BofXlkNOyJfVXZx8KhlA-1; Sat, 13 May 2023 08:32:15 -0400
+X-MC-Unique: y1BofXlkNOyJfVXZx8KhlA-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com [10.11.54.1])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 96E0A380673E;
-	Sat, 13 May 2023 12:32:01 +0000 (UTC)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id B10B629AA3B0;
+	Sat, 13 May 2023 12:32:14 +0000 (UTC)
 Received: from shalem.redhat.com (unknown [10.39.192.46])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id E624140C2076;
-	Sat, 13 May 2023 12:31:59 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 2B06B40C2076;
+	Sat, 13 May 2023 12:32:13 +0000 (UTC)
 From: Hans de Goede <hdegoede@redhat.com>
 To: Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Sakari Ailus <sakari.ailus@linux.intel.com>,
@@ -38,9 +39,11 @@ Cc: Hans de Goede <hdegoede@redhat.com>,
 	Fabio Aiuto <fabioaiuto83@gmail.com>,
 	linux-media@vger.kernel.org,
 	linux-staging@lists.linux.dev
-Subject: [PATCH 00/30] media: atomisp: Register only 1 /dev/video# node + cleanups
-Date: Sat, 13 May 2023 14:31:29 +0200
-Message-Id: <20230513123159.33234-1-hdegoede@redhat.com>
+Subject: [PATCH 07/30] media: atomisp: Drop atomisp_is_vf_pipe()
+Date: Sat, 13 May 2023 14:31:36 +0200
+Message-Id: <20230513123159.33234-8-hdegoede@redhat.com>
+In-Reply-To: <20230513123159.33234-1-hdegoede@redhat.com>
+References: <20230513123159.33234-1-hdegoede@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -50,79 +53,128 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
 
-Hi All,
+Since there only is one /dev/video# node now (no more continuous mode),
+there are now no longer separate main capture + view-finder pipes.
 
-Here is an atomisp patch-series to continue the simplification /
-exotic feature removal of atomisp. Specifically this series
-makes atomisp register only 1 /dev/video# node.
+We are now always on the main pipe, so atomisp_is_vf_pipe() should
+always return false now. Drop any checks using it, replacing them
+with the code-path for a false return.
 
-The other patches are some preparation + follow-up work for
-this change, as well as a whole bunch of folow-up clean-ups.
+Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+---
+ .../staging/media/atomisp/pci/atomisp_cmd.c   | 32 ++-----------------
+ .../staging/media/atomisp/pci/atomisp_cmd.h   |  2 --
+ .../staging/media/atomisp/pci/atomisp_fops.c  |  5 ++-
+ .../staging/media/atomisp/pci/atomisp_ioctl.c |  3 +-
+ 4 files changed, 5 insertions(+), 37 deletions(-)
 
-The cleanups focus on removing the various count / users functions
-which atomisp used before when there were multiple nodes. This
-is preparation work for eventually allowing opening the same
-node multipe-times, as is normal for standard v4l2 /dev/video#
-nodes.
-
-Regards,
-
-Hans
-
-
-Hans de Goede (30):
-  media: atomisp: Remove res_overflow parameter from atomisp_try_fmt()
-  media: atomisp: Remove Continuous capture and SDV run-modes
-  media: atomisp: Remove isp->need_gfx_throttle field
-  media: atomisp: Drop atomisp_get_css_buf_type()
-  media: atomisp: Replace source-pad checks with run-mode checks
-  media: atomisp: Register only 1 /dev/video# node
-  media: atomisp: Drop atomisp_is_vf_pipe()
-  media: atomisp: Rename video_out_preview to video_out
-  media: atomisp: Remove source_pad parameter from functions and structs
-  media: atomisp: Remove 1 line atomisp_flush_bufs_and_wakeup() helper
-  media: atomisp: Remove atomisp_subdev_register_video_nodes() helper
-  media: atomisp: Remove a bunch of unused atomisp_css_*() functions
-  media: atomisp: Remove unused mipi_frame_size field from
-    atomisp_[sub_]device
-  media: atomisp: Remove isp_timeout flag
-  media: atomisp: Remove atomisp_sensor_start_stream()
-  media: atomisp: Simplify atomisp_[start|stop]_streaming()
-  media: atomisp: Simplify atomisp_css_[start|stop]()
-  media: atomisp: Simplify atomisp_open() and atomisp_release()
-  media: atomisp: Simplify atomisp_pipe_check()
-  media: atomisp: Turn asd->streaming state tracker into a bool
-  media: atomisp: Remove no longer used atomisp_css_flush()
-  media: atomisp: Remove atomisp_streaming_count()
-  media: atomisp: Simplify atomisp_isr() and recovery_work()
-  media: atomisp: Rename atomisp_destroy_pipes_stream_force() to
-    atomisp_destroy_pipes_stream()
-  media: atomisp: Allow system suspend to continue with open /dev/video#
-    nodes
-  media: atomisp: Remove atomisp_[sub]dev_users()
-  media: atomisp: Remove unused css_pipe_id argument from
-    atomisp_css_[start|stop]()
-  media: atomisp: Remove unused atomisp_get_css_pipe_id() function
-  media: atomisp: Remove in_reset argument from atomisp_css_start()
-  media: atomisp: Set asd.subdev.devnode once from
-    isp_subdev_init_entities()
-
- .../media/atomisp/include/linux/atomisp.h     |   5 +-
- .../staging/media/atomisp/pci/atomisp_cmd.c   | 371 ++++++------------
- .../staging/media/atomisp/pci/atomisp_cmd.h   |   8 +-
- .../media/atomisp/pci/atomisp_compat.h        |  41 +-
- .../media/atomisp/pci/atomisp_compat_css20.c  | 283 ++-----------
- .../staging/media/atomisp/pci/atomisp_drvfs.c |   2 +-
- .../staging/media/atomisp/pci/atomisp_fops.c  | 176 +--------
- .../staging/media/atomisp/pci/atomisp_fops.h  |   3 -
- .../media/atomisp/pci/atomisp_internal.h      |   9 -
- .../staging/media/atomisp/pci/atomisp_ioctl.c | 212 ++--------
- .../staging/media/atomisp/pci/atomisp_ioctl.h |   5 -
- .../media/atomisp/pci/atomisp_subdev.c        | 198 ++--------
- .../media/atomisp/pci/atomisp_subdev.h        |  30 +-
- .../staging/media/atomisp/pci/atomisp_v4l2.c  | 120 +-----
- 14 files changed, 254 insertions(+), 1209 deletions(-)
-
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_cmd.c b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
+index faaa4f1c5c7c..3d6e0d0c7eaa 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_cmd.c
++++ b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
+@@ -3216,9 +3216,6 @@ void atomisp_handle_parameter_and_buffer(struct atomisp_video_pipe *pipe)
+ 
+ 	lockdep_assert_held(&asd->isp->mutex);
+ 
+-	if (atomisp_is_vf_pipe(pipe))
+-		return;
+-
+ 	/*
+ 	 * CSS/FW requires set parameter and enqueue buffer happen after ISP
+ 	 * is streamon.
+@@ -3294,15 +3291,7 @@ int atomisp_set_parameters(struct video_device *vdev,
+ 	dev_dbg(asd->isp->dev, "set parameter(per_frame_setting %d) isp_config_id %d of %s\n",
+ 		arg->per_frame_setting, arg->isp_config_id, vdev->name);
+ 
+-	if (IS_ISP2401) {
+-		if (atomisp_is_vf_pipe(pipe) && arg->per_frame_setting) {
+-			dev_err(asd->isp->dev, "%s: vf pipe not support per_frame_setting",
+-				__func__);
+-			return -EINVAL;
+-		}
+-	}
+-
+-	if (arg->per_frame_setting && !atomisp_is_vf_pipe(pipe)) {
++	if (arg->per_frame_setting) {
+ 		/*
+ 		 * Per-frame setting enabled, we allocate a new parameter
+ 		 * buffer to cache the parameters and only when frame buffers
+@@ -3341,7 +3330,7 @@ int atomisp_set_parameters(struct video_device *vdev,
+ 	if (ret)
+ 		goto apply_parameter_failed;
+ 
+-	if (!(arg->per_frame_setting && !atomisp_is_vf_pipe(pipe))) {
++	if (!arg->per_frame_setting) {
+ 		/* indicate to CSS that we have parameters to be updated */
+ 		asd->params.css_update_params_needed = true;
+ 	} else {
+@@ -4780,23 +4769,6 @@ int atomisp_flash_enable(struct atomisp_sub_device *asd, int num_frames)
+ 	return 0;
+ }
+ 
+-bool atomisp_is_vf_pipe(struct atomisp_video_pipe *pipe)
+-{
+-	struct atomisp_sub_device *asd = pipe->asd;
+-
+-	if (!asd) {
+-		dev_err(pipe->isp->dev, "%s(): asd is NULL, device is %s\n",
+-			__func__, pipe->vdev.name);
+-		return false;
+-	}
+-
+-	if (asd->run_mode->val == ATOMISP_RUN_MODE_VIDEO &&
+-	    pipe == &asd->video_out_preview)
+-		return true;
+-
+-	return false;
+-}
+-
+ static int __checking_exp_id(struct atomisp_sub_device *asd, int exp_id)
+ {
+ 	struct atomisp_device *isp = asd->isp;
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_cmd.h b/drivers/staging/media/atomisp/pci/atomisp_cmd.h
+index 3cf086eba06d..cbe2f48d3dfa 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_cmd.h
++++ b/drivers/staging/media/atomisp/pci/atomisp_cmd.h
+@@ -291,8 +291,6 @@ void atomisp_eof_event(struct atomisp_sub_device *asd, uint8_t exp_id);
+ enum mipi_port_id __get_mipi_port(struct atomisp_device *isp,
+ 				  enum atomisp_camera_port port);
+ 
+-bool atomisp_is_vf_pipe(struct atomisp_video_pipe *pipe);
+-
+ void atomisp_apply_css_parameters(
+     struct atomisp_sub_device *asd,
+     struct atomisp_css_params *css_param);
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_fops.c b/drivers/staging/media/atomisp/pci/atomisp_fops.c
+index 3adeeb97e570..99152db236a1 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_fops.c
++++ b/drivers/staging/media/atomisp/pci/atomisp_fops.c
+@@ -403,9 +403,8 @@ static void atomisp_buf_queue(struct vb2_buffer *vb)
+ 	 *     is put to waiting list until previous per-frame parameter buffers
+ 	 *     get enqueued.
+ 	 */
+-	if (!atomisp_is_vf_pipe(pipe) &&
+-	    (pipe->frame_request_config_id[vb->index] ||
+-	     !list_empty(&pipe->buffers_waiting_for_param)))
++	if (pipe->frame_request_config_id[vb->index] ||
++	    !list_empty(&pipe->buffers_waiting_for_param))
+ 		list_add_tail(&frame->queue, &pipe->buffers_waiting_for_param);
+ 	else
+ 		list_add_tail(&frame->queue, &pipe->activeq);
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_ioctl.c b/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
+index 392c0ed56fb4..3068f1a317f3 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
++++ b/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
+@@ -1045,8 +1045,7 @@ static int atomisp_qbuf_wrapper(struct file *file, void *fh, struct v4l2_buffer
+ 	if (buf->index >= vdev->queue->num_buffers)
+ 		return -EINVAL;
+ 
+-	if (!atomisp_is_vf_pipe(pipe) &&
+-	    (buf->reserved2 & ATOMISP_BUFFER_HAS_PER_FRAME_SETTING)) {
++	if (buf->reserved2 & ATOMISP_BUFFER_HAS_PER_FRAME_SETTING) {
+ 		/* this buffer will have a per-frame parameter */
+ 		pipe->frame_request_config_id[buf->index] = buf->reserved2 &
+ 			~ATOMISP_BUFFER_HAS_PER_FRAME_SETTING;
 -- 
 2.40.1
 
