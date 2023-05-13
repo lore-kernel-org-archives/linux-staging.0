@@ -1,31 +1,31 @@
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABA32EDB
-	for <linux-staging@lists.linux.dev>; Sat, 13 May 2023 12:32:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69FC71114
+	for <linux-staging@lists.linux.dev>; Sat, 13 May 2023 12:32:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1683981130;
+	s=mimecast20190719; t=1683981132;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=NUjOxKsRzoghVLKQSrbyPsItrY8cDwJ2gxRv9vBWoqs=;
-	b=Rm0U8ZXhv+3mRzAbQSxKhherMbQyWesHIK026n+gZDlLzrLB2iwgZ0LVrkWZL2v20gzdQu
-	NtJnsDPqfazZZXFFRWW2MgJ6AO6IEjIjiVl4QBAS239TfLrj76ZRaYd7Rpq0wNMO/W4d59
-	Hww3dtfCiUdZn6v27k0U3AOOQ/UNjSo=
+	bh=7OFnEw8hW+DZB+1ZTdNNX82shgA4zEJhNmCN+I8HWss=;
+	b=OsiWXZ8T49JTHboZE79Sgj+IZI+JbudeAiH2+4EcDFpqv7UNE/tgWssJR16G5Y70ht5uEv
+	yi6d29VhbZJaTpFfsYybUxOPnQpTktEy/ZEwAhHQhonPHpAJ33PxQHotehfDhqF0W5vCF6
+	k5cz78W83rVui5B//hjttlStUp8ClDc=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-564-6yyOzg09NgGwiThzemGavg-1; Sat, 13 May 2023 08:32:04 -0400
-X-MC-Unique: 6yyOzg09NgGwiThzemGavg-1
+ us-mta-640-C9R_vt4CMC2Lz21uUBP0Ew-1; Sat, 13 May 2023 08:32:08 -0400
+X-MC-Unique: C9R_vt4CMC2Lz21uUBP0Ew-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com [10.11.54.1])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 5D802101A54F;
-	Sat, 13 May 2023 12:32:03 +0000 (UTC)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 86988857E62;
+	Sat, 13 May 2023 12:32:07 +0000 (UTC)
 Received: from shalem.redhat.com (unknown [10.39.192.46])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id CB1B940C2077;
-	Sat, 13 May 2023 12:32:01 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 5AEAE40C2076;
+	Sat, 13 May 2023 12:32:05 +0000 (UTC)
 From: Hans de Goede <hdegoede@redhat.com>
 To: Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Sakari Ailus <sakari.ailus@linux.intel.com>,
@@ -39,9 +39,9 @@ Cc: Hans de Goede <hdegoede@redhat.com>,
 	Fabio Aiuto <fabioaiuto83@gmail.com>,
 	linux-media@vger.kernel.org,
 	linux-staging@lists.linux.dev
-Subject: [PATCH 01/30] media: atomisp: Remove res_overflow parameter from atomisp_try_fmt()
-Date: Sat, 13 May 2023 14:31:30 +0200
-Message-Id: <20230513123159.33234-2-hdegoede@redhat.com>
+Subject: [PATCH 03/30] media: atomisp: Remove isp->need_gfx_throttle field
+Date: Sat, 13 May 2023 14:31:32 +0200
+Message-Id: <20230513123159.33234-4-hdegoede@redhat.com>
 In-Reply-To: <20230513123159.33234-1-hdegoede@redhat.com>
 References: <20230513123159.33234-1-hdegoede@redhat.com>
 Precedence: bulk
@@ -53,90 +53,66 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
 
-The only remaining caller of atomisp_try_fmt() always passes NULL
-for the res_overflow parameter. Drop it and simplify atomisp_try_fmt().
+Remove the isp->need_gfx_throttle field it is only ever set and
+never read.
+
+Also the code setting it is broken, comparing run_mode->val to
+ATOMISP_SUBDEV_PAD_SOURCE_VIDEO which are not of the same type /
+not part of the same enum.
 
 Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 ---
- .../staging/media/atomisp/pci/atomisp_cmd.c   | 21 ++++---------------
- .../staging/media/atomisp/pci/atomisp_cmd.h   |  3 +--
- .../staging/media/atomisp/pci/atomisp_ioctl.c |  2 +-
- 3 files changed, 6 insertions(+), 20 deletions(-)
+ drivers/staging/media/atomisp/pci/atomisp_cmd.c      | 10 ----------
+ drivers/staging/media/atomisp/pci/atomisp_fops.c     |  1 -
+ drivers/staging/media/atomisp/pci/atomisp_internal.h |  2 --
+ 3 files changed, 13 deletions(-)
 
 diff --git a/drivers/staging/media/atomisp/pci/atomisp_cmd.c b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
-index aa790ae746f3..bb49d6f2e67f 100644
+index bb49d6f2e67f..ed1a534b7c05 100644
 --- a/drivers/staging/media/atomisp/pci/atomisp_cmd.c
 +++ b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
-@@ -3881,8 +3881,7 @@ static void __atomisp_init_stream_info(u16 stream_index,
- }
- 
- /* This function looks up the closest available resolution. */
--int atomisp_try_fmt(struct video_device *vdev, struct v4l2_pix_format *f,
--		    bool *res_overflow)
-+int atomisp_try_fmt(struct video_device *vdev, struct v4l2_pix_format *f)
- {
- 	struct atomisp_device *isp = video_get_drvdata(vdev);
- 	struct atomisp_sub_device *asd = atomisp_to_video_pipe(vdev)->asd;
-@@ -3940,6 +3939,8 @@ int atomisp_try_fmt(struct video_device *vdev, struct v4l2_pix_format *f,
- 	}
- 
- 	f->pixelformat = fmt->pixelformat;
-+	f->width = format.format.width;
-+	f->height = format.format.height;
- 
- 	/*
- 	 * If the format is jpeg or custom RAW, then the width and height will
-@@ -3948,22 +3949,8 @@ int atomisp_try_fmt(struct video_device *vdev, struct v4l2_pix_format *f,
- 	 * the sensor driver.
- 	 */
- 	if (f->pixelformat == V4L2_PIX_FMT_JPEG ||
--	    f->pixelformat == V4L2_PIX_FMT_CUSTOM_M10MO_RAW) {
--		f->width = format.format.width;
--		f->height = format.format.height;
-+	    f->pixelformat == V4L2_PIX_FMT_CUSTOM_M10MO_RAW)
- 		return 0;
--	}
+@@ -4693,16 +4693,6 @@ int atomisp_set_fmt(struct video_device *vdev, struct v4l2_format *f)
+ 	f->fmt.pix = pipe->pix;
+ 	f->fmt.pix.priv = PAGE_ALIGN(pipe->pix.width *
+ 				     pipe->pix.height * 2);
 -
--	if (!res_overflow || (format.format.width < f->width &&
--			      format.format.height < f->height)) {
--		f->width = format.format.width;
--		f->height = format.format.height;
--		/* Set the flag when resolution requested is
--		 * beyond the max value supported by sensor
--		 */
--		if (res_overflow)
--			*res_overflow = true;
--	}
+-	/*
+-	 * If in video 480P case, no GFX throttle
+-	 */
+-	if (asd->run_mode->val == ATOMISP_SUBDEV_PAD_SOURCE_VIDEO &&
+-	    f->fmt.pix.width == 720 && f->fmt.pix.height == 480)
+-		isp->need_gfx_throttle = false;
+-	else
+-		isp->need_gfx_throttle = true;
+-
+ 	/* Report the needed sizes */
+ 	f->fmt.pix.sizeimage = pipe->pix.sizeimage;
+ 	f->fmt.pix.bytesperline = pipe->pix.bytesperline;
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_fops.c b/drivers/staging/media/atomisp/pci/atomisp_fops.c
+index fa362c8a37e8..a95c41d084c2 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_fops.c
++++ b/drivers/staging/media/atomisp/pci/atomisp_fops.c
+@@ -539,7 +539,6 @@ static void atomisp_dev_init_struct(struct atomisp_device *isp)
+ {
+ 	unsigned int i;
  
- 	/* app vs isp */
- 	f->width = rounddown(clamp_t(u32, f->width, ATOM_ISP_MIN_WIDTH,
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_cmd.h b/drivers/staging/media/atomisp/pci/atomisp_cmd.h
-index 399b549bcf83..3cf086eba06d 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_cmd.h
-+++ b/drivers/staging/media/atomisp/pci/atomisp_cmd.h
-@@ -259,8 +259,7 @@ int atomisp_compare_grid(struct atomisp_sub_device *asd,
- 			 struct atomisp_grid_info *atomgrid);
+-	isp->need_gfx_throttle = true;
+ 	isp->isp_fatal_error = false;
+ 	isp->mipi_frame_size = 0;
  
- /* This function looks up the closest available resolution. */
--int atomisp_try_fmt(struct video_device *vdev, struct v4l2_pix_format *f,
--		    bool *res_overflow);
-+int atomisp_try_fmt(struct video_device *vdev, struct v4l2_pix_format *f);
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_internal.h b/drivers/staging/media/atomisp/pci/atomisp_internal.h
+index 1fac99f4e2b0..e531f0c71a15 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_internal.h
++++ b/drivers/staging/media/atomisp/pci/atomisp_internal.h
+@@ -211,8 +211,6 @@ struct atomisp_device {
  
- int atomisp_set_fmt(struct video_device *vdev, struct v4l2_format *f);
+ 	spinlock_t lock; /* Protects asd.streaming */
  
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_ioctl.c b/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
-index 384f31fc66c5..4d927799f53b 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
-+++ b/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
-@@ -896,7 +896,7 @@ static int atomisp_try_fmt_cap(struct file *file, void *fh,
- 	f->fmt.pix.width += pad_w;
- 	f->fmt.pix.height += pad_h;
- 
--	ret = atomisp_try_fmt(vdev, &f->fmt.pix, NULL);
-+	ret = atomisp_try_fmt(vdev, &f->fmt.pix);
- 	if (ret)
- 		return ret;
- 
+-	bool need_gfx_throttle;
+-
+ 	unsigned int mipi_frame_size;
+ 	const struct atomisp_dfs_config *dfs;
+ 	unsigned int hpll_freq;
 -- 
 2.40.1
 
