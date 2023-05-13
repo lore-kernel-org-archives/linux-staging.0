@@ -1,31 +1,31 @@
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C549B4C66
-	for <linux-staging@lists.linux.dev>; Sat, 13 May 2023 12:32:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FB084C67
+	for <linux-staging@lists.linux.dev>; Sat, 13 May 2023 12:32:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1683981157;
+	s=mimecast20190719; t=1683981158;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=DapL5BRvh+yWg9dp4bmdu30CsoBCEbuaDPr4vxVl/WM=;
-	b=PwcdMFepbPQhnR0kKUSx3Nb15wNELXCHM/l16Ui0Vbfdtp3trSeP2R1LH4sgzUABAleJKi
-	tcRuurZ8PvbiU00yFgcx+uLLZTMvdCJlqGeCPZH4XvHZ4FS74aXD4pPU7YUBSYacrph0AZ
-	oWqc178GfaSIG3o2eRwMOPAz5xQUhKE=
+	bh=LqAldjOfwG7MT23v8Xbiayp11klirrHcL2cSmqNlQUk=;
+	b=CgZ5Yvw+QN302xqYtWgCVe0rxTZsAzkuosdXj0xiX/A4IY7m3Pt5kk2xhtGvaTvK/8Bbuz
+	5pWRMsWiRukdpskOMgHSo8n7OQWuBp4LCc0Lhv2fKQkYs3psAY/ByNXUrESZYi2ICQsk6Y
+	rHH6KJPxYGROBuRs2xvfn0GhGa+wz/E=
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-364--unlTPw1Nayf8-yjYlPkFw-1; Sat, 13 May 2023 08:32:20 -0400
-X-MC-Unique: -unlTPw1Nayf8-yjYlPkFw-1
+ us-mta-526-V-Wz8FxKNxC609ARaia2kQ-1; Sat, 13 May 2023 08:32:34 -0400
+X-MC-Unique: V-Wz8FxKNxC609ARaia2kQ-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com [10.11.54.1])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 0741A29AA3B0;
-	Sat, 13 May 2023 12:32:20 +0000 (UTC)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 229721C060EB;
+	Sat, 13 May 2023 12:32:34 +0000 (UTC)
 Received: from shalem.redhat.com (unknown [10.39.192.46])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 72B8340C2076;
-	Sat, 13 May 2023 12:32:18 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 8C49340C2076;
+	Sat, 13 May 2023 12:32:32 +0000 (UTC)
 From: Hans de Goede <hdegoede@redhat.com>
 To: Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Sakari Ailus <sakari.ailus@linux.intel.com>,
@@ -39,9 +39,9 @@ Cc: Hans de Goede <hdegoede@redhat.com>,
 	Fabio Aiuto <fabioaiuto83@gmail.com>,
 	linux-media@vger.kernel.org,
 	linux-staging@lists.linux.dev
-Subject: [PATCH 10/30] media: atomisp: Remove 1 line atomisp_flush_bufs_and_wakeup() helper
-Date: Sat, 13 May 2023 14:31:39 +0200
-Message-Id: <20230513123159.33234-11-hdegoede@redhat.com>
+Subject: [PATCH 18/30] media: atomisp: Simplify atomisp_open() and atomisp_release()
+Date: Sat, 13 May 2023 14:31:47 +0200
+Message-Id: <20230513123159.33234-19-hdegoede@redhat.com>
 In-Reply-To: <20230513123159.33234-1-hdegoede@redhat.com>
 References: <20230513123159.33234-1-hdegoede@redhat.com>
 Precedence: bulk
@@ -53,54 +53,107 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
 
-After recent changes this now is just a wrapper around
-atomisp_flush_video_pipe(). Make its single caller call
-atomisp_flush_video_pipe() directly and drop the helper.
+Now that continuous mode is gone and we only have 1 /dev/video# node,
+combined with only allowing 1 open of that /dev/video# node for now,
+there is no need to check for other (sub)dev / pipe users.
+
+Remove the unnecessary checks for a nice cleanup.
+
+Note we also don't need to set asd->streaming to disabled since
+the vb2_fop_release() call done by atomisp_release() will have called
+atomisp_stop_streaming() already at this point (if necessary) and
+that will have already done this.
 
 Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 ---
- drivers/staging/media/atomisp/pci/atomisp_cmd.c | 8 +-------
- drivers/staging/media/atomisp/pci/atomisp_cmd.h | 1 -
- 2 files changed, 1 insertion(+), 8 deletions(-)
+ .../staging/media/atomisp/pci/atomisp_fops.c  | 26 -------------------
+ 1 file changed, 26 deletions(-)
 
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_cmd.c b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
-index 3dcf81e431cb..42a2a8f0da06 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_cmd.c
-+++ b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
-@@ -640,12 +640,6 @@ void atomisp_flush_video_pipe(struct atomisp_video_pipe *pipe, enum vb2_buffer_s
- 	spin_unlock_irqrestore(&pipe->irq_lock, irqflags);
- }
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_fops.c b/drivers/staging/media/atomisp/pci/atomisp_fops.c
+index 37d8c8af3e8c..ef1a5ad30ace 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_fops.c
++++ b/drivers/staging/media/atomisp/pci/atomisp_fops.c
+@@ -532,11 +532,6 @@ static int atomisp_open(struct file *file)
+ 		return -EBUSY;
+ 	}
  
--/* Returns queued buffers back to video-core */
--void atomisp_flush_bufs_and_wakeup(struct atomisp_sub_device *asd)
--{
--	atomisp_flush_video_pipe(&asd->video_out, VB2_BUF_STATE_ERROR, false);
--}
+-	if (atomisp_dev_users(isp)) {
+-		dev_dbg(isp->dev, "skip init isp in open\n");
+-		goto init_subdev;
+-	}
 -
- /* clean out the parameters that did not apply */
- void atomisp_flush_params_queue(struct atomisp_video_pipe *pipe)
- {
-@@ -1029,7 +1023,7 @@ static void __atomisp_css_recover(struct atomisp_device *isp, bool isp_timeout)
- 		 * dequeueing buffers is not needed. CSS will recycle
- 		 * buffers that it has.
- 		 */
--		atomisp_flush_bufs_and_wakeup(&isp->asd);
-+		atomisp_flush_video_pipe(&isp->asd.video_out, VB2_BUF_STATE_ERROR, false);
+ 	/* runtime power management, turn on ISP */
+ 	ret = pm_runtime_resume_and_get(vdev->v4l2_dev->dev);
+ 	if (ret < 0) {
+@@ -552,19 +547,12 @@ static int atomisp_open(struct file *file)
+ 		goto css_error;
+ 	}
  
- 		/* Requeue unprocessed per-frame parameters. */
- 		atomisp_recover_params_queue(&isp->asd.video_out);
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_cmd.h b/drivers/staging/media/atomisp/pci/atomisp_cmd.h
-index cbe2f48d3dfa..1cb973ddf2dc 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_cmd.h
-+++ b/drivers/staging/media/atomisp/pci/atomisp_cmd.h
-@@ -59,7 +59,6 @@ int atomisp_buffers_in_css(struct atomisp_video_pipe *pipe);
- void atomisp_buffer_done(struct ia_css_frame *frame, enum vb2_buffer_state state);
- void atomisp_flush_video_pipe(struct atomisp_video_pipe *pipe, enum vb2_buffer_state state,
- 			      bool warn_on_css_frames);
--void atomisp_flush_bufs_and_wakeup(struct atomisp_sub_device *asd);
- void atomisp_clear_css_buffer_counters(struct atomisp_sub_device *asd);
+-init_subdev:
+-	if (atomisp_subdev_users(asd))
+-		goto done;
+-
+ 	atomisp_subdev_init_struct(asd);
+ 	/* Ensure that a mode is set */
+ 	v4l2_ctrl_s_ctrl(asd->run_mode, pipe->default_run_mode);
  
- /* Interrupt functions */
+-done:
+ 	pipe->users++;
+ 	mutex_unlock(&isp->mutex);
+-
+-
+ 	return 0;
+ 
+ css_error:
+@@ -583,7 +571,6 @@ static int atomisp_release(struct file *file)
+ 	struct atomisp_sub_device *asd = pipe->asd;
+ 	struct v4l2_subdev_fh fh;
+ 	struct v4l2_rect clear_compose = {0};
+-	unsigned long flags;
+ 	int ret;
+ 
+ 	v4l2_fh_init(&fh.vfh, vdev);
+@@ -598,8 +585,6 @@ static int atomisp_release(struct file *file)
+ 	mutex_lock(&isp->mutex);
+ 
+ 	pipe->users--;
+-	if (pipe->users)
+-		goto done;
+ 
+ 	/*
+ 	 * A little trick here:
+@@ -616,9 +601,6 @@ static int atomisp_release(struct file *file)
+ 					ATOMISP_SUBDEV_PAD_SINK, &isp_sink_fmt);
+ 	}
+ 
+-	if (atomisp_subdev_users(asd))
+-		goto done;
+-
+ 	atomisp_css_free_stat_buffers(asd);
+ 	atomisp_free_internal_buffers(asd);
+ 
+@@ -632,13 +614,6 @@ static int atomisp_release(struct file *file)
+ 		isp->inputs[asd->input_curr].asd = NULL;
+ 	}
+ 
+-	spin_lock_irqsave(&isp->lock, flags);
+-	asd->streaming = ATOMISP_DEVICE_STREAMING_DISABLED;
+-	spin_unlock_irqrestore(&isp->lock, flags);
+-
+-	if (atomisp_dev_users(isp))
+-		goto done;
+-
+ 	atomisp_destroy_pipes_stream_force(asd);
+ 
+ 	ret = v4l2_subdev_call(isp->flash, core, s_power, 0);
+@@ -648,7 +623,6 @@ static int atomisp_release(struct file *file)
+ 	if (pm_runtime_put_sync(vdev->v4l2_dev->dev) < 0)
+ 		dev_err(isp->dev, "Failed to power off device\n");
+ 
+-done:
+ 	atomisp_subdev_set_selection(&asd->subdev, fh.state,
+ 				     V4L2_SUBDEV_FORMAT_ACTIVE,
+ 				     ATOMISP_SUBDEV_PAD_SOURCE,
 -- 
 2.40.1
 
