@@ -1,7 +1,7 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FABA4C6B
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 866024C6A
 	for <linux-staging@lists.linux.dev>; Sat, 13 May 2023 12:32:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
 	s=mimecast20190719; t=1683981145;
@@ -9,23 +9,23 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=sWXGSa0z5CFwYizucVe2FkHyOf8pOSXomUvLZFl67kY=;
-	b=GnfSV/Tdo9gIcB9JiBDar2hYqPIQZuA+tm5k1uZp4BKAsh7MoXu+g4tL3bJ3+xuTpn42NV
-	S5ZIasqnl0l4WQd1n2kTLHI9F1PqCDqAtbJPyt0b1JoFJ1rlBGQ7PDEYaUHhOF7NVq75Zo
-	+DNZIkzPxt7NYpL60Vpn7nUi/FY67Ss=
+	bh=D0PLS4inY5mViAHrFF7o3+U8upc5II0t6INbwc8vA2o=;
+	b=TYm90w1AcRfzrSPo2Jgz1o8ebc3J2fNBU/axQVolifcQH1KLAdcAsYq9eltSQ16Z0zqpG1
+	jMEc30rrIWp4c1u1Zm1Gw3zqB6UkBTlkWc+D5H5/BDBxJ1wXWpoArut8R3D40OG472riHI
+	8hrm/KM15wWmJJs4QkJuxtKfOwvjLK0=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-176-lmN8cbe8OP-dVY1aTNeJ0A-1; Sat, 13 May 2023 08:32:22 -0400
-X-MC-Unique: lmN8cbe8OP-dVY1aTNeJ0A-1
+ us-mta-453-8e5ADxt2O6W7tucq9d9zUQ-1; Sat, 13 May 2023 08:32:24 -0400
+X-MC-Unique: 8e5ADxt2O6W7tucq9d9zUQ-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com [10.11.54.1])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id BFFFC857E60;
-	Sat, 13 May 2023 12:32:21 +0000 (UTC)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 8474E185A790;
+	Sat, 13 May 2023 12:32:23 +0000 (UTC)
 Received: from shalem.redhat.com (unknown [10.39.192.46])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 3AE0240C2076;
-	Sat, 13 May 2023 12:32:20 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTP id F36F140C2076;
+	Sat, 13 May 2023 12:32:21 +0000 (UTC)
 From: Hans de Goede <hdegoede@redhat.com>
 To: Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Sakari Ailus <sakari.ailus@linux.intel.com>,
@@ -39,9 +39,9 @@ Cc: Hans de Goede <hdegoede@redhat.com>,
 	Fabio Aiuto <fabioaiuto83@gmail.com>,
 	linux-media@vger.kernel.org,
 	linux-staging@lists.linux.dev
-Subject: [PATCH 11/30] media: atomisp: Remove atomisp_subdev_register_video_nodes() helper
-Date: Sat, 13 May 2023 14:31:40 +0200
-Message-Id: <20230513123159.33234-12-hdegoede@redhat.com>
+Subject: [PATCH 12/30] media: atomisp: Remove a bunch of unused atomisp_css_*() functions
+Date: Sat, 13 May 2023 14:31:41 +0200
+Message-Id: <20230513123159.33234-13-hdegoede@redhat.com>
 In-Reply-To: <20230513123159.33234-1-hdegoede@redhat.com>
 References: <20230513123159.33234-1-hdegoede@redhat.com>
 Precedence: bulk
@@ -53,74 +53,193 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
 
-Now that there is only 1 /dev/video# node left there is no need to
-do this in a helper. Just make atomisp_register_device_nodes()
-call ideo_register_device() directly.
+Remove various unused atomisp_css_*() functions from
+atomisp_compat_css20.c.
 
 Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 ---
- .../staging/media/atomisp/pci/atomisp_subdev.c | 18 ------------------
- .../staging/media/atomisp/pci/atomisp_subdev.h |  2 --
- .../staging/media/atomisp/pci/atomisp_v4l2.c   |  4 +++-
- 3 files changed, 3 insertions(+), 21 deletions(-)
+ .../media/atomisp/pci/atomisp_compat.h        | 29 ------
+ .../media/atomisp/pci/atomisp_compat_css20.c  | 99 -------------------
+ 2 files changed, 128 deletions(-)
 
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_subdev.c b/drivers/staging/media/atomisp/pci/atomisp_subdev.c
-index 1c5e489b4405..98292530e330 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_subdev.c
-+++ b/drivers/staging/media/atomisp/pci/atomisp_subdev.c
-@@ -1002,24 +1002,6 @@ int atomisp_subdev_register_subdev(struct atomisp_sub_device *asd,
- 	return v4l2_device_register_subdev(vdev, &asd->subdev);
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_compat.h b/drivers/staging/media/atomisp/pci/atomisp_compat.h
+index 168c42956c29..850b354cc160 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_compat.h
++++ b/drivers/staging/media/atomisp/pci/atomisp_compat.h
+@@ -150,10 +150,6 @@ int atomisp_css_set_default_isys_config(struct atomisp_sub_device *asd,
+ 					enum atomisp_input_stream_id stream_id,
+ 					struct v4l2_mbus_framefmt *ffmt);
+ 
+-int atomisp_css_isys_two_stream_cfg(struct atomisp_sub_device *asd,
+-				    enum atomisp_input_stream_id stream_id,
+-				    enum atomisp_input_format input_format);
+-
+ void atomisp_css_isys_two_stream_cfg_update_stream1(
+     struct atomisp_sub_device *asd,
+     enum atomisp_input_stream_id stream_id,
+@@ -209,15 +205,6 @@ void atomisp_css_capture_enable_online(struct atomisp_sub_device *asd,
+ void atomisp_css_preview_enable_online(struct atomisp_sub_device *asd,
+ 				       unsigned short stream_index, bool enable);
+ 
+-void atomisp_css_video_enable_online(struct atomisp_sub_device *asd,
+-				     bool enable);
+-
+-void atomisp_css_enable_continuous(struct atomisp_sub_device *asd,
+-				   bool enable);
+-
+-void atomisp_css_enable_cvf(struct atomisp_sub_device *asd,
+-			    bool enable);
+-
+ int atomisp_css_input_configure_port(struct atomisp_sub_device *asd,
+ 				     enum mipi_port_id port,
+ 				     unsigned int num_lanes,
+@@ -243,22 +230,6 @@ int atomisp_css_copy_configure_output(struct atomisp_sub_device *asd,
+ 				      unsigned int padded_width,
+ 				      enum ia_css_frame_format format);
+ 
+-int atomisp_css_yuvpp_configure_output(struct atomisp_sub_device *asd,
+-				       unsigned int stream_index,
+-				       unsigned int width, unsigned int height,
+-				       unsigned int padded_width,
+-				       enum ia_css_frame_format format);
+-
+-int atomisp_css_yuvpp_get_output_frame_info(
+-    struct atomisp_sub_device *asd,
+-    unsigned int stream_index,
+-    struct ia_css_frame_info *info);
+-
+-int atomisp_css_yuvpp_get_viewfinder_frame_info(
+-    struct atomisp_sub_device *asd,
+-    unsigned int stream_index,
+-    struct ia_css_frame_info *info);
+-
+ int atomisp_css_preview_configure_output(struct atomisp_sub_device *asd,
+ 	unsigned int width, unsigned int height,
+ 	unsigned int min_width,
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c b/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c
+index 416cc45bd472..43760fcc0d43 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c
++++ b/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c
+@@ -1611,29 +1611,6 @@ int atomisp_css_set_default_isys_config(struct atomisp_sub_device *asd,
+ 	return 0;
  }
  
--int atomisp_subdev_register_video_nodes(struct atomisp_sub_device *asd,
--					struct v4l2_device *vdev)
+-int atomisp_css_isys_two_stream_cfg(struct atomisp_sub_device *asd,
+-				    enum atomisp_input_stream_id stream_id,
+-				    enum atomisp_input_format input_format)
 -{
--	int ret;
+-	struct ia_css_stream_config *s_config =
+-		    &asd->stream_env[stream_id].stream_config;
 -
--	asd->video_out.vdev.v4l2_dev = vdev;
--	asd->video_out.vdev.device_caps = V4L2_CAP_VIDEO_CAPTURE | V4L2_CAP_STREAMING;
--	ret = video_register_device(&asd->video_out.vdev, VFL_TYPE_VIDEO, -1);
--	if (ret < 0)
--		goto error;
+-	s_config->isys_config[IA_CSS_STREAM_ISYS_STREAM_1].input_res.width =
+-	    s_config->isys_config[IA_CSS_STREAM_ISYS_STREAM_0].input_res.width;
 -
+-	s_config->isys_config[IA_CSS_STREAM_ISYS_STREAM_1].input_res.height =
+-	    s_config->isys_config[IA_CSS_STREAM_ISYS_STREAM_0].input_res.height / 2;
+-
+-	s_config->isys_config[IA_CSS_STREAM_ISYS_STREAM_1].linked_isys_stream_id
+-	    = IA_CSS_STREAM_ISYS_STREAM_0;
+-	s_config->isys_config[IA_CSS_STREAM_ISYS_STREAM_0].format =
+-	    ATOMISP_INPUT_FORMAT_USER_DEF1;
+-	s_config->isys_config[IA_CSS_STREAM_ISYS_STREAM_1].format =
+-	    ATOMISP_INPUT_FORMAT_USER_DEF2;
+-	s_config->isys_config[IA_CSS_STREAM_ISYS_STREAM_1].valid = true;
 -	return 0;
--
--error:
--	atomisp_subdev_unregister_entities(asd);
--	return ret;
 -}
 -
- /*
-  * atomisp_subdev_init - ISP Subdevice  initialization.
-  * @dev: Device pointer specific to the ATOM ISP.
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_subdev.h b/drivers/staging/media/atomisp/pci/atomisp_subdev.h
-index ee7d0ee5d6e4..28afcdd41ef3 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_subdev.h
-+++ b/drivers/staging/media/atomisp/pci/atomisp_subdev.h
-@@ -367,8 +367,6 @@ void atomisp_subdev_cleanup_pending_events(struct atomisp_sub_device *asd);
- void atomisp_subdev_unregister_entities(struct atomisp_sub_device *asd);
- int atomisp_subdev_register_subdev(struct atomisp_sub_device *asd,
- 				   struct v4l2_device *vdev);
--int atomisp_subdev_register_video_nodes(struct atomisp_sub_device *asd,
--					struct v4l2_device *vdev);
- int atomisp_subdev_init(struct atomisp_device *isp);
- void atomisp_subdev_cleanup(struct atomisp_device *isp);
- int atomisp_create_pads_links(struct atomisp_device *isp);
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_v4l2.c b/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
-index 4370d560308e..f914ab9068c1 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
-+++ b/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
-@@ -1016,7 +1016,9 @@ static int atomisp_register_device_nodes(struct atomisp_device *isp)
- {
- 	int err;
+ void atomisp_css_isys_two_stream_cfg_update_stream1(
+     struct atomisp_sub_device *asd,
+     enum atomisp_input_stream_id stream_id,
+@@ -1819,49 +1796,6 @@ void atomisp_css_preview_enable_online(struct atomisp_sub_device *asd,
+ 	}
+ }
  
--	err = atomisp_subdev_register_video_nodes(&isp->asd, &isp->v4l2_dev);
-+	isp->asd.video_out.vdev.v4l2_dev = &isp->v4l2_dev;
-+	isp->asd.video_out.vdev.device_caps = V4L2_CAP_VIDEO_CAPTURE | V4L2_CAP_STREAMING;
-+	err = video_register_device(&isp->asd.video_out.vdev, VFL_TYPE_VIDEO, -1);
- 	if (err)
- 		return err;
+-void atomisp_css_video_enable_online(struct atomisp_sub_device *asd,
+-				     bool enable)
+-{
+-	struct atomisp_stream_env *stream_env =
+-		    &asd->stream_env[ATOMISP_INPUT_STREAM_VIDEO];
+-	int i;
+-
+-	if (stream_env->stream_config.online != enable) {
+-		stream_env->stream_config.online = enable;
+-		for (i = 0; i < IA_CSS_PIPE_ID_NUM; i++)
+-			stream_env->update_pipe[i] = true;
+-	}
+-}
+-
+-void atomisp_css_enable_continuous(struct atomisp_sub_device *asd,
+-				   bool enable)
+-{
+-	struct atomisp_stream_env *stream_env =
+-		    &asd->stream_env[ATOMISP_INPUT_STREAM_GENERAL];
+-	int i;
+-
+-	if (stream_env->stream_config.continuous != !!enable) {
+-		stream_env->stream_config.continuous = !!enable;
+-		stream_env->stream_config.pack_raw_pixels = true;
+-		for (i = 0; i < IA_CSS_PIPE_ID_NUM; i++)
+-			stream_env->update_pipe[i] = true;
+-	}
+-}
+-
+-void atomisp_css_enable_cvf(struct atomisp_sub_device *asd,
+-			    bool enable)
+-{
+-	struct atomisp_stream_env *stream_env =
+-		    &asd->stream_env[ATOMISP_INPUT_STREAM_GENERAL];
+-	int i;
+-
+-	if (stream_env->stream_config.disable_cont_viewfinder != !enable) {
+-		stream_env->stream_config.disable_cont_viewfinder = !enable;
+-		for (i = 0; i < IA_CSS_PIPE_ID_NUM; i++)
+-			stream_env->update_pipe[i] = true;
+-	}
+-}
+-
+ int atomisp_css_input_configure_port(
+     struct atomisp_sub_device *asd,
+     enum mipi_port_id port,
+@@ -2467,39 +2401,6 @@ int atomisp_css_copy_configure_output(struct atomisp_sub_device *asd,
+ 	return 0;
+ }
  
+-int atomisp_css_yuvpp_configure_output(struct atomisp_sub_device *asd,
+-				       unsigned int stream_index,
+-				       unsigned int width, unsigned int height,
+-				       unsigned int padded_width,
+-				       enum ia_css_frame_format format)
+-{
+-	asd->stream_env[stream_index].pipe_configs[IA_CSS_PIPE_ID_YUVPP].
+-	default_capture_config.mode =
+-	    IA_CSS_CAPTURE_MODE_RAW;
+-
+-	__configure_output(asd, stream_index, width, height, padded_width,
+-			   format, IA_CSS_PIPE_ID_YUVPP);
+-	return 0;
+-}
+-
+-int atomisp_css_yuvpp_get_output_frame_info(
+-    struct atomisp_sub_device *asd,
+-    unsigned int stream_index,
+-    struct ia_css_frame_info *info)
+-{
+-	return __get_frame_info(asd, stream_index, info,
+-				ATOMISP_CSS_OUTPUT_FRAME, IA_CSS_PIPE_ID_YUVPP);
+-}
+-
+-int atomisp_css_yuvpp_get_viewfinder_frame_info(
+-    struct atomisp_sub_device *asd,
+-    unsigned int stream_index,
+-    struct ia_css_frame_info *info)
+-{
+-	return __get_frame_info(asd, stream_index, info,
+-				ATOMISP_CSS_VF_FRAME, IA_CSS_PIPE_ID_YUVPP);
+-}
+-
+ int atomisp_css_preview_configure_output(struct atomisp_sub_device *asd,
+ 	unsigned int width, unsigned int height,
+ 	unsigned int min_width,
 -- 
 2.40.1
 
