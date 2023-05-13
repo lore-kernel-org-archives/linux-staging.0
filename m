@@ -1,133 +1,71 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f50.google.com (mail-qv1-f50.google.com [209.85.219.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C04682108
-	for <linux-staging@lists.linux.dev>; Sat, 13 May 2023 13:43:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1683985432;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=9DB3tShWsmKkupSG4kjkSPgdjSDVuKYI2Ix/HxUCEp4=;
-	b=LBYaZTyg9JeTRgrq5b0RG9NGoWpWfb45uBcbo9s0TXNSCsfBlK9cQXDLUwuip2VCUPDRuz
-	WQUUIp0A5ekT1Jbp91t+yQf2KPm1bA8shMH4da81MHbxOYrqYXbxi5+FjfZh0JINaB3lRf
-	7odei2rnSurutWyqUkXcVyEIG9XqxjA=
-Received: from mail-vk1-f199.google.com (mail-vk1-f199.google.com
- [209.85.221.199]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-648-MnnDGp3JNb-a51miXooJbw-1; Sat, 13 May 2023 09:43:51 -0400
-X-MC-Unique: MnnDGp3JNb-a51miXooJbw-1
-Received: by mail-vk1-f199.google.com with SMTP id 71dfb90a1353d-45307c00953so1918979e0c.0
-        for <linux-staging@lists.linux.dev>; Sat, 13 May 2023 06:43:51 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6E9AEC0
+	for <linux-staging@lists.linux.dev>; Sat, 13 May 2023 15:19:33 +0000 (UTC)
+Received: by mail-qv1-f50.google.com with SMTP id 6a1803df08f44-61b58b6e864so97092646d6.3
+        for <linux-staging@lists.linux.dev>; Sat, 13 May 2023 08:19:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1683991172; x=1686583172;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=QwWJrWJlFP2v/ffYdhBRjWOf/KnP9/7E2ysk8Wnfe30=;
+        b=S56KS0S4ygmQQKL0PKJVTT8FMkWbI/TzCM50gpRVcMByP1x8UBqcrbO8qK9FcC3Pd2
+         ve7+PTpDsRJMyw53NUP+ZFsj/zqHuiPYF/ooqdJYcjzHVg0UfN1ARO1IjXCME8frEnbj
+         dVn6NP/jmSomzMTRxYrv6yvM0HOZKcTQkwNt36tm67PImvxfO1RYwSD38Z3NbCBCVhK6
+         2k6LT8+DGNeCbyBEVRzND8mrrR7xQm8AZH7tewE3D3xoBt9sbI0ewwSv6oL11OpQgCI7
+         wNBPmSQUNuv7EFcWiRLd4GhE9m6FBcHTr9nioYsqVs9MdP9+C1fXH9UZ20uL17Fyh5M6
+         T6TA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683985430; x=1686577430;
+        d=1e100.net; s=20221208; t=1683991172; x=1686583172;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=9DB3tShWsmKkupSG4kjkSPgdjSDVuKYI2Ix/HxUCEp4=;
-        b=dzgnmIXzZGM5Pl9uLwZX//JLagZ0yv0bOUwkTrYaBUALjx5LsjpHQMGXPa2K8nP9AX
-         f3ASYae+wv7g+EqACHxn3oiwlh+jxIZvnIsqP4SfZ6fsiBsT1iJ9k+8xYchhQ4pJxAH5
-         Qu6I5jyM4w32Dnlr8ZhPFGl0UtEmjVF+RJ7MWZP4WH0f+ChCxBndy2Zxr0PTrRRT9o0J
-         PlSBGcQhJtj+iX1Qyi8wgNeBWPrrPXjrUiNzSExFbYXgavSCCqmjb1oMzeZGobFUFZW0
-         hfXSvR4sYcJQ42FNF+ZXy/5OzP99Jpt+RSb+eS6L2bJMo3j8t1EDfsHwVEbmlv4hKPuJ
-         uN/w==
-X-Gm-Message-State: AC+VfDxAkZ80vitSWUor4OJB2CKSIvxsDVIxV33jD5IS0bvA+Tb/l1Ib
-	wptFaXL/hvox4yQ226Jk8C48hbU7gkYoG1DJHRqklbRSlYDxdvOgsObSXFwaChapABHgx6li5AE
-	IOAmwF5xB7MbR+UpsVKpHR95N2wwPFN6F9tgMFmw5Fw==
-X-Received: by 2002:a1f:cf44:0:b0:43c:6e7d:60b0 with SMTP id f65-20020a1fcf44000000b0043c6e7d60b0mr8278748vkg.15.1683985430624;
-        Sat, 13 May 2023 06:43:50 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ6OKoxadeHskX30zk/2SxsIYXX7yuqtDMX0XJgUO0uD/088ZwUUrLZ6CEQ62Rv0aKLCGZw53hFwRxRMhCBVNTA=
-X-Received: by 2002:a1f:cf44:0:b0:43c:6e7d:60b0 with SMTP id
- f65-20020a1fcf44000000b0043c6e7d60b0mr8278732vkg.15.1683985430363; Sat, 13
- May 2023 06:43:50 -0700 (PDT)
+        bh=QwWJrWJlFP2v/ffYdhBRjWOf/KnP9/7E2ysk8Wnfe30=;
+        b=hEWd5lNeNFNt0nGoEX9cBJomq4DXJU86boL6+2POoTlHUeEXF8C/19uPd8I7YbOK69
+         Q1oQznaHdo4tG7kc4xDFawrUIQ8YtzthfA/WvbDsEMDNZG8c0a/s+oE92GP1yTNYIEMs
+         bMsN/yKq5Eb9fMUxlyN8MH0mSA0ILJRHumukBHLiUSzkyBrsC03IrhFr3rDLcC3Zxu4H
+         gsZSXwZ1HAwxZSJpq0VBSoxPzTOn4DwGDJcArWl6d0coFRoLWqM+TcyGEulP4IfsV03Y
+         kb8kv9f0WoinBNLTtiB31Vbcm61kCU+4umR87/gPeNFQ1m6sXMwCngosP5I9WFBqGw25
+         PXuw==
+X-Gm-Message-State: AC+VfDzwd5aDW6zrlnfE7vY9qEYT/Wu61sHZmRGROexHLzJGCIMHAc49
+	CsEkuJFpf0FYY7dlfE4AaBYoOMlrgmFLeOT6wqo=
+X-Google-Smtp-Source: ACHHUZ4b3u/IGeYpu+rqevhthPqD5sSNvaipJgWY9FOYEemwkEApW00aih4uL5xpuYl0lJ08xe6iHe9CuE/pwy/akbI=
+X-Received: by 2002:a05:6214:404:b0:5ef:46a9:15d2 with SMTP id
+ z4-20020a056214040400b005ef46a915d2mr51435511qvx.7.1683991172617; Sat, 13 May
+ 2023 08:19:32 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20230512100620.36807-1-bagasdotme@gmail.com> <20230512100620.36807-9-bagasdotme@gmail.com>
- <CAC1cPGy=78yo2XcJPNZVvdjBr2-XzSq76JrAinSe42=sNdGv3w@mail.gmail.com> <ef31b33f-8e66-4194-37e3-916b53cf7088@gmail.com>
-In-Reply-To: <ef31b33f-8e66-4194-37e3-916b53cf7088@gmail.com>
-From: Richard Fontana <rfontana@redhat.com>
-Date: Sat, 13 May 2023 09:43:39 -0400
-Message-ID: <CAC1cPGzznK8zoLaT1gBjpHP1eKFvTKKi+SW6xuXF3B8aHN27=g@mail.gmail.com>
-Subject: Re: [PATCH v2 08/10] drivers: watchdog: Replace GPL license notice
- with SPDX identifier
-To: Bagas Sanjaya <bagasdotme@gmail.com>
-Cc: Linux SPDX Licenses <linux-spdx@vger.kernel.org>, 
-	Linux DRI Development <dri-devel@lists.freedesktop.org>, 
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Linux Networking <netdev@vger.kernel.org>, 
-	Linux ARM <linux-arm-kernel@lists.infradead.org>, 
-	Linux Staging Drivers <linux-staging@lists.linux.dev>, 
-	Linux Watchdog Devices <linux-watchdog@vger.kernel.org>, 
-	Linux Kernel Actions <linux-actions@lists.infradead.org>, 
-	Diederik de Haas <didi.debian@cknow.org>, Kate Stewart <kstewart@linuxfoundation.org>, 
-	Philippe Ombredanne <pombredanne@nexb.com>, Thomas Gleixner <tglx@linutronix.de>, 
-	David Airlie <airlied@redhat.com>, Karsten Keil <isdn@linux-pingi.de>, 
-	Jay Vosburgh <j.vosburgh@gmail.com>, Andy Gospodarek <andy@greyhouse.net>, 
-	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Sam Creasey <sammy@sammy.net>, 
-	Dominik Brodowski <linux@dominikbrodowski.net>, Daniel Mack <daniel@zonque.org>, 
-	Haojian Zhuang <haojian.zhuang@gmail.com>, Robert Jarzmik <robert.jarzmik@free.fr>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Wim Van Sebroeck <wim@linux-watchdog.org>, 
-	Guenter Roeck <linux@roeck-us.net>, Jan Kara <jack@suse.com>, =?UTF-8?Q?Andreas_F=C3=A4rber?= <afaerber@suse.de>, 
-	Manivannan Sadhasivam <mani@kernel.org>, Ray Lehtiniemi <rayl@mail.com>, Alessandro Zummo <a.zummo@towertech.it>, 
-	Andrey Panin <pazke@donpac.ru>, Oleg Drokin <green@crimea.edu>, Marc Zyngier <maz@kernel.org>, 
-	Jonas Jensen <jonas.jensen@gmail.com>, Sylver Bruneau <sylver.bruneau@googlemail.com>, 
-	Andrew Sharp <andy.sharp@lsi.com>, Denis Turischev <denis@compulab.co.il>, 
-	Mika Westerberg <mika.westerberg@linux.intel.com>, Alan Cox <alan@linux.intel.com>, 
-	Simon Horman <simon.horman@corigine.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+References: <20230513123159.33234-1-hdegoede@redhat.com> <20230513123159.33234-12-hdegoede@redhat.com>
+In-Reply-To: <20230513123159.33234-12-hdegoede@redhat.com>
+From: Andy Shevchenko <andy.shevchenko@gmail.com>
+Date: Sat, 13 May 2023 18:18:56 +0300
+Message-ID: <CAHp75Vdap=KkfTjW_CPAB4W8W-kS8cKMk7Q9jFfY7vMPi8n0JA@mail.gmail.com>
+Subject: Re: [PATCH 11/30] media: atomisp: Remove atomisp_subdev_register_video_nodes()
+ helper
+To: Hans de Goede <hdegoede@redhat.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
+	Andy Shevchenko <andy@kernel.org>, Kate Hsuan <hpa@redhat.com>, Tsuchiya Yuto <kitakar@gmail.com>, 
+	Yury Luneff <yury.lunev@gmail.com>, Nable <nable.maininbox@googlemail.com>, 
+	andrey.i.trufanov@gmail.com, Fabio Aiuto <fabioaiuto83@gmail.com>, 
+	linux-media@vger.kernel.org, linux-staging@lists.linux.dev
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Sat, May 13, 2023 at 6:53=E2=80=AFAM Bagas Sanjaya <bagasdotme@gmail.com=
-> wrote:
+On Sat, May 13, 2023 at 3:32=E2=80=AFPM Hans de Goede <hdegoede@redhat.com>=
+ wrote:
 >
-> On 5/12/23 19:46, Richard Fontana wrote:
-> > On Fri, May 12, 2023 at 6:07=E2=80=AFAM Bagas Sanjaya <bagasdotme@gmail=
-.com> wrote:
-> >
-> >
-> >> diff --git a/drivers/watchdog/sb_wdog.c b/drivers/watchdog/sb_wdog.c
-> >> index 504be461f992a9..822bf8905bf3ce 100644
-> >> --- a/drivers/watchdog/sb_wdog.c
-> >> +++ b/drivers/watchdog/sb_wdog.c
-> >> @@ -1,3 +1,4 @@
-> >> +// SPDX-License-Identifier: GPL-1.0+
-> >>  /*
-> >>   * Watchdog driver for SiByte SB1 SoCs
-> >>   *
-> >> @@ -38,10 +39,6 @@
-> >>   *     (c) Copyright 1996 Alan Cox <alan@lxorguk.ukuu.org.uk>,
-> >>   *                                             All Rights Reserved.
-> >>   *
-> >> - *     This program is free software; you can redistribute it and/or
-> >> - *     modify it under the terms of the GNU General Public License
-> >> - *     version 1 or 2 as published by the Free Software Foundation.
-> >
-> > Shouldn't this be
-> > // SPDX-License-Identifier: GPL-1.0 OR GPL-2.0
-> > (or in current SPDX notation GPL-1.0-only OR GPL-2.0-only) ?
-> >
->
-> Nope, as it will fail spdxcheck.py. Also, SPDX specification [1]
-> doesn't have negation operator (NOT), thus the licensing requirement
-> on the above notice can't be expressed reliably in SPDX here.
->
-> [1]: https://spdx.github.io/spdx-spec/v2.3/SPDX-license-expressions/
+> Now that there is only 1 /dev/video# node left there is no need to
+> do this in a helper. Just make atomisp_register_device_nodes()
+> call ideo_register_device() directly.
 
-The GPL identifiers in recent versions of SPDX include an `-only` and
-an `-or-later` variant. So I don't see why you can't represent it as
-`GPL-1.0-only OR GPL-2.0-only`. From what I understand the kernel
-requires/prefers use of the earlier approach to GPL identifiers (which
-was better in my opinion) under which `GPL-1.0 OR GPL-2.0` would at
-least be semantically similar. I don't see why you need a negation
-operator in this case. You have other patches where you used the
-`-only` identifiers.
+video_register_device()
 
-Richard
-
+--=20
+With Best Regards,
+Andy Shevchenko
