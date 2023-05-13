@@ -1,103 +1,65 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8EE944C66
-	for <linux-staging@lists.linux.dev>; Sat, 13 May 2023 12:33:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1683981181;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=f9eeWR+ck0Ar6qXoiVrRec52TJYBegj5YcUGWcWNwYg=;
-	b=HF5AxrX6FGy/nZw1sVnlm0ivezioCLEpzYU9Id3vZMUgWfGIfS/6soZFWyAGObHX1YErI3
-	7yUWEZfXFiqbHxjot7lkHitT3rM80s2KOW9vneVLcCAPDpxkW6p/WhWatGvACvnZZs0/Rm
-	ajJ+WpJnyd1Ur4LCOMJNxnwVw0phMsY=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-647-fPEM-GFENGSinqP1jGUv-w-1; Sat, 13 May 2023 08:32:55 -0400
-X-MC-Unique: fPEM-GFENGSinqP1jGUv-w-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com [10.11.54.1])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 4972480067D;
-	Sat, 13 May 2023 12:32:55 +0000 (UTC)
-Received: from shalem.redhat.com (unknown [10.39.192.46])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id B6E3B40C2076;
-	Sat, 13 May 2023 12:32:53 +0000 (UTC)
-From: Hans de Goede <hdegoede@redhat.com>
-To: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Andy Shevchenko <andy@kernel.org>
-Cc: Hans de Goede <hdegoede@redhat.com>,
-	Kate Hsuan <hpa@redhat.com>,
-	Tsuchiya Yuto <kitakar@gmail.com>,
-	Yury Luneff <yury.lunev@gmail.com>,
-	Nable <nable.maininbox@googlemail.com>,
-	andrey.i.trufanov@gmail.com,
-	Fabio Aiuto <fabioaiuto83@gmail.com>,
-	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev
-Subject: [PATCH 30/30] media: atomisp: Set asd.subdev.devnode once from isp_subdev_init_entities()
-Date: Sat, 13 May 2023 14:31:59 +0200
-Message-Id: <20230513123159.33234-31-hdegoede@redhat.com>
-In-Reply-To: <20230513123159.33234-1-hdegoede@redhat.com>
-References: <20230513123159.33234-1-hdegoede@redhat.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB58AEDB
+	for <linux-staging@lists.linux.dev>; Sat, 13 May 2023 13:06:38 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 847D4C433EF;
+	Sat, 13 May 2023 13:06:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1683983198;
+	bh=RqrorkStnEUza0YLB55UcVWTCooGYXX4gY6AuTBQ5DU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=NjPvvX1wLeN/T/uEyDbNNG5IGY6Bgmh3bjjv+ip8l4YIDBvqmXx30gQ44GwzYe2MN
+	 aKMo99EGMfjNkJzO2gIaQ7eF2jt6mRQks23PTVxT3HsL8uzWFApnPy0qMYYYL0c35t
+	 y/W+oFG27CEXlwxwU2iPWdJCzZQ4lTl7I+7ar5oY=
+Date: Sat, 13 May 2023 21:58:37 +0900
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Atin Bainada <hi@atinb.me>
+Cc: linux-staging@lists.linux.dev
+Subject: Re: [PATCH] staging: rtl8723bs: add whitespace before operator
+Message-ID: <2023051346-pruning-porous-9570@gregkh>
+References: <20230513120950.66944-1-hi@atinb.me>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230513120950.66944-1-hi@atinb.me>
 
-Now that we have only one /dev/video# node we can set asd.subdev.devnode
-once from isp_subdev_init_entities(), replacing the hack to set it the
-last opened/closed /dev/video# node from atomisp_open() /
-atomisp_release().
+On Sat, May 13, 2023 at 12:10:16PM +0000, Atin Bainada wrote:
+> fix the following post-commit hook checkpatch error:
 
-Signed-off-by: Hans de Goede <hdegoede@redhat.com>
----
- drivers/staging/media/atomisp/pci/atomisp_fops.c   | 4 ----
- drivers/staging/media/atomisp/pci/atomisp_subdev.c | 1 +
- 2 files changed, 1 insertion(+), 4 deletions(-)
+We have no default "post-commit hooks" :)
 
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_fops.c b/drivers/staging/media/atomisp/pci/atomisp_fops.c
-index 179c23ea7700..fb42c2710795 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_fops.c
-+++ b/drivers/staging/media/atomisp/pci/atomisp_fops.c
-@@ -505,8 +505,6 @@ static int atomisp_open(struct file *file)
- 
- 	mutex_lock(&isp->mutex);
- 
--	asd->subdev.devnode = vdev;
--
- 	if (!isp->input_cnt) {
- 		dev_err(isp->dev, "no camera attached\n");
- 		ret = -EINVAL;
-@@ -567,8 +565,6 @@ static int atomisp_release(struct file *file)
- 
- 	dev_dbg(isp->dev, "release device %s\n", vdev->name);
- 
--	asd->subdev.devnode = vdev;
--
- 	/* Note file must not be used after this! */
- 	vb2_fop_release(file);
- 
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_subdev.c b/drivers/staging/media/atomisp/pci/atomisp_subdev.c
-index 98292530e330..9d4fa861f696 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_subdev.c
-+++ b/drivers/staging/media/atomisp/pci/atomisp_subdev.c
-@@ -881,6 +881,7 @@ static int isp_subdev_init_entities(struct atomisp_sub_device *asd)
- 	sprintf(sd->name, "ATOMISP_SUBDEV");
- 	v4l2_set_subdevdata(sd, asd);
- 	sd->flags |= V4L2_SUBDEV_FL_HAS_EVENTS | V4L2_SUBDEV_FL_HAS_DEVNODE;
-+	sd->devnode = &asd->video_out.vdev;
- 
- 	pads[ATOMISP_SUBDEV_PAD_SINK].flags = MEDIA_PAD_FL_SINK;
- 	pads[ATOMISP_SUBDEV_PAD_SOURCE].flags = MEDIA_PAD_FL_SOURCE;
--- 
-2.40.1
+You can run checkpatch.pl on a file, perhaps that is what you did here?
 
+> spaces required around that '?' (ctx:VxW)
+> 2278: FILE: rtl8723b_hal_init.c:2278:
+> +                       pHalData->ant_path = (tempval & BIT(6))? RF_PATH_B : RF_PATH_A;
+>                                                                ^
+> 
+> Signed-off-by: Atin Bainada <hi@atinb.me>
+> ---
+>  drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c b/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
+> index c3c1b49674d3..abfaf1eebf5b 100644
+> --- a/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
+> +++ b/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
+> @@ -2275,7 +2275,7 @@ void Hal_EfuseParseBTCoexistInfo_8723B(
+>  			pHalData->EEPROMBluetoothAntNum = tempval & BIT(0);
+>  			/*  EFUSE_0xC3[6] == 0, S1(Main)-RF_PATH_A; */
+>  			/*  EFUSE_0xC3[6] == 1, S0(Aux)-RF_PATH_B */
+> -			pHalData->ant_path = (tempval & BIT(6))? RF_PATH_B : RF_PATH_A;
+> +			pHalData->ant_path = (tempval & BIT(6)) ? RF_PATH_B : RF_PATH_A;
+
+Why not rewrite this as a real if () statement to make it more
+understandable?
+
+thanks,
+
+greg k-h
