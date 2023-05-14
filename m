@@ -1,155 +1,205 @@
-Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
+Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BA9D4C87
-	for <linux-staging@lists.linux.dev>; Sun, 14 May 2023 13:08:32 +0000 (UTC)
-Received: by mail-pf1-f182.google.com with SMTP id d2e1a72fcca58-64ac461af60so2852783b3a.3
-        for <linux-staging@lists.linux.dev>; Sun, 14 May 2023 06:08:32 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 949F8BE62
+	for <linux-staging@lists.linux.dev>; Sun, 14 May 2023 20:40:37 +0000 (UTC)
+Received: by mail-ed1-f47.google.com with SMTP id 4fb4d7f45d1cf-50bcd46bf47so2703909a12.0
+        for <linux-staging@lists.linux.dev>; Sun, 14 May 2023 13:40:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1684069711; x=1686661711;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:sender
+        d=gmail.com; s=20221208; t=1684096836; x=1686688836;
+        h=content-disposition:mime-version:message-id:subject:to:from:date
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=Y5XEouAH/P1Pc1xR/i0kwTIYjZQ4lEbXoXqgUXs2Qrc=;
-        b=JgFgXkWGfmHspAu7HjxcvhDThdTjCYb1GNamypAn0LCFacWj8H5PF8YNDKsh/tltmv
-         LqdKH0NNZhsyay3GsncvplLD3ClamfUcj0OyLTHNhYu9JaddW/YiogoN5e0ZyVELkp0R
-         KTQ/K5Sn/xBtjAra7xamVhMaa1QU94H6fvOpT4+AqUlfDjFYBsVyt/meC8Jj4tZo1sbR
-         586YES8hrpWNVFyydRbUXQL6dvIElCzLk2YWjgEmqvytADeUUHamD87e09ZifRyBLLio
-         6yfsTPDGlXTuK79WwdedbhKlxetYYbIcNS4hYFQl+hr9HZMGmSmNi+xdUho7RYx/SL60
-         dI2Q==
+        bh=80c+WxEAYuIAh+HPhTgq5eRkWUytvoeoSVXWMi0jnrU=;
+        b=HY48kBB8QTaGjLVJgVpRU3VlV4y0I0Q1PMTAxqh8EK3lcQN00xidj1Ci1uGKIuQFn/
+         4hIVsFf8X1s7oTID8StcLOPlpOs1DgDpH4DkpUrICQlTxqPBquOW1u7EbUKEddQeaukG
+         EcZJjCl4vl9ehL2EwmTQ8UV9ifW9GZgpmO4+EquCkD8vOV1xN/gRlzWtoE/ZMFZ6PzWV
+         V7BMNd7SD4H41kYM3rdmYFcsBVLPGIlo+HseLhNHnUnhH2IFMhjgdKgQ2Q+158SsPLFk
+         tf4YQEDW66smoTcq+G3ZFlHCK6m/6pbXoqMh9CYGnHtBD83KI2V7/qHBVO3yvSH9sq0A
+         Mw3A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1684069711; x=1686661711;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:sender
+        d=1e100.net; s=20221208; t=1684096836; x=1686688836;
+        h=content-disposition:mime-version:message-id:subject:to:from:date
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Y5XEouAH/P1Pc1xR/i0kwTIYjZQ4lEbXoXqgUXs2Qrc=;
-        b=ILtuhkxnCRAc32Jq7QFyDqd0dzozRA59vp4NQHmqUQmvWzak3QVZrkuWepAoEN5iIG
-         yNFfOQi5lVPp2AghNAsqeQKuymTKDivtyLVm2n2sZG+S1xwNTffLQKkf6BNtSwwvTJqK
-         xUMqFaaqanwW4KE2bPSZxin176f44pRgyDYXRCQIruFzkuUkOiA/38fnl4Y3ms5YWYmt
-         I0o09ifqWhfZ6VB8U86LqSafGzYGJPELFFX62lGwiGBrjLa2aXWfyZiphV6luHh3Xfwr
-         Fpr+I+N2Ng1/vn23JLTq5LN8ApIFPrAhdj13JHmNdzlN7CsZckahSi3bLn5R90HkzPns
-         G6EQ==
-X-Gm-Message-State: AC+VfDxKFOQ/Mh3closmomO3Owdqq4NM2bU8FVEIaPidbs6SKNNpDJX/
-	orLikKnsaYSotRfxMsz90ns=
-X-Google-Smtp-Source: ACHHUZ5ut8+Hg2HyxrT4MXIOvyVb3bS836tjfmXkxs1tJNydk4q379JJXY2tKiMm5x8T7vuA9c0e3w==
-X-Received: by 2002:a05:6a20:3d28:b0:103:9c25:99a3 with SMTP id y40-20020a056a203d2800b001039c2599a3mr18361027pzi.59.1684069711559;
-        Sun, 14 May 2023 06:08:31 -0700 (PDT)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id b30-20020a631b1e000000b0050bd4bb900csm9760255pgb.71.2023.05.14.06.08.30
+        bh=80c+WxEAYuIAh+HPhTgq5eRkWUytvoeoSVXWMi0jnrU=;
+        b=Gph8J61oWUcdkpRq/oYoNFk85vpeTjo5pghJ7VhIhVwxx+0sdD7Mwqgtl2yDms5rkk
+         Z7mliAmghVC9w9hDwrpWRsS1i5ypTp3eg3oZ94S0TXSfxOYudhH8n/DJ8ndOvtbDqJsX
+         eg1727eQP95N6c3RKwV6cNLYV+MlGBp6rHFC09+IB8wJh6ge3Q+pausiQjveN5ogPv07
+         r3K5mVS/IngmNk2gFP1/1CRW82FEIiQO2kZyHj19BvzJ4Bhxe/kJ0zh1hdfuR9VSHyU8
+         SlClZqtaaNNU0W9S1uNx0fBq5drE22tpgYZ9ft88If6kbM+pyTWY8Qc8VeuVnxrOhOx7
+         oofA==
+X-Gm-Message-State: AC+VfDyjGr56oDE0mOSx4PPf139KQNOUCRrB6NFVpzGDlfpgiFHVDwTu
+	kmrEVzFXI/wDfGJx1jGRFnU=
+X-Google-Smtp-Source: ACHHUZ7FYqQeZWOodA+zmnR/BIpa8+6frs7OvzRmmTk6njJU7OTNqAMmo0dtvoajUXITgRgnnVR0BA==
+X-Received: by 2002:a05:6402:510c:b0:50d:a9bb:356c with SMTP id m12-20020a056402510c00b0050da9bb356cmr21231735edd.0.1684096835496;
+        Sun, 14 May 2023 13:40:35 -0700 (PDT)
+Received: from matrix-ESPRIMO-P710 (p57935e01.dip0.t-ipconnect.de. [87.147.94.1])
+        by smtp.gmail.com with ESMTPSA id z24-20020aa7d418000000b0050bfa1905f6sm6590516edq.30.2023.05.14.13.40.34
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 14 May 2023 06:08:30 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Date: Sun, 14 May 2023 06:08:29 -0700
-From: Guenter Roeck <linux@roeck-us.net>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Richard Fontana <rfontana@redhat.com>,
-	Bagas Sanjaya <bagasdotme@gmail.com>,
-	Linux SPDX Licenses <linux-spdx@vger.kernel.org>,
-	Linux DRI Development <dri-devel@lists.freedesktop.org>,
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-	Linux Networking <netdev@vger.kernel.org>,
-	Linux ARM <linux-arm-kernel@lists.infradead.org>,
-	Linux Staging Drivers <linux-staging@lists.linux.dev>,
-	Linux Watchdog Devices <linux-watchdog@vger.kernel.org>,
-	Linux Kernel Actions <linux-actions@lists.infradead.org>,
-	Diederik de Haas <didi.debian@cknow.org>,
-	Kate Stewart <kstewart@linuxfoundation.org>,
-	Philippe Ombredanne <pombredanne@nexb.com>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	David Airlie <airlied@redhat.com>,
-	Karsten Keil <isdn@linux-pingi.de>,
-	Jay Vosburgh <j.vosburgh@gmail.com>,
-	Andy Gospodarek <andy@greyhouse.net>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Sam Creasey <sammy@sammy.net>,
-	Dominik Brodowski <linux@dominikbrodowski.net>,
-	Daniel Mack <daniel@zonque.org>,
-	Haojian Zhuang <haojian.zhuang@gmail.com>,
-	Robert Jarzmik <robert.jarzmik@free.fr>,
-	Wim Van Sebroeck <wim@linux-watchdog.org>, Jan Kara <jack@suse.com>,
-	Andreas =?iso-8859-1?Q?F=E4rber?= <afaerber@suse.de>,
-	Manivannan Sadhasivam <mani@kernel.org>,
-	Ray Lehtiniemi <rayl@mail.com>,
-	Alessandro Zummo <a.zummo@towertech.it>,
-	Andrey Panin <pazke@donpac.ru>, Oleg Drokin <green@crimea.edu>,
-	Marc Zyngier <maz@kernel.org>,
-	Jonas Jensen <jonas.jensen@gmail.com>,
-	Sylver Bruneau <sylver.bruneau@googlemail.com>,
-	Andrew Sharp <andy.sharp@lsi.com>,
-	Denis Turischev <denis@compulab.co.il>,
-	Mika Westerberg <mika.westerberg@linux.intel.com>,
-	Alan Cox <alan@linux.intel.com>,
-	Simon Horman <simon.horman@corigine.com>
-Subject: Re: [PATCH v2 08/10] drivers: watchdog: Replace GPL license notice
- with SPDX identifier
-Message-ID: <511814a0-0c42-4813-9473-13748d6c6cb0@roeck-us.net>
-References: <20230512100620.36807-1-bagasdotme@gmail.com>
- <20230512100620.36807-9-bagasdotme@gmail.com>
- <CAC1cPGy=78yo2XcJPNZVvdjBr2-XzSq76JrAinSe42=sNdGv3w@mail.gmail.com>
- <ef31b33f-8e66-4194-37e3-916b53cf7088@gmail.com>
- <CAC1cPGzznK8zoLaT1gBjpHP1eKFvTKKi+SW6xuXF3B8aHN27=g@mail.gmail.com>
- <2023051414-headroom-maimed-553c@gregkh>
+        Sun, 14 May 2023 13:40:35 -0700 (PDT)
+Date: Sun, 14 May 2023 22:40:33 +0200
+From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: [PATCH] staging: rtl8192e: Exclude scan_mutex in
+ rtllib_softmac_stop_scan
+Message-ID: <20230514204033.GA20187@matrix-ESPRIMO-P710>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <2023051414-headroom-maimed-553c@gregkh>
 
-On Sun, May 14, 2023 at 12:07:28AM +0900, Greg Kroah-Hartman wrote:
-> On Sat, May 13, 2023 at 09:43:39AM -0400, Richard Fontana wrote:
-> > On Sat, May 13, 2023 at 6:53 AM Bagas Sanjaya <bagasdotme@gmail.com> wrote:
-> > >
-> > > On 5/12/23 19:46, Richard Fontana wrote:
-> > > > On Fri, May 12, 2023 at 6:07 AM Bagas Sanjaya <bagasdotme@gmail.com> wrote:
-> > > >
-> > > >
-> > > >> diff --git a/drivers/watchdog/sb_wdog.c b/drivers/watchdog/sb_wdog.c
-> > > >> index 504be461f992a9..822bf8905bf3ce 100644
-> > > >> --- a/drivers/watchdog/sb_wdog.c
-> > > >> +++ b/drivers/watchdog/sb_wdog.c
-> > > >> @@ -1,3 +1,4 @@
-> > > >> +// SPDX-License-Identifier: GPL-1.0+
-> > > >>  /*
-> > > >>   * Watchdog driver for SiByte SB1 SoCs
-> > > >>   *
-> > > >> @@ -38,10 +39,6 @@
-> > > >>   *     (c) Copyright 1996 Alan Cox <alan@lxorguk.ukuu.org.uk>,
-> > > >>   *                                             All Rights Reserved.
-> > > >>   *
-> > > >> - *     This program is free software; you can redistribute it and/or
-> > > >> - *     modify it under the terms of the GNU General Public License
-> > > >> - *     version 1 or 2 as published by the Free Software Foundation.
-> > > >
-> > > > Shouldn't this be
-> > > > // SPDX-License-Identifier: GPL-1.0 OR GPL-2.0
-> > > > (or in current SPDX notation GPL-1.0-only OR GPL-2.0-only) ?
-> > > >
-> > >
-> > > Nope, as it will fail spdxcheck.py. Also, SPDX specification [1]
-> > > doesn't have negation operator (NOT), thus the licensing requirement
-> > > on the above notice can't be expressed reliably in SPDX here.
-> > >
-> > > [1]: https://spdx.github.io/spdx-spec/v2.3/SPDX-license-expressions/
-> > 
-> > The GPL identifiers in recent versions of SPDX include an `-only` and
-> > an `-or-later` variant.
-> 
-> But Linux does not use the newer versions of SPDX given that we started
-> the conversion before the "-only" variant came out.  Let's stick with
-> the original one please before worrying about converting to a newer
-> version of SPDX and mixing things up.
-> 
+Exclude scan_mutex from cancel_delayed_work_sync(&ieee->softmac_scan_wq) as
+ieee->softmac_scan_wq takes scan_mutex as well.
 
-Either case I'd prefer to have no conversion if there is no means
-to express the original license (ie GPL-1.0 or GPL-2.0 and nothing else)
-in acceptable SPDX form.
+Signed-off-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+---
+Tested with rtl8192e (WLL6130-D99)
+Transferred this patch over wlan connection of rtl8192e
 
-Thanks,
-Guenter
+[ 1766.998408] ======================================================
+[ 1766.998410] WARNING: possible circular locking dependency detected
+[ 1766.998411] 6.3.0+ #8 Tainted: G         C OE
+[ 1766.998413] ------------------------------------------------------
+[ 1766.998414] wpa_supplicant/1184 is trying to acquire lock:
+[ 1766.998416] ffff91e404469ec8 ((work_completion)(&(&ieee->softmac_scan_wq)->work)){+.+.}-{0:0}, at: __flush_work+0x4d/0x490
+[ 1766.998425]
+               but task is already holding lock:
+[ 1766.998426] ffff91e404469150 (&ieee->scan_mutex){+.+.}-{4:4}, at: rtllib_softmac_stop_scan+0x20/0x80 [rtllib]
+[ 1766.998439]
+               which lock already depends on the new lock.
+
+[ 1766.998440]
+               the existing dependency chain (in reverse order) is:
+[ 1766.998442]
+               -> #1 (&ieee->scan_mutex){+.+.}-{4:4}:
+[ 1766.998445]        __mutex_lock+0x99/0xce0
+[ 1766.998450]        mutex_lock_nested+0x1b/0x30
+[ 1766.998453]        rtllib_softmac_scan_wq+0x62/0x1e0 [rtllib]
+[ 1766.998461]        process_one_work+0x2ba/0x5a0
+[ 1766.998463]        worker_thread+0x4d/0x3d0
+[ 1766.998465]        kthread+0x116/0x150
+[ 1766.998469]        ret_from_fork+0x2c/0x50
+[ 1766.998473]
+               -> #0 ((work_completion)(&(&ieee->softmac_scan_wq)->work)){+.+.}-{0:0}:
+[ 1766.998476]        __lock_acquire+0x1494/0x1fc0
+[ 1766.998479]        lock_acquire+0xdc/0x2c0
+[ 1766.998480]        __flush_work+0x6d/0x490
+[ 1766.998482]        __cancel_work_timer+0x137/0x1c0
+[ 1766.998485]        cancel_delayed_work_sync+0x13/0x20
+[ 1766.998487]        rtllib_softmac_stop_scan+0x60/0x80 [rtllib]
+[ 1766.998494]        rtllib_stop_protocol.part.0+0x113/0x130 [rtllib]
+[ 1766.998503]        rtllib_stop_protocol+0x1c/0x30 [rtllib]
+[ 1766.998510]        rtllib_wx_set_essid+0x12a/0x150 [rtllib]
+[ 1766.998519]        _rtl92e_wx_set_essid+0x4e/0xa0 [r8192e_pci]
+[ 1766.998527]        ioctl_standard_iw_point+0x2de/0x3b0
+[ 1766.998531]        ioctl_standard_call+0xaa/0xe0
+[ 1766.998533]        wireless_process_ioctl+0x194/0x1e0
+[ 1766.998535]        wext_handle_ioctl+0x9e/0x100
+[ 1766.998537]        sock_ioctl+0x200/0x340
+[ 1766.998540]        __x64_sys_ioctl+0x95/0xd0
+[ 1766.998543]        do_syscall_64+0x3b/0x90
+[ 1766.998546]        entry_SYSCALL_64_after_hwframe+0x72/0xdc
+[ 1766.998550]
+               other info that might help us debug this:
+
+[ 1766.998551]  Possible unsafe locking scenario:
+
+[ 1766.998552]        CPU0                    CPU1
+[ 1766.998553]        ----                    ----
+[ 1766.998554]   lock(&ieee->scan_mutex);
+[ 1766.998556]                                lock((work_completion)(&(&ieee->softmac_scan_wq)->work));
+[ 1766.998558]                                lock(&ieee->scan_mutex);
+[ 1766.998560]   lock((work_completion)(&(&ieee->softmac_scan_wq)->work));
+[ 1766.998562]
+                *** DEADLOCK ***
+
+[ 1766.998563] 4 locks held by wpa_supplicant/1184:
+[ 1766.998565]  #0: ffffffff8a14f610 (rtnl_mutex){+.+.}-{4:4}, at: rtnl_lock+0x17/0x20
+[ 1766.998570]  #1: ffff91e40446b078 (&priv->wx_mutex){+.+.}-{4:4}, at: _rtl92e_wx_set_essid+0x38/0xa0 [r8192e_pci]
+[ 1766.998580]  #2: ffff91e4044690b0 (&ieee->wx_mutex){+.+.}-{4:4}, at: rtllib_wx_set_essid+0x36/0x150 [rtllib]
+[ 1766.998590]  #3: ffff91e404469150 (&ieee->scan_mutex){+.+.}-{4:4}, at: rtllib_softmac_stop_scan+0x20/0x80 [rtllib]
+[ 1766.998601]
+               stack backtrace:
+[ 1766.998602] CPU: 3 PID: 1184 Comm: wpa_supplicant Tainted: G         C OE      6.3.0+ #8
+[ 1766.998605] Hardware name: FUJITSU ESPRIMO P710/D3161-A1, BIOS V4.6.5.3 R1.16.0 for D3161-A1x 10/29/2012
+[ 1766.998607] Call Trace:
+[ 1766.998608]  <TASK>
+[ 1766.998610]  dump_stack_lvl+0x5c/0xa0
+[ 1766.998614]  dump_stack+0x10/0x20
+[ 1766.998617]  print_circular_bug.isra.0+0x2e5/0x420
+[ 1766.998620]  check_noncircular+0x103/0x120
+[ 1766.998622]  ? register_lock_class+0x4c/0x450
+[ 1766.998624]  ? check_path.constprop.0+0x28/0x50
+[ 1766.998628]  ? check_noncircular+0x80/0x120
+[ 1766.998631]  __lock_acquire+0x1494/0x1fc0
+[ 1766.998633]  ? __this_cpu_preempt_check+0x13/0x20
+[ 1766.998638]  lock_acquire+0xdc/0x2c0
+[ 1766.998640]  ? __flush_work+0x4d/0x490
+[ 1766.998643]  ? find_held_lock+0x38/0x90
+[ 1766.998646]  ? lock_timer_base+0x72/0xa0
+[ 1766.998648]  ? __this_cpu_preempt_check+0x13/0x20
+[ 1766.998651]  __flush_work+0x6d/0x490
+[ 1766.998653]  ? __flush_work+0x4d/0x490
+[ 1766.998655]  ? __this_cpu_preempt_check+0x13/0x20
+[ 1766.998658]  ? lock_release+0x14f/0x380
+[ 1766.998662]  ? __cancel_work_timer+0x10d/0x1c0
+[ 1766.998664]  ? __this_cpu_preempt_check+0x13/0x20
+[ 1766.998667]  __cancel_work_timer+0x137/0x1c0
+[ 1766.998671]  cancel_delayed_work_sync+0x13/0x20
+[ 1766.998674]  rtllib_softmac_stop_scan+0x60/0x80 [rtllib]
+[ 1766.998682]  rtllib_stop_protocol.part.0+0x113/0x130 [rtllib]
+[ 1766.998690]  rtllib_stop_protocol+0x1c/0x30 [rtllib]
+[ 1766.998698]  rtllib_wx_set_essid+0x12a/0x150 [rtllib]
+[ 1766.998707]  _rtl92e_wx_set_essid+0x4e/0xa0 [r8192e_pci]
+[ 1766.998715]  ioctl_standard_iw_point+0x2de/0x3b0
+[ 1766.998718]  ? __pfx__rtl92e_wx_set_essid+0x10/0x10 [r8192e_pci]
+[ 1766.998726]  ioctl_standard_call+0xaa/0xe0
+[ 1766.998729]  ? netdev_name_node_lookup+0x65/0x90
+[ 1766.998732]  ? __pfx_ioctl_private_call+0x10/0x10
+[ 1766.998734]  ? __pfx_ioctl_standard_call+0x10/0x10
+[ 1766.998737]  wireless_process_ioctl+0x194/0x1e0
+[ 1766.998740]  wext_handle_ioctl+0x9e/0x100
+[ 1766.998744]  sock_ioctl+0x200/0x340
+[ 1766.998748]  ? syscall_enter_from_user_mode+0x21/0x60
+[ 1766.998751]  __x64_sys_ioctl+0x95/0xd0
+[ 1766.998753]  do_syscall_64+0x3b/0x90
+[ 1766.998757]  entry_SYSCALL_64_after_hwframe+0x72/0xdc
+[ 1766.998760] RIP: 0033:0x7f4ed5f223ab
+[ 1766.998763] Code: 0f 1e fa 48 8b 05 e5 7a 0d 00 64 c7 00 26 00 00 00 48 c7 c0 ff ff ff ff c3 66 0f 1f 44 00 00 f3 0f 1e fa b8 10 00 00 00 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 8b 0d b5 7a 0d 00 f7 d8 64 89 01 48
+[ 1766.998765] RSP: 002b:00007ffe820546c8 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
+[ 1766.998768] RAX: ffffffffffffffda RBX: 0000000000000020 RCX: 00007f4ed5f223ab
+[ 1766.998769] RDX: 00007ffe820546d0 RSI: 0000000000008b1a RDI: 0000000000000009
+[ 1766.998771] RBP: 000055d229516ff0 R08: 0000000000000000 R09: 00007f4ed5ffa240
+[ 1766.998772] R10: 0000000000004000 R11: 0000000000000246 R12: 00007ffe82054780
+[ 1766.998774] R13: 00007ffe820546d0 R14: 0000000000000000 R15: 00007ffe820547e0
+[ 1766.998778]  </TASK>
+---
+ drivers/staging/rtl8192e/rtllib_softmac.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/staging/rtl8192e/rtllib_softmac.c b/drivers/staging/rtl8192e/rtllib_softmac.c
+index 18885cda60f6..cb2dd18fa14b 100644
+--- a/drivers/staging/rtl8192e/rtllib_softmac.c
++++ b/drivers/staging/rtl8192e/rtllib_softmac.c
+@@ -682,11 +682,11 @@ static void rtllib_softmac_stop_scan(struct rtllib_device *ieee)
+ 	if (ieee->scanning_continue == 1) {
+ 		ieee->scanning_continue = 0;
+ 		ieee->actscanning = false;
+-
++		mutex_unlock(&ieee->scan_mutex);
+ 		cancel_delayed_work_sync(&ieee->softmac_scan_wq);
++	} else {
++		mutex_unlock(&ieee->scan_mutex);
+ 	}
+-
+-	mutex_unlock(&ieee->scan_mutex);
+ }
+ 
+ void rtllib_stop_scan(struct rtllib_device *ieee)
+-- 
+2.40.1
+
