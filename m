@@ -1,91 +1,155 @@
-Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176])
+Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48FE44C94
-	for <linux-staging@lists.linux.dev>; Sun, 14 May 2023 13:02:09 +0000 (UTC)
-Received: by mail-pf1-f176.google.com with SMTP id d2e1a72fcca58-6436dfa15b3so7841380b3a.1
-        for <linux-staging@lists.linux.dev>; Sun, 14 May 2023 06:02:09 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BA9D4C87
+	for <linux-staging@lists.linux.dev>; Sun, 14 May 2023 13:08:32 +0000 (UTC)
+Received: by mail-pf1-f182.google.com with SMTP id d2e1a72fcca58-64ac461af60so2852783b3a.3
+        for <linux-staging@lists.linux.dev>; Sun, 14 May 2023 06:08:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1684069329; x=1686661329;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=hRndM6dwLyg+CH40gLpw0L0oNCaMTsXiybvOzf1CBdM=;
-        b=UOpBDf/UdqFprkz/RaGVHjIHh4ZVukFEER1c03onGY1QQrIksKTtlCedPjz3MGeWBW
-         KE5nPnSo8fF/vUXXgNYlD9as/unN4tXAnt51PyM3TTV//0RNYGFeHFPdKuRhPD88bQOW
-         Vw2HDSO4KPeSTXai3fv7kCPcEtZfiMyDpBnvFs/R2CZOZ9tccpwjBPndOBNkSF/A+TNr
-         vjCFQV7OVn27eGIet6A0y1tk3TNxOXf+hnv6V2bUJt16hxQEVnL2dNCq1ev5kbL+wcqp
-         5uWM6ucTKa1Zxh9+/JjOrPUojRHYtMp+QTptJEXCZjeAYVBRBZaNAJsHCRfD6/8+896R
-         iYtQ==
+        d=gmail.com; s=20221208; t=1684069711; x=1686661711;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:sender
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=Y5XEouAH/P1Pc1xR/i0kwTIYjZQ4lEbXoXqgUXs2Qrc=;
+        b=JgFgXkWGfmHspAu7HjxcvhDThdTjCYb1GNamypAn0LCFacWj8H5PF8YNDKsh/tltmv
+         LqdKH0NNZhsyay3GsncvplLD3ClamfUcj0OyLTHNhYu9JaddW/YiogoN5e0ZyVELkp0R
+         KTQ/K5Sn/xBtjAra7xamVhMaa1QU94H6fvOpT4+AqUlfDjFYBsVyt/meC8Jj4tZo1sbR
+         586YES8hrpWNVFyydRbUXQL6dvIElCzLk2YWjgEmqvytADeUUHamD87e09ZifRyBLLio
+         6yfsTPDGlXTuK79WwdedbhKlxetYYbIcNS4hYFQl+hr9HZMGmSmNi+xdUho7RYx/SL60
+         dI2Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1684069329; x=1686661329;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=hRndM6dwLyg+CH40gLpw0L0oNCaMTsXiybvOzf1CBdM=;
-        b=ASwy0aJ/0FiRc8XL14MelEL2E0ibnwBOBKYSLmErBNeL8amilRZf0dzx+UUfOU2bEl
-         yn+55MqmoOn8dDtVJdBiyKrETvMfhpMcpGKr9hOXBazhRKQdm8z1i1rS/5wTk0/ETNM3
-         OTsHKwd0zRBcS4GqCCSlOCxgDdSOc5jMzKNjSrfbo7MwYy/dq/WaIhpm0doQmUCwBpYd
-         8chktqhJ0TIz6WfydWtbBqTz2I0RrfSKwfAVBRkHEnMAprqpfdOgGoUMsDhco5ohxeKT
-         D6agcyXd3HOyXB1IaPVFvKZHnqhoEX57Q/TU3LH34TcT4c/tbyxTNzv8Gr/t2aDByafM
-         1Uog==
-X-Gm-Message-State: AC+VfDzLYXVc1gqAhAKykqKF6b9D2sLhFAGGrrdh1o6GjcNJcm6gRl2u
-	KiFVT8mg9Utd8bKC7lZZoss=
-X-Google-Smtp-Source: ACHHUZ5QJJrM45x8eaWbsW8g7uaVPN75hlKQ2lWbhMYHrZaQFam4iHhjYo8H5t0i31YWv9Nwg+KkyQ==
-X-Received: by 2002:a05:6a20:c701:b0:ef:e589:28a3 with SMTP id hi1-20020a056a20c70100b000efe58928a3mr32710915pzb.16.1684069328625;
-        Sun, 14 May 2023 06:02:08 -0700 (PDT)
-Received: from redkillpc.. ([49.207.202.99])
-        by smtp.gmail.com with ESMTPSA id e35-20020a635463000000b0051b70c8d446sm9766146pgm.73.2023.05.14.06.02.06
+        d=1e100.net; s=20221208; t=1684069711; x=1686661711;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:sender
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Y5XEouAH/P1Pc1xR/i0kwTIYjZQ4lEbXoXqgUXs2Qrc=;
+        b=ILtuhkxnCRAc32Jq7QFyDqd0dzozRA59vp4NQHmqUQmvWzak3QVZrkuWepAoEN5iIG
+         yNFfOQi5lVPp2AghNAsqeQKuymTKDivtyLVm2n2sZG+S1xwNTffLQKkf6BNtSwwvTJqK
+         xUMqFaaqanwW4KE2bPSZxin176f44pRgyDYXRCQIruFzkuUkOiA/38fnl4Y3ms5YWYmt
+         I0o09ifqWhfZ6VB8U86LqSafGzYGJPELFFX62lGwiGBrjLa2aXWfyZiphV6luHh3Xfwr
+         Fpr+I+N2Ng1/vn23JLTq5LN8ApIFPrAhdj13JHmNdzlN7CsZckahSi3bLn5R90HkzPns
+         G6EQ==
+X-Gm-Message-State: AC+VfDxKFOQ/Mh3closmomO3Owdqq4NM2bU8FVEIaPidbs6SKNNpDJX/
+	orLikKnsaYSotRfxMsz90ns=
+X-Google-Smtp-Source: ACHHUZ5ut8+Hg2HyxrT4MXIOvyVb3bS836tjfmXkxs1tJNydk4q379JJXY2tKiMm5x8T7vuA9c0e3w==
+X-Received: by 2002:a05:6a20:3d28:b0:103:9c25:99a3 with SMTP id y40-20020a056a203d2800b001039c2599a3mr18361027pzi.59.1684069711559;
+        Sun, 14 May 2023 06:08:31 -0700 (PDT)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id b30-20020a631b1e000000b0050bd4bb900csm9760255pgb.71.2023.05.14.06.08.30
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 14 May 2023 06:02:08 -0700 (PDT)
-From: Prathu Baronia <prathubaronia2011@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	prathubaronia2011@gmail.com
-Subject: [PATCH v2 2/2] axis-fifo: cleanup space issues with fops struct
-Date: Sun, 14 May 2023 18:31:48 +0530
-Message-Id: <20230514130148.138624-3-prathubaronia2011@gmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230514130148.138624-1-prathubaronia2011@gmail.com>
-References: <2023051411-happier-mural-a8ef@gregkh>
- <20230514130148.138624-1-prathubaronia2011@gmail.com>
+        Sun, 14 May 2023 06:08:30 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Date: Sun, 14 May 2023 06:08:29 -0700
+From: Guenter Roeck <linux@roeck-us.net>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Richard Fontana <rfontana@redhat.com>,
+	Bagas Sanjaya <bagasdotme@gmail.com>,
+	Linux SPDX Licenses <linux-spdx@vger.kernel.org>,
+	Linux DRI Development <dri-devel@lists.freedesktop.org>,
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+	Linux Networking <netdev@vger.kernel.org>,
+	Linux ARM <linux-arm-kernel@lists.infradead.org>,
+	Linux Staging Drivers <linux-staging@lists.linux.dev>,
+	Linux Watchdog Devices <linux-watchdog@vger.kernel.org>,
+	Linux Kernel Actions <linux-actions@lists.infradead.org>,
+	Diederik de Haas <didi.debian@cknow.org>,
+	Kate Stewart <kstewart@linuxfoundation.org>,
+	Philippe Ombredanne <pombredanne@nexb.com>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	David Airlie <airlied@redhat.com>,
+	Karsten Keil <isdn@linux-pingi.de>,
+	Jay Vosburgh <j.vosburgh@gmail.com>,
+	Andy Gospodarek <andy@greyhouse.net>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Sam Creasey <sammy@sammy.net>,
+	Dominik Brodowski <linux@dominikbrodowski.net>,
+	Daniel Mack <daniel@zonque.org>,
+	Haojian Zhuang <haojian.zhuang@gmail.com>,
+	Robert Jarzmik <robert.jarzmik@free.fr>,
+	Wim Van Sebroeck <wim@linux-watchdog.org>, Jan Kara <jack@suse.com>,
+	Andreas =?iso-8859-1?Q?F=E4rber?= <afaerber@suse.de>,
+	Manivannan Sadhasivam <mani@kernel.org>,
+	Ray Lehtiniemi <rayl@mail.com>,
+	Alessandro Zummo <a.zummo@towertech.it>,
+	Andrey Panin <pazke@donpac.ru>, Oleg Drokin <green@crimea.edu>,
+	Marc Zyngier <maz@kernel.org>,
+	Jonas Jensen <jonas.jensen@gmail.com>,
+	Sylver Bruneau <sylver.bruneau@googlemail.com>,
+	Andrew Sharp <andy.sharp@lsi.com>,
+	Denis Turischev <denis@compulab.co.il>,
+	Mika Westerberg <mika.westerberg@linux.intel.com>,
+	Alan Cox <alan@linux.intel.com>,
+	Simon Horman <simon.horman@corigine.com>
+Subject: Re: [PATCH v2 08/10] drivers: watchdog: Replace GPL license notice
+ with SPDX identifier
+Message-ID: <511814a0-0c42-4813-9473-13748d6c6cb0@roeck-us.net>
+References: <20230512100620.36807-1-bagasdotme@gmail.com>
+ <20230512100620.36807-9-bagasdotme@gmail.com>
+ <CAC1cPGy=78yo2XcJPNZVvdjBr2-XzSq76JrAinSe42=sNdGv3w@mail.gmail.com>
+ <ef31b33f-8e66-4194-37e3-916b53cf7088@gmail.com>
+ <CAC1cPGzznK8zoLaT1gBjpHP1eKFvTKKi+SW6xuXF3B8aHN27=g@mail.gmail.com>
+ <2023051414-headroom-maimed-553c@gregkh>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <2023051414-headroom-maimed-553c@gregkh>
 
-Add required spaces for proper formatting of fops members for better
-readability.
+On Sun, May 14, 2023 at 12:07:28AM +0900, Greg Kroah-Hartman wrote:
+> On Sat, May 13, 2023 at 09:43:39AM -0400, Richard Fontana wrote:
+> > On Sat, May 13, 2023 at 6:53 AM Bagas Sanjaya <bagasdotme@gmail.com> wrote:
+> > >
+> > > On 5/12/23 19:46, Richard Fontana wrote:
+> > > > On Fri, May 12, 2023 at 6:07 AM Bagas Sanjaya <bagasdotme@gmail.com> wrote:
+> > > >
+> > > >
+> > > >> diff --git a/drivers/watchdog/sb_wdog.c b/drivers/watchdog/sb_wdog.c
+> > > >> index 504be461f992a9..822bf8905bf3ce 100644
+> > > >> --- a/drivers/watchdog/sb_wdog.c
+> > > >> +++ b/drivers/watchdog/sb_wdog.c
+> > > >> @@ -1,3 +1,4 @@
+> > > >> +// SPDX-License-Identifier: GPL-1.0+
+> > > >>  /*
+> > > >>   * Watchdog driver for SiByte SB1 SoCs
+> > > >>   *
+> > > >> @@ -38,10 +39,6 @@
+> > > >>   *     (c) Copyright 1996 Alan Cox <alan@lxorguk.ukuu.org.uk>,
+> > > >>   *                                             All Rights Reserved.
+> > > >>   *
+> > > >> - *     This program is free software; you can redistribute it and/or
+> > > >> - *     modify it under the terms of the GNU General Public License
+> > > >> - *     version 1 or 2 as published by the Free Software Foundation.
+> > > >
+> > > > Shouldn't this be
+> > > > // SPDX-License-Identifier: GPL-1.0 OR GPL-2.0
+> > > > (or in current SPDX notation GPL-1.0-only OR GPL-2.0-only) ?
+> > > >
+> > >
+> > > Nope, as it will fail spdxcheck.py. Also, SPDX specification [1]
+> > > doesn't have negation operator (NOT), thus the licensing requirement
+> > > on the above notice can't be expressed reliably in SPDX here.
+> > >
+> > > [1]: https://spdx.github.io/spdx-spec/v2.3/SPDX-license-expressions/
+> > 
+> > The GPL identifiers in recent versions of SPDX include an `-only` and
+> > an `-or-later` variant.
+> 
+> But Linux does not use the newer versions of SPDX given that we started
+> the conversion before the "-only" variant came out.  Let's stick with
+> the original one please before worrying about converting to a newer
+> version of SPDX and mixing things up.
+> 
 
-Signed-off-by: Prathu Baronia <prathubaronia2011@gmail.com>
----
- drivers/staging/axis-fifo/axis-fifo.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+Either case I'd prefer to have no conversion if there is no means
+to express the original license (ie GPL-1.0 or GPL-2.0 and nothing else)
+in acceptable SPDX form.
 
-diff --git a/drivers/staging/axis-fifo/axis-fifo.c b/drivers/staging/axis-fifo/axis-fifo.c
-index 7b3080202b31..2692fda89583 100644
---- a/drivers/staging/axis-fifo/axis-fifo.c
-+++ b/drivers/staging/axis-fifo/axis-fifo.c
-@@ -716,11 +716,11 @@ static int axis_fifo_close(struct inode *inod, struct file *f)
- }
- 
- static const struct file_operations fops = {
--	.owner = THIS_MODULE,
--	.open = axis_fifo_open,
-+	.owner   = THIS_MODULE,
-+	.open    = axis_fifo_open,
- 	.release = axis_fifo_close,
--	.read = axis_fifo_read,
--	.write = axis_fifo_write
-+	.read    = axis_fifo_read,
-+	.write   = axis_fifo_write
- };
- 
- /* read named property from the device tree */
--- 
-2.34.1
-
+Thanks,
+Guenter
