@@ -1,128 +1,83 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E0921112
-	for <linux-staging@lists.linux.dev>; Sun, 14 May 2023 06:37:59 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9141DC433EF;
-	Sun, 14 May 2023 06:37:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1684046278;
-	bh=E0hJNeluinyMUhmWFoGDbW0eO1GmmRxA0vP/bh4Hrl0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=dgLjKAc7YVb0mpnmNxUi9iBOdRoupTW8zcf3gTNmHC296CsPfDfw6i43iCW7bqgSo
-	 0w0SkcqJe1JKqe9HJE4bRo1Tt303f44W8VbTDog2lJ2u88igqGUvkSLB+SiGsh6Rjj
-	 TjSQrojel24RlT5TI1ro9xGOOjNY4wWuICsXB8m0=
-Date: Sun, 14 May 2023 08:37:56 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Prathu Baronia <prathubaronia2011@gmail.com>
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] axis-fifo: use devm_kasprintf for device name
-Message-ID: <2023051411-happier-mural-a8ef@gregkh>
-References: <20230513214029.122689-1-prathubaronia2011@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FADD1C08
+	for <linux-staging@lists.linux.dev>; Sun, 14 May 2023 06:52:42 +0000 (UTC)
+Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-64ab2a37812so13114407b3a.1
+        for <linux-staging@lists.linux.dev>; Sat, 13 May 2023 23:52:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1684047162; x=1686639162;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Fyq46DYiYFeczNtd5py4N6kycWAKUkPxuVjsobEQu/8=;
+        b=CERCoTYfkyyRChuQXQEGV7ZqIc6UqCzzpaPg367AFt4hA6jofj4+mGeG95BttbwTYg
+         5F7Tdsxlxqj6ETKb5eQMi8S/FmCRLtKG5c3tCknUESHw7+UTtkb+NNMBs/eFeHCYkxVf
+         ODVa6n4sp0Nw+4NhNsQplk1aGg0q37xRfLtmB1sBYReRbzSqlTDLRJ+DRaV5LIj0U1tX
+         npRhfadLTeU9kFDY6RHr9z9dJF66fW6VZ9MxDVXNDz5fAMMePhRjFj5vR/L9NyBcRfx7
+         83cYU1gqXV8IdsKDa9UJ6gKg1gU6ql7Y20TWrU85Ie5iDvlICyxidFVl3jOZhC4tXvsq
+         Wq9g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1684047162; x=1686639162;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Fyq46DYiYFeczNtd5py4N6kycWAKUkPxuVjsobEQu/8=;
+        b=PTfNsFI/H9FK5UHCHDl4yWeeTybDwvcxwu3WpMCIQEz6aapH3OEaBgB2dsLVnCnoIl
+         WAqRuy6KS0wbDOIO0JJgQpaBV79dwRLzBuHY2xNUu6xuMia8B3opmBX7ZbT8sNL3ljic
+         BUM7E3otYcc3xVrbW21kScFMJkpDUe9pS+WaET2bAh6xKt3ruqMuiC09/XeE2q1p7zRR
+         knKITJXxkOLtxmTmmpNLy6LBLDW9mxxWN2n+sSk8OrHs7kP1eVw5SCcHiI7QcLyzKl+a
+         mCcoGnR4v4Q4SqfwR7QaztFDZl4GVqKSIlDuuPHb+MMHioy3ZuJIPquJoPozxrEJZgmq
+         oZ3g==
+X-Gm-Message-State: AC+VfDwPPFSmlDJ1ZQPBI2Z5zKG5uHlVidSmkyy+TTC8n54FovNueKfx
+	8cEYA+h4KwMbGsZqt8o4lsQ=
+X-Google-Smtp-Source: ACHHUZ7QRGKi5O7EJ5OFWTWGUsrkoDk9VuXnjdXKkNCkx4qJGQu7zSG3S6jpSGS8keN/1GWl7wPsZA==
+X-Received: by 2002:a05:6a00:1502:b0:647:157b:cb61 with SMTP id q2-20020a056a00150200b00647157bcb61mr23477519pfu.7.1684047162202;
+        Sat, 13 May 2023 23:52:42 -0700 (PDT)
+Received: from localhost.localdomain ([2405:201:682f:3808:c449:77a9:2cbd:238f])
+        by smtp.gmail.com with ESMTPSA id g17-20020aa78751000000b005aa60d8545esm9569943pfo.61.2023.05.13.23.52.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 13 May 2023 23:52:41 -0700 (PDT)
+From: Deepanshu Kartikey <kartikey406@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Deepanshu Kartikey <kartikey406@gmail.com>
+Subject: [PATCH] Staging: rts5208: rtsx: fixed unbalanced braces around else statement
+Date: Sun, 14 May 2023 12:19:36 +0530
+Message-Id: <20230514064936.7895-1-kartikey406@gmail.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230513214029.122689-1-prathubaronia2011@gmail.com>
+Content-Transfer-Encoding: 8bit
 
-On Sun, May 14, 2023 at 03:10:27AM +0530, Prathu Baronia wrote:
-> - Replaces devm_kzalloc and snprintf combo.
-> - Also made the fops alignment proper.
-> 
-> Signed-off-by: Prathu Baronia <prathubaronia2011@gmail.com>
-> ---
->  drivers/staging/axis-fifo/axis-fifo.c | 16 +++++++---------
->  1 file changed, 7 insertions(+), 9 deletions(-)
-> 
-> diff --git a/drivers/staging/axis-fifo/axis-fifo.c b/drivers/staging/axis-fifo/axis-fifo.c
-> index dfd2b357f484..8b46699efb34 100644
-> --- a/drivers/staging/axis-fifo/axis-fifo.c
-> +++ b/drivers/staging/axis-fifo/axis-fifo.c
-> @@ -720,11 +720,11 @@ static int axis_fifo_close(struct inode *inod, struct file *f)
->  }
->  
->  static const struct file_operations fops = {
-> -	.owner = THIS_MODULE,
-> -	.open = axis_fifo_open,
-> +	.owner   = THIS_MODULE,
-> +	.open    = axis_fifo_open,
->  	.release = axis_fifo_close,
-> -	.read = axis_fifo_read,
-> -	.write = axis_fifo_write
-> +	.read    = axis_fifo_read,
-> +	.write   = axis_fifo_write
->  };
->  
->  /* read named property from the device tree */
-> @@ -820,10 +820,6 @@ static int axis_fifo_probe(struct platform_device *pdev)
->  	 * ----------------------------
->  	 */
->  
-> -	device_name = devm_kzalloc(dev, 32, GFP_KERNEL);
-> -	if (!device_name)
-> -		return -ENOMEM;
-> -
->  	/* allocate device wrapper memory */
->  	fifo = devm_kzalloc(dev, sizeof(*fifo), GFP_KERNEL);
->  	if (!fifo)
-> @@ -861,7 +857,9 @@ static int axis_fifo_probe(struct platform_device *pdev)
->  	dev_dbg(fifo->dt_device, "remapped memory to 0x%p\n", fifo->base_addr);
->  
->  	/* create unique device name */
-> -	snprintf(device_name, 32, "%s_%pa", DRIVER_NAME, &r_mem->start);
-> +	device_name = devm_kasprintf(dev, GFP_KERNEL, "%s_%pa", DRIVER_NAME, &r_mem->start);
-> +	if (!device_name)
-> +		return -ENOMEM;
->  	dev_dbg(fifo->dt_device, "device name [%s]\n", device_name);
->  
->  	/* ----------------------------
-> -- 
-> 2.34.1
-> 
-> 
+Fixed unbalanced braces around else statement
 
-Hi,
+Signed-off-by: Deepanshu Kartikey <kartikey406@gmail.com>
+---
+ drivers/staging/rts5208/rtsx.c | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
 
-This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
-a patch that has triggered this response.  He used to manually respond
-to these common problems, but in order to save his sanity (he kept
-writing the same thing over and over, yet to different people), I was
-created.  Hopefully you will not take offence and will fix the problem
-in your patch and resubmit it so that it can be accepted into the Linux
-kernel tree.
+diff --git a/drivers/staging/rts5208/rtsx.c b/drivers/staging/rts5208/rtsx.c
+index 2284a96abcff..0ab9355873f7 100644
+--- a/drivers/staging/rts5208/rtsx.c
++++ b/drivers/staging/rts5208/rtsx.c
+@@ -399,10 +399,8 @@ static int rtsx_control_thread(void *__dev)
+ 				chip->srb->device->id,
+ 				(u8)chip->srb->device->lun);
+ 			chip->srb->result = DID_BAD_TARGET << 16;
+-		}
+-
+-		/* we've got a command, let's do it! */
+-		else {
++		} else {
++			//we've got a command, let's do it!
+ 			scsi_show_command(chip);
+ 			rtsx_invoke_transport(chip->srb, chip);
+ 		}
+-- 
+2.25.1
 
-You are receiving this message because of the following common error(s)
-as indicated below:
-
-- Your patch did many different things all at once, making it difficult
-  to review.  All Linux kernel patches need to only do one thing at a
-  time.  If you need to do multiple things (such as clean up all coding
-  style issues in a file/driver), do it in a sequence of patches, each
-  one doing only one thing.  This will make it easier to review the
-  patches to ensure that they are correct, and to help alleviate any
-  merge issues that larger patches can cause.
-
-- You did not specify a description of why the patch is needed, or
-  possibly, any description at all, in the email body.  Please read the
-  section entitled "The canonical patch format" in the kernel file,
-  Documentation/process/submitting-patches.rst for what is needed in
-  order to properly describe the change.
-
-- You did not write a descriptive Subject: for the patch, allowing Greg,
-  and everyone else, to know what this patch is all about.  Please read
-  the section entitled "The canonical patch format" in the kernel file,
-  Documentation/process/submitting-patches.rst for what a proper
-  Subject: line should look like.
-
-If you wish to discuss this problem further, or you have questions about
-how to resolve this issue, please feel free to respond to this email and
-Greg will reply once he has dug out from the pending patches received
-from other developers.
-
-thanks,
-
-greg k-h's patch email bot
