@@ -1,32 +1,47 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BADBF34CC0
-	for <linux-staging@lists.linux.dev>; Tue, 16 May 2023 11:02:23 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E050DC433D2;
-	Tue, 16 May 2023 11:02:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1684234943;
-	bh=t7FUbmszHOiSynp4eWcee6aa0ZPkc5hy3XpDJUTIt9A=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=FjQkQ/176/JsQs7294dTtu6jXCDb+fJV8W0/VBIYPEz8+UB+doz12DcN7y+37ixLz
-	 XkEVf3/yR4zWBrH8wnViMveP8H36C7qVzbeuWr0PD4ZmERJXVmLVdnCVB4VeWi62+Y
-	 e/KsGSJcYwGWi/ZIHLhN5fqQ2Az3SG9K0XOFZw3I=
-Date: Tue, 16 May 2023 13:02:15 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Ekaterina Esina <eesina@astralinux.ru>
-Cc: Rob Springer <rspringer@google.com>,
-	Todd Poynor <toddpoynor@google.com>,
-	Ben Chan <benchan@chromium.org>, Richard Yeh <rcy@google.com>,
-	John Joseph <jnjoseph@google.com>, Simon Que <sque@chromium.org>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-	lvc-project@linuxtesting.org
-Subject: Re: [PATCH 5.10] staging: gasket: interrupt: Clean interrupt_data
- after free
-Message-ID: <2023051640-trustless-gluten-a7b8@gregkh>
-References: <20230515122950.100564-1-eesina@astralinux.ru>
- <2023051546-churn-obstinate-20af@gregkh>
- <ba0ad96d-6515-66e3-e140-cd7c3999577e@astralinux.ru>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CCB68482
+	for <linux-staging@lists.linux.dev>; Tue, 16 May 2023 19:22:11 +0000 (UTC)
+Received: by mail-ed1-f46.google.com with SMTP id 4fb4d7f45d1cf-50a20bfe366so3625748a12.0
+        for <linux-staging@lists.linux.dev>; Tue, 16 May 2023 12:22:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1684264929; x=1686856929;
+        h=content-disposition:mime-version:message-id:subject:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=UqYmiFpnnKS2pZzuywUQLIWdUuVLhrzS65V3MwC8BCk=;
+        b=o5VVC7QzFfDoyZpW+Y2Riq9ctct1CawLq3uuhNOD+CrOi54jxa+yVtRDV39on76lfn
+         xphFvH7wpVf7icOkSSJkD+2ddptAsSWsk2QVBrtdURIj+/TdvCJnqh86Uc5roX0krEmw
+         tmcor1wUxOwfBPXFOpiEtHsvXVINjz0TZoIRGddR1BvQwDDGVRMdumMC6v3juXWLovkh
+         DxdkNbf0ea21ZYopaFvp4dxWc8OQIXAfmk2915Dvj7gfVcDf0YF0X3gDjbAwlfSCpZzp
+         YyKVRtLUXtRE0jlBljAbHCsWk0yIbEa5cQNUm5x7UDdqsX3oxzTdqPkA1WyjyAiaPW0N
+         6s4w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1684264929; x=1686856929;
+        h=content-disposition:mime-version:message-id:subject:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=UqYmiFpnnKS2pZzuywUQLIWdUuVLhrzS65V3MwC8BCk=;
+        b=Qb363XCRfnrwmsdI/Sna+qAKnXEcLoT+Q0bZ3XxiTMFXsve6lhKxDrDfoNK5mSKPSV
+         +FIn/qBo5ZWi5et3Qm+N4U0pLb/LnSEthoQW2sQLYvisJTqhOpEswDjscMxH/aESYcJN
+         FSc5Gg5d5IVedCsGGawl+Z/LRO/48aGi9PdAgo838B2x+gwRve9S+KUx6FguyasYagru
+         EpNm61R/WzWTG4wLjbx81s3MudLj0wGccUZRAMdX+vtYGS3+WvEY+s5WcF1kELpjFUnO
+         8y1gxHcTjJGQtAOGP6DKhPR0yFNOFvCi/kupBuWb5qV+26kgucEHpTx0DSsznS0yZa6A
+         yAIQ==
+X-Gm-Message-State: AC+VfDxK7sdtGuYMe2aAjsXZzJv4riDT5zl3BfKBXSOKSIcq+ckFVIjN
+	yqnvOhL0vp6wwBJ+pvZLCYc=
+X-Google-Smtp-Source: ACHHUZ5/4utux9EbmWMKPnBznFeCkNCwoIbZ0MXCeWg3Wa7ayTfOav+nofbciJC+8Y+i9WMTSCkOlA==
+X-Received: by 2002:a05:6402:40cb:b0:50b:c57f:d464 with SMTP id z11-20020a05640240cb00b0050bc57fd464mr638864edb.1.1684264929203;
+        Tue, 16 May 2023 12:22:09 -0700 (PDT)
+Received: from matrix-ESPRIMO-P710 (p57935e01.dip0.t-ipconnect.de. [87.147.94.1])
+        by smtp.gmail.com with ESMTPSA id f14-20020a05640214ce00b0050e04125a46sm5587846edx.10.2023.05.16.12.22.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 16 May 2023 12:22:08 -0700 (PDT)
+Date: Tue, 16 May 2023 21:22:06 +0200
+From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: [PATCH] staging: rtl8192e: Unlock wx_mutex not in rtllib_wx_set_scan
+Message-ID: <20230516192206.GA7710@matrix-ESPRIMO-P710>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -35,65 +50,60 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ba0ad96d-6515-66e3-e140-cd7c3999577e@astralinux.ru>
 
-On Tue, May 16, 2023 at 01:44:06PM +0300, Ekaterina Esina wrote:
-> 
-> 
-> On 15.05.2023 16:02, Greg Kroah-Hartman wrote:
-> > On Mon, May 15, 2023 at 03:29:50PM +0300, Esina Ekaterina wrote:
-> > > Add interrupt_data = NULL after kfree(interrupt_data) in
-> > > gasket_interrupt_init. It is needed to avoid double free
-> > > in gasket_interrupt_cleanup, there is a check for NULL
-> > > before kfree(interrupt_data).
-> > > 
-> > > Found by Astra Linux on behalf of Linux Verification Center
-> > > (linuxtesting.org) with SVACE.
-> > > 
-> > > Fixes: 9a69f5087ccc ("drivers/staging: Gasket driver framework + Apex driver")
-> > > Signed-off-by: Esina Ekaterina <eesina@astralinux.ru>
-> > > ---
-> > >   drivers/staging/gasket/gasket_interrupt.c | 2 ++
-> > >   1 file changed, 2 insertions(+)
-> > > 
-> > > diff --git a/drivers/staging/gasket/gasket_interrupt.c b/drivers/staging/gasket/gasket_interrupt.c
-> > > index 864342acfd86..48b664b9134a 100644
-> > > --- a/drivers/staging/gasket/gasket_interrupt.c
-> > > +++ b/drivers/staging/gasket/gasket_interrupt.c
-> > > @@ -337,6 +337,7 @@ int gasket_interrupt_init(struct gasket_dev *gasket_dev)
-> > >   			sizeof(*interrupt_data->eventfd_ctxs), GFP_KERNEL);
-> > >   	if (!interrupt_data->eventfd_ctxs) {
-> > >   		kfree(interrupt_data);
-> > > +		interrupt_data = NULL;
-> > >   		return -ENOMEM;
-> > >   	}
-> > > @@ -346,6 +347,7 @@ int gasket_interrupt_init(struct gasket_dev *gasket_dev)
-> > >   	if (!interrupt_data->interrupt_counts) {
-> > >   		kfree(interrupt_data->eventfd_ctxs);
-> > >   		kfree(interrupt_data);
-> > > +		interrupt_data = NULL;
-> > >   		return -ENOMEM;
-> > >   	}
-> > > -- 
-> > > 2.40.1
-> > 
-> > Also, your tool is wrong, this is not a correct fix at all.
-> > 
-> > How did you test it?  Why is your tool spitting out incorrect code?  Why
-> > are you not verifying it's output before asking others to do so?
-> > 
-> > Please don't do this anymore, it's wasteful on our side, right?  Please
-> > take the time to review existing changes for problems, that would be
-> > more useful overall to everyone.
-> > 
-> > thanks,
-> > 
-> > greg k-h
-> 
-> I apologize, there is a mistake. It should've been
-> gasket_dev->interrupt_data = NULL istead of interrupt_data = NULL
+On start of rtllib_wx_set_scan lock was taken with
+mutex_lock(&ieee->wx_mutex). Unlocking was done at the end of
+schedule_work(&ieee->wx_sync_scan_wq) which lead to the error "lock held
+when returning to user space!". Pushing lock to beginning of
+ieee->wx_sync_scan_wq to improve overview. Removed lock from
+rtllib_wx_set_scan as ieee->state, ieee->iw_mode and ieee->proto_started
+are not protected in many other places.
 
-Which implies that your tools are broken, right?  Please do better
-testing before sending anymore patches.
+Signed-off-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+---
+Tested with rtl8192e (WLL6130-D99)
+Transferred this patch over wlan connection of rtl8192e
 
-greg k-h
+[ 7379.147691] ================================================
+[ 7379.147693] WARNING: lock held when returning to user space!
+[ 7379.147694] 6.3.0+ #8 Tainted: G         C OE
+[ 7379.147696] ------------------------------------------------
+[ 7379.147697] wpa_supplicant/1193 is leaving the kernel with locks still held!
+[ 7379.147699] 1 lock held by wpa_supplicant/1193:
+[ 7379.147701]  #0: ffff8c54dd0090b0 (&ieee->wx_mutex){+.+.}-{4:4}, at: rtllib_wx_set_scan+0x22/0x80 [rtllib]
+---
+ drivers/staging/rtl8192e/rtllib_softmac_wx.c | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
+
+diff --git a/drivers/staging/rtl8192e/rtllib_softmac_wx.c b/drivers/staging/rtl8192e/rtllib_softmac_wx.c
+index 371864f0087f..e93da95f175b 100644
+--- a/drivers/staging/rtl8192e/rtllib_softmac_wx.c
++++ b/drivers/staging/rtl8192e/rtllib_softmac_wx.c
+@@ -332,6 +332,7 @@ void rtllib_wx_sync_scan_wq(void *data)
+ 	enum ht_channel_width bandwidth = 0;
+ 	int b40M = 0;
+ 
++	mutex_lock(&ieee->wx_mutex);
+ 	if (!(ieee->softmac_features & IEEE_SOFTMAC_SCAN)) {
+ 		rtllib_start_scan_syncro(ieee, 0);
+ 		goto out;
+@@ -404,8 +405,6 @@ int rtllib_wx_set_scan(struct rtllib_device *ieee, struct iw_request_info *a,
+ {
+ 	int ret = 0;
+ 
+-	mutex_lock(&ieee->wx_mutex);
+-
+ 	if (ieee->iw_mode == IW_MODE_MONITOR || !(ieee->proto_started)) {
+ 		ret = -1;
+ 		goto out;
+@@ -418,7 +417,6 @@ int rtllib_wx_set_scan(struct rtllib_device *ieee, struct iw_request_info *a,
+ 	}
+ 
+ out:
+-	mutex_unlock(&ieee->wx_mutex);
+ 	return ret;
+ }
+ EXPORT_SYMBOL(rtllib_wx_set_scan);
+-- 
+2.40.1
+
