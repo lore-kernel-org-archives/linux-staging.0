@@ -1,80 +1,88 @@
-Received: from comms.puri.sm (comms.puri.sm [159.203.221.185])
+Received: from mail-0201.mail-europe.com (mail-0201.mail-europe.com [51.77.79.158])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A8EDC2D3
-	for <linux-staging@lists.linux.dev>; Tue, 16 May 2023 07:49:53 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by comms.puri.sm (Postfix) with ESMTP id 92FBAEBA11;
-	Tue, 16 May 2023 00:42:26 -0700 (PDT)
-Received: from comms.puri.sm ([127.0.0.1])
-	by localhost (comms.puri.sm [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id haCKqCl3j_pU; Tue, 16 May 2023 00:42:25 -0700 (PDT)
-Message-ID: <a4b3cf3be9f105adcbcad688f8745556eec4d9df.camel@puri.sm>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=puri.sm; s=comms;
-	t=1684222945; bh=hNjjN4aUowMpetU4hQNKDhkB3mHZChV8fgTpId6EMEY=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-	b=HLQZwyvPnFKZdXq8EXsL6LEhNYigiSbK0uxDs9KFCOoMnaTt3Bfeei6CqN6932AU6
-	 AtsBcbs8iHv3k4E1X6v1gJL8E0AzgdH//vhiecDEvDxbqIb0OXAadMItXcI2sEe7+G
-	 BZs7vxGxcv2AwcU8rtuJHbgGQ2g7Jlb5eHKaG1MRIvhOExHOLAvgEUZBZP/E2t1jOW
-	 3C0AggK6YgJUvq3BDU0VCg1YK2VJAILXKLD6CUK7dNJRwe4ih6vvh3RZOJWLkKY9/5
-	 UfOcrEpRI/c4Lp4RSGu4Tg9PSCfV2pLR2L55g1a9AO/alTA1Im7W/SnxmzL1/DRH9F
-	 FMVovSo86KHbQ==
-Subject: Re: [PATCH v2] media: imx: Unstage the imx8mq-mipi-csi2 driver
-From: Martin Kepplinger <martin.kepplinger@puri.sm>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: mchehab@kernel.org, shawnguo@kernel.org, festevam@gmail.com, 
- slongerbeam@gmail.com, gregkh@linuxfoundation.org,
- hverkuil-cisco@xs4all.nl,  rmfrfs@gmail.com, kernel@pengutronix.de,
- linux-imx@nxp.com, kernel@puri.sm,  linux-media@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org,  linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org
-Date: Tue, 16 May 2023 09:42:18 +0200
-In-Reply-To: <20230425094346.GA17841@pendragon.ideasonboard.com>
-References: <20230425090804.2664466-1-martin.kepplinger@puri.sm>
-	 <20230425094346.GA17841@pendragon.ideasonboard.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.38.3-1+deb11u1 
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 198FB1EA63
+	for <linux-staging@lists.linux.dev>; Tue, 16 May 2023 10:31:26 +0000 (UTC)
+Date: Tue, 16 May 2023 10:31:07 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=atinb.me;
+	s=protonmail; t=1684233070; x=1684492270;
+	bh=iJIaomfcW1rpNE/WPLw3gIMwxLp8ji0De8wR8AnNQOg=;
+	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
+	 Message-ID:BIMI-Selector;
+	b=onUHz8N9cv1WFDuic0cHMZOslnUsZpx65oiicipX99d57N7l0mDRaQtTwUUtHaLKt
+	 kSd/Ofslj614BLoMr4erq5d55H47dE2M9Z+wVY14yryLwB51GU9V2LYgldUfhpoqXq
+	 BTK8rvJkPxfyWNsxnUCFq9DRzRIrSfUUnlW93yqJSeNW9/+4WvXyJXEayyp4ECCr0C
+	 6fEA80JRzq+Wlk1UdM/YyHUKlefzI8/CgfyteTZSIlQB6HgoxSZddOBARJwYuwCFAF
+	 dVzzkbJOWD1T8BGctSdCANtsneo2h22lgx1HBJ8fKT1KVa0kkrhBx5vD6ANdtfHT87
+	 0g03MKrevjmJA==
+To: Greg KH <gregkh@linuxfoundation.org>
+From: Atin <hi@atinb.me>
+Cc: linux-staging@lists.linux.dev
+Subject: Re: [PATCH] staging: rtl8723bs: add whitespace before operator
+Message-ID: <kqmc20X96l-opyiHjxQVIniliwVLkqa0w-6JN3DeMm7KEtJbVeRZ7b9ORH0xA1CQ1QnK3KcqgNcOq6hp9bqgslfW3gHyU7AwlcMwF3P_Tc4=@atinb.me>
+In-Reply-To: <2023051346-pruning-porous-9570@gregkh>
+References: <20230513120950.66944-1-hi@atinb.me> <2023051346-pruning-porous-9570@gregkh>
+Feedback-ID: 64551405:user:proton
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-Am Dienstag, dem 25.04.2023 um 12:43 +0300 schrieb Laurent Pinchart:
-> Hi Martin,
-> 
-> Thank you for the patch.
-> 
-> On Tue, Apr 25, 2023 at 11:08:04AM +0200, Martin Kepplinger wrote:
-> > The imx8mq-mipi-csi2 MIPI CSI-2 receiver driver is used and
-> > maintained.
-> > There is no reason to keep it in staging. The accompanying CSI
-> > bridge
-> > driver that uses it is in drivers/media/platform/nxp as well.
-> > 
-> > One TODO is to get rid of csi_state's "state" and "lock" variables.
-> > Especially make sure suspend/resume is working without them. That
-> > can
-> > very well be worked on from the new location.
-> > 
-> > Also add a MAINTAINERS section for the imx8mq-mipi-csi2 mipi
-> > receiver
-> > driver.
-> > 
-> > Signed-off-by: Martin Kepplinger <martin.kepplinger@puri.sm>
-> 
-> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+I've sent an updated patch with the changes you suggested, please check.
 
-Thanks for reviewing Laurent,
+Thanks,
 
-Are there any second thoughts to this? If not: It still applies to
-todays' next kernel. Who would be able to queue this up?
+Atin Bainada
 
-(This enables Debian and other distributions to use cameras on imx8mq.)
 
-thanks,
 
-                       martin
+------- Original Message -------
+On Saturday, May 13th, 2023 at 6:28 PM, Greg KH <gregkh@linuxfoundation.org=
+> wrote:
 
+
+>=20
+>=20
+> On Sat, May 13, 2023 at 12:10:16PM +0000, Atin Bainada wrote:
+>=20
+> > fix the following post-commit hook checkpatch error:
+>=20
+>=20
+> We have no default "post-commit hooks" :)
+>=20
+> You can run checkpatch.pl on a file, perhaps that is what you did here?
+>=20
+> > spaces required around that '?' (ctx:VxW)
+> > 2278: FILE: rtl8723b_hal_init.c:2278:
+> > + pHalData->ant_path =3D (tempval & BIT(6))? RF_PATH_B : RF_PATH_A;
+> > ^
+> >=20
+> > Signed-off-by: Atin Bainada hi@atinb.me
+> > ---
+> > drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c | 2 +-
+> > 1 file changed, 1 insertion(+), 1 deletion(-)
+> >=20
+> > diff --git a/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c b/driver=
+s/staging/rtl8723bs/hal/rtl8723b_hal_init.c
+> > index c3c1b49674d3..abfaf1eebf5b 100644
+> > --- a/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
+> > +++ b/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
+> > @@ -2275,7 +2275,7 @@ void Hal_EfuseParseBTCoexistInfo_8723B(
+> > pHalData->EEPROMBluetoothAntNum =3D tempval & BIT(0);
+> > /* EFUSE_0xC3[6] =3D=3D 0, S1(Main)-RF_PATH_A; /
+> > / EFUSE_0xC3[6] =3D=3D 1, S0(Aux)-RF_PATH_B */
+> > - pHalData->ant_path =3D (tempval & BIT(6))? RF_PATH_B : RF_PATH_A;
+> > + pHalData->ant_path =3D (tempval & BIT(6)) ? RF_PATH_B : RF_PATH_A;
+>=20
+>=20
+> Why not rewrite this as a real if () statement to make it more
+> understandable?
+>=20
+> thanks,
+>=20
+> greg k-h
