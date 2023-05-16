@@ -1,109 +1,104 @@
-Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CCB68482
-	for <linux-staging@lists.linux.dev>; Tue, 16 May 2023 19:22:11 +0000 (UTC)
-Received: by mail-ed1-f46.google.com with SMTP id 4fb4d7f45d1cf-50a20bfe366so3625748a12.0
-        for <linux-staging@lists.linux.dev>; Tue, 16 May 2023 12:22:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1684264929; x=1686856929;
-        h=content-disposition:mime-version:message-id:subject:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=UqYmiFpnnKS2pZzuywUQLIWdUuVLhrzS65V3MwC8BCk=;
-        b=o5VVC7QzFfDoyZpW+Y2Riq9ctct1CawLq3uuhNOD+CrOi54jxa+yVtRDV39on76lfn
-         xphFvH7wpVf7icOkSSJkD+2ddptAsSWsk2QVBrtdURIj+/TdvCJnqh86Uc5roX0krEmw
-         tmcor1wUxOwfBPXFOpiEtHsvXVINjz0TZoIRGddR1BvQwDDGVRMdumMC6v3juXWLovkh
-         DxdkNbf0ea21ZYopaFvp4dxWc8OQIXAfmk2915Dvj7gfVcDf0YF0X3gDjbAwlfSCpZzp
-         YyKVRtLUXtRE0jlBljAbHCsWk0yIbEa5cQNUm5x7UDdqsX3oxzTdqPkA1WyjyAiaPW0N
-         6s4w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1684264929; x=1686856929;
-        h=content-disposition:mime-version:message-id:subject:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=UqYmiFpnnKS2pZzuywUQLIWdUuVLhrzS65V3MwC8BCk=;
-        b=Qb363XCRfnrwmsdI/Sna+qAKnXEcLoT+Q0bZ3XxiTMFXsve6lhKxDrDfoNK5mSKPSV
-         +FIn/qBo5ZWi5et3Qm+N4U0pLb/LnSEthoQW2sQLYvisJTqhOpEswDjscMxH/aESYcJN
-         FSc5Gg5d5IVedCsGGawl+Z/LRO/48aGi9PdAgo838B2x+gwRve9S+KUx6FguyasYagru
-         EpNm61R/WzWTG4wLjbx81s3MudLj0wGccUZRAMdX+vtYGS3+WvEY+s5WcF1kELpjFUnO
-         8y1gxHcTjJGQtAOGP6DKhPR0yFNOFvCi/kupBuWb5qV+26kgucEHpTx0DSsznS0yZa6A
-         yAIQ==
-X-Gm-Message-State: AC+VfDxK7sdtGuYMe2aAjsXZzJv4riDT5zl3BfKBXSOKSIcq+ckFVIjN
-	yqnvOhL0vp6wwBJ+pvZLCYc=
-X-Google-Smtp-Source: ACHHUZ5/4utux9EbmWMKPnBznFeCkNCwoIbZ0MXCeWg3Wa7ayTfOav+nofbciJC+8Y+i9WMTSCkOlA==
-X-Received: by 2002:a05:6402:40cb:b0:50b:c57f:d464 with SMTP id z11-20020a05640240cb00b0050bc57fd464mr638864edb.1.1684264929203;
-        Tue, 16 May 2023 12:22:09 -0700 (PDT)
-Received: from matrix-ESPRIMO-P710 (p57935e01.dip0.t-ipconnect.de. [87.147.94.1])
-        by smtp.gmail.com with ESMTPSA id f14-20020a05640214ce00b0050e04125a46sm5587846edx.10.2023.05.16.12.22.08
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 16 May 2023 12:22:08 -0700 (PDT)
-Date: Tue, 16 May 2023 21:22:06 +0200
-From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [PATCH] staging: rtl8192e: Unlock wx_mutex not in rtllib_wx_set_scan
-Message-ID: <20230516192206.GA7710@matrix-ESPRIMO-P710>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E82E9FC0B
+	for <linux-staging@lists.linux.dev>; Tue, 16 May 2023 20:26:09 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A1707C433EF;
+	Tue, 16 May 2023 20:26:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1684268769;
+	bh=DGi4eUWzPXy8Fa8N7P2ArAP2jVc3TCXs+v8ySrraZgA=;
+	h=From:To:Cc:Subject:Date:From;
+	b=AEVTnF6C2ACn2TfkYqOFHyR/RMkD8WW54QwQYAlXhgQX38M7pnjLIX/9jrkXUdCOD
+	 A34gXpgBUrVktk6QgU80CMsNHMhyeWJ6MTXRlmrg/I9T+Q4GjRtnI6d5qGbd39ZaC3
+	 csFj+bqmSM9h2MJvJi5uaW5mrZDNxYwK580vUWQC1mfyKXeih+dokFpfIMcqz3ch6A
+	 erBTAAp/fEvMygNth8dp4XK2h36r5rMB6jflB50joDra/mwKOsCJYPya5NXDVE+bXS
+	 qK/CwbUPXzeEFErZyy7z3oeTD4KwIWxJ6ey6e1oNSau/sVc/VnSwKLafo0n96sQ8g9
+	 4NTXKHhuwDqHQ==
+From: Arnd Bergmann <arnd@kernel.org>
+To: Florian Fainelli <f.fainelli@gmail.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Stefan Wahren <stefan.wahren@i2se.com>
+Cc: Arnd Bergmann <arnd@arndb.de>,
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+	Umang Jain <umang.jain@ideasonboard.com>,
+	Adrien Thierry <athierry@redhat.com>,
+	Phil Elwell <phil@raspberrypi.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	=?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
+	linux-rpi-kernel@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] staging: vchiq_arm: mark vchiq_platform_init() static
+Date: Tue, 16 May 2023 22:25:55 +0200
+Message-Id: <20230516202603.560554-1-arnd@kernel.org>
+X-Mailer: git-send-email 2.39.2
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-On start of rtllib_wx_set_scan lock was taken with
-mutex_lock(&ieee->wx_mutex). Unlocking was done at the end of
-schedule_work(&ieee->wx_sync_scan_wq) which lead to the error "lock held
-when returning to user space!". Pushing lock to beginning of
-ieee->wx_sync_scan_wq to improve overview. Removed lock from
-rtllib_wx_set_scan as ieee->state, ieee->iw_mode and ieee->proto_started
-are not protected in many other places.
+From: Arnd Bergmann <arnd@arndb.de>
 
-Signed-off-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+This function has no callers from other files, and the declaration
+was removed a while ago, causing a W=1 warning:
+
+drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c:465:5: error: no previous prototype for 'vchiq_platform_init'
+
+Marking it static solves this problem but introduces a new warning
+since gcc determines that 'g_fragments_base' is never initialized
+in some kernel configurations:
+
+In file included from include/linux/string.h:254,
+                 from include/linux/bitmap.h:11,
+                 from include/linux/cpumask.h:12,
+                 from include/linux/mm_types_task.h:14,
+                 from include/linux/mm_types.h:5,
+                 from include/linux/buildid.h:5,
+                 from include/linux/module.h:14,
+                 from drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c:8:
+In function 'memcpy_to_page',
+    inlined from 'free_pagelist' at drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c:433:4:
+include/linux/fortify-string.h:57:33: error: argument 2 null where non-null expected [-Werror=nonnull]
+include/linux/highmem.h:427:9: note: in expansion of macro 'memcpy'
+  427 |         memcpy(to + offset, from, len);
+      |         ^~~~~~
+
+Add a NULL pointer check for this in addition to the static annotation
+to avoid both.
+
+Fixes: 89cc4218f640 ("staging: vchiq_arm: drop unnecessary declarations")
+Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 ---
-Tested with rtl8192e (WLL6130-D99)
-Transferred this patch over wlan connection of rtl8192e
+ drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-[ 7379.147691] ================================================
-[ 7379.147693] WARNING: lock held when returning to user space!
-[ 7379.147694] 6.3.0+ #8 Tainted: G         C OE
-[ 7379.147696] ------------------------------------------------
-[ 7379.147697] wpa_supplicant/1193 is leaving the kernel with locks still held!
-[ 7379.147699] 1 lock held by wpa_supplicant/1193:
-[ 7379.147701]  #0: ffff8c54dd0090b0 (&ieee->wx_mutex){+.+.}-{4:4}, at: rtllib_wx_set_scan+0x22/0x80 [rtllib]
----
- drivers/staging/rtl8192e/rtllib_softmac_wx.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
-
-diff --git a/drivers/staging/rtl8192e/rtllib_softmac_wx.c b/drivers/staging/rtl8192e/rtllib_softmac_wx.c
-index 371864f0087f..e93da95f175b 100644
---- a/drivers/staging/rtl8192e/rtllib_softmac_wx.c
-+++ b/drivers/staging/rtl8192e/rtllib_softmac_wx.c
-@@ -332,6 +332,7 @@ void rtllib_wx_sync_scan_wq(void *data)
- 	enum ht_channel_width bandwidth = 0;
- 	int b40M = 0;
+diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
+index 90a3958d1f29..aa2313f3bcab 100644
+--- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
++++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
+@@ -415,7 +415,7 @@ free_pagelist(struct vchiq_instance *instance, struct vchiq_pagelist_info *pagel
+ 	pagelistinfo->scatterlist_mapped = 0;
  
-+	mutex_lock(&ieee->wx_mutex);
- 	if (!(ieee->softmac_features & IEEE_SOFTMAC_SCAN)) {
- 		rtllib_start_scan_syncro(ieee, 0);
- 		goto out;
-@@ -404,8 +405,6 @@ int rtllib_wx_set_scan(struct rtllib_device *ieee, struct iw_request_info *a,
- {
- 	int ret = 0;
- 
--	mutex_lock(&ieee->wx_mutex);
--
- 	if (ieee->iw_mode == IW_MODE_MONITOR || !(ieee->proto_started)) {
- 		ret = -1;
- 		goto out;
-@@ -418,7 +417,6 @@ int rtllib_wx_set_scan(struct rtllib_device *ieee, struct iw_request_info *a,
- 	}
- 
- out:
--	mutex_unlock(&ieee->wx_mutex);
- 	return ret;
+ 	/* Deal with any partial cache lines (fragments) */
+-	if (pagelist->type >= PAGELIST_READ_WITH_FRAGMENTS) {
++	if (pagelist->type >= PAGELIST_READ_WITH_FRAGMENTS && g_fragments_base) {
+ 		char *fragments = g_fragments_base +
+ 			(pagelist->type - PAGELIST_READ_WITH_FRAGMENTS) *
+ 			g_fragments_size;
+@@ -462,7 +462,7 @@ free_pagelist(struct vchiq_instance *instance, struct vchiq_pagelist_info *pagel
+ 	cleanup_pagelistinfo(instance, pagelistinfo);
  }
- EXPORT_SYMBOL(rtllib_wx_set_scan);
+ 
+-int vchiq_platform_init(struct platform_device *pdev, struct vchiq_state *state)
++static int vchiq_platform_init(struct platform_device *pdev, struct vchiq_state *state)
+ {
+ 	struct device *dev = &pdev->dev;
+ 	struct vchiq_drvdata *drvdata = platform_get_drvdata(pdev);
 -- 
-2.40.1
+2.39.2
 
