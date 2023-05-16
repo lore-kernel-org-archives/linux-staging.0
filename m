@@ -1,68 +1,133 @@
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C23334CC0
-	for <linux-staging@lists.linux.dev>; Tue, 16 May 2023 10:52:13 +0000 (UTC)
-Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-3078aa0b152so7547590f8f.3
-        for <linux-staging@lists.linux.dev>; Tue, 16 May 2023 03:52:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1684234331; x=1686826331;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=7IWQHlMbXDpvKFEOkE+mWOLjcST6eVfYEvzec3CKkKY=;
-        b=y1Ayu4YbLMKOaHHAEsIHOAKmKifNuAHjJeBoLPe0OmQOw8UHBlz4Z/vuYeyjmAi4zL
-         ecZTeoX+/JpwFdYqFxIKr4+i77VkEhak3dG33mJ2OkVficSbUzseFpfoTtcR0iw1rIqO
-         /W+bL0MVt1Hilbx8wN41a3SIPx8wazSS961iDnGe+7BJaAv/BMJiz6qG9mfbl6270UwJ
-         jJ68dk+R0EweeIUjvb96nQ9PbIPBJOBbEg5BkwFtpw0dRCYVUeJNRjQCDQPCzJhQ75wq
-         o5g3drlsFfQbQ54faBevMP1I7oTkXxiLv+EurXnWCgv/snoXmVgTu8gQFS0hnvYohck6
-         Patw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1684234331; x=1686826331;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=7IWQHlMbXDpvKFEOkE+mWOLjcST6eVfYEvzec3CKkKY=;
-        b=YFTFWc8JFbLCI4gzNEYl5geKQj7Vfd13Qh18Bpb0mKCM28pyLkVTiMvluLIwDln9MC
-         rETe7Bx86vsy9a/ZnAiXcg6F3j6y3V5g27RcIH6zLPZAum49SNjGWQCW3bxDq8Ud/vaP
-         Gtx0veRuCDqKEZQ+lRL+unvEYr1J1VvGop933TY8EkzZkt803kJ/hiMU7zzEnvilV9VY
-         Kz/0MwCXxyQQ8ha+EwJYsY4jbmAzTpI40M/JgyNe5XJIV8fW8QY6HAPqT7o+xbffgP7G
-         eFG6ZZQYGD/ILQg7EQBoDkhj4jpkiUwBV7O7cz94Wun/GDZsshjVGPklnkaym9b3SuXY
-         b/xQ==
-X-Gm-Message-State: AC+VfDxCSN7oZ38WJ30sKcjy1iVmbA5roV87BJoHHSvigImGUzI+ksOn
-	ThQqfumzQpuk3fmYKV1IOwQa2A==
-X-Google-Smtp-Source: ACHHUZ6VFcaUJX5oLEt5iwEFICe8KPibexc3h6Hn9ikn1nygKX9v8fcYJXZMU01dtTEbQgXipcbAJg==
-X-Received: by 2002:a5d:6d4e:0:b0:309:22ba:dcdc with SMTP id k14-20020a5d6d4e000000b0030922badcdcmr3762731wri.42.1684234331578;
-        Tue, 16 May 2023 03:52:11 -0700 (PDT)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id c16-20020a5d63d0000000b002e61e002943sm2122445wrw.116.2023.05.16.03.47.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 16 May 2023 03:52:10 -0700 (PDT)
-Date: Tue, 16 May 2023 13:47:50 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Atin <hi@atinb.me>
-Cc: Greg KH <gregkh@linuxfoundation.org>, linux-staging@lists.linux.dev
-Subject: Re: [PATCH] staging: rtl8723bs: add whitespace before operator
-Message-ID: <97bfa093-dc1b-41ed-ba98-b148525782a4@kili.mountain>
-References: <20230513120950.66944-1-hi@atinb.me>
- <2023051346-pruning-porous-9570@gregkh>
- <kqmc20X96l-opyiHjxQVIniliwVLkqa0w-6JN3DeMm7KEtJbVeRZ7b9ORH0xA1CQ1QnK3KcqgNcOq6hp9bqgslfW3gHyU7AwlcMwF3P_Tc4=@atinb.me>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A1A834CC0
+	for <linux-staging@lists.linux.dev>; Tue, 16 May 2023 11:01:31 +0000 (UTC)
+Received: from pps.filterd (m0356516.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 34GAdg6f025382;
+	Tue, 16 May 2023 11:01:15 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=from : to : cc : subject
+ : date : message-id : in-reply-to : references : mime-version :
+ content-transfer-encoding; s=pp1;
+ bh=pZZlVOs9zQtMUpaqm1yI7yZiMLvx0rN2RcPp7b3A6Hk=;
+ b=eyJrgCiBbOc0dyHgiDYFW+zRlhHOh8tGmYYyjUK3UR4C5Dv9qrPUi+bvhWN8QiAiejRe
+ aNpFYJwSKlw8JZ0cWpToJVyEJfNP4Mby4u5CS8XpogzbFWZwRZOS1EOOazA6gWE2fSpp
+ GkzYMSGzsGSgaHW582+Oen2PoiTaD/Tltmw4SiUjBx6ISD9P2F3nKkWIjmLOlngiAWrJ
+ oJQJOXVCamUbHeDu9VfAztt18CtnQzvv+U+8wmGU/wCwEOAZqnQzA8BdA7REYfdPWOpj
+ NzddwkBqJDYJIMm07zsgkRqacx7rS4VKafJo0GSGkcD2NmZQ8ZYhqP3o9w+kmDw4hWSr EA== 
+Received: from pps.reinject (localhost [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3qm7xj12xh-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 16 May 2023 11:01:14 +0000
+Received: from m0356516.ppops.net (m0356516.ppops.net [127.0.0.1])
+	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 34GArNMR015761;
+	Tue, 16 May 2023 11:01:13 GMT
+Received: from ppma04ams.nl.ibm.com (63.31.33a9.ip4.static.sl-reverse.com [169.51.49.99])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3qm7xj12vf-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 16 May 2023 11:01:13 +0000
+Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
+	by ppma04ams.nl.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 34G5PxQM000762;
+	Tue, 16 May 2023 11:01:11 GMT
+Received: from smtprelay04.fra02v.mail.ibm.com ([9.218.2.228])
+	by ppma04ams.nl.ibm.com (PPS) with ESMTPS id 3qj264sk9a-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 16 May 2023 11:01:10 +0000
+Received: from smtpav04.fra02v.mail.ibm.com (smtpav04.fra02v.mail.ibm.com [10.20.54.103])
+	by smtprelay04.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 34GB18VU43778786
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Tue, 16 May 2023 11:01:08 GMT
+Received: from smtpav04.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 4A39B2004D;
+	Tue, 16 May 2023 11:01:08 +0000 (GMT)
+Received: from smtpav04.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id E56B42004B;
+	Tue, 16 May 2023 11:01:07 +0000 (GMT)
+Received: from tuxmaker.boeblingen.de.ibm.com (unknown [9.152.85.9])
+	by smtpav04.fra02v.mail.ibm.com (Postfix) with ESMTP;
+	Tue, 16 May 2023 11:01:07 +0000 (GMT)
+From: Niklas Schnelle <schnelle@linux.ibm.com>
+To: Arnd Bergmann <arnd@arndb.de>,
+        Sudip Mukherjee <sudipm.mukherjee@gmail.com>,
+        Teddy Wang <teddy.wang@siliconmotion.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Forest Bond <forest@alittletooquiet.net>
+Cc: Bjorn Helgaas <bhelgaas@google.com>,
+        =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Alan Stern <stern@rowland.harvard.edu>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>,
+        linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
+        linux-pci@vger.kernel.org, Arnd Bergmann <arnd@kernel.org>,
+        linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev
+Subject: [PATCH v4 32/41] staging: add HAS_IOPORT dependencies
+Date: Tue, 16 May 2023 13:00:28 +0200
+Message-Id: <20230516110038.2413224-33-schnelle@linux.ibm.com>
+X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20230516110038.2413224-1-schnelle@linux.ibm.com>
+References: <20230516110038.2413224-1-schnelle@linux.ibm.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <kqmc20X96l-opyiHjxQVIniliwVLkqa0w-6JN3DeMm7KEtJbVeRZ7b9ORH0xA1CQ1QnK3KcqgNcOq6hp9bqgslfW3gHyU7AwlcMwF3P_Tc4=@atinb.me>
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: rq6Nqi_i6TGok68EQN5TQi6UNg4xZwrE
+X-Proofpoint-ORIG-GUID: bKeIodqg6JknN-EYhHE31eyopA9RUKnK
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-05-16_04,2023-05-16_01,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 impostorscore=0
+ phishscore=0 lowpriorityscore=0 mlxlogscore=999 clxscore=1011 adultscore=0
+ suspectscore=0 bulkscore=0 malwarescore=0 priorityscore=1501 spamscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2304280000
+ definitions=main-2305160089
 
-On Tue, May 16, 2023 at 10:31:07AM +0000, Atin wrote:
-> I've sent an updated patch with the changes you suggested, please check.
-> 
+In a future patch HAS_IOPORT=n will result in inb()/outb() and friends
+not being declared. We thus need to add HAS_IOPORT as dependency for
+those drivers using them.
 
-Please wait for a minimum of two weeks (not including the merge window)
-before asking for feedback.
+Co-developed-by: Arnd Bergmann <arnd@kernel.org>
+Signed-off-by: Arnd Bergmann <arnd@kernel.org>
+Signed-off-by: Niklas Schnelle <schnelle@linux.ibm.com>
+---
+Note: The HAS_IOPORT Kconfig option was added in v6.4-rc1 so
+      per-subsystem patches may be applied independently
 
-regards,
-dan carpenter
+ drivers/staging/sm750fb/Kconfig | 2 +-
+ drivers/staging/vt6655/Kconfig  | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/staging/sm750fb/Kconfig b/drivers/staging/sm750fb/Kconfig
+index 1461c89701c3..ab3d9b057d56 100644
+--- a/drivers/staging/sm750fb/Kconfig
++++ b/drivers/staging/sm750fb/Kconfig
+@@ -1,7 +1,7 @@
+ # SPDX-License-Identifier: GPL-2.0
+ config FB_SM750
+ 	tristate "Silicon Motion SM750 framebuffer support"
+-	depends on FB && PCI
++	depends on FB && PCI && HAS_IOPORT
+ 	select FB_MODE_HELPERS
+ 	select FB_CFB_FILLRECT
+ 	select FB_CFB_COPYAREA
+diff --git a/drivers/staging/vt6655/Kconfig b/drivers/staging/vt6655/Kconfig
+index d1cd5de46dcf..077f62ebe80c 100644
+--- a/drivers/staging/vt6655/Kconfig
++++ b/drivers/staging/vt6655/Kconfig
+@@ -1,6 +1,6 @@
+ # SPDX-License-Identifier: GPL-2.0
+ config VT6655
+    tristate "VIA Technologies VT6655 support"
+-   depends on PCI && MAC80211 && m
++   depends on PCI && HAS_IOPORT && MAC80211 && m
+    help
+      This is a vendor-written driver for VIA VT6655.
+-- 
+2.39.2
 
