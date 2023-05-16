@@ -1,87 +1,80 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from comms.puri.sm (comms.puri.sm [159.203.221.185])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6690779D4
-	for <linux-staging@lists.linux.dev>; Mon, 15 May 2023 13:02:21 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 92F86C433EF;
-	Mon, 15 May 2023 13:02:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1684155741;
-	bh=A50I111Beii2n1Gd+IAzZUqQEECQkz+pR1uvFuPD3ew=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=QL589bz/46+mnXFbkmBKzVB0rZe10E7eStjotjvFRsebyuoAh8Dj6Wlu2C3ApcXMQ
-	 p3Wk1tO6/WIV/b8j4RqRXNaZrRtrIMI31UoXYsqRgEWrI33ditYZsjFQjsPd8b4Zxs
-	 j6vLDs4TTtLk5NTMUibyPVWcdWgV7lPifCDNuFLQ=
-Date: Mon, 15 May 2023 15:02:17 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Esina Ekaterina <eesina@astralinux.ru>
-Cc: Rob Springer <rspringer@google.com>,
-	Todd Poynor <toddpoynor@google.com>,
-	Ben Chan <benchan@chromium.org>, Richard Yeh <rcy@google.com>,
-	John Joseph <jnjoseph@google.com>, Simon Que <sque@chromium.org>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-	lvc-project@linuxtesting.org
-Subject: Re: [PATCH 5.10] staging: gasket: interrupt: Clean interrupt_data
- after free
-Message-ID: <2023051546-churn-obstinate-20af@gregkh>
-References: <20230515122950.100564-1-eesina@astralinux.ru>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A8EDC2D3
+	for <linux-staging@lists.linux.dev>; Tue, 16 May 2023 07:49:53 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by comms.puri.sm (Postfix) with ESMTP id 92FBAEBA11;
+	Tue, 16 May 2023 00:42:26 -0700 (PDT)
+Received: from comms.puri.sm ([127.0.0.1])
+	by localhost (comms.puri.sm [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id haCKqCl3j_pU; Tue, 16 May 2023 00:42:25 -0700 (PDT)
+Message-ID: <a4b3cf3be9f105adcbcad688f8745556eec4d9df.camel@puri.sm>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=puri.sm; s=comms;
+	t=1684222945; bh=hNjjN4aUowMpetU4hQNKDhkB3mHZChV8fgTpId6EMEY=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+	b=HLQZwyvPnFKZdXq8EXsL6LEhNYigiSbK0uxDs9KFCOoMnaTt3Bfeei6CqN6932AU6
+	 AtsBcbs8iHv3k4E1X6v1gJL8E0AzgdH//vhiecDEvDxbqIb0OXAadMItXcI2sEe7+G
+	 BZs7vxGxcv2AwcU8rtuJHbgGQ2g7Jlb5eHKaG1MRIvhOExHOLAvgEUZBZP/E2t1jOW
+	 3C0AggK6YgJUvq3BDU0VCg1YK2VJAILXKLD6CUK7dNJRwe4ih6vvh3RZOJWLkKY9/5
+	 UfOcrEpRI/c4Lp4RSGu4Tg9PSCfV2pLR2L55g1a9AO/alTA1Im7W/SnxmzL1/DRH9F
+	 FMVovSo86KHbQ==
+Subject: Re: [PATCH v2] media: imx: Unstage the imx8mq-mipi-csi2 driver
+From: Martin Kepplinger <martin.kepplinger@puri.sm>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: mchehab@kernel.org, shawnguo@kernel.org, festevam@gmail.com, 
+ slongerbeam@gmail.com, gregkh@linuxfoundation.org,
+ hverkuil-cisco@xs4all.nl,  rmfrfs@gmail.com, kernel@pengutronix.de,
+ linux-imx@nxp.com, kernel@puri.sm,  linux-media@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org,  linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+Date: Tue, 16 May 2023 09:42:18 +0200
+In-Reply-To: <20230425094346.GA17841@pendragon.ideasonboard.com>
+References: <20230425090804.2664466-1-martin.kepplinger@puri.sm>
+	 <20230425094346.GA17841@pendragon.ideasonboard.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.38.3-1+deb11u1 
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230515122950.100564-1-eesina@astralinux.ru>
+Content-Transfer-Encoding: 7bit
 
-On Mon, May 15, 2023 at 03:29:50PM +0300, Esina Ekaterina wrote:
-> Add interrupt_data = NULL after kfree(interrupt_data) in
-> gasket_interrupt_init. It is needed to avoid double free
-> in gasket_interrupt_cleanup, there is a check for NULL
-> before kfree(interrupt_data).
+Am Dienstag, dem 25.04.2023 um 12:43 +0300 schrieb Laurent Pinchart:
+> Hi Martin,
 > 
-> Found by Astra Linux on behalf of Linux Verification Center
-> (linuxtesting.org) with SVACE.
+> Thank you for the patch.
 > 
-> Fixes: 9a69f5087ccc ("drivers/staging: Gasket driver framework + Apex driver")
-> Signed-off-by: Esina Ekaterina <eesina@astralinux.ru>
-> ---
->  drivers/staging/gasket/gasket_interrupt.c | 2 ++
->  1 file changed, 2 insertions(+)
+> On Tue, Apr 25, 2023 at 11:08:04AM +0200, Martin Kepplinger wrote:
+> > The imx8mq-mipi-csi2 MIPI CSI-2 receiver driver is used and
+> > maintained.
+> > There is no reason to keep it in staging. The accompanying CSI
+> > bridge
+> > driver that uses it is in drivers/media/platform/nxp as well.
+> > 
+> > One TODO is to get rid of csi_state's "state" and "lock" variables.
+> > Especially make sure suspend/resume is working without them. That
+> > can
+> > very well be worked on from the new location.
+> > 
+> > Also add a MAINTAINERS section for the imx8mq-mipi-csi2 mipi
+> > receiver
+> > driver.
+> > 
+> > Signed-off-by: Martin Kepplinger <martin.kepplinger@puri.sm>
 > 
-> diff --git a/drivers/staging/gasket/gasket_interrupt.c b/drivers/staging/gasket/gasket_interrupt.c
-> index 864342acfd86..48b664b9134a 100644
-> --- a/drivers/staging/gasket/gasket_interrupt.c
-> +++ b/drivers/staging/gasket/gasket_interrupt.c
-> @@ -337,6 +337,7 @@ int gasket_interrupt_init(struct gasket_dev *gasket_dev)
->  			sizeof(*interrupt_data->eventfd_ctxs), GFP_KERNEL);
->  	if (!interrupt_data->eventfd_ctxs) {
->  		kfree(interrupt_data);
-> +		interrupt_data = NULL;
->  		return -ENOMEM;
->  	}
->  
-> @@ -346,6 +347,7 @@ int gasket_interrupt_init(struct gasket_dev *gasket_dev)
->  	if (!interrupt_data->interrupt_counts) {
->  		kfree(interrupt_data->eventfd_ctxs);
->  		kfree(interrupt_data);
-> +		interrupt_data = NULL;
->  		return -ENOMEM;
->  	}
->  
-> -- 
-> 2.40.1
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
-Also, your tool is wrong, this is not a correct fix at all.
+Thanks for reviewing Laurent,
 
-How did you test it?  Why is your tool spitting out incorrect code?  Why
-are you not verifying it's output before asking others to do so?
+Are there any second thoughts to this? If not: It still applies to
+todays' next kernel. Who would be able to queue this up?
 
-Please don't do this anymore, it's wasteful on our side, right?  Please
-take the time to review existing changes for problems, that would be
-more useful overall to everyone.
+(This enables Debian and other distributions to use cameras on imx8mq.)
 
 thanks,
 
-greg k-h
+                       martin
+
