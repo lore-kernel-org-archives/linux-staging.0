@@ -1,133 +1,99 @@
-Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A1A834CC0
-	for <linux-staging@lists.linux.dev>; Tue, 16 May 2023 11:01:31 +0000 (UTC)
-Received: from pps.filterd (m0356516.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 34GAdg6f025382;
-	Tue, 16 May 2023 11:01:15 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=from : to : cc : subject
- : date : message-id : in-reply-to : references : mime-version :
- content-transfer-encoding; s=pp1;
- bh=pZZlVOs9zQtMUpaqm1yI7yZiMLvx0rN2RcPp7b3A6Hk=;
- b=eyJrgCiBbOc0dyHgiDYFW+zRlhHOh8tGmYYyjUK3UR4C5Dv9qrPUi+bvhWN8QiAiejRe
- aNpFYJwSKlw8JZ0cWpToJVyEJfNP4Mby4u5CS8XpogzbFWZwRZOS1EOOazA6gWE2fSpp
- GkzYMSGzsGSgaHW582+Oen2PoiTaD/Tltmw4SiUjBx6ISD9P2F3nKkWIjmLOlngiAWrJ
- oJQJOXVCamUbHeDu9VfAztt18CtnQzvv+U+8wmGU/wCwEOAZqnQzA8BdA7REYfdPWOpj
- NzddwkBqJDYJIMm07zsgkRqacx7rS4VKafJo0GSGkcD2NmZQ8ZYhqP3o9w+kmDw4hWSr EA== 
-Received: from pps.reinject (localhost [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3qm7xj12xh-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 16 May 2023 11:01:14 +0000
-Received: from m0356516.ppops.net (m0356516.ppops.net [127.0.0.1])
-	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 34GArNMR015761;
-	Tue, 16 May 2023 11:01:13 GMT
-Received: from ppma04ams.nl.ibm.com (63.31.33a9.ip4.static.sl-reverse.com [169.51.49.99])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3qm7xj12vf-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 16 May 2023 11:01:13 +0000
-Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
-	by ppma04ams.nl.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 34G5PxQM000762;
-	Tue, 16 May 2023 11:01:11 GMT
-Received: from smtprelay04.fra02v.mail.ibm.com ([9.218.2.228])
-	by ppma04ams.nl.ibm.com (PPS) with ESMTPS id 3qj264sk9a-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 16 May 2023 11:01:10 +0000
-Received: from smtpav04.fra02v.mail.ibm.com (smtpav04.fra02v.mail.ibm.com [10.20.54.103])
-	by smtprelay04.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 34GB18VU43778786
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 16 May 2023 11:01:08 GMT
-Received: from smtpav04.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 4A39B2004D;
-	Tue, 16 May 2023 11:01:08 +0000 (GMT)
-Received: from smtpav04.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id E56B42004B;
-	Tue, 16 May 2023 11:01:07 +0000 (GMT)
-Received: from tuxmaker.boeblingen.de.ibm.com (unknown [9.152.85.9])
-	by smtpav04.fra02v.mail.ibm.com (Postfix) with ESMTP;
-	Tue, 16 May 2023 11:01:07 +0000 (GMT)
-From: Niklas Schnelle <schnelle@linux.ibm.com>
-To: Arnd Bergmann <arnd@arndb.de>,
-        Sudip Mukherjee <sudipm.mukherjee@gmail.com>,
-        Teddy Wang <teddy.wang@siliconmotion.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Forest Bond <forest@alittletooquiet.net>
-Cc: Bjorn Helgaas <bhelgaas@google.com>,
-        =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Alan Stern <stern@rowland.harvard.edu>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>,
-        linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
-        linux-pci@vger.kernel.org, Arnd Bergmann <arnd@kernel.org>,
-        linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev
-Subject: [PATCH v4 32/41] staging: add HAS_IOPORT dependencies
-Date: Tue, 16 May 2023 13:00:28 +0200
-Message-Id: <20230516110038.2413224-33-schnelle@linux.ibm.com>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230516110038.2413224-1-schnelle@linux.ibm.com>
-References: <20230516110038.2413224-1-schnelle@linux.ibm.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BADBF34CC0
+	for <linux-staging@lists.linux.dev>; Tue, 16 May 2023 11:02:23 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E050DC433D2;
+	Tue, 16 May 2023 11:02:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1684234943;
+	bh=t7FUbmszHOiSynp4eWcee6aa0ZPkc5hy3XpDJUTIt9A=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=FjQkQ/176/JsQs7294dTtu6jXCDb+fJV8W0/VBIYPEz8+UB+doz12DcN7y+37ixLz
+	 XkEVf3/yR4zWBrH8wnViMveP8H36C7qVzbeuWr0PD4ZmERJXVmLVdnCVB4VeWi62+Y
+	 e/KsGSJcYwGWi/ZIHLhN5fqQ2Az3SG9K0XOFZw3I=
+Date: Tue, 16 May 2023 13:02:15 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Ekaterina Esina <eesina@astralinux.ru>
+Cc: Rob Springer <rspringer@google.com>,
+	Todd Poynor <toddpoynor@google.com>,
+	Ben Chan <benchan@chromium.org>, Richard Yeh <rcy@google.com>,
+	John Joseph <jnjoseph@google.com>, Simon Que <sque@chromium.org>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	lvc-project@linuxtesting.org
+Subject: Re: [PATCH 5.10] staging: gasket: interrupt: Clean interrupt_data
+ after free
+Message-ID: <2023051640-trustless-gluten-a7b8@gregkh>
+References: <20230515122950.100564-1-eesina@astralinux.ru>
+ <2023051546-churn-obstinate-20af@gregkh>
+ <ba0ad96d-6515-66e3-e140-cd7c3999577e@astralinux.ru>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: rq6Nqi_i6TGok68EQN5TQi6UNg4xZwrE
-X-Proofpoint-ORIG-GUID: bKeIodqg6JknN-EYhHE31eyopA9RUKnK
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-05-16_04,2023-05-16_01,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 impostorscore=0
- phishscore=0 lowpriorityscore=0 mlxlogscore=999 clxscore=1011 adultscore=0
- suspectscore=0 bulkscore=0 malwarescore=0 priorityscore=1501 spamscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2304280000
- definitions=main-2305160089
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ba0ad96d-6515-66e3-e140-cd7c3999577e@astralinux.ru>
 
-In a future patch HAS_IOPORT=n will result in inb()/outb() and friends
-not being declared. We thus need to add HAS_IOPORT as dependency for
-those drivers using them.
+On Tue, May 16, 2023 at 01:44:06PM +0300, Ekaterina Esina wrote:
+> 
+> 
+> On 15.05.2023 16:02, Greg Kroah-Hartman wrote:
+> > On Mon, May 15, 2023 at 03:29:50PM +0300, Esina Ekaterina wrote:
+> > > Add interrupt_data = NULL after kfree(interrupt_data) in
+> > > gasket_interrupt_init. It is needed to avoid double free
+> > > in gasket_interrupt_cleanup, there is a check for NULL
+> > > before kfree(interrupt_data).
+> > > 
+> > > Found by Astra Linux on behalf of Linux Verification Center
+> > > (linuxtesting.org) with SVACE.
+> > > 
+> > > Fixes: 9a69f5087ccc ("drivers/staging: Gasket driver framework + Apex driver")
+> > > Signed-off-by: Esina Ekaterina <eesina@astralinux.ru>
+> > > ---
+> > >   drivers/staging/gasket/gasket_interrupt.c | 2 ++
+> > >   1 file changed, 2 insertions(+)
+> > > 
+> > > diff --git a/drivers/staging/gasket/gasket_interrupt.c b/drivers/staging/gasket/gasket_interrupt.c
+> > > index 864342acfd86..48b664b9134a 100644
+> > > --- a/drivers/staging/gasket/gasket_interrupt.c
+> > > +++ b/drivers/staging/gasket/gasket_interrupt.c
+> > > @@ -337,6 +337,7 @@ int gasket_interrupt_init(struct gasket_dev *gasket_dev)
+> > >   			sizeof(*interrupt_data->eventfd_ctxs), GFP_KERNEL);
+> > >   	if (!interrupt_data->eventfd_ctxs) {
+> > >   		kfree(interrupt_data);
+> > > +		interrupt_data = NULL;
+> > >   		return -ENOMEM;
+> > >   	}
+> > > @@ -346,6 +347,7 @@ int gasket_interrupt_init(struct gasket_dev *gasket_dev)
+> > >   	if (!interrupt_data->interrupt_counts) {
+> > >   		kfree(interrupt_data->eventfd_ctxs);
+> > >   		kfree(interrupt_data);
+> > > +		interrupt_data = NULL;
+> > >   		return -ENOMEM;
+> > >   	}
+> > > -- 
+> > > 2.40.1
+> > 
+> > Also, your tool is wrong, this is not a correct fix at all.
+> > 
+> > How did you test it?  Why is your tool spitting out incorrect code?  Why
+> > are you not verifying it's output before asking others to do so?
+> > 
+> > Please don't do this anymore, it's wasteful on our side, right?  Please
+> > take the time to review existing changes for problems, that would be
+> > more useful overall to everyone.
+> > 
+> > thanks,
+> > 
+> > greg k-h
+> 
+> I apologize, there is a mistake. It should've been
+> gasket_dev->interrupt_data = NULL istead of interrupt_data = NULL
 
-Co-developed-by: Arnd Bergmann <arnd@kernel.org>
-Signed-off-by: Arnd Bergmann <arnd@kernel.org>
-Signed-off-by: Niklas Schnelle <schnelle@linux.ibm.com>
----
-Note: The HAS_IOPORT Kconfig option was added in v6.4-rc1 so
-      per-subsystem patches may be applied independently
+Which implies that your tools are broken, right?  Please do better
+testing before sending anymore patches.
 
- drivers/staging/sm750fb/Kconfig | 2 +-
- drivers/staging/vt6655/Kconfig  | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/staging/sm750fb/Kconfig b/drivers/staging/sm750fb/Kconfig
-index 1461c89701c3..ab3d9b057d56 100644
---- a/drivers/staging/sm750fb/Kconfig
-+++ b/drivers/staging/sm750fb/Kconfig
-@@ -1,7 +1,7 @@
- # SPDX-License-Identifier: GPL-2.0
- config FB_SM750
- 	tristate "Silicon Motion SM750 framebuffer support"
--	depends on FB && PCI
-+	depends on FB && PCI && HAS_IOPORT
- 	select FB_MODE_HELPERS
- 	select FB_CFB_FILLRECT
- 	select FB_CFB_COPYAREA
-diff --git a/drivers/staging/vt6655/Kconfig b/drivers/staging/vt6655/Kconfig
-index d1cd5de46dcf..077f62ebe80c 100644
---- a/drivers/staging/vt6655/Kconfig
-+++ b/drivers/staging/vt6655/Kconfig
-@@ -1,6 +1,6 @@
- # SPDX-License-Identifier: GPL-2.0
- config VT6655
-    tristate "VIA Technologies VT6655 support"
--   depends on PCI && MAC80211 && m
-+   depends on PCI && HAS_IOPORT && MAC80211 && m
-    help
-      This is a vendor-written driver for VIA VT6655.
--- 
-2.39.2
-
+greg k-h
