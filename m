@@ -1,59 +1,46 @@
-Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F30A23C6A;
-	Thu, 18 May 2023 14:52:14 +0000 (UTC)
-Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-1adc913094aso20854845ad.0;
-        Thu, 18 May 2023 07:52:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1684421534; x=1687013534;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ps7W4euBnPTypuQ48jqWiVzSPldfhUMwv3snwxq59YY=;
-        b=hedsU+5EjGATXBibLsEBR117qR3ng1l4mxOXnuvUpXBTRC1Ybnm6AXilzxo2yN7CGW
-         ccffY//czw6Bi66/P6D3kQ13uVVNHKtEMrMSoUgOY4ARN4GtYZliD+VxWyxw/ChOuJNM
-         GIupt/1J2Raug6vh00CvSUJe4Kqd73ip50Gw0gSW29KzkiC/U9CALCAA5M0+Qz2g0y6h
-         ValE8TpyRilytjdmgbFzyhexQgU+Yvp8rMEr5f6ST4bE6bsPDqf2kjJueHveFQGj9GpK
-         r0u/dhef5d57WW6tVU7/WV1Euf59rI9zIbW2JWaujQ2GK216r2FYge8JfVSor3kimTb9
-         zT7g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1684421534; x=1687013534;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ps7W4euBnPTypuQ48jqWiVzSPldfhUMwv3snwxq59YY=;
-        b=NtOtT+Lt5Lu/QnJnKwEDk8X5M5XS1Z6yr8OVqIiv/CCdFMHKw22t/hBjNYRRYkzwYe
-         3e7ULviBwyYBiWjd2h+4ICqsKTHCTu01T6UGsFuX4mt2cYShehdbr4RDvLbaEt3it8fP
-         +mKU+UzjvlV3z5fpgPQXU0ouNEjCKymKrGouWSXlsDOFoQC8G13oiGMc42maDAkn6Z/c
-         vxbw1YDqPnnec3h8F6Ny9027CpfBv2dbUljuV1xLlQ990N0Tmo8pzGLTmrdun8jy3tyJ
-         E/GlkpWYia2TaytOsD/j1m8rrP2K3vtI/AgBwjSpFM+W+awOOZD+tWGbv6BvJATrcKlV
-         8HlQ==
-X-Gm-Message-State: AC+VfDxCUzVDa7zrpLANiAjhufPvTRm3xK2+T0SiF6FRUK7TwPeMzx68
-	OQ+A/7hzT3ID+zhl5esOn051rDIaa5ldLA==
-X-Google-Smtp-Source: ACHHUZ6sF60++RITMwmE7PHxBQftVercRGQ0dQRL769ij1imkDmMP4hnEMet45k+CaMg65sIOr1Y9g==
-X-Received: by 2002:a17:902:6e17:b0:1ae:762a:b660 with SMTP id u23-20020a1709026e1700b001ae762ab660mr692394plk.39.1684421533749;
-        Thu, 18 May 2023 07:52:13 -0700 (PDT)
-Received: from redkillpc.. ([49.207.202.99])
-        by smtp.gmail.com with ESMTPSA id jn9-20020a170903050900b001ac741dfd29sm1506647plb.295.2023.05.18.07.52.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 18 May 2023 07:52:13 -0700 (PDT)
-From: Prathu Baronia <prathubaronia2011@gmail.com>
-To: prathubaronia2011@gmail.com
-Cc: dan.carpenter@linaro.org,
-	gregkh@linuxfoundation.org,
-	linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	lkp@intel.com,
-	oe-kbuild-all@lists.linux.dev,
-	oe-kbuild@lists.linux.dev
-Subject: [PATCH v3 2/2] axis-fifo: cleanup space issues with fops struct
-Date: Thu, 18 May 2023 20:21:54 +0530
-Message-Id: <20230518145154.33377-2-prathubaronia2011@gmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230518145154.33377-1-prathubaronia2011@gmail.com>
-References: <CAJp9fsfJxoY2=fFK3-R_XoDatMB9z5WT4BaeSw3-nMScicERJQ@mail.gmail.com>
- <20230518145154.33377-1-prathubaronia2011@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D7C621069
+	for <linux-staging@lists.linux.dev>; Thu, 18 May 2023 15:32:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1684423942;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=Rmf7Du2c4lf55nhZJtjpBjeaS0W1w1NfHPko44+zUR0=;
+	b=YyeRlA8edTCr2Xig4d57wRl5YgHBBq5SPJmaeutbIGVjTbX4U0eme+xP53KpeaYHuzsfZZ
+	xXI4O8Q12UgxFhukh3yIYcCUOa8uNJ/mPjAzLpU4ot9wYU0wxFtJmQgdhlW2yf2I9oGySg
+	dVH2PzmZBUUh9LrnpTP/Fewv3QDydvk=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-385-kUIoUse9Na6_CBIHXyKM1w-1; Thu, 18 May 2023 11:32:17 -0400
+X-MC-Unique: kUIoUse9Na6_CBIHXyKM1w-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com [10.11.54.2])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id AB82E1C05EC1;
+	Thu, 18 May 2023 15:32:16 +0000 (UTC)
+Received: from shalem.redhat.com (unknown [10.39.192.133])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 18C354078908;
+	Thu, 18 May 2023 15:32:14 +0000 (UTC)
+From: Hans de Goede <hdegoede@redhat.com>
+To: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Andy Shevchenko <andy@kernel.org>
+Cc: Hans de Goede <hdegoede@redhat.com>,
+	Kate Hsuan <hpa@redhat.com>,
+	Tsuchiya Yuto <kitakar@gmail.com>,
+	Yury Luneff <yury.lunev@gmail.com>,
+	Nable <nable.maininbox@googlemail.com>,
+	andrey.i.trufanov@gmail.com,
+	Fabio Aiuto <fabioaiuto83@gmail.com>,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev
+Subject: [PATCH 0/9] media: v4l: Add v4l2_acpi_parse_sensor_gpios() helper + gc0310 sensor driver
+Date: Thu, 18 May 2023 17:32:05 +0200
+Message-Id: <20230518153214.194976-1-hdegoede@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -61,35 +48,101 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
 
-Add required spaces for proper formatting of fops members for better
-readability.
+Hi All,
 
-Signed-off-by: Prathu Baronia <prathubaronia2011@gmail.com>
----
- drivers/staging/axis-fifo/axis-fifo.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+Now that the atomisp driver supports v4l2-async sensor driver registration
+(I'll post this as a separate series), there is no longer a need to have
+atomisp specific sensor drivers and after cleanup atomisp sensor drivers
+can now be moved to drivers/media/i2c as regular v4l2 sensor drivers!
 
-diff --git a/drivers/staging/axis-fifo/axis-fifo.c b/drivers/staging/axis-fifo/axis-fifo.c
-index d71bdc6dd961..59e962467a3d 100644
---- a/drivers/staging/axis-fifo/axis-fifo.c
-+++ b/drivers/staging/axis-fifo/axis-fifo.c
-@@ -716,11 +716,11 @@ static int axis_fifo_close(struct inode *inod, struct file *f)
- }
- 
- static const struct file_operations fops = {
--	.owner = THIS_MODULE,
--	.open = axis_fifo_open,
-+	.owner   = THIS_MODULE,
-+	.open    = axis_fifo_open,
- 	.release = axis_fifo_close,
--	.read = axis_fifo_read,
--	.write = axis_fifo_write
-+	.read    = axis_fifo_read,
-+	.write   = axis_fifo_write
- };
- 
- /* read named property from the device tree */
+There is one small bit of ugliness involved though. On atomisp hw
+the sensor drivers need to do some work to get GPIO mappings from ACPI,
+requiring 1 line per sensor driver to call an ACPI specific sensor driver
+helper. The commit msg of patch 1/9 explains why:
+
+"""
+On x86/ACPI platforms the GPIO resources do not provide information
+about which GPIO resource maps to which connection-id. So e.g.
+gpiod_get(devg, "reset") does not work.
+
+On devices with an Intel IPU3 or newer ISP there is a special ACPI
+INT3472 device describing the GPIOs and instantiating of the i2c_client
+for a sensor is deferred until the INT3472 driver has been bound based
+on the sensor ACPI device having a _DEP on the INT3472 ACPI device.
+
+This allows the INT3472 driver to add the necessary GPIO lookups
+without needing any special ACPI handling in the sensor driver.
+
+Unfortunately this does not work on devices with an atomisp2 ISP,
+there the _DSM describing the GPIOs is part of the sensor ACPI device
+itself, rather then being part of a separate ACPI device.
+
+IOW there is no separate firmware-node to which we can bind to register
+the GPIO lookups (and also no way to defer creating the sensor i2c_client).
+
+This unfortunately means that all sensor drivers which may be used on
+BYT or CHT hw need some code to deal with ACPI integration.
+
+This patch adds a new v4l2_acpi_parse_sensor_gpios() helper function
+for this, which does all the necessary work. This minimizes the
+(unavoidable) change to sensor drivers for ACPI integration to just
+adding a single line calling this void function to probe().
+
+There also is a no-op stub provided for non ACPI platforms so that
+no #ifdef-s are necessary in the driver.
+"""
+
+This series adds the v4l2_acpi_parse_sensor_gpios() helper and
+then after some small cleanups moves the atomisp-gc0310 sensor
+driver (which now is a generic v4l2 sensor driver) to
+drivers/media/i2c.
+
+Since this touches drivers/media the intention is for this
+series to go upstream through the normal drivers/media process
+rather then through my media-atomisp branch.
+
+Note to v4l2-core maintainers: if you are ok with this series
+and would prefer for me to send it upstream through my
+media-atomisp branch, then I can do that too.
+
+Regards,
+
+Hans
+
+
+Hans de Goede (9):
+  media: v4l: Add v4l2_acpi_parse_sensor_gpios() helper function
+  media: atomisp: Switch to v4l2_acpi_parse_sensor_gpios()
+  media: atomisp: gc0310: Turn into standard v4l2 sensor driver
+  media: atomisp: gc0310: Drop XXGC0310 ACPI hardware-id
+  media: atomisp: gc0310: Fix double free in gc0310_remove()
+  media: atomisp: gc0310: Cleanup includes
+  media: atomisp: gc0310: Remove gc0310_s_config() function
+  media: atomisp: gc0310: Remove gc0310.h
+  media: Move gc0310 sensor drivers to drivers/media/i2c/
+
+ Documentation/driver-api/media/v4l2-acpi.rst  |   5 +
+ Documentation/driver-api/media/v4l2-core.rst  |   1 +
+ drivers/media/i2c/Kconfig                     |  10 +
+ drivers/media/i2c/Makefile                    |   1 +
+ .../atomisp-gc0310.c => media/i2c/gc0310.c}   | 296 ++++++++++++++---
+ drivers/media/v4l2-core/Makefile              |   1 +
+ drivers/media/v4l2-core/v4l2-acpi.c           | 227 +++++++++++++
+ drivers/staging/media/atomisp/i2c/Kconfig     |   8 -
+ drivers/staging/media/atomisp/i2c/Makefile    |   1 -
+ .../media/atomisp/i2c/atomisp-ov2680.c        |   5 +-
+ drivers/staging/media/atomisp/i2c/gc0310.h    | 309 ------------------
+ .../media/atomisp/pci/atomisp_gmin_platform.c | 240 --------------
+ include/media/v4l2-acpi.h                     |  37 +++
+ 13 files changed, 540 insertions(+), 601 deletions(-)
+ create mode 100644 Documentation/driver-api/media/v4l2-acpi.rst
+ rename drivers/{staging/media/atomisp/i2c/atomisp-gc0310.c => media/i2c/gc0310.c} (64%)
+ create mode 100644 drivers/media/v4l2-core/v4l2-acpi.c
+ delete mode 100644 drivers/staging/media/atomisp/i2c/gc0310.h
+ create mode 100644 include/media/v4l2-acpi.h
+
 -- 
-2.34.1
+2.40.1
 
