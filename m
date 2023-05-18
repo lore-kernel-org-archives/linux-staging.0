@@ -1,31 +1,31 @@
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8ECE42107C
-	for <linux-staging@lists.linux.dev>; Thu, 18 May 2023 15:37:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CEE6C21069
+	for <linux-staging@lists.linux.dev>; Thu, 18 May 2023 15:37:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1684424264;
+	s=mimecast20190719; t=1684424268;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=RBXEHbEDKmcse396WHZeZQsyTYAVHG1j+n5jYr1zIPU=;
-	b=GoK/cW6FsYG47duzIrpb9FCPi3rX9t/F/Co7LW76GPQO9y465kGsuP7KTkSt8Rgb0C44UQ
-	DpHv8LR6baXyKJcblcbeyZiDY/8oMmnl4xDJdJsnb/YUlnEuisCfuqtQYGx8KOD9f/sFJ2
-	w+ACmsV5Hw2ULoMOHRPF3cYp2dC6jFw=
+	bh=18PIBSnLLQB8KhBW4IKB8Z1Wv4i08F53b5d6bIfA5F8=;
+	b=SDNsKG/vUsoINzHG2uQQRAIRt9qg8q694GNHq36ZfTLPeLXSyarzAH6zWUQZP3KZKWm0kU
+	7ct7KhGVl0iwtJfvTar69shNEl4d+Z5Wh+jirhdSEn9nR4btbYaXmkG36GYSiJITqwhaYU
+	eicpv4BkJQWU/R/JSQXJjbywyEwU65c=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-551-dus0PfZqO4aLiVf6d_ot4A-1; Thu, 18 May 2023 11:37:40 -0400
-X-MC-Unique: dus0PfZqO4aLiVf6d_ot4A-1
+ us-mta-653-cceehGNjOAmXx5jf9U6Ghg-1; Thu, 18 May 2023 11:37:45 -0400
+X-MC-Unique: cceehGNjOAmXx5jf9U6Ghg-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com [10.11.54.5])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 756E0101A555;
-	Thu, 18 May 2023 15:37:39 +0000 (UTC)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id BE7D784B062;
+	Thu, 18 May 2023 15:37:44 +0000 (UTC)
 Received: from shalem.redhat.com (unknown [10.39.192.133])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id E48C763F8F;
-	Thu, 18 May 2023 15:37:37 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 3F03C63F9A;
+	Thu, 18 May 2023 15:37:43 +0000 (UTC)
 From: Hans de Goede <hdegoede@redhat.com>
 To: Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Sakari Ailus <sakari.ailus@linux.intel.com>,
@@ -39,9 +39,9 @@ Cc: Hans de Goede <hdegoede@redhat.com>,
 	Fabio Aiuto <fabioaiuto83@gmail.com>,
 	linux-media@vger.kernel.org,
 	linux-staging@lists.linux.dev
-Subject: [PATCH 2/9] media: atomisp: Remove unused fields from struct atomisp_input_subdev
-Date: Thu, 18 May 2023 17:37:26 +0200
-Message-Id: <20230518153733.195306-3-hdegoede@redhat.com>
+Subject: [PATCH 5/9] media: atomisp: Store number of sensor lanes per port in struct atomisp_device
+Date: Thu, 18 May 2023 17:37:29 +0200
+Message-Id: <20230518153733.195306-6-hdegoede@redhat.com>
 In-Reply-To: <20230518153733.195306-1-hdegoede@redhat.com>
 References: <20230518153733.195306-1-hdegoede@redhat.com>
 Precedence: bulk
@@ -53,69 +53,183 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
 
-Remove unused fields from struct atomisp_input_subdev:
+Store number of sensor lanes per port in struct atomisp_device.
 
-1. frame_size is never used at all
-2. sensor_index is always 0, just directly pass 0 in the single user.
+This is a preparation patch for adding v4l2-async sensor probing support.
+With async probing the inputs will get registered later, but we can
+already fill the sensor_lanes array when parsing the fwnodes.
 
 Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 ---
- drivers/staging/media/atomisp/pci/atomisp_internal.h | 3 ---
- drivers/staging/media/atomisp/pci/atomisp_ioctl.c    | 2 +-
- drivers/staging/media/atomisp/pci/atomisp_v4l2.c     | 7 -------
- 3 files changed, 1 insertion(+), 11 deletions(-)
+ .../atomisp/include/linux/atomisp_platform.h  |  1 +
+ .../media/atomisp/pci/atomisp_gmin_platform.c |  2 +
+ .../media/atomisp/pci/atomisp_internal.h      |  5 ++
+ .../staging/media/atomisp/pci/atomisp_v4l2.c  | 56 ++++---------------
+ 4 files changed, 20 insertions(+), 44 deletions(-)
 
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_internal.h b/drivers/staging/media/atomisp/pci/atomisp_internal.h
-index feaf4037a389..ee0dd5eb4711 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_internal.h
-+++ b/drivers/staging/media/atomisp/pci/atomisp_internal.h
-@@ -126,15 +126,12 @@ struct atomisp_input_subdev {
+diff --git a/drivers/staging/media/atomisp/include/linux/atomisp_platform.h b/drivers/staging/media/atomisp/include/linux/atomisp_platform.h
+index e8e965f73fc8..487ef5846c24 100644
+--- a/drivers/staging/media/atomisp/include/linux/atomisp_platform.h
++++ b/drivers/staging/media/atomisp/include/linux/atomisp_platform.h
+@@ -125,6 +125,7 @@ struct intel_v4l2_subdev_id {
+ struct intel_v4l2_subdev_table {
+ 	enum intel_v4l2_subdev_type type;
  	enum atomisp_camera_port port;
- 	struct v4l2_subdev *camera;
- 	struct v4l2_subdev *motor;
--	struct v4l2_frmsizeenum frame_size;
- 
- 	/*
- 	 * To show this resource is used by
- 	 * which stream, in ISP multiple stream mode
- 	 */
- 	struct atomisp_sub_device *asd;
--
--	int sensor_index;
++	unsigned int lanes;
+ 	struct v4l2_subdev *subdev;
  };
  
- enum atomisp_dfs_mode {
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_ioctl.c b/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
-index 900e4c79cd78..2cde1af77a2d 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
-+++ b/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
-@@ -673,7 +673,7 @@ static int atomisp_s_input(struct file *file, void *fh, unsigned int input)
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_gmin_platform.c b/drivers/staging/media/atomisp/pci/atomisp_gmin_platform.c
+index ae45c1d8c50c..bc2dd96176d0 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_gmin_platform.c
++++ b/drivers/staging/media/atomisp/pci/atomisp_gmin_platform.c
+@@ -189,6 +189,7 @@ int atomisp_register_i2c_module(struct v4l2_subdev *subdev,
  
- 	/* select operating sensor */
- 	ret = v4l2_subdev_call(isp->inputs[input].camera, video, s_routing,
--			       0, isp->inputs[input].sensor_index, 0);
-+			       0, 0, 0);
- 	if (ret && (ret != -ENOIOCTLCMD)) {
- 		dev_err(isp->dev, "Failed to select sensor\n");
- 		return ret;
+ 	pdata.subdevs[i].type = type;
+ 	pdata.subdevs[i].port = gs->csi_port;
++	pdata.subdevs[i].lanes = gs->csi_lanes;
+ 	pdata.subdevs[i].subdev = subdev;
+ 	return 0;
+ }
+@@ -1150,6 +1151,7 @@ int atomisp_register_sensor_no_gmin(struct v4l2_subdev *subdev, u32 lanes,
+ 
+ 	pdata.subdevs[i].type = RAW_CAMERA;
+ 	pdata.subdevs[i].port = port;
++	pdata.subdevs[i].lanes = lanes;
+ 	pdata.subdevs[i].subdev = subdev;
+ 	return 0;
+ }
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_internal.h b/drivers/staging/media/atomisp/pci/atomisp_internal.h
+index ee0dd5eb4711..b8d643c9df8f 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_internal.h
++++ b/drivers/staging/media/atomisp/pci/atomisp_internal.h
+@@ -189,6 +189,11 @@ struct atomisp_device {
+ 	 * structures and css API calls. */
+ 	struct mutex mutex;
+ 
++	/*
++	 * Number of lanes used by each sensor per port.
++	 * Note this is indexed by mipi_port_id not atomisp_camera_port.
++	 */
++	int sensor_lanes[N_MIPI_PORT_ID];
+ 	unsigned int input_cnt;
+ 	struct atomisp_input_subdev inputs[ATOM_ISP_MAX_INPUTS];
+ 	struct v4l2_subdev *flash;
 diff --git a/drivers/staging/media/atomisp/pci/atomisp_v4l2.c b/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
-index 93998fdc836d..a2440f270ffe 100644
+index 94b9908139ab..b5a070f69120 100644
 --- a/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
 +++ b/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
-@@ -866,13 +866,6 @@ static int atomisp_subdev_probe(struct atomisp_device *isp)
+@@ -713,7 +713,6 @@ int atomisp_csi_lane_config(struct atomisp_device *isp)
+ 	};
+ 
+ 	unsigned int i, j;
+-	u8 sensor_lanes[ATOMISP_CAMERA_NR_PORTS] = { 0 };
+ 	u32 csi_control;
+ 	int nportconfigs;
+ 	u32 port_config_mask;
+@@ -741,38 +740,10 @@ int atomisp_csi_lane_config(struct atomisp_device *isp)
+ 		nportconfigs = ARRAY_SIZE(portconfigs);
+ 	}
+ 
+-	for (i = 0; i < isp->input_cnt; i++) {
+-		struct camera_mipi_info *mipi_info;
+-
+-		if (isp->inputs[i].type != RAW_CAMERA)
+-			continue;
+-
+-		mipi_info = atomisp_to_sensor_mipi_info(isp->inputs[i].camera);
+-		if (!mipi_info)
+-			continue;
+-
+-		switch (mipi_info->port) {
+-		case ATOMISP_CAMERA_PORT_PRIMARY:
+-			sensor_lanes[0] = mipi_info->num_lanes;
+-			break;
+-		case ATOMISP_CAMERA_PORT_SECONDARY:
+-			sensor_lanes[1] = mipi_info->num_lanes;
+-			break;
+-		case ATOMISP_CAMERA_PORT_TERTIARY:
+-			sensor_lanes[2] = mipi_info->num_lanes;
+-			break;
+-		default:
+-			dev_err(isp->dev,
+-				"%s: invalid port: %d for the %dth sensor\n",
+-				__func__, mipi_info->port, i);
+-			return -EINVAL;
+-		}
+-	}
+-
+ 	for (i = 0; i < nportconfigs; i++) {
+ 		for (j = 0; j < ATOMISP_CAMERA_NR_PORTS; j++)
+-			if (sensor_lanes[j] &&
+-			    sensor_lanes[j] != portconfigs[i].lanes[j])
++			if (isp->sensor_lanes[j] &&
++			    isp->sensor_lanes[j] != portconfigs[i].lanes[j])
+ 				break;
+ 
+ 		if (j == ATOMISP_CAMERA_NR_PORTS)
+@@ -783,7 +754,7 @@ int atomisp_csi_lane_config(struct atomisp_device *isp)
+ 		dev_err(isp->dev,
+ 			"%s: could not find the CSI port setting for %d-%d-%d\n",
+ 			__func__,
+-			sensor_lanes[0], sensor_lanes[1], sensor_lanes[2]);
++			isp->sensor_lanes[0], isp->sensor_lanes[1], isp->sensor_lanes[2]);
+ 		return -EINVAL;
+ 	}
+ 
+@@ -811,7 +782,7 @@ static int atomisp_subdev_probe(struct atomisp_device *isp)
+ {
+ 	const struct atomisp_platform_data *pdata;
+ 	struct intel_v4l2_subdev_table *subdevs;
+-	int ret, raw_index = -1, count;
++	int ret, mipi_port, raw_index = -1, count;
+ 
+ 	pdata = atomisp_get_platform_data();
+ 	if (!pdata) {
+@@ -851,10 +822,18 @@ static int atomisp_subdev_probe(struct atomisp_device *isp)
+ 				break;
+ 			}
+ 
++			if (subdevs->port >= ATOMISP_CAMERA_NR_PORTS) {
++				dev_err(isp->dev, "port %d not supported\n", subdevs->port);
++				break;
++			}
++
  			isp->inputs[isp->input_cnt].type = subdevs->type;
  			isp->inputs[isp->input_cnt].port = subdevs->port;
  			isp->inputs[isp->input_cnt].camera = subdevs->subdev;
--			isp->inputs[isp->input_cnt].sensor_index = 0;
--			/*
--			 * initialize the subdev frame size, then next we can
--			 * judge whether frame_size store effective value via
--			 * pixel_format.
--			 */
--			isp->inputs[isp->input_cnt].frame_size.pixel_format = 0;
  			isp->input_cnt++;
++
++			mipi_port = atomisp_port_to_mipi_port(isp, subdevs->port);
++			isp->sensor_lanes[mipi_port] = subdevs->lanes;
  			break;
  		case CAMERA_MOTOR:
+ 			if (isp->motor) {
+@@ -964,15 +943,6 @@ static int atomisp_register_entities(struct atomisp_device *isp)
+ 		goto subdev_register_failed;
+ 	}
+ 
+-	for (i = 0; i < isp->input_cnt; i++) {
+-		if (isp->inputs[i].port >= ATOMISP_CAMERA_NR_PORTS) {
+-			dev_err(isp->dev, "isp->inputs port %d not supported\n",
+-				isp->inputs[i].port);
+-			ret = -EINVAL;
+-			goto link_failed;
+-		}
+-	}
+-
+ 	if (isp->input_cnt < ATOM_ISP_MAX_INPUTS) {
+ 		dev_dbg(isp->dev,
+ 			"TPG detected, camera_cnt: %d\n", isp->input_cnt);
+@@ -985,8 +955,6 @@ static int atomisp_register_entities(struct atomisp_device *isp)
+ 
+ 	return 0;
+ 
+-link_failed:
+-	atomisp_subdev_unregister_entities(&isp->asd);
+ subdev_register_failed:
+ 	atomisp_tpg_unregister_entities(&isp->tpg);
+ tpg_register_failed:
 -- 
 2.40.1
 
