@@ -1,31 +1,31 @@
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8455521069
-	for <linux-staging@lists.linux.dev>; Thu, 18 May 2023 15:37:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91EDF2107B
+	for <linux-staging@lists.linux.dev>; Thu, 18 May 2023 15:37:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1684424272;
+	s=mimecast20190719; t=1684424273;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=bnoo9XjPh1zunykubYca6XrRu6Oqli1p3xGFnNFHKcg=;
-	b=Ktz9T55ERjoDu3qsKIiA+dHPN8S7PmiSPT+aQO84PHOmMCxMZG5MRDXvfMIPRZTNqhCPw2
-	XAI6FsZEZDfTrKKU0CAh4vV/Xz2csHQImK6Hpm1d/fWaTyzzCOpk1rNr7eQqT6tV/He569
-	Iv09w4gUroP9UaxoVjm9ZH2sLCYD4Qk=
+	bh=xzv9rbVqfgZKX+kt3WNOrOC9mOEahw7mbIZlAszPjog=;
+	b=QNBHs8idFSlBbj8OFYBF5J44j5DYZ6RczNFBvx4SQi7T6p4nLXagZ5vMd0PGCRBP+pOipW
+	ntrWlwdbVkMI8hb2TwPXBfneUxdi7eCeH/PZYWF3YacvnMLmkbFLBlkf/m64mfgMaYu5Q/
+	WbKILyvuVpw8dMqNW5ZT6dw2LsFOJqI=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-597-s3ULk9w_PyiyW4QylTuZdg-1; Thu, 18 May 2023 11:37:48 -0400
-X-MC-Unique: s3ULk9w_PyiyW4QylTuZdg-1
+ us-mta-665-pjy8UjvjNU-jGSl4l-Z7AA-1; Thu, 18 May 2023 11:37:50 -0400
+X-MC-Unique: pjy8UjvjNU-jGSl4l-Z7AA-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com [10.11.54.5])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 7CF10101A47E;
-	Thu, 18 May 2023 15:37:46 +0000 (UTC)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 01437802A95;
+	Thu, 18 May 2023 15:37:50 +0000 (UTC)
 Received: from shalem.redhat.com (unknown [10.39.192.133])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id F180C63F5F;
-	Thu, 18 May 2023 15:37:44 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 722D663F5F;
+	Thu, 18 May 2023 15:37:48 +0000 (UTC)
 From: Hans de Goede <hdegoede@redhat.com>
 To: Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Sakari Ailus <sakari.ailus@linux.intel.com>,
@@ -39,9 +39,9 @@ Cc: Hans de Goede <hdegoede@redhat.com>,
 	Fabio Aiuto <fabioaiuto83@gmail.com>,
 	linux-media@vger.kernel.org,
 	linux-staging@lists.linux.dev
-Subject: [PATCH 6/9] media: atomisp: Delay mapping sensors to inputs till atomisp_register_device_nodes()
-Date: Thu, 18 May 2023 17:37:30 +0200
-Message-Id: <20230518153733.195306-7-hdegoede@redhat.com>
+Subject: [PATCH 8/9] media: atomisp: Allow camera_mipi_info to be NULL
+Date: Thu, 18 May 2023 17:37:32 +0200
+Message-Id: <20230518153733.195306-9-hdegoede@redhat.com>
 In-Reply-To: <20230518153733.195306-1-hdegoede@redhat.com>
 References: <20230518153733.195306-1-hdegoede@redhat.com>
 Precedence: bulk
@@ -53,162 +53,126 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
 
-Delay mapping sensors to inputs till atomisp_register_device_nodes()
-time. There are 2 reasons for this:
+camera_mipi_info is an atomisp / atomisp_gmin_platform specific struct,
+allow mipi_info pointers to be NULL.
 
-1. This guarantees a stable input order independent of the sensor
-   probe order.
-
-2. This is a preparation patch for v4l2-async sensor probing support.
+This is a preparation patch for making atomisp work with
+standard v4l2 sensor drivers.
 
 Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 ---
- .../media/atomisp/pci/atomisp_internal.h      |  1 +
- .../staging/media/atomisp/pci/atomisp_v4l2.c  | 83 ++++++++++---------
- 2 files changed, 45 insertions(+), 39 deletions(-)
+ .../staging/media/atomisp/pci/atomisp_cmd.c   | 33 ++++++++++---------
+ .../staging/media/atomisp/pci/atomisp_csi2.c  |  6 +---
+ 2 files changed, 19 insertions(+), 20 deletions(-)
 
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_internal.h b/drivers/staging/media/atomisp/pci/atomisp_internal.h
-index b8d643c9df8f..514c360d4d03 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_internal.h
-+++ b/drivers/staging/media/atomisp/pci/atomisp_internal.h
-@@ -194,6 +194,7 @@ struct atomisp_device {
- 	 * Note this is indexed by mipi_port_id not atomisp_camera_port.
- 	 */
- 	int sensor_lanes[N_MIPI_PORT_ID];
-+	struct v4l2_subdev *sensor_subdevs[ATOMISP_CAMERA_NR_PORTS];
- 	unsigned int input_cnt;
- 	struct atomisp_input_subdev inputs[ATOM_ISP_MAX_INPUTS];
- 	struct v4l2_subdev *flash;
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_v4l2.c b/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
-index b5a070f69120..c668375e04ae 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
-+++ b/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
-@@ -782,7 +782,7 @@ static int atomisp_subdev_probe(struct atomisp_device *isp)
- {
- 	const struct atomisp_platform_data *pdata;
- 	struct intel_v4l2_subdev_table *subdevs;
--	int ret, mipi_port, raw_index = -1, count;
-+	int ret, mipi_port, count;
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_cmd.c b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
+index f4a0341d1f8d..5b244d173b9a 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_cmd.c
++++ b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
+@@ -3919,6 +3919,8 @@ static inline int atomisp_set_sensor_mipi_to_isp(
+ 	const struct atomisp_in_fmt_conv *fc;
+ 	int mipi_freq = 0;
+ 	unsigned int input_format, bayer_order;
++	enum atomisp_input_format metadata_format = ATOMISP_INPUT_FORMAT_EMBEDDED;
++	u32 mipi_port, metadata_width = 0, metadata_height = 0;
  
- 	pdata = atomisp_get_platform_data();
- 	if (!pdata) {
-@@ -814,26 +814,20 @@ static int atomisp_subdev_probe(struct atomisp_device *isp)
+ 	ctrl.id = V4L2_CID_LINK_FREQ;
+ 	if (v4l2_g_ctrl
+@@ -3946,7 +3948,7 @@ static inline int atomisp_set_sensor_mipi_to_isp(
  
- 		switch (subdevs->type) {
- 		case RAW_CAMERA:
--			dev_dbg(isp->dev, "raw_index: %d\n", raw_index);
--			raw_index = isp->input_cnt;
--			if (isp->input_cnt >= ATOM_ISP_MAX_INPUTS) {
--				dev_warn(isp->dev,
--					 "too many atomisp inputs, ignored\n");
--				break;
--			}
--
- 			if (subdevs->port >= ATOMISP_CAMERA_NR_PORTS) {
- 				dev_err(isp->dev, "port %d not supported\n", subdevs->port);
- 				break;
- 			}
+ 	/* Compatibility for sensors which provide no media bus code
+ 	 * in s_mbus_framefmt() nor support pad formats. */
+-	if (mipi_info->input_format != -1) {
++	if (mipi_info && mipi_info->input_format != -1) {
+ 		bayer_order = mipi_info->raw_bayer_order;
  
--			isp->inputs[isp->input_cnt].type = subdevs->type;
--			isp->inputs[isp->input_cnt].port = subdevs->port;
--			isp->inputs[isp->input_cnt].camera = subdevs->subdev;
--			isp->input_cnt++;
-+			if (isp->sensor_subdevs[subdevs->port]) {
-+				dev_err(isp->dev, "port %d already has a sensor attached\n",
-+					subdevs->port);
-+				break;
-+			}
+ 		/* Input stream config is still needs configured */
+@@ -3956,6 +3958,9 @@ static inline int atomisp_set_sensor_mipi_to_isp(
+ 		if (!fc)
+ 			return -EINVAL;
+ 		input_format = fc->atomisp_in_fmt;
++		metadata_format = mipi_info->metadata_format;
++		metadata_width = mipi_info->metadata_width;
++		metadata_height = mipi_info->metadata_height;
+ 	} else {
+ 		struct v4l2_mbus_framefmt *sink;
  
- 			mipi_port = atomisp_port_to_mipi_port(isp, subdevs->port);
- 			isp->sensor_lanes[mipi_port] = subdevs->lanes;
-+			isp->sensor_subdevs[subdevs->port] = subdevs->subdev;
- 			break;
- 		case CAMERA_MOTOR:
- 			if (isp->motor) {
-@@ -855,21 +849,6 @@ static int atomisp_subdev_probe(struct atomisp_device *isp)
- 		}
- 	}
+@@ -3972,18 +3977,17 @@ static inline int atomisp_set_sensor_mipi_to_isp(
+ 	atomisp_css_input_set_format(asd, stream_id, input_format);
+ 	atomisp_css_input_set_bayer_order(asd, stream_id, bayer_order);
  
--	/*
--	 * HACK: Currently VCM belongs to primary sensor only, but correct
--	 * approach must be to acquire from platform code which sensor
--	 * owns it.
--	 */
--	if (isp->motor && raw_index >= 0)
--		isp->inputs[raw_index].motor = isp->motor;
--
--	/* Proceed even if no modules detected. For COS mode and no modules. */
--	if (!isp->input_cnt)
--		dev_warn(isp->dev, "no camera attached or fail to detect\n");
--	else
--		dev_info(isp->dev, "detected %d camera sensors\n",
--			 isp->input_cnt);
--
- 	return atomisp_csi_lane_config(isp);
+-	fc = atomisp_find_in_fmt_conv_by_atomisp_in_fmt(
+-		 mipi_info->metadata_format);
++	fc = atomisp_find_in_fmt_conv_by_atomisp_in_fmt(metadata_format);
+ 	if (!fc)
+ 		return -EINVAL;
++
+ 	input_format = fc->atomisp_in_fmt;
+-	atomisp_css_input_configure_port(asd,
+-					 atomisp_port_to_mipi_port(asd->isp, mipi_info->port),
+-					 mipi_info->num_lanes,
++	mipi_port = atomisp_port_to_mipi_port(isp, isp->inputs[asd->input_curr].port);
++	atomisp_css_input_configure_port(asd, mipi_port,
++					 isp->sensor_lanes[mipi_port],
+ 					 0xffff4, mipi_freq,
+ 					 input_format,
+-					 mipi_info->metadata_width,
+-					 mipi_info->metadata_height);
++					 metadata_width, metadata_height);
+ 	return 0;
  }
  
-@@ -943,16 +922,6 @@ static int atomisp_register_entities(struct atomisp_device *isp)
- 		goto subdev_register_failed;
- 	}
+@@ -4071,7 +4075,7 @@ static int atomisp_set_fmt_to_isp(struct video_device *vdev,
+ 	int (*configure_pp_input)(struct atomisp_sub_device *asd,
+ 				  unsigned int width, unsigned int height) =
+ 				      configure_pp_input_nop;
+-	const struct atomisp_in_fmt_conv *fc;
++	const struct atomisp_in_fmt_conv *fc = NULL;
+ 	int ret, i;
  
--	if (isp->input_cnt < ATOM_ISP_MAX_INPUTS) {
--		dev_dbg(isp->dev,
--			"TPG detected, camera_cnt: %d\n", isp->input_cnt);
--		isp->inputs[isp->input_cnt].type = TEST_PATTERN;
--		isp->inputs[isp->input_cnt].port = -1;
--		isp->inputs[isp->input_cnt++].camera = &isp->tpg.sd;
--	} else {
--		dev_warn(isp->dev, "too many atomisp inputs, TPG ignored.\n");
--	}
+ 	if (!asd) {
+@@ -4093,15 +4097,14 @@ static int atomisp_set_fmt_to_isp(struct video_device *vdev,
+ 	if (isp->inputs[asd->input_curr].type != TEST_PATTERN) {
+ 		mipi_info = atomisp_to_sensor_mipi_info(
+ 				isp->inputs[asd->input_curr].camera);
+-		if (!mipi_info) {
+-			dev_err(isp->dev, "mipi_info is NULL\n");
+-			return -EINVAL;
+-		}
++
+ 		if (atomisp_set_sensor_mipi_to_isp(asd, ATOMISP_INPUT_STREAM_GENERAL,
+ 						   mipi_info))
+ 			return -EINVAL;
+-		fc = atomisp_find_in_fmt_conv_by_atomisp_in_fmt(
+-			 mipi_info->input_format);
++
++		if (mipi_info)
++			fc = atomisp_find_in_fmt_conv_by_atomisp_in_fmt(mipi_info->input_format);
++
+ 		if (!fc)
+ 			fc = atomisp_find_in_fmt_conv(
+ 				 atomisp_subdev_get_ffmt(&asd->subdev,
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_csi2.c b/drivers/staging/media/atomisp/pci/atomisp_csi2.c
+index b00bc0b7aaad..0045c4d3a7f6 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_csi2.c
++++ b/drivers/staging/media/atomisp/pci/atomisp_csi2.c
+@@ -322,15 +322,11 @@ static void atomisp_csi2_configure_isp2401(struct atomisp_sub_device *asd)
+ 
+ 	struct v4l2_control ctrl;
+ 	struct atomisp_device *isp = asd->isp;
+-	struct camera_mipi_info *mipi_info;
+ 	int mipi_freq = 0;
+ 	enum atomisp_camera_port port;
 -
- 	return 0;
+ 	int n;
  
- subdev_register_failed:
-@@ -970,7 +939,43 @@ static int atomisp_register_entities(struct atomisp_device *isp)
+-	mipi_info = atomisp_to_sensor_mipi_info(
+-			isp->inputs[asd->input_curr].camera);
+-	port = mipi_info->port;
++	port = isp->inputs[asd->input_curr].port;
  
- static int atomisp_register_device_nodes(struct atomisp_device *isp)
- {
--	int err;
-+	struct atomisp_input_subdev *input;
-+	int i, err;
-+
-+	for (i = 0; i < ATOMISP_CAMERA_NR_PORTS; i++) {
-+		if (!isp->sensor_subdevs[i])
-+			continue;
-+
-+		input = &isp->inputs[isp->input_cnt];
-+
-+		input->type = RAW_CAMERA;
-+		input->port = i;
-+		input->camera = isp->sensor_subdevs[i];
-+
-+		/*
-+		 * HACK: Currently VCM belongs to primary sensor only, but correct
-+		 * approach must be to acquire from platform code which sensor
-+		 * owns it.
-+		 */
-+		if (i == ATOMISP_CAMERA_PORT_PRIMARY)
-+			input->motor = isp->motor;
-+
-+		isp->input_cnt++;
-+	}
-+
-+	if (!isp->input_cnt)
-+		dev_warn(isp->dev, "no camera attached or fail to detect\n");
-+	else
-+		dev_info(isp->dev, "detected %d camera sensors\n", isp->input_cnt);
-+
-+	if (isp->input_cnt < ATOM_ISP_MAX_INPUTS) {
-+		dev_dbg(isp->dev, "TPG detected, camera_cnt: %d\n", isp->input_cnt);
-+		isp->inputs[isp->input_cnt].type = TEST_PATTERN;
-+		isp->inputs[isp->input_cnt].port = -1;
-+		isp->inputs[isp->input_cnt++].camera = &isp->tpg.sd;
-+	} else {
-+		dev_warn(isp->dev, "too many atomisp inputs, TPG ignored.\n");
-+	}
- 
- 	isp->asd.video_out.vdev.v4l2_dev = &isp->v4l2_dev;
- 	isp->asd.video_out.vdev.device_caps = V4L2_CAP_VIDEO_CAPTURE | V4L2_CAP_STREAMING;
+ 	ctrl.id = V4L2_CID_LINK_FREQ;
+ 	if (v4l2_g_ctrl
 -- 
 2.40.1
 
