@@ -1,137 +1,208 @@
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f43.google.com (mail-qv1-f43.google.com [209.85.219.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A892F8F46
-	for <linux-staging@lists.linux.dev>; Fri, 19 May 2023 12:16:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1684498571; x=1716034571;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=k/eggSbPtNh0SO1SJlyfFZ7oW3Onp3rG5Ww9VO9lGLo=;
-  b=ih9+ugLe05ch5JTyLJ8IZ6MGuNxBWc1YoCdcQNR5fsdtVDucmB/tQMlK
-   ToiSFv9P6zQYMCIjlk7KKIXZ176ZgWmkjbj7hqGOUI6tq2R+Aq2KjG2tL
-   qb1UUzNia9I8ta0Al/jQW7dfrMMW3OxpLYwCBJ+R2glKbFcrIWqQn8ldb
-   yvwdPGczFiT3irDYuHAxvsu3eE0jd5b3YZrFU/RdLRC/Lcug+amXFBheA
-   7zEhFxldZQt+ZsdCeO2i288Rec3Sw6t7jpq/XkQvV4q7i5IWe/d1XPo/5
-   JI5t+xukP1SWkvd//Ya4xq8zdbZrotPoaI1y86Fev9F6nLfwql/1jjdON
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10714"; a="351198063"
-X-IronPort-AV: E=Sophos;i="6.00,176,1681196400"; 
-   d="scan'208";a="351198063"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 May 2023 05:16:09 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10714"; a="705598920"
-X-IronPort-AV: E=Sophos;i="6.00,176,1681196400"; 
-   d="scan'208";a="705598920"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 May 2023 05:16:06 -0700
-Received: from kekkonen.localdomain (localhost [IPv6:::1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id 258E4120279;
-	Fri, 19 May 2023 15:16:04 +0300 (EEST)
-Date: Fri, 19 May 2023 12:16:04 +0000
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Hans de Goede <hdegoede@redhat.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Andy Shevchenko <andy@kernel.org>, Kate Hsuan <hpa@redhat.com>,
-	Tsuchiya Yuto <kitakar@gmail.com>,
-	Yury Luneff <yury.lunev@gmail.com>,
-	Nable <nable.maininbox@googlemail.com>, andrey.i.trufanov@gmail.com,
-	Fabio Aiuto <fabioaiuto83@gmail.com>, linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev
-Subject: Re: [PATCH 1/9] media: v4l: Add v4l2_acpi_parse_sensor_gpios()
- helper function
-Message-ID: <ZGdohJQSY3GiNLSy@kekkonen.localdomain>
-References: <20230518153214.194976-1-hdegoede@redhat.com>
- <20230518153214.194976-2-hdegoede@redhat.com>
- <ZGcl7+cKu0/h43YC@kekkonen.localdomain>
- <cb4e56fd-0745-6040-6d93-bd8eb1d23ce1@redhat.com>
- <ZGdWVATARAQlaEjC@kekkonen.localdomain>
- <d230dd21-9c2b-2dc4-0325-6ceb502c3ba0@redhat.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8267D7C
+	for <linux-staging@lists.linux.dev>; Fri, 19 May 2023 12:46:32 +0000 (UTC)
+Received: by mail-qv1-f43.google.com with SMTP id 6a1803df08f44-623839d5c19so23318856d6.1
+        for <linux-staging@lists.linux.dev>; Fri, 19 May 2023 05:46:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1684500391; x=1687092391;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=/GLmaVR3Sdxyev/JwDRfkQfggguIZgdB2qIEZx/Yzy8=;
+        b=EB3Kz5VgUeMrtEWvmIosg6DQAveumRKYGPncMCOP2R6Glu9uGVtIA5Z/cMzEW8OMHX
+         i3lOGpo4keCaUxlq93z2/EZ1HVmfK2ZlUW7MSDQbaiB2MP5lpi+05NGfiPb5b8PZIyiQ
+         VzVdMZxUKLPe3Vk8AiZQuae7eo3sGR3HCdKSRgGCpq188RkAefsxSOKmGoKURDUIp9eJ
+         PnEDhci8OLNafRFfnRLkK0+N7QDDWYwij7fKb2c/vpTQtUy6GFyle0KSKzwjOwwYrX19
+         CZes/Lpa5vthqFhvti7DZ2nqmEzCSQuqjBGNlJfGcfehlPzJOb4FCCH/2lNtljhqqc6Y
+         2UhA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1684500391; x=1687092391;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=/GLmaVR3Sdxyev/JwDRfkQfggguIZgdB2qIEZx/Yzy8=;
+        b=PLvbrlVshE+lMMpFCovfUrC6/MPMWBN7dIyJu+ODIY7Zs1Sve2qcytLq4cxYa4gUxb
+         vu8rlL7vD9xyLhftjDYN1P5uRCZr9CzeefjY2BTsVtrM7BbtcCSR0kxaYxeIfJv5nBav
+         ygtmwc7HC0jn/c7FW3vlx/IWHmjVLiicqo4+bnAoKFqH5Pv9m+miL7whH/R5l778vsjQ
+         x9jh97TEFtlEgzG8hSrGAR2M1/d9tGU/ERhfQRH/HlHusmsNMikFIlRSvmPDhvGxWxCX
+         2q3QEswHjb03L1MnhcPa41aEaxx7PSpy+l7lYT2TR9fD16ecb5blCpIrzzze/3J5oSmv
+         mI0g==
+X-Gm-Message-State: AC+VfDy7pZBrDr6FFh/vtUf2+ImUtYHeA5JJ0Du5V39bK/d+IXX906Oj
+	ufZwCgJPH/w+O+3Ar9NDKUCA9kKjfEcuuSvH9fFMH8kZA1xyUw==
+X-Google-Smtp-Source: ACHHUZ6I+UUOdkdVJvKhGZVtwc0hAPCAFH+a2+QPHsdRtjV6iFz6gzz95KY6FEKWbEvYeZTc69Fl9NjDdu/GwmOUcTQ=
+X-Received: by 2002:a05:6214:29e7:b0:620:a6b6:e862 with SMTP id
+ jv7-20020a05621429e700b00620a6b6e862mr3972341qvb.23.1684500391197; Fri, 19
+ May 2023 05:46:31 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <d230dd21-9c2b-2dc4-0325-6ceb502c3ba0@redhat.com>
+References: <20230518153733.195306-1-hdegoede@redhat.com> <20230518153733.195306-10-hdegoede@redhat.com>
+In-Reply-To: <20230518153733.195306-10-hdegoede@redhat.com>
+From: Andy Shevchenko <andy.shevchenko@gmail.com>
+Date: Fri, 19 May 2023 15:45:54 +0300
+Message-ID: <CAHp75Vf2CjdtchvOAYFpCdsqDxMy8d2CB5O6ApeqJsx98+gyXQ@mail.gmail.com>
+Subject: Re: [PATCH 9/9] media: atomisp: Add support for v4l2-async sensor registration
+To: Hans de Goede <hdegoede@redhat.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
+	Andy Shevchenko <andy@kernel.org>, Kate Hsuan <hpa@redhat.com>, Tsuchiya Yuto <kitakar@gmail.com>, 
+	Yury Luneff <yury.lunev@gmail.com>, Nable <nable.maininbox@googlemail.com>, 
+	andrey.i.trufanov@gmail.com, Fabio Aiuto <fabioaiuto83@gmail.com>, 
+	linux-media@vger.kernel.org, linux-staging@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Hans,
+On Thu, May 18, 2023 at 6:38=E2=80=AFPM Hans de Goede <hdegoede@redhat.com>=
+ wrote:
 
-On Fri, May 19, 2023 at 01:55:04PM +0200, Hans de Goede wrote:
-> Hi Sakari,
-> 
-> On 5/19/23 12:58, Sakari Ailus wrote:
-> > Hi Hans,
-> > 
-> > On Fri, May 19, 2023 at 10:55:42AM +0200, Hans de Goede wrote:
-> 
-> <snip>
-> 
-> >>> Although if the number of those drivers would be small, this could be just
-> >>> undesirable but still somehow acceptable. And I wouldn't expect new sensors
-> >>> to be paired with the IPU2 anymore. How many drivers there would be
-> >>> roughly? I think I've seen ten-ish sensor drivers with the atomisp driver.
-> >>
-> >> About ten-ish drivers sounds right.
-> >>
-> >>> Isn't it possible to create a device for this purpose and use software
-> >>> nodes for the GPIOs? I guess that would be a hack as well and you'd somehow
-> >>> have to initialise this via other route than driver probe.
-> >>
-> >> This creates unsolvable probe-ordering problems. At a minimum we would
-> >> need some check inside sensor drivers for them to return -EPROBE_DEFER
-> >> until the GPIO mappings are added through some other means. Note that
-> >> without the mappings gpiod_get will return -ENOENT, so we cannot just
-> >> use its return value.
-> > 
-> > They probably will already need this in order to make sure the atomisp
-> > bridge has been initialized.
-> 
-> The instantiation of the sensor i2c_clients and of the atomisp PCI device
-> is independent of each other. In my other patch series I'm moving sensor
-> registration for atomisp over to the v4l2-async framework like all other
-> bridge/ISP drivers use so that atomisp no longer needs special sensor
-> drivers.
-> 
-> And AFAIK one of the reasons for having the v4l2-async framework is
-> to avoid needing to have a specific probe order between bridge vs
-> sensor drivers.
-> 
-> > Could this code live in the atomisp bridge instead?
-> 
-> That does not solve the probe ordering problem the sensor drivers
-> need the GPIOs to enable the sensor and they all enable the sensor
-> in their probe() to check the hw-id. The sensor's probe() function
-> runs without any ordering guarantees vs the ISP/brige's probe()
-> function. This is not an issue because at least during probe()
-> the sensor drivers don't have any interactions with the bridge
-> and any further access to the sensor-drivers is delayed until
-> the v4l2-async notifier completion callback has run.
-> 
-> The only way to work around the probe-ordering problem would
-> be to delay checking the hw-id until the sensor gets linked
-> to the bridge. Which would mean registering an async notifier
-> from the sensors to catch binding from the sensor drivers
-> and allowing the binding to fail.
-> 
-> Delaying the hw-id check like this would be much more involved
-> then the currently proposed solution and will likely cause
-> other issues like the wrong driver binding when hw-vendors
-> get the ACPI hw-id wrong (this is a known issue with audio-codecs,
-> so chances are we will see this with sensors too).
+...
 
-A simple question: how do you solve the probe ordering issue when it comes
-to the atomisp bridge creating the graph endpoints needed by sensor
-drivers?
+> +static const guid_t atomisp_dsm_guid =3D GUID_INIT(0xdc2f6c4f, 0x045b, 0=
+x4f1d,
+> +                                                0x97, 0xb9, 0x88, 0x2a,
+> +                                                0x68, 0x60, 0xa4, 0xbe);
 
-Or do you assume the sensor drivers will always use some static
-configuration?
+Can we use the de facto pattern for this kind of assignments?
 
--- 
-Kind regards,
+... guid_t foo =3D
+ <TAB>GUID_INIT(...first 3 parameters...
+<TAB><TAB>[spaces if needed)...last 8 parameters...);
+?
 
-Sakari Ailus
+Also would be nice to have a comment where the GUID is represented in
+text format so it can be easily googled/searched for in
+internet/documentation.
+
+...
+
+> +       for (i =3D 0; i < obj->package.count - 1; i +=3D 2) {
+> +               /* The package should only contain strings */
+
+> +               if (obj->package.elements[i].type !=3D ACPI_TYPE_STRING |=
+|
+
+i + 0 ?
+
+> +                   obj->package.elements[i + 1].type !=3D ACPI_TYPE_STRI=
+NG)
+> +                       break;
+> +
+> +               if (!strcmp(obj->package.elements[i].string.pointer, key)=
+) {
+
+Ditto?
+
+> +                       val =3D kstrdup(obj->package.elements[i + 1].stri=
+ng.pointer, GFP_KERNEL);
+> +                       dev_info(&adev->dev, "Using DSM entry %s=3D%s\n",=
+ key, val);
+> +                       break;
+> +               }
+
+I would even go for temporary for element pointer
+
+... *elem0 =3D &[i + 0];
+... *elem1 =3D &[i + 1];
+
+> +       }
+
+...
+
+> +use_default:
+
+out_use_default:
+
+...
+
+> +       status =3D acpi_evaluate_object(adev->handle, "_PR0", NULL, &buff=
+er);
+
+acpi_evaluate_object_typed()
+
+> +       if (!ACPI_SUCCESS(status))
+> +               return -ENOENT;
+
+...
+
+> +       if (!buffer.length || !package || package->type !=3D ACPI_TYPE_PA=
+CKAGE)
+
+See above.
+
+> +               goto fail;
+
+...
+
+> +               if (strlen(name) =3D=3D 4 && !strncmp(name, "CLK", 3) &&
+
+strlen() assumes that name is NUL-terminated, hence it can be simply
+replaced with name[5] =3D=3D '\0' check which can go at the end of
+conditional, so that it's also implied in strncmp() for the start of
+the string, but why not using str_has_prefix()?
+
+> +                   name[3] >=3D '0' && name[3] <=3D '4') {
+
+It's also possible to have it done via kstrtou8() that does almost all
+checks along with conversion. You will only need to check for > 4.
+
+> +                       clock_num =3D name[3] - '0';
+> +                       break;
+> +               }
+> +       }
+
+Altogether
+
+ if (str_has_prefix()) {
+   ret =3D kstrto...(&clock_num);
+   if (ret)
+     ...
+   check for clock_num range if needed.
+ }
+
+Yes it's longer in code.
+
+...
+
+> +fail:
+
+err_free_pointer:
+(It will be also in align with the rest of the code AFAICS)
+
+> +       ACPI_FREE(buffer.pointer);
+> +
+> +       return clock_num;
+
+...
+
+> +       /* Intel DSM or DMI quirk overrides PR0 derived default */
+> +       port =3D gmin_cfg_get_int(adev, "CsiPort", port);
+> +
+> +       return port;
+
+return gmin_...;
+
+...
+
+> +       if (dev->fwnode && dev->fwnode->secondary)
+
+Please, use dev_fwnode() instead of direct access to the fwnode in
+struct device.
+
+> +               return 0;
+
+...
+
+> +               struct v4l2_fwnode_endpoint vep =3D {
+> +                       .bus_type =3D V4L2_MBUS_CSI2_DPHY
+
+I would add a trailing comma here.
+
+> +               };
+
+--=20
+With Best Regards,
+Andy Shevchenko
