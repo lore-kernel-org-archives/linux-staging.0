@@ -1,92 +1,77 @@
-Received: from mail-pg1-f177.google.com (mail-pg1-f177.google.com [209.85.215.177])
+Received: from mail-qv1-f43.google.com (mail-qv1-f43.google.com [209.85.219.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69C456AA0
-	for <linux-staging@lists.linux.dev>; Fri, 19 May 2023 10:20:16 +0000 (UTC)
-Received: by mail-pg1-f177.google.com with SMTP id 41be03b00d2f7-53469299319so1423916a12.3
-        for <linux-staging@lists.linux.dev>; Fri, 19 May 2023 03:20:16 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC9EF7471
+	for <linux-staging@lists.linux.dev>; Fri, 19 May 2023 10:22:24 +0000 (UTC)
+Received: by mail-qv1-f43.google.com with SMTP id 6a1803df08f44-62385a3106dso13819776d6.2
+        for <linux-staging@lists.linux.dev>; Fri, 19 May 2023 03:22:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1684491616; x=1687083616;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+        d=gmail.com; s=20221208; t=1684491743; x=1687083743;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=wba1YArvykmSZksSn+PRwHxHWmhMmfjRVISgjVjCTk4=;
-        b=de0+lVs7fkMKCXKZN1Uo3v1hZWz7Q0rLROV5fVLqv8ZK4RiAwZ4ihjvw9OXZc0TjWZ
-         /zXm+CgtQcIJ9lctzjY613itfA6hAd10/oaQX+Uim+w8FDQey/YmF6rmFEEb0mYbeO8S
-         PDKb2qdfHgSlBS+LD2+OcTziblsjhcIZP44+9ZPqUvPDcxqPnCYsWA5pIA8uFbmn2YGX
-         jXnkaJA/Nk0gPNdc80IbR5sKerOv512segljfyJCBc5XqQKOx/Luksx+uEp/cNwcIh+y
-         tSTXMOuqaTHfSPxKIBjS98V1MKWJXtinmIwKWXU9LoW3lnE2PLBoYJXCVL0r6G402lzb
-         ZolQ==
+        bh=GtpbF2tXZUjlQDCpCAkUtufwtzGeJXDTY4JTRH+Iw2M=;
+        b=E/YwHjpl1qYGPpGxLSzw0wb2VqIy7VIX+wKx+ahQgZ8egNd3byKgpaulAKmKe2pcas
+         +AhHbtPRpOAigd+9SrK48SeNLfYhX9LdHI8p/gF8FHM8Gr00I+XceSmIpN1z4UuyjCdF
+         H/3Ly/GIeSj50sGVLp8S+asXWsUx4j7pvPNRwJlJVznL8E05801sQjH8BT9FF624xnc9
+         rAbrsrQrA5Ovs5Prj9xbnQbQnm9uKvlwh53q+0v9oHD/BX6RlNQnzYdqSIKKbCHBfinU
+         UimCASxpDRGEBpLog6NQ2wilRIrqu0D07JYEKzk+4tcLylSZ+MxGL06L/jZH1Pbaiomr
+         mbdQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1684491616; x=1687083616;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20221208; t=1684491743; x=1687083743;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=wba1YArvykmSZksSn+PRwHxHWmhMmfjRVISgjVjCTk4=;
-        b=FyajafbADITNb0PQikFldJ1WtM6Ox0b6NqLElgVJPcvqVqUCttBWMxv7/nTT5jmEgO
-         CQ3SM01IyIF7mG8C16FO6BtZPU9SricfTnL5kSHUxcoliIiUZ4fIuU4AlM6fuYvNRZaU
-         qboasem6G8X8DmmsNr3mEnFjQGkAK4yjoE+0oU6mn6ZZr3wTkoawjdqZTZwSgzyCN3l2
-         bh2zRal6yQyrJNIe31h9gukbjQbrSZR/jjxHY0Fk0V/1m0Edc+UotgmI93jLOjb2K59z
-         ei4C+/ZbmQHDE7U/OAF2OLwVMQQhXlUkgmxKcnnKFGsfAFTKYJjrpDWSHgcuyqzHkznM
-         neBA==
-X-Gm-Message-State: AC+VfDwDIWu9LFrw1QtDirV7z3ehrV+jgHgoph1OuRaqti5e9EuouYpo
-	hfWQU910VQXuXVBRjYFfbis=
-X-Google-Smtp-Source: ACHHUZ4iDDAHgVYfvn93q6kUTIsh196jK6e4uGk1QBRgVFTeo4UoDjg08LB76NZrjlzPoz0t7WrbyQ==
-X-Received: by 2002:a17:90a:8c10:b0:250:1905:ae78 with SMTP id a16-20020a17090a8c1000b002501905ae78mr1651705pjo.15.1684491615776;
-        Fri, 19 May 2023 03:20:15 -0700 (PDT)
-Received: from localhost.localdomain ([2405:201:682f:3808:92bc:26c4:ce02:816b])
-        by smtp.gmail.com with ESMTPSA id t7-20020a17090a3b4700b0025374fedab4sm1239643pjf.22.2023.05.19.03.20.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 19 May 2023 03:20:15 -0700 (PDT)
-From: Deepanshu Kartikey <kartikey406@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	Deepanshu Kartikey <kartikey406@gmail.com>
-Subject: [PATCH v2] Staging: rts5208: rtsx: Moved else statement to same line with else if
-Date: Fri, 19 May 2023 15:49:20 +0530
-Message-Id: <20230519101920.27342-2-kartikey406@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20230519101920.27342-1-kartikey406@gmail.com>
-References: <20230519101920.27342-1-kartikey406@gmail.com>
+        bh=GtpbF2tXZUjlQDCpCAkUtufwtzGeJXDTY4JTRH+Iw2M=;
+        b=fGc0uSz6Lf+SCWCW52/LuyRQF3ZNvNTGxs0JmGT9BJyNUafuxpd85F3g5palqTe/xd
+         duIJaofWabACyV+lN2RMp5UZyBl/BjTeC3z1tY/a7Da1dpHYouPHCDiYrKsNlqCZX5xx
+         aApoC356KXu3rXFxTNdw2UATecB+jMrGCREeULjw4w4fV4zmg4+vzejrbwiZSNaR9vFx
+         05qM7U+GBvqu7Pxk7CHLbMVrU/h8gaQfqRSTdaModG6OA4vTpbyZsWeM1sJ/JK943lH4
+         g1G/XupfUIj2QvLEPjF052WECEoJ7yZOTIHP17dTU0pQ6LuP5YWqXGyqas7wR+0/Ye+x
+         /uhQ==
+X-Gm-Message-State: AC+VfDw5pB95mtETxnubrMW5uXSjZjz5asPBBhSVxUN/rm+t5H/PYsgH
+	tYz43Xnwi93Yn4EHSIBidW8O1SIG7uig9GxayLg=
+X-Google-Smtp-Source: ACHHUZ4t6E8dc6ID1cRXLGrV7UctxFtyj7367GxYtrr6TL81HddZiVacCWbw+MgjcB7tTQ5Of6u8+tpkOcxOwWMKN+M=
+X-Received: by 2002:ad4:5ced:0:b0:5c8:403a:22f8 with SMTP id
+ iv13-20020ad45ced000000b005c8403a22f8mr3500950qvb.5.1684491743577; Fri, 19
+ May 2023 03:22:23 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20230518153214.194976-1-hdegoede@redhat.com> <20230518153214.194976-2-hdegoede@redhat.com>
+ <ZGcl7+cKu0/h43YC@kekkonen.localdomain> <cb4e56fd-0745-6040-6d93-bd8eb1d23ce1@redhat.com>
+In-Reply-To: <cb4e56fd-0745-6040-6d93-bd8eb1d23ce1@redhat.com>
+From: Andy Shevchenko <andy.shevchenko@gmail.com>
+Date: Fri, 19 May 2023 13:21:47 +0300
+Message-ID: <CAHp75VddE8Z4KxuOVT2_YbNrzCz5_oVmVs6RaqjffJtaT6xabA@mail.gmail.com>
+Subject: Re: [PATCH 1/9] media: v4l: Add v4l2_acpi_parse_sensor_gpios() helper function
+To: Hans de Goede <hdegoede@redhat.com>
+Cc: Sakari Ailus <sakari.ailus@linux.intel.com>, 
+	Mauro Carvalho Chehab <mchehab@kernel.org>, Andy Shevchenko <andy@kernel.org>, Kate Hsuan <hpa@redhat.com>, 
+	Tsuchiya Yuto <kitakar@gmail.com>, Yury Luneff <yury.lunev@gmail.com>, 
+	Nable <nable.maininbox@googlemail.com>, andrey.i.trufanov@gmail.com, 
+	Fabio Aiuto <fabioaiuto83@gmail.com>, linux-media@vger.kernel.org, 
+	linux-staging@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Moved else statement to same line with else if,
-this warning was given by checkpatch.pl
+On Fri, May 19, 2023 at 11:55=E2=80=AFAM Hans de Goede <hdegoede@redhat.com=
+> wrote:
+> On 5/19/23 09:31, Sakari Ailus wrote:
 
-Signed-off-by: Deepanshu Kartikey <kartikey406@gmail.com>
+...
 
----
-Changes in V2:
-            - Moved else to the same line with else if
-            - Moved comment on else statement to inside of it
----
- drivers/staging/rts5208/rtsx.c | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
+> And if we need some changes anyways just adding the single line call
+> to the new helper seems both the least invasive and the easiest.
 
-diff --git a/drivers/staging/rts5208/rtsx.c b/drivers/staging/rts5208/rtsx.c
-index 2284a96abcff..47dacef0aaf8 100644
---- a/drivers/staging/rts5208/rtsx.c
-+++ b/drivers/staging/rts5208/rtsx.c
-@@ -399,10 +399,8 @@ static int rtsx_control_thread(void *__dev)
- 				chip->srb->device->id,
- 				(u8)chip->srb->device->lun);
- 			chip->srb->result = DID_BAD_TARGET << 16;
--		}
--
--		/* we've got a command, let's do it! */
--		else {
-+		} else {
-+			/* we've got a command, let's do it! */
- 			scsi_show_command(chip);
- 			rtsx_invoke_transport(chip->srb, chip);
- 		}
--- 
-2.25.1
+I'm on Hans' side here. And yes, many drivers (mostly in the ASoC
+area, i.e. audio codecs) nowadays have GPIO ACPI mapping tables due to
+lack of _DSD in ACPI. It's a problem of firmware which we can't avoid
+if we really want to support this hardware in Linux.
 
+--=20
+With Best Regards,
+Andy Shevchenko
