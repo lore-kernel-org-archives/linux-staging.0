@@ -1,76 +1,69 @@
-Received: from mail-qv1-f43.google.com (mail-qv1-f43.google.com [209.85.219.43])
+Received: from mail-qk1-f175.google.com (mail-qk1-f175.google.com [209.85.222.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC9EF7471
-	for <linux-staging@lists.linux.dev>; Fri, 19 May 2023 10:22:24 +0000 (UTC)
-Received: by mail-qv1-f43.google.com with SMTP id 6a1803df08f44-62385a3106dso13819776d6.2
-        for <linux-staging@lists.linux.dev>; Fri, 19 May 2023 03:22:24 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 667F06AA4
+	for <linux-staging@lists.linux.dev>; Fri, 19 May 2023 10:24:58 +0000 (UTC)
+Received: by mail-qk1-f175.google.com with SMTP id af79cd13be357-75773956860so162521385a.0
+        for <linux-staging@lists.linux.dev>; Fri, 19 May 2023 03:24:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1684491743; x=1687083743;
+        d=gmail.com; s=20221208; t=1684491897; x=1687083897;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=GtpbF2tXZUjlQDCpCAkUtufwtzGeJXDTY4JTRH+Iw2M=;
-        b=E/YwHjpl1qYGPpGxLSzw0wb2VqIy7VIX+wKx+ahQgZ8egNd3byKgpaulAKmKe2pcas
-         +AhHbtPRpOAigd+9SrK48SeNLfYhX9LdHI8p/gF8FHM8Gr00I+XceSmIpN1z4UuyjCdF
-         H/3Ly/GIeSj50sGVLp8S+asXWsUx4j7pvPNRwJlJVznL8E05801sQjH8BT9FF624xnc9
-         rAbrsrQrA5Ovs5Prj9xbnQbQnm9uKvlwh53q+0v9oHD/BX6RlNQnzYdqSIKKbCHBfinU
-         UimCASxpDRGEBpLog6NQ2wilRIrqu0D07JYEKzk+4tcLylSZ+MxGL06L/jZH1Pbaiomr
-         mbdQ==
+        bh=IuquuX3LtEasIX2qqIvkyd90Zb16LALmdo13bhDY+xU=;
+        b=aDZFf86QQofHPSc79fOTJkCGOsmjZh1FtaZdglob99OalEvQTr9IQCKKvefzzwDlIb
+         VS1DV3aIJMCRqVmUs8WswN1WY5Y0laiQ1IOK1td1Om+l0H5Gf3EINRdV+uHYC1vWujUS
+         EF5y9ZIIb7O5o1xgq8FUbnyokooexYyve8mjLBKT8YQFcqcLPUpbKv78TA4l8TfjyWbI
+         q4pIT2l5SZ0qQGrvqlCmZuAGyBRAXXiFT1U5luKmeDnE65tj+fg0TDU0IcBEYWUmuNlV
+         a/RW/3rHf3BFUUCvSoZO6ZOw3Sg7w7Tn4N7Jgu42NAUa3kgRVKIVtETAZO/SjUXGovEj
+         OExA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1684491743; x=1687083743;
+        d=1e100.net; s=20221208; t=1684491897; x=1687083897;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=GtpbF2tXZUjlQDCpCAkUtufwtzGeJXDTY4JTRH+Iw2M=;
-        b=fGc0uSz6Lf+SCWCW52/LuyRQF3ZNvNTGxs0JmGT9BJyNUafuxpd85F3g5palqTe/xd
-         duIJaofWabACyV+lN2RMp5UZyBl/BjTeC3z1tY/a7Da1dpHYouPHCDiYrKsNlqCZX5xx
-         aApoC356KXu3rXFxTNdw2UATecB+jMrGCREeULjw4w4fV4zmg4+vzejrbwiZSNaR9vFx
-         05qM7U+GBvqu7Pxk7CHLbMVrU/h8gaQfqRSTdaModG6OA4vTpbyZsWeM1sJ/JK943lH4
-         g1G/XupfUIj2QvLEPjF052WECEoJ7yZOTIHP17dTU0pQ6LuP5YWqXGyqas7wR+0/Ye+x
-         /uhQ==
-X-Gm-Message-State: AC+VfDw5pB95mtETxnubrMW5uXSjZjz5asPBBhSVxUN/rm+t5H/PYsgH
-	tYz43Xnwi93Yn4EHSIBidW8O1SIG7uig9GxayLg=
-X-Google-Smtp-Source: ACHHUZ4t6E8dc6ID1cRXLGrV7UctxFtyj7367GxYtrr6TL81HddZiVacCWbw+MgjcB7tTQ5Of6u8+tpkOcxOwWMKN+M=
-X-Received: by 2002:ad4:5ced:0:b0:5c8:403a:22f8 with SMTP id
- iv13-20020ad45ced000000b005c8403a22f8mr3500950qvb.5.1684491743577; Fri, 19
- May 2023 03:22:23 -0700 (PDT)
+        bh=IuquuX3LtEasIX2qqIvkyd90Zb16LALmdo13bhDY+xU=;
+        b=HyKOPN1UkPj8IHHBzT43zrEUTELGjtPqTKNwm1RyaOB+eEuFwEQPHTnRkTzBSq8MQ0
+         iuSEbZhXOf7pXFIRJRUDdOF650cFpdnz5xC0w/ITIxUpbncG11cg4GXgMC9zudbe677S
+         owZQXEgowL1DsAqI8CYiygaFbhLAX9iotX7GiJE4VU3dSUHZsfXt901Hv5cSVqmxitqK
+         taZYMuSQA3FZdj+Os3nSw23HLndYELmQa5rOwFxjI9Cy7oWcNBKdtprEXq4RqYjO4vfZ
+         sdtfXmy85I5PEZNJflsLmxTUMkmIXPn1oapXA57Gsj7b4Z/mXS288RXtLf8zRE8uwxKI
+         RQTQ==
+X-Gm-Message-State: AC+VfDy9MWy+vnhuJJH8s89T/vU6CCvHcpLTqF/H8qNxObXKKsUlZ5PM
+	3Vqvjdyf0HGa6xsYG9mSZ5PECxX4P5rOkBOysoA=
+X-Google-Smtp-Source: ACHHUZ78RzUmOT1KDIhC3yUTBIeY7F8BI58+wpUbmD/LoR+rHf2qSugV4DwSVvxcBNaoCApiwmgUvI0SluECTW04ZNY=
+X-Received: by 2002:a05:6214:e8f:b0:5ef:4446:22f1 with SMTP id
+ hf15-20020a0562140e8f00b005ef444622f1mr3776197qvb.19.1684491897201; Fri, 19
+ May 2023 03:24:57 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20230518153214.194976-1-hdegoede@redhat.com> <20230518153214.194976-2-hdegoede@redhat.com>
- <ZGcl7+cKu0/h43YC@kekkonen.localdomain> <cb4e56fd-0745-6040-6d93-bd8eb1d23ce1@redhat.com>
-In-Reply-To: <cb4e56fd-0745-6040-6d93-bd8eb1d23ce1@redhat.com>
+References: <20230518153214.194976-1-hdegoede@redhat.com> <20230518153214.194976-5-hdegoede@redhat.com>
+In-Reply-To: <20230518153214.194976-5-hdegoede@redhat.com>
 From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Fri, 19 May 2023 13:21:47 +0300
-Message-ID: <CAHp75VddE8Z4KxuOVT2_YbNrzCz5_oVmVs6RaqjffJtaT6xabA@mail.gmail.com>
-Subject: Re: [PATCH 1/9] media: v4l: Add v4l2_acpi_parse_sensor_gpios() helper function
+Date: Fri, 19 May 2023 13:24:21 +0300
+Message-ID: <CAHp75Vc3+JF+WW-nu4xPfdUszNb4Q-wbp37Wi7npWaTG-Jow5Q@mail.gmail.com>
+Subject: Re: [PATCH 4/9] media: atomisp: gc0310: Drop XXGC0310 ACPI hardware-id
 To: Hans de Goede <hdegoede@redhat.com>
-Cc: Sakari Ailus <sakari.ailus@linux.intel.com>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, Andy Shevchenko <andy@kernel.org>, Kate Hsuan <hpa@redhat.com>, 
-	Tsuchiya Yuto <kitakar@gmail.com>, Yury Luneff <yury.lunev@gmail.com>, 
-	Nable <nable.maininbox@googlemail.com>, andrey.i.trufanov@gmail.com, 
-	Fabio Aiuto <fabioaiuto83@gmail.com>, linux-media@vger.kernel.org, 
-	linux-staging@lists.linux.dev
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
+	Andy Shevchenko <andy@kernel.org>, Kate Hsuan <hpa@redhat.com>, Tsuchiya Yuto <kitakar@gmail.com>, 
+	Yury Luneff <yury.lunev@gmail.com>, Nable <nable.maininbox@googlemail.com>, 
+	andrey.i.trufanov@gmail.com, Fabio Aiuto <fabioaiuto83@gmail.com>, 
+	linux-media@vger.kernel.org, linux-staging@lists.linux.dev
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, May 19, 2023 at 11:55=E2=80=AFAM Hans de Goede <hdegoede@redhat.com=
-> wrote:
-> On 5/19/23 09:31, Sakari Ailus wrote:
+On Thu, May 18, 2023 at 6:32=E2=80=AFPM Hans de Goede <hdegoede@redhat.com>=
+ wrote:
+>
+> The XXGC0310 ACPI hardware-id does not appear to be used in
+> the DSDTs of any hardware out there, so drop it.
 
-...
-
-> And if we need some changes anyways just adding the single line call
-> to the new helper seems both the least invasive and the easiest.
-
-I'm on Hans' side here. And yes, many drivers (mostly in the ASoC
-area, i.e. audio codecs) nowadays have GPIO ACPI mapping tables due to
-lack of _DSD in ACPI. It's a problem of firmware which we can't avoid
-if we really want to support this hardware in Linux.
+Yeah, I believe it's a leftover from preproduction firmwares before
+real ACPI ID was allocated.
 
 --=20
 With Best Regards,
