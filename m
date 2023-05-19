@@ -1,104 +1,49 @@
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+Received: from mail.corrib.pl (mail.corrib.pl [185.58.226.145])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBBBA7F3
-	for <linux-staging@lists.linux.dev>; Fri, 19 May 2023 07:32:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1684481527; x=1716017527;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=MxfzHP1Or4QpjMycJ2Hc0O1YWboJ3/Dhj1hz8mps+IA=;
-  b=Yd2IKsLuhqMFO/QlTjQv2h7MDMm0MYreuci4EuTi2qe6ltrgf2LPNmY+
-   7s0PUiT720b7zCrgGadlGAkFoh04Z6C0YG4jnk10N65Ae0j9bEhMVGOBq
-   hOvwoctu/V5A3nK7BazPhhROXCY3enqRyP1PwCPwNdnM4Wud/eDJTTTew
-   XG9VX8iKA/Dqn+aVROrRgO2yAYM/50iR5VPHO+tC2Y8iM3buRlxVDb53U
-   TOSMSiGnO2OZNiyuozRMjGcGoWSJYtyN4gRzduDh/5C6EkIcivbL+c9TQ
-   oEOqoK1vzL1eKE47rKbWswbcq6BkJMO28OjuFrDbak9m9vHlgqM0KxRW5
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10714"; a="332669039"
-X-IronPort-AV: E=Sophos;i="6.00,176,1681196400"; 
-   d="scan'208";a="332669039"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 May 2023 00:32:05 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10714"; a="814627422"
-X-IronPort-AV: E=Sophos;i="6.00,176,1681196400"; 
-   d="scan'208";a="814627422"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 May 2023 00:32:02 -0700
-Received: from kekkonen.localdomain (localhost [IPv6:::1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id B23D3120279;
-	Fri, 19 May 2023 10:31:59 +0300 (EEST)
-Date: Fri, 19 May 2023 07:31:59 +0000
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Hans de Goede <hdegoede@redhat.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Andy Shevchenko <andy@kernel.org>, Kate Hsuan <hpa@redhat.com>,
-	Tsuchiya Yuto <kitakar@gmail.com>,
-	Yury Luneff <yury.lunev@gmail.com>,
-	Nable <nable.maininbox@googlemail.com>, andrey.i.trufanov@gmail.com,
-	Fabio Aiuto <fabioaiuto83@gmail.com>, linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev
-Subject: Re: [PATCH 1/9] media: v4l: Add v4l2_acpi_parse_sensor_gpios()
- helper function
-Message-ID: <ZGcl7+cKu0/h43YC@kekkonen.localdomain>
-References: <20230518153214.194976-1-hdegoede@redhat.com>
- <20230518153214.194976-2-hdegoede@redhat.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 839C03D3B0
+	for <linux-staging@lists.linux.dev>; Fri, 19 May 2023 08:15:22 +0000 (UTC)
+Received: by mail.corrib.pl (Postfix, from userid 1001)
+	id 6F697A5B3C; Fri, 19 May 2023 09:06:18 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=corrib.pl; s=mail;
+	t=1684483593; bh=85MOfYTjIHwki6Ys5IeFKzEzX5V7umZoL3TytLG0W/k=;
+	h=Date:From:To:Subject:From;
+	b=YV0dRvoGkKOFioI8x6ZvyHmX6Pruae30F69WNy74an6vs1sspqYW4wmokybsCtZo9
+	 c86VmnIZ7L1fg2GQlPXT4WVHzq5vWYU7H0xkBzTvTMi2Y5ku4qQUN4hepvgYo6b1c/
+	 Z66zrMC8EwzIgS9UbhBe67V3XYMqyXzH0QH90B7dj6q3LQOHZLcRYEo7ausVgooZg8
+	 /8elIkZ+u/WvtNCojEEosidu1vkiAJvog4Hj5Xc8lo9vcSP2U/m3N3wCgeCqF155a4
+	 TUxbotHHwP1JYsVf5MnGk5VB1jG6B14PsMCR/5N6OrWABxjJCy1rp8Rp+Ss0r2Hs6J
+	 X7vARKereCq4A==
+Received: by mail.corrib.pl for <linux-staging@lists.linux.dev>; Fri, 19 May 2023 08:06:12 GMT
+Message-ID: <20230519074500-0.1.7b.of9v.0.hv9m197de7@corrib.pl>
+Date: Fri, 19 May 2023 08:06:12 GMT
+From: "Szczepan Andryszczuk" <szczepan.andryszczuk@corrib.pl>
+To: <linux-staging@lists.linux.dev>
+Subject: Faktoring
+X-Mailer: mail.corrib.pl
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230518153214.194976-2-hdegoede@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Hans,
+Dzie=C5=84 dobry,
 
-On Thu, May 18, 2023 at 05:32:06PM +0200, Hans de Goede wrote:
-> On x86/ACPI platforms the GPIO resources do not provide information
-> about which GPIO resource maps to which connection-id. So e.g.
-> gpiod_get(devg, "reset") does not work.
-> 
-> On devices with an Intel IPU3 or newer ISP there is a special ACPI
-> INT3472 device describing the GPIOs and instantiating of the i2c_client
-> for a sensor is deferred until the INT3472 driver has been bound based
-> on the sensor ACPI device having a _DEP on the INT3472 ACPI device.
-> 
-> This allows the INT3472 driver to add the necessary GPIO lookups
-> without needing any special ACPI handling in the sensor driver.
-> 
-> Unfortunately this does not work on devices with an atomisp2 ISP,
-> there the _DSM describing the GPIOs is part of the sensor ACPI device
-> itself, rather then being part of a separate ACPI device.
-> 
-> IOW there is no separate firmware-node to which we can bind to register
-> the GPIO lookups (and also no way to defer creating the sensor i2c_client).
-> 
-> This unfortunately means that all sensor drivers which may be used on
-> BYT or CHT hw need some code to deal with ACPI integration.
-> 
-> This patch adds a new v4l2_acpi_parse_sensor_gpios() helper function
-> for this, which does all the necessary work. This minimizes the
-> (unavoidable) change to sensor drivers for ACPI integration to just
-> adding a single line calling this void function to probe().
+rozwa=C5=BCali Pa=C5=84stwo wyb=C3=B3r finansowania, kt=C3=B3re spe=C5=82=
+ni potrzeby firmy, zapewniaj=C4=85c natychmiastowy dost=C4=99p do got=C3=B3=
+wki, bez zb=C4=99dnych przestoj=C3=B3w?=20
 
-I'd rather avoid making changes to sensor drivers due to this hack. At the
-very least it must be labelled so: this has no more to do with ACPI
-standard than that this information happens to be located in an ACPI table.
+Przygotowali=C5=9Bmy rozwi=C4=85zania faktoringowe dopasowane do Pa=C5=84=
+stwa bran=C5=BCy i wielko=C5=9Bci firmy, dzi=C4=99ki kt=C3=B3rym, nie mus=
+z=C4=85 Pa=C5=84stwo martwi=C4=87 si=C4=99 o niewyp=C5=82acalno=C5=9B=C4=87=
+ kontrahent=C3=B3w, poniewa=C5=BC transakcje s=C4=85 zabezpieczone i posi=
+adaj=C4=85 gwarancj=C4=99 sp=C5=82aty.=20
 
-Although if the number of those drivers would be small, this could be just
-undesirable but still somehow acceptable. And I wouldn't expect new sensors
-to be paired with the IPU2 anymore. How many drivers there would be
-roughly? I think I've seen ten-ish sensor drivers with the atomisp driver.
+Chc=C4=85 Pa=C5=84stwo przeanalizowa=C4=87 dost=C4=99pne opcje?
 
-Isn't it possible to create a device for this purpose and use software
-nodes for the GPIOs? I guess that would be a hack as well and you'd somehow
-have to initialise this via other route than driver probe.
 
--- 
-Kind regards,
-
-Sakari Ailus
+Pozdrawiam
+Szczepan Andryszczuk
