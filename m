@@ -1,122 +1,199 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3142C8F4
-	for <linux-staging@lists.linux.dev>; Wed, 24 May 2023 10:25:05 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id DBAB9223E1;
-	Wed, 24 May 2023 10:25:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1684923903; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=K7R/1ArihqwMpzWpgH+6nEfGggJF2LepLDRDMiCWbzM=;
-	b=Z4qDYRqPTzy6KC0PYLAQ2SOXgqESlAUv8Vzmyxqz181Uh8HcHmPWJSZ4C3s+6b/ItYg+HF
-	baNQIfFtChA4t5tH7LFXk+zo9OcPbekju+/jKqnr1cOdQEhIBxc+pR2SfswjuHDlhHdjMK
-	I4DpHmGdNzxwz14+8UYpsneDbdqptlg=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1684923903;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=K7R/1ArihqwMpzWpgH+6nEfGggJF2LepLDRDMiCWbzM=;
-	b=7s9Z3KsnYonlXDJmh/B+XR5J6gMzbsLapAx0f+eO+snnD6gLlFh3Iphei8G6XjkZMWcSvV
-	X6e9fqoz7CwlxJCQ==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 0287313425;
-	Wed, 24 May 2023 10:25:02 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-	by imap2.suse-dmz.suse.de with ESMTPSA
-	id /+2+Ov7lbWRXIQAAMHmgww
-	(envelope-from <jdelvare@suse.de>); Wed, 24 May 2023 10:25:02 +0000
-Date: Wed, 24 May 2023 12:25:01 +0200
-From: Jean Delvare <jdelvare@suse.de>
-To: Uwe =?UTF-8?B?S2xlaW5lLUvDtm5pZw==?= <u.kleine-koenig@pengutronix.de>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Lars-Peter Clausen
- <lars@metafoo.de>, Michael Hennerich <Michael.Hennerich@analog.com>,
- Jonathan Cameron <jic23@kernel.org>, Hans de Goede <hdegoede@redhat.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Sakari Ailus
- <sakari.ailus@linux.intel.com>, Niklas =?UTF-8?B?U8O2ZGVybHVuZA==?=
- <niklas.soderlund@ragnatech.se>, Parthiban Veerasooran
- <parthiban.veerasooran@microchip.com>, Christian Gromm
- <christian.gromm@microchip.com>, Jens Frederich <jfrederich@gmail.com>, Jon
- Nettleton <jon.nettleton@gmail.com>, Andy Shevchenko
- <andy.shevchenko@gmail.com>, Wolfram Sang <wsa@kernel.org>, Jeremy Kerr
- <jk@codeconstruct.com.au>, Kalle Valo <kvalo@kernel.org>, Hans Verkuil
- <hverkuil-cisco@xs4all.nl>, Peter Senna Tschudin <peter.senna@gmail.com>,
- "Steven Rostedt (Google)" <rostedt@goodmis.org>, Crt Mori
- <cmo@melexis.com>, Haowen Bai <baihaowen@meizu.com>, Tom Rix
- <trix@redhat.com>, Adrien Grassein <adrien.grassein@gmail.com>, Marek
- =?UTF-8?B?QmVow7pu?= <kabel@kernel.org>, Peter Rosin <peda@axentia.se>,
- Menna Mahmoud <eng.mennamahmoud.mm@gmail.com>, linux-iio@vger.kernel.org,
- linux-staging@lists.linux.dev, kernel@pengutronix.de,
- linux-media@vger.kernel.org
-Subject: Re: [PATCH] staging: Switch i2c drivers back to use .probe()
-Message-ID: <20230524122501.33c46d6f@endymion.delvare>
-In-Reply-To: <20230523200036.465180-1-u.kleine-koenig@pengutronix.de>
-References: <20230523200036.465180-1-u.kleine-koenig@pengutronix.de>
-Organization: SUSE Linux
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.34; x86_64-suse-linux-gnu)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 524978472
+	for <linux-staging@lists.linux.dev>; Wed, 24 May 2023 12:16:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1684930568; x=1716466568;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=7K7DFtRJSM5A4Hic/ffTlUz4BT+WFUn7QXKKU4gpLkY=;
+  b=KiSDs5aKMbzLoYLdLATW0bOEBgKCxsFo/PG27FrJszJEXEBpAzK40KzP
+   KV6/I0A2CR5E6qrKUQL3GzVaggTqnnQqnx4b4bT0ES5Hr/8U2y5/q0xZl
+   UpzB6JG5E0xECz59GrPKbBUhlSNxFkvd4/np2wOVLWbL3SmlWeXzY41aa
+   SUwdnn7PvKbNqMiono2RTOqskRvyVZozwFK1U/bpN2ftgyIha0TO4G90K
+   bUAKvyM82DPEFCLVqvpviIj/p7DuPwDxBxJ7p3ppVjn0Rz5gpe9iCmF2w
+   dLGCmH6+msK8n0HQerJR2IiIKXiOBrYUpPqmXSBItQ7EpY907WOURika9
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10719"; a="419256796"
+X-IronPort-AV: E=Sophos;i="6.00,189,1681196400"; 
+   d="scan'208";a="419256796"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 May 2023 05:16:07 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10719"; a="704326011"
+X-IronPort-AV: E=Sophos;i="6.00,189,1681196400"; 
+   d="scan'208";a="704326011"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 May 2023 05:16:02 -0700
+Received: from kekkonen.localdomain (localhost [IPv6:::1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id 014C91202A9;
+	Wed, 24 May 2023 15:16:02 +0300 (EEST)
+Date: Wed, 24 May 2023 12:16:01 +0000
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Hans de Goede <hdegoede@redhat.com>
+Cc: Dan Scally <djrscally@gmail.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Andy Shevchenko <andy@kernel.org>, Kate Hsuan <hpa@redhat.com>,
+	Tsuchiya Yuto <kitakar@gmail.com>,
+	Yury Luneff <yury.lunev@gmail.com>,
+	Nable <nable.maininbox@googlemail.com>, andrey.i.trufanov@gmail.com,
+	Fabio Aiuto <fabioaiuto83@gmail.com>, linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev
+Subject: Re: [PATCH 1/9] media: v4l: Add v4l2_acpi_parse_sensor_gpios()
+ helper function
+Message-ID: <ZG4AAZrrcKKPftpL@kekkonen.localdomain>
+References: <20230518153214.194976-1-hdegoede@redhat.com>
+ <20230518153214.194976-2-hdegoede@redhat.com>
+ <ZGcl7+cKu0/h43YC@kekkonen.localdomain>
+ <cb4e56fd-0745-6040-6d93-bd8eb1d23ce1@redhat.com>
+ <ZGdWVATARAQlaEjC@kekkonen.localdomain>
+ <d230dd21-9c2b-2dc4-0325-6ceb502c3ba0@redhat.com>
+ <ZGdohJQSY3GiNLSy@kekkonen.localdomain>
+ <1bd06502-d1f5-1ba2-600a-aec6cdf49a27@redhat.com>
+ <ZGeBKePUH55wi9dI@kekkonen.localdomain>
+ <e4b40a54-25e0-74d0-eb97-af36d7e78d2e@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <e4b40a54-25e0-74d0-eb97-af36d7e78d2e@redhat.com>
 
-On Tue, 23 May 2023 22:00:36 +0200, Uwe Kleine-K=C3=B6nig wrote:
-> After commit b8a1a4cd5a98 ("i2c: Provide a temporary .probe_new()
-> call-back type"), all drivers being converted to .probe_new() and then
-> 03c835f498b5 ("i2c: Switch .probe() to not take an id parameter") convert
-> back to (the new) .probe() to be able to eventually drop .probe_new() from
-> struct i2c_driver.
->=20
-> Signed-off-by: Uwe Kleine-K=C3=B6nig <u.kleine-koenig@pengutronix.de>
-> ---
-> Hello,
->=20
-> this patch was generated using coccinelle.
->=20
-> I chose to convert all drivers below drivers/staging in a single
-> patch, but if you prefer I can split by driver.
->=20
-> If conflicts arise until this is applied, feel free to just drop the
-> files with conflicts from this patch. I'll care about the fallout later
-> then.
->=20
-> Also note there is no coordination necessary with the i2c tree. Dropping
-> .probe_new() will happen only when all (or most) drivers are converted,
-> which will happen after v6.5-rc1 for sure.
->=20
-> Best regards
-> Uwe
->  drivers/staging/iio/addac/adt7316-i2c.c                   | 2 +-
->  drivers/staging/iio/impedance-analyzer/ad5933.c           | 2 +-
->  drivers/staging/media/atomisp/i2c/atomisp-gc0310.c        | 2 +-
->  drivers/staging/media/atomisp/i2c/atomisp-gc2235.c        | 2 +-
->  drivers/staging/media/atomisp/i2c/atomisp-lm3554.c        | 2 +-
->  drivers/staging/media/atomisp/i2c/atomisp-mt9m114.c       | 2 +-
->  drivers/staging/media/atomisp/i2c/atomisp-ov2680.c        | 2 +-
->  drivers/staging/media/atomisp/i2c/atomisp-ov2722.c        | 2 +-
->  drivers/staging/media/atomisp/i2c/ov5693/atomisp-ov5693.c | 2 +-
->  drivers/staging/media/max96712/max96712.c                 | 2 +-
->  drivers/staging/most/i2c/i2c.c                            | 2 +-
->  drivers/staging/olpc_dcon/olpc_dcon.c                     | 2 +-
->  12 files changed, 12 insertions(+), 12 deletions(-)
-> (...)
+Hi Hans,
 
-Reviewed-by: Jean Delvare <jdelvare@suse.de>
+On Fri, May 19, 2023 at 04:39:29PM +0200, Hans de Goede wrote:
+> Hi,
+> 
+> On 5/19/23 16:01, Sakari Ailus wrote:
+> > Hi Hans,
+> > 
+> > On Fri, May 19, 2023 at 03:08:02PM +0200, Hans de Goede wrote:
+> >> Hi Sakari,
+> >>
+> >> On 5/19/23 14:16, Sakari Ailus wrote:
+> >>> Hi Hans,
+> >>>
+> >>> On Fri, May 19, 2023 at 01:55:04PM +0200, Hans de Goede wrote:
+> >>>> Hi Sakari,
+> >>>>
+> >>>> On 5/19/23 12:58, Sakari Ailus wrote:
+> >>>>> Hi Hans,
+> >>>>>
+> >>>>> On Fri, May 19, 2023 at 10:55:42AM +0200, Hans de Goede wrote:
+> >>>>
+> >>>> <snip>
+> >>>>
+> >>>>>>> Although if the number of those drivers would be small, this could be just
+> >>>>>>> undesirable but still somehow acceptable. And I wouldn't expect new sensors
+> >>>>>>> to be paired with the IPU2 anymore. How many drivers there would be
+> >>>>>>> roughly? I think I've seen ten-ish sensor drivers with the atomisp driver.
+> >>>>>>
+> >>>>>> About ten-ish drivers sounds right.
+> >>>>>>
+> >>>>>>> Isn't it possible to create a device for this purpose and use software
+> >>>>>>> nodes for the GPIOs? I guess that would be a hack as well and you'd somehow
+> >>>>>>> have to initialise this via other route than driver probe.
+> >>>>>>
+> >>>>>> This creates unsolvable probe-ordering problems. At a minimum we would
+> >>>>>> need some check inside sensor drivers for them to return -EPROBE_DEFER
+> >>>>>> until the GPIO mappings are added through some other means. Note that
+> >>>>>> without the mappings gpiod_get will return -ENOENT, so we cannot just
+> >>>>>> use its return value.
+> >>>>>
+> >>>>> They probably will already need this in order to make sure the atomisp
+> >>>>> bridge has been initialized.
+> >>>>
+> >>>> The instantiation of the sensor i2c_clients and of the atomisp PCI device
+> >>>> is independent of each other. In my other patch series I'm moving sensor
+> >>>> registration for atomisp over to the v4l2-async framework like all other
+> >>>> bridge/ISP drivers use so that atomisp no longer needs special sensor
+> >>>> drivers.
+> >>>>
+> >>>> And AFAIK one of the reasons for having the v4l2-async framework is
+> >>>> to avoid needing to have a specific probe order between bridge vs
+> >>>> sensor drivers.
+> >>>>
+> >>>>> Could this code live in the atomisp bridge instead?
+> >>>>
+> >>>> That does not solve the probe ordering problem the sensor drivers
+> >>>> need the GPIOs to enable the sensor and they all enable the sensor
+> >>>> in their probe() to check the hw-id. The sensor's probe() function
+> >>>> runs without any ordering guarantees vs the ISP/brige's probe()
+> >>>> function. This is not an issue because at least during probe()
+> >>>> the sensor drivers don't have any interactions with the bridge
+> >>>> and any further access to the sensor-drivers is delayed until
+> >>>> the v4l2-async notifier completion callback has run.
+> >>>>
+> >>>> The only way to work around the probe-ordering problem would
+> >>>> be to delay checking the hw-id until the sensor gets linked
+> >>>> to the bridge. Which would mean registering an async notifier
+> >>>> from the sensors to catch binding from the sensor drivers
+> >>>> and allowing the binding to fail.
+> >>>>
+> >>>> Delaying the hw-id check like this would be much more involved
+> >>>> then the currently proposed solution and will likely cause
+> >>>> other issues like the wrong driver binding when hw-vendors
+> >>>> get the ACPI hw-id wrong (this is a known issue with audio-codecs,
+> >>>> so chances are we will see this with sensors too).
+> >>>
+> >>> A simple question: how do you solve the probe ordering issue when it comes
+> >>> to the atomisp bridge creating the graph endpoints needed by sensor
+> >>> drivers?
+> >>>
+> >>> Or do you assume the sensor drivers will always use some static
+> >>> configuration?
+> >>
+> >> This is all modeled after the IPU3 work done by Dan Scally and
+> >> ATM the involved sensor drivers assume a static configuration
+> >> wrt number of lanes + link frequency.
+> > 
+> > In general the number of lanes used is dependent on a particular board, and
+> > in many cases the same sensor is used on different systems with a different
+> > lane configuration. This might not happen on sensors used with atomisp but
+> > it probably already happens on those used by the CIO2 (ov8865).
+> > 
+> > What the drivers should do and in most cases do is that they check the lane
+> > configuration is valid for the device.
+> > 
+> >>
+> >> If / when we want to start supporting say both single + dual
+> >> lane modes (with e.g. reduced framerate for high res in single lane)
+> >> then AFAICT this will only influence things like e.g. subdev calls
+> >> to get supported framerates and of course turning on streaming,
+> >> all of which only ever happen after the async subdev registration
+> >> of all involved subdevs is complete.
+> > 
+> > On sensors the number of lanes is practically never selected dynamically,
+> > it's simply a property of the board (the CSI-2 receiver and how many wires
+> > happen to be connected, whichever has fewer lanes).
+> 
+> Right, I understand / agree what I meant is that the driver does not
+> really need to know the number of connected lanes during probe().
+> 
+> But yes if you want to check the number of lanes is valid in probe()
+> then you do need to know it.
+> 
+> >> So (again AFAICT) unlike the GPIOs there is no need to need
+> >> to know the endpoint configuration at probe() time. But since
+> >> we do want to turn the sensor on to check it is actually there
+> >> and if it is the type of sensor we expect during probe() we
+> >> do need the GPIOs beforehand.
+> > 
+> > The other, somewhat cleaner in my opinion and clearly more future-proof,
+> > would be to return -EPROBE_DEFER if there are no endpoints. Which is also
+> > what the ov8865 driver does already.
+> 
+> Ok that is a good suggestion, which I think should work. I'll give this
+> a try sometime during the coming days.
 
---=20
-Jean Delvare
-SUSE L3 Support
+Thanks, looking forward to see v2!
+
+-- 
+Kind regards,
+
+Sakari Ailus
