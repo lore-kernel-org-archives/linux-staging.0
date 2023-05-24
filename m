@@ -1,312 +1,82 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oi1-f169.google.com (mail-oi1-f169.google.com [209.85.167.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6AC35A55
-	for <linux-staging@lists.linux.dev>; Tue, 23 May 2023 20:40:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1684874449;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=6rMQ7eLbEFSL7P/VJL4e74XFJFLVTAz5TY06pr4IOvM=;
-	b=Kwg2ddmExLO26kETlOofZvOxn1awIDo2zJ4cFvo2z4+a8hjmBuELnCYIBDI22eZneZqPXL
-	qNdgSfrWNvSmWxXsrK2nw70ZiYoiQGp1pAwSh8l/vn/WVX6NwSbW6rq+/aJRvkHCpI2K+5
-	CamLerwPf7yj/LsGMrF36sG0zuHE3RM=
-Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
- [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-364-jheiaa8NNi2YTrv-HIjw0w-1; Tue, 23 May 2023 16:40:48 -0400
-X-MC-Unique: jheiaa8NNi2YTrv-HIjw0w-1
-Received: by mail-ej1-f70.google.com with SMTP id a640c23a62f3a-94a341efd9aso6110266b.0
-        for <linux-staging@lists.linux.dev>; Tue, 23 May 2023 13:40:47 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B2CD15B8
+	for <linux-staging@lists.linux.dev>; Wed, 24 May 2023 04:01:11 +0000 (UTC)
+Received: by mail-oi1-f169.google.com with SMTP id 5614622812f47-397fe20a2b5so225102b6e.3
+        for <linux-staging@lists.linux.dev>; Tue, 23 May 2023 21:01:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=usp.br; s=usp-google; t=1684900871; x=1687492871;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=56NnY1XWFQglCZDR+mXGOsAUP2AtRPFO/hDy6QbeiT0=;
+        b=pX6jYKKyXPNBmGORsYEu7PRQVhYNbdpl1YaYjBy/aeSgqr0CzpvTG/pfdpAues51RH
+         0snUZpxxCA4USH4auk+FePnrAq1BC2hEhDUmsbzA5l28EFYqyvK3RENGsepZSOsmUDYT
+         V5QoAO6owrK/vZvYZb6h4OL1clq6NnVyRv+90PFBRdV3sOW9Fi8Ajm71UuL7T+WU0yf8
+         NvN25SnWmy3T8uNCYQUy5eYaZAcZrP2Hq6cJxVQ3UitlWika8inZmZdsGojsdHnJ1m/Q
+         688NicqabaUMCX1uE7zknvKqXYv+ozrkD4jM8CKxPUgVYLNdIUEcfzbPOjKC1mLbkcAv
+         /3Hg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1684874447; x=1687466447;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=6rMQ7eLbEFSL7P/VJL4e74XFJFLVTAz5TY06pr4IOvM=;
-        b=Z3dra3qQq+Ouf87IgvDbseCbF70hlzjp/w/UFfrPXI6hSPwV18kf5Zp/Mb5TlPG17P
-         YL3cpBYJPDrQN9KTMCTqtScfdUPE1IjQj8uzDGPhRza7hclJxtArDipJHEZZ8x3lYCbF
-         EJ2orGIwiYvcm5K8EEocs2ZQuvRL7ILK/+BWCb1cDoNgArbUpDU2fe6Wo9Kv8gY2ZdJJ
-         pxAt3+tGLZATGHfBzz/0f6PtxoGJjokoYd5TXsQkIjYN+yhDQYifRvxZEKZCKQnj60dT
-         AYvib6C1xMlEivqH2WX5ykpJW3Lw9fcGnshlURXdu1mGvP9baB5o9JZnjulpv4avLHhu
-         f8lQ==
-X-Gm-Message-State: AC+VfDwqLq2CWAjxSshLwdkFIAllyvHc2acn8Ay5NUfW2wwtAebfTloW
-	AMa5Jd5282UnYpqsOsrDy1yT5Sgr0Dadgg2p0m24H05LinwMV2MhAONLTCIKt2JnUpkz4aOIIA/
-	KaShr2t+R9WQk8b39AYrz/ePXBg==
-X-Received: by 2002:a17:907:9620:b0:96f:87ae:49eb with SMTP id gb32-20020a170907962000b0096f87ae49ebmr15035647ejc.16.1684874446905;
-        Tue, 23 May 2023 13:40:46 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ5UABLe7XvMRicsNjqvU8k8lcO7W3ZyeIxc+Et+uuCViEHkE6dnM9saQc0tYIN+/nhDga/gTQ==
-X-Received: by 2002:a17:907:9620:b0:96f:87ae:49eb with SMTP id gb32-20020a170907962000b0096f87ae49ebmr15035611ejc.16.1684874446572;
-        Tue, 23 May 2023 13:40:46 -0700 (PDT)
-Received: from [192.168.43.127] ([109.38.137.153])
-        by smtp.gmail.com with ESMTPSA id j27-20020a170906535b00b0096f4c9ce526sm4967732ejo.225.2023.05.23.13.40.43
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 23 May 2023 13:40:45 -0700 (PDT)
-Message-ID: <b9954a28-1ab2-468d-beb5-2fa2e0f2c069@redhat.com>
-Date: Tue, 23 May 2023 22:40:43 +0200
+        d=1e100.net; s=20221208; t=1684900871; x=1687492871;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=56NnY1XWFQglCZDR+mXGOsAUP2AtRPFO/hDy6QbeiT0=;
+        b=akBpw++bKVWviG1hfM8LUraikXLZd43AJ0HCk1USDcO2ZSfaKtTCouWhEd4+jufgOv
+         Xsh3jZRaCozzK+y15PYxmvfAoR/ixvsTAX0gzWMqpZnRMW66KpM5qCXFs4Y3kKi5uuUF
+         b2q3mt1U+dZUpdUFHA5M9Q8SjWpnahMT84gYzh/k9WtGsNqtZbkxr6Tda91rfJsODv/I
+         r6RpW/kMRrCt2Yea+mNfTl7BeY3RPtDva9KctZO2IFGhTMGqjkKOeCcZGvdO9wqFEKx0
+         22Tex0HwmLJfrNjDnozDIN6XaeBqDI1kd//MPfZnNnEkjsK0nM2hOJgvSvW80fh9OrCf
+         P1WQ==
+X-Gm-Message-State: AC+VfDx8AI2B/Vxv3d2d6kTcQTIX2442gCMcnh+2K8NcxU8UVoK+547p
+	KYhva8ibx8NnyvvY7WyBa6qhow==
+X-Google-Smtp-Source: ACHHUZ6iqjajerA//gB/3ydUlqEaddMg7Ge5NDXXlR+0Fb5i3qEO6Pv4DvSWlDTFTB411LY9dai80Q==
+X-Received: by 2002:a05:6808:6d0:b0:398:4385:baf4 with SMTP id m16-20020a05680806d000b003984385baf4mr1244105oih.49.1684900871125;
+        Tue, 23 May 2023 21:01:11 -0700 (PDT)
+Received: from localhost.localdomain ([2804:14c:63:8ae3:4d1f:9fc2:9fe6:c88e])
+        by smtp.gmail.com with ESMTPSA id v203-20020acaded4000000b0038ee0c3b38esm4761418oig.44.2023.05.23.21.01.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 23 May 2023 21:01:10 -0700 (PDT)
+From: David Tadokoro <davidbtadokoro@usp.br>
+To: gregkh@linuxfoundation.org
+Cc: David Tadokoro <davidbtadokoro@usp.br>,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] staging: rtl8192e: Fix BRACES warning
+Date: Wed, 24 May 2023 01:00:51 -0300
+Message-Id: <20230524040051.235250-1-davidbtadokoro@usp.br>
+X-Mailer: git-send-email 2.40.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH] staging: Switch i2c drivers back to use .probe()
-To: =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Lars-Peter Clausen <lars@metafoo.de>,
- Michael Hennerich <Michael.Hennerich@analog.com>,
- Jonathan Cameron <jic23@kernel.org>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Sakari Ailus <sakari.ailus@linux.intel.com>,
- =?UTF-8?Q?Niklas_S=c3=b6derlund?= <niklas.soderlund@ragnatech.se>,
- Parthiban Veerasooran <parthiban.veerasooran@microchip.com>,
- Christian Gromm <christian.gromm@microchip.com>,
- Jens Frederich <jfrederich@gmail.com>,
- Jon Nettleton <jon.nettleton@gmail.com>,
- Andy Shevchenko <andy.shevchenko@gmail.com>, Wolfram Sang <wsa@kernel.org>,
- Jean Delvare <jdelvare@suse.de>, Jeremy Kerr <jk@codeconstruct.com.au>,
- Kalle Valo <kvalo@kernel.org>, Hans Verkuil <hverkuil-cisco@xs4all.nl>,
- Peter Senna Tschudin <peter.senna@gmail.com>,
- "Steven Rostedt (Google)" <rostedt@goodmis.org>, Crt Mori <cmo@melexis.com>,
- Haowen Bai <baihaowen@meizu.com>, Tom Rix <trix@redhat.com>,
- Adrien Grassein <adrien.grassein@gmail.com>, =?UTF-8?Q?Marek_Beh=c3=ban?=
- <kabel@kernel.org>, Peter Rosin <peda@axentia.se>,
- Menna Mahmoud <eng.mennamahmoud.mm@gmail.com>, linux-iio@vger.kernel.org,
- linux-staging@lists.linux.dev, kernel@pengutronix.de,
- linux-media@vger.kernel.org
-References: <20230523200036.465180-1-u.kleine-koenig@pengutronix.de>
-From: Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <20230523200036.465180-1-u.kleine-koenig@pengutronix.de>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Hi Uwe,
+Fix checkpatch warning "braces {} are not necessary for single statement
+blocks".
 
-On 5/23/23 22:00, Uwe Kleine-König wrote:
-> After commit b8a1a4cd5a98 ("i2c: Provide a temporary .probe_new()
-> call-back type"), all drivers being converted to .probe_new() and then
-> 03c835f498b5 ("i2c: Switch .probe() to not take an id parameter") convert
-> back to (the new) .probe() to be able to eventually drop .probe_new() from
-> struct i2c_driver.
-> 
-> Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
-> ---
-> Hello,
-> 
-> this patch was generated using coccinelle.
-> 
-> I chose to convert all drivers below drivers/staging in a single
-> patch, but if you prefer I can split by driver.
+Signed-off-by: David Tadokoro <davidbtadokoro@usp.br>
+---
+ drivers/staging/rtl8192e/rtl8192e/r8192E_phy.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-I'm currently doing a lot of cleanup work on the atomisp code
-including the sensor drivers. Specifically I'm working on
-removing drivers which are duplicate with the standard v4l2
-sensor drivers under drivers/media/i2c . So this patch is
-likely to cause conflicts.
-
-I have my own branch for my atomisp work from which I send
-pull-reqs directly to Mauro Chehab:
-
-https://git.kernel.org/pub/scm/linux/kernel/git/hansg/linux.git/log/?h=media-atomisp
-
-As such I think for the atomisp drivers it would be best if I directly
-apply the atomisp bits of this patch (no need for a resend) to my
-media-atomisp branch, is that ok with you ?
-
-Regards,
-
-Hans
-
-
-
-
-> If conflicts arise until this is applied, feel free to just drop the
-> files with conflicts from this patch. I'll care about the fallout later
-> then.
-> 
-> Also note there is no coordination necessary with the i2c tree. Dropping
-> .probe_new() will happen only when all (or most) drivers are converted,
-> which will happen after v6.5-rc1 for sure.
-> 
-> Best regards
-> Uwe
->  drivers/staging/iio/addac/adt7316-i2c.c                   | 2 +-
->  drivers/staging/iio/impedance-analyzer/ad5933.c           | 2 +-
->  drivers/staging/media/atomisp/i2c/atomisp-gc0310.c        | 2 +-
->  drivers/staging/media/atomisp/i2c/atomisp-gc2235.c        | 2 +-
->  drivers/staging/media/atomisp/i2c/atomisp-lm3554.c        | 2 +-
->  drivers/staging/media/atomisp/i2c/atomisp-mt9m114.c       | 2 +-
->  drivers/staging/media/atomisp/i2c/atomisp-ov2680.c        | 2 +-
->  drivers/staging/media/atomisp/i2c/atomisp-ov2722.c        | 2 +-
->  drivers/staging/media/atomisp/i2c/ov5693/atomisp-ov5693.c | 2 +-
->  drivers/staging/media/max96712/max96712.c                 | 2 +-
->  drivers/staging/most/i2c/i2c.c                            | 2 +-
->  drivers/staging/olpc_dcon/olpc_dcon.c                     | 2 +-
->  12 files changed, 12 insertions(+), 12 deletions(-)
-> 
-> diff --git a/drivers/staging/iio/addac/adt7316-i2c.c b/drivers/staging/iio/addac/adt7316-i2c.c
-> index 7e3d1a6f30ba..6c1f91c859ca 100644
-> --- a/drivers/staging/iio/addac/adt7316-i2c.c
-> +++ b/drivers/staging/iio/addac/adt7316-i2c.c
-> @@ -138,7 +138,7 @@ static struct i2c_driver adt7316_driver = {
->  		.of_match_table = adt7316_of_match,
->  		.pm = ADT7316_PM_OPS,
->  	},
-> -	.probe_new = adt7316_i2c_probe,
-> +	.probe = adt7316_i2c_probe,
->  	.id_table = adt7316_i2c_id,
->  };
->  module_i2c_driver(adt7316_driver);
-> diff --git a/drivers/staging/iio/impedance-analyzer/ad5933.c b/drivers/staging/iio/impedance-analyzer/ad5933.c
-> index b3152f7153fb..46db6d91542a 100644
-> --- a/drivers/staging/iio/impedance-analyzer/ad5933.c
-> +++ b/drivers/staging/iio/impedance-analyzer/ad5933.c
-> @@ -781,7 +781,7 @@ static struct i2c_driver ad5933_driver = {
->  		.name = "ad5933",
->  		.of_match_table = ad5933_of_match,
->  	},
-> -	.probe_new = ad5933_probe,
-> +	.probe = ad5933_probe,
->  	.id_table = ad5933_id,
->  };
->  module_i2c_driver(ad5933_driver);
-> diff --git a/drivers/staging/media/atomisp/i2c/atomisp-gc0310.c b/drivers/staging/media/atomisp/i2c/atomisp-gc0310.c
-> index 273155308fe3..21eb4234a081 100644
-> --- a/drivers/staging/media/atomisp/i2c/atomisp-gc0310.c
-> +++ b/drivers/staging/media/atomisp/i2c/atomisp-gc0310.c
-> @@ -483,7 +483,7 @@ static struct i2c_driver gc0310_driver = {
->  		.pm = pm_sleep_ptr(&gc0310_pm_ops),
->  		.acpi_match_table = gc0310_acpi_match,
->  	},
-> -	.probe_new = gc0310_probe,
-> +	.probe = gc0310_probe,
->  	.remove = gc0310_remove,
->  };
->  module_i2c_driver(gc0310_driver);
-> diff --git a/drivers/staging/media/atomisp/i2c/atomisp-gc2235.c b/drivers/staging/media/atomisp/i2c/atomisp-gc2235.c
-> index cb4c79b483ca..9fa390fbc5f3 100644
-> --- a/drivers/staging/media/atomisp/i2c/atomisp-gc2235.c
-> +++ b/drivers/staging/media/atomisp/i2c/atomisp-gc2235.c
-> @@ -864,7 +864,7 @@ static struct i2c_driver gc2235_driver = {
->  		.name = "gc2235",
->  		.acpi_match_table = gc2235_acpi_match,
->  	},
-> -	.probe_new = gc2235_probe,
-> +	.probe = gc2235_probe,
->  	.remove = gc2235_remove,
->  };
->  module_i2c_driver(gc2235_driver);
-> diff --git a/drivers/staging/media/atomisp/i2c/atomisp-lm3554.c b/drivers/staging/media/atomisp/i2c/atomisp-lm3554.c
-> index c4ce4cd445d7..cf5d9317b11a 100644
-> --- a/drivers/staging/media/atomisp/i2c/atomisp-lm3554.c
-> +++ b/drivers/staging/media/atomisp/i2c/atomisp-lm3554.c
-> @@ -945,7 +945,7 @@ static struct i2c_driver lm3554_driver = {
->  		.pm   = &lm3554_pm_ops,
->  		.acpi_match_table = lm3554_acpi_match,
->  	},
-> -	.probe_new = lm3554_probe,
-> +	.probe = lm3554_probe,
->  	.remove = lm3554_remove,
->  };
->  module_i2c_driver(lm3554_driver);
-> diff --git a/drivers/staging/media/atomisp/i2c/atomisp-mt9m114.c b/drivers/staging/media/atomisp/i2c/atomisp-mt9m114.c
-> index 0e5a981dd331..1c6643c442ef 100644
-> --- a/drivers/staging/media/atomisp/i2c/atomisp-mt9m114.c
-> +++ b/drivers/staging/media/atomisp/i2c/atomisp-mt9m114.c
-> @@ -1600,7 +1600,7 @@ static struct i2c_driver mt9m114_driver = {
->  		.name = "mt9m114",
->  		.acpi_match_table = mt9m114_acpi_match,
->  	},
-> -	.probe_new = mt9m114_probe,
-> +	.probe = mt9m114_probe,
->  	.remove = mt9m114_remove,
->  };
->  module_i2c_driver(mt9m114_driver);
-> diff --git a/drivers/staging/media/atomisp/i2c/atomisp-ov2680.c b/drivers/staging/media/atomisp/i2c/atomisp-ov2680.c
-> index 63de214916f5..b5d93a96d588 100644
-> --- a/drivers/staging/media/atomisp/i2c/atomisp-ov2680.c
-> +++ b/drivers/staging/media/atomisp/i2c/atomisp-ov2680.c
-> @@ -719,7 +719,7 @@ static struct i2c_driver ov2680_driver = {
->  		.pm = pm_sleep_ptr(&ov2680_pm_ops),
->  		.acpi_match_table = ov2680_acpi_match,
->  	},
-> -	.probe_new = ov2680_probe,
-> +	.probe = ov2680_probe,
->  	.remove = ov2680_remove,
->  };
->  module_i2c_driver(ov2680_driver);
-> diff --git a/drivers/staging/media/atomisp/i2c/atomisp-ov2722.c b/drivers/staging/media/atomisp/i2c/atomisp-ov2722.c
-> index 5d2e6e2e72f0..6a72691ed5b7 100644
-> --- a/drivers/staging/media/atomisp/i2c/atomisp-ov2722.c
-> +++ b/drivers/staging/media/atomisp/i2c/atomisp-ov2722.c
-> @@ -1019,7 +1019,7 @@ static struct i2c_driver ov2722_driver = {
->  		.name = "ov2722",
->  		.acpi_match_table = ov2722_acpi_match,
->  	},
-> -	.probe_new = ov2722_probe,
-> +	.probe = ov2722_probe,
->  	.remove = ov2722_remove,
->  };
->  module_i2c_driver(ov2722_driver);
-> diff --git a/drivers/staging/media/atomisp/i2c/ov5693/atomisp-ov5693.c b/drivers/staging/media/atomisp/i2c/ov5693/atomisp-ov5693.c
-> index da8c3b1d3bcd..c94fe8e861a5 100644
-> --- a/drivers/staging/media/atomisp/i2c/ov5693/atomisp-ov5693.c
-> +++ b/drivers/staging/media/atomisp/i2c/ov5693/atomisp-ov5693.c
-> @@ -1794,7 +1794,7 @@ static struct i2c_driver ov5693_driver = {
->  		.name = "ov5693",
->  		.acpi_match_table = ov5693_acpi_match,
->  	},
-> -	.probe_new = ov5693_probe,
-> +	.probe = ov5693_probe,
->  	.remove = ov5693_remove,
->  };
->  module_i2c_driver(ov5693_driver);
-> diff --git a/drivers/staging/media/max96712/max96712.c b/drivers/staging/media/max96712/max96712.c
-> index 99b333b68198..77943bdf3fb9 100644
-> --- a/drivers/staging/media/max96712/max96712.c
-> +++ b/drivers/staging/media/max96712/max96712.c
-> @@ -427,7 +427,7 @@ static struct i2c_driver max96712_i2c_driver = {
->  		.name = "max96712",
->  		.of_match_table	= of_match_ptr(max96712_of_table),
->  	},
-> -	.probe_new = max96712_probe,
-> +	.probe = max96712_probe,
->  	.remove = max96712_remove,
->  };
->  
-> diff --git a/drivers/staging/most/i2c/i2c.c b/drivers/staging/most/i2c/i2c.c
-> index 4e85e681922f..ce869280a056 100644
-> --- a/drivers/staging/most/i2c/i2c.c
-> +++ b/drivers/staging/most/i2c/i2c.c
-> @@ -362,7 +362,7 @@ static struct i2c_driver i2c_driver = {
->  	.driver = {
->  		.name = "hdm_i2c",
->  	},
-> -	.probe_new = i2c_probe,
-> +	.probe = i2c_probe,
->  	.remove = i2c_remove,
->  	.id_table = i2c_id,
->  };
-> diff --git a/drivers/staging/olpc_dcon/olpc_dcon.c b/drivers/staging/olpc_dcon/olpc_dcon.c
-> index 2fba52e0bd7b..d5271eac14f6 100644
-> --- a/drivers/staging/olpc_dcon/olpc_dcon.c
-> +++ b/drivers/staging/olpc_dcon/olpc_dcon.c
-> @@ -779,7 +779,7 @@ static struct i2c_driver dcon_driver = {
->  	},
->  	.class = I2C_CLASS_DDC | I2C_CLASS_HWMON,
->  	.id_table = dcon_idtable,
-> -	.probe_new = dcon_probe,
-> +	.probe = dcon_probe,
->  	.remove = dcon_remove,
->  	.detect = dcon_detect,
->  	.address_list = normal_i2c,
-> 
-> base-commit: 1f3413dc8eb0de023c5ec5994aef8225262d0f19
+diff --git a/drivers/staging/rtl8192e/rtl8192e/r8192E_phy.c b/drivers/staging/rtl8192e/rtl8192e/r8192E_phy.c
+index 4b0ebe96302e..ea993cbb7bf7 100644
+--- a/drivers/staging/rtl8192e/rtl8192e/r8192E_phy.c
++++ b/drivers/staging/rtl8192e/rtl8192e/r8192E_phy.c
+@@ -1099,9 +1099,8 @@ static bool _rtl92e_set_rf_power_state(struct net_device *dev,
+ 		break;
+ 	}
+ 
+-	if (bResult) {
++	if (bResult)
+ 		priv->rtllib->rf_power_state = rf_power_state;
+-	}
+ 
+ 	priv->set_rf_pwr_state_in_progress = false;
+ 	return bResult;
+-- 
+2.40.1
 
