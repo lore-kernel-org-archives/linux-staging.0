@@ -1,214 +1,127 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D10B1951F
-	for <linux-staging@lists.linux.dev>; Wed, 24 May 2023 16:06:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97E4023D6D
+	for <linux-staging@lists.linux.dev>; Thu, 25 May 2023 19:01:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1684944361;
+	s=mimecast20190719; t=1685041267;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ZhmKVosQZ4JQVcRnOlE4vKtMbROWwC8k2YBKHPSiQTc=;
-	b=SZeGFqmU65XVZGuJeos/DBf98uzj2K4LzCsyVkJJqbVs1fCZX5OhmZs9HprSiEu4bNRlzK
-	rf6q9tsAhXIUY63k260bj4Mm5pqp4WCuVUJ6X7EDskviIsBhUqlqVuStkC0mu+kLHV4DYr
-	nByz2esfyMw0eBlTcIvXWMoxntSslog=
-Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
- [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-312-z4nLL2NeNAuc3mqg06T59Q-1; Wed, 24 May 2023 12:05:59 -0400
-X-MC-Unique: z4nLL2NeNAuc3mqg06T59Q-1
-Received: by mail-ej1-f71.google.com with SMTP id a640c23a62f3a-94f7a2b21fdso135586166b.2
-        for <linux-staging@lists.linux.dev>; Wed, 24 May 2023 09:05:59 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1684944358; x=1687536358;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=ZhmKVosQZ4JQVcRnOlE4vKtMbROWwC8k2YBKHPSiQTc=;
-        b=Rs1rKTDWK3UqF7i9KE81muarelKhmyoJVWFA1AFjne1ZHdBVwqYnrW0PMZUnajkXDP
-         PmgZtbjVAlgk4pTIDsjzVpcixHpAED85hDGR7mNYjMAEQUvhv/j/eQ2dD+6vH5s6VgeG
-         kKdzse7nQZXEvaNH4/8w8rTphSic5U4zpusFlFTJz8ZoKBfwEIB7OqLzA9ZVQ2rlVSFp
-         7vAK6tK73kW2E2aOgEcgb1hmzhB6DkzRDdWjEz4erjlDBCiC1zjPgw33R1NZtmWC2Zn4
-         8eqxfDym9cv6wn5eAnyouRZvoAU9v7FX17JBcH48U+Xa6KrL6xvS1hfjC3nTzu3FhwTd
-         xQ9g==
-X-Gm-Message-State: AC+VfDw6r0r3qSeWco/iE8RlIL+U3fYCair72eKTqJkbTeN0eTbjrqK5
-	TEst5yO6y2LX/mKHcXEGxNhIHORSR3bDytre9aR9MadUFZPCyXXL345rGhxtoojuH4wjm0GaarT
-	+Vw5bIIWnHRmen5TdZXBJfw+gRg==
-X-Received: by 2002:a17:907:2d8e:b0:96f:f046:9a92 with SMTP id gt14-20020a1709072d8e00b0096ff0469a92mr11389055ejc.37.1684944358689;
-        Wed, 24 May 2023 09:05:58 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ4e5txwqOZ3SZtKs2/NS+0PjYyPaaNd5bixnCBezKSQfj3syizAy6TIio0foEQIMBGJV1un/Q==
-X-Received: by 2002:a17:907:2d8e:b0:96f:f046:9a92 with SMTP id gt14-20020a1709072d8e00b0096ff0469a92mr11389028ejc.37.1684944358324;
-        Wed, 24 May 2023 09:05:58 -0700 (PDT)
-Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
-        by smtp.gmail.com with ESMTPSA id kt26-20020a170906aada00b009663cf5dc3bsm6004615ejb.53.2023.05.24.09.05.57
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 24 May 2023 09:05:57 -0700 (PDT)
-Message-ID: <29320512-aac1-92c0-545f-a83f4606cf55@redhat.com>
-Date: Wed, 24 May 2023 18:05:56 +0200
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=tCzPL0RYm0tChl30d64iQV0JpAHe+gJ8L2yNkZ2qrHs=;
+	b=a2NLzUA4+JnbHK+S1sYP29Ot1mR3+tClOp6pNDFFegYI0Kx5Mnw+Hu9JVXQ/e7qupBGGMg
+	ra/6HpyEVInXmC8teVGoHRLVBJTVaW1lQKlRQSdy9xfzNOQDmqEZFitoqpKlXm1kZYNy95
+	+5iBNuBOeEfbglxkqgAwQnwF0QceJLM=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-637-N0opNcvBPLaAdxrCD7jMzg-1; Thu, 25 May 2023 15:01:05 -0400
+X-MC-Unique: N0opNcvBPLaAdxrCD7jMzg-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com [10.11.54.2])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 30BBA802355;
+	Thu, 25 May 2023 19:01:03 +0000 (UTC)
+Received: from shalem.redhat.com (unknown [10.39.192.18])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 7750C400E118;
+	Thu, 25 May 2023 19:01:01 +0000 (UTC)
+From: Hans de Goede <hdegoede@redhat.com>
+To: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Andy Shevchenko <andy@kernel.org>
+Cc: Hans de Goede <hdegoede@redhat.com>,
+	Kate Hsuan <hpa@redhat.com>,
+	Tsuchiya Yuto <kitakar@gmail.com>,
+	Yury Luneff <yury.lunev@gmail.com>,
+	Nable <nable.maininbox@googlemail.com>,
+	andrey.i.trufanov@gmail.com,
+	Fabio Aiuto <fabioaiuto83@gmail.com>,
+	Dan Scally <djrscally@gmail.com>,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev
+Subject: [PATCH v2 0/5] media: atomisp: Add support for v4l2-async sensor registration
+Date: Thu, 25 May 2023 21:00:55 +0200
+Message-Id: <20230525190100.130010-1-hdegoede@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH v2 2/5] media: atomisp: Switch i2c drivers back to use
- .probe()
-To: =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
- Sakari Ailus <sakari.ailus@linux.intel.com>,
- Andy Shevchenko <andy.shevchenko@gmail.com>,
- Adrien Grassein <adrien.grassein@gmail.com>,
- Javier Martinez Canillas <javierm@redhat.com>,
- Jonathan Cameron <Jonathan.Cameron@huawei.com>,
- =?UTF-8?Q?Krzysztof_Ha=c5=82asa?= <khalasa@piap.pl>,
- Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
- Jean Delvare <jdelvare@suse.de>, Steven@pengutronix.de,
- Rostedt@pengutronix.de, Corey Minyard <cminyard@mvista.com>,
- Haowen Bai <baihaowen@meizu.com>, Tom Rix <trix@redhat.com>,
- Peter Senna Tschudin <peter.senna@gmail.com>, linux-media@vger.kernel.org,
- linux-staging@lists.linux.dev, kernel@pengutronix.de
-References: <20230524151646.486847-1-u.kleine-koenig@pengutronix.de>
- <20230524151646.486847-3-u.kleine-koenig@pengutronix.de>
-From: Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <20230524151646.486847-3-u.kleine-koenig@pengutronix.de>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US, nl
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
 
-Hi,
+Hi All,
 
-On 5/24/23 17:16, Uwe Kleine-König wrote:
-> After commit b8a1a4cd5a98 ("i2c: Provide a temporary .probe_new()
-> call-back type"), all drivers being converted to .probe_new() and then
-> 03c835f498b5 ("i2c: Switch .probe() to not take an id parameter") convert
-> back to (the new) .probe() to be able to eventually drop .probe_new() from
-> struct i2c_driver.
-> 
-> Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
-
-Thank you for the patch. I have merged this into:
+Here is a new version of my v4l2-async sensor registration support
+for atomisp. I have merged all the prep / cleanup patches which Andy
+already gave his Reviewed-by for in my media-atomisp branch:
 
 https://git.kernel.org/pub/scm/linux/kernel/git/hansg/linux.git/log/?h=media-atomisp
 
-And I'll include this in the atomisp linux-media pull-req
-which I send to Mauro around rc5 / rc6 time.
+This v2 series applies on top of that branch!
 
-(I'm currently doing a lot of work on the atomisp code,
-so merging this through my atomisp branch is best to
-avoid conflicts)
+This v2 series is the remainder (and core part) of
+my previous 2 related patch-series:
+
+https://lore.kernel.org/linux-media/20230518153733.195306-1-hdegoede@redhat.com/
+https://lore.kernel.org/linux-media/20230518153214.194976-1-hdegoede@redhat.com/
+
+The big change in this v2 is making atomisp_csi2_bridge_init() also
+add the ACPI GPIO mappings to the sensors it finds / it is adding
+fwnode graph endpoints for. Combined with making sensor drivers
+check there is a fwnode graph endpoint (and return -EPROBE_DEFER if not)
+before trying to get GPIOs so that the mappings are in place before
+getting the GPIOs.
+
+Thank you Sakari for suggesting this nice solution.
+
+Patch 1    Adds the v4l2-async sensor registration support
+Patch 2-3  Convert the ov2680 and gc0310 drivers to this
+Patch 4    Removes some now dead code
+Patch 5    Moves the now fully standard / no custom atomisp API
+           gc0310 sensor driver to drivers/media/i2c
+
+Patches 1-4 only touch atomisp code and build on top of previous
+work so I plan to merge these through my media-atomisp branch.
+
+Patch 5 also depends on all the others, so it should also
+get merged through my media-atomisp branch. Sakari may I have
+your Ack for this ?  Alternatively we could delay the move to
+the next kernel cycle and then it could be merged directly
+into some other linux-media branch. Either way works for me.
 
 Regards,
 
 Hans
 
 
+Hans de Goede (5):
+  media: atomisp: Add support for v4l2-async sensor registration
+  media: atomisp: ov2680: Turn into standard v4l2 sensor driver
+  media: atomisp: gc0310: Turn into standard v4l2 sensor driver
+  media: atomisp: Drop v4l2_get_acpi_sensor_info() function
+  media: Move gc0310 sensor drivers to drivers/media/i2c/
 
+ drivers/media/i2c/Kconfig                     |  10 +
+ drivers/media/i2c/Makefile                    |   1 +
+ .../atomisp-gc0310.c => media/i2c/gc0310.c}   |  29 +-
+ drivers/staging/media/atomisp/Makefile        |   1 +
+ drivers/staging/media/atomisp/i2c/Kconfig     |   8 -
+ drivers/staging/media/atomisp/i2c/Makefile    |   1 -
+ .../media/atomisp/i2c/atomisp-ov2680.c        |  38 +-
+ drivers/staging/media/atomisp/i2c/ov2680.h    |   3 +-
+ .../staging/media/atomisp/pci/atomisp_csi2.c  |   4 +
+ .../staging/media/atomisp/pci/atomisp_csi2.h  |  88 +-
+ .../media/atomisp/pci/atomisp_csi2_bridge.c   | 805 ++++++++++++++++++
+ .../media/atomisp/pci/atomisp_gmin_platform.c | 240 ------
+ .../media/atomisp/pci/atomisp_internal.h      |   2 +
+ .../staging/media/atomisp/pci/atomisp_v4l2.c  |  38 +-
+ .../staging/media/atomisp/pci/atomisp_v4l2.h  |   1 +
+ 15 files changed, 962 insertions(+), 307 deletions(-)
+ rename drivers/{staging/media/atomisp/i2c/atomisp-gc0310.c => media/i2c/gc0310.c} (96%)
+ create mode 100644 drivers/staging/media/atomisp/pci/atomisp_csi2_bridge.c
 
-> ---
->  drivers/staging/media/atomisp/i2c/atomisp-gc0310.c        | 2 +-
->  drivers/staging/media/atomisp/i2c/atomisp-gc2235.c        | 2 +-
->  drivers/staging/media/atomisp/i2c/atomisp-lm3554.c        | 2 +-
->  drivers/staging/media/atomisp/i2c/atomisp-mt9m114.c       | 2 +-
->  drivers/staging/media/atomisp/i2c/atomisp-ov2680.c        | 2 +-
->  drivers/staging/media/atomisp/i2c/atomisp-ov2722.c        | 2 +-
->  drivers/staging/media/atomisp/i2c/ov5693/atomisp-ov5693.c | 2 +-
->  7 files changed, 7 insertions(+), 7 deletions(-)
-> 
-> diff --git a/drivers/staging/media/atomisp/i2c/atomisp-gc0310.c b/drivers/staging/media/atomisp/i2c/atomisp-gc0310.c
-> index 273155308fe3..21eb4234a081 100644
-> --- a/drivers/staging/media/atomisp/i2c/atomisp-gc0310.c
-> +++ b/drivers/staging/media/atomisp/i2c/atomisp-gc0310.c
-> @@ -483,7 +483,7 @@ static struct i2c_driver gc0310_driver = {
->  		.pm = pm_sleep_ptr(&gc0310_pm_ops),
->  		.acpi_match_table = gc0310_acpi_match,
->  	},
-> -	.probe_new = gc0310_probe,
-> +	.probe = gc0310_probe,
->  	.remove = gc0310_remove,
->  };
->  module_i2c_driver(gc0310_driver);
-> diff --git a/drivers/staging/media/atomisp/i2c/atomisp-gc2235.c b/drivers/staging/media/atomisp/i2c/atomisp-gc2235.c
-> index cb4c79b483ca..9fa390fbc5f3 100644
-> --- a/drivers/staging/media/atomisp/i2c/atomisp-gc2235.c
-> +++ b/drivers/staging/media/atomisp/i2c/atomisp-gc2235.c
-> @@ -864,7 +864,7 @@ static struct i2c_driver gc2235_driver = {
->  		.name = "gc2235",
->  		.acpi_match_table = gc2235_acpi_match,
->  	},
-> -	.probe_new = gc2235_probe,
-> +	.probe = gc2235_probe,
->  	.remove = gc2235_remove,
->  };
->  module_i2c_driver(gc2235_driver);
-> diff --git a/drivers/staging/media/atomisp/i2c/atomisp-lm3554.c b/drivers/staging/media/atomisp/i2c/atomisp-lm3554.c
-> index c4ce4cd445d7..cf5d9317b11a 100644
-> --- a/drivers/staging/media/atomisp/i2c/atomisp-lm3554.c
-> +++ b/drivers/staging/media/atomisp/i2c/atomisp-lm3554.c
-> @@ -945,7 +945,7 @@ static struct i2c_driver lm3554_driver = {
->  		.pm   = &lm3554_pm_ops,
->  		.acpi_match_table = lm3554_acpi_match,
->  	},
-> -	.probe_new = lm3554_probe,
-> +	.probe = lm3554_probe,
->  	.remove = lm3554_remove,
->  };
->  module_i2c_driver(lm3554_driver);
-> diff --git a/drivers/staging/media/atomisp/i2c/atomisp-mt9m114.c b/drivers/staging/media/atomisp/i2c/atomisp-mt9m114.c
-> index 0e5a981dd331..1c6643c442ef 100644
-> --- a/drivers/staging/media/atomisp/i2c/atomisp-mt9m114.c
-> +++ b/drivers/staging/media/atomisp/i2c/atomisp-mt9m114.c
-> @@ -1600,7 +1600,7 @@ static struct i2c_driver mt9m114_driver = {
->  		.name = "mt9m114",
->  		.acpi_match_table = mt9m114_acpi_match,
->  	},
-> -	.probe_new = mt9m114_probe,
-> +	.probe = mt9m114_probe,
->  	.remove = mt9m114_remove,
->  };
->  module_i2c_driver(mt9m114_driver);
-> diff --git a/drivers/staging/media/atomisp/i2c/atomisp-ov2680.c b/drivers/staging/media/atomisp/i2c/atomisp-ov2680.c
-> index 63de214916f5..b5d93a96d588 100644
-> --- a/drivers/staging/media/atomisp/i2c/atomisp-ov2680.c
-> +++ b/drivers/staging/media/atomisp/i2c/atomisp-ov2680.c
-> @@ -719,7 +719,7 @@ static struct i2c_driver ov2680_driver = {
->  		.pm = pm_sleep_ptr(&ov2680_pm_ops),
->  		.acpi_match_table = ov2680_acpi_match,
->  	},
-> -	.probe_new = ov2680_probe,
-> +	.probe = ov2680_probe,
->  	.remove = ov2680_remove,
->  };
->  module_i2c_driver(ov2680_driver);
-> diff --git a/drivers/staging/media/atomisp/i2c/atomisp-ov2722.c b/drivers/staging/media/atomisp/i2c/atomisp-ov2722.c
-> index 5d2e6e2e72f0..6a72691ed5b7 100644
-> --- a/drivers/staging/media/atomisp/i2c/atomisp-ov2722.c
-> +++ b/drivers/staging/media/atomisp/i2c/atomisp-ov2722.c
-> @@ -1019,7 +1019,7 @@ static struct i2c_driver ov2722_driver = {
->  		.name = "ov2722",
->  		.acpi_match_table = ov2722_acpi_match,
->  	},
-> -	.probe_new = ov2722_probe,
-> +	.probe = ov2722_probe,
->  	.remove = ov2722_remove,
->  };
->  module_i2c_driver(ov2722_driver);
-> diff --git a/drivers/staging/media/atomisp/i2c/ov5693/atomisp-ov5693.c b/drivers/staging/media/atomisp/i2c/ov5693/atomisp-ov5693.c
-> index da8c3b1d3bcd..c94fe8e861a5 100644
-> --- a/drivers/staging/media/atomisp/i2c/ov5693/atomisp-ov5693.c
-> +++ b/drivers/staging/media/atomisp/i2c/ov5693/atomisp-ov5693.c
-> @@ -1794,7 +1794,7 @@ static struct i2c_driver ov5693_driver = {
->  		.name = "ov5693",
->  		.acpi_match_table = ov5693_acpi_match,
->  	},
-> -	.probe_new = ov5693_probe,
-> +	.probe = ov5693_probe,
->  	.remove = ov5693_remove,
->  };
->  module_i2c_driver(ov5693_driver);
+-- 
+2.40.1
 
