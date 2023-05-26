@@ -1,141 +1,88 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FCE12412E
-	for <linux-staging@lists.linux.dev>; Thu, 25 May 2023 19:01:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1685041278;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=5E+wv57I+Cweh/lUUslprHQqaBNepL0KFdc/bDsD5bw=;
-	b=XLRpvxV1Oz9skyTvA78oZWB5NRDM+RXM7jq6J4xwLbt3JaM+gmhvZ5dCnjTO6Q7xF44+3T
-	LsonKn9izHHtmzeLui9gC7jOto0oswcMJCLrrXpLv6+0oZzFPYwfCDGaYscc5W+YTU0COI
-	WxIAqO8l5na/ys2m6b0OqXl0WUrUDI0=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-75-uenAK2WTO9yc13IaGIiNyg-1; Thu, 25 May 2023 15:01:15 -0400
-X-MC-Unique: uenAK2WTO9yc13IaGIiNyg-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com [10.11.54.2])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id DC9358032F1;
-	Thu, 25 May 2023 19:01:13 +0000 (UTC)
-Received: from shalem.redhat.com (unknown [10.39.192.18])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 3FEBA40C1258;
-	Thu, 25 May 2023 19:01:12 +0000 (UTC)
-From: Hans de Goede <hdegoede@redhat.com>
-To: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 566F2156F8
+	for <linux-staging@lists.linux.dev>; Fri, 26 May 2023 11:53:29 +0000 (UTC)
+Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-3093a6311dcso601117f8f.1
+        for <linux-staging@lists.linux.dev>; Fri, 26 May 2023 04:53:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1685102007; x=1687694007;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=JA3Z031EuYV7G9C1xFF3gOewbaEqhRavFGyCZzLQ4k0=;
+        b=dp/JrIV318+le9Ak1KhpMRXxRp1rnWIJLBmLEngjbOuEFXT4n/tfxEQlpXoZQf5+Ln
+         ztVO6WxXHSCwsa3wV3vCndy2xtRfhS8aeIYZyImCG5ZcKosXsH93mfIktYV+svbe3u9M
+         0QOfrno/Z9EUL5/7CcO9cHMVQYr0ZcekO7zQmyinYcBuWGtHdyydXjZANFhnnro2Zdzg
+         7a7Ea2B1bglkabSyU7GZTcEGLWGcYhL8bKaApIsakPFLQXmOI41NgyJqCS0lxkmMklbu
+         0ji48BfrQiEq/DI7d8dEEJ1er+qpTWUQ0teWQeTJHs41oKkHPh7dsjHA0nE339frw0IF
+         1Ipg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1685102007; x=1687694007;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=JA3Z031EuYV7G9C1xFF3gOewbaEqhRavFGyCZzLQ4k0=;
+        b=ewifCNwopCTuUDP5HARf+peBcBNG9Xu2ZBM2/bQfodt2IxPX6bbKhrBqxMsA3FSC2z
+         336yv6tF1p8v7HBaZKLEk7dYMn8us6ijHeoKgS3xNk235ECIeVrcIWZzwHepF9MtTQYi
+         9hRCjVfCiFj9w313bmBr7VZ6mlNItZw0TWpnduinQ2ZyQ7rtb5t9UZ1Fp9lgMnBYi3cO
+         fxs750gGyw6ELb5hGWZscPxUnV9xQ5eCEGCOTp/r2RhhB3wjk2CU2oIPzEYr3uHFU5yn
+         hA79JjAxa4kOPRgMkWRIy37C55DO8K9ogfAgyF7tCOIUwvwG/jjwNoGCPaYD3VJ0ag+w
+         SIEQ==
+X-Gm-Message-State: AC+VfDxINx3QHgCiwotM/BqE7ttv68BMFOPIEiVMKSQA1h/RIcHA7/cE
+	1ZPciB1HFML4LYbnZlydQRbpxA==
+X-Google-Smtp-Source: ACHHUZ5A65Cfn9A34sTFV6Uw0LxcLFBMzuZVTgqdX73nwws6y2XfvNz69/bHKDGYRGRa/4yegmQmpw==
+X-Received: by 2002:a5d:6a44:0:b0:2dc:cad4:87b9 with SMTP id t4-20020a5d6a44000000b002dccad487b9mr1237941wrw.68.1685102007583;
+        Fri, 26 May 2023 04:53:27 -0700 (PDT)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id u4-20020adfdd44000000b003063176ef09sm4924229wrm.6.2023.05.26.04.53.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 26 May 2023 04:53:26 -0700 (PDT)
+Date: Fri, 26 May 2023 14:53:23 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+	Hans de Goede <hdegoede@redhat.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Andy Shevchenko <andy@kernel.org>
-Cc: Hans de Goede <hdegoede@redhat.com>,
-	Kate Hsuan <hpa@redhat.com>,
-	Tsuchiya Yuto <kitakar@gmail.com>,
-	Yury Luneff <yury.lunev@gmail.com>,
-	Nable <nable.maininbox@googlemail.com>,
-	andrey.i.trufanov@gmail.com,
-	Fabio Aiuto <fabioaiuto83@gmail.com>,
-	Dan Scally <djrscally@gmail.com>,
-	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev
-Subject: [PATCH v2 5/5] media: Move gc0310 sensor drivers to drivers/media/i2c/
-Date: Thu, 25 May 2023 21:01:00 +0200
-Message-Id: <20230525190100.130010-6-hdegoede@redhat.com>
-In-Reply-To: <20230525190100.130010-1-hdegoede@redhat.com>
-References: <20230525190100.130010-1-hdegoede@redhat.com>
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Ard Biesheuvel <ardb@kernel.org>, linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev, kernel-janitors@vger.kernel.org
+Subject: [PATCH] media: atomisp: gmin_platform: fix out_len in
+ gmin_get_config_dsm_var()
+Message-ID: <26124bcd-8132-4483-9d67-225c87d424e8@kili.mountain>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+X-Mailer: git-send-email haha only kidding
 
-The atomisp gc0310 sensor driver has now been fully converted to
-a standard v4l2 sensor driver. Move it to drivers/media/i2c/
-to reflect this.
+Ideally, strlen(cur->string.pointer) and strlen(out) would be the same.
+But this code is using strscpy() to avoid a potential buffer overflow.
+So in the same way we should take the strlen() of the smaller string to
+avoid a buffer overflow in the caller, gmin_get_var_int().
 
-Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+Fixes: 387041cda44e ("media: atomisp: improve sensor detection code to use _DSM table")
+Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
 ---
- drivers/media/i2c/Kconfig                              | 10 ++++++++++
- drivers/media/i2c/Makefile                             |  1 +
- .../i2c/atomisp-gc0310.c => media/i2c/gc0310.c}        |  0
- drivers/staging/media/atomisp/i2c/Kconfig              |  8 --------
- drivers/staging/media/atomisp/i2c/Makefile             |  1 -
- 5 files changed, 11 insertions(+), 9 deletions(-)
- rename drivers/{staging/media/atomisp/i2c/atomisp-gc0310.c => media/i2c/gc0310.c} (100%)
+ drivers/staging/media/atomisp/pci/atomisp_gmin_platform.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/media/i2c/Kconfig b/drivers/media/i2c/Kconfig
-index 0e5a69d5d7ff..8f55155afe67 100644
---- a/drivers/media/i2c/Kconfig
-+++ b/drivers/media/i2c/Kconfig
-@@ -47,6 +47,16 @@ config VIDEO_AR0521
- 	  To compile this driver as a module, choose M here: the
- 	  module will be called ar0521.
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_gmin_platform.c b/drivers/staging/media/atomisp/pci/atomisp_gmin_platform.c
+index c718a74ea70a..88d4499233b9 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_gmin_platform.c
++++ b/drivers/staging/media/atomisp/pci/atomisp_gmin_platform.c
+@@ -1357,7 +1357,7 @@ static int gmin_get_config_dsm_var(struct device *dev,
+ 	dev_info(dev, "found _DSM entry for '%s': %s\n", var,
+ 		 cur->string.pointer);
+ 	strscpy(out, cur->string.pointer, *out_len);
+-	*out_len = strlen(cur->string.pointer);
++	*out_len = strlen(out);
  
-+config VIDEO_GC0310
-+	tristate "GalaxyCore GC0310 sensor support"
-+	depends on I2C && VIDEO_DEV
-+	select MEDIA_CONTROLLER
-+	select VIDEO_V4L2_SUBDEV_API
-+	select V4L2_FWNODE
-+	help
-+	  This is a Video4Linux2 sensor-level driver for the GalaxyCore
-+	  GC0310 0.3MP sensor.
-+
- config VIDEO_HI556
- 	tristate "Hynix Hi-556 sensor support"
- 	depends on I2C && VIDEO_DEV
-diff --git a/drivers/media/i2c/Makefile b/drivers/media/i2c/Makefile
-index 2a68bfb621b0..1376b0558228 100644
---- a/drivers/media/i2c/Makefile
-+++ b/drivers/media/i2c/Makefile
-@@ -33,6 +33,7 @@ obj-$(CONFIG_VIDEO_DW9719) += dw9719.o
- obj-$(CONFIG_VIDEO_DW9768) += dw9768.o
- obj-$(CONFIG_VIDEO_DW9807_VCM) += dw9807-vcm.o
- obj-$(CONFIG_VIDEO_ET8EK8) += et8ek8/
-+obj-$(CONFIG_VIDEO_GC0310) += gc0310.o
- obj-$(CONFIG_VIDEO_HI556) += hi556.o
- obj-$(CONFIG_VIDEO_HI846) += hi846.o
- obj-$(CONFIG_VIDEO_HI847) += hi847.o
-diff --git a/drivers/staging/media/atomisp/i2c/atomisp-gc0310.c b/drivers/media/i2c/gc0310.c
-similarity index 100%
-rename from drivers/staging/media/atomisp/i2c/atomisp-gc0310.c
-rename to drivers/media/i2c/gc0310.c
-diff --git a/drivers/staging/media/atomisp/i2c/Kconfig b/drivers/staging/media/atomisp/i2c/Kconfig
-index e726101b24e4..16b6b808d4a7 100644
---- a/drivers/staging/media/atomisp/i2c/Kconfig
-+++ b/drivers/staging/media/atomisp/i2c/Kconfig
-@@ -49,14 +49,6 @@ config VIDEO_ATOMISP_MT9M114
- 
- 	  It currently only works with the atomisp driver.
- 
--config VIDEO_ATOMISP_GC0310
--	tristate "GC0310 sensor support"
--	depends on ACPI
--	depends on I2C && VIDEO_DEV
--	help
--	  This is a Video4Linux2 sensor-level driver for the Galaxycore
--	  GC0310 0.3MP sensor.
--
- config VIDEO_ATOMISP_OV2680
- 	tristate "Omnivision OV2680 sensor support"
- 	depends on ACPI
-diff --git a/drivers/staging/media/atomisp/i2c/Makefile b/drivers/staging/media/atomisp/i2c/Makefile
-index 8d022986e199..5c5c8acd73cf 100644
---- a/drivers/staging/media/atomisp/i2c/Makefile
-+++ b/drivers/staging/media/atomisp/i2c/Makefile
-@@ -8,7 +8,6 @@ obj-$(CONFIG_VIDEO_ATOMISP_MT9M114)    += atomisp-mt9m114.o
- obj-$(CONFIG_VIDEO_ATOMISP_GC2235)     += atomisp-gc2235.o
- obj-$(CONFIG_VIDEO_ATOMISP_OV2722)     += atomisp-ov2722.o
- obj-$(CONFIG_VIDEO_ATOMISP_OV2680)     += atomisp-ov2680.o
--obj-$(CONFIG_VIDEO_ATOMISP_GC0310)     += atomisp-gc0310.o
- 
- obj-$(CONFIG_VIDEO_ATOMISP_MSRLIST_HELPER) += atomisp-libmsrlisthelper.o
- 
+ 	ACPI_FREE(obj);
+ 	return 0;
 -- 
-2.40.1
+2.39.2
 
