@@ -1,52 +1,52 @@
-Received: from mail-qk1-f171.google.com (mail-qk1-f171.google.com [209.85.222.171])
+Received: from mail-qk1-f179.google.com (mail-qk1-f179.google.com [209.85.222.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB2752CA9
-	for <linux-staging@lists.linux.dev>; Fri, 26 May 2023 20:31:06 +0000 (UTC)
-Received: by mail-qk1-f171.google.com with SMTP id af79cd13be357-75b1219506fso85169585a.1
-        for <linux-staging@lists.linux.dev>; Fri, 26 May 2023 13:31:06 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0176A2CA9
+	for <linux-staging@lists.linux.dev>; Fri, 26 May 2023 21:24:19 +0000 (UTC)
+Received: by mail-qk1-f179.google.com with SMTP id af79cd13be357-75affe9d7feso164954185a.0
+        for <linux-staging@lists.linux.dev>; Fri, 26 May 2023 14:24:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1685133065; x=1687725065;
+        d=gmail.com; s=20221208; t=1685136259; x=1687728259;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=TAafFW2N4KPdVneRuwJTy1rP53RJW19wvdpPzMZPwQ8=;
-        b=ksdzx2ev4My96RSxQASSXKmHmw3he4WOY0cYs9TbJNRcOr+3rZvS7NVNqNqtt1Fpo3
-         Fzc5LIoEkGNAFfvff/3GjkYkw3mciI207eFun6huCvrOMc/rsMfNQzJUi/Ei8h84VyDz
-         TClz4NN1HlEAM10g2zC2kZB+6kXsTZmUaV60p/u8shNldrQYTTC05UOVUSJVZiJLfbqw
-         QQaaAGMawyOOMaTAs67NW8QpgCjX11VV+oIn9ZsAsKoI1ua75PmOgd8otlvu22c6o3mI
-         MUr81e79U7QaxKzKLttYIMK+zPdSyhuaRWbFLLu3+NHJ2CRWbuVfejzylBR0kwlVAjFY
-         Xnrg==
+        bh=1LhDocfihllz36C8kpXLnxq8knDMrabwWcvhfX5ATgc=;
+        b=s0jnCppG+/OmCYznpI+0bfq6rMZppSaEqlcef1pDcsf/7vRgezG/nzPEm63oB2r4jT
+         cj7yKwEabioBA2r2IYMOXCBkTEbhOug9vKcPqWem0+WSGjxNC7gLzHJHo2JenY+b1XjS
+         oBkF2XW0vpDg/tDOQ5/FpKgXwa+Rx9hxcC2EoGXugSWBstVmCXdgGexrXI1aVSR0lKEY
+         BcMg5NUZjSvFYsoL25KwoUiwDFQPTzcwxBpwHwq3BKLd8DbIQmtK1lBN80EEKYkFAH0u
+         N+JOoTUQdcQ5xLpnLcYIOQhquUtcBSLrzZO7nUXZ9olNpaRu+xLnfjSTFXXPv2bW2W4u
+         uRCA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1685133065; x=1687725065;
+        d=1e100.net; s=20221208; t=1685136259; x=1687728259;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=TAafFW2N4KPdVneRuwJTy1rP53RJW19wvdpPzMZPwQ8=;
-        b=bmMuJPVFIFRK2BZnUZGaaKVBbAM1OgQP8qjnDorib6S0P7ozfhfzHiFoI/kzj7NsWW
-         Bud6SPyTKrG3nmm8Okfv5BwSfE3NVpRV//dTJ5D0/Pa4VY6we4UUPL8j+x5nvMkDD3f0
-         Ot79nd/RD8StKi8jk6RiYkxulfSjoisHHUlM/sj7oBTKm6nyLS9AJ6XozOa0Pb1mrWdS
-         AEQM4Bfw2CBDThFq7+9LG6WiU/Smf2gR76VY5RZtuoMhyGPvrx6qiwCq/W6WmpNdZzUH
-         ECUFBZKUX8aJp31Iiy92Wt5qO+SPjlE7qggHe+zF8cOwhoA+fmbEPxhT+y/oUV8EZwZV
-         dWyQ==
-X-Gm-Message-State: AC+VfDx21CNgX7UmJgVGIMKMO6qVTvkguOC0i2tAwvogMjxw3Jb8MwbJ
-	XnpQiZ0EGEH5oc+zuY+DzuZepTynDtYhheFinuZXHr7b
-X-Google-Smtp-Source: ACHHUZ5gutxjNSA8dSNIq0XfIASk0BD7lbxQDk51ycxi3324q1y8ysJFdx0tRoVonSGQZf8kTP3h0TIfgWQ/MPr6jfQ=
-X-Received: by 2002:a05:620a:8808:b0:75b:23a1:8e5e with SMTP id
- qj8-20020a05620a880800b0075b23a18e5emr682611qkn.47.1685133065583; Fri, 26 May
- 2023 13:31:05 -0700 (PDT)
+        bh=1LhDocfihllz36C8kpXLnxq8knDMrabwWcvhfX5ATgc=;
+        b=S9JcCIQFqRXBfNG4oISLn7tHQOmgnxqIQtOrP3guRhci04ms3FPQUcTwVnWuVIRKJN
+         s/GtpOqARrIWAuU8tGMlTRolLmgeO0tb/EqvS9fxKhyW8FWZK9LMuf4TiogOnBt8CXI+
+         ftUiRuyGKinHOPn7LZXKBoh28X0HImn6vrqSHFKT0MJ36BrtLAf2BXOcNOYzH1QuCwXp
+         rK9vB4d8cVRls00FRLVIabbPpXGoHGFugvGuTbeKl4TH8xLW9NcMPppfP2Iz2cALayFc
+         ULX+edzaIFZPIsFNCEIUrh1FJRvro2x0QDXcVdXsBCRt1sfX3Ou5kzIjY7Pse9odh+Yw
+         SRtg==
+X-Gm-Message-State: AC+VfDx880EpbPIRURQoqNdHkWv3yPvTBtHw4/Q9V2MrSdQ6qG7PZpnE
+	9Bzq4+9XYGASG86oWq1Pa6eWrvtESzgR7ln6Pjh5eOO9
+X-Google-Smtp-Source: ACHHUZ4Hd751FpkNiG5f78V0ksaTU31xwpqRWM6Ac3WfwdTZCdyuBBMf6OoKpfIsMd5NFm8/5xkqbO8eirZ2i+6s0B8=
+X-Received: by 2002:a05:620a:6888:b0:75b:23a0:de90 with SMTP id
+ rv8-20020a05620a688800b0075b23a0de90mr831751qkn.14.1685136258842; Fri, 26 May
+ 2023 14:24:18 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20230525190100.130010-1-hdegoede@redhat.com> <20230525190100.130010-2-hdegoede@redhat.com>
-In-Reply-To: <20230525190100.130010-2-hdegoede@redhat.com>
+References: <20230525190100.130010-1-hdegoede@redhat.com>
+In-Reply-To: <20230525190100.130010-1-hdegoede@redhat.com>
 From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Fri, 26 May 2023 23:30:28 +0300
-Message-ID: <CAHp75Vd1ijQM7b8Z2ip3TXJyuhQJfAqk0MNBVW-Q-ooi_-dBHw@mail.gmail.com>
-Subject: Re: [PATCH v2 1/5] media: atomisp: Add support for v4l2-async sensor registration
+Date: Sat, 27 May 2023 00:23:42 +0300
+Message-ID: <CAHp75VcSF0VDmsqQQR56PY=CUZ57czZcXgcjKScNDehvJTx-dA@mail.gmail.com>
+Subject: Re: [PATCH v2 0/5] media: atomisp: Add support for v4l2-async sensor registration
 To: Hans de Goede <hdegoede@redhat.com>
 Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
 	Andy Shevchenko <andy@kernel.org>, Kate Hsuan <hpa@redhat.com>, Tsuchiya Yuto <kitakar@gmail.com>, 
@@ -60,223 +60,54 @@ Content-Transfer-Encoding: quoted-printable
 On Thu, May 25, 2023 at 10:01=E2=80=AFPM Hans de Goede <hdegoede@redhat.com=
 > wrote:
 >
-> Add support for using v4l2-async sensor registration.
+> Hi All,
 >
-> This has been tested with both the gc0310 and the ov2680 sensor drivers.
+> Here is a new version of my v4l2-async sensor registration support
+> for atomisp. I have merged all the prep / cleanup patches which Andy
+> already gave his Reviewed-by for in my media-atomisp branch:
 >
-> Drivers must add the ACPI HIDs they match on to the supported_sensors[]
-> array in the same commit as that they are converted to
-> v4l2_async_register_subdev_sensor().
+> https://git.kernel.org/pub/scm/linux/kernel/git/hansg/linux.git/log/?h=3D=
+media-atomisp
 >
-> Sensor drivers also must check they have a fwnode graph endpoint and retu=
-rn
-> -EPROBE_DEFER from probe() if there is no endpoint yet. This guarantees
-> that the GPIO mappingss are in place before the driver tries to get GPIOs=
-.
+> This v2 series applies on top of that branch!
+>
+> This v2 series is the remainder (and core part) of
+> my previous 2 related patch-series:
+>
+> https://lore.kernel.org/linux-media/20230518153733.195306-1-hdegoede@redh=
+at.com/
+> https://lore.kernel.org/linux-media/20230518153214.194976-1-hdegoede@redh=
+at.com/
+>
+> The big change in this v2 is making atomisp_csi2_bridge_init() also
+> add the ACPI GPIO mappings to the sensors it finds / it is adding
+> fwnode graph endpoints for. Combined with making sensor drivers
+> check there is a fwnode graph endpoint (and return -EPROBE_DEFER if not)
+> before trying to get GPIOs so that the mappings are in place before
+> getting the GPIOs.
+>
+> Thank you Sakari for suggesting this nice solution.
 
-mappings
+Indeed, it looks nicer!
 
-> For now it also is still possible to use the old atomisp_gmin_platform
-> based sensor drivers. This is mainly intended for testing while moving
-> other sensor drivers over to runtime-pm + v4l2-async.
+So far I looked into this series and for non-commented ones:
+Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
 
-...
+> Patch 1    Adds the v4l2-async sensor registration support
+> Patch 2-3  Convert the ov2680 and gc0310 drivers to this
+> Patch 4    Removes some now dead code
+> Patch 5    Moves the now fully standard / no custom atomisp API
+>            gc0310 sensor driver to drivers/media/i2c
+>
+> Patches 1-4 only touch atomisp code and build on top of previous
+> work so I plan to merge these through my media-atomisp branch.
+>
+> Patch 5 also depends on all the others, so it should also
+> get merged through my media-atomisp branch. Sakari may I have
+> your Ack for this ?  Alternatively we could delay the move to
+> the next kernel cycle and then it could be merged directly
+> into some other linux-media branch. Either way works for me.
 
-> +struct acpi_device;
->  struct atomisp_device;
-> -struct v4l2_device;
->  struct atomisp_sub_device;
-> +struct v4l2_device;
-
-I would group atomisp* separately
-
-struct acpi_device;
-struct v4l2_device;
-
-struct atomisp_device;
-struct atomisp_sub_device;
-
-...
-
-> +struct atomisp_csi2_bridge {
-> +       char csi2_node_name[14];
-> +       struct software_node csi2_node;
-
-Wondering if swapping these two saves some code (due to potential use
-of container_of() for the node member).
-
-> +       u32 data_lanes[CSI2_MAX_LANES];
-> +       unsigned int n_sensors;
-> +       struct atomisp_csi2_sensor sensors[ATOMISP_CAMERA_NR_PORTS];
-> +};
-
-...
-
-> +static char *gmin_cfg_get_dsm(struct acpi_device *adev, const char *key)
-> +{
-> +       union acpi_object *obj, *key_el, *val_el;
-> +       char *val =3D NULL;
-> +       int i;
-> +
-> +       obj =3D acpi_evaluate_dsm_typed(adev->handle, &atomisp_dsm_guid, =
-0, 0,
-> +                                     NULL, ACPI_TYPE_PACKAGE);
-> +       if (!obj)
-> +               return NULL;
-> +
-> +       for (i =3D 0; i < obj->package.count - 1; i +=3D 2) {
-> +               key_el =3D &obj->package.elements[i + 0];
-> +               val_el =3D &obj->package.elements[i + 1];
-> +
-> +               if (key_el->type !=3D ACPI_TYPE_STRING || val_el->type !=
-=3D ACPI_TYPE_STRING)
-> +                       break;
-> +
-> +               if (!strcmp(key_el->string.pointer, key)) {
-> +                       val =3D kstrdup(val_el->string.pointer, GFP_KERNE=
-L);
-
-> +                       dev_info(&adev->dev, "Using DSM entry %s=3D%s\n",=
- key, val);
-
-Do we really want to have "(null)" to be printed in case of the
-kstrdup() failure?
-Also this code may become a honeypot for all possible static analyzers
-and even if we don't care about NULL it may become noisy activity.
-
-Besides that since we have a handle, wouldn't it be better to use
-acpi_handle_info() here?
-
-> +                       break;
-> +               }
-> +       }
-> +
-> +       ACPI_FREE(obj);
-> +       return val;
-> +}
-
-...
-
-> +               dev_info(&adev->dev, "Using DMI entry %s=3D%s\n", key, gv=
-->val);
-
-acpi_handle_info() ?
-Note, I'm fine with dev_info() in both cases, just asking.
-
-...
-
-> +       status =3D acpi_evaluate_object_typed(adev->handle, "_PR0", NULL,=
- &buffer, ACPI_TYPE_PACKAGE);
-> +       if (!ACPI_SUCCESS(status))
-
-ACPI_FAILURE()
-
-> +               return -ENOENT;
-
-...
-
-> +       /*
-> +        * Get pmc-clock number from ACPI _PR0 method and compare this to
-
-PMC ?
-
-> +        * the CsiPort 1 pmc-clock used in the CHT/BYT reference designs.
-
-Ditto.
-
-> +        */
-
-...
-
-> +       obj =3D acpi_evaluate_dsm_typed(adev->handle, &intel_sensor_modul=
-e_guid,
-> +                                     0x00, 0x01, NULL, ACPI_TYPE_STRING)=
-;
-
-0x01 here...
-
-> +       if (obj) {
-> +               dev_info(&adev->dev, "Sensor module id: '%s'\n", obj->str=
-ing.pointer);
-> +               ACPI_FREE(obj);
-> +       }
-> +
-> +       /*
-> +        * First get the GPIO-settings count and then get count GPIO-sett=
-ings
-> +        * values. Note the order of these may differ from the order in w=
-hich
-> +        * the GPIOs are listed on the ACPI resources! So we first store =
-them all
-> +        * and then enumerate the ACPI resources and match them up by pin=
- number.
-> +        */
-> +       obj =3D acpi_evaluate_dsm_typed(adev->handle,
-> +                                     &intel_sensor_gpio_info_guid, 0x00,=
- 1,
-
-...and 1 here. Wouldn't it make sense to be consistent and use either
-hex or decimal (looking into below code decimal looks more plausible)
-in both cases?
-
-> +                                     NULL, ACPI_TYPE_INTEGER);
-> +       if (!obj)
-> +               return dev_err_probe(&adev->dev, -EIO, "No _DSM entry for=
- GPIO pin count\n");
-
-...
-
-> +       /* Since we match up by pin-number the pin-numbers must be unique=
- */
-> +       for (i =3D 0; i < data.settings_count; i++) {
-> +               for (j =3D i + 1; j < data.settings_count; j++) {
-> +                       if (INTEL_GPIO_DSM_PIN(data.settings[i]) !=3D
-> +                           INTEL_GPIO_DSM_PIN(data.settings[j]))
-> +                               continue;
-
-Wondering if we can have pure pin numbers in some (bit)array, in that
-case the uniqueness can be achieved by the test_bit() call in O(1).
-
-> +                       return dev_err_probe(&adev->dev, -EIO, "Duplicate=
- pin number %lu\n",
-> +                                            INTEL_GPIO_DSM_PIN(data.sett=
-ings[i]));
-> +               }
-> +       }
-
-...
-
-> +       for_each_acpi_dev_match(adev, cfg->hid, NULL, -1) {
-> +               if (!adev->status.enabled)
-> +                       continue;
-> +
-> +               if (bridge->n_sensors >=3D ATOMISP_CAMERA_NR_PORTS) {
-> +                       dev_err(isp->dev, "Exceeded available CSI2 ports\=
-n");
-> +                       ret =3D -EINVAL;
-
-EOVERFLOW ? EEXIST? ENOMEM
-
-(EINVAL is fine, but to me it's too much use of the same code in the kernel=
-)
-
-> +                       goto err_put_adev;
-> +               }
-
-> +       }
-
-...
-
-> +       /*
-> +        * This function is intended to run only once and then leave
-> +        * the created nodes attached even after a rmmod, therefor:
-
-Some spellcheckers want "therefore" here.
-
-> +        * 1. The bridge memory is leaked deliberately on success
-> +        * 2. If a secondary fwnode is already set exit early.
-> +        */
-
---
+--=20
 With Best Regards,
 Andy Shevchenko
