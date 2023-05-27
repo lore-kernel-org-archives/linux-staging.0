@@ -1,85 +1,105 @@
-Received: from mail-qv1-f47.google.com (mail-qv1-f47.google.com [209.85.219.47])
+Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D4022116
-	for <linux-staging@lists.linux.dev>; Sat, 27 May 2023 10:26:39 +0000 (UTC)
-Received: by mail-qv1-f47.google.com with SMTP id 6a1803df08f44-6237faa8677so9225356d6.1
-        for <linux-staging@lists.linux.dev>; Sat, 27 May 2023 03:26:39 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC4CD53A2;
+	Sat, 27 May 2023 11:51:08 +0000 (UTC)
+Received: by mail-pf1-f176.google.com with SMTP id d2e1a72fcca58-64d30ab1ef2so1403870b3a.2;
+        Sat, 27 May 2023 04:51:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1685183198; x=1687775198;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
+        d=gmail.com; s=20221208; t=1685188268; x=1687780268;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=l1/AcRXeVao/wwJt5rTG3N1RcEL2uWTIWvqLQcGfLUU=;
-        b=d8in5bpA23yjI5Z1PU6N01b8p3a59z9Xr4SejTnF0QTg41GTNn4ynvIaOsbSFIXWKW
-         mkjklpNwtDSvc6c4PVJFWFNzNhbEXpHN0WBBVozNgeokGogmZs938dXNQ1GnMjOnShtK
-         QaixRTiOusvzFISFZCWeiuDS+23nUXucn31OEIe2ypxiJpMpzn/2fITtHialSr7kwb4i
-         dEuL7Vthaxfr6ihvRNXUohHRPeHRUhOiSOE0WUXf28OS/r07V4CQTWDavv4OefcPmios
-         6oAgyIYi3+wgL+/5B763TmtoyCmKnZWa9iV/JPrsH8kvY3KtNZTY1ccOaIouyj2sJ1ai
-         HYcA==
+        bh=M60H7z7OzZaor7WG8Tl37IOGxzGrsGYe7qShJ598B1U=;
+        b=eLTkkEMv24hkGpArLFJoQSm2dRo2aZ6VF7iXm2+b7wV6soXO3wlvk4dACyXkuo5wzj
+         vuxTGec3F8+p6kfXshI+Cmer0dheDH78ZaF4nbnsbJdQmhjUBGsRCGTKiVW1qAqJk/ce
+         BgY1TScQx7Pcnp04VaQLX5p0gYxgpX00I4rUQB2f35Mq8hEVwvitmccsFniarnP6Tebt
+         5jowgfa2FZmTHAfvtNhaFYi5/IuC7lLzFgD28c6KAAJR0gMqCRiwFV3YqiXa9fHUDU/G
+         rlx9pIfLQ/adgoWtN9jbUuS/sfF1LlNEEjOsuXC6TfzolufnWOmobpd1KmgbK+EXucID
+         2HHw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1685183198; x=1687775198;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20221208; t=1685188268; x=1687780268;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=l1/AcRXeVao/wwJt5rTG3N1RcEL2uWTIWvqLQcGfLUU=;
-        b=A68YrY+YA7P+ODO94Z3YD24gFGdykutK8f/xmSarlzhLAlSpE1fj8cYeOQ4S7EH5BP
-         vEA1fAk7sS+xTb32IYc7Ss/TswlHkGqVJEV5Iq5pBDQa/8Eekw4vs35q+hK2t1NH7XR9
-         +Qy/yroLt3GnCLvUucKpq2x98nwhWVu6j30c2ZkVN3y5RP8T9WlV6fTyqUZ+gTCbEEFw
-         FTv0A2ZvpDSxHQjsTkGe4WnaGrjeTwUhPXHZIgaT/vVXDp25ejCsytp5447+4qyOKh2f
-         gN8EOQycxNBc0m96x8nWdmjE4FfL6COsZitX85awWXRLWfZKoH0xyILJ9y1wmnviWC8n
-         Hu8A==
-X-Gm-Message-State: AC+VfDztV+zgo18OAPjidylrFVUNdE8Og5XjJbuHU/WXomToSEOYojX1
-	k0AUo5YcDa4vJxfpqFWcB6SLGzcg3frByz1oC0E=
-X-Google-Smtp-Source: ACHHUZ63To6LhEdRSBsxtOJ5GSsFFkAdBEhL0lh12kFmlNVDppyXhQk/DTeZ7LLLtJAUXr1fsQ2MBbVr9BLHizECc5A=
-X-Received: by 2002:a05:6214:21ac:b0:623:a5d0:1daf with SMTP id
- t12-20020a05621421ac00b00623a5d01dafmr3830230qvc.48.1685183198108; Sat, 27
- May 2023 03:26:38 -0700 (PDT)
+        bh=M60H7z7OzZaor7WG8Tl37IOGxzGrsGYe7qShJ598B1U=;
+        b=KXMpiHBSx5zFXzcZ+RmNFukPuIiPvYgNKF4EymfUEflUD2nolCpXzfAStdGl7+Mdee
+         xaW9oaOTMVXN4vUsg7wQiCGwsrjqoigTNGIxBGmFdsINGUYCvott9U7/lm2q4rHuYiXb
+         /t5z3c7pk18vT8/tRwWREYvYcAWrbX43sy/WtLlB0NDvddJ1fb44bofzJgpfKzIDnWli
+         KXLUWsoDOVaiKWgBSf70VkZMYyqN4+xizRebaJmRc9uAi3ODbFrgR2xoGpipOxXvPq7a
+         /RjSvxkL0U7vDs39zQ5awiBLWAbKtWaBzyPwcG5jzpoaklMWvmZVSVIMZVQ50Is1pSdm
+         vlOA==
+X-Gm-Message-State: AC+VfDzckHdSc50ewvBvHnRAlwOyMZ2g8zWBA5i3x5NtjxCFQyvWQfRY
+	nmyNH8DhpPkh9/Jlhxyfs9o=
+X-Google-Smtp-Source: ACHHUZ4QxAWCn3xuC6rLDt7vgW0oNL4lcvxTBwBD3SNf5vot9f+iW9ovjbAY4yk3I+5dfqUN5cCtQQ==
+X-Received: by 2002:a05:6a00:cc5:b0:643:bb16:7ca6 with SMTP id b5-20020a056a000cc500b00643bb167ca6mr9083610pfv.21.1685188268122;
+        Sat, 27 May 2023 04:51:08 -0700 (PDT)
+Received: from redkillpc.. ([49.207.219.227])
+        by smtp.gmail.com with ESMTPSA id x19-20020aa793b3000000b0064f97ff4506sm2988098pff.68.2023.05.27.04.51.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 27 May 2023 04:51:07 -0700 (PDT)
+From: Prathu Baronia <prathubaronia2011@gmail.com>
+To: prathubaronia2011@gmail.com,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	=?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
+	Khadija Kamran <kamrankhadijadj@gmail.com>,
+	"Fabio M. De Francesco" <fmdefrancesco@gmail.com>,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Cc: dan.carpenter@linaro.org,
+	error27@gmail.com,
+	lkp@intel.com,
+	oe-kbuild-all@lists.linux.dev,
+	oe-kbuild@lists.linux.dev
+Subject: [PATCH v4 1/3] axis-fifo: fix smatch warning for format specifier
+Date: Sat, 27 May 2023 17:20:58 +0530
+Message-Id: <20230527115101.47569-1-prathubaronia2011@gmail.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <ZHHE/H2p4Go/Igc/@redkillpc>
+References: <ZHHE/H2p4Go/Igc/@redkillpc>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20230525190100.130010-1-hdegoede@redhat.com> <20230525190100.130010-2-hdegoede@redhat.com>
- <CAHp75Vd1ijQM7b8Z2ip3TXJyuhQJfAqk0MNBVW-Q-ooi_-dBHw@mail.gmail.com> <c53ec167-9211-9d27-db06-f4b2db5f258d@redhat.com>
-In-Reply-To: <c53ec167-9211-9d27-db06-f4b2db5f258d@redhat.com>
-From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Sat, 27 May 2023 13:26:02 +0300
-Message-ID: <CAHp75Vf9SsjYAH+jBhMQ4+MOvrs4zB1HZEWjK4XK5vGKV+39Xw@mail.gmail.com>
-Subject: Re: [PATCH v2 1/5] media: atomisp: Add support for v4l2-async sensor registration
-To: Hans de Goede <hdegoede@redhat.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
-	Andy Shevchenko <andy@kernel.org>, Kate Hsuan <hpa@redhat.com>, Tsuchiya Yuto <kitakar@gmail.com>, 
-	Yury Luneff <yury.lunev@gmail.com>, Nable <nable.maininbox@googlemail.com>, 
-	andrey.i.trufanov@gmail.com, Fabio Aiuto <fabioaiuto83@gmail.com>, 
-	Dan Scally <djrscally@gmail.com>, linux-media@vger.kernel.org, 
-	linux-staging@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Sat, May 27, 2023 at 12:25=E2=80=AFPM Hans de Goede <hdegoede@redhat.com=
-> wrote:
-> On 5/26/23 22:30, Andy Shevchenko wrote:
-> > On Thu, May 25, 2023 at 10:01=E2=80=AFPM Hans de Goede <hdegoede@redhat=
-.com> wrote:
+Fix an old smatch warning reported by lkp introduced by commit
+d2d7aa53891e. In the mentioned commit we had used "%pa" format specifier
+for a void* type and hence smatch complained about its use instead of
+"%p".
 
-...
+Fixes: d2d7aa53891e ("staging: axis-fifo: convert to use miscdevice")
+Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Dan Carpenter <error27@gmail.com>
+Link: https://lore.kernel.org/r/202305150358.nt1BkbXz-lkp@intel.com/
+Signed-off-by: Prathu Baronia <prathubaronia2011@gmail.com>
+---
+V3 -> V4: Split into warning fixing and cleanup commits
+V2 -> V3: Fix smatch warnings from kernel test robot
+V1 -> V2: Split into logical commits and fix commit message
 
-> > Besides that since we have a handle, wouldn't it be better to use
-> > acpi_handle_info() here?
->
-> Yes since we are purely dealing with ACPI / fwnode stuff here using
-> that would make more sense. I'll switch to that.
->
-> I also agree with all your other remarks and I'll fix them all up
-> (and test things again) before merging.
->
-> Andy, may I add your Reviewed-by to this patch too after fixing
-> up all your remarks ?
+ drivers/staging/axis-fifo/axis-fifo.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Sure, go ahead!
+diff --git a/drivers/staging/axis-fifo/axis-fifo.c b/drivers/staging/axis-fifo/axis-fifo.c
+index 7a21f2423204..271cab805cad 100644
+--- a/drivers/staging/axis-fifo/axis-fifo.c
++++ b/drivers/staging/axis-fifo/axis-fifo.c
+@@ -906,8 +906,8 @@ static int axis_fifo_probe(struct platform_device *pdev)
+ 	if (rc < 0)
+ 		goto err_initial;
+ 
+-	dev_info(fifo->dt_device, "axis-fifo created at %pa mapped to 0x%pa, irq=%i\n",
+-		 &r_mem->start, &fifo->base_addr, fifo->irq);
++	dev_info(fifo->dt_device, "axis-fifo created at %pa mapped to 0x%p, irq=%i\n",
++		 &r_mem->start, fifo->base_addr, fifo->irq);
+ 
+ 	return 0;
+ 
 
---=20
-With Best Regards,
-Andy Shevchenko
+base-commit: 44c026a73be8038f03dbdeef028b642880cf1511
+-- 
+2.34.1
+
