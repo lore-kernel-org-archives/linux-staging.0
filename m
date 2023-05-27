@@ -1,99 +1,117 @@
-Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com [209.85.210.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6730053A2;
-	Sat, 27 May 2023 11:51:19 +0000 (UTC)
-Received: by mail-pf1-f177.google.com with SMTP id d2e1a72fcca58-64d3fdcadb8so1362126b3a.3;
-        Sat, 27 May 2023 04:51:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1685188279; x=1687780279;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ps7W4euBnPTypuQ48jqWiVzSPldfhUMwv3snwxq59YY=;
-        b=AqYl7ViqxvBn8HqG78gKCD/7rKL7HfBq1/pAor38gVc2DQg5wu3paaZGGxS4V7ZXlS
-         2jedEA59iAcVm+XTq+abpom59mTFsWn9Faeodygf0CuJjOohBCvIds+IGzzMGs+xVbil
-         Z3UNroBt9DysnC6W+qovqNd+CTCvW/e+abPur5uFCWAqnrV4wLz5dLSdyxreUll9Ww/N
-         YwSHPevF6IFrhRlMqtXCErTxxkG+KurtaHOuzZCd9sCUKeDncUTIgMgFWoZtxopNwmmw
-         8jYDOnkRLvJ4qXiOMrsCF34giu8WNZ2fuGm1QvE5N3/dr+/U1plyjdDbR03S7rAzWeK1
-         dC/g==
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 239DA1078A
+	for <linux-staging@lists.linux.dev>; Sat, 27 May 2023 15:48:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1685202493;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=X/O1MpqEOZzuixz/P/whtACWNhl6nb37DODJ17M4M+Q=;
+	b=h3cBppVlVyrCEraas7Gc4PnT1nR/YL0GFmLj0i/57Fmdn4sfVDHNJYl4W/Ircb5x3lki41
+	E6GzmKYs2uTiZVI06V/Kb22ndoi1NV2zjqzNktuzXqM00LZ/CO+dkqPNpX0YXCw2cv/ok7
+	k5N64TiPm8z0WaWQpVdbuFmre53t7nY=
+Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
+ [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-613-k2yt3o95MeCZC4_dneoaTw-1; Sat, 27 May 2023 11:48:12 -0400
+X-MC-Unique: k2yt3o95MeCZC4_dneoaTw-1
+Received: by mail-ej1-f69.google.com with SMTP id a640c23a62f3a-9715654aba1so227129766b.0
+        for <linux-staging@lists.linux.dev>; Sat, 27 May 2023 08:48:12 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1685188279; x=1687780279;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ps7W4euBnPTypuQ48jqWiVzSPldfhUMwv3snwxq59YY=;
-        b=Cs668NvTmsVFqR/1GJuaqGQ8nwZ0tzOl+dYET2gvQdQIg4BIak7Fj7ec+wHhUw9Hvo
-         upR172cvwuwKVYPfVOpx0j4KA+S1g97bQPfQS2yZErK+hMRJIAMODSQ80aRg5RsWru39
-         QYb5T9WSDGJzF2tKpXLgf36bES/pTyf9E46qG+doEC01TtLPl1FZ2v396CQWNvz0Y9n9
-         OOVfsH8VNvudhwc00EVw+fuOeT+F2kxykTlG8FbeY4SlgVovwyRA8PPftmJtbJe7oU0Q
-         FYyArOy51dU9uGrVDStYi6LmATsVRlsqub76gyLks5b28dridLwzMOu21gnor9E1RDOC
-         ts/g==
-X-Gm-Message-State: AC+VfDzqEMtrNIQB+esuyPlOo9eXZwCZCIAHbVbzIuoALUHgMQC84a8L
-	KT0UBggEJIz+xDVqBzdoWYw=
-X-Google-Smtp-Source: ACHHUZ5zF+iygF5B/re2qY7V3eQMYr1cqIGaEaq0niqW5MExwb/4oKb4QmWjit3DZrE+2rrXv+iuSg==
-X-Received: by 2002:a05:6a20:5493:b0:10e:d90f:35d5 with SMTP id i19-20020a056a20549300b0010ed90f35d5mr2847160pzk.51.1685188278759;
-        Sat, 27 May 2023 04:51:18 -0700 (PDT)
-Received: from redkillpc.. ([49.207.219.227])
-        by smtp.gmail.com with ESMTPSA id x19-20020aa793b3000000b0064f97ff4506sm2988098pff.68.2023.05.27.04.51.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 27 May 2023 04:51:18 -0700 (PDT)
-From: Prathu Baronia <prathubaronia2011@gmail.com>
-To: prathubaronia2011@gmail.com,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	=?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
-	"Fabio M. De Francesco" <fmdefrancesco@gmail.com>,
-	Khadija Kamran <kamrankhadijadj@gmail.com>,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Cc: dan.carpenter@linaro.org,
-	error27@gmail.com,
-	lkp@intel.com,
-	oe-kbuild-all@lists.linux.dev,
-	oe-kbuild@lists.linux.dev
-Subject: [PATCH v4 3/3] axis-fifo: cleanup space issues with fops struct
-Date: Sat, 27 May 2023 17:21:00 +0530
-Message-Id: <20230527115101.47569-3-prathubaronia2011@gmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230527115101.47569-1-prathubaronia2011@gmail.com>
-References: <ZHHE/H2p4Go/Igc/@redkillpc>
- <20230527115101.47569-1-prathubaronia2011@gmail.com>
+        d=1e100.net; s=20221208; t=1685202491; x=1687794491;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=X/O1MpqEOZzuixz/P/whtACWNhl6nb37DODJ17M4M+Q=;
+        b=YQsfOTzC34JFBO5gfycLs95aBEKtEMxMRjE2w2YxA54VartbGA8o5z4EWrz5aGeO2N
+         47ouWdDhrjyqR3QcNa8jBNU/82mII91bgaxUg7mAvdQThP/XOzIl0RPkIRhQWSiXuJkG
+         +TN/anU81N/HcexCO9I0E/vdu/ptnYSCW8o5RJPGH1Nv54zSYhH2hSSJ4sWaDmPX5yZG
+         G0VbAZas+8MWR1H/wXpaRaxCkkmLvKNbiXkifqfTzmw/AOIWM3NGa/HhNf584XSILdU7
+         av1hs/xcVjPiLnIyVDhq/HHo94/0Q/DHuBLJFOyHbLPneH8MnHfaTLi/F3d+uh/zP1Rp
+         IvIw==
+X-Gm-Message-State: AC+VfDxrolhZo8GkSY3y4ThQD1/AEDQocfBNFpGRGTN7lQa/lDYkxglv
+	gXkKY0N/0Zj38MCMnYkChXoSXiS/D3lN9NPJ7O03qKCuUjgjfzK7HGuG3DJzxr/4vgKlgwJJ3Vh
+	f6H/pxiHsxVf2E3nk6uP8SviBnA==
+X-Received: by 2002:a17:906:ef05:b0:96f:7d0a:5981 with SMTP id f5-20020a170906ef0500b0096f7d0a5981mr1896898ejs.36.1685202491179;
+        Sat, 27 May 2023 08:48:11 -0700 (PDT)
+X-Google-Smtp-Source: ACHHUZ7v1grDXcy8stnhzDrUAF04Y8v8KpvQLbkSsVjAvB5J6Zm36T78KzlGZMg+Pbaa2c+xPuxebw==
+X-Received: by 2002:a17:906:ef05:b0:96f:7d0a:5981 with SMTP id f5-20020a170906ef0500b0096f7d0a5981mr1896883ejs.36.1685202490920;
+        Sat, 27 May 2023 08:48:10 -0700 (PDT)
+Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
+        by smtp.gmail.com with ESMTPSA id bh1-20020a170906a0c100b00965f6ad266bsm3530345ejb.119.2023.05.27.08.48.09
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 27 May 2023 08:48:10 -0700 (PDT)
+Message-ID: <d8e5d438-16d8-64ca-d856-a11de6e9ba45@redhat.com>
+Date: Sat, 27 May 2023 17:48:09 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [PATCH] media: atomisp: gmin_platform: fix out_len in
+ gmin_get_config_dsm_var()
+To: Dan Carpenter <dan.carpenter@linaro.org>,
+ Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Ard Biesheuvel <ardb@kernel.org>, linux-media@vger.kernel.org,
+ linux-staging@lists.linux.dev, kernel-janitors@vger.kernel.org
+References: <26124bcd-8132-4483-9d67-225c87d424e8@kili.mountain>
+From: Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <26124bcd-8132-4483-9d67-225c87d424e8@kili.mountain>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US, nl
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Add required spaces for proper formatting of fops members for better
-readability.
+Hi,
 
-Signed-off-by: Prathu Baronia <prathubaronia2011@gmail.com>
----
- drivers/staging/axis-fifo/axis-fifo.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+On 5/26/23 13:53, Dan Carpenter wrote:
+> Ideally, strlen(cur->string.pointer) and strlen(out) would be the same.
+> But this code is using strscpy() to avoid a potential buffer overflow.
+> So in the same way we should take the strlen() of the smaller string to
+> avoid a buffer overflow in the caller, gmin_get_var_int().
+> 
+> Fixes: 387041cda44e ("media: atomisp: improve sensor detection code to use _DSM table")
+> Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
 
-diff --git a/drivers/staging/axis-fifo/axis-fifo.c b/drivers/staging/axis-fifo/axis-fifo.c
-index d71bdc6dd961..59e962467a3d 100644
---- a/drivers/staging/axis-fifo/axis-fifo.c
-+++ b/drivers/staging/axis-fifo/axis-fifo.c
-@@ -716,11 +716,11 @@ static int axis_fifo_close(struct inode *inod, struct file *f)
- }
- 
- static const struct file_operations fops = {
--	.owner = THIS_MODULE,
--	.open = axis_fifo_open,
-+	.owner   = THIS_MODULE,
-+	.open    = axis_fifo_open,
- 	.release = axis_fifo_close,
--	.read = axis_fifo_read,
--	.write = axis_fifo_write
-+	.read    = axis_fifo_read,
-+	.write   = axis_fifo_write
- };
- 
- /* read named property from the device tree */
--- 
-2.34.1
+Thank you I have applied this to my media-atomisp branch:
+https://git.kernel.org/pub/scm/linux/kernel/git/hansg/linux.git/log/?h=media-atomisp
+
+And this will be included in my next pull-req to Mauro
+for merging this into the linux-media tree.
+
+Regards,
+
+Hans
+
+
+
+
+> ---
+>  drivers/staging/media/atomisp/pci/atomisp_gmin_platform.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/staging/media/atomisp/pci/atomisp_gmin_platform.c b/drivers/staging/media/atomisp/pci/atomisp_gmin_platform.c
+> index c718a74ea70a..88d4499233b9 100644
+> --- a/drivers/staging/media/atomisp/pci/atomisp_gmin_platform.c
+> +++ b/drivers/staging/media/atomisp/pci/atomisp_gmin_platform.c
+> @@ -1357,7 +1357,7 @@ static int gmin_get_config_dsm_var(struct device *dev,
+>  	dev_info(dev, "found _DSM entry for '%s': %s\n", var,
+>  		 cur->string.pointer);
+>  	strscpy(out, cur->string.pointer, *out_len);
+> -	*out_len = strlen(cur->string.pointer);
+> +	*out_len = strlen(out);
+>  
+>  	ACPI_FREE(obj);
+>  	return 0;
 
