@@ -1,128 +1,135 @@
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [85.220.165.71])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BE0528FD
-	for <linux-staging@lists.linux.dev>; Sat, 27 May 2023 22:31:29 +0000 (UTC)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1q32RP-0008Lp-VI; Sun, 28 May 2023 00:31:16 +0200
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
-	by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1q32RM-003HGI-6W; Sun, 28 May 2023 00:31:12 +0200
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1q32RL-008Zwc-ES; Sun, 28 May 2023 00:31:11 +0200
-Date: Sun, 28 May 2023 00:31:11 +0200
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To: Prathu Baronia <prathubaronia2011@gmail.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Fabio M. De Francesco" <fmdefrancesco@gmail.com>,
-	Khadija Kamran <kamrankhadijadj@gmail.com>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-	dan.carpenter@linaro.org, error27@gmail.com, lkp@intel.com,
-	oe-kbuild-all@lists.linux.dev, oe-kbuild@lists.linux.dev
-Subject: Re: [PATCH v4 3/3] axis-fifo: cleanup space issues with fops struct
-Message-ID: <20230527223111.jidik3ffcsxdkenb@pengutronix.de>
-References: <ZHHE/H2p4Go/Igc/@redkillpc>
- <20230527115101.47569-1-prathubaronia2011@gmail.com>
- <20230527115101.47569-3-prathubaronia2011@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2A397C
+	for <linux-staging@lists.linux.dev>; Sun, 28 May 2023 06:38:45 +0000 (UTC)
+Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-96fc07d7e6bso48487166b.1
+        for <linux-staging@lists.linux.dev>; Sat, 27 May 2023 23:38:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1685255924; x=1687847924;
+        h=content-transfer-encoding:in-reply-to:cc:references:to:from
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=UY/WSQ9WFQUn1R6eZg5dGSWjhyOOZkalxHvn5V45skY=;
+        b=kuxolb67EhLB83qoIqEHcXrDoz0faJ9GZaXi+nHf5CRZ9GJJxPaULRBhv32MqT73HH
+         zRklkaUO/xUcdyD5/k0hi+UoWDuv3ZDkHedE8iTfbxUFnCy4D8pvHyBhuKT84JjnoJ9T
+         4ppELkQUFRizIp3lZ13OvOXDrFPeC3MxBdXcRTEA7BCbMXdIa+XHRyA2e65Sw5ObpYjZ
+         lLFpg7ev0c0z492usLSl4/3yDS54eUh5gXF5eKIanCeXta1N8zckBSmFmMLyxmI3pnGb
+         +g392/ZwrmkCX//Su+3KDKf+7Mey/5Rva4nDEpXkmZCdXcL9uMm7Qpiifrp5hsRVW0OE
+         ISQA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1685255924; x=1687847924;
+        h=content-transfer-encoding:in-reply-to:cc:references:to:from
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=UY/WSQ9WFQUn1R6eZg5dGSWjhyOOZkalxHvn5V45skY=;
+        b=JqTxuaZc2Z2H5VkBEYW7NX3+MKCU8R9HlFfvZpXPOfZlwZ2BzJdabEsd3bWgMqZSHz
+         wOpmpyyMjdVhQWQ9tZ0ASH7Rkxd/sDOICei7lKYDKqtt5tUQwBcen3cavKa2l1dXXM6s
+         m73hDeI7UFZHJdzJ8ORCYLq0utphmEQTba0vV12nr7MnKs9ssMjCDogISMO3xWdcx02+
+         O4K5mduI0w/VikPk9UjrpjCwPRRoYflLkQZc651OphKBJnKcpCkk6zRaUOVbfKI5J3R1
+         0GyKN6JJWDpPPM4honIqIzY9AItlbjldVVOnnl/G9u7abypZhR/A0lFzsPP4R9n7yKKH
+         QXsA==
+X-Gm-Message-State: AC+VfDwMWwFUHESxuEkFDpdU4jzZp3zaB6GtDDHuPnvr1N4y3/hHUGQi
+	gzFRCOqU8EQkrHQVtawyZqY=
+X-Google-Smtp-Source: ACHHUZ70eO6uKTHIt1c+XP0JhnVfxNjZE4+ckJ+YoL6Rnsk1fRI+X/mpSFPShBnzjwaFqp/RwHEMbA==
+X-Received: by 2002:a17:906:73cc:b0:929:b101:937d with SMTP id n12-20020a17090673cc00b00929b101937dmr5746922ejl.1.1685255923783;
+        Sat, 27 May 2023 23:38:43 -0700 (PDT)
+Received: from [192.168.0.103] (p57ba2e0b.dip0.t-ipconnect.de. [87.186.46.11])
+        by smtp.gmail.com with ESMTPSA id r20-20020a170906365400b0094e7d196aa4sm4261999ejb.160.2023.05.27.23.38.42
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 27 May 2023 23:38:43 -0700 (PDT)
+Message-ID: <acac3ff7-36cd-72b4-1857-c8e3588d287f@gmail.com>
+Date: Sun, 28 May 2023 08:38:42 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="cdvvvrjjz27c3mvb"
-Content-Disposition: inline
-In-Reply-To: <20230527115101.47569-3-prathubaronia2011@gmail.com>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-staging@lists.linux.dev
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: staging: rtl8192e: Replace drivers rtllib_crypt_ccmp_... with
+ lib80211_crypt_...
+Content-Language: en-US
+From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+References: <cover.1683960684.git.philipp.g.hortmann@gmail.com>
+ <e3c29c3db33d314dffb673f8e563da0fb1f2b22f.1683960685.git.philipp.g.hortmann@gmail.com>
+Cc: "Larry.Finger@lwfinger.net" <Larry.Finger@lwfinger.net>
+In-Reply-To: <e3c29c3db33d314dffb673f8e563da0fb1f2b22f.1683960685.git.philipp.g.hortmann@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
+Hi,
 
---cdvvvrjjz27c3mvb
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+it is possible to remove three modules from the staging area by replacing:
+rtllib_crypt_ccmp with lib80211_crypt_ccmp
+rtllib_crypt_tkip with lib80211_crypt_tkip
+rtllib_crypt_wep with lib80211_crypt_wep
 
-Hello,
+The following issues arise:
+- rtl8192e needs to be switched to software encryption or
+   lib80211_crypt_... needs to be extended with hardware encryption.
+- Performance is dropping on my computer from 12,5MB/s to 1,5MB/s when
+   switching to software encryption.(it does not really change if I use
+   rtllib_crypt_ccmp or lib80211_crypt_ccmp)
+- Fix: rtllib_rx_decrypt: decrypt frame error that occure sometimes on
+   lib80211_crypt_ccmp
 
-On Sat, May 27, 2023 at 05:21:00PM +0530, Prathu Baronia wrote:
-> Add required spaces for proper formatting of fops members for better
-> readability.
->=20
-> Signed-off-by: Prathu Baronia <prathubaronia2011@gmail.com>
-> ---
->  drivers/staging/axis-fifo/axis-fifo.c | 8 ++++----
->  1 file changed, 4 insertions(+), 4 deletions(-)
->=20
-> diff --git a/drivers/staging/axis-fifo/axis-fifo.c b/drivers/staging/axis=
--fifo/axis-fifo.c
-> index d71bdc6dd961..59e962467a3d 100644
-> --- a/drivers/staging/axis-fifo/axis-fifo.c
-> +++ b/drivers/staging/axis-fifo/axis-fifo.c
-> @@ -716,11 +716,11 @@ static int axis_fifo_close(struct inode *inod, stru=
-ct file *f)
->  }
-> =20
->  static const struct file_operations fops =3D {
-> -	.owner =3D THIS_MODULE,
-> -	.open =3D axis_fifo_open,
-> +	.owner   =3D THIS_MODULE,
-> +	.open    =3D axis_fifo_open,
->  	.release =3D axis_fifo_close,
-> -	.read =3D axis_fifo_read,
-> -	.write =3D axis_fifo_write
-> +	.read    =3D axis_fifo_read,
-> +	.write   =3D axis_fifo_write
+Below the changes on the driver that made use of lib80211_crypt_... 
+possible.
 
-Note this is only subjectively better. IMHO with just a single space
-this is perfectly readable. Aligning the =3D might look nice, but it's
-also annoying at times. When you add another member (e.g.
-=2Eiterate_shared) you either add a line that doesn't match all others, or
-you have to touch all other lines of that struct which (objectively?)
-hurts readability of that patch. Also for generated patches this kind of
-alignment yields extra work. (See for example
-https://lore.kernel.org/lkml/20230525205840.734432-1-u.kleine-koenig@pengut=
-ronix.de/
-which required semi-manual fixup to keep the alignment after coccinelle
-generated the patch.)
+So the questions are:
+Is it worth the effort or is this going in the wrong direction?
+Does it help the kernel community or is it just creating more effort?
+Why does LIB80211 not support hardware encryption? Or does it?
 
-If you still think this is a good idea, I'd ask you to stick to one
-style for the whole file. e.g. axis_fifo_driver uses inconsistent
-and different indention.
+Thanks for your support.
 
-A thing that IMHO is more useful to change here, is the name fops; I'd
-suggest something like axis_fifo_fops (and also use prefixes for some
-other symbols like "get_dts_property"). In 6.4-rc1 my ctags file knows
-about 64 different places that define something called "fops".
+Bye Philipp
 
-Just my 0.02=E2=82=AC,
-Uwe
+diff --git a/drivers/staging/rtl8192e/rtl8192e/rtl_core.c 
+b/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
+index 17b70dde7eeb..ef0fa05ff510 100644
+--- a/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
++++ b/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
+@@ -22,7 +22,7 @@
 
---=20
-Pengutronix e.K.                           | Uwe Kleine-K=C3=B6nig         =
-   |
-Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+  #include "rtl_pm.h"
 
---cdvvvrjjz27c3mvb
-Content-Type: application/pgp-signature; name="signature.asc"
+-int hwwep = 1;
++int hwwep = 0;
+  static char *ifname = "wlan%d";
 
------BEGIN PGP SIGNATURE-----
+  static struct pci_device_id rtl8192_pci_id_tbl[] = {
+diff --git a/drivers/staging/rtl8192e/rtllib_wx.c 
+b/drivers/staging/rtl8192e/rtllib_wx.c
+index 82b537da8b21..0db6e32b5494 100644
+--- a/drivers/staging/rtl8192e/rtllib_wx.c
++++ b/drivers/staging/rtl8192e/rtllib_wx.c
+@@ -522,16 +522,16 @@ int rtllib_wx_set_encode_ext(struct rtllib_device 
+*ieee,
+         sec.enabled = 1;
+         switch (ext->alg) {
+         case IW_ENCODE_ALG_WEP:
+-               alg = "R-WEP";
+-               module = "rtllib_crypt_wep";
++               alg = "WEP";
++               module = "lib80211_crypt_wep";
+                 break;
+         case IW_ENCODE_ALG_TKIP:
+-               alg = "R-TKIP";
+-               module = "rtllib_crypt_tkip";
++               alg = "TKIP";
++               module = "lib80211_crypt_tkip";
+                 break;
+         case IW_ENCODE_ALG_CCMP:
+-               alg = "R-CCMP";
+-               module = "rtllib_crypt_ccmp";
++               alg = "CCMP";
++               module = "lib80211_crypt_ccmp";
+                 break;
+         default:
+                 netdev_dbg(ieee->dev, "Unknown crypto alg %d\n", ext->alg);
 
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmRyhK4ACgkQj4D7WH0S
-/k4GHQf/UqWfo79tCnSurnPKR+RHhrveNwWlX7kE0wdil5CyIe7xjiG/0TNrS86J
-DBhUGdUczfaKmeuTG3sQKTJowMSmRQyuIxCM37lnJPvYWBAdkuhbsBgHaRNdR5fA
-yIX9vrR9belBqHdMMl7sXdcLoIWdzsKUHL+8p2wiP5Qaz4X7WwyfPmkGLnk5Km49
-k11VFJT2HAdq3zut/83XO4JNIeX0WL3Yzz4LQFVcmLaU6K19dvXXIV/bN0cQEXwR
-hpUGiKWwWpEF9+JaFKIHfCsJ5luB9Nbb+HxU8ph84VOCgG8JFldIfylX1woz06R4
-kQRnDIRnbbALLfda5tit7DxPVRV/OA==
-=8i8o
------END PGP SIGNATURE-----
-
---cdvvvrjjz27c3mvb--
