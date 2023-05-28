@@ -1,82 +1,129 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 035A517E2
-	for <linux-staging@lists.linux.dev>; Sun, 28 May 2023 09:13:18 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1B2D2C433EF;
-	Sun, 28 May 2023 09:13:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1685265198;
-	bh=X+wEkGcFPxyLRRStAYn+nV5CgUbOCpIYtQ2VqRZYruI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Sz2PySYvXFdgPJGBwyCyzEzvDRi1So/HQhfyir6PYcl2zPP6aT1qyQVnrD1EKa3mW
-	 xULxaQ+2dpamAVCEiIiKSVwCJHERaXbkU+gAcpFMDQI6Z76QdChGWrpt8qnlX5Cpfj
-	 S8gDVdgYjzWO/lbzMry5w/kKn1KzuvtISSPmuQuo=
-Date: Sun, 28 May 2023 10:13:16 +0100
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Arnd Bergmann <arnd@kernel.org>
-Cc: Florian Fainelli <f.fainelli@gmail.com>,
-	Stefan Wahren <stefan.wahren@i2se.com>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
-	Umang Jain <umang.jain@ideasonboard.com>,
-	Adrien Thierry <athierry@redhat.com>,
-	Phil Elwell <phil@raspberrypi.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
-	linux-rpi-kernel@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: vchiq_arm: mark vchiq_platform_init() static
-Message-ID: <2023052856-tidal-trapdoor-1112@gregkh>
-References: <20230516202603.560554-1-arnd@kernel.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A77E3C05
+	for <linux-staging@lists.linux.dev>; Sun, 28 May 2023 13:23:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1685280192;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=YG4jStiopgRv61U/kO8cjOPjY9KyLCxmZ6r+C4ZOzCE=;
+	b=Fz1c5PXRSo7ERor3EwxE4uF7NEZy0eH4th8WvVh/Ght4c4j1x9by6/2XaFEpdZJbFisW+8
+	zBMZlif+S0m/u5JaE1Yg0/QstBix9gka+kr+iCNwZB7oULp71dMjD4T0JxjFBnBtE3SFqH
+	OCQQseofzZI6ESgUSaogWzaZPNapa5U=
+Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
+ [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-587-WTJpg2kjOaeTt4UlG-j2OA-1; Sun, 28 May 2023 09:23:10 -0400
+X-MC-Unique: WTJpg2kjOaeTt4UlG-j2OA-1
+Received: by mail-ej1-f70.google.com with SMTP id a640c23a62f3a-94a356c74e0so220366366b.2
+        for <linux-staging@lists.linux.dev>; Sun, 28 May 2023 06:23:10 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1685280189; x=1687872189;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=YG4jStiopgRv61U/kO8cjOPjY9KyLCxmZ6r+C4ZOzCE=;
+        b=av5bRnjDpxM2ggVLlVINVqfv5dnuBeuXP501pJ+C2EhlXNrjK+aCcOFFCJpfizVBqP
+         JkXW42u368YRHWizAQ36DTJhpOvsthOzMXbzFqaM7qUz6r2KTKx8T/R1W5/DXDHGVMPi
+         AcEYd97GOq+s1Ljndm+DmsjK3mvZYSsd5LV3dcyDQJTbQ9rA0vyQZho6hE5MRjlo0j/0
+         6C0+Nn54BDyXqqaC/DpvlDhBCT5PFlJq90AbBUt/kMI4Tdk8Csx1otuz8bC3MZ3F6udC
+         pXiWwu3Sr4kUqs+EJP7l47VReFuTsmdMyY7BHur35EwuIMfr1V4bAO1BSPKeQHVhv6lV
+         Dfug==
+X-Gm-Message-State: AC+VfDwAYX+ePvVTYM38CVZmUH/cbfmirQ3N1xk1ESoX73F2GSy8nsBY
+	UDuM7nW9AkK1ZsDzJT37uaOlgLkfHDCEpCMIgfw/LkanQE0t+LELAuvMIC+fxeBYBiLNhYXiWMq
+	MgKrXF7V9oazxa1Vrp39dOtNwgQ==
+X-Received: by 2002:a17:907:3206:b0:966:168d:8c9 with SMTP id xg6-20020a170907320600b00966168d08c9mr7855540ejb.32.1685280189794;
+        Sun, 28 May 2023 06:23:09 -0700 (PDT)
+X-Google-Smtp-Source: ACHHUZ79MghFLcFBVgpI2+D9PGz03AoC6gFKUVaJujdmdnSnCJ5BM7KS9oBmCu9Fd00K9NRP17+dsw==
+X-Received: by 2002:a17:907:3206:b0:966:168d:8c9 with SMTP id xg6-20020a170907320600b00966168d08c9mr7855515ejb.32.1685280189509;
+        Sun, 28 May 2023 06:23:09 -0700 (PDT)
+Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
+        by smtp.gmail.com with ESMTPSA id kq12-20020a170906abcc00b009596e7e0dbasm4647713ejb.162.2023.05.28.06.23.08
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 28 May 2023 06:23:08 -0700 (PDT)
+Message-ID: <76dedab6-24cf-f4e6-a780-85704f8d217e@redhat.com>
+Date: Sun, 28 May 2023 15:23:07 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230516202603.560554-1-arnd@kernel.org>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [PATCH] media: atomisp: Fix buffer overrun in gmin_get_var_int()
+To: Andy Shevchenko <andy.shevchenko@gmail.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Andy Shevchenko <andy@kernel.org>, Kate Hsuan <hpa@redhat.com>,
+ Tsuchiya Yuto <kitakar@gmail.com>, Yury Luneff <yury.lunev@gmail.com>,
+ Nable <nable.maininbox@googlemail.com>, andrey.i.trufanov@gmail.com,
+ Fabio Aiuto <fabioaiuto83@gmail.com>, linux-media@vger.kernel.org,
+ linux-staging@lists.linux.dev, Dan Carpenter <dan.carpenter@linaro.org>
+References: <20230527155136.61957-1-hdegoede@redhat.com>
+ <CAHp75Vf7bCQp+vJH02yJjmooxZSgNna5sRQ=UEq=4LmsDZPsFQ@mail.gmail.com>
+ <b037dbd7-a95d-00cb-7763-f6e244626b13@redhat.com>
+ <CAHp75VfN5YtBDv0caubfm=2Y8YpvqAxWeAa7dzJZe79S3teiqA@mail.gmail.com>
+From: Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <CAHp75VfN5YtBDv0caubfm=2Y8YpvqAxWeAa7dzJZe79S3teiqA@mail.gmail.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US, nl
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Tue, May 16, 2023 at 10:25:55PM +0200, Arnd Bergmann wrote:
-> From: Arnd Bergmann <arnd@arndb.de>
-> 
-> This function has no callers from other files, and the declaration
-> was removed a while ago, causing a W=1 warning:
-> 
-> drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c:465:5: error: no previous prototype for 'vchiq_platform_init'
-> 
-> Marking it static solves this problem but introduces a new warning
-> since gcc determines that 'g_fragments_base' is never initialized
-> in some kernel configurations:
-> 
-> In file included from include/linux/string.h:254,
->                  from include/linux/bitmap.h:11,
->                  from include/linux/cpumask.h:12,
->                  from include/linux/mm_types_task.h:14,
->                  from include/linux/mm_types.h:5,
->                  from include/linux/buildid.h:5,
->                  from include/linux/module.h:14,
->                  from drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c:8:
-> In function 'memcpy_to_page',
->     inlined from 'free_pagelist' at drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c:433:4:
-> include/linux/fortify-string.h:57:33: error: argument 2 null where non-null expected [-Werror=nonnull]
-> include/linux/highmem.h:427:9: note: in expansion of macro 'memcpy'
->   427 |         memcpy(to + offset, from, len);
->       |         ^~~~~~
-> 
-> Add a NULL pointer check for this in addition to the static annotation
-> to avoid both.
-> 
-> Fixes: 89cc4218f640 ("staging: vchiq_arm: drop unnecessary declarations")
-> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
-> ---
->  drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+Hi,
 
-Nice, thanks for finally fixing this up, it's been a low-grade annoyance
-for a very long time.
+On 5/28/23 09:55, Andy Shevchenko wrote:
+> On Sat, May 27, 2023 at 8:54 PM Hans de Goede <hdegoede@redhat.com> wrote:
+>> On 5/27/23 18:55, Andy Shevchenko wrote:
+>>> On Sat, May 27, 2023 at 6:51 PM Hans de Goede <hdegoede@redhat.com> wrote:
+> 
+> ...
+> 
+>>>> Closes: https://lore.kernel.org/linux-media/26f37e19-c240-4d77-831d-ef3f1a4dd51d@kili.mountain/
+>>>
+>>> Is this a new official tag? (Just to my surprise)
+>>
+>> Yes, I was surprised too, checkpatch.pl now wants a Closes: tag
+>> after a Reported-by: one, rather then a Link: tag.
+> 
+> Interesting...
+> 
+> ...
+> 
+>>>> -       char val[CFG_VAR_NAME_MAX];
+>>>> -       size_t len = sizeof(val);
+>>>> +       char val[CFG_VAR_NAME_MAX + 1];
+>>>> +       size_t len = CFG_VAR_NAME_MAX;
+>>>
+>>> Why not sizeof() - 1? At least it will be a single point when change
+>>> can be made and not breaking again in a similar way the code.
+>>
+>> I wanted to make the buffer one byte bigger to make room for
+>> the terminating 0, not 1 bute smaller.
+> 
+> I understand, and I'm commenting only on the len assignment. Sorry for
+> not being clear.
+> 
+> Hence you will have
+> 
+>   buf[SIZE + 1];
+>   sizeof(buf) - 1;
 
-greg k-h
+That is just ugly IMHO, why take the sizeof something which
+we know is SIZE + 1 and then substract 1 instead of just
+writing SIZE ?
+
+Note that for any future SIZE define changes both methods
+are equally future proof in that they both automatically
+adjust to the define changing.
+
+Regards,
+
+Hans
+
+
