@@ -1,113 +1,89 @@
-Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
+Received: from mail-qv1-f45.google.com (mail-qv1-f45.google.com [209.85.219.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC6B17C
-	for <linux-staging@lists.linux.dev>; Sun, 28 May 2023 14:53:02 +0000 (UTC)
-Received: by mail-pf1-f179.google.com with SMTP id d2e1a72fcca58-64d604cc0aaso1970752b3a.2
-        for <linux-staging@lists.linux.dev>; Sun, 28 May 2023 07:53:02 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84E9C7C
+	for <linux-staging@lists.linux.dev>; Sun, 28 May 2023 15:27:43 +0000 (UTC)
+Received: by mail-qv1-f45.google.com with SMTP id 6a1803df08f44-5ed99ebe076so27864516d6.2
+        for <linux-staging@lists.linux.dev>; Sun, 28 May 2023 08:27:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1685285582; x=1687877582;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=h281HgpjzK4XEri7LVFQyvfUqK1gjl7k3qozv2JOCAE=;
-        b=nR1fI3qjXN5dxhT/H2mc44EsCADS2cSqRN83AR2w6D7+whusEr4zT7A9oYtZ7S570u
-         OUENjdpgmBAqIFDzB6S7oRYbVTiOt3/aiF3JdTQD4Hp4sX1PKLIXmj7e3GagxO6SIQk6
-         aVcKI1k8fsja0rlelkTzJ+Xmg83K8tKW8efrEM5EhjQsnQm1D3DBinIXaVT4SnpINsMg
-         Zjp4CGdAv8AmtQrkah+AvE8hi2gWMNvmj2NHwE60e5VbxFG8MGgEQAUc/soBbNEVKomg
-         NzmL15HeHOkpeXs3Sr9Qb5rOYq9HC5ogSQN+D3uPRJTJSbo/nM8k4VkJ3wEwVlI1oyev
-         sqjQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1685285582; x=1687877582;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:to:from:date:x-gm-message-state:from:to:cc:subject:date
+        d=usp.br; s=usp-google; t=1685287662; x=1687879662;
+        h=to:references:message-id:content-transfer-encoding:cc:date
+         :in-reply-to:from:subject:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=h281HgpjzK4XEri7LVFQyvfUqK1gjl7k3qozv2JOCAE=;
-        b=LqvUljv1q3bb8cGCB4zRhhtdyjfVK/AI4sOIUDiBmtKsQ2CjxGE3xwWOszvOYxaHjM
-         UURgXq/bofkPQlu7IRDz3V3YZpt2Z2T8UBK60sM7SGuSl7o+EpTHROhx07kDQFlMdj/r
-         gtuhQ+Bn6BWpp8H6HmfjXmbjtfErBPpxFq4XDnyXXkLbBcClEhQ+2WmTQw6kvla5kdUr
-         Zy40wRNqhKH0smFpwMMK0V2dy0D65BPC8+cHZnLDAyMZ7B8KZ/3XsF/LJvWj8Za957Qb
-         oHh4c2VDw95lrwMI7QKOOu24nmP5P/m705SWJGnzJCCPtDnMPw2IdvtfsPa0+id6fimK
-         1hYg==
-X-Gm-Message-State: AC+VfDyJFOEer8hZhInvQoicgsnNFRZ1XQvIFBQQDmmlXL2xIjD6TRxK
-	yc8pC1eXR5hnnvQpnblC4P5lGwHI2ZM=
-X-Google-Smtp-Source: ACHHUZ7/htqm/7HGd8RJuPjs7WprXIgVuzvLzBW4KqV3JK/pdQpTJDazny+scCDYyN4IUaaGThmdag==
-X-Received: by 2002:a17:902:ec8c:b0:1ac:6d4c:c26a with SMTP id x12-20020a170902ec8c00b001ac6d4cc26amr11738757plg.14.1685285582106;
-        Sun, 28 May 2023 07:53:02 -0700 (PDT)
-Received: from yogi-Zephyrus ([103.251.210.199])
-        by smtp.gmail.com with ESMTPSA id bg8-20020a1709028e8800b001ac591b0500sm6385884plb.134.2023.05.28.07.53.00
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 28 May 2023 07:53:01 -0700 (PDT)
-Date: Sun, 28 May 2023 20:22:58 +0530
-From: Yogesh Hegde <yogi.kernel@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [PATCH 4/4] staging: rtl8192e: Rename variable InitialGainHandler
-Message-ID: <721239f5b292ba9ffa973f5fea81069aaeac34a7.1685284727.git.yogi.kernel@gmail.com>
-References: <cover.1685284727.git.yogi.kernel@gmail.com>
+        bh=HageycISbSSx1UO8biOw9yDuyV183bJnOZAqf4f2IBo=;
+        b=N2Q3HAR5hu05Fr3VKHJjxtu4xCZtgsQ77PxLBv+AvKnFLiGBzwYrsFj+6NpiNGMFN3
+         ZhODuC+ls8jGmlHj929+4A7dAewHqaDiULvT4nRxHa/sBQaZii27niMZdHBZd6ec4O9g
+         dxJxONiEdi3MnX7/LlA7vctIy8janQiZBfCChXxvoxYnOipaxwDKKm+D9MxWaCJ5bph3
+         XhQzVagi3qksPhfgoklAkFM6eykb86ZxDD0kofUAVv1wW9Zs8SOi1Z/zj5pFAuf8SFUc
+         UY/PECnnyGgTJJhbXZ3BtBQl+kSl5cZqLNz33rHDCJco1NnxIyVCb2X2CnnMRg1BbWvk
+         1ABA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1685287662; x=1687879662;
+        h=to:references:message-id:content-transfer-encoding:cc:date
+         :in-reply-to:from:subject:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=HageycISbSSx1UO8biOw9yDuyV183bJnOZAqf4f2IBo=;
+        b=K0BNUrxR6bnQcM8GhvDu8hutaoq7XCI4TGB29EwaL59zGMyMELm+JE9vKfzZckbsKk
+         d2t7ui2w/ivJMR04NSWP+sCmFrX92KsvGbWoeyeniNYisIY1l+uidpj/2ZRE2fqd/h7D
+         YLPEv6g9/66birpFhEBX6vbsX6XtRg/U2Wp8gTv3j0P1nMcxoE0ujatU1MEichTJ3eyV
+         mbUl0GrSd/nU2j0XuqENtQHpGSL+bbOuQUKi4kilyOimEq+VP2tEM+H1O4bNocr+2K8O
+         urGVLpL5KO4JUZ4vxRHxHjZdumpEZJiDokqjuws3uGYTPPHLh1oKcl94RhE9YXoBYe8g
+         Mf+Q==
+X-Gm-Message-State: AC+VfDysw/5IUggOhqll9MuDtpE8OkqjGi8CriatLthbcSzrnFiHnbSP
+	39iYlzzq6gZjZxJ/LlQPkHhH8A==
+X-Google-Smtp-Source: ACHHUZ5dWlq2uk1j1aFHgK9e9qvV97x9ixaOX8Pm9TynMA1mR1PWkW4cN7JTRYDDieQFdJ2iqNbDCA==
+X-Received: by 2002:a05:6214:2242:b0:5f1:606b:a9c8 with SMTP id c2-20020a056214224200b005f1606ba9c8mr9332307qvc.22.1685287662428;
+        Sun, 28 May 2023 08:27:42 -0700 (PDT)
+Received: from smtpclient.apple ([2804:14c:63:8ae3:1d73:c16f:91db:4626])
+        by smtp.gmail.com with ESMTPSA id q2-20020a0cfa02000000b00621623264a8sm2944202qvn.35.2023.05.28.08.27.40
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Sun, 28 May 2023 08:27:41 -0700 (PDT)
+Content-Type: text/plain;
+	charset=us-ascii
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <cover.1685284727.git.yogi.kernel@gmail.com>
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3696.120.41.1.2\))
+Subject: Re: [PATCH] staging: rtl8192e: Fix BRACES warning
+From: David de Barros Tadokoro <davidbtadokoro@usp.br>
+In-Reply-To: <2023052830-steep-runway-fceb@gregkh>
+Date: Sun, 28 May 2023 12:27:38 -0300
+Cc: linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <80495326-3EB0-4AE3-A328-D93BB9109AD0@usp.br>
+References: <20230524040051.235250-1-davidbtadokoro@usp.br>
+ <2023052830-steep-runway-fceb@gregkh>
+To: Greg KH <gregkh@linuxfoundation.org>
+X-Mailer: Apple Mail (2.3696.120.41.1.2)
 
-Rename variable InitialGainHandler to init_gain_handler to avoid
-CamelCase which is not accepted by checkpatch.
+> On 28 May 2023, at 06:10, Greg KH <gregkh@linuxfoundation.org> wrote:
+>=20
+> On Wed, May 24, 2023 at 01:00:51AM -0300, David Tadokoro wrote:
+>> Fix checkpatch warning "braces {} are not necessary for single =
+statement
+>> blocks".
+>=20
+> Why do you have "BRACES" in the subject line as all caps?  Where did
+> that term come from?
+>=20
+> No need to shout :)
+>=20
+> thanks,
+>=20
+> greg k-h
 
-Signed-off-by: Yogesh Hegde <yogi.kernel@gmail.com>
----
- drivers/staging/rtl8192e/rtl8192e/r8192E_phy.c | 4 ++--
- drivers/staging/rtl8192e/rtl8192e/rtl_core.c   | 2 +-
- drivers/staging/rtl8192e/rtllib.h              | 2 +-
- 3 files changed, 4 insertions(+), 4 deletions(-)
+Hi, Greg
 
-diff --git a/drivers/staging/rtl8192e/rtl8192e/r8192E_phy.c b/drivers/staging/rtl8192e/rtl8192e/r8192E_phy.c
-index 61fd84ca58d2..4fceb5ee51d5 100644
---- a/drivers/staging/rtl8192e/rtl8192e/r8192E_phy.c
-+++ b/drivers/staging/rtl8192e/rtl8192e/r8192E_phy.c
-@@ -1130,11 +1130,11 @@ void rtl92e_scan_op_backup(struct net_device *dev, u8 Operation)
- 	if (priv->up) {
- 		switch (Operation) {
- 		case SCAN_OPT_BACKUP:
--			priv->rtllib->InitialGainHandler(dev, IG_Backup);
-+			priv->rtllib->init_gain_handler(dev, IG_Backup);
- 			break;
- 
- 		case SCAN_OPT_RESTORE:
--			priv->rtllib->InitialGainHandler(dev, IG_Restore);
-+			priv->rtllib->init_gain_handler(dev, IG_Restore);
- 			break;
- 		}
- 	}
-diff --git a/drivers/staging/rtl8192e/rtl8192e/rtl_core.c b/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
-index b82d2b7aa26c..eb20b8014997 100644
---- a/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
-+++ b/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
-@@ -734,7 +734,7 @@ static void _rtl92e_init_priv_handler(struct net_device *dev)
- 
- 	priv->rtllib->SetHwRegHandler = rtl92e_set_reg;
- 	priv->rtllib->AllowAllDestAddrHandler = rtl92e_set_monitor_mode;
--	priv->rtllib->InitialGainHandler = rtl92e_init_gain;
-+	priv->rtllib->init_gain_handler = rtl92e_init_gain;
- 	priv->rtllib->rtllib_ips_leave_wq = rtl92e_rtllib_ips_leave_wq;
- 	priv->rtllib->rtllib_ips_leave = rtl92e_rtllib_ips_leave;
- 	priv->rtllib->ScanOperationBackupHandler = rtl92e_scan_op_backup;
-diff --git a/drivers/staging/rtl8192e/rtllib.h b/drivers/staging/rtl8192e/rtllib.h
-index 03898efea12d..d361d18d54f6 100644
---- a/drivers/staging/rtl8192e/rtllib.h
-+++ b/drivers/staging/rtl8192e/rtllib.h
-@@ -1713,7 +1713,7 @@ struct rtllib_device {
- 	void (*set_wireless_mode)(struct net_device *dev, u8 wireless_mode);
- 	bool (*GetHalfNmodeSupportByAPsHandler)(struct net_device *dev);
- 	u8   (*rtllib_ap_sec_type)(struct rtllib_device *ieee);
--	void (*InitialGainHandler)(struct net_device *dev, u8 Operation);
-+	void (*init_gain_handler)(struct net_device *dev, u8 Operation);
- 	void (*ScanOperationBackupHandler)(struct net_device *dev,
- 					   u8 Operation);
- 	void (*SetHwRegHandler)(struct net_device *dev, u8 variable, u8 *val);
--- 
-2.25.1
+Thanks so much for your feedback.
 
+You are right, this commit message is horrible. I based it on
+a previous commit that cleaned the same warning instead of writing a =
+good commit message myself. Going to fix that.
+
+Sorry for the mess ;)
+
+Many regards,
+David=
