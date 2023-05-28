@@ -1,135 +1,102 @@
-Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
+Received: from mail-qv1-f41.google.com (mail-qv1-f41.google.com [209.85.219.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2A397C
-	for <linux-staging@lists.linux.dev>; Sun, 28 May 2023 06:38:45 +0000 (UTC)
-Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-96fc07d7e6bso48487166b.1
-        for <linux-staging@lists.linux.dev>; Sat, 27 May 2023 23:38:45 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E8967C
+	for <linux-staging@lists.linux.dev>; Sun, 28 May 2023 07:56:31 +0000 (UTC)
+Received: by mail-qv1-f41.google.com with SMTP id 6a1803df08f44-6260a9ef126so9884906d6.2
+        for <linux-staging@lists.linux.dev>; Sun, 28 May 2023 00:56:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1685255924; x=1687847924;
-        h=content-transfer-encoding:in-reply-to:cc:references:to:from
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=UY/WSQ9WFQUn1R6eZg5dGSWjhyOOZkalxHvn5V45skY=;
-        b=kuxolb67EhLB83qoIqEHcXrDoz0faJ9GZaXi+nHf5CRZ9GJJxPaULRBhv32MqT73HH
-         zRklkaUO/xUcdyD5/k0hi+UoWDuv3ZDkHedE8iTfbxUFnCy4D8pvHyBhuKT84JjnoJ9T
-         4ppELkQUFRizIp3lZ13OvOXDrFPeC3MxBdXcRTEA7BCbMXdIa+XHRyA2e65Sw5ObpYjZ
-         lLFpg7ev0c0z492usLSl4/3yDS54eUh5gXF5eKIanCeXta1N8zckBSmFmMLyxmI3pnGb
-         +g392/ZwrmkCX//Su+3KDKf+7Mey/5Rva4nDEpXkmZCdXcL9uMm7Qpiifrp5hsRVW0OE
-         ISQA==
+        d=gmail.com; s=20221208; t=1685260590; x=1687852590;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=AJ2+3FwkLROklM7yKtJCdabsCsnlIOkXdpgNdZkU9jI=;
+        b=YxeWclwWP1CtMxDqHN4lSJG7Wqd8YdeYkWxNDe/2ccOexhJ+JgHPazwd4KTQcYBeqj
+         bw/UKp7/1ZgvYgVlmK/2PzpuAEne2+ylIxFxFTaAQHffKb3jEM1WtWwtEd8i+YiERu+J
+         Brb6YbP4tCND0/+YX12nlSj7wQrr0zT+nQyW/Ztpk8TpsUXogbYiIPcGJXf4Osa6dr2q
+         BDEHwqSa8s16yVq6V3sMiTgVHAsCt/wiFFd+ERdOvQ1BDO7bMPS3j9LuoAZ9Zs3JholW
+         xaKnY/pOHq5iUFAxYhrEDUwlYttIuJWRCLn34Oolfa5jbk5qlDykOWKeom5s3P8XnGB+
+         jIvw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1685255924; x=1687847924;
-        h=content-transfer-encoding:in-reply-to:cc:references:to:from
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=UY/WSQ9WFQUn1R6eZg5dGSWjhyOOZkalxHvn5V45skY=;
-        b=JqTxuaZc2Z2H5VkBEYW7NX3+MKCU8R9HlFfvZpXPOfZlwZ2BzJdabEsd3bWgMqZSHz
-         wOpmpyyMjdVhQWQ9tZ0ASH7Rkxd/sDOICei7lKYDKqtt5tUQwBcen3cavKa2l1dXXM6s
-         m73hDeI7UFZHJdzJ8ORCYLq0utphmEQTba0vV12nr7MnKs9ssMjCDogISMO3xWdcx02+
-         O4K5mduI0w/VikPk9UjrpjCwPRRoYflLkQZc651OphKBJnKcpCkk6zRaUOVbfKI5J3R1
-         0GyKN6JJWDpPPM4honIqIzY9AItlbjldVVOnnl/G9u7abypZhR/A0lFzsPP4R9n7yKKH
-         QXsA==
-X-Gm-Message-State: AC+VfDwMWwFUHESxuEkFDpdU4jzZp3zaB6GtDDHuPnvr1N4y3/hHUGQi
-	gzFRCOqU8EQkrHQVtawyZqY=
-X-Google-Smtp-Source: ACHHUZ70eO6uKTHIt1c+XP0JhnVfxNjZE4+ckJ+YoL6Rnsk1fRI+X/mpSFPShBnzjwaFqp/RwHEMbA==
-X-Received: by 2002:a17:906:73cc:b0:929:b101:937d with SMTP id n12-20020a17090673cc00b00929b101937dmr5746922ejl.1.1685255923783;
-        Sat, 27 May 2023 23:38:43 -0700 (PDT)
-Received: from [192.168.0.103] (p57ba2e0b.dip0.t-ipconnect.de. [87.186.46.11])
-        by smtp.gmail.com with ESMTPSA id r20-20020a170906365400b0094e7d196aa4sm4261999ejb.160.2023.05.27.23.38.42
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 27 May 2023 23:38:43 -0700 (PDT)
-Message-ID: <acac3ff7-36cd-72b4-1857-c8e3588d287f@gmail.com>
-Date: Sun, 28 May 2023 08:38:42 +0200
+        d=1e100.net; s=20221208; t=1685260590; x=1687852590;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=AJ2+3FwkLROklM7yKtJCdabsCsnlIOkXdpgNdZkU9jI=;
+        b=VXtEgd/vi6y1TF6BmK3ROqs6fsj3T87gwGaxWkbwza11vlS0YDfWuiYNjtSbBp6APW
+         rAzCGcn9gISpcswS0rkGywKlai9oiw++9yP2QQsSU8+s6elY/d9b7+BrkIUMj5WTzu2y
+         kL2fYrBvdmtbC5n9wwliWKek0yZP0gXmBGPrcLqrOKlDcUAJIaYpoITPeA6lrsYHCC5I
+         YN0nQHQzF7YrLwON6tQ4s0WEYgO+km95q7fgHFuxNwhcsBagC8LqM3536qvbmHtgzsy9
+         CTh8VsZcaobnYCDcXUJQ63B7YzkvvTziAPM1so5n+vlvNEsZJYqmM70vdJ/qocbC1O6u
+         Wijw==
+X-Gm-Message-State: AC+VfDyPAxVRu6USi/DJg8SFG2CCF/WlwRkPLeyFrfCq5iC+5VI3GZGU
+	BVwRItPCO1pJCsH/W02WuSUQ2pmHOYenmpL4/UY=
+X-Google-Smtp-Source: ACHHUZ56T5kx7LSZgyn50ZqY6qM/ZDSpSAXcE/APwzyF9hbBz+Uj8SIMmVcc2mXo5D86sfWW0yzK67rjgR9mAHdrYlk=
+X-Received: by 2002:a05:6214:1250:b0:5f8:ad2a:fef7 with SMTP id
+ r16-20020a056214125000b005f8ad2afef7mr8284371qvv.32.1685260590275; Sun, 28
+ May 2023 00:56:30 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: staging: rtl8192e: Replace drivers rtllib_crypt_ccmp_... with
- lib80211_crypt_...
-Content-Language: en-US
-From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-References: <cover.1683960684.git.philipp.g.hortmann@gmail.com>
- <e3c29c3db33d314dffb673f8e563da0fb1f2b22f.1683960685.git.philipp.g.hortmann@gmail.com>
-Cc: "Larry.Finger@lwfinger.net" <Larry.Finger@lwfinger.net>
-In-Reply-To: <e3c29c3db33d314dffb673f8e563da0fb1f2b22f.1683960685.git.philipp.g.hortmann@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20230527155136.61957-1-hdegoede@redhat.com> <CAHp75Vf7bCQp+vJH02yJjmooxZSgNna5sRQ=UEq=4LmsDZPsFQ@mail.gmail.com>
+ <b037dbd7-a95d-00cb-7763-f6e244626b13@redhat.com>
+In-Reply-To: <b037dbd7-a95d-00cb-7763-f6e244626b13@redhat.com>
+From: Andy Shevchenko <andy.shevchenko@gmail.com>
+Date: Sun, 28 May 2023 10:55:53 +0300
+Message-ID: <CAHp75VfN5YtBDv0caubfm=2Y8YpvqAxWeAa7dzJZe79S3teiqA@mail.gmail.com>
+Subject: Re: [PATCH] media: atomisp: Fix buffer overrun in gmin_get_var_int()
+To: Hans de Goede <hdegoede@redhat.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
+	Andy Shevchenko <andy@kernel.org>, Kate Hsuan <hpa@redhat.com>, Tsuchiya Yuto <kitakar@gmail.com>, 
+	Yury Luneff <yury.lunev@gmail.com>, Nable <nable.maininbox@googlemail.com>, 
+	andrey.i.trufanov@gmail.com, Fabio Aiuto <fabioaiuto83@gmail.com>, 
+	linux-media@vger.kernel.org, linux-staging@lists.linux.dev, 
+	Dan Carpenter <dan.carpenter@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi,
+On Sat, May 27, 2023 at 8:54=E2=80=AFPM Hans de Goede <hdegoede@redhat.com>=
+ wrote:
+> On 5/27/23 18:55, Andy Shevchenko wrote:
+> > On Sat, May 27, 2023 at 6:51=E2=80=AFPM Hans de Goede <hdegoede@redhat.=
+com> wrote:
 
-it is possible to remove three modules from the staging area by replacing:
-rtllib_crypt_ccmp with lib80211_crypt_ccmp
-rtllib_crypt_tkip with lib80211_crypt_tkip
-rtllib_crypt_wep with lib80211_crypt_wep
+...
 
-The following issues arise:
-- rtl8192e needs to be switched to software encryption or
-   lib80211_crypt_... needs to be extended with hardware encryption.
-- Performance is dropping on my computer from 12,5MB/s to 1,5MB/s when
-   switching to software encryption.(it does not really change if I use
-   rtllib_crypt_ccmp or lib80211_crypt_ccmp)
-- Fix: rtllib_rx_decrypt: decrypt frame error that occure sometimes on
-   lib80211_crypt_ccmp
+> >> Closes: https://lore.kernel.org/linux-media/26f37e19-c240-4d77-831d-ef=
+3f1a4dd51d@kili.mountain/
+> >
+> > Is this a new official tag? (Just to my surprise)
+>
+> Yes, I was surprised too, checkpatch.pl now wants a Closes: tag
+> after a Reported-by: one, rather then a Link: tag.
 
-Below the changes on the driver that made use of lib80211_crypt_... 
-possible.
+Interesting...
 
-So the questions are:
-Is it worth the effort or is this going in the wrong direction?
-Does it help the kernel community or is it just creating more effort?
-Why does LIB80211 not support hardware encryption? Or does it?
+...
 
-Thanks for your support.
+> >> -       char val[CFG_VAR_NAME_MAX];
+> >> -       size_t len =3D sizeof(val);
+> >> +       char val[CFG_VAR_NAME_MAX + 1];
+> >> +       size_t len =3D CFG_VAR_NAME_MAX;
+> >
+> > Why not sizeof() - 1? At least it will be a single point when change
+> > can be made and not breaking again in a similar way the code.
+>
+> I wanted to make the buffer one byte bigger to make room for
+> the terminating 0, not 1 bute smaller.
 
-Bye Philipp
+I understand, and I'm commenting only on the len assignment. Sorry for
+not being clear.
 
-diff --git a/drivers/staging/rtl8192e/rtl8192e/rtl_core.c 
-b/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
-index 17b70dde7eeb..ef0fa05ff510 100644
---- a/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
-+++ b/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
-@@ -22,7 +22,7 @@
+Hence you will have
 
-  #include "rtl_pm.h"
+  buf[SIZE + 1];
+  sizeof(buf) - 1;
 
--int hwwep = 1;
-+int hwwep = 0;
-  static char *ifname = "wlan%d";
-
-  static struct pci_device_id rtl8192_pci_id_tbl[] = {
-diff --git a/drivers/staging/rtl8192e/rtllib_wx.c 
-b/drivers/staging/rtl8192e/rtllib_wx.c
-index 82b537da8b21..0db6e32b5494 100644
---- a/drivers/staging/rtl8192e/rtllib_wx.c
-+++ b/drivers/staging/rtl8192e/rtllib_wx.c
-@@ -522,16 +522,16 @@ int rtllib_wx_set_encode_ext(struct rtllib_device 
-*ieee,
-         sec.enabled = 1;
-         switch (ext->alg) {
-         case IW_ENCODE_ALG_WEP:
--               alg = "R-WEP";
--               module = "rtllib_crypt_wep";
-+               alg = "WEP";
-+               module = "lib80211_crypt_wep";
-                 break;
-         case IW_ENCODE_ALG_TKIP:
--               alg = "R-TKIP";
--               module = "rtllib_crypt_tkip";
-+               alg = "TKIP";
-+               module = "lib80211_crypt_tkip";
-                 break;
-         case IW_ENCODE_ALG_CCMP:
--               alg = "R-CCMP";
--               module = "rtllib_crypt_ccmp";
-+               alg = "CCMP";
-+               module = "lib80211_crypt_ccmp";
-                 break;
-         default:
-                 netdev_dbg(ieee->dev, "Unknown crypto alg %d\n", ext->alg);
-
+--=20
+With Best Regards,
+Andy Shevchenko
