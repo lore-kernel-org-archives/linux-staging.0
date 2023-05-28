@@ -1,102 +1,92 @@
-Received: from mail-qv1-f41.google.com (mail-qv1-f41.google.com [209.85.219.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E8967C
-	for <linux-staging@lists.linux.dev>; Sun, 28 May 2023 07:56:31 +0000 (UTC)
-Received: by mail-qv1-f41.google.com with SMTP id 6a1803df08f44-6260a9ef126so9884906d6.2
-        for <linux-staging@lists.linux.dev>; Sun, 28 May 2023 00:56:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1685260590; x=1687852590;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=AJ2+3FwkLROklM7yKtJCdabsCsnlIOkXdpgNdZkU9jI=;
-        b=YxeWclwWP1CtMxDqHN4lSJG7Wqd8YdeYkWxNDe/2ccOexhJ+JgHPazwd4KTQcYBeqj
-         bw/UKp7/1ZgvYgVlmK/2PzpuAEne2+ylIxFxFTaAQHffKb3jEM1WtWwtEd8i+YiERu+J
-         Brb6YbP4tCND0/+YX12nlSj7wQrr0zT+nQyW/Ztpk8TpsUXogbYiIPcGJXf4Osa6dr2q
-         BDEHwqSa8s16yVq6V3sMiTgVHAsCt/wiFFd+ERdOvQ1BDO7bMPS3j9LuoAZ9Zs3JholW
-         xaKnY/pOHq5iUFAxYhrEDUwlYttIuJWRCLn34Oolfa5jbk5qlDykOWKeom5s3P8XnGB+
-         jIvw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1685260590; x=1687852590;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=AJ2+3FwkLROklM7yKtJCdabsCsnlIOkXdpgNdZkU9jI=;
-        b=VXtEgd/vi6y1TF6BmK3ROqs6fsj3T87gwGaxWkbwza11vlS0YDfWuiYNjtSbBp6APW
-         rAzCGcn9gISpcswS0rkGywKlai9oiw++9yP2QQsSU8+s6elY/d9b7+BrkIUMj5WTzu2y
-         kL2fYrBvdmtbC5n9wwliWKek0yZP0gXmBGPrcLqrOKlDcUAJIaYpoITPeA6lrsYHCC5I
-         YN0nQHQzF7YrLwON6tQ4s0WEYgO+km95q7fgHFuxNwhcsBagC8LqM3536qvbmHtgzsy9
-         CTh8VsZcaobnYCDcXUJQ63B7YzkvvTziAPM1so5n+vlvNEsZJYqmM70vdJ/qocbC1O6u
-         Wijw==
-X-Gm-Message-State: AC+VfDyPAxVRu6USi/DJg8SFG2CCF/WlwRkPLeyFrfCq5iC+5VI3GZGU
-	BVwRItPCO1pJCsH/W02WuSUQ2pmHOYenmpL4/UY=
-X-Google-Smtp-Source: ACHHUZ56T5kx7LSZgyn50ZqY6qM/ZDSpSAXcE/APwzyF9hbBz+Uj8SIMmVcc2mXo5D86sfWW0yzK67rjgR9mAHdrYlk=
-X-Received: by 2002:a05:6214:1250:b0:5f8:ad2a:fef7 with SMTP id
- r16-20020a056214125000b005f8ad2afef7mr8284371qvv.32.1685260590275; Sun, 28
- May 2023 00:56:30 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F585360;
+	Sun, 28 May 2023 08:57:55 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2902BC433D2;
+	Sun, 28 May 2023 08:57:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1685264275;
+	bh=+Z8b5BGxmEusB3RqdWRSJeINY+2EbMtiB0r09qz52HI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=r/34xDGLGn65sBIfi+1y4AXv1uYX26pIVTLcReKJ3U5z9nbymnwaMHXMaG5VvhGlA
+	 khsIUFRt3AGRQACTdVjnHgb3ntaNUyanG6ZRkvZqNa0qseGYvd18QI5KIwQNcQT0b9
+	 5MNObIjKwJARX5CF91LzzgCasEXZpjXQCSEkRW6I=
+Date: Sun, 28 May 2023 09:57:52 +0100
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>
+Cc: Prathu Baronia <prathubaronia2011@gmail.com>,
+	"Fabio M. De Francesco" <fmdefrancesco@gmail.com>,
+	Khadija Kamran <kamrankhadijadj@gmail.com>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	dan.carpenter@linaro.org, error27@gmail.com, lkp@intel.com,
+	oe-kbuild-all@lists.linux.dev, oe-kbuild@lists.linux.dev
+Subject: Re: [PATCH v4 3/3] axis-fifo: cleanup space issues with fops struct
+Message-ID: <2023052808-predefine-thrive-d84a@gregkh>
+References: <ZHHE/H2p4Go/Igc/@redkillpc>
+ <20230527115101.47569-1-prathubaronia2011@gmail.com>
+ <20230527115101.47569-3-prathubaronia2011@gmail.com>
+ <20230527223111.jidik3ffcsxdkenb@pengutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20230527155136.61957-1-hdegoede@redhat.com> <CAHp75Vf7bCQp+vJH02yJjmooxZSgNna5sRQ=UEq=4LmsDZPsFQ@mail.gmail.com>
- <b037dbd7-a95d-00cb-7763-f6e244626b13@redhat.com>
-In-Reply-To: <b037dbd7-a95d-00cb-7763-f6e244626b13@redhat.com>
-From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Sun, 28 May 2023 10:55:53 +0300
-Message-ID: <CAHp75VfN5YtBDv0caubfm=2Y8YpvqAxWeAa7dzJZe79S3teiqA@mail.gmail.com>
-Subject: Re: [PATCH] media: atomisp: Fix buffer overrun in gmin_get_var_int()
-To: Hans de Goede <hdegoede@redhat.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
-	Andy Shevchenko <andy@kernel.org>, Kate Hsuan <hpa@redhat.com>, Tsuchiya Yuto <kitakar@gmail.com>, 
-	Yury Luneff <yury.lunev@gmail.com>, Nable <nable.maininbox@googlemail.com>, 
-	andrey.i.trufanov@gmail.com, Fabio Aiuto <fabioaiuto83@gmail.com>, 
-	linux-media@vger.kernel.org, linux-staging@lists.linux.dev, 
-	Dan Carpenter <dan.carpenter@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230527223111.jidik3ffcsxdkenb@pengutronix.de>
 
-On Sat, May 27, 2023 at 8:54=E2=80=AFPM Hans de Goede <hdegoede@redhat.com>=
- wrote:
-> On 5/27/23 18:55, Andy Shevchenko wrote:
-> > On Sat, May 27, 2023 at 6:51=E2=80=AFPM Hans de Goede <hdegoede@redhat.=
-com> wrote:
+On Sun, May 28, 2023 at 12:31:11AM +0200, Uwe Kleine-König wrote:
+> Hello,
+> 
+> On Sat, May 27, 2023 at 05:21:00PM +0530, Prathu Baronia wrote:
+> > Add required spaces for proper formatting of fops members for better
+> > readability.
+> > 
+> > Signed-off-by: Prathu Baronia <prathubaronia2011@gmail.com>
+> > ---
+> >  drivers/staging/axis-fifo/axis-fifo.c | 8 ++++----
+> >  1 file changed, 4 insertions(+), 4 deletions(-)
+> > 
+> > diff --git a/drivers/staging/axis-fifo/axis-fifo.c b/drivers/staging/axis-fifo/axis-fifo.c
+> > index d71bdc6dd961..59e962467a3d 100644
+> > --- a/drivers/staging/axis-fifo/axis-fifo.c
+> > +++ b/drivers/staging/axis-fifo/axis-fifo.c
+> > @@ -716,11 +716,11 @@ static int axis_fifo_close(struct inode *inod, struct file *f)
+> >  }
+> >  
+> >  static const struct file_operations fops = {
+> > -	.owner = THIS_MODULE,
+> > -	.open = axis_fifo_open,
+> > +	.owner   = THIS_MODULE,
+> > +	.open    = axis_fifo_open,
+> >  	.release = axis_fifo_close,
+> > -	.read = axis_fifo_read,
+> > -	.write = axis_fifo_write
+> > +	.read    = axis_fifo_read,
+> > +	.write   = axis_fifo_write
+> 
+> Note this is only subjectively better. IMHO with just a single space
+> this is perfectly readable. Aligning the = might look nice, but it's
+> also annoying at times. When you add another member (e.g.
+> .iterate_shared) you either add a line that doesn't match all others, or
+> you have to touch all other lines of that struct which (objectively?)
+> hurts readability of that patch. Also for generated patches this kind of
+> alignment yields extra work. (See for example
+> https://lore.kernel.org/lkml/20230525205840.734432-1-u.kleine-koenig@pengutronix.de/
+> which required semi-manual fixup to keep the alignment after coccinelle
+> generated the patch.)
+> 
+> If you still think this is a good idea, I'd ask you to stick to one
+> style for the whole file. e.g. axis_fifo_driver uses inconsistent
+> and different indention.
 
-...
+I agree, there is no "requirement" that these fields are aligned at all,
+so I would stick to the real fixes that are needed for this code to be
+able to be moved out of staging instead.
 
-> >> Closes: https://lore.kernel.org/linux-media/26f37e19-c240-4d77-831d-ef=
-3f1a4dd51d@kili.mountain/
-> >
-> > Is this a new official tag? (Just to my surprise)
->
-> Yes, I was surprised too, checkpatch.pl now wants a Closes: tag
-> after a Reported-by: one, rather then a Link: tag.
+thanks,
 
-Interesting...
-
-...
-
-> >> -       char val[CFG_VAR_NAME_MAX];
-> >> -       size_t len =3D sizeof(val);
-> >> +       char val[CFG_VAR_NAME_MAX + 1];
-> >> +       size_t len =3D CFG_VAR_NAME_MAX;
-> >
-> > Why not sizeof() - 1? At least it will be a single point when change
-> > can be made and not breaking again in a similar way the code.
->
-> I wanted to make the buffer one byte bigger to make room for
-> the terminating 0, not 1 bute smaller.
-
-I understand, and I'm commenting only on the len assignment. Sorry for
-not being clear.
-
-Hence you will have
-
-  buf[SIZE + 1];
-  sizeof(buf) - 1;
-
---=20
-With Best Regards,
-Andy Shevchenko
+greg k-h
