@@ -1,7 +1,7 @@
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BB6720E0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59FC5808
 	for <linux-staging@lists.linux.dev>; Mon, 29 May 2023 10:38:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
 	s=mimecast20190719; t=1685356679;
@@ -9,23 +9,23 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=WS6yNjI4tALccp6/+zbvrJSk4ZWcCeoFi1ps5hlEJLA=;
-	b=Pema24V2lZF2LbZXJAGNQZsJGImtj1T/4AyCxMdaBjDWH5lF3jC6H/9wVzMVGRMEU4Sh51
-	NOOxVnUdy9JYrmmdHNaIeHQOyOiolsUCTotncgdyae19bkoPsSxMN/nInoeMm0v2XldaH/
-	9C1PNe1pGF/ckMC/BsFO5oPGsEW2AGc=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=7HauYV1LQtA42nYHDSUfEJmgwzyegdZHSkyCUgefwzs=;
+	b=RGnQ7zi6E+CcTurFVMJMclThIAE/a7/f3vrJGKdqmrUQEGQV2WC9R2aFFW+LgKS68Nbswi
+	Xti7BoJlRxhyQTJQ5Us9XchP1pYNoA9+LG1L3Joz4cdB6opxuZ2Q/80Snn+94heNob33eP
+	OVXFfl2lWhpZXxu3lK7rYN/eQfWzIRU=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-422-xfeFMDObNDWJCfPFE0XhcQ-1; Mon, 29 May 2023 06:37:57 -0400
-X-MC-Unique: xfeFMDObNDWJCfPFE0XhcQ-1
+ us-mta-556-xcRElrO3NW6Ob4WTNwU2gg-1; Mon, 29 May 2023 06:37:56 -0400
+X-MC-Unique: xcRElrO3NW6Ob4WTNwU2gg-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com [10.11.54.6])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 4933885A5AA;
-	Mon, 29 May 2023 10:37:57 +0000 (UTC)
-Received: from localhost.localdomain (unknown [10.39.194.96])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id B60FB2166B2B;
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 824023C13511;
 	Mon, 29 May 2023 10:37:55 +0000 (UTC)
+Received: from localhost.localdomain (unknown [10.39.194.96])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id DE0CA2166B2B;
+	Mon, 29 May 2023 10:37:53 +0000 (UTC)
 From: Hans de Goede <hdegoede@redhat.com>
 To: Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Sakari Ailus <sakari.ailus@linux.intel.com>,
@@ -39,9 +39,9 @@ Cc: Hans de Goede <hdegoede@redhat.com>,
 	Fabio Aiuto <fabioaiuto83@gmail.com>,
 	linux-media@vger.kernel.org,
 	linux-staging@lists.linux.dev
-Subject: [PATCH 03/21] media: atomisp: ov2680: s/input_lock/lock/
-Date: Mon, 29 May 2023 12:37:23 +0200
-Message-Id: <20230529103741.11904-4-hdegoede@redhat.com>
+Subject: [PATCH 02/21] media: atomisp: ov2680: s/ov2680_device/ov2680_dev/
+Date: Mon, 29 May 2023 12:37:22 +0200
+Message-Id: <20230529103741.11904-3-hdegoede@redhat.com>
 In-Reply-To: <20230529103741.11904-1-hdegoede@redhat.com>
 References: <20230529103741.11904-1-hdegoede@redhat.com>
 Precedence: bulk
@@ -53,100 +53,215 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
 
-s/input_lock/lock/ lock is used by the generic drivers/media/i2c/ov2680.c
-driver. Bring the atomisp ov2680 code inline to make it easier to port
-changes between the two, with the end goal of getting rid of
-the atomisp specific version.
+s/ov2680_device/ov2680_dev/ ov2680_dev is used by the generic
+drivers/media/i2c/ov2680.c driver. Bring the atomisp ov2680 code
+inline to make it easier to port changes between the two,
+with the end goal of getting rid of the atomisp specific version.
 
 Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 ---
- .../staging/media/atomisp/i2c/atomisp-ov2680.c   | 16 ++++++++--------
- drivers/staging/media/atomisp/i2c/ov2680.h       |  3 ++-
- 2 files changed, 10 insertions(+), 9 deletions(-)
+ .../media/atomisp/i2c/atomisp-ov2680.c        | 38 +++++++++----------
+ drivers/staging/media/atomisp/i2c/ov2680.h    |  8 ++--
+ 2 files changed, 23 insertions(+), 23 deletions(-)
 
 diff --git a/drivers/staging/media/atomisp/i2c/atomisp-ov2680.c b/drivers/staging/media/atomisp/i2c/atomisp-ov2680.c
-index cd6557c9a4c9..8bcfa5ae2ea0 100644
+index b35ddf611e2b..cd6557c9a4c9 100644
 --- a/drivers/staging/media/atomisp/i2c/atomisp-ov2680.c
 +++ b/drivers/staging/media/atomisp/i2c/atomisp-ov2680.c
-@@ -337,9 +337,9 @@ static int ov2680_set_fmt(struct v4l2_subdev *sd,
- 	if (format->which == V4L2_SUBDEV_FORMAT_TRY)
- 		return 0;
- 
--	mutex_lock(&sensor->input_lock);
-+	mutex_lock(&sensor->lock);
- 	ov2680_calc_mode(sensor, fmt->width, fmt->height);
--	mutex_unlock(&sensor->input_lock);
-+	mutex_unlock(&sensor->lock);
+@@ -45,7 +45,7 @@ static int ov2680_write_reg_array(struct i2c_client *client,
  	return 0;
  }
  
-@@ -394,7 +394,7 @@ static int ov2680_s_stream(struct v4l2_subdev *sd, int enable)
+-static void ov2680_set_bayer_order(struct ov2680_device *sensor, struct v4l2_mbus_framefmt *fmt)
++static void ov2680_set_bayer_order(struct ov2680_dev *sensor, struct v4l2_mbus_framefmt *fmt)
+ {
+ 	static const int ov2680_hv_flip_bayer_order[] = {
+ 		MEDIA_BUS_FMT_SBGGR10_1X10,
+@@ -64,7 +64,7 @@ static void ov2680_set_bayer_order(struct ov2680_device *sensor, struct v4l2_mbu
+ 	fmt->code = ov2680_hv_flip_bayer_order[hv_flip];
+ }
+ 
+-static int ov2680_set_vflip(struct ov2680_device *sensor, s32 val)
++static int ov2680_set_vflip(struct ov2680_dev *sensor, s32 val)
+ {
+ 	int ret;
+ 
+@@ -79,7 +79,7 @@ static int ov2680_set_vflip(struct ov2680_device *sensor, s32 val)
+ 	return 0;
+ }
+ 
+-static int ov2680_set_hflip(struct ov2680_device *sensor, s32 val)
++static int ov2680_set_hflip(struct ov2680_dev *sensor, s32 val)
+ {
+ 	int ret;
+ 
+@@ -94,17 +94,17 @@ static int ov2680_set_hflip(struct ov2680_device *sensor, s32 val)
+ 	return 0;
+ }
+ 
+-static int ov2680_exposure_set(struct ov2680_device *sensor, u32 exp)
++static int ov2680_exposure_set(struct ov2680_dev *sensor, u32 exp)
+ {
+ 	return ov_write_reg24(sensor->client, OV2680_REG_EXPOSURE_PK_HIGH, exp << 4);
+ }
+ 
+-static int ov2680_gain_set(struct ov2680_device *sensor, u32 gain)
++static int ov2680_gain_set(struct ov2680_dev *sensor, u32 gain)
+ {
+ 	return ov_write_reg16(sensor->client, OV2680_REG_GAIN_PK, gain);
+ }
+ 
+-static int ov2680_test_pattern_set(struct ov2680_device *sensor, int value)
++static int ov2680_test_pattern_set(struct ov2680_dev *sensor, int value)
+ {
+ 	int ret;
+ 
+@@ -125,7 +125,7 @@ static int ov2680_test_pattern_set(struct ov2680_device *sensor, int value)
+ static int ov2680_s_ctrl(struct v4l2_ctrl *ctrl)
+ {
+ 	struct v4l2_subdev *sd = ctrl_to_sd(ctrl);
+-	struct ov2680_device *sensor = to_ov2680_sensor(sd);
++	struct ov2680_dev *sensor = to_ov2680_sensor(sd);
+ 	int ret;
+ 
+ 	/* Only apply changes to the controls if the device is powered up */
+@@ -174,7 +174,7 @@ static int ov2680_init_registers(struct v4l2_subdev *sd)
+ }
+ 
+ static struct v4l2_mbus_framefmt *
+-__ov2680_get_pad_format(struct ov2680_device *sensor,
++__ov2680_get_pad_format(struct ov2680_dev *sensor,
+ 			struct v4l2_subdev_state *state,
+ 			unsigned int pad, enum v4l2_subdev_format_whence which)
+ {
+@@ -184,7 +184,7 @@ __ov2680_get_pad_format(struct ov2680_device *sensor,
+ 	return &sensor->mode.fmt;
+ }
+ 
+-static void ov2680_fill_format(struct ov2680_device *sensor,
++static void ov2680_fill_format(struct ov2680_dev *sensor,
+ 			       struct v4l2_mbus_framefmt *fmt,
+ 			       unsigned int width, unsigned int height)
+ {
+@@ -195,7 +195,7 @@ static void ov2680_fill_format(struct ov2680_device *sensor,
+ 	ov2680_set_bayer_order(sensor, fmt);
+ }
+ 
+-static void ov2680_calc_mode(struct ov2680_device *sensor, int width, int height)
++static void ov2680_calc_mode(struct ov2680_dev *sensor, int width, int height)
+ {
+ 	int orig_width = width;
+ 	int orig_height = height;
+@@ -221,7 +221,7 @@ static void ov2680_calc_mode(struct ov2680_device *sensor, int width, int height
+ 	sensor->mode.vts = OV2680_LINES_PER_FRAME;
+ }
+ 
+-static int ov2680_set_mode(struct ov2680_device *sensor)
++static int ov2680_set_mode(struct ov2680_dev *sensor)
+ {
+ 	struct i2c_client *client = sensor->client;
+ 	u8 pll_div, unknown, inc, fmt1, fmt2;
+@@ -322,7 +322,7 @@ static int ov2680_set_fmt(struct v4l2_subdev *sd,
+ 			  struct v4l2_subdev_state *sd_state,
+ 			  struct v4l2_subdev_format *format)
+ {
+-	struct ov2680_device *sensor = to_ov2680_sensor(sd);
++	struct ov2680_dev *sensor = to_ov2680_sensor(sd);
+ 	struct v4l2_mbus_framefmt *fmt;
+ 	unsigned int width, height;
+ 
+@@ -347,7 +347,7 @@ static int ov2680_get_fmt(struct v4l2_subdev *sd,
+ 			  struct v4l2_subdev_state *sd_state,
+ 			  struct v4l2_subdev_format *format)
+ {
+-	struct ov2680_device *sensor = to_ov2680_sensor(sd);
++	struct ov2680_dev *sensor = to_ov2680_sensor(sd);
+ 	struct v4l2_mbus_framefmt *fmt;
+ 
+ 	fmt = __ov2680_get_pad_format(sensor, sd_state, format->pad, format->which);
+@@ -390,7 +390,7 @@ static int ov2680_detect(struct i2c_client *client)
+ 
+ static int ov2680_s_stream(struct v4l2_subdev *sd, int enable)
+ {
+-	struct ov2680_device *sensor = to_ov2680_sensor(sd);
++	struct ov2680_dev *sensor = to_ov2680_sensor(sd);
  	struct i2c_client *client = v4l2_get_subdevdata(sd);
  	int ret = 0;
  
--	mutex_lock(&sensor->input_lock);
-+	mutex_lock(&sensor->lock);
+@@ -548,7 +548,7 @@ static const struct v4l2_subdev_ops ov2680_ops = {
+ 	.sensor = &ov2680_sensor_ops,
+ };
  
- 	if (sensor->is_streaming == enable) {
- 		dev_warn(&client->dev, "stream already %s\n", enable ? "started" : "stopped");
-@@ -427,14 +427,14 @@ static int ov2680_s_stream(struct v4l2_subdev *sd, int enable)
- 	v4l2_ctrl_activate(sensor->ctrls.vflip, !enable);
- 	v4l2_ctrl_activate(sensor->ctrls.hflip, !enable);
+-static int ov2680_init_controls(struct ov2680_device *sensor)
++static int ov2680_init_controls(struct ov2680_dev *sensor)
+ {
+ 	static const char * const test_pattern_menu[] = {
+ 		"Disabled",
+@@ -590,7 +590,7 @@ static int ov2680_init_controls(struct ov2680_device *sensor)
+ static void ov2680_remove(struct i2c_client *client)
+ {
+ 	struct v4l2_subdev *sd = i2c_get_clientdata(client);
+-	struct ov2680_device *sensor = to_ov2680_sensor(sd);
++	struct ov2680_dev *sensor = to_ov2680_sensor(sd);
  
--	mutex_unlock(&sensor->input_lock);
-+	mutex_unlock(&sensor->lock);
+ 	dev_dbg(&client->dev, "ov2680_remove...\n");
+ 
+@@ -605,7 +605,7 @@ static void ov2680_remove(struct i2c_client *client)
+ static int ov2680_probe(struct i2c_client *client)
+ {
+ 	struct device *dev = &client->dev;
+-	struct ov2680_device *sensor;
++	struct ov2680_dev *sensor;
+ 	int ret;
+ 
+ 	sensor = devm_kzalloc(dev, sizeof(*sensor), GFP_KERNEL);
+@@ -673,7 +673,7 @@ static int ov2680_probe(struct i2c_client *client)
+ static int ov2680_suspend(struct device *dev)
+ {
+ 	struct v4l2_subdev *sd = dev_get_drvdata(dev);
+-	struct ov2680_device *sensor = to_ov2680_sensor(sd);
++	struct ov2680_dev *sensor = to_ov2680_sensor(sd);
+ 
+ 	gpiod_set_value_cansleep(sensor->powerdown, 1);
  	return 0;
+@@ -682,7 +682,7 @@ static int ov2680_suspend(struct device *dev)
+ static int ov2680_resume(struct device *dev)
+ {
+ 	struct v4l2_subdev *sd = dev_get_drvdata(dev);
+-	struct ov2680_device *sensor = to_ov2680_sensor(sd);
++	struct ov2680_dev *sensor = to_ov2680_sensor(sd);
  
- error_power_down:
- 	pm_runtime_put(sensor->sd.dev);
- 	sensor->is_streaming = false;
- error_unlock:
--	mutex_unlock(&sensor->input_lock);
-+	mutex_unlock(&sensor->lock);
- 	return ret;
- }
- 
-@@ -564,7 +564,7 @@ static int ov2680_init_controls(struct ov2680_dev *sensor)
- 
- 	v4l2_ctrl_handler_init(hdl, 4);
- 
--	hdl->lock = &sensor->input_lock;
-+	hdl->lock = &sensor->lock;
- 
- 	ctrls->hflip = v4l2_ctrl_new_std(hdl, ops, V4L2_CID_HFLIP, 0, 1, 1, 0);
- 	ctrls->vflip = v4l2_ctrl_new_std(hdl, ops, V4L2_CID_VFLIP, 0, 1, 1, 0);
-@@ -597,7 +597,7 @@ static void ov2680_remove(struct i2c_client *client)
- 	v4l2_async_unregister_subdev(&sensor->sd);
- 	media_entity_cleanup(&sensor->sd.entity);
- 	v4l2_ctrl_handler_free(&sensor->ctrls.handler);
--	mutex_destroy(&sensor->input_lock);
-+	mutex_destroy(&sensor->lock);
- 	fwnode_handle_put(sensor->ep_fwnode);
- 	pm_runtime_disable(&client->dev);
- }
-@@ -612,7 +612,7 @@ static int ov2680_probe(struct i2c_client *client)
- 	if (!sensor)
- 		return -ENOMEM;
- 
--	mutex_init(&sensor->input_lock);
-+	mutex_init(&sensor->lock);
- 
- 	sensor->client = client;
- 	v4l2_i2c_subdev_init(&sensor->sd, client, &ov2680_ops);
+ 	/* according to DS, at least 5ms is needed after DOVDD (enabled by ACPI) */
+ 	usleep_range(5000, 6000);
 diff --git a/drivers/staging/media/atomisp/i2c/ov2680.h b/drivers/staging/media/atomisp/i2c/ov2680.h
-index 077ca6ee08b6..4bcdd9fd0ce7 100644
+index a3eeb0c2de5c..077ca6ee08b6 100644
 --- a/drivers/staging/media/atomisp/i2c/ov2680.h
 +++ b/drivers/staging/media/atomisp/i2c/ov2680.h
-@@ -109,7 +109,8 @@
- struct ov2680_dev {
+@@ -106,7 +106,7 @@
+ /*
+  * ov2680 device structure.
+  */
+-struct ov2680_device {
++struct ov2680_dev {
  	struct v4l2_subdev sd;
  	struct media_pad pad;
--	struct mutex input_lock;
-+	/* Protect against concurrent changes to controls */
-+	struct mutex lock;
- 	struct i2c_client *client;
- 	struct gpio_desc *powerdown;
- 	struct fwnode_handle *ep_fwnode;
+ 	struct mutex input_lock;
+@@ -151,12 +151,12 @@ struct ov2680_reg {
+ 	u32 val;	/* @set value for read/mod/write, @mask */
+ };
+ 
+-#define to_ov2680_sensor(x) container_of(x, struct ov2680_device, sd)
++#define to_ov2680_sensor(x) container_of(x, struct ov2680_dev, sd)
+ 
+ static inline struct v4l2_subdev *ctrl_to_sd(struct v4l2_ctrl *ctrl)
+ {
+-	struct ov2680_device *sensor =
+-		container_of(ctrl->handler, struct ov2680_device, ctrls.handler);
++	struct ov2680_dev *sensor =
++		container_of(ctrl->handler, struct ov2680_dev, ctrls.handler);
+ 
+ 	return &sensor->sd;
+ }
 -- 
 2.40.1
 
