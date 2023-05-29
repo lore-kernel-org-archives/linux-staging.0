@@ -1,31 +1,31 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 213343D72
-	for <linux-staging@lists.linux.dev>; Mon, 29 May 2023 10:38:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2963F3D99
+	for <linux-staging@lists.linux.dev>; Mon, 29 May 2023 10:38:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1685356720;
+	s=mimecast20190719; t=1685356722;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=8rWVp1feHxInwuJol7c/DWDsmXkxOv8e+PiaF/E9cnc=;
-	b=E/YkIl9Ld8TV2VhgL5WlDnl+EQE9tyFWMLoHKjunrHNAinyEJhkhSyCbh47ZE5MPuvUjaL
-	t5Loj2mi1tLvkPT1TKptb9Oke4tKYl1YLIRyGV6rMXURuQ8ARBdIR4iM0i5la/Kb1MqoaP
-	nfloIHfXisTzp5/2kMvb4Z5NK7ngmIM=
+	bh=z/Bd+GvKJqHkpo+bXUx4YJtorppITHEcs9Qdi9q35D8=;
+	b=dOvmbK6EIgw1tUnjtYEYpmvu+b4toFeitznDTexBqFiru8pBuk88D9hXt2YoaBQ7aRKAoZ
+	IkOlOdpeaa7l6YFQgePB8qaTyPOmY4xNERySW9dPbvTC4HqlTip1PlQzBZrsUEvfrRvY3j
+	9mDrbFCH3vrfJMF28TNe2YfX1QmFRIo=
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-333-EGQ_syP3OiGzrCM1texVBQ-1; Mon, 29 May 2023 06:38:35 -0400
-X-MC-Unique: EGQ_syP3OiGzrCM1texVBQ-1
+ us-mta-490-3-6EFketMxONH8ZN3dYhrA-1; Mon, 29 May 2023 06:38:38 -0400
+X-MC-Unique: 3-6EFketMxONH8ZN3dYhrA-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com [10.11.54.6])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id BB32B2A59569;
-	Mon, 29 May 2023 10:38:34 +0000 (UTC)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 5503638184E0;
+	Mon, 29 May 2023 10:38:38 +0000 (UTC)
 Received: from localhost.localdomain (unknown [10.39.194.96])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 4EE122166B2B;
-	Mon, 29 May 2023 10:38:16 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTP id C4D342166B2B;
+	Mon, 29 May 2023 10:38:36 +0000 (UTC)
 From: Hans de Goede <hdegoede@redhat.com>
 To: Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Sakari Ailus <sakari.ailus@linux.intel.com>,
@@ -39,9 +39,9 @@ Cc: Hans de Goede <hdegoede@redhat.com>,
 	Fabio Aiuto <fabioaiuto83@gmail.com>,
 	linux-media@vger.kernel.org,
 	linux-staging@lists.linux.dev
-Subject: [PATCH 08/21] media: atomisp: Remove redundant atomisp_subdev_set_selection() calls from atomisp_set_fmt()
-Date: Mon, 29 May 2023 12:37:28 +0200
-Message-Id: <20230529103741.11904-9-hdegoede@redhat.com>
+Subject: [PATCH 10/21] media: atomisp: Add target validation to atomisp_subdev_set_selection()
+Date: Mon, 29 May 2023 12:37:30 +0200
+Message-Id: <20230529103741.11904-11-hdegoede@redhat.com>
 In-Reply-To: <20230529103741.11904-1-hdegoede@redhat.com>
 References: <20230529103741.11904-1-hdegoede@redhat.com>
 Precedence: bulk
@@ -53,83 +53,34 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
 
-atomisp_subdev_set_selection(sink-pad, V4L2_SEL_TGT_CROP, rect)
-ignores the passed in rect, using the width and height from the last
-atomisp_subdev_set_ffmt(ATOMISP_SUBDEV_PAD_SINK, ffmt) call instead.
+As the 2 comments in the function already say both the sink and the source
+pads only support setting the selection for 1 target:
 
-The atomisp_subdev_set_ffmt() call done by atomisp_set_fmt_to_snr()
-already propagates the sink ffmt changes to V4L2_SEL_TGT_CROP
-(this is what allows atomisp_set_fmt() to get the isp_sink_crop in
-the first place).
+		/* Only crop target supported on sink pad. */
+		/* Only compose target is supported on source pads. */
 
-Remove the redundant atomisp_subdev_set_selection(sink-pad, ...)
-calls.
-
-Note the removed aspect ratio correction in the last else block is
-is already done by atomisp_subdev_set_selection() itself when
-setting V4L2_SEL_TGT_COMPOSE on the source-pad.
+Validate that the passed in target actually matches these expectations.
 
 Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 ---
- .../staging/media/atomisp/pci/atomisp_cmd.c   | 33 -------------------
- 1 file changed, 33 deletions(-)
+ drivers/staging/media/atomisp/pci/atomisp_subdev.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_cmd.c b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
-index 748cb78d1ee8..36618d2eba72 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_cmd.c
-+++ b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
-@@ -4327,12 +4327,6 @@ int atomisp_set_fmt(struct video_device *vdev, struct v4l2_format *f)
- 		isp_sink_crop.width = f->fmt.pix.width;
- 		isp_sink_crop.height = f->fmt.pix.height;
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_subdev.c b/drivers/staging/media/atomisp/pci/atomisp_subdev.c
+index 7985a0319a39..04e257ede7d4 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_subdev.c
++++ b/drivers/staging/media/atomisp/pci/atomisp_subdev.c
+@@ -360,6 +360,10 @@ int atomisp_subdev_set_selection(struct v4l2_subdev *sd,
+ 	unsigned int padding_w = pad_w;
+ 	unsigned int padding_h = pad_h;
  
--		atomisp_subdev_set_selection(&asd->subdev, fh.state,
--					     V4L2_SUBDEV_FORMAT_ACTIVE,
--					     ATOMISP_SUBDEV_PAD_SINK,
--					     V4L2_SEL_TGT_CROP,
--					     V4L2_SEL_FLAG_KEEP_CONFIG,
--					     &isp_sink_crop);
- 		atomisp_subdev_set_selection(&asd->subdev, fh.state,
- 					     V4L2_SUBDEV_FORMAT_ACTIVE,
- 					     ATOMISP_SUBDEV_PAD_SOURCE, V4L2_SEL_TGT_COMPOSE,
-@@ -4358,38 +4352,11 @@ int atomisp_set_fmt(struct video_device *vdev, struct v4l2_format *f)
- 					     V4L2_SEL_TGT_COMPOSE, 0,
- 					     &main_compose);
- 	} else {
--		struct v4l2_rect sink_crop = {0};
- 		struct v4l2_rect main_compose = {0};
++	if ((pad == ATOMISP_SUBDEV_PAD_SINK && target != V4L2_SEL_TGT_CROP) ||
++	    (pad == ATOMISP_SUBDEV_PAD_SOURCE && target != V4L2_SEL_TGT_COMPOSE))
++		return -EINVAL;
++
+ 	isp_get_fmt_rect(sd, sd_state, which, ffmt, crop, comp);
  
- 		main_compose.width = f->fmt.pix.width;
- 		main_compose.height = f->fmt.pix.height;
- 
--		/* WORKAROUND: this override is universally enabled in
--		 * GMIN to work around a CTS failures (GMINL-539)
--		 * which appears to be related by a hardware
--		 * performance limitation.  It's unclear why this
--		 * particular code triggers the issue. */
--		if (isp_sink_crop.width * main_compose.height >
--		    isp_sink_crop.height * main_compose.width) {
--			sink_crop.height = isp_sink_crop.height;
--			sink_crop.width =
--				DIV_NEAREST_STEP(sink_crop.height * f->fmt.pix.width,
--						 f->fmt.pix.height,
--						 ATOM_ISP_STEP_WIDTH);
--		} else {
--			sink_crop.width = isp_sink_crop.width;
--			sink_crop.height =
--				DIV_NEAREST_STEP(sink_crop.width * f->fmt.pix.height,
--						 f->fmt.pix.width,
--						 ATOM_ISP_STEP_HEIGHT);
--		}
--		atomisp_subdev_set_selection(&asd->subdev, fh.state,
--					     V4L2_SUBDEV_FORMAT_ACTIVE,
--					     ATOMISP_SUBDEV_PAD_SINK,
--					     V4L2_SEL_TGT_CROP,
--					     V4L2_SEL_FLAG_KEEP_CONFIG,
--					     &sink_crop);
--
- 		atomisp_subdev_set_selection(&asd->subdev, fh.state,
- 					     V4L2_SUBDEV_FORMAT_ACTIVE,
- 					     ATOMISP_SUBDEV_PAD_SOURCE,
+ 	dev_dbg(isp->dev,
 -- 
 2.40.1
 
