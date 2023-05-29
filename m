@@ -1,31 +1,31 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BCD26AAB
-	for <linux-staging@lists.linux.dev>; Mon, 29 May 2023 10:38:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A78FA6AA6
+	for <linux-staging@lists.linux.dev>; Mon, 29 May 2023 10:39:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1685356737;
+	s=mimecast20190719; t=1685356740;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=eY5GRIhxRHm9R1UYzqtHgxYfbhDkhjEaYt7dTNhkMmo=;
-	b=b+VnoXhcq1b24NmuMw/SW9g1Mc4K+sCLr/oE4i8HbhXVs4YN20Vrl9Z/n3s6VpU7jAaIpc
-	fDe9Ld9vn7Bzw76Lt8kUe5qz4xZC2kp9FzMrucH1f7kFVXDp2qePA8j+xTpt9pfqojhtUB
-	pct5ndBWr5hJJPVWLARhAmZp3QL9EVc=
+	bh=S+INLfi2nZC3HH7QPaXd6UBOhOd4MjTaQnwp3QJnHpA=;
+	b=WOcHFzKcbb8jWtHNpnNVc0mkGt5RT/L1BdqtlQpTzrjeOgNJ9/IdHdCuVSrsd6iev32agJ
+	4RUhyrGEmyPEGEC51lzlV4+60+U2U5unmfMIehYTotpayXVQjaO0pXHKdYscS6bG1tQ34a
+	Cq5JGCsw6gnWcH3W+dAvq4UoJyklSxg=
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-640-Dw7hnFSSPEqUB5J1fI032w-1; Mon, 29 May 2023 06:38:52 -0400
-X-MC-Unique: Dw7hnFSSPEqUB5J1fI032w-1
+ us-mta-153-pM1bOJFVO-aAtCPIrvgBuw-1; Mon, 29 May 2023 06:38:57 -0400
+X-MC-Unique: pM1bOJFVO-aAtCPIrvgBuw-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com [10.11.54.6])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 6C8F31C06904;
-	Mon, 29 May 2023 10:38:51 +0000 (UTC)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id B54D71C06909;
+	Mon, 29 May 2023 10:38:56 +0000 (UTC)
 Received: from localhost.localdomain (unknown [10.39.194.96])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id D36622166B2B;
-	Mon, 29 May 2023 10:38:49 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 2F50E2166B2B;
+	Mon, 29 May 2023 10:38:55 +0000 (UTC)
 From: Hans de Goede <hdegoede@redhat.com>
 To: Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Sakari Ailus <sakari.ailus@linux.intel.com>,
@@ -39,9 +39,9 @@ Cc: Hans de Goede <hdegoede@redhat.com>,
 	Fabio Aiuto <fabioaiuto83@gmail.com>,
 	linux-media@vger.kernel.org,
 	linux-staging@lists.linux.dev
-Subject: [PATCH 16/21] media: atomisp: Pass MEDIA_BUS_FMT_* code when calling enum_frame_size pad-op
-Date: Mon, 29 May 2023 12:37:36 +0200
-Message-Id: <20230529103741.11904-17-hdegoede@redhat.com>
+Subject: [PATCH 19/21] media: atomisp: Set crop before setting fmt
+Date: Mon, 29 May 2023 12:37:39 +0200
+Message-Id: <20230529103741.11904-20-hdegoede@redhat.com>
 In-Reply-To: <20230529103741.11904-1-hdegoede@redhat.com>
 References: <20230529103741.11904-1-hdegoede@redhat.com>
 Precedence: bulk
@@ -53,67 +53,106 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
 
-A sensor driver's enum_frame_size pad-op may return -EINVAL when
-v4l2_subdev_frame_size_enum.code is not set to a supported
-MEDIA_BUS_FMT_* code.
+Some drivers which implement selections/crop only allow setting the format
+with and height to either the crop rectangle width and height or to half
+the crop rectangle width and height (binning). An example of such
+a driver is the standard v4l2 ov5693 driver.
 
-Make atomisp_init_sensor() get the sensor's MEDIA_BUS_FMT_* code and
-pass this when calling the enum_frame_size pad-op.
+First set the crop rectangle to match the requested format
+when trying or setting the sensor format, to match these drivers
+expectations.
 
 Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 ---
- drivers/staging/media/atomisp/pci/atomisp_internal.h | 1 +
- drivers/staging/media/atomisp/pci/atomisp_ioctl.c    | 1 +
- drivers/staging/media/atomisp/pci/atomisp_v4l2.c     | 6 ++++++
- 3 files changed, 8 insertions(+)
+ .../staging/media/atomisp/pci/atomisp_cmd.c   | 54 +++++++++++++++++++
+ 1 file changed, 54 insertions(+)
 
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_internal.h b/drivers/staging/media/atomisp/pci/atomisp_internal.h
-index 14d21c6e227d..9fded17a2c71 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_internal.h
-+++ b/drivers/staging/media/atomisp/pci/atomisp_internal.h
-@@ -125,6 +125,7 @@
- struct atomisp_input_subdev {
- 	unsigned int type;
- 	enum atomisp_camera_port port;
-+	u32 code; /* MEDIA_BUS_FMT_* */
- 	bool crop_support;
- 	struct v4l2_subdev *camera;
- 	/* Sensor rects for sensors which support crop */
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_ioctl.c b/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
-index 8ba1d11ae907..980465fd5a83 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
-+++ b/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
-@@ -707,6 +707,7 @@ static int atomisp_enum_framesizes(struct file *file, void *priv,
- 	struct v4l2_subdev_frame_size_enum fse = {
- 		.index = fsize->index,
- 		.which = V4L2_SUBDEV_FORMAT_ACTIVE,
-+		.code = input->code,
- 	};
- 	int ret;
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_cmd.c b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
+index ce16850170c4..9dfc4bda24f5 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_cmd.c
++++ b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
+@@ -3715,6 +3715,47 @@ static void atomisp_get_padding(struct atomisp_device *isp,
+ 	*padding_h = min_t(u32, (native_rect.height - height) & ~1, pad_h);
+ }
  
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_v4l2.c b/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
-index 506f04ca92b1..3a2e15605919 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
-+++ b/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
-@@ -933,12 +933,18 @@ static int atomisp_register_entities(struct atomisp_device *isp)
- 
- static void atomisp_init_sensor(struct atomisp_input_subdev *input)
- {
-+	struct v4l2_subdev_mbus_code_enum mbus_code_enum = { };
- 	struct v4l2_subdev_state sd_state = {
- 		.pads = &input->pad_cfg,
- 	};
- 	struct v4l2_subdev_selection sel = { };
- 	int err;
- 
-+	mbus_code_enum.which = V4L2_SUBDEV_FORMAT_ACTIVE;
-+	err = v4l2_subdev_call(input->camera, pad, enum_mbus_code, NULL, &mbus_code_enum);
-+	if (!err)
-+		input->code = mbus_code_enum.code;
++static int atomisp_set_crop(struct atomisp_device *isp,
++			    const struct v4l2_mbus_framefmt *format,
++			    int which)
++{
++	struct atomisp_input_subdev *input = &isp->inputs[isp->asd.input_curr];
++	struct v4l2_subdev_state pad_state = {
++		.pads = &input->pad_cfg,
++	};
++	struct v4l2_subdev_selection sel = {
++		.which = which,
++		.target = V4L2_SEL_TGT_CROP,
++		.r.width = format->width,
++		.r.height = format->height,
++	};
++	int ret;
 +
- 	sel.which = V4L2_SUBDEV_FORMAT_ACTIVE;
- 	sel.target = V4L2_SEL_TGT_NATIVE_SIZE;
- 	err = v4l2_subdev_call(input->camera, pad, get_selection, NULL, &sel);
++	if (!input->crop_support)
++		return 0;
++
++	/* Cropping is done before binning, when binning double the crop rect */
++	if (input->binning_support && sel.r.width <= (input->active_rect.width / 2) &&
++				      sel.r.height <= (input->active_rect.height / 2)) {
++		sel.r.width *= 2;
++		sel.r.height *= 2;
++	}
++
++	/* Clamp to avoid top/left calculations overflowing */
++	sel.r.width = min(sel.r.width, input->native_rect.width);
++	sel.r.height = min(sel.r.height, input->native_rect.height);
++
++	sel.r.left = ((input->native_rect.width - sel.r.width) / 2) & ~1;
++	sel.r.top = ((input->native_rect.height - sel.r.height) / 2) & ~1;
++
++	ret = v4l2_subdev_call(input->camera, pad, set_selection, &pad_state, &sel);
++	if (ret)
++		dev_err(isp->dev, "Error setting crop to %ux%u @%ux%u: %d\n",
++			sel.r.width, sel.r.height, sel.r.left, sel.r.top, ret);
++
++	return ret;
++}
++
+ /* This function looks up the closest available resolution. */
+ int atomisp_try_fmt(struct atomisp_device *isp, struct v4l2_pix_format *f,
+ 		    const struct atomisp_format_bridge **fmt_ret,
+@@ -3758,6 +3799,10 @@ int atomisp_try_fmt(struct atomisp_device *isp, struct v4l2_pix_format *f,
+ 	dev_dbg(isp->dev, "try_mbus_fmt: asking for %ux%u\n",
+ 		format.format.width, format.format.height);
+ 
++	ret = atomisp_set_crop(isp, &format.format, V4L2_SUBDEV_FORMAT_TRY);
++	if (ret)
++		return ret;
++
+ 	ret = v4l2_subdev_call(input->camera, pad, set_fmt, &pad_state, &format);
+ 	if (ret)
+ 		return ret;
+@@ -4225,6 +4270,10 @@ static int atomisp_set_fmt_to_snr(struct video_device *vdev, const struct v4l2_p
+ 
+ 	/* Disable dvs if resolution can't be supported by sensor */
+ 	if (asd->params.video_dis_en && asd->run_mode->val == ATOMISP_RUN_MODE_VIDEO) {
++		ret = atomisp_set_crop(isp, &vformat.format, V4L2_SUBDEV_FORMAT_TRY);
++		if (ret)
++			return ret;
++
+ 		vformat.which = V4L2_SUBDEV_FORMAT_TRY;
+ 		ret = v4l2_subdev_call(input->camera, pad, set_fmt, &pad_state, &vformat);
+ 		if (ret)
+@@ -4243,6 +4292,11 @@ static int atomisp_set_fmt_to_snr(struct video_device *vdev, const struct v4l2_p
+ 			asd->params.video_dis_en = false;
+ 		}
+ 	}
++
++	ret = atomisp_set_crop(isp, &vformat.format, V4L2_SUBDEV_FORMAT_ACTIVE);
++	if (ret)
++		return ret;
++
+ 	vformat.which = V4L2_SUBDEV_FORMAT_ACTIVE;
+ 	ret = v4l2_subdev_call(input->camera, pad, set_fmt, NULL, &vformat);
+ 	if (ret)
 -- 
 2.40.1
 
