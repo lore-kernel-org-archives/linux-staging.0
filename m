@@ -1,49 +1,26 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from hust.edu.cn (mail.hust.edu.cn [202.114.0.240])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B7F5808
-	for <linux-staging@lists.linux.dev>; Mon, 29 May 2023 10:41:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1685356899;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=pQ5ls5ttIsM7XFmyxZy3dzVMD6iAvyK5KCgN+W4YE+s=;
-	b=I297FGi3mAdSylm122X3jNXIByaWwJPd80Ma5Xnz7XnfGXYA4EEugWzH1rP8/K2AZIfFVW
-	ctQ40MZhy8HHUPtHqaNUDEEOJe7jR5XRhmWruBQYw1O/QA+atoDp6+XvVDx/SmFWdf3AZp
-	gblKe3dvBUyPYZSxaWhbUXzWuk2O7GE=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-635-Dqofvci_M_ej8c3TySuSBA-1; Mon, 29 May 2023 06:37:59 -0400
-X-MC-Unique: Dqofvci_M_ej8c3TySuSBA-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com [10.11.54.6])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 0FD9C38184E5;
-	Mon, 29 May 2023 10:37:59 +0000 (UTC)
-Received: from localhost.localdomain (unknown [10.39.194.96])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 7C7152166B2B;
-	Mon, 29 May 2023 10:37:57 +0000 (UTC)
-From: Hans de Goede <hdegoede@redhat.com>
-To: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Andy Shevchenko <andy@kernel.org>
-Cc: Hans de Goede <hdegoede@redhat.com>,
-	Kate Hsuan <hpa@redhat.com>,
-	Tsuchiya Yuto <kitakar@gmail.com>,
-	Yury Luneff <yury.lunev@gmail.com>,
-	Nable <nable.maininbox@googlemail.com>,
-	andrey.i.trufanov@gmail.com,
-	Fabio Aiuto <fabioaiuto83@gmail.com>,
-	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev
-Subject: [PATCH 04/21] media: atomisp: ov2680: Add missing ov2680_calc_mode() call to probe()
-Date: Mon, 29 May 2023 12:37:24 +0200
-Message-Id: <20230529103741.11904-5-hdegoede@redhat.com>
-In-Reply-To: <20230529103741.11904-1-hdegoede@redhat.com>
-References: <20230529103741.11904-1-hdegoede@redhat.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E38BD8F4D
+	for <linux-staging@lists.linux.dev>; Mon, 29 May 2023 15:33:15 +0000 (UTC)
+Received: from pride-poweredge-r740.. ([172.16.0.254])
+	(user=dzm91@hust.edu.cn mech=LOGIN bits=0)
+	by mx1.hust.edu.cn  with ESMTP id 34TFLoKa032373-34TFLoKd032373
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
+	Mon, 29 May 2023 23:21:55 +0800
+From: Dongliang Mu <dzm91@hust.edu.cn>
+To: Hans de Goede <hdegoede@redhat.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Dongliang Mu <dzm91@hust.edu.cn>,
+        Andy Shevchenko <andy.shevchenko@gmail.com>
+Cc: linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH] media: atomisp: move the sanity checks before variable dereferences
+Date: Mon, 29 May 2023 23:21:30 +0800
+Message-Id: <20230529152136.11719-1-dzm91@hust.edu.cn>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -51,49 +28,48 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
+X-FEAS-AUTH-USER: dzm91@hust.edu.cn
 
-Call ov2680_calc_mode() from probe() instead of relying on userspace
-to make at least one s_fmt call to fill the mode parameters.
+Smatch reports:
 
-Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+sh_css_load_firmware() warn: variable dereferenced before check 'fw_data'
+
+The variable fw_data can be NULL in sh_css_load_firmware, resulting in
+NULL pointer dereference.
+
+Fix this by moving the sanity checks before variable dereferences.
+
+Signed-off-by: Dongliang Mu <dzm91@hust.edu.cn>
 ---
- drivers/staging/media/atomisp/i2c/atomisp-ov2680.c | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
+ drivers/staging/media/atomisp/pci/sh_css_firmware.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/staging/media/atomisp/i2c/atomisp-ov2680.c b/drivers/staging/media/atomisp/i2c/atomisp-ov2680.c
-index 8bcfa5ae2ea0..6cbc470bce91 100644
---- a/drivers/staging/media/atomisp/i2c/atomisp-ov2680.c
-+++ b/drivers/staging/media/atomisp/i2c/atomisp-ov2680.c
-@@ -195,8 +195,10 @@ static void ov2680_fill_format(struct ov2680_dev *sensor,
- 	ov2680_set_bayer_order(sensor, fmt);
- }
+diff --git a/drivers/staging/media/atomisp/pci/sh_css_firmware.c b/drivers/staging/media/atomisp/pci/sh_css_firmware.c
+index e7ef578db8ab..38b757c3df0a 100644
+--- a/drivers/staging/media/atomisp/pci/sh_css_firmware.c
++++ b/drivers/staging/media/atomisp/pci/sh_css_firmware.c
+@@ -229,6 +229,10 @@ sh_css_load_firmware(struct device *dev, const char *fw_data,
+ 	struct sh_css_fw_bi_file_h *file_header;
+ 	int ret;
  
--static void ov2680_calc_mode(struct ov2680_dev *sensor, int width, int height)
-+static void ov2680_calc_mode(struct ov2680_dev *sensor)
- {
-+	int width = sensor->mode.fmt.width;
-+	int height = sensor->mode.fmt.height;
- 	int orig_width = width;
- 	int orig_height = height;
- 
-@@ -338,7 +340,7 @@ static int ov2680_set_fmt(struct v4l2_subdev *sd,
- 		return 0;
- 
- 	mutex_lock(&sensor->lock);
--	ov2680_calc_mode(sensor, fmt->width, fmt->height);
-+	ov2680_calc_mode(sensor);
- 	mutex_unlock(&sensor->lock);
- 	return 0;
- }
-@@ -660,6 +662,7 @@ static int ov2680_probe(struct i2c_client *client)
++	/* some sanity checks */
++	if (!fw_data || fw_size < sizeof(struct sh_css_fw_bi_file_h))
++		return -EINVAL;
++
+ 	firmware_header = (struct firmware_header *)fw_data;
+ 	file_header = &firmware_header->file_header;
+ 	binaries = &firmware_header->binary_header;
+@@ -243,10 +247,6 @@ sh_css_load_firmware(struct device *dev, const char *fw_data,
+ 		IA_CSS_LOG("successfully load firmware version %s", release_version);
  	}
  
- 	ov2680_fill_format(sensor, &sensor->mode.fmt, OV2680_NATIVE_WIDTH, OV2680_NATIVE_HEIGHT);
-+	ov2680_calc_mode(sensor);
+-	/* some sanity checks */
+-	if (!fw_data || fw_size < sizeof(struct sh_css_fw_bi_file_h))
+-		return -EINVAL;
+-
+ 	if (file_header->h_size != sizeof(struct sh_css_fw_bi_file_h))
+ 		return -EINVAL;
  
- 	ret = v4l2_async_register_subdev_sensor(&sensor->sd);
- 	if (ret) {
 -- 
-2.40.1
+2.34.1
 
