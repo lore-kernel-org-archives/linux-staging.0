@@ -1,31 +1,31 @@
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53D7E6AA6
-	for <linux-staging@lists.linux.dev>; Mon, 29 May 2023 10:38:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44ACD6AA6
+	for <linux-staging@lists.linux.dev>; Mon, 29 May 2023 10:38:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1685356733;
+	s=mimecast20190719; t=1685356735;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=hjJ9FNeGRlkTdpI+kOKuG2VRr3rPDBgWcEmjDPBKML4=;
-	b=KfsAq+5XopVBYrZuVMLtcEAe+96cNkbCdchDXgX/AYSOhfd7qfqcPISHGV6yI4AL3YlAnr
-	fyMmY0qhq0BTkNl4rYFYsrR7duxCUxac07qvV5qFJp2xFpqfTqjbcsmX6OuSu0yLNIx3qZ
-	1BvpyclUhJQ1im4CuaIYOkXY2DbGpVo=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=AyrKR2bF7qX9KYjmk92LCz+SJSxGMFiOnzohNHtHCIg=;
+	b=ZGY+YarSI+h8yMKiNvciYor0il8Ceg+EZaMxgfXeob1lxT1m4P0/jIqoZnG5aN2Wsqekzk
+	l35gyi1DQZsKFVOv7XewzVF+GTYesKQEBb/cJppH+O5HfodgGAmcw4YWsmBoIAhfIQT3Jb
+	31jJvbe9tOLhPvhl8FHVCl5k2sz/jVE=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-214-GdP3wUyqPsmd48MJPbfWXA-1; Mon, 29 May 2023 06:38:50 -0400
-X-MC-Unique: GdP3wUyqPsmd48MJPbfWXA-1
+ us-mta-58-AaG0gBf3Pn6xNH1ARTYaVg-1; Mon, 29 May 2023 06:38:53 -0400
+X-MC-Unique: AaG0gBf3Pn6xNH1ARTYaVg-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com [10.11.54.6])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 9EF5638184E0;
-	Mon, 29 May 2023 10:38:49 +0000 (UTC)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 378DC101A52C;
+	Mon, 29 May 2023 10:38:53 +0000 (UTC)
 Received: from localhost.localdomain (unknown [10.39.194.96])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 1AF2A2166B2B;
-	Mon, 29 May 2023 10:38:48 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 9F9BB2166B2B;
+	Mon, 29 May 2023 10:38:51 +0000 (UTC)
 From: Hans de Goede <hdegoede@redhat.com>
 To: Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Sakari Ailus <sakari.ailus@linux.intel.com>,
@@ -39,9 +39,9 @@ Cc: Hans de Goede <hdegoede@redhat.com>,
 	Fabio Aiuto <fabioaiuto83@gmail.com>,
 	linux-media@vger.kernel.org,
 	linux-staging@lists.linux.dev
-Subject: [PATCH 15/21] media: atomisp: Add support for sensors which implement selection API / cropping
-Date: Mon, 29 May 2023 12:37:35 +0200
-Message-Id: <20230529103741.11904-16-hdegoede@redhat.com>
+Subject: [PATCH 17/21] media: atomisp: Make atomisp_init_sensor() check if the sensor supports binning
+Date: Mon, 29 May 2023 12:37:37 +0200
+Message-Id: <20230529103741.11904-18-hdegoede@redhat.com>
 In-Reply-To: <20230529103741.11904-1-hdegoede@redhat.com>
 References: <20230529103741.11904-1-hdegoede@redhat.com>
 Precedence: bulk
@@ -53,150 +53,89 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
 
-Sensor drivers which implement set_selection V4L2_SEL_TGT_CROP expect
-v4l2_subdev_state.pads[pad].try_crop to have valid contents when calling
-set_fmt with which == V4L2_SUBDEV_FORMAT_TRY since the crop-rectangle
-may influence the available image size.
+Make atomisp_init_sensor() check if the sensor supports binning.
 
-Just passing an uninitalized struct v4l2_subdev_pad_config from
-the stack to set_fmt with which == V4L2_SUBDEV_FORMAT_TRY will result
-in wrong results with such drivers.
-
-Store a per sensor v4l2_subdev_pad_config and add a new
-atomisp_init_sensor_crop() function to initialize this before
-registering /dev/* nodes with userspace.
-
-Sensor drivers which implement the selection API will allow
-the atomisp to properly deal with the extra padding the ISP wants
-on a per sensor basis instead of hardcoding this.
-atomisp_init_sensor_crop() stores the native and active rects
-of the sensor in preparation for using these for this.
+This is a preparation patch for using the selection / crop support
+to determine the padding values to use with a specific sensor.
 
 Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 ---
- .../staging/media/atomisp/pci/atomisp_cmd.c   |  6 +-
- .../media/atomisp/pci/atomisp_internal.h      |  7 +++
- .../staging/media/atomisp/pci/atomisp_v4l2.c  | 55 +++++++++++++++++++
- 3 files changed, 64 insertions(+), 4 deletions(-)
+ .../media/atomisp/pci/atomisp_internal.h      |  1 +
+ .../staging/media/atomisp/pci/atomisp_v4l2.c  | 30 +++++++++++++++++--
+ 2 files changed, 28 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_cmd.c b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
-index 9531baa26fe0..8c48d566131f 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_cmd.c
-+++ b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
-@@ -3696,9 +3696,8 @@ int atomisp_try_fmt(struct atomisp_device *isp, struct v4l2_pix_format *f,
- 	const struct atomisp_format_bridge *fmt, *snr_fmt;
- 	struct atomisp_sub_device *asd = &isp->asd;
- 	struct atomisp_input_subdev *input = &isp->inputs[asd->input_curr];
--	struct v4l2_subdev_pad_config pad_cfg;
- 	struct v4l2_subdev_state pad_state = {
--		.pads = &pad_cfg,
-+		.pads = &input->pad_cfg,
- 	};
- 	struct v4l2_subdev_format format = {
- 		.which = V4L2_SUBDEV_FORMAT_TRY,
-@@ -4162,9 +4161,8 @@ static int atomisp_set_fmt_to_snr(struct video_device *vdev, const struct v4l2_p
- 	struct atomisp_device *isp = asd->isp;
- 	struct atomisp_input_subdev *input = &isp->inputs[asd->input_curr];
- 	const struct atomisp_format_bridge *format;
--	struct v4l2_subdev_pad_config pad_cfg;
- 	struct v4l2_subdev_state pad_state = {
--		.pads = &pad_cfg,
-+		.pads = &input->pad_cfg,
- 	};
- 	struct v4l2_subdev_format vformat = {
- 		.which = V4L2_SUBDEV_FORMAT_TRY,
 diff --git a/drivers/staging/media/atomisp/pci/atomisp_internal.h b/drivers/staging/media/atomisp/pci/atomisp_internal.h
-index e59c0f1e7f53..14d21c6e227d 100644
+index 9fded17a2c71..f7b4bee9574b 100644
 --- a/drivers/staging/media/atomisp/pci/atomisp_internal.h
 +++ b/drivers/staging/media/atomisp/pci/atomisp_internal.h
-@@ -125,7 +125,14 @@
- struct atomisp_input_subdev {
+@@ -126,6 +126,7 @@ struct atomisp_input_subdev {
  	unsigned int type;
  	enum atomisp_camera_port port;
-+	bool crop_support;
+ 	u32 code; /* MEDIA_BUS_FMT_* */
++	bool binning_support;
+ 	bool crop_support;
  	struct v4l2_subdev *camera;
-+	/* Sensor rects for sensors which support crop */
-+	struct v4l2_rect native_rect;
-+	struct v4l2_rect active_rect;
-+	/* Sensor pad_cfg for which == V4L2_SUBDEV_FORMAT_TRY calls */
-+	struct v4l2_subdev_pad_config pad_cfg;
-+
- 	struct v4l2_subdev *motor;
- 
- 	/*
+ 	/* Sensor rects for sensors which support crop */
 diff --git a/drivers/staging/media/atomisp/pci/atomisp_v4l2.c b/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
-index a2ce9bbf10df..506f04ca92b1 100644
+index 3a2e15605919..c43b916a006e 100644
 --- a/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
 +++ b/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
-@@ -931,6 +931,59 @@ static int atomisp_register_entities(struct atomisp_device *isp)
- 	return ret;
- }
- 
-+static void atomisp_init_sensor(struct atomisp_input_subdev *input)
-+{
-+	struct v4l2_subdev_state sd_state = {
-+		.pads = &input->pad_cfg,
-+	};
-+	struct v4l2_subdev_selection sel = { };
-+	int err;
-+
-+	sel.which = V4L2_SUBDEV_FORMAT_ACTIVE;
-+	sel.target = V4L2_SEL_TGT_NATIVE_SIZE;
-+	err = v4l2_subdev_call(input->camera, pad, get_selection, NULL, &sel);
-+	if (err)
-+		return;
-+
-+	input->native_rect = sel.r;
-+
-+	sel.which = V4L2_SUBDEV_FORMAT_ACTIVE;
-+	sel.target = V4L2_SEL_TGT_CROP_DEFAULT;
-+	err = v4l2_subdev_call(input->camera, pad, get_selection, NULL, &sel);
-+	if (err)
-+		return;
-+
-+	input->active_rect = sel.r;
-+
-+	/*
-+	 * The ISP also wants the non-active pixels at the border of the sensor
-+	 * for padding, set the crop rect to cover the entire sensor instead
-+	 * of only the default active area.
-+	 *
-+	 * Do this for both try and active formats since the try_crop rect in
-+	 * pad_cfg may influence (clamp) future try_fmt calls with which == try.
-+	 */
-+	sel.which = V4L2_SUBDEV_FORMAT_TRY;
-+	sel.target = V4L2_SEL_TGT_CROP;
-+	sel.r = input->native_rect;
-+	err = v4l2_subdev_call(input->camera, pad, set_selection, &sd_state, &sel);
-+	if (err)
-+		return;
-+
-+	sel.which = V4L2_SUBDEV_FORMAT_ACTIVE;
-+	sel.target = V4L2_SEL_TGT_CROP;
-+	sel.r = input->native_rect;
-+	err = v4l2_subdev_call(input->camera, pad, set_selection, NULL, &sel);
-+	if (err)
-+		return;
-+
-+	dev_info(input->camera->dev, "Supports crop native %dx%d active %dx%d\n",
-+		 input->native_rect.width, input->native_rect.height,
-+		 input->active_rect.width, input->active_rect.height);
-+
-+	input->crop_support = true;
-+}
-+
- int atomisp_register_device_nodes(struct atomisp_device *isp)
+@@ -934,11 +934,12 @@ static int atomisp_register_entities(struct atomisp_device *isp)
+ static void atomisp_init_sensor(struct atomisp_input_subdev *input)
  {
- 	struct atomisp_input_subdev *input;
-@@ -952,6 +1005,8 @@ int atomisp_register_device_nodes(struct atomisp_device *isp)
- 		input->port = i;
- 		input->camera = isp->sensor_subdevs[i];
+ 	struct v4l2_subdev_mbus_code_enum mbus_code_enum = { };
++	struct v4l2_subdev_frame_size_enum fse = { };
+ 	struct v4l2_subdev_state sd_state = {
+ 		.pads = &input->pad_cfg,
+ 	};
+ 	struct v4l2_subdev_selection sel = { };
+-	int err;
++	int i, err;
  
-+		atomisp_init_sensor(input);
+ 	mbus_code_enum.which = V4L2_SUBDEV_FORMAT_ACTIVE;
+ 	err = v4l2_subdev_call(input->camera, pad, enum_mbus_code, NULL, &mbus_code_enum);
+@@ -961,6 +962,28 @@ static void atomisp_init_sensor(struct atomisp_input_subdev *input)
+ 
+ 	input->active_rect = sel.r;
+ 
++	/*
++	 * Check for a framesize with half active_rect width and height,
++	 * if found assume the sensor supports binning.
++	 * Do this before changing the crop-rect since that may influence
++	 * enum_frame_size results.
++	 */
++	for (i = 0; ; i++) {
++		fse.index = i;
++		fse.code = input->code;
++		fse.which = V4L2_SUBDEV_FORMAT_ACTIVE;
 +
- 		/*
- 		 * HACK: Currently VCM belongs to primary sensor only, but correct
- 		 * approach must be to acquire from platform code which sensor
++		err = v4l2_subdev_call(input->camera, pad, enum_frame_size, NULL, &fse);
++		if (err)
++			break;
++
++		if (fse.min_width <= (input->active_rect.width / 2) &&
++		    fse.min_height <= (input->active_rect.height / 2)) {
++			input->binning_support = true;
++			break;
++		}
++	}
++
+ 	/*
+ 	 * The ISP also wants the non-active pixels at the border of the sensor
+ 	 * for padding, set the crop rect to cover the entire sensor instead
+@@ -983,9 +1006,10 @@ static void atomisp_init_sensor(struct atomisp_input_subdev *input)
+ 	if (err)
+ 		return;
+ 
+-	dev_info(input->camera->dev, "Supports crop native %dx%d active %dx%d\n",
++	dev_info(input->camera->dev, "Supports crop native %dx%d active %dx%d binning %d\n",
+ 		 input->native_rect.width, input->native_rect.height,
+-		 input->active_rect.width, input->active_rect.height);
++		 input->active_rect.width, input->active_rect.height,
++		 input->binning_support);
+ 
+ 	input->crop_support = true;
+ }
 -- 
 2.40.1
 
