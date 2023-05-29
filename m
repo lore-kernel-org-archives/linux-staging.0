@@ -1,52 +1,52 @@
-Received: from mail-qk1-f176.google.com (mail-qk1-f176.google.com [209.85.222.176])
+Received: from mail-qv1-f45.google.com (mail-qv1-f45.google.com [209.85.219.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BF5928E7
-	for <linux-staging@lists.linux.dev>; Mon, 29 May 2023 20:32:34 +0000 (UTC)
-Received: by mail-qk1-f176.google.com with SMTP id af79cd13be357-75afa109e60so216294985a.2
-        for <linux-staging@lists.linux.dev>; Mon, 29 May 2023 13:32:34 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6D2C28E7
+	for <linux-staging@lists.linux.dev>; Mon, 29 May 2023 20:58:29 +0000 (UTC)
+Received: by mail-qv1-f45.google.com with SMTP id 6a1803df08f44-6261a25e9b6so8864276d6.0
+        for <linux-staging@lists.linux.dev>; Mon, 29 May 2023 13:58:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1685392353; x=1687984353;
+        d=gmail.com; s=20221208; t=1685393908; x=1687985908;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=JzBFCPUHSEiXweGu4bYXWaNN4cJWRC0KIEXjl92bN10=;
-        b=gWFQcylcFGKkYrzUEy/kP8Pru1Zc1aRP1y/MHx3ZaKggHrr3e3Zk1kXllvlU/QoQxx
-         QZPQIsb5B3yC3Mg7Zd29ouS/NO+E1cEL27hnBtTHdKsYS30NzcRHl4qCm4RUQNR4IU5S
-         2APzLMIXQi8WMt8N2TVjsaEwuJ06hsSckO+h21JDjoXDW2WVF/BALJZ9SO9cNaTschrf
-         ySRqWxdcoUwPBR91lNSz76h9Y5NarudBDziCMYdvFE6PTbncFh9lVDDkvdwO+6proPxw
-         LIjLMfkBso6N+IMCWTWx+Q5e2spFuUbmiHTSQsBxKK1amEThdhoQZMbCETVD/EaqAAB3
-         vOYw==
+        bh=Wex1t4p8vc5FHp3UocS2+D8jLYoXryO1xiW8fbqf3SQ=;
+        b=LUSe00oWaC756W4tMx+vWytCq53z1oDgkr+RGBoPhz0DzV2sBi5QflnZWM0WXQX2DT
+         Q2i4QiZBNKm3X/lSycNAUG/BCuejWLJAOakAA3vrAXkZQ6Ta+OQA34P9/1Okc22zRqY5
+         6Ey4/3zCMBvTobJCAOgoRSzJt3d0EmPr1JaOejirrHOw3AGURU8yZWi9A4lzxnEakoM0
+         3XtRVkNtRzPCChGSTWD7V8NObUveGBQ34i2oUHaZNlmJ7FswSJajvlCzo7Di2EnCh9jI
+         WBbcPQ7tBbKlZ2kPoWsq89nNXP4Q/ShdUJtvTPweg2itW4/jQc1I06Zfgf1DSg6+WQYn
+         RO8A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1685392353; x=1687984353;
+        d=1e100.net; s=20221208; t=1685393908; x=1687985908;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=JzBFCPUHSEiXweGu4bYXWaNN4cJWRC0KIEXjl92bN10=;
-        b=lF/tb5izNBDTjXTuUwwv0PbYu9iHUTNlx9NqMgeRgtwibKGsr1C1snrTFKEX0/Guqr
-         eqtGTMDCpQXTd3HUmNQs/ZiYXdUcPQqLmTVH3PP9Aiknl/HbzVlwyIXEvMZ0a2DNyfVK
-         VqjRo545t53sHme7ZlxasBmEWjZnRrDKTJCDXWlLAo5EX5mgmNZk6cw5Z2LhSAGTPLv7
-         OipnVHIT8e2CW5rV1yf5YN3tezWxPqYDpnq5T+rtrhxdhqYD180JGHQlLT97d6QgXssq
-         wu8wLThm8QKLXUj1W9inTxSb+EZNtSTZFFUExbqwL21K/HEr8nHqU9oeksTXApPPfKWu
-         2Sig==
-X-Gm-Message-State: AC+VfDwAhe9nNLAnO1p1W/hGH7aA7AV4nl1p8YcJP9O64UX60RPKCwi+
-	lBjZWtnw/r9OgPY/OHs0SszYp+a2MqNSin1G6M4=
-X-Google-Smtp-Source: ACHHUZ6qC0+fe9/rt8LoT+5vJ3gpWQ90o/nV+j2YLFomS2RYbegCcrvMi+Ntu3+sdw1u6OQ+2qtGJJ4Ytys4P1WgWRg=
-X-Received: by 2002:ad4:5be9:0:b0:625:d55:eaab with SMTP id
- k9-20020ad45be9000000b006250d55eaabmr11006948qvc.9.1685392353043; Mon, 29 May
- 2023 13:32:33 -0700 (PDT)
+        bh=Wex1t4p8vc5FHp3UocS2+D8jLYoXryO1xiW8fbqf3SQ=;
+        b=RaIdQPRXO2aK4ybkt0nABq8Xe8ZPhfZ6Zzzhgm0iE7z2KTEkfD1eDGq/qRTvmh9Xnw
+         IVTsbPENB6mMvo1z4fbilz4dW3PLoMyHa3lD8+zws8QUra4dR3bKrKbbgiLs5NDlh8VM
+         xvfgCAf3uCoGpsmddurmK9doEPOHV1Hj+VyfkIL3XYJHHEggL4EucJYLIXY5+f5hIdKX
+         TZnO9auaXPO8iYT1tqwOTlzBDrYf5fwI50x0C4TJZ+dt05r3ziu8XuF+9uqh0hSOsU9s
+         DqgOkDgjcs9RVLIo81aBgffHMX77XD3krxMwUCghJBmBAxWCEcWOaSuFkUlGuWExC4rM
+         dzRA==
+X-Gm-Message-State: AC+VfDy4MLPXO+DAD/9yRMJVGkJenGWpoBFBaHTR28KhEtzhHF4g427i
+	rwmB0g06NMXFwSDNyNfDZbMCwLc/FWel8jSIh3k=
+X-Google-Smtp-Source: ACHHUZ53yeNLpZonvK+ffgfB1KtH4mOfKrjFv5Ox1XzovUNIfKqOqT5j2xazTUSW00vp0r7iH6+VWG4rAlflvczltLE=
+X-Received: by 2002:a05:6214:d8a:b0:625:aa1a:b6de with SMTP id
+ e10-20020a0562140d8a00b00625aa1ab6demr10725931qve.64.1685393908685; Mon, 29
+ May 2023 13:58:28 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20230529103741.11904-1-hdegoede@redhat.com> <20230529103741.11904-7-hdegoede@redhat.com>
-In-Reply-To: <20230529103741.11904-7-hdegoede@redhat.com>
+References: <20230529103741.11904-1-hdegoede@redhat.com> <20230529103741.11904-14-hdegoede@redhat.com>
+In-Reply-To: <20230529103741.11904-14-hdegoede@redhat.com>
 From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Mon, 29 May 2023 23:31:57 +0300
-Message-ID: <CAHp75Vd0n8HHv2nguQFHvoRuqjwAAj=YdmgMGckg+1q-NLptFw@mail.gmail.com>
-Subject: Re: [PATCH 06/21] media: atomisp: ov2680: Implement selection support
+Date: Mon, 29 May 2023 23:57:52 +0300
+Message-ID: <CAHp75VfOfSs=mH90yusTwD1uVA4pLabvPSiZPbw_o9JuNnMR-w@mail.gmail.com>
+Subject: Re: [PATCH 13/21] media: atomisp: Add ia_css_frame_pad_width() helper function
 To: Hans de Goede <hdegoede@redhat.com>
 Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
 	Andy Shevchenko <andy@kernel.org>, Kate Hsuan <hpa@redhat.com>, Tsuchiya Yuto <kitakar@gmail.com>, 
@@ -59,32 +59,40 @@ Content-Transfer-Encoding: quoted-printable
 On Mon, May 29, 2023 at 1:38=E2=80=AFPM Hans de Goede <hdegoede@redhat.com>=
  wrote:
 >
-> Implement selection support. Modelled after ov5693 selection support,
-> but allow setting sizes smaller then crop-size through set_fmt since
-
-than
-
-> that was already allowed.
+> Factor the code to go from width to a properly aligned pitch out of
+> ia_css_frame_info_set_width().
+>
+> This is a preparation patch to fix try_fmt() calls returning a bogus
+> bytesperline value.
 
 ...
 
-> +static struct v4l2_rect *
-> +__ov2680_get_pad_crop(struct ov2680_dev *sensor, struct v4l2_subdev_stat=
-e *state,
-> +                     unsigned int pad, enum v4l2_subdev_format_whence wh=
-ich)
-> +{
-> +       switch (which) {
-> +       case V4L2_SUBDEV_FORMAT_TRY:
-> +               return v4l2_subdev_get_try_crop(&sensor->sd, state, pad);
-> +       case V4L2_SUBDEV_FORMAT_ACTIVE:
-> +               return &sensor->mode.crop;
-> +       }
-> +
-> +       return NULL;
+> +       /*
+> +        * frames with a U and V plane of 8 bits per pixel need to have
 
-I would move this to default: case.
+Frames
 
+> +        * all planes aligned, this means double the alignment for the
+> +        * Y plane if the horizontal decimation is 2.
+> +        */
+> +       if (format =3D=3D IA_CSS_FRAME_FORMAT_YUV420 ||
+> +           format =3D=3D IA_CSS_FRAME_FORMAT_YV12 ||
+> +           format =3D=3D IA_CSS_FRAME_FORMAT_NV12 ||
+> +           format =3D=3D IA_CSS_FRAME_FORMAT_NV21 ||
+> +           format =3D=3D IA_CSS_FRAME_FORMAT_BINARY_8 ||
+> +           format =3D=3D IA_CSS_FRAME_FORMAT_YUV_LINE)
+> +               return CEIL_MUL(width, 2 * HIVE_ISP_DDR_WORD_BYTES);
+
+> +       else if (format =3D=3D IA_CSS_FRAME_FORMAT_NV12_TILEY)
+> +               return CEIL_MUL(width, NV12_TILEY_TILE_WIDTH);
+> +       else if (format =3D=3D IA_CSS_FRAME_FORMAT_RAW ||
+> +                format =3D=3D IA_CSS_FRAME_FORMAT_RAW_PACKED)
+> +               return CEIL_MUL(width, 2 * ISP_VEC_NELEMS);
+> +       else
+
+All 'else':s can be dropped.
+
+> +               return CEIL_MUL(width, HIVE_ISP_DDR_WORD_BYTES);
 > +}
 
 --=20
