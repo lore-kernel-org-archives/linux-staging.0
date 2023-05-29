@@ -1,124 +1,96 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f49.google.com (mail-qv1-f49.google.com [209.85.219.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1B428F52
-	for <linux-staging@lists.linux.dev>; Mon, 29 May 2023 15:46:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1685375211;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=L//detjb5kBzA6uy4kwewHuN6E7xSSi6zXOv7sevG+4=;
-	b=A7BM+VIG0MxfwIvCEcjM4kZsefyx7WzxQQPOgLRMemGiIKfHegr/aTcoe8Li8godZ8ZlTK
-	ugkISzlEze3ndQ6r0Gt7SBKGHoLrN42NzkOzLIFRuha91hwCYSVfcbRYOjMxAOO7bB950M
-	kWcDMD1fACZ/+TVy8IsXWeVdqsYKUOI=
-Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
- [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-230-f2pNotmcPjqMmNB5vkAZag-1; Mon, 29 May 2023 11:46:50 -0400
-X-MC-Unique: f2pNotmcPjqMmNB5vkAZag-1
-Received: by mail-ej1-f72.google.com with SMTP id a640c23a62f3a-94a348facbbso379952566b.1
-        for <linux-staging@lists.linux.dev>; Mon, 29 May 2023 08:46:50 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 256A579F0
+	for <linux-staging@lists.linux.dev>; Mon, 29 May 2023 18:14:28 +0000 (UTC)
+Received: by mail-qv1-f49.google.com with SMTP id 6a1803df08f44-62621035d15so11195456d6.2
+        for <linux-staging@lists.linux.dev>; Mon, 29 May 2023 11:14:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1685384067; x=1687976067;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=uJui6NkBOCC86UFu9kGeCzhYQdMBs+iB8KQkDUL5y78=;
+        b=U9NsV7MwF6WP5KJASoqnhIghC5CjFAyX8FZmaUlz+mVkOT/tGTzxjOhU6P6QpFnwcQ
+         fVVQhLBJcyv6qz+cMKoxRs4dacIxk3sYnb3Uk8oEa/XHhmqb8xgXI94jnp0aiS3TDEvf
+         6UZbac4n0BolABMf0pg+t+ilSIdIu2nuu1J6KDR4Xu1jHaBI6wq1QWkzXVL3KGFxWXRw
+         nDpdVfGX5pISQ+uNOmCeccd0oOQ9IPl2y05+JWWRALLHF0W6RFOBtKJA/hhdlw3MfnGu
+         QATzNmKIKr5IDMHPhZ//C6PtCGYxxTN443ep6gDjV8SL7J1t+OJ2AAvtbbDbHYeaXyix
+         t+pQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1685375209; x=1687967209;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=L//detjb5kBzA6uy4kwewHuN6E7xSSi6zXOv7sevG+4=;
-        b=IzOwPEGzsRQP9prDOxjpMGqQcV7l4hg1TjKFmrxDE0Rl5Fgcz5KCG46wKxxrV2ltXC
-         ae0gIgU91phWDUmLYxr9EL3cYxVERoeOhXl94UGF2/5NofiuUb26J0HihQnbpEGDPpLm
-         Yo2Yi2aMKvJZ8970tqiyvGQWws2b8X0mHv62SXuX+YH10WfT4zSLlz2r+kReQ2G0rXPu
-         c2sEJgNcQZHlIZRYziinfpMXGjjrQ6JgLcqjUa2PuAid75f4jTg1PtzipkIz5tWTei6h
-         imILHx0bs/3kLglOfZ2S+MjrUtYW95WqZ5awKyd1JuxqjUJd8foBXBCwcXp1RRr4++wW
-         fzAg==
-X-Gm-Message-State: AC+VfDzuuWWPEBbLepjIVSliK6puNsldeFSLmtmI/kkUKNICABfyl014
-	F8degthdQu0u2JyBRoux602WqDSo/Z13J7leNV/4DG/4gbfDk5i3VveafNzbfpfNameuWidQzSP
-	US+2n1C2OpRg6may9XBbG2R8C+w==
-X-Received: by 2002:a17:907:3e05:b0:96f:a0ee:1143 with SMTP id hp5-20020a1709073e0500b0096fa0ee1143mr13247545ejc.10.1685375209222;
-        Mon, 29 May 2023 08:46:49 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ7GZizdSYZfJqAuOr5D0uR5PMymoysOKV0L9yImtEO4qPtPNfJP3Crhn7/pA8LegetXJY1m3g==
-X-Received: by 2002:a17:907:3e05:b0:96f:a0ee:1143 with SMTP id hp5-20020a1709073e0500b0096fa0ee1143mr13247524ejc.10.1685375208880;
-        Mon, 29 May 2023 08:46:48 -0700 (PDT)
-Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
-        by smtp.gmail.com with ESMTPSA id j23-20020a17090643d700b0095850aef138sm6050097ejn.6.2023.05.29.08.46.48
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 29 May 2023 08:46:48 -0700 (PDT)
-Message-ID: <ef8e411b-c326-9d24-c4f0-96cd183a9d1f@redhat.com>
-Date: Mon, 29 May 2023 17:46:47 +0200
+        d=1e100.net; s=20221208; t=1685384067; x=1687976067;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=uJui6NkBOCC86UFu9kGeCzhYQdMBs+iB8KQkDUL5y78=;
+        b=a0+n1ub7fxyrtVC0A7FdJqS6WZrVOKKhU4uhpI7iacF3QkvD7vjvl3HEpnT0g5bubv
+         mn6CjoFqgvKB7AN3HXW9wuQS3mEWaLpkUky3YhjelZPdM37Hm/P0FyeXgnFcy0TpAaoP
+         QFo2hTGU3gDnCyPE7NCs1GL4jn8LaBPHcIaSHdaz9aRliga2DBhd6/SPvfbdBwF0ZLm6
+         o7cJ6o+Zhbxr1ppXDKeIp050cR1gHB0iZZywQ0H/4aZkkST/OOoGqdz9pDojPugc67+V
+         +WMmKtTAqo5QMBPKdFWAeLFCZtgFRDZW5/KvQzTZVwYzLB1Omz+9YctJlRr5ZfWwgUtV
+         aKGQ==
+X-Gm-Message-State: AC+VfDyGh0OFcBPWyYpLQSZIbr/GPhbBzCdtuxwiC7EdilD/41aoIQvW
+	uXJ47vbwKYpoER6Yl1l6pmQwxgN74vLb/8ZNnIc=
+X-Google-Smtp-Source: ACHHUZ64IaFKvpOsU6Dnb7kaTq0j3WuLOJSCKIZVqEQrtQOf9JTOu7LgUd7MxGhYJYQhCnbO7LGQaWPNNs0RT9hPx0U=
+X-Received: by 2002:a05:6214:e4b:b0:621:680d:55bf with SMTP id
+ o11-20020a0562140e4b00b00621680d55bfmr11197510qvc.22.1685384067085; Mon, 29
+ May 2023 11:14:27 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH] media: atomisp: move the sanity checks before variable
- dereferences
-To: Dongliang Mu <dzm91@hust.edu.cn>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Sakari Ailus <sakari.ailus@linux.intel.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Andy Shevchenko <andy.shevchenko@gmail.com>
-Cc: linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org
-References: <20230529152136.11719-1-dzm91@hust.edu.cn>
-From: Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <20230529152136.11719-1-dzm91@hust.edu.cn>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US, nl
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20230529103741.11904-1-hdegoede@redhat.com> <20230529103741.11904-6-hdegoede@redhat.com>
+In-Reply-To: <20230529103741.11904-6-hdegoede@redhat.com>
+From: Andy Shevchenko <andy.shevchenko@gmail.com>
+Date: Mon, 29 May 2023 21:13:50 +0300
+Message-ID: <CAHp75VeTdAd98hAKGMo+Skqh0KnbCd=NXQHiB7L8jCkmue1zpA@mail.gmail.com>
+Subject: Re: [PATCH 05/21] media: atomisp: ov2680: Add init_cfg pad-op
+To: Hans de Goede <hdegoede@redhat.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
+	Andy Shevchenko <andy@kernel.org>, Kate Hsuan <hpa@redhat.com>, Tsuchiya Yuto <kitakar@gmail.com>, 
+	Yury Luneff <yury.lunev@gmail.com>, Nable <nable.maininbox@googlemail.com>, 
+	andrey.i.trufanov@gmail.com, Fabio Aiuto <fabioaiuto83@gmail.com>, 
+	linux-media@vger.kernel.org, linux-staging@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi,
+On Mon, May 29, 2023 at 1:38=E2=80=AFPM Hans de Goede <hdegoede@redhat.com>=
+ wrote:
+>
+> Having an init_cfg to initialize the passed in subdev-state is
+> important to make which =3D=3D V4L2_SUBDEV_FORMAT_TRY ops work when
+> userspace is talking to a /dev/v4l2-subdev# node.
+>
+> Copy the ov2680_init_cfg() from the standard drivers/media/i2c/ov2680.c
+> driver.
+>
+> This is esp. relevant once support for cropping is added where
+> the v4l2_subdev_state.pads[pad].try_crop rectangle needs to be set
+> correctly for set_fmt which =3D=3D V4L2_SUBDEV_FORMAT_TRY calls to work.
 
-On 5/29/23 17:21, Dongliang Mu wrote:
-> Smatch reports:
-> 
-> sh_css_load_firmware() warn: variable dereferenced before check 'fw_data'
-> 
-> The variable fw_data can be NULL in sh_css_load_firmware, resulting in
-> NULL pointer dereference.
-> 
-> Fix this by moving the sanity checks before variable dereferences.
-> 
-> Signed-off-by: Dongliang Mu <dzm91@hust.edu.cn>
+...
 
-Thank you for your patch, but the same patch has already been submitted
-and merged into my media-atomisp branch about a week ago:
+> +static int ov2680_init_cfg(struct v4l2_subdev *sd,
+> +                          struct v4l2_subdev_state *sd_state)
+> +{
+> +       struct v4l2_subdev_format fmt =3D {
+> +               .which =3D sd_state ? V4L2_SUBDEV_FORMAT_TRY
+> +               : V4L2_SUBDEV_FORMAT_ACTIVE,
+> +               .format =3D {
+> +                       .width =3D 800,
+> +                       .height =3D 600,
 
-https://git.kernel.org/pub/scm/linux/kernel/git/hansg/linux.git/commit/?h=media-atomisp&id=c09907049eea9f12e959fb88c02a483a4c5eee89
+> +               }
 
-> ---
->  drivers/staging/media/atomisp/pci/sh_css_firmware.c | 8 ++++----
->  1 file changed, 4 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/staging/media/atomisp/pci/sh_css_firmware.c b/drivers/staging/media/atomisp/pci/sh_css_firmware.c
-> index e7ef578db8ab..38b757c3df0a 100644
-> --- a/drivers/staging/media/atomisp/pci/sh_css_firmware.c
-> +++ b/drivers/staging/media/atomisp/pci/sh_css_firmware.c
-> @@ -229,6 +229,10 @@ sh_css_load_firmware(struct device *dev, const char *fw_data,
->  	struct sh_css_fw_bi_file_h *file_header;
->  	int ret;
->  
-> +	/* some sanity checks */
-> +	if (!fw_data || fw_size < sizeof(struct sh_css_fw_bi_file_h))
-> +		return -EINVAL;
+I would keep a trailing comma here.
+
+> +       };
 > +
->  	firmware_header = (struct firmware_header *)fw_data;
->  	file_header = &firmware_header->file_header;
->  	binaries = &firmware_header->binary_header;
-> @@ -243,10 +247,6 @@ sh_css_load_firmware(struct device *dev, const char *fw_data,
->  		IA_CSS_LOG("successfully load firmware version %s", release_version);
->  	}
->  
-> -	/* some sanity checks */
-> -	if (!fw_data || fw_size < sizeof(struct sh_css_fw_bi_file_h))
-> -		return -EINVAL;
-> -
->  	if (file_header->h_size != sizeof(struct sh_css_fw_bi_file_h))
->  		return -EINVAL;
->  
+> +       return ov2680_set_fmt(sd, sd_state, &fmt);
+> +}
 
+--=20
+With Best Regards,
+Andy Shevchenko
