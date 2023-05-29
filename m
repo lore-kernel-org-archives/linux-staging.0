@@ -1,52 +1,52 @@
-Received: from mail-qv1-f49.google.com (mail-qv1-f49.google.com [209.85.219.49])
+Received: from mail-qk1-f176.google.com (mail-qk1-f176.google.com [209.85.222.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 256A579F0
-	for <linux-staging@lists.linux.dev>; Mon, 29 May 2023 18:14:28 +0000 (UTC)
-Received: by mail-qv1-f49.google.com with SMTP id 6a1803df08f44-62621035d15so11195456d6.2
-        for <linux-staging@lists.linux.dev>; Mon, 29 May 2023 11:14:28 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BF5928E7
+	for <linux-staging@lists.linux.dev>; Mon, 29 May 2023 20:32:34 +0000 (UTC)
+Received: by mail-qk1-f176.google.com with SMTP id af79cd13be357-75afa109e60so216294985a.2
+        for <linux-staging@lists.linux.dev>; Mon, 29 May 2023 13:32:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1685384067; x=1687976067;
+        d=gmail.com; s=20221208; t=1685392353; x=1687984353;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=uJui6NkBOCC86UFu9kGeCzhYQdMBs+iB8KQkDUL5y78=;
-        b=U9NsV7MwF6WP5KJASoqnhIghC5CjFAyX8FZmaUlz+mVkOT/tGTzxjOhU6P6QpFnwcQ
-         fVVQhLBJcyv6qz+cMKoxRs4dacIxk3sYnb3Uk8oEa/XHhmqb8xgXI94jnp0aiS3TDEvf
-         6UZbac4n0BolABMf0pg+t+ilSIdIu2nuu1J6KDR4Xu1jHaBI6wq1QWkzXVL3KGFxWXRw
-         nDpdVfGX5pISQ+uNOmCeccd0oOQ9IPl2y05+JWWRALLHF0W6RFOBtKJA/hhdlw3MfnGu
-         QATzNmKIKr5IDMHPhZ//C6PtCGYxxTN443ep6gDjV8SL7J1t+OJ2AAvtbbDbHYeaXyix
-         t+pQ==
+        bh=JzBFCPUHSEiXweGu4bYXWaNN4cJWRC0KIEXjl92bN10=;
+        b=gWFQcylcFGKkYrzUEy/kP8Pru1Zc1aRP1y/MHx3ZaKggHrr3e3Zk1kXllvlU/QoQxx
+         QZPQIsb5B3yC3Mg7Zd29ouS/NO+E1cEL27hnBtTHdKsYS30NzcRHl4qCm4RUQNR4IU5S
+         2APzLMIXQi8WMt8N2TVjsaEwuJ06hsSckO+h21JDjoXDW2WVF/BALJZ9SO9cNaTschrf
+         ySRqWxdcoUwPBR91lNSz76h9Y5NarudBDziCMYdvFE6PTbncFh9lVDDkvdwO+6proPxw
+         LIjLMfkBso6N+IMCWTWx+Q5e2spFuUbmiHTSQsBxKK1amEThdhoQZMbCETVD/EaqAAB3
+         vOYw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1685384067; x=1687976067;
+        d=1e100.net; s=20221208; t=1685392353; x=1687984353;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=uJui6NkBOCC86UFu9kGeCzhYQdMBs+iB8KQkDUL5y78=;
-        b=a0+n1ub7fxyrtVC0A7FdJqS6WZrVOKKhU4uhpI7iacF3QkvD7vjvl3HEpnT0g5bubv
-         mn6CjoFqgvKB7AN3HXW9wuQS3mEWaLpkUky3YhjelZPdM37Hm/P0FyeXgnFcy0TpAaoP
-         QFo2hTGU3gDnCyPE7NCs1GL4jn8LaBPHcIaSHdaz9aRliga2DBhd6/SPvfbdBwF0ZLm6
-         o7cJ6o+Zhbxr1ppXDKeIp050cR1gHB0iZZywQ0H/4aZkkST/OOoGqdz9pDojPugc67+V
-         +WMmKtTAqo5QMBPKdFWAeLFCZtgFRDZW5/KvQzTZVwYzLB1Omz+9YctJlRr5ZfWwgUtV
-         aKGQ==
-X-Gm-Message-State: AC+VfDyGh0OFcBPWyYpLQSZIbr/GPhbBzCdtuxwiC7EdilD/41aoIQvW
-	uXJ47vbwKYpoER6Yl1l6pmQwxgN74vLb/8ZNnIc=
-X-Google-Smtp-Source: ACHHUZ64IaFKvpOsU6Dnb7kaTq0j3WuLOJSCKIZVqEQrtQOf9JTOu7LgUd7MxGhYJYQhCnbO7LGQaWPNNs0RT9hPx0U=
-X-Received: by 2002:a05:6214:e4b:b0:621:680d:55bf with SMTP id
- o11-20020a0562140e4b00b00621680d55bfmr11197510qvc.22.1685384067085; Mon, 29
- May 2023 11:14:27 -0700 (PDT)
+        bh=JzBFCPUHSEiXweGu4bYXWaNN4cJWRC0KIEXjl92bN10=;
+        b=lF/tb5izNBDTjXTuUwwv0PbYu9iHUTNlx9NqMgeRgtwibKGsr1C1snrTFKEX0/Guqr
+         eqtGTMDCpQXTd3HUmNQs/ZiYXdUcPQqLmTVH3PP9Aiknl/HbzVlwyIXEvMZ0a2DNyfVK
+         VqjRo545t53sHme7ZlxasBmEWjZnRrDKTJCDXWlLAo5EX5mgmNZk6cw5Z2LhSAGTPLv7
+         OipnVHIT8e2CW5rV1yf5YN3tezWxPqYDpnq5T+rtrhxdhqYD180JGHQlLT97d6QgXssq
+         wu8wLThm8QKLXUj1W9inTxSb+EZNtSTZFFUExbqwL21K/HEr8nHqU9oeksTXApPPfKWu
+         2Sig==
+X-Gm-Message-State: AC+VfDwAhe9nNLAnO1p1W/hGH7aA7AV4nl1p8YcJP9O64UX60RPKCwi+
+	lBjZWtnw/r9OgPY/OHs0SszYp+a2MqNSin1G6M4=
+X-Google-Smtp-Source: ACHHUZ6qC0+fe9/rt8LoT+5vJ3gpWQ90o/nV+j2YLFomS2RYbegCcrvMi+Ntu3+sdw1u6OQ+2qtGJJ4Ytys4P1WgWRg=
+X-Received: by 2002:ad4:5be9:0:b0:625:d55:eaab with SMTP id
+ k9-20020ad45be9000000b006250d55eaabmr11006948qvc.9.1685392353043; Mon, 29 May
+ 2023 13:32:33 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20230529103741.11904-1-hdegoede@redhat.com> <20230529103741.11904-6-hdegoede@redhat.com>
-In-Reply-To: <20230529103741.11904-6-hdegoede@redhat.com>
+References: <20230529103741.11904-1-hdegoede@redhat.com> <20230529103741.11904-7-hdegoede@redhat.com>
+In-Reply-To: <20230529103741.11904-7-hdegoede@redhat.com>
 From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Mon, 29 May 2023 21:13:50 +0300
-Message-ID: <CAHp75VeTdAd98hAKGMo+Skqh0KnbCd=NXQHiB7L8jCkmue1zpA@mail.gmail.com>
-Subject: Re: [PATCH 05/21] media: atomisp: ov2680: Add init_cfg pad-op
+Date: Mon, 29 May 2023 23:31:57 +0300
+Message-ID: <CAHp75Vd0n8HHv2nguQFHvoRuqjwAAj=YdmgMGckg+1q-NLptFw@mail.gmail.com>
+Subject: Re: [PATCH 06/21] media: atomisp: ov2680: Implement selection support
 To: Hans de Goede <hdegoede@redhat.com>
 Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
 	Andy Shevchenko <andy@kernel.org>, Kate Hsuan <hpa@redhat.com>, Tsuchiya Yuto <kitakar@gmail.com>, 
@@ -59,36 +59,32 @@ Content-Transfer-Encoding: quoted-printable
 On Mon, May 29, 2023 at 1:38=E2=80=AFPM Hans de Goede <hdegoede@redhat.com>=
  wrote:
 >
-> Having an init_cfg to initialize the passed in subdev-state is
-> important to make which =3D=3D V4L2_SUBDEV_FORMAT_TRY ops work when
-> userspace is talking to a /dev/v4l2-subdev# node.
->
-> Copy the ov2680_init_cfg() from the standard drivers/media/i2c/ov2680.c
-> driver.
->
-> This is esp. relevant once support for cropping is added where
-> the v4l2_subdev_state.pads[pad].try_crop rectangle needs to be set
-> correctly for set_fmt which =3D=3D V4L2_SUBDEV_FORMAT_TRY calls to work.
+> Implement selection support. Modelled after ov5693 selection support,
+> but allow setting sizes smaller then crop-size through set_fmt since
+
+than
+
+> that was already allowed.
 
 ...
 
-> +static int ov2680_init_cfg(struct v4l2_subdev *sd,
-> +                          struct v4l2_subdev_state *sd_state)
+> +static struct v4l2_rect *
+> +__ov2680_get_pad_crop(struct ov2680_dev *sensor, struct v4l2_subdev_stat=
+e *state,
+> +                     unsigned int pad, enum v4l2_subdev_format_whence wh=
+ich)
 > +{
-> +       struct v4l2_subdev_format fmt =3D {
-> +               .which =3D sd_state ? V4L2_SUBDEV_FORMAT_TRY
-> +               : V4L2_SUBDEV_FORMAT_ACTIVE,
-> +               .format =3D {
-> +                       .width =3D 800,
-> +                       .height =3D 600,
-
-> +               }
-
-I would keep a trailing comma here.
-
-> +       };
+> +       switch (which) {
+> +       case V4L2_SUBDEV_FORMAT_TRY:
+> +               return v4l2_subdev_get_try_crop(&sensor->sd, state, pad);
+> +       case V4L2_SUBDEV_FORMAT_ACTIVE:
+> +               return &sensor->mode.crop;
+> +       }
 > +
-> +       return ov2680_set_fmt(sd, sd_state, &fmt);
+> +       return NULL;
+
+I would move this to default: case.
+
 > +}
 
 --=20
