@@ -1,52 +1,53 @@
-Received: from mail-qt1-f171.google.com (mail-qt1-f171.google.com [209.85.160.171])
+Received: from mail-qv1-f54.google.com (mail-qv1-f54.google.com [209.85.219.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3D8C7C
-	for <linux-staging@lists.linux.dev>; Mon, 29 May 2023 21:57:46 +0000 (UTC)
-Received: by mail-qt1-f171.google.com with SMTP id d75a77b69052e-3f6b34d2fdcso18390501cf.1
-        for <linux-staging@lists.linux.dev>; Mon, 29 May 2023 14:57:46 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C5B17C
+	for <linux-staging@lists.linux.dev>; Mon, 29 May 2023 21:59:42 +0000 (UTC)
+Received: by mail-qv1-f54.google.com with SMTP id 6a1803df08f44-6262be06e2eso3525576d6.1
+        for <linux-staging@lists.linux.dev>; Mon, 29 May 2023 14:59:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1685397465; x=1687989465;
+        d=gmail.com; s=20221208; t=1685397582; x=1687989582;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=qVVQfazhdCrMqCL15DahVev5EouULW2J949cPBl6/k4=;
-        b=eBQX+r6wnwWAMCnEZNDyTMza7KMuB+yJlkgepojn5iB+kaXJWUPQvyj35dHywbYCvd
-         6n2ItmocM2Eugix1//qIjo/KFSPKTgGw7GEQ6Xtk5SWr4AbELwkOggYfbUYd0oAUmE6Z
-         VanFDvPK5VKX0JmLb4v5eMOmJjRMJg8MWEsOIHgfYgh+le4jLJpulukLbvma0gBTQhd7
-         1Tj4ByjzgFiRj6CUMfwTZfUa1A+xb/qUyyqK1xhFIUqnF6c3xpc0yNo2t6YojLHhR7yE
-         lqQEzq6D41mKg94mjHfzrVp38GRiEPK28LpfyuQefpFNzNJv+bLY69gIMHZ3u8BgeOAe
-         4gQA==
+        bh=Hsuoe+SQIaTSqFX1NxZhhcfILFgCTHVwV0rqKDeLYhU=;
+        b=D92r0pM882g1NfDSgJzRyk0+YeHdwxhFSG1dfPZILx43AatHb8P+RvUo/Nb0Tf8N0B
+         psydOlEaXktW8MkkbmjlGa/WXGGITUtn96xvO3AO3FtMpS9uioN/nFZclFHBTwqOdR3I
+         P+//OfoCT+g7b4VZEdwZnxdj7BFV//BD/Nv0p4jsYO6RnrDEZhZ67lC5FCjlCJ5oABp5
+         iZLjPcZIsReY9zUp2A2SlRuqBQdCyTHfKtCNGdzthHKYXOiOt9dhKBlLyxP/VCgei6GR
+         SbmOQPI2mrz+ESs4ncXJw9W4Cz9vuS1VGlLj0BDNKf5S0eTq4zPFKXYGUP+cBCt/0ktY
+         BVTQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1685397465; x=1687989465;
+        d=1e100.net; s=20221208; t=1685397582; x=1687989582;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=qVVQfazhdCrMqCL15DahVev5EouULW2J949cPBl6/k4=;
-        b=Psn96nOzmvASrMPTKA8Ot3ef2zoMfOf5lUenxImDgz5VXQ/Od1cIcA3/9OSHYcOvpz
-         VKPxRnZoIllnNz/3QtZ/66AXqjrKt2tzzkVDrVhAy+IyBWQxttqWGRlCP9xC34azKC3B
-         juRSKV+KMSewEB99zEu+nK+vgu3NuvYpmScG1VEiCNLbMKtKQC8Jbe+cF6lMQFd8wMAB
-         Yp07J6/MC6ggVDTy1wVZKzLopFX3UMmlUmewW//ad2I9mVgWSIa+C0xK8dfZQB1v5T2Q
-         JTSfr0wB0FRHU52tSunBuSEL8lWPksudMRrLtGCX98GDwZiDhzL2gUgAOtWoA1Z+nfqD
-         DYcA==
-X-Gm-Message-State: AC+VfDyG3L0hM8El6/iijsK3Ow1viOmdqMSdXMJOSVNRysaJ8O9Us6b0
-	N42wdbquzR7FbDsNH9qwZwrjCKHvNShSXrSrC8U=
-X-Google-Smtp-Source: ACHHUZ5hybZMfB0KdkwC7aswhOK1xvRikFUHlKCHf6hUhWEQy4AWwKUgYpiY3DsQtlBXz7RV3qkW7nuolVoZ0SaOQes=
-X-Received: by 2002:a05:6214:226a:b0:623:8510:8f8e with SMTP id
- gs10-20020a056214226a00b0062385108f8emr51325qvb.33.1685397465419; Mon, 29 May
- 2023 14:57:45 -0700 (PDT)
+        bh=Hsuoe+SQIaTSqFX1NxZhhcfILFgCTHVwV0rqKDeLYhU=;
+        b=ZhoSA/ab/sxBkyiIq7kXSYEnob17EV8FK2H/m8HA6BS44GIndHMIs1NO0Noukyb4uk
+         qcH1ogYwHfCbw5mWLWQdP94ElW0OPcfb0IgotDrj8XHxCZ7z/uC+72q3TXi0BP4gLq6i
+         yEyCQYoKHr1hCra5wCo8zK0CaqvBse7kc4WMOHUxm5fTr7zjbLQS7rFulVgAtTg6t0lW
+         T3HkWpBH55K6iyGciy6WxAVxKHW/6Yl1UR/nsWFMpgnewkpM7ft3jBvseGlR50F2wIVc
+         /tWkxzdaqVXSi3DrbSx5H2jhv8+pslJV9ZkUlrb8uCQlq7RsuVwpL0NT6ICY8MDHb+CZ
+         iQkg==
+X-Gm-Message-State: AC+VfDyAE93PPBKeZ8Vezgrx7CoVrAtYo/ToGPBzFEELQZEWcs86tgjL
+	NMPAjDLrcomaEmVPhbQ5yaJzF/JQ2FaKZfzpgRY=
+X-Google-Smtp-Source: ACHHUZ7/MU7Y/VrItToYTFpupHk2WsCc4mP2J8dKH0d9v3IY4MnOkVijFOqsOD57tA9QV7SK4hFpuqKx0nCBfiDWjKw=
+X-Received: by 2002:ad4:5b8c:0:b0:626:199e:1b96 with SMTP id
+ 12-20020ad45b8c000000b00626199e1b96mr7529497qvp.64.1685397581895; Mon, 29 May
+ 2023 14:59:41 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20230529103741.11904-1-hdegoede@redhat.com> <20230529103741.11904-2-hdegoede@redhat.com>
-In-Reply-To: <20230529103741.11904-2-hdegoede@redhat.com>
+References: <20230529103741.11904-1-hdegoede@redhat.com>
+In-Reply-To: <20230529103741.11904-1-hdegoede@redhat.com>
 From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Tue, 30 May 2023 00:57:09 +0300
-Message-ID: <CAHp75Vepr8ffhEH9YQqKi7-Bkr51mtrc1jV33KbBY2GCYjix_w@mail.gmail.com>
-Subject: Re: [PATCH 01/21] media: atomisp: Update TODO
+Date: Tue, 30 May 2023 00:59:05 +0300
+Message-ID: <CAHp75VfDvoq8+WiO6Pwm40roeS7pNJq1ae04b3qp0C5rL6Hrmw@mail.gmail.com>
+Subject: Re: [PATCH 00/21] media: atomisp: Use selection API info to determine
+ sensor padding
 To: Hans de Goede <hdegoede@redhat.com>
 Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
 	Andy Shevchenko <andy@kernel.org>, Kate Hsuan <hpa@redhat.com>, Tsuchiya Yuto <kitakar@gmail.com>, 
@@ -59,93 +60,40 @@ Content-Transfer-Encoding: quoted-printable
 On Mon, May 29, 2023 at 1:38=E2=80=AFPM Hans de Goede <hdegoede@redhat.com>=
  wrote:
 >
-> A lot of work has been done on the atomisp driver lately.
+> Hi All,
 >
-> Rewrite the TODO file to drop all the already fixed items:
+> Here is my next round of atomisp work.
 >
-> * Moved to videobuf2 + fixed mmap support
-> * Whole bunch of v4l2 API fixes making more apps work
-> * v4l2-async sensor probing support
-> * pm-runtime support (for some sensor drivers at least)
-> * buffer MM code was cleaned up / replaced when moving the videobuf2
+> The atomisp wants some extra padding for processing in the data it receiv=
+es
+> from the sensor. E.g. For 1600x1200 it wants to receive 1616x1216 from
+> the sensor. Currently the private sensor driver copies it uses give it
+> e.g. 1616x1216 and the ISP2 code then substracts 16 before reporting
+> the resolution to userspace.
 >
-> And add a new TODO list (retaining some of the old items) split
-> into items which absolutely must be fixed before the driver can
-> be moved out of staging:
+> This patch series adds support for the v4l2 selections API and specifical=
+ly
+> the crop target so that atomisp can request the extra padding from standa=
+rd
+> v4l2 sensor drivers. This is implemented / tested with the atomisp_ov2680
+> driver.
 >
-> 1. Conflicting hw-ids with regular sensor drivers
-> 2. Private userspace API stuff
+> Besides that there is the usual cleanups / prep work.
 >
-> As well as a list of items which also definitely needs to be fixed
-> but which could also be fixed after moving the driver out of staging.
-
-...
-
-> +Required firmware
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> With the padding solved, the last bit of private atomisp sensor API is
+> gone now. So we can start working on getting rid of its private sensor
+> driver copies.
 >
-> +The atomisp driver requires the following firmware:
->
-> +- for BYT: /lib/firmware/shisp_2400b0_v21.bin
-> +
-> +  With a version of "irci_stable_candrpv_0415_20150423_1753" to check
-> +  the version run: "strings shisp_2400b0_v21.bin | head -n1" .
-> +
-> +  The shisp_2400b0_v21.bin file with this version can be found on
-> +  the Android factory images of various X86 Android tablets such as
-> +  e.g. the Chuwi Hi8 Pro.
->
->  - for CHT: /lib/firmware/shisp_2401a0_v21.bin
->
-> +  With a version of "irci_stable_candrpv_0415_20150521_0458"
-> +
-> +  This can be found here:
->    https://github.com/intel-aero/meta-intel-aero-base/blob/master/recipes=
--kernel/linux/linux-yocto/shisp_2401a0_v21.bin
+> As mentioned in the updated TODO file the next step is to port
+> various improvements from the atomisp_ov2680 private sensor driver
+> to the generic ov2680 sensor driver (such as the selections support)
+> and then switch to the generic ov2680 sensor driver.
 
-Can you add md5/SHA-1/SHA-256 sum(s) for the firmwares?
+For non-commented
+Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
 
-...
-
-> +1. items which MUST be fixed before the driver can be moved out of stagi=
-ng:
-
-Items
-
-...
-
-> +* Remove/disable private ioctls
-
-IOCTLs
-
-...
-
-> +* Without a 3A library the capture behaviour is not very good. To take a=
- good
-> +  picture, the exposure/gain needs to be tuned using v4l2-ctl on the sen=
-sor
-> +  subdev. To fix this support for the atomisp needs to be added to libca=
-mera.
-
-this, support
-
-...
-
-> +  This MUST be done before moving the driver out of staging so that we c=
-an
-> +  still make changes to e.g. the mediactl topology if necessary for
-> +  libcamera integration. Since this would be a userspace API break this
-
-break, this
-
-> +  means that at least proof-of-concept libcamera integration needs to be
-> +  ready before moving the driver out of staging.
-
-...
-
-> +2. items which SHOULD also be fixed eventually:
-
-Items
+If others will be addressed in the suggested way, feel free to add the
+tag as well.
 
 --=20
 With Best Regards,
