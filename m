@@ -1,90 +1,83 @@
-Received: from mail-pg1-f171.google.com (mail-pg1-f171.google.com [209.85.215.171])
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2E8CA3D
-	for <linux-staging@lists.linux.dev>; Tue, 30 May 2023 02:23:41 +0000 (UTC)
-Received: by mail-pg1-f171.google.com with SMTP id 41be03b00d2f7-52cb78647ecso2403414a12.1
-        for <linux-staging@lists.linux.dev>; Mon, 29 May 2023 19:23:41 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 812661C38
+	for <linux-staging@lists.linux.dev>; Tue, 30 May 2023 04:15:33 +0000 (UTC)
+Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-30ac4e7f37bso2375973f8f.2
+        for <linux-staging@lists.linux.dev>; Mon, 29 May 2023 21:15:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1685413421; x=1688005421;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=F7yxoBalJu1ZCTXrRuET/e/J8+mI0agu1V6HCaCfZ5Y=;
-        b=JInACbaRG6zCY54oNSpmPgvZZumFjCPunkuf/OzCrnpLD69mSnpE4jRqYh1leO/FvZ
-         j+0KrSwqplZ2flR8iwKpTRSeYdkMHKFqEOY8eF/xG+NqllhjxsecM7R/jxLGWLrQeTYy
-         uQRjPMMDA5PyDPTlgHT+08D8KFINy9sEz7vOSojUnNlScDO8HD/lAmMgLA2vrlBgoZi4
-         OuQ9oPUx47kDoIO7ZRoGDoTr4NFi862+JQSooIP7fppA57LipQ5PdV/jLs4ydSs9MK8C
-         ywpuTKcqaK2Ucw8g0nC7aEEKAIIi1uOFqzVNv5O3hoDlJdB/39D5vX/Ys3XtxKF12Akg
-         6pZQ==
+        d=linaro.org; s=google; t=1685420131; x=1688012131;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=9zAmG8r5Tvl40l89QOePVe0ImxWIFUXod7GM9rjQ6w4=;
+        b=Cb0tUT/yg+2xLrCPQuYqIbDjPDTphCH1qAbkrurkgLiNWjf/+GsbPBedPGXMO0NPeo
+         2csyGZIh/5JddVjwDBMEHKWK+Oobnbg83tOJsq28qtKMvAGMIhHdrw19I2qk/UHJzS4R
+         eBeI+QR7McKqWffpzi1fC+lB3XK0TURBrmBhXrQWmlMYVsWAzG8f4uDtAaRL/ZvVZ3BF
+         2xNjgjpI1h14o3ItEAjw/DbBXH94w7FRKwSyRLNMErYyz9YGkX3h5hJ3utLQC2cP5LCQ
+         24xBICXEBTLk9Dv77Gfwvayf9MqeaCnaruG5SvRTnk3gnd+YLUSRY/xj6Br4WTjsuDC9
+         MjQQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1685413421; x=1688005421;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=F7yxoBalJu1ZCTXrRuET/e/J8+mI0agu1V6HCaCfZ5Y=;
-        b=Jl78CiXXNHgUK1sYqaOqMij6AXaKk8H2V0qd+wc/iDBjRrfeOTh7qb2exUkbOc1ebb
-         jBO2gA2l1pA81EVAwA2H4aSUOrLBB3rkX8eL1/uixF9J6U55QWrPiS3pGfYu6J9L5UUb
-         YmeVxz9kCGgfDRcY2U6viDaaqB550Y+e472g6b0PtUa9rF/tK1/oHC9PyjP92CLVrTJP
-         RuCbnvsaR10Tid09cpV7xhLAL8KQ5M7cMuCmTDn+KyLqMF1lf3mZ9xln/77uxSe3+9f8
-         Rgci67pXnwsYqFsGZLZtiJpJPqfagJKMRPCb4lBex14f3yQK2gjn3LR36AaOCuZHLYYQ
-         JutQ==
-X-Gm-Message-State: AC+VfDzFdRFwNs6gRR8khSJFCS66Hn+eGK4oJYV71oDIWEnlctsW1Jxj
-	UyFTjkF2Yw97wy44x3ARV4g=
-X-Google-Smtp-Source: ACHHUZ4vB8xYir+2LzLQmGt/Drl5uVOTpk3tEFPqW+VM/JpJ/UJY9c9iUM6YYMknkbkVQS0OBTEOYA==
-X-Received: by 2002:a17:903:124a:b0:1af:daf7:7240 with SMTP id u10-20020a170903124a00b001afdaf77240mr946768plh.58.1685413420941;
-        Mon, 29 May 2023 19:23:40 -0700 (PDT)
-Received: from localhost.localdomain ([2405:201:682f:3801:cfd9:6060:fe9:235b])
-        by smtp.gmail.com with ESMTPSA id u6-20020a17090282c600b001ae6b4b28adsm6236998plz.130.2023.05.29.19.23.35
+        d=1e100.net; s=20221208; t=1685420131; x=1688012131;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=9zAmG8r5Tvl40l89QOePVe0ImxWIFUXod7GM9rjQ6w4=;
+        b=fLCwmqTFvPtAGvGRRuOu9krB8/uhx0sSYoAgODnVXL/hcNGrxYThsHBcJujdmf1OF7
+         73j0Ji0SyN3HhtMwX6VSvLcC4Qu043K0ldnd/1WOyQJf8u8987hDjFFfvbfraKhKj6Nz
+         Kx8PYf9BkBAX/bWk0Xg1J0rE91lHouZ3IbyHwSfno9jXh7B6c6l4j6QMNuRnFPmKMpVK
+         gB+cKIYXTfQeUYcUYR2lLmBgF/Mo5E0ab4+8Q9BK4Yv1kuYWdvU4W/s1MYbsjmmMuZI+
+         +ulJo4NnhIeR/DZdCpS66uurNk707urHs3yr98AOqRW4AIuyWilIOXM8zdeNpyGiZHVF
+         +czA==
+X-Gm-Message-State: AC+VfDw7Oshf86WJBlvqkNwzUM8J1OioSGI1uXLG1laE30OmErmFIQJA
+	GpVFykXBUrpvWd5rYSnrq/F/dQ==
+X-Google-Smtp-Source: ACHHUZ5SesDtWuZ/F2abelZZil/nppjy3LFKMWP+MiqKh1HA0BKpirE+O275NqL6Cp90anfi0dLFIQ==
+X-Received: by 2002:a5d:4a11:0:b0:30a:bae6:fa98 with SMTP id m17-20020a5d4a11000000b0030abae6fa98mr434634wrq.39.1685420131670;
+        Mon, 29 May 2023 21:15:31 -0700 (PDT)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id v12-20020a5d4a4c000000b003077a19cf75sm1780745wrs.60.2023.05.29.21.15.28
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 29 May 2023 19:23:40 -0700 (PDT)
-From: Deepanshu Kartikey <kartikey406@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Deepanshu Kartikey <kartikey406@gmail.com>
-Subject: [PATCH v4] Staging: rts5208: rtsx: Moved else statement to same line with else if
-Date: Tue, 30 May 2023 07:52:59 +0530
-Message-Id: <20230530022259.24094-1-kartikey406@gmail.com>
-X-Mailer: git-send-email 2.25.1
+        Mon, 29 May 2023 21:15:29 -0700 (PDT)
+Date: Tue, 30 May 2023 07:15:26 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Deepanshu Kartikey <kartikey406@gmail.com>
+Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v4] Staging: rts5208: rtsx: Moved else statement to same
+ line with else if
+Message-ID: <ee41bf67-a074-49fd-bd0f-7fb992d68884@kili.mountain>
+References: <20230530022259.24094-1-kartikey406@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230530022259.24094-1-kartikey406@gmail.com>
 
-Moved else statement to same line with else if,
-this warning was given by checkpatch.pl
+On Tue, May 30, 2023 at 07:52:59AM +0530, Deepanshu Kartikey wrote:
+>  drivers/staging/rts5208/rtsx.c | 6 ++----
+>  1 file changed, 2 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/staging/rts5208/rtsx.c b/drivers/staging/rts5208/rtsx.c
+> index 2284a96abcff..47dacef0aaf8 100644
+> --- a/drivers/staging/rts5208/rtsx.c
+> +++ b/drivers/staging/rts5208/rtsx.c
+> @@ -399,10 +399,8 @@ static int rtsx_control_thread(void *__dev)
+>  				chip->srb->device->id,
+>  				(u8)chip->srb->device->lun);
+>  			chip->srb->result = DID_BAD_TARGET << 16;
+> -		}
+> -
+> -		/* we've got a command, let's do it! */
+> -		else {
+> +		} else {
+> +			/* we've got a command, let's do it! */
 
-Signed-off-by: Deepanshu Kartikey <kartikey406@gmail.com>
+This code is part of series of if else statements that all have the
+same issue but you're only changing one.  Please change them all.
 
----
-Changes in V4:
-	- Moved else to the same line with else if
-	- Moved comment on else statement to inside of it
----
----
- drivers/staging/rts5208/rtsx.c | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
-
-diff --git a/drivers/staging/rts5208/rtsx.c b/drivers/staging/rts5208/rtsx.c
-index 2284a96abcff..47dacef0aaf8 100644
---- a/drivers/staging/rts5208/rtsx.c
-+++ b/drivers/staging/rts5208/rtsx.c
-@@ -399,10 +399,8 @@ static int rtsx_control_thread(void *__dev)
- 				chip->srb->device->id,
- 				(u8)chip->srb->device->lun);
- 			chip->srb->result = DID_BAD_TARGET << 16;
--		}
--
--		/* we've got a command, let's do it! */
--		else {
-+		} else {
-+			/* we've got a command, let's do it! */
- 			scsi_show_command(chip);
- 			rtsx_invoke_transport(chip->srb, chip);
- 		}
--- 
-2.25.1
+regards,
+dan carpenter
 
