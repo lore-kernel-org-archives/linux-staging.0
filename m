@@ -1,53 +1,54 @@
-Received: from mail-qv1-f49.google.com (mail-qv1-f49.google.com [209.85.219.49])
+Received: from mail-qt1-f181.google.com (mail-qt1-f181.google.com [209.85.160.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 434831774B
-	for <linux-staging@lists.linux.dev>; Tue, 30 May 2023 11:29:34 +0000 (UTC)
-Received: by mail-qv1-f49.google.com with SMTP id 6a1803df08f44-6263b2526a0so1072546d6.2
-        for <linux-staging@lists.linux.dev>; Tue, 30 May 2023 04:29:34 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 191841774B
+	for <linux-staging@lists.linux.dev>; Tue, 30 May 2023 11:32:44 +0000 (UTC)
+Received: by mail-qt1-f181.google.com with SMTP id d75a77b69052e-3f80e055549so21376521cf.3
+        for <linux-staging@lists.linux.dev>; Tue, 30 May 2023 04:32:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1685446173; x=1688038173;
+        d=gmail.com; s=20221208; t=1685446363; x=1688038363;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=jmPUYnc2FtqL3JwQ/ssh0K8SaGGEZjxLd4q7zPcJvCs=;
-        b=rZ7D6eugfTtxFTVcUgTDyC0m1D3tbiGocFZNUYq2MeS70/O9MCYWsLWlr6esVrcQXI
-         aL9n9LCV024EgcM2uncy4+NLsf4J5G9wyjiRRS0LKQHI/XbTz2l/EHGSJnCHkZIbG0Vh
-         pD/40VW7CBfKyEELT5aq1KEkZmO5MsiKWj7tzb7TNhGqqhJqKdTdNTH6PrHmihw3PQxg
-         XPSVs5d5s3e6G9J96CLEdD0VGv8QN6eKGXRHgQZAY9fWy26YHsMJDz61gp5Wo5CP/zkS
-         PDeyJVXltsnzxnYhNp3T1WWzDCj1CrFk6f6+fKDoPV0kIkI+MUm+BhOcqUs5c4VZvPHQ
-         xfyA==
+        bh=2CX81QWvH6s9KobzrQsWhmRGUwobmqZbLPmPxbjonnI=;
+        b=oVT4K3lX8p1VNzyYUMympqQHEHM6dCfrfnHaE0nko9gnJRsyoKv6HPSGk/sqmywVZO
+         lDwk+NZmwsIEqfFG5VetzKVHjuPhCfBeM4w8cJD/m5ij5YgdWwjiaNZk28pqL1EUQcJB
+         0gwZ/3jBxyhRxQc+WXfEpxss3mudXcoJUjHx0hj6GC7YMLwT7z4oe6vruayKcze0sKzo
+         H4ZJ3MAGGzm5WtPzCvw/elSakHIXBL+xKaur1WAqITl4x0E3Dq/5XRiFX6gfzHm+F1bk
+         pzQYze0o7dVKCQgXx1rU7YTV8VUIf9kjHJUDeGxCJSsThzMnuT6WhZyB83YgMD/CoQjF
+         wsJQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1685446173; x=1688038173;
+        d=1e100.net; s=20221208; t=1685446363; x=1688038363;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=jmPUYnc2FtqL3JwQ/ssh0K8SaGGEZjxLd4q7zPcJvCs=;
-        b=KNiqWeCEnQT1+uM/oSHIflZKhiBfp/uUGcpwnoJPcIAxeKM5yw6ZfZlMfyz+59WCdH
-         kEQt4nNpY/Vj05iXJ+EGMNOpeeESzJezLQYBs5ZcZ/2/1NNcPqEXp2f+BSabhMrcM1hH
-         CP2hVIRkDNULMt17XGMuq1+GQ1FWURClbuwaNswombf/eTKqwOQIbv+0stJzH4v52DvU
-         mQ4f8oID6pxUOwm6biqhO2kCDkcDrestrVmc5IffNAdrBdkD9wDt7HebpLJlDDuBLTBF
-         4NJbitjN4v1Olt42rjPwumNlD7bLe+N42/Ce4MWcVJUreQc3TsFhQ9uBiRGoVG64Face
-         G9Vg==
-X-Gm-Message-State: AC+VfDxEX7aJWHzaMQ6+rKwDjffpn5f41Q/YNQwkdDHCXbkmHXI1nU8E
-	Cl0E/wCGSZIlaSEWh+b59CO3HTJZXWaO6OXlS/Y=
-X-Google-Smtp-Source: ACHHUZ7l8I/u99ITUyO9KaG4BGtsk5Ahu9fGzyKzO/GHPdO7/f6V6c1qV6rir/MSNA3JAKz4Q+RQya15XVS1yLirLs4=
-X-Received: by 2002:a05:6214:2247:b0:626:2415:843 with SMTP id
- c7-20020a056214224700b0062624150843mr2098221qvc.43.1685446173079; Tue, 30 May
- 2023 04:29:33 -0700 (PDT)
+        bh=2CX81QWvH6s9KobzrQsWhmRGUwobmqZbLPmPxbjonnI=;
+        b=REo/89Urf25+YN2X6qApFkkNEkrs2sBA2vR1Fz7kkoU9jlbDoHD9Q5aWZ9AjWTaCwn
+         h2+fwc0pPmZZBctrS4qm/FMBpZk8qsTbE/TfOpyYXFKLU8hEhZbYDT+moDoL0T9dKlLN
+         Ga0GoGWCN3sRgPXtr8Asi/5EC9nGUvdG2pC3f+vMAU7Wd1oOw6nFb9VbHrtYnc7dthEg
+         f3FSbgF/AggPWF/LPk/80Sj13eLbnUDv1xDI/oy6UeEaAqSDfahX/uUytd4w+kPtybtg
+         r4TGGs/YAmLqu8WLWxK0Y0ioshG2OdN1VaZT4oMmZcxssTy0OdAD1oRISMbGbHfS20hm
+         Cc2w==
+X-Gm-Message-State: AC+VfDy07M7hula5FEnGAtP3TbCFs0HoDvPJXdeGd6hDNJNPr4H+JYuv
+	2plpsyzSH7jRaZxiR5wn19ftrEsfEWXYqVih/kI=
+X-Google-Smtp-Source: ACHHUZ6ytsG267MBZ7DmFEntlrmRiVBGiwfzQPpFlxYfxho8sft+/wYtkjKawGRkFqNjx5ngPISYo7Orl1qogtsA6Uw=
+X-Received: by 2002:ad4:4eae:0:b0:625:aa49:19f3 with SMTP id
+ ed14-20020ad44eae000000b00625aa4919f3mr1670661qvb.64.1685446362988; Tue, 30
+ May 2023 04:32:42 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20230529103741.11904-1-hdegoede@redhat.com> <20230529103741.11904-7-hdegoede@redhat.com>
- <CAHp75Vd0n8HHv2nguQFHvoRuqjwAAj=YdmgMGckg+1q-NLptFw@mail.gmail.com> <b8059e0a-8a95-ce5e-ccd5-786ac9ee6abc@redhat.com>
-In-Reply-To: <b8059e0a-8a95-ce5e-ccd5-786ac9ee6abc@redhat.com>
+References: <20230529103741.11904-1-hdegoede@redhat.com> <20230529103741.11904-22-hdegoede@redhat.com>
+ <CAHp75Ve6rWtkDowBS7z1f=Ot7h8xmXTws8L+Z3eXEfFum2pBcA@mail.gmail.com> <c3580ce0-c43f-8918-ad44-56d512c4fd04@redhat.com>
+In-Reply-To: <c3580ce0-c43f-8918-ad44-56d512c4fd04@redhat.com>
 From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Tue, 30 May 2023 14:28:57 +0300
-Message-ID: <CAHp75VdwCV0PMWqiTunnc3wrvYs7Q=-yGDb++CobhsgwS0EoRw@mail.gmail.com>
-Subject: Re: [PATCH 06/21] media: atomisp: ov2680: Implement selection support
+Date: Tue, 30 May 2023 14:32:06 +0300
+Message-ID: <CAHp75VeDj6HmG4YzU5aOYOoZkWu+J=GkLwu=LuWpa5jXoqkPTA@mail.gmail.com>
+Subject: Re: [PATCH 21/21] media: atomisp: csi2-bridge: Set PMC clk-rate for
+ sensors to 19.2 MHz
 To: Hans de Goede <hdegoede@redhat.com>
 Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
 	Andy Shevchenko <andy@kernel.org>, Kate Hsuan <hpa@redhat.com>, Tsuchiya Yuto <kitakar@gmail.com>, 
@@ -57,40 +58,33 @@ Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, Sakari Ailus <sakari.ailus@linux
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, May 30, 2023 at 1:36=E2=80=AFPM Hans de Goede <hdegoede@redhat.com>=
+On Tue, May 30, 2023 at 1:28=E2=80=AFPM Hans de Goede <hdegoede@redhat.com>=
  wrote:
-> On 5/29/23 22:31, Andy Shevchenko wrote:
-> > On Mon, May 29, 2023 at 1:38=E2=80=AFPM Hans de Goede <hdegoede@redhat.=
+> On 5/29/23 23:48, Andy Shevchenko wrote:
+> > On Mon, May 29, 2023 at 1:39=E2=80=AFPM Hans de Goede <hdegoede@redhat.=
 com> wrote:
 
 ...
 
-> >> +       switch (which) {
-> >> +       case V4L2_SUBDEV_FORMAT_TRY:
-> >> +               return v4l2_subdev_get_try_crop(&sensor->sd, state, pa=
-d);
-> >> +       case V4L2_SUBDEV_FORMAT_ACTIVE:
-> >> +               return &sensor->mode.crop;
-> >> +       }
-> >> +
-> >> +       return NULL;
+> >> +       ret =3D clk_prepare_enable(clk);
+> >> +       if (!ret)
+> >> +               clk_disable_unprepare(clk);
 > >
-> > I would move this to default: case.
+> > I'm wondering if _enable / _disable required.
 >
-> That may cause the reader of the code to think that there are other cases=
-,
-> which there are not. All possible values of enum v4l2_subdev_format_whenc=
-e
-> are already handled, otherwise the compiler would also complain.
+> As the comment says the BIOS may have the clock enabled
+> at boot, the hw won't allow changing the rate while
+> the clk is enabled and the clk-framework won't
+> allow calling clk_disable_unprepare(clk) without
+> first calling clk_prepare_enable().
+>
+> All the sound/soc/intel/boards/*.c files which are
+> used on BYT / CHT do the same thing before setting
+> the codec clk speed.
 
-Why do we care about that?
-What is the common practice in the v4l2 subsystem?
-
-> The "return NULL" is there to shut up other compiler warnings.
-
-Can you elaborate (I mean if the default will be present)?
-
-> I'll add a /* never reached */ to it to make this clear.
+Interesting... It might be that x86 (under drivers/clk/x86 or
+somewhere there) can gain a common helper to do this trick, so we
+won't repeat this over and over again.
 
 --=20
 With Best Regards,
