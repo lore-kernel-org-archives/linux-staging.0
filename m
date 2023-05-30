@@ -1,83 +1,118 @@
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 812661C38
-	for <linux-staging@lists.linux.dev>; Tue, 30 May 2023 04:15:33 +0000 (UTC)
-Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-30ac4e7f37bso2375973f8f.2
-        for <linux-staging@lists.linux.dev>; Mon, 29 May 2023 21:15:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1685420131; x=1688012131;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=9zAmG8r5Tvl40l89QOePVe0ImxWIFUXod7GM9rjQ6w4=;
-        b=Cb0tUT/yg+2xLrCPQuYqIbDjPDTphCH1qAbkrurkgLiNWjf/+GsbPBedPGXMO0NPeo
-         2csyGZIh/5JddVjwDBMEHKWK+Oobnbg83tOJsq28qtKMvAGMIhHdrw19I2qk/UHJzS4R
-         eBeI+QR7McKqWffpzi1fC+lB3XK0TURBrmBhXrQWmlMYVsWAzG8f4uDtAaRL/ZvVZ3BF
-         2xNjgjpI1h14o3ItEAjw/DbBXH94w7FRKwSyRLNMErYyz9YGkX3h5hJ3utLQC2cP5LCQ
-         24xBICXEBTLk9Dv77Gfwvayf9MqeaCnaruG5SvRTnk3gnd+YLUSRY/xj6Br4WTjsuDC9
-         MjQQ==
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28171168CC
+	for <linux-staging@lists.linux.dev>; Tue, 30 May 2023 10:28:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1685442512;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=2b1AE976whQJl3Q7EHB138HWP9PHu2abmZeSJSchDMM=;
+	b=KwutZo1eJRzm66m4m0P2JLMWaAwoKS5igfZAeLhKmV/9/uUpR2Q26jmYwre+uObUgRB6rp
+	cS7O8ArW8auBB5aCClUPpMgDqhBoM0WZMLErwhSGra7PVsrt1V6z2eujdyxsE4arZ3Wth1
+	1ez6wRIMXx2sXFFJHi0AUERYVobfXqc=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-46-oPee_lHoPROPWH0e9dVHgw-1; Tue, 30 May 2023 06:28:26 -0400
+X-MC-Unique: oPee_lHoPROPWH0e9dVHgw-1
+Received: by mail-ed1-f71.google.com with SMTP id 4fb4d7f45d1cf-513f5318ff2so3426540a12.3
+        for <linux-staging@lists.linux.dev>; Tue, 30 May 2023 03:28:26 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1685420131; x=1688012131;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=9zAmG8r5Tvl40l89QOePVe0ImxWIFUXod7GM9rjQ6w4=;
-        b=fLCwmqTFvPtAGvGRRuOu9krB8/uhx0sSYoAgODnVXL/hcNGrxYThsHBcJujdmf1OF7
-         73j0Ji0SyN3HhtMwX6VSvLcC4Qu043K0ldnd/1WOyQJf8u8987hDjFFfvbfraKhKj6Nz
-         Kx8PYf9BkBAX/bWk0Xg1J0rE91lHouZ3IbyHwSfno9jXh7B6c6l4j6QMNuRnFPmKMpVK
-         gB+cKIYXTfQeUYcUYR2lLmBgF/Mo5E0ab4+8Q9BK4Yv1kuYWdvU4W/s1MYbsjmmMuZI+
-         +ulJo4NnhIeR/DZdCpS66uurNk707urHs3yr98AOqRW4AIuyWilIOXM8zdeNpyGiZHVF
-         +czA==
-X-Gm-Message-State: AC+VfDw7Oshf86WJBlvqkNwzUM8J1OioSGI1uXLG1laE30OmErmFIQJA
-	GpVFykXBUrpvWd5rYSnrq/F/dQ==
-X-Google-Smtp-Source: ACHHUZ5SesDtWuZ/F2abelZZil/nppjy3LFKMWP+MiqKh1HA0BKpirE+O275NqL6Cp90anfi0dLFIQ==
-X-Received: by 2002:a5d:4a11:0:b0:30a:bae6:fa98 with SMTP id m17-20020a5d4a11000000b0030abae6fa98mr434634wrq.39.1685420131670;
-        Mon, 29 May 2023 21:15:31 -0700 (PDT)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id v12-20020a5d4a4c000000b003077a19cf75sm1780745wrs.60.2023.05.29.21.15.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 29 May 2023 21:15:29 -0700 (PDT)
-Date: Tue, 30 May 2023 07:15:26 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Deepanshu Kartikey <kartikey406@gmail.com>
-Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4] Staging: rts5208: rtsx: Moved else statement to same
- line with else if
-Message-ID: <ee41bf67-a074-49fd-bd0f-7fb992d68884@kili.mountain>
-References: <20230530022259.24094-1-kartikey406@gmail.com>
+        d=1e100.net; s=20221208; t=1685442505; x=1688034505;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=2b1AE976whQJl3Q7EHB138HWP9PHu2abmZeSJSchDMM=;
+        b=dAXWokKFbEfEkxPRsJxT9WOgs1r3IxGK45tL5/0VOkQ+ke/G9dbR68ONbRdiOmW8xL
+         f+FeO7nDsYm3kYFy4OiyRVcnwjXKko2sgXHmwpDm5z8ZPfM66Byqe0rTzeOI0P87FCzZ
+         ikY9eRbamFIrq64gkrnH2E/mg0fvr4L85d4BO6eURuRzditpOybbfEwFBbLUKxRh5aFT
+         dEC88WPjy6UxJVaAbSX+WjMRJcTVT3+n3wqB7V6VzwETYyuchLK+1m8aW4VP5AuueqNg
+         hMXXYQ7iGxwpePfzupCNzqCbvC+cM8bZr6lPd5nDZ230slnx0Ua/hnfcydvB/71BQvn1
+         SxyQ==
+X-Gm-Message-State: AC+VfDwleAmdDEnMT1HGEzU7ohZSWB8X26AQ98cjvvaL/9HqnT0e0/sg
+	taiEvHa0hVIMEVq8HRfpXt6wgvBZ5WP0YM9BIicjn2Pk7g64zccqxem7qfa9pHSTUIZQ4VITJWK
+	U0luhc1ZZBksmNKdw+TSdCSPbhg==
+X-Received: by 2002:aa7:d815:0:b0:514:964c:4c42 with SMTP id v21-20020aa7d815000000b00514964c4c42mr1441254edq.8.1685442505174;
+        Tue, 30 May 2023 03:28:25 -0700 (PDT)
+X-Google-Smtp-Source: ACHHUZ6qUT7YhhUSNEEOWXHKh1/GHGLG6omqx6SInmX+q9c0x1JLfzHSB+xftFhIHjWmzYOvQyKDIA==
+X-Received: by 2002:aa7:d815:0:b0:514:964c:4c42 with SMTP id v21-20020aa7d815000000b00514964c4c42mr1441235edq.8.1685442504893;
+        Tue, 30 May 2023 03:28:24 -0700 (PDT)
+Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
+        by smtp.gmail.com with ESMTPSA id p3-20020aa7cc83000000b0050bc7c882bfsm4218865edt.65.2023.05.30.03.28.24
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 30 May 2023 03:28:24 -0700 (PDT)
+Message-ID: <c3580ce0-c43f-8918-ad44-56d512c4fd04@redhat.com>
+Date: Tue, 30 May 2023 12:28:23 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230530022259.24094-1-kartikey406@gmail.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [PATCH 21/21] media: atomisp: csi2-bridge: Set PMC clk-rate for
+ sensors to 19.2 MHz
+To: Andy Shevchenko <andy.shevchenko@gmail.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Andy Shevchenko <andy@kernel.org>, Kate Hsuan <hpa@redhat.com>,
+ Tsuchiya Yuto <kitakar@gmail.com>, Yury Luneff <yury.lunev@gmail.com>,
+ Nable <nable.maininbox@googlemail.com>, andrey.i.trufanov@gmail.com,
+ Fabio Aiuto <fabioaiuto83@gmail.com>, linux-media@vger.kernel.org,
+ linux-staging@lists.linux.dev
+References: <20230529103741.11904-1-hdegoede@redhat.com>
+ <20230529103741.11904-22-hdegoede@redhat.com>
+ <CAHp75Ve6rWtkDowBS7z1f=Ot7h8xmXTws8L+Z3eXEfFum2pBcA@mail.gmail.com>
+From: Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <CAHp75Ve6rWtkDowBS7z1f=Ot7h8xmXTws8L+Z3eXEfFum2pBcA@mail.gmail.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US, nl
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Tue, May 30, 2023 at 07:52:59AM +0530, Deepanshu Kartikey wrote:
->  drivers/staging/rts5208/rtsx.c | 6 ++----
->  1 file changed, 2 insertions(+), 4 deletions(-)
+Hi,
+
+On 5/29/23 23:48, Andy Shevchenko wrote:
+> On Mon, May 29, 2023 at 1:39 PM Hans de Goede <hdegoede@redhat.com> wrote:
+>>
+>> The ACPI code takes care of enabling/disabling the PMC clk(s) for
+>> the sensors as necessary based on the runtime-pm state of the sensor.
+>>
+>> But the GMIN code this replaces also set the clk-rate of the PMC clk
+>> to 19.2 MHz. At least on BYT devices the PMC clks may come up running
+>> at 25 MHz instead of the expected 19.2 MHz.
+>>
+>> Ensure the sensor clk also runs at the expected 19.2 MHz for sensors
+>> using v4l2-async probing by explicitly setting it to 19.2 MHz when
+>> enumerating sensors in atomisp_csi2_bridge.c.
 > 
-> diff --git a/drivers/staging/rts5208/rtsx.c b/drivers/staging/rts5208/rtsx.c
-> index 2284a96abcff..47dacef0aaf8 100644
-> --- a/drivers/staging/rts5208/rtsx.c
-> +++ b/drivers/staging/rts5208/rtsx.c
-> @@ -399,10 +399,8 @@ static int rtsx_control_thread(void *__dev)
->  				chip->srb->device->id,
->  				(u8)chip->srb->device->lun);
->  			chip->srb->result = DID_BAD_TARGET << 16;
-> -		}
-> -
-> -		/* we've got a command, let's do it! */
-> -		else {
-> +		} else {
-> +			/* we've got a command, let's do it! */
+> ...
+> 
+>> +       ret = clk_prepare_enable(clk);
+>> +       if (!ret)
+>> +               clk_disable_unprepare(clk);
+> 
+> I'm wondering if _enable / _disable required.
 
-This code is part of series of if else statements that all have the
-same issue but you're only changing one.  Please change them all.
 
-regards,
-dan carpenter
+As the comment says the BIOS may have the clock enabled
+at boot, the hw won't allow changing the rate while
+the clk is enabled and the clk-framework won't
+allow calling clk_disable_unprepare(clk) without
+first calling clk_prepare_enable().
+
+All the sound/soc/intel/boards/*.c files which are
+used on BYT / CHT do the same thing before setting
+the codec clk speed.
+
+Regards,
+
+Hans
+
+
 
