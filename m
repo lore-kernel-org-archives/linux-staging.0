@@ -1,147 +1,94 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f54.google.com (mail-qv1-f54.google.com [209.85.219.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D25C021CE7
-	for <linux-staging@lists.linux.dev>; Thu,  1 Jun 2023 14:59:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1685631553;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=TJ3o0SNnJxcjk3ocmDUvf+AKtFcF94ZqhfK0FB25tx0=;
-	b=g85Pd6KpQLSwpwjIhIQTXksihLMrXmQS72gNbfhxymHf6w3cDgUQ/MMULB9wWrDVp48i6H
-	8FSjindiR7m4SMnHANQ2k90h5vsy6QNUXbHd7Tcb00K4oYTKjPkeNx+eKXvYe3faNBLm0U
-	+qJUyhPxpqbC+GbGv+qXd5D49Jcp0vU=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-597-n9r7zK78POGK0xhBnMqVaw-1; Thu, 01 Jun 2023 10:59:03 -0400
-X-MC-Unique: n9r7zK78POGK0xhBnMqVaw-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com [10.11.54.4])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A39A685A5B5;
-	Thu,  1 Jun 2023 14:59:02 +0000 (UTC)
-Received: from shalem.redhat.com (unknown [10.39.193.72])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 2692B202696C;
-	Thu,  1 Jun 2023 14:59:01 +0000 (UTC)
-From: Hans de Goede <hdegoede@redhat.com>
-To: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Andy Shevchenko <andy@kernel.org>
-Cc: Hans de Goede <hdegoede@redhat.com>,
-	Kate Hsuan <hpa@redhat.com>,
-	Tsuchiya Yuto <kitakar@gmail.com>,
-	Yury Luneff <yury.lunev@gmail.com>,
-	Nable <nable.maininbox@googlemail.com>,
-	andrey.i.trufanov@gmail.com,
-	Fabio Aiuto <fabioaiuto83@gmail.com>,
-	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev
-Subject: [PATCH 1/3] media: atomisp: Take minimum padding requirement on BYT/ISP2400 into account
-Date: Thu,  1 Jun 2023 16:58:56 +0200
-Message-Id: <20230601145858.59652-2-hdegoede@redhat.com>
-In-Reply-To: <20230601145858.59652-1-hdegoede@redhat.com>
-References: <20230601145858.59652-1-hdegoede@redhat.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19C0CBA2F
+	for <linux-staging@lists.linux.dev>; Thu,  1 Jun 2023 16:05:30 +0000 (UTC)
+Received: by mail-qv1-f54.google.com with SMTP id 6a1803df08f44-6261cb1208eso13340496d6.0
+        for <linux-staging@lists.linux.dev>; Thu, 01 Jun 2023 09:05:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1685635530; x=1688227530;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=LusgW7kRLas1PCqAL/j4Ugd2jlhleJjtTI8FOrNEWo4=;
+        b=o7OVNDCyxCG0LZr5motkiiKFmhEN6a5DLpPeZTWvZhpMHv5U1DZGD4R1eENNJ2ZCEi
+         sSWtac0w1g402wxRaFWvCYTYAs5zVj35OVFIArAlhpLQXGJpTJxx4DqdT/VwTeDChzj8
+         00kEj3qG2qn2zSoCRLKDJaDZyNNIqjPqd9Un2gXd9NucBBdRjASUzXmFIN91EYF43yHE
+         TvqlBLma1pAVm3i5XHcd1MFGhb1Jr8EjVLO0cxgoaidEZlK8DLJWqBVeHlDE4Gqp9gJ5
+         0EDAxhxPtmRlE1aZ7xz8GYdI5h6eZcV2HU7nVWDCfMcaYFe/Uw5c2Yxs6d4idz/F/NTX
+         T7tA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1685635530; x=1688227530;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=LusgW7kRLas1PCqAL/j4Ugd2jlhleJjtTI8FOrNEWo4=;
+        b=Bc75wla3OVjeDsk5F2DQI6mzjs7P+CHyBSWyXJ1OumbkeVNJ5Fvy2vKkvy6bft7C5o
+         Ew0h6frcBssDeGn09zf1NpUQ0QNGgb74kNqm6K0JtOdtyC0gpUgtLi+EEVzi3cLr70xI
+         u6P7oEmnZwzLA51mhNthSJSLDOks9kaxx1ja3yIy6ZsPJ0pBj3xLYniv9B4vBfkss9nC
+         qWL2iI/Gx5svzydKgXXnMkFrF4fsuELIjaCU3k+h6jTA38tkP1/iCSZIn2Oj4useqJ0m
+         H2Odao0d4ElHqIMlOAqHY5IO/yS/69lw9vOFSO7YWRdQDbMf2q/G+uE/CGasvs0buODK
+         d2fQ==
+X-Gm-Message-State: AC+VfDxSeyKBAf76qCdWwwqMayJ/n+qq/4QE7LTlNqwkar60ne5C0Axk
+	pDBJrfFjeefS8RcdwdCLW9PZCOU7CUr+g3joS3fxTZdakgKpog==
+X-Google-Smtp-Source: ACHHUZ7VAX2Wc7kYACLhqmb+hfWGE24VYBEGVucB04TT6s8Hz9Xi6qZonInXoiaIxjLRNf9H9NdVgUzP9tu33S28oK8=
+X-Received: by 2002:ad4:5de1:0:b0:619:27af:bc58 with SMTP id
+ jn1-20020ad45de1000000b0061927afbc58mr2105608qvb.18.1685635529762; Thu, 01
+ Jun 2023 09:05:29 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
+References: <20230601145858.59652-1-hdegoede@redhat.com>
+In-Reply-To: <20230601145858.59652-1-hdegoede@redhat.com>
+From: Andy Shevchenko <andy.shevchenko@gmail.com>
+Date: Thu, 1 Jun 2023 19:04:53 +0300
+Message-ID: <CAHp75VfFB6CJ9aRtYd--kON8RwC9YmUrc3+Lbyzkj8RmA_g1KQ@mail.gmail.com>
+Subject: Re: [PATCH 0/3] media: atomisp: Selection API support bugfixes
+To: Hans de Goede <hdegoede@redhat.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
+	Andy Shevchenko <andy@kernel.org>, Kate Hsuan <hpa@redhat.com>, Tsuchiya Yuto <kitakar@gmail.com>, 
+	Yury Luneff <yury.lunev@gmail.com>, Nable <nable.maininbox@googlemail.com>, 
+	andrey.i.trufanov@gmail.com, Fabio Aiuto <fabioaiuto83@gmail.com>, 
+	linux-media@vger.kernel.org, linux-staging@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-The main binary for the pipeline on BYT/ISP2400 has its
-ia_css_binary_info.pipeline.left_cropping and .top_cropping fields
-set to 12. So a minimum padding of 12 is required.
+On Thu, Jun 1, 2023 at 5:59=E2=80=AFPM Hans de Goede <hdegoede@redhat.com> =
+wrote:
+>
+> Hi All,
+>
+> Here is a set of bugfixes for the recently added Selection API support.
 
-And for certain bayer-orders additional width / height padding is
-necessary so that the ISP crop rectangle for the raw sensor data
-can be used to change the bayer-order to the fixed bayer-order
-supported by the debayer block.
+All three LGTM
+Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
 
-Without the minmum required padding ia_css_ifmtr_configure() will fail
-inside ifmtr_input_start_line() and/or ifmtr_start_column() because
-it cannot set the ISP crop rectangle for the raw sensor data.
+> Regards,
+>
+> Hans
+>
+>
+> Hans de Goede (3):
+>   media: atomisp: Take minimum padding requirement on BYT/ISP2400 into
+>     account
+>   media: atomisp: Make atomisp_enum_framesizes_crop() check resolution
+>     fits with padding
+>   media: atomisp: Fix binning check in atomisp_set_crop()
+>
+>  .../staging/media/atomisp/pci/atomisp_cmd.c   | 42 ++++++++++++++++---
+>  .../staging/media/atomisp/pci/atomisp_cmd.h   |  4 ++
+>  .../media/atomisp/pci/atomisp_common.h        |  4 ++
+>  .../staging/media/atomisp/pci/atomisp_ioctl.c | 18 +++++---
+>  4 files changed, 58 insertions(+), 10 deletions(-)
+>
+> --
+> 2.40.1
+>
 
-Fix this by making atomisp_get_padding() take the minimum padding
-requirements into account on BYT/ISP2400 (CHT/ISP2401 does not seem to
-need this).
 
-Signed-off-by: Hans de Goede <hdegoede@redhat.com>
----
- .../staging/media/atomisp/pci/atomisp_cmd.c   | 33 +++++++++++++++++++
- .../media/atomisp/pci/atomisp_common.h        |  4 +++
- 2 files changed, 37 insertions(+)
-
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_cmd.c b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
-index 76307f793dc8..5c984edfb3fc 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_cmd.c
-+++ b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
-@@ -3697,6 +3697,10 @@ static void atomisp_get_padding(struct atomisp_device *isp,
- {
- 	struct atomisp_input_subdev *input = &isp->inputs[isp->asd.input_curr];
- 	struct v4l2_rect native_rect = input->native_rect;
-+	const struct atomisp_in_fmt_conv *fc = NULL;
-+	u32 min_pad_w = ISP2400_MIN_PAD_W;
-+	u32 min_pad_h = ISP2400_MIN_PAD_H;
-+	struct v4l2_mbus_framefmt *sink;
- 
- 	if (!input->crop_support) {
- 		*padding_w = pad_w;
-@@ -3715,6 +3719,35 @@ static void atomisp_get_padding(struct atomisp_device *isp,
- 
- 	*padding_w = min_t(u32, (native_rect.width - width) & ~1, pad_w);
- 	*padding_h = min_t(u32, (native_rect.height - height) & ~1, pad_h);
-+
-+	/* The below minimum padding requirements are for BYT / ISP2400 only */
-+	if (IS_ISP2401)
-+		return;
-+
-+	sink = atomisp_subdev_get_ffmt(&isp->asd.subdev, NULL, V4L2_SUBDEV_FORMAT_ACTIVE,
-+				       ATOMISP_SUBDEV_PAD_SINK);
-+	if (sink)
-+		fc = atomisp_find_in_fmt_conv(sink->code);
-+	if (!fc) {
-+		dev_warn(isp->dev, "%s: Could not get sensor format\n", __func__);
-+		goto apply_min_padding;
-+	}
-+
-+	/*
-+	 * The ISP only supports GRBG for other bayer-orders additional padding
-+	 * is used so that the raw sensor data can be cropped to fix the order.
-+	 */
-+	if (fc->bayer_order == IA_CSS_BAYER_ORDER_RGGB ||
-+	    fc->bayer_order == IA_CSS_BAYER_ORDER_GBRG)
-+		min_pad_w += 2;
-+
-+	if (fc->bayer_order == IA_CSS_BAYER_ORDER_BGGR ||
-+	    fc->bayer_order == IA_CSS_BAYER_ORDER_GBRG)
-+		min_pad_h += 2;
-+
-+apply_min_padding:
-+	*padding_w = max_t(u32, *padding_w, min_pad_w);
-+	*padding_h = max_t(u32, *padding_h, min_pad_h);
- }
- 
- static int atomisp_set_crop(struct atomisp_device *isp,
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_common.h b/drivers/staging/media/atomisp/pci/atomisp_common.h
-index 07c38e487a66..9d23a6ccfc33 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_common.h
-+++ b/drivers/staging/media/atomisp/pci/atomisp_common.h
-@@ -37,6 +37,10 @@ extern int mipicsi_flag;
- extern int pad_w;
- extern int pad_h;
- 
-+/* Minimum padding requirements for ISP2400 (BYT) */
-+#define ISP2400_MIN_PAD_W		12
-+#define ISP2400_MIN_PAD_H		12
-+
- #define CSS_DTRACE_VERBOSITY_LEVEL	5	/* Controls trace verbosity */
- #define CSS_DTRACE_VERBOSITY_TIMEOUT	9	/* Verbosity on ISP timeout */
- #define MRFLD_MAX_ZOOM_FACTOR	1024
--- 
-2.40.1
-
+--=20
+With Best Regards,
+Andy Shevchenko
