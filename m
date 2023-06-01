@@ -1,31 +1,31 @@
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DB3721CE7
-	for <linux-staging@lists.linux.dev>; Thu,  1 Jun 2023 14:59:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D25C021CE7
+	for <linux-staging@lists.linux.dev>; Thu,  1 Jun 2023 14:59:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1685631551;
+	s=mimecast20190719; t=1685631553;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=LjN3WmiAbe4dV1aNuMh71/tZebm4EMjQJk0lOemIUXk=;
-	b=Abndu+zomLBP0MoMD59ZcWdL2GXQmCMHs05gFcJxMH93YjcVEhjOYsnI8f/XKFYyCVDOcu
-	t1lBLGNl2otoor0eqCrE2PeeoXAHSQkGr5MEMuAr3YaE/66sxICsy4vhPKAp5XUS28P6qW
-	TDnPY7xycLVsFKRrWzNsqnov4VqBBeo=
+	bh=TJ3o0SNnJxcjk3ocmDUvf+AKtFcF94ZqhfK0FB25tx0=;
+	b=g85Pd6KpQLSwpwjIhIQTXksihLMrXmQS72gNbfhxymHf6w3cDgUQ/MMULB9wWrDVp48i6H
+	8FSjindiR7m4SMnHANQ2k90h5vsy6QNUXbHd7Tcb00K4oYTKjPkeNx+eKXvYe3faNBLm0U
+	+qJUyhPxpqbC+GbGv+qXd5D49Jcp0vU=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-663-58slDWE0P6yACML5hZ_oWA-1; Thu, 01 Jun 2023 10:59:05 -0400
-X-MC-Unique: 58slDWE0P6yACML5hZ_oWA-1
+ us-mta-597-n9r7zK78POGK0xhBnMqVaw-1; Thu, 01 Jun 2023 10:59:03 -0400
+X-MC-Unique: n9r7zK78POGK0xhBnMqVaw-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com [10.11.54.4])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 672CA8030D4;
-	Thu,  1 Jun 2023 14:59:04 +0000 (UTC)
-Received: from shalem.redhat.com (unknown [10.39.193.72])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id D6EAF20296C6;
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A39A685A5B5;
 	Thu,  1 Jun 2023 14:59:02 +0000 (UTC)
+Received: from shalem.redhat.com (unknown [10.39.193.72])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 2692B202696C;
+	Thu,  1 Jun 2023 14:59:01 +0000 (UTC)
 From: Hans de Goede <hdegoede@redhat.com>
 To: Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Sakari Ailus <sakari.ailus@linux.intel.com>,
@@ -39,9 +39,9 @@ Cc: Hans de Goede <hdegoede@redhat.com>,
 	Fabio Aiuto <fabioaiuto83@gmail.com>,
 	linux-media@vger.kernel.org,
 	linux-staging@lists.linux.dev
-Subject: [PATCH 2/3] media: atomisp: Make atomisp_enum_framesizes_crop() check resolution fits with padding
-Date: Thu,  1 Jun 2023 16:58:57 +0200
-Message-Id: <20230601145858.59652-3-hdegoede@redhat.com>
+Subject: [PATCH 1/3] media: atomisp: Take minimum padding requirement on BYT/ISP2400 into account
+Date: Thu,  1 Jun 2023 16:58:56 +0200
+Message-Id: <20230601145858.59652-2-hdegoede@redhat.com>
 In-Reply-To: <20230601145858.59652-1-hdegoede@redhat.com>
 References: <20230601145858.59652-1-hdegoede@redhat.com>
 Precedence: bulk
@@ -53,119 +53,95 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
 
-Now that atomisp_get_padding() takes minimum padding requirements
-on BYT/ISP2400 into account, it is possible for a resolution which
-fits in the active area of the sensor to not fit in the native area
-once padding is added.
+The main binary for the pipeline on BYT/ISP2400 has its
+ia_css_binary_info.pipeline.left_cropping and .top_cropping fields
+set to 12. So a minimum padding of 12 is required.
 
-For example on the ov2680 which has a native resolution of 1616x1216
-the max active resolution of 1600x1200 leaves 16x16 for padding which
-meets the worst-case minimum padding requirement of 14x14 on BYT.
+And for certain bayer-orders additional width / height padding is
+necessary so that the ISP crop rectangle for the raw sensor data
+can be used to change the bayer-order to the fixed bayer-order
+supported by the debayer block.
 
-But after binning we are left with an native area of 808x608 and
-an active area of 800x600. This leaves 8x8 for padding which is not
-enough. So on BYT 800x600 is not a valid resolution (it could be
-made by lots of cropping without binning but then the remaining
-field of view is no good).
+Without the minmum required padding ia_css_ifmtr_configure() will fail
+inside ifmtr_input_start_line() and/or ifmtr_start_column() because
+it cannot set the ISP crop rectangle for the raw sensor data.
 
-Modify atomisp_enum_framesizes_crop() to check the resolution +
-padding fits in the native rectangle, removing 800x600 from
-the list of valid modes on BYT.
+Fix this by making atomisp_get_padding() take the minimum padding
+requirements into account on BYT/ISP2400 (CHT/ISP2401 does not seem to
+need this).
 
 Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 ---
- .../staging/media/atomisp/pci/atomisp_cmd.c    |  5 ++---
- .../staging/media/atomisp/pci/atomisp_cmd.h    |  4 ++++
- .../staging/media/atomisp/pci/atomisp_ioctl.c  | 18 +++++++++++++-----
- 3 files changed, 19 insertions(+), 8 deletions(-)
+ .../staging/media/atomisp/pci/atomisp_cmd.c   | 33 +++++++++++++++++++
+ .../media/atomisp/pci/atomisp_common.h        |  4 +++
+ 2 files changed, 37 insertions(+)
 
 diff --git a/drivers/staging/media/atomisp/pci/atomisp_cmd.c b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
-index 5c984edfb3fc..68550cd49a83 100644
+index 76307f793dc8..5c984edfb3fc 100644
 --- a/drivers/staging/media/atomisp/pci/atomisp_cmd.c
 +++ b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
-@@ -3691,9 +3691,8 @@ static void atomisp_fill_pix_format(struct v4l2_pix_format *f,
- }
- 
- /* Get sensor padding values for the non padded width x height resolution */
--static void atomisp_get_padding(struct atomisp_device *isp,
--				u32 width, u32 height,
--				u32 *padding_w, u32 *padding_h)
-+void atomisp_get_padding(struct atomisp_device *isp, u32 width, u32 height,
-+			 u32 *padding_w, u32 *padding_h)
+@@ -3697,6 +3697,10 @@ static void atomisp_get_padding(struct atomisp_device *isp,
  {
  	struct atomisp_input_subdev *input = &isp->inputs[isp->asd.input_curr];
  	struct v4l2_rect native_rect = input->native_rect;
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_cmd.h b/drivers/staging/media/atomisp/pci/atomisp_cmd.h
-index c9a587b34e70..8305161d2062 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_cmd.h
-+++ b/drivers/staging/media/atomisp/pci/atomisp_cmd.h
-@@ -250,6 +250,10 @@ int atomisp_makeup_css_parameters(struct atomisp_sub_device *asd,
- int atomisp_compare_grid(struct atomisp_sub_device *asd,
- 			 struct atomisp_grid_info *atomgrid);
++	const struct atomisp_in_fmt_conv *fc = NULL;
++	u32 min_pad_w = ISP2400_MIN_PAD_W;
++	u32 min_pad_h = ISP2400_MIN_PAD_H;
++	struct v4l2_mbus_framefmt *sink;
  
-+/* Get sensor padding values for the non padded width x height resolution */
-+void atomisp_get_padding(struct atomisp_device *isp, u32 width, u32 height,
-+			 u32 *padding_w, u32 *padding_h);
+ 	if (!input->crop_support) {
+ 		*padding_w = pad_w;
+@@ -3715,6 +3719,35 @@ static void atomisp_get_padding(struct atomisp_device *isp,
+ 
+ 	*padding_w = min_t(u32, (native_rect.width - width) & ~1, pad_w);
+ 	*padding_h = min_t(u32, (native_rect.height - height) & ~1, pad_h);
 +
- /* This function looks up the closest available resolution. */
- int atomisp_try_fmt(struct atomisp_device *isp, struct v4l2_pix_format *f,
- 		    const struct atomisp_format_bridge **fmt_ret,
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_ioctl.c b/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
-index 279493af6e0d..d2174156573a 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
-+++ b/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
-@@ -703,7 +703,8 @@ static int atomisp_s_input(struct file *file, void *fh, unsigned int input)
-  */
- static int atomisp_enum_framesizes_crop_inner(struct atomisp_device *isp,
- 					      struct v4l2_frmsizeenum *fsize,
--					      struct v4l2_rect *active,
-+					      const struct v4l2_rect *active,
-+					      const struct v4l2_rect *native,
- 					      int *valid_sizes)
- {
- 	static const struct v4l2_frmsize_discrete frame_sizes[] = {
-@@ -716,11 +717,15 @@ static int atomisp_enum_framesizes_crop_inner(struct atomisp_device *isp,
- 		{  800,  600 },
- 		{  640,  480 },
- 	};
-+	u32 padding_w, padding_h;
- 	int i;
- 
- 	for (i = 0; i < ARRAY_SIZE(frame_sizes); i++) {
--		if (frame_sizes[i].width > active->width ||
--		    frame_sizes[i].height > active->height)
-+		atomisp_get_padding(isp, frame_sizes[i].width, frame_sizes[i].height,
-+				    &padding_w, &padding_h);
++	/* The below minimum padding requirements are for BYT / ISP2400 only */
++	if (IS_ISP2401)
++		return;
 +
-+		if ((frame_sizes[i].width + padding_w) > native->width ||
-+		    (frame_sizes[i].height + padding_h) > native->height)
- 			continue;
- 
- 		/*
-@@ -748,9 +753,10 @@ static int atomisp_enum_framesizes_crop(struct atomisp_device *isp,
- {
- 	struct atomisp_input_subdev *input = &isp->inputs[isp->asd.input_curr];
- 	struct v4l2_rect active = input->active_rect;
-+	struct v4l2_rect native = input->native_rect;
- 	int ret, valid_sizes = 0;
- 
--	ret = atomisp_enum_framesizes_crop_inner(isp, fsize, &active, &valid_sizes);
-+	ret = atomisp_enum_framesizes_crop_inner(isp, fsize, &active, &native, &valid_sizes);
- 	if (ret == 0)
- 		return 0;
- 
-@@ -759,8 +765,10 @@ static int atomisp_enum_framesizes_crop(struct atomisp_device *isp,
- 
- 	active.width /= 2;
- 	active.height /= 2;
-+	native.width /= 2;
-+	native.height /= 2;
- 
--	return atomisp_enum_framesizes_crop_inner(isp, fsize, &active, &valid_sizes);
-+	return atomisp_enum_framesizes_crop_inner(isp, fsize, &active, &native, &valid_sizes);
++	sink = atomisp_subdev_get_ffmt(&isp->asd.subdev, NULL, V4L2_SUBDEV_FORMAT_ACTIVE,
++				       ATOMISP_SUBDEV_PAD_SINK);
++	if (sink)
++		fc = atomisp_find_in_fmt_conv(sink->code);
++	if (!fc) {
++		dev_warn(isp->dev, "%s: Could not get sensor format\n", __func__);
++		goto apply_min_padding;
++	}
++
++	/*
++	 * The ISP only supports GRBG for other bayer-orders additional padding
++	 * is used so that the raw sensor data can be cropped to fix the order.
++	 */
++	if (fc->bayer_order == IA_CSS_BAYER_ORDER_RGGB ||
++	    fc->bayer_order == IA_CSS_BAYER_ORDER_GBRG)
++		min_pad_w += 2;
++
++	if (fc->bayer_order == IA_CSS_BAYER_ORDER_BGGR ||
++	    fc->bayer_order == IA_CSS_BAYER_ORDER_GBRG)
++		min_pad_h += 2;
++
++apply_min_padding:
++	*padding_w = max_t(u32, *padding_w, min_pad_w);
++	*padding_h = max_t(u32, *padding_h, min_pad_h);
  }
  
- static int atomisp_enum_framesizes(struct file *file, void *priv,
+ static int atomisp_set_crop(struct atomisp_device *isp,
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_common.h b/drivers/staging/media/atomisp/pci/atomisp_common.h
+index 07c38e487a66..9d23a6ccfc33 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_common.h
++++ b/drivers/staging/media/atomisp/pci/atomisp_common.h
+@@ -37,6 +37,10 @@ extern int mipicsi_flag;
+ extern int pad_w;
+ extern int pad_h;
+ 
++/* Minimum padding requirements for ISP2400 (BYT) */
++#define ISP2400_MIN_PAD_W		12
++#define ISP2400_MIN_PAD_H		12
++
+ #define CSS_DTRACE_VERBOSITY_LEVEL	5	/* Controls trace verbosity */
+ #define CSS_DTRACE_VERBOSITY_TIMEOUT	9	/* Verbosity on ISP timeout */
+ #define MRFLD_MAX_ZOOM_FACTOR	1024
 -- 
 2.40.1
 
