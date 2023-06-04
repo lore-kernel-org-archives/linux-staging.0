@@ -1,105 +1,90 @@
-Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EAD9DEA0
-	for <linux-staging@lists.linux.dev>; Sat,  3 Jun 2023 08:52:56 +0000 (UTC)
-Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-96fc07d7e6bso45877566b.1
-        for <linux-staging@lists.linux.dev>; Sat, 03 Jun 2023 01:52:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1685782375; x=1688374375;
-        h=content-disposition:mime-version:message-id:subject:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=i4hgS0z3Yb2ht0d9NIqGTFCpoZ1x1i+4zbGIDoMkc6Y=;
-        b=NGlf2px41l0Jptg/BEuTtXeFKZSOTbzOb7uIMg0+F9zRMkAeS5c8harZLvyPrigwLj
-         cBWyQLYM9oW80MW+ylYl7Re6NI7A0zOWqGKEc9HLrl+tdsAttpDgnCZc27CqhbA9OKGX
-         MGjcSoyespZgg17K0ioFU74P6qz4wbD30R2HL0t/kP+I0YOmtWgmmkSt6qzXvrN+uUSZ
-         QAOCWdvCWkS0eFsym7jWY4ceszKZQyDgOc+wlJc7bdwMcNqikdAxu31fHQ984XYSkl75
-         xmpfKbYqG975vJV6Mr0N8FXOCt1Iuhz+IQ8mz025VB/pRQThTG9l7ym7D4LE1HZwcOzL
-         NY5g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1685782375; x=1688374375;
-        h=content-disposition:mime-version:message-id:subject:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=i4hgS0z3Yb2ht0d9NIqGTFCpoZ1x1i+4zbGIDoMkc6Y=;
-        b=WgmmjZcxdfPXmqnckrAodRoINdSzFnEA63kOqiTu7YYJjEdYExGzX8aI107ijxJPRo
-         IYwP11isLshHQSwRm9IG2IgF6fYtXe9kanUdYfC7sGiKuPTFrbLdmK2vpHMYUfOcR0q5
-         Joom0NAXy1EOcqQw6ga8OkNZ+m/KnTKqsdkFgJMGGGyKIFkVBn+2KK/ZNEVpyJ+SOwfo
-         DkJZpfcypZNqBHHoxgxpbC/Ex5jPxUeyye3bymXoHuADXIOlQQyMHHzXiFTF2rQVQKHQ
-         9p674lcvS54C2ajS6UH5y2Apcl+ojlP7nB6mhOMiySgKNFHxCduvqfuNa2+7Lig6vwwL
-         yP4A==
-X-Gm-Message-State: AC+VfDxWlPr/bhvJmFsYSmgbWbzRcRl5qdsTNGuYspW2StSsIoe7rj3O
-	StEo1KEIVCTqFI/ZG334Arc=
-X-Google-Smtp-Source: ACHHUZ7Qpe56vScU/lUgvpUydKDfzUVjExfLo3Q+4U2pASUlgYYwZUzBWSkCgyxRI51V+NpwsirmjQ==
-X-Received: by 2002:a05:6402:5203:b0:502:1f7b:f069 with SMTP id s3-20020a056402520300b005021f7bf069mr9789976edd.2.1685782374597;
-        Sat, 03 Jun 2023 01:52:54 -0700 (PDT)
-Received: from matrix-ESPRIMO-P710 (p57ba2e0b.dip0.t-ipconnect.de. [87.186.46.11])
-        by smtp.gmail.com with ESMTPSA id bm11-20020a0564020b0b00b00514b2717ec6sm1562599edb.28.2023.06.03.01.52.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 03 Jun 2023 01:52:53 -0700 (PDT)
-Date: Sat, 3 Jun 2023 10:52:51 +0200
-From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [PATCH] staging: rtl8192e: Add cfg80211.h and remove defined
- variables
-Message-ID: <20230603085251.GA20230@matrix-ESPRIMO-P710>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F383C101CF
+	for <linux-staging@lists.linux.dev>; Sun,  4 Jun 2023 16:14:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1685895257;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=RgqWZJY1gtiF9VOC9b6KBuvHjPw32HL9s7xBsjtjjiw=;
+	b=bkwvDdKS/nwJxexsqFmNw524rqxOSgxLclf/DMg4Jsok2rWXc1VQLrQ+kwpxh3odxXwJpe
+	HaJ1m9mhwPS3koRG0FpvIpl6mOq/gFztqtkrJ/SDVHPUb9vPY6glx91aE7nOhiBBNP7sdU
+	onR/3i/rGfdEU1d9JFbkBxJG5kohfcw=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-386-C3-XVopoNfKFSlB8yTQueg-1; Sun, 04 Jun 2023 12:14:16 -0400
+X-MC-Unique: C3-XVopoNfKFSlB8yTQueg-1
+Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com [10.11.54.9])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 58C32101A52C;
+	Sun,  4 Jun 2023 16:14:15 +0000 (UTC)
+Received: from localhost.localdomain (unknown [10.39.192.9])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id C51E5492B00;
+	Sun,  4 Jun 2023 16:14:13 +0000 (UTC)
+From: Hans de Goede <hdegoede@redhat.com>
+To: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Andy Shevchenko <andy@kernel.org>
+Cc: Hans de Goede <hdegoede@redhat.com>,
+	Kate Hsuan <hpa@redhat.com>,
+	Tsuchiya Yuto <kitakar@gmail.com>,
+	Yury Luneff <yury.lunev@gmail.com>,
+	Nable <nable.maininbox@googlemail.com>,
+	andrey.i.trufanov@gmail.com,
+	Fabio Aiuto <fabioaiuto83@gmail.com>,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev
+Subject: [PATCH 1/5] media: atomisp: Stop resetting selected input to 0 between /dev/video# opens
+Date: Sun,  4 Jun 2023 18:14:02 +0200
+Message-Id: <20230604161406.69369-2-hdegoede@redhat.com>
+In-Reply-To: <20230604161406.69369-1-hdegoede@redhat.com>
+References: <20230604161406.69369-1-hdegoede@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
 
-Add cfg80211 and remove defined variables rfc1042_header and
-bridge_tunnel_header as they are then already defined. Usage of cfg80211
-is required to merge driver into wireless subsystem.
+No other V4L2 driver resets the selected input (front cam or back cam
+selected in case of the atomisp).
 
-Signed-off-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+Stop resetting selected input to 0 between /dev/video# opens.
+
+This allows e.g. using v4l2-ctl -i to switch the input before starting
+another app, which is useful since most apps don't support selecting
+the input.
+
+Note more in general the whole resetting of a bunch of internal
+state from the open fop needs to be removed there to allow multiple
+opens of /dev/video# for full v4l2 API compliance.
+
+Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 ---
-Tested with rtl8192e (WLL6130-D99)
-Transferred this patch over wlan connection of rtl8192e
----
- drivers/staging/rtl8192e/rtllib.h    |  1 +
- drivers/staging/rtl8192e/rtllib_rx.c | 12 ------------
- 2 files changed, 1 insertion(+), 12 deletions(-)
+ drivers/staging/media/atomisp/pci/atomisp_fops.c | 3 ---
+ 1 file changed, 3 deletions(-)
 
-diff --git a/drivers/staging/rtl8192e/rtllib.h b/drivers/staging/rtl8192e/rtllib.h
-index f2903b14b793..cdd7fdc5befe 100644
---- a/drivers/staging/rtl8192e/rtllib.h
-+++ b/drivers/staging/rtl8192e/rtllib.h
-@@ -38,6 +38,7 @@
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_fops.c b/drivers/staging/media/atomisp/pci/atomisp_fops.c
+index 36e441dce7d5..54466d2f323a 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_fops.c
++++ b/drivers/staging/media/atomisp/pci/atomisp_fops.c
+@@ -474,9 +474,6 @@ static void atomisp_subdev_init_struct(struct atomisp_sub_device *asd)
+ 	/* s3a grid not enabled for any pipe */
+ 	asd->params.s3a_enabled_pipe = IA_CSS_PIPE_ID_NUM;
  
- #include <linux/netdevice.h>
- #include <linux/if_arp.h> /* ARPHRD_ETHER */
-+#include <net/cfg80211.h>
- #include <net/lib80211.h>
- 
- #define MAX_PRECMD_CNT 16
-diff --git a/drivers/staging/rtl8192e/rtllib_rx.c b/drivers/staging/rtl8192e/rtllib_rx.c
-index d44bf261de54..46c77ed335ab 100644
---- a/drivers/staging/rtl8192e/rtllib_rx.c
-+++ b/drivers/staging/rtl8192e/rtllib_rx.c
-@@ -225,18 +225,6 @@ rtllib_rx_frame_mgmt(struct rtllib_device *ieee, struct sk_buff *skb,
- 	return 0;
- }
- 
--/* See IEEE 802.1H for LLC/SNAP encapsulation/decapsulation
-- * Ethernet-II snap header (RFC1042 for most EtherTypes)
-- */
--static unsigned char rfc1042_header[] = {
--	0xaa, 0xaa, 0x03, 0x00, 0x00, 0x00
--};
+-	/* Add for channel */
+-	asd->input_curr = 0;
 -
--/* Bridge-Tunnel header (for EtherTypes ETH_P_AARP and ETH_P_IPX) */
--static unsigned char bridge_tunnel_header[] = {
--	0xaa, 0xaa, 0x03, 0x00, 0x00, 0xf8
--};
--
- /* No encapsulation header if EtherType < 0x600 (=length) */
+ 	asd->copy_mode = false;
  
- /* Called by rtllib_rx_frame_decrypt */
+ 	asd->stream_prepared = false;
 -- 
 2.40.1
 
