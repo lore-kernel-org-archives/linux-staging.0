@@ -1,42 +1,42 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BEC4E1F924
-	for <linux-staging@lists.linux.dev>; Mon,  5 Jun 2023 14:48:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B55091F936
+	for <linux-staging@lists.linux.dev>; Mon,  5 Jun 2023 14:48:20 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id D27A121B67;
-	Mon,  5 Jun 2023 14:48:15 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id BF5C21FE69;
+	Mon,  5 Jun 2023 14:48:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1685976495; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1685976497; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=XrIaA11UECgCyVaDDJA6C7jjJWoM1qyXSRf/ZVI8E1o=;
-	b=hw6QJQadbQZOGemm4GteztF6Euar62lrBraO0mQlB7yElafEmfxrBwzOtTqtK96wjDRLdU
-	nZ5MNkQ5b+sr3wCfqVq8xYJEVHjRye/3t1i+FLmUb09/y3sqc9eEMy6gFkDIneVvLbWpae
-	7sXmxmXX65l5tQmZ9B7spzDwY0NFMAI=
+	bh=wbYOvmv180KZxIMHrG1c5fTu+u0cohOPPIFVll5LKyg=;
+	b=oauipHmX3GfcojR6ISWTAZ9n13PQNSMBffhG4NoxSFdsqPd400nn0eacbYPm6c8KRcT9Xd
+	uClNS2yUKbMUF6CzjEf/ufYSX8dfq6CrmBaZmhhyQe3R1EgRdXPvD4SKfZKks+1kuHUfun
+	Is1aD3HAo28rNcOE10y5YkZnkC7UVZk=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1685976495;
+	s=susede2_ed25519; t=1685976497;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=XrIaA11UECgCyVaDDJA6C7jjJWoM1qyXSRf/ZVI8E1o=;
-	b=S/j1toaPGx8XCaWcrE0gwpHomcbKM4IMiaPxV00jnzHqyARW+m6pKiRmY9hve+OUvRi/e5
-	UCbdJPkE3UqNOKCA==
+	bh=wbYOvmv180KZxIMHrG1c5fTu+u0cohOPPIFVll5LKyg=;
+	b=kMqpEWdvjdvmmd/S3EPYSewH2Wm94GyOuP/puzfPMMnAL+BLaWiqHuqcEBVd4y/ZGQk4Gz
+	1Muc66kw1O3/i/CQ==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 8257713A3C;
-	Mon,  5 Jun 2023 14:48:15 +0000 (UTC)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 81CD313A3C;
+	Mon,  5 Jun 2023 14:48:17 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
 	by imap2.suse-dmz.suse.de with ESMTPSA
-	id AC7lHq/1fWQvXwAAMHmgww
-	(envelope-from <tzimmermann@suse.de>); Mon, 05 Jun 2023 14:48:15 +0000
+	id 2O3UHrH1fWQvXwAAMHmgww
+	(envelope-from <tzimmermann@suse.de>); Mon, 05 Jun 2023 14:48:17 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: daniel@ffwll.ch,
 	javierm@redhat.com,
@@ -51,13 +51,10 @@ Cc: linux-fbdev@vger.kernel.org,
 	linux-sh@vger.kernel.org,
 	linux-omap@vger.kernel.org,
 	linux-staging@lists.linux.dev,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Yoshinori Sato <ysato@users.sourceforge.jp>,
-	Rich Felker <dalias@libc.org>,
-	John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
-Subject: [PATCH 03/30] backlight/lv5207lp: Compare against struct fb_info.device
-Date: Mon,  5 Jun 2023 16:47:45 +0200
-Message-Id: <20230605144812.15241-4-tzimmermann@suse.de>
+	Thomas Zimmermann <tzimmermann@suse.de>
+Subject: [PATCH 10/30] fbdev/ep93xx-fb: Output messages with fb_info() and fb_err()
+Date: Mon,  5 Jun 2023 16:47:52 +0200
+Message-Id: <20230605144812.15241-11-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.40.1
 In-Reply-To: <20230605144812.15241-1-tzimmermann@suse.de>
 References: <20230605144812.15241-1-tzimmermann@suse.de>
@@ -69,67 +66,51 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Struct lv5207lp_platform_data refers to a platform device within
-the Linux device hierarchy. The test in lv5207lp_backlight_check_fb()
-compares it against the fbdev device in struct fb_info.dev, which
-is different. Fix the test by comparing to struct fb_info.device.
-
-Fixes a bug in the backlight driver and prepares fbdev for making
-struct fb_info.dev optional.
+Fix cases were output helpers are called with struct fb_info.dev.
+Use fb_info() and fb_err() instead.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: Yoshinori Sato <ysato@users.sourceforge.jp>
-Cc: Rich Felker <dalias@libc.org>
-Cc: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
-Cc: Lee Jones <lee@kernel.org>
-Cc: Daniel Thompson <daniel.thompson@linaro.org>
-Cc: Jingoo Han <jingoohan1@gmail.com>
-Cc: linux-sh@vger.kernel.org
 ---
- arch/sh/boards/mach-kfr2r09/setup.c    | 2 +-
- drivers/video/backlight/lv5207lp.c     | 2 +-
- include/linux/platform_data/lv5207lp.h | 2 +-
- 3 files changed, 3 insertions(+), 3 deletions(-)
+ drivers/video/fbdev/ep93xx-fb.c | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
-diff --git a/arch/sh/boards/mach-kfr2r09/setup.c b/arch/sh/boards/mach-kfr2r09/setup.c
-index 20f4db778ed6..a18e80394aed 100644
---- a/arch/sh/boards/mach-kfr2r09/setup.c
-+++ b/arch/sh/boards/mach-kfr2r09/setup.c
-@@ -202,7 +202,7 @@ static struct platform_device kfr2r09_sh_lcdc_device = {
- };
+diff --git a/drivers/video/fbdev/ep93xx-fb.c b/drivers/video/fbdev/ep93xx-fb.c
+index 376ee59e925c..f6cd200fe50f 100644
+--- a/drivers/video/fbdev/ep93xx-fb.c
++++ b/drivers/video/fbdev/ep93xx-fb.c
+@@ -436,9 +436,9 @@ static int ep93xxfb_alloc_videomem(struct fb_info *info)
+ 	 * least.
+ 	 */
+ 	if (check_screenpage_bug && phys_addr & (1 << 27)) {
+-		dev_err(info->dev, "ep93xx framebuffer bug. phys addr (0x%x) "
+-			"has bit 27 set: cannot init framebuffer\n",
+-			phys_addr);
++		fb_err(info, "ep93xx framebuffer bug. phys addr (0x%x) "
++		       "has bit 27 set: cannot init framebuffer\n",
++		       phys_addr);
  
- static struct lv5207lp_platform_data kfr2r09_backlight_data = {
--	.fbdev = &kfr2r09_sh_lcdc_device.dev,
-+	.dev = &kfr2r09_sh_lcdc_device.dev,
- 	.def_value = 13,
- 	.max_value = 13,
- };
-diff --git a/drivers/video/backlight/lv5207lp.c b/drivers/video/backlight/lv5207lp.c
-index 00673c8b66ac..739f45cd2d38 100644
---- a/drivers/video/backlight/lv5207lp.c
-+++ b/drivers/video/backlight/lv5207lp.c
-@@ -67,7 +67,7 @@ static int lv5207lp_backlight_check_fb(struct backlight_device *backlight,
- {
- 	struct lv5207lp *lv = bl_get_data(backlight);
+ 		dma_free_coherent(info->device, fb_size, virt_addr, phys_addr);
+ 		return -ENOMEM;
+@@ -525,7 +525,7 @@ static int ep93xxfb_probe(struct platform_device *pdev)
+ 	err = fb_find_mode(&info->var, info, video_mode,
+ 			   NULL, 0, NULL, 16);
+ 	if (err == 0) {
+-		dev_err(info->dev, "No suitable video mode found\n");
++		fb_err(info, "No suitable video mode found\n");
+ 		err = -EINVAL;
+ 		goto failed_resource;
+ 	}
+@@ -554,8 +554,8 @@ static int ep93xxfb_probe(struct platform_device *pdev)
+ 	if (err)
+ 		goto failed_framebuffer;
  
--	return lv->pdata->fbdev == NULL || lv->pdata->fbdev == info->dev;
-+	return !lv->pdata->dev || lv->pdata->dev == info->device;
- }
+-	dev_info(info->dev, "registered. Mode = %dx%d-%d\n",
+-		 info->var.xres, info->var.yres, info->var.bits_per_pixel);
++	fb_info(info, "registered. Mode = %dx%d-%d\n",
++		info->var.xres, info->var.yres, info->var.bits_per_pixel);
+ 	return 0;
  
- static const struct backlight_ops lv5207lp_backlight_ops = {
-diff --git a/include/linux/platform_data/lv5207lp.h b/include/linux/platform_data/lv5207lp.h
-index c9da8d402750..95d85c1394bc 100644
---- a/include/linux/platform_data/lv5207lp.h
-+++ b/include/linux/platform_data/lv5207lp.h
-@@ -8,7 +8,7 @@
- struct device;
- 
- struct lv5207lp_platform_data {
--	struct device *fbdev;
-+	struct device *dev;
- 	unsigned int max_value;
- 	unsigned int def_value;
- };
+ failed_framebuffer:
 -- 
 2.40.1
 
