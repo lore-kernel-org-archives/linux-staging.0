@@ -1,131 +1,74 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33F28134BB
-	for <linux-staging@lists.linux.dev>; Mon,  5 Jun 2023 09:29:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE07815494
+	for <linux-staging@lists.linux.dev>; Mon,  5 Jun 2023 10:29:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1685957373;
+	s=mimecast20190719; t=1685960956;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=98nYeq3pFKsuigocZLVMIcRPqxkIdBUW+cdvwG62xaU=;
-	b=c3HG042KhfdIh8fqh+PU4qDq0Cdm/nmvgZ/L5p9Lw2p8eseNmh+z1ESxJA2SpZ/rx7sLnY
-	myvbiv/STQJjmEpD/1Xz83csE5kNNw2ra5Fj7kKo49gxXMZhUV05RITODPtDWx5CIcbLKk
-	s5nQEuIjrJTLJpaBfqJZ8CownlWelPA=
-Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
- [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-13-8t2r6K_8OPaj0IpPPMbcOw-1; Mon, 05 Jun 2023 05:29:32 -0400
-X-MC-Unique: 8t2r6K_8OPaj0IpPPMbcOw-1
-Received: by mail-ej1-f69.google.com with SMTP id a640c23a62f3a-94a355c9028so337437366b.3
-        for <linux-staging@lists.linux.dev>; Mon, 05 Jun 2023 02:29:32 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1685957371; x=1688549371;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=98nYeq3pFKsuigocZLVMIcRPqxkIdBUW+cdvwG62xaU=;
-        b=jH+BnZWHlsGhCk46HUDRFFpy6Hpwjd/aujbYtWMS04wXjELfucAYmTlMvvCmwlz42i
-         CEsd+a9OtncIzFVOW2XeZ5c/Cq/KwMt7tKPDG2I1cKUGjgDLIc5x3Ss8nScc2iTxV4tj
-         yAPgEMjC46boxEor8YAmuXG/DyJR4EvWKkuSfVhYDWUcR306sQFomiFd2BSZBLwNyFZ7
-         UlEXqAiDoK8/GJdO4V7MEXJYrIpycbCsh5muF0Pf8ynZ9mwqR6rXJDdO5LBFVYgcmGbG
-         c0g7uZNKgl1qkJ1x8GOJUGos7r/8Zsg2BHWwxoC5WdCBGVsvLFCIfBz/FjWFXY9znNaQ
-         H7Qw==
-X-Gm-Message-State: AC+VfDwA38TNPnqbXD5ZXV9MJ1QUhxizi1HmRvTqFmEEMnUWxiZagxSf
-	8zKL9BK+DCT7/i3z1JfNaP76ds60hNRVu4TrBh9/XSpyDmlKSHK70Szp8kJ9cF+7i+2LnWg7OT8
-	/xK92goblflgjaBJvmZS3RnosIg==
-X-Received: by 2002:a17:907:25c8:b0:949:cb6a:b6f7 with SMTP id ae8-20020a17090725c800b00949cb6ab6f7mr5137424ejc.56.1685957371638;
-        Mon, 05 Jun 2023 02:29:31 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ6adDqv06/bBGTB/iOHPlzSDcjRhww0ueLa4zPZJZcEblwVBiWyei6CTsNsTGFJCgQfuhDDyQ==
-X-Received: by 2002:a17:907:25c8:b0:949:cb6a:b6f7 with SMTP id ae8-20020a17090725c800b00949cb6ab6f7mr5137414ejc.56.1685957371374;
-        Mon, 05 Jun 2023 02:29:31 -0700 (PDT)
-Received: from [10.40.98.142] ([78.108.130.194])
-        by smtp.gmail.com with ESMTPSA id bj21-20020a170906b05500b009661484e84esm4044523ejb.191.2023.06.05.02.29.26
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 05 Jun 2023 02:29:30 -0700 (PDT)
-Message-ID: <72b083af-bbf9-199b-55d2-9749e7b8a13d@redhat.com>
-Date: Mon, 5 Jun 2023 11:29:24 +0200
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=xnPtTwgao029ZtXY+VEkL6IjneNgZ5e3SngEFAXXG4I=;
+	b=Rc0RD84NzXLsN5Rz2Y7cqImihLI7KReZykKZnLUDDPaGN+rO7JeBuUcmtIg1VOeoOLZd/I
+	F5FIHMygPOXKNuARTjDzqFMLcqYKhJIUjPsoqLaW2XHpFtIfTf5tFv1JGT4N4633+KJudF
+	Uhet7loHlZnKaC4mGlQjFsZoFQ/dfdg=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-660-tXQWFKYVOXe1f0CFEbriJA-1; Mon, 05 Jun 2023 06:29:13 -0400
+X-MC-Unique: tXQWFKYVOXe1f0CFEbriJA-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com [10.11.54.5])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id D509585A5BD;
+	Mon,  5 Jun 2023 10:29:12 +0000 (UTC)
+Received: from fedora.redhat.com (unknown [10.67.24.47])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 928F27AE4;
+	Mon,  5 Jun 2023 10:29:09 +0000 (UTC)
+From: Kate Hsuan <hpa@redhat.com>
+To: Hans de Goede <hdegoede@redhat.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev
+Cc: Kate Hsuan <hpa@redhat.com>
+Subject: [PATCH 0/3] Remove #ifdef ISP2401 and unifying sh_css_sp_group structure
+Date: Mon,  5 Jun 2023 18:29:00 +0800
+Message-Id: <20230605102903.924283-1-hpa@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH 0/5] media: atomisp: ov2680 work + add testing
- instructions
-To: Andy Shevchenko <andy.shevchenko@gmail.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
- Sakari Ailus <sakari.ailus@linux.intel.com>,
- Andy Shevchenko <andy@kernel.org>, Kate Hsuan <hpa@redhat.com>,
- Tsuchiya Yuto <kitakar@gmail.com>, Yury Luneff <yury.lunev@gmail.com>,
- Nable <nable.maininbox@googlemail.com>, andrey.i.trufanov@gmail.com,
- Fabio Aiuto <fabioaiuto83@gmail.com>, linux-media@vger.kernel.org,
- linux-staging@lists.linux.dev
-References: <20230604161406.69369-1-hdegoede@redhat.com>
- <CAHp75Vd7t3Li7d9B2JEXzqsvc0uKvcuro5dV8Tj6x2Wai46LFw@mail.gmail.com>
-From: Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <CAHp75Vd7t3Li7d9B2JEXzqsvc0uKvcuro5dV8Tj6x2Wai46LFw@mail.gmail.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
 
-Hi Andy,
+sh_css_sp_group structure was managed by #ifdef ISP2401. The configuration
+structure was also determined in compile time which means we have to
+compile the kernel code twice for each ISP2400 and ISP2401.
 
-On 6/4/23 21:28, Andy Shevchenko wrote:
-> On Sun, Jun 4, 2023 at 7:14 PM Hans de Goede <hdegoede@redhat.com> wrote:
->>
->> Hi All,
->>
->> Here is some more ov2680 sensor driver work. This work is the result
->> of trying to get the main drivers/media/i2c/ov2680.c driver in a shape
->> where it is good enough to replace the atomisp specific version.
->>
->> The plan is to port recent improvements to atomisp-ov2680.c over
->> to the main driver. While working on this I noticed some issues which
->> need fixing before copying them over to the "main" driver.
->>
->> Besides that this also adds a small patch to make testing with
->> gstreamer easier and this adds testing instruction to the TODO file.
-> 
-> Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
-> (a nit-pick in one patch commented separately)
-> 
-> Thank you!
+In order to determine the ISP types in runtime, the configuration
+structure needs to be unified. It allows can be used to configure both
+types of ISP. Since the length of the sh_css_sp_group for ISP2400 and
+ISP2401 is different, before submitting the configuration to ISP, the data
+has to be carefully put the necessary part to a buffer and then submitted
+to the ISP.
 
-Thank you for the reviews. I've pushed this series (with the nitpick
-addressed) as well as the previous 3 fixes you reviewed to my
-media-atomisp branch now.
+Kate Hsuan (3):
+  media: atomisp: sh_css_internal: Unifying sh_css_sp_group to remove
+    #ifdef ISP2401
+  atomisp: sh_css_params: write the sp_group config according to the ISP
+    model
+  media: atomisp: ia_css_debug: remove unused codes
 
-Regards,
+ .../runtime/debug/interface/ia_css_debug.h    |  6 --
+ .../pci/runtime/debug/src/ia_css_debug.c      | 76 +------------------
+ .../media/atomisp/pci/sh_css_internal.h       | 35 +++------
+ .../staging/media/atomisp/pci/sh_css_params.c | 37 ++++++++-
+ 4 files changed, 48 insertions(+), 106 deletions(-)
 
-Hans
-
-
-
-
->> Hans de Goede (5):
->>   media: atomisp: Stop resetting selected input to 0 between /dev/video#
->>     opens
->>   media: atomisp: ov2680: Stop using half pixelclock for binned modes
->>   media: atomisp: ov2680: Remove unnecessary registers from
->>     ov2680_global_setting[]
->>   media: atomisp: ov2680: Rename unknown/0x370a to sensor_ctrl_0a
->>   media: atomisp: Add testing instructions to TODO file
->>
->>  drivers/staging/media/atomisp/TODO            |  33 +++++
->>  .../media/atomisp/i2c/atomisp-ov2680.c        |  15 +--
->>  drivers/staging/media/atomisp/i2c/ov2680.h    | 118 +++++++++---------
->>  .../staging/media/atomisp/pci/atomisp_fops.c  |   3 -
->>  4 files changed, 95 insertions(+), 74 deletions(-)
->>
->> --
->> 2.40.1
->>
-> 
-> 
+-- 
+2.40.1
 
