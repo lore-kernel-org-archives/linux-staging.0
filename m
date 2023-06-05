@@ -1,42 +1,42 @@
 Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B6A91F924
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89BD81F936
 	for <linux-staging@lists.linux.dev>; Mon,  5 Jun 2023 14:48:22 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id DBB5A21B6C;
-	Mon,  5 Jun 2023 14:48:18 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id C734421B6F;
+	Mon,  5 Jun 2023 14:48:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1685976498; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1685976499; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=ozEpeSChYsLdRSbGDMHalj1JUdV2/uZLlWjrrF7JQvc=;
-	b=kv9tSDmq9QrYL8LW/CLj8y1i5sBp6qWEMGMuzLD2zC0vd4+TeERAYD/uioJql4i8vNMmdv
-	1UjZs5zcRPlVuMbpLCxrGvG1k8LWA52IPJMRsDZBJzASALHxwj18quAPPX5fjisB9gJeSv
-	NuL+bCktfPD1iqj7iRqFbwbG4/9qvAA=
+	bh=bjpLFAWdF0yER4mnrBkCq7vFgQ0JTP5z6F6p7e1mM9U=;
+	b=km69xxB4PdrqCTECx7m8EHWFkc2X5/R1+CN0gdynqgCmuI/mgJpAkPKuYh12Ia/okoWjZy
+	teKL1DiijUw4H9H5Sj6SsJkuxHR+g2CdM2wK5LN0V/qdUJztwKmUCfc7Qkhj5ZKX/RalPW
+	mtfJUjCURdv6QYe46aEm2M3cyADfJ8g=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1685976498;
+	s=susede2_ed25519; t=1685976499;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=ozEpeSChYsLdRSbGDMHalj1JUdV2/uZLlWjrrF7JQvc=;
-	b=lbcYrpe48OEta6/B8oN+PYswdSMV891ZT22+DIDzJfigogSSd0uvQpQB96ZHpaV/pi1nxv
-	MJD7gsRwi0lSzuDw==
+	bh=bjpLFAWdF0yER4mnrBkCq7vFgQ0JTP5z6F6p7e1mM9U=;
+	b=uFq1LukV0Kym8gOi0rwaZ43pgOXMYM9VlhGRh2FElM2VBGEB3fA1Nohy2BGQO6QCYGWFoJ
+	5Svye+rFQFny88BQ==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 96FB6139C8;
-	Mon,  5 Jun 2023 14:48:18 +0000 (UTC)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 81CB713A3C;
+	Mon,  5 Jun 2023 14:48:19 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
 	by imap2.suse-dmz.suse.de with ESMTPSA
-	id CF8LJLL1fWQvXwAAMHmgww
-	(envelope-from <tzimmermann@suse.de>); Mon, 05 Jun 2023 14:48:18 +0000
+	id +NG8HrP1fWQvXwAAMHmgww
+	(envelope-from <tzimmermann@suse.de>); Mon, 05 Jun 2023 14:48:19 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: daniel@ffwll.ch,
 	javierm@redhat.com,
@@ -52,10 +52,10 @@ Cc: linux-fbdev@vger.kernel.org,
 	linux-omap@vger.kernel.org,
 	linux-staging@lists.linux.dev,
 	Thomas Zimmermann <tzimmermann@suse.de>,
-	Antonino Daplas <adaplas@gmail.com>
-Subject: [PATCH 14/30] fbdev/nvidiafb: Reorder backlight and framebuffer init/cleanup
-Date: Mon,  5 Jun 2023 16:47:56 +0200
-Message-Id: <20230605144812.15241-15-tzimmermann@suse.de>
+	Benjamin Herrenschmidt <benh@kernel.crashing.org>
+Subject: [PATCH 17/30] fbdev/radeonfb: Reorder backlight and framebuffer cleanup
+Date: Mon,  5 Jun 2023 16:47:59 +0200
+Message-Id: <20230605144812.15241-18-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.40.1
 In-Reply-To: <20230605144812.15241-1-tzimmermann@suse.de>
 References: <20230605144812.15241-1-tzimmermann@suse.de>
@@ -68,48 +68,30 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
 The driver's backlight code requires the framebuffer to be
-registered. Therefore reorder the init and cleanup calls for
-both data structures.
+registered. Therefore reorder the cleanup calls for both data
+structures. The init calls are already in the correct order.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: Antonino Daplas <adaplas@gmail.com>
+Cc: Benjamin Herrenschmidt <benh@kernel.crashing.org>
 ---
- drivers/video/fbdev/nvidia/nvidia.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ drivers/video/fbdev/aty/radeon_base.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/drivers/video/fbdev/nvidia/nvidia.c b/drivers/video/fbdev/nvidia/nvidia.c
-index ea4ba3dfb96b..039e886346fa 100644
---- a/drivers/video/fbdev/nvidia/nvidia.c
-+++ b/drivers/video/fbdev/nvidia/nvidia.c
-@@ -1400,14 +1400,14 @@ static int nvidiafb_probe(struct pci_dev *pd, const struct pci_device_id *ent)
+diff --git a/drivers/video/fbdev/aty/radeon_base.c b/drivers/video/fbdev/aty/radeon_base.c
+index 972c4bbedfa3..8f2a527c26eb 100644
+--- a/drivers/video/fbdev/aty/radeon_base.c
++++ b/drivers/video/fbdev/aty/radeon_base.c
+@@ -2517,9 +2517,8 @@ static void radeonfb_pci_unregister(struct pci_dev *pdev)
  
- 	pci_set_drvdata(pd, info);
- 
--	if (backlight)
--		nvidia_bl_init(par);
+ 	del_timer_sync(&rinfo->lvds_timer);
+ 	arch_phys_wc_del(rinfo->wc_cookie);
+-        unregister_framebuffer(info);
 -
- 	if (register_framebuffer(info) < 0) {
- 		printk(KERN_ERR PFX "error registering nVidia framebuffer\n");
- 		goto err_out_iounmap_fb;
- 	}
+         radeonfb_bl_exit(rinfo);
++	unregister_framebuffer(info);
  
-+	if (backlight)
-+		nvidia_bl_init(par);
-+
- 	printk(KERN_INFO PFX
- 	       "PCI nVidia %s framebuffer (%dMB @ 0x%lX)\n",
- 	       info->fix.id,
-@@ -1439,9 +1439,9 @@ static void nvidiafb_remove(struct pci_dev *pd)
- 
- 	NVTRACE_ENTER();
- 
-+	nvidia_bl_exit(par);
- 	unregister_framebuffer(info);
- 
--	nvidia_bl_exit(par);
- 	arch_phys_wc_del(par->wc_cookie);
- 	iounmap(info->screen_base);
- 	fb_destroy_modedb(info->monspecs.modedb);
+         iounmap(rinfo->mmio_base);
+         iounmap(rinfo->fb_base);
 -- 
 2.40.1
 
