@@ -1,41 +1,41 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 854DB1F92E
-	for <linux-staging@lists.linux.dev>; Mon,  5 Jun 2023 14:48:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB95C1F93E
+	for <linux-staging@lists.linux.dev>; Mon,  5 Jun 2023 14:48:22 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 76DDD21B71;
-	Mon,  5 Jun 2023 14:48:20 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 10B811FE6E;
+	Mon,  5 Jun 2023 14:48:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1685976500; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1685976501; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=1mPTLDhohp4Z1Ea+6VCp5sKGyC16+G5DhQ4PLkx6FPE=;
-	b=q3L8tcp+mGVnQ83UZ4yFA+W1IdT52sVjv49f3GSZXWex6DJlMQO81V3zGsTpmgid4dXSOy
-	QVwI+iTJ+49zwqXfl3KgJ9Sv8/kAwJHr3kZg3bRNIH6NsqVU4Y5XAhnJmK31XYm3/tZzjz
-	JtFoHF/gYJXRv550K6hiDj4iZB8bqvc=
+	bh=fwHTtL4maltNtd60X3Lp4/7d0iX8Vxyi3cPv1Uashgw=;
+	b=aXBk5ztVyuKOBTF6vIqrGnAMCXt3t1cSGRtBWeQ+WCLevCiH/+SJy6ez2G+xMKX8DIV1WM
+	8Sief9Y968DijcTldImoU09vgsjdFNUS2NN8MBEHLKDFmla3R0pnIfxfLsTd8+7Y0TO97X
+	FmpMhw81KiEsjCnJXV0YmsTG7uCydp4=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1685976500;
+	s=susede2_ed25519; t=1685976501;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=1mPTLDhohp4Z1Ea+6VCp5sKGyC16+G5DhQ4PLkx6FPE=;
-	b=NoY2loB6M5qkJd9UAG/JapgZNElUey9LXICchiYMSQVrHghCnGVu3mRbZ9U/+BY9nYpNym
-	YMY3SQEiB7KCVzCg==
+	bh=fwHTtL4maltNtd60X3Lp4/7d0iX8Vxyi3cPv1Uashgw=;
+	b=Au85PR9bhDRWMseyydte0MttTzakiFmbRW4gE2YfY0f675mcgAKppD/rjh7ZWu9//xHJqd
+	kQdVQtLRhFfYThDg==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 1F31913A3C;
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id B877E13A3C;
 	Mon,  5 Jun 2023 14:48:20 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
 	by imap2.suse-dmz.suse.de with ESMTPSA
-	id OAq3BrT1fWQvXwAAMHmgww
+	id EHgjLLT1fWQvXwAAMHmgww
 	(envelope-from <tzimmermann@suse.de>); Mon, 05 Jun 2023 14:48:20 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: daniel@ffwll.ch,
@@ -51,11 +51,10 @@ Cc: linux-fbdev@vger.kernel.org,
 	linux-sh@vger.kernel.org,
 	linux-omap@vger.kernel.org,
 	linux-staging@lists.linux.dev,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Antonino Daplas <adaplas@gmail.com>
-Subject: [PATCH 19/30] fbdev/rivafb: Reorder backlight and framebuffer init/cleanup
-Date: Mon,  5 Jun 2023 16:48:01 +0200
-Message-Id: <20230605144812.15241-20-tzimmermann@suse.de>
+	Thomas Zimmermann <tzimmermann@suse.de>
+Subject: [PATCH 21/30] fbdev/sm501fb: Output message with fb_err()
+Date: Mon,  5 Jun 2023 16:48:03 +0200
+Message-Id: <20230605144812.15241-22-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.40.1
 In-Reply-To: <20230605144812.15241-1-tzimmermann@suse.de>
 References: <20230605144812.15241-1-tzimmermann@suse.de>
@@ -67,51 +66,27 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The driver's backlight code requires the framebuffer to be
-registered. Therefore reorder the init and cleanup calls for
-both data structures.
+Fix case were dev_err() is being called with struct fb_info.dev.
+Use fb_err() instead.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: Antonino Daplas <adaplas@gmail.com>
 ---
- drivers/video/fbdev/riva/fbdev.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ drivers/video/fbdev/sm501fb.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/video/fbdev/riva/fbdev.c b/drivers/video/fbdev/riva/fbdev.c
-index 41edc6e79460..e328b2d39e2b 100644
---- a/drivers/video/fbdev/riva/fbdev.c
-+++ b/drivers/video/fbdev/riva/fbdev.c
-@@ -2031,9 +2031,6 @@ static int rivafb_probe(struct pci_dev *pd, const struct pci_device_id *ent)
+diff --git a/drivers/video/fbdev/sm501fb.c b/drivers/video/fbdev/sm501fb.c
+index e0d29be1565b..46951a095274 100644
+--- a/drivers/video/fbdev/sm501fb.c
++++ b/drivers/video/fbdev/sm501fb.c
+@@ -1293,7 +1293,7 @@ static int sm501fb_sync(struct fb_info *info)
+ 		count--;
  
- 	pci_set_drvdata(pd, info);
- 
--	if (backlight)
--		riva_bl_init(info->par);
--
- 	ret = register_framebuffer(info);
- 	if (ret < 0) {
- 		printk(KERN_ERR PFX
-@@ -2041,6 +2038,9 @@ static int rivafb_probe(struct pci_dev *pd, const struct pci_device_id *ent)
- 		goto err_iounmap_screen_base;
+ 	if (count <= 0) {
+-		dev_err(info->dev, "Timeout waiting for 2d engine sync\n");
++		fb_err(info, "Timeout waiting for 2d engine sync\n");
+ 		return 1;
  	}
- 
-+	if (backlight)
-+		riva_bl_init(info->par);
-+
- 	printk(KERN_INFO PFX
- 		"PCI nVidia %s framebuffer ver %s (%dMB @ 0x%lX)\n",
- 		info->fix.id,
-@@ -2084,9 +2084,9 @@ static void rivafb_remove(struct pci_dev *pd)
- 	kfree(par->EDID);
- #endif
- 
-+	riva_bl_exit(info);
- 	unregister_framebuffer(info);
- 
--	riva_bl_exit(info);
- 	arch_phys_wc_del(par->wc_cookie);
- 	iounmap(par->ctrl_base);
- 	iounmap(info->screen_base);
+ 	return 0;
 -- 
 2.40.1
 
