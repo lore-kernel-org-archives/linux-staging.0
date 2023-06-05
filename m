@@ -1,94 +1,53 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DA041F944
-	for <linux-staging@lists.linux.dev>; Mon,  5 Jun 2023 14:48:23 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 1B19521B70;
-	Mon,  5 Jun 2023 14:48:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1685976500; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=yi7aLSFD48MUYaFwjDWoJbAFGIii0XDsGrQ/66tKVpc=;
-	b=Ip4uZOZm3ZljwVAs07TTtf7vCpGpE1xmnNeDHqoBfFfzELZsNWJLoDZF6SM/DXGoHl1g/Z
-	h/tCkGiwA8n/VfRFSnTNjadOOU3neDMsaPfUcpzUVUKc2+2s5pNH/riF61IntEFe9oGXpd
-	UREB7ufloifEmf6fTCHr/cWokdbIvME=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1685976500;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=yi7aLSFD48MUYaFwjDWoJbAFGIii0XDsGrQ/66tKVpc=;
-	b=QE1H88PVZ52xGNNO+Ibg8RWa0KobZUtErPoCQnIY9wjBBc61H0fp2LQXPTzosLKLHqZq58
-	Mpj46jx2b33/UwBA==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id CBEB8139C8;
-	Mon,  5 Jun 2023 14:48:19 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-	by imap2.suse-dmz.suse.de with ESMTPSA
-	id +IPaMLP1fWQvXwAAMHmgww
-	(envelope-from <tzimmermann@suse.de>); Mon, 05 Jun 2023 14:48:19 +0000
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: daniel@ffwll.ch,
-	javierm@redhat.com,
-	sam@ravnborg.org,
-	deller@gmx.de,
-	geert+renesas@glider.be,
-	lee@kernel.org,
-	daniel.thompson@linaro.org,
-	jingoohan1@gmail.com
-Cc: linux-fbdev@vger.kernel.org,
-	dri-devel@lists.freedesktop.org,
-	linux-sh@vger.kernel.org,
-	linux-omap@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH 18/30] fbdev/radeonfb: Use hardware device as backlight parent
-Date: Mon,  5 Jun 2023 16:48:00 +0200
-Message-Id: <20230605144812.15241-19-tzimmermann@suse.de>
-X-Mailer: git-send-email 2.40.1
-In-Reply-To: <20230605144812.15241-1-tzimmermann@suse.de>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7738B6FDE
+	for <linux-staging@lists.linux.dev>; Mon,  5 Jun 2023 15:03:53 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 87A3BC433D2;
+	Mon,  5 Jun 2023 15:03:52 +0000 (UTC)
+Date: Mon, 5 Jun 2023 17:03:50 +0200
+From: Greg KH <greg@kroah.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: daniel@ffwll.ch, javierm@redhat.com, sam@ravnborg.org, deller@gmx.de,
+	geert+renesas@glider.be, lee@kernel.org, daniel.thompson@linaro.org,
+	jingoohan1@gmail.com, linux-fbdev@vger.kernel.org,
+	dri-devel@lists.freedesktop.org, linux-sh@vger.kernel.org,
+	linux-omap@vger.kernel.org, linux-staging@lists.linux.dev
+Subject: Re: [PATCH 30/30] fbdev: Make support for userspace interfaces
+ configurable
+Message-ID: <2023060542-daydream-dares-d494@gregkh>
 References: <20230605144812.15241-1-tzimmermann@suse.de>
+ <20230605144812.15241-31-tzimmermann@suse.de>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230605144812.15241-31-tzimmermann@suse.de>
 
-Use the hardware device in struct fb_info.device as parent of the
-backlight device. Aligns the driver with the rest of the codebase
-and prepares fbdev for making struct fb_info.dev optional.
+On Mon, Jun 05, 2023 at 04:48:12PM +0200, Thomas Zimmermann wrote:
+> Add Kconfig option CONFIG_FB_DEVICE and make the virtual fbdev
+> device optional. If the new option has not been selected, fbdev
+> does not create a files in devfs or sysfs.
+> 
+> Most modern Linux systems run a DRM-based graphics stack that uses
+> the kernel's framebuffer console, but has otherwise deprecated fbdev
+> support. Yet fbdev userspace interfaces are still present.
+> 
+> The option makes it possible to use the fbdev subsystem as console
+> implementation without support for userspace. This closes potential
+> entry points to manipulate kernel or I/O memory via framebuffers. It
+> also prevents the execution of driver code via ioctl or sysfs, both
+> of which might allow malicious software to exploit bugs in the fbdev
+> code.
+> 
+> A small number of fbdev drivers require struct fbinfo.dev to be
+> initialized, usually for the support of sysfs interface. Make these
+> drivers depend on FB_DEVICE. They can later be fixed if necessary.
+> 
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Benjamin Herrenschmidt <benh@kernel.crashing.org>
----
- drivers/video/fbdev/aty/radeon_backlight.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/video/fbdev/aty/radeon_backlight.c b/drivers/video/fbdev/aty/radeon_backlight.c
-index 427adc838f77..23a38c3f3977 100644
---- a/drivers/video/fbdev/aty/radeon_backlight.c
-+++ b/drivers/video/fbdev/aty/radeon_backlight.c
-@@ -147,7 +147,7 @@ void radeonfb_bl_init(struct radeonfb_info *rinfo)
- 	memset(&props, 0, sizeof(struct backlight_properties));
- 	props.type = BACKLIGHT_RAW;
- 	props.max_brightness = FB_BACKLIGHT_LEVELS - 1;
--	bd = backlight_device_register(name, rinfo->info->dev, pdata,
-+	bd = backlight_device_register(name, rinfo->info->device, pdata,
- 				       &radeon_bl_data, &props);
- 	if (IS_ERR(bd)) {
- 		rinfo->info->bl_dev = NULL;
--- 
-2.40.1
-
+Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
