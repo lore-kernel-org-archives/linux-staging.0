@@ -1,41 +1,41 @@
 Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E7121F928
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC17B1F92C
 	for <linux-staging@lists.linux.dev>; Mon,  5 Jun 2023 14:48:18 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 691AA21B69;
+	by smtp-out1.suse.de (Postfix) with ESMTPS id ED12721B6A;
 	Mon,  5 Jun 2023 14:48:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
 	t=1685976496; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=NfCajohqgMK0UhQ48aBweHxqhUl+oxvyG8MMU++90Og=;
-	b=BhxTu4uTizKyDHgrk8/FzwIeeqqUYtpURsmAGFY0KopXGeUOy+cxuHfjGvJJJUxXpSg4n6
-	3uS+cuzprUiykpIG+yurxIBOUTRky3LvwwQ/4a56DQ8R5VX3/0ZlBr25MS1yw/xKRglBb7
-	P57y/XxO+HFpBxgOG9SX+dKpvvM2g2Y=
+	bh=H07VbT4dHTX2kA8dIRypVk3pxpahIXcYKqBoOaFTCkc=;
+	b=S+Zj2ocA7nB1AOUhsBtgnetU6Z1jnptVY+QEQ6YHY4QOXuf5AVIBsuMKBr0RAaU7AEuBiF
+	VPugOn4yHM6PnkRuhxT4effP/EhRmIMLtsFU5KW1q0GodwKeP8eg7zbytqIAMzk/NxmzPD
+	SiFD8v+CDOshu1lyqMMGky3PaH765XY=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
 	s=susede2_ed25519; t=1685976496;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=NfCajohqgMK0UhQ48aBweHxqhUl+oxvyG8MMU++90Og=;
-	b=Cfxk23pAV+6D2b6jr4hxWmInd/8nkJi3Za5VBDgK3nicVEPbpMM60qY32T3jM3wo2Tdlui
-	r3ouW223WHA+ZBDg==
+	bh=H07VbT4dHTX2kA8dIRypVk3pxpahIXcYKqBoOaFTCkc=;
+	b=n7Dj6DWWzhQ9UDkM6QZYYrtrzHsY5GRcVyLngFiJRsARVM/qHbNvNlGTWDPpIu1osKALUg
+	7RsHiYwyn0VRO8AQ==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 29401139C8;
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id B1A20139C8;
 	Mon,  5 Jun 2023 14:48:16 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
 	by imap2.suse-dmz.suse.de with ESMTPSA
-	id iKkuCbD1fWQvXwAAMHmgww
+	id 8MZ9KrD1fWQvXwAAMHmgww
 	(envelope-from <tzimmermann@suse.de>); Mon, 05 Jun 2023 14:48:16 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: daniel@ffwll.ch,
@@ -52,9 +52,9 @@ Cc: linux-fbdev@vger.kernel.org,
 	linux-omap@vger.kernel.org,
 	linux-staging@lists.linux.dev,
 	Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH 05/30] fbdev/atyfb: Use hardware device as backlight parent
-Date: Mon,  5 Jun 2023 16:47:47 +0200
-Message-Id: <20230605144812.15241-6-tzimmermann@suse.de>
+Subject: [PATCH 07/30] fbdev/aty128fb: Use hardware device as backlight parent
+Date: Mon,  5 Jun 2023 16:47:49 +0200
+Message-Id: <20230605144812.15241-8-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.40.1
 In-Reply-To: <20230605144812.15241-1-tzimmermann@suse.de>
 References: <20230605144812.15241-1-tzimmermann@suse.de>
@@ -72,19 +72,19 @@ and prepares fbdev for making struct fb_info.dev optional.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 ---
- drivers/video/fbdev/aty/atyfb_base.c | 2 +-
+ drivers/video/fbdev/aty/aty128fb.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/video/fbdev/aty/atyfb_base.c b/drivers/video/fbdev/aty/atyfb_base.c
-index 51504fe39054..e1602e3fbc66 100644
---- a/drivers/video/fbdev/aty/atyfb_base.c
-+++ b/drivers/video/fbdev/aty/atyfb_base.c
-@@ -2255,7 +2255,7 @@ static void aty_bl_init(struct atyfb_par *par)
+diff --git a/drivers/video/fbdev/aty/aty128fb.c b/drivers/video/fbdev/aty/aty128fb.c
+index b4a49068a522..2d9320a52e51 100644
+--- a/drivers/video/fbdev/aty/aty128fb.c
++++ b/drivers/video/fbdev/aty/aty128fb.c
+@@ -1846,7 +1846,7 @@ static void aty128_bl_init(struct aty128fb_par *par)
  	memset(&props, 0, sizeof(struct backlight_properties));
  	props.type = BACKLIGHT_RAW;
  	props.max_brightness = FB_BACKLIGHT_LEVELS - 1;
--	bd = backlight_device_register(name, info->dev, par, &aty_bl_data,
-+	bd = backlight_device_register(name, info->device, par, &aty_bl_data,
+-	bd = backlight_device_register(name, info->dev, par, &aty128_bl_data,
++	bd = backlight_device_register(name, info->device, par, &aty128_bl_data,
  				       &props);
  	if (IS_ERR(bd)) {
  		info->bl_dev = NULL;
