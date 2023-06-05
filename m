@@ -1,173 +1,105 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC7A215494
-	for <linux-staging@lists.linux.dev>; Mon,  5 Jun 2023 10:29:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1685960973;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=EW+r5mVcnYlpwLyOeIK2ZT35iP27Rc6dTFWoa1at4Iw=;
-	b=i5Dia12IXEBre51/JioIttwebuxjtGWjmOmrwZZKnLplLRcWIkVf/iZj0nWkQB1PbYPaEW
-	+z+WJedlUEXp6SP4X+2Ik2bjKvdGAxpbYc344d2j73CFv/kvPyXVKWzQzv/FPaa+Llc/4A
-	aQfvS8ljtaJtjeJuV/zwNYyxiqX/BEo=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-113-BDdrgvBkOXCQzLGoGSEA6g-1; Mon, 05 Jun 2023 06:29:30 -0400
-X-MC-Unique: BDdrgvBkOXCQzLGoGSEA6g-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com [10.11.54.5])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 00DCA85A5BB;
-	Mon,  5 Jun 2023 10:29:30 +0000 (UTC)
-Received: from fedora.redhat.com (unknown [10.67.24.47])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id E79519E72;
-	Mon,  5 Jun 2023 10:29:26 +0000 (UTC)
-From: Kate Hsuan <hpa@redhat.com>
-To: Hans de Goede <hdegoede@redhat.com>,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A5A4168D6
+	for <linux-staging@lists.linux.dev>; Mon,  5 Jun 2023 11:11:05 +0000 (UTC)
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-3f6d38a140bso33375725e9.1
+        for <linux-staging@lists.linux.dev>; Mon, 05 Jun 2023 04:11:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1685963463; x=1688555463;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=DrstvumQtW1JqE0YbZS9+L1Cqb2uWMvTeMMQ+qthFUA=;
+        b=CEIQoPcK9wHM+tCzljmVvXd0Qp3r4kFQEwDls1OHwg2Ar7Pq9p5Clbe6FUY5KDsMPI
+         G7zWObJeUveOpNZDqmIsUDxQ05p1FkhTbqq6ittHx1qwp6X1JBX6Tco+JS9te4iq60E2
+         10FY5/93J/hsawntbYzN00YS7gki0GfZgNuXMbzkfxBmMHXCUyrLiPjRW5Yt/9HdbQJf
+         /A799XlPrkGEpOLIy7mvtQUYoxJCGHETZco6SrFFutPOKjqaBLbi0pulKd8WpHCicatd
+         To49vA9/DxOv2dD9Np+ktlTUkx2cmmRAXHW1wYBm5tMp7f0oGDa9Y8OVLs/BuLHelwph
+         a3AQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1685963463; x=1688555463;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=DrstvumQtW1JqE0YbZS9+L1Cqb2uWMvTeMMQ+qthFUA=;
+        b=K2ObSKR7k2FegvxaeyBzo7aMrwwa1VMzPS1mQFXibh1b3/CckxhX5BKT0vnpbJcpgg
+         CvYYveui4LeaZ7nxOeUvb9Y2j7bf2xV9MLUGaW3AAEmmmQr/WnFyi96qfGAtJdAe2E+v
+         2qZo94h3rjkdqQpMqqgwljozmFGTI74G20NsvJRx7SQ2m6f+IhRO0wYVR1W2JrfgvOgT
+         uD40+vYu5A/skz+hf5IX01TsVYns1Z2PhN0/8kc6PE7XF4ph58MtIYliB3RN0L6cHWHB
+         eKAJcPnI+bef203qocqIovxVA73xf82q9fEnM2bHyb4m9+r8mht92c7m9AvDtiTmZems
+         LIDA==
+X-Gm-Message-State: AC+VfDw0OF41tQlnix/INifDf8S31f9Vx1zz8K/owd27H1bXfLnq4FoF
+	r9h9xS6LvYbxbfBIFrc7F/Olaw==
+X-Google-Smtp-Source: ACHHUZ5IrHVg2TlUs+zH9rHoeWxHxcaY2S5wSvJwjs1K8hycuJ6dO6nHUnI8h3xLWvAluRpObB6a7g==
+X-Received: by 2002:a05:600c:8511:b0:3f6:ff08:6ad4 with SMTP id gw17-20020a05600c851100b003f6ff086ad4mr7852148wmb.3.1685963463572;
+        Mon, 05 Jun 2023 04:11:03 -0700 (PDT)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id m11-20020a7bce0b000000b003f1958eeadcsm13959000wmc.17.2023.06.05.04.11.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 05 Jun 2023 04:11:02 -0700 (PDT)
+Date: Mon, 5 Jun 2023 14:10:59 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Kate Hsuan <hpa@redhat.com>
+Cc: Hans de Goede <hdegoede@redhat.com>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Sakari Ailus <sakari.ailus@linux.intel.com>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev
-Cc: Kate Hsuan <hpa@redhat.com>
-Subject: [PATCH 3/3] media: atomisp: ia_css_debug: remove unused codes
-Date: Mon,  5 Jun 2023 18:29:03 +0800
-Message-Id: <20230605102903.924283-4-hpa@redhat.com>
-In-Reply-To: <20230605102903.924283-1-hpa@redhat.com>
+	linux-media@vger.kernel.org, linux-staging@lists.linux.dev
+Subject: Re: [PATCH 2/3] atomisp: sh_css_params: write the sp_group config
+ according to the ISP model
+Message-ID: <f9f3f779-36e6-4329-880d-12a6faa707c2@kadam.mountain>
 References: <20230605102903.924283-1-hpa@redhat.com>
+ <20230605102903.924283-3-hpa@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230605102903.924283-3-hpa@redhat.com>
 
-This portion of the codes was not referenced so it can be completely
-removed.
+On Mon, Jun 05, 2023 at 06:29:02PM +0800, Kate Hsuan wrote:
+> Pick up the necessary part of sp_group configuration for both model and
+> then copy those parts into a tempetory buffer. This buffer is finally
+> written to the ISP with correct length.
+> 
+> Signed-off-by: Kate Hsuan <hpa@redhat.com>
+> ---
+>  .../staging/media/atomisp/pci/sh_css_params.c | 37 ++++++++++++++++++-
+>  1 file changed, 35 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/staging/media/atomisp/pci/sh_css_params.c b/drivers/staging/media/atomisp/pci/sh_css_params.c
+> index 588f2adab058..2913d9d6d226 100644
+> --- a/drivers/staging/media/atomisp/pci/sh_css_params.c
+> +++ b/drivers/staging/media/atomisp/pci/sh_css_params.c
+> @@ -3720,10 +3720,43 @@ struct ia_css_shading_table *ia_css_get_shading_table(struct ia_css_stream
+>  
+>  ia_css_ptr sh_css_store_sp_group_to_ddr(void)
+>  {
+> +	u8 *write_buf;
+> +	u8 *buf_ptr;
+> +
+>  	IA_CSS_ENTER_LEAVE_PRIVATE("void");
+> +
+> +	write_buf = kzalloc(sizeof(u8) * 8192, GFP_KERNEL);
 
-Signed-off-by: Kate Hsuan <hpa@redhat.com>
----
- .../runtime/debug/interface/ia_css_debug.h    |  6 --
- .../pci/runtime/debug/src/ia_css_debug.c      | 76 +------------------
- 2 files changed, 2 insertions(+), 80 deletions(-)
+Please add a check for allocation failure.
 
-diff --git a/drivers/staging/media/atomisp/pci/runtime/debug/interface/ia_css_debug.h b/drivers/staging/media/atomisp/pci/runtime/debug/interface/ia_css_debug.h
-index fff89e9b4b01..3a3d72c6eaaa 100644
---- a/drivers/staging/media/atomisp/pci/runtime/debug/interface/ia_css_debug.h
-+++ b/drivers/staging/media/atomisp/pci/runtime/debug/interface/ia_css_debug.h
-@@ -141,12 +141,6 @@ static inline void __printf(2, 0) ia_css_debug_vdtrace(unsigned int level,
- __printf(2, 3) void ia_css_debug_dtrace(unsigned int level,
- 					const char *fmt, ...);
- 
--/*! @brief Dump sp thread's stack contents
-- * SP thread's stack contents are set to 0xcafecafe. This function dumps the
-- * stack to inspect if the stack's boundaries are compromised.
-- * @return	None
-- */
--void ia_css_debug_dump_sp_stack_info(void);
- 
- /*! @brief Function to set the global dtrace verbosity level.
-  * @param[in]	trace_level	Maximum level of the messages to be traced.
-diff --git a/drivers/staging/media/atomisp/pci/runtime/debug/src/ia_css_debug.c b/drivers/staging/media/atomisp/pci/runtime/debug/src/ia_css_debug.c
-index bb6204cb42c5..bb30146c5fe7 100644
---- a/drivers/staging/media/atomisp/pci/runtime/debug/src/ia_css_debug.c
-+++ b/drivers/staging/media/atomisp/pci/runtime/debug/src/ia_css_debug.c
-@@ -105,7 +105,8 @@
-  * TODO:SH_CSS_MAX_SP_THREADS is not the max number of sp threads
-  * future rework should fix this and remove the define MAX_THREAD_NUM
-  */
--#define MAX_THREAD_NUM (SH_CSS_MAX_SP_THREADS + SH_CSS_MAX_SP_INTERNAL_THREADS)
-+#define MAX_THREAD_NUM_2400 (SH_CSS_MAX_SP_THREADS + SH_CSS_MAX_SP_INTERNAL_THREADS_2400)
-+#define MAX_THREAD_NUM_2401 (SH_CSS_MAX_SP_THREADS + SH_CSS_MAX_SP_INTERNAL_THREADS_2401)
- 
- static struct pipe_graph_class {
- 	bool do_init;
-@@ -147,79 +148,6 @@ void ia_css_debug_dtrace(unsigned int level, const char *fmt, ...)
- 	va_end(ap);
- }
- 
--static void debug_dump_long_array_formatted(
--    const sp_ID_t sp_id,
--    hrt_address stack_sp_addr,
--    unsigned int stack_size)
--{
--	unsigned int i;
--	u32 val;
--	u32 addr = (uint32_t)stack_sp_addr;
--	u32 stack_size_words = CEIL_DIV(stack_size, sizeof(uint32_t));
--
--	/* When size is not multiple of four, last word is only relevant for
--	 * remaining bytes */
--	for (i = 0; i < stack_size_words; i++) {
--		val = sp_dmem_load_uint32(sp_id, (hrt_address)addr);
--		if ((i % 8) == 0)
--			ia_css_debug_dtrace(IA_CSS_DEBUG_VERBOSE, "\n");
--
--		ia_css_debug_dtrace(IA_CSS_DEBUG_VERBOSE, "0x%08x ", val);
--		addr += sizeof(uint32_t);
--	}
--
--	ia_css_debug_dtrace(IA_CSS_DEBUG_VERBOSE, "\n");
--}
--
--static void debug_dump_sp_stack_info(
--    const sp_ID_t sp_id)
--{
--	const struct ia_css_fw_info *fw;
--	unsigned int HIVE_ADDR_sp_threads_stack;
--	unsigned int HIVE_ADDR_sp_threads_stack_size;
--	u32 stack_sizes[MAX_THREAD_NUM];
--	u32 stack_sp_addr[MAX_THREAD_NUM];
--	unsigned int i;
--
--	fw = &sh_css_sp_fw;
--
--	ia_css_debug_dtrace(IA_CSS_DEBUG_VERBOSE, "sp_id(%u) stack info\n", sp_id);
--	ia_css_debug_dtrace(IA_CSS_DEBUG_VERBOSE,
--			    "from objects stack_addr_offset:0x%x stack_size_offset:0x%x\n",
--			    fw->info.sp.threads_stack,
--			    fw->info.sp.threads_stack_size);
--
--	HIVE_ADDR_sp_threads_stack = fw->info.sp.threads_stack;
--	HIVE_ADDR_sp_threads_stack_size = fw->info.sp.threads_stack_size;
--
--	if (fw->info.sp.threads_stack == 0 ||
--	    fw->info.sp.threads_stack_size == 0)
--		return;
--
--	(void)HIVE_ADDR_sp_threads_stack;
--	(void)HIVE_ADDR_sp_threads_stack_size;
--
--	sp_dmem_load(sp_id,
--		     (unsigned int)sp_address_of(sp_threads_stack),
--		     &stack_sp_addr, sizeof(stack_sp_addr));
--	sp_dmem_load(sp_id,
--		     (unsigned int)sp_address_of(sp_threads_stack_size),
--		     &stack_sizes, sizeof(stack_sizes));
--
--	for (i = 0 ; i < MAX_THREAD_NUM; i++) {
--		ia_css_debug_dtrace(IA_CSS_DEBUG_VERBOSE,
--				    "thread: %u stack_addr: 0x%08x stack_size: %u\n",
--				    i, stack_sp_addr[i], stack_sizes[i]);
--		debug_dump_long_array_formatted(sp_id, (hrt_address)stack_sp_addr[i],
--						stack_sizes[i]);
--	}
--}
--
--void ia_css_debug_dump_sp_stack_info(void)
--{
--	debug_dump_sp_stack_info(SP0_ID);
--}
--
- void ia_css_debug_set_dtrace_level(const unsigned int trace_level)
- {
- 	dbg_level = trace_level;
--- 
-2.40.1
+regards,
+dan carpenter
+
+
+> +
+> +	buf_ptr = write_buf;
+> +	if (IS_ISP2401) {
+> +		memcpy(buf_ptr, &sh_css_sp_group.config, sizeof(u8) * 5);
+> +		buf_ptr += (sizeof(u8) * 5);
+> +		memset(buf_ptr, 0, 3);
+> +		buf_ptr += 3; /* Padding 3 bytes for struct sh_css_sp_config*/
+> +	} else {
+> +		memcpy(buf_ptr, &sh_css_sp_group.config, sizeof(sh_css_sp_group.config));
+> +		buf_ptr += sizeof(sh_css_sp_group.config);
+> +	}
 
