@@ -1,42 +1,42 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB23A1F929
-	for <linux-staging@lists.linux.dev>; Mon,  5 Jun 2023 14:48:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3AD781F931
+	for <linux-staging@lists.linux.dev>; Mon,  5 Jun 2023 14:48:20 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id ACCD01FE64;
-	Mon,  5 Jun 2023 14:48:16 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 5298021B6B;
+	Mon,  5 Jun 2023 14:48:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1685976496; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1685976498; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=aNOsnTCXGxo4lhDmbd6GlKilpcUQ1gl7UIJ+9Mi53Zo=;
-	b=W3jfr2dIowXlbSQkDVjLDSEu+Ru5M/278EqRF6xi06kuxa4ADpThoAFT8+FgvJw8iGiRvU
-	S9xhKlKuQiuwJH6NxfsXXGw7ovirOo4BOD73rh5nDvEFc1n0e08/IGdnSNdouVYy0fBBzm
-	+PKcQXm0Bh8kOOZorozqohzSR2l/tBw=
+	bh=rnk0YOv/Eu2iF8Q5iRVynJgcEiWOa6yaAnOzMFuFse4=;
+	b=NOEpBbmAlmRNU0paQCSRMj0x2y+NFYvstMHvgGFkTB2jUN2R0YsCXYltwDj/NgnPShorDL
+	w6eqV1xY1oVuyLhEAJBvo4/rpotWedNJ+SZQXMzSdJivB11rA5jIQ278e+fZ3UgvKgma8V
+	1JLEjzlx+AjFzJR+3vqOCarcDHn24jw=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1685976496;
+	s=susede2_ed25519; t=1685976498;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=aNOsnTCXGxo4lhDmbd6GlKilpcUQ1gl7UIJ+9Mi53Zo=;
-	b=fkAPy2DV8cqrdHbwkvk9CDox1RCsN+s3JJ3L7nkRMbOQr09KUgWyNngKT9hfkqxMmm2U1t
-	CFRLjRA9kaUKOqAg==
+	bh=rnk0YOv/Eu2iF8Q5iRVynJgcEiWOa6yaAnOzMFuFse4=;
+	b=nuHc/4FX/IVvL1qPWJOhjJs3mwBw5eb8LeY2oOTuU22v4r9iXbXfAP3uuWtcVVrCfaw6GO
+	1/ae9UTfeCjfx2BQ==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 6CD6113A3C;
-	Mon,  5 Jun 2023 14:48:16 +0000 (UTC)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 14F55139C8;
+	Mon,  5 Jun 2023 14:48:18 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
 	by imap2.suse-dmz.suse.de with ESMTPSA
-	id oPO7GbD1fWQvXwAAMHmgww
-	(envelope-from <tzimmermann@suse.de>); Mon, 05 Jun 2023 14:48:16 +0000
+	id QANABLL1fWQvXwAAMHmgww
+	(envelope-from <tzimmermann@suse.de>); Mon, 05 Jun 2023 14:48:18 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: daniel@ffwll.ch,
 	javierm@redhat.com,
@@ -52,9 +52,9 @@ Cc: linux-fbdev@vger.kernel.org,
 	linux-omap@vger.kernel.org,
 	linux-staging@lists.linux.dev,
 	Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH 06/30] fbdev/aty128fb: Reorder backlight and framebuffer init/cleanup
-Date: Mon,  5 Jun 2023 16:47:48 +0200
-Message-Id: <20230605144812.15241-7-tzimmermann@suse.de>
+Subject: [PATCH 12/30] fbdev/mb862xxfb: Output messages with fb_dbg() and fb_err()
+Date: Mon,  5 Jun 2023 16:47:54 +0200
+Message-Id: <20230605144812.15241-13-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.40.1
 In-Reply-To: <20230605144812.15241-1-tzimmermann@suse.de>
 References: <20230605144812.15241-1-tzimmermann@suse.de>
@@ -66,52 +66,47 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The driver's backlight code requires the framebuffer to be
-registered. Therefore reorder the init and cleanup calls for
-both data structures.
+Fix cases were output helpers are called with struct fb_info.dev.
+Use fb_dbg() and fb_err() instead. Prepares fbdev for making struct
+fb_info.dev optional.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 ---
- drivers/video/fbdev/aty/aty128fb.c | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+ drivers/video/fbdev/mb862xx/mb862xxfbdrv.c | 7 +++----
+ 1 file changed, 3 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/video/fbdev/aty/aty128fb.c b/drivers/video/fbdev/aty/aty128fb.c
-index 36a9ac05a340..b4a49068a522 100644
---- a/drivers/video/fbdev/aty/aty128fb.c
-+++ b/drivers/video/fbdev/aty/aty128fb.c
-@@ -2028,14 +2028,14 @@ static int aty128_init(struct pci_dev *pdev, const struct pci_device_id *ent)
- 	par->asleep = 0;
- 	par->lock_blank = 0;
+diff --git a/drivers/video/fbdev/mb862xx/mb862xxfbdrv.c b/drivers/video/fbdev/mb862xx/mb862xxfbdrv.c
+index b5c8fcab9940..99729611e04d 100644
+--- a/drivers/video/fbdev/mb862xx/mb862xxfbdrv.c
++++ b/drivers/video/fbdev/mb862xx/mb862xxfbdrv.c
+@@ -112,8 +112,7 @@ static int mb862xxfb_check_var(struct fb_var_screeninfo *var,
+ {
+ 	unsigned long tmp;
  
-+	if (register_framebuffer(info) < 0)
-+		return 0;
-+
- #ifdef CONFIG_FB_ATY128_BACKLIGHT
- 	if (backlight)
- 		aty128_bl_init(par);
- #endif
+-	if (fbi->dev)
+-		dev_dbg(fbi->dev, "%s\n", __func__);
++	fb_dbg(fbi, "%s\n", __func__);
  
--	if (register_framebuffer(info) < 0)
--		return 0;
--
- 	fb_info(info, "%s frame buffer device on %s\n",
- 		info->fix.id, video_card);
+ 	/* check if these values fit into the registers */
+ 	if (var->hsync_len > 255 || var->vsync_len > 255)
+@@ -290,7 +289,7 @@ static int mb862xxfb_blank(int mode, struct fb_info *fbi)
+ 	struct mb862xxfb_par  *par = fbi->par;
+ 	unsigned long reg;
  
-@@ -2167,12 +2167,12 @@ static void aty128_remove(struct pci_dev *pdev)
+-	dev_dbg(fbi->dev, "blank mode=%d\n", mode);
++	fb_dbg(fbi, "blank mode=%d\n", mode);
  
- 	par = info->par;
+ 	switch (mode) {
+ 	case FB_BLANK_POWERDOWN:
+@@ -1138,7 +1137,7 @@ static void mb862xx_pci_remove(struct pci_dev *pdev)
+ 	struct mb862xxfb_par *par = fbi->par;
+ 	unsigned long reg;
  
--	unregister_framebuffer(info);
--
- #ifdef CONFIG_FB_ATY128_BACKLIGHT
- 	aty128_bl_exit(info->bl_dev);
- #endif
+-	dev_dbg(fbi->dev, "%s release\n", fbi->fix.id);
++	fb_dbg(fbi, "%s release\n", fbi->fix.id);
  
-+	unregister_framebuffer(info);
-+
- 	arch_phys_wc_del(par->wc_cookie);
- 	iounmap(par->regbase);
- 	iounmap(info->screen_base);
+ 	/* display off */
+ 	reg = inreg(disp, GC_DCM1);
 -- 
 2.40.1
 
