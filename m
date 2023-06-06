@@ -1,51 +1,51 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A08CF468F
-	for <linux-staging@lists.linux.dev>; Tue,  6 Jun 2023 10:50:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0320314AAE
+	for <linux-staging@lists.linux.dev>; Tue,  6 Jun 2023 11:02:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1686048629;
+	s=mimecast20190719; t=1686049342;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=bhmKLtp/x4dPFZgDWK6FgwiS1s0YK2aGHSM9L+0D4xM=;
-	b=AMS0oubHb0i0pj9lhPwWEyCIoPs/Buf8DL6ImZDBgEJh7RaslE+YNGsSa185NsJwRSDUir
-	bOhDkH24JKU2v+kkxbKXbeQ5cYwcYj9JAGdfNI0g7UfGsvuCTU9aqbADjnVv+U4fDhEQut
-	vRwh8kvsRG/aNZDA2lZVQlqeeT7aJmU=
-Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
- [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=uVVWEr3/PDlkQByxpjb/NymBmkIobetZarYOxj+Nubo=;
+	b=c7KAKv3p1NQvsZYCTFhCic8J+QnACAutq8Chc0W0CDntgYdoF22BkqebszA3hXzoqahbq4
+	875FW700a3I0o8Eqpztd2Q+w0VQzahMRj8XTxGSk+UFAC8pCss/kMH2qhYprI6DckAbmsI
+	+H52wpvWnwf46alk6zpYR93OGcu5aKw=
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-594-hV723P5KN3OeQrnYc3VzTA-1; Tue, 06 Jun 2023 06:50:28 -0400
-X-MC-Unique: hV723P5KN3OeQrnYc3VzTA-1
-Received: by mail-ej1-f71.google.com with SMTP id a640c23a62f3a-94f7a2b21fdso513532566b.2
-        for <linux-staging@lists.linux.dev>; Tue, 06 Jun 2023 03:50:27 -0700 (PDT)
+ us-mta-613-s9aT1844NK-XrH1PpRO4Qg-1; Tue, 06 Jun 2023 07:02:21 -0400
+X-MC-Unique: s9aT1844NK-XrH1PpRO4Qg-1
+Received: by mail-ed1-f70.google.com with SMTP id 4fb4d7f45d1cf-5149385acd0so4480876a12.3
+        for <linux-staging@lists.linux.dev>; Tue, 06 Jun 2023 04:02:21 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686048627; x=1688640627;
+        d=1e100.net; s=20221208; t=1686049340; x=1688641340;
         h=content-transfer-encoding:in-reply-to:from:references:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=bhmKLtp/x4dPFZgDWK6FgwiS1s0YK2aGHSM9L+0D4xM=;
-        b=HO3FpGfAw+3hgJh76UjXYovyuPyTFxYVdX3SuMeS2B3wXwi3h+trnw2FE4lMczPDfJ
-         1u5kKbmOnpw6qlV6OtDg9o9ccH14xNyr615pmqWCD0bd/6dKBCZhnkd7s58XfFXmLeFS
-         HgfStMMVUOMgnqxrhttB5Qw0E7aZgFXM+s717Bh5+SXTgc0QkJjPZJVscHnukeeqULuY
-         lHsYYg/a/Mrl/9tMosSQPc+wpUAEpkLMar31FXwbHyNF9LmuHiuWj/ZzbxrWcaegNEC5
-         lqa/O5EIV9bzzVz4qpEVtxAwvdMxKZ+jS9YLzmIrc1yGNoqHG/rOs0NyqYzwdN+Xt5VW
-         maOg==
-X-Gm-Message-State: AC+VfDwv66z28vH4uS69+3dOzhLNkx5uRnBJuEpRyaEZevHaMlu/JCDG
-	j+pHPYW9GonPZRe0mQpRukVPTOen04v19jK43NdkdtJ/83oTiwz2wyJ5Cl+zy+F9HbqjDI7CISO
-	pi1vhVougK4hvQh/RrTA98tfGhg==
-X-Received: by 2002:a17:906:6a20:b0:96f:c988:941 with SMTP id qw32-20020a1709066a2000b0096fc9880941mr2123404ejc.15.1686048627045;
-        Tue, 06 Jun 2023 03:50:27 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ6LV0P2ksQG3tdTJzfUsLHVyMgTt0NyFlHhHqsCMmJ0TgwWRDuW2hJ/xIUSQW9okjuSMu8Igw==
-X-Received: by 2002:a17:906:6a20:b0:96f:c988:941 with SMTP id qw32-20020a1709066a2000b0096fc9880941mr2123382ejc.15.1686048626734;
-        Tue, 06 Jun 2023 03:50:26 -0700 (PDT)
+        bh=uVVWEr3/PDlkQByxpjb/NymBmkIobetZarYOxj+Nubo=;
+        b=dJznirjKuPrkU6Ca8FQBg1p9TObfrCTVDJEtkbv8nFF/YPFiAEL+0oauyPXGnxUXAo
+         0PguJ+HllVMtzvk0wa2FRvWH+sBLJ6BrEWuVm104n3v2SLpSMeKjp7a529YIL0sjzVC8
+         zgYDUwNVxq5OFibs2rklPqOOh4oUwObKwZn1AofQGQBJmJyCZTlD+B+cP8M5ln1It1F9
+         ivsMh9EAOXwnTUtjcwoUPZeqIEm+SMFjWbHv06Fw4E/6ywD3B6Trx2v2qnw0yl5/XviI
+         uKeNkZKfRE9ujhcu0S6H7WLInjUwXiROi1siDag0ytZfK8m+lUW3OMnPt6RiEHOSWBMF
+         6wlA==
+X-Gm-Message-State: AC+VfDzJFvVQgdmMUe+Si7WCsLrg4YFK3A2zbvjgDk3N5emAfNGeoYmC
+	+qJhsT4YLFTEKTM64BBkTX/AkwfxMoAMxoNEir7709HT9HsImsbM0/mRVVOm11NlPB/M1U21K0u
+	YCmj3jnjXbYCI5mo+YAu9nssqJw==
+X-Received: by 2002:a50:ff0b:0:b0:514:95b1:f0ba with SMTP id a11-20020a50ff0b000000b0051495b1f0bamr1754130edu.34.1686049340068;
+        Tue, 06 Jun 2023 04:02:20 -0700 (PDT)
+X-Google-Smtp-Source: ACHHUZ4zs8hy5gG0C+mEOx7AeLYSd3QuIehkmmVCU7G9fp1TOOiRsbtWguVcpo5A8rJyc1MXuPxxug==
+X-Received: by 2002:a50:ff0b:0:b0:514:95b1:f0ba with SMTP id a11-20020a50ff0b000000b0051495b1f0bamr1754110edu.34.1686049339693;
+        Tue, 06 Jun 2023 04:02:19 -0700 (PDT)
 Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
-        by smtp.gmail.com with ESMTPSA id r6-20020a170906350600b00970f0e2dab2sm5404963eja.112.2023.06.06.03.50.24
+        by smtp.gmail.com with ESMTPSA id e8-20020a50fb88000000b0050d82f96860sm4215159edq.59.2023.06.06.04.02.18
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 06 Jun 2023 03:50:25 -0700 (PDT)
-Message-ID: <5e4e49d8-1e0d-709d-0a4a-576fa1212f01@redhat.com>
-Date: Tue, 6 Jun 2023 12:50:24 +0200
+        Tue, 06 Jun 2023 04:02:18 -0700 (PDT)
+Message-ID: <f57f6070-aab7-87aa-b838-906b570a8265@redhat.com>
+Date: Tue, 6 Jun 2023 13:02:17 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -54,15 +54,16 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.10.0
-Subject: Re: [PATCH 3/3] media: atomisp: ia_css_debug: remove unused codes
+Subject: Re: [PATCH 2/3] atomisp: sh_css_params: write the sp_group config
+ according to the ISP model
 To: Kate Hsuan <hpa@redhat.com>, Mauro Carvalho Chehab <mchehab@kernel.org>,
  Sakari Ailus <sakari.ailus@linux.intel.com>,
  Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
  linux-media@vger.kernel.org, linux-staging@lists.linux.dev
 References: <20230605102903.924283-1-hpa@redhat.com>
- <20230605102903.924283-4-hpa@redhat.com>
+ <20230605102903.924283-3-hpa@redhat.com>
 From: Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <20230605102903.924283-4-hpa@redhat.com>
+In-Reply-To: <20230605102903.924283-3-hpa@redhat.com>
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Language: en-US, nl
@@ -72,158 +73,102 @@ Content-Transfer-Encoding: 7bit
 Hi Kate,
 
 On 6/5/23 12:29, Kate Hsuan wrote:
-> This portion of the codes was not referenced so it can be completely
-> removed.
+> Pick up the necessary part of sp_group configuration for both model and
+> then copy those parts into a tempetory buffer. This buffer is finally
+> written to the ISP with correct length.
 > 
 > Signed-off-by: Kate Hsuan <hpa@redhat.com>
+> ---
+>  .../staging/media/atomisp/pci/sh_css_params.c | 37 ++++++++++++++++++-
+>  1 file changed, 35 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/staging/media/atomisp/pci/sh_css_params.c b/drivers/staging/media/atomisp/pci/sh_css_params.c
+> index 588f2adab058..2913d9d6d226 100644
+> --- a/drivers/staging/media/atomisp/pci/sh_css_params.c
+> +++ b/drivers/staging/media/atomisp/pci/sh_css_params.c
+> @@ -3720,10 +3720,43 @@ struct ia_css_shading_table *ia_css_get_shading_table(struct ia_css_stream
+>  
+>  ia_css_ptr sh_css_store_sp_group_to_ddr(void)
+>  {
+> +	u8 *write_buf;
+> +	u8 *buf_ptr;
+> +
+>  	IA_CSS_ENTER_LEAVE_PRIVATE("void");
+> +
+> +	write_buf = kzalloc(sizeof(u8) * 8192, GFP_KERNEL);
 
-So this patch fixes compile errors introduced by the first patch
-and MAX_THREAD_NUM is still used after this by code in
-"#ifdef HAS_WATCHDOG_SP_THREAD_DEBUG" blocks.
+Please use sizeof(struct sh_css_sp_group) here, since you have dropped all the #ifdef-s in the header now that is the largest size which you need now.
 
-Note HAS_WATCHDOG_SP_THREAD_DEBUG is never set.
+> +
+> +	buf_ptr = write_buf;
+> +	if (IS_ISP2401) {
+> +		memcpy(buf_ptr, &sh_css_sp_group.config, sizeof(u8) * 5);
 
-So IMHO the right thing to do here is:
+This is wrong, there is a big hole between:
 
-1. Introduce a new patch which should be the first patch
-   of the set which removes all code blocks protected by
-   "#ifdef HAS_WATCHDOG_SP_THREAD_DEBUG" as well as
-   the "uncomment this here" HAS_WATCHDOG_SP_THREAD_DEBUG bits
-   in drivers/staging/media/atomisp/pci/hive_isp_css_common/debug_global.h
+        u8                      no_isp_sync; /* Signal host immediately after start */
+        u8                      enable_raw_pool_locking; /** Enable Raw Buffer Locking for HAL
+        u8                      lock_all;
 
-2.Make this patch the second (first patch after the
-  HAS_WATCHDOG_SP_THREAD_DEBUG removal) patch of the series.
+and:
 
-  And instead of renaming MAX_THREAD_NUM to
-  MAX_THREAD_NUM_2400 / MAX_THREAD_NUM_2401 just entirely drop it
-  and also drop the following now no longer used defines:
-  SH_CSS_SP_INTERNAL_METADATA_THREAD
-  SH_CSS_SP_INTERNAL_SERVICE_THREAD
-  SH_CSS_MAX_SP_INTERNAL_THREADS
+        u8                 enable_isys_event_queue;
+        u8                      disable_cont_vf;
+
+filled with ISP2400 specific data now, so you are copying what likely is some empty alignment bytes before the ISP2400 specific input_formatter struct now instead of copying enable_isys_event_queue
+and disable_cont_vf.
+
+So you need to split the memcpy into 2 memcpy calls. You can calculate the source offset of enable_isys_event_queue in sh_css_sp_group.config with offsetof(struct sh_css_sp_config, enable_isys_event_queue), or better yet, just take the address of it:
+
+	if (IS_ISP2401) {
+		memcpy(buf_ptr, &sh_css_sp_group.config, 3);
+		buf_ptr += 3;
+		memcpy(buf_ptr, &sh_css_sp_group.config.enable_isys_event_queue, 2);
+		buf_ptr += 2;
+		memset(buf_ptr, 0, 3);
+		buf_ptr += 3; /* Padding 3 bytes for struct sh_css_sp_config*/
+	} else {
+
+Also note I have dropped the "* sizeof(u8)" here, you already dropped that yourself for the memset / padding bits and dropping it makes the code easier to read IMHO.
+		
+
+
+> +		buf_ptr += (sizeof(u8) * 5);
+> +		memset(buf_ptr, 0, 3);
+> +		buf_ptr += 3; /* Padding 3 bytes for struct sh_css_sp_config*/
+> +	} else {
+> +		memcpy(buf_ptr, &sh_css_sp_group.config, sizeof(sh_css_sp_group.config));
+> +		buf_ptr += sizeof(sh_css_sp_group.config);
+> +	}
+> +
+> +	memcpy(buf_ptr, &sh_css_sp_group.pipe, sizeof(sh_css_sp_group.pipe));
+> +	buf_ptr += sizeof(sh_css_sp_group.pipe);
+> +
+> +	if (IS_ISP2401) {
+> +		memcpy(buf_ptr, &sh_css_sp_group.pipe_io, sizeof(sh_css_sp_group.pipe_io));
+> +		buf_ptr += sizeof(sh_css_sp_group.pipe_io);
+> +		memcpy(buf_ptr, &sh_css_sp_group.pipe_io_status,
+> +		       sizeof(sh_css_sp_group.pipe_io_status));
+> +		buf_ptr += sizeof(sh_css_sp_group.pipe_io_status);
+> +	}
+> +
+> +	memcpy(buf_ptr, &sh_css_sp_group.debug, sizeof(sh_css_sp_group.debug));
+> +	buf_ptr += sizeof(sh_css_sp_group.debug);
+> +
+>  	hmm_store(xmem_sp_group_ptrs,
+> -		   &sh_css_sp_group,
+> -		   sizeof(struct sh_css_sp_group));
+> +		  write_buf,
+> +		  buf_ptr - write_buf);
+> +
+> +	kfree(write_buf);
+>  	return xmem_sp_group_ptrs;
+>  }
+>  
+
+The rest looks good at a quick glance, but I need to take a closer look later.
 
 Regards,
 
 Hans
-
-
-SH_CSS_SP_INTERNAL_METADATA_THREAD and
-  
-the entire now no longer 
-
-> ---
->  .../runtime/debug/interface/ia_css_debug.h    |  6 --
->  .../pci/runtime/debug/src/ia_css_debug.c      | 76 +------------------
->  2 files changed, 2 insertions(+), 80 deletions(-)
-> 
-> diff --git a/drivers/staging/media/atomisp/pci/runtime/debug/interface/ia_css_debug.h b/drivers/staging/media/atomisp/pci/runtime/debug/interface/ia_css_debug.h
-> index fff89e9b4b01..3a3d72c6eaaa 100644
-> --- a/drivers/staging/media/atomisp/pci/runtime/debug/interface/ia_css_debug.h
-> +++ b/drivers/staging/media/atomisp/pci/runtime/debug/interface/ia_css_debug.h
-> @@ -141,12 +141,6 @@ static inline void __printf(2, 0) ia_css_debug_vdtrace(unsigned int level,
->  __printf(2, 3) void ia_css_debug_dtrace(unsigned int level,
->  					const char *fmt, ...);
->  
-> -/*! @brief Dump sp thread's stack contents
-> - * SP thread's stack contents are set to 0xcafecafe. This function dumps the
-> - * stack to inspect if the stack's boundaries are compromised.
-> - * @return	None
-> - */
-> -void ia_css_debug_dump_sp_stack_info(void);
->  
->  /*! @brief Function to set the global dtrace verbosity level.
->   * @param[in]	trace_level	Maximum level of the messages to be traced.
-> diff --git a/drivers/staging/media/atomisp/pci/runtime/debug/src/ia_css_debug.c b/drivers/staging/media/atomisp/pci/runtime/debug/src/ia_css_debug.c
-> index bb6204cb42c5..bb30146c5fe7 100644
-> --- a/drivers/staging/media/atomisp/pci/runtime/debug/src/ia_css_debug.c
-> +++ b/drivers/staging/media/atomisp/pci/runtime/debug/src/ia_css_debug.c
-> @@ -105,7 +105,8 @@
->   * TODO:SH_CSS_MAX_SP_THREADS is not the max number of sp threads
->   * future rework should fix this and remove the define MAX_THREAD_NUM
->   */
-> -#define MAX_THREAD_NUM (SH_CSS_MAX_SP_THREADS + SH_CSS_MAX_SP_INTERNAL_THREADS)
-> +#define MAX_THREAD_NUM_2400 (SH_CSS_MAX_SP_THREADS + SH_CSS_MAX_SP_INTERNAL_THREADS_2400)
-> +#define MAX_THREAD_NUM_2401 (SH_CSS_MAX_SP_THREADS + SH_CSS_MAX_SP_INTERNAL_THREADS_2401)
->  
->  static struct pipe_graph_class {
->  	bool do_init;
-> @@ -147,79 +148,6 @@ void ia_css_debug_dtrace(unsigned int level, const char *fmt, ...)
->  	va_end(ap);
->  }
->  
-> -static void debug_dump_long_array_formatted(
-> -    const sp_ID_t sp_id,
-> -    hrt_address stack_sp_addr,
-> -    unsigned int stack_size)
-> -{
-> -	unsigned int i;
-> -	u32 val;
-> -	u32 addr = (uint32_t)stack_sp_addr;
-> -	u32 stack_size_words = CEIL_DIV(stack_size, sizeof(uint32_t));
-> -
-> -	/* When size is not multiple of four, last word is only relevant for
-> -	 * remaining bytes */
-> -	for (i = 0; i < stack_size_words; i++) {
-> -		val = sp_dmem_load_uint32(sp_id, (hrt_address)addr);
-> -		if ((i % 8) == 0)
-> -			ia_css_debug_dtrace(IA_CSS_DEBUG_VERBOSE, "\n");
-> -
-> -		ia_css_debug_dtrace(IA_CSS_DEBUG_VERBOSE, "0x%08x ", val);
-> -		addr += sizeof(uint32_t);
-> -	}
-> -
-> -	ia_css_debug_dtrace(IA_CSS_DEBUG_VERBOSE, "\n");
-> -}
-> -
-> -static void debug_dump_sp_stack_info(
-> -    const sp_ID_t sp_id)
-> -{
-> -	const struct ia_css_fw_info *fw;
-> -	unsigned int HIVE_ADDR_sp_threads_stack;
-> -	unsigned int HIVE_ADDR_sp_threads_stack_size;
-> -	u32 stack_sizes[MAX_THREAD_NUM];
-> -	u32 stack_sp_addr[MAX_THREAD_NUM];
-> -	unsigned int i;
-> -
-> -	fw = &sh_css_sp_fw;
-> -
-> -	ia_css_debug_dtrace(IA_CSS_DEBUG_VERBOSE, "sp_id(%u) stack info\n", sp_id);
-> -	ia_css_debug_dtrace(IA_CSS_DEBUG_VERBOSE,
-> -			    "from objects stack_addr_offset:0x%x stack_size_offset:0x%x\n",
-> -			    fw->info.sp.threads_stack,
-> -			    fw->info.sp.threads_stack_size);
-> -
-> -	HIVE_ADDR_sp_threads_stack = fw->info.sp.threads_stack;
-> -	HIVE_ADDR_sp_threads_stack_size = fw->info.sp.threads_stack_size;
-> -
-> -	if (fw->info.sp.threads_stack == 0 ||
-> -	    fw->info.sp.threads_stack_size == 0)
-> -		return;
-> -
-> -	(void)HIVE_ADDR_sp_threads_stack;
-> -	(void)HIVE_ADDR_sp_threads_stack_size;
-> -
-> -	sp_dmem_load(sp_id,
-> -		     (unsigned int)sp_address_of(sp_threads_stack),
-> -		     &stack_sp_addr, sizeof(stack_sp_addr));
-> -	sp_dmem_load(sp_id,
-> -		     (unsigned int)sp_address_of(sp_threads_stack_size),
-> -		     &stack_sizes, sizeof(stack_sizes));
-> -
-> -	for (i = 0 ; i < MAX_THREAD_NUM; i++) {
-> -		ia_css_debug_dtrace(IA_CSS_DEBUG_VERBOSE,
-> -				    "thread: %u stack_addr: 0x%08x stack_size: %u\n",
-> -				    i, stack_sp_addr[i], stack_sizes[i]);
-> -		debug_dump_long_array_formatted(sp_id, (hrt_address)stack_sp_addr[i],
-> -						stack_sizes[i]);
-> -	}
-> -}
-> -
-> -void ia_css_debug_dump_sp_stack_info(void)
-> -{
-> -	debug_dump_sp_stack_info(SP0_ID);
-> -}
-> -
->  void ia_css_debug_set_dtrace_level(const unsigned int trace_level)
->  {
->  	dbg_level = trace_level;
 
