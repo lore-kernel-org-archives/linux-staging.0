@@ -1,129 +1,77 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2433361
-	for <linux-staging@lists.linux.dev>; Tue,  6 Jun 2023 02:34:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1686018888;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=EqFplNNFBMxsZKxu892+jTxiHF9dPVb6fkmSgk8CehA=;
-	b=Yt2yadS+HBrabPPKjvyQqUUWG4V167wsJnhi/YtA001fwIRlOBaQR7Uyi33oeYDkUfCsG0
-	HWkyarNUOGL05eclAnzLal7nldgQWs7Pyl5gGisPZknalYhN/yKaCygYkzpXF4IqlM9zNA
-	CKdVOlFvrSPSTcRYJwR8QnNtMTd97zQ=
-Received: from mail-pf1-f199.google.com (mail-pf1-f199.google.com
- [209.85.210.199]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-582-0quJ-cr5MIyhjG2fBgSS5Q-1; Mon, 05 Jun 2023 22:34:47 -0400
-X-MC-Unique: 0quJ-cr5MIyhjG2fBgSS5Q-1
-Received: by mail-pf1-f199.google.com with SMTP id d2e1a72fcca58-65fd8267042so175844b3a.0
-        for <linux-staging@lists.linux.dev>; Mon, 05 Jun 2023 19:34:46 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E864E360
+	for <linux-staging@lists.linux.dev>; Tue,  6 Jun 2023 05:26:27 +0000 (UTC)
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-3f623adec61so57922295e9.0
+        for <linux-staging@lists.linux.dev>; Mon, 05 Jun 2023 22:26:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1686029186; x=1688621186;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=dDsCLYgxw0cAllMIv7aPZnktih/2jRXLUmlxWaBI1IA=;
+        b=IwxvokNMCgzhhXOUSzqxqBgRxmi+htg/TlgMk4ZYeM32beHp0ygBO8euxAR0AQm+1o
+         c41sqH0a03Ang8oPH4q5RE2TIZ7EzDBicWi5Upqo1LS+VH8cHLDoXkXA27jwp8wo48rf
+         eZmiyl/UL9g3tnTKk1UqirKGm7+TsJwBv75CZSJH9zuV9IOtgE6Ar+SpSBJxi9gqZ6mz
+         BpNyY5nVfJPTkaELNR9yt+4F16iw3qCLjesDjgrzXMwNg4ryEavCgFDHvFNOiEnpPwU9
+         qlbDzpvSAdN661d7mnDQUfmS53+gK8Qv4j+Yvm6y3AX2CWfAiZFODcAcPaKId8yVzZ1t
+         9Olg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686018886; x=1688610886;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=EqFplNNFBMxsZKxu892+jTxiHF9dPVb6fkmSgk8CehA=;
-        b=ZdDrrSCrZkqCfW6ilLguzI/p0s+KIrqoTc0ul8EvZxAS48NVRRt6JnDyuSYZ+mU+F0
-         fC8frRJl1kDszr68znacKNKuosd0+Y++YXBKgPHofJfZLIcrfW61dKD785DQFV3vW5bR
-         T2iM4Swa+vUyVrEb85AERQPs4N2sfMXQzix+iGfixjZbizCee8H0uMw+WhMwmr5zFYUm
-         Jor6A076O9R/JlCO0gxtNHUUswdA1O5Evqd4zXTIdgQBOLqpLZKlv2eNwzXwiG++OwtD
-         nvLFJeaK+gX1TX3vAVdesdrtYVc+OwgNGEauidFZWeR6m+vTLVTy9VJerL7bTqlgUYe5
-         pnHw==
-X-Gm-Message-State: AC+VfDxmFxPgxPhNSnLaFSYfTtr5Ols2Pbm1K5HOaXc9m8MJgYckXR3b
-	NGWjIZfUTfLd2UfJsq1lEHY6osfGat7aQrpnCEfSNkOT7JmA9ukKGACZBQbwO0iTAPkmpxkNA7R
-	d7YshHW6tzAsMJqgf1fQb9p9A8zXZ6zkzdOAFCY+U2g==
-X-Received: by 2002:a05:6a21:6802:b0:105:63b0:5bf8 with SMTP id wr2-20020a056a21680200b0010563b05bf8mr708004pzb.18.1686018886028;
-        Mon, 05 Jun 2023 19:34:46 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ70vj0IekeJpT5Kw/rfea8yu5XYFh2CjLR9mIU0apilTuyfi1QvY30+iwcAtpXRDh4bTV99Ne9SIFw0cnxnNss=
-X-Received: by 2002:a05:6a21:6802:b0:105:63b0:5bf8 with SMTP id
- wr2-20020a056a21680200b0010563b05bf8mr707987pzb.18.1686018885581; Mon, 05 Jun
- 2023 19:34:45 -0700 (PDT)
+        d=1e100.net; s=20221208; t=1686029186; x=1688621186;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=dDsCLYgxw0cAllMIv7aPZnktih/2jRXLUmlxWaBI1IA=;
+        b=Fc7v9/Sz/6EI8K16poVCRMAYQg0ht7GD57fH5UCUTWxveXKycw2kGkQXCUXvMo6wfh
+         ey0TudmHCsD4Ak9gxgq/onAm5bkBneoXqbs2ELKKyw02bn3Ff9byoqvRrUNS02pM+kWB
+         CuGIQ4LR8jT85jU7qKOCcgvLS3AmFopXsVZeHsaPgQKpuBp6mxg/KvYmk+dlC5e0zuL6
+         cGfDDkpzHQUU5V9v5bLMApvJO4pLN13bWYD5UJKtf4i8MCbMSj1/+21IDo2GHpfKAWpd
+         dM3sby7Y9V/Pzf3fn08mXk5j3/FPVX7zjoaxADxBa5M7oqAHMbsR86mJr+JElMyj8PqX
+         MZ+A==
+X-Gm-Message-State: AC+VfDzLPYJm0lWvElgFktpWYu5dBdjlEkQgOTKyQvXvlMgdEcuE4aNM
+	Bljw/H3EuA5tsDOucQgteG9mQA==
+X-Google-Smtp-Source: ACHHUZ7O2HWP67RgSNqCAyjbTAYsyzDWwhj4EAisp0m7UY5KYbL/2OK6vhedUYAPw7jtmm/0lF9awg==
+X-Received: by 2002:a7b:cc8e:0:b0:3f6:766:f76f with SMTP id p14-20020a7bcc8e000000b003f60766f76fmr979213wma.36.1686029185900;
+        Mon, 05 Jun 2023 22:26:25 -0700 (PDT)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id f18-20020a1cc912000000b003f4e3ed98ffsm12686196wmb.35.2023.06.05.22.26.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 05 Jun 2023 22:26:23 -0700 (PDT)
+Date: Tue, 6 Jun 2023 08:26:19 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: daniel@ffwll.ch, javierm@redhat.com, sam@ravnborg.org, deller@gmx.de,
+	geert+renesas@glider.be, lee@kernel.org, daniel.thompson@linaro.org,
+	jingoohan1@gmail.com, linux-fbdev@vger.kernel.org,
+	dri-devel@lists.freedesktop.org, linux-sh@vger.kernel.org,
+	linux-omap@vger.kernel.org, linux-staging@lists.linux.dev
+Subject: Re: [PATCH 11/30] fbdev/ep93xx-fb: Do not assign to struct
+ fb_info.dev
+Message-ID: <dbff5ba5-f34f-41d3-b8d5-2bfb7d34df5b@kadam.mountain>
+References: <20230605144812.15241-1-tzimmermann@suse.de>
+ <20230605144812.15241-12-tzimmermann@suse.de>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20230605102903.924283-1-hpa@redhat.com> <20230605102903.924283-3-hpa@redhat.com>
- <f9f3f779-36e6-4329-880d-12a6faa707c2@kadam.mountain>
-In-Reply-To: <f9f3f779-36e6-4329-880d-12a6faa707c2@kadam.mountain>
-From: Kate Hsuan <hpa@redhat.com>
-Date: Tue, 6 Jun 2023 10:34:34 +0800
-Message-ID: <CAEth8oFNtW2+CP1m0gxGF3g=SN7UZ_c_7eNGj8W6ppoiVsm+Qg@mail.gmail.com>
-Subject: Re: [PATCH 2/3] atomisp: sh_css_params: write the sp_group config
- according to the ISP model
-To: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: Hans de Goede <hdegoede@redhat.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	Sakari Ailus <sakari.ailus@linux.intel.com>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-media@vger.kernel.org, 
-	linux-staging@lists.linux.dev
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230605144812.15241-12-tzimmermann@suse.de>
 
-Hi,
+On Mon, Jun 05, 2023 at 04:47:53PM +0200, Thomas Zimmermann wrote:
+> Do not assing the Linux device to struct fb_info.dev. The call to
+> register_framebuffer() initializes the field to the fbdev device.
+> Drivers should not override its value.
+> 
+> Fixes a bug where the driver incorrectly decreases the hardware
+> device's reference counter and leaks the fbdev device.
+> 
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 
-On Mon, Jun 5, 2023 at 7:11=E2=80=AFPM Dan Carpenter <dan.carpenter@linaro.=
-org> wrote:
->
-> On Mon, Jun 05, 2023 at 06:29:02PM +0800, Kate Hsuan wrote:
-> > Pick up the necessary part of sp_group configuration for both model and
-> > then copy those parts into a tempetory buffer. This buffer is finally
-> > written to the ISP with correct length.
-> >
-> > Signed-off-by: Kate Hsuan <hpa@redhat.com>
-> > ---
-> >  .../staging/media/atomisp/pci/sh_css_params.c | 37 ++++++++++++++++++-
-> >  1 file changed, 35 insertions(+), 2 deletions(-)
-> >
-> > diff --git a/drivers/staging/media/atomisp/pci/sh_css_params.c b/driver=
-s/staging/media/atomisp/pci/sh_css_params.c
-> > index 588f2adab058..2913d9d6d226 100644
-> > --- a/drivers/staging/media/atomisp/pci/sh_css_params.c
-> > +++ b/drivers/staging/media/atomisp/pci/sh_css_params.c
-> > @@ -3720,10 +3720,43 @@ struct ia_css_shading_table *ia_css_get_shading=
-_table(struct ia_css_stream
-> >
-> >  ia_css_ptr sh_css_store_sp_group_to_ddr(void)
-> >  {
-> > +     u8 *write_buf;
-> > +     u8 *buf_ptr;
-> > +
-> >       IA_CSS_ENTER_LEAVE_PRIVATE("void");
-> > +
-> > +     write_buf =3D kzalloc(sizeof(u8) * 8192, GFP_KERNEL);
->
-> Please add a check for allocation failure.
->
-> regards,
-> dan carpenter
+Fixes: 88017bda96a5 ("ep93xx video driver")
 
-Thank you for reviewing this.
-I will fix it in the v2 patch.
-
->
->
-> > +
-> > +     buf_ptr =3D write_buf;
-> > +     if (IS_ISP2401) {
-> > +             memcpy(buf_ptr, &sh_css_sp_group.config, sizeof(u8) * 5);
-> > +             buf_ptr +=3D (sizeof(u8) * 5);
-> > +             memset(buf_ptr, 0, 3);
-> > +             buf_ptr +=3D 3; /* Padding 3 bytes for struct sh_css_sp_c=
-onfig*/
-> > +     } else {
-> > +             memcpy(buf_ptr, &sh_css_sp_group.config, sizeof(sh_css_sp=
-_group.config));
-> > +             buf_ptr +=3D sizeof(sh_css_sp_group.config);
-> > +     }
->
-
-
---=20
-BR,
-Kate
+regards,
+dan carpenter
 
