@@ -1,146 +1,129 @@
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72C08BE59;
-	Mon,  5 Jun 2023 21:46:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1686001590; x=1717537590;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=VFMj0R5xssTi49SMy256biw2lktzNYXCNpkrvHTLzHw=;
-  b=DiYRCJqon+3d9uUquepNoHoNL81RS08PJXDefrgrRhIDoKiSdAmuTi4h
-   aj8gQgdS0P2FStnPCCyuXDxHa+b1REagL2WAaXbcheTWXNcCXedJN+B3Q
-   wjmQoc4qogZ/l8zKoviwXpMs7yaplbarWVjceT5bcISNG9evz9OYgOnZ0
-   8Y0xAbVmnXzq1hbHOunPYSZZR41ZfKA61IajMNLCvOUpIKkYaSnzNHaRa
-   I6K/6nk6Ys0OI6mm2Y81IVoNS0imAH4Jfi7M63fL6FabUrDQ+LOfEB59O
-   hjqNvqE5ciegpXKt1obnqp3GNwaJjKYgAqf73kJb880fjzk/q11XGLBBV
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10732"; a="341128476"
-X-IronPort-AV: E=Sophos;i="6.00,218,1681196400"; 
-   d="scan'208";a="341128476"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jun 2023 14:46:29 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10732"; a="821327834"
-X-IronPort-AV: E=Sophos;i="6.00,218,1681196400"; 
-   d="scan'208";a="821327834"
-Received: from lkp-server01.sh.intel.com (HELO 15ab08e44a81) ([10.239.97.150])
-  by fmsmga002.fm.intel.com with ESMTP; 05 Jun 2023 14:46:25 -0700
-Received: from kbuild by 15ab08e44a81 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1q6I1x-0004T9-0j;
-	Mon, 05 Jun 2023 21:46:25 +0000
-Date: Tue, 6 Jun 2023 05:45:33 +0800
-From: kernel test robot <lkp@intel.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>, daniel@ffwll.ch,
-	javierm@redhat.com, sam@ravnborg.org, deller@gmx.de,
-	geert+renesas@glider.be, lee@kernel.org, daniel.thompson@linaro.org,
-	jingoohan1@gmail.com
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-fbdev@vger.kernel.org, linux-sh@vger.kernel.org,
-	linux-staging@lists.linux.dev, dri-devel@lists.freedesktop.org,
-	Thomas Zimmermann <tzimmermann@suse.de>, linux-omap@vger.kernel.org
-Subject: Re: [PATCH 30/30] fbdev: Make support for userspace interfaces
- configurable
-Message-ID: <202306060547.528pADrX-lkp@intel.com>
-References: <20230605144812.15241-31-tzimmermann@suse.de>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2433361
+	for <linux-staging@lists.linux.dev>; Tue,  6 Jun 2023 02:34:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1686018888;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=EqFplNNFBMxsZKxu892+jTxiHF9dPVb6fkmSgk8CehA=;
+	b=Yt2yadS+HBrabPPKjvyQqUUWG4V167wsJnhi/YtA001fwIRlOBaQR7Uyi33oeYDkUfCsG0
+	HWkyarNUOGL05eclAnzLal7nldgQWs7Pyl5gGisPZknalYhN/yKaCygYkzpXF4IqlM9zNA
+	CKdVOlFvrSPSTcRYJwR8QnNtMTd97zQ=
+Received: from mail-pf1-f199.google.com (mail-pf1-f199.google.com
+ [209.85.210.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-582-0quJ-cr5MIyhjG2fBgSS5Q-1; Mon, 05 Jun 2023 22:34:47 -0400
+X-MC-Unique: 0quJ-cr5MIyhjG2fBgSS5Q-1
+Received: by mail-pf1-f199.google.com with SMTP id d2e1a72fcca58-65fd8267042so175844b3a.0
+        for <linux-staging@lists.linux.dev>; Mon, 05 Jun 2023 19:34:46 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1686018886; x=1688610886;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=EqFplNNFBMxsZKxu892+jTxiHF9dPVb6fkmSgk8CehA=;
+        b=ZdDrrSCrZkqCfW6ilLguzI/p0s+KIrqoTc0ul8EvZxAS48NVRRt6JnDyuSYZ+mU+F0
+         fC8frRJl1kDszr68znacKNKuosd0+Y++YXBKgPHofJfZLIcrfW61dKD785DQFV3vW5bR
+         T2iM4Swa+vUyVrEb85AERQPs4N2sfMXQzix+iGfixjZbizCee8H0uMw+WhMwmr5zFYUm
+         Jor6A076O9R/JlCO0gxtNHUUswdA1O5Evqd4zXTIdgQBOLqpLZKlv2eNwzXwiG++OwtD
+         nvLFJeaK+gX1TX3vAVdesdrtYVc+OwgNGEauidFZWeR6m+vTLVTy9VJerL7bTqlgUYe5
+         pnHw==
+X-Gm-Message-State: AC+VfDxmFxPgxPhNSnLaFSYfTtr5Ols2Pbm1K5HOaXc9m8MJgYckXR3b
+	NGWjIZfUTfLd2UfJsq1lEHY6osfGat7aQrpnCEfSNkOT7JmA9ukKGACZBQbwO0iTAPkmpxkNA7R
+	d7YshHW6tzAsMJqgf1fQb9p9A8zXZ6zkzdOAFCY+U2g==
+X-Received: by 2002:a05:6a21:6802:b0:105:63b0:5bf8 with SMTP id wr2-20020a056a21680200b0010563b05bf8mr708004pzb.18.1686018886028;
+        Mon, 05 Jun 2023 19:34:46 -0700 (PDT)
+X-Google-Smtp-Source: ACHHUZ70vj0IekeJpT5Kw/rfea8yu5XYFh2CjLR9mIU0apilTuyfi1QvY30+iwcAtpXRDh4bTV99Ne9SIFw0cnxnNss=
+X-Received: by 2002:a05:6a21:6802:b0:105:63b0:5bf8 with SMTP id
+ wr2-20020a056a21680200b0010563b05bf8mr707987pzb.18.1686018885581; Mon, 05 Jun
+ 2023 19:34:45 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230605144812.15241-31-tzimmermann@suse.de>
+References: <20230605102903.924283-1-hpa@redhat.com> <20230605102903.924283-3-hpa@redhat.com>
+ <f9f3f779-36e6-4329-880d-12a6faa707c2@kadam.mountain>
+In-Reply-To: <f9f3f779-36e6-4329-880d-12a6faa707c2@kadam.mountain>
+From: Kate Hsuan <hpa@redhat.com>
+Date: Tue, 6 Jun 2023 10:34:34 +0800
+Message-ID: <CAEth8oFNtW2+CP1m0gxGF3g=SN7UZ_c_7eNGj8W6ppoiVsm+Qg@mail.gmail.com>
+Subject: Re: [PATCH 2/3] atomisp: sh_css_params: write the sp_group config
+ according to the ISP model
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Cc: Hans de Goede <hdegoede@redhat.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	Sakari Ailus <sakari.ailus@linux.intel.com>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-media@vger.kernel.org, 
+	linux-staging@lists.linux.dev
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Thomas,
+Hi,
 
-kernel test robot noticed the following build errors:
+On Mon, Jun 5, 2023 at 7:11=E2=80=AFPM Dan Carpenter <dan.carpenter@linaro.=
+org> wrote:
+>
+> On Mon, Jun 05, 2023 at 06:29:02PM +0800, Kate Hsuan wrote:
+> > Pick up the necessary part of sp_group configuration for both model and
+> > then copy those parts into a tempetory buffer. This buffer is finally
+> > written to the ISP with correct length.
+> >
+> > Signed-off-by: Kate Hsuan <hpa@redhat.com>
+> > ---
+> >  .../staging/media/atomisp/pci/sh_css_params.c | 37 ++++++++++++++++++-
+> >  1 file changed, 35 insertions(+), 2 deletions(-)
+> >
+> > diff --git a/drivers/staging/media/atomisp/pci/sh_css_params.c b/driver=
+s/staging/media/atomisp/pci/sh_css_params.c
+> > index 588f2adab058..2913d9d6d226 100644
+> > --- a/drivers/staging/media/atomisp/pci/sh_css_params.c
+> > +++ b/drivers/staging/media/atomisp/pci/sh_css_params.c
+> > @@ -3720,10 +3720,43 @@ struct ia_css_shading_table *ia_css_get_shading=
+_table(struct ia_css_stream
+> >
+> >  ia_css_ptr sh_css_store_sp_group_to_ddr(void)
+> >  {
+> > +     u8 *write_buf;
+> > +     u8 *buf_ptr;
+> > +
+> >       IA_CSS_ENTER_LEAVE_PRIVATE("void");
+> > +
+> > +     write_buf =3D kzalloc(sizeof(u8) * 8192, GFP_KERNEL);
+>
+> Please add a check for allocation failure.
+>
+> regards,
+> dan carpenter
 
-[auto build test ERROR on next-20230605]
-[cannot apply to drm-misc/drm-misc-next lee-backlight/for-backlight-next staging/staging-testing staging/staging-next staging/staging-linus linus/master lee-backlight/for-backlight-fixes v6.4-rc5 v6.4-rc4 v6.4-rc3 v6.4-rc5]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Thank you for reviewing this.
+I will fix it in the v2 patch.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Thomas-Zimmermann/backlight-bd6107-Compare-against-struct-fb_info-device/20230605-225002
-base:   next-20230605
-patch link:    https://lore.kernel.org/r/20230605144812.15241-31-tzimmermann%40suse.de
-patch subject: [PATCH 30/30] fbdev: Make support for userspace interfaces configurable
-config: powerpc-randconfig-r036-20230605 (https://download.01.org/0day-ci/archive/20230606/202306060547.528pADrX-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 4faf3aaf28226a4e950c103a14f6fc1d1fdabb1b)
-reproduce (this is a W=1 build):
-        mkdir -p ~/bin
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # install powerpc cross compiling tool for clang build
-        # apt-get install binutils-powerpc-linux-gnu
-        # https://github.com/intel-lab-lkp/linux/commit/d309f36af8a1ee56ef56e54287ca6d2bf7d239de
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Thomas-Zimmermann/backlight-bd6107-Compare-against-struct-fb_info-device/20230605-225002
-        git checkout d309f36af8a1ee56ef56e54287ca6d2bf7d239de
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=powerpc olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=powerpc SHELL=/bin/bash drivers/video/fbdev/mb862xx/
-
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306060547.528pADrX-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
->> drivers/video/fbdev/mb862xx/mb862xxfbdrv.c:793:15: error: no member named 'dev' in 'struct fb_info'
-           dev_dbg(fbi->dev, "%s release\n", fbi->fix.id);
-                   ~~~  ^
-   include/linux/dev_printk.h:163:26: note: expanded from macro 'dev_dbg'
-                   dev_printk(KERN_DEBUG, dev, dev_fmt(fmt), ##__VA_ARGS__); \
-                                          ^~~
-   include/linux/dev_printk.h:129:22: note: expanded from macro 'dev_printk'
-                   _dev_printk(level, dev, fmt, ##__VA_ARGS__);            \
-                                      ^~~
-   1 error generated.
+>
+>
+> > +
+> > +     buf_ptr =3D write_buf;
+> > +     if (IS_ISP2401) {
+> > +             memcpy(buf_ptr, &sh_css_sp_group.config, sizeof(u8) * 5);
+> > +             buf_ptr +=3D (sizeof(u8) * 5);
+> > +             memset(buf_ptr, 0, 3);
+> > +             buf_ptr +=3D 3; /* Padding 3 bytes for struct sh_css_sp_c=
+onfig*/
+> > +     } else {
+> > +             memcpy(buf_ptr, &sh_css_sp_group.config, sizeof(sh_css_sp=
+_group.config));
+> > +             buf_ptr +=3D sizeof(sh_css_sp_group.config);
+> > +     }
+>
 
 
-vim +793 drivers/video/fbdev/mb862xx/mb862xxfbdrv.c
+--=20
+BR,
+Kate
 
-17a1217e12d8c8 drivers/video/mb862xx/mb862xxfb.c          Anatolij Gustschin 2008-11-06  785  
-3a2ab02ddfacb0 drivers/video/fbdev/mb862xx/mb862xxfbdrv.c Uwe Kleine-König   2023-03-19  786  static void of_platform_mb862xx_remove(struct platform_device *ofdev)
-17a1217e12d8c8 drivers/video/mb862xx/mb862xxfb.c          Anatolij Gustschin 2008-11-06  787  {
-17a1217e12d8c8 drivers/video/mb862xx/mb862xxfb.c          Anatolij Gustschin 2008-11-06  788  	struct fb_info *fbi = dev_get_drvdata(&ofdev->dev);
-17a1217e12d8c8 drivers/video/mb862xx/mb862xxfb.c          Anatolij Gustschin 2008-11-06  789  	struct mb862xxfb_par *par = fbi->par;
-28f65c11f2ffb3 drivers/video/mb862xx/mb862xxfbdrv.c       Joe Perches        2011-06-09  790  	resource_size_t res_size = resource_size(par->res);
-17a1217e12d8c8 drivers/video/mb862xx/mb862xxfb.c          Anatolij Gustschin 2008-11-06  791  	unsigned long reg;
-17a1217e12d8c8 drivers/video/mb862xx/mb862xxfb.c          Anatolij Gustschin 2008-11-06  792  
-17a1217e12d8c8 drivers/video/mb862xx/mb862xxfb.c          Anatolij Gustschin 2008-11-06 @793  	dev_dbg(fbi->dev, "%s release\n", fbi->fix.id);
-17a1217e12d8c8 drivers/video/mb862xx/mb862xxfb.c          Anatolij Gustschin 2008-11-06  794  
-17a1217e12d8c8 drivers/video/mb862xx/mb862xxfb.c          Anatolij Gustschin 2008-11-06  795  	/* display off */
-17a1217e12d8c8 drivers/video/mb862xx/mb862xxfb.c          Anatolij Gustschin 2008-11-06  796  	reg = inreg(disp, GC_DCM1);
-17a1217e12d8c8 drivers/video/mb862xx/mb862xxfb.c          Anatolij Gustschin 2008-11-06  797  	reg &= ~(GC_DCM01_DEN | GC_DCM01_L0E);
-17a1217e12d8c8 drivers/video/mb862xx/mb862xxfb.c          Anatolij Gustschin 2008-11-06  798  	outreg(disp, GC_DCM1, reg);
-17a1217e12d8c8 drivers/video/mb862xx/mb862xxfb.c          Anatolij Gustschin 2008-11-06  799  
-17a1217e12d8c8 drivers/video/mb862xx/mb862xxfb.c          Anatolij Gustschin 2008-11-06  800  	/* disable interrupts */
-17a1217e12d8c8 drivers/video/mb862xx/mb862xxfb.c          Anatolij Gustschin 2008-11-06  801  	outreg(host, GC_IMASK, 0);
-17a1217e12d8c8 drivers/video/mb862xx/mb862xxfb.c          Anatolij Gustschin 2008-11-06  802  
-17a1217e12d8c8 drivers/video/mb862xx/mb862xxfb.c          Anatolij Gustschin 2008-11-06  803  	free_irq(par->irq, (void *)par);
-17a1217e12d8c8 drivers/video/mb862xx/mb862xxfb.c          Anatolij Gustschin 2008-11-06  804  	irq_dispose_mapping(par->irq);
-17a1217e12d8c8 drivers/video/mb862xx/mb862xxfb.c          Anatolij Gustschin 2008-11-06  805  
-17a1217e12d8c8 drivers/video/mb862xx/mb862xxfb.c          Anatolij Gustschin 2008-11-06  806  	device_remove_file(&ofdev->dev, &dev_attr_dispregs);
-17a1217e12d8c8 drivers/video/mb862xx/mb862xxfb.c          Anatolij Gustschin 2008-11-06  807  
-17a1217e12d8c8 drivers/video/mb862xx/mb862xxfb.c          Anatolij Gustschin 2008-11-06  808  	unregister_framebuffer(fbi);
-17a1217e12d8c8 drivers/video/mb862xx/mb862xxfb.c          Anatolij Gustschin 2008-11-06  809  	fb_dealloc_cmap(&fbi->cmap);
-17a1217e12d8c8 drivers/video/mb862xx/mb862xxfb.c          Anatolij Gustschin 2008-11-06  810  
-17a1217e12d8c8 drivers/video/mb862xx/mb862xxfb.c          Anatolij Gustschin 2008-11-06  811  	iounmap(par->mmio_base);
-17a1217e12d8c8 drivers/video/mb862xx/mb862xxfb.c          Anatolij Gustschin 2008-11-06  812  	iounmap(par->fb_base);
-17a1217e12d8c8 drivers/video/mb862xx/mb862xxfb.c          Anatolij Gustschin 2008-11-06  813  
-17a1217e12d8c8 drivers/video/mb862xx/mb862xxfb.c          Anatolij Gustschin 2008-11-06  814  	release_mem_region(par->res->start, res_size);
-17a1217e12d8c8 drivers/video/mb862xx/mb862xxfb.c          Anatolij Gustschin 2008-11-06  815  	framebuffer_release(fbi);
-17a1217e12d8c8 drivers/video/mb862xx/mb862xxfb.c          Anatolij Gustschin 2008-11-06  816  }
-17a1217e12d8c8 drivers/video/mb862xx/mb862xxfb.c          Anatolij Gustschin 2008-11-06  817  
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
