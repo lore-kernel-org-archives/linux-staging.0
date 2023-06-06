@@ -1,182 +1,169 @@
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 849A815ACE
-	for <linux-staging@lists.linux.dev>; Tue,  6 Jun 2023 13:19:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDEC717AB4
+	for <linux-staging@lists.linux.dev>; Tue,  6 Jun 2023 13:31:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1686057597;
+	s=mimecast20190719; t=1686058307;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=C5XybOvws+6gkhvcwZNSqRF3mGXbtoymf+lx6kJinwQ=;
-	b=A4SFu/s8uGxan9B73qzznDzwRvymigMBmVPk4ZL0UJoOydXh3jkt9oFBZlrb4WlrtsKyZl
-	btNc8zBg7PkYJ0E+t59tBEEc8IYhPGtIWvcAltsvk2Zlzmig4s5iGTwm5YucQzogEa7vml
-	HqWjxTjMb1Bcj6fXj7jDEXWJvlpl44E=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-13-t00zMp2uMAiLrPtT805OEg-1; Tue, 06 Jun 2023 09:19:54 -0400
-X-MC-Unique: t00zMp2uMAiLrPtT805OEg-1
-Received: by mail-ed1-f69.google.com with SMTP id 4fb4d7f45d1cf-50a16ab50e6so3965454a12.0
-        for <linux-staging@lists.linux.dev>; Tue, 06 Jun 2023 06:19:53 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686057593; x=1688649593;
-        h=content-transfer-encoding:in-reply-to:references:to:from
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=C5XybOvws+6gkhvcwZNSqRF3mGXbtoymf+lx6kJinwQ=;
-        b=Zro0agrRYCKGd3avRU5XPZz0XQAV9xysGdcLBjpS9cGZIHHraiJX2YqXSnXqfAw4w3
-         /TOP8R01BB4ZV4B6c2m63u9qWtoBPpOeoTgYqtsZt6BE5Rc8ifGHxH0KIX1TRE9s63Z6
-         UTNs/e+zAjXDVwHOyjRH3xNYH5wy1UXJIXkUY9DiONzCBHjYwAYhQfIvh6ZJY8MdnefK
-         iTkfjKx9I4wdfCDrTaLg8pVEoEqsfq8fpM9K4MhpnO9Nv8mGWZcwUbfus8vn2TDNemKk
-         apuEFouCPmp2DhkWziKtx3a8RnUcV1nhRYGMnFdJbtm43xXGCmirB77JE0jddxApD3vC
-         7DDw==
-X-Gm-Message-State: AC+VfDz0MA59o8T0OKjg/Iqbivx+oaLNH3Ib8oyxDKzYXFn+fcEob+KN
-	psL0BpMn9uTsZi/C53p99eSGVztToqYbxoo9tKqJ2HnOQInygDnqBKmpF5xZFzcxbTlrRfho/yM
-	Z1VEjNgAIYfGxbbUAXOWqYc0VJg==
-X-Received: by 2002:a17:907:d29:b0:973:ea73:b883 with SMTP id gn41-20020a1709070d2900b00973ea73b883mr3380381ejc.66.1686057592947;
-        Tue, 06 Jun 2023 06:19:52 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ4HX1s/zPOuyY1Dmb4+r/d5IcrElziI7GUFpcGFH9QTvBl38/PyyLd18U5MsRJf4kl+VEhOBw==
-X-Received: by 2002:a17:907:d29:b0:973:ea73:b883 with SMTP id gn41-20020a1709070d2900b00973ea73b883mr3380356ejc.66.1686057592654;
-        Tue, 06 Jun 2023 06:19:52 -0700 (PDT)
-Received: from [192.168.43.127] ([109.38.131.166])
-        by smtp.gmail.com with ESMTPSA id q25-20020a170906a09900b0096f7e7d1566sm5584027ejy.224.2023.06.06.06.19.51
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 06 Jun 2023 06:19:52 -0700 (PDT)
-Message-ID: <264b29be-e48d-c06f-c7ed-1f1c9dc3205e@redhat.com>
-Date: Tue, 6 Jun 2023 15:19:50 +0200
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=GCVzN2LIu4vSO7tWZPbC06tIBrf+ZUAkcxyoriJ3kwQ=;
+	b=WGuPkUgx0RItSySWRGC3Ly4B4ZKaSZP4Y0jJR5OCChPCzGoQXUHKmn61+Xvn59XTykYOoZ
+	ZemNqdxGMkODHGLycfQUrOyl2dIYxY+Bp4Cqtqc4Xqqo3ZDNKuREDVVLBFi7odUjW8I5qX
+	2CjtpVyJ4aI5c/pnLMKa1Lsw5CvMXo4=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-495-l5DP-GrONEu4kSaa-ndKYA-1; Tue, 06 Jun 2023 09:31:44 -0400
+X-MC-Unique: l5DP-GrONEu4kSaa-ndKYA-1
+Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com [10.11.54.9])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 1220980027F;
+	Tue,  6 Jun 2023 13:31:42 +0000 (UTC)
+Received: from x1.localdomain.com (unknown [10.39.195.198])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 6F0514021AA;
+	Tue,  6 Jun 2023 13:31:38 +0000 (UTC)
+From: Hans de Goede <hdegoede@redhat.com>
+To: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: Hans de Goede <hdegoede@redhat.com>,
+	Tsuchiya Yuto <kitakar@gmail.com>,
+	Andy Shevchenko <andy@kernel.org>,
+	Yury Luneff <yury.lunev@gmail.com>,
+	Nable <nable.maininbox@googlemail.com>,
+	andrey.i.trufanov@gmail.com,
+	Fabio Aiuto <fabioaiuto83@gmail.com>,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev
+Subject: [PATCH] media: atomisp: csi2-bridge: Add support for setting "clock-" and "link-frequencies" props
+Date: Tue,  6 Jun 2023 15:31:36 +0200
+Message-Id: <20230606133136.23619-1-hdegoede@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH 2/3] atomisp: sh_css_params: write the sp_group config
- according to the ISP model
-From: Hans de Goede <hdegoede@redhat.com>
-To: Kate Hsuan <hpa@redhat.com>, Mauro Carvalho Chehab <mchehab@kernel.org>,
- Sakari Ailus <sakari.ailus@linux.intel.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- linux-media@vger.kernel.org, linux-staging@lists.linux.dev
-References: <20230605102903.924283-1-hpa@redhat.com>
- <20230605102903.924283-3-hpa@redhat.com>
- <f57f6070-aab7-87aa-b838-906b570a8265@redhat.com>
-In-Reply-To: <f57f6070-aab7-87aa-b838-906b570a8265@redhat.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
 
-Hi Kate,
+Some standard v4l2 sensor drivers from drivers/media/i2c expect a
+"clock-frequency" property on the device indicating the frequency
+of the extclk for the sensor. Example of such drivers are the
+ov2680 and ov5693 drivers.
 
-On 6/6/23 13:02, Hans de Goede wrote:
-> Hi Kate,
-> 
-> On 6/5/23 12:29, Kate Hsuan wrote:
->> Pick up the necessary part of sp_group configuration for both model and
->> then copy those parts into a tempetory buffer. This buffer is finally
->> written to the ISP with correct length.
->>
->> Signed-off-by: Kate Hsuan <hpa@redhat.com>
->> ---
->>  .../staging/media/atomisp/pci/sh_css_params.c | 37 ++++++++++++++++++-
->>  1 file changed, 35 insertions(+), 2 deletions(-)
->>
->> diff --git a/drivers/staging/media/atomisp/pci/sh_css_params.c b/drivers/staging/media/atomisp/pci/sh_css_params.c
->> index 588f2adab058..2913d9d6d226 100644
->> --- a/drivers/staging/media/atomisp/pci/sh_css_params.c
->> +++ b/drivers/staging/media/atomisp/pci/sh_css_params.c
->> @@ -3720,10 +3720,43 @@ struct ia_css_shading_table *ia_css_get_shading_table(struct ia_css_stream
->>  
->>  ia_css_ptr sh_css_store_sp_group_to_ddr(void)
->>  {
->> +	u8 *write_buf;
->> +	u8 *buf_ptr;
->> +
->>  	IA_CSS_ENTER_LEAVE_PRIVATE("void");
->> +
->> +	write_buf = kzalloc(sizeof(u8) * 8192, GFP_KERNEL);
-> 
-> Please use sizeof(struct sh_css_sp_group) here, since you have dropped all the #ifdef-s in the header now that is the largest size which you need now.
-> 
->> +
->> +	buf_ptr = write_buf;
->> +	if (IS_ISP2401) {
->> +		memcpy(buf_ptr, &sh_css_sp_group.config, sizeof(u8) * 5);
-> 
-> This is wrong, there is a big hole between:
-> 
->         u8                      no_isp_sync; /* Signal host immediately after start */
->         u8                      enable_raw_pool_locking; /** Enable Raw Buffer Locking for HAL
->         u8                      lock_all;
-> 
-> and:
-> 
->         u8                 enable_isys_event_queue;
->         u8                      disable_cont_vf;
-> 
-> filled with ISP2400 specific data now, so you are copying what likely is some empty alignment bytes before the ISP2400 specific input_formatter struct now instead of copying enable_isys_event_queue
-> and disable_cont_vf.
-> 
-> So you need to split the memcpy into 2 memcpy calls. You can calculate the source offset of enable_isys_event_queue in sh_css_sp_group.config with offsetof(struct sh_css_sp_config, enable_isys_event_queue), or better yet, just take the address of it:
-> 
-> 	if (IS_ISP2401) {
-> 		memcpy(buf_ptr, &sh_css_sp_group.config, 3);
-> 		buf_ptr += 3;
-> 		memcpy(buf_ptr, &sh_css_sp_group.config.enable_isys_event_queue, 2);
-> 		buf_ptr += 2;
-> 		memset(buf_ptr, 0, 3);
-> 		buf_ptr += 3; /* Padding 3 bytes for struct sh_css_sp_config*/
-> 	} else {
-> 
-> Also note I have dropped the "* sizeof(u8)" here, you already dropped that yourself for the memset / padding bits and dropping it makes the code easier to read IMHO.
-> 		
-> 
-> 
->> +		buf_ptr += (sizeof(u8) * 5);
->> +		memset(buf_ptr, 0, 3);
->> +		buf_ptr += 3; /* Padding 3 bytes for struct sh_css_sp_config*/
->> +	} else {
->> +		memcpy(buf_ptr, &sh_css_sp_group.config, sizeof(sh_css_sp_group.config));
->> +		buf_ptr += sizeof(sh_css_sp_group.config);
->> +	}
->> +
->> +	memcpy(buf_ptr, &sh_css_sp_group.pipe, sizeof(sh_css_sp_group.pipe));
->> +	buf_ptr += sizeof(sh_css_sp_group.pipe);
->> +
->> +	if (IS_ISP2401) {
->> +		memcpy(buf_ptr, &sh_css_sp_group.pipe_io, sizeof(sh_css_sp_group.pipe_io));
->> +		buf_ptr += sizeof(sh_css_sp_group.pipe_io);
->> +		memcpy(buf_ptr, &sh_css_sp_group.pipe_io_status,
->> +		       sizeof(sh_css_sp_group.pipe_io_status));
->> +		buf_ptr += sizeof(sh_css_sp_group.pipe_io_status);
->> +	}
->> +
->> +	memcpy(buf_ptr, &sh_css_sp_group.debug, sizeof(sh_css_sp_group.debug));
->> +	buf_ptr += sizeof(sh_css_sp_group.debug);
->> +
->>  	hmm_store(xmem_sp_group_ptrs,
->> -		   &sh_css_sp_group,
->> -		   sizeof(struct sh_css_sp_group));
->> +		  write_buf,
->> +		  buf_ptr - write_buf);
->> +
->> +	kfree(write_buf);
->>  	return xmem_sp_group_ptrs;
->>  }
->>  
-> 
-> The rest looks good at a quick glance, but I need to take a closer look later.
+The standard ov5693 sensor also expects a "link-frequencies" property.
+Add support for setting both properties.
 
-I have taken a closer look at the rest of the patch now and except for my one previous remark this looks good to me.
+Note the "clock-frequency" prop is added before the "rotation" prop while
+the "link-frequencies" are added at the end to match the ipu3 cio2-bridge
+code from which this is derived.
 
-Thank you for working on this.
+Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+---
+ drivers/staging/media/atomisp/pci/atomisp_csi2.h    | 13 +++++++++----
+ .../staging/media/atomisp/pci/atomisp_csi2_bridge.c | 12 ++++++++++--
+ 2 files changed, 19 insertions(+), 6 deletions(-)
 
-Regards,
-
-Hans
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_csi2.h b/drivers/staging/media/atomisp/pci/atomisp_csi2.h
+index b389ccda5e98..16ddb3ab2963 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_csi2.h
++++ b/drivers/staging/media/atomisp/pci/atomisp_csi2.h
+@@ -31,6 +31,7 @@
+ #define CSI2_PADS_NUM		2
+ 
+ #define CSI2_MAX_LANES		4
++#define CSI2_MAX_LINK_FREQS	3
+ 
+ #define CSI2_MAX_ACPI_GPIOS	2u
+ 
+@@ -64,10 +65,12 @@ enum atomisp_csi2_sensor_swnodes {
+ };
+ 
+ struct atomisp_csi2_property_names {
++	char clock_frequency[16];
+ 	char rotation[9];
+ 	char bus_type[9];
+ 	char data_lanes[11];
+ 	char remote_endpoint[16];
++	char link_frequencies[17];
+ };
+ 
+ struct atomisp_csi2_node_names {
+@@ -79,6 +82,8 @@ struct atomisp_csi2_node_names {
+ struct atomisp_csi2_sensor_config {
+ 	const char *hid;
+ 	int lanes;
++	int nr_link_freqs;
++	u64 link_freqs[CSI2_MAX_LINK_FREQS];
+ };
+ 
+ struct atomisp_csi2_sensor {
+@@ -93,10 +98,10 @@ struct atomisp_csi2_sensor {
+ 	struct software_node swnodes[SWNODE_COUNT];
+ 	struct atomisp_csi2_node_names node_names;
+ 	struct atomisp_csi2_property_names prop_names;
+-	/* "rotation" + terminating entry */
+-	struct property_entry dev_properties[2];
+-	/* "bus-type", "data-lanes", "remote-endpoint" + terminating entry */
+-	struct property_entry ep_properties[4];
++	/* "clock-frequency", "rotation" + terminating entry */
++	struct property_entry dev_properties[3];
++	/* "bus-type", "data-lanes", "remote-endpoint" + "link-freq" + terminating entry */
++	struct property_entry ep_properties[5];
+ 	/* "data-lanes", "remote-endpoint" + terminating entry */
+ 	struct property_entry csi2_properties[3];
+ 	struct software_node_ref_args local_ref[1];
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_csi2_bridge.c b/drivers/staging/media/atomisp/pci/atomisp_csi2_bridge.c
+index 28d8779bbbc4..0d12ba78d9c1 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_csi2_bridge.c
++++ b/drivers/staging/media/atomisp/pci/atomisp_csi2_bridge.c
+@@ -85,7 +85,7 @@ static const guid_t atomisp_dsm_guid =
+ 
+ /*
+  * Extend this array with ACPI Hardware IDs of sensors known to be working
+- * plus the number of links expected by their drivers.
++ * plus the default number of links + link-frequencies.
+  *
+  * Do not add an entry for a sensor that is not actually supported,
+  * or which have not yet been converted to work without atomisp_gmin
+@@ -492,10 +492,12 @@ static int atomisp_csi2_add_gpio_mappings(struct atomisp_csi2_sensor *sensor,
+ }
+ 
+ static const struct atomisp_csi2_property_names prop_names = {
++	.clock_frequency = "clock-frequency",
+ 	.rotation = "rotation",
+ 	.bus_type = "bus-type",
+ 	.data_lanes = "data-lanes",
+ 	.remote_endpoint = "remote-endpoint",
++	.link_frequencies = "link-frequencies",
+ };
+ 
+ static void atomisp_csi2_create_fwnode_properties(struct atomisp_csi2_sensor *sensor,
+@@ -507,7 +509,9 @@ static void atomisp_csi2_create_fwnode_properties(struct atomisp_csi2_sensor *se
+ 	sensor->local_ref[0] = SOFTWARE_NODE_REFERENCE(&sensor->swnodes[SWNODE_CSI2_ENDPOINT]);
+ 	sensor->remote_ref[0] = SOFTWARE_NODE_REFERENCE(&sensor->swnodes[SWNODE_SENSOR_ENDPOINT]);
+ 
+-	sensor->dev_properties[0] = PROPERTY_ENTRY_U32(sensor->prop_names.rotation, 0);
++	sensor->dev_properties[0] = PROPERTY_ENTRY_U32(sensor->prop_names.clock_frequency,
++						       PMC_CLK_RATE_19_2MHZ);
++	sensor->dev_properties[1] = PROPERTY_ENTRY_U32(sensor->prop_names.rotation, 0);
+ 
+ 	sensor->ep_properties[0] = PROPERTY_ENTRY_U32(sensor->prop_names.bus_type,
+ 						      V4L2_FWNODE_BUS_TYPE_CSI2_DPHY);
+@@ -516,6 +520,10 @@ static void atomisp_csi2_create_fwnode_properties(struct atomisp_csi2_sensor *se
+ 								sensor->lanes);
+ 	sensor->ep_properties[2] = PROPERTY_ENTRY_REF_ARRAY(sensor->prop_names.remote_endpoint,
+ 							    sensor->local_ref);
++	if (cfg->nr_link_freqs > 0)
++		sensor->ep_properties[3] =
++			PROPERTY_ENTRY_U64_ARRAY_LEN(sensor->prop_names.link_frequencies,
++						     cfg->link_freqs, cfg->nr_link_freqs);
+ 
+ 	sensor->csi2_properties[0] = PROPERTY_ENTRY_U32_ARRAY_LEN(sensor->prop_names.data_lanes,
+ 								  bridge->data_lanes,
+-- 
+2.40.1
 
