@@ -1,60 +1,62 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 084E96AB9
-	for <linux-staging@lists.linux.dev>; Wed,  7 Jun 2023 09:09:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0DD28F54
+	for <linux-staging@lists.linux.dev>; Wed,  7 Jun 2023 09:10:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1686128970;
+	s=mimecast20190719; t=1686128999;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=G+PL21gB/daxR4zsJJ2MptIbuOMEv26lDV4Pg4ezd44=;
-	b=ZzRYpWElq1MuitqBZ5e4fAztnidcMeQiHEuNYm04R0gcyLYMdg9NSVMBsLD5Kal9GseVK7
-	Vt8aJ+0lbJKKxTNIXShXF7uL2zZsYyP9hsd9/1mN4bDYxqq/6K/AQ/ifBx9txjwaBpvF87
-	9GZv/V1mKna5IefnqUb15FF2o75694Y=
+	bh=RSdIsVX6ecFqz04GkrugK7lp/x5jJUtqPYllPP5sQjg=;
+	b=ZbFeb5nnq2ruDN1iG1ZlhX88ZRXG9DqHpFvs8wibumgpFQs0ZxUL8LdUTuOug2LsV0Bqvj
+	x5OkNzGN11AjFg+DIFaAgjdU/4clMyY5qIM5e7MVWrxRe8704gnYyDpmJgSzpMKMbFNMqe
+	nLh1hW0VKzgNHfxSlIF0EkOK/mjWbTs=
 Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
  [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-462-zr9hH1j0OMaJKXJG7Dh2eA-1; Wed, 07 Jun 2023 05:09:24 -0400
-X-MC-Unique: zr9hH1j0OMaJKXJG7Dh2eA-1
-Received: by mail-wm1-f71.google.com with SMTP id 5b1f17b1804b1-3f5ec8aac77so43018475e9.3
-        for <linux-staging@lists.linux.dev>; Wed, 07 Jun 2023 02:09:23 -0700 (PDT)
+ us-mta-331-3aTCcPQIPli5fTCBlU_o1g-1; Wed, 07 Jun 2023 05:09:57 -0400
+X-MC-Unique: 3aTCcPQIPli5fTCBlU_o1g-1
+Received: by mail-wm1-f71.google.com with SMTP id 5b1f17b1804b1-3f73283f6c7so1811065e9.1
+        for <linux-staging@lists.linux.dev>; Wed, 07 Jun 2023 02:09:57 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686128963; x=1688720963;
+        d=1e100.net; s=20221208; t=1686128996; x=1688720996;
         h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
          :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=G+PL21gB/daxR4zsJJ2MptIbuOMEv26lDV4Pg4ezd44=;
-        b=OvBHOYu+EuZG9cO6ywzCOEOeuvLIL48UXu19LNo/HhhldY1tr5itXc8T6Iq+wKqhsP
-         WJ54w9djbB7/q+9ElFQpIAK9+IsmGk5X60RkDiRCV3Q3LzUzWPb8whoeqfXQLQ4V5RZ5
-         HMa9WNibXsUG6w2BfXpvWlpKKdrhYLuqTBLP9G/QvKrbZ03W7m+8ea61B1gk6/41+AyZ
-         7s+c5+rPoULBPb4wOb6I2Gjf9/WxAEzTqr7cwYKlBb0RzdJ0cToWcAZNpqJWhJ6fmldk
-         bTFUAhHageasUC6G1d2xwgXALRGsITQnGbLg2/1mD9ljz2FqzHu1niRLlpfv/QVllfp8
-         +7/w==
-X-Gm-Message-State: AC+VfDwsF6Oldaa4KB6zR5ostzq+/l9Bx/tpOHr/7UTOYQzFS2RdR6lq
-	YzsYQkwa8o5sgqRv6QEANP1oYmW5SEoN4916jIocQj9Jf5JIsr5JDfesVYeSIhzbxD8VNfLPp0s
-	AyCfwA6vBxbTVEAPYbRPh4QlS6w==
-X-Received: by 2002:a05:600c:b45:b0:3f4:d18f:b2fb with SMTP id k5-20020a05600c0b4500b003f4d18fb2fbmr4423501wmr.8.1686128962967;
-        Wed, 07 Jun 2023 02:09:22 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ7KIDwr6/boDKEelyImr80QUEOg3IdkbWZ6AUo87k2W9nGNMdMne7IQ3JZzUQzQ4CBO1bqmKA==
-X-Received: by 2002:a05:600c:b45:b0:3f4:d18f:b2fb with SMTP id k5-20020a05600c0b4500b003f4d18fb2fbmr4423483wmr.8.1686128962700;
-        Wed, 07 Jun 2023 02:09:22 -0700 (PDT)
+        bh=RSdIsVX6ecFqz04GkrugK7lp/x5jJUtqPYllPP5sQjg=;
+        b=Su+izFmOBY8/uKCYopUjD1dtl/3F66d7WLtX1TRcQWEUWjZs09MMmhMGzm47JryxHJ
+         a8SVmkTxAUyG3x5oA+/72B2n6xvI/57uz1lHd1y9uhNudrdNz9JsB6tK+dPyTnS7iYJG
+         TDCpN6yejw9KRgtXXGEZ5MCyyjzIu/d3u9oTIUtNbpk3AZfkvVTuIpsgtxzHOVbqRGFB
+         +Vyi4D8pll+HcLYhNT1tPIb29wKIPDALNzZ+PBbcjrtknrSZa8wP4einwImb8JigTP5E
+         A0pCTWBoUYKgHsorjQX1Mpt7J/D0uyBaefbjAspzXHVEkTK4KWnCDvJwp5SXfsZZ60A5
+         kzdw==
+X-Gm-Message-State: AC+VfDwBH89XxNuRwmEss3nXDfEtZ6j5ktRcYf0phuCouvHak7WHJx36
+	fKBovJpwXwtWkLYy9GEOD3NkJwJJ9icx6Vi2q7LXpiReMGtR23GAjlYpcRbKWhA6JLJYRi/Yuoo
+	AJJyQ1lICiuL1cGu4WWNyAuTo1A==
+X-Received: by 2002:a05:600c:220f:b0:3f7:395d:6585 with SMTP id z15-20020a05600c220f00b003f7395d6585mr7850358wml.15.1686128996490;
+        Wed, 07 Jun 2023 02:09:56 -0700 (PDT)
+X-Google-Smtp-Source: ACHHUZ4S4Ug1fiHJ0oCExHc5SSiTGb/dJv10TIcn7zVRyFtmlI7TI/i0oDDpnO/bY0dqK+vi3g6l4w==
+X-Received: by 2002:a05:600c:220f:b0:3f7:395d:6585 with SMTP id z15-20020a05600c220f00b003f7395d6585mr7850336wml.15.1686128996200;
+        Wed, 07 Jun 2023 02:09:56 -0700 (PDT)
 Received: from localhost (205.pool92-176-231.dynamic.orange.es. [92.176.231.205])
-        by smtp.gmail.com with ESMTPSA id k26-20020a7bc41a000000b003f60e143d38sm1426996wmi.11.2023.06.07.02.09.22
+        by smtp.gmail.com with ESMTPSA id v25-20020a1cf719000000b003f736735424sm1425404wmh.43.2023.06.07.02.09.55
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 07 Jun 2023 02:09:22 -0700 (PDT)
+        Wed, 07 Jun 2023 02:09:55 -0700 (PDT)
 From: Javier Martinez Canillas <javierm@redhat.com>
 To: Thomas Zimmermann <tzimmermann@suse.de>, daniel@ffwll.ch,
  sam@ravnborg.org, deller@gmx.de, geert+renesas@glider.be, lee@kernel.org,
  daniel.thompson@linaro.org, jingoohan1@gmail.com
 Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
  linux-sh@vger.kernel.org, linux-omap@vger.kernel.org,
- linux-staging@lists.linux.dev, Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH 16/30] fbdev/pxa168fb: Do not assign to struct fb_info.dev
-In-Reply-To: <20230605144812.15241-17-tzimmermann@suse.de>
+ linux-staging@lists.linux.dev, Thomas Zimmermann <tzimmermann@suse.de>,
+ Benjamin Herrenschmidt <benh@kernel.crashing.org>
+Subject: Re: [PATCH 17/30] fbdev/radeonfb: Reorder backlight and framebuffer
+ cleanup
+In-Reply-To: <20230605144812.15241-18-tzimmermann@suse.de>
 References: <20230605144812.15241-1-tzimmermann@suse.de>
- <20230605144812.15241-17-tzimmermann@suse.de>
-Date: Wed, 07 Jun 2023 11:09:21 +0200
-Message-ID: <873533fxku.fsf@minerva.mail-host-address-is-not-set>
+ <20230605144812.15241-18-tzimmermann@suse.de>
+Date: Wed, 07 Jun 2023 11:09:55 +0200
+Message-ID: <87zg5beizg.fsf@minerva.mail-host-address-is-not-set>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -67,10 +69,12 @@ Content-Type: text/plain
 
 Thomas Zimmermann <tzimmermann@suse.de> writes:
 
-> Do not assign the hardware device to struct fb_info.dev. The
-> field references the fbdev software device, which is unrelated.
+> The driver's backlight code requires the framebuffer to be
+> registered. Therefore reorder the cleanup calls for both data
+> structures. The init calls are already in the correct order.
 >
 > Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> Cc: Benjamin Herrenschmidt <benh@kernel.crashing.org>
 > ---
 
 Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
