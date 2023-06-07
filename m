@@ -1,210 +1,93 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16C7D7C
-	for <linux-staging@lists.linux.dev>; Wed,  7 Jun 2023 03:21:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C28BC63D7
+	for <linux-staging@lists.linux.dev>; Wed,  7 Jun 2023 07:31:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1686108066;
+	s=mimecast20190719; t=1686123063;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=O4uHN7dDyqiJFN38ljpVYfsqZFn90IQ9E8iBPn120b0=;
-	b=hXrp5yKWWBF0B7YcOpwuykSPIy5rLvC2A5m0r2brp5gq2N/EFZlRPVa7YoyaGXTmtGctB2
-	7s8cCt54Bw3cpvBmROhBkYk9UM1iEbbNPTdXjZgzMa0PVDBP82JAkoA7phpd6H0tK5gmAZ
-	7TqMwdChZAEHLiLltB5WHiI0Lil0nKg=
-Received: from mail-pj1-f72.google.com (mail-pj1-f72.google.com
- [209.85.216.72]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=86qJ/vtJ5+0COg+eCE9cC1XNW8WWzhrqJj3XV1HnHmU=;
+	b=cC85HVmSd57663wHKBzWS660CqmmQp21p51no3stSxMP1joBJwL+j1rDuj3KBPHgE9C8YC
+	AHhZIfxb1dr/P5PNEZ2xva+git0HZGVNSbC/q/PicG03FiL7ER2x4Qh3B7EgHN9NR0oyju
+	TWaBRAGWIafnocXcHzQ+MwWwxUqQOtg=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-379-oDN-B-sXPOSrMb5p0qzvKw-1; Tue, 06 Jun 2023 23:21:04 -0400
-X-MC-Unique: oDN-B-sXPOSrMb5p0qzvKw-1
-Received: by mail-pj1-f72.google.com with SMTP id 98e67ed59e1d1-2566b668cc5so151465a91.0
-        for <linux-staging@lists.linux.dev>; Tue, 06 Jun 2023 20:21:04 -0700 (PDT)
+ us-mta-146-3309Zu9AOHeUZg9r9XcDCg-1; Wed, 07 Jun 2023 03:31:01 -0400
+X-MC-Unique: 3309Zu9AOHeUZg9r9XcDCg-1
+Received: by mail-wm1-f70.google.com with SMTP id 5b1f17b1804b1-3f7f264c485so906315e9.0
+        for <linux-staging@lists.linux.dev>; Wed, 07 Jun 2023 00:31:01 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686108063; x=1688700063;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=O4uHN7dDyqiJFN38ljpVYfsqZFn90IQ9E8iBPn120b0=;
-        b=AIUwRyb/1Ka1Q0XYfYIbUMVTorZ2Y+DaqRp5/dhFVSrxQtL/03MqWBWhHDsYu0vT7L
-         yZ5dcQpyrZry8pHYRGt7+lM7oJxDJlO6KUu3uk84EiefRm3zYZ1axaJWlp+OCoIbsk2I
-         sb1+kxkk5lPd9l39/okuDMqAdYV2H39CfnZHH92a25OY0Ij6o//RefKPxQsXnzS9qBkZ
-         +2T9ZU/uKExn63wFjeLHfdbjPEY2WW1b1OCyoFrmYKRRFHYLJOLX1ENGAAQx87vxF6ON
-         yErPQvX2Z4bmS870vhOpn9/5g3dswVKBeZuR3j7cVzBAMi9+vSi6GWgSjGnCVTWDm8dW
-         /bYw==
-X-Gm-Message-State: AC+VfDx+QaWQbZNqxuS9optQjj65yti5EXwmqinJvhmYsSDu3Gb0fmwu
-	GOAn2nWyI/WhDARK/uJNo8WUbSXXhjZZdaytHxd0Xe2ZTvrrwS3+eE4B7AXVAMRxqFw0tNTGgXI
-	0DRX3FRVJF/RHNNDqSbRtTxDLZdUnulTEtXcvB9GBdA==
-X-Received: by 2002:a17:90a:5604:b0:256:3191:640f with SMTP id r4-20020a17090a560400b002563191640fmr14168545pjf.4.1686108063607;
-        Tue, 06 Jun 2023 20:21:03 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ7IxHHAI8fo1XyQhNSq6ZNwnNspJlg0rcaVutU8hYk5R/tYh4ALfAgz1bCe2gZW58in7EQvKzgdmKTHubM56r0=
-X-Received: by 2002:a17:90a:5604:b0:256:3191:640f with SMTP id
- r4-20020a17090a560400b002563191640fmr14168521pjf.4.1686108063173; Tue, 06 Jun
- 2023 20:21:03 -0700 (PDT)
+        d=1e100.net; s=20221208; t=1686123060; x=1688715060;
+        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=86qJ/vtJ5+0COg+eCE9cC1XNW8WWzhrqJj3XV1HnHmU=;
+        b=TcfaBIVEJS6fWcCVqr0Im+aC3Nd79m0RTVjA0OtsNjmjoTF1Y18+Hf6qk+iT21fgus
+         sqeKVqCb1mBkFsHheNaW9cTztGGXKHVNpCKbqg60jCqAa3o7t1HNqV05TRPfenL8dAyr
+         39ExkbKlqlSIV5Eb6WwSxPQJI3UvpaVXuN58ky7VSsq12qxCXZ1ZFJaSwvcCA+RUH2Ux
+         qMcCmQaEVK/3deVKyHb3125T41ZEGAqKyKIa8Eae9LLUIZumSMnF/wuHXgmRHTdl7zgp
+         KEE0BY46b07SzRpI0d9aLdsicOb/C0qvnINY8KAHFZAc5JfbYijfIukpREEPQd32CK8Y
+         FDMQ==
+X-Gm-Message-State: AC+VfDw5St1+3tSBs0bwJaUd7UEH+9+q/ECaBmA5iP2Q9E/ejHpeO07v
+	/AIC/J5T+jV9ahu5L9trcD/wDi8j8EFe0yEgC45XpuJk/UKWwiWhEwOfmWxFjO87y178jToCBTB
+	a74JHdHnKTobz6QjFUiuUeHJeGw==
+X-Received: by 2002:a05:600c:2117:b0:3f4:2328:b5c2 with SMTP id u23-20020a05600c211700b003f42328b5c2mr3787350wml.35.1686123060797;
+        Wed, 07 Jun 2023 00:31:00 -0700 (PDT)
+X-Google-Smtp-Source: ACHHUZ5uGo6zRkvpQ5estM3pdndUe5o7FAstx3xMsdIS0ZhyvoEoxkSKZkfhbKkJxPjpvFo09QUYlQ==
+X-Received: by 2002:a05:600c:2117:b0:3f4:2328:b5c2 with SMTP id u23-20020a05600c211700b003f42328b5c2mr3787327wml.35.1686123060473;
+        Wed, 07 Jun 2023 00:31:00 -0700 (PDT)
+Received: from localhost (205.pool92-176-231.dynamic.orange.es. [92.176.231.205])
+        by smtp.gmail.com with ESMTPSA id y6-20020a7bcd86000000b003f4ddde398csm1142560wmj.21.2023.06.07.00.31.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 07 Jun 2023 00:31:00 -0700 (PDT)
+From: Javier Martinez Canillas <javierm@redhat.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>, daniel@ffwll.ch,
+ sam@ravnborg.org, deller@gmx.de, geert+renesas@glider.be, lee@kernel.org,
+ daniel.thompson@linaro.org, jingoohan1@gmail.com
+Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-sh@vger.kernel.org, linux-omap@vger.kernel.org,
+ linux-staging@lists.linux.dev, Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH 01/30] backlight/bd6107: Compare against struct
+ fb_info.device
+In-Reply-To: <20230605144812.15241-2-tzimmermann@suse.de>
+References: <20230605144812.15241-1-tzimmermann@suse.de>
+ <20230605144812.15241-2-tzimmermann@suse.de>
+Date: Wed, 07 Jun 2023 09:30:59 +0200
+Message-ID: <87bkhrhgp8.fsf@minerva.mail-host-address-is-not-set>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20230605102903.924283-1-hpa@redhat.com> <20230605102903.924283-3-hpa@redhat.com>
- <f57f6070-aab7-87aa-b838-906b570a8265@redhat.com>
-In-Reply-To: <f57f6070-aab7-87aa-b838-906b570a8265@redhat.com>
-From: Kate Hsuan <hpa@redhat.com>
-Date: Wed, 7 Jun 2023 11:20:52 +0800
-Message-ID: <CAEth8oFRQY0-orTxM5csAmvj3D65i5j-qqiy6nYLuS6spyEkzg@mail.gmail.com>
-Subject: Re: [PATCH 2/3] atomisp: sh_css_params: write the sp_group config
- according to the ISP model
-To: Hans de Goede <hdegoede@redhat.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-media@vger.kernel.org, 
-	linux-staging@lists.linux.dev
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
 
-Hi,
+Thomas Zimmermann <tzimmermann@suse.de> writes:
 
-On Tue, Jun 6, 2023 at 7:02=E2=80=AFPM Hans de Goede <hdegoede@redhat.com> =
-wrote:
+> Struct bd6107_platform_data refers to a platform device within
+> the Linux device hierarchy. The test in bd6107_backlight_check_fb()
+> compares it against the fbdev device in struct fb_info.dev, which
+> is different. Fix the test by comparing to struct fb_info.device.
 >
-> Hi Kate,
+> Fixes a bug in the backlight driver and prepares fbdev for making
+> struct fb_info.dev optional.
 >
-> On 6/5/23 12:29, Kate Hsuan wrote:
-> > Pick up the necessary part of sp_group configuration for both model and
-> > then copy those parts into a tempetory buffer. This buffer is finally
-> > written to the ISP with correct length.
-> >
-> > Signed-off-by: Kate Hsuan <hpa@redhat.com>
-> > ---
-> >  .../staging/media/atomisp/pci/sh_css_params.c | 37 ++++++++++++++++++-
-> >  1 file changed, 35 insertions(+), 2 deletions(-)
-> >
-> > diff --git a/drivers/staging/media/atomisp/pci/sh_css_params.c b/driver=
-s/staging/media/atomisp/pci/sh_css_params.c
-> > index 588f2adab058..2913d9d6d226 100644
-> > --- a/drivers/staging/media/atomisp/pci/sh_css_params.c
-> > +++ b/drivers/staging/media/atomisp/pci/sh_css_params.c
-> > @@ -3720,10 +3720,43 @@ struct ia_css_shading_table *ia_css_get_shading=
-_table(struct ia_css_stream
-> >
-> >  ia_css_ptr sh_css_store_sp_group_to_ddr(void)
-> >  {
-> > +     u8 *write_buf;
-> > +     u8 *buf_ptr;
-> > +
-> >       IA_CSS_ENTER_LEAVE_PRIVATE("void");
-> > +
-> > +     write_buf =3D kzalloc(sizeof(u8) * 8192, GFP_KERNEL);
->
-> Please use sizeof(struct sh_css_sp_group) here, since you have dropped al=
-l the #ifdef-s in the header now that is the largest size which you need no=
-w.
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> Cc: Lee Jones <lee@kernel.org>
+> Cc: Daniel Thompson <daniel.thompson@linaro.org>
+> Cc: Jingoo Han <jingoohan1@gmail.com>
+> ---
 
-Okay.
+Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
 
->
-> > +
-> > +     buf_ptr =3D write_buf;
-> > +     if (IS_ISP2401) {
-> > +             memcpy(buf_ptr, &sh_css_sp_group.config, sizeof(u8) * 5);
->
-> This is wrong, there is a big hole between:
->
->         u8                      no_isp_sync; /* Signal host immediately a=
-fter start */
->         u8                      enable_raw_pool_locking; /** Enable Raw B=
-uffer Locking for HAL
->         u8                      lock_all;
->
-> and:
->
->         u8                 enable_isys_event_queue;
->         u8                      disable_cont_vf;
->
-> filled with ISP2400 specific data now, so you are copying what likely is =
-some empty alignment bytes before the ISP2400 specific input_formatter stru=
-ct now instead of copying enable_isys_event_queue
-> and disable_cont_vf.
->
-> So you need to split the memcpy into 2 memcpy calls. You can calculate th=
-e source offset of enable_isys_event_queue in sh_css_sp_group.config with o=
-ffsetof(struct sh_css_sp_config, enable_isys_event_queue), or better yet, j=
-ust take the address of it:
->
->         if (IS_ISP2401) {
->                 memcpy(buf_ptr, &sh_css_sp_group.config, 3);
->                 buf_ptr +=3D 3;
->                 memcpy(buf_ptr, &sh_css_sp_group.config.enable_isys_event=
-_queue, 2);
->                 buf_ptr +=3D 2;
->                 memset(buf_ptr, 0, 3);
->                 buf_ptr +=3D 3; /* Padding 3 bytes for struct sh_css_sp_c=
-onfig*/
->         } else {
->
-> Also note I have dropped the "* sizeof(u8)" here, you already dropped tha=
-t yourself for the memset / padding bits and dropping it makes the code eas=
-ier to read IMHO.
->
->
+-- 
+Best regards,
 
-Ops, My bad. I tried to simplify the memcpy() part and made the things
-wrong. I should skip the structure between them. I'll fix it in the v2
-patch.
-
-Thank you for pointing out this error.
-
->
-> > +             buf_ptr +=3D (sizeof(u8) * 5);
-> > +             memset(buf_ptr, 0, 3);
-> > +             buf_ptr +=3D 3; /* Padding 3 bytes for struct sh_css_sp_c=
-onfig*/
-> > +     } else {
-> > +             memcpy(buf_ptr, &sh_css_sp_group.config, sizeof(sh_css_sp=
-_group.config));
-> > +             buf_ptr +=3D sizeof(sh_css_sp_group.config);
-> > +     }
-> > +
-> > +     memcpy(buf_ptr, &sh_css_sp_group.pipe, sizeof(sh_css_sp_group.pip=
-e));
-> > +     buf_ptr +=3D sizeof(sh_css_sp_group.pipe);
-> > +
-> > +     if (IS_ISP2401) {
-> > +             memcpy(buf_ptr, &sh_css_sp_group.pipe_io, sizeof(sh_css_s=
-p_group.pipe_io));
-> > +             buf_ptr +=3D sizeof(sh_css_sp_group.pipe_io);
-> > +             memcpy(buf_ptr, &sh_css_sp_group.pipe_io_status,
-> > +                    sizeof(sh_css_sp_group.pipe_io_status));
-> > +             buf_ptr +=3D sizeof(sh_css_sp_group.pipe_io_status);
-> > +     }
-> > +
-> > +     memcpy(buf_ptr, &sh_css_sp_group.debug, sizeof(sh_css_sp_group.de=
-bug));
-> > +     buf_ptr +=3D sizeof(sh_css_sp_group.debug);
-> > +
-> >       hmm_store(xmem_sp_group_ptrs,
-> > -                &sh_css_sp_group,
-> > -                sizeof(struct sh_css_sp_group));
-> > +               write_buf,
-> > +               buf_ptr - write_buf);
-> > +
-> > +     kfree(write_buf);
-> >       return xmem_sp_group_ptrs;
-> >  }
-> >
->
-> The rest looks good at a quick glance, but I need to take a closer look l=
-ater.
->
-> Regards,
->
-> Hans
->
-
-
---=20
-BR,
-Kate
+Javier Martinez Canillas
+Core Platforms
+Red Hat
 
