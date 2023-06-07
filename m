@@ -1,212 +1,210 @@
-Received: from mail-qv1-f50.google.com (mail-qv1-f50.google.com [209.85.219.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0857137B71
-	for <linux-staging@lists.linux.dev>; Tue,  6 Jun 2023 14:28:55 +0000 (UTC)
-Received: by mail-qv1-f50.google.com with SMTP id 6a1803df08f44-6261a25e9b6so50246966d6.0
-        for <linux-staging@lists.linux.dev>; Tue, 06 Jun 2023 07:28:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1686061735; x=1688653735;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=QWL9TIrPPXL5iMN2PMKfmz/IG3LdlvRosmbZV+NkrDo=;
-        b=Vp0EzqeVhbKmKBEuFi1siWznTrf0iSbDTcmi3S994OnQu2m3UPcRsYKfX1G0i0ubUl
-         jy0coySV6ZWx89tT9CHj6XSn/637wxMFIY5t4QsdDj27b1LHD4552wYSdH8o50foY2kP
-         Fc8SLpIiZ17VTlx3WtKdpOvhOCDX0QDN78dluaffXpbzDbZh4oi/w/Q554a7Mpg20iWr
-         iCTcW6f/t84frCulyguRpQGYK9bwrX3zPH23nF0gLySptcsP9Oeb70rfrAeohXbeiOwl
-         Ad+78RffNt+EMfSYaapL/3WcIHNlxqCtl17NHgLnbVWxdeNEbTjppLiRpVboCRGbX7R7
-         evsg==
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16C7D7C
+	for <linux-staging@lists.linux.dev>; Wed,  7 Jun 2023 03:21:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1686108066;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=O4uHN7dDyqiJFN38ljpVYfsqZFn90IQ9E8iBPn120b0=;
+	b=hXrp5yKWWBF0B7YcOpwuykSPIy5rLvC2A5m0r2brp5gq2N/EFZlRPVa7YoyaGXTmtGctB2
+	7s8cCt54Bw3cpvBmROhBkYk9UM1iEbbNPTdXjZgzMa0PVDBP82JAkoA7phpd6H0tK5gmAZ
+	7TqMwdChZAEHLiLltB5WHiI0Lil0nKg=
+Received: from mail-pj1-f72.google.com (mail-pj1-f72.google.com
+ [209.85.216.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-379-oDN-B-sXPOSrMb5p0qzvKw-1; Tue, 06 Jun 2023 23:21:04 -0400
+X-MC-Unique: oDN-B-sXPOSrMb5p0qzvKw-1
+Received: by mail-pj1-f72.google.com with SMTP id 98e67ed59e1d1-2566b668cc5so151465a91.0
+        for <linux-staging@lists.linux.dev>; Tue, 06 Jun 2023 20:21:04 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686061735; x=1688653735;
+        d=1e100.net; s=20221208; t=1686108063; x=1688700063;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=QWL9TIrPPXL5iMN2PMKfmz/IG3LdlvRosmbZV+NkrDo=;
-        b=EkjfazVsJWZrj75dl6qtozFn7CQ1/ZdAJ7U7/lrixNzPzfocHaY6w150rj5kwvq/Co
-         iSlhiUhGQeHjWYH4rOtbZmxOb7W0EHba1Too9A6dDGOgwdFbYQn94EL4x/wQubyJ1seH
-         ARBG2jC8bLRSY56M5lRALQDHFprC0ar5ZtfU4Dw2+yOWqe3k5W1vOOzV8vcbFIrxdTd+
-         62cXYjQoPK5MXJSrc8IRt6lEB7fGsD7se0kvojSqVMsjAR5L1O5E8xa8/joWio0qLEI3
-         oxPeCepzCSupLSioeqvmZvuqtwRPCkMOrZmjQrCeMKXba/02FSBSyxcsUabt0dC/KCmt
-         9+bg==
-X-Gm-Message-State: AC+VfDwXuzgDkJ7WeJt85MpsQvh0Ia8+J+SswwxYO4zVd4h2t6lPluID
-	TN+kjA7jamNW8B2/hwQ/So4JIEfIj4ncigrGfEA=
-X-Google-Smtp-Source: ACHHUZ6IMo/9b+2gOvTRs51NN62pfdUiKh3o+2G8v9K9VPXnSeSAgJF/QsRpDrwL6nBwxCcxvLx/yoB+XhixH9UHCfM=
-X-Received: by 2002:a05:6214:2627:b0:626:f3d:9e46 with SMTP id
- gv7-20020a056214262700b006260f3d9e46mr2682955qvb.18.1686061734700; Tue, 06
- Jun 2023 07:28:54 -0700 (PDT)
+        bh=O4uHN7dDyqiJFN38ljpVYfsqZFn90IQ9E8iBPn120b0=;
+        b=AIUwRyb/1Ka1Q0XYfYIbUMVTorZ2Y+DaqRp5/dhFVSrxQtL/03MqWBWhHDsYu0vT7L
+         yZ5dcQpyrZry8pHYRGt7+lM7oJxDJlO6KUu3uk84EiefRm3zYZ1axaJWlp+OCoIbsk2I
+         sb1+kxkk5lPd9l39/okuDMqAdYV2H39CfnZHH92a25OY0Ij6o//RefKPxQsXnzS9qBkZ
+         +2T9ZU/uKExn63wFjeLHfdbjPEY2WW1b1OCyoFrmYKRRFHYLJOLX1ENGAAQx87vxF6ON
+         yErPQvX2Z4bmS870vhOpn9/5g3dswVKBeZuR3j7cVzBAMi9+vSi6GWgSjGnCVTWDm8dW
+         /bYw==
+X-Gm-Message-State: AC+VfDx+QaWQbZNqxuS9optQjj65yti5EXwmqinJvhmYsSDu3Gb0fmwu
+	GOAn2nWyI/WhDARK/uJNo8WUbSXXhjZZdaytHxd0Xe2ZTvrrwS3+eE4B7AXVAMRxqFw0tNTGgXI
+	0DRX3FRVJF/RHNNDqSbRtTxDLZdUnulTEtXcvB9GBdA==
+X-Received: by 2002:a17:90a:5604:b0:256:3191:640f with SMTP id r4-20020a17090a560400b002563191640fmr14168545pjf.4.1686108063607;
+        Tue, 06 Jun 2023 20:21:03 -0700 (PDT)
+X-Google-Smtp-Source: ACHHUZ7IxHHAI8fo1XyQhNSq6ZNwnNspJlg0rcaVutU8hYk5R/tYh4ALfAgz1bCe2gZW58in7EQvKzgdmKTHubM56r0=
+X-Received: by 2002:a17:90a:5604:b0:256:3191:640f with SMTP id
+ r4-20020a17090a560400b002563191640fmr14168521pjf.4.1686108063173; Tue, 06 Jun
+ 2023 20:21:03 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20230606133136.23619-1-hdegoede@redhat.com>
-In-Reply-To: <20230606133136.23619-1-hdegoede@redhat.com>
-From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Tue, 6 Jun 2023 17:28:18 +0300
-Message-ID: <CAHp75VdxraOTMrxu_KxCzCKHNW8fiiqMRpaSQN3tVqiXAwGJWQ@mail.gmail.com>
-Subject: Re: [PATCH] media: atomisp: csi2-bridge: Add support for setting
- "clock-" and "link-frequencies" props
+References: <20230605102903.924283-1-hpa@redhat.com> <20230605102903.924283-3-hpa@redhat.com>
+ <f57f6070-aab7-87aa-b838-906b570a8265@redhat.com>
+In-Reply-To: <f57f6070-aab7-87aa-b838-906b570a8265@redhat.com>
+From: Kate Hsuan <hpa@redhat.com>
+Date: Wed, 7 Jun 2023 11:20:52 +0800
+Message-ID: <CAEth8oFRQY0-orTxM5csAmvj3D65i5j-qqiy6nYLuS6spyEkzg@mail.gmail.com>
+Subject: Re: [PATCH 2/3] atomisp: sh_css_params: write the sp_group config
+ according to the ISP model
 To: Hans de Goede <hdegoede@redhat.com>
 Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
-	Tsuchiya Yuto <kitakar@gmail.com>, Andy Shevchenko <andy@kernel.org>, Yury Luneff <yury.lunev@gmail.com>, 
-	Nable <nable.maininbox@googlemail.com>, andrey.i.trufanov@gmail.com, 
-	Fabio Aiuto <fabioaiuto83@gmail.com>, linux-media@vger.kernel.org, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-media@vger.kernel.org, 
 	linux-staging@lists.linux.dev
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Jun 6, 2023 at 4:31=E2=80=AFPM Hans de Goede <hdegoede@redhat.com> =
+Hi,
+
+On Tue, Jun 6, 2023 at 7:02=E2=80=AFPM Hans de Goede <hdegoede@redhat.com> =
 wrote:
 >
-> Some standard v4l2 sensor drivers from drivers/media/i2c expect a
-> "clock-frequency" property on the device indicating the frequency
-> of the extclk for the sensor. Example of such drivers are the
-> ov2680 and ov5693 drivers.
+> Hi Kate,
 >
-> The standard ov5693 sensor also expects a "link-frequencies" property.
-> Add support for setting both properties.
+> On 6/5/23 12:29, Kate Hsuan wrote:
+> > Pick up the necessary part of sp_group configuration for both model and
+> > then copy those parts into a tempetory buffer. This buffer is finally
+> > written to the ISP with correct length.
+> >
+> > Signed-off-by: Kate Hsuan <hpa@redhat.com>
+> > ---
+> >  .../staging/media/atomisp/pci/sh_css_params.c | 37 ++++++++++++++++++-
+> >  1 file changed, 35 insertions(+), 2 deletions(-)
+> >
+> > diff --git a/drivers/staging/media/atomisp/pci/sh_css_params.c b/driver=
+s/staging/media/atomisp/pci/sh_css_params.c
+> > index 588f2adab058..2913d9d6d226 100644
+> > --- a/drivers/staging/media/atomisp/pci/sh_css_params.c
+> > +++ b/drivers/staging/media/atomisp/pci/sh_css_params.c
+> > @@ -3720,10 +3720,43 @@ struct ia_css_shading_table *ia_css_get_shading=
+_table(struct ia_css_stream
+> >
+> >  ia_css_ptr sh_css_store_sp_group_to_ddr(void)
+> >  {
+> > +     u8 *write_buf;
+> > +     u8 *buf_ptr;
+> > +
+> >       IA_CSS_ENTER_LEAVE_PRIVATE("void");
+> > +
+> > +     write_buf =3D kzalloc(sizeof(u8) * 8192, GFP_KERNEL);
 >
-> Note the "clock-frequency" prop is added before the "rotation" prop while
-> the "link-frequencies" are added at the end to match the ipu3 cio2-bridge
-> code from which this is derived.
+> Please use sizeof(struct sh_css_sp_group) here, since you have dropped al=
+l the #ifdef-s in the header now that is the largest size which you need no=
+w.
 
-LGTM,
-Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
+Okay.
 
-> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
-> ---
->  drivers/staging/media/atomisp/pci/atomisp_csi2.h    | 13 +++++++++----
->  .../staging/media/atomisp/pci/atomisp_csi2_bridge.c | 12 ++++++++++--
->  2 files changed, 19 insertions(+), 6 deletions(-)
 >
-> diff --git a/drivers/staging/media/atomisp/pci/atomisp_csi2.h b/drivers/s=
-taging/media/atomisp/pci/atomisp_csi2.h
-> index b389ccda5e98..16ddb3ab2963 100644
-> --- a/drivers/staging/media/atomisp/pci/atomisp_csi2.h
-> +++ b/drivers/staging/media/atomisp/pci/atomisp_csi2.h
-> @@ -31,6 +31,7 @@
->  #define CSI2_PADS_NUM          2
+> > +
+> > +     buf_ptr =3D write_buf;
+> > +     if (IS_ISP2401) {
+> > +             memcpy(buf_ptr, &sh_css_sp_group.config, sizeof(u8) * 5);
 >
->  #define CSI2_MAX_LANES         4
-> +#define CSI2_MAX_LINK_FREQS    3
+> This is wrong, there is a big hole between:
 >
->  #define CSI2_MAX_ACPI_GPIOS    2u
+>         u8                      no_isp_sync; /* Signal host immediately a=
+fter start */
+>         u8                      enable_raw_pool_locking; /** Enable Raw B=
+uffer Locking for HAL
+>         u8                      lock_all;
 >
-> @@ -64,10 +65,12 @@ enum atomisp_csi2_sensor_swnodes {
->  };
+> and:
 >
->  struct atomisp_csi2_property_names {
-> +       char clock_frequency[16];
->         char rotation[9];
->         char bus_type[9];
->         char data_lanes[11];
->         char remote_endpoint[16];
-> +       char link_frequencies[17];
->  };
+>         u8                 enable_isys_event_queue;
+>         u8                      disable_cont_vf;
 >
->  struct atomisp_csi2_node_names {
-> @@ -79,6 +82,8 @@ struct atomisp_csi2_node_names {
->  struct atomisp_csi2_sensor_config {
->         const char *hid;
->         int lanes;
-> +       int nr_link_freqs;
-> +       u64 link_freqs[CSI2_MAX_LINK_FREQS];
->  };
+> filled with ISP2400 specific data now, so you are copying what likely is =
+some empty alignment bytes before the ISP2400 specific input_formatter stru=
+ct now instead of copying enable_isys_event_queue
+> and disable_cont_vf.
 >
->  struct atomisp_csi2_sensor {
-> @@ -93,10 +98,10 @@ struct atomisp_csi2_sensor {
->         struct software_node swnodes[SWNODE_COUNT];
->         struct atomisp_csi2_node_names node_names;
->         struct atomisp_csi2_property_names prop_names;
-> -       /* "rotation" + terminating entry */
-> -       struct property_entry dev_properties[2];
-> -       /* "bus-type", "data-lanes", "remote-endpoint" + terminating entr=
-y */
-> -       struct property_entry ep_properties[4];
-> +       /* "clock-frequency", "rotation" + terminating entry */
-> +       struct property_entry dev_properties[3];
-> +       /* "bus-type", "data-lanes", "remote-endpoint" + "link-freq" + te=
-rminating entry */
-> +       struct property_entry ep_properties[5];
->         /* "data-lanes", "remote-endpoint" + terminating entry */
->         struct property_entry csi2_properties[3];
->         struct software_node_ref_args local_ref[1];
-> diff --git a/drivers/staging/media/atomisp/pci/atomisp_csi2_bridge.c b/dr=
-ivers/staging/media/atomisp/pci/atomisp_csi2_bridge.c
-> index 28d8779bbbc4..0d12ba78d9c1 100644
-> --- a/drivers/staging/media/atomisp/pci/atomisp_csi2_bridge.c
-> +++ b/drivers/staging/media/atomisp/pci/atomisp_csi2_bridge.c
-> @@ -85,7 +85,7 @@ static const guid_t atomisp_dsm_guid =3D
+> So you need to split the memcpy into 2 memcpy calls. You can calculate th=
+e source offset of enable_isys_event_queue in sh_css_sp_group.config with o=
+ffsetof(struct sh_css_sp_config, enable_isys_event_queue), or better yet, j=
+ust take the address of it:
 >
->  /*
->   * Extend this array with ACPI Hardware IDs of sensors known to be worki=
-ng
-> - * plus the number of links expected by their drivers.
-> + * plus the default number of links + link-frequencies.
->   *
->   * Do not add an entry for a sensor that is not actually supported,
->   * or which have not yet been converted to work without atomisp_gmin
-> @@ -492,10 +492,12 @@ static int atomisp_csi2_add_gpio_mappings(struct at=
-omisp_csi2_sensor *sensor,
->  }
+>         if (IS_ISP2401) {
+>                 memcpy(buf_ptr, &sh_css_sp_group.config, 3);
+>                 buf_ptr +=3D 3;
+>                 memcpy(buf_ptr, &sh_css_sp_group.config.enable_isys_event=
+_queue, 2);
+>                 buf_ptr +=3D 2;
+>                 memset(buf_ptr, 0, 3);
+>                 buf_ptr +=3D 3; /* Padding 3 bytes for struct sh_css_sp_c=
+onfig*/
+>         } else {
 >
->  static const struct atomisp_csi2_property_names prop_names =3D {
-> +       .clock_frequency =3D "clock-frequency",
->         .rotation =3D "rotation",
->         .bus_type =3D "bus-type",
->         .data_lanes =3D "data-lanes",
->         .remote_endpoint =3D "remote-endpoint",
-> +       .link_frequencies =3D "link-frequencies",
->  };
+> Also note I have dropped the "* sizeof(u8)" here, you already dropped tha=
+t yourself for the memset / padding bits and dropping it makes the code eas=
+ier to read IMHO.
 >
->  static void atomisp_csi2_create_fwnode_properties(struct atomisp_csi2_se=
-nsor *sensor,
-> @@ -507,7 +509,9 @@ static void atomisp_csi2_create_fwnode_properties(str=
-uct atomisp_csi2_sensor *se
->         sensor->local_ref[0] =3D SOFTWARE_NODE_REFERENCE(&sensor->swnodes=
-[SWNODE_CSI2_ENDPOINT]);
->         sensor->remote_ref[0] =3D SOFTWARE_NODE_REFERENCE(&sensor->swnode=
-s[SWNODE_SENSOR_ENDPOINT]);
 >
-> -       sensor->dev_properties[0] =3D PROPERTY_ENTRY_U32(sensor->prop_nam=
-es.rotation, 0);
-> +       sensor->dev_properties[0] =3D PROPERTY_ENTRY_U32(sensor->prop_nam=
-es.clock_frequency,
-> +                                                      PMC_CLK_RATE_19_2M=
-HZ);
-> +       sensor->dev_properties[1] =3D PROPERTY_ENTRY_U32(sensor->prop_nam=
-es.rotation, 0);
+
+Ops, My bad. I tried to simplify the memcpy() part and made the things
+wrong. I should skip the structure between them. I'll fix it in the v2
+patch.
+
+Thank you for pointing out this error.
+
 >
->         sensor->ep_properties[0] =3D PROPERTY_ENTRY_U32(sensor->prop_name=
-s.bus_type,
->                                                       V4L2_FWNODE_BUS_TYP=
-E_CSI2_DPHY);
-> @@ -516,6 +520,10 @@ static void atomisp_csi2_create_fwnode_properties(st=
-ruct atomisp_csi2_sensor *se
->                                                                 sensor->l=
-anes);
->         sensor->ep_properties[2] =3D PROPERTY_ENTRY_REF_ARRAY(sensor->pro=
-p_names.remote_endpoint,
->                                                             sensor->local=
-_ref);
-> +       if (cfg->nr_link_freqs > 0)
-> +               sensor->ep_properties[3] =3D
-> +                       PROPERTY_ENTRY_U64_ARRAY_LEN(sensor->prop_names.l=
-ink_frequencies,
-> +                                                    cfg->link_freqs, cfg=
-->nr_link_freqs);
+> > +             buf_ptr +=3D (sizeof(u8) * 5);
+> > +             memset(buf_ptr, 0, 3);
+> > +             buf_ptr +=3D 3; /* Padding 3 bytes for struct sh_css_sp_c=
+onfig*/
+> > +     } else {
+> > +             memcpy(buf_ptr, &sh_css_sp_group.config, sizeof(sh_css_sp=
+_group.config));
+> > +             buf_ptr +=3D sizeof(sh_css_sp_group.config);
+> > +     }
+> > +
+> > +     memcpy(buf_ptr, &sh_css_sp_group.pipe, sizeof(sh_css_sp_group.pip=
+e));
+> > +     buf_ptr +=3D sizeof(sh_css_sp_group.pipe);
+> > +
+> > +     if (IS_ISP2401) {
+> > +             memcpy(buf_ptr, &sh_css_sp_group.pipe_io, sizeof(sh_css_s=
+p_group.pipe_io));
+> > +             buf_ptr +=3D sizeof(sh_css_sp_group.pipe_io);
+> > +             memcpy(buf_ptr, &sh_css_sp_group.pipe_io_status,
+> > +                    sizeof(sh_css_sp_group.pipe_io_status));
+> > +             buf_ptr +=3D sizeof(sh_css_sp_group.pipe_io_status);
+> > +     }
+> > +
+> > +     memcpy(buf_ptr, &sh_css_sp_group.debug, sizeof(sh_css_sp_group.de=
+bug));
+> > +     buf_ptr +=3D sizeof(sh_css_sp_group.debug);
+> > +
+> >       hmm_store(xmem_sp_group_ptrs,
+> > -                &sh_css_sp_group,
+> > -                sizeof(struct sh_css_sp_group));
+> > +               write_buf,
+> > +               buf_ptr - write_buf);
+> > +
+> > +     kfree(write_buf);
+> >       return xmem_sp_group_ptrs;
+> >  }
+> >
 >
->         sensor->csi2_properties[0] =3D PROPERTY_ENTRY_U32_ARRAY_LEN(senso=
-r->prop_names.data_lanes,
->                                                                   bridge-=
->data_lanes,
-> --
-> 2.40.1
+> The rest looks good at a quick glance, but I need to take a closer look l=
+ater.
+>
+> Regards,
+>
+> Hans
 >
 
 
 --=20
-With Best Regards,
-Andy Shevchenko
+BR,
+Kate
+
