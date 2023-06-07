@@ -1,86 +1,138 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yb1-f171.google.com (mail-yb1-f171.google.com [209.85.219.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 966418C05
-	for <linux-staging@lists.linux.dev>; Wed,  7 Jun 2023 08:47:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1686127671;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=zDz69+oFYWXX1BmnVAcHgBw7nzJBGz38VxVt62J1FoQ=;
-	b=RuEld8eDXoU2w3kOBIdcX5OySp2s3PWlgYi9CReAGTXYH9VwxCmZ79DBzRdD9o6td1aMqh
-	71kaTIR2B7c5qoWcByAJVhgC3xA8KktytlcafXb3TC+Mvm9x7LOdq/SieKu6ysTvaoAPLS
-	jm6nePnjpDlBM1ddR6ej/wB2UQB0Slg=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-444-XPo3N1S7OgGSdNN4y1ASOQ-1; Wed, 07 Jun 2023 04:47:49 -0400
-X-MC-Unique: XPo3N1S7OgGSdNN4y1ASOQ-1
-Received: by mail-wr1-f72.google.com with SMTP id ffacd0b85a97d-3079c6648e3so3861617f8f.2
-        for <linux-staging@lists.linux.dev>; Wed, 07 Jun 2023 01:47:49 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E32148BE6
+	for <linux-staging@lists.linux.dev>; Wed,  7 Jun 2023 08:48:30 +0000 (UTC)
+Received: by mail-yb1-f171.google.com with SMTP id 3f1490d57ef6-ba81deea9c2so7636946276.2
+        for <linux-staging@lists.linux.dev>; Wed, 07 Jun 2023 01:48:30 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686127668; x=1688719668;
-        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=zDz69+oFYWXX1BmnVAcHgBw7nzJBGz38VxVt62J1FoQ=;
-        b=gZ2AKzgH9HjR+YeCQIwt7xd8mC5VRvWgo8wsubpQEHk1mSm5iskx5cp09TF5K4jF0B
-         G1qJ14kyWGXZj9VIn4zM0J5o9warCoQ0VMoM7De4D2K8CpJhawoJ26nHmkcFgIXKoyAr
-         1youiLTTf5c86zujKOjEcKoKtlBTghHGxAH+8ktnl1SPqFkbpO3/VumQqfwWMGcGG+sM
-         1onjieJVjE2bFkiUZvcbmeYbIDTLbNyUlYCG5of23eKMxrTDy90PBh/zlA2rDklLZVL0
-         bZMmg9zt9ToXbMU5040zJSqEnIxCNNM8zpuE1epoJQZAIO29p9NsdRXDG/ZOeyB921uy
-         Z3qQ==
-X-Gm-Message-State: AC+VfDzAT8jMwqvjzq8V3iQy74C2z5yAL1vrdGx9wb3yqTnQesvvEB5p
-	3EU6PZPpJCSjP0n25r4eiE/+xV5v6EDpYYlis4zR/etycbyAt38M2JaXIxfT5/fFtzFjSq16+Xt
-	IeGPMJ2srhZZpAkoy4sXTEXJthg==
-X-Received: by 2002:a5d:45c6:0:b0:30a:e495:2544 with SMTP id b6-20020a5d45c6000000b0030ae4952544mr3492881wrs.23.1686127668651;
-        Wed, 07 Jun 2023 01:47:48 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ4HyIAuVGnzEFE0Y0RegoBmQPKta0aQoYnV+QnWWgwUwsjGZISbQLbaBPCUULIqP84aItfwIg==
-X-Received: by 2002:a5d:45c6:0:b0:30a:e495:2544 with SMTP id b6-20020a5d45c6000000b0030ae4952544mr3492862wrs.23.1686127668360;
-        Wed, 07 Jun 2023 01:47:48 -0700 (PDT)
-Received: from localhost (205.pool92-176-231.dynamic.orange.es. [92.176.231.205])
-        by smtp.gmail.com with ESMTPSA id n1-20020a5d6601000000b0030e5b1fffc3sm1029071wru.9.2023.06.07.01.47.48
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 07 Jun 2023 01:47:48 -0700 (PDT)
-From: Javier Martinez Canillas <javierm@redhat.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>, daniel@ffwll.ch,
- sam@ravnborg.org, deller@gmx.de, geert+renesas@glider.be, lee@kernel.org,
- daniel.thompson@linaro.org, jingoohan1@gmail.com
-Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-sh@vger.kernel.org, linux-omap@vger.kernel.org,
- linux-staging@lists.linux.dev, Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH 09/30] fbdev/ep93xx-fb: Alloc DMA memory from hardware
- device
-In-Reply-To: <20230605144812.15241-10-tzimmermann@suse.de>
-References: <20230605144812.15241-1-tzimmermann@suse.de>
- <20230605144812.15241-10-tzimmermann@suse.de>
-Date: Wed, 07 Jun 2023 10:47:47 +0200
-Message-ID: <87o7lrfyks.fsf@minerva.mail-host-address-is-not-set>
+        d=1e100.net; s=20221208; t=1686127709; x=1688719709;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=dsdNCkGUa6qXmdS3+Kos2M1YnKfMadh9WwIme7Xf08U=;
+        b=VEbdjfBfuWPjcUKMKCXVu1vmTqpWr/3bWSYqij9QFlN76atB6DmWqPMJP8fZVD7fMq
+         ofyOAt7i3dK0gtbntOkYCYuRDJUxhUqltaI8lkowQvPgWdB/S4cGlJvI7v5w6Tdbq/kF
+         RA6C/XBb30gB584UXMOBCO8atxzddtql0QEbyNhTQlUjomHgMlMx71crFmYSARKLb3vR
+         MisQsNS/xdzp10+BfvDto8vZOaq9dpo2K7ibxGab1HyJO5jrdCnIZo9H1dj4/1oHYy4Z
+         ToxPEOOkmoC9tjWIFl0mdtLp3vLEv+Ohz6iiYuuj/WdugYf8Xp6l3+H1dWSfAUBhLgGK
+         8ozQ==
+X-Gm-Message-State: AC+VfDw8fAKzHWOD0TTIE8P9lFK9MFK4Ec7RF5HdBjYSUHDKBhglNi/j
+	BAgln5kbOszp5hCV8YZPi8YHzhRbvaxAUA==
+X-Google-Smtp-Source: ACHHUZ6E9FoO/uZ+vCTXiZBQVCo0dYBP2VS2gyxcPzhNeVk8sgebERPM7SLox3/2yT7xZ3sYbLv82w==
+X-Received: by 2002:a25:508d:0:b0:ba6:bd1e:615 with SMTP id e135-20020a25508d000000b00ba6bd1e0615mr4810959ybb.52.1686127709520;
+        Wed, 07 Jun 2023 01:48:29 -0700 (PDT)
+Received: from mail-yw1-f182.google.com (mail-yw1-f182.google.com. [209.85.128.182])
+        by smtp.gmail.com with ESMTPSA id 184-20020a2515c1000000b00ba8752d3027sm3742243ybv.42.2023.06.07.01.48.27
+        for <linux-staging@lists.linux.dev>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 07 Jun 2023 01:48:27 -0700 (PDT)
+Received: by mail-yw1-f182.google.com with SMTP id 00721157ae682-565ba2c7554so71319427b3.3
+        for <linux-staging@lists.linux.dev>; Wed, 07 Jun 2023 01:48:27 -0700 (PDT)
+X-Received: by 2002:a81:7d41:0:b0:561:e2df:c4d1 with SMTP id
+ y62-20020a817d41000000b00561e2dfc4d1mr5101826ywc.9.1686127706917; Wed, 07 Jun
+ 2023 01:48:26 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
+References: <20230605144812.15241-1-tzimmermann@suse.de> <20230605144812.15241-31-tzimmermann@suse.de>
+In-Reply-To: <20230605144812.15241-31-tzimmermann@suse.de>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Wed, 7 Jun 2023 10:48:15 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdVP2hrgXaZvASnHJ4M+VXaTCtfbeVXrq2dsEJqcs3G6ZA@mail.gmail.com>
+Message-ID: <CAMuHMdVP2hrgXaZvASnHJ4M+VXaTCtfbeVXrq2dsEJqcs3G6ZA@mail.gmail.com>
+Subject: Re: [PATCH 30/30] fbdev: Make support for userspace interfaces configurable
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: daniel@ffwll.ch, javierm@redhat.com, sam@ravnborg.org, deller@gmx.de, 
+	lee@kernel.org, daniel.thompson@linaro.org, jingoohan1@gmail.com, 
+	linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+	linux-sh@vger.kernel.org, linux-omap@vger.kernel.org, 
+	linux-staging@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Thomas Zimmermann <tzimmermann@suse.de> writes:
+Hi Thomas,
 
-> Pass the hardware device to the DMA helpers dma_alloc_wc(), dma_mmap_wc()
-> and dma_free_coherent(). The fbdev device that is currently being used is
-> a software device and does not provide DMA memory.
+Thanks for your patch!
+
+On Mon, Jun 5, 2023 at 4:48=E2=80=AFPM Thomas Zimmermann <tzimmermann@suse.=
+de> wrote:
+> Add Kconfig option CONFIG_FB_DEVICE and make the virtual fbdev
+> device optional. If the new option has not been selected, fbdev
+> does not create a files in devfs or sysfs.
+>
+> Most modern Linux systems run a DRM-based graphics stack that uses
+> the kernel's framebuffer console, but has otherwise deprecated fbdev
+> support. Yet fbdev userspace interfaces are still present.
+>
+> The option makes it possible to use the fbdev subsystem as console
+> implementation without support for userspace. This closes potential
+> entry points to manipulate kernel or I/O memory via framebuffers. It
+
+I'd leave out the part about manipulating kernel memory, as that's a
+driver bug, if possible.
+
+> also prevents the execution of driver code via ioctl or sysfs, both
+> of which might allow malicious software to exploit bugs in the fbdev
+> code.
+
+Of course disabling ioctls reduces the attack surface, and this is not
+limited to fbdev... ;-)
+
+I'm wondering if it would be worthwhile to optionally provide a more
+limited userspace API for real fbdev drivers:
+  1. No access to MMIO, only to the mapped frame buffer,
+  2. No driver-specific ioctls, only the standard ones.
+
+> A small number of fbdev drivers require struct fbinfo.dev to be
+> initialized, usually for the support of sysfs interface. Make these
+> drivers depend on FB_DEVICE. They can later be fixed if necessary.
 >
 > Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> ---
 
-Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+> --- a/drivers/video/fbdev/Kconfig
+> +++ b/drivers/video/fbdev/Kconfig
+> @@ -57,6 +57,15 @@ config FIRMWARE_EDID
+>           combination with certain motherboards and monitors are known to
+>           suffer from this problem.
+>
+> +config FB_DEVICE
+> +        bool "Provide legacy /dev/fb* device"
 
--- 
-Best regards,
+Perhaps "default y if !DRM", although that does not help for a
+mixed drm/fbdev kernel build?
 
-Javier Martinez Canillas
-Core Platforms
-Red Hat
+Or reserve "FB" for real fbdev drivers, and introduce a new FB_CORE,
+to be selected by both FB and DRM_FBDEV_EMULATION?
+Then FB_DEVICE can depend on FB_CORE, and default to y if FB.
 
+> +        depends on FB
+> +        help
+> +         Say Y here if you want the legacy /dev/fb* device file. It's
+> +         only required if you have userspace programs that depend on
+> +         fbdev for graphics output. This does not effect the framebuffer
+
+affect
+
+> +         console.
+> +
+>  config FB_DDC
+>         tristate
+>         depends on FB
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
