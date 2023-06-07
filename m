@@ -1,23 +1,42 @@
-Received: from mout.web.de (mout.web.de [212.227.15.3])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25C7630B90
-	for <linux-staging@lists.linux.dev>; Wed,  7 Jun 2023 12:06:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
- s=s29768273; t=1686139574; x=1686744374; i=markus.elfring@web.de;
- bh=6chuo70XXhecT85xnImiN7NMRt/v8RSY2lGSl5nhBDU=;
- h=X-UI-Sender-Class:Date:To:Cc:References:Subject:From:In-Reply-To;
- b=IoDoT1qdwJN4vgCxfce9dV9z3hEdHk/U7DulVoQD02Vhfrh+tkGcmvanMgo3S/prWrPUmk8
- PZdv/kg5sTURolgMfM66nAoz0hDVFmi+WTvdn4ginU8nr+aMaIcY+mI6DDo3eQeg2AdDEC7aT
- aiVbiF/lOF/f+1W9FO4T6aIXDMuqab+XDb6TOYaGPmqN7jfD+wfSTWcgryyXPNv9UBoRuFCal
- 6IDC8szGoZHkxDTuSHpav33bkz39glZynk7wdvfTlZ/TbTCwkurRyEfncgaygk2uKsiOrwLL8
- g+DkoGyG4yLZvaeam0oaA5PGOOM5+HJbVaGCjp7GbTHfUZi9rOew==
-X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
-Received: from [192.168.178.21] ([94.31.85.83]) by smtp.web.de (mrweb005
- [213.165.67.108]) with ESMTPSA (Nemesis) id 1M2Pda-1qAjHM2Cas-004Ibt; Wed, 07
- Jun 2023 14:06:14 +0200
-Message-ID: <16a8f34a-d4f9-2e1d-02cf-e4c53f89c006@web.de>
-Date: Wed, 7 Jun 2023 14:06:13 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50D8113AD6
+	for <linux-staging@lists.linux.dev>; Wed,  7 Jun 2023 12:21:49 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 67249218B8;
+	Wed,  7 Jun 2023 12:21:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1686140507; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ta2FRAbQj0UwuOoAp0yjJ66hb4vAKW3txPGg2Eqa/ls=;
+	b=J/il2DV+GzNOLLIrsNjkeK2yO6zhHV1LqiURxOr63dIyG/NiMamaLNk+kPxwOy5NgQRG8s
+	yTwchZBE8UBHQtTgXr1/Q9y9PsoDYzzxivwcgAYmy1s/FuepZ1/McbnxAnpaRtG1I5JF5a
+	6OTPXe+jNemR936GMPghkUvQXP3ivvs=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1686140507;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ta2FRAbQj0UwuOoAp0yjJ66hb4vAKW3txPGg2Eqa/ls=;
+	b=qwEx/5STfYKT3dNkZTXOoEkepTtUZxat+Ty2hciE7ZXt4+PcgqCN6KYkP+4UPraz5myCHp
+	bwaDYDlB9klcKwAg==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 27AAC13776;
+	Wed,  7 Jun 2023 12:21:47 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+	by imap2.suse-dmz.suse.de with ESMTPSA
+	id bWDpCFt2gGQBQgAAMHmgww
+	(envelope-from <tzimmermann@suse.de>); Wed, 07 Jun 2023 12:21:47 +0000
+Message-ID: <8c2db8a0-048c-af17-85f6-ac0946ce0f0f@suse.de>
+Date: Wed, 7 Jun 2023 14:21:46 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -26,7 +45,9 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.11.2
-To: Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH 00/30] fbdev: Make userspace interfaces optional
+Content-Language: en-US
+To: Markus Elfring <Markus.Elfring@web.de>
 Cc: dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
  linux-omap@vger.kernel.org, linux-sh@vger.kernel.org,
  linux-staging@lists.linux.dev, Daniel Thompson <daniel.thompson@linaro.org>,
@@ -36,37 +57,70 @@ Cc: dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
  Jingoo Han <jingoohan1@gmail.com>, Lee Jones <lee@kernel.org>,
  Sam Ravnborg <sam@ravnborg.org>
 References: <20230605144812.15241-1-tzimmermann@suse.de>
+ <16a8f34a-d4f9-2e1d-02cf-e4c53f89c006@web.de>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <16a8f34a-d4f9-2e1d-02cf-e4c53f89c006@web.de>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------FW1FeVQdL1giSXp8BKAshSuA"
+
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------FW1FeVQdL1giSXp8BKAshSuA
+Content-Type: multipart/mixed; boundary="------------7Epbi9PEVe6pPjkkKh0YiBGj";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Markus Elfring <Markus.Elfring@web.de>
+Cc: dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
+ linux-omap@vger.kernel.org, linux-sh@vger.kernel.org,
+ linux-staging@lists.linux.dev, Daniel Thompson <daniel.thompson@linaro.org>,
+ Daniel Vetter <daniel@ffwll.ch>, Geert Uytterhoeven
+ <geert+renesas@glider.be>, Helge Deller <deller@gmx.de>,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ Jingoo Han <jingoohan1@gmail.com>, Lee Jones <lee@kernel.org>,
+ Sam Ravnborg <sam@ravnborg.org>
+Message-ID: <8c2db8a0-048c-af17-85f6-ac0946ce0f0f@suse.de>
 Subject: Re: [PATCH 00/30] fbdev: Make userspace interfaces optional
-Content-Language: en-GB
-From: Markus Elfring <Markus.Elfring@web.de>
-In-Reply-To: <20230605144812.15241-1-tzimmermann@suse.de>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Provags-ID: V03:K1:HLJu3C5+QINumy8sRjbR8nwkiOX7p6KZtFQw0RqgP0+JEEB8slu
- 01fSLWefYlRXECGJ7GOibbHng0TUOSMfTMbMf/k3O6g/NWxJKz6Wie+tgu20NoZwN6yjYay
- C+n2/an54kVI7AqiWkNipJ9vEd7rorauiigF+6G0JAi4d9+NivHWg4HRT6HeuiP/BPwxP7m
- 5B8Dtlvk2grfgZ/b15uog==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:3mXE4J4jwNg=;4J1eOVcFt0HI6F6r20RE4cgi7eF
- 0YsLw39qZTxbWOnBieDFrF3xVz+JZoZ+9h2uZDHu3oX+87OwHIhKaduHsNlTV2sUbQOOx/NS7
- zgJISmmGmL88X8HjTqTArY6wNjjQ50plzBWQbp7CaU0gytZnL/k9V2DT89fK8fUzqreTNGEeH
- m2X/cuGWec7k4anB+kEtJoxnleaAcptlZI9XOnY0W/+G09Vzi3D9+uI1qis8PTsxqsznMRHT/
- Y8KyVafoiR7AVFyZo/fsikZ6QNjxFJ87rgtlzGu45kCQFtBe/fKBUdfJ3unokZs4GCriqw+ML
- QKZOs8PuXcIdTifPbQryFlDRPrYSBSNjJRjmPBa/sunbUZiPgADDbwZ2IcQNxtAP/cgWcuORj
- Zsu+z7xgbwwqppVDqw6XLNnmehe+M0EsLgJl+oBsADx3aV+LL3bApxpieWh4DZUu+pSKROZC7
- KaWsNyHMl3Oedf1sP2ipRQc0zuWTZ4wAX7ngQPQkZsAqz4enaa84G2iHQpuLSFNocrAoo0bm/
- R2gHvDzQIcAl3ucxdnJC6+P1+La0NdNCdFXrE15aB2qLeyJ0iSyqyEY85YB3iTEXiTDq+dZkh
- HTIRKXvgEWCeAu7FDE9lTDO/jZySKFaAgQSP3oamhkn8mXisKBdVCOlIarQOhbxcpxZjcQTdA
- IJF9QaCyFNr/KSQTu1tFT0/OIg2JwIrcnG4ShIZ5VQpLnFGNOFoOuyz7xuYTQPdHup6MCWgfR
- l9VGUjJfxXlMS7JzczuMImugMF43OK11JXlHOQfyb5iQ8aEcpJtGY36+jay0qDflJstb8FIYd
- EHeiN+iy9ptZeCQV2YtRxiVLBxbUtz1WOKf6l6PxmLJoI0Pqzs1npaz6aDxNnu11HDC6pnh7t
- 28dP2Dx8m8EQ9D4lzp1r/rZ4MSlqZK/m37t6PLbWaW9iEdfVm0Efe98PmGJgV+LjVt0y3mMDl
- UFj0oQ==
+References: <20230605144812.15241-1-tzimmermann@suse.de>
+ <16a8f34a-d4f9-2e1d-02cf-e4c53f89c006@web.de>
+In-Reply-To: <16a8f34a-d4f9-2e1d-02cf-e4c53f89c006@web.de>
 
-> Modern Linux distrobutions have adopted DRM drivers for graphics
-> output and use fbdev only for the kernel's framebuffer console.
+--------------7Epbi9PEVe6pPjkkKh0YiBGj
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-Would you like to avoid a typo in subsequent cover letters?
+DQoNCkFtIDA3LjA2LjIzIHVtIDE0OjA2IHNjaHJpZWIgTWFya3VzIEVsZnJpbmc6DQo+PiBN
+b2Rlcm4gTGludXggZGlzdHJvYnV0aW9ucyBoYXZlIGFkb3B0ZWQgRFJNIGRyaXZlcnMgZm9y
+IGdyYXBoaWNzDQo+PiBvdXRwdXQgYW5kIHVzZSBmYmRldiBvbmx5IGZvciB0aGUga2VybmVs
+J3MgZnJhbWVidWZmZXIgY29uc29sZS4NCj4gDQo+IFdvdWxkIHlvdSBsaWtlIHRvIGF2b2lk
+IGEgdHlwbyBpbiBzdWJzZXF1ZW50IGNvdmVyIGxldHRlcnM/DQoNCkhhISBJdCBzYXlzICdk
+aXN0cm9idXRpb25zJy4NCg0KPiANCj4gUmVnYXJkcywNCj4gTWFya3VzDQoNCi0tIA0KVGhv
+bWFzIFppbW1lcm1hbm4NCkdyYXBoaWNzIERyaXZlciBEZXZlbG9wZXINClNVU0UgU29mdHdh
+cmUgU29sdXRpb25zIEdlcm1hbnkgR21iSA0KRnJhbmtlbnN0cmFzc2UgMTQ2LCA5MDQ2MSBO
+dWVybmJlcmcsIEdlcm1hbnkNCkdGOiBJdm8gVG90ZXYsIEFuZHJldyBNeWVycywgQW5kcmV3
+IE1jRG9uYWxkLCBCb3VkaWVuIE1vZXJtYW4NCkhSQiAzNjgwOSAoQUcgTnVlcm5iZXJnKQ0K
 
-Regards,
-Markus
+
+--------------7Epbi9PEVe6pPjkkKh0YiBGj--
+
+--------------FW1FeVQdL1giSXp8BKAshSuA
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
+
+-----BEGIN PGP SIGNATURE-----
+
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmSAdloFAwAAAAAACgkQlh/E3EQov+CX
+jg/9FNBf8ZoZQO+eosw1vBEZ9nuaT0FLZyWHr9yNEU33bOLCa5mmAi3B1TRjYwdSk7shlRf73twX
+YRuSuMrW/2ODEiN2DVkaf8jSOCbZgZxcPHYZRJiHKThM7ApQxlRSZ+mjD3QPNpWwp8x0LumHcN+V
+dYjdR0/LZCp47I5sIsIr6BUP67GEqaBjy2UY1SKdAKIhlAlD4YJmPwrC/bJ+HZCBkDFuaimu4qAV
+YkKXc2qIXo7wLgFCKW10q/Jgk6Duph4BrHK/ypbZd/5Tgeb+NgV9gq6L9QQzOpIzKFO42zYoSWXl
+stDmdBcxM+cdcLW0b4b+veBIRI44YJUt/0vv//SliYQw8wGUHqDKM1zSckdqVYdL9MqZWXlBUIjH
+3yUrOmdyjhnoFdY+PjgqmP2mX8I/uYgQjPXWYDyhI8tWxMIgjyFZtlT2tGO6B0PktrBfLv/5lqTO
+qei+gMMJydV0ceV8M0usD1SVEdkFeR4/CtjHxotSfj670KWWRczIP78PxWoW/OWMWEatidEv14z2
++czkANOTrdRickPxEjBxaPYTnZcZQE8yGsdW6ufhnsQdcT/Uv1LN55509+C2QMHVwDng70u60Gdx
+AYKRWTZKRXfvjHmOD3GmgT3M4ZMR9kg4LMdB79fPEa3jyq4o2Im13Jt5ylFPIz/NLf9qY366H6yp
+z9Y=
+=GLVN
+-----END PGP SIGNATURE-----
+
+--------------FW1FeVQdL1giSXp8BKAshSuA--
