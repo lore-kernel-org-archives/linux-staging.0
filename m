@@ -1,62 +1,61 @@
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E233E3B8B2
-	for <linux-staging@lists.linux.dev>; Wed,  7 Jun 2023 22:22:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D1BE3B8B2
+	for <linux-staging@lists.linux.dev>; Wed,  7 Jun 2023 22:23:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1686176569;
+	s=mimecast20190719; t=1686176613;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=67Wr4HmC8kXtCL1x0dOeckxppNMmBntLK5uulGf1sqg=;
-	b=RrY4GjPbWkjwTil5A21ybeGY6jhLTIUmuMDHkAuVuezKL7P4aoji5u4JM9ft10d9s+94BI
-	xjskMCL6GGKhHUyFttsqs7aEejYMbAS+Vqy6Q3jh+0K3DpmYDgzPUWSbvuCGjtw9ttGZUE
-	ZENXlz6molcCoyYfPIbVxTraQqeBzgk=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=m3wnM605gKMmCudt2hcJJr2EFLF4uSnPgF/R0Xs7/Z4=;
+	b=hBp06NkP9boYZ402W2v8+ZZmZUxyn4IZ+kdLls75XEc/x6JFu/ahkrNMzWW2o26QaIyvkL
+	O2UeFW77657y69Xhrd4K+tRt2xHeNlgzIQ99cUt2QP4K17bKWM2tAYrKL92HXIRaugrv6q
+	U1NXKrfKtAiDXlKeTdCqqQnTET+GpWA=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-205-MYEVmcZxODC5bVZYnifkWg-1; Wed, 07 Jun 2023 18:22:46 -0400
-X-MC-Unique: MYEVmcZxODC5bVZYnifkWg-1
-Received: by mail-wm1-f69.google.com with SMTP id 5b1f17b1804b1-3f7f4dc6ec2so4150835e9.0
-        for <linux-staging@lists.linux.dev>; Wed, 07 Jun 2023 15:22:45 -0700 (PDT)
+ us-mta-281-JNHOSI7WPkGn6jbLn3PTNw-1; Wed, 07 Jun 2023 18:23:30 -0400
+X-MC-Unique: JNHOSI7WPkGn6jbLn3PTNw-1
+Received: by mail-wm1-f71.google.com with SMTP id 5b1f17b1804b1-3f7e8c24a92so12274215e9.0
+        for <linux-staging@lists.linux.dev>; Wed, 07 Jun 2023 15:23:30 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686176565; x=1688768565;
+        d=1e100.net; s=20221208; t=1686176609; x=1688768609;
         h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
          :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=67Wr4HmC8kXtCL1x0dOeckxppNMmBntLK5uulGf1sqg=;
-        b=Mn5voT0H6s8xATQO+V3yGLwe7ZWRMzMemCyAqLkICnjts0TOqr+p9UroZF1I7DG8F3
-         FuF6pQxgRcFF9D2mzDoF6fnoLMWHOcokjP3xeTe2Ik4FMN0EfiIgj1tJo3ptBZyPWXQF
-         tfAqTf9uZlJW3ckF8tRrYnnl23favpGp5WgrLGb6Tn/0/Swd9IMsdJ599xmEncHndU/s
-         GJrgV6ji8YM5JNK1vl7QYSqsFliDzVGd5Wkew18ffaxwvcplM1IA2lVJYPXwckFPQ0s8
-         SRhChC/72gwKtXeTuSqZXFdj+rJrWwBvI/z8f6o4MTXg8VlD3XbwjdrBy1beV++hLp3X
-         tHbw==
-X-Gm-Message-State: AC+VfDx4cXF/bt0os0poa13UoxBc9SEnHKi0OgMjUvNDK+Ybx29kZN4f
-	1YXUcMIC5HVsO24gk6sND91y0m8c4nO8D8Y6xDNF5sSnmkXRn8u1QZv3V34S2T1oMorWalBJJiE
-	v1eLTlWf/nNCb3+NzFyKMA8dE4g==
-X-Received: by 2002:a1c:4c11:0:b0:3f7:26f8:4cd0 with SMTP id z17-20020a1c4c11000000b003f726f84cd0mr5570488wmf.16.1686176564940;
-        Wed, 07 Jun 2023 15:22:44 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ74+KkyeYoTNHdtFgdPjs/ko5gB/9QwThWFkjR0/oU0p3+M7MfNC36MRsPeTiM50kMg9GLwXA==
-X-Received: by 2002:a1c:4c11:0:b0:3f7:26f8:4cd0 with SMTP id z17-20020a1c4c11000000b003f726f84cd0mr5570479wmf.16.1686176564616;
-        Wed, 07 Jun 2023 15:22:44 -0700 (PDT)
+        bh=m3wnM605gKMmCudt2hcJJr2EFLF4uSnPgF/R0Xs7/Z4=;
+        b=FQyFUW9Wb+x3ElXDZrkJyNNyUPrUwaU89ep0beDxrQ8ifGNVaHQ8s66US+HNCgGZch
+         jOHyGpz/Sjp7/PB+2FN2v8mkhmgC8zHpO17eq4o6ZPg/RLwmF7X6XSZuy74nXJtBYauB
+         uqX64nDni0gLNClbr1Lky4PiRneiKIkFJsJ2m+GOsh4fjpVbB0MKbcsKuUzMqvh3CmvD
+         xdwbf9WGfK4Gte1GZJipeeqpA+IKRPDrN8SqauYEnenoVXXSOKj0G4qbmsqzqwdGpZph
+         B27QohhDn3CMUqIaPwxtY9vAM7nXSqQNs8W7PyW1uAECuN/qJ8hnLZ3KQEgnC+hb+oBD
+         sMXA==
+X-Gm-Message-State: AC+VfDwYbPgV5W7RbxLJNV+06Avj3sDlUS8i3G/0fb62RJPGV1u4fXuh
+	Bc7gdMWZbCoawEVf/kohtFgNhr2M0A15/4UjCTufbmczCJMaLuP+8vE0ZY93jqLK2zl8GjUu4Ey
+	Y2O2eNSU6cz7bO1Ra2sxE+lRfNg==
+X-Received: by 2002:a05:600c:230c:b0:3f7:f4bc:ebf3 with SMTP id 12-20020a05600c230c00b003f7f4bcebf3mr1544754wmo.36.1686176609315;
+        Wed, 07 Jun 2023 15:23:29 -0700 (PDT)
+X-Google-Smtp-Source: ACHHUZ46AO52oYq6hkZwI7LskizRRuqd6gfq8mv/AQFd6xOXiRAiGoamovfGXQJy96q8ipeUPGiuUw==
+X-Received: by 2002:a05:600c:230c:b0:3f7:f4bc:ebf3 with SMTP id 12-20020a05600c230c00b003f7f4bcebf3mr1544739wmo.36.1686176608968;
+        Wed, 07 Jun 2023 15:23:28 -0700 (PDT)
 Received: from localhost (205.pool92-176-231.dynamic.orange.es. [92.176.231.205])
-        by smtp.gmail.com with ESMTPSA id v6-20020a7bcb46000000b003f6028a4c85sm3342086wmj.16.2023.06.07.15.22.44
+        by smtp.gmail.com with ESMTPSA id d10-20020a1c730a000000b003f42158288dsm3313271wmb.20.2023.06.07.15.23.28
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 07 Jun 2023 15:22:44 -0700 (PDT)
+        Wed, 07 Jun 2023 15:23:28 -0700 (PDT)
 From: Javier Martinez Canillas <javierm@redhat.com>
 To: Thomas Zimmermann <tzimmermann@suse.de>, daniel@ffwll.ch,
  sam@ravnborg.org, deller@gmx.de, geert+renesas@glider.be, lee@kernel.org,
  daniel.thompson@linaro.org, jingoohan1@gmail.com
 Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
  linux-sh@vger.kernel.org, linux-omap@vger.kernel.org,
- linux-staging@lists.linux.dev, Thomas Zimmermann <tzimmermann@suse.de>,
- Steve Glendinning <steve.glendinning@shawell.net>
-Subject: Re: [PATCH 22/30] fbdev/smscufx: Detect registered fb_info from
- refcount
-In-Reply-To: <20230605144812.15241-23-tzimmermann@suse.de>
+ linux-staging@lists.linux.dev, Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH 23/30] fbdev/tdfxfb: Set i2c adapter parent to hardware
+ device
+In-Reply-To: <20230605144812.15241-24-tzimmermann@suse.de>
 References: <20230605144812.15241-1-tzimmermann@suse.de>
- <20230605144812.15241-23-tzimmermann@suse.de>
-Date: Thu, 08 Jun 2023 00:22:43 +0200
-Message-ID: <87edmmewuk.fsf@minerva.mail-host-address-is-not-set>
+ <20230605144812.15241-24-tzimmermann@suse.de>
+Date: Thu, 08 Jun 2023 00:23:27 +0200
+Message-ID: <87bkhqewtc.fsf@minerva.mail-host-address-is-not-set>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -69,32 +68,13 @@ Content-Type: text/plain
 
 Thomas Zimmermann <tzimmermann@suse.de> writes:
 
-> Detect registered instances of fb_info by reading the reference
-> counter from struct fb_info.read. Avoids looking at the dev field
-> and prepares fbdev for making struct fb_info.dev optional.
+> Use the 3dfx hardware device from the Linux device hierarchy as
+> parent device of the i2c adapter. Aligns the driver with the rest
+> of the codebase and prepares fbdev for making struct fb_info.dev
+> optional.
 >
 > Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> Cc: Steve Glendinning <steve.glendinning@shawell.net>
 > ---
->  drivers/video/fbdev/smscufx.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/drivers/video/fbdev/smscufx.c b/drivers/video/fbdev/smscufx.c
-> index 17cec62cc65d..adb2b1fe8383 100644
-> --- a/drivers/video/fbdev/smscufx.c
-> +++ b/drivers/video/fbdev/smscufx.c
-> @@ -1496,7 +1496,7 @@ static int ufx_setup_modes(struct ufx_data *dev, struct fb_info *info,
->  	u8 *edid;
->  	int i, result = 0, tries = 3;
->  
-> -	if (info->dev) /* only use mutex if info has been registered */
-> +	if (refcount_read(&info->count)) /* only use mutex if info has been registered */
-
-The struct fb_info .count refcount is protected by the registration_lock
-mutex in register_framebuffer(). I think this operation isn't thread safe ?
-
-But that was also the case for info->dev check, so I guess is OK and this
-change is for an old fbdev driver anyways.
 
 Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
 
