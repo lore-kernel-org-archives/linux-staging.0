@@ -1,62 +1,60 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BDCF6AB9
-	for <linux-staging@lists.linux.dev>; Wed,  7 Jun 2023 09:12:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F8AE8F52
+	for <linux-staging@lists.linux.dev>; Wed,  7 Jun 2023 09:12:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1686129122;
+	s=mimecast20190719; t=1686129143;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=x1ensWxwtR1H9WH8H1jKCiwbKVNzMfKW0b7Yi6bDGCs=;
-	b=Rw3pCjTpt9XnUIyWO17xfgpW+nbLu/9Jc9vjwcKo+hetVemSQO6ga+9bMDuAk8eM9krOcP
-	TNhWJVdY07re7tVP3KxRT7SULEng/Ku2wzqlUuci5pQIZtf0bqSWCMI+eIayYThZBSK+Sp
-	YYvw/3Jr29Ql24FjwcwYIbWu6y4nPsA=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=B3BIYD3PXMtQvTPGQV01/1k0Hmx/7PJYivm+5X8kP8U=;
+	b=LH3U67BU/cYzqI0d/F7J7cKYqlZtajySrmAF6xRNL1LXJlZDdZJMBQgc4NKUWwSNvsaFDp
+	+UvbHjwI5jA7GbkaFD7V+9PbodUu6n1jjQvcdY4nRKlfJcFbUxt+YN79MKuMDc2ckDlPU/
+	o9kOcz/KHUd4819Y0kiC5D+8ayL/WSc=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-527-r-z6qBHTOR2li9Hytps_Xw-1; Wed, 07 Jun 2023 05:12:01 -0400
-X-MC-Unique: r-z6qBHTOR2li9Hytps_Xw-1
-Received: by mail-wr1-f69.google.com with SMTP id ffacd0b85a97d-30932d15a30so3877691f8f.1
-        for <linux-staging@lists.linux.dev>; Wed, 07 Jun 2023 02:12:01 -0700 (PDT)
+ us-mta-62-youHPGEIO2i_4SHyqviZmA-1; Wed, 07 Jun 2023 05:12:20 -0400
+X-MC-Unique: youHPGEIO2i_4SHyqviZmA-1
+Received: by mail-wr1-f71.google.com with SMTP id ffacd0b85a97d-30ae9cf0178so3222769f8f.1
+        for <linux-staging@lists.linux.dev>; Wed, 07 Jun 2023 02:12:20 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686129120; x=1688721120;
+        d=1e100.net; s=20221208; t=1686129139; x=1688721139;
         h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
          :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=x1ensWxwtR1H9WH8H1jKCiwbKVNzMfKW0b7Yi6bDGCs=;
-        b=b/dn5KmBz1uLo5E3BI/vHk9oWaxuGNDrQcW5pLusw9dTi/Dyt3MjwW3rgOsP2/EJaq
-         Tp/ujipONGMlId4HM/6SbNld/1dO90zi5aIbxePEDqjWavSsXC6agqjWCA4J+lCAIdka
-         9kwGvxLhDpllbSo1/X88IdT4lVFfsnRgR3y5SNlS6+lSu4ICeLPm9cnXhANbgw5vlEdX
-         yhSRqDy3+bxI53WXftMd6NBBzwEVd+8qClFwRRMpoCmfKhm58WTMcnl5SWWDcLbe9YbF
-         zF2E0JYaHwB6PItfOhPEQydHmZyicApoC4ybzNVgZUn27Uv4wR4hx8CXV1mccPBIxwL0
-         ++xg==
-X-Gm-Message-State: AC+VfDxLtoPWjvcHFGxicsberJFK3FZLv36AfPmJbR4nxcRADOvKHoeD
-	gxuC9V1T/Xr+nWzvNiaxURsRfBesdfHo2c6InKRNLWP8ANkfjnlUaEVZ9N6qrpqX9JrP1A2Ekqf
-	wV4/8QEBHaAtB9lhxFhRbXoMuFg==
-X-Received: by 2002:adf:efc7:0:b0:30a:eada:8b9b with SMTP id i7-20020adfefc7000000b0030aeada8b9bmr4008357wrp.41.1686129120263;
-        Wed, 07 Jun 2023 02:12:00 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ6pKDNydRWrc71fW3bUFKqJDv/PfRpGWQYSkEIZ2IoZqLYQ3oH2ibQ9gh3nWmNRpad6J8Zxng==
-X-Received: by 2002:adf:efc7:0:b0:30a:eada:8b9b with SMTP id i7-20020adfefc7000000b0030aeada8b9bmr4008341wrp.41.1686129120078;
-        Wed, 07 Jun 2023 02:12:00 -0700 (PDT)
+        bh=B3BIYD3PXMtQvTPGQV01/1k0Hmx/7PJYivm+5X8kP8U=;
+        b=a00/EhRdlSwYPz5G99EmflJhg2Ds/nbfCKTLRqapjv2IUuqrriDewwLQEN7iW6dmPR
+         u1vfbrs6iBK+b7hMOqeHMq1k1TRtcpsZ/6bjiNGYrkAgfLGD1uVGjs7wgzbV5V1d+apf
+         gpXmTSALZcA8ExDPNoBuIVzU/LKQD6dOGV5H/nXjDT9z10GZxIKkTDd8M+/tjlyGQzwp
+         0od90R3Cx9A0F0yfDxHgFGl95DdpqAyvpGJ3ePj3xP8H4u6927xzYu/yNMEeD6cuG2qs
+         wv8baYfLvizvW8u/dHYoLtV6vtkYMABSsgsGEOgwPb7UjlTy7o4Zq75bbVr9LhjbcJFJ
+         vDpQ==
+X-Gm-Message-State: AC+VfDzHZKYRDD9G6dFVLEIt5fTXZcUKQkwRQsbcn7JR2kHpwZZ+bmPv
+	8XRqk7sRf1XEHEjPf3Y6FuxDtIRilKj5ljQJqzJBBqxtLOV6Ay2C3k8N5rQ/RaSHSpH6itOhoQA
+	yWM82zXj4c31qFPCyqfZzwSV2SA==
+X-Received: by 2002:a5d:55c6:0:b0:30e:38d3:cc4f with SMTP id i6-20020a5d55c6000000b0030e38d3cc4fmr3742543wrw.36.1686129139399;
+        Wed, 07 Jun 2023 02:12:19 -0700 (PDT)
+X-Google-Smtp-Source: ACHHUZ5wzUZfsA9VSizf9bxaqukgTVAwDp5W+57tfKmlffItPyQVvcHhSQ5E8wYACr5/gCv7xQF2rA==
+X-Received: by 2002:a5d:55c6:0:b0:30e:38d3:cc4f with SMTP id i6-20020a5d55c6000000b0030e38d3cc4fmr3742525wrw.36.1686129139085;
+        Wed, 07 Jun 2023 02:12:19 -0700 (PDT)
 Received: from localhost (205.pool92-176-231.dynamic.orange.es. [92.176.231.205])
-        by smtp.gmail.com with ESMTPSA id w3-20020a5d6083000000b0030abe7c36b1sm14722806wrt.93.2023.06.07.02.11.59
+        by smtp.gmail.com with ESMTPSA id o10-20020a1c750a000000b003f60101074dsm1447712wmc.33.2023.06.07.02.12.18
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 07 Jun 2023 02:11:59 -0700 (PDT)
+        Wed, 07 Jun 2023 02:12:18 -0700 (PDT)
 From: Javier Martinez Canillas <javierm@redhat.com>
 To: Thomas Zimmermann <tzimmermann@suse.de>, daniel@ffwll.ch,
  sam@ravnborg.org, deller@gmx.de, geert+renesas@glider.be, lee@kernel.org,
  daniel.thompson@linaro.org, jingoohan1@gmail.com
-Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-sh@vger.kernel.org, linux-omap@vger.kernel.org,
- linux-staging@lists.linux.dev, Thomas Zimmermann <tzimmermann@suse.de>,
- Antonino Daplas <adaplas@gmail.com>
-Subject: Re: [PATCH 20/30] fbdev/rivafb: Use hardware device as backlight
- parent
-In-Reply-To: <20230605144812.15241-21-tzimmermann@suse.de>
+Cc: linux-fbdev@vger.kernel.org, linux-sh@vger.kernel.org,
+ linux-staging@lists.linux.dev, dri-devel@lists.freedesktop.org, Thomas
+ Zimmermann <tzimmermann@suse.de>, linux-omap@vger.kernel.org
+Subject: Re: [PATCH 21/30] fbdev/sm501fb: Output message with fb_err()
+In-Reply-To: <20230605144812.15241-22-tzimmermann@suse.de>
 References: <20230605144812.15241-1-tzimmermann@suse.de>
- <20230605144812.15241-21-tzimmermann@suse.de>
-Date: Wed, 07 Jun 2023 11:11:59 +0200
-Message-ID: <87r0qneiw0.fsf@minerva.mail-host-address-is-not-set>
+ <20230605144812.15241-22-tzimmermann@suse.de>
+Date: Wed, 07 Jun 2023 11:12:18 +0200
+Message-ID: <87o7lreivh.fsf@minerva.mail-host-address-is-not-set>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -69,12 +67,10 @@ Content-Type: text/plain
 
 Thomas Zimmermann <tzimmermann@suse.de> writes:
 
-> Use the hardware device in struct fb_info.device as parent of the
-> backlight device. Aligns the driver with the rest of the codebase
-> and prepares fbdev for making struct fb_info.dev optional.
+> Fix case were dev_err() is being called with struct fb_info.dev.
+> Use fb_err() instead.
 >
 > Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> Cc: Antonino Daplas <adaplas@gmail.com>
 > ---
 
 Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
