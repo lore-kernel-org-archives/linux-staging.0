@@ -1,50 +1,51 @@
-Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8906C6139
-	for <linux-staging@lists.linux.dev>; Wed,  7 Jun 2023 15:03:12 +0000 (UTC)
-Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-1b01d3bb571so32473525ad.2
-        for <linux-staging@lists.linux.dev>; Wed, 07 Jun 2023 08:03:12 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A4E61ACBB
+	for <linux-staging@lists.linux.dev>; Wed,  7 Jun 2023 15:07:28 +0000 (UTC)
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-3f732d37d7bso36181225e9.0
+        for <linux-staging@lists.linux.dev>; Wed, 07 Jun 2023 08:07:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1686150192; x=1688742192;
+        d=linaro.org; s=google; t=1686150447; x=1688742447;
         h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=Msfw3FZTKqUZwLFrkysjS96Cdf9AFaQ0r06ieq0j1EI=;
-        b=ae8/YKfoLrOaxVyfBu/iJH3C6PAtvFYaQurwvNiYf1D9kRVaGAfUs0+4s1rxmS0/f1
-         QAWo9JqKmCam0wf0B/CDYNnWcMId90CBErwYs1nGzPp6KLjyfu/699sLJqpmxt44Ju2j
-         y3EvTLYYI9qZZKAJEawMh9XwfYCBcNYwTt/kJGrhTlbB+GTP+xgjgi3dW9JE74V1jvPM
-         rktd/zKC2Ndwf0oe7MKoP0os2CLh4V3jyJRzSrZNZftsDfqNwp1+siCwC2y1pw4Nn3Bh
-         I/ZlWvthFgDf27Ix00KcIyLDulsUnkl4rWRBXM1+FZIOMt/KRPwxvapLDLA0E/0P60z6
-         R2ag==
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=KH8Z1a3lx04BjjGgQh8aDWIlPdF1CYV0Q+kaQr1wwYU=;
+        b=RPz/yVLPBvrSoUXI4bmqeFypmd4VQR+o8OHdrINgHbgrp/k7jrVOrjde4qcvKLsL1F
+         OmpuDXucztTOMvaaI5Ro0E9arPla6VDp6H35i6sES8gBoQTqfL6qwgi1rWJKN9GMwKKE
+         4zMW5JG+653chqLbFD3Kj0JVzDRRVILqLlufxrwKmcykTVfpZxy7CmlQBuaeocIjTdZq
+         pwpJ5iDwxsh7FyZuqgiSDfD+NaLJmjLosA6KD5e5nyJ8fR3M86x15HPVZhjQFA6xrVeX
+         SNW2mrUz+4WK3FE6hNiS1cfuCvTODSDBuTjrhvs3KdCW7/3pLCOucs8YQ7d8hxcJYlG3
+         08ww==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686150192; x=1688742192;
+        d=1e100.net; s=20221208; t=1686150447; x=1688742447;
         h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Msfw3FZTKqUZwLFrkysjS96Cdf9AFaQ0r06ieq0j1EI=;
-        b=TRXpvfTGAe03PySM3Jim6sjlJ0sN1lDM+HH86nYEpL6JP+I3uhMC9j/a4FleuRf6gR
-         W1bkFZy3obIOrVuuxbkAdC+k8SLZEsy2LmYyjM1XddR4HfKq3HGEnMvVDUSEft3/ZOND
-         GsH0ZhS5bX35nm4V1aeU064qxg/orU50MPtAjynqGxYaKJ+zCxhrItxn0KGXxhK1Wcml
-         IMSoPm9t9HsGIQPrnTrx0QI2TMETk65MAZM46G4EbussyRilfqjog73CUgpNaLu1ed4A
-         cNRsYnaGZWKy9VVJiSXOS+O4Tx/+Rm0jALYZ4o9lEr5bMMZGv6b2p1wwbYXrvvTcIfdi
-         4jIQ==
-X-Gm-Message-State: AC+VfDz8c9UIkHbMq4ivogta180KMtf3uQo219VySjftDc3tROWLROaL
-	QU2NzDeYStmgNeRivU3IMncOvTx0fLY=
-X-Google-Smtp-Source: ACHHUZ5zTs8y/Itlfgfy+8u0sBdZokuQYGHRt7t3asqdPwB0slrZgugbMII/lgbtqzi09ALnSjxDnQ==
-X-Received: by 2002:a17:903:234c:b0:1ae:1659:bfe2 with SMTP id c12-20020a170903234c00b001ae1659bfe2mr2531711plh.34.1686150191792;
-        Wed, 07 Jun 2023 08:03:11 -0700 (PDT)
-Received: from yogi-Zephyrus ([103.251.210.211])
-        by smtp.gmail.com with ESMTPSA id ld6-20020a170902fac600b001b04c2023e3sm10569143plb.218.2023.06.07.08.03.09
+        bh=KH8Z1a3lx04BjjGgQh8aDWIlPdF1CYV0Q+kaQr1wwYU=;
+        b=EBJ3fgTeT+goMRFppygnaCg+yNQaNp1/9RpSlV59qFsfocitlendG0RMd5+JBb8HNH
+         RcLM8DjXz+ODVuLba/9Ztlvfp24u28rbN2i+VdOdVI9cMtMsa1lCEL0MnKW6fTqieEXP
+         u1c2zcmg77XyD5nWOpTWZio2PW4hVKZWGWIyQweLxli8Z+uSVmNQJQQTWpidGHISTCVM
+         FX1Fvpq+obeJMzwIJf24dYF1gnRDjdTDvWfvPh4DN+h3ZE2s6TeyfYKOx5Y/6dTW8kRW
+         3mNM8D50rF4cluXGpITB/5yqZeenTkOUizE0RCkLFx02RCqf2xp8oh1fUsBtCv+qEnGW
+         oTQQ==
+X-Gm-Message-State: AC+VfDwOF/kqEEvCB6c9rshzPXsRFFmyNlcKXbmwLUoJy6HzHEEfMhBA
+	KJn9NYwABFuC+3xMn8I/yhAanQ==
+X-Google-Smtp-Source: ACHHUZ6KhqbmwhFvTf1Jv9nGQY+WC2ITFQzkw+o7B+v+PixosEq1f3BOeT1qq/1BEiYg+pf7QJ0Ysw==
+X-Received: by 2002:a05:600c:2150:b0:3f6:58ad:ed85 with SMTP id v16-20020a05600c215000b003f658aded85mr4808156wml.10.1686150447182;
+        Wed, 07 Jun 2023 08:07:27 -0700 (PDT)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id v4-20020a7bcb44000000b003f7e4d143cfsm2446750wmj.15.2023.06.07.08.07.24
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 07 Jun 2023 08:03:11 -0700 (PDT)
-Date: Wed, 7 Jun 2023 20:33:07 +0530
-From: Yogesh Hegde <yogi.kernel@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Wed, 07 Jun 2023 08:07:25 -0700 (PDT)
+Date: Wed, 7 Jun 2023 18:07:22 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Yogesh Hegde <yogi.kernel@gmail.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [PATCH v2 5/5] staging: rtl8192e: Remove DRV_NAME definition in
- rtllib_debug.h
-Message-ID: <41c6c24e703eedf6fb4febcf4cc7ef180af1db58.1686149467.git.yogi.kernel@gmail.com>
+Subject: Re: [PATCH v2 1/5] staging: rtl8192e: Remove variable SetWirelessMode
+Message-ID: <01a162c5-f0de-47b1-97e7-8a451a89df80@kadam.mountain>
 References: <cover.1686149467.git.yogi.kernel@gmail.com>
+ <fba56522e419351b05e33df8cd0ac31806534d8c.1686149467.git.yogi.kernel@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -53,38 +54,24 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <cover.1686149467.git.yogi.kernel@gmail.com>
+In-Reply-To: <fba56522e419351b05e33df8cd0ac31806534d8c.1686149467.git.yogi.kernel@gmail.com>
 
-The macro DRV_NAME is defined twice within the driver, once in
-"rtl_core.h" and again in "rtllib_debug.h". The definition in
-"rtllib_debug.h" overrides the definition in "rtl_core.h", resulting in
-warnings during compilation. This patch removes the redundant definition in
-"rtllib_debug.h" to avoid the warnings.
+On Wed, Jun 07, 2023 at 08:31:41PM +0530, Yogesh Hegde wrote:
+> The variable SetWirelessMode is set in only one place throughout the
+> driver. This patch removes the variable and calls the real function
+> directly instead, eliminating the unnecessary indirection.
+> Additionally, the removal of the variable aligns with the checkpatch
+> guidelines by removing the use of CamelCase.
+> 
+> Signed-off-by: Yogesh Hegde <yogi.kernel@gmail.com>
+> ---
+> 
+> v2: Removed the variable and called the function direction instead of
+>     just renaming the variable as suggested by Greg Kroah-Hartman
+>     <gregkh@linuxfoundation.org>.
 
-Signed-off-by: Yogesh Hegde <yogi.kernel@gmail.com>
----
+Reviewed-by: Dan Carpenter <dan.carpenter@linaro.org>
 
-v2: No changes.
----
- drivers/staging/rtl8192e/rtllib_debug.h | 5 -----
- 1 file changed, 5 deletions(-)
-
-diff --git a/drivers/staging/rtl8192e/rtllib_debug.h b/drivers/staging/rtl8192e/rtllib_debug.h
-index f6b23defe225..ab8bd5fc4ca0 100644
---- a/drivers/staging/rtl8192e/rtllib_debug.h
-+++ b/drivers/staging/rtl8192e/rtllib_debug.h
-@@ -9,11 +9,6 @@
- 
- #include <linux/bits.h>
- 
--/* Allow files to override DRV_NAME */
--#ifndef DRV_NAME
--#define DRV_NAME "rtllib_92e"
--#endif
--
- extern u32 rt_global_debug_component;
- 
- /* These are the defines for rt_global_debug_component */
--- 
-2.25.1
+regards,
+dan carpenter
 
