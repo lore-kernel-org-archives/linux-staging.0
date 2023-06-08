@@ -1,48 +1,50 @@
 Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4ACEEA3
-	for <linux-staging@lists.linux.dev>; Thu,  8 Jun 2023 06:52:13 +0000 (UTC)
-Received: by mail-ed1-f49.google.com with SMTP id 4fb4d7f45d1cf-510f866ce78so46208a12.1
-        for <linux-staging@lists.linux.dev>; Wed, 07 Jun 2023 23:52:13 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E0ECEA3
+	for <linux-staging@lists.linux.dev>; Thu,  8 Jun 2023 06:52:22 +0000 (UTC)
+Received: by mail-ed1-f49.google.com with SMTP id 4fb4d7f45d1cf-50a20bfe366so64023a12.0
+        for <linux-staging@lists.linux.dev>; Wed, 07 Jun 2023 23:52:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1686207132; x=1688799132;
-        h=content-disposition:mime-version:message-id:subject:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=AApGBls8JQyZYvibg1v9QuUQ1wNmSNLlZC0v6OInY7s=;
-        b=mx+QD9xiYnSO+K49SLPU1xOnSvH7+vYqTO6sPwiMbeYcJ1r8yW+vF4HkBGw6jODTDx
-         UDn1nAuFZnxPa/6PHmMbzVdrojbA03MwvLyP84PlYKEEHTWOZHi6GpxXW15lUeCdowgS
-         RL25wMc1jdGD7kmqYODx4zRZHuTlvQvVQDot/am0g3XbIavpy8ndF9dOfrBbnGU56jg1
-         PzdoUVBMmvf/EnFUVjlUvVQIGU64rHJD6i3XugMQGpa+B09xxDqTe6xgLvm25hMqad/k
-         UVOEcL4oun7GeOiL5Bq7oI0KlmNrQIYtvXb6EUN05aI/yjPo+RMqAYFpll4fPmHjCsWI
-         CeOA==
+        d=gmail.com; s=20221208; t=1686207141; x=1688799141;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=FG5d29CrGVCy3fwMc6JWla5/4zbh1hMHL9JL7ITCxvY=;
+        b=Z1REewAzAWNqwGy1u0+Mjb+fOCd85z11Q3TOJhkkjdpfZHb431yp0QYK8gguNeMJEq
+         ZHgOmt3e+xrJeWxRRke3QlTMOPt8Si4qi8Gj4GNqRJErQ7+FXZ5puwXOwub3oulYUoaB
+         mxDoVVqTALWIyo8UKFbK8WSN+Z4nAEPp8quJL6ChVLoaJGTbK59o5cf+0mtQLJxjQytm
+         /8hJwtNtFHE5Cz1kwTI5HWokiDRyCTi0OvrzxuVG//cBZyE2R+07i9i2LKVCyVGY2ZvH
+         NqoOzK9VZ26mEJlg0ba2VYiYbCRm4ql5F4nSuom9SCZXuHTDD2Yrf+D9omgEDwc4atGW
+         YngA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686207132; x=1688799132;
-        h=content-disposition:mime-version:message-id:subject:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=AApGBls8JQyZYvibg1v9QuUQ1wNmSNLlZC0v6OInY7s=;
-        b=iPIv+o03rUQymyISgWDLOCeJxwFAYc3cjBJg/6n1zC0pQIPHQAFJursCWr3/AKd31k
-         V116Gzp1Ef+/r/N1YDaAQwYUyC4KI2ZUjzpnUY2x6sIlCe4Hzv1Fi5Rg3u1NxRkhvPiT
-         2R+zyfYaQKJDphkbdoWNvdSAk3TMCIJ2z69BH2Og+MAV+jWrCn6+qHSq9x9SX8ldeQYx
-         LG2DOU8sBkwlIGmz9DQH0P+nQXcODzgJdFP4hFDLXahtkkcQIlnsk8FZmHzap4F6zs84
-         5KcfPkYuQS8MmRHIBnPikmAxayVt9Pkw9C4J40Ccc7zt94BWd5oUGVUqyoIohKx7E6yt
-         EG0A==
-X-Gm-Message-State: AC+VfDw6nrSVeZ0sPHb2nYd8Z2tQe8KjOMHHac4k6lPPYGx27B4XJKUR
-	UoFkaY8GXvAkvEmwYVJP2q6XL8mcoOM=
-X-Google-Smtp-Source: ACHHUZ7PYSyOdvHHRlEizjcsqjs886tH/M4fmlSAty4EUnDcSjIU2PAjola7RqiGuk+D6ZDBKg7aUQ==
-X-Received: by 2002:a05:6402:4303:b0:514:7874:ca64 with SMTP id m3-20020a056402430300b005147874ca64mr4351214edc.0.1686207131851;
-        Wed, 07 Jun 2023 23:52:11 -0700 (PDT)
+        d=1e100.net; s=20221208; t=1686207141; x=1688799141;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=FG5d29CrGVCy3fwMc6JWla5/4zbh1hMHL9JL7ITCxvY=;
+        b=QMlttW/ASPf+Gdvp8V0YkoMTThcDJENMxR+pcExNBT4k3RT4JWnbBFHZiWsODd85L/
+         mLgRNYN+wiAzhCiPzeG4WERx+4FcRP8ukY5VU2FotlM7g1t0QRXXtX8VwVevVad3nmg4
+         DLTaEnQsA7M3zOIFRQQH8U77AtXBE5nkG/Ufxpg4XQ7uixkfCDvETd1kWrKcJis9J9Zg
+         lRxCZH2DD1K5BR8vjLU5l/lvq+56cboNfdfoH38evoEpMXxlA0ACaYvp0XuSlDMkbjmr
+         nKMSH7pYy+RlmI4ls2qx4pSdjM6IifDwegKmZrhgdZsTLUYqzrZ+Iik9tY/PINIA9pER
+         ANSw==
+X-Gm-Message-State: AC+VfDzeqGRK7IzJZzvbaUdT2ReqJz/a+jOBphJZsoiWaknqAZPLTn/g
+	kcp0QM7qTD5V67oaTyTQS0A=
+X-Google-Smtp-Source: ACHHUZ6RuYcjwjN7cv5K/wAtu8Nflib2VSPcfswegxfDvNW2dWFqUe4GJOKa4jsmuFU+VEz8RQbgKQ==
+X-Received: by 2002:a17:906:649b:b0:975:c046:dd34 with SMTP id e27-20020a170906649b00b00975c046dd34mr6680233ejm.1.1686207140631;
+        Wed, 07 Jun 2023 23:52:20 -0700 (PDT)
 Received: from matrix-ESPRIMO-P710 (p57ba2e0b.dip0.t-ipconnect.de. [87.186.46.11])
-        by smtp.gmail.com with ESMTPSA id g25-20020a50ee19000000b0050bfeb15049sm179474eds.60.2023.06.07.23.52.10
+        by smtp.gmail.com with ESMTPSA id r10-20020a170906548a00b009788d99244csm286858ejo.149.2023.06.07.23.52.19
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 07 Jun 2023 23:52:11 -0700 (PDT)
-Date: Thu, 8 Jun 2023 08:52:09 +0200
+        Wed, 07 Jun 2023 23:52:20 -0700 (PDT)
+Date: Thu, 8 Jun 2023 08:52:18 +0200
 From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [PATCH 0/2] staging: rtl8192e: Use standard api to calculate
- frequency <-> channel
-Message-ID: <cover.1686166624.git.philipp.g.hortmann@gmail.com>
+Subject: [PATCH 1/2] staging: rtl8192e: Use standard api to calculate
+ frequency to channel
+Message-ID: <fc332e81f6677965e9e51f1fcef9815997effcb5.1686166624.git.philipp.g.hortmann@gmail.com>
+References: <cover.1686166624.git.philipp.g.hortmann@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -51,24 +53,39 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <cover.1686166624.git.philipp.g.hortmann@gmail.com>
 
-Use standard api to calculate frequency to channel and channel to
-frequency. Usage of cfg80211 is required to merge driver into wireless
-subsystem.
+Use ieee80211_freq_khz_to_channel() to calculate frequency to channel to
+omit proprietary code.
 
+Signed-off-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
 ---
-Tested with rtl8192e (WLL6130-D99)
-Transferred this patch over wlan connection of rtl8192e
+Tested this code with separate debug code as this part is usually unused.
+---
+ drivers/staging/rtl8192e/rtllib_softmac_wx.c | 9 +--------
+ 1 file changed, 1 insertion(+), 8 deletions(-)
 
-Philipp Hortmann (2):
-  staging: rtl8192e: Use standard api to calculate frequency to channel
-  staging: rtl8192e: Use standard api to calculate channel to frequency
-
- drivers/staging/rtl8192e/rtl8192e/rtl_wx.c   |  6 ++++--
- drivers/staging/rtl8192e/rtllib.h            |  2 --
- drivers/staging/rtl8192e/rtllib_softmac_wx.c | 22 +++-----------------
- 3 files changed, 7 insertions(+), 23 deletions(-)
-
+diff --git a/drivers/staging/rtl8192e/rtllib_softmac_wx.c b/drivers/staging/rtl8192e/rtllib_softmac_wx.c
+index 78a70e5f1974..6fd2e94d5f8a 100644
+--- a/drivers/staging/rtl8192e/rtllib_softmac_wx.c
++++ b/drivers/staging/rtl8192e/rtllib_softmac_wx.c
+@@ -42,15 +42,8 @@ int rtllib_wx_set_freq(struct rtllib_device *ieee, struct iw_request_info *a,
+ 	if (fwrq->e == 1) {
+ 		if ((fwrq->m >= (int)2.412e8 &&
+ 		     fwrq->m <= (int)2.487e8)) {
+-			int f = fwrq->m / 100000;
+-			int c = 0;
+-
+-			while ((c < 14) && (f != rtllib_wlan_frequencies[c]))
+-				c++;
+-
+-			/* hack to fall through */
++			fwrq->m = ieee80211_freq_khz_to_channel(fwrq->m / 100);
+ 			fwrq->e = 0;
+-			fwrq->m = c + 1;
+ 		}
+ 	}
+ 
 -- 
 2.40.1
 
