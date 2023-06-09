@@ -1,240 +1,134 @@
-Received: from mail-qt1-f180.google.com (mail-qt1-f180.google.com [209.85.160.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4720620F3
-	for <linux-staging@lists.linux.dev>; Fri,  9 Jun 2023 09:14:54 +0000 (UTC)
-Received: by mail-qt1-f180.google.com with SMTP id d75a77b69052e-3f9b1f43bd0so14871611cf.0
-        for <linux-staging@lists.linux.dev>; Fri, 09 Jun 2023 02:14:54 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9686E13AE9
+	for <linux-staging@lists.linux.dev>; Fri,  9 Jun 2023 09:59:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1686304784;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Ro28qLwMycjBPd4B2CfnKUVLQYPM9zhy62Il4fiHOKA=;
+	b=H4rp5VYwtWSnkLYlz8b9ul/s1C2/7nh35yCXnswZroRa16qFBSISKJE3Gm5pSK0Gka9nSg
+	pgvHtoq0XtB/mIrGFYfJ3+bKU+cf7xa3LV3t80n4yxg+9YOBjexxkyLZSSpDxqb3Dq/6z3
+	4DIp6PpH++Y/UT9ft2ng7B+0KvLnso8=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-439-nySpbapCPViqKkMg8eAw6A-1; Fri, 09 Jun 2023 05:59:43 -0400
+X-MC-Unique: nySpbapCPViqKkMg8eAw6A-1
+Received: by mail-wr1-f72.google.com with SMTP id ffacd0b85a97d-30c3ad3238bso683404f8f.0
+        for <linux-staging@lists.linux.dev>; Fri, 09 Jun 2023 02:59:43 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686302093; x=1688894093;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=gENaG5N8g73lKb5I06MaDggWSlew/LshaOaIaY4yMts=;
-        b=TCGv1iUReh8VRtNAtZUM/Qex/JPg6iQ3eT0z6JG/6xqU5XI1YTK8kQ3oV/DDsyyxQY
-         K9zhLMPmSiX07RvjNIugL6vshSs/c4Efx5AZW2Iw//qwjDK3RGLrjR+/AexLg1rpbq3q
-         t9hTgK8wcNoppLfBmlDSudGHZ245HeUm7o2Gguegy0Ze4IMEzutRgRJpYtp64RF075j3
-         wjozNsd76xAr+RXvqBt1GtqJupntVYu05DSIz+gqFAK8Vt/1jOTsBpKupJ4CM4dPKIH9
-         fPQIjaIbx9Un7iSbHRW2eORopkU8ZRioSGiboLRAOzXVNB8m3bHVfO2ryDu0cNBonQct
-         9VEg==
-X-Gm-Message-State: AC+VfDxPoToQspY7qK04fH+bkDIPtylSpxCFxRlfPQ9ryr0mLtRwgI1M
-	M/bfsUVV0+eCxzOnP44WErmZUkHz3bTGcg==
-X-Google-Smtp-Source: ACHHUZ5+4BebcyP6lu4v2lwaMvb6AjKtAGOKMDd6PbTIX+HfiTd2NM6Ljjq/uuFEziRynBkIaMbPWw==
-X-Received: by 2002:a05:622a:104b:b0:3f4:e758:1857 with SMTP id f11-20020a05622a104b00b003f4e7581857mr1140543qte.30.1686302092614;
-        Fri, 09 Jun 2023 02:14:52 -0700 (PDT)
-Received: from mail-qk1-f180.google.com (mail-qk1-f180.google.com. [209.85.222.180])
-        by smtp.gmail.com with ESMTPSA id n1-20020ac86741000000b003f5352907a5sm1001829qtp.88.2023.06.09.02.14.52
-        for <linux-staging@lists.linux.dev>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 09 Jun 2023 02:14:52 -0700 (PDT)
-Received: by mail-qk1-f180.google.com with SMTP id af79cd13be357-75d4b85b3ccso150158085a.2
-        for <linux-staging@lists.linux.dev>; Fri, 09 Jun 2023 02:14:52 -0700 (PDT)
-X-Received: by 2002:a05:620a:c0b:b0:75b:23a1:3609 with SMTP id
- l11-20020a05620a0c0b00b0075b23a13609mr558649qki.26.1686302091956; Fri, 09 Jun
- 2023 02:14:51 -0700 (PDT)
+        d=1e100.net; s=20221208; t=1686304782; x=1688896782;
+        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Ro28qLwMycjBPd4B2CfnKUVLQYPM9zhy62Il4fiHOKA=;
+        b=BDHBiUpEWH7wIH2JxS1wKb+iGSZXJkclXRGUTQ5S9dk0081Zy0lnY4cfwrgnSASOO5
+         qeQ36Hv1cR01gnkG9kLBokDTNXl32fvg2mwPnerb3t6WvpDpHAWY6UusCzSFvCaaxhix
+         i57AHgu0SF8EC/q5YBUuaFBwnAvPqhl0E9/Cuq9VX4AqceNuV7P9CDZ2PTDVJUS6ZFzs
+         h0YxmLF+X7VVCP+mFthe5wq132LyevAML96wdBavFnwpr1nabGOHooI0w9VHNu9PFzS+
+         p0FgaGvq7g222OLDXk9AloeXjB7fong3nu2wYndks5Gmb+0opDXnoZVki1fn7v2QoPz2
+         9lMQ==
+X-Gm-Message-State: AC+VfDxPC5csqKRlab+u36lTbgQY4m6UdYCJ5zGqxLBcxvEkmSwzf1Kq
+	8z940BIIdK953ZgDm3+JsI4ZETYpEb3DNr0rmmCfXlQeeOCkrTh41ozY9zVTnuoM46OOK2LgkFT
+	gRDNCV9WT6EY/IMxHlh7w7A19MPdDJwBO4Q==
+X-Received: by 2002:a05:6000:1cc1:b0:30d:981d:a049 with SMTP id bf1-20020a0560001cc100b0030d981da049mr475561wrb.4.1686304782623;
+        Fri, 09 Jun 2023 02:59:42 -0700 (PDT)
+X-Google-Smtp-Source: ACHHUZ5mbChq3eZ0n/KPDmx58FVgNTALqSeH3ETuPMsy/BuQZAfQWRgbheMcufPP8W0/LTSPFhyPxg==
+X-Received: by 2002:a05:6000:1cc1:b0:30d:981d:a049 with SMTP id bf1-20020a0560001cc100b0030d981da049mr475549wrb.4.1686304782266;
+        Fri, 09 Jun 2023 02:59:42 -0700 (PDT)
+Received: from localhost (205.pool92-176-231.dynamic.orange.es. [92.176.231.205])
+        by smtp.gmail.com with ESMTPSA id d17-20020a5d6dd1000000b003095bd71159sm4029755wrz.7.2023.06.09.02.59.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 09 Jun 2023 02:59:41 -0700 (PDT)
+From: Javier Martinez Canillas <javierm@redhat.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>, Geert Uytterhoeven
+ <geert@linux-m68k.org>
+Cc: daniel.thompson@linaro.org, linux-staging@lists.linux.dev,
+ linux-sh@vger.kernel.org, jingoohan1@gmail.com, deller@gmx.de,
+ lee@kernel.org, dri-devel@lists.freedesktop.org,
+ linux-fbdev@vger.kernel.org, linux-omap@vger.kernel.org, sam@ravnborg.org
+Subject: Re: [PATCH 30/30] fbdev: Make support for userspace interfaces
+ configurable
+In-Reply-To: <4df23439-462f-47da-890d-2dd2092eea35@suse.de>
+References: <20230605144812.15241-1-tzimmermann@suse.de>
+ <20230605144812.15241-31-tzimmermann@suse.de>
+ <CAMuHMdVP2hrgXaZvASnHJ4M+VXaTCtfbeVXrq2dsEJqcs3G6ZA@mail.gmail.com>
+ <e5d88ca8-66fe-b5ee-cb6b-2dc8f3a3fb26@suse.de>
+ <CAMuHMdWBUKTgfCD9VLDFh_Tm1J-NJQHpxODs-TuYM7V-dtmGjA@mail.gmail.com>
+ <873532eurg.fsf@minerva.mail-host-address-is-not-set>
+ <77252bc9-e08e-fcee-d140-2b78ab768b42@suse.de>
+ <CAMuHMdWUkZDcYfndf1A+cgcN5Fz1hmst4LrpA7iYCFqWSRTNDA@mail.gmail.com>
+ <4df23439-462f-47da-890d-2dd2092eea35@suse.de>
+Date: Fri, 09 Jun 2023 11:59:41 +0200
+Message-ID: <87h6rh552q.fsf@minerva.mail-host-address-is-not-set>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20230605144812.15241-1-tzimmermann@suse.de> <20230605144812.15241-31-tzimmermann@suse.de>
- <CAMuHMdVP2hrgXaZvASnHJ4M+VXaTCtfbeVXrq2dsEJqcs3G6ZA@mail.gmail.com>
- <e5d88ca8-66fe-b5ee-cb6b-2dc8f3a3fb26@suse.de> <CAMuHMdWBUKTgfCD9VLDFh_Tm1J-NJQHpxODs-TuYM7V-dtmGjA@mail.gmail.com>
- <873532eurg.fsf@minerva.mail-host-address-is-not-set> <77252bc9-e08e-fcee-d140-2b78ab768b42@suse.de>
- <CAMuHMdWUkZDcYfndf1A+cgcN5Fz1hmst4LrpA7iYCFqWSRTNDA@mail.gmail.com> <4df23439-462f-47da-890d-2dd2092eea35@suse.de>
-In-Reply-To: <4df23439-462f-47da-890d-2dd2092eea35@suse.de>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Fri, 9 Jun 2023 11:14:40 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdWrTairp5h-fmkG9+xwzna+T4QmPuMeshd0UB8ZhQF8Sg@mail.gmail.com>
-Message-ID: <CAMuHMdWrTairp5h-fmkG9+xwzna+T4QmPuMeshd0UB8ZhQF8Sg@mail.gmail.com>
-Subject: Re: [PATCH 30/30] fbdev: Make support for userspace interfaces configurable
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: Javier Martinez Canillas <javierm@redhat.com>, daniel.thompson@linaro.org, 
-	linux-staging@lists.linux.dev, linux-sh@vger.kernel.org, jingoohan1@gmail.com, 
-	deller@gmx.de, lee@kernel.org, dri-devel@lists.freedesktop.org, 
-	linux-fbdev@vger.kernel.org, linux-omap@vger.kernel.org, sam@ravnborg.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
 
-Hi Thomas,
+Thomas Zimmermann <tzimmermann@suse.de> writes:
 
-On Fri, Jun 9, 2023 at 10:00=E2=80=AFAM Thomas Zimmermann <tzimmermann@suse=
-.de> wrote:
-> Am 09.06.23 um 09:29 schrieb Geert Uytterhoeven:
-> > On Fri, Jun 9, 2023 at 9:09=E2=80=AFAM Thomas Zimmermann <tzimmermann@s=
-use.de> wrote:
-> >> Am 08.06.23 um 01:07 schrieb Javier Martinez Canillas:
-> >>> Geert Uytterhoeven <geert@linux-m68k.org> writes:
-> >>>> On Wed, Jun 7, 2023 at 5:15=E2=80=AFPM Thomas Zimmermann <tzimmerman=
-n@suse.de> wrote:
-> >>>>> Am 07.06.23 um 10:48 schrieb Geert Uytterhoeven:
-> >>>>>> On Mon, Jun 5, 2023 at 4:48=E2=80=AFPM Thomas Zimmermann <tzimmerm=
-ann@suse.de> wrote:
-> >>>>>>> --- a/drivers/video/fbdev/Kconfig
-> >>>>>>> +++ b/drivers/video/fbdev/Kconfig
-> >>>>>>> @@ -57,6 +57,15 @@ config FIRMWARE_EDID
-> >>>>>>>              combination with certain motherboards and monitors a=
-re known to
-> >>>>>>>              suffer from this problem.
-> >>>>>>>
-> >>>>>>> +config FB_DEVICE
-> >>>>>>> +        bool "Provide legacy /dev/fb* device"
-> >>>>>>
-> >>>>>> Perhaps "default y if !DRM", although that does not help for a
-> >>>>>> mixed drm/fbdev kernel build?
-> >>>>>
-> >>>>> We could simply set it to "default y".  But OTOH is it worth making=
- it a
-> >>>>> default? Distributions will set it to the value they need/want. The=
- very
-> >>>>> few people that build their own kernels to get certain fbdev driver=
-s
-> >>>>> will certainly be able to enable the option by hand as well.
-> >>>>
-> >>>> Defaulting to "n" (the default) means causing regressions when these
-> >>>> few people use an existing defconfig.
-> >>>>
-> >>>
-> >>> Having "dfault y if !DRM" makes sense to me. I guess is a corner case=
- but
-> >>> at least it won't silently be disabled for users that only want fbdev=
- as
-> >>> Geert mentioned.
-> >>
-> >> IMHO the rational behind such conditionals are mostly what "we make up
-> >> here in the discussion", but not something based on real-world feedbac=
-k.
-> >> So I'd strongly prefer a clear n or y setting here.
-> >>
-> >>>
-> >>> I wouldn't call it a regression though, because AFAIK the Kconfig opt=
-ions
-> >>> are not a stable API ?
-> >>
-> >> IIRC in the past there have been concerns about changing Kconfig
-> >> defaults. If we go with "default n", we'd apparently do something simi=
-lar.
-> >>
-> >>>
-> >>>>>> Or reserve "FB" for real fbdev drivers, and introduce a new FB_COR=
-E,
-> >>>>>> to be selected by both FB and DRM_FBDEV_EMULATION?
-> >>>>>> Then FB_DEVICE can depend on FB_CORE, and default to y if FB.
-> >>>
-> >>> Funny that you mention because it's exactly what I attempted in the p=
-ast:
-> >>>
-> >>> https://lore.kernel.org/all/20210827100531.1578604-1-javierm@redhat.c=
-om/T/#u
-> >>>
-> >>>>>
-> >>>>> That wouldn't work. In Tumbleweed, we still have efifb and vesafb
-> >>>>> enabled under certain conditions; merely for the kernel console. We=
-'d
-> >>>>> have to enable CONFIG_FB, which would bring back the device.
-> >>>>
-> >>>> "Default y" does not mean that you cannot disable FB_DEVICE, so
-> >>>> you are not forced to bring back the device?
-> >>>
-> >>> I think we can have both to make the kernel more configurable:
-> >>>
-> >>> 1) Allow to only disable fbdev user-space APIs (/dev/fb?, /proc/fb, e=
-tc),
-> >>>      which is what the series is doing with the new FB_DEVICE config =
-symbol.
-> >>>
-> >>> 2) Allow to disable all "native" fbdev drivers and only keep the DRM =
-fbdev
-> >>>      emulation layer. That's what my series attempted to do with the =
-FB_CORE
-> >>>      Kconfig symbol.
-> >>>
-> >>> I believe that there are use cases for both, for example as Thomas' s=
-aid
-> >>> many distros are disabling all the fbdev drivers and their user-space=
- only
-> >>> requires DRM/KMS, so makes sense to not expose any fbdev uAPI at all.
-> >>>
-> >>> But may be that other users want the opposite, they have an old user-=
-space
-> >>> that requires fbdev, but is running on newer hardware that only have =
-a DRM
-> >>> driver. So they will want DRM fbdev emulation but none fbdev driver a=
-t all.
-> >>>
-> >>> That's why I think that FB_DEVICE and FB_CORE are complementary and w=
-e can
-> >>> support any combination of the two, if you agree there are uses for e=
-ither.
-> >>
-> >> I still don't understand the value of such an extra compile-time optio=
-n?
-> >>    Either you have fbdev userspace, then you want the device; or you
-> >> don't then it's better to disable it entirely. I don't see much of a
-> >> difference between DRM and fbdev drivers here.
-> >
-> > If you have DRM and are running a Linux desktop, you are probably
-> > using DRM userspace.
-> > If you have fbdev, and are using graphics, you have no choice but
-> > using an fbdev userspace.
-> >
-> > So with FB_CORE, you can have default y if you have a real fbdev driver=
-,
-> > and default n if you have only DRM drivers.
-> >
-> >> I'd also question the argument that there's even fbdev userspace out
-> >> there. It was never popular in it's heyday and definitely hasn't
-> >> improved since then. Even the 3 people who still ask for fbdev support
-> >
-> > There's X.org, DirectFB, SDL, ...
+Hello Thomas,
+
+> Hi
 >
-> None of these examples has a dependency on fbdev. They can freely switch
-> backends and have moved to DRM. Anything program utilizing these
+
+[...]
+ 
+>>> I'd also question the argument that there's even fbdev userspace out
+>>> there. It was never popular in it's heyday and definitely hasn't
+>>> improved since then. Even the 3 people who still ask for fbdev support
+>> 
+>> There's X.org, DirectFB, SDL, ...
+>
+> None of these examples has a dependency on fbdev. They can freely switch 
+> backends and have moved to DRM. Anything program utilizing these 
 > examples has no dependency on fbdev either.
-
-Indeed, these examples do not depend on fbdev, it's the other way
-around.  How does it help if your userspace now also supports DRM,
-but you are using an fbdev graphics driver?  The DRM drivers do not
-cover all graphics hardware yet.
-
-> When I say "userspace" in this context, it's the one old program that
-> supports nothing but fbdev. TBH I'm having problems to come up with
-> examples.
-
-Even if you cannot find such an old program, that doesn't matter much,
-if you are using an fbdev graphics driver...
-
-> > What do you think low-end embedded devices with an out-of-tree[*]
-> > fbdev driver are using?
 >
-> And those do not count either. IIRC Android used to be built on top of
-> fbdev devices. I'm not sure if they have moved to DRM by now. But
-> embedded uses dedicated kernels and kernel configs.  It's easy for them
-> to set FB_DEVICE=3Dy.  We're not going to take away the fbdev device enti=
-rely.
+> When I say "userspace" in this context, it's the one old program that 
+> supports nothing but fbdev. TBH I'm having problems to come up with 
+> examples.
+>
 
-The point is that we do not suddenly disable functionality that users
-may depend on. While "make oldconfig" will show users the new
-FB_DEVICE question, (and hopefully they'll notice), "make olddefconfig"
-and "make <foo>_defconfig" won't, possibly causing regressions.
-Without a suitable default, you should IMHO at least update all
-defconfigs that enable any fbdev drivers.
+I personally have two real world examples that can give to you :)
 
-I guess you do remember the fall-out from f611b1e7624ccdbd ("drm:
-Avoid circular dependencies for CONFIG_FB"), after which lots of defconfigs
-had to gain CONFIG_FB=3Dy?
+1) I've a IoT device at home that has a bunch of sensors (temperatury,
+   humidity, etc) and a SSD1306 display panel to report that. It just
+   has small fbdev program to print that info. I could probably port
+   to KMS but didn't feel like it. Found a fbdev program that I could
+   modify and got the job done.
 
-Gr{oetje,eeting}s,
+2) I built a portable retro console for my kids, that uses a ST7735R
+   LCD panel. The software I use is https://www.retroarch.com/ which
+   uses fbdev by default (I believe that supports a KMS mode but out
+   of the box it works with fbdev and that's better tested by them.
+   
+So even when I'm not interested and don't want to enable any of the
+fbdev drivers, I want to use the ssd130x and st7735r DRM drivers and
+the DRM fbdev emulation layer.
 
-                        Geert
+In other words, there's real use cases for supporting fbdev programs
+with DRM drivers. Now, I agree with this patch-set and probably will
+disable the user-space fbdev interface in Fedora, but on my embedded
+projects I will probably keep it enabled.
 
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
+That's why I think that we should support the following combinations:
 
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+* fbdev drivers + DRM fbdev emulation + fbdev user-space
+* only DRM drivers without fbdev emulation nor fbdev user-space (your series)
+* only DRM fbdev emulation + fbdev user-space enabled (FB_CORE)
+
+-- 
+Best regards,
+
+Javier Martinez Canillas
+Core Platforms
+Red Hat
+
