@@ -1,103 +1,98 @@
-Received: from mail-ot1-f46.google.com (mail-ot1-f46.google.com [209.85.210.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CACFA154A8
-	for <linux-staging@lists.linux.dev>; Fri,  9 Jun 2023 11:22:43 +0000 (UTC)
-Received: by mail-ot1-f46.google.com with SMTP id 46e09a7af769-6b166023d47so589227a34.1
-        for <linux-staging@lists.linux.dev>; Fri, 09 Jun 2023 04:22:43 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DBD3154A8
+	for <linux-staging@lists.linux.dev>; Fri,  9 Jun 2023 11:27:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1686310034;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Aq1HmhmHxt8U2DdHW6bpTJ6Q+ZwtPsKU6Rb33d5Ew+Q=;
+	b=cEch5kHsJT6WLFgGiULshv8NrNAa/8lbK1np725lTwF9tw/hy/QG/C5JCzXvSonevUMuCG
+	4gssgGqu99J8K2Zt5dN1TLtfnUzUjgYd20lFatr2a6x1QsQ9iAiHbxEidrOj3doYrpwdUJ
+	Gfy8gBy+WYwBcJ6K8AUthWTywOq54EI=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-640-1C5H8GlDM6e4w8pte_uMOg-1; Fri, 09 Jun 2023 07:27:12 -0400
+X-MC-Unique: 1C5H8GlDM6e4w8pte_uMOg-1
+Received: by mail-wm1-f70.google.com with SMTP id 5b1f17b1804b1-3f7f8d101b1so27764975e9.3
+        for <linux-staging@lists.linux.dev>; Fri, 09 Jun 2023 04:27:12 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686309762; x=1688901762;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=xadRBA7ym6NtI+c99cDpm8sxh6Is5YguQpKNeHDLZ5g=;
-        b=LSB40Q0e+jzkYOt+Psnl3/84Nrw3PMyjL1NPRHPq3EgcRhL2UOp/xkUrl5duR98DZp
-         he3PNNM/2ltqMMHaioDYLuzbfa5Bfb5HKGYkrAxO2PM49GVVVO2FSP4qZMyQ7D0RQ0pX
-         3hcfLlmUByEeU+FwhHYe/qoJekqmPBIX130VMoS/pye7iuNKP4y+ddIJjMPU9IjgDaSL
-         pgNH5P2p/836p4J8VM7BW7/z0dhzpZvOkB7VgPb9+Hakmwey77qbI+Mw9bRq0CD5ExLm
-         N7QJZpegwshwmLKQKdW6Bvl7JOloXhhpixh2V+us2h71kVHO+UObOH/KxvnVrcJMr56k
-         YkAw==
-X-Gm-Message-State: AC+VfDwBurKyVPxwvk1wEpILcCntu40qcKC1N2ESKl4wmY7PJb9yEZ5C
-	Al0fxa8MBgXFQwiuivVUtvvvCnbUauqQhg==
-X-Google-Smtp-Source: ACHHUZ6j3vlU7WAPPpXMvo79ossL0X8QNL3Ki/vFbQcB09gp6LBL0gkHYg8Cr8M5w3NS6gGEISC6ig==
-X-Received: by 2002:a9d:74d2:0:b0:6aa:f826:5bc4 with SMTP id a18-20020a9d74d2000000b006aaf8265bc4mr1070607otl.19.1686309762179;
-        Fri, 09 Jun 2023 04:22:42 -0700 (PDT)
-Received: from mail-oa1-f51.google.com (mail-oa1-f51.google.com. [209.85.160.51])
-        by smtp.gmail.com with ESMTPSA id c8-20020a9d4808000000b006b296562566sm1277693otf.79.2023.06.09.04.22.38
-        for <linux-staging@lists.linux.dev>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 09 Jun 2023 04:22:39 -0700 (PDT)
-Received: by mail-oa1-f51.google.com with SMTP id 586e51a60fabf-19f8af9aa34so585086fac.1
-        for <linux-staging@lists.linux.dev>; Fri, 09 Jun 2023 04:22:38 -0700 (PDT)
-X-Received: by 2002:a05:6870:d450:b0:1a2:7f63:9920 with SMTP id
- j16-20020a056870d45000b001a27f639920mr911793oag.26.1686309758094; Fri, 09 Jun
- 2023 04:22:38 -0700 (PDT)
+        d=1e100.net; s=20221208; t=1686310031; x=1688902031;
+        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Aq1HmhmHxt8U2DdHW6bpTJ6Q+ZwtPsKU6Rb33d5Ew+Q=;
+        b=LywXNY+MneIKbvBWlmLVafqIRMZfM8XidLlj7CZ3SJipLyhERw9/JIPPnFcdd2AZKb
+         C7fYDGYgri0JnC35ZsZ/gzozMSmuTPz+fXVXplZZ3U5irA2ah0aFCylmGkLKIy65X32m
+         wztroeC2r3SOezfiEO+odwmSVINaW05f1G1z32cYk/8HiXGJRPc2rjP7XFTYL2jfzfU0
+         VgAMNk7NYBHwzKy0XFUvXfNDqlzZ86UgRm3KVlzSGm8PA+Gx50s58GcIGSgyEJTCUS3u
+         XABTJ70/vtpGqvYfSC1sro1uEk0LSIohYVGR4eiKTGmthtNWzIdcUDLoaAsPUdsxE7QD
+         btFQ==
+X-Gm-Message-State: AC+VfDzBv5F5mMEl2gzVTi0WMwpQn2JHj2rmK2RN8KWjQYJqdbnx+IXh
+	q5211XfRcnjfyOCvQ+TL3IEvQoIwdCKa6GtafsKw7IsxlXY+sB2xRHBwzw89WS6Q3MayV9rejBh
+	nhRpSBvgMobKNzdO+NzIRwu6/vQ==
+X-Received: by 2002:a1c:4b0f:0:b0:3f5:6e5:1689 with SMTP id y15-20020a1c4b0f000000b003f506e51689mr962599wma.17.1686310031581;
+        Fri, 09 Jun 2023 04:27:11 -0700 (PDT)
+X-Google-Smtp-Source: ACHHUZ6w7LsURM3swKe92CefNektpkFsYqmjCbB+q5BkwoFvHxCz92JpRifnJNOzeTnxZcxMM5HBOg==
+X-Received: by 2002:a1c:4b0f:0:b0:3f5:6e5:1689 with SMTP id y15-20020a1c4b0f000000b003f506e51689mr962588wma.17.1686310031334;
+        Fri, 09 Jun 2023 04:27:11 -0700 (PDT)
+Received: from localhost (205.pool92-176-231.dynamic.orange.es. [92.176.231.205])
+        by smtp.gmail.com with ESMTPSA id p4-20020a5d48c4000000b0030903d44dbcsm4191258wrs.33.2023.06.09.04.27.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 09 Jun 2023 04:27:11 -0700 (PDT)
+From: Javier Martinez Canillas <javierm@redhat.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>, Geert Uytterhoeven
+ <geert@linux-m68k.org>
+Cc: daniel.thompson@linaro.org, linux-staging@lists.linux.dev,
+ linux-sh@vger.kernel.org, jingoohan1@gmail.com, deller@gmx.de,
+ lee@kernel.org, dri-devel@lists.freedesktop.org,
+ linux-fbdev@vger.kernel.org, linux-omap@vger.kernel.org, sam@ravnborg.org
+Subject: Re: [PATCH 30/30] fbdev: Make support for userspace interfaces
+ configurable
+In-Reply-To: <4df23439-462f-47da-890d-2dd2092eea35@suse.de>
+References: <20230605144812.15241-1-tzimmermann@suse.de>
+ <20230605144812.15241-31-tzimmermann@suse.de>
+ <CAMuHMdVP2hrgXaZvASnHJ4M+VXaTCtfbeVXrq2dsEJqcs3G6ZA@mail.gmail.com>
+ <e5d88ca8-66fe-b5ee-cb6b-2dc8f3a3fb26@suse.de>
+ <CAMuHMdWBUKTgfCD9VLDFh_Tm1J-NJQHpxODs-TuYM7V-dtmGjA@mail.gmail.com>
+ <873532eurg.fsf@minerva.mail-host-address-is-not-set>
+ <77252bc9-e08e-fcee-d140-2b78ab768b42@suse.de>
+ <CAMuHMdWUkZDcYfndf1A+cgcN5Fz1hmst4LrpA7iYCFqWSRTNDA@mail.gmail.com>
+ <4df23439-462f-47da-890d-2dd2092eea35@suse.de>
+Date: Fri, 09 Jun 2023 13:27:10 +0200
+Message-ID: <87o7lodgfl.fsf@minerva.mail-host-address-is-not-set>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20230605144812.15241-1-tzimmermann@suse.de> <20230605144812.15241-31-tzimmermann@suse.de>
- <CAMuHMdVP2hrgXaZvASnHJ4M+VXaTCtfbeVXrq2dsEJqcs3G6ZA@mail.gmail.com>
- <e5d88ca8-66fe-b5ee-cb6b-2dc8f3a3fb26@suse.de> <CAMuHMdWBUKTgfCD9VLDFh_Tm1J-NJQHpxODs-TuYM7V-dtmGjA@mail.gmail.com>
- <873532eurg.fsf@minerva.mail-host-address-is-not-set> <77252bc9-e08e-fcee-d140-2b78ab768b42@suse.de>
- <CAMuHMdWUkZDcYfndf1A+cgcN5Fz1hmst4LrpA7iYCFqWSRTNDA@mail.gmail.com>
- <4df23439-462f-47da-890d-2dd2092eea35@suse.de> <CAMuHMdWrTairp5h-fmkG9+xwzna+T4QmPuMeshd0UB8ZhQF8Sg@mail.gmail.com>
- <66548126-e39f-72a6-60bc-ed6d0cc82ae7@suse.de>
-In-Reply-To: <66548126-e39f-72a6-60bc-ed6d0cc82ae7@suse.de>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Fri, 9 Jun 2023 13:22:26 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdWP7BBPZuJDzRs9Fvhqq7eO30poZoJRgLCPyoamUkfANg@mail.gmail.com>
-Message-ID: <CAMuHMdWP7BBPZuJDzRs9Fvhqq7eO30poZoJRgLCPyoamUkfANg@mail.gmail.com>
-Subject: Re: [PATCH 30/30] fbdev: Make support for userspace interfaces configurable
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: daniel.thompson@linaro.org, lee@kernel.org, linux-sh@vger.kernel.org, 
-	jingoohan1@gmail.com, deller@gmx.de, linux-staging@lists.linux.dev, 
-	Javier Martinez Canillas <javierm@redhat.com>, dri-devel@lists.freedesktop.org, 
-	linux-fbdev@vger.kernel.org, linux-omap@vger.kernel.org, sam@ravnborg.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
 
-Hi Thomas,
+Thomas Zimmermann <tzimmermann@suse.de> writes:
 
-On Fri, Jun 9, 2023 at 1:04=E2=80=AFPM Thomas Zimmermann <tzimmermann@suse.=
-de> wrote:
-> Am 09.06.23 um 11:14 schrieb Geert Uytterhoeven:
-> [...]
-> >
-> >>> What do you think low-end embedded devices with an out-of-tree[*]
-> >>> fbdev driver are using?
-> >>
-> >> And those do not count either. IIRC Android used to be built on top of
-> >> fbdev devices. I'm not sure if they have moved to DRM by now. But
-> >> embedded uses dedicated kernels and kernel configs.  It's easy for the=
-m
-> >> to set FB_DEVICE=3Dy.  We're not going to take away the fbdev device e=
-ntirely.
-> >
-> > The point is that we do not suddenly disable functionality that users
-> > may depend on. While "make oldconfig" will show users the new
-> > FB_DEVICE question, (and hopefully they'll notice), "make olddefconfig"
-> > and "make <foo>_defconfig" won't, possibly causing regressions.
-> > Without a suitable default, you should IMHO at least update all
-> > defconfigs that enable any fbdev drivers.
->
-> Didn't I already say that we should make it "default y" if that's
-> preferable in practice?
+[...]
 
-OK, sorry, I seem to have missed that part.
+>> 
+>> So with FB_CORE, you can have default y if you have a real fbdev driver,
+>> and default n if you have only DRM drivers.
+>> 
 
-Gr{oetje,eeting}s,
+All this discussion about FB_CORE is unrelated to your series though and
+that is covered by enabling CONFIG_FB_DEVICE. I think that there's value
+on a FB_CORE option to allow disabling all the fbdev drivers with a single
+option but still keep DRM_FBDEV_EMULATION enabled.
 
-                        Geert
+But I can repost my old series on top of this patch-set once it lands.
 
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
+-- 
+Best regards,
 
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+Javier Martinez Canillas
+Core Platforms
+Red Hat
+
