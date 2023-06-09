@@ -1,303 +1,216 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com [209.85.128.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F8223B407
-	for <linux-staging@lists.linux.dev>; Fri,  9 Jun 2023 07:19:19 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 502F61FDF4;
-	Fri,  9 Jun 2023 07:19:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1686295158; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=fMU/76fZkOAccMo2QezYCo5b5MKEq6IIPa8Dj50lRGU=;
-	b=H5hRdwFI66uOAgTU2aTEfesB2Qye2MOFOVqdITLyP795e6HvvqM9w95nlAFCgPvQqNCDdY
-	vWMJSNpLEoCkMxaeSbjrc76rN3ShY1uz+yq6VCRybWjXT0wan8y2t7DNPyTDl50RAVilQD
-	eoukTXUz3e5KmxlpqAWPDaTSDZtzXjM=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1686295158;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=fMU/76fZkOAccMo2QezYCo5b5MKEq6IIPa8Dj50lRGU=;
-	b=6F00tNoNuHDN4P9WcL2nRJqJx5arS99fNB8FNTqlgGV0rQVlX2ZSRAQ6Hdl5oym7NVnlDS
-	f5F+brgEbkFx8ECg==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 0FF47139C8;
-	Fri,  9 Jun 2023 07:19:18 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-	by imap2.suse-dmz.suse.de with ESMTPSA
-	id U+DmAnbSgmQvRQAAMHmgww
-	(envelope-from <tzimmermann@suse.de>); Fri, 09 Jun 2023 07:19:18 +0000
-Message-ID: <cf07449b-0ba8-4ea3-9ebe-d495aea13613@suse.de>
-Date: Fri, 9 Jun 2023 09:19:17 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C66E04C67
+	for <linux-staging@lists.linux.dev>; Fri,  9 Jun 2023 07:29:53 +0000 (UTC)
+Received: by mail-yw1-f169.google.com with SMTP id 00721157ae682-565ca65e7ffso13975527b3.0
+        for <linux-staging@lists.linux.dev>; Fri, 09 Jun 2023 00:29:53 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1686295792; x=1688887792;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=/f/KLwj3+JtPFJyQSR7kV5ZARQVx9rMOW7yyOQY55Ks=;
+        b=SKciqDQjDDh031YrewRk9lR3duzYfC2r5ebx6QrAkKwiwX7d5Qr4Mr10qxB+/U1bG7
+         AZSMy1LJZZdvwVMAPApIOwYhQeSk+4XbHcUn6Mna7jTTo+/81ysFyQkP/ytB0UTARkB5
+         7RmI6ukLVfZmLtj/Grezt0AbDkbDWPu7DsyehUC3HcbRECPpYJISaMlX3OQEXesKsAo9
+         sA8e3wS/1KjyMGgvGOpi/9s9Uwq4Y1N+xVxb6E1tqwj98f3Ecc3xheAhj73/NjzLOU5J
+         wc7hkYmbMtAkqCkeKR0qogkySf3yYEXA2fGBIDyaL1ifppd4O4VqQ227f7ZpLhs2larc
+         5beQ==
+X-Gm-Message-State: AC+VfDyVTK9uPvujM5eCfqoxsCjVbQhZzgAKCF0KI7QqwMocN2QVuGUt
+	sBBXXRKmPI/JY+bs9Abh1wWHIehKCrdgDA==
+X-Google-Smtp-Source: ACHHUZ7OwTVXFSPzkTOVINSfEEr3YpVdwZBdTrMApH8uuyR/AA7PIG9HNDnwGYl7cqbnRYbHJvRi/w==
+X-Received: by 2002:a0d:dfd5:0:b0:569:3d12:a913 with SMTP id i204-20020a0ddfd5000000b005693d12a913mr537828ywe.5.1686295792388;
+        Fri, 09 Jun 2023 00:29:52 -0700 (PDT)
+Received: from mail-yb1-f180.google.com (mail-yb1-f180.google.com. [209.85.219.180])
+        by smtp.gmail.com with ESMTPSA id x127-20020a818785000000b0056974f3f32bsm461826ywf.1.2023.06.09.00.29.49
+        for <linux-staging@lists.linux.dev>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 09 Jun 2023 00:29:50 -0700 (PDT)
+Received: by mail-yb1-f180.google.com with SMTP id 3f1490d57ef6-ba818eb96dcso1470104276.0
+        for <linux-staging@lists.linux.dev>; Fri, 09 Jun 2023 00:29:49 -0700 (PDT)
+X-Received: by 2002:a05:6902:3cb:b0:bb3:9329:608b with SMTP id
+ g11-20020a05690203cb00b00bb39329608bmr355653ybs.51.1686295789563; Fri, 09 Jun
+ 2023 00:29:49 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.2
-Subject: Re: [PATCH 25/30] fbdev/core: Move framebuffer and backlight helpers
- into separate files
-Content-Language: en-US
-To: Sam Ravnborg <sam@ravnborg.org>
-Cc: daniel@ffwll.ch, javierm@redhat.com, deller@gmx.de,
- geert+renesas@glider.be, lee@kernel.org, daniel.thompson@linaro.org,
- jingoohan1@gmail.com, linux-fbdev@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-sh@vger.kernel.org,
- linux-omap@vger.kernel.org, linux-staging@lists.linux.dev
-References: <20230605144812.15241-1-tzimmermann@suse.de>
- <20230605144812.15241-26-tzimmermann@suse.de>
- <20230607193822.GB670717@ravnborg.org>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <20230607193822.GB670717@ravnborg.org>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------JjIkruNzvR0MjOd0CcwMkuYJ"
+References: <20230605144812.15241-1-tzimmermann@suse.de> <20230605144812.15241-31-tzimmermann@suse.de>
+ <CAMuHMdVP2hrgXaZvASnHJ4M+VXaTCtfbeVXrq2dsEJqcs3G6ZA@mail.gmail.com>
+ <e5d88ca8-66fe-b5ee-cb6b-2dc8f3a3fb26@suse.de> <CAMuHMdWBUKTgfCD9VLDFh_Tm1J-NJQHpxODs-TuYM7V-dtmGjA@mail.gmail.com>
+ <873532eurg.fsf@minerva.mail-host-address-is-not-set> <77252bc9-e08e-fcee-d140-2b78ab768b42@suse.de>
+In-Reply-To: <77252bc9-e08e-fcee-d140-2b78ab768b42@suse.de>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Fri, 9 Jun 2023 09:29:37 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdWUkZDcYfndf1A+cgcN5Fz1hmst4LrpA7iYCFqWSRTNDA@mail.gmail.com>
+Message-ID: <CAMuHMdWUkZDcYfndf1A+cgcN5Fz1hmst4LrpA7iYCFqWSRTNDA@mail.gmail.com>
+Subject: Re: [PATCH 30/30] fbdev: Make support for userspace interfaces configurable
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Javier Martinez Canillas <javierm@redhat.com>, daniel.thompson@linaro.org, 
+	linux-staging@lists.linux.dev, linux-sh@vger.kernel.org, jingoohan1@gmail.com, 
+	deller@gmx.de, lee@kernel.org, dri-devel@lists.freedesktop.org, 
+	linux-fbdev@vger.kernel.org, linux-omap@vger.kernel.org, sam@ravnborg.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------JjIkruNzvR0MjOd0CcwMkuYJ
-Content-Type: multipart/mixed; boundary="------------AUmmMH1KDTcpkh1TDXxVRvVJ";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Sam Ravnborg <sam@ravnborg.org>
-Cc: daniel@ffwll.ch, javierm@redhat.com, deller@gmx.de,
- geert+renesas@glider.be, lee@kernel.org, daniel.thompson@linaro.org,
- jingoohan1@gmail.com, linux-fbdev@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-sh@vger.kernel.org,
- linux-omap@vger.kernel.org, linux-staging@lists.linux.dev
-Message-ID: <cf07449b-0ba8-4ea3-9ebe-d495aea13613@suse.de>
-Subject: Re: [PATCH 25/30] fbdev/core: Move framebuffer and backlight helpers
- into separate files
-References: <20230605144812.15241-1-tzimmermann@suse.de>
- <20230605144812.15241-26-tzimmermann@suse.de>
- <20230607193822.GB670717@ravnborg.org>
-In-Reply-To: <20230607193822.GB670717@ravnborg.org>
+Hi Thomas,
 
---------------AUmmMH1KDTcpkh1TDXxVRvVJ
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+On Fri, Jun 9, 2023 at 9:09=E2=80=AFAM Thomas Zimmermann <tzimmermann@suse.=
+de> wrote:
+> Am 08.06.23 um 01:07 schrieb Javier Martinez Canillas:
+> > Geert Uytterhoeven <geert@linux-m68k.org> writes:
+> >> On Wed, Jun 7, 2023 at 5:15=E2=80=AFPM Thomas Zimmermann <tzimmermann@=
+suse.de> wrote:
+> >>> Am 07.06.23 um 10:48 schrieb Geert Uytterhoeven:
+> >>>> On Mon, Jun 5, 2023 at 4:48=E2=80=AFPM Thomas Zimmermann <tzimmerman=
+n@suse.de> wrote:
+> >>>>> --- a/drivers/video/fbdev/Kconfig
+> >>>>> +++ b/drivers/video/fbdev/Kconfig
+> >>>>> @@ -57,6 +57,15 @@ config FIRMWARE_EDID
+> >>>>>             combination with certain motherboards and monitors are =
+known to
+> >>>>>             suffer from this problem.
+> >>>>>
+> >>>>> +config FB_DEVICE
+> >>>>> +        bool "Provide legacy /dev/fb* device"
+> >>>>
+> >>>> Perhaps "default y if !DRM", although that does not help for a
+> >>>> mixed drm/fbdev kernel build?
+> >>>
+> >>> We could simply set it to "default y".  But OTOH is it worth making i=
+t a
+> >>> default? Distributions will set it to the value they need/want. The v=
+ery
+> >>> few people that build their own kernels to get certain fbdev drivers
+> >>> will certainly be able to enable the option by hand as well.
+> >>
+> >> Defaulting to "n" (the default) means causing regressions when these
+> >> few people use an existing defconfig.
+> >>
+> >
+> > Having "dfault y if !DRM" makes sense to me. I guess is a corner case b=
+ut
+> > at least it won't silently be disabled for users that only want fbdev a=
+s
+> > Geert mentioned.
+>
+> IMHO the rational behind such conditionals are mostly what "we make up
+> here in the discussion", but not something based on real-world feedback.
+> So I'd strongly prefer a clear n or y setting here.
+>
+> >
+> > I wouldn't call it a regression though, because AFAIK the Kconfig optio=
+ns
+> > are not a stable API ?
+>
+> IIRC in the past there have been concerns about changing Kconfig
+> defaults. If we go with "default n", we'd apparently do something similar=
+.
+>
+> >
+> >>>> Or reserve "FB" for real fbdev drivers, and introduce a new FB_CORE,
+> >>>> to be selected by both FB and DRM_FBDEV_EMULATION?
+> >>>> Then FB_DEVICE can depend on FB_CORE, and default to y if FB.
+> >
+> > Funny that you mention because it's exactly what I attempted in the pas=
+t:
+> >
+> > https://lore.kernel.org/all/20210827100531.1578604-1-javierm@redhat.com=
+/T/#u
+> >
+> >>>
+> >>> That wouldn't work. In Tumbleweed, we still have efifb and vesafb
+> >>> enabled under certain conditions; merely for the kernel console. We'd
+> >>> have to enable CONFIG_FB, which would bring back the device.
+> >>
+> >> "Default y" does not mean that you cannot disable FB_DEVICE, so
+> >> you are not forced to bring back the device?
+> >
+> > I think we can have both to make the kernel more configurable:
+> >
+> > 1) Allow to only disable fbdev user-space APIs (/dev/fb?, /proc/fb, etc=
+),
+> >     which is what the series is doing with the new FB_DEVICE config sym=
+bol.
+> >
+> > 2) Allow to disable all "native" fbdev drivers and only keep the DRM fb=
+dev
+> >     emulation layer. That's what my series attempted to do with the FB_=
+CORE
+> >     Kconfig symbol.
+> >
+> > I believe that there are use cases for both, for example as Thomas' sai=
+d
+> > many distros are disabling all the fbdev drivers and their user-space o=
+nly
+> > requires DRM/KMS, so makes sense to not expose any fbdev uAPI at all.
+> >
+> > But may be that other users want the opposite, they have an old user-sp=
+ace
+> > that requires fbdev, but is running on newer hardware that only have a =
+DRM
+> > driver. So they will want DRM fbdev emulation but none fbdev driver at =
+all.
+> >
+> > That's why I think that FB_DEVICE and FB_CORE are complementary and we =
+can
+> > support any combination of the two, if you agree there are uses for eit=
+her.
+>
+> I still don't understand the value of such an extra compile-time option?
+>   Either you have fbdev userspace, then you want the device; or you
+> don't then it's better to disable it entirely. I don't see much of a
+> difference between DRM and fbdev drivers here.
 
-SGkgU2FtLA0KDQp0aGFua3MgZm9yIHJldmlld2luZy4NCg0KQW0gMDcuMDYuMjMgdW0gMjE6
-Mzggc2NocmllYiBTYW0gUmF2bmJvcmc6DQo+IEhpIFRob21hcywNCj4gDQo+IE9uIE1vbiwg
-SnVuIDA1LCAyMDIzIGF0IDA0OjQ4OjA3UE0gKzAyMDAsIFRob21hcyBaaW1tZXJtYW5uIHdy
-b3RlOg0KPj4gTW92ZSBmcmFtZWJ1ZmZlciBhbmQgYmFja2xpZ2h0IGhlbHBlcnMgaW50byBz
-ZXBhcmF0ZSBmaWxlcy4gTGVhdmUNCj4+IGZic3lzZnMuYyB0byBzeXNmcy1yZWxhdGVkIGNv
-ZGUuIE5vIGZ1bmN0aW9uYWwgY2hhbmdlcy4NCj4+DQo+PiBUaGUgZnJhbWVidWZmZXIgaGVs
-cGVycyBhcmUgbm90IGluIGZibWVtLmMgYmVjYXVzZSB0aGV5IGFyZSB1bmRlcg0KPj4gR1BM
-LTIuMC1vci1sYXRlciBjb3B5cmlnaHQsIHdoaWxlIGZibWVtLmMgaXMgR1BMLTIuMC4NCj4+
-DQo+PiBTaWduZWQtb2ZmLWJ5OiBUaG9tYXMgWmltbWVybWFubiA8dHppbW1lcm1hbm5Ac3Vz
-ZS5kZT4NCj4gU29tZSBuaXRzIHRoYXQgeW91IGRlY2lkZSB3aGF0IHRvIGRvIHdpdGguDQo+
-IFJldmlld2VkLWJ5OiBTYW0gUmF2bmJvcmcgPHNhbUByYXZuYm9yZy5vcmc+DQo+IA0KPiBJ
-IGRvIG5vdCBnZXQgd2h5IHRoZXkgYXJlIG1vdmVkIG91dCBpbiBzZXBhcmF0ZSBmaWxlcy4N
-Cj4gSSBndWVzcyB0aGUgcGljdHVyZSB3aWxsIG1hdGVyaWFsaXplIGxhdGVyLg0KDQpJbiBw
-YXRjaCAzMC8zMCwgc3lzZnMgc3VwcG9ydCB3aWxsIGJlIGJ1aWx0IGNvbmRpdGlvbmFsbHku
-IERvaW5nIHRoaXMgaW4gDQp0aGUgTWFrZWZpbGUgaXMgc28gbXVjaCBuaWNlciB0aGFuIGhh
-dmluZyBhbiBpZmRlZiBjb25kaXRpb25hbCBpbiB0aGUgDQpzb3VyY2UgZmlsZXMuDQoNCkkn
-ZCBhbHNvIGFyZ3VlIHRoYXQgdGhlIGJhY2tsaWdodCBhbmQgZnJhbWVidWZmZXIgZnVuY3Rp
-b25zIGRvbid0IGJlbG9uZyANCm5leHQgdG8gdGhlIHN5c2ZzIGNvZGUuDQoNCj4gDQo+IAlT
-YW0NCj4gDQo+PiAtLS0NCj4+ICAgZHJpdmVycy92aWRlby9mYmRldi9jb3JlL01ha2VmaWxl
-ICAgICAgIHwgICA0ICstDQo+PiAgIGRyaXZlcnMvdmlkZW8vZmJkZXYvY29yZS9mYl9iYWNr
-bGlnaHQuYyB8ICAzMiArKysrKysrDQo+PiAgIGRyaXZlcnMvdmlkZW8vZmJkZXYvY29yZS9m
-Yl9pbmZvLmMgICAgICB8ICA3NiArKysrKysrKysrKysrKysrDQo+PiAgIGRyaXZlcnMvdmlk
-ZW8vZmJkZXYvY29yZS9mYnN5c2ZzLmMgICAgICB8IDExMCArLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0NCj4+ICAgNCBmaWxlcyBjaGFuZ2VkLCAxMTIgaW5zZXJ0aW9ucygrKSwgMTEwIGRl
-bGV0aW9ucygtKQ0KPj4gICBjcmVhdGUgbW9kZSAxMDA2NDQgZHJpdmVycy92aWRlby9mYmRl
-di9jb3JlL2ZiX2JhY2tsaWdodC5jDQo+PiAgIGNyZWF0ZSBtb2RlIDEwMDY0NCBkcml2ZXJz
-L3ZpZGVvL2ZiZGV2L2NvcmUvZmJfaW5mby5jDQo+Pg0KPj4gZGlmZiAtLWdpdCBhL2RyaXZl
-cnMvdmlkZW8vZmJkZXYvY29yZS9NYWtlZmlsZSBiL2RyaXZlcnMvdmlkZW8vZmJkZXYvY29y
-ZS9NYWtlZmlsZQ0KPj4gaW5kZXggOGYwMDYwMTYwZmZiLi5lZWUzMjk1YmMyMjUgMTAwNjQ0
-DQo+PiAtLS0gYS9kcml2ZXJzL3ZpZGVvL2ZiZGV2L2NvcmUvTWFrZWZpbGUNCj4+ICsrKyBi
-L2RyaXZlcnMvdmlkZW8vZmJkZXYvY29yZS9NYWtlZmlsZQ0KPj4gQEAgLTEsNyArMSw5IEBA
-DQo+PiAgICMgU1BEWC1MaWNlbnNlLUlkZW50aWZpZXI6IEdQTC0yLjANCj4+ICAgb2JqLSQo
-Q09ORklHX0ZCX05PVElGWSkgICAgICAgICAgICs9IGZiX25vdGlmeS5vDQo+PiAgIG9iai0k
-KENPTkZJR19GQikgICAgICAgICAgICAgICAgICArPSBmYi5vDQo+PiAtZmIteSAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgIDo9IGZibWVtLm8gZmJtb24ubyBmYmNtYXAubyBmYnN5
-c2ZzLm8gXA0KPj4gK2ZiLXkgICAgICAgICAgICAgICAgICAgICAgICAgICAgICA6PSBmYl9i
-YWNrbGlnaHQubyBcDQo+PiArICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-IGZiX2luZm8ubyBcDQo+PiArICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-IGZibWVtLm8gZmJtb24ubyBmYmNtYXAubyBmYnN5c2ZzLm8gXA0KPj4gICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgbW9kZWRiLm8gZmJjdnQubyBmYl9jbWRsaW5l
-Lm8gZmJfaW9fZm9wcy5vDQo+IFRoZXJlIGlzICIrPSIgdGhhdCBjYW4gYmUgdXNlZCBpbiBN
-YWtlZmlsZSwgYnV0IHBlb3BsZSBwcmVmZXIgJ1wnIC0NCj4gc2lnaCENCj4gDQo+PiAgIGZi
-LSQoQ09ORklHX0ZCX0RFRkVSUkVEX0lPKSAgICAgICArPSBmYl9kZWZpby5vDQo+PiAgIA0K
-Pj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvdmlkZW8vZmJkZXYvY29yZS9mYl9iYWNrbGlnaHQu
-YyBiL2RyaXZlcnMvdmlkZW8vZmJkZXYvY29yZS9mYl9iYWNrbGlnaHQuYw0KPj4gbmV3IGZp
-bGUgbW9kZSAxMDA2NDQNCj4+IGluZGV4IDAwMDAwMDAwMDAwMC4uZmVmZmU2YzY4MDM5DQo+
-PiAtLS0gL2Rldi9udWxsDQo+PiArKysgYi9kcml2ZXJzL3ZpZGVvL2ZiZGV2L2NvcmUvZmJf
-YmFja2xpZ2h0LmMNCj4+IEBAIC0wLDAgKzEsMzIgQEANCj4+ICsvLyBTUERYLUxpY2Vuc2Ut
-SWRlbnRpZmllcjogR1BMLTIuMC1vci1sYXRlcg0KPiBIbW0sIGNhbiB3ZSBjaGFuZ2UgdGhl
-IGxpY2Vuc2UgZnJvbSAyLjAgdG8gMi4wLW9yLWxhdGVyIHdpdGhvdXQgYW55DQo+IGNvbmNl
-cm4/IEkgaG9wZSBzby4NCg0KTm8gY2hhbmdlIGhlcmUuIFRoZSBiYWNrbGlnaHQgZnVuY3Rp
-b24gY29tZXMgZnJvbSBmYnN5c2ZzLmMsIHdoaWNoIGlzIA0KYWxzbyBHUEwtMi4wLW9yLWxh
-dGVyLg0KDQo+IA0KPj4gKw0KPj4gKyNpbmNsdWRlIDxsaW51eC9leHBvcnQuaD4NCj4+ICsj
-aW5jbHVkZSA8bGludXgvZmIuaD4NCj4gI2luY2x1ZGUgPGxpbnV4L211dGV4Lmg+IC0gdG8g
-YXZvaWQgcmVseWluZyBvbiBpbmRpcmVjdCBpbmNsdWRlcz8NCg0KSSBjYW4gZG8gdGhhdC4N
-Cg0KPiANCj4gDQo+PiArDQo+PiArI2lmIElTX0VOQUJMRUQoQ09ORklHX0ZCX0JBQ0tMSUdI
-VCkNCj4+ICsvKg0KPj4gKyAqIFRoaXMgZnVuY3Rpb24gZ2VuZXJhdGVzIGEgbGluZWFyIGJh
-Y2tsaWdodCBjdXJ2ZQ0KPj4gKyAqDQo+PiArICogICAgIDA6IG9mZg0KPj4gKyAqICAgMS03
-OiBtaW4NCj4+ICsgKiA4LTEyNzogbGluZWFyIGZyb20gbWluIHRvIG1heA0KPj4gKyAqLw0K
-Pj4gK3ZvaWQgZmJfYmxfZGVmYXVsdF9jdXJ2ZShzdHJ1Y3QgZmJfaW5mbyAqZmJfaW5mbywg
-dTggb2ZmLCB1OCBtaW4sIHU4IG1heCkNCj4+ICt7DQo+PiArCXVuc2lnbmVkIGludCBpLCBm
-bGF0LCBjb3VudCwgcmFuZ2UgPSAobWF4IC0gbWluKTsNCj4+ICsNCj4+ICsJbXV0ZXhfbG9j
-aygmZmJfaW5mby0+YmxfY3VydmVfbXV0ZXgpOw0KPj4gKw0KPj4gKwlmYl9pbmZvLT5ibF9j
-dXJ2ZVswXSA9IG9mZjsNCj4+ICsNCj4+ICsJZm9yIChmbGF0ID0gMTsgZmxhdCA8IChGQl9C
-QUNLTElHSFRfTEVWRUxTIC8gMTYpOyArK2ZsYXQpDQo+PiArCQlmYl9pbmZvLT5ibF9jdXJ2
-ZVtmbGF0XSA9IG1pbjsNCj4+ICsNCj4+ICsJY291bnQgPSBGQl9CQUNLTElHSFRfTEVWRUxT
-ICogMTUgLyAxNjsNCj4+ICsJZm9yIChpID0gMDsgaSA8IGNvdW50OyArK2kpDQo+PiArCQlm
-Yl9pbmZvLT5ibF9jdXJ2ZVtmbGF0ICsgaV0gPSBtaW4gKyAocmFuZ2UgKiAoaSArIDEpIC8g
-Y291bnQpOw0KPj4gKw0KPj4gKwltdXRleF91bmxvY2soJmZiX2luZm8tPmJsX2N1cnZlX211
-dGV4KTsNCj4+ICt9DQo+PiArRVhQT1JUX1NZTUJPTF9HUEwoZmJfYmxfZGVmYXVsdF9jdXJ2
-ZSk7DQo+PiArI2VuZGlmDQo+PiBkaWZmIC0tZ2l0IGEvZHJpdmVycy92aWRlby9mYmRldi9j
-b3JlL2ZiX2luZm8uYyBiL2RyaXZlcnMvdmlkZW8vZmJkZXYvY29yZS9mYl9pbmZvLmMNCj4+
-IG5ldyBmaWxlIG1vZGUgMTAwNjQ0DQo+PiBpbmRleCAwMDAwMDAwMDAwMDAuLmZiNWI3NTAw
-OWVlNw0KPj4gLS0tIC9kZXYvbnVsbA0KPj4gKysrIGIvZHJpdmVycy92aWRlby9mYmRldi9j
-b3JlL2ZiX2luZm8uYw0KPj4gQEAgLTAsMCArMSw3NiBAQA0KPj4gKy8vIFNQRFgtTGljZW5z
-ZS1JZGVudGlmaWVyOiBHUEwtMi4wLW9yLWxhdGVyDQo+PiArDQo+PiArI2luY2x1ZGUgPGxp
-bnV4L2V4cG9ydC5oPg0KPj4gKyNpbmNsdWRlIDxsaW51eC9mYi5oPg0KPiBTYW1lIGFzIGFi
-b3ZlLCBjb25zaWRlciBpbmNsdWRpbmcgbXV0ZXguaA0KPiBBbHNvIHNsYWIuaA0KDQpPay4N
-Cg0KQmVzdCByZWdhcmRzDQpUaG9tYXMNCg0KPiANCj4+ICsNCj4+ICsvKioNCj4+ICsgKiBm
-cmFtZWJ1ZmZlcl9hbGxvYyAtIGNyZWF0ZXMgYSBuZXcgZnJhbWUgYnVmZmVyIGluZm8gc3Ry
-dWN0dXJlDQo+PiArICoNCj4+ICsgKiBAc2l6ZTogc2l6ZSBvZiBkcml2ZXIgcHJpdmF0ZSBk
-YXRhLCBjYW4gYmUgemVybw0KPj4gKyAqIEBkZXY6IHBvaW50ZXIgdG8gdGhlIGRldmljZSBm
-b3IgdGhpcyBmYiwgdGhpcyBjYW4gYmUgTlVMTA0KPj4gKyAqDQo+PiArICogQ3JlYXRlcyBh
-IG5ldyBmcmFtZSBidWZmZXIgaW5mbyBzdHJ1Y3R1cmUuIEFsc28gcmVzZXJ2ZXMgQHNpemUg
-Ynl0ZXMNCj4+ICsgKiBmb3IgZHJpdmVyIHByaXZhdGUgZGF0YSAoaW5mby0+cGFyKS4gaW5m
-by0+cGFyIChpZiBhbnkpIHdpbGwgYmUNCj4+ICsgKiBhbGlnbmVkIHRvIHNpemVvZihsb25n
-KS4NCj4+ICsgKg0KPj4gKyAqIFJldHVybnMgdGhlIG5ldyBzdHJ1Y3R1cmUsIG9yIE5VTEwg
-aWYgYW4gZXJyb3Igb2NjdXJyZWQuDQo+PiArICoNCj4+ICsgKi8NCj4+ICtzdHJ1Y3QgZmJf
-aW5mbyAqZnJhbWVidWZmZXJfYWxsb2Moc2l6ZV90IHNpemUsIHN0cnVjdCBkZXZpY2UgKmRl
-dikNCj4+ICt7DQo+PiArI2RlZmluZSBCWVRFU19QRVJfTE9ORyAoQklUU19QRVJfTE9ORy84
-KQ0KPj4gKyNkZWZpbmUgUEFERElORyAoQllURVNfUEVSX0xPTkcgLSAoc2l6ZW9mKHN0cnVj
-dCBmYl9pbmZvKSAlIEJZVEVTX1BFUl9MT05HKSkNCj4+ICsJaW50IGZiX2luZm9fc2l6ZSA9
-IHNpemVvZihzdHJ1Y3QgZmJfaW5mbyk7DQo+PiArCXN0cnVjdCBmYl9pbmZvICppbmZvOw0K
-Pj4gKwljaGFyICpwOw0KPj4gKw0KPj4gKwlpZiAoc2l6ZSkNCj4+ICsJCWZiX2luZm9fc2l6
-ZSArPSBQQURESU5HOw0KPj4gKw0KPj4gKwlwID0ga3phbGxvYyhmYl9pbmZvX3NpemUgKyBz
-aXplLCBHRlBfS0VSTkVMKTsNCj4+ICsNCj4+ICsJaWYgKCFwKQ0KPj4gKwkJcmV0dXJuIE5V
-TEw7DQo+PiArDQo+PiArCWluZm8gPSAoc3RydWN0IGZiX2luZm8gKikgcDsNCj4+ICsNCj4+
-ICsJaWYgKHNpemUpDQo+PiArCQlpbmZvLT5wYXIgPSBwICsgZmJfaW5mb19zaXplOw0KPj4g
-Kw0KPj4gKwlpbmZvLT5kZXZpY2UgPSBkZXY7DQo+PiArCWluZm8tPmZiY29uX3JvdGF0ZV9o
-aW50ID0gLTE7DQo+PiArDQo+PiArI2lmIElTX0VOQUJMRUQoQ09ORklHX0ZCX0JBQ0tMSUdI
-VCkNCj4+ICsJbXV0ZXhfaW5pdCgmaW5mby0+YmxfY3VydmVfbXV0ZXgpOw0KPj4gKyNlbmRp
-Zg0KPj4gKw0KPj4gKwlyZXR1cm4gaW5mbzsNCj4+ICsjdW5kZWYgUEFERElORw0KPj4gKyN1
-bmRlZiBCWVRFU19QRVJfTE9ORw0KPj4gK30NCj4+ICtFWFBPUlRfU1lNQk9MKGZyYW1lYnVm
-ZmVyX2FsbG9jKTsNCj4+ICsNCj4+ICsvKioNCj4+ICsgKiBmcmFtZWJ1ZmZlcl9yZWxlYXNl
-IC0gbWFya3MgdGhlIHN0cnVjdHVyZSBhdmFpbGFibGUgZm9yIGZyZWVpbmcNCj4+ICsgKg0K
-Pj4gKyAqIEBpbmZvOiBmcmFtZSBidWZmZXIgaW5mbyBzdHJ1Y3R1cmUNCj4+ICsgKg0KPj4g
-KyAqIERyb3AgdGhlIHJlZmVyZW5jZSBjb3VudCBvZiB0aGUgZGV2aWNlIGVtYmVkZGVkIGlu
-IHRoZQ0KPj4gKyAqIGZyYW1lYnVmZmVyIGluZm8gc3RydWN0dXJlLg0KPj4gKyAqDQo+PiAr
-ICovDQo+PiArdm9pZCBmcmFtZWJ1ZmZlcl9yZWxlYXNlKHN0cnVjdCBmYl9pbmZvICppbmZv
-KQ0KPj4gK3sNCj4+ICsJaWYgKCFpbmZvKQ0KPj4gKwkJcmV0dXJuOw0KPj4gKw0KPj4gKwlp
-ZiAoV0FSTl9PTihyZWZjb3VudF9yZWFkKCZpbmZvLT5jb3VudCkpKQ0KPj4gKwkJcmV0dXJu
-Ow0KPj4gKw0KPj4gKyNpZiBJU19FTkFCTEVEKENPTkZJR19GQl9CQUNLTElHSFQpDQo+PiAr
-CW11dGV4X2Rlc3Ryb3koJmluZm8tPmJsX2N1cnZlX211dGV4KTsNCj4+ICsjZW5kaWYNCj4+
-ICsNCj4+ICsJa2ZyZWUoaW5mbyk7DQo+PiArfQ0KPj4gK0VYUE9SVF9TWU1CT0woZnJhbWVi
-dWZmZXJfcmVsZWFzZSk7DQo+PiBkaWZmIC0tZ2l0IGEvZHJpdmVycy92aWRlby9mYmRldi9j
-b3JlL2Zic3lzZnMuYyBiL2RyaXZlcnMvdmlkZW8vZmJkZXYvY29yZS9mYnN5c2ZzLmMNCj4+
-IGluZGV4IDBjMzNjNGFkY2Q3OS4uODQ5MDczZjFjYTA2IDEwMDY0NA0KPj4gLS0tIGEvZHJp
-dmVycy92aWRlby9mYmRldi9jb3JlL2Zic3lzZnMuYw0KPj4gKysrIGIvZHJpdmVycy92aWRl
-by9mYmRldi9jb3JlL2Zic3lzZnMuYw0KPj4gQEAgLTUsOTMgKzUsMTIgQEANCj4+ICAgICog
-Q29weXJpZ2h0IChjKSAyMDA0IEphbWVzIFNpbW1vbnMgPGpzaW1tb25zQGluZnJhZGVhZC5v
-cmc+DQo+PiAgICAqLw0KPj4gICANCj4+IC0vKg0KPj4gLSAqIE5vdGU6ICBjdXJyZW50bHkg
-dGhlcmUncyBvbmx5IHN0dWJzIGZvciBmcmFtZWJ1ZmZlcl9hbGxvYyBhbmQNCj4+IC0gKiBm
-cmFtZWJ1ZmZlcl9yZWxlYXNlIGhlcmUuICBUaGUgcmVzb24gZm9yIHRoYXQgaXMgdGhhdCB1
-bnRpbCBhbGwgZHJpdmVycw0KPj4gLSAqIGFyZSBjb252ZXJ0ZWQgdG8gdXNlIGl0IGEgc3lz
-ZnNpZmljYXRpb24gd2lsbCBvcGVuIE9PUFNhYmxlIHJhY2VzLg0KPj4gLSAqLw0KPj4gLQ0K
-Pj4gLSNpbmNsdWRlIDxsaW51eC9rZXJuZWwuaD4NCj4+IC0jaW5jbHVkZSA8bGludXgvc2xh
-Yi5oPg0KPj4gKyNpbmNsdWRlIDxsaW51eC9jb25zb2xlLmg+DQo+PiAgICNpbmNsdWRlIDxs
-aW51eC9mYi5oPg0KPj4gICAjaW5jbHVkZSA8bGludXgvZmJjb24uaD4NCj4+IC0jaW5jbHVk
-ZSA8bGludXgvY29uc29sZS5oPg0KPj4gLSNpbmNsdWRlIDxsaW51eC9tb2R1bGUuaD4NCj4+
-ICAgDQo+PiAgICNkZWZpbmUgRkJfU1lTRlNfRkxBR19BVFRSIDENCj4+ICAgDQo+PiAtLyoq
-DQo+PiAtICogZnJhbWVidWZmZXJfYWxsb2MgLSBjcmVhdGVzIGEgbmV3IGZyYW1lIGJ1ZmZl
-ciBpbmZvIHN0cnVjdHVyZQ0KPj4gLSAqDQo+PiAtICogQHNpemU6IHNpemUgb2YgZHJpdmVy
-IHByaXZhdGUgZGF0YSwgY2FuIGJlIHplcm8NCj4+IC0gKiBAZGV2OiBwb2ludGVyIHRvIHRo
-ZSBkZXZpY2UgZm9yIHRoaXMgZmIsIHRoaXMgY2FuIGJlIE5VTEwNCj4+IC0gKg0KPj4gLSAq
-IENyZWF0ZXMgYSBuZXcgZnJhbWUgYnVmZmVyIGluZm8gc3RydWN0dXJlLiBBbHNvIHJlc2Vy
-dmVzIEBzaXplIGJ5dGVzDQo+PiAtICogZm9yIGRyaXZlciBwcml2YXRlIGRhdGEgKGluZm8t
-PnBhcikuIGluZm8tPnBhciAoaWYgYW55KSB3aWxsIGJlDQo+PiAtICogYWxpZ25lZCB0byBz
-aXplb2YobG9uZykuDQo+PiAtICoNCj4+IC0gKiBSZXR1cm5zIHRoZSBuZXcgc3RydWN0dXJl
-LCBvciBOVUxMIGlmIGFuIGVycm9yIG9jY3VycmVkLg0KPj4gLSAqDQo+PiAtICovDQo+PiAt
-c3RydWN0IGZiX2luZm8gKmZyYW1lYnVmZmVyX2FsbG9jKHNpemVfdCBzaXplLCBzdHJ1Y3Qg
-ZGV2aWNlICpkZXYpDQo+PiAtew0KPj4gLSNkZWZpbmUgQllURVNfUEVSX0xPTkcgKEJJVFNf
-UEVSX0xPTkcvOCkNCj4+IC0jZGVmaW5lIFBBRERJTkcgKEJZVEVTX1BFUl9MT05HIC0gKHNp
-emVvZihzdHJ1Y3QgZmJfaW5mbykgJSBCWVRFU19QRVJfTE9ORykpDQo+PiAtCWludCBmYl9p
-bmZvX3NpemUgPSBzaXplb2Yoc3RydWN0IGZiX2luZm8pOw0KPj4gLQlzdHJ1Y3QgZmJfaW5m
-byAqaW5mbzsNCj4+IC0JY2hhciAqcDsNCj4+IC0NCj4+IC0JaWYgKHNpemUpDQo+PiAtCQlm
-Yl9pbmZvX3NpemUgKz0gUEFERElORzsNCj4+IC0NCj4+IC0JcCA9IGt6YWxsb2MoZmJfaW5m
-b19zaXplICsgc2l6ZSwgR0ZQX0tFUk5FTCk7DQo+PiAtDQo+PiAtCWlmICghcCkNCj4+IC0J
-CXJldHVybiBOVUxMOw0KPj4gLQ0KPj4gLQlpbmZvID0gKHN0cnVjdCBmYl9pbmZvICopIHA7
-DQo+PiAtDQo+PiAtCWlmIChzaXplKQ0KPj4gLQkJaW5mby0+cGFyID0gcCArIGZiX2luZm9f
-c2l6ZTsNCj4+IC0NCj4+IC0JaW5mby0+ZGV2aWNlID0gZGV2Ow0KPj4gLQlpbmZvLT5mYmNv
-bl9yb3RhdGVfaGludCA9IC0xOw0KPj4gLQ0KPj4gLSNpZiBJU19FTkFCTEVEKENPTkZJR19G
-Ql9CQUNLTElHSFQpDQo+PiAtCW11dGV4X2luaXQoJmluZm8tPmJsX2N1cnZlX211dGV4KTsN
-Cj4+IC0jZW5kaWYNCj4+IC0NCj4+IC0JcmV0dXJuIGluZm87DQo+PiAtI3VuZGVmIFBBRERJ
-TkcNCj4+IC0jdW5kZWYgQllURVNfUEVSX0xPTkcNCj4+IC19DQo+PiAtRVhQT1JUX1NZTUJP
-TChmcmFtZWJ1ZmZlcl9hbGxvYyk7DQo+PiAtDQo+PiAtLyoqDQo+PiAtICogZnJhbWVidWZm
-ZXJfcmVsZWFzZSAtIG1hcmtzIHRoZSBzdHJ1Y3R1cmUgYXZhaWxhYmxlIGZvciBmcmVlaW5n
-DQo+PiAtICoNCj4+IC0gKiBAaW5mbzogZnJhbWUgYnVmZmVyIGluZm8gc3RydWN0dXJlDQo+
-PiAtICoNCj4+IC0gKiBEcm9wIHRoZSByZWZlcmVuY2UgY291bnQgb2YgdGhlIGRldmljZSBl
-bWJlZGRlZCBpbiB0aGUNCj4+IC0gKiBmcmFtZWJ1ZmZlciBpbmZvIHN0cnVjdHVyZS4NCj4+
-IC0gKg0KPj4gLSAqLw0KPj4gLXZvaWQgZnJhbWVidWZmZXJfcmVsZWFzZShzdHJ1Y3QgZmJf
-aW5mbyAqaW5mbykNCj4+IC17DQo+PiAtCWlmICghaW5mbykNCj4+IC0JCXJldHVybjsNCj4+
-IC0NCj4+IC0JaWYgKFdBUk5fT04ocmVmY291bnRfcmVhZCgmaW5mby0+Y291bnQpKSkNCj4+
-IC0JCXJldHVybjsNCj4+IC0NCj4+IC0jaWYgSVNfRU5BQkxFRChDT05GSUdfRkJfQkFDS0xJ
-R0hUKQ0KPj4gLQltdXRleF9kZXN0cm95KCZpbmZvLT5ibF9jdXJ2ZV9tdXRleCk7DQo+PiAt
-I2VuZGlmDQo+PiAtDQo+PiAtCWtmcmVlKGluZm8pOw0KPj4gLX0NCj4+IC1FWFBPUlRfU1lN
-Qk9MKGZyYW1lYnVmZmVyX3JlbGVhc2UpOw0KPj4gLQ0KPj4gICBzdGF0aWMgaW50IGFjdGl2
-YXRlKHN0cnVjdCBmYl9pbmZvICpmYl9pbmZvLCBzdHJ1Y3QgZmJfdmFyX3NjcmVlbmluZm8g
-KnZhcikNCj4+ICAgew0KPj4gICAJaW50IGVycjsNCj4+IEBAIC01NTEsMzAgKzQ3MCwzIEBA
-IHZvaWQgZmJfY2xlYW51cF9kZXZpY2Uoc3RydWN0IGZiX2luZm8gKmZiX2luZm8pDQo+PiAg
-IAkJZmJfaW5mby0+Y2xhc3NfZmxhZyAmPSB+RkJfU1lTRlNfRkxBR19BVFRSOw0KPj4gICAJ
-fQ0KPj4gICB9DQo+PiAtDQo+PiAtI2lmIElTX0VOQUJMRUQoQ09ORklHX0ZCX0JBQ0tMSUdI
-VCkNCj4+IC0vKiBUaGlzIGZ1bmN0aW9uIGdlbmVyYXRlcyBhIGxpbmVhciBiYWNrbGlnaHQg
-Y3VydmUNCj4+IC0gKg0KPj4gLSAqICAgICAwOiBvZmYNCj4+IC0gKiAgIDEtNzogbWluDQo+
-PiAtICogOC0xMjc6IGxpbmVhciBmcm9tIG1pbiB0byBtYXgNCj4+IC0gKi8NCj4+IC12b2lk
-IGZiX2JsX2RlZmF1bHRfY3VydmUoc3RydWN0IGZiX2luZm8gKmZiX2luZm8sIHU4IG9mZiwg
-dTggbWluLCB1OCBtYXgpDQo+PiAtew0KPj4gLQl1bnNpZ25lZCBpbnQgaSwgZmxhdCwgY291
-bnQsIHJhbmdlID0gKG1heCAtIG1pbik7DQo+PiAtDQo+PiAtCW11dGV4X2xvY2soJmZiX2lu
-Zm8tPmJsX2N1cnZlX211dGV4KTsNCj4+IC0NCj4+IC0JZmJfaW5mby0+YmxfY3VydmVbMF0g
-PSBvZmY7DQo+PiAtDQo+PiAtCWZvciAoZmxhdCA9IDE7IGZsYXQgPCAoRkJfQkFDS0xJR0hU
-X0xFVkVMUyAvIDE2KTsgKytmbGF0KQ0KPj4gLQkJZmJfaW5mby0+YmxfY3VydmVbZmxhdF0g
-PSBtaW47DQo+PiAtDQo+PiAtCWNvdW50ID0gRkJfQkFDS0xJR0hUX0xFVkVMUyAqIDE1IC8g
-MTY7DQo+PiAtCWZvciAoaSA9IDA7IGkgPCBjb3VudDsgKytpKQ0KPj4gLQkJZmJfaW5mby0+
-YmxfY3VydmVbZmxhdCArIGldID0gbWluICsgKHJhbmdlICogKGkgKyAxKSAvIGNvdW50KTsN
-Cj4+IC0NCj4+IC0JbXV0ZXhfdW5sb2NrKCZmYl9pbmZvLT5ibF9jdXJ2ZV9tdXRleCk7DQo+
-PiAtfQ0KPj4gLUVYUE9SVF9TWU1CT0xfR1BMKGZiX2JsX2RlZmF1bHRfY3VydmUpOw0KPj4g
-LSNlbmRpZg0KPj4gLS0gDQo+PiAyLjQwLjENCg0KLS0gDQpUaG9tYXMgWmltbWVybWFubg0K
-R3JhcGhpY3MgRHJpdmVyIERldmVsb3Blcg0KU1VTRSBTb2Z0d2FyZSBTb2x1dGlvbnMgR2Vy
-bWFueSBHbWJIDQpGcmFua2Vuc3RyYXNzZSAxNDYsIDkwNDYxIE51ZXJuYmVyZywgR2VybWFu
-eQ0KR0Y6IEl2byBUb3RldiwgQW5kcmV3IE15ZXJzLCBBbmRyZXcgTWNEb25hbGQsIEJvdWRp
-ZW4gTW9lcm1hbg0KSFJCIDM2ODA5IChBRyBOdWVybmJlcmcpDQo=
+If you have DRM and are running a Linux desktop, you are probably
+using DRM userspace.
+If you have fbdev, and are using graphics, you have no choice but
+using an fbdev userspace.
 
---------------AUmmMH1KDTcpkh1TDXxVRvVJ--
+So with FB_CORE, you can have default y if you have a real fbdev driver,
+and default n if you have only DRM drivers.
 
---------------JjIkruNzvR0MjOd0CcwMkuYJ
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
+> I'd also question the argument that there's even fbdev userspace out
+> there. It was never popular in it's heyday and definitely hasn't
+> improved since then. Even the 3 people who still ask for fbdev support
 
------BEGIN PGP SIGNATURE-----
+There's X.org, DirectFB, SDL, ...
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmSC0nUFAwAAAAAACgkQlh/E3EQov+DH
-IQ//YBFlLdmlwIn+kGr2vnwU1HMUroO5zOoV+d8ijzI2XMrfjRHhX+S9ioPmIAKz1QOKhfR3XRnl
-STqjsVfXUe/AWlDegFGGZq0pc4MeaQCvKd6O5FH+7VsegdbH6zfN4P7T9baEMxs+/TZxkwGz09zt
-aWElnfWgbtrUWv1wcYfmGIhdRNAEsCQy4naeBhBXnHBbDSa0xhPX56Sis+8UzpatQBroUn0kLN6f
-jqw9U4sLErUs8Nr9pFYctSG/30Wh07S3VVsCI2XUC8EeGYLZ0/K+7bWXC3RWMha9g64Zdlvt2Vck
-cTO5re6cdg6lkbKCu3aToGWZPR0kacKiu1sjtzGAfTgOoY+nHsY7BuyMTBd1mTSRuIrOrwopfJcl
-nYD7qkc+VJrR/y+xhhPkmF5FF3J+9HgO+phCp3s4NHbS9uNOfDEwxLcbrGB19+ZT9ldhSkl1iTiw
-ykb4o2ww+D06VyzPmfgxQgUaNqXigM8tu+pSj2YQCH5BmLSXiSbYr58zOmuNXXP0PnVpACOP577Y
-NGZx2I6RORqxCD+HgW2oEmxjRk7ALqxbVu+I4FztOzzvLb7H1eNsXjBU3W01owkqKW5Q84JX8DqP
-tP2H+OCdGqtc0wYSSKoQikiBFyEfFuFCaMRwvdweRY7gtYQgTFaaIXuJE+EmIcwwJI3I6+rUSBdD
-UVE=
-=pkyx
------END PGP SIGNATURE-----
+What do you think low-end embedded devices with an out-of-tree[*]
+fbdev driver are using?
 
---------------JjIkruNzvR0MjOd0CcwMkuYJ--
+[*] There's been a moratorium on new fbdev drivers for about a decade.
+
+> here only seem to care about the performance of the framebuffer console,
+> but never about userspace.
+
+Unless you go for heavy graphics and 3D, a simple GUI with some
+buttons and text requires less performance than scrolling a full-screen
+graphical text console...
+
+> So I'd like to propose a different solution: on top of the current
+> patchset, let's make an fbdev module option that enables the device. If
+> CONFIG_FB_DEVICE has been enabled, the option would switch the
+> functionality on and off. A Kconfig option would set the default.  With
+> such a setup, distributions can disable the fbdev device by default.
+> And the few users with the odd system that has fbdev userspace can still
+> enable the fbdev device at boot time.
+
+Hmm... That makes it even more complicated...
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
