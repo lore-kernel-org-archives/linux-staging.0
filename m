@@ -1,98 +1,122 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from out2-smtp.messagingengine.com (out2-smtp.messagingengine.com [66.111.4.26])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DBD3154A8
-	for <linux-staging@lists.linux.dev>; Fri,  9 Jun 2023 11:27:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1686310034;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Aq1HmhmHxt8U2DdHW6bpTJ6Q+ZwtPsKU6Rb33d5Ew+Q=;
-	b=cEch5kHsJT6WLFgGiULshv8NrNAa/8lbK1np725lTwF9tw/hy/QG/C5JCzXvSonevUMuCG
-	4gssgGqu99J8K2Zt5dN1TLtfnUzUjgYd20lFatr2a6x1QsQ9iAiHbxEidrOj3doYrpwdUJ
-	Gfy8gBy+WYwBcJ6K8AUthWTywOq54EI=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-640-1C5H8GlDM6e4w8pte_uMOg-1; Fri, 09 Jun 2023 07:27:12 -0400
-X-MC-Unique: 1C5H8GlDM6e4w8pte_uMOg-1
-Received: by mail-wm1-f70.google.com with SMTP id 5b1f17b1804b1-3f7f8d101b1so27764975e9.3
-        for <linux-staging@lists.linux.dev>; Fri, 09 Jun 2023 04:27:12 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686310031; x=1688902031;
-        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Aq1HmhmHxt8U2DdHW6bpTJ6Q+ZwtPsKU6Rb33d5Ew+Q=;
-        b=LywXNY+MneIKbvBWlmLVafqIRMZfM8XidLlj7CZ3SJipLyhERw9/JIPPnFcdd2AZKb
-         C7fYDGYgri0JnC35ZsZ/gzozMSmuTPz+fXVXplZZ3U5irA2ah0aFCylmGkLKIy65X32m
-         wztroeC2r3SOezfiEO+odwmSVINaW05f1G1z32cYk/8HiXGJRPc2rjP7XFTYL2jfzfU0
-         VgAMNk7NYBHwzKy0XFUvXfNDqlzZ86UgRm3KVlzSGm8PA+Gx50s58GcIGSgyEJTCUS3u
-         XABTJ70/vtpGqvYfSC1sro1uEk0LSIohYVGR4eiKTGmthtNWzIdcUDLoaAsPUdsxE7QD
-         btFQ==
-X-Gm-Message-State: AC+VfDzBv5F5mMEl2gzVTi0WMwpQn2JHj2rmK2RN8KWjQYJqdbnx+IXh
-	q5211XfRcnjfyOCvQ+TL3IEvQoIwdCKa6GtafsKw7IsxlXY+sB2xRHBwzw89WS6Q3MayV9rejBh
-	nhRpSBvgMobKNzdO+NzIRwu6/vQ==
-X-Received: by 2002:a1c:4b0f:0:b0:3f5:6e5:1689 with SMTP id y15-20020a1c4b0f000000b003f506e51689mr962599wma.17.1686310031581;
-        Fri, 09 Jun 2023 04:27:11 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ6w7LsURM3swKe92CefNektpkFsYqmjCbB+q5BkwoFvHxCz92JpRifnJNOzeTnxZcxMM5HBOg==
-X-Received: by 2002:a1c:4b0f:0:b0:3f5:6e5:1689 with SMTP id y15-20020a1c4b0f000000b003f506e51689mr962588wma.17.1686310031334;
-        Fri, 09 Jun 2023 04:27:11 -0700 (PDT)
-Received: from localhost (205.pool92-176-231.dynamic.orange.es. [92.176.231.205])
-        by smtp.gmail.com with ESMTPSA id p4-20020a5d48c4000000b0030903d44dbcsm4191258wrs.33.2023.06.09.04.27.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 09 Jun 2023 04:27:11 -0700 (PDT)
-From: Javier Martinez Canillas <javierm@redhat.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>, Geert Uytterhoeven
- <geert@linux-m68k.org>
-Cc: daniel.thompson@linaro.org, linux-staging@lists.linux.dev,
- linux-sh@vger.kernel.org, jingoohan1@gmail.com, deller@gmx.de,
- lee@kernel.org, dri-devel@lists.freedesktop.org,
- linux-fbdev@vger.kernel.org, linux-omap@vger.kernel.org, sam@ravnborg.org
-Subject: Re: [PATCH 30/30] fbdev: Make support for userspace interfaces
- configurable
-In-Reply-To: <4df23439-462f-47da-890d-2dd2092eea35@suse.de>
-References: <20230605144812.15241-1-tzimmermann@suse.de>
- <20230605144812.15241-31-tzimmermann@suse.de>
- <CAMuHMdVP2hrgXaZvASnHJ4M+VXaTCtfbeVXrq2dsEJqcs3G6ZA@mail.gmail.com>
- <e5d88ca8-66fe-b5ee-cb6b-2dc8f3a3fb26@suse.de>
- <CAMuHMdWBUKTgfCD9VLDFh_Tm1J-NJQHpxODs-TuYM7V-dtmGjA@mail.gmail.com>
- <873532eurg.fsf@minerva.mail-host-address-is-not-set>
- <77252bc9-e08e-fcee-d140-2b78ab768b42@suse.de>
- <CAMuHMdWUkZDcYfndf1A+cgcN5Fz1hmst4LrpA7iYCFqWSRTNDA@mail.gmail.com>
- <4df23439-462f-47da-890d-2dd2092eea35@suse.de>
-Date: Fri, 09 Jun 2023 13:27:10 +0200
-Message-ID: <87o7lodgfl.fsf@minerva.mail-host-address-is-not-set>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AC5B2904
+	for <linux-staging@lists.linux.dev>; Sat, 10 Jun 2023 17:07:53 +0000 (UTC)
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
+	by mailout.nyi.internal (Postfix) with ESMTP id 76A435C00BA;
+	Sat, 10 Jun 2023 13:07:52 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute6.internal (MEProxy); Sat, 10 Jun 2023 13:07:52 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	invisiblethingslab.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:from:from:in-reply-to
+	:message-id:mime-version:reply-to:sender:subject:subject:to:to;
+	 s=fm1; t=1686416872; x=1686503272; bh=CFxrsTHk2WZ2bHj5E7HOWzGC2
+	M6TbCCvBJcoVes5ASQ=; b=HO0vJtT77+rZndOX90RQX40x6vq642GbuMdxU55Ca
+	zeVatV2LwToz78+BK08NzP769skVN+z1oFdl8bU5R0yZdNJ9jpkOcn2Q/JfzDTQQ
+	Ynz3V4ag043lIML+1y895NbuI+eXWQM+vf0q7tIEhg3Y1irGvhk1r/GeSqC26ceX
+	hATz9XyCucDSV/zhLfdkBcBO/QulWpjU9VY8T2Ehu9xXxtrv56Samma8R/JICMc0
+	d3uE+rvdtv1Nm19G4eocL0vTbxmsjOc5ljGXADTU7zOnwI41Ii+7deQXrNPM4CJA
+	hLDYENmpLE0N/5ccHG1kBTmUUASAmZ0Vha3NaQ0oDXffw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:message-id:mime-version:reply-to:sender
+	:subject:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender
+	:x-me-sender:x-sasl-enc; s=fm1; t=1686416872; x=1686503272; bh=C
+	FxrsTHk2WZ2bHj5E7HOWzGC2M6TbCCvBJcoVes5ASQ=; b=NjIw4pICWS+wOmKQm
+	1JvFxSVOo56p+oLMbtOx+kbeeI6t01RsLM8kprlB/zc679knq1dlFrOL+wE8FEME
+	mmAFpuvGIGrP49cxKoc9kqWhPlX0wpzo6RsFb5N3R67UJ2dptFmLg06xx4lcCyZ7
+	UlXREv/EdYUaSjvsbWGWYqUgABLfxE9j7iDOgeBiovjD/HzfPodvq+g029XHvUfh
+	6R7pVnLpqOA8rK5qepvydgnq7z/Y5Rmn8VRt5rket3TftfDCvOD0oT8URRDlfhgR
+	YWiRqygOUFRunE901x96yp3zyPNkOwHDuYirhZkoe6fFfxT2NBDPynKznM6S/HYa
+	zNNsA==
+X-ME-Sender: <xms:562EZIHNmIhVynvm4xE89UT3qDlPgrSIbHlL_DhLNY3MF9ozhD153w>
+    <xme:562EZBWCkwrOhRchGamiG1LC4POJ4DW7-7uWHjkIJge4DAfzB5BA8hm4kbmQ3i3Vr
+    tmAOoZRv1_hGUo>
+X-ME-Received: <xmr:562EZCKZaSApRloWyugsw47u4f85dZw7icN334m9xVu8tWsQHWZ0pkfwNKljG6gO9g9ZDNGnfEw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrgedutddgudduudcutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+    enucfjughrpefhvfevufffkffogggtgfesthekredtredtjeenucfhrhhomhepffgvmhhi
+    ucforghrihgvucfqsggvnhhouhhruceouggvmhhisehinhhvihhsihgslhgvthhhihhngh
+    hslhgrsgdrtghomheqnecuggftrfgrthhtvghrnhephfeggfeiiedtieejgedutdekgfet
+    geehheegteekvefhfefgudehtdevleegueegnecuvehluhhsthgvrhfuihiivgeptdenuc
+    frrghrrghmpehmrghilhhfrhhomhepuggvmhhisehinhhvihhsihgslhgvthhhihhnghhs
+    lhgrsgdrtghomh
+X-ME-Proxy: <xmx:562EZKErxpgl5N_se3kC8U37cL5hz2WlqsADlcD4GKe7rtwn3Zrp1g>
+    <xmx:562EZOX9QiqhLuzoWJ93E4yM6dzrE0GxOw99lLBSC620PpT0gMQ12g>
+    <xmx:562EZNN0pFTENofYZ29lVzLhPTdxbAtlN0V5TwFhFWiRgfiFnT4dMg>
+    <xmx:6K2EZFOg-xqiLURhcCMM0Nouy_Ve5GKyKJqvBV2aCAS2z947YwW29w>
+Feedback-ID: iac594737:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
+ 10 Jun 2023 13:07:50 -0400 (EDT)
+From: Demi Marie Obenour <demi@invisiblethingslab.com>
+To: Hans de Goede <hdegoede@redhat.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Juergen Gross <jgross@suse.com>,
+	Stefano Stabellini <sstabellini@kernel.org>,
+	Oleksandr Tyshchenko <oleksandr_tyshchenko@epam.com>,
+	Lee Jones <lee@kernel.org>,
+	Andy Lutomirski <luto@kernel.org>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Vincenzo Frascino <vincenzo.frascino@arm.com>,
+	Petr Mladek <pmladek@suse.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Sergey Senozhatsky <senozhatsky@chromium.org>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Rasmus Villemoes <linux@rasmusvillemoes.dk>
+Cc: Demi Marie Obenour <demi@invisiblethingslab.com>,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	xen-devel@lists.xenproject.org
+Subject: [PATCH v2 0/3] Make sscanf() stricter
+Date: Sat, 10 Jun 2023 13:07:40 -0400
+Message-Id: <20230610170743.2510-1-demi@invisiblethingslab.com>
+X-Mailer: git-send-email 2.40.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Thomas Zimmermann <tzimmermann@suse.de> writes:
+Roger Pau Monné suggested making xenbus_scanf() stricter instead of
+using a custom parser.  Christoph Hellwig asked why the normal vsscanf()
+cannot be made stricter.  Richard Weinberger mentioned Linus Torvalds’s
+suggestion of using ! to allow overflow.
 
-[...]
+Changes since v1:
 
->> 
->> So with FB_CORE, you can have default y if you have a real fbdev driver,
->> and default n if you have only DRM drivers.
->> 
+- Better commit messages.
+- Use ! to explicitly opt-in to allowing overflow.
+- Treat overflow as a conversion failure instead of returning ERANGE.
+- Drop the first patch (removal of simple_strtoll()) as it breaks
+  bcache.
+- Stop skipping spaces in vsscanf() instead of adding a separate
+  vsscanf_strict() function.
 
-All this discussion about FB_CORE is unrelated to your series though and
-that is covered by enabling CONFIG_FB_DEVICE. I think that there's value
-on a FB_CORE option to allow disabling all the fbdev drivers with a single
-option but still keep DRM_FBDEV_EMULATION enabled.
+Demi Marie Obenour (3):
+  vsscanf(): Integer overflow is a conversion failure
+  vsscanf(): do not skip spaces
+  Strict XenStore entry parsing
 
-But I can repost my old series on top of this patch-set once it lands.
+ .../hive_isp_css_include/platform_support.h   |  1 -
+ drivers/xen/xenbus/xenbus_xs.c                | 17 ++--
+ include/linux/limits.h                        |  1 +
+ include/linux/mfd/wl1273-core.h               |  3 -
+ include/vdso/limits.h                         |  3 +
+ lib/vsprintf.c                                | 90 +++++++++++++------
+ 6 files changed, 80 insertions(+), 35 deletions(-)
 
 -- 
-Best regards,
-
-Javier Martinez Canillas
-Core Platforms
-Red Hat
+Sincerely,
+Demi Marie Obenour (she/her/hers)
+Invisible Things Lab
 
