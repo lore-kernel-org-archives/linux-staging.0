@@ -1,42 +1,42 @@
 Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B1C81B8FC
-	for <linux-staging@lists.linux.dev>; Mon, 12 Jun 2023 14:14:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DF451C741
+	for <linux-staging@lists.linux.dev>; Mon, 12 Jun 2023 14:14:06 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id D637B2048F;
-	Mon, 12 Jun 2023 14:14:03 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id F335920491;
+	Mon, 12 Jun 2023 14:14:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1686579243; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1686579245; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=TBL4s6EwpQYL8Rm44U2/nmPhozWpkgd0TW9bgt9l7x8=;
-	b=Y71RD0deUbbtqkmKSGPXZNgWh/suxy+0C9JXsCGTXogn4e86Urc78JtJidWBIhbG7LEjWJ
-	pJyfw5AHUq+fveryh9UNyQrzBREDPWr6hxJeyiwGFmTDzEacZSoZwvtN5fpsIc/taBK7Wa
-	dfs3azAcm3QZ58QrmBoH1Ec8Y4OyI+c=
+	bh=v/rvxW2O43pCvZ+GN2/q8bAyJjTmvg4FNOCvRWBvPKI=;
+	b=JOeZB5CHu0XS+FWboCL/uKqCRKsV70Ec7jBvvNS0RyeNEC7uQxc7gZFc+/Ojq0todFQ/A4
+	OIIcoSVCb89Ib7Q2cZk9XJ+GWd0lBekZclocSn7aE9f13Xuvn/Cn627MupCTzkxLu6Vf65
+	b1BQ2uDJvnZZVqJ3DvQzixGxhCv/Kmo=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1686579243;
+	s=susede2_ed25519; t=1686579245;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=TBL4s6EwpQYL8Rm44U2/nmPhozWpkgd0TW9bgt9l7x8=;
-	b=+6M2cZgJ3ORpyFcJC1yeS8svhlpH59J00iB969mWx20wgVEUpwa5onTMHLvm+2flw3RPyF
-	PvDDDQXF0OyqWfDA==
+	bh=v/rvxW2O43pCvZ+GN2/q8bAyJjTmvg4FNOCvRWBvPKI=;
+	b=hBSal+8rsPdprofOWxvTFORFufvERsy9zFuOOd54Zw51ijqiJgrEAMUXCsHzc5IXYsgAV6
+	PSJ1IPqfydQb+bAw==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 852651357F;
-	Mon, 12 Jun 2023 14:14:03 +0000 (UTC)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 96B521357F;
+	Mon, 12 Jun 2023 14:14:04 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
 	by imap2.suse-dmz.suse.de with ESMTPSA
-	id uMCKHysoh2RwGQAAMHmgww
-	(envelope-from <tzimmermann@suse.de>); Mon, 12 Jun 2023 14:14:03 +0000
+	id 2FHQIywoh2RwGQAAMHmgww
+	(envelope-from <tzimmermann@suse.de>); Mon, 12 Jun 2023 14:14:04 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: daniel@ffwll.ch,
 	javierm@redhat.com,
@@ -55,9 +55,9 @@ Cc: linux-fbdev@vger.kernel.org,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH v2 26/38] fbdev/sh7760fb: Output messages with fb_dbg()
-Date: Mon, 12 Jun 2023 16:08:04 +0200
-Message-ID: <20230612141352.29939-27-tzimmermann@suse.de>
+Subject: [PATCH v2 29/38] fbdev/sm501fb: Output message with fb_err()
+Date: Mon, 12 Jun 2023 16:08:07 +0200
+Message-ID: <20230612141352.29939-30-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.41.0
 In-Reply-To: <20230612141352.29939-1-tzimmermann@suse.de>
 References: <20230612141352.29939-1-tzimmermann@suse.de>
@@ -69,82 +69,28 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Fix cases were output helpers are called with struct fb_info.dev.
-Use fb_dbg() instead. Prepares fbdev for making struct fb_info.dev
-optional.
+Fix case were dev_err() is being called with struct fb_info.dev.
+Use fb_err() instead.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
 ---
- drivers/video/fbdev/sh7760fb.c | 26 +++++++++++++-------------
- 1 file changed, 13 insertions(+), 13 deletions(-)
+ drivers/video/fbdev/sm501fb.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/video/fbdev/sh7760fb.c b/drivers/video/fbdev/sh7760fb.c
-index a2946f06d579e..65e2c71cf5b51 100644
---- a/drivers/video/fbdev/sh7760fb.c
-+++ b/drivers/video/fbdev/sh7760fb.c
-@@ -207,7 +207,7 @@ static int sh7760fb_set_par(struct fb_info *info)
+diff --git a/drivers/video/fbdev/sm501fb.c b/drivers/video/fbdev/sm501fb.c
+index e0d29be1565bb..46951a0952741 100644
+--- a/drivers/video/fbdev/sm501fb.c
++++ b/drivers/video/fbdev/sm501fb.c
+@@ -1293,7 +1293,7 @@ static int sm501fb_sync(struct fb_info *info)
+ 		count--;
  
- 	/* rotate only works with xres <= 320 */
- 	if (par->rot && (vm->xres > 320)) {
--		dev_dbg(info->dev, "rotation disabled due to display size\n");
-+		fb_dbg(info, "rotation disabled due to display size\n");
- 		par->rot = 0;
+ 	if (count <= 0) {
+-		dev_err(info->dev, "Timeout waiting for 2d engine sync\n");
++		fb_err(info, "Timeout waiting for 2d engine sync\n");
+ 		return 1;
  	}
- 
-@@ -226,7 +226,7 @@ static int sh7760fb_set_par(struct fb_info *info)
- 	if (ret)
- 		return ret;
- 
--	dev_dbg(info->dev, "%dx%d %dbpp %s (orientation %s)\n", hdcn,
-+	fb_dbg(info, "%dx%d %dbpp %s (orientation %s)\n", hdcn,
- 		vdln, bpp, gray ? "grayscale" : "color",
- 		par->rot ? "rotated" : "normal");
- 
-@@ -306,7 +306,7 @@ static int sh7760fb_set_par(struct fb_info *info)
- 	if (((ldmtr & 0x003f) >= LDMTR_DSTN_MONO_8) &&
- 	    ((ldmtr & 0x003f) <= LDMTR_DSTN_COLOR_16)) {
- 
--		dev_dbg(info->dev, " ***** DSTN untested! *****\n");
-+		fb_dbg(info, " ***** DSTN untested! *****\n");
- 
- 		dstn_off = stride;
- 		if (par->rot)
-@@ -326,17 +326,17 @@ static int sh7760fb_set_par(struct fb_info *info)
- 
- 	sh7760fb_blank(FB_BLANK_UNBLANK, info);	/* panel on! */
- 
--	dev_dbg(info->dev, "hdcn  : %6d htcn  : %6d\n", hdcn, htcn);
--	dev_dbg(info->dev, "hsynw : %6d hsynp : %6d\n", hsynw, hsynp);
--	dev_dbg(info->dev, "vdln  : %6d vtln  : %6d\n", vdln, vtln);
--	dev_dbg(info->dev, "vsynw : %6d vsynp : %6d\n", vsynw, vsynp);
--	dev_dbg(info->dev, "clksrc: %6d clkdiv: %6d\n",
-+	fb_dbg(info, "hdcn  : %6d htcn  : %6d\n", hdcn, htcn);
-+	fb_dbg(info, "hsynw : %6d hsynp : %6d\n", hsynw, hsynp);
-+	fb_dbg(info, "vdln  : %6d vtln  : %6d\n", vdln, vtln);
-+	fb_dbg(info, "vsynw : %6d vsynp : %6d\n", vsynw, vsynp);
-+	fb_dbg(info, "clksrc: %6d clkdiv: %6d\n",
- 		(par->pd->ldickr >> 12) & 3, par->pd->ldickr & 0x1f);
--	dev_dbg(info->dev, "ldpmmr: 0x%04x ldpspr: 0x%04x\n", par->pd->ldpmmr,
-+	fb_dbg(info, "ldpmmr: 0x%04x ldpspr: 0x%04x\n", par->pd->ldpmmr,
- 		par->pd->ldpspr);
--	dev_dbg(info->dev, "ldmtr : 0x%04x lddfr : 0x%04x\n", ldmtr, lddfr);
--	dev_dbg(info->dev, "ldlaor: %ld\n", stride);
--	dev_dbg(info->dev, "ldsaru: 0x%08lx ldsarl: 0x%08lx\n", sbase, ldsarl);
-+	fb_dbg(info, "ldmtr : 0x%04x lddfr : 0x%04x\n", ldmtr, lddfr);
-+	fb_dbg(info, "ldlaor: %ld\n", stride);
-+	fb_dbg(info, "ldsaru: 0x%08lx ldsarl: 0x%08lx\n", sbase, ldsarl);
- 
  	return 0;
- }
-@@ -401,7 +401,7 @@ static int sh7760fb_alloc_mem(struct fb_info *info)
- 	} else if (bpp > 8)
- 		vram *= 2;
- 	if ((vram < 1) || (vram > 1024 * 2048)) {
--		dev_dbg(info->dev, "too much VRAM required. Check settings\n");
-+		fb_dbg(info, "too much VRAM required. Check settings\n");
- 		return -ENODEV;
- 	}
- 
 -- 
 2.41.0
 
