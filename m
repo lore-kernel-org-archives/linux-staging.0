@@ -1,101 +1,87 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AAF591DDF8
-	for <linux-staging@lists.linux.dev>; Mon, 12 Jun 2023 16:04:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1686585864;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=uuCdplsPmJlzp+kH6QUrWWOm1LK9xg7d6ONJhnkdacI=;
-	b=OT/QDNifTOKBstUlK90yj9BIbyLe+QDQsXJt34soaSC6rOixPIJaIspNiG0+b+h09XC5w5
-	MZLhy83A5k7NY+3IXqRhpxuUEpIwy43G2xx30e75vBP+Tm5AGo57lYDQi9MU9jaxwg4jQv
-	95BMcr0g5Awo6l2A7M2IZCySTMqUkOg=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-647-YA4FMn4UNPKZHhh2SQDNJw-1; Mon, 12 Jun 2023 12:04:20 -0400
-X-MC-Unique: YA4FMn4UNPKZHhh2SQDNJw-1
-Received: by mail-wr1-f71.google.com with SMTP id ffacd0b85a97d-30fbaeec4c1so1002667f8f.0
-        for <linux-staging@lists.linux.dev>; Mon, 12 Jun 2023 09:04:20 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686585859; x=1689177859;
-        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=uuCdplsPmJlzp+kH6QUrWWOm1LK9xg7d6ONJhnkdacI=;
-        b=iRne2jYyf9Gvb+8E8dHu/4JjFFcglp4PpoQTOtdHfO4MpqgwrWLwE4QVToOIfADk1p
-         q+DVTPfMoQDxCxE3ClLUnX8MDp4ZV3VpNjenKKS3I3dGJfyqUYFplrSd6JgYCr4iUgpJ
-         basGU1ZotOR9mcBVdOs/JJcdc1AZ6U5H8/CvF+5top1PX27RHLMCL2fKNIvdW5i4UgXA
-         1/TpusPxkrfbhfFLR8P2DlwIj6DucXGXFzTTrjiASivjSeGfO8/8JpernHOW/xufNNz1
-         Gt0KAtYG3VHDEOzSU9wAAE7ZIHViT/baMdcoeyzAyJldtY2Ld9u3fsOA6tRae/nzB9gy
-         RR1Q==
-X-Gm-Message-State: AC+VfDz/t3aFVFVWbpBwlAwVQ057FM68p4FUONtGtyGuuwqEjm+s8pYs
-	FFfJI2gCDPVcZRiq/Eu0MScLkB5SSBNUPh9XavCL8AEgs3iIJfU5iz2IgbWPllpEgKhzJG+FGUo
-	RfWiFY2I7YNPx2zpxmwFmPiDXFg==
-X-Received: by 2002:adf:e984:0:b0:30a:bf2b:e020 with SMTP id h4-20020adfe984000000b0030abf2be020mr5819476wrm.45.1686585859688;
-        Mon, 12 Jun 2023 09:04:19 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ4owFNKmEWmuPb++u0T0aPDLLPsp/xgXSi0mOTbIfVKTyTKs1oJaK7lKDIf+8APpdspTz1ouQ==
-X-Received: by 2002:adf:e984:0:b0:30a:bf2b:e020 with SMTP id h4-20020adfe984000000b0030abf2be020mr5819445wrm.45.1686585859272;
-        Mon, 12 Jun 2023 09:04:19 -0700 (PDT)
-Received: from localhost (205.pool92-176-231.dynamic.orange.es. [92.176.231.205])
-        by smtp.gmail.com with ESMTPSA id c1-20020a5d5281000000b0030aded83385sm12896655wrv.27.2023.06.12.09.04.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 12 Jun 2023 09:04:18 -0700 (PDT)
-From: Javier Martinez Canillas <javierm@redhat.com>
-To: Sam Ravnborg <sam@ravnborg.org>, Thomas Zimmermann <tzimmermann@suse.de>
-Cc: daniel@ffwll.ch, deller@gmx.de, geert+renesas@glider.be, lee@kernel.org,
- daniel.thompson@linaro.org, jingoohan1@gmail.com,
- dan.carpenter@linaro.org, michael.j.ruhl@intel.com,
- linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-sh@vger.kernel.org, linux-omap@vger.kernel.org,
- linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 00/38] fbdev: Make userspace interfaces optional
-In-Reply-To: <20230612155601.GC1243864@ravnborg.org>
-References: <20230612141352.29939-1-tzimmermann@suse.de>
- <20230612155601.GC1243864@ravnborg.org>
-Date: Mon, 12 Jun 2023 18:04:17 +0200
-Message-ID: <87jzw83bwe.fsf@minerva.mail-host-address-is-not-set>
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A379D200A7
+	for <linux-staging@lists.linux.dev>; Mon, 12 Jun 2023 16:32:09 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id A17621FB;
+	Mon, 12 Jun 2023 09:32:53 -0700 (PDT)
+Received: from [192.168.4.21] (unknown [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 61BB23F5A1;
+	Mon, 12 Jun 2023 09:32:04 -0700 (PDT)
+Message-ID: <4c01e43a-0275-04a0-ad9d-ee2f2bf24e1c@arm.com>
+Date: Mon, 12 Jun 2023 17:31:51 +0100
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [PATCH v3 1/4] limits.h: add UCHAR_MAX, SCHAR_MAX, and SCHAR_MIN
+To: Demi Marie Obenour <demi@invisiblethingslab.com>,
+ Hans de Goede <hdegoede@redhat.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Juergen Gross <jgross@suse.com>, Stefano Stabellini
+ <sstabellini@kernel.org>,
+ Oleksandr Tyshchenko <oleksandr_tyshchenko@epam.com>,
+ Lee Jones <lee@kernel.org>, Andy Lutomirski <luto@kernel.org>,
+ Thomas Gleixner <tglx@linutronix.de>, Petr Mladek <pmladek@suse.com>,
+ Steven Rostedt <rostedt@goodmis.org>,
+ Sergey Senozhatsky <senozhatsky@chromium.org>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Rasmus Villemoes <linux@rasmusvillemoes.dk>
+Cc: linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org, xen-devel@lists.xenproject.org
+References: <20230610204044.3653-1-demi@invisiblethingslab.com>
+ <20230610204044.3653-2-demi@invisiblethingslab.com>
+Content-Language: en-US
+From: Vincenzo Frascino <vincenzo.frascino@arm.com>
+In-Reply-To: <20230610204044.3653-2-demi@invisiblethingslab.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Sam Ravnborg <sam@ravnborg.org> writes:
+Hi Demi,
 
-Hello Sam,
+On 6/10/23 21:40, Demi Marie Obenour wrote:
+> Some drivers already defined these, and they will be used by sscanf()
+> for overflow checks later.  Also add SSIZE_MIN to limits.h, which will
+> also be needed later.
+> 
+> Signed-off-by: Demi Marie Obenour <demi@invisiblethingslab.com>
+> ---
+>  .../media/atomisp/pci/hive_isp_css_include/platform_support.h  | 1 -
+>  include/linux/limits.h                                         | 1 +
+>  include/linux/mfd/wl1273-core.h                                | 3 ---
+>  include/vdso/limits.h                                          | 3 +++
+>  4 files changed, 4 insertions(+), 4 deletions(-)
+> 
+...
 
-> Hi Thomas,
->
-> Nice series, quite some preparations.
->
-> On Mon, Jun 12, 2023 at 04:07:38PM +0200, Thomas Zimmermann wrote:
+> diff --git a/include/vdso/limits.h b/include/vdso/limits.h
+> index 0197888ad0e00b2f853d3f25ffa764f61cca7385..0cad0a2490e5efc194d874025eb3e3b846a5c7b4 100644
+> --- a/include/vdso/limits.h
+> +++ b/include/vdso/limits.h
+> @@ -2,6 +2,9 @@
+>  #ifndef __VDSO_LIMITS_H
+>  #define __VDSO_LIMITS_H
+>  
+> +#define UCHAR_MAX	((unsigned char)~0U)
+> +#define SCHAR_MAX	((signed char)(UCHAR_MAX >> 1))
+> +#define SCHAR_MIN	((signed char)(-SCHAR_MAX - 1))
 
-[...]
+Are you planning to use those definitions in the vDSO library?
 
->>   fbdev/smscufx: Detect registered fb_info from refcount
-> I did not try to understand the code, so others must review.
->
+If not can you please define them in linux/limits.h, the vdso headers contain
+only what is necessary for the vDSO library.
 
-No worries, I already reviewed that one.
+Thanks!
 
->>   fbdev/ep93xx-fb: Alloc DMA memory from hardware device
->>   fbdev/sh7760fb: Alloc DMA memory from hardware device
-> This smells like bug-fixes, and I do not see what impact the change has.
-> So again, someone else needs to provide review here.
->
-
-And same for these.
+>  #define USHRT_MAX	((unsigned short)~0U)
+>  #define SHRT_MAX	((short)(USHRT_MAX >> 1))
+>  #define SHRT_MIN	((short)(-SHRT_MAX - 1))
 
 -- 
-Best regards,
-
-Javier Martinez Canillas
-Core Platforms
-Red Hat
-
+Regards,
+Vincenzo
