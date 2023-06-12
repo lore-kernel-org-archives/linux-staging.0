@@ -1,81 +1,64 @@
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+Received: from mailrelay3-1.pub.mailoutpod2-cph3.one.com (mailrelay3-1.pub.mailoutpod2-cph3.one.com [46.30.211.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C93B1C75F
-	for <linux-staging@lists.linux.dev>; Mon, 12 Jun 2023 15:34:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1686584085; x=1718120085;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=Eb3Mm09adN6K9gUBCgKSk4MjwnPUfaI+/HnXTw8x3W4=;
-  b=ZGR1/cpjIkwAXogK8KbOcp2q9LpcxFG/+qJvyAxblMAgrcO/4seiuezu
-   87iLE3+OQ90bvGbUAEVjseR681UDdaBnlRJyz1Fw6Y+y5WLZ99XpsMRYF
-   HXxO8AzqZriqpbsvB3JMyY3hHMPqTdEWEOZxPrI/m3AfsHkY3KXTA5hMx
-   TiWJdgxh9uKwSKgrmsWoRfuNqdBhPXEbHBellONM2g1FGo24x4x+m9fng
-   hFps9n6OfVQHcDtmo7tjCWlu/k+AEa2/iVV6RgYHHwTbj6HsUKFdvEXkx
-   ty1wvuLIpYy4vjxSdo1a9cpguvn0NCwLZEBS+VOEEGxPV/Cr+TK+TGDVm
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10739"; a="337712751"
-X-IronPort-AV: E=Sophos;i="6.00,236,1681196400"; 
-   d="scan'208";a="337712751"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jun 2023 08:34:43 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10739"; a="781252297"
-X-IronPort-AV: E=Sophos;i="6.00,236,1681196400"; 
-   d="scan'208";a="781252297"
-Received: from smile.fi.intel.com ([10.237.72.54])
-  by fmsmga004.fm.intel.com with ESMTP; 12 Jun 2023 08:34:39 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.96)
-	(envelope-from <andriy.shevchenko@linux.intel.com>)
-	id 1q8jYy-0039IC-2J;
-	Mon, 12 Jun 2023 18:34:36 +0300
-Date: Mon, 12 Jun 2023 18:34:36 +0300
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Demi Marie Obenour <demi@invisiblethingslab.com>
-Cc: Hans de Goede <hdegoede@redhat.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Juergen Gross <jgross@suse.com>,
-	Stefano Stabellini <sstabellini@kernel.org>,
-	Oleksandr Tyshchenko <oleksandr_tyshchenko@epam.com>,
-	Lee Jones <lee@kernel.org>, Andy Lutomirski <luto@kernel.org>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Vincenzo Frascino <vincenzo.frascino@arm.com>,
-	Petr Mladek <pmladek@suse.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Sergey Senozhatsky <senozhatsky@chromium.org>,
-	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org, xen-devel@lists.xenproject.org
-Subject: Re: [PATCH v3 0/4] Make sscanf() stricter
-Message-ID: <ZIc7DJME7yDfrOf+@smile.fi.intel.com>
-References: <20230610204044.3653-1-demi@invisiblethingslab.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED6B01C75F
+	for <linux-staging@lists.linux.dev>; Mon, 12 Jun 2023 15:43:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=ravnborg.org; s=rsa1;
+	h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
+	 from:date:from;
+	bh=7bu+0WMycvl+xw/+UyWKXzBeoyi+ITWwP8OmM2m6w3U=;
+	b=J+MAAjazh0cqG8FTxXFAYorKfEJAfsolz5nI559Jg1dYWl+zBGxsqkJ6L6BZ/ycEKGG0o5rYcqZCD
+	 kcppxqP96zS8pZRaW0AlxvZQddFQJ4FGG8xh7nLabP5jmbEiTmFPIxHZwE66kmSW9gc21kidZ3Sw6Q
+	 kSVUE8Jr9ytkg1ujf3zUjU3RDlwieTz5o2Yaq49RAUoHl1oR4/a72L8kbTgORoVdZxXVv+FHfJyCyU
+	 HBI5Dd92Attjse05uyKed0VvezEULHVIIhucSdj9Ses6OcByYncWv07UpbFe13TuZlfWCmJSGiQHmp
+	 Cu6rXjFgT0n7g5Qrp36lNE7Xhnc7BgQ==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed;
+	d=ravnborg.org; s=ed1;
+	h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
+	 from:date:from;
+	bh=7bu+0WMycvl+xw/+UyWKXzBeoyi+ITWwP8OmM2m6w3U=;
+	b=IC1PPDdgBDKI7zq8IJwwQGlbYUO3D4efEtYXAJFdx3LdaekNytlsyGPtFvhCi4WXxtdmi0mW6gEQ9
+	 tHIWDuxDw==
+X-HalOne-ID: ef9b6055-0937-11ee-91ee-b90637070a9d
+Received: from ravnborg.org (2-105-2-98-cable.dk.customer.tdc.net [2.105.2.98])
+	by mailrelay3 (Halon) with ESMTPSA
+	id ef9b6055-0937-11ee-91ee-b90637070a9d;
+	Mon, 12 Jun 2023 15:43:56 +0000 (UTC)
+Date: Mon, 12 Jun 2023 17:43:54 +0200
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: daniel@ffwll.ch, javierm@redhat.com, deller@gmx.de,
+	geert+renesas@glider.be, lee@kernel.org, daniel.thompson@linaro.org,
+	jingoohan1@gmail.com, dan.carpenter@linaro.org,
+	michael.j.ruhl@intel.com, linux-fbdev@vger.kernel.org,
+	dri-devel@lists.freedesktop.org, linux-sh@vger.kernel.org,
+	linux-omap@vger.kernel.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 34/38] fbdev/core: Add fb_device_{create,destroy}()
+Message-ID: <20230612154354.GA1243864@ravnborg.org>
+References: <20230612141352.29939-1-tzimmermann@suse.de>
+ <20230612141352.29939-35-tzimmermann@suse.de>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230610204044.3653-1-demi@invisiblethingslab.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+In-Reply-To: <20230612141352.29939-35-tzimmermann@suse.de>
 
-On Sat, Jun 10, 2023 at 04:40:40PM -0400, Demi Marie Obenour wrote:
-> Roger Pau Monné suggested making xenbus_scanf() stricter instead of
-> using a custom parser.  Christoph Hellwig asked why the normal vsscanf()
-> cannot be made stricter.  Richard Weinberger mentioned Linus Torvalds’s
-> suggestion of using ! to allow overflow.
-
-As Rasmus articulated, NAK w.o. test cases being added to all parts where your
-changes touch.
-
--- 
-With Best Regards,
-Andy Shevchenko
-
-
+On Mon, Jun 12, 2023 at 04:08:12PM +0200, Thomas Zimmermann wrote:
+> Move the logic to create and destroy fbdev devices into the new
+> helpers fb_device_create() and fb_device_destroy().
+> 
+> There was a call to fb_cleanup_device() in do_unregister_framebuffer()
+> that was too late. The device had already been removed at this point.
+> Move the call into fb_device_destroy().
+> 
+> Declare the helpers in the new internal header file  fb_internal.h, as
+> they are only used within the fbdev core module.
+> 
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
