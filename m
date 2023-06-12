@@ -1,119 +1,92 @@
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [85.220.165.71])
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF2B62CAB
-	for <linux-staging@lists.linux.dev>; Sun, 11 Jun 2023 19:58:29 +0000 (UTC)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1q8RCi-00057a-Lp; Sun, 11 Jun 2023 21:58:24 +0200
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
-	by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1q8RCa-006is8-0H; Sun, 11 Jun 2023 21:58:16 +0200
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1q8RCZ-00DHff-4U; Sun, 11 Jun 2023 21:58:15 +0200
-Date: Sun, 11 Jun 2023 21:58:11 +0200
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To: Hans de Goede <hdegoede@redhat.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Corey Minyard <cminyard@mvista.com>, linux-staging@lists.linux.dev,
-	Haowen Bai <baihaowen@meizu.com>, kernel@pengutronix.de,
-	Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-	Tom Rix <trix@redhat.com>,
-	Peter Senna Tschudin <peter.senna@gmail.com>,
-	Javier Martinez Canillas <javierm@redhat.com>,
-	Andy Shevchenko <andy.shevchenko@gmail.com>,
-	Krzysztof =?utf-8?Q?Ha=C5=82asa?= <khalasa@piap.pl>,
-	Adrien Grassein <adrien.grassein@gmail.com>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
-	Jean Delvare <jdelvare@suse.de>, linux-media@vger.kernel.org
-Subject: Re: [PATCH v2 2/5] media: atomisp: Switch i2c drivers back to use
- .probe()
-Message-ID: <20230611195811.ten5wrmc43r4lpol@pengutronix.de>
-References: <20230524151646.486847-1-u.kleine-koenig@pengutronix.de>
- <20230524151646.486847-3-u.kleine-koenig@pengutronix.de>
- <20230611110749.jujuc2j6qx2nlihy@pengutronix.de>
- <d2d2bc9b-9d75-d96b-d6fe-8a4bfa532a27@redhat.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D3C81381;
+	Mon, 12 Jun 2023 01:52:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1686534777; x=1718070777;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=m46vQZk4pefLmm8P5SfQHMea4c/QsvdPEaoeo/+mU18=;
+  b=QBouW2elYAC4ApHcAJpBuAAGQ13RJVvkFhdVdxV9Cp5MABXdYTQprQ9r
+   SVqzfOSYvQreuCjms/blhWyXwvhwznAf6Ev476pF/BrrznuxDlY0e6iII
+   NSIIF3LlYakGWaDNarEv4ThSjg/6RbKjmgMhIeRhmcyayPdvVWr0euccS
+   vcp09acI51hQsn+y/dUEMDD9k7GaI4XgCA740y1WZIoxxUjWUSaeGZJBE
+   Z8ViT8X2baHuNxGBESTUJeERULatJFwxkdto8hWb+SgFxzBUs0dhaRRMd
+   GGp3sIKPcQDmHl9KhjzeozwQGbQwUs8Qx35v4ubl14Hs5HrdXCLrpGbT+
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10738"; a="338286805"
+X-IronPort-AV: E=Sophos;i="6.00,235,1681196400"; 
+   d="scan'208";a="338286805"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jun 2023 18:52:56 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10738"; a="1041156934"
+X-IronPort-AV: E=Sophos;i="6.00,235,1681196400"; 
+   d="scan'208";a="1041156934"
+Received: from lkp-server01.sh.intel.com (HELO 211f47bdb1cb) ([10.239.97.150])
+  by fmsmga005.fm.intel.com with ESMTP; 11 Jun 2023 18:52:55 -0700
+Received: from kbuild by 211f47bdb1cb with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1q8Wjm-00001A-14;
+	Mon, 12 Jun 2023 01:52:54 +0000
+Date: Mon, 12 Jun 2023 09:52:21 +0800
+From: kernel test robot <lkp@intel.com>
+To: Yogesh Hegde <yogi.kernel@gmail.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v2 1/5] staging: rtl8192e: Remove variable SetWirelessMode
+Message-ID: <202306120923.uMeOfojk-lkp@intel.com>
+References: <fba56522e419351b05e33df8cd0ac31806534d8c.1686149467.git.yogi.kernel@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="ibuaq5xhgjc47433"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <d2d2bc9b-9d75-d96b-d6fe-8a4bfa532a27@redhat.com>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-staging@lists.linux.dev
+In-Reply-To: <fba56522e419351b05e33df8cd0ac31806534d8c.1686149467.git.yogi.kernel@gmail.com>
 
+Hi Yogesh,
 
---ibuaq5xhgjc47433
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+kernel test robot noticed the following build errors:
 
-Hello Hans,
+[auto build test ERROR on staging/staging-testing]
+[also build test ERROR on staging/staging-next staging/staging-linus linus/master v6.4-rc5]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-On Sun, Jun 11, 2023 at 09:16:41PM +0200, Hans de Goede wrote:
-> On 6/11/23 13:07, Uwe Kleine-K=F6nig wrote:
-> > Hello,
-> >=20
-> > On Wed, May 24, 2023 at 05:16:43PM +0200, Uwe Kleine-K=F6nig wrote:
-> >> After commit b8a1a4cd5a98 ("i2c: Provide a temporary .probe_new()
-> >> call-back type"), all drivers being converted to .probe_new() and then
-> >> 03c835f498b5 ("i2c: Switch .probe() to not take an id parameter") conv=
-ert
-> >> back to (the new) .probe() to be able to eventually drop .probe_new() =
-=66rom
-> >> struct i2c_driver.
-> >>
-> >> Signed-off-by: Uwe Kleine-K=F6nig <u.kleine-koenig@pengutronix.de>
-> >=20
-> > the four other patches from this series are already in next, this one
-> > wasn't picked up yet though. There is another change for staging: media:
-> > atomisp in next via Mauro's media-next (branch: fixes).
-> >=20
-> > Who wants/should pick up this change?
->=20
-> This patch is already in media-staging:
->=20
-> https://git.linuxtv.org/media_stage.git/log/?ofs=3D50
-> https://git.linuxtv.org/media_stage.git/commit/?id=3D625ac9af384481e8644e=
-0653a4aa472aa95f0395
->=20
-> So this is on its way to -next already.
+url:    https://github.com/intel-lab-lkp/linux/commits/Yogesh-Hegde/staging-rtl8192e-Remove-variable-SetWirelessMode/20230607-230636
+base:   staging/staging-testing
+patch link:    https://lore.kernel.org/r/fba56522e419351b05e33df8cd0ac31806534d8c.1686149467.git.yogi.kernel%40gmail.com
+patch subject: [PATCH v2 1/5] staging: rtl8192e: Remove variable SetWirelessMode
+config: x86_64-randconfig-s053-20230611 (https://download.01.org/0day-ci/archive/20230612/202306120923.uMeOfojk-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce:
+        # apt-get install sparse
+        # sparse version: v0.6.4-39-gce1a6720-dirty
+        # https://github.com/intel-lab-lkp/linux/commit/823187b988791852e562dba90e5eb7c7e7df8eca
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Yogesh-Hegde/staging-rtl8192e-Remove-variable-SetWirelessMode/20230607-230636
+        git checkout 823187b988791852e562dba90e5eb7c7e7df8eca
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        make W=1 C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=x86_64 olddefconfig
+        make W=1 C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=x86_64 SHELL=/bin/bash
 
-I admit I missed your mail from May 24 where you announced your PR
-around -rc5/-rc6 time. Otherwise I wouldn't have bothered you and the
-others. Sorry and thanks
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306120923.uMeOfojk-lkp@intel.com/
 
-Uwe
+All errors (new ones prefixed by >>, old ones prefixed by <<):
 
---=20
-Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
-Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+>> ERROR: modpost: "rtl92e_set_wireless_mode" [drivers/staging/rtl8192e/rtllib.ko] undefined!
 
---ibuaq5xhgjc47433
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmSGJ1IACgkQj4D7WH0S
-/k7r+gf9GegmoW3LidzSIuKFg0vU+Zwhz1zU+CkOo0zD2O/qIThQSzQ6ODdor5Vd
-w85hMMnqlFWVlKCLwncBqJXwmHqmIXeNKdb3VlWahH3MMcEleBPOdFhCWV+7S90e
-jpiOhGjzPTMo0a2EdumtWRSGWpp8Wil9oVSux02UPLCZidH/5dgSHbPHyEAh0KNY
-urHvwgUg3wXJcHmFWmZKRS8R9lONrEfrn2v4XqKtumkVlWRqaTM/cgvM/fjKLekX
-Ead/Qz8TTyAtqw5inGdwp8MNulNoVJrKGsGqB1aaQ8VJIYEXE2eU4MZ6vat3j91d
-x+zd7pk+xUh2C94STJN51+IvnAwhsg==
-=73IT
------END PGP SIGNATURE-----
-
---ibuaq5xhgjc47433--
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
