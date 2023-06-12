@@ -1,42 +1,42 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6EB11B8F2
-	for <linux-staging@lists.linux.dev>; Mon, 12 Jun 2023 14:13:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF6141B8FE
+	for <linux-staging@lists.linux.dev>; Mon, 12 Jun 2023 14:13:58 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 3DCDE20303;
-	Mon, 12 Jun 2023 14:13:55 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 2BC3222838;
+	Mon, 12 Jun 2023 14:13:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1686579235; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1686579237; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=BdOpqd8riEVy6A6ndCU3FeJdbnI01l1n5vgXheBRNPM=;
-	b=AX0PqU26N96lUG8W5y7ONitKYXtqFi+jo9/EH6RW6PPDtdArtp+VmLtBpjjaGPUUstQA4n
-	6D99kkMFBjs1NA43aDerFxT22vaZ5/yd61oWOicl3JupuPpYgetNnxWYKo8xzqtVr1XhPM
-	dJkNcERrnE8H9dRs2zd06EwhYSAghIU=
+	bh=JlVcmvzQv7LlXsgvsBhpy1neAHLfhVIo6jMpaCVHhbM=;
+	b=wUxmfirh6VNkcGRn6mKsulbVu7QH8bYevkHyb0yYz8XOtHUU9lQb9UBbLCe2ra5EFuFeAI
+	GHLtlmCFTLzGg7xPsoaPpwUKAz9MWA+jd429AluaVrvtYWo6PdjACsDUN8HgPDjNZsJt3b
+	/St0XSCdNwukFwRgPZzlj0KmoO1X94A=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1686579235;
+	s=susede2_ed25519; t=1686579237;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=BdOpqd8riEVy6A6ndCU3FeJdbnI01l1n5vgXheBRNPM=;
-	b=s/HWL2JP2+LDna9JvfXlutTSDq6MopUeTKYUZ+Lse0DhdZBKpPNV4NbCdJKeW14gszKv7T
-	lmM07QWInHF3TWAA==
+	bh=JlVcmvzQv7LlXsgvsBhpy1neAHLfhVIo6jMpaCVHhbM=;
+	b=B8siKHLL2vcweQADuS5kOj3W2q2DepX36jW8jW9Pcc4DwS/BlKpty2EBbvgi9gWuZe+Lgs
+	5sZmH38mKQTYHsBQ==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id EC8541357F;
-	Mon, 12 Jun 2023 14:13:54 +0000 (UTC)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id D06C51357F;
+	Mon, 12 Jun 2023 14:13:56 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
 	by imap2.suse-dmz.suse.de with ESMTPSA
-	id OEz3OCIoh2RwGQAAMHmgww
-	(envelope-from <tzimmermann@suse.de>); Mon, 12 Jun 2023 14:13:54 +0000
+	id sNXyMSQoh2RwGQAAMHmgww
+	(envelope-from <tzimmermann@suse.de>); Mon, 12 Jun 2023 14:13:56 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: daniel@ffwll.ch,
 	javierm@redhat.com,
@@ -55,9 +55,9 @@ Cc: linux-fbdev@vger.kernel.org,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH v2 02/38] backlight/bd6107: Rename struct bd6107_platform_data.fbdev to 'dev'
-Date: Mon, 12 Jun 2023 16:07:40 +0200
-Message-ID: <20230612141352.29939-3-tzimmermann@suse.de>
+Subject: [PATCH v2 07/38] fbdev/atyfb: Reorder backlight and framebuffer init/cleanup
+Date: Mon, 12 Jun 2023 16:07:45 +0200
+Message-ID: <20230612141352.29939-8-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.41.0
 In-Reply-To: <20230612141352.29939-1-tzimmermann@suse.de>
 References: <20230612141352.29939-1-tzimmermann@suse.de>
@@ -69,46 +69,61 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Rename struct bd6107_platform_data.fbdev to 'dev', as it stores a
-pointer to the Linux platform device; not the fbdev device. Makes
-the code easier to understand.
+The driver's backlight code requires the framebuffer to be
+registered. Therefore reorder the init and cleanup calls for
+both data structures.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: Lee Jones <lee@kernel.org>
-Cc: Daniel Thompson <daniel.thompson@linaro.org>
-Cc: Jingoo Han <jingoohan1@gmail.com>
 Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
 ---
- drivers/video/backlight/bd6107.c     | 2 +-
- include/linux/platform_data/bd6107.h | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ drivers/video/fbdev/aty/atyfb_base.c | 16 +++++++++-------
+ 1 file changed, 9 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/video/backlight/bd6107.c b/drivers/video/backlight/bd6107.c
-index e3410444ea235..fa3dd45c8f9d1 100644
---- a/drivers/video/backlight/bd6107.c
-+++ b/drivers/video/backlight/bd6107.c
-@@ -104,7 +104,7 @@ static int bd6107_backlight_check_fb(struct backlight_device *backlight,
- {
- 	struct bd6107 *bd = bl_get_data(backlight);
+diff --git a/drivers/video/fbdev/aty/atyfb_base.c b/drivers/video/fbdev/aty/atyfb_base.c
+index cba2b113b28b0..51504fe39054c 100644
+--- a/drivers/video/fbdev/aty/atyfb_base.c
++++ b/drivers/video/fbdev/aty/atyfb_base.c
+@@ -2654,11 +2654,6 @@ static int aty_init(struct fb_info *info)
+ 			   USE_F32KHZ | TRISTATE_MEM_EN, par);
+ 	} else
+ #endif
+-	if (M64_HAS(MOBIL_BUS) && backlight) {
+-#ifdef CONFIG_FB_ATY_BACKLIGHT
+-		aty_bl_init(par);
+-#endif
+-	}
  
--	return bd->pdata->fbdev == NULL || bd->pdata->fbdev == info->device;
-+	return !bd->pdata->dev || bd->pdata->dev == info->device;
- }
+ 	memset(&var, 0, sizeof(var));
+ #ifdef CONFIG_PPC
+@@ -2751,6 +2746,12 @@ static int aty_init(struct fb_info *info)
+ 		goto aty_init_exit;
+ 	}
  
- static const struct backlight_ops bd6107_backlight_ops = {
-diff --git a/include/linux/platform_data/bd6107.h b/include/linux/platform_data/bd6107.h
-index 54a06a4d26186..596ca4f95cfa4 100644
---- a/include/linux/platform_data/bd6107.h
-+++ b/include/linux/platform_data/bd6107.h
-@@ -8,7 +8,7 @@
- struct device;
++	if (M64_HAS(MOBIL_BUS) && backlight) {
++#ifdef CONFIG_FB_ATY_BACKLIGHT
++		aty_bl_init(par);
++#endif
++	}
++
+ 	fb_list = info;
  
- struct bd6107_platform_data {
--	struct device *fbdev;
-+	struct device *dev;
- 	unsigned int def_value;
- };
+ 	PRINTKI("fb%d: %s frame buffer device on %s\n",
+@@ -3716,12 +3717,13 @@ static void atyfb_remove(struct fb_info *info)
+ 	aty_set_crtc(par, &par->saved_crtc);
+ 	par->pll_ops->set_pll(info, &par->saved_pll);
  
+-	unregister_framebuffer(info);
+-
+ #ifdef CONFIG_FB_ATY_BACKLIGHT
+ 	if (M64_HAS(MOBIL_BUS))
+ 		aty_bl_exit(info->bl_dev);
+ #endif
++
++	unregister_framebuffer(info);
++
+ 	arch_phys_wc_del(par->wc_cookie);
+ 
+ #ifndef __sparc__
 -- 
 2.41.0
 
