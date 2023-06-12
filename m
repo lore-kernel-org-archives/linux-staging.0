@@ -1,129 +1,203 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3113AD3C
-	for <linux-staging@lists.linux.dev>; Mon, 12 Jun 2023 11:20:03 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 517FEC433EF;
-	Mon, 12 Jun 2023 11:19:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1686568803;
-	bh=23JwlmTrqv4IR+K4vNf3mjg3Y1quit9pjndWhP+WBVQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=WbVmaT/k2NJ431omJScx8rn6Tr4xCwHvNKr6toopgTYPT/LQMqMpo7FBV6vIGJ4Ih
-	 +HSkHHWJ35Kcb4B/GPixREIZZBfO6jCqVm2Oj7ei4Ar3Tq5VdX+HzY8hRcQXP/+huS
-	 OJbyhn41f3IULnSq0wd/dz2lHKMxj8853QNGxSQmcax6UBGdjg1/NwAF+VG6M3OHL2
-	 ZzOOn7hwX4hqHpXo5AUa9bZN9l3F97lPwSQv46KeDu8M33XqdrFtdbw9tq1DG+/U0P
-	 7qVFwPAn09GyfkCtFxQ5HZGZsXWZZPEQgoJDyew2d9LSRvZgIIxDgS8gSf/0U6hnid
-	 f8spn2rSpOb/Q==
-Date: Mon, 12 Jun 2023 12:19:55 +0100
-From: Lee Jones <lee@kernel.org>
-To: Demi Marie Obenour <demi@invisiblethingslab.com>
-Cc: Hans de Goede <hdegoede@redhat.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Juergen Gross <jgross@suse.com>,
-	Stefano Stabellini <sstabellini@kernel.org>,
-	Oleksandr Tyshchenko <oleksandr_tyshchenko@epam.com>,
-	Andy Lutomirski <luto@kernel.org>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Vincenzo Frascino <vincenzo.frascino@arm.com>,
-	Petr Mladek <pmladek@suse.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Sergey Senozhatsky <senozhatsky@chromium.org>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org, xen-devel@lists.xenproject.org
-Subject: Re: [PATCH v3 1/4] limits.h: add UCHAR_MAX, SCHAR_MAX, and SCHAR_MIN
-Message-ID: <20230612111955.GM3635807@google.com>
-References: <20230610204044.3653-1-demi@invisiblethingslab.com>
- <20230610204044.3653-2-demi@invisiblethingslab.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7159F1B8F0
+	for <linux-staging@lists.linux.dev>; Mon, 12 Jun 2023 14:13:56 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 72AD420106;
+	Mon, 12 Jun 2023 14:13:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1686579234; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=z7dGpkXmZ1MfbxtagH80qGavP+RHSS66/+CwDajBR0s=;
+	b=YI33JDQ10YAljTnA8Tctm63UXvDy8q7QV4VcwbX+gZXqgDXmENsqzNKdeVOGPwlliJ10WI
+	EN3X/MDkvbED3690RIyC3XHJMacel7AscvvIwG9/Hny83VsY4CrWGWyE3rMK3W4NlI4jSZ
+	f818aW0YUWJ8GTqeQHP+gGQuwKnFHeA=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1686579234;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=z7dGpkXmZ1MfbxtagH80qGavP+RHSS66/+CwDajBR0s=;
+	b=UkPvNcz/xVjq0OitTWLLLKr4FMAKi3L9V3wwhZGP60EY0+JsR7NEjWm5AgsmqN15+H3Osz
+	ZhSSspNSd+M9SUDg==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 0D17A1357F;
+	Mon, 12 Jun 2023 14:13:54 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+	by imap2.suse-dmz.suse.de with ESMTPSA
+	id Mh8cAiIoh2RwGQAAMHmgww
+	(envelope-from <tzimmermann@suse.de>); Mon, 12 Jun 2023 14:13:54 +0000
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: daniel@ffwll.ch,
+	javierm@redhat.com,
+	sam@ravnborg.org,
+	deller@gmx.de,
+	geert+renesas@glider.be,
+	lee@kernel.org,
+	daniel.thompson@linaro.org,
+	jingoohan1@gmail.com,
+	dan.carpenter@linaro.org,
+	michael.j.ruhl@intel.com
+Cc: linux-fbdev@vger.kernel.org,
+	dri-devel@lists.freedesktop.org,
+	linux-sh@vger.kernel.org,
+	linux-omap@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Thomas Zimmermann <tzimmermann@suse.de>
+Subject: [PATCH v2 00/38] fbdev: Make userspace interfaces optional
+Date: Mon, 12 Jun 2023 16:07:38 +0200
+Message-ID: <20230612141352.29939-1-tzimmermann@suse.de>
+X-Mailer: git-send-email 2.41.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230610204044.3653-2-demi@invisiblethingslab.com>
 
-On Sat, 10 Jun 2023, Demi Marie Obenour wrote:
+Add the new config option FB_DEVICE. If enabled, fbdev provides
+traditional userspace interfaces in devfs, sysfs and procfs, such
+as /dev/fb0 or /proc/fb.
 
-> Some drivers already defined these, and they will be used by sscanf()
-> for overflow checks later.  Also add SSIZE_MIN to limits.h, which will
-> also be needed later.
-> 
-> Signed-off-by: Demi Marie Obenour <demi@invisiblethingslab.com>
-> ---
->  .../media/atomisp/pci/hive_isp_css_include/platform_support.h  | 1 -
->  include/linux/limits.h                                         | 1 +
->  include/linux/mfd/wl1273-core.h                                | 3 ---
+Modern Linux distrobutions have adopted DRM drivers for graphics
+output and use fbdev only for the kernel's framebuffer console.
+Userspace has also moved on, with no new fbdev code being written
+and existing support being removed.
 
-Acked-by: Lee Jones <lee@kernel.org>
+OTOH, fbdev provides userspace a way of accessing kernel or I/O
+memory, which might compromise the system's security. See the recent
+commit c8687694bb1f ("drm/fbdev-generic: prohibit potential
+out-of-bounds access") for an example. Disabling fbdev userspace
+interfaces is therefore a useful feature to limit unnecessary
+exposure of fbdev code to processes of low privilegues.
 
->  include/vdso/limits.h                                          | 3 +++
->  4 files changed, 4 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/staging/media/atomisp/pci/hive_isp_css_include/platform_support.h b/drivers/staging/media/atomisp/pci/hive_isp_css_include/platform_support.h
-> index 0cdef4a5e8b1bed9884133f1a0b9d853d59d43a4..e29b96d8bebf14839f6dd48fdc6c0f8b029ef31d 100644
-> --- a/drivers/staging/media/atomisp/pci/hive_isp_css_include/platform_support.h
-> +++ b/drivers/staging/media/atomisp/pci/hive_isp_css_include/platform_support.h
-> @@ -27,7 +27,6 @@
->  
->  #define UINT16_MAX USHRT_MAX
->  #define UINT32_MAX UINT_MAX
-> -#define UCHAR_MAX  (255)
->  
->  #define CSS_ALIGN(d, a) d __attribute__((aligned(a)))
->  
-> diff --git a/include/linux/limits.h b/include/linux/limits.h
-> index f6bcc936901071f496e3e85bb6e1d93905b12e32..8f7fd85b41fb46e6992d9e5912da00424119227a 100644
-> --- a/include/linux/limits.h
-> +++ b/include/linux/limits.h
-> @@ -8,6 +8,7 @@
->  
->  #define SIZE_MAX	(~(size_t)0)
->  #define SSIZE_MAX	((ssize_t)(SIZE_MAX >> 1))
-> +#define SSIZE_MIN	(-SSIZE_MAX - 1)
->  #define PHYS_ADDR_MAX	(~(phys_addr_t)0)
->  
->  #define U8_MAX		((u8)~0U)
-> diff --git a/include/linux/mfd/wl1273-core.h b/include/linux/mfd/wl1273-core.h
-> index c28cf76d5c31ee1c94a9319a2e2d318bf00283a6..b81a229135ed9f756c749122a8341816031c8311 100644
-> --- a/include/linux/mfd/wl1273-core.h
-> +++ b/include/linux/mfd/wl1273-core.h
-> @@ -204,9 +204,6 @@
->  				 WL1273_IS2_TRI_OPT | \
->  				 WL1273_IS2_RATE_48K)
->  
-> -#define SCHAR_MIN (-128)
-> -#define SCHAR_MAX 127
-> -
->  #define WL1273_FR_EVENT			BIT(0)
->  #define WL1273_BL_EVENT			BIT(1)
->  #define WL1273_RDS_EVENT		BIT(2)
-> diff --git a/include/vdso/limits.h b/include/vdso/limits.h
-> index 0197888ad0e00b2f853d3f25ffa764f61cca7385..0cad0a2490e5efc194d874025eb3e3b846a5c7b4 100644
-> --- a/include/vdso/limits.h
-> +++ b/include/vdso/limits.h
-> @@ -2,6 +2,9 @@
->  #ifndef __VDSO_LIMITS_H
->  #define __VDSO_LIMITS_H
->  
-> +#define UCHAR_MAX	((unsigned char)~0U)
-> +#define SCHAR_MAX	((signed char)(UCHAR_MAX >> 1))
-> +#define SCHAR_MIN	((signed char)(-SCHAR_MAX - 1))
->  #define USHRT_MAX	((unsigned short)~0U)
->  #define SHRT_MAX	((short)(USHRT_MAX >> 1))
->  #define SHRT_MIN	((short)(-SHRT_MAX - 1))
-> -- 
-> Sincerely,
-> Demi Marie Obenour (she/her/hers)
-> Invisible Things Lab
-> 
+Patches 1 to 31 fix various bugs and issues in fbdev-related code.
+In most cases the code uses the fbdev device where it should use
+the Linux hardware device or something else. Most of these patches
+fix existing problems and should therefore be considered in any case.
 
+Patches 32 to 37 refactor the fbdev core code. The patches move
+support for backlights, sysfs, procfs and devfs into separate files
+and hide it behind simple interfaces. These changes will allow to
+easily build the userspace support conditionally.
+
+Patch 38 introduces the config option FB_DEVICE and adapts the fbdev
+core to support it. The field struct fb_info.dev is now optional,
+hence the name of the config option.
+
+Tested on simpledrm and i915, including the device handover.
+
+Future directions: With the support for disabling fbdev userspace
+interfaces in place, it will be possible to make most fbdev drivers'
+file-I/O code in struct fb_ops optional as well. 
+
+v2:
+	* fix fsl-diu-fb and sh7760fb
+	* split backlight patches
+	* set 'default y' for FB_CONFIG
+	* minor fixes and corrections
+
+Thomas Zimmermann (38):
+  backlight/bd6107: Compare against struct fb_info.device
+  backlight/bd6107: Rename struct bd6107_platform_data.fbdev to 'dev'
+  backlight/gpio_backlight: Compare against struct fb_info.device
+  backlight/gpio_backlight: Rename field 'fbdev' to 'dev'
+  backlight/lv5207lp: Compare against struct fb_info.device
+  backlight/lv5207lp: Rename struct lv5207lp_platform_data.fbdev to
+    'dev'
+  fbdev/atyfb: Reorder backlight and framebuffer init/cleanup
+  fbdev/atyfb: Use hardware device as backlight parent
+  fbdev/aty128fb: Reorder backlight and framebuffer init/cleanup
+  fbdev/aty128fb: Use hardware device as backlight parent
+  fbdev/broadsheetfb: Call device_remove_file() with hardware device
+  fbdev/ep93xx-fb: Alloc DMA memory from hardware device
+  fbdev/ep93xx-fb: Output messages with fb_info() and fb_err()
+  fbdev/ep93xx-fb: Do not assign to struct fb_info.dev
+  fbdev/fsl-diu-fb: Output messages with fb_*() helpers
+  fbdev/mb862xxfb: Output messages with fb_dbg()
+  fbdev/metronomefb: Use hardware device for dev_err()
+  fbdev/nvidiafb: Reorder backlight and framebuffer init/cleanup
+  fbdev/nvidiafb: Use hardware device as backlight parent
+  fbdev/pxa168fb: Do not assign to struct fb_info.dev
+  fbdev/radeonfb: Reorder backlight and framebuffer cleanup
+  fbdev/radeonfb: Use hardware device as backlight parent
+  fbdev/rivafb: Reorder backlight and framebuffer init/cleanup
+  fbdev/rivafb: Use hardware device as backlight parent
+  fbdev/sh7760fb: Use fb_dbg() in sh7760fb_get_color_info()
+  fbdev/sh7760fb: Output messages with fb_dbg()
+  fbdev/sh7760fb: Alloc DMA memory from hardware device
+  fbdev/sh7760fb: Use hardware device with dev_() output during probe
+  fbdev/sm501fb: Output message with fb_err()
+  fbdev/smscufx: Detect registered fb_info from refcount
+  fbdev/tdfxfb: Set i2c adapter parent to hardware device
+  fbdev/core: Pass Linux device to pm_vt_switch_*() functions
+  fbdev/core: Move framebuffer and backlight helpers into separate files
+  fbdev/core: Add fb_device_{create,destroy}()
+  fbdev/core: Move procfs code to separate file
+  fbdev/core: Move file-I/O code into separate file
+  fbdev/core: Rework fb init code
+  fbdev: Make support for userspace interfaces configurable
+
+ Documentation/gpu/todo.rst                   |  13 +
+ arch/sh/boards/mach-ecovec24/setup.c         |   2 +-
+ arch/sh/boards/mach-kfr2r09/setup.c          |   2 +-
+ drivers/staging/fbtft/Kconfig                |   1 +
+ drivers/video/backlight/bd6107.c             |   2 +-
+ drivers/video/backlight/gpio_backlight.c     |   6 +-
+ drivers/video/backlight/lv5207lp.c           |   2 +-
+ drivers/video/fbdev/Kconfig                  |  13 +
+ drivers/video/fbdev/aty/aty128fb.c           |  12 +-
+ drivers/video/fbdev/aty/atyfb_base.c         |  18 +-
+ drivers/video/fbdev/aty/radeon_backlight.c   |   2 +-
+ drivers/video/fbdev/aty/radeon_base.c        |   3 +-
+ drivers/video/fbdev/broadsheetfb.c           |   2 +-
+ drivers/video/fbdev/core/Makefile            |   7 +-
+ drivers/video/fbdev/core/fb_backlight.c      |  33 ++
+ drivers/video/fbdev/core/fb_info.c           |  78 +++
+ drivers/video/fbdev/core/fb_internal.h       |  67 +++
+ drivers/video/fbdev/core/fb_procfs.c         |  62 ++
+ drivers/video/fbdev/core/fbcon.c             |   1 +
+ drivers/video/fbdev/core/fbmem.c             | 592 +------------------
+ drivers/video/fbdev/core/fbsysfs.c           | 134 +----
+ drivers/video/fbdev/ep93xx-fb.c              |  21 +-
+ drivers/video/fbdev/fsl-diu-fb.c             |  26 +-
+ drivers/video/fbdev/mb862xx/mb862xxfbdrv.c   |   9 +-
+ drivers/video/fbdev/metronomefb.c            |   2 +-
+ drivers/video/fbdev/nvidia/nv_backlight.c    |   2 +-
+ drivers/video/fbdev/nvidia/nvidia.c          |   8 +-
+ drivers/video/fbdev/omap2/omapfb/Kconfig     |   2 +-
+ drivers/video/fbdev/pxa168fb.c               |   2 +-
+ drivers/video/fbdev/riva/fbdev.c             |  10 +-
+ drivers/video/fbdev/sh7760fb.c               |  50 +-
+ drivers/video/fbdev/sm501fb.c                |   2 +-
+ drivers/video/fbdev/smscufx.c                |   4 +-
+ drivers/video/fbdev/tdfxfb.c                 |   4 +-
+ include/linux/fb.h                           |   6 +-
+ include/linux/platform_data/bd6107.h         |   2 +-
+ include/linux/platform_data/gpio_backlight.h |   2 +-
+ include/linux/platform_data/lv5207lp.h       |   2 +-
+ 38 files changed, 437 insertions(+), 769 deletions(-)
+ create mode 100644 drivers/video/fbdev/core/fb_backlight.c
+ create mode 100644 drivers/video/fbdev/core/fb_info.c
+ create mode 100644 drivers/video/fbdev/core/fb_internal.h
+ create mode 100644 drivers/video/fbdev/core/fb_procfs.c
+
+
+base-commit: 63a468ec7c7652afa80e3fa6ad203f9e64d04e83
+prerequisite-patch-id: 0aa359f6144c4015c140c8a6750be19099c676fb
+prerequisite-patch-id: c67e5d886a47b7d0266d81100837557fda34cb24
+prerequisite-patch-id: cbc453ee02fae02af22fbfdce56ab732c7a88c36
+prerequisite-patch-id: 7c401614cf55c033f742bced317575b9f5b77bb1
+prerequisite-patch-id: d3145eae4b35a1290199af6ff6cd5abfebc82033
+prerequisite-patch-id: 242b6bc45675f1f1a62572542d75c89d4864f15a
 -- 
-Lee Jones [李琼斯]
+2.41.0
+
