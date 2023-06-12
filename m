@@ -1,91 +1,119 @@
-Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com [209.85.167.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from eu-smtp-delivery-151.mimecast.com (eu-smtp-delivery-151.mimecast.com [185.58.86.151])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 716C8AD3C
-	for <linux-staging@lists.linux.dev>; Mon, 12 Jun 2023 11:08:08 +0000 (UTC)
-Received: by mail-lf1-f52.google.com with SMTP id 2adb3069b0e04-4f619c2ba18so4621995e87.1
-        for <linux-staging@lists.linux.dev>; Mon, 12 Jun 2023 04:08:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rasmusvillemoes.dk; s=google; t=1686568086; x=1689160086;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=Cqc/dWIkGp13SLIIu6IJWBJIUBo6SVnCPSxnZiD/2qs=;
-        b=Ee1kxW2zIBpufE5Pd30SjljWSF8bmQ23PvcXOTfBLWDuhuzmi4GNxm81r6THqfr1R8
-         TF/XbV/vQPE7NAjqG5CUcG091GIVP+OIZkR2eVbcnqSSGulqYKQ0tS4fGce1Vqz72BEK
-         4dnF5FIjP/ixuv50EXQjUSlglRcu6SFfk78g0=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686568086; x=1689160086;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Cqc/dWIkGp13SLIIu6IJWBJIUBo6SVnCPSxnZiD/2qs=;
-        b=bMLU93gv16PGzBnrfnAsR3vLC4f6G9W4Ru3mMIlGVEDbR+62sdncbGJAnaeOsFSphg
-         ipZw1UMtj6gBKxgSf+hL3MFQFjA2bdOJUpuTO0ws0qJ1JIxILwKmqvIkeLHK7TZapeqY
-         mbH4wGA6loKDxc/iJXtv4Dbb5x83Lnw6FkxHcXFsi9aqFjzXVQUFzX0YdLGDVIW1cg1F
-         AZUnfNWEzOVVLodvOX2Gzl2BFe8nnkjbOK16KJnwHUj0bPMcXAG1cpmavden3PxjebTe
-         e9v1/lGpmOh6SriHiNASvWZGcpbZLrKelugmI+z76v0L0uxDgZsmAaaqX5x7NzydbaCE
-         JtQg==
-X-Gm-Message-State: AC+VfDzebxoXhLp/XpGvQbNiE9jLdtnGDcc4QluEq6SqTcxsYUibNDMQ
-	iA65XY5aHh5HlWO4oDtNVN8yDQ==
-X-Google-Smtp-Source: ACHHUZ7b8SUOyAvo5mZ/ej3K8XSkF1lyVZaH5wXsQAhZBy44s+7p1e2LN2fuBFmbbRRFjOsD8ITAwQ==
-X-Received: by 2002:a05:6512:3123:b0:4f3:a723:1dc6 with SMTP id p3-20020a056512312300b004f3a7231dc6mr3958647lfd.52.1686568086176;
-        Mon, 12 Jun 2023 04:08:06 -0700 (PDT)
-Received: from [172.16.11.116] ([81.216.59.226])
-        by smtp.gmail.com with ESMTPSA id q5-20020a19a405000000b004edafe3f8dbsm1420627lfc.11.2023.06.12.04.08.05
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 12 Jun 2023 04:08:05 -0700 (PDT)
-Message-ID: <546e2ab5-f520-c85e-d6f4-ca7b02457d4c@rasmusvillemoes.dk>
-Date: Mon, 12 Jun 2023 13:08:04 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CF27AD3C
+	for <linux-staging@lists.linux.dev>; Mon, 12 Jun 2023 11:11:25 +0000 (UTC)
+Received: from AcuMS.aculab.com (156.67.243.121 [156.67.243.121]) by
+ relay.mimecast.com with ESMTP with both STARTTLS and AUTH (version=TLSv1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ uk-mta-85-DewxziyUPXuyU4DjMJIpxA-1; Mon, 12 Jun 2023 12:11:22 +0100
+X-MC-Unique: DewxziyUPXuyU4DjMJIpxA-1
+Received: from AcuMS.Aculab.com (10.202.163.4) by AcuMS.aculab.com
+ (10.202.163.4) with Microsoft SMTP Server (TLS) id 15.0.1497.48; Mon, 12 Jun
+ 2023 12:11:11 +0100
+Received: from AcuMS.Aculab.com ([::1]) by AcuMS.aculab.com ([::1]) with mapi
+ id 15.00.1497.048; Mon, 12 Jun 2023 12:11:11 +0100
+From: David Laight <David.Laight@ACULAB.COM>
+To: 'Demi Marie Obenour' <demi@invisiblethingslab.com>, Hans de Goede
+	<hdegoede@redhat.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, "Sakari
+ Ailus" <sakari.ailus@linux.intel.com>, Greg Kroah-Hartman
+	<gregkh@linuxfoundation.org>, Juergen Gross <jgross@suse.com>, "Stefano
+ Stabellini" <sstabellini@kernel.org>, Oleksandr Tyshchenko
+	<oleksandr_tyshchenko@epam.com>, Lee Jones <lee@kernel.org>, Andy Lutomirski
+	<luto@kernel.org>, Thomas Gleixner <tglx@linutronix.de>, Vincenzo Frascino
+	<vincenzo.frascino@arm.com>, Petr Mladek <pmladek@suse.com>, Steven Rostedt
+	<rostedt@goodmis.org>, Sergey Senozhatsky <senozhatsky@chromium.org>, "Andy
+ Shevchenko" <andriy.shevchenko@linux.intel.com>, Rasmus Villemoes
+	<linux@rasmusvillemoes.dk>
+CC: "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+	"linux-staging@lists.linux.dev" <linux-staging@lists.linux.dev>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"xen-devel@lists.xenproject.org" <xen-devel@lists.xenproject.org>, "Christoph
+ Hellwig" <hch@lst.de>
+Subject: RE: [PATCH v3 3/4] vsscanf(): do not skip spaces
+Thread-Topic: [PATCH v3 3/4] vsscanf(): do not skip spaces
+Thread-Index: AQHZm9wFvdHGuD5F0k2o+1T0Ru69aa+HA4AQ
+Date: Mon, 12 Jun 2023 11:11:11 +0000
+Message-ID: <0c8bb9a3d2de4cf5b06f912d784e7292@AcuMS.aculab.com>
+References: <20230610204044.3653-1-demi@invisiblethingslab.com>
+ <20230610204044.3653-4-demi@invisiblethingslab.com>
+In-Reply-To: <20230610204044.3653-4-demi@invisiblethingslab.com>
+Accept-Language: en-GB, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.202.205.107]
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH v3 3/4] vsscanf(): do not skip spaces
-Content-Language: en-US, da
-To: Demi Marie Obenour <demi@invisiblethingslab.com>,
- Hans de Goede <hdegoede@redhat.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Sakari Ailus <sakari.ailus@linux.intel.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Juergen Gross <jgross@suse.com>, Stefano Stabellini
- <sstabellini@kernel.org>,
- Oleksandr Tyshchenko <oleksandr_tyshchenko@epam.com>,
- Lee Jones <lee@kernel.org>, Andy Lutomirski <luto@kernel.org>,
- Thomas Gleixner <tglx@linutronix.de>,
- Vincenzo Frascino <vincenzo.frascino@arm.com>, Petr Mladek
- <pmladek@suse.com>, Steven Rostedt <rostedt@goodmis.org>,
- Sergey Senozhatsky <senozhatsky@chromium.org>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org, xen-devel@lists.xenproject.org,
- Christoph Hellwig <hch@lst.de>
-References: <20230610204044.3653-1-demi@invisiblethingslab.com>
- <20230610204044.3653-4-demi@invisiblethingslab.com>
-From: Rasmus Villemoes <linux@rasmusvillemoes.dk>
-In-Reply-To: <20230610204044.3653-4-demi@invisiblethingslab.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: aculab.com
+Content-Language: en-US
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
 
-On 10/06/2023 22.40, Demi Marie Obenour wrote:
+From: Demi Marie Obenour
+> Sent: 10 June 2023 21:41
+>=20
 > Passing spaces before e.g. an integer is usually
-> not intended. 
+> not intended.  This was suggested by Christoph in
+> https://lore.kernel.org/lkml/ZIQrohcizoj4bZWx@infradead.org/.
 
-Maybe, maybe not. But it's mandated by POSIX/C99.
+This is contrary to libc scanf and could easily affect userspace
+writing fixed width values into sysctl nodes (etc).
 
-And of course we are free to ignore that and implement our own semantics
-(though within the constraints that we really want -Wformat to help us),
-but there seems to be existing code in-tree that relies on this
-behavior. For example I think this will break
-fsl_sata_intr_coalescing_store() which uses a scanf format of "%u%u".
+IIRC strtoul() (etc) are also expected to strip leading spaces.
+Removing the sign in sscanf() may lead to "-    12" being
+valid - which may not be desired.
 
-Sure, that could just say "%u %u" instead, but the point is that
-currently it doesn't. So without some reasonably thorough analysis
-across the tree, and updates of affected callers, NAK.
+=09David
 
-Rasmus
+>=20
+> Suggested-by: Christoph Hellwig <hch@lst.de>
+> Signed-off-by: Demi Marie Obenour <demi@invisiblethingslab.com>
+> ---
+>  lib/vsprintf.c | 8 +-------
+>  1 file changed, 1 insertion(+), 7 deletions(-)
+>=20
+> diff --git a/lib/vsprintf.c b/lib/vsprintf.c
+> index 9e53355c35b1d6260631868228ede1d178fe3325..665f6197f8313d653f67d7886=
+b12c43942e058dd 100644
+> --- a/lib/vsprintf.c
+> +++ b/lib/vsprintf.c
+> @@ -3551,8 +3551,6 @@ int vsscanf(const char *buf, const char *fmt, va_li=
+st args)
+>  =09=09=09char *s =3D (char *)va_arg(args, char *);
+>  =09=09=09if (field_width =3D=3D -1)
+>  =09=09=09=09field_width =3D SHRT_MAX;
+> -=09=09=09/* first, skip leading white space in buffer */
+> -=09=09=09str =3D skip_spaces(str);
+>=20
+>  =09=09=09/* now copy until next white space */
+>  =09=09=09while (*str && !isspace(*str) && field_width--)
+> @@ -3639,11 +3637,7 @@ int vsscanf(const char *buf, const char *fmt, va_l=
+ist args)
+>  =09=09=09return num;
+>  =09=09}
+>=20
+> -=09=09/* have some sort of integer conversion.
+> -=09=09 * first, skip white space in buffer.
+> -=09=09 */
+> -=09=09str =3D skip_spaces(str);
+> -
+> +=09=09/* have some sort of integer conversion. */
+>  =09=09digit =3D *str;
+>  =09=09if (is_sign && digit =3D=3D '-') {
+>  =09=09=09if (field_width =3D=3D 1)
+> --
+> Sincerely,
+> Demi Marie Obenour (she/her/hers)
+> Invisible Things Lab
+
+-
+Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1 1=
+PT, UK
+Registration No: 1397386 (Wales)
 
