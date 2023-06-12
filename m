@@ -1,42 +1,42 @@
 Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A88A1B91C
-	for <linux-staging@lists.linux.dev>; Mon, 12 Jun 2023 14:14:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B1C81B8FC
+	for <linux-staging@lists.linux.dev>; Mon, 12 Jun 2023 14:14:05 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 9040E2048E;
-	Mon, 12 Jun 2023 14:14:04 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id D637B2048F;
+	Mon, 12 Jun 2023 14:14:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1686579244; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1686579243; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=g3wCKV7kkk87zubrz9MEzYCCAV0sKbpNFal72zite58=;
-	b=I1ahMZf/iz09dQaLm2xUbouAtlZQq2mNHcmfvUNkB/sP64j7gYrK2kjM7GO2GrvGOo3XQs
-	C0rVYq/BLUKjnc6gxqJkSvS6StqjQumxwNeOsmtR2Il7OgnVWzfgCAzC0kWo6V3enjcKf7
-	sgf3gV+RFcYgUES04BIAmpugIC7Kx6c=
+	bh=TBL4s6EwpQYL8Rm44U2/nmPhozWpkgd0TW9bgt9l7x8=;
+	b=Y71RD0deUbbtqkmKSGPXZNgWh/suxy+0C9JXsCGTXogn4e86Urc78JtJidWBIhbG7LEjWJ
+	pJyfw5AHUq+fveryh9UNyQrzBREDPWr6hxJeyiwGFmTDzEacZSoZwvtN5fpsIc/taBK7Wa
+	dfs3azAcm3QZ58QrmBoH1Ec8Y4OyI+c=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1686579244;
+	s=susede2_ed25519; t=1686579243;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=g3wCKV7kkk87zubrz9MEzYCCAV0sKbpNFal72zite58=;
-	b=ltbTpBSRPHpJOGUZRcjwDOrm+r8bj0fD3CCYA5M3SnyL4F8Td+rvB2X5eiO65PhKS6mhPH
-	FjXBiKwc2+MajLBQ==
+	bh=TBL4s6EwpQYL8Rm44U2/nmPhozWpkgd0TW9bgt9l7x8=;
+	b=+6M2cZgJ3ORpyFcJC1yeS8svhlpH59J00iB969mWx20wgVEUpwa5onTMHLvm+2flw3RPyF
+	PvDDDQXF0OyqWfDA==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 417241357F;
-	Mon, 12 Jun 2023 14:14:04 +0000 (UTC)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 852651357F;
+	Mon, 12 Jun 2023 14:14:03 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
 	by imap2.suse-dmz.suse.de with ESMTPSA
-	id 8CcBDywoh2RwGQAAMHmgww
-	(envelope-from <tzimmermann@suse.de>); Mon, 12 Jun 2023 14:14:04 +0000
+	id uMCKHysoh2RwGQAAMHmgww
+	(envelope-from <tzimmermann@suse.de>); Mon, 12 Jun 2023 14:14:03 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: daniel@ffwll.ch,
 	javierm@redhat.com,
@@ -55,9 +55,9 @@ Cc: linux-fbdev@vger.kernel.org,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH v2 28/38] fbdev/sh7760fb: Use hardware device with dev_() output during probe
-Date: Mon, 12 Jun 2023 16:08:06 +0200
-Message-ID: <20230612141352.29939-29-tzimmermann@suse.de>
+Subject: [PATCH v2 26/38] fbdev/sh7760fb: Output messages with fb_dbg()
+Date: Mon, 12 Jun 2023 16:08:04 +0200
+Message-ID: <20230612141352.29939-27-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.41.0
 In-Reply-To: <20230612141352.29939-1-tzimmermann@suse.de>
 References: <20230612141352.29939-1-tzimmermann@suse.de>
@@ -69,44 +69,82 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Call output helpers in the probe function with the hardware device.
-The virtual fbdev device has not been initialized at that point. Also
-prepares fbdev for making struct fb_info.dev optional.
+Fix cases were output helpers are called with struct fb_info.dev.
+Use fb_dbg() instead. Prepares fbdev for making struct fb_info.dev
+optional.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 ---
- drivers/video/fbdev/sh7760fb.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ drivers/video/fbdev/sh7760fb.c | 26 +++++++++++++-------------
+ 1 file changed, 13 insertions(+), 13 deletions(-)
 
 diff --git a/drivers/video/fbdev/sh7760fb.c b/drivers/video/fbdev/sh7760fb.c
-index 74543a1e30314..8566bcd664076 100644
+index a2946f06d579e..65e2c71cf5b51 100644
 --- a/drivers/video/fbdev/sh7760fb.c
 +++ b/drivers/video/fbdev/sh7760fb.c
-@@ -450,7 +450,7 @@ static int sh7760fb_probe(struct platform_device *pdev)
+@@ -207,7 +207,7 @@ static int sh7760fb_set_par(struct fb_info *info)
  
- 	par->pd = pdev->dev.platform_data;
- 	if (!par->pd) {
--		dev_dbg(info->dev, "no display setup data!\n");
-+		dev_dbg(&pdev->dev, "no display setup data!\n");
- 		ret = -ENODEV;
- 		goto out_fb;
- 	}
-@@ -519,13 +519,13 @@ static int sh7760fb_probe(struct platform_device *pdev)
- 
- 	ret = fb_alloc_cmap(&info->cmap, 256, 0);
- 	if (ret) {
--		dev_dbg(info->dev, "Unable to allocate cmap memory\n");
-+		dev_dbg(&pdev->dev, "Unable to allocate cmap memory\n");
- 		goto out_mem;
+ 	/* rotate only works with xres <= 320 */
+ 	if (par->rot && (vm->xres > 320)) {
+-		dev_dbg(info->dev, "rotation disabled due to display size\n");
++		fb_dbg(info, "rotation disabled due to display size\n");
+ 		par->rot = 0;
  	}
  
- 	ret = register_framebuffer(info);
- 	if (ret < 0) {
--		dev_dbg(info->dev, "cannot register fb!\n");
-+		dev_dbg(&pdev->dev, "cannot register fb!\n");
- 		goto out_cmap;
+@@ -226,7 +226,7 @@ static int sh7760fb_set_par(struct fb_info *info)
+ 	if (ret)
+ 		return ret;
+ 
+-	dev_dbg(info->dev, "%dx%d %dbpp %s (orientation %s)\n", hdcn,
++	fb_dbg(info, "%dx%d %dbpp %s (orientation %s)\n", hdcn,
+ 		vdln, bpp, gray ? "grayscale" : "color",
+ 		par->rot ? "rotated" : "normal");
+ 
+@@ -306,7 +306,7 @@ static int sh7760fb_set_par(struct fb_info *info)
+ 	if (((ldmtr & 0x003f) >= LDMTR_DSTN_MONO_8) &&
+ 	    ((ldmtr & 0x003f) <= LDMTR_DSTN_COLOR_16)) {
+ 
+-		dev_dbg(info->dev, " ***** DSTN untested! *****\n");
++		fb_dbg(info, " ***** DSTN untested! *****\n");
+ 
+ 		dstn_off = stride;
+ 		if (par->rot)
+@@ -326,17 +326,17 @@ static int sh7760fb_set_par(struct fb_info *info)
+ 
+ 	sh7760fb_blank(FB_BLANK_UNBLANK, info);	/* panel on! */
+ 
+-	dev_dbg(info->dev, "hdcn  : %6d htcn  : %6d\n", hdcn, htcn);
+-	dev_dbg(info->dev, "hsynw : %6d hsynp : %6d\n", hsynw, hsynp);
+-	dev_dbg(info->dev, "vdln  : %6d vtln  : %6d\n", vdln, vtln);
+-	dev_dbg(info->dev, "vsynw : %6d vsynp : %6d\n", vsynw, vsynp);
+-	dev_dbg(info->dev, "clksrc: %6d clkdiv: %6d\n",
++	fb_dbg(info, "hdcn  : %6d htcn  : %6d\n", hdcn, htcn);
++	fb_dbg(info, "hsynw : %6d hsynp : %6d\n", hsynw, hsynp);
++	fb_dbg(info, "vdln  : %6d vtln  : %6d\n", vdln, vtln);
++	fb_dbg(info, "vsynw : %6d vsynp : %6d\n", vsynw, vsynp);
++	fb_dbg(info, "clksrc: %6d clkdiv: %6d\n",
+ 		(par->pd->ldickr >> 12) & 3, par->pd->ldickr & 0x1f);
+-	dev_dbg(info->dev, "ldpmmr: 0x%04x ldpspr: 0x%04x\n", par->pd->ldpmmr,
++	fb_dbg(info, "ldpmmr: 0x%04x ldpspr: 0x%04x\n", par->pd->ldpmmr,
+ 		par->pd->ldpspr);
+-	dev_dbg(info->dev, "ldmtr : 0x%04x lddfr : 0x%04x\n", ldmtr, lddfr);
+-	dev_dbg(info->dev, "ldlaor: %ld\n", stride);
+-	dev_dbg(info->dev, "ldsaru: 0x%08lx ldsarl: 0x%08lx\n", sbase, ldsarl);
++	fb_dbg(info, "ldmtr : 0x%04x lddfr : 0x%04x\n", ldmtr, lddfr);
++	fb_dbg(info, "ldlaor: %ld\n", stride);
++	fb_dbg(info, "ldsaru: 0x%08lx ldsarl: 0x%08lx\n", sbase, ldsarl);
+ 
+ 	return 0;
+ }
+@@ -401,7 +401,7 @@ static int sh7760fb_alloc_mem(struct fb_info *info)
+ 	} else if (bpp > 8)
+ 		vram *= 2;
+ 	if ((vram < 1) || (vram > 1024 * 2048)) {
+-		dev_dbg(info->dev, "too much VRAM required. Check settings\n");
++		fb_dbg(info, "too much VRAM required. Check settings\n");
+ 		return -ENODEV;
  	}
- 	platform_set_drvdata(pdev, info);
+ 
 -- 
 2.41.0
 
