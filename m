@@ -1,119 +1,129 @@
-Received: from eu-smtp-delivery-151.mimecast.com (eu-smtp-delivery-151.mimecast.com [185.58.86.151])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CF27AD3C
-	for <linux-staging@lists.linux.dev>; Mon, 12 Jun 2023 11:11:25 +0000 (UTC)
-Received: from AcuMS.aculab.com (156.67.243.121 [156.67.243.121]) by
- relay.mimecast.com with ESMTP with both STARTTLS and AUTH (version=TLSv1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- uk-mta-85-DewxziyUPXuyU4DjMJIpxA-1; Mon, 12 Jun 2023 12:11:22 +0100
-X-MC-Unique: DewxziyUPXuyU4DjMJIpxA-1
-Received: from AcuMS.Aculab.com (10.202.163.4) by AcuMS.aculab.com
- (10.202.163.4) with Microsoft SMTP Server (TLS) id 15.0.1497.48; Mon, 12 Jun
- 2023 12:11:11 +0100
-Received: from AcuMS.Aculab.com ([::1]) by AcuMS.aculab.com ([::1]) with mapi
- id 15.00.1497.048; Mon, 12 Jun 2023 12:11:11 +0100
-From: David Laight <David.Laight@ACULAB.COM>
-To: 'Demi Marie Obenour' <demi@invisiblethingslab.com>, Hans de Goede
-	<hdegoede@redhat.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, "Sakari
- Ailus" <sakari.ailus@linux.intel.com>, Greg Kroah-Hartman
-	<gregkh@linuxfoundation.org>, Juergen Gross <jgross@suse.com>, "Stefano
- Stabellini" <sstabellini@kernel.org>, Oleksandr Tyshchenko
-	<oleksandr_tyshchenko@epam.com>, Lee Jones <lee@kernel.org>, Andy Lutomirski
-	<luto@kernel.org>, Thomas Gleixner <tglx@linutronix.de>, Vincenzo Frascino
-	<vincenzo.frascino@arm.com>, Petr Mladek <pmladek@suse.com>, Steven Rostedt
-	<rostedt@goodmis.org>, Sergey Senozhatsky <senozhatsky@chromium.org>, "Andy
- Shevchenko" <andriy.shevchenko@linux.intel.com>, Rasmus Villemoes
-	<linux@rasmusvillemoes.dk>
-CC: "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-	"linux-staging@lists.linux.dev" <linux-staging@lists.linux.dev>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"xen-devel@lists.xenproject.org" <xen-devel@lists.xenproject.org>, "Christoph
- Hellwig" <hch@lst.de>
-Subject: RE: [PATCH v3 3/4] vsscanf(): do not skip spaces
-Thread-Topic: [PATCH v3 3/4] vsscanf(): do not skip spaces
-Thread-Index: AQHZm9wFvdHGuD5F0k2o+1T0Ru69aa+HA4AQ
-Date: Mon, 12 Jun 2023 11:11:11 +0000
-Message-ID: <0c8bb9a3d2de4cf5b06f912d784e7292@AcuMS.aculab.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3113AD3C
+	for <linux-staging@lists.linux.dev>; Mon, 12 Jun 2023 11:20:03 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 517FEC433EF;
+	Mon, 12 Jun 2023 11:19:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1686568803;
+	bh=23JwlmTrqv4IR+K4vNf3mjg3Y1quit9pjndWhP+WBVQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=WbVmaT/k2NJ431omJScx8rn6Tr4xCwHvNKr6toopgTYPT/LQMqMpo7FBV6vIGJ4Ih
+	 +HSkHHWJ35Kcb4B/GPixREIZZBfO6jCqVm2Oj7ei4Ar3Tq5VdX+HzY8hRcQXP/+huS
+	 OJbyhn41f3IULnSq0wd/dz2lHKMxj8853QNGxSQmcax6UBGdjg1/NwAF+VG6M3OHL2
+	 ZzOOn7hwX4hqHpXo5AUa9bZN9l3F97lPwSQv46KeDu8M33XqdrFtdbw9tq1DG+/U0P
+	 7qVFwPAn09GyfkCtFxQ5HZGZsXWZZPEQgoJDyew2d9LSRvZgIIxDgS8gSf/0U6hnid
+	 f8spn2rSpOb/Q==
+Date: Mon, 12 Jun 2023 12:19:55 +0100
+From: Lee Jones <lee@kernel.org>
+To: Demi Marie Obenour <demi@invisiblethingslab.com>
+Cc: Hans de Goede <hdegoede@redhat.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Juergen Gross <jgross@suse.com>,
+	Stefano Stabellini <sstabellini@kernel.org>,
+	Oleksandr Tyshchenko <oleksandr_tyshchenko@epam.com>,
+	Andy Lutomirski <luto@kernel.org>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Vincenzo Frascino <vincenzo.frascino@arm.com>,
+	Petr Mladek <pmladek@suse.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Sergey Senozhatsky <senozhatsky@chromium.org>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org, xen-devel@lists.xenproject.org
+Subject: Re: [PATCH v3 1/4] limits.h: add UCHAR_MAX, SCHAR_MAX, and SCHAR_MIN
+Message-ID: <20230612111955.GM3635807@google.com>
 References: <20230610204044.3653-1-demi@invisiblethingslab.com>
- <20230610204044.3653-4-demi@invisiblethingslab.com>
-In-Reply-To: <20230610204044.3653-4-demi@invisiblethingslab.com>
-Accept-Language: en-GB, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.202.205.107]
+ <20230610204044.3653-2-demi@invisiblethingslab.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: aculab.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230610204044.3653-2-demi@invisiblethingslab.com>
 
-From: Demi Marie Obenour
-> Sent: 10 June 2023 21:41
->=20
-> Passing spaces before e.g. an integer is usually
-> not intended.  This was suggested by Christoph in
-> https://lore.kernel.org/lkml/ZIQrohcizoj4bZWx@infradead.org/.
+On Sat, 10 Jun 2023, Demi Marie Obenour wrote:
 
-This is contrary to libc scanf and could easily affect userspace
-writing fixed width values into sysctl nodes (etc).
-
-IIRC strtoul() (etc) are also expected to strip leading spaces.
-Removing the sign in sscanf() may lead to "-    12" being
-valid - which may not be desired.
-
-=09David
-
->=20
-> Suggested-by: Christoph Hellwig <hch@lst.de>
+> Some drivers already defined these, and they will be used by sscanf()
+> for overflow checks later.  Also add SSIZE_MIN to limits.h, which will
+> also be needed later.
+> 
 > Signed-off-by: Demi Marie Obenour <demi@invisiblethingslab.com>
 > ---
->  lib/vsprintf.c | 8 +-------
->  1 file changed, 1 insertion(+), 7 deletions(-)
->=20
-> diff --git a/lib/vsprintf.c b/lib/vsprintf.c
-> index 9e53355c35b1d6260631868228ede1d178fe3325..665f6197f8313d653f67d7886=
-b12c43942e058dd 100644
-> --- a/lib/vsprintf.c
-> +++ b/lib/vsprintf.c
-> @@ -3551,8 +3551,6 @@ int vsscanf(const char *buf, const char *fmt, va_li=
-st args)
->  =09=09=09char *s =3D (char *)va_arg(args, char *);
->  =09=09=09if (field_width =3D=3D -1)
->  =09=09=09=09field_width =3D SHRT_MAX;
-> -=09=09=09/* first, skip leading white space in buffer */
-> -=09=09=09str =3D skip_spaces(str);
->=20
->  =09=09=09/* now copy until next white space */
->  =09=09=09while (*str && !isspace(*str) && field_width--)
-> @@ -3639,11 +3637,7 @@ int vsscanf(const char *buf, const char *fmt, va_l=
-ist args)
->  =09=09=09return num;
->  =09=09}
->=20
-> -=09=09/* have some sort of integer conversion.
-> -=09=09 * first, skip white space in buffer.
-> -=09=09 */
-> -=09=09str =3D skip_spaces(str);
+>  .../media/atomisp/pci/hive_isp_css_include/platform_support.h  | 1 -
+>  include/linux/limits.h                                         | 1 +
+>  include/linux/mfd/wl1273-core.h                                | 3 ---
+
+Acked-by: Lee Jones <lee@kernel.org>
+
+>  include/vdso/limits.h                                          | 3 +++
+>  4 files changed, 4 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/staging/media/atomisp/pci/hive_isp_css_include/platform_support.h b/drivers/staging/media/atomisp/pci/hive_isp_css_include/platform_support.h
+> index 0cdef4a5e8b1bed9884133f1a0b9d853d59d43a4..e29b96d8bebf14839f6dd48fdc6c0f8b029ef31d 100644
+> --- a/drivers/staging/media/atomisp/pci/hive_isp_css_include/platform_support.h
+> +++ b/drivers/staging/media/atomisp/pci/hive_isp_css_include/platform_support.h
+> @@ -27,7 +27,6 @@
+>  
+>  #define UINT16_MAX USHRT_MAX
+>  #define UINT32_MAX UINT_MAX
+> -#define UCHAR_MAX  (255)
+>  
+>  #define CSS_ALIGN(d, a) d __attribute__((aligned(a)))
+>  
+> diff --git a/include/linux/limits.h b/include/linux/limits.h
+> index f6bcc936901071f496e3e85bb6e1d93905b12e32..8f7fd85b41fb46e6992d9e5912da00424119227a 100644
+> --- a/include/linux/limits.h
+> +++ b/include/linux/limits.h
+> @@ -8,6 +8,7 @@
+>  
+>  #define SIZE_MAX	(~(size_t)0)
+>  #define SSIZE_MAX	((ssize_t)(SIZE_MAX >> 1))
+> +#define SSIZE_MIN	(-SSIZE_MAX - 1)
+>  #define PHYS_ADDR_MAX	(~(phys_addr_t)0)
+>  
+>  #define U8_MAX		((u8)~0U)
+> diff --git a/include/linux/mfd/wl1273-core.h b/include/linux/mfd/wl1273-core.h
+> index c28cf76d5c31ee1c94a9319a2e2d318bf00283a6..b81a229135ed9f756c749122a8341816031c8311 100644
+> --- a/include/linux/mfd/wl1273-core.h
+> +++ b/include/linux/mfd/wl1273-core.h
+> @@ -204,9 +204,6 @@
+>  				 WL1273_IS2_TRI_OPT | \
+>  				 WL1273_IS2_RATE_48K)
+>  
+> -#define SCHAR_MIN (-128)
+> -#define SCHAR_MAX 127
 > -
-> +=09=09/* have some sort of integer conversion. */
->  =09=09digit =3D *str;
->  =09=09if (is_sign && digit =3D=3D '-') {
->  =09=09=09if (field_width =3D=3D 1)
-> --
+>  #define WL1273_FR_EVENT			BIT(0)
+>  #define WL1273_BL_EVENT			BIT(1)
+>  #define WL1273_RDS_EVENT		BIT(2)
+> diff --git a/include/vdso/limits.h b/include/vdso/limits.h
+> index 0197888ad0e00b2f853d3f25ffa764f61cca7385..0cad0a2490e5efc194d874025eb3e3b846a5c7b4 100644
+> --- a/include/vdso/limits.h
+> +++ b/include/vdso/limits.h
+> @@ -2,6 +2,9 @@
+>  #ifndef __VDSO_LIMITS_H
+>  #define __VDSO_LIMITS_H
+>  
+> +#define UCHAR_MAX	((unsigned char)~0U)
+> +#define SCHAR_MAX	((signed char)(UCHAR_MAX >> 1))
+> +#define SCHAR_MIN	((signed char)(-SCHAR_MAX - 1))
+>  #define USHRT_MAX	((unsigned short)~0U)
+>  #define SHRT_MAX	((short)(USHRT_MAX >> 1))
+>  #define SHRT_MIN	((short)(-SHRT_MAX - 1))
+> -- 
 > Sincerely,
 > Demi Marie Obenour (she/her/hers)
 > Invisible Things Lab
+> 
 
--
-Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1 1=
-PT, UK
-Registration No: 1397386 (Wales)
-
+-- 
+Lee Jones [李琼斯]
