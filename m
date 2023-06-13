@@ -1,42 +1,42 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5D65294E5
-	for <linux-staging@lists.linux.dev>; Tue, 13 Jun 2023 11:10:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41063294DC
+	for <linux-staging@lists.linux.dev>; Tue, 13 Jun 2023 11:10:04 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 3B5C01FD9B;
-	Tue, 13 Jun 2023 11:10:01 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 72D5722422;
+	Tue, 13 Jun 2023 11:10:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1686654601; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1686654602; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=ZgRWkj4ohO0KZCbdDBuPVV97H141ZbSM13kcN600c2k=;
-	b=zbJ6q17gN8z70oqaqKqYOGRakhvg0MbJtIIg+o+DeiVqehX4j9aCFpHcRwxRU7Z7rTKQ5t
-	f2HvzzQ9ZUU7AlYT3riteoeQJIFhBNK0hiqqcaAKRYURq+VplkkzBMg+g1sCN1U6pkFzi3
-	R00/iqjza3qieg7tUoKlcDTqAiYBjMk=
+	bh=cRJCI1DQyCCftvFjU3f789NQ4HahDIyRoVbm/3ldQBA=;
+	b=TNbrvrjTZ/MF6TDgcloaNlx9L7iyKuiH+xSnSkMWgt4Yf8HIWd4XKJxSqC/rmdVLAMogUg
+	NoR83gzOeP/cJhElTeecPOBWP8bLNuKUeFQKgI/MhDB4gxUyBagAnXv3au6NSFmwTr0Bx2
+	6AfaUvpNF3s+9Sl7XQlwbpUFBapaJW0=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1686654601;
+	s=susede2_ed25519; t=1686654602;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=ZgRWkj4ohO0KZCbdDBuPVV97H141ZbSM13kcN600c2k=;
-	b=pIjnNyxvGQUaS/zeU12bEmPVy9t4gCOAOw0wkygp3pDUeluFfLgW/eBwzhfSOeCSyTtNPF
-	rxGmQ9YXgFdbbCCg==
+	bh=cRJCI1DQyCCftvFjU3f789NQ4HahDIyRoVbm/3ldQBA=;
+	b=jz0m4YdfgQIYkF8jd3kA0FNs+89zJX2jgMK6U+4ASaeVPdbktSEB9iDt+XFjjkkUc9gq86
+	jW8IfeJ4jc2u/qAA==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id E667E13A47;
-	Tue, 13 Jun 2023 11:10:00 +0000 (UTC)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 23EE913A47;
+	Tue, 13 Jun 2023 11:10:02 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
 	by imap2.suse-dmz.suse.de with ESMTPSA
-	id UNF+N4hOiGR8CQAAMHmgww
-	(envelope-from <tzimmermann@suse.de>); Tue, 13 Jun 2023 11:10:00 +0000
+	id wBzGB4pOiGR8CQAAMHmgww
+	(envelope-from <tzimmermann@suse.de>); Tue, 13 Jun 2023 11:10:02 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: daniel@ffwll.ch,
 	javierm@redhat.com,
@@ -55,10 +55,10 @@ Cc: linux-fbdev@vger.kernel.org,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Thomas Zimmermann <tzimmermann@suse.de>,
-	Timur Tabi <timur@kernel.org>
-Subject: [PATCH v3 15/38] fbdev/fsl-diu-fb: Output messages with fb_*() helpers
-Date: Tue, 13 Jun 2023 13:06:50 +0200
-Message-ID: <20230613110953.24176-16-tzimmermann@suse.de>
+	Antonino Daplas <adaplas@gmail.com>
+Subject: [PATCH v3 19/38] fbdev/nvidiafb: Use hardware device as backlight parent
+Date: Tue, 13 Jun 2023 13:06:54 +0200
+Message-ID: <20230613110953.24176-20-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.41.0
 In-Reply-To: <20230613110953.24176-1-tzimmermann@suse.de>
 References: <20230613110953.24176-1-tzimmermann@suse.de>
@@ -70,107 +70,31 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Fix cases were output helpers are called with struct fb_info.dev.
-Use fb_*() helpers instead. Prepares fbdev for making struct
-fb_info.dev optional.
+Use the hardware device in struct fb_info.device as parent of the
+backlight device. Aligns the driver with the rest of the codebase
+and prepares fbdev for making struct fb_info.dev optional.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: Timur Tabi <timur@kernel.org>
+Cc: Antonino Daplas <adaplas@gmail.com>
+Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
 Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
 ---
- drivers/video/fbdev/fsl-diu-fb.c | 26 +++++++++++++-------------
- 1 file changed, 13 insertions(+), 13 deletions(-)
+ drivers/video/fbdev/nvidia/nv_backlight.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/video/fbdev/fsl-diu-fb.c b/drivers/video/fbdev/fsl-diu-fb.c
-index 730a07d23fa92..785eb8a06943f 100644
---- a/drivers/video/fbdev/fsl-diu-fb.c
-+++ b/drivers/video/fbdev/fsl-diu-fb.c
-@@ -872,7 +872,7 @@ static int map_video_memory(struct fb_info *info)
- 
- 	p = alloc_pages_exact(smem_len, GFP_DMA | __GFP_ZERO);
- 	if (!p) {
--		dev_err(info->dev, "unable to allocate fb memory\n");
-+		fb_err(info, "unable to allocate fb memory\n");
- 		return -ENOMEM;
- 	}
- 	mutex_lock(&info->mm_lock);
-@@ -1145,7 +1145,7 @@ static int fsl_diu_set_par(struct fb_info *info)
- 
- 		/* Memory allocation for framebuffer */
- 		if (map_video_memory(info)) {
--			dev_err(info->dev, "unable to allocate fb memory 1\n");
-+			fb_err(info, "unable to allocate fb memory 1\n");
- 			return -ENOMEM;
- 		}
- 	}
-@@ -1277,16 +1277,16 @@ static int fsl_diu_ioctl(struct fb_info *info, unsigned int cmd,
- 	if (!arg)
- 		return -EINVAL;
- 
--	dev_dbg(info->dev, "ioctl %08x (dir=%s%s type=%u nr=%u size=%u)\n", cmd,
-+	fb_dbg(info, "ioctl %08x (dir=%s%s type=%u nr=%u size=%u)\n", cmd,
- 		_IOC_DIR(cmd) & _IOC_READ ? "R" : "",
- 		_IOC_DIR(cmd) & _IOC_WRITE ? "W" : "",
- 		_IOC_TYPE(cmd), _IOC_NR(cmd), _IOC_SIZE(cmd));
- 
- 	switch (cmd) {
- 	case MFB_SET_PIXFMT_OLD:
--		dev_warn(info->dev,
--			 "MFB_SET_PIXFMT value of 0x%08x is deprecated.\n",
--			 MFB_SET_PIXFMT_OLD);
-+		fb_warn(info,
-+			"MFB_SET_PIXFMT value of 0x%08x is deprecated.\n",
-+			MFB_SET_PIXFMT_OLD);
- 		fallthrough;
- 	case MFB_SET_PIXFMT:
- 		if (copy_from_user(&pix_fmt, buf, sizeof(pix_fmt)))
-@@ -1294,9 +1294,9 @@ static int fsl_diu_ioctl(struct fb_info *info, unsigned int cmd,
- 		ad->pix_fmt = pix_fmt;
- 		break;
- 	case MFB_GET_PIXFMT_OLD:
--		dev_warn(info->dev,
--			 "MFB_GET_PIXFMT value of 0x%08x is deprecated.\n",
--			 MFB_GET_PIXFMT_OLD);
-+		fb_warn(info,
-+			"MFB_GET_PIXFMT value of 0x%08x is deprecated.\n",
-+			MFB_GET_PIXFMT_OLD);
- 		fallthrough;
- 	case MFB_GET_PIXFMT:
- 		pix_fmt = ad->pix_fmt;
-@@ -1375,7 +1375,7 @@ static int fsl_diu_ioctl(struct fb_info *info, unsigned int cmd,
- 	}
- #endif
- 	default:
--		dev_err(info->dev, "unknown ioctl command (0x%08X)\n", cmd);
-+		fb_err(info, "unknown ioctl command (0x%08X)\n", cmd);
- 		return -ENOIOCTLCMD;
- 	}
- 
-@@ -1543,21 +1543,21 @@ static int install_fb(struct fb_info *info)
- 	}
- 
- 	if (fsl_diu_check_var(&info->var, info)) {
--		dev_err(info->dev, "fsl_diu_check_var failed\n");
-+		fb_err(info, "fsl_diu_check_var failed\n");
- 		unmap_video_memory(info);
- 		fb_dealloc_cmap(&info->cmap);
- 		return -EINVAL;
- 	}
- 
- 	if (register_framebuffer(info) < 0) {
--		dev_err(info->dev, "register_framebuffer failed\n");
-+		fb_err(info, "register_framebuffer failed\n");
- 		unmap_video_memory(info);
- 		fb_dealloc_cmap(&info->cmap);
- 		return -EINVAL;
- 	}
- 
- 	mfbi->registered = 1;
--	dev_info(info->dev, "%s registered successfully\n", mfbi->id);
-+	fb_info(info, "%s registered successfully\n", mfbi->id);
- 
- 	return 0;
- }
+diff --git a/drivers/video/fbdev/nvidia/nv_backlight.c b/drivers/video/fbdev/nvidia/nv_backlight.c
+index 503a7a683855a..160da9c50a52c 100644
+--- a/drivers/video/fbdev/nvidia/nv_backlight.c
++++ b/drivers/video/fbdev/nvidia/nv_backlight.c
+@@ -98,7 +98,7 @@ void nvidia_bl_init(struct nvidia_par *par)
+ 	memset(&props, 0, sizeof(struct backlight_properties));
+ 	props.type = BACKLIGHT_RAW;
+ 	props.max_brightness = FB_BACKLIGHT_LEVELS - 1;
+-	bd = backlight_device_register(name, info->dev, par, &nvidia_bl_ops,
++	bd = backlight_device_register(name, info->device, par, &nvidia_bl_ops,
+ 				       &props);
+ 	if (IS_ERR(bd)) {
+ 		info->bl_dev = NULL;
 -- 
 2.41.0
 
