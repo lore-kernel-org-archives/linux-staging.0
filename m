@@ -1,42 +1,42 @@
 Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48039294CE
-	for <linux-staging@lists.linux.dev>; Tue, 13 Jun 2023 11:10:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D954D294F4
+	for <linux-staging@lists.linux.dev>; Tue, 13 Jun 2023 11:10:03 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 4B6681FD9A;
-	Tue, 13 Jun 2023 11:10:00 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id C5F9C1FD9E;
+	Tue, 13 Jun 2023 11:10:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1686654600; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1686654601; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=wgea4CAx5RQUmrYwJYNcyiyGnDDQ3dqg16YEIp4VW1k=;
-	b=KpOGwMTRGofNmhOvJtJWHYoxw7MmbRGeo6FzxVMzqS8Cl/HkPaqlqAIbbj5QVOxQDh/1ef
-	HmTOZZdLLfzm9zdlL6u/vxhlgRbWB0WsEox8pd5anT+ZsyfUUVWGtiHUZ7ZUy3ZgGKZhKE
-	8wfoh2o8hDRXm8FwGh53HXFXlR5ZspA=
+	bh=pRVEdK0qqrxfZ1WPdASb24zppir7QMxRATYQwzniLIw=;
+	b=G48Skz6IiEfIjDuhBzm3x8fAKscJD+q6Uc3kbkCjkYeGFVn2zHueRO51DGKJ+3RaC2w9gi
+	QZ3zRm5UiwME86d6uko7lw2fvY1BHdOiG6zLLkJTkonLwlMGF+7/f6UsbEiJul0DkYF319
+	cgTay0ntAN/WtcJcYJeumWQ+rYga17w=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1686654600;
+	s=susede2_ed25519; t=1686654601;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=wgea4CAx5RQUmrYwJYNcyiyGnDDQ3dqg16YEIp4VW1k=;
-	b=BH3aTWJc5uDayXV3wpXjuSh1Sh5kbMo7UKgjKKzOa4KrYc6ekCR5qDLHKStl5r3NnssLBl
-	0ZAPAlm7SNuT1iDA==
+	bh=pRVEdK0qqrxfZ1WPdASb24zppir7QMxRATYQwzniLIw=;
+	b=ij1OplNTEHT7+l+qCaB0zdtGdRp1km6eoiy+FciawN0G21ZnehaPO/CQQWc/0c9HX+s3Lu
+	kuC1L0HUr/7H3hDg==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 064B813483;
-	Tue, 13 Jun 2023 11:10:00 +0000 (UTC)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 8266613A47;
+	Tue, 13 Jun 2023 11:10:01 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
 	by imap2.suse-dmz.suse.de with ESMTPSA
-	id KPbCAIhOiGR8CQAAMHmgww
-	(envelope-from <tzimmermann@suse.de>); Tue, 13 Jun 2023 11:10:00 +0000
+	id 6HAZH4lOiGR8CQAAMHmgww
+	(envelope-from <tzimmermann@suse.de>); Tue, 13 Jun 2023 11:10:01 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: daniel@ffwll.ch,
 	javierm@redhat.com,
@@ -55,9 +55,9 @@ Cc: linux-fbdev@vger.kernel.org,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH v3 12/38] fbdev/ep93xx-fb: Alloc DMA memory from hardware device
-Date: Tue, 13 Jun 2023 13:06:47 +0200
-Message-ID: <20230613110953.24176-13-tzimmermann@suse.de>
+Subject: [PATCH v3 17/38] fbdev/metronomefb: Use hardware device for dev_err()
+Date: Tue, 13 Jun 2023 13:06:52 +0200
+Message-ID: <20230613110953.24176-18-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.41.0
 In-Reply-To: <20230613110953.24176-1-tzimmermann@suse.de>
 References: <20230613110953.24176-1-tzimmermann@suse.de>
@@ -69,56 +69,34 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Pass the hardware device to the DMA helpers dma_alloc_wc(), dma_mmap_wc()
-and dma_free_coherent(). The fbdev device that is currently being used is
-a software device and does not provide DMA memory.
+Replace the use of the fbdev software device, stored in struct
+fb_info.dev, with the hardware device from struct fb_info.device
+in load_waveform(). The device is only used for printing errors
+with dev_err().
+
+This change aligns load_waveform() with the rest of the driver and
+prepares fbdev for making struct fb_info.dev optional.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
 ---
- drivers/video/fbdev/ep93xx-fb.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ drivers/video/fbdev/metronomefb.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/video/fbdev/ep93xx-fb.c b/drivers/video/fbdev/ep93xx-fb.c
-index 94fe52928be25..376ee59e925c2 100644
---- a/drivers/video/fbdev/ep93xx-fb.c
-+++ b/drivers/video/fbdev/ep93xx-fb.c
-@@ -312,7 +312,7 @@ static int ep93xxfb_mmap(struct fb_info *info, struct vm_area_struct *vma)
- 	unsigned int offset = vma->vm_pgoff << PAGE_SHIFT;
+diff --git a/drivers/video/fbdev/metronomefb.c b/drivers/video/fbdev/metronomefb.c
+index bac255c749e78..3e1daca76e114 100644
+--- a/drivers/video/fbdev/metronomefb.c
++++ b/drivers/video/fbdev/metronomefb.c
+@@ -181,7 +181,7 @@ static int load_waveform(u8 *mem, size_t size, int m, int t,
+ 	int mem_idx = 0;
+ 	struct waveform_hdr *wfm_hdr;
+ 	u8 *metromem = par->metromem_wfm;
+-	struct device *dev = par->info->dev;
++	struct device *dev = par->info->device;
  
- 	if (offset < info->fix.smem_len) {
--		return dma_mmap_wc(info->dev, vma, info->screen_base,
-+		return dma_mmap_wc(info->device, vma, info->screen_base,
- 				   info->fix.smem_start, info->fix.smem_len);
- 	}
- 
-@@ -423,7 +423,7 @@ static int ep93xxfb_alloc_videomem(struct fb_info *info)
- 	/* Maximum 16bpp -> used memory is maximum x*y*2 bytes */
- 	fb_size = EP93XXFB_MAX_XRES * EP93XXFB_MAX_YRES * 2;
- 
--	virt_addr = dma_alloc_wc(info->dev, fb_size, &phys_addr, GFP_KERNEL);
-+	virt_addr = dma_alloc_wc(info->device, fb_size, &phys_addr, GFP_KERNEL);
- 	if (!virt_addr)
- 		return -ENOMEM;
- 
-@@ -440,7 +440,7 @@ static int ep93xxfb_alloc_videomem(struct fb_info *info)
- 			"has bit 27 set: cannot init framebuffer\n",
- 			phys_addr);
- 
--		dma_free_coherent(info->dev, fb_size, virt_addr, phys_addr);
-+		dma_free_coherent(info->device, fb_size, virt_addr, phys_addr);
- 		return -ENOMEM;
- 	}
- 
-@@ -454,7 +454,7 @@ static int ep93xxfb_alloc_videomem(struct fb_info *info)
- static void ep93xxfb_dealloc_videomem(struct fb_info *info)
- {
- 	if (info->screen_base)
--		dma_free_coherent(info->dev, info->fix.smem_len,
-+		dma_free_coherent(info->device, info->fix.smem_len,
- 				  info->screen_base, info->fix.smem_start);
- }
- 
+ 	if (user_wfm_size)
+ 		epd_frame_table[par->dt].wfm_size = user_wfm_size;
 -- 
 2.41.0
 
