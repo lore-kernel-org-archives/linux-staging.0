@@ -1,181 +1,178 @@
-Received: from out5-smtp.messagingengine.com (out5-smtp.messagingengine.com [66.111.4.29])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 513F38F5F
-	for <linux-staging@lists.linux.dev>; Mon, 12 Jun 2023 20:19:58 +0000 (UTC)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
-	by mailout.nyi.internal (Postfix) with ESMTP id 4B2085C013E;
-	Mon, 12 Jun 2023 16:19:57 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute4.internal (MEProxy); Mon, 12 Jun 2023 16:19:57 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	invisiblethingslab.com; h=cc:cc:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:sender:subject:subject:to:to; s=fm1; t=
-	1686601197; x=1686687597; bh=tA23MkpYIRU6TEDaHFbw3sUgPSUR1HWvRL3
-	42c0i0R0=; b=qIzfUO/VPI7ncyy18zo9Hvb13RZ/OYo/y0KdUKiEiC+ZsXQXtDL
-	AsPVxshAdWikjSyrhUCV4wOSWKfGS1akCngInfgtu2xMiEmYT5gdexwumtjq4Gk/
-	aMdBUxp2Ul1OZTvarNkbiGfWvf3RW/oUftfxuyMPN4x+BN3H+aFj3e9W08cMdRQG
-	Q977qNr0qzvzB8kdb5V8LzNW4F/a2Sg9QiBQaNdCDl7+6h2wPCBqZ3rXwmBkESEC
-	br7X0oTWux3DBoYptHybdGzePx7vH/aWpSsznMHDd8i58R7rsFAfbgqWHEyg/ajK
-	yp73FRSPJ/SJZbGm5PFswn7U7XZhM7bKTvw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:sender:subject
-	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-	:x-sasl-enc; s=fm2; t=1686601197; x=1686687597; bh=tA23MkpYIRU6T
-	EDaHFbw3sUgPSUR1HWvRL342c0i0R0=; b=D9O27/co5sySAI0faxBxH84dGib7r
-	HxlAqgjNmkJ8ceWWQsDwthEmF47in22xXsBoyOm18RlyelUHBvjGsTh0MNQVxJPu
-	M5jR4/tOBPDjMyrsjhmXjaOh8S4zGjhz5zu0iqzWc81YMtbIM8tQXXJam9Ukt5YX
-	cWP2TKRsmx1nrcr28rHNvEiAqh66SSBN5k+UtUvf53Z7JPC44X0dW9H9YRR9161S
-	oxMEHMzYhglgK4vVX1Vu6ULAlQx0J0NBKJiuGlqP9DlEs8Ftm2jXrpBkIUhwsuV1
-	J8E4o2VzoGsj0NpdkmQ/IqWJjSRJVlIuGqLmeK4zmW6dKETl8Uu6aeubQ==
-X-ME-Sender: <xms:7H2HZOqfpUmjUjxw8viNot6xcTiBr355OZkn328BaSefFEQl-DC3qA>
-    <xme:7H2HZMpu38g4g2sYOEkQOE0JaLR-xvoAgzyBOYfeVk-WLyH9OIJ0XLBOa3yg4Skq7
-    fg6CnKYTXoBJcs>
-X-ME-Received: <xmr:7H2HZDMARIpc1yXvBwrYLf8Fef5kaR-552EzBOx154WzvL9CWSWKt-tvfe4>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrgeduhedgudegjecutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
-    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
-    enucfjughrpeffhffvvefukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeffvghm
-    ihcuofgrrhhivgcuqfgsvghnohhurhcuoeguvghmihesihhnvhhishhisghlvghthhhinh
-    hgshhlrggsrdgtohhmqeenucggtffrrghtthgvrhhnpeduieelfeeutedvleehueetffej
-    geejgeffkeelveeuleeukeejjeduffetjeekteenucevlhhushhtvghrufhiiigvpedtne
-    curfgrrhgrmhepmhgrihhlfhhrohhmpeguvghmihesihhnvhhishhisghlvghthhhinhhg
-    shhlrggsrdgtohhm
-X-ME-Proxy: <xmx:7H2HZN5TCaXTtmllS-AAzdWghN6KSGarhe0jXrsdwbzdKhTpLxPy6g>
-    <xmx:7H2HZN7tPbf8CATzImRboMMxWtX9V_28p0j0QGKEm2nm9l9e6s8fPA>
-    <xmx:7H2HZNhXovagMFV6o0JjGip2LCLDLO85LQceFExD9qMom2ZwHhD-pw>
-    <xmx:7X2HZOMG3Pvhk5f7SOkQHvJGwV5yWyVhRzp3nXpkVq7xBHg1sWs-Bw>
-Feedback-ID: iac594737:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 12 Jun 2023 16:19:55 -0400 (EDT)
-Date: Mon, 12 Jun 2023 16:19:52 -0400
-From: Demi Marie Obenour <demi@invisiblethingslab.com>
-To: Vincenzo Frascino <vincenzo.frascino@arm.com>,
-	Hans de Goede <hdegoede@redhat.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Juergen Gross <jgross@suse.com>,
-	Stefano Stabellini <sstabellini@kernel.org>,
-	Oleksandr Tyshchenko <oleksandr_tyshchenko@epam.com>,
-	Lee Jones <lee@kernel.org>, Andy Lutomirski <luto@kernel.org>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Petr Mladek <pmladek@suse.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Sergey Senozhatsky <senozhatsky@chromium.org>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Rasmus Villemoes <linux@rasmusvillemoes.dk>
-Cc: linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org, xen-devel@lists.xenproject.org
-Subject: Re: [PATCH v3 1/4] limits.h: add UCHAR_MAX, SCHAR_MAX, and SCHAR_MIN
-Message-ID: <ZId96g6rrlist/OA@itl-email>
-References: <20230610204044.3653-1-demi@invisiblethingslab.com>
- <20230610204044.3653-2-demi@invisiblethingslab.com>
- <4c01e43a-0275-04a0-ad9d-ee2f2bf24e1c@arm.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0DD93D87
+	for <linux-staging@lists.linux.dev>; Tue, 13 Jun 2023 07:31:30 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 721DE22623;
+	Tue, 13 Jun 2023 07:31:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1686641483; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=8yklOUQliENxVhDaviA5tsO1+HEHxyZMuRKI8/yVe9M=;
+	b=T1UnoGOArn7UdIqvXCOBfm+CzjaqmBCYKvGhr/djfyEKpoSKxQgPNhKk9ZVOyzGTkETAvP
+	m8ZNHsPWrb8e0vemel14pWCZNnuKgb82ldo558GxgWvuFai0Mgts/ZG2oEYL4GB36w5+oR
+	1kjhdQOXehf6/x/lvb0gK4gl61NVHk0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1686641483;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=8yklOUQliENxVhDaviA5tsO1+HEHxyZMuRKI8/yVe9M=;
+	b=rtj1o5JTUo3Kjacbneg0Rlz+Civc6RWPT2N2OPRb+bdhcQfrGM8YULl3xwuWm5oG9PTl1g
+	yCzn2iDPDJro1sAg==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 1D67813345;
+	Tue, 13 Jun 2023 07:31:23 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+	by imap2.suse-dmz.suse.de with ESMTPSA
+	id sOxHBksbiGSpFQAAMHmgww
+	(envelope-from <tzimmermann@suse.de>); Tue, 13 Jun 2023 07:31:23 +0000
+Message-ID: <41e119bc-5a93-c91e-7451-aa48f829dc1a@suse.de>
+Date: Tue, 13 Jun 2023 09:31:22 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="NGoQOQpHk48pW9+A"
-Content-Disposition: inline
-In-Reply-To: <4c01e43a-0275-04a0-ad9d-ee2f2bf24e1c@arm.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.2
+Subject: Re: [PATCH v2 01/38] backlight/bd6107: Compare against struct
+ fb_info.device
+Content-Language: en-US
+To: "Ruhl, Michael J" <michael.j.ruhl@intel.com>,
+ "daniel@ffwll.ch" <daniel@ffwll.ch>, "javierm@redhat.com"
+ <javierm@redhat.com>, "sam@ravnborg.org" <sam@ravnborg.org>,
+ "deller@gmx.de" <deller@gmx.de>,
+ "geert+renesas@glider.be" <geert+renesas@glider.be>,
+ "lee@kernel.org" <lee@kernel.org>,
+ "daniel.thompson@linaro.org" <daniel.thompson@linaro.org>,
+ "jingoohan1@gmail.com" <jingoohan1@gmail.com>,
+ "dan.carpenter@linaro.org" <dan.carpenter@linaro.org>
+Cc: "linux-fbdev@vger.kernel.org" <linux-fbdev@vger.kernel.org>,
+ Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+ "linux-sh@vger.kernel.org" <linux-sh@vger.kernel.org>,
+ "linux-staging@lists.linux.dev" <linux-staging@lists.linux.dev>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "stable@vger.kernel.org" <stable@vger.kernel.org>,
+ "linux-omap@vger.kernel.org" <linux-omap@vger.kernel.org>
+References: <20230612141352.29939-1-tzimmermann@suse.de>
+ <20230612141352.29939-2-tzimmermann@suse.de>
+ <IA1PR11MB641822AFCB0E0EA5856C7E59C154A@IA1PR11MB6418.namprd11.prod.outlook.com>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <IA1PR11MB641822AFCB0E0EA5856C7E59C154A@IA1PR11MB6418.namprd11.prod.outlook.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------pXSHUios00U5kRTo473gtCKr"
 
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------pXSHUios00U5kRTo473gtCKr
+Content-Type: multipart/mixed; boundary="------------U2OCUX5bG0ubHrGWpdK9sORo";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: "Ruhl, Michael J" <michael.j.ruhl@intel.com>,
+ "daniel@ffwll.ch" <daniel@ffwll.ch>, "javierm@redhat.com"
+ <javierm@redhat.com>, "sam@ravnborg.org" <sam@ravnborg.org>,
+ "deller@gmx.de" <deller@gmx.de>,
+ "geert+renesas@glider.be" <geert+renesas@glider.be>,
+ "lee@kernel.org" <lee@kernel.org>,
+ "daniel.thompson@linaro.org" <daniel.thompson@linaro.org>,
+ "jingoohan1@gmail.com" <jingoohan1@gmail.com>,
+ "dan.carpenter@linaro.org" <dan.carpenter@linaro.org>
+Cc: "linux-fbdev@vger.kernel.org" <linux-fbdev@vger.kernel.org>,
+ Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+ "linux-sh@vger.kernel.org" <linux-sh@vger.kernel.org>,
+ "linux-staging@lists.linux.dev" <linux-staging@lists.linux.dev>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "stable@vger.kernel.org" <stable@vger.kernel.org>,
+ "linux-omap@vger.kernel.org" <linux-omap@vger.kernel.org>
+Message-ID: <41e119bc-5a93-c91e-7451-aa48f829dc1a@suse.de>
+Subject: Re: [PATCH v2 01/38] backlight/bd6107: Compare against struct
+ fb_info.device
+References: <20230612141352.29939-1-tzimmermann@suse.de>
+ <20230612141352.29939-2-tzimmermann@suse.de>
+ <IA1PR11MB641822AFCB0E0EA5856C7E59C154A@IA1PR11MB6418.namprd11.prod.outlook.com>
+In-Reply-To: <IA1PR11MB641822AFCB0E0EA5856C7E59C154A@IA1PR11MB6418.namprd11.prod.outlook.com>
 
---NGoQOQpHk48pW9+A
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Date: Mon, 12 Jun 2023 16:19:52 -0400
-From: Demi Marie Obenour <demi@invisiblethingslab.com>
-To: Vincenzo Frascino <vincenzo.frascino@arm.com>,
-	Hans de Goede <hdegoede@redhat.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Juergen Gross <jgross@suse.com>,
-	Stefano Stabellini <sstabellini@kernel.org>,
-	Oleksandr Tyshchenko <oleksandr_tyshchenko@epam.com>,
-	Lee Jones <lee@kernel.org>, Andy Lutomirski <luto@kernel.org>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Petr Mladek <pmladek@suse.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Sergey Senozhatsky <senozhatsky@chromium.org>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Rasmus Villemoes <linux@rasmusvillemoes.dk>
-Cc: linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org, xen-devel@lists.xenproject.org
-Subject: Re: [PATCH v3 1/4] limits.h: add UCHAR_MAX, SCHAR_MAX, and SCHAR_MIN
+--------------U2OCUX5bG0ubHrGWpdK9sORo
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-On Mon, Jun 12, 2023 at 05:31:51PM +0100, Vincenzo Frascino wrote:
-> Hi Demi,
->=20
-> On 6/10/23 21:40, Demi Marie Obenour wrote:
-> > Some drivers already defined these, and they will be used by sscanf()
-> > for overflow checks later.  Also add SSIZE_MIN to limits.h, which will
-> > also be needed later.
-> >=20
-> > Signed-off-by: Demi Marie Obenour <demi@invisiblethingslab.com>
-> > ---
-> >  .../media/atomisp/pci/hive_isp_css_include/platform_support.h  | 1 -
-> >  include/linux/limits.h                                         | 1 +
-> >  include/linux/mfd/wl1273-core.h                                | 3 ---
-> >  include/vdso/limits.h                                          | 3 +++
-> >  4 files changed, 4 insertions(+), 4 deletions(-)
-> >=20
-> ...
->=20
-> > diff --git a/include/vdso/limits.h b/include/vdso/limits.h
-> > index 0197888ad0e00b2f853d3f25ffa764f61cca7385..0cad0a2490e5efc194d8740=
-25eb3e3b846a5c7b4 100644
-> > --- a/include/vdso/limits.h
-> > +++ b/include/vdso/limits.h
-> > @@ -2,6 +2,9 @@
-> >  #ifndef __VDSO_LIMITS_H
-> >  #define __VDSO_LIMITS_H
-> > =20
-> > +#define UCHAR_MAX	((unsigned char)~0U)
-> > +#define SCHAR_MAX	((signed char)(UCHAR_MAX >> 1))
-> > +#define SCHAR_MIN	((signed char)(-SCHAR_MAX - 1))
->=20
-> Are you planning to use those definitions in the vDSO library?
+SGkNCg0KQW0gMTIuMDYuMjMgdW0gMTc6MTcgc2NocmllYiBSdWhsLCBNaWNoYWVsIEo6DQpb
+Li4uXQ0KPiANCj4gVGhvbWFzLA0KPiANCj4gTG9va2luZyBhdCB0aGUgZmIuaCBmaWxlIEkg
+c2VlOg0KPiANCj4gCXN0cnVjdCBkZXZpY2UgKmRldmljZTsJCS8qIFRoaXMgaXMgdGhlIHBh
+cmVudCAqLw0KPiAJc3RydWN0IGRldmljZSAqZGV2OwkJLyogVGhpcyBpcyB0aGlzIGZiIGRl
+dmljZSAqLw0KPiANCj4gSXMgdGhpcyBkb2N1bWVudGF0aW9uICJjb3JyZWN0Ij8gIElmIHNv
+LCBob3cgZG9lcyB0aGF0IG1hdGNoIHdoYXQgeW91IGFyZSBkb2luZyBoZXJlPw0KDQpUaGUg
+Y29tbWVudHMgYXJlIGNvcnJlY3QuIExldCdzIGdvIHRocm91Z2ggd2hhdCdzIGhhcHBlbmlu
+ZyBoZXJlLg0KDQpUaGUgZmllbGQgJ2RldmljZScgaXMgdGhlIExpbnV4IGRldmljZSAocGxh
+dGZvcm1fZGV2aWNlLCBwY2lfZGV2LCBldGMuKSANCmFuZCAnZGV2JyBpcyB0aGUgZmJkZXYg
+Y2hhcmFjdGVyIGRldmljZSB0aGF0IGlzIC9kZXYvZmIqLg0KDQpXZSBzZXQgJ2RldmljZScg
+d2hlcmUgd2UgYWxsb2NhdGUgdGhlIGZiX2luZm8gaW4gZnJhbWVidWZmZXJfYWxsb2MoKQ0K
+DQpodHRwczovL2VsaXhpci5ib290bGluLmNvbS9saW51eC92Ni4zL3NvdXJjZS9kcml2ZXJz
+L3ZpZGVvL2ZiZGV2L2NvcmUvZmJzeXNmcy5jI0w1Nw0KDQphbmQgd2Ugc2V0ICdkZXYnIHdo
+ZW4gd2UgcmVnaXN0ZXIgdGhlIGNocmRldiB3aXRoaW4gcmVnaXN0ZXJfZnJhbWVidWZmZXIo
+KS4NCg0KaHR0cHM6Ly9lbGl4aXIuYm9vdGxpbi5jb20vbGludXgvdjYuMy9zb3VyY2UvZHJp
+dmVycy92aWRlby9mYmRldi9jb3JlL2ZibWVtLmMjTDE1NTUNCg0KKEFuZCB0aGUgcG9pbnQg
+b2YgdGhpcyBwYXRjaCBzZXJpZXMgaXMgdG8gbWFrZSB0aGUgY2hyZGV2IG9wdGlvbmFsLikN
+Cg0KVGhlIHByb2JsZW0gd2l0aCBiZDYxMDcgaXMgdGhhdCBpcyBtaXNzZXMgdGhlIHBhcnQg
+d2hlcmUgaXQgcmVnaXN0ZXJzIA0KdGhlIHBsYXRmb3JtIGRldmljZS4gVGhlIGRyaXZlciBh
+cHBlYXJzIHRvIGJlIHVudXNlZC4NCg0KQnV0IGdwaW9fYmFja2xpZ2h0IGZyb20gcGF0Y2hl
+cyAzIGFuZCA0IHdvcmtzLiBUaGUgYXJjaGl0ZWN0dXJlIGNvZGUgDQpzZXRzIHRoZSAnZmJk
+ZXYnIGZpZWxkIGZyb20gYSBwbGF0Zm9ybS1kZXZpY2Ugc3RydWN0dXJlIGF0DQoNCmh0dHBz
+Oi8vZWxpeGlyLmJvb3RsaW4uY29tL2xpbnV4L3Y2LjMvc291cmNlL2FyY2gvc2gvYm9hcmRz
+L21hY2gtZWNvdmVjMjQvc2V0dXAuYyNMMzg5DQoNCmFuZCBsYXRlciBjcmVhdGVzIHRoZSBw
+bGF0Zm9ybSBkZXZpY2UgYXMgcGFydCBvZg0KDQpodHRwczovL2VsaXhpci5ib290bGluLmNv
+bS9saW51eC92Ni4zL3NvdXJjZS9hcmNoL3NoL2JvYXJkcy9tYWNoLWVjb3ZlYzI0L3NldHVw
+LmMjTDE0ODMNCg0KSXQgd2lsbCBiZSB1c2VkIHdpdGggdGhlIHNoLW1vYmlsZSBmYmRldiBk
+cml2ZXIgYW5kIGJlY29tZSB0aGUgJ2RldmljZScgDQpmaWVsZCB0aGVyZS4NCg0KSW4gdGhl
+IGJhY2tsaWdodCBjb2RlLCB0aGUgZ3Bpb19iYWNrbGlnaHQgZHJpdmVyIGNvcGllcyB0aGUg
+ZmJkZXYgZmllbGQgYXQNCg0KaHR0cHM6Ly9lbGl4aXIuYm9vdGxpbi5jb20vbGludXgvdjYu
+My9zb3VyY2UvZHJpdmVycy92aWRlby9iYWNrbGlnaHQvZ3Bpb19iYWNrbGlnaHQuYyNMNjIN
+Cg0KdG8gbGF0ZXIgdXNlIGl0IGluY29ycmVjdGx5IGluIC5jaGVja19mYi4gSGVuY2UsIHRo
+ZSBoZWxwZXIgaGFzIHRvIA0KY29tcGFyZSB0aGUgcGxhdGZvcm0gZGV2aWNlIHRvIHRoZSAn
+ZGV2aWNlJyBmaWVsZCwgbm90IHRoZSAnZGV2JyBmaWVsZDsgDQp3aGljaCBpcyBiZWluZyBm
+aXhlZCBieSB0aGlzIHBhdGNoc2V0Lg0KDQpUaGUgdHdvIG90aGVyIGRyaXZlcnMsIGJkNjEw
+NyBhbmQgbHY1MjA3bHAsIGhhdmUgdGhlIHNhbWUgYnVnLg0KDQpCZXN0IHJlZ2FyZHMNClRo
+b21hcw0KDQoNCj4gDQo+IFRoYW5rcywNCj4gDQo+IE0NCj4gDQo+PiB9DQo+Pg0KPj4gc3Rh
+dGljIGNvbnN0IHN0cnVjdCBiYWNrbGlnaHRfb3BzIGJkNjEwN19iYWNrbGlnaHRfb3BzID0g
+ew0KPj4gLS0NCj4+IDIuNDEuMA0KPiANCg0KLS0gDQpUaG9tYXMgWmltbWVybWFubg0KR3Jh
+cGhpY3MgRHJpdmVyIERldmVsb3Blcg0KU1VTRSBTb2Z0d2FyZSBTb2x1dGlvbnMgR2VybWFu
+eSBHbWJIDQpGcmFua2Vuc3RyYXNzZSAxNDYsIDkwNDYxIE51ZXJuYmVyZywgR2VybWFueQ0K
+R0Y6IEl2byBUb3RldiwgQW5kcmV3IE15ZXJzLCBBbmRyZXcgTWNEb25hbGQsIEJvdWRpZW4g
+TW9lcm1hbg0KSFJCIDM2ODA5IChBRyBOdWVybmJlcmcpDQo=
 
-Nope.  They were added here for consistency with the other *_{MIN,MAX}
-defines.
+--------------U2OCUX5bG0ubHrGWpdK9sORo--
 
-> If not can you please define them in linux/limits.h, the vdso headers con=
-tain
-> only what is necessary for the vDSO library.
-
-Will fix in the next version.
---=20
-Sincerely,
-Demi Marie Obenour (she/her/hers)
-Invisible Things Lab
-
---NGoQOQpHk48pW9+A
-Content-Type: application/pgp-signature; name="signature.asc"
+--------------pXSHUios00U5kRTo473gtCKr
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCgAdFiEEdodNnxM2uiJZBxxxsoi1X/+cIsEFAmSHfesACgkQsoi1X/+c
-IsEbjw/+LDz/ZrZ6HofU5Sjo8ZA8THCeJbaQEcjq0K1aUNrb9oa7qnZMECW3U/hh
-RM/bfptOB77BTB1Lr5IAlutr5P+O4SnNNTXG49nuBAQhBNo3tZVlf3te8L+aS1Ia
-kxBxACKwxxawCgVqOuXelC1PWkBZxOHSG+C4JLOAkqhoET4TZ8zcy2Tu+WFEoP6p
-IM04KKvF8j50qiG0UQ2gLl7gGDCevJ6CIPS9FlNcUD3g7cW1az9tYoXNbk/GFExq
-lzfEn+UQHsnw8scjuM9KvSYJU0LW3Ljl+AUgYxf1rJsGLWPHZDZELIXbSj8s6wv1
-xDBCNUNRMJ+mxOgISUkViS2SzztCOfLMvFq33ei5Wozjr+p7hl6a5+pu8hZcljxW
-iLv5LXKLbITKzmPC+hqAacpnrlVIYLxzeceEHPc10/gbZoBRxZETIodIMQDBbUAr
-BKMDX9RMcBt0SRWbgfLJrW6pukQ9HQCNFdvGUJoIkowettr7SGU2n6R1rpwXOUKH
-pty750hJlL5Q7BTeQApd8xbNFm3dlT0p10fKbOssUstDkpLYu2jgqBKTf8GIfOPY
-p6/QjXZYTRXeCYy0uyeJrgXkW/q5GP6qAPF95WgJ0paVAym+OVD6FTBZTmOV1/z2
-XQ/DQ9L1x5naaIaRMTt5J+Db1gmHxuNcT4Dbo9ua/9/TR/TlCD8=
-=dZlN
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmSIG0oFAwAAAAAACgkQlh/E3EQov+Bd
+FBAAxy6YlDaU4D9ffnggcGz+xokLfeqLoxNxGVLvcP0g+HsxmRrwCg4Irwazg0GyNyjRKFVyJsw2
+jjOQ9HsgSaTU/fxaRsv7D3A+oWwyMhTbYQicLBP1NE0vEjagiqgzWuRrv1omEY8tiol5Lpc+kLEo
+VrXKRidqweyYGgjSlv1fMCw+dxZ2KX3pXbFZDJeYDQog69CzahjdE2j6kwC06GdCtgqMl7p088ut
+cK7dwXnrtbC+WylRtW7SSkPW8y7hSKwKebOGpZBMP0sBfjB9aPq1tPoXh1cl9oW2pBFrirWkDyAf
+hq5iBc0oEkgrR/DFOEYR7cM/dUyKht7077PN3BflK5T5f1G64lwc6/SUDklvnIjzwZ4QjE7vy6dG
+qBb6Fm2Ya3hKTwv/5V3dH2WgsZ3Xp6yprCV4KRDRxf498sGqn17rFvwI17pZXta/2jtzlF7VHZHt
+EEgin6kvDIgrfG4QqfUB69SsB+zRfXjMkPzBfntdPjyjdy8laZOqIqklEc46ZxmBP26wiPCVALG4
+vqjxdyrIRbMrgg4LpBJ6wQx1SAJJx4KdMgdXFDTNagtvJgUqy9A2sN7j17Rq3mbekk847jm/XCcB
+yObOT93fkjHi0SUJIsmTR+4azwE0c3TY4j4wFBuHUEMKv2RiEDW8lMwG7uXzSjLzbVb3wr7uB4AA
+eCo=
+=59Ha
 -----END PGP SIGNATURE-----
 
---NGoQOQpHk48pW9+A--
+--------------pXSHUios00U5kRTo473gtCKr--
