@@ -1,55 +1,58 @@
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com [209.85.167.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EEF3F2915
-	for <linux-staging@lists.linux.dev>; Tue, 13 Jun 2023 09:59:36 +0000 (UTC)
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-3f8d5262dc8so1207385e9.0
-        for <linux-staging@lists.linux.dev>; Tue, 13 Jun 2023 02:59:36 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 005275CB0
+	for <linux-staging@lists.linux.dev>; Tue, 13 Jun 2023 10:37:34 +0000 (UTC)
+Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-4f655293a38so6172033e87.0
+        for <linux-staging@lists.linux.dev>; Tue, 13 Jun 2023 03:37:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1686650375; x=1689242375;
+        d=linaro.org; s=google; t=1686652653; x=1689244653;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=ZlUoGmD+Nfi7K2nHm0LGWuLWSwRbzH1OWwMGWxNfqrM=;
-        b=OwZMBzxmZi8GYXKYUFBPh7/x5iWEMT13GxKzuI5U9ZCQOEGQweYPFbetgB/yeF2eo+
-         JPjG8t8VtY4e0bz+v7fKE8y2oDOmPygXuZIj0eKQkQyCh0msrqb0VE9iElMVzjno/Od/
-         U+St9XrDfAm6BCcvEfdpe1JnkpYuLLk3dDCly87ImNh45wEzNJfvaKjP8h3GgL4F2iWa
-         4BpS9XmjSmz8Tlp2+h3AMgeX82VmR2Q7jUmWIE5S1GQdVJJYF7OimRsO3g4BkbjYHnna
-         axAL+h31Wuxzd2cyr2wOEPfbd9eSss92evfNGp0mHoXhYI2EAYIoIHhdloEytxVaK3bC
-         A0rw==
+        bh=FcIqiwGu4sLEkTe056TBYKLsIuMHS5/22uZLcaXmrIg=;
+        b=q38P38oFNz436rbtz93StwiYL/vFP7MMNqPeNIqejeYdXIrrCA3boHSyNWjxCLq+yT
+         dL/m53B2SwFPNECbkZSRBytuIDffRItcWoVo+WlXh39G5Czhu9zYzZNMndOPjJyGARt5
+         kbl072mpM6tDiMEqdz247ltufPd3+4qHo6Oeg9xmLT5SlA1fjzpla2uhD6mm/axrTWYJ
+         izBLn9ywFt38UPfmPSDd7ZYJOXCxjbaWU5b05peQOck/vQznRpGC6CifT0xizIH1bxmu
+         Tgoj9P9zSDjP2ZN4rY88dTvxN0xd364jYAjGfSlb2E2YQE15gsbGsvyx1gRL5t7XbU0j
+         m4FA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686650375; x=1689242375;
+        d=1e100.net; s=20221208; t=1686652653; x=1689244653;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=ZlUoGmD+Nfi7K2nHm0LGWuLWSwRbzH1OWwMGWxNfqrM=;
-        b=V2DqKC7WAU0RqRvqszOxXpCNsv4/mfYgfP6AvWj7E/TXulPH+N9q31xSomZbGGf3A8
-         QlqQ26nJ/OfsFc+9pyqBzJX0fORzAMIK8DXNAFAcCSag1ypam0kwDH+Gs2U/2/o+ESWL
-         UORwk3hJ4u+9wBBcXJOW/opgdf/2R1P/FYTJGZM3KAeNjieBG0muAD+O/SWPTCDl/1oY
-         HHfs+Y7bPK6wGb58Um6UtKwFn+J8pn6bKG0GrHXnFciqaQ5tfmnCBZkz8qqZ6+vbbnmq
-         X+/q/nq/2oX4d638jBcW7yYNGWBSy2kF5s6keDHvy+BaqoGGLin9q69mFRbFJ6EDJlA2
-         Urqg==
-X-Gm-Message-State: AC+VfDzDPm3CZnV4mNAPOU+WzztiazMzZ7fKKCjK5Pgh8q5KenY9W4MQ
-	1nGorfGU0XLocHQifdwueOEnIQ==
-X-Google-Smtp-Source: ACHHUZ48AjkEKc9KR3ij8G3kZiakHkZ+tjQ0KaSTDHC4QnSEoudDWbftA4K3pG4bxUF8hqmHpSPFXA==
-X-Received: by 2002:a1c:750a:0:b0:3f7:3634:e21b with SMTP id o10-20020a1c750a000000b003f73634e21bmr9945985wmc.2.1686650375078;
-        Tue, 13 Jun 2023 02:59:35 -0700 (PDT)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id b14-20020a056000054e00b0030c2e3c7fb3sm14717409wrf.101.2023.06.13.02.59.32
+        bh=FcIqiwGu4sLEkTe056TBYKLsIuMHS5/22uZLcaXmrIg=;
+        b=l1HjSalLrOkvmkv7CgefBC3QP4dvC4LyyM5WAWEMYOBBDRxmGpAT7Vake66HGvgOr3
+         yiIY9tS8vIVz+hZmzmIbu4dhN3T+Q9uTpR4VRJcpiYOKeO/4DFx2oM+gaUS20HUhOW/c
+         /MRtM71/xtu+La9S3fyXT4cRK9b0sf0VufZUkDFqt1ivDm3G+v/vH4dyx+DeKOfvW8sQ
+         RBcIkIm4b04FQVVtduzktJWBLB7Daffd25+sLKZ3/qiyYqh0U+I7C4mVFLSje5EbVJne
+         MllUqg2EDjR9rmxNeX6wii0Rtod6j2OllnTmXVGQQGlOa7WIg886ixAXJa9XC2yiqpNu
+         Hpcw==
+X-Gm-Message-State: AC+VfDyjkXJ4H+Ak4W4ayy/UWIXrZLYQdhLV03RwU26GxNZ/GeDo/5Xu
+	3Dw58N2PhvOkfcKbz/DO8Avc6w==
+X-Google-Smtp-Source: ACHHUZ75Fs8dPw0U408VxzYcAqvN1dg4+0El4azN/49u3r8xhE324PvUci35OMNH6AhJBTgTqhwkRg==
+X-Received: by 2002:a19:2d4e:0:b0:4f3:93d6:377b with SMTP id t14-20020a192d4e000000b004f393d6377bmr4733972lft.37.1686652652707;
+        Tue, 13 Jun 2023 03:37:32 -0700 (PDT)
+Received: from aspen.lan (aztw-34-b2-v4wan-166919-cust780.vm26.cable.virginm.net. [82.37.195.13])
+        by smtp.gmail.com with ESMTPSA id k9-20020a7bc409000000b003f6050d35c9sm13973436wmi.20.2023.06.13.03.37.31
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 13 Jun 2023 02:59:33 -0700 (PDT)
-Date: Tue, 13 Jun 2023 12:59:29 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Juerg Haefliger <juerg.haefliger@canonical.com>
-Cc: gregkh@linuxfoundation.org, jbrunet@baylibre.com, khilman@baylibre.com,
-	linux-amlogic@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev, martin.blumenstingl@googlemail.com,
-	mchehab@kernel.org, narmstrong@baylibre.com
-Subject: Re: [PATCH v2 resend] media: meson: vdec: Add MODULE_FIRMWARE macro
-Message-ID: <293fbb78-26df-4328-8a1b-047fdfc9153e@kadam.mountain>
-References: <20220818064810.17856-1-juerg.haefliger@canonical.com>
- <20230126153258.1558471-1-juerg.haefliger@canonical.com>
- <20230613115018.562c843f@gollum>
+        Tue, 13 Jun 2023 03:37:32 -0700 (PDT)
+Date: Tue, 13 Jun 2023 11:37:30 +0100
+From: Daniel Thompson <daniel.thompson@linaro.org>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: daniel@ffwll.ch, javierm@redhat.com, sam@ravnborg.org, deller@gmx.de,
+	geert+renesas@glider.be, lee@kernel.org, jingoohan1@gmail.com,
+	dan.carpenter@linaro.org, michael.j.ruhl@intel.com,
+	linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
+	linux-sh@vger.kernel.org, linux-omap@vger.kernel.org,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+	stable@vger.kernel.org
+Subject: Re: [PATCH v2 01/38] backlight/bd6107: Compare against struct
+ fb_info.device
+Message-ID: <20230613103730.GA169438@aspen.lan>
+References: <20230612141352.29939-1-tzimmermann@suse.de>
+ <20230612141352.29939-2-tzimmermann@suse.de>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -58,18 +61,34 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230613115018.562c843f@gollum>
+In-Reply-To: <20230612141352.29939-2-tzimmermann@suse.de>
 
-On Tue, Jun 13, 2023 at 11:50:18AM +0200, Juerg Haefliger wrote:
-> Ping
-> 
+On Mon, Jun 12, 2023 at 04:07:39PM +0200, Thomas Zimmermann wrote:
+> Struct bd6107_platform_data refers to a platform device within
+> the Linux device hierarchy. The test in bd6107_backlight_check_fb()
+> compares it against the fbdev device in struct fb_info.dev, which
+> is different. Fix the test by comparing to struct fb_info.device.
+>
+> Fixes a bug in the backlight driver and prepares fbdev for making
+> struct fb_info.dev optional.
+>
+> v2:
+> 	* move renames into separate patch (Javier, Sam, Michael)
+>
+> Fixes: 67b43e590415 ("backlight: Add ROHM BD6107 backlight driver")
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> Cc: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> Cc: Lee Jones <lee@kernel.org>
+> Cc: Daniel Thompson <daniel.thompson@linaro.org>
+> Cc: Jingoo Han <jingoohan1@gmail.com>
+> Cc: dri-devel@lists.freedesktop.org
+> Cc: <stable@vger.kernel.org> # v3.12+
+> Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
 
-You CC'd almost a hundred different mailing lists but you left out the
-one that matters.  Resend and CC linux-media@vger.kernel.org
+Reviewed-by: Daniel Thompson <daniel.thompson@linaro.org>
 
-The linux-media maintainers work off patchwork so they'll never see this
-patch as is.
 
-regards,
-dan carpenter
+Daniel.
 
+PS Please don't treat this as an Acked-by, if you want to land this
+   patchset via a single tree please coordinate with Lee Jones!
