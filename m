@@ -1,42 +1,42 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8942C2A6E7
-	for <linux-staging@lists.linux.dev>; Tue, 13 Jun 2023 11:10:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92191294D2
+	for <linux-staging@lists.linux.dev>; Tue, 13 Jun 2023 11:10:01 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id C0A3422416;
-	Tue, 13 Jun 2023 11:10:02 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id B07221FD96;
+	Tue, 13 Jun 2023 11:09:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1686654602; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1686654599; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=iS75Sy8vxPdQTxKd8R/a14a55yT+9ZE1XrealkwT0x8=;
-	b=Q38CvPhEMtiNefeeOeH1vGahXu/yyy0YEhuBjm1JmUEEC2utiogyKVMwU96QYlrZmRp2nD
-	Dyvccc3evDLBZrq8iVmZsLVgU5+gbhsRpe6eI42YxiU+Pyjzv0+FhtqX2B9wHg5QpORz8x
-	q2CjPSlhB52ekQ5zyqMJwYdH7MJjCV0=
+	bh=n1RUmBKa1b/V45kq7Fq+nxhRPDt5rsHzvLZj5NnjnsE=;
+	b=eHROwS8uJRUKzXKFeBny+W6yHIMBQnstPxq6Axk3N6CWnIVuGOPL1ftbu8pN+RsX8qIFQX
+	5LqZP8whXMiE/My8weF8DnXKwJhN+wFg21r/H6jd40HjZukBOtnl1aH2NO8XdEGO0jB1hq
+	JcZ5jdIVNO0jbAkletoTLgVj06/bgkI=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1686654602;
+	s=susede2_ed25519; t=1686654599;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=iS75Sy8vxPdQTxKd8R/a14a55yT+9ZE1XrealkwT0x8=;
-	b=EZDaB+E68NnQ724We9tBfV8Es66SWW3pJADfp5wqoGrgSipwtlYOzXaSRMxxOJW1+QIXad
-	t+0OSOJDyYZhMvCA==
+	bh=n1RUmBKa1b/V45kq7Fq+nxhRPDt5rsHzvLZj5NnjnsE=;
+	b=xy+vYMkCnw1cl7sdD31+jeSmcTu2XBj/IwCfOKfmdRWnXBgD4T4QJZqvABxFCpTokXdpsq
+	LApcKPYNgCBu99Aw==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 75C3413483;
-	Tue, 13 Jun 2023 11:10:02 +0000 (UTC)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 6CA4813483;
+	Tue, 13 Jun 2023 11:09:59 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
 	by imap2.suse-dmz.suse.de with ESMTPSA
-	id +JXYG4pOiGR8CQAAMHmgww
-	(envelope-from <tzimmermann@suse.de>); Tue, 13 Jun 2023 11:10:02 +0000
+	id OBy/GYdOiGR8CQAAMHmgww
+	(envelope-from <tzimmermann@suse.de>); Tue, 13 Jun 2023 11:09:59 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: daniel@ffwll.ch,
 	javierm@redhat.com,
@@ -55,9 +55,9 @@ Cc: linux-fbdev@vger.kernel.org,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH v3 20/38] fbdev/pxa168fb: Do not assign to struct fb_info.dev
-Date: Tue, 13 Jun 2023 13:06:55 +0200
-Message-ID: <20230613110953.24176-21-tzimmermann@suse.de>
+Subject: [PATCH v3 10/38] fbdev/aty128fb: Use hardware device as backlight parent
+Date: Tue, 13 Jun 2023 13:06:45 +0200
+Message-ID: <20230613110953.24176-11-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.41.0
 In-Reply-To: <20230613110953.24176-1-tzimmermann@suse.de>
 References: <20230613110953.24176-1-tzimmermann@suse.de>
@@ -69,29 +69,30 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Do not assign the hardware device to struct fb_info.dev. The
-field references the fbdev software device, which is unrelated.
+Use the hardware device in struct fb_info.device as parent of the
+backlight device. Aligns the driver with the rest of the codebase
+and prepares fbdev for making struct fb_info.dev optional.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
 Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
 ---
- drivers/video/fbdev/pxa168fb.c | 2 +-
+ drivers/video/fbdev/aty/aty128fb.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/video/fbdev/pxa168fb.c b/drivers/video/fbdev/pxa168fb.c
-index 79f3384630926..82cb9ffe52908 100644
---- a/drivers/video/fbdev/pxa168fb.c
-+++ b/drivers/video/fbdev/pxa168fb.c
-@@ -629,7 +629,7 @@ static int pxa168fb_probe(struct platform_device *pdev)
- 	fbi = info->par;
- 	fbi->info = info;
- 	fbi->clk = clk;
--	fbi->dev = info->dev = &pdev->dev;
-+	fbi->dev = &pdev->dev;
- 	fbi->panel_rbswap = mi->panel_rbswap;
- 	fbi->is_blanked = 0;
- 	fbi->active = mi->active;
+diff --git a/drivers/video/fbdev/aty/aty128fb.c b/drivers/video/fbdev/aty/aty128fb.c
+index b4a49068a522f..2d9320a52e519 100644
+--- a/drivers/video/fbdev/aty/aty128fb.c
++++ b/drivers/video/fbdev/aty/aty128fb.c
+@@ -1846,7 +1846,7 @@ static void aty128_bl_init(struct aty128fb_par *par)
+ 	memset(&props, 0, sizeof(struct backlight_properties));
+ 	props.type = BACKLIGHT_RAW;
+ 	props.max_brightness = FB_BACKLIGHT_LEVELS - 1;
+-	bd = backlight_device_register(name, info->dev, par, &aty128_bl_data,
++	bd = backlight_device_register(name, info->device, par, &aty128_bl_data,
+ 				       &props);
+ 	if (IS_ERR(bd)) {
+ 		info->bl_dev = NULL;
 -- 
 2.41.0
 
