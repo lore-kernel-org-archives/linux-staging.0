@@ -1,111 +1,93 @@
-Received: from smtp-relay-internal-0.canonical.com (smtp-relay-internal-0.canonical.com [185.125.188.122])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68F4823DB
-	for <linux-staging@lists.linux.dev>; Tue, 13 Jun 2023 15:48:58 +0000 (UTC)
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com [209.85.221.72])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-relay-internal-0.canonical.com (Postfix) with ESMTPS id 350CC3F26B
-	for <linux-staging@lists.linux.dev>; Tue, 13 Jun 2023 15:39:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
-	s=20210705; t=1686670784;
-	bh=h2VB2F1nqgPgNlWNC2nzeOkEx2tuyJu/3uifBQZUmKY=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version;
-	b=Px1GsJBpr91+X+7dRDPpYZOSu31kCRXMwUv1yRwhk0LSTw+MnXf3q/0x6j5EMI2Hl
-	 PKhNnljqQhYp64fIh0dsOaaY2ENyUvAjU7T/pbozQOHlqO7vUwc7DIwd5njsqZDh5q
-	 gxeDlAQPCeEDnq4BfAiNQ4T+ncUVs81YYlWVfvw+Twtlds7tDgHDjh61gqXKpYf+c5
-	 SXXGXV8/A+9494aMHL99ZVyGs6CNtDEOn6tNz1alFrVdeZ8ECan4kcqwbDO/vIisgG
-	 Mhk4uB9L3HF8h6ByoEMnRXR7/XW4ZiHkTN9JE7KOifUmN1E6ZI2v2cyyC1OHc+rYTg
-	 N8U9/Oov+xVwQ==
-Received: by mail-wr1-f72.google.com with SMTP id ffacd0b85a97d-30e5c497f90so3310370f8f.2
-        for <linux-staging@lists.linux.dev>; Tue, 13 Jun 2023 08:39:44 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13B2923DB;
+	Tue, 13 Jun 2023 15:56:48 +0000 (UTC)
+Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-65292f79456so4337635b3a.2;
+        Tue, 13 Jun 2023 08:56:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1686671808; x=1689263808;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=Lm83ENN7P26mz8SroVi/kReZQaeZTD5r+fv7IA/VbbU=;
+        b=OcI6+OEjvGF5Vg7TnVZ1fPbCaBV3YkbNc1/qzP/41NzjDStS0TLzUooa+3bzeuYU+M
+         uhxFMZHirWOIT+oJEsZEsY1V5saMy8ZS0pejxV4SbXGQuWqw9lGt0EwMrswDlL78TLTZ
+         ZEXHFvMgE2TEYB9Q7niWu2bACmA4oGClN9c1Xxjgo2W4kwl73/sKN7EfSsA+dYnxYV+/
+         F9sRGgZEAL08qO99IdgsYmR2eWDhO1IfrHxgd7XCYSdwuclhx4D70JSOyt6iiJY06fsA
+         96Uhpt3b11q5A95sep70SXE3p7NxQIm1Nse7Z6kVC1XMRHx9HNO72eiQqnHy1GRK5jk/
+         O7rQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686670783; x=1689262783;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=h2VB2F1nqgPgNlWNC2nzeOkEx2tuyJu/3uifBQZUmKY=;
-        b=REF2KHjnRmHIb6TY3ZaWG3n+0D75nRYxIxRaZ4CCkaZx9EIbvDXpPSP/kvXq9gPKLp
-         3IBUGFfZ3/T3udcPFOL+Ra8rNRwK3hA9aysu/hNGy7/arellaZVdIbcX99actWQl+HwL
-         p7osgn8XVV0Uj8Bee+nCIkkjwE4iML42PjrB2rRVPxAoZRelEK4lA5ugPxodkFtpfagT
-         MAA+YnpQLV0DvihmlmNiqICCtxfhJb3Svo3ztJ2Xk7VAXOnQ7SedKtVVwO2lVsTximJr
-         uDMW1LFIrhVrrkasZsIayoFHxquGLvOu4zTv/DK9O7dfq2Vf/LAqv11l0fDDg5poOwR+
-         bwUg==
-X-Gm-Message-State: AC+VfDzo8UgW/fANgK/NIYQ8G75zHikFG2UTuHBspJ/7dsfA35Qj9B40
-	0TbtdxLVb8c1PZuSzEKhLb8BxWzet1EM+3Y2Vj6V5s9/RHniNPb3BpiEesV8b7yNguHrVWLUIWo
-	DFuYQA7n1PQEDvX0sDWvsJNBFFVbY9gu7/HUExbhic7s=
-X-Received: by 2002:a05:6000:1248:b0:2f8:3225:2bc2 with SMTP id j8-20020a056000124800b002f832252bc2mr6846725wrx.41.1686670783783;
-        Tue, 13 Jun 2023 08:39:43 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ7u6y5BjGv0z8bT/LB9RrsvWeO5qrDCAe7zl2OSeRDtbWoTqJ0KQBMBeO8sS2CFGRWa+dBvvw==
-X-Received: by 2002:a05:6000:1248:b0:2f8:3225:2bc2 with SMTP id j8-20020a056000124800b002f832252bc2mr6846717wrx.41.1686670783535;
-        Tue, 13 Jun 2023 08:39:43 -0700 (PDT)
-Received: from localhost ([194.191.244.86])
-        by smtp.gmail.com with ESMTPSA id b5-20020adff905000000b0030aedb8156esm15556257wrr.102.2023.06.13.08.39.42
+        d=1e100.net; s=20221208; t=1686671808; x=1689263808;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Lm83ENN7P26mz8SroVi/kReZQaeZTD5r+fv7IA/VbbU=;
+        b=GZd1ey8GblYE9VaNgoqtCGTRZPIfqUry3rBMI473fg9qKytCRiQ8UcQBwO+9idi61B
+         QM6hrUY6WyIqyEGkcRgfrClUYxcMFy8XCl4aPHPta1SWd3q19evCFlj5MkXifXQ6O8F/
+         q5HrCgyn6G0+Hc3GMBFDaROICyiuKLtrlv5KPdaGE8ohY1vKv4D7iGAodU1FED3HmPsq
+         84pCkmlIh1PW6TsG50vdTO9TPnHmdAeR/r57m5anNO3BrwN8ccCrJtJatXo3qfJmU9+x
+         wRH+fN16b7UTkPNQlsfgWTzGtZlz0JZD9J93srTM8QS/nAjuGrwu48sPiry3RoZHZVk6
+         TWrA==
+X-Gm-Message-State: AC+VfDwntIDrDhM0qbeqv+TCDN7PjIN+ekz9xzZw0rQ/m3E7Pz7+4WOn
+	eOcZDqfwtZWDSAAEPkp4Uh8=
+X-Google-Smtp-Source: ACHHUZ4Jrl5CU4kc2B5lBFHU2ztnTPo2MjVbPd481iEIl7vEUTFWpS5CwLQ7HIkBZPyb8EBuEc0AJQ==
+X-Received: by 2002:a05:6a00:2195:b0:65c:9e3e:889b with SMTP id h21-20020a056a00219500b0065c9e3e889bmr13293515pfi.6.1686671808312;
+        Tue, 13 Jun 2023 08:56:48 -0700 (PDT)
+Received: from redkillpc ([49.207.203.99])
+        by smtp.gmail.com with ESMTPSA id e21-20020a62aa15000000b0065014c15a57sm8863891pff.35.2023.06.13.08.56.44
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 13 Jun 2023 08:39:43 -0700 (PDT)
-From: Juerg Haefliger <juerg.haefliger@canonical.com>
-To: juerg.haefliger@canonical.com
-Cc: gregkh@linuxfoundation.org,
-	jbrunet@baylibre.com,
-	khilman@baylibre.com,
-	linux-amlogic@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	martin.blumenstingl@googlemail.com,
-	mchehab@kernel.org,
-	narmstrong@baylibre.com,
-	linux-media@vger.kernel.org
-Subject: [PATCH v2 resend 2] media: meson: vdec: Add MODULE_FIRMWARE macro
-Date: Tue, 13 Jun 2023 17:39:39 +0200
-Message-Id: <20230613153939.152457-1-juerg.haefliger@canonical.com>
-X-Mailer: git-send-email 2.37.2
-In-Reply-To: <20230126153258.1558471-1-juerg.haefliger@canonical.com>
-References: <20230126153258.1558471-1-juerg.haefliger@canonical.com>
+        Tue, 13 Jun 2023 08:56:47 -0700 (PDT)
+Date: Tue, 13 Jun 2023 21:26:41 +0530
+From: Prathu Baronia <prathubaronia2011@gmail.com>
+To: Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Fabio M. De Francesco" <fmdefrancesco@gmail.com>,
+	Khadija Kamran <kamrankhadijadj@gmail.com>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	dan.carpenter@linaro.org, error27@gmail.com, lkp@intel.com,
+	oe-kbuild-all@lists.linux.dev, oe-kbuild@lists.linux.dev
+Subject: Re: [PATCH v4 3/3] axis-fifo: cleanup space issues with fops struct
+Message-ID: <ZIiRueq6pSOC27PN@redkillpc>
+References: <ZHHE/H2p4Go/Igc/@redkillpc>
+ <20230527115101.47569-1-prathubaronia2011@gmail.com>
+ <20230527115101.47569-3-prathubaronia2011@gmail.com>
+ <20230527223111.jidik3ffcsxdkenb@pengutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230527223111.jidik3ffcsxdkenb@pengutronix.de>
 
-The meson-vdec module loads firmware so add MODULE_FIRMWARE macros to
-provide that information via modinfo.
+On Sun, May 28, 2023 at 12:31:11AM +0200, Uwe Kleine-König wrote:
+> Note this is only subjectively better. IMHO with just a single space
+> this is perfectly readable. Aligning the = might look nice, but it's
+> also annoying at times. When you add another member (e.g.
+> .iterate_shared) you either add a line that doesn't match all others, or
+> you have to touch all other lines of that struct which (objectively?)
+> hurts readability of that patch. Also for generated patches this kind of
+> alignment yields extra work. (See for example
+> https://lore.kernel.org/lkml/20230525205840.734432-1-u.kleine-koenig@pengutronix.de/
+> which required semi-manual fixup to keep the alignment after coccinelle
+> generated the patch.)
+> 
+Agreed, that this would create more troubles than benefits.
 
-Signed-off-by: Juerg Haefliger <juerg.haefliger@canonical.com>
-Reviewed-by: Neil Armstrong <narmstrong@baylibre.com>
+> If you still think this is a good idea, I'd ask you to stick to one
+> style for the whole file. e.g. axis_fifo_driver uses inconsistent
+> and different indention.
+> 
+> A thing that IMHO is more useful to change here, is the name fops; I'd
+> suggest something like axis_fifo_fops (and also use prefixes for some
+> other symbols like "get_dts_property"). In 6.4-rc1 my ctags file knows
+> about 64 different places that define something called "fops".
+> 
+Agreed. Upon further walkthrough I think this driver requires a lot of cleanup
+so I will leave that cleanup for another dedicated patch series for now.
 
----
-v2 resend 2:
-  - cc linux-media@vger.kernel.org
-v2:
-  - Drop duplicates
-  - Add Reviewed-by: Neil Armstrong <narmstrong@baylibre.com>
----
- drivers/staging/media/meson/vdec/vdec_platform.c | 9 +++++++++
- 1 file changed, 9 insertions(+)
-
-diff --git a/drivers/staging/media/meson/vdec/vdec_platform.c b/drivers/staging/media/meson/vdec/vdec_platform.c
-index 88c9d72e1c83..70c9fd7c8bc5 100644
---- a/drivers/staging/media/meson/vdec/vdec_platform.c
-+++ b/drivers/staging/media/meson/vdec/vdec_platform.c
-@@ -280,3 +280,12 @@ const struct vdec_platform vdec_platform_sm1 = {
- 	.num_formats = ARRAY_SIZE(vdec_formats_sm1),
- 	.revision = VDEC_REVISION_SM1,
- };
-+
-+MODULE_FIRMWARE("meson/vdec/g12a_h264.bin");
-+MODULE_FIRMWARE("meson/vdec/g12a_vp9.bin");
-+MODULE_FIRMWARE("meson/vdec/gxbb_h264.bin");
-+MODULE_FIRMWARE("meson/vdec/gxl_h264.bin");
-+MODULE_FIRMWARE("meson/vdec/gxl_mpeg12.bin");
-+MODULE_FIRMWARE("meson/vdec/gxl_vp9.bin");
-+MODULE_FIRMWARE("meson/vdec/gxm_h264.bin");
-+MODULE_FIRMWARE("meson/vdec/sm1_vp9_mmu.bin");
--- 
-2.37.2
-
+Prathu
