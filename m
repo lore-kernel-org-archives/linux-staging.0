@@ -1,42 +1,42 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5883A294CE
-	for <linux-staging@lists.linux.dev>; Tue, 13 Jun 2023 11:09:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92F02294D6
+	for <linux-staging@lists.linux.dev>; Tue, 13 Jun 2023 11:09:59 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 7F4961FD8F;
-	Tue, 13 Jun 2023 11:09:56 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id A2A2E223E7;
+	Tue, 13 Jun 2023 11:09:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1686654596; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1686654597; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=e8MeP5H9L/C35OSf16J0voEdztt3TBewcnlZK3MPUmk=;
-	b=q4mVicueGNrihIwywCBqXi/D+tB7n/3YvpZhyHvocEInbo1UdXuavORCBmxo/NqCQnyYwI
-	LsY+F8fh1DgeEWQ8TJ6qr4c+g3aOzC6V6Qu5BE8K0ngDOUv0oNAvXQgVUMfDN5a9vbgicy
-	iN9Q6z/eFI8el9/xOspCpXYb4m0ujjY=
+	bh=759wPSS2YZhgjZvqqs3DuVdRpXqcbQxPoHRkgNwrzjQ=;
+	b=hB2LOkFdJ+zgRNkt1Xil1QsWxaSSGjhWIEkLnnB+ViefVknwgzP+1uVoJXm5oVEYtOKwaK
+	iYZSd1mpgCuQz+47nSm+EndIsjAN/yhXD8m4zlUlNJ7H5V7IDE+3/2gq0puNLgJNUc0cjd
+	cNZltbFm3n6FwjCID/HOxOq/GANXEjI=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1686654596;
+	s=susede2_ed25519; t=1686654597;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=e8MeP5H9L/C35OSf16J0voEdztt3TBewcnlZK3MPUmk=;
-	b=TkIc8u5ZMBX9W3NTehcBD967PaLbnxXs4zcFb3KUm/1b/89h5shMvLtfar2nl98R2XBxL8
-	KT/Dcu4p1tP+ppBA==
+	bh=759wPSS2YZhgjZvqqs3DuVdRpXqcbQxPoHRkgNwrzjQ=;
+	b=IEJlUU0QgQc1tc+jsRfLDZZsU94E6dRYpY9GsfopDnR7T62da6D3m9rgkIJCnVqZsF/Poi
+	VUtvvBgd/IgiQsDw==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 257DA13A47;
-	Tue, 13 Jun 2023 11:09:56 +0000 (UTC)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 490D313483;
+	Tue, 13 Jun 2023 11:09:57 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
 	by imap2.suse-dmz.suse.de with ESMTPSA
-	id sE80CIROiGR8CQAAMHmgww
-	(envelope-from <tzimmermann@suse.de>); Tue, 13 Jun 2023 11:09:56 +0000
+	id QJ7tEIVOiGR8CQAAMHmgww
+	(envelope-from <tzimmermann@suse.de>); Tue, 13 Jun 2023 11:09:57 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: daniel@ffwll.ch,
 	javierm@redhat.com,
@@ -55,11 +55,11 @@ Cc: linux-fbdev@vger.kernel.org,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Thomas Zimmermann <tzimmermann@suse.de>,
-	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-	stable@vger.kernel.org
-Subject: [PATCH v3 01/38] backlight/bd6107: Compare against struct fb_info.device
-Date: Tue, 13 Jun 2023 13:06:36 +0200
-Message-ID: <20230613110953.24176-2-tzimmermann@suse.de>
+	Rich Felker <dalias@libc.org>,
+	John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
+Subject: [PATCH v3 04/38] backlight/gpio_backlight: Rename field 'fbdev' to 'dev'
+Date: Tue, 13 Jun 2023 13:06:39 +0200
+Message-ID: <20230613110953.24176-5-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.41.0
 In-Reply-To: <20230613110953.24176-1-tzimmermann@suse.de>
 References: <20230613110953.24176-1-tzimmermann@suse.de>
@@ -71,45 +71,83 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Struct bd6107_platform_data refers to a platform device within
-the Linux device hierarchy. The test in bd6107_backlight_check_fb()
-compares it against the fbdev device in struct fb_info.dev, which
-is different. Fix the test by comparing to struct fb_info.device.
+Rename the field 'fbdev' in struct gpio_backlight_platform_data and
+struct gpio_backlight to 'dev', as they store pointers to the Linux
+platform device; not the fbdev device. Makes the code easier to
+understand.
 
-Fixes a bug in the backlight driver and prepares fbdev for making
-struct fb_info.dev optional.
-
-v2:
-	* move renames into separate patch (Javier, Sam, Michael)
-
-Fixes: 67b43e590415 ("backlight: Add ROHM BD6107 backlight driver")
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+Cc: Rich Felker <dalias@libc.org>
+Cc: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
 Cc: Lee Jones <lee@kernel.org>
 Cc: Daniel Thompson <daniel.thompson@linaro.org>
 Cc: Jingoo Han <jingoohan1@gmail.com>
-Cc: dri-devel@lists.freedesktop.org
-Cc: <stable@vger.kernel.org> # v3.12+
-Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+Cc: linux-sh@vger.kernel.org
 Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
 Reviewed-by: Daniel Thompson <daniel.thompson@linaro.org>
 ---
- drivers/video/backlight/bd6107.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ arch/sh/boards/mach-ecovec24/setup.c         | 2 +-
+ drivers/video/backlight/gpio_backlight.c     | 6 +++---
+ include/linux/platform_data/gpio_backlight.h | 2 +-
+ 3 files changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/video/backlight/bd6107.c b/drivers/video/backlight/bd6107.c
-index f4db6c064635b..e3410444ea235 100644
---- a/drivers/video/backlight/bd6107.c
-+++ b/drivers/video/backlight/bd6107.c
-@@ -104,7 +104,7 @@ static int bd6107_backlight_check_fb(struct backlight_device *backlight,
- {
- 	struct bd6107 *bd = bl_get_data(backlight);
+diff --git a/arch/sh/boards/mach-ecovec24/setup.c b/arch/sh/boards/mach-ecovec24/setup.c
+index 674da7ebd8b7f..310513646c9b3 100644
+--- a/arch/sh/boards/mach-ecovec24/setup.c
++++ b/arch/sh/boards/mach-ecovec24/setup.c
+@@ -386,7 +386,7 @@ static struct property_entry gpio_backlight_props[] = {
+ };
  
--	return bd->pdata->fbdev == NULL || bd->pdata->fbdev == info->dev;
-+	return bd->pdata->fbdev == NULL || bd->pdata->fbdev == info->device;
+ static struct gpio_backlight_platform_data gpio_backlight_data = {
+-	.fbdev = &lcdc_device.dev,
++	.dev = &lcdc_device.dev,
+ };
+ 
+ static const struct platform_device_info gpio_backlight_device_info = {
+diff --git a/drivers/video/backlight/gpio_backlight.c b/drivers/video/backlight/gpio_backlight.c
+index 5c5c99f7979e3..d3bea42407f15 100644
+--- a/drivers/video/backlight/gpio_backlight.c
++++ b/drivers/video/backlight/gpio_backlight.c
+@@ -17,7 +17,7 @@
+ #include <linux/slab.h>
+ 
+ struct gpio_backlight {
+-	struct device *fbdev;
++	struct device *dev;
+ 	struct gpio_desc *gpiod;
+ };
+ 
+@@ -35,7 +35,7 @@ static int gpio_backlight_check_fb(struct backlight_device *bl,
+ {
+ 	struct gpio_backlight *gbl = bl_get_data(bl);
+ 
+-	return gbl->fbdev == NULL || gbl->fbdev == info->device;
++	return !gbl->dev || gbl->dev == info->device;
  }
  
- static const struct backlight_ops bd6107_backlight_ops = {
+ static const struct backlight_ops gpio_backlight_ops = {
+@@ -59,7 +59,7 @@ static int gpio_backlight_probe(struct platform_device *pdev)
+ 		return -ENOMEM;
+ 
+ 	if (pdata)
+-		gbl->fbdev = pdata->fbdev;
++		gbl->dev = pdata->dev;
+ 
+ 	def_value = device_property_read_bool(dev, "default-on");
+ 
+diff --git a/include/linux/platform_data/gpio_backlight.h b/include/linux/platform_data/gpio_backlight.h
+index 1a8b5b1946fe4..323fbf5f76139 100644
+--- a/include/linux/platform_data/gpio_backlight.h
++++ b/include/linux/platform_data/gpio_backlight.h
+@@ -8,7 +8,7 @@
+ struct device;
+ 
+ struct gpio_backlight_platform_data {
+-	struct device *fbdev;
++	struct device *dev;
+ };
+ 
+ #endif
 -- 
 2.41.0
 
