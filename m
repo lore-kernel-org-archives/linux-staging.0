@@ -1,42 +1,42 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BA7B31EFE
-	for <linux-staging@lists.linux.dev>; Tue, 13 Jun 2023 11:10:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C56734CC2
+	for <linux-staging@lists.linux.dev>; Tue, 13 Jun 2023 11:10:10 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 6150D1FD9F;
-	Tue, 13 Jun 2023 11:10:06 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 63597223E4;
+	Tue, 13 Jun 2023 11:10:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1686654606; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1686654608; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=ZfSP1y1Od3RE4xLQhOI7CNFh+UziWmakxVkeObt75SY=;
-	b=BVN87CZX9PNwGlsQxUaCox0+gvzO4rs20m57EzzvMA3gw9SxzIvRBlJ2oKdFb5ad9VVTHG
-	gQ3INMSWM/s7jt8VLQ68rYPvcS6A4wz7gG1G9gvoVpCN4f1Kw5dm9MXSP0jsFwNNsOus9Y
-	iTs1M+VcjWanbcwEuWLIpLOwJ9c1nzA=
+	bh=yHsYY4KkqinsC3hNy7+x1+/KpZqx4RkXsKhX6dnk4eY=;
+	b=K2rJNJxfzP7upRowYzs7e5sPaiHmP/Ietyvvwt588hWoZmYRvivCKm38mIu/6DuoWxTBQY
+	+re1bBD+5jKbfW0nlfydH9Q+9hUJnQSKWyzxAmkEiJbUQDQgV8GEF2VnFNXXDppVVxGcAp
+	KKdOS/g1Kt3J47NJDIcQwcpd53hTvxM=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1686654606;
+	s=susede2_ed25519; t=1686654608;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=ZfSP1y1Od3RE4xLQhOI7CNFh+UziWmakxVkeObt75SY=;
-	b=lUIKTf5P2HghJ44B8ZTHw6QKEDgmMbMZhXzFHEdO0leLki1QSlYc7AS6dgC+mNlSz0ZwAE
-	GLeHPozBRF6zjGDg==
+	bh=yHsYY4KkqinsC3hNy7+x1+/KpZqx4RkXsKhX6dnk4eY=;
+	b=zA/qhXUKqKrL7esCdkSiWza8MO1kKeovzhPD/bLjn+XI+eireuiDt89TMNpwP3E7n4izdu
+	hFRfeA7qFYjPGdCA==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 132E713A47;
-	Tue, 13 Jun 2023 11:10:06 +0000 (UTC)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 1690613A47;
+	Tue, 13 Jun 2023 11:10:08 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
 	by imap2.suse-dmz.suse.de with ESMTPSA
-	id eOmpA45OiGR8CQAAMHmgww
-	(envelope-from <tzimmermann@suse.de>); Tue, 13 Jun 2023 11:10:06 +0000
+	id YNF+BJBOiGR8CQAAMHmgww
+	(envelope-from <tzimmermann@suse.de>); Tue, 13 Jun 2023 11:10:08 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: daniel@ffwll.ch,
 	javierm@redhat.com,
@@ -55,9 +55,9 @@ Cc: linux-fbdev@vger.kernel.org,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH v3 31/38] fbdev/tdfxfb: Set i2c adapter parent to hardware device
-Date: Tue, 13 Jun 2023 13:07:06 +0200
-Message-ID: <20230613110953.24176-32-tzimmermann@suse.de>
+Subject: [PATCH v3 37/38] fbdev/core: Rework fb init code
+Date: Tue, 13 Jun 2023 13:07:12 +0200
+Message-ID: <20230613110953.24176-38-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.41.0
 In-Reply-To: <20230613110953.24176-1-tzimmermann@suse.de>
 References: <20230613110953.24176-1-tzimmermann@suse.de>
@@ -69,33 +69,159 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Use the 3dfx hardware device from the Linux device hierarchy as
-parent device of the i2c adapter. Aligns the driver with the rest
-of the codebase and prepares fbdev for making struct fb_info.dev
-optional.
+Init the class "graphics" before the rest of fbdev. Later steps, such
+as the sysfs code, depend on the class. Also arrange the module's exit
+code in reverse order.
+
+Unexport the global variable fb_class, which is only shared internally
+within the fbdev core module.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
 Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
 ---
- drivers/video/fbdev/tdfxfb.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/video/fbdev/core/fb_internal.h |  1 +
+ drivers/video/fbdev/core/fbcon.c       |  1 +
+ drivers/video/fbdev/core/fbmem.c       | 52 ++++++++++----------------
+ include/linux/fb.h                     |  1 -
+ 4 files changed, 22 insertions(+), 33 deletions(-)
 
-diff --git a/drivers/video/fbdev/tdfxfb.c b/drivers/video/fbdev/tdfxfb.c
-index cdf8e9fe99487..dd0fa42eceb9b 100644
---- a/drivers/video/fbdev/tdfxfb.c
-+++ b/drivers/video/fbdev/tdfxfb.c
-@@ -1327,8 +1327,8 @@ static void tdfxfb_create_i2c_busses(struct fb_info *info)
- 	par->chan[0].par = par;
- 	par->chan[1].par = par;
+diff --git a/drivers/video/fbdev/core/fb_internal.h b/drivers/video/fbdev/core/fb_internal.h
+index abe06c9da36e3..0b43c0cd50968 100644
+--- a/drivers/video/fbdev/core/fb_internal.h
++++ b/drivers/video/fbdev/core/fb_internal.h
+@@ -11,6 +11,7 @@ int fb_register_chrdev(void);
+ void fb_unregister_chrdev(void);
  
--	tdfxfb_setup_ddc_bus(&par->chan[0], "Voodoo3-DDC", info->dev);
--	tdfxfb_setup_i2c_bus(&par->chan[1], "Voodoo3-I2C", info->dev);
-+	tdfxfb_setup_ddc_bus(&par->chan[0], "Voodoo3-DDC", info->device);
-+	tdfxfb_setup_i2c_bus(&par->chan[1], "Voodoo3-I2C", info->device);
+ /* fbmem.c */
++extern struct class *fb_class;
+ extern struct mutex registration_lock;
+ extern struct fb_info *registered_fb[FB_MAX];
+ extern int num_registered_fb;
+diff --git a/drivers/video/fbdev/core/fbcon.c b/drivers/video/fbdev/core/fbcon.c
+index c6c9d040bdec7..8e76bc246b387 100644
+--- a/drivers/video/fbdev/core/fbcon.c
++++ b/drivers/video/fbdev/core/fbcon.c
+@@ -78,6 +78,7 @@
+ #include <asm/irq.h>
+ 
+ #include "fbcon.h"
++#include "fb_internal.h"
+ 
+ /*
+  * FIXME: Locking
+diff --git a/drivers/video/fbdev/core/fbmem.c b/drivers/video/fbdev/core/fbmem.c
+index 4edf70241a23c..ee44a46a66be1 100644
+--- a/drivers/video/fbdev/core/fbmem.c
++++ b/drivers/video/fbdev/core/fbmem.c
+@@ -44,6 +44,8 @@
+ 
+ #define FBPIXMAPSIZE	(1024 * 8)
+ 
++struct class *fb_class;
++
+ DEFINE_MUTEX(registration_lock);
+ struct fb_info *registered_fb[FB_MAX] __read_mostly;
+ int num_registered_fb __read_mostly;
+@@ -899,9 +901,6 @@ fb_blank(struct fb_info *info, int blank)
+ }
+ EXPORT_SYMBOL(fb_blank);
+ 
+-struct class *fb_class;
+-EXPORT_SYMBOL(fb_class);
+-
+ static int fb_check_foreignness(struct fb_info *fi)
+ {
+ 	const bool foreign_endian = fi->flags & FBINFO_FOREIGN_ENDIAN;
+@@ -1108,59 +1107,48 @@ void fb_set_suspend(struct fb_info *info, int state)
+ }
+ EXPORT_SYMBOL(fb_set_suspend);
+ 
+-/**
+- *	fbmem_init - init frame buffer subsystem
+- *
+- *	Initialize the frame buffer subsystem.
+- *
+- *	NOTE: This function is _only_ to be called by drivers/char/mem.c.
+- *
+- */
+-
+-static int __init
+-fbmem_init(void)
++static int __init fbmem_init(void)
+ {
+ 	int ret;
+ 
++	fb_class = class_create("graphics");
++	if (IS_ERR(fb_class)) {
++		ret = PTR_ERR(fb_class);
++		pr_err("Unable to create fb class; errno = %d\n", ret);
++		goto err_fb_class;
++	}
++
+ 	ret = fb_init_procfs();
+ 	if (ret)
+-		return ret;
++		goto err_class_destroy;
+ 
+ 	ret = fb_register_chrdev();
+ 	if (ret)
+-		goto err_chrdev;
+-
+-	fb_class = class_create("graphics");
+-	if (IS_ERR(fb_class)) {
+-		ret = PTR_ERR(fb_class);
+-		pr_warn("Unable to create fb class; errno = %d\n", ret);
+-		fb_class = NULL;
+-		goto err_class;
+-	}
++		goto err_fb_cleanup_procfs;
+ 
+ 	fb_console_init();
+ 
+ 	return 0;
+ 
+-err_class:
+-	fb_unregister_chrdev();
+-err_chrdev:
++err_fb_cleanup_procfs:
+ 	fb_cleanup_procfs();
++err_class_destroy:
++	class_destroy(fb_class);
++err_fb_class:
++	fb_class = NULL;
+ 	return ret;
  }
  
- static void tdfxfb_delete_i2c_busses(struct tdfx_par *par)
+ #ifdef MODULE
+-module_init(fbmem_init);
+-static void __exit
+-fbmem_exit(void)
++static void __exit fbmem_exit(void)
+ {
+ 	fb_console_exit();
+-
++	fb_unregister_chrdev();
+ 	fb_cleanup_procfs();
+ 	class_destroy(fb_class);
+-	fb_unregister_chrdev();
+ }
+ 
++module_init(fbmem_init);
+ module_exit(fbmem_exit);
+ MODULE_LICENSE("GPL");
+ MODULE_DESCRIPTION("Framebuffer base");
+diff --git a/include/linux/fb.h b/include/linux/fb.h
+index 1988d11f78bcb..541a0e3ce21f4 100644
+--- a/include/linux/fb.h
++++ b/include/linux/fb.h
+@@ -609,7 +609,6 @@ extern int fb_new_modelist(struct fb_info *info);
+ 
+ extern bool fb_center_logo;
+ extern int fb_logo_count;
+-extern struct class *fb_class;
+ 
+ static inline void lock_fb_info(struct fb_info *info)
+ {
 -- 
 2.41.0
 
