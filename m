@@ -1,51 +1,51 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B11722915
-	for <linux-staging@lists.linux.dev>; Tue, 13 Jun 2023 09:36:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 413C72915
+	for <linux-staging@lists.linux.dev>; Tue, 13 Jun 2023 09:37:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1686648967;
+	s=mimecast20190719; t=1686649036;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=g/Pi75vcSPtNCKaviArQBm9+171/NA9A4ohp9N1ofbg=;
-	b=Xq/8E43n0YdL7ZyKqay46iRq9Vkb8xkR99e4oQet6IZ4yUxxLItLLVpSprQAxeTdItx0Xl
-	BlHfhBO/nDYznAkvs6dpysAZ7xfcwyuDEpIKQjl6WDPANMfJatQZ4CkE2H/zF7HUkzd7vQ
-	vsFonyBxQgf10EA351URh1uD+wBCT7U=
-Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
- [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=fjiCa7fyHomUes8Ra9T7Qjm94VOEGQDRQYm/ALeXTi8=;
+	b=XvM4cRwypgGHBxlJJCFWXhJb46abnem5F9Nl4t4H3ihbcEzZ/n3/hBnBX6xos/GFVfHsM5
+	1cqfHdOERuUeDuUTPkVFssAx9kC8q04JnnjBiR8JTuEbAFXYq80rRrKZnuPA30aSH1CYzI
+	jAsba7o+WzEaNb83O5z5LLVpaSPJnxg=
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-479-F9t899DsM4O8U_GVW5FORg-1; Tue, 13 Jun 2023 05:36:06 -0400
-X-MC-Unique: F9t899DsM4O8U_GVW5FORg-1
-Received: by mail-ej1-f72.google.com with SMTP id a640c23a62f3a-94a355c9028so586617066b.3
-        for <linux-staging@lists.linux.dev>; Tue, 13 Jun 2023 02:36:06 -0700 (PDT)
+ us-mta-346-9NUEuA_jOei8f6aRCP_DKQ-1; Tue, 13 Jun 2023 05:37:14 -0400
+X-MC-Unique: 9NUEuA_jOei8f6aRCP_DKQ-1
+Received: by mail-ed1-f70.google.com with SMTP id 4fb4d7f45d1cf-51495d51e0fso4156228a12.2
+        for <linux-staging@lists.linux.dev>; Tue, 13 Jun 2023 02:37:14 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686648965; x=1689240965;
+        d=1e100.net; s=20221208; t=1686649033; x=1689241033;
         h=content-transfer-encoding:in-reply-to:from:references:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=g/Pi75vcSPtNCKaviArQBm9+171/NA9A4ohp9N1ofbg=;
-        b=kQQOM3M1ZA07+5S34GSYTCnUUSrCvyYPXAbnQwx9ZSU7oyq7Q4kJxvqw+lYK7wPzrV
-         LvG49Hi+1HTLyGxWMBSaaFRyj6SQIl7MjdkVADa4Hs18r+VpyUGL5sVGn1o3ysTdY3Ne
-         4mV3tjvqsr4VWyEULT58HhOo649cHtWLdVzVZ3P3q7CdWNAFDstRf8X+KLO/fEYZq10O
-         v1Zhj2qED7IavAdDPlyYybtd6PQJC9l5C744KWIaxfGGWlu+RHISemLUHoKPgZIcFNOs
-         XyLNKMOpX0SwrHA3h67C7eUtPlDYDKEbcO1eum7bpkL1/xHUEymdQklzsnBBEVI9/j8F
-         Gn1g==
-X-Gm-Message-State: AC+VfDyJy73DwSNjIB81FFLquUkJLD6SPhs+Ry9dod/Gkpk0GexkkSVZ
-	becFYBNtnifp+pUPYrjEfnMgEYgsLS6vjFkkARwSoEldIzIrHiT1zxqwpvfMTpQmD4WOvVHBV9s
-	XYCPz+IFQ5U+FiPVLWUKJg37fxA==
-X-Received: by 2002:a17:907:60d0:b0:978:7262:d125 with SMTP id hv16-20020a17090760d000b009787262d125mr14546433ejc.76.1686648965164;
-        Tue, 13 Jun 2023 02:36:05 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ7K7LavoYMOeURHE+BN8sZwArsE6Er53WnguJwBL3cNHhJd+IGEzRS6qG/sTA8KMWqAEF+fDQ==
-X-Received: by 2002:a17:907:60d0:b0:978:7262:d125 with SMTP id hv16-20020a17090760d000b009787262d125mr14546416ejc.76.1686648964772;
-        Tue, 13 Jun 2023 02:36:04 -0700 (PDT)
+        bh=fjiCa7fyHomUes8Ra9T7Qjm94VOEGQDRQYm/ALeXTi8=;
+        b=YPgAlYFFkyIP+9hgAUCVN5kky+CFI5T+lOD+DHtHmqg5IcRDpzJClT9fhpH0PRvEgR
+         zQXlgCq3YoU11RsafVByXU3o46CZoi5d3R5dLZTM/befw8da7BlbRO1xuDT3UiaLFu0C
+         RmGJW0/SBGODMlhJIen90UlwbzL8TpckvGjoAPfFQ6V4HCP4lkzWqsM1pq0eJpu7asNA
+         /MfsTwszhAFrQAHyxdYMTPPPx7/olL0bwkqz9wCU0MnPZdR8oiKC1I7Kj1eD1yZQNXYE
+         IYqNYaRpIFz94I7OwvCWtqrRQPNbcfbJV0/8wgZS7by+6vImyRLDWj79lHeKM/nHSuQp
+         WNUA==
+X-Gm-Message-State: AC+VfDwA+82RaFlbVF4kRJ8jnvstWG+6O7UrQeLDL3R/T1exQC3auE3l
+	fgDBKmuu9O2qoPGmpdN/h1k0o+z4pmloLHYMzLxVFoAZSTinuGP5fDL2/aNaSbW6vuLWZMO9IMc
+	OyPSG9SbEHn7opi42Z/iZMrVwuA==
+X-Received: by 2002:aa7:db59:0:b0:514:8e5a:8471 with SMTP id n25-20020aa7db59000000b005148e5a8471mr6581381edt.13.1686649033274;
+        Tue, 13 Jun 2023 02:37:13 -0700 (PDT)
+X-Google-Smtp-Source: ACHHUZ5KinlAM8A1bQJFPUHY3xFNpYhGDy+BWt9vyXJL0Okkn/x1Sh6QHGxZslm/vlC0pOo4aMgf+w==
+X-Received: by 2002:aa7:db59:0:b0:514:8e5a:8471 with SMTP id n25-20020aa7db59000000b005148e5a8471mr6581365edt.13.1686649032983;
+        Tue, 13 Jun 2023 02:37:12 -0700 (PDT)
 Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
-        by smtp.gmail.com with ESMTPSA id s8-20020a170906500800b009663582a90bsm6489634ejj.19.2023.06.13.02.36.03
+        by smtp.gmail.com with ESMTPSA id n21-20020aa7d055000000b0050bc7c882bfsm6029933edo.65.2023.06.13.02.37.12
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 13 Jun 2023 02:36:04 -0700 (PDT)
-Message-ID: <104ec2e8-b377-ca70-197c-b6110eeeba00@redhat.com>
-Date: Tue, 13 Jun 2023 11:36:03 +0200
+        Tue, 13 Jun 2023 02:37:12 -0700 (PDT)
+Message-ID: <d14b9b81-d0a5-e967-0e10-a3d3037e345b@redhat.com>
+Date: Tue, 13 Jun 2023 11:37:11 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -54,255 +54,97 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.10.0
-Subject: Re: [PATCH v2 2/3] media: atomisp: ia_css_debug: remove unused
- HAS_WATCHDOG_SP_THREAD_DEBUG codes
+Subject: Re: [PATCH v2 3/3] atomisp: sh_css_params: write the sp_group config
+ according to the ISP model
 To: Kate Hsuan <hpa@redhat.com>, Mauro Carvalho Chehab <mchehab@kernel.org>,
  Sakari Ailus <sakari.ailus@linux.intel.com>,
  Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
  linux-media@vger.kernel.org, linux-staging@lists.linux.dev
 References: <20230612055718.453554-1-hpa@redhat.com>
- <20230612055718.453554-3-hpa@redhat.com>
+ <20230612055718.453554-4-hpa@redhat.com>
 From: Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <20230612055718.453554-3-hpa@redhat.com>
+In-Reply-To: <20230612055718.453554-4-hpa@redhat.com>
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Language: en-US, nl
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
 Hi Kate,
 
 On 6/12/23 07:57, Kate Hsuan wrote:
-> Since the debug codes around #ifdef HAS_WATCHDOG_SP_THREAD_DEBUG are
-> no longer used, the debug implementation of this can be removed. Also,
-> the unsed variables are removed.
+> Pick up the necessary part of sp_group configuration for both model and
+> then copy those parts into a tempetory buffer. This buffer is finally
+> written to the ISP with correct length.
 > 
 > Signed-off-by: Kate Hsuan <hpa@redhat.com>
-> ---
->  .../pci/hive_isp_css_common/debug_global.h    |  7 --
->  .../media/atomisp/pci/ia_css_acc_types.h      |  6 +-
->  .../runtime/debug/interface/ia_css_debug.h    |  6 --
->  .../pci/runtime/debug/src/ia_css_debug.c      | 93 -------------------
->  .../media/atomisp/pci/sh_css_internal.h       | 24 -----
->  5 files changed, 1 insertion(+), 135 deletions(-)
-> 
-> diff --git a/drivers/staging/media/atomisp/pci/hive_isp_css_common/debug_global.h b/drivers/staging/media/atomisp/pci/hive_isp_css_common/debug_global.h
-> index b6538beca18a..f2e17945fd45 100644
-> --- a/drivers/staging/media/atomisp/pci/hive_isp_css_common/debug_global.h
-> +++ b/drivers/staging/media/atomisp/pci/hive_isp_css_common/debug_global.h
-> @@ -35,13 +35,6 @@
->  
->  #define DEBUG_BUFFER_ISP_DMEM_ADDR       0x0
->  
-> -/*
-> - * Enable HAS_WATCHDOG_SP_THREAD_DEBUG for additional SP thread and
-> - * pipe information on watchdog output
-> - * #undef HAS_WATCHDOG_SP_THREAD_DEBUG
-> - * #define HAS_WATCHDOG_SP_THREAD_DEBUG
-> - */
-> -
->  /*
->   * The linear buffer mode will accept data until the first
->   * overflow and then stop accepting new data
-> diff --git a/drivers/staging/media/atomisp/pci/ia_css_acc_types.h b/drivers/staging/media/atomisp/pci/ia_css_acc_types.h
-> index a20879aedef6..d6e52b4971d6 100644
-> --- a/drivers/staging/media/atomisp/pci/ia_css_acc_types.h
-> +++ b/drivers/staging/media/atomisp/pci/ia_css_acc_types.h
-> @@ -331,11 +331,7 @@ struct ia_css_sp_info {
->  	of DDR debug queue */
->  	u32 perf_counter_input_system_error; /** input system perf
->  	counter array */
-> -#ifdef HAS_WATCHDOG_SP_THREAD_DEBUG
-> -	u32 debug_wait; /** thread/pipe post mortem debug */
-> -	u32 debug_stage; /** thread/pipe post mortem debug */
-> -	u32 debug_stripe; /** thread/pipe post mortem debug */
-> -#endif
-> +
->  	u32 threads_stack; /** sp thread's stack pointers */
->  	u32 threads_stack_size; /** sp thread's stack sizes */
->  	u32 curr_binary_id;        /** current binary id */
-> diff --git a/drivers/staging/media/atomisp/pci/runtime/debug/interface/ia_css_debug.h b/drivers/staging/media/atomisp/pci/runtime/debug/interface/ia_css_debug.h
-> index 3a3d72c6eaaa..efa136294836 100644
-> --- a/drivers/staging/media/atomisp/pci/runtime/debug/interface/ia_css_debug.h
-> +++ b/drivers/staging/media/atomisp/pci/runtime/debug/interface/ia_css_debug.h
-> @@ -306,12 +306,6 @@ void ia_css_debug_dump_isp_params(struct ia_css_stream *stream,
->   */
->  void ia_css_debug_dump_perf_counters(void);
->  
-> -#ifdef HAS_WATCHDOG_SP_THREAD_DEBUG
-> -void sh_css_dump_thread_wait_info(void);
-> -void sh_css_dump_pipe_stage_info(void);
-> -void sh_css_dump_pipe_stripe_info(void);
-> -#endif
-> -
->  void ia_css_debug_dump_isp_binary(void);
->  
->  void sh_css_dump_sp_raw_copy_linecount(bool reduced);
-> diff --git a/drivers/staging/media/atomisp/pci/runtime/debug/src/ia_css_debug.c b/drivers/staging/media/atomisp/pci/runtime/debug/src/ia_css_debug.c
-> index bb30146c5fe7..cf66a40bd6a4 100644
-> --- a/drivers/staging/media/atomisp/pci/runtime/debug/src/ia_css_debug.c
-> +++ b/drivers/staging/media/atomisp/pci/runtime/debug/src/ia_css_debug.c
-> @@ -101,13 +101,6 @@
->  
->  #define ENABLE_LINE_MAX_LENGTH (25)
->  
-> -/*
-> - * TODO:SH_CSS_MAX_SP_THREADS is not the max number of sp threads
-> - * future rework should fix this and remove the define MAX_THREAD_NUM
-> - */
-> -#define MAX_THREAD_NUM_2400 (SH_CSS_MAX_SP_THREADS + SH_CSS_MAX_SP_INTERNAL_THREADS_2400)
-> -#define MAX_THREAD_NUM_2401 (SH_CSS_MAX_SP_THREADS + SH_CSS_MAX_SP_INTERNAL_THREADS_2401)
-> -
->  static struct pipe_graph_class {
->  	bool do_init;
->  	int height;
 
-This patch looks good, except that as mentioned this bit should simply
-remove the original lines from before this series, rather then first
-having patch 1/3 modify these lines and then removing the modified
-lines here.
+As mentioned in the review of patch 1/3 the sh_css_internal.h changes
+from patch 1/3 should all be moved here.
+
+Other then that this looks good to me.
 
 Regards,
 
 Hans
 
 
-
-> @@ -2075,12 +2068,6 @@ void ia_css_debug_dump_debug_info(const char *context)
->  	ia_css_debug_dump_isp_gdc_fifo_state();
->  	ia_css_debug_dump_sp_state();
->  	ia_css_debug_dump_perf_counters();
-> -
-> -#ifdef HAS_WATCHDOG_SP_THREAD_DEBUG
-> -	sh_css_dump_thread_wait_info();
-> -	sh_css_dump_pipe_stage_info();
-> -	sh_css_dump_pipe_stripe_info();
-> -#endif
->  	ia_css_debug_dump_dma_isp_fifo_state();
->  	ia_css_debug_dump_dma_sp_fifo_state();
->  	ia_css_debug_dump_dma_state();
-> @@ -2392,86 +2379,6 @@ static void __printf(1, 2) dtrace_dot(const char *fmt, ...)
->  	va_end(ap);
+> ---
+>  .../staging/media/atomisp/pci/sh_css_params.c | 41 ++++++++++++++++++-
+>  1 file changed, 39 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/staging/media/atomisp/pci/sh_css_params.c b/drivers/staging/media/atomisp/pci/sh_css_params.c
+> index 588f2adab058..22a9fed006f6 100644
+> --- a/drivers/staging/media/atomisp/pci/sh_css_params.c
+> +++ b/drivers/staging/media/atomisp/pci/sh_css_params.c
+> @@ -3720,10 +3720,47 @@ struct ia_css_shading_table *ia_css_get_shading_table(struct ia_css_stream
+>  
+>  ia_css_ptr sh_css_store_sp_group_to_ddr(void)
+>  {
+> +	u8 *write_buf;
+> +	u8 *buf_ptr;
+> +
+>  	IA_CSS_ENTER_LEAVE_PRIVATE("void");
+> +
+> +	write_buf = kzalloc(sizeof(struct sh_css_sp_group), GFP_KERNEL);
+> +	if (!write_buf)
+> +		return 0;
+> +
+> +	buf_ptr = write_buf;
+> +	if (IS_ISP2401) {
+> +		memcpy(buf_ptr, &sh_css_sp_group.config, 3);
+> +		buf_ptr += 3;
+> +		memcpy(buf_ptr, &sh_css_sp_group.config.enable_isys_event_queue, 2);
+> +		buf_ptr += 2;
+> +		memset(buf_ptr, 0, 3);
+> +		buf_ptr += 3; /* Padding 3 bytes for struct sh_css_sp_config*/
+> +	} else {
+> +		memcpy(buf_ptr, &sh_css_sp_group.config, sizeof(sh_css_sp_group.config));
+> +		buf_ptr += sizeof(sh_css_sp_group.config);
+> +	}
+> +
+> +	memcpy(buf_ptr, &sh_css_sp_group.pipe, sizeof(sh_css_sp_group.pipe));
+> +	buf_ptr += sizeof(sh_css_sp_group.pipe);
+> +
+> +	if (IS_ISP2401) {
+> +		memcpy(buf_ptr, &sh_css_sp_group.pipe_io, sizeof(sh_css_sp_group.pipe_io));
+> +		buf_ptr += sizeof(sh_css_sp_group.pipe_io);
+> +		memcpy(buf_ptr, &sh_css_sp_group.pipe_io_status,
+> +		       sizeof(sh_css_sp_group.pipe_io_status));
+> +		buf_ptr += sizeof(sh_css_sp_group.pipe_io_status);
+> +	}
+> +
+> +	memcpy(buf_ptr, &sh_css_sp_group.debug, sizeof(sh_css_sp_group.debug));
+> +	buf_ptr += sizeof(sh_css_sp_group.debug);
+> +
+>  	hmm_store(xmem_sp_group_ptrs,
+> -		   &sh_css_sp_group,
+> -		   sizeof(struct sh_css_sp_group));
+> +		  write_buf,
+> +		  buf_ptr - write_buf);
+> +
+> +	kfree(write_buf);
+>  	return xmem_sp_group_ptrs;
 >  }
 >  
-> -#ifdef HAS_WATCHDOG_SP_THREAD_DEBUG
-> -void sh_css_dump_thread_wait_info(void)
-> -{
-> -	const struct ia_css_fw_info *fw;
-> -	int i;
-> -	unsigned int HIVE_ADDR_sp_thread_wait;
-> -	s32 sp_thread_wait[MAX_THREAD_NUM];
-> -
-> -	ia_css_debug_dtrace(IA_CSS_DEBUG_VERBOSE, "SEM WAITS:\n");
-> -
-> -	fw = &sh_css_sp_fw;
-> -	HIVE_ADDR_sp_thread_wait =
-> -	    fw->info.sp.debug_wait;
-> -
-> -	(void)HIVE_ADDR_sp_thread_wait;
-> -
-> -	sp_dmem_load(SP0_ID,
-> -		     (unsigned int)sp_address_of(sp_thread_wait),
-> -		     &sp_thread_wait,
-> -		     sizeof(sp_thread_wait));
-> -	for (i = 0; i < MAX_THREAD_NUM; i++) {
-> -		ia_css_debug_dtrace(IA_CSS_DEBUG_VERBOSE,
-> -				    "\twait[%d] = 0x%X\n",
-> -				    i, sp_thread_wait[i]);
-> -	}
-> -}
-> -
-> -void sh_css_dump_pipe_stage_info(void)
-> -{
-> -	const struct ia_css_fw_info *fw;
-> -	int i;
-> -	unsigned int HIVE_ADDR_sp_pipe_stage;
-> -	s32 sp_pipe_stage[MAX_THREAD_NUM];
-> -
-> -	ia_css_debug_dtrace(IA_CSS_DEBUG_VERBOSE, "PIPE STAGE:\n");
-> -
-> -	fw = &sh_css_sp_fw;
-> -	HIVE_ADDR_sp_pipe_stage =
-> -	    fw->info.sp.debug_stage;
-> -
-> -	(void)HIVE_ADDR_sp_pipe_stage;
-> -
-> -	sp_dmem_load(SP0_ID,
-> -		     (unsigned int)sp_address_of(sp_pipe_stage),
-> -		     &sp_pipe_stage,
-> -		     sizeof(sp_pipe_stage));
-> -	for (i = 0; i < MAX_THREAD_NUM; i++) {
-> -		ia_css_debug_dtrace(IA_CSS_DEBUG_VERBOSE,
-> -				    "\tstage[%d] = %d\n",
-> -				    i, sp_pipe_stage[i]);
-> -	}
-> -}
-> -
-> -void sh_css_dump_pipe_stripe_info(void)
-> -{
-> -	const struct ia_css_fw_info *fw;
-> -	int i;
-> -	unsigned int HIVE_ADDR_sp_pipe_stripe;
-> -	s32 sp_pipe_stripe[MAX_THREAD_NUM];
-> -
-> -	ia_css_debug_dtrace(IA_CSS_DEBUG_VERBOSE, "PIPE STRIPE:\n");
-> -
-> -	fw = &sh_css_sp_fw;
-> -	HIVE_ADDR_sp_pipe_stripe =
-> -	    fw->info.sp.debug_stripe;
-> -
-> -	(void)HIVE_ADDR_sp_pipe_stripe;
-> -
-> -	sp_dmem_load(SP0_ID,
-> -		     (unsigned int)sp_address_of(sp_pipe_stripe),
-> -		     &sp_pipe_stripe,
-> -		     sizeof(sp_pipe_stripe));
-> -	for (i = 0; i < MAX_THREAD_NUM; i++) {
-> -		ia_css_debug_dtrace(IA_CSS_DEBUG_VERBOSE,
-> -				    "\tstripe[%d] = %d\n",
-> -				    i, sp_pipe_stripe[i]);
-> -	}
-> -}
-> -#endif
-> -
->  static void
->  ia_css_debug_pipe_graph_dump_frame(
->      const struct ia_css_frame *frame,
-> diff --git a/drivers/staging/media/atomisp/pci/sh_css_internal.h b/drivers/staging/media/atomisp/pci/sh_css_internal.h
-> index 2fa0b3e45fe0..2349eb4d3767 100644
-> --- a/drivers/staging/media/atomisp/pci/sh_css_internal.h
-> +++ b/drivers/staging/media/atomisp/pci/sh_css_internal.h
-> @@ -84,32 +84,8 @@
->  #define SH_CSS_MAX_IF_CONFIGS	3 /* Must match with IA_CSS_NR_OF_CONFIGS (not defined yet).*/
->  #define SH_CSS_IF_CONFIG_NOT_NEEDED	0xFF
->  
-> -/*
-> - * SH_CSS_MAX_SP_THREADS:
-> - *	 sp threads visible to host with connected communication queues
-> - *	 these threads are capable of running an image pipe
-> - * SH_CSS_MAX_SP_INTERNAL_THREADS:
-> - *	 internal sp service threads, no communication queues to host
-> - *	 these threads can't be used as image pipe
-> - */
-> -
-> -#define SH_CSS_SP_INTERNAL_METADATA_THREAD_2400	1
-> -#define SH_CSS_SP_INTERNAL_METADATA_THREAD_2401	0
-> -
-> -#define SH_CSS_SP_INTERNAL_SERVICE_THREAD		1
-> -
->  #define SH_CSS_MAX_SP_THREADS		5
->  
-> -#define SH_CSS_MAX_SP_INTERNAL_THREADS_2400	(\
-> -	SH_CSS_SP_INTERNAL_SERVICE_THREAD +\
-> -	 SH_CSS_SP_INTERNAL_METADATA_THREAD_2400)
-> -
-> -#define SH_CSS_MAX_SP_INTERNAL_THREADS_2401	(\
-> -	SH_CSS_SP_INTERNAL_SERVICE_THREAD +\
-> -	 SH_CSS_SP_INTERNAL_METADATA_THREAD_2401)
-> -
-> -#define SH_CSS_MAX_PIPELINES	SH_CSS_MAX_SP_THREADS
-> -
->  /**
->   * The C99 standard does not specify the exact object representation of structs;
->   * the representation is compiler dependent.
 
