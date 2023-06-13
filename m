@@ -1,42 +1,42 @@
 Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3E2031EFB
-	for <linux-staging@lists.linux.dev>; Tue, 13 Jun 2023 11:10:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72B5831F09
+	for <linux-staging@lists.linux.dev>; Tue, 13 Jun 2023 11:10:08 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 0EF4B1FDAC;
+	by smtp-out2.suse.de (Postfix) with ESMTPS id BC3301FD96;
 	Tue, 13 Jun 2023 11:10:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
 	t=1686654606; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=1BuztNQSgsuQs3xHFrmB515HWtrc7sc9NpbsuatwBeo=;
-	b=xYlSFG6CqucP0AReBtnHoo9yOCqWmGRx8GiCt5Gl58QihD8IuNDmW8CKS8A31iXb6fJ0RS
-	eA04EwkVntJVCWq1v5ccReJin3qLpPO5q9lbtp6VsRnJL5aYmpQmAFAaF1BSYIXPB3fcru
-	z/js7oMGW+T8ByW/8u7MYj6rNxOsmmA=
+	bh=0tu/JKMGLiCEE+vfj8wBgGdw9lM3UZPxyBeIhMkARs8=;
+	b=gD3RqIR7LLgIJf/raJmnBp1/fN4KnZuvNPMCPbw84+ze/hp19d9utOK8qOyPy48VnIqnDm
+	p4Q/O2MXj8GyfgEjzadd79h+eAyWFH+jnuF/maAGpA9qzaSZIma9pBPfZcp7HKxEmaRi2M
+	1YTy9q+B1aMBsXoMOOgREw3yxIRcG/8=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
 	s=susede2_ed25519; t=1686654606;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=1BuztNQSgsuQs3xHFrmB515HWtrc7sc9NpbsuatwBeo=;
-	b=MjJP+zQHwfGIHEIKvXvJwGD1mOWq2Pl3tjwOzzD3olGhg/J6xuIu2PdQewP/5i/xU66Izm
-	X35Ljej+qj7Kg5Bg==
+	bh=0tu/JKMGLiCEE+vfj8wBgGdw9lM3UZPxyBeIhMkARs8=;
+	b=z6aeGbLJOcZkJ9fjFl/1u2Rjidi8dpSypWpN8+ijK0Z9nQzVcNkG20vHx1S9jFFMEHHvCA
+	JokW7PBXxayELLCA==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id B1E4513483;
-	Tue, 13 Jun 2023 11:10:05 +0000 (UTC)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 657E213483;
+	Tue, 13 Jun 2023 11:10:06 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
 	by imap2.suse-dmz.suse.de with ESMTPSA
-	id aJ+qKo1OiGR8CQAAMHmgww
-	(envelope-from <tzimmermann@suse.de>); Tue, 13 Jun 2023 11:10:05 +0000
+	id 0ITtF45OiGR8CQAAMHmgww
+	(envelope-from <tzimmermann@suse.de>); Tue, 13 Jun 2023 11:10:06 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: daniel@ffwll.ch,
 	javierm@redhat.com,
@@ -55,10 +55,12 @@ Cc: linux-fbdev@vger.kernel.org,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Thomas Zimmermann <tzimmermann@suse.de>,
-	Steve Glendinning <steve.glendinning@shawell.net>
-Subject: [PATCH v3 30/38] fbdev/smscufx: Detect registered fb_info from refcount
-Date: Tue, 13 Jun 2023 13:07:05 +0200
-Message-ID: <20230613110953.24176-31-tzimmermann@suse.de>
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Pavel Machek <pavel@ucw.cz>,
+	linux-pm@vger.kernel.org
+Subject: [PATCH v3 32/38] fbdev/core: Pass Linux device to pm_vt_switch_*() functions
+Date: Tue, 13 Jun 2023 13:07:07 +0200
+Message-ID: <20230613110953.24176-33-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.41.0
 In-Reply-To: <20230613110953.24176-1-tzimmermann@suse.de>
 References: <20230613110953.24176-1-tzimmermann@suse.de>
@@ -70,39 +72,48 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Detect registered instances of fb_info by reading the reference
-counter from struct fb_info.read. Avoids looking at the dev field
-and prepares fbdev for making struct fb_info.dev optional.
+Pass the Linux device to pm_vt_switch_*() instead of the virtual
+fbdev device. Prepares fbdev for making struct fb_info.dev optional.
+
+The type of device that is passed to the PM functions does not matter
+much. It is only a token within the internal list of known devices.
+The PM functions do not refer to any of the device's properties or its
+type.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: Steve Glendinning <steve.glendinning@shawell.net>
-Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+Cc: "Rafael J. Wysocki" <rafael@kernel.org>
+Cc: Pavel Machek <pavel@ucw.cz>
+Cc: linux-pm@vger.kernel.org
+Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
 ---
- drivers/video/fbdev/smscufx.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/video/fbdev/core/fbmem.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/video/fbdev/smscufx.c b/drivers/video/fbdev/smscufx.c
-index 17cec62cc65db..adb2b1fe8383c 100644
---- a/drivers/video/fbdev/smscufx.c
-+++ b/drivers/video/fbdev/smscufx.c
-@@ -1496,7 +1496,7 @@ static int ufx_setup_modes(struct ufx_data *dev, struct fb_info *info,
- 	u8 *edid;
- 	int i, result = 0, tries = 3;
+diff --git a/drivers/video/fbdev/core/fbmem.c b/drivers/video/fbdev/core/fbmem.c
+index 329d16e49a900..f91ae7d4c94d6 100644
+--- a/drivers/video/fbdev/core/fbmem.c
++++ b/drivers/video/fbdev/core/fbmem.c
+@@ -1478,9 +1478,9 @@ static int do_register_framebuffer(struct fb_info *fb_info)
+ 		INIT_LIST_HEAD(&fb_info->modelist);
  
--	if (info->dev) /* only use mutex if info has been registered */
-+	if (refcount_read(&info->count)) /* only use mutex if info has been registered */
- 		mutex_lock(&info->lock);
+ 	if (fb_info->skip_vt_switch)
+-		pm_vt_switch_required(fb_info->dev, false);
++		pm_vt_switch_required(fb_info->device, false);
+ 	else
+-		pm_vt_switch_required(fb_info->dev, true);
++		pm_vt_switch_required(fb_info->device, true);
  
- 	edid = kmalloc(EDID_LENGTH, GFP_KERNEL);
-@@ -1610,7 +1610,7 @@ static int ufx_setup_modes(struct ufx_data *dev, struct fb_info *info,
- 	if (edid && (dev->edid != edid))
- 		kfree(edid);
+ 	fb_var_to_videomode(&mode, &fb_info->var);
+ 	fb_add_videomode(&mode, &fb_info->modelist);
+@@ -1520,7 +1520,7 @@ static void unlink_framebuffer(struct fb_info *fb_info)
  
--	if (info->dev)
-+	if (refcount_read(&info->count))
- 		mutex_unlock(&info->lock);
+ 	device_destroy(fb_class, MKDEV(FB_MAJOR, i));
  
- 	return result;
+-	pm_vt_switch_unregister(fb_info->dev);
++	pm_vt_switch_unregister(fb_info->device);
+ 
+ 	unbind_console(fb_info);
+ 
 -- 
 2.41.0
 
