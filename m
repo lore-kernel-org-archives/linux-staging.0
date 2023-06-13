@@ -1,42 +1,42 @@
 Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C676294D3
-	for <linux-staging@lists.linux.dev>; Tue, 13 Jun 2023 11:09:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3877C294E3
+	for <linux-staging@lists.linux.dev>; Tue, 13 Jun 2023 11:10:01 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 44F201FD91;
-	Tue, 13 Jun 2023 11:09:57 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 695741FD94;
+	Tue, 13 Jun 2023 11:09:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1686654597; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1686654599; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=8F8zYOtuNhkeGEJGjTGNJf7JW+gWS4lDFOo66WeTx0E=;
-	b=ECgCmMINGISn/lWQG1aZEQVqxvjvla/Qc2oAMkkd0gA6ktxAzxHJeQc5qj/CU/QJw+tNYg
-	v407xsy2u8ittm9pMqsBSjPx1uE9z0jZGoGH1kC98865iPYqV8F21E6VMgnpZPBhumW3zd
-	pDdk+h/GcnMijj7JSvtK12cleuuph1I=
+	bh=2wf5UN+K9UcAVy1mCANrZvQ9x0IpdyWlrVw1Wkiccp8=;
+	b=Nu/aaOrslrM66/21iVrUsUCTXmyWGejYdEvhVWbTTvejZLW0RsRzMAtIu6mGfqNZcsAXGI
+	iAiAj7DCMQrNNHZuzZgD/XlwL1HuyoBnngarP8OoEqOIy64fGBuTm90nmmf7NOqyl/1Res
+	MYcgZO01fxU02q7NWciFY3UvE/GGZxI=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1686654597;
+	s=susede2_ed25519; t=1686654599;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=8F8zYOtuNhkeGEJGjTGNJf7JW+gWS4lDFOo66WeTx0E=;
-	b=7nTrivDvMYM/AT6jFbdL/EDQgl+DHpD7Miu3nB5yKE4CbLdpSmyIgMuOeJk5k6CgLXIYn6
-	uLQpwU7uc1YMxBCA==
+	bh=2wf5UN+K9UcAVy1mCANrZvQ9x0IpdyWlrVw1Wkiccp8=;
+	b=Awwnl0APnI49QzRWeWfRYyXqXzgxWh+3sTo9xLumKCBpYeAMn/D3FEgF3jDsENtzq83I7o
+	+poLwx6OQms4x9DQ==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id D638A13A47;
-	Tue, 13 Jun 2023 11:09:56 +0000 (UTC)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 26C7013A47;
+	Tue, 13 Jun 2023 11:09:59 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
 	by imap2.suse-dmz.suse.de with ESMTPSA
-	id UOVpM4ROiGR8CQAAMHmgww
-	(envelope-from <tzimmermann@suse.de>); Tue, 13 Jun 2023 11:09:56 +0000
+	id mGrCCIdOiGR8CQAAMHmgww
+	(envelope-from <tzimmermann@suse.de>); Tue, 13 Jun 2023 11:09:59 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: daniel@ffwll.ch,
 	javierm@redhat.com,
@@ -54,14 +54,10 @@ Cc: linux-fbdev@vger.kernel.org,
 	linux-omap@vger.kernel.org,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-	Rich Felker <dalias@libc.org>,
-	John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
-	stable@vger.kernel.org
-Subject: [PATCH v3 03/38] backlight/gpio_backlight: Compare against struct fb_info.device
-Date: Tue, 13 Jun 2023 13:06:38 +0200
-Message-ID: <20230613110953.24176-4-tzimmermann@suse.de>
+	Thomas Zimmermann <tzimmermann@suse.de>
+Subject: [PATCH v3 09/38] fbdev/aty128fb: Reorder backlight and framebuffer init/cleanup
+Date: Tue, 13 Jun 2023 13:06:44 +0200
+Message-ID: <20230613110953.24176-10-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.41.0
 In-Reply-To: <20230613110953.24176-1-tzimmermann@suse.de>
 References: <20230613110953.24176-1-tzimmermann@suse.de>
@@ -73,47 +69,54 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Struct gpio_backlight_platform_data refers to a platform device within
-the Linux device hierarchy. The test in gpio_backlight_check_fb()
-compares it against the fbdev device in struct fb_info.dev, which
-is different. Fix the test by comparing to struct fb_info.device.
-
-Fixes a bug in the backlight driver and prepares fbdev for making
-struct fb_info.dev optional.
-
-v2:
-	* move renames into separate patch (Javier, Sam, Michael)
+The driver's backlight code requires the framebuffer to be
+registered. Therefore reorder the init and cleanup calls for
+both data structures.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Fixes: 8b770e3c9824 ("backlight: Add GPIO-based backlight driver")
-Cc: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-Cc: Rich Felker <dalias@libc.org>
-Cc: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
-Cc: Lee Jones <lee@kernel.org>
-Cc: Daniel Thompson <daniel.thompson@linaro.org>
-Cc: Jingoo Han <jingoohan1@gmail.com>
-Cc: linux-sh@vger.kernel.org
-Cc: dri-devel@lists.freedesktop.org
-Cc: <stable@vger.kernel.org> # v3.12+
+Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
 Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
-Reviewed-by: Daniel Thompson <daniel.thompson@linaro.org>
 ---
- drivers/video/backlight/gpio_backlight.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/video/fbdev/aty/aty128fb.c | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/video/backlight/gpio_backlight.c b/drivers/video/backlight/gpio_backlight.c
-index 6f78d928f054a..5c5c99f7979e3 100644
---- a/drivers/video/backlight/gpio_backlight.c
-+++ b/drivers/video/backlight/gpio_backlight.c
-@@ -35,7 +35,7 @@ static int gpio_backlight_check_fb(struct backlight_device *bl,
- {
- 	struct gpio_backlight *gbl = bl_get_data(bl);
+diff --git a/drivers/video/fbdev/aty/aty128fb.c b/drivers/video/fbdev/aty/aty128fb.c
+index 36a9ac05a340f..b4a49068a522f 100644
+--- a/drivers/video/fbdev/aty/aty128fb.c
++++ b/drivers/video/fbdev/aty/aty128fb.c
+@@ -2028,14 +2028,14 @@ static int aty128_init(struct pci_dev *pdev, const struct pci_device_id *ent)
+ 	par->asleep = 0;
+ 	par->lock_blank = 0;
  
--	return gbl->fbdev == NULL || gbl->fbdev == info->dev;
-+	return gbl->fbdev == NULL || gbl->fbdev == info->device;
- }
++	if (register_framebuffer(info) < 0)
++		return 0;
++
+ #ifdef CONFIG_FB_ATY128_BACKLIGHT
+ 	if (backlight)
+ 		aty128_bl_init(par);
+ #endif
  
- static const struct backlight_ops gpio_backlight_ops = {
+-	if (register_framebuffer(info) < 0)
+-		return 0;
+-
+ 	fb_info(info, "%s frame buffer device on %s\n",
+ 		info->fix.id, video_card);
+ 
+@@ -2167,12 +2167,12 @@ static void aty128_remove(struct pci_dev *pdev)
+ 
+ 	par = info->par;
+ 
+-	unregister_framebuffer(info);
+-
+ #ifdef CONFIG_FB_ATY128_BACKLIGHT
+ 	aty128_bl_exit(info->bl_dev);
+ #endif
+ 
++	unregister_framebuffer(info);
++
+ 	arch_phys_wc_del(par->wc_cookie);
+ 	iounmap(par->regbase);
+ 	iounmap(info->screen_base);
 -- 
 2.41.0
 
