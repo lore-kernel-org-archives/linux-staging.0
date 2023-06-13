@@ -1,150 +1,135 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from smtp-relay-internal-1.canonical.com (smtp-relay-internal-1.canonical.com [185.125.188.123])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 413C72915
-	for <linux-staging@lists.linux.dev>; Tue, 13 Jun 2023 09:37:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1686649036;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=fjiCa7fyHomUes8Ra9T7Qjm94VOEGQDRQYm/ALeXTi8=;
-	b=XvM4cRwypgGHBxlJJCFWXhJb46abnem5F9Nl4t4H3ihbcEzZ/n3/hBnBX6xos/GFVfHsM5
-	1cqfHdOERuUeDuUTPkVFssAx9kC8q04JnnjBiR8JTuEbAFXYq80rRrKZnuPA30aSH1CYzI
-	jAsba7o+WzEaNb83O5z5LLVpaSPJnxg=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-346-9NUEuA_jOei8f6aRCP_DKQ-1; Tue, 13 Jun 2023 05:37:14 -0400
-X-MC-Unique: 9NUEuA_jOei8f6aRCP_DKQ-1
-Received: by mail-ed1-f70.google.com with SMTP id 4fb4d7f45d1cf-51495d51e0fso4156228a12.2
-        for <linux-staging@lists.linux.dev>; Tue, 13 Jun 2023 02:37:14 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AC7B2915
+	for <linux-staging@lists.linux.dev>; Tue, 13 Jun 2023 09:50:34 +0000 (UTC)
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com [209.85.221.70])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-relay-internal-1.canonical.com (Postfix) with ESMTPS id DCBA33F26F
+	for <linux-staging@lists.linux.dev>; Tue, 13 Jun 2023 09:50:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
+	s=20210705; t=1686649826;
+	bh=+S8RVn4cwZ2hxJXT/iwldZ/F9edrSEM7MNIbg+01La8=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type;
+	b=oggMr+VrzupefQ5YI9jTJ+1QI6ftAxJbype6LjY9+IW4y5zQeLjwOBXHh9jq1Y+fh
+	 QeILcLKAbPVzKxlArgb452JDtcYjmtNI7Rieqm7DDaBL0CoGws1gYCiOaB+mbwp26R
+	 PbY7Zkt18D2OYR6EINDm+avUh2ZBPdUg31Gu2xlEIc3IvjOdbFI/pZt/JhEtHB+7i1
+	 tLpS8fLnRpO3hi011Lf2p4RrwiV5eUNKssEx0IpiMp3d3vkUc1rx1cBwMS5VZNmOEe
+	 y/VxMej23M+K8Hvuh6hytnaLYSNNGc9N3XBYslwMshtmHS8k8Xa88IecYqOHuaXXab
+	 MQTzSPQXewJlw==
+Received: by mail-wr1-f70.google.com with SMTP id ffacd0b85a97d-30b590d5931so1975870f8f.2
+        for <linux-staging@lists.linux.dev>; Tue, 13 Jun 2023 02:50:26 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686649033; x=1689241033;
-        h=content-transfer-encoding:in-reply-to:from:references:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=fjiCa7fyHomUes8Ra9T7Qjm94VOEGQDRQYm/ALeXTi8=;
-        b=YPgAlYFFkyIP+9hgAUCVN5kky+CFI5T+lOD+DHtHmqg5IcRDpzJClT9fhpH0PRvEgR
-         zQXlgCq3YoU11RsafVByXU3o46CZoi5d3R5dLZTM/befw8da7BlbRO1xuDT3UiaLFu0C
-         RmGJW0/SBGODMlhJIen90UlwbzL8TpckvGjoAPfFQ6V4HCP4lkzWqsM1pq0eJpu7asNA
-         /MfsTwszhAFrQAHyxdYMTPPPx7/olL0bwkqz9wCU0MnPZdR8oiKC1I7Kj1eD1yZQNXYE
-         IYqNYaRpIFz94I7OwvCWtqrRQPNbcfbJV0/8wgZS7by+6vImyRLDWj79lHeKM/nHSuQp
-         WNUA==
-X-Gm-Message-State: AC+VfDwA+82RaFlbVF4kRJ8jnvstWG+6O7UrQeLDL3R/T1exQC3auE3l
-	fgDBKmuu9O2qoPGmpdN/h1k0o+z4pmloLHYMzLxVFoAZSTinuGP5fDL2/aNaSbW6vuLWZMO9IMc
-	OyPSG9SbEHn7opi42Z/iZMrVwuA==
-X-Received: by 2002:aa7:db59:0:b0:514:8e5a:8471 with SMTP id n25-20020aa7db59000000b005148e5a8471mr6581381edt.13.1686649033274;
-        Tue, 13 Jun 2023 02:37:13 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ5KinlAM8A1bQJFPUHY3xFNpYhGDy+BWt9vyXJL0Okkn/x1Sh6QHGxZslm/vlC0pOo4aMgf+w==
-X-Received: by 2002:aa7:db59:0:b0:514:8e5a:8471 with SMTP id n25-20020aa7db59000000b005148e5a8471mr6581365edt.13.1686649032983;
-        Tue, 13 Jun 2023 02:37:12 -0700 (PDT)
-Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
-        by smtp.gmail.com with ESMTPSA id n21-20020aa7d055000000b0050bc7c882bfsm6029933edo.65.2023.06.13.02.37.12
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 13 Jun 2023 02:37:12 -0700 (PDT)
-Message-ID: <d14b9b81-d0a5-e967-0e10-a3d3037e345b@redhat.com>
-Date: Tue, 13 Jun 2023 11:37:11 +0200
+        d=1e100.net; s=20221208; t=1686649821; x=1689241821;
+        h=mime-version:organization:references:in-reply-to:message-id:subject
+         :cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=+S8RVn4cwZ2hxJXT/iwldZ/F9edrSEM7MNIbg+01La8=;
+        b=Aswcpoa+CLwQS+07ENQnd937v2rlsN9E2UlZwnoXG5VNfI5LWpiDP4iZ02h9iTu2rX
+         LuFM7I4+JCuBlhN4iT2gEz6l7fNWVAl13cYX0br81t0XSBszGISz2yWy8IjllrrTxWfX
+         vw1T+xIl5qO3z94T1WPlaUnvmv+/IdMTZyQU2AHuWDlGgW+cDo86cqZO4SosAk98AWoy
+         5SnrLPA7sOM1rWtmkWxa/7PFr62SFwwVg2E/UyCiUG4dX2OKq7oejIr6NvoRJKo7P0Ks
+         yj400+pe8EeKDWNU7TV6RHbsD9Uehu6cShMU7gTz7nhPUz0sc9Hz0QNzJ4bSUPUEUSmU
+         1mtg==
+X-Gm-Message-State: AC+VfDw/sdcP9MCt6MDVyodt5UTj5caCfG5hPKs096lRw6fCcY/UQ9Cv
+	uXSpGsOKpnfZjWXT4zMLkndTaGJXLXwCqS3Fx+4lmLY7CS/8G1b3kiKfaQE3LVmToPkqphqEJti
+	wow8+9U7IW014/fLCWDwC3fIbDH/+3SeZRAcBXs+FxSw=
+X-Received: by 2002:adf:f5d1:0:b0:30a:e973:b182 with SMTP id k17-20020adff5d1000000b0030ae973b182mr5621219wrp.1.1686649821375;
+        Tue, 13 Jun 2023 02:50:21 -0700 (PDT)
+X-Google-Smtp-Source: ACHHUZ5qsylu7h96z/YokKVYhvI775gxBdTlvE0mtDesHac9WjQrm8pjsK7JHPCjjoGLyNjMF04RdA==
+X-Received: by 2002:adf:f5d1:0:b0:30a:e973:b182 with SMTP id k17-20020adff5d1000000b0030ae973b182mr5621204wrp.1.1686649821059;
+        Tue, 13 Jun 2023 02:50:21 -0700 (PDT)
+Received: from gollum ([194.191.244.86])
+        by smtp.gmail.com with ESMTPSA id q3-20020adff503000000b0030fa3567541sm11795106wro.48.2023.06.13.02.50.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 13 Jun 2023 02:50:20 -0700 (PDT)
+Date: Tue, 13 Jun 2023 11:50:18 +0200
+From: Juerg Haefliger <juerg.haefliger@canonical.com>
+To: juerg.haefliger@canonical.com
+Cc: gregkh@linuxfoundation.org, jbrunet@baylibre.com, khilman@baylibre.com,
+ linux-amlogic@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev,
+ martin.blumenstingl@googlemail.com, mchehab@kernel.org,
+ narmstrong@baylibre.com
+Subject: Re: [PATCH v2 resend] media: meson: vdec: Add MODULE_FIRMWARE macro
+Message-ID: <20230613115018.562c843f@gollum>
+In-Reply-To: <20230126153258.1558471-1-juerg.haefliger@canonical.com>
+References: <20220818064810.17856-1-juerg.haefliger@canonical.com>
+	<20230126153258.1558471-1-juerg.haefliger@canonical.com>
+Organization: Canonical Ltd
+X-Mailer: Claws Mail 4.1.0 (GTK 3.24.34; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH v2 3/3] atomisp: sh_css_params: write the sp_group config
- according to the ISP model
-To: Kate Hsuan <hpa@redhat.com>, Mauro Carvalho Chehab <mchehab@kernel.org>,
- Sakari Ailus <sakari.ailus@linux.intel.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- linux-media@vger.kernel.org, linux-staging@lists.linux.dev
-References: <20230612055718.453554-1-hpa@redhat.com>
- <20230612055718.453554-4-hpa@redhat.com>
-From: Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <20230612055718.453554-4-hpa@redhat.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US, nl
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; boundary="Sig_/ghcr7VuYGJ=w+H+lw1iLJue";
+ protocol="application/pgp-signature"; micalg=pgp-sha512
 
-Hi Kate,
+--Sig_/ghcr7VuYGJ=w+H+lw1iLJue
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-On 6/12/23 07:57, Kate Hsuan wrote:
-> Pick up the necessary part of sp_group configuration for both model and
-> then copy those parts into a tempetory buffer. This buffer is finally
-> written to the ISP with correct length.
-> 
-> Signed-off-by: Kate Hsuan <hpa@redhat.com>
-
-As mentioned in the review of patch 1/3 the sh_css_internal.h changes
-from patch 1/3 should all be moved here.
-
-Other then that this looks good to me.
-
-Regards,
-
-Hans
+Ping
 
 
+> The meson-vdec module loads firmware so add MODULE_FIRMWARE macros to
+> provide that information via modinfo.
+>=20
+> Signed-off-by: Juerg Haefliger <juerg.haefliger@canonical.com>
+> Reviewed-by: Neil Armstrong <narmstrong@baylibre.com>
+>=20
 > ---
->  .../staging/media/atomisp/pci/sh_css_params.c | 41 ++++++++++++++++++-
->  1 file changed, 39 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/staging/media/atomisp/pci/sh_css_params.c b/drivers/staging/media/atomisp/pci/sh_css_params.c
-> index 588f2adab058..22a9fed006f6 100644
-> --- a/drivers/staging/media/atomisp/pci/sh_css_params.c
-> +++ b/drivers/staging/media/atomisp/pci/sh_css_params.c
-> @@ -3720,10 +3720,47 @@ struct ia_css_shading_table *ia_css_get_shading_table(struct ia_css_stream
->  
->  ia_css_ptr sh_css_store_sp_group_to_ddr(void)
->  {
-> +	u8 *write_buf;
-> +	u8 *buf_ptr;
+> v2:
+>   - Drop duplicates
+>   - Add Reviewed-by: Neil Armstrong <narmstrong@baylibre.com>
+> ---
+>  drivers/staging/media/meson/vdec/vdec_platform.c | 9 +++++++++
+>  1 file changed, 9 insertions(+)
+>=20
+> diff --git a/drivers/staging/media/meson/vdec/vdec_platform.c b/drivers/s=
+taging/media/meson/vdec/vdec_platform.c
+> index 88c9d72e1c83..70c9fd7c8bc5 100644
+> --- a/drivers/staging/media/meson/vdec/vdec_platform.c
+> +++ b/drivers/staging/media/meson/vdec/vdec_platform.c
+> @@ -280,3 +280,12 @@ const struct vdec_platform vdec_platform_sm1 =3D {
+>  	.num_formats =3D ARRAY_SIZE(vdec_formats_sm1),
+>  	.revision =3D VDEC_REVISION_SM1,
+>  };
 > +
->  	IA_CSS_ENTER_LEAVE_PRIVATE("void");
-> +
-> +	write_buf = kzalloc(sizeof(struct sh_css_sp_group), GFP_KERNEL);
-> +	if (!write_buf)
-> +		return 0;
-> +
-> +	buf_ptr = write_buf;
-> +	if (IS_ISP2401) {
-> +		memcpy(buf_ptr, &sh_css_sp_group.config, 3);
-> +		buf_ptr += 3;
-> +		memcpy(buf_ptr, &sh_css_sp_group.config.enable_isys_event_queue, 2);
-> +		buf_ptr += 2;
-> +		memset(buf_ptr, 0, 3);
-> +		buf_ptr += 3; /* Padding 3 bytes for struct sh_css_sp_config*/
-> +	} else {
-> +		memcpy(buf_ptr, &sh_css_sp_group.config, sizeof(sh_css_sp_group.config));
-> +		buf_ptr += sizeof(sh_css_sp_group.config);
-> +	}
-> +
-> +	memcpy(buf_ptr, &sh_css_sp_group.pipe, sizeof(sh_css_sp_group.pipe));
-> +	buf_ptr += sizeof(sh_css_sp_group.pipe);
-> +
-> +	if (IS_ISP2401) {
-> +		memcpy(buf_ptr, &sh_css_sp_group.pipe_io, sizeof(sh_css_sp_group.pipe_io));
-> +		buf_ptr += sizeof(sh_css_sp_group.pipe_io);
-> +		memcpy(buf_ptr, &sh_css_sp_group.pipe_io_status,
-> +		       sizeof(sh_css_sp_group.pipe_io_status));
-> +		buf_ptr += sizeof(sh_css_sp_group.pipe_io_status);
-> +	}
-> +
-> +	memcpy(buf_ptr, &sh_css_sp_group.debug, sizeof(sh_css_sp_group.debug));
-> +	buf_ptr += sizeof(sh_css_sp_group.debug);
-> +
->  	hmm_store(xmem_sp_group_ptrs,
-> -		   &sh_css_sp_group,
-> -		   sizeof(struct sh_css_sp_group));
-> +		  write_buf,
-> +		  buf_ptr - write_buf);
-> +
-> +	kfree(write_buf);
->  	return xmem_sp_group_ptrs;
->  }
->  
+> +MODULE_FIRMWARE("meson/vdec/g12a_h264.bin");
+> +MODULE_FIRMWARE("meson/vdec/g12a_vp9.bin");
+> +MODULE_FIRMWARE("meson/vdec/gxbb_h264.bin");
+> +MODULE_FIRMWARE("meson/vdec/gxl_h264.bin");
+> +MODULE_FIRMWARE("meson/vdec/gxl_mpeg12.bin");
+> +MODULE_FIRMWARE("meson/vdec/gxl_vp9.bin");
+> +MODULE_FIRMWARE("meson/vdec/gxm_h264.bin");
+> +MODULE_FIRMWARE("meson/vdec/sm1_vp9_mmu.bin");
 
+
+--Sig_/ghcr7VuYGJ=w+H+lw1iLJue
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCgAdFiEEhZfU96IuprviLdeLD9OLCQumQrcFAmSIO9oACgkQD9OLCQum
+QrcQVA//Xnyo7NgEIg7RU1068vZ3jYv79u7ET2NDlEqPLkXRGNpC09DHkjFbVsh6
+pIKGdGT27w2eN7UoOueSXoX3UMr5ZMXVdfh/zsQSmfb7Jxm1cAujfJwiBLwtnGZz
+J2IBevnvVy8BddBMtAlxcR1cVWj0H5SZWoO2rYGQWJ3udpA0l7kb2taZndeUNs4i
+Pklfe4w7FsgFWoIAyG67C3prc9LQh657mYzLvdWWNfnhhFGmy/SvXXWaLMKraboF
+u97X7QT92k8dOn08zUwCGfzFePuFUidcSFQMrf0hf1hCWSzxYMP1ELWqJNBnqo4l
+pt4ivVVr2RarOXRpnJfM8+sCjVcJh3HNsW5zZp0nACBUQ2dLarBvf8Zwmo59oQC6
+e2VjXIrLImN03fz+rlFG4w+Y12fRJq0tDNoCoAcksZx361ppaAWgjyU414hDpXjp
+WNIcZXhEwpgqqUCHpb8Os9q3y6LbMy45ybhoxhpf3HkvZ2QgUdOEZkDtk90GHPxY
+5ApOAm9Z1fZdD/wv+3JIMu7GZ41+F12cT6fnt9Xk1shNv9kqOFVlLy1r1il92wZ9
+kqLfQBqg1PU9aBRJ+331N+ILCDxM3L/NV5pAftDB+oI9oB3x872Ap+Kk/4K5zMjz
+B/yf3x6QDrX8eJKRmcOYR93LIgb5vMquSlhJ18eoWhimhazb5qc=
+=sYn1
+-----END PGP SIGNATURE-----
+
+--Sig_/ghcr7VuYGJ=w+H+lw1iLJue--
