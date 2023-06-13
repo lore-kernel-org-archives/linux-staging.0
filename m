@@ -1,42 +1,42 @@
 Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0AB47294D3
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56743294D6
 	for <linux-staging@lists.linux.dev>; Tue, 13 Jun 2023 11:10:03 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id E36212240B;
-	Tue, 13 Jun 2023 11:10:00 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 8137A2240D;
+	Tue, 13 Jun 2023 11:10:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1686654600; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1686654601; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=7UD3qH0Jecnz6Jrwvr3w6k9CQhko83sOH0nBzjwfJ48=;
-	b=RhPAcbmSSJszenRxT7RweffotDn1VlilAc5nKqiKeksrW7Zoy0GJ/QD2XVTPmx86IveCTq
-	MclrcRrDtVm+H726MshQbbouWH6AfT6m0TaID+Td6UmqMRxhiLaTIH/JpdDRd8xtIqpNrD
-	7Manifhngao7sBP/4Of4HmB/mF9TEzQ=
+	bh=SP5XPQ+B+tBgODPORD3Z9zsr7bRrI+Ip0rV0x56IK2w=;
+	b=pTSICEX1c8Qsm19zd8eQCOJmYryvMjO4aaOSHlOwtXah5fzubr34ywOkPBk4udx7Cd8n99
+	Qogm1Tg5gQANMUt14YBudjAK4+V0BX1XBy+bxA2fQQDpo10af0cqtvdgcZbgBS0ghOnZiJ
+	JCTCiP5206NMjTAyMPMCilRo+t0oVgU=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1686654600;
+	s=susede2_ed25519; t=1686654601;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=7UD3qH0Jecnz6Jrwvr3w6k9CQhko83sOH0nBzjwfJ48=;
-	b=g33LnGgTYSqQL3eYebYg+/jQAyfoEP6/IlbRVr7g0h90lYz1Q5MWF0qLW2LL9Oh9m/RW8o
-	lv3qYaTcqQ1P/NDQ==
+	bh=SP5XPQ+B+tBgODPORD3Z9zsr7bRrI+Ip0rV0x56IK2w=;
+	b=9Ocgsrqyr17hP8X9xHsC/t7ebR3q+Nbnf3ogJQ3SjTVVLWEjLKHtw3tY3i4JoL3nQy+/SE
+	YEXpcN8c7ALLfPCQ==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 9B86C13483;
-	Tue, 13 Jun 2023 11:10:00 +0000 (UTC)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 3CF8A13483;
+	Tue, 13 Jun 2023 11:10:01 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
 	by imap2.suse-dmz.suse.de with ESMTPSA
-	id aB03JYhOiGR8CQAAMHmgww
-	(envelope-from <tzimmermann@suse.de>); Tue, 13 Jun 2023 11:10:00 +0000
+	id mAscDolOiGR8CQAAMHmgww
+	(envelope-from <tzimmermann@suse.de>); Tue, 13 Jun 2023 11:10:01 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: daniel@ffwll.ch,
 	javierm@redhat.com,
@@ -54,11 +54,10 @@ Cc: linux-fbdev@vger.kernel.org,
 	linux-omap@vger.kernel.org,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	stable@vger.kernel.org
-Subject: [PATCH v3 14/38] fbdev/ep93xx-fb: Do not assign to struct fb_info.dev
-Date: Tue, 13 Jun 2023 13:06:49 +0200
-Message-ID: <20230613110953.24176-15-tzimmermann@suse.de>
+	Thomas Zimmermann <tzimmermann@suse.de>
+Subject: [PATCH v3 16/38] fbdev/mb862xxfb: Output messages with fb_dbg()
+Date: Tue, 13 Jun 2023 13:06:51 +0200
+Message-ID: <20230613110953.24176-17-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.41.0
 In-Reply-To: <20230613110953.24176-1-tzimmermann@suse.de>
 References: <20230613110953.24176-1-tzimmermann@suse.de>
@@ -70,37 +69,62 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Do not assing the Linux device to struct fb_info.dev. The call to
-register_framebuffer() initializes the field to the fbdev device.
-Drivers should not override its value.
-
-Fixes a bug where the driver incorrectly decreases the hardware
-device's reference counter and leaks the fbdev device.
+Fix cases were output helpers are called with struct fb_info.dev.
+Use fb_dbg() instead. Prepares fbdev for making struct fb_info.dev
+optional.
 
 v2:
-	* add Fixes tag (Dan)
+	* fix another reference to struct fb_info.dev (kernel test reobot)
+	* remove fb_err() from commit message
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Fixes: 88017bda96a5 ("ep93xx video driver")
-Cc: <stable@vger.kernel.org> # v2.6.32+
 Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
 Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
 ---
- drivers/video/fbdev/ep93xx-fb.c | 1 -
- 1 file changed, 1 deletion(-)
+ drivers/video/fbdev/mb862xx/mb862xxfbdrv.c | 9 ++++-----
+ 1 file changed, 4 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/video/fbdev/ep93xx-fb.c b/drivers/video/fbdev/ep93xx-fb.c
-index f6cd200fe50ff..37309f9dbe828 100644
---- a/drivers/video/fbdev/ep93xx-fb.c
-+++ b/drivers/video/fbdev/ep93xx-fb.c
-@@ -474,7 +474,6 @@ static int ep93xxfb_probe(struct platform_device *pdev)
- 	if (!info)
- 		return -ENOMEM;
+diff --git a/drivers/video/fbdev/mb862xx/mb862xxfbdrv.c b/drivers/video/fbdev/mb862xx/mb862xxfbdrv.c
+index b5c8fcab9940d..119c2a582ecbd 100644
+--- a/drivers/video/fbdev/mb862xx/mb862xxfbdrv.c
++++ b/drivers/video/fbdev/mb862xx/mb862xxfbdrv.c
+@@ -112,8 +112,7 @@ static int mb862xxfb_check_var(struct fb_var_screeninfo *var,
+ {
+ 	unsigned long tmp;
  
--	info->dev = &pdev->dev;
- 	platform_set_drvdata(pdev, info);
- 	fbi = info->par;
- 	fbi->mach_info = mach_info;
+-	if (fbi->dev)
+-		dev_dbg(fbi->dev, "%s\n", __func__);
++	fb_dbg(fbi, "%s\n", __func__);
+ 
+ 	/* check if these values fit into the registers */
+ 	if (var->hsync_len > 255 || var->vsync_len > 255)
+@@ -290,7 +289,7 @@ static int mb862xxfb_blank(int mode, struct fb_info *fbi)
+ 	struct mb862xxfb_par  *par = fbi->par;
+ 	unsigned long reg;
+ 
+-	dev_dbg(fbi->dev, "blank mode=%d\n", mode);
++	fb_dbg(fbi, "blank mode=%d\n", mode);
+ 
+ 	switch (mode) {
+ 	case FB_BLANK_POWERDOWN:
+@@ -791,7 +790,7 @@ static void of_platform_mb862xx_remove(struct platform_device *ofdev)
+ 	resource_size_t res_size = resource_size(par->res);
+ 	unsigned long reg;
+ 
+-	dev_dbg(fbi->dev, "%s release\n", fbi->fix.id);
++	fb_dbg(fbi, "%s release\n", fbi->fix.id);
+ 
+ 	/* display off */
+ 	reg = inreg(disp, GC_DCM1);
+@@ -1138,7 +1137,7 @@ static void mb862xx_pci_remove(struct pci_dev *pdev)
+ 	struct mb862xxfb_par *par = fbi->par;
+ 	unsigned long reg;
+ 
+-	dev_dbg(fbi->dev, "%s release\n", fbi->fix.id);
++	fb_dbg(fbi, "%s release\n", fbi->fix.id);
+ 
+ 	/* display off */
+ 	reg = inreg(disp, GC_DCM1);
 -- 
 2.41.0
 
