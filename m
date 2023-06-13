@@ -1,42 +1,42 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 602CD2A6E6
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8942C2A6E7
 	for <linux-staging@lists.linux.dev>; Tue, 13 Jun 2023 11:10:04 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 1F9B81FD9F;
+	by smtp-out1.suse.de (Postfix) with ESMTPS id C0A3422416;
 	Tue, 13 Jun 2023 11:10:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
 	t=1686654602; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=8X3yQyHtdAGbqV8Nngj4Yuzd3t4nUJygtIKDANSM4Nc=;
-	b=fb7NQvigOWfhSdnOuUEs6DjDj7KZWtfFk1LzP6QBPaIkgtQA5InjB14ZVT6672flPB+BLs
-	7w5vg5hCN0Jx0MbRsSJPXZut1QFSlUmzbWVrOzVxgurthL+kr/m7rGCTZ+tegz7usQXpVE
-	Ri1EkrJzKAAVLZkzXsdMVwoyIh2UVts=
+	bh=iS75Sy8vxPdQTxKd8R/a14a55yT+9ZE1XrealkwT0x8=;
+	b=Q38CvPhEMtiNefeeOeH1vGahXu/yyy0YEhuBjm1JmUEEC2utiogyKVMwU96QYlrZmRp2nD
+	Dyvccc3evDLBZrq8iVmZsLVgU5+gbhsRpe6eI42YxiU+Pyjzv0+FhtqX2B9wHg5QpORz8x
+	q2CjPSlhB52ekQ5zyqMJwYdH7MJjCV0=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
 	s=susede2_ed25519; t=1686654602;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=8X3yQyHtdAGbqV8Nngj4Yuzd3t4nUJygtIKDANSM4Nc=;
-	b=AdvR9dycWkCIy6DpzBXW2dHx5vLGmuDV3+7VOZjIDE3AeDwVemIh4qXwnOxeWXTr9GiIpS
-	yIcMhODSkwuCGaDA==
+	bh=iS75Sy8vxPdQTxKd8R/a14a55yT+9ZE1XrealkwT0x8=;
+	b=EZDaB+E68NnQ724We9tBfV8Es66SWW3pJADfp5wqoGrgSipwtlYOzXaSRMxxOJW1+QIXad
+	t+0OSOJDyYZhMvCA==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id C842213483;
-	Tue, 13 Jun 2023 11:10:01 +0000 (UTC)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 75C3413483;
+	Tue, 13 Jun 2023 11:10:02 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
 	by imap2.suse-dmz.suse.de with ESMTPSA
-	id wDweMIlOiGR8CQAAMHmgww
-	(envelope-from <tzimmermann@suse.de>); Tue, 13 Jun 2023 11:10:01 +0000
+	id +JXYG4pOiGR8CQAAMHmgww
+	(envelope-from <tzimmermann@suse.de>); Tue, 13 Jun 2023 11:10:02 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: daniel@ffwll.ch,
 	javierm@redhat.com,
@@ -54,11 +54,10 @@ Cc: linux-fbdev@vger.kernel.org,
 	linux-omap@vger.kernel.org,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Antonino Daplas <adaplas@gmail.com>
-Subject: [PATCH v3 18/38] fbdev/nvidiafb: Reorder backlight and framebuffer init/cleanup
-Date: Tue, 13 Jun 2023 13:06:53 +0200
-Message-ID: <20230613110953.24176-19-tzimmermann@suse.de>
+	Thomas Zimmermann <tzimmermann@suse.de>
+Subject: [PATCH v3 20/38] fbdev/pxa168fb: Do not assign to struct fb_info.dev
+Date: Tue, 13 Jun 2023 13:06:55 +0200
+Message-ID: <20230613110953.24176-21-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.41.0
 In-Reply-To: <20230613110953.24176-1-tzimmermann@suse.de>
 References: <20230613110953.24176-1-tzimmermann@suse.de>
@@ -70,51 +69,29 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The driver's backlight code requires the framebuffer to be
-registered. Therefore reorder the init and cleanup calls for
-both data structures.
+Do not assign the hardware device to struct fb_info.dev. The
+field references the fbdev software device, which is unrelated.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: Antonino Daplas <adaplas@gmail.com>
 Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
 Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
 ---
- drivers/video/fbdev/nvidia/nvidia.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ drivers/video/fbdev/pxa168fb.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/video/fbdev/nvidia/nvidia.c b/drivers/video/fbdev/nvidia/nvidia.c
-index ea4ba3dfb96bb..039e886346fa6 100644
---- a/drivers/video/fbdev/nvidia/nvidia.c
-+++ b/drivers/video/fbdev/nvidia/nvidia.c
-@@ -1400,14 +1400,14 @@ static int nvidiafb_probe(struct pci_dev *pd, const struct pci_device_id *ent)
- 
- 	pci_set_drvdata(pd, info);
- 
--	if (backlight)
--		nvidia_bl_init(par);
--
- 	if (register_framebuffer(info) < 0) {
- 		printk(KERN_ERR PFX "error registering nVidia framebuffer\n");
- 		goto err_out_iounmap_fb;
- 	}
- 
-+	if (backlight)
-+		nvidia_bl_init(par);
-+
- 	printk(KERN_INFO PFX
- 	       "PCI nVidia %s framebuffer (%dMB @ 0x%lX)\n",
- 	       info->fix.id,
-@@ -1439,9 +1439,9 @@ static void nvidiafb_remove(struct pci_dev *pd)
- 
- 	NVTRACE_ENTER();
- 
-+	nvidia_bl_exit(par);
- 	unregister_framebuffer(info);
- 
--	nvidia_bl_exit(par);
- 	arch_phys_wc_del(par->wc_cookie);
- 	iounmap(info->screen_base);
- 	fb_destroy_modedb(info->monspecs.modedb);
+diff --git a/drivers/video/fbdev/pxa168fb.c b/drivers/video/fbdev/pxa168fb.c
+index 79f3384630926..82cb9ffe52908 100644
+--- a/drivers/video/fbdev/pxa168fb.c
++++ b/drivers/video/fbdev/pxa168fb.c
+@@ -629,7 +629,7 @@ static int pxa168fb_probe(struct platform_device *pdev)
+ 	fbi = info->par;
+ 	fbi->info = info;
+ 	fbi->clk = clk;
+-	fbi->dev = info->dev = &pdev->dev;
++	fbi->dev = &pdev->dev;
+ 	fbi->panel_rbswap = mi->panel_rbswap;
+ 	fbi->is_blanked = 0;
+ 	fbi->active = mi->active;
 -- 
 2.41.0
 
