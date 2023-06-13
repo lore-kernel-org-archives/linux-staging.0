@@ -1,77 +1,111 @@
-Received: from eu-smtp-delivery-151.mimecast.com (eu-smtp-delivery-151.mimecast.com [185.58.86.151])
+Received: from smtp-relay-internal-0.canonical.com (smtp-relay-internal-0.canonical.com [185.125.188.122])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2EED7522B
-	for <linux-staging@lists.linux.dev>; Tue, 13 Jun 2023 12:43:07 +0000 (UTC)
-Received: from AcuMS.aculab.com (156.67.243.121 [156.67.243.121]) by
- relay.mimecast.com with ESMTP with both STARTTLS and AUTH (version=TLSv1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- uk-mta-311-rnUksceOM2-gkIbIoMQNcA-1; Tue, 13 Jun 2023 13:43:04 +0100
-X-MC-Unique: rnUksceOM2-gkIbIoMQNcA-1
-Received: from AcuMS.Aculab.com (10.202.163.6) by AcuMS.aculab.com
- (10.202.163.6) with Microsoft SMTP Server (TLS) id 15.0.1497.48; Tue, 13 Jun
- 2023 13:42:59 +0100
-Received: from AcuMS.Aculab.com ([::1]) by AcuMS.aculab.com ([::1]) with mapi
- id 15.00.1497.048; Tue, 13 Jun 2023 13:42:59 +0100
-From: David Laight <David.Laight@ACULAB.COM>
-To: 'Rasmus Villemoes' <linux@rasmusvillemoes.dk>, Demi Marie Obenour
-	<demi@invisiblethingslab.com>, Hans de Goede <hdegoede@redhat.com>, "Mauro
- Carvalho Chehab" <mchehab@kernel.org>, Sakari Ailus
-	<sakari.ailus@linux.intel.com>, Greg Kroah-Hartman
-	<gregkh@linuxfoundation.org>, Juergen Gross <jgross@suse.com>, "Stefano
- Stabellini" <sstabellini@kernel.org>, Oleksandr Tyshchenko
-	<oleksandr_tyshchenko@epam.com>, Lee Jones <lee@kernel.org>, Andy Lutomirski
-	<luto@kernel.org>, Thomas Gleixner <tglx@linutronix.de>, Vincenzo Frascino
-	<vincenzo.frascino@arm.com>, Petr Mladek <pmladek@suse.com>, Steven Rostedt
-	<rostedt@goodmis.org>, Sergey Senozhatsky <senozhatsky@chromium.org>, "Andy
- Shevchenko" <andriy.shevchenko@linux.intel.com>
-CC: "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-	"linux-staging@lists.linux.dev" <linux-staging@lists.linux.dev>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"xen-devel@lists.xenproject.org" <xen-devel@lists.xenproject.org>, "Christoph
- Hellwig" <hch@lst.de>
-Subject: RE: [PATCH v3 3/4] vsscanf(): do not skip spaces
-Thread-Topic: [PATCH v3 3/4] vsscanf(): do not skip spaces
-Thread-Index: AQHZnR4ovdHGuD5F0k2o+1T0Ru69aa+Iri8A
-Date: Tue, 13 Jun 2023 12:42:59 +0000
-Message-ID: <32e8b52d64b642608595142ab2952f16@AcuMS.aculab.com>
-References: <20230610204044.3653-1-demi@invisiblethingslab.com>
- <20230610204044.3653-4-demi@invisiblethingslab.com>
- <546e2ab5-f520-c85e-d6f4-ca7b02457d4c@rasmusvillemoes.dk>
-In-Reply-To: <546e2ab5-f520-c85e-d6f4-ca7b02457d4c@rasmusvillemoes.dk>
-Accept-Language: en-GB, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.202.205.107]
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68F4823DB
+	for <linux-staging@lists.linux.dev>; Tue, 13 Jun 2023 15:48:58 +0000 (UTC)
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com [209.85.221.72])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-relay-internal-0.canonical.com (Postfix) with ESMTPS id 350CC3F26B
+	for <linux-staging@lists.linux.dev>; Tue, 13 Jun 2023 15:39:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
+	s=20210705; t=1686670784;
+	bh=h2VB2F1nqgPgNlWNC2nzeOkEx2tuyJu/3uifBQZUmKY=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version;
+	b=Px1GsJBpr91+X+7dRDPpYZOSu31kCRXMwUv1yRwhk0LSTw+MnXf3q/0x6j5EMI2Hl
+	 PKhNnljqQhYp64fIh0dsOaaY2ENyUvAjU7T/pbozQOHlqO7vUwc7DIwd5njsqZDh5q
+	 gxeDlAQPCeEDnq4BfAiNQ4T+ncUVs81YYlWVfvw+Twtlds7tDgHDjh61gqXKpYf+c5
+	 SXXGXV8/A+9494aMHL99ZVyGs6CNtDEOn6tNz1alFrVdeZ8ECan4kcqwbDO/vIisgG
+	 Mhk4uB9L3HF8h6ByoEMnRXR7/XW4ZiHkTN9JE7KOifUmN1E6ZI2v2cyyC1OHc+rYTg
+	 N8U9/Oov+xVwQ==
+Received: by mail-wr1-f72.google.com with SMTP id ffacd0b85a97d-30e5c497f90so3310370f8f.2
+        for <linux-staging@lists.linux.dev>; Tue, 13 Jun 2023 08:39:44 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1686670783; x=1689262783;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=h2VB2F1nqgPgNlWNC2nzeOkEx2tuyJu/3uifBQZUmKY=;
+        b=REF2KHjnRmHIb6TY3ZaWG3n+0D75nRYxIxRaZ4CCkaZx9EIbvDXpPSP/kvXq9gPKLp
+         3IBUGFfZ3/T3udcPFOL+Ra8rNRwK3hA9aysu/hNGy7/arellaZVdIbcX99actWQl+HwL
+         p7osgn8XVV0Uj8Bee+nCIkkjwE4iML42PjrB2rRVPxAoZRelEK4lA5ugPxodkFtpfagT
+         MAA+YnpQLV0DvihmlmNiqICCtxfhJb3Svo3ztJ2Xk7VAXOnQ7SedKtVVwO2lVsTximJr
+         uDMW1LFIrhVrrkasZsIayoFHxquGLvOu4zTv/DK9O7dfq2Vf/LAqv11l0fDDg5poOwR+
+         bwUg==
+X-Gm-Message-State: AC+VfDzo8UgW/fANgK/NIYQ8G75zHikFG2UTuHBspJ/7dsfA35Qj9B40
+	0TbtdxLVb8c1PZuSzEKhLb8BxWzet1EM+3Y2Vj6V5s9/RHniNPb3BpiEesV8b7yNguHrVWLUIWo
+	DFuYQA7n1PQEDvX0sDWvsJNBFFVbY9gu7/HUExbhic7s=
+X-Received: by 2002:a05:6000:1248:b0:2f8:3225:2bc2 with SMTP id j8-20020a056000124800b002f832252bc2mr6846725wrx.41.1686670783783;
+        Tue, 13 Jun 2023 08:39:43 -0700 (PDT)
+X-Google-Smtp-Source: ACHHUZ7u6y5BjGv0z8bT/LB9RrsvWeO5qrDCAe7zl2OSeRDtbWoTqJ0KQBMBeO8sS2CFGRWa+dBvvw==
+X-Received: by 2002:a05:6000:1248:b0:2f8:3225:2bc2 with SMTP id j8-20020a056000124800b002f832252bc2mr6846717wrx.41.1686670783535;
+        Tue, 13 Jun 2023 08:39:43 -0700 (PDT)
+Received: from localhost ([194.191.244.86])
+        by smtp.gmail.com with ESMTPSA id b5-20020adff905000000b0030aedb8156esm15556257wrr.102.2023.06.13.08.39.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 13 Jun 2023 08:39:43 -0700 (PDT)
+From: Juerg Haefliger <juerg.haefliger@canonical.com>
+To: juerg.haefliger@canonical.com
+Cc: gregkh@linuxfoundation.org,
+	jbrunet@baylibre.com,
+	khilman@baylibre.com,
+	linux-amlogic@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	martin.blumenstingl@googlemail.com,
+	mchehab@kernel.org,
+	narmstrong@baylibre.com,
+	linux-media@vger.kernel.org
+Subject: [PATCH v2 resend 2] media: meson: vdec: Add MODULE_FIRMWARE macro
+Date: Tue, 13 Jun 2023 17:39:39 +0200
+Message-Id: <20230613153939.152457-1-juerg.haefliger@canonical.com>
+X-Mailer: git-send-email 2.37.2
+In-Reply-To: <20230126153258.1558471-1-juerg.haefliger@canonical.com>
+References: <20230126153258.1558471-1-juerg.haefliger@canonical.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: aculab.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: base64
+Content-Transfer-Encoding: 8bit
 
-RnJvbTogUmFzbXVzIFZpbGxlbW9lcw0KPiBTZW50OiAxMiBKdW5lIDIwMjMgMTI6MDgNCj4gDQo+
-IE9uIDEwLzA2LzIwMjMgMjIuNDAsIERlbWkgTWFyaWUgT2Jlbm91ciB3cm90ZToNCj4gPiBQYXNz
-aW5nIHNwYWNlcyBiZWZvcmUgZS5nLiBhbiBpbnRlZ2VyIGlzIHVzdWFsbHkNCj4gPiBub3QgaW50
-ZW5kZWQuDQo+IA0KPiBNYXliZSwgbWF5YmUgbm90LiBCdXQgaXQncyBtYW5kYXRlZCBieSBQT1NJ
-WC9DOTkuDQo+IA0KPiBBbmQgb2YgY291cnNlIHdlIGFyZSBmcmVlIHRvIGlnbm9yZSB0aGF0IGFu
-ZCBpbXBsZW1lbnQgb3VyIG93biBzZW1hbnRpY3MNCj4gKHRob3VnaCB3aXRoaW4gdGhlIGNvbnN0
-cmFpbnRzIHRoYXQgd2UgcmVhbGx5IHdhbnQgLVdmb3JtYXQgdG8gaGVscCB1cyksDQo+IGJ1dCB0
-aGVyZSBzZWVtcyB0byBiZSBleGlzdGluZyBjb2RlIGluLXRyZWUgdGhhdCByZWxpZXMgb24gdGhp
-cw0KPiBiZWhhdmlvci4gRm9yIGV4YW1wbGUgSSB0aGluayB0aGlzIHdpbGwgYnJlYWsNCj4gZnNs
-X3NhdGFfaW50cl9jb2FsZXNjaW5nX3N0b3JlKCkgd2hpY2ggdXNlcyBhIHNjYW5mIGZvcm1hdCBv
-ZiAiJXUldSIuDQo+IA0KPiBTdXJlLCB0aGF0IGNvdWxkIGp1c3Qgc2F5ICIldSAldSIgaW5zdGVh
-ZCwgYnV0IHRoZSBwb2ludCBpcyB0aGF0DQo+IGN1cnJlbnRseSBpdCBkb2Vzbid0LiBTbyB3aXRo
-b3V0IHNvbWUgcmVhc29uYWJseSB0aG9yb3VnaCBhbmFseXNpcw0KPiBhY3Jvc3MgdGhlIHRyZWUs
-IGFuZCB1cGRhdGVzIG9mIGFmZmVjdGVkIGNhbGxlcnMsIE5BSy4NCg0KSXQgd291bGQgYWxtb3N0
-IGNlcnRhaW5seSBuZWVkIHRvIGJlICIgJXUgJXUiIHRvIGFsbG93IGZvcg0KdXNlcnNwYWNlIGdl
-bmVyYXRpbmcgdGhlIGlucHV0IHdpdGggIiU2dSAlNnUiLA0KDQoJRGF2aWQNCg0KLQ0KUmVnaXN0
-ZXJlZCBBZGRyZXNzIExha2VzaWRlLCBCcmFtbGV5IFJvYWQsIE1vdW50IEZhcm0sIE1pbHRvbiBL
-ZXluZXMsIE1LMSAxUFQsIFVLDQpSZWdpc3RyYXRpb24gTm86IDEzOTczODYgKFdhbGVzKQ0K
+The meson-vdec module loads firmware so add MODULE_FIRMWARE macros to
+provide that information via modinfo.
+
+Signed-off-by: Juerg Haefliger <juerg.haefliger@canonical.com>
+Reviewed-by: Neil Armstrong <narmstrong@baylibre.com>
+
+---
+v2 resend 2:
+  - cc linux-media@vger.kernel.org
+v2:
+  - Drop duplicates
+  - Add Reviewed-by: Neil Armstrong <narmstrong@baylibre.com>
+---
+ drivers/staging/media/meson/vdec/vdec_platform.c | 9 +++++++++
+ 1 file changed, 9 insertions(+)
+
+diff --git a/drivers/staging/media/meson/vdec/vdec_platform.c b/drivers/staging/media/meson/vdec/vdec_platform.c
+index 88c9d72e1c83..70c9fd7c8bc5 100644
+--- a/drivers/staging/media/meson/vdec/vdec_platform.c
++++ b/drivers/staging/media/meson/vdec/vdec_platform.c
+@@ -280,3 +280,12 @@ const struct vdec_platform vdec_platform_sm1 = {
+ 	.num_formats = ARRAY_SIZE(vdec_formats_sm1),
+ 	.revision = VDEC_REVISION_SM1,
+ };
++
++MODULE_FIRMWARE("meson/vdec/g12a_h264.bin");
++MODULE_FIRMWARE("meson/vdec/g12a_vp9.bin");
++MODULE_FIRMWARE("meson/vdec/gxbb_h264.bin");
++MODULE_FIRMWARE("meson/vdec/gxl_h264.bin");
++MODULE_FIRMWARE("meson/vdec/gxl_mpeg12.bin");
++MODULE_FIRMWARE("meson/vdec/gxl_vp9.bin");
++MODULE_FIRMWARE("meson/vdec/gxm_h264.bin");
++MODULE_FIRMWARE("meson/vdec/sm1_vp9_mmu.bin");
+-- 
+2.37.2
 
