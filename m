@@ -1,28 +1,54 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3126F20E2
-	for <linux-staging@lists.linux.dev>; Thu, 15 Jun 2023 14:34:39 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2545DC433C8;
-	Thu, 15 Jun 2023 14:34:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1686839679;
-	bh=EQOh51VjdnSVB1jEja9kzvDT2KtzLLOcPpFUeCtou3M=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=u6VE0KJYUyWs/AJpd/icaEkfLE2BmkcvUgrLcXtL99oZxvOw9Hv1TvdmQPtJVtlKQ
-	 6wP1u1UA53NOP+nAbKoWwD0BzvsfDtbM8p35aGV7b006LDaQHiRzMh9j0/KbjXCep0
-	 KBKxHCu7oCFBXWhsYY1wKyJfIvaPWy7xJ9N4ZpIQ=
-Date: Thu, 15 Jun 2023 16:34:36 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Yogesh Hegde <yogi.kernel@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D117F15AE1
+	for <linux-staging@lists.linux.dev>; Thu, 15 Jun 2023 16:11:17 +0000 (UTC)
+Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-1b4f8523197so7160975ad.1
+        for <linux-staging@lists.linux.dev>; Thu, 15 Jun 2023 09:11:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1686845477; x=1689437477;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=SHFSwygxeSP/wb+9cpN9Yh89Hq/EoNysOuT6jZLAZPA=;
+        b=a5jrDgJ473r5kUIlYrgUMKKspLnXEM1iePB/RAqvLVO8KXD8ipIU0S+BvsIY8KzL+o
+         e8GvYpDS/83Hz6b0ZR42lyNdIMzhOWiEQZhU8AZO/H6FSOzz4Ui5zYW4zWlBl8afGgDh
+         7U0ls7TCNFrf9BAyDY3nqDgQ3e3ZbAJo/qVmHnAzTWgcNcQdsJdmPOXOxHKqmHwNaomN
+         ZbRLK3jOeBoCHKUOejfkcTXGfQSkuB/BRx9K2QBPUooCYgrKb9s4hyzOztelOOxEhFCA
+         ICSEPIJXtYiFtR7viy2efTNdfT3eA6C1+EAr2vK31EprWEcTkN3cvPFM5pUjJn7seq1+
+         kjpA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1686845477; x=1689437477;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=SHFSwygxeSP/wb+9cpN9Yh89Hq/EoNysOuT6jZLAZPA=;
+        b=iDoHEZhEdjR7RvJL5tJxu80JCmC5eZ/insX3gTk5iOaKJ4K+KZvqJRU2YyplxaZbQr
+         aVxKs9z9wWeCrQa/NhjHsxhHYPd7G8ASO+fJ9KMRxmwEGr/NkvizhzsxAhE/mi83PB+0
+         +3qtvHonYQBx+LGr7EM4eDEiUlnTxHyN0MMnosEuEvTQxfvqRdksxIRUttIfEc1yxUC6
+         WaDyWgcIni1llxnJrIHvylDt32eWD9CFkrHbS0ZSb/MQYHrtR5R+ojSGIj+5FGCT20lm
+         eJ3v9oSMOQU4q4VkiUERIGM+EUKEL6tLYGvyELPBHZQWbaSpdbnVcH5nLLbOy6OL/Noe
+         sJeA==
+X-Gm-Message-State: AC+VfDwSdGQ/LsrNgtwAR1CoIIhjgcchF1lvrTB53RLku9q7qQGEeOtc
+	MwPwyg9XJh+V5NmlMb2Dkzw=
+X-Google-Smtp-Source: ACHHUZ6cwPkh6elQv6ZZn8eTE+1VBrzp0IAE9+SSpS4WlT6sTPwAuiG+jAMOY0L6uDaHtW0Y4Nr/yQ==
+X-Received: by 2002:a17:902:dac4:b0:1a9:6a10:70e9 with SMTP id q4-20020a170902dac400b001a96a1070e9mr7036413plx.33.1686845477059;
+        Thu, 15 Jun 2023 09:11:17 -0700 (PDT)
+Received: from yogi-Zephyrus ([103.251.210.211])
+        by smtp.gmail.com with ESMTPSA id a17-20020a170902ee9100b001b5115b16a1sm2125682pld.94.2023.06.15.09.11.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 15 Jun 2023 09:11:16 -0700 (PDT)
+Date: Thu, 15 Jun 2023 21:41:12 +0530
+From: Yogesh Hegde <yogi.kernel@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
 	Dan Carpenter <dan.carpenter@linaro.org>,
 	Philipp Hortmann <philipp.g.hortmann@gmail.com>
 Subject: Re: [PATCH v2 0/5] Trivial code cleanup patches
-Message-ID: <2023061520-gear-unwind-fbcc@gregkh>
+Message-ID: <20230615161112.GA42873@yogi-Zephyrus>
 References: <cover.1686149467.git.yogi.kernel@gmail.com>
  <2023061532-fall-earthy-c429@gregkh>
  <20230615140908.GB37552@yogi-Zephyrus>
+ <2023061520-gear-unwind-fbcc@gregkh>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -31,74 +57,18 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230615140908.GB37552@yogi-Zephyrus>
+In-Reply-To: <2023061520-gear-unwind-fbcc@gregkh>
 
-On Thu, Jun 15, 2023 at 07:39:08PM +0530, Yogesh Hegde wrote:
-> On Thu, Jun 15, 2023 at 12:36:45PM +0200, Greg Kroah-Hartman wrote:
-> > On Wed, Jun 07, 2023 at 08:31:19PM +0530, Yogesh Hegde wrote:
-> > > These patches remove variables in the struct rtllib_device that were 
-> > > set only once throughout the driver. Instead of using these variables, 
-> > > the patches modify the relevant code to directly call the corresponding 
-> > > functions, eliminating unnecessary indirection and removing CamelCase.
-> > > The patches are required to be applied in sequence.
-> > > 
-> > > Yogesh Hegde (5):
-> > >   staging: rtl8192e: Remove variable SetWirelessMode
-> > >   staging: rtl8192e: Remove variable SetBWModeHandler
-> > >   staging: rtl8192e: Remove variable LeisurePSLeave
-> > >   staging: rtl8192e: Remove variable InitialGainHandler
-> > >   staging: rtl8192e: Remove DRV_NAME definition in rtllib_debug.h
-> > > 
-> > >  drivers/staging/rtl8192e/rtl8192e/r8192E_phy.c |  4 ++--
-> > >  drivers/staging/rtl8192e/rtl8192e/rtl_core.c   |  4 ----
-> > >  drivers/staging/rtl8192e/rtl819x_HTProc.c      |  8 ++++----
-> > >  drivers/staging/rtl8192e/rtllib.h              |  6 ------
-> > >  drivers/staging/rtl8192e/rtllib_debug.h        |  5 -----
-> > >  drivers/staging/rtl8192e/rtllib_rx.c           |  3 ++-
-> > >  drivers/staging/rtl8192e/rtllib_softmac.c      | 16 +++++++---------
-> > >  drivers/staging/rtl8192e/rtllib_softmac_wx.c   |  9 +++++----
-> > >  8 files changed, 20 insertions(+), 35 deletions(-)
-> > > 
-> > > -- 
-> > > 2.25.1
-> > > 
-> > > 
-> > 
-> > These break the build, as reported by the test robot, please fix up.
+On Thu, Jun 15, 2023 at 04:34:36PM +0200, Greg Kroah-Hartman wrote:
+> I don't know, sorry, that's up to you.  If a symbol is used in one
+> module, then of course you can't remove it :)
 > 
-> Hi Greg,
-> 
-> These patches do not work because this driver is divided into two
-> modules.
-> 
-> The driver is loaded in 2 different modules:
-> sudo insmod drivers/staging/rtl8192e/rtllib.ko
-> sudo insmod drivers/staging/rtl8192e/rtl8192e/r8192e_pci.ko
-> 
-> So this line is required:
-> priv->rtllib->SetWirelessMode = rtl92e_set_wireless_mode;
-> as one name is used in one module and one in the other module.
-> 
-> So when I suggested these fixes
-> 1.  Patchset to combine both the modules into one module.
-> 2.  Or resending v1 of the patchset.
-> 
-> to Dan Carpenter <dan.carpenter@linaro.org> and
-> Philipp Hortmann <philipp.g.hortmann@gmail.com>, in their opinion both the
-> suggested fixes are incorrect, which I agree with.
-> 
-> Link to conversation -
-> https://lore.kernel.org/linux-staging/90813181-02a1-b54f-132b-c68e7b797bb6@gmail.com/
-> 
-> I have yet to find a correct way to solve this problem. Please let me
-> know if you have any suggestions. 
+> don't mess with the modules split for now, just get the existing code
+> cleaner, that's probably much easier, right?
+Yes, clean up is easier. I will resend the v1 patchset. It only cleans up the 
+variable names leaving the rest untouched.  
 
-I don't know, sorry, that's up to you.  If a symbol is used in one
-module, then of course you can't remove it :)
+Thank you all for reviewing the patches. 
 
-don't mess with the modules split for now, just get the existing code
-cleaner, that's probably much easier, right?
-
-thanks,
-
-greg k-h
+Thanks and Regards 
+Yogesh 
