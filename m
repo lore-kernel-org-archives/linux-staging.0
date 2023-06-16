@@ -1,132 +1,117 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A3C779E5
-	for <linux-staging@lists.linux.dev>; Fri, 16 Jun 2023 14:44:16 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 1203421BD7;
-	Fri, 16 Jun 2023 14:37:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1686926271; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=/pc5e01Az30d0Y7EOVtqX1ghgv8iymBCr4cTKd6NYVc=;
-	b=pxiGv5A2Uk44sRbQW8ymLZStrLHP4hKSsy0fjcizLCRTrfOsJG0muZR3LEEx8hedi2Y12c
-	UN/AmOPNHmjpHGLP/iSfI0oOSh599hdlydntQLyGKqzf04bxSwv3phpZ4hWZoW7Gyw4RhJ
-	16UYf+QqbKlh7hTKgcFgoNPyizpCKl8=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1686926271;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=/pc5e01Az30d0Y7EOVtqX1ghgv8iymBCr4cTKd6NYVc=;
-	b=xbba1t2427WO4fkI830Ss7ilzxtJFad8dVD0KbNe0PbI0dCLW0VWSnO2LCR54TUdKusRHB
-	iSViPIkRyVy1g7Dw==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 9CDB71330B;
-	Fri, 16 Jun 2023 14:37:50 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-	by imap2.suse-dmz.suse.de with ESMTPSA
-	id z3+tJL5zjGRFaQAAMHmgww
-	(envelope-from <tzimmermann@suse.de>); Fri, 16 Jun 2023 14:37:50 +0000
-Message-ID: <9f74b8de-9a1b-2547-5eab-d4b4349a6a81@suse.de>
-Date: Fri, 16 Jun 2023 16:37:49 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B91DDA92E;
+	Fri, 16 Jun 2023 15:26:10 +0000 (UTC)
+Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-1b52bf6e66aso5670415ad.3;
+        Fri, 16 Jun 2023 08:26:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1686929170; x=1689521170;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=TUdwy2/36hgEkTz9QJkYNZGHUYq2szwxedz8pSMdEEc=;
+        b=n80NvEX/NzO2un18OWbPTOcYy0kouVcPki0WsS/d1yCArFZjQKB8cXvLE+Rb3GCB/H
+         fTdgmhCzUJ4VM4raCRG8Sxx/SEUmYmCllGtk9HPOZe1H3uFt2DNpaJcuytR28HCOZGEx
+         1t3GcY8XpXSZU4hqfWt+T7OkEXIrtMQVmc9NcZIhrtgS6SC2H0KfB1x2AlDL0sGN4Ut7
+         psB5S0KnDvOAtcNttjgWLDyHv8qzXZB1DPUe7KZRkH8reQGEttf5QD1nIYwmePtDsNAu
+         t28HTDhWIOK4+S7YAq+cccetIYra3Yir4sXU5E6dOWTTwiHCboZXzfPv9wwWLeW8yCk+
+         y/3w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1686929170; x=1689521170;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=TUdwy2/36hgEkTz9QJkYNZGHUYq2szwxedz8pSMdEEc=;
+        b=P56ATmwYlqzlQc/8OCk2Cz/noDbohczlwRTrmAxIXci+O45JiGrQfMPrp6a0WwUuTQ
+         tyCdHYEVspGehJFbrCYhmkADafo3sDCp8hznz9t/wXCB945rBhJXc5+E4j866CkCkbbv
+         +WZM70bKnv/rfsH0iDJGchBEEBAfPzsN0c/1GbaBMty21z9X8CqgONUFeRV3QiQq1G+3
+         6lZyTUplX7wOm1/TUkubA6Z+JVc2xaMOeiNVCbK4pt4rk7Tb4WXhJ5Di/uv4DHI4cfWQ
+         saQTo+fXwU74PThjl1yVuxlDpmpkQZg48pjo63EHApiefd+2w+hA4jKWVdMo+V6Wzy6I
+         97Lg==
+X-Gm-Message-State: AC+VfDySb7FR0/DQrymDaM9DMyiOqQfDimyVfO4KtsajPzf7T/E55cYG
+	e5+bgcrx1DMn2RgRn9qlZ4w=
+X-Google-Smtp-Source: ACHHUZ6tJnqdu9WxuDJ8CmeYjIt9Y0w9V7dOW1Z2eAhkp89iu/BfwTMbBZhm5OuOV7uCMXrrDrVwZg==
+X-Received: by 2002:a17:902:bb96:b0:1ac:8837:de9 with SMTP id m22-20020a170902bb9600b001ac88370de9mr1716854pls.3.1686929169864;
+        Fri, 16 Jun 2023 08:26:09 -0700 (PDT)
+Received: from redkillpc.. ([49.207.203.99])
+        by smtp.gmail.com with ESMTPSA id y13-20020a17090322cd00b001a69dfd918dsm15992057plg.187.2023.06.16.08.26.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 16 Jun 2023 08:26:08 -0700 (PDT)
+From: Prathu Baronia <prathubaronia2011@gmail.com>
+To: prathubaronia2011@gmail.com,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Fabio M. De Francesco" <fmdefrancesco@gmail.com>,
+	Khadija Kamran <kamrankhadijadj@gmail.com>,
+	=?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Cc: dan.carpenter@linaro.org,
+	error27@gmail.com,
+	lkp@intel.com,
+	oe-kbuild-all@lists.linux.dev,
+	oe-kbuild@lists.linux.dev
+Subject: [PATCH v5 1/2] axis-fifo: use devm_kasprintf() for allocating formatted strings
+Date: Fri, 16 Jun 2023 20:55:59 +0530
+Message-Id: <20230616152602.33232-1-prathubaronia2011@gmail.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <ZIiTL5bzMUgs3L5K@redkillpc>
+References: <ZIiTL5bzMUgs3L5K@redkillpc>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.2
-Subject: Re: [PATCH v3 01/38] backlight/bd6107: Compare against struct
- fb_info.device
-Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Lee Jones <lee@kernel.org>
-Cc: daniel.thompson@linaro.org,
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
- linux-kernel@vger.kernel.org, geert+renesas@glider.be,
- linux-sh@vger.kernel.org, jingoohan1@gmail.com, deller@gmx.de,
- linux-staging@lists.linux.dev, javierm@redhat.com,
- dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
- michael.j.ruhl@intel.com, stable@vger.kernel.org,
- linux-omap@vger.kernel.org, sam@ravnborg.org, dan.carpenter@linaro.org
-References: <20230613110953.24176-1-tzimmermann@suse.de>
- <20230613110953.24176-2-tzimmermann@suse.de>
- <20230614135157.GU3635807@google.com>
- <5720dbc1-a3e4-2b23-28cd-f889d3a5a4fc@suse.de>
-In-Reply-To: <5720dbc1-a3e4-2b23-28cd-f889d3a5a4fc@suse.de>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------uqxf1PmsVcgGFzKAiF8s860m"
+Content-Transfer-Encoding: 8bit
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------uqxf1PmsVcgGFzKAiF8s860m
-Content-Type: multipart/mixed; boundary="------------Kge1wVVwVTDuGXE1lqDWar4A";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Lee Jones <lee@kernel.org>
-Cc: daniel.thompson@linaro.org,
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
- linux-kernel@vger.kernel.org, geert+renesas@glider.be,
- linux-sh@vger.kernel.org, jingoohan1@gmail.com, deller@gmx.de,
- linux-staging@lists.linux.dev, javierm@redhat.com,
- dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
- michael.j.ruhl@intel.com, stable@vger.kernel.org,
- linux-omap@vger.kernel.org, sam@ravnborg.org, dan.carpenter@linaro.org
-Message-ID: <9f74b8de-9a1b-2547-5eab-d4b4349a6a81@suse.de>
-Subject: Re: [PATCH v3 01/38] backlight/bd6107: Compare against struct
- fb_info.device
-References: <20230613110953.24176-1-tzimmermann@suse.de>
- <20230613110953.24176-2-tzimmermann@suse.de>
- <20230614135157.GU3635807@google.com>
- <5720dbc1-a3e4-2b23-28cd-f889d3a5a4fc@suse.de>
-In-Reply-To: <5720dbc1-a3e4-2b23-28cd-f889d3a5a4fc@suse.de>
+In various places, string buffers of a fixed size are allocated, and
+filled using snprintf() with the same fixed size, which is error-prone.
 
---------------Kge1wVVwVTDuGXE1lqDWar4A
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+Replace this by calling devm_kasprintf() instead, which always uses the
+appropriate size. Allocate the device name with a unique identifier
+instead of a kernel address.
 
-SGkgTGVlDQoNCkFtIDE0LjA2LjIzIHVtIDE2OjEzIHNjaHJpZWIgVGhvbWFzIFppbW1lcm1h
-bm46DQpbLi4uXQ0KPj4gQ2FuIHRoZSBCYWNrbGlnaHQgcGF0Y2hlcyBiZSBhcHBsaWVkIHdp
-dGhvdXQgdGhlIG90aGVycyBhbmQgdmlzYSB2ZXJzYT8NCj4gDQo+IFVuZm9ydHVuYXRlbHkg
-bm90LiBUaGUgcmVzdCBvZiB0aGUgc2VyaWVzIHJlcXVpcmVzIHRoZSBiYWNrbGlnaHQgcGF0
-Y2hlcy4NCg0KQXJlIHlvdSBPSyB3aXRoIHRoZSBwYXRjaGVzIGdvaW5nIHRocm91Z2ggZHJt
-Pw0KDQpCZXN0IHJlZ2FyZHMNClRob21hcw0KDQo+IA0KPiBCZXN0IHJlZ2FyZHMNCj4gVGhv
-bWFzDQo+IA0KPj4NCj4gDQoNCi0tIA0KVGhvbWFzIFppbW1lcm1hbm4NCkdyYXBoaWNzIERy
-aXZlciBEZXZlbG9wZXINClNVU0UgU29mdHdhcmUgU29sdXRpb25zIEdlcm1hbnkgR21iSA0K
-RnJhbmtlbnN0cmFzc2UgMTQ2LCA5MDQ2MSBOdWVybmJlcmcsIEdlcm1hbnkNCkdGOiBJdm8g
-VG90ZXYsIEFuZHJldyBNeWVycywgQW5kcmV3IE1jRG9uYWxkLCBCb3VkaWVuIE1vZXJtYW4N
-CkhSQiAzNjgwOSAoQUcgTnVlcm5iZXJnKQ0K
+Signed-off-by: Prathu Baronia <prathubaronia2011@gmail.com>
+---
+V4 -> V5: Remove the dev_info() and use a unique identifier for dev name
+V3 -> V4: Split into warning fixing and cleanup commits
+V2 -> V3: Fix smatch warnings from kernel test robot
+V1 -> V2: Split into logical commits and fix commit message
 
---------------Kge1wVVwVTDuGXE1lqDWar4A--
+ drivers/staging/axis-fifo/axis-fifo.c | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
---------------uqxf1PmsVcgGFzKAiF8s860m
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
+diff --git a/drivers/staging/axis-fifo/axis-fifo.c b/drivers/staging/axis-fifo/axis-fifo.c
+index 7a21f2423204..5e070e00e27a 100644
+--- a/drivers/staging/axis-fifo/axis-fifo.c
++++ b/drivers/staging/axis-fifo/axis-fifo.c
+@@ -816,10 +816,6 @@ static int axis_fifo_probe(struct platform_device *pdev)
+ 	 * ----------------------------
+ 	 */
+ 
+-	device_name = devm_kzalloc(dev, 32, GFP_KERNEL);
+-	if (!device_name)
+-		return -ENOMEM;
+-
+ 	/* allocate device wrapper memory */
+ 	fifo = devm_kzalloc(dev, sizeof(*fifo), GFP_KERNEL);
+ 	if (!fifo)
+@@ -857,7 +853,11 @@ static int axis_fifo_probe(struct platform_device *pdev)
+ 	dev_dbg(fifo->dt_device, "remapped memory to 0x%p\n", fifo->base_addr);
+ 
+ 	/* create unique device name */
+-	snprintf(device_name, 32, "%s_%pa", DRIVER_NAME, &r_mem->start);
++	device_name = devm_kasprintf(dev, GFP_KERNEL, "%s_%d", DRIVER_NAME, pdev->id);
++	if (!device_name) {
++		rc = -ENOMEM;
++		goto err_initial;
++	}
+ 	dev_dbg(fifo->dt_device, "device name [%s]\n", device_name);
+ 
+ 	/* ----------------------------
 
------BEGIN PGP SIGNATURE-----
+base-commit: fb054096aea0576f0c0a61c598e5e9676443ee86
+-- 
+2.34.1
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmSMc70FAwAAAAAACgkQlh/E3EQov+AF
-FxAAzH7H+UtNiH0YBxQX3fM2qFKzS4qSWBlg3K501Pyci6J+5eAgKYuhwGctklh9HKO9dmkB/Lpt
-X0sRCnnRHSC2K6Ofu4hQOrRv2T51Yz17z9G69YDW0/iDtgkMev1WebyKSyJ2YxJXts5HJffY1hq6
-dBToDogmi+X2RBHKVXDTyIqn0nYt9KAk4EjhmUbkQ4Kdp383yBGdJma0UykmQfznIhNQLNtw3fjv
-TKPM2FzgxpR43x4aUDz12DxdEmsP+DA+6F3iECiW0LiRAvprHE3/9c7vkdhO4hz/NIZuNoGO/HTz
-0TygMS9qSTpeB4+OR502PUp65ZrcK67SoSZ9v/WOntFeQ9zYe+L3rLyvt3/fkbOYWBKF9MgQ33mx
-qrn4cFZSusXpUk4V2p+Ks+XfJP0YIalvFf1dATRQGZYhOYh0oGZPDc+G1EMjpO7uYxKxwE34HJ6i
-zPxtr7lEF0tbvTbIfdF6pkyxK50km6SPWiKRqxn5Nts83C3aw/xAfbpcSeUNYiF5/XErJm5ZSniR
-gwzNaQHAVLgND/Ui5Sh6iM0PpIbfbXRRG4uEpRsXFDE7ArGMQDUbTv6yweN9rQUppjOTUMp49jNM
-hD3j/9H9RSWJZKGxXREFTvP9k2XW82h5450VmiWR4b/Jg386iUX+7jumgmVmf/WOKP+Q4+b8hAqF
-Znk=
-=2ezj
------END PGP SIGNATURE-----
-
---------------uqxf1PmsVcgGFzKAiF8s860m--
