@@ -1,47 +1,50 @@
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
+Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA9159467
-	for <linux-staging@lists.linux.dev>; Sat, 17 Jun 2023 13:56:39 +0000 (UTC)
-Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-311147ebdb3so353646f8f.1
-        for <linux-staging@lists.linux.dev>; Sat, 17 Jun 2023 06:56:39 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE89B9467
+	for <linux-staging@lists.linux.dev>; Sat, 17 Jun 2023 13:56:45 +0000 (UTC)
+Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-98282432cfdso46821566b.0
+        for <linux-staging@lists.linux.dev>; Sat, 17 Jun 2023 06:56:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1687010198; x=1689602198;
-        h=content-disposition:mime-version:message-id:subject:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=WrfA4PjxDsnF9cJAxM87icIyT8p3T29tCTGqeIrXL7Y=;
-        b=J5JRW4X56P254eSYv7+tjxeNVUKjpy3Gdg/wIcdfTmCAI7aDGnba2iBCCDj+YQloh5
-         6HF/j1+ORAWy0kMjRHGwg+I6X8b3xjlRYIGyKoqOFfFd1hDOgzx+vjFt2gD11QPpZCyI
-         5t+4NoFGEdW9jRvgXyhkQjv5RzoPhRtBMY6NZgH4wTxMOCnZb8r5k1Pwm8RdfYUG3xsS
-         9c7yS7GzbL//rvGeRaRJeQn+riy8GYVG4AbaZ52ea7zOijFhCbHdJ2yE4S8vxseJlaNG
-         ByqcPWihyAxf5cNYoHZSa/L1QbUBdDqOrNvJ/4blR/8QULIGvpLwaCZupgTuXr5JL6/e
-         N3xQ==
+        d=gmail.com; s=20221208; t=1687010204; x=1689602204;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=b7DeMqONapwDBFWxqll13s5Z4bgKhDNtxF1406ybhog=;
+        b=Gh9nS0b0aiRQnGIzctHftCwqdKe3a8dVnxL6zDhEsOp4RV/4iSbkXxXt4lAJM38Jgi
+         FCkogfJB/Y4BQDW8Evm89WeIm/ymdaVRg3FjBz7r9x3YYZoUVa3Ks2Q1ilVg5oRqKFiW
+         lvITtV6lsyOw69kLQtUKWhacqLrR7sm4kO2Fx55hZVZ1jZ9Tl6DspBoiYYomh+3gobR7
+         tK1GZvd2hz/Rv95f8cxPDayZajWplDTZ2OojjygozlojzxwDgeqEKIGgoVs6wGxgbCYe
+         ADKHoplJel62AyCXuQeG8ZadW+gg3s67Ym/6mwDBK40RqVd58UuyS7ikuuE1MGGS4dM3
+         j5Wg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1687010198; x=1689602198;
-        h=content-disposition:mime-version:message-id:subject:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=WrfA4PjxDsnF9cJAxM87icIyT8p3T29tCTGqeIrXL7Y=;
-        b=DM/PauVA0SDtrtecIbD5qLKD8zdckZI5fiUzO0eia7XyR6UllbGh8ncxGDaXZ9rHIw
-         WkUzUOoW2sC0wi3Cja1H8qD167l8ZrxF8UOXtAWO9L8G2q3+akcDacvuuevB4WWagG5N
-         2x4TcgqYW4TeZqwC4qSK5DB3eSvhX7hmAb9EZ5EnxkZCIOPPf0XcRpme0QgVviO8O4nf
-         nmiMxKNCfsf2gBQGy91N7uV4XFSSpauKhIfSjZfmy6UAx0J6op3EA1Hb6cGwQiErjkGM
-         xmO4RP7LOLE4jSDL7pGMkC8/fr0RFFnyx2JGFAShTLR6K+Md39NndLDi0PkqlJGA4RxQ
-         nyGw==
-X-Gm-Message-State: AC+VfDxSpH2UNLoUVhArcU0k0zIJgD/lJcuMJSeqN5xGFVw/bxaZXIE6
-	jc7NFX93mkeefCngETaLU8c=
-X-Google-Smtp-Source: ACHHUZ62CS8PD+HwPQ1CFJ/aFVv2V3Tndxp45mHcy93B4ZetJAYDpkkGbrpFdhIV9O2cOuVHznTa9A==
-X-Received: by 2002:a05:6000:1104:b0:310:b62f:2379 with SMTP id z4-20020a056000110400b00310b62f2379mr3830530wrw.3.1687010197417;
-        Sat, 17 Jun 2023 06:56:37 -0700 (PDT)
+        d=1e100.net; s=20221208; t=1687010204; x=1689602204;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=b7DeMqONapwDBFWxqll13s5Z4bgKhDNtxF1406ybhog=;
+        b=YmH/llMFwkfYPTF3tOYH1eUhdFEPQtr2xtKim2tdxVl+cPGAIxDgGGbhWD4m8G6Xi+
+         tLCO0nEkvBf/5IvPMKYIwE2TsFTQZRg4qqp93OpEugfckfUVN1JmC379pjM87l1x1VbF
+         a29ErtJzDeWp7hk+ELhKrwSUt188yHqN0KMtUiri3Uq5iI4QiMLMD+p/VVN01ATSKZfn
+         17+52s4WHe/zNEshSJODaUmELM2zknAzwWPXXb78TUn+Zkn7cXrdU1/ZMln9s3rCcUjZ
+         nKmgjEvkUVASNSvXJkL8gPZlb5h5uy9NG8hgyzWdD83f3Zakq/hsFc4hcI6a+pTB2G+s
+         XiOg==
+X-Gm-Message-State: AC+VfDzjUhz64q8mlOHMaVdcKS+eXrnnyjvkYb32/jB2Q7bZO+0YJ5Po
+	uTQi/aPC4U5tXdGQ/xrJfCY=
+X-Google-Smtp-Source: ACHHUZ784+xHMbYwi2TQfZ+xm1+YADywPkb4sBfNUgQos/pr9lHCKzJ1hXsWoRe1LGEsEkGanCSzrw==
+X-Received: by 2002:a17:906:7a5e:b0:987:6960:36c6 with SMTP id i30-20020a1709067a5e00b00987696036c6mr1319738ejo.5.1687010203765;
+        Sat, 17 Jun 2023 06:56:43 -0700 (PDT)
 Received: from matrix-ESPRIMO-P710 (p57ba2e0b.dip0.t-ipconnect.de. [87.186.46.11])
-        by smtp.gmail.com with ESMTPSA id e10-20020a170906044a00b009845c187bdcsm2437346eja.137.2023.06.17.06.56.36
+        by smtp.gmail.com with ESMTPSA id n24-20020a170906165800b00977c7566ccbsm11970397ejd.164.2023.06.17.06.56.42
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 17 Jun 2023 06:56:36 -0700 (PDT)
-Date: Sat, 17 Jun 2023 15:56:34 +0200
+        Sat, 17 Jun 2023 06:56:43 -0700 (PDT)
+Date: Sat, 17 Jun 2023 15:56:41 +0200
 From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [PATCH 0/9] staging: rtl8192e: Remove unsupported modes a and 5G
-Message-ID: <cover.1687007788.git.philipp.g.hortmann@gmail.com>
+Subject: [PATCH 1/9] staging: rtl8192e: Remove variable stats->freq as it is
+ constant
+Message-ID: <4d8801d37889e6af4f43dff10d1426fc7918f562.1687007788.git.philipp.g.hortmann@gmail.com>
+References: <cover.1687007788.git.philipp.g.hortmann@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -50,39 +53,92 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <cover.1687007788.git.philipp.g.hortmann@gmail.com>
 
-Remove unsupported modes a and 5G to shorten code. Change variable names
-to align with rtlwifi driver as requested in TODO.
+stats->freq is initialized with 1 and then unchanged. All evaluations
+will result accordingly. Remove resulting dead code and unused defines.
 
-Tested with rtl8192e (WLL6130-D99) in Modes b, g, n (12.5 MB/s)
-Transferred this patch over wlan connection of rtl8192e.
+Signed-off-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+---
+ drivers/staging/rtl8192e/rtl8192e/rtl_core.c |  1 -
+ drivers/staging/rtl8192e/rtllib.h            |  5 -----
+ drivers/staging/rtl8192e/rtllib_rx.c         | 19 +++++--------------
+ 3 files changed, 5 insertions(+), 20 deletions(-)
 
-Philipp Hortmann (9):
-  staging: rtl8192e: Remove variable stats->freq as it is constant
-  staging: rtl8192e: Remove unsupported modes IEEE_N_5G and IEEE_A
-  staging: rtl8192e: Rename constant IEEE_x to WIRELESS_MODE_x
-  staging: rtl8192e: Remove unused enum led_ctl_mode
-  staging: rtl8192e: Rename rtllib_state to rtl_link_state
-  staging: rtl8192e: Rename state to link_state
-  staging: rtl8192e: Rename RTLLIB_NOLINK to MAC80211_NOLINK
-  staging: rtl8192e: Rename RTLLIB_LINKED to MAC80211_LINKED
-  staging: rtl8192e: Rename RTLLIB_LINKED_SCANNING
-
- .../staging/rtl8192e/rtl8192e/r8192E_dev.c    |  24 ++--
- drivers/staging/rtl8192e/rtl8192e/rtl_core.c  |  41 +++---
- drivers/staging/rtl8192e/rtl8192e/rtl_dm.c    |  18 +--
- .../staging/rtl8192e/rtl8192e/rtl_ethtool.c   |   4 +-
- drivers/staging/rtl8192e/rtl8192e/rtl_ps.c    |   4 +-
- drivers/staging/rtl8192e/rtl8192e/rtl_wx.c    |  12 +-
- drivers/staging/rtl8192e/rtl819x_HTProc.c     |   8 +-
- drivers/staging/rtl8192e/rtllib.h             |  37 +-----
- drivers/staging/rtl8192e/rtllib_rx.c          |  43 +++---
- drivers/staging/rtl8192e/rtllib_softmac.c     | 122 +++++++++---------
- drivers/staging/rtl8192e/rtllib_softmac_wx.c  |  18 +--
- drivers/staging/rtl8192e/rtllib_tx.c          |   2 +-
- drivers/staging/rtl8192e/rtllib_wx.c          |   4 +-
- 13 files changed, 146 insertions(+), 191 deletions(-)
-
+diff --git a/drivers/staging/rtl8192e/rtl8192e/rtl_core.c b/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
+index 17b70dde7eeb..20c0308eb3c1 100644
+--- a/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
++++ b/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
+@@ -1769,7 +1769,6 @@ static void _rtl92e_rx_normal(struct net_device *dev)
+ 		.signal = 0,
+ 		.noise = (u8)-98,
+ 		.rate = 0,
+-		.freq = RTLLIB_24GHZ_BAND,
+ 	};
+ 	unsigned int count = priv->rxringcount;
+ 
+diff --git a/drivers/staging/rtl8192e/rtllib.h b/drivers/staging/rtl8192e/rtllib.h
+index 87e9169214f6..b4fad9bf0f03 100644
+--- a/drivers/staging/rtl8192e/rtllib.h
++++ b/drivers/staging/rtl8192e/rtllib.h
+@@ -500,9 +500,6 @@ enum _REG_PREAMBLE_MODE {
+ #define RTLLIB_CCK_MODULATION    (1<<0)
+ #define RTLLIB_OFDM_MODULATION   (1<<1)
+ 
+-#define RTLLIB_24GHZ_BAND     (1<<0)
+-#define RTLLIB_52GHZ_BAND     (1<<1)
+-
+ #define RTLLIB_CCK_RATE_LEN		4
+ #define RTLLIB_CCK_RATE_1MB			0x02
+ #define RTLLIB_CCK_RATE_2MB			0x04
+@@ -549,10 +546,8 @@ struct rtllib_rx_stats {
+ 	u8  signal;
+ 	u8  noise;
+ 	u16 rate; /* in 100 kbps */
+-	u8  received_channel;
+ 	u8  control;
+ 	u8  mask;
+-	u8  freq;
+ 	u16 len;
+ 	u64 tsf;
+ 	u32 beacon_time;
+diff --git a/drivers/staging/rtl8192e/rtllib_rx.c b/drivers/staging/rtl8192e/rtllib_rx.c
+index 46c77ed335ab..36dace010203 100644
+--- a/drivers/staging/rtl8192e/rtllib_rx.c
++++ b/drivers/staging/rtl8192e/rtllib_rx.c
+@@ -2301,12 +2301,7 @@ static inline int rtllib_network_init(
+ 	network->CountryIeLen = 0;
+ 	memset(network->CountryIeBuf, 0, MAX_IE_LEN);
+ 	HTInitializeBssDesc(&network->bssht);
+-	if (stats->freq == RTLLIB_52GHZ_BAND) {
+-		/* for A band (No DS info) */
+-		network->channel = stats->received_channel;
+-	} else {
+-		network->flags |= NETWORK_HAS_CCK;
+-	}
++	network->flags |= NETWORK_HAS_CCK;
+ 
+ 	network->wpa_ie_len = 0;
+ 	network->rsn_ie_len = 0;
+@@ -2321,14 +2316,10 @@ static inline int rtllib_network_init(
+ 
+ 	network->mode = 0;
+ 
+-	if (stats->freq == RTLLIB_52GHZ_BAND) {
+-		network->mode = IEEE_A;
+-	} else {
+-		if (network->flags & NETWORK_HAS_OFDM)
+-			network->mode |= IEEE_G;
+-		if (network->flags & NETWORK_HAS_CCK)
+-			network->mode |= IEEE_B;
+-	}
++	if (network->flags & NETWORK_HAS_OFDM)
++		network->mode |= IEEE_G;
++	if (network->flags & NETWORK_HAS_CCK)
++		network->mode |= IEEE_B;
+ 
+ 	if (network->mode == 0) {
+ 		netdev_dbg(ieee->dev, "Filtered out '%s (%pM)' network.\n",
 -- 
 2.40.1
 
