@@ -1,59 +1,53 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DF1F1117;
-	Sat, 17 Jun 2023 14:00:05 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BECADC433C0;
-	Sat, 17 Jun 2023 14:00:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1687010405;
-	bh=16Q1fD+TC/tzkSSYLPM02Yk89NzHUHa9D6kkl8csDrI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=No5rAoGBJIngpvTCaZ3eLJ0HW9pu6h8shBaF9MU8rgT4lQJs1dlr/HRVBU/32RpL5
-	 Jx1Yhj3eF7VAFUWfjP71KZ7LpSlroem6xUyGyZBKwKiuc8kIfbcofxPd88FNJ0QT5B
-	 K0u11APfWf3P2sMG14HB7qU1KDM8mie+lMGsfpRQ=
-Date: Sat, 17 Jun 2023 16:00:02 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Prathu Baronia <prathubaronia2011@gmail.com>
-Cc: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>,
-	Khadija Kamran <kamrankhadijadj@gmail.com>,
-	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-	dan.carpenter@linaro.org, error27@gmail.com, lkp@intel.com,
-	oe-kbuild-all@lists.linux.dev, oe-kbuild@lists.linux.dev
-Subject: Re: [PATCH v5 1/2] axis-fifo: use devm_kasprintf() for allocating
- formatted strings
-Message-ID: <2023061750-blog-curse-c1a3@gregkh>
-References: <ZIiTL5bzMUgs3L5K@redkillpc>
- <20230616152602.33232-1-prathubaronia2011@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D5D8A945
+	for <linux-staging@lists.linux.dev>; Sat, 17 Jun 2023 18:44:26 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 853A8C433CA;
+	Sat, 17 Jun 2023 18:44:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1687027466;
+	bh=J+Vy7ZFSJz/ig0huCXrXW0M6zTM0PuIOR0XceY4cg9E=;
+	h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
+	b=cibgO0vgBTTU/jTAhmJL0S/MJ5BCOBUesa+ryuqL8py40vZwlLPqmj4xmS4ZkO19/
+	 lWOjRj+IWm1EGM4xJKIsgiTe4pRrXfrHxeIUQq2AcvTsWchgP45AJbn18irG6exOLQ
+	 6jLgQ1hSlHq/ehoJafyPQHvEAMIJp5OqObOFPmkl7YjQkIJqslsJvV/dKa3hiO8Vw5
+	 HGxUZ8qglQnMN1MG2f8aAXOOUut+FGICTc92+BvfCcWu5+Pgx/3Py7poA5GVugmRsu
+	 8NQ+tNB32jY3zIKCfEVuwg5KZQBQvaH45pdv2io1lScIPnUSLwmooFqKIfTwT7nhmN
+	 a+/q4nqrmhRRg==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 6F6FBE21EE5;
+	Sat, 17 Jun 2023 18:44:26 +0000 (UTC)
+Subject: Re: [GIT PULL] Staging driver fix for 6.4-rc7
+From: pr-tracker-bot@kernel.org
+In-Reply-To: <ZI25KRBpKGcP0wSf@kroah.com>
+References: <ZI25KRBpKGcP0wSf@kroah.com>
+X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
+X-PR-Tracked-Message-Id: <ZI25KRBpKGcP0wSf@kroah.com>
+X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git tags/staging-6.4-rc7
+X-PR-Tracked-Commit-Id: b3dad076a058916c443c93074dc3ee80baaff4ea
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: 1b29d271614abd97cc39782daa9d6dd70e98609f
+Message-Id: <168702746645.26928.8030797368623841467.pr-tracker-bot@kernel.org>
+Date: Sat, 17 Jun 2023 18:44:26 +0000
+To: Greg KH <gregkh@linuxfoundation.org>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>, Andrew Morton <akpm@linux-foundation.org>, Stephen Rothwell <sfr@canb.auug.org.au>, linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230616152602.33232-1-prathubaronia2011@gmail.com>
 
-On Fri, Jun 16, 2023 at 08:55:59PM +0530, Prathu Baronia wrote:
-> In various places, string buffers of a fixed size are allocated, and
-> filled using snprintf() with the same fixed size, which is error-prone.
-> 
-> Replace this by calling devm_kasprintf() instead, which always uses the
-> appropriate size. Allocate the device name with a unique identifier
-> instead of a kernel address.
+The pull request you sent on Sat, 17 Jun 2023 15:46:17 +0200:
 
-You are doing two different things here, one is changing the allocation
-way, and the other is the name.  If one of those things turns out to
-break something, we have to revert this whole thing.
+> git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git tags/staging-6.4-rc7
 
-So please make this two different changes, one to change to use
-devm_kasprintf() and the second to change the naming scheme, ESPECIALLY
-as you do not mention the name change in the subject line.  And that's
-going to be a user-visible change, so you need to make that VERY
-obvious.
+has been merged into torvalds/linux.git:
+https://git.kernel.org/torvalds/c/1b29d271614abd97cc39782daa9d6dd70e98609f
 
-thanks,
+Thank you!
 
-greg k-h
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/prtracker.html
