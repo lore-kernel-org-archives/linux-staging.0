@@ -1,102 +1,68 @@
-Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D53CD3D74
-	for <linux-staging@lists.linux.dev>; Sun, 18 Jun 2023 20:26:41 +0000 (UTC)
-Received: by mail-ej1-f46.google.com with SMTP id a640c23a62f3a-9877dfee81dso43703266b.0
-        for <linux-staging@lists.linux.dev>; Sun, 18 Jun 2023 13:26:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1687120000; x=1689712000;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=JtpsaaTsTXJO+sfNJLIul5lew5oYM95owcw4xKGdHxI=;
-        b=EZ4Mblc/3gcELGv63dRY6ntzs7K/IIz5+LSZRi2SoiyOE1osPjyASwslgQVCO2Q5pS
-         g6t0kjz1jflwpYIFT2c0gXeJyBX045ALhajL0O/9yixKwDLTFJoG80yQYk4Aq5WoHLfi
-         By7ixFv4YauvLk6RzWyGHl42YRn1HrlUGjI8ZyA4NtVeQgcsBJqHSEgCtalsde/vR+cn
-         DxkEeLOZf5BiUq+ItrndHjChbc+Bb77LFhy+RKD+WYZV0lV+bx9JPL5dKVkplkvmpwnX
-         GfpRfOSEaiyXB0ybL3XMtTxKtzYiK1I0ghAJhzNyRiqResKzZ4a5DmAsGww7+R7nz3iP
-         NyeA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1687120000; x=1689712000;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=JtpsaaTsTXJO+sfNJLIul5lew5oYM95owcw4xKGdHxI=;
-        b=bvlbVOphHP3EGAcAkVU0qKCAeSj88kv2C7dOVaxaPmBp2EI+f2HCM1nYj2w9dxnI2+
-         Sv+I2RePBD+sn3jkxO7yb9fmDbKQAF+n9UtUjJCNPFT9jlSIrdQl2tVbFbS6vkNNEQoV
-         KO0j5bJ2SZG/EWIx2BhOJgq2rDr7l4jnvnOnUop4Gi3BGdqXaaFAjLYPOosg6SuWXZUp
-         SyfQA/1LCtoLVMpGsZ+0CChayD6VJ47GI6I97Av4UWELqrXq/yy8dlC1Ck381Ea3gf1S
-         R0ljyAuSTzuoxjg8I9MUTICW9RXtE0LEJuvBM2eO4EHj0kZO0Fy7DnkHa7BSV5Ul2/Sy
-         XedA==
-X-Gm-Message-State: AC+VfDzTWmIz0+4dFAotlmTgTaWcvUoFYSUtSwRZtpZ6b+R4WwGipajW
-	xT34dftE/H0uGqmv5RXPLBY=
-X-Google-Smtp-Source: ACHHUZ6jVRofnMnicdJKzt1bOfVINJNv2wm3DpK/rcO7hRC6oTxDDT2UKXTup18XZEz9CxlSn/8woQ==
-X-Received: by 2002:a17:906:74cd:b0:987:f332:5329 with SMTP id z13-20020a17090674cd00b00987f3325329mr2607902ejl.1.1687119999834;
-        Sun, 18 Jun 2023 13:26:39 -0700 (PDT)
-Received: from [192.168.0.104] (p57ba2e0b.dip0.t-ipconnect.de. [87.186.46.11])
-        by smtp.gmail.com with ESMTPSA id gz17-20020a170906f2d100b00988936b142bsm825165ejb.147.2023.06.18.13.26.37
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 18 Jun 2023 13:26:38 -0700 (PDT)
-Message-ID: <e80d385d-5515-ed42-e5dd-f9c977f7d4d1@gmail.com>
-Date: Sun, 18 Jun 2023 22:26:37 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA4FB185F
+	for <linux-staging@lists.linux.dev>; Mon, 19 Jun 2023 05:25:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1687152314;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=gQSgAqSd16TiDy+6bfDlT4CcMxczGbc1cVgP0RYa0hY=;
+	b=gNoyu4wWD+CpLl16fR00OLeaO29z97mS8M4lIJMw2CoyX1TsPLhbxrpUfEhZHQuO1C1Nie
+	tcs3+e9g9VY1QZAZ8WZmypHGYFI1Pvd3hVcBVMMGBGbHtZdNz9GditnFns40eqqHzwlAN2
+	DyfAkNvEFYRcRBYMjVJuQLbNI5x5Av0=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-308-LzgutWKSMhmiqM2lzkOmqg-1; Mon, 19 Jun 2023 01:25:10 -0400
+X-MC-Unique: LzgutWKSMhmiqM2lzkOmqg-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com [10.11.54.5])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 2A779800193;
+	Mon, 19 Jun 2023 05:25:10 +0000 (UTC)
+Received: from fedora.redhat.com (unknown [10.67.24.119])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 009C283B88;
+	Mon, 19 Jun 2023 05:25:05 +0000 (UTC)
+From: Kate Hsuan <hpa@redhat.com>
+To: Hans de Goede <hdegoede@redhat.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev
+Cc: Kate Hsuan <hpa@redhat.com>
+Subject: [PATCH v3 0/3] Remove #ifdef ISP2401 and unifying sh_css_sp_group structure
+Date: Mon, 19 Jun 2023 13:24:50 +0800
+Message-Id: <20230619052453.48598-1-hpa@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH v3 0/4] Trivial code cleanup patches
-To: Yogesh Hegde <yogi.kernel@gmail.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Cc: dan.carpenter@linaro.org, linux-kernel-mentees@lists.linuxfoundation.org,
- skhan@linuxfoundation.org, ivan.orlov0322@gmail.com
-References: <cover.1687092111.git.yogi.kernel@gmail.com>
-Content-Language: en-US
-From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-In-Reply-To: <cover.1687092111.git.yogi.kernel@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
 
-On 6/18/23 15:03, Yogesh Hegde wrote:
-> Rename variables in struct rtllib_device to avoid CamelCase which is not
-> accepted by checkpatch.
-> 
-> ---
-> v3: The driver is split into 2 modules, calling the functions directly which
->      the v2 of the patchset does breaks compile. So reverting back to v1 of
->      the patch as suggested by Greg Kroah-Hartman <gregkh@linuxfoundation.org>.
-> 
-> v2: Removed the variable and called the function directly instead of
->      just renaming the variable as suggested by Greg Kroah-Hartman
->      <gregkh@linuxfoundation.org>.
-> 
-> 
-> 
-> Yogesh Hegde (4):
->    staging: rtl8192e: Rename variable SetWirelessMode
->    staging: rtl8192e: Rename variable SetBWModeHandler
->    staging: rtl8192e: Rename variable LeisurePSLeave
->    staging: rtl8192e: Rename variable InitialGainHandler
-> 
->   drivers/staging/rtl8192e/rtl8192e/r8192E_phy.c |  4 ++--
->   drivers/staging/rtl8192e/rtl8192e/rtl_core.c   |  8 ++++----
->   drivers/staging/rtl8192e/rtl819x_HTProc.c      |  4 ++--
->   drivers/staging/rtl8192e/rtllib.h              | 12 ++++++------
->   drivers/staging/rtl8192e/rtllib_rx.c           |  2 +-
->   drivers/staging/rtl8192e/rtllib_softmac.c      | 12 ++++++------
->   drivers/staging/rtl8192e/rtllib_softmac_wx.c   |  6 +++---
->   7 files changed, 24 insertions(+), 24 deletions(-)
->
-This patch series alone is fine. But when my patch series ([PATCH 0/9] 
-staging: rtl8192e: Remove unsupported modes a and 5G) is applied before 
-it fails as we change same lines. Will see what happens.
+The changes in v3 include:
+1. Tweaked the patch order.
+2. Corrected the errors in v2.
 
-Tested-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+Kate Hsuan (3):
+  media: atomisp: ia_css_debug: Removed unused codes for debug
+  media: atomisp: Removed unused HAS_WATCHDOG_SP_THREAD_DEBUG debug
+  media: atomisp: sh_css_internal: sh_css_params: Unifying
+    sh_css_sp_group data structure
 
+ .../pci/hive_isp_css_common/debug_global.h    |   7 -
+ .../media/atomisp/pci/ia_css_acc_types.h      |   6 +-
+ .../runtime/debug/interface/ia_css_debug.h    |  12 --
+ .../pci/runtime/debug/src/ia_css_debug.c      | 165 ------------------
+ .../media/atomisp/pci/sh_css_internal.h       |  41 +----
+ .../staging/media/atomisp/pci/sh_css_params.c |  41 ++++-
+ 6 files changed, 42 insertions(+), 230 deletions(-)
 
-
+-- 
+2.40.1
 
