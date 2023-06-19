@@ -1,78 +1,66 @@
-Received: from mail-ot1-f46.google.com (mail-ot1-f46.google.com [209.85.210.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB600210F;
-	Mon, 19 Jun 2023 06:43:51 +0000 (UTC)
-Received: by mail-ot1-f46.google.com with SMTP id 46e09a7af769-6b46f27f562so580848a34.0;
-        Sun, 18 Jun 2023 23:43:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1687157030; x=1689749030;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=wcz5YhvDWo9nMHfrg8LSktuXw46EWE7Cp3QeJgkSwTE=;
-        b=LQh3szetdHM+fLNYjwGz+X0VS6/aRK9FnpzfrU51Wz/KPC+7bYIMu6ARsuh5ukHZT4
-         fhrs20Btt++OwXu8NMn1Bqb0BsVBd4F6Z1xV5wZk8qaYUNnrqKrTD9c6OToLvqbZKkir
-         paXANcxa81+mlAzCCWndqdEBCQ66h0Hd4Z0dR5LTuh+dLVkq5OacNbWHmm92npfg8+ec
-         PCk2Avg8kGY8+F9fu8YTWbg3SPIvXWKF2+cOrx6vKoLSUdW1RoYE2T6k6mur2BzTyj+p
-         yqYquc3YpaH+3qjiMTgz5UsKWdcNP7XLaTuPI1UU6WEcLe4iSlSPqONB9plGuma6xqTd
-         eMvA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1687157030; x=1689749030;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=wcz5YhvDWo9nMHfrg8LSktuXw46EWE7Cp3QeJgkSwTE=;
-        b=hewgzIo9vI6xM1BUjCSD2LcVwmlGXExk/Td1HGCEezFwMKNONK3hi/wPa1zaDer5Qz
-         dQiROJuLpSLGhSL/8PSYX3GG4pNbT5C3V/Nyr4jRROFgRvQ32IBHKB/lpilf8UMackWL
-         9RuWcpyt8nH9zO/TTWTqeMoOfx8UBpYyQFjodaGAmGFi5M7Vth7I0GhvvYE8IToCXwCH
-         pIYt+1tRXbmtbuuhE2TDyDrQ7yvmP7NDFqv7xiLxk82lbNwfbWsKA+kuTfsLdfpslVGW
-         2ay+Nfm2KKKgng12JL2TlEMYh6GrwVtfQprz9dTDwVtwV+zVwdISdkKW2BCBM+YJtpkG
-         0ULw==
-X-Gm-Message-State: AC+VfDxmQGGZCac4bXo8U9o/apJ4b54+Mb7dwtVrL6HKESjQFNpU+rQR
-	BfzxizeVI+vsUKD8cWRgty8=
-X-Google-Smtp-Source: ACHHUZ7hnsP1SpKLEg4iXqF5ZLMnTU4bawweCSpP8YiMUr6Ed5E6li0w/lVKIhZjxzMVBHbqC0fgZw==
-X-Received: by 2002:a05:6358:cd23:b0:129:b96d:1b0d with SMTP id gv35-20020a056358cd2300b00129b96d1b0dmr1286509rwb.1.1687157030454;
-        Sun, 18 Jun 2023 23:43:50 -0700 (PDT)
-Received: from redkillpc ([49.207.216.186])
-        by smtp.gmail.com with ESMTPSA id s188-20020a635ec5000000b005538bf7e3d6sm3513612pgb.88.2023.06.18.23.43.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 18 Jun 2023 23:43:49 -0700 (PDT)
-Date: Mon, 19 Jun 2023 12:13:43 +0530
-From: Prathu Baronia <prathubaronia2011@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>,
-	Khadija Kamran <kamrankhadijadj@gmail.com>,
-	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-	dan.carpenter@linaro.org, error27@gmail.com, lkp@intel.com,
-	oe-kbuild-all@lists.linux.dev, oe-kbuild@lists.linux.dev
-Subject: Re: [PATCH v5 1/2] axis-fifo: use devm_kasprintf() for allocating
- formatted strings
-Message-ID: <ZI/5H+GZU6/2osGT@redkillpc>
-References: <ZIiTL5bzMUgs3L5K@redkillpc>
- <20230616152602.33232-1-prathubaronia2011@gmail.com>
- <2023061750-blog-curse-c1a3@gregkh>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9431BE4D
+	for <linux-staging@lists.linux.dev>; Mon, 19 Jun 2023 08:31:30 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 74B53C433C0;
+	Mon, 19 Jun 2023 08:31:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1687163490;
+	bh=TSClhyLxMq70prBNpTrAH2YWH7SlNfqgmwDHchD6LfQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=PY4fO0jI1EenTiaTEn7YbZkXv+X4uOusGhGJSQ5cpbMuzjsq0PtUfJY80qRjxYYP/
+	 /+4xXEQqyNf8H6T5PG9x2tzr4utR6AhcALc+EMikMR07zuKTQC1UlBNaPqQ8AVJ9/a
+	 lNaxRd/uB+U6TjPHnmEYp3t0Zk2vmXtqQRFw7bulTxYhq8oa6/hAhJnWQILdWV6Cd8
+	 Dv8VbjXZ1vim6y5Hwjoqog+/cdfCUG76hwFzqo8CXqnbokFYCaJ91vzOTvyqbtR+1I
+	 PSmLAzIwJ31DZom3VRvY3Mzis1o2rNS2REyLDDlmrdJBeuaQBX4pIsIgid9xr+Ilrz
+	 tr72a36h2M3xQ==
+Date: Mon, 19 Jun 2023 09:31:24 +0100
+From: Lee Jones <lee@kernel.org>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: daniel.thompson@linaro.org,
+	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+	linux-kernel@vger.kernel.org, geert+renesas@glider.be,
+	linux-sh@vger.kernel.org, jingoohan1@gmail.com, deller@gmx.de,
+	linux-staging@lists.linux.dev, javierm@redhat.com,
+	dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
+	michael.j.ruhl@intel.com, stable@vger.kernel.org,
+	linux-omap@vger.kernel.org, sam@ravnborg.org,
+	dan.carpenter@linaro.org
+Subject: Re: [PATCH v3 01/38] backlight/bd6107: Compare against struct
+ fb_info.device
+Message-ID: <20230619083124.GO3635807@google.com>
+References: <20230613110953.24176-1-tzimmermann@suse.de>
+ <20230613110953.24176-2-tzimmermann@suse.de>
+ <20230614135157.GU3635807@google.com>
+ <5720dbc1-a3e4-2b23-28cd-f889d3a5a4fc@suse.de>
+ <9f74b8de-9a1b-2547-5eab-d4b4349a6a81@suse.de>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <2023061750-blog-curse-c1a3@gregkh>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <9f74b8de-9a1b-2547-5eab-d4b4349a6a81@suse.de>
 
-On Sat, Jun 17, 2023 at 04:00:02PM +0200, Greg Kroah-Hartman wrote:
-> 
-> You are doing two different things here, one is changing the allocation
-> way, and the other is the name.  If one of those things turns out to
-> break something, we have to revert this whole thing.
-> 
-> So please make this two different changes, one to change to use
-> devm_kasprintf() and the second to change the naming scheme, ESPECIALLY
-> as you do not mention the name change in the subject line.  And that's
-> going to be a user-visible change, so you need to make that VERY
-> obvious.
-Makes sense greg, will do in v6.
+On Fri, 16 Jun 2023, Thomas Zimmermann wrote:
 
-Prathu
+> Hi Lee
+> 
+> Am 14.06.23 um 16:13 schrieb Thomas Zimmermann:
+> [...]
+> > > Can the Backlight patches be applied without the others and visa versa?
+> > 
+> > Unfortunately not. The rest of the series requires the backlight patches.
+> 
+> Are you OK with the patches going through drm?
+
+Shouldn't be an issue.
+
+Please ensure my Ack is added to each patch, even if you have to RESEND.
+
+-- 
+Lee Jones [李琼斯]
