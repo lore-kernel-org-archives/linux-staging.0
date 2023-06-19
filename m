@@ -1,63 +1,57 @@
-Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com [209.85.216.44])
+Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE067107A4;
-	Mon, 19 Jun 2023 16:22:58 +0000 (UTC)
-Received: by mail-pj1-f44.google.com with SMTP id 98e67ed59e1d1-25ecc896007so2057241a91.3;
-        Mon, 19 Jun 2023 09:22:58 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D848C2C5
+	for <linux-staging@lists.linux.dev>; Mon, 19 Jun 2023 17:57:39 +0000 (UTC)
+Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-987341238aeso435812266b.3
+        for <linux-staging@lists.linux.dev>; Mon, 19 Jun 2023 10:57:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1687191778; x=1689783778;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=BYKfkHUhPmEWMTYBe49vLBB3BZHoBpD7ULXkFfcwNLg=;
-        b=PVrB+7LDEV23b7y1JNuNcTb1lKoZ1vu0xbLyaKzfUTuvybQu4kEoQ8WQ4Fi2reP2SZ
-         fmGKtpaTl8EYEQQLXtN4k1F5/Anq9IX3h1oKnYMMNVm3JKIdOUjIJeYEyBgpPEHLCeZV
-         cv4RVUpLhNI6jtT0k2JoH3ZA4SCDnDJzPXvsRGPo+7LABM/6eL4KhO/ba6JUoqzVQvc8
-         B1oJv9EY0Sq6le4qG3auPcsCNNx0ObsnxD/qLTTSzVi/rsHsM5+YdhrZXzYNZO7jXVm2
-         mjWt4ZPUxbDyQ2dUVg5symwJzUq0XEkr/pD3vuFQ/XXNCIEwWAqffNrMXf9IpsNtSIuQ
-         lqmg==
+        d=googlemail.com; s=20221208; t=1687197457; x=1689789457;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=91ya57sBghq3g7zgKLiTtn0v+IyDnYxUjv4qrxeCvmY=;
+        b=qCgGxfZGGUDTq8y218bOMBxMHfghmE+40/FS+XHNOrQ6bDXIzOXaGc3K+U3rim5Mzs
+         mqbUcyLVy465st22BiXCyl1ttiGydkBOphM4SCT4+U3IJWgWbNpxfJwV9Cl7H+YqZjOt
+         T+heN1Rzrqo9QtHxXJZCgUXZqAoDU+thbTp4QV5C4Oti8q8rDaens4YAHYHhy9Rs3/4h
+         vrnCbUkpc9Ppy9wySKEYCpIwX+0Pwo1L0eohpCLZZag4Lz0hSZNc91fwE159S1oxGkiP
+         eruUlWwxn53ddn+R540EbaEkhE9f+bJ/oMikHWm548MlIpc1lP43ecoMVV4Z8xeUCw2y
+         vAzw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1687191778; x=1689783778;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=BYKfkHUhPmEWMTYBe49vLBB3BZHoBpD7ULXkFfcwNLg=;
-        b=kQqEMYDXrfbej1GZr1icyWYYEjwnoO6ifuxVi3M92yK5S2zyYq/2m3j0h1TpeW/qY9
-         7Zv4o3PxIc4imzQd4YHRgPZzr7vAQsCssWHcE7ZjHRFpXHXkdzRbjSwhV5SSEqP1tu5R
-         XevMGTrz55/XXYovdNn3Bd4i+RGZodgARjlgdHVOf0QtOYy1rUbA28AWjE9OskdbW7gw
-         tHnx4PzTISr4SMgJmL5uKLP9B4+VIzc9Ld1LMis8DjBX2pq9YX0Upu7JtLFYqtOTnhjT
-         4aX7NXdt/6ycbJXxxUOR3lhgENISfyItNP262H6roLTleseMaRZuzvzxvfmwnldcmdCW
-         DnMw==
-X-Gm-Message-State: AC+VfDzCybRL2xTKKGAOiNWKopKUHiULK1VqIJTyxig65AO9XSOD1HSj
-	zE5HM4ReVhVVtKndaEF05/8=
-X-Google-Smtp-Source: ACHHUZ6f9DaBoWHDnC1YKiYnePtJl2GpijXt3bvzF+SpR4F244IpBpmOoILvRr8H/MFV6v2hANaJQw==
-X-Received: by 2002:a17:90a:f83:b0:25b:f66c:35a9 with SMTP id 3-20020a17090a0f8300b0025bf66c35a9mr8970440pjz.48.1687191778229;
-        Mon, 19 Jun 2023 09:22:58 -0700 (PDT)
-Received: from redkillpc.. ([49.207.216.186])
-        by smtp.gmail.com with ESMTPSA id 2-20020a17090a1a4200b0025f09822d7csm62997pjl.24.2023.06.19.09.22.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 19 Jun 2023 09:22:57 -0700 (PDT)
-From: Prathu Baronia <prathubaronia2011@gmail.com>
-To: prathubaronia2011@gmail.com,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	=?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
-	"Fabio M. De Francesco" <fmdefrancesco@gmail.com>,
-	Khadija Kamran <kamrankhadijadj@gmail.com>,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Cc: dan.carpenter@linaro.org,
-	error27@gmail.com,
-	lkp@intel.com,
-	oe-kbuild-all@lists.linux.dev,
-	oe-kbuild@lists.linux.dev
-Subject: [PATCH v6 2/2] axis-fifo: change device name by assigning unique device id
-Date: Mon, 19 Jun 2023 21:52:45 +0530
-Message-Id: <20230619162246.33007-2-prathubaronia2011@gmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230619162246.33007-1-prathubaronia2011@gmail.com>
-References: <ZI/5H+GZU6/2osGT@redkillpc>
- <20230619162246.33007-1-prathubaronia2011@gmail.com>
+        d=1e100.net; s=20221208; t=1687197457; x=1689789457;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=91ya57sBghq3g7zgKLiTtn0v+IyDnYxUjv4qrxeCvmY=;
+        b=T2eDYm5a5tuRaNUmqKAuYH72vaOp4pOzs76FgAsryosLKcI/qybkO/qxMHdCpCFImW
+         zeM3FP3vl++M2yU546TQHuOiZq1nsTmTl1mApIN73VB9OuVdj3inWp4VC7KBPdqCgevJ
+         jbATg9KNjDVslKmq+MzBHhHEKza92TMxH41jnkKWlVdJKRwWW9Sie1TjKedP+vCS4YjG
+         O3CVd5k6K0R8L13eAwLHYH6EeY2/pT37QSehAE1m1QpiHp8SUm4DGmzGCDrt596jZJtU
+         Yvk7Q5nnAS9wXncUbFIZsIhEJyQfoCony0O+dO6WH6nc2dQMeGnT3vYzoE4X0jS7hjhv
+         J4aw==
+X-Gm-Message-State: AC+VfDzuTJQkShSVFLdmawOf4XipeXmtO8tGHzknIjYN6q34uR4G25SO
+	Dysz5FKsa8QJdYewjkPc60ZydEQQfEimBg==
+X-Google-Smtp-Source: ACHHUZ48OeFtLT4mS1Z/ABnCYeFsOL8xaJk3NajO43nO0+eZCexBqnnfhnemhJ+YejJg+rJ+akVKKA==
+X-Received: by 2002:a17:907:1609:b0:986:4789:1029 with SMTP id hb9-20020a170907160900b0098647891029mr10134421ejc.23.1687197457026;
+        Mon, 19 Jun 2023 10:57:37 -0700 (PDT)
+Received: from localhost.localdomain ([2a02:810a:9640:26a8:dcda:2154:7873:34])
+        by smtp.gmail.com with ESMTPSA id q25-20020a170906145900b0098503ba0db4sm9146ejc.149.2023.06.19.10.57.36
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Mon, 19 Jun 2023 10:57:36 -0700 (PDT)
+From: Franziska Naepelt <franziska.naepelt@googlemail.com>
+X-Google-Original-From: Franziska Naepelt <franziska.naepelt@gmail.com>
+To: linux-staging@lists.linux.dev
+Cc: linux-kernel@vger.kernel.org,
+	eperi1024@gmail.com,
+	hdegoede@redhat.com,
+	quic_vjakkam@quicinc.com,
+	johannes.berg@intel.com,
+	tegongkang@gmail.com,
+	gregkh@linuxfoundation.org,
+	Franziska Naepelt <franziska.naepelt@gmail.com>
+Subject: [PATCH 0/5] Fix some checkpatch issues
+Date: Mon, 19 Jun 2023 19:57:03 +0200
+Message-Id: <20230619175703.18826-1-franziska.naepelt@gmail.com>
+X-Mailer: git-send-email 2.39.2 (Apple Git-143)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -66,27 +60,27 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Allocating the device name with a unique identifier
-instead of a kernel address.
+This is a series of patches to fix some trivial checkpatch issues. Not all
+issues have been fixed. I intend to submit another series to fix more stuff.
 
-Signed-off-by: Prathu Baronia <prathubaronia2011@gmail.com>
----
- drivers/staging/axis-fifo/axis-fifo.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Testing:
+* Build the kernel with `CONFIG_RTL8723BS=m`
+* Boot the kernel with busybox in initramfs
+* Load the module
+-> No errors or warnings
 
-diff --git a/drivers/staging/axis-fifo/axis-fifo.c b/drivers/staging/axis-fifo/axis-fifo.c
-index 7d8da9ce2db8..5e070e00e27a 100644
---- a/drivers/staging/axis-fifo/axis-fifo.c
-+++ b/drivers/staging/axis-fifo/axis-fifo.c
-@@ -853,7 +853,7 @@ static int axis_fifo_probe(struct platform_device *pdev)
- 	dev_dbg(fifo->dt_device, "remapped memory to 0x%p\n", fifo->base_addr);
- 
- 	/* create unique device name */
--	device_name = devm_kasprintf(dev, GFP_KERNEL, "%s_%p", DRIVER_NAME, &r_mem->start);
-+	device_name = devm_kasprintf(dev, GFP_KERNEL, "%s_%d", DRIVER_NAME, pdev->id);
- 	if (!device_name) {
- 		rc = -ENOMEM;
- 		goto err_initial;
--- 
-2.34.1
+Franziska Naepelt (5):
+  staging: rtl8723bs: Fix indentation issues
+  staging: rtl8723bs: Fix space issues
+  staging: rtl8723bs: Fix block comment issue
+  staging: rtl8723bs: Fix blank line issues
+  staging: rtl8723bs: Fix alignment open parenthesis
+
+ .../staging/rtl8723bs/os_dep/ioctl_cfg80211.c | 224 +++++++-----------
+ 1 file changed, 92 insertions(+), 132 deletions(-)
+
+
+base-commit: 45a3e24f65e90a047bef86f927ebdc4c710edaa1
+--
+2.39.2 (Apple Git-143)
 
