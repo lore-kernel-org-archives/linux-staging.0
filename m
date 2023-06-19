@@ -1,266 +1,78 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ot1-f46.google.com (mail-ot1-f46.google.com [209.85.210.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0924B23A1
-	for <linux-staging@lists.linux.dev>; Mon, 19 Jun 2023 05:25:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1687152334;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=KeCX7isjayLnIysJ6AoQ81f8YXXhflu+Y2GPGNslxe0=;
-	b=LC1kkzKOWeGaJSMI8Vxx2PO+jRj0qt9P/yAD2qYv6G4voiZfdHB2tymuWWlJVBBdAlyXBT
-	HUBRbnFzbEL+Fi86FOus5u0zIDcHP5Lab/iu3fEDlQqqKk2g9uqNhOTVjjFNHiDfv9aZ5a
-	k+QgNraGDzTwsOthn/sXULMvmHAZm+Q=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-577-f435A7daO6etBpW9aFJY7A-1; Mon, 19 Jun 2023 01:25:28 -0400
-X-MC-Unique: f435A7daO6etBpW9aFJY7A-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com [10.11.54.5])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 13D6685A58C;
-	Mon, 19 Jun 2023 05:25:28 +0000 (UTC)
-Received: from fedora.redhat.com (unknown [10.67.24.119])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 3929563A59;
-	Mon, 19 Jun 2023 05:25:23 +0000 (UTC)
-From: Kate Hsuan <hpa@redhat.com>
-To: Hans de Goede <hdegoede@redhat.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev
-Cc: Kate Hsuan <hpa@redhat.com>
-Subject: [PATCH v3 3/3] media: atomisp: sh_css_internal: sh_css_params: Unifying sh_css_sp_group data structure
-Date: Mon, 19 Jun 2023 13:24:53 +0800
-Message-Id: <20230619052453.48598-4-hpa@redhat.com>
-In-Reply-To: <20230619052453.48598-1-hpa@redhat.com>
-References: <20230619052453.48598-1-hpa@redhat.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB600210F;
+	Mon, 19 Jun 2023 06:43:51 +0000 (UTC)
+Received: by mail-ot1-f46.google.com with SMTP id 46e09a7af769-6b46f27f562so580848a34.0;
+        Sun, 18 Jun 2023 23:43:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1687157030; x=1689749030;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=wcz5YhvDWo9nMHfrg8LSktuXw46EWE7Cp3QeJgkSwTE=;
+        b=LQh3szetdHM+fLNYjwGz+X0VS6/aRK9FnpzfrU51Wz/KPC+7bYIMu6ARsuh5ukHZT4
+         fhrs20Btt++OwXu8NMn1Bqb0BsVBd4F6Z1xV5wZk8qaYUNnrqKrTD9c6OToLvqbZKkir
+         paXANcxa81+mlAzCCWndqdEBCQ66h0Hd4Z0dR5LTuh+dLVkq5OacNbWHmm92npfg8+ec
+         PCk2Avg8kGY8+F9fu8YTWbg3SPIvXWKF2+cOrx6vKoLSUdW1RoYE2T6k6mur2BzTyj+p
+         yqYquc3YpaH+3qjiMTgz5UsKWdcNP7XLaTuPI1UU6WEcLe4iSlSPqONB9plGuma6xqTd
+         eMvA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1687157030; x=1689749030;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=wcz5YhvDWo9nMHfrg8LSktuXw46EWE7Cp3QeJgkSwTE=;
+        b=hewgzIo9vI6xM1BUjCSD2LcVwmlGXExk/Td1HGCEezFwMKNONK3hi/wPa1zaDer5Qz
+         dQiROJuLpSLGhSL/8PSYX3GG4pNbT5C3V/Nyr4jRROFgRvQ32IBHKB/lpilf8UMackWL
+         9RuWcpyt8nH9zO/TTWTqeMoOfx8UBpYyQFjodaGAmGFi5M7Vth7I0GhvvYE8IToCXwCH
+         pIYt+1tRXbmtbuuhE2TDyDrQ7yvmP7NDFqv7xiLxk82lbNwfbWsKA+kuTfsLdfpslVGW
+         2ay+Nfm2KKKgng12JL2TlEMYh6GrwVtfQprz9dTDwVtwV+zVwdISdkKW2BCBM+YJtpkG
+         0ULw==
+X-Gm-Message-State: AC+VfDxmQGGZCac4bXo8U9o/apJ4b54+Mb7dwtVrL6HKESjQFNpU+rQR
+	BfzxizeVI+vsUKD8cWRgty8=
+X-Google-Smtp-Source: ACHHUZ7hnsP1SpKLEg4iXqF5ZLMnTU4bawweCSpP8YiMUr6Ed5E6li0w/lVKIhZjxzMVBHbqC0fgZw==
+X-Received: by 2002:a05:6358:cd23:b0:129:b96d:1b0d with SMTP id gv35-20020a056358cd2300b00129b96d1b0dmr1286509rwb.1.1687157030454;
+        Sun, 18 Jun 2023 23:43:50 -0700 (PDT)
+Received: from redkillpc ([49.207.216.186])
+        by smtp.gmail.com with ESMTPSA id s188-20020a635ec5000000b005538bf7e3d6sm3513612pgb.88.2023.06.18.23.43.46
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 18 Jun 2023 23:43:49 -0700 (PDT)
+Date: Mon, 19 Jun 2023 12:13:43 +0530
+From: Prathu Baronia <prathubaronia2011@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>,
+	Khadija Kamran <kamrankhadijadj@gmail.com>,
+	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	dan.carpenter@linaro.org, error27@gmail.com, lkp@intel.com,
+	oe-kbuild-all@lists.linux.dev, oe-kbuild@lists.linux.dev
+Subject: Re: [PATCH v5 1/2] axis-fifo: use devm_kasprintf() for allocating
+ formatted strings
+Message-ID: <ZI/5H+GZU6/2osGT@redkillpc>
+References: <ZIiTL5bzMUgs3L5K@redkillpc>
+ <20230616152602.33232-1-prathubaronia2011@gmail.com>
+ <2023061750-blog-curse-c1a3@gregkh>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <2023061750-blog-curse-c1a3@gregkh>
 
-Since some parts of the data structure elements are determined in compile
-time, the configuration data structure should be compiled for both two
-ISP models. In order to set the configuration for both ISP models in
-runtime, The sh_css_sp_group is unified to one data structure for the
-configuration to ensure the data structure can be used for both ISP2400
-and 2401 in runtime. Also, the unused codes for debug purpose are removed.
+On Sat, Jun 17, 2023 at 04:00:02PM +0200, Greg Kroah-Hartman wrote:
+> 
+> You are doing two different things here, one is changing the allocation
+> way, and the other is the name.  If one of those things turns out to
+> break something, we have to revert this whole thing.
+> 
+> So please make this two different changes, one to change to use
+> devm_kasprintf() and the second to change the naming scheme, ESPECIALLY
+> as you do not mention the name change in the subject line.  And that's
+> going to be a user-visible change, so you need to make that VERY
+> obvious.
+Makes sense greg, will do in v6.
 
-Form the aspect of ISP setting, the length and the content of the
-configuration structure for ISP2400 and ISP2401 are different. So, we
-need to pick up the necessary part of sp_group configuration for both
-models and then copy those parts into a temporary buffer. This buffer
-is finally written to the ISP with the corresponding length.
-
-Signed-off-by: Kate Hsuan <hpa@redhat.com>
----
- .../media/atomisp/pci/sh_css_internal.h       | 41 +------------------
- .../staging/media/atomisp/pci/sh_css_params.c | 41 ++++++++++++++++++-
- 2 files changed, 41 insertions(+), 41 deletions(-)
-
-diff --git a/drivers/staging/media/atomisp/pci/sh_css_internal.h b/drivers/staging/media/atomisp/pci/sh_css_internal.h
-index d98f1323441e..2349eb4d3767 100644
---- a/drivers/staging/media/atomisp/pci/sh_css_internal.h
-+++ b/drivers/staging/media/atomisp/pci/sh_css_internal.h
-@@ -22,9 +22,7 @@
- #include <platform_support.h>
- #include <linux/stdarg.h>
- 
--#if !defined(ISP2401)
- #include "input_formatter.h"
--#endif
- #include "input_system.h"
- 
- #include "ia_css_types.h"
-@@ -86,31 +84,8 @@
- #define SH_CSS_MAX_IF_CONFIGS	3 /* Must match with IA_CSS_NR_OF_CONFIGS (not defined yet).*/
- #define SH_CSS_IF_CONFIG_NOT_NEEDED	0xFF
- 
--/*
-- * SH_CSS_MAX_SP_THREADS:
-- *	 sp threads visible to host with connected communication queues
-- *	 these threads are capable of running an image pipe
-- * SH_CSS_MAX_SP_INTERNAL_THREADS:
-- *	 internal sp service threads, no communication queues to host
-- *	 these threads can't be used as image pipe
-- */
--
--#if !defined(ISP2401)
--#define SH_CSS_SP_INTERNAL_METADATA_THREAD	1
--#else
--#define SH_CSS_SP_INTERNAL_METADATA_THREAD	0
--#endif
--
--#define SH_CSS_SP_INTERNAL_SERVICE_THREAD		1
--
- #define SH_CSS_MAX_SP_THREADS		5
- 
--#define SH_CSS_MAX_SP_INTERNAL_THREADS	(\
--	 SH_CSS_SP_INTERNAL_SERVICE_THREAD +\
--	 SH_CSS_SP_INTERNAL_METADATA_THREAD)
--
--#define SH_CSS_MAX_PIPELINES	SH_CSS_MAX_SP_THREADS
--
- /**
-  * The C99 standard does not specify the exact object representation of structs;
-  * the representation is compiler dependent.
-@@ -357,14 +332,12 @@ struct sh_css_sp_debug_command {
- 	u32 dma_sw_reg;
- };
- 
--#if !defined(ISP2401)
- /* SP input formatter configuration.*/
- struct sh_css_sp_input_formatter_set {
- 	u32				stream_format;
- 	input_formatter_cfg_t	config_a;
- 	input_formatter_cfg_t	config_b;
- };
--#endif
- 
- #define IA_CSS_MIPI_SIZE_CHECK_MAX_NOF_ENTRIES_PER_PORT (3)
- 
-@@ -377,7 +350,7 @@ struct sh_css_sp_config {
- 	     frames are locked when their EOF event is successfully sent to the
- 	     host (true) or when they are passed to the preview/video pipe
- 	     (false). */
--#if !defined(ISP2401)
-+
- 	struct {
- 		u8					a_changed;
- 		u8					b_changed;
-@@ -385,15 +358,13 @@ struct sh_css_sp_config {
- 		struct sh_css_sp_input_formatter_set
- 			set[SH_CSS_MAX_IF_CONFIGS]; /* CSI-2 port is used as index. */
- 	} input_formatter;
--#endif
--#if !defined(ISP2401)
-+
- 	sync_generator_cfg_t	sync_gen;
- 	tpg_cfg_t		tpg;
- 	prbs_cfg_t		prbs;
- 	input_system_cfg_t	input_circuit;
- 	u8			input_circuit_cfg_changed;
- 	u32		mipi_sizes_for_check[N_CSI_PORTS][IA_CSS_MIPI_SIZE_CHECK_MAX_NOF_ENTRIES_PER_PORT];
--#endif
- 	u8                 enable_isys_event_queue;
- 	u8			disable_cont_vf;
- };
-@@ -409,7 +380,6 @@ enum sh_css_stage_type {
- #define SH_CSS_PIPE_CONFIG_SAMPLE_PARAMS_MASK \
- 	((SH_CSS_PIPE_CONFIG_SAMPLE_PARAMS << SH_CSS_MAX_SP_THREADS) - 1)
- 
--#if defined(ISP2401)
- struct sh_css_sp_pipeline_terminal {
- 	union {
- 		/* Input System 2401 */
-@@ -442,7 +412,6 @@ struct sh_css_sp_pipeline_io_status {
- 	u32	running[N_INPUT_SYSTEM_CSI_PORT];	/** configured streams */
- };
- 
--#endif
- enum sh_css_port_dir {
- 	SH_CSS_PORT_INPUT  = 0,
- 	SH_CSS_PORT_OUTPUT  = 1
-@@ -641,10 +610,8 @@ struct sh_css_sp_stage {
- struct sh_css_sp_group {
- 	struct sh_css_sp_config		config;
- 	struct sh_css_sp_pipeline	pipe[SH_CSS_MAX_SP_THREADS];
--#if defined(ISP2401)
- 	struct sh_css_sp_pipeline_io	pipe_io[SH_CSS_MAX_SP_THREADS];
- 	struct sh_css_sp_pipeline_io_status	pipe_io_status;
--#endif
- 	struct sh_css_sp_debug_command	debug;
- };
- 
-@@ -922,13 +889,11 @@ sh_css_frame_info_set_width(struct ia_css_frame_info *info,
- 			    unsigned int width,
- 			    unsigned int aligned);
- 
--#if !defined(ISP2401)
- 
- unsigned int
- sh_css_get_mipi_sizes_for_check(const unsigned int port,
- 				const unsigned int idx);
- 
--#endif
- 
- ia_css_ptr
- sh_css_store_sp_group_to_ddr(void);
-@@ -971,11 +936,9 @@ sh_css_continuous_is_enabled(uint8_t pipe_num);
- struct ia_css_pipe *
- find_pipe_by_num(uint32_t pipe_num);
- 
--#ifdef ISP2401
- void
- ia_css_get_crop_offsets(
-     struct ia_css_pipe *pipe,
-     struct ia_css_frame_info *in_frame);
--#endif
- 
- #endif /* _SH_CSS_INTERNAL_H_ */
-diff --git a/drivers/staging/media/atomisp/pci/sh_css_params.c b/drivers/staging/media/atomisp/pci/sh_css_params.c
-index 588f2adab058..5667e855da76 100644
---- a/drivers/staging/media/atomisp/pci/sh_css_params.c
-+++ b/drivers/staging/media/atomisp/pci/sh_css_params.c
-@@ -3720,10 +3720,47 @@ struct ia_css_shading_table *ia_css_get_shading_table(struct ia_css_stream
- 
- ia_css_ptr sh_css_store_sp_group_to_ddr(void)
- {
-+	u8 *write_buf;
-+	u8 *buf_ptr;
-+
- 	IA_CSS_ENTER_LEAVE_PRIVATE("void");
-+
-+	write_buf = kzalloc(sizeof(u8) * 8192, GFP_KERNEL);
-+	if (!write_buf)
-+		return 0;
-+
-+	buf_ptr = write_buf;
-+	if (IS_ISP2401) {
-+		memcpy(buf_ptr, &sh_css_sp_group.config, 3);
-+		buf_ptr += 3;
-+		memcpy(buf_ptr, &sh_css_sp_group.config.enable_isys_event_queue, 2);
-+		buf_ptr += 2;
-+		memset(buf_ptr, 0, 3);
-+		buf_ptr += 3; /* Padding 3 bytes for struct sh_css_sp_config*/
-+	} else {
-+		memcpy(buf_ptr, &sh_css_sp_group.config, sizeof(sh_css_sp_group.config));
-+		buf_ptr += sizeof(sh_css_sp_group.config);
-+	}
-+
-+	memcpy(buf_ptr, &sh_css_sp_group.pipe, sizeof(sh_css_sp_group.pipe));
-+	buf_ptr += sizeof(sh_css_sp_group.pipe);
-+
-+	if (IS_ISP2401) {
-+		memcpy(buf_ptr, &sh_css_sp_group.pipe_io, sizeof(sh_css_sp_group.pipe_io));
-+		buf_ptr += sizeof(sh_css_sp_group.pipe_io);
-+		memcpy(buf_ptr, &sh_css_sp_group.pipe_io_status,
-+		       sizeof(sh_css_sp_group.pipe_io_status));
-+		buf_ptr += sizeof(sh_css_sp_group.pipe_io_status);
-+	}
-+
-+	memcpy(buf_ptr, &sh_css_sp_group.debug, sizeof(sh_css_sp_group.debug));
-+	buf_ptr += sizeof(sh_css_sp_group.debug);
-+
- 	hmm_store(xmem_sp_group_ptrs,
--		   &sh_css_sp_group,
--		   sizeof(struct sh_css_sp_group));
-+		  write_buf,
-+		  buf_ptr - write_buf);
-+
-+	kfree(write_buf);
- 	return xmem_sp_group_ptrs;
- }
- 
--- 
-2.40.1
-
+Prathu
