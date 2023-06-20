@@ -1,28 +1,31 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33DDE1643F
-	for <linux-staging@lists.linux.dev>; Tue, 20 Jun 2023 14:12:36 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 57E27C433CA;
-	Tue, 20 Jun 2023 14:12:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 980FC156CA
+	for <linux-staging@lists.linux.dev>; Tue, 20 Jun 2023 14:17:08 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 94AAEC433C8;
+	Tue, 20 Jun 2023 14:17:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1687270356;
-	bh=Sdim3nHPJvGgZkt1kDiWy46jb7Kx94z4BqprQBITB/0=;
+	s=korg; t=1687270628;
+	bh=eJNBsqRHWVUBKO9jQvaQZ7ZEyPf7EYF1nWFETYd9yLs=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=tm9uC9/ywxMsbkMuEEs5Eea1Pjc8UAM1SOEbG+6CGAppg/9RZCc6iwY3X11gBXF97
-	 Y4bYG/xIistPSUBFNmXP2YV7AjW2C/CGBkHIyxuYts5j7AfCuVWH6RdWJ0ZlCAEJ8w
-	 k5V4FZUf2nL3qETOTyum+fynig2eT0saOFr5cUSg=
-Date: Tue, 20 Jun 2023 16:12:33 +0200
+	b=VAW6JDSzf/cBs0cf/m8szRjrtC1b/jSxNktmJqcOTyHsErMhju7fPWEVRblBjkF74
+	 RxW8zDb7VlCgCAMcQ4EzFi0SXppJE1a8JsaFPL6sObjmF+4p384WxbNAow/HnoNJ8D
+	 rm78vjPoc4JeXwTC+s4zSW1MChXGs1xcu6sUPQGw=
+Date: Tue, 20 Jun 2023 16:17:05 +0200
 From: Greg KH <gregkh@linuxfoundation.org>
-To: Franziska Naepelt <franziska.naepelt@googlemail.com>
-Cc: eperi1024@gmail.com, franziska.naepelt@gmail.com, hdegoede@redhat.com,
-	johannes.berg@intel.com, linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev, quic_vjakkam@quicinc.com,
-	tegongkang@gmail.com
-Subject: Re: [PATCH 2/5] staging: rtl8723bs: Fix space issues
-Message-ID: <2023062012-regain-vintage-2c6d@gregkh>
-References: <20230619175703.18826-1-franziska.naepelt@gmail.com>
- <20230619180753.18998-1-franziska.naepelt@gmail.com>
+To: Umang Jain <umang.jain@ideasonboard.com>
+Cc: linux-staging@lists.linux.dev, linux-rpi-kernel@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org, stefan.wahren@i2se.com,
+	f.fainelli@gmail.com, athierry@redhat.com, error27@gmail.com,
+	dave.stevenson@raspberrypi.com, kieran.bingham@ideasonboard.com,
+	laurent.pinchart@ideasonboard.com
+Subject: Re: [PATCH v7 1/5] staging: vc04_services: vchiq_arm: Add new bus
+ type and device type
+Message-ID: <2023062022-whimsical-hasty-b012@gregkh>
+References: <20230620134152.383569-1-umang.jain@ideasonboard.com>
+ <20230620134152.383569-2-umang.jain@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -31,77 +34,59 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230619180753.18998-1-franziska.naepelt@gmail.com>
+In-Reply-To: <20230620134152.383569-2-umang.jain@ideasonboard.com>
 
-On Mon, Jun 19, 2023 at 08:07:53PM +0200, Franziska Naepelt wrote:
-> Fix the following checkpatch space issues:
-> - CHECK: spaces preferred around that '*' (ctx:VxV)
-> - CHECK: spaces preferred around that '+' (ctx:VxV)
-> - CHECK: spaces preferred around that '-' (ctx:VxV)
-> - CHECK: spaces preferred around that '|' (ctx:VxV)
-> - CHECK: No space is necessary after a cast
-> - WARNING: please, no spaces at the start of a line
+On Tue, Jun 20, 2023 at 07:11:48PM +0530, Umang Jain wrote:
+> The devices that the vchiq interface registers (bcm2835-audio,
+> bcm2835-camera) are implemented and exposed by the VC04 firmware.
+> The device tree describes the VC04 itself with the resources required
+> to communicate with it through a mailbox interface. However, the
+> vchiq interface registers these devices as platform devices. This
+> also means the specific drivers for these devices are getting
+> registered as platform drivers. This is not correct and a blatant
+> abuse of platform device/driver.
 > 
-> Signed-off-by: Franziska Naepelt <franziska.naepelt@gmail.com>
+> Add a new bus type, vchiq_bus_type and device type (struct vchiq_device)
+> which will be used to migrate child devices that the vchiq interfaces
+> creates/registers from the platform device/driver.
+> 
+> Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
 > ---
->  .../staging/rtl8723bs/os_dep/ioctl_cfg80211.c | 77 +++++++++----------
->  1 file changed, 38 insertions(+), 39 deletions(-)
+>  drivers/staging/vc04_services/Makefile        |  1 +
+>  .../interface/vchiq_arm/vchiq_device.c        | 78 +++++++++++++++++++
+>  .../interface/vchiq_arm/vchiq_device.h        | 43 ++++++++++
+>  3 files changed, 122 insertions(+)
+>  create mode 100644 drivers/staging/vc04_services/interface/vchiq_arm/vchiq_device.c
+>  create mode 100644 drivers/staging/vc04_services/interface/vchiq_arm/vchiq_device.h
 > 
-> diff --git a/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c b/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
-> index 1afd1a93bcee..abda4e0f0bf5 100644
-> --- a/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
-> +++ b/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
-> @@ -95,14 +95,14 @@ static struct ieee80211_channel rtw_2ghz_channels[] = {
->  static void rtw_2g_channels_init(struct ieee80211_channel *channels)
->  {
->  	memcpy((void *)channels, (void *)rtw_2ghz_channels,
-> -		sizeof(struct ieee80211_channel)*RTW_2G_CHANNELS_NUM
-> +		sizeof(struct ieee80211_channel) * RTW_2G_CHANNELS_NUM
->  	);
->  }
+> diff --git a/drivers/staging/vc04_services/Makefile b/drivers/staging/vc04_services/Makefile
+> index 44794bdf6173..2d071e55e175 100644
+> --- a/drivers/staging/vc04_services/Makefile
+> +++ b/drivers/staging/vc04_services/Makefile
+> @@ -5,6 +5,7 @@ vchiq-objs := \
+>     interface/vchiq_arm/vchiq_core.o  \
+>     interface/vchiq_arm/vchiq_arm.o \
+>     interface/vchiq_arm/vchiq_debugfs.o \
+> +   interface/vchiq_arm/vchiq_device.o \
+>     interface/vchiq_arm/vchiq_connected.o \
 >  
->  static void rtw_2g_rates_init(struct ieee80211_rate *rates)
->  {
->  	memcpy(rates, rtw_g_rates,
-> -		sizeof(struct ieee80211_rate)*RTW_G_RATES_NUM
-> +		sizeof(struct ieee80211_rate) * RTW_G_RATES_NUM
->  	);
->  }
->  
-> @@ -126,8 +126,8 @@ static struct ieee80211_supported_band *rtw_spt_band_alloc(
->  	if (!spt_band)
->  		goto exit;
->  
-> -	spt_band->channels = (struct ieee80211_channel *)(((u8 *)spt_band)+sizeof(struct ieee80211_supported_band));
-> -	spt_band->bitrates = (struct ieee80211_rate *)(((u8 *)spt_band->channels)+sizeof(struct ieee80211_channel)*n_channels);
-> +	spt_band->channels = (struct ieee80211_channel *)(((u8 *)spt_band) + sizeof(struct ieee80211_supported_band));
-> +	spt_band->bitrates = (struct ieee80211_rate *)(((u8 *)spt_band->channels) + sizeof(struct ieee80211_channel) * n_channels);
->  	spt_band->band = band;
->  	spt_band->n_channels = n_channels;
->  	spt_band->n_bitrates = n_bitrates;
-> @@ -247,10 +247,10 @@ struct cfg80211_bss *rtw_cfg80211_inform_bss(struct adapter *padapter, struct wl
->  		u32 wpsielen = 0;
->  		u8 *wpsie = NULL;
->  
-> -		wpsie = rtw_get_wps_ie(pnetwork->network.ies+_FIXED_IE_LENGTH_, pnetwork->network.ie_length-_FIXED_IE_LENGTH_, NULL, &wpsielen);
-> +		wpsie = rtw_get_wps_ie(pnetwork->network.ies + _FIXED_IE_LENGTH_, pnetwork->network.ie_length - _FIXED_IE_LENGTH_, NULL, &wpsielen);
->  
->  		if (wpsie && wpsielen > 0)
-> -			psr = rtw_get_wps_attr_content(wpsie,  wpsielen, WPS_ATTR_SELECTED_REGISTRAR, (u8 *)(&sr), NULL);
-> +			psr = rtw_get_wps_attr_content(wpsie, wpsielen, WPS_ATTR_SELECTED_REGISTRAR, (u8 *)(&sr), NULL);
->  
->  		if (sr != 0) {
->  			/* it means under processing WPS */
-> @@ -266,7 +266,6 @@ struct cfg80211_bss *rtw_cfg80211_inform_bss(struct adapter *padapter, struct wl
->  	}
->  	/* spin_unlock_bh(&pwdev_priv->scan_req_lock); */
->  
-> -
+>  ifdef CONFIG_VCHIQ_CDEV
+> diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_device.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_device.c
+> new file mode 100644
+> index 000000000000..e16279a25126
+> --- /dev/null
+> +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_device.c
+> @@ -0,0 +1,78 @@
+> +// SPDX-License-Identifier: GPL-2.0 OR BSD-3-Clause
 
-This was an extra blank line issue that you did not mention in the
-changelog :(
+Code that directly interacts with the driver core can, for obvious
+reasons, not be BSD-3 licensed, sorry.
 
-Please be more careful.
+Also, why is any of this dual licensed?  What good is any of that?  In
+order for me to accept new dual-licensed code, it needs to be documented
+in the changelog very very well as to exactly why this is required, as
+the legal issues involved in maintaining dual-licensed code like this is
+tricky and easy to get wrong (as proven here already in this patch...)
 
 thanks,
 
