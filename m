@@ -1,118 +1,92 @@
-Received: from pb-smtp2.pobox.com (pb-smtp2.pobox.com [64.147.108.71])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com [209.85.208.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53E70DDDF
-	for <linux-staging@lists.linux.dev>; Mon, 19 Jun 2023 23:44:18 +0000 (UTC)
-Received: from pb-smtp2.pobox.com (unknown [127.0.0.1])
-	by pb-smtp2.pobox.com (Postfix) with ESMTP id 745911A77F5;
-	Mon, 19 Jun 2023 19:40:50 -0400 (EDT)
-	(envelope-from tdavies@darkphysics.net)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed; d=pobox.com; h=date:from
-	:to:cc:subject:message-id:mime-version:content-type; s=sasl; bh=
-	aAAVxZt3OcAzJzT3Vw4BIH/WePaWHP+313cOi4esorA=; b=gFTEalDnxItYfpEz
-	OWntFEV9HAbWk1M+R3th2o4D5x2EPAZ/Zr0MoelKKby6r6gdzrDW3GWAwNkmK/l2
-	OdQdFpcv8UWQYdDn+pQ/nnTYDlR1OpJYqNH9V9+q7BhB0PKeo3/sO2/7qv9BimBE
-	zzLNARABWC+5XTgiEKpy3aGxhEg=
-Received: from pb-smtp2.nyi.icgroup.com (unknown [127.0.0.1])
-	by pb-smtp2.pobox.com (Postfix) with ESMTP id 6C5721A77F3;
-	Mon, 19 Jun 2023 19:40:50 -0400 (EDT)
-	(envelope-from tdavies@darkphysics.net)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed; d=darkphysics.net;
- h=date:from:to:cc:subject:message-id:mime-version:content-type;
- s=2019-09.pbsmtp; bh=aAAVxZt3OcAzJzT3Vw4BIH/WePaWHP+313cOi4esorA=;
- b=UgrziEdMRxCAEQ5lh2gunMGCHscB0/1jwOd9emUGqB4SIyG2m/ItcSkF4MglkPb0iS7YSUKbTwD22zw9ZW4eZ5pqa6xVzfFm3K2TEXrvwqgwXrT02hjUV8xrjpH05crL6E+b/Y1sXZFLdvnsgkPltOd+7locgaqoNziSpzRQbI0=
-Received: from tacos.darkphysics (unknown [76.146.178.2])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by pb-smtp2.pobox.com (Postfix) with ESMTPSA id 3F5CC1A77F2;
-	Mon, 19 Jun 2023 19:40:49 -0400 (EDT)
-	(envelope-from tdavies@darkphysics.net)
-Date: Mon, 19 Jun 2023 16:40:42 -0700
-From: Tree Davies <tdavies@darkphysics.net>
-To: gregkh@linuxfoundation.org, philipp.g.hortmann@gmail.com,
-	t4rmin@zohomail.com, colin.i.king@gmail.com
-Cc: tdavies@darkphysics.net, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] drivers/staging/rtl8192e Fix camelcased function name
-Message-ID: <ZJDnetEcwdG1ffrK@tacos.darkphysics>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D1BF1FA9
+	for <linux-staging@lists.linux.dev>; Tue, 20 Jun 2023 05:18:10 +0000 (UTC)
+Received: by mail-lj1-f174.google.com with SMTP id 38308e7fff4ca-2b45e6e1b73so50973591fa.0
+        for <linux-staging@lists.linux.dev>; Mon, 19 Jun 2023 22:18:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1687238288; x=1689830288;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=y7PuqpyqHE/HUVu8CRaW9WlThpzPBfO6+875ZQx+jnA=;
+        b=euZ3NbqF9mB24d0ScudIoCLcjGflfbklhPemkj/vHLxufMsWRiAGBP9qLHpeL7+ibl
+         KRmAsBeL396AbnFIajAYSoVRQP1OSDV73iXpEuEqKjWbJuW1jnhGCNpaD4i0QrN0y4SC
+         YYqtSkae846yMDjV3BaQJTSXpLLQqClqPJQylp5sQ9hbnOQKXk86ODhLiNMZFzXOUmqw
+         spw6fYU/7QuiB7LtKQuSToUkUX4PVOZ7HQi9Sg3oPqRwUMlyvKkWTohnsVrmuBqhDdjp
+         MORXtKz1IOxy2hQ2xYKKGz6TA5JWo/svqiWxln2fXV1LiYLgXbWOUwRQFaBoRWj+xMHI
+         ESxQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1687238288; x=1689830288;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=y7PuqpyqHE/HUVu8CRaW9WlThpzPBfO6+875ZQx+jnA=;
+        b=KQKPbAqKMRhdMXNIOLpyxU5Ha2+FdujW6kLg7m50Qwn+Ug/G0oMQ/jgiH7/ynX+IpQ
+         MzVMzXOqqW3UIIZyBKKZutjyRvK9qVAc1LlKZSKNqEP/jOOfHaVDtTebl01tk5a6OfDM
+         i8aRXsfjRSoKShoENSaxf11zkvNOTBIjClo1aRqXNtIn8fvj+/WqI00/WqupE8aI3jVb
+         8ryTyGW+slWamUMZAJZmjULF1BVXCKDW7xWRfdIne/sHAoD/bHQ0FGoK770Ue+QNdUAT
+         xdrYDQk7h65YbuZTdhUxH57ahsqjaYpvTvWggEK2V2Njk8uNCXyk+LDt7lIU+i9kjT44
+         p7DA==
+X-Gm-Message-State: AC+VfDx0Z5lxCZFLv+wCd47mIh0/ly0LeYY35e8LrZYG8wPH1KDec7cm
+	hBmmPmlpXTK3NDGxSwKzQwGLug==
+X-Google-Smtp-Source: ACHHUZ5ccBcWPxcFeRk9KZTmk2iY37jAco/koAiv37L1FuAnmeROZMwkEffaczENJYwJooQ+gl1ReA==
+X-Received: by 2002:a2e:95c4:0:b0:2b4:6a20:f12d with SMTP id y4-20020a2e95c4000000b002b46a20f12dmr4718664ljh.43.1687238288311;
+        Mon, 19 Jun 2023 22:18:08 -0700 (PDT)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id z8-20020a05600c220800b003f9b12b1598sm4395724wml.22.2023.06.19.22.18.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 19 Jun 2023 22:18:05 -0700 (PDT)
+Date: Tue, 20 Jun 2023 08:18:02 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Prathu Baronia <prathubaronia2011@gmail.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Fabio M. De Francesco" <fmdefrancesco@gmail.com>,
+	Khadija Kamran <kamrankhadijadj@gmail.com>,
+	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	error27@gmail.com, lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	oe-kbuild@lists.linux.dev
+Subject: Re: [PATCH v6 1/2] axis-fifo: use devm_kasprintf() for allocating
+ formatted strings
+Message-ID: <e118d13a-d36e-4417-9fe5-68d46472c09a@kadam.mountain>
+References: <ZI/5H+GZU6/2osGT@redkillpc>
+ <20230619162246.33007-1-prathubaronia2011@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="BAfVaLZhwQdzqTy9"
-Content-Disposition: inline
-X-Pobox-Relay-ID:
- B8AE49A6-0EFA-11EE-8AC3-307A8E0A682E-45285927!pb-smtp2.pobox.com
-
-
---BAfVaLZhwQdzqTy9
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230619162246.33007-1-prathubaronia2011@gmail.com>
 
+On Mon, Jun 19, 2023 at 09:52:44PM +0530, Prathu Baronia wrote:
+> In various places, string buffers of a fixed size are allocated, and
+> filled using snprintf() with the same fixed size, which is error-prone.
+> 
+> Replace this by calling devm_kasprintf() instead, which always uses the
+> appropriate size.
+> 
+> Signed-off-by: Prathu Baronia <prathubaronia2011@gmail.com>
+> ---
+> V5 -> V6: Split into api change and name change commits
+> V4 -> V5: Remove the dev_info() and use a unique identifier for dev name
+> V3 -> V4: Split into warning fixing and cleanup commits
+> V2 -> V3: Fix smatch warnings from kernel test robot
+> V1 -> V2: Split into logical commits and fix commit message
+> 
 
---BAfVaLZhwQdzqTy9
-Content-Type: text/x-diff; charset=us-ascii
-Content-Disposition: attachment;
-	filename="0001-drivers-staging-rtl8192e-Fix-camelcased-function-nam.patch"
+> -	snprintf(device_name, 32, "%s_%pa", DRIVER_NAME, &r_mem->start);
+                                      ^^^
 
-From b66f420d2129bb45e0dc79128e517524607cf3b3 Mon Sep 17 00:00:00 2001
-From: Tree Davies <tdavies@darkphysics.net>
-Date: Mon, 19 Jun 2023 14:06:33 -0700
-Subject: [PATCH] drivers/staging/rtl8192e Fix camelcased function name
+> +	device_name = devm_kasprintf(dev, GFP_KERNEL, "%s_%p", DRIVER_NAME, &r_mem->start);
+                                                          ^^
 
-This fixes style issue for function name
-HTUpdateDefaultSetting -> ht_update_default_setting
+This is a sneaky fix which Greg already kind of complained about if I
+remember correctly...
 
-Signed-off-by: Tree Davies <tdavies@darkphysics.net>
----
- drivers/staging/rtl8192e/rtl819x_HTProc.c | 2 +-
- drivers/staging/rtl8192e/rtllib.h         | 2 +-
- drivers/staging/rtl8192e/rtllib_module.c  | 2 +-
- 3 files changed, 3 insertions(+), 3 deletions(-)
+regards,
+dan carpenter
 
-diff --git a/drivers/staging/rtl8192e/rtl819x_HTProc.c b/drivers/staging/rtl8192e/rtl819x_HTProc.c
-index fe30a291e64c..117b675a210d 100644
---- a/drivers/staging/rtl8192e/rtl819x_HTProc.c
-+++ b/drivers/staging/rtl8192e/rtl819x_HTProc.c
-@@ -67,7 +67,7 @@ static u8 CISCO_BROADCOM[3] = {0x00, 0x17, 0x94};
- 
- static u8 LINKSYS_MARVELL_4400N[3] = {0x00, 0x14, 0xa4};
- 
--void HTUpdateDefaultSetting(struct rtllib_device *ieee)
-+void ht_update_default_setting(struct rtllib_device *ieee)
- {
- 	struct rt_hi_throughput *ht_info = ieee->ht_info;
- 
-diff --git a/drivers/staging/rtl8192e/rtllib.h b/drivers/staging/rtl8192e/rtllib.h
-index 6e665e866f1f..48b3c832affa 100644
---- a/drivers/staging/rtl8192e/rtllib.h
-+++ b/drivers/staging/rtl8192e/rtllib.h
-@@ -2037,7 +2037,7 @@ int rtllib_wx_get_rts(struct rtllib_device *ieee, struct iw_request_info *info,
- void HTSetConnectBwMode(struct rtllib_device *ieee,
- 			enum ht_channel_width bandwidth,
- 			enum ht_extchnl_offset Offset);
--void HTUpdateDefaultSetting(struct rtllib_device *ieee);
-+void ht_update_default_setting(struct rtllib_device *ieee);
- void HTConstructCapabilityElement(struct rtllib_device *ieee,
- 				  u8 *posHTCap, u8 *len,
- 				  u8 isEncrypt, bool bAssoc);
-diff --git a/drivers/staging/rtl8192e/rtllib_module.c b/drivers/staging/rtl8192e/rtllib_module.c
-index d6a4d6b4ec57..841300e3a8bc 100644
---- a/drivers/staging/rtl8192e/rtllib_module.c
-+++ b/drivers/staging/rtl8192e/rtllib_module.c
-@@ -129,7 +129,7 @@ struct net_device *alloc_rtllib(int sizeof_priv)
- 	if (!ieee->ht_info)
- 		goto free_softmac;
- 
--	HTUpdateDefaultSetting(ieee);
-+	ht_update_default_setting(ieee);
- 	HTInitializeHTInfo(ieee);
- 	TSInitialize(ieee);
- 	for (i = 0; i < IEEE_IBSS_MAC_HASH_SIZE; i++)
--- 
-2.39.2
-
-
---BAfVaLZhwQdzqTy9--
