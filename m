@@ -1,26 +1,31 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFEFB1FA9
-	for <linux-staging@lists.linux.dev>; Tue, 20 Jun 2023 05:43:44 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E3C11C433C0;
-	Tue, 20 Jun 2023 05:43:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29C30E56E;
+	Tue, 20 Jun 2023 09:24:33 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3F120C433C0;
+	Tue, 20 Jun 2023 09:24:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1687239824;
-	bh=75N5G3M2CZw6SVHZejD4tHXAEXo8tYI2ZQMYV/7xnAs=;
+	s=korg; t=1687253073;
+	bh=9N6EIJ38Xk+9+ewliRVUBI3DulDbnvVkXDhlrDbSKFI=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=d4+/7AnfP74LGc2x/Uu67j7zjkPgYUJgtBxEQrokQnFKUvrCn+7nEmK4xzQj5DZ9D
-	 hsIVfkxrgURjc5HljnCsZxIBDVwXZbQthVrwRw5BXw7s8We+VgTldYVksIw94DKGRm
-	 RE+Hg0w4kOf6W/5PlcIm0fblDvABqGPVB8oopM7k=
-Date: Tue, 20 Jun 2023 07:43:40 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Tree Davies <tdavies@darkphysics.net>
-Cc: philipp.g.hortmann@gmail.com, t4rmin@zohomail.com,
-	colin.i.king@gmail.com, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] drivers/staging/rtl8192e Fix camelcased function name
-Message-ID: <2023062027-marine-culprit-7baa@gregkh>
-References: <ZJDnetEcwdG1ffrK@tacos.darkphysics>
+	b=kBn50GNBszeGoHi+Y44dG5B218OG3oc1Ieqb86NZDmEckz0UkrdXEq1YD16W0OeZe
+	 ocWl4ntMap/XL6+QUsZagw6La/LVOW/Vihvm01pIjp748HGGWXYmd8H9qfmbIIXmm4
+	 RGa6oWj2VJi69vCgQLzSrABBIcQIxWl8GH8oUq70=
+Date: Tue, 20 Jun 2023 11:24:30 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Prathu Baronia <prathubaronia2011@gmail.com>
+Cc: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>,
+	Khadija Kamran <kamrankhadijadj@gmail.com>,
+	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	dan.carpenter@linaro.org, error27@gmail.com, lkp@intel.com,
+	oe-kbuild-all@lists.linux.dev, oe-kbuild@lists.linux.dev
+Subject: Re: [PATCH v6 1/2] axis-fifo: use devm_kasprintf() for allocating
+ formatted strings
+Message-ID: <2023062015-snipping-wanted-276b@gregkh>
+References: <ZI/5H+GZU6/2osGT@redkillpc>
+ <20230619162246.33007-1-prathubaronia2011@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -29,90 +34,47 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ZJDnetEcwdG1ffrK@tacos.darkphysics>
+In-Reply-To: <20230619162246.33007-1-prathubaronia2011@gmail.com>
 
-On Mon, Jun 19, 2023 at 04:40:42PM -0700, Tree Davies wrote:
-
-> >From b66f420d2129bb45e0dc79128e517524607cf3b3 Mon Sep 17 00:00:00 2001
-> From: Tree Davies <tdavies@darkphysics.net>
-> Date: Mon, 19 Jun 2023 14:06:33 -0700
-> Subject: [PATCH] drivers/staging/rtl8192e Fix camelcased function name
+On Mon, Jun 19, 2023 at 09:52:44PM +0530, Prathu Baronia wrote:
+> In various places, string buffers of a fixed size are allocated, and
+> filled using snprintf() with the same fixed size, which is error-prone.
 > 
-> This fixes style issue for function name
-> HTUpdateDefaultSetting -> ht_update_default_setting
+> Replace this by calling devm_kasprintf() instead, which always uses the
+> appropriate size.
 > 
-> Signed-off-by: Tree Davies <tdavies@darkphysics.net>
+> Signed-off-by: Prathu Baronia <prathubaronia2011@gmail.com>
 > ---
->  drivers/staging/rtl8192e/rtl819x_HTProc.c | 2 +-
->  drivers/staging/rtl8192e/rtllib.h         | 2 +-
->  drivers/staging/rtl8192e/rtllib_module.c  | 2 +-
->  3 files changed, 3 insertions(+), 3 deletions(-)
+> V5 -> V6: Split into api change and name change commits
+> V4 -> V5: Remove the dev_info() and use a unique identifier for dev name
+> V3 -> V4: Split into warning fixing and cleanup commits
+> V2 -> V3: Fix smatch warnings from kernel test robot
+> V1 -> V2: Split into logical commits and fix commit message
 > 
-> diff --git a/drivers/staging/rtl8192e/rtl819x_HTProc.c b/drivers/staging/rtl8192e/rtl819x_HTProc.c
-> index fe30a291e64c..117b675a210d 100644
-> --- a/drivers/staging/rtl8192e/rtl819x_HTProc.c
-> +++ b/drivers/staging/rtl8192e/rtl819x_HTProc.c
-> @@ -67,7 +67,7 @@ static u8 CISCO_BROADCOM[3] = {0x00, 0x17, 0x94};
->  
->  static u8 LINKSYS_MARVELL_4400N[3] = {0x00, 0x14, 0xa4};
->  
-> -void HTUpdateDefaultSetting(struct rtllib_device *ieee)
-> +void ht_update_default_setting(struct rtllib_device *ieee)
->  {
->  	struct rt_hi_throughput *ht_info = ieee->ht_info;
->  
-> diff --git a/drivers/staging/rtl8192e/rtllib.h b/drivers/staging/rtl8192e/rtllib.h
-> index 6e665e866f1f..48b3c832affa 100644
-> --- a/drivers/staging/rtl8192e/rtllib.h
-> +++ b/drivers/staging/rtl8192e/rtllib.h
-> @@ -2037,7 +2037,7 @@ int rtllib_wx_get_rts(struct rtllib_device *ieee, struct iw_request_info *info,
->  void HTSetConnectBwMode(struct rtllib_device *ieee,
->  			enum ht_channel_width bandwidth,
->  			enum ht_extchnl_offset Offset);
-> -void HTUpdateDefaultSetting(struct rtllib_device *ieee);
-> +void ht_update_default_setting(struct rtllib_device *ieee);
->  void HTConstructCapabilityElement(struct rtllib_device *ieee,
->  				  u8 *posHTCap, u8 *len,
->  				  u8 isEncrypt, bool bAssoc);
-> diff --git a/drivers/staging/rtl8192e/rtllib_module.c b/drivers/staging/rtl8192e/rtllib_module.c
-> index d6a4d6b4ec57..841300e3a8bc 100644
-> --- a/drivers/staging/rtl8192e/rtllib_module.c
-> +++ b/drivers/staging/rtl8192e/rtllib_module.c
-> @@ -129,7 +129,7 @@ struct net_device *alloc_rtllib(int sizeof_priv)
->  	if (!ieee->ht_info)
->  		goto free_softmac;
->  
-> -	HTUpdateDefaultSetting(ieee);
-> +	ht_update_default_setting(ieee);
->  	HTInitializeHTInfo(ieee);
->  	TSInitialize(ieee);
->  	for (i = 0; i < IEEE_IBSS_MAC_HASH_SIZE; i++)
-> -- 
-> 2.39.2
+>  drivers/staging/axis-fifo/axis-fifo.c | 10 +++++-----
+>  1 file changed, 5 insertions(+), 5 deletions(-)
 > 
+> diff --git a/drivers/staging/axis-fifo/axis-fifo.c b/drivers/staging/axis-fifo/axis-fifo.c
+> index 7a21f2423204..7d8da9ce2db8 100644
+> --- a/drivers/staging/axis-fifo/axis-fifo.c
+> +++ b/drivers/staging/axis-fifo/axis-fifo.c
+> @@ -816,10 +816,6 @@ static int axis_fifo_probe(struct platform_device *pdev)
+>  	 * ----------------------------
+>  	 */
+>  
+> -	device_name = devm_kzalloc(dev, 32, GFP_KERNEL);
+> -	if (!device_name)
+> -		return -ENOMEM;
+> -
+>  	/* allocate device wrapper memory */
+>  	fifo = devm_kzalloc(dev, sizeof(*fifo), GFP_KERNEL);
+>  	if (!fifo)
+> @@ -857,7 +853,11 @@ static int axis_fifo_probe(struct platform_device *pdev)
+>  	dev_dbg(fifo->dt_device, "remapped memory to 0x%p\n", fifo->base_addr);
+>  
+>  	/* create unique device name */
+> -	snprintf(device_name, 32, "%s_%pa", DRIVER_NAME, &r_mem->start);
+> +	device_name = devm_kasprintf(dev, GFP_KERNEL, "%s_%p", DRIVER_NAME, &r_mem->start);
 
-Hi,
+As Dan points out, you are changing the name here :(
 
-This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
-a patch that has triggered this response.  He used to manually respond
-to these common problems, but in order to save his sanity (he kept
-writing the same thing over and over, yet to different people), I was
-created.  Hopefully you will not take offence and will fix the problem
-in your patch and resubmit it so that it can be accepted into the Linux
-kernel tree.
-
-You are receiving this message because of the following common error(s)
-as indicated below:
-
-- Your patch was attached, please place it inline so that it can be
-  applied directly from the email message itself.
-
-
-If you wish to discuss this problem further, or you have questions about
-how to resolve this issue, please feel free to respond to this email and
-Greg will reply once he has dug out from the pending patches received
-from other developers.
-
-thanks,
-
-greg k-h's patch email bot
