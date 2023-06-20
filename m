@@ -1,54 +1,105 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07A46156CA
-	for <linux-staging@lists.linux.dev>; Tue, 20 Jun 2023 14:18:30 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F01C9C433C0;
-	Tue, 20 Jun 2023 14:18:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1687270710;
-	bh=OeEz2tijAZvrCEACa8lKFXkp/VG+HjklbwwH/8dtI1c=;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB4D617722
+	for <linux-staging@lists.linux.dev>; Tue, 20 Jun 2023 18:20:58 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 258692B3;
+	Tue, 20 Jun 2023 20:20:21 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1687285221;
+	bh=sD1PKV7f7iXFcTk9Cp6Tb3XJE7rld19ReTuqZZXis4k=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=JyPNbTD2K+CLX+1/qZuwjr+kkkPE3G/xUO8w8u0ly0O7RasjLLoFPChsMT7Dbu4j3
-	 DlWSXpnjmln+w5uFkJofTlqJS0qPOf7jaLq+V/t16XG3oho69OZ1nGZ4igPcmtUGtu
-	 2KUjXbd+80I9q4+n2s8VeGV3muAtYMkm869RJdLQ=
-Date: Tue, 20 Jun 2023 16:18:27 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Umang Jain <umang.jain@ideasonboard.com>
-Cc: linux-staging@lists.linux.dev, linux-rpi-kernel@lists.infradead.org,
+	b=iG4rP0MTxRyFxBalRPcEerDsmXq1CeolMkm7bEEGOfK5TNr8sqU1mm9TJJY+8ZIgS
+	 1Zwx82iXbcoNmen7ZmrIQEQtakzFb9Dw/kcwLrXzKjpOyQ5UcD3q8m33/NYDv+tEST
+	 XAMrUSsvbCo5SBsiZQsTdXTSgXDIV63116XP7Sz4=
+Date: Tue, 20 Jun 2023 21:20:54 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Greg KH <gregkh@linuxfoundation.org>
+Cc: Umang Jain <umang.jain@ideasonboard.com>, linux-staging@lists.linux.dev,
+	linux-rpi-kernel@lists.infradead.org,
 	linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
 	linux-kernel@vger.kernel.org, stefan.wahren@i2se.com,
 	f.fainelli@gmail.com, athierry@redhat.com, error27@gmail.com,
-	dave.stevenson@raspberrypi.com, kieran.bingham@ideasonboard.com,
-	laurent.pinchart@ideasonboard.com
-Subject: Re: [PATCH v7 0/5] staging: vc04_services: vchiq: Register devices
- with a custom bus_type
-Message-ID: <2023062010-sandblast-senate-a00c@gregkh>
+	dave.stevenson@raspberrypi.com, kieran.bingham@ideasonboard.com
+Subject: Re: [PATCH v7 1/5] staging: vc04_services: vchiq_arm: Add new bus
+ type and device type
+Message-ID: <20230620182054.GA14686@pendragon.ideasonboard.com>
 References: <20230620134152.383569-1-umang.jain@ideasonboard.com>
+ <20230620134152.383569-2-umang.jain@ideasonboard.com>
+ <2023062022-whimsical-hasty-b012@gregkh>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20230620134152.383569-1-umang.jain@ideasonboard.com>
+In-Reply-To: <2023062022-whimsical-hasty-b012@gregkh>
 
-On Tue, Jun 20, 2023 at 07:11:47PM +0530, Umang Jain wrote:
-> The patch series added a new bus type vchiq_bus_type and registers
-> child devices in order to move them away from using platform
-> device/driver.
+On Tue, Jun 20, 2023 at 04:17:05PM +0200, Greg KH wrote:
+> On Tue, Jun 20, 2023 at 07:11:48PM +0530, Umang Jain wrote:
+> > The devices that the vchiq interface registers (bcm2835-audio,
+> > bcm2835-camera) are implemented and exposed by the VC04 firmware.
+> > The device tree describes the VC04 itself with the resources required
+> > to communicate with it through a mailbox interface. However, the
+> > vchiq interface registers these devices as platform devices. This
+> > also means the specific drivers for these devices are getting
+> > registered as platform drivers. This is not correct and a blatant
+> > abuse of platform device/driver.
+> > 
+> > Add a new bus type, vchiq_bus_type and device type (struct vchiq_device)
+> > which will be used to migrate child devices that the vchiq interfaces
+> > creates/registers from the platform device/driver.
+> > 
+> > Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
+> > ---
+> >  drivers/staging/vc04_services/Makefile        |  1 +
+> >  .../interface/vchiq_arm/vchiq_device.c        | 78 +++++++++++++++++++
+> >  .../interface/vchiq_arm/vchiq_device.h        | 43 ++++++++++
+> >  3 files changed, 122 insertions(+)
+> >  create mode 100644 drivers/staging/vc04_services/interface/vchiq_arm/vchiq_device.c
+> >  create mode 100644 drivers/staging/vc04_services/interface/vchiq_arm/vchiq_device.h
+> > 
+> > diff --git a/drivers/staging/vc04_services/Makefile b/drivers/staging/vc04_services/Makefile
+> > index 44794bdf6173..2d071e55e175 100644
+> > --- a/drivers/staging/vc04_services/Makefile
+> > +++ b/drivers/staging/vc04_services/Makefile
+> > @@ -5,6 +5,7 @@ vchiq-objs := \
+> >     interface/vchiq_arm/vchiq_core.o  \
+> >     interface/vchiq_arm/vchiq_arm.o \
+> >     interface/vchiq_arm/vchiq_debugfs.o \
+> > +   interface/vchiq_arm/vchiq_device.o \
+> >     interface/vchiq_arm/vchiq_connected.o \
+> >  
+> >  ifdef CONFIG_VCHIQ_CDEV
+> > diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_device.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_device.c
+> > new file mode 100644
+> > index 000000000000..e16279a25126
+> > --- /dev/null
+> > +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_device.c
+> > @@ -0,0 +1,78 @@
+> > +// SPDX-License-Identifier: GPL-2.0 OR BSD-3-Clause
 > 
-> Patch 1/5 and 2/5 adds a new bus_type and registers them to vchiq
-> interface
+> Code that directly interacts with the driver core can, for obvious
+> reasons, not be BSD-3 licensed, sorry.
 > 
-> Patch 3/5 and 4/5 moves the bcm2835-camera and bcm2835-audio
-> to the new bus respectively
-> 
-> Patch 5/5 removes a platform registeration helper which is no
-> longer required.
+> Also, why is any of this dual licensed?  What good is any of that?  In
+> order for me to accept new dual-licensed code, it needs to be documented
+> in the changelog very very well as to exactly why this is required, as
+> the legal issues involved in maintaining dual-licensed code like this is
+> tricky and easy to get wrong (as proven here already in this patch...)
 
-License issues asside, this looks very good, thanks for doing this!
+The whole vchiq_arm layer is dual licensed GPL-2.0 + BSD-3. I assume
+this is why Umang used the same licensing terms. We can use GPL-2.0 only
+if this patch qualifies as original work and not derived work of the
+existing code.
 
-greg k-h
+This being said, I have no objection changing the license of the whole
+vchiq_arm layer to GPL-2.0 only. Dave, any opinion on this ?
+
+-- 
+Regards,
+
+Laurent Pinchart
