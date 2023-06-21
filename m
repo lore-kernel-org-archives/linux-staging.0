@@ -1,87 +1,174 @@
-Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com [209.85.167.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C270219506
-	for <linux-staging@lists.linux.dev>; Wed, 21 Jun 2023 15:42:53 +0000 (UTC)
-Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-4f86fbe5e4fso5167223e87.2
-        for <linux-staging@lists.linux.dev>; Wed, 21 Jun 2023 08:42:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1687362172; x=1689954172;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=wzxiaQ082ZFew564dfizmutmqfV0MIQOlwM4DhrL6Ig=;
-        b=DnH636UX7kGEnRpOVDWD065E2A7A+d66pQf0h3YL7NRfQsbdrdNIvirYGSd73IkXSk
-         kcoJ1lnxOlZBW2fKCvEuRhpKtupQbp4IxZMvKcJ4YvvlMg6MlfIForbYnAX+Tt1W8qQy
-         5aQQM36JHa5n1+VX8r2GdnmDN+GhkJOcUVltA3OiZygvcFnM4vqgzHjPvVChi2SdNgWa
-         YHwUzJ1OdLIXlCrua4LA032FZudH1sIWh/D5nv0fjmg05eOG+BDPpVNHegMTRjMyx0FO
-         iLU3RW1XC0I7fdkuta3Abr4kAjZqfqyZKXuey3P4yhUeNbOJ4jHlVXWbyP8QO4ghHQGl
-         Dl1g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1687362172; x=1689954172;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=wzxiaQ082ZFew564dfizmutmqfV0MIQOlwM4DhrL6Ig=;
-        b=SUiXjliq0PEs4KOqDWxTJmM0XVcTFxH49S2IurKg9VRb2k2ZHExYsGRl0p42Y8vJNc
-         vAyPxu4U4C6bahkq90oseW0NWDRT+xvSCg65w4Dp0njmiSLBTpfkmqEBwjVcQ89Z06vY
-         zWEHKqG2gqp4e0s5aqVfUhqUei5a7kBkOKSpn24Y3ze/tNdpjSvz6YBx4pQLpvF4wjtf
-         uNbhOyv29GyL6Gxt1jAKcYCJyC07ne6/Fq9Qvdjy3CarZixXZPhhdu5HmWaFgnoVLWjS
-         nmpXCQcwlLSxhccgim/wPiSXl5k4vglh2r7c6PzabGYd3LCcVSNhZwBu3ttiZjtAMYZv
-         zzDA==
-X-Gm-Message-State: AC+VfDx7FHiWFdUh7RLe692rP6XkTMHWIwuYM4fy6yYmXGWOGTdNUWia
-	KDHLczHlIP3yD65LtwgHZIQ=
-X-Google-Smtp-Source: ACHHUZ6Oy/XXvR8t4B7d/NTgPTdlbFRDbN1BltI4AoZQjNz5Dhl5IEq4dU7qm1CazjTVer2vn6hV8g==
-X-Received: by 2002:a05:6512:55a:b0:4f7:669f:7da8 with SMTP id h26-20020a056512055a00b004f7669f7da8mr10582510lfl.7.1687362171346;
-        Wed, 21 Jun 2023 08:42:51 -0700 (PDT)
-Received: from localhost.localdomain (sa-84-52-56-253.saturn.infonet.ee. [84.52.56.253])
-        by smtp.googlemail.com with ESMTPSA id j17-20020ac253b1000000b004f76684329esm813156lfh.234.2023.06.21.08.42.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 21 Jun 2023 08:42:50 -0700 (PDT)
-From: Emma Christy <emma.t.christy@gmail.com>
-To: ezequiel@vanguardiasur.com.ar,
-	mchehab@kernel.org,
-	gregkh@linuxfoundation.org,
-	linux-media@vger.kernel.org,
-	linux-rockchip@lists.infradead.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Cc: Emma Christy <emma.t.christy@gmail.com>
-Subject: [PATCH v2] media: rkvdec: removed redundant blank line
-Date: Wed, 21 Jun 2023 18:42:47 +0300
-Message-Id: <20230621154247.43983-1-emma.t.christy@gmail.com>
-X-Mailer: git-send-email 2.40.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89F0CC15E
+	for <linux-staging@lists.linux.dev>; Wed, 21 Jun 2023 16:11:25 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A05D8C433C9;
+	Wed, 21 Jun 2023 16:11:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1687363885;
+	bh=aY+kT0+JqyQx8y2AX0tAhPCb42KDo/HOuIAFdI1ht4g=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=y1YrQ8Wv40W0BRfou8yaVAqGx2l/0cXZvtyLEk7Fm+PD8FloFGC2Thvv9h/JrBTzS
+	 fDIdnIsi29fnKnCQSzzqouwmpBilQu58FfcoOFnhH6OAWG8leKjjWSQDkumut19zLp
+	 0J52iwg32uGb1mkZ5+I4562U3VrGsNpakkB6m7Jg=
+Date: Wed, 21 Jun 2023 18:11:22 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Tree Davies <tdavies@darkphysics.net>
+Cc: philipp.g.hortmann@gmail.com, t4rmin@zohomail.com,
+	colin.i.king@gmail.com, dan.carpenter@linaro.org,
+	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
+Subject: Re: [PATCH v2] staging: rtl8192e: Remove whitespace and blank lines
+Message-ID: <2023062153-starlight-ebay-fac2@gregkh>
+References: <ZJJj6Bea1ahxNdr3@tacos.darkphysics>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ZJJj6Bea1ahxNdr3@tacos.darkphysics>
 
-Adhere to Linux kernel coding style. Removed redundant blank line.
-Issue found by checkpatch.
+On Tue, Jun 20, 2023 at 07:43:52PM -0700, Tree Davies wrote:
+> This patch cleans up extraneous whitespace for the
+> struct rt_hi_throughput definition.
+> 
+> Signed-off-by: Tree Davies <tdavies@darkphysics.net>
+> ---
+> v2: Fix subject line and send patch inline.
+>  drivers/staging/rtl8192e/rtl819x_HT.h | 63 ++++++++++-----------------
+>  1 file changed, 23 insertions(+), 40 deletions(-)
+> 
+> diff --git a/drivers/staging/rtl8192e/rtl819x_HT.h b/drivers/staging/rtl8192e/rtl819x_HT.h
+> index f4e9fa849796..f5ab19694f1a 100644
+> --- a/drivers/staging/rtl8192e/rtl819x_HT.h
+> +++ b/drivers/staging/rtl8192e/rtl819x_HT.h
+> @@ -96,70 +96,53 @@ enum ht_aggre_mode {
+>  
+>  
+>  struct rt_hi_throughput {
+> -	u8				enable_ht;
+> -	u8				bCurrentHTSupport;
+> -
+> -	u8				bRegBW40MHz;
+> -	u8				bCurBW40MHz;
+> -
+> -	u8				bRegShortGI40MHz;
+> -	u8				bCurShortGI40MHz;
+> -
+> -	u8				bRegShortGI20MHz;
+> -	u8				bCurShortGI20MHz;
+> -
+> -	u8				bRegSuppCCK;
+> -	u8				bCurSuppCCK;
+> -
+> +	u8 enable_ht;
+> +	u8 bCurrentHTSupport;
+> +	u8 bRegBW40MHz;
+> +	u8 bCurBW40MHz;
+> +	u8 bRegShortGI40MHz;
+> +	u8 bCurShortGI40MHz;
+> +	u8 bRegShortGI20MHz;
+> +	u8 bCurShortGI20MHz;
+> +	u8 bRegSuppCCK;
+> +	u8 bCurSuppCCK;
+>  	enum ht_spec_ver ePeerHTSpecVer;
+> -
+> -
+>  	struct ht_capab_ele SelfHTCap;
+>  	struct ht_info_ele SelfHTInfo;
+> -
+> -	u8				PeerHTCapBuf[32];
+> -	u8				PeerHTInfoBuf[32];
+> -
+> -
+> -	u8				bAMSDU_Support;
+> -	u16				nAMSDU_MaxSize;
+> -	u8				bCurrent_AMSDU_Support;
+> -	u16				nCurrent_AMSDU_MaxSize;
+> -
+> -	u8				bAMPDUEnable;
+> -	u8				bCurrentAMPDUEnable;
+> -	u8				AMPDU_Factor;
+> -	u8				CurrentAMPDUFactor;
+> -	u8				MPDU_Density;
+> +	u8 PeerHTCapBuf[32];
+> +	u8 PeerHTInfoBuf[32];
+> +	u8 bAMSDU_Support;
+> +	u16	nAMSDU_MaxSize;
+> +	u8 bCurrent_AMSDU_Support;
+> +	u16	nCurrent_AMSDU_MaxSize;
+> +	u8 bAMPDUEnable;
+> +	u8 bCurrentAMPDUEnable;
+> +	u8 AMPDU_Factor;
+> +	u8 CurrentAMPDUFactor;
+> +	u8 MPDU_Density;
+>  	u8 current_mpdu_density;
+> -
+>  	enum ht_aggre_mode ForcedAMPDUMode;
+>  	u8 forced_ampdu_factor;
+>  	u8 forced_mpdu_density;
+> -
+>  	enum ht_aggre_mode ForcedAMSDUMode;
+>  	u8 forced_short_gi;
+> -
+>  	u8 current_op_mode;
+> -
+>  	u8 self_mimo_ps;
+>  	u8 peer_mimo_ps;
+> -
+>  	enum ht_extchnl_offset CurSTAExtChnlOffset;
+>  	u8 cur_tx_bw40mhz;
+>  	u8 sw_bw_in_progress;
+>  	u8 reg_rt2rt_aggregation;
+> -	u8				RT2RT_HT_Mode;
+> +	u8 RT2RT_HT_Mode;
+>  	u8 current_rt2rt_aggregation;
+>  	u8 current_rt2rt_long_slot_time;
+>  	u8 sz_rt2rt_agg_buf[10];
+> -
+>  	u8 reg_rx_reorder_enable;
+>  	u8 cur_rx_reorder_enable;
+>  	u8 rx_reorder_win_size;
+>  	u8 rx_reorder_pending_time;
+>  	u16 rx_reorder_drop_counter;
+> -	u8				IOTPeer;
+> +	u8 IOTPeer;
+>  	u32 iot_action;
+>  	u8 iot_ra_func;
+>  } __packed;
+> -- 
+> 2.39.2
+> 
 
-Signed-off-by: Emma Christy <emma.t.christy@gmail.com>
----
-Changes in v2:
-  - Fixed Singed-off-by.
-  - Fixed Subject line.
+Hi,
 
- drivers/staging/media/rkvdec/rkvdec-vp9.c | 1 -
- 1 file changed, 1 deletion(-)
+This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
+a patch that has triggered this response.  He used to manually respond
+to these common problems, but in order to save his sanity (he kept
+writing the same thing over and over, yet to different people), I was
+created.  Hopefully you will not take offence and will fix the problem
+in your patch and resubmit it so that it can be accepted into the Linux
+kernel tree.
 
-diff --git a/drivers/staging/media/rkvdec/rkvdec-vp9.c b/drivers/staging/media/rkvdec/rkvdec-vp9.c
-index cfae99b40ccb..0e7e16f20eeb 100644
---- a/drivers/staging/media/rkvdec/rkvdec-vp9.c
-+++ b/drivers/staging/media/rkvdec/rkvdec-vp9.c
-@@ -227,7 +227,6 @@ static void init_intra_only_probs(struct rkvdec_ctx *ctx,
- 				}
- 			}
- 		}
--
- 	}
- 
- 	for (i = 0; i < sizeof(v4l2_vp9_kf_uv_mode_prob); ++i) {
--- 
-2.40.1
+You are receiving this message because of the following common error(s)
+as indicated below:
 
+- Your patch did not apply to any known trees that Greg is in control
+  of.  Possibly this is because you made it against Linus's tree, not
+  the linux-next tree, which is where all of the development for the
+  next version of the kernel is at.  Please refresh your patch against
+  the linux-next tree, or even better yet, the development tree
+  specified in the MAINTAINERS file for the subsystem you are submitting
+  a patch for, and resend it.
+
+If you wish to discuss this problem further, or you have questions about
+how to resolve this issue, please feel free to respond to this email and
+Greg will reply once he has dug out from the pending patches received
+from other developers.
+
+thanks,
+
+greg k-h's patch email bot
