@@ -1,174 +1,89 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89F0CC15E
-	for <linux-staging@lists.linux.dev>; Wed, 21 Jun 2023 16:11:25 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A05D8C433C9;
-	Wed, 21 Jun 2023 16:11:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1687363885;
-	bh=aY+kT0+JqyQx8y2AX0tAhPCb42KDo/HOuIAFdI1ht4g=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=y1YrQ8Wv40W0BRfou8yaVAqGx2l/0cXZvtyLEk7Fm+PD8FloFGC2Thvv9h/JrBTzS
-	 fDIdnIsi29fnKnCQSzzqouwmpBilQu58FfcoOFnhH6OAWG8leKjjWSQDkumut19zLp
-	 0J52iwg32uGb1mkZ5+I4562U3VrGsNpakkB6m7Jg=
-Date: Wed, 21 Jun 2023 18:11:22 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Tree Davies <tdavies@darkphysics.net>
-Cc: philipp.g.hortmann@gmail.com, t4rmin@zohomail.com,
-	colin.i.king@gmail.com, dan.carpenter@linaro.org,
-	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
-Subject: Re: [PATCH v2] staging: rtl8192e: Remove whitespace and blank lines
-Message-ID: <2023062153-starlight-ebay-fac2@gregkh>
-References: <ZJJj6Bea1ahxNdr3@tacos.darkphysics>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C80AE2595
+	for <linux-staging@lists.linux.dev>; Wed, 21 Jun 2023 18:47:00 +0000 (UTC)
+Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-3f9b0f139feso42946515e9.3
+        for <linux-staging@lists.linux.dev>; Wed, 21 Jun 2023 11:47:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=googlemail.com; s=20221208; t=1687373218; x=1689965218;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=nYo99lmmTewHzSLHz5rZ/owoeDw2oYPDOJzFHz9WxPs=;
+        b=nCRuccDv25kfuyULNBKdSpL9aM+m2Mn7rhrWi+z+JBCQNZYAvOtmrgdh1IHBAFN/kR
+         RVk9NUIC4+oBheflOcP0mNjY9Du9hIcLRu70BrSuydrkWehrJVwPP5ivFHLQu4NlT/cL
+         gpQii0X9o0ivswTFxI9eRss4/FgeeltDKxTAsnXU9bMnx2q0rqhrgCIiZe8YD81nmBu9
+         W6Y8ubOK2we44UmxQE73QOdF9DZxc0W4hC03Agc2rTUkd/8vd7LcFRzpXaNsZmD8te2i
+         XT5ZaXtvAtssEMF81KCurh48P6nrIOL3SIoxKZ+cjIClzDsIquSylRdt/jR+VFziAIsi
+         1qZg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1687373218; x=1689965218;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=nYo99lmmTewHzSLHz5rZ/owoeDw2oYPDOJzFHz9WxPs=;
+        b=TkCmYYxcbQIYO7vrtpwKtetPpRsNKi+qZfq2e+oEkrX2Q6pUAE3BoM9KqgMI/WQn/P
+         kmAbGGZcFzdmg3RuAx81UTJzekILDAbvIbJBAc2uG7V2wwTRQpDyaaUZ1qafJB0QbV5d
+         HhoEAJSJvbZ5HwJLJacePLGku5FxWdGvn7xTNmUyPC4YYgpom3a+IHAMtU8fwDrx5+n1
+         5zxW0KLoy7sgPQgUEbc+ebQUsxsgBqNSuPr83xftWomDfInTdg/bfl2BhummP7nWbJmX
+         0MdCi/69Qxgqi5Nyh6hS6g4Gj3CfMT8z+6WASrS5NlEoDiUMEOuThlGeUyxGD6MV/0KC
+         WoGw==
+X-Gm-Message-State: AC+VfDy+35w1BuH0N2Qe2AAvuC0pmpVYipfO0S9YisL8dtimCrgodmrm
+	mHqDH6NT5PEXrChaPv71w4p59R67skwd1g==
+X-Google-Smtp-Source: ACHHUZ608OrPrCRicmKNuMNldpASeZXTDjZECtB94U+gfRTro8UWQpAH2WmLLZkHAY2xvsLLAvWW6Q==
+X-Received: by 2002:a1c:721a:0:b0:3f9:c1b:83cb with SMTP id n26-20020a1c721a000000b003f90c1b83cbmr9271747wmc.38.1687373218293;
+        Wed, 21 Jun 2023 11:46:58 -0700 (PDT)
+Received: from localhost.localdomain ([2a02:810a:9640:26a8:5d4c:afae:7fa:7038])
+        by smtp.gmail.com with ESMTPSA id n20-20020a1c7214000000b003f8d85b481esm16736774wmc.21.2023.06.21.11.46.57
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Wed, 21 Jun 2023 11:46:57 -0700 (PDT)
+From: Franziska Naepelt <franziska.naepelt@googlemail.com>
+X-Google-Original-From: Franziska Naepelt <franziska.naepelt@gmail.com>
+To: linux-staging@lists.linux.dev
+Cc: linux-kernel@vger.kernel.org,
+	eperi1024@gmail.com,
+	hdegoede@redhat.com,
+	quic_vjakkam@quicinc.com,
+	johannes.berg@intel.com,
+	tegongkang@gmail.com,
+	gregkh@linuxfoundation.org,
+	Franziska Naepelt <franziska.naepelt@gmail.com>
+Subject: [PATCH v2 0/5] Fix some checkpatch issues
+Date: Wed, 21 Jun 2023 20:46:35 +0200
+Message-Id: <20230621184635.25064-1-franziska.naepelt@gmail.com>
+X-Mailer: git-send-email 2.39.2 (Apple Git-143)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZJJj6Bea1ahxNdr3@tacos.darkphysics>
+Content-Transfer-Encoding: 8bit
 
-On Tue, Jun 20, 2023 at 07:43:52PM -0700, Tree Davies wrote:
-> This patch cleans up extraneous whitespace for the
-> struct rt_hi_throughput definition.
-> 
-> Signed-off-by: Tree Davies <tdavies@darkphysics.net>
-> ---
-> v2: Fix subject line and send patch inline.
->  drivers/staging/rtl8192e/rtl819x_HT.h | 63 ++++++++++-----------------
->  1 file changed, 23 insertions(+), 40 deletions(-)
-> 
-> diff --git a/drivers/staging/rtl8192e/rtl819x_HT.h b/drivers/staging/rtl8192e/rtl819x_HT.h
-> index f4e9fa849796..f5ab19694f1a 100644
-> --- a/drivers/staging/rtl8192e/rtl819x_HT.h
-> +++ b/drivers/staging/rtl8192e/rtl819x_HT.h
-> @@ -96,70 +96,53 @@ enum ht_aggre_mode {
->  
->  
->  struct rt_hi_throughput {
-> -	u8				enable_ht;
-> -	u8				bCurrentHTSupport;
-> -
-> -	u8				bRegBW40MHz;
-> -	u8				bCurBW40MHz;
-> -
-> -	u8				bRegShortGI40MHz;
-> -	u8				bCurShortGI40MHz;
-> -
-> -	u8				bRegShortGI20MHz;
-> -	u8				bCurShortGI20MHz;
-> -
-> -	u8				bRegSuppCCK;
-> -	u8				bCurSuppCCK;
-> -
-> +	u8 enable_ht;
-> +	u8 bCurrentHTSupport;
-> +	u8 bRegBW40MHz;
-> +	u8 bCurBW40MHz;
-> +	u8 bRegShortGI40MHz;
-> +	u8 bCurShortGI40MHz;
-> +	u8 bRegShortGI20MHz;
-> +	u8 bCurShortGI20MHz;
-> +	u8 bRegSuppCCK;
-> +	u8 bCurSuppCCK;
->  	enum ht_spec_ver ePeerHTSpecVer;
-> -
-> -
->  	struct ht_capab_ele SelfHTCap;
->  	struct ht_info_ele SelfHTInfo;
-> -
-> -	u8				PeerHTCapBuf[32];
-> -	u8				PeerHTInfoBuf[32];
-> -
-> -
-> -	u8				bAMSDU_Support;
-> -	u16				nAMSDU_MaxSize;
-> -	u8				bCurrent_AMSDU_Support;
-> -	u16				nCurrent_AMSDU_MaxSize;
-> -
-> -	u8				bAMPDUEnable;
-> -	u8				bCurrentAMPDUEnable;
-> -	u8				AMPDU_Factor;
-> -	u8				CurrentAMPDUFactor;
-> -	u8				MPDU_Density;
-> +	u8 PeerHTCapBuf[32];
-> +	u8 PeerHTInfoBuf[32];
-> +	u8 bAMSDU_Support;
-> +	u16	nAMSDU_MaxSize;
-> +	u8 bCurrent_AMSDU_Support;
-> +	u16	nCurrent_AMSDU_MaxSize;
-> +	u8 bAMPDUEnable;
-> +	u8 bCurrentAMPDUEnable;
-> +	u8 AMPDU_Factor;
-> +	u8 CurrentAMPDUFactor;
-> +	u8 MPDU_Density;
->  	u8 current_mpdu_density;
-> -
->  	enum ht_aggre_mode ForcedAMPDUMode;
->  	u8 forced_ampdu_factor;
->  	u8 forced_mpdu_density;
-> -
->  	enum ht_aggre_mode ForcedAMSDUMode;
->  	u8 forced_short_gi;
-> -
->  	u8 current_op_mode;
-> -
->  	u8 self_mimo_ps;
->  	u8 peer_mimo_ps;
-> -
->  	enum ht_extchnl_offset CurSTAExtChnlOffset;
->  	u8 cur_tx_bw40mhz;
->  	u8 sw_bw_in_progress;
->  	u8 reg_rt2rt_aggregation;
-> -	u8				RT2RT_HT_Mode;
-> +	u8 RT2RT_HT_Mode;
->  	u8 current_rt2rt_aggregation;
->  	u8 current_rt2rt_long_slot_time;
->  	u8 sz_rt2rt_agg_buf[10];
-> -
->  	u8 reg_rx_reorder_enable;
->  	u8 cur_rx_reorder_enable;
->  	u8 rx_reorder_win_size;
->  	u8 rx_reorder_pending_time;
->  	u16 rx_reorder_drop_counter;
-> -	u8				IOTPeer;
-> +	u8 IOTPeer;
->  	u32 iot_action;
->  	u8 iot_ra_func;
->  } __packed;
-> -- 
-> 2.39.2
-> 
+This is a series of patches to fix some trivial checkpatch issues. Not all
+issues have been fixed. I intend to submit another series to fix more stuff.
 
-Hi,
+Testing:
+* Build the kernel with `CONFIG_RTL8723BS=m`
+* Boot the kernel with busybox in initramfs
+* Load the module
+-> No errors or warnings
 
-This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
-a patch that has triggered this response.  He used to manually respond
-to these common problems, but in order to save his sanity (he kept
-writing the same thing over and over, yet to different people), I was
-created.  Hopefully you will not take offence and will fix the problem
-in your patch and resubmit it so that it can be accepted into the Linux
-kernel tree.
+---
+v2: Move blank line change from commit 2 to commit 4
 
-You are receiving this message because of the following common error(s)
-as indicated below:
+Franziska Naepelt (5):
+  staging: rtl8723bs: Fix indentation issues
+  staging: rtl8723bs: Fix space issues
+  staging: rtl8723bs: Fix block comment issue
+  staging: rtl8723bs: Fix blank line issues
+  staging: rtl8723bs: Fix alignment open parenthesis
 
-- Your patch did not apply to any known trees that Greg is in control
-  of.  Possibly this is because you made it against Linus's tree, not
-  the linux-next tree, which is where all of the development for the
-  next version of the kernel is at.  Please refresh your patch against
-  the linux-next tree, or even better yet, the development tree
-  specified in the MAINTAINERS file for the subsystem you are submitting
-  a patch for, and resend it.
+ .../staging/rtl8723bs/os_dep/ioctl_cfg80211.c | 224 +++++++-----------
+ 1 file changed, 92 insertions(+), 132 deletions(-)
 
-If you wish to discuss this problem further, or you have questions about
-how to resolve this issue, please feel free to respond to this email and
-Greg will reply once he has dug out from the pending patches received
-from other developers.
 
-thanks,
+base-commit: 45a3e24f65e90a047bef86f927ebdc4c710edaa1
+--
+2.39.2 (Apple Git-143)
 
-greg k-h's patch email bot
