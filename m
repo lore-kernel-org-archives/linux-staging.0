@@ -1,43 +1,43 @@
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
+Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com [209.85.167.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73BB618C28
-	for <linux-staging@lists.linux.dev>; Wed, 21 Jun 2023 18:52:28 +0000 (UTC)
-Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-3090d3e9c92so7151661f8f.2
-        for <linux-staging@lists.linux.dev>; Wed, 21 Jun 2023 11:52:28 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85A0518C28
+	for <linux-staging@lists.linux.dev>; Wed, 21 Jun 2023 18:52:58 +0000 (UTC)
+Received: by mail-lf1-f51.google.com with SMTP id 2adb3069b0e04-4f004cc54f4so8680505e87.3
+        for <linux-staging@lists.linux.dev>; Wed, 21 Jun 2023 11:52:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlemail.com; s=20221208; t=1687373546; x=1689965546;
+        d=googlemail.com; s=20221208; t=1687373576; x=1689965576;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=2XxKRhii9jz/SSvnP3Rvp5gqtHBBhqPsoYXbvA85nbE=;
-        b=Z/uOYZ0+9cASIRm8wVzTOGHyi13TTBA6v/wOgeDiRBTEBX7nBfyEZZUBZJuQKQsl6H
-         k6280uj60OXlUd2FjoLZixxB9t94YGz5DtxEtX14io16mjbTxFWPebxdMxBHJuKY/e3o
-         6MFsurvRpcxVI8XLJijqjdawIdtLJcx/kXu5M4VHsCmf5bMuZLHiVneTaTo8heHtxxCg
-         pmKFgMq0TcMjbbxJntpx197c34mgZMwU5iqwWiCQw2AgydqV5RoWDZeCt7bGdMHL6dhK
-         fVyAHp4ZEpCg6W1OLkZnas4F/5pI0Iw3zepiLt5xQ+j0FHSEkTEw+AheeogfuEmR1k1l
-         wuOg==
+        bh=2YRiupOCUSfro8Q/9oyxaI+CCWZXMNt299nMeuHo3LM=;
+        b=n7IhLCBWGp9VoSxr8L1eXKpHDWYgIC9mZYIlsTjcyTgfZCJQuEVCgIQ4N5USK6tPdb
+         bsjXTn65pAgaHVjeHX0XxoLd+eVuBX/6AS9QK4HLQ2xON3PPH88oI43eM1K6G8OI/TK/
+         COyBswnq6BxTKZnYaFG0Gl2NlbRe8giaGVojgtBmjc1yTkQ6VWoUeAijc+4/vB4Z6jGA
+         oWPWE4/ELy47twulDMrW/uwWUdFKibCEKyQ+EBptjuFL4kPKFJLvjKC+dTtxz2oabnvd
+         v8ORvmQQdOtodMR97ZcHs7bbeCx7Hzb2D8iW5I5vREIpOPomvuLoLBlXu9gcMgYfHkzl
+         x5qA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1687373546; x=1689965546;
+        d=1e100.net; s=20221208; t=1687373576; x=1689965576;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=2XxKRhii9jz/SSvnP3Rvp5gqtHBBhqPsoYXbvA85nbE=;
-        b=NhOM2dqALLkHeH4gc65m+A8itFbmuN0xQZw05q9ETDeO4tkokZuxWptZDhU06j1mw6
-         IoNI0RDRBtdlpunTti5l07ZEt9bGdQdk4SzW0B7oghUwSafplqy9jGR3/Trpse/iXx7W
-         FupKTSV+GEXSR0MArsfDU+KDlCKfQzjcAsXZ9KmhLAMHxjU+HE4CuOClqmVNeMI4+xfa
-         2gbV+7EFwWnnN3I4lMZi1k15ZEL8xZKsxGmfKpldRlGrZWPMUYrW/YP37nPvQhTxCugt
-         Il8xTCU2O5KyBvsfMTRBmRsWO8fa5uICPnHCKFgAWypdKZOdcVV91jxTfDfuoQGgBgdu
-         OjIg==
-X-Gm-Message-State: AC+VfDy792QB2+pUooI0QWfUziuXodle/rPzRy93xrIbIEnpz0C8E6Wr
-	jfRpnz7CxGWj9xUxuFGGW9o=
-X-Google-Smtp-Source: ACHHUZ5pp77gkfir8AIg/D/+2YLp/SO2okjskiHOqbuj+aqu6SV/kzcjOB3Hp690aWnawGAmHFw+Bw==
-X-Received: by 2002:adf:cd91:0:b0:312:74a9:825a with SMTP id q17-20020adfcd91000000b0031274a9825amr7727511wrj.62.1687373546236;
-        Wed, 21 Jun 2023 11:52:26 -0700 (PDT)
+        bh=2YRiupOCUSfro8Q/9oyxaI+CCWZXMNt299nMeuHo3LM=;
+        b=d4eUxHqRJq/rZd1hbHNBFEtsP/+s7eZ+FneIDqA/Kyf/nDUsUOCMPdht5CpR1EdPuI
+         JwY4m+bm1zLbVUg/6DFQ/jigTYh20Xvw7TcztVfEL8S7Xh98D2J1VfiMjEWrA3i0C8p+
+         naRYpao/OAvkjXCX4Io2MaIUR2w56NGNM1DwtNeootzPTSleoFR1jLWEIOsuWR9w6XOF
+         KP+GAkIx0p3XXATphrR+z4SseOp/HSbdaFVcWHKS/BiUvnDg1Woq0MC230PgyzkblPLs
+         YNVCS1W1BB250mrrM3jpZgU2H4h5Er1cNjHYQivwF9II/YzXKNzchb/XC4q9MwKtyvsq
+         vqWw==
+X-Gm-Message-State: AC+VfDzAsRuaqyKyUoA81xFNoRpGdag/ImKFBdM8jAT6k/Auf+orXKdL
+	YL9BdwCAFkJZok0mQqm7St4=
+X-Google-Smtp-Source: ACHHUZ6W6LhlchgK22SEtatwlG5kmv0rEU6LJ8Eh91nnTz7/sOqBLxwESdPVVF23VdUkMdlogCyfzQ==
+X-Received: by 2002:a19:380d:0:b0:4f8:565e:f4ae with SMTP id f13-20020a19380d000000b004f8565ef4aemr9143048lfa.39.1687373576369;
+        Wed, 21 Jun 2023 11:52:56 -0700 (PDT)
 Received: from localhost.localdomain ([2a02:810a:9640:26a8:5d4c:afae:7fa:7038])
-        by smtp.gmail.com with ESMTPSA id n6-20020a7bcbc6000000b003f7e4d143cfsm5745734wmi.15.2023.06.21.11.52.25
+        by smtp.gmail.com with ESMTPSA id l20-20020a1ced14000000b003f9b19caabesm5725118wmh.37.2023.06.21.11.52.55
         (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Wed, 21 Jun 2023 11:52:25 -0700 (PDT)
+        Wed, 21 Jun 2023 11:52:55 -0700 (PDT)
 From: Franziska Naepelt <franziska.naepelt@googlemail.com>
 X-Google-Original-From: Franziska Naepelt <franziska.naepelt@gmail.com>
 To: franziska.naepelt@googlemail.com
@@ -50,9 +50,9 @@ Cc: eperi1024@gmail.com,
 	linux-staging@lists.linux.dev,
 	quic_vjakkam@quicinc.com,
 	tegongkang@gmail.com
-Subject: [PATCH v2 2/5] staging: rtl8723bs: Fix space issues
-Date: Wed, 21 Jun 2023 20:52:23 +0200
-Message-Id: <20230621185223.25193-1-franziska.naepelt@gmail.com>
+Subject: [PATCH v2 3/5] staging: rtl8723bs: Fix block comment issue
+Date: Wed, 21 Jun 2023 20:52:53 +0200
+Message-Id: <20230621185253.25241-1-franziska.naepelt@gmail.com>
 X-Mailer: git-send-email 2.39.2 (Apple Git-143)
 In-Reply-To: <20230621184635.25064-1-franziska.naepelt@gmail.com>
 References: <20230621184635.25064-1-franziska.naepelt@gmail.com>
@@ -64,248 +64,35 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Fix the following checkpatch space issues:
-- CHECK: spaces preferred around that '*' (ctx:VxV)
-- CHECK: spaces preferred around that '+' (ctx:VxV)
-- CHECK: spaces preferred around that '-' (ctx:VxV)
-- CHECK: spaces preferred around that '|' (ctx:VxV)
-- CHECK: No space is necessary after a cast
-- WARNING: please, no spaces at the start of a line
+Fix the following checkpatch block comment issue:
+- WARNING: Block comments use * on subsequent lines
 
 Signed-off-by: Franziska Naepelt <franziska.naepelt@gmail.com>
 ---
-v2: Remove blank line fix
----
- .../staging/rtl8723bs/os_dep/ioctl_cfg80211.c | 76 +++++++++----------
- 1 file changed, 38 insertions(+), 38 deletions(-)
+ drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
 diff --git a/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c b/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
-index 1afd1a93bcee..ca642eb5d73e 100644
+index ca642eb5d73e..3b64d0f1b4df 100644
 --- a/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
 +++ b/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
-@@ -95,14 +95,14 @@ static struct ieee80211_channel rtw_2ghz_channels[] = {
- static void rtw_2g_channels_init(struct ieee80211_channel *channels)
+@@ -329,11 +329,11 @@ struct cfg80211_bss *rtw_cfg80211_inform_bss(struct adapter *padapter, struct wl
+ }
+ 
+ /*
+-	Check the given bss is valid by kernel API cfg80211_get_bss()
+-	@padapter : the given adapter
+-
+-	return true if bss is valid,  false for not found.
+-*/
++ *	Check the given bss is valid by kernel API cfg80211_get_bss()
++ *	@padapter : the given adapter
++ *
++ *	return true if bss is valid,  false for not found.
++ */
+ int rtw_cfg80211_check_bss(struct adapter *padapter)
  {
- 	memcpy((void *)channels, (void *)rtw_2ghz_channels,
--		sizeof(struct ieee80211_channel)*RTW_2G_CHANNELS_NUM
-+		sizeof(struct ieee80211_channel) * RTW_2G_CHANNELS_NUM
- 	);
- }
-
- static void rtw_2g_rates_init(struct ieee80211_rate *rates)
- {
- 	memcpy(rates, rtw_g_rates,
--		sizeof(struct ieee80211_rate)*RTW_G_RATES_NUM
-+		sizeof(struct ieee80211_rate) * RTW_G_RATES_NUM
- 	);
- }
-
-@@ -126,8 +126,8 @@ static struct ieee80211_supported_band *rtw_spt_band_alloc(
- 	if (!spt_band)
- 		goto exit;
-
--	spt_band->channels = (struct ieee80211_channel *)(((u8 *)spt_band)+sizeof(struct ieee80211_supported_band));
--	spt_band->bitrates = (struct ieee80211_rate *)(((u8 *)spt_band->channels)+sizeof(struct ieee80211_channel)*n_channels);
-+	spt_band->channels = (struct ieee80211_channel *)(((u8 *)spt_band) + sizeof(struct ieee80211_supported_band));
-+	spt_band->bitrates = (struct ieee80211_rate *)(((u8 *)spt_band->channels) + sizeof(struct ieee80211_channel) * n_channels);
- 	spt_band->band = band;
- 	spt_band->n_channels = n_channels;
- 	spt_band->n_bitrates = n_bitrates;
-@@ -247,10 +247,10 @@ struct cfg80211_bss *rtw_cfg80211_inform_bss(struct adapter *padapter, struct wl
- 		u32 wpsielen = 0;
- 		u8 *wpsie = NULL;
-
--		wpsie = rtw_get_wps_ie(pnetwork->network.ies+_FIXED_IE_LENGTH_, pnetwork->network.ie_length-_FIXED_IE_LENGTH_, NULL, &wpsielen);
-+		wpsie = rtw_get_wps_ie(pnetwork->network.ies + _FIXED_IE_LENGTH_, pnetwork->network.ie_length - _FIXED_IE_LENGTH_, NULL, &wpsielen);
-
- 		if (wpsie && wpsielen > 0)
--			psr = rtw_get_wps_attr_content(wpsie,  wpsielen, WPS_ATTR_SELECTED_REGISTRAR, (u8 *)(&sr), NULL);
-+			psr = rtw_get_wps_attr_content(wpsie, wpsielen, WPS_ATTR_SELECTED_REGISTRAR, (u8 *)(&sr), NULL);
-
- 		if (sr != 0) {
- 			/* it means under processing WPS */
-@@ -277,9 +277,9 @@ struct cfg80211_bss *rtw_cfg80211_inform_bss(struct adapter *padapter, struct wl
- 	/* We've set wiphy's signal_type as CFG80211_SIGNAL_TYPE_MBM: signal strength in mBm (100*dBm) */
- 	if (check_fwstate(pmlmepriv, _FW_LINKED) == true &&
- 		is_same_network(&pmlmepriv->cur_network.network, &pnetwork->network, 0)) {
--		notify_signal = 100*translate_percentage_to_dbm(padapter->recvpriv.signal_strength);/* dbm */
-+		notify_signal = 100 * translate_percentage_to_dbm(padapter->recvpriv.signal_strength);/* dbm */
- 	} else {
--		notify_signal = 100*translate_percentage_to_dbm(pnetwork->network.phy_info.signal_strength);/* dbm */
-+		notify_signal = 100 * translate_percentage_to_dbm(pnetwork->network.phy_info.signal_strength);/* dbm */
- 	}
-
- 	buf = kzalloc(MAX_BSSINFO_LEN, GFP_ATOMIC);
-@@ -452,20 +452,20 @@ void rtw_cfg80211_indicate_connect(struct adapter *padapter)
- 		roam_info.links[0].channel = notify_channel;
- 		roam_info.links[0].bssid = cur_network->network.mac_address;
- 		roam_info.req_ie =
--			pmlmepriv->assoc_req+sizeof(struct ieee80211_hdr_3addr)+2;
-+			pmlmepriv->assoc_req + sizeof(struct ieee80211_hdr_3addr) + 2;
- 		roam_info.req_ie_len =
--			pmlmepriv->assoc_req_len-sizeof(struct ieee80211_hdr_3addr)-2;
-+			pmlmepriv->assoc_req_len - sizeof(struct ieee80211_hdr_3addr) - 2;
- 		roam_info.resp_ie =
--			pmlmepriv->assoc_rsp+sizeof(struct ieee80211_hdr_3addr)+6;
-+			pmlmepriv->assoc_rsp + sizeof(struct ieee80211_hdr_3addr) + 6;
- 		roam_info.resp_ie_len =
--			pmlmepriv->assoc_rsp_len-sizeof(struct ieee80211_hdr_3addr)-6;
-+			pmlmepriv->assoc_rsp_len - sizeof(struct ieee80211_hdr_3addr) - 6;
- 		cfg80211_roamed(padapter->pnetdev, &roam_info, GFP_ATOMIC);
- 	} else {
- 		cfg80211_connect_result(padapter->pnetdev, cur_network->network.mac_address
--			, pmlmepriv->assoc_req+sizeof(struct ieee80211_hdr_3addr)+2
--			, pmlmepriv->assoc_req_len-sizeof(struct ieee80211_hdr_3addr)-2
--			, pmlmepriv->assoc_rsp+sizeof(struct ieee80211_hdr_3addr)+6
--			, pmlmepriv->assoc_rsp_len-sizeof(struct ieee80211_hdr_3addr)-6
-+			, pmlmepriv->assoc_req + sizeof(struct ieee80211_hdr_3addr) + 2
-+			, pmlmepriv->assoc_req_len - sizeof(struct ieee80211_hdr_3addr) - 2
-+			, pmlmepriv->assoc_rsp + sizeof(struct ieee80211_hdr_3addr) + 6
-+			, pmlmepriv->assoc_rsp_len - sizeof(struct ieee80211_hdr_3addr) - 6
- 			, WLAN_STATUS_SUCCESS, GFP_ATOMIC);
- 	}
- }
-@@ -720,7 +720,7 @@ static int rtw_cfg80211_set_encryption(struct net_device *dev, struct ieee_param
- 	param->u.crypt.err = 0;
- 	param->u.crypt.alg[IEEE_CRYPT_ALG_NAME_LEN - 1] = '\0';
-
--	if (param_len < (u32) ((u8 *) param->u.crypt.key - (u8 *) param) + param->u.crypt.key_len) {
-+	if (param_len < (u32)((u8 *)param->u.crypt.key - (u8 *)param) + param->u.crypt.key_len) {
- 		ret =  -EINVAL;
- 		goto exit;
- 	}
-@@ -1035,10 +1035,10 @@ static int cfg80211_rtw_get_station(struct wiphy *wiphy,
- 	}
-
- 	/* for Ad-Hoc/AP mode */
--	if ((check_fwstate(pmlmepriv, WIFI_ADHOC_STATE)
-- || check_fwstate(pmlmepriv, WIFI_ADHOC_MASTER_STATE)
-- || check_fwstate(pmlmepriv, WIFI_AP_STATE))
--		&& check_fwstate(pmlmepriv, _FW_LINKED)) {
-+	if ((check_fwstate(pmlmepriv, WIFI_ADHOC_STATE) ||
-+	     check_fwstate(pmlmepriv, WIFI_ADHOC_MASTER_STATE) ||
-+	     check_fwstate(pmlmepriv, WIFI_AP_STATE)) &&
-+	    check_fwstate(pmlmepriv, _FW_LINKED)) {
- 		/* TODO: should acquire station info... */
- 	}
-
-@@ -1237,7 +1237,7 @@ static int cfg80211_rtw_scan(struct wiphy *wiphy
- 	spin_unlock_bh(&pwdev_priv->scan_req_lock);
-
- 	if (check_fwstate(pmlmepriv, WIFI_AP_STATE) == true) {
--		if (check_fwstate(pmlmepriv, WIFI_UNDER_WPS|_FW_UNDER_SURVEY|_FW_UNDER_LINKING) == true) {
-+		if (check_fwstate(pmlmepriv, WIFI_UNDER_WPS | _FW_UNDER_SURVEY | _FW_UNDER_LINKING) == true) {
- 			need_indicate_scan_done = true;
- 			goto check_need_indicate_scan_done;
- 		}
-@@ -1291,7 +1291,7 @@ static int cfg80211_rtw_scan(struct wiphy *wiphy
- 	}
-
- 	/* parsing channels, n_channels */
--	memset(ch, 0, sizeof(struct rtw_ieee80211_channel)*RTW_CHANNEL_SCAN_AMOUNT);
-+	memset(ch, 0, sizeof(struct rtw_ieee80211_channel) * RTW_CHANNEL_SCAN_AMOUNT);
- 	for (i = 0; i < request->n_channels && i < RTW_CHANNEL_SCAN_AMOUNT; i++) {
- 		ch[i].hw_value = request->channels[i]->hw_value;
- 		ch[i].flags = request->channels[i]->flags;
-@@ -1305,7 +1305,7 @@ static int cfg80211_rtw_scan(struct wiphy *wiphy
- 	} else if (request->n_channels <= 4) {
- 		for (j = request->n_channels - 1; j >= 0; j--)
- 			for (i = 0; i < survey_times; i++)
--				memcpy(&ch[j*survey_times+i], &ch[j], sizeof(struct rtw_ieee80211_channel));
-+				memcpy(&ch[j * survey_times + i], &ch[j], sizeof(struct rtw_ieee80211_channel));
- 		_status = rtw_sitesurvey_cmd(padapter, ssid, RTW_SSID_SCAN_AMOUNT, ch, survey_times * request->n_channels);
- 	} else {
- 		_status = rtw_sitesurvey_cmd(padapter, ssid, RTW_SSID_SCAN_AMOUNT, NULL, 0);
-@@ -1461,7 +1461,7 @@ static int rtw_cfg80211_set_wpa_ie(struct adapter *padapter, u8 *pie, size_t iel
- 		goto exit;
- 	}
-
--	if (ielen > MAX_WPA_IE_LEN+MAX_WPS_IE_LEN+MAX_P2P_IE_LEN) {
-+	if (ielen > MAX_WPA_IE_LEN + MAX_WPS_IE_LEN + MAX_P2P_IE_LEN) {
- 		ret = -EINVAL;
- 		goto exit;
- 	}
-@@ -1481,19 +1481,19 @@ static int rtw_cfg80211_set_wpa_ie(struct adapter *padapter, u8 *pie, size_t iel
-
- 	pwpa = rtw_get_wpa_ie(buf, &wpa_ielen, ielen);
- 	if (pwpa && wpa_ielen > 0) {
--		if (rtw_parse_wpa_ie(pwpa, wpa_ielen+2, &group_cipher, &pairwise_cipher, NULL) == _SUCCESS) {
-+		if (rtw_parse_wpa_ie(pwpa, wpa_ielen + 2, &group_cipher, &pairwise_cipher, NULL) == _SUCCESS) {
- 			padapter->securitypriv.dot11AuthAlgrthm = dot11AuthAlgrthm_8021X;
- 			padapter->securitypriv.ndisauthtype = Ndis802_11AuthModeWPAPSK;
--			memcpy(padapter->securitypriv.supplicant_ie, &pwpa[0], wpa_ielen+2);
-+			memcpy(padapter->securitypriv.supplicant_ie, &pwpa[0], wpa_ielen + 2);
- 		}
- 	}
-
- 	pwpa2 = rtw_get_wpa2_ie(buf, &wpa2_ielen, ielen);
- 	if (pwpa2 && wpa2_ielen > 0) {
--		if (rtw_parse_wpa2_ie(pwpa2, wpa2_ielen+2, &group_cipher, &pairwise_cipher, NULL) == _SUCCESS) {
-+		if (rtw_parse_wpa2_ie(pwpa2, wpa2_ielen + 2, &group_cipher, &pairwise_cipher, NULL) == _SUCCESS) {
- 			padapter->securitypriv.dot11AuthAlgrthm = dot11AuthAlgrthm_8021X;
- 			padapter->securitypriv.ndisauthtype = Ndis802_11AuthModeWPA2PSK;
--			memcpy(padapter->securitypriv.supplicant_ie, &pwpa2[0], wpa2_ielen+2);
-+			memcpy(padapter->securitypriv.supplicant_ie, &pwpa2[0], wpa2_ielen + 2);
- 		}
- 	}
-
-@@ -1892,7 +1892,7 @@ static int cfg80211_rtw_set_pmksa(struct wiphy *wiphy,
-
- 			memcpy(psecuritypriv->PMKIDList[index].PMKID, (u8 *)pmksa->pmkid, WLAN_PMKID_LEN);
- 			psecuritypriv->PMKIDList[index].bUsed = true;
--			psecuritypriv->PMKIDIndex = index+1;
-+			psecuritypriv->PMKIDIndex = index + 1;
- 			blInserted = true;
- 			break;
- 		}
-@@ -2094,8 +2094,8 @@ static netdev_tx_t rtw_cfg80211_monitor_if_xmit_entry(struct sk_buff *skb, struc
- 		_rtw_xmit_entry(skb, padapter->pnetdev);
- 		return NETDEV_TX_OK;
-
--	} else if ((frame_control & (IEEE80211_FCTL_FTYPE|IEEE80211_FCTL_STYPE)) ==
--		   (IEEE80211_FTYPE_MGMT|IEEE80211_STYPE_ACTION)) {
-+	} else if ((frame_control & (IEEE80211_FCTL_FTYPE | IEEE80211_FCTL_STYPE)) ==
-+		   (IEEE80211_FTYPE_MGMT | IEEE80211_STYPE_ACTION)) {
- 		/* only for action frames */
- 		struct xmit_frame		*pmgntframe;
- 		struct pkt_attrib	*pattrib;
-@@ -2209,7 +2209,7 @@ static int rtw_cfg80211_add_monitor_if(struct adapter *padapter, char *name, str
- 		goto out;
-
- 	*ndev = pwdev_priv->pmon_ndev = mon_ndev;
--	memcpy(pwdev_priv->ifname_mon, name, IFNAMSIZ+1);
-+	memcpy(pwdev_priv->ifname_mon, name, IFNAMSIZ + 1);
-
- out:
- 	if (ret && mon_wdev) {
-@@ -2303,14 +2303,14 @@ static int rtw_add_beacon(struct adapter *adapter, const u8 *head, size_t head_l
- 	if (head_len < 24)
- 		return -EINVAL;
-
--	pbuf = rtw_zmalloc(head_len+tail_len);
-+	pbuf = rtw_zmalloc(head_len + tail_len);
- 	if (!pbuf)
- 		return -ENOMEM;
-
--	memcpy(pbuf, (void *)head+24, head_len-24);/*  24 =beacon header len. */
--	memcpy(pbuf+head_len-24, (void *)tail, tail_len);
-+	memcpy(pbuf, (void *)head + 24, head_len - 24);/*  24 =beacon header len. */
-+	memcpy(pbuf + head_len - 24, (void *)tail, tail_len);
-
--	len = head_len+tail_len-24;
-+	len = head_len + tail_len - 24;
-
- 	/* check wps ie if inclued */
- 	rtw_get_wps_ie(pbuf + _FIXED_IE_LENGTH_, len - _FIXED_IE_LENGTH_, NULL, &wps_ielen);
-@@ -2600,7 +2600,7 @@ static int cfg80211_rtw_mgmt_tx(struct wiphy *wiphy,
- 	pwdev_priv = adapter_wdev_data(padapter);
-
- 	/* cookie generation */
--	*cookie = (unsigned long) buf;
-+	*cookie = (unsigned long)buf;
-
- 	/* indicate ack before issue frame to avoid racing with rsp frame */
- 	rtw_cfg80211_mgmt_tx_status(padapter, *cookie, buf, len, ack, GFP_KERNEL);
---
+ 	struct wlan_bssid_ex  *pnetwork = &(padapter->mlmeextpriv.mlmext_info.network);
+-- 
 2.39.2 (Apple Git-143)
 
