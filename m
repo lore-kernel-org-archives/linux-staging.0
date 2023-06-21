@@ -1,138 +1,310 @@
-Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BC712595
-	for <linux-staging@lists.linux.dev>; Wed, 21 Jun 2023 19:03:10 +0000 (UTC)
-Received: by mail-ed1-f43.google.com with SMTP id 4fb4d7f45d1cf-5195c85fbb2so7765682a12.2
-        for <linux-staging@lists.linux.dev>; Wed, 21 Jun 2023 12:03:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlemail.com; s=20221208; t=1687374189; x=1689966189;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=2qJpK3KoDKaGdMPnFBYoOsKrBkC97FAcba3H7MKp0D0=;
-        b=nh5zxwadRpoXTQ3BUgU/1BLF6SQhW3sLu/FN0MPW28V6gNaXWgcdK9UVdz0HOC+gPc
-         4S5UiiNr7ZAvadn4n7T1ZS5zKHmkKpwJxk22rtwOlcjoups6t2HLOvPnhWnoHX8JLr39
-         E8weSpizuP2wRFAhj4DV9xzwN1V8M6lmGWEL0qRE+9Z/FuqeUhwNE1dmiE4o/FJUeeuc
-         Pdp9KyY0ekOl4O57j/VZmXeGNCkmRYg8HZr17rzARcWLbg0bMg/aEAK/p0gKdyHsK/kH
-         Xmhdbh8wRqYFVkttif54yoWDlDFKcZM0dNugSMrJV31P7SUZqT2ELH9RNLO9iUAB3R78
-         2Yng==
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E4A719931
+	for <linux-staging@lists.linux.dev>; Wed, 21 Jun 2023 19:08:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1687374491;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=NEmlXOWN5xon1mu2udWpriWSvGoI+UuGNBEZkTcUaEU=;
+	b=ZWzma1dg23IfxuQ6tCEZ/wnTpsrl+OXT2eJYsD/c12cmrhuiBgzgIDawsb4I6VteDvNlFM
+	dDUFHS/NPVYkBJiQv1WeItjBG1HTU05C76zzlNH3DcFrLBwXly5oEqzjSVFXYRWzrimO/C
+	btnMyHWUjuOyGH2MPj0xHY1tKAsaLGE=
+Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
+ [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-483-iRuhK_1KO7q3jeTGFYzmHw-1; Wed, 21 Jun 2023 15:08:10 -0400
+X-MC-Unique: iRuhK_1KO7q3jeTGFYzmHw-1
+Received: by mail-ej1-f69.google.com with SMTP id a640c23a62f3a-987ffac39e3so308889566b.0
+        for <linux-staging@lists.linux.dev>; Wed, 21 Jun 2023 12:08:09 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1687374189; x=1689966189;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=2qJpK3KoDKaGdMPnFBYoOsKrBkC97FAcba3H7MKp0D0=;
-        b=dokDOK5NYuUjp8+G6T5rQfUILgeZP7GkT0TA7h/jaeFM6Gi+JJhMUQGUMeX9Ob6BoA
-         xGySwK1SF814uKbrkiSQ3Kp9jH30HIT8o8As7HfaqYti8qtqHmgGwX9sqXJ0rvzGsc4c
-         8IMtl7y1S4SsVWoG/LkX49HdsnjPcKQlFb/0kic6FfDfpC1Lwb53ikwyIL8uR9pbVn+m
-         i7LauZtC8zDXCDJ2qxD3NDFKYIfn7bPlwaTHvBNGqFZt/iBP//vBjZLM6df4CaNiX+s9
-         6FJSY15B0V0vqEw7slBQNGDnrLrY3kPFdmqZulFnrOz34SyFgVPnb7mb6hEmM1x8zLf5
-         FePg==
-X-Gm-Message-State: AC+VfDzlYMEd9XTpyPMA/T9J+gNhMPD3y2E8rL7zPUbUela4Q2myYzWx
-	9qsoAgxg68qimfIpWOvqXGcaMczKADSE7U6EKGY=
-X-Google-Smtp-Source: ACHHUZ7SypqJEY5XWqBQ5BLPLUT82ZBr/MF6PmEhc6Gkt+Akzrao0BrYO+qjY7IUaWCiWD14akrvvIqkCPpk3J1W6Wc=
-X-Received: by 2002:a17:907:783:b0:982:79fa:4532 with SMTP id
- xd3-20020a170907078300b0098279fa4532mr14816708ejb.53.1687374188952; Wed, 21
- Jun 2023 12:03:08 -0700 (PDT)
+        d=1e100.net; s=20221208; t=1687374489; x=1689966489;
+        h=content-transfer-encoding:in-reply-to:from:references:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=NEmlXOWN5xon1mu2udWpriWSvGoI+UuGNBEZkTcUaEU=;
+        b=hRevIMvSMQzKxHDUeA6XauTaCXeZKFWssimrNPp5QDUDL/6ma0CkZAe9RLeMgjhsS2
+         0ZaKEni3YZImo/78+XrwB0t/QIUlGMzrgyh1xz7YpSVTPUz+r4iN5zamduGvzF4CJmde
+         v2D07pAWaWvPwy/eYvgN7RO0R1qLjjqzfzPb3UdxmI/XEIj5poK7/1VAjFvcwQTflFIC
+         KL0eKhOXI74XlBe2KzXTliCFO1IUpME3fVoWvs++gK59UaPshewgtoNVFVllrSkjcOe3
+         uXCwJbAGvVTw1xih7nOSBV+mMvszOJvEIRudslBzQaMGp18ctbODsYspC6nfKVGnLswF
+         lGuw==
+X-Gm-Message-State: AC+VfDxCJrNkITrAoa2JRiZNJ2xw4Ext632/SLTY2Nij2P6q22BK4de2
+	/PVoESc9NRfgowuXKCKa/KDCwmvyWjYmZVWrN2SHIr/Odd6Y/oneiVEFbISL5Wu0h3Xr/pg+RGm
+	VHfqOTabHdypvhtvPCsljgyBt+A==
+X-Received: by 2002:a17:907:72c7:b0:98c:e72c:6b83 with SMTP id du7-20020a17090772c700b0098ce72c6b83mr1485908ejc.45.1687374488852;
+        Wed, 21 Jun 2023 12:08:08 -0700 (PDT)
+X-Google-Smtp-Source: ACHHUZ4iMKcEBF8XNyTnb7TbftEc8afsFeexMwbjEJir+5Sa5+cI2kuUFld49cWsjdK20n5b4A0hEg==
+X-Received: by 2002:a17:907:72c7:b0:98c:e72c:6b83 with SMTP id du7-20020a17090772c700b0098ce72c6b83mr1485899ejc.45.1687374488501;
+        Wed, 21 Jun 2023 12:08:08 -0700 (PDT)
+Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
+        by smtp.gmail.com with ESMTPSA id q25-20020a170906145900b0098503ba0db4sm3594563ejc.149.2023.06.21.12.08.07
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 21 Jun 2023 12:08:07 -0700 (PDT)
+Message-ID: <90723e18-5ad6-b2bc-fee3-c7b037370333@redhat.com>
+Date: Wed, 21 Jun 2023 21:08:06 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20230619175703.18826-1-franziska.naepelt@gmail.com>
- <20230619180753.18998-1-franziska.naepelt@gmail.com> <2023062012-regain-vintage-2c6d@gregkh>
-In-Reply-To: <2023062012-regain-vintage-2c6d@gregkh>
-From: =?UTF-8?Q?Franziska_N=C3=A4pelt?= <franziska.naepelt@googlemail.com>
-Date: Wed, 21 Jun 2023 21:02:56 +0200
-Message-ID: <CAAUT3iN6r2KHxMO=mF0AjV_7eGvm8ecq3tahvB_yDB+0HQ1Xpg@mail.gmail.com>
-Subject: Re: [PATCH 2/5] staging: rtl8723bs: Fix space issues
-To: Greg KH <gregkh@linuxfoundation.org>
-Cc: eperi1024@gmail.com, hdegoede@redhat.com, johannes.berg@intel.com, 
-	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev, 
-	quic_vjakkam@quicinc.com, tegongkang@gmail.com
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.12.0
+Subject: Re: [PATCH v3 3/3] media: atomisp: sh_css_internal: sh_css_params:
+ Unifying sh_css_sp_group data structure
+To: Kate Hsuan <hpa@redhat.com>, Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ linux-media@vger.kernel.org, linux-staging@lists.linux.dev
+References: <20230619052453.48598-1-hpa@redhat.com>
+ <20230619052453.48598-4-hpa@redhat.com>
+From: Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <20230619052453.48598-4-hpa@redhat.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US, nl
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hi Greg,
+Hi Kate,
 
-Am Di., 20. Juni 2023 um 16:12 Uhr schrieb Greg KH <gregkh@linuxfoundation.org>:
->
-> On Mon, Jun 19, 2023 at 08:07:53PM +0200, Franziska Naepelt wrote:
-> > Fix the following checkpatch space issues:
-> > - CHECK: spaces preferred around that '*' (ctx:VxV)
-> > - CHECK: spaces preferred around that '+' (ctx:VxV)
-> > - CHECK: spaces preferred around that '-' (ctx:VxV)
-> > - CHECK: spaces preferred around that '|' (ctx:VxV)
-> > - CHECK: No space is necessary after a cast
-> > - WARNING: please, no spaces at the start of a line
-> >
-> > Signed-off-by: Franziska Naepelt <franziska.naepelt@gmail.com>
-> > ---
-> >  .../staging/rtl8723bs/os_dep/ioctl_cfg80211.c | 77 +++++++++----------
-> >  1 file changed, 38 insertions(+), 39 deletions(-)
-> >
-> > diff --git a/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c b/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
-> > index 1afd1a93bcee..abda4e0f0bf5 100644
-> > --- a/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
-> > +++ b/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
-> > @@ -95,14 +95,14 @@ static struct ieee80211_channel rtw_2ghz_channels[] = {
-> >  static void rtw_2g_channels_init(struct ieee80211_channel *channels)
-> >  {
-> >       memcpy((void *)channels, (void *)rtw_2ghz_channels,
-> > -             sizeof(struct ieee80211_channel)*RTW_2G_CHANNELS_NUM
-> > +             sizeof(struct ieee80211_channel) * RTW_2G_CHANNELS_NUM
-> >       );
-> >  }
-> >
-> >  static void rtw_2g_rates_init(struct ieee80211_rate *rates)
-> >  {
-> >       memcpy(rates, rtw_g_rates,
-> > -             sizeof(struct ieee80211_rate)*RTW_G_RATES_NUM
-> > +             sizeof(struct ieee80211_rate) * RTW_G_RATES_NUM
-> >       );
-> >  }
-> >
-> > @@ -126,8 +126,8 @@ static struct ieee80211_supported_band *rtw_spt_band_alloc(
-> >       if (!spt_band)
-> >               goto exit;
-> >
-> > -     spt_band->channels = (struct ieee80211_channel *)(((u8 *)spt_band)+sizeof(struct ieee80211_supported_band));
-> > -     spt_band->bitrates = (struct ieee80211_rate *)(((u8 *)spt_band->channels)+sizeof(struct ieee80211_channel)*n_channels);
-> > +     spt_band->channels = (struct ieee80211_channel *)(((u8 *)spt_band) + sizeof(struct ieee80211_supported_band));
-> > +     spt_band->bitrates = (struct ieee80211_rate *)(((u8 *)spt_band->channels) + sizeof(struct ieee80211_channel) * n_channels);
-> >       spt_band->band = band;
-> >       spt_band->n_channels = n_channels;
-> >       spt_band->n_bitrates = n_bitrates;
-> > @@ -247,10 +247,10 @@ struct cfg80211_bss *rtw_cfg80211_inform_bss(struct adapter *padapter, struct wl
-> >               u32 wpsielen = 0;
-> >               u8 *wpsie = NULL;
-> >
-> > -             wpsie = rtw_get_wps_ie(pnetwork->network.ies+_FIXED_IE_LENGTH_, pnetwork->network.ie_length-_FIXED_IE_LENGTH_, NULL, &wpsielen);
-> > +             wpsie = rtw_get_wps_ie(pnetwork->network.ies + _FIXED_IE_LENGTH_, pnetwork->network.ie_length - _FIXED_IE_LENGTH_, NULL, &wpsielen);
-> >
-> >               if (wpsie && wpsielen > 0)
-> > -                     psr = rtw_get_wps_attr_content(wpsie,  wpsielen, WPS_ATTR_SELECTED_REGISTRAR, (u8 *)(&sr), NULL);
-> > +                     psr = rtw_get_wps_attr_content(wpsie, wpsielen, WPS_ATTR_SELECTED_REGISTRAR, (u8 *)(&sr), NULL);
-> >
-> >               if (sr != 0) {
-> >                       /* it means under processing WPS */
-> > @@ -266,7 +266,6 @@ struct cfg80211_bss *rtw_cfg80211_inform_bss(struct adapter *padapter, struct wl
-> >       }
-> >       /* spin_unlock_bh(&pwdev_priv->scan_req_lock); */
-> >
-> > -
->
-> This was an extra blank line issue that you did not mention in the
-> changelog :(
->
-> Please be more careful.
->
-> thanks,
->
-> greg k-h
+Thank you for the new version. One small remark below.
 
-Thanks for the heads up, it's fixed in v2.
-https://lore.kernel.org/linux-staging/20230621184635.25064-1-franziska.naepelt@gmail.com/
+On 6/19/23 07:24, Kate Hsuan wrote:
+> Since some parts of the data structure elements are determined in compile
+> time, the configuration data structure should be compiled for both two
+> ISP models. In order to set the configuration for both ISP models in
+> runtime, The sh_css_sp_group is unified to one data structure for the
+> configuration to ensure the data structure can be used for both ISP2400
+> and 2401 in runtime. Also, the unused codes for debug purpose are removed.
+> 
+> Form the aspect of ISP setting, the length and the content of the
+> configuration structure for ISP2400 and ISP2401 are different. So, we
+> need to pick up the necessary part of sp_group configuration for both
+> models and then copy those parts into a temporary buffer. This buffer
+> is finally written to the ISP with the corresponding length.
+> 
+> Signed-off-by: Kate Hsuan <hpa@redhat.com>
+> ---
+>  .../media/atomisp/pci/sh_css_internal.h       | 41 +------------------
+>  .../staging/media/atomisp/pci/sh_css_params.c | 41 ++++++++++++++++++-
+>  2 files changed, 41 insertions(+), 41 deletions(-)
+> 
+> diff --git a/drivers/staging/media/atomisp/pci/sh_css_internal.h b/drivers/staging/media/atomisp/pci/sh_css_internal.h
+> index d98f1323441e..2349eb4d3767 100644
+> --- a/drivers/staging/media/atomisp/pci/sh_css_internal.h
+> +++ b/drivers/staging/media/atomisp/pci/sh_css_internal.h
+> @@ -22,9 +22,7 @@
+>  #include <platform_support.h>
+>  #include <linux/stdarg.h>
+>  
+> -#if !defined(ISP2401)
+>  #include "input_formatter.h"
+> -#endif
+>  #include "input_system.h"
+>  
+>  #include "ia_css_types.h"
 
----
-Franziska
+The patch hunk starting here: 
+
+> @@ -86,31 +84,8 @@
+>  #define SH_CSS_MAX_IF_CONFIGS	3 /* Must match with IA_CSS_NR_OF_CONFIGS (not defined yet).*/
+>  #define SH_CSS_IF_CONFIG_NOT_NEEDED	0xFF
+>  
+> -/*
+> - * SH_CSS_MAX_SP_THREADS:
+> - *	 sp threads visible to host with connected communication queues
+> - *	 these threads are capable of running an image pipe
+> - * SH_CSS_MAX_SP_INTERNAL_THREADS:
+> - *	 internal sp service threads, no communication queues to host
+> - *	 these threads can't be used as image pipe
+> - */
+> -
+> -#if !defined(ISP2401)
+> -#define SH_CSS_SP_INTERNAL_METADATA_THREAD	1
+> -#else
+> -#define SH_CSS_SP_INTERNAL_METADATA_THREAD	0
+> -#endif
+> -
+> -#define SH_CSS_SP_INTERNAL_SERVICE_THREAD		1
+> -
+>  #define SH_CSS_MAX_SP_THREADS		5
+>  
+> -#define SH_CSS_MAX_SP_INTERNAL_THREADS	(\
+> -	 SH_CSS_SP_INTERNAL_SERVICE_THREAD +\
+> -	 SH_CSS_SP_INTERNAL_METADATA_THREAD)
+> -
+> -#define SH_CSS_MAX_PIPELINES	SH_CSS_MAX_SP_THREADS
+> -
+>  /**
+>   * The C99 standard does not specify the exact object representation of structs;
+>   * the representation is compiler dependent.
+
+And ending here.
+
+Really belongs in: [PATCH v3 2/3] media: atomisp: Removed unused
+HAS_WATCHDOG_SP_THREAD_DEBUG debug.
+
+I have moved this patch hunk to patch 2/3 while merging this
+series into my atomisp branch:
+
+https://git.kernel.org/pub/scm/linux/kernel/git/hansg/linux.git/log/?h=media-atomisp
+
+Regards,
+
+Hans
+
+
+> @@ -357,14 +332,12 @@ struct sh_css_sp_debug_command {
+>  	u32 dma_sw_reg;
+>  };
+>  
+> -#if !defined(ISP2401)
+>  /* SP input formatter configuration.*/
+>  struct sh_css_sp_input_formatter_set {
+>  	u32				stream_format;
+>  	input_formatter_cfg_t	config_a;
+>  	input_formatter_cfg_t	config_b;
+>  };
+> -#endif
+>  
+>  #define IA_CSS_MIPI_SIZE_CHECK_MAX_NOF_ENTRIES_PER_PORT (3)
+>  
+> @@ -377,7 +350,7 @@ struct sh_css_sp_config {
+>  	     frames are locked when their EOF event is successfully sent to the
+>  	     host (true) or when they are passed to the preview/video pipe
+>  	     (false). */
+> -#if !defined(ISP2401)
+> +
+>  	struct {
+>  		u8					a_changed;
+>  		u8					b_changed;
+> @@ -385,15 +358,13 @@ struct sh_css_sp_config {
+>  		struct sh_css_sp_input_formatter_set
+>  			set[SH_CSS_MAX_IF_CONFIGS]; /* CSI-2 port is used as index. */
+>  	} input_formatter;
+> -#endif
+> -#if !defined(ISP2401)
+> +
+>  	sync_generator_cfg_t	sync_gen;
+>  	tpg_cfg_t		tpg;
+>  	prbs_cfg_t		prbs;
+>  	input_system_cfg_t	input_circuit;
+>  	u8			input_circuit_cfg_changed;
+>  	u32		mipi_sizes_for_check[N_CSI_PORTS][IA_CSS_MIPI_SIZE_CHECK_MAX_NOF_ENTRIES_PER_PORT];
+> -#endif
+>  	u8                 enable_isys_event_queue;
+>  	u8			disable_cont_vf;
+>  };
+> @@ -409,7 +380,6 @@ enum sh_css_stage_type {
+>  #define SH_CSS_PIPE_CONFIG_SAMPLE_PARAMS_MASK \
+>  	((SH_CSS_PIPE_CONFIG_SAMPLE_PARAMS << SH_CSS_MAX_SP_THREADS) - 1)
+>  
+> -#if defined(ISP2401)
+>  struct sh_css_sp_pipeline_terminal {
+>  	union {
+>  		/* Input System 2401 */
+> @@ -442,7 +412,6 @@ struct sh_css_sp_pipeline_io_status {
+>  	u32	running[N_INPUT_SYSTEM_CSI_PORT];	/** configured streams */
+>  };
+>  
+> -#endif
+>  enum sh_css_port_dir {
+>  	SH_CSS_PORT_INPUT  = 0,
+>  	SH_CSS_PORT_OUTPUT  = 1
+> @@ -641,10 +610,8 @@ struct sh_css_sp_stage {
+>  struct sh_css_sp_group {
+>  	struct sh_css_sp_config		config;
+>  	struct sh_css_sp_pipeline	pipe[SH_CSS_MAX_SP_THREADS];
+> -#if defined(ISP2401)
+>  	struct sh_css_sp_pipeline_io	pipe_io[SH_CSS_MAX_SP_THREADS];
+>  	struct sh_css_sp_pipeline_io_status	pipe_io_status;
+> -#endif
+>  	struct sh_css_sp_debug_command	debug;
+>  };
+>  
+> @@ -922,13 +889,11 @@ sh_css_frame_info_set_width(struct ia_css_frame_info *info,
+>  			    unsigned int width,
+>  			    unsigned int aligned);
+>  
+> -#if !defined(ISP2401)
+>  
+>  unsigned int
+>  sh_css_get_mipi_sizes_for_check(const unsigned int port,
+>  				const unsigned int idx);
+>  
+> -#endif
+>  
+>  ia_css_ptr
+>  sh_css_store_sp_group_to_ddr(void);
+> @@ -971,11 +936,9 @@ sh_css_continuous_is_enabled(uint8_t pipe_num);
+>  struct ia_css_pipe *
+>  find_pipe_by_num(uint32_t pipe_num);
+>  
+> -#ifdef ISP2401
+>  void
+>  ia_css_get_crop_offsets(
+>      struct ia_css_pipe *pipe,
+>      struct ia_css_frame_info *in_frame);
+> -#endif
+>  
+>  #endif /* _SH_CSS_INTERNAL_H_ */
+> diff --git a/drivers/staging/media/atomisp/pci/sh_css_params.c b/drivers/staging/media/atomisp/pci/sh_css_params.c
+> index 588f2adab058..5667e855da76 100644
+> --- a/drivers/staging/media/atomisp/pci/sh_css_params.c
+> +++ b/drivers/staging/media/atomisp/pci/sh_css_params.c
+> @@ -3720,10 +3720,47 @@ struct ia_css_shading_table *ia_css_get_shading_table(struct ia_css_stream
+>  
+>  ia_css_ptr sh_css_store_sp_group_to_ddr(void)
+>  {
+> +	u8 *write_buf;
+> +	u8 *buf_ptr;
+> +
+>  	IA_CSS_ENTER_LEAVE_PRIVATE("void");
+> +
+> +	write_buf = kzalloc(sizeof(u8) * 8192, GFP_KERNEL);
+> +	if (!write_buf)
+> +		return 0;
+> +
+> +	buf_ptr = write_buf;
+> +	if (IS_ISP2401) {
+> +		memcpy(buf_ptr, &sh_css_sp_group.config, 3);
+> +		buf_ptr += 3;
+> +		memcpy(buf_ptr, &sh_css_sp_group.config.enable_isys_event_queue, 2);
+> +		buf_ptr += 2;
+> +		memset(buf_ptr, 0, 3);
+> +		buf_ptr += 3; /* Padding 3 bytes for struct sh_css_sp_config*/
+> +	} else {
+> +		memcpy(buf_ptr, &sh_css_sp_group.config, sizeof(sh_css_sp_group.config));
+> +		buf_ptr += sizeof(sh_css_sp_group.config);
+> +	}
+> +
+> +	memcpy(buf_ptr, &sh_css_sp_group.pipe, sizeof(sh_css_sp_group.pipe));
+> +	buf_ptr += sizeof(sh_css_sp_group.pipe);
+> +
+> +	if (IS_ISP2401) {
+> +		memcpy(buf_ptr, &sh_css_sp_group.pipe_io, sizeof(sh_css_sp_group.pipe_io));
+> +		buf_ptr += sizeof(sh_css_sp_group.pipe_io);
+> +		memcpy(buf_ptr, &sh_css_sp_group.pipe_io_status,
+> +		       sizeof(sh_css_sp_group.pipe_io_status));
+> +		buf_ptr += sizeof(sh_css_sp_group.pipe_io_status);
+> +	}
+> +
+> +	memcpy(buf_ptr, &sh_css_sp_group.debug, sizeof(sh_css_sp_group.debug));
+> +	buf_ptr += sizeof(sh_css_sp_group.debug);
+> +
+>  	hmm_store(xmem_sp_group_ptrs,
+> -		   &sh_css_sp_group,
+> -		   sizeof(struct sh_css_sp_group));
+> +		  write_buf,
+> +		  buf_ptr - write_buf);
+> +
+> +	kfree(write_buf);
+>  	return xmem_sp_group_ptrs;
+>  }
+>  
+
