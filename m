@@ -1,43 +1,43 @@
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4751215AE5
-	for <linux-staging@lists.linux.dev>; Thu, 22 Jun 2023 13:56:37 +0000 (UTC)
-Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-311167ba376so7218423f8f.1
-        for <linux-staging@lists.linux.dev>; Thu, 22 Jun 2023 06:56:36 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C51A15AE5
+	for <linux-staging@lists.linux.dev>; Thu, 22 Jun 2023 14:11:28 +0000 (UTC)
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-3f9c0abc8b1so19777915e9.1
+        for <linux-staging@lists.linux.dev>; Thu, 22 Jun 2023 07:11:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1687442195; x=1690034195;
+        d=linaro.org; s=google; t=1687443086; x=1690035086;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=QEW2WXBte3jN1fLJ211gvIuJSeoOteLGjUnX78P98k4=;
-        b=rrCXA0HYW+NRaxuK0LzkBkWHaS32roNXnVTcSlzHkz0PKFiRzi6Lf0a2kxT5sw4sbW
-         jjMVv3gbRGX7y73/rTeAxgcyKJRaEjx8hgeXVmr1KOVjDxufD90egWATGqaHhCdg5lyL
-         CCWBPoNFR/6czRV2XsuleAFb6zUW8evSN0nKHKSOPM/86ngFyJnI//xhzazH6g+ufdey
-         iAvpeJ61KZ0V6PMuriG406hq6r4Jp2DjThmRQnPoG+2mD5V8pIHj1OSfFc1yhmt6x4Iw
-         hJJY0N9IrNvCEy31Uv4j6O7vgmIRqgPp5toYxfIEQfRxNvrKDPf6N2IWfmuS9pLtFoy0
-         IMUg==
+        bh=GHxJuqmuhPWFpQhIFC68lKcmCkInE/kiaYAhaHcn0+Y=;
+        b=gEz/PAQ1qIP5WZun0LdTuL2gGMzh3DxKsvzmJ6Q0I9nak7WYgFwIua8o4b7DyFjInu
+         SH+yb8hYWg8DPwV1viEU6ZlC5W12dzJ0cpS2WhYFT+HXtgViha0pmeDj9pynoswZZOTF
+         P/sVO4e/j0gRgSpCoWweryl6LRW3mzxc+ShAtTe6cVPWa+CAxgZSyLrflRN7eA/KAapm
+         ub1C0L2rIcRzkgBqnTbcW75iwVmmT8HRAKNXuHDGEi4rT3fGAi2MDTpm1XQbWGrx9Gzd
+         RmYbgNRvkmPX0g4ourdc60JrhU8l+mRk/wFWm+1F6nQcKJZEAzhKd8wx7xJunOOfg0nk
+         9TzA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1687442195; x=1690034195;
+        d=1e100.net; s=20221208; t=1687443086; x=1690035086;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=QEW2WXBte3jN1fLJ211gvIuJSeoOteLGjUnX78P98k4=;
-        b=PGL7pm3KjkEfoMtlk6CiMS+GR8nUBy/IHmtE2Bpe5Ocw+6TKmtRZMxifNHmmo4jcxF
-         ZCyOj3xeCHHfxAkJ7TYq3S5tyB/IEcbCIklyGC80c1+AZqhO3OMxilEvWy9MmC9B5CA0
-         RiqkJJUaHfTd4c8ckPAD6vcL/Euwrr2is51CxY7gxLuWXJP+YDiuOaZvgte+bGo2JKCI
-         OY1BsD+f+ancsz6jico/mBcBJr33v7ScXI9fG2UrVntV3PW9ax/gmyT0pPSZNK7uiDDO
-         YERMBiJRw+OP55mqa4i7LKL2MGyQm5IX5k0BfJdQRfeGUE4DYDnmd7ppbtJzb96U4oL0
-         lVAQ==
-X-Gm-Message-State: AC+VfDyl6TMPtdP5AxjUQh1Z0WEt+EUTWnaiaaMVKqo8FhEAqubsLc/7
-	vQlyT8tjbt4J0KPJv+4Dyz8o8g==
-X-Google-Smtp-Source: ACHHUZ6a6EZPyQbiw2QFhMNDMLiHUFcNZTWVMQXmY1brW9zlZbdXXamxNjQ4bnHgoRKMXiHVkCeg6Q==
-X-Received: by 2002:adf:ec45:0:b0:30f:af06:7320 with SMTP id w5-20020adfec45000000b0030faf067320mr1923670wrn.23.1687442195120;
-        Thu, 22 Jun 2023 06:56:35 -0700 (PDT)
+        bh=GHxJuqmuhPWFpQhIFC68lKcmCkInE/kiaYAhaHcn0+Y=;
+        b=DBBmXOtTSmsJUFZbbzp5flWxFpalobzYP2ThI8ikEKHUNbKLqdpQTK0uSttCq1FOR2
+         FukI9V4eVILESbzdfQkbyUA2kp8TzaAiYRNx2ysfaEi23cq2fjM+MN7dyYiFw34ZZFMp
+         6/eosjBpjX1Q3I4lBTJGRYFub3ocIaJ1ltgEfTBl+GDOM02uuh+vhungKI2x/9tDfgQ4
+         EOEZJ1jI1Oaj+pMPxefF9PNvUqDPKVJ9kQUyXy+WMf7DuaWxK1PNhsp2hLW1GwlWPjR1
+         F4N+bvjQ/oqiGBHv798SpwSiR3lYyQrLijZfgNxDXGJTvv/QBF0kdefaERkGtoDiT9lI
+         byiA==
+X-Gm-Message-State: AC+VfDz2S/dBGZZEXJjX3DDRuyPWJrYf7Q1uL/qdi585AxZx7HtYKftO
+	kkiYLNYNxi+L/X7l5CVrOsCJgw==
+X-Google-Smtp-Source: ACHHUZ6BmQp3My+dLgyfXTj9FadTnh4ZdU89bg6m7H4+QQzmHulg0AjgY/idmg/TybIPzxG+o/8epA==
+X-Received: by 2002:a7b:c3d3:0:b0:3f9:b7cf:262f with SMTP id t19-20020a7bc3d3000000b003f9b7cf262fmr6889086wmj.4.1687443086247;
+        Thu, 22 Jun 2023 07:11:26 -0700 (PDT)
 Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id s3-20020a7bc383000000b003f6132f95e6sm18924956wmj.35.2023.06.22.06.56.32
+        by smtp.gmail.com with ESMTPSA id p24-20020a1c7418000000b003f9c859894esm3753202wmc.7.2023.06.22.07.11.22
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 22 Jun 2023 06:56:33 -0700 (PDT)
-Date: Thu, 22 Jun 2023 16:56:29 +0300
+        Thu, 22 Jun 2023 07:11:24 -0700 (PDT)
+Date: Thu, 22 Jun 2023 17:11:19 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
 To: Benjamin Gaignard <benjamin.gaignard@collabora.com>
 Cc: mchehab@kernel.org, tfiga@chromium.org, m.szyprowski@samsung.com,
@@ -51,7 +51,7 @@ Cc: mchehab@kernel.org, tfiga@chromium.org, m.szyprowski@samsung.com,
 	kernel@collabora.com
 Subject: Re: [PATCH v3 03/11] media: videobuf2: Remove VB2_MAX_FRAME limit on
  buffer storage
-Message-ID: <1d9fea5b-5c74-4fc2-9287-71cd68adbda1@kadam.mountain>
+Message-ID: <bddd6cb7-cd72-4fb5-8d4a-d02cb9c46dce@kadam.mountain>
 References: <20230622131349.144160-1-benjamin.gaignard@collabora.com>
  <20230622131349.144160-4-benjamin.gaignard@collabora.com>
 Precedence: bulk
@@ -78,27 +78,13 @@ On Thu, Jun 22, 2023 at 03:13:41PM +0200, Benjamin Gaignard wrote:
 >  	num_buffers = min_t(unsigned int, num_buffers,
 > -			    VB2_MAX_FRAME - q->num_buffers);
 > +			    UINT_MAX - q->num_buffers);
-
-The UINT_MAX limit adds a level of danger.  It would be safer to do what
-the vfs layer does for MAX_RW_COUNT and use "INT_MAX - PAGE_SIZE".  That
-way you can take size + sizeof() and it's only very rarely going to turn
-negative.  Or at least just INT_MAX.  I would keep the VB2_MAX_FRAME and
-define it as:
-
-#define VB2_MAX_FRAME (INT_MAX & PAGE_MASK)  /* The mask prevents 85% of integer overflows */
-
 >  
 >  	for (buffer = 0; buffer < num_buffers; ++buffer) {
 >  		/* Allocate vb2 buffer structures */
-> @@ -858,9 +858,9 @@ int vb2_core_reqbufs(struct vb2_queue *q, enum vb2_memory memory,
->  	/*
->  	 * Make sure the requested values and current defaults are sane.
->  	 */
-> -	WARN_ON(q->min_buffers_needed > VB2_MAX_FRAME);
-> +	WARN_ON(q->min_buffers_needed > UINT_MAX);
 
-This will trigger a static checker warning because the condition is
-impossible.
+Ah...  Here's one of the integer overflow bugs I was talking about.  The
+__vb2_queue_alloc() function returns an int so if num_buffers goes over
+INT_MAX we are hosed.
 
 regards,
 dan carpenter
