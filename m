@@ -1,25 +1,25 @@
 Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5EC871ED51
-	for <linux-staging@lists.linux.dev>; Thu, 22 Jun 2023 13:14:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6AFD1ED46
+	for <linux-staging@lists.linux.dev>; Thu, 22 Jun 2023 13:14:03 +0000 (UTC)
 Received: from benjamin-XPS-13-9310.. (unknown [IPv6:2a01:e0a:120:3210:7d72:676c:e745:a6ef])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
 	(Authenticated sender: benjamin.gaignard)
-	by madras.collabora.co.uk (Postfix) with ESMTPSA id BD701660713E;
-	Thu, 22 Jun 2023 14:14:02 +0100 (BST)
+	by madras.collabora.co.uk (Postfix) with ESMTPSA id BC419660713A;
+	Thu, 22 Jun 2023 14:14:01 +0100 (BST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1687439643;
-	bh=w7TelsLJmHPPFBbH7cdd4Q4u9mfk8qz6m8m3ILNeG3Q=;
+	s=mail; t=1687439642;
+	bh=X2W06J2G0RvZ6wT6r06tbLD+//oCk/Ju0PbDrogdZys=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=drrv7EArNlrMc2bqooR2UXQWYueWvIBP+Y1UDX7ZsxJ63fm9MWRTLdvcy/nd3MtmR
-	 1tAPfYMWNjrmPUNRS0XxCwqXho+WBGpGewAnYEE2Ie+xdCEP8PrQjPE1/As1XTSeyn
-	 xo3B32kzTLEBtIyn4PJwr+EjAOq7FA6fpFlwXN2Z3uefoRQqtw9FpEHPug6LThebK/
-	 Phxk51rtR7zmF4yR5QN7vIcsJ7/u5EPHjYGDIFfcOkODSzlshf3WIBEh+wamPxDcUG
-	 cWTeOwNzSOsFR7WozNP+PQ3eLDCtl+RCP7lgpfh103fQjpIRJovqxw58Wv7OnDvRLI
-	 iyFgvrTal3KYg==
+	b=DGz1otnaX8UAHM3bF/fnObvKgQpots9OgKyHQlYMpVuhY7HFB9K4WXhjx/xh4Hjdo
+	 wKXNP5wNgwFSN56fHkbwgjBz61Nik8UswMz0VmMTAqA2qfjxyZ5RRs9KrSalNKVi/a
+	 svqywLE+/HOl4pNFwe+5y+GPUpyZp2J8ZE8bIXwMv36/tlbJbfrwIyo5FAlGa+vYC2
+	 CUYsKgUWCIbKJ7DAn1dFeQqdd8rZsaMpjA7687bBQB9Gw8OjPpzkSSmNd7zkhmlS6e
+	 xhsVOzJJk8C4WZlBCEhy/OyVUgr6WV9ihhUvdnEJQJtokxd19iRvruoQSt5ihx41Is
+	 SrHjNjTFBA1mA==
 From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
 To: mchehab@kernel.org,
 	tfiga@chromium.org,
@@ -39,9 +39,9 @@ Cc: linux-media@vger.kernel.org,
 	linux-staging@lists.linux.dev,
 	kernel@collabora.com,
 	Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Subject: [PATCH v3 11/11] media: v4l2: Add mem2mem helpers for DELETE_BUF ioctl
-Date: Thu, 22 Jun 2023 15:13:49 +0200
-Message-Id: <20230622131349.144160-12-benjamin.gaignard@collabora.com>
+Subject: [PATCH v3 09/11] media: verisilicon: vp9: Allow to change resolution while streaming
+Date: Thu, 22 Jun 2023 15:13:47 +0200
+Message-Id: <20230622131349.144160-10-benjamin.gaignard@collabora.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230622131349.144160-1-benjamin.gaignard@collabora.com>
 References: <20230622131349.144160-1-benjamin.gaignard@collabora.com>
@@ -53,108 +53,64 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Create v4l2-mem2mem helpers for VIDIOC_DELETE_BUF ioctl.
+Remove all checks that prohibit to set a new format while streaming.
+This allow to change dynamically the resolution if the pixel format
+remains the same.
 
 Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
 ---
- .../media/platform/verisilicon/hantro_v4l2.c  |  1 +
- drivers/media/test-drivers/vim2m.c            |  1 +
- drivers/media/v4l2-core/v4l2-mem2mem.c        | 20 +++++++++++++++++++
- include/media/v4l2-mem2mem.h                  | 12 +++++++++++
- 4 files changed, 34 insertions(+)
+ .../media/platform/verisilicon/hantro_v4l2.c  | 24 +++----------------
+ 1 file changed, 3 insertions(+), 21 deletions(-)
 
 diff --git a/drivers/media/platform/verisilicon/hantro_v4l2.c b/drivers/media/platform/verisilicon/hantro_v4l2.c
-index cdddfb4179aa..bf418191278f 100644
+index 0f615c1001c0..cdddfb4179aa 100644
 --- a/drivers/media/platform/verisilicon/hantro_v4l2.c
 +++ b/drivers/media/platform/verisilicon/hantro_v4l2.c
-@@ -720,6 +720,7 @@ const struct v4l2_ioctl_ops hantro_ioctl_ops = {
- 	.vidioc_dqbuf = v4l2_m2m_ioctl_dqbuf,
- 	.vidioc_prepare_buf = v4l2_m2m_ioctl_prepare_buf,
- 	.vidioc_create_bufs = v4l2_m2m_ioctl_create_bufs,
-+	.vidioc_delete_buf = v4l2_m2m_ioctl_delete_buf,
- 	.vidioc_expbuf = v4l2_m2m_ioctl_expbuf,
+@@ -480,25 +480,14 @@ static int hantro_set_fmt_out(struct hantro_ctx *ctx,
+ 		return ret;
  
- 	.vidioc_subscribe_event = v4l2_ctrl_subscribe_event,
-diff --git a/drivers/media/test-drivers/vim2m.c b/drivers/media/test-drivers/vim2m.c
-index 3e3b424b4860..3014b8ee13d0 100644
---- a/drivers/media/test-drivers/vim2m.c
-+++ b/drivers/media/test-drivers/vim2m.c
-@@ -960,6 +960,7 @@ static const struct v4l2_ioctl_ops vim2m_ioctl_ops = {
- 	.vidioc_dqbuf		= v4l2_m2m_ioctl_dqbuf,
- 	.vidioc_prepare_buf	= v4l2_m2m_ioctl_prepare_buf,
- 	.vidioc_create_bufs	= v4l2_m2m_ioctl_create_bufs,
-+	.vidioc_delete_buf	= v4l2_m2m_ioctl_delete_buf,
- 	.vidioc_expbuf		= v4l2_m2m_ioctl_expbuf,
- 
- 	.vidioc_streamon	= v4l2_m2m_ioctl_streamon,
-diff --git a/drivers/media/v4l2-core/v4l2-mem2mem.c b/drivers/media/v4l2-core/v4l2-mem2mem.c
-index 0cc30397fbad..42f51ca25379 100644
---- a/drivers/media/v4l2-core/v4l2-mem2mem.c
-+++ b/drivers/media/v4l2-core/v4l2-mem2mem.c
-@@ -831,6 +831,17 @@ int v4l2_m2m_prepare_buf(struct file *file, struct v4l2_m2m_ctx *m2m_ctx,
- }
- EXPORT_SYMBOL_GPL(v4l2_m2m_prepare_buf);
- 
-+int v4l2_m2m_delete_buf(struct file *file, struct v4l2_m2m_ctx *m2m_ctx,
-+			struct v4l2_buffer *buf)
-+{
-+	struct vb2_queue *vq;
-+
-+	vq = v4l2_m2m_get_vq(m2m_ctx, buf->type);
-+
-+	return vb2_delete_buf(vq, buf);
-+}
-+EXPORT_SYMBOL_GPL(v4l2_m2m_delete_buf);
-+
- int v4l2_m2m_create_bufs(struct file *file, struct v4l2_m2m_ctx *m2m_ctx,
- 			 struct v4l2_create_buffers *create)
+ 	if (!ctx->is_encoder) {
+-		struct vb2_queue *peer_vq;
+-
+ 		/*
+ 		 * In order to support dynamic resolution change,
+ 		 * the decoder admits a resolution change, as long
+-		 * as the pixelformat remains. Can't be done if streaming.
+-		 */
+-		if (vb2_is_streaming(vq) || (vb2_is_busy(vq) &&
+-		    pix_mp->pixelformat != ctx->src_fmt.pixelformat))
+-			return -EBUSY;
+-		/*
+-		 * Since format change on the OUTPUT queue will reset
+-		 * the CAPTURE queue, we can't allow doing so
+-		 * when the CAPTURE queue has buffers allocated.
++		 * as the pixelformat remains.
+ 		 */
+-		peer_vq = v4l2_m2m_get_vq(ctx->fh.m2m_ctx,
+-					  V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE);
+-		if (vb2_is_busy(peer_vq))
++		if (vb2_is_streaming(vq) && pix_mp->pixelformat != ctx->src_fmt.pixelformat) {
+ 			return -EBUSY;
++		}
+ 	} else {
+ 		/*
+ 		 * The encoder doesn't admit a format change if
+@@ -541,15 +530,8 @@ static int hantro_set_fmt_out(struct hantro_ctx *ctx,
+ static int hantro_set_fmt_cap(struct hantro_ctx *ctx,
+ 			      struct v4l2_pix_format_mplane *pix_mp)
  {
-@@ -1377,6 +1388,15 @@ int v4l2_m2m_ioctl_create_bufs(struct file *file, void *priv,
- }
- EXPORT_SYMBOL_GPL(v4l2_m2m_ioctl_create_bufs);
+-	struct vb2_queue *vq;
+ 	int ret;
  
-+int v4l2_m2m_ioctl_delete_buf(struct file *file, void *priv,
-+			      struct v4l2_buffer *buf)
-+{
-+	struct v4l2_fh *fh = file->private_data;
-+
-+	return v4l2_m2m_delete_buf(file, fh->m2m_ctx, buf);
-+}
-+EXPORT_SYMBOL_GPL(v4l2_m2m_ioctl_delete_buf);
-+
- int v4l2_m2m_ioctl_querybuf(struct file *file, void *priv,
- 				struct v4l2_buffer *buf)
- {
-diff --git a/include/media/v4l2-mem2mem.h b/include/media/v4l2-mem2mem.h
-index bb9de6a899e0..d062a35c8246 100644
---- a/include/media/v4l2-mem2mem.h
-+++ b/include/media/v4l2-mem2mem.h
-@@ -381,6 +381,16 @@ int v4l2_m2m_dqbuf(struct file *file, struct v4l2_m2m_ctx *m2m_ctx,
- int v4l2_m2m_prepare_buf(struct file *file, struct v4l2_m2m_ctx *m2m_ctx,
- 			 struct v4l2_buffer *buf);
+-	/* Change not allowed if queue is busy. */
+-	vq = v4l2_m2m_get_vq(ctx->fh.m2m_ctx,
+-			     V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE);
+-	if (vb2_is_busy(vq))
+-		return -EBUSY;
+-
+ 	if (ctx->is_encoder) {
+ 		struct vb2_queue *peer_vq;
  
-+/**
-+ * v4l2_m2m_delete_buf() - delete buffer from the queue
-+ *
-+ * @file: pointer to struct &file
-+ * @m2m_ctx: m2m context assigned to the instance given by struct &v4l2_m2m_ctx
-+ * @buf: pointer to struct &v4l2_buffer
-+ */
-+int v4l2_m2m_delete_buf(struct file *file, struct v4l2_m2m_ctx *m2m_ctx,
-+			struct v4l2_buffer *buf);
-+
- /**
-  * v4l2_m2m_create_bufs() - create a source or destination buffer, depending
-  * on the type
-@@ -846,6 +856,8 @@ int v4l2_m2m_ioctl_reqbufs(struct file *file, void *priv,
- 				struct v4l2_requestbuffers *rb);
- int v4l2_m2m_ioctl_create_bufs(struct file *file, void *fh,
- 				struct v4l2_create_buffers *create);
-+int v4l2_m2m_ioctl_delete_buf(struct file *file, void *priv,
-+			      struct v4l2_buffer *buf);
- int v4l2_m2m_ioctl_querybuf(struct file *file, void *fh,
- 				struct v4l2_buffer *buf);
- int v4l2_m2m_ioctl_expbuf(struct file *file, void *fh,
 -- 
 2.39.2
 
