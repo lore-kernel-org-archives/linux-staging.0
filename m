@@ -1,158 +1,135 @@
-Received: from pb-smtp2.pobox.com (pb-smtp2.pobox.com [64.147.108.71])
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83E6819BD9
-	for <linux-staging@lists.linux.dev>; Wed, 21 Jun 2023 23:09:52 +0000 (UTC)
-Received: from pb-smtp2.pobox.com (unknown [127.0.0.1])
-	by pb-smtp2.pobox.com (Postfix) with ESMTP id CBA75198F18;
-	Wed, 21 Jun 2023 19:09:44 -0400 (EDT)
-	(envelope-from tdavies@darkphysics.net)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed; d=pobox.com; h=date:from
-	:to:cc:subject:message-id:mime-version:content-type; s=sasl; bh=
-	LaMTHHZhe0ayidS7J9bZYPC/eJrFVGqD9FfQcdqxFmA=; b=IzBpQTi+9zPzSllL
-	Imb2jVPcou4EJtbDBM/vQLH/qEyNv+bi5L2da9MdRwY4+2IHo0bQ3QbdWXAV+GUj
-	c9nWGUHnPnooZWH7ifPyLQkaqB8MdlUkk/pCQ8E1ydDWdlAQjsaZnMLxXcaavl0X
-	tuQPY+uO1AcgRU3ht9E/NIM1BRo=
-Received: from pb-smtp2.nyi.icgroup.com (unknown [127.0.0.1])
-	by pb-smtp2.pobox.com (Postfix) with ESMTP id BEC99198F17;
-	Wed, 21 Jun 2023 19:09:44 -0400 (EDT)
-	(envelope-from tdavies@darkphysics.net)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed; d=darkphysics.net;
- h=date:from:to:cc:subject:message-id:mime-version:content-type;
- s=2019-09.pbsmtp; bh=LaMTHHZhe0ayidS7J9bZYPC/eJrFVGqD9FfQcdqxFmA=;
- b=Xv+ANbVbC4DEA0purULgMts3mzjPIITbPwT4JmikHk4XOkD/owuJQddKikGhtVcjVj/rqUNz+kTg4eSXSeeEqfn7nzAt+IPDx9JkXb9C/MfjG7YPJ3kWQerBewnPZAQ6XBS8NAn+tEIZx87U5kiAO4um9LSo1sYhh19nRDMI3qo=
-Received: from tacos.darkphysics (unknown [76.146.178.2])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 796391E513
+	for <linux-staging@lists.linux.dev>; Thu, 22 Jun 2023 13:13:59 +0000 (UTC)
+Received: from benjamin-XPS-13-9310.. (unknown [IPv6:2a01:e0a:120:3210:7d72:676c:e745:a6ef])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by pb-smtp2.pobox.com (Postfix) with ESMTPSA id 5326B198F16;
-	Wed, 21 Jun 2023 19:09:43 -0400 (EDT)
-	(envelope-from tdavies@darkphysics.net)
-Date: Wed, 21 Jun 2023 16:09:35 -0700
-From: Tree Davies <tdavies@darkphysics.net>
-To: gregkh@linuxfoundation.org, philipp.g.hortmann@gmail.com,
-	t4rmin@zohomail.com, colin.i.king@gmail.com,
-	dan.carpenter@linaro.org
-Cc: tdavies@darkphysics.net, linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev
-Subject: [PATCH v3] staging: rtl8192e: Remove whitespace and blank lines
-Message-ID: <ZJODGu4pvNNQc134@tacos.darkphysics>
+	(Authenticated sender: benjamin.gaignard)
+	by madras.collabora.co.uk (Postfix) with ESMTPSA id 411256607115;
+	Thu, 22 Jun 2023 14:13:57 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1687439637;
+	bh=7Bj5hAoh3Iuvgs44g1/kDJV9XKTUPPQFWhuUxH1CfxU=;
+	h=From:To:Cc:Subject:Date:From;
+	b=F/M4eSTFBa0RVdvd99Qfx5JodBeCZuvC5W+xcR2jfJ9AoPKorjPt4DR3Aom0jclX7
+	 FOld3+gclSyEgJCEeZxnFr7DxjrvNjZSuM5JA+JEoVzLEZ10L9rxNHb4gDuWT7o7oL
+	 1aXA2ccbTIZvNlNcCWQAhY2a/FgiXkmFhZZp1vHGUlK9CxDcI33Jh7u13bdfEXsoT2
+	 YiSwiNniqrsZj9TjnZM9r6WDNMShGgadZI0PSMPFT17DwPmRsXnYNokP88lmzGB4MI
+	 Xon5UQAYvyEJfN/ufvy+FqNaNus1SRDnaFK2nYpSgubd2ikSLAdz+i/wq7f2WUvHeg
+	 tuMOaSBrPra+Q==
+From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+To: mchehab@kernel.org,
+	tfiga@chromium.org,
+	m.szyprowski@samsung.com,
+	ming.qian@nxp.com,
+	ezequiel@vanguardiasur.com.ar,
+	p.zabel@pengutronix.de,
+	gregkh@linuxfoundation.org,
+	hverkuil-cisco@xs4all.nl,
+	nicolas.dufresne@collabora.com
+Cc: linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org,
+	linux-arm-msm@vger.kernel.org,
+	linux-rockchip@lists.infradead.org,
+	linux-staging@lists.linux.dev,
+	kernel@collabora.com,
+	Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Subject: [PATCH v3 00/11] Add DELETE_BUF ioctl
+Date: Thu, 22 Jun 2023 15:13:38 +0200
+Message-Id: <20230622131349.144160-1-benjamin.gaignard@collabora.com>
+X-Mailer: git-send-email 2.39.2
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-X-Pobox-Relay-ID:
- B56299FC-1088-11EE-9C38-307A8E0A682E-45285927!pb-smtp2.pobox.com
+Content-Transfer-Encoding: 8bit
 
-This patch cleans up extraneous whitespace for the
-struct rt_hi_throughput definition.
+Unlike when resolution change on keyframes, dynamic resolution change
+on inter frames doesn't allow to do a stream off/on sequence because
+it is need to keep all previous references alive to decode inter frames.
+This constraint have two main problems:
+- more memory consumption.
+- more buffers in use.
+To solve these issue this series introduce DELETE_BUF ioctl and remove
+the 32 buffers limit per queue.
 
-Signed-off-by: Tree Davies <tdavies@darkphysics.net>
----
-v3: Create patch from linux-next
-v2: v2: Fix subject line and send patch inline.
- drivers/staging/rtl8192e/rtl819x_HT.h | 61 ++++++++++-----------------
- 1 file changed, 23 insertions(+), 38 deletions(-)
+VP9 conformance tests using fluster give a score of 210/305.
+The 25 resize inter tests (vp90-2-21-resize_inter_* files) are ok
+but require to use postprocessor.
 
-diff --git a/drivers/staging/rtl8192e/rtl819x_HT.h b/drivers/staging/rtl8192e/rtl819x_HT.h
-index 3e601537412a..2bbd01048561 100644
---- a/drivers/staging/rtl8192e/rtl819x_HT.h
-+++ b/drivers/staging/rtl8192e/rtl819x_HT.h
-@@ -92,68 +92,53 @@ enum ht_aggre_mode {
- };
+Kernel branch is available here:
+https://gitlab.collabora.com/benjamin.gaignard/for-upstream/-/commits/remove_vb2_queue_limit_v3
+
+GStreamer branch to use DELETE_BUF ioctl and testing dynamic resolution
+change is here:
+https://gitlab.freedesktop.org/benjamin.gaignard1/gstreamer/-/commits/VP9_drc
+
+changes in version 3:
+- Use Xarray API to store allocated video buffers.
+- No module parameter to limit the number of buffer per queue.
+- Use Xarray inside Verisilicon driver to store postprocessor buffers
+  and remove VB2_MAX_FRAME limit.
+- Allow Versilicon driver to change of resolution while streaming
+- Various fixes the Verisilicon VP9 code to improve fluster score.
  
- struct rt_hi_throughput {
--	u8				enable_ht;
--	u8				bCurrentHTSupport;
--
--	u8				bRegBW40MHz;
--	u8				bCurBW40MHz;
--
--	u8				bRegShortGI40MHz;
--	u8				bCurShortGI40MHz;
--
--	u8				bRegShortGI20MHz;
--	u8				bCurShortGI20MHz;
--
--	u8				bRegSuppCCK;
--	u8				bCurSuppCCK;
--
-+	u8 enable_ht;
-+	u8 bCurrentHTSupport;
-+	u8 bRegBW40MHz;
-+	u8 bCurBW40MHz;
-+	u8 bRegShortGI40MHz;
-+	u8 bCurShortGI40MHz;
-+	u8 bRegShortGI20MHz;
-+	u8 bCurShortGI20MHz;
-+	u8 bRegSuppCCK;
-+	u8 bCurSuppCCK;
- 	enum ht_spec_ver ePeerHTSpecVer;
--
- 	struct ht_capab_ele SelfHTCap;
- 	struct ht_info_ele SelfHTInfo;
--
--	u8				PeerHTCapBuf[32];
--	u8				PeerHTInfoBuf[32];
--
--	u8				bAMSDU_Support;
--	u16				nAMSDU_MaxSize;
--	u8				bCurrent_AMSDU_Support;
--	u16				nCurrent_AMSDU_MaxSize;
--
--	u8				bAMPDUEnable;
--	u8				bCurrentAMPDUEnable;
--	u8				AMPDU_Factor;
--	u8				CurrentAMPDUFactor;
--	u8				MPDU_Density;
-+	u8 PeerHTCapBuf[32];
-+	u8 PeerHTInfoBuf[32];
-+	u8 bAMSDU_Support;
-+	u16 nAMSDU_MaxSize;
-+	u8 bCurrent_AMSDU_Support;
-+	u16 nCurrent_AMSDU_MaxSize;
-+	u8 bAMPDUEnable;
-+	u8 bCurrentAMPDUEnable;
-+	u8 AMPDU_Factor;
-+	u8 CurrentAMPDUFactor;
-+	u8 MPDU_Density;
- 	u8 current_mpdu_density;
--
- 	enum ht_aggre_mode ForcedAMPDUMode;
- 	u8 forced_ampdu_factor;
- 	u8 forced_mpdu_density;
--
- 	enum ht_aggre_mode ForcedAMSDUMode;
- 	u8 forced_short_gi;
--
- 	u8 current_op_mode;
--
- 	u8 self_mimo_ps;
- 	u8 peer_mimo_ps;
--
- 	enum ht_extchnl_offset CurSTAExtChnlOffset;
- 	u8 cur_tx_bw40mhz;
- 	u8 sw_bw_in_progress;
- 	u8 reg_rt2rt_aggregation;
--	u8				RT2RT_HT_Mode;
-+	u8 RT2RT_HT_Mode;
- 	u8 current_rt2rt_aggregation;
- 	u8 current_rt2rt_long_slot_time;
- 	u8 sz_rt2rt_agg_buf[10];
--
- 	u8 reg_rx_reorder_enable;
- 	u8 cur_rx_reorder_enable;
- 	u8 rx_reorder_win_size;
- 	u8 rx_reorder_pending_time;
- 	u16 rx_reorder_drop_counter;
--	u8				IOTPeer;
-+	u8 IOTPeer;
- 	u32 iot_action;
- 	u8 iot_ra_func;
- } __packed;
+changes in version 2:
+- Use a dynamic array and not a list to keep trace of allocated buffers.
+  Not use IDR interface because it is marked as deprecated in kernel
+  documentation.
+- Add a module parameter to limit the number of buffer per queue.
+- Add DELETE_BUF ioctl and m2m helpers.
+
+Benjamin Gaignard (11):
+  media: videobuf2: Access vb2_queue bufs array through helper functions
+  media: videobuf2: Use Xarray instead of static buffers array
+  media: videobuf2: Remove VB2_MAX_FRAME limit on buffer storage
+  media: videobuf2: Stop define VB2_MAX_FRAME as global
+  media: verisilicon: Refactor postprocessor to store more buffers
+  media: verisilicon: Store chroma and motion vectors offset
+  media: verisilicon: vp9: Use destination buffer height to compute
+    chroma offset
+  media: verisilicon: postproc: Fix down scale test
+  media: verisilicon: vp9: Allow to change resolution while streaming
+  media: v4l2: Add DELETE_BUF ioctl
+  media: v4l2: Add mem2mem helpers for DELETE_BUF ioctl
+
+ .../userspace-api/media/v4l/user-func.rst     |   1 +
+ .../media/v4l/vidioc-delete-buf.rst           |  51 ++++
+ .../media/common/videobuf2/videobuf2-core.c   | 275 ++++++++++++++----
+ .../media/common/videobuf2/videobuf2-v4l2.c   |  34 ++-
+ drivers/media/platform/amphion/vdec.c         |   1 +
+ drivers/media/platform/amphion/vpu_dbg.c      |  22 +-
+ .../platform/mediatek/jpeg/mtk_jpeg_core.c    |   6 +-
+ .../vcodec/vdec/vdec_vp9_req_lat_if.c         |   4 +-
+ drivers/media/platform/qcom/venus/hfi.h       |   2 +
+ drivers/media/platform/st/sti/hva/hva-v4l2.c  |   4 +
+ drivers/media/platform/verisilicon/hantro.h   |   8 +-
+ .../platform/verisilicon/hantro_g2_vp9_dec.c  |  10 +-
+ .../media/platform/verisilicon/hantro_hw.h    |   4 +-
+ .../platform/verisilicon/hantro_postproc.c    | 114 +++++---
+ .../media/platform/verisilicon/hantro_v4l2.c  |  37 +--
+ drivers/media/test-drivers/vim2m.c            |   1 +
+ drivers/media/test-drivers/visl/visl-dec.c    |  28 +-
+ drivers/media/v4l2-core/v4l2-dev.c            |   1 +
+ drivers/media/v4l2-core/v4l2-ioctl.c          |  10 +
+ drivers/media/v4l2-core/v4l2-mem2mem.c        |  20 ++
+ .../staging/media/atomisp/pci/atomisp_ioctl.c |   2 +-
+ drivers/staging/media/ipu3/ipu3-v4l2.c        |   2 +
+ include/media/v4l2-ioctl.h                    |   4 +
+ include/media/v4l2-mem2mem.h                  |  12 +
+ include/media/videobuf2-core.h                |  16 +-
+ include/media/videobuf2-v4l2.h                |  15 +-
+ include/uapi/linux/videodev2.h                |   2 +
+ 27 files changed, 523 insertions(+), 163 deletions(-)
+ create mode 100644 Documentation/userspace-api/media/v4l/vidioc-delete-buf.rst
+
 -- 
 2.39.2
 
