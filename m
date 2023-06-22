@@ -1,25 +1,25 @@
 Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC16B1ED45
-	for <linux-staging@lists.linux.dev>; Thu, 22 Jun 2023 13:14:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C07E81ED40
+	for <linux-staging@lists.linux.dev>; Thu, 22 Jun 2023 13:14:03 +0000 (UTC)
 Received: from benjamin-XPS-13-9310.. (unknown [IPv6:2a01:e0a:120:3210:7d72:676c:e745:a6ef])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
 	(Authenticated sender: benjamin.gaignard)
-	by madras.collabora.co.uk (Postfix) with ESMTPSA id 4B4B8660712D;
+	by madras.collabora.co.uk (Postfix) with ESMTPSA id C3B7D6607131;
 	Thu, 22 Jun 2023 14:14:00 +0100 (BST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1687439640;
-	bh=ZiJZeCrdYyJk6ji66RurI+0QVQYXWWl0hCRxE21ZIiQ=;
+	s=mail; t=1687439641;
+	bh=UmxaSxfAyduJDEDEY4mpYf+MJsD53OV/RCS4wvgVO+g=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=U0zsmGVCsQ+HRf88BblNgvRpabk8rpioN4X5sKdE9Z0Qe9DGe9cNQE0k1E8fE9HCx
-	 i0/LkBviZzhZnivGLqThkTSmEp7ueCMhIPoeQw2Xq6Yu5+Y8TalLwt7mDSlGOsy1Hm
-	 Kmf7ugd6oCy8LNL0mI2psUJUEgddM4VbBrFdqzapOKCEcyZgNpeHVkaaPoOs0XZ9H/
-	 Lh3Dp1q/ja1beetzo7WsEbILf+X0S3GQWpf7rMypG1wEyE61OoaiLdFNReduOSmHEv
-	 quEqtqd3ja49w1clhV8+nHtlQ+oFqbO+m6lnfhva6eIeI3rZxjNy1aN+BfIwQCR6AA
-	 diw36mypgVTyA==
+	b=LE4QqBKgWv+1EySXMkQVSaD1dNhI+GeD3LlmDyw8BUUqAzjeWKpLgE7nYFbDxEEv9
+	 Ati1aQFtBHhVCABtN74rxVbZAa0MJSrZwVIgrgxRkDAIImGtdfaAWTqBawHTNAbMl/
+	 HdshjmeOvUsBxHts3OqwHdUtzM8APjBR4H8Dcl06XSpdTrsLjVDi2bXO/6Q+Z2385t
+	 AAAr8kZFEeZazGpcyPfMqlpZCv2h3C9HeJ6EXw2PfsfsK9xapfSEcEgXl7Er0SU4wE
+	 Y/3OPZhHXGACkMUixRI+7UZiu5cfz2o/DlWmXPnVxS2yL6iB1y+ma9RO+Hn7zvmTu4
+	 8A0REHtV4T39g==
 From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
 To: mchehab@kernel.org,
 	tfiga@chromium.org,
@@ -39,9 +39,9 @@ Cc: linux-media@vger.kernel.org,
 	linux-staging@lists.linux.dev,
 	kernel@collabora.com,
 	Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Subject: [PATCH v3 06/11] media: verisilicon: Store chroma and motion vectors offset
-Date: Thu, 22 Jun 2023 15:13:44 +0200
-Message-Id: <20230622131349.144160-7-benjamin.gaignard@collabora.com>
+Subject: [PATCH v3 07/11] media: verisilicon: vp9: Use destination buffer height to compute chroma offset
+Date: Thu, 22 Jun 2023 15:13:45 +0200
+Message-Id: <20230622131349.144160-8-benjamin.gaignard@collabora.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230622131349.144160-1-benjamin.gaignard@collabora.com>
 References: <20230622131349.144160-1-benjamin.gaignard@collabora.com>
@@ -53,63 +53,31 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Store computed values of chroma and motion vectors offset because
-they depends on width and height values which change if the resolution
-change.
+Source and destination buffer height may not be the same because
+alignment constraint are different.
+Use destination height to compute chroma offset because we target
+this buffer as hardware output.
 
 Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
 ---
- drivers/media/platform/verisilicon/hantro.h            | 2 ++
- drivers/media/platform/verisilicon/hantro_g2_vp9_dec.c | 6 ++++--
- 2 files changed, 6 insertions(+), 2 deletions(-)
+ drivers/media/platform/verisilicon/hantro_g2_vp9_dec.c | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
-diff --git a/drivers/media/platform/verisilicon/hantro.h b/drivers/media/platform/verisilicon/hantro.h
-index bd0dca11b90a..16c7e9bafde3 100644
---- a/drivers/media/platform/verisilicon/hantro.h
-+++ b/drivers/media/platform/verisilicon/hantro.h
-@@ -320,6 +320,8 @@ struct hantro_vp9_decoded_buffer_info {
- 	/* Info needed when the decoded frame serves as a reference frame. */
- 	unsigned short width;
- 	unsigned short height;
-+	size_t chroma_offset;
-+	size_t mv_offset;
- 	u32 bit_depth : 4;
- };
- 
 diff --git a/drivers/media/platform/verisilicon/hantro_g2_vp9_dec.c b/drivers/media/platform/verisilicon/hantro_g2_vp9_dec.c
-index 6fc4b555517f..6db1c32fce4d 100644
+index 6db1c32fce4d..1f3f5e7ce978 100644
 --- a/drivers/media/platform/verisilicon/hantro_g2_vp9_dec.c
 +++ b/drivers/media/platform/verisilicon/hantro_g2_vp9_dec.c
-@@ -158,9 +158,11 @@ static void config_output(struct hantro_ctx *ctx,
- 
- 	chroma_addr = luma_addr + chroma_offset(ctx, dec_params);
- 	hantro_write_addr(ctx->dev, G2_OUT_CHROMA_ADDR, chroma_addr);
-+	dst->vp9.chroma_offset = chroma_offset(ctx, dec_params);
- 
- 	mv_addr = luma_addr + mv_offset(ctx, dec_params);
- 	hantro_write_addr(ctx->dev, G2_OUT_MV_ADDR, mv_addr);
-+	dst->vp9.mv_offset = mv_offset(ctx, dec_params);
+@@ -93,9 +93,7 @@ static int start_prepare_run(struct hantro_ctx *ctx, const struct v4l2_ctrl_vp9_
+ static size_t chroma_offset(const struct hantro_ctx *ctx,
+ 			    const struct v4l2_ctrl_vp9_frame *dec_params)
+ {
+-	int bytes_per_pixel = dec_params->bit_depth == 8 ? 1 : 2;
+-
+-	return ctx->src_fmt.width * ctx->src_fmt.height * bytes_per_pixel;
++	return ctx->dst_fmt.width * ctx->dst_fmt.height * ctx->bit_depth / 8;
  }
  
- struct hantro_vp9_ref_reg {
-@@ -195,7 +197,7 @@ static void config_ref(struct hantro_ctx *ctx,
- 	luma_addr = hantro_get_dec_buf_addr(ctx, &buf->base.vb.vb2_buf);
- 	hantro_write_addr(ctx->dev, ref_reg->y_base, luma_addr);
- 
--	chroma_addr = luma_addr + chroma_offset(ctx, dec_params);
-+	chroma_addr = luma_addr + buf->vp9.chroma_offset;
- 	hantro_write_addr(ctx->dev, ref_reg->c_base, chroma_addr);
- }
- 
-@@ -238,7 +240,7 @@ static void config_ref_registers(struct hantro_ctx *ctx,
- 	config_ref(ctx, dst, &ref_regs[2], dec_params, dec_params->alt_frame_ts);
- 
- 	mv_addr = hantro_get_dec_buf_addr(ctx, &mv_ref->base.vb.vb2_buf) +
--		  mv_offset(ctx, dec_params);
-+		  mv_ref->vp9.mv_offset;
- 	hantro_write_addr(ctx->dev, G2_REF_MV_ADDR(0), mv_addr);
- 
- 	hantro_reg_write(ctx->dev, &vp9_last_sign_bias,
+ static size_t mv_offset(const struct hantro_ctx *ctx,
 -- 
 2.39.2
 
