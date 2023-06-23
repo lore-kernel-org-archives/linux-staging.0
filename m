@@ -1,86 +1,208 @@
-Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail3-relais-sop.national.inria.fr (mail3-relais-sop.national.inria.fr [192.134.164.104])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6007B100C4
-	for <linux-staging@lists.linux.dev>; Fri, 23 Jun 2023 17:20:48 +0000 (UTC)
-Received: by mail-ed1-f42.google.com with SMTP id 4fb4d7f45d1cf-51be90024f7so190789a12.0
-        for <linux-staging@lists.linux.dev>; Fri, 23 Jun 2023 10:20:48 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DCD1125CD;
+	Fri, 23 Jun 2023 21:15:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1687540846; x=1690132846;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=Wm1WVoIbn3lR/yYEwl05EQlAoyEzS9kcMhjBtJTS530=;
-        b=Qgmk66gpXSiGi9NZhO6CuX/XFzR7A1R0Tm6p/GxMbmWSmO0O4mXQgeQYAha59aNOW7
-         nySIl2nAiMoGJrC/XIqueQdWfDmG5MY6UOOAbAnOrnJ+rXNCswAWECNzhMYhnOAOra8r
-         rN/O4Kkq/6kNhfk4D41p3+oAquI+iHN1UhQcRUE3EMG9mKkZ7mRxMRqeP+bBXAZG046O
-         9Bu9qYMIQM6TXHfiH8KRj/lJ2n1uOrYw3H+02zVyLiaLu59Aw0b9MGTtoYsPgr9/EYP8
-         EfZK2VzRw0r6HeBuCLx0c1N1zC+7n4v0n3q27s7VKKBJG5TzjV+5rsH/5rc96FuI9qLb
-         yBxw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1687540846; x=1690132846;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Wm1WVoIbn3lR/yYEwl05EQlAoyEzS9kcMhjBtJTS530=;
-        b=IAgCGjJcMPE2OeJkTvPSJvIVWjW7FclLvjos/OzdhFKWgOSI32w+iLQJMo9PWuMYx/
-         UkEtH5tJgUoPYDLsTG7AE0c/a9Ul+SZW24Pq/yl1TFzUFZkaWLx9IIX3tv6FMfXNNoni
-         ChSslblHBNCKhdwrtrG4hEVNyUf14Sw3HgLKFaHFsBIUIuWGbAMqfnAcDrC70MPSqbh2
-         /cmPu22BadT5avKHqvDp8NM8QHcY2sXWKsU6QaXGnP7Ip7C9Z2qh1zt6cy1PNj6M90B1
-         oH3eNDx34womN5OmoZ0+aRvNdG/9mPsOOu0ax3KIp1DO4A63d+Zvb3EEt8uDgZWE5unl
-         jLWg==
-X-Gm-Message-State: AC+VfDwe6ImHkPVLU+dzP6dC8sxn0QVn841JNA0L+wj+YYuc8aXAaHO0
-	bRklY+TUJ9ouKN3TLUJuTTQ=
-X-Google-Smtp-Source: ACHHUZ6liZZCJdt+mtGxv5CyN1Yl6kvTStu+cUKc2NRwZ0GEhpbyH8XanIfHLIfaEBG58yvuWzKt0g==
-X-Received: by 2002:a17:906:73cc:b0:98d:b10f:f3cd with SMTP id n12-20020a17090673cc00b0098db10ff3cdmr591020ejl.7.1687540846180;
-        Fri, 23 Jun 2023 10:20:46 -0700 (PDT)
-Received: from [192.168.0.103] (p57ba2e0b.dip0.t-ipconnect.de. [87.186.46.11])
-        by smtp.gmail.com with ESMTPSA id a20-20020a170906369400b0094e7d196aa4sm6163147ejc.160.2023.06.23.10.20.43
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 23 Jun 2023 10:20:44 -0700 (PDT)
-Message-ID: <2d1ba862-961c-ec91-3a28-7f2f221b90d4@gmail.com>
-Date: Fri, 23 Jun 2023 19:20:42 +0200
+  d=inria.fr; s=dc;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=yokMEiNdELJzyHFQdE73QSq1qzFaQMznhY0/hFJPXdI=;
+  b=PQ1b0Em2N9AUVeD/LpbU+ZN+rhktTH+Y6Q7VDw8Cf3pNA0l+BtcyhZxn
+   ojeRsFjGxDD8u0+Y/YOKGSuPFSO6phFB8O6SWqeWn+vMMRvPryqL5bt/o
+   lImhNqRZeaTWVm1/g7h+gT/Zhi5gA6YeaCo8RJpx27aob7O1b3mfST+O1
+   0=;
+Authentication-Results: mail3-relais-sop.national.inria.fr; dkim=none (message not signed) header.i=none; spf=SoftFail smtp.mailfrom=Julia.Lawall@inria.fr; dmarc=fail (p=none dis=none) d=inria.fr
+X-IronPort-AV: E=Sophos;i="6.01,153,1684792800"; 
+   d="scan'208";a="59686157"
+Received: from i80.paris.inria.fr (HELO i80.paris.inria.fr.) ([128.93.90.48])
+  by mail3-relais-sop.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jun 2023 23:15:09 +0200
+From: Julia Lawall <Julia.Lawall@inria.fr>
+To: linux-staging@lists.linux.dev
+Cc: keescook@chromium.org,
+	kernel-janitors@vger.kernel.org,
+	Tianshu Qiu <tian.shu.qiu@intel.com>,
+	Bingbu Cao <bingbu.cao@intel.com>,
+	linux-sgx@vger.kernel.org,
+	"H. Peter Anvin" <hpa@zytor.com>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	kasan-dev@googlegroups.com,
+	Andrey Konovalov <andreyknvl@gmail.com>,
+	Dmitry Vyukov <dvyukov@google.com>,
+	iommu@lists.linux.dev,
+	linux-tegra@vger.kernel.org,
+	Robin Murphy <robin.murphy@arm.com>,
+	Krishna Reddy <vdumpa@nvidia.com>,
+	linux-scsi@vger.kernel.org,
+	linux-rdma@vger.kernel.org,
+	dri-devel@lists.freedesktop.org,
+	linux-kernel@vger.kernel.org,
+	netdev@vger.kernel.org,
+	Shailend Chand <shailend@google.com>,
+	Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+	Liam Mark <lmark@codeaurora.org>,
+	Laura Abbott <labbott@redhat.com>,
+	Brian Starkey <Brian.Starkey@arm.com>,
+	John Stultz <jstultz@google.com>,
+	linux-media@vger.kernel.org,
+	linaro-mm-sig@lists.linaro.org,
+	Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
+	virtualization@lists.linux-foundation.org,
+	mhi@lists.linux.dev,
+	linux-arm-msm@vger.kernel.org,
+	linux-btrfs@vger.kernel.org,
+	intel-gvt-dev@lists.freedesktop.org,
+	intel-gfx@lists.freedesktop.org,
+	VMware Graphics Reviewers <linux-graphics-maintainer@vmware.com>,
+	linux-hyperv@vger.kernel.org
+Subject: [PATCH 00/26] use array_size
+Date: Fri, 23 Jun 2023 23:14:31 +0200
+Message-Id: <20230623211457.102544-1-Julia.Lawall@inria.fr>
+X-Mailer: git-send-email 2.20.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH v2 0/5] Fix some checkpatch issues
-To: Franziska Naepelt <franziska.naepelt@googlemail.com>
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
- eperi1024@gmail.com, hdegoede@redhat.com, quic_vjakkam@quicinc.com,
- johannes.berg@intel.com, tegongkang@gmail.com,
- Franziska Naepelt <franziska.naepelt@gmail.com>,
- Greg KH <gregkh@linuxfoundation.org>
-References: <20230621184635.25064-1-franziska.naepelt@gmail.com>
- <2023062306-reload-squeezing-633a@gregkh>
-Content-Language: en-US
-From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-In-Reply-To: <2023062306-reload-squeezing-633a@gregkh>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 6/23/23 10:18, Greg KH wrote:
-> On Wed, Jun 21, 2023 at 08:46:35PM +0200, Franziska Naepelt wrote:
->> This is a series of patches to fix some trivial checkpatch issues. Not all
->> issues have been fixed. I intend to submit another series to fix more stuff.
-> 
-> None of these apply to my staging-next branch :(
->
+Use array_size to protect against multiplication overflows.
 
-Hi,
+This follows up on the following patches by Kees Cook from 2018.
 
-this is the repo and branch I use:
+42bc47b35320 ("treewide: Use array_size() in vmalloc()")
+fad953ce0b22 ("treewide: Use array_size() in vzalloc()")
 
-git remote show origin
-* remote origin
-   Fetch URL: 
-git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git
-...
-git branch -a
-my branch: staging-testing
+The changes were done using the following Coccinelle semantic patch,
+adapted from the one posted by Kees.
 
-Bye Philipp
+// Drop single-byte sizes and redundant parens.
+@@
+    expression COUNT;
+    typedef u8;
+    typedef __u8;
+    type t = {u8,__u8,char,unsigned char};
+    identifier alloc = {vmalloc,vzalloc};
+@@
+      alloc(
+-           (sizeof(t)) * (COUNT)
++           COUNT
+      , ...)
+
+// 3-factor product with 2 sizeof(variable), with redundant parens removed.
+@@
+    expression COUNT;
+    size_t e1, e2, e3;
+    identifier alloc = {vmalloc,vzalloc};
+@@
+
+(    
+      alloc(
+-           (e1) * (e2) * (e3)
++           array3_size(e1, e2, e3)
+      ,...)
+|
+      alloc(
+-           (e1) * (e2) * (COUNT)
++           array3_size(COUNT, e1, e2)
+      ,...)
+)
+
+// 3-factor product with 1 sizeof(type) or sizeof(expression), with
+// redundant parens removed.
+@@
+    expression STRIDE, COUNT;
+    size_t e;
+    identifier alloc = {vmalloc,vzalloc};
+@@
+
+      alloc(
+-           (e) * (COUNT) * (STRIDE)
++           array3_size(COUNT, STRIDE, e)
+      ,...)
+
+// Any remaining multi-factor products, first at least 3-factor products
+// when they're not all constants...
+@@
+    expression E1, E2, E3;
+    constant C1, C2, C3;
+    identifier alloc = {vmalloc,vzalloc};
+@@
+    
+(
+      alloc(C1 * C2 * C3,...)
+|
+      alloc(
+-           (E1) * (E2) * (E3)
++           array3_size(E1, E2, E3)
+      ,...)
+)
+
+// 2-factor product with sizeof(type/expression) and identifier or constant.
+@@
+    size_t e1,e2;
+    expression COUNT;
+    identifier alloc = {vmalloc,vzalloc};
+@@
+
+(
+      alloc(
+-           (e1) * (e2)
++           array_size(e1, e2)
+      ,...)
+|
+      alloc(
+-           (e1) * (COUNT)
++           array_size(COUNT, e1)
+      ,...)
+)
+    
+// And then all remaining 2 factors products when they're not all constants.
+@@
+    expression E1, E2;
+    constant C1, C2;
+    identifier alloc = {vmalloc,vzalloc};
+@@
+    
+(
+      alloc(C1 * C2,...)
+|
+      alloc(
+-           (E1) * (E2)
++           array_size(E1, E2)
+      ,...)
+)
+
+
+---
+
+ arch/x86/kernel/cpu/sgx/main.c                    |    3 ++-
+ drivers/accel/habanalabs/common/device.c          |    3 ++-
+ drivers/accel/habanalabs/common/state_dump.c      |    6 +++---
+ drivers/bus/mhi/host/init.c                       |    4 ++--
+ drivers/comedi/comedi_buf.c                       |    4 ++--
+ drivers/dma-buf/heaps/system_heap.c               |    2 +-
+ drivers/gpu/drm/gud/gud_pipe.c                    |    2 +-
+ drivers/gpu/drm/i915/gvt/gtt.c                    |    6 ++++--
+ drivers/gpu/drm/vmwgfx/vmwgfx_devcaps.c           |    2 +-
+ drivers/infiniband/hw/bnxt_re/qplib_res.c         |    4 ++--
+ drivers/infiniband/hw/erdma/erdma_verbs.c         |    4 ++--
+ drivers/infiniband/sw/siw/siw_qp.c                |    4 ++--
+ drivers/infiniband/sw/siw/siw_verbs.c             |    6 +++---
+ drivers/iommu/tegra-gart.c                        |    4 ++--
+ drivers/net/ethernet/amd/pds_core/core.c          |    4 ++--
+ drivers/net/ethernet/freescale/enetc/enetc.c      |    4 ++--
+ drivers/net/ethernet/google/gve/gve_tx.c          |    2 +-
+ drivers/net/ethernet/marvell/octeon_ep/octep_rx.c |    2 +-
+ drivers/net/ethernet/microsoft/mana/hw_channel.c  |    2 +-
+ drivers/net/ethernet/pensando/ionic/ionic_lif.c   |    4 ++--
+ drivers/scsi/fnic/fnic_trace.c                    |    2 +-
+ drivers/scsi/qla2xxx/qla_init.c                   |    4 ++--
+ drivers/staging/media/ipu3/ipu3-mmu.c             |    2 +-
+ drivers/vdpa/vdpa_user/iova_domain.c              |    3 +--
+ drivers/virtio/virtio_mem.c                       |    6 +++---
+ fs/btrfs/zoned.c                                  |    5 +++--
+ kernel/kcov.c                                     |    2 +-
+ lib/test_vmalloc.c                                |   12 ++++++------
+ 28 files changed, 56 insertions(+), 52 deletions(-)
