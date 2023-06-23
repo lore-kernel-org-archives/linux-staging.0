@@ -1,90 +1,87 @@
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B4A67F;
-	Fri, 23 Jun 2023 00:25:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1687479956; x=1719015956;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=xWb6G7Cg4aCmo6Vqc7o2CYZbvqZ1NqGkHb/WQ0tI0zo=;
-  b=cCwZd1Xggt2wU70nBwz9n64HvAfFLyhQbAJJmGuTQXIX3ry+vYlkzDJu
-   VmxAOoOY5aEen2ws9usigLVT3lUfFcDRJziEfbkw77tXIMY/47qqb46oN
-   ZWxtEaU0F6NE+MPGd1EiWO20BY3nLQSIVtOKkaqiLZiqBtiyTno4HyDWr
-   pLjqlsYbyNqMzAe+P14jbZlcCvxZ6cYpX8T3gFzrNVVjKJAB79dCRc0/F
-   FHnpGniRtHse0rga8NlFyEypTORu30k3Fh6klNvp826pSafz8294XCE8n
-   SmVIhtBXfOffAC/X7f4EZwgXzrolEpoFVx6JRERn41LzoU2MwMIMYahcc
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10749"; a="426630066"
-X-IronPort-AV: E=Sophos;i="6.01,150,1684825200"; 
-   d="scan'208";a="426630066"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jun 2023 17:25:55 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10749"; a="839254554"
-X-IronPort-AV: E=Sophos;i="6.01,150,1684825200"; 
-   d="scan'208";a="839254554"
-Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
-  by orsmga004.jf.intel.com with ESMTP; 22 Jun 2023 17:25:50 -0700
-Received: from kbuild by 783282924a45 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qCUcX-0007qN-2K;
-	Fri, 23 Jun 2023 00:25:49 +0000
-Date: Fri, 23 Jun 2023 08:25:37 +0800
-From: kernel test robot <lkp@intel.com>
-To: Benjamin Gaignard <benjamin.gaignard@collabora.com>, mchehab@kernel.org,
-	tfiga@chromium.org, m.szyprowski@samsung.com, ming.qian@nxp.com,
-	ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de,
-	gregkh@linuxfoundation.org, hverkuil-cisco@xs4all.nl,
-	nicolas.dufresne@collabora.com
-Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
-	linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
-	kernel@collabora.com,
-	Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Subject: Re: [PATCH v3 10/11] media: v4l2: Add DELETE_BUF ioctl
-Message-ID: <202306230822.0CCLmVt5-lkp@intel.com>
-References: <20230622131349.144160-11-benjamin.gaignard@collabora.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 602D317C2
+	for <linux-staging@lists.linux.dev>; Fri, 23 Jun 2023 07:02:32 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CFB32C433C8;
+	Fri, 23 Jun 2023 07:02:28 +0000 (UTC)
+Message-ID: <f21d6fce-155c-28f0-fdea-e9264ba1f7ba@xs4all.nl>
+Date: Fri, 23 Jun 2023 09:02:26 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230622131349.144160-11-benjamin.gaignard@collabora.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PATCH v3 03/11] media: videobuf2: Remove VB2_MAX_FRAME limit on
+ buffer storage
+To: Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Dan Carpenter <dan.carpenter@linaro.org>
+Cc: mchehab@kernel.org, tfiga@chromium.org, m.szyprowski@samsung.com,
+ ming.qian@nxp.com, ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de,
+ gregkh@linuxfoundation.org, nicolas.dufresne@collabora.com,
+ linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org,
+ linux-arm-msm@vger.kernel.org, linux-rockchip@lists.infradead.org,
+ linux-staging@lists.linux.dev, kernel@collabora.com
+References: <20230622131349.144160-1-benjamin.gaignard@collabora.com>
+ <20230622131349.144160-4-benjamin.gaignard@collabora.com>
+ <bddd6cb7-cd72-4fb5-8d4a-d02cb9c46dce@kadam.mountain>
+ <39aff680-316a-7382-c93b-d9ca61c389e9@collabora.com>
+Content-Language: en-US
+From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+In-Reply-To: <39aff680-316a-7382-c93b-d9ca61c389e9@collabora.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Hi Benjamin,
+On 22/06/2023 16:13, Benjamin Gaignard wrote:
+> 
+> Le 22/06/2023 à 16:11, Dan Carpenter a écrit :
+>> On Thu, Jun 22, 2023 at 03:13:41PM +0200, Benjamin Gaignard wrote:
+>>> diff --git a/drivers/media/common/videobuf2/videobuf2-core.c b/drivers/media/common/videobuf2/videobuf2-core.c
+>>> index f1ff7af34a9f..86e1e926fa45 100644
+>>> --- a/drivers/media/common/videobuf2/videobuf2-core.c
+>>> +++ b/drivers/media/common/videobuf2/videobuf2-core.c
+>>> @@ -455,9 +455,9 @@ static int __vb2_queue_alloc(struct vb2_queue *q, enum vb2_memory memory,
+>>>       struct vb2_buffer *vb;
+>>>       int ret;
+>>>   -    /* Ensure that q->num_buffers+num_buffers is below VB2_MAX_FRAME */
+>>> +    /* Ensure that q->num_buffers + num_buffers is UINT_MAX */
+>>>       num_buffers = min_t(unsigned int, num_buffers,
+>>> -                VB2_MAX_FRAME - q->num_buffers);
+>>> +                UINT_MAX - q->num_buffers);
+>>>         for (buffer = 0; buffer < num_buffers; ++buffer) {
+>>>           /* Allocate vb2 buffer structures */
+>> Ah...  Here's one of the integer overflow bugs I was talking about.  The
+>> __vb2_queue_alloc() function returns an int so if num_buffers goes over
+>> INT_MAX we are hosed.
+> 
+> I will limit it to:
+> #define VB2_QUEUE_MAX_BUFFERS  (INT_MAX & PAGE_MASK)  /* The mask prevents 85% of integer overflows */
+> as you have suggest it.
 
-kernel test robot noticed the following build errors:
+IMHO INT_MAX is way overkill. How about (1U << 20)? I would like some sort of
+sanity check here. 1048576 buffers of 640x480 and 4 bytes per pixel is 1.2 TB.
 
-[auto build test ERROR on media-tree/master]
-[also build test ERROR on linus/master v6.4-rc7]
-[cannot apply to next-20230622]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Since a TB of memory is doable these days, I think this is a reasonable
+value for MAX_BUFFERS without allowing just anything.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Benjamin-Gaignard/media-videobuf2-Access-vb2_queue-bufs-array-through-helper-functions/20230622-214122
-base:   git://linuxtv.org/media_tree.git master
-patch link:    https://lore.kernel.org/r/20230622131349.144160-11-benjamin.gaignard%40collabora.com
-patch subject: [PATCH v3 10/11] media: v4l2: Add DELETE_BUF ioctl
-config: i386-randconfig-i012-20230622 (https://download.01.org/0day-ci/archive/20230623/202306230822.0CCLmVt5-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230623/202306230822.0CCLmVt5-lkp@intel.com/reproduce)
+An alternative is to make this a kernel config.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306230822.0CCLmVt5-lkp@intel.com/
+Regards,
 
-All errors (new ones prefixed by >>, old ones prefixed by <<):
+	Hans
 
->> ERROR: modpost: "vb2_core_delete_buf" [drivers/media/common/videobuf2/videobuf2-v4l2.ko] undefined!
+> 
+> That will be in version 4.
+> 
+> Thanks,
+> Benjamin
+> 
+>>
+>> regards,
+>> dan carpenter
+>>
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
