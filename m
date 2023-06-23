@@ -1,64 +1,39 @@
 Received: from mail3-relais-sop.national.inria.fr (mail3-relais-sop.national.inria.fr [192.134.164.104])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DCD1125CD;
-	Fri, 23 Jun 2023 21:15:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41C23125CD
+	for <linux-staging@lists.linux.dev>; Fri, 23 Jun 2023 21:15:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
   d=inria.fr; s=dc;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=yokMEiNdELJzyHFQdE73QSq1qzFaQMznhY0/hFJPXdI=;
-  b=PQ1b0Em2N9AUVeD/LpbU+ZN+rhktTH+Y6Q7VDw8Cf3pNA0l+BtcyhZxn
-   ojeRsFjGxDD8u0+Y/YOKGSuPFSO6phFB8O6SWqeWn+vMMRvPryqL5bt/o
-   lImhNqRZeaTWVm1/g7h+gT/Zhi5gA6YeaCo8RJpx27aob7O1b3mfST+O1
-   0=;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=W1WB9Wb0BvRRcBkbSVITYF4i4Xscr+EN0kvgwOJ6wOs=;
+  b=WmG/JpBrM0La8Q7SPsscDO+9vwp6o00kURhYuE4MeUme0ls/EvAKTJhY
+   mp+BcN1WhFW8+h7eRAujDv59DBrIbAx6oxgu581730TSsqjI0R/hG8vwc
+   R2wBhiJozXLBTfyUjGNSc07qmFKw/jr6X7BSNFOgHP2+n6nDAix+z1p0U
+   Q=;
 Authentication-Results: mail3-relais-sop.national.inria.fr; dkim=none (message not signed) header.i=none; spf=SoftFail smtp.mailfrom=Julia.Lawall@inria.fr; dmarc=fail (p=none dis=none) d=inria.fr
 X-IronPort-AV: E=Sophos;i="6.01,153,1684792800"; 
-   d="scan'208";a="59686157"
+   d="scan'208";a="59686181"
 Received: from i80.paris.inria.fr (HELO i80.paris.inria.fr.) ([128.93.90.48])
-  by mail3-relais-sop.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jun 2023 23:15:09 +0200
+  by mail3-relais-sop.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jun 2023 23:15:14 +0200
 From: Julia Lawall <Julia.Lawall@inria.fr>
-To: linux-staging@lists.linux.dev
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
 Cc: keescook@chromium.org,
 	kernel-janitors@vger.kernel.org,
-	Tianshu Qiu <tian.shu.qiu@intel.com>,
 	Bingbu Cao <bingbu.cao@intel.com>,
-	linux-sgx@vger.kernel.org,
-	"H. Peter Anvin" <hpa@zytor.com>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	kasan-dev@googlegroups.com,
-	Andrey Konovalov <andreyknvl@gmail.com>,
-	Dmitry Vyukov <dvyukov@google.com>,
-	iommu@lists.linux.dev,
-	linux-tegra@vger.kernel.org,
-	Robin Murphy <robin.murphy@arm.com>,
-	Krishna Reddy <vdumpa@nvidia.com>,
-	linux-scsi@vger.kernel.org,
-	linux-rdma@vger.kernel.org,
-	dri-devel@lists.freedesktop.org,
-	linux-kernel@vger.kernel.org,
-	netdev@vger.kernel.org,
-	Shailend Chand <shailend@google.com>,
-	Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-	Liam Mark <lmark@codeaurora.org>,
-	Laura Abbott <labbott@redhat.com>,
-	Brian Starkey <Brian.Starkey@arm.com>,
-	John Stultz <jstultz@google.com>,
+	Tianshu Qiu <tian.shu.qiu@intel.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-media@vger.kernel.org,
-	linaro-mm-sig@lists.linaro.org,
-	Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
-	virtualization@lists.linux-foundation.org,
-	mhi@lists.linux.dev,
-	linux-arm-msm@vger.kernel.org,
-	linux-btrfs@vger.kernel.org,
-	intel-gvt-dev@lists.freedesktop.org,
-	intel-gfx@lists.freedesktop.org,
-	VMware Graphics Reviewers <linux-graphics-maintainer@vmware.com>,
-	linux-hyperv@vger.kernel.org
-Subject: [PATCH 00/26] use array_size
-Date: Fri, 23 Jun 2023 23:14:31 +0200
-Message-Id: <20230623211457.102544-1-Julia.Lawall@inria.fr>
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH 23/26] media: staging: imgu: use array_size
+Date: Fri, 23 Jun 2023 23:14:54 +0200
+Message-Id: <20230623211457.102544-24-Julia.Lawall@inria.fr>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20230623211457.102544-1-Julia.Lawall@inria.fr>
+References: <20230623211457.102544-1-Julia.Lawall@inria.fr>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -69,96 +44,9 @@ Content-Transfer-Encoding: 8bit
 
 Use array_size to protect against multiplication overflows.
 
-This follows up on the following patches by Kees Cook from 2018.
+The changes were done using the following Coccinelle semantic patch:
 
-42bc47b35320 ("treewide: Use array_size() in vmalloc()")
-fad953ce0b22 ("treewide: Use array_size() in vzalloc()")
-
-The changes were done using the following Coccinelle semantic patch,
-adapted from the one posted by Kees.
-
-// Drop single-byte sizes and redundant parens.
-@@
-    expression COUNT;
-    typedef u8;
-    typedef __u8;
-    type t = {u8,__u8,char,unsigned char};
-    identifier alloc = {vmalloc,vzalloc};
-@@
-      alloc(
--           (sizeof(t)) * (COUNT)
-+           COUNT
-      , ...)
-
-// 3-factor product with 2 sizeof(variable), with redundant parens removed.
-@@
-    expression COUNT;
-    size_t e1, e2, e3;
-    identifier alloc = {vmalloc,vzalloc};
-@@
-
-(    
-      alloc(
--           (e1) * (e2) * (e3)
-+           array3_size(e1, e2, e3)
-      ,...)
-|
-      alloc(
--           (e1) * (e2) * (COUNT)
-+           array3_size(COUNT, e1, e2)
-      ,...)
-)
-
-// 3-factor product with 1 sizeof(type) or sizeof(expression), with
-// redundant parens removed.
-@@
-    expression STRIDE, COUNT;
-    size_t e;
-    identifier alloc = {vmalloc,vzalloc};
-@@
-
-      alloc(
--           (e) * (COUNT) * (STRIDE)
-+           array3_size(COUNT, STRIDE, e)
-      ,...)
-
-// Any remaining multi-factor products, first at least 3-factor products
-// when they're not all constants...
-@@
-    expression E1, E2, E3;
-    constant C1, C2, C3;
-    identifier alloc = {vmalloc,vzalloc};
-@@
-    
-(
-      alloc(C1 * C2 * C3,...)
-|
-      alloc(
--           (E1) * (E2) * (E3)
-+           array3_size(E1, E2, E3)
-      ,...)
-)
-
-// 2-factor product with sizeof(type/expression) and identifier or constant.
-@@
-    size_t e1,e2;
-    expression COUNT;
-    identifier alloc = {vmalloc,vzalloc};
-@@
-
-(
-      alloc(
--           (e1) * (e2)
-+           array_size(e1, e2)
-      ,...)
-|
-      alloc(
--           (e1) * (COUNT)
-+           array_size(COUNT, e1)
-      ,...)
-)
-    
-// And then all remaining 2 factors products when they're not all constants.
+// <smpl>
 @@
     expression E1, E2;
     constant C1, C2;
@@ -173,36 +61,25 @@ adapted from the one posted by Kees.
 +           array_size(E1, E2)
       ,...)
 )
+// </smpl>
 
+Signed-off-by: Julia Lawall <Julia.Lawall@inria.fr>
 
 ---
+ drivers/staging/media/ipu3/ipu3-mmu.c |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
- arch/x86/kernel/cpu/sgx/main.c                    |    3 ++-
- drivers/accel/habanalabs/common/device.c          |    3 ++-
- drivers/accel/habanalabs/common/state_dump.c      |    6 +++---
- drivers/bus/mhi/host/init.c                       |    4 ++--
- drivers/comedi/comedi_buf.c                       |    4 ++--
- drivers/dma-buf/heaps/system_heap.c               |    2 +-
- drivers/gpu/drm/gud/gud_pipe.c                    |    2 +-
- drivers/gpu/drm/i915/gvt/gtt.c                    |    6 ++++--
- drivers/gpu/drm/vmwgfx/vmwgfx_devcaps.c           |    2 +-
- drivers/infiniband/hw/bnxt_re/qplib_res.c         |    4 ++--
- drivers/infiniband/hw/erdma/erdma_verbs.c         |    4 ++--
- drivers/infiniband/sw/siw/siw_qp.c                |    4 ++--
- drivers/infiniband/sw/siw/siw_verbs.c             |    6 +++---
- drivers/iommu/tegra-gart.c                        |    4 ++--
- drivers/net/ethernet/amd/pds_core/core.c          |    4 ++--
- drivers/net/ethernet/freescale/enetc/enetc.c      |    4 ++--
- drivers/net/ethernet/google/gve/gve_tx.c          |    2 +-
- drivers/net/ethernet/marvell/octeon_ep/octep_rx.c |    2 +-
- drivers/net/ethernet/microsoft/mana/hw_channel.c  |    2 +-
- drivers/net/ethernet/pensando/ionic/ionic_lif.c   |    4 ++--
- drivers/scsi/fnic/fnic_trace.c                    |    2 +-
- drivers/scsi/qla2xxx/qla_init.c                   |    4 ++--
- drivers/staging/media/ipu3/ipu3-mmu.c             |    2 +-
- drivers/vdpa/vdpa_user/iova_domain.c              |    3 +--
- drivers/virtio/virtio_mem.c                       |    6 +++---
- fs/btrfs/zoned.c                                  |    5 +++--
- kernel/kcov.c                                     |    2 +-
- lib/test_vmalloc.c                                |   12 ++++++------
- 28 files changed, 56 insertions(+), 52 deletions(-)
+diff --git a/drivers/staging/media/ipu3/ipu3-mmu.c b/drivers/staging/media/ipu3/ipu3-mmu.c
+index cb9bf5fb29a5..9c4adb815c94 100644
+--- a/drivers/staging/media/ipu3/ipu3-mmu.c
++++ b/drivers/staging/media/ipu3/ipu3-mmu.c
+@@ -464,7 +464,7 @@ struct imgu_mmu_info *imgu_mmu_init(struct device *parent, void __iomem *base)
+ 	 * Allocate the array of L2PT CPU pointers, initialized to zero,
+ 	 * which means the dummy L2PT allocated above.
+ 	 */
+-	mmu->l2pts = vzalloc(IPU3_PT_PTES * sizeof(*mmu->l2pts));
++	mmu->l2pts = vzalloc(array_size(IPU3_PT_PTES, sizeof(*mmu->l2pts)));
+ 	if (!mmu->l2pts)
+ 		goto fail_l2pt;
+ 
+
