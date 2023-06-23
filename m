@@ -1,105 +1,39 @@
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3EDB617D3
-	for <linux-staging@lists.linux.dev>; Fri, 23 Jun 2023 07:51:34 +0000 (UTC)
-Received: from [IPV6:2a01:e0a:120:3210:4849:8b52:4bff:674] (unknown [IPv6:2a01:e0a:120:3210:4849:8b52:4bff:674])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: benjamin.gaignard)
-	by madras.collabora.co.uk (Postfix) with ESMTPSA id EB293660712B;
-	Fri, 23 Jun 2023 08:51:31 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1687506692;
-	bh=IXSG7zZWbP+AwYQOLnWcF9xBZeJYynGpMRfo2WLgtCg=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=opJS58tLdQU7YgNFJUmqNjtvNi91rAm2bjUy5XSJTziw0Kzbhy0CJ0UUak/xI7jgL
-	 vx4+DOqhd4m2VeH5sfQokwGGD0g6ZmWRimqlB7E+W+uPcKyTPWaekM7ENeW/FT6PV4
-	 VFIQejfKUdiTG98Hi5h+j1pc3nPu1gW7ynHnEQ8bXu5/MAP6RkFjaoRDX08emZ3sEw
-	 Vu8z8i1m5gQ9bpjSIh6QvkNJS6E8nWRkeGXOe1Dxegk+Xq+fkyHdtozWTz7CfS+HPL
-	 QCftKOh1hkTTKqzuc+w9+1m53HCjE+sXCTihxVYdk9QnB35uWZW57tDSvK3DFJOb6F
-	 BVFs/E+zgUpGQ==
-Message-ID: <fee4a434-a4b6-9ecc-1188-4638a3cd6af8@collabora.com>
-Date: Fri, 23 Jun 2023 09:51:29 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 830811FA4
+	for <linux-staging@lists.linux.dev>; Fri, 23 Jun 2023 08:18:20 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9ECACC433C0;
+	Fri, 23 Jun 2023 08:18:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1687508300;
+	bh=JCFIGYLHdPDTxnWe0rqNvIgH7ZUiUB4HgWHe9auF49o=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=rR1rNCnuPhJ2OZH1ja/OSyX2834u6LlwMMxzxtxErn2vlAV4HcN6TCJ2lhlYjA/ez
+	 fIy8wVh27SboStti2YpZVRNnXgJ9BdeOetRCIv8GNfoJwq40IhQhjubc1xRDfIL2fT
+	 vtH6nRfq0SfQ3ojBmzlEl5Vx+8Es5TTaeYxbiD80=
+Date: Fri, 23 Jun 2023 10:18:17 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Franziska Naepelt <franziska.naepelt@googlemail.com>
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	eperi1024@gmail.com, hdegoede@redhat.com, quic_vjakkam@quicinc.com,
+	johannes.berg@intel.com, tegongkang@gmail.com,
+	Franziska Naepelt <franziska.naepelt@gmail.com>
+Subject: Re: [PATCH v2 0/5] Fix some checkpatch issues
+Message-ID: <2023062306-reload-squeezing-633a@gregkh>
+References: <20230621184635.25064-1-franziska.naepelt@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH v3 03/11] media: videobuf2: Remove VB2_MAX_FRAME limit on
- buffer storage
-Content-Language: en-US
-To: Hans Verkuil <hverkuil-cisco@xs4all.nl>,
- Dan Carpenter <dan.carpenter@linaro.org>
-Cc: mchehab@kernel.org, tfiga@chromium.org, m.szyprowski@samsung.com,
- ming.qian@nxp.com, ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de,
- gregkh@linuxfoundation.org, nicolas.dufresne@collabora.com,
- linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org,
- linux-arm-msm@vger.kernel.org, linux-rockchip@lists.infradead.org,
- linux-staging@lists.linux.dev, kernel@collabora.com
-References: <20230622131349.144160-1-benjamin.gaignard@collabora.com>
- <20230622131349.144160-4-benjamin.gaignard@collabora.com>
- <bddd6cb7-cd72-4fb5-8d4a-d02cb9c46dce@kadam.mountain>
- <39aff680-316a-7382-c93b-d9ca61c389e9@collabora.com>
- <f21d6fce-155c-28f0-fdea-e9264ba1f7ba@xs4all.nl>
-From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-In-Reply-To: <f21d6fce-155c-28f0-fdea-e9264ba1f7ba@xs4all.nl>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230621184635.25064-1-franziska.naepelt@gmail.com>
 
+On Wed, Jun 21, 2023 at 08:46:35PM +0200, Franziska Naepelt wrote:
+> This is a series of patches to fix some trivial checkpatch issues. Not all
+> issues have been fixed. I intend to submit another series to fix more stuff.
 
-Le 23/06/2023 à 09:02, Hans Verkuil a écrit :
-> On 22/06/2023 16:13, Benjamin Gaignard wrote:
->> Le 22/06/2023 à 16:11, Dan Carpenter a écrit :
->>> On Thu, Jun 22, 2023 at 03:13:41PM +0200, Benjamin Gaignard wrote:
->>>> diff --git a/drivers/media/common/videobuf2/videobuf2-core.c b/drivers/media/common/videobuf2/videobuf2-core.c
->>>> index f1ff7af34a9f..86e1e926fa45 100644
->>>> --- a/drivers/media/common/videobuf2/videobuf2-core.c
->>>> +++ b/drivers/media/common/videobuf2/videobuf2-core.c
->>>> @@ -455,9 +455,9 @@ static int __vb2_queue_alloc(struct vb2_queue *q, enum vb2_memory memory,
->>>>        struct vb2_buffer *vb;
->>>>        int ret;
->>>>    -    /* Ensure that q->num_buffers+num_buffers is below VB2_MAX_FRAME */
->>>> +    /* Ensure that q->num_buffers + num_buffers is UINT_MAX */
->>>>        num_buffers = min_t(unsigned int, num_buffers,
->>>> -                VB2_MAX_FRAME - q->num_buffers);
->>>> +                UINT_MAX - q->num_buffers);
->>>>          for (buffer = 0; buffer < num_buffers; ++buffer) {
->>>>            /* Allocate vb2 buffer structures */
->>> Ah...  Here's one of the integer overflow bugs I was talking about.  The
->>> __vb2_queue_alloc() function returns an int so if num_buffers goes over
->>> INT_MAX we are hosed.
->> I will limit it to:
->> #define VB2_QUEUE_MAX_BUFFERS  (INT_MAX & PAGE_MASK)  /* The mask prevents 85% of integer overflows */
->> as you have suggest it.
-> IMHO INT_MAX is way overkill. How about (1U << 20)? I would like some sort of
-> sanity check here. 1048576 buffers of 640x480 and 4 bytes per pixel is 1.2 TB.
-
-I will go for (1U << 20) in next version.
-
-Regards,
-Benjamin
-
->
-> Since a TB of memory is doable these days, I think this is a reasonable
-> value for MAX_BUFFERS without allowing just anything.
->
-> An alternative is to make this a kernel config.
->
-> Regards,
->
-> 	Hans
->
->> That will be in version 4.
->>
->> Thanks,
->> Benjamin
->>
->>> regards,
->>> dan carpenter
->>>
+None of these apply to my staging-next branch :(
