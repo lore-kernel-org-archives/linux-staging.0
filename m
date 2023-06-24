@@ -1,41 +1,41 @@
-Received: from pb-smtp2.pobox.com (pb-smtp2.pobox.com [64.147.108.71])
+Received: from pb-smtp21.pobox.com (pb-smtp21.pobox.com [173.228.157.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6CC536AA8
-	for <linux-staging@lists.linux.dev>; Sat, 24 Jun 2023 21:05:20 +0000 (UTC)
-Received: from pb-smtp2.pobox.com (unknown [127.0.0.1])
-	by pb-smtp2.pobox.com (Postfix) with ESMTP id B35CD181B56;
-	Sat, 24 Jun 2023 17:05:12 -0400 (EDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0AF9A953
+	for <linux-staging@lists.linux.dev>; Sat, 24 Jun 2023 21:57:10 +0000 (UTC)
+Received: from pb-smtp21.pobox.com (unknown [127.0.0.1])
+	by pb-smtp21.pobox.com (Postfix) with ESMTP id 5B11E2B553;
+	Sat, 24 Jun 2023 17:57:04 -0400 (EDT)
 	(envelope-from tdavies@darkphysics.net)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed; d=pobox.com; h=date:from
 	:to:cc:subject:message-id:mime-version:content-type; s=sasl; bh=
-	YQasF6gnsIv733wQJwuJbqwg8s0h+AM9hZKen/fTpYc=; b=brP3g7drSw08mlvj
-	Sv8+n3N6j7KNbUxha9i+UxZaZd13rq+vBzhJh5oFiE4owvXNCj+Seqjn6O4tmTh/
-	O97SnSmKIbYUPu4s9tGQFo1AU5znZ8N8aKz6SQADNEqx5GVjNlaPVRj70QmUq7NZ
-	DbmY1Z2b/sNBaiWYE/kdknwQK00=
-Received: from pb-smtp2.nyi.icgroup.com (unknown [127.0.0.1])
-	by pb-smtp2.pobox.com (Postfix) with ESMTP id AA836181B52;
-	Sat, 24 Jun 2023 17:05:12 -0400 (EDT)
+	HtyGkaX63IukexMf6HGIeT2EEzI9A0nt1AneQdVQiwc=; b=NA4KTVy//ONfjzN+
+	JuZWdtGJOthF5SXSRoLu9LgJaqbKxClXwDPB2sAtw+qT8Auq7vbO3EerMi4IlDA2
+	lav2zmeHJ32Fu/u/h5PHmhcJDRGhQw4/T19cDndDbdzZalVzMqoC691B479CXlxn
+	puwXzhcesfrw2Qk0kSM0uVWseNg=
+Received: from pb-smtp21.sea.icgroup.com (unknown [127.0.0.1])
+	by pb-smtp21.pobox.com (Postfix) with ESMTP id 531812B551;
+	Sat, 24 Jun 2023 17:57:04 -0400 (EDT)
 	(envelope-from tdavies@darkphysics.net)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed; d=darkphysics.net;
  h=date:from:to:cc:subject:message-id:mime-version:content-type;
- s=2019-09.pbsmtp; bh=YQasF6gnsIv733wQJwuJbqwg8s0h+AM9hZKen/fTpYc=;
- b=rt/Ne2GOR8sX9gXZE+UzfniFlI2hXS/3slhsD+SVfYuHOoumWtslrij/hpU2j9QpH9dHfFaLlbIIypftPVwpXFmggh8kih716DNz3eO4qt1rPGhJwidm569wHCnHxO8Qo8Park+mv78D5sefiV/qtUNeAdN/SJv0aKh4/xXSa6Q=
+ s=2019-09.pbsmtp; bh=HtyGkaX63IukexMf6HGIeT2EEzI9A0nt1AneQdVQiwc=;
+ b=Y/QtsQNeKNmiq9DYVa+KGwFN7aHD7dF9j7MRHhfGONUNWBHdS4rh82NbJMWl0U6OUbGeyDSMb16Fjd0uWlADpTiABGuLbDQ14CtkYuKzPXpWWTDYVTpsAi7RphT32Q1Gkj200iRej1Om9lEwyHzQFx3QtfOxBsPUcwRqdvZ8ef8=
 Received: from tacos.darkphysics (unknown [76.146.178.2])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by pb-smtp2.pobox.com (Postfix) with ESMTPSA id 95DA2181B51;
-	Sat, 24 Jun 2023 17:05:11 -0400 (EDT)
+	by pb-smtp21.pobox.com (Postfix) with ESMTPSA id 6C32F2B54F;
+	Sat, 24 Jun 2023 17:57:01 -0400 (EDT)
 	(envelope-from tdavies@darkphysics.net)
-Date: Sat, 24 Jun 2023 14:05:05 -0700
+Date: Sat, 24 Jun 2023 14:56:55 -0700
 From: Tree Davies <tdavies@darkphysics.net>
 To: gregkh@linuxfoundation.org, philipp.g.hortmann@gmail.com,
 	dan.carpenter@linaro.org
 Cc: tdavies@darkphysics.net, linux-kernel@vger.kernel.org,
 	linux-staging@lists.linux.dev
-Subject: [PATCH] staging: rtl8192e: Rename function HTIOTPeerDetermine to
- ht_iot_peer_determine
-Message-ID: <ZJdagUiGPqzb5lp+@tacos.darkphysics>
+Subject: [PATCH] staging: rtl8192e: Rename function HTUpdateDefaultSetting to
+ ht_update_default_setting
+Message-ID: <ZJdmp3PAOAIqC3Zo@tacos.darkphysics>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -45,38 +45,57 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 X-Pobox-Relay-ID:
- CF08D668-12D2-11EE-8300-307A8E0A682E-45285927!pb-smtp2.pobox.com
+ 0C6574E2-12DA-11EE-8AE5-B31D44D1D7AA-45285927!pb-smtp21.pobox.com
 
-Rename function HTIOTPeerDetermine to ht_iot_peer_determine in order to
-fix checkpatch warning: Avoid CamelCase
+Rename HTUpdateDefaultSetting to ht_update_default_setting in order to
+Fix checkpatch warning: Avoid CamelCase
 
 Signed-off-by: Tree Davies <tdavies@darkphysics.net>
 ---
- drivers/staging/rtl8192e/rtl819x_HTProc.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/staging/rtl8192e/rtl819x_HTProc.c | 2 +-
+ drivers/staging/rtl8192e/rtllib.h         | 2 +-
+ drivers/staging/rtl8192e/rtllib_module.c  | 2 +-
+ 3 files changed, 3 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/staging/rtl8192e/rtl819x_HTProc.c b/drivers/staging/rtl8192e/rtl819x_HTProc.c
-index f9fa3f2bb728..33fac7d9ada8 100644
+index f9fa3f2bb728..f526d04839bf 100644
 --- a/drivers/staging/rtl8192e/rtl819x_HTProc.c
 +++ b/drivers/staging/rtl8192e/rtl819x_HTProc.c
-@@ -164,7 +164,7 @@ bool IsHTHalfNmodeAPs(struct rtllib_device *ieee)
- 	return retValue;
- }
+@@ -67,7 +67,7 @@ static u8 CISCO_BROADCOM[3] = {0x00, 0x17, 0x94};
  
--static void HTIOTPeerDetermine(struct rtllib_device *ieee)
-+static void ht_iot_peer_determine(struct rtllib_device *ieee)
+ static u8 LINKSYS_MARVELL_4400N[3] = {0x00, 0x14, 0xa4};
+ 
+-void HTUpdateDefaultSetting(struct rtllib_device *ieee)
++void ht_update_default_setting(struct rtllib_device *ieee)
  {
  	struct rt_hi_throughput *ht_info = ieee->ht_info;
- 	struct rtllib_network *net = &ieee->current_network;
-@@ -720,7 +720,7 @@ void HTResetSelfAndSavePeerSetting(struct rtllib_device *ieee,
- 			ht_info->RT2RT_HT_Mode = (enum rt_ht_capability)0;
- 		}
  
--		HTIOTPeerDetermine(ieee);
-+		ht_iot_peer_determine(ieee);
+diff --git a/drivers/staging/rtl8192e/rtllib.h b/drivers/staging/rtl8192e/rtllib.h
+index e3ce4431d460..405033c7ed77 100644
+--- a/drivers/staging/rtl8192e/rtllib.h
++++ b/drivers/staging/rtl8192e/rtllib.h
+@@ -1982,7 +1982,7 @@ int rtllib_wx_get_rts(struct rtllib_device *ieee, struct iw_request_info *info,
+ void HTSetConnectBwMode(struct rtllib_device *ieee,
+ 			enum ht_channel_width bandwidth,
+ 			enum ht_extchnl_offset Offset);
+-void HTUpdateDefaultSetting(struct rtllib_device *ieee);
++void ht_update_default_setting(struct rtllib_device *ieee);
+ void HTConstructCapabilityElement(struct rtllib_device *ieee,
+ 				  u8 *posHTCap, u8 *len,
+ 				  u8 isEncrypt, bool bAssoc);
+diff --git a/drivers/staging/rtl8192e/rtllib_module.c b/drivers/staging/rtl8192e/rtllib_module.c
+index d6a4d6b4ec57..841300e3a8bc 100644
+--- a/drivers/staging/rtl8192e/rtllib_module.c
++++ b/drivers/staging/rtl8192e/rtllib_module.c
+@@ -129,7 +129,7 @@ struct net_device *alloc_rtllib(int sizeof_priv)
+ 	if (!ieee->ht_info)
+ 		goto free_softmac;
  
- 		ht_info->iot_action = 0;
- 		bIOTAction = HTIOTActIsDisableMCS14(ieee, pNetwork->bssid);
+-	HTUpdateDefaultSetting(ieee);
++	ht_update_default_setting(ieee);
+ 	HTInitializeHTInfo(ieee);
+ 	TSInitialize(ieee);
+ 	for (i = 0; i < IEEE_IBSS_MAC_HASH_SIZE; i++)
 -- 
 2.39.2
 
