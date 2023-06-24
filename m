@@ -1,41 +1,54 @@
-Received: from pb-smtp1.pobox.com (pb-smtp1.pobox.com [64.147.108.70])
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7EE62D521
-	for <linux-staging@lists.linux.dev>; Sat, 24 Jun 2023 22:58:16 +0000 (UTC)
-Received: from pb-smtp1.pobox.com (unknown [127.0.0.1])
-	by pb-smtp1.pobox.com (Postfix) with ESMTP id 3492919AB93;
-	Sat, 24 Jun 2023 18:53:49 -0400 (EDT)
-	(envelope-from tdavies@darkphysics.net)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed; d=pobox.com; h=date:from
-	:to:cc:subject:message-id:mime-version:content-type; s=sasl; bh=
-	1r5wGj+iTmjM6vRykrc6iY+IAD/mzB7x6qwzLAUQE6c=; b=Vr4PxkWOHBdgkbfc
-	0MOXAtx0W1TIe5Svxn9lILxPpXGNaAPiFyBDWjKwHAw1+crhjbBCJlcqIChgJePO
-	IicMaqnIQgKR+01p7Z+kJIcu2aQzX1Wg36GvdpyrM361z/UWLfKoXt+8PbU93nQi
-	onNahAa5nD2ICkz47F2fzWdHP7g=
-Received: from pb-smtp1.nyi.icgroup.com (unknown [127.0.0.1])
-	by pb-smtp1.pobox.com (Postfix) with ESMTP id 2CAD519AB92;
-	Sat, 24 Jun 2023 18:53:49 -0400 (EDT)
-	(envelope-from tdavies@darkphysics.net)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed; d=darkphysics.net;
- h=date:from:to:cc:subject:message-id:mime-version:content-type;
- s=2019-09.pbsmtp; bh=1r5wGj+iTmjM6vRykrc6iY+IAD/mzB7x6qwzLAUQE6c=;
- b=nS60ygNpLoF5wTKg/inoxL4ffRwgR5AcxoWtZ+OsZ+q7Mm7RdSJ7fQ351bnXn1W/RZhv2GPuuedFO3QlD88U6DBJx3hMp9C8V+PH6sOS7sMDzQChZzDw3lFtZ1L+X0DZRwuj1/OK/p83Em2PH5vFjA0qlZYKTgUae7WoqnfRcdw=
-Received: from tacos.darkphysics (unknown [76.146.178.2])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by pb-smtp1.pobox.com (Postfix) with ESMTPSA id 1C1A119AB91;
-	Sat, 24 Jun 2023 18:53:48 -0400 (EDT)
-	(envelope-from tdavies@darkphysics.net)
-Date: Sat, 24 Jun 2023 15:53:42 -0700
-From: Tree Davies <tdavies@darkphysics.net>
-To: gregkh@linuxfoundation.org, philipp.g.hortmann@gmail.com,
-	dan.carpenter@linaro.org
-Cc: tdavies@darkphysics.net, linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev
-Subject: [PATCH] staging: rtl8192e: Rename function IsHTHalfNmodeAPs to
- is_ht_half_nmode_a_ps
-Message-ID: <ZJdz9oWjPuE3xZ8Y@tacos.darkphysics>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49F1BEAFD;
+	Sat, 24 Jun 2023 23:34:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1687649668; x=1719185668;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=uSich5WtIL4xEDBsn+PUSmiT50AF+RCLc8UMqP5tImA=;
+  b=Kox0T0vk10oRBNLnPo8erjBEidnzQMqWPog1vNTdr3a/2yz1HkPTRh/P
+   YOyN9CeLYUy7zzQduV7c/JkHh1gkjp2d+00HB0MVYJFlm6JjPrbhB2oMW
+   cYqUu9Ad2TFy8be12ItJ72d2vRPTVvfPLYDQee54J6Vf/l56HXcJm0f+d
+   16iuXq2aX4WjDb1KiTvnOwNxfyDLy11KB7+LrNoYC6SYdoV6/uvJSU2+H
+   os9J5NNIvFIHRAP0qDSe1GqCwFXw0k4tkiCRkyv1BgG7MBb7xmzsLdlgu
+   zILeIWs2xaWNqgSkiU5GgyzCNEMOiEOK0+aT5z5zxrzYuaJQJu3wbVndH
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10751"; a="391122036"
+X-IronPort-AV: E=Sophos;i="6.01,156,1684825200"; 
+   d="scan'208";a="391122036"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jun 2023 16:34:27 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10751"; a="839837858"
+X-IronPort-AV: E=Sophos;i="6.01,156,1684825200"; 
+   d="scan'208";a="839837858"
+Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
+  by orsmga004.jf.intel.com with ESMTP; 24 Jun 2023 16:34:22 -0700
+Received: from kbuild by 783282924a45 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qDClq-0009Xr-05;
+	Sat, 24 Jun 2023 23:34:22 +0000
+Date: Sun, 25 Jun 2023 07:34:12 +0800
+From: kernel test robot <lkp@intel.com>
+To: Benjamin Gaignard <benjamin.gaignard@collabora.com>, mchehab@kernel.org,
+	tfiga@chromium.org, m.szyprowski@samsung.com, ming.qian@nxp.com,
+	ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de,
+	gregkh@linuxfoundation.org, hverkuil-cisco@xs4all.nl,
+	nicolas.dufresne@collabora.com
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+	linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
+	kernel@collabora.com,
+	Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Subject: Re: [PATCH v3 01/11] media: videobuf2: Access vb2_queue bufs array
+ through helper functions
+Message-ID: <202306250705.Ts4zHhMG-lkp@intel.com>
+References: <20230622131349.144160-2-benjamin.gaignard@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -44,58 +57,83 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-X-Pobox-Relay-ID:
- FB2CC614-12E1-11EE-88C6-C65BE52EC81B-45285927!pb-smtp1.pobox.com
+In-Reply-To: <20230622131349.144160-2-benjamin.gaignard@collabora.com>
 
-Rename function IsHTHalfNmodeAPs to is_ht_half_nmode_a_ps in order to
-fix checkpatch warning: Avoid CamelCase
+Hi Benjamin,
 
-Signed-off-by: Tree Davies <tdavies@darkphysics.net>
----
- drivers/staging/rtl8192e/rtl819x_HTProc.c | 2 +-
- drivers/staging/rtl8192e/rtllib.h         | 2 +-
- drivers/staging/rtl8192e/rtllib_softmac.c | 2 +-
- 3 files changed, 3 insertions(+), 3 deletions(-)
+kernel test robot noticed the following build errors:
 
-diff --git a/drivers/staging/rtl8192e/rtl819x_HTProc.c b/drivers/staging/rtl8192e/rtl819x_HTProc.c
-index f9fa3f2bb728..6f9d79582519 100644
---- a/drivers/staging/rtl8192e/rtl819x_HTProc.c
-+++ b/drivers/staging/rtl8192e/rtl819x_HTProc.c
-@@ -139,7 +139,7 @@ u16  TxCountToDataRate(struct rtllib_device *ieee, u8 nDataRate)
- 	return MCS_DATA_RATE[is40MHz][isShortGI][nDataRate & 0xf];
- }
- 
--bool IsHTHalfNmodeAPs(struct rtllib_device *ieee)
-+bool is_ht_half_nmode_a_ps(struct rtllib_device *ieee)
- {
- 	bool			retValue = false;
- 	struct rtllib_network *net = &ieee->current_network;
-diff --git a/drivers/staging/rtl8192e/rtllib.h b/drivers/staging/rtl8192e/rtllib.h
-index e3ce4431d460..0b33f993077d 100644
---- a/drivers/staging/rtl8192e/rtllib.h
-+++ b/drivers/staging/rtl8192e/rtllib.h
-@@ -2003,7 +2003,7 @@ extern u8 MCS_FILTER_ALL[];
- extern u16 MCS_DATA_RATE[2][2][77];
- u8 HTCCheck(struct rtllib_device *ieee, u8 *pFrame);
- void HTResetIOTSetting(struct rt_hi_throughput *ht_info);
--bool IsHTHalfNmodeAPs(struct rtllib_device *ieee);
-+bool is_ht_half_nmode_a_ps(struct rtllib_device *ieee);
- u16  TxCountToDataRate(struct rtllib_device *ieee, u8 nDataRate);
- int rtllib_rx_ADDBAReq(struct rtllib_device *ieee, struct sk_buff *skb);
- int rtllib_rx_ADDBARsp(struct rtllib_device *ieee, struct sk_buff *skb);
-diff --git a/drivers/staging/rtl8192e/rtllib_softmac.c b/drivers/staging/rtl8192e/rtllib_softmac.c
-index 425d4acbcdf0..589015caa7b0 100644
---- a/drivers/staging/rtl8192e/rtllib_softmac.c
-+++ b/drivers/staging/rtl8192e/rtllib_softmac.c
-@@ -2224,7 +2224,7 @@ static void rtllib_rx_auth_resp(struct rtllib_device *ieee, struct sk_buff *skb)
- 		ieee->softmac_stats.rx_auth_rs_ok++;
- 		if (!(ieee->ht_info->iot_action & HT_IOT_ACT_PURE_N_MODE)) {
- 			if (!ieee->GetNmodeSupportBySecCfg(ieee->dev)) {
--				if (IsHTHalfNmodeAPs(ieee)) {
-+				if (is_ht_half_nmode_a_ps(ieee)) {
- 					bSupportNmode = true;
- 					bHalfSupportNmode = true;
- 				} else {
+[auto build test ERROR on media-tree/master]
+[also build test ERROR on linus/master v6.4-rc7 next-20230623]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Benjamin-Gaignard/media-videobuf2-Access-vb2_queue-bufs-array-through-helper-functions/20230622-214122
+base:   git://linuxtv.org/media_tree.git master
+patch link:    https://lore.kernel.org/r/20230622131349.144160-2-benjamin.gaignard%40collabora.com
+patch subject: [PATCH v3 01/11] media: videobuf2: Access vb2_queue bufs array through helper functions
+config: i386-allyesconfig (https://download.01.org/0day-ci/archive/20230625/202306250705.Ts4zHhMG-lkp@intel.com/config)
+compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project.git 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
+reproduce: (https://download.01.org/0day-ci/archive/20230625/202306250705.Ts4zHhMG-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306250705.Ts4zHhMG-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+>> drivers/staging/media/atomisp/pci/atomisp_ioctl.c:1080:22: error: passing 'struct vb2_queue' to parameter of incompatible type 'struct vb2_queue *'; take the address with &
+           vb = vb2_get_buffer(pipe->vb_queue, buf->index);
+                               ^~~~~~~~~~~~~~
+                               &
+   include/media/videobuf2-core.h:1239:67: note: passing argument to parameter 'q' here
+   static inline struct vb2_buffer *vb2_get_buffer(struct vb2_queue *q,
+                                                                     ^
+   1 error generated.
+
+
+vim +1080 drivers/staging/media/atomisp/pci/atomisp_ioctl.c
+
+  1065	
+  1066	static int atomisp_dqbuf_wrapper(struct file *file, void *fh, struct v4l2_buffer *buf)
+  1067	{
+  1068		struct video_device *vdev = video_devdata(file);
+  1069		struct atomisp_video_pipe *pipe = atomisp_to_video_pipe(vdev);
+  1070		struct atomisp_sub_device *asd = pipe->asd;
+  1071		struct atomisp_device *isp = video_get_drvdata(vdev);
+  1072		struct ia_css_frame *frame;
+  1073		struct vb2_buffer *vb;
+  1074		int ret;
+  1075	
+  1076		ret = vb2_ioctl_dqbuf(file, fh, buf);
+  1077		if (ret)
+  1078			return ret;
+  1079	
+> 1080		vb = vb2_get_buffer(pipe->vb_queue, buf->index);
+  1081		frame = vb_to_frame(vb);
+  1082	
+  1083		buf->reserved = asd->frame_status[buf->index];
+  1084	
+  1085		/*
+  1086		 * Hack:
+  1087		 * Currently frame_status in the enum type which takes no more lower
+  1088		 * 8 bit.
+  1089		 * use bit[31:16] for exp_id as it is only in the range of 1~255
+  1090		 */
+  1091		buf->reserved &= 0x0000ffff;
+  1092		if (!(buf->flags & V4L2_BUF_FLAG_ERROR))
+  1093			buf->reserved |= frame->exp_id;
+  1094		buf->reserved2 = pipe->frame_config_id[buf->index];
+  1095	
+  1096		dev_dbg(isp->dev,
+  1097			"dqbuf buffer %d (%s) with exp_id %d, isp_config_id %d\n",
+  1098			buf->index, vdev->name, buf->reserved >> 16, buf->reserved2);
+  1099		return 0;
+  1100	}
+  1101	
+
 -- 
-2.39.2
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
