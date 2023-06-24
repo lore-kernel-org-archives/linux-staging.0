@@ -1,48 +1,48 @@
-Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
+Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6CB497FC
-	for <linux-staging@lists.linux.dev>; Sat, 24 Jun 2023 06:04:42 +0000 (UTC)
-Received: by mail-ed1-f45.google.com with SMTP id 4fb4d7f45d1cf-51a52fff2f0so313615a12.1
-        for <linux-staging@lists.linux.dev>; Fri, 23 Jun 2023 23:04:42 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDD807FC
+	for <linux-staging@lists.linux.dev>; Sat, 24 Jun 2023 06:04:48 +0000 (UTC)
+Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-98273ae42d0so37029466b.0
+        for <linux-staging@lists.linux.dev>; Fri, 23 Jun 2023 23:04:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1687586680; x=1690178680;
+        d=gmail.com; s=20221208; t=1687586687; x=1690178687;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=3T8C4UeShnoX/kA2p4evbH04NRgTdKwA7ilNwmOPeH0=;
-        b=pNUfGZIMcZt4266HC7Nas0DONedBslUQYOy3Czp9p8MV4CWAnYLwGRRKhcKab5krAX
-         1yPxP+HdqWZETrukA8IcpXyy6wMu+CwDuzoVftHhFg+3wrOXCIQKVthogfobjSyZbR3E
-         QuSiGPuoRf4Sn62DDG9PyaG4H718xXgFYcTIOSFwoT+CYoEjwGjq5slkG7HdojNSo553
-         SGvNNnqwNzfIVtaHT41O9FOnFZkVmdTM/wHAmv82Nu6iaPLu9pIa/tPmTiZek5g8rqOE
-         UPYuf7AzQ3cf1U1UoVFh3CzGqrUr+AEBBEr0aHnSj2MyjhV13mVIEIFzFHbVDtFqgsLl
-         BxYg==
+        bh=JL2xUdrdhCmATetXsGKZFgi47jUsLBSoXQ95GNpVaGk=;
+        b=jUnpVHYWYziKREX/8pUNaOPhrJbKE/3FgNWxsqvU80aAmKeZ5Iy3PdjTQsAD/AIPKV
+         rUXSdVBDPYiuiphlnpzV0XKH8GqoxYzazLJ0HD1bwNxad1xGT99IpJzHVQvVQAnSjYhU
+         glDY3VkkpKMftngSQyc70Il7EYepl7AwL0Hf5A77CFLUXyYkk45kHz63clZjM7e4kPZh
+         St8/61LvxeM4bXV2rKvGXOeXw/Qo2oRSWotw+nALaV+OS1yr0QYQWAjoW6QF+fH707dG
+         l/RVbDpw/DNYAkCq6JV0iiT/ymShnZKVakEfM1VBfa080SrO6VWI9Oov/EZfW4o99CNW
+         vU+Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1687586680; x=1690178680;
+        d=1e100.net; s=20221208; t=1687586687; x=1690178687;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=3T8C4UeShnoX/kA2p4evbH04NRgTdKwA7ilNwmOPeH0=;
-        b=js910skOSLY+aaXQtd5AhoseRXamD85Tqk4TayGCiOu0rtRAGeFY4YB/rHOmYomHBT
-         NHTgWjiSRtcLKFDwTTZZcN7MdhyLznHAzoBKkk2T9Ek+SnBYQeJfW+v7bD2QDuiEXVQm
-         mOYkSO7jJr5TLVyAVM0tqyJ6I/wI2yaKrSVxY4vRfg8PUDS9V2y2nD2vU7QCj2pvDROb
-         Wf1JCQDJhBZ6gUZsyUnHxbFIV6xcJXJLasdKlfAB3yutnvY2Wm5bQMDOqDmSPnQgvWmR
-         W3vryp1fVcxDfKVNDHA9Hqz6u8hbh1F5xjd9JRc5GeGypK5fvWAvyVkFKChOhC2Z4fM9
-         D7Tw==
-X-Gm-Message-State: AC+VfDwi38ZegOGJt9pP5cBODvbm24FSnC7PEANjUgzw6UPLHKwRaxhM
-	hH600MPYYxFfnLZNL7YifqA=
-X-Google-Smtp-Source: ACHHUZ6rsTFYz7kROdutExy2vh/9WiuzbEnae/KU3XYefeFprKV5Shivkn2H8Wnar8MfFuUhr85ZrA==
-X-Received: by 2002:a05:6402:270f:b0:514:971b:7f36 with SMTP id y15-20020a056402270f00b00514971b7f36mr17612423edd.3.1687586680385;
-        Fri, 23 Jun 2023 23:04:40 -0700 (PDT)
+        bh=JL2xUdrdhCmATetXsGKZFgi47jUsLBSoXQ95GNpVaGk=;
+        b=fP1rOMHeMPC9U10gt0h2CLj6sLM8Xf06fiXaKGwkIuEyb1OtLWrGjNyfZEmJnBu/OY
+         i2eHYB8UBjmy1ad7A62SNo1dk+aSiCnQcMGXX8XjU3sX3SN+H8lR1WU3//ecsdv04vU/
+         7sTjLdqjqHNnAP7OTJDE+4clk2v7BCs2LAXj3OnlhtuDkuRZJwvaTFExjW6K3jWfRwhg
+         RKirTRXBxOXaoHlowfhG/YjdL19bOnlwy1QveWLpiFd5D6W+yjKUawrTmKYqMGz69PQt
+         khP79jqz2blxgzQpL7eC0C7VoBKhf1n6Yx2vc2z8BZX63oRo9mTuWehSxvrdZ3qTsNxB
+         fEOQ==
+X-Gm-Message-State: AC+VfDzDBFELn4YIFb5W6BvYGhyWylm1ZdugPqc9FTqI5iW6CCSTEsV6
+	W3DbMuLvmK9UrXNdk26Fu3SCP1gQ4Vg=
+X-Google-Smtp-Source: ACHHUZ7Hy5IZ4Cn5agaSCY+j7xto3ytCgNnb98Wyez5BlPOzoT/MgNwM717Qks4R1+wYQzWf5Lk3JA==
+X-Received: by 2002:a17:906:5198:b0:987:6960:36c8 with SMTP id y24-20020a170906519800b00987696036c8mr15752481ejk.7.1687586687048;
+        Fri, 23 Jun 2023 23:04:47 -0700 (PDT)
 Received: from matrix-ESPRIMO-P710 (p57ba2e0b.dip0.t-ipconnect.de. [87.186.46.11])
-        by smtp.gmail.com with ESMTPSA id d26-20020aa7d69a000000b0051bfd21d21asm319307edr.46.2023.06.23.23.04.38
+        by smtp.gmail.com with ESMTPSA id xa10-20020a170907b9ca00b00988955f7b5esm501331ejc.157.2023.06.23.23.04.45
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 23 Jun 2023 23:04:39 -0700 (PDT)
-Date: Sat, 24 Jun 2023 08:04:36 +0200
+        Fri, 23 Jun 2023 23:04:46 -0700 (PDT)
+Date: Sat, 24 Jun 2023 08:04:44 +0200
 From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [PATCH 09/11] staging: rtl8192e: Remove variable bdisable_nic
-Message-ID: <6b083ce8c4aaf42f366c365cbc47178afa2636d4.1687583718.git.philipp.g.hortmann@gmail.com>
+Subject: [PATCH 10/11] staging: rtl8192e: Remove variable priv->reg_chnl_plan
+Message-ID: <0dd4f8eded4b172d75f0cb5d5a34ba3dc66e2e8f.1687583718.git.philipp.g.hortmann@gmail.com>
 References: <cover.1687583718.git.philipp.g.hortmann@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -54,81 +54,56 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 In-Reply-To: <cover.1687583718.git.philipp.g.hortmann@gmail.com>
 
-Remove variable bdisable_nic as always set to false. Remove dead code.
+Remove variable priv->reg_chnl_plan as it is only once initialized and
+only once evaluated. So the result is always the same. Remove dead code.
 
 Signed-off-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
 ---
- drivers/staging/rtl8192e/rtl8192e/rtl_core.c | 12 ------------
- drivers/staging/rtl8192e/rtl8192e/rtl_core.h |  1 -
- 2 files changed, 13 deletions(-)
+ drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c | 5 +----
+ drivers/staging/rtl8192e/rtl8192e/rtl_core.c   | 1 -
+ drivers/staging/rtl8192e/rtl8192e/rtl_core.h   | 1 -
+ 3 files changed, 1 insertion(+), 6 deletions(-)
 
+diff --git a/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c b/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c
+index e5925899402c..5ac6af7e3a79 100644
+--- a/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c
++++ b/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c
+@@ -419,10 +419,7 @@ static void _rtl92e_read_eeprom_info(struct net_device *dev)
+ 
+ 	rtl92e_init_adaptive_rate(dev);
+ 
+-	if (priv->reg_chnl_plan == 0xf)
+-		priv->chnl_plan = priv->eeprom_chnl_plan;
+-	else
+-		priv->chnl_plan = priv->reg_chnl_plan;
++	priv->chnl_plan = priv->eeprom_chnl_plan;
+ 
+ 	switch (priv->eeprom_customer_id) {
+ 	case EEPROM_CID_NetCore:
 diff --git a/drivers/staging/rtl8192e/rtl8192e/rtl_core.c b/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
-index e9eb55c6e6d8..23f9b729940b 100644
+index 23f9b729940b..a24527585166 100644
 --- a/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
 +++ b/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
-@@ -618,8 +618,6 @@ static int _rtl92e_sta_up(struct net_device *dev, bool is_silent_reset)
- 					(&priv->rtllib->pwr_save_ctrl);
- 	bool init_status;
- 
--	priv->bdisable_nic = false;
--
- 	priv->up = 1;
- 	priv->rtllib->ieee_up = 1;
- 
-@@ -760,7 +758,6 @@ static void _rtl92e_init_priv_variable(struct net_device *dev)
- 	priv->up_first_time = 1;
- 	priv->blinked_ingpio = false;
- 	priv->being_init_adapter = false;
--	priv->bdisable_nic = false;
- 	priv->txringcount = 64;
- 	priv->rxbuffersize = 9100;
+@@ -763,7 +763,6 @@ static void _rtl92e_init_priv_variable(struct net_device *dev)
  	priv->rxringcount = MAX_RX_COUNT;
-@@ -1498,12 +1495,6 @@ static short _rtl92e_tx(struct net_device *dev, struct sk_buff *skb)
- 	int   idx;
- 	u32 fwinfo_size = 0;
- 
--	if (priv->bdisable_nic) {
--		netdev_warn(dev, "%s: Nic is disabled! Can't tx packet.\n",
--			    __func__);
--		return skb->len;
--	}
--
- 	priv->rtllib->bAwakePktSent = true;
- 
- 	fwinfo_size = sizeof(struct tx_fwinfo_8190pci);
-@@ -2245,20 +2236,17 @@ bool rtl92e_enable_nic(struct net_device *dev)
- 
- 	if (!priv->up) {
- 		netdev_warn(dev, "%s(): Driver is already down!\n", __func__);
--		priv->bdisable_nic = false;
- 		return false;
- 	}
- 
- 	init_status = rtl92e_start_adapter(dev);
- 	if (!init_status) {
- 		netdev_warn(dev, "%s(): Initialization failed!\n", __func__);
--		priv->bdisable_nic = false;
- 		return false;
- 	}
- 	RT_CLEAR_PS_LEVEL(psc, RT_RF_OFF_LEVL_HALT_NIC);
- 
- 	rtl92e_irq_enable(dev);
--	priv->bdisable_nic = false;
- 	return init_status;
- }
- 
+ 	priv->irq_enabled = 0;
+ 	priv->chan = 1;
+-	priv->reg_chnl_plan = 0xf;
+ 	priv->rtllib->mode = WIRELESS_MODE_AUTO;
+ 	priv->rtllib->iw_mode = IW_MODE_INFRA;
+ 	priv->rtllib->net_promiscuous_md = false;
 diff --git a/drivers/staging/rtl8192e/rtl8192e/rtl_core.h b/drivers/staging/rtl8192e/rtl8192e/rtl_core.h
-index 1cb68d53a17e..38b215d86eeb 100644
+index 38b215d86eeb..fa82a0667813 100644
 --- a/drivers/staging/rtl8192e/rtl8192e/rtl_core.h
 +++ b/drivers/staging/rtl8192e/rtl8192e/rtl_core.h
-@@ -322,7 +322,6 @@ struct r8192_priv {
+@@ -316,7 +316,6 @@ struct r8192_priv {
  
- 	bool rf_change_in_progress;
- 	bool set_rf_pwr_state_in_progress;
--	bool bdisable_nic;
+ 	bool tx_pwr_data_read_from_eeprom;
  
- 	u8 cck_pwr_enl;
- 	u16 tssi_13dBm;
+-	u16 reg_chnl_plan;
+ 	u16 chnl_plan;
+ 	u8 hw_rf_off_action;
+ 
 -- 
 2.41.0
 
