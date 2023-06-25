@@ -1,47 +1,96 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07E536117
-	for <linux-staging@lists.linux.dev>; Sun, 25 Jun 2023 13:55:43 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 20C91C433C8;
-	Sun, 25 Jun 2023 13:55:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1687701343;
-	bh=TU57kKZ70jIL08bQ4GXtej05ic6Fbtxc5OE3lmyT3lg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=b23i67TyzFrV3pSljYSOA8X/1g1w1EOSad1+nIUKl2TRq2P1Fmsrs503lcRAE8cMu
-	 rI/Z5T4CAOaNQjj20iWSWmObMevfGlfWZEgeXE0sDLcvpjZH7nuZnPjyQ2xposZGQr
-	 rgVThAZilJ33D11Ab0T97EDf3fKSefCkWC8+fNBY=
-Date: Sun, 25 Jun 2023 15:55:40 +0200
-From: "<gregkh@linuxfoundation.org>" <gregkh@linuxfoundation.org>
-To: Franziska =?iso-8859-1?Q?N=E4pelt?= <franziska.naepelt@googlemail.com>
-Cc: eperi1024@gmail.com,
-	Franziska =?iso-8859-1?Q?N=E4pelt?= <franziska.naepelt@gmail.com>,
-	hdegoede@redhat.com, johannes.berg@intel.com,
-	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev,
-	philipp.g.hortmann@gmail.com, quic_vjakkam@quicinc.com,
-	tegongkang@gmail.com
-Subject: Re: [PATCH v2 0/5] Fix some checkpatch issues
-Message-ID: <2023062527-bride-unsolved-3b56@gregkh>
-References: <F9C4E29E-C355-4B08-A2EC-2197A6EB7AFD@googlemail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F86C63A1
+	for <linux-staging@lists.linux.dev>; Sun, 25 Jun 2023 14:07:52 +0000 (UTC)
+Received: by mail-ed1-f51.google.com with SMTP id 4fb4d7f45d1cf-51669dd574aso601658a12.0
+        for <linux-staging@lists.linux.dev>; Sun, 25 Jun 2023 07:07:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1687702070; x=1690294070;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=6KAgxZ0e/Mp+Alk75/mq17h2w55B+c/Iz4lU0v72Yh4=;
+        b=PFp3EHAt2PBxlImJsgnh+F8Xx+hMxzHe9RhLPTiZP0MHwIu5RsP+NjKY1O/2cvatUD
+         AjYe6pdQaMUEEr8Mg3sTpAn7Y8LJalbxGSK6rgX9CAXRzeJhOPPUuHmkUtplO9I7wmsl
+         +cC+cnRVSXRHrA+MQUdOWPlIRU7SNMiUA8Sj5Q6+MRb0xiZowHcA4KsZw4yqgk20gG4H
+         hrcc/IpzfUUYSfvgEiRSWkSY8sLuEdaNLuJZY8jlPLX7al3SRSbyoFz/PKxvhhwbEU9v
+         lYUyDHTpZgsfLsWRHa6bT8tXJZSS2riJbKFAwJ+fmVgimrtNf8uI0ibF2ApwyirYSReZ
+         kXzg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1687702070; x=1690294070;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=6KAgxZ0e/Mp+Alk75/mq17h2w55B+c/Iz4lU0v72Yh4=;
+        b=WGXHPU/flutunK/O4V22YD9Cd1qTM0GDaN+vl6Vsq0Kdtr4X5TW1YVYmPX0HyIaYQt
+         4wulgFU2IzfrAetH208v0MmAaKpAFGyrWg5zgyJqEvNECbDaNvM6w0dtcMYurwxaQkin
+         825hjrR0zIoBRoTFNH5QTycQLBJ6m1MBm3Ge4QsA3QVj/iqiQmv+EznVAIXB8srwaW+f
+         Tp0khe6PKHKy23ghhXGtf2BKWmK3vCE/b17B2OkLrEvsNg5QBq95GHz3VyHPvlVkdxFO
+         GaF+CmYMBPVUBrsAy39AAPj30scN1bsiaaQpI1WJIA8Tlg4Lwqy+yhSvqXT/JHeXcL8I
+         lwHQ==
+X-Gm-Message-State: AC+VfDx3Djta4kNxqOq5S8ZZyIqQSfCUZHhIy2liiU0/jwyfEd555tZs
+	S3lPJGf/LOh2h3sZC45TgJ8n9yvk4zc=
+X-Google-Smtp-Source: ACHHUZ6PHGAqmN3NnuYXAL4lX7muOsXomV/604xi3w5sRHNlXFpa+ue5yDJP1FuYYRrWx7rtjrCy/A==
+X-Received: by 2002:a05:6402:27c8:b0:51d:9611:db3d with SMTP id c8-20020a05640227c800b0051d9611db3dmr1093359ede.2.1687702070294;
+        Sun, 25 Jun 2023 07:07:50 -0700 (PDT)
+Received: from [192.168.0.101] (p57ba2e0b.dip0.t-ipconnect.de. [87.186.46.11])
+        by smtp.gmail.com with ESMTPSA id w3-20020aa7d283000000b0051a2edb49b0sm1783713edq.63.2023.06.25.07.07.48
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 25 Jun 2023 07:07:49 -0700 (PDT)
+Message-ID: <ec2fcc62-90b8-f106-958a-7e1eb27009e3@gmail.com>
+Date: Sun, 25 Jun 2023 16:07:47 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <F9C4E29E-C355-4B08-A2EC-2197A6EB7AFD@googlemail.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PATCH] staging: rtl8192e: Rename function HTIOTPeerDetermine to
+ ht_iot_peer_determine
+Content-Language: en-US
+To: Tree Davies <tdavies@darkphysics.net>, gregkh@linuxfoundation.org,
+ dan.carpenter@linaro.org
+Cc: linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
+References: <ZJdagUiGPqzb5lp+@tacos.darkphysics>
+From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+In-Reply-To: <ZJdagUiGPqzb5lp+@tacos.darkphysics>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Sun, Jun 25, 2023 at 03:33:59PM +0200, Franziska Näpelt wrote:
-> Thanks for your feedback :)
-> Since not all the patches of my first patch series have been applied, I thought I have to submit the whole series again. Submitting a series of 5 patches, where 3 have been already applied of course fails.
-> So does it mean, if 3 of 5 patches of a series have been applied and I want to submit a new version, I only submit patches for the remaining work and not all of them again?
+On 6/24/23 23:05, Tree Davies wrote:
+> Rename function HTIOTPeerDetermine to ht_iot_peer_determine in order to
+> fix checkpatch warning: Avoid CamelCase
+> 
+> Signed-off-by: Tree Davies <tdavies@darkphysics.net>
+> ---
+>   drivers/staging/rtl8192e/rtl819x_HTProc.c | 4 ++--
+>   1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/staging/rtl8192e/rtl819x_HTProc.c b/drivers/staging/rtl8192e/rtl819x_HTProc.c
+> index f9fa3f2bb728..33fac7d9ada8 100644
+> --- a/drivers/staging/rtl8192e/rtl819x_HTProc.c
+> +++ b/drivers/staging/rtl8192e/rtl819x_HTProc.c
+> @@ -164,7 +164,7 @@ bool IsHTHalfNmodeAPs(struct rtllib_device *ieee)
+>   	return retValue;
+>   }
+>   
+> -static void HTIOTPeerDetermine(struct rtllib_device *ieee)
+> +static void ht_iot_peer_determine(struct rtllib_device *ieee)
+>   {
+>   	struct rt_hi_throughput *ht_info = ieee->ht_info;
+>   	struct rtllib_network *net = &ieee->current_network;
+> @@ -720,7 +720,7 @@ void HTResetSelfAndSavePeerSetting(struct rtllib_device *ieee,
+>   			ht_info->RT2RT_HT_Mode = (enum rt_ht_capability)0;
+>   		}
+>   
+> -		HTIOTPeerDetermine(ieee);
+> +		ht_iot_peer_determine(ieee);
+>   
+>   		ht_info->iot_action = 0;
+>   		bIOTAction = HTIOTActIsDisableMCS14(ieee, pNetwork->bssid);
 
-Yes, just submit the remaining ones.
 
-thanks,
-
-greg k-h
+Tested-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
