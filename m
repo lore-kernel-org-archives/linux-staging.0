@@ -1,82 +1,77 @@
-Received: from mail-vk1-f173.google.com (mail-vk1-f173.google.com [209.85.221.173])
+Received: from mail-vs1-f49.google.com (mail-vs1-f49.google.com [209.85.217.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E41F3C1C
-	for <linux-staging@lists.linux.dev>; Sun, 25 Jun 2023 16:02:41 +0000 (UTC)
-Received: by mail-vk1-f173.google.com with SMTP id 71dfb90a1353d-4714e9f070bso641206e0c.0
-        for <linux-staging@lists.linux.dev>; Sun, 25 Jun 2023 09:02:41 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 437EE7C
+	for <linux-staging@lists.linux.dev>; Sun, 25 Jun 2023 16:32:04 +0000 (UTC)
+Received: by mail-vs1-f49.google.com with SMTP id ada2fe7eead31-440afc96271so580464137.3
+        for <linux-staging@lists.linux.dev>; Sun, 25 Jun 2023 09:32:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlemail.com; s=20221208; t=1687708960; x=1690300960;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=9cIbCR/JI3IGiEKrtW27iaY9wrqECrQtHtHpkt5T9IE=;
-        b=jzefFfEo88PNIA9Z2VlqncJnraG19PtjDZhYcITBgwLJKjjUAi1BzmShQ0POHrUMwA
-         hdTuxTey47409eI8Yu7D/uQVaobAhabS6g86GnI9Nf1GwUOZo9Vo2Rnv7k16ZKp47s5H
-         fHWvUaxV1HHagRyCZ5QO0d1LNoC5+5c/JMfoWBCOQjaUs/s9TJD6PtDTTKRBEnSI5Xy5
-         PMfYqiaGRmouPDW06QctxNyCtX9+NSX6rJeBC6HK0bH4I61iOES7P5J431L0VXTOz39+
-         q3Wao5iCb9+U6HoWmESlTlL51E7Dir1ok0Fie7QXz2SS2io0dF+7lFccZloX+gUPrPxi
-         KCZQ==
+        d=googlemail.com; s=20221208; t=1687710723; x=1690302723;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=xaMClIyzbes8/ajhVEEaqDE5A6xT3CkloKD91himAvg=;
+        b=SBsMMUgM/TDiklODo1eGbYP9dnl+XJ/qf/AsD+5vx03EWGC1PK0DEMH4/nADgLyEzO
+         k6K8BlJDM0Yb4u/O0t5KTr8KhBnXRvPgGih9oZLlcK/YeUcTU88T5ikh+ZOjt8McMFoQ
+         nMI1sQcnBLBO98hcKRRRgZlFLVWnCQrGrqM2Wgg28lXS9/1Pz9BiyDQ/Jonn4x/nDlRE
+         TKOoXX12IdG76vdkeeds/Pm8enJQeYDvnzG19v/IIGl6U2M4s0EgGtBwGPC0ugdlFkrx
+         jCCLHv+t/hA+nln3A9XHFZUk/aikvluSepFoSW9nkDYREnV+TcVzzWPo8WH2Sux5Pyaq
+         EL/A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1687708960; x=1690300960;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=9cIbCR/JI3IGiEKrtW27iaY9wrqECrQtHtHpkt5T9IE=;
-        b=eHCAZHhTXh++ZgYjPl8MpIsXpGwZNqKuqWkOl5a1S8sbLnAiD2c4AiQEXIw50Et8pt
-         xy4iS7OIxcB3SB5c/CU/omqJcEJlBJTKXgHeqWqvoYyvl1ashTnuWBHm+mUeqj3kWwxF
-         XUJVxAFQUdeAedKV/zo7gS/sZQOc0xZj9IWBMICm0m3EsKSt9G41xWNgpzsxe4XJZ2ZR
-         ehtAJGCSFpWQ7W2LESg4i57pQW4MmFFXiJPiTKm96WFnMBLUC5+rh/YpcC95r+H/ek2W
-         w2YL16AQjc52nO0OiWW/nV+Qyr6vDonq8t/VaLou84zGddKbt9UfDZioG+W5rReRYqd1
-         hG7A==
-X-Gm-Message-State: AC+VfDzh7ZV5KWxFqzneJedTbrtSaHbBOp68XVTqrx1AbDjOldE0gKBJ
-	NfVNkTFOhWcWqqWWKTHtfrCZOo6PTeFFprhmRfxI6RLBYLpt9A==
-X-Google-Smtp-Source: ACHHUZ7RvdHZvUIQzmb71QDFLCudHKYlWndu7sMUcNX0FhIwE/lK8bXB2rq2dtsaoDXtv7fjblADh6kr+EPRSLPC5pk=
-X-Received: by 2002:a1f:bf92:0:b0:471:2aa6:41f6 with SMTP id
- p140-20020a1fbf92000000b004712aa641f6mr10707773vkf.2.1687708959979; Sun, 25
- Jun 2023 09:02:39 -0700 (PDT)
+        d=1e100.net; s=20221208; t=1687710723; x=1690302723;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=xaMClIyzbes8/ajhVEEaqDE5A6xT3CkloKD91himAvg=;
+        b=RuYQ406gqzOHOVE2BdNLfobO404OsRZn97M48z+Iq8fojpoYhrZ2aKpU1AJNSraI6x
+         Q3L3lXWA0bcSHHMU3kX+iwE0+5Kz8GEd1EAUGwFp7dKoCG9Ogp+wFATB7k/LXgVtwyMS
+         77oVafQAaUooDQOi58b///gKNxBipLAmeZ5IsTDxbo5LlwvsFuRc5z0D+S1h5c+LYf64
+         WSytBxfnCJlMKTAEotpllxsSTk5cBD1xP1O6+Gg+LXDB9zTReCfXYHnqiV6+9g77y2v8
+         Xp5LnDYHCLYaOUnwIzP3ufPDLGxc6EuD36kg5V9I2g+nriYoB59p6rDqXhW902yeJdcR
+         MhwA==
+X-Gm-Message-State: AC+VfDzxO0gLEAQB+h4uglxUvCjRlWAL9oB6Laj8RUOtYd2bUBzY7GHe
+	o6IZLCb9FnXcodVCc6sGj6kSkipzeGTjA6kcbeY=
+X-Google-Smtp-Source: ACHHUZ53btt3b2NOfpPJbrKRlB4Vg9mJbf7rfNQwbcdLrmZ4jIh6JJCt9e9e7ivK+2NQ9usb8v4+SlMJnOcQnxRHzsQ=
+X-Received: by 2002:a67:ce07:0:b0:440:d307:76f with SMTP id
+ s7-20020a67ce07000000b00440d307076fmr7279107vsl.3.1687710723001; Sun, 25 Jun
+ 2023 09:32:03 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20230625155632.32403-1-franziska.naepelt@gmail.com>
-In-Reply-To: <20230625155632.32403-1-franziska.naepelt@gmail.com>
+References: <F9C4E29E-C355-4B08-A2EC-2197A6EB7AFD@googlemail.com> <2023062527-bride-unsolved-3b56@gregkh>
+In-Reply-To: <2023062527-bride-unsolved-3b56@gregkh>
 From: =?UTF-8?Q?Franziska_N=C3=A4pelt?= <franziska.naepelt@googlemail.com>
-Date: Sun, 25 Jun 2023 18:02:29 +0200
-Message-ID: <CAAUT3iM3k3iVx7UOQ-s9OJ=aVWarAp3rEDNTzSfY-m3yJpGe4Q@mail.gmail.com>
-Subject: Re: [PATCH v3 0/3] Fix some checkpatch issues
-To: linux-staging@lists.linux.dev
-Cc: linux-kernel@vger.kernel.org, eperi1024@gmail.com, hdegoede@redhat.com, 
-	quic_vjakkam@quicinc.com, johannes.berg@intel.com, tegongkang@gmail.com, 
-	gregkh@linuxfoundation.org
+Date: Sun, 25 Jun 2023 18:31:52 +0200
+Message-ID: <CAAUT3iObhY9VOQP9FqWRR-BmFRDmOJKFdcE--pzFdNgF6ma9NA@mail.gmail.com>
+Subject: Re: [PATCH v2 0/5] Fix some checkpatch issues
+To: "<gregkh@linuxfoundation.org>" <gregkh@linuxfoundation.org>
+Cc: eperi1024@gmail.com, hdegoede@redhat.com, johannes.berg@intel.com, 
+	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev, 
+	philipp.g.hortmann@gmail.com, quic_vjakkam@quicinc.com, tegongkang@gmail.com
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Am So., 25. Juni 2023 um 17:56 Uhr schrieb Franziska Naepelt
-<franziska.naepelt@googlemail.com>:
+Am So., 25. Juni 2023 um 15:55 Uhr schrieb
+<gregkh@linuxfoundation.org> <gregkh@linuxfoundation.org>:
 >
-> This is a series of patches to fix some trivial checkpatch issues. Not all
-> issues have been fixed. I intend to submit another series to fix more stuff.
+> On Sun, Jun 25, 2023 at 03:33:59PM +0200, Franziska N=C3=A4pelt wrote:
+> > Thanks for your feedback :)
+> > Since not all the patches of my first patch series have been applied, I=
+ thought I have to submit the whole series again. Submitting a series of 5 =
+patches, where 3 have been already applied of course fails.
+> > So does it mean, if 3 of 5 patches of a series have been applied and I =
+want to submit a new version, I only submit patches for the remaining work =
+and not all of them again?
 >
-> Testing:
+> Yes, just submit the remaining ones.
 >
-> ---
-> v3: Series to contain only remaining patches.
+> thanks,
 >
-> Franziska Naepelt (3):
->   staging: rtl8723bs: Fix space issues
->   staging: rtl8723bs: Fix alignment open parenthesis
->   staging: rtl8723bs: Fix remaining blank line issue
->
->  .../staging/rtl8723bs/os_dep/ioctl_cfg80211.c | 164 +++++++++---------
->  1 file changed, 85 insertions(+), 79 deletions(-)
->
-> --
-> 2.39.2 (Apple Git-143)
->
+> greg k-h
 
-Testing:
-* Build the kernel with `CONFIG_RTL8723BS=m`
-* Boot the kernel with busybox in initramfs
-* Load the module
--> No errors or warnings
+Done in v3. Thanks :)
+https://lore.kernel.org/linux-staging/CAAUT3iM3k3iVx7UOQ-s9OJ=3DaVWarAp3rED=
+NTzSfY-m3yJpGe4Q@mail.gmail.com/T/#t
