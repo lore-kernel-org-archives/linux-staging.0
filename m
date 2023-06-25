@@ -1,75 +1,79 @@
-Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
+Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 842CD1103
-	for <linux-staging@lists.linux.dev>; Sun, 25 Jun 2023 13:34:14 +0000 (UTC)
-Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-98e1b1d1698so108464266b.2
-        for <linux-staging@lists.linux.dev>; Sun, 25 Jun 2023 06:34:14 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25E686117
+	for <linux-staging@lists.linux.dev>; Sun, 25 Jun 2023 13:53:53 +0000 (UTC)
+Received: by mail-ed1-f51.google.com with SMTP id 4fb4d7f45d1cf-5183075a5ecso532311a12.0
+        for <linux-staging@lists.linux.dev>; Sun, 25 Jun 2023 06:53:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlemail.com; s=20221208; t=1687700052; x=1690292052;
-        h=to:cc:date:message-id:subject:mime-version
-         :content-transfer-encoding:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=QT1RnqwHvj1tXJFjyRYSdQKzWzs7kT8eKVRlXXs5/9E=;
-        b=YEJLT1SJGObonol5CK4CTVO3r+EdrDofH7+Wasw7GddTeGWHW+1H4maIxIfITpbw0R
-         q0mg75Z2MddEdCRyQNbCGukxrvq06ilRZz5GZs40nSPfeP6HKuIIDcImCpRxWAtTc/2I
-         n55BMdvaYZJvod3lmT3NMZ4qt/JjO8F5o1nKcz+f8WrtrYNTj2jmkhfgQrY+o3E80qfH
-         1ADLOjCfyVYrTDFzV+SxFKz3XDnX3IndFeY5JzuYRQs/DyWk1FVntCm04UTXWq6kl5xe
-         1Ej+9AqiOWH5VOrgvYpvvxBu1KYAzwlGoGS7bl84ubS3krjyLQe6ddpz8yUV/Jm8I/Y9
-         Qggw==
+        d=gmail.com; s=20221208; t=1687701232; x=1690293232;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=0e0pXKXKCDPEsLE7K22OHRMlMkpy/gOjYbTMZCeW+Ck=;
+        b=Z8jlnRFlbnUN5x4vCl6hIce6TZ6FLk058KyzBj+qLwBFAqIimQrk0QF0zVos201AqG
+         k77QaJEMPyX//3ml0ikSo181j9w/Ue1T3Dn3F8Rs9W/pAmychPNLw+9WkpfsCCy4nx/1
+         CxFN+qzbGQ3k9BNGHMZTCJTU9t3MAf48M06v9Mwlwo2qSGhYDVJeC5A9IOewCwTyK+Gh
+         EyxtR7CzWkNwTAjrjpY2MekQsl4fZ2rz2AIMsu5Z5r8s7qP/c+kaTubGdeEJTFRpMre+
+         /WTeBYehHygqAHy+dyCgkRWy2kwCfkMMMIFjNTOK18fj10l72KERmMfuGb+dSXWIZ5yr
+         YnKQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1687700052; x=1690292052;
-        h=to:cc:date:message-id:subject:mime-version
-         :content-transfer-encoding:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=QT1RnqwHvj1tXJFjyRYSdQKzWzs7kT8eKVRlXXs5/9E=;
-        b=AkNW6qeGOd0+rIlIiOkwvvKa86KaBRvJlklA98Drs749ZwijMo18ppyMQoS9w/odGD
-         4pTy3wTU81oR4U+M7RjlTiZYOzYKpS2V5oBjKyzcU4L664bP5Ne9X1xi3jTe9ZGGyxFh
-         VKIue3XostjuvrixYDnTxBaV3nbiwqzh1zCVnDJcm2FREtWOKQZPz2mw87Z8/a7xYZJh
-         4UX3RVQ5YX6tmQn0jMXkmljYozaaGU8zwvu29fuaBcWzSw3GgwmTFZFaqQwHCe8QD9Kt
-         THdXOqWvUwymysSoaBrzuVBzY2pn0yPv+b22RLj1Spvb/4Z+HjwNeTanOj6aXDcAeXqv
-         +CDg==
-X-Gm-Message-State: AC+VfDxhM6HivkQhdfNypUwG8QWQuo5/RCfa1tBZLUeo8HzrlloBt5rE
-	NjEELGsBTmmuyA8L5OiddgY=
-X-Google-Smtp-Source: ACHHUZ4Nk/V/R5Gctq/qaYIWSoMcpVdzZe0+WHjLEEtR3lHMbZw08tT5W18d5ho2uHRKET0UqGpp+Q==
-X-Received: by 2002:a17:906:db0b:b0:982:6bba:79c9 with SMTP id xj11-20020a170906db0b00b009826bba79c9mr21353854ejb.20.1687700052358;
-        Sun, 25 Jun 2023 06:34:12 -0700 (PDT)
-Received: from smtpclient.apple ([2a02:810a:9640:26a8:484f:5091:3ba0:ecc])
-        by smtp.googlemail.com with ESMTPSA id n15-20020a05640204cf00b0050bc4600d38sm1766070edw.79.2023.06.25.06.34.11
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Sun, 25 Jun 2023 06:34:11 -0700 (PDT)
-From: =?utf-8?Q?Franziska_N=C3=A4pelt?= <franziska.naepelt@googlemail.com>
-Content-Type: text/plain;
-	charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+        d=1e100.net; s=20221208; t=1687701232; x=1690293232;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=0e0pXKXKCDPEsLE7K22OHRMlMkpy/gOjYbTMZCeW+Ck=;
+        b=F86Z1Y0DEjB05I3SIMZVLJFu18Ffk17bq2bS4eLZLy+/egfnGznzR4cNLOzVWxEdqq
+         LVug7PRzUHYz1hpVztIVwR4Pwipl5rEU8k95j4cn0RdU4L4Fk/rd0rZXgmoYyGmOs4Le
+         FPHsUxwP8Hnqh4GQqTclQCRxsVIfzdzZ9oxuZKzSOX8Lr/suTkYaVcekYbuD+hzjg4LC
+         Nld+wBQrb+JVOzyxM5fGSeQb8k71rtm/Vhvz+TxvkZZJUupG3qvA7xsO9iEgDsD0LNEm
+         0qVsyonBzgWb/6IzgK7ZEtiLyHg3RIXvEiSYeFHh/gHXExAMvj036qo7obgotCxXMHzh
+         3D9g==
+X-Gm-Message-State: AC+VfDwJycaIYvWWBLP4g1tQe6KkY89gzjKSSHGhnnm8fx0uUDOTK1DL
+	JZV3UnpMeyIYxjzMAt1AZFM=
+X-Google-Smtp-Source: ACHHUZ6gRGaj8CmMP5OiUdZSJOOz009LavNEvPAaZCowyc0pATarqRGnruCUsCUfxNjdFeVyiWvVIQ==
+X-Received: by 2002:a05:6402:42cf:b0:516:39bf:1223 with SMTP id i15-20020a05640242cf00b0051639bf1223mr22336730edc.2.1687701231917;
+        Sun, 25 Jun 2023 06:53:51 -0700 (PDT)
+Received: from [192.168.0.103] (p57ba2e0b.dip0.t-ipconnect.de. [87.186.46.11])
+        by smtp.gmail.com with ESMTPSA id f23-20020a05640214d700b0051bc58b8dbcsm1783471edx.59.2023.06.25.06.53.50
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 25 Jun 2023 06:53:51 -0700 (PDT)
+Message-ID: <6469d93a-585a-06e8-a441-84f738f08c69@gmail.com>
+Date: Sun, 25 Jun 2023 15:53:49 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3731.600.7\))
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
 Subject: Re: [PATCH v2 0/5] Fix some checkpatch issues
-Message-Id: <F9C4E29E-C355-4B08-A2EC-2197A6EB7AFD@googlemail.com>
-Date: Sun, 25 Jun 2023 15:33:59 +0200
-Cc: eperi1024@gmail.com,
- =?utf-8?Q?Franziska_N=C3=A4pelt?= <franziska.naepelt@gmail.com>,
- Franziska Naepelt <franziska.naepelt@googlemail.com>,
- hdegoede@redhat.com,
- johannes.berg@intel.com,
- linux-kernel@vger.kernel.org,
- linux-staging@lists.linux.dev,
- philipp.g.hortmann@gmail.com,
- quic_vjakkam@quicinc.com,
- tegongkang@gmail.com
-To: "<gregkh@linuxfoundation.org>" <gregkh@linuxfoundation.org>
-X-Mailer: Apple Mail (2.3731.600.7)
+To: =?UTF-8?Q?Franziska_N=c3=a4pelt?= <franziska.naepelt@googlemail.com>
+Cc: eperi1024@gmail.com, =?UTF-8?Q?Franziska_N=c3=a4pelt?=
+ <franziska.naepelt@gmail.com>, hdegoede@redhat.com, johannes.berg@intel.com,
+ linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev,
+ quic_vjakkam@quicinc.com, tegongkang@gmail.com, gregkh@linuxfoundation.org
+References: <F9C4E29E-C355-4B08-A2EC-2197A6EB7AFD@googlemail.com>
+Content-Language: en-US
+From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+In-Reply-To: <F9C4E29E-C355-4B08-A2EC-2197A6EB7AFD@googlemail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Thanks for your feedback :)
-Since not all the patches of my first patch series have been applied, I =
-thought I have to submit the whole series again. Submitting a series of =
-5 patches, where 3 have been already applied of course fails.
-So does it mean, if 3 of 5 patches of a series have been applied and I =
-want to submit a new version, I only submit patches for the remaining =
-work and not all of them again?
+On 6/25/23 15:33, Franziska Näpelt wrote:
+> Thanks for your feedback :)
+> Since not all the patches of my first patch series have been applied, I thought I have to submit the whole series again. Submitting a series of 5 patches, where 3 have been already applied of course fails.
+> So does it mean, if 3 of 5 patches of a series have been applied and I want to submit a new version, I only submit patches for the remaining work and not all of them again?
+yes
+> 
+> Thanks, Franziska
 
-Thanks, Franziska=
+Hi Franziska,
+
+please only submit the not applied patches because the others cannot be 
+applied anymore.
+
+Thanks
+
+Bye Philipp
