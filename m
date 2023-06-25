@@ -1,77 +1,82 @@
-Received: from mail-vs1-f49.google.com (mail-vs1-f49.google.com [209.85.217.49])
+Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 437EE7C
-	for <linux-staging@lists.linux.dev>; Sun, 25 Jun 2023 16:32:04 +0000 (UTC)
-Received: by mail-vs1-f49.google.com with SMTP id ada2fe7eead31-440afc96271so580464137.3
-        for <linux-staging@lists.linux.dev>; Sun, 25 Jun 2023 09:32:04 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 254418468
+	for <linux-staging@lists.linux.dev>; Sun, 25 Jun 2023 18:51:25 +0000 (UTC)
+Received: by mail-pj1-f47.google.com with SMTP id 98e67ed59e1d1-262cc036fa4so251415a91.3
+        for <linux-staging@lists.linux.dev>; Sun, 25 Jun 2023 11:51:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlemail.com; s=20221208; t=1687710723; x=1690302723;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=xaMClIyzbes8/ajhVEEaqDE5A6xT3CkloKD91himAvg=;
-        b=SBsMMUgM/TDiklODo1eGbYP9dnl+XJ/qf/AsD+5vx03EWGC1PK0DEMH4/nADgLyEzO
-         k6K8BlJDM0Yb4u/O0t5KTr8KhBnXRvPgGih9oZLlcK/YeUcTU88T5ikh+ZOjt8McMFoQ
-         nMI1sQcnBLBO98hcKRRRgZlFLVWnCQrGrqM2Wgg28lXS9/1Pz9BiyDQ/Jonn4x/nDlRE
-         TKOoXX12IdG76vdkeeds/Pm8enJQeYDvnzG19v/IIGl6U2M4s0EgGtBwGPC0ugdlFkrx
-         jCCLHv+t/hA+nln3A9XHFZUk/aikvluSepFoSW9nkDYREnV+TcVzzWPo8WH2Sux5Pyaq
-         EL/A==
+        d=gmail.com; s=20221208; t=1687719085; x=1690311085;
+        h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=wkyFiQL0LMLlm6vDNBXN0hDgyxcnkHbsK3MjPnzklOk=;
+        b=W28doUtd2dlijy0QGV6h/6J3SOjezt65kQ5VmAV4+ARGvRKrhQOuSDOufCHqQO9fpK
+         m+MBGfEudzDl4LEpVGcn1vJvnD19hVKHXcsirCRGin7OZlPx9Jx1tJHMNOy/tYwUNyie
+         6gkSeEYW2OrvONoUWYuvzezOkemdytGv+O/klCUqY19V7bYECgM/0GXcU+7jDxXrktq+
+         KSmNpJXzKm/3tXqufDLSrhIyP1j0iK4gtNUE2GYbLo3sev4jJl9h//hgNlfz/RLWjH9B
+         hMkrYjJPtCuHk2jQCuuI23e/QWIEJyD8b2enbsOxTLazi/5h/f445gluaFjgFmHQKAR1
+         Q1oQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1687710723; x=1690302723;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=xaMClIyzbes8/ajhVEEaqDE5A6xT3CkloKD91himAvg=;
-        b=RuYQ406gqzOHOVE2BdNLfobO404OsRZn97M48z+Iq8fojpoYhrZ2aKpU1AJNSraI6x
-         Q3L3lXWA0bcSHHMU3kX+iwE0+5Kz8GEd1EAUGwFp7dKoCG9Ogp+wFATB7k/LXgVtwyMS
-         77oVafQAaUooDQOi58b///gKNxBipLAmeZ5IsTDxbo5LlwvsFuRc5z0D+S1h5c+LYf64
-         WSytBxfnCJlMKTAEotpllxsSTk5cBD1xP1O6+Gg+LXDB9zTReCfXYHnqiV6+9g77y2v8
-         Xp5LnDYHCLYaOUnwIzP3ufPDLGxc6EuD36kg5V9I2g+nriYoB59p6rDqXhW902yeJdcR
-         MhwA==
-X-Gm-Message-State: AC+VfDzxO0gLEAQB+h4uglxUvCjRlWAL9oB6Laj8RUOtYd2bUBzY7GHe
-	o6IZLCb9FnXcodVCc6sGj6kSkipzeGTjA6kcbeY=
-X-Google-Smtp-Source: ACHHUZ53btt3b2NOfpPJbrKRlB4Vg9mJbf7rfNQwbcdLrmZ4jIh6JJCt9e9e7ivK+2NQ9usb8v4+SlMJnOcQnxRHzsQ=
-X-Received: by 2002:a67:ce07:0:b0:440:d307:76f with SMTP id
- s7-20020a67ce07000000b00440d307076fmr7279107vsl.3.1687710723001; Sun, 25 Jun
- 2023 09:32:03 -0700 (PDT)
+        d=1e100.net; s=20221208; t=1687719085; x=1690311085;
+        h=to:subject:message-id:date:from:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=wkyFiQL0LMLlm6vDNBXN0hDgyxcnkHbsK3MjPnzklOk=;
+        b=Gn0ETvsY4gaiDLl5gISnEDTVNn312vCEVeyeN1z26Eki4xb1lTaZE3bksMjkw+M2xV
+         45/Jb2Rts1Hikpp8zU7HRpvYyi3o1MzlyKQ2WrXb0GWj+juAcHoGiJH07OhGVcbpmR1v
+         u0zTj1Lynqdh/oftNYacUZhSXleK0mKYQqDtTc9VKnVKxT3/zJjLHFIQrQFYMXfwQS6E
+         c76OHgmJ5MjXdT0XNKIQRFaVazrg5xnXi9zpYUczwHbiHLur23VgdJwMZdSYb09pdS17
+         pQVl5twLFGlwqXAyfTokRusFOTqT69Gr2xVG/VBIQr2hVAFRnBZmZVjIGUDyoaCrEZKj
+         KPjA==
+X-Gm-Message-State: AC+VfDyA9cqnciPhywED+bP45ZuDfts7azM1LeMW9dgarayvSOtSiYOw
+	vgDkX2avv6gy9XMx7T5eAMFwkaG3mH+J60Va3rI=
+X-Google-Smtp-Source: ACHHUZ5pDGUQ1/TP44+VyU6tpJ5rYd3i7I3W0S8JTeBpxvCH04V63sAfyIBNewDVzh1nfY64NYD4glP1efsJtY8DllA=
+X-Received: by 2002:a17:90a:fb52:b0:25b:b4c6:d13e with SMTP id
+ iq18-20020a17090afb5200b0025bb4c6d13emr17872825pjb.8.1687719085091; Sun, 25
+ Jun 2023 11:51:25 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <F9C4E29E-C355-4B08-A2EC-2197A6EB7AFD@googlemail.com> <2023062527-bride-unsolved-3b56@gregkh>
-In-Reply-To: <2023062527-bride-unsolved-3b56@gregkh>
-From: =?UTF-8?Q?Franziska_N=C3=A4pelt?= <franziska.naepelt@googlemail.com>
-Date: Sun, 25 Jun 2023 18:31:52 +0200
-Message-ID: <CAAUT3iObhY9VOQP9FqWRR-BmFRDmOJKFdcE--pzFdNgF6ma9NA@mail.gmail.com>
-Subject: Re: [PATCH v2 0/5] Fix some checkpatch issues
-To: "<gregkh@linuxfoundation.org>" <gregkh@linuxfoundation.org>
-Cc: eperi1024@gmail.com, hdegoede@redhat.com, johannes.berg@intel.com, 
-	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev, 
-	philipp.g.hortmann@gmail.com, quic_vjakkam@quicinc.com, tegongkang@gmail.com
+From: Uros Milojkovic <uroshm@gmail.com>
+Date: Sun, 25 Jun 2023 14:51:13 -0400
+Message-ID: <CAP=xWk67n_5jOvj7mM3KmxiaMn9Gm908MUU=Nrq9Tv1ASw4M2Q@mail.gmail.com>
+Subject: [PATCH] staging: nvec: udelay to usleep_range
+To: "p.zabel@pengutronix.de" <p.zabel@pengutronix.de>, ac100@lists.launchpad.net, 
+	linux-tegra@vger.kernel.org, linux-staging@lists.linux.dev, 
+	linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-Am So., 25. Juni 2023 um 15:55 Uhr schrieb
-<gregkh@linuxfoundation.org> <gregkh@linuxfoundation.org>:
->
-> On Sun, Jun 25, 2023 at 03:33:59PM +0200, Franziska N=C3=A4pelt wrote:
-> > Thanks for your feedback :)
-> > Since not all the patches of my first patch series have been applied, I=
- thought I have to submit the whole series again. Submitting a series of 5 =
-patches, where 3 have been already applied of course fails.
-> > So does it mean, if 3 of 5 patches of a series have been applied and I =
-want to submit a new version, I only submit patches for the remaining work =
-and not all of them again?
->
-> Yes, just submit the remaining ones.
->
-> thanks,
->
-> greg k-h
+Checkpatch.pl alerted that usleep_range is preferred to udelay. This
+change was made in nvec.c file.
 
-Done in v3. Thanks :)
-https://lore.kernel.org/linux-staging/CAAUT3iM3k3iVx7UOQ-s9OJ=3DaVWarAp3rED=
-NTzSfY-m3yJpGe4Q@mail.gmail.com/T/#t
+Signed-off-by: umilojkovic <uroshm@gmail.com>
+---
+ drivers/staging/nvec/nvec.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/staging/nvec/nvec.c b/drivers/staging/nvec/nvec.c
+index 2823cacde130..8bb3b691d1f5 100644
+--- a/drivers/staging/nvec/nvec.c
++++ b/drivers/staging/nvec/nvec.c
+@@ -627,7 +627,7 @@ static irqreturn_t nvec_interrupt(int irq, void *dev)
+         break;
+     case 2:        /* first byte after command */
+         if (status == (I2C_SL_IRQ | RNW | RCVD)) {
+-            udelay(33);
++            usleep_range(33, 200);
+             if (nvec->rx->data[0] != 0x01) {
+                 dev_err(nvec->dev,
+                     "Read without prior read command\n");
+@@ -714,7 +714,7 @@ static irqreturn_t nvec_interrupt(int irq, void *dev)
+      * We experience less incomplete messages with this delay than without
+      * it, but we don't know why. Help is appreciated.
+      */
+-    udelay(100);
++    usleep_range(100, 200);
+
+     return IRQ_HANDLED;
+ }
+-- 
+2.34.1
