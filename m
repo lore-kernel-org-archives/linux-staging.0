@@ -1,92 +1,111 @@
-Received: from mail3-relais-sop.national.inria.fr (mail3-relais-sop.national.inria.fr [192.134.164.104])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 544E3182C2
-	for <linux-staging@lists.linux.dev>; Tue, 27 Jun 2023 17:35:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=inria.fr; s=dc;
-  h=date:from:to:cc:subject:in-reply-to:message-id:
-   references:mime-version;
-  bh=iIHKX23DruyWxNvBPEkGuI6LxtvA8lzHrP07ul+XeWg=;
-  b=Ixk+uerCSeTIr9ry6BMbctwfqD/cZnATnAx+lIta14URQK6WCY5xHjGm
-   o3KZXqW1gNajuttsDVa436Hys12QuNPP2txSbbx2HNdh9pIRN48Mulca3
-   yAySyKmwGTMzvh54rhJs1cScpvyPiplespvWI9GEO7/NX4JgVXoWk5zMN
-   0=;
-Authentication-Results: mail3-relais-sop.national.inria.fr; dkim=none (message not signed) header.i=none; spf=SoftFail smtp.mailfrom=julia.lawall@inria.fr; dmarc=fail (p=none dis=none) d=inria.fr
-X-IronPort-AV: E=Sophos;i="6.01,163,1684792800"; 
-   d="scan'208";a="59972658"
-Received: from 231.85.89.92.rev.sfr.net (HELO hadrien) ([92.89.85.231])
-  by mail3-relais-sop.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jun 2023 19:35:47 +0200
-Date: Tue, 27 Jun 2023 19:35:47 +0200 (CEST)
-From: Julia Lawall <julia.lawall@inria.fr>
-X-X-Sender: jll@hadrien
-To: Julia Lawall <Julia.Lawall@inria.fr>
-cc: Sakari Ailus <sakari.ailus@linux.intel.com>, keescook@chromium.org, 
-    kernel-janitors@vger.kernel.org, Bingbu Cao <bingbu.cao@intel.com>, 
-    Tianshu Qiu <tian.shu.qiu@intel.com>, 
-    Mauro Carvalho Chehab <mchehab@kernel.org>, 
-    Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-    linux-media@vger.kernel.org, linux-staging@lists.linux.dev, 
-    linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 23/26] media: staging: imgu: use array_size
-In-Reply-To: <20230623211457.102544-24-Julia.Lawall@inria.fr>
-Message-ID: <alpine.DEB.2.22.394.2306271933480.3150@hadrien>
-References: <20230623211457.102544-1-Julia.Lawall@inria.fr> <20230623211457.102544-24-Julia.Lawall@inria.fr>
-User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C41705380
+	for <linux-staging@lists.linux.dev>; Tue, 27 Jun 2023 20:16:41 +0000 (UTC)
+Received: from umang.jainideasonboard.com (85-160-38-115.reb.o2.cz [85.160.38.115])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 762DA558;
+	Tue, 27 Jun 2023 22:15:53 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1687896954;
+	bh=TIFiNJEDvQFSgG2MNZKI8qDDNZkiyZVpQNwFUn17Ctg=;
+	h=From:To:Cc:Subject:Date:From;
+	b=tK53ar5zjb/pr4JJGvg/7QweqXo0DQWVymyT02CjARQTSN4TBGrhkBE21SHigYx3p
+	 5AmjWePQzH9Wyv3XiE+GMAaWJHaShEk+jF43opmUQNNR7YMe0OA8MxAlIYZMMxd3o3
+	 aB7RausGhbTjaisFKeoN6m8mcI/FlNnNPkyMRI9Q=
+From: Umang Jain <umang.jain@ideasonboard.com>
+To: linux-staging@lists.linux.dev,
+	linux-rpi-kernel@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: stefan.wahren@i2se.com,
+	gregkh@linuxfoundation.org,
+	f.fainelli@gmail.com,
+	athierry@redhat.com,
+	error27@gmail.com,
+	dave.stevenson@raspberrypi.com,
+	kieran.bingham@ideasonboard.com,
+	laurent.pinchart@ideasonboard.com,
+	Umang Jain <umang.jain@ideasonboard.com>
+Subject: [PATCH v8 0/5] staging: vc04_services: vchiq: Register devices with a custom bus_type
+Date: Tue, 27 Jun 2023 22:16:23 +0200
+Message-Id: <20230627201628.207483-1-umang.jain@ideasonboard.com>
+X-Mailer: git-send-email 2.39.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 8bit
+
+The patch series added a new bus type vchiq_bus_type and registers
+child devices in order to move them away from using platform
+device/driver.
+
+Patch 1/5 and 2/5 adds a new bus_type and registers them to vchiq
+interface
+
+Patch 3/5 and 4/5 moves the bcm2835-camera and bcm2835-audio
+to the new bus respectively
+
+Patch 5/5 removes a platform registeration helper which is no
+longer required.
+
+Changes in v8:
+- Drop dual licensing. Instead use GPL-2.0 only for patch 1/5
+
+Changes in v7:
+(5 out of 6 patches from v6 merged)
+- Split the main patch (6/6) as requested.
+- Use struct vchiq_device * instead of struct device * in
+  all bus functions.
+- Drop additional name attribute displayed in sysfs (redundant info)
+- Document vchiq_interface doesn't enumerate device discovery
+- remove EXPORT_SYMBOL_GPL(vchiq_bus_type)
+
+Changes in v6:
+- Split struct device and struct driver wrappers in vchiq_device.[ch]
+- Move vchiq_bus_type definition to vchiq_device.[ch] as well
+- return error on bus_register() failure
+- drop dma_set_mask_and_coherent
+- trivial variable name change
+
+Changes in v5:
+- Fixup missing "staging: " in commits' subject line
+- No code changes from v4
+
+Changes in v4:
+- Introduce patches to drop include directives from Makefile
+
+Changes in v3:
+- Rework entirely to replace platform devices/driver model
+
+-v2:
+https://lore.kernel.org/all/20221222191500.515795-1-umang.jain@ideasonboard.com/
+
+-v1:
+https://lore.kernel.org/all/20221220084404.19280-1-umang.jain@ideasonboard.com/
 
 
+Umang Jain (5):
+  staging: vc04_services: vchiq_arm: Add new bus type and device type
+  staging: vc04_services: vchiq_arm: Register vchiq_bus_type
+  staging: bcm2835-camera: Register bcm2835-camera with vchiq_bus_type
+  staging: bcm2835-audio: Register bcm2835-audio with vchiq_bus_type
+  staging: vc04_services: vchiq_arm: Remove vchiq_register_child()
 
-On Fri, 23 Jun 2023, Julia Lawall wrote:
+ drivers/staging/vc04_services/Makefile        |  1 +
+ .../vc04_services/bcm2835-audio/bcm2835.c     | 17 ++--
+ .../bcm2835-camera/bcm2835-camera.c           | 16 ++--
+ .../interface/vchiq_arm/vchiq_arm.c           | 56 +++++++------
+ .../interface/vchiq_arm/vchiq_device.c        | 78 +++++++++++++++++++
+ .../interface/vchiq_arm/vchiq_device.h        | 43 ++++++++++
+ 6 files changed, 165 insertions(+), 46 deletions(-)
+ create mode 100644 drivers/staging/vc04_services/interface/vchiq_arm/vchiq_device.c
+ create mode 100644 drivers/staging/vc04_services/interface/vchiq_arm/vchiq_device.h
 
-> Use array_size to protect against multiplication overflows.
->
-> The changes were done using the following Coccinelle semantic patch:
->
-> // <smpl>
-> @@
->     expression E1, E2;
->     constant C1, C2;
->     identifier alloc = {vmalloc,vzalloc};
-> @@
->
-> (
->       alloc(C1 * C2,...)
-> |
->       alloc(
-> -           (E1) * (E2)
-> +           array_size(E1, E2)
->       ,...)
-> )
-> // </smpl>
->
-> Signed-off-by: Julia Lawall <Julia.Lawall@inria.fr>
->
-> ---
->  drivers/staging/media/ipu3/ipu3-mmu.c |    2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/staging/media/ipu3/ipu3-mmu.c b/drivers/staging/media/ipu3/ipu3-mmu.c
-> index cb9bf5fb29a5..9c4adb815c94 100644
-> --- a/drivers/staging/media/ipu3/ipu3-mmu.c
-> +++ b/drivers/staging/media/ipu3/ipu3-mmu.c
-> @@ -464,7 +464,7 @@ struct imgu_mmu_info *imgu_mmu_init(struct device *parent, void __iomem *base)
->  	 * Allocate the array of L2PT CPU pointers, initialized to zero,
->  	 * which means the dummy L2PT allocated above.
->  	 */
-> -	mmu->l2pts = vzalloc(IPU3_PT_PTES * sizeof(*mmu->l2pts));
-> +	mmu->l2pts = vzalloc(array_size(IPU3_PT_PTES, sizeof(*mmu->l2pts)));
->  	if (!mmu->l2pts)
->  		goto fail_l2pt;
+-- 
+2.39.1
 
-I think that this patch can be dropped.  Since it is a multiplcation of
-two constants, if there is an overflow, I guess the compiler would detect
-it?
-
-julia
