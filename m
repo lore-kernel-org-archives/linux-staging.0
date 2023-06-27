@@ -1,41 +1,41 @@
-Received: from pb-smtp2.pobox.com (pb-smtp2.pobox.com [64.147.108.71])
+Received: from pb-smtp20.pobox.com (pb-smtp20.pobox.com [173.228.157.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5C531FBA
-	for <linux-staging@lists.linux.dev>; Tue, 27 Jun 2023 06:07:04 +0000 (UTC)
-Received: from pb-smtp2.pobox.com (unknown [127.0.0.1])
-	by pb-smtp2.pobox.com (Postfix) with ESMTP id 18D1E199795;
-	Tue, 27 Jun 2023 02:06:57 -0400 (EDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBD864A28
+	for <linux-staging@lists.linux.dev>; Tue, 27 Jun 2023 06:13:52 +0000 (UTC)
+Received: from pb-smtp20.pobox.com (unknown [127.0.0.1])
+	by pb-smtp20.pobox.com (Postfix) with ESMTP id 303F834F34;
+	Tue, 27 Jun 2023 02:13:00 -0400 (EDT)
 	(envelope-from tdavies@darkphysics.net)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed; d=pobox.com; h=date:from
 	:to:cc:subject:message-id:mime-version:content-type; s=sasl; bh=
-	vjszVLPOYJWQd7LQDozHI8ls+XVn3VGrAb2lTD4svG4=; b=HaTR0R9Wk75/on9B
-	SZT3i7gY3X1WFGLqkIqAL0YZ+4sEiOIdww1aVRGoKYTbGbGacD+azOCdAPuFo/ei
-	sWP1Si2bTjkzsax0LAGFWtsby/rQZMveCpepXg0iUgahYWNn8O10nCDs3nCl01IV
-	nux+pdOwjGQZKtW7DGyWGzOf1tw=
-Received: from pb-smtp2.nyi.icgroup.com (unknown [127.0.0.1])
-	by pb-smtp2.pobox.com (Postfix) with ESMTP id 0F815199794;
-	Tue, 27 Jun 2023 02:06:57 -0400 (EDT)
+	IUL7ID4d3pPYsOn9JplaOIG/zZA7lomOoZeluXhX+5o=; b=JPeCRY1PUEl443qQ
+	LwC909pWYdeqDKA8sMuvjBv/lbkOl3IZLsB4QaYpYY6nWg6AoEt/94x7qiqIR5wD
+	VWJLLyenc87CpOQv/9rckmfi1Nhr4Fy4CWHM1GE+NEzW9Uk1BWaYFmXQhg9EQH+o
+	6UeiIHSYdW3ftbZfEQ76V+/Ddlg=
+Received: from pb-smtp20.sea.icgroup.com (unknown [127.0.0.1])
+	by pb-smtp20.pobox.com (Postfix) with ESMTP id 2746034F33;
+	Tue, 27 Jun 2023 02:13:00 -0400 (EDT)
 	(envelope-from tdavies@darkphysics.net)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed; d=darkphysics.net;
  h=date:from:to:cc:subject:message-id:mime-version:content-type;
- s=2019-09.pbsmtp; bh=vjszVLPOYJWQd7LQDozHI8ls+XVn3VGrAb2lTD4svG4=;
- b=ILZJR7aQTcOaC9iz+wj+mYcc1RZrsx8zTM8ZQe8aNep2tS53RzFsfAvYy7cqsoB9H4feocC2lu7+txWeNHtpiVhbYZrNNoKemaqrJ/iRHtictWJFQMoR9/dRvZRHL5H3y76OmMNFCAbuiE+b0s9tlJvx2KZgXhUvtBa3rMLPCkw=
+ s=2019-09.pbsmtp; bh=IUL7ID4d3pPYsOn9JplaOIG/zZA7lomOoZeluXhX+5o=;
+ b=RqhMWuiBYvqwGsV3VH39xxsZbempSyEnYhpwJWqTbZ91QVKS79esTyTvSiJqfZJwaU0Urz2QaRscLhyncuaEQBcZJa3OSK6QHXP8dIp1WCalVbKX22GnpGoaQJ3n4n6ghvt/OhIgSKY48QEzwVNk5casvFO9VdVMAWxlKf5jPFQ=
 Received: from tacos.darkphysics (unknown [76.146.178.2])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by pb-smtp2.pobox.com (Postfix) with ESMTPSA id DFFD3199793;
-	Tue, 27 Jun 2023 02:06:55 -0400 (EDT)
+	by pb-smtp20.pobox.com (Postfix) with ESMTPSA id 2998434F32;
+	Tue, 27 Jun 2023 02:12:57 -0400 (EDT)
 	(envelope-from tdavies@darkphysics.net)
-Date: Mon, 26 Jun 2023 23:06:42 -0700
+Date: Mon, 26 Jun 2023 23:12:46 -0700
 From: Tree Davies <tdavies@darkphysics.net>
 To: gregkh@linuxfoundation.org, philipp.g.hortmann@gmail.com,
 	dan.carpenter@linaro.org
 Cc: tdavies@darkphysics.net, linux-kernel@vger.kernel.org,
 	linux-staging@lists.linux.dev
-Subject: [PATCH v2] staging: rtl8192e: Rename function IsHTHalfNmodeAPs to
+Subject: [PATCH v3] staging: rtl8192e: Rename function IsHTHalfNmodeAPs to
  is_ht_half_nmode_aps
-Message-ID: <ZJp8cug8OwyvcLbD@tacos.darkphysics>
+Message-ID: <ZJp93mCd9ogrGZbx@tacos.darkphysics>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -45,14 +45,15 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 X-Pobox-Relay-ID:
- D1EDD31C-14B0-11EE-95D4-307A8E0A682E-45285927!pb-smtp2.pobox.com
+ A904B50A-14B1-11EE-8D0A-C2DA088D43B2-45285927!pb-smtp20.pobox.com
 
 Rename function IsHTHalfNmodeAPs to is_ht_half_nmode_aps in order to
 fix checkpatch warning: Avoid CamelCase
 
 Signed-off-by: Tree Davies <tdavies@darkphysics.net>
-v2: Rename is_ht_half_nmode_a_ps -> is_ht_half_nmode_aps
 ---
+v3: Fix email parch as v2 info was placed above the ---
+v2: Rename is_ht_half_nmode_a_ps -> is_ht_half_nmode_aps
  drivers/staging/rtl8192e/rtl819x_HTProc.c | 2 +-
  drivers/staging/rtl8192e/rtllib.h         | 2 +-
  drivers/staging/rtl8192e/rtllib_softmac.c | 2 +-
