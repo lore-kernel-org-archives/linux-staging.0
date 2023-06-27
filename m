@@ -1,18 +1,18 @@
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7DE063AC
-	for <linux-staging@lists.linux.dev>; Tue, 27 Jun 2023 20:16:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB8CC63AC
+	for <linux-staging@lists.linux.dev>; Tue, 27 Jun 2023 20:16:46 +0000 (UTC)
 Received: from umang.jainideasonboard.com (85-160-38-115.reb.o2.cz [85.160.38.115])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 7CA241494;
-	Tue, 27 Jun 2023 22:15:54 +0200 (CEST)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 7A80231B9;
+	Tue, 27 Jun 2023 22:15:56 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1687896955;
-	bh=5w38/4u4ju6HGE/B5QaYws0swVmnmA8BtFLDynYoebo=;
+	s=mail; t=1687896957;
+	bh=FYswsBqlGTJd9Uyph3V+TQd6xP/1Bv4ExB0Kmxk7mY4=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=IWqJOP0ALlxXKsyRMObrr/VT13A2hvWnsj/vyr+V7HRL6c30xnTEXTq20bQn6bQn1
-	 T26kIn2+KsEjOobDGphCWvNo8gut98QgTYq1nS6pqPxQGC5RVe/0O/bGkp4V5O1u32
-	 pRrYhLd2WxMtYzKGCTdCgX+pIS1a37AWl2tqBX+U=
+	b=LH38S3H1Nk+x0OaEipDZuzWIsskQgS7sUasWv0Emmzbvpp3RWXSsCS8H6ilSbeEhX
+	 hkp/6tV9iShsHKHFZm+eBJJRIAWJjEiM3bjTy3A9HKu76FO8Gm1oHops0hdAh4JZsj
+	 r9GqDFxUGku8zZSFM4zY+zYjWN/Xi4uBbvpA6tkg=
 From: Umang Jain <umang.jain@ideasonboard.com>
 To: linux-staging@lists.linux.dev,
 	linux-rpi-kernel@lists.infradead.org,
@@ -28,9 +28,9 @@ Cc: stefan.wahren@i2se.com,
 	kieran.bingham@ideasonboard.com,
 	laurent.pinchart@ideasonboard.com,
 	Umang Jain <umang.jain@ideasonboard.com>
-Subject: [PATCH v8 1/5] staging: vc04_services: vchiq_arm: Add new bus type and device type
-Date: Tue, 27 Jun 2023 22:16:24 +0200
-Message-Id: <20230627201628.207483-2-umang.jain@ideasonboard.com>
+Subject: [PATCH v8 3/5] staging: bcm2835-camera: Register bcm2835-camera with vchiq_bus_type
+Date: Tue, 27 Jun 2023 22:16:26 +0200
+Message-Id: <20230627201628.207483-4-umang.jain@ideasonboard.com>
 X-Mailer: git-send-email 2.39.1
 In-Reply-To: <20230627201628.207483-1-umang.jain@ideasonboard.com>
 References: <20230627201628.207483-1-umang.jain@ideasonboard.com>
@@ -42,173 +42,143 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The devices that the vchiq interface registers (bcm2835-audio,
-bcm2835-camera) are implemented and exposed by the VC04 firmware.
-The device tree describes the VC04 itself with the resources required
-to communicate with it through a mailbox interface. However, the
-vchiq interface registers these devices as platform devices. This
-also means the specific drivers for these devices are getting
-registered as platform drivers. This is not correct and a blatant
-abuse of platform device/driver.
+Register the bcm2835-camera with the vchiq_bus_type instead of using
+platform driver/device.
 
-Add a new bus type, vchiq_bus_type and device type (struct vchiq_device)
-which will be used to migrate child devices that the vchiq interfaces
-creates/registers from the platform device/driver.
+Also the VCHIQ firmware doesn't support device enumeration, hence
+one has to maintain a list of devices to be registered in the interface.
 
 Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
 ---
- drivers/staging/vc04_services/Makefile        |  1 +
- .../interface/vchiq_arm/vchiq_device.c        | 78 +++++++++++++++++++
- .../interface/vchiq_arm/vchiq_device.h        | 43 ++++++++++
- 3 files changed, 122 insertions(+)
- create mode 100644 drivers/staging/vc04_services/interface/vchiq_arm/vchiq_device.c
- create mode 100644 drivers/staging/vc04_services/interface/vchiq_arm/vchiq_device.h
+ .../bcm2835-camera/bcm2835-camera.c           | 16 +++++++-------
+ .../interface/vchiq_arm/vchiq_arm.c           | 21 ++++++++++++++++---
+ 2 files changed, 26 insertions(+), 11 deletions(-)
 
-diff --git a/drivers/staging/vc04_services/Makefile b/drivers/staging/vc04_services/Makefile
-index 44794bdf6173..2d071e55e175 100644
---- a/drivers/staging/vc04_services/Makefile
-+++ b/drivers/staging/vc04_services/Makefile
-@@ -5,6 +5,7 @@ vchiq-objs := \
-    interface/vchiq_arm/vchiq_core.o  \
-    interface/vchiq_arm/vchiq_arm.o \
-    interface/vchiq_arm/vchiq_debugfs.o \
-+   interface/vchiq_arm/vchiq_device.o \
-    interface/vchiq_arm/vchiq_connected.o \
+diff --git a/drivers/staging/vc04_services/bcm2835-camera/bcm2835-camera.c b/drivers/staging/vc04_services/bcm2835-camera/bcm2835-camera.c
+index 346d00df815a..f37b2a881d92 100644
+--- a/drivers/staging/vc04_services/bcm2835-camera/bcm2835-camera.c
++++ b/drivers/staging/vc04_services/bcm2835-camera/bcm2835-camera.c
+@@ -24,8 +24,9 @@
+ #include <media/v4l2-event.h>
+ #include <media/v4l2-common.h>
+ #include <linux/delay.h>
+-#include <linux/platform_device.h>
  
- ifdef CONFIG_VCHIQ_CDEV
-diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_device.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_device.c
-new file mode 100644
-index 000000000000..dff312e9735c
---- /dev/null
-+++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_device.c
-@@ -0,0 +1,78 @@
-+// SPDX-License-Identifier: GPL-2.0
++#include "../interface/vchiq_arm/vchiq_arm.h"
++#include "../interface/vchiq_arm/vchiq_device.h"
+ #include "../vchiq-mmal/mmal-common.h"
+ #include "../vchiq-mmal/mmal-encodings.h"
+ #include "../vchiq-mmal/mmal-vchiq.h"
+@@ -1841,7 +1842,7 @@ static struct v4l2_format default_v4l2_format = {
+ 	.fmt.pix.sizeimage = 1024 * 768,
+ };
+ 
+-static int bcm2835_mmal_probe(struct platform_device *pdev)
++static int bcm2835_mmal_probe(struct vchiq_device *device)
+ {
+ 	int ret;
+ 	struct bcm2835_mmal_dev *dev;
+@@ -1896,7 +1897,7 @@ static int bcm2835_mmal_probe(struct platform_device *pdev)
+ 						       &camera_instance);
+ 		ret = v4l2_device_register(NULL, &dev->v4l2_dev);
+ 		if (ret) {
+-			dev_err(&pdev->dev, "%s: could not register V4L2 device: %d\n",
++			dev_err(&device->dev, "%s: could not register V4L2 device: %d\n",
+ 				__func__, ret);
+ 			goto free_dev;
+ 		}
+@@ -1976,7 +1977,7 @@ static int bcm2835_mmal_probe(struct platform_device *pdev)
+ 	return ret;
+ }
+ 
+-static void bcm2835_mmal_remove(struct platform_device *pdev)
++static void bcm2835_mmal_remove(struct vchiq_device *device)
+ {
+ 	int camera;
+ 	struct vchiq_mmal_instance *instance = gdev[0]->instance;
+@@ -1988,17 +1989,16 @@ static void bcm2835_mmal_remove(struct platform_device *pdev)
+ 	vchiq_mmal_finalise(instance);
+ }
+ 
+-static struct platform_driver bcm2835_camera_driver = {
++static struct vchiq_driver bcm2835_camera_driver = {
+ 	.probe		= bcm2835_mmal_probe,
+-	.remove_new	= bcm2835_mmal_remove,
++	.remove		= bcm2835_mmal_remove,
+ 	.driver		= {
+ 		.name	= "bcm2835-camera",
+ 	},
+ };
+ 
+-module_platform_driver(bcm2835_camera_driver)
++module_vchiq_driver(bcm2835_camera_driver)
+ 
+ MODULE_DESCRIPTION("Broadcom 2835 MMAL video capture");
+ MODULE_AUTHOR("Vincent Sanders");
+ MODULE_LICENSE("GPL");
+-MODULE_ALIAS("platform:bcm2835-camera");
+diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
+index e8d40f891449..79d4d0eeb5fb 100644
+--- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
++++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
+@@ -67,7 +67,6 @@ int vchiq_susp_log_level = VCHIQ_LOG_ERROR;
+ DEFINE_SPINLOCK(msg_queue_spinlock);
+ struct vchiq_state g_state;
+ 
+-static struct platform_device *bcm2835_camera;
+ static struct platform_device *bcm2835_audio;
+ 
+ struct vchiq_drvdata {
+@@ -134,6 +133,15 @@ struct vchiq_pagelist_info {
+ 	unsigned int scatterlist_mapped;
+ };
+ 
 +/*
-+ * vchiq_device.c - VCHIQ generic device and bus-type
-+ *
-+ * Copyright (c) 2023 Ideas On Board Oy
++ * The devices implemented in the VCHIQ firmware are not discoverable,
++ * so we need to maintain a list of them in order to register them with
++ * the interface.
 + */
-+
-+#include <linux/device/bus.h>
-+#include <linux/slab.h>
-+#include <linux/string.h>
-+
-+#include "vchiq_device.h"
-+
-+static int vchiq_bus_type_match(struct device *dev, struct device_driver *drv);
-+
-+struct bus_type vchiq_bus_type = {
-+	.name   = "vchiq-bus",
-+	.match  = vchiq_bus_type_match,
++static const char *const vchiq_devices[] = {
++	"bcm2835-camera",
 +};
 +
-+static int vchiq_bus_type_match(struct device *dev, struct device_driver *drv)
-+{
-+	if (dev->bus == &vchiq_bus_type &&
-+	    strcmp(dev_name(dev), drv->name) == 0)
-+		return 1;
-+	return 0;
-+}
-+
-+static void vchiq_device_release(struct device *dev)
-+{
-+	struct vchiq_device *device;
-+
-+	device = container_of(dev, struct vchiq_device, dev);
-+	kfree(device);
-+}
-+
-+int vchiq_device_register(struct device *parent, const char *name)
-+{
-+	struct vchiq_device *device = NULL;
-+	int ret;
-+
-+	device = kzalloc(sizeof(*device), GFP_KERNEL);
-+	if (!device)
-+		return -ENOMEM;
-+
-+	device->dev.init_name = name;
-+	device->dev.parent = parent;
-+	device->dev.bus = &vchiq_bus_type;
-+	device->dev.release = vchiq_device_release;
-+
-+	ret = device_register(&device->dev);
-+	if (ret) {
-+		put_device(&device->dev);
-+		return -EINVAL;
+ static void __iomem *g_regs;
+ /* This value is the size of the L2 cache lines as understood by the
+  * VPU firmware, which determines the required alignment of the
+@@ -1798,6 +1806,7 @@ static int vchiq_probe(struct platform_device *pdev)
+ 	struct device_node *fw_node;
+ 	const struct of_device_id *of_id;
+ 	struct vchiq_drvdata *drvdata;
++	unsigned int i;
+ 	int err;
+ 
+ 	of_id = of_match_node(vchiq_of_match, pdev->dev.of_node);
+@@ -1840,9 +1849,15 @@ static int vchiq_probe(struct platform_device *pdev)
+ 		goto error_exit;
+ 	}
+ 
+-	bcm2835_camera = vchiq_register_child(pdev, "bcm2835-camera");
+ 	bcm2835_audio = vchiq_register_child(pdev, "bcm2835_audio");
+ 
++	for (i = 0; i < ARRAY_SIZE(vchiq_devices); i++) {
++		err = vchiq_device_register(&pdev->dev, vchiq_devices[i]);
++		if (err)
++			dev_err(&pdev->dev, "Failed to register %s vchiq device\n",
++			vchiq_devices[i]);
 +	}
 +
-+	return 0;
-+}
-+
-+int vchiq_device_unregister(struct device *dev, void *data)
-+{
-+	device_unregister(dev);
-+	return 0;
-+}
-+
-+int vchiq_driver_register(struct vchiq_driver *vchiq_drv)
-+{
-+	vchiq_drv->driver.bus = &vchiq_bus_type;
-+
-+	return driver_register(&vchiq_drv->driver);
-+}
-+EXPORT_SYMBOL_GPL(vchiq_driver_register);
-+
-+void vchiq_driver_unregister(struct vchiq_driver *vchiq_drv)
-+{
-+	driver_unregister(&vchiq_drv->driver);
-+}
-+EXPORT_SYMBOL_GPL(vchiq_driver_unregister);
-diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_device.h b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_device.h
-new file mode 100644
-index 000000000000..dcd8a3d9eebe
---- /dev/null
-+++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_device.h
-@@ -0,0 +1,43 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+/*
-+ * Copyright (c) 2023 Ideas On Board Oy
-+ */
-+
-+#ifndef _VCHIQ_DEVICE_H
-+#define _VCHIQ_DEVICE_H
-+
-+#include <linux/device.h>
-+
-+struct vchiq_device {
-+	struct device dev;
-+};
-+
-+struct vchiq_driver {
-+	int		(*probe)(struct vchiq_device *device);
-+	void		(*remove)(struct vchiq_device *device);
-+	int		(*resume)(struct vchiq_device *device);
-+	int		(*suspend)(struct vchiq_device *device,
-+				   pm_message_t state);
-+	struct device_driver driver;
-+};
-+
-+extern struct bus_type vchiq_bus_type;
-+
-+int vchiq_device_register(struct device *parent, const char *name);
-+int vchiq_device_unregister(struct device *dev, void *data);
-+
-+int vchiq_driver_register(struct vchiq_driver *vchiq_drv);
-+void vchiq_driver_unregister(struct vchiq_driver *vchiq_drv);
-+
-+/**
-+ * module_vchiq_driver() - Helper macro for registering a vchiq driver
-+ * @__vchiq_driver: vchiq driver struct
-+ *
-+ * Helper macro for vchiq drivers which do not do anything special in
-+ * module init/exit. This eliminates a lot of boilerplate. Each module may only
-+ * use this macro once, and calling it replaces module_init() and module_exit()
-+ */
-+#define module_vchiq_driver(__vchiq_driver) \
-+	module_driver(__vchiq_driver, vchiq_driver_register, vchiq_driver_unregister)
-+
-+#endif /* _VCHIQ_DEVICE_H */
+ 	return 0;
+ 
+ failed_platform_init:
+@@ -1854,7 +1869,7 @@ static int vchiq_probe(struct platform_device *pdev)
+ static void vchiq_remove(struct platform_device *pdev)
+ {
+ 	platform_device_unregister(bcm2835_audio);
+-	platform_device_unregister(bcm2835_camera);
++	bus_for_each_dev(&vchiq_bus_type, NULL, NULL, vchiq_device_unregister);
+ 	vchiq_debugfs_deinit();
+ 	vchiq_deregister_chrdev();
+ }
 -- 
 2.39.1
 
