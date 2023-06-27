@@ -1,86 +1,102 @@
-Received: from pb-smtp21.pobox.com (pb-smtp21.pobox.com [173.228.157.53])
+Received: from pb-smtp2.pobox.com (pb-smtp2.pobox.com [64.147.108.71])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C9EBEA1
-	for <linux-staging@lists.linux.dev>; Tue, 27 Jun 2023 03:27:53 +0000 (UTC)
-Received: from pb-smtp21.pobox.com (unknown [127.0.0.1])
-	by pb-smtp21.pobox.com (Postfix) with ESMTP id 8839637D39;
-	Mon, 26 Jun 2023 23:27:47 -0400 (EDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5C531FBA
+	for <linux-staging@lists.linux.dev>; Tue, 27 Jun 2023 06:07:04 +0000 (UTC)
+Received: from pb-smtp2.pobox.com (unknown [127.0.0.1])
+	by pb-smtp2.pobox.com (Postfix) with ESMTP id 18D1E199795;
+	Tue, 27 Jun 2023 02:06:57 -0400 (EDT)
 	(envelope-from tdavies@darkphysics.net)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed; d=pobox.com; h=message-id
-	:date:mime-version:reply-to:subject:to:cc:references:from
-	:in-reply-to:content-type:content-transfer-encoding; s=sasl; bh=
-	nOFw18hjIx2H9K031iW9g3K/aJNhzdoHuWqJmcYeJEU=; b=dpPZjvYmIs9M5pLX
-	UPjHw5QW57j3dBaHj6A8O+lfZxFdLiTTHXrK7nf9qQRhhM82JrM4mdDkydbwCAm8
-	tQWdkJnRu2TgCqP2/+2N8Xbl4bJ4fIlQfEFMUIWVPGR2RXzSi1XOvGo6oqBW4iwa
-	erK2s4lxpH3s/E3G/yPIkp7So7M=
-Received: from pb-smtp21.sea.icgroup.com (unknown [127.0.0.1])
-	by pb-smtp21.pobox.com (Postfix) with ESMTP id 80D1F37D38;
-	Mon, 26 Jun 2023 23:27:47 -0400 (EDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed; d=pobox.com; h=date:from
+	:to:cc:subject:message-id:mime-version:content-type; s=sasl; bh=
+	vjszVLPOYJWQd7LQDozHI8ls+XVn3VGrAb2lTD4svG4=; b=HaTR0R9Wk75/on9B
+	SZT3i7gY3X1WFGLqkIqAL0YZ+4sEiOIdww1aVRGoKYTbGbGacD+azOCdAPuFo/ei
+	sWP1Si2bTjkzsax0LAGFWtsby/rQZMveCpepXg0iUgahYWNn8O10nCDs3nCl01IV
+	nux+pdOwjGQZKtW7DGyWGzOf1tw=
+Received: from pb-smtp2.nyi.icgroup.com (unknown [127.0.0.1])
+	by pb-smtp2.pobox.com (Postfix) with ESMTP id 0F815199794;
+	Tue, 27 Jun 2023 02:06:57 -0400 (EDT)
 	(envelope-from tdavies@darkphysics.net)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed; d=darkphysics.net;
- h=message-id:date:mime-version:reply-to:subject:to:cc:references:from:in-reply-to:content-type:content-transfer-encoding; s=2019-09.pbsmtp; bh=nOFw18hjIx2H9K031iW9g3K/aJNhzdoHuWqJmcYeJEU=; b=hL9uOQu40nw8MNR6fga7rPXpJyAW+HK64jNEAGo2Sm349rbIwNbFkjBWDwqpwz9kEpoeJ9Tagc9Vt1fhDvoYBzbJ+/ZBfz+WF64ALXBBeh5TemOc9Kj0O9N00R8m+/2TqEf9LuQFtq1bdBwB+nz5cAk/hf2kifp/tFpKMIAJN9A=
-Received: from [192.168.1.112] (unknown [76.146.178.2])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ h=date:from:to:cc:subject:message-id:mime-version:content-type;
+ s=2019-09.pbsmtp; bh=vjszVLPOYJWQd7LQDozHI8ls+XVn3VGrAb2lTD4svG4=;
+ b=ILZJR7aQTcOaC9iz+wj+mYcc1RZrsx8zTM8ZQe8aNep2tS53RzFsfAvYy7cqsoB9H4feocC2lu7+txWeNHtpiVhbYZrNNoKemaqrJ/iRHtictWJFQMoR9/dRvZRHL5H3y76OmMNFCAbuiE+b0s9tlJvx2KZgXhUvtBa3rMLPCkw=
+Received: from tacos.darkphysics (unknown [76.146.178.2])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by pb-smtp21.pobox.com (Postfix) with ESMTPSA id 8A7FC37D37;
-	Mon, 26 Jun 2023 23:27:44 -0400 (EDT)
+	by pb-smtp2.pobox.com (Postfix) with ESMTPSA id DFFD3199793;
+	Tue, 27 Jun 2023 02:06:55 -0400 (EDT)
 	(envelope-from tdavies@darkphysics.net)
-Message-ID: <1cc88867-f747-2817-077e-c3c6258855c8@darkphysics.net>
-Date: Mon, 26 Jun 2023 20:27:43 -0700
+Date: Mon, 26 Jun 2023 23:06:42 -0700
+From: Tree Davies <tdavies@darkphysics.net>
+To: gregkh@linuxfoundation.org, philipp.g.hortmann@gmail.com,
+	dan.carpenter@linaro.org
+Cc: tdavies@darkphysics.net, linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev
+Subject: [PATCH v2] staging: rtl8192e: Rename function IsHTHalfNmodeAPs to
+ is_ht_half_nmode_aps
+Message-ID: <ZJp8cug8OwyvcLbD@tacos.darkphysics>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Reply-To: tdavies@darkphysics.net
-Subject: Re: [PATCH] staging: rtl8192e: Rename function IsHTHalfNmodeAPs to
- is_ht_half_nmode_a_ps
-To: Philipp Hortmann <philipp.g.hortmann@gmail.com>,
- gregkh@linuxfoundation.org, dan.carpenter@linaro.org
-Cc: linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
-References: <ZJdz9oWjPuE3xZ8Y@tacos.darkphysics>
- <ca4d6bdf-158b-1d5a-da1f-9401d9d95931@gmail.com>
-Content-Language: en-US
-From: Tree Davies <tdavies@darkphysics.net>
-In-Reply-To: <ca4d6bdf-158b-1d5a-da1f-9401d9d95931@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 X-Pobox-Relay-ID:
- 94A5B846-149A-11EE-A06A-B31D44D1D7AA-45285927!pb-smtp21.pobox.com
+ D1EDD31C-14B0-11EE-95D4-307A8E0A682E-45285927!pb-smtp2.pobox.com
 
+Rename function IsHTHalfNmodeAPs to is_ht_half_nmode_aps in order to
+fix checkpatch warning: Avoid CamelCase
 
-On 6/25/23 07:28, Philipp Hortmann wrote:
-> On 6/25/23 00:53, Tree Davies wrote:
->> Rename function IsHTHalfNmodeAPs to is_ht_half_nmode_a_ps in order to
->> fix checkpatch warning: Avoid CamelCase
->>
->
-> Hi Tree
->
-> If you look where the function is used you will see that it is used in 
-> rtllib_rx_auth_resp which is used in:
-> rtllib_rx_auth which is used in:
-> rtllib_rx_frame_softmac which is used in:
-> rtllib_rx_frame_mgmt which is used in:
-> rtllib_rx_InfraAdhoc
->
->
-> This has for me to do with access points so please do not cut the ap 
-> apart.
->
-> Thanks
->
-> Bye Philipp
->
->
->
-Thanks Philip,
-I will send a v2
-Cheers!
-Tree
+Signed-off-by: Tree Davies <tdavies@darkphysics.net>
+v2: Rename is_ht_half_nmode_a_ps -> is_ht_half_nmode_aps
+---
+ drivers/staging/rtl8192e/rtl819x_HTProc.c | 2 +-
+ drivers/staging/rtl8192e/rtllib.h         | 2 +-
+ drivers/staging/rtl8192e/rtllib_softmac.c | 2 +-
+ 3 files changed, 3 insertions(+), 3 deletions(-)
 
+diff --git a/drivers/staging/rtl8192e/rtl819x_HTProc.c b/drivers/staging/rtl8192e/rtl819x_HTProc.c
+index f9fa3f2bb728..d09342dde61d 100644
+--- a/drivers/staging/rtl8192e/rtl819x_HTProc.c
++++ b/drivers/staging/rtl8192e/rtl819x_HTProc.c
+@@ -139,7 +139,7 @@ u16  TxCountToDataRate(struct rtllib_device *ieee, u8 nDataRate)
+ 	return MCS_DATA_RATE[is40MHz][isShortGI][nDataRate & 0xf];
+ }
+ 
+-bool IsHTHalfNmodeAPs(struct rtllib_device *ieee)
++bool is_ht_half_nmode_aps(struct rtllib_device *ieee)
+ {
+ 	bool			retValue = false;
+ 	struct rtllib_network *net = &ieee->current_network;
+diff --git a/drivers/staging/rtl8192e/rtllib.h b/drivers/staging/rtl8192e/rtllib.h
+index e3ce4431d460..293eb9315d99 100644
+--- a/drivers/staging/rtl8192e/rtllib.h
++++ b/drivers/staging/rtl8192e/rtllib.h
+@@ -2003,7 +2003,7 @@ extern u8 MCS_FILTER_ALL[];
+ extern u16 MCS_DATA_RATE[2][2][77];
+ u8 HTCCheck(struct rtllib_device *ieee, u8 *pFrame);
+ void HTResetIOTSetting(struct rt_hi_throughput *ht_info);
+-bool IsHTHalfNmodeAPs(struct rtllib_device *ieee);
++bool is_ht_half_nmode_aps(struct rtllib_device *ieee);
+ u16  TxCountToDataRate(struct rtllib_device *ieee, u8 nDataRate);
+ int rtllib_rx_ADDBAReq(struct rtllib_device *ieee, struct sk_buff *skb);
+ int rtllib_rx_ADDBARsp(struct rtllib_device *ieee, struct sk_buff *skb);
+diff --git a/drivers/staging/rtl8192e/rtllib_softmac.c b/drivers/staging/rtl8192e/rtllib_softmac.c
+index 425d4acbcdf0..05740e90d1c6 100644
+--- a/drivers/staging/rtl8192e/rtllib_softmac.c
++++ b/drivers/staging/rtl8192e/rtllib_softmac.c
+@@ -2224,7 +2224,7 @@ static void rtllib_rx_auth_resp(struct rtllib_device *ieee, struct sk_buff *skb)
+ 		ieee->softmac_stats.rx_auth_rs_ok++;
+ 		if (!(ieee->ht_info->iot_action & HT_IOT_ACT_PURE_N_MODE)) {
+ 			if (!ieee->GetNmodeSupportBySecCfg(ieee->dev)) {
+-				if (IsHTHalfNmodeAPs(ieee)) {
++				if (is_ht_half_nmode_aps(ieee)) {
+ 					bSupportNmode = true;
+ 					bHalfSupportNmode = true;
+ 				} else {
+-- 
+2.39.2
 
