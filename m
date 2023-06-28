@@ -1,48 +1,103 @@
-Received: from mail.lokoho.com (mail.lokoho.com [217.61.105.98])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F0AC3D74
-	for <linux-staging@lists.linux.dev>; Wed, 28 Jun 2023 08:08:30 +0000 (UTC)
-Received: by mail.lokoho.com (Postfix, from userid 1001)
-	id 54629873FF; Wed, 28 Jun 2023 08:53:47 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=lokoho.com; s=mail;
-	t=1687938828; bh=Z0N5VlX9/JlryGOL5I747Le9USomZJCRNNGRT3LbbKc=;
-	h=Date:From:To:Subject:From;
-	b=Fq5sbs/btSSMiJ8u3qxYJZf6E494QZitBHMnKFWEGER1GZau4EC9tWq/KZSxu5dHv
-	 I2DeO9eBc1Lh9/x7yHOVPChnW9SxKdQtOo+pOsiDu4BC7BPTqLewa+BYVh81IvtwlJ
-	 o2ozuQArUnwCzroxDYnuIhlJdF3lNyzrTQYXigYo1wMvG+lnzaxKHrgeeLEjcZ2fy0
-	 uo2O+vow+zNnbEJJhat2Tbm6VLqsWaD/6FAH4qQYWv/ZrV64DHDNWzy6+a1wo9gqtU
-	 ifr1UYsPaYaFj1K6NuKWuMA7hQfrucU5wrPsbLOQyZ5ggR1DD61/C2qMKTT4Px89eD
-	 BDkGLE22NyCFA==
-Received: by mail.lokoho.com for <linux-staging@lists.linux.dev>; Wed, 28 Jun 2023 07:50:51 GMT
-Message-ID: <20230628074502-0.1.6x.2sj4x.0.t5kobgueqh@lokoho.com>
-Date: Wed, 28 Jun 2023 07:50:51 GMT
-From: "Adam Charachuta" <adam.charachuta@lokoho.com>
-To: <linux-staging@lists.linux.dev>
-Subject: =?UTF-8?Q?S=C5=82owa_kluczowe_do_wypozycjonowania?=
-X-Mailer: mail.lokoho.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F3F7BA32
+	for <linux-staging@lists.linux.dev>; Wed, 28 Jun 2023 11:21:34 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (aztw-30-b2-v4wan-166917-cust845.vm26.cable.virginm.net [82.37.23.78])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 5E620814;
+	Wed, 28 Jun 2023 13:20:52 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1687951252;
+	bh=abc8pk8RuvvZJla85WjtaH3AoscYHKj27LLRxuhLM+E=;
+	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+	b=HKOQlmhowxdU42zNj6H3E6T3eOqEEhzXTKmfc8bXe9RwDb/A99rCqBjBX9uWt9xn3
+	 tMnRI7u9H+OBkHZg+RwAQ1br5UzExCOZYoZldGLs3T7pjnX1iruPEU4E46qps37Uf6
+	 ehh4URLI2YyUURVZ+mFfgZnBdKjVjohp4j3TwaEw=
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20230627201628.207483-3-umang.jain@ideasonboard.com>
+References: <20230627201628.207483-1-umang.jain@ideasonboard.com> <20230627201628.207483-3-umang.jain@ideasonboard.com>
+Subject: Re: [PATCH v8 2/5] staging: vc04_services: vchiq_arm: Register vchiq_bus_type
+From: Kieran Bingham <kieran.bingham@ideasonboard.com>
+Cc: stefan.wahren@i2se.com, gregkh@linuxfoundation.org, f.fainelli@gmail.com, athierry@redhat.com, error27@gmail.com, dave.stevenson@raspberrypi.com, laurent.pinchart@ideasonboard.com, Umang Jain <umang.jain@ideasonboard.com>
+To: Umang Jain <umang.jain@ideasonboard.com>, linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, linux-rpi-kernel@lists.infradead.org, linux-staging@lists.linux.dev
+Date: Wed, 28 Jun 2023 12:21:29 +0100
+Message-ID: <168795128917.2878450.12280941046284606847@Monstersaurus>
+User-Agent: alot/0.10
 
-Dzie=C5=84 dobry,
+Quoting Umang Jain (2023-06-27 21:16:25)
+> Register the vchiq_bus_type bus with the vchiq interface.
+> The bcm2835-camera nad bcm2835_audio will be registered to this bus type
 
-zapozna=C5=82em si=C4=99 z Pa=C5=84stwa ofert=C4=85 i z przyjemno=C5=9Bci=
-=C4=85 przyznaj=C4=99, =C5=BCe przyci=C4=85ga uwag=C4=99 i zach=C4=99ca d=
-o dalszych rozm=C3=B3w.=20
+s/nad/and/
 
-Pomy=C5=9Bla=C5=82em, =C5=BCe mo=C5=BCe m=C3=B3g=C5=82bym mie=C4=87 sw=C3=
-=B3j wk=C5=82ad w Pa=C5=84stwa rozw=C3=B3j i pom=C3=B3c dotrze=C4=87 z t=C4=
-=85 ofert=C4=85 do wi=C4=99kszego grona odbiorc=C3=B3w. Pozycjonuj=C4=99 =
-strony www, dzi=C4=99ki czemu generuj=C4=85 =C5=9Bwietny ruch w sieci.
+Is it possible to rename bcm2835_audio to bcm2835-audio for consistency?
+Or is that baked into existing usage/abi already?
 
-Mo=C5=BCemy porozmawia=C4=87 w najbli=C5=BCszym czasie?
+If it can be changed, I think it's probably something to do in an
+independent patch at the end of the series anyway.
+
+I suspect this patch could be merged with 1/5 but I think it's ok
+separate too.
 
 
-Pozdrawiam
-Adam Charachuta
+Reviewed-by: Kieran Bingham <kieran.bingham@ideasonboard.com>
+
+> going ahead.
+>=20
+> Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
+> ---
+>  .../vc04_services/interface/vchiq_arm/vchiq_arm.c        | 9 +++++++++
+>  1 file changed, 9 insertions(+)
+>=20
+> diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.=
+c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
+> index aa2313f3bcab..e8d40f891449 100644
+> --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
+> +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
+> @@ -12,6 +12,7 @@
+>  #include <linux/cdev.h>
+>  #include <linux/fs.h>
+>  #include <linux/device.h>
+> +#include <linux/device/bus.h>
+>  #include <linux/mm.h>
+>  #include <linux/highmem.h>
+>  #include <linux/pagemap.h>
+> @@ -34,6 +35,7 @@
+>  #include "vchiq_ioctl.h"
+>  #include "vchiq_arm.h"
+>  #include "vchiq_debugfs.h"
+> +#include "vchiq_device.h"
+>  #include "vchiq_connected.h"
+>  #include "vchiq_pagelist.h"
+> =20
+> @@ -1870,6 +1872,12 @@ static int __init vchiq_driver_init(void)
+>  {
+>         int ret;
+> =20
+> +       ret =3D bus_register(&vchiq_bus_type);
+> +       if (ret) {
+> +               pr_err("Failed to register %s\n", vchiq_bus_type.name);
+> +               return ret;
+> +       }
+> +
+>         ret =3D platform_driver_register(&vchiq_driver);
+>         if (ret)
+>                 pr_err("Failed to register vchiq driver\n");
+> @@ -1880,6 +1888,7 @@ module_init(vchiq_driver_init);
+> =20
+>  static void __exit vchiq_driver_exit(void)
+>  {
+> +       bus_unregister(&vchiq_bus_type);
+>         platform_driver_unregister(&vchiq_driver);
+>  }
+>  module_exit(vchiq_driver_exit);
+> --=20
+> 2.39.1
+>
