@@ -1,90 +1,48 @@
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from mail.lokoho.com (mail.lokoho.com [217.61.105.98])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5101F63AC
-	for <linux-staging@lists.linux.dev>; Tue, 27 Jun 2023 20:16:51 +0000 (UTC)
-Received: from umang.jainideasonboard.com (85-160-38-115.reb.o2.cz [85.160.38.115])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id CC8953212;
-	Tue, 27 Jun 2023 22:15:58 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1687896959;
-	bh=aTEauMEul+vJmNEkdf5DceHvA7fGrWLQch/ls0rhujQ=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=jmxFLJPjZ5HrCNXMwM6MWIbUGG4j30l7LhlebFosbJpl6BeB1IfvveRNFXSvZbn7K
-	 63sVCA0ykeCRxFDN2tEIW2YD4ZIxE1in7uVNNzE1HvljgAv9xMKKhgltAn3MzRnxmp
-	 sjayfkeI9Ns5Ld3MIe28dBs1h+kIRUNa+Wh6JqQc=
-From: Umang Jain <umang.jain@ideasonboard.com>
-To: linux-staging@lists.linux.dev,
-	linux-rpi-kernel@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: stefan.wahren@i2se.com,
-	gregkh@linuxfoundation.org,
-	f.fainelli@gmail.com,
-	athierry@redhat.com,
-	error27@gmail.com,
-	dave.stevenson@raspberrypi.com,
-	kieran.bingham@ideasonboard.com,
-	laurent.pinchart@ideasonboard.com,
-	Umang Jain <umang.jain@ideasonboard.com>
-Subject: [PATCH v8 5/5] staging: vc04_services: vchiq_arm: Remove vchiq_register_child()
-Date: Tue, 27 Jun 2023 22:16:28 +0200
-Message-Id: <20230627201628.207483-6-umang.jain@ideasonboard.com>
-X-Mailer: git-send-email 2.39.1
-In-Reply-To: <20230627201628.207483-1-umang.jain@ideasonboard.com>
-References: <20230627201628.207483-1-umang.jain@ideasonboard.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F0AC3D74
+	for <linux-staging@lists.linux.dev>; Wed, 28 Jun 2023 08:08:30 +0000 (UTC)
+Received: by mail.lokoho.com (Postfix, from userid 1001)
+	id 54629873FF; Wed, 28 Jun 2023 08:53:47 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=lokoho.com; s=mail;
+	t=1687938828; bh=Z0N5VlX9/JlryGOL5I747Le9USomZJCRNNGRT3LbbKc=;
+	h=Date:From:To:Subject:From;
+	b=Fq5sbs/btSSMiJ8u3qxYJZf6E494QZitBHMnKFWEGER1GZau4EC9tWq/KZSxu5dHv
+	 I2DeO9eBc1Lh9/x7yHOVPChnW9SxKdQtOo+pOsiDu4BC7BPTqLewa+BYVh81IvtwlJ
+	 o2ozuQArUnwCzroxDYnuIhlJdF3lNyzrTQYXigYo1wMvG+lnzaxKHrgeeLEjcZ2fy0
+	 uo2O+vow+zNnbEJJhat2Tbm6VLqsWaD/6FAH4qQYWv/ZrV64DHDNWzy6+a1wo9gqtU
+	 ifr1UYsPaYaFj1K6NuKWuMA7hQfrucU5wrPsbLOQyZ5ggR1DD61/C2qMKTT4Px89eD
+	 BDkGLE22NyCFA==
+Received: by mail.lokoho.com for <linux-staging@lists.linux.dev>; Wed, 28 Jun 2023 07:50:51 GMT
+Message-ID: <20230628074502-0.1.6x.2sj4x.0.t5kobgueqh@lokoho.com>
+Date: Wed, 28 Jun 2023 07:50:51 GMT
+From: "Adam Charachuta" <adam.charachuta@lokoho.com>
+To: <linux-staging@lists.linux.dev>
+Subject: =?UTF-8?Q?S=C5=82owa_kluczowe_do_wypozycjonowania?=
+X-Mailer: mail.lokoho.com
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-vchiq_register_child() is used to registered child devices as platform
-devices. Now that the child devices are migrated to use the
-vchiq_bus_type instead, they will be registered to that. Hence, drop
-vchiq_register_child() as it is no more required.
+Dzie=C5=84 dobry,
 
-Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
----
- .../interface/vchiq_arm/vchiq_arm.c           | 22 -------------------
- 1 file changed, 22 deletions(-)
+zapozna=C5=82em si=C4=99 z Pa=C5=84stwa ofert=C4=85 i z przyjemno=C5=9Bci=
+=C4=85 przyznaj=C4=99, =C5=BCe przyci=C4=85ga uwag=C4=99 i zach=C4=99ca d=
+o dalszych rozm=C3=B3w.=20
 
-diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
-index 75da37fa6372..3c52b09c49ea 100644
---- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
-+++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
-@@ -1778,28 +1778,6 @@ static const struct of_device_id vchiq_of_match[] = {
- };
- MODULE_DEVICE_TABLE(of, vchiq_of_match);
- 
--static struct platform_device *
--vchiq_register_child(struct platform_device *pdev, const char *name)
--{
--	struct platform_device_info pdevinfo;
--	struct platform_device *child;
--
--	memset(&pdevinfo, 0, sizeof(pdevinfo));
--
--	pdevinfo.parent = &pdev->dev;
--	pdevinfo.name = name;
--	pdevinfo.id = PLATFORM_DEVID_NONE;
--	pdevinfo.dma_mask = DMA_BIT_MASK(32);
--
--	child = platform_device_register_full(&pdevinfo);
--	if (IS_ERR(child)) {
--		dev_warn(&pdev->dev, "%s not registered\n", name);
--		child = NULL;
--	}
--
--	return child;
--}
--
- static int vchiq_probe(struct platform_device *pdev)
- {
- 	struct device_node *fw_node;
--- 
-2.39.1
+Pomy=C5=9Bla=C5=82em, =C5=BCe mo=C5=BCe m=C3=B3g=C5=82bym mie=C4=87 sw=C3=
+=B3j wk=C5=82ad w Pa=C5=84stwa rozw=C3=B3j i pom=C3=B3c dotrze=C4=87 z t=C4=
+=85 ofert=C4=85 do wi=C4=99kszego grona odbiorc=C3=B3w. Pozycjonuj=C4=99 =
+strony www, dzi=C4=99ki czemu generuj=C4=85 =C5=9Bwietny ruch w sieci.
 
+Mo=C5=BCemy porozmawia=C4=87 w najbli=C5=BCszym czasie?
+
+
+Pozdrawiam
+Adam Charachuta
