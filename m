@@ -1,95 +1,204 @@
-Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com [209.85.167.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDCC55257
-	for <linux-staging@lists.linux.dev>; Thu, 29 Jun 2023 07:40:46 +0000 (UTC)
-Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-4f8775126d3so565897e87.1
-        for <linux-staging@lists.linux.dev>; Thu, 29 Jun 2023 00:40:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1688024444; x=1690616444;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=aCvItk4u8Xw4TPc4spMvCXobxSAA3eABPXjHkYAUpLk=;
-        b=mGf5J/U72KskTBIYc6xsE9KnE4nZCSfHfaoTTDt85NgfJtcCMtgNgeT9haMrujqxha
-         MVaMXAYvpRCJbTMoANxKq9pYcjI8IvJY5GkDxhe2bIWzjeqslPn/tpHZXm0xE5cIk8vk
-         UYb/b1vYxLWqOv0CkVLMIg31iwRPNIkUYNkdoLM9PJykYRM2t8vgE+7aVIaj+H3iGlvi
-         WJu96c6ucRVuH3SINQyvbopFrMPzAjQ9eUdR+7LvIV5J051qPSdxJ5lhPt3L0pN6tA5x
-         RTuA+Mo7Ugv0rp6Jgn3Ul5qnfIs7Vnmvz1fbfztoCc8RZHQhXbSHtfpFGdwMw0tKHfxj
-         rhwQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1688024444; x=1690616444;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=aCvItk4u8Xw4TPc4spMvCXobxSAA3eABPXjHkYAUpLk=;
-        b=dXMRtdixHrV111vX3JM1YK2LtyYCP3GYSwcN1dEmEJo0qZ2gdWHCyWH5NgcRdbhfFw
-         9avZ6zt5xhEV/jhVWLpS1YJ9401ALe5OUD575DwzmhmjwlUZ7p7HTnt6aErOqur4CRxy
-         OM34AIuRucUiT7pPuRXuAMiFQ/1b4BY0+7w7CyPg4kcXajzprx+Yb8U0GtkJavKZmSdi
-         8iu2hkANlI5Ui/ESQoX8/rVDM46mmQ1nNl23zYS9ll8Mx9VsroT2s4HcwBYcd525AAxY
-         ik2bxtSJuoYNvG2UQaMaxFt0DQPjC3l9fN7zH2IdUvpcV+sRwKeNw7X9cklDl6KRLCdU
-         Zk3A==
-X-Gm-Message-State: AC+VfDw6A+ihfqvygEg3aYMn/l/ksxQsfLrAvRqIjYWSZkASIgyhiru2
-	WIFKnVWAB4WaJ4iF+qCDxnME4g==
-X-Google-Smtp-Source: ACHHUZ6doX7XGPh1+1+eyZ2/srAvhhvcgcZPj05VEWkTdYaXdBArzu//8SA5d8E51LReLnOtU4E8ew==
-X-Received: by 2002:a05:6512:2348:b0:4fb:897e:21cc with SMTP id p8-20020a056512234800b004fb897e21ccmr5582764lfu.67.1688024444614;
-        Thu, 29 Jun 2023 00:40:44 -0700 (PDT)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id p20-20020a1c7414000000b003fa973e6612sm10644148wmc.44.2023.06.29.00.40.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 29 Jun 2023 00:40:43 -0700 (PDT)
-Date: Thu, 29 Jun 2023 10:40:40 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Franziska =?iso-8859-1?Q?N=E4pelt?= <franziska.naepelt@googlemail.com>
-Cc: Philipp Hortmann <philipp.g.hortmann@gmail.com>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-	eperi1024@gmail.com, hdegoede@redhat.com, quic_vjakkam@quicinc.com,
-	johannes.berg@intel.com, tegongkang@gmail.com,
-	gregkh@linuxfoundation.org
-Subject: Re: [PATCH v3 0/3] Fix some checkpatch issues
-Message-ID: <69a90f88-634a-4126-8d33-e770fcc4b686@kadam.mountain>
-References: <20230625155632.32403-1-franziska.naepelt@gmail.com>
- <7caa96fb-4fb6-fb87-5d0c-fa6985fa127b@gmail.com>
- <CAAUT3iM7eAYH5AcN=Ko9jDstEUGqXxG7Q6qjp4O9qF_e2WkUVQ@mail.gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D4F18479
+	for <linux-staging@lists.linux.dev>; Thu, 29 Jun 2023 11:49:24 +0000 (UTC)
+Received: from [192.168.150.202] (unknown [193.85.242.128])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 95756905;
+	Thu, 29 Jun 2023 13:48:40 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1688039321;
+	bh=44CIGU77FMtsYtSehr/5wIKmF12qgnwZDyqVCWTkKZI=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=nR397gLCp3NBOf4wHaUF8RaTnnLyMw4FeZfwuAY98pu08GZOwMmoFMULfDS8gXGZT
+	 QtzGvHOFVvpRIKp5GGCIo08QXjva4Tp8Thrh0/5ydlNxh9A0hmRQqIfnWfLibNQ6W3
+	 idgd/90vk7k4UnQr7HnUKnqogLFaZJNtFOZi3nik=
+Message-ID: <2373ef89-4d93-d675-c050-4539a753a4d6@ideasonboard.com>
+Date: Thu, 29 Jun 2023 13:49:17 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAAUT3iM7eAYH5AcN=Ko9jDstEUGqXxG7Q6qjp4O9qF_e2WkUVQ@mail.gmail.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Subject: Re: [PATCH v8 3/5] staging: bcm2835-camera: Register bcm2835-camera
+ with vchiq_bus_type
+To: Kieran Bingham <kieran.bingham@ideasonboard.com>,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ linux-media@vger.kernel.org, linux-rpi-kernel@lists.infradead.org,
+ linux-staging@lists.linux.dev
+Cc: stefan.wahren@i2se.com, gregkh@linuxfoundation.org, f.fainelli@gmail.com,
+ athierry@redhat.com, error27@gmail.com, dave.stevenson@raspberrypi.com,
+ laurent.pinchart@ideasonboard.com
+References: <20230627201628.207483-1-umang.jain@ideasonboard.com>
+ <20230627201628.207483-4-umang.jain@ideasonboard.com>
+ <168799227183.3298351.12365161998104715465@Monstersaurus>
+Content-Language: en-US
+From: Umang Jain <umang.jain@ideasonboard.com>
+In-Reply-To: <168799227183.3298351.12365161998104715465@Monstersaurus>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Wed, Jun 28, 2023 at 06:38:03PM +0200, Franziska Näpelt wrote:
-> 
-> Do you want me to submit v4 to fix the email address as well as the subject of
-> the cover letter or are you ok with me promising to make it properly the next
-> time? ;)
+Hi Kieran,
 
-Philipp is not the person to ask, it's Greg.
+On 6/29/23 12:44 AM, Kieran Bingham wrote:
+> Quoting Umang Jain (2023-06-27 21:16:26)
+>> Register the bcm2835-camera with the vchiq_bus_type instead of using
+>> platform driver/device.
+>>
+>> Also the VCHIQ firmware doesn't support device enumeration, hence
+>> one has to maintain a list of devices to be registered in the interface.
+>>
+>> Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
+>> ---
+>>   .../bcm2835-camera/bcm2835-camera.c           | 16 +++++++-------
+>>   .../interface/vchiq_arm/vchiq_arm.c           | 21 ++++++++++++++++---
+>>   2 files changed, 26 insertions(+), 11 deletions(-)
+>>
+>> diff --git a/drivers/staging/vc04_services/bcm2835-camera/bcm2835-camera.c b/drivers/staging/vc04_services/bcm2835-camera/bcm2835-camera.c
+>> index 346d00df815a..f37b2a881d92 100644
+>> --- a/drivers/staging/vc04_services/bcm2835-camera/bcm2835-camera.c
+>> +++ b/drivers/staging/vc04_services/bcm2835-camera/bcm2835-camera.c
+>> @@ -24,8 +24,9 @@
+>>   #include <media/v4l2-event.h>
+>>   #include <media/v4l2-common.h>
+>>   #include <linux/delay.h>
+>> -#include <linux/platform_device.h>
+>>   
+>> +#include "../interface/vchiq_arm/vchiq_arm.h"
+>> +#include "../interface/vchiq_arm/vchiq_device.h"
+>>   #include "../vchiq-mmal/mmal-common.h"
+>>   #include "../vchiq-mmal/mmal-encodings.h"
+>>   #include "../vchiq-mmal/mmal-vchiq.h"
+>> @@ -1841,7 +1842,7 @@ static struct v4l2_format default_v4l2_format = {
+>>          .fmt.pix.sizeimage = 1024 * 768,
+>>   };
+>>   
+>> -static int bcm2835_mmal_probe(struct platform_device *pdev)
+>> +static int bcm2835_mmal_probe(struct vchiq_device *device)
+>>   {
+>>          int ret;
+>>          struct bcm2835_mmal_dev *dev;
+>> @@ -1896,7 +1897,7 @@ static int bcm2835_mmal_probe(struct platform_device *pdev)
+>>                                                         &camera_instance);
+>>                  ret = v4l2_device_register(NULL, &dev->v4l2_dev);
+>>                  if (ret) {
+>> -                       dev_err(&pdev->dev, "%s: could not register V4L2 device: %d\n",
+>> +                       dev_err(&device->dev, "%s: could not register V4L2 device: %d\n",
+>>                                  __func__, ret);
+>>                          goto free_dev;
+>>                  }
+>> @@ -1976,7 +1977,7 @@ static int bcm2835_mmal_probe(struct platform_device *pdev)
+>>          return ret;
+>>   }
+>>   
+>> -static void bcm2835_mmal_remove(struct platform_device *pdev)
+>> +static void bcm2835_mmal_remove(struct vchiq_device *device)
+>>   {
+>>          int camera;
+>>          struct vchiq_mmal_instance *instance = gdev[0]->instance;
+>> @@ -1988,17 +1989,16 @@ static void bcm2835_mmal_remove(struct platform_device *pdev)
+>>          vchiq_mmal_finalise(instance);
+>>   }
+>>   
+>> -static struct platform_driver bcm2835_camera_driver = {
+>> +static struct vchiq_driver bcm2835_camera_driver = {
+>>          .probe          = bcm2835_mmal_probe,
+>> -       .remove_new     = bcm2835_mmal_remove,
+>> +       .remove         = bcm2835_mmal_remove,
+>>          .driver         = {
+>>                  .name   = "bcm2835-camera",
+>>          },
+>>   };
+>>   
+>> -module_platform_driver(bcm2835_camera_driver)
+>> +module_vchiq_driver(bcm2835_camera_driver)
+>>   
+>>   MODULE_DESCRIPTION("Broadcom 2835 MMAL video capture");
+>>   MODULE_AUTHOR("Vincent Sanders");
+>>   MODULE_LICENSE("GPL");
+>> -MODULE_ALIAS("platform:bcm2835-camera");
+> This bit worries me. I think that's how module autoloading is handled.
+>
+> Can you check into the details of MODULE_ALIAS and follow the rabbit
+> hole for a bit? It's a few years since I last went down there so I can't
+> remember the specifics right now.
 
-Yes, you are going to need to resend because of the email address thing.
+vchiq_probe() will register both the bcm2385_audio and bcm2835-camera 
+hence, we don't need MODULE_ALIAS for those two.
 
-Probably the cover letter is not a reason to resend, but since you are
-resending then please fix that as well.
+So what I also tested is that, when bcm2835_vchiq loads, it will 
+auto-load both audio and camera with it (since these are child devices 
+of vchiq). I think that's the correct way.
+>
+> Except for that, I think this looks good.
+>
+>
+>> diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
+>> index e8d40f891449..79d4d0eeb5fb 100644
+>> --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
+>> +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
+>> @@ -67,7 +67,6 @@ int vchiq_susp_log_level = VCHIQ_LOG_ERROR;
+>>   DEFINE_SPINLOCK(msg_queue_spinlock);
+>>   struct vchiq_state g_state;
+>>   
+>> -static struct platform_device *bcm2835_camera;
+>>   static struct platform_device *bcm2835_audio;
+>>   
+>>   struct vchiq_drvdata {
+>> @@ -134,6 +133,15 @@ struct vchiq_pagelist_info {
+>>          unsigned int scatterlist_mapped;
+>>   };
+>>   
+>> +/*
+>> + * The devices implemented in the VCHIQ firmware are not discoverable,
+>> + * so we need to maintain a list of them in order to register them with
+>> + * the interface.
+>> + */
+>> +static const char *const vchiq_devices[] = {
+>> +       "bcm2835-camera",
+>> +};
+>> +
+>>   static void __iomem *g_regs;
+>>   /* This value is the size of the L2 cache lines as understood by the
+>>    * VPU firmware, which determines the required alignment of the
+>> @@ -1798,6 +1806,7 @@ static int vchiq_probe(struct platform_device *pdev)
+>>          struct device_node *fw_node;
+>>          const struct of_device_id *of_id;
+>>          struct vchiq_drvdata *drvdata;
+>> +       unsigned int i;
+>>          int err;
+>>   
+>>          of_id = of_match_node(vchiq_of_match, pdev->dev.of_node);
+>> @@ -1840,9 +1849,15 @@ static int vchiq_probe(struct platform_device *pdev)
+>>                  goto error_exit;
+>>          }
+>>   
+>> -       bcm2835_camera = vchiq_register_child(pdev, "bcm2835-camera");
+>>          bcm2835_audio = vchiq_register_child(pdev, "bcm2835_audio");
+>>   
+>> +       for (i = 0; i < ARRAY_SIZE(vchiq_devices); i++) {
+>> +               err = vchiq_device_register(&pdev->dev, vchiq_devices[i]);
+>> +               if (err)
+>> +                       dev_err(&pdev->dev, "Failed to register %s vchiq device\n",
+>> +                       vchiq_devices[i]);
+>> +       }
+>> +
+>>          return 0;
+>>   
+>>   failed_platform_init:
+>> @@ -1854,7 +1869,7 @@ static int vchiq_probe(struct platform_device *pdev)
+>>   static void vchiq_remove(struct platform_device *pdev)
+>>   {
+>>          platform_device_unregister(bcm2835_audio);
+>> -       platform_device_unregister(bcm2835_camera);
+>> +       bus_for_each_dev(&vchiq_bus_type, NULL, NULL, vchiq_device_unregister);
+>>          vchiq_debugfs_deinit();
+>>          vchiq_deregister_chrdev();
+>>   }
+>> -- 
+>> 2.39.1
+>>
 
-The reason why we insist that you resend is a couple things:
-1) This is a checkpatch change to staging so we assume that you're just
-   doing it to learn how patches are supposed to be sent.  So this is an
-   educational opportunity.  ;)
-2) Greg maintains staging, usb, serial and -stable.  He's super busy.
-   It doesn't scale to hand edit patches.  Some maintainers are less
-   busy so they can fix trivial stuff like this but in staging you will
-   need to resend.  Also if it were a security fix maybe I would step
-   in and help you fix your patch but since it's just a checkpatch thing
-   no one is going to edit your patch.
-
-Right now the merge window is open so Greg isn't going to see your patch
-for a few weeks.  When he does he will press the button on his keyboard
-which sends an automatic reply about the email address thing and deletes
-the thread from his inbox.
-
-regards,
-dan carpenter
