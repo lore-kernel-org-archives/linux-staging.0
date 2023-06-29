@@ -1,171 +1,115 @@
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A69910EE
-	for <linux-staging@lists.linux.dev>; Wed, 28 Jun 2023 22:51:48 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (aztw-30-b2-v4wan-166917-cust845.vm26.cable.virginm.net [82.37.23.78])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 890F3905;
-	Thu, 29 Jun 2023 00:51:06 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1687992666;
-	bh=FbpZiCKBRCQmKJWrA2DWJ1gw6fwfmj/bFIqXsro0RTQ=;
-	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
-	b=N7B+zAML9O8fAGsUpcNFyj9nAHNOQcS3s3QvrbBXE6Ph1mY052O3H6oXZ3MpKUWxX
-	 YCSnjHQ7qdLgpwq3efgl0bBeOgz5C9lqlfmsWYuMI3HAupJfGYeprG/RH/PVW3uiu2
-	 9dNHFaJfndb033InaGitqTjURDYnWAVPmL1h+iKk=
-Content-Type: text/plain; charset="utf-8"
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAC9E5257
+	for <linux-staging@lists.linux.dev>; Thu, 29 Jun 2023 07:34:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1688024079; x=1719560079;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=/axrSWOdtVz/Ckd0cZbOJm+/YGfdBtp+s+fpBkWAL+M=;
+  b=KoUp4AERObC8dxqV0BgNgGgyeSBE0QSqfXdwyzAKGjUdthoUTRo1xlUR
+   XZs8iienuP3RNCLaebwZxtR6rGZJkMSTuzYNKBU5aYyteF2wKz2pXvEQP
+   SoOgQj7FgDwsmd+tdm2s/OUqf5n8zZR7O/Nkg8UeRHJJ17gyRYtuN51Wo
+   3bxaNXybVzhAXPecuOJxTw+rQdfahYkuBVYBjz79VW725l3bXagqjBszK
+   27Gz4Q+zT8l1sHMQE95VIeb1KfrbGe2n+RZlDGpvfPgDQtYraAfJmh2uE
+   b7cCs0Q5+DSsQIQ4HkKcw6z1spxQtSF6e0MXMNffO9eiTixu1EupJ5mE8
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10755"; a="364592007"
+X-IronPort-AV: E=Sophos;i="6.01,167,1684825200"; 
+   d="scan'208";a="364592007"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jun 2023 00:34:39 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10755"; a="720472979"
+X-IronPort-AV: E=Sophos;i="6.01,167,1684825200"; 
+   d="scan'208";a="720472979"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jun 2023 00:34:36 -0700
+Received: from kekkonen.localdomain (localhost [127.0.0.1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id E0FA01207EB;
+	Thu, 29 Jun 2023 10:34:33 +0300 (EEST)
+Date: Thu, 29 Jun 2023 07:34:33 +0000
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Julia Lawall <julia.lawall@inria.fr>
+Cc: keescook@chromium.org, kernel-janitors@vger.kernel.org,
+	Bingbu Cao <bingbu.cao@intel.com>,
+	Tianshu Qiu <tian.shu.qiu@intel.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 23/26] media: staging: imgu: use array_size
+Message-ID: <ZJ00CUwiH6DBtape@kekkonen.localdomain>
+References: <20230623211457.102544-1-Julia.Lawall@inria.fr>
+ <20230623211457.102544-24-Julia.Lawall@inria.fr>
+ <alpine.DEB.2.22.394.2306271933480.3150@hadrien>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20230627201628.207483-5-umang.jain@ideasonboard.com>
-References: <20230627201628.207483-1-umang.jain@ideasonboard.com> <20230627201628.207483-5-umang.jain@ideasonboard.com>
-Subject: Re: [PATCH v8 4/5] staging: bcm2835-audio: Register bcm2835-audio with vchiq_bus_type
-From: Kieran Bingham <kieran.bingham@ideasonboard.com>
-Cc: stefan.wahren@i2se.com, gregkh@linuxfoundation.org, f.fainelli@gmail.com, athierry@redhat.com, error27@gmail.com, dave.stevenson@raspberrypi.com, laurent.pinchart@ideasonboard.com, Umang Jain <umang.jain@ideasonboard.com>
-To: Umang Jain <umang.jain@ideasonboard.com>, linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, linux-rpi-kernel@lists.infradead.org, linux-staging@lists.linux.dev
-Date: Wed, 28 Jun 2023 23:51:43 +0100
-Message-ID: <168799270390.3298351.3592364441774693940@Monstersaurus>
-User-Agent: alot/0.10
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <alpine.DEB.2.22.394.2306271933480.3150@hadrien>
 
-Quoting Umang Jain (2023-06-27 21:16:27)
-> Similar to how bcm2385-camera device is registered, register the
-> bcm2835-audio with vchiq_bus_type as well.
+Hi Julia, Bingbu,
 
-bcm2835-audio here and in the dir name, but registered as
-bcm2835_audio... Personally I prefer bcm2835-audio ... but this is
-already discussed earlier in the series.
+On Tue, Jun 27, 2023 at 07:35:47PM +0200, Julia Lawall wrote:
+> 
+> 
+> On Fri, 23 Jun 2023, Julia Lawall wrote:
+> 
+> > Use array_size to protect against multiplication overflows.
+> >
+> > The changes were done using the following Coccinelle semantic patch:
+> >
+> > // <smpl>
+> > @@
+> >     expression E1, E2;
+> >     constant C1, C2;
+> >     identifier alloc = {vmalloc,vzalloc};
+> > @@
+> >
+> > (
+> >       alloc(C1 * C2,...)
+> > |
+> >       alloc(
+> > -           (E1) * (E2)
+> > +           array_size(E1, E2)
+> >       ,...)
+> > )
+> > // </smpl>
+> >
+> > Signed-off-by: Julia Lawall <Julia.Lawall@inria.fr>
+> >
+> > ---
+> >  drivers/staging/media/ipu3/ipu3-mmu.c |    2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> >
+> > diff --git a/drivers/staging/media/ipu3/ipu3-mmu.c b/drivers/staging/media/ipu3/ipu3-mmu.c
+> > index cb9bf5fb29a5..9c4adb815c94 100644
+> > --- a/drivers/staging/media/ipu3/ipu3-mmu.c
+> > +++ b/drivers/staging/media/ipu3/ipu3-mmu.c
+> > @@ -464,7 +464,7 @@ struct imgu_mmu_info *imgu_mmu_init(struct device *parent, void __iomem *base)
+> >  	 * Allocate the array of L2PT CPU pointers, initialized to zero,
+> >  	 * which means the dummy L2PT allocated above.
+> >  	 */
+> > -	mmu->l2pts = vzalloc(IPU3_PT_PTES * sizeof(*mmu->l2pts));
+> > +	mmu->l2pts = vzalloc(array_size(IPU3_PT_PTES, sizeof(*mmu->l2pts)));
+> >  	if (!mmu->l2pts)
+> >  		goto fail_l2pt;
+> 
+> I think that this patch can be dropped.  Since it is a multiplcation of
+> two constants, if there is an overflow, I guess the compiler would detect
+> it?
 
+Indeed. vcalloc() would be perhaps nicer but the original isn't wrong
+either.
 
->=20
-> Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
-> ---
->  .../vc04_services/bcm2835-audio/bcm2835.c       | 17 ++++++++---------
->  .../interface/vchiq_arm/vchiq_arm.c             |  6 +-----
->  2 files changed, 9 insertions(+), 14 deletions(-)
->=20
-> diff --git a/drivers/staging/vc04_services/bcm2835-audio/bcm2835.c b/driv=
-ers/staging/vc04_services/bcm2835-audio/bcm2835.c
-> index 00bc898b0189..f81a9a4fbd5d 100644
-> --- a/drivers/staging/vc04_services/bcm2835-audio/bcm2835.c
-> +++ b/drivers/staging/vc04_services/bcm2835-audio/bcm2835.c
-> @@ -1,12 +1,12 @@
->  // SPDX-License-Identifier: GPL-2.0
->  /* Copyright 2011 Broadcom Corporation.  All rights reserved. */
-> =20
-> -#include <linux/platform_device.h>
-> -
->  #include <linux/init.h>
->  #include <linux/slab.h>
->  #include <linux/module.h>
-> =20
-> +#include "../interface/vchiq_arm/vchiq_arm.h"
-> +#include "../interface/vchiq_arm/vchiq_device.h"
->  #include "bcm2835.h"
-> =20
->  static bool enable_hdmi;
-> @@ -268,9 +268,9 @@ static int snd_add_child_devices(struct device *devic=
-e, u32 numchans)
->         return 0;
->  }
-> =20
-> -static int snd_bcm2835_alsa_probe(struct platform_device *pdev)
-> +static int snd_bcm2835_alsa_probe(struct vchiq_device *device)
->  {
-> -       struct device *dev =3D &pdev->dev;
-> +       struct device *dev =3D &device->dev;
->         int err;
-> =20
->         if (num_channels <=3D 0 || num_channels > MAX_SUBSTREAMS) {
-> @@ -292,20 +292,20 @@ static int snd_bcm2835_alsa_probe(struct platform_d=
-evice *pdev)
-> =20
->  #ifdef CONFIG_PM
-> =20
-> -static int snd_bcm2835_alsa_suspend(struct platform_device *pdev,
-> +static int snd_bcm2835_alsa_suspend(struct vchiq_device *device,
->                                     pm_message_t state)
->  {
->         return 0;
->  }
-> =20
-> -static int snd_bcm2835_alsa_resume(struct platform_device *pdev)
-> +static int snd_bcm2835_alsa_resume(struct vchiq_device *device)
->  {
->         return 0;
->  }
-> =20
->  #endif
-> =20
-> -static struct platform_driver bcm2835_alsa_driver =3D {
-> +static struct vchiq_driver bcm2835_alsa_driver =3D {
->         .probe =3D snd_bcm2835_alsa_probe,
->  #ifdef CONFIG_PM
->         .suspend =3D snd_bcm2835_alsa_suspend,
-> @@ -315,9 +315,8 @@ static struct platform_driver bcm2835_alsa_driver =3D=
- {
->                 .name =3D "bcm2835_audio",
->         },
->  };
-> -module_platform_driver(bcm2835_alsa_driver);
-> +module_vchiq_driver(bcm2835_alsa_driver);
-> =20
->  MODULE_AUTHOR("Dom Cobley");
->  MODULE_DESCRIPTION("Alsa driver for BCM2835 chip");
->  MODULE_LICENSE("GPL");
-> -MODULE_ALIAS("platform:bcm2835_audio");
+-- 
+Kind regards,
 
-And same as with the bcm2385-camera ... I expect this might be required
-in some form to support module autoloading?
-
-But with that resolved:
-
-Reviewed-by: Kieran Bingham <kieran.bingham@ideasonboard.com>
-
-> diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.=
-c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
-> index 79d4d0eeb5fb..75da37fa6372 100644
-> --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
-> +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
-> @@ -67,8 +67,6 @@ int vchiq_susp_log_level =3D VCHIQ_LOG_ERROR;
->  DEFINE_SPINLOCK(msg_queue_spinlock);
->  struct vchiq_state g_state;
-> =20
-> -static struct platform_device *bcm2835_audio;
-> -
->  struct vchiq_drvdata {
->         const unsigned int cache_line_size;
->         struct rpi_firmware *fw;
-> @@ -139,6 +137,7 @@ struct vchiq_pagelist_info {
->   * the interface.
->   */
->  static const char *const vchiq_devices[] =3D {
-> +       "bcm2835_audio",
->         "bcm2835-camera",
->  };
-> =20
-> @@ -1849,8 +1848,6 @@ static int vchiq_probe(struct platform_device *pdev)
->                 goto error_exit;
->         }
-> =20
-> -       bcm2835_audio =3D vchiq_register_child(pdev, "bcm2835_audio");
-> -
->         for (i =3D 0; i < ARRAY_SIZE(vchiq_devices); i++) {
->                 err =3D vchiq_device_register(&pdev->dev, vchiq_devices[i=
-]);
->                 if (err)
-> @@ -1868,7 +1865,6 @@ static int vchiq_probe(struct platform_device *pdev)
-> =20
->  static void vchiq_remove(struct platform_device *pdev)
->  {
-> -       platform_device_unregister(bcm2835_audio);
->         bus_for_each_dev(&vchiq_bus_type, NULL, NULL, vchiq_device_unregi=
-ster);
->         vchiq_debugfs_deinit();
->         vchiq_deregister_chrdev();
-> --=20
-> 2.39.1
->
+Sakari Ailus
