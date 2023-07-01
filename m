@@ -1,100 +1,106 @@
-Received: from mail-vs1-f42.google.com (mail-vs1-f42.google.com [209.85.217.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mout.web.de (mout.web.de [212.227.17.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1A8E23AD
-	for <linux-staging@lists.linux.dev>; Sat,  1 Jul 2023 10:35:18 +0000 (UTC)
-Received: by mail-vs1-f42.google.com with SMTP id ada2fe7eead31-440b66adc81so877004137.1
-        for <linux-staging@lists.linux.dev>; Sat, 01 Jul 2023 03:35:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlemail.com; s=20221208; t=1688207717; x=1690799717;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=+8Eh2PL9vw+z9/shvLtMm4v72TX39RzomazCMgKz8Nk=;
-        b=gk4OqIV5V//ZdAOJAaa5GPYAcNpTpuWFTFce8LSBa89KFGM/FmAS6z5QFS/XFlG38L
-         CaJJGZp4IRjFS0HE/dFvsjJA9OXF4XWK0ViyYv3RwVgFzGO3uGhC4MsRej6wFtS279nM
-         pUtQdHj9dNr4BiUB+sjzn8SywLstAHZDDWGH+FhRhiVHEIEriHnKgkLBhdlt9KbK2hzs
-         gr0Y3fXiBDLBIlow/iHMUOFMvuL28V9RVabATiv2RFq12pvxS6R65/mDX+s+cgwKrjX5
-         h13lHcSN3KrRvAnXU5xD7yji8lmqMxJNfUsOj8Ea4rI/AHevzcQoTbLfwSNVkQ8R/2f8
-         7mSQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1688207717; x=1690799717;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=+8Eh2PL9vw+z9/shvLtMm4v72TX39RzomazCMgKz8Nk=;
-        b=UzI67iMCW/uZs7r03vRliulrA0p+Bl0F1Ze3Uyq34wnZO5fc9xd/jLa5HCIxGEr+g/
-         G0B5zLI26vVR/q01UkvQazK8jjV9/ujV3n4O7R87mP8VfAqjpCPpOXYskf8AWyPrZ6QW
-         4QHU7DIVDMz70BssgRG7y/oF7uw1kk9xL9jMMKK5d/lR+CMV4wTvUAuwDPUe1YHIQEf7
-         L/rp6ABj2Ft7Wwn+Ny2wONkm8eAT77Loz7AqmU6U2Mjl/EP0BzCOtn5gE8qZ5mvHe9Oa
-         X8yRadQ4JRfjYSJv3JJsrParqIwgATQiVgJkRMlgZArYsW8hPH2V9Al+mUnJYMjTajr/
-         XrRg==
-X-Gm-Message-State: ABy/qLagmpEqAd/tJRoJyKfDHBtULFx1fvBRt9N2t29/S0B1IXwtrHcp
-	0iukDwY72MmaBpGTum9LqSu95cVy4TOmTf2FmMw=
-X-Google-Smtp-Source: APBJJlFHfNfsyxvXH3BjwiArTpL3edc4FjGRmjy6V65bUFDmug1RXImkOe4JjRA1CeTKvBNGPTUXC5oKPmqVxHbl8lU=
-X-Received: by 2002:a67:f885:0:b0:444:d85f:1f3f with SMTP id
- h5-20020a67f885000000b00444d85f1f3fmr706523vso.3.1688207717690; Sat, 01 Jul
- 2023 03:35:17 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84A17C8C0
+	for <linux-staging@lists.linux.dev>; Sat,  1 Jul 2023 14:43:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
+ s=s29768273; t=1688222590; x=1688827390; i=markus.elfring@web.de;
+ bh=kOMm9LAu2etu/HGwfPU+YqT7UOaRaKStEwhuzAp+zo4=;
+ h=X-UI-Sender-Class:Date:To:Cc:References:Subject:From:In-Reply-To;
+ b=h8PHoPoW0L4ibqeZB/sLHGZZ2PAIcEdTicMQS6GtBqMiRup+5VN3ntEhBPW3lH1wPylUJWq
+ sAuNFb/S2xD3uAdbO0+00Ba/E8GREGe6eQFLV5ltDq2em3mAyEIuaDxuVdhsx6IOnAAr/qiG8
+ 1eCaLGGoauDTajQI8O24xhyvd525JDLGPyBqeB+ASY+4SRjCi6OjfrveplXUQRBzYVfgPkvOq
+ Ioyvw7X8C2LD7BL+EvUVhxYfkfxZaNepiG7a/6sN+rqCKZUdFXw/PsvIGVgvQBYwccbuO4BS7
+ 744oLBrS+p70dJiQDvRTgN809Ylx5dsH09YsPLnRQLHIZY0DhOIg==
+X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
+Received: from [192.168.178.21] ([94.31.90.83]) by smtp.web.de (mrweb105
+ [213.165.67.124]) with ESMTPSA (Nemesis) id 1N1d3a-1prZdm25SS-012C9V; Sat, 01
+ Jul 2023 16:43:10 +0200
+Message-ID: <5ad04b3a-7c77-cadb-13b4-509a086cf04d@web.de>
+Date: Sat, 1 Jul 2023 16:43:09 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20230625155632.32403-1-franziska.naepelt@gmail.com>
- <7caa96fb-4fb6-fb87-5d0c-fa6985fa127b@gmail.com> <CAAUT3iM7eAYH5AcN=Ko9jDstEUGqXxG7Q6qjp4O9qF_e2WkUVQ@mail.gmail.com>
- <69a90f88-634a-4126-8d33-e770fcc4b686@kadam.mountain>
-In-Reply-To: <69a90f88-634a-4126-8d33-e770fcc4b686@kadam.mountain>
-From: =?UTF-8?Q?Franziska_N=C3=A4pelt?= <franziska.naepelt@googlemail.com>
-Date: Sat, 1 Jul 2023 12:35:06 +0200
-Message-ID: <CAAUT3iOOzV_pAKrA1+JhFuj2Mzt9Od-fRXxTEyvEbJicHLWBvw@mail.gmail.com>
-Subject: Re: [PATCH v3 0/3] Fix some checkpatch issues
-To: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: Philipp Hortmann <philipp.g.hortmann@gmail.com>, linux-staging@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, eperi1024@gmail.com, hdegoede@redhat.com, 
-	quic_vjakkam@quicinc.com, johannes.berg@intel.com, tegongkang@gmail.com, 
-	gregkh@linuxfoundation.org
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.12.0
+To: =?UTF-8?Q?Franziska_N=c3=a4pelt?= <franziska.naepelt@googlemail.com>,
+ linux-staging@lists.linux.dev, kernel-janitors@vger.kernel.org,
+ Dan Carpenter <dan.carpenter@linaro.org>, Emily Peri <eperi1024@gmail.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Guo Zihua <guozihua@huawei.com>, Hans de Goede <hdegoede@redhat.com>,
+ Kang Minchul <tegongkang@gmail.com>,
+ Philipp Hortmann <philipp.g.hortmann@gmail.com>,
+ Veerendranath Jakkam <quic_vjakkam@quicinc.com>
+Cc: LKML <linux-kernel@vger.kernel.org>
+References: <20230701102538.5359-1-franziska.naepelt@googlemail.com>
+Subject: Re: [PATCH v4 1/3] staging: rtl8723bs: Fix space issues
+Content-Language: en-GB
+From: Markus Elfring <Markus.Elfring@web.de>
+In-Reply-To: <20230701102538.5359-1-franziska.naepelt@googlemail.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:SxjAVWEP2ninnyb++Xo3XahliJjgrXt/KojjJDniONjIRk7uPUi
+ HXne3vq1Kmzn8FGLjsX0uNHjYqWALIGsvTzWDB9Zfj6nkUhAmTsSPHNPXwMT5k8Hn6WBp1L
+ d1reBAynWQ3gDkbus3xnRmnKuL5PUPuKkgk99ktn7s2L7tq+rO3QOCk7QcHpXJdGx/mHz3p
+ yGaJqR2UZkR7dv35GhavA==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:+bB3GWqjRvE=;E/Fpgm+q3V/7AlOymz55D3R6Opl
+ A5xK53aFnSkrrQz7hcRo/smz2skjgK3ipbzDCme0uNbQIBe4Cyt/GiY7PQ8RaGjyS6rIP0GLE
+ XQznd9vPCwxlE59A/5HxYwbmkICFW8lmLQf8qZGMqhGQxPLVjfVf05wpWXyodhUuJ3nYIuE3+
+ +eSLHXPOcCxDphwwY/jv8t2tZD+TsvoMR07ycJISTD/IYZZYCvaLRobSE4szDlIc1oxtZPHnM
+ sOpgIzkTSaBBzAER4Bd0ghFniLRQDq66Q2JPvhMhpxA4+KfyHOE+8lSWmEi6PSxEYJIKRmt4X
+ M80i24IDTRyWG6dnVd3Xq2oYgHUDdMiyJz7o1SAj/4LSPQ1IeO6PO6aSiQjVPzJAGkJVYckJr
+ mKu9q1Df29iHkp6EZE9OIOuXPRFhhB6j4q1aicAa51AqKcZemEgmdmuSxVXyIblHmdChTPEM4
+ v0z0HE+C3lnFFOciJGScxMuoTvmDU5Hx3Qa94wKiwNqeXqYVI2hWr9J10vTEiFKVPjvXpQz65
+ 2Yv0U5gn0FidxZZPfq+RogzJI2f0lpXIRFTKyk7gBzkc5UTZ3kvh6F4ovW9/+oxYV1eBRRRkv
+ 1cf5cDC++rgrZoy3VMMG8gzG8uVLgw+sk6kLEWBTaWCERE4fqlLIUnxKzvBmrc8+xCNhUMNuj
+ z+LCpUzLK0SlqO2yH2Feb/gJffp4Zuj1B5eT1txffDpcON9q/ZHPc4KPlwVsImUk4e9KoUALK
+ Vw8TTSO8Y6yDuEVkNSiNH5kN23WK6KBUuCTUuopIcZ8xafYuslh9S+mpr7FEcNg27eNjUG6Fa
+ uC09WQzlzTqsBxSqyV0wvXVEcrgjRInjQ2TWPjcfyFpM/6Wam4OQxw9ubGtmlkdPeUGttiQ4e
+ ZS8QvOl7WBbP9M2TGTH/LAc0YQaF8WKYx+ra2a7cGoWSgJPCnJw6PsuPW42hasv5nPv5JRKLX
+ CU771w==
 
-Am Do., 29. Juni 2023 um 09:40 Uhr schrieb Dan Carpenter
-<dan.carpenter@linaro.org>:
->
-> On Wed, Jun 28, 2023 at 06:38:03PM +0200, Franziska N=C3=A4pelt wrote:
-> >
-> > Do you want me to submit v4 to fix the email address as well as the sub=
-ject of
-> > the cover letter or are you ok with me promising to make it properly th=
-e next
-> > time? ;)
->
-> Philipp is not the person to ask, it's Greg.
->
-> Yes, you are going to need to resend because of the email address thing.
->
-> Probably the cover letter is not a reason to resend, but since you are
-> resending then please fix that as well.
->
-> The reason why we insist that you resend is a couple things:
-> 1) This is a checkpatch change to staging so we assume that you're just
->    doing it to learn how patches are supposed to be sent.  So this is an
->    educational opportunity.  ;)
-> 2) Greg maintains staging, usb, serial and -stable.  He's super busy.
->    It doesn't scale to hand edit patches.  Some maintainers are less
->    busy so they can fix trivial stuff like this but in staging you will
->    need to resend.  Also if it were a security fix maybe I would step
->    in and help you fix your patch but since it's just a checkpatch thing
->    no one is going to edit your patch.
->
-> Right now the merge window is open so Greg isn't going to see your patch
-> for a few weeks.  When he does he will press the button on his keyboard
-> which sends an automatic reply about the email address thing and deletes
-> the thread from his inbox.
->
-> regards,
-> dan carpenter
+You should not put only your own email address into the field =E2=80=9CTo=
+=E2=80=9D.
+Please reconsider the distribution of addresses between message header fie=
+lds once more.
 
-Thanks for your help and the comprehensive explanation Dan and Philipp :)
-Just send v4:
-https://lore.kernel.org/linux-staging/20230701102223.5308-1-franziska.naepe=
-lt@googlemail.com/T/#t
+
+> Fix the following checkpatch space issues:
+> - CHECK: spaces preferred around that '*' (ctx:VxV)
+> - CHECK: spaces preferred around that '+' (ctx:VxV)
+> - CHECK: spaces preferred around that '-' (ctx:VxV)
+> - CHECK: spaces preferred around that '|' (ctx:VxV)
+> - CHECK: No space is necessary after a cast
+> - WARNING: please, no spaces at the start of a line
+
+How good does such a change combination fit to the known requirement
+=E2=80=9CSolve only one problem per patch.=E2=80=9D?
+
+See also:
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Do=
+cumentation/process/submitting-patches.rst?h=3Dv6.4#n81
+
+
+Will it be a bit safer to provide corresponding source code adjustments se=
+parately
+according to their message types?
+
+
+=E2=80=A6
+> v4: Fix sign-off email address
+> ---
+=E2=80=A6
+
+I guess that this misplaced marker line should be deleted at this place
+for all update steps in your small patch series.
+
+See also:
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Do=
+cumentation/process/submitting-patches.rst?h=3Dv6.4#n686
+
+Regards,
+Markus
