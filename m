@@ -1,172 +1,86 @@
-Received: from new1-smtp.messagingengine.com (new1-smtp.messagingengine.com [66.111.4.221])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com [209.85.208.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13A8314265;
-	Fri, 30 Jun 2023 11:53:46 +0000 (UTC)
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
-	by mailnew.nyi.internal (Postfix) with ESMTP id C8F845842A1;
-	Fri, 30 Jun 2023 07:53:45 -0400 (EDT)
-Received: from imap51 ([10.202.2.101])
-  by compute6.internal (MEProxy); Fri, 30 Jun 2023 07:53:45 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
-	:cc:content-type:content-type:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:sender
-	:subject:subject:to:to; s=fm1; t=1688126025; x=1688133225; bh=ya
-	Hy0NgB4QI7znLtjDpufXmMXzZcSHw23m7h8BkLYBc=; b=10KOp+CzUmojO7ZSQ7
-	q9c3tAJBmOd76hg6sonOk40OjKAR6/QOPiz7XUomr8IP6aN19s7N9Q20gnTBA8OU
-	H+ET1KWhVc0oqozGAYUdc7B70SAPMdGIyEmEipUjQs98dHfF9mAUgsaeXHru8OlA
-	Z6b+3BUsGbAouqrpsuvP8THkbsAzAbWArrjQjssrDfLJHYAxMJ1nD0US1BwUxLpH
-	Khsbp9i0wfMK4NjF83UPBZQU2Xe9X8o6q5JmvVGPeBGgXYJSti5i4d4Vr++XzGjN
-	1deBUgFU/w8tfA/bjpGKl2V8A3IgBHPWHWftg2j80IDtUUtjFI/5ldbjH9jVYmeY
-	G2pw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:sender:subject
-	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-	:x-sasl-enc; s=fm2; t=1688126025; x=1688133225; bh=yaHy0NgB4QI7z
-	nLtjDpufXmMXzZcSHw23m7h8BkLYBc=; b=VLzmPefoROKUnYgyH59xLO28GGD4n
-	I4lte/pn3WzX95H4eQRtTSBAb90fH5FqIscW92NizI9x3K9rvYkB4k9q6ajV1EbD
-	VxE8AOWeA5gd3Truhe/A9kaDx6LrP7Tl4Y9XFamiioeruNo4WJqflkjaHJ0nsHcv
-	J2r4IJGTVqOt1B1dMbybj/sbd/LzIbl5CzvfvEtuw8uPdvo7PAFEKVHhv2+1X9Xd
-	qEBjQf6xoQoJmFw77YwpNSZG5Kn1KzEpYegVmCRAHDr3owvr/EeqaPrEmVGD6Gmw
-	mfm5v+sxS/9Ml4UMUnNpdnRbqLCJ6zjTnHpvZojc13GhJnUu+kDlq3vDg==
-X-ME-Sender: <xms:SMKeZCxMqe5zxyzHHEyo_jowh1NvQkg3HAWm1oxMk5pEwCXuDt8nPQ>
-    <xme:SMKeZOQSC2GjFmKEVBEJ34bdcsM63u6r5Bbn1HzIVxPff5ENjvEYekcilieyCztL0
-    OOiy6d_8S9V2AG4VWM>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedviedrtdeigdeggecutefuodetggdotefrodftvf
-    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
-    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
-    fjughrpefofgggkfgjfhffhffvvefutgesthdtredtreertdenucfhrhhomhepfdetrhhn
-    ugcuuegvrhhgmhgrnhhnfdcuoegrrhhnugesrghrnhgusgdruggvqeenucggtffrrghtth
-    gvrhhnpeffheeugeetiefhgeethfejgfdtuefggeejleehjeeutefhfeeggefhkedtkeet
-    ffenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegrrh
-    hnugesrghrnhgusgdruggv
-X-ME-Proxy: <xmx:SMKeZEU7QF7lH3eivuj7P9AQVrp-KepGLUxX15AeZTjz07bNrMm_5Q>
-    <xmx:SMKeZIimGJWbUJHe4AXjoJoG2-DRyW8QkepPJWqWF6Y-rgF7svHorw>
-    <xmx:SMKeZEDcwFLycbP_cRSrtSET1YHYJvelMIMgwIjYVgEhFWn2ec6cwQ>
-    <xmx:ScKeZMj8q19ja7k4QwyGQviRl-VaDcpKWJEn2nnWWhOtIymUXjLwrw>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
-	id 94900B60093; Fri, 30 Jun 2023 07:53:44 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.9.0-alpha0-499-gf27bbf33e2-fm-20230619.001-gf27bbf33
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A16EE8830
+	for <linux-staging@lists.linux.dev>; Sat,  1 Jul 2023 10:22:39 +0000 (UTC)
+Received: by mail-lj1-f176.google.com with SMTP id 38308e7fff4ca-2b6985de215so45236841fa.2
+        for <linux-staging@lists.linux.dev>; Sat, 01 Jul 2023 03:22:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=googlemail.com; s=20221208; t=1688206957; x=1690798957;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=b7ztS2/YuspzN8dr6Cszov8eINdOPb7ES0wdsgpSETU=;
+        b=qE9ClLyDGIQVk6lK3tl+1wB1faJtgiF4dXaD0FBMSjU1maCOgJQ5E+ps9EHiPXqWHR
+         RHp/hX1HKFm9N2ke/5gygjgyIbsIqIwLh/mX75P4zkzYDML1TGFraywUhtSBezTRvkRR
+         ztH73D3uWzcjj177RvdNaQWlKC2ydAsiRT1S7hGUC2iGz0i9Gd/aR3zwxVp30o2BthaC
+         OiwEyhf7M4G/7hbmr8H3MXj2kKW+nLPJnecZLNcBwwEb1e+kAo9qmGteP3tldqRCKOLv
+         +cQlH10AQYzE15T1O9X8tW0FEvLzoxnc4QCoAqi6F2LIeYCrlv4FfjVPW5ChrUgupEet
+         UWfQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1688206957; x=1690798957;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=b7ztS2/YuspzN8dr6Cszov8eINdOPb7ES0wdsgpSETU=;
+        b=WaLg+TkUcC2SqueTvg+mia2TaC9MsPLiQ3yWCubIDl87voV10ZrPPTflMDWV0hXdd/
+         jRzNgSLTCX37VIJ7PIwarRMDRDtsZXjdNJvM/hh+JyRVSMtPUl6ZGVdt7wF3EaoQYDxR
+         IpExyWpum9XYBO8Dj/2QUz2klIuouzg1KVLh46DuxkybueCjCj9fcImAb7hsHcD4EE7e
+         cUMdByc5Bni78shFfKxIrUOVCER0rgU+yS9PRLCwi9zp5OmhfnHtQyfRrnpyTio7oTDK
+         y03uvNW+hFbnYhS1Mla51ERupA3zP305JVO86QcwTRARkCmhvqk+q5+SoO8GF1WPq/9m
+         w+ew==
+X-Gm-Message-State: ABy/qLZVY9eBh6ea5Hm/AvliiQlo/5Gc0d7j9ydXbfh0cjne8nV8Mktu
+	pwY/vvHHoxb7F88CjlGpSIdbi1H8Hwm3fw==
+X-Google-Smtp-Source: APBJJlEb7pbVUyHFOEsJrzzu2ifqVihvcHGkgpq9vleSGT5UTlnJEVODEq09XV3/ETLPAONHkbnTpw==
+X-Received: by 2002:a2e:b60f:0:b0:2b6:cd12:24f7 with SMTP id r15-20020a2eb60f000000b002b6cd1224f7mr3523688ljn.44.1688206956661;
+        Sat, 01 Jul 2023 03:22:36 -0700 (PDT)
+Received: from localhost.localdomain ([2a02:810a:9640:26a8:185:3db5:c5f0:49bb])
+        by smtp.gmail.com with ESMTPSA id jt24-20020a170906dfd800b00982cfe1fe5dsm9073393ejc.65.2023.07.01.03.22.35
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Sat, 01 Jul 2023 03:22:36 -0700 (PDT)
+From: Franziska Naepelt <franziska.naepelt@googlemail.com>
+To: linux-staging@lists.linux.dev
+Cc: linux-kernel@vger.kernel.org,
+	quic_vjakkam@quicinc.com,
+	guozihua@huawei.com,
+	eperi1024@gmail.com,
+	hdegoede@redhat.com,
+	tegongkang@gmail.com,
+	gregkh@linuxfoundation.org,
+	dan.carpenter@linaro.org,
+	philipp.g.hortmann@gmail.com,
+	Franziska Naepelt <franziska.naepelt@googlemail.com>
+Subject: [PATCH v4 0/3] staging: rtl8723bs: Fix some checkpatch issues
+Date: Sat,  1 Jul 2023 12:22:23 +0200
+Message-Id: <20230701102223.5308-1-franziska.naepelt@googlemail.com>
+X-Mailer: git-send-email 2.39.2 (Apple Git-143)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Message-Id: <dd5aa01e-afad-48d2-bf4c-4a58b74f1644@app.fastmail.com>
-In-Reply-To: <ef7b3899-7d18-8018-47fa-aac0efaa61f4@suse.de>
-References: <20230629121952.10559-1-tzimmermann@suse.de>
- <20230629121952.10559-8-tzimmermann@suse.de>
- <80e3a583-805e-4e8f-a67b-ebe2e4b9a7e5@app.fastmail.com>
- <d3de124c-6aa8-e930-e238-7bd6dd7929a6@suse.de>
- <0dbbdfc4-0e91-4be4-9ca0-d8ba6f18453d@app.fastmail.com>
- <ef7b3899-7d18-8018-47fa-aac0efaa61f4@suse.de>
-Date: Fri, 30 Jun 2023 13:53:24 +0200
-From: "Arnd Bergmann" <arnd@arndb.de>
-To: "Thomas Zimmermann" <tzimmermann@suse.de>, "Helge Deller" <deller@gmx.de>,
- "Daniel Vetter" <daniel@ffwll.ch>, "Dave Airlie" <airlied@gmail.com>
-Cc: linux-kernel@vger.kernel.org, linux-alpha@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-efi@vger.kernel.org,
- "linux-csky@vger.kernel.org" <linux-csky@vger.kernel.org>,
- linux-hexagon@vger.kernel.org, linux-ia64@vger.kernel.org,
- loongarch@lists.linux.dev, linux-mips@vger.kernel.org,
- linuxppc-dev@lists.ozlabs.org, linux-riscv@lists.infradead.org,
- linux-sh@vger.kernel.org, sparclinux@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-hyperv@vger.kernel.org,
- linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev,
- Linux-Arch <linux-arch@vger.kernel.org>,
- "Thomas Gleixner" <tglx@linutronix.de>, "Ingo Molnar" <mingo@redhat.com>,
- "Borislav Petkov" <bp@alien8.de>,
- "Dave Hansen" <dave.hansen@linux.intel.com>, x86@kernel.org,
- "H. Peter Anvin" <hpa@zytor.com>, "Kees Cook" <keescook@chromium.org>,
- "Paul E. McKenney" <paulmck@kernel.org>,
- "Peter Zijlstra" <peterz@infradead.org>,
- "Andrew Morton" <akpm@linux-foundation.org>,
- "Frederic Weisbecker" <frederic@kernel.org>,
- "Nicholas Piggin" <npiggin@gmail.com>,
- "Ard Biesheuvel" <ardb@kernel.org>,
- "Sami Tolvanen" <samitolvanen@google.com>,
- "Juerg Haefliger" <juerg.haefliger@canonical.com>
-Subject: Re: [PATCH 07/12] arch/x86: Declare edid_info in <asm/screen_info.h>
-Content-Type: text/plain
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-On Fri, Jun 30, 2023, at 09:46, Thomas Zimmermann wrote:
-> Am 29.06.23 um 15:21 schrieb Arnd Bergmann:
->> On Thu, Jun 29, 2023, at 15:01, Thomas Zimmermann wrote:
->>> Am 29.06.23 um 14:35 schrieb Arnd Bergmann:
->>>> On Thu, Jun 29, 2023, at 13:45, Thomas Zimmermann wrote:
->
->>>
->>> FIRMWARE_EDID is a user-selectable feature, while ARCH_HAS_EDID_INFO
->>> announces an architecture feature. They do different things.
->> 
->> I still have trouble seeing the difference.
->
-> The idea here is that ARCH_HAS_ signals the architecture's support for 
-> the feature.  Drivers set 'depends on' in their Kconfig.
->
-> Another Kconfig token, VIDEO_SCREEN_INFO or FIRMWARE_EDID, would then 
-> actually enable the feature.  Drivers select VIDEO_SCREEN_INFO or 
-> FIRMWARE_EDID and the architectures contains code like
+This is a series of patches to fix some trivial checkpatch issues. Not all
+issues have been fixed. I intend to submit another series to fix more stuff.
 
-Fair enough. In that case, I guess FIRMWARE_EDID will just depend on
-ARCH_HAS_EDID_INFO, or possibly "depends on FIRMWARE_EDID || EFI"
-after it starts calling into an EFI specific function, right?
+Testing:
+* Build the module
+* Boot the kernel with busybox in initramfs
+* Load the module
+-> No errors or warnings
 
-> #ifdef VIDEO_SCREEN_INFO
-> struct screen_info screen_info = {
-> 	/* set values here */
-> }
-> #endif
->
-> This allows us to disable code that requires screen_info/edid_info, but 
-> also disable screen_info/edid_info unless such code has been enabled in 
-> the kernel config.
->
-> Some architectures currently mimic this by guarding screen_info with 
-> ifdef CONFIG_VT or similar. I'd like to make this more flexible. The 
-> cost of a few more internal Kconfig tokens seems negligible.
+---
+v4: Fix sign-off email address and cover letter header
 
-I definitely get it for the screen_info, which needs the complexity.
-For ARCHARCH_HAS_EDID_INFO I would hope that it's never selected by
-anything other than x86, so I would still go with just a dependency
-on x86 for simplicity, but I don't mind having the extra symbol if that
-keeps it more consistent with how the screen_info is handled.
+Franziska Naepelt (3):
+  staging: rtl8723bs: Fix space issues
+  staging: rtl8723bs: Fix alignment open parenthesis
+  staging: rtl8723bs: Fix remaining blank line issue
 
->> I suppose you could use FIRMWARE_EDID on EFI or OF systems without
->> the need for a global edid_info structure, but that would not
->> share any code with the current fb_firmware_edid() function.
->
-> The current code is build on top of screen_info and edid_info. I'd 
-> preferably not replace that, if possible.
+ .../staging/rtl8723bs/os_dep/ioctl_cfg80211.c | 164 +++++++++---------
+ 1 file changed, 85 insertions(+), 79 deletions(-)
 
-One way I could imagine this looking in the end would be
-something like
+--
+2.39.2 (Apple Git-143)
 
-struct screen_info *fb_screen_info(struct device *dev)
-{
-      struct screen_info *si = NULL;
-
-      if (IS_ENABLED(CONFIG_EFI))
-            si = efi_get_screen_info(dev);
-
-      if (IS_ENABLED(CONFIG_ARCH_HAS_SCREEN_INFO) && !si)
-            si = screen_info;
-
-      return si;
-}
-
-corresponding to fb_firmware_edid(). With this, any driver
-that wants to access screen_info would call this function
-instead of using the global pointer, plus either NULL pointer
-check or a CONFIG_ARCH_HAS_SCREEN_INFO dependency.
-
-This way we could completely eliminate the global screen_info
-on arm64, riscv, and loongarch but still use the efi and
-hyperv framebuffer/drm drivers.
-
-    Arnd
