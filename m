@@ -1,23 +1,23 @@
-Received: from mout.web.de (mout.web.de [212.227.15.4])
+Received: from mout.web.de (mout.web.de [212.227.15.3])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3932817E
-	for <linux-staging@lists.linux.dev>; Sun,  2 Jul 2023 09:14:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 649A917E3
+	for <linux-staging@lists.linux.dev>; Sun,  2 Jul 2023 09:33:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
- s=s29768273; t=1688289268; x=1688894068; i=markus.elfring@web.de;
- bh=04iT+UnfwyDPFNO9j8bB4gtCjTRJDEn6nkaOWfmk9Ak=;
+ s=s29768273; t=1688290394; x=1688895194; i=markus.elfring@web.de;
+ bh=KtM1yynOXKi5MELLt3Cy1zi+RmzUYWERVvdzTVURPJM=;
  h=X-UI-Sender-Class:Date:To:Cc:References:Subject:From:In-Reply-To;
- b=K0Gg5BBc16nMDxJbeztZdnZLJ0zNgerCb1gynfjqZBgSwfkKSFpuDXx9QxGjAkLuycFrOgr
- dGjwfYyG6YCreioKgtE7qyhXpex2n2RWewJCg1Gm3CZwIQ9UuBG91iuvGBOU+iLlp7pk92V+q
- mzZzwfxbHxbGoP+tq1PLOovQsN0W/+PR8X9gCGkF1LiZTuRTYVgsSTHmDrFDkF84jU8HI/R/l
- Iy5hbUJaoiKXEfok+aIIOgd+AG4sw1y/F39PFMG0FgKBNHRLPXwTfMwbyUog/Hxyc9H0TF7ja
- 12ykN70YUqvw9QCrNSfTSz00Bfb5S26dUzrW1FrGjlFaQD4jt0+g==
+ b=BLpSiV+mg6I36X7mSp1Bm09KdUEKjs+9PAH7WOXfOpNHIjDMpk5WQlqEB3I6JohIGTwMRti
+ yhqL/KymxMURgT+iS/Sb7O2KsUCUze4/YQG+z9fPqDUTHYtrPRSkMOXR7aPJWK3Xn0Tw09ZWa
+ xGLJPxj9VpzlD1/a6sE3pfQp83/iYCOFlMKlxWxNe9JVr/zpu+2dj/rFAsQoKD7jq2Fk1xQiM
+ MFgttEdfGaf+FU6KMEJXlvGGDX0348MWkzDyHaBm86wbPvE+d03nQsi8hDRPOlHq5+EgpXDSC
+ DdoIfXhZITzG1FWPhqZYj3MrIc+u5HW2wK82dp4MwCZiotEODN8w==
 X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
-Received: from [192.168.178.21] ([94.31.90.83]) by smtp.web.de (mrweb005
- [213.165.67.108]) with ESMTPSA (Nemesis) id 1MqIFD-1pceFb33iN-00nRBU; Sun, 02
- Jul 2023 11:14:28 +0200
-Message-ID: <83b5faec-7e7c-c73c-c510-903ad69051f1@web.de>
-Date: Sun, 2 Jul 2023 11:14:26 +0200
+Received: from [192.168.178.21] ([94.31.90.83]) by smtp.web.de (mrweb006
+ [213.165.67.108]) with ESMTPSA (Nemesis) id 1M2ggd-1qJTYU3glT-004Jds; Sun, 02
+ Jul 2023 11:33:13 +0200
+Message-ID: <1475d01a-2d34-72ef-56f8-87e04be057c8@web.de>
+Date: Sun, 2 Jul 2023 11:33:10 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -39,41 +39,42 @@ To: Benjamin Gaignard <benjamin.gaignard@collabora.com>,
  Nicolas Dufresne <nicolas.dufresne@collabora.com>,
  Philipp Zabel <p.zabel@pengutronix.de>, Tomasz Figa <tfiga@chromium.org>
 Cc: LKML <linux-kernel@vger.kernel.org>, kernel@collabora.com
-References: <20230622131349.144160-8-benjamin.gaignard@collabora.com>
-Subject: Re: [PATCH v3 07/11] media: verisilicon: vp9: Use destination buffer
- height to compute chroma offset
+References: <20230622131349.144160-10-benjamin.gaignard@collabora.com>
+Subject: Re: [PATCH v3 09/11] media: verisilicon: vp9: Allow to change
+ resolution while streaming
 Content-Language: en-GB
 From: Markus Elfring <Markus.Elfring@web.de>
-In-Reply-To: <20230622131349.144160-8-benjamin.gaignard@collabora.com>
+In-Reply-To: <20230622131349.144160-10-benjamin.gaignard@collabora.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:7kJlUJsja2lPREtJK+HuF7keC2n5Tx00nxUKQmSzGqmAP/g37LJ
- DOgyytD3Xc+gPUa9LcGlaxnWioRo89+mye0/FJg4yE/HqGtfFFRRs5yZpXqFaVtAJxC0xKA
- pi8D/tQcQj279Cpxw6pPnfyuLjnHp114YJiup9RLyRYZXixln8yFZPTH0NjGlFe+JEKOJnq
- syilA2sOvIBDDI8eWaBpw==
+X-Provags-ID: V03:K1:mzJYK/cOYyX2bS8BVlfXIGvxIEfbahz/ax2yQyUy/F0Yl2qFJme
+ 8KUy19HBBAN+3VidonlJw71MRrISQAALUetbemKDDl4+nBbMYPVRg/3R68dsMdnE6wYo06f
+ Yz1Byoxt2VqZxpfg6kVneklHVZSSG47qZX21uknUOZWEYDgSPpDgP387NcCFyPYosodbZWe
+ mCqAYYJupL31czH1IbZLg==
 X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:2uaVJO373Zw=;h4bf8LWkfnrDJhoPYeovRW+snHL
- LUzSbcYBQNIAdx0jzYi9vOFIid4SFBM95TXAJ3l9G2PVfFL8mK9SeKKN6xbEfHFXmTZUQR1hr
- IXW5I9QnyD66SJgNlTny1k3mUWWv95HYq06xwv8f1BdWKzwYWl2NhbXPThiBXYTC8UCFEc+Te
- ROXE89wBqDjmAW1o7oA3dEY3kXYxjJusE5eXL09nQdGWE1vG058Qqvh3fE04bMSjLEawcu5Ko
- Opi0JNzvt/cMmpN82yUYcdR2S+nmEz18/6ULWmJg0bdxR6fMb+ZwS9WTYPM+XsLupSh3tl9Zl
- V6jgbm/fDEmOR1efXcEgFflych7sycwJtNG7hwmqIo+i2j3GapQJcFafHabGmT40q15MUDAiB
- PZrED3dMpIZgxltFHNRxkghGJjlvss6wgUDVge9ELv0teRTZZ9zmWXvjgHnWs3u9m8QXd5hxv
- KH4QY8ARY4rA31A3ZMT+cFdcnF7eIgjW0wuEJzoKWeMlbM7il2VLYK/MGpCLLY8uYhD3R2tBI
- tl4w4I1omUG26sPzS4A1QQjLDY73tLaPFur56fHE1mD5r+mC8YKq9m7I9PdE1tC8vTtFEf03t
- LN1KtpQAruc0beK9bZRm64/kUyVJn0lVNGRAxgvFDjkdubLXEjDgEXfYIkt0jY8gj4+/8FA35
- jRK5AyG6jTas2uUegS9FDm+onrmS8c1DC4353iCP0Gm4I2Wb9Ap89ycyZp6ZXiXDQdKNzTtUF
- fI2npsVUGWtv/wcPz9VPuDtaHqlzl5GfDYxuMyLDgzSJqDdEI5aOr/R4jQOIwoo4zfV5Fhq4Y
- ksKTo9gipCulTtODp6BhuElSsJG16nlOb8nTIWGM1UzOL8T1vCw3Zh4GqysHZ9okqZa4NOmGn
- sdl7fXu1DYHpwcYs5wAmMefRWbxCHRHvbbEWAkxYmej+kwbeuCeoxItz2oKQxXHbpH2GGfD20
- ENWTDA==
+UI-OutboundReport: notjunk:1;M01:P0:TL9t02EPglg=;3/umoIV19ynetyIUxoQZ5sIeVAc
+ MpRFtXILC12n/FnO+okIWUVLeYvCpOkqsKcXRz2m7ZEMi1ZsD7NzH3AJtHk42LT2Ktyp9LRM0
+ 7oBE8NZ4ZCh7Dq+zTw5tfzP1Q6krIKwZJsnPEfglaFFEepZF3VbHsK0S3bl6FEfj1VYgVJpQB
+ +tVuyQN2tOM9l/Pig6AnipVy0Pyx6c5oGoTAs7ipJrmZa9qTNVH8vqVmUZejh71yrItYOgBiz
+ cHUyQmys27LLQZCWjefbHywlbqfnTOgnCEC9EH+/EEP0+Fw6ju2/9QadioP4m0Rh9CVcvO5kl
+ CrI7cxXh3QWw2l2kU3gkbLEy6F0cmxNZ93zcsZHtPIL1KRhytzJVjlfwWO1kjA+AAckH+N8JD
+ RyIKLia76111eHiof/TvE/pITUXiMsB5CR7OsJ7ZSVOdGPrtnppK5hw6jVhkpsIQ3hqw9K+/o
+ LeiE0ktgdZ9NdQ8T4vvtodyKe9AaOYbX+oRi+8ASFYeKS1zp9+DSpCy0PbTzjS12KTZWSe8B/
+ 10vtf/mRTJVDnHiEPM1Ud3Dkyf3Q7QLdjeZb0XR8sp6HYdM3OsRE3As5DmWqOkboDaVO5XAIe
+ ZzwyymMRqTbhJItOdST2M+pHef/u9jzpdiKDk/z0cwSFWDo3Wom0E/v3n9sixd2hc1ISUTE1C
+ OFwkDzYFSYsLKCvY1Z67tE3VxkY43zRNL2HqHIy6Gm8yK95aLqZ36d/RmIWtM+lNQsm9Mz95P
+ UMbhMQyAMXFcK8OIlj9h+ymbYHSH2B2CaWvpNoypzJAUOhojX4RM4sIQIFJS2nUD64sS5QPL4
+ fQmUYIbWeKDi8VB5NqKTfDBZaB+zNB6X8r03yQv6TJjOyPrE32RXHQOBvx6xz3FdN06q65odB
+ GWCc56NPNTDSS3y9hx8FYZ2mtYYs+oy4KctGYXQB7RX9XtmlPPhoF+/ddZklVrN9IF1CFJ1JU
+ TqEiPg==
 
-> Source and destination buffer height may not be the same because
-> alignment constraint are different.
+=E2=80=A6
+> This allow to change dynamically the resolution if the pixel format
+> remains the same.
 
-How do you think about to use the wording variant =E2=80=9Calignment const=
-raints are different=E2=80=9D
-in a subsequent change description?
+Would the wording =E2=80=9CThis adjustment allows =E2=80=A6=E2=80=9D be mo=
+re appropriate
+for a subsequent change description?
 
 Regards,
 Markus
