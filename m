@@ -1,77 +1,87 @@
-Received: from mout.web.de (mout.web.de [212.227.17.12])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B744136A
-	for <linux-staging@lists.linux.dev>; Sun,  2 Jul 2023 07:49:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
- s=s29768273; t=1688284144; x=1688888944; i=markus.elfring@web.de;
- bh=BHx9ZZkl5ZMEnvKU0DhetsvfeKgpfsIoKlJQhi8IceI=;
- h=X-UI-Sender-Class:Date:To:Cc:References:Subject:From:In-Reply-To;
- b=JLFjGmWXHtFOTm1nf98oGegiuUV4QxnMmFnt9rJl6pSzUgRCctsg/uYr+MAxsO0/AgPeMqW
- VkwwEu7Lm/NXYU8LP9L38LAwyp0oCuxSxOQxYAgXi66RWTWT0yxtaNMlkxmmdMdMEi/fWiOJT
- g49tmNOlqqxwWaNKnBXFtd2B5ew/RiBzNB52fgHTYmAuYq+9LtHVwcLph1rI2P/v8e77AsrRx
- 9upocQl2jABVa3bziVJ7wNlmtu1BabLJmRGRVTNfzvzCUrrHzqqQIYqP9Z7fiJ02dnj2kU6hl
- NFaUAxy+0O4eoOt53pXEHCjxZqQVYJO3uKsDV/t58pZWShSxUR+A==
-X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
-Received: from [192.168.178.21] ([94.31.90.83]) by smtp.web.de (mrweb106
- [213.165.67.124]) with ESMTPSA (Nemesis) id 1Mmho4-1pZcmc0WH8-00k2Se; Sun, 02
- Jul 2023 09:49:04 +0200
-Message-ID: <368f5604-913a-9bb9-dbaf-3a7ede15742d@web.de>
-Date: Sun, 2 Jul 2023 09:48:50 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D80E815A2
+	for <linux-staging@lists.linux.dev>; Sun,  2 Jul 2023 08:00:05 +0000 (UTC)
+Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-3fbc587febfso24414135e9.2
+        for <linux-staging@lists.linux.dev>; Sun, 02 Jul 2023 01:00:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1688284804; x=1690876804;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=sAUhZCQsdk87kgdWEBUppph6/yxmaqqjG5LD2yozjmE=;
+        b=LBRWF0qTQR1vdSojoeWP1/KHAKjxNGrEGOta35tbFekBwztv59f6JpjhB+swxUm03M
+         uHYwSjcfeVZtjnG6peUR4eiZyK7foW8X8L2CF2rXFWKMoVjI120mABOGo2+Mi+zAMOqh
+         ibiYMjp6XuoG02OvryQ8zxR5J/2+vvCATS69eOt3IQ2bQuNn4Y0PsfHoOUXiD9t3Q8u3
+         8CTAQuItiUyFQVWHmevHWJ3bnWdgig+MdazSHOc3Vriu24pE+6Wj2ZX82nkOR6anjNGX
+         Ng/aO+61ZqZby1IcBbTTHSPHEcQR382kW760yL9mqRuieCpmpWebiymU9urthu4IHxQh
+         eoAQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1688284804; x=1690876804;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=sAUhZCQsdk87kgdWEBUppph6/yxmaqqjG5LD2yozjmE=;
+        b=VRk45HFr8x54svVSYxxUcu/lH6C8tH1VhaOI3eVrQejH/sPUBohkV2e1UpEhPm2TsE
+         83uLT/KhiaEBEgZvJA9KpdhgfDs/54/ar77x1/xKk19mcpPsEE2yLHtJP8RfL7SUvDw4
+         MXBa77320xa/xPpkLSfKF2bR69Y+X7jHbY38bY7OH1ZAlDgPwgPVzfe3RaWJqfxJ5RE6
+         nFeTljilzhhmEeiHrzDGxlZJUKit6TnAZ7XI/9+9tzlUPvgFZnVj+SadulJl+nMq/9i3
+         /Pxi0QdZc/f2sII2LV4GoSDu5SI8+IoLYnQhrIhCSVZPol6yPNCJmJV3gwq4iRLQFAi6
+         V93Q==
+X-Gm-Message-State: AC+VfDxs5xo1alS2QWsXK3a8kCF9x2HbBLuPSZJyczrIev7P6jh2x0l9
+	qIX3WpcCTRHjvBzcY08007g=
+X-Google-Smtp-Source: ACHHUZ51p/7W85vZ05OKRDLNDDfo8EshPrLib7+JwjGfEjbu9EJG3gx3IjKjhfuy4GzOOT5vGJX+lQ==
+X-Received: by 2002:a1c:750a:0:b0:3f5:878:c0c2 with SMTP id o10-20020a1c750a000000b003f50878c0c2mr4895518wmc.3.1688284803762;
+        Sun, 02 Jul 2023 01:00:03 -0700 (PDT)
+Received: from localhost ([2a01:e0a:32f:1f0:ae0b:3bc8:c743:b2d8])
+        by smtp.gmail.com with ESMTPSA id cx16-20020a056000093000b00301a351a8d6sm22710943wrb.84.2023.07.02.01.00.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 02 Jul 2023 01:00:03 -0700 (PDT)
+From: Raphael Gallais-Pou <rgallaispou@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: dri-devel@lists.freedesktop.org,
+	linux-fbdev@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] staging: fbtft: ili9341: use macro FBTFT_REGISTER_SPI_DRIVER
+Date: Sun,  2 Jul 2023 10:03:24 +0200
+Message-ID: <20230702080324.120137-1-rgallaispou@gmail.com>
+X-Mailer: git-send-email 2.41.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.12.0
-To: Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- linux-staging@lists.linux.dev, linux-media@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org,
- linux-rockchip@lists.infradead.org, linux-mediatek@lists.infradead.org,
- kernel-janitors@vger.kernel.org,
- Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Hans Verkuil <hverkuil-cisco@xs4all.nl>,
- Marek Szyprowski <m.szyprowski@samsung.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Ming Qian <ming.qian@nxp.com>,
- Nicolas Dufresne <nicolas.dufresne@collabora.com>,
- Philipp Zabel <p.zabel@pengutronix.de>, Tomasz Figa <tfiga@chromium.org>
-Cc: LKML <linux-kernel@vger.kernel.org>, kernel@collabora.com
-References: <20230622131349.144160-7-benjamin.gaignard@collabora.com>
-Subject: Re: [PATCH v3 06/11] media: verisilicon: Store chroma and motion
- vectors offset
-Content-Language: en-GB
-From: Markus Elfring <Markus.Elfring@web.de>
-In-Reply-To: <20230622131349.144160-7-benjamin.gaignard@collabora.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:2PztqH7KzsuGkGlyH9ZJqiRJYzUo7XjNcLpHfVCCIV4/if/U4eB
- dZk4BhYADC1udLSZbnavlDQbuq3AEjHDWrbgu86SV7TB6nhJj8tntzc8OmLuux0UFFs9oMm
- Tu8KHpRIPkLOK936PRfm53XK85dDGE2Ai/WUpT0DQLbQ+MfaaGy5xH77MzTLVlHm3UBu5dN
- 0cVWMe8cDQ7BniPBfUWaQ==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:ufs6gWbQAIk=;ceoMYeyeZvCBuXP8GBm42rh5x7D
- m/VLSSYo2ng2sApensdO9ipNd6CQjJuplF2XvSO55YEeg7aAzZWMgz3b/13u5sWDJEiw6pRPt
- nIbRYB0sIB5AqS/0DFzP1nyV/Iqagllr/apdeoDY1AbTf+Fi6+O54dNfzW//NeFcGAJsl4URc
- ueN9KDOB5q4b2mRHnFKVcUehB13/0D89rb9VgW5dl5a7nKjHZ5HgNx4sohUqCaR+tEevz020O
- s/Q7zYXA0TnYx1GOsoJ/JH38PiTfzOKtn8d1U8EXCZgYZ0FfwARC22HqL5ZwomBd8hYEXDng+
- 9YuZn1ZvfRPV3truXB3UhQBWhe5arZHKUVZlq5z7skgi37BNA3A82R4uDwP0edrWstxkAtFnR
- GlIeBX9unwRzNHHYPGCHJpXYBSLbtyNtb/KjlYfeM+UykYY3quq9XauUDDyJpnGzg2Qnl4ncc
- LEYDH+aRRP40RJ0xsLLgxPl4PxYEDRbeoJ9BZQUy6Z68/JPUpe+AsEgtV1YXXcl8dMv1gnQwS
- UbvY4PT60tI0Eytt0cDnmSrF0mS+Vu3LxIhQHHCeQpflVLF61cGOZVFjB41L5UzFn2ONaEjoP
- xeQeFJWbOyZC67zre5Gz+cEG8CGff5JaEIRs9za5dpY31C4py5gzkWZt/0gXx1uL3DLbIMWPd
- eEPhcT4tpdH+x11WHJBSvGR3a0WBLaxb713aOUR5bBF2qxmV5Y/1f1Y3WV+BfcpGMbigT8WES
- QcX7/b3Gdd9bQZp9CxNL1y4pF21GVag+x0cAmAbhNf2xGipADP8mQfnpm0i0RXEXDETj/ICsa
- XiiJIdqsRrLREVvrfrTKjTsmB+pddV/zY8A45r4PMUqngXSLo4887OrpsY1V+6L3j6y9VFouc
- bpaNpnj4tYn+jigdTfy4HbU8eW4p/Zs92OFDGfS3NXKxS6lF0kv2M5SIlGVRuqEoqQbhrMtQ7
- RCINJA==
+Content-Transfer-Encoding: 8bit
 
-=E2=80=A6
-> they depends on =E2=80=A6
+Using FBTFT_REGISTER_DRIVER resolves to a NULL struct spi_device_id. This
+ultimately causes the module to an early exit at probe time.
+In addition the MODULE_ALIASes can be dropped.
 
-Please avoid a typo in a subsequent change description.
+Signed-off-by: Raphael Gallais-Pou <rgallaispou@gmail.com>
+---
+ drivers/staging/fbtft/fb_ili9341.c | 7 +------
+ 1 file changed, 1 insertion(+), 6 deletions(-)
 
-Regards,
-Markus
+diff --git a/drivers/staging/fbtft/fb_ili9341.c b/drivers/staging/fbtft/fb_ili9341.c
+index 9ccd0823c3ab..9528bf3cf711 100644
+--- a/drivers/staging/fbtft/fb_ili9341.c
++++ b/drivers/staging/fbtft/fb_ili9341.c
+@@ -145,12 +145,7 @@ static struct fbtft_display display = {
+ 	},
+ };
+ 
+-FBTFT_REGISTER_DRIVER(DRVNAME, "ilitek,ili9341", &display);
+-
+-MODULE_ALIAS("spi:" DRVNAME);
+-MODULE_ALIAS("platform:" DRVNAME);
+-MODULE_ALIAS("spi:ili9341");
+-MODULE_ALIAS("platform:ili9341");
++FBTFT_REGISTER_SPI_DRIVER(DRVNAME, "ilitek", "ili9341", &display);
+ 
+ MODULE_DESCRIPTION("FB driver for the ILI9341 LCD display controller");
+ MODULE_AUTHOR("Christian Vogelgsang");
+-- 
+2.41.0
+
