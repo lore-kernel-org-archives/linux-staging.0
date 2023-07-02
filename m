@@ -1,23 +1,23 @@
-Received: from mout.web.de (mout.web.de [212.227.15.3])
+Received: from mout.web.de (mout.web.de [212.227.15.4])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 649A917E3
-	for <linux-staging@lists.linux.dev>; Sun,  2 Jul 2023 09:33:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62C0917D3
+	for <linux-staging@lists.linux.dev>; Sun,  2 Jul 2023 10:20:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
- s=s29768273; t=1688290394; x=1688895194; i=markus.elfring@web.de;
- bh=KtM1yynOXKi5MELLt3Cy1zi+RmzUYWERVvdzTVURPJM=;
+ s=s29768273; t=1688293208; x=1688898008; i=markus.elfring@web.de;
+ bh=sBOY/Eb24bsDW2ZXVs3j0qMiJRHu4nR/iKGjjMlrrFo=;
  h=X-UI-Sender-Class:Date:To:Cc:References:Subject:From:In-Reply-To;
- b=BLpSiV+mg6I36X7mSp1Bm09KdUEKjs+9PAH7WOXfOpNHIjDMpk5WQlqEB3I6JohIGTwMRti
- yhqL/KymxMURgT+iS/Sb7O2KsUCUze4/YQG+z9fPqDUTHYtrPRSkMOXR7aPJWK3Xn0Tw09ZWa
- xGLJPxj9VpzlD1/a6sE3pfQp83/iYCOFlMKlxWxNe9JVr/zpu+2dj/rFAsQoKD7jq2Fk1xQiM
- MFgttEdfGaf+FU6KMEJXlvGGDX0348MWkzDyHaBm86wbPvE+d03nQsi8hDRPOlHq5+EgpXDSC
- DdoIfXhZITzG1FWPhqZYj3MrIc+u5HW2wK82dp4MwCZiotEODN8w==
+ b=iMxALdicrPSajXVoESif9pvZ96As3JiHgMjCltTvd4REgUskgafd/PcUGqt6UDkpuyy+VXi
+ W7kA415XT+4xybccV7LXIrUOStaEBy9cwd1/z3/JeqqAKQW4fS1dMpmGnT/M4DMAFGFp9MKig
+ +a+VT5W9ri+cScNYKAR1WkNaeSMAO5qHxhQtAtReDTQBm0j7ulmcTyAwVfFzatwpWiNfe7r+S
+ rzr44yD/yvTB9iRpGAMOFn5AWxaET6XKGJt7PspSUooekFBiu0I/idm+gLdTDeWjFr/pf6PFX
+ XUoQKQMkcjiMyeRwry/y7LZxJU1bB8Kb8lVQ7Az+WbRrLG0LgSVQ==
 X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
-Received: from [192.168.178.21] ([94.31.90.83]) by smtp.web.de (mrweb006
- [213.165.67.108]) with ESMTPSA (Nemesis) id 1M2ggd-1qJTYU3glT-004Jds; Sun, 02
- Jul 2023 11:33:13 +0200
-Message-ID: <1475d01a-2d34-72ef-56f8-87e04be057c8@web.de>
-Date: Sun, 2 Jul 2023 11:33:10 +0200
+Received: from [192.168.178.21] ([94.31.90.83]) by smtp.web.de (mrweb005
+ [213.165.67.108]) with ESMTPSA (Nemesis) id 1N30dV-1psca50Idp-013KX8; Sun, 02
+ Jul 2023 12:20:08 +0200
+Message-ID: <221f414c-3caa-53ab-76fb-f4c4f16f19cd@web.de>
+Date: Sun, 2 Jul 2023 12:20:06 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -39,42 +39,40 @@ To: Benjamin Gaignard <benjamin.gaignard@collabora.com>,
  Nicolas Dufresne <nicolas.dufresne@collabora.com>,
  Philipp Zabel <p.zabel@pengutronix.de>, Tomasz Figa <tfiga@chromium.org>
 Cc: LKML <linux-kernel@vger.kernel.org>, kernel@collabora.com
-References: <20230622131349.144160-10-benjamin.gaignard@collabora.com>
-Subject: Re: [PATCH v3 09/11] media: verisilicon: vp9: Allow to change
- resolution while streaming
+References: <20230622131349.144160-11-benjamin.gaignard@collabora.com>
+Subject: Re: [PATCH v3 10/11] media: v4l2: Add DELETE_BUF ioctl
 Content-Language: en-GB
 From: Markus Elfring <Markus.Elfring@web.de>
-In-Reply-To: <20230622131349.144160-10-benjamin.gaignard@collabora.com>
+In-Reply-To: <20230622131349.144160-11-benjamin.gaignard@collabora.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:mzJYK/cOYyX2bS8BVlfXIGvxIEfbahz/ax2yQyUy/F0Yl2qFJme
- 8KUy19HBBAN+3VidonlJw71MRrISQAALUetbemKDDl4+nBbMYPVRg/3R68dsMdnE6wYo06f
- Yz1Byoxt2VqZxpfg6kVneklHVZSSG47qZX21uknUOZWEYDgSPpDgP387NcCFyPYosodbZWe
- mCqAYYJupL31czH1IbZLg==
+Content-Transfer-Encoding: 7bit
+X-Provags-ID: V03:K1:dzHl1TKsd30ARU+1wU3sPjJdmSMv9wz291O+95bJKtsF+YD1eHC
+ b+Q/ty/cUdo/ImlY6/OW88hgs7LqDqnaLtGiWYvrt33PSMf5ZWlRlTyQDaAx4dgPHrBnLA0
+ qs8kYbWhRoXVPenCdbWMKx+yFzoMLt3wR3yQeMTmlNYETVGlXfCVbSUDWc7uNttbtT3ghI5
+ JhpEUF36ej0rr9asWnBQw==
 X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:TL9t02EPglg=;3/umoIV19ynetyIUxoQZ5sIeVAc
- MpRFtXILC12n/FnO+okIWUVLeYvCpOkqsKcXRz2m7ZEMi1ZsD7NzH3AJtHk42LT2Ktyp9LRM0
- 7oBE8NZ4ZCh7Dq+zTw5tfzP1Q6krIKwZJsnPEfglaFFEepZF3VbHsK0S3bl6FEfj1VYgVJpQB
- +tVuyQN2tOM9l/Pig6AnipVy0Pyx6c5oGoTAs7ipJrmZa9qTNVH8vqVmUZejh71yrItYOgBiz
- cHUyQmys27LLQZCWjefbHywlbqfnTOgnCEC9EH+/EEP0+Fw6ju2/9QadioP4m0Rh9CVcvO5kl
- CrI7cxXh3QWw2l2kU3gkbLEy6F0cmxNZ93zcsZHtPIL1KRhytzJVjlfwWO1kjA+AAckH+N8JD
- RyIKLia76111eHiof/TvE/pITUXiMsB5CR7OsJ7ZSVOdGPrtnppK5hw6jVhkpsIQ3hqw9K+/o
- LeiE0ktgdZ9NdQ8T4vvtodyKe9AaOYbX+oRi+8ASFYeKS1zp9+DSpCy0PbTzjS12KTZWSe8B/
- 10vtf/mRTJVDnHiEPM1Ud3Dkyf3Q7QLdjeZb0XR8sp6HYdM3OsRE3As5DmWqOkboDaVO5XAIe
- ZzwyymMRqTbhJItOdST2M+pHef/u9jzpdiKDk/z0cwSFWDo3Wom0E/v3n9sixd2hc1ISUTE1C
- OFwkDzYFSYsLKCvY1Z67tE3VxkY43zRNL2HqHIy6Gm8yK95aLqZ36d/RmIWtM+lNQsm9Mz95P
- UMbhMQyAMXFcK8OIlj9h+ymbYHSH2B2CaWvpNoypzJAUOhojX4RM4sIQIFJS2nUD64sS5QPL4
- fQmUYIbWeKDi8VB5NqKTfDBZaB+zNB6X8r03yQv6TJjOyPrE32RXHQOBvx6xz3FdN06q65odB
- GWCc56NPNTDSS3y9hx8FYZ2mtYYs+oy4KctGYXQB7RX9XtmlPPhoF+/ddZklVrN9IF1CFJ1JU
- TqEiPg==
+UI-OutboundReport: notjunk:1;M01:P0:NAZRIHhF93Q=;0bddDCS8+zQAqaLB73VP7318fMc
+ VANXbOo42UC/yy+quepupqSDSg9t7IVFp41mZIF6yt2I8i5Sppaaj576XuQ/0vgz6wJINmf55
+ OUSSRnYrVt0wR6E8lhJKlcEKEIuXTz/YcrD4JGarFwOfBw8jHTGmWjd6qz4IG7JnA7m3hAM3T
+ HgjbVSfYMI1kEX+tAp0SxWLhmgmxPB/mejfZTPZvEIpNoIJLjTCKuQQTrcbzPuj66e8s0V8Zx
+ wTLY2UUWnBROOi6yMc1l/f/qf2dFaUapSLOaYHvEl38UhZeEsCE5C5YrCrfFIP73xn5Gv2MD9
+ oh3yZpT4hgg8yVXdM2ozehMQnKtgD5das7ku1Y6M9ICVcWvR7FD3GXwbeq+pXubT49fnDxULr
+ LN0PZRiCmE683xp8NVfIKaiBCi4szwwkOscZ1dLXhazMIGj/0VrMHpc1EfsRsDvVQrrnImkuf
+ 5JJ2FdjSkXjtRbP6zbN9T0ZZ4lG9eO1roNsdkzm5A9Q3X6a01ChcG/lSr3DWsmKDPly3qctAg
+ luK2FU4S4+8mCfvoQw6ZC1AU1eA9CFnA2U/GaTwfQw5iateF4r0+vx3tmBTTxEgggmOthV8/G
+ xJCDacggRUC+UgovloigI+nPRSk3vAC6Lmypm18aGKletuOTHOcCSnPVz0tqcPFp6TbT2i3f6
+ dSpNG6pJPv9SSu17e4q2ZD3eupdfgXATfZoB64gcfnKvIDrlil7mTLoO0JNj8bmwE+gK/JmLj
+ HcicXl+iLxmIhiXyj446CxQPD2uNa1LjxnLkC9tgVW9Gw6nPzO4xsuBnaz1tPMCFHKm/rXTwn
+ AVU0pABw3OOieiV6oR8kC0T2qEqsSp3A3ASXwfV1RMVQfv1o//UAJfRrUlLEUoMHj/2F9OUO0
+ JPiHRJo0z1GMxMMxcrolaCIEtlvTN+yRwyKY4MJENPcwGYpfNJ0oBiZedDuIiXOz1E09R1HqU
+ K0IYQX7b7GlD3/G6MORgtEnIvzk=
 
-=E2=80=A6
-> This allow to change dynamically the resolution if the pixel format
-> remains the same.
+> VIDIOC_DELETE_BUF ioctl allows to delete a buffer from a queue.
 
-Would the wording =E2=80=9CThis adjustment allows =E2=80=A6=E2=80=9D be mo=
-re appropriate
-for a subsequent change description?
+Please choose another imperative change suggestion.
+
+See also:
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/process/submitting-patches.rst?h=v6.4#n94
 
 Regards,
 Markus
