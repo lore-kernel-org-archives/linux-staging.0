@@ -1,26 +1,28 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40A58F9C6
-	for <linux-staging@lists.linux.dev>; Mon,  3 Jul 2023 13:22:06 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 02B5AC433CA;
-	Mon,  3 Jul 2023 13:22:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED6BAF9C6
+	for <linux-staging@lists.linux.dev>; Mon,  3 Jul 2023 13:24:09 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 39712C433C9;
+	Mon,  3 Jul 2023 13:24:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1688390526;
-	bh=Trywcfsa/uvFjkf2ACNVhmLo5o37CppGNgULzJQ5fAo=;
+	s=korg; t=1688390649;
+	bh=VZy2IJH5Zp0zLi0PzjAHnGOCdKj0aY+Y8o+P9lCkN1o=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Hkwt3U142/R+UocLGP4ZwlxWLh8dvbpo1a8UBHQJ3uY+uFCGA5CYCQMK6Ubl40sqy
-	 sDRbISx2jp3LHFWqBhlBowxb2VXvuUfXUgUQU8KqwOWJYGHDiltwoQpABp3juE6ogW
-	 5D+JxrXMt6sAihnoJrfWNooNRJQKhuceuICXoa4Y=
-Date: Mon, 3 Jul 2023 15:22:00 +0200
+	b=I8F8HmNdG9BW6Pn4dfstQ/++oGyIpGpnFDwBv6EyIJeOEdyYDkgIV5YWLJfCW0+tC
+	 o6mCKWnNKCf2IN6T7HZx9RGCl7mo5S7T9t2qvOoBcXxXlYC5buXgKjENv8PgmitGG9
+	 4npV7+PBamAUU6t68b1Z1l6Ci2FxPDe5d2TyfGDI=
+Date: Mon, 3 Jul 2023 15:23:53 +0200
 From: Greg KH <gregkh@linuxfoundation.org>
-To: Tree Davies <tdavies@darkphysics.net>
-Cc: philipp.g.hortmann@gmail.com, dan.carpenter@linaro.org,
-	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
-Subject: Re: [PATCH v2] staging: rtl8192e: Rename function IsHTHalfNmodeAPs
- to is_ht_half_nmode_aps
-Message-ID: <2023070321-unsubtle-customs-16f9@gregkh>
-References: <ZJp8cug8OwyvcLbD@tacos.darkphysics>
+To: Tuo Li <islituo@gmail.com>
+Cc: dtwlin@gmail.com, johan@kernel.org, elder@kernel.org,
+	greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org, baijiaju1990@outlook.com,
+	BassCheck <bass@buaa.edu.cn>
+Subject: Re: [PATCH] staging: greybus: fix a possible data-inconsistency due
+ to data race in get_serial_info()
+Message-ID: <2023070352-upscale-bankable-76a7@gregkh>
+References: <20230626084339.998784-1-islituo@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -29,20 +31,49 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ZJp8cug8OwyvcLbD@tacos.darkphysics>
+In-Reply-To: <20230626084339.998784-1-islituo@gmail.com>
 
-On Mon, Jun 26, 2023 at 11:06:42PM -0700, Tree Davies wrote:
-> Rename function IsHTHalfNmodeAPs to is_ht_half_nmode_aps in order to
-> fix checkpatch warning: Avoid CamelCase
+On Mon, Jun 26, 2023 at 04:43:39PM +0800, Tuo Li wrote:
+> The variables gb_tty->port.close_delay and gb_tty->port.closing_wait are
+> ofter accessed together while holding the lock gb_tty->port.mutex. Here is 
+> an example in set_serial_info():
 > 
-> Signed-off-by: Tree Davies <tdavies@darkphysics.net>
-> v2: Rename is_ht_half_nmode_a_ps -> is_ht_half_nmode_aps
-> ---
+>   mutex_lock(&gb_tty->port.mutex);
+>   ...
+>   gb_tty->port.close_delay = close_delay;
+>   gb_tty->port.closing_wait = closing_wait;
+>   ...
+>   mutex_unlock(&gb_tty->port.mutex);
+> 
+> However, they are accessed without holding the lock gb_tty->port.mutex when
+> are accessed in get_serial_info():
+> 
+>   ss->close_delay = jiffies_to_msecs(gb_tty->port.close_delay) / 10;
+>   ss->closing_wait =
+>     gb_tty->port.closing_wait == ASYNC_CLOSING_WAIT_NONE ?
+> 	ASYNC_CLOSING_WAIT_NONE :
+> 	jiffies_to_msecs(gb_tty->port.closing_wait) / 10;
+> 
+> In my opinion, this may be a harmful race, because ss->close_delay can be
+> inconsistent with ss->closing_wait if gb_tty->port.close_delay and 
+> gb_tty->port.closing_wait are updated by another thread after the 
+> assignment to ss->close_delay.
 
-As per the documentation, the "v2..." stuff goes below the --- line so
-it will not end up in the change log text.
+And how can that happen?
 
-And you don't say why you changed the name here, why?
+Also you have trailing whitespace in your changelog text :(
+
+> Besides, the select operator may return wrong value if 
+> gb_tty->port.closing_wait is updated right after the condition is 
+> calculated.
+> 
+> To fix this possible data-inconsistency caused by data race, a lock and 
+> unlock pair is added when accessing different fields of gb_tty->port.
+> 
+> Reported-by: BassCheck <bass@buaa.edu.cn>
+
+As per the documentation for research tools like this, you need to
+explain how this was tested.
 
 thanks,
 
