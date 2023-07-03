@@ -1,31 +1,27 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05438EAD0
-	for <linux-staging@lists.linux.dev>; Mon,  3 Jul 2023 13:35:12 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7CD0CC433C8;
-	Mon,  3 Jul 2023 13:35:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16558EAD0
+	for <linux-staging@lists.linux.dev>; Mon,  3 Jul 2023 13:35:26 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 31F88C433C8;
+	Mon,  3 Jul 2023 13:35:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1688391312;
-	bh=lPbmeFzhOOGrIsy8r8petL2/X1NI/8eaQFwx0o3iMv0=;
+	s=korg; t=1688391325;
+	bh=a/xK+UJ9K5w/dA8s621q1fshRriwp/rBi7LgPiIO4z0=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=KlnBad0Gn0TJ3ilZMv9LBQVhdDz5bsVYW6GySkYYRxy8SlBqqtzBeDchQM7eF10RQ
-	 go8sp2tWfbkv3q5EFTo6wZZdY4UCIJlB/tVkaj+mGZSFzhNoz2/KiEvkKiz95K5Sxo
-	 JOHNl/y5mB4dlbUwO09v6D3qbvUlE6INjBMhffmc=
-Date: Mon, 3 Jul 2023 15:29:58 +0200
+	b=Hiq1BB0BwG8qkDL9uMCgV3HHmTXew9H6WG0id3+g/623X0SxAcW1qSfyKy/Mq/S8P
+	 xSzRNAIOhSaN+tkmBp6k/tdIOzKXU992mTTUCXdZGBzNAbl4LwaCCk+LZGXgSPa1vu
+	 jQgmnMmK8/x/S6ZYja6jHeE81IAkRfPQ5Er9ZPWY=
+Date: Mon, 3 Jul 2023 15:34:09 +0200
 From: Greg KH <gregkh@linuxfoundation.org>
-To: Umang Jain <umang.jain@ideasonboard.com>
-Cc: linux-staging@lists.linux.dev, linux-rpi-kernel@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org, stefan.wahren@i2se.com,
-	f.fainelli@gmail.com, athierry@redhat.com, error27@gmail.com,
-	dave.stevenson@raspberrypi.com, kieran.bingham@ideasonboard.com,
-	laurent.pinchart@ideasonboard.com
-Subject: Re: [PATCH v8 3/5] staging: bcm2835-camera: Register bcm2835-camera
- with vchiq_bus_type
-Message-ID: <2023070319-daycare-pointless-abba@gregkh>
-References: <20230627201628.207483-1-umang.jain@ideasonboard.com>
- <20230627201628.207483-4-umang.jain@ideasonboard.com>
+To: Tree Davies <tdavies@darkphysics.net>
+Cc: philipp.g.hortmann@gmail.com, dan.carpenter@linaro.org,
+	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
+Subject: Re: [PATCH v2] staging: rtl8192e: Rename function IsHTHalfNmodeAPs
+ to is_ht_half_nmode_aps
+Message-ID: <2023070358-magnifier-aviator-feed@gregkh>
+References: <ZJp8cug8OwyvcLbD@tacos.darkphysics>
+ <2023070321-unsubtle-customs-16f9@gregkh>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -34,76 +30,20 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230627201628.207483-4-umang.jain@ideasonboard.com>
+In-Reply-To: <2023070321-unsubtle-customs-16f9@gregkh>
 
-On Tue, Jun 27, 2023 at 10:16:26PM +0200, Umang Jain wrote:
-> Register the bcm2835-camera with the vchiq_bus_type instead of using
-> platform driver/device.
+On Mon, Jul 03, 2023 at 03:22:00PM +0200, Greg KH wrote:
+> On Mon, Jun 26, 2023 at 11:06:42PM -0700, Tree Davies wrote:
+> > Rename function IsHTHalfNmodeAPs to is_ht_half_nmode_aps in order to
+> > fix checkpatch warning: Avoid CamelCase
+> > 
+> > Signed-off-by: Tree Davies <tdavies@darkphysics.net>
+> > v2: Rename is_ht_half_nmode_a_ps -> is_ht_half_nmode_aps
+> > ---
 > 
-> Also the VCHIQ firmware doesn't support device enumeration, hence
-> one has to maintain a list of devices to be registered in the interface.
+> As per the documentation, the "v2..." stuff goes below the --- line so
+> it will not end up in the change log text.
 > 
-> Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
-> ---
->  .../bcm2835-camera/bcm2835-camera.c           | 16 +++++++-------
->  .../interface/vchiq_arm/vchiq_arm.c           | 21 ++++++++++++++++---
->  2 files changed, 26 insertions(+), 11 deletions(-)
-> 
-> diff --git a/drivers/staging/vc04_services/bcm2835-camera/bcm2835-camera.c b/drivers/staging/vc04_services/bcm2835-camera/bcm2835-camera.c
-> index 346d00df815a..f37b2a881d92 100644
-> --- a/drivers/staging/vc04_services/bcm2835-camera/bcm2835-camera.c
-> +++ b/drivers/staging/vc04_services/bcm2835-camera/bcm2835-camera.c
-> @@ -24,8 +24,9 @@
->  #include <media/v4l2-event.h>
->  #include <media/v4l2-common.h>
->  #include <linux/delay.h>
-> -#include <linux/platform_device.h>
->  
-> +#include "../interface/vchiq_arm/vchiq_arm.h"
-> +#include "../interface/vchiq_arm/vchiq_device.h"
->  #include "../vchiq-mmal/mmal-common.h"
->  #include "../vchiq-mmal/mmal-encodings.h"
->  #include "../vchiq-mmal/mmal-vchiq.h"
-> @@ -1841,7 +1842,7 @@ static struct v4l2_format default_v4l2_format = {
->  	.fmt.pix.sizeimage = 1024 * 768,
->  };
->  
-> -static int bcm2835_mmal_probe(struct platform_device *pdev)
-> +static int bcm2835_mmal_probe(struct vchiq_device *device)
->  {
->  	int ret;
->  	struct bcm2835_mmal_dev *dev;
-> @@ -1896,7 +1897,7 @@ static int bcm2835_mmal_probe(struct platform_device *pdev)
->  						       &camera_instance);
->  		ret = v4l2_device_register(NULL, &dev->v4l2_dev);
->  		if (ret) {
-> -			dev_err(&pdev->dev, "%s: could not register V4L2 device: %d\n",
-> +			dev_err(&device->dev, "%s: could not register V4L2 device: %d\n",
->  				__func__, ret);
->  			goto free_dev;
->  		}
-> @@ -1976,7 +1977,7 @@ static int bcm2835_mmal_probe(struct platform_device *pdev)
->  	return ret;
->  }
->  
-> -static void bcm2835_mmal_remove(struct platform_device *pdev)
-> +static void bcm2835_mmal_remove(struct vchiq_device *device)
->  {
->  	int camera;
->  	struct vchiq_mmal_instance *instance = gdev[0]->instance;
-> @@ -1988,17 +1989,16 @@ static void bcm2835_mmal_remove(struct platform_device *pdev)
->  	vchiq_mmal_finalise(instance);
->  }
->  
-> -static struct platform_driver bcm2835_camera_driver = {
-> +static struct vchiq_driver bcm2835_camera_driver = {
->  	.probe		= bcm2835_mmal_probe,
-> -	.remove_new	= bcm2835_mmal_remove,
-> +	.remove		= bcm2835_mmal_remove,
+> And you don't say why you changed the name here, why?
 
-No need to change this here, right?  That's independant of this patch
-series.
-
-thanks,
-
-greg k-h
+Ah, you did a v3 with this fixed up, nevermind...
