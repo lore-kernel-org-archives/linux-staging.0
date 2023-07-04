@@ -1,62 +1,87 @@
-Received: from wxsgout04.xfusion.com (wxsgout04.xfusion.com [36.139.87.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80FD0468C;
-	Tue,  4 Jul 2023 12:36:13 +0000 (UTC)
-Received: from wuxshcsitd00602.xfusion.com (unknown [10.32.132.250])
-	by wxsgout04.xfusion.com (SkyGuard) with ESMTPS id 4QwMF80sf5z9xk0G;
-	Tue,  4 Jul 2023 20:15:24 +0800 (CST)
-Received: from wuxshcsitd00600.xfusion.com (10.32.133.213) by
- wuxshcsitd00602.xfusion.com (10.32.132.250) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.23; Tue, 4 Jul 2023 20:15:57 +0800
-Received: from wuxshcsitd00600.xfusion.com ([fe80::6811:d152:496c:4db9]) by
- wuxshcsitd00600.xfusion.com ([fe80::6811:d152:496c:4db9%6]) with mapi id
- 15.01.2507.023; Tue, 4 Jul 2023 20:15:57 +0800
-From: wangjinchao <wangjinchao@xfusion.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1066E567B
+	for <linux-staging@lists.linux.dev>; Tue,  4 Jul 2023 15:33:14 +0000 (UTC)
+Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-1b82bf265b2so26228805ad.0
+        for <linux-staging@lists.linux.dev>; Tue, 04 Jul 2023 08:33:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1688484794; x=1691076794;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=SCJF9OcKxcQRRkN3q/ruFVGi5lpCYguCeajY/bnYrzI=;
+        b=Qegsm2xADNZh+vRXK2cGwSSE3B1YCYiMXTRmSn7xMDd2Tlt6nkqF18ivN5gfUmIlw+
+         k24HDMJXcV13IoZpJZs9tuQpZ18Tz7yXPHQWhJabyBP75uG8lcYr9B+yv8SlDAqzdFOT
+         gUhpZOLojFGm1um+J5VuJUOKZfTuuntNoiZM2lKe7wfQqbymJGwSOIQuVhQJ2sLUtVuY
+         uLced89DmOlkOkbrLbiFbW+xDfqFp9v0+fIUq0PT6ElEZ1LujSQJ+yUWyXWMFfjjXSVr
+         xrrFyjyFWOTJ0Y7LkdvtoUV8cyan1DiaeBfoWY4qh59KiDDFtL2jOJHPFNsTlsMvA/1e
+         E8Fg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1688484794; x=1691076794;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=SCJF9OcKxcQRRkN3q/ruFVGi5lpCYguCeajY/bnYrzI=;
+        b=Y8ZhHN2Ac2bp92V23ZuGu3s2H8b8hx3HvIXUbWCDenFKvYt8YgmVudfWhjT+dcWR2U
+         SVnOKktmZScjGxkgZQ6wP1sFme7lYpDM0l11i2yZVFS2aI9ClzGuly0U9m68lM5DTHLS
+         1cXci3WbSQI4A5aErnO/OuufL3RsbR1VtbKnV39R85xVxLBIVO+IvPUEIDJ990/CIe29
+         Sl8E7yf1pNJcXQVgpphs4vb8hvF/gJDiIinGkj8D8gHp2gl7Okn6HKCf6e3mb/kdtSgo
+         u3Eb6Vik0trGdDk8lTc1/rNAdqoYiC5azH1z4r1G4QdZNuh/XypczQQfgDZj7S7XTo5I
+         jUmw==
+X-Gm-Message-State: ABy/qLZRgWgOvnAV78l24z5ITNKZGgL0/SIxdYopo5aw4nDRzmLlxtyd
+	QmKi7pnT7KRFzXEjfoPGWPo=
+X-Google-Smtp-Source: APBJJlGIEOMOr/5lssWZoyi7OaWDUIFclDtyzbu/pokMuqCAwqVTA+MpycSkL2a8oNeVbnXgE2A/SA==
+X-Received: by 2002:a17:902:d902:b0:1b8:5b13:5958 with SMTP id c2-20020a170902d90200b001b85b135958mr10492147plz.31.1688484794338;
+        Tue, 04 Jul 2023 08:33:14 -0700 (PDT)
+Received: from fedora ([45.90.208.186])
+        by smtp.gmail.com with ESMTPSA id jw21-20020a170903279500b001b80ed7b66fsm14316071plb.94.2023.07.04.08.33.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 04 Jul 2023 08:33:13 -0700 (PDT)
+Date: Tue, 4 Jul 2023 23:33:09 +0800
+From: Wang Jinchao <wangjinchao600@gmail.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"linux-staging@lists.linux.dev" <linux-staging@lists.linux.dev>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"outreachy@lists.linux.dev" <outreachy@lists.linux.dev>
-CC: xulei <stone.xulei@xfusion.com>
-Subject: [PATCH] staging: rtl8192u: Fix assignment in if condition
-Thread-Topic: [PATCH] staging: rtl8192u: Fix assignment in if condition
-Thread-Index: AQHZrmkySezXLmADBkO4wJdvqf1PeQ==
-Date: Tue, 4 Jul 2023 12:15:57 +0000
-Message-ID: <ZKP/01ECsgmdBFf2@fedora>
-Accept-Language: zh-CN, en-US
-Content-Language: zh-CN
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-x-ms-exchange-imapappendstamp: wuxshcsitd00600.xfusion.com (15.01.2507.023)
-x-originating-ip: [10.81.18.204]
-Content-Type: text/plain; charset="gb2312"
-Content-ID: <CCA9E587FFE6854982C83B7CB9B21800@xfusion.com>
-Content-Transfer-Encoding: base64
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Cc: wangjinchao600@gmail.com
+Subject: [PATCH] staging: rtl8192u: Fix keyidx assignment within if condition
+Message-ID: <ZKQ7tYa9I+PHgef/@fedora>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-SSBqdXN0IHBhcnRpY2lwYXRlZCBpbiBPdXRyZWFjaHkgb2YgS2VybmVsTmV3YmllcyBhbmQgZml4
-ZWQgb25lIA0KJ0VSUk9SOiBkbyBub3QgdXNlIGFzc2lnbm1lbnQgaW4gaWYgY29uZGl0aW9uJyBp
-c3N1ZSByZXBvcnRlZCBieSANCmNoZWNrcGF0Y2gucGwgb24gZHJpdmVycy9zdGFnaW5nL3J0bDgx
-OTJ1L2llZWU4MDIxMS9pZWVlODAyMTFfcnguYy4NCg0KU2lnbmVkLW9mZi1ieTogV2FuZyBKaW5j
-aGFvIDx3YW5namluY2hhb0B4ZnVzaW9uLmNvbT4NCi0tLQ0KIGRyaXZlcnMvc3RhZ2luZy9ydGw4
-MTkydS9pZWVlODAyMTEvaWVlZTgwMjExX3J4LmMgfCAzICsrLQ0KIDEgZmlsZSBjaGFuZ2VkLCAy
-IGluc2VydGlvbnMoKyksIDEgZGVsZXRpb24oLSkNCg0KZGlmZiAtLWdpdCBhL2RyaXZlcnMvc3Rh
-Z2luZy9ydGw4MTkydS9pZWVlODAyMTEvaWVlZTgwMjExX3J4LmMgYi9kcml2ZXJzL3N0YWdpbmcv
-cnRsODE5MnUvaWVlZTgwMjExL2llZWU4MDIxMV9yeC5jDQppbmRleCBjYTA5MzY3MDA1ZTEuLjUy
-ZmY5ZTYyZWMwOCAxMDA2NDQNCi0tLSBhL2RyaXZlcnMvc3RhZ2luZy9ydGw4MTkydS9pZWVlODAy
-MTEvaWVlZTgwMjExX3J4LmMNCisrKyBiL2RyaXZlcnMvc3RhZ2luZy9ydGw4MTkydS9pZWVlODAy
-MTEvaWVlZTgwMjExX3J4LmMNCkBAIC0xMTIxLDggKzExMjEsOSBAQCBpbnQgaWVlZTgwMjExX3J4
-KHN0cnVjdCBpZWVlODAyMTFfZGV2aWNlICppZWVlLCBzdHJ1Y3Qgc2tfYnVmZiAqc2tiLA0KIA0K
-IAkvKiBza2I6IGhkciArIChwb3NzaWJseSBmcmFnbWVudGVkLCBwb3NzaWJseSBlbmNyeXB0ZWQp
-IHBheWxvYWQgKi8NCiANCisJa2V5aWR4ID0gaWVlZTgwMjExX3J4X2ZyYW1lX2RlY3J5cHQoaWVl
-ZSwgc2tiLCBjcnlwdCk7DQogCWlmIChpZWVlLT5ob3N0X2RlY3J5cHQgJiYgKGZjICYgSUVFRTgw
-MjExX0ZDVExfV0VQKSAmJg0KLQkgICAgKGtleWlkeCA9IGllZWU4MDIxMV9yeF9mcmFtZV9kZWNy
-eXB0KGllZWUsIHNrYiwgY3J5cHQpKSA8IDApIHsNCisJICAgIGtleWlkeCA8IDApIHsNCiAJCW5l
-dGRldl9kYmcoaWVlZS0+ZGV2LCAiZGVjcnlwdCBmcmFtZSBlcnJvclxuIik7DQogCQlnb3RvIHJ4
-X2Ryb3BwZWQ7DQogCX0NCi0tIA0KMi40MC4wDQoNCg==
+Refactor the if condition into nested conditionals to improve clarity.
+The condition is currently in the form of (E1 && E2 && E3), where the
+variable keyidx is assigned a value in E3.
+
+Signed-off-by: Wang Jinchao <wangjinchao600@gmail.com>
+---
+ drivers/staging/rtl8192u/ieee80211/ieee80211_rx.c | 10 ++++++----
+ 1 file changed, 6 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/staging/rtl8192u/ieee80211/ieee80211_rx.c b/drivers/staging/rtl8192u/ieee80211/ieee80211_rx.c
+index ca09367005e1..5da8ac401df0 100644
+--- a/drivers/staging/rtl8192u/ieee80211/ieee80211_rx.c
++++ b/drivers/staging/rtl8192u/ieee80211/ieee80211_rx.c
+@@ -1121,10 +1121,12 @@ int ieee80211_rx(struct ieee80211_device *ieee, struct sk_buff *skb,
+ 
+ 	/* skb: hdr + (possibly fragmented, possibly encrypted) payload */
+ 
+-	if (ieee->host_decrypt && (fc & IEEE80211_FCTL_WEP) &&
+-	    (keyidx = ieee80211_rx_frame_decrypt(ieee, skb, crypt)) < 0) {
+-		netdev_dbg(ieee->dev, "decrypt frame error\n");
+-		goto rx_dropped;
++	if (ieee->host_decrypt && (fc & IEEE80211_FCTL_WEP)) {
++		keyidx = ieee80211_rx_frame_decrypt(ieee, skb, crypt);
++		if (keyidx < 0) {
++			netdev_dbg(ieee->dev, "decrypt frame error\n");
++			goto rx_dropped;
++		}
+ 	}
+ 
+ 
+-- 
+2.40.0
+
