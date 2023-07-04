@@ -1,53 +1,136 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from APC01-TYZ-obe.outbound.protection.outlook.com (mail-tyzapc01on2093.outbound.protection.outlook.com [40.107.117.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1561C125A8
-	for <linux-staging@lists.linux.dev>; Mon,  3 Jul 2023 20:30:03 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 82934C433CA;
-	Mon,  3 Jul 2023 20:30:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1688416203;
-	bh=fYGf6/P6PCwU0c5wqiJ4jgnTY8peRRZdVZc8FpDWnUE=;
-	h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
-	b=A0FQpGAS0jemYryQxtad/7vhv53PjwFXIN3FWCaC5yMtWRMYk9I8xQkNfdY2QE0vb
-	 OlfXwvYRv+rWZp4JmfeFWOIyi2At0mXlWhC+AJ4VBNG2IspzYP0m9laGYplBb4b0/Y
-	 BuFPHYNLmg1eLFItFSvqDEx6dhH0z8RlszNjy+5MCD7QLBmVyn/lkVM8EvRdOmw0+w
-	 4Ytbq9rdf32lERPCJsP421x+85zbvT7xQOy86oUxe4H+LXV1kOGXpEZszc2+HURRUV
-	 qHA9QyhFnaooTKlfysX3srKJVeh5ZsjCQW+hVXhzsXmk4JjpjHY69d475m+l7KX+zE
-	 uE5t7hKOUklVA==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 6577CC561EE;
-	Mon,  3 Jul 2023 20:30:03 +0000 (UTC)
-Subject: Re: [GIT PULL] Staging driver updates for 6.5-rc1
-From: pr-tracker-bot@kernel.org
-In-Reply-To: <ZKKeWkpCEqxHZ7qK@kroah.com>
-References: <ZKKeWkpCEqxHZ7qK@kroah.com>
-X-PR-Tracked-List-Id: <linux-staging.lists.linux.dev>
-X-PR-Tracked-Message-Id: <ZKKeWkpCEqxHZ7qK@kroah.com>
-X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git tags/staging-6.5-rc1
-X-PR-Tracked-Commit-Id: 4a22870cede374d80c5d2f9c5b79253a5a667832
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: db9c6d1d7fcc6dc803f042bf3d29bbff91837f57
-Message-Id: <168841620338.1331.16390344819968928844.pr-tracker-bot@kernel.org>
-Date: Mon, 03 Jul 2023 20:30:03 +0000
-To: Greg KH <gregkh@linuxfoundation.org>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>, Andrew Morton <akpm@linux-foundation.org>, Stephen Rothwell <sfr@canb.auug.org.au>, linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65116539F
+	for <linux-staging@lists.linux.dev>; Tue,  4 Jul 2023 09:56:00 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=QE6kCOqrzodY8dlD9siKVIBNN/f6YzjBZNbLn/XboCco9L5fewePJLEVO2/wMQJDsrT2UlIwm4NS/tDcn/SxxUTXal5R7Kp4lDzAfb+VtppEJPAkiqhnWpLR8p6/thAEx+xgcNlzfcPUfkS19Dd5A8Rfof6JfU52HOKnU13bK7hQPZR/AETq37JwpWhJyoAxZkW3Z3oKp5L3vx3/sa+EyzWBJwatcMQ1BYXfxkIz0uXrAoR4E1zHJ1USPVjJ2RepgWAReA8iqgHAs1tmZwKJGDXTjzeeZFpX3sRHNLPCZomTOHJDTtvfkxuNqNC0SQdu9YsupyzwRl2Ea2Jfhk/gVQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=SarSRGBEYnoGJT7x3BvGrkEtGT19Z7rJn+uy4YlL89Y=;
+ b=k8FLqE1eEV6kYD8hY6af1oE9eM+3lBCCZ64xX2yi49gBqNWkfU4mbmyqSkHCCL0liImG8xNAHTiovlzygH9s1JmLPhp1/hxWzfBlga5DSftiyqB67KF+1DtExg6JPj8aMAXhvz+ZcfdZivPlOxhcEbQe5buFTekDVkJRb8EBbKzfq0WyCHCzxup/1hTKTEDsGziqX5SdxS1kPzH778PyKLfWLT5baPY7jIqWklIfzlYN+82yuy6dhu8IYSqJCgRJ8FdvEDbZEQjmm2Nwah4yCmak/gObQcwa+6cYx/AQWFB+4x0pEEN4hJaPeQk1Id8W1KxtOC9NrltUSn8B7ObY/A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=vivo.com; dmarc=pass action=none header.from=vivo.com;
+ dkim=pass header.d=vivo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vivo.com; s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=SarSRGBEYnoGJT7x3BvGrkEtGT19Z7rJn+uy4YlL89Y=;
+ b=OrCFihxuGJ2I8pJLh5RAsUlGZn0ruEuybxiosF1sfbByeYKaEGtKLMyjXRvC+6Fi3K0EMazgRuImGTORzR82+Dya7N3/N+HzXD2acd4x+kY+G/8lQ/xR/cnkGVcZx2FBaO1/nvfvrE03DvM5MIU0ar04kAKXtVa/UyXlPG0qn+z7pMI21P3f+EY5TRUkyYAZyvPlKM5owpCLICC+Lg9fWNuA9khIKPScx+u6yQ0Bwna28rFut1blIqryMaiMthDEQtfd3BybdRRg/ZbwoBe9EHkmJp3qlncZ8LUzPkxMcTZlOX7MfhvK7cWIw70/jBOTfqxqBLaevzwMKtuWP6YDeA==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=vivo.com;
+Received: from SEZPR06MB5269.apcprd06.prod.outlook.com (2603:1096:101:78::6)
+ by TYZPR06MB4240.apcprd06.prod.outlook.com (2603:1096:400:65::5) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6544.24; Tue, 4 Jul
+ 2023 09:55:57 +0000
+Received: from SEZPR06MB5269.apcprd06.prod.outlook.com
+ ([fe80::fa0e:6c06:7474:285c]) by SEZPR06MB5269.apcprd06.prod.outlook.com
+ ([fe80::fa0e:6c06:7474:285c%5]) with mapi id 15.20.6544.024; Tue, 4 Jul 2023
+ 09:55:57 +0000
+From: Yangtao Li <frank.li@vivo.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Yangtao Li <frank.li@vivo.com>,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] staging: axis-fifo: Use devm_platform_get_and_ioremap_resource()
+Date: Tue,  4 Jul 2023 17:55:43 +0800
+Message-Id: <20230704095543.32812-1-frank.li@vivo.com>
+X-Mailer: git-send-email 2.39.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: SI2PR02CA0011.apcprd02.prod.outlook.com
+ (2603:1096:4:194::20) To SEZPR06MB5269.apcprd06.prod.outlook.com
+ (2603:1096:101:78::6)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SEZPR06MB5269:EE_|TYZPR06MB4240:EE_
+X-MS-Office365-Filtering-Correlation-Id: dab97e07-3626-4a50-b592-08db7c74dd42
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	7JF/G5gKpj9Jhcv5izpT/zpdOsBe/FvEPya+F5jEOj6ri2YneZFPs+6Q/B/uA7i2p2PiQ5F1bg/CibYJyjMwBvdKd8oX/B9bSATMD6NQ2FCj1TkmbBKVRbkyrfNNDW7MGtZCBUDkGwGPdXvyBoY6SEG/MP+2FZL5wizAHyTbXd3FIupaayU/BhuXhkwNtdvxSIyK/ZWozJXUNyu21M1MmoseLfECxRkSj+eKK/ZgHRxU6BfhnQ/O2dWmSYt9uSr41QFD47QAPiztcccFD0olm0lm4BvtausG0JmBsIDzoH9oFOqtGVsL7wj/sfRSgBfcQftnokuPr5V7ROa4uKeCwiRWNapcr79Rgii1AJogIMbnMGL8MPMEqap6MmQXi+FGN9v4PQkHPPG4TwITvSez6W/j71xuTuCv6JpP8TESk2onR7va5Z7/ZNI5OzS82A8YSa37Iffv8KBGvsZqjSv+JwMzR0EgmTkYiq2bA2p0uI5qMGL7R6EcowOBdSP3hT97UXLlsMgLwocRT8Bc+WGEdEwCbDLeXZginA13vfzM/5gJDDwJHgPzdCgrO9llDZaKQtdu1QhB/zoekjsssv9zO/Mv5R47sPfy/MLQbIbtbxdYSMyEbPT9z6XhwCgKkbpT
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SEZPR06MB5269.apcprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(346002)(376002)(136003)(39850400004)(366004)(396003)(451199021)(478600001)(6666004)(5660300002)(8676002)(2906002)(8936002)(36756003)(86362001)(38350700002)(38100700002)(66556008)(66476007)(66946007)(6916009)(4326008)(316002)(41300700001)(83380400001)(1076003)(6506007)(26005)(2616005)(186003)(6512007)(6486002)(52116002);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?oaPwxxHYcOWhg2EIKCn33RUMuippXqu1uqtS4YY+fCxn1bZZBCc5DQoZQDVT?=
+ =?us-ascii?Q?he4v8A4W81fkczuJjk3fvzKuQ0PdRG0Amiy5rzlqjK8SCZ2wAp/FlecqH3lB?=
+ =?us-ascii?Q?E8/oN0f2WjYbaRhIaMUial6eVD7PVD4ai5/cdqGAYYPjXbD68fTxKjrUZcMq?=
+ =?us-ascii?Q?mTZNgULR4jKWtkaFjAgbxd1mOJq8zhjbvIkm6b42ARdwmKY82VuJVnKexMSB?=
+ =?us-ascii?Q?n0lmwLjnaN+ihdXq8RiGOOCHy0nSQIE1ZRGGvIkxeh+G9hQ1IqIAPwtKjLVV?=
+ =?us-ascii?Q?iFv4n2FdTvHWonUZ43n1iGudxM5134HVZgBKpy1Hm/k9p3iTKthAuEEDEQ/t?=
+ =?us-ascii?Q?+0R7VWSK0xhA8fnUgI2OiU41ZFgbF6L2FjA2AloHEVV3XTEOuk+2p6iW5GD3?=
+ =?us-ascii?Q?x3Wc0G7pyVyWaQzgw7pYqbNg+Y24mlK8jCN0NciXdVwAN6ZdGZ0+4r8iYMlH?=
+ =?us-ascii?Q?Q0fELjrInztDyprwDMKLwY1n8z6M6Qra/haLHFgz7V9RYDamxK/Hp26ej9T+?=
+ =?us-ascii?Q?2rPoPNjrRHjpbz9HnTq2HLqYn9RZliVgRDr19YuL8o1cqEfp6GyON9lWE4dW?=
+ =?us-ascii?Q?9bHR/3JmlH5cWdP1ZejT+EqlhjVmd1pzbGHkQ1zQtsg3TMnBHxgGahzM4NP0?=
+ =?us-ascii?Q?FkH5tPI7rROPsiImwt3hA6qy6+yIh957i/O9F5Rdt5WgVE9Gs241/YvzyFSA?=
+ =?us-ascii?Q?8x7O2KfAthIe+iZsXIKPFC6nPn4KtQ6G2pCZz7dsss9vCezoLgqtcJw+ZTGr?=
+ =?us-ascii?Q?g7kBDiviiI947Dw5zNKK0XO15k/rocDCuRDnanm7wCk3llUkibpXkoNNz6UR?=
+ =?us-ascii?Q?KYLzSl039MlrPhR+WlmhJQBARgYaa4KLZLfgGImyIown+J0nzTmicOigRFQH?=
+ =?us-ascii?Q?4blPgND4T+kDu0zW4MlbBcUvAjELINUYVKgRaySnlkFQPgHqAtD3cJwpWIlD?=
+ =?us-ascii?Q?BtmbVm0Lcp4L2RItIWYc7c9v+1ApueK3Vob2KzeyVpcnmO6lxNDlej87jiFd?=
+ =?us-ascii?Q?u3cpiIUYeinnfbC2KkAMEZcZ4kHMfotYb4B4hyPOgi8AuzIiodx7Z9DLqWMj?=
+ =?us-ascii?Q?GLEo45TrnfXtr00r+SPhG+rrvjKi9PdX8G6yUXFRRJvpLe+r2cU72St0AwEU?=
+ =?us-ascii?Q?wjqpEDz/bZZ6toGt5GjZqsvpnVP81LJDIie+++o1QhB+76BWe5WY301Grwh7?=
+ =?us-ascii?Q?8Nt821O3Su6pLxCCv0X4w/hZ1gCmb0GZIUmBXJl9JpoizQUb5jhpwnByLIZr?=
+ =?us-ascii?Q?JwlQEVW0nP9jaYxtK0H5VPelOJDqGE1u+jMhpnlSYh/hJArAk6jMgjA9xiQw?=
+ =?us-ascii?Q?jJ2aS54xAuuFQ+BOLrnkH922BFaEizDUNtOfGG2EOD+NFLMFx9QUeGiE827D?=
+ =?us-ascii?Q?X2f40wOFqVtfJNxELjMMu3nBx+YrpQ/PEwXuV/kh+HnIEuOrr43sHZcvbXDM?=
+ =?us-ascii?Q?Dwk6+6eesxLhfHVli4iVfC9fS29No0OqzqgJrK8q2/rlDWaV7NEaNRN3fG8r?=
+ =?us-ascii?Q?hAk0DMcsYHZY0DF9ueUEYITlz9l058eZxmn6uxX/DGyHENuze7AvkCyxcWuZ?=
+ =?us-ascii?Q?ropmXRN4afMy/TXKkBqIV2k8A0Se2gqPSx+IiX1C?=
+X-OriginatorOrg: vivo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: dab97e07-3626-4a50-b592-08db7c74dd42
+X-MS-Exchange-CrossTenant-AuthSource: SEZPR06MB5269.apcprd06.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Jul 2023 09:55:57.5526
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 923e42dc-48d5-4cbe-b582-1a797a6412ed
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: k44UwIEu+4qhKZtB65F02CQ5za9DbwZ602HW61amxABQdT3k8sW9w4DMb65klcUBeeud3EjqHukKBCf42M6ygA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYZPR06MB4240
 
-The pull request you sent on Mon, 3 Jul 2023 12:09:30 +0200:
+Convert platform_get_resource(), devm_ioremap_resource() to a single
+call to devm_platform_get_and_ioremap_resource(), as this is exactly
+what this function does.
 
-> git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git tags/staging-6.5-rc1
+Signed-off-by: Yangtao Li <frank.li@vivo.com>
+---
+ drivers/staging/axis-fifo/axis-fifo.c | 12 ++----------
+ 1 file changed, 2 insertions(+), 10 deletions(-)
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/db9c6d1d7fcc6dc803f042bf3d29bbff91837f57
-
-Thank you!
-
+diff --git a/drivers/staging/axis-fifo/axis-fifo.c b/drivers/staging/axis-fifo/axis-fifo.c
+index 98db47cb4fa4..0bfe272ba819 100644
+--- a/drivers/staging/axis-fifo/axis-fifo.c
++++ b/drivers/staging/axis-fifo/axis-fifo.c
+@@ -839,16 +839,8 @@ static int axis_fifo_probe(struct platform_device *pdev)
+ 	 * ----------------------------
+ 	 */
+ 
+-	/* get iospace for the device */
+-	r_mem = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+-	if (!r_mem) {
+-		dev_err(fifo->dt_device, "invalid address\n");
+-		rc = -ENODEV;
+-		goto err_initial;
+-	}
+-
+-	/* request physical memory */
+-	fifo->base_addr = devm_ioremap_resource(fifo->dt_device, r_mem);
++	/* get iospace for the device and request physical memory */
++	fifo->base_addr = devm_platform_get_and_ioremap_resource(pdev, 0, &r_mem);
+ 	if (IS_ERR(fifo->base_addr)) {
+ 		rc = PTR_ERR(fifo->base_addr);
+ 		goto err_initial;
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/prtracker.html
+2.39.0
+
