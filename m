@@ -1,87 +1,99 @@
-Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1066E567B
-	for <linux-staging@lists.linux.dev>; Tue,  4 Jul 2023 15:33:14 +0000 (UTC)
-Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-1b82bf265b2so26228805ad.0
-        for <linux-staging@lists.linux.dev>; Tue, 04 Jul 2023 08:33:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1688484794; x=1691076794;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=SCJF9OcKxcQRRkN3q/ruFVGi5lpCYguCeajY/bnYrzI=;
-        b=Qegsm2xADNZh+vRXK2cGwSSE3B1YCYiMXTRmSn7xMDd2Tlt6nkqF18ivN5gfUmIlw+
-         k24HDMJXcV13IoZpJZs9tuQpZ18Tz7yXPHQWhJabyBP75uG8lcYr9B+yv8SlDAqzdFOT
-         gUhpZOLojFGm1um+J5VuJUOKZfTuuntNoiZM2lKe7wfQqbymJGwSOIQuVhQJ2sLUtVuY
-         uLced89DmOlkOkbrLbiFbW+xDfqFp9v0+fIUq0PT6ElEZ1LujSQJ+yUWyXWMFfjjXSVr
-         xrrFyjyFWOTJ0Y7LkdvtoUV8cyan1DiaeBfoWY4qh59KiDDFtL2jOJHPFNsTlsMvA/1e
-         E8Fg==
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA9826FB7
+	for <linux-staging@lists.linux.dev>; Tue,  4 Jul 2023 16:23:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1688487826;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=2FITFWtbRXE3gky2EO4aMziTa3J/r1+wMO4yc2vs7Pc=;
+	b=cEmRqCFJky+Y1njU1kLwe5XQcJQIdkA0lRBWm709fwb139FCHQwkjr5D9gH5Mk2w8Mj4Sw
+	G2jxdpp8xXsHYmlySxmzPHo9O2rNrOZxbuvPoenihq3JpFM8gee4oJ+uSlLrNcB+phAvqB
+	vHIBlqGnGvBQgzlBV/nodS7oIWapKBc=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-141-0LrXuFtRO3-4cv9nL90dSw-1; Tue, 04 Jul 2023 12:23:43 -0400
+X-MC-Unique: 0LrXuFtRO3-4cv9nL90dSw-1
+Received: by mail-wm1-f69.google.com with SMTP id 5b1f17b1804b1-3fa8f8fb7b3so63631225e9.2
+        for <linux-staging@lists.linux.dev>; Tue, 04 Jul 2023 09:23:43 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1688484794; x=1691076794;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=SCJF9OcKxcQRRkN3q/ruFVGi5lpCYguCeajY/bnYrzI=;
-        b=Y8ZhHN2Ac2bp92V23ZuGu3s2H8b8hx3HvIXUbWCDenFKvYt8YgmVudfWhjT+dcWR2U
-         SVnOKktmZScjGxkgZQ6wP1sFme7lYpDM0l11i2yZVFS2aI9ClzGuly0U9m68lM5DTHLS
-         1cXci3WbSQI4A5aErnO/OuufL3RsbR1VtbKnV39R85xVxLBIVO+IvPUEIDJ990/CIe29
-         Sl8E7yf1pNJcXQVgpphs4vb8hvF/gJDiIinGkj8D8gHp2gl7Okn6HKCf6e3mb/kdtSgo
-         u3Eb6Vik0trGdDk8lTc1/rNAdqoYiC5azH1z4r1G4QdZNuh/XypczQQfgDZj7S7XTo5I
-         jUmw==
-X-Gm-Message-State: ABy/qLZRgWgOvnAV78l24z5ITNKZGgL0/SIxdYopo5aw4nDRzmLlxtyd
-	QmKi7pnT7KRFzXEjfoPGWPo=
-X-Google-Smtp-Source: APBJJlGIEOMOr/5lssWZoyi7OaWDUIFclDtyzbu/pokMuqCAwqVTA+MpycSkL2a8oNeVbnXgE2A/SA==
-X-Received: by 2002:a17:902:d902:b0:1b8:5b13:5958 with SMTP id c2-20020a170902d90200b001b85b135958mr10492147plz.31.1688484794338;
-        Tue, 04 Jul 2023 08:33:14 -0700 (PDT)
-Received: from fedora ([45.90.208.186])
-        by smtp.gmail.com with ESMTPSA id jw21-20020a170903279500b001b80ed7b66fsm14316071plb.94.2023.07.04.08.33.12
+        d=1e100.net; s=20221208; t=1688487822; x=1691079822;
+        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=2FITFWtbRXE3gky2EO4aMziTa3J/r1+wMO4yc2vs7Pc=;
+        b=Cyy+adOZZlu97eSwX1SD1iSUhSJJ7yE3Bj5e5iJJrlAjSRzofHplqFzM8GHrTBwIIk
+         VEm4VfkB2DU3faa4Tl6fjz4cGuL7sBAdJkYwN5zffzT1Rl0pFougFE5bFdR+KzrbkSf3
+         DrNv5xcv/ZXrSI2Q9KQsjzCKSjNgcSk3EY8Q+wgKwmqv6zIvowFfd/4QuZzYjUO5x35y
+         MjeG8qkjTBQfAo/EPaXYTG369O8v4fpTjqIuJMRlYAjCpnerm1qxJ5dLP50p0mYw24TA
+         +Fqy6z0OVy5RaAL76oFX1ELH27l7HipT6CV2BRz6WnjwyUnrEM+RaKDZneL5RWbTfR0W
+         o3kA==
+X-Gm-Message-State: AC+VfDxWxKb6LL5d4PWb0CAOfQ2BxI/t0PjMqJ8ES/7zrjwKlRYDy2iW
+	lNYeKaj6GdDnG8Bw4AcUx3qv13hU8Tb1GMiY2xc92WtlMx0w/fUJwErpW3VxDuA9VC5E2hbGWUp
+	FouED2EjEFrCb5cNhmKf/XWtLsw==
+X-Received: by 2002:a05:600c:2145:b0:3fb:415f:a85b with SMTP id v5-20020a05600c214500b003fb415fa85bmr18158823wml.3.1688487822321;
+        Tue, 04 Jul 2023 09:23:42 -0700 (PDT)
+X-Google-Smtp-Source: ACHHUZ7T04nL74CM9kmUBFWNxbGLn7ruUc6nb3zVFQfaw7cBAYtqvH64gACvFSpImO/HrduwXThnBg==
+X-Received: by 2002:a05:600c:2145:b0:3fb:415f:a85b with SMTP id v5-20020a05600c214500b003fb415fa85bmr18158793wml.3.1688487821958;
+        Tue, 04 Jul 2023 09:23:41 -0700 (PDT)
+Received: from localhost (205.pool92-176-231.dynamic.orange.es. [92.176.231.205])
+        by smtp.gmail.com with ESMTPSA id m21-20020a7bcb95000000b003faabd8fcb8sm24447459wmi.46.2023.07.04.09.23.41
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 04 Jul 2023 08:33:13 -0700 (PDT)
-Date: Tue, 4 Jul 2023 23:33:09 +0800
-From: Wang Jinchao <wangjinchao600@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Cc: wangjinchao600@gmail.com
-Subject: [PATCH] staging: rtl8192u: Fix keyidx assignment within if condition
-Message-ID: <ZKQ7tYa9I+PHgef/@fedora>
+        Tue, 04 Jul 2023 09:23:41 -0700 (PDT)
+From: Javier Martinez Canillas <javierm@redhat.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>, arnd@arndb.de, deller@gmx.de,
+ daniel@ffwll.ch, airlied@gmail.com
+Cc: linux-hyperv@vger.kernel.org, linux-efi@vger.kernel.org,
+ linux-ia64@vger.kernel.org, linux-sh@vger.kernel.org, Catalin Marinas
+ <catalin.marinas@arm.com>, linux-fbdev@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-mips@vger.kernel.org,
+ sparclinux@vger.kernel.org, linux-riscv@lists.infradead.org, Will Deacon
+ <will@kernel.org>, Ard Biesheuvel <ardb@kernel.org>,
+ linux-arch@vger.kernel.org, linux-hexagon@vger.kernel.org,
+ linux-staging@lists.linux.dev, Russell King <linux@armlinux.org.uk>,
+ linux-csky@vger.kernel.org, loongarch@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, Thomas
+ Zimmermann <tzimmermann@suse.de>, linux-alpha@vger.kernel.org,
+ linuxppc-dev@lists.ozlabs.org
+Subject: Re: [PATCH 01/12] efi: Do not include <linux/screen_info.h> from
+ EFI header
+In-Reply-To: <20230629121952.10559-2-tzimmermann@suse.de>
+References: <20230629121952.10559-1-tzimmermann@suse.de>
+ <20230629121952.10559-2-tzimmermann@suse.de>
+Date: Tue, 04 Jul 2023 18:23:40 +0200
+Message-ID: <87ilazlk6r.fsf@minerva.mail-host-address-is-not-set>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
 
-Refactor the if condition into nested conditionals to improve clarity.
-The condition is currently in the form of (E1 && E2 && E3), where the
-variable keyidx is assigned a value in E3.
+Thomas Zimmermann <tzimmermann@suse.de> writes:
 
-Signed-off-by: Wang Jinchao <wangjinchao600@gmail.com>
----
- drivers/staging/rtl8192u/ieee80211/ieee80211_rx.c | 10 ++++++----
- 1 file changed, 6 insertions(+), 4 deletions(-)
+> The header file <linux/efi.h> does not need anything from
+> <linux/screen_info.h>. Declare struct screen_info and remove
+> the include statements. Update a number of source files that
+> require struct screen_info's definition.
+>
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> Cc: Ard Biesheuvel <ardb@kernel.org>
+> Cc: Russell King <linux@armlinux.org.uk>
+> Cc: Catalin Marinas <catalin.marinas@arm.com>
+> Cc: Will Deacon <will@kernel.org>
+> ---
 
-diff --git a/drivers/staging/rtl8192u/ieee80211/ieee80211_rx.c b/drivers/staging/rtl8192u/ieee80211/ieee80211_rx.c
-index ca09367005e1..5da8ac401df0 100644
---- a/drivers/staging/rtl8192u/ieee80211/ieee80211_rx.c
-+++ b/drivers/staging/rtl8192u/ieee80211/ieee80211_rx.c
-@@ -1121,10 +1121,12 @@ int ieee80211_rx(struct ieee80211_device *ieee, struct sk_buff *skb,
- 
- 	/* skb: hdr + (possibly fragmented, possibly encrypted) payload */
- 
--	if (ieee->host_decrypt && (fc & IEEE80211_FCTL_WEP) &&
--	    (keyidx = ieee80211_rx_frame_decrypt(ieee, skb, crypt)) < 0) {
--		netdev_dbg(ieee->dev, "decrypt frame error\n");
--		goto rx_dropped;
-+	if (ieee->host_decrypt && (fc & IEEE80211_FCTL_WEP)) {
-+		keyidx = ieee80211_rx_frame_decrypt(ieee, skb, crypt);
-+		if (keyidx < 0) {
-+			netdev_dbg(ieee->dev, "decrypt frame error\n");
-+			goto rx_dropped;
-+		}
- 	}
- 
- 
+Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+
 -- 
-2.40.0
+Best regards,
+
+Javier Martinez Canillas
+Core Platforms
+Red Hat
 
