@@ -1,68 +1,68 @@
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D938A6FC2
-	for <linux-staging@lists.linux.dev>; Tue,  4 Jul 2023 16:25:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01C786FC2
+	for <linux-staging@lists.linux.dev>; Tue,  4 Jul 2023 16:26:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1688487944;
+	s=mimecast20190719; t=1688487995;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=M8/mkORscNjCU/dvtXt+o+8I4w7Qa8785g4rCe6dq88=;
-	b=hvTBd4/dcOgnInwoXXiTNcED5D6tWe1cril3AjgdSxq5v1+f1uQCTxq+h/PtzFG2y6Bzu5
-	xHM3LEZhYx1uxbdO85WODDGnuBzv+J+M6ZaaMzsH/Lc6Ez28QD++wAJKL4tAUZ8wXynlgj
-	gf45QZbfvxcfevj+TRxBhiq6GhqfaVU=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=3N/Gyf3beclIUSfPsZhAnE2wLloPptbf+HqX/lLqDWc=;
+	b=L4PRFPEXE9FaoZxdmr78ejtRcYtHg1xWmMcHZE/5eeSj9u7kI/PJoCp0M67KuYrhcXb68b
+	uU61kejfFF8VLVkJsZtBn4lNp9ObCkPazHBC90lc9o559bw5EiRaOxIsgkvyok9lYWnAl5
+	dcZqDAH1NNaAZu+q54mamEU8H5QaUfQ=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-18-LECQu1XPMV6O6OypFve7zw-1; Tue, 04 Jul 2023 12:25:41 -0400
-X-MC-Unique: LECQu1XPMV6O6OypFve7zw-1
-Received: by mail-wm1-f70.google.com with SMTP id 5b1f17b1804b1-3fb40ec952bso36420295e9.0
-        for <linux-staging@lists.linux.dev>; Tue, 04 Jul 2023 09:25:41 -0700 (PDT)
+ us-mta-592-oJT4LTJ6Pme6ZX_kPCwvTg-1; Tue, 04 Jul 2023 12:26:32 -0400
+X-MC-Unique: oJT4LTJ6Pme6ZX_kPCwvTg-1
+Received: by mail-wr1-f70.google.com with SMTP id ffacd0b85a97d-313ec030acbso2406071f8f.0
+        for <linux-staging@lists.linux.dev>; Tue, 04 Jul 2023 09:26:31 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1688487940; x=1691079940;
+        d=1e100.net; s=20221208; t=1688487991; x=1691079991;
         h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
          :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=M8/mkORscNjCU/dvtXt+o+8I4w7Qa8785g4rCe6dq88=;
-        b=D26CAQqOYvzEi6CAgChzboWesdkmG4XZTmbAU6HCC+LlyVZPuO9MDYwNQ7uCk+vz4g
-         edJLZyoeIO5tANJbn1qiccfz/JQUgHdX8vuqzrYpyq0SLu6vIFMzOikN8MR008MMqYnh
-         I7ITJ9YS0rHP8utV9NG9rfwNZIgaPLT4XyfYxp3gsz9tHXkYnMjc+74exTbfiPGON9Xl
-         1JpwxojxDGI5nLZh2RNJrQxRnbMsa37jIuFjL56rbvO5i0AbRPCTUfRbPOKC7/hd/Gg9
-         XLqvnoV2F7VQGMZ4J4kZ7wjD/o0nUTtBCHNcsR6nmIHHb3yBluHu80DKM7cYY1tYNU3q
-         sY2A==
-X-Gm-Message-State: AC+VfDwko4OA9TVBXKdok9AFASxqpfYj1MYiK6eUy8U8c9TFF25WPvyX
-	XqGDU9JjUvEvtRGzRKRRO3e4dmNtN3AbTJ/Fk0OOezkc0VuXDMbBA656l8ZlQNPv/MmzkyfpQ3+
-	MpeGbCtljPUc1CKMz6n25tHtupg==
-X-Received: by 2002:a05:600c:c1:b0:3fa:8cd8:9743 with SMTP id u1-20020a05600c00c100b003fa8cd89743mr12082780wmm.19.1688487940449;
-        Tue, 04 Jul 2023 09:25:40 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ5IB6++c8U11SK9oMV+tMdqHs9QUr8ub/i7nSM7HKLee5NlCRabAo+D01Z67Wv3BYjVWg90GQ==
-X-Received: by 2002:a05:600c:c1:b0:3fa:8cd8:9743 with SMTP id u1-20020a05600c00c100b003fa8cd89743mr12082767wmm.19.1688487940180;
-        Tue, 04 Jul 2023 09:25:40 -0700 (PDT)
+        bh=3N/Gyf3beclIUSfPsZhAnE2wLloPptbf+HqX/lLqDWc=;
+        b=PYBQQwDRhFMZhec/x0V8v2D1jZ0bvYi0buONrISkqAEuFH3FKhKBezfA9CMbBC949/
+         HwR8lUt8gIi+UyR/9FowJDW6pX8px2RMo7oDvI39WdnifSXHYur9DrZgAWhHbWOjD29S
+         VCWJE5m1xT1MZ60s+mFJ7dY97S4iOjP1+FD6r6eUNvXRVy5ghARXlvAwrW3TaZ1rlwQ7
+         beMx2jKq0dcD1gwWbkZ2/LpBRthx+j263vEth7X6uBnaZKkvJv9Srb7RwJHeFurTjUnv
+         iz6N+wfC3sgKW6n2bglwZGQLCEbo0gMOjnUbmeG35F12ScC14/zO6nq6x2U0gExA3ZwO
+         R5Sg==
+X-Gm-Message-State: AC+VfDwgG8xEcRXosemHq1GdYQCE6Y3R8L//8bo2S+0Bq/QDedqKQ+Z8
+	2L4zTZKTL1zE4NeuWd/SyGQb6KQ3Q9cEwijKD1B5irmhJ7lxKneENT227UvxPIdnTvQICLtKTjw
+	ks9oDCA0gjpvcbABrZ/l/pJB0Kw==
+X-Received: by 2002:a7b:ca57:0:b0:3fb:af9a:bf30 with SMTP id m23-20020a7bca57000000b003fbaf9abf30mr12688273wml.2.1688487991011;
+        Tue, 04 Jul 2023 09:26:31 -0700 (PDT)
+X-Google-Smtp-Source: ACHHUZ71ufTEe/wWv7h1ExOsJanD4siZOoua0ql6zTBm+MH4Z3jUb1+lMMqlPgaWI376xU4gg3rSqQ==
+X-Received: by 2002:a7b:ca57:0:b0:3fb:af9a:bf30 with SMTP id m23-20020a7bca57000000b003fbaf9abf30mr12688259wml.2.1688487990852;
+        Tue, 04 Jul 2023 09:26:30 -0700 (PDT)
 Received: from localhost (205.pool92-176-231.dynamic.orange.es. [92.176.231.205])
-        by smtp.gmail.com with ESMTPSA id r8-20020a056000014800b003143b032b7asm4333122wrx.116.2023.07.04.09.25.39
+        by smtp.gmail.com with ESMTPSA id s25-20020a7bc399000000b003fa96fe2bebsm25398819wmj.41.2023.07.04.09.26.30
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 04 Jul 2023 09:25:39 -0700 (PDT)
+        Tue, 04 Jul 2023 09:26:30 -0700 (PDT)
 From: Javier Martinez Canillas <javierm@redhat.com>
 To: Thomas Zimmermann <tzimmermann@suse.de>, arnd@arndb.de, deller@gmx.de,
  daniel@ffwll.ch, airlied@gmail.com
-Cc: linux-arch@vger.kernel.org, linux-hyperv@vger.kernel.org,
- linux-efi@vger.kernel.org, linux-ia64@vger.kernel.org, Thomas Zimmermann
- <tzimmermann@suse.de>, linux-sh@vger.kernel.org,
- linux-hexagon@vger.kernel.org, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org, linux-csky@vger.kernel.org,
- linux-mips@vger.kernel.org, linux-fbdev@vger.kernel.org,
- dri-devel@lists.freedesktop.org, loongarch@lists.linux.dev,
- linux-alpha@vger.kernel.org, sparclinux@vger.kernel.org,
- linux-riscv@lists.infradead.org, linuxppc-dev@lists.ozlabs.org, Sudip
- Mukherjee <sudipm.mukherjee@gmail.com>,
- linux-arm-kernel@lists.infradead.org, Teddy Wang
- <teddy.wang@siliconmotion.com>
-Subject: Re: [PATCH 02/12] fbdev/sm712fb: Do not include <linux/screen_info.h>
-In-Reply-To: <20230629121952.10559-3-tzimmermann@suse.de>
+Cc: linux-kernel@vger.kernel.org, linux-alpha@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-efi@vger.kernel.org,
+ linux-csky@vger.kernel.org, linux-hexagon@vger.kernel.org,
+ linux-ia64@vger.kernel.org, loongarch@lists.linux.dev,
+ linux-mips@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+ linux-riscv@lists.infradead.org, linux-sh@vger.kernel.org,
+ sparclinux@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-hyperv@vger.kernel.org, linux-fbdev@vger.kernel.org,
+ linux-staging@lists.linux.dev, linux-arch@vger.kernel.org, Thomas
+ Zimmermann <tzimmermann@suse.de>, Ard Biesheuvel <ardb@kernel.org>, Hans
+ de Goede <hdegoede@redhat.com>
+Subject: Re: [PATCH 03/12] sysfb: Do not include <linux/screen_info.h> from
+ sysfb header
+In-Reply-To: <20230629121952.10559-4-tzimmermann@suse.de>
 References: <20230629121952.10559-1-tzimmermann@suse.de>
- <20230629121952.10559-3-tzimmermann@suse.de>
-Date: Tue, 04 Jul 2023 18:25:39 +0200
-Message-ID: <87fs63lk3g.fsf@minerva.mail-host-address-is-not-set>
+ <20230629121952.10559-4-tzimmermann@suse.de>
+Date: Tue, 04 Jul 2023 18:26:29 +0200
+Message-ID: <87cz17lk22.fsf@minerva.mail-host-address-is-not-set>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -75,15 +75,14 @@ Content-Type: text/plain
 
 Thomas Zimmermann <tzimmermann@suse.de> writes:
 
-> Sm712fb's dependency on <linux/screen_info.h> is artificial in that
-> it only uses struct screen_info for its internals. Replace the use of
-> struct screen_info with a custom data structure and remove the include
-> of <linux/screen_info.h>.
+> The header file <linux/sysfb.h> does not need anything from
+> <linux/screen_info.h>. Declare struct screen_info and remove
+> the include statements.
 >
 > Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> Cc: Sudip Mukherjee <sudipm.mukherjee@gmail.com>
-> Cc: Teddy Wang <teddy.wang@siliconmotion.com>
-> Cc: Helge Deller <deller@gmx.de>
+> Cc: Ard Biesheuvel <ardb@kernel.org>
+> Cc: Hans de Goede <hdegoede@redhat.com>
+> Cc: Javier Martinez Canillas <javierm@redhat.com>
 > ---
 
 Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
