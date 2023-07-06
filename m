@@ -1,196 +1,208 @@
-Received: from pb-smtp2.pobox.com (pb-smtp2.pobox.com [64.147.108.71])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 519ED7F
-	for <linux-staging@lists.linux.dev>; Thu,  6 Jul 2023 02:24:18 +0000 (UTC)
-Received: from pb-smtp2.pobox.com (unknown [127.0.0.1])
-	by pb-smtp2.pobox.com (Postfix) with ESMTP id 9B0841A64EA;
-	Wed,  5 Jul 2023 22:23:29 -0400 (EDT)
-	(envelope-from tdavies@darkphysics.net)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed; d=pobox.com; h=date:from
-	:to:cc:subject:message-id:mime-version:content-type; s=sasl; bh=
-	/NVXDdfY8UM9GKXKRR9vkGmJTmSHNnysR/wQRuQoyGQ=; b=CvTMm/aw9FSyiZJP
-	1E2YrRILpes53hhoaSzqWPF4j/HeOtPmkaTDGDIPQ2baA505v7iUQ/31+SqXC6uT
-	iq3G/fA1vPMYAbgPl4EFqXFn2Bz1wtwdVqk0sEGz39pR3w1UKnE6837qDwWPoo3+
-	KnWPukcsb1mcsKq+cc2ErRHbU7I=
-Received: from pb-smtp2.nyi.icgroup.com (unknown [127.0.0.1])
-	by pb-smtp2.pobox.com (Postfix) with ESMTP id 91F171A64E9;
-	Wed,  5 Jul 2023 22:23:29 -0400 (EDT)
-	(envelope-from tdavies@darkphysics.net)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed; d=darkphysics.net;
- h=date:from:to:cc:subject:message-id:mime-version:content-type;
- s=2019-09.pbsmtp; bh=/NVXDdfY8UM9GKXKRR9vkGmJTmSHNnysR/wQRuQoyGQ=;
- b=uN1khaU5mAnetUva9eBxc7qYj+K2JglfmP1SaCRyHylasCZtPMWTAJk+6+A/H0nm+5A+qAtBLpCWb1iuWVjo9u5Guk2nm0rExa731P1ogrHQHq+nr557smp6edJRNRE7HXSOdEi90IHpGUkf0oS2DcrPNuHmcIjcQtqqUAOUq6g=
-Received: from kimchi.darkphysics (unknown [76.146.178.2])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by pb-smtp2.pobox.com (Postfix) with ESMTPSA id 6F7F71A64E6;
-	Wed,  5 Jul 2023 22:23:28 -0400 (EDT)
-	(envelope-from tdavies@darkphysics.net)
-Date: Wed, 5 Jul 2023 19:23:22 -0700
-From: Tree Davies <tdavies@darkphysics.net>
-To: gregkh@linuxfoundation.org, philipp.g.hortmann@gmail.com,
-	dan.carpenter@linaro.org
-Cc: tdavies@darkphysics.net, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] staging: rtl8192e: Rename variable bCurBW40MHz
-Message-ID: <ZKYlmrHHALEdyxS+@kimchi.darkphysics>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 607757E8
+	for <linux-staging@lists.linux.dev>; Thu,  6 Jul 2023 06:37:35 +0000 (UTC)
+Received: from ideasonboard.com (85-160-25-222.reb.o2.cz [85.160.25.222])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 29C9F6C8;
+	Thu,  6 Jul 2023 08:36:43 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1688625403;
+	bh=JRrYD6MtBi7eZGXcGqIvH6SldXNk+gs1Jwb+QXW1fWI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=NGJ+3hZUIP+3bF0CV5BoXevtWWCVkln41ko5euoVBLi4/oYypkexZQ17i0MSX9HeF
+	 khKKP9flITRyDjFNK9oIOcUa3lec/ZgPvqOXR5CNXmlnaFtRYVRptYS/RXayjSNu87
+	 k3Iti6FDuvBY2h0Fc7y4vzOkGpePGZv6h1HEGbXw=
+Date: Thu, 6 Jul 2023 08:37:24 +0200
+From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+To: Sakari Ailus <sakari.ailus@iki.fi>
+Cc: Hans de Goede <hdegoede@redhat.com>, 
+	Mauro Carvalho Chehab <mchehab@kernel.org>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
+	Andy Shevchenko <andy@kernel.org>, Kate Hsuan <hpa@redhat.com>, Tsuchiya Yuto <kitakar@gmail.com>, 
+	Yury Luneff <yury.lunev@gmail.com>, Nable <nable.maininbox@googlemail.com>, 
+	andrey.i.trufanov@gmail.com, Fabio Aiuto <fabioaiuto83@gmail.com>, 
+	Dan Scally <djrscally@gmail.com>, linux-media@vger.kernel.org, linux-staging@lists.linux.dev, 
+	Jacopo Mondi <jacopo@jmondi.org>
+Subject: Re: [PATCH v2 3/5] media: atomisp: gc0310: Turn into standard v4l2
+ sensor driver
+Message-ID: <4mdcekmadayjpvvcyjye5cmda52j75wqixw3c2erl3tz5sped7@ti5shg3puk4p>
+References: <20230525190100.130010-1-hdegoede@redhat.com>
+ <20230525190100.130010-4-hdegoede@redhat.com>
+ <ZKVz+u9kTdcpq87p@valkosipuli.retiisi.eu>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-X-Pobox-Relay-ID:
- 182E672A-1BA4-11EE-84E1-307A8E0A682E-45285927!pb-smtp2.pobox.com
+In-Reply-To: <ZKVz+u9kTdcpq87p@valkosipuli.retiisi.eu>
 
-This patch renames variable bCurBW40MHz to bcur_bw_40MHz
-to fix checkpatch warning Avoid CamelCase.
+Hi Sakari, Hans
 
-Signed-off-by: Tree Davies <tdavies@darkphysics.net>
----
- drivers/staging/rtl8192e/rtl819x_HT.h        |  2 +-
- drivers/staging/rtl8192e/rtl819x_HTProc.c    | 20 ++++++++++----------
- drivers/staging/rtl8192e/rtllib_softmac_wx.c |  4 ++--
- drivers/staging/rtl8192e/rtllib_tx.c         | 10 +++++-----
- 4 files changed, 18 insertions(+), 18 deletions(-)
+On Wed, Jul 05, 2023 at 01:45:30PM +0000, Sakari Ailus wrote:
+> Hi Hans,
+>
+> On Thu, May 25, 2023 at 09:00:58PM +0200, Hans de Goede wrote:
+> > Switch the atomisp-gc0310 driver to v4l2 async device registration.
+> >
+> > After this change this driver no longer depends on
+> > atomisp_gmin_platform and all atomisp-isms are gone.
+> >
+> > Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+> > ---
+> > Changes in v2:
+> > - Drop v4l2_get_acpi_sensor_info() call in this patch
+> > - Wait for fwnode graph endpoint so that the bridge's ACPI
+> >   parsing gets a chance to register the GPIO mappings
+> >   before probing the sensor
+> > - Switch to endpoint matching
+> > ---
+> >  .../media/atomisp/i2c/atomisp-gc0310.c        | 29 ++++++++++++-------
+> >  .../media/atomisp/pci/atomisp_csi2_bridge.c   |  2 ++
+> >  2 files changed, 20 insertions(+), 11 deletions(-)
+> >
+> > diff --git a/drivers/staging/media/atomisp/i2c/atomisp-gc0310.c b/drivers/staging/media/atomisp/i2c/atomisp-gc0310.c
+> > index 1829ba419e3e..9a11793f34f7 100644
+> > --- a/drivers/staging/media/atomisp/i2c/atomisp-gc0310.c
+> > +++ b/drivers/staging/media/atomisp/i2c/atomisp-gc0310.c
+> > @@ -29,8 +29,6 @@
+> >  #include <media/v4l2-ctrls.h>
+> >  #include <media/v4l2-device.h>
+> >
+> > -#include "../include/linux/atomisp_gmin_platform.h"
+> > -
+> >  #define GC0310_NATIVE_WIDTH			656
+> >  #define GC0310_NATIVE_HEIGHT			496
+> >
+> > @@ -85,6 +83,7 @@ struct gc0310_device {
+> >  	struct mutex input_lock;
+> >  	bool is_streaming;
+> >
+> > +	struct fwnode_handle *ep_fwnode;
+> >  	struct gpio_desc *reset;
+> >  	struct gpio_desc *powerdown;
+> >
+> > @@ -596,11 +595,11 @@ static void gc0310_remove(struct i2c_client *client)
+> >
+> >  	dev_dbg(&client->dev, "gc0310_remove...\n");
+> >
+> > -	atomisp_unregister_subdev(sd);
+> > -	v4l2_device_unregister_subdev(sd);
+> > +	v4l2_async_unregister_subdev(sd);
+> >  	media_entity_cleanup(&dev->sd.entity);
+> >  	v4l2_ctrl_handler_free(&dev->ctrls.handler);
+> >  	mutex_destroy(&dev->input_lock);
+> > +	fwnode_handle_put(dev->ep_fwnode);
+> >  	pm_runtime_disable(&client->dev);
+> >  }
+> >
+> > @@ -613,19 +612,27 @@ static int gc0310_probe(struct i2c_client *client)
+> >  	if (!dev)
+> >  		return -ENOMEM;
+> >
+> > -	ret = v4l2_get_acpi_sensor_info(&client->dev, NULL);
+> > -	if (ret)
+> > -		return ret;
+> > +	/*
+> > +	 * Sometimes the fwnode graph is initialized by the bridge driver.
+> > +	 * Bridge drivers doing this may also add GPIO mappings, wait for this.
+> > +	 */
+> > +	dev->ep_fwnode = fwnode_graph_get_next_endpoint(dev_fwnode(&client->dev), NULL);
+> > +	if (!dev->ep_fwnode)
+> > +		return dev_err_probe(&client->dev, -EPROBE_DEFER, "waiting for fwnode graph endpoint\n");
+> >
+> >  	dev->reset = devm_gpiod_get(&client->dev, "reset", GPIOD_OUT_HIGH);
+> > -	if (IS_ERR(dev->reset))
+> > +	if (IS_ERR(dev->reset)) {
+> > +		fwnode_handle_put(dev->ep_fwnode);
+> >  		return dev_err_probe(&client->dev, PTR_ERR(dev->reset),
+> >  				     "getting reset GPIO\n");
+> > +	}
+> >
+> >  	dev->powerdown = devm_gpiod_get(&client->dev, "powerdown", GPIOD_OUT_HIGH);
+> > -	if (IS_ERR(dev->powerdown))
+> > +	if (IS_ERR(dev->powerdown)) {
+> > +		fwnode_handle_put(dev->ep_fwnode);
+> >  		return dev_err_probe(&client->dev, PTR_ERR(dev->powerdown),
+> >  				     "getting powerdown GPIO\n");
+> > +	}
+> >
+> >  	mutex_init(&dev->input_lock);
+> >  	v4l2_i2c_subdev_init(&dev->sd, client, &gc0310_ops);
+> > @@ -645,6 +652,7 @@ static int gc0310_probe(struct i2c_client *client)
+> >  	dev->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE;
+> >  	dev->pad.flags = MEDIA_PAD_FL_SOURCE;
+> >  	dev->sd.entity.function = MEDIA_ENT_F_CAM_SENSOR;
+> > +	dev->sd.fwnode = dev->ep_fwnode;
+>
+> Same for this one: leave as-is --- the v4l2_async_register_subdev()
+> function will set the device fwnode for this.
+>
+> >
+> >  	ret = gc0310_init_controls(dev);
+> >  	if (ret) {
+> > @@ -658,8 +666,7 @@ static int gc0310_probe(struct i2c_client *client)
+> >  		return ret;
+> >  	}
+>
+> This driver should (as well as ov2680) check for the link frequencies. This
+> is an old sensor so if all users eventually use this via firmware that
+> lacks this information, there's little benefit for adding the code. But
+> otherwise this is seen as a bug.
+>
+> <URL:https://hverkuil.home.xs4all.nl/spec/driver-api/camera-sensor.html#handling-clocks
+>
+> The raw cameras should use pixel rate and blanking controls for configuring
+> the frame interval. This one uses s_frame_interval instead, and it may be
+> difficult to find the information needed for the pixel rate based API.
+>
+> Cc Jacopo.
 
-diff --git a/drivers/staging/rtl8192e/rtl819x_HT.h b/drivers/staging/rtl8192e/rtl819x_HT.h
-index 2bbd01048561..3bfb87bdb3fc 100644
---- a/drivers/staging/rtl8192e/rtl819x_HT.h
-+++ b/drivers/staging/rtl8192e/rtl819x_HT.h
-@@ -95,7 +95,7 @@ struct rt_hi_throughput {
- 	u8 enable_ht;
- 	u8 bCurrentHTSupport;
- 	u8 bRegBW40MHz;
--	u8 bCurBW40MHz;
-+	u8 bcur_bw_40MHz;
- 	u8 bRegShortGI40MHz;
- 	u8 bCurShortGI40MHz;
- 	u8 bRegShortGI20MHz;
-diff --git a/drivers/staging/rtl8192e/rtl819x_HTProc.c b/drivers/staging/rtl8192e/rtl819x_HTProc.c
-index f9fa3f2bb728..99b65b5b9ed9 100644
---- a/drivers/staging/rtl8192e/rtl819x_HTProc.c
-+++ b/drivers/staging/rtl8192e/rtl819x_HTProc.c
-@@ -107,8 +107,8 @@ static u16 HTMcsToDataRate(struct rtllib_device *ieee, u8 nMcsRate)
- {
- 	struct rt_hi_throughput *ht_info = ieee->ht_info;
- 
--	u8	is40MHz = (ht_info->bCurBW40MHz) ? 1 : 0;
--	u8	isShortGI = (ht_info->bCurBW40MHz) ?
-+	u8	is40MHz = (ht_info->bcur_bw_40MHz) ? 1 : 0;
-+	u8	isShortGI = (ht_info->bcur_bw_40MHz) ?
- 			    ((ht_info->bCurShortGI40MHz) ? 1 : 0) :
- 			    ((ht_info->bCurShortGI20MHz) ? 1 : 0);
- 	return MCS_DATA_RATE[is40MHz][isShortGI][(nMcsRate & 0x7f)];
-@@ -623,7 +623,7 @@ void HTInitializeHTInfo(struct rtllib_device *ieee)
- 
- 	ht_info->bCurrentHTSupport = false;
- 
--	ht_info->bCurBW40MHz = false;
-+	ht_info->bcur_bw_40MHz = false;
- 	ht_info->cur_tx_bw40mhz = false;
- 
- 	ht_info->bCurShortGI20MHz = false;
-@@ -778,7 +778,7 @@ void HTUseDefaultSetting(struct rtllib_device *ieee)
- 		ht_info->bCurrentHTSupport = true;
- 		ht_info->bCurSuppCCK = ht_info->bRegSuppCCK;
- 
--		ht_info->bCurBW40MHz = ht_info->bRegBW40MHz;
-+		ht_info->bcur_bw_40MHz = ht_info->bRegBW40MHz;
- 		ht_info->bCurShortGI20MHz = ht_info->bRegShortGI20MHz;
- 
- 		ht_info->bCurShortGI40MHz = ht_info->bRegShortGI40MHz;
-@@ -821,7 +821,7 @@ static void HTSetConnectBwModeCallback(struct rtllib_device *ieee)
- {
- 	struct rt_hi_throughput *ht_info = ieee->ht_info;
- 
--	if (ht_info->bCurBW40MHz) {
-+	if (ht_info->bcur_bw_40MHz) {
- 		if (ht_info->CurSTAExtChnlOffset == HT_EXTCHNL_OFFSET_UPPER)
- 			ieee->set_chan(ieee->dev,
- 				       ieee->current_network.channel + 2);
-@@ -866,19 +866,19 @@ void HTSetConnectBwMode(struct rtllib_device *ieee,
- 			Offset = HT_EXTCHNL_OFFSET_NO_EXT;
- 		if (Offset == HT_EXTCHNL_OFFSET_UPPER ||
- 		    Offset == HT_EXTCHNL_OFFSET_LOWER) {
--			ht_info->bCurBW40MHz = true;
-+			ht_info->bcur_bw_40MHz = true;
- 			ht_info->CurSTAExtChnlOffset = Offset;
- 		} else {
--			ht_info->bCurBW40MHz = false;
-+			ht_info->bcur_bw_40MHz = false;
- 			ht_info->CurSTAExtChnlOffset = HT_EXTCHNL_OFFSET_NO_EXT;
- 		}
- 	} else {
--		ht_info->bCurBW40MHz = false;
-+		ht_info->bcur_bw_40MHz = false;
- 		ht_info->CurSTAExtChnlOffset = HT_EXTCHNL_OFFSET_NO_EXT;
- 	}
- 
--	netdev_dbg(ieee->dev, "%s():ht_info->bCurBW40MHz:%x\n", __func__,
--		   ht_info->bCurBW40MHz);
-+	netdev_dbg(ieee->dev, "%s():ht_info->bcur_bw_40MHz:%x\n", __func__,
-+		   ht_info->bcur_bw_40MHz);
- 
- 	ht_info->sw_bw_in_progress = true;
- 
-diff --git a/drivers/staging/rtl8192e/rtllib_softmac_wx.c b/drivers/staging/rtl8192e/rtllib_softmac_wx.c
-index 2de63d1f2009..59ea210e8bb1 100644
---- a/drivers/staging/rtl8192e/rtllib_softmac_wx.c
-+++ b/drivers/staging/rtl8192e/rtllib_softmac_wx.c
-@@ -331,10 +331,10 @@ void rtllib_wx_sync_scan_wq(void *data)
- 	ieee->ScanOperationBackupHandler(ieee->dev, SCAN_OPT_BACKUP);
- 
- 	if (ieee->ht_info->bCurrentHTSupport && ieee->ht_info->enable_ht &&
--	    ieee->ht_info->bCurBW40MHz) {
-+	    ieee->ht_info->bcur_bw_40MHz) {
- 		b40M = 1;
- 		chan_offset = ieee->ht_info->CurSTAExtChnlOffset;
--		bandwidth = (enum ht_channel_width)ieee->ht_info->bCurBW40MHz;
-+		bandwidth = (enum ht_channel_width)ieee->ht_info->bcur_bw_40MHz;
- 		ieee->set_bw_mode_handler(ieee->dev, HT_CHANNEL_WIDTH_20,
- 				       HT_EXTCHNL_OFFSET_NO_EXT);
- 	}
-diff --git a/drivers/staging/rtl8192e/rtllib_tx.c b/drivers/staging/rtl8192e/rtllib_tx.c
-index ec038ef806c3..c9bb350d8881 100644
---- a/drivers/staging/rtl8192e/rtllib_tx.c
-+++ b/drivers/staging/rtl8192e/rtllib_tx.c
-@@ -362,9 +362,9 @@ static void rtllib_query_HTCapShortGI(struct rtllib_device *ieee,
- 		return;
- 	}
- 
--	if (ht_info->bCurBW40MHz && ht_info->bCurShortGI40MHz)
-+	if (ht_info->bcur_bw_40MHz && ht_info->bCurShortGI40MHz)
- 		tcb_desc->bUseShortGI = true;
--	else if (!ht_info->bCurBW40MHz && ht_info->bCurShortGI20MHz)
-+	else if (!ht_info->bcur_bw_40MHz && ht_info->bCurShortGI20MHz)
- 		tcb_desc->bUseShortGI = true;
- }
- 
-@@ -383,7 +383,7 @@ static void rtllib_query_BandwidthMode(struct rtllib_device *ieee,
- 
- 	if ((tcb_desc->data_rate & 0x80) == 0)
- 		return;
--	if (ht_info->bCurBW40MHz && ht_info->cur_tx_bw40mhz &&
-+	if (ht_info->bcur_bw_40MHz && ht_info->cur_tx_bw40mhz &&
- 	    !ieee->bandwidth_auto_switch.bforced_tx20Mhz)
- 		tcb_desc->bPacketBW = true;
- }
-@@ -441,9 +441,9 @@ static void rtllib_query_protectionmode(struct rtllib_device *ieee,
- 		if (ht_info->bCurrentHTSupport  && ht_info->enable_ht) {
- 			u8 HTOpMode = ht_info->current_op_mode;
- 
--			if ((ht_info->bCurBW40MHz && (HTOpMode == 2 ||
-+			if ((ht_info->bcur_bw_40MHz && (HTOpMode == 2 ||
- 						      HTOpMode == 3)) ||
--			     (!ht_info->bCurBW40MHz && HTOpMode == 3)) {
-+			     (!ht_info->bcur_bw_40MHz && HTOpMode == 3)) {
- 				tcb_desc->rts_rate = MGN_24M;
- 				tcb_desc->bRTSEnable = true;
- 				break;
--- 
-2.30.2
+Thanks
 
+If you intend to use these devices with libcamera be aware we mandate
+support for the following controls
+
+V4L2_CID_ANALOGUE_GAIN
+V4L2_CID_EXPOSURE
+V4L2_CID_HBLANK
+V4L2_CID_PIXEL_RATE
+V4L2_CID_VBLANK
+
+https://git.libcamera.org/libcamera/libcamera.git/tree/Documentation/sensor_driver_requirements.rst#n20
+
+Do you think it would be possible to at least expose them read-only ?
+This -should- be ok for libcamera. Your s_frame_interval() calls then
+need to update the value of the controls.
+
+Thanks
+   j
+
+>
+> >
+> > -	ret = atomisp_register_sensor_no_gmin(&dev->sd, 1, ATOMISP_INPUT_FORMAT_RAW_8,
+> > -					      atomisp_bayer_order_grbg);
+> > +	ret = v4l2_async_register_subdev_sensor(&dev->sd);
+> >  	if (ret) {
+> >  		gc0310_remove(client);
+> >  		return ret;
+> > diff --git a/drivers/staging/media/atomisp/pci/atomisp_csi2_bridge.c b/drivers/staging/media/atomisp/pci/atomisp_csi2_bridge.c
+> > index d7d9cac2c3b8..5268a0d25051 100644
+> > --- a/drivers/staging/media/atomisp/pci/atomisp_csi2_bridge.c
+> > +++ b/drivers/staging/media/atomisp/pci/atomisp_csi2_bridge.c
+> > @@ -89,6 +89,8 @@ static const guid_t atomisp_dsm_guid =
+> >   * power-management and with v4l2-async probing.
+> >   */
+> >  static const struct atomisp_csi2_sensor_config supported_sensors[] = {
+> > +	/* GalaxyCore GC0310 */
+> > +	{ "INT0310", 1 },
+> >  	/* Omnivision OV2680 */
+> >  	{ "OVTI2680", 1 },
+> >  };
+>
+> --
+> Kind regards,
+>
+> Sakari Ailus
