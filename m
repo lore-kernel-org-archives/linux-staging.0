@@ -1,70 +1,40 @@
-Received: from lahtoruutu.iki.fi (lahtoruutu.iki.fi [185.185.170.37])
+Received: from pb-smtp1.pobox.com (pb-smtp1.pobox.com [64.147.108.70])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4823FD2FC
-	for <linux-staging@lists.linux.dev>; Wed,  5 Jul 2023 13:45:33 +0000 (UTC)
-Received: from hillosipuli.retiisi.eu (82-181-192-243.bb.dnainternet.fi [82.181.192.243])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 649667F
+	for <linux-staging@lists.linux.dev>; Thu,  6 Jul 2023 02:03:17 +0000 (UTC)
+Received: from pb-smtp1.pobox.com (unknown [127.0.0.1])
+	by pb-smtp1.pobox.com (Postfix) with ESMTP id A38C918D092;
+	Wed,  5 Jul 2023 22:00:08 -0400 (EDT)
+	(envelope-from tdavies@darkphysics.net)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed; d=pobox.com; h=date:from
+	:to:cc:subject:message-id:mime-version:content-type; s=sasl; bh=
+	v3tlSDOLl+PJCTa5s1wtQ0rrm99f1OUsOyDNa/2p6gs=; b=SV0sfyWKKYRMVcsv
+	iqIX6uui+4nbPJQAl2Plk32fzMyFYTBn/BWa1zo40Fn8iI7g0E+AtrGxv+6NJ7X4
+	lnEuaidNSL7gh4Y21lQ2uI6PkzuJPuP2pELmWnAf5SQMsGobyVfyO4uf835mrhmh
+	sxsUzzqI6poRiRRCiq7X6oLVTnc=
+Received: from pb-smtp1.nyi.icgroup.com (unknown [127.0.0.1])
+	by pb-smtp1.pobox.com (Postfix) with ESMTP id 83F9518D091;
+	Wed,  5 Jul 2023 22:00:08 -0400 (EDT)
+	(envelope-from tdavies@darkphysics.net)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed; d=darkphysics.net;
+ h=date:from:to:cc:subject:message-id:mime-version:content-type;
+ s=2019-09.pbsmtp; bh=v3tlSDOLl+PJCTa5s1wtQ0rrm99f1OUsOyDNa/2p6gs=;
+ b=GxbOfB300L4K+p/zWDpfBQlNmkm+0CVSePchc0kxb53gWJL4mrIBFjBtsUuTZzDFbefgjn24cKVP0/HjFR8iTv37FXP/8sefO2NH0c6NPvrZeqRio8srhni6VFMSBVWWbYvJwxD/eM+g7S7l+3PfdA4qsF13687t8mBZRIpYtRw=
+Received: from kimchi.darkphysics (unknown [76.146.178.2])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	(Authenticated sender: sailus)
-	by lahtoruutu.iki.fi (Postfix) with ESMTPSA id 4Qx1Bg0f6dz49Q6j;
-	Wed,  5 Jul 2023 16:45:30 +0300 (EEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu;
-	t=1688564731;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=puj1uIPdJ4ZCoFcXtZAIsv9hM1yeoJmRMEkHXSHwEKU=;
-	b=gYSqL8awrO/byRxEm9rm3TurunGaLlZuELtQ6MEJY2JGMN2fEdhlG+BWH/qCVOxo2wjmyV
-	EBHaLlQb7KHAH4W0V9MqNZU7s6jTBnm3DAysK/8PbYV2LzOyBD3kcP/B7ZGegRdTowCgiN
-	5pmtb7647tDiofFOwxajyBZ3bEMbgWDcNYkY2KxfdigxspPqv0ZLS9JXtGIIT1pfQSHpUR
-	8SGyfcMsGnUb1wpgGbMiNIojhmky6mXLSUGWDgRz5VTnmCuUm+xRkBZiLGuEZOiS1K/qvz
-	hBZhsBqB781ymE5PgOy25oc3yb/bpE7aKGLX46taaF9tNI+LY2jMEcLQ12qqSw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
-	s=lahtoruutu; t=1688564731;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=puj1uIPdJ4ZCoFcXtZAIsv9hM1yeoJmRMEkHXSHwEKU=;
-	b=e0g3GETquS4TaLeXPhG0mtteycGciR7gRB5I1ihOKZzEqRlESiyO4vOOjrQUEcQd9aA9Qk
-	+nSaX6i7cPWrGXSZN4NF5IMgxCk0OyqUNYimEd/P/ODbHNoCxohA3tV4IPqcRwSMyzBa3A
-	KLZLpPakHtBFH3cQmXXq8ykPoaT6J/MVmY+6Qop9hFHwvgF/npwWqiCH8x/z5l6At/zHEf
-	91eDOeea0ecTogwrBN+f0RZwSf93rEkQhULjMT3PT1YofWp70vnoabAnOgjXnS92M8QGgh
-	MwZu/iMUqCIXQcrCp1cNkAHjMmTeTZcZvpG57CGHqC9JDhnD4cSVtsQeu5h2wQ==
-ARC-Authentication-Results: i=1;
-	ORIGINATING;
-	auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
-ARC-Seal: i=1; s=lahtoruutu; d=iki.fi; t=1688564731; a=rsa-sha256;
-	cv=none;
-	b=IKAAETH0Zcsq1LyirDrkBorcrsnlAKTz5HFX7eXeugVsm7foZKBwiNrBbKslH7m2YZc2Eb
-	wh5J7wjXKhGBO/WaF1vthB4gM+8yS7srb+V/0uX+/1irNDLFmC9t/0nnCy0xSSTdWPRaua
-	M5BIpiYOsc9/gcCDcxCnEh5A5puL3p8k5BazPm3Fb+dwN9pLlWooRbpxN+mZG5jZzyYEfc
-	+ooacFU6nEwA6yxS4qLM5wqjMrxkDkiXTfepZhKXoYvuqn3bqU80/mAx904Ons9JBh8rDl
-	ilIUqfGf2Wz2Y7INVg45fJ6OdL9Gol8zr3+ZMIAGqiaOHriuZxktzu+dS35pzQ==
-Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 95EEF634C98;
-	Wed,  5 Jul 2023 16:45:30 +0300 (EEST)
-Date: Wed, 5 Jul 2023 13:45:30 +0000
-From: Sakari Ailus <sakari.ailus@iki.fi>
-To: Hans de Goede <hdegoede@redhat.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Andy Shevchenko <andy@kernel.org>, Kate Hsuan <hpa@redhat.com>,
-	Tsuchiya Yuto <kitakar@gmail.com>,
-	Yury Luneff <yury.lunev@gmail.com>,
-	Nable <nable.maininbox@googlemail.com>, andrey.i.trufanov@gmail.com,
-	Fabio Aiuto <fabioaiuto83@gmail.com>,
-	Dan Scally <djrscally@gmail.com>, linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev, Jacopo Mondi <jacopo@jmondi.org>
-Subject: Re: [PATCH v2 3/5] media: atomisp: gc0310: Turn into standard v4l2
- sensor driver
-Message-ID: <ZKVz+u9kTdcpq87p@valkosipuli.retiisi.eu>
-References: <20230525190100.130010-1-hdegoede@redhat.com>
- <20230525190100.130010-4-hdegoede@redhat.com>
+	by pb-smtp1.pobox.com (Postfix) with ESMTPSA id EB3F818D090;
+	Wed,  5 Jul 2023 22:00:06 -0400 (EDT)
+	(envelope-from tdavies@darkphysics.net)
+Date: Wed, 5 Jul 2023 18:59:59 -0700
+From: Tree Davies <tdavies@darkphysics.net>
+To: gregkh@linuxfoundation.org, philipp.g.hortmann@gmail.com,
+	dan.carpenter@linaro.org
+Cc: tdavies@darkphysics.net, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] staging: rtl8192e: Rename variable bCurrentHTSupport
+Message-ID: <ZKYgH/BvkE9bdcPm@kimchi.darkphysics>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -73,148 +43,313 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230525190100.130010-4-hdegoede@redhat.com>
+X-Pobox-Relay-ID:
+ D4D2A322-1BA0-11EE-8866-C65BE52EC81B-45285927!pb-smtp1.pobox.com
 
-Hi Hans,
+This patch renames variable bCurrentHTSupport to bcurrent_ht_support
+to fix checkpatch warning Avoid CamelCase.
 
-On Thu, May 25, 2023 at 09:00:58PM +0200, Hans de Goede wrote:
-> Switch the atomisp-gc0310 driver to v4l2 async device registration.
-> 
-> After this change this driver no longer depends on
-> atomisp_gmin_platform and all atomisp-isms are gone.
-> 
-> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
-> ---
-> Changes in v2:
-> - Drop v4l2_get_acpi_sensor_info() call in this patch
-> - Wait for fwnode graph endpoint so that the bridge's ACPI
->   parsing gets a chance to register the GPIO mappings
->   before probing the sensor
-> - Switch to endpoint matching
-> ---
->  .../media/atomisp/i2c/atomisp-gc0310.c        | 29 ++++++++++++-------
->  .../media/atomisp/pci/atomisp_csi2_bridge.c   |  2 ++
->  2 files changed, 20 insertions(+), 11 deletions(-)
-> 
-> diff --git a/drivers/staging/media/atomisp/i2c/atomisp-gc0310.c b/drivers/staging/media/atomisp/i2c/atomisp-gc0310.c
-> index 1829ba419e3e..9a11793f34f7 100644
-> --- a/drivers/staging/media/atomisp/i2c/atomisp-gc0310.c
-> +++ b/drivers/staging/media/atomisp/i2c/atomisp-gc0310.c
-> @@ -29,8 +29,6 @@
->  #include <media/v4l2-ctrls.h>
->  #include <media/v4l2-device.h>
->  
-> -#include "../include/linux/atomisp_gmin_platform.h"
-> -
->  #define GC0310_NATIVE_WIDTH			656
->  #define GC0310_NATIVE_HEIGHT			496
->  
-> @@ -85,6 +83,7 @@ struct gc0310_device {
->  	struct mutex input_lock;
->  	bool is_streaming;
->  
-> +	struct fwnode_handle *ep_fwnode;
->  	struct gpio_desc *reset;
->  	struct gpio_desc *powerdown;
->  
-> @@ -596,11 +595,11 @@ static void gc0310_remove(struct i2c_client *client)
->  
->  	dev_dbg(&client->dev, "gc0310_remove...\n");
->  
-> -	atomisp_unregister_subdev(sd);
-> -	v4l2_device_unregister_subdev(sd);
-> +	v4l2_async_unregister_subdev(sd);
->  	media_entity_cleanup(&dev->sd.entity);
->  	v4l2_ctrl_handler_free(&dev->ctrls.handler);
->  	mutex_destroy(&dev->input_lock);
-> +	fwnode_handle_put(dev->ep_fwnode);
->  	pm_runtime_disable(&client->dev);
->  }
->  
-> @@ -613,19 +612,27 @@ static int gc0310_probe(struct i2c_client *client)
->  	if (!dev)
->  		return -ENOMEM;
->  
-> -	ret = v4l2_get_acpi_sensor_info(&client->dev, NULL);
-> -	if (ret)
-> -		return ret;
-> +	/*
-> +	 * Sometimes the fwnode graph is initialized by the bridge driver.
-> +	 * Bridge drivers doing this may also add GPIO mappings, wait for this.
-> +	 */
-> +	dev->ep_fwnode = fwnode_graph_get_next_endpoint(dev_fwnode(&client->dev), NULL);
-> +	if (!dev->ep_fwnode)
-> +		return dev_err_probe(&client->dev, -EPROBE_DEFER, "waiting for fwnode graph endpoint\n");
->  
->  	dev->reset = devm_gpiod_get(&client->dev, "reset", GPIOD_OUT_HIGH);
-> -	if (IS_ERR(dev->reset))
-> +	if (IS_ERR(dev->reset)) {
-> +		fwnode_handle_put(dev->ep_fwnode);
->  		return dev_err_probe(&client->dev, PTR_ERR(dev->reset),
->  				     "getting reset GPIO\n");
-> +	}
->  
->  	dev->powerdown = devm_gpiod_get(&client->dev, "powerdown", GPIOD_OUT_HIGH);
-> -	if (IS_ERR(dev->powerdown))
-> +	if (IS_ERR(dev->powerdown)) {
-> +		fwnode_handle_put(dev->ep_fwnode);
->  		return dev_err_probe(&client->dev, PTR_ERR(dev->powerdown),
->  				     "getting powerdown GPIO\n");
-> +	}
->  
->  	mutex_init(&dev->input_lock);
->  	v4l2_i2c_subdev_init(&dev->sd, client, &gc0310_ops);
-> @@ -645,6 +652,7 @@ static int gc0310_probe(struct i2c_client *client)
->  	dev->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE;
->  	dev->pad.flags = MEDIA_PAD_FL_SOURCE;
->  	dev->sd.entity.function = MEDIA_ENT_F_CAM_SENSOR;
-> +	dev->sd.fwnode = dev->ep_fwnode;
+Signed-off-by: Tree Davies <tdavies@darkphysics.net>
+---
+ drivers/staging/rtl8192e/rtl8192e/rtl_core.c |  2 +-
+ drivers/staging/rtl8192e/rtl8192e/rtl_wx.c   |  2 +-
+ drivers/staging/rtl8192e/rtl819x_BAProc.c    | 12 ++++++------
+ drivers/staging/rtl8192e/rtl819x_HT.h        |  2 +-
+ drivers/staging/rtl8192e/rtl819x_HTProc.c    | 16 ++++++++--------
+ drivers/staging/rtl8192e/rtllib_softmac.c    | 16 ++++++++--------
+ drivers/staging/rtl8192e/rtllib_softmac_wx.c |  2 +-
+ drivers/staging/rtl8192e/rtllib_tx.c         |  8 ++++----
+ 8 files changed, 30 insertions(+), 30 deletions(-)
 
-Same for this one: leave as-is --- the v4l2_async_register_subdev()
-function will set the device fwnode for this.
-
->  
->  	ret = gc0310_init_controls(dev);
->  	if (ret) {
-> @@ -658,8 +666,7 @@ static int gc0310_probe(struct i2c_client *client)
->  		return ret;
->  	}
-
-This driver should (as well as ov2680) check for the link frequencies. This
-is an old sensor so if all users eventually use this via firmware that
-lacks this information, there's little benefit for adding the code. But
-otherwise this is seen as a bug.
-
-<URL:https://hverkuil.home.xs4all.nl/spec/driver-api/camera-sensor.html#handling-clocks
-
-The raw cameras should use pixel rate and blanking controls for configuring
-the frame interval. This one uses s_frame_interval instead, and it may be
-difficult to find the information needed for the pixel rate based API.
-
-Cc Jacopo.
-
->  
-> -	ret = atomisp_register_sensor_no_gmin(&dev->sd, 1, ATOMISP_INPUT_FORMAT_RAW_8,
-> -					      atomisp_bayer_order_grbg);
-> +	ret = v4l2_async_register_subdev_sensor(&dev->sd);
->  	if (ret) {
->  		gc0310_remove(client);
->  		return ret;
-> diff --git a/drivers/staging/media/atomisp/pci/atomisp_csi2_bridge.c b/drivers/staging/media/atomisp/pci/atomisp_csi2_bridge.c
-> index d7d9cac2c3b8..5268a0d25051 100644
-> --- a/drivers/staging/media/atomisp/pci/atomisp_csi2_bridge.c
-> +++ b/drivers/staging/media/atomisp/pci/atomisp_csi2_bridge.c
-> @@ -89,6 +89,8 @@ static const guid_t atomisp_dsm_guid =
->   * power-management and with v4l2-async probing.
->   */
->  static const struct atomisp_csi2_sensor_config supported_sensors[] = {
-> +	/* GalaxyCore GC0310 */
-> +	{ "INT0310", 1 },
->  	/* Omnivision OV2680 */
->  	{ "OVTI2680", 1 },
->  };
-
+diff --git a/drivers/staging/rtl8192e/rtl8192e/rtl_core.c b/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
+index 4447489a16ea..8b784af7da3a 100644
+--- a/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
++++ b/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
+@@ -313,7 +313,7 @@ static void _rtl92e_update_beacon(void *data)
+ 	struct rtllib_device *ieee = priv->rtllib;
+ 	struct rtllib_network *net = &ieee->current_network;
+ 
+-	if (ieee->ht_info->bCurrentHTSupport)
++	if (ieee->ht_info->bcurrent_ht_support)
+ 		HT_update_self_and_peer_setting(ieee, net);
+ 	ieee->ht_info->current_rt2rt_long_slot_time = net->bssht.bd_rt2rt_long_slot_time;
+ 	ieee->ht_info->RT2RT_HT_Mode = net->bssht.rt2rt_ht_mode;
+diff --git a/drivers/staging/rtl8192e/rtl8192e/rtl_wx.c b/drivers/staging/rtl8192e/rtl8192e/rtl_wx.c
+index 88975dc804c6..b2a4c02a41b5 100644
+--- a/drivers/staging/rtl8192e/rtl8192e/rtl_wx.c
++++ b/drivers/staging/rtl8192e/rtl8192e/rtl_wx.c
+@@ -866,7 +866,7 @@ static int _rtl92e_wx_set_encode_ext(struct net_device *dev,
+ 					 key, 0);
+ 		} else {
+ 			if ((ieee->pairwise_key_type == KEY_TYPE_CCMP) &&
+-			     ieee->ht_info->bCurrentHTSupport)
++			     ieee->ht_info->bcurrent_ht_support)
+ 				rtl92e_writeb(dev, 0x173, 1);
+ 			rtl92e_set_key(dev, 4, idx, alg,
+ 				       (u8 *)ieee->ap_mac_addr, 0, key);
+diff --git a/drivers/staging/rtl8192e/rtl819x_BAProc.c b/drivers/staging/rtl8192e/rtl819x_BAProc.c
+index acc19514bca6..d9d0476bfd0f 100644
+--- a/drivers/staging/rtl8192e/rtl819x_BAProc.c
++++ b/drivers/staging/rtl8192e/rtl819x_BAProc.c
+@@ -244,13 +244,13 @@ int rtllib_rx_ADDBAReq(struct rtllib_device *ieee, struct sk_buff *skb)
+ 	pBaStartSeqCtrl = (union sequence_control *)(req + 7);
+ 
+ 	if (!ieee->current_network.qos_data.active ||
+-	    !ieee->ht_info->bCurrentHTSupport ||
++	    !ieee->ht_info->bcurrent_ht_support ||
+ 	    (ieee->ht_info->iot_action & HT_IOT_ACT_REJECT_ADDBA_REQ)) {
+ 		rc = ADDBA_STATUS_REFUSED;
+ 		netdev_warn(ieee->dev,
+ 			    "Failed to reply on ADDBA_REQ as some capability is not ready(%d, %d)\n",
+ 			    ieee->current_network.qos_data.active,
+-			    ieee->ht_info->bCurrentHTSupport);
++			    ieee->ht_info->bcurrent_ht_support);
+ 		goto OnADDBAReq_Fail;
+ 	}
+ 	if (!GetTs(ieee, (struct ts_common_info **)&pTS, dst,
+@@ -326,12 +326,12 @@ int rtllib_rx_ADDBARsp(struct rtllib_device *ieee, struct sk_buff *skb)
+ 	pBaTimeoutVal = (u16 *)(tag + 7);
+ 
+ 	if (!ieee->current_network.qos_data.active ||
+-	    !ieee->ht_info->bCurrentHTSupport ||
++	    !ieee->ht_info->bcurrent_ht_support ||
+ 	    !ieee->ht_info->bCurrentAMPDUEnable) {
+ 		netdev_warn(ieee->dev,
+ 			    "reject to ADDBA_RSP as some capability is not ready(%d, %d, %d)\n",
+ 			    ieee->current_network.qos_data.active,
+-			    ieee->ht_info->bCurrentHTSupport,
++			    ieee->ht_info->bcurrent_ht_support,
+ 			    ieee->ht_info->bCurrentAMPDUEnable);
+ 		ReasonCode = DELBA_REASON_UNKNOWN_BA;
+ 		goto OnADDBARsp_Reject;
+@@ -413,11 +413,11 @@ int rtllib_rx_DELBA(struct rtllib_device *ieee, struct sk_buff *skb)
+ 	}
+ 
+ 	if (!ieee->current_network.qos_data.active ||
+-	    !ieee->ht_info->bCurrentHTSupport) {
++	    !ieee->ht_info->bcurrent_ht_support) {
+ 		netdev_warn(ieee->dev,
+ 			    "received DELBA while QOS or HT is not supported(%d, %d)\n",
+ 			    ieee->current_network. qos_data.active,
+-			    ieee->ht_info->bCurrentHTSupport);
++			    ieee->ht_info->bcurrent_ht_support);
+ 		return -1;
+ 	}
+ 
+diff --git a/drivers/staging/rtl8192e/rtl819x_HT.h b/drivers/staging/rtl8192e/rtl819x_HT.h
+index 2bbd01048561..4ac66835f3d3 100644
+--- a/drivers/staging/rtl8192e/rtl819x_HT.h
++++ b/drivers/staging/rtl8192e/rtl819x_HT.h
+@@ -93,7 +93,7 @@ enum ht_aggre_mode {
+ 
+ struct rt_hi_throughput {
+ 	u8 enable_ht;
+-	u8 bCurrentHTSupport;
++	u8 bcurrent_ht_support;
+ 	u8 bRegBW40MHz;
+ 	u8 bCurBW40MHz;
+ 	u8 bRegShortGI40MHz;
+diff --git a/drivers/staging/rtl8192e/rtl819x_HTProc.c b/drivers/staging/rtl8192e/rtl819x_HTProc.c
+index f9fa3f2bb728..86cef86ea9c8 100644
+--- a/drivers/staging/rtl8192e/rtl819x_HTProc.c
++++ b/drivers/staging/rtl8192e/rtl819x_HTProc.c
+@@ -516,7 +516,7 @@ void HTOnAssocRsp(struct rtllib_device *ieee)
+ 	static const u8 EWC11NHTCap[] = { 0x00, 0x90, 0x4c, 0x33 };
+ 	static const u8 EWC11NHTInfo[] = { 0x00, 0x90, 0x4c, 0x34 };
+ 
+-	if (!ht_info->bCurrentHTSupport) {
++	if (!ht_info->bcurrent_ht_support) {
+ 		netdev_warn(ieee->dev, "%s(): HT_DISABLE\n", __func__);
+ 		return;
+ 	}
+@@ -621,7 +621,7 @@ void HTInitializeHTInfo(struct rtllib_device *ieee)
+ {
+ 	struct rt_hi_throughput *ht_info = ieee->ht_info;
+ 
+-	ht_info->bCurrentHTSupport = false;
++	ht_info->bcurrent_ht_support = false;
+ 
+ 	ht_info->bCurBW40MHz = false;
+ 	ht_info->cur_tx_bw40mhz = false;
+@@ -692,7 +692,7 @@ void HTResetSelfAndSavePeerSetting(struct rtllib_device *ieee,
+ 	 * function rtllib_softmac_new_net. WB 2008.09.10
+ 	 */
+ 	if (pNetwork->bssht.bd_support_ht) {
+-		ht_info->bCurrentHTSupport = true;
++		ht_info->bcurrent_ht_support = true;
+ 		ht_info->ePeerHTSpecVer = pNetwork->bssht.bd_ht_spec_ver;
+ 
+ 		if (pNetwork->bssht.bd_ht_cap_len > 0 &&
+@@ -746,7 +746,7 @@ void HTResetSelfAndSavePeerSetting(struct rtllib_device *ieee,
+ 		if (bIOTAction)
+ 			ht_info->iot_action |= HT_IOT_ACT_CDD_FSYNC;
+ 	} else {
+-		ht_info->bCurrentHTSupport = false;
++		ht_info->bcurrent_ht_support = false;
+ 		ht_info->current_rt2rt_aggregation = false;
+ 		ht_info->current_rt2rt_long_slot_time = false;
+ 		ht_info->RT2RT_HT_Mode = (enum rt_ht_capability)0;
+@@ -763,7 +763,7 @@ void HT_update_self_and_peer_setting(struct rtllib_device *ieee,
+ 	struct ht_info_ele *pPeerHTInfo =
+ 		 (struct ht_info_ele *)pNetwork->bssht.bd_ht_info_buf;
+ 
+-	if (ht_info->bCurrentHTSupport) {
++	if (ht_info->bcurrent_ht_support) {
+ 		if (pNetwork->bssht.bd_ht_info_len != 0)
+ 			ht_info->current_op_mode = pPeerHTInfo->OptMode;
+ 	}
+@@ -775,7 +775,7 @@ void HTUseDefaultSetting(struct rtllib_device *ieee)
+ 	struct rt_hi_throughput *ht_info = ieee->ht_info;
+ 
+ 	if (ht_info->enable_ht) {
+-		ht_info->bCurrentHTSupport = true;
++		ht_info->bcurrent_ht_support = true;
+ 		ht_info->bCurSuppCCK = ht_info->bRegSuppCCK;
+ 
+ 		ht_info->bCurBW40MHz = ht_info->bRegBW40MHz;
+@@ -802,13 +802,13 @@ void HTUseDefaultSetting(struct rtllib_device *ieee)
+ 		ieee->HTCurrentOperaRate = ieee->HTHighestOperaRate;
+ 
+ 	} else {
+-		ht_info->bCurrentHTSupport = false;
++		ht_info->bcurrent_ht_support = false;
+ 	}
+ }
+ 
+ u8 HTCCheck(struct rtllib_device *ieee, u8 *pFrame)
+ {
+-	if (ieee->ht_info->bCurrentHTSupport) {
++	if (ieee->ht_info->bcurrent_ht_support) {
+ 		if ((IsQoSDataFrame(pFrame) && Frame_Order(pFrame)) == 1) {
+ 			netdev_dbg(ieee->dev, "HT CONTROL FILED EXIST!!\n");
+ 			return true;
+diff --git a/drivers/staging/rtl8192e/rtllib_softmac.c b/drivers/staging/rtl8192e/rtllib_softmac.c
+index 425d4acbcdf0..3bd8ebbad5a6 100644
+--- a/drivers/staging/rtl8192e/rtllib_softmac.c
++++ b/drivers/staging/rtl8192e/rtllib_softmac.c
+@@ -816,7 +816,7 @@ static struct sk_buff *rtllib_probe_resp(struct rtllib_device *ieee,
+ 	crypt = ieee->crypt_info.crypt[ieee->crypt_info.tx_keyidx];
+ 	encrypt = ieee->host_encrypt && crypt && crypt->ops &&
+ 		((strcmp(crypt->ops->name, "R-WEP") == 0 || wpa_ie_len));
+-	if (ieee->ht_info->bCurrentHTSupport) {
++	if (ieee->ht_info->bcurrent_ht_support) {
+ 		tmp_ht_cap_buf = (u8 *)&(ieee->ht_info->SelfHTCap);
+ 		tmp_ht_cap_len = sizeof(ieee->ht_info->SelfHTCap);
+ 		tmp_ht_info_buf = (u8 *)&(ieee->ht_info->SelfHTInfo);
+@@ -1135,7 +1135,7 @@ rtllib_association_req(struct rtllib_network *beacon,
+ 		ieee->mode = WIRELESS_MODE_G;
+ 	}
+ 
+-	if (ieee->ht_info->bCurrentHTSupport && ieee->ht_info->enable_ht) {
++	if (ieee->ht_info->bcurrent_ht_support && ieee->ht_info->enable_ht) {
+ 		ht_cap_buf = (u8 *)&(ieee->ht_info->SelfHTCap);
+ 		ht_cap_len = sizeof(ieee->ht_info->SelfHTCap);
+ 		HTConstructCapabilityElement(ieee, ht_cap_buf, &ht_cap_len,
+@@ -1274,7 +1274,7 @@ rtllib_association_req(struct rtllib_network *beacon,
+ 		memcpy(tag, osCcxVerNum.Octet, osCcxVerNum.Length);
+ 		tag += osCcxVerNum.Length;
+ 	}
+-	if (ieee->ht_info->bCurrentHTSupport && ieee->ht_info->enable_ht) {
++	if (ieee->ht_info->bcurrent_ht_support && ieee->ht_info->enable_ht) {
+ 		if (ieee->ht_info->ePeerHTSpecVer != HT_SPEC_VER_EWC) {
+ 			tag = skb_put(skb, ht_cap_len);
+ 			*tag++ = MFIE_TYPE_HT_CAP;
+@@ -1308,7 +1308,7 @@ rtllib_association_req(struct rtllib_network *beacon,
+ 		rtllib_TURBO_Info(ieee, &tag);
+ 	}
+ 
+-	if (ieee->ht_info->bCurrentHTSupport && ieee->ht_info->enable_ht) {
++	if (ieee->ht_info->bcurrent_ht_support && ieee->ht_info->enable_ht) {
+ 		if (ieee->ht_info->ePeerHTSpecVer == HT_SPEC_VER_EWC) {
+ 			tag = skb_put(skb, ht_cap_len);
+ 			*tag++ = MFIE_TYPE_GENERIC;
+@@ -1474,13 +1474,13 @@ static void rtllib_associate_complete_wq(void *data)
+ 		ieee->set_wireless_mode(ieee->dev, WIRELESS_MODE_B);
+ 		netdev_info(ieee->dev, "Using B rates:%d\n", ieee->rate);
+ 	}
+-	if (ieee->ht_info->bCurrentHTSupport && ieee->ht_info->enable_ht) {
++	if (ieee->ht_info->bcurrent_ht_support && ieee->ht_info->enable_ht) {
+ 		netdev_info(ieee->dev, "Successfully associated, ht enabled\n");
+ 		HTOnAssocRsp(ieee);
+ 	} else {
+ 		netdev_info(ieee->dev,
+ 			    "Successfully associated, ht not enabled(%d, %d)\n",
+-			    ieee->ht_info->bCurrentHTSupport,
++			    ieee->ht_info->bcurrent_ht_support,
+ 			    ieee->ht_info->enable_ht);
+ 		memset(ieee->dot11ht_oper_rate_set, 0, 16);
+ 	}
+@@ -1645,7 +1645,7 @@ inline void rtllib_softmac_new_net(struct rtllib_device *ieee,
+ 					HTResetSelfAndSavePeerSetting(ieee,
+ 						 &(ieee->current_network));
+ 				else
+-					ieee->ht_info->bCurrentHTSupport =
++					ieee->ht_info->bcurrent_ht_support =
+ 								 false;
+ 
+ 				ieee->link_state = RTLLIB_ASSOCIATING;
+@@ -2579,7 +2579,7 @@ static void rtllib_start_ibss_wq(void *data)
+ 	if (ieee->mode == WIRELESS_MODE_N_24G)
+ 		HTUseDefaultSetting(ieee);
+ 	else
+-		ieee->ht_info->bCurrentHTSupport = false;
++		ieee->ht_info->bcurrent_ht_support = false;
+ 
+ 	ieee->SetHwRegHandler(ieee->dev, HW_VAR_MEDIA_STATUS,
+ 			      (u8 *)(&ieee->link_state));
+diff --git a/drivers/staging/rtl8192e/rtllib_softmac_wx.c b/drivers/staging/rtl8192e/rtllib_softmac_wx.c
+index 2de63d1f2009..feb656103147 100644
+--- a/drivers/staging/rtl8192e/rtllib_softmac_wx.c
++++ b/drivers/staging/rtl8192e/rtllib_softmac_wx.c
+@@ -330,7 +330,7 @@ void rtllib_wx_sync_scan_wq(void *data)
+ 
+ 	ieee->ScanOperationBackupHandler(ieee->dev, SCAN_OPT_BACKUP);
+ 
+-	if (ieee->ht_info->bCurrentHTSupport && ieee->ht_info->enable_ht &&
++	if (ieee->ht_info->bcurrent_ht_support && ieee->ht_info->enable_ht &&
+ 	    ieee->ht_info->bCurBW40MHz) {
+ 		b40M = 1;
+ 		chan_offset = ieee->ht_info->CurSTAExtChnlOffset;
+diff --git a/drivers/staging/rtl8192e/rtllib_tx.c b/drivers/staging/rtl8192e/rtllib_tx.c
+index ec038ef806c3..08235ad1cbc5 100644
+--- a/drivers/staging/rtl8192e/rtllib_tx.c
++++ b/drivers/staging/rtl8192e/rtllib_tx.c
+@@ -273,7 +273,7 @@ static void rtllib_tx_query_agg_cap(struct rtllib_device *ieee,
+ 	if (rtllib_act_scanning(ieee, false))
+ 		return;
+ 
+-	if (!ht_info->bCurrentHTSupport || !ht_info->enable_ht)
++	if (!ht_info->bcurrent_ht_support || !ht_info->enable_ht)
+ 		return;
+ 	if (!IsQoSDataFrame(skb->data))
+ 		return;
+@@ -354,7 +354,7 @@ static void rtllib_query_HTCapShortGI(struct rtllib_device *ieee,
+ 
+ 	tcb_desc->bUseShortGI		= false;
+ 
+-	if (!ht_info->bCurrentHTSupport || !ht_info->enable_ht)
++	if (!ht_info->bcurrent_ht_support || !ht_info->enable_ht)
+ 		return;
+ 
+ 	if (ht_info->forced_short_gi) {
+@@ -375,7 +375,7 @@ static void rtllib_query_BandwidthMode(struct rtllib_device *ieee,
+ 
+ 	tcb_desc->bPacketBW = false;
+ 
+-	if (!ht_info->bCurrentHTSupport || !ht_info->enable_ht)
++	if (!ht_info->bcurrent_ht_support || !ht_info->enable_ht)
+ 		return;
+ 
+ 	if (tcb_desc->bMulticast || tcb_desc->bBroadcast)
+@@ -438,7 +438,7 @@ static void rtllib_query_protectionmode(struct rtllib_device *ieee,
+ 			tcb_desc->rts_rate = MGN_24M;
+ 			break;
+ 		}
+-		if (ht_info->bCurrentHTSupport  && ht_info->enable_ht) {
++		if (ht_info->bcurrent_ht_support  && ht_info->enable_ht) {
+ 			u8 HTOpMode = ht_info->current_op_mode;
+ 
+ 			if ((ht_info->bCurBW40MHz && (HTOpMode == 2 ||
 -- 
-Kind regards,
+2.30.2
 
-Sakari Ailus
