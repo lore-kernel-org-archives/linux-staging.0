@@ -1,88 +1,74 @@
-Received: from mail.astralinux.ru (mail.astralinux.ru [217.74.38.119])
+Received: from mail.208.org (unknown [183.242.55.162])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BAFDBA3A
-	for <linux-staging@lists.linux.dev>; Fri,  7 Jul 2023 13:55:04 +0000 (UTC)
-Received: from localhost (localhost.localdomain [127.0.0.1])
-	by mail.astralinux.ru (Postfix) with ESMTP id 4094818640EF;
-	Fri,  7 Jul 2023 16:47:28 +0300 (MSK)
-Received: from mail.astralinux.ru ([127.0.0.1])
-	by localhost (rbta-msk-vsrv-mail01.astralinux.ru [127.0.0.1]) (amavisd-new, port 10032)
-	with ESMTP id Rlu8Olt3ypUm; Fri,  7 Jul 2023 16:47:28 +0300 (MSK)
-Received: from localhost (localhost.localdomain [127.0.0.1])
-	by mail.astralinux.ru (Postfix) with ESMTP id E7C5A1864A12;
-	Fri,  7 Jul 2023 16:47:27 +0300 (MSK)
-X-Virus-Scanned: amavisd-new at astralinux.ru
-Received: from mail.astralinux.ru ([127.0.0.1])
-	by localhost (rbta-msk-vsrv-mail01.astralinux.ru [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id CVYtIonFtxSs; Fri,  7 Jul 2023 16:47:27 +0300 (MSK)
-Received: from rbta-msk-lt-106062.astralinux.ru (unknown [10.177.20.23])
-	by mail.astralinux.ru (Postfix) with ESMTPSA id B75FD18640EF;
-	Fri,  7 Jul 2023 16:47:26 +0300 (MSK)
-From: Anastasia Belova <abelova@astralinux.ru>
-To: Rob Springer <rspringer@google.com>
-Cc: Anastasia Belova <abelova@astralinux.ru>,
-	Todd Poynor <toddpoynor@google.com>,
-	Ben Chan <benchan@chromium.org>,
-	Richard Yeh <rcy@google.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	John Joseph <jnjoseph@google.com>,
-	Simon Que <sque@chromium.org>,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	lvc-project@linuxtesting.org
-Subject: [PATCH 5.10] gasket: make interrupt_data NULL after free
-Date: Fri,  7 Jul 2023 16:47:12 +0300
-Message-Id: <20230707134712.7019-1-abelova@astralinux.ru>
-X-Mailer: git-send-email 2.30.2
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 190A1107AD
+	for <linux-staging@lists.linux.dev>; Fri,  7 Jul 2023 14:31:29 +0000 (UTC)
+Received: from mail.208.org (email.208.org [127.0.0.1])
+	by mail.208.org (Postfix) with ESMTP id 4QyFzH102gzBJBfn
+	for <linux-staging@lists.linux.dev>; Fri,  7 Jul 2023 22:24:59 +0800 (CST)
+Authentication-Results: mail.208.org (amavisd-new); dkim=pass
+	reason="pass (just generated, assumed good)" header.d=208.org
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=208.org; h=
+	content-transfer-encoding:content-type:message-id:user-agent
+	:references:in-reply-to:subject:to:from:date:mime-version; s=
+	dkim; t=1688739898; x=1691331899; bh=X19fiyEPm8XRU2mImTwANWy+s8P
+	UCz2HiFt7jLiJe9w=; b=1CyucdBlct7ReADRylT+PDSxMS5nBQXrS25LkCm9kR7
+	AhxLm13NrtA1u//sUDVcSBrk8I5GSu0I3LsfJrLf3dNRWPRC+49ZFoREyNacyy74
+	CoB0tB6+jsKRPw/bzoMSAA+KBVCpBQUD37+NFPy0H4h+zj4/Lezf8lJ68uaw5A2t
+	EZQ7gnH1nhTxa/I2QXCD1I7gAX+2ZzIYKqMG2eha+/gadd7aiy90LncSAzBZHbAw
+	8WB1V7vH/k5OFmpTet3TjZvAmQhITnSDnaLweeeAPgBQC0iEnD5/1yCWWy9p3HLz
+	UjvahoiaFlnGuWw4L8872ulIw6q5HXxfZim6upHHFXQ==
+X-Virus-Scanned: amavisd-new at mail.208.org
+Received: from mail.208.org ([127.0.0.1])
+	by mail.208.org (mail.208.org [127.0.0.1]) (amavisd-new, port 10026)
+	with ESMTP id ud8Y8s1QZhKA for <linux-staging@lists.linux.dev>;
+	Fri,  7 Jul 2023 22:24:58 +0800 (CST)
+Received: from localhost (email.208.org [127.0.0.1])
+	by mail.208.org (Postfix) with ESMTPSA id 4QyFzG479HzBJBJ2;
+	Fri,  7 Jul 2023 22:24:58 +0800 (CST)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+Date: Fri, 07 Jul 2023 22:24:58 +0800
+From: hexingwei001@208suo.com
+To: hdegoede@redhat.com, mchehab@kernel.org
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+ colin.i.king@gmail.com, gregkh@linuxfoundation.org,
+ sakari.ailus@linux.intel.com
+Subject: [PATCH] soc: ti: smartreflex: void function return statements are not
+ generally useful
+In-Reply-To: <20230707133447.28102-1-panzhiai@cdjrlc.com>
+References: <20230707133447.28102-1-panzhiai@cdjrlc.com>
+User-Agent: Roundcube Webmail
+Message-ID: <d4b290f08da0c2435f3fa4676e7a5f25@208suo.com>
+X-Sender: hexingwei001@208suo.com
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
 
-Gasket common interrupt module was deleted in version 5.13,=20
-but there is possible double free in versions 4.19-5.12.
+void function omap_sr_shutdown return statements are not generally 
+useful,
+so deleted the return in function omap_sr_shutdown().
 
-gasket_dev->interrupt_data should be NULL when
-gasket_interrupt_init returns error. For example,
-it is necessary in gasket_enable_device to avoid
-double free.
-
-Found by Linux Verification Center (linuxtesting.org) with SVACE.
-
-Fixes: 9a69f5087ccc ("drivers/staging: Gasket driver framework + Apex dri=
-ver")
-Signed-off-by: Anastasia Belova <abelova@astralinux.ru>
+Signed-off-by: Xingwei He <hexingwei001@208suo.com>
 ---
- drivers/staging/gasket/gasket_interrupt.c | 2 ++
- 1 file changed, 2 insertions(+)
+  drivers/soc/ti/smartreflex.c | 2 +-
+  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/staging/gasket/gasket_interrupt.c b/drivers/staging/=
-gasket/gasket_interrupt.c
-index 864342acfd86..24fa5df0628b 100644
---- a/drivers/staging/gasket/gasket_interrupt.c
-+++ b/drivers/staging/gasket/gasket_interrupt.c
-@@ -337,6 +337,7 @@ int gasket_interrupt_init(struct gasket_dev *gasket_d=
-ev)
- 			sizeof(*interrupt_data->eventfd_ctxs), GFP_KERNEL);
- 	if (!interrupt_data->eventfd_ctxs) {
- 		kfree(interrupt_data);
-+		gasket_dev->interrupt_data =3D NULL;
- 		return -ENOMEM;
- 	}
-=20
-@@ -346,6 +347,7 @@ int gasket_interrupt_init(struct gasket_dev *gasket_d=
-ev)
- 	if (!interrupt_data->interrupt_counts) {
- 		kfree(interrupt_data->eventfd_ctxs);
- 		kfree(interrupt_data);
-+		gasket_dev->interrupt_data =3D NULL;
- 		return -ENOMEM;
- 	}
-=20
---=20
-2.30.2
+diff --git a/drivers/soc/ti/smartreflex.c b/drivers/soc/ti/smartreflex.c
+index 62b2f1464e46..20abfb0b8f26 100644
+--- a/drivers/soc/ti/smartreflex.c
++++ b/drivers/soc/ti/smartreflex.c
+@@ -955,7 +955,7 @@ static void omap_sr_shutdown(struct platform_device 
+*pdev)
+      if (sr_info->autocomp_active)
+          sr_stop_vddautocomp(sr_info);
 
+-    return;
++
+  }
+
+  static const struct of_device_id omap_sr_match[] = {
