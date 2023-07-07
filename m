@@ -1,71 +1,88 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mail.astralinux.ru (mail.astralinux.ru [217.74.38.119])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1AA820E0
-	for <linux-staging@lists.linux.dev>; Fri,  7 Jul 2023 10:14:39 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DF270C433C7;
-	Fri,  7 Jul 2023 10:14:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1688724879;
-	bh=1/6/E53G0FbGVSz+J7qOoWWYVV5mSFGPSyuXBk0aaBk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=VzDEEmynFfBywYx8zyr6PcosuwdkOQ7avuwSNiCJmbCXA50UCRxHXBSTeNRHimdOy
-	 eEotUqkcjmrRoyxT7KPnWoonJnGxwq6oQm6Jwk4eZ3q0lPr2YxmnW1wYdW62skG6/5
-	 Gm+GaYHAQ+Lzf1L95JJN0KwHaMcDj/xul6370LrQ=
-Date: Fri, 7 Jul 2023 11:12:23 +0100
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Tree Davies <tdavies@darkphysics.net>
-Cc: philipp.g.hortmann@gmail.com, dan.carpenter@linaro.org,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: rtl8192e: Rename variable bRegBW40MHz
-Message-ID: <2023070701-construct-suave-81d3@gregkh>
-References: <ZKYiwwJJxv6Wk1/8@kimchi.darkphysics>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BAFDBA3A
+	for <linux-staging@lists.linux.dev>; Fri,  7 Jul 2023 13:55:04 +0000 (UTC)
+Received: from localhost (localhost.localdomain [127.0.0.1])
+	by mail.astralinux.ru (Postfix) with ESMTP id 4094818640EF;
+	Fri,  7 Jul 2023 16:47:28 +0300 (MSK)
+Received: from mail.astralinux.ru ([127.0.0.1])
+	by localhost (rbta-msk-vsrv-mail01.astralinux.ru [127.0.0.1]) (amavisd-new, port 10032)
+	with ESMTP id Rlu8Olt3ypUm; Fri,  7 Jul 2023 16:47:28 +0300 (MSK)
+Received: from localhost (localhost.localdomain [127.0.0.1])
+	by mail.astralinux.ru (Postfix) with ESMTP id E7C5A1864A12;
+	Fri,  7 Jul 2023 16:47:27 +0300 (MSK)
+X-Virus-Scanned: amavisd-new at astralinux.ru
+Received: from mail.astralinux.ru ([127.0.0.1])
+	by localhost (rbta-msk-vsrv-mail01.astralinux.ru [127.0.0.1]) (amavisd-new, port 10026)
+	with ESMTP id CVYtIonFtxSs; Fri,  7 Jul 2023 16:47:27 +0300 (MSK)
+Received: from rbta-msk-lt-106062.astralinux.ru (unknown [10.177.20.23])
+	by mail.astralinux.ru (Postfix) with ESMTPSA id B75FD18640EF;
+	Fri,  7 Jul 2023 16:47:26 +0300 (MSK)
+From: Anastasia Belova <abelova@astralinux.ru>
+To: Rob Springer <rspringer@google.com>
+Cc: Anastasia Belova <abelova@astralinux.ru>,
+	Todd Poynor <toddpoynor@google.com>,
+	Ben Chan <benchan@chromium.org>,
+	Richard Yeh <rcy@google.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	John Joseph <jnjoseph@google.com>,
+	Simon Que <sque@chromium.org>,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	lvc-project@linuxtesting.org
+Subject: [PATCH 5.10] gasket: make interrupt_data NULL after free
+Date: Fri,  7 Jul 2023 16:47:12 +0300
+Message-Id: <20230707134712.7019-1-abelova@astralinux.ru>
+X-Mailer: git-send-email 2.30.2
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZKYiwwJJxv6Wk1/8@kimchi.darkphysics>
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, Jul 05, 2023 at 07:11:15PM -0700, Tree Davies wrote:
-> This patch renames variable bRegBW40MHz to breg_bw_40MHz
-> to fix checkpatch warning Avoid CamelCase.
-> 
-> Signed-off-by: Tree Davies <tdavies@darkphysics.net>
-> ---
->  drivers/staging/rtl8192e/rtl819x_HT.h     |  2 +-
->  drivers/staging/rtl8192e/rtl819x_HTProc.c | 16 ++++++++--------
->  2 files changed, 9 insertions(+), 9 deletions(-)
+Gasket common interrupt module was deleted in version 5.13,=20
+but there is possible double free in versions 4.19-5.12.
 
-Hi,
+gasket_dev->interrupt_data should be NULL when
+gasket_interrupt_init returns error. For example,
+it is necessary in gasket_enable_device to avoid
+double free.
 
-This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
-a patch that has triggered this response.  He used to manually respond
-to these common problems, but in order to save his sanity (he kept
-writing the same thing over and over, yet to different people), I was
-created.  Hopefully you will not take offence and will fix the problem
-in your patch and resubmit it so that it can be accepted into the Linux
-kernel tree.
+Found by Linux Verification Center (linuxtesting.org) with SVACE.
 
-You are receiving this message because of the following common error(s)
-as indicated below:
+Fixes: 9a69f5087ccc ("drivers/staging: Gasket driver framework + Apex dri=
+ver")
+Signed-off-by: Anastasia Belova <abelova@astralinux.ru>
+---
+ drivers/staging/gasket/gasket_interrupt.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-- You sent multiple patches, yet no indication of which ones should be
-  applied in which order.  Greg could just guess, but if you are
-  receiving this email, he guessed wrong and the patches didn't apply.
-  Please read the section entitled "The canonical patch format" in the
-  kernel file, Documentation/process/submitting-patches.rst for a
-  description of how to do this so that Greg has a chance to apply these
-  correctly.
+diff --git a/drivers/staging/gasket/gasket_interrupt.c b/drivers/staging/=
+gasket/gasket_interrupt.c
+index 864342acfd86..24fa5df0628b 100644
+--- a/drivers/staging/gasket/gasket_interrupt.c
++++ b/drivers/staging/gasket/gasket_interrupt.c
+@@ -337,6 +337,7 @@ int gasket_interrupt_init(struct gasket_dev *gasket_d=
+ev)
+ 			sizeof(*interrupt_data->eventfd_ctxs), GFP_KERNEL);
+ 	if (!interrupt_data->eventfd_ctxs) {
+ 		kfree(interrupt_data);
++		gasket_dev->interrupt_data =3D NULL;
+ 		return -ENOMEM;
+ 	}
+=20
+@@ -346,6 +347,7 @@ int gasket_interrupt_init(struct gasket_dev *gasket_d=
+ev)
+ 	if (!interrupt_data->interrupt_counts) {
+ 		kfree(interrupt_data->eventfd_ctxs);
+ 		kfree(interrupt_data);
++		gasket_dev->interrupt_data =3D NULL;
+ 		return -ENOMEM;
+ 	}
+=20
+--=20
+2.30.2
 
-If you wish to discuss this problem further, or you have questions about
-how to resolve this issue, please feel free to respond to this email and
-Greg will reply once he has dug out from the pending patches received
-from other developers.
-
-thanks,
-
-greg k-h's patch email bot
