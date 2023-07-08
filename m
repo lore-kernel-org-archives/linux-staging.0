@@ -1,53 +1,50 @@
-Received: from mail-oa1-f49.google.com (mail-oa1-f49.google.com [209.85.160.49])
+Received: from mail-qv1-f50.google.com (mail-qv1-f50.google.com [209.85.219.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFC1B1775B
-	for <linux-staging@lists.linux.dev>; Fri,  7 Jul 2023 21:15:56 +0000 (UTC)
-Received: by mail-oa1-f49.google.com with SMTP id 586e51a60fabf-1b0748bc78dso2219849fac.0
-        for <linux-staging@lists.linux.dev>; Fri, 07 Jul 2023 14:15:56 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08F7A7E2
+	for <linux-staging@lists.linux.dev>; Sat,  8 Jul 2023 03:55:18 +0000 (UTC)
+Received: by mail-qv1-f50.google.com with SMTP id 6a1803df08f44-635f293884cso16210856d6.3
+        for <linux-staging@lists.linux.dev>; Fri, 07 Jul 2023 20:55:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1688764556; x=1691356556;
+        d=gmail.com; s=20221208; t=1688788517; x=1691380517;
         h=content-disposition:mime-version:message-id:subject:cc:to:from:date
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=o55RwUJuXKY3r9gG6aD9I7YM7CsRDP5cAsKlf5uWgUk=;
-        b=UWTyfGbFM9ua95PrFcks0NE6hsYUmSVj2466XRw+BTY1zqjKfKwx2PGU/1/kuOStoo
-         cU7ZE27V45LQEhReWRrIX2f5ADI9Nr7rNaKxvHcnqdh0q9Es3mwJK8CoqUlFtWECx1KY
-         9ap84c86T7LW29B1ijPC8vQb4BLb7sXAo00t4Rh7RQ+xwyzgtdpQQl/Kvt1e3J2/tnV6
-         MKJT82XNvf8qvPaSsM0zo749D9qSxONQiI6608vJL5nKAs+7dssleexBzSFgBBNDyIYN
-         nekeHZb26B8+T1NNFup6dNetydrEFdo5YWzHkmfzwYIuWXRDAVb7Exn6h56VthmHtT3p
-         LYGA==
+        bh=4TCnZ9Yp/QzfZmo6gCMRZiYF2goV1i5forJ0EUEXVqU=;
+        b=g7RF9azNYneFpUruGq9YDr0wn5usxd4szawIy9Lg6/SYNBWeoinWHFZ7BO2JI6Enki
+         tB6yKCYwNTy0IGmNI/HtlbL30Knr+Gbga60YLmWoKo/RPE0Q6hFxaXRani3ZLO60zPAx
+         17I1NwMDq9xcPcXdmBzAfgYqxh5Z4b5ju2A7fEphRNM6bQFAWovjAZFsUfQs5mTTk4QV
+         67GhjP+MatcTi/XK8gF8LpAIKY9y23sYYte2atISKLbpO1ScjJKQWweAXlllZe47NkwA
+         u8n9CfzP3tGs10u0P8kydE/QgRzfjAsX7UU1BnvVKjCB+JIA2NqWB8JCTLxMsddeo0QP
+         /hXQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1688764556; x=1691356556;
+        d=1e100.net; s=20221208; t=1688788517; x=1691380517;
         h=content-disposition:mime-version:message-id:subject:cc:to:from:date
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=o55RwUJuXKY3r9gG6aD9I7YM7CsRDP5cAsKlf5uWgUk=;
-        b=FNL1wDt+/uBG40hzVPInpdRFSNT1mw+ty7jfHJweeHnvU9S5rwZTh1j4f051Aax/m0
-         IDxYdKDP/lqiFLzXENwq/5zpeykPi9u7wug3cYnXSgrnypjq83n1BY/4kJPvfwTNcY6Q
-         rz1JzwHW2s8whmnoLS1dxlZ1Q4RHWQs7lItxmyCnNyDDSybj73Np46Yv+jK9eDs0Fif3
-         bCdrN5IZO22fErcFJ67l8FVJ434omO4+UeVYehdMTVG2XUNkf6djMYQbknJErZV/AijO
-         VqvZGzVvXIzEdEUnXk98iKrqXdUmRtI3mfVMayjYBXAEIEZ0n/DEzpTMNOS+xfGj8F2W
-         nPag==
-X-Gm-Message-State: ABy/qLYBV0P1l6sEu4R8G7fvTOR+Npvsluu1eoTaAHQOIm+zGb1LJJ5z
-	JMp08crEH/36FkqVif+e3HE=
-X-Google-Smtp-Source: APBJJlFjE+nuPlRO/M/P4aUGLoAAFMQspI16TJMD3W5TSdipZfRhBo4B14UbW2bS61kYw3BfvYfTiQ==
-X-Received: by 2002:a05:6870:2054:b0:1b0:2a6b:edf2 with SMTP id l20-20020a056870205400b001b02a6bedf2mr5110225oad.4.1688764555442;
-        Fri, 07 Jul 2023 14:15:55 -0700 (PDT)
-Received: from madhu-kernel (99-145-207-128.lightspeed.austtx.sbcglobal.net. [99.145.207.128])
-        by smtp.gmail.com with ESMTPSA id di22-20020a0568303a1600b006b58616daa1sm2053188otb.2.2023.07.07.14.15.54
+        bh=4TCnZ9Yp/QzfZmo6gCMRZiYF2goV1i5forJ0EUEXVqU=;
+        b=Rurw55d39AJ0IWFq8RIwNH3SF+wPhkR7EKk3t3TMx10FjFcv6MJ8SBodSJ/hkEgPNt
+         xBX1ZmetSoqD0i+eBaWs2HYU4i7X8z1olZQ4WWP8A4oRaOKPS615bb6H8qzkzYkTNbJL
+         A0/i0k1X96Uw7PMz8rc78JXs535x2xei2O9IffPeNyMd/ahZ2txC6VJpo7fw0UdxQ9o9
+         M+NCeozQNRbNq/G+ApfPkjqBacpeIbjUGHjhADdmo3UaSLryHG+tckbVSbPEM1cvjWZq
+         CckOYJVgFpFXUMs2SjvR11k7oGvyTA+DTB5SvH8rmcWLfqmm6s/3OKy8PDWSnAKVmjXh
+         qlCA==
+X-Gm-Message-State: ABy/qLbSCBDHwXfAJdynKML8hfIBFA7lXsYwTnbLtiiRsqoZXqYdmCBc
+	m0Wq4FgywdxGdCbI3y8L1B4=
+X-Google-Smtp-Source: APBJJlEOGagFHHurWncBynYTK88uwhhhzivFeH5m1wh3fYG6q0kQtHjFzx3PJlCrHJDF0AqThpprcQ==
+X-Received: by 2002:a0c:e44f:0:b0:635:3892:a2b0 with SMTP id d15-20020a0ce44f000000b006353892a2b0mr6101298qvm.15.1688788517523;
+        Fri, 07 Jul 2023 20:55:17 -0700 (PDT)
+Received: from alolivei-thinkpadt480s.gru.csb ([2804:14c:bf20:86d6:7871:f7e9:8a15:865a])
+        by smtp.gmail.com with ESMTPSA id p8-20020a0c8c88000000b006300ff90e71sm2850435qvb.122.2023.07.07.20.55.14
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 07 Jul 2023 14:15:55 -0700 (PDT)
-Date: Fri, 7 Jul 2023 16:15:53 -0500
-From: Madhumitha Prabakaran <madhumithabiw@gmail.com>
-To: Lars-Peter Clausen <lars@metafoo.de>,
-	Michael Hennerich <Michael.Hennerich@analog.com>,
-	Jonathan Cameron <jic23@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Madhumitha Prabakaran <madhumithabiw@gmail.com>,
-	linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org,
+        Fri, 07 Jul 2023 20:55:16 -0700 (PDT)
+Date: Sat, 8 Jul 2023 00:55:11 -0300
+From: Alexon Oliveira <alexondunkan@gmail.com>
+To: alexondunkan@gmail.com
+Cc: martyn@welchs.me.uk, manohar.vanga@gmail.com,
+	gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org,
 	linux-staging@lists.linux.dev
-Cc: skhan@linuxfoundation.org, ivan.orlov0322@gmail.com
-Subject: [PATCH] Add struct ad9832_platform_data to the include/linux/iio
-Message-ID: <20230707211553.GA110890@madhu-kernel>
+Subject: [PATCH] staging: vme_user: fix check alignment should match open
+ parenthesis
+Message-ID: <ZKjeHx/zqrNIqaA6@alolivei-thinkpadt480s.gru.csb>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -57,108 +54,97 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Add struct ad9832_platform_data to the include/linux/iio
-for maintaining code organization and clarity.
+Adhere to Linux kernel coding style.
 
-Signed-off-by: Madhumitha Prabakaran <madhumithabiw@gmail.com>
----
- drivers/staging/iio/frequency/ad9832.c |  3 +--
- drivers/staging/iio/frequency/ad9832.h | 34 --------------------------
- include/linux/iio/frequency/ad9832.h   | 30 +++++++++++++++++++++++
- 3 files changed, 31 insertions(+), 36 deletions(-)
- delete mode 100644 drivers/staging/iio/frequency/ad9832.h
- create mode 100644 include/linux/iio/frequency/ad9832.h
+Reported by checkpatch:
 
-diff --git a/drivers/staging/iio/frequency/ad9832.c b/drivers/staging/iio/frequency/ad9832.c
-index 6f9eebd6c7ee..675adfb07b5d 100644
---- a/drivers/staging/iio/frequency/ad9832.c
-+++ b/drivers/staging/iio/frequency/ad9832.c
-@@ -19,8 +19,7 @@
- 
- #include <linux/iio/iio.h>
- #include <linux/iio/sysfs.h>
--
--#include "ad9832.h"
-+#include <linux/iio/frequency/ad9832.h>
- 
- #include "dds.h"
- 
-diff --git a/drivers/staging/iio/frequency/ad9832.h b/drivers/staging/iio/frequency/ad9832.h
-deleted file mode 100644
-index 98dfbd9289ab..000000000000
---- a/drivers/staging/iio/frequency/ad9832.h
-+++ /dev/null
-@@ -1,34 +0,0 @@
--/* SPDX-License-Identifier: GPL-2.0+ */
--/*
-- * AD9832 SPI DDS driver
-- *
-- * Copyright 2011 Analog Devices Inc.
-- */
--#ifndef IIO_DDS_AD9832_H_
--#define IIO_DDS_AD9832_H_
--
--/*
-- * TODO: struct ad9832_platform_data needs to go into include/linux/iio
-- */
--
--/**
-- * struct ad9832_platform_data - platform specific information
-- * @mclk:		master clock in Hz
-- * @freq0:		power up freq0 tuning word in Hz
-- * @freq1:		power up freq1 tuning word in Hz
-- * @phase0:		power up phase0 value [0..4095] correlates with 0..2PI
-- * @phase1:		power up phase1 value [0..4095] correlates with 0..2PI
-- * @phase2:		power up phase2 value [0..4095] correlates with 0..2PI
-- * @phase3:		power up phase3 value [0..4095] correlates with 0..2PI
-- */
--
--struct ad9832_platform_data {
--	unsigned long		freq0;
--	unsigned long		freq1;
--	unsigned short		phase0;
--	unsigned short		phase1;
--	unsigned short		phase2;
--	unsigned short		phase3;
--};
--
--#endif /* IIO_DDS_AD9832_H_ */
-diff --git a/include/linux/iio/frequency/ad9832.h b/include/linux/iio/frequency/ad9832.h
-new file mode 100644
-index 000000000000..517d954636db
---- /dev/null
-+++ b/include/linux/iio/frequency/ad9832.h
-@@ -0,0 +1,30 @@
-+/* SPDX-License-Identifier: GPL-2.0+ */
-+/*
-+ * AD9832 SPI DDS driver
-+ *
-+ * Copyright 2011 Analog Devices Inc.
-+ */
-+#ifndef IIO_DDS_AD9832_H_
-+#define IIO_DDS_AD9832_H_
-+
-+/**
-+ * struct ad9832_platform_data - platform specific information
-+ * @mclk:   master clock in Hz
-+ * @freq0:  power up freq0 tuning word in Hz
-+ * @freq1:  power up freq1 tuning word in Hz
-+ * @phase0: power up phase0 value [0..4095] correlates with 0..2PI
-+ * @phase1: power up phase1 value [0..4095] correlates with 0..2PI
-+ * @phase2: power up phase2 value [0..4095] correlates with 0..2PI
-+ * @phase3: power up phase3 value [0..4095] correlates with 0..2PI
-+ */
-+struct ad9832_platform_data {
-+	unsigned long freq0;
-+	unsigned long freq1;
-+	unsigned short phase0;
-+	unsigned short phase1;
-+	unsigned short phase2;
-+	unsigned short phase3;
-+};
-+
-+#endif /* IIO_DDS_AD9832_H_ */
-+
--- 
-2.25.1
+CHECK: Alignment should match open parenthesis
 
+#132: FILE: drivers/staging/vme_user/vme_bridge.h:132
+#135: FILE: drivers/staging/vme_user/vme_bridge.h:135
+#139: FILE: drivers/staging/vme_user/vme_bridge.h:139
+#142: FILE: drivers/staging/vme_user/vme_bridge.h:142
+#144: FILE: drivers/staging/vme_user/vme_bridge.h:144
+#146: FILE: drivers/staging/vme_user/vme_bridge.h:146
+#148: FILE: drivers/staging/vme_user/vme_bridge.h:148
+#152: FILE: drivers/staging/vme_user/vme_bridge.h:152
+#163: FILE: drivers/staging/vme_user/vme_bridge.h:163
+#173: FILE: drivers/staging/vme_user/vme_bridge.h:173
+#175: FILE: drivers/staging/vme_user/vme_bridge.h:175
+
+    Signed-off-by: Alexon Oliveira <alexondunkan@gmail.com>
+
+diff --git a/drivers/staging/vme_user/vme_bridge.h b/drivers/staging/vme_user/vme_bridge.h
+index 11df0a5e7f7b..a0d7a8db239d 100644
+--- a/drivers/staging/vme_user/vme_bridge.h
++++ b/drivers/staging/vme_user/vme_bridge.h
+@@ -128,28 +128,21 @@ struct vme_bridge {
+ 	struct mutex irq_mtx;
+
+ 	/* Slave Functions */
+-	int (*slave_get)(struct vme_slave_resource *, int *,
+-		unsigned long long *, unsigned long long *, dma_addr_t *,
+-		u32 *, u32 *);
+-	int (*slave_set)(struct vme_slave_resource *, int, unsigned long long,
+-		unsigned long long, dma_addr_t, u32, u32);
++	int (*slave_get)(struct vme_slave_resource *, int *, unsigned long long *,
++			 unsigned long long *, dma_addr_t *, u32 *, u32 *);
++	int (*slave_set)(struct vme_slave_resource *, int, unsigned long long, unsigned long long, dma_addr_t, u32, u32);
+
+ 	/* Master Functions */
+-	int (*master_get)(struct vme_master_resource *, int *,
+-		unsigned long long *, unsigned long long *, u32 *, u32 *,
+-		u32 *);
+-	int (*master_set)(struct vme_master_resource *, int,
+-		unsigned long long, unsigned long long,  u32, u32, u32);
+-	ssize_t (*master_read)(struct vme_master_resource *, void *, size_t,
+-		loff_t);
+-	ssize_t (*master_write)(struct vme_master_resource *, void *, size_t,
+-		loff_t);
+-	unsigned int (*master_rmw)(struct vme_master_resource *, unsigned int,
+-		unsigned int, unsigned int, loff_t);
++	int (*master_get)(struct vme_master_resource *, int *, unsigned long long *,
++			  unsigned long long *, u32 *, u32 *, u32 *);
++	int (*master_set)(struct vme_master_resource *, int, unsigned long long,
++			  unsigned long long,  u32, u32, u32);
++	ssize_t (*master_read)(struct vme_master_resource *, void *, size_t, loff_t);
++	ssize_t (*master_write)(struct vme_master_resource *, void *, size_t, loff_t);
++	unsigned int (*master_rmw)(struct vme_master_resource *, unsigned int, unsigned int, unsigned int, loff_t);
+
+ 	/* DMA Functions */
+-	int (*dma_list_add)(struct vme_dma_list *, struct vme_dma_attr *,
+-		struct vme_dma_attr *, size_t);
++	int (*dma_list_add)(struct vme_dma_list *, struct vme_dma_attr *, struct vme_dma_attr *, size_t);
+ 	int (*dma_list_exec)(struct vme_dma_list *);
+ 	int (*dma_list_empty)(struct vme_dma_list *);
+
+@@ -159,24 +152,19 @@ struct vme_bridge {
+
+ 	/* Location monitor functions */
+ 	int (*lm_set)(struct vme_lm_resource *, unsigned long long, u32, u32);
+-	int (*lm_get)(struct vme_lm_resource *, unsigned long long *, u32 *,
+-		u32 *);
+-	int (*lm_attach)(struct vme_lm_resource *, int,
+-			 void (*callback)(void *), void *);
++	int (*lm_get)(struct vme_lm_resource *, unsigned long long *, u32 *, u32 *);
++	int (*lm_attach)(struct vme_lm_resource *, int, void (*callback)(void *), void *);
+ 	int (*lm_detach)(struct vme_lm_resource *, int);
+
+ 	/* CR/CSR space functions */
+ 	int (*slot_get)(struct vme_bridge *);
+
+ 	/* Bridge parent interface */
+-	void *(*alloc_consistent)(struct device *dev, size_t size,
+-		dma_addr_t *dma);
+-	void (*free_consistent)(struct device *dev, size_t size,
+-		void *vaddr, dma_addr_t dma);
++	void *(*alloc_consistent)(struct device *dev, size_t size, dma_addr_t *dma);
++	void (*free_consistent)(struct device *dev, size_t size, void *vaddr, dma_addr_t dma);
+ };
+
+-void vme_bus_error_handler(struct vme_bridge *bridge,
+-			   unsigned long long address, int am);
++void vme_bus_error_handler(struct vme_bridge *bridge, unsigned long long address, int am);
+ void vme_irq_handler(struct vme_bridge *, int, int);
+
+ struct vme_bridge *vme_init_bridge(struct vme_bridge *);
