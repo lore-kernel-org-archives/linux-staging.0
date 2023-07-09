@@ -1,282 +1,81 @@
-Received: from EUR03-AM7-obe.outbound.protection.outlook.com (mail-am7eur03olkn2087.outbound.protection.outlook.com [40.92.59.87])
+Received: from out162-62-57-87.mail.qq.com (out162-62-57-87.mail.qq.com [162.62.57.87])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2093D1851
-	for <linux-staging@lists.linux.dev>; Sat,  8 Jul 2023 16:30:33 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=n5wsCdEAcMG3eRHriwK3O6t9THax2kP7qqpTzYxSxb/6wxo3CfzntUVM2YujxyqSaIfAdLHpphgS6WMstrWqKF0cgPtbiv14SGtQHiZAgDS/LD2c1UeTa55F50nHYWYS5guwx0BoJSM5/2i/t46rPMqLlJDbh7OZTvHpHq9P32tFYjo0UUQKDP5/2yraSsgyQQG9ltB/QtOdKniiuUY/uBXuKUa9Fu9K+Exe6Ofzsb4a79jkt89ShtUtJS6w3gVDHoqHVJejfx7xR3aR49djb9kzjJRtLKQ/qL3IprIOJuU+C7JjPBwaIVAjCe/t+e5mjaJ57lYxcp6QK6dp4HV+jg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=V995M87ADLIoEiQ8YTgxLfN421Cq1IEei0UToNC7O6g=;
- b=Js3cDURIKdALYc3X50WlWHaivELjbI33gaQ5wz3MfqbCpxK7FE6ENFMqtshFHMhWtHYEZWmDoKsE+I8TslQKlF9TaSVCgBcJNWL0VXtHxMb113Sezr6s7LqG71H6V+S4ia+LT0+MD608nbVWoXIArizyKm34iJQXSDD4g3BdETIgMbFCukG0ZZqa6huVokq/N2q3r2Z/asFCv0JjLaMk3v8te3VnZxVnTCRasag8crLtKOi14KXxiQ2W/1nTyY5FDmc8Bxe3rtPjU6F2FKKVLZP/Zmp1RtW+8EMWf6n3VdJB2GSmB7toWwl059BCEMRt5JWqZ5oi2wRSxPklD4b7ig==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=hotmail.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=V995M87ADLIoEiQ8YTgxLfN421Cq1IEei0UToNC7O6g=;
- b=TJKeI0EXC4gWgfbJ7hvgXH4As1imapVt30g2YwXAdTGNAgI+MdkAqBDKl3LoZTRakggN2QH3sA4eELa7S6EOdmZjpdK+OV30pzYRAGKxq0Ch1mRizxmO3uOAetQJqSMxFqWCnxjFAfSfBwAF2VEbuYXzyYeGnUhCt+v4+j8YSmpCSa0PLZflCFwlCPB7r3lm/VtMVxocXVxylxdOe0Dozn/yCEBq24z1MqIk/JalnRWqOvG7XOf+A83migtFicvePDpCwgqgzsluzmu+iTxyj07dX0MUQU7wb/Eg+6rTW9PHrhJvQfFvK0JEhJk9ZvAfUi31kzcXGogfY175sYfOMQ==
-Received: from DB4PR10MB6261.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:10:383::21)
- by AS2PR10MB7081.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:5eb::18) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6565.26; Sat, 8 Jul
- 2023 16:30:31 +0000
-Received: from DB4PR10MB6261.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::628a:d617:46f:2a88]) by DB4PR10MB6261.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::628a:d617:46f:2a88%7]) with mapi id 15.20.6544.024; Sat, 8 Jul 2023
- 16:30:31 +0000
-From: JuenKit Yip <JuenKit_Yip@hotmail.com>
-To: lars@metafoo.de,
-	Michael.Hennerich@analog.com,
-	jic23@kernel.org,
-	gregkh@linuxfoundation.org
-Cc: linux-iio@vger.kernel.org,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F9131C06
+	for <linux-staging@lists.linux.dev>; Sun,  9 Jul 2023 06:27:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foxmail.com;
+	s=s201512; t=1688884030;
+	bh=HwcrTUcQaK+nP1jmqN22G3yOOzPJDfVlMUtckg/KrqM=;
+	h=From:To:Cc:Subject:Date;
+	b=S1bYpGi6dgA0dyqNoxiXyu2Nk6b+ELomzifc+nUCeQP04heSVaz6L3qiZJ2A+sgO0
+	 yihkYvB6womVU1K3j5FYd7QSYwU+LsX+drYnU+MpvMhAceHhB01Uxk3LlWegN7NoH5
+	 WJQMVuJ5bqKmbowaPVGjsKqogdYagvM3zKSQVEEw=
+Received: from KernelDevBox.byted.org ([180.184.103.200])
+	by newxmesmtplogicsvrszb1-0.qq.com (NewEsmtp) with SMTP
+	id C88130EF; Sun, 09 Jul 2023 13:50:08 +0800
+X-QQ-mid: xmsmtpt1688881808tcewaqfua
+Message-ID: <tencent_5153B668C0283CAA15AA518325346E026A09@qq.com>
+X-QQ-XMAILINFO: NyLRYIXSGAqGCejzGNrVsJO+yHH+nG25nZ7agwhLA8xneRLEhcez02mp+AXksu
+	 KFC76/pVZVIVKceSHjNRnTxen4uGwC3l0Czm6H2BUX/uO6nL/eFOrG8pd+doynGVEZNzp0Da5ryU
+	 U2v6XnFA3kuT7gqpe85h9PqH+ZRGRI5rFZ1BuveMs3rB35Xkl1WHs6FmoAA1FEtV93j/AsXL2umF
+	 Mzh6hEXlmJCkoLnwN3gWBloL8pcVbud4DX+7xRSvdWyagB2EIOvTwyjuyqtsq6xw3SUJVBKVPzJ9
+	 OcUeeIe+mVN4st3RxZ9U5hRItoGUuJ73eGdhnOmieia7PnLU2WLtgg3QSkLme4287bTqrmNTW7gw
+	 rq85ihSNeDSdkQNuWWn89aFoAI6g8ip9D2hRPS4cjdMQUqU7pLfIS3/sWdzyIn65WjXt+HnImf2G
+	 nCThagF5ulsbTvqbri8+g+IPjKYx7AqkZvfIIgNtxij6u+pVxFM/xMbAEQeWb+Ul5e78xH9SZgOC
+	 mw5Gx1AkvuzFe5nOydKjOytZIPnqUlAIIYEsGoVp9kG39C255uErgXq7Mv4/1M6gatcF+y9s2LhC
+	 Ut/aKKFiQ3GnDvxwnb80QHTtIJmrr5GD6NEL6EY9/DImofU17/7PBGNHUx3fD8WmdOPqy0VjmlxN
+	 hrZ6uiRnvgEwh7ylZGxDDfAjkbOwpzyxAn62o53OXmrdqLsc/7Q2Z59B8Y+tzXV880baDNLot68+
+	 oB3k2n+PMwTsd1KsHezQcnLd+jjcrOV3wN312lrAspwbqVzSZiF/j8FY/i4/yCLkj2gDrHGEFaS3
+	 zIJ+y1oNLaAbCBCzN2OweXfPrNGmB4NIv8zJyht4cAt5FfD1fmS0pS5b9b/qY1ZEv9R/X4BHmoHm
+	 mvNVB7GTjKv1YCduuYySRKgM17g8jT81pMGfywvbsNElaLb6qX+8c+kdg/ypfyofhAiqChdh15q2
+	 5SqAr+fBfm2i0kIOg7m25bedn7b4cXvX8Piq31LrQF9gqeYd5grnt+Rd/PX5Zb
+X-QQ-XMRINFO: M/715EihBoGSf6IYSX1iLFg=
+From: Zhang Shurong <zhang_shurong@foxmail.com>
+To: gregkh@linuxfoundation.org
+Cc: error27@gmail.com,
+	xu.panda@zte.com.cn,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
-	JuenKit Yip <JuenKit_Yip@hotmail.com>
-Subject: [PATCH v1] staging: iio: ad7816: add iio interface
-Date: Sun,  9 Jul 2023 00:29:58 +0800
-Message-ID:
- <DB4PR10MB6261ADF6C8845AF66AB292989232A@DB4PR10MB6261.EURPRD10.PROD.OUTLOOK.COM>
-X-Mailer: git-send-email 2.39.2
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-TMN: [uyDRepYRGJD4Ubg1ogFbwnBM0GnxQIc8tpbl5Zp5GI5YAXDTngDq8lvDUFySNUik]
-X-ClientProxiedBy: TY2PR01CA0001.jpnprd01.prod.outlook.com
- (2603:1096:404:a::13) To DB4PR10MB6261.EURPRD10.PROD.OUTLOOK.COM
- (2603:10a6:10:383::21)
-X-Microsoft-Original-Message-ID:
- <20230708162958.518594-1-JuenKit_Yip@hotmail.com>
+	Zhang Shurong <zhang_shurong@foxmail.com>
+Subject: [PATCH] staging: ks7010: potential buffer overflow in ks_wlan_set_encode_ext()
+Date: Sun,  9 Jul 2023 13:50:07 +0800
+X-OQ-MSGID: <20230709055007.794710-1-zhang_shurong@foxmail.com>
+X-Mailer: git-send-email 2.30.2
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DB4PR10MB6261:EE_|AS2PR10MB7081:EE_
-X-MS-Office365-Filtering-Correlation-Id: 523e32f9-b325-44d6-2308-08db7fd0a57f
-X-MS-Exchange-SLBlob-MailProps:
-	PHS9e/w+tWL9MQbwWfVXN5PhRFoLpvXhLxnjOaCgkALnG1mS/if9qgtaq5CnFv5m3FIW4g/gBF0vOHC8EYJHm8qfo3zIMjc3X0/gmwgKsXZKNAlvg1Nievjthmx6dzpdrUjlDRO7XfY9Ye6Ac4OxHCdD5jMeCk4Ct7+z+N/80nRh43suPIks05Y/yT4RWW+cph/g+90UQIx8ZXQcrTCra9V8UgKHCWXjAy9027ArxgVBfZW41rosFnWpdT0yXIpdvBoqw+O8X6uxSoiXJue9hojCcCs60WF/Te/og8Kr4wFz52yhWvBM48VsjiC7RfFe/b3QrrV2aJ/qqA9fH+pNcJO+O/ozhPeGJ5E9hlboGwFBwR0tZDm+aO5s7/Z2g/nR42Isd8DY2+uUs9t6ycQR3o4oqeTDOZXm5wXbiaTMdHGSBzc5U5PQWSq6cmtboNCrzT3kMW4WSbs94/z6dMbWIsZl99G/grxVVdTBvh3vq3KlByf94xaCv+pZhqPNnyuQolqJZd8KsjNs9lKmlpUJguwZ0IOMY3uPuufU8FKnFW2ovQShKyD6hCk4HTOwH7Xo/eT/tOvOvUN+ST0bu6K0O8xaJmNq6Z3i00EeErEArRNsk7ur32Bhup5aGvT7MyZtZ07aoUTFHNjbdD0Mej8bxxRA9V4pUs4dMjeP71OzI9oLzr9O7Yfdi43Lhn6BAZYB+yVCYe6a5V1qqPSG7bAwvg==
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	vJ+lBDix2t3gi8Q4phlC3pDRGbzSPTIk/c6CvxUaP87a0GuYsuSYY/BnAJL4ZyGhvQ212NfEOj/QihOD8LpE2rsg9d40dQ6ORyCTqGCUvCrSNX3Oiu/E86cqjJ3KnEyJy7LmV9OEJv1IOxlGh9pYGISWB+uQSbZs7OyYakTNlSzvHFzIHhavz3SD3N4KPz/vs2+4tgpMfZXCRwuE0n4mwRi03i5fJebYcVSJOj5ctNUc9VfwC00RLe73Ek0ktKaTZRvPX3Pawf431fG3dpjLVaWHiTBNZ5ISJPQQSpIYXS4vsRXpOMAgR1RdeyJOzkWq5KHFfwxzKnYRZGd+f0Ntrma18FFr9XBmNvrhQBh8df8dWmUCxH1yPOi+b7aFoMsJJA5dd6lghD+BuNEg/VBUB+CKFqnrePQgktfh2dBMxr0t2AwIXkeIvfkux9ObW23DSgQhdrZMSBFbTBnaWiiO1nhQSAam2AB5Hw0O3sRNunr7Hy/lpZKxl3WiGYX25pmYP1Rbq9H1CNrHOsl4rzOlGClJm2hJGTqWnxyNjw0wxfMRhh2G2HJUBqL5EQsZ397g3IXwCgTr0ROv6c1vp4KG8xl8JJ4r25SJsUcZlyN3dXaDrO3yllWgkZNZBAjQSGMQ
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?cZ8LcT+G9hJQCictzoUJ4JoTk4omtfmQZ0OR2V7MStEwApjZO43IYqJRe2/o?=
- =?us-ascii?Q?+C+dHwjJElGdUZnq9jOgqePetYL1NpnlSjto7cHlzYvnRsvTEBdw2yqK73yM?=
- =?us-ascii?Q?y1aT4MEqiUQ9el/jHeuFxnoBgxd1Tae3s64ikZbbiMcmGzaYVRrOeqrTdiG3?=
- =?us-ascii?Q?jb7GbWwCBN+p3GG8SMsleCY2I7CqENvUNmBkU7Uhlson+wp+Hawbxg0kflUF?=
- =?us-ascii?Q?ltHoYcRe8CSGJcnUx4Gp53d91QZHDisIGw8R7GjAMTS6mccBZsE1iQ4M9Voz?=
- =?us-ascii?Q?n37CyAgMRTC1Y03iAk+1Bzov2sq/C2RCAhRqhZ6JEeXoUym7WQ4wlE4JlDLf?=
- =?us-ascii?Q?6l+xJdswGs6GZedNinATDuET9cMHT1N49qdkhuNEaz4BEeoqRGeK/RVd9YCI?=
- =?us-ascii?Q?i7Awk2KrhDzyw0kyioR5WJrOUfvQSR9Bht63QQBPvalnR3NWz5J3+w5nmJxM?=
- =?us-ascii?Q?wKIKP00NqcWpkvy5BkHiD5rCCY6CsKMflTfYVUHviQ2MLS8uYmcuKOH75548?=
- =?us-ascii?Q?jVRvklIzuMiD/zAZ/el15kNcwxsNmX6Uri4NYXMN6xAby0yNI8sPRz+1ziJA?=
- =?us-ascii?Q?a2rQt5FjWp3Z05hjSffV+qtXFYjnrs1poEx6j7N/DI9Mi83CuWup0NG7r0K8?=
- =?us-ascii?Q?hb4h2WgwODrFeVvYAfkhRW1q1W0enpA8rGUYhOOIjDi/He4hpr9KEKzqPJ5i?=
- =?us-ascii?Q?152ziOJkhxGK4FmncqL2NaWHc7B0WAcT1y/pLIBdL7TrSK0Hv3ybFzsgXCX3?=
- =?us-ascii?Q?NlQ71GyyNa3cDUc8aeSx/rlzWgMLvFi68ooQR6IkpCngkdga5L+vkk1MPGWx?=
- =?us-ascii?Q?M7YyMyk64QDhZVeCM6jNS7Kv58rxNj8WFZjsP/tfSR8z6I3nRbCHgO6UB2S/?=
- =?us-ascii?Q?rhxDOuYtDs597c4B+OW7sx9womDwscYd2fWPeZ69Cr1m4RlOikolKR4QT+v/?=
- =?us-ascii?Q?OzdF6WYjeVXLOkRhZrZxKjKSnNmjV3Z4IkOWbRF7kVai0Uc+KvHbYumsiAlL?=
- =?us-ascii?Q?xGkBcq99FVsPY+4WzLyxU7tQZZKvfqgwEvVbA0qEPqXM4BFHRTl00pSgZrBK?=
- =?us-ascii?Q?jPFeMyqy7CnwOpsn19VLCJeaQjVYmeTd3Sz85UGVdzryinkVKRZ/ph6GRqfr?=
- =?us-ascii?Q?wS8wjzaBks1aUEWh1PZ7rVQBnRLd6kBU/bbo0LTVwcREtVB1Rh6GTPeXyh2d?=
- =?us-ascii?Q?GgP9lo/j6aaqqYHlVh+1PSTFAeekpsPT9jx4p8wPzuMAP5SNMALU7rFSvHke?=
- =?us-ascii?Q?0e94IMYbu+Rsc0QmFtojZBBN9WiIZQVmN1dgK2cK7Lv5GtsOxC2LkpmgmYhM?=
- =?us-ascii?Q?3ek=3D?=
-X-OriginatorOrg: sct-15-20-4755-11-msonline-outlook-6b909.templateTenant
-X-MS-Exchange-CrossTenant-Network-Message-Id: 523e32f9-b325-44d6-2308-08db7fd0a57f
-X-MS-Exchange-CrossTenant-AuthSource: DB4PR10MB6261.EURPRD10.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Jul 2023 16:30:31.4296
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg:
-	00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS2PR10MB7081
+Content-Transfer-Encoding: 8bit
 
-add iio interface for 4 channels, replacing the previous sysfs
-interface
+The "exc->key_len" is a u16 that comes from the user.  If it's over
+IW_ENCODING_TOKEN_MAX (64) that could lead to memory corruption.
 
-Signed-off-by: JuenKit Yip <JuenKit_Yip@hotmail.com>
+Fixes: b121d84882b9 ("staging: ks7010: simplify calls to memcpy()")
+
+Signed-off-by: Zhang Shurong <zhang_shurong@foxmail.com>
 ---
- drivers/staging/iio/adc/ad7816.c | 122 +++++++++++++++----------------
- 1 file changed, 59 insertions(+), 63 deletions(-)
+ drivers/staging/ks7010/ks_wlan_net.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/staging/iio/adc/ad7816.c b/drivers/staging/iio/adc/ad7816.c
-index 6c14d7bcdd67..8af117b6ae11 100644
---- a/drivers/staging/iio/adc/ad7816.c
-+++ b/drivers/staging/iio/adc/ad7816.c
-@@ -162,64 +162,17 @@ static ssize_t ad7816_show_available_modes(struct device *dev,
- static IIO_DEVICE_ATTR(available_modes, 0444, ad7816_show_available_modes,
- 			NULL, 0);
- 
--static ssize_t ad7816_show_channel(struct device *dev,
--				   struct device_attribute *attr,
--				   char *buf)
-+static int ad7816_read_raw(struct iio_dev *indio_dev,
-+			   struct iio_chan_spec const *chan,
-+			   int *val,
-+			   int *val2,
-+			   long m)
- {
--	struct iio_dev *indio_dev = dev_to_iio_dev(dev);
--	struct ad7816_chip_info *chip = iio_priv(indio_dev);
--
--	return sprintf(buf, "%d\n", chip->channel_id);
--}
--
--static ssize_t ad7816_store_channel(struct device *dev,
--				    struct device_attribute *attr,
--				    const char *buf,
--				    size_t len)
--{
--	struct iio_dev *indio_dev = dev_to_iio_dev(dev);
--	struct ad7816_chip_info *chip = iio_priv(indio_dev);
--	unsigned long data;
--	int ret;
--
--	ret = kstrtoul(buf, 10, &data);
--	if (ret)
--		return ret;
--
--	if (data > AD7816_CS_MAX && data != AD7816_CS_MASK) {
--		dev_err(&chip->spi_dev->dev, "Invalid channel id %lu for %s.\n",
--			data, indio_dev->name);
--		return -EINVAL;
--	} else if (strcmp(indio_dev->name, "ad7818") == 0 && data > 1) {
--		dev_err(&chip->spi_dev->dev,
--			"Invalid channel id %lu for ad7818.\n", data);
--		return -EINVAL;
--	} else if (strcmp(indio_dev->name, "ad7816") == 0 && data > 0) {
--		dev_err(&chip->spi_dev->dev,
--			"Invalid channel id %lu for ad7816.\n", data);
--		return -EINVAL;
--	}
--
--	chip->channel_id = data;
--
--	return len;
--}
--
--static IIO_DEVICE_ATTR(channel, 0644,
--		ad7816_show_channel,
--		ad7816_store_channel,
--		0);
--
--static ssize_t ad7816_show_value(struct device *dev,
--				 struct device_attribute *attr,
--				 char *buf)
--{
--	struct iio_dev *indio_dev = dev_to_iio_dev(dev);
- 	struct ad7816_chip_info *chip = iio_priv(indio_dev);
- 	u16 data;
--	s8 value;
- 	int ret;
- 
-+	chip->channel_id = (u8)chan->channel;
- 	ret = ad7816_spi_read(chip, &data);
- 	if (ret)
- 		return -EIO;
-@@ -227,22 +180,21 @@ static ssize_t ad7816_show_value(struct device *dev,
- 	data >>= AD7816_VALUE_OFFSET;
- 
- 	if (chip->channel_id == 0) {
--		value = (s8)((data >> AD7816_TEMP_FLOAT_OFFSET) - 103);
--		data &= AD7816_TEMP_FLOAT_MASK;
--		if (value < 0)
--			data = BIT(AD7816_TEMP_FLOAT_OFFSET) - data;
--		return sprintf(buf, "%d.%.2d\n", value, data * 25);
-+		*val = (s8)((data >> AD7816_TEMP_FLOAT_OFFSET) - 103);
-+		*val2 = (data & AD7816_TEMP_FLOAT_MASK) * 25;
-+		if (*val < 0)
-+			*val2 = BIT(AD7816_TEMP_FLOAT_OFFSET) - *val2;
-+		return IIO_VAL_INT_PLUS_MICRO;
- 	}
--	return sprintf(buf, "%u\n", data);
--}
- 
--static IIO_DEVICE_ATTR(value, 0444, ad7816_show_value, NULL, 0);
-+	*val = data;
+diff --git a/drivers/staging/ks7010/ks_wlan_net.c b/drivers/staging/ks7010/ks_wlan_net.c
+index e03c87f0bfe7..0fb97a79ad0b 100644
+--- a/drivers/staging/ks7010/ks_wlan_net.c
++++ b/drivers/staging/ks7010/ks_wlan_net.c
+@@ -1583,8 +1583,10 @@ static int ks_wlan_set_encode_ext(struct net_device *dev,
+ 			commit |= SME_WEP_FLAG;
+ 		}
+ 		if (enc->key_len) {
+-			memcpy(&key->key_val[0], &enc->key[0], enc->key_len);
+-			key->key_len = enc->key_len;
++			int key_len = clamp_val(enc->key_len, 0, IW_ENCODING_TOKEN_MAX);
 +
-+	return IIO_VAL_INT;
-+}
- 
- static struct attribute *ad7816_attributes[] = {
- 	&iio_dev_attr_available_modes.dev_attr.attr,
- 	&iio_dev_attr_mode.dev_attr.attr,
--	&iio_dev_attr_channel.dev_attr.attr,
--	&iio_dev_attr_value.dev_attr.attr,
- 	NULL,
- };
- 
-@@ -341,10 +293,47 @@ static const struct attribute_group ad7816_event_attribute_group = {
- };
- 
- static const struct iio_info ad7816_info = {
-+	.read_raw = ad7816_read_raw,
- 	.attrs = &ad7816_attribute_group,
- 	.event_attrs = &ad7816_event_attribute_group,
- };
- 
-+static const struct iio_chan_spec ad7816_channels[] = {
-+	{
-+		.type = IIO_TEMP,
-+		.indexed = 1,
-+		.channel = 0,
-+		.info_mask_separate = BIT(IIO_CHAN_INFO_PROCESSED),
-+	},
-+};
-+
-+static const struct iio_chan_spec ad7817_channels[] = {
-+	{
-+		.type = IIO_TEMP,
-+		.indexed = 1,
-+		.channel = 0,
-+		.info_mask_separate = BIT(IIO_CHAN_INFO_PROCESSED),
-+	},
-+	{
-+		.type = IIO_VOLTAGE,
-+		.indexed = 1,
-+		.channel = 1,
-+		.info_mask_separate = BIT(IIO_CHAN_INFO_PROCESSED),
-+	},
-+	{
-+		.type = IIO_VOLTAGE,
-+		.indexed = 1,
-+		.channel = 2,
-+		.info_mask_separate = BIT(IIO_CHAN_INFO_PROCESSED),
-+	},
-+	{
-+		.type = IIO_VOLTAGE,
-+		.indexed = 1,
-+		.channel = 3,
-+		.info_mask_separate = BIT(IIO_CHAN_INFO_PROCESSED),
-+	},
-+};
-+
- /*
-  * device probe and remove
-  */
-@@ -367,6 +356,13 @@ static int ad7816_probe(struct spi_device *spi_dev)
- 		chip->oti_data[i] = 203;
- 
- 	chip->id = spi_get_device_id(spi_dev)->driver_data;
-+	if (chip->id == ID_AD7816) {
-+		indio_dev->channels = ad7816_channels;
-+		indio_dev->num_channels = ARRAY_SIZE(ad7816_channels);
-+	} else {
-+		indio_dev->channels = ad7817_channels;
-+		indio_dev->num_channels = ARRAY_SIZE(ad7817_channels);
-+	}
- 	chip->rdwr_pin = devm_gpiod_get(&spi_dev->dev, "rdwr", GPIOD_OUT_HIGH);
- 	if (IS_ERR(chip->rdwr_pin)) {
- 		ret = PTR_ERR(chip->rdwr_pin);
++			memcpy(&key->key_val[0], &enc->key[0], key_len);
++			key->key_len = key_len;
+ 			commit |= (SME_WEP_VAL1 << index);
+ 		}
+ 		break;
 -- 
-2.39.2
+2.30.2
 
