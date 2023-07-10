@@ -1,42 +1,42 @@
 Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50B3311C8A
-	for <linux-staging@lists.linux.dev>; Mon, 10 Jul 2023 13:01:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C095B125A3
+	for <linux-staging@lists.linux.dev>; Mon, 10 Jul 2023 13:01:22 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 68BFA1FF7C;
-	Mon, 10 Jul 2023 13:01:18 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 633351FF7F;
+	Mon, 10 Jul 2023 13:01:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1688994078; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1688994080; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=pTQpbLanYLjxro0UM6J8Mi7ObE6Z41CLBE4xsSVjDsc=;
-	b=pX7kc4YVK+yd81bUpTHdZ1dAI63aV/ZAD+NOhEF+NEsM9Nx23ayHl5rNax0Z/F0EWGlXl3
-	2okPokwUAusEzTQ6iqWWpnDXBcJhhMXjm8UJchDiztUotQjR7uZcasIIaGpk3OIca4pPWH
-	oyAx1xHGmL7b/Ngqc5mRXy93Zi3ujB4=
+	bh=f6ru8517klqGREviW+x/hv4zx4wIPur3uNAYN8tJAH0=;
+	b=mpQ7zE3boNuzxgXmD8+YmLufhYYd6Nfi/b1CtUeVH7C8D+zhVZs1Qy96P3dyluOd/egOvR
+	g2MIVfyX9Y/2jasio1RD76V51+HY0Gk0lE1hld3b33BD4hvJwhk92b3x3fIl8ipEYbNClC
+	OQh+kDWDKb/JL12VDpUQm/hJXgLBlFY=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1688994078;
+	s=susede2_ed25519; t=1688994080;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=pTQpbLanYLjxro0UM6J8Mi7ObE6Z41CLBE4xsSVjDsc=;
-	b=ibWKAz6ioqyjGlxcLtbm6ki+xAMred8GEX6JNPkq5qrp4dXI9LPOJHaLYWkxG96udj+hj7
-	Q0rOMB0Eo+6t37Cg==
+	bh=f6ru8517klqGREviW+x/hv4zx4wIPur3uNAYN8tJAH0=;
+	b=EWBKr1Z+4QVt5mOCxBoTfkQNc9Wcvlk+hs1S6tE8l36rKEOLj9nQ8WUaA7TeuDN4Yd4qnn
+	LFcjRqeScP2uMXCQ==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 084B913A6B;
-	Mon, 10 Jul 2023 13:01:18 +0000 (UTC)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 10D9B13A05;
+	Mon, 10 Jul 2023 13:01:20 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
 	by imap2.suse-dmz.suse.de with ESMTPSA
-	id mDT7AB4BrGTTFAAAMHmgww
-	(envelope-from <tzimmermann@suse.de>); Mon, 10 Jul 2023 13:01:18 +0000
+	id 2OUqAyABrGTTFAAAMHmgww
+	(envelope-from <tzimmermann@suse.de>); Mon, 10 Jul 2023 13:01:20 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: deller@gmx.de,
 	javierm@redhat.com
@@ -55,13 +55,10 @@ Cc: linux-sh@vger.kernel.org,
 	linux-omap@vger.kernel.org,
 	linuxppc-dev@lists.ozlabs.org,
 	kvm@vger.kernel.org,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Yoshinori Sato <ysato@users.sourceforge.jp>,
-	Rich Felker <dalias@libc.org>,
-	John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
-Subject: [PATCH 08/17] arch/sh: Do not assign FBINFO_FLAG_DEFAULT to fb_videomode.flag
-Date: Mon, 10 Jul 2023 14:50:12 +0200
-Message-ID: <20230710130113.14563-9-tzimmermann@suse.de>
+	Thomas Zimmermann <tzimmermann@suse.de>
+Subject: [PATCH 13/17] fbdev: Remove flag FBINFO_FLAG_DEFAULT from fbdev drivers
+Date: Mon, 10 Jul 2023 14:50:17 +0200
+Message-ID: <20230710130113.14563-14-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.41.0
 In-Reply-To: <20230710130113.14563-1-tzimmermann@suse.de>
 References: <20230710130113.14563-1-tzimmermann@suse.de>
@@ -73,31 +70,48 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-FBINFO_FLAG_DEFAULT is a flag for a framebuffer in struct fb_info.
-Flags for videomodes are prefixed with FB_MODE_. FBINFO_FLAG_DEFAULT
-is 0 and the static declaration already clears the memory area of
-sh7763fb_videomode. So remove the assignment.
+The flag FBINFO_FLAG_DEFAULT is 0 and has no effect, as struct
+fbinfo.flags has been allocated to zero by kzalloc(). So do not
+set it.
+
+Flags should signal differences from the default values. After cleaning
+up all occurences of FBINFO_FLAG_DEFAULT, the token can be removed.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: Yoshinori Sato <ysato@users.sourceforge.jp>
-Cc: Rich Felker <dalias@libc.org>
-Cc: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
+Cc: Helge Deller <deller@gmx.de>
 ---
- arch/sh/boards/mach-sh7763rdp/setup.c | 1 -
- 1 file changed, 1 deletion(-)
+ drivers/video/fbdev/amba-clcd.c             | 1 -
+ drivers/video/fbdev/matrox/matroxfb_crtc2.c | 5 ++---
+ 2 files changed, 2 insertions(+), 4 deletions(-)
 
-diff --git a/arch/sh/boards/mach-sh7763rdp/setup.c b/arch/sh/boards/mach-sh7763rdp/setup.c
-index 97e715e4e9b3..345f2b76c85a 100644
---- a/arch/sh/boards/mach-sh7763rdp/setup.c
-+++ b/arch/sh/boards/mach-sh7763rdp/setup.c
-@@ -119,7 +119,6 @@ static struct fb_videomode sh7763fb_videomode = {
- 	.vsync_len = 1,
- 	.sync = 0,
- 	.vmode = FB_VMODE_NONINTERLACED,
--	.flag = FBINFO_FLAG_DEFAULT,
- };
+diff --git a/drivers/video/fbdev/amba-clcd.c b/drivers/video/fbdev/amba-clcd.c
+index e45338227be6..24d89e6fb780 100644
+--- a/drivers/video/fbdev/amba-clcd.c
++++ b/drivers/video/fbdev/amba-clcd.c
+@@ -461,7 +461,6 @@ static int clcdfb_register(struct clcd_fb *fb)
+ 	}
  
- static struct sh7760fb_platdata sh7763fb_def_pdata = {
+ 	fb->fb.fbops		= &clcdfb_ops;
+-	fb->fb.flags		= FBINFO_FLAG_DEFAULT;
+ 	fb->fb.pseudo_palette	= fb->cmap;
+ 
+ 	strncpy(fb->fb.fix.id, clcd_name, sizeof(fb->fb.fix.id));
+diff --git a/drivers/video/fbdev/matrox/matroxfb_crtc2.c b/drivers/video/fbdev/matrox/matroxfb_crtc2.c
+index 7655afa3fd50..372197c124de 100644
+--- a/drivers/video/fbdev/matrox/matroxfb_crtc2.c
++++ b/drivers/video/fbdev/matrox/matroxfb_crtc2.c
+@@ -603,9 +603,8 @@ static int matroxfb_dh_regit(const struct matrox_fb_info *minfo,
+ 	void* oldcrtc2;
+ 
+ 	m2info->fbcon.fbops = &matroxfb_dh_ops;
+-	m2info->fbcon.flags = FBINFO_FLAG_DEFAULT;
+-	m2info->fbcon.flags |= FBINFO_HWACCEL_XPAN |
+-			       FBINFO_HWACCEL_YPAN;
++	m2info->fbcon.flags = FBINFO_HWACCEL_XPAN |
++			      FBINFO_HWACCEL_YPAN;
+ 	m2info->fbcon.pseudo_palette = m2info->cmap;
+ 	fb_alloc_cmap(&m2info->fbcon.cmap, 256, 1);
+ 
 -- 
 2.41.0
 
