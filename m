@@ -1,85 +1,83 @@
-Received: from out162-62-57-87.mail.qq.com (out162-62-57-87.mail.qq.com [162.62.57.87])
+Received: from mout.web.de (mout.web.de [212.227.17.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41CFB3C05
-	for <linux-staging@lists.linux.dev>; Mon, 10 Jul 2023 06:12:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foxmail.com;
-	s=s201512; t=1688969512;
-	bh=xTvL2e6wK/GytVnhPpEJaEjWTVzGVbzLIg6DXCg+z60=;
-	h=Subject:From:In-Reply-To:Date:Cc:References:To;
-	b=xdJZ2GwxqSHdOLbQkmwrjQ+i/rAcIOV6ivXAdeVOsJ2cucGpjHWjyvyGFCMMZV+Pk
-	 /C0q6kCrMtMFA1CCJu/tCAIcpURv9BZUwL4N/On5VWCHAqXMBKCXua8qWE3Tm0DtU4
-	 VTyu03cJ6iXi/1cMpsRqaHDOBVNCdQUfr1Bb6uP4=
-Received: from smtpclient.apple ([240e:6b1:c0:120::b])
-	by newxmesmtplogicsvrszc5-0.qq.com (NewEsmtp) with SMTP
-	id A51BB0C9; Mon, 10 Jul 2023 13:41:17 +0800
-X-QQ-mid: xmsmtpt1688967677tr407q0zf
-Message-ID: <tencent_BB4124566E846A2FB6ECC0F63C5A15BE5009@qq.com>
-X-QQ-XMAILINFO: M0msBj/q2J/mf9gFfHhbU6RzGy6V0ipaK3fxvRF8YcN2FLrRemnAU6zZD6Ph7G
-	 qPj+awM0q9VUD8jNFc6VQQJP91IzHZXYMXmeEWjmDsIcL7TEDbc5YhwUKkiyIfRF13O4e3O0LGfo
-	 FowAEwoHrBD6RQizdfLkSKCOpL3t+kAEviQB3GuiMp65a7Kfc/sdKOEnCFi9f1R3MVvBUkDAUtmL
-	 9X6EDQ5a23LkZlw2eML8xsnzyjK7UKhonil2zQRuE3rRQPB1QKHtDHI/9TBwc48GUYUEcaAx9QCW
-	 qvADUxrxEiTzl3kkiEhElKYnYKsDq1dVQCZIuvuQE2Upmm0xHkk7uBFE4/i4cobyiTDk/eW8PfOH
-	 dkYpQJqffa42tXTgYeXedC0lHZsGwUa2Y8Ale6SXo7YzVKZqKAM4oMJV0ff6grzKZNAGgn8TU+zj
-	 tYd+wxbNcq62/pph7jV8xS6zCTUTFaHPaKPP1LyvKviyWitSvxP4p5cCASIsh/XEZm0C6LwHsIPI
-	 kli8t0/U0sCDQ/ZMh5b+W0OIiqCan2+9Y3ZhKUH2edbHwt5yK+BnL0L7sq+U4mudRx1zu7Pe/g0d
-	 nYsw22CX4hVdLljHWQ5mMNQTBvgvWgj/eklPSXEFhnjIe0mkHmRBMMJOhpMmFb6GwhDV4dxiyBFJ
-	 yBQ6MO2TQs76od7MotNzxpGbgpADcjqaHU5ICQz3i5wPuhVzd4aqDEjJO91/w5BeSSgehJCRJ6h2
-	 w5tAAw3WFGDhEYzOsLCM0JM6/gLMALmQ+YSlFb3wTKPl5ApPD1ZEd/Y5jfktUOFVZr19I5bOe6Gt
-	 9V5KOeQOaPUgcns2pcnYSfI8nziVQT6vUUdch0FApzjSQtbjyPjSgkxnItboR2gPapY5jqpgfnhk
-	 9jelCszPXYZkb1/LI/PtRv81N13PTh1Q0LzNRVdUTj4+nlpL+9adsDL6cvHqzb7oPMWnaiC8v2SA
-	 3PLa9R17XaPLpXr7Xmp9nMmEMJJ8zAu19G18H1XnRNL0T9et0vI1N07+q9r5ep
-X-QQ-XMRINFO: NI4Ajvh11aEj8Xl/2s1/T8w=
-Content-Type: text/plain;
-	charset=utf-8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD79723CD
+	for <linux-staging@lists.linux.dev>; Mon, 10 Jul 2023 06:22:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
+ s=s29768273; t=1688970110; x=1689574910; i=markus.elfring@web.de;
+ bh=42kO++UW1qAfJ9DX+6wgsp1asYnY3UofIPxyTDLeN3g=;
+ h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:In-Reply-To;
+ b=eXIDxS04tWgyg4HPQVVNoDA/W53FZxVrRrm+cs2Dz28/VmTg72x8uE5c0OYNjp6SCYsoYlT
+ iS9q9mhqqDb5y8b+QSMsmUGu3Nxr9edzmON25qFojMn7LF/kGE59NG9AqZj+YLOJHKPYUcf7H
+ OvMIP9vnt7hcMSRhMqsAAXqrcmO3AFSusrAvJF+kYdYxDD11WLBeTI4KRoPPChVDOykQSFqxW
+ iV4h0AbVQKjIP3P1vwUG0QvnF4NF68rdbBnyv4S4DF8EDaxk7VzsUAj7EAOFXhWORInqlfkWq
+ deqnxKHsG1XJgyht/vwSvEmwX5OF9RbfPR8ozE55FsrCpp/zOpww==
+X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
+Received: from [192.168.178.21] ([94.31.90.83]) by smtp.web.de (mrweb106
+ [213.165.67.124]) with ESMTPSA (Nemesis) id 1MtyA2-1pzzVK30rE-00uCjI; Mon, 10
+ Jul 2023 08:21:50 +0200
+Message-ID: <c8d9a151-67d0-a5eb-dd3c-12aaa85b5178@web.de>
+Date: Mon, 10 Jul 2023 08:21:40 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3731.600.7\))
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
 Subject: Re: staging: ks7010: potential buffer overflow in
  ks_wlan_set_encode_ext()
-From: Zhang Shurong <zhang_shurong@foxmail.com>
-In-Reply-To: <e24f9c2c-1163-631a-f8c0-b6dcb445a858@web.de>
-Date: Mon, 10 Jul 2023 13:41:07 +0800
+To: Zhang Shurong <zhang_shurong@foxmail.com>, linux-staging@lists.linux.dev,
+ kernel-janitors@vger.kernel.org
 Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- linux-staging@lists.linux.dev,
- kernel-janitors@vger.kernel.org,
- LKML <linux-kernel@vger.kernel.org>,
- Dan Carpenter <error27@gmail.com>,
+ LKML <linux-kernel@vger.kernel.org>, Dan Carpenter <error27@gmail.com>,
  Xu Panda <xu.panda@zte.com.cn>
-Content-Transfer-Encoding: quoted-printable
-X-OQ-MSGID: <BA41CA41-19D6-48ED-89CC-B7A575DC0040@foxmail.com>
 References: <tencent_5153B668C0283CAA15AA518325346E026A09@qq.com>
  <2a41ca22-a0eb-df38-be43-7175e1230bd0@web.de>
  <2023070919-monetary-sleet-2f5c@gregkh>
  <e24f9c2c-1163-631a-f8c0-b6dcb445a858@web.de>
-To: Markus Elfring <Markus.Elfring@web.de>
-X-Mailer: Apple Mail (2.3731.600.7)
+ <tencent_BB4124566E846A2FB6ECC0F63C5A15BE5009@qq.com>
+Content-Language: en-GB
+From: Markus Elfring <Markus.Elfring@web.de>
+In-Reply-To: <tencent_BB4124566E846A2FB6ECC0F63C5A15BE5009@qq.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:pOeD+L3/BnthGHA9Vld9+QP7fJGlaEpvV/QVAxypiD1/FPb3IsB
+ XPHddMza6tVsu0u2MAiSCnHQIKJq0kBVH1x08no7qUF/5/+VCvl7BFmRT/iQA68KvVe/3q+
+ yljHue2qKpd7jnaaeHCM+LB41NjwTNf2s9ddHx0T7BjW/r0HMMFRpKUJbVnQc6w2VOuwPlD
+ cjJY6XWraj7xZVR3wrzmQ==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:ELTMD5khHWc=;Q9XsD9yjgt1lDogx03o9jAZBcWM
+ 9ldTFzddsFj+YmaMu0JWE0xK1tcwhsDOij+Y+GrGuN0xCNL17V3BB4oYLc5IigR4cSEF4RKPz
+ 7tjmhCLv+ZTOXrVGLmNrAye9zGv/vZwqeuW0sX7leSm3NKjvJ9oA8+D2meG56+RBjZ+uy+Y6G
+ eHlBF25n+EEo5FfCarUaxkz/MDGyXqJwDCjR4q8yzRy9rvCwNGpgFBHLbtP+wzHgylJuA6KnS
+ Zfb+pfivfEnOU4sxw00ubBfA1Hxre2vGd8vSAyMN+jZH4tBJ55d7wkVS1rafJq9NkB48hQ36W
+ b0Rd0pv0ypMQfxzAujL13Ai4gKJhgDBzj6rTzvXKP1lX+WJ5TIdFyniG67CBlBhRWx4IqxE1T
+ a00Z0T0wfwxGGHDAE4NO44zn02+0VTBBSgRn1nyIGgalP2YYHJzXIw5NllwQdLuP8FfCMehbg
+ cFZhm3DoGddW0yZyt82eshGFugwEh+0i8XOIjYcSoh6VceNr7tFIhL1eL/VPOUzJFPzW5/8aL
+ YY/PRxAUxUwV3TY3ptAqlwr/Wff2By/cTalikYMdm5B99rSPc2t0w60J0cPIQd9cAg/dWVXxU
+ GLw8rTwsF2eUK41lwKGwSnsNzl5UlVOvY+7RXm4uDKeHDOuXru9QMGL6xQynvuBJKhoQrZqHV
+ qGrhabeDtnnOKKlPpVfSag69GXPVtFd9Qp3uJDWDDHWcISeYd0H9wzvL4pwbqWUaC+nR4K5vu
+ uF4LA/llcKNMEh8wDhKlaNGqM91ZUnAnseuKmWsCv68JFTDdgJzM6LJ90S7mzgI9dHvtFISE2
+ a2BGLvh2Lj3izFfHcqAfXyUWW7EX7ZjMJaTYJmpoKkYU8N/QecnbdfC+kMyr7ZXHzuOW5dRQe
+ YOx1aDOB2VAQ5JnPCzE5XgdrCfY2GMX0HkTGzSSQIw+SkF9+ZrX/pwCfIbU5+HgubYl6fzpwP
+ 3kAH/A==
 
-Hi Markus,
+=E2=80=A6
+>> It seems that further contributors need to become more aware about
+>> (and finally adhere to) requirements from the Linux development documen=
+tation.
+=E2=80=A6
+> I'm guilty of my incorrect patch format. And do I need to write another
+> patch to fix this format issue?
 
-> 2023=E5=B9=B47=E6=9C=8810=E6=97=A5 03:56=EF=BC=8CMarkus Elfring =
-<Markus.Elfring@web.de> =E5=86=99=E9=81=93=EF=BC=9A
->=20
->>>> The "exc->key_len" is a u16 that comes from the user.  If it's over
->>>> IW_ENCODING_TOKEN_MAX (64) that could lead to memory corruption.
->>>=20
->>> Please choose an imperative change suggestion.
->>=20
->> Please stop reviewing staging patches, it is not helpful for anyone.
->=20
-> It seems that further contributors need to become more aware about
-> (and finally adhere to) requirements from the Linux development =
-documentation.
->=20
-> Regards,
-> Markus
+This can be an usual consequence for the current change review
+if you would really like to take provided information and advices
+better into account.
+Some communication parameters influence if further development ideas
+will actually be picked up for desirable improvements
+(also for your change suggestions).
 
-I'm guilty of my incorrect patch format. And do I need to write another
-patch to fix this format issue?
-
-Best regards
-Shurong
-
+Regards,
+Markus
