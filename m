@@ -1,116 +1,96 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from outpost1.zedat.fu-berlin.de (outpost1.zedat.fu-berlin.de [130.133.4.66])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D1B5101C6
-	for <linux-staging@lists.linux.dev>; Mon, 10 Jul 2023 13:05:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1688994333;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=cSSXjKtHNo2g+s4fKQO8ycwZ9VSR9y5qDmg/kPz0J+8=;
-	b=NDekGdoVFuvPxqBPm/p8URYHUEwrlee7pnACszE4CztEXS8QClMi+uhA/7W5iKi6rNAU7A
-	ImwAW4o9H6riexZj7hlloOSE6AgNJcBLna4YcmqgtWhnM3Q8sxoa2otZsO/plrPDDIJjjv
-	S03AAqBX54a0A6gBqFiIzhASVHqu3NQ=
-Received: from mail-yb1-f197.google.com (mail-yb1-f197.google.com
- [209.85.219.197]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-94-XhFAco4dP0CMX_PJVJQRgw-1; Mon, 10 Jul 2023 09:05:32 -0400
-X-MC-Unique: XhFAco4dP0CMX_PJVJQRgw-1
-Received: by mail-yb1-f197.google.com with SMTP id 3f1490d57ef6-c850943cf9aso1186548276.1
-        for <linux-staging@lists.linux.dev>; Mon, 10 Jul 2023 06:05:32 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1688994331; x=1691586331;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=cSSXjKtHNo2g+s4fKQO8ycwZ9VSR9y5qDmg/kPz0J+8=;
-        b=GbZRCJyQdgPQIrfh5NbtuJ9iFwmWwsNeuGawcCN96k/c4uGY3U9KzHEyAzuRPcoP5/
-         d6SBmuOqGx+/XqEscYaYyiG4eWWLARd+1Z++KKONNW/dgAN9OWqobhzHNvCibUwK5OSl
-         pWeSREOZrdAiqHLOYjrIiY0eML5+ArmXln881JHGaWslkdItWaXgFhNsDQs4k4b1wqVy
-         y7n4yI7z91y7WhFr9Kjv7pSCCjh4G0dbMf05YADh7ALIEPW0Zjw1bgKzwHj1ztzyANpi
-         smDzSEHHZyQs2xfKR7LUA/KhlpOUM/itFVxyUsDiH9dyVdUN7P77G8JpnMYuQwwk4V2G
-         wd2A==
-X-Gm-Message-State: ABy/qLYRDS651hoV2CdOQYBmr3zDzJcyltlD2zW8+sfRsKyfF2cwZll4
-	DQ8qm8EpHH2G9196ZgAQpSF6hS9uMGw1sfjnyhVImRpBa0EEbTYpuupdXDbtPdBhYFSI3joNXHF
-	sPu9YIRVr00sM0zw8yNvP0G5vAphWzz8WeJHD4HjjA3JdxkLMhaX/
-X-Received: by 2002:a25:1f02:0:b0:c67:8903:532b with SMTP id f2-20020a251f02000000b00c678903532bmr9557465ybf.44.1688994331563;
-        Mon, 10 Jul 2023 06:05:31 -0700 (PDT)
-X-Google-Smtp-Source: APBJJlFYCDVRqXESu2lKlw5OOq57+bm9EWCrFUc3sqkdq7rbGFO3X2AFRnXejnh8LqRK8eFbanSG74Fa5+uKsOptTgw=
-X-Received: by 2002:a25:1f02:0:b0:c67:8903:532b with SMTP id
- f2-20020a251f02000000b00c678903532bmr9557452ybf.44.1688994331376; Mon, 10 Jul
- 2023 06:05:31 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B41CE5229
+	for <linux-staging@lists.linux.dev>; Mon, 10 Jul 2023 13:49:07 +0000 (UTC)
+Received: from inpost2.zedat.fu-berlin.de ([130.133.4.69])
+          by outpost.zedat.fu-berlin.de (Exim 4.95)
+          with esmtps (TLS1.3)
+          tls TLS_AES_256_GCM_SHA384
+          (envelope-from <glaubitz@zedat.fu-berlin.de>)
+          id 1qIrA9-000zai-Vg; Mon, 10 Jul 2023 15:42:50 +0200
+Received: from p57bd95f7.dip0.t-ipconnect.de ([87.189.149.247] helo=[192.168.178.81])
+          by inpost2.zedat.fu-berlin.de (Exim 4.95)
+          with esmtpsa (TLS1.3)
+          tls TLS_AES_256_GCM_SHA384
+          (envelope-from <glaubitz@physik.fu-berlin.de>)
+          id 1qIrA9-001iVF-NK; Mon, 10 Jul 2023 15:42:49 +0200
+Message-ID: <0a47ed93fe90a77180533f8c2e42e402827e8f1c.camel@physik.fu-berlin.de>
+Subject: Re: [PATCH 08/17] arch/sh: Do not assign FBINFO_FLAG_DEFAULT to
+ fb_videomode.flag
+From: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
+To: Thomas Zimmermann <tzimmermann@suse.de>, deller@gmx.de,
+ javierm@redhat.com
+Cc: linux-sh@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org, 
+ linux-input@vger.kernel.org, linux-media@vger.kernel.org, 
+ linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev, 
+ linux-arm-kernel@lists.infradead.org, linux-geode@lists.infradead.org, 
+ linux-nvidia@lists.surfsouth.com, linux-hyperv@vger.kernel.org, 
+ linux-omap@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+ kvm@vger.kernel.org,  Yoshinori Sato <ysato@users.sourceforge.jp>, Rich
+ Felker <dalias@libc.org>
+Date: Mon, 10 Jul 2023 15:42:48 +0200
+In-Reply-To: <20230710130113.14563-9-tzimmermann@suse.de>
+References: <20230710130113.14563-1-tzimmermann@suse.de>
+	 <20230710130113.14563-9-tzimmermann@suse.de>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.48.4 
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20230710130113.14563-1-tzimmermann@suse.de> <20230710130113.14563-11-tzimmermann@suse.de>
-In-Reply-To: <20230710130113.14563-11-tzimmermann@suse.de>
-From: Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Date: Mon, 10 Jul 2023 15:05:19 +0200
-Message-ID: <CAO-hwJLvBpNu1z4qM9+331-oUroh4g5HORL=EZS0nb+HHe+fdw@mail.gmail.com>
-Subject: Re: [PATCH 10/17] hid/picolcd: Remove flag FBINFO_FLAG_DEFAULT from
- fbdev driver
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: deller@gmx.de, javierm@redhat.com, linux-sh@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
-	amd-gfx@lists.freedesktop.org, linux-input@vger.kernel.org, 
-	linux-media@vger.kernel.org, linux-fbdev@vger.kernel.org, 
-	linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
-	linux-geode@lists.infradead.org, linux-nvidia@lists.surfsouth.com, 
-	linux-hyperv@vger.kernel.org, linux-omap@vger.kernel.org, 
-	linuxppc-dev@lists.ozlabs.org, kvm@vger.kernel.org, 
-	=?UTF-8?Q?Bruno_Pr=C3=A9mont?= <bonbons@linux-vserver.org>, 
-	Jiri Kosina <jikos@kernel.org>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-Original-Sender: glaubitz@physik.fu-berlin.de
+X-Originating-IP: 87.189.149.247
+X-ZEDAT-Hint: PO
 
-On Mon, Jul 10, 2023 at 3:01=E2=80=AFPM Thomas Zimmermann <tzimmermann@suse=
-.de> wrote:
->
-> The flag FBINFO_FLAG_DEFAULT is 0 and has no effect, as struct
-> fbinfo.flags has been allocated to zero by framebuffer_alloc(). So do
-> not set it.
->
-> Flags should signal differences from the default values. After cleaning
-> up all occurences of FBINFO_FLAG_DEFAULT, the token can be removed.
->
+Hi Thomas!
+
+On Mon, 2023-07-10 at 14:50 +0200, Thomas Zimmermann wrote:
+> FBINFO_FLAG_DEFAULT is a flag for a framebuffer in struct fb_info.
+> Flags for videomodes are prefixed with FB_MODE_. FBINFO_FLAG_DEFAULT
+> is 0 and the static declaration already clears the memory area of
+> sh7763fb_videomode. So remove the assignment.
+>=20
 > Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> Cc: "Bruno Pr=C3=A9mont" <bonbons@linux-vserver.org>
-> Cc: Jiri Kosina <jikos@kernel.org>
-> Cc: Benjamin Tissoires <benjamin.tissoires@redhat.com>
-
-Acked-by: Benjamin Tissoires <benjamin.tissoires@redhat.com>
-
-Feel free to take this through the DRI tree (or any other that handles
-FB) with the rest of the series if you want.
-
-Cheers,
-Benjamin
-
+> Cc: Yoshinori Sato <ysato@users.sourceforge.jp>
+> Cc: Rich Felker <dalias@libc.org>
+> Cc: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
 > ---
->  drivers/hid/hid-picolcd_fb.c | 1 -
+>  arch/sh/boards/mach-sh7763rdp/setup.c | 1 -
 >  1 file changed, 1 deletion(-)
->
-> diff --git a/drivers/hid/hid-picolcd_fb.c b/drivers/hid/hid-picolcd_fb.c
-> index dabcd054dad9..d726aaafb146 100644
-> --- a/drivers/hid/hid-picolcd_fb.c
-> +++ b/drivers/hid/hid-picolcd_fb.c
-> @@ -527,7 +527,6 @@ int picolcd_init_framebuffer(struct picolcd_data *dat=
-a)
->         info->var =3D picolcdfb_var;
->         info->fix =3D picolcdfb_fix;
->         info->fix.smem_len   =3D PICOLCDFB_SIZE*8;
-> -       info->flags =3D FBINFO_FLAG_DEFAULT;
->
->         fbdata =3D info->par;
->         spin_lock_init(&fbdata->lock);
-> --
-> 2.41.0
->
+>=20
+> diff --git a/arch/sh/boards/mach-sh7763rdp/setup.c b/arch/sh/boards/mach-=
+sh7763rdp/setup.c
+> index 97e715e4e9b3..345f2b76c85a 100644
+> --- a/arch/sh/boards/mach-sh7763rdp/setup.c
+> +++ b/arch/sh/boards/mach-sh7763rdp/setup.c
+> @@ -119,7 +119,6 @@ static struct fb_videomode sh7763fb_videomode =3D {
+>  	.vsync_len =3D 1,
+>  	.sync =3D 0,
+>  	.vmode =3D FB_VMODE_NONINTERLACED,
+> -	.flag =3D FBINFO_FLAG_DEFAULT,
+>  };
+> =20
+>  static struct sh7760fb_platdata sh7763fb_def_pdata =3D {
 
+I would argue that the current code is more readable that your proposed cha=
+nge.
+
+I agree that it's a no-op, but code is not just about functionality but als=
+o
+readability, isn't it?
+
+Also, I prefer "sh:" as the architecture prefix, not "arch/sh:".
+
+Thanks,
+Adrian
+
+--=20
+ .''`.  John Paul Adrian Glaubitz
+: :' :  Debian Developer
+`. `'   Physicist
+  `-    GPG: 62FF 8A75 84E0 2956 9546  0006 7426 3B37 F5B5 F913
