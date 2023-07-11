@@ -1,82 +1,140 @@
-Received: from mailrelay6-1.pub.mailoutpod2-cph3.one.com (mailrelay6-1.pub.mailoutpod2-cph3.one.com [46.30.211.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2B8C107B4
-	for <linux-staging@lists.linux.dev>; Mon, 10 Jul 2023 17:20:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=ravnborg.org; s=rsa1;
-	h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
-	 from:date:from;
-	bh=IgD20OUQ8wy5rFFsoBYb/VGqjIM7D6p+vuvVuio9hik=;
-	b=CcwAZRGze1nz78tsTeGG31sH+B/tjdH+6ekcCAKy3lsh8Fx6Y+YXCD/TmIei/HlJU/+CjyCRKUyPh
-	 4CUMeeNCmxnxg5WnN8WYc+Y/3TRBu3GgBHOLLMWNEmjaKunSp3X6NAJPGuB+DxEkEZX+QnanSr3FYn
-	 2wlZ5UBU9Zu+O246GL/D/HneI1rQcFtBUkUV1dNMCwn+vM9M1hVrPjLsgJxFcU87WZ4nq2Vtx30nj9
-	 ArzioTOrLCz4P2HsQj4ZOuK/Fmh+TNaxaKUMNXnO1dvheypIb7/oOCjfcrCaYpZhivEpRMotLSbonb
-	 DLfigJoJ7elOqxhN67CrfrrG5kpNeWw==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed;
-	d=ravnborg.org; s=ed1;
-	h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
-	 from:date:from;
-	bh=IgD20OUQ8wy5rFFsoBYb/VGqjIM7D6p+vuvVuio9hik=;
-	b=vxQog57Oi39/DPw2NHC1MnZmnCknkQQw5bg9fTJIlcxSuaigVTP3V2Z7GSu+tbSUPTOKht6NYG4oF
-	 2pB/Sc4AQ==
-X-HalOne-ID: de71c874-1f45-11ee-b17e-6f01c1d0a443
-Received: from ravnborg.org (2-105-2-98-cable.dk.customer.tdc.net [2.105.2.98])
-	by mailrelay6 (Halon) with ESMTPSA
-	id de71c874-1f45-11ee-b17e-6f01c1d0a443;
-	Mon, 10 Jul 2023 17:19:05 +0000 (UTC)
-Date: Mon, 10 Jul 2023 19:19:03 +0200
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: deller@gmx.de, javierm@redhat.com, linux-fbdev@vger.kernel.org,
-	kvm@vger.kernel.org, linux-hyperv@vger.kernel.org,
-	linux-sh@vger.kernel.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
-	linux-geode@lists.infradead.org, dri-devel@lists.freedesktop.org,
-	linux-input@vger.kernel.org, linux-nvidia@lists.surfsouth.com,
-	linux-omap@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
-	linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
-Subject: Re: [PATCH 00/17] fbdev: Remove FBINFO_DEFAULT and
- FBINFO_FLAG_DEFAULT flags
-Message-ID: <20230710171903.GA14712@ravnborg.org>
-References: <20230710130113.14563-1-tzimmermann@suse.de>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E856B3D7B
+	for <linux-staging@lists.linux.dev>; Tue, 11 Jul 2023 06:10:30 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 83ADB20460;
+	Tue, 11 Jul 2023 06:10:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1689055823; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=RPjQbYTcnEX8d+ZHiNY3AzdcrgT2R+6Yye/BQ7ZmfHQ=;
+	b=QaV5A/trJhOG1b3SkzHoPmhXs2nCdEKiSDxQkMh3qjoCo2Gery2vzUWgCjhTX8tGZpSV4o
+	3buhgz8HSc5jL7Y/Dyfv7DrXBc88ovFDOmIJNEB+7d/aL5Dt1S40QNPSr7SUb5EfkuxarM
+	rt/OVs6MUA/UqZZ2nQqTz3We4wmzThI=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1689055823;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=RPjQbYTcnEX8d+ZHiNY3AzdcrgT2R+6Yye/BQ7ZmfHQ=;
+	b=pB9jkHIl2OK0OVlASCubh5aumrPJvcXE3e1e+WKLLusz1zFPk3AV6Ht4mp6kr2xq2y5coL
+	ZQgGE7GgK81Yc/Dg==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 221F71391C;
+	Tue, 11 Jul 2023 06:10:23 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+	by imap2.suse-dmz.suse.de with ESMTPSA
+	id +lxaB0/yrGSeCAAAMHmgww
+	(envelope-from <tzimmermann@suse.de>); Tue, 11 Jul 2023 06:10:23 +0000
+Message-ID: <745347ca-a369-eb01-eac4-75c09cf9e67f@suse.de>
+Date: Tue, 11 Jul 2023 08:10:22 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230710130113.14563-1-tzimmermann@suse.de>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.12.0
+Subject: Re: [PATCH 09/17] auxdisplay: Remove flag FBINFO_FLAG_DEFAULT from
+ fbdev drivers
+Content-Language: en-US
+To: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Cc: deller@gmx.de, javierm@redhat.com, linux-sh@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ amd-gfx@lists.freedesktop.org, linux-input@vger.kernel.org,
+ linux-media@vger.kernel.org, linux-fbdev@vger.kernel.org,
+ linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+ linux-geode@lists.infradead.org, linux-nvidia@lists.surfsouth.com,
+ linux-hyperv@vger.kernel.org, linux-omap@vger.kernel.org,
+ linuxppc-dev@lists.ozlabs.org, kvm@vger.kernel.org,
+ Miguel Ojeda <ojeda@kernel.org>, Robin van der Gracht <robin@protonic.nl>
+References: <20230710130113.14563-1-tzimmermann@suse.de>
+ <20230710130113.14563-10-tzimmermann@suse.de>
+ <CANiq72=9PoV3FOcXx9FdiSLePKXDG4BSY_5-jddBkqDL=ua3FA@mail.gmail.com>
+ <733273ad-89e1-d952-37ee-bb75c3ab8188@suse.de>
+ <CANiq72kPh2KE=ADUxhPyyr7noWhC0fkzmDu8EBn_20focnZqtw@mail.gmail.com>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <CANiq72kPh2KE=ADUxhPyyr7noWhC0fkzmDu8EBn_20focnZqtw@mail.gmail.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------6Si403MGmxQSUjmayt9vH0Ol"
 
-Hi Thomas,
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------6Si403MGmxQSUjmayt9vH0Ol
+Content-Type: multipart/mixed; boundary="------------adUMzkBKIng1X9u516u02tq1";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Cc: deller@gmx.de, javierm@redhat.com, linux-sh@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ amd-gfx@lists.freedesktop.org, linux-input@vger.kernel.org,
+ linux-media@vger.kernel.org, linux-fbdev@vger.kernel.org,
+ linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+ linux-geode@lists.infradead.org, linux-nvidia@lists.surfsouth.com,
+ linux-hyperv@vger.kernel.org, linux-omap@vger.kernel.org,
+ linuxppc-dev@lists.ozlabs.org, kvm@vger.kernel.org,
+ Miguel Ojeda <ojeda@kernel.org>, Robin van der Gracht <robin@protonic.nl>
+Message-ID: <745347ca-a369-eb01-eac4-75c09cf9e67f@suse.de>
+Subject: Re: [PATCH 09/17] auxdisplay: Remove flag FBINFO_FLAG_DEFAULT from
+ fbdev drivers
+References: <20230710130113.14563-1-tzimmermann@suse.de>
+ <20230710130113.14563-10-tzimmermann@suse.de>
+ <CANiq72=9PoV3FOcXx9FdiSLePKXDG4BSY_5-jddBkqDL=ua3FA@mail.gmail.com>
+ <733273ad-89e1-d952-37ee-bb75c3ab8188@suse.de>
+ <CANiq72kPh2KE=ADUxhPyyr7noWhC0fkzmDu8EBn_20focnZqtw@mail.gmail.com>
+In-Reply-To: <CANiq72kPh2KE=ADUxhPyyr7noWhC0fkzmDu8EBn_20focnZqtw@mail.gmail.com>
 
-On Mon, Jul 10, 2023 at 02:50:04PM +0200, Thomas Zimmermann wrote:
-> Remove the unused flags FBINFO_DEFAULT and FBINFO_FLAG_DEFAULT from
-> fbdev and drivers, as briefly discussed at [1]. Both flags were maybe
-> useful when fbdev had special handling for driver modules. With
-> commit 376b3ff54c9a ("fbdev: Nuke FBINFO_MODULE"), they are both 0
-> and have no further effect.
-> 
-> Patches 1 to 7 remove FBINFO_DEFAULT from drivers. Patches 2 to 5
-> split this by the way the fb_info struct is being allocated. All flags
-> are cleared to zero during the allocation.
-> 
-> Patches 8 to 16 do the same for FBINFO_FLAG_DEFAULT. Patch 8 fixes
-> an actual bug in how arch/sh uses the tokne for struct fb_videomode,
-> which is unrelated.
-> 
-> Patch 17 removes both flag constants from <linux/fb.h>
+--------------adUMzkBKIng1X9u516u02tq1
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-We have a few more flags that are unused - should they be nuked too?
-FBINFO_HWACCEL_FILLRECT
-FBINFO_HWACCEL_ROTATE
-FBINFO_HWACCEL_XPAN
+SGkNCg0KQW0gMTAuMDcuMjMgdW0gMTg6MjUgc2NocmllYiBNaWd1ZWwgT2plZGE6DQo+IE9u
+IE1vbiwgSnVsIDEwLCAyMDIzIGF0IDU6MjLigK9QTSBUaG9tYXMgWmltbWVybWFubiA8dHpp
+bW1lcm1hbm5Ac3VzZS5kZT4gd3JvdGU6DQo+Pg0KPj4gSSdsbCBhcHBlbmQgYSBwYXRjaCB0
+byB0aGUgc2VyaWVzIHRoYXQgZG9jdW1lbnRzIHRoaXMuDQo+Pg0KPj4gU3VyZS4NCj4gDQo+
+IFRoYW5rcyENCj4gDQo+IElmIHlvdSBhcmUgcGxhbm5pbmcgdG8gdGFrZSBpdCBpbnRvIHNv
+bWUgb3RoZXIgdHJlZToNCj4gDQo+IEFja2VkLWJ5OiBNaWd1ZWwgT2plZGEgPG9qZWRhQGtl
+cm5lbC5vcmc+DQoNClRoYW5rcy4NCg0KPiANCj4gT3RoZXJ3aXNlLCBJIGNhbiB0YWtlIGl0
+IGludG8gdGhlIGBhdXhkaXNwbGF5YCB0cmVlLg0KDQpJJ2QgbGlrZSB0byB0YWtlIHRoZSBw
+YXRjaHNldCBpbnRvIGRybS1taXNjLiBJdCdzIHBhcnQgb2YgYSBsYXJnZXIgDQpjbGVhbnVw
+IG9mIHRoZSBmYmRldiBtb2R1bGVzIGFuZCBpdHMgaW50ZXJmYWNlcy4NCg0KQmVzdCByZWdh
+cmRzDQpUaG9tYXMNCg0KPiANCj4gQ2hlZXJzLA0KPiBNaWd1ZWwNCg0KLS0gDQpUaG9tYXMg
+WmltbWVybWFubg0KR3JhcGhpY3MgRHJpdmVyIERldmVsb3Blcg0KU1VTRSBTb2Z0d2FyZSBT
+b2x1dGlvbnMgR2VybWFueSBHbWJIDQpGcmFua2Vuc3RyYXNzZSAxNDYsIDkwNDYxIE51ZXJu
+YmVyZywgR2VybWFueQ0KR0Y6IEl2byBUb3RldiwgQW5kcmV3IE15ZXJzLCBBbmRyZXcgTWNE
+b25hbGQsIEJvdWRpZW4gTW9lcm1hbg0KSFJCIDM2ODA5IChBRyBOdWVybmJlcmcpDQo=
 
-Unused as in no references from fbdev/core/*
+--------------adUMzkBKIng1X9u516u02tq1--
 
-I would rather see one series nuke all unused FBINFO flags in one go.
-Assuming my quick grep are right and the above can be dropped.
+--------------6Si403MGmxQSUjmayt9vH0Ol
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
 
-	Sam
+-----BEGIN PGP SIGNATURE-----
+
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmSs8k4FAwAAAAAACgkQlh/E3EQov+By
+TA/6AzapxPiVh3ARFt/YSfDAvOrmktHT6CTi6i1Ub5i2Ym4BJUrgy8S99ghuFzqA3RHfz8ZHMF7z
+2+eTMi10OHXwHO+9dl+rKSeyQt36p7SkOf1fHmpn0EUBDVKIZnk8Et3duAwpo1ExPN/k0mMpug7q
+6IBW94bw8Ldux7ilsOmjCrHbBPPXsb8xo8ZRKro/4yNBA8/EBaMPnFJqFp6Y0W6lLh3VObxqAuke
+uUpZq7rwwvp5m3nrJRPQurEVYtSebmgZGWQur4kPIM2anuxpg9EFXoKW1mvdeNnnsTk91QvRDsDC
+A6zEhta2QJig3ZywCeQ26vAzoz6ckE5QJ89B7vMh+qAPloCCTG6hl2BpsBXYDyo0PFfsqswtihcy
+Q5Ghqsm2q6SO7oqAYzBFGj6rL0sXHiVKaQ4BSs0lu1U1bcNCDDSL5Ltyi7gHY1odER+B2POXmobz
+KD7DjGAhMSyD+P1NzWqFlitpR/Y+UB0aCvmScSbT5Wc6crZ8eWwXz8FHgn9Ahvf4rd/qk+e62gPR
+5we59IVjsvIvzb5N2Vd3I2dYrLMiqD7asdFHFkynejvj8lP6hFdmv0SuDqLq4xDOY9fifRhFlrX9
+tFpJW8RcfD2UeAYOOylhpmWtPJmVBWmXl7OexfCba2EcK9BRwhwpy2Jb8hJRATHDEfAQwi3uHdwf
+q5o=
+=5lcC
+-----END PGP SIGNATURE-----
+
+--------------6Si403MGmxQSUjmayt9vH0Ol--
