@@ -1,275 +1,168 @@
-Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
+Received: from mail-ot1-f79.google.com (mail-ot1-f79.google.com [209.85.210.79])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD123441F
-	for <linux-staging@lists.linux.dev>; Wed, 12 Jul 2023 10:48:07 +0000 (UTC)
-Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-1b852785a65so4240935ad.0
-        for <linux-staging@lists.linux.dev>; Wed, 12 Jul 2023 03:48:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1689158887; x=1691750887;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=zIVoN8xJJ1apuh5u3RRjUDBxovBp1snddoUz1sWtVUc=;
-        b=BMvGqPrzLoLp9tbS8Yi6csf86apIKKPA5HWYXK9DYb8XNFkNsvZ0WDcihp4d25hQ11
-         Kp4M7rgCghETeCFFVfSft7bWcb5rqBRLKR8vDgX2JBSsSWdZ+NwoRbLyRT0cAW48o5tx
-         k8VWkqL4n8vyampu/AnPvTgSXMGnRjNu6zCuA=
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 915762AB35
+	for <linux-staging@lists.linux.dev>; Wed, 12 Jul 2023 15:05:05 +0000 (UTC)
+Received: by mail-ot1-f79.google.com with SMTP id 46e09a7af769-6b8c415fdd3so1340290a34.1
+        for <linux-staging@lists.linux.dev>; Wed, 12 Jul 2023 08:05:05 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689158887; x=1691750887;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=zIVoN8xJJ1apuh5u3RRjUDBxovBp1snddoUz1sWtVUc=;
-        b=Yr0ltPcLtam/i5ot92fglPDEJITvHaM3KjIJlcok2/+ZX4bwc9WQEw2e3JweZmMRue
-         lOPN8dO49Nh9UygTaD9XuUTU1x3yBfoPkJ5GdoAsNrIMK4eEh6J5JBZo5MW3liJ/ohZq
-         j5GGP3CIixEwdYTNSwOQV6mkE4Mlewz2ECHA1Q8uSOn90PiCVvtjavWFsuX3jgLpDCp4
-         ZIpjs0F3ALgF8Lj4D1gdCwjVZ0SUj6hcy6HTKWohIJi5JIDFSi1eo2eXO86deGm/ecI2
-         iAjqHPDSxnmRdRYNnvS8Nk3HCKS0fzdEXfRK2pr41eMzBAorrobIUhFXVPKBYdLxtYfJ
-         DT+g==
-X-Gm-Message-State: ABy/qLar/V5fJYKa59HUoTdtT/A740mn19b7Zt91Nepnk/PpV+AiD6RS
-	u/dEzxUMFCPD+xzrlWaYw01hpg==
-X-Google-Smtp-Source: APBJJlEAi57Syr+e1VCEgUMbZ1p6tYBNaJWe5nyxeKIdojZAG0t41NYxzQsL8d3LNtrPXXR9NgKs8g==
-X-Received: by 2002:a17:902:eccf:b0:1b8:5a42:5145 with SMTP id a15-20020a170902eccf00b001b85a425145mr1488788plh.31.1689158887019;
-        Wed, 12 Jul 2023 03:48:07 -0700 (PDT)
-Received: from chromium.org (0.223.81.34.bc.googleusercontent.com. [34.81.223.0])
-        by smtp.gmail.com with ESMTPSA id io12-20020a17090312cc00b001b9dfa24523sm3622055plb.213.2023.07.12.03.48.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 12 Jul 2023 03:48:06 -0700 (PDT)
-Date: Wed, 12 Jul 2023 10:48:01 +0000
-From: Tomasz Figa <tfiga@chromium.org>
-To: Hsia-Jun Li <Randy.Li@synaptics.com>
-Cc: Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, m.szyprowski@samsung.com,
-	linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
-	hverkuil-cisco@xs4all.nl, ezequiel@vanguardiasur.com.ar,
-	p.zabel@pengutronix.de, linux-rockchip@lists.infradead.org,
-	mchehab@kernel.org, linux-staging@lists.linux.dev,
-	ming.qian@nxp.com, kernel@collabora.com, gregkh@linuxfoundation.org,
-	nicolas.dufresne@collabora.com
-Subject: Re: [PATCH v3 04/11] media: videobuf2: Stop define VB2_MAX_FRAME as
- global
-Message-ID: <20230712104801.tgawhexpm53ocgd6@chromium.org>
-References: <20230622131349.144160-1-benjamin.gaignard@collabora.com>
- <20230622131349.144160-5-benjamin.gaignard@collabora.com>
- <e7444263-0ce5-1575-8cca-1e51b1cfbe9a@synaptics.com>
- <5cb3f216-5041-a155-5d2c-059dc1f15024@collabora.com>
- <25b21252-0d3a-3e50-0012-57055f386fee@synaptics.com>
+        d=1e100.net; s=20221208; t=1689174304; x=1691766304;
+        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=m94uNVGmc3E0yBEqPvT1uJfZAtrvKe9dapVrNuSbByc=;
+        b=YHCiqnZzBj6YaOpoCWSUf2MAVfNhiaUmujWrZ8WPNvRKBI9ebKL0WL0OqWO8eX7Fkj
+         qAaWnRlIp7p77TM6YQFAUnpXD50tWjKCkqJf78/G+zQDBh18ACx93YHdcXUyKQHHEVZO
+         qgj/893sy65DcRb8k2RMLYqUM0J8b6L6uW8NQuz5E54LaaZiw33BIDxnwsii/7arAeR1
+         RZzf+PrzSMX+Tqm9UHyZCtcuiCk/6M6fpdRzzy4/MfEjp9hSAmfnCakFoDElZiuGhyPv
+         TW6fUMAC/2tqV8NX9D1y0FYkEXg7+Ylxe/roBQF8bWuJRJQMh3DN1iPQVEqyRJ+Ed2cB
+         5waA==
+X-Gm-Message-State: ABy/qLadDzf2kyuLQJPv7A7zNFnY63RZTvCJpXVP4eC0aPpCoI7u0oEa
+	PaFV3w8Resezt3NN18fZdPMtZZtub8TxPZLcIr4bHw2GX3b+
+X-Google-Smtp-Source: APBJJlE6T4mKAFfXv9J5kh533uZw7yg1Mbm6bvYZirhGaKSi+0a2yNsJa1xutVhKpvYIqxMqZPLHddPeicgsgBG5OrRP2aA+x8U5
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <25b21252-0d3a-3e50-0012-57055f386fee@synaptics.com>
+X-Received: by 2002:a05:6870:ee16:b0:1b0:4e46:7f13 with SMTP id
+ ga22-20020a056870ee1600b001b04e467f13mr3474579oab.2.1689174304068; Wed, 12
+ Jul 2023 08:05:04 -0700 (PDT)
+Date: Wed, 12 Jul 2023 08:05:04 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <0000000000005b9d6e06004b8aa0@google.com>
+Subject: [syzbot] [staging?] [usb?] memory leak in _r8712_init_xmit_priv
+From: syzbot <syzbot+cf71097ffb6755df8251@syzkaller.appspotmail.com>
+To: Larry.Finger@lwfinger.net, florian.c.schilhabel@googlemail.com, 
+	gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org, 
+	linux-media@vger.kernel.org, linux-staging@lists.linux.dev, 
+	linux-usb@vger.kernel.org, syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 
-On Mon, Jul 03, 2023 at 04:35:30PM +0800, Hsia-Jun Li wrote:
-> 
-> On 7/3/23 16:09, Benjamin Gaignard wrote:
-> > CAUTION: Email originated externally, do not click links or open
-> > attachments unless you recognize the sender and know the content is
-> > safe.
-> > 
-> > 
-> > Le 30/06/2023 à 11:51, Hsia-Jun Li a écrit :
-> > > 
-> > > On 6/22/23 21:13, Benjamin Gaignard wrote:
-> > > > CAUTION: Email originated externally, do not click links or open
-> > > > attachments unless you recognize the sender and know the content is
-> > > > safe.
-> > > > 
-> > > > 
-> > > > After changing bufs arrays to a dynamic allocated array
-> > > > VB2_MAX_FRAME doesn't mean anything for videobuf2 core.
-> > > 
-> > > I think make it 64 which is the VB2_MAX_FRAME in Android GKI kernel is
-> > > more reasonable.
-> > > 
-> > > It would be hard to iterate the whole array, it would go worse with a
-> > > filter. Such iterate may need to go twice because you mix
-> > > post-processing buffer and decoding buffer(with MV) in the same array.
-> > 
-> > Here I don't want to change drivers behavior so I keep the same value.
-> > If it happens that they need more buffers, like for dynamic resolution
-> > change
-> > feature for Verisilicon VP9 decoder, case by case patches will be needed.
-> > 
-> I just don't like the idea that using a variant length array here.
-> 
+Hello,
 
-"I don't like" is not an argument. We had a number of arguments for
-using a generic helper (originally idr, but later decided to go with
-XArray, because the former is now deprecated) that we pointed out in
-our review comments for previous revisions. It wasn't really about the
-size being variable, but rather avoiding open coding things in vb2 and
-duplicating what's already implemented in generic code.
+syzbot found the following issue on:
 
-> And I could explain why you won't need so many buffers for the performance
-> of decoding.
-> 
-> VP9 could support 10 reference frames in dpb.
-> 
-> Even for those frequent resolution changing test set, it would only happen
-> to two resolutions,
-> 
-> 32 would be enough for 20 buffers of two resolution plus golden frames. It
-> also leaves enough slots for re-order latency.
-> 
-> If your case had more two resolutions, likes low->medium->high.
-> 
-> I would suggest just skip the medium resolutions, just allocate the lower
-> one first for fast playback then the highest for all the possible
-> 
-> medium cases. Reallocation happens frequently would only cause memory
-> fragment, nothing benefits your performance.
-> 
+HEAD commit:    8689f4f2ea56 Merge tag 'mmc-v6.5-2' of git://git.kernel.or..
+git tree:       upstream
+console output: https://syzkaller.appspot.com/x/log.txt?x=11ac3fa0a80000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=832b404e095b70c0
+dashboard link: https://syzkaller.appspot.com/bug?extid=cf71097ffb6755df8251
+compiler:       gcc (Debian 10.2.1-6) 10.2.1 20210110, GNU ld (GNU Binutils for Debian) 2.35.2
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=16f26d02a80000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=14482e54a80000
 
-We have mechanisms in the kernel to deal with memory fragmentation
-(migration/compaction) and it would still only matters for the
-pathologic cases of hardware that require physically contiguous memory.
-Modern hardware with proper DMA capabilities can either scatter-gather
-or are equipped with an IOMMU, so the allocation always happens in page
-granularity and fragmentation is avoided.
+Downloadable assets:
+disk image: https://storage.googleapis.com/syzbot-assets/31f0c2383fbf/disk-8689f4f2.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/98c44efd609e/vmlinux-8689f4f2.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/bbd75026af9a/bzImage-8689f4f2.xz
 
-Best regards,
-Tomasz
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+cf71097ffb6755df8251@syzkaller.appspotmail.com
 
-> > 
-> > > 
-> > > > Remove it from the core definitions but keep it for drivers internal
-> > > > needs.
-> > > > 
-> > > > Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-> > > > ---
-> > > >   drivers/media/common/videobuf2/videobuf2-core.c | 2 ++
-> > > >   drivers/media/platform/amphion/vdec.c | 1 +
-> > > > .../media/platform/mediatek/vcodec/vdec/vdec_vp9_req_lat_if.c | 2 ++
-> > > >   drivers/media/platform/qcom/venus/hfi.h | 2 ++
-> > > >   drivers/media/platform/verisilicon/hantro_hw.h | 2 ++
-> > > >   drivers/staging/media/ipu3/ipu3-v4l2.c | 2 ++
-> > > >   include/media/videobuf2-core.h | 1 -
-> > > >   include/media/videobuf2-v4l2.h | 4 ----
-> > > >   8 files changed, 11 insertions(+), 5 deletions(-)
-> > > > 
-> > > > diff --git a/drivers/media/common/videobuf2/videobuf2-core.c
-> > > > b/drivers/media/common/videobuf2/videobuf2-core.c
-> > > > index 86e1e926fa45..899783f67580 100644
-> > > > --- a/drivers/media/common/videobuf2/videobuf2-core.c
-> > > > +++ b/drivers/media/common/videobuf2/videobuf2-core.c
-> > > > @@ -31,6 +31,8 @@
-> > > > 
-> > > >   #include <trace/events/vb2.h>
-> > > > 
-> > > > +#define VB2_MAX_FRAME  32
-> > > > +
-> > > >   static int debug;
-> > > >   module_param(debug, int, 0644);
-> > > > 
-> > > > diff --git a/drivers/media/platform/amphion/vdec.c
-> > > > b/drivers/media/platform/amphion/vdec.c
-> > > > index 3fa1a74a2e20..b3219f6d17fa 100644
-> > > > --- a/drivers/media/platform/amphion/vdec.c
-> > > > +++ b/drivers/media/platform/amphion/vdec.c
-> > > > @@ -28,6 +28,7 @@
-> > > > 
-> > > >   #define VDEC_MIN_BUFFER_CAP            8
-> > > >   #define VDEC_MIN_BUFFER_OUT            8
-> > > > +#define VB2_MAX_FRAME                  32
-> > > > 
-> > > >   struct vdec_fs_info {
-> > > >          char name[8];
-> > > > diff --git
-> > > > a/drivers/media/platform/mediatek/vcodec/vdec/vdec_vp9_req_lat_if.c
-> > > > b/drivers/media/platform/mediatek/vcodec/vdec/vdec_vp9_req_lat_if.c
-> > > > index 6532a69f1fa8..a1e0f24bb91c 100644
-> > > > --- a/drivers/media/platform/mediatek/vcodec/vdec/vdec_vp9_req_lat_if.c
-> > > > +++ b/drivers/media/platform/mediatek/vcodec/vdec/vdec_vp9_req_lat_if.c
-> > > > @@ -16,6 +16,8 @@
-> > > >   #include "../vdec_drv_if.h"
-> > > >   #include "../vdec_vpu_if.h"
-> > > > 
-> > > > +#define VB2_MAX_FRAME  32
-> > > > +
-> > > >   /* reset_frame_context defined in VP9 spec */
-> > > >   #define VP9_RESET_FRAME_CONTEXT_NONE0 0
-> > > >   #define VP9_RESET_FRAME_CONTEXT_NONE1 1
-> > > > diff --git a/drivers/media/platform/qcom/venus/hfi.h
-> > > > b/drivers/media/platform/qcom/venus/hfi.h
-> > > > index f25d412d6553..bd5ca5a8b945 100644
-> > > > --- a/drivers/media/platform/qcom/venus/hfi.h
-> > > > +++ b/drivers/media/platform/qcom/venus/hfi.h
-> > > > @@ -10,6 +10,8 @@
-> > > > 
-> > > >   #include "hfi_helper.h"
-> > > > 
-> > > > +#define VB2_MAX_FRAME                          32
-> > > > +
-> > > >   #define VIDC_SESSION_TYPE_VPE                  0
-> > > >   #define VIDC_SESSION_TYPE_ENC                  1
-> > > >   #define VIDC_SESSION_TYPE_DEC                  2
-> > > > diff --git a/drivers/media/platform/verisilicon/hantro_hw.h
-> > > > b/drivers/media/platform/verisilicon/hantro_hw.h
-> > > > index e83f0c523a30..9e8faf7ba6fb 100644
-> > > > --- a/drivers/media/platform/verisilicon/hantro_hw.h
-> > > > +++ b/drivers/media/platform/verisilicon/hantro_hw.h
-> > > > @@ -15,6 +15,8 @@
-> > > >   #include <media/v4l2-vp9.h>
-> > > >   #include <media/videobuf2-core.h>
-> > > > 
-> > > > +#define VB2_MAX_FRAME  32
-> > > > +
-> > > >   #define DEC_8190_ALIGN_MASK    0x07U
-> > > > 
-> > > >   #define MB_DIM                 16
-> > > > diff --git a/drivers/staging/media/ipu3/ipu3-v4l2.c
-> > > > b/drivers/staging/media/ipu3/ipu3-v4l2.c
-> > > > index e530767e80a5..6627b5c2d4d6 100644
-> > > > --- a/drivers/staging/media/ipu3/ipu3-v4l2.c
-> > > > +++ b/drivers/staging/media/ipu3/ipu3-v4l2.c
-> > > > @@ -10,6 +10,8 @@
-> > > >   #include "ipu3.h"
-> > > >   #include "ipu3-dmamap.h"
-> > > > 
-> > > > +#define VB2_MAX_FRAME  32
-> > > > +
-> > > >   /******************** v4l2_subdev_ops ********************/
-> > > > 
-> > > >   #define IPU3_RUNNING_MODE_VIDEO                0
-> > > > diff --git a/include/media/videobuf2-core.h
-> > > > b/include/media/videobuf2-core.h
-> > > > index 77921cf894ef..080b783d608d 100644
-> > > > --- a/include/media/videobuf2-core.h
-> > > > +++ b/include/media/videobuf2-core.h
-> > > > @@ -20,7 +20,6 @@
-> > > >   #include <media/media-request.h>
-> > > >   #include <media/frame_vector.h>
-> > > > 
-> > > > -#define VB2_MAX_FRAME  (32)
-> > > >   #define VB2_MAX_PLANES (8)
-> > > > 
-> > > >   /**
-> > > > diff --git a/include/media/videobuf2-v4l2.h
-> > > > b/include/media/videobuf2-v4l2.h
-> > > > index 5a845887850b..88a7a565170e 100644
-> > > > --- a/include/media/videobuf2-v4l2.h
-> > > > +++ b/include/media/videobuf2-v4l2.h
-> > > > @@ -15,10 +15,6 @@
-> > > >   #include <linux/videodev2.h>
-> > > >   #include <media/videobuf2-core.h>
-> > > > 
-> > > > -#if VB2_MAX_FRAME != VIDEO_MAX_FRAME
-> > > > -#error VB2_MAX_FRAME != VIDEO_MAX_FRAME
-> > > > -#endif
-> > > > -
-> > > >   #if VB2_MAX_PLANES != VIDEO_MAX_PLANES
-> > > >   #error VB2_MAX_PLANES != VIDEO_MAX_PLANES
-> > > >   #endif
-> > > > -- 
-> > > > 2.39.2
-> > > > 
-> -- 
-> Hsia-Jun(Randy) Li
-> 
+executing program
+BUG: memory leak
+unreferenced object 0xffff88810a4db000 (size 4096):
+  comm "kworker/0:3", pid 4752, jiffies 4294941496 (age 19.480s)
+  hex dump (first 32 bytes):
+    00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
+    00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
+  backtrace:
+    [<ffffffff8154bfa4>] kmalloc_trace+0x24/0x90 mm/slab_common.c:1076
+    [<ffffffff83c3bf41>] kmalloc include/linux/slab.h:582 [inline]
+    [<ffffffff83c3bf41>] _r8712_init_xmit_priv+0x2b1/0x660 drivers/staging/rtl8712/rtl871x_xmit.c:131
+    [<ffffffff83c36b86>] r8712_init_drv_sw+0xc6/0x260 drivers/staging/rtl8712/os_intfs.c:311
+    [<ffffffff83c35766>] r871xu_drv_init+0x1f6/0x9d0 drivers/staging/rtl8712/usb_intf.c:386
+    [<ffffffff83237329>] usb_probe_interface+0x179/0x3c0 drivers/usb/core/driver.c:396
+    [<ffffffff82ba039d>] call_driver_probe drivers/base/dd.c:579 [inline]
+    [<ffffffff82ba039d>] really_probe+0x12d/0x430 drivers/base/dd.c:658
+    [<ffffffff82ba0761>] __driver_probe_device+0xc1/0x1a0 drivers/base/dd.c:798
+    [<ffffffff82ba086a>] driver_probe_device+0x2a/0x120 drivers/base/dd.c:828
+    [<ffffffff82ba0a5b>] __device_attach_driver+0xfb/0x150 drivers/base/dd.c:956
+    [<ffffffff82b9d7b1>] bus_for_each_drv+0xc1/0x110 drivers/base/bus.c:457
+    [<ffffffff82ba0f82>] __device_attach+0x102/0x2a0 drivers/base/dd.c:1028
+    [<ffffffff82b9ef1a>] bus_probe_device+0xca/0xd0 drivers/base/bus.c:532
+    [<ffffffff82b9b513>] device_add+0x993/0xc60 drivers/base/core.c:3625
+    [<ffffffff83234409>] usb_set_configuration+0x9a9/0xc90 drivers/usb/core/message.c:2211
+    [<ffffffff83246ed1>] usb_generic_driver_probe+0xa1/0x100 drivers/usb/core/generic.c:238
+    [<ffffffff83236a00>] usb_probe_device+0x60/0x140 drivers/usb/core/driver.c:293
+
+BUG: memory leak
+unreferenced object 0xffff88810a4de000 (size 4096):
+  comm "kworker/0:3", pid 4752, jiffies 4294941496 (age 19.480s)
+  hex dump (first 32 bytes):
+    00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
+    00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
+  backtrace:
+    [<ffffffff8154bfa4>] kmalloc_trace+0x24/0x90 mm/slab_common.c:1076
+    [<ffffffff83c3bf41>] kmalloc include/linux/slab.h:582 [inline]
+    [<ffffffff83c3bf41>] _r8712_init_xmit_priv+0x2b1/0x660 drivers/staging/rtl8712/rtl871x_xmit.c:131
+    [<ffffffff83c36b86>] r8712_init_drv_sw+0xc6/0x260 drivers/staging/rtl8712/os_intfs.c:311
+    [<ffffffff83c35766>] r871xu_drv_init+0x1f6/0x9d0 drivers/staging/rtl8712/usb_intf.c:386
+    [<ffffffff83237329>] usb_probe_interface+0x179/0x3c0 drivers/usb/core/driver.c:396
+    [<ffffffff82ba039d>] call_driver_probe drivers/base/dd.c:579 [inline]
+    [<ffffffff82ba039d>] really_probe+0x12d/0x430 drivers/base/dd.c:658
+    [<ffffffff82ba0761>] __driver_probe_device+0xc1/0x1a0 drivers/base/dd.c:798
+    [<ffffffff82ba086a>] driver_probe_device+0x2a/0x120 drivers/base/dd.c:828
+    [<ffffffff82ba0a5b>] __device_attach_driver+0xfb/0x150 drivers/base/dd.c:956
+    [<ffffffff82b9d7b1>] bus_for_each_drv+0xc1/0x110 drivers/base/bus.c:457
+    [<ffffffff82ba0f82>] __device_attach+0x102/0x2a0 drivers/base/dd.c:1028
+    [<ffffffff82b9ef1a>] bus_probe_device+0xca/0xd0 drivers/base/bus.c:532
+    [<ffffffff82b9b513>] device_add+0x993/0xc60 drivers/base/core.c:3625
+    [<ffffffff83234409>] usb_set_configuration+0x9a9/0xc90 drivers/usb/core/message.c:2211
+    [<ffffffff83246ed1>] usb_generic_driver_probe+0xa1/0x100 drivers/usb/core/generic.c:238
+    [<ffffffff83236a00>] usb_probe_device+0x60/0x140 drivers/usb/core/driver.c:293
+
+BUG: memory leak
+unreferenced object 0xffff88810a4d9000 (size 4096):
+  comm "kworker/0:3", pid 4752, jiffies 4294941496 (age 19.480s)
+  hex dump (first 32 bytes):
+    00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
+    00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
+  backtrace:
+    [<ffffffff8154bfa4>] kmalloc_trace+0x24/0x90 mm/slab_common.c:1076
+    [<ffffffff83c3bf41>] kmalloc include/linux/slab.h:582 [inline]
+    [<ffffffff83c3bf41>] _r8712_init_xmit_priv+0x2b1/0x660 drivers/staging/rtl8712/rtl871x_xmit.c:131
+    [<ffffffff83c36b86>] r8712_init_drv_sw+0xc6/0x260 drivers/staging/rtl8712/os_intfs.c:311
+    [<ffffffff83c35766>] r871xu_drv_init+0x1f6/0x9d0 drivers/staging/rtl8712/usb_intf.c:386
+    [<ffffffff83237329>] usb_probe_interface+0x179/0x3c0 drivers/usb/core/driver.c:396
+    [<ffffffff82ba039d>] call_driver_probe drivers/base/dd.c:579 [inline]
+    [<ffffffff82ba039d>] really_probe+0x12d/0x430 drivers/base/dd.c:658
+    [<ffffffff82ba0761>] __driver_probe_device+0xc1/0x1a0 drivers/base/dd.c:798
+    [<ffffffff82ba086a>] driver_probe_device+0x2a/0x120 drivers/base/dd.c:828
+    [<ffffffff82ba0a5b>] __device_attach_driver+0xfb/0x150 drivers/base/dd.c:956
+    [<ffffffff82b9d7b1>] bus_for_each_drv+0xc1/0x110 drivers/base/bus.c:457
+    [<ffffffff82ba0f82>] __device_attach+0x102/0x2a0 drivers/base/dd.c:1028
+    [<ffffffff82b9ef1a>] bus_probe_device+0xca/0xd0 drivers/base/bus.c:532
+    [<ffffffff82b9b513>] device_add+0x993/0xc60 drivers/base/core.c:3625
+    [<ffffffff83234409>] usb_set_configuration+0x9a9/0xc90 drivers/usb/core/message.c:2211
+    [<ffffffff83246ed1>] usb_generic_driver_probe+0xa1/0x100 drivers/usb/core/generic.c:238
+    [<ffffffff83236a00>] usb_probe_device+0x60/0x140 drivers/usb/core/driver.c:293
+
+
+
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
+
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+
+If the bug is already fixed, let syzbot know by replying with:
+#syz fix: exact-commit-title
+
+If you want syzbot to run the reproducer, reply with:
+#syz test: git://repo/address.git branch-or-commit-hash
+If you attach or paste a git patch, syzbot will apply it before testing.
+
+If you want to change bug's subsystems, reply with:
+#syz set subsystems: new-subsystem
+(See the list of subsystem names on the web dashboard)
+
+If the bug is a duplicate of another bug, reply with:
+#syz dup: exact-subject-of-another-report
+
+If you want to undo deduplication, reply with:
+#syz undup
