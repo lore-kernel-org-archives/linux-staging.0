@@ -1,162 +1,166 @@
-Received: from mail-oa1-f41.google.com (mail-oa1-f41.google.com [209.85.160.41])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A5C119BBA
-	for <linux-staging@lists.linux.dev>; Tue, 11 Jul 2023 16:04:58 +0000 (UTC)
-Received: by mail-oa1-f41.google.com with SMTP id 586e51a60fabf-1a1fa977667so5348843fac.1
-        for <linux-staging@lists.linux.dev>; Tue, 11 Jul 2023 09:04:58 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689091497; x=1691683497;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Y7zt5pO69xVTkx3WPA+RT/byFcn7lDWoK0rY+7VhmSY=;
-        b=WKdytnmq+ZKqMskWJakx+P2mABzDwWgS4fxZkzdHaRWtPhEu8NY+qaTJe4RxMuz3gc
-         a++WWH/ZbEDgDNgzZxU9Leg5Dz/lW4K+iQ+p0bSle7xsI+ijztnfomnjaScz/rHmHP3V
-         ix/mu/0hd8gxBK33ayTL2xOprnw9tpHgBK118dh6lSZ2nT6m61IbDLXv8fdA8h2m+Nq1
-         R18o0mh9pMVisMoqen2m2zKQYl4Od5nCErOu+3LLZQRjOMJz3UE0MuDjlRdCMI+xadOa
-         eZO51YCIhjUo9C5N5ZSyjYiCiqXYYxKqnZBCCBXNancgD9Bvboz7I+v2UztjC/iCYe8c
-         Xa9w==
-X-Gm-Message-State: ABy/qLadfXswUuZVqPr+Y0+W1VIhSswUC8XYFXq6T4KkYDe87krCfO2U
-	fDniaUMJmoyukHUd0LV6xK6XxUbMS/w0rA==
-X-Google-Smtp-Source: APBJJlEcZi/MDacZVeXSv6dcnBRmRy76rFjllNONvoFfm/Jv+ozX6iLf2vxxwPax533RPNw7Rp1Eug==
-X-Received: by 2002:a05:6870:1cc:b0:1aa:192e:9f35 with SMTP id n12-20020a05687001cc00b001aa192e9f35mr18919636oad.26.1689091497261;
-        Tue, 11 Jul 2023 09:04:57 -0700 (PDT)
-Received: from mail-oi1-f172.google.com (mail-oi1-f172.google.com. [209.85.167.172])
-        by smtp.gmail.com with ESMTPSA id i5-20020a9d6245000000b006b884bbb4f3sm1059358otk.26.2023.07.11.09.04.56
-        for <linux-staging@lists.linux.dev>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 11 Jul 2023 09:04:56 -0700 (PDT)
-Received: by mail-oi1-f172.google.com with SMTP id 5614622812f47-3a3efebcc24so3422649b6e.1
-        for <linux-staging@lists.linux.dev>; Tue, 11 Jul 2023 09:04:56 -0700 (PDT)
-X-Received: by 2002:a05:6358:4198:b0:132:7a2e:87bc with SMTP id
- w24-20020a056358419800b001327a2e87bcmr13654687rwc.5.1689091495810; Tue, 11
- Jul 2023 09:04:55 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C513644
+	for <linux-staging@lists.linux.dev>; Wed, 12 Jul 2023 06:44:43 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 542932257C;
+	Wed, 12 Jul 2023 06:44:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1689144281; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=E3XnKIdyYzs9WzUUslFZfdtKZkW2mVfTAiy9Yfh4sv0=;
+	b=um9f/BNFht0hF6qfEMiGec1WN+rwJTel0EZVGynCUBznu+naWlk/+sSsvExpMvKu2fA+TF
+	e3cpze2sA7owkkecnk/V4YXnfwmlAxT6rqW7FxRf0F/0Af4v/KMvZvHVolenSGFhfbKMvY
+	d9RMt5QDxIw1HFGAPOtocjcVjh8L3q8=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1689144281;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=E3XnKIdyYzs9WzUUslFZfdtKZkW2mVfTAiy9Yfh4sv0=;
+	b=QWOqGp5bh9cit+mxGXUzK2PdJyS+BJcR1fc5EKRw6uHa2kCnZ1oPtAWdiEqMdfRABSdVXt
+	4TPwQ84Doc2bduBg==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id EDE32133DD;
+	Wed, 12 Jul 2023 06:44:40 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+	by imap2.suse-dmz.suse.de with ESMTPSA
+	id we7SONhLrmRTEgAAMHmgww
+	(envelope-from <tzimmermann@suse.de>); Wed, 12 Jul 2023 06:44:40 +0000
+Message-ID: <b8d28b32-62ff-93fd-ad24-990f82efa38a@suse.de>
+Date: Wed, 12 Jul 2023 08:44:40 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20230710130113.14563-1-tzimmermann@suse.de> <20230710171903.GA14712@ravnborg.org>
- <ab92f8d9-36ab-06bc-b85b-d52b7a1bfe9a@suse.de> <20230711144744.GA117276@ravnborg.org>
- <bf439387-6b13-0fd9-f61b-1a5cbf731187@gmx.de>
-In-Reply-To: <bf439387-6b13-0fd9-f61b-1a5cbf731187@gmx.de>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Tue, 11 Jul 2023 18:04:41 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdXnTDK6uZNhNR=NFTiy4F+2nLJd1E47vDoXUV3zFSCGOA@mail.gmail.com>
-Message-ID: <CAMuHMdXnTDK6uZNhNR=NFTiy4F+2nLJd1E47vDoXUV3zFSCGOA@mail.gmail.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.12.0
 Subject: Re: [PATCH 00/17] fbdev: Remove FBINFO_DEFAULT and
  FBINFO_FLAG_DEFAULT flags
-To: Helge Deller <deller@gmx.de>
-Cc: Sam Ravnborg <sam@ravnborg.org>, Thomas Zimmermann <tzimmermann@suse.de>, javierm@redhat.com, 
-	linux-fbdev@vger.kernel.org, kvm@vger.kernel.org, 
-	linux-hyperv@vger.kernel.org, linux-sh@vger.kernel.org, 
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	amd-gfx@lists.freedesktop.org, linux-geode@lists.infradead.org, 
-	dri-devel@lists.freedesktop.org, linux-input@vger.kernel.org, 
-	linux-nvidia@lists.surfsouth.com, linux-omap@vger.kernel.org, 
-	linuxppc-dev@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org, 
-	linux-media@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+To: Sam Ravnborg <sam@ravnborg.org>
+Cc: linux-arm-kernel@lists.infradead.org, linux-hyperv@vger.kernel.org,
+ kvm@vger.kernel.org, linux-sh@vger.kernel.org, deller@gmx.de,
+ linux-staging@lists.linux.dev, javierm@redhat.com,
+ amd-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
+ linux-input@vger.kernel.org, linux-nvidia@lists.surfsouth.com,
+ linux-omap@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+ linux-geode@lists.infradead.org, linux-media@vger.kernel.org
+References: <20230710130113.14563-1-tzimmermann@suse.de>
+ <20230710171903.GA14712@ravnborg.org>
+ <ab92f8d9-36ab-06bc-b85b-d52b7a1bfe9a@suse.de>
+ <20230711144744.GA117276@ravnborg.org>
+Content-Language: en-US
+From: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <20230711144744.GA117276@ravnborg.org>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------K7I6QDTtJR3cKkqc48HZx2aU"
 
-Hi Helge,
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------K7I6QDTtJR3cKkqc48HZx2aU
+Content-Type: multipart/mixed; boundary="------------O4sBmtVossZBjDercKZUVHqN";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Sam Ravnborg <sam@ravnborg.org>
+Cc: linux-arm-kernel@lists.infradead.org, linux-hyperv@vger.kernel.org,
+ kvm@vger.kernel.org, linux-sh@vger.kernel.org, deller@gmx.de,
+ linux-staging@lists.linux.dev, javierm@redhat.com,
+ amd-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
+ linux-input@vger.kernel.org, linux-nvidia@lists.surfsouth.com,
+ linux-omap@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+ linux-geode@lists.infradead.org, linux-media@vger.kernel.org
+Message-ID: <b8d28b32-62ff-93fd-ad24-990f82efa38a@suse.de>
+Subject: Re: [PATCH 00/17] fbdev: Remove FBINFO_DEFAULT and
+ FBINFO_FLAG_DEFAULT flags
+References: <20230710130113.14563-1-tzimmermann@suse.de>
+ <20230710171903.GA14712@ravnborg.org>
+ <ab92f8d9-36ab-06bc-b85b-d52b7a1bfe9a@suse.de>
+ <20230711144744.GA117276@ravnborg.org>
+In-Reply-To: <20230711144744.GA117276@ravnborg.org>
 
-On Tue, Jul 11, 2023 at 5:26=E2=80=AFPM Helge Deller <deller@gmx.de> wrote:
-> On 7/11/23 16:47, Sam Ravnborg wrote:
-> > On Tue, Jul 11, 2023 at 08:24:40AM +0200, Thomas Zimmermann wrote:
-> >> Am 10.07.23 um 19:19 schrieb Sam Ravnborg:
-> >>> On Mon, Jul 10, 2023 at 02:50:04PM +0200, Thomas Zimmermann wrote:
-> >>>> Remove the unused flags FBINFO_DEFAULT and FBINFO_FLAG_DEFAULT from
-> >>>> fbdev and drivers, as briefly discussed at [1]. Both flags were mayb=
-e
-> >>>> useful when fbdev had special handling for driver modules. With
-> >>>> commit 376b3ff54c9a ("fbdev: Nuke FBINFO_MODULE"), they are both 0
-> >>>> and have no further effect.
-> >>>>
-> >>>> Patches 1 to 7 remove FBINFO_DEFAULT from drivers. Patches 2 to 5
-> >>>> split this by the way the fb_info struct is being allocated. All fla=
-gs
-> >>>> are cleared to zero during the allocation.
-> >>>>
-> >>>> Patches 8 to 16 do the same for FBINFO_FLAG_DEFAULT. Patch 8 fixes
-> >>>> an actual bug in how arch/sh uses the tokne for struct fb_videomode,
-> >>>> which is unrelated.
-> >>>>
-> >>>> Patch 17 removes both flag constants from <linux/fb.h>
-> >>>
-> >>> We have a few more flags that are unused - should they be nuked too?
-> >>> FBINFO_HWACCEL_FILLRECT
-> >>> FBINFO_HWACCEL_ROTATE
-> >>> FBINFO_HWACCEL_XPAN
-> >>
-> >> It seems those are there for completeness. Nothing sets _ROTATE,
->
-> I think some fbdev drivers had hardware acceleration for ROTATE in the
-> past. HWACCEL_XPAN is still in some drivers.
->
-> >> the others are simply never checked. According to the comments,
-> >> some are required, some are optional. I don't know what that
-> >> means.
->
-> I think it's OK if you remove those flags which aren't used anywhere,
-> e.g. FBINFO_HWACCEL_ROTATE.
+--------------O4sBmtVossZBjDercKZUVHqN
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-Indeed.
+DQoNCkFtIDExLjA3LjIzIHVtIDE2OjQ3IHNjaHJpZWIgU2FtIFJhdm5ib3JnOg0KPiBIaSBU
+aG9tYXMsDQo+IA0KPiBPbiBUdWUsIEp1bCAxMSwgMjAyMyBhdCAwODoyNDo0MEFNICswMjAw
+LCBUaG9tYXMgWmltbWVybWFubiB3cm90ZToNCj4+IEhpIFNhbQ0KPj4NCj4+IEFtIDEwLjA3
+LjIzIHVtIDE5OjE5IHNjaHJpZWIgU2FtIFJhdm5ib3JnOg0KPj4+IEhpIFRob21hcywNCj4+
+Pg0KPj4+IE9uIE1vbiwgSnVsIDEwLCAyMDIzIGF0IDAyOjUwOjA0UE0gKzAyMDAsIFRob21h
+cyBaaW1tZXJtYW5uIHdyb3RlOg0KPj4+PiBSZW1vdmUgdGhlIHVudXNlZCBmbGFncyBGQklO
+Rk9fREVGQVVMVCBhbmQgRkJJTkZPX0ZMQUdfREVGQVVMVCBmcm9tDQo+Pj4+IGZiZGV2IGFu
+ZCBkcml2ZXJzLCBhcyBicmllZmx5IGRpc2N1c3NlZCBhdCBbMV0uIEJvdGggZmxhZ3Mgd2Vy
+ZSBtYXliZQ0KPj4+PiB1c2VmdWwgd2hlbiBmYmRldiBoYWQgc3BlY2lhbCBoYW5kbGluZyBm
+b3IgZHJpdmVyIG1vZHVsZXMuIFdpdGgNCj4+Pj4gY29tbWl0IDM3NmIzZmY1NGM5YSAoImZi
+ZGV2OiBOdWtlIEZCSU5GT19NT0RVTEUiKSwgdGhleSBhcmUgYm90aCAwDQo+Pj4+IGFuZCBo
+YXZlIG5vIGZ1cnRoZXIgZWZmZWN0Lg0KPj4+Pg0KPj4+PiBQYXRjaGVzIDEgdG8gNyByZW1v
+dmUgRkJJTkZPX0RFRkFVTFQgZnJvbSBkcml2ZXJzLiBQYXRjaGVzIDIgdG8gNQ0KPj4+PiBz
+cGxpdCB0aGlzIGJ5IHRoZSB3YXkgdGhlIGZiX2luZm8gc3RydWN0IGlzIGJlaW5nIGFsbG9j
+YXRlZC4gQWxsIGZsYWdzDQo+Pj4+IGFyZSBjbGVhcmVkIHRvIHplcm8gZHVyaW5nIHRoZSBh
+bGxvY2F0aW9uLg0KPj4+Pg0KPj4+PiBQYXRjaGVzIDggdG8gMTYgZG8gdGhlIHNhbWUgZm9y
+IEZCSU5GT19GTEFHX0RFRkFVTFQuIFBhdGNoIDggZml4ZXMNCj4+Pj4gYW4gYWN0dWFsIGJ1
+ZyBpbiBob3cgYXJjaC9zaCB1c2VzIHRoZSB0b2tuZSBmb3Igc3RydWN0IGZiX3ZpZGVvbW9k
+ZSwNCj4+Pj4gd2hpY2ggaXMgdW5yZWxhdGVkLg0KPj4+Pg0KPj4+PiBQYXRjaCAxNyByZW1v
+dmVzIGJvdGggZmxhZyBjb25zdGFudHMgZnJvbSA8bGludXgvZmIuaD4NCj4+Pg0KPj4+IFdl
+IGhhdmUgYSBmZXcgbW9yZSBmbGFncyB0aGF0IGFyZSB1bnVzZWQgLSBzaG91bGQgdGhleSBi
+ZSBudWtlZCB0b28/DQo+Pj4gRkJJTkZPX0hXQUNDRUxfRklMTFJFQ1QNCj4+PiBGQklORk9f
+SFdBQ0NFTF9ST1RBVEUNCj4+PiBGQklORk9fSFdBQ0NFTF9YUEFODQo+Pg0KPj4gSXQgc2Vl
+bXMgdGhvc2UgYXJlIHRoZXJlIGZvciBjb21wbGV0ZW5lc3MuIE5vdGhpbmcgc2V0cyBfUk9U
+QVRFLCB0aGUgb3RoZXJzDQo+PiBhcmUgc2ltcGx5IG5ldmVyIGNoZWNrZWQuIEFjY29yZGlu
+ZyB0byB0aGUgY29tbWVudHMsIHNvbWUgYXJlIHJlcXVpcmVkLCBzb21lDQo+PiBhcmUgb3B0
+aW9uYWwuIEkgZG9uJ3Qga25vdyB3aGF0IHRoYXQgbWVhbnMuDQo+Pg0KPj4gSUlSQyB0aGVy
+ZSB3ZXJlIGNvbXBsYWlucyBhYm91dCBwZXJmb3JtYW5jZSB3aGVuIERhbmllbCB0cmllZCB0
+byByZW1vdmUNCj4+IGZiY29uIGFjY2VsZXJhdGlvbiwgc28gbm90IGFsbCBfSFdBQ0NFTF8g
+ZmxhZ3MgYXJlIHVubmVlZGVkLg0KPj4NCj4+IExlYXZpbmcgdGhlbSBpbiBmb3IgcmVmZXJl
+bmNlL2NvbXBsZXRlbmVzcyBtaWdodCBiZSBhbiBvcHRpb247IG9yIG5vdC4gSQ0KPj4gaGF2
+ZSBubyBzdHJvbmcgZmVlbGluZ3MgYWJvdXQgdGhvc2UgZmxhZ3MuDQo+Pg0KPj4+DQo+Pj4g
+VW51c2VkIGFzIGluIG5vIHJlZmVyZW5jZXMgZnJvbSBmYmRldi9jb3JlLyoNCj4+Pg0KPj4+
+IEkgd291bGQgcmF0aGVyIHNlZSBvbmUgc2VyaWVzIG51a2UgYWxsIHVudXNlZCBGQklORk8g
+ZmxhZ3MgaW4gb25lIGdvLg0KPj4+IEFzc3VtaW5nIG15IHF1aWNrIGdyZXAgYXJlIHJpZ2h0
+IGFuZCB0aGUgYWJvdmUgY2FuIGJlIGRyb3BwZWQuDQo+Pg0KPj4gSSB3b3VsZCBub3Qgd2Fu
+dCB0byBleHRlbmQgdGhpcyBzZXJpZXMuIEknbSByZW1vdmluZyBfREVGQVVMVCBhcyBpdCdz
+DQo+PiBhYnNvbHV0ZWx5IHBvaW50bGVzcyBhbmQgY29uZnVzaW5nLg0KPiANCj4gT0ssIG1h
+a2VzIHNlbnNlIGFuZCB0aGFua3MgZm9yIHRoZSBleHBsYW5hdGlvbi4NCj4gDQo+IFRoZSBz
+ZXJpZXMgaXM6DQo+IEFja2VkLWJ5OiBTYW0gUmF2bmJvcmcgPHNhbUByYXZuYm9yZy5vcmc+
+DQoNClRoYW5rcyBhIGxvdC4NCg0KPiANCg0KLS0gDQpUaG9tYXMgWmltbWVybWFubg0KR3Jh
+cGhpY3MgRHJpdmVyIERldmVsb3Blcg0KU1VTRSBTb2Z0d2FyZSBTb2x1dGlvbnMgR2VybWFu
+eSBHbWJIDQpGcmFua2Vuc3RyYXNzZSAxNDYsIDkwNDYxIE51ZXJuYmVyZywgR2VybWFueQ0K
+R0Y6IEl2byBUb3RldiwgQW5kcmV3IE15ZXJzLCBBbmRyZXcgTWNEb25hbGQsIEJvdWRpZW4g
+TW9lcm1hbg0KSFJCIDM2ODA5IChBRyBOdWVybmJlcmcpDQo=
 
-> >> IIRC there were complains about performance when Daniel tried to remov=
-e
-> >> fbcon acceleration, so not all _HWACCEL_ flags are unneeded.
->
-> Correct. I think COPYAREA and FILLRECT are the bare minimum to accelerate
-> fbcon, IMAGEBLIT is for showing the tux penguin (?),
-> XPAN/YPAN and YWRAP for some hardware screen panning needed by some drive=
-rs
-> (not sure if this is still used as I don't have such hardware, Geert?).
+--------------O4sBmtVossZBjDercKZUVHqN--
 
-Yes, they are used.  Anything that is handled in drivers/video/fbdev/core/
-is used:
+--------------K7I6QDTtJR3cKkqc48HZx2aU
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
 
-$ git grep  HWACCEL_ -- drivers/video/fbdev/core/
-drivers/video/fbdev/core/fbcon.c:       if ((info->flags &
-FBINFO_HWACCEL_COPYAREA) &&
-drivers/video/fbdev/core/fbcon.c:           !(info->flags &
-FBINFO_HWACCEL_DISABLED))
-drivers/video/fbdev/core/fbcon.c:       int good_pan =3D (cap &
-FBINFO_HWACCEL_YPAN) &&
-drivers/video/fbdev/core/fbcon.c:       int good_wrap =3D (cap &
-FBINFO_HWACCEL_YWRAP) &&
-drivers/video/fbdev/core/fbcon.c:       int fast_copyarea =3D (cap &
-FBINFO_HWACCEL_COPYAREA) &&
-drivers/video/fbdev/core/fbcon.c:               !(cap &
-FBINFO_HWACCEL_DISABLED);
-drivers/video/fbdev/core/fbcon.c:       int fast_imageblit =3D (cap &
-FBINFO_HWACCEL_IMAGEBLIT) &&
-drivers/video/fbdev/core/fbcon.c:               !(cap &
-FBINFO_HWACCEL_DISABLED);
+-----BEGIN PGP SIGNATURE-----
 
-BTW, I'm surprised FBINFO_HWACCEL_FILLRECT is not handled.
-But looking at the full history, it never was...
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmSuS9gFAwAAAAAACgkQlh/E3EQov+Bh
+IQ//T0PiPxd+GFmqKROILrPIawDb/I+fuq60CvxBHVfPPlvkdxBPBDUE4WuUFhGYCE/oZ6jRlZJX
+YKYHYEJ5vEcWCNRR8mfGpNGLyDbuJY9mqzUHWHqhbhHvrEPV2V7WnCjp7UrnMUvqnvnwDDifBkgA
+YXI94XN/fqrNmjRzAFvQitvZb1pz3pGlsldbPi/3va2wdNY2h4xtmY4WRd0I/wgVN5YfNjYGeEGb
+GQT466I6XnDIzQurY+q0dxDn3Ab3NQQZAr704nfyTZrFfOAJcIz89vrWU29+Qcr/yjEtFtdNamic
+WIEJ3DWexIdWBplaQDqxUySBlzU3c3pLLaFwE0SyVPwaUcI5qOpfhMeWgwEwZb1W6+Or4ehLxoIY
+muVgE8o2WeQSRihUXz0b/nAclqW/WDHaVhpjURRzviYnD+urODodyuQn0dt36yxciVfsmifL6PCe
+Y6X+ADFjH7mB4JZw4zJIl6XSOEGkMXRwkvU0WOXdNcsg8xYuZ8y2OI+ybBeWuLMyJcPQMlqRzbI8
+FZ0vgeM3VyTooQheJDh3psIr6oGhJabMlXIVsjocTCvbf9KjSQHwhF9qRcp30sh5PjRGBH4WRtua
+KmtCjiBbCfjcF8l9I4RiBoehwlJ4rIqyDx8KvMljftLG7YkgfWCariHTeYa7wA2l91erXQEi5RZc
+GMo=
+=HzCA
+-----END PGP SIGNATURE-----
 
-> >> Leaving them in for reference/completeness might be an option; or not.=
- I
-> >> have no strong feelings about those flags.
->
-> I'd say drop FBINFO_HWACCEL_ROTATE at least ?
-
-Agreed.
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
-
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+--------------K7I6QDTtJR3cKkqc48HZx2aU--
