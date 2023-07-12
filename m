@@ -1,73 +1,275 @@
-Received: from hygieia.sysophe.eu (hygieia.sysophe.eu [138.201.91.14])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E35F1F95A
-	for <linux-staging@lists.linux.dev>; Wed, 12 Jul 2023 09:50:12 +0000 (UTC)
-Received: from hemera.lan.sysophe.eu (unknown [IPv6:2001:a18:2c5:a501:fa75:a4ff:fe28:fe3a])
-	by smtp.sysophe.eu (Postfix) with ESMTPSA id 1A675260A610;
-	Wed, 12 Jul 2023 11:43:42 +0200 (CEST)
-Date: Wed, 12 Jul 2023 11:43:35 +0200
-From: Bruno =?UTF-8?B?UHLDqW1vbnQ=?= <bonbons@linux-vserver.org>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: deller@gmx.de, javierm@redhat.com, linux-sh@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- amd-gfx@lists.freedesktop.org, linux-input@vger.kernel.org,
- linux-media@vger.kernel.org, linux-fbdev@vger.kernel.org,
- linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
- linux-geode@lists.infradead.org, linux-nvidia@lists.surfsouth.com,
- linux-hyperv@vger.kernel.org, linux-omap@vger.kernel.org,
- linuxppc-dev@lists.ozlabs.org, kvm@vger.kernel.org, Jiri Kosina
- <jikos@kernel.org>, Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Subject: Re: [PATCH 10/17] hid/picolcd: Remove flag FBINFO_FLAG_DEFAULT from
- fbdev driver
-Message-ID: <20230712114335.42644eab@hemera.lan.sysophe.eu>
-In-Reply-To: <20230710130113.14563-11-tzimmermann@suse.de>
-References: <20230710130113.14563-1-tzimmermann@suse.de>
- <20230710130113.14563-11-tzimmermann@suse.de>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.37; x86_64-pc-linux-gnu)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD123441F
+	for <linux-staging@lists.linux.dev>; Wed, 12 Jul 2023 10:48:07 +0000 (UTC)
+Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-1b852785a65so4240935ad.0
+        for <linux-staging@lists.linux.dev>; Wed, 12 Jul 2023 03:48:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1689158887; x=1691750887;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=zIVoN8xJJ1apuh5u3RRjUDBxovBp1snddoUz1sWtVUc=;
+        b=BMvGqPrzLoLp9tbS8Yi6csf86apIKKPA5HWYXK9DYb8XNFkNsvZ0WDcihp4d25hQ11
+         Kp4M7rgCghETeCFFVfSft7bWcb5rqBRLKR8vDgX2JBSsSWdZ+NwoRbLyRT0cAW48o5tx
+         k8VWkqL4n8vyampu/AnPvTgSXMGnRjNu6zCuA=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1689158887; x=1691750887;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=zIVoN8xJJ1apuh5u3RRjUDBxovBp1snddoUz1sWtVUc=;
+        b=Yr0ltPcLtam/i5ot92fglPDEJITvHaM3KjIJlcok2/+ZX4bwc9WQEw2e3JweZmMRue
+         lOPN8dO49Nh9UygTaD9XuUTU1x3yBfoPkJ5GdoAsNrIMK4eEh6J5JBZo5MW3liJ/ohZq
+         j5GGP3CIixEwdYTNSwOQV6mkE4Mlewz2ECHA1Q8uSOn90PiCVvtjavWFsuX3jgLpDCp4
+         ZIpjs0F3ALgF8Lj4D1gdCwjVZ0SUj6hcy6HTKWohIJi5JIDFSi1eo2eXO86deGm/ecI2
+         iAjqHPDSxnmRdRYNnvS8Nk3HCKS0fzdEXfRK2pr41eMzBAorrobIUhFXVPKBYdLxtYfJ
+         DT+g==
+X-Gm-Message-State: ABy/qLar/V5fJYKa59HUoTdtT/A740mn19b7Zt91Nepnk/PpV+AiD6RS
+	u/dEzxUMFCPD+xzrlWaYw01hpg==
+X-Google-Smtp-Source: APBJJlEAi57Syr+e1VCEgUMbZ1p6tYBNaJWe5nyxeKIdojZAG0t41NYxzQsL8d3LNtrPXXR9NgKs8g==
+X-Received: by 2002:a17:902:eccf:b0:1b8:5a42:5145 with SMTP id a15-20020a170902eccf00b001b85a425145mr1488788plh.31.1689158887019;
+        Wed, 12 Jul 2023 03:48:07 -0700 (PDT)
+Received: from chromium.org (0.223.81.34.bc.googleusercontent.com. [34.81.223.0])
+        by smtp.gmail.com with ESMTPSA id io12-20020a17090312cc00b001b9dfa24523sm3622055plb.213.2023.07.12.03.48.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 12 Jul 2023 03:48:06 -0700 (PDT)
+Date: Wed, 12 Jul 2023 10:48:01 +0000
+From: Tomasz Figa <tfiga@chromium.org>
+To: Hsia-Jun Li <Randy.Li@synaptics.com>
+Cc: Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, m.szyprowski@samsung.com,
+	linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+	hverkuil-cisco@xs4all.nl, ezequiel@vanguardiasur.com.ar,
+	p.zabel@pengutronix.de, linux-rockchip@lists.infradead.org,
+	mchehab@kernel.org, linux-staging@lists.linux.dev,
+	ming.qian@nxp.com, kernel@collabora.com, gregkh@linuxfoundation.org,
+	nicolas.dufresne@collabora.com
+Subject: Re: [PATCH v3 04/11] media: videobuf2: Stop define VB2_MAX_FRAME as
+ global
+Message-ID: <20230712104801.tgawhexpm53ocgd6@chromium.org>
+References: <20230622131349.144160-1-benjamin.gaignard@collabora.com>
+ <20230622131349.144160-5-benjamin.gaignard@collabora.com>
+ <e7444263-0ce5-1575-8cca-1e51b1cfbe9a@synaptics.com>
+ <5cb3f216-5041-a155-5d2c-059dc1f15024@collabora.com>
+ <25b21252-0d3a-3e50-0012-57055f386fee@synaptics.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <25b21252-0d3a-3e50-0012-57055f386fee@synaptics.com>
 
-On Mon, 10 Jul 2023 14:50:14 +0200 Thomas Zimmermann wrote:
-> The flag FBINFO_FLAG_DEFAULT is 0 and has no effect, as struct
-> fbinfo.flags has been allocated to zero by framebuffer_alloc(). So do
-> not set it.
->=20
-> Flags should signal differences from the default values. After cleaning
-> up all occurences of FBINFO_FLAG_DEFAULT, the token can be removed.
->=20
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> Cc: "Bruno Pr=C3=A9mont" <bonbons@linux-vserver.org>
-> Cc: Jiri Kosina <jikos@kernel.org>
-> Cc: Benjamin Tissoires <benjamin.tissoires@redhat.com>
+On Mon, Jul 03, 2023 at 04:35:30PM +0800, Hsia-Jun Li wrote:
+> 
+> On 7/3/23 16:09, Benjamin Gaignard wrote:
+> > CAUTION: Email originated externally, do not click links or open
+> > attachments unless you recognize the sender and know the content is
+> > safe.
+> > 
+> > 
+> > Le 30/06/2023 à 11:51, Hsia-Jun Li a écrit :
+> > > 
+> > > On 6/22/23 21:13, Benjamin Gaignard wrote:
+> > > > CAUTION: Email originated externally, do not click links or open
+> > > > attachments unless you recognize the sender and know the content is
+> > > > safe.
+> > > > 
+> > > > 
+> > > > After changing bufs arrays to a dynamic allocated array
+> > > > VB2_MAX_FRAME doesn't mean anything for videobuf2 core.
+> > > 
+> > > I think make it 64 which is the VB2_MAX_FRAME in Android GKI kernel is
+> > > more reasonable.
+> > > 
+> > > It would be hard to iterate the whole array, it would go worse with a
+> > > filter. Such iterate may need to go twice because you mix
+> > > post-processing buffer and decoding buffer(with MV) in the same array.
+> > 
+> > Here I don't want to change drivers behavior so I keep the same value.
+> > If it happens that they need more buffers, like for dynamic resolution
+> > change
+> > feature for Verisilicon VP9 decoder, case by case patches will be needed.
+> > 
+> I just don't like the idea that using a variant length array here.
+> 
 
-Acked-by: Bruno Pr=C3=A9mont <bonbons@linux-vserver.org>
+"I don't like" is not an argument. We had a number of arguments for
+using a generic helper (originally idr, but later decided to go with
+XArray, because the former is now deprecated) that we pointed out in
+our review comments for previous revisions. It wasn't really about the
+size being variable, but rather avoiding open coding things in vb2 and
+duplicating what's already implemented in generic code.
 
-Cheers,
-Bruno
+> And I could explain why you won't need so many buffers for the performance
+> of decoding.
+> 
+> VP9 could support 10 reference frames in dpb.
+> 
+> Even for those frequent resolution changing test set, it would only happen
+> to two resolutions,
+> 
+> 32 would be enough for 20 buffers of two resolution plus golden frames. It
+> also leaves enough slots for re-order latency.
+> 
+> If your case had more two resolutions, likes low->medium->high.
+> 
+> I would suggest just skip the medium resolutions, just allocate the lower
+> one first for fast playback then the highest for all the possible
+> 
+> medium cases. Reallocation happens frequently would only cause memory
+> fragment, nothing benefits your performance.
+> 
 
+We have mechanisms in the kernel to deal with memory fragmentation
+(migration/compaction) and it would still only matters for the
+pathologic cases of hardware that require physically contiguous memory.
+Modern hardware with proper DMA capabilities can either scatter-gather
+or are equipped with an IOMMU, so the allocation always happens in page
+granularity and fragmentation is avoided.
 
-> ---
->  drivers/hid/hid-picolcd_fb.c | 1 -
->  1 file changed, 1 deletion(-)
->=20
-> diff --git a/drivers/hid/hid-picolcd_fb.c b/drivers/hid/hid-picolcd_fb.c
-> index dabcd054dad9..d726aaafb146 100644
-> --- a/drivers/hid/hid-picolcd_fb.c
-> +++ b/drivers/hid/hid-picolcd_fb.c
-> @@ -527,7 +527,6 @@ int picolcd_init_framebuffer(struct picolcd_data *dat=
-a)
->  	info->var =3D picolcdfb_var;
->  	info->fix =3D picolcdfb_fix;
->  	info->fix.smem_len   =3D PICOLCDFB_SIZE*8;
-> -	info->flags =3D FBINFO_FLAG_DEFAULT;
-> =20
->  	fbdata =3D info->par;
->  	spin_lock_init(&fbdata->lock);
+Best regards,
+Tomasz
 
+> > 
+> > > 
+> > > > Remove it from the core definitions but keep it for drivers internal
+> > > > needs.
+> > > > 
+> > > > Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+> > > > ---
+> > > >   drivers/media/common/videobuf2/videobuf2-core.c | 2 ++
+> > > >   drivers/media/platform/amphion/vdec.c | 1 +
+> > > > .../media/platform/mediatek/vcodec/vdec/vdec_vp9_req_lat_if.c | 2 ++
+> > > >   drivers/media/platform/qcom/venus/hfi.h | 2 ++
+> > > >   drivers/media/platform/verisilicon/hantro_hw.h | 2 ++
+> > > >   drivers/staging/media/ipu3/ipu3-v4l2.c | 2 ++
+> > > >   include/media/videobuf2-core.h | 1 -
+> > > >   include/media/videobuf2-v4l2.h | 4 ----
+> > > >   8 files changed, 11 insertions(+), 5 deletions(-)
+> > > > 
+> > > > diff --git a/drivers/media/common/videobuf2/videobuf2-core.c
+> > > > b/drivers/media/common/videobuf2/videobuf2-core.c
+> > > > index 86e1e926fa45..899783f67580 100644
+> > > > --- a/drivers/media/common/videobuf2/videobuf2-core.c
+> > > > +++ b/drivers/media/common/videobuf2/videobuf2-core.c
+> > > > @@ -31,6 +31,8 @@
+> > > > 
+> > > >   #include <trace/events/vb2.h>
+> > > > 
+> > > > +#define VB2_MAX_FRAME  32
+> > > > +
+> > > >   static int debug;
+> > > >   module_param(debug, int, 0644);
+> > > > 
+> > > > diff --git a/drivers/media/platform/amphion/vdec.c
+> > > > b/drivers/media/platform/amphion/vdec.c
+> > > > index 3fa1a74a2e20..b3219f6d17fa 100644
+> > > > --- a/drivers/media/platform/amphion/vdec.c
+> > > > +++ b/drivers/media/platform/amphion/vdec.c
+> > > > @@ -28,6 +28,7 @@
+> > > > 
+> > > >   #define VDEC_MIN_BUFFER_CAP            8
+> > > >   #define VDEC_MIN_BUFFER_OUT            8
+> > > > +#define VB2_MAX_FRAME                  32
+> > > > 
+> > > >   struct vdec_fs_info {
+> > > >          char name[8];
+> > > > diff --git
+> > > > a/drivers/media/platform/mediatek/vcodec/vdec/vdec_vp9_req_lat_if.c
+> > > > b/drivers/media/platform/mediatek/vcodec/vdec/vdec_vp9_req_lat_if.c
+> > > > index 6532a69f1fa8..a1e0f24bb91c 100644
+> > > > --- a/drivers/media/platform/mediatek/vcodec/vdec/vdec_vp9_req_lat_if.c
+> > > > +++ b/drivers/media/platform/mediatek/vcodec/vdec/vdec_vp9_req_lat_if.c
+> > > > @@ -16,6 +16,8 @@
+> > > >   #include "../vdec_drv_if.h"
+> > > >   #include "../vdec_vpu_if.h"
+> > > > 
+> > > > +#define VB2_MAX_FRAME  32
+> > > > +
+> > > >   /* reset_frame_context defined in VP9 spec */
+> > > >   #define VP9_RESET_FRAME_CONTEXT_NONE0 0
+> > > >   #define VP9_RESET_FRAME_CONTEXT_NONE1 1
+> > > > diff --git a/drivers/media/platform/qcom/venus/hfi.h
+> > > > b/drivers/media/platform/qcom/venus/hfi.h
+> > > > index f25d412d6553..bd5ca5a8b945 100644
+> > > > --- a/drivers/media/platform/qcom/venus/hfi.h
+> > > > +++ b/drivers/media/platform/qcom/venus/hfi.h
+> > > > @@ -10,6 +10,8 @@
+> > > > 
+> > > >   #include "hfi_helper.h"
+> > > > 
+> > > > +#define VB2_MAX_FRAME                          32
+> > > > +
+> > > >   #define VIDC_SESSION_TYPE_VPE                  0
+> > > >   #define VIDC_SESSION_TYPE_ENC                  1
+> > > >   #define VIDC_SESSION_TYPE_DEC                  2
+> > > > diff --git a/drivers/media/platform/verisilicon/hantro_hw.h
+> > > > b/drivers/media/platform/verisilicon/hantro_hw.h
+> > > > index e83f0c523a30..9e8faf7ba6fb 100644
+> > > > --- a/drivers/media/platform/verisilicon/hantro_hw.h
+> > > > +++ b/drivers/media/platform/verisilicon/hantro_hw.h
+> > > > @@ -15,6 +15,8 @@
+> > > >   #include <media/v4l2-vp9.h>
+> > > >   #include <media/videobuf2-core.h>
+> > > > 
+> > > > +#define VB2_MAX_FRAME  32
+> > > > +
+> > > >   #define DEC_8190_ALIGN_MASK    0x07U
+> > > > 
+> > > >   #define MB_DIM                 16
+> > > > diff --git a/drivers/staging/media/ipu3/ipu3-v4l2.c
+> > > > b/drivers/staging/media/ipu3/ipu3-v4l2.c
+> > > > index e530767e80a5..6627b5c2d4d6 100644
+> > > > --- a/drivers/staging/media/ipu3/ipu3-v4l2.c
+> > > > +++ b/drivers/staging/media/ipu3/ipu3-v4l2.c
+> > > > @@ -10,6 +10,8 @@
+> > > >   #include "ipu3.h"
+> > > >   #include "ipu3-dmamap.h"
+> > > > 
+> > > > +#define VB2_MAX_FRAME  32
+> > > > +
+> > > >   /******************** v4l2_subdev_ops ********************/
+> > > > 
+> > > >   #define IPU3_RUNNING_MODE_VIDEO                0
+> > > > diff --git a/include/media/videobuf2-core.h
+> > > > b/include/media/videobuf2-core.h
+> > > > index 77921cf894ef..080b783d608d 100644
+> > > > --- a/include/media/videobuf2-core.h
+> > > > +++ b/include/media/videobuf2-core.h
+> > > > @@ -20,7 +20,6 @@
+> > > >   #include <media/media-request.h>
+> > > >   #include <media/frame_vector.h>
+> > > > 
+> > > > -#define VB2_MAX_FRAME  (32)
+> > > >   #define VB2_MAX_PLANES (8)
+> > > > 
+> > > >   /**
+> > > > diff --git a/include/media/videobuf2-v4l2.h
+> > > > b/include/media/videobuf2-v4l2.h
+> > > > index 5a845887850b..88a7a565170e 100644
+> > > > --- a/include/media/videobuf2-v4l2.h
+> > > > +++ b/include/media/videobuf2-v4l2.h
+> > > > @@ -15,10 +15,6 @@
+> > > >   #include <linux/videodev2.h>
+> > > >   #include <media/videobuf2-core.h>
+> > > > 
+> > > > -#if VB2_MAX_FRAME != VIDEO_MAX_FRAME
+> > > > -#error VB2_MAX_FRAME != VIDEO_MAX_FRAME
+> > > > -#endif
+> > > > -
+> > > >   #if VB2_MAX_PLANES != VIDEO_MAX_PLANES
+> > > >   #error VB2_MAX_PLANES != VIDEO_MAX_PLANES
+> > > >   #endif
+> > > > -- 
+> > > > 2.39.2
+> > > > 
+> -- 
+> Hsia-Jun(Randy) Li
+> 
