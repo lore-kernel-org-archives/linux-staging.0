@@ -1,124 +1,75 @@
-Received: from mail-ot1-f51.google.com (mail-ot1-f51.google.com [209.85.210.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from pb-smtp2.pobox.com (pb-smtp2.pobox.com [64.147.108.71])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C25D5E568
-	for <linux-staging@lists.linux.dev>; Wed, 12 Jul 2023 20:57:45 +0000 (UTC)
-Received: by mail-ot1-f51.google.com with SMTP id 46e09a7af769-6b5d5e6b086so790492a34.1
-        for <linux-staging@lists.linux.dev>; Wed, 12 Jul 2023 13:57:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1689195464; x=1691787464;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=1RnYYOt2ROeAmSiJt8+HCO24CDCU5SuB0/XP79pTxVU=;
-        b=HoO3K91cclh+Ar8T00O5cP1lKwZeTWwAiaR/SLOkDnhDkXG+Xk0zKHG6XykVvda24i
-         Ak818Mw3+mPA1kgFE5DIVfcpGuhfXaAlGWTrCME+mnv6AjzSPkcxAtbQGgx9Dc6drHYV
-         lt+Mvppfu2m/rDowChjeOAbpCu9N/utyr6Plr5UEMTFEf03iOvTScbDdBtusSuL4Xdsi
-         6+TSgtHX7dlze9xjbIeEuTytDwRfYQNXNAPoI4An2QJlBMOvWp/dPT6YzIqpzShmRrNx
-         ha6lASemaLZ5SH8/qBsENOkXgUlfBTSXvZnzKqTl81bWUq3y07/a5Dq2GKV8oy+gyupA
-         35sQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689195464; x=1691787464;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:sender:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=1RnYYOt2ROeAmSiJt8+HCO24CDCU5SuB0/XP79pTxVU=;
-        b=ZtOyGfAjzB/fzjb2Z587NsTlFcVkA2hO5UgbodvCGFOBachJDM7d3cVHkjpHbiA50L
-         HmQj1eQGwUCUhxjXsG37M7zYINSPyItO2vGLgtj2dSw82HGw8M1shITRnYCx75KvPEar
-         hGowCkKHidk4J2jSgCNlT+X8REDjFSgNAWi6F2oCyCXdmTclW0Hlos+IuqfVe+Hg+v9A
-         7GsrccVj6myEtoZTeCQ/tgQsS0KFs9SRvwsemDQMF4dZlModyQ4EOR0F6lRFdB5lEtlk
-         txYP+bYJxXYJvd0ruVfo8cLizwSIkj8PeZn5nPVfhpQRDuqFK06Vkj7z1qk/kHbKpKw/
-         kwsQ==
-X-Gm-Message-State: ABy/qLbfMjC+VH0DhyAqNRV74Clpx/M5vR1t5ggBcoTQ4cdB3OUdvmlS
-	4KB0qthRVU3PKHf/85FwV7E=
-X-Google-Smtp-Source: APBJJlE1MYhtH+H9dFumCjnqewXMgIlQ6LNofQwnPzRvk2hpc95lQHmslpfQWnbzhMZSs/hirn/rPA==
-X-Received: by 2002:a9d:7759:0:b0:6b8:b83c:a1f8 with SMTP id t25-20020a9d7759000000b006b8b83ca1f8mr1617676otl.19.1689195464515;
-        Wed, 12 Jul 2023 13:57:44 -0700 (PDT)
-Received: from localhost.localdomain ([216.130.59.33])
-        by smtp.gmail.com with ESMTPSA id b3-20020a056830104300b006b469ace1b1sm2288715otp.22.2023.07.12.13.57.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 12 Jul 2023 13:57:43 -0700 (PDT)
-Sender: Larry Finger <larry.finger@gmail.com>
-From: Larry Finger <Larry.Finger@lwfinger.net>
-To: gregkh@linuxfoundation.org
-Cc: linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	linux-wireless@vger.kernel.org,
-	Larry Finger <Larry.Finger@lwfinger.net>,
-	syzbot+cf71097ffb6755df8251@syzkaller.appspotmail.com,
-	stable@vger.kernel.org
-Subject: [PATCH] staging: 7811: Fix memory leak in _r8712_init_xmit_priv
-Date: Wed, 12 Jul 2023 15:57:32 -0500
-Message-ID: <20230712205733.29794-1-Larry.Finger@lwfinger.net>
-X-Mailer: git-send-email 2.41.0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F56F1D2F7
+	for <linux-staging@lists.linux.dev>; Wed, 12 Jul 2023 23:23:04 +0000 (UTC)
+Received: from pb-smtp2.pobox.com (unknown [127.0.0.1])
+	by pb-smtp2.pobox.com (Postfix) with ESMTP id D9E1A1A327D;
+	Wed, 12 Jul 2023 19:22:56 -0400 (EDT)
+	(envelope-from tdavies@darkphysics.net)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed; d=pobox.com; h=date:from
+	:to:cc:subject:message-id:mime-version:content-type; s=sasl; bh=
+	0165xUKuhFx6oX5PHMQjF2TMBsaTDaVi5RGHkyOeIhE=; b=ZB29vdN+H6nhBFqN
+	tU+deVNXRLnQKWA4yV2U4fxV2LnPew3U2mQeUSMj84CxUh5EK6ai/Rd4S6Yc9hJb
+	v1FnXc3HvwAJ0xQEJbsOrsz5oXDCOnanjt2iS/xdApJo8chKMlEEgA3H+VcOC8BU
+	0M+3KIQOm42rraGHVRGeQUgDSTQ=
+Received: from pb-smtp2.nyi.icgroup.com (unknown [127.0.0.1])
+	by pb-smtp2.pobox.com (Postfix) with ESMTP id CFE891A327C;
+	Wed, 12 Jul 2023 19:22:56 -0400 (EDT)
+	(envelope-from tdavies@darkphysics.net)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed; d=darkphysics.net;
+ h=date:from:to:cc:subject:message-id:mime-version:content-type;
+ s=2019-09.pbsmtp; bh=0165xUKuhFx6oX5PHMQjF2TMBsaTDaVi5RGHkyOeIhE=;
+ b=el/hpON9uneIM1+RIfDS1KdybBl45LKGqr02f9mhShWQbNcJPf24kIJC5WBMfbBjz/nUBhyvKz1d2Vwdhmv19z4EgWJhb8RPvJtYTWujxujVCHLv36NqWbfUzsxtriw7sR0ddVp9rxPj0AJCu6qkV/1UblVy2EJih8I6hRLiF44=
+Received: from basil (unknown [76.146.178.2])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by pb-smtp2.pobox.com (Postfix) with ESMTPSA id 6A7B71A327B;
+	Wed, 12 Jul 2023 19:22:55 -0400 (EDT)
+	(envelope-from tdavies@darkphysics.net)
+Date: Wed, 12 Jul 2023 16:23:44 -0700
+From: Tree Davies <tdavies@darkphysics.net>
+To: gregkh@linuxfoundation.org, philipp.g.hortmann@gmail.com, anjan@momi.ca,
+	error27@gmail.com
+Cc: tdavies@darkphysics.net, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH 00/12] Staging: rtl8192e: Style Guide Cleanup
+Message-ID: <ZK82AIxHctHFc27N@basil>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+X-Pobox-Relay-ID:
+ 0824F012-210B-11EE-96F5-307A8E0A682E-45285927!pb-smtp2.pobox.com
 
-In the above mentioned routine, memory is allocated in several places.
-If the first succeeds and a later one fails, the routine will leak memory.
-Fixes commit 2865d42c78a9 ("staging: r8712u: Add the new driver to the
-mainline kernel").
+This patch series fixes checkpatch CamelCase warnings
+in regard to drivers/staging/rtl8192e/rtl819x_BAProc.c
 
-Fixes: 2865d42c78a9 ("staging: r8712u: Add the new driver to the mainline kernel")
-Reported-by: syzbot+cf71097ffb6755df8251@syzkaller.appspotmail.com
-Cc: stable@vger.kernel.org
-Signed-off-by: Larry Finger <Larry.Finger@lwfinger.net>
----
- drivers/staging/rtl8712/rtl871x_xmit.c | 19 ++++++++++++-------
- 1 file changed, 12 insertions(+), 7 deletions(-)
+Tree Davies (12):
+  Staging: rtl8192e: Rename function ActivateBAEntry
+  Staging: rtl8192e: Rename function DeActivateBAEntry
+  Staging: rtl8192e: Rename function TxTsDeleteBA
+  Staging: rtl8192e: Rename function TsInitAddBA
+  Staging: rtl8192e: Rename function TsInitDelBA
+  Staging: rtl8192e: Rename function BaSetupTimeOut
+  Staging: rtl8192e: Rename function TxBaInactTimeout
+  Staging: rtl8192e: Rename function RxBaInactTimeout
+  Staging: rtl8192e: Rename variable pBA
+  Staging: rtl8192e: Rename variable Time
+  Staging: rtl8192e: Rename variable pTxTs
+  Staging: rtl8192e: Rename variable TxAdmittedBARecord
 
-diff --git a/drivers/staging/rtl8712/rtl871x_xmit.c b/drivers/staging/rtl8712/rtl871x_xmit.c
-index 090345bad223..16b815588b97 100644
---- a/drivers/staging/rtl8712/rtl871x_xmit.c
-+++ b/drivers/staging/rtl8712/rtl871x_xmit.c
-@@ -117,11 +117,8 @@ int _r8712_init_xmit_priv(struct xmit_priv *pxmitpriv,
- 	_init_queue(&pxmitpriv->pending_xmitbuf_queue);
- 	pxmitpriv->pallocated_xmitbuf =
- 		kmalloc(NR_XMITBUFF * sizeof(struct xmit_buf) + 4, GFP_ATOMIC);
--	if (!pxmitpriv->pallocated_xmitbuf) {
--		kfree(pxmitpriv->pallocated_frame_buf);
--		pxmitpriv->pallocated_frame_buf = NULL;
--		return -ENOMEM;
--	}
-+	if (!pxmitpriv->pallocated_xmitbuf)
-+		goto clean_up_frame_buf;
- 	pxmitpriv->pxmitbuf = pxmitpriv->pallocated_xmitbuf + 4 -
- 			      ((addr_t)(pxmitpriv->pallocated_xmitbuf) & 3);
- 	pxmitbuf = (struct xmit_buf *)pxmitpriv->pxmitbuf;
-@@ -130,12 +127,12 @@ int _r8712_init_xmit_priv(struct xmit_priv *pxmitpriv,
- 		pxmitbuf->pallocated_buf =
- 			kmalloc(MAX_XMITBUF_SZ + XMITBUF_ALIGN_SZ, GFP_ATOMIC);
- 		if (!pxmitbuf->pallocated_buf)
--			return -ENOMEM;
-+			goto clean_up_xmit_buf;
- 		pxmitbuf->pbuf = pxmitbuf->pallocated_buf + XMITBUF_ALIGN_SZ -
- 				 ((addr_t) (pxmitbuf->pallocated_buf) &
- 				 (XMITBUF_ALIGN_SZ - 1));
- 		if (r8712_xmit_resource_alloc(padapter, pxmitbuf))
--			return -ENOMEM;
-+			goto clean_up_xmit_buf;
- 		list_add_tail(&pxmitbuf->list,
- 				 &(pxmitpriv->free_xmitbuf_queue.queue));
- 		pxmitbuf++;
-@@ -146,6 +143,14 @@ int _r8712_init_xmit_priv(struct xmit_priv *pxmitpriv,
- 	init_hwxmits(pxmitpriv->hwxmits, pxmitpriv->hwxmit_entry);
- 	tasklet_setup(&pxmitpriv->xmit_tasklet, r8712_xmit_bh);
- 	return 0;
-+
-+clean_up_xmit_buf:
-+	kfree(pxmitbuf->pallocated_xmitbuf);
-+	pxmitbuf->pallocated_buf = NULL;
-+clean_up_frame_buf:
-+	kfree(pxmitpriv->pallocated_frame_buf);
-+	pxmitpriv->pallocated_frame_buf = NULL;
-+	return -ENOMEM;
- }
- 
- void _free_xmit_priv(struct xmit_priv *pxmitpriv)
+ drivers/staging/rtl8192e/rtl819x_BAProc.c | 186 +++++++++++-----------
+ drivers/staging/rtl8192e/rtl819x_TS.h     |   2 +-
+ drivers/staging/rtl8192e/rtl819x_TSProc.c |  20 +--
+ drivers/staging/rtl8192e/rtllib.h         |  12 +-
+ drivers/staging/rtl8192e/rtllib_tx.c      |  18 +--
+ 5 files changed, 119 insertions(+), 119 deletions(-)
+
 -- 
 2.41.0
 
