@@ -1,107 +1,86 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+Received: from mail-oo1-f44.google.com (mail-oo1-f44.google.com [209.85.161.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF05714F8E
-	for <linux-staging@lists.linux.dev>; Thu, 13 Jul 2023 13:03:54 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 57D3F1FDE9;
-	Thu, 13 Jul 2023 13:03:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1689253429; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=IsudHL+kPXRnJx5x/UKWrjHzIvsH1WJ679RIcWPHmtc=;
-	b=u0ovCl5n9MXop+Ezot8TRk5lVZ/nQUjpfCQyoMpnD+ml/blTy1EX6KSWhLsu459q0Eq2U8
-	PIw8ttscCXkaHc70J9VBTCXNp6gk69BSsRmnFEDlT3OC5GOGaEaTJ5QqLucyQSlQ4FdI8T
-	A3wuOF50BNKme5ap5wuNSPJD05OxYAM=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1689253429;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=IsudHL+kPXRnJx5x/UKWrjHzIvsH1WJ679RIcWPHmtc=;
-	b=A51KravctEI4QKJ8lOtnEBJyCx51GonM0INWeFww81on0QVoAdctELm3OeK4Dpwibg0Sv7
-	PgGihZTRQ5YvRaDQ==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id EF5D513A94;
-	Thu, 13 Jul 2023 13:03:48 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-	by imap2.suse-dmz.suse.de with ESMTPSA
-	id 2A2BOTT2r2TVPgAAMHmgww
-	(envelope-from <tzimmermann@suse.de>); Thu, 13 Jul 2023 13:03:48 +0000
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: deller@gmx.de,
-	javierm@redhat.com
-Cc: linux-sh@vger.kernel.org,
-	dri-devel@lists.freedesktop.org,
-	linux-kernel@vger.kernel.org,
-	amd-gfx@lists.freedesktop.org,
-	linux-input@vger.kernel.org,
-	linux-media@vger.kernel.org,
-	linux-fbdev@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	linux-geode@lists.infradead.org,
-	linux-nvidia@lists.surfsouth.com,
-	linux-hyperv@vger.kernel.org,
-	linux-omap@vger.kernel.org,
-	linuxppc-dev@lists.ozlabs.org,
-	kvm@vger.kernel.org,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Sam Ravnborg <sam@ravnborg.org>
-Subject: [PATCH v2 17/18] fbdev: Remove FBINFO_DEFAULT and FBINFO_FLAG_DEFAULT
-Date: Thu, 13 Jul 2023 14:58:37 +0200
-Message-ID: <20230713130338.31086-18-tzimmermann@suse.de>
-X-Mailer: git-send-email 2.41.0
-In-Reply-To: <20230713130338.31086-1-tzimmermann@suse.de>
-References: <20230713130338.31086-1-tzimmermann@suse.de>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6D6F17AAF
+	for <linux-staging@lists.linux.dev>; Thu, 13 Jul 2023 13:21:46 +0000 (UTC)
+Received: by mail-oo1-f44.google.com with SMTP id 006d021491bc7-56368c40e8eso571081eaf.0
+        for <linux-staging@lists.linux.dev>; Thu, 13 Jul 2023 06:21:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1689254505; x=1691846505;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=nMl5dn5Xz12gXOMX3oC+kNdFlWhzCPfH45LFdGwDg+c=;
+        b=eshePJRxBGfoEbxv/HATy/LbMrzsCDpyAiPdPWKP2+7M1zJL3N5KwDGRakUw3RzP4p
+         q0Cnwz0fdaQ+HyxVhl+a/PdVIYgV40UvVYeo6oku2ew3IT0bTt6UYAHjOIS6Vb6t9Mla
+         Zj8EL/FlPFPvHB5g71aE7gFP3zFqlG9d7Fbu8m/nhV/T9INJD8alH0sgU2iXPleyzim5
+         lINS3JcD7J0TOIOFW4pf/x8/SEpIIASy3dTyyqXfKshxdSJS0TlF/u7bPTHA+oWf2AYl
+         SPCY6gZL7ykEOqi+bfIKlTKf4FRPiV/L6IcHOgev/4QAZK/gwKYWQ5RBFTfBsMThGpXg
+         EmsA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1689254505; x=1691846505;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=nMl5dn5Xz12gXOMX3oC+kNdFlWhzCPfH45LFdGwDg+c=;
+        b=Y/AEjlxb5Cjeofemuqbmpl8K8QJcWxyFOtC0cV7qJt6u74WYn6HAYHAKJXse2E5Qfy
+         NCAGnZAnNsgoeitmv5h3WpvHxqcyu0QJunKbZfj/NXqXM0lOzmkB0E6TGFeL1d/jHfOl
+         mz92TCHqKdAViVzrU+0QRGkHo2+vfOtzhUW12Rm7rwY2DntEVnlnxrk5vUcA76J3RGqu
+         LsO4CKVAghaolx480+hRk13CuU90hlLbL4QWQTrJC5gc9ur/4H182IcXMbQXehjgqYE3
+         MnthhxAs3l3QqOESUYyHbPRYt9LTYZAEVGzu2jOQF9962hHkPgmUmJYsOlib1EtndOTW
+         aSDw==
+X-Gm-Message-State: ABy/qLbmgHrTTYjjmoL9zcojK+wnu6sHDDGlvsjdmdv0QSdrVRIqd8wS
+	1ha0BvFdU/OUrKC92FfN5Z1OheaYcWJdCnd0Ix8=
+X-Google-Smtp-Source: APBJJlG+0WtfiM+r2sXZzO6HNFK4R91MA9ooy29hXDBdzlOr5q/1lWHuWptQzwph8RqHPwzWZYnIoYS2ozC9kDF6TM8=
+X-Received: by 2002:a05:6358:428e:b0:135:5934:2bba with SMTP id
+ s14-20020a056358428e00b0013559342bbamr2356344rwc.8.1689254505432; Thu, 13 Jul
+ 2023 06:21:45 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20230713130338.31086-1-tzimmermann@suse.de> <20230713130338.31086-19-tzimmermann@suse.de>
+In-Reply-To: <20230713130338.31086-19-tzimmermann@suse.de>
+From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date: Thu, 13 Jul 2023 15:21:34 +0200
+Message-ID: <CANiq72mbLmMKph8aiz4apNF9n3MtVO-nhM9rEWYApZbSVAO9Qw@mail.gmail.com>
+Subject: Re: [PATCH v2 18/18] fbdev: Document that framebuffer_alloc() returns
+ zero'ed data
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: deller@gmx.de, javierm@redhat.com, linux-sh@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+	amd-gfx@lists.freedesktop.org, linux-input@vger.kernel.org, 
+	linux-media@vger.kernel.org, linux-fbdev@vger.kernel.org, 
+	linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
+	linux-geode@lists.infradead.org, linux-nvidia@lists.surfsouth.com, 
+	linux-hyperv@vger.kernel.org, linux-omap@vger.kernel.org, 
+	linuxppc-dev@lists.ozlabs.org, kvm@vger.kernel.org, 
+	Miguel Ojeda <ojeda@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Remove the unused flags FBINFO_DEFAULT and FBINFO_FLAG_DEFAULT. No
-functional changes.
+On Thu, Jul 13, 2023 at 3:03=E2=80=AFPM Thomas Zimmermann <tzimmermann@suse=
+.de> wrote:
+>
+> Most fbdev drivers depend on framebuffer_alloc() to initialize the
+> allocated memory to 0. Document this guarantee.
+>
+> Suggested-by: Miguel Ojeda <ojeda@kernel.org>
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> Cc: Helge Deller <deller@gmx.de>
 
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Acked-by: Sam Ravnborg <sam@ravnborg.org>
-Cc: Helge Deller <deller@gmx.de>
----
- include/linux/fb.h | 3 ---
- 1 file changed, 3 deletions(-)
+Thanks for sending this! Maybe this would be best earlier in the
+series, so that later patches make more sense (since they use the
+guarantee), but it is not a big deal.
 
-diff --git a/include/linux/fb.h b/include/linux/fb.h
-index 1d5c13f34b09..43458f582f35 100644
---- a/include/linux/fb.h
-+++ b/include/linux/fb.h
-@@ -383,7 +383,6 @@ struct fb_tile_ops {
- #endif /* CONFIG_FB_TILEBLITTING */
- 
- /* FBINFO_* = fb_info.flags bit flags */
--#define FBINFO_DEFAULT		0
- #define FBINFO_HWACCEL_DISABLED	0x0002
- 	/* When FBINFO_HWACCEL_DISABLED is set:
- 	 *  Hardware acceleration is turned off.  Software implementations
-@@ -504,8 +503,6 @@ struct fb_info {
- 	bool skip_vt_switch; /* no VT switch on suspend/resume required */
- };
- 
--#define FBINFO_FLAG_DEFAULT	FBINFO_DEFAULT
--
- /* This will go away
-  * fbset currently hacks in FB_ACCELF_TEXT into var.accel_flags
-  * when it wants to turn the acceleration engine on.  This is
--- 
-2.41.0
+> + * aligned to sizeof(long). Both, the instance of struct fb_info and
+> + * the driver private data, are cleared to zero.
 
+I think both commas may be best omitted (but I am not a native speaker).
+
+Reviewed-by: Miguel Ojeda <ojeda@kernel.org>
+
+Cheers,
+Miguel
