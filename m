@@ -1,42 +1,42 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4529D100CC
-	for <linux-staging@lists.linux.dev>; Thu, 13 Jul 2023 13:03:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6A14100BC
+	for <linux-staging@lists.linux.dev>; Thu, 13 Jul 2023 13:03:47 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 20AC11F45A;
-	Thu, 13 Jul 2023 13:03:42 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 36FF72218A;
+	Thu, 13 Jul 2023 13:03:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1689253422; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1689253426; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=sWCVV7wJiemOx2M9P2wz1m/QXnYnbGSsQYJ48wiDA5o=;
-	b=G3PYzma+GnPXsWDQcWEiJv7+6N0jkIzvIqL3XrkAaNDI5dGI8oCyGDegIPMBEhOO6zso9c
-	K5VThQHBuOhXlprpuD0nN/dF79tpjdwwkTSMKFCLf145LdCAaSa7mwQ+6NYpUz5Y4s5PAn
-	tEbKa6k8zUIs+FVcjuyiTVPw1uhIoY4=
+	bh=LJyxHdcmj5FWZ0pZ0y2ioRq6mf/10a9++06DyYlIN00=;
+	b=r2b0L1bsOGU8pieZxYDpzj7F+xHTGTDXicFuWXiSG27ctGL3GedqFKBj650WY7WlDO9PqU
+	fTUfxVGRSpM+VoyITNN4Yspn8toSEhKaL7OZ4U08aFQzS5hXd5SYB5fJ+IBiM81WEYvl5B
+	kLr/5BiVvVywyeKaWsbnMoSXzpcvhJk=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1689253422;
+	s=susede2_ed25519; t=1689253426;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=sWCVV7wJiemOx2M9P2wz1m/QXnYnbGSsQYJ48wiDA5o=;
-	b=WeSOcLCLUIdHcwsbiId4esnjfTG+ztdeDfD2PYzOsAG3OUq0C7SYad86to4wDt0BZzV2cu
-	qQ29qEYIeql73fBw==
+	bh=LJyxHdcmj5FWZ0pZ0y2ioRq6mf/10a9++06DyYlIN00=;
+	b=p0bM5L/Nol3ZNlSAPC05+LuEcdzwCfS2TzY7UeBdu39d9Ys2y9gQH1Mz69W0NEp5CPVSor
+	BbNpse1LjBylulDQ==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 9AA8D13A94;
-	Thu, 13 Jul 2023 13:03:41 +0000 (UTC)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id C6CD813489;
+	Thu, 13 Jul 2023 13:03:45 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
 	by imap2.suse-dmz.suse.de with ESMTPSA
-	id OGKbJC32r2TVPgAAMHmgww
-	(envelope-from <tzimmermann@suse.de>); Thu, 13 Jul 2023 13:03:41 +0000
+	id gACRLzH2r2TVPgAAMHmgww
+	(envelope-from <tzimmermann@suse.de>); Thu, 13 Jul 2023 13:03:45 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: deller@gmx.de,
 	javierm@redhat.com
@@ -57,13 +57,12 @@ Cc: linux-sh@vger.kernel.org,
 	kvm@vger.kernel.org,
 	Thomas Zimmermann <tzimmermann@suse.de>,
 	Sam Ravnborg <sam@ravnborg.org>,
-	Patrik Jakobsson <patrik.r.jakobsson@gmail.com>,
-	Alex Deucher <alexander.deucher@amd.com>,
-	=?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
-	"Pan, Xinhui" <Xinhui.Pan@amd.com>
-Subject: [PATCH v2 01/18] drm: Remove flag FBINFO_DEFAULT from fbdev emulation
-Date: Thu, 13 Jul 2023 14:58:21 +0200
-Message-ID: <20230713130338.31086-2-tzimmermann@suse.de>
+	Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+	=?UTF-8?q?Bruno=20Pr=C3=A9mont?= <bonbons@linux-vserver.org>,
+	Jiri Kosina <jikos@kernel.org>
+Subject: [PATCH v2 10/18] hid/picolcd: Remove flag FBINFO_FLAG_DEFAULT from fbdev driver
+Date: Thu, 13 Jul 2023 14:58:30 +0200
+Message-ID: <20230713130338.31086-11-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.41.0
 In-Reply-To: <20230713130338.31086-1-tzimmermann@suse.de>
 References: <20230713130338.31086-1-tzimmermann@suse.de>
@@ -76,8 +75,9 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-The flag FBINFO_DEFAULT is 0 and has no effect, as struct fbinfo.flags
-has been allocated to zero by framebuffer_alloc(). So do not set it.
+The flag FBINFO_FLAG_DEFAULT is 0 and has no effect, as struct
+fbinfo.flags has been allocated to zero by framebuffer_alloc(). So do
+not set it.
 
 Flags should signal differences from the default values. After cleaning
 up all occurrences of FBINFO_DEFAULT, the token will be removed.
@@ -87,67 +87,27 @@ v2:
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 Acked-by: Sam Ravnborg <sam@ravnborg.org>
-Cc: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
-Cc: Alex Deucher <alexander.deucher@amd.com>
-Cc: "Christian König" <christian.koenig@amd.com>
-Cc: "Pan, Xinhui" <Xinhui.Pan@amd.com>
+Acked-by: Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Acked-by: Bruno Prémont <bonbons@linux-vserver.org>
+Cc: "Bruno Prémont" <bonbons@linux-vserver.org>
+Cc: Jiri Kosina <jikos@kernel.org>
+Cc: Benjamin Tissoires <benjamin.tissoires@redhat.com>
 ---
- drivers/gpu/drm/drm_fbdev_dma.c       | 1 -
- drivers/gpu/drm/drm_fbdev_generic.c   | 1 -
- drivers/gpu/drm/gma500/fbdev.c        | 2 +-
- drivers/gpu/drm/radeon/radeon_fbdev.c | 2 +-
- 4 files changed, 2 insertions(+), 4 deletions(-)
+ drivers/hid/hid-picolcd_fb.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/drm_fbdev_dma.c b/drivers/gpu/drm/drm_fbdev_dma.c
-index f9b1f7cd31b7..ee7c265b0585 100644
---- a/drivers/gpu/drm/drm_fbdev_dma.c
-+++ b/drivers/gpu/drm/drm_fbdev_dma.c
-@@ -123,7 +123,6 @@ static int drm_fbdev_dma_helper_fb_probe(struct drm_fb_helper *fb_helper,
- 	drm_fb_helper_fill_info(info, fb_helper, sizes);
+diff --git a/drivers/hid/hid-picolcd_fb.c b/drivers/hid/hid-picolcd_fb.c
+index dabcd054dad9..d726aaafb146 100644
+--- a/drivers/hid/hid-picolcd_fb.c
++++ b/drivers/hid/hid-picolcd_fb.c
+@@ -527,7 +527,6 @@ int picolcd_init_framebuffer(struct picolcd_data *data)
+ 	info->var = picolcdfb_var;
+ 	info->fix = picolcdfb_fix;
+ 	info->fix.smem_len   = PICOLCDFB_SIZE*8;
+-	info->flags = FBINFO_FLAG_DEFAULT;
  
- 	info->fbops = &drm_fbdev_dma_fb_ops;
--	info->flags = FBINFO_DEFAULT;
- 
- 	/* screen */
- 	info->flags |= FBINFO_VIRTFB; /* system memory */
-diff --git a/drivers/gpu/drm/drm_fbdev_generic.c b/drivers/gpu/drm/drm_fbdev_generic.c
-index b9343fb6cf13..a0ea042b1526 100644
---- a/drivers/gpu/drm/drm_fbdev_generic.c
-+++ b/drivers/gpu/drm/drm_fbdev_generic.c
-@@ -109,7 +109,6 @@ static int drm_fbdev_generic_helper_fb_probe(struct drm_fb_helper *fb_helper,
- 	drm_fb_helper_fill_info(info, fb_helper, sizes);
- 
- 	info->fbops = &drm_fbdev_generic_fb_ops;
--	info->flags = FBINFO_DEFAULT;
- 
- 	/* screen */
- 	info->flags |= FBINFO_VIRTFB | FBINFO_READS_FAST;
-diff --git a/drivers/gpu/drm/gma500/fbdev.c b/drivers/gpu/drm/gma500/fbdev.c
-index 054426549fc6..be8f5fbd5260 100644
---- a/drivers/gpu/drm/gma500/fbdev.c
-+++ b/drivers/gpu/drm/gma500/fbdev.c
-@@ -215,7 +215,7 @@ static int psb_fbdev_fb_probe(struct drm_fb_helper *fb_helper,
- 	}
- 
- 	info->fbops = &psb_fbdev_fb_ops;
--	info->flags = FBINFO_DEFAULT;
-+
- 	/* Accessed stolen memory directly */
- 	info->screen_base = dev_priv->vram_addr + backing->offset;
- 	info->screen_size = size;
-diff --git a/drivers/gpu/drm/radeon/radeon_fbdev.c b/drivers/gpu/drm/radeon/radeon_fbdev.c
-index f941e2e7cae6..68c06ac9acce 100644
---- a/drivers/gpu/drm/radeon/radeon_fbdev.c
-+++ b/drivers/gpu/drm/radeon/radeon_fbdev.c
-@@ -253,7 +253,7 @@ static int radeon_fbdev_fb_helper_fb_probe(struct drm_fb_helper *fb_helper,
- 	}
- 
- 	info->fbops = &radeon_fbdev_fb_ops;
--	info->flags = FBINFO_DEFAULT;
-+
- 	/* radeon resume is fragile and needs a vt switch to help it along */
- 	info->skip_vt_switch = false;
- 
+ 	fbdata = info->par;
+ 	spin_lock_init(&fbdata->lock);
 -- 
 2.41.0
 
