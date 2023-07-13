@@ -1,42 +1,42 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F9D4101EE
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C051101ED
 	for <linux-staging@lists.linux.dev>; Thu, 13 Jul 2023 13:03:51 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 78FA71FDAE;
-	Thu, 13 Jul 2023 13:03:44 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id AED3122195;
+	Thu, 13 Jul 2023 13:03:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1689253424; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1689253429; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=fHWIv3bHRzrRKcyf/zVidbDkljZLPdxvWwq51ebKJX8=;
-	b=KrLQ9ExONJd8bhA047RDMVgp8Yiinradv+N78bSluWIDLuNuCjwO2zbgMvNqTm8IS7N250
-	JZ5fXSwfj7hJEuerDqT9D7CxE/s/RJnnrWr1WqXO2CHJ8BE+WyygeHX7RAQ+pL/8CEkAnI
-	a/XIFK0q7OmjfSmwD8XvVXiUP68WINE=
+	bh=BhF3dZeu/sRgLYS001c8kRsipcWJq/VtROn6MCXX9YY=;
+	b=daj/vSUVGOXQMsWsXdc+Ezaimt8K1JNrFAhTxGzWNIIlcyltS1JZ7L9HTmbYfpLfKmah39
+	++SGiAxPCteVilbBx7ZxMORu+6/fY818F5BRt6I4Xec64Sdh80+NuEnIVW0hnVJcU/dZGr
+	Zs1E7FQuffTtJHR//mnA7HbWjGqT5JY=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1689253424;
+	s=susede2_ed25519; t=1689253429;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=fHWIv3bHRzrRKcyf/zVidbDkljZLPdxvWwq51ebKJX8=;
-	b=cC+16BmIJtD67C1AxjAYu7NIDMLyAG1Ex+jDKT8ZOZ/w4pvouvA2SEwv/Yx2sRZxBO12WT
-	6pKuARZIpLfJZ7BQ==
+	bh=BhF3dZeu/sRgLYS001c8kRsipcWJq/VtROn6MCXX9YY=;
+	b=o0c2teiwOf7OFQ0r9afxe1lhotl2L0LZtSF0FaKNAs7JMdD6urEtIcw/0oan/UIGoPysnY
+	EiveJuQ4bX1ndICA==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 1C65113489;
-	Thu, 13 Jul 2023 13:03:44 +0000 (UTC)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 5A42913489;
+	Thu, 13 Jul 2023 13:03:49 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
 	by imap2.suse-dmz.suse.de with ESMTPSA
-	id cEQTBjD2r2TVPgAAMHmgww
-	(envelope-from <tzimmermann@suse.de>); Thu, 13 Jul 2023 13:03:44 +0000
+	id 6M7yFDX2r2TVPgAAMHmgww
+	(envelope-from <tzimmermann@suse.de>); Thu, 13 Jul 2023 13:03:49 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: deller@gmx.de,
 	javierm@redhat.com
@@ -56,11 +56,10 @@ Cc: linux-sh@vger.kernel.org,
 	linuxppc-dev@lists.ozlabs.org,
 	kvm@vger.kernel.org,
 	Thomas Zimmermann <tzimmermann@suse.de>,
-	Sam Ravnborg <sam@ravnborg.org>,
-	Timur Tabi <timur@kernel.org>
-Subject: [PATCH v2 06/18] fbdev/fsl-diu-fb: Remove flag FBINFO_DEFAULT
-Date: Thu, 13 Jul 2023 14:58:26 +0200
-Message-ID: <20230713130338.31086-7-tzimmermann@suse.de>
+	Miguel Ojeda <ojeda@kernel.org>
+Subject: [PATCH v2 18/18] fbdev: Document that framebuffer_alloc() returns zero'ed data
+Date: Thu, 13 Jul 2023 14:58:38 +0200
+Message-ID: <20230713130338.31086-19-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.41.0
 In-Reply-To: <20230713130338.31086-1-tzimmermann@suse.de>
 References: <20230713130338.31086-1-tzimmermann@suse.de>
@@ -72,37 +71,30 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The flag FBINFO_DEFAULT is 0 and has no effect, as struct fbinfo.flags
-has been allocated to zero by dmam_alloc_coherent(__GFP_ZERO). So do not
-set it.
+Most fbdev drivers depend on framebuffer_alloc() to initialize the
+allocated memory to 0. Document this guarantee.
 
-Flags should signal differences from the default values. After cleaning
-up all occurrences of FBINFO_DEFAULT, the token will be removed.
-
-v2:
-	* fix commit message (Miguel)
-
+Suggested-by: Miguel Ojeda <ojeda@kernel.org>
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Acked-by: Sam Ravnborg <sam@ravnborg.org>
-Cc: Timur Tabi <timur@kernel.org>
 Cc: Helge Deller <deller@gmx.de>
 ---
- drivers/video/fbdev/fsl-diu-fb.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/video/fbdev/core/fb_info.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/video/fbdev/fsl-diu-fb.c b/drivers/video/fbdev/fsl-diu-fb.c
-index 785eb8a06943..c62b48f27ba9 100644
---- a/drivers/video/fbdev/fsl-diu-fb.c
-+++ b/drivers/video/fbdev/fsl-diu-fb.c
-@@ -1476,7 +1476,7 @@ static int install_fb(struct fb_info *info)
- 
- 	info->var.activate = FB_ACTIVATE_NOW;
- 	info->fbops = &fsl_diu_ops;
--	info->flags = FBINFO_DEFAULT | FBINFO_VIRTFB | FBINFO_PARTIAL_PAN_OK |
-+	info->flags = FBINFO_VIRTFB | FBINFO_PARTIAL_PAN_OK |
- 		FBINFO_READS_FAST;
- 	info->pseudo_palette = mfbi->pseudo_palette;
- 
+diff --git a/drivers/video/fbdev/core/fb_info.c b/drivers/video/fbdev/core/fb_info.c
+index 8bdbefdd4b70..1b7615fc393d 100644
+--- a/drivers/video/fbdev/core/fb_info.c
++++ b/drivers/video/fbdev/core/fb_info.c
+@@ -13,7 +13,8 @@
+  *
+  * Creates a new frame buffer info structure. Also reserves @size bytes
+  * for driver private data (info->par). info->par (if any) will be
+- * aligned to sizeof(long).
++ * aligned to sizeof(long). Both, the instance of struct fb_info and
++ * the driver private data, are cleared to zero.
+  *
+  * Returns the new structure, or NULL if an error occurred.
+  *
 -- 
 2.41.0
 
