@@ -1,81 +1,121 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B89501F175
-	for <linux-staging@lists.linux.dev>; Thu, 13 Jul 2023 16:02:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=FGfECluQ+8FqgloN5y7njhMRYgbNQmkghpgv24LmuxM=; b=0XY4/FQJa9khQp7bFpbGplPtrB
-	5SpA/Xwz1+y5xMC8TkQ/RIwD1YWvtpubNsS1DOufMRk8U8ZOw4QBT/2OcdaSsugIN7fvQtpI7FoTv
-	cytb12hmpQ++kNkMjOGEjV3X0J/VuBhB9uSnfg9JjtfUZNml3TMudThtLyoBgiurIyPLTXfpsW1zN
-	ZtXFfJPqxyrJBHJb3985aNxuQmUFSYt3wjhQoX2i+JeMJunamtLIY8iXJ5jgN3F/OMabSTImubkKK
-	MN74NscjU6mryhy24nJ4dBieOuA4YvnVsMsArDKWNb60xY8A4s7oL4npScU177xtucZj0Dk4Lyl65
-	o8/EadpQ==;
-Received: from [2601:1c2:980:9ec0::2764]
-	by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
-	id 1qJym9-003r1C-08;
-	Thu, 13 Jul 2023 16:02:41 +0000
-Message-ID: <801dbd65-ee7f-526d-6cd8-27cb0291c4ba@infradead.org>
-Date: Thu, 13 Jul 2023 09:02:39 -0700
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A49A1F190
+	for <linux-staging@lists.linux.dev>; Thu, 13 Jul 2023 17:35:54 +0000 (UTC)
+Received: by mail-ej1-f42.google.com with SMTP id a640c23a62f3a-991c786369cso140002966b.1
+        for <linux-staging@lists.linux.dev>; Thu, 13 Jul 2023 10:35:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1689269753; x=1691861753;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:date:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=XG/k/cRtJtXp+BY1mTTrU8F/8twPnwgKPwg/xoLbVKM=;
+        b=evZSon4l1w3MFy/kCvyyEqoToXQToZRIyQSE9MND+5jNfHLI1TOCN+fjMOdMWOA+eS
+         SzG6Y6kTOYR4Z/Krhkc6fJHoZayn+73DK3FCT9ATfk7bRASMH1TfvrUsJs60UlE/aYfP
+         qeEoeRn4twXlBqmEjfP74nuKcGUY9y7qtuT0vLISYCbtAsSQbbnOeRROTUlWHHPkkC+M
+         fH3JbQ6FuK8MZVAWkbkJrk/54EUGSnvXAtPfK5f7bh/aMvWrU5ott8xJPk29+ahNZ7uh
+         NVqogluvhA43Bj6BaNjawBGZs9zKBlK5fduPGsjcO3yyuB3MFukoncPmBtWdHzCqP5p7
+         njsQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1689269753; x=1691861753;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:date:from:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=XG/k/cRtJtXp+BY1mTTrU8F/8twPnwgKPwg/xoLbVKM=;
+        b=D2Mr4W9/hUW+JrsiaU1fXF40BLNES39qmJpWv+gu8hxifGrw9un+03sqyIbebilSoI
+         Y3s6HUgQ2cx6vTLsAXv0KHh4qoAhFARZa9q7bJk9deLGuaCLZ+yCZRyEyWo3sLXf2jTy
+         8pNJDYFRWmKbvi8WPz2+a0hIwEGnXKdln9BX6tA3wG0l8TpJorIPiEg7QZ4cVjB7uMkL
+         elWq4WCo0pDvNN3I9pubh3JEqCoB/RvKtyBSE3lXxq7wBkGm/27GbzTjV+v8jsBdj2ip
+         gavp/8HRBkPOOub5f3v0mp6Muvrb21iueLDcHDE/X1AWy65o9vLvwVFEgt95T8k0qtTK
+         +g3Q==
+X-Gm-Message-State: ABy/qLZTvucG/pd5CkoG44k9z6Ez9cxSBda08TNbmivZ3C3EmpRqA6fF
+	It2rXSfNf5c6pfPpopPLWkk=
+X-Google-Smtp-Source: APBJJlEoVwCZyYqw2lRcbmkrycs1KkdtU2F3uyCceyq6KuekHGCkgPRN1+ZfVY/y4X2+tmz583Jdbw==
+X-Received: by 2002:a17:906:8474:b0:993:d589:8b70 with SMTP id hx20-20020a170906847400b00993d5898b70mr2158652ejc.10.1689269753041;
+        Thu, 13 Jul 2023 10:35:53 -0700 (PDT)
+Received: from nam-dell (ip-217-105-46-58.ip.prioritytelecom.net. [217.105.46.58])
+        by smtp.gmail.com with ESMTPSA id v11-20020a1709061dcb00b00986211f35bdsm4204682ejh.80.2023.07.13.10.35.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 13 Jul 2023 10:35:52 -0700 (PDT)
+From: Your Name <namcaov@gmail.com>
+X-Google-Original-From: Your Name <my.email@gmail.com>
+Date: Thu, 13 Jul 2023 19:35:51 +0200
+To: Larry Finger <Larry.Finger@lwfinger.net>
+Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org, linux-wireless@vger.kernel.org,
+	syzbot+cf71097ffb6755df8251@syzkaller.appspotmail.com,
+	stable@vger.kernel.org
+Subject: Re: [PATCH] staging: 7811: Fix memory leak in _r8712_init_xmit_priv
+Message-ID: <ZLA1942ebuVcUT3h@nam-dell>
+References: <20230712205733.29794-1-Larry.Finger@lwfinger.net>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.12.0
-Subject: Re: [PATCH v2 18/18] fbdev: Document that framebuffer_alloc() returns
- zero'ed data
-Content-Language: en-US
-To: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
- Thomas Zimmermann <tzimmermann@suse.de>
-Cc: deller@gmx.de, javierm@redhat.com, linux-sh@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- amd-gfx@lists.freedesktop.org, linux-input@vger.kernel.org,
- linux-media@vger.kernel.org, linux-fbdev@vger.kernel.org,
- linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
- linux-geode@lists.infradead.org, linux-nvidia@lists.surfsouth.com,
- linux-hyperv@vger.kernel.org, linux-omap@vger.kernel.org,
- linuxppc-dev@lists.ozlabs.org, kvm@vger.kernel.org,
- Miguel Ojeda <ojeda@kernel.org>
-References: <20230713130338.31086-1-tzimmermann@suse.de>
- <20230713130338.31086-19-tzimmermann@suse.de>
- <CANiq72mbLmMKph8aiz4apNF9n3MtVO-nhM9rEWYApZbSVAO9Qw@mail.gmail.com>
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <CANiq72mbLmMKph8aiz4apNF9n3MtVO-nhM9rEWYApZbSVAO9Qw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230712205733.29794-1-Larry.Finger@lwfinger.net>
 
-
-
-On 7/13/23 06:21, Miguel Ojeda wrote:
-> On Thu, Jul 13, 2023 at 3:03 PM Thomas Zimmermann <tzimmermann@suse.de> wrote:
->>
->> Most fbdev drivers depend on framebuffer_alloc() to initialize the
->> allocated memory to 0. Document this guarantee.
->>
->> Suggested-by: Miguel Ojeda <ojeda@kernel.org>
->> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
->> Cc: Helge Deller <deller@gmx.de>
+On Wed, Jul 12, 2023 at 03:57:32PM -0500, Larry Finger wrote:
+> In the above mentioned routine, memory is allocated in several places.
+> If the first succeeds and a later one fails, the routine will leak memory.
+> Fixes commit 2865d42c78a9 ("staging: r8712u: Add the new driver to the
+> mainline kernel").
 > 
-> Thanks for sending this! Maybe this would be best earlier in the
-> series, so that later patches make more sense (since they use the
-> guarantee), but it is not a big deal.
+> Fixes: 2865d42c78a9 ("staging: r8712u: Add the new driver to the mainline kernel")
+> Reported-by: syzbot+cf71097ffb6755df8251@syzkaller.appspotmail.com
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Larry Finger <Larry.Finger@lwfinger.net>
+> ---
+>  drivers/staging/rtl8712/rtl871x_xmit.c | 19 ++++++++++++-------
+>  1 file changed, 12 insertions(+), 7 deletions(-)
 > 
->> + * aligned to sizeof(long). Both, the instance of struct fb_info and
->> + * the driver private data, are cleared to zero.
-> 
-> I think both commas may be best omitted (but I am not a native speaker).
+> diff --git a/drivers/staging/rtl8712/rtl871x_xmit.c b/drivers/staging/rtl8712/rtl871x_xmit.c
+> index 090345bad223..16b815588b97 100644
+> --- a/drivers/staging/rtl8712/rtl871x_xmit.c
+> +++ b/drivers/staging/rtl8712/rtl871x_xmit.c
+> @@ -117,11 +117,8 @@ int _r8712_init_xmit_priv(struct xmit_priv *pxmitpriv,
+>  	_init_queue(&pxmitpriv->pending_xmitbuf_queue);
+>  	pxmitpriv->pallocated_xmitbuf =
+>  		kmalloc(NR_XMITBUFF * sizeof(struct xmit_buf) + 4, GFP_ATOMIC);
+> -	if (!pxmitpriv->pallocated_xmitbuf) {
+> -		kfree(pxmitpriv->pallocated_frame_buf);
+> -		pxmitpriv->pallocated_frame_buf = NULL;
+> -		return -ENOMEM;
+> -	}
+> +	if (!pxmitpriv->pallocated_xmitbuf)
+> +		goto clean_up_frame_buf;
+>  	pxmitpriv->pxmitbuf = pxmitpriv->pallocated_xmitbuf + 4 -
+>  			      ((addr_t)(pxmitpriv->pallocated_xmitbuf) & 3);
+>  	pxmitbuf = (struct xmit_buf *)pxmitpriv->pxmitbuf;
+> @@ -130,12 +127,12 @@ int _r8712_init_xmit_priv(struct xmit_priv *pxmitpriv,
+>  		pxmitbuf->pallocated_buf =
+>  			kmalloc(MAX_XMITBUF_SZ + XMITBUF_ALIGN_SZ, GFP_ATOMIC);
+>  		if (!pxmitbuf->pallocated_buf)
+> -			return -ENOMEM;
+> +			goto clean_up_xmit_buf;
+>  		pxmitbuf->pbuf = pxmitbuf->pallocated_buf + XMITBUF_ALIGN_SZ -
+>  				 ((addr_t) (pxmitbuf->pallocated_buf) &
+>  				 (XMITBUF_ALIGN_SZ - 1));
+>  		if (r8712_xmit_resource_alloc(padapter, pxmitbuf))
+> -			return -ENOMEM;
+> +			goto clean_up_xmit_buf;
+>  		list_add_tail(&pxmitbuf->list,
+>  				 &(pxmitpriv->free_xmitbuf_queue.queue));
+>  		pxmitbuf++;
+> @@ -146,6 +143,14 @@ int _r8712_init_xmit_priv(struct xmit_priv *pxmitpriv,
+>  	init_hwxmits(pxmitpriv->hwxmits, pxmitpriv->hwxmit_entry);
+>  	tasklet_setup(&pxmitpriv->xmit_tasklet, r8712_xmit_bh);
+>  	return 0;
+> +
+> +clean_up_xmit_buf:
+> +	kfree(pxmitbuf->pallocated_xmitbuf);
+> +	pxmitbuf->pallocated_buf = NULL;
 
-Yes, it would be better to omit them.
+The allocation was done in a loop. Shouldn't memory from previous loop iterations
+also be freed? And allocation by r8712_xmit_resource_alloc() should be freed too.
 
-> Reviewed-by: Miguel Ojeda <ojeda@kernel.org>
-> 
-> Cheers,
-> Miguel
-
--- 
-~Randy
+Best regards,
+Nam
