@@ -1,42 +1,42 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6A14100BC
-	for <linux-staging@lists.linux.dev>; Thu, 13 Jul 2023 13:03:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F9D4101EE
+	for <linux-staging@lists.linux.dev>; Thu, 13 Jul 2023 13:03:51 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 36FF72218A;
-	Thu, 13 Jul 2023 13:03:46 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 78FA71FDAE;
+	Thu, 13 Jul 2023 13:03:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1689253426; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
+	t=1689253424; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=LJyxHdcmj5FWZ0pZ0y2ioRq6mf/10a9++06DyYlIN00=;
-	b=r2b0L1bsOGU8pieZxYDpzj7F+xHTGTDXicFuWXiSG27ctGL3GedqFKBj650WY7WlDO9PqU
-	fTUfxVGRSpM+VoyITNN4Yspn8toSEhKaL7OZ4U08aFQzS5hXd5SYB5fJ+IBiM81WEYvl5B
-	kLr/5BiVvVywyeKaWsbnMoSXzpcvhJk=
+	bh=fHWIv3bHRzrRKcyf/zVidbDkljZLPdxvWwq51ebKJX8=;
+	b=KrLQ9ExONJd8bhA047RDMVgp8Yiinradv+N78bSluWIDLuNuCjwO2zbgMvNqTm8IS7N250
+	JZ5fXSwfj7hJEuerDqT9D7CxE/s/RJnnrWr1WqXO2CHJ8BE+WyygeHX7RAQ+pL/8CEkAnI
+	a/XIFK0q7OmjfSmwD8XvVXiUP68WINE=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1689253426;
+	s=susede2_ed25519; t=1689253424;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
+	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=LJyxHdcmj5FWZ0pZ0y2ioRq6mf/10a9++06DyYlIN00=;
-	b=p0bM5L/Nol3ZNlSAPC05+LuEcdzwCfS2TzY7UeBdu39d9Ys2y9gQH1Mz69W0NEp5CPVSor
-	BbNpse1LjBylulDQ==
+	bh=fHWIv3bHRzrRKcyf/zVidbDkljZLPdxvWwq51ebKJX8=;
+	b=cC+16BmIJtD67C1AxjAYu7NIDMLyAG1Ex+jDKT8ZOZ/w4pvouvA2SEwv/Yx2sRZxBO12WT
+	6pKuARZIpLfJZ7BQ==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id C6CD813489;
-	Thu, 13 Jul 2023 13:03:45 +0000 (UTC)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 1C65113489;
+	Thu, 13 Jul 2023 13:03:44 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
 	by imap2.suse-dmz.suse.de with ESMTPSA
-	id gACRLzH2r2TVPgAAMHmgww
-	(envelope-from <tzimmermann@suse.de>); Thu, 13 Jul 2023 13:03:45 +0000
+	id cEQTBjD2r2TVPgAAMHmgww
+	(envelope-from <tzimmermann@suse.de>); Thu, 13 Jul 2023 13:03:44 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: deller@gmx.de,
 	javierm@redhat.com
@@ -57,12 +57,10 @@ Cc: linux-sh@vger.kernel.org,
 	kvm@vger.kernel.org,
 	Thomas Zimmermann <tzimmermann@suse.de>,
 	Sam Ravnborg <sam@ravnborg.org>,
-	Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-	=?UTF-8?q?Bruno=20Pr=C3=A9mont?= <bonbons@linux-vserver.org>,
-	Jiri Kosina <jikos@kernel.org>
-Subject: [PATCH v2 10/18] hid/picolcd: Remove flag FBINFO_FLAG_DEFAULT from fbdev driver
-Date: Thu, 13 Jul 2023 14:58:30 +0200
-Message-ID: <20230713130338.31086-11-tzimmermann@suse.de>
+	Timur Tabi <timur@kernel.org>
+Subject: [PATCH v2 06/18] fbdev/fsl-diu-fb: Remove flag FBINFO_DEFAULT
+Date: Thu, 13 Jul 2023 14:58:26 +0200
+Message-ID: <20230713130338.31086-7-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.41.0
 In-Reply-To: <20230713130338.31086-1-tzimmermann@suse.de>
 References: <20230713130338.31086-1-tzimmermann@suse.de>
@@ -72,12 +70,11 @@ List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-The flag FBINFO_FLAG_DEFAULT is 0 and has no effect, as struct
-fbinfo.flags has been allocated to zero by framebuffer_alloc(). So do
-not set it.
+The flag FBINFO_DEFAULT is 0 and has no effect, as struct fbinfo.flags
+has been allocated to zero by dmam_alloc_coherent(__GFP_ZERO). So do not
+set it.
 
 Flags should signal differences from the default values. After cleaning
 up all occurrences of FBINFO_DEFAULT, the token will be removed.
@@ -87,27 +84,25 @@ v2:
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 Acked-by: Sam Ravnborg <sam@ravnborg.org>
-Acked-by: Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Acked-by: Bruno Prémont <bonbons@linux-vserver.org>
-Cc: "Bruno Prémont" <bonbons@linux-vserver.org>
-Cc: Jiri Kosina <jikos@kernel.org>
-Cc: Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Cc: Timur Tabi <timur@kernel.org>
+Cc: Helge Deller <deller@gmx.de>
 ---
- drivers/hid/hid-picolcd_fb.c | 1 -
- 1 file changed, 1 deletion(-)
+ drivers/video/fbdev/fsl-diu-fb.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/hid/hid-picolcd_fb.c b/drivers/hid/hid-picolcd_fb.c
-index dabcd054dad9..d726aaafb146 100644
---- a/drivers/hid/hid-picolcd_fb.c
-+++ b/drivers/hid/hid-picolcd_fb.c
-@@ -527,7 +527,6 @@ int picolcd_init_framebuffer(struct picolcd_data *data)
- 	info->var = picolcdfb_var;
- 	info->fix = picolcdfb_fix;
- 	info->fix.smem_len   = PICOLCDFB_SIZE*8;
--	info->flags = FBINFO_FLAG_DEFAULT;
+diff --git a/drivers/video/fbdev/fsl-diu-fb.c b/drivers/video/fbdev/fsl-diu-fb.c
+index 785eb8a06943..c62b48f27ba9 100644
+--- a/drivers/video/fbdev/fsl-diu-fb.c
++++ b/drivers/video/fbdev/fsl-diu-fb.c
+@@ -1476,7 +1476,7 @@ static int install_fb(struct fb_info *info)
  
- 	fbdata = info->par;
- 	spin_lock_init(&fbdata->lock);
+ 	info->var.activate = FB_ACTIVATE_NOW;
+ 	info->fbops = &fsl_diu_ops;
+-	info->flags = FBINFO_DEFAULT | FBINFO_VIRTFB | FBINFO_PARTIAL_PAN_OK |
++	info->flags = FBINFO_VIRTFB | FBINFO_PARTIAL_PAN_OK |
+ 		FBINFO_READS_FAST;
+ 	info->pseudo_palette = mfbi->pseudo_palette;
+ 
 -- 
 2.41.0
 
