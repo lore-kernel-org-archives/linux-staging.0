@@ -1,31 +1,31 @@
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C92FA101CF
-	for <linux-staging@lists.linux.dev>; Thu, 13 Jul 2023 10:04:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16D73101CF
+	for <linux-staging@lists.linux.dev>; Thu, 13 Jul 2023 10:04:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1689242669;
+	s=mimecast20190719; t=1689242680;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=pM3PGfhgQFpLp3ULFTBz/c5W/gDv9O++Gad3Ax1m+78=;
-	b=GHg6lGQHfBr40rx3wb4k38HZR6Z+NifIfWmo4bxRC0tZ+btGwVKdw0RXr7OWpW4hJe769v
-	kNh6m8zjXLnGnzDwxjByi0GQdJ0wQHhc1aiP8tcYzw1GTt8sd3WDkK7HQfmn9M40Hpy3rk
-	vBvxj9wxIeC1Z1D4HNl0OYo9FspIihs=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-627-d0hx51YnO4OhE77etXA7uw-1; Thu, 13 Jul 2023 06:04:24 -0400
-X-MC-Unique: d0hx51YnO4OhE77etXA7uw-1
+	bh=roKT0Mw7z+vrtzfyyneQeok4ElOuj23Rtc+8BsjourQ=;
+	b=ZxEPS5gXkIE4A3tBbGyOSDZsAggMh5cGU0Czgb0cb9zza23+jM4VQSBPZzxTFdci8S5tYV
+	OBrbXtA5TCyVrUmMcXHW+9N2/mNT5pOmA+E34mhmbYQ7hCsZZJWXEt2x6mlS0h2q7DBo/M
+	j0665SeYfPusU0isDpsso4BEL898jlA=
+Received: from mimecast-mx02.redhat.com (66.187.233.73 [66.187.233.73]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-597-sBn24KCnMdqUPUvWfmusFg-1; Thu, 13 Jul 2023 06:04:34 -0400
+X-MC-Unique: sBn24KCnMdqUPUvWfmusFg-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com [10.11.54.3])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id F3737101A54E;
-	Thu, 13 Jul 2023 10:04:23 +0000 (UTC)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 6D1172999B2E;
+	Thu, 13 Jul 2023 10:04:34 +0000 (UTC)
 Received: from fedora.redhat.com (unknown [10.67.24.111])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id F1460111E3EB;
-	Thu, 13 Jul 2023 10:04:19 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 05BA7111E3EC;
+	Thu, 13 Jul 2023 10:04:29 +0000 (UTC)
 From: Kate Hsuan <hpa@redhat.com>
 To: Hans de Goede <hdegoede@redhat.com>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
@@ -34,9 +34,9 @@ To: Hans de Goede <hdegoede@redhat.com>,
 	linux-media@vger.kernel.org,
 	linux-staging@lists.linux.dev
 Cc: Kate Hsuan <hpa@redhat.com>
-Subject: [PATCH 10/11] media: atomisp: rx: Removed #if defined(ISP2401) to make driver generic
-Date: Thu, 13 Jul 2023 18:02:30 +0800
-Message-ID: <20230713100231.308923-11-hpa@redhat.com>
+Subject: [PATCH 11/11] media: atomisp: isys_init: Initiate atomisp in a generic manner
+Date: Thu, 13 Jul 2023 18:02:31 +0800
+Message-ID: <20230713100231.308923-12-hpa@redhat.com>
 In-Reply-To: <20230713100231.308923-1-hpa@redhat.com>
 References: <20230713100231.308923-1-hpa@redhat.com>
 Precedence: bulk
@@ -48,88 +48,77 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
 
-The conflicts of variable declarations were resolved through previous
-commits so the #if defined(ISP2401) can be removed.
+The original implementation distinguishes and initiates atomisp during
+compiler time. This commit allows isys_init to initiate isys for both types
+of atomisp in a generic manner.
 
 Signed-off-by: Kate Hsuan <hpa@redhat.com>
 ---
- .../media/atomisp/pci/runtime/isys/src/rx.c   | 19 ++++---------------
- 1 file changed, 4 insertions(+), 15 deletions(-)
+ .../atomisp/pci/runtime/isys/src/isys_init.c  | 31 +++++++++----------
+ 1 file changed, 15 insertions(+), 16 deletions(-)
 
-diff --git a/drivers/staging/media/atomisp/pci/runtime/isys/src/rx.c b/drivers/staging/media/atomisp/pci/runtime/isys/src/rx.c
-index b58f4fd4a35c..c8316e0965d0 100644
---- a/drivers/staging/media/atomisp/pci/runtime/isys/src/rx.c
-+++ b/drivers/staging/media/atomisp/pci/runtime/isys/src/rx.c
-@@ -20,7 +20,6 @@
- #include "ia_css_irq.h"
- #include "sh_css_internal.h"
+diff --git a/drivers/staging/media/atomisp/pci/runtime/isys/src/isys_init.c b/drivers/staging/media/atomisp/pci/runtime/isys/src/isys_init.c
+index d0a43c44963c..1a7b45bb4544 100644
+--- a/drivers/staging/media/atomisp/pci/runtime/isys/src/isys_init.c
++++ b/drivers/staging/media/atomisp/pci/runtime/isys/src/isys_init.c
+@@ -18,13 +18,10 @@
+ #include "ia_css_isys.h"
+ #include "platform_support.h"
  
--#if !defined(ISP2401)
- void ia_css_isys_rx_enable_all_interrupts(enum mipi_port_id port)
- {
- 	hrt_data bits = receiver_port_reg_load(RX0_ID,
-@@ -209,9 +208,7 @@ void ia_css_isys_rx_clear_irq_info(enum mipi_port_id port,
- 
- 	return;
- }
--#endif /* #if !defined(ISP2401) */
- 
--#if !defined(ISP2401)
- static int ia_css_isys_2400_set_fmt_type(enum atomisp_input_format input_format,
- 					 unsigned int *fmt_type)
- {
-@@ -283,9 +280,7 @@ static int ia_css_isys_2400_set_fmt_type(enum atomisp_input_format input_format,
- 	}
- 	return 0;
- }
--#endif /* #ifndef ISP2401 */
- 
--#if defined(ISP2401)
- static int ia_css_isys_2401_set_fmt_type(enum atomisp_input_format input_format,
- 					 unsigned int *fmt_type)
- {
-@@ -373,7 +368,6 @@ static int ia_css_isys_2401_set_fmt_type(enum atomisp_input_format input_format,
- 	}
- 	return 0;
- }
--#endif /* #ifdef ISP2401 */
- 
- int ia_css_isys_convert_stream_format_to_mipi_format(
-     enum atomisp_input_format input_format,
-@@ -423,14 +417,12 @@ int ia_css_isys_convert_stream_format_to_mipi_format(
- 	 *
- 	 * MW: For some reason the mapping is not 1-to-1
- 	 */
--#if defined(ISP2401)
--	return ia_css_isys_2401_set_fmt_type(input_format, fmt_type);
--#else
--	return ia_css_isys_2400_set_fmt_type(input_format, fmt_type);
+-#ifdef ISP2401
+ #include "isys_dma_public.h"	/* isys2401_dma_set_max_burst_size() */
+ #include "isys_irq.h"
 -#endif
+ 
+-#if !defined(ISP2401)
+-input_system_err_t ia_css_isys_init(void)
++input_system_err_t ia_css_isys_2400_init(void)
+ {
+ 	backend_channel_cfg_t backend_ch0;
+ 	backend_channel_cfg_t backend_ch1;
+@@ -86,8 +83,8 @@ input_system_err_t ia_css_isys_init(void)
+ 
+ 	return error;
+ }
+-#elif defined(ISP2401)
+-input_system_err_t ia_css_isys_init(void)
++
++input_system_err_t ia_css_isys_2401_init(void)
+ {
+ 	ia_css_isys_csi_rx_lut_rmgr_init();
+ 	ia_css_isys_ibuf_rmgr_init();
+@@ -104,19 +101,21 @@ input_system_err_t ia_css_isys_init(void)
+ 
+ 	return INPUT_SYSTEM_ERR_NO_ERROR;
+ }
+-#endif
+ 
+-#if !defined(ISP2401)
+-void ia_css_isys_uninit(void)
++input_system_err_t ia_css_isys_init(void)
+ {
 +	if (IS_ISP2401)
-+		return ia_css_isys_2401_set_fmt_type(input_format, fmt_type);
-+	else
-+		return ia_css_isys_2400_set_fmt_type(input_format, fmt_type);
++		return ia_css_isys_2401_init();
++
++	return ia_css_isys_2400_init();
  }
- 
--#if defined(ISP2401)
- static mipi_predictor_t sh_css_csi2_compression_type_2_mipi_predictor(
-     enum ia_css_csi2_compression_type type)
+-#elif defined(ISP2401)
++
+ void ia_css_isys_uninit(void)
  {
-@@ -547,9 +539,7 @@ unsigned int ia_css_csi2_calculate_input_system_alignment(
- 	return memory_alignment_in_bytes;
+-	ia_css_isys_csi_rx_lut_rmgr_uninit();
+-	ia_css_isys_ibuf_rmgr_uninit();
+-	ia_css_isys_dma_channel_rmgr_uninit();
+-	ia_css_isys_stream2mmio_sid_rmgr_uninit();
++	if (IS_ISP2401) {
++		ia_css_isys_csi_rx_lut_rmgr_uninit();
++		ia_css_isys_ibuf_rmgr_uninit();
++		ia_css_isys_dma_channel_rmgr_uninit();
++		ia_css_isys_stream2mmio_sid_rmgr_uninit();
++	}
  }
- 
 -#endif
- 
--#if !defined(ISP2401)
- static const mipi_lane_cfg_t MIPI_PORT_LANES[N_RX_MODE][N_MIPI_PORT_ID] = {
- 	{MIPI_4LANE_CFG, MIPI_1LANE_CFG, MIPI_0LANE_CFG},
- 	{MIPI_3LANE_CFG, MIPI_1LANE_CFG, MIPI_0LANE_CFG},
-@@ -671,4 +661,3 @@ void ia_css_isys_rx_disable(void)
- 	}
- 	return;
- }
--#endif /* if !defined(ISP2401) */
+-
 -- 
 2.41.0
 
