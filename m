@@ -1,42 +1,42 @@
 Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 541EE101C0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4529D100CC
 	for <linux-staging@lists.linux.dev>; Thu, 13 Jul 2023 13:03:50 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 6133C1FD8B;
-	Thu, 13 Jul 2023 13:03:43 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 20AC11F45A;
+	Thu, 13 Jul 2023 13:03:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1689253423; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
+	t=1689253422; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=X5e2EtC7tX/wjDBrtMR31UpAoX+1Wcwuu8ylwF2hDzw=;
-	b=ljuqTdK+pyLCCWZlSJiCoSIze5kUH/vlBsXi7alQcYfj6LHV/glZ/Bd8nhoffzKnlG7nG5
-	E7nMM5XDU6nKCvlODnaGiV5VQJfTyhX2ZRg0h0gUW1FoBfeO03LprOPZtqGWrm9OVR2xPF
-	4OTrSn1/K/wI86kikfQ0eEiT22j4aBU=
+	bh=sWCVV7wJiemOx2M9P2wz1m/QXnYnbGSsQYJ48wiDA5o=;
+	b=G3PYzma+GnPXsWDQcWEiJv7+6N0jkIzvIqL3XrkAaNDI5dGI8oCyGDegIPMBEhOO6zso9c
+	K5VThQHBuOhXlprpuD0nN/dF79tpjdwwkTSMKFCLf145LdCAaSa7mwQ+6NYpUz5Y4s5PAn
+	tEbKa6k8zUIs+FVcjuyiTVPw1uhIoY4=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1689253423;
+	s=susede2_ed25519; t=1689253422;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
+	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=X5e2EtC7tX/wjDBrtMR31UpAoX+1Wcwuu8ylwF2hDzw=;
-	b=PJJxSgJlUZYLv6zPx3pYAuTdEkwJEjbsDRhzp+IGQHNzW5wkGANmKpDY/e7rXTnsjJXy9E
-	ERWd0lw76m9ESzDg==
+	bh=sWCVV7wJiemOx2M9P2wz1m/QXnYnbGSsQYJ48wiDA5o=;
+	b=WeSOcLCLUIdHcwsbiId4esnjfTG+ztdeDfD2PYzOsAG3OUq0C7SYad86to4wDt0BZzV2cu
+	qQ29qEYIeql73fBw==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 03D4D13489;
-	Thu, 13 Jul 2023 13:03:42 +0000 (UTC)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 9AA8D13A94;
+	Thu, 13 Jul 2023 13:03:41 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
 	by imap2.suse-dmz.suse.de with ESMTPSA
-	id WIwCAC/2r2TVPgAAMHmgww
-	(envelope-from <tzimmermann@suse.de>); Thu, 13 Jul 2023 13:03:42 +0000
+	id OGKbJC32r2TVPgAAMHmgww
+	(envelope-from <tzimmermann@suse.de>); Thu, 13 Jul 2023 13:03:41 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: deller@gmx.de,
 	javierm@redhat.com
@@ -56,10 +56,14 @@ Cc: linux-sh@vger.kernel.org,
 	linuxppc-dev@lists.ozlabs.org,
 	kvm@vger.kernel.org,
 	Thomas Zimmermann <tzimmermann@suse.de>,
-	Sam Ravnborg <sam@ravnborg.org>
-Subject: [PATCH v2 04/18] fbdev: Remove flag FBINFO_DEFAULT from fbdev drivers
-Date: Thu, 13 Jul 2023 14:58:24 +0200
-Message-ID: <20230713130338.31086-5-tzimmermann@suse.de>
+	Sam Ravnborg <sam@ravnborg.org>,
+	Patrik Jakobsson <patrik.r.jakobsson@gmail.com>,
+	Alex Deucher <alexander.deucher@amd.com>,
+	=?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+	"Pan, Xinhui" <Xinhui.Pan@amd.com>
+Subject: [PATCH v2 01/18] drm: Remove flag FBINFO_DEFAULT from fbdev emulation
+Date: Thu, 13 Jul 2023 14:58:21 +0200
+Message-ID: <20230713130338.31086-2-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.41.0
 In-Reply-To: <20230713130338.31086-1-tzimmermann@suse.de>
 References: <20230713130338.31086-1-tzimmermann@suse.de>
@@ -69,10 +73,11 @@ List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
 The flag FBINFO_DEFAULT is 0 and has no effect, as struct fbinfo.flags
-has been allocated to zero by devm_kzalloc(). So do not set it.
+has been allocated to zero by framebuffer_alloc(). So do not set it.
 
 Flags should signal differences from the default values. After cleaning
 up all occurrences of FBINFO_DEFAULT, the token will be removed.
@@ -82,64 +87,67 @@ v2:
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 Acked-by: Sam Ravnborg <sam@ravnborg.org>
-Cc: Helge Deller <deller@gmx.de>
+Cc: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
+Cc: Alex Deucher <alexander.deucher@amd.com>
+Cc: "Christian König" <christian.koenig@amd.com>
+Cc: "Pan, Xinhui" <Xinhui.Pan@amd.com>
 ---
- drivers/video/fbdev/pxafb.c    | 1 -
- drivers/video/fbdev/sa1100fb.c | 1 -
- drivers/video/fbdev/wm8505fb.c | 3 +--
- drivers/video/fbdev/xilinxfb.c | 1 -
- 4 files changed, 1 insertion(+), 5 deletions(-)
+ drivers/gpu/drm/drm_fbdev_dma.c       | 1 -
+ drivers/gpu/drm/drm_fbdev_generic.c   | 1 -
+ drivers/gpu/drm/gma500/fbdev.c        | 2 +-
+ drivers/gpu/drm/radeon/radeon_fbdev.c | 2 +-
+ 4 files changed, 2 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/video/fbdev/pxafb.c b/drivers/video/fbdev/pxafb.c
-index 2a8b1dea3a67..c8c4677d06b4 100644
---- a/drivers/video/fbdev/pxafb.c
-+++ b/drivers/video/fbdev/pxafb.c
-@@ -1826,7 +1826,6 @@ static struct pxafb_info *pxafb_init_fbinfo(struct device *dev,
- 	fbi->fb.var.vmode	= FB_VMODE_NONINTERLACED;
+diff --git a/drivers/gpu/drm/drm_fbdev_dma.c b/drivers/gpu/drm/drm_fbdev_dma.c
+index f9b1f7cd31b7..ee7c265b0585 100644
+--- a/drivers/gpu/drm/drm_fbdev_dma.c
++++ b/drivers/gpu/drm/drm_fbdev_dma.c
+@@ -123,7 +123,6 @@ static int drm_fbdev_dma_helper_fb_probe(struct drm_fb_helper *fb_helper,
+ 	drm_fb_helper_fill_info(info, fb_helper, sizes);
  
- 	fbi->fb.fbops		= &pxafb_ops;
--	fbi->fb.flags		= FBINFO_DEFAULT;
- 	fbi->fb.node		= -1;
+ 	info->fbops = &drm_fbdev_dma_fb_ops;
+-	info->flags = FBINFO_DEFAULT;
  
- 	addr = fbi;
-diff --git a/drivers/video/fbdev/sa1100fb.c b/drivers/video/fbdev/sa1100fb.c
-index a2408bf00ca0..3d76ce111488 100644
---- a/drivers/video/fbdev/sa1100fb.c
-+++ b/drivers/video/fbdev/sa1100fb.c
-@@ -1089,7 +1089,6 @@ static struct sa1100fb_info *sa1100fb_init_fbinfo(struct device *dev)
- 	fbi->fb.var.vmode	= FB_VMODE_NONINTERLACED;
+ 	/* screen */
+ 	info->flags |= FBINFO_VIRTFB; /* system memory */
+diff --git a/drivers/gpu/drm/drm_fbdev_generic.c b/drivers/gpu/drm/drm_fbdev_generic.c
+index b9343fb6cf13..a0ea042b1526 100644
+--- a/drivers/gpu/drm/drm_fbdev_generic.c
++++ b/drivers/gpu/drm/drm_fbdev_generic.c
+@@ -109,7 +109,6 @@ static int drm_fbdev_generic_helper_fb_probe(struct drm_fb_helper *fb_helper,
+ 	drm_fb_helper_fill_info(info, fb_helper, sizes);
  
- 	fbi->fb.fbops		= &sa1100fb_ops;
--	fbi->fb.flags		= FBINFO_DEFAULT;
- 	fbi->fb.monspecs	= monspecs;
- 	fbi->fb.pseudo_palette	= fbi->pseudo_palette;
+ 	info->fbops = &drm_fbdev_generic_fb_ops;
+-	info->flags = FBINFO_DEFAULT;
  
-diff --git a/drivers/video/fbdev/wm8505fb.c b/drivers/video/fbdev/wm8505fb.c
-index 10a8b1250103..5833147aa43d 100644
---- a/drivers/video/fbdev/wm8505fb.c
-+++ b/drivers/video/fbdev/wm8505fb.c
-@@ -285,8 +285,7 @@ static int wm8505fb_probe(struct platform_device *pdev)
- 	fbi->fb.fix.accel	= FB_ACCEL_NONE;
+ 	/* screen */
+ 	info->flags |= FBINFO_VIRTFB | FBINFO_READS_FAST;
+diff --git a/drivers/gpu/drm/gma500/fbdev.c b/drivers/gpu/drm/gma500/fbdev.c
+index 054426549fc6..be8f5fbd5260 100644
+--- a/drivers/gpu/drm/gma500/fbdev.c
++++ b/drivers/gpu/drm/gma500/fbdev.c
+@@ -215,7 +215,7 @@ static int psb_fbdev_fb_probe(struct drm_fb_helper *fb_helper,
+ 	}
  
- 	fbi->fb.fbops		= &wm8505fb_ops;
--	fbi->fb.flags		= FBINFO_DEFAULT
--				| FBINFO_HWACCEL_COPYAREA
-+	fbi->fb.flags		= FBINFO_HWACCEL_COPYAREA
- 				| FBINFO_HWACCEL_FILLRECT
- 				| FBINFO_HWACCEL_XPAN
- 				| FBINFO_HWACCEL_YPAN
-diff --git a/drivers/video/fbdev/xilinxfb.c b/drivers/video/fbdev/xilinxfb.c
-index 2aa3a528277f..768a281a8d2c 100644
---- a/drivers/video/fbdev/xilinxfb.c
-+++ b/drivers/video/fbdev/xilinxfb.c
-@@ -324,7 +324,6 @@ static int xilinxfb_assign(struct platform_device *pdev,
- 	drvdata->info.fix.line_length = pdata->xvirt * BYTES_PER_PIXEL;
+ 	info->fbops = &psb_fbdev_fb_ops;
+-	info->flags = FBINFO_DEFAULT;
++
+ 	/* Accessed stolen memory directly */
+ 	info->screen_base = dev_priv->vram_addr + backing->offset;
+ 	info->screen_size = size;
+diff --git a/drivers/gpu/drm/radeon/radeon_fbdev.c b/drivers/gpu/drm/radeon/radeon_fbdev.c
+index f941e2e7cae6..68c06ac9acce 100644
+--- a/drivers/gpu/drm/radeon/radeon_fbdev.c
++++ b/drivers/gpu/drm/radeon/radeon_fbdev.c
+@@ -253,7 +253,7 @@ static int radeon_fbdev_fb_helper_fb_probe(struct drm_fb_helper *fb_helper,
+ 	}
  
- 	drvdata->info.pseudo_palette = drvdata->pseudo_palette;
--	drvdata->info.flags = FBINFO_DEFAULT;
- 	drvdata->info.var = xilinx_fb_var;
- 	drvdata->info.var.height = pdata->screen_height_mm;
- 	drvdata->info.var.width = pdata->screen_width_mm;
+ 	info->fbops = &radeon_fbdev_fb_ops;
+-	info->flags = FBINFO_DEFAULT;
++
+ 	/* radeon resume is fragile and needs a vt switch to help it along */
+ 	info->skip_vt_switch = false;
+ 
 -- 
 2.41.0
 
