@@ -1,106 +1,68 @@
-Received: from mail-il1-f175.google.com (mail-il1-f175.google.com [209.85.166.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [85.220.165.71])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19E9015AE9
-	for <linux-staging@lists.linux.dev>; Fri, 14 Jul 2023 18:10:46 +0000 (UTC)
-Received: by mail-il1-f175.google.com with SMTP id e9e14a558f8ab-34617b29276so8103265ab.0
-        for <linux-staging@lists.linux.dev>; Fri, 14 Jul 2023 11:10:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ieee.org; s=google; t=1689358246; x=1691950246;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=ElBmMm1ZevyAKtumVID4tVMI+TD8QnK9EnzezYAZC1A=;
-        b=Mpdbmrnz6XIJWmlHQJGoTmuC7D53w+ptxGvR1qzM5rcUr2yuAkawf06rjkPYMTBpFq
-         l6MjPg1ZjnoCWgc8pvFZw+blKr4qxg2V0sQF1H0WVPdY6+DHII+TihuXYaBMer6Ieai0
-         olDYpMIpFkabUds26CFLUeHKHqIZFPDKt93i0=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689358246; x=1691950246;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=ElBmMm1ZevyAKtumVID4tVMI+TD8QnK9EnzezYAZC1A=;
-        b=LpOiHbE/Xpx0sJnUg/WmZ8j2Srdw/hNZ/PkRr1E06XA/Gp4IUYt9w57qNKhzXJwo/M
-         d7ZFiHKyGQRtwlgixPPWpZkJyjHDGASyIYmeLdLYaRwhJMV7+tJcj4yEB0xrg3bVcowT
-         znjUqKKgKnwBcdjCbJFSsKH937FsALIw0g9lLERNFoJRdtsOuTORLNERsaMacv+XqvdJ
-         HOvYw1mJg06c1qSlDBi+vKUl6eN+xK0e3pqlHRWvXnn8jZHW7LsIVawN1VfJ+C0/2BuZ
-         HmEK/KqYEdbq5GrkLcb0tUOp0O1/XeNiJzZ5JtcjdVJqGNU7Ufa87JF8vHqv3+Hkz56X
-         PFQw==
-X-Gm-Message-State: ABy/qLZa98ScoOwJuVvsetcKyi4Ws/74i+KeIGERA/KAzfwSi0Iy7h59
-	Iq3qijsb+ROnQ42HH4Yy0XPx6A==
-X-Google-Smtp-Source: APBJJlGUGWVq3dRmIhivYzT09y1C8kNKMoIaBZuLBrLyn6F4EFbPgbam3zAfvH0LyeRyezDMUEgn+A==
-X-Received: by 2002:a05:6e02:221e:b0:346:bf9:76fb with SMTP id j30-20020a056e02221e00b003460bf976fbmr2505344ilf.6.1689358246007;
-        Fri, 14 Jul 2023 11:10:46 -0700 (PDT)
-Received: from [172.22.22.28] (c-98-61-227-136.hsd1.mn.comcast.net. [98.61.227.136])
-        by smtp.googlemail.com with ESMTPSA id ee14-20020a056638292e00b0042ad6abe0bbsm2820039jab.20.2023.07.14.11.10.43
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 14 Jul 2023 11:10:44 -0700 (PDT)
-Message-ID: <2af8ba3f-566a-756e-48bf-3e723bc713da@ieee.org>
-Date: Fri, 14 Jul 2023 13:10:42 -0500
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77F0F20F96
+	for <linux-staging@lists.linux.dev>; Fri, 14 Jul 2023 20:16:41 +0000 (UTC)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1qKPDM-0004H2-UB; Fri, 14 Jul 2023 22:16:32 +0200
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+	by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1qKPDK-00EQNA-I0; Fri, 14 Jul 2023 22:16:30 +0200
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1qKPDJ-004tp4-O1; Fri, 14 Jul 2023 22:16:29 +0200
+From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To: Johan Hovold <johan@kernel.org>,
+	Alex Elder <elder@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: greybus-dev@lists.linaro.org,
+	linux-staging@lists.linux.dev,
+	kernel@pengutronix.de
+Subject: [PATCH] staging: greybus: pwm: Drop unused member from driver struct
+Date: Fri, 14 Jul 2023 22:16:22 +0200
+Message-Id: <20230714201622.2490792-1-u.kleine-koenig@pengutronix.de>
+X-Mailer: git-send-email 2.39.2
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [greybus-dev] [PATCH] staging: Explicitly include correct DT
- includes
-Content-Language: en-US
-To: Rob Herring <robh@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Vaibhav Hiremath <hvaibhav.linux@gmail.com>, Johan Hovold
- <johan@kernel.org>, Alex Elder <elder@kernel.org>,
- Steve Longerbeam <slongerbeam@gmail.com>,
- Philipp Zabel <p.zabel@pengutronix.de>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
- Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>, NXP Linux Team <linux-imx@nxp.com>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>,
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
- Maxime Ripard <mripard@kernel.org>,
- Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
- Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>,
- Thierry Reding <thierry.reding@gmail.com>,
- Jonathan Hunter <jonathanh@nvidia.com>,
- Sowjanya Komatineni <skomatineni@nvidia.com>,
- Luca Ceresoli <luca.ceresoli@bootlin.com>,
- Parthiban Veerasooran <parthiban.veerasooran@microchip.com>,
- Christian Gromm <christian.gromm@microchip.com>
-Cc: devicetree@vger.kernel.org, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org, greybus-dev@lists.linaro.org,
- linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-amlogic@lists.infradead.org, linux-sunxi@lists.linux.dev,
- linux-tegra@vger.kernel.org
-References: <20230714175002.4064428-1-robh@kernel.org>
-From: Alex Elder <elder@ieee.org>
-In-Reply-To: <20230714175002.4064428-1-robh@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+X-Developer-Signature: v=1; a=openpgp-sha256; l=732; i=u.kleine-koenig@pengutronix.de; h=from:subject; bh=EfL1/SSC+L7oVf2UIMoh7qa5MkR+UUBhv0doVq0EsHI=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBksa0VTkLCp9h8DHvxtctRg88jL6TBnMTnnkkrZ Vb1QRSNGH6JATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZLGtFQAKCRCPgPtYfRL+ TifzCACaI0s/ckXOHKX6Tn5gyuGz98HoBoFMZkxWRxx+qTKYwnur20H7fYzO+fPPmYg+UWDX4Ev hmW6pMnZiCNY14tgXpp0d2i8NDV+R6vBaybplk2ikZvsSDD4vk9uX/Z9+yObgSo7mprVMnKnheP Dnrd2erPKr+CP6v+z9vYpVSZnckPf+iNgNFy5t1d5la2vP8uKd7Zv9iDiqCRBvca7oBN+SjY1Vt 3M3SmVpQpOyeRgnTVDLZ7Gdw/ZFI2kT4peR1sqe6Ae6PWtYrDn0Zfnmr0n+lNMyA1v5rCwZAHfZ 0GOh7egs5CgzcL6aKnKKr8wlVHyAmtVrHULXCVNcmXVG9rxH
+X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-staging@lists.linux.dev
 
-On 7/14/23 12:50 PM, Rob Herring wrote:
-> The DT of_device.h and of_platform.h date back to the separate
-> of_platform_bus_type before it as merged into the regular platform bus.
-> As part of that merge prepping Arm DT support 13 years ago, they
-> "temporarily" include each other. They also include platform_device.h
-> and of.h. As a result, there's a pretty much random mix of those include
-> files used throughout the tree. In order to detangle these headers and
-> replace the implicit includes with struct declarations, users need to
-> explicitly include the correct includes.
-> 
-> Signed-off-by: Rob Herring <robh@kernel.org>
+The driver doesn't make use of struct gb_pwm_chip::pwm. So that struct
+member can just be dropped.
 
-For drivers/staging/greybus/arche-platform.c:
+Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
+---
+ drivers/staging/greybus/pwm.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-Acked-by: Alex Elder <elder@linaro.org>
+diff --git a/drivers/staging/greybus/pwm.c b/drivers/staging/greybus/pwm.c
+index 88da1d796f13..f569d371a007 100644
+--- a/drivers/staging/greybus/pwm.c
++++ b/drivers/staging/greybus/pwm.c
+@@ -19,7 +19,6 @@ struct gb_pwm_chip {
+ 	u8			pwm_max;	/* max pwm number */
+ 
+ 	struct pwm_chip		chip;
+-	struct pwm_chip		*pwm;
+ };
+ 
+ static inline struct gb_pwm_chip *pwm_chip_to_gb_pwm_chip(struct pwm_chip *chip)
 
-> ---
->   drivers/staging/axis-fifo/axis-fifo.c             | 6 ++----
->   drivers/staging/greybus/arche-platform.c          | 1 +
-
-. . .
+base-commit: 06c2afb862f9da8dc5efa4b6076a0e48c3fbaaa5
+-- 
+2.39.2
 
