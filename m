@@ -1,113 +1,170 @@
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A16523FEF
-	for <linux-staging@lists.linux.dev>; Fri, 14 Jul 2023 05:09:59 +0000 (UTC)
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-3facc7a4e8aso2875555e9.0
-        for <linux-staging@lists.linux.dev>; Thu, 13 Jul 2023 22:09:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1689311398; x=1689916198;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=YGqSt6J/pVa6NTavIlQOXedDGt4HE4sakZVDJr5TXGA=;
-        b=bUopmvPqzv9+EKI4VdxDRqWcJH2b96BARBY42YGo9+ZmodDieQpjbyRN3cZrb9x6Ih
-         ij8lvoofbsm3BmvfzLSqgt7t5nQFhNrNHn2XUh8kQ8Z9FUAWbUgK0jPatCwUBQz9Grmi
-         6eD8IcDsOAPcYizB9gVmxrlCIHZGh51f72wad4W0zIyXkMQuaBSLC5+SeWEKyLsO8MDO
-         XNjSz5zrQJulls9WIrOv/ZJjbgH7AQfy089nxRdgZl/kFoYIpOG7FUM1cGqML79O2zRp
-         fmPThd6Zc8meT3QrGBMo5etbjW4YQjOo1pPxr1IlaTQ57Buv1SzynYY/y3pKnziHcplx
-         xPLQ==
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4230F6AA4
+	for <linux-staging@lists.linux.dev>; Fri, 14 Jul 2023 05:46:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1689313599;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=g6erNp3UvjEscYrwilfxggNErT6dVXbAHpnhEbMDdnY=;
+	b=OPfhaJPpXH1sUF9dOmiukhqrQJ2FRbnG74FPEsQv83ufAjopXfafYmEeHQoUC+PpvPxHt4
+	FltkAS7qkzDz6D6+DdKVUjcSNzxUBQwcYPzlxznxsSNkdcVaO9wClrbr0H9MkDncR3vs68
+	h5PCGPadMzcsY2Ja4Q/bC3cKvLBn6C4=
+Received: from mail-pg1-f197.google.com (mail-pg1-f197.google.com
+ [209.85.215.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-637-XWWnXbUXOJu-DYGhtxCedQ-1; Fri, 14 Jul 2023 01:46:36 -0400
+X-MC-Unique: XWWnXbUXOJu-DYGhtxCedQ-1
+Received: by mail-pg1-f197.google.com with SMTP id 41be03b00d2f7-53fd224ad48so829433a12.2
+        for <linux-staging@lists.linux.dev>; Thu, 13 Jul 2023 22:46:36 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689311398; x=1689916198;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=YGqSt6J/pVa6NTavIlQOXedDGt4HE4sakZVDJr5TXGA=;
-        b=VluIdXyo1Rrsx0sjlD9b8eMEk6rtQapRJykSdxSShXuSTGrl9O77N8xIOl826YcId1
-         i37sHfqZBFcdovYx+k2LvufqjwCq7+51vZ2Jv3x1CpCSaPI3wV8sMSEQmSVLTX9f/KS9
-         K9NUqy8ZpwVXLg5kOrK8JW4HrfLs2ZIXPyUrlG0u5970ii7ka/NNqfYgrxPawLvvG983
-         HiYLj3fPzk482ygSQ74y50c2UTyDz7bmVPd4LedjpfnkS+1DXu+gHd5lTAW46NgQFxBy
-         DPA4SRCsBZshPY+g2lE2iDrE+XdF33JLHrc1lFAC4DCEcrP94j7bChQ2SlCaAMtiOzQF
-         6Bog==
-X-Gm-Message-State: ABy/qLYETwRzDAyt0RkDfFtgTTGM41+6S857C3o+Fg/Gs6Tu8XJT1Byi
-	Hbr2oWfn+vWZvj0bYw508kQ=
-X-Google-Smtp-Source: APBJJlHCbINtm+lUAeHP6Yue/YdCtAa9AVGA4kYBF3lTXyi4eUrgPVT3klViZXXSHiXKbS35Z0P/TQ==
-X-Received: by 2002:a05:600c:3b23:b0:3f8:efad:31ee with SMTP id m35-20020a05600c3b2300b003f8efad31eemr3342269wms.2.1689311397473;
-        Thu, 13 Jul 2023 22:09:57 -0700 (PDT)
-Received: from [192.168.0.103] (p57ba2e0b.dip0.t-ipconnect.de. [87.186.46.11])
-        by smtp.gmail.com with ESMTPSA id m6-20020a7bcb86000000b003fbe36a4ce6sm553622wmi.10.2023.07.13.22.09.56
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 13 Jul 2023 22:09:57 -0700 (PDT)
-Message-ID: <92728470-692d-b99e-db57-1a2805eaabf0@gmail.com>
-Date: Fri, 14 Jul 2023 07:09:56 +0200
+        d=1e100.net; s=20221208; t=1689313595; x=1691905595;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=g6erNp3UvjEscYrwilfxggNErT6dVXbAHpnhEbMDdnY=;
+        b=ZOhvxTckdOcJM3Dwc5NokviXpTwR2z9RJhfhTTuASVNQXzEtNAE7RD3Ve6LUQNTZ/W
+         ovFunM66/DTPX5YGVpRcw4J7I7dSBcOaRHxVW22YatRrlEgIR0i25ZCF9Xm52QoLlfHN
+         xUMuzy+naI6lWNgVPXXW6zqr+h7WkIeH98/bMItaWvHKsMcgJCZKAomVcNXBI9U2A6AL
+         cHZPMBhBVwxS6+b2MVzVPd61cpX0bUKvrjsnPyabM0DP2sfGM94pfGtr5PQ5r6sbp52j
+         E1YRtZUlL/eigF/EM8hPqtaVXamyDeHFlqw9qiIWk9HLVy64NRJAyBbhw9Fg4JbqCwOo
+         L2Gw==
+X-Gm-Message-State: ABy/qLbvo4ixSWRYj7exToPk5yenPwwDU9AGvRW8WyHGXUyWZGLRyIxF
+	xdHMdkCTuEN1H+qz7UWeQgyYCmcU3VMyREw+w3cIU50P5ng/xdvdxnvbHEfDdyaGiUJHLoU9bLJ
+	DH+VACDBWRpzLSRkmkAcp2zVi9G+7IAr9LdE//HhLOw==
+X-Received: by 2002:a17:90a:31c2:b0:262:d7db:2520 with SMTP id j2-20020a17090a31c200b00262d7db2520mr2637621pjf.26.1689313595359;
+        Thu, 13 Jul 2023 22:46:35 -0700 (PDT)
+X-Google-Smtp-Source: APBJJlE9N3MGFAnn1VkROCXNjwaIsbqBE+EkGN4kUY6RFkFArDczgQqgr19Xwl5dVkXJYlGtplkT4d2zHi2M2lnZTwo=
+X-Received: by 2002:a17:90a:31c2:b0:262:d7db:2520 with SMTP id
+ j2-20020a17090a31c200b00262d7db2520mr2637616pjf.26.1689313594973; Thu, 13 Jul
+ 2023 22:46:34 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH 00/12] Staging: rtl8192e: Style Guide Cleanup
-Content-Language: en-US
-To: Tree Davies <tdavies@darkphysics.net>, gregkh@linuxfoundation.org,
- anjan@momi.ca, error27@gmail.com
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-References: <ZK82AIxHctHFc27N@basil>
-From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-In-Reply-To: <ZK82AIxHctHFc27N@basil>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20230713100231.308923-1-hpa@redhat.com> <74cfe990-d36f-5372-9dc5-33f141f205be@redhat.com>
+In-Reply-To: <74cfe990-d36f-5372-9dc5-33f141f205be@redhat.com>
+From: Kate Hsuan <hpa@redhat.com>
+Date: Fri, 14 Jul 2023 13:46:24 +0800
+Message-ID: <CAEth8oGCbEnP3UwEPqa-BVEeAFX8H=YKM8=5gvvsxsr2GLNbhw@mail.gmail.com>
+Subject: Re: [PATCH 00/11] #if defined(ISP2401) removal to make driver generic
+To: Hans de Goede <hdegoede@redhat.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-media@vger.kernel.org, 
+	linux-staging@lists.linux.dev
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 7/13/23 01:23, Tree Davies wrote:
-> This patch series fixes checkpatch CamelCase warnings
-> in regard to drivers/staging/rtl8192e/rtl819x_BAProc.c
-> 
-> Tree Davies (12):
->    Staging: rtl8192e: Rename function ActivateBAEntry
->    Staging: rtl8192e: Rename function DeActivateBAEntry
->    Staging: rtl8192e: Rename function TxTsDeleteBA
->    Staging: rtl8192e: Rename function TsInitAddBA
->    Staging: rtl8192e: Rename function TsInitDelBA
->    Staging: rtl8192e: Rename function BaSetupTimeOut
->    Staging: rtl8192e: Rename function TxBaInactTimeout
->    Staging: rtl8192e: Rename function RxBaInactTimeout
->    Staging: rtl8192e: Rename variable pBA
->    Staging: rtl8192e: Rename variable Time
->    Staging: rtl8192e: Rename variable pTxTs
->    Staging: rtl8192e: Rename variable TxAdmittedBARecord
-> 
->   drivers/staging/rtl8192e/rtl819x_BAProc.c | 186 +++++++++++-----------
->   drivers/staging/rtl8192e/rtl819x_TS.h     |   2 +-
->   drivers/staging/rtl8192e/rtl819x_TSProc.c |  20 +--
->   drivers/staging/rtl8192e/rtllib.h         |  12 +-
->   drivers/staging/rtl8192e/rtllib_tx.c      |  18 +--
->   5 files changed, 119 insertions(+), 119 deletions(-)
-> 
+Hi Hans
 
-Hi Tree,
+On Fri, Jul 14, 2023 at 3:38=E2=80=AFAM Hans de Goede <hdegoede@redhat.com>=
+ wrote:
+>
+> Hi Kate,
+>
+> On 7/13/23 12:02, Kate Hsuan wrote:
+> > This patch set is to remove #if defined(ISP2401) to make the driver
+> > generic. We focused on removing the #if defined(ISP2401) in isys and
+> > necessary files related to it.
+> >
+> > The changes include:
+> > 1. Removed #if defined(ISP2401) in isys and related directories.
+> > 2. Removed the debug codes for dumping status.
+> > 3. Made two individual enum to define the MIPI format for both types of
+> >    atomisp.
+> > 4. The input system code should include both input system (ISP2400 and
+> >    ISP2401) headers since a generic driver should cover all types
+> >    of devcices.
+> > 5. The initialization codes of the input system was modified to initiat=
+e
+> >    atomisp input system in a generic manner.
+>
+> Thank you very much for all your hard work on this.
+>
+> The entire series looks good to me:
+>
+> Reviewed-by: Hans de Goede <hdegoede@redhat.com>
+>
+> for the series. I'll merge this into my media-atomisp branch
+> when I can make some time to do so.
+>
 
-please make the Subject more unique. Otherwise some programs/homepages 
-for reading this emails are not showing the Emails that belong together 
-correct. But it is also for us readers good to have different email 
-subjects.
+Thank you for reviewing
 
-Please have a look at:
-https://lore.kernel.org/linux-staging/
-for your patches. Usually a patch series is shown together but yours is 
-not. May be this has to do with taking to much time between sending the 
-emails (patches). If you use mutt to send then I recommend to open 13 
-Terminals and prepare all those windows for sending. Then send them all 
-quick one after another.
+> Regards,
+>
+> Hans
+>
+>
+>
+> >
+> >
+> > Kate Hsuan (11):
+> >   media: atomisp: ia_css_debug: Removed debug codes for dumping status
+> >   media: atomisp: Make two individual enum to define the MIPI format
+> >   media: atomisp: Included both input system headers
+> >   media: atomisp: css_2401_system: Remove #ifdef ISP2401 to make the
+> >     driver generic
+> >   media: atomisp: isys: Removed #if defined(ISP2401) to make driver
+> >     generic
+> >   media: atomisp: hive_isp_css_common: Removed #if defined(ISP2401) to
+> >     make driver generic
+> >   media: atomisp: pipeline: Removed #if defined(ISP2401) to make driver
+> >     generic
+> >   media: atomisp: ifmtr: Removed #if defined(ISP2401) to make driver
+> >     generic
+> >   media: atomisp: Compile the object codes for a generic driver
+> >   media: atomisp: rx: Removed #if defined(ISP2401) to make driver
+> >     generic
+> >   media: atomisp: isys_init: Initiate atomisp in a generic manner
+> >
+> >  drivers/staging/media/atomisp/Makefile        |  12 +-
+> >  .../pci/css_2401_system/host/isys_irq_local.h |   3 -
+> >  .../css_2401_system/host/isys_irq_private.h   |   2 -
+> >  .../pci/css_2401_system/isys_irq_global.h     |   2 -
+> >  .../host/input_formatter.c                    |   2 -
+> >  .../hive_isp_css_common/host/input_system.c   |  75 -----
+> >  .../host/isys_dma_public.h                    |   2 -
+> >  .../host/isys_irq_public.h                    |   2 -
+> >  .../hive_isp_css_include/host/isys_public.h   |  19 --
+> >  .../pci/hive_isp_css_include/isys_irq.h       |   2 -
+> >  .../media/atomisp/pci/input_system_local.h    |   7 +-
+> >  .../media/atomisp/pci/input_system_private.h  |   7 +-
+> >  .../media/atomisp/pci/input_system_public.h   |   4 +-
+> >  .../atomisp/pci/isp2400_input_system_local.h  |  89 +++---
+> >  .../pci/isp2400_input_system_private.h        |   4 +-
+> >  .../atomisp/pci/isp2400_input_system_public.h |  13 +-
+> >  .../atomisp/pci/isp2401_input_system_local.h  |  88 +++---
+> >  .../pci/isp2401_input_system_private.h        | 112 +-------
+> >  .../runtime/debug/interface/ia_css_debug.h    |   6 -
+> >  .../pci/runtime/debug/src/ia_css_debug.c      | 256 ------------------
+> >  .../atomisp/pci/runtime/ifmtr/src/ifmtr.c     |   2 -
+> >  .../pci/runtime/isys/interface/ia_css_isys.h  |   9 +-
+> >  .../runtime/isys/interface/ia_css_isys_comm.h |   2 -
+> >  .../pci/runtime/isys/src/csi_rx_rmgr.c        |   2 -
+> >  .../pci/runtime/isys/src/isys_dma_rmgr.c      |   2 -
+> >  .../atomisp/pci/runtime/isys/src/isys_init.c  |  31 +--
+> >  .../runtime/isys/src/isys_stream2mmio_rmgr.c  |   2 -
+> >  .../media/atomisp/pci/runtime/isys/src/rx.c   | 227 ++++++++++------
+> >  .../pci/runtime/isys/src/virtual_isys.c       |   8 +-
+> >  .../pipeline/interface/ia_css_pipeline.h      |   2 -
+> >  .../pci/runtime/pipeline/src/pipeline.c       |   2 -
+> >  drivers/staging/media/atomisp/pci/sh_css.c    |   2 -
+> >  drivers/staging/media/atomisp/pci/sh_css_sp.c |   2 -
+> >  drivers/staging/media/atomisp/pci/sh_css_sp.h |   2 -
+> >  34 files changed, 253 insertions(+), 749 deletions(-)
+> >
+>
 
-For this homepage it is OK:
-https://www.spinics.net/lists/linux-staging/
 
-This does not need to be corrected now. May be to be considered for the 
-next time.
-
-Bye Philipp
-
-
-
+--=20
+BR,
+Kate
 
