@@ -1,54 +1,56 @@
-Received: from mail-il1-f174.google.com (mail-il1-f174.google.com [209.85.166.174])
+Received: from mail-oo1-f51.google.com (mail-oo1-f51.google.com [209.85.161.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FBAD14A83;
-	Fri, 14 Jul 2023 17:51:02 +0000 (UTC)
-Received: by mail-il1-f174.google.com with SMTP id e9e14a558f8ab-3465ec72cc8so10226605ab.0;
-        Fri, 14 Jul 2023 10:51:02 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689357062; x=1691949062;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBA5F156EE
+	for <linux-staging@lists.linux.dev>; Fri, 14 Jul 2023 17:54:25 +0000 (UTC)
+Received: by mail-oo1-f51.google.com with SMTP id 006d021491bc7-563531a3ad2so1495632eaf.3
+        for <linux-staging@lists.linux.dev>; Fri, 14 Jul 2023 10:54:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1689357265; x=1691949265;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=dfZt0Y26M5pBCstI8AhRHneftpCtl5efvu3OXJ2yZ/o=;
-        b=TQ1IryJE8KK/SBkodneguE7TxdXzGVQuqOWyzROWDMGlPaavfh0+7y4kOjGhNcgTNa
-         V190It961gKLlt0KAbPRKFgJzi9CIBYId1SAS2klIi3uY3dQT2Dz+EqcM0EUmW1HsfUZ
-         Xy+VDtdM3X8F/9QyBrEN4NpmQWshD+7kGBofT1MwzyxDrNJgINFiImR0Lkz8OULPIwcj
-         QmhNPf6ZrODNpoG1fm9ida7EsIW5ec/IuYvPppLduOZWr/L+68HBDt1kKuGjUy9ftnGV
-         7mCLeXaffTMOPtaBa1V9FfIJT+cABfpnSHUZxSnHcAgGDTxn3SF4MTnceEu9owOtT284
-         1VUA==
-X-Gm-Message-State: ABy/qLaFhw81nBA379YrZFcvoV4StXFU3eKY3GxSPGK/Bdvl5h99mnrl
-	wk/BOvz19jmhwA5VvcXtGw==
-X-Google-Smtp-Source: APBJJlG4GBp9dJrKCr9W02IYXrOkhCe1wTDrg4ydVMkkkfirpBpwQ5ks/kK/kiwd4gjtEHeHFggP/Q==
-X-Received: by 2002:a92:d181:0:b0:341:e2aa:3552 with SMTP id z1-20020a92d181000000b00341e2aa3552mr4865990ilz.4.1689357062084;
-        Fri, 14 Jul 2023 10:51:02 -0700 (PDT)
-Received: from robh_at_kernel.org ([64.188.179.250])
-        by smtp.gmail.com with ESMTPSA id ee13-20020a056638292d00b0042b1354452csm2789728jab.83.2023.07.14.10.50.59
+         :to:from:sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=HhWHTihqEVGZ7UbRv5sTAqbNbXFXUqhxoeSzHop6+CY=;
+        b=ZqnJP5TgvB9Lbcr1drQHWN2xw4IoFriyJOsINZdBIg8yPdKqgUpTyWotRA4+3dAd7x
+         qCCrJGHQsZc1Ylu3vyhfwJWHNHpicMGfwx6yZ69c/uT49vlFsAF52jfi+xXzi6rpGWCO
+         71oMDwUet79DbxBmbD4fGEw+qbDrnSM/2Pf6xDGOtBO/5JJuL5vQI4hnEpBJNWdj+5nb
+         XOXBCTN64a/bvOG7KesoCIZ/GeHerSQ4Z2Rz48W8Ag/uu1V1W9STrnzE4/LYbsOwlUWY
+         W3Ws+tGgBmTo42GqwBXjVyIRosbhl0Tv92zfyO/HZM171bjctfcvALC0gTvQSN/OT9ap
+         5xJw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1689357265; x=1691949265;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:sender:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=HhWHTihqEVGZ7UbRv5sTAqbNbXFXUqhxoeSzHop6+CY=;
+        b=EzU6HkOnZs69Tr7igv74+9u2NGIgx6wjwAe9W0UF8Ab7+Lf/PTpTpUFnsc+bth2KTj
+         ObIjCjOIZGbMKacNiMOo0Bwrw1S6QqWG1Pr+o2cGO8dLuYwyqlKPC4QWPBVmwHxCv1oN
+         INbCkoCRny4Yph084dG8Zs6Muz5AsF1ZSs7c5cMGEkwDMmLb+MVYAiLAWCzSXqvywVMO
+         HFX8pqL/x/ZOetgcp+sg8Jft034T6FepT3fBWLFRXjfM48laDJXoYYN42OB61JcIxKfm
+         Y7xzDLd9YPmTQU2Z5vOuMpk4eWkhfQkf1k3Tp9z2afb7yFGaPIBo+NemjbZJr+M50US8
+         KXUQ==
+X-Gm-Message-State: ABy/qLZPORsfaBbp4G0NtHLYCIXFX4j7WF28fTByahb9lw3OaKXjSy0b
+	DWfg62VB1tctFQv2hzGPMlwDcZQZBRw=
+X-Google-Smtp-Source: APBJJlFRMJy3SCUvftpzui2PVWcCf3sofTpwhHmYLPTFjbDJmiarSyS69sn5j+6JI+Ew88FEBQR/Ow==
+X-Received: by 2002:a4a:92ce:0:b0:566:f94f:cd28 with SMTP id j14-20020a4a92ce000000b00566f94fcd28mr4605215ooh.3.1689357264827;
+        Fri, 14 Jul 2023 10:54:24 -0700 (PDT)
+Received: from localhost.localdomain ([216.130.59.33])
+        by smtp.gmail.com with ESMTPSA id i19-20020a4a8d93000000b005660ed0becesm4116129ook.39.2023.07.14.10.54.23
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 14 Jul 2023 10:51:01 -0700 (PDT)
-Received: (nullmailer pid 4064549 invoked by uid 1000);
-	Fri, 14 Jul 2023 17:50:06 -0000
-From: Rob Herring <robh@kernel.org>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Vaibhav Hiremath <hvaibhav.linux@gmail.com>, 
-	Johan Hovold <johan@kernel.org>, Alex Elder <elder@kernel.org>, 
-	Steve Longerbeam <slongerbeam@gmail.com>, Philipp Zabel <p.zabel@pengutronix.de>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, Shawn Guo <shawnguo@kernel.org>, 
-	Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>, 
-	Fabio Estevam <festevam@gmail.com>, NXP Linux Team <linux-imx@nxp.com>, 
-	Neil Armstrong <neil.armstrong@linaro.org>, Kevin Hilman <khilman@baylibre.com>, 
-	Jerome Brunet <jbrunet@baylibre.com>, 
-	Martin Blumenstingl <martin.blumenstingl@googlemail.com>, Maxime Ripard <mripard@kernel.org>, 
-	Paul Kocialkowski <paul.kocialkowski@bootlin.com>, Chen-Yu Tsai <wens@csie.org>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
-	Thierry Reding <thierry.reding@gmail.com>, Jonathan Hunter <jonathanh@nvidia.com>, 
-	Sowjanya Komatineni <skomatineni@nvidia.com>, Luca Ceresoli <luca.ceresoli@bootlin.com>, 
-	Parthiban Veerasooran <parthiban.veerasooran@microchip.com>, 
-	Christian Gromm <christian.gromm@microchip.com>
-Cc: devicetree@vger.kernel.org, linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, greybus-dev@lists.linaro.org, linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-amlogic@lists.infradead.org, linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org
-Subject: [PATCH] staging: Explicitly include correct DT includes
-Date: Fri, 14 Jul 2023 11:50:01 -0600
-Message-Id: <20230714175002.4064428-1-robh@kernel.org>
-X-Mailer: git-send-email 2.40.1
+        Fri, 14 Jul 2023 10:54:24 -0700 (PDT)
+Sender: Larry Finger <larry.finger@gmail.com>
+From: Larry Finger <Larry.Finger@lwfinger.net>
+To: gregkh@linuxfoundation.org
+Cc: linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	linux-wireless@vger.kernel.org,
+	Larry Finger <Larry.Finger@lwfinger.net>,
+	syzbot+cf71097ffb6755df8251@syzkaller.appspotmail.com,
+	stable@vger.kernel.org,
+	Nam Cao <namcaov@gmail.com>
+Subject: [PATCH v2] staging: r8712: Fix memory leak in _r8712_init_xmit_priv()
+Date: Fri, 14 Jul 2023 12:54:17 -0500
+Message-ID: <20230714175417.18578-1-Larry.Finger@lwfinger.net>
+X-Mailer: git-send-email 2.41.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -57,227 +59,127 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The DT of_device.h and of_platform.h date back to the separate
-of_platform_bus_type before it as merged into the regular platform bus.
-As part of that merge prepping Arm DT support 13 years ago, they
-"temporarily" include each other. They also include platform_device.h
-and of.h. As a result, there's a pretty much random mix of those include
-files used throughout the tree. In order to detangle these headers and
-replace the implicit includes with struct declarations, users need to
-explicitly include the correct includes.
+In the above mentioned routine, memory is allocated in several places.
+If the first succeeds and a later one fails, the routine will leak memory.
+This patch fixes commit 2865d42c78a9 ("staging: r8712u: Add the new driver
+to the mainline kernel"). A potential memory leak in
+r8712_xmit_resource_alloc() is also addressed.
 
-Signed-off-by: Rob Herring <robh@kernel.org>
+Fixes: 2865d42c78a9 ("staging: r8712u: Add the new driver to the mainline kernel")
+Reported-by: syzbot+cf71097ffb6755df8251@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com/x/log.txt?x=11ac3fa0a80000
+Cc: stable@vger.kernel.org
+Cc: Nam Cao <namcaov@gmail.com>
+Signed-off-by: Larry Finger <Larry.Finger@lwfinger.net>
 ---
- drivers/staging/axis-fifo/axis-fifo.c             | 6 ++----
- drivers/staging/greybus/arche-platform.c          | 1 +
- drivers/staging/media/imx/imx-media-capture.c     | 1 -
- drivers/staging/media/imx/imx-media-dev-common.c  | 2 --
- drivers/staging/media/imx/imx8mq-mipi-csi2.c      | 1 -
- drivers/staging/media/meson/vdec/esparser.c       | 1 -
- drivers/staging/media/meson/vdec/vdec.c           | 2 +-
- drivers/staging/media/sunxi/cedrus/cedrus_hw.c    | 2 +-
- drivers/staging/media/sunxi/sun6i-isp/sun6i_isp.c | 1 -
- drivers/staging/media/tegra-video/csi.c           | 1 -
- drivers/staging/media/tegra-video/vi.c            | 2 +-
- drivers/staging/media/tegra-video/vip.c           | 1 -
- drivers/staging/most/dim2/dim2.c                  | 2 +-
- drivers/staging/pi433/pi433_if.c                  | 1 -
- 14 files changed, 7 insertions(+), 17 deletions(-)
+v2 - Added allocations within the loop and urb allocations as suppested by Nam Cao
+---
+ drivers/staging/rtl8712/rtl871x_xmit.c | 43 ++++++++++++++++++++------
+ drivers/staging/rtl8712/xmit_linux.c   |  6 ++++
+ 2 files changed, 40 insertions(+), 9 deletions(-)
 
-diff --git a/drivers/staging/axis-fifo/axis-fifo.c b/drivers/staging/axis-fifo/axis-fifo.c
-index 98db47cb4fa4..5910fada7075 100644
---- a/drivers/staging/axis-fifo/axis-fifo.c
-+++ b/drivers/staging/axis-fifo/axis-fifo.c
-@@ -15,6 +15,8 @@
-  */
+diff --git a/drivers/staging/rtl8712/rtl871x_xmit.c b/drivers/staging/rtl8712/rtl871x_xmit.c
+index 090345bad223..6353dbe554d3 100644
+--- a/drivers/staging/rtl8712/rtl871x_xmit.c
++++ b/drivers/staging/rtl8712/rtl871x_xmit.c
+@@ -21,6 +21,7 @@
+ #include "osdep_intf.h"
+ #include "usb_ops.h"
  
- #include <linux/kernel.h>
-+#include <linux/of.h>
-+#include <linux/platform_device.h>
- #include <linux/wait.h>
- #include <linux/mutex.h>
- #include <linux/device.h>
-@@ -32,10 +34,6 @@
- #include <linux/jiffies.h>
- #include <linux/miscdevice.h>
++#include <linux/usb.h>
+ #include <linux/ieee80211.h>
  
--#include <linux/of_address.h>
--#include <linux/of_device.h>
--#include <linux/of_platform.h>
--
- /* ----------------------------
-  *       driver parameters
-  * ----------------------------
-diff --git a/drivers/staging/greybus/arche-platform.c b/drivers/staging/greybus/arche-platform.c
-index ebe835f25d13..891b75327d7f 100644
---- a/drivers/staging/greybus/arche-platform.c
-+++ b/drivers/staging/greybus/arche-platform.c
-@@ -20,6 +20,7 @@
- #include <linux/suspend.h>
- #include <linux/time.h>
- #include <linux/greybus.h>
-+#include <linux/of.h>
- #include "arche_platform.h"
+ static const u8 P802_1H_OUI[P80211_OUI_LEN] = {0x00, 0x00, 0xf8};
+@@ -55,6 +56,7 @@ int _r8712_init_xmit_priv(struct xmit_priv *pxmitpriv,
+ 	sint i;
+ 	struct xmit_buf *pxmitbuf;
+ 	struct xmit_frame *pxframe;
++	int j;
  
- #if IS_ENABLED(CONFIG_USB_HSIC_USB3613)
-diff --git a/drivers/staging/media/imx/imx-media-capture.c b/drivers/staging/media/imx/imx-media-capture.c
-index 4364df27c6d2..4846078315ff 100644
---- a/drivers/staging/media/imx/imx-media-capture.c
-+++ b/drivers/staging/media/imx/imx-media-capture.c
-@@ -7,7 +7,6 @@
- #include <linux/delay.h>
- #include <linux/fs.h>
- #include <linux/module.h>
--#include <linux/of_platform.h>
- #include <linux/pinctrl/consumer.h>
- #include <linux/platform_device.h>
- #include <linux/sched.h>
-diff --git a/drivers/staging/media/imx/imx-media-dev-common.c b/drivers/staging/media/imx/imx-media-dev-common.c
-index 991820a8500f..7b7cbec08326 100644
---- a/drivers/staging/media/imx/imx-media-dev-common.c
-+++ b/drivers/staging/media/imx/imx-media-dev-common.c
-@@ -6,8 +6,6 @@
-  * Copyright (c) 2016 Mentor Graphics Inc.
-  */
+ 	memset((unsigned char *)pxmitpriv, 0, sizeof(struct xmit_priv));
+ 	spin_lock_init(&pxmitpriv->lock);
+@@ -117,11 +119,8 @@ int _r8712_init_xmit_priv(struct xmit_priv *pxmitpriv,
+ 	_init_queue(&pxmitpriv->pending_xmitbuf_queue);
+ 	pxmitpriv->pallocated_xmitbuf =
+ 		kmalloc(NR_XMITBUFF * sizeof(struct xmit_buf) + 4, GFP_ATOMIC);
+-	if (!pxmitpriv->pallocated_xmitbuf) {
+-		kfree(pxmitpriv->pallocated_frame_buf);
+-		pxmitpriv->pallocated_frame_buf = NULL;
+-		return -ENOMEM;
+-	}
++	if (!pxmitpriv->pallocated_xmitbuf)
++		goto clean_up_frame_buf;
+ 	pxmitpriv->pxmitbuf = pxmitpriv->pallocated_xmitbuf + 4 -
+ 			      ((addr_t)(pxmitpriv->pallocated_xmitbuf) & 3);
+ 	pxmitbuf = (struct xmit_buf *)pxmitpriv->pxmitbuf;
+@@ -129,13 +128,17 @@ int _r8712_init_xmit_priv(struct xmit_priv *pxmitpriv,
+ 		INIT_LIST_HEAD(&pxmitbuf->list);
+ 		pxmitbuf->pallocated_buf =
+ 			kmalloc(MAX_XMITBUF_SZ + XMITBUF_ALIGN_SZ, GFP_ATOMIC);
+-		if (!pxmitbuf->pallocated_buf)
+-			return -ENOMEM;
++		if (!pxmitbuf->pallocated_buf) {
++			j = 0;
++			goto clean_up_alloc_buf;
++		}
+ 		pxmitbuf->pbuf = pxmitbuf->pallocated_buf + XMITBUF_ALIGN_SZ -
+ 				 ((addr_t) (pxmitbuf->pallocated_buf) &
+ 				 (XMITBUF_ALIGN_SZ - 1));
+-		if (r8712_xmit_resource_alloc(padapter, pxmitbuf))
+-			return -ENOMEM;
++		if (r8712_xmit_resource_alloc(padapter, pxmitbuf)) {
++			j = 1;
++			goto clean_up_alloc_buf;
++		}
+ 		list_add_tail(&pxmitbuf->list,
+ 				 &(pxmitpriv->free_xmitbuf_queue.queue));
+ 		pxmitbuf++;
+@@ -146,6 +149,28 @@ int _r8712_init_xmit_priv(struct xmit_priv *pxmitpriv,
+ 	init_hwxmits(pxmitpriv->hwxmits, pxmitpriv->hwxmit_entry);
+ 	tasklet_setup(&pxmitpriv->xmit_tasklet, r8712_xmit_bh);
+ 	return 0;
++
++clean_up_alloc_buf:
++	if (j) {
++		/* failure happened in r8712_xmit_resource_alloc()
++		 * delete extra pxmitbuf->pallocated_buf
++		 */
++		kfree(pxmitbuf->pallocated_buf);
++	}
++	for (j = 0; j < i; j++) {
++		int k;
++
++		pxmitbuf--;			/* reset pointer */
++		kfree(pxmitbuf->pallocated_buf);
++		for (k = 0; k < 8; k++)		/* delete xmit urb's */
++			usb_free_urb(pxmitbuf->pxmit_urb[k]);
++	}
++	kfree(pxmitpriv->pallocated_xmitbuf);
++	pxmitpriv->pallocated_xmitbuf = NULL;
++clean_up_frame_buf:
++	kfree(pxmitpriv->pallocated_frame_buf);
++	pxmitpriv->pallocated_frame_buf = NULL;
++	return -ENOMEM;
+ }
  
--#include <linux/of_graph.h>
--#include <linux/of_platform.h>
- #include <media/v4l2-ctrls.h>
- #include <media/v4l2-event.h>
- #include <media/v4l2-ioctl.h>
-diff --git a/drivers/staging/media/imx/imx8mq-mipi-csi2.c b/drivers/staging/media/imx/imx8mq-mipi-csi2.c
-index ca2efcc21efe..c84b6dceece2 100644
---- a/drivers/staging/media/imx/imx8mq-mipi-csi2.c
-+++ b/drivers/staging/media/imx/imx8mq-mipi-csi2.c
-@@ -17,7 +17,6 @@
- #include <linux/module.h>
- #include <linux/mutex.h>
- #include <linux/of.h>
--#include <linux/of_device.h>
- #include <linux/platform_device.h>
- #include <linux/pm_runtime.h>
- #include <linux/regmap.h>
-diff --git a/drivers/staging/media/meson/vdec/esparser.c b/drivers/staging/media/meson/vdec/esparser.c
-index 7b15fc54efe4..4632346f04a9 100644
---- a/drivers/staging/media/meson/vdec/esparser.c
-+++ b/drivers/staging/media/meson/vdec/esparser.c
-@@ -11,7 +11,6 @@
- #include <linux/ioctl.h>
- #include <linux/list.h>
- #include <linux/module.h>
--#include <linux/of_device.h>
- #include <linux/reset.h>
- #include <linux/interrupt.h>
- #include <media/videobuf2-dma-contig.h>
-diff --git a/drivers/staging/media/meson/vdec/vdec.c b/drivers/staging/media/meson/vdec/vdec.c
-index 5ca4b1200831..219185aaa588 100644
---- a/drivers/staging/media/meson/vdec/vdec.c
-+++ b/drivers/staging/media/meson/vdec/vdec.c
-@@ -4,7 +4,7 @@
-  * Author: Maxime Jourdan <mjourdan@baylibre.com>
-  */
- 
--#include <linux/of_device.h>
-+#include <linux/of.h>
- #include <linux/clk.h>
- #include <linux/io.h>
- #include <linux/module.h>
-diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_hw.c b/drivers/staging/media/sunxi/cedrus/cedrus_hw.c
-index fa86a658fdc6..b696bf884cbd 100644
---- a/drivers/staging/media/sunxi/cedrus/cedrus_hw.c
-+++ b/drivers/staging/media/sunxi/cedrus/cedrus_hw.c
-@@ -14,8 +14,8 @@
-  */
- 
- #include <linux/platform_device.h>
-+#include <linux/of.h>
- #include <linux/of_reserved_mem.h>
--#include <linux/of_device.h>
- #include <linux/dma-mapping.h>
- #include <linux/interrupt.h>
- #include <linux/clk.h>
-diff --git a/drivers/staging/media/sunxi/sun6i-isp/sun6i_isp.c b/drivers/staging/media/sunxi/sun6i-isp/sun6i_isp.c
-index 0dc75adbd9d8..8337dc487047 100644
---- a/drivers/staging/media/sunxi/sun6i-isp/sun6i_isp.c
-+++ b/drivers/staging/media/sunxi/sun6i-isp/sun6i_isp.c
-@@ -10,7 +10,6 @@
- #include <linux/interrupt.h>
- #include <linux/module.h>
- #include <linux/of.h>
--#include <linux/of_device.h>
- #include <linux/platform_device.h>
- #include <linux/pm_runtime.h>
- #include <linux/regmap.h>
-diff --git a/drivers/staging/media/tegra-video/csi.c b/drivers/staging/media/tegra-video/csi.c
-index 052172017b3b..e79657920dc8 100644
---- a/drivers/staging/media/tegra-video/csi.c
-+++ b/drivers/staging/media/tegra-video/csi.c
-@@ -10,7 +10,6 @@
- #include <linux/module.h>
- #include <linux/of.h>
- #include <linux/of_graph.h>
--#include <linux/of_device.h>
- #include <linux/platform_device.h>
- #include <linux/pm_runtime.h>
- 
-diff --git a/drivers/staging/media/tegra-video/vi.c b/drivers/staging/media/tegra-video/vi.c
-index 79284c3b6cae..4add037537a2 100644
---- a/drivers/staging/media/tegra-video/vi.c
-+++ b/drivers/staging/media/tegra-video/vi.c
-@@ -11,8 +11,8 @@
- #include <linux/list.h>
- #include <linux/module.h>
- #include <linux/of.h>
--#include <linux/of_device.h>
- #include <linux/of_graph.h>
-+#include <linux/of_platform.h>
- #include <linux/platform_device.h>
- #include <linux/regulator/consumer.h>
- #include <linux/pm_runtime.h>
-diff --git a/drivers/staging/media/tegra-video/vip.c b/drivers/staging/media/tegra-video/vip.c
-index a1ab886acc18..4cf3fde7e034 100644
---- a/drivers/staging/media/tegra-video/vip.c
-+++ b/drivers/staging/media/tegra-video/vip.c
-@@ -13,7 +13,6 @@
- #include <linux/module.h>
- #include <linux/of.h>
- #include <linux/of_graph.h>
--#include <linux/of_device.h>
- #include <linux/platform_device.h>
- #include <linux/pm_runtime.h>
- 
-diff --git a/drivers/staging/most/dim2/dim2.c b/drivers/staging/most/dim2/dim2.c
-index 44d3252d4612..ed6a9cc88541 100644
---- a/drivers/staging/most/dim2/dim2.c
-+++ b/drivers/staging/most/dim2/dim2.c
-@@ -8,7 +8,6 @@
- #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
- 
- #include <linux/module.h>
--#include <linux/of_platform.h>
- #include <linux/printk.h>
- #include <linux/kernel.h>
- #include <linux/init.h>
-@@ -21,6 +20,7 @@
- #include <linux/sched.h>
- #include <linux/kthread.h>
- #include <linux/most.h>
-+#include <linux/of.h>
- #include "hal.h"
- #include "errors.h"
- #include "sysfs.h"
-diff --git a/drivers/staging/pi433/pi433_if.c b/drivers/staging/pi433/pi433_if.c
-index 220e157d4a5e..58887619b83f 100644
---- a/drivers/staging/pi433/pi433_if.c
-+++ b/drivers/staging/pi433/pi433_if.c
-@@ -31,7 +31,6 @@
- #include <linux/errno.h>
- #include <linux/mutex.h>
- #include <linux/of.h>
--#include <linux/of_device.h>
- #include <linux/interrupt.h>
- #include <linux/irq.h>
- #include <linux/gpio/consumer.h>
+ void _free_xmit_priv(struct xmit_priv *pxmitpriv)
+diff --git a/drivers/staging/rtl8712/xmit_linux.c b/drivers/staging/rtl8712/xmit_linux.c
+index 132afbf49dde..ceb6b590b310 100644
+--- a/drivers/staging/rtl8712/xmit_linux.c
++++ b/drivers/staging/rtl8712/xmit_linux.c
+@@ -112,6 +112,12 @@ int r8712_xmit_resource_alloc(struct _adapter *padapter,
+ 	for (i = 0; i < 8; i++) {
+ 		pxmitbuf->pxmit_urb[i] = usb_alloc_urb(0, GFP_KERNEL);
+ 		if (!pxmitbuf->pxmit_urb[i]) {
++			int k;
++
++			for (k = i - 1; k >= 0; k--) {
++				/* handle allocation errors part way through loop */
++				usb_free_urb(pxmitbuf->pxmit_urb[k]);
++			}
+ 			netdev_err(padapter->pnetdev, "pxmitbuf->pxmit_urb[i] == NULL\n");
+ 			return -ENOMEM;
+ 		}
 -- 
-2.40.1
+2.41.0
 
