@@ -1,114 +1,105 @@
-Received: from mail-oa1-f51.google.com (mail-oa1-f51.google.com [209.85.160.51])
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 327FF11188
-	for <linux-staging@lists.linux.dev>; Fri, 14 Jul 2023 10:04:19 +0000 (UTC)
-Received: by mail-oa1-f51.google.com with SMTP id 586e51a60fabf-1b03ec2015fso1339623fac.3
-        for <linux-staging@lists.linux.dev>; Fri, 14 Jul 2023 03:04:19 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 160D911188
+	for <linux-staging@lists.linux.dev>; Fri, 14 Jul 2023 10:10:39 +0000 (UTC)
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-3fbc5d5742eso16807705e9.3
+        for <linux-staging@lists.linux.dev>; Fri, 14 Jul 2023 03:10:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1689329438; x=1691921438;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=GFWHPsarbAE5FM1drwTioIbYAwpqVOcGLX+OiTOraMA=;
+        b=C6UTowscgaC03hoB1biFZGdDzAmjE564AEcUAjvuMxX0PZlLZu2T5rMD2GZJWXh2We
+         KGJKx0i2CbFWExPIbuVTN3jlWVp51B1YlwswbHi21ESQLtxfPw068T130OpokD8Ud/jx
+         x3xg9yidt7PXReJXEYnm0QMqO57cEHJjR6TzJlx3ZFLyF++Y1C3NTxOId2aFUvSGzSLm
+         fFlMbL5qwVYRSM4XQuj16hnmgeGZPXpFfbIi8t/AYeBZuFUmIKywl4nh0oEx7VIN2H9T
+         ntUiM2HL0LDgjrhpyvOfEQxcVAeq0LlKISAkL39VifoYc1KWIFrj9qS8TW//IsxN634X
+         ojwA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689329059; x=1691921059;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=cbFWyufa2I/dKrp5bYUBMB1ESShCcC04UZ0ziSB/4oc=;
-        b=GWUuaLGoMbKsrpfGqePLiNDp2+f/RSfWCZ+lg+oEQLpgUs+n/0Kab5/35al0y3lICm
-         t/r9Yz3PdGD7RP+RSRsUxVYcik5fFYXjTcnpnsDw6FiV9iGO78q6Kd4CpuWrHAgyIGIo
-         /IPI1FeW7NJDQqCoD5QeKugjGzQT9PX/CV7T+Er4AaSskGBtVszo2TAbo21jM189zk8+
-         ujJKn2pxF8E4UwqpbHQsl831ELQHnJuCWBfSnRElbQCdJkCkWWGWkkUS3YWUf8NSwj6i
-         lxcEeJwJwySUrJUjpO+HK1iI3s7aRNHxRK+rBAOE9lIblv0SKICHbuuGCmceN0ncitD2
-         gT5A==
-X-Gm-Message-State: ABy/qLaoI3u9ctvejLxCEUlRvBdXY9Tt/yrhkYX+2Rafd7lepjDgHigI
-	qU6P5MdXJAHUKPS6bqVcoTPtSOyKAhlb7w==
-X-Google-Smtp-Source: APBJJlEBI5c9+ES+jNXlGJvif0I1xSUKXwXJ8Spnjhyit3lwwdgmV1+Vp7axzMqPSbfJC6ZdEHZh7Q==
-X-Received: by 2002:a05:6870:944e:b0:1b4:4931:d579 with SMTP id e14-20020a056870944e00b001b44931d579mr5883288oal.8.1689329058848;
-        Fri, 14 Jul 2023 03:04:18 -0700 (PDT)
-Received: from mail-ot1-f50.google.com (mail-ot1-f50.google.com. [209.85.210.50])
-        by smtp.gmail.com with ESMTPSA id a21-20020a056870b31500b001b03fbfa0c5sm3848837oao.39.2023.07.14.03.04.18
-        for <linux-staging@lists.linux.dev>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 14 Jul 2023 03:04:18 -0700 (PDT)
-Received: by mail-ot1-f50.google.com with SMTP id 46e09a7af769-6b9b89627c3so529053a34.1
-        for <linux-staging@lists.linux.dev>; Fri, 14 Jul 2023 03:04:18 -0700 (PDT)
-X-Received: by 2002:a05:6358:591d:b0:135:43da:b16d with SMTP id
- g29-20020a056358591d00b0013543dab16dmr4868202rwf.11.1689329058168; Fri, 14
- Jul 2023 03:04:18 -0700 (PDT)
+        d=1e100.net; s=20221208; t=1689329438; x=1691921438;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=GFWHPsarbAE5FM1drwTioIbYAwpqVOcGLX+OiTOraMA=;
+        b=ANTuug2/2lrEvVjSmqTqhe5p1nwKsevDU9pveQ5OZBDOXrzbhDN6vyrmVg0JPpReSB
+         r1n3sn66DboVEoMK4n39UhhAbV2aP7McBM4iaYtRXHVrzF48z9zKILo/G6cOzQPO7+Ob
+         5c6FXGDbvur2WpkOoBtTvHroaaqZiPE+90oewzv3yo9OznDMno3PSEHbXCLL3U7IPVDw
+         LxNmbMgL8NL5Fe8WV+ooA4NnwnpkaOXWih1nZBl3drsqfW3pTzV+m/m0CzSxx5MIkFpx
+         0DIViGHlcoYJaph2EaOben4jwry3esHi371fBnBHYLlTHS6G+vJW4EM3dVnTLSIbFYwP
+         nwdA==
+X-Gm-Message-State: ABy/qLbVWaYHTnM92XRhNIwnmlTeNGiytU0C8NFmWveBgEavhAoWqR/M
+	MI+6VcIWNVRoPljYoYGI/WqoLw==
+X-Google-Smtp-Source: APBJJlH2uXC8tVM47KU/TINzaEMuifZhGUg/YVBem70u7gBASp8AdDhtewR2bY4voQZ5bQC2qFHOuQ==
+X-Received: by 2002:a05:600c:20c4:b0:3fb:e054:903f with SMTP id y4-20020a05600c20c400b003fbe054903fmr3717641wmm.36.1689329438056;
+        Fri, 14 Jul 2023 03:10:38 -0700 (PDT)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id 18-20020a05600c22d200b003fbca05faa9sm1065054wmg.24.2023.07.14.03.10.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 14 Jul 2023 03:10:35 -0700 (PDT)
+Date: Fri, 14 Jul 2023 13:10:32 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Tree Davies <tdavies@darkphysics.net>
+Cc: Philipp Hortmann <philipp.g.hortmann@gmail.com>,
+	gregkh@linuxfoundation.org, anjan@momi.ca, error27@gmail.com,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 09/12] Staging: rtl8192e: Rename variable pBA
+Message-ID: <4867720d-bc9e-4560-b8cb-50c8a0422e97@kadam.mountain>
+References: <ZK84sYjc9uHIWZcr@basil>
+ <724b252e-0c72-6c77-4817-aee8d87a99cb@gmail.com>
+ <ZLC3w4tjw16LwuEa@basil>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20230714075155.5686-1-tzimmermann@suse.de>
-In-Reply-To: <20230714075155.5686-1-tzimmermann@suse.de>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Fri, 14 Jul 2023 12:04:03 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdWoeyJPAgPgFi545SJFcaVCgZi1-zW2N5cBeU9BnHgo1w@mail.gmail.com>
-Message-ID: <CAMuHMdWoeyJPAgPgFi545SJFcaVCgZi1-zW2N5cBeU9BnHgo1w@mail.gmail.com>
-Subject: Re: [PATCH v3 00/18] fbdev: Remove FBINFO_DEFAULT and
- FBINFO_FLAG_DEFAULT flags
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: deller@gmx.de, javierm@redhat.com, linux-sh@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
-	amd-gfx@lists.freedesktop.org, linux-input@vger.kernel.org, 
-	linux-media@vger.kernel.org, linux-fbdev@vger.kernel.org, 
-	linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
-	linux-geode@lists.infradead.org, linux-nvidia@lists.surfsouth.com, 
-	linux-hyperv@vger.kernel.org, linux-omap@vger.kernel.org, 
-	linuxppc-dev@lists.ozlabs.org, kvm@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ZLC3w4tjw16LwuEa@basil>
 
-Hi Thomas,
+On Thu, Jul 13, 2023 at 07:49:39PM -0700, Tree Davies wrote:
+> On Thu, Jul 13, 2023 at 11:54:40PM +0200, Philipp Hortmann wrote:
+> > On 7/13/23 01:35, Tree Davies wrote:
+> > > Rename variable pBA to pba in order to Fix checkpatch
+> > > warning: Avoid CamelCase
+> > > 
+> > > Signed-off-by: Tree Davies<tdavies@darkphysics.net>
+> > > ---
+> > >   drivers/staging/rtl8192e/rtl819x_BAProc.c | 106 +++++++++++-----------
+> > >   drivers/staging/rtl8192e/rtllib.h         |   2 +-
+> > >   2 files changed, 54 insertions(+), 54 deletions(-)
+> > 
+> > 
+> > Hi Tree,
+> > the p is typically for pointer. This is not wanted when you change the name.
+> > But ba is is in use....
+> > 
+> > Bye Philipp
+> 
+> Thanks Philipp,                                                      
+>                                                                      
+> A few thoughts...                                                    
+> Looking at occurances of pBA, they all appear as local variable      
+> declarations of struct ba_record, mostly as function params.         
 
-On Fri, Jul 14, 2023 at 9:53=E2=80=AFAM Thomas Zimmermann <tzimmermann@suse=
-.de> wrote:
-> Remove the unused flags FBINFO_DEFAULT and FBINFO_FLAG_DEFAULT from
-> fbdev and drivers, as briefly discussed at [1]. Both flags were maybe
-> useful when fbdev had special handling for driver modules. With
-> commit 376b3ff54c9a ("fbdev: Nuke FBINFO_MODULE"), they are both 0
-> and have no further effect.
->
-> Patches 1 to 7 remove FBINFO_DEFAULT from drivers. Patches 2 to 5
-> split this by the way the fb_info struct is being allocated. All flags
-> are cleared to zero during the allocation.
->
-> Patches 8 to 16 do the same for FBINFO_FLAG_DEFAULT. Patch 8 fixes
-> an actual bug in how arch/sh uses the token for struct fb_videomode,
-> which is unrelated.
->
-> Patch 17 removes both flag constants from <linux/fb.h> and patch 18
-> documents the zero'ed memory returned by framebuffer_alloc().
->
-> v3:
->         * sh: include board name in commit message (Adrian)
->         * docs: reword text (Miguel)
+I'm reading my inbox in the wrong order so I already sent an email
+with the same advice that Philipp sent.  Philipp is correct.  "p" is
+not allowed.
 
-Thanks for the update!
+>                                                                      
+> I also see what you mentioned, as BA being already taken in          
+> rtl819x_BAProc.c:394 and line 292, but I don't 'think' that renaming them
+> both to ba will result negatively(?).
 
->   fbdev: Remove flag FBINFO_DEFAULT from fbdev drivers
->   fbdev: Remove flag FBINFO_DEFAULT from fbdev drivers
->   fbdev: Remove flag FBINFO_DEFAULT from fbdev drivers
->   fbdev: Remove flag FBINFO_DEFAULT from fbdev drivers
+Thanks for noticing this.  Figure out a solution.
 
-Four patches with the exact same one-line summary. Please make them
-unique.
+> 
+> Agreed, let's wait on Greg.
 
->   fbdev: Remove flag FBINFO_FLAG_DEFAULT from fbdev drivers
->   fbdev: Remove flag FBINFO_FLAG_DEFAULT from fbdev drivers
+Heh.  Greg is not going to fix these minor issues and neither am I.  We
+trust you to find a solution.  You can do it!  I believe in you!
 
-Two patches with the exact same one-line summary. Please make them
-unique.
+regards,
+dan carpenter
 
-Gr{oetje,eeting}s,
-
-                        Geert
-
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
-
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
