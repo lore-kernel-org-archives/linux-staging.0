@@ -1,42 +1,42 @@
 Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6CE8879E1
-	for <linux-staging@lists.linux.dev>; Fri, 14 Jul 2023 07:52:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D99F479CC
+	for <linux-staging@lists.linux.dev>; Fri, 14 Jul 2023 07:52:04 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id DD8CA1FD82;
-	Fri, 14 Jul 2023 07:52:00 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 0DFEC1FD88;
+	Fri, 14 Jul 2023 07:52:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1689321120; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1689321122; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=YWl4r3MXDzIpXc1GMxrVHAXu9+tdMITd+1eR5phnaTY=;
-	b=asN4jXBhI2JnwiwV6m9qEbnKE6Z4Oc3L6Y4ATww+BqsaYS7uaZM+9SQSMvB7K4ptM8UVen
-	O4vu9DX6TkcqS6fNZR+Te45m5hhoE1GqHgY0RZoK/yj/sVKfMZ/xF16Vl8vjaaPsWheSm8
-	fJk0qsYzSaeeDOGdugbWt/iPt+uxIOc=
+	bh=HF0ntTEfTFR2eIXkYuLTyCKB+tFcMggnqDzzMkFmIGA=;
+	b=k3R9CMEEVHHOW6sw9ur3sR3vWZf0Og+likYvH2sC1AM6JU5wsJZygcfpHHrJvUkw0PPuEe
+	LgvVN2QbK/QTW/rm+rECHMijYMOLmHIJXR0f+TPw6An2AjXpS8DGK7kHPdyy8g2gNnL4Oi
+	bv12NZmhahM0U2LPAyFZAcuOqRyY0Hs=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1689321120;
+	s=susede2_ed25519; t=1689321122;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=YWl4r3MXDzIpXc1GMxrVHAXu9+tdMITd+1eR5phnaTY=;
-	b=bss22TCu6JS5gpff6CSCqj18ohWIMh0ca+BK3HIlzAgNTlfyZzGFs/kX3qlf3MyySKee1Y
-	g4nNnceri51mOWCw==
+	bh=HF0ntTEfTFR2eIXkYuLTyCKB+tFcMggnqDzzMkFmIGA=;
+	b=VfWUqWHI6r/BCLgjMns89AYGSompv65+9Uf/weig8DuUaCsOMPp5g0+/zLT8SEKo28BSXN
+	Y5TW350q3fz2xBCg==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 892CE13A15;
-	Fri, 14 Jul 2023 07:52:00 +0000 (UTC)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id AC71513A15;
+	Fri, 14 Jul 2023 07:52:01 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
 	by imap2.suse-dmz.suse.de with ESMTPSA
-	id IJCsIKD+sGQCQwAAMHmgww
-	(envelope-from <tzimmermann@suse.de>); Fri, 14 Jul 2023 07:52:00 +0000
+	id 4O9MKaH+sGQCQwAAMHmgww
+	(envelope-from <tzimmermann@suse.de>); Fri, 14 Jul 2023 07:52:01 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: deller@gmx.de,
 	javierm@redhat.com
@@ -57,11 +57,12 @@ Cc: linux-sh@vger.kernel.org,
 	kvm@vger.kernel.org,
 	Thomas Zimmermann <tzimmermann@suse.de>,
 	Sam Ravnborg <sam@ravnborg.org>,
-	Miguel Ojeda <ojeda@kernel.org>,
-	Robin van der Gracht <robin@protonic.nl>
-Subject: [PATCH v3 09/18] auxdisplay: Remove flag FBINFO_FLAG_DEFAULT from fbdev drivers
-Date: Fri, 14 Jul 2023 09:49:35 +0200
-Message-ID: <20230714075155.5686-10-tzimmermann@suse.de>
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Sudip Mukherjee <sudipm.mukherjee@gmail.com>,
+	Teddy Wang <teddy.wang@siliconmotion.com>
+Subject: [PATCH v3 12/18] staging: Remove flag FBINFO_FLAG_DEFAULT from fbdev drivers
+Date: Fri, 14 Jul 2023 09:49:38 +0200
+Message-ID: <20230714075155.5686-13-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.41.0
 In-Reply-To: <20230714075155.5686-1-tzimmermann@suse.de>
 References: <20230714075155.5686-1-tzimmermann@suse.de>
@@ -85,38 +86,39 @@ v2:
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 Acked-by: Sam Ravnborg <sam@ravnborg.org>
-Acked-by: Miguel Ojeda <ojeda@kernel.org>
-Cc: Miguel Ojeda <ojeda@kernel.org>
-Cc: Robin van der Gracht <robin@protonic.nl>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Sudip Mukherjee <sudipm.mukherjee@gmail.com>
+Cc: Teddy Wang <teddy.wang@siliconmotion.com>
 ---
- drivers/auxdisplay/cfag12864bfb.c | 1 -
- drivers/auxdisplay/ht16k33.c      | 1 -
- 2 files changed, 2 deletions(-)
+ drivers/staging/fbtft/fbtft-core.c | 2 +-
+ drivers/staging/sm750fb/sm750.c    | 1 -
+ 2 files changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/drivers/auxdisplay/cfag12864bfb.c b/drivers/auxdisplay/cfag12864bfb.c
-index c2cab7e2b126..729845bcc803 100644
---- a/drivers/auxdisplay/cfag12864bfb.c
-+++ b/drivers/auxdisplay/cfag12864bfb.c
-@@ -79,7 +79,6 @@ static int cfag12864bfb_probe(struct platform_device *device)
- 	info->var = cfag12864bfb_var;
- 	info->pseudo_palette = NULL;
- 	info->par = NULL;
--	info->flags = FBINFO_FLAG_DEFAULT;
+diff --git a/drivers/staging/fbtft/fbtft-core.c b/drivers/staging/fbtft/fbtft-core.c
+index 3a4abf3bae40..eac1d570f437 100644
+--- a/drivers/staging/fbtft/fbtft-core.c
++++ b/drivers/staging/fbtft/fbtft-core.c
+@@ -684,7 +684,7 @@ struct fb_info *fbtft_framebuffer_alloc(struct fbtft_display *display,
+ 	info->var.transp.offset =  0;
+ 	info->var.transp.length =  0;
  
- 	if (register_framebuffer(info) < 0)
- 		goto fballoced;
-diff --git a/drivers/auxdisplay/ht16k33.c b/drivers/auxdisplay/ht16k33.c
-index edaf92b7ea77..df3f37651e45 100644
---- a/drivers/auxdisplay/ht16k33.c
-+++ b/drivers/auxdisplay/ht16k33.c
-@@ -646,7 +646,6 @@ static int ht16k33_fbdev_probe(struct device *dev, struct ht16k33_priv *priv,
- 	fbdev->info->var = ht16k33_fb_var;
- 	fbdev->info->bl_dev = bl;
- 	fbdev->info->pseudo_palette = NULL;
--	fbdev->info->flags = FBINFO_FLAG_DEFAULT;
- 	fbdev->info->par = priv;
+-	info->flags =              FBINFO_FLAG_DEFAULT | FBINFO_VIRTFB;
++	info->flags =              FBINFO_VIRTFB;
  
- 	err = register_framebuffer(fbdev->info);
+ 	par = info->par;
+ 	par->info = info;
+diff --git a/drivers/staging/sm750fb/sm750.c b/drivers/staging/sm750fb/sm750.c
+index c260f73cf570..79bcd5bd4938 100644
+--- a/drivers/staging/sm750fb/sm750.c
++++ b/drivers/staging/sm750fb/sm750.c
+@@ -807,7 +807,6 @@ static int lynxfb_set_fbinfo(struct fb_info *info, int index)
+ 	info->screen_base = crtc->v_screen;
+ 	pr_debug("screen_base vaddr = %p\n", info->screen_base);
+ 	info->screen_size = line_length * var->yres_virtual;
+-	info->flags = FBINFO_FLAG_DEFAULT | 0;
+ 
+ 	/* set info->fix */
+ 	fix->type = FB_TYPE_PACKED_PIXELS;
 -- 
 2.41.0
 
