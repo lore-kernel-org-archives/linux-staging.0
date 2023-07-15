@@ -1,30 +1,31 @@
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 620F815B8
-	for <linux-staging@lists.linux.dev>; Sat, 15 Jul 2023 17:09:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A14715B8
+	for <linux-staging@lists.linux.dev>; Sat, 15 Jul 2023 17:09:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1689440953;
+	s=mimecast20190719; t=1689440956;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=oHXr+MtQ2j8i+hspLgMsd1NTyA2+o+iCzUHxpN9ilvo=;
-	b=X5dbAi0UWK+ywBRmaHeDXizoWKenzyVwHHqyYyRBT3ESiF2u5ree81f5dTSOZS0e6E9Ae6
-	EstZVYn7akzXttzNGA5D2ZzupO32KNuDOMAlc5qUVz9mPSlFAEaxuPT6xdvuKchcMu/J7f
-	kvPzvXa+CcnaI84/DsaoCw3efdtz1co=
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=aq+EG35HOtgUCV8xZKFZmNK1P5mj+t/i6l/MjJyilLE=;
+	b=K0b4Psmj+FdfB7YX25dJ0ePK8dkIvOqUTlgqxfz6CvT1B8L9ZEQUTLLLNh4u1LXVb4c7HL
+	Ow/KsrXmyYxHLRZRHjx+M3Sm6K2Fyp33A8l1AeIeH9f9GsC66fjvcqWrCbBSPqRPhE1kIF
+	ILbcMo5CMO4o7VwGRgUpSZ9NJJCw/TU=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-59-x-31gPfONuuhBBIE7GBnZw-1; Sat, 15 Jul 2023 13:09:09 -0400
-X-MC-Unique: x-31gPfONuuhBBIE7GBnZw-1
+ us-mta-467-8srJJYUIMCCchUDUA2pEew-1; Sat, 15 Jul 2023 13:09:14 -0400
+X-MC-Unique: 8srJJYUIMCCchUDUA2pEew-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com [10.11.54.3])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 47F3C101A54E;
-	Sat, 15 Jul 2023 17:09:09 +0000 (UTC)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 4754687321B;
+	Sat, 15 Jul 2023 17:09:14 +0000 (UTC)
 Received: from shalem.redhat.com (unknown [10.39.192.5])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 993D21121333;
-	Sat, 15 Jul 2023 17:09:07 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 8A0D11121333;
+	Sat, 15 Jul 2023 17:09:12 +0000 (UTC)
 From: Hans de Goede <hdegoede@redhat.com>
 To: Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Sakari Ailus <sakari.ailus@linux.intel.com>,
@@ -37,10 +38,13 @@ Cc: Hans de Goede <hdegoede@redhat.com>,
 	andrey.i.trufanov@gmail.com,
 	Fabio Aiuto <fabioaiuto83@gmail.com>,
 	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev
-Subject: [PATCH 1/3] media: atomisp: Remove empty isys_public.h
-Date: Sat, 15 Jul 2023 19:09:04 +0200
-Message-ID: <20230715170906.3627-1-hdegoede@redhat.com>
+	linux-staging@lists.linux.dev,
+	kernel test robot <lkp@intel.com>
+Subject: [PATCH 3/3] media: atomisp: Mark ia_css_isys_240?_init() static
+Date: Sat, 15 Jul 2023 19:09:06 +0200
+Message-ID: <20230715170906.3627-3-hdegoede@redhat.com>
+In-Reply-To: <20230715170906.3627-1-hdegoede@redhat.com>
+References: <20230715170906.3627-1-hdegoede@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -50,52 +54,47 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
 
-isys_public.h is empty, remove it.
+ia_css_isys_240?_init() are only used inside the C file where they are
+declared, mark them as static fixing:
 
+drivers/staging/media/atomisp/pci/runtime/isys/src/isys_init.c:24:20:
+   warning: no previous prototype for 'ia_css_isys_2400_init'
+   24 | input_system_err_t ia_css_isys_2400_init(void)
+      |                    ^~~~~~~~~~~~~~~~~~~~~
+drivers/staging/media/atomisp/pci/runtime/isys/src/isys_init.c:87:20:
+   warning: no previous prototype for 'ia_css_isys_2401_init'
+   87 | input_system_err_t ia_css_isys_2401_init(void)
+      |                    ^~~~~~~~~~~~~~~~~~~~~
+
+Reported-by: kernel test robot <lkp@intel.com>
+Closes: https://lore.kernel.org/oe-kbuild-all/202307152046.rvhFGrbz-lkp@intel.com/
 Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 ---
- .../hive_isp_css_include/host/isys_public.h   | 19 -------------------
- .../atomisp/pci/isp2400_input_system_public.h |  1 -
- 2 files changed, 20 deletions(-)
- delete mode 100644 drivers/staging/media/atomisp/pci/hive_isp_css_include/host/isys_public.h
+ .../staging/media/atomisp/pci/runtime/isys/src/isys_init.c    | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/staging/media/atomisp/pci/hive_isp_css_include/host/isys_public.h b/drivers/staging/media/atomisp/pci/hive_isp_css_include/host/isys_public.h
-deleted file mode 100644
-index 9dacef7a5cc1..000000000000
---- a/drivers/staging/media/atomisp/pci/hive_isp_css_include/host/isys_public.h
-+++ /dev/null
-@@ -1,19 +0,0 @@
--/* SPDX-License-Identifier: GPL-2.0 */
--/*
-- * Support for Intel Camera Imaging ISP subsystem.
-- * Copyright (c) 2015, Intel Corporation.
-- *
-- * This program is free software; you can redistribute it and/or modify it
-- * under the terms and conditions of the GNU General Public License,
-- * version 2, as published by the Free Software Foundation.
-- *
-- * This program is distributed in the hope it will be useful, but WITHOUT
-- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
-- * more details.
-- */
--
--#ifndef __ISYS_PUBLIC_H_INCLUDED__
--#define __ISYS_PUBLIC_H_INCLUDED__
--
--#endif /* __ISYS_PUBLIC_H_INCLUDED__ */
-diff --git a/drivers/staging/media/atomisp/pci/isp2400_input_system_public.h b/drivers/staging/media/atomisp/pci/isp2400_input_system_public.h
-index 375c0db84b55..b1360eeb58df 100644
---- a/drivers/staging/media/atomisp/pci/isp2400_input_system_public.h
-+++ b/drivers/staging/media/atomisp/pci/isp2400_input_system_public.h
-@@ -17,7 +17,6 @@
- #define __INPUT_SYSTEM_2400_PUBLIC_H_INCLUDED__
+diff --git a/drivers/staging/media/atomisp/pci/runtime/isys/src/isys_init.c b/drivers/staging/media/atomisp/pci/runtime/isys/src/isys_init.c
+index 1a7b45bb4544..18bfe1010989 100644
+--- a/drivers/staging/media/atomisp/pci/runtime/isys/src/isys_init.c
++++ b/drivers/staging/media/atomisp/pci/runtime/isys/src/isys_init.c
+@@ -21,7 +21,7 @@
+ #include "isys_dma_public.h"	/* isys2401_dma_set_max_burst_size() */
+ #include "isys_irq.h"
  
- #include <type_support.h>
--#include "isys_public.h"
+-input_system_err_t ia_css_isys_2400_init(void)
++static input_system_err_t ia_css_isys_2400_init(void)
+ {
+ 	backend_channel_cfg_t backend_ch0;
+ 	backend_channel_cfg_t backend_ch1;
+@@ -84,7 +84,7 @@ input_system_err_t ia_css_isys_2400_init(void)
+ 	return error;
+ }
  
- typedef struct receiver_state_s			receiver_state_t;
- 
+-input_system_err_t ia_css_isys_2401_init(void)
++static input_system_err_t ia_css_isys_2401_init(void)
+ {
+ 	ia_css_isys_csi_rx_lut_rmgr_init();
+ 	ia_css_isys_ibuf_rmgr_init();
 -- 
 2.41.0
 
