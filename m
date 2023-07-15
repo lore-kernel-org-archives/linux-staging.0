@@ -1,42 +1,42 @@
 Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 419C78BF3
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96C1C8C02
 	for <linux-staging@lists.linux.dev>; Sat, 15 Jul 2023 18:53:58 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 942EA21AFF;
-	Sat, 15 Jul 2023 18:53:52 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 7096321B38;
+	Sat, 15 Jul 2023 18:53:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1689447232; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1689447233; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=ucmT+1GLTDoqupQ1pU8mLni2ss8QN6gSt8DgqXn9pcI=;
-	b=U7I6Ofdn50Yf9J74ZtjzhcPb1eUY5MGKkR4WnpQVALNXaiKN//sbzJp0VKaiQDbFUHoJd+
-	g3ibnCscc4eYNFuu3i/Ru6lDZdPewBUFWtEf61mf90/4BgfiZVPPepyAANBCDpp76mPVJN
-	76Of4SripwDbtbBMa+1AvurWqxMeTkw=
+	bh=IsudHL+kPXRnJx5x/UKWrjHzIvsH1WJ679RIcWPHmtc=;
+	b=dRHiGzhSJqOdK6kLxTjcSQeK2rILS65TcD/VvGz/PhNtDYa5OdduAJrG43OWk7Tp5ALuu4
+	xRWYN6RJT7CDfS9U6YcXzPxG8lMPrlQ3CGW2ToBOvUVfN6lfG7mI1wnszNyX73ImXJSCBD
+	pykLbfAf+ylVURZr9Tpr7p+jJ4N8CFA=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1689447232;
+	s=susede2_ed25519; t=1689447233;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=ucmT+1GLTDoqupQ1pU8mLni2ss8QN6gSt8DgqXn9pcI=;
-	b=zodS/0MiChj1HWAYZLqS+sr/v4lQteaizZGRmmzdz1I7jh4YQE4fUcrEO0Ar1sQrfFjbYY
-	l5Y1QWABgAvcaIBg==
+	bh=IsudHL+kPXRnJx5x/UKWrjHzIvsH1WJ679RIcWPHmtc=;
+	b=GaHnCRqxrMJJp6ftdxdAvOkBZQToFfk93lx1grXdonP0bNDcME7dGIIgBQRdXbznA/p7v7
+	b6pQgVxBZcqRcRBw==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 3290A133F7;
-	Sat, 15 Jul 2023 18:53:52 +0000 (UTC)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 1755B133F7;
+	Sat, 15 Jul 2023 18:53:53 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
 	by imap2.suse-dmz.suse.de with ESMTPSA
-	id QMNzC0DrsmQCBwAAMHmgww
-	(envelope-from <tzimmermann@suse.de>); Sat, 15 Jul 2023 18:53:52 +0000
+	id ADHFBEHrsmQCBwAAMHmgww
+	(envelope-from <tzimmermann@suse.de>); Sat, 15 Jul 2023 18:53:53 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: deller@gmx.de,
 	javierm@redhat.com,
@@ -58,9 +58,9 @@ Cc: linux-sh@vger.kernel.org,
 	kvm@vger.kernel.org,
 	Thomas Zimmermann <tzimmermann@suse.de>,
 	Sam Ravnborg <sam@ravnborg.org>
-Subject: [PATCH v4 15/18] fbdev/atafb: Remove flag FBINFO_FLAG_DEFAULT
-Date: Sat, 15 Jul 2023 20:51:57 +0200
-Message-ID: <20230715185343.7193-16-tzimmermann@suse.de>
+Subject: [PATCH v4 17/18] fbdev: Remove FBINFO_DEFAULT and FBINFO_FLAG_DEFAULT
+Date: Sat, 15 Jul 2023 20:51:59 +0200
+Message-ID: <20230715185343.7193-18-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.41.0
 In-Reply-To: <20230715185343.7193-1-tzimmermann@suse.de>
 References: <20230715185343.7193-1-tzimmermann@suse.de>
@@ -72,35 +72,37 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The flag FBINFO_FLAG_DEFAULT is 0 and has no effect, as struct
-fbinfo.flags has been allocated to zero by a static declaration. So do
-not set it.
-
-Flags should signal differences from the default values. After cleaning
-up all occurrences of FBINFO_DEFAULT, the token will be removed.
-
-v2:
-	* fix commit message (Miguel)
+Remove the unused flags FBINFO_DEFAULT and FBINFO_FLAG_DEFAULT. No
+functional changes.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 Acked-by: Sam Ravnborg <sam@ravnborg.org>
 Cc: Helge Deller <deller@gmx.de>
 ---
- drivers/video/fbdev/atafb.c | 1 -
- 1 file changed, 1 deletion(-)
+ include/linux/fb.h | 3 ---
+ 1 file changed, 3 deletions(-)
 
-diff --git a/drivers/video/fbdev/atafb.c b/drivers/video/fbdev/atafb.c
-index 2bc4089865e6..c4a420b791b9 100644
---- a/drivers/video/fbdev/atafb.c
-+++ b/drivers/video/fbdev/atafb.c
-@@ -3112,7 +3112,6 @@ static int __init atafb_probe(struct platform_device *pdev)
- #ifdef ATAFB_FALCON
- 	fb_info.pseudo_palette = current_par.hw.falcon.pseudo_palette;
- #endif
--	fb_info.flags = FBINFO_FLAG_DEFAULT;
+diff --git a/include/linux/fb.h b/include/linux/fb.h
+index 1d5c13f34b09..43458f582f35 100644
+--- a/include/linux/fb.h
++++ b/include/linux/fb.h
+@@ -383,7 +383,6 @@ struct fb_tile_ops {
+ #endif /* CONFIG_FB_TILEBLITTING */
  
- 	if (!fb_find_mode(&fb_info.var, &fb_info, mode_option, atafb_modedb,
- 			  NUM_TOTAL_MODES, &atafb_modedb[defmode],
+ /* FBINFO_* = fb_info.flags bit flags */
+-#define FBINFO_DEFAULT		0
+ #define FBINFO_HWACCEL_DISABLED	0x0002
+ 	/* When FBINFO_HWACCEL_DISABLED is set:
+ 	 *  Hardware acceleration is turned off.  Software implementations
+@@ -504,8 +503,6 @@ struct fb_info {
+ 	bool skip_vt_switch; /* no VT switch on suspend/resume required */
+ };
+ 
+-#define FBINFO_FLAG_DEFAULT	FBINFO_DEFAULT
+-
+ /* This will go away
+  * fbset currently hacks in FB_ACCELF_TEXT into var.accel_flags
+  * when it wants to turn the acceleration engine on.  This is
 -- 
 2.41.0
 
