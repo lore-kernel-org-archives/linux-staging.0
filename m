@@ -1,42 +1,42 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61B218824
-	for <linux-staging@lists.linux.dev>; Sat, 15 Jul 2023 18:53:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 519C68BE1
+	for <linux-staging@lists.linux.dev>; Sat, 15 Jul 2023 18:53:55 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 4BE3321ADA;
-	Sat, 15 Jul 2023 18:53:47 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 74AB51FD63;
+	Sat, 15 Jul 2023 18:53:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1689447227; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1689447228; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=0nBZiCLXU0uFmpREVr8et6lhshWUUvKrFnXs/LiU8uw=;
-	b=ExBZohaIoUpM32swEW4TLbTA+2ZURsoBCxxCB1bJPx6VTUDzDbwGTw2jS0q88EQ9JCp4jI
-	ucOn7rj0we3ZJtaem65Z+u7i/bHvfPDcKNkm99KAuAQfVrEJTwQ9mv2Dt0IhCVMUZMmD2p
-	7P6oXhH3gFR41VSzRUz+fClKaTfnb/4=
+	bh=fHWIv3bHRzrRKcyf/zVidbDkljZLPdxvWwq51ebKJX8=;
+	b=Md5XmYzkPAU72bfn5tZ3LmGKbYdoHIvAEM3f9AYLz/VUB/cSsGWSfkf1agPsiDAZAoNXzx
+	Scogw4aKsbgp4poY35d42V7pzr/dIsSRSgSGozb+y7mMxmA3DiHg4BMqw4iu2t2rJzl6xD
+	GHblC7uej66xS61taBLrVaBcr/yEvK0=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1689447227;
+	s=susede2_ed25519; t=1689447228;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=0nBZiCLXU0uFmpREVr8et6lhshWUUvKrFnXs/LiU8uw=;
-	b=8QYCN2WcxYAGEUJeoAu1ZGY7RazmqUfzUvU0vgAHcSLzeAYE8T1eFjuEIXXoSRNSYhMyL9
-	oVziRyNB6+uAM6Dw==
+	bh=fHWIv3bHRzrRKcyf/zVidbDkljZLPdxvWwq51ebKJX8=;
+	b=mN0NFMMwwN52Bn50PmBZuqYOaf4TMu9dSmO8298Nqylmi+ygkzkCYIrYN+Iri/baTeLx7i
+	UjXr5OVPJ0DEy1Dw==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id DB86F133F7;
-	Sat, 15 Jul 2023 18:53:46 +0000 (UTC)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 1426B13A23;
+	Sat, 15 Jul 2023 18:53:48 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
 	by imap2.suse-dmz.suse.de with ESMTPSA
-	id oMFRMzrrsmQCBwAAMHmgww
-	(envelope-from <tzimmermann@suse.de>); Sat, 15 Jul 2023 18:53:46 +0000
+	id cOYEBDzrsmQCBwAAMHmgww
+	(envelope-from <tzimmermann@suse.de>); Sat, 15 Jul 2023 18:53:48 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: deller@gmx.de,
 	javierm@redhat.com,
@@ -57,10 +57,11 @@ Cc: linux-sh@vger.kernel.org,
 	linuxppc-dev@lists.ozlabs.org,
 	kvm@vger.kernel.org,
 	Thomas Zimmermann <tzimmermann@suse.de>,
-	Sam Ravnborg <sam@ravnborg.org>
-Subject: [PATCH v4 04/18] fbdev: Remove FBINFO_DEFAULT from devm_kzalloc()'ed structs
-Date: Sat, 15 Jul 2023 20:51:46 +0200
-Message-ID: <20230715185343.7193-5-tzimmermann@suse.de>
+	Sam Ravnborg <sam@ravnborg.org>,
+	Timur Tabi <timur@kernel.org>
+Subject: [PATCH v4 06/18] fbdev/fsl-diu-fb: Remove flag FBINFO_DEFAULT
+Date: Sat, 15 Jul 2023 20:51:48 +0200
+Message-ID: <20230715185343.7193-7-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.41.0
 In-Reply-To: <20230715185343.7193-1-tzimmermann@suse.de>
 References: <20230715185343.7193-1-tzimmermann@suse.de>
@@ -73,76 +74,36 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
 The flag FBINFO_DEFAULT is 0 and has no effect, as struct fbinfo.flags
-has been allocated to zero by devm_kzalloc(). So do not set it.
+has been allocated to zero by dmam_alloc_coherent(__GFP_ZERO). So do not
+set it.
 
 Flags should signal differences from the default values. After cleaning
 up all occurrences of FBINFO_DEFAULT, the token will be removed.
 
-v4:
-	* clarify commit message (Geert, Dan)
 v2:
 	* fix commit message (Miguel)
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 Acked-by: Sam Ravnborg <sam@ravnborg.org>
+Cc: Timur Tabi <timur@kernel.org>
 Cc: Helge Deller <deller@gmx.de>
 ---
- drivers/video/fbdev/pxafb.c    | 1 -
- drivers/video/fbdev/sa1100fb.c | 1 -
- drivers/video/fbdev/wm8505fb.c | 3 +--
- drivers/video/fbdev/xilinxfb.c | 1 -
- 4 files changed, 1 insertion(+), 5 deletions(-)
+ drivers/video/fbdev/fsl-diu-fb.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/video/fbdev/pxafb.c b/drivers/video/fbdev/pxafb.c
-index 2a8b1dea3a67..c8c4677d06b4 100644
---- a/drivers/video/fbdev/pxafb.c
-+++ b/drivers/video/fbdev/pxafb.c
-@@ -1826,7 +1826,6 @@ static struct pxafb_info *pxafb_init_fbinfo(struct device *dev,
- 	fbi->fb.var.vmode	= FB_VMODE_NONINTERLACED;
+diff --git a/drivers/video/fbdev/fsl-diu-fb.c b/drivers/video/fbdev/fsl-diu-fb.c
+index 785eb8a06943..c62b48f27ba9 100644
+--- a/drivers/video/fbdev/fsl-diu-fb.c
++++ b/drivers/video/fbdev/fsl-diu-fb.c
+@@ -1476,7 +1476,7 @@ static int install_fb(struct fb_info *info)
  
- 	fbi->fb.fbops		= &pxafb_ops;
--	fbi->fb.flags		= FBINFO_DEFAULT;
- 	fbi->fb.node		= -1;
+ 	info->var.activate = FB_ACTIVATE_NOW;
+ 	info->fbops = &fsl_diu_ops;
+-	info->flags = FBINFO_DEFAULT | FBINFO_VIRTFB | FBINFO_PARTIAL_PAN_OK |
++	info->flags = FBINFO_VIRTFB | FBINFO_PARTIAL_PAN_OK |
+ 		FBINFO_READS_FAST;
+ 	info->pseudo_palette = mfbi->pseudo_palette;
  
- 	addr = fbi;
-diff --git a/drivers/video/fbdev/sa1100fb.c b/drivers/video/fbdev/sa1100fb.c
-index a2408bf00ca0..3d76ce111488 100644
---- a/drivers/video/fbdev/sa1100fb.c
-+++ b/drivers/video/fbdev/sa1100fb.c
-@@ -1089,7 +1089,6 @@ static struct sa1100fb_info *sa1100fb_init_fbinfo(struct device *dev)
- 	fbi->fb.var.vmode	= FB_VMODE_NONINTERLACED;
- 
- 	fbi->fb.fbops		= &sa1100fb_ops;
--	fbi->fb.flags		= FBINFO_DEFAULT;
- 	fbi->fb.monspecs	= monspecs;
- 	fbi->fb.pseudo_palette	= fbi->pseudo_palette;
- 
-diff --git a/drivers/video/fbdev/wm8505fb.c b/drivers/video/fbdev/wm8505fb.c
-index 10a8b1250103..5833147aa43d 100644
---- a/drivers/video/fbdev/wm8505fb.c
-+++ b/drivers/video/fbdev/wm8505fb.c
-@@ -285,8 +285,7 @@ static int wm8505fb_probe(struct platform_device *pdev)
- 	fbi->fb.fix.accel	= FB_ACCEL_NONE;
- 
- 	fbi->fb.fbops		= &wm8505fb_ops;
--	fbi->fb.flags		= FBINFO_DEFAULT
--				| FBINFO_HWACCEL_COPYAREA
-+	fbi->fb.flags		= FBINFO_HWACCEL_COPYAREA
- 				| FBINFO_HWACCEL_FILLRECT
- 				| FBINFO_HWACCEL_XPAN
- 				| FBINFO_HWACCEL_YPAN
-diff --git a/drivers/video/fbdev/xilinxfb.c b/drivers/video/fbdev/xilinxfb.c
-index 2aa3a528277f..768a281a8d2c 100644
---- a/drivers/video/fbdev/xilinxfb.c
-+++ b/drivers/video/fbdev/xilinxfb.c
-@@ -324,7 +324,6 @@ static int xilinxfb_assign(struct platform_device *pdev,
- 	drvdata->info.fix.line_length = pdata->xvirt * BYTES_PER_PIXEL;
- 
- 	drvdata->info.pseudo_palette = drvdata->pseudo_palette;
--	drvdata->info.flags = FBINFO_DEFAULT;
- 	drvdata->info.var = xilinx_fb_var;
- 	drvdata->info.var.height = pdata->screen_height_mm;
- 	drvdata->info.var.width = pdata->screen_width_mm;
 -- 
 2.41.0
 
