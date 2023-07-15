@@ -1,114 +1,124 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from pb-smtp2.pobox.com (pb-smtp2.pobox.com [64.147.108.71])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D703C8BF2
-	for <linux-staging@lists.linux.dev>; Sat, 15 Jul 2023 18:53:55 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 248816FCE
+	for <linux-staging@lists.linux.dev>; Sat, 15 Jul 2023 20:14:12 +0000 (UTC)
+Received: from pb-smtp2.pobox.com (unknown [127.0.0.1])
+	by pb-smtp2.pobox.com (Postfix) with ESMTP id 57D5C19715F;
+	Sat, 15 Jul 2023 16:14:06 -0400 (EDT)
+	(envelope-from tdavies@darkphysics.net)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed; d=pobox.com; h=date:from
+	:to:cc:subject:message-id:references:mime-version:content-type
+	:in-reply-to; s=sasl; bh=ErKe1gdZ84QYC6a109T7x1Vj9nyshpXprrRzxN5
+	EghI=; b=Sv5f0xIGUdtMhOV+CQAPEXbQvpsY7v0qx2qM/5mEjsjHlpNwhZd6Wvm
+	CEj8g8UnGQCmtR+uinqn7V2ZKU7UyP6Kd+Uh8JmeiQKy5QhYnOXO5g4a1bS5/Pj3
+	V7E+Ru4OVYa3ZHTI7JrbdxHJF9FDzrPamLI+ewZ2D20F/RS+pmcY=
+Received: from pb-smtp2.nyi.icgroup.com (unknown [127.0.0.1])
+	by pb-smtp2.pobox.com (Postfix) with ESMTP id 4CCCA19715D;
+	Sat, 15 Jul 2023 16:14:06 -0400 (EDT)
+	(envelope-from tdavies@darkphysics.net)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed; d=darkphysics.net;
+ h=date:from:to:cc:subject:message-id:references:mime-version:content-type:in-reply-to; s=2019-09.pbsmtp; bh=ErKe1gdZ84QYC6a109T7x1Vj9nyshpXprrRzxN5EghI=; b=L2AC7SWM6+4oq3ipcezJMBS8keCGxvAb2gEXdezPULhaVzELS2mpOQpDSdNyreCpUN7iX5fAc59P14y2wuvoArFoBXl7MxAce26lbTURJPTWzZ6ygcJ5Gj6dHChyQI+LyJFwwZibbYlHtnaQFKwynZ1IiLjeykWBX0xffRxSIrs=
+Received: from basil (unknown [76.146.178.2])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 3912C1FD66;
-	Sat, 15 Jul 2023 18:53:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1689447230; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=LJyxHdcmj5FWZ0pZ0y2ioRq6mf/10a9++06DyYlIN00=;
-	b=llnUxVf950TRvo6GBOqOXxINd68Zqn3CdAjLgWWNZVqcD5hzYs81XQfoiOcB1m3wkckFf8
-	g9OeVKB1yx3NWeXClMgFkL4qqyN8QZhs8u9NmpgVTp8sGphQyDHVpHs8D10khgXbRXERqk
-	LJZbXFZxXdMsE2cVJKmFDAMBZSaWtHU=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1689447230;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=LJyxHdcmj5FWZ0pZ0y2ioRq6mf/10a9++06DyYlIN00=;
-	b=nC9nbALIlumln63ZulYkWxyNbwIWkNQbiMaat1QzZN9agdnG4e0fZFrG6sHw3nNMkIv5Ry
-	+KfXATBOZYYcqeCg==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id BC3E113A23;
-	Sat, 15 Jul 2023 18:53:49 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-	by imap2.suse-dmz.suse.de with ESMTPSA
-	id KEUQLT3rsmQCBwAAMHmgww
-	(envelope-from <tzimmermann@suse.de>); Sat, 15 Jul 2023 18:53:49 +0000
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: deller@gmx.de,
-	javierm@redhat.com,
-	geert@linux-m68k.org,
-	dan.carpenter@linaro.org
-Cc: linux-sh@vger.kernel.org,
-	dri-devel@lists.freedesktop.org,
-	linux-kernel@vger.kernel.org,
-	amd-gfx@lists.freedesktop.org,
-	linux-input@vger.kernel.org,
-	linux-media@vger.kernel.org,
-	linux-fbdev@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	linux-geode@lists.infradead.org,
-	linux-hyperv@vger.kernel.org,
-	linux-omap@vger.kernel.org,
-	linuxppc-dev@lists.ozlabs.org,
-	kvm@vger.kernel.org,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Sam Ravnborg <sam@ravnborg.org>,
-	Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-	=?UTF-8?q?Bruno=20Pr=C3=A9mont?= <bonbons@linux-vserver.org>,
-	Jiri Kosina <jikos@kernel.org>
-Subject: [PATCH v4 10/18] hid/picolcd: Remove flag FBINFO_FLAG_DEFAULT from fbdev driver
-Date: Sat, 15 Jul 2023 20:51:52 +0200
-Message-ID: <20230715185343.7193-11-tzimmermann@suse.de>
-X-Mailer: git-send-email 2.41.0
-In-Reply-To: <20230715185343.7193-1-tzimmermann@suse.de>
-References: <20230715185343.7193-1-tzimmermann@suse.de>
+	by pb-smtp2.pobox.com (Postfix) with ESMTPSA id 8DA4A19715A;
+	Sat, 15 Jul 2023 16:14:04 -0400 (EDT)
+	(envelope-from tdavies@darkphysics.net)
+Date: Sat, 15 Jul 2023 13:14:59 -0700
+From: Tree Davies <tdavies@darkphysics.net>
+To: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+Cc: gregkh@linuxfoundation.org, dan.carpenter@linaro.org,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: rtl8192e: Rename variable bCurrentHTSupport
+Message-ID: <ZLL+Q0tcW5S8Xjmj@basil>
+References: <ZKYgH/BvkE9bdcPm@kimchi.darkphysics>
+ <6dee04ae-4129-cd7c-0d31-70d29b86c8ff@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <6dee04ae-4129-cd7c-0d31-70d29b86c8ff@gmail.com>
+X-Pobox-Relay-ID:
+ 2599DF7A-234C-11EE-943F-307A8E0A682E-45285927!pb-smtp2.pobox.com
 
-The flag FBINFO_FLAG_DEFAULT is 0 and has no effect, as struct
-fbinfo.flags has been allocated to zero by framebuffer_alloc(). So do
-not set it.
+On Thu, Jul 06, 2023 at 10:48:56PM +0200, Philipp Hortmann wrote:
+> On 7/6/23 03:59, Tree Davies wrote:
+> > This patch renames variable bCurrentHTSupport to bcurrent_ht_support
+> > to fix checkpatch warning Avoid CamelCase.
+> > 
+> > Signed-off-by: Tree Davies<tdavies@darkphysics.net>
+> > ---
+> >   drivers/staging/rtl8192e/rtl8192e/rtl_core.c |  2 +-
+> >   drivers/staging/rtl8192e/rtl8192e/rtl_wx.c   |  2 +-
+> >   drivers/staging/rtl8192e/rtl819x_BAProc.c    | 12 ++++++------
+> >   drivers/staging/rtl8192e/rtl819x_HT.h        |  2 +-
+> >   drivers/staging/rtl8192e/rtl819x_HTProc.c    | 16 ++++++++--------
+> >   drivers/staging/rtl8192e/rtllib_softmac.c    | 16 ++++++++--------
+> >   drivers/staging/rtl8192e/rtllib_softmac_wx.c |  2 +-
+> >   drivers/staging/rtl8192e/rtllib_tx.c         |  8 ++++----
+> >   8 files changed, 30 insertions(+), 30 deletions(-)
+> 
+> 
+> Hi Tree,
+> 
+> when I try to apply your patch on the top of all the other patches I get the
+> following error message:
+> 
+> kernel@matrix-ESPRIMO-P710:~/Documents/git/kernels/staging$ git apply -v
+> ~/Downloads/20230706-\[PATCH\]\ staging_\ rtl8192e_\ Rename\ variable\
+> bCurrentHTSupport-10002.txt
+> Checking patch drivers/staging/rtl8192e/rtl8192e/rtl_core.c...
+> Checking patch drivers/staging/rtl8192e/rtl8192e/rtl_wx.c...
+> Checking patch drivers/staging/rtl8192e/rtl819x_BAProc.c...
+> Checking patch drivers/staging/rtl8192e/rtl819x_HT.h...
+> Checking patch drivers/staging/rtl8192e/rtl819x_HTProc.c...
+> Checking patch drivers/staging/rtl8192e/rtllib_softmac.c...
+> error: while searching for:
+> 	crypt = ieee->crypt_info.crypt[ieee->crypt_info.tx_keyidx];
+> 	encrypt = ieee->host_encrypt && crypt && crypt->ops &&
+> 		((strcmp(crypt->ops->name, "R-WEP") == 0 || wpa_ie_len));
+> 	if (ieee->ht_info->bCurrentHTSupport) {
+> 		tmp_ht_cap_buf = (u8 *)&(ieee->ht_info->SelfHTCap);
+> 		tmp_ht_cap_len = sizeof(ieee->ht_info->SelfHTCap);
+> 		tmp_ht_info_buf = (u8 *)&(ieee->ht_info->SelfHTInfo);
+> 
+> error: patch failed: drivers/staging/rtl8192e/rtllib_softmac.c:816
+> error: drivers/staging/rtl8192e/rtllib_softmac.c: patch does not apply
+> Checking patch drivers/staging/rtl8192e/rtllib_softmac_wx.c...
+> Checking patch drivers/staging/rtl8192e/rtllib_tx.c...
+> 
+> 
+> My be the previous send patches are not taken then your chance is better
+> that this one will fit. Will see what happens.
+> 
+> 
+> You need to put your patches into a patch series.
+> This reduces email traffic as the reviewer can just send one email and does
+> not need to send four.
+> 
+> A possible command for a patch series is looking like this:
+> git format-patch -o ~/Documents/kernel/patches/ --cover-letter -n
+> --thread=shallow --to="Greg Kroah-Hartman <gregkh@linuxfoundation.org>,linux-staging@lists.linux.dev,linux-kernel@vger.kernel.org"
+> 4bbbd60d84e15fdb7bffde98a687ed168a4dfbbd^..HEAD
+> 
+> Use the git commit id of your first patch.
+> 
+> Bye Philipp
+> 
+> 
 
-Flags should signal differences from the default values. After cleaning
-up all occurrences of FBINFO_DEFAULT, the token will be removed.
+Philipp,
 
-v2:
-	* fix commit message (Miguel)
+I think I understand what I did wrong. Each of these original patches were 
+created/based from the same commit hash. So it makes sense that only the
+first one applied would apply cleanly and the others would fail. 
 
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Acked-by: Sam Ravnborg <sam@ravnborg.org>
-Acked-by: Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Acked-by: Bruno Prémont <bonbons@linux-vserver.org>
-Cc: "Bruno Prémont" <bonbons@linux-vserver.org>
-Cc: Jiri Kosina <jikos@kernel.org>
-Cc: Benjamin Tissoires <benjamin.tissoires@redhat.com>
----
- drivers/hid/hid-picolcd_fb.c | 1 -
- 1 file changed, 1 deletion(-)
+My apologies,
+Tree
 
-diff --git a/drivers/hid/hid-picolcd_fb.c b/drivers/hid/hid-picolcd_fb.c
-index dabcd054dad9..d726aaafb146 100644
---- a/drivers/hid/hid-picolcd_fb.c
-+++ b/drivers/hid/hid-picolcd_fb.c
-@@ -527,7 +527,6 @@ int picolcd_init_framebuffer(struct picolcd_data *data)
- 	info->var = picolcdfb_var;
- 	info->fix = picolcdfb_fix;
- 	info->fix.smem_len   = PICOLCDFB_SIZE*8;
--	info->flags = FBINFO_FLAG_DEFAULT;
  
- 	fbdata = info->par;
- 	spin_lock_init(&fbdata->lock);
--- 
-2.41.0
-
