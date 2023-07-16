@@ -1,39 +1,36 @@
-Received: from pb-smtp2.pobox.com (pb-smtp2.pobox.com [64.147.108.71])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 248816FCE
-	for <linux-staging@lists.linux.dev>; Sat, 15 Jul 2023 20:14:12 +0000 (UTC)
-Received: from pb-smtp2.pobox.com (unknown [127.0.0.1])
-	by pb-smtp2.pobox.com (Postfix) with ESMTP id 57D5C19715F;
-	Sat, 15 Jul 2023 16:14:06 -0400 (EDT)
-	(envelope-from tdavies@darkphysics.net)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed; d=pobox.com; h=date:from
-	:to:cc:subject:message-id:references:mime-version:content-type
-	:in-reply-to; s=sasl; bh=ErKe1gdZ84QYC6a109T7x1Vj9nyshpXprrRzxN5
-	EghI=; b=Sv5f0xIGUdtMhOV+CQAPEXbQvpsY7v0qx2qM/5mEjsjHlpNwhZd6Wvm
-	CEj8g8UnGQCmtR+uinqn7V2ZKU7UyP6Kd+Uh8JmeiQKy5QhYnOXO5g4a1bS5/Pj3
-	V7E+Ru4OVYa3ZHTI7JrbdxHJF9FDzrPamLI+ewZ2D20F/RS+pmcY=
-Received: from pb-smtp2.nyi.icgroup.com (unknown [127.0.0.1])
-	by pb-smtp2.pobox.com (Postfix) with ESMTP id 4CCCA19715D;
-	Sat, 15 Jul 2023 16:14:06 -0400 (EDT)
-	(envelope-from tdavies@darkphysics.net)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed; d=darkphysics.net;
- h=date:from:to:cc:subject:message-id:references:mime-version:content-type:in-reply-to; s=2019-09.pbsmtp; bh=ErKe1gdZ84QYC6a109T7x1Vj9nyshpXprrRzxN5EghI=; b=L2AC7SWM6+4oq3ipcezJMBS8keCGxvAb2gEXdezPULhaVzELS2mpOQpDSdNyreCpUN7iX5fAc59P14y2wuvoArFoBXl7MxAce26lbTURJPTWzZ6ygcJ5Gj6dHChyQI+LyJFwwZibbYlHtnaQFKwynZ1IiLjeykWBX0xffRxSIrs=
-Received: from basil (unknown [76.146.178.2])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by pb-smtp2.pobox.com (Postfix) with ESMTPSA id 8DA4A19715A;
-	Sat, 15 Jul 2023 16:14:04 -0400 (EDT)
-	(envelope-from tdavies@darkphysics.net)
-Date: Sat, 15 Jul 2023 13:14:59 -0700
-From: Tree Davies <tdavies@darkphysics.net>
-To: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-Cc: gregkh@linuxfoundation.org, dan.carpenter@linaro.org,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: rtl8192e: Rename variable bCurrentHTSupport
-Message-ID: <ZLL+Q0tcW5S8Xjmj@basil>
-References: <ZKYgH/BvkE9bdcPm@kimchi.darkphysics>
- <6dee04ae-4129-cd7c-0d31-70d29b86c8ff@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 383D6187D
+	for <linux-staging@lists.linux.dev>; Sun, 16 Jul 2023 05:39:58 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 122FEC433C7;
+	Sun, 16 Jul 2023 05:39:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1689485998;
+	bh=xzcG60dh739GetSZoGv/B7pts9l8fNioZtl7+wrSna8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=jOMJX9PqBMeLqwwRc0XBgozzSKaFYhws5b33GLPRkWefkeyT1O8mEP4gjFZ+C96ES
+	 WCqfp286R5Fp/sL23oSajHdBGRRbH9Xm0Mh05zF+hSchMoCx6RjeYs26t7iG+4gszi
+	 R55ORu7FrjK9XNLYni5UGyrUP+NDjGk7b+ESqleA=
+Date: Sun, 16 Jul 2023 07:39:55 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: deller@gmx.de, javierm@redhat.com, geert@linux-m68k.org,
+	dan.carpenter@linaro.org, linux-sh@vger.kernel.org,
+	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+	amd-gfx@lists.freedesktop.org, linux-input@vger.kernel.org,
+	linux-media@vger.kernel.org, linux-fbdev@vger.kernel.org,
+	linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+	linux-geode@lists.infradead.org, linux-hyperv@vger.kernel.org,
+	linux-omap@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+	kvm@vger.kernel.org, Sam Ravnborg <sam@ravnborg.org>,
+	Sudip Mukherjee <sudipm.mukherjee@gmail.com>,
+	Teddy Wang <teddy.wang@siliconmotion.com>
+Subject: Re: [PATCH v4 12/18] staging: Remove flag FBINFO_FLAG_DEFAULT from
+ fbdev drivers
+Message-ID: <2023071644-celery-name-af50@gregkh>
+References: <20230715185343.7193-1-tzimmermann@suse.de>
+ <20230715185343.7193-13-tzimmermann@suse.de>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -42,83 +39,23 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <6dee04ae-4129-cd7c-0d31-70d29b86c8ff@gmail.com>
-X-Pobox-Relay-ID:
- 2599DF7A-234C-11EE-943F-307A8E0A682E-45285927!pb-smtp2.pobox.com
+In-Reply-To: <20230715185343.7193-13-tzimmermann@suse.de>
 
-On Thu, Jul 06, 2023 at 10:48:56PM +0200, Philipp Hortmann wrote:
-> On 7/6/23 03:59, Tree Davies wrote:
-> > This patch renames variable bCurrentHTSupport to bcurrent_ht_support
-> > to fix checkpatch warning Avoid CamelCase.
-> > 
-> > Signed-off-by: Tree Davies<tdavies@darkphysics.net>
-> > ---
-> >   drivers/staging/rtl8192e/rtl8192e/rtl_core.c |  2 +-
-> >   drivers/staging/rtl8192e/rtl8192e/rtl_wx.c   |  2 +-
-> >   drivers/staging/rtl8192e/rtl819x_BAProc.c    | 12 ++++++------
-> >   drivers/staging/rtl8192e/rtl819x_HT.h        |  2 +-
-> >   drivers/staging/rtl8192e/rtl819x_HTProc.c    | 16 ++++++++--------
-> >   drivers/staging/rtl8192e/rtllib_softmac.c    | 16 ++++++++--------
-> >   drivers/staging/rtl8192e/rtllib_softmac_wx.c |  2 +-
-> >   drivers/staging/rtl8192e/rtllib_tx.c         |  8 ++++----
-> >   8 files changed, 30 insertions(+), 30 deletions(-)
+On Sat, Jul 15, 2023 at 08:51:54PM +0200, Thomas Zimmermann wrote:
+> The flag FBINFO_FLAG_DEFAULT is 0 and has no effect, as struct
+> fbinfo.flags has been allocated to zero by framebuffer_alloc(). So do
+> not set it.
 > 
+> Flags should signal differences from the default values. After cleaning
+> up all occurrences of FBINFO_DEFAULT, the token will be removed.
 > 
-> Hi Tree,
+> v2:
+> 	* fix commit message (Miguel)
 > 
-> when I try to apply your patch on the top of all the other patches I get the
-> following error message:
-> 
-> kernel@matrix-ESPRIMO-P710:~/Documents/git/kernels/staging$ git apply -v
-> ~/Downloads/20230706-\[PATCH\]\ staging_\ rtl8192e_\ Rename\ variable\
-> bCurrentHTSupport-10002.txt
-> Checking patch drivers/staging/rtl8192e/rtl8192e/rtl_core.c...
-> Checking patch drivers/staging/rtl8192e/rtl8192e/rtl_wx.c...
-> Checking patch drivers/staging/rtl8192e/rtl819x_BAProc.c...
-> Checking patch drivers/staging/rtl8192e/rtl819x_HT.h...
-> Checking patch drivers/staging/rtl8192e/rtl819x_HTProc.c...
-> Checking patch drivers/staging/rtl8192e/rtllib_softmac.c...
-> error: while searching for:
-> 	crypt = ieee->crypt_info.crypt[ieee->crypt_info.tx_keyidx];
-> 	encrypt = ieee->host_encrypt && crypt && crypt->ops &&
-> 		((strcmp(crypt->ops->name, "R-WEP") == 0 || wpa_ie_len));
-> 	if (ieee->ht_info->bCurrentHTSupport) {
-> 		tmp_ht_cap_buf = (u8 *)&(ieee->ht_info->SelfHTCap);
-> 		tmp_ht_cap_len = sizeof(ieee->ht_info->SelfHTCap);
-> 		tmp_ht_info_buf = (u8 *)&(ieee->ht_info->SelfHTInfo);
-> 
-> error: patch failed: drivers/staging/rtl8192e/rtllib_softmac.c:816
-> error: drivers/staging/rtl8192e/rtllib_softmac.c: patch does not apply
-> Checking patch drivers/staging/rtl8192e/rtllib_softmac_wx.c...
-> Checking patch drivers/staging/rtl8192e/rtllib_tx.c...
-> 
-> 
-> My be the previous send patches are not taken then your chance is better
-> that this one will fit. Will see what happens.
-> 
-> 
-> You need to put your patches into a patch series.
-> This reduces email traffic as the reviewer can just send one email and does
-> not need to send four.
-> 
-> A possible command for a patch series is looking like this:
-> git format-patch -o ~/Documents/kernel/patches/ --cover-letter -n
-> --thread=shallow --to="Greg Kroah-Hartman <gregkh@linuxfoundation.org>,linux-staging@lists.linux.dev,linux-kernel@vger.kernel.org"
-> 4bbbd60d84e15fdb7bffde98a687ed168a4dfbbd^..HEAD
-> 
-> Use the git commit id of your first patch.
-> 
-> Bye Philipp
-> 
-> 
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> Acked-by: Sam Ravnborg <sam@ravnborg.org>
+> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> Cc: Sudip Mukherjee <sudipm.mukherjee@gmail.com>
+> Cc: Teddy Wang <teddy.wang@siliconmotion.com>
 
-Philipp,
-
-I think I understand what I did wrong. Each of these original patches were 
-created/based from the same commit hash. So it makes sense that only the
-first one applied would apply cleanly and the others would fail. 
-
-My apologies,
-Tree
-
- 
+Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
