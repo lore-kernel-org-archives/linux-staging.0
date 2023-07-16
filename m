@@ -1,81 +1,84 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk1-f174.google.com (mail-qk1-f174.google.com [209.85.222.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 042EC1FB7
-	for <linux-staging@lists.linux.dev>; Sun, 16 Jul 2023 15:20:21 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 12D00C433C8;
-	Sun, 16 Jul 2023 15:20:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1689520821;
-	bh=72ikFVHayvUhCOUqEUnivclFjsyClhyTTmSahMGBE3k=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=yZvdeqFGDdgW22R+V1j+1f09Hyen2Ep6ijbAinq2tR/FTpL8mnTdzY/WMsnwV2vF+
-	 PKd8R78vntNQEW8jP/IOrulpua7jKrKqM5xBqno4suhZMvPmyR1SH97y8dOp3sqjxr
-	 kahCNgBrQEq8uD7g+RBZyvGYf+MPd0LuNGHa/8So=
-Date: Sun, 16 Jul 2023 17:20:18 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Anastasia Belova <abelova@astralinux.ru>
-Cc: Rob Springer <rspringer@google.com>,
-	Todd Poynor <toddpoynor@google.com>,
-	Ben Chan <benchan@chromium.org>, Richard Yeh <rcy@google.com>,
-	John Joseph <jnjoseph@google.com>, Simon Que <sque@chromium.org>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-	lvc-project@linuxtesting.org
-Subject: Re: [PATCH 5.10] gasket: make interrupt_data NULL after free
-Message-ID: <2023071601-uncombed-stifling-bb3a@gregkh>
-References: <20230707134712.7019-1-abelova@astralinux.ru>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A26FA4E
+	for <linux-staging@lists.linux.dev>; Sun, 16 Jul 2023 22:38:13 +0000 (UTC)
+Received: by mail-qk1-f174.google.com with SMTP id af79cd13be357-76547539775so263623085a.3
+        for <linux-staging@lists.linux.dev>; Sun, 16 Jul 2023 15:38:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1689547093; x=1692139093;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=y3TDuYSgYiiRhqCEjzbwHrr/s0j0cJsJcXGsxFIFGbo=;
+        b=WG4kSJe+gXFk4Zwnf8e5MNtmyrP5jstJ1thI17hY7HiosWX+G3IuzRsByYDEX0k4Cw
+         sVT01Q07UMUk3oMgAg4suOmLmfbAaGOTdxQGTHBW0mKu/txUdreCaY6IjPvV3FpktrS/
+         FindJCHbeVHdJqaQRNItpsAyYIgptU4q2fTshTINUEmwSHFKf2WPTvJpRUgPfKhvsVJR
+         ZGC02GwMdOLlRzcc7sNq3j4mTqWC5AoCW+UngZ3T+gamby+kSGgwsijUR3fqGQ4UV52I
+         i+GayPe9GfWsRgbR3wnjolFgfBvNpWnhQnf/xvpbfcMjIuP5uIGxKpR1ZL6V+kBAlEQm
+         OHBA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1689547093; x=1692139093;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=y3TDuYSgYiiRhqCEjzbwHrr/s0j0cJsJcXGsxFIFGbo=;
+        b=FI7QPQlAb1KfZoitvkwdo3VbJ7tkbFFBSFBjgF+h3eYmhApq0IAcE75uI0L+4y5RbL
+         k4K/BHGc5fNXoy50HAPKTKufLxWizSgLq3KZjnnHrKMkdqxYoUY0CEvN+Xr6YByve6Ca
+         jJMfJJeJuAzn6rZc4LbTiVIiRc1BV+2DOM56JhnpfkJCahnRlqoAkoiqzjrEkjDAJE03
+         rwRBZoKG7mFRRtXGh1b2l7JzSUWaTmEappf5+cgYG2xlZzK2nDGzQlIcfzZsEtJ5dopQ
+         w0dy1oeTDULK/JQZqZREIE1HVrsDD0gt4lG6GaamCceETV4W6JN6WJPY0nIfyN1tgvez
+         BDDg==
+X-Gm-Message-State: ABy/qLaUOW/0JMiio09/ly1+zL8opD5cjYaVr4qMYJCFPAtGt0c6Agzk
+	y3zwmc1reFmOjm1SBM1joZo=
+X-Google-Smtp-Source: APBJJlHlAZq3+RHOmjEsNjMTcfiaJ0e3QwfTTHe3vwPY3S7KzhlSUZbtirpUKQOEHjQq3NoMesvz9Q==
+X-Received: by 2002:a0c:e314:0:b0:637:ae7a:798b with SMTP id s20-20020a0ce314000000b00637ae7a798bmr8478329qvl.57.1689547092786;
+        Sun, 16 Jul 2023 15:38:12 -0700 (PDT)
+Received: from localhost.localdomain (c-73-236-155-147.hsd1.pa.comcast.net. [73.236.155.147])
+        by smtp.gmail.com with ESMTPSA id s4-20020a0ce304000000b00636b3519467sm5940479qvl.54.2023.07.16.15.38.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 16 Jul 2023 15:38:12 -0700 (PDT)
+From: Cyrus Ramavarapu <cyrus.ramavarapu@gmail.com>
+To: gregkh@linuxfoundation.org,
+	linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev
+Cc: Cyrus Ramavarapu <cyrus.ramavarapu@gmail.com>
+Subject: [PATCH] staging: rts5208: Correct line ending with '('
+Date: Sun, 16 Jul 2023 18:38:11 -0400
+Message-ID: <20230716223905.2187-1-cyrus.ramavarapu@gmail.com>
+X-Mailer: git-send-email 2.41.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230707134712.7019-1-abelova@astralinux.ru>
+Content-Transfer-Encoding: 8bit
 
-On Fri, Jul 07, 2023 at 04:47:12PM +0300, Anastasia Belova wrote:
-> Gasket common interrupt module was deleted in version 5.13, 
-> but there is possible double free in versions 4.19-5.12.
-> 
-> gasket_dev->interrupt_data should be NULL when
-> gasket_interrupt_init returns error. For example,
-> it is necessary in gasket_enable_device to avoid
-> double free.
-> 
-> Found by Linux Verification Center (linuxtesting.org) with SVACE.
-> 
-> Fixes: 9a69f5087ccc ("drivers/staging: Gasket driver framework + Apex driver")
-> Signed-off-by: Anastasia Belova <abelova@astralinux.ru>
-> ---
->  drivers/staging/gasket/gasket_interrupt.c | 2 ++
->  1 file changed, 2 insertions(+)
-> 
-> diff --git a/drivers/staging/gasket/gasket_interrupt.c b/drivers/staging/gasket/gasket_interrupt.c
-> index 864342acfd86..24fa5df0628b 100644
-> --- a/drivers/staging/gasket/gasket_interrupt.c
-> +++ b/drivers/staging/gasket/gasket_interrupt.c
-> @@ -337,6 +337,7 @@ int gasket_interrupt_init(struct gasket_dev *gasket_dev)
->  			sizeof(*interrupt_data->eventfd_ctxs), GFP_KERNEL);
->  	if (!interrupt_data->eventfd_ctxs) {
->  		kfree(interrupt_data);
-> +		gasket_dev->interrupt_data = NULL;
->  		return -ENOMEM;
->  	}
->  
-> @@ -346,6 +347,7 @@ int gasket_interrupt_init(struct gasket_dev *gasket_dev)
->  	if (!interrupt_data->interrupt_counts) {
->  		kfree(interrupt_data->eventfd_ctxs);
->  		kfree(interrupt_data);
-> +		gasket_dev->interrupt_data = NULL;
->  		return -ENOMEM;
->  	}
->  
-> -- 
-> 2.30.2
-> 
+Adhere to Linux kernel coding style.
 
-As this can never happen in real life, and no one is using this code,
-I'm going to ignore this patch for now, sorry.
+Reported by checkpatch:
 
-greg k-h
+CHECK: Lines should not end with a '('
+
+Signed-off-by: Cyrus Ramavarapu <cyrus.ramavarapu@gmail.com>
+---
+ drivers/staging/rts5208/sd.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
+
+diff --git a/drivers/staging/rts5208/sd.c b/drivers/staging/rts5208/sd.c
+index 4b7122add51a..74c4f476b3a4 100644
+--- a/drivers/staging/rts5208/sd.c
++++ b/drivers/staging/rts5208/sd.c
+@@ -4501,8 +4501,7 @@ int sd_execute_write_data(struct scsi_cmnd *srb, struct rtsx_chip *chip)
+ 			sd_card->sd_lock_notify = 1;
+ 			if (sd_lock_state &&
+ 			    (sd_card->sd_lock_status & SD_LOCK_1BIT_MODE)) {
+-				sd_card->sd_lock_status |= (
+-					SD_UNLOCK_POW_ON | SD_SDR_RST);
++				sd_card->sd_lock_status |= (SD_UNLOCK_POW_ON | SD_SDR_RST);
+ 				if (CHK_SD(sd_card)) {
+ 					retval = reset_sd(chip);
+ 					if (retval != STATUS_SUCCESS) {
+--
+2.41.0
+
