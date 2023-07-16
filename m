@@ -1,61 +1,256 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 383D6187D
-	for <linux-staging@lists.linux.dev>; Sun, 16 Jul 2023 05:39:58 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 122FEC433C7;
-	Sun, 16 Jul 2023 05:39:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1689485998;
-	bh=xzcG60dh739GetSZoGv/B7pts9l8fNioZtl7+wrSna8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=jOMJX9PqBMeLqwwRc0XBgozzSKaFYhws5b33GLPRkWefkeyT1O8mEP4gjFZ+C96ES
-	 WCqfp286R5Fp/sL23oSajHdBGRRbH9Xm0Mh05zF+hSchMoCx6RjeYs26t7iG+4gszi
-	 R55ORu7FrjK9XNLYni5UGyrUP+NDjGk7b+ESqleA=
-Date: Sun, 16 Jul 2023 07:39:55 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: deller@gmx.de, javierm@redhat.com, geert@linux-m68k.org,
-	dan.carpenter@linaro.org, linux-sh@vger.kernel.org,
-	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
-	amd-gfx@lists.freedesktop.org, linux-input@vger.kernel.org,
-	linux-media@vger.kernel.org, linux-fbdev@vger.kernel.org,
-	linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
-	linux-geode@lists.infradead.org, linux-hyperv@vger.kernel.org,
-	linux-omap@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
-	kvm@vger.kernel.org, Sam Ravnborg <sam@ravnborg.org>,
-	Sudip Mukherjee <sudipm.mukherjee@gmail.com>,
-	Teddy Wang <teddy.wang@siliconmotion.com>
-Subject: Re: [PATCH v4 12/18] staging: Remove flag FBINFO_FLAG_DEFAULT from
- fbdev drivers
-Message-ID: <2023071644-celery-name-af50@gregkh>
-References: <20230715185343.7193-1-tzimmermann@suse.de>
- <20230715185343.7193-13-tzimmermann@suse.de>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 911C63C15
+	for <linux-staging@lists.linux.dev>; Sun, 16 Jul 2023 13:40:31 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D9786C433C8;
+	Sun, 16 Jul 2023 13:40:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1689514831;
+	bh=naNqnTGi8G/TtDcRQ7Ugp3e5gX6+eGvdkujrUDzO2LY=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=PapCuYyaQ59pzb2sB5m6jEK9IcDBt+RZPzkDDj3gDpCM0z6F5LJLvcyK4X7A7g0z5
+	 GzvLDmAHUgsVHiGvzefWv5qIOxXLqpSNSACRxX5U+2zymqhqiQKQKAefBYa4V81Xwg
+	 FPGK8a9zEtetXye+QwuIh926U6vKyvbc/ozGRVvuwsO3Gdf68uoPISz/iJcc6LKrlL
+	 IPSqb35dWjlreXLkrnRHMb82ByDKcOWdBUsD38gXvSDnye+CD+2ex/2Mi4BkmOUyQO
+	 Hv+6rrSirixOmMvxLYCntFRKnmT7Xrw9xP8UiI4p/68G3P55jh+y+Na9DSSy+Nm2FV
+	 LJYKKPRNkGGmA==
+Date: Sun, 16 Jul 2023 14:40:24 +0100
+From: Jonathan Cameron <jic23@kernel.org>
+To: JuenKit Yip <JuenKit_Yip@hotmail.com>
+Cc: lars@metafoo.de, Michael.Hennerich@analog.com,
+ gregkh@linuxfoundation.org, linux-iio@vger.kernel.org,
+ linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v1] staging: iio: ad7816: add iio interface
+Message-ID: <20230716144024.30ded663@jic23-huawei>
+In-Reply-To: <DB4PR10MB6261ADF6C8845AF66AB292989232A@DB4PR10MB6261.EURPRD10.PROD.OUTLOOK.COM>
+References: <DB4PR10MB6261ADF6C8845AF66AB292989232A@DB4PR10MB6261.EURPRD10.PROD.OUTLOOK.COM>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230715185343.7193-13-tzimmermann@suse.de>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Sat, Jul 15, 2023 at 08:51:54PM +0200, Thomas Zimmermann wrote:
-> The flag FBINFO_FLAG_DEFAULT is 0 and has no effect, as struct
-> fbinfo.flags has been allocated to zero by framebuffer_alloc(). So do
-> not set it.
-> 
-> Flags should signal differences from the default values. After cleaning
-> up all occurrences of FBINFO_DEFAULT, the token will be removed.
-> 
-> v2:
-> 	* fix commit message (Miguel)
-> 
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> Acked-by: Sam Ravnborg <sam@ravnborg.org>
-> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> Cc: Sudip Mukherjee <sudipm.mukherjee@gmail.com>
-> Cc: Teddy Wang <teddy.wang@siliconmotion.com>
+On Sun,  9 Jul 2023 00:29:58 +0800
+JuenKit Yip <JuenKit_Yip@hotmail.com> wrote:
 
-Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> add iio interface for 4 channels, replacing the previous sysfs
+> interface
+> 
+> Signed-off-by: JuenKit Yip <JuenKit_Yip@hotmail.com>
+
+Hi JuenKit,
+
+Great to see some work on this driver.
+
+A few comments inline.  Mostly they are about the fact we can't unwind
+this part of the interface without dealing with the other use of the existing 'channel'
+attribute.
+
+This is a great start, but need to jump forwards a few more steps so that
+we don't accidentally reduce or confuse the existing functionality.
+
+
+> ---
+>  drivers/staging/iio/adc/ad7816.c | 122 +++++++++++++++----------------
+>  1 file changed, 59 insertions(+), 63 deletions(-)
+> 
+> diff --git a/drivers/staging/iio/adc/ad7816.c b/drivers/staging/iio/adc/ad7816.c
+> index 6c14d7bcdd67..8af117b6ae11 100644
+> --- a/drivers/staging/iio/adc/ad7816.c
+> +++ b/drivers/staging/iio/adc/ad7816.c
+> @@ -162,64 +162,17 @@ static ssize_t ad7816_show_available_modes(struct device *dev,
+>  static IIO_DEVICE_ATTR(available_modes, 0444, ad7816_show_available_modes,
+>  			NULL, 0);
+>  
+> -static ssize_t ad7816_show_channel(struct device *dev,
+> -				   struct device_attribute *attr,
+> -				   char *buf)
+> +static int ad7816_read_raw(struct iio_dev *indio_dev,
+> +			   struct iio_chan_spec const *chan,
+> +			   int *val,
+> +			   int *val2,
+> +			   long m)
+Probably better to rewrap this to get closer to the 80 char line length.
+
+>  {
+> -	struct iio_dev *indio_dev = dev_to_iio_dev(dev);
+> -	struct ad7816_chip_info *chip = iio_priv(indio_dev);
+> -
+> -	return sprintf(buf, "%d\n", chip->channel_id);
+> -}
+> -
+> -static ssize_t ad7816_store_channel(struct device *dev,
+> -				    struct device_attribute *attr,
+> -				    const char *buf,
+> -				    size_t len)
+> -{
+> -	struct iio_dev *indio_dev = dev_to_iio_dev(dev);
+> -	struct ad7816_chip_info *chip = iio_priv(indio_dev);
+> -	unsigned long data;
+> -	int ret;
+> -
+> -	ret = kstrtoul(buf, 10, &data);
+> -	if (ret)
+> -		return ret;
+> -
+> -	if (data > AD7816_CS_MAX && data != AD7816_CS_MASK) {
+> -		dev_err(&chip->spi_dev->dev, "Invalid channel id %lu for %s.\n",
+> -			data, indio_dev->name);
+> -		return -EINVAL;
+> -	} else if (strcmp(indio_dev->name, "ad7818") == 0 && data > 1) {
+> -		dev_err(&chip->spi_dev->dev,
+> -			"Invalid channel id %lu for ad7818.\n", data);
+> -		return -EINVAL;
+> -	} else if (strcmp(indio_dev->name, "ad7816") == 0 && data > 0) {
+> -		dev_err(&chip->spi_dev->dev,
+> -			"Invalid channel id %lu for ad7816.\n", data);
+> -		return -EINVAL;
+> -	}
+> -
+> -	chip->channel_id = data;
+> -
+> -	return len;
+> -}
+> -
+> -static IIO_DEVICE_ATTR(channel, 0644,
+> -		ad7816_show_channel,
+> -		ad7816_store_channel,
+> -		0);
+> -
+> -static ssize_t ad7816_show_value(struct device *dev,
+> -				 struct device_attribute *attr,
+> -				 char *buf)
+> -{
+> -	struct iio_dev *indio_dev = dev_to_iio_dev(dev);
+>  	struct ad7816_chip_info *chip = iio_priv(indio_dev);
+>  	u16 data;
+> -	s8 value;
+>  	int ret;
+>  
+> +	chip->channel_id = (u8)chan->channel;
+
+Can we keep the channel_id local?
+It is used for over temperature detection (OTI) but that needs separating out.
+
+Given you'll be breaking that connection I think you need to deal with
+both the main attributes and the event ones in a single go.  Thus removing
+any hidden usage of the last channel touched like you have here.
+
+
+>  	ret = ad7816_spi_read(chip, &data);
+>  	if (ret)
+>  		return -EIO;
+> @@ -227,22 +180,21 @@ static ssize_t ad7816_show_value(struct device *dev,
+>  	data >>= AD7816_VALUE_OFFSET;
+>  
+>  	if (chip->channel_id == 0) {
+> -		value = (s8)((data >> AD7816_TEMP_FLOAT_OFFSET) - 103);
+> -		data &= AD7816_TEMP_FLOAT_MASK;
+> -		if (value < 0)
+> -			data = BIT(AD7816_TEMP_FLOAT_OFFSET) - data;
+> -		return sprintf(buf, "%d.%.2d\n", value, data * 25);
+> +		*val = (s8)((data >> AD7816_TEMP_FLOAT_OFFSET) - 103);
+
+Use masks and FIELD_GET() though that change perhaps belongs in a separate patch set.
+
+> +		*val2 = (data & AD7816_TEMP_FLOAT_MASK) * 25;
+> +		if (*val < 0)
+> +			*val2 = BIT(AD7816_TEMP_FLOAT_OFFSET) - *val2;
+> +		return IIO_VAL_INT_PLUS_MICRO;
+>  	}
+> -	return sprintf(buf, "%u\n", data);
+> -}
+>  
+> -static IIO_DEVICE_ATTR(value, 0444, ad7816_show_value, NULL, 0);
+> +	*val = data;
+> +
+> +	return IIO_VAL_INT;
+> +}
+>  
+>  static struct attribute *ad7816_attributes[] = {
+>  	&iio_dev_attr_available_modes.dev_attr.attr,
+>  	&iio_dev_attr_mode.dev_attr.attr,
+> -	&iio_dev_attr_channel.dev_attr.attr,
+> -	&iio_dev_attr_value.dev_attr.attr,
+>  	NULL,
+>  };
+>  
+> @@ -341,10 +293,47 @@ static const struct attribute_group ad7816_event_attribute_group = {
+>  };
+>  
+>  static const struct iio_info ad7816_info = {
+> +	.read_raw = ad7816_read_raw,
+>  	.attrs = &ad7816_attribute_group,
+>  	.event_attrs = &ad7816_event_attribute_group,
+>  };
+>  
+> +static const struct iio_chan_spec ad7816_channels[] = {
+> +	{
+> +		.type = IIO_TEMP,
+> +		.indexed = 1,
+> +		.channel = 0,
+> +		.info_mask_separate = BIT(IIO_CHAN_INFO_PROCESSED),
+> +	},
+> +};
+> +
+> +static const struct iio_chan_spec ad7817_channels[] = {
+> +	{
+> +		.type = IIO_TEMP,
+> +		.indexed = 1,
+> +		.channel = 0,
+> +		.info_mask_separate = BIT(IIO_CHAN_INFO_PROCESSED),
+
+This would require the reading presented to be in the units defined by
+the ABI (Documentation/ABI/testing/sysfs-bus-iio)
+Can you confirm that these are all correct?
+
+Note it is very unusual for an IIO driver to present all processed channels.
+Superficially it looks like there might be some appropriate conversions done
+for the temperature channels for them to be in the right units, but nothing
+at all is done to the voltage channels...
+
+> +	},
+> +	{
+> +		.type = IIO_VOLTAGE,
+> +		.indexed = 1,
+> +		.channel = 1,
+> +		.info_mask_separate = BIT(IIO_CHAN_INFO_PROCESSED),
+> +	},
+> +	{
+> +		.type = IIO_VOLTAGE,
+> +		.indexed = 1,
+> +		.channel = 2,
+> +		.info_mask_separate = BIT(IIO_CHAN_INFO_PROCESSED),
+> +	},
+> +	{
+> +		.type = IIO_VOLTAGE,
+> +		.indexed = 1,
+> +		.channel = 3,
+> +		.info_mask_separate = BIT(IIO_CHAN_INFO_PROCESSED),
+> +	},
+> +};
+> +
+>  /*
+>   * device probe and remove
+>   */
+> @@ -367,6 +356,13 @@ static int ad7816_probe(struct spi_device *spi_dev)
+>  		chip->oti_data[i] = 203;
+>  
+>  	chip->id = spi_get_device_id(spi_dev)->driver_data;
+> +	if (chip->id == ID_AD7816) {
+> +		indio_dev->channels = ad7816_channels;
+> +		indio_dev->num_channels = ARRAY_SIZE(ad7816_channels);
+> +	} else {
+> +		indio_dev->channels = ad7817_channels;
+> +		indio_dev->num_channels = ARRAY_SIZE(ad7817_channels);
+> +	}
+>  	chip->rdwr_pin = devm_gpiod_get(&spi_dev->dev, "rdwr", GPIOD_OUT_HIGH);
+>  	if (IS_ERR(chip->rdwr_pin)) {
+>  		ret = PTR_ERR(chip->rdwr_pin);
+
+	
