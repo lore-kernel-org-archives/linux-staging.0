@@ -1,51 +1,51 @@
-Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com [209.85.167.42])
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D34AF10EA
-	for <linux-staging@lists.linux.dev>; Tue, 18 Jul 2023 08:11:19 +0000 (UTC)
-Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-4fb96e2b573so8815585e87.3
-        for <linux-staging@lists.linux.dev>; Tue, 18 Jul 2023 01:11:19 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1A2010EA
+	for <linux-staging@lists.linux.dev>; Tue, 18 Jul 2023 08:14:23 +0000 (UTC)
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-3fbf1b82de7so33821755e9.1
+        for <linux-staging@lists.linux.dev>; Tue, 18 Jul 2023 01:14:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1689667878; x=1692259878;
+        d=gmail.com; s=20221208; t=1689668062; x=1692260062;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=HpSa3JuGu2F5rDkHmeBs8MJOc0K66x3Zvji8Ik/U/dU=;
-        b=luKqgmR6miKDMTlzg9Q2mfg05kLQVXqLLBIjOFAOZiqm/QFsGNS7EihK1lq6wdpGWK
-         rN8dc7CyYvzwroWLp6nOzy68lFyoRSWA+IALFI/K0LTISsud6I4u5w4O4l6rPiIMxX4g
-         ytol2K7xSb2FpFwt0fiariP4YYLdGarplXSD4pYyoirOO8FpxNzn6WfHJm9iTdQvHZXC
-         ri0Qbm4chtUws3WnZzaacn0akPcMS6RW8JHvzq8ccsntzStBwGiH4/bsgvPhxiPQAc3f
-         GJh4ipwqlcsVErqM1phGfJd1o7dOQdQJOz+iSYmmfCh6VYaUPZcOEF95E8+h/OMlU369
-         wCxw==
+        bh=/eySJfQ7/Gc/AEP/cNfIUTGk9yVoHTH7Q2UCStgdmPk=;
+        b=XzGeZP2wfi7lajh/fHbLEBJLGoAEiqq93llvJZk83NQLWkpkhmJAPN4y6D1tu3zrxn
+         RFIt3dvm5FsiQrDmGigRFSxtj/klhPmQ86sy5b/xMdTu5m66zEilWY9Hjajhx+6OkUPY
+         iqX2cNwwDpxwU/8UNAHY4k4e/nCqWiQ//ioPJ8/0tLJkljRyQXzDVpx2og+MBslxVCk5
+         siOxXQU1aBTN3mWlYuQVKiamtHU829DnwSBRpsp7B6oFee9zU2kQbuwoPaLNEir5oKOJ
+         0VCPx9V1Bd8q3ZJ8+oVMKF1zmAzJ55XtzP1Br+PzvxynBNdBcv1YWWnONYKkFtTWrlCn
+         dCLw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689667878; x=1692259878;
+        d=1e100.net; s=20221208; t=1689668062; x=1692260062;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=HpSa3JuGu2F5rDkHmeBs8MJOc0K66x3Zvji8Ik/U/dU=;
-        b=WJJX1S5TIVOmpIf0PAmAUKM6aE+WUQi1zfcQd0cqFbiqRnk9LvDNVLiWVBzRhmoSeY
-         riRXUwp0JyjRFC8ftisQ0Uqy+bAnizq5Zo4+NCF2SB/NVkes6t8xTQ0knADvboCtnmdB
-         w09YKPS3ajgesKcgLgev18WhfyzS7oGHi+9iErKqZAfPBtMqqDVUN4GQIeYR+C+4Ljxg
-         MHGLTVLsi2id7mtWyNX7LK79pb1AC45BZf7Sg3mW1Y/CGnFcetuUz0XOLWlQteAVUXE1
-         t1CPGGBJhM44E+WNF73t90Q3vssiwr4iMC3DYGAPmH1vdQAUjkqzh/VPBbNfpSRmHInF
-         TVVQ==
-X-Gm-Message-State: ABy/qLa3CbMTGZYwszWdQBV3tw+7UBhmH6DgXLCDZQA8NtcLyT+mBA8y
-	KbyVVw5VWBs5ZHCKwYSEe2jxEdRTZBE=
-X-Google-Smtp-Source: APBJJlHwD5T0hI02QFCRKs9CDtc0FTWE17lYnAwkmOzKvsDjYMJ9puMNcByCKr+Z7+Gf22wp4xWuzA==
-X-Received: by 2002:a05:6512:3694:b0:4fb:8dcc:59e5 with SMTP id d20-20020a056512369400b004fb8dcc59e5mr1001179lfs.39.1689667877381;
-        Tue, 18 Jul 2023 01:11:17 -0700 (PDT)
+        bh=/eySJfQ7/Gc/AEP/cNfIUTGk9yVoHTH7Q2UCStgdmPk=;
+        b=NSri9+qFYPEmsnPfnGqaUJnG6Ky9YxW692SdsdLFtD2E23AFGICAQP4uXSjv+OJt/c
+         ef5PZ7YgKl/YQufYk+r06ePdCw0DvtyWNc6r10+Pc4/oi019dWnjzTAE8SjLgdxm8xVE
+         5QxF076VF2qWrSC8t8w0aXMyk00IA8GXvkFZynz613enEyEjiHUgttnWWR+yCvUgEuHG
+         CxGxOJxf94xDJj92WKe8eUhsTowymhSXsCkWoA7ytLLNuhdd0PtY/Cz82+W61krg/EuR
+         MRSoTWaKHGKppSY7zmp1dMHNnYjgBeDfsC0GnHgPq7dczdPySNXQtJ4aghD37n2r9tTQ
+         TY2Q==
+X-Gm-Message-State: ABy/qLbeqWylYXxXa9Xmkew659r8TULm3m8ftRe3TaYCN6rqjy3p6EMH
+	9BHzwwtDH9a5qO7v2CgG3Lw=
+X-Google-Smtp-Source: APBJJlFUcyYNxBMp/Ez4i7yBxOUkaSiUF+hhVo3KRjjCatmyU6lTEJosDE+EkEfmsxzp8bFfdalcVg==
+X-Received: by 2002:a05:600c:2046:b0:3fa:8422:158d with SMTP id p6-20020a05600c204600b003fa8422158dmr1225340wmg.18.1689668061660;
+        Tue, 18 Jul 2023 01:14:21 -0700 (PDT)
 Received: from localhost ([37.174.75.194])
-        by smtp.gmail.com with ESMTPSA id g15-20020adff40f000000b00316f9abf073sm1627560wro.82.2023.07.18.01.11.16
+        by smtp.gmail.com with ESMTPSA id e16-20020adffc50000000b0031432c2fb95sm1626137wrs.88.2023.07.18.01.14.21
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 18 Jul 2023 01:11:17 -0700 (PDT)
+        Tue, 18 Jul 2023 01:14:21 -0700 (PDT)
 From: Raphael Gallais-Pou <rgallaispou@gmail.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: dri-devel@lists.freedesktop.org,
 	linux-fbdev@vger.kernel.org,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v2] staging: fbtft: ili9341: use macro FBTFT_REGISTER_SPI_DRIVER
-Date: Tue, 18 Jul 2023 10:14:18 +0200
-Message-ID: <20230718081418.28225-1-rgallaispou@gmail.com>
+Subject: [PATCH RESEND v2] staging: fbtft: ili9341: use macro FBTFT_REGISTER_SPI_DRIVER
+Date: Tue, 18 Jul 2023 10:17:59 +0200
+Message-ID: <20230718081759.28902-1-rgallaispou@gmail.com>
 X-Mailer: git-send-email 2.41.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -57,6 +57,10 @@ Content-Transfer-Encoding: 8bit
 
 Using FBTFT_REGISTER_DRIVER resolves to a NULL struct spi_device_id. This
 ultimately causes a warning when the module probes. Fixes it.
+
+Changes in v2:
+	- dropped MODULE_ALIAS changes
+	- changed commit log for more accurate description
 
 Signed-off-by: Raphael Gallais-Pou <rgallaispou@gmail.com>
 ---
