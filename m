@@ -1,63 +1,26 @@
-Received: from out3-smtp.messagingengine.com (out3-smtp.messagingengine.com [66.111.4.27])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA04BD306
-	for <linux-staging@lists.linux.dev>; Tue, 18 Jul 2023 13:33:05 +0000 (UTC)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-	by mailout.nyi.internal (Postfix) with ESMTP id AF9825C007D;
-	Tue, 18 Jul 2023 09:33:04 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute5.internal (MEProxy); Tue, 18 Jul 2023 09:33:04 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kroah.com; h=cc
-	:cc:content-type:content-type:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:sender
-	:subject:subject:to:to; s=fm3; t=1689687184; x=1689773584; bh=Tz
-	mq/nK7eqvFosoiqIm7nW5CF/NRWQWr0Xx7OWV5RoE=; b=JkkS+MKKUpB+gaQfIL
-	0kgHZn8rzCv8rtKiOAx6gJfptEnr5BFquVp0yb6DOeQ3q/6+zT/7Bb7viJoKPhSt
-	vxl+gCSC50gsSYHAixPdpO+S+mdp1DIDVnUDgOyIcFdmTSm4ravuK7pe2Ois83Bf
-	76/4lnHWcOACKGd3+Hb/6DpLA8PivTcP64jOAqYck+I3KNu7eAAFm7KDXv9BMp10
-	x/ljYkpLqFib7XqkgjtNphulJsP0WtkPi4HTkqePoyGbxQKMtic5SWg19d1suVO3
-	q84bbDuJT9eATyPOuFSqqD3GJHFlUSElmaZsT+5IW7C2qLl1l1ZCKs6P/troHxhn
-	Y/PQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:sender:subject
-	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-	:x-sasl-enc; s=fm3; t=1689687184; x=1689773584; bh=Tzmq/nK7eqvFo
-	soiqIm7nW5CF/NRWQWr0Xx7OWV5RoE=; b=Bo4S8QcsCvxMOTn0ymcerE1qVV4/u
-	lLMT/LIRzz60aP5BHUslJsauS1SkOMBOjEbPKOXgQXU+vVvrLUr2zkYpBJNnzLVK
-	euQh8LRGaj4L1rj8298GVuNWh/7r0rWH0ZSs+XtrLuwZMQUKKtBY/bCe2wakGGNY
-	8J5MPB/rThyidywuK1nRiBUrVrjxcWXTkBZspi/3ysVtsxtrc1vXekbhtclgHFf+
-	H7jwt5Vpj8vE4WGGh6kOb0QAc88LU8k8fvQOAokmbyxvKLYXaU/93XAKjbs18U5W
-	9Lz+QdfLJuwewi2mHkRJvQnjwoqsEPNejJy/qsKAr1giuloIxK7/Aen3A==
-X-ME-Sender: <xms:j5S2ZFTxIWcV3FblGUZNORcg1xcl_Yol-HukCFcc-BO5mReEMiKI_g>
-    <xme:j5S2ZOxUqwEyMHRlGAmWXWJUH56CGtkWxxEBq0ZPAqBeGOB4Do9-LcBRHcLuywQTo
-    -hm9q3LlT7SFw>
-X-ME-Received: <xmr:j5S2ZK2IL41LFX77-mfIw_FhspcmzNLByhZi0R5FKPdDPIkz6aLxmsQaDZQj>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedviedrgeeggdeivdcutefuodetggdotefrodftvf
-    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
-    uegrihhlohhuthemuceftddtnecunecujfgurhepfffhvfevuffkfhggtggujgesthdtre
-    dttddtvdenucfhrhhomhepifhrvghgucfmjfcuoehgrhgvgheskhhrohgrhhdrtghomheq
-    necuggftrfgrthhtvghrnhepheegvdevvdeljeeugfdtudduhfekledtiefhveejkeejue
-    fhtdeufefhgfehkeetnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghi
-    lhhfrhhomhepghhrvghgsehkrhhorghhrdgtohhm
-X-ME-Proxy: <xmx:j5S2ZNALaBy3MWS2P0uxTO6UfiTNsknmmZ1OpvUjMsDfGoFxxPO6Mg>
-    <xmx:j5S2ZOir7RItwwL1ltUmVCHaKLHyKFVrmzMSkar4C2pbWFaGqbM2gQ>
-    <xmx:j5S2ZBo-a8KbYhr__yjXxWKNz8O4MvoAQHTs1fVrIvmP57MaTH8qCA>
-    <xmx:kJS2ZHX2NT7U99Kow2TsEshrsf654Nq1GYgDX1F42aekPBt3gznR4Q>
-Feedback-ID: i787e41f1:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 18 Jul 2023 09:33:02 -0400 (EDT)
-Date: Tue, 18 Jul 2023 15:32:58 +0200
-From: Greg KH <greg@kroah.com>
-To: hanyu001@208suo.com
-Cc: mchehab@kernel.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
-Subject: Re: [PATCH] wifi: av7110: remove space before ')'
-Message-ID: <2023071830-quotation-gaining-8cbe@gregkh>
-References: <tencent_C61A29FA864A05D9D83277F0CF7721A52D0A@qq.com>
- <89948b0041b6553b65a8cf8e8f1152b4@208suo.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E7BAD306
+	for <linux-staging@lists.linux.dev>; Tue, 18 Jul 2023 13:33:42 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BF596C433C8;
+	Tue, 18 Jul 2023 13:33:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1689687222;
+	bh=/gnZG6o0DMnotHgfldqGvalM6a/Vulwkk2wHnxMrZAA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=upk/z28T72VgEyaJkNGdvIrsytrYpric58NXQB6VYUVRyy3OcNMqBWEtVf4ZIsT04
+	 46s9mJsM3Ox9Mg6EJqNjwVJqwnJfiQWrUisHJ82lvg9rJh/9MzFuZZkBapJHUcy8Zl
+	 0MJdaybC9IRqWDbu3/WTtODTkXY/jyp0H69miUmY=
+Date: Tue, 18 Jul 2023 15:33:35 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Raphael Gallais-Pou <rgallaispou@gmail.com>
+Cc: dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH RESEND v2] staging: fbtft: ili9341: use macro
+ FBTFT_REGISTER_SPI_DRIVER
+Message-ID: <2023071817-enslave-unlovable-f8ae@gregkh>
+References: <20230718081759.28902-1-rgallaispou@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -66,92 +29,25 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <89948b0041b6553b65a8cf8e8f1152b4@208suo.com>
+In-Reply-To: <20230718081759.28902-1-rgallaispou@gmail.com>
 
-On Tue, Jul 18, 2023 at 03:27:58PM +0800, hanyu001@208suo.com wrote:
-> The patch fixes the following errors detected by checkpatch.pl:
+On Tue, Jul 18, 2023 at 10:17:59AM +0200, Raphael Gallais-Pou wrote:
+> Using FBTFT_REGISTER_DRIVER resolves to a NULL struct spi_device_id. This
+> ultimately causes a warning when the module probes. Fixes it.
 > 
-> ./drivers/staging/media/av7110/av7110.c:2556: ERROR: space prohibited before
-> that close parenthesis ')'
-> ./drivers/staging/media/av7110/av7110.c:2558: ERROR: space prohibited before
-> that close parenthesis ')'
-> ./drivers/staging/media/av7110/av7110.c:2599: ERROR: space prohibited before
-> that close parenthesis ')'
+> Changes in v2:
+> 	- dropped MODULE_ALIAS changes
+> 	- changed commit log for more accurate description
 > 
-> Signed-off-by: Yu Han <hanyu001@208suo.com>
+> Signed-off-by: Raphael Gallais-Pou <rgallaispou@gmail.com>
 > ---
->  drivers/staging/media/av7110/av7110.c | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/staging/media/av7110/av7110.c
-> b/drivers/staging/media/av7110/av7110.c
-> index a5a431c1..6b9df2c 100644
-> --- a/drivers/staging/media/av7110/av7110.c
-> +++ b/drivers/staging/media/av7110/av7110.c
-> @@ -2553,9 +2553,9 @@ static int av7110_attach(struct saa7146_dev* dev,
->           * use 0x03 to track RPS1 interrupts - increase by 1 every gpio3 is
-> toggled
->           * use 0x15 to track VPE  interrupts - increase by 1 every vpeirq()
-> is called
->           */
-> -        saa7146_write(dev, EC1SSR, (0x03<<2) | 3 );
-> +        saa7146_write(dev, EC1SSR, (0x03<<2) | 3);
->          /* set event counter 1 threshold to maximum allowed value
-> (rEC p55) */
-> -        saa7146_write(dev, ECT1R,  0x3fff );
-> +        saa7146_write(dev, ECT1R,  0x3fff);
->  #endif
->          /* Setup BUDGETPATCH MAIN RPS1 "program" (p35) */
->          count = 0;
-> @@ -2596,7 +2596,7 @@ static int av7110_attach(struct saa7146_dev* dev,
->           * then RPS_THRESH1 should be set to trigger
->           * every TS_HEIGHT (512) lines.
->           */
-> -        saa7146_write(dev, RPS_THRESH1, (TS_HEIGHT*1) | MASK_12 );
-> +        saa7146_write(dev, RPS_THRESH1, (TS_HEIGHT*1) | MASK_12);
-> 
->          /* Enable RPS1
-> (rFC p33) */
->          saa7146_write(dev, MC1, (MASK_13 | MASK_29));
-> 
+>  drivers/staging/fbtft/fb_ili9341.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 
-Hi,
+Why is this a resend?
 
-This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
-a patch that has triggered this response.  He used to manually respond
-to these common problems, but in order to save his sanity (he kept
-writing the same thing over and over, yet to different people), I was
-created.  Hopefully you will not take offence and will fix the problem
-in your patch and resubmit it so that it can be accepted into the Linux
-kernel tree.
-
-You are receiving this message because of the following common error(s)
-as indicated below:
-
-- Your patch contains warnings and/or errors noticed by the
-  scripts/checkpatch.pl tool.
-
-- Your patch is malformed (tabs converted to spaces, linewrapped, etc.)
-  and can not be applied.  Please read the file,
-  Documentation/process/email-clients.rst in order to fix this.
-
-- You did not specify a description of why the patch is needed, or
-  possibly, any description at all, in the email body.  Please read the
-  section entitled "The canonical patch format" in the kernel file,
-  Documentation/process/submitting-patches.rst for what is needed in
-  order to properly describe the change.
-
-- You did not write a descriptive Subject: for the patch, allowing Greg,
-  and everyone else, to know what this patch is all about.  Please read
-  the section entitled "The canonical patch format" in the kernel file,
-  Documentation/process/submitting-patches.rst for what a proper
-  Subject: line should look like.
-
-If you wish to discuss this problem further, or you have questions about
-how to resolve this issue, please feel free to respond to this email and
-Greg will reply once he has dug out from the pending patches received
-from other developers.
+And the changes need to go below the --- line as per the documentation.
 
 thanks,
 
-greg k-h's patch email bot
+greg k-h
