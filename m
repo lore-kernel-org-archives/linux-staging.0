@@ -1,93 +1,285 @@
-Received: from pb-smtp20.pobox.com (pb-smtp20.pobox.com [173.228.157.52])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0EA81C06
-	for <linux-staging@lists.linux.dev>; Wed, 19 Jul 2023 03:31:14 +0000 (UTC)
-Received: from pb-smtp20.pobox.com (unknown [127.0.0.1])
-	by pb-smtp20.pobox.com (Postfix) with ESMTP id 457FC37F84;
-	Tue, 18 Jul 2023 23:31:08 -0400 (EDT)
-	(envelope-from tdavies@darkphysics.net)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed; d=pobox.com; h=date:from
-	:to:cc:subject:message-id:references:mime-version:content-type
-	:in-reply-to; s=sasl; bh=5JrGZau5Te0aA9tX7zgFjqmPAJmWGdldNLvKmAk
-	CJEU=; b=P88U2hJTSg4z5EIL9YcQfoJtJ0KGXZWt1nzvdkOieEtoEaLp0aHpGAf
-	cbOpjpgx8Ua/a2vhejWEtjt0BW25qyItRWldcEXGsHKr/dX5WqLhWWqG/+cDw0Jj
-	BM3/MJP1dN5BeKYLcpsv9ZFsty9TCGiuoHjdr+TUadVVedIhoWgk=
-Received: from pb-smtp20.sea.icgroup.com (unknown [127.0.0.1])
-	by pb-smtp20.pobox.com (Postfix) with ESMTP id 3E48737F83;
-	Tue, 18 Jul 2023 23:31:08 -0400 (EDT)
-	(envelope-from tdavies@darkphysics.net)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed; d=darkphysics.net;
- h=date:from:to:cc:subject:message-id:references:mime-version:content-type:in-reply-to; s=2019-09.pbsmtp; bh=5JrGZau5Te0aA9tX7zgFjqmPAJmWGdldNLvKmAkCJEU=; b=IwTtyUgW97kvKKIDi11VyfIKsstYbv9ELIbdjL2KY6JdXY6it+E8DchLyAqCdROpTG9zzDVEcSij75JIPUpZjK+Gd1IUAjeo3gqjxyCWJQMMi0e7/TbOpoYY3CdGgCEDBkoD10+FI4wLaqKYWFDE5Wpj3Y7OH1eo5rKGLbes5EI=
-Received: from basil (unknown [76.146.178.2])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by pb-smtp20.pobox.com (Postfix) with ESMTPSA id 49BFC37F82;
-	Tue, 18 Jul 2023 23:31:04 -0400 (EDT)
-	(envelope-from tdavies@darkphysics.net)
-Date: Tue, 18 Jul 2023 20:32:04 -0700
-From: Tree Davies <tdavies@darkphysics.net>
-To: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-Cc: gregkh@linuxfoundation.org, dan.carpenter@linaro.org,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: rtl8192e: Rename variable bCurrentHTSupport
-Message-ID: <ZLdZNNs/NlbWAFCP@basil>
-References: <ZKYgH/BvkE9bdcPm@kimchi.darkphysics>
- <6dee04ae-4129-cd7c-0d31-70d29b86c8ff@gmail.com>
- <ZLL+Q0tcW5S8Xjmj@basil>
- <95e0287d-3211-3c0d-7a52-740acdb75f45@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A18C17FA;
+	Wed, 19 Jul 2023 06:39:08 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2D2CAC433C7;
+	Wed, 19 Jul 2023 06:39:01 +0000 (UTC)
+Message-ID: <a5dc2d77-93fd-9a0b-6778-e724be67584e@xs4all.nl>
+Date: Wed, 19 Jul 2023 08:38:59 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <95e0287d-3211-3c0d-7a52-740acdb75f45@gmail.com>
-X-Pobox-Relay-ID:
- B0CD2C7E-25E4-11EE-9E12-C2DA088D43B2-45285927!pb-smtp20.pobox.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.12.0
+Subject: Re: [PATCH] staging: Explicitly include correct DT includes
+Content-Language: en-US
+To: Rob Herring <robh@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Vaibhav Hiremath <hvaibhav.linux@gmail.com>, Johan Hovold
+ <johan@kernel.org>, Alex Elder <elder@kernel.org>,
+ Steve Longerbeam <slongerbeam@gmail.com>,
+ Philipp Zabel <p.zabel@pengutronix.de>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
+ Sascha Hauer <s.hauer@pengutronix.de>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Fabio Estevam <festevam@gmail.com>, NXP Linux Team <linux-imx@nxp.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>,
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+ Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Samuel Holland <samuel@sholland.org>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Jonathan Hunter <jonathanh@nvidia.com>,
+ Sowjanya Komatineni <skomatineni@nvidia.com>,
+ Luca Ceresoli <luca.ceresoli@bootlin.com>,
+ Parthiban Veerasooran <parthiban.veerasooran@microchip.com>,
+ Christian Gromm <christian.gromm@microchip.com>
+Cc: devicetree@vger.kernel.org, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org, greybus-dev@lists.linaro.org,
+ linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-amlogic@lists.infradead.org, linux-sunxi@lists.linux.dev,
+ linux-tegra@vger.kernel.org
+References: <20230714175002.4064428-1-robh@kernel.org>
+From: Hans Verkuil <hverkuil@xs4all.nl>
+In-Reply-To: <20230714175002.4064428-1-robh@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Tue, Jul 18, 2023 at 09:56:24PM +0200, Philipp Hortmann wrote:
-> On 7/15/23 22:14, Tree Davies wrote:
-> > Philipp,
-> > 
-> > I think I understand what I did wrong. Each of these original patches were
-> > created/based from the same commit hash. So it makes sense that only the
-> > first one applied would apply cleanly and the others would fail.
-> > 
-> > My apologies,
-> > Tree
+On 14/07/2023 19:50, Rob Herring wrote:
+> The DT of_device.h and of_platform.h date back to the separate
+> of_platform_bus_type before it as merged into the regular platform bus.
+> As part of that merge prepping Arm DT support 13 years ago, they
+> "temporarily" include each other. They also include platform_device.h
+> and of.h. As a result, there's a pretty much random mix of those include
+> files used throughout the tree. In order to detangle these headers and
+> replace the implicit includes with struct declarations, users need to
+> explicitly include the correct includes.
 > 
-> Hi Tree,
-> 
-> you could work this way if you ensure that each patch does not modify code
-> (and some lines above and below) a previous patch modified. But it is not a
-> good way to do so. Existing tools assume that you create your commits onto
-> each other and then make patches out of them.
-> 
-> Another issue right now is that approximately 18 patches send in and are
-> possibly applied (for rtl8192e). Your patches need to fit onto those
-> patches. Otherwise they cannot be applied and will be rejected.
-> 
-> Typically Greg applies all patches once a week. But it seems that he has a
-> bunch of other more urgent tasks. So you need to focus on other kernel
-> related task like educate yourself or prepare patches without sending them
-> in.
-> 
-> Thanks for your support.
-> 
-> Bye Philipp
-> 
+> Signed-off-by: Rob Herring <robh@kernel.org>
+> ---
+>  drivers/staging/axis-fifo/axis-fifo.c             | 6 ++----
+>  drivers/staging/greybus/arche-platform.c          | 1 +
+>  drivers/staging/media/imx/imx-media-capture.c     | 1 -
+>  drivers/staging/media/imx/imx-media-dev-common.c  | 2 --
+>  drivers/staging/media/imx/imx8mq-mipi-csi2.c      | 1 -
+>  drivers/staging/media/meson/vdec/esparser.c       | 1 -
+>  drivers/staging/media/meson/vdec/vdec.c           | 2 +-
+>  drivers/staging/media/sunxi/cedrus/cedrus_hw.c    | 2 +-
+>  drivers/staging/media/sunxi/sun6i-isp/sun6i_isp.c | 1 -
+>  drivers/staging/media/tegra-video/csi.c           | 1 -
+>  drivers/staging/media/tegra-video/vi.c            | 2 +-
+>  drivers/staging/media/tegra-video/vip.c           | 1 -
+>  drivers/staging/most/dim2/dim2.c                  | 2 +-
+>  drivers/staging/pi433/pi433_if.c                  | 1 -
+>  14 files changed, 7 insertions(+), 17 deletions(-)
 
-Thnaks Philipp,
+For staging/media:
 
-No worries, I'm patient, and happy to help any way I can. 
-I have hardware coming in the mail this week! I already have  
-3 mPCIe rtl8192e devices, but I am waiting on the PCIe adapter card for
-my test machine.
+Reviewed-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 
-I'm stoked. :)
-Tree
+Regards,
 
+	Hans
+
+> 
+> diff --git a/drivers/staging/axis-fifo/axis-fifo.c b/drivers/staging/axis-fifo/axis-fifo.c
+> index 98db47cb4fa4..5910fada7075 100644
+> --- a/drivers/staging/axis-fifo/axis-fifo.c
+> +++ b/drivers/staging/axis-fifo/axis-fifo.c
+> @@ -15,6 +15,8 @@
+>   */
+>  
+>  #include <linux/kernel.h>
+> +#include <linux/of.h>
+> +#include <linux/platform_device.h>
+>  #include <linux/wait.h>
+>  #include <linux/mutex.h>
+>  #include <linux/device.h>
+> @@ -32,10 +34,6 @@
+>  #include <linux/jiffies.h>
+>  #include <linux/miscdevice.h>
+>  
+> -#include <linux/of_address.h>
+> -#include <linux/of_device.h>
+> -#include <linux/of_platform.h>
+> -
+>  /* ----------------------------
+>   *       driver parameters
+>   * ----------------------------
+> diff --git a/drivers/staging/greybus/arche-platform.c b/drivers/staging/greybus/arche-platform.c
+> index ebe835f25d13..891b75327d7f 100644
+> --- a/drivers/staging/greybus/arche-platform.c
+> +++ b/drivers/staging/greybus/arche-platform.c
+> @@ -20,6 +20,7 @@
+>  #include <linux/suspend.h>
+>  #include <linux/time.h>
+>  #include <linux/greybus.h>
+> +#include <linux/of.h>
+>  #include "arche_platform.h"
+>  
+>  #if IS_ENABLED(CONFIG_USB_HSIC_USB3613)
+> diff --git a/drivers/staging/media/imx/imx-media-capture.c b/drivers/staging/media/imx/imx-media-capture.c
+> index 4364df27c6d2..4846078315ff 100644
+> --- a/drivers/staging/media/imx/imx-media-capture.c
+> +++ b/drivers/staging/media/imx/imx-media-capture.c
+> @@ -7,7 +7,6 @@
+>  #include <linux/delay.h>
+>  #include <linux/fs.h>
+>  #include <linux/module.h>
+> -#include <linux/of_platform.h>
+>  #include <linux/pinctrl/consumer.h>
+>  #include <linux/platform_device.h>
+>  #include <linux/sched.h>
+> diff --git a/drivers/staging/media/imx/imx-media-dev-common.c b/drivers/staging/media/imx/imx-media-dev-common.c
+> index 991820a8500f..7b7cbec08326 100644
+> --- a/drivers/staging/media/imx/imx-media-dev-common.c
+> +++ b/drivers/staging/media/imx/imx-media-dev-common.c
+> @@ -6,8 +6,6 @@
+>   * Copyright (c) 2016 Mentor Graphics Inc.
+>   */
+>  
+> -#include <linux/of_graph.h>
+> -#include <linux/of_platform.h>
+>  #include <media/v4l2-ctrls.h>
+>  #include <media/v4l2-event.h>
+>  #include <media/v4l2-ioctl.h>
+> diff --git a/drivers/staging/media/imx/imx8mq-mipi-csi2.c b/drivers/staging/media/imx/imx8mq-mipi-csi2.c
+> index ca2efcc21efe..c84b6dceece2 100644
+> --- a/drivers/staging/media/imx/imx8mq-mipi-csi2.c
+> +++ b/drivers/staging/media/imx/imx8mq-mipi-csi2.c
+> @@ -17,7 +17,6 @@
+>  #include <linux/module.h>
+>  #include <linux/mutex.h>
+>  #include <linux/of.h>
+> -#include <linux/of_device.h>
+>  #include <linux/platform_device.h>
+>  #include <linux/pm_runtime.h>
+>  #include <linux/regmap.h>
+> diff --git a/drivers/staging/media/meson/vdec/esparser.c b/drivers/staging/media/meson/vdec/esparser.c
+> index 7b15fc54efe4..4632346f04a9 100644
+> --- a/drivers/staging/media/meson/vdec/esparser.c
+> +++ b/drivers/staging/media/meson/vdec/esparser.c
+> @@ -11,7 +11,6 @@
+>  #include <linux/ioctl.h>
+>  #include <linux/list.h>
+>  #include <linux/module.h>
+> -#include <linux/of_device.h>
+>  #include <linux/reset.h>
+>  #include <linux/interrupt.h>
+>  #include <media/videobuf2-dma-contig.h>
+> diff --git a/drivers/staging/media/meson/vdec/vdec.c b/drivers/staging/media/meson/vdec/vdec.c
+> index 5ca4b1200831..219185aaa588 100644
+> --- a/drivers/staging/media/meson/vdec/vdec.c
+> +++ b/drivers/staging/media/meson/vdec/vdec.c
+> @@ -4,7 +4,7 @@
+>   * Author: Maxime Jourdan <mjourdan@baylibre.com>
+>   */
+>  
+> -#include <linux/of_device.h>
+> +#include <linux/of.h>
+>  #include <linux/clk.h>
+>  #include <linux/io.h>
+>  #include <linux/module.h>
+> diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_hw.c b/drivers/staging/media/sunxi/cedrus/cedrus_hw.c
+> index fa86a658fdc6..b696bf884cbd 100644
+> --- a/drivers/staging/media/sunxi/cedrus/cedrus_hw.c
+> +++ b/drivers/staging/media/sunxi/cedrus/cedrus_hw.c
+> @@ -14,8 +14,8 @@
+>   */
+>  
+>  #include <linux/platform_device.h>
+> +#include <linux/of.h>
+>  #include <linux/of_reserved_mem.h>
+> -#include <linux/of_device.h>
+>  #include <linux/dma-mapping.h>
+>  #include <linux/interrupt.h>
+>  #include <linux/clk.h>
+> diff --git a/drivers/staging/media/sunxi/sun6i-isp/sun6i_isp.c b/drivers/staging/media/sunxi/sun6i-isp/sun6i_isp.c
+> index 0dc75adbd9d8..8337dc487047 100644
+> --- a/drivers/staging/media/sunxi/sun6i-isp/sun6i_isp.c
+> +++ b/drivers/staging/media/sunxi/sun6i-isp/sun6i_isp.c
+> @@ -10,7 +10,6 @@
+>  #include <linux/interrupt.h>
+>  #include <linux/module.h>
+>  #include <linux/of.h>
+> -#include <linux/of_device.h>
+>  #include <linux/platform_device.h>
+>  #include <linux/pm_runtime.h>
+>  #include <linux/regmap.h>
+> diff --git a/drivers/staging/media/tegra-video/csi.c b/drivers/staging/media/tegra-video/csi.c
+> index 052172017b3b..e79657920dc8 100644
+> --- a/drivers/staging/media/tegra-video/csi.c
+> +++ b/drivers/staging/media/tegra-video/csi.c
+> @@ -10,7 +10,6 @@
+>  #include <linux/module.h>
+>  #include <linux/of.h>
+>  #include <linux/of_graph.h>
+> -#include <linux/of_device.h>
+>  #include <linux/platform_device.h>
+>  #include <linux/pm_runtime.h>
+>  
+> diff --git a/drivers/staging/media/tegra-video/vi.c b/drivers/staging/media/tegra-video/vi.c
+> index 79284c3b6cae..4add037537a2 100644
+> --- a/drivers/staging/media/tegra-video/vi.c
+> +++ b/drivers/staging/media/tegra-video/vi.c
+> @@ -11,8 +11,8 @@
+>  #include <linux/list.h>
+>  #include <linux/module.h>
+>  #include <linux/of.h>
+> -#include <linux/of_device.h>
+>  #include <linux/of_graph.h>
+> +#include <linux/of_platform.h>
+>  #include <linux/platform_device.h>
+>  #include <linux/regulator/consumer.h>
+>  #include <linux/pm_runtime.h>
+> diff --git a/drivers/staging/media/tegra-video/vip.c b/drivers/staging/media/tegra-video/vip.c
+> index a1ab886acc18..4cf3fde7e034 100644
+> --- a/drivers/staging/media/tegra-video/vip.c
+> +++ b/drivers/staging/media/tegra-video/vip.c
+> @@ -13,7 +13,6 @@
+>  #include <linux/module.h>
+>  #include <linux/of.h>
+>  #include <linux/of_graph.h>
+> -#include <linux/of_device.h>
+>  #include <linux/platform_device.h>
+>  #include <linux/pm_runtime.h>
+>  
+> diff --git a/drivers/staging/most/dim2/dim2.c b/drivers/staging/most/dim2/dim2.c
+> index 44d3252d4612..ed6a9cc88541 100644
+> --- a/drivers/staging/most/dim2/dim2.c
+> +++ b/drivers/staging/most/dim2/dim2.c
+> @@ -8,7 +8,6 @@
+>  #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
+>  
+>  #include <linux/module.h>
+> -#include <linux/of_platform.h>
+>  #include <linux/printk.h>
+>  #include <linux/kernel.h>
+>  #include <linux/init.h>
+> @@ -21,6 +20,7 @@
+>  #include <linux/sched.h>
+>  #include <linux/kthread.h>
+>  #include <linux/most.h>
+> +#include <linux/of.h>
+>  #include "hal.h"
+>  #include "errors.h"
+>  #include "sysfs.h"
+> diff --git a/drivers/staging/pi433/pi433_if.c b/drivers/staging/pi433/pi433_if.c
+> index 220e157d4a5e..58887619b83f 100644
+> --- a/drivers/staging/pi433/pi433_if.c
+> +++ b/drivers/staging/pi433/pi433_if.c
+> @@ -31,7 +31,6 @@
+>  #include <linux/errno.h>
+>  #include <linux/mutex.h>
+>  #include <linux/of.h>
+> -#include <linux/of_device.h>
+>  #include <linux/interrupt.h>
+>  #include <linux/irq.h>
+>  #include <linux/gpio/consumer.h>
 
