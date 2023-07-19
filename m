@@ -1,285 +1,81 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A18C17FA;
-	Wed, 19 Jul 2023 06:39:08 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2D2CAC433C7;
-	Wed, 19 Jul 2023 06:39:01 +0000 (UTC)
-Message-ID: <a5dc2d77-93fd-9a0b-6778-e724be67584e@xs4all.nl>
-Date: Wed, 19 Jul 2023 08:38:59 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF6363D8B
+	for <linux-staging@lists.linux.dev>; Wed, 19 Jul 2023 06:55:57 +0000 (UTC)
+Received: by mail-ed1-f48.google.com with SMTP id 4fb4d7f45d1cf-51e344efd75so1015009a12.1
+        for <linux-staging@lists.linux.dev>; Tue, 18 Jul 2023 23:55:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1689749756; x=1692341756;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=idS0iCzx7eFGMTV38VDkZYqyRsHIoOKLdTk6ADUO6Wk=;
+        b=TXj7JYK829kTN42IX87oR+dv1Bhmi/Ytn/BfMsZB/TIzFVzr3ocgR48UlYdmGAfh5V
+         gLNDMxuxt+kzJbK+XJ+sF+TGHGlDUjbpANtPNOIA654j8FI0gkOjrG/vVWC5CbiXCfpz
+         P7MsvLUxqAA9KZJOwGyT4IcHJ7MUXrhF5uO8sr0B/Vo9rdESAs6tdLVeGVEuHujq+EE6
+         WZ3vbGlApM/43BmsAIF56h7zrLF3HvMwEHNoG2/L/8YiTBugtkzsYvFU5H3gG9kXzXxs
+         5XEVRyLqXV4JD19Pbrbmdy+AHs+9g4R4ifMRt5Es95eAsQeePO8CM+VtncGVDtK3Z7vu
+         M+WQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1689749756; x=1692341756;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=idS0iCzx7eFGMTV38VDkZYqyRsHIoOKLdTk6ADUO6Wk=;
+        b=V1xsuXkep2V0DmIjpjD647RTw9P7fwYL40ZQhw60EqkSVLcvncA3vMxs2LdUI3w2MJ
+         3WBCVRUS3rwl1Oq8KutJ29Qt0eS3zt8tYHn5lyIO50QGb7qfDd5IY3yUigaAF03hyfBz
+         2Ku3NwYiEqAHQr9Mit492eB6zqNYRtTt7OD23+dGpx924JtSCR8sqj4Qu5lDW6UNgZhE
+         J6kj5Ra2RL36WTiBz/djxSF6VoB3FLmv+Jnjp+26x6DVxduMv3/nxG0HtVCTy5kJ2zJr
+         2KbGcwI3gsM5VjxA7newfzxiibexGTZiGb4EUPQM83TGpHm+Lc3eLzgcHxuW4oRzvR5a
+         CNsw==
+X-Gm-Message-State: ABy/qLYm55GH1ytBIrFsXpnSTseHETZJUjaf1WrbdhkgCKEYJzpd5zqC
+	opFfIKGKPBY4OxDn//RZOdg=
+X-Google-Smtp-Source: APBJJlHZi5Ev24UIeyWRbnLbNs4tsiNaZj7bd6/BgxkuOC0d9xKcix3IISSeP9rN4kw5CCIC8fzvUw==
+X-Received: by 2002:a05:6402:3c5:b0:51d:e185:a211 with SMTP id t5-20020a05640203c500b0051de185a211mr1304894edw.21.1689749755735;
+        Tue, 18 Jul 2023 23:55:55 -0700 (PDT)
+Received: from nam-dell (ip-217-105-46-58.ip.prioritytelecom.net. [217.105.46.58])
+        by smtp.gmail.com with ESMTPSA id d18-20020a056402079200b0051ddfb4385asm2266405edy.45.2023.07.18.23.55.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 18 Jul 2023 23:55:55 -0700 (PDT)
+Date: Wed, 19 Jul 2023 08:55:53 +0200
+From: Nam Cao <namcaov@gmail.com>
+To: Larry Finger <Larry.Finger@lwfinger.net>
+Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org, linux-wireless@vger.kernel.org,
+	syzbot+cf71097ffb6755df8251@syzkaller.appspotmail.com,
+	stable@vger.kernel.org
+Subject: Re: [PATCH v2] staging: r8712: Fix memory leak in
+ _r8712_init_xmit_priv()
+Message-ID: <ZLeI+b3oXP3hstdg@nam-dell>
+References: <20230714175417.18578-1-Larry.Finger@lwfinger.net>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.12.0
-Subject: Re: [PATCH] staging: Explicitly include correct DT includes
-Content-Language: en-US
-To: Rob Herring <robh@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Vaibhav Hiremath <hvaibhav.linux@gmail.com>, Johan Hovold
- <johan@kernel.org>, Alex Elder <elder@kernel.org>,
- Steve Longerbeam <slongerbeam@gmail.com>,
- Philipp Zabel <p.zabel@pengutronix.de>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
- Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>, NXP Linux Team <linux-imx@nxp.com>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>,
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
- Maxime Ripard <mripard@kernel.org>,
- Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
- Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>,
- Thierry Reding <thierry.reding@gmail.com>,
- Jonathan Hunter <jonathanh@nvidia.com>,
- Sowjanya Komatineni <skomatineni@nvidia.com>,
- Luca Ceresoli <luca.ceresoli@bootlin.com>,
- Parthiban Veerasooran <parthiban.veerasooran@microchip.com>,
- Christian Gromm <christian.gromm@microchip.com>
-Cc: devicetree@vger.kernel.org, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org, greybus-dev@lists.linaro.org,
- linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-amlogic@lists.infradead.org, linux-sunxi@lists.linux.dev,
- linux-tegra@vger.kernel.org
-References: <20230714175002.4064428-1-robh@kernel.org>
-From: Hans Verkuil <hverkuil@xs4all.nl>
-In-Reply-To: <20230714175002.4064428-1-robh@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230714175417.18578-1-Larry.Finger@lwfinger.net>
 
-On 14/07/2023 19:50, Rob Herring wrote:
-> The DT of_device.h and of_platform.h date back to the separate
-> of_platform_bus_type before it as merged into the regular platform bus.
-> As part of that merge prepping Arm DT support 13 years ago, they
-> "temporarily" include each other. They also include platform_device.h
-> and of.h. As a result, there's a pretty much random mix of those include
-> files used throughout the tree. In order to detangle these headers and
-> replace the implicit includes with struct declarations, users need to
-> explicitly include the correct includes.
+On Fri, Jul 14, 2023 at 12:54:17PM -0500, Larry Finger wrote:
+> In the above mentioned routine, memory is allocated in several places.
+> If the first succeeds and a later one fails, the routine will leak memory.
+> This patch fixes commit 2865d42c78a9 ("staging: r8712u: Add the new driver
+> to the mainline kernel"). A potential memory leak in
+> r8712_xmit_resource_alloc() is also addressed.
 > 
-> Signed-off-by: Rob Herring <robh@kernel.org>
-> ---
->  drivers/staging/axis-fifo/axis-fifo.c             | 6 ++----
->  drivers/staging/greybus/arche-platform.c          | 1 +
->  drivers/staging/media/imx/imx-media-capture.c     | 1 -
->  drivers/staging/media/imx/imx-media-dev-common.c  | 2 --
->  drivers/staging/media/imx/imx8mq-mipi-csi2.c      | 1 -
->  drivers/staging/media/meson/vdec/esparser.c       | 1 -
->  drivers/staging/media/meson/vdec/vdec.c           | 2 +-
->  drivers/staging/media/sunxi/cedrus/cedrus_hw.c    | 2 +-
->  drivers/staging/media/sunxi/sun6i-isp/sun6i_isp.c | 1 -
->  drivers/staging/media/tegra-video/csi.c           | 1 -
->  drivers/staging/media/tegra-video/vi.c            | 2 +-
->  drivers/staging/media/tegra-video/vip.c           | 1 -
->  drivers/staging/most/dim2/dim2.c                  | 2 +-
->  drivers/staging/pi433/pi433_if.c                  | 1 -
->  14 files changed, 7 insertions(+), 17 deletions(-)
+> Fixes: 2865d42c78a9 ("staging: r8712u: Add the new driver to the mainline kernel")
+> Reported-by: syzbot+cf71097ffb6755df8251@syzkaller.appspotmail.com
+> Closes: https://syzkaller.appspot.com/x/log.txt?x=11ac3fa0a80000
+> Cc: stable@vger.kernel.org
+> Cc: Nam Cao <namcaov@gmail.com>
+> Signed-off-by: Larry Finger <Larry.Finger@lwfinger.net>
 
-For staging/media:
+I am not qualified to make comments on the code style, but it looks functionally
+correct to me. So:
 
-Reviewed-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Reviewed-by: Nam Cao <namcaov@gmail.com>
 
-Regards,
-
-	Hans
-
-> 
-> diff --git a/drivers/staging/axis-fifo/axis-fifo.c b/drivers/staging/axis-fifo/axis-fifo.c
-> index 98db47cb4fa4..5910fada7075 100644
-> --- a/drivers/staging/axis-fifo/axis-fifo.c
-> +++ b/drivers/staging/axis-fifo/axis-fifo.c
-> @@ -15,6 +15,8 @@
->   */
->  
->  #include <linux/kernel.h>
-> +#include <linux/of.h>
-> +#include <linux/platform_device.h>
->  #include <linux/wait.h>
->  #include <linux/mutex.h>
->  #include <linux/device.h>
-> @@ -32,10 +34,6 @@
->  #include <linux/jiffies.h>
->  #include <linux/miscdevice.h>
->  
-> -#include <linux/of_address.h>
-> -#include <linux/of_device.h>
-> -#include <linux/of_platform.h>
-> -
->  /* ----------------------------
->   *       driver parameters
->   * ----------------------------
-> diff --git a/drivers/staging/greybus/arche-platform.c b/drivers/staging/greybus/arche-platform.c
-> index ebe835f25d13..891b75327d7f 100644
-> --- a/drivers/staging/greybus/arche-platform.c
-> +++ b/drivers/staging/greybus/arche-platform.c
-> @@ -20,6 +20,7 @@
->  #include <linux/suspend.h>
->  #include <linux/time.h>
->  #include <linux/greybus.h>
-> +#include <linux/of.h>
->  #include "arche_platform.h"
->  
->  #if IS_ENABLED(CONFIG_USB_HSIC_USB3613)
-> diff --git a/drivers/staging/media/imx/imx-media-capture.c b/drivers/staging/media/imx/imx-media-capture.c
-> index 4364df27c6d2..4846078315ff 100644
-> --- a/drivers/staging/media/imx/imx-media-capture.c
-> +++ b/drivers/staging/media/imx/imx-media-capture.c
-> @@ -7,7 +7,6 @@
->  #include <linux/delay.h>
->  #include <linux/fs.h>
->  #include <linux/module.h>
-> -#include <linux/of_platform.h>
->  #include <linux/pinctrl/consumer.h>
->  #include <linux/platform_device.h>
->  #include <linux/sched.h>
-> diff --git a/drivers/staging/media/imx/imx-media-dev-common.c b/drivers/staging/media/imx/imx-media-dev-common.c
-> index 991820a8500f..7b7cbec08326 100644
-> --- a/drivers/staging/media/imx/imx-media-dev-common.c
-> +++ b/drivers/staging/media/imx/imx-media-dev-common.c
-> @@ -6,8 +6,6 @@
->   * Copyright (c) 2016 Mentor Graphics Inc.
->   */
->  
-> -#include <linux/of_graph.h>
-> -#include <linux/of_platform.h>
->  #include <media/v4l2-ctrls.h>
->  #include <media/v4l2-event.h>
->  #include <media/v4l2-ioctl.h>
-> diff --git a/drivers/staging/media/imx/imx8mq-mipi-csi2.c b/drivers/staging/media/imx/imx8mq-mipi-csi2.c
-> index ca2efcc21efe..c84b6dceece2 100644
-> --- a/drivers/staging/media/imx/imx8mq-mipi-csi2.c
-> +++ b/drivers/staging/media/imx/imx8mq-mipi-csi2.c
-> @@ -17,7 +17,6 @@
->  #include <linux/module.h>
->  #include <linux/mutex.h>
->  #include <linux/of.h>
-> -#include <linux/of_device.h>
->  #include <linux/platform_device.h>
->  #include <linux/pm_runtime.h>
->  #include <linux/regmap.h>
-> diff --git a/drivers/staging/media/meson/vdec/esparser.c b/drivers/staging/media/meson/vdec/esparser.c
-> index 7b15fc54efe4..4632346f04a9 100644
-> --- a/drivers/staging/media/meson/vdec/esparser.c
-> +++ b/drivers/staging/media/meson/vdec/esparser.c
-> @@ -11,7 +11,6 @@
->  #include <linux/ioctl.h>
->  #include <linux/list.h>
->  #include <linux/module.h>
-> -#include <linux/of_device.h>
->  #include <linux/reset.h>
->  #include <linux/interrupt.h>
->  #include <media/videobuf2-dma-contig.h>
-> diff --git a/drivers/staging/media/meson/vdec/vdec.c b/drivers/staging/media/meson/vdec/vdec.c
-> index 5ca4b1200831..219185aaa588 100644
-> --- a/drivers/staging/media/meson/vdec/vdec.c
-> +++ b/drivers/staging/media/meson/vdec/vdec.c
-> @@ -4,7 +4,7 @@
->   * Author: Maxime Jourdan <mjourdan@baylibre.com>
->   */
->  
-> -#include <linux/of_device.h>
-> +#include <linux/of.h>
->  #include <linux/clk.h>
->  #include <linux/io.h>
->  #include <linux/module.h>
-> diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_hw.c b/drivers/staging/media/sunxi/cedrus/cedrus_hw.c
-> index fa86a658fdc6..b696bf884cbd 100644
-> --- a/drivers/staging/media/sunxi/cedrus/cedrus_hw.c
-> +++ b/drivers/staging/media/sunxi/cedrus/cedrus_hw.c
-> @@ -14,8 +14,8 @@
->   */
->  
->  #include <linux/platform_device.h>
-> +#include <linux/of.h>
->  #include <linux/of_reserved_mem.h>
-> -#include <linux/of_device.h>
->  #include <linux/dma-mapping.h>
->  #include <linux/interrupt.h>
->  #include <linux/clk.h>
-> diff --git a/drivers/staging/media/sunxi/sun6i-isp/sun6i_isp.c b/drivers/staging/media/sunxi/sun6i-isp/sun6i_isp.c
-> index 0dc75adbd9d8..8337dc487047 100644
-> --- a/drivers/staging/media/sunxi/sun6i-isp/sun6i_isp.c
-> +++ b/drivers/staging/media/sunxi/sun6i-isp/sun6i_isp.c
-> @@ -10,7 +10,6 @@
->  #include <linux/interrupt.h>
->  #include <linux/module.h>
->  #include <linux/of.h>
-> -#include <linux/of_device.h>
->  #include <linux/platform_device.h>
->  #include <linux/pm_runtime.h>
->  #include <linux/regmap.h>
-> diff --git a/drivers/staging/media/tegra-video/csi.c b/drivers/staging/media/tegra-video/csi.c
-> index 052172017b3b..e79657920dc8 100644
-> --- a/drivers/staging/media/tegra-video/csi.c
-> +++ b/drivers/staging/media/tegra-video/csi.c
-> @@ -10,7 +10,6 @@
->  #include <linux/module.h>
->  #include <linux/of.h>
->  #include <linux/of_graph.h>
-> -#include <linux/of_device.h>
->  #include <linux/platform_device.h>
->  #include <linux/pm_runtime.h>
->  
-> diff --git a/drivers/staging/media/tegra-video/vi.c b/drivers/staging/media/tegra-video/vi.c
-> index 79284c3b6cae..4add037537a2 100644
-> --- a/drivers/staging/media/tegra-video/vi.c
-> +++ b/drivers/staging/media/tegra-video/vi.c
-> @@ -11,8 +11,8 @@
->  #include <linux/list.h>
->  #include <linux/module.h>
->  #include <linux/of.h>
-> -#include <linux/of_device.h>
->  #include <linux/of_graph.h>
-> +#include <linux/of_platform.h>
->  #include <linux/platform_device.h>
->  #include <linux/regulator/consumer.h>
->  #include <linux/pm_runtime.h>
-> diff --git a/drivers/staging/media/tegra-video/vip.c b/drivers/staging/media/tegra-video/vip.c
-> index a1ab886acc18..4cf3fde7e034 100644
-> --- a/drivers/staging/media/tegra-video/vip.c
-> +++ b/drivers/staging/media/tegra-video/vip.c
-> @@ -13,7 +13,6 @@
->  #include <linux/module.h>
->  #include <linux/of.h>
->  #include <linux/of_graph.h>
-> -#include <linux/of_device.h>
->  #include <linux/platform_device.h>
->  #include <linux/pm_runtime.h>
->  
-> diff --git a/drivers/staging/most/dim2/dim2.c b/drivers/staging/most/dim2/dim2.c
-> index 44d3252d4612..ed6a9cc88541 100644
-> --- a/drivers/staging/most/dim2/dim2.c
-> +++ b/drivers/staging/most/dim2/dim2.c
-> @@ -8,7 +8,6 @@
->  #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
->  
->  #include <linux/module.h>
-> -#include <linux/of_platform.h>
->  #include <linux/printk.h>
->  #include <linux/kernel.h>
->  #include <linux/init.h>
-> @@ -21,6 +20,7 @@
->  #include <linux/sched.h>
->  #include <linux/kthread.h>
->  #include <linux/most.h>
-> +#include <linux/of.h>
->  #include "hal.h"
->  #include "errors.h"
->  #include "sysfs.h"
-> diff --git a/drivers/staging/pi433/pi433_if.c b/drivers/staging/pi433/pi433_if.c
-> index 220e157d4a5e..58887619b83f 100644
-> --- a/drivers/staging/pi433/pi433_if.c
-> +++ b/drivers/staging/pi433/pi433_if.c
-> @@ -31,7 +31,6 @@
->  #include <linux/errno.h>
->  #include <linux/mutex.h>
->  #include <linux/of.h>
-> -#include <linux/of_device.h>
->  #include <linux/interrupt.h>
->  #include <linux/irq.h>
->  #include <linux/gpio/consumer.h>
-
+Best regards,
+Nam
