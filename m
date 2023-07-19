@@ -1,81 +1,116 @@
-Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF6363D8B
-	for <linux-staging@lists.linux.dev>; Wed, 19 Jul 2023 06:55:57 +0000 (UTC)
-Received: by mail-ed1-f48.google.com with SMTP id 4fb4d7f45d1cf-51e344efd75so1015009a12.1
-        for <linux-staging@lists.linux.dev>; Tue, 18 Jul 2023 23:55:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1689749756; x=1692341756;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=idS0iCzx7eFGMTV38VDkZYqyRsHIoOKLdTk6ADUO6Wk=;
-        b=TXj7JYK829kTN42IX87oR+dv1Bhmi/Ytn/BfMsZB/TIzFVzr3ocgR48UlYdmGAfh5V
-         gLNDMxuxt+kzJbK+XJ+sF+TGHGlDUjbpANtPNOIA654j8FI0gkOjrG/vVWC5CbiXCfpz
-         P7MsvLUxqAA9KZJOwGyT4IcHJ7MUXrhF5uO8sr0B/Vo9rdESAs6tdLVeGVEuHujq+EE6
-         WZ3vbGlApM/43BmsAIF56h7zrLF3HvMwEHNoG2/L/8YiTBugtkzsYvFU5H3gG9kXzXxs
-         5XEVRyLqXV4JD19Pbrbmdy+AHs+9g4R4ifMRt5Es95eAsQeePO8CM+VtncGVDtK3Z7vu
-         M+WQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689749756; x=1692341756;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=idS0iCzx7eFGMTV38VDkZYqyRsHIoOKLdTk6ADUO6Wk=;
-        b=V1xsuXkep2V0DmIjpjD647RTw9P7fwYL40ZQhw60EqkSVLcvncA3vMxs2LdUI3w2MJ
-         3WBCVRUS3rwl1Oq8KutJ29Qt0eS3zt8tYHn5lyIO50QGb7qfDd5IY3yUigaAF03hyfBz
-         2Ku3NwYiEqAHQr9Mit492eB6zqNYRtTt7OD23+dGpx924JtSCR8sqj4Qu5lDW6UNgZhE
-         J6kj5Ra2RL36WTiBz/djxSF6VoB3FLmv+Jnjp+26x6DVxduMv3/nxG0HtVCTy5kJ2zJr
-         2KbGcwI3gsM5VjxA7newfzxiibexGTZiGb4EUPQM83TGpHm+Lc3eLzgcHxuW4oRzvR5a
-         CNsw==
-X-Gm-Message-State: ABy/qLYm55GH1ytBIrFsXpnSTseHETZJUjaf1WrbdhkgCKEYJzpd5zqC
-	opFfIKGKPBY4OxDn//RZOdg=
-X-Google-Smtp-Source: APBJJlHZi5Ev24UIeyWRbnLbNs4tsiNaZj7bd6/BgxkuOC0d9xKcix3IISSeP9rN4kw5CCIC8fzvUw==
-X-Received: by 2002:a05:6402:3c5:b0:51d:e185:a211 with SMTP id t5-20020a05640203c500b0051de185a211mr1304894edw.21.1689749755735;
-        Tue, 18 Jul 2023 23:55:55 -0700 (PDT)
-Received: from nam-dell (ip-217-105-46-58.ip.prioritytelecom.net. [217.105.46.58])
-        by smtp.gmail.com with ESMTPSA id d18-20020a056402079200b0051ddfb4385asm2266405edy.45.2023.07.18.23.55.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 18 Jul 2023 23:55:55 -0700 (PDT)
-Date: Wed, 19 Jul 2023 08:55:53 +0200
-From: Nam Cao <namcaov@gmail.com>
-To: Larry Finger <Larry.Finger@lwfinger.net>
-Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org, linux-wireless@vger.kernel.org,
-	syzbot+cf71097ffb6755df8251@syzkaller.appspotmail.com,
-	stable@vger.kernel.org
-Subject: Re: [PATCH v2] staging: r8712: Fix memory leak in
- _r8712_init_xmit_priv()
-Message-ID: <ZLeI+b3oXP3hstdg@nam-dell>
-References: <20230714175417.18578-1-Larry.Finger@lwfinger.net>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1201800
+	for <linux-staging@lists.linux.dev>; Wed, 19 Jul 2023 16:44:48 +0000 (UTC)
+Received: from umang.jainideasonboard.com (unknown [103.86.18.219])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 85F9375B;
+	Wed, 19 Jul 2023 18:43:41 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1689785026;
+	bh=KY0KfMwlJOjWmTN7bkILqIjrm65iQUQb//QhYN5SlzQ=;
+	h=From:To:Cc:Subject:Date:From;
+	b=Kj3BdlBmQMSUxSe130AvRRQc3vM8N6DYZgyJ8b7OJ+kJaOtXNWMbUjdmxkCMgZ+kW
+	 CnYrNiDhR9wgLa7GxxqfOa1NUWyVQZ67yEUpd5VQuBNSMvoEuhJbwkAS0d1uR3o0bw
+	 U3Le3N7O1WjPxDHdavVAVuUuk0DdYcXjcoDt7EOM=
+From: Umang Jain <umang.jain@ideasonboard.com>
+To: linux-staging@lists.linux.dev,
+	linux-rpi-kernel@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: stefan.wahren@i2se.com,
+	gregkh@linuxfoundation.org,
+	f.fainelli@gmail.com,
+	athierry@redhat.com,
+	error27@gmail.com,
+	dave.stevenson@raspberrypi.com,
+	kieran.bingham@ideasonboard.com,
+	laurent.pinchart@ideasonboard.com,
+	Umang Jain <umang.jain@ideasonboard.com>
+Subject: [PATCH v9 0/5] staging: vc04_services: vchiq: Register devices with a custom bus_type 
+Date: Wed, 19 Jul 2023 22:14:22 +0530
+Message-Id: <20230719164427.1383646-1-umang.jain@ideasonboard.com>
+X-Mailer: git-send-email 2.39.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230714175417.18578-1-Larry.Finger@lwfinger.net>
+Content-Transfer-Encoding: 8bit
 
-On Fri, Jul 14, 2023 at 12:54:17PM -0500, Larry Finger wrote:
-> In the above mentioned routine, memory is allocated in several places.
-> If the first succeeds and a later one fails, the routine will leak memory.
-> This patch fixes commit 2865d42c78a9 ("staging: r8712u: Add the new driver
-> to the mainline kernel"). A potential memory leak in
-> r8712_xmit_resource_alloc() is also addressed.
-> 
-> Fixes: 2865d42c78a9 ("staging: r8712u: Add the new driver to the mainline kernel")
-> Reported-by: syzbot+cf71097ffb6755df8251@syzkaller.appspotmail.com
-> Closes: https://syzkaller.appspot.com/x/log.txt?x=11ac3fa0a80000
-> Cc: stable@vger.kernel.org
-> Cc: Nam Cao <namcaov@gmail.com>
-> Signed-off-by: Larry Finger <Larry.Finger@lwfinger.net>
+The patch series added a new bus type vchiq_bus_type and registers
+child devices in order to move them away from using platform
+device/driver.
 
-I am not qualified to make comments on the code style, but it looks functionally
-correct to me. So:
+Patch 1/5 and 2/5 adds a new bus_type and registers them to vchiq
+interface
 
-Reviewed-by: Nam Cao <namcaov@gmail.com>
+Patch 3/5 and 4/5 moves the bcm2835-camera and bcm2835-audio
+to the new bus respectively
 
-Best regards,
-Nam
+Patch 5/5 removes a platform registeration helper which is no
+longer required.
+
+Changes in v9:
+- Fix module autoloading
+- Implement bus_type's probe() callback to load drivers
+- Implement bus_type's uevent() to make sure appropriate drivers are
+  loaded when device are registed from vchiq.
+
+Changes in v8:
+- Drop dual licensing. Instead use GPL-2.0 only for patch 1/5
+
+Changes in v7:
+(5 out of 6 patches from v6 merged)
+- Split the main patch (6/6) as requested.
+- Use struct vchiq_device * instead of struct device * in
+  all bus functions.
+- Drop additional name attribute displayed in sysfs (redundant info)
+- Document vchiq_interface doesn't enumerate device discovery
+- remove EXPORT_SYMBOL_GPL(vchiq_bus_type)
+
+Changes in v6:
+- Split struct device and struct driver wrappers in vchiq_device.[ch]
+- Move vchiq_bus_type definition to vchiq_device.[ch] as well
+- return error on bus_register() failure
+- drop dma_set_mask_and_coherent
+- trivial variable name change
+
+Changes in v5:
+- Fixup missing "staging: " in commits' subject line
+- No code changes from v4
+
+Changes in v4:
+- Introduce patches to drop include directives from Makefile
+
+Changes in v3:
+- Rework entirely to replace platform devices/driver model
+
+-v2:
+https://lore.kernel.org/all/20221222191500.515795-1-umang.jain@ideasonboard.com/
+
+-v1:
+https://lore.kernel.org/all/20221220084404.19280-1-umang.jain@ideasonboard.com/
+
+Umang Jain (5):
+  staging: vc04_services: vchiq_arm: Add new bus type and device type
+  staging: vc04_services: vchiq_arm: Register vchiq_bus_type
+  staging: bcm2835-camera: Register bcm2835-camera with vchiq_bus_type
+  staging: bcm2835-audio: Register bcm2835-audio with vchiq_bus_type
+  staging: vc04_services: vchiq_arm: Remove vchiq_register_child()
+
+ drivers/staging/vc04_services/Makefile        |   1 +
+ .../vc04_services/bcm2835-audio/bcm2835.c     |  20 ++--
+ .../bcm2835-camera/bcm2835-camera.c           |  17 +--
+ .../interface/vchiq_arm/vchiq_arm.c           |  48 ++++-----
+ .../interface/vchiq_arm/vchiq_device.c        | 102 ++++++++++++++++++
+ .../interface/vchiq_arm/vchiq_device.h        |  54 ++++++++++
+ 6 files changed, 196 insertions(+), 46 deletions(-)
+ create mode 100644 drivers/staging/vc04_services/interface/vchiq_arm/vchiq_device.c
+ create mode 100644 drivers/staging/vc04_services/interface/vchiq_arm/vchiq_device.h
+
+-- 
+2.39.1
+
