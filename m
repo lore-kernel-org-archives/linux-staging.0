@@ -1,154 +1,113 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 089D519BC5
-	for <linux-staging@lists.linux.dev>; Thu, 20 Jul 2023 18:27:36 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8CEB9C433C7;
-	Thu, 20 Jul 2023 18:27:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1689877656;
-	bh=2GMTN6ceqPES1/d6gjRazz6Y4nOBxsMGPt0GoZG9nCM=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=VRhrfpOF955zzNBQirMa4yp9YDTrPggwE1IOLByKCD9aiw5Qg3CjFFgm4nUgSKqTT
-	 NOD+OeVoyCoBHtwW4Fr/ju/0acGoYs7cDzEycSRfj7l5jLxGsZZCSoOax7beFZxgGd
-	 eXfcMa0udsQt81aKNcs24bhPBHblwzBehsjQP7tmPDMMe5Iwjy6oYDKSW7STpdnRu5
-	 TtfxHYpIjnby9JIZMZUoSOqrWtYItonYM2uk2xm/pnrCyxGiaXQdMd5qjGI8PGvIcw
-	 n6X2JtjJTf7cth+Wg1qtL7jEvWGhdJd7pyj9R/Cz9XRa7ASTytP/Tyn7BrduUvsgTJ
-	 jFBSy0Pb7HAAA==
-Date: Thu, 20 Jul 2023 19:27:30 +0100
-From: Jonathan Cameron <jic23@kernel.org>
-To: JuenKit Yip <JuenKit_Yip@hotmail.com>
-Cc: lars@metafoo.de, Michael.Hennerich@analog.com,
- gregkh@linuxfoundation.org, linux-iio@vger.kernel.org,
- linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v1] staging: iio: ad7816: add iio interface
-Message-ID: <20230720192730.490cf3cb@jic23-huawei>
-In-Reply-To: <DB4PR10MB626128364C9D170DFFAD0A48923BA@DB4PR10MB6261.EURPRD10.PROD.OUTLOOK.COM>
-References: <DB4PR10MB6261ADF6C8845AF66AB292989232A@DB4PR10MB6261.EURPRD10.PROD.OUTLOOK.COM>
-	<20230716144024.30ded663@jic23-huawei>
-	<DB4PR10MB626128364C9D170DFFAD0A48923BA@DB4PR10MB6261.EURPRD10.PROD.OUTLOOK.COM>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-pc-linux-gnu)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD4282FA58
+	for <linux-staging@lists.linux.dev>; Thu, 20 Jul 2023 19:34:10 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C9A2AC433C8;
+	Thu, 20 Jul 2023 19:34:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1689881650;
+	bh=x9POu8nwpWCKsGKV4M4myOjDZLVHqsNlbAI0nik7MCU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=XMTrufQ7wxYDKV4rmIASHji8yUu38DYaDuCIMA/01Xuhj74f3ZtP4EbafcszbxHLB
+	 wgqSSpFL3YmuDyDhtkZAwLhXe6FxCBL1zvNMBjX/GqsNizTak74niDlOWzgdc3NdRF
+	 m1Bn6pcaxcb/lZMUbijy9YMdR7+23dFKgRvOsxh4=
+Date: Thu, 20 Jul 2023 21:34:03 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Tree Davies <tdavies@darkphysics.net>
+Cc: Philipp Hortmann <philipp.g.hortmann@gmail.com>,
+	dan.carpenter@linaro.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: rtl8192e: Rename variable bCurrentHTSupport
+Message-ID: <2023072048-skewed-demise-a536@gregkh>
+References: <ZKYgH/BvkE9bdcPm@kimchi.darkphysics>
+ <6dee04ae-4129-cd7c-0d31-70d29b86c8ff@gmail.com>
+ <ZLL+Q0tcW5S8Xjmj@basil>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ZLL+Q0tcW5S8Xjmj@basil>
 
-	0);
-> >> -
-> >> -static ssize_t ad7816_show_value(struct device *dev,
-> >> -				 struct device_attribute *attr,
-> >> -				 char *buf)
-> >> -{
-> >> -	struct iio_dev *indio_dev = dev_to_iio_dev(dev);
-> >>   	struct ad7816_chip_info *chip = iio_priv(indio_dev);
-> >>   	u16 data;
-> >> -	s8 value;
-> >>   	int ret;
-> >>   
-> >> +	chip->channel_id = (u8)chan->channel;  
-> > Can we keep the channel_id local?
-> > It is used for over temperature detection (OTI) but that needs separating out.  
+On Sat, Jul 15, 2023 at 01:14:59PM -0700, Tree Davies wrote:
+> On Thu, Jul 06, 2023 at 10:48:56PM +0200, Philipp Hortmann wrote:
+> > On 7/6/23 03:59, Tree Davies wrote:
+> > > This patch renames variable bCurrentHTSupport to bcurrent_ht_support
+> > > to fix checkpatch warning Avoid CamelCase.
+> > > 
+> > > Signed-off-by: Tree Davies<tdavies@darkphysics.net>
+> > > ---
+> > >   drivers/staging/rtl8192e/rtl8192e/rtl_core.c |  2 +-
+> > >   drivers/staging/rtl8192e/rtl8192e/rtl_wx.c   |  2 +-
+> > >   drivers/staging/rtl8192e/rtl819x_BAProc.c    | 12 ++++++------
+> > >   drivers/staging/rtl8192e/rtl819x_HT.h        |  2 +-
+> > >   drivers/staging/rtl8192e/rtl819x_HTProc.c    | 16 ++++++++--------
+> > >   drivers/staging/rtl8192e/rtllib_softmac.c    | 16 ++++++++--------
+> > >   drivers/staging/rtl8192e/rtllib_softmac_wx.c |  2 +-
+> > >   drivers/staging/rtl8192e/rtllib_tx.c         |  8 ++++----
+> > >   8 files changed, 30 insertions(+), 30 deletions(-)
+> > 
+> > 
+> > Hi Tree,
+> > 
+> > when I try to apply your patch on the top of all the other patches I get the
+> > following error message:
+> > 
+> > kernel@matrix-ESPRIMO-P710:~/Documents/git/kernels/staging$ git apply -v
+> > ~/Downloads/20230706-\[PATCH\]\ staging_\ rtl8192e_\ Rename\ variable\
+> > bCurrentHTSupport-10002.txt
+> > Checking patch drivers/staging/rtl8192e/rtl8192e/rtl_core.c...
+> > Checking patch drivers/staging/rtl8192e/rtl8192e/rtl_wx.c...
+> > Checking patch drivers/staging/rtl8192e/rtl819x_BAProc.c...
+> > Checking patch drivers/staging/rtl8192e/rtl819x_HT.h...
+> > Checking patch drivers/staging/rtl8192e/rtl819x_HTProc.c...
+> > Checking patch drivers/staging/rtl8192e/rtllib_softmac.c...
+> > error: while searching for:
+> > 	crypt = ieee->crypt_info.crypt[ieee->crypt_info.tx_keyidx];
+> > 	encrypt = ieee->host_encrypt && crypt && crypt->ops &&
+> > 		((strcmp(crypt->ops->name, "R-WEP") == 0 || wpa_ie_len));
+> > 	if (ieee->ht_info->bCurrentHTSupport) {
+> > 		tmp_ht_cap_buf = (u8 *)&(ieee->ht_info->SelfHTCap);
+> > 		tmp_ht_cap_len = sizeof(ieee->ht_info->SelfHTCap);
+> > 		tmp_ht_info_buf = (u8 *)&(ieee->ht_info->SelfHTInfo);
+> > 
+> > error: patch failed: drivers/staging/rtl8192e/rtllib_softmac.c:816
+> > error: drivers/staging/rtl8192e/rtllib_softmac.c: patch does not apply
+> > Checking patch drivers/staging/rtl8192e/rtllib_softmac_wx.c...
+> > Checking patch drivers/staging/rtl8192e/rtllib_tx.c...
+> > 
+> > 
+> > My be the previous send patches are not taken then your chance is better
+> > that this one will fit. Will see what happens.
+> > 
+> > 
+> > You need to put your patches into a patch series.
+> > This reduces email traffic as the reviewer can just send one email and does
+> > not need to send four.
+> > 
+> > A possible command for a patch series is looking like this:
+> > git format-patch -o ~/Documents/kernel/patches/ --cover-letter -n
+> > --thread=shallow --to="Greg Kroah-Hartman <gregkh@linuxfoundation.org>,linux-staging@lists.linux.dev,linux-kernel@vger.kernel.org"
+> > 4bbbd60d84e15fdb7bffde98a687ed168a4dfbbd^..HEAD
+> > 
+> > Use the git commit id of your first patch.
+> > 
+> > Bye Philipp
+> > 
+> > 
 > 
-> ack, maybe need a another commit.
+> Philipp,
 > 
-> channel_id may be removed from ad7816_chip_info
+> I think I understand what I did wrong. Each of these original patches were 
+> created/based from the same commit hash. So it makes sense that only the
+> first one applied would apply cleanly and the others would fail. 
 
-Agreed. A separate ID will tidy this up and may provide a transition path
-to let you do the other parts in multiples steps.
+Please redo them all and send them as a proper patch series.
 
-> 
-> >
-> > Given you'll be breaking that connection I think you need to deal with
-> > both the main attributes and the event ones in a single go.  Thus removing
-> > any hidden usage of the last channel touched like you have here.
-> >
-> >  
-> >>   	ret = ad7816_spi_read(chip, &data);
-> >>   	if (ret)
-> >>   		return -EIO;
-> >> @@ -227,22 +180,21 @@ static ssize_t ad7816_show_value(struct device *dev,
-> >>   	data >>= AD7816_VALUE_OFFSET;
-> >>   
-> >>   	if (chip->channel_id == 0) {
-> >> -		value = (s8)((data >> AD7816_TEMP_FLOAT_OFFSET) - 103);
-> >> -		data &= AD7816_TEMP_FLOAT_MASK;
-> >> -		if (value < 0)
-> >> -			data = BIT(AD7816_TEMP_FLOAT_OFFSET) - data;
-> >> -		return sprintf(buf, "%d.%.2d\n", value, data * 25);
-> >> +		*val = (s8)((data >> AD7816_TEMP_FLOAT_OFFSET) - 103);  
-> > Use masks and FIELD_GET() though that change perhaps belongs in a separate patch set.  
-> ack
-> >> +		*val2 = (data & AD7816_TEMP_FLOAT_MASK) * 25;
-> >> +		if (*val < 0)
-> >> +			*val2 = BIT(AD7816_TEMP_FLOAT_OFFSET) - *val2;
-> >> +		return IIO_VAL_INT_PLUS_MICRO;
-> >>   	}
-> >> -	return sprintf(buf, "%u\n", data);
-> >> -}
-> >>   
-> >> -static IIO_DEVICE_ATTR(value, 0444, ad7816_show_value, NULL, 0);
-> >> +	*val = data;
-> >> +
-> >> +	return IIO_VAL_INT;
-> >> +}
-> >>   
-> >>   static struct attribute *ad7816_attributes[] = {
-> >>   	&iio_dev_attr_available_modes.dev_attr.attr,
-> >>   	&iio_dev_attr_mode.dev_attr.attr,
-> >> -	&iio_dev_attr_channel.dev_attr.attr,
-> >> -	&iio_dev_attr_value.dev_attr.attr,
-> >>   	NULL,
-> >>   };
-> >>   
-> >> @@ -341,10 +293,47 @@ static const struct attribute_group ad7816_event_attribute_group = {
-> >>   };
-> >>   
-> >>   static const struct iio_info ad7816_info = {
-> >> +	.read_raw = ad7816_read_raw,
-> >>   	.attrs = &ad7816_attribute_group,
-> >>   	.event_attrs = &ad7816_event_attribute_group,
-> >>   };
-> >>   
-> >> +static const struct iio_chan_spec ad7816_channels[] = {
-> >> +	{
-> >> +		.type = IIO_TEMP,
-> >> +		.indexed = 1,
-> >> +		.channel = 0,
-> >> +		.info_mask_separate = BIT(IIO_CHAN_INFO_PROCESSED),
-> >> +	},
-> >> +};
-> >> +
-> >> +static const struct iio_chan_spec ad7817_channels[] = {
-> >> +	{
-> >> +		.type = IIO_TEMP,
-> >> +		.indexed = 1,
-> >> +		.channel = 0,
-> >> +		.info_mask_separate = BIT(IIO_CHAN_INFO_PROCESSED),  
-> > This would require the reading presented to be in the units defined by
-> > the ABI (Documentation/ABI/testing/sysfs-bus-iio)
-> > Can you confirm that these are all correct?  
-> I will upload test report
+thanks,
 
-Perfect.
-
-> >
-> > Note it is very unusual for an IIO driver to present all processed channels.
-> > Superficially it looks like there might be some appropriate conversions done
-> > for the temperature channels for them to be in the right units, but nothing
-> > at all is done to the voltage channels...  
-> 
-> In fact, I hope to set voltage channel to RAW, and leave conversion to 
-> users.
-> 
-> Is it a good idea?
-
-Yes, though hopefully we can also provide a _SCALE to give userspace the
-information it needs.
-
-> 
-
-
+greg k-h
