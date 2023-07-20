@@ -1,150 +1,167 @@
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.126.134])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA62418AF2;
-	Thu, 20 Jul 2023 15:03:12 +0000 (UTC)
-Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-31454996e06so748531f8f.2;
-        Thu, 20 Jul 2023 08:03:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1689865391; x=1690470191;
-        h=user-agent:in-reply-to:content-disposition:mime-version:references
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=h9T6xDcaGdFqXpwnBEyH6XzquYN88GIZKDHbykcmRxA=;
-        b=dSEvn9QPxO9EVVW5ZGjUhUJUE3+OUOg7VWh6lwkKx+3zaEg/BnEepLUNRdoNU0j7Cz
-         wyhm0EPH/tozgy0H1KYAWbgzLNDLTv8CvmCaXaZcclLRcMskp29IBudDp7X/9DhmiKlm
-         HL3p3EUj9WhCU9sm01p/KtbD9vEAw+f1on0TfS8ssJvHluib1iHupvByidVbsWqzvzXJ
-         6plME6LqTd/dyZ2j8xrx60lVKVk/7Tgyw88nHVYl1y57WOuQHaBuNQ1Rm2bmDTG7ahlF
-         +jtPpxoBXCsAOQGw9+0lC721Of0twvgTCR7lhDxfAEnAywVrrsQ0izAvo5qRXad0Ld+Y
-         D+bA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689865391; x=1690470191;
-        h=user-agent:in-reply-to:content-disposition:mime-version:references
-         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=h9T6xDcaGdFqXpwnBEyH6XzquYN88GIZKDHbykcmRxA=;
-        b=KfwEdD/PYh/N3dRHEYUZJVl3EUZno5+2hbC12MZByXzS8zVlVWrbDLk6J+Q9zQrwlR
-         Ow4qnM5zs8IUTezl5td8Nuc118wYS+UQQ/KoEWPZV0Zj2qFq14nB8gqlTc+gyn1/3ZW/
-         J5BJUOY9wVTPCKp/u5VVyCjnBiofP8FJOZ5RzV4cXpGygaZJFd8zgbkQKo8SToUPL6Ng
-         sEyXnuowCykTlDdNzPhrs+HUTO09oBVw7okZDF8okSps5VXs7/mRZQw9moddE7nvNLC+
-         GU1XkBBSlppH+lp+v1t3bWR4SOMzccdgS/SK8+4eN3XnIkih8jaEMojAlRw9WlfbisR2
-         BtGw==
-X-Gm-Message-State: ABy/qLYfbF3TsRlFdimlaHGfL3+Y1/Uc5H/DFe5Fq7VDVM9C0H27i6Zv
-	uAShAAm7lwYk2Eea2b9w+OA=
-X-Google-Smtp-Source: APBJJlEr5CyHhhpLYp3q/AVdeWKExZ21rYH+UIIgwfGMQMwnqR91YpoT/wK/430U56C5ddPybLCc+g==
-X-Received: by 2002:a5d:55ce:0:b0:313:e8bf:a77 with SMTP id i14-20020a5d55ce000000b00313e8bf0a77mr2183185wrw.5.1689865390637;
-        Thu, 20 Jul 2023 08:03:10 -0700 (PDT)
-Received: from orome (p200300e41f1bd600f22f74fffe1f3a53.dip0.t-ipconnect.de. [2003:e4:1f1b:d600:f22f:74ff:fe1f:3a53])
-        by smtp.gmail.com with ESMTPSA id y16-20020a5d6150000000b00313e59cb371sm1599728wrt.12.2023.07.20.08.03.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 20 Jul 2023 08:03:10 -0700 (PDT)
-Date: Thu, 20 Jul 2023 17:03:07 +0200
-From: Thierry Reding <thierry.reding@gmail.com>
-To: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	Heiko Stuebner <heiko@sntech.de>,
-	Guenter Roeck <groeck@chromium.org>,
-	linux-riscv@lists.infradead.org, chrome-platform@lists.linux.dev,
-	Florian Fainelli <florian.fainelli@broadcom.com>,
-	linux-staging@lists.linux.dev, linux-rockchip@lists.infradead.org,
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
-	linux-pwm@vger.kernel.org, Ray Jui <rjui@broadcom.com>,
-	Johan Hovold <johan@kernel.org>, greybus-dev@lists.linaro.org,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Benson Leung <bleung@chromium.org>,
-	linux-arm-kernel@lists.infradead.org, Alex Elder <elder@kernel.org>,
-	Scott Branden <sbranden@broadcom.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Nicolas Ferre <nicolas.ferre@microchip.com>,
-	Michael Walle <michael@walle.cc>,
-	Palmer Dabbelt <palmer@dabbelt.com>, kernel@pengutronix.de,
-	Claudiu Beznea <claudiu.beznea@microchip.com>
-Subject: Re: [PATCH 00/10] pwm: Constistenly name pwm_chip variables "chip"
-Message-ID: <ZLlMqwAnoPzI8ONt@orome>
-References: <20230714205623.2496590-1-u.kleine-koenig@pengutronix.de>
- <ZLjYqwGh178EHrVY@orome>
- <20230720071033.e72hjkpghf5ooe73@pengutronix.de>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C24619BA2
+	for <linux-staging@lists.linux.dev>; Thu, 20 Jul 2023 16:17:11 +0000 (UTC)
+Received: from [192.168.1.141] ([37.4.248.68]) by mrelayeu.kundenserver.de
+ (mreue009 [212.227.15.167]) with ESMTPSA (Nemesis) id
+ 1MLR5f-1qeKIi1A8p-00ISHx; Thu, 20 Jul 2023 18:16:59 +0200
+Message-ID: <dab140d7-112d-b9c6-4a9f-43e5ddfa02b8@i2se.com>
+Date: Thu, 20 Jul 2023 18:16:58 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="CL52jB4nG8OB1M/q"
-Content-Disposition: inline
-In-Reply-To: <20230720071033.e72hjkpghf5ooe73@pengutronix.de>
-User-Agent: Mutt/2.2.10 (2023-03-25)
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH v9 0/5] staging: vc04_services: vchiq: Register devices
+ with a custom bus_type
+To: Umang Jain <umang.jain@ideasonboard.com>, linux-staging@lists.linux.dev,
+ linux-rpi-kernel@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
+ linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc: gregkh@linuxfoundation.org, f.fainelli@gmail.com, athierry@redhat.com,
+ error27@gmail.com, dave.stevenson@raspberrypi.com,
+ kieran.bingham@ideasonboard.com, laurent.pinchart@ideasonboard.com
+References: <20230719164427.1383646-1-umang.jain@ideasonboard.com>
+ <fe8ed301-dda8-9038-a035-c24e84bc2c5c@ideasonboard.com>
+ <546b2da6-994a-ebc7-60c1-1d1ff2202f88@i2se.com>
+ <43b2929d-f6be-d382-2802-412b0928dad0@ideasonboard.com>
+Content-Language: en-US
+From: Stefan Wahren <stefan.wahren@i2se.com>
+In-Reply-To: <43b2929d-f6be-d382-2802-412b0928dad0@ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:d25q+yIoDtL+qvLdrxnegz7b6PY1BxEd2NqLL9mlu4SH20EjsM2
+ DJjV75WDGLiMtBClmecedJ+2Sd9w1lSPr0MRgeZ+s2apaXKTjRHXtTTTAVaz8yDp7GwAGUW
+ 5ELxQqsG6sy1rEVxUBy7OyBkC39a2A1CQ7Unvco4XQDGF8y5fE5GrRlo2MsDPOxwWBWst3a
+ yGmRRNbKuosR091F0wK9Q==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:KA7lC8O0Ai8=;dRq1hlURUu4QSgCzZBi1sEx6+u8
+ yXZKKqLCkvKI8CJp1nbOmXkMGGebZVTPPOl3Pv/aXqJBhfUUYkA1uSGJqgyaorEblE/2nubBC
+ 61Jcl4E7XF294DQBjAToY5vuIVWxssGp8YnJA/rVpvqtk9vGcKDEtOyx9Uq45bHjblL7xCTxF
+ IS8XTkq8cLS0cM1Su/54Wi/dKNqqaFMkp4dXMoLEtToGRzF4QU8Cu7Kb4z2EEHi65dtDRHViT
+ YHYgEpTclLSBmyPKtn4bb/yp7rxx57LybZJWMo34eqFwKRLZ5jp6hd39hs1WUPc0AVYOM2w9o
+ CosT2SaSvAWcqMnhkD0pvuHPzkS3UkegGP82hS00W1vFo/ie7AbUw7gmiav6qqCJ5zZ76Tmtt
+ 8GmYvCuReO2QYL5CuG/FQaVfEoMW+cVSFe9jq8yYVcmUtnlrXQv395sQXpawGpZwWnFQ2lwEL
+ hJa+8CS7gI2dUm56rG0sHf7OQ7tqmKXCQm/L1Q0nyOKK8ezgSOU205xYwRt1cB68WOmpv391C
+ eXNst6oyU0pMsnuA6kOMtngfYjoMDpk/o54OwqxxX2nEzMFfe2oTvbvmRwVbGDZ1u40r8sOIH
+ skWy+i3PghhDe/uDYGvfzyT0A/GGO+oU64agFcYjTuQRYd14cc+lw4vcF0AyuwOqX0YjGCB9s
+ jaMOS+cGBAUKaQ/LEG8v0bmzc5w8iDIjlPaCJd81Mg==
 
+Hi Umang,
 
---CL52jB4nG8OB1M/q
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Am 20.07.23 um 14:08 schrieb Umang Jain:
+> Hi Stefan ,
+> 
+> 
+> On 7/19/23 11:05 PM, Stefan Wahren wrote:
+>> Hi Umang,
+>>
+>> Am 19.07.23 um 18:54 schrieb Umang Jain:
+>>> Hi,
+>>>
+>>> One comment,
+>>>
+>>> On 7/19/23 10:14 PM, Umang Jain wrote:
+>>>> The patch series added a new bus type vchiq_bus_type and registers
+>>>> child devices in order to move them away from using platform
+>>>> device/driver.
+>>>>
+>>>> Patch 1/5 and 2/5 adds a new bus_type and registers them to vchiq
+>>>> interface
+>>>>
+>>>> Patch 3/5 and 4/5 moves the bcm2835-camera and bcm2835-audio
+>>>> to the new bus respectively
+>>>>
+>>>> Patch 5/5 removes a platform registeration helper which is no
+>>>> longer required.
+>>>>
+>>>> Changes in v9:
+>>>> - Fix module autoloading
+>>>
+>>> While the autoloading of bcm2835-audio, bcm2835-camera is fixed as 
+>>> part of this series, there is one WARN coming in when bcm2835-audio 
+>>> is loaded regarding dma_alloc_attr
+>>>
+>>> dmesg output: https://paste.debian.net/plain/1286359
+>>
+>> is it possible that after your patch series no DMA mask like 
+>> DMA_BIT_MASK(32) is provided?
+> 
+> I am trying to set DMA_BIT_MASK(32) via  dma_set_mask_and_coherent() but 
+> it fails with -EIO
 
-On Thu, Jul 20, 2023 at 09:10:33AM +0200, Uwe Kleine-K=C3=B6nig wrote:
-> Hello Thierry,
->=20
-> On Thu, Jul 20, 2023 at 08:48:11AM +0200, Thierry Reding wrote:
-> > On Fri, Jul 14, 2023 at 10:56:13PM +0200, Uwe Kleine-K=C3=B6nig wrote:
-> > > Uwe Kleine-K=C3=B6nig (10):
-> > >   pwm: Use a consistent name for pwm_chip pointers in the core
-> > >   pwm: atmel-hlcdc: Use consistent variable naming
-> > >   pwm: bcm-kona: Consistenly name pwm_chip variables "chip"
-> > >   pwm: crc: Consistenly name pwm_chip variables "chip"
-> > >   pwm: cros-ec: Consistenly name pwm_chip variables "chip"
-> > >   pwm: lp3943: Consistenly name pwm_chip variables "chip"
-> > >   pwm: rockchip: Consistenly name pwm_chip variables "chip"
-> > >   pwm: sifive: Consistenly name pwm_chip variables "chip"
-> > >   pwm: sl28cpld: Consistenly name pwm_chip variables "chip"
-> > >   staging: greybus: pwm: Consistenly name pwm_chip variables "chip"
-> >=20
-> > This would've been much easier if it had been a single patch. Now I have
-> > to either make you redo the whole series because you've misspelled PWM
-> > or I have to go and update it myself in most of the above patches. Hint:
-> > I'll do the latter.
->=20
-> I guess you want to do s/pwm driver/PWM driver/? Fine for me, thanks.
->=20
-> > There is really no reason to split this up into this many patches for
-> > such a trivial change.
->=20
-> Well, that's a subjective view. There are reasons to prefer several
-> small patches over one big one, too. A small patch can be indiviually
-> reviewed, so the "Reviewed-by: Alex Elder ..." tag only goes to the one
-> change that he actually looked at and if later a fix to the sifive
-> driver is to be backported to stable, the stable maintainers just pick
-> the sifive one instead of one big patch.
+what happens if you assign DMA_BIT_MASK(32) to device->dev.dma_mask 
+within vchiq_device_register()?
 
-Backports becoming more complicated would actually be a good reason not
-to do this in the first place, but we've already discussed that enough
-elsewhere.
-
-> Did you skip the sl28cpld patch, or squash the fixup I sent in the reply
-> to Michael Walle?
-
-I squashed the fixup.
-
-Thierry
-
---CL52jB4nG8OB1M/q
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmS5TKsACgkQ3SOs138+
-s6F+LQ//Zs8K61taGOGqAeIFgMkT8WRglsOSZQPOn2E1/c4RWwUspgRCfQs6nAN3
-n1D2d2th0c0z2xfswoA6Q4TIzMyfejDbfKdslO705EbwQLXXLsOrrPJ0ART1RfsD
-rfsvJ/xiJlVX9AEFK9BvNyICipw36JhttBLrai9rVpd6Qw9SrhTt635P5xY5+DhY
-YK+dKHlwQYICb6dr4v14AbszZOAZsQLq2tro0AhcB7CwCUKvmZIAhGKfbj4jlsWd
-Q6iS2UWxdBMV7rjl9v3OwU2+MqNQwSKQ/RAFWIN/w/jHH7gdj9H/z7I7yBVDJMyg
-21uVm556sofBlWFwlVSfkng9YkM6fTBOt8Su7mV3AUZ4ufy03RMqXV29t6ks+8S+
-CTztOmWniJT/lJdhkAA3H9Sv010rjRKZjvHiOCilbgDyZ8B7BNY2gl1zoBUC/WrJ
-HzIwcpbVc6NQsnjFtnBMsczS9MHqIFXjHnUMSIYIhoUxRc5mnZWs+cgbzc9y16UD
-N/WWzMSwkhtaXIGVo4PSkNxuTl0vHFRHdXiy7o34cANT+UwWhHrJgNFx9VTphYHY
-VeP/0Qv+NWY4/6B113lh2Bq7cXY7RtyDXygdB3yraplPW3/vdU9d/kHeiHCTPRDK
-/w3AlUr10ciCY/6VXaGVt3JsNpWKpK3qaI/B0lkLNJt0+ZOwHFE=
-=Z1TB
------END PGP SIGNATURE-----
-
---CL52jB4nG8OB1M/q--
+>>
+>>>
+>>> I am investigating further...
+>>>> - Implement bus_type's probe() callback to load drivers
+>>>> - Implement bus_type's uevent() to make sure appropriate drivers are
+>>>>    loaded when device are registed from vchiq.
+>>>>
+>>>> Changes in v8:
+>>>> - Drop dual licensing. Instead use GPL-2.0 only for patch 1/5
+>>>>
+>>>> Changes in v7:
+>>>> (5 out of 6 patches from v6 merged)
+>>>> - Split the main patch (6/6) as requested.
+>>>> - Use struct vchiq_device * instead of struct device * in
+>>>>    all bus functions.
+>>>> - Drop additional name attribute displayed in sysfs (redundant info)
+>>>> - Document vchiq_interface doesn't enumerate device discovery
+>>>> - remove EXPORT_SYMBOL_GPL(vchiq_bus_type)
+>>>>
+>>>> Changes in v6:
+>>>> - Split struct device and struct driver wrappers in vchiq_device.[ch]
+>>>> - Move vchiq_bus_type definition to vchiq_device.[ch] as well
+>>>> - return error on bus_register() failure
+>>>> - drop dma_set_mask_and_coherent
+>>>> - trivial variable name change
+>>>>
+>>>> Changes in v5:
+>>>> - Fixup missing "staging: " in commits' subject line
+>>>> - No code changes from v4
+>>>>
+>>>> Changes in v4:
+>>>> - Introduce patches to drop include directives from Makefile
+>>>>
+>>>> Changes in v3:
+>>>> - Rework entirely to replace platform devices/driver model
+>>>>
+>>>> -v2:
+>>>> https://lore.kernel.org/all/20221222191500.515795-1-umang.jain@ideasonboard.com/
+>>>>
+>>>> -v1:
+>>>> https://lore.kernel.org/all/20221220084404.19280-1-umang.jain@ideasonboard.com/
+>>>>
+>>>> Umang Jain (5):
+>>>>    staging: vc04_services: vchiq_arm: Add new bus type and device type
+>>>>    staging: vc04_services: vchiq_arm: Register vchiq_bus_type
+>>>>    staging: bcm2835-camera: Register bcm2835-camera with vchiq_bus_type
+>>>>    staging: bcm2835-audio: Register bcm2835-audio with vchiq_bus_type
+>>>>    staging: vc04_services: vchiq_arm: Remove vchiq_register_child()
+>>>>
+>>>>   drivers/staging/vc04_services/Makefile        |   1 +
+>>>>   .../vc04_services/bcm2835-audio/bcm2835.c     |  20 ++--
+>>>>   .../bcm2835-camera/bcm2835-camera.c           |  17 +--
+>>>>   .../interface/vchiq_arm/vchiq_arm.c           |  48 ++++-----
+>>>>   .../interface/vchiq_arm/vchiq_device.c        | 102 
+>>>> ++++++++++++++++++
+>>>>   .../interface/vchiq_arm/vchiq_device.h        |  54 ++++++++++
+>>>>   6 files changed, 196 insertions(+), 46 deletions(-)
+>>>>   create mode 100644 
+>>>> drivers/staging/vc04_services/interface/vchiq_arm/vchiq_device.c
+>>>>   create mode 100644 
+>>>> drivers/staging/vc04_services/interface/vchiq_arm/vchiq_device.h
+>>>>
+>>>
+> 
+> 
+> _______________________________________________
+> linux-arm-kernel mailing list
+> linux-arm-kernel@lists.infradead.org
+> http://lists.infradead.org/mailman/listinfo/linux-arm-kernel
