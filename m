@@ -1,167 +1,154 @@
-Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.126.134])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C24619BA2
-	for <linux-staging@lists.linux.dev>; Thu, 20 Jul 2023 16:17:11 +0000 (UTC)
-Received: from [192.168.1.141] ([37.4.248.68]) by mrelayeu.kundenserver.de
- (mreue009 [212.227.15.167]) with ESMTPSA (Nemesis) id
- 1MLR5f-1qeKIi1A8p-00ISHx; Thu, 20 Jul 2023 18:16:59 +0200
-Message-ID: <dab140d7-112d-b9c6-4a9f-43e5ddfa02b8@i2se.com>
-Date: Thu, 20 Jul 2023 18:16:58 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 089D519BC5
+	for <linux-staging@lists.linux.dev>; Thu, 20 Jul 2023 18:27:36 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8CEB9C433C7;
+	Thu, 20 Jul 2023 18:27:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1689877656;
+	bh=2GMTN6ceqPES1/d6gjRazz6Y4nOBxsMGPt0GoZG9nCM=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=VRhrfpOF955zzNBQirMa4yp9YDTrPggwE1IOLByKCD9aiw5Qg3CjFFgm4nUgSKqTT
+	 NOD+OeVoyCoBHtwW4Fr/ju/0acGoYs7cDzEycSRfj7l5jLxGsZZCSoOax7beFZxgGd
+	 eXfcMa0udsQt81aKNcs24bhPBHblwzBehsjQP7tmPDMMe5Iwjy6oYDKSW7STpdnRu5
+	 TtfxHYpIjnby9JIZMZUoSOqrWtYItonYM2uk2xm/pnrCyxGiaXQdMd5qjGI8PGvIcw
+	 n6X2JtjJTf7cth+Wg1qtL7jEvWGhdJd7pyj9R/Cz9XRa7ASTytP/Tyn7BrduUvsgTJ
+	 jFBSy0Pb7HAAA==
+Date: Thu, 20 Jul 2023 19:27:30 +0100
+From: Jonathan Cameron <jic23@kernel.org>
+To: JuenKit Yip <JuenKit_Yip@hotmail.com>
+Cc: lars@metafoo.de, Michael.Hennerich@analog.com,
+ gregkh@linuxfoundation.org, linux-iio@vger.kernel.org,
+ linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v1] staging: iio: ad7816: add iio interface
+Message-ID: <20230720192730.490cf3cb@jic23-huawei>
+In-Reply-To: <DB4PR10MB626128364C9D170DFFAD0A48923BA@DB4PR10MB6261.EURPRD10.PROD.OUTLOOK.COM>
+References: <DB4PR10MB6261ADF6C8845AF66AB292989232A@DB4PR10MB6261.EURPRD10.PROD.OUTLOOK.COM>
+	<20230716144024.30ded663@jic23-huawei>
+	<DB4PR10MB626128364C9D170DFFAD0A48923BA@DB4PR10MB6261.EURPRD10.PROD.OUTLOOK.COM>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH v9 0/5] staging: vc04_services: vchiq: Register devices
- with a custom bus_type
-To: Umang Jain <umang.jain@ideasonboard.com>, linux-staging@lists.linux.dev,
- linux-rpi-kernel@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc: gregkh@linuxfoundation.org, f.fainelli@gmail.com, athierry@redhat.com,
- error27@gmail.com, dave.stevenson@raspberrypi.com,
- kieran.bingham@ideasonboard.com, laurent.pinchart@ideasonboard.com
-References: <20230719164427.1383646-1-umang.jain@ideasonboard.com>
- <fe8ed301-dda8-9038-a035-c24e84bc2c5c@ideasonboard.com>
- <546b2da6-994a-ebc7-60c1-1d1ff2202f88@i2se.com>
- <43b2929d-f6be-d382-2802-412b0928dad0@ideasonboard.com>
-Content-Language: en-US
-From: Stefan Wahren <stefan.wahren@i2se.com>
-In-Reply-To: <43b2929d-f6be-d382-2802-412b0928dad0@ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:d25q+yIoDtL+qvLdrxnegz7b6PY1BxEd2NqLL9mlu4SH20EjsM2
- DJjV75WDGLiMtBClmecedJ+2Sd9w1lSPr0MRgeZ+s2apaXKTjRHXtTTTAVaz8yDp7GwAGUW
- 5ELxQqsG6sy1rEVxUBy7OyBkC39a2A1CQ7Unvco4XQDGF8y5fE5GrRlo2MsDPOxwWBWst3a
- yGmRRNbKuosR091F0wK9Q==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:KA7lC8O0Ai8=;dRq1hlURUu4QSgCzZBi1sEx6+u8
- yXZKKqLCkvKI8CJp1nbOmXkMGGebZVTPPOl3Pv/aXqJBhfUUYkA1uSGJqgyaorEblE/2nubBC
- 61Jcl4E7XF294DQBjAToY5vuIVWxssGp8YnJA/rVpvqtk9vGcKDEtOyx9Uq45bHjblL7xCTxF
- IS8XTkq8cLS0cM1Su/54Wi/dKNqqaFMkp4dXMoLEtToGRzF4QU8Cu7Kb4z2EEHi65dtDRHViT
- YHYgEpTclLSBmyPKtn4bb/yp7rxx57LybZJWMo34eqFwKRLZ5jp6hd39hs1WUPc0AVYOM2w9o
- CosT2SaSvAWcqMnhkD0pvuHPzkS3UkegGP82hS00W1vFo/ie7AbUw7gmiav6qqCJ5zZ76Tmtt
- 8GmYvCuReO2QYL5CuG/FQaVfEoMW+cVSFe9jq8yYVcmUtnlrXQv395sQXpawGpZwWnFQ2lwEL
- hJa+8CS7gI2dUm56rG0sHf7OQ7tqmKXCQm/L1Q0nyOKK8ezgSOU205xYwRt1cB68WOmpv391C
- eXNst6oyU0pMsnuA6kOMtngfYjoMDpk/o54OwqxxX2nEzMFfe2oTvbvmRwVbGDZ1u40r8sOIH
- skWy+i3PghhDe/uDYGvfzyT0A/GGO+oU64agFcYjTuQRYd14cc+lw4vcF0AyuwOqX0YjGCB9s
- jaMOS+cGBAUKaQ/LEG8v0bmzc5w8iDIjlPaCJd81Mg==
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Hi Umang,
+	0);
+> >> -
+> >> -static ssize_t ad7816_show_value(struct device *dev,
+> >> -				 struct device_attribute *attr,
+> >> -				 char *buf)
+> >> -{
+> >> -	struct iio_dev *indio_dev = dev_to_iio_dev(dev);
+> >>   	struct ad7816_chip_info *chip = iio_priv(indio_dev);
+> >>   	u16 data;
+> >> -	s8 value;
+> >>   	int ret;
+> >>   
+> >> +	chip->channel_id = (u8)chan->channel;  
+> > Can we keep the channel_id local?
+> > It is used for over temperature detection (OTI) but that needs separating out.  
+> 
+> ack, maybe need a another commit.
+> 
+> channel_id may be removed from ad7816_chip_info
 
-Am 20.07.23 um 14:08 schrieb Umang Jain:
-> Hi Stefan ,
-> 
-> 
-> On 7/19/23 11:05 PM, Stefan Wahren wrote:
->> Hi Umang,
->>
->> Am 19.07.23 um 18:54 schrieb Umang Jain:
->>> Hi,
->>>
->>> One comment,
->>>
->>> On 7/19/23 10:14 PM, Umang Jain wrote:
->>>> The patch series added a new bus type vchiq_bus_type and registers
->>>> child devices in order to move them away from using platform
->>>> device/driver.
->>>>
->>>> Patch 1/5 and 2/5 adds a new bus_type and registers them to vchiq
->>>> interface
->>>>
->>>> Patch 3/5 and 4/5 moves the bcm2835-camera and bcm2835-audio
->>>> to the new bus respectively
->>>>
->>>> Patch 5/5 removes a platform registeration helper which is no
->>>> longer required.
->>>>
->>>> Changes in v9:
->>>> - Fix module autoloading
->>>
->>> While the autoloading of bcm2835-audio, bcm2835-camera is fixed as 
->>> part of this series, there is one WARN coming in when bcm2835-audio 
->>> is loaded regarding dma_alloc_attr
->>>
->>> dmesg output: https://paste.debian.net/plain/1286359
->>
->> is it possible that after your patch series no DMA mask like 
->> DMA_BIT_MASK(32) is provided?
-> 
-> I am trying to set DMA_BIT_MASK(32) via  dma_set_mask_and_coherent() but 
-> it fails with -EIO
+Agreed. A separate ID will tidy this up and may provide a transition path
+to let you do the other parts in multiples steps.
 
-what happens if you assign DMA_BIT_MASK(32) to device->dev.dma_mask 
-within vchiq_device_register()?
+> 
+> >
+> > Given you'll be breaking that connection I think you need to deal with
+> > both the main attributes and the event ones in a single go.  Thus removing
+> > any hidden usage of the last channel touched like you have here.
+> >
+> >  
+> >>   	ret = ad7816_spi_read(chip, &data);
+> >>   	if (ret)
+> >>   		return -EIO;
+> >> @@ -227,22 +180,21 @@ static ssize_t ad7816_show_value(struct device *dev,
+> >>   	data >>= AD7816_VALUE_OFFSET;
+> >>   
+> >>   	if (chip->channel_id == 0) {
+> >> -		value = (s8)((data >> AD7816_TEMP_FLOAT_OFFSET) - 103);
+> >> -		data &= AD7816_TEMP_FLOAT_MASK;
+> >> -		if (value < 0)
+> >> -			data = BIT(AD7816_TEMP_FLOAT_OFFSET) - data;
+> >> -		return sprintf(buf, "%d.%.2d\n", value, data * 25);
+> >> +		*val = (s8)((data >> AD7816_TEMP_FLOAT_OFFSET) - 103);  
+> > Use masks and FIELD_GET() though that change perhaps belongs in a separate patch set.  
+> ack
+> >> +		*val2 = (data & AD7816_TEMP_FLOAT_MASK) * 25;
+> >> +		if (*val < 0)
+> >> +			*val2 = BIT(AD7816_TEMP_FLOAT_OFFSET) - *val2;
+> >> +		return IIO_VAL_INT_PLUS_MICRO;
+> >>   	}
+> >> -	return sprintf(buf, "%u\n", data);
+> >> -}
+> >>   
+> >> -static IIO_DEVICE_ATTR(value, 0444, ad7816_show_value, NULL, 0);
+> >> +	*val = data;
+> >> +
+> >> +	return IIO_VAL_INT;
+> >> +}
+> >>   
+> >>   static struct attribute *ad7816_attributes[] = {
+> >>   	&iio_dev_attr_available_modes.dev_attr.attr,
+> >>   	&iio_dev_attr_mode.dev_attr.attr,
+> >> -	&iio_dev_attr_channel.dev_attr.attr,
+> >> -	&iio_dev_attr_value.dev_attr.attr,
+> >>   	NULL,
+> >>   };
+> >>   
+> >> @@ -341,10 +293,47 @@ static const struct attribute_group ad7816_event_attribute_group = {
+> >>   };
+> >>   
+> >>   static const struct iio_info ad7816_info = {
+> >> +	.read_raw = ad7816_read_raw,
+> >>   	.attrs = &ad7816_attribute_group,
+> >>   	.event_attrs = &ad7816_event_attribute_group,
+> >>   };
+> >>   
+> >> +static const struct iio_chan_spec ad7816_channels[] = {
+> >> +	{
+> >> +		.type = IIO_TEMP,
+> >> +		.indexed = 1,
+> >> +		.channel = 0,
+> >> +		.info_mask_separate = BIT(IIO_CHAN_INFO_PROCESSED),
+> >> +	},
+> >> +};
+> >> +
+> >> +static const struct iio_chan_spec ad7817_channels[] = {
+> >> +	{
+> >> +		.type = IIO_TEMP,
+> >> +		.indexed = 1,
+> >> +		.channel = 0,
+> >> +		.info_mask_separate = BIT(IIO_CHAN_INFO_PROCESSED),  
+> > This would require the reading presented to be in the units defined by
+> > the ABI (Documentation/ABI/testing/sysfs-bus-iio)
+> > Can you confirm that these are all correct?  
+> I will upload test report
 
->>
->>>
->>> I am investigating further...
->>>> - Implement bus_type's probe() callback to load drivers
->>>> - Implement bus_type's uevent() to make sure appropriate drivers are
->>>>    loaded when device are registed from vchiq.
->>>>
->>>> Changes in v8:
->>>> - Drop dual licensing. Instead use GPL-2.0 only for patch 1/5
->>>>
->>>> Changes in v7:
->>>> (5 out of 6 patches from v6 merged)
->>>> - Split the main patch (6/6) as requested.
->>>> - Use struct vchiq_device * instead of struct device * in
->>>>    all bus functions.
->>>> - Drop additional name attribute displayed in sysfs (redundant info)
->>>> - Document vchiq_interface doesn't enumerate device discovery
->>>> - remove EXPORT_SYMBOL_GPL(vchiq_bus_type)
->>>>
->>>> Changes in v6:
->>>> - Split struct device and struct driver wrappers in vchiq_device.[ch]
->>>> - Move vchiq_bus_type definition to vchiq_device.[ch] as well
->>>> - return error on bus_register() failure
->>>> - drop dma_set_mask_and_coherent
->>>> - trivial variable name change
->>>>
->>>> Changes in v5:
->>>> - Fixup missing "staging: " in commits' subject line
->>>> - No code changes from v4
->>>>
->>>> Changes in v4:
->>>> - Introduce patches to drop include directives from Makefile
->>>>
->>>> Changes in v3:
->>>> - Rework entirely to replace platform devices/driver model
->>>>
->>>> -v2:
->>>> https://lore.kernel.org/all/20221222191500.515795-1-umang.jain@ideasonboard.com/
->>>>
->>>> -v1:
->>>> https://lore.kernel.org/all/20221220084404.19280-1-umang.jain@ideasonboard.com/
->>>>
->>>> Umang Jain (5):
->>>>    staging: vc04_services: vchiq_arm: Add new bus type and device type
->>>>    staging: vc04_services: vchiq_arm: Register vchiq_bus_type
->>>>    staging: bcm2835-camera: Register bcm2835-camera with vchiq_bus_type
->>>>    staging: bcm2835-audio: Register bcm2835-audio with vchiq_bus_type
->>>>    staging: vc04_services: vchiq_arm: Remove vchiq_register_child()
->>>>
->>>>   drivers/staging/vc04_services/Makefile        |   1 +
->>>>   .../vc04_services/bcm2835-audio/bcm2835.c     |  20 ++--
->>>>   .../bcm2835-camera/bcm2835-camera.c           |  17 +--
->>>>   .../interface/vchiq_arm/vchiq_arm.c           |  48 ++++-----
->>>>   .../interface/vchiq_arm/vchiq_device.c        | 102 
->>>> ++++++++++++++++++
->>>>   .../interface/vchiq_arm/vchiq_device.h        |  54 ++++++++++
->>>>   6 files changed, 196 insertions(+), 46 deletions(-)
->>>>   create mode 100644 
->>>> drivers/staging/vc04_services/interface/vchiq_arm/vchiq_device.c
->>>>   create mode 100644 
->>>> drivers/staging/vc04_services/interface/vchiq_arm/vchiq_device.h
->>>>
->>>
+Perfect.
+
+> >
+> > Note it is very unusual for an IIO driver to present all processed channels.
+> > Superficially it looks like there might be some appropriate conversions done
+> > for the temperature channels for them to be in the right units, but nothing
+> > at all is done to the voltage channels...  
 > 
+> In fact, I hope to set voltage channel to RAW, and leave conversion to 
+> users.
 > 
-> _______________________________________________
-> linux-arm-kernel mailing list
-> linux-arm-kernel@lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-arm-kernel
+> Is it a good idea?
+
+Yes, though hopefully we can also provide a _SCALE to give userspace the
+information it needs.
+
+> 
+
+
