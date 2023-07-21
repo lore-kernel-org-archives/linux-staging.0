@@ -1,88 +1,118 @@
-Received: from relay.hostedemail.com (smtprelay0013.hostedemail.com [216.40.44.13])
+Received: from comms.puri.sm (comms.puri.sm [159.203.221.185])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CE191FA4
-	for <linux-staging@lists.linux.dev>; Fri, 21 Jul 2023 07:12:30 +0000 (UTC)
-Received: from omf09.hostedemail.com (a10.router.float.18 [10.200.18.1])
-	by unirelay04.hostedemail.com (Postfix) with ESMTP id 212F31A01AC;
-	Fri, 21 Jul 2023 06:34:19 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: joe@perches.com) by omf09.hostedemail.com (Postfix) with ESMTPA id 8F1902002A;
-	Fri, 21 Jul 2023 06:34:16 +0000 (UTC)
-Message-ID: <a88dd19ab97721a2db228bb070c8eb5d80751e7f.camel@perches.com>
-Subject: Re: [PATCH] staging: rtl8712: Remove redundant braces in if
- statements
-From: Joe Perches <joe@perches.com>
-To: Dan Carpenter <dan.carpenter@linaro.org>, Sergey Rozhnov
-	 <rozhnov.sergey.89@gmail.com>
-Cc: Larry Finger <Larry.Finger@lwfinger.net>, Florian Schilhabel
-	 <florian.c.schilhabel@googlemail.com>, Greg Kroah-Hartman
-	 <gregkh@linuxfoundation.org>, linux-staging@lists.linux.dev, 
-	linux-kernel@vger.kernel.org
-Date: Thu, 20 Jul 2023 23:34:15 -0700
-In-Reply-To: <5db3658a-2594-45db-b76a-4aa40950ebd5@kadam.mountain>
-References: <ZLnoBYlsTiLixTah@terra>
-	 <5db3658a-2594-45db-b76a-4aa40950ebd5@kadam.mountain>
-Content-Type: text/plain; charset="ISO-8859-1"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.48.4 (3.48.4-1.fc38) 
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 318433C3D
+	for <linux-staging@lists.linux.dev>; Fri, 21 Jul 2023 08:50:09 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by comms.puri.sm (Postfix) with ESMTP id 87359EC07D;
+	Fri, 21 Jul 2023 01:50:03 -0700 (PDT)
+Received: from comms.puri.sm ([127.0.0.1])
+	by localhost (comms.puri.sm [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id eoC6OCg8N7oX; Fri, 21 Jul 2023 01:50:02 -0700 (PDT)
+Message-ID: <f65068b56823da8e295985720970cf179119428d.camel@puri.sm>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=puri.sm; s=comms;
+	t=1689929402; bh=juEXh/m3yCXibs3w8mu1cRC7KeELaw3wLx/RQvV70S4=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+	b=ig4nteu3+QT0/F/gmzSbsxAAXkM7eEN2IXDHi730jsLefALfmNmRdsRGMMrXTKd5d
+	 buLGyslxseP9h7kgxzKWbgR7/zH3Dqsvd1ra+HrA5rrfe9mjF4i7vwS3LxiOk4ribm
+	 0+0hiGzn8urv4uT/BAjEvreRbhY+xCA8nFpQjhWCj7t756sL4AuC6+u36muSTYv6SJ
+	 FaF7ldwsvSxxppvyPQQJFHCctmsyDup+wvOiGrW+jyldkc03UJg2LH43R3jibiX+Ve
+	 VCvL4n2FnMWzYy4kkrwjPOmBliCa0bKnQQpN+0PvMN7xSjwFmiYl7bBRz1GeS34XUi
+	 En2572r6cxoyQ==
+Subject: Re: [PATCH v2] media: imx: Unstage the imx8mq-mipi-csi2 driver
+From: Martin Kepplinger <martin.kepplinger@puri.sm>
+To: Hans Verkuil <hverkuil-cisco@xs4all.nl>, Laurent Pinchart
+	 <laurent.pinchart@ideasonboard.com>
+Cc: mchehab@kernel.org, shawnguo@kernel.org, festevam@gmail.com, 
+	slongerbeam@gmail.com, gregkh@linuxfoundation.org, rmfrfs@gmail.com, 
+	kernel@pengutronix.de, linux-imx@nxp.com, kernel@puri.sm, 
+	linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Date: Fri, 21 Jul 2023 10:49:56 +0200
+In-Reply-To: <d252cbfe-98bb-2cd2-b251-81d29e99413d@xs4all.nl>
+References: <20230425090804.2664466-1-martin.kepplinger@puri.sm>
+	 <20230425094346.GA17841@pendragon.ideasonboard.com>
+	 <a4b3cf3be9f105adcbcad688f8745556eec4d9df.camel@puri.sm>
+	 <ae7865575edd11ab9e2bf81c54ee8826e0a2a766.camel@puri.sm>
+	 <d252cbfe-98bb-2cd2-b251-81d29e99413d@xs4all.nl>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.38.3-1+deb11u2 
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Stat-Signature: jebz3epcsf9qtfjzh1ci8to5zgfgctrt
-X-Rspamd-Server: rspamout05
-X-Rspamd-Queue-Id: 8F1902002A
-X-Spam-Status: No, score=-0.41
-X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-Session-ID: U2FsdGVkX1/cYZrM9qud1+CJ9uYELx9Wwcsx1KW9qbM=
-X-HE-Tag: 1689921256-336439
-X-HE-Meta: U2FsdGVkX1/NIZSI6DZ9EHeHXbXRxlFRw3oTjkbrF6eBvzwMBk5Ztc3/ehMDZbFxwc9ymlx0U7PDBEPOBknEYV2E2G53eqtKB0Thfa1YK+TGeYxtQs8YBSOkrnk/KtgWQiNmbIPBKJcGeWRUhYQAyaeSrikJi6nkBR7jdd990uYlk8Z6Yih961j3Pqa+FrhCRgrNUoj0Gu3fEHjK0jbYfhVpgsjZkvqALbbb9wwzcm1Yw9UkaPLBh/F2Ui85TSazJVdHEJJFcQRhN+uzpAu1T6Kxq1Q9OQoHTMLm9W7M0tzoJceH3ITCgu6eDP5ZuHpl
+Content-Transfer-Encoding: 8bit
 
-On Fri, 2023-07-21 at 09:01 +0300, Dan Carpenter wrote:
-> On Fri, Jul 21, 2023 at 06:05:57AM +0400, Sergey Rozhnov wrote:
-> > Extract masked value to improve readability, apply fix suggested by che=
-ckpatch.
-> > ---
->=20
-> I like the new format, but you need to run checkpatch on your patches.
->=20
+Am Dienstag, dem 18.07.2023 um 12:33 +0200 schrieb Hans Verkuil:
+> On 17/07/2023 13:00, Martin Kepplinger wrote:
+> > Am Dienstag, dem 16.05.2023 um 09:42 +0200 schrieb Martin
+> > Kepplinger:
+> > > Am Dienstag, dem 25.04.2023 um 12:43 +0300 schrieb Laurent
+> > > Pinchart:
+> > > > Hi Martin,
+> > > > 
+> > > > Thank you for the patch.
+> > > > 
+> > > > On Tue, Apr 25, 2023 at 11:08:04AM +0200, Martin Kepplinger
+> > > > wrote:
+> > > > > The imx8mq-mipi-csi2 MIPI CSI-2 receiver driver is used and
+> > > > > maintained.
+> > > > > There is no reason to keep it in staging. The accompanying
+> > > > > CSI
+> > > > > bridge
+> > > > > driver that uses it is in drivers/media/platform/nxp as well.
+> > > > > 
+> > > > > One TODO is to get rid of csi_state's "state" and "lock"
+> > > > > variables.
+> > > > > Especially make sure suspend/resume is working without them.
+> > > > > That
+> > > > > can
+> > > > > very well be worked on from the new location.
+> > > > > 
+> > > > > Also add a MAINTAINERS section for the imx8mq-mipi-csi2 mipi
+> > > > > receiver
+> > > > > driver.
+> > > > > 
+> > > > > Signed-off-by: Martin Kepplinger <martin.kepplinger@puri.sm>
+> > > > 
+> > > > Reviewed-by: Laurent Pinchart <
+> > > > laurent.pinchart@ideasonboard.com>
+> > > 
+> > > Thanks for reviewing Laurent,
+> > > 
+> > > Are there any second thoughts to this? If not: It still applies
+> > > to
+> > > todays' next kernel. Who would be able to queue this up?
+> > > 
+> > > (This enables Debian and other distributions to use cameras on
+> > > imx8mq.)
+> > > 
+> > > thanks,
+> > > 
+> > >                        martin
+> > > 
+> > 
+> > This still applies cleanly and would be helpful. Does anyone want
+> > to
+> > queue this?
+> 
+> I'll queue this up, likely later this week.
 
-True, but this does only 1 of 2 very similar functions.
-Ideally both would be done at the same time.
+Hi Hans, thanks for picking this up, I see it in one of your branches.
 
-My preference would be to remove the int i and just
-dereference rate similar to:
+                            martin
 
-uint r8712_is_cckrates_included(u8 *rate)
-{
-	while (*rate) {
-		u8 r =3D *rate & 0x7f;
-
-		if (r =3D=3D 2 || r =3D=3D 4 || r =3D=3D 11 || r =3D=3D 22)
-			return true;
-		rate++;
-	}
-
-	return false;
-}
-
-uint r8712_is_cckratesonly_included(u8 *rate)
-{
-	while (*rate) {
-		u8 r =3D *rate & 0x7f;
-
-		if (r !=3D 2 && r !=3D 4 && r !=3D 11  && r !=3D 22)
-			return false;
-		rate++;
-	}
-
-	return true;
-}
-
-though the existing cckratesonly_included function
-seemingly returns an incorrect true if the rate array
-is empty.
+> 
+> Regards,
+> 
+>         Hans
+> 
+> > 
+> > thanks,
+> >                          martin
+> > 
+> 
 
 
