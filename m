@@ -1,52 +1,55 @@
-Received: from mail-il1-f175.google.com (mail-il1-f175.google.com [209.85.166.175])
+Received: from mail-il1-f179.google.com (mail-il1-f179.google.com [209.85.166.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2114658
-	for <linux-staging@lists.linux.dev>; Sat, 22 Jul 2023 21:54:12 +0000 (UTC)
-Received: by mail-il1-f175.google.com with SMTP id e9e14a558f8ab-346541baf2aso10286915ab.1
-        for <linux-staging@lists.linux.dev>; Sat, 22 Jul 2023 14:54:12 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 285BFEBC
+	for <linux-staging@lists.linux.dev>; Sat, 22 Jul 2023 21:57:47 +0000 (UTC)
+Received: by mail-il1-f179.google.com with SMTP id e9e14a558f8ab-348c9b58870so1612995ab.3
+        for <linux-staging@lists.linux.dev>; Sat, 22 Jul 2023 14:57:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlemail.com; s=20221208; t=1690062851; x=1690667651;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=b9FhzjLfl4fSYGH5UbNVsYq5D9vHHykt+h8l2ZdR56A=;
-        b=YoMngk95JITerUrexXkhCSPWWii3zUHq6ljWr8sTbh9YjLI4DILtX1aa0yurWH3tbV
-         2iIIKNt0HxnT4obnVubT4BBtk9PQ6E5ngEcN1igajP08KspVK4SubKM/yiIF3i30Tss7
-         IApJdp3NRJeUtTu3vTKYh1HHsvareZtfrX5/3ds1XLC61R/cWMiHL+nc5H7EAOp7uEtm
-         U54hAbqFTVrPzMBH9rcsyYG6ef++9swW7Y3g0ygI6SFNq5pJrZK5PywqHZqIS4gZq608
-         CbNyRmRAcZzsSY6iNh5osP4s59hY1mifj2bNP2Ayl0YlbTCgN0xn+jkboQGLFvJ03+t3
-         jWYA==
+        d=googlemail.com; s=20221208; t=1690063067; x=1690667867;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=NiYt7Tw0QK7f0nlz4SKEHhaEGnGqAWTc0j4eEPb3kRI=;
+        b=ZJmJmCWE6gO0q9V9V7FLGpi9A4sxOAgfALRUjFO1sPEb0pIScMYl62jlC6Pn9DLgCW
+         lh8vILEeXCl1UJGK+2mB/w/LPHM9XBX979nhfs3fTb02+J69Gu+SDKdFSnt24EJ5eE3G
+         XhUlBC6wvB7Kd8NeiBh5szHXZgPJMko0q1bt+84LLMMLcZuh33lg9bqJWhLHAkE/aVT1
+         T9G+LJcn6Ey3U8dDNr6jcNjklx73XESyrjmfRSFNjOBkU8oj/wtq+17sxR8gyoIPSAD5
+         vNYvuxEZh/5PIJqoUViaPdihnIEYn+Df+rz4QuubdqxvFKYgjNzk36UXP+4nz834jw0F
+         Gtvg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690062851; x=1690667651;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=b9FhzjLfl4fSYGH5UbNVsYq5D9vHHykt+h8l2ZdR56A=;
-        b=LSwTz6+Z/GyiwMlfxccnBpOHjHm2sgUNFlrfNs/uRUJM5CKkXNXzD9Z+D1whh1tWWw
-         xb2I04brz+ZV3SdfHWDNf/Q6LuzgSCXjqPMG1Ey//kMF6+HZcXMB9xxlD5hSxrV/IIfu
-         FrkYvFeXvz1b70Lt+LXa0fsEugoiSrNS0+5zxb0k7aI6qMmwvoFC4JfwllaZexfqgfwK
-         AuuoSOXuUbehxTF4iZp8gEADbneMo+dVwV8oaU5fMuOQ+8cBsYpLOLYQEi0yEQHi3UMx
-         hbkAQ7hYq7AZvrVRfstP8U+OTrOHEMw57lvN8/kdoiwLA0/CSfVY5alvDo5mV7HoOyqg
-         lsew==
-X-Gm-Message-State: ABy/qLYSjqDEUl82v4skKJ7HFX6NQIeSOu9aOdcyQkahycfl5T19jl58
-	+eQ28hbX3O9frDy/qepYA+waLKSTVVeiJA==
-X-Google-Smtp-Source: APBJJlF9+MtlbWiIguzIDzEWOTGPycVaLnMT8a7GagVAQwC2YthJVAy49NJTXsA5sdv3HPgdPoUIaA==
-X-Received: by 2002:a05:6e02:1d01:b0:346:23b0:3725 with SMTP id i1-20020a056e021d0100b0034623b03725mr2214985ila.13.1690062851351;
-        Sat, 22 Jul 2023 14:54:11 -0700 (PDT)
+        d=1e100.net; s=20221208; t=1690063067; x=1690667867;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=NiYt7Tw0QK7f0nlz4SKEHhaEGnGqAWTc0j4eEPb3kRI=;
+        b=Cz5336Z1XrN2AiSOKEfRxYPYer+S8wpuAlmzpA9iitjZa3C01+2j1Tnf0TvVu586Hv
+         e1gymlnw8My+BiEULenxkf0cOTQGtUNEsIpT9l37D7xj0uDZ69ebAHI2cVXhuuPFquKr
+         KfCpgLUw3YWYFzvHtA6lLc4jPoiC5zLg1sV6zo2myE/uUoaoYtWcMqGXybJBvUAq5Dgz
+         7D50cAVrCBB/+JPs21zJNeGQqKkoYSQmg9wPnDChQvTjw3W5LqQDrtXBboe1iighl4ia
+         5Yh6MxLolWVj5bRdNgD/Fu9UEeYFACxApJpT8sbaV/3qeMkWkVt6funox+ULAfAUbeMj
+         hWGA==
+X-Gm-Message-State: ABy/qLYxVOFmgMZZPJDFA2YIKw08oHgUcJ89JzFKbUo6df655JEJzYdi
+	wrVEAxXCOxIqrb9f/Nat//s=
+X-Google-Smtp-Source: APBJJlHn9jzE35Il7Hl7iVud49hHzAOTyod5n63H74V9XLwnE7acIsYFtMK2mdecTsPOx2PVVYZ71w==
+X-Received: by 2002:a92:d943:0:b0:348:8050:d7a with SMTP id l3-20020a92d943000000b0034880500d7amr3536447ilq.30.1690063066913;
+        Sat, 22 Jul 2023 14:57:46 -0700 (PDT)
 Received: from localhost.localdomain ([161.97.244.155])
-        by smtp.gmail.com with ESMTPSA id k11-20020a02a70b000000b0042b45475212sm1929783jam.81.2023.07.22.14.54.10
+        by smtp.gmail.com with ESMTPSA id dp21-20020a0566381c9500b0042b1061c6a8sm1966166jab.84.2023.07.22.14.57.46
         (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Sat, 22 Jul 2023 14:54:10 -0700 (PDT)
+        Sat, 22 Jul 2023 14:57:46 -0700 (PDT)
 From: Franziska Naepelt <franziska.naepelt@googlemail.com>
-To: linux-staging@lists.linux.dev,
-	gregkh@linuxfoundation.org
-Cc: hdegoede@redhat.com,
+To: franziska.naepelt@googlemail.com
+Cc: gregkh@linuxfoundation.org,
+	hdegoede@redhat.com,
 	linux-kernel@vger.kernel.org,
-	Franziska Naepelt <franziska.naepelt@googlemail.com>
-Subject: [PATCH 0/9] staging: rtl8723bs: ioctl_linux: Fix checkpatch issues
-Date: Sat, 22 Jul 2023 23:53:30 +0200
-Message-Id: <20230722215330.4114-1-franziska.naepelt@googlemail.com>
+	linux-staging@lists.linux.dev
+Subject: [PATCH 1/9] staging: rtl8723bs: ioctl_linux: Fix else on next line
+Date: Sat, 22 Jul 2023 23:57:36 +0200
+Message-Id: <20230722215736.4183-1-franziska.naepelt@googlemail.com>
 X-Mailer: git-send-email 2.39.2 (Apple Git-143)
+In-Reply-To: <20230722215330.4114-1-franziska.naepelt@googlemail.com>
+References: <20230722215330.4114-1-franziska.naepelt@googlemail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -55,28 +58,28 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This is a series of patches to fix some trivial checkpatch issues. Not all
-issues have been fixed.
+Fix the following checkpatch issue:
+- ERROR: else should follow close brace '}'
 
-Testing:
-* Build the module
-* Boot the kernel with busybox in initramfs
-* Load the module
+Signed-off-by: Franziska Naepelt <franziska.naepelt@googlemail.com>
+---
+ drivers/staging/rtl8723bs/os_dep/ioctl_linux.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-Franziska Naepelt (9):
-  staging: rtl8723bs: ioctl_linux: Fix else on next line
-  staging: rtl8723bs: ioctl_linux: Fix code indent
-  staging: rtl8723bs: ioctl_linux: Fix block comment alignment
-  staging: rtl8723bs: ioctl_linux: Remove multiple blank lines
-  staging: rtl8723bs: ioctl_linux: Remove unnecessary blank lines
-  staging: rtl8723bs: ioctl_linux: Remove unnecessary parentheses
-  staging: rtl8723bs: ioctl_linux: Fix alignment on open parenthesis
-  staging: rtl8723bs: ioctl_linux: Add preferred spaces
-  staging: rtl8723bs: ioctl_linux: Fix comparison to false
-
- .../staging/rtl8723bs/os_dep/ioctl_linux.c    | 161 +++++++-----------
- 1 file changed, 58 insertions(+), 103 deletions(-)
-
---
+diff --git a/drivers/staging/rtl8723bs/os_dep/ioctl_linux.c b/drivers/staging/rtl8723bs/os_dep/ioctl_linux.c
+index 40a3157fb735..b8595b28bceb 100644
+--- a/drivers/staging/rtl8723bs/os_dep/ioctl_linux.c
++++ b/drivers/staging/rtl8723bs/os_dep/ioctl_linux.c
+@@ -654,8 +654,7 @@ static int rtw_set_encryption(struct net_device *dev, struct ieee_param *param,
+ 
+ 				psecuritypriv->busetkipkey = true;
+ 
+-			}
+-			else if (strcmp(param->u.crypt.alg, "CCMP") == 0) {
++			} else if (strcmp(param->u.crypt.alg, "CCMP") == 0) {
+ 				psecuritypriv->dot118021XGrpPrivacy = _AES_;
+ 
+ 				memcpy(grpkey, param->u.crypt.key, (param->u.crypt.key_len > 16 ? 16 : param->u.crypt.key_len));
+-- 
 2.39.2 (Apple Git-143)
 
