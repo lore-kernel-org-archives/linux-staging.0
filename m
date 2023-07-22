@@ -1,42 +1,52 @@
-Received: from comms.puri.sm (comms.puri.sm [159.203.221.185])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-il1-f175.google.com (mail-il1-f175.google.com [209.85.166.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 318433C3D
-	for <linux-staging@lists.linux.dev>; Fri, 21 Jul 2023 08:50:09 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by comms.puri.sm (Postfix) with ESMTP id 87359EC07D;
-	Fri, 21 Jul 2023 01:50:03 -0700 (PDT)
-Received: from comms.puri.sm ([127.0.0.1])
-	by localhost (comms.puri.sm [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id eoC6OCg8N7oX; Fri, 21 Jul 2023 01:50:02 -0700 (PDT)
-Message-ID: <f65068b56823da8e295985720970cf179119428d.camel@puri.sm>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=puri.sm; s=comms;
-	t=1689929402; bh=juEXh/m3yCXibs3w8mu1cRC7KeELaw3wLx/RQvV70S4=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-	b=ig4nteu3+QT0/F/gmzSbsxAAXkM7eEN2IXDHi730jsLefALfmNmRdsRGMMrXTKd5d
-	 buLGyslxseP9h7kgxzKWbgR7/zH3Dqsvd1ra+HrA5rrfe9mjF4i7vwS3LxiOk4ribm
-	 0+0hiGzn8urv4uT/BAjEvreRbhY+xCA8nFpQjhWCj7t756sL4AuC6+u36muSTYv6SJ
-	 FaF7ldwsvSxxppvyPQQJFHCctmsyDup+wvOiGrW+jyldkc03UJg2LH43R3jibiX+Ve
-	 VCvL4n2FnMWzYy4kkrwjPOmBliCa0bKnQQpN+0PvMN7xSjwFmiYl7bBRz1GeS34XUi
-	 En2572r6cxoyQ==
-Subject: Re: [PATCH v2] media: imx: Unstage the imx8mq-mipi-csi2 driver
-From: Martin Kepplinger <martin.kepplinger@puri.sm>
-To: Hans Verkuil <hverkuil-cisco@xs4all.nl>, Laurent Pinchart
-	 <laurent.pinchart@ideasonboard.com>
-Cc: mchehab@kernel.org, shawnguo@kernel.org, festevam@gmail.com, 
-	slongerbeam@gmail.com, gregkh@linuxfoundation.org, rmfrfs@gmail.com, 
-	kernel@pengutronix.de, linux-imx@nxp.com, kernel@puri.sm, 
-	linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Date: Fri, 21 Jul 2023 10:49:56 +0200
-In-Reply-To: <d252cbfe-98bb-2cd2-b251-81d29e99413d@xs4all.nl>
-References: <20230425090804.2664466-1-martin.kepplinger@puri.sm>
-	 <20230425094346.GA17841@pendragon.ideasonboard.com>
-	 <a4b3cf3be9f105adcbcad688f8745556eec4d9df.camel@puri.sm>
-	 <ae7865575edd11ab9e2bf81c54ee8826e0a2a766.camel@puri.sm>
-	 <d252cbfe-98bb-2cd2-b251-81d29e99413d@xs4all.nl>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.38.3-1+deb11u2 
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2114658
+	for <linux-staging@lists.linux.dev>; Sat, 22 Jul 2023 21:54:12 +0000 (UTC)
+Received: by mail-il1-f175.google.com with SMTP id e9e14a558f8ab-346541baf2aso10286915ab.1
+        for <linux-staging@lists.linux.dev>; Sat, 22 Jul 2023 14:54:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=googlemail.com; s=20221208; t=1690062851; x=1690667651;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=b9FhzjLfl4fSYGH5UbNVsYq5D9vHHykt+h8l2ZdR56A=;
+        b=YoMngk95JITerUrexXkhCSPWWii3zUHq6ljWr8sTbh9YjLI4DILtX1aa0yurWH3tbV
+         2iIIKNt0HxnT4obnVubT4BBtk9PQ6E5ngEcN1igajP08KspVK4SubKM/yiIF3i30Tss7
+         IApJdp3NRJeUtTu3vTKYh1HHsvareZtfrX5/3ds1XLC61R/cWMiHL+nc5H7EAOp7uEtm
+         U54hAbqFTVrPzMBH9rcsyYG6ef++9swW7Y3g0ygI6SFNq5pJrZK5PywqHZqIS4gZq608
+         CbNyRmRAcZzsSY6iNh5osP4s59hY1mifj2bNP2Ayl0YlbTCgN0xn+jkboQGLFvJ03+t3
+         jWYA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1690062851; x=1690667651;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=b9FhzjLfl4fSYGH5UbNVsYq5D9vHHykt+h8l2ZdR56A=;
+        b=LSwTz6+Z/GyiwMlfxccnBpOHjHm2sgUNFlrfNs/uRUJM5CKkXNXzD9Z+D1whh1tWWw
+         xb2I04brz+ZV3SdfHWDNf/Q6LuzgSCXjqPMG1Ey//kMF6+HZcXMB9xxlD5hSxrV/IIfu
+         FrkYvFeXvz1b70Lt+LXa0fsEugoiSrNS0+5zxb0k7aI6qMmwvoFC4JfwllaZexfqgfwK
+         AuuoSOXuUbehxTF4iZp8gEADbneMo+dVwV8oaU5fMuOQ+8cBsYpLOLYQEi0yEQHi3UMx
+         hbkAQ7hYq7AZvrVRfstP8U+OTrOHEMw57lvN8/kdoiwLA0/CSfVY5alvDo5mV7HoOyqg
+         lsew==
+X-Gm-Message-State: ABy/qLYSjqDEUl82v4skKJ7HFX6NQIeSOu9aOdcyQkahycfl5T19jl58
+	+eQ28hbX3O9frDy/qepYA+waLKSTVVeiJA==
+X-Google-Smtp-Source: APBJJlF9+MtlbWiIguzIDzEWOTGPycVaLnMT8a7GagVAQwC2YthJVAy49NJTXsA5sdv3HPgdPoUIaA==
+X-Received: by 2002:a05:6e02:1d01:b0:346:23b0:3725 with SMTP id i1-20020a056e021d0100b0034623b03725mr2214985ila.13.1690062851351;
+        Sat, 22 Jul 2023 14:54:11 -0700 (PDT)
+Received: from localhost.localdomain ([161.97.244.155])
+        by smtp.gmail.com with ESMTPSA id k11-20020a02a70b000000b0042b45475212sm1929783jam.81.2023.07.22.14.54.10
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Sat, 22 Jul 2023 14:54:10 -0700 (PDT)
+From: Franziska Naepelt <franziska.naepelt@googlemail.com>
+To: linux-staging@lists.linux.dev,
+	gregkh@linuxfoundation.org
+Cc: hdegoede@redhat.com,
+	linux-kernel@vger.kernel.org,
+	Franziska Naepelt <franziska.naepelt@googlemail.com>
+Subject: [PATCH 0/9] staging: rtl8723bs: ioctl_linux: Fix checkpatch issues
+Date: Sat, 22 Jul 2023 23:53:30 +0200
+Message-Id: <20230722215330.4114-1-franziska.naepelt@googlemail.com>
+X-Mailer: git-send-email 2.39.2 (Apple Git-143)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -45,74 +55,28 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Am Dienstag, dem 18.07.2023 um 12:33 +0200 schrieb Hans Verkuil:
-> On 17/07/2023 13:00, Martin Kepplinger wrote:
-> > Am Dienstag, dem 16.05.2023 um 09:42 +0200 schrieb Martin
-> > Kepplinger:
-> > > Am Dienstag, dem 25.04.2023 um 12:43 +0300 schrieb Laurent
-> > > Pinchart:
-> > > > Hi Martin,
-> > > > 
-> > > > Thank you for the patch.
-> > > > 
-> > > > On Tue, Apr 25, 2023 at 11:08:04AM +0200, Martin Kepplinger
-> > > > wrote:
-> > > > > The imx8mq-mipi-csi2 MIPI CSI-2 receiver driver is used and
-> > > > > maintained.
-> > > > > There is no reason to keep it in staging. The accompanying
-> > > > > CSI
-> > > > > bridge
-> > > > > driver that uses it is in drivers/media/platform/nxp as well.
-> > > > > 
-> > > > > One TODO is to get rid of csi_state's "state" and "lock"
-> > > > > variables.
-> > > > > Especially make sure suspend/resume is working without them.
-> > > > > That
-> > > > > can
-> > > > > very well be worked on from the new location.
-> > > > > 
-> > > > > Also add a MAINTAINERS section for the imx8mq-mipi-csi2 mipi
-> > > > > receiver
-> > > > > driver.
-> > > > > 
-> > > > > Signed-off-by: Martin Kepplinger <martin.kepplinger@puri.sm>
-> > > > 
-> > > > Reviewed-by: Laurent Pinchart <
-> > > > laurent.pinchart@ideasonboard.com>
-> > > 
-> > > Thanks for reviewing Laurent,
-> > > 
-> > > Are there any second thoughts to this? If not: It still applies
-> > > to
-> > > todays' next kernel. Who would be able to queue this up?
-> > > 
-> > > (This enables Debian and other distributions to use cameras on
-> > > imx8mq.)
-> > > 
-> > > thanks,
-> > > 
-> > >                        martin
-> > > 
-> > 
-> > This still applies cleanly and would be helpful. Does anyone want
-> > to
-> > queue this?
-> 
-> I'll queue this up, likely later this week.
+This is a series of patches to fix some trivial checkpatch issues. Not all
+issues have been fixed.
 
-Hi Hans, thanks for picking this up, I see it in one of your branches.
+Testing:
+* Build the module
+* Boot the kernel with busybox in initramfs
+* Load the module
 
-                            martin
+Franziska Naepelt (9):
+  staging: rtl8723bs: ioctl_linux: Fix else on next line
+  staging: rtl8723bs: ioctl_linux: Fix code indent
+  staging: rtl8723bs: ioctl_linux: Fix block comment alignment
+  staging: rtl8723bs: ioctl_linux: Remove multiple blank lines
+  staging: rtl8723bs: ioctl_linux: Remove unnecessary blank lines
+  staging: rtl8723bs: ioctl_linux: Remove unnecessary parentheses
+  staging: rtl8723bs: ioctl_linux: Fix alignment on open parenthesis
+  staging: rtl8723bs: ioctl_linux: Add preferred spaces
+  staging: rtl8723bs: ioctl_linux: Fix comparison to false
 
-> 
-> Regards,
-> 
->         Hans
-> 
-> > 
-> > thanks,
-> >                          martin
-> > 
-> 
+ .../staging/rtl8723bs/os_dep/ioctl_linux.c    | 161 +++++++-----------
+ 1 file changed, 58 insertions(+), 103 deletions(-)
 
+--
+2.39.2 (Apple Git-143)
 
