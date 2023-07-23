@@ -1,81 +1,82 @@
-Received: from mout.web.de (mout.web.de [212.227.15.14])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com [209.85.128.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34045A29
-	for <linux-staging@lists.linux.dev>; Sun, 23 Jul 2023 06:19:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
- s=s29768273; t=1690093141; x=1690697941; i=markus.elfring@web.de;
- bh=9EoHi4ygE5158NGWmMqEqjMe71ZrQaDjehm/vTQ3wf8=;
- h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:In-Reply-To;
- b=M0+8ILe2TWE1LBJFP24P8A2AJNtZc/T3LAGG9ghu+Cjw4xKck7t6Y49uX6XlVNq9ZZ2zsIe
- DTdEDMMhZ4mY5ZIMBANCiB3JHxNGIlMdtSQCIoSxJv1B4Mddf+Ic6a+Rfffsdtd9NG05HqA22
- gSj8I3VW0NIsNZJJo3sleWfP1yYTAanoiauGU0d80J/YNR2LkQkJlZcLMlIOSZimOaCdaVK5I
- R9gZzxOjh+KOvVcXsyoiqclg9aCthbMVQ/Bl821saUCx8QP0q0NJd94L+Agd0N45njDRszvwX
- 5NxoDEJhikofHYWPCarBHFcfWGtQTXaRLkIDd9o54kZxMiuVP0sg==
-X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
-Received: from [192.168.178.21] ([94.31.90.83]) by smtp.web.de (mrweb005
- [213.165.67.108]) with ESMTPSA (Nemesis) id 1MRW6L-1qZmDI1rV7-00NXv9; Sun, 23
- Jul 2023 08:19:01 +0200
-Message-ID: <4b9fdaa7-bdcf-ef41-0d54-ba41520cde4c@web.de>
-Date: Sun, 23 Jul 2023 08:18:47 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11F9C3233
+	for <linux-staging@lists.linux.dev>; Sun, 23 Jul 2023 17:44:56 +0000 (UTC)
+Received: by mail-yw1-f169.google.com with SMTP id 00721157ae682-579de633419so38811657b3.3
+        for <linux-staging@lists.linux.dev>; Sun, 23 Jul 2023 10:44:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=googlemail.com; s=20221208; t=1690134296; x=1690739096;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=sPdCSD5AmFVFEdD2cqqk2qtaqyfuU2DEBfQJVgjKFB0=;
+        b=N9vsVovBzUqMiszcLD94N3fd+7uZVZRdtAETQZ4Dox4iiDvnWlpim1WJZC/vQGW2uh
+         9oLG5MAiXLXMjUbOBxjnHj4CFq2APH690SkqLWIfwh3+k5yKjMnZ3Run2dfB/EsPUIkF
+         1Pkr91u7+hiHQYK57px1fw81a0T2LeL8z52uh1MUdpN878OsZ9F8+MYqnFRo+hH+A3u0
+         PhxY2N1P1UAkTH3VsQ6CDOGImMjbhUp8TmH+cwQquBdPBWqVIPFe8ZvfuO0WLbgfXrb5
+         0Ow87GBBOsIBFNvDFv18jwnnflSXHu+YA+wu7N3jAs8itxB1gykdRFDc1BpJJK6uLH8b
+         TQWQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1690134296; x=1690739096;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=sPdCSD5AmFVFEdD2cqqk2qtaqyfuU2DEBfQJVgjKFB0=;
+        b=QpPEEvMwmsT6+EiVCrcoTFLDzkze0avZkAQnSVyx2NKvx4BiRtE1gw/ZN5SlFkKQsi
+         i2ZpZog+4VsUaSQht7CHN5qQOEB5AklUfTforWm+/h5hvCWEfOT9P/YDPRR3e4NtdlqI
+         eShcm0Yd0wh4FjPAuDaokZMtUEf9VtbH1wx+AXcUgQgNGSY/GYCDN05h9gLb5Uh29fbO
+         SBoHHuEdJ6HYK2FEvPx1BG3wgSxlz6vMo8edE9R+dT4cDvr1KeCBdH4DaZ8X35copd7y
+         IDgQH4H7KliYWqX4v3gm2x5bwrk8WU9DpckGZ30ViRNAgmSJzIlNlJ33uriF/4u3d2ZY
+         dS3w==
+X-Gm-Message-State: ABy/qLYkrDFMX60S91CQ0xRmyECGjuxIPpZiiVNrbatxvkHMWbMHY0I7
+	DkMiQT1jvYfXDkSMY/DZdw6XZFs0o0chE2z1fKk=
+X-Google-Smtp-Source: APBJJlFSX7H7gt9TFDUi3uuo8jI+fP82XT4JuAUkLCOV3bUxhx+tBBiHLYKTPs1zPM4F93IG7mfUgkSRLc0WJtJVvYc=
+X-Received: by 2002:a0d:d98f:0:b0:583:78b7:53f1 with SMTP id
+ b137-20020a0dd98f000000b0058378b753f1mr4096965ywe.7.1690134295743; Sun, 23
+ Jul 2023 10:44:55 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH v4 1/3] staging: rtl8723bs: Fix space issues
-Content-Language: en-GB
-To: =?UTF-8?Q?Franziska_N=c3=a4pelt?= <franziska.naepelt@googlemail.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- linux-staging@lists.linux.dev, kernel-janitors@vger.kernel.org
-Cc: Dan Carpenter <dan.carpenter@linaro.org>, Emily Peri
- <eperi1024@gmail.com>, Guo Zihua <guozihua@huawei.com>,
- Hans de Goede <hdegoede@redhat.com>, Kang Minchul <tegongkang@gmail.com>,
- Philipp Hortmann <philipp.g.hortmann@gmail.com>,
- Veerendranath Jakkam <quic_vjakkam@quicinc.com>,
- LKML <linux-kernel@vger.kernel.org>
 References: <20230701102538.5359-1-franziska.naepelt@googlemail.com>
- <5ad04b3a-7c77-cadb-13b4-509a086cf04d@web.de>
- <2023070123-unburned-worsening-0713@gregkh>
- <CAAUT3iNqwgtFJz2Q1bRN+MsSna26KC1FJc3jchu=8B09A2SkvQ@mail.gmail.com>
-From: Markus Elfring <Markus.Elfring@web.de>
-In-Reply-To: <CAAUT3iNqwgtFJz2Q1bRN+MsSna26KC1FJc3jchu=8B09A2SkvQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Provags-ID: V03:K1:vOw6/RIo4ETG1/9Da4Qv/khygrNPNZ1xFpryEUXnMFTPlpHMIFa
- GYzmULzf8MTOdEGceECv+ju2yfue9lg1CvbNNww/KVw4vI4ZqVB457dqykUYXVfsTdH9MAE
- U4mETGp5vkzNrW82PSQGIoVNFTkslXjbzSv+u995lIyF7H51JkghmvCb4BArV4MYba3Ghrd
- dxOmQmujQTFrcqWranTTQ==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:H37LoalsD04=;h3UEv0SZKIaJNW5txkAGYaP8RUb
- 7PzATYQqQ4u3pFKslnTngsxKwIIDiTXeSaOKBpXFVPxlfeBCh2xv1YrsW+CTeR/Shqaf1lzVx
- KY4RZiIa5vnJysWrw2kWalMnQ0uAi3+gmMZak0lnBigDMvf/eB4zncDf4cSwnj3/fEAmCDrGi
- Mc6NEekkWqHK6R1GbnPtU8rSKaN4dKEUXKMBsTtyYaYxMM6KP2Gkqj2VzA4tVzhhLlF64Dle8
- 9kflCCoxaRhn24tNNvSiR7vEeZTkOGFa0nTn67jB2DYZInpzTENNbsjGaZSJtFTpLbgXvMDAp
- fg9rILPyEm4lCfems+O1sw4KDfg6Rq1rgBu1nZEi39orXVGdKKjw5cOl6N3FQatIt4T8t4EpF
- pTGUg1a/6bwnlZMuOedeMLwftz3jJzSOV+oVBiEX6DHkBls25VlQkxGcI3sJd6nQs5fcB++0A
- QmPnU0ZLGs5hjCMAZ3Xdj4an+BBYRlEdfARTLbbIawJYNKifHM5B7jKk6Dp9uAFFENOeJzoSo
- E8jym+P/9DtIIybu4hOh9imVI9yQBI4uc2bwfp1i4t7aYjLrkf0xj3GrVt9GasGvn/XraTpwF
- vbYe9W6OSq3vcexA1Pte+I2UHf8BJ40m9ZRgVde0is/TrOMc3ThE/CGQbHTKw4FViFzuW7jVa
- V4J/6lku58Zw1HdaeSPGacfVq9ZXwniq800ItwS8CsRT9mnxsDqINLz7tV+R3Q8xS4q/rKsSf
- bYZpBc/Bo135ZxW+BKdchsgMX2dyuotFXJJVZ3F3wFggHZj40vaQrkwZh2o8oGzMYCB8B+ZnL
- bRlU7KyMidevqigH5i82ljAt59ACMokEYPoBF5nxAyoJxoqjYbFDzZm60vDf2Du2q+5PdxY9j
- Jr7v+edmA11bPftwAg9TWav2pw/97KBvLiLaASE6nc1JzEfonZptJMH8Vk2Iy6u5cKWZmFPZP
- 2bQmEw==
+ <5ad04b3a-7c77-cadb-13b4-509a086cf04d@web.de> <2023070123-unburned-worsening-0713@gregkh>
+ <CAAUT3iNqwgtFJz2Q1bRN+MsSna26KC1FJc3jchu=8B09A2SkvQ@mail.gmail.com> <4b9fdaa7-bdcf-ef41-0d54-ba41520cde4c@web.de>
+In-Reply-To: <4b9fdaa7-bdcf-ef41-0d54-ba41520cde4c@web.de>
+From: =?UTF-8?Q?Franziska_N=C3=A4pelt?= <franziska.naepelt@googlemail.com>
+Date: Sun, 23 Jul 2023 19:44:44 +0200
+Message-ID: <CAAUT3iPUaNRUyvqP1O97M0AmKri7Ghc06ku4TS6vcHQ=Sb4ycg@mail.gmail.com>
+Subject: Re: [PATCH v4 1/3] staging: rtl8723bs: Fix space issues
+To: Markus Elfring <Markus.Elfring@web.de>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-staging@lists.linux.dev, 
+	kernel-janitors@vger.kernel.org, Dan Carpenter <dan.carpenter@linaro.org>, 
+	Emily Peri <eperi1024@gmail.com>, Guo Zihua <guozihua@huawei.com>, 
+	Hans de Goede <hdegoede@redhat.com>, Kang Minchul <tegongkang@gmail.com>, 
+	Philipp Hortmann <philipp.g.hortmann@gmail.com>, 
+	Veerendranath Jakkam <quic_vjakkam@quicinc.com>, LKML <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 
-> Am I supposed to adjust something here?
+Hi Markus,
 
-There are possibilities remaining to handle recurring communication difficulties
-in more constructive ways for some hints.
+Am So., 23. Juli 2023 um 08:19 Uhr schrieb Markus Elfring
+<Markus.Elfring@web.de>:
+>
+> > Am I supposed to adjust something here?
+>
+> There are possibilities remaining to handle recurring communication difficulties
+> in more constructive ways for some hints.
+>
+>
+> > As far as I understood, I can ignore the comments from Markus, correct?
+>
+> Would the provided technical information be taken better into account
+> if it would be presented by any other contributors?
 
+That's not my point, I appreciate feedback from anybody, absolutely no question
+on that. I'm just struggling to know what I'm supposed to do when the maintainer
+is saying somebody's comments are not helpful.
+In another thread I was told I should mainly follow the maintainers comments in
+case of different opinions.
 
-> As far as I understood, I can ignore the comments from Markus, correct?
-
-Would the provided technical information be taken better into account
-if it would be presented by any other contributors?
-
-Regards,
-Markus
+Franziska
