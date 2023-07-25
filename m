@@ -1,139 +1,89 @@
-Received: from pb-smtp21.pobox.com (pb-smtp21.pobox.com [173.228.157.53])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08CBC3D7C
-	for <linux-staging@lists.linux.dev>; Tue, 25 Jul 2023 06:40:26 +0000 (UTC)
-Received: from pb-smtp21.pobox.com (unknown [127.0.0.1])
-	by pb-smtp21.pobox.com (Postfix) with ESMTP id 4BBBD194B7;
-	Tue, 25 Jul 2023 02:36:21 -0400 (EDT)
-	(envelope-from tdavies@darkphysics.net)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed; d=pobox.com; h=date:from
-	:to:cc:subject:message-id:mime-version:content-type; s=sasl; bh=
-	D2uTiRvsYq9z5a7T8+noJIXCfFk6b6rip0io+qs3BW8=; b=jPUn4uL4ytRB4SEC
-	QBssYo8EgHgcVWpQNuH2LeOAV8T1xk3KF7koXZJhzqYkEv7+O4TrA1kS4pJ+q46Z
-	a5X+Ayzr12hl6YPs1dXGrmNcHVZo6s42AJBQMaqHyDrL6UpRo1MkHufHbrJ2uzC2
-	whxXFtWnGkzG/LJvXIBON+NFSkI=
-Received: from pb-smtp21.sea.icgroup.com (unknown [127.0.0.1])
-	by pb-smtp21.pobox.com (Postfix) with ESMTP id 34A69194B6;
-	Tue, 25 Jul 2023 02:36:21 -0400 (EDT)
-	(envelope-from tdavies@darkphysics.net)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed; d=darkphysics.net;
- h=date:from:to:cc:subject:message-id:mime-version:content-type;
- s=2019-09.pbsmtp; bh=D2uTiRvsYq9z5a7T8+noJIXCfFk6b6rip0io+qs3BW8=;
- b=Lgot7Fmg2iGEWoOBrFLwDDQY+cjNcWZTCbigk76quhP9lqjF0u5MHRAWoutxksIEwzmIrML+GqAU+9TfBW1eU1xIuJ2fDh21Km+kjdWTnNWirbqqhfVRJymGhh5JVY5sj+J4blHbWSb+vWdBAnnQDZ8gPg2GOYONGXrAUNpD5KA=
-Received: from basil (unknown [76.146.178.2])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by pb-smtp21.pobox.com (Postfix) with ESMTPSA id 132DA194B5;
-	Tue, 25 Jul 2023 02:36:16 -0400 (EDT)
-	(envelope-from tdavies@darkphysics.net)
-Date: Mon, 24 Jul 2023 23:37:39 -0700
-From: Tree Davies <tdavies@darkphysics.net>
-To: gregkh@linuxfoundation.org, philipp.g.hortmann@gmail.com, anjan@momi.ca,
-	error27@gmail.com
-Cc: tdavies@darkphysics.net, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH 2/5] Staging: rtl8192e: Rename function DeActivateBAEntry
-Message-ID: <ZL9tsxIkogwp825i@basil>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9172419F
+	for <linux-staging@lists.linux.dev>; Tue, 25 Jul 2023 06:48:31 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AF098C433C8;
+	Tue, 25 Jul 2023 06:48:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1690267711;
+	bh=Z1ePF1CcJDyjjKIMYcvnDkEkd0VGgmk3MTVBTkyJgKo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=KhHDUFdJT6dxQSxCyXGrk+rUtD6MZqQs8OKcrPdHW0SVOn8MCAOtuLAgayl5arN/r
+	 pku7exa9D4AZn1+xWceQpaQsXOzDKU/bZknTGBGty5myf2A1h67vWUITQ+9/PQTlmy
+	 tJ4UnwSQTrHYYBwHe3cqTZLwKHrmQqvNIVV2nKsc=
+Date: Tue, 25 Jul 2023 08:48:28 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Tree Davies <tdavies@darkphysics.net>
+Cc: philipp.g.hortmann@gmail.com, anjan@momi.ca, error27@gmail.com,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 0/5] Staging: rtl8192e: Function name cleanup series 1
+Message-ID: <2023072548-unpledged-slacker-90b6@gregkh>
+References: <ZL9tmaSHxKh2JCau@basil>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-X-Pobox-Relay-ID:
- 8E6BF63A-2AB5-11EE-9B43-B31D44D1D7AA-45285927!pb-smtp21.pobox.com
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <ZL9tmaSHxKh2JCau@basil>
 
-Rename function DeActivateBAEntry to deactivate_ba_entry in order to Fix
-checkpatch warning: Avoid CamelCase
+On Mon, Jul 24, 2023 at 11:37:13PM -0700, Tree Davies wrote:
+> Rename functions to fix checkpatch warning: Avoid CamelCase
+> 
+> Tree Davies (5):
+>   Staging: rtl8192e: Rename function ActivateBAEntry
+>   Staging: rtl8192e: Rename function DeActivateBAEntry
+>   Staging: rtl8192e: Rename function TxTsDeleteBA
+>   Staging: rtl8192e: Rename function RxTsDeleteBA
+>   Staging: rtl8192e: Rename function ResetBaEntry
+> 
+>  drivers/staging/rtl8192e/rtl819x_BAProc.c | 44 +++++++++++------------
+>  drivers/staging/rtl8192e/rtl819x_TSProc.c |  6 ++--
+>  drivers/staging/rtl8192e/rtllib.h         |  2 +-
+>  3 files changed, 26 insertions(+), 26 deletions(-)
 
-Signed-off-by: Tree Davies <tdavies@darkphysics.net>
----
- drivers/staging/rtl8192e/rtl819x_BAProc.c | 18 +++++++++---------
- 1 file changed, 9 insertions(+), 9 deletions(-)
+Odd, how did you send these patches?  They are not properly "threaded"
+or "connected" such that if you look them up on lore.kernel.org, or in
+your email client, they show that they should be connected.
 
-diff --git a/drivers/staging/rtl8192e/rtl819x_BAProc.c b/drivers/staging/rtl8192e/rtl819x_BAProc.c
-index 965ffa8b78c2..50362bbbc8dd 100644
---- a/drivers/staging/rtl8192e/rtl819x_BAProc.c
-+++ b/drivers/staging/rtl8192e/rtl819x_BAProc.c
-@@ -17,7 +17,7 @@ static void activate_ba_entry(struct ba_record *pBA, u16 Time)
- 		mod_timer(&pBA->timer, jiffies + msecs_to_jiffies(Time));
- }
- 
--static void DeActivateBAEntry(struct rtllib_device *ieee, struct ba_record *pBA)
-+static void deactivate_ba_entry(struct rtllib_device *ieee, struct ba_record *pBA)
- {
- 	pBA->b_valid = false;
- 	del_timer_sync(&pBA->timer);
-@@ -30,12 +30,12 @@ static u8 TxTsDeleteBA(struct rtllib_device *ieee, struct tx_ts_record *pTxTs)
- 	u8 bSendDELBA = false;
- 
- 	if (pPendingBa->b_valid) {
--		DeActivateBAEntry(ieee, pPendingBa);
-+		deactivate_ba_entry(ieee, pPendingBa);
- 		bSendDELBA = true;
- 	}
- 
- 	if (pAdmittedBa->b_valid) {
--		DeActivateBAEntry(ieee, pAdmittedBa);
-+		deactivate_ba_entry(ieee, pAdmittedBa);
- 		bSendDELBA = true;
- 	}
- 	return bSendDELBA;
-@@ -47,7 +47,7 @@ static u8 RxTsDeleteBA(struct rtllib_device *ieee, struct rx_ts_record *pRxTs)
- 	u8			bSendDELBA = false;
- 
- 	if (pBa->b_valid) {
--		DeActivateBAEntry(ieee, pBa);
-+		deactivate_ba_entry(ieee, pBa);
- 		bSendDELBA = true;
- 	}
- 
-@@ -270,7 +270,7 @@ int rtllib_rx_ADDBAReq(struct rtllib_device *ieee, struct sk_buff *skb)
- 
- 	rtllib_FlushRxTsPendingPkts(ieee, pTS);
- 
--	DeActivateBAEntry(ieee, pBA);
-+	deactivate_ba_entry(ieee, pBA);
- 	pBA->dialog_token = *pDialogToken;
- 	pBA->ba_param_set = *pBaParamSet;
- 	pBA->ba_timeout_value = *pBaTimeoutVal;
-@@ -363,13 +363,13 @@ int rtllib_rx_ADDBARsp(struct rtllib_device *ieee, struct sk_buff *skb)
- 		netdev_dbg(ieee->dev,
- 			   "%s(): Recv ADDBA Rsp. BA is admitted! Status code:%X\n",
- 			   __func__, *pStatusCode);
--		DeActivateBAEntry(ieee, pPendingBA);
-+		deactivate_ba_entry(ieee, pPendingBA);
- 	}
- 
- 	if (*pStatusCode == ADDBA_STATUS_SUCCESS) {
- 		if (pBaParamSet->field.ba_policy == BA_POLICY_DELAYED) {
- 			pTS->bAddBaReqDelayed = true;
--			DeActivateBAEntry(ieee, pAdmittedBA);
-+			deactivate_ba_entry(ieee, pAdmittedBA);
- 			ReasonCode = DELBA_REASON_END_BA;
- 			goto OnADDBARsp_Reject;
- 		}
-@@ -378,7 +378,7 @@ int rtllib_rx_ADDBARsp(struct rtllib_device *ieee, struct sk_buff *skb)
- 		pAdmittedBA->ba_timeout_value = *pBaTimeoutVal;
- 		pAdmittedBA->ba_start_seq_ctrl = pPendingBA->ba_start_seq_ctrl;
- 		pAdmittedBA->ba_param_set = *pBaParamSet;
--		DeActivateBAEntry(ieee, pAdmittedBA);
-+		deactivate_ba_entry(ieee, pAdmittedBA);
- 		activate_ba_entry(pAdmittedBA, *pBaTimeoutVal);
- 	} else {
- 		pTS->bAddBaReqDelayed = true;
-@@ -469,7 +469,7 @@ void TsInitAddBA(struct rtllib_device *ieee, struct tx_ts_record *pTS,
- 	if (pBA->b_valid && !bOverwritePending)
- 		return;
- 
--	DeActivateBAEntry(ieee, pBA);
-+	deactivate_ba_entry(ieee, pBA);
- 
- 	pBA->dialog_token++;
- 	pBA->ba_param_set.field.amsdu_support = 0;
--- 
-2.41.0
+Here's what they look like in my inbox right now:
 
+
+   1   T Jul 24 Tree Davies     (0.6K) [PATCH 0/5] Staging: rtl8192e: Function name cleanup series 1
+   2 N T Jul 24 Tree Davies     (1.9K) [PATCH 3/5] Staging: rtl8192e: Rename function TxTsDeleteBA
+   3   F Jul 25 To linux-kernel (  29) [PATCH v2] Documentation: embargoed-hardware-issues.rst: add AMD to the list
+   4 N T Jul 24 Tree Davies     (2.5K) [PATCH 5/5] Staging: rtl8192e: Rename function ResetBaEntry
+   5 N T Jul 24 Tree Davies     (1.8K) [PATCH 4/5] Staging: rtl8192e: Rename function RxTsDeleteBA
+   6 N T Jul 24 Tree Davies     (3.1K) [PATCH 2/5] Staging: rtl8192e: Rename function DeActivateBAEntry
+   7 N T Jul 24 Tree Davies     (1.7K) [PATCH 1/5] Staging: rtl8192e: Rename function ActivateBAEntry
+
+While if I look at a different recent series sent for staging patches, send
+correctly, they look like:
+
+ 372   T Jul 22 Franziska Naepe (0.9K) [PATCH 0/9] staging: rtl8723bs: ioctl_linux: Fix checkpatch issues
+ 373   C Jul 22 Franziska Naepe (0.8K) ├─>[PATCH 9/9] staging: rtl8723bs: ioctl_linux: Fix comparison to false
+ 374   C Jul 22 Franziska Naepe (7.2K) ├─>[PATCH 8/9] staging: rtl8723bs: ioctl_linux: Add preferred spaces
+ 375   C Jul 22 Franziska Naepe (2.2K) ├─>[PATCH 7/9] staging: rtl8723bs: ioctl_linux: Fix alignment on open parenthesis
+ 376   C Jul 22 Franziska Naepe ( 10K) ├─>[PATCH 6/9] staging: rtl8723bs: ioctl_linux: Remove unnecessary parentheses
+ 377   C Jul 22 Franziska Naepe (5.9K) ├─>[PATCH 5/9] staging: rtl8723bs: ioctl_linux: Remove unnecessary blank lines
+ 378   C Jul 22 Franziska Naepe (4.1K) ├─>[PATCH 4/9] staging: rtl8723bs: ioctl_linux: Remove multiple blank lines
+ 379   C Jul 22 Franziska Naepe (1.0K) ├─>[PATCH 3/9] staging: rtl8723bs: ioctl_linux: Fix block comment alignment
+ 380   C Jul 22 Franziska Naepe (0.9K) ├─>[PATCH 2/9] staging: rtl8723bs: ioctl_linux: Fix code indent
+ 381   C Jul 22 Franziska Naepe (0.9K) └─>[PATCH 1/9] staging: rtl8723bs: ioctl_linux: Fix else on next line
+
+
+See the difference with the -> and such?  No other messages in the middle of
+the thread, and they are all connected together so that our tools can handle
+them as a series, not as individual patches.
+
+If you use 'git send-email' to send the whole back of patches at once, they
+will be properly connected together, so I do recommend using that if you are
+starting out.
+
+Please fix up and try again, thanks.
+
+greg k-h
