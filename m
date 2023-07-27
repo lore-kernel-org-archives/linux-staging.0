@@ -1,30 +1,30 @@
 Received: from pb-smtp21.pobox.com (pb-smtp21.pobox.com [173.228.157.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F904A941
-	for <linux-staging@lists.linux.dev>; Thu, 27 Jul 2023 06:18:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1520A941
+	for <linux-staging@lists.linux.dev>; Thu, 27 Jul 2023 06:18:49 +0000 (UTC)
 Received: from pb-smtp21.pobox.com (unknown [127.0.0.1])
-	by pb-smtp21.pobox.com (Postfix) with ESMTP id 9F9D72B788;
-	Thu, 27 Jul 2023 02:18:41 -0400 (EDT)
+	by pb-smtp21.pobox.com (Postfix) with ESMTP id 545412B78E;
+	Thu, 27 Jul 2023 02:18:49 -0400 (EDT)
 	(envelope-from tdavies@darkphysics.net)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed; d=pobox.com; h=from:to:cc
 	:subject:date:message-id:in-reply-to:references:mime-version
-	:content-transfer-encoding; s=sasl; bh=Yme2ABWyZv9hU5EZNMuaiBtZz
-	P3G0tOP4AY9ah8Wu+I=; b=XqkN+mocHCfLVJfFsPdoHd3RwMf5ESmpi2BBUQH0Z
-	AOEiyRxIHUt5r6p1lMzH3aZRBhg+FWdLSVytaYwnPZW+D8uxvbEj+olpu08m9si9
-	3sR1+gx+hx22pe+kdAwPU7/QC6+qg+3fc2y0Tu6kokPEiDz+A1o39Scx1eqB844v
-	A4=
+	:content-transfer-encoding; s=sasl; bh=l8UdN/EWLHyJwQapdRtTt2QKo
+	+FY91epVTlA9xYH5zM=; b=tY62yvkKH4wXvibmnHcCBLGErkGLCG2Hh5MI/0W4b
+	X0zE7QyhaFNY1PJDs3FRcl8T44Vkn8uwAJcxHY7cC/vaGJoD5JsZi88bRtmPJWJV
+	fYxMb0Sr6e0EI90PqXKYYMlVrbRBmQPML0i9gQpuexwue0Zj5aeMknvDhp2VciyS
+	w4=
 Received: from pb-smtp21.sea.icgroup.com (unknown [127.0.0.1])
-	by pb-smtp21.pobox.com (Postfix) with ESMTP id 9856E2B786;
-	Thu, 27 Jul 2023 02:18:41 -0400 (EDT)
+	by pb-smtp21.pobox.com (Postfix) with ESMTP id 4DB442B78D;
+	Thu, 27 Jul 2023 02:18:49 -0400 (EDT)
 	(envelope-from tdavies@darkphysics.net)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed; d=darkphysics.net;
- h=from:to:cc:subject:date:message-id:in-reply-to:references:mime-version:content-transfer-encoding; s=2019-09.pbsmtp; bh=30LCb7fytoBphnXRNlksSDylD0H458KlWfAeyHSY7sU=; b=mNnvMHRvg5ZzdJy9gSqpq9TZmUGid6gWmfV5a+EjNjdx+ZpNwPUWbsKsfV+xtsnBjFheaK3o/n0DD8jh8v/hYFEMczwyd5Pf4rPrBmPdegOVc0j9Myp9ZHn4cQTx8eLoJbcDKomNr586oYzdCWwpExyt7V1faMKW0xUkUJ1qMNI=
+ h=from:to:cc:subject:date:message-id:in-reply-to:references:mime-version:content-transfer-encoding; s=2019-09.pbsmtp; bh=06BJ1jAlItt/gLHoQGDcXD8Wbq0tI0D1VgMPMuC5IA8=; b=mP17BrWrRupcbo6s6XeyuR5SDgTngaUITzsdYrjYZ/Hg7GgEHLT9yQlJNscngztJj3qdrshXu3w3RtpB2Yte6qqPKeXbw7sBDXbEv9HCI5SSj5KB7TSxrdQMr3LjmhnnUoubeZ28mqB1YIl2s2eolQnOsYRRQ3NMD7qtcluJOcY=
 Received: from basil.darkphysics (unknown [76.146.178.2])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by pb-smtp21.pobox.com (Postfix) with ESMTPSA id C56CA2B782;
-	Thu, 27 Jul 2023 02:18:36 -0400 (EDT)
+	by pb-smtp21.pobox.com (Postfix) with ESMTPSA id 0174F2B789;
+	Thu, 27 Jul 2023 02:18:43 -0400 (EDT)
 	(envelope-from tdavies@darkphysics.net)
 From: Tree Davies <tdavies@darkphysics.net>
 To: gregkh@linuxfoundation.org,
@@ -34,9 +34,9 @@ To: gregkh@linuxfoundation.org,
 Cc: linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Tree Davies <tdavies@darkphysics.net>
-Subject: [PATCH v2 1/5] Staging: rtl8192e: Rename function ActivateBAEntry
-Date: Wed, 26 Jul 2023 23:19:44 -0700
-Message-ID: <20230727061948.579480-2-tdavies@darkphysics.net>
+Subject: [PATCH v2 3/5] Staging: rtl8192e: Rename function TxTsDeleteBA
+Date: Wed, 26 Jul 2023 23:19:46 -0700
+Message-ID: <20230727061948.579480-4-tdavies@darkphysics.net>
 X-Mailer: git-send-email 2.41.0
 In-Reply-To: <20230727061948.579480-1-tdavies@darkphysics.net>
 References: <20230727061948.579480-1-tdavies@darkphysics.net>
@@ -47,11 +47,12 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 X-Pobox-Relay-ID:
- 6C767EEC-2C45-11EE-847C-B31D44D1D7AA-45285927!pb-smtp21.pobox.com
+ 70D58B68-2C45-11EE-B58E-B31D44D1D7AA-45285927!pb-smtp21.pobox.com
 Content-Transfer-Encoding: quoted-printable
 
-Rename function ActivateBAEntry to activate_ba_entry in order to Fix
-checkpatch warning: Avoid CamelCase
+Rename function TxTsDeleteBA to tx_ts_delete_ba in order to Fix checkpatc=
+h
+warning: Avoid CamelCase
 
 Signed-off-by: Tree Davies <tdavies@darkphysics.net>
 ---
@@ -61,48 +62,50 @@ v2: Sent with git send-email
 
 diff --git a/drivers/staging/rtl8192e/rtl819x_BAProc.c b/drivers/staging/=
 rtl8192e/rtl819x_BAProc.c
-index acc19514bca6..965ffa8b78c2 100644
+index 50362bbbc8dd..6538343ea44d 100644
 --- a/drivers/staging/rtl8192e/rtl819x_BAProc.c
 +++ b/drivers/staging/rtl8192e/rtl819x_BAProc.c
-@@ -10,7 +10,7 @@
- #include "rtllib.h"
- #include "rtl819x_BA.h"
-=20
--static void ActivateBAEntry(struct ba_record *pBA, u16 Time)
-+static void activate_ba_entry(struct ba_record *pBA, u16 Time)
- {
- 	pBA->b_valid =3D true;
- 	if (Time !=3D 0)
-@@ -282,7 +282,7 @@ int rtllib_rx_ADDBAReq(struct rtllib_device *ieee, st=
-ruct sk_buff *skb)
- 	else
- 		pBA->ba_param_set.field.buffer_size =3D 32;
-=20
--	ActivateBAEntry(pBA, 0);
-+	activate_ba_entry(pBA, 0);
- 	rtllib_send_ADDBARsp(ieee, dst, pBA, ADDBA_STATUS_SUCCESS);
-=20
- 	return 0;
-@@ -379,7 +379,7 @@ int rtllib_rx_ADDBARsp(struct rtllib_device *ieee, st=
-ruct sk_buff *skb)
- 		pAdmittedBA->ba_start_seq_ctrl =3D pPendingBA->ba_start_seq_ctrl;
- 		pAdmittedBA->ba_param_set =3D *pBaParamSet;
- 		DeActivateBAEntry(ieee, pAdmittedBA);
--		ActivateBAEntry(pAdmittedBA, *pBaTimeoutVal);
-+		activate_ba_entry(pAdmittedBA, *pBaTimeoutVal);
- 	} else {
- 		pTS->bAddBaReqDelayed =3D true;
- 		pTS->bDisable_AddBa =3D true;
-@@ -479,7 +479,7 @@ void TsInitAddBA(struct rtllib_device *ieee, struct t=
-x_ts_record *pTS,
- 	pBA->ba_timeout_value =3D 0;
- 	pBA->ba_start_seq_ctrl.field.seq_num =3D (pTS->TxCurSeq + 3) % 4096;
-=20
--	ActivateBAEntry(pBA, BA_SETUP_TIMEOUT);
-+	activate_ba_entry(pBA, BA_SETUP_TIMEOUT);
-=20
- 	rtllib_send_ADDBAReq(ieee, pTS->TsCommonInfo.Addr, pBA);
+@@ -23,7 +23,7 @@ static void deactivate_ba_entry(struct rtllib_device *i=
+eee, struct ba_record *pB
+ 	del_timer_sync(&pBA->timer);
  }
+=20
+-static u8 TxTsDeleteBA(struct rtllib_device *ieee, struct tx_ts_record *=
+pTxTs)
++static u8 tx_ts_delete_ba(struct rtllib_device *ieee, struct tx_ts_recor=
+d *pTxTs)
+ {
+ 	struct ba_record *pAdmittedBa =3D &pTxTs->TxAdmittedBARecord;
+ 	struct ba_record *pPendingBa =3D &pTxTs->TxPendingBARecord;
+@@ -456,7 +456,7 @@ int rtllib_rx_DELBA(struct rtllib_device *ieee, struc=
+t sk_buff *skb)
+ 		pTxTs->bAddBaReqInProgress =3D false;
+ 		pTxTs->bAddBaReqDelayed =3D false;
+ 		del_timer_sync(&pTxTs->TsAddBaTimer);
+-		TxTsDeleteBA(ieee, pTxTs);
++		tx_ts_delete_ba(ieee, pTxTs);
+ 	}
+ 	return 0;
+ }
+@@ -492,7 +492,7 @@ void TsInitDelBA(struct rtllib_device *ieee,
+ 		struct tx_ts_record *pTxTs =3D
+ 			 (struct tx_ts_record *)pTsCommonInfo;
+=20
+-		if (TxTsDeleteBA(ieee, pTxTs))
++		if (tx_ts_delete_ba(ieee, pTxTs))
+ 			rtllib_send_DELBA(ieee, pTsCommonInfo->Addr,
+ 					  (pTxTs->TxAdmittedBARecord.b_valid) ?
+ 					 (&pTxTs->TxAdmittedBARecord) :
+@@ -524,7 +524,7 @@ void TxBaInactTimeout(struct timer_list *t)
+ 					      TxAdmittedBARecord.timer);
+ 	struct rtllib_device *ieee =3D container_of(pTxTs, struct rtllib_device=
+,
+ 				     TxTsRecord[pTxTs->num]);
+-	TxTsDeleteBA(ieee, pTxTs);
++	tx_ts_delete_ba(ieee, pTxTs);
+ 	rtllib_send_DELBA(ieee, pTxTs->TsCommonInfo.Addr,
+ 			  &pTxTs->TxAdmittedBARecord, TX_DIR,
+ 			  DELBA_REASON_TIMEOUT);
 --=20
 2.41.0
 
