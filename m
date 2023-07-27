@@ -1,109 +1,71 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from pb-smtp21.pobox.com (pb-smtp21.pobox.com [173.228.157.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FC7F1FA0
-	for <linux-staging@lists.linux.dev>; Thu, 27 Jul 2023 04:53:16 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 791B4C433C8;
-	Thu, 27 Jul 2023 04:53:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1690433596;
-	bh=AXi4mOg39jWfNfyVeQSd++IpMT3575fEkDWv6LDHfzw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=aCgitQCiJWtB2lVAewV0cH5mtYE7F4Tls3iI2PTyXesTf215+DSq8rUqfY/docRAy
-	 F0v1p0j+Cyfj3GlQHnSuuDNjwEcdXElwOSzpG2zNuszF5adhdkOpvw2AfVR9I+qEVq
-	 Q16w5RnCyjxtrFssh+YOWtJE5Jy9dC/8Ww+gaxWY=
-Date: Thu, 27 Jul 2023 06:53:14 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Tree Davies <tdavies@darkphysics.net>
-Cc: philipp.g.hortmann@gmail.com, anjan@momi.ca, error27@gmail.com,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 0/5] Staging: rtl8192e: Function name cleanup series 1
-Message-ID: <2023072726-copy-eatable-6fb9@gregkh>
-References: <ZL9tmaSHxKh2JCau@basil>
- <2023072548-unpledged-slacker-90b6@gregkh>
- <ZMH0g2hGaLlzFtL1@oatmeal.darkphysics>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D51971C3E
+	for <linux-staging@lists.linux.dev>; Thu, 27 Jul 2023 06:18:44 +0000 (UTC)
+Received: from pb-smtp21.pobox.com (unknown [127.0.0.1])
+	by pb-smtp21.pobox.com (Postfix) with ESMTP id 0F6E42B784;
+	Thu, 27 Jul 2023 02:18:38 -0400 (EDT)
+	(envelope-from tdavies@darkphysics.net)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed; d=pobox.com; h=from:to:cc
+	:subject:date:message-id:mime-version:content-transfer-encoding;
+	 s=sasl; bh=Yvn15xVBKFLe1lq98MntlOuwNH59SCtB5u5H8CyoTMw=; b=L4px
+	ODKKX+S6y3RO9K59ED717BBA2M2CK+1kPFkHBy1sNtNrFhZbc7Hxk45nLrR7quG7
+	mOiqId3Qx+f/zM7Z8H+qUDNPAGdJNqbhvIhvILELUIzEE0/NdtP+5vp++fYpG0My
+	Lntq2yXexxAYtVCWBU7uj0rexi9D34EWhr4J8zg=
+Received: from pb-smtp21.sea.icgroup.com (unknown [127.0.0.1])
+	by pb-smtp21.pobox.com (Postfix) with ESMTP id 0739B2B783;
+	Thu, 27 Jul 2023 02:18:38 -0400 (EDT)
+	(envelope-from tdavies@darkphysics.net)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed; d=darkphysics.net;
+ h=from:to:cc:subject:date:message-id:mime-version:content-transfer-encoding;
+ s=2019-09.pbsmtp; bh=2ohFWl8YPY7c/GpOcuJ8aS3uqIam4whGIQ6aWDJ0e6Q=;
+ b=E5vKBV6b0/rj4RODwbMekzkjp57aNADGVrfA45ZACvtRjTK9RzZnqzs9jKPb6eQIcXXKZIJWihx9i9ym3xPEPo1prUrJmTS3KHgqL+ZNHr27RSTNPb0arKsWrJcmGK+RdQWsvLCVohYWRPYJXJy95vPUk43U/RWxuvMCWoIDbzc=
+Received: from basil.darkphysics (unknown [76.146.178.2])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by pb-smtp21.pobox.com (Postfix) with ESMTPSA id AC5DB2B781;
+	Thu, 27 Jul 2023 02:18:33 -0400 (EDT)
+	(envelope-from tdavies@darkphysics.net)
+From: Tree Davies <tdavies@darkphysics.net>
+To: gregkh@linuxfoundation.org,
+	philipp.g.hortmann@gmail.com,
+	anjan@momi.ca,
+	error27@gmail.com
+Cc: linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Tree Davies <tdavies@darkphysics.net>
+Subject: [PATCH v2 0/5] Staging: rtl8192e: Function name cleanup series 1
+Date: Wed, 26 Jul 2023 23:19:43 -0700
+Message-ID: <20230727061948.579480-1-tdavies@darkphysics.net>
+X-Mailer: git-send-email 2.41.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <ZMH0g2hGaLlzFtL1@oatmeal.darkphysics>
+X-Pobox-Relay-ID:
+ 6A07E38A-2C45-11EE-83FD-B31D44D1D7AA-45285927!pb-smtp21.pobox.com
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, Jul 26, 2023 at 09:37:47PM -0700, Tree Davies wrote:
-> On Tue, Jul 25, 2023 at 08:48:28AM +0200, Greg KH wrote:
-> > On Mon, Jul 24, 2023 at 11:37:13PM -0700, Tree Davies wrote:
-> > > Rename functions to fix checkpatch warning: Avoid CamelCase
-> > > 
-> > > Tree Davies (5):
-> > >   Staging: rtl8192e: Rename function ActivateBAEntry
-> > >   Staging: rtl8192e: Rename function DeActivateBAEntry
-> > >   Staging: rtl8192e: Rename function TxTsDeleteBA
-> > >   Staging: rtl8192e: Rename function RxTsDeleteBA
-> > >   Staging: rtl8192e: Rename function ResetBaEntry
-> > > 
-> > >  drivers/staging/rtl8192e/rtl819x_BAProc.c | 44 +++++++++++------------
-> > >  drivers/staging/rtl8192e/rtl819x_TSProc.c |  6 ++--
-> > >  drivers/staging/rtl8192e/rtllib.h         |  2 +-
-> > >  3 files changed, 26 insertions(+), 26 deletions(-)
-> > 
-> > Odd, how did you send these patches?  They are not properly "threaded"
-> > or "connected" such that if you look them up on lore.kernel.org, or in
-> > your email client, they show that they should be connected.
-> > 
-> > Here's what they look like in my inbox right now:
-> > 
-> > 
-> >    1   T Jul 24 Tree Davies     (0.6K) [PATCH 0/5] Staging: rtl8192e: Function name cleanup series 1
-> >    2 N T Jul 24 Tree Davies     (1.9K) [PATCH 3/5] Staging: rtl8192e: Rename function TxTsDeleteBA
-> >    3   F Jul 25 To linux-kernel (  29) [PATCH v2] Documentation: embargoed-hardware-issues.rst: add AMD to the list
-> >    4 N T Jul 24 Tree Davies     (2.5K) [PATCH 5/5] Staging: rtl8192e: Rename function ResetBaEntry
-> >    5 N T Jul 24 Tree Davies     (1.8K) [PATCH 4/5] Staging: rtl8192e: Rename function RxTsDeleteBA
-> >    6 N T Jul 24 Tree Davies     (3.1K) [PATCH 2/5] Staging: rtl8192e: Rename function DeActivateBAEntry
-> >    7 N T Jul 24 Tree Davies     (1.7K) [PATCH 1/5] Staging: rtl8192e: Rename function ActivateBAEntry
-> > 
-> > While if I look at a different recent series sent for staging patches, send
-> > correctly, they look like:
-> > 
-> >  372   T Jul 22 Franziska Naepe (0.9K) [PATCH 0/9] staging: rtl8723bs: ioctl_linux: Fix checkpatch issues
-> >  373   C Jul 22 Franziska Naepe (0.8K) ├─>[PATCH 9/9] staging: rtl8723bs: ioctl_linux: Fix comparison to false
-> >  374   C Jul 22 Franziska Naepe (7.2K) ├─>[PATCH 8/9] staging: rtl8723bs: ioctl_linux: Add preferred spaces
-> >  375   C Jul 22 Franziska Naepe (2.2K) ├─>[PATCH 7/9] staging: rtl8723bs: ioctl_linux: Fix alignment on open parenthesis
-> >  376   C Jul 22 Franziska Naepe ( 10K) ├─>[PATCH 6/9] staging: rtl8723bs: ioctl_linux: Remove unnecessary parentheses
-> >  377   C Jul 22 Franziska Naepe (5.9K) ├─>[PATCH 5/9] staging: rtl8723bs: ioctl_linux: Remove unnecessary blank lines
-> >  378   C Jul 22 Franziska Naepe (4.1K) ├─>[PATCH 4/9] staging: rtl8723bs: ioctl_linux: Remove multiple blank lines
-> >  379   C Jul 22 Franziska Naepe (1.0K) ├─>[PATCH 3/9] staging: rtl8723bs: ioctl_linux: Fix block comment alignment
-> >  380   C Jul 22 Franziska Naepe (0.9K) ├─>[PATCH 2/9] staging: rtl8723bs: ioctl_linux: Fix code indent
-> >  381   C Jul 22 Franziska Naepe (0.9K) └─>[PATCH 1/9] staging: rtl8723bs: ioctl_linux: Fix else on next line
-> > 
-> > 
-> > See the difference with the -> and such?  No other messages in the middle of
-> > the thread, and they are all connected together so that our tools can handle
-> > them as a series, not as individual patches.
-> > 
-> > If you use 'git send-email' to send the whole back of patches at once, they
-> > will be properly connected together, so I do recommend using that if you are
-> > starting out.
-> > 
-> > Please fix up and try again, thanks.
-> > 
-> > greg k-h
-> 
-> Greg,
-> I got git send-email working. Do I send this series as a v2, even though the 
-> patches are the same, and how I send them is 'the change'?
+Rename functions to fix checkpatch warning: Avoid CamelCase
 
-Yes.
+Changelist:
+v2: Sent to mailing list via git send-email, patches are the same.
 
-> The last commit I see in linux-next for rtl8192e is 4a22870cede374d80c5d2f9c5b79253a5a667832.
-> Can I send patches from that state?
+Tree Davies (5):
+  Staging: rtl8192e: Rename function ActivateBAEntry
+  Staging: rtl8192e: Rename function DeActivateBAEntry
+  Staging: rtl8192e: Rename function TxTsDeleteBA
+  Staging: rtl8192e: Rename function RxTsDeleteBA
+  Staging: rtl8192e: Rename function ResetBaEntry
 
-Sure, or just work off of my staging.git tree with the staging-next
-branch.
+ drivers/staging/rtl8192e/rtl819x_BAProc.c | 44 +++++++++++------------
+ drivers/staging/rtl8192e/rtl819x_TSProc.c |  6 ++--
+ drivers/staging/rtl8192e/rtllib.h         |  2 +-
+ 3 files changed, 26 insertions(+), 26 deletions(-)
 
-thanks,
+--=20
+2.41.0
 
-greg k-h
