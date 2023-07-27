@@ -1,26 +1,26 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CFC9C2E5
-	for <linux-staging@lists.linux.dev>; Thu, 27 Jul 2023 07:59:28 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 43C2DC433C8;
-	Thu, 27 Jul 2023 07:59:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D0A6C2E5
+	for <linux-staging@lists.linux.dev>; Thu, 27 Jul 2023 08:03:22 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1A108C433C7;
+	Thu, 27 Jul 2023 08:03:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1690444768;
-	bh=EJxDPwh0/PNszmN4znypIhQGAzTgBhpEPGaM4IrGkBY=;
+	s=korg; t=1690445002;
+	bh=2TyIJyHYASUoeAuNBExQ7Upn2naOgOozjwpfY0cvE/Y=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=WdV8uUhc0xeL3o0BrqNB09vi9qESykQw7WYos1sk4ys832ySsi9ujNXmP9SEG3sFT
-	 BvBI19j4w+gieeavhGjeDEsDXx2zw7vPCciALo6aCoilajQDHIsWF4EitImOCeq58J
-	 b5Pw9r+CI7PqVhiTmRWD4TO6kGLLIS5pSyxdKTDk=
-Date: Thu, 27 Jul 2023 09:59:25 +0200
+	b=pbos+VHSeeXMtK4cSodDIHutWXua9CUJD7cAoyTRRg/2DxQHGCEC9HLFT56RjVr/2
+	 dkPcQgvKsnfI6aFOl8udayaXch9OTD3QFVYauHoB0F8Nmr3RTQ8STxnGkMZqjMFI3V
+	 MT4kISx9cznxh8zJ9Bz31hLX5obsJ3fSrzcrIiEs=
+Date: Thu, 27 Jul 2023 10:03:19 +0200
 From: Greg KH <gregkh@linuxfoundation.org>
-To: Tree Davies <tdavies@darkphysics.net>
-Cc: philipp.g.hortmann@gmail.com, dan.carpenter@linaro.org,
+To: Alexon Oliveira <alexondunkan@gmail.com>
+Cc: martyn@welchs.me.uk, manohar.vanga@gmail.com,
 	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
-Subject: Re: [PATCH v3] staging: rtl8192e: Rename function IsHTHalfNmodeAPs
- to is_ht_half_nmode_aps
-Message-ID: <2023072737-resort-dwelled-8cb9@gregkh>
-References: <ZJp93mCd9ogrGZbx@tacos.darkphysics>
+Subject: Re: [PATCH] staging: vme_user: fix check alignment should match open
+ parenthesis
+Message-ID: <2023072729-sensitive-spyglass-ec96@gregkh>
+References: <ZKjeHx/zqrNIqaA6@alolivei-thinkpadt480s.gru.csb>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -29,36 +29,53 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ZJp93mCd9ogrGZbx@tacos.darkphysics>
+In-Reply-To: <ZKjeHx/zqrNIqaA6@alolivei-thinkpadt480s.gru.csb>
 
-On Mon, Jun 26, 2023 at 11:12:46PM -0700, Tree Davies wrote:
-> Rename function IsHTHalfNmodeAPs to is_ht_half_nmode_aps in order to
-> fix checkpatch warning: Avoid CamelCase
+On Sat, Jul 08, 2023 at 12:55:11AM -0300, Alexon Oliveira wrote:
+> Adhere to Linux kernel coding style.
 > 
-> Signed-off-by: Tree Davies <tdavies@darkphysics.net>
-> ---
-> v3: Fix email parch as v2 info was placed above the ---
-> v2: Rename is_ht_half_nmode_a_ps -> is_ht_half_nmode_aps
->  drivers/staging/rtl8192e/rtl819x_HTProc.c | 2 +-
->  drivers/staging/rtl8192e/rtllib.h         | 2 +-
->  drivers/staging/rtl8192e/rtllib_softmac.c | 2 +-
->  3 files changed, 3 insertions(+), 3 deletions(-)
+> Reported by checkpatch:
 > 
-> diff --git a/drivers/staging/rtl8192e/rtl819x_HTProc.c b/drivers/staging/rtl8192e/rtl819x_HTProc.c
-> index f9fa3f2bb728..d09342dde61d 100644
-> --- a/drivers/staging/rtl8192e/rtl819x_HTProc.c
-> +++ b/drivers/staging/rtl8192e/rtl819x_HTProc.c
-> @@ -139,7 +139,7 @@ u16  TxCountToDataRate(struct rtllib_device *ieee, u8 nDataRate)
->  	return MCS_DATA_RATE[is40MHz][isShortGI][nDataRate & 0xf];
->  }
->  
-> -bool IsHTHalfNmodeAPs(struct rtllib_device *ieee)
-> +bool is_ht_half_nmode_aps(struct rtllib_device *ieee)
+> CHECK: Alignment should match open parenthesis
+> 
+> #132: FILE: drivers/staging/vme_user/vme_bridge.h:132
+> #135: FILE: drivers/staging/vme_user/vme_bridge.h:135
+> #139: FILE: drivers/staging/vme_user/vme_bridge.h:139
+> #142: FILE: drivers/staging/vme_user/vme_bridge.h:142
+> #144: FILE: drivers/staging/vme_user/vme_bridge.h:144
+> #146: FILE: drivers/staging/vme_user/vme_bridge.h:146
+> #148: FILE: drivers/staging/vme_user/vme_bridge.h:148
+> #152: FILE: drivers/staging/vme_user/vme_bridge.h:152
+> #163: FILE: drivers/staging/vme_user/vme_bridge.h:163
+> #173: FILE: drivers/staging/vme_user/vme_bridge.h:173
+> #175: FILE: drivers/staging/vme_user/vme_bridge.h:175
 
-As this is a global symbol, can you please prefix it with the driver
-name so that the global symbol table looks semi-sane?
+We don't need all of these lines.
 
-Perhaps rtllib_is_ht_half_nmode_aps()?
+>     Signed-off-by: Alexon Oliveira <alexondunkan@gmail.com>
+
+Please don't indent your signed-off-by line, that should be to the left.
+
+> 
+> diff --git a/drivers/staging/vme_user/vme_bridge.h b/drivers/staging/vme_user/vme_bridge.h
+> index 11df0a5e7f7b..a0d7a8db239d 100644
+> --- a/drivers/staging/vme_user/vme_bridge.h
+> +++ b/drivers/staging/vme_user/vme_bridge.h
+> @@ -128,28 +128,21 @@ struct vme_bridge {
+>  	struct mutex irq_mtx;
+> 
+>  	/* Slave Functions */
+> -	int (*slave_get)(struct vme_slave_resource *, int *,
+> -		unsigned long long *, unsigned long long *, dma_addr_t *,
+> -		u32 *, u32 *);
+> -	int (*slave_set)(struct vme_slave_resource *, int, unsigned long long,
+> -		unsigned long long, dma_addr_t, u32, u32);
+> +	int (*slave_get)(struct vme_slave_resource *, int *, unsigned long long *,
+> +			 unsigned long long *, dma_addr_t *, u32 *, u32 *);
+> +	int (*slave_set)(struct vme_slave_resource *, int, unsigned long long, unsigned long long, dma_addr_t, u32, u32);
+
+Did you run your patch through checkpatch.pl after making this change?
+I think you just added more warnings...
 
 thanks,
 
