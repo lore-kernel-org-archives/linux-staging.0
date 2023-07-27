@@ -1,163 +1,136 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ot1-f41.google.com (mail-ot1-f41.google.com [209.85.210.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB5321FA8
-	for <linux-staging@lists.linux.dev>; Thu, 27 Jul 2023 15:56:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1690473380;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=yNIprgBPbgBlUDGou/Q61G2MdeSraQtmRjGJ2xeLiJE=;
-	b=Lj7punyIVr1RilDbuf3FL+vRuHd8bHLandPCr10zncqDm1qkR58yHIe12hCb1DX7W+Q3P4
-	ETS/BeB4Qx4MDAA7T+8Lw9VA1q9j1HfUJENINrzyiCd75HF8bVk0Iesn8fWtxICzbIjZxn
-	/ZoKOPVKFuhIt97ayX1ntcq+r6Pp2pY=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-150-s5J4NZuGNQapyiUgsPbyJQ-1; Thu, 27 Jul 2023 11:56:17 -0400
-X-MC-Unique: s5J4NZuGNQapyiUgsPbyJQ-1
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com [10.11.54.9])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 901E8802A55;
-	Thu, 27 Jul 2023 15:56:16 +0000 (UTC)
-Received: from localhost.localdomain (unknown [10.39.192.108])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 9C655492B02;
-	Thu, 27 Jul 2023 15:56:14 +0000 (UTC)
-From: Hans de Goede <hdegoede@redhat.com>
-To: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Andy Shevchenko <andy@kernel.org>
-Cc: Hans de Goede <hdegoede@redhat.com>,
-	Kate Hsuan <hpa@redhat.com>,
-	Tsuchiya Yuto <kitakar@gmail.com>,
-	Yury Luneff <yury.lunev@gmail.com>,
-	Nable <nable.maininbox@googlemail.com>,
-	andrey.i.trufanov@gmail.com,
-	Fabio Aiuto <fabioaiuto83@gmail.com>,
-	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	Hans Verkuil <hverkuil@xs4all.nl>
-Subject: [PATCH] media: atomisp: Fix smatch warnings caused by atomisp custom assert() usage
-Date: Thu, 27 Jul 2023 17:56:06 +0200
-Message-ID: <20230727155606.41903-1-hdegoede@redhat.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7806A27124
+	for <linux-staging@lists.linux.dev>; Thu, 27 Jul 2023 17:08:23 +0000 (UTC)
+Received: by mail-ot1-f41.google.com with SMTP id 46e09a7af769-6b9c434fe75so995688a34.0
+        for <linux-staging@lists.linux.dev>; Thu, 27 Jul 2023 10:08:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1690477702; x=1691082502;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=O+GGPSrur9KqSLM7ZwB/8NicxdLAYs9+BP1y58L8FFc=;
+        b=ZV54F+aLOMgOJe/RdnJI2mWv/9zs0zntiydxD2W5I7v1ZE3dVzmPs6uHZjkAtXRQW2
+         FTaR2pDZP1b5Bem3iXOz1+yEshPUipvg/s/AQaKYxhUJGL26Zey5jJeAZIY5Ia325hZO
+         N+qy7Jvq5vE7MQ3d/qYBDcgUUK/95AOklaZyz+GYQHmIKJ4rSGKTRotZrgIbtdziZluw
+         IPHpD9BiWV3XFJkgB9+PQ7tvxE8aUu99/ff4Ei+4sD+Otbm6KXQqV9aRjrtnB8qjpBpA
+         qXPdhyirazjshQFE1rw4PvsQmSAt/WEMrOexxxICKM5xYBK8qLd4ZoyTcK6NGWu5L3vK
+         jefA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1690477702; x=1691082502;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=O+GGPSrur9KqSLM7ZwB/8NicxdLAYs9+BP1y58L8FFc=;
+        b=PYS484l7r1HEQsre3EBlwPW6tAPzfaQk27OFarWg1wclc1r0kUeKvNcSs/IRYCmQi5
+         XRAq3JDLJpxjBkQZQAdrjEXzM5U9NULxlcslhF/48bAVp8xlxAd26HBwsCVFW/OFyCOc
+         TIGTIYBm2/ogUg7DT/XXgQlbDbX92q39Kyodtl42lUku9s5/08DyBrn0EHwXHMgc8TjV
+         e5ZmtstRvGnh2k1N97wwwkOyh8dNkTB3O6DDrjMu3x8JXhhLVuuNq63EXhROAJzNx+GC
+         0KckurYqgCs56tgJ9JR6c4LU9lE3p+3FfDLtpkZFaHeHmuH2ECb+ITYvN9t/x9XPxeby
+         7uzg==
+X-Gm-Message-State: ABy/qLag0xacxGZak/WHyp5a54TqEwwHV1f3URbSpcU3pTtm91Oc3w9N
+	XuaXSoOHbh/gMHW3eiQzJec=
+X-Google-Smtp-Source: APBJJlGLm6J11rduSvQ0rCWpbAKbN+Euv2dHL3xFfJI4uqvEZIVa97o2R/uxdb5GNd/oo0XnKlAshg==
+X-Received: by 2002:a9d:7619:0:b0:6b9:ed45:a035 with SMTP id k25-20020a9d7619000000b006b9ed45a035mr5648705otl.20.1690477702256;
+        Thu, 27 Jul 2023 10:08:22 -0700 (PDT)
+Received: from alolivei-thinkpadt480s.gru.csb ([2804:14c:bf20:86d6:7871:f7e9:8a15:865a])
+        by smtp.gmail.com with ESMTPSA id i17-20020a9d6251000000b006b9f26b9b94sm816823otk.28.2023.07.27.10.08.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 27 Jul 2023 10:08:21 -0700 (PDT)
+Date: Thu, 27 Jul 2023 14:08:16 -0300
+From: Alexon Oliveira <alexondunkan@gmail.com>
+To: Greg KH <gregkh@linuxfoundation.org>
+Cc: martyn@welchs.me.uk, manohar.vanga@gmail.com,
+	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
+Subject: Re: [PATCH] staging: vme_user: fix check alignment should match open
+ parenthesis
+Message-ID: <ZMKkgItqf8r8BcRB@alolivei-thinkpadt480s.gru.csb>
+References: <ZKjeHx/zqrNIqaA6@alolivei-thinkpadt480s.gru.csb>
+ <2023072729-sensitive-spyglass-ec96@gregkh>
+ <ZMKDeyGaPQHm6/pr@alolivei-thinkpadt480s.gru.csb>
+ <2023072741-mankind-ethics-b95b@gregkh>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <2023072741-mankind-ethics-b95b@gregkh>
 
-The atomisp code base has a custom assert() macro, a couple of functions
-use this in a construction like the following:
+On Thu, Jul 27, 2023 at 05:05:03PM +0200, Greg KH wrote:
+> On Thu, Jul 27, 2023 at 11:47:23AM -0300, Alexon Oliveira wrote:
+> > On Thu, Jul 27, 2023 at 10:03:19AM +0200, Greg KH wrote:
+> > > On Sat, Jul 08, 2023 at 12:55:11AM -0300, Alexon Oliveira wrote:
+> > > > Adhere to Linux kernel coding style.
+> > > > 
+> > > > Reported by checkpatch:
+> > > > 
+> > > > CHECK: Alignment should match open parenthesis
+> > > > 
+> > > > #132: FILE: drivers/staging/vme_user/vme_bridge.h:132
+> > > > #135: FILE: drivers/staging/vme_user/vme_bridge.h:135
+> > > > #139: FILE: drivers/staging/vme_user/vme_bridge.h:139
+> > > > #142: FILE: drivers/staging/vme_user/vme_bridge.h:142
+> > > > #144: FILE: drivers/staging/vme_user/vme_bridge.h:144
+> > > > #146: FILE: drivers/staging/vme_user/vme_bridge.h:146
+> > > > #148: FILE: drivers/staging/vme_user/vme_bridge.h:148
+> > > > #152: FILE: drivers/staging/vme_user/vme_bridge.h:152
+> > > > #163: FILE: drivers/staging/vme_user/vme_bridge.h:163
+> > > > #173: FILE: drivers/staging/vme_user/vme_bridge.h:173
+> > > > #175: FILE: drivers/staging/vme_user/vme_bridge.h:175
+> > > 
+> > > We don't need all of these lines.
+> > 
+> > Hi Greg, I hope you're good and these messages find you well.
+> > 
+> > ACK. I thought it would be good to explain what I changed.
+> > 
+> > > 
+> > > >     Signed-off-by: Alexon Oliveira <alexondunkan@gmail.com>
+> > > 
+> > > Please don't indent your signed-off-by line, that should be to the left.
+> > > 
+> > 
+> > ACK. I didn't indent. This was the output of "git format-patch" I copied and pasted. Next time I'll remove the indentation manually.
+> > 
+> > > > 
+> > > > diff --git a/drivers/staging/vme_user/vme_bridge.h b/drivers/staging/vme_user/vme_bridge.h
+> > > > index 11df0a5e7f7b..a0d7a8db239d 100644
+> > > > --- a/drivers/staging/vme_user/vme_bridge.h
+> > > > +++ b/drivers/staging/vme_user/vme_bridge.h
+> > > > @@ -128,28 +128,21 @@ struct vme_bridge {
+> > > >  	struct mutex irq_mtx;
+> > > > 
+> > > >  	/* Slave Functions */
+> > > > -	int (*slave_get)(struct vme_slave_resource *, int *,
+> > > > -		unsigned long long *, unsigned long long *, dma_addr_t *,
+> > > > -		u32 *, u32 *);
+> > > > -	int (*slave_set)(struct vme_slave_resource *, int, unsigned long long,
+> > > > -		unsigned long long, dma_addr_t, u32, u32);
+> > > > +	int (*slave_get)(struct vme_slave_resource *, int *, unsigned long long *,
+> > > > +			 unsigned long long *, dma_addr_t *, u32 *, u32 *);
+> > > > +	int (*slave_set)(struct vme_slave_resource *, int, unsigned long long, unsigned long long, dma_addr_t, u32, u32);
+> > > 
+> > > Did you run your patch through checkpatch.pl after making this change?
+> > 
+> > Yes, I did it. No more checks about "Alignment should match open parenthesis".
+> > 
+> > > I think you just added more warnings...
+> > 
+> > I only focused to solve the checks related to the message above. Nevertheless, there are still other warnings and checks reported by checkpath.pl non-related to this patch (i.e. not caused by this patch) that need to be fixed, but I intend to help to fix them afterwards in a different patch, so I don't send patches with too many changes at once.  
+> 
+> You resolved one warning by replacing it with a different one, that's
+> not good :(
 
-   assert(pipe);
-   assert(pipe->stream);
-   if ((!pipe) || (!pipe->stream)) {
-           ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE,
-                               "allocate_mipi_frames(%p) exit: ...\n",
-                               pipe);
-           return -EINVAL;
-   }
+Well, honestly, I couldn't spot any new issue caused by this patch. At least it was not reported by the checkpatch.pl. The ones that are still showing up were already there. But, to move on, if you think it's more productive, I can fix all warnings and checks reported by the checkpatch.pl and send them over in only one patch. Is it that feasible?
 
-The second assert is seen by smatch as dereferencing "pipe" in the above
-example (and dereferencing "dvs_6axis_config" / "me" in the 2 other cases).
+> 
+> thanks,
+> 
+> greg k-h
 
-Following by the dereferenced variable being checked (a second time)
-in the following if () statement.
+Thank you again.
 
-This triggers the following smatch warnings:
-drivers/staging/media/atomisp/pci/sh_css_mipi.c:356 allocate_mipi_frames() warn: variable dereferenced before check 'pipe' (see line 355)
-drivers/staging/media/atomisp/pci/sh_css_mipi.c:562 send_mipi_frames() warn: variable dereferenced before check 'pipe' (see line 561)
-drivers/staging/media/atomisp/pci/sh_css_param_dvs.c:208 free_dvs_6axis_table() warn: variable dereferenced before check 'dvs_6axis_config' (see line 206)
-drivers/staging/media/atomisp/pci/sh_css_sp.c:1255 sh_css_sp_init_pipeline() warn: variable dereferenced before check 'me->stages' (see line 1224)
-
-The custom assert() macro actually expands to a BUG() call and BUG()
-calls should not be used in the kernel.
-
-Remove the assert() calls to fix the smatch warnings and in case of
-[allocate|send]_mipi_frames() also remove the if () return -EINVAL
-block since these functions are never called with a NULL pipe.
-
-Reported-by: Hans Verkuil <hverkuil@xs4all.nl>
-Signed-off-by: Hans de Goede <hdegoede@redhat.com>
----
-Note:
-1. No Closes: tag since Hans Verkuil reported this in an offlist email.
-2. All the other assert() calls really should also be removed.
-   I've put this on my todo list.
----
- drivers/staging/media/atomisp/pci/sh_css_mipi.c  | 16 ----------------
- .../staging/media/atomisp/pci/sh_css_param_dvs.c |  3 ---
- drivers/staging/media/atomisp/pci/sh_css_sp.c    |  4 ----
- 3 files changed, 23 deletions(-)
-
-diff --git a/drivers/staging/media/atomisp/pci/sh_css_mipi.c b/drivers/staging/media/atomisp/pci/sh_css_mipi.c
-index b20acaab0595..ced21dedf7ac 100644
---- a/drivers/staging/media/atomisp/pci/sh_css_mipi.c
-+++ b/drivers/staging/media/atomisp/pci/sh_css_mipi.c
-@@ -351,15 +351,6 @@ allocate_mipi_frames(struct ia_css_pipe *pipe,
- 	ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE,
- 			    "allocate_mipi_frames(%p) enter:\n", pipe);
- 
--	assert(pipe);
--	assert(pipe->stream);
--	if ((!pipe) || (!pipe->stream)) {
--		ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE,
--				    "allocate_mipi_frames(%p) exit: pipe or stream is null.\n",
--				    pipe);
--		return -EINVAL;
--	}
--
- 	if (IS_ISP2401 && pipe->stream->config.online) {
- 		ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE,
- 				    "allocate_mipi_frames(%p) exit: no buffers needed for 2401 pipe mode.\n",
-@@ -557,13 +548,6 @@ send_mipi_frames(struct ia_css_pipe *pipe)
- 
- 	IA_CSS_ENTER_PRIVATE("pipe=%p", pipe);
- 
--	assert(pipe);
--	assert(pipe->stream);
--	if (!pipe || !pipe->stream) {
--		IA_CSS_ERROR("pipe or stream is null");
--		return -EINVAL;
--	}
--
- 	/* multi stream video needs mipi buffers */
- 	/* nothing to be done in other cases. */
- 	if (pipe->stream->config.mode != IA_CSS_INPUT_MODE_BUFFERED_SENSOR) {
-diff --git a/drivers/staging/media/atomisp/pci/sh_css_param_dvs.c b/drivers/staging/media/atomisp/pci/sh_css_param_dvs.c
-index ff0082d02af3..5174bc210ae1 100644
---- a/drivers/staging/media/atomisp/pci/sh_css_param_dvs.c
-+++ b/drivers/staging/media/atomisp/pci/sh_css_param_dvs.c
-@@ -202,9 +202,6 @@ generate_dvs_6axis_table_from_config(struct ia_css_dvs_6axis_config
- void
- free_dvs_6axis_table(struct ia_css_dvs_6axis_config  **dvs_6axis_config)
- {
--	assert(dvs_6axis_config);
--	assert(*dvs_6axis_config);
--
- 	if ((dvs_6axis_config) && (*dvs_6axis_config)) {
- 		IA_CSS_ENTER_PRIVATE("dvs_6axis_config %p", (*dvs_6axis_config));
- 		if ((*dvs_6axis_config)->xcoords_y) {
-diff --git a/drivers/staging/media/atomisp/pci/sh_css_sp.c b/drivers/staging/media/atomisp/pci/sh_css_sp.c
-index 4ef1c9e61ea8..5ecc982ad725 100644
---- a/drivers/staging/media/atomisp/pci/sh_css_sp.c
-+++ b/drivers/staging/media/atomisp/pci/sh_css_sp.c
-@@ -1215,10 +1215,6 @@ sh_css_sp_init_pipeline(struct ia_css_pipeline *me,
- 	unsigned int thread_id;
- 	u8 if_config_index, tmp_if_config_index;
- 
--	assert(me);
--
--	assert(me->stages);
--
- 	first_binary = me->stages->binary;
- 
- 	if (input_mode == IA_CSS_INPUT_MODE_SENSOR ||
--- 
-2.41.0
-
+Alexon Oliveira.
