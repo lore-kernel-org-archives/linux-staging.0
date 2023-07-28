@@ -1,83 +1,74 @@
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from pb-smtp1.pobox.com (pb-smtp1.pobox.com [64.147.108.70])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 969B423AE
-	for <linux-staging@lists.linux.dev>; Fri, 28 Jul 2023 05:25:02 +0000 (UTC)
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-3fbc244d307so18680395e9.1
-        for <linux-staging@lists.linux.dev>; Thu, 27 Jul 2023 22:25:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1690521900; x=1691126700;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=QhXjvTT1z/0Yde7vmO70EoyF2uav/7UHdhOF67DdG14=;
-        b=XOQgq3+ILcCCJmdqTQzoiRxVgQX65mXoXI4u+ymyDQGTa2JEOKd5rI4c2BUeZQ9ddp
-         4hLFTUYPbQ3wth7dA32jY73j9JABR7M/hYXTlI0K3RikX0Af1pE+7s+kZjfm6ZGq5ZQB
-         rfv5QeZhhiGHOXIxXNVuY6a+rf5eSp6FCag/+NvyyHzoN6ZH30DQP/b3Z+JX2A+R8Zat
-         gfVZvxZH5i6G9yk0JPTiengAvXb5kyHEMtcuENqynXv2n0RziGFyGHJUFKPe499ydroU
-         1N+iyM7RrslQnVYbudq8/b5oPXQrVw5Wq6FdotezmIpKZiIvC0eGS+mg2fLYMSlUwZEv
-         LyCA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690521900; x=1691126700;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=QhXjvTT1z/0Yde7vmO70EoyF2uav/7UHdhOF67DdG14=;
-        b=OcZ+P4HtW9glgImwBDbidKOegM4UBpjOoW/rqaIF44Lk+DrvyZp/hYcgaWiCIj1j17
-         aU06f3FkSTljBCMLa3YRmtirlOlOLTlaGx8/TxVPe/GU3w9b+XCsi3JAhh0SE8mfh2vv
-         w7TYu+3i2FlsIxfm0XN2cxZwBTKExUgE6+X+ShBxpelemF/sPbwcf0Nf8X0/eyj5DZPU
-         TvwK0kzLxq5sw/c75VkI2gU7v99D2PnUzOFIkcgsQ+Z8f7hi4YjDhtc47o5Erje1HINB
-         TNGxE3UrJi/auin4g353/XmQwD+gPxvYKVaTS0PaWUHfx/Q9V8cb1rVaM13Bw6QEpph+
-         IC6g==
-X-Gm-Message-State: ABy/qLZW+SC3K5eHC+QHGJb2bKcHmtbgFAZCkqmURGX3tzbNO7s6rxav
-	BFsCyAkDjEv8PvZyZKs4TlnZuA==
-X-Google-Smtp-Source: APBJJlGHtNWsq2d6hGtGwwyGl9qqBOF+mkyNxUw1SO2HGPsAosfmm009SzN4C8A/L0G//Y5RnoXO5g==
-X-Received: by 2002:a05:600c:2258:b0:3fe:10d8:e7fa with SMTP id a24-20020a05600c225800b003fe10d8e7famr25702wmm.41.1690521900478;
-        Thu, 27 Jul 2023 22:25:00 -0700 (PDT)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id 1-20020a05600c248100b003fbd2a9e94asm3241617wms.31.2023.07.27.22.24.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 27 Jul 2023 22:24:59 -0700 (PDT)
-Date: Fri, 28 Jul 2023 08:24:56 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Alexon Oliveira <alexondunkan@gmail.com>
-Cc: Greg KH <gregkh@linuxfoundation.org>, martyn@welchs.me.uk,
-	manohar.vanga@gmail.com, linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev
-Subject: Re: [PATCH] staging: vme_user: fix check alignment should match open
- parenthesis
-Message-ID: <2354895b-c127-40eb-8f16-b19e4750e1d0@kadam.mountain>
-References: <ZKjeHx/zqrNIqaA6@alolivei-thinkpadt480s.gru.csb>
- <2023072729-sensitive-spyglass-ec96@gregkh>
- <ZMKDeyGaPQHm6/pr@alolivei-thinkpadt480s.gru.csb>
- <2023072741-mankind-ethics-b95b@gregkh>
- <ZMKkgItqf8r8BcRB@alolivei-thinkpadt480s.gru.csb>
- <2023072752-stem-pupil-76ab@gregkh>
- <ZMKrcvpu3b15Hdif@alolivei-thinkpadt480s.gru.csb>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 668753D86
+	for <linux-staging@lists.linux.dev>; Fri, 28 Jul 2023 05:46:24 +0000 (UTC)
+Received: from pb-smtp1.pobox.com (unknown [127.0.0.1])
+	by pb-smtp1.pobox.com (Postfix) with ESMTP id EFE631A8A0C;
+	Fri, 28 Jul 2023 01:46:17 -0400 (EDT)
+	(envelope-from tdavies@darkphysics.net)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed; d=pobox.com; h=from:to:cc
+	:subject:date:message-id:mime-version:content-transfer-encoding;
+	 s=sasl; bh=q11SRVXwa0wM9lcDGDLh7fBHJN2OYTsrZKvlSAWO/zM=; b=Wztn
+	BE/nkw5qtzBJPAXKuKwrrurk1kUKCS6jQla/m3A9JT35wHPYBNlkQOLTkT0/sETH
+	enzhdBQbDGWkPx+C1QMy8Fxx4dBGVV281yRrssx2YeQcBCy5t9N73GhQyG2DnWDg
+	L6HF05wtNQpG36+Dr3EKlM3nFS8AjvqgZUDJqyI=
+Received: from pb-smtp1.nyi.icgroup.com (unknown [127.0.0.1])
+	by pb-smtp1.pobox.com (Postfix) with ESMTP id E73211A8A0A;
+	Fri, 28 Jul 2023 01:46:17 -0400 (EDT)
+	(envelope-from tdavies@darkphysics.net)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed; d=darkphysics.net;
+ h=from:to:cc:subject:date:message-id:mime-version:content-transfer-encoding;
+ s=2019-09.pbsmtp; bh=CND3Jd7DqXpD69M6Z0UDYDpgKPrBb+yd9Y/GaIvHI+g=;
+ b=sLYFjwIQtoMepSREiCkLgbi4GBt217BvcVuUj5dzH5YMyMdcec+1fZO0J6FAo24z74ZVsstR2Qph4WkC0YZAfgljQDs8EAixeBlhywCUfKyOOqfNWnzSorZRRDYAkwgeKBJsBVwLWy9Lpo0czk8fcQaeq+K7bsNNuCm/WzEhCJY=
+Received: from basil.darkphysics (unknown [76.146.178.2])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by pb-smtp1.pobox.com (Postfix) with ESMTPSA id 99F3E1A8A09;
+	Fri, 28 Jul 2023 01:46:16 -0400 (EDT)
+	(envelope-from tdavies@darkphysics.net)
+From: Tree Davies <tdavies@darkphysics.net>
+To: gregkh@linuxfoundation.org,
+	philipp.g.hortmann@gmail.com,
+	anjan@momi.ca,
+	error27@gmail.com
+Cc: linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Tree Davies <tdavies@darkphysics.net>
+Subject: [PATCH v3 0/5] Staging: rtl8192e: Function name cleanup series 1
+Date: Thu, 27 Jul 2023 22:47:37 -0700
+Message-ID: <20230728054742.622297-1-tdavies@darkphysics.net>
+X-Mailer: git-send-email 2.41.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZMKrcvpu3b15Hdif@alolivei-thinkpadt480s.gru.csb>
+X-Pobox-Relay-ID:
+ 12224EE2-2D0A-11EE-B13D-C65BE52EC81B-45285927!pb-smtp1.pobox.com
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, Jul 27, 2023 at 02:37:54PM -0300, Alexon Oliveira wrote:
-> > 
-> > I would have thought you would get a "line is too long" warning, that
-> > didn't happen?
-> $ pwd
-> /home/alolivei/git/kernels/staging
-> $ perl scripts/checkpatch.pl --strict -f drivers/staging/vme_user/vme_bridge.h | grep -i parenthesis
-> $ 
-> Nope. I didn't get any of that. Check it out:
+Rename functions to fix checkpatch warning: Avoid CamelCase
 
-Heh.  The warning is there but you used grep to remove it.
 
-Speaking of long lines.  Could you fix your email client to line wrap at
-75 characters.
+Changelist:
+v3: Changed patch #5, Rename global function ResetBaEntry to rtllib_reset=
+_ba_entry
+v2: Sent to mailing list via git send-email, patches are the same.
 
-regards,
-dan carpenter
+Tree Davies (5):
+  Staging: rtl8192e: Rename function ActivateBAEntry
+  Staging: rtl8192e: Rename function DeActivateBAEntry
+  Staging: rtl8192e: Rename function TxTsDeleteBA
+  Staging: rtl8192e: Rename function RxTsDeleteBA
+  Staging: rtl8192e: Rename function ResetBaEntry
+
+ drivers/staging/rtl8192e/rtl819x_BAProc.c | 44 +++++++++++------------
+ drivers/staging/rtl8192e/rtl819x_TSProc.c |  6 ++--
+ drivers/staging/rtl8192e/rtllib.h         |  2 +-
+ 3 files changed, 26 insertions(+), 26 deletions(-)
+
+--=20
+2.41.0
 
