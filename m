@@ -1,97 +1,152 @@
-Received: from pb-smtp2.pobox.com (pb-smtp2.pobox.com [64.147.108.71])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FFC52F35
-	for <linux-staging@lists.linux.dev>; Fri, 28 Jul 2023 07:07:14 +0000 (UTC)
-Received: from pb-smtp2.pobox.com (unknown [127.0.0.1])
-	by pb-smtp2.pobox.com (Postfix) with ESMTP id C3CA71A357B;
-	Fri, 28 Jul 2023 03:07:07 -0400 (EDT)
-	(envelope-from tdavies@darkphysics.net)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed; d=pobox.com; h=date:from
-	:to:cc:subject:message-id:references:mime-version:content-type
-	:in-reply-to; s=sasl; bh=xbdqGhy7iwAmsLXlc2lOGZO/RGmggC2w9K6TKKU
-	bp4E=; b=clzFT48Vy02CptHhHUAlTq4feU6/x4UkGJgFRA3SB1A2KyLydydnitL
-	LRuOCMp5wvV+sP9DPjRytZYmcimn1AxHns+U6zwadq/0XtdJlcO77lqSNudu2ONH
-	Qa3aJ6U1Uz04Et+TECIHEY03GkepW+N/FH4VlM+N56VuAur0bZTc=
-Received: from pb-smtp2.nyi.icgroup.com (unknown [127.0.0.1])
-	by pb-smtp2.pobox.com (Postfix) with ESMTP id AB8F71A3579;
-	Fri, 28 Jul 2023 03:07:07 -0400 (EDT)
-	(envelope-from tdavies@darkphysics.net)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed; d=darkphysics.net;
- h=date:from:to:cc:subject:message-id:references:mime-version:content-type:in-reply-to; s=2019-09.pbsmtp; bh=xbdqGhy7iwAmsLXlc2lOGZO/RGmggC2w9K6TKKUbp4E=; b=gfIW2EAnGUzV4YWoDIz7dJELxT4tYq5+kVW99q68JZrGfM1muOylbP3jhP5bOxKosrRs5uwXf8KtnrInKVUEPU7MDpRjOxXoxQKbsEngRYSD5PafyZdNm43HQtyeOgdpNowqZxUOMPX2h2zqthiV7WrHskL5rPdntjC5s0+Q9uE=
-Received: from basil (unknown [76.146.178.2])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by pb-smtp2.pobox.com (Postfix) with ESMTPSA id ED7F91A3578;
-	Fri, 28 Jul 2023 03:07:05 -0400 (EDT)
-	(envelope-from tdavies@darkphysics.net)
-Date: Fri, 28 Jul 2023 00:08:34 -0700
-From: Tree Davies <tdavies@darkphysics.net>
-To: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: Philipp Hortmann <philipp.g.hortmann@gmail.com>,
-	gregkh@linuxfoundation.org, anjan@momi.ca, error27@gmail.com,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 0/5] Staging: rtl8192e: Function name cleanup series 1
-Message-ID: <ZMNpcvPbpQp3Z8rp@basil>
-References: <20230728054742.622297-1-tdavies@darkphysics.net>
- <f4aaf5f5-a6b0-ef10-0d9b-fc52035ca309@gmail.com>
- <ZMNf2d615rXJ8O95@basil>
- <f47c3d86-aada-470d-8ed8-5d7957edb28a@kadam.mountain>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C4EBC2C0
+	for <linux-staging@lists.linux.dev>; Fri, 28 Jul 2023 07:23:39 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BAB22C433C8;
+	Fri, 28 Jul 2023 07:23:37 +0000 (UTC)
+Message-ID: <7c8fc5b4-280e-844e-cdf5-b6ec2a1616aa@xs4all.nl>
+Date: Fri, 28 Jul 2023 09:23:35 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <f47c3d86-aada-470d-8ed8-5d7957edb28a@kadam.mountain>
-X-Pobox-Relay-ID:
- 5C8FB22A-2D15-11EE-A9CA-307A8E0A682E-45285927!pb-smtp2.pobox.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.12.0
+Subject: Re: [PATCH] media: atomisp: Fix smatch warnings caused by atomisp
+ custom assert() usage
+To: Hans de Goede <hdegoede@redhat.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Andy Shevchenko <andy@kernel.org>
+Cc: Kate Hsuan <hpa@redhat.com>, Tsuchiya Yuto <kitakar@gmail.com>,
+ Yury Luneff <yury.lunev@gmail.com>, Nable <nable.maininbox@googlemail.com>,
+ andrey.i.trufanov@gmail.com, Fabio Aiuto <fabioaiuto83@gmail.com>,
+ linux-media@vger.kernel.org, linux-staging@lists.linux.dev
+References: <20230727155606.41903-1-hdegoede@redhat.com>
+Content-Language: en-US
+From: Hans Verkuil <hverkuil@xs4all.nl>
+In-Reply-To: <20230727155606.41903-1-hdegoede@redhat.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Fri, Jul 28, 2023 at 09:49:26AM +0300, Dan Carpenter wrote:
-> On Thu, Jul 27, 2023 at 11:27:37PM -0700, Tree Davies wrote:
-> > On Fri, Jul 28, 2023 at 08:16:03AM +0200, Philipp Hortmann wrote:
-> > > On 7/28/23 07:47, Tree Davies wrote:
-> > > > Rename functions to fix checkpatch warning: Avoid CamelCase
-> > > > 
-> > > > 
-> > > > Changelist:
-> > > > v3: Changed patch #5, Rename global function ResetBaEntry to rtllib_reset_ba_entry
-> > > > v2: Sent to mailing list via git send-email, patches are the same.
-> > > > 
-> > > > Tree Davies (5):
-> > > >    Staging: rtl8192e: Rename function ActivateBAEntry
-> > > >    Staging: rtl8192e: Rename function DeActivateBAEntry
-> > > >    Staging: rtl8192e: Rename function TxTsDeleteBA
-> > > >    Staging: rtl8192e: Rename function RxTsDeleteBA
-> > > >    Staging: rtl8192e: Rename function ResetBaEntry
-> > > > 
-> > > >   drivers/staging/rtl8192e/rtl819x_BAProc.c | 44 +++++++++++------------
-> > > >   drivers/staging/rtl8192e/rtl819x_TSProc.c |  6 ++--
-> > > >   drivers/staging/rtl8192e/rtllib.h         |  2 +-
-> > > >   3 files changed, 26 insertions(+), 26 deletions(-)
-> > > > 
-> > > Hi Tree,
-> > > 
-> > > those patches have been accepted and cannot be applied again.
-> > > 
-> > 
-> > Hi Philipp,
-> > 
-> > Right, patch #5 was not accepted though. Grep asked to fix it up.
-> > I thought that because it was part of that series I was supposed to
-> > resend as new version.
+On 27/07/2023 17:56, Hans de Goede wrote:
+> The atomisp code base has a custom assert() macro, a couple of functions
+> use this in a construction like the following:
 > 
-> But now you understand what to do, right?  Pull the latest code and do
-> all your work on top of that.  Don't resend the stuff which was applied.
+>    assert(pipe);
+>    assert(pipe->stream);
+>    if ((!pipe) || (!pipe->stream)) {
+>            ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE,
+>                                "allocate_mipi_frames(%p) exit: ...\n",
+>                                pipe);
+>            return -EINVAL;
+>    }
 > 
-> regards,
-> dan carpenter
->
+> The second assert is seen by smatch as dereferencing "pipe" in the above
+> example (and dereferencing "dvs_6axis_config" / "me" in the 2 other cases).
+> 
+> Following by the dereferenced variable being checked (a second time)
+> in the following if () statement.
+> 
+> This triggers the following smatch warnings:
+> drivers/staging/media/atomisp/pci/sh_css_mipi.c:356 allocate_mipi_frames() warn: variable dereferenced before check 'pipe' (see line 355)
+> drivers/staging/media/atomisp/pci/sh_css_mipi.c:562 send_mipi_frames() warn: variable dereferenced before check 'pipe' (see line 561)
+> drivers/staging/media/atomisp/pci/sh_css_param_dvs.c:208 free_dvs_6axis_table() warn: variable dereferenced before check 'dvs_6axis_config' (see line 206)
+> drivers/staging/media/atomisp/pci/sh_css_sp.c:1255 sh_css_sp_init_pipeline() warn: variable dereferenced before check 'me->stages' (see line 1224)
 
-Understood. Thanks.
-regards,
-Tree
+After testing this patch with smatch I am still left with this warning:
 
- 
+drivers/staging/media/atomisp/pci/sh_css_sp.c:1251 sh_css_sp_init_pipeline() warn: variable dereferenced before check 'me->stages' (see line 1220)
+
+Regards,
+
+	Hans
+
+> 
+> The custom assert() macro actually expands to a BUG() call and BUG()
+> calls should not be used in the kernel.
+> 
+> Remove the assert() calls to fix the smatch warnings and in case of
+> [allocate|send]_mipi_frames() also remove the if () return -EINVAL
+> block since these functions are never called with a NULL pipe.
+> 
+> Reported-by: Hans Verkuil <hverkuil@xs4all.nl>
+> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+> ---
+> Note:
+> 1. No Closes: tag since Hans Verkuil reported this in an offlist email.
+> 2. All the other assert() calls really should also be removed.
+>    I've put this on my todo list.
+> ---
+>  drivers/staging/media/atomisp/pci/sh_css_mipi.c  | 16 ----------------
+>  .../staging/media/atomisp/pci/sh_css_param_dvs.c |  3 ---
+>  drivers/staging/media/atomisp/pci/sh_css_sp.c    |  4 ----
+>  3 files changed, 23 deletions(-)
+> 
+> diff --git a/drivers/staging/media/atomisp/pci/sh_css_mipi.c b/drivers/staging/media/atomisp/pci/sh_css_mipi.c
+> index b20acaab0595..ced21dedf7ac 100644
+> --- a/drivers/staging/media/atomisp/pci/sh_css_mipi.c
+> +++ b/drivers/staging/media/atomisp/pci/sh_css_mipi.c
+> @@ -351,15 +351,6 @@ allocate_mipi_frames(struct ia_css_pipe *pipe,
+>  	ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE,
+>  			    "allocate_mipi_frames(%p) enter:\n", pipe);
+>  
+> -	assert(pipe);
+> -	assert(pipe->stream);
+> -	if ((!pipe) || (!pipe->stream)) {
+> -		ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE,
+> -				    "allocate_mipi_frames(%p) exit: pipe or stream is null.\n",
+> -				    pipe);
+> -		return -EINVAL;
+> -	}
+> -
+>  	if (IS_ISP2401 && pipe->stream->config.online) {
+>  		ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE,
+>  				    "allocate_mipi_frames(%p) exit: no buffers needed for 2401 pipe mode.\n",
+> @@ -557,13 +548,6 @@ send_mipi_frames(struct ia_css_pipe *pipe)
+>  
+>  	IA_CSS_ENTER_PRIVATE("pipe=%p", pipe);
+>  
+> -	assert(pipe);
+> -	assert(pipe->stream);
+> -	if (!pipe || !pipe->stream) {
+> -		IA_CSS_ERROR("pipe or stream is null");
+> -		return -EINVAL;
+> -	}
+> -
+>  	/* multi stream video needs mipi buffers */
+>  	/* nothing to be done in other cases. */
+>  	if (pipe->stream->config.mode != IA_CSS_INPUT_MODE_BUFFERED_SENSOR) {
+> diff --git a/drivers/staging/media/atomisp/pci/sh_css_param_dvs.c b/drivers/staging/media/atomisp/pci/sh_css_param_dvs.c
+> index ff0082d02af3..5174bc210ae1 100644
+> --- a/drivers/staging/media/atomisp/pci/sh_css_param_dvs.c
+> +++ b/drivers/staging/media/atomisp/pci/sh_css_param_dvs.c
+> @@ -202,9 +202,6 @@ generate_dvs_6axis_table_from_config(struct ia_css_dvs_6axis_config
+>  void
+>  free_dvs_6axis_table(struct ia_css_dvs_6axis_config  **dvs_6axis_config)
+>  {
+> -	assert(dvs_6axis_config);
+> -	assert(*dvs_6axis_config);
+> -
+>  	if ((dvs_6axis_config) && (*dvs_6axis_config)) {
+>  		IA_CSS_ENTER_PRIVATE("dvs_6axis_config %p", (*dvs_6axis_config));
+>  		if ((*dvs_6axis_config)->xcoords_y) {
+> diff --git a/drivers/staging/media/atomisp/pci/sh_css_sp.c b/drivers/staging/media/atomisp/pci/sh_css_sp.c
+> index 4ef1c9e61ea8..5ecc982ad725 100644
+> --- a/drivers/staging/media/atomisp/pci/sh_css_sp.c
+> +++ b/drivers/staging/media/atomisp/pci/sh_css_sp.c
+> @@ -1215,10 +1215,6 @@ sh_css_sp_init_pipeline(struct ia_css_pipeline *me,
+>  	unsigned int thread_id;
+>  	u8 if_config_index, tmp_if_config_index;
+>  
+> -	assert(me);
+> -
+> -	assert(me->stages);
+> -
+>  	first_binary = me->stages->binary;
+>  
+>  	if (input_mode == IA_CSS_INPUT_MODE_SENSOR ||
+
