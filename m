@@ -1,157 +1,147 @@
-Received: from pb-smtp1.pobox.com (pb-smtp1.pobox.com [64.147.108.70])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31E96A941
-	for <linux-staging@lists.linux.dev>; Fri, 28 Jul 2023 05:46:28 +0000 (UTC)
-Received: from pb-smtp1.pobox.com (unknown [127.0.0.1])
-	by pb-smtp1.pobox.com (Postfix) with ESMTP id 77F451A8A14;
-	Fri, 28 Jul 2023 01:46:22 -0400 (EDT)
-	(envelope-from tdavies@darkphysics.net)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed; d=pobox.com; h=from:to:cc
-	:subject:date:message-id:in-reply-to:references:mime-version
-	:content-transfer-encoding; s=sasl; bh=uWcpY9tEW15/LWTbqHMjYwFOD
-	e7nP5AzxTp2FXkDfu0=; b=f/bsOpebdABaOyooSi5ZRcvdWbU7Ey9QK6YYz9c2E
-	akOfOVCEI+DjHVPJtsGSHzwdnmQBw6lxCn4pIU/B/h6gZh7cBNsh+sHc9Unnf6/o
-	lleaITj4pD86sf15PIGw+bR3h/9PyxMM7vhGFgf2eZr9pfpPYRdccupMds7+ZXTY
-	Hk=
-Received: from pb-smtp1.nyi.icgroup.com (unknown [127.0.0.1])
-	by pb-smtp1.pobox.com (Postfix) with ESMTP id 6FE891A8A13;
-	Fri, 28 Jul 2023 01:46:22 -0400 (EDT)
-	(envelope-from tdavies@darkphysics.net)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed; d=darkphysics.net;
- h=from:to:cc:subject:date:message-id:in-reply-to:references:mime-version:content-transfer-encoding; s=2019-09.pbsmtp; bh=eK7mYYCfud4wfsG0kxY8/fURuzguYFmTT6xrkDLazyw=; b=hXfqNjm4kNLqPDf0u++NuDz3+BTxRmUU4Sd2eCM/r3n3HY9YW/B1WNPvkbfULVOvM4Gt2DMjoHFMYz9NKiwFy+K8Tws6vt9MlrVfiwTVbw4EH0wdI1f66cZVVBXVuCB2OU0KrPBUvMQw1yxNpU0tJ0nj4QqdLLL5OHlzRnvTxe8=
-Received: from basil.darkphysics (unknown [76.146.178.2])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by pb-smtp1.pobox.com (Postfix) with ESMTPSA id 445DB1A8A0D;
-	Fri, 28 Jul 2023 01:46:20 -0400 (EDT)
-	(envelope-from tdavies@darkphysics.net)
-From: Tree Davies <tdavies@darkphysics.net>
-To: gregkh@linuxfoundation.org,
-	philipp.g.hortmann@gmail.com,
-	anjan@momi.ca,
-	error27@gmail.com
-Cc: linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Tree Davies <tdavies@darkphysics.net>
-Subject: [PATCH v3 2/5] Staging: rtl8192e: Rename function DeActivateBAEntry
-Date: Thu, 27 Jul 2023 22:47:39 -0700
-Message-ID: <20230728054742.622297-3-tdavies@darkphysics.net>
-X-Mailer: git-send-email 2.41.0
-In-Reply-To: <20230728054742.622297-1-tdavies@darkphysics.net>
-References: <20230728054742.622297-1-tdavies@darkphysics.net>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7AD013D86
+	for <linux-staging@lists.linux.dev>; Fri, 28 Jul 2023 06:16:07 +0000 (UTC)
+Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-99be4c6910aso21983366b.1
+        for <linux-staging@lists.linux.dev>; Thu, 27 Jul 2023 23:16:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1690524965; x=1691129765;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=ulD+jGAERfOBD4mt/Di4lPdx1Csw98WhuKZo73fBdX8=;
+        b=qJlp/+OIBvM8DpMP7qbgBsja1aFwxPLSMRVPLB34OJOf6sMHBpEqLl8mS1KgbdOkMz
+         1H8jKiMJ3yeUt7EbYPcJo293wZofNByvPYpDTQc13fLA2/AWFR33opRGPxCGe7nWDvlI
+         W18+nFdg2Bc2ersWy91UKtlm2XT7a3bthNQYnxad90T0yc7T7ZRo7bmg/idWwqQpeZRE
+         4pTMoMQnoI+E6Kf6vxI+LOJ7N94IWe8kTTebMMdAAYoXhbvyPLvv3XmLAQhxR5ftvkH4
+         q/b906KvatDToadFNrXBYaau1pRADrjzd8RbutAKzeU3sWlSpfrwF8VmBC9aLa4dajtD
+         gxZA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1690524965; x=1691129765;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=ulD+jGAERfOBD4mt/Di4lPdx1Csw98WhuKZo73fBdX8=;
+        b=EPuLzF5I8XgXVPQj98q2oE/n0XrSRnhrMzk/bMZgxkJKOn7t12WppNVOez6Mb0OgWc
+         Wst4CSnpkBpuqSZbFbvvQUKqwcTucnfT6hH+2IHZITizf1hnh/0Sumy13v0Q+cI++NYr
+         JJi+KWhMn16Y1VUiBrr69Mcs54TZK+8HOLjgkqnzyvqKFhbMWY2/bPVq3+iVkA5awvQ8
+         WAZSLP0rFa0DSkxh3AA20BP/VbRbVtzSMG6+FUU4qVSSKH2MpkJT4dWbqUuk69fM+j32
+         E1POLMc2dSTNKSjF9NsukyBMsR41ia8pygY5+sMtty4lHRS81xZUK8b4CP4baCtsrXIV
+         FhBg==
+X-Gm-Message-State: ABy/qLbCbJWmx/5NrmS7sK/10B93ppEsdyRFGD5khSOT6IZJM3sptrhy
+	+tQtJpECUZwR82uK0lhzDzA=
+X-Google-Smtp-Source: APBJJlFHa1n5RUu6Fkxms5HcSulXc3nohRDrQPmwIIBghyF0PnEOvLUeKqc89gxjeZp3otiaOkHq/g==
+X-Received: by 2002:a17:906:51dd:b0:993:eed1:8f7 with SMTP id v29-20020a17090651dd00b00993eed108f7mr1150254ejk.3.1690524964961;
+        Thu, 27 Jul 2023 23:16:04 -0700 (PDT)
+Received: from [192.168.0.103] (p57ba2e0b.dip0.t-ipconnect.de. [87.186.46.11])
+        by smtp.gmail.com with ESMTPSA id t7-20020a1709063e4700b0098d15d170a0sm1633773eji.202.2023.07.27.23.16.04
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 27 Jul 2023 23:16:04 -0700 (PDT)
+Message-ID: <f4aaf5f5-a6b0-ef10-0d9b-fc52035ca309@gmail.com>
+Date: Fri, 28 Jul 2023 08:16:03 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Pobox-Relay-ID:
- 14E37A7A-2D0A-11EE-95FF-C65BE52EC81B-45285927!pb-smtp1.pobox.com
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH v3 0/5] Staging: rtl8192e: Function name cleanup series 1
+To: Tree Davies <tdavies@darkphysics.net>, gregkh@linuxfoundation.org,
+ anjan@momi.ca, error27@gmail.com
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+References: <20230728054742.622297-1-tdavies@darkphysics.net>
+Content-Language: en-US
+From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+In-Reply-To: <20230728054742.622297-1-tdavies@darkphysics.net>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Rename function DeActivateBAEntry to deactivate_ba_entry in order to Fix
-checkpatch warning: Avoid CamelCase
+On 7/28/23 07:47, Tree Davies wrote:
+> Rename functions to fix checkpatch warning: Avoid CamelCase
+> 
+> 
+> Changelist:
+> v3: Changed patch #5, Rename global function ResetBaEntry to rtllib_reset_ba_entry
+> v2: Sent to mailing list via git send-email, patches are the same.
+> 
+> Tree Davies (5):
+>    Staging: rtl8192e: Rename function ActivateBAEntry
+>    Staging: rtl8192e: Rename function DeActivateBAEntry
+>    Staging: rtl8192e: Rename function TxTsDeleteBA
+>    Staging: rtl8192e: Rename function RxTsDeleteBA
+>    Staging: rtl8192e: Rename function ResetBaEntry
+> 
+>   drivers/staging/rtl8192e/rtl819x_BAProc.c | 44 +++++++++++------------
+>   drivers/staging/rtl8192e/rtl819x_TSProc.c |  6 ++--
+>   drivers/staging/rtl8192e/rtllib.h         |  2 +-
+>   3 files changed, 26 insertions(+), 26 deletions(-)
+> 
+Hi Tree,
 
-Signed-off-by: Tree Davies <tdavies@darkphysics.net>
----
-v3: Changed patch #5, Rename global function ResetBaEntry to rtllib_reset=
-_ba_entry
-v2: Sent to mailing list via git send-email, patches are the same.       =
- =20
- drivers/staging/rtl8192e/rtl819x_BAProc.c | 18 +++++++++---------
- 1 file changed, 9 insertions(+), 9 deletions(-)
+those patches have been accepted and cannot be applied again.
 
-diff --git a/drivers/staging/rtl8192e/rtl819x_BAProc.c b/drivers/staging/=
-rtl8192e/rtl819x_BAProc.c
-index 965ffa8b78c2..50362bbbc8dd 100644
---- a/drivers/staging/rtl8192e/rtl819x_BAProc.c
-+++ b/drivers/staging/rtl8192e/rtl819x_BAProc.c
-@@ -17,7 +17,7 @@ static void activate_ba_entry(struct ba_record *pBA, u1=
-6 Time)
- 		mod_timer(&pBA->timer, jiffies + msecs_to_jiffies(Time));
- }
-=20
--static void DeActivateBAEntry(struct rtllib_device *ieee, struct ba_reco=
-rd *pBA)
-+static void deactivate_ba_entry(struct rtllib_device *ieee, struct ba_re=
-cord *pBA)
- {
- 	pBA->b_valid =3D false;
- 	del_timer_sync(&pBA->timer);
-@@ -30,12 +30,12 @@ static u8 TxTsDeleteBA(struct rtllib_device *ieee, st=
-ruct tx_ts_record *pTxTs)
- 	u8 bSendDELBA =3D false;
-=20
- 	if (pPendingBa->b_valid) {
--		DeActivateBAEntry(ieee, pPendingBa);
-+		deactivate_ba_entry(ieee, pPendingBa);
- 		bSendDELBA =3D true;
- 	}
-=20
- 	if (pAdmittedBa->b_valid) {
--		DeActivateBAEntry(ieee, pAdmittedBa);
-+		deactivate_ba_entry(ieee, pAdmittedBa);
- 		bSendDELBA =3D true;
- 	}
- 	return bSendDELBA;
-@@ -47,7 +47,7 @@ static u8 RxTsDeleteBA(struct rtllib_device *ieee, stru=
-ct rx_ts_record *pRxTs)
- 	u8			bSendDELBA =3D false;
-=20
- 	if (pBa->b_valid) {
--		DeActivateBAEntry(ieee, pBa);
-+		deactivate_ba_entry(ieee, pBa);
- 		bSendDELBA =3D true;
- 	}
-=20
-@@ -270,7 +270,7 @@ int rtllib_rx_ADDBAReq(struct rtllib_device *ieee, st=
-ruct sk_buff *skb)
-=20
- 	rtllib_FlushRxTsPendingPkts(ieee, pTS);
-=20
--	DeActivateBAEntry(ieee, pBA);
-+	deactivate_ba_entry(ieee, pBA);
- 	pBA->dialog_token =3D *pDialogToken;
- 	pBA->ba_param_set =3D *pBaParamSet;
- 	pBA->ba_timeout_value =3D *pBaTimeoutVal;
-@@ -363,13 +363,13 @@ int rtllib_rx_ADDBARsp(struct rtllib_device *ieee, =
-struct sk_buff *skb)
- 		netdev_dbg(ieee->dev,
- 			   "%s(): Recv ADDBA Rsp. BA is admitted! Status code:%X\n",
- 			   __func__, *pStatusCode);
--		DeActivateBAEntry(ieee, pPendingBA);
-+		deactivate_ba_entry(ieee, pPendingBA);
- 	}
-=20
- 	if (*pStatusCode =3D=3D ADDBA_STATUS_SUCCESS) {
- 		if (pBaParamSet->field.ba_policy =3D=3D BA_POLICY_DELAYED) {
- 			pTS->bAddBaReqDelayed =3D true;
--			DeActivateBAEntry(ieee, pAdmittedBA);
-+			deactivate_ba_entry(ieee, pAdmittedBA);
- 			ReasonCode =3D DELBA_REASON_END_BA;
- 			goto OnADDBARsp_Reject;
- 		}
-@@ -378,7 +378,7 @@ int rtllib_rx_ADDBARsp(struct rtllib_device *ieee, st=
-ruct sk_buff *skb)
- 		pAdmittedBA->ba_timeout_value =3D *pBaTimeoutVal;
- 		pAdmittedBA->ba_start_seq_ctrl =3D pPendingBA->ba_start_seq_ctrl;
- 		pAdmittedBA->ba_param_set =3D *pBaParamSet;
--		DeActivateBAEntry(ieee, pAdmittedBA);
-+		deactivate_ba_entry(ieee, pAdmittedBA);
- 		activate_ba_entry(pAdmittedBA, *pBaTimeoutVal);
- 	} else {
- 		pTS->bAddBaReqDelayed =3D true;
-@@ -469,7 +469,7 @@ void TsInitAddBA(struct rtllib_device *ieee, struct t=
-x_ts_record *pTS,
- 	if (pBA->b_valid && !bOverwritePending)
- 		return;
-=20
--	DeActivateBAEntry(ieee, pBA);
-+	deactivate_ba_entry(ieee, pBA);
-=20
- 	pBA->dialog_token++;
- 	pBA->ba_param_set.field.amsdu_support =3D 0;
---=20
-2.41.0
+commit c928e84ce577262da288c0178c8c77620ba8b430 (HEAD -> 
+staging-testing, origin/staging-testing)
+Author: Tree Davies <tdavies@darkphysics.net>
+Date:   Wed Jul 26 23:19:47 2023 -0700
 
+     Staging: rtl8192e: Rename function RxTsDeleteBA
+
+     Rename function RxTsDeleteBA to rx_ts_delete_ba in order to Fix 
+checkpatch
+     warning: Avoid CamelCase
+
+     Signed-off-by: Tree Davies <tdavies@darkphysics.net>
+     Link: 
+https://lore.kernel.org/r/20230727061948.579480-5-tdavies@darkphysics.net
+     Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+
+commit 7b31905582358d566332182653a4e5552dba1574
+Author: Tree Davies <tdavies@darkphysics.net>
+Date:   Wed Jul 26 23:19:46 2023 -0700
+
+     Staging: rtl8192e: Rename function TxTsDeleteBA
+
+     Rename function TxTsDeleteBA to tx_ts_delete_ba in order to Fix 
+checkpatch
+     warning: Avoid CamelCase
+
+     Signed-off-by: Tree Davies <tdavies@darkphysics.net>
+     Link: 
+https://lore.kernel.org/r/20230727061948.579480-4-tdavies@darkphysics.net
+     Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+
+commit 8dd56eaa9450fb19f6bcc73956b3b1477331d28b
+Author: Tree Davies <tdavies@darkphysics.net>
+Date:   Wed Jul 26 23:19:45 2023 -0700
+
+     Staging: rtl8192e: Rename function DeActivateBAEntry
+
+     Rename function DeActivateBAEntry to deactivate_ba_entry in order 
+to Fix
+     checkpatch warning: Avoid CamelCase
+
+     Signed-off-by: Tree Davies <tdavies@darkphysics.net>
+     Link: 
+https://lore.kernel.org/r/20230727061948.579480-3-tdavies@darkphysics.net
+     Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+
+commit ca77687ae3f6d65fb26a0e1f93b54753af3581fc
+Author: Tree Davies <tdavies@darkphysics.net>
+Date:   Wed Jul 26 23:19:44 2023 -0700
+
+     Staging: rtl8192e: Rename function ActivateBAEntry
+
+     Rename function ActivateBAEntry to activate_ba_entry in order to Fix
+     checkpatch warning: Avoid CamelCase
+
+     Signed-off-by: Tree Davies <tdavies@darkphysics.net>
+     Link: 
+https://lore.kernel.org/r/20230727061948.579480-2-tdavies@darkphysics.net
+     Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+
+
+Bye Philipp
