@@ -1,144 +1,331 @@
-Received: from pb-smtp21.pobox.com (pb-smtp21.pobox.com [173.228.157.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f181.google.com (mail-qt1-f181.google.com [209.85.160.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D04CB1FC6
-	for <linux-staging@lists.linux.dev>; Fri, 28 Jul 2023 06:26:20 +0000 (UTC)
-Received: from pb-smtp21.pobox.com (unknown [127.0.0.1])
-	by pb-smtp21.pobox.com (Postfix) with ESMTP id 1D84E344D1;
-	Fri, 28 Jul 2023 02:26:14 -0400 (EDT)
-	(envelope-from tdavies@darkphysics.net)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed; d=pobox.com; h=date:from
-	:to:cc:subject:message-id:references:mime-version:content-type
-	:in-reply-to; s=sasl; bh=7BFUhWySqbBc1I+LPXohU2I/Tws2J36B0HPzziR
-	HpiE=; b=Fh8lRZfFG+uzDccI63BpLMrxLFIriSbs7Rm9ihEO7LeGIjt/KL5IRxh
-	vcq4totafCSZHWRHN4f0E2VEzvmW/TAhx6T5d6ajxWDd5Nuo0vOq/3EN0U/qY4fd
-	yz9qlsQ3E3LT4moZCUcFw5auJowcEdi5oE4OBKyxxoRNr6qbTsVg=
-Received: from pb-smtp21.sea.icgroup.com (unknown [127.0.0.1])
-	by pb-smtp21.pobox.com (Postfix) with ESMTP id 15F57344D0;
-	Fri, 28 Jul 2023 02:26:14 -0400 (EDT)
-	(envelope-from tdavies@darkphysics.net)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed; d=darkphysics.net;
- h=date:from:to:cc:subject:message-id:references:mime-version:content-type:in-reply-to; s=2019-09.pbsmtp; bh=7BFUhWySqbBc1I+LPXohU2I/Tws2J36B0HPzziRHpiE=; b=Pw4hhsCDIEwNKOjWILcXXrKO39573f9CFBYjJbx+yD3vwhz5HT5r9IAmJJ40OwVoBcHCRvU+aje01q0rp5j6ptxK3z+qjE32UttQ/fBeBOucEUX3M8k30xh25wwwCg4TUoA9mQHE6pGH4l7MHhsWMjarnD/regogQvq1xvGIw5w=
-Received: from basil (unknown [76.146.178.2])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by pb-smtp21.pobox.com (Postfix) with ESMTPSA id 3F7C5344CF;
-	Fri, 28 Jul 2023 02:26:10 -0400 (EDT)
-	(envelope-from tdavies@darkphysics.net)
-Date: Thu, 27 Jul 2023 23:27:37 -0700
-From: Tree Davies <tdavies@darkphysics.net>
-To: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-Cc: gregkh@linuxfoundation.org, anjan@momi.ca, error27@gmail.com,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 0/5] Staging: rtl8192e: Function name cleanup series 1
-Message-ID: <ZMNf2d615rXJ8O95@basil>
-References: <20230728054742.622297-1-tdavies@darkphysics.net>
- <f4aaf5f5-a6b0-ef10-0d9b-fc52035ca309@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F1E21FAF
+	for <linux-staging@lists.linux.dev>; Fri, 28 Jul 2023 06:46:44 +0000 (UTC)
+Received: by mail-qt1-f181.google.com with SMTP id d75a77b69052e-40648d758f1so11985711cf.0
+        for <linux-staging@lists.linux.dev>; Thu, 27 Jul 2023 23:46:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1690526802; x=1691131602;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=BGY2nO4ftRXQP63Y2pNslApqrzNNXCRHiRU0fSeA3Xw=;
+        b=k4Oigcu7aqKetFKoVexIE83Bu8ETLioCwuptG6SBn9YOfxWfNfnGv3G529VdF7B8uq
+         o3OupE40gllWnOarBVs8Fz/vxsZXz68E9WJpnOzNSkzIU6EneDGTxLNYU4pnDbqtNE1N
+         fJxrelkBzy9zdsFb14Bw/svw1stDs8fGmExJc=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1690526802; x=1691131602;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=BGY2nO4ftRXQP63Y2pNslApqrzNNXCRHiRU0fSeA3Xw=;
+        b=eS9phSvKrd8v1YHrcKaOPz181PbErPLzoDZ+tDh7YikPNt9LebnRuGpj6cCFXeOrox
+         46PUnA9sP4uaKTMn+CEVHY4tvm3Br7oTWM5fTR49+1HJYd1HJ2i9YiKPq6Sb038Ja2pU
+         Vny3b4Tpddm3nSYjUjqgET1l+FOX4PEdl7nf87P9/BmRCsxaogLPV/XumIvMJpS7bw71
+         V2gWVxqjfpivMoi88DwuliVMYqmYPCZhuowffFUL6UE4losxPpkr75fxCgnZT+kIXdMS
+         ycOO8k5PvbPvwQA+uS0HKWcr8tgAytMay19cYuqv6U0zU4z30LtRXXg57DL6WCCo+t+L
+         KrPQ==
+X-Gm-Message-State: ABy/qLb5LkiEu48OyM4OpRjd5O0KylMIlkTscHxyxWmO1p4IT6yB5Orx
+	On0oAJrcuK5n98j5nzVSZVXXMI+J5mUuLl6Bda+GC7YM
+X-Google-Smtp-Source: APBJJlFziMjOVvvrOV61p+YmspO0isl1LCTAdZwwuZSvakrDv64QakOs2WEHatkNo4rxTEZoNrYnWg==
+X-Received: by 2002:a05:622a:1492:b0:403:97e7:e1a1 with SMTP id t18-20020a05622a149200b0040397e7e1a1mr1840040qtx.54.1690526801970;
+        Thu, 27 Jul 2023 23:46:41 -0700 (PDT)
+Received: from mail-qv1-f47.google.com (mail-qv1-f47.google.com. [209.85.219.47])
+        by smtp.gmail.com with ESMTPSA id a17-20020a0ce391000000b0063211e61875sm1008974qvl.14.2023.07.27.23.46.40
+        for <linux-staging@lists.linux.dev>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 27 Jul 2023 23:46:40 -0700 (PDT)
+Received: by mail-qv1-f47.google.com with SMTP id 6a1803df08f44-63d09d886a3so11693016d6.2
+        for <linux-staging@lists.linux.dev>; Thu, 27 Jul 2023 23:46:40 -0700 (PDT)
+X-Received: by 2002:a05:6214:3b84:b0:63d:23c:41d with SMTP id
+ nf4-20020a0562143b8400b0063d023c041dmr1469017qvb.25.1690526800244; Thu, 27
+ Jul 2023 23:46:40 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <f4aaf5f5-a6b0-ef10-0d9b-fc52035ca309@gmail.com>
-X-Pobox-Relay-ID:
- A48C7294-2D0F-11EE-9F22-B31D44D1D7AA-45285927!pb-smtp21.pobox.com
+References: <20230622131349.144160-1-benjamin.gaignard@collabora.com>
+ <20230622131349.144160-5-benjamin.gaignard@collabora.com> <e7444263-0ce5-1575-8cca-1e51b1cfbe9a@synaptics.com>
+ <5cb3f216-5041-a155-5d2c-059dc1f15024@collabora.com> <25b21252-0d3a-3e50-0012-57055f386fee@synaptics.com>
+ <20230712104801.tgawhexpm53ocgd6@chromium.org> <2d239d33-b05d-1b51-2268-43b2839b64ea@synaptics.com>
+In-Reply-To: <2d239d33-b05d-1b51-2268-43b2839b64ea@synaptics.com>
+From: Tomasz Figa <tfiga@chromium.org>
+Date: Fri, 28 Jul 2023 15:46:29 +0900
+X-Gmail-Original-Message-ID: <CAAFQd5D7oNG8oZB66qEW720fR79paw_q0LGBg7X4jK-ZkgYD_g@mail.gmail.com>
+Message-ID: <CAAFQd5D7oNG8oZB66qEW720fR79paw_q0LGBg7X4jK-ZkgYD_g@mail.gmail.com>
+Subject: Re: [PATCH v3 04/11] media: videobuf2: Stop define VB2_MAX_FRAME as global
+To: Hsia-Jun Li <Randy.Li@synaptics.com>
+Cc: Benjamin Gaignard <benjamin.gaignard@collabora.com>, linux-media@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	m.szyprowski@samsung.com, linux-mediatek@lists.infradead.org, 
+	linux-arm-msm@vger.kernel.org, hverkuil-cisco@xs4all.nl, 
+	ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de, 
+	linux-rockchip@lists.infradead.org, mchehab@kernel.org, 
+	linux-staging@lists.linux.dev, ming.qian@nxp.com, kernel@collabora.com, 
+	gregkh@linuxfoundation.org, nicolas.dufresne@collabora.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, Jul 28, 2023 at 08:16:03AM +0200, Philipp Hortmann wrote:
-> On 7/28/23 07:47, Tree Davies wrote:
-> > Rename functions to fix checkpatch warning: Avoid CamelCase
-> > 
-> > 
-> > Changelist:
-> > v3: Changed patch #5, Rename global function ResetBaEntry to rtllib_reset_ba_entry
-> > v2: Sent to mailing list via git send-email, patches are the same.
-> > 
-> > Tree Davies (5):
-> >    Staging: rtl8192e: Rename function ActivateBAEntry
-> >    Staging: rtl8192e: Rename function DeActivateBAEntry
-> >    Staging: rtl8192e: Rename function TxTsDeleteBA
-> >    Staging: rtl8192e: Rename function RxTsDeleteBA
-> >    Staging: rtl8192e: Rename function ResetBaEntry
-> > 
-> >   drivers/staging/rtl8192e/rtl819x_BAProc.c | 44 +++++++++++------------
-> >   drivers/staging/rtl8192e/rtl819x_TSProc.c |  6 ++--
-> >   drivers/staging/rtl8192e/rtllib.h         |  2 +-
-> >   3 files changed, 26 insertions(+), 26 deletions(-)
-> > 
-> Hi Tree,
-> 
-> those patches have been accepted and cannot be applied again.
-> 
+On Mon, Jul 17, 2023 at 4:44=E2=80=AFPM Hsia-Jun Li <Randy.Li@synaptics.com=
+> wrote:
+>
+>
+> On 7/12/23 18:48, Tomasz Figa wrote:
+> > CAUTION: Email originated externally, do not click links or open attach=
+ments unless you recognize the sender and know the content is safe.
+> >
+> >
+> > On Mon, Jul 03, 2023 at 04:35:30PM +0800, Hsia-Jun Li wrote:
+> >> On 7/3/23 16:09, Benjamin Gaignard wrote:
+> >>> CAUTION: Email originated externally, do not click links or open
+> >>> attachments unless you recognize the sender and know the content is
+> >>> safe.
+> >>>
+> >>>
+> >>> Le 30/06/2023 =C3=A0 11:51, Hsia-Jun Li a =C3=A9crit :
+> >>>> On 6/22/23 21:13, Benjamin Gaignard wrote:
+> >>>>> CAUTION: Email originated externally, do not click links or open
+> >>>>> attachments unless you recognize the sender and know the content is
+> >>>>> safe.
+> >>>>>
+> >>>>>
+> >>>>> After changing bufs arrays to a dynamic allocated array
+> >>>>> VB2_MAX_FRAME doesn't mean anything for videobuf2 core.
+> >>>> I think make it 64 which is the VB2_MAX_FRAME in Android GKI kernel =
+is
+> >>>> more reasonable.
+> >>>>
+> >>>> It would be hard to iterate the whole array, it would go worse with =
+a
+> >>>> filter. Such iterate may need to go twice because you mix
+> >>>> post-processing buffer and decoding buffer(with MV) in the same arra=
+y.
+> >>> Here I don't want to change drivers behavior so I keep the same value=
+.
+> >>> If it happens that they need more buffers, like for dynamic resolutio=
+n
+> >>> change
+> >>> feature for Verisilicon VP9 decoder, case by case patches will be nee=
+ded.
+> >>>
+> >> I just don't like the idea that using a variant length array here.
+> >>
+> > "I don't like" is not an argument. We had a number of arguments for
+> > using a generic helper (originally idr, but later decided to go with
+> > XArray, because the former is now deprecated) that we pointed out in
+> > our review comments for previous revisions. It wasn't really about the
+> > size being variable, but rather avoiding open coding things in vb2 and
+> > duplicating what's already implemented in generic code.
+>
+> I just want to say I don't think we need a variable length array to
+> store the buffer here.
+>
+> And the below is the reason that such a case could be avoided in the
+> first place.
+>
+> >
+> >> And I could explain why you won't need so many buffers for the perform=
+ance
+> >> of decoding.
+> >>
+> >> VP9 could support 10 reference frames in dpb.
+> >>
+> >> Even for those frequent resolution changing test set, it would only ha=
+ppen
+> >> to two resolutions,
+> >>
+> >> 32 would be enough for 20 buffers of two resolution plus golden frames=
+. It
+> >> also leaves enough slots for re-order latency.
+> >>
+> >> If your case had more two resolutions, likes low->medium->high.
+> >>
+> >> I would suggest just skip the medium resolutions, just allocate the lo=
+wer
+> >> one first for fast playback then the highest for all the possible
+> >>
+> >> medium cases. Reallocation happens frequently would only cause memory
+> >> fragment, nothing benefits your performance.
+> >>
+> > We have mechanisms in the kernel to deal with memory fragmentation
+> > (migration/compaction) and it would still only matters for the
+> > pathologic cases of hardware that require physically contiguous memory.
+> > Modern hardware with proper DMA capabilities can either scatter-gather
+> > or are equipped with an IOMMU, so the allocation always happens in page
+> > granularity and fragmentation is avoided.
+>
+> Unfortunately, there are more devices that didn't have a IOMMU attached
+> to it, supporting scatter gather is more odd.
+>
+> It would be more likely that IOMMU would be disabled for the performance
+> reason.
 
-Hi Philipp,
+These days IOMMU is totally mandatory if you want to think about
+having any level of security in your system. Sure, there could be some
+systems that are completely isolated from any external environment,
+like some offline industry automation machines, but then arguably
+their running conditions would also be quite static and require very
+little memory re-allocation.
 
-Right, patch #5 was not accepted though. Grep asked to fix it up.
-I thought that because it was part of that series I was supposed to
-resend as new version.
- 
-Tree
+I also don't buy the performance reason. CPUs have been behind MMUs
+for ages and nobody is running them with paging disabled for
+performance reasons. Similarly, most of the modern consumer systems
+(mobile phones, PCs) run with IOMMUs enabled for pretty much anything
+because of the security reason and they don't seem to be having any
+performance issues. In fact, it can improve the performance, because
+memory allocation is much easier and without contiguous careouts (as
+we used to have long ago on Android devices) the extra memory can be
+used for buffers and caches to improve system performance.
 
+Best regards,
+Tomasz
 
-> commit c928e84ce577262da288c0178c8c77620ba8b430 (HEAD -> staging-testing,
-> origin/staging-testing)
-> Author: Tree Davies <tdavies@darkphysics.net>
-> Date:   Wed Jul 26 23:19:47 2023 -0700
-> 
->     Staging: rtl8192e: Rename function RxTsDeleteBA
-> 
->     Rename function RxTsDeleteBA to rx_ts_delete_ba in order to Fix
-> checkpatch
->     warning: Avoid CamelCase
-> 
->     Signed-off-by: Tree Davies <tdavies@darkphysics.net>
->     Link:
-> https://lore.kernel.org/r/20230727061948.579480-5-tdavies@darkphysics.net
->     Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> 
-> commit 7b31905582358d566332182653a4e5552dba1574
-> Author: Tree Davies <tdavies@darkphysics.net>
-> Date:   Wed Jul 26 23:19:46 2023 -0700
-> 
->     Staging: rtl8192e: Rename function TxTsDeleteBA
-> 
->     Rename function TxTsDeleteBA to tx_ts_delete_ba in order to Fix
-> checkpatch
->     warning: Avoid CamelCase
-> 
->     Signed-off-by: Tree Davies <tdavies@darkphysics.net>
->     Link:
-> https://lore.kernel.org/r/20230727061948.579480-4-tdavies@darkphysics.net
->     Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> 
-> commit 8dd56eaa9450fb19f6bcc73956b3b1477331d28b
-> Author: Tree Davies <tdavies@darkphysics.net>
-> Date:   Wed Jul 26 23:19:45 2023 -0700
-> 
->     Staging: rtl8192e: Rename function DeActivateBAEntry
-> 
->     Rename function DeActivateBAEntry to deactivate_ba_entry in order to Fix
->     checkpatch warning: Avoid CamelCase
-> 
->     Signed-off-by: Tree Davies <tdavies@darkphysics.net>
->     Link:
-> https://lore.kernel.org/r/20230727061948.579480-3-tdavies@darkphysics.net
->     Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> 
-> commit ca77687ae3f6d65fb26a0e1f93b54753af3581fc
-> Author: Tree Davies <tdavies@darkphysics.net>
-> Date:   Wed Jul 26 23:19:44 2023 -0700
-> 
->     Staging: rtl8192e: Rename function ActivateBAEntry
-> 
->     Rename function ActivateBAEntry to activate_ba_entry in order to Fix
->     checkpatch warning: Avoid CamelCase
-> 
->     Signed-off-by: Tree Davies <tdavies@darkphysics.net>
->     Link:
-> https://lore.kernel.org/r/20230727061948.579480-2-tdavies@darkphysics.net
->     Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> 
-> 
-> Bye Philipp
+>
+> >
+> > Best regards,
+> > Tomasz
+> >
+> >>>>> Remove it from the core definitions but keep it for drivers interna=
+l
+> >>>>> needs.
+> >>>>>
+> >>>>> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+> >>>>> ---
+> >>>>>    drivers/media/common/videobuf2/videobuf2-core.c | 2 ++
+> >>>>>    drivers/media/platform/amphion/vdec.c | 1 +
+> >>>>> .../media/platform/mediatek/vcodec/vdec/vdec_vp9_req_lat_if.c | 2 +=
++
+> >>>>>    drivers/media/platform/qcom/venus/hfi.h | 2 ++
+> >>>>>    drivers/media/platform/verisilicon/hantro_hw.h | 2 ++
+> >>>>>    drivers/staging/media/ipu3/ipu3-v4l2.c | 2 ++
+> >>>>>    include/media/videobuf2-core.h | 1 -
+> >>>>>    include/media/videobuf2-v4l2.h | 4 ----
+> >>>>>    8 files changed, 11 insertions(+), 5 deletions(-)
+> >>>>>
+> >>>>> diff --git a/drivers/media/common/videobuf2/videobuf2-core.c
+> >>>>> b/drivers/media/common/videobuf2/videobuf2-core.c
+> >>>>> index 86e1e926fa45..899783f67580 100644
+> >>>>> --- a/drivers/media/common/videobuf2/videobuf2-core.c
+> >>>>> +++ b/drivers/media/common/videobuf2/videobuf2-core.c
+> >>>>> @@ -31,6 +31,8 @@
+> >>>>>
+> >>>>>    #include <trace/events/vb2.h>
+> >>>>>
+> >>>>> +#define VB2_MAX_FRAME  32
+> >>>>> +
+> >>>>>    static int debug;
+> >>>>>    module_param(debug, int, 0644);
+> >>>>>
+> >>>>> diff --git a/drivers/media/platform/amphion/vdec.c
+> >>>>> b/drivers/media/platform/amphion/vdec.c
+> >>>>> index 3fa1a74a2e20..b3219f6d17fa 100644
+> >>>>> --- a/drivers/media/platform/amphion/vdec.c
+> >>>>> +++ b/drivers/media/platform/amphion/vdec.c
+> >>>>> @@ -28,6 +28,7 @@
+> >>>>>
+> >>>>>    #define VDEC_MIN_BUFFER_CAP            8
+> >>>>>    #define VDEC_MIN_BUFFER_OUT            8
+> >>>>> +#define VB2_MAX_FRAME                  32
+> >>>>>
+> >>>>>    struct vdec_fs_info {
+> >>>>>           char name[8];
+> >>>>> diff --git
+> >>>>> a/drivers/media/platform/mediatek/vcodec/vdec/vdec_vp9_req_lat_if.c
+> >>>>> b/drivers/media/platform/mediatek/vcodec/vdec/vdec_vp9_req_lat_if.c
+> >>>>> index 6532a69f1fa8..a1e0f24bb91c 100644
+> >>>>> --- a/drivers/media/platform/mediatek/vcodec/vdec/vdec_vp9_req_lat_=
+if.c
+> >>>>> +++ b/drivers/media/platform/mediatek/vcodec/vdec/vdec_vp9_req_lat_=
+if.c
+> >>>>> @@ -16,6 +16,8 @@
+> >>>>>    #include "../vdec_drv_if.h"
+> >>>>>    #include "../vdec_vpu_if.h"
+> >>>>>
+> >>>>> +#define VB2_MAX_FRAME  32
+> >>>>> +
+> >>>>>    /* reset_frame_context defined in VP9 spec */
+> >>>>>    #define VP9_RESET_FRAME_CONTEXT_NONE0 0
+> >>>>>    #define VP9_RESET_FRAME_CONTEXT_NONE1 1
+> >>>>> diff --git a/drivers/media/platform/qcom/venus/hfi.h
+> >>>>> b/drivers/media/platform/qcom/venus/hfi.h
+> >>>>> index f25d412d6553..bd5ca5a8b945 100644
+> >>>>> --- a/drivers/media/platform/qcom/venus/hfi.h
+> >>>>> +++ b/drivers/media/platform/qcom/venus/hfi.h
+> >>>>> @@ -10,6 +10,8 @@
+> >>>>>
+> >>>>>    #include "hfi_helper.h"
+> >>>>>
+> >>>>> +#define VB2_MAX_FRAME                          32
+> >>>>> +
+> >>>>>    #define VIDC_SESSION_TYPE_VPE                  0
+> >>>>>    #define VIDC_SESSION_TYPE_ENC                  1
+> >>>>>    #define VIDC_SESSION_TYPE_DEC                  2
+> >>>>> diff --git a/drivers/media/platform/verisilicon/hantro_hw.h
+> >>>>> b/drivers/media/platform/verisilicon/hantro_hw.h
+> >>>>> index e83f0c523a30..9e8faf7ba6fb 100644
+> >>>>> --- a/drivers/media/platform/verisilicon/hantro_hw.h
+> >>>>> +++ b/drivers/media/platform/verisilicon/hantro_hw.h
+> >>>>> @@ -15,6 +15,8 @@
+> >>>>>    #include <media/v4l2-vp9.h>
+> >>>>>    #include <media/videobuf2-core.h>
+> >>>>>
+> >>>>> +#define VB2_MAX_FRAME  32
+> >>>>> +
+> >>>>>    #define DEC_8190_ALIGN_MASK    0x07U
+> >>>>>
+> >>>>>    #define MB_DIM                 16
+> >>>>> diff --git a/drivers/staging/media/ipu3/ipu3-v4l2.c
+> >>>>> b/drivers/staging/media/ipu3/ipu3-v4l2.c
+> >>>>> index e530767e80a5..6627b5c2d4d6 100644
+> >>>>> --- a/drivers/staging/media/ipu3/ipu3-v4l2.c
+> >>>>> +++ b/drivers/staging/media/ipu3/ipu3-v4l2.c
+> >>>>> @@ -10,6 +10,8 @@
+> >>>>>    #include "ipu3.h"
+> >>>>>    #include "ipu3-dmamap.h"
+> >>>>>
+> >>>>> +#define VB2_MAX_FRAME  32
+> >>>>> +
+> >>>>>    /******************** v4l2_subdev_ops ********************/
+> >>>>>
+> >>>>>    #define IPU3_RUNNING_MODE_VIDEO                0
+> >>>>> diff --git a/include/media/videobuf2-core.h
+> >>>>> b/include/media/videobuf2-core.h
+> >>>>> index 77921cf894ef..080b783d608d 100644
+> >>>>> --- a/include/media/videobuf2-core.h
+> >>>>> +++ b/include/media/videobuf2-core.h
+> >>>>> @@ -20,7 +20,6 @@
+> >>>>>    #include <media/media-request.h>
+> >>>>>    #include <media/frame_vector.h>
+> >>>>>
+> >>>>> -#define VB2_MAX_FRAME  (32)
+> >>>>>    #define VB2_MAX_PLANES (8)
+> >>>>>
+> >>>>>    /**
+> >>>>> diff --git a/include/media/videobuf2-v4l2.h
+> >>>>> b/include/media/videobuf2-v4l2.h
+> >>>>> index 5a845887850b..88a7a565170e 100644
+> >>>>> --- a/include/media/videobuf2-v4l2.h
+> >>>>> +++ b/include/media/videobuf2-v4l2.h
+> >>>>> @@ -15,10 +15,6 @@
+> >>>>>    #include <linux/videodev2.h>
+> >>>>>    #include <media/videobuf2-core.h>
+> >>>>>
+> >>>>> -#if VB2_MAX_FRAME !=3D VIDEO_MAX_FRAME
+> >>>>> -#error VB2_MAX_FRAME !=3D VIDEO_MAX_FRAME
+> >>>>> -#endif
+> >>>>> -
+> >>>>>    #if VB2_MAX_PLANES !=3D VIDEO_MAX_PLANES
+> >>>>>    #error VB2_MAX_PLANES !=3D VIDEO_MAX_PLANES
+> >>>>>    #endif
+> >>>>> --
+> >>>>> 2.39.2
+> >>>>>
+> >> --
+> >> Hsia-Jun(Randy) Li
+> >>
+> --
+> Hsia-Jun(Randy) Li
+>
