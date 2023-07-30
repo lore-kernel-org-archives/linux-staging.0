@@ -1,132 +1,53 @@
-Received: from mail-ot1-f79.google.com (mail-ot1-f79.google.com [209.85.210.79])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 565911FDA
-	for <linux-staging@lists.linux.dev>; Sun, 30 Jul 2023 18:56:58 +0000 (UTC)
-Received: by mail-ot1-f79.google.com with SMTP id 46e09a7af769-6bc4dfb93cbso7453786a34.1
-        for <linux-staging@lists.linux.dev>; Sun, 30 Jul 2023 11:56:58 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690743418; x=1691348218;
-        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=sn0zJw/bbZ65gP8AMpGCkSg/cxSTCQ8T0dWiqBVVyII=;
-        b=jfLEqUJ1WN4Q61dxaSCfsFL0Ifykn4gAeYPLh7q7K3KNQL0LF9+ojydTQdjX7ZOJhR
-         An/9ckWKaxe3BwjGuOLv+5XWL0ivWfZD6Dh3ei8dZOg+tzo5GwrMT1LK+RuHQAoFOqCx
-         ImPU+DZndwse5hKOopEaugbuhcp/DfQ+Q0j8dTOOCWjez3mhDAtN+0u6HBXbSsWc44ys
-         IV0CPJua+xZPDzbS4O91aSrqa56LRDaI3FJ6SY9a2m7e4XNrQK6+2Tu0cnUDG6lxhJXP
-         essRRd+X4WbMx7LSKbDIOXnAN2MwggAc6JNdWz/cspYzclQ0ybTWWYygi3A8W4pY1bcb
-         B9wQ==
-X-Gm-Message-State: ABy/qLZ5wnmGz1VkMvy1u0gvwo2VzfzHqmPH8Y8Bl4H+nScHNpeqHuJW
-	/II4yj/uTkXEREGNz8fkwXCoEu+Sn/sWcP4JbU8TGysqKONd
-X-Google-Smtp-Source: APBJJlEDostvNQVls9I/PxnBBcxX+8y1S1gB8lPVgbx8ofgkKXWGpk6BIVtPr/hy07fX1RUcXFWFJfohya5BD63aZXPZwLMqVIim
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95FDA1FDA
+	for <linux-staging@lists.linux.dev>; Sun, 30 Jul 2023 19:43:22 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 0ECE2C433C8;
+	Sun, 30 Jul 2023 19:43:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1690746202;
+	bh=TILF9ej47mqRp4rGw2g6VV1kTHmlhHa+sMf2UgGEFOk=;
+	h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
+	b=Pw8OrE4ycgE4srerTVJF4Fgps2pBO7pQ4OOEsdyjU91p7+tWpUZwXyM57gHvadtXd
+	 wAhBEtzTq7uXfiYZJ96jD1zH6z3g2x8+vP8Gc8PTqy+SfOq3Y/ah3StX43v6K59GBr
+	 sg9HysSjkgye9QSrdxOsooKXxf4r+ot9122J5TiH8AhrxbGkhbMHDq4a5Q+R7LvMoR
+	 ep2U7QUf7h2Dr63XVCYz2LZppVJ+iqzInBQ9LLP3hINk4vVDM3v54o9k79Vg8xf/B7
+	 KhtmGcnwwBRqhwcliRHwBb6oDQkdrUKtfaIxLyVZ4qAnJuQkZy/4VIYiQgZ6MMUspU
+	 jFZNobkI5A0aw==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id F0D05C43169;
+	Sun, 30 Jul 2023 19:43:21 +0000 (UTC)
+Subject: Re: [GIT PULL] Staging driver fixes for 6.5-rc4
+From: pr-tracker-bot@kernel.org
+In-Reply-To: <ZMZEZev25nzJoNaM@kroah.com>
+References: <ZMZEZev25nzJoNaM@kroah.com>
+X-PR-Tracked-List-Id: <linux-staging.lists.linux.dev>
+X-PR-Tracked-Message-Id: <ZMZEZev25nzJoNaM@kroah.com>
+X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git tags/staging-6.5-rc4
+X-PR-Tracked-Commit-Id: 5f1c7031e044cb2fba82836d55cc235e2ad619dc
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: 3d6b77a8d4b4603c243ab2ee0f04f74f122d576a
+Message-Id: <169074620197.25913.5628028497946296547.pr-tracker-bot@kernel.org>
+Date: Sun, 30 Jul 2023 19:43:21 +0000
+To: Greg KH <gregkh@linuxfoundation.org>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>, Andrew Morton <akpm@linux-foundation.org>, Stephen Rothwell <sfr@canb.auug.org.au>, linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-X-Received: by 2002:a9d:66cb:0:b0:6b8:8894:e4ac with SMTP id
- t11-20020a9d66cb000000b006b88894e4acmr9576754otm.3.1690743418244; Sun, 30 Jul
- 2023 11:56:58 -0700 (PDT)
-Date: Sun, 30 Jul 2023 11:56:58 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <000000000000d9d4560601b8e0d7@google.com>
-Subject: [syzbot] [staging?] WARNING in netdev_open
-From: syzbot <syzbot+b08315e8cf5a78eed03c@syzkaller.appspotmail.com>
-To: Larry.Finger@lwfinger.net, florian.c.schilhabel@googlemail.com, 
-	gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org, 
-	linux-media@vger.kernel.org, linux-staging@lists.linux.dev, 
-	syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
 
-Hello,
+The pull request you sent on Sun, 30 Jul 2023 13:07:17 +0200:
 
-syzbot found the following issue on:
+> git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git tags/staging-6.5-rc4
 
-HEAD commit:    5f0bc0b042fc mm: suppress mm fault logging if fatal signal..
-git tree:       upstream
-console output: https://syzkaller.appspot.com/x/log.txt?x=116ca2f6a80000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=c7b1aac4a6659b6d
-dashboard link: https://syzkaller.appspot.com/bug?extid=b08315e8cf5a78eed03c
-compiler:       gcc (Debian 12.2.0-14) 12.2.0, GNU ld (GNU Binutils for Debian) 2.40
+has been merged into torvalds/linux.git:
+https://git.kernel.org/torvalds/c/3d6b77a8d4b4603c243ab2ee0f04f74f122d576a
 
-Unfortunately, I don't have any reproducer for this issue yet.
+Thank you!
 
-Downloadable assets:
-disk image: https://storage.googleapis.com/syzbot-assets/0394a19e5a08/disk-5f0bc0b0.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/86e5b158564d/vmlinux-5f0bc0b0.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/612fe43ee34a/bzImage-5f0bc0b0.xz
-
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+b08315e8cf5a78eed03c@syzkaller.appspotmail.com
-
-------------[ cut here ]------------
-DEBUG_LOCKS_WARN_ON(lock->magic != lock)
-WARNING: CPU: 1 PID: 4694 at kernel/locking/mutex.c:582 __mutex_lock_common kernel/locking/mutex.c:582 [inline]
-WARNING: CPU: 1 PID: 4694 at kernel/locking/mutex.c:582 __mutex_lock+0x912/0x1340 kernel/locking/mutex.c:747
-Modules linked in:
-CPU: 1 PID: 4694 Comm: dhcpcd Not tainted 6.5.0-rc3-syzkaller-00025-g5f0bc0b042fc #0
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 07/12/2023
-RIP: 0010:__mutex_lock_common kernel/locking/mutex.c:582 [inline]
-RIP: 0010:__mutex_lock+0x912/0x1340 kernel/locking/mutex.c:747
-Code: 08 84 d2 0f 85 d1 09 00 00 8b 05 35 2d 77 04 85 c0 0f 85 50 f8 ff ff 48 c7 c6 20 66 6c 8a 48 c7 c7 e0 63 6c 8a e8 8e b2 18 f7 <0f> 0b e9 36 f8 ff ff 48 8b 85 e0 fe ff ff 48 8d b8 30 09 00 00 48
-RSP: 0018:ffffc900034cf730 EFLAGS: 00010282
-RAX: 0000000000000000 RBX: 0000000000000000 RCX: 0000000000000000
-RDX: ffff888020685940 RSI: ffffffff814d3c06 RDI: 0000000000000001
-RBP: ffffc900034cf880 R08: 0000000000000001 R09: 0000000000000000
-R10: 0000000000000001 R11: 0000000000000001 R12: 0000000000000000
-R13: dffffc0000000000 R14: ffff88807adecd88 R15: ffffffff8b7133a0
-FS:  00007fc8da519740(0000) GS:ffff8880b9900000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 0000557c7eb10131 CR3: 000000002951e000 CR4: 00000000003506e0
-DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
-DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
-Call Trace:
- <TASK>
- netdev_open+0x32/0x820 drivers/staging/rtl8712/os_intfs.c:391
- __dev_open+0x2c4/0x4d0 net/core/dev.c:1442
- __dev_change_flags+0x56f/0x730 net/core/dev.c:8530
- dev_change_flags+0x9a/0x170 net/core/dev.c:8602
- devinet_ioctl+0x13ef/0x1f00 net/ipv4/devinet.c:1150
- inet_ioctl+0x3a6/0x3f0 net/ipv4/af_inet.c:980
- sock_do_ioctl+0x115/0x290 net/socket.c:1190
- sock_ioctl+0x205/0x6e0 net/socket.c:1307
- vfs_ioctl fs/ioctl.c:51 [inline]
- __do_sys_ioctl fs/ioctl.c:870 [inline]
- __se_sys_ioctl fs/ioctl.c:856 [inline]
- __x64_sys_ioctl+0x18f/0x210 fs/ioctl.c:856
- do_syscall_x64 arch/x86/entry/common.c:50 [inline]
- do_syscall_64+0x38/0xb0 arch/x86/entry/common.c:80
- entry_SYSCALL_64_after_hwframe+0x63/0xcd
-RIP: 0033:0x7fc8da5e7d49
-Code: 5c c3 48 8d 44 24 08 48 89 54 24 e0 48 89 44 24 c0 48 8d 44 24 d0 48 89 44 24 c8 b8 10 00 00 00 c7 44 24 b8 10 00 00 00 0f 05 <41> 89 c0 3d 00 f0 ff ff 76 10 48 8b 15 ae 60 0d 00 f7 d8 41 83 c8
-RSP: 002b:00007fffdec67188 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
-RAX: ffffffffffffffda RBX: 00007fc8da5196c0 RCX: 00007fc8da5e7d49
-RDX: 00007fffdec77378 RSI: 0000000000008914 RDI: 0000000000000018
-RBP: 00007fffdec87538 R08: 00007fffdec77338 R09: 00007fffdec772e8
-R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
-R13: 00007fffdec77378 R14: 0000000000000028 R15: 0000000000008914
- </TASK>
-
-
----
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
-
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
-
-If the bug is already fixed, let syzbot know by replying with:
-#syz fix: exact-commit-title
-
-If you want to change bug's subsystems, reply with:
-#syz set subsystems: new-subsystem
-(See the list of subsystem names on the web dashboard)
-
-If the bug is a duplicate of another bug, reply with:
-#syz dup: exact-subject-of-another-report
-
-If you want to undo deduplication, reply with:
-#syz undup
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/prtracker.html
