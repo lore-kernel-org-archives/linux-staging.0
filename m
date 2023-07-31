@@ -1,53 +1,52 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mail.cothiafon.pl (mail.cothiafon.pl [217.61.106.23])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95FDA1FDA
-	for <linux-staging@lists.linux.dev>; Sun, 30 Jul 2023 19:43:22 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 0ECE2C433C8;
-	Sun, 30 Jul 2023 19:43:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1690746202;
-	bh=TILF9ej47mqRp4rGw2g6VV1kTHmlhHa+sMf2UgGEFOk=;
-	h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
-	b=Pw8OrE4ycgE4srerTVJF4Fgps2pBO7pQ4OOEsdyjU91p7+tWpUZwXyM57gHvadtXd
-	 wAhBEtzTq7uXfiYZJ96jD1zH6z3g2x8+vP8Gc8PTqy+SfOq3Y/ah3StX43v6K59GBr
-	 sg9HysSjkgye9QSrdxOsooKXxf4r+ot9122J5TiH8AhrxbGkhbMHDq4a5Q+R7LvMoR
-	 ep2U7QUf7h2Dr63XVCYz2LZppVJ+iqzInBQ9LLP3hINk4vVDM3v54o9k79Vg8xf/B7
-	 KhtmGcnwwBRqhwcliRHwBb6oDQkdrUKtfaIxLyVZ4qAnJuQkZy/4VIYiQgZ6MMUspU
-	 jFZNobkI5A0aw==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id F0D05C43169;
-	Sun, 30 Jul 2023 19:43:21 +0000 (UTC)
-Subject: Re: [GIT PULL] Staging driver fixes for 6.5-rc4
-From: pr-tracker-bot@kernel.org
-In-Reply-To: <ZMZEZev25nzJoNaM@kroah.com>
-References: <ZMZEZev25nzJoNaM@kroah.com>
-X-PR-Tracked-List-Id: <linux-staging.lists.linux.dev>
-X-PR-Tracked-Message-Id: <ZMZEZev25nzJoNaM@kroah.com>
-X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git tags/staging-6.5-rc4
-X-PR-Tracked-Commit-Id: 5f1c7031e044cb2fba82836d55cc235e2ad619dc
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: 3d6b77a8d4b4603c243ab2ee0f04f74f122d576a
-Message-Id: <169074620197.25913.5628028497946296547.pr-tracker-bot@kernel.org>
-Date: Sun, 30 Jul 2023 19:43:21 +0000
-To: Greg KH <gregkh@linuxfoundation.org>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>, Andrew Morton <akpm@linux-foundation.org>, Stephen Rothwell <sfr@canb.auug.org.au>, linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7ED8E65F
+	for <linux-staging@lists.linux.dev>; Mon, 31 Jul 2023 08:45:31 +0000 (UTC)
+Received: by mail.cothiafon.pl (Postfix, from userid 1002)
+	id 77EE68308E; Mon, 31 Jul 2023 10:35:59 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=cothiafon.pl; s=mail;
+	t=1690792563; bh=dwoca0X6C9VXklO/zRgFQCPapTk5LFz4tKaENdvy6Po=;
+	h=Date:From:To:Subject:From;
+	b=eaBFv2gTrCKcMXse9fuCb0jqr1pIBtlgrugqNjvM3/ugniOsZQBAo7XzBJmJVf9aQ
+	 81SAGRJ5R8fuDTIHJSbzwpXgt3wY3Ts0t0PLyAJbmtiDqIMT6apvHAM5Js+ZiHQ534
+	 ej+aLxh9CvBU+pEckJF7eriUfG9YzNHZno61WDqbkiduCobrFEBkgrwD9XXyxEXvlq
+	 58Qxcj9q4HoOvUaZUWCkMo5yiZjD/CDZjQZyYvbkN3nZiOAWXKe8UbVcf6WLH94ePf
+	 xPrSoMlro6iTSq1BWI1kwTy6raLBsFbJ/6DStRLgpZhm1qKliLFlnlwzywddwpugjm
+	 zZjfeLrZ7Uhcw==
+Received: by mail.cothiafon.pl for <linux-staging@lists.linux.dev>; Mon, 31 Jul 2023 08:35:48 GMT
+Message-ID: <20230731095940-0.1.28.omo8.0.jjq4e6p1ub@cothiafon.pl>
+Date: Mon, 31 Jul 2023 08:35:48 GMT
+From: =?UTF-8?Q?"Rados=C5=82aw_Grabowski"?= <radoslaw.grabowski@cothiafon.pl>
+To: <linux-staging@lists.linux.dev>
+Subject: W sprawie samochodu
+X-Mailer: mail.cothiafon.pl
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-The pull request you sent on Sun, 30 Jul 2023 13:07:17 +0200:
+Dzie=C5=84 dobry,
 
-> git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git tags/staging-6.5-rc4
+chcieliby=C5=9Bmy zapewni=C4=87 Pa=C5=84stwu kompleksowe rozwi=C4=85zania=
+, je=C5=9Bli chodzi o system monitoringu GPS.
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/3d6b77a8d4b4603c243ab2ee0f04f74f122d576a
+Precyzyjne monitorowanie pojazd=C3=B3w na mapach cyfrowych, =C5=9Bledzeni=
+e ich parametr=C3=B3w eksploatacyjnych w czasie rzeczywistym oraz kontrol=
+a paliwa to kluczowe funkcjonalno=C5=9Bci naszego systemu.=20
 
-Thank you!
+Organizowanie pracy pracownik=C3=B3w jest dzi=C4=99ki temu prostsze i bar=
+dziej efektywne, a oszcz=C4=99dno=C5=9Bci i optymalizacja w zakresie pono=
+szonych koszt=C3=B3w, maj=C4=85 dla ka=C5=BCdego przedsi=C4=99biorcy ogro=
+mne znaczenie.
 
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/prtracker.html
+Dopasujemy nasz=C4=85 ofert=C4=99 do Pa=C5=84stwa oczekiwa=C5=84 i potrze=
+b organizacji. Czy mogliby=C5=9Bmy porozmawia=C4=87 o naszej propozycji?
+
+
+Pozdrawiam
+Rados=C5=82aw Grabowski
