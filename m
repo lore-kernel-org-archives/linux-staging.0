@@ -1,107 +1,194 @@
-Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 057D217FE9
-	for <linux-staging@lists.linux.dev>; Mon, 31 Jul 2023 11:06:37 +0000 (UTC)
-Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-991c786369cso638095766b.1
-        for <linux-staging@lists.linux.dev>; Mon, 31 Jul 2023 04:06:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1690801596; x=1691406396;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=9MdJiXGwyAkiC9mDh3NLqdU991BSWOeaVMH8LHr/VMM=;
-        b=gIBxG5FZsM49TCiOEwGy/nkwgZSwyZyL00R5QXTBVFthMK/oAShm4WhD/TXuiwXwAI
-         QB3kFzfjjjuwFi2fcm3s5vDCHAHuDd3jTJwm7TrtmCgyiYZt4k7N//qivLlHeICX5pIZ
-         cTZcmbMu1BF6jNF32D4oubDsjfLg/W9yzQdWHRQKetUsSeoMw5Hv7LlCK8B6CQuT0Ad+
-         rdrYY2KWMcfBDyHawpRcue8tCxUPRMPMmCpfN/J822SlEThnD31mYWEQGTpaVvVK4uwL
-         FjR7WpEjzhRhV4O8IKbUmqEvhr4ZvNWg55NFSN+TUgszNG2BEnrCxZHfrgZBITOYELWa
-         9Nrg==
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C50321519
+	for <linux-staging@lists.linux.dev>; Tue,  1 Aug 2023 12:32:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1690893152;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=okoYgmdKQn74JZXrYBaqgnqoE892hBw9NGFTzkSP/IY=;
+	b=dBms0CaItadLZH4ttC1SKZb1+q30pnkHIkC9hN7SfYa1igcn6kEcaE22wyDJF7DSyT4Qbk
+	LbWr5rkrhDGxIu2sAfnDiQiazn2XSmE6IEFmBQKuKmO3RkQ+1B1AdIsDgVE+FMvWCxIjvi
+	P3rAj0Mz9b4zpnH15FP35yH0WFGzha4=
+Received: from mail-pj1-f72.google.com (mail-pj1-f72.google.com
+ [209.85.216.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-118-bRjfOS50OmaWBlgah7Is2Q-1; Tue, 01 Aug 2023 08:32:30 -0400
+X-MC-Unique: bRjfOS50OmaWBlgah7Is2Q-1
+Received: by mail-pj1-f72.google.com with SMTP id 98e67ed59e1d1-268727b3197so5276685a91.2
+        for <linux-staging@lists.linux.dev>; Tue, 01 Aug 2023 05:32:30 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690801596; x=1691406396;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=9MdJiXGwyAkiC9mDh3NLqdU991BSWOeaVMH8LHr/VMM=;
-        b=T8kr0ijhn9GyF+WiHxJR+uHXeJTjwLAbDO6dw23/Nn3O/whkidmLCEt2TEe5H0Gc9J
-         wYnOObF70HwcST+2R6a8OTeXaF+/Eki+Eq/a0NMsxwuigIrdXFqo47AgTre/O4Ug1M6A
-         7GwBREFPpPHykTBPY45yJY1v75Wvy+/E7J1F1Nyu6HWBlVhjAQbLwLzRPOaiV75WFkxk
-         oWXuvmGBjzO1cmFm52ZsSbJoL/pm88i75eAImmBYY1zDpP4aeGiNzFJYqRYJ1hGvRf1x
-         qnrsahhqYr5J6eICTxJ61cFjxjFYMF49nIaIX0YzB7sxq+diI1IcPpulksu03SWldv9O
-         t9tg==
-X-Gm-Message-State: ABy/qLbOb8LD0uMgEUzeDgf9NtgQZmSDuxWKDdbDHHOpiRc+OIdThO2v
-	Q/DzQaDiSsb8RFVJggvNbu0=
-X-Google-Smtp-Source: APBJJlFysB5VO6gTBbAO78UVacGn24mY4IJgu1Ob2slRxFWBlhQfKkabRQJlBk5/mrLe8jps38MZYw==
-X-Received: by 2002:a17:906:9b:b0:993:fba5:cdef with SMTP id 27-20020a170906009b00b00993fba5cdefmr6812802ejc.8.1690801595849;
-        Mon, 31 Jul 2023 04:06:35 -0700 (PDT)
-Received: from nam-dell (ip-217-105-46-58.ip.prioritytelecom.net. [217.105.46.58])
-        by smtp.gmail.com with ESMTPSA id n26-20020a170906089a00b00992ddf46e65sm5961001eje.46.2023.07.31.04.06.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 31 Jul 2023 04:06:35 -0700 (PDT)
-From: Nam Cao <namcaov@gmail.com>
-To: Larry Finger <Larry.Finger@lwfinger.net>,
-	Florian Schilhabel <florian.c.schilhabel@googlemail.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Cc: Nam Cao <namcaov@gmail.com>,
-	syzbot+b08315e8cf5a78eed03c@syzkaller.appspotmail.com,
-	stable@vger.kernel.org
-Subject: [PATCH] staging: rtl8712: fix race condition
-Date: Mon, 31 Jul 2023 13:06:20 +0200
-Message-Id: <20230731110620.116562-1-namcaov@gmail.com>
-X-Mailer: git-send-email 2.34.1
+        d=1e100.net; s=20221208; t=1690893150; x=1691497950;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=okoYgmdKQn74JZXrYBaqgnqoE892hBw9NGFTzkSP/IY=;
+        b=V5Epuzp2+G7imnuZuHnBlFmd1J1NytnkRlhW3IwAm8gUv6VJij++wD2T1QmCDxV5Fb
+         F6PA/KN705IRwxjYqkpwhUGnGLG5AW7P6wdPibpx2l/szOWnBSnUEwyYsMssHOgdQSDY
+         30W9Dpwmif0Rr73IxcIpTulDc3ucjDPkhAvlbh//9D5GCG/Py8nYSxyyjRp/e3aSdM22
+         oJLnpvvee9yjjNe5smKVPBOdr826QjcxgNk389rUMT4kQlRN9PKeyasw65nfQMmonqS6
+         TL6THZc4HpEeXxUr9yd0wc4mmwpfR8hVD0DhXZ7icKlH/UnkQj4A4HG4qYwJqlSYnWu0
+         7SjA==
+X-Gm-Message-State: ABy/qLYgQbAYTEjsuVHnMOC/GtAU3HOuEexvOZhf04/8A15SBfs8rAkS
+	2nhj8aLr2qO1SxA+ywY4rpdI7EwP+/5ZOmEFipXYl9xBabT1qbOssnuAOi6exj2IzeR7ij305gT
+	9+Nih1UlZGd6U5Ao2OR567sZVlW/WSU/atxCzYTYJew==
+X-Received: by 2002:a17:90b:897:b0:261:685:95b6 with SMTP id bj23-20020a17090b089700b00261068595b6mr12106645pjb.13.1690893149839;
+        Tue, 01 Aug 2023 05:32:29 -0700 (PDT)
+X-Google-Smtp-Source: APBJJlE+s2eFV5EuurTO8k9V6frq5bcS/3gHhEu2C6+5FPjjz18mq0FptnP3pP6BOGHiwlkNzwMwsTYAitHPKWOAHDA=
+X-Received: by 2002:a17:90b:897:b0:261:685:95b6 with SMTP id
+ bj23-20020a17090b089700b00261068595b6mr12106625pjb.13.1690893149469; Tue, 01
+ Aug 2023 05:32:29 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20230730153343.22033-1-hdegoede@redhat.com>
+In-Reply-To: <20230730153343.22033-1-hdegoede@redhat.com>
+From: Kate Hsuan <hpa@redhat.com>
+Date: Tue, 1 Aug 2023 20:32:18 +0800
+Message-ID: <CAEth8oFe1QFfbZ=COzT=BLJtoAXAgqVMZtTM6qe4aNvQ0ZNVPw@mail.gmail.com>
+Subject: Re: [PATCH v2 1/2] media: atomisp: Fix smatch warnings caused by
+ atomisp custom assert() usage
+To: Hans de Goede <hdegoede@redhat.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
+	Andy Shevchenko <andy@kernel.org>, Tsuchiya Yuto <kitakar@gmail.com>, Yury Luneff <yury.lunev@gmail.com>, 
+	Nable <nable.maininbox@googlemail.com>, andrey.i.trufanov@gmail.com, 
+	Fabio Aiuto <fabioaiuto83@gmail.com>, linux-media@vger.kernel.org, 
+	linux-staging@lists.linux.dev, Hans Verkuil <hverkuil@xs4all.nl>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-In probe function, request_firmware_nowait() is called to load firmware
-asynchronously. At completion of firmware loading, register_netdev() is
-called. However, a mutex needed by netdev is initialized after the call
-to request_firmware_nowait(). Consequently, it can happen that
-register_netdev() is called before the driver is ready.
+Hi Hans,
 
-Move the mutex initialization into r8712_init_drv_sw(), which is called
-before request_firmware_nowait().
+On Sun, Jul 30, 2023 at 11:33=E2=80=AFPM Hans de Goede <hdegoede@redhat.com=
+> wrote:
+>
+> The atomisp code base has a custom assert() macro, a couple of functions
+> use this in a construction like the following:
+>
+>    assert(pipe);
+>    assert(pipe->stream);
+>    if ((!pipe) || (!pipe->stream)) {
+>            ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE,
+>                                "allocate_mipi_frames(%p) exit: ...\n",
+>                                pipe);
+>            return -EINVAL;
+>    }
+>
+> The second assert is seen by smatch as dereferencing "pipe" in the above
+> example (and dereferencing "dvs_6axis_config" in the other case).
+>
+> Following by the dereferenced variable being checked (a second time)
+> in the following if () statement.
+>
+> This triggers the following smatch warnings:
+> drivers/staging/media/atomisp/pci/sh_css_mipi.c:356 allocate_mipi_frames(=
+) warn: variable dereferenced before check 'pipe' (see line 355)
+> drivers/staging/media/atomisp/pci/sh_css_mipi.c:562 send_mipi_frames() wa=
+rn: variable dereferenced before check 'pipe' (see line 561)
+> drivers/staging/media/atomisp/pci/sh_css_param_dvs.c:208 free_dvs_6axis_t=
+able() warn: variable dereferenced before check 'dvs_6axis_config' (see lin=
+e 206)
+>
+> The custom assert() macro actually expands to a BUG() call and BUG()
+> calls should not be used in the kernel.
+>
+> Remove the assert() calls to fix the smatch warnings and in case of
+> [allocate|send]_mipi_frames() also remove the if () return -EINVAL
+> block since these functions are never called with a NULL pipe.
+>
+> Reported-by: Hans Verkuil <hverkuil@xs4all.nl>
+> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+> ---
+> Note:
+> 1. No Closes: tag since Hans Verkuil reported this in an offlist email.
+> 2. All the other assert() calls really should also be removed.
+>    I've put this on my todo list.
+> ---
+> Changes in v2:
+> - Drop the sh_css_sp.c bits, just dropping the assert() calls is
+>   not enough there
+> ---
+>  drivers/staging/media/atomisp/pci/sh_css_mipi.c  | 16 ----------------
+>  .../staging/media/atomisp/pci/sh_css_param_dvs.c |  3 ---
+>  2 files changed, 19 deletions(-)
+>
+> diff --git a/drivers/staging/media/atomisp/pci/sh_css_mipi.c b/drivers/st=
+aging/media/atomisp/pci/sh_css_mipi.c
+> index b20acaab0595..ced21dedf7ac 100644
+> --- a/drivers/staging/media/atomisp/pci/sh_css_mipi.c
+> +++ b/drivers/staging/media/atomisp/pci/sh_css_mipi.c
+> @@ -351,15 +351,6 @@ allocate_mipi_frames(struct ia_css_pipe *pipe,
+>         ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE,
+>                             "allocate_mipi_frames(%p) enter:\n", pipe);
+>
+> -       assert(pipe);
+> -       assert(pipe->stream);
+> -       if ((!pipe) || (!pipe->stream)) {
+> -               ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE,
+> -                                   "allocate_mipi_frames(%p) exit: pipe =
+or stream is null.\n",
+> -                                   pipe);
+> -               return -EINVAL;
+> -       }
 
-Reported-by: syzbot+b08315e8cf5a78eed03c@syzkaller.appspotmail.com
-Closes: https://lore.kernel.org/linux-staging/000000000000d9d4560601b8e0d7@google.com/T/#u
-Fixes: 8c213fa59199 ("staging: r8712u: Use asynchronous firmware loading")
-Cc: stable@vger.kernel.org
+Thank you for working on this.
 
-Signed-off-by: Nam Cao <namcaov@gmail.com>
----
- drivers/staging/rtl8712/os_intfs.c | 1 +
- drivers/staging/rtl8712/usb_intf.c | 1 -
- 2 files changed, 1 insertion(+), 1 deletion(-)
+The NULL test for pipe could be kept here since the caller only tests
+"stream" but not test "main_pipe" is NULL. (sh_css.c line: 1799)
 
-diff --git a/drivers/staging/rtl8712/os_intfs.c b/drivers/staging/rtl8712/os_intfs.c
-index a2f3645be0cc..b18e6d9c832b 100644
---- a/drivers/staging/rtl8712/os_intfs.c
-+++ b/drivers/staging/rtl8712/os_intfs.c
-@@ -327,6 +327,7 @@ int r8712_init_drv_sw(struct _adapter *padapter)
- 	mp871xinit(padapter);
- 	init_default_value(padapter);
- 	r8712_InitSwLeds(padapter);
-+	mutex_init(&padapter->mutex_start);
- 
- 	return 0;
- 
-diff --git a/drivers/staging/rtl8712/usb_intf.c b/drivers/staging/rtl8712/usb_intf.c
-index 37364d3101e2..df05213f922f 100644
---- a/drivers/staging/rtl8712/usb_intf.c
-+++ b/drivers/staging/rtl8712/usb_intf.c
-@@ -567,7 +567,6 @@ static int r871xu_drv_init(struct usb_interface *pusb_intf,
- 	if (rtl871x_load_fw(padapter))
- 		goto deinit_drv_sw;
- 	init_completion(&padapter->rx_filter_ready);
--	mutex_init(&padapter->mutex_start);
- 	return 0;
- 
- deinit_drv_sw:
--- 
-2.34.1
+The rest of the part is ok for me.
+
+> -
+>         if (IS_ISP2401 && pipe->stream->config.online) {
+>                 ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE,
+>                                     "allocate_mipi_frames(%p) exit: no bu=
+ffers needed for 2401 pipe mode.\n",
+> @@ -557,13 +548,6 @@ send_mipi_frames(struct ia_css_pipe *pipe)
+>
+>         IA_CSS_ENTER_PRIVATE("pipe=3D%p", pipe);
+>
+> -       assert(pipe);
+> -       assert(pipe->stream);
+> -       if (!pipe || !pipe->stream) {
+> -               IA_CSS_ERROR("pipe or stream is null");
+> -               return -EINVAL;
+> -       }
+> -
+>         /* multi stream video needs mipi buffers */
+>         /* nothing to be done in other cases. */
+>         if (pipe->stream->config.mode !=3D IA_CSS_INPUT_MODE_BUFFERED_SEN=
+SOR) {
+> diff --git a/drivers/staging/media/atomisp/pci/sh_css_param_dvs.c b/drive=
+rs/staging/media/atomisp/pci/sh_css_param_dvs.c
+> index ff0082d02af3..5174bc210ae1 100644
+> --- a/drivers/staging/media/atomisp/pci/sh_css_param_dvs.c
+> +++ b/drivers/staging/media/atomisp/pci/sh_css_param_dvs.c
+> @@ -202,9 +202,6 @@ generate_dvs_6axis_table_from_config(struct ia_css_dv=
+s_6axis_config
+>  void
+>  free_dvs_6axis_table(struct ia_css_dvs_6axis_config  **dvs_6axis_config)
+>  {
+> -       assert(dvs_6axis_config);
+> -       assert(*dvs_6axis_config);
+> -
+>         if ((dvs_6axis_config) && (*dvs_6axis_config)) {
+>                 IA_CSS_ENTER_PRIVATE("dvs_6axis_config %p", (*dvs_6axis_c=
+onfig));
+>                 if ((*dvs_6axis_config)->xcoords_y) {
+> --
+> 2.41.0
+>
+
+
+--=20
+BR,
+Kate
 
