@@ -1,31 +1,31 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61A576128
-	for <linux-staging@lists.linux.dev>; Wed,  2 Aug 2023 09:56:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF63B63B6
+	for <linux-staging@lists.linux.dev>; Wed,  2 Aug 2023 09:56:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1690970197;
+	s=mimecast20190719; t=1690970200;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=+1aYWKcfrdle99XSOumU0rh1QiMX5RoG78PL7LShRLE=;
-	b=N8xXm11obgffvvqrDKS/5YrvuBQKHCDE0ZCyvm9IFSdUdsBOKOPPA/r6mGBkWmM9k3oXXK
-	QOMOPSGpdSM+JLghS2vVkyj7UV76UVe5y94o9XyziBh12/0m+PXwQCuZr55vo+S/zChRKA
-	gxY0PH3W2/SQign/NsyZiojqOhHCbzY=
+	bh=omkQoqcMIkusw+NeC5qeXAGvbLPFbDsg8hQQSjoptuM=;
+	b=Zq8zv84iiTapeuJ4lYyeawVJAhXYPQsRzV6YEfc+I5YRX0W6vt58OyT0xS9HqxjtB9TugZ
+	JBspG8VejhgJ7sqj5UQ9Oehn9PKUgBR0irNxiXrf4fHTXmZToedSQCbdbt3dYDJH1OsNbk
+	EU4x6fkaW7YIdRaSW1O7MgxRSvFvcGo=
 Received: from mimecast-mx02.redhat.com (66.187.233.73 [66.187.233.73]) by
  relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-479-pSLgf_ZzPDuLjF3M_C8z-w-1; Wed, 02 Aug 2023 05:56:32 -0400
-X-MC-Unique: pSLgf_ZzPDuLjF3M_C8z-w-1
+ us-mta-558-NlA7ZGvzPL237yviiOq83A-1; Wed, 02 Aug 2023 05:56:37 -0400
+X-MC-Unique: NlA7ZGvzPL237yviiOq83A-1
 Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com [10.11.54.10])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C050D381AE43;
-	Wed,  2 Aug 2023 09:56:31 +0000 (UTC)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 35C50381AE44;
+	Wed,  2 Aug 2023 09:56:37 +0000 (UTC)
 Received: from fedora.redhat.com (unknown [10.67.24.18])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id E8780401061;
-	Wed,  2 Aug 2023 09:56:28 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 4E542401E54;
+	Wed,  2 Aug 2023 09:56:34 +0000 (UTC)
 From: Kate Hsuan <hpa@redhat.com>
 To: Hans de Goede <hdegoede@redhat.com>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
@@ -34,9 +34,9 @@ To: Hans de Goede <hdegoede@redhat.com>,
 	linux-media@vger.kernel.org,
 	linux-staging@lists.linux.dev
 Cc: Kate Hsuan <hpa@redhat.com>
-Subject: [PATCH 01/12] media: atomisp: ia_css_raw.host: Remove #ifdef ISP2401 to make the driver generic
-Date: Wed,  2 Aug 2023 17:55:55 +0800
-Message-ID: <20230802095606.1298152-2-hpa@redhat.com>
+Subject: [PATCH 02/12] media: atomisp: binary: Removed #ifdef ISP2401 to make driver generic
+Date: Wed,  2 Aug 2023 17:55:56 +0800
+Message-ID: <20230802095606.1298152-3-hpa@redhat.com>
 In-Reply-To: <20230802095606.1298152-1-hpa@redhat.com>
 References: <20230802095606.1298152-1-hpa@redhat.com>
 Precedence: bulk
@@ -48,55 +48,40 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
 
-Remove #ifdef from the code and made the code generic. The raw image
-configuration was determined during runtime.
+Removed #ifdef ISP2401 to make the driver generic. The driver flow is
+determined in runtime.
 
 Signed-off-by: Kate Hsuan <hpa@redhat.com>
 ---
- .../isp/kernels/raw/raw_1.0/ia_css_raw.host.c | 21 +++++++------------
- 1 file changed, 7 insertions(+), 14 deletions(-)
+ .../media/atomisp/pci/runtime/binary/src/binary.c | 15 ++++++++-------
+ 1 file changed, 8 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/staging/media/atomisp/pci/isp/kernels/raw/raw_1.0/ia_css_raw.host.c b/drivers/staging/media/atomisp/pci/isp/kernels/raw/raw_1.0/ia_css_raw.host.c
-index 646d6e39c1e5..40d4a0521562 100644
---- a/drivers/staging/media/atomisp/pci/isp/kernels/raw/raw_1.0/ia_css_raw.host.c
-+++ b/drivers/staging/media/atomisp/pci/isp/kernels/raw/raw_1.0/ia_css_raw.host.c
-@@ -73,17 +73,9 @@ int ia_css_raw_config(struct sh_css_isp_raw_isp_config *to,
- 	const struct ia_css_frame_info *internal_info = from->internal_info;
- 	int ret;
+diff --git a/drivers/staging/media/atomisp/pci/runtime/binary/src/binary.c b/drivers/staging/media/atomisp/pci/runtime/binary/src/binary.c
+index 768da86b8c2c..0f3729e55e14 100644
+--- a/drivers/staging/media/atomisp/pci/runtime/binary/src/binary.c
++++ b/drivers/staging/media/atomisp/pci/runtime/binary/src/binary.c
+@@ -604,13 +604,14 @@ binary_in_frame_padded_width(int in_frame_width,
+ 	int rval;
+ 	int nr_of_left_paddings;	/* number of paddings pixels on the left of an image line */
  
--#if !defined(ISP2401)
--	/* 2401 input system uses input width width */
--	in_info = internal_info;
--#else
--	/*in some cases, in_info is NULL*/
--	if (in_info)
--		(void)internal_info;
--	else
-+	if (!IS_ISP2401 || !in_info)
- 		in_info = internal_info;
- 
--#endif
- 	ret = ia_css_dma_configure_from_info(&to->port_b, in_info);
- 	if (ret)
- 		return ret;
-@@ -99,11 +91,12 @@ int ia_css_raw_config(struct sh_css_isp_raw_isp_config *to,
- 	to->two_ppc             = from->two_ppc;
- 	to->stream_format       = css2isp_stream_format(from->stream_format);
- 	to->deinterleaved       = from->deinterleaved;
 -#if defined(ISP2401)
--	to->start_column        = in_info->crop_info.start_column;
--	to->start_line          = in_info->crop_info.start_line;
--	to->enable_left_padding = from->enable_left_padding;
+-	/* the output image line of Input System 2401 does not have the left paddings  */
+-	nr_of_left_paddings = 0;
+-#else
+-	/* in other cases, the left padding pixels are always 128 */
+-	nr_of_left_paddings = 2 * ISP_VEC_NELEMS;
 -#endif
-+
 +	if (IS_ISP2401) {
-+		to->start_column        = in_info->crop_info.start_column;
-+		to->start_line          = in_info->crop_info.start_line;
-+		to->enable_left_padding = from->enable_left_padding;
++		/* the output image line of Input System 2401 does not have the left paddings  */
++		nr_of_left_paddings = 0;
++	} else {
++		/* in other cases, the left padding pixels are always 128 */
++		nr_of_left_paddings = 2 * ISP_VEC_NELEMS;
 +	}
- 
- 	return 0;
- }
++
+ 	if (need_scaling) {
+ 		/* In SDV use-case, we need to match left-padding of
+ 		 * primary and the video binary. */
 -- 
 2.41.0
 
