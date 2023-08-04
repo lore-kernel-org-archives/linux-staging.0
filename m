@@ -1,49 +1,48 @@
-Received: from mail-qk1-f179.google.com (mail-qk1-f179.google.com [209.85.222.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 470A21DA50
-	for <linux-staging@lists.linux.dev>; Fri,  4 Aug 2023 21:20:56 +0000 (UTC)
-Received: by mail-qk1-f179.google.com with SMTP id af79cd13be357-76cdf055c64so198056485a.3
-        for <linux-staging@lists.linux.dev>; Fri, 04 Aug 2023 14:20:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1691184055; x=1691788855;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=R+n0XwgRUCBYf2v/4RICLfZrVX06sOWFrOWSc1o23EY=;
-        b=LMuRxuzPH6t80/VZd9NGC4a+uw8L0mEuI1TdIF8O6lJgpM01c9O8WtXCsxclOw3795
-         w8Dc2yworB6vfvSqAva+kWk8zgQ+Dmflk6SbZZRAW8QfBW91THGXvpEcHuVGOy53qIvs
-         BSAWCY1EySMrAg8jbdtP6JhYudlh+NHqE6vQtaCf49jPv2/eTQltk8jHKBuc3QqAtLQU
-         Sj6mA1jDOog3TWR28TPcEOP1gsj9lMOitNNTW+8zAsZm3a4Y+xOJ2nvQ5vsOk2WWceIk
-         IBFNV6G0g97drLGBtyiQZ/clCs0/XU/8MVifGGKoyQHuSP+RDMLKfeY7C6aQ5l+bYg6n
-         AVYw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1691184055; x=1691788855;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=R+n0XwgRUCBYf2v/4RICLfZrVX06sOWFrOWSc1o23EY=;
-        b=NJ79rws7lT6lwy1m7O1IhAH+oDh3HwkQyQTaCYQWCU9wGH6l286Z37in145TjxVyPj
-         dgIXyEyf34y+bwjfqPf62JSPDFK9azX3w/KMELY0N3/W7AMDd7Os7+DgUQL+nPtIIJZa
-         Bks4UL0GarwexFGCt4ucItIY6orH4hYmtEwSDHUgJ4EjWpvFNqucl5uVq93qVXcL/cJo
-         AHnCmThYGOjx+X6fnYmzgMC4xLt+D75wjkbf1neQVw+clmUQlk/bJuYmALyHOTBodEJX
-         +P1iKDwJP8CX0CJl+ZcIjmMIojzcs8m5k/3xZMsxdHhKmItpdBa+K8WtxhQUVkADz1sv
-         YeyQ==
-X-Gm-Message-State: AOJu0YybG+4j4YTS3xS5JXX8erYTNHzsOjwGWwoa3kGJ7rFNOuIPttny
-	K+ogeuGgDtutDbyln43Rgks=
-X-Google-Smtp-Source: AGHT+IFzdt4urw+AVt2ALCVaR7x99vA6RibBcMvQ1ydqWcFDBWwXKKz1rpuqpW0MQNQysN9TLB+f1g==
-X-Received: by 2002:a05:620a:2807:b0:767:6fd:4c1 with SMTP id f7-20020a05620a280700b0076706fd04c1mr3442749qkp.77.1691184054885;
-        Fri, 04 Aug 2023 14:20:54 -0700 (PDT)
-Received: from alolivei-thinkpadt480s.gru.csb ([2804:14c:bf20:86d6:7871:f7e9:8a15:865a])
-        by smtp.gmail.com with ESMTPSA id l8-20020a37f508000000b00767cf270628sm905884qkk.131.2023.08.04.14.20.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 04 Aug 2023 14:20:54 -0700 (PDT)
-Date: Fri, 4 Aug 2023 18:20:50 -0300
-From: Alexon Oliveira <alexondunkan@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: martyn@welchs.me.uk, manohar.vanga@gmail.com,
-	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
-Subject: [PATCH] staging: vme_user: fix check alignment should match open
- parenthesis
-Message-ID: <ZM1rsu0M22HHtjfl@alolivei-thinkpadt480s.gru.csb>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF4341AA8B;
+	Fri,  4 Aug 2023 22:09:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1691186992; x=1722722992;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=+/BS+Rvisp7L8UgJflJZ7ycoucyI445uJGyTgag8Swg=;
+  b=W65I2iexxYuXqVfrDtGuNYOjfSV5eWqqe9G6DxF22h8jsYcEe+q/RJEO
+   wXFDNiXwET5wfHp76QhyttfLMLGlpEfx1jjUuT3X754mVpqgj081l3ogh
+   Kctm8ufkKqDYqM0o8Z90mTZOO4soRQ9/H5WuURKpQJV8UL7WqSTFrO6ea
+   09qzVxD7Q+97FjASgNcvLDEVX0wfNjlm4/UNobzMJH/R+1Nw71Itka9oQ
+   ZzDOq1gpvLWz1E50FTfBkM2F0Ei00m8sW/49x3TjJGUZCvuBwISUg2yN3
+   HO54E3A6r2VVJeqheNR3p83njOH19ylb/qt4RvlI1nz2kR8M5H2Sb7nZB
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10792"; a="401215264"
+X-IronPort-AV: E=Sophos;i="6.01,256,1684825200"; 
+   d="scan'208";a="401215264"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Aug 2023 15:09:51 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10792"; a="765297877"
+X-IronPort-AV: E=Sophos;i="6.01,256,1684825200"; 
+   d="scan'208";a="765297877"
+Received: from lkp-server01.sh.intel.com (HELO d1ccc7e87e8f) ([10.239.97.150])
+  by orsmga001.jf.intel.com with ESMTP; 04 Aug 2023 15:09:46 -0700
+Received: from kbuild by d1ccc7e87e8f with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qS2zT-00038h-0n;
+	Fri, 04 Aug 2023 22:09:47 +0000
+Date: Sat, 5 Aug 2023 06:09:36 +0800
+From: kernel test robot <lkp@intel.com>
+To: Madhumitha Prabakaran <madhumithabiw@gmail.com>, vaibhav.sr@gmail.com,
+	mgreer@animalcreek.com, johan@kernel.org, elder@kernel.org,
+	gregkh@linuxfoundation.org, greybus-dev@lists.linaro.org,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, skhan@linuxfoundation.org,
+	ivan.orlov0322@gmail.com
+Subject: Re: [PATCH] staging: greybus: Refactor gb_audio_gb_get_topology()
+ into separate calls
+Message-ID: <202308050511.y5Yb9otW-lkp@intel.com>
+References: <20230804203134.GA618419@madhu-kernel>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -52,56 +51,66 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230804203134.GA618419@madhu-kernel>
 
-Fixed all CHECK: Alignment should match open parenthesis
-as reported by checkpatch to adhere to the Linux kernel
-coding-style guidelines.
+Hi Madhumitha,
 
-Signed-off-by: Alexon Oliveira <alexondunkan@gmail.com>
----
- drivers/staging/vme_user/vme.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+kernel test robot noticed the following build warnings:
 
-diff --git a/drivers/staging/vme_user/vme.c b/drivers/staging/vme_user/vme.c
-index 977c81e2f3c7..741593d75a63 100644
---- a/drivers/staging/vme_user/vme.c
-+++ b/drivers/staging/vme_user/vme.c
-@@ -563,7 +563,7 @@ EXPORT_SYMBOL(vme_master_request);
-  *         returned.
-  */
- int vme_master_set(struct vme_resource *resource, int enabled,
--		   unsigned long long vme_base, unsigned long long size, 
-+		   unsigned long long vme_base, unsigned long long size,
- 		   u32 aspace, u32 cycle, u32 dwidth)
- {
- 	struct vme_bridge *bridge = find_bridge(resource);
-@@ -614,7 +614,7 @@ EXPORT_SYMBOL(vme_master_set);
-  *         device or if an invalid resource has been provided.
-  */
- int vme_master_get(struct vme_resource *resource, int *enabled,
--		   unsigned long long *vme_base, unsigned long long *size, 
-+		   unsigned long long *vme_base, unsigned long long *size,
- 		   u32 *aspace, u32 *cycle, u32 *dwidth)
- {
- 	struct vme_bridge *bridge = find_bridge(resource);
-@@ -1045,7 +1045,7 @@ EXPORT_SYMBOL(vme_dma_pci_attribute);
-  * Return: Pointer to VME DMA attribute, NULL on failure.
-  */
- struct vme_dma_attr *vme_dma_vme_attribute(unsigned long long address,
--					   u32 aspace, u32 cycle, 
-+					   u32 aspace, u32 cycle,
- 					   u32 dwidth)
- {
- 	struct vme_dma_attr *attributes;
-@@ -1841,7 +1841,7 @@ EXPORT_SYMBOL(vme_unregister_bridge);
- /* - Driver Registration --------------------------------------------------- */
- 
- static int __vme_register_driver_bus(struct vme_driver *drv,
--				     struct vme_bridge *bridge, 
-+				     struct vme_bridge *bridge,
- 				     unsigned int ndevs)
- {
- 	int err;
+[auto build test WARNING on staging/staging-testing]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Madhumitha-Prabakaran/staging-greybus-Refactor-gb_audio_gb_get_topology-into-separate-calls/20230805-043242
+base:   staging/staging-testing
+patch link:    https://lore.kernel.org/r/20230804203134.GA618419%40madhu-kernel
+patch subject: [PATCH] staging: greybus: Refactor gb_audio_gb_get_topology() into separate calls
+config: loongarch-allyesconfig (https://download.01.org/0day-ci/archive/20230805/202308050511.y5Yb9otW-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230805/202308050511.y5Yb9otW-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308050511.y5Yb9otW-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> drivers/staging/greybus/audio_gb.c:11:5: warning: no previous prototype for 'gb_audio_gb_get_topology_size' [-Wmissing-prototypes]
+      11 | int gb_audio_gb_get_topology_size(struct gb_connection *connection, u16 *size)
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/staging/greybus/audio_gb.c:25:27: warning: no previous prototype for 'gb_audio_gb_alloc_topology' [-Wmissing-prototypes]
+      25 | struct gb_audio_topology *gb_audio_gb_alloc_topology(u16 size)
+         |                           ^~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+vim +/gb_audio_gb_get_topology_size +11 drivers/staging/greybus/audio_gb.c
+
+    10	
+  > 11	int gb_audio_gb_get_topology_size(struct gb_connection *connection, u16 *size)
+    12	{
+    13	    struct gb_audio_get_topology_size_response size_resp;
+    14	    int ret;
+    15	
+    16	    ret = gb_operation_sync(connection, GB_AUDIO_TYPE_GET_TOPOLOGY_SIZE,
+    17	                            NULL, 0, &size_resp, sizeof(size_resp));
+    18	    if (ret)
+    19	        return ret;
+    20	
+    21	    *size = le16_to_cpu(size_resp.size);
+    22	    return 0;
+    23	}
+    24	
+  > 25	struct gb_audio_topology *gb_audio_gb_alloc_topology(u16 size)
+    26	{
+    27	    struct gb_audio_topology *topo;
+    28	
+    29	    if (size < sizeof(struct gb_audio_topology))
+    30	        return NULL;
+    31	
+    32	    topo = kzalloc(size, GFP_KERNEL);
+    33	    return topo;
+    34	}
+    35	
+
 -- 
-2.41.0
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
