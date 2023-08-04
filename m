@@ -1,137 +1,133 @@
-Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF077846C
-	for <linux-staging@lists.linux.dev>; Fri,  4 Aug 2023 08:41:37 +0000 (UTC)
-Received: from dggpemm100003.china.huawei.com (unknown [172.30.72.56])
-	by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4RHJy84Bc5ztRp0;
-	Fri,  4 Aug 2023 16:38:08 +0800 (CST)
-Received: from dggpemm500007.china.huawei.com (7.185.36.183) by
- dggpemm100003.china.huawei.com (7.185.36.68) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.27; Fri, 4 Aug 2023 16:41:32 +0800
-Received: from huawei.com (10.175.103.91) by dggpemm500007.china.huawei.com
- (7.185.36.183) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.27; Fri, 4 Aug
- 2023 16:41:31 +0800
-From: Yang Yingliang <yangyingliang@huawei.com>
-To: <linux-staging@lists.linux.dev>
-CC: <gregkh@linuxfoundation.org>, <hdegoede@redhat.com>,
-	<yangyingliang@huawei.com>
-Subject: [PATCH -next 2/2] staging: rtl8723bs: use is_broadcast_ether_addr() instead of memcmp()
-Date: Fri, 4 Aug 2023 16:38:41 +0800
-Message-ID: <20230804083841.1321554-2-yangyingliang@huawei.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20230804083841.1321554-1-yangyingliang@huawei.com>
-References: <20230804083841.1321554-1-yangyingliang@huawei.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DCB9BA28;
+	Fri,  4 Aug 2023 11:53:28 +0000 (UTC)
+Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-1bc3bec2c95so14384515ad.0;
+        Fri, 04 Aug 2023 04:53:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1691150007; x=1691754807;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=dPfUugozke0xZHK2G6ZVoxwKlgvkNxeeW6Xc7Z5HpOc=;
+        b=cSOYFvHD45uitEjlRgodH2MipjM/IO6p+gmv6IP/+Df1GE4dlHRpXRJv3MGmHk+A82
+         8OwLBOePAytpgTch8l8+w4C8Cf6lqSi4wrbqd1acM31kSB46lEKyNbt+hfZmX5qNivF7
+         YWbY2/iiskjFlh7V1/KEUMaSbT4cQZLkib0cLxPH5NVGEGiOUgaJbPivK4c0XQ47UazM
+         L7XsjFwvkzy2Z76Ojr+Ei+1SSUIs82YV9K5Ob2b03OfC12q/0JVyCEDfvPqpCNDBBCzg
+         17j1FjrkQIK7fe3xyulK6rwOW2Q9lpgb9CuqtlOykkwF9mu36/wQ4WU/KPe6rwUetHjM
+         BAkg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1691150007; x=1691754807;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=dPfUugozke0xZHK2G6ZVoxwKlgvkNxeeW6Xc7Z5HpOc=;
+        b=I3/6OqnafzBBSZTRLoXz6YB2j+ZApN++RMURgowYorRSUhK++LEHlEq7quTkPu7JrW
+         uuyZODju4mIupsl4BdgJJWj4QSxjccoOgVccidEGK6sgyW07Z7bGbnWkSjU4QfiS9lbB
+         0JXKyfioT6xEiZ4MsGUZUe/AqC3FrDqf0YrfkiDvUqzJsvxVgTBjPBuDpZMmV0M/xLBT
+         ugcIZdhg3oRJIBmMi8wlJzKh9LImhelalD+HJEiRS3pCWWReNNFNmiiyBBd9Nze9HcWa
+         UpqvDTNy13JHz9sVCmFFW2VIFxuCTOapQHXJdW9CRlC03fOBZnpntJ7vNAbb0AKUhD71
+         8NkQ==
+X-Gm-Message-State: AOJu0YzD9ePGB4syodXvDo55F+PcUpLIrqu6s3OBE2YQCTiaCR0AblG8
+	OZYoZO4HxkcTP77+fXmDkdM=
+X-Google-Smtp-Source: AGHT+IERCy35yfMK22wQ4okBelO2/4VJxRbjSaq3vZA2HJX0cl3XXl8RT8eUP/yCLrXJfMFRtUuMmw==
+X-Received: by 2002:a17:902:dac1:b0:1bb:c9e3:6d4f with SMTP id q1-20020a170902dac100b001bbc9e36d4fmr2324193plx.10.1691150007591;
+        Fri, 04 Aug 2023 04:53:27 -0700 (PDT)
+Received: from ubuntu.myguest.virtualbox.org ([122.173.209.14])
+        by smtp.gmail.com with ESMTPSA id ji1-20020a170903324100b001b8a85489a3sm1580807plb.262.2023.08.04.04.53.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 04 Aug 2023 04:53:27 -0700 (PDT)
+Date: Fri, 4 Aug 2023 17:23:16 +0530
+From: Pavan Bobba <opensource206@gmail.com>
+To: Forest Bond <forest@alittletooquiet.net>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Michael Straube <straube.linux@gmail.com>,
+	Philipp Hortmann <philipp.g.hortmann@gmail.com>,
+	outreachy@lists.linux.dev
+Cc: linux-staging@lists.linux.dev, linuxkernel@vger.kernel.org
+Subject: Re: [PATCH v2] staging: vt6655: replace camel case by snake case
+Message-ID: <ZMzmrADhbNCZFm5f@ubuntu.myguest.virtualbox.org>
+References: <ZMpZixfZ4WQgpzF1@ubuntu.myguest.virtualbox.org>
+ <f967a1d0-639c-4cab-8fa0-e04ccde4ed5f@kadam.mountain>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.175.103.91]
-X-ClientProxiedBy: dggems704-chm.china.huawei.com (10.3.19.181) To
- dggpemm500007.china.huawei.com (7.185.36.183)
-X-CFilter-Loop: Reflected
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <f967a1d0-639c-4cab-8fa0-e04ccde4ed5f@kadam.mountain>
 
-Use is_broadcast_ether_addr() instead of memcmp to check
-if the ethernet address is broadcast address.
+From 15487baaf86627009a06ab5217428d3b29028c32 Mon Sep 17 00:00:00 2001
+From: Pavan Bobba <opensource206@gmail.com>
+Date: Wed, 2 Aug 2023 18:12:56 +0530
+Subject: [PATCH v2] staging: vt6655: replace camel case by snake case
 
-Signed-off-by: Yang Yingliang <yangyingliang@huawei.com>
+Replace array name of camel case by snake case. Issue found
+by checkpatch
+
+Signed-off-by: Pavan Bobba <opensource206@gmail.com>
 ---
- drivers/staging/rtl8723bs/core/rtw_ap.c        | 3 +--
- drivers/staging/rtl8723bs/core/rtw_mlme_ext.c  | 6 ++----
- drivers/staging/rtl8723bs/core/rtw_wlan_util.c | 6 ++----
- 3 files changed, 5 insertions(+), 10 deletions(-)
+v1 -> v2: added '_' in between by and vt3253 in array name
+"byvt3253b0_rfmd" and replaced the word "small case" with "snake case" in the mail description
 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_ap.c b/drivers/staging/rtl8723bs/core/rtw_ap.c
-index d30d6e6bcd07..e4063713fecc 100644
---- a/drivers/staging/rtl8723bs/core/rtw_ap.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_ap.c
-@@ -1238,7 +1238,6 @@ void rtw_acl_remove_sta(struct adapter *padapter, u8 *addr)
- 	struct sta_priv *pstapriv = &padapter->stapriv;
- 	struct wlan_acl_pool *pacl_list = &pstapriv->acl_list;
- 	struct __queue	*pacl_node_q = &pacl_list->acl_node_q;
--	u8 baddr[ETH_ALEN] = { 0xff, 0xff, 0xff, 0xff, 0xff, 0xff };	/* Baddr is used for clearing acl_list */
+ drivers/staging/vt6655/baseband.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/staging/vt6655/baseband.c b/drivers/staging/vt6655/baseband.c
+index 0e135af8316b..8b913c64845c 100644
+--- a/drivers/staging/vt6655/baseband.c
++++ b/drivers/staging/vt6655/baseband.c
+@@ -499,7 +499,7 @@ static const unsigned char by_vt3253_init_tab_rfmd[CB_VT3253_INIT_FOR_RFMD][2] =
+ };
  
- 	spin_lock_bh(&(pacl_node_q->lock));
+ #define CB_VT3253B0_INIT_FOR_RFMD 256
+-static const unsigned char byVT3253B0_RFMD[CB_VT3253B0_INIT_FOR_RFMD][2] = {
++static const unsigned char byvt3253b0_rfmd[CB_VT3253B0_INIT_FOR_RFMD][2] = {
+ 	{0x00, 0x31},
+ 	{0x01, 0x00},
+ 	{0x02, 0x00},
+@@ -2005,8 +2005,8 @@ bool bb_vt3253_init(struct vnt_private *priv)
+ 		} else {
+ 			for (ii = 0; ii < CB_VT3253B0_INIT_FOR_RFMD; ii++)
+ 				result &= bb_write_embedded(priv,
+-					byVT3253B0_RFMD[ii][0],
+-					byVT3253B0_RFMD[ii][1]);
++					byvt3253b0_rfmd[ii][0],
++					byvt3253b0_rfmd[ii][1]);
  
-@@ -1248,7 +1247,7 @@ void rtw_acl_remove_sta(struct adapter *padapter, u8 *addr)
- 
- 		if (
- 			!memcmp(paclnode->addr, addr, ETH_ALEN) ||
--			!memcmp(baddr, addr, ETH_ALEN)
-+			is_broadcast_ether_addr(addr)
- 		) {
- 			if (paclnode->valid) {
- 				paclnode->valid = false;
-diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-index 1148c9829890..985683767a40 100644
---- a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-@@ -421,13 +421,12 @@ void free_mlme_ext_priv(struct mlme_ext_priv *pmlmeext)
- 
- static void _mgt_dispatcher(struct adapter *padapter, struct mlme_handler *ptable, union recv_frame *precv_frame)
- {
--	u8 bc_addr[ETH_ALEN] = {0xff, 0xff, 0xff, 0xff, 0xff, 0xff};
- 	u8 *pframe = precv_frame->u.hdr.rx_data;
- 
- 	if (ptable->func) {
- 		/* receive the frames that ra(a1) is my address or ra(a1) is bc address. */
- 		if (memcmp(GetAddr1Ptr(pframe), myid(&padapter->eeprompriv), ETH_ALEN) &&
--		    memcmp(GetAddr1Ptr(pframe), bc_addr, ETH_ALEN))
-+		    !is_broadcast_ether_addr(GetAddr1Ptr(pframe)))
- 			return;
- 
- 		ptable->func(padapter, precv_frame);
-@@ -439,7 +438,6 @@ void mgt_dispatcher(struct adapter *padapter, union recv_frame *precv_frame)
- 	int index;
- 	struct mlme_handler *ptable;
- 	struct mlme_priv *pmlmepriv = &padapter->mlmepriv;
--	u8 bc_addr[ETH_ALEN] = {0xff, 0xff, 0xff, 0xff, 0xff, 0xff};
- 	u8 *pframe = precv_frame->u.hdr.rx_data;
- 	struct sta_info *psta = rtw_get_stainfo(&padapter->stapriv, GetAddr2Ptr(pframe));
- 	struct dvobj_priv *psdpriv = padapter->dvobj;
-@@ -450,7 +448,7 @@ void mgt_dispatcher(struct adapter *padapter, union recv_frame *precv_frame)
- 
- 	/* receive the frames that ra(a1) is my address or ra(a1) is bc address. */
- 	if (memcmp(GetAddr1Ptr(pframe), myid(&padapter->eeprompriv), ETH_ALEN) &&
--		memcmp(GetAddr1Ptr(pframe), bc_addr, ETH_ALEN)) {
-+	    !is_broadcast_ether_addr(GetAddr1Ptr(pframe))) {
- 		return;
- 	}
- 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_wlan_util.c b/drivers/staging/rtl8723bs/core/rtw_wlan_util.c
-index ba39c8b1a9ae..7fac9ca3e9a0 100644
---- a/drivers/staging/rtl8723bs/core/rtw_wlan_util.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_wlan_util.c
-@@ -1779,10 +1779,9 @@ void adaptive_early_32k(struct mlme_ext_priv *pmlmeext, u8 *pframe, uint len)
- void rtw_alloc_macid(struct adapter *padapter, struct sta_info *psta)
- {
- 	int i;
--	u8 bc_addr[ETH_ALEN] = {0xff, 0xff, 0xff, 0xff, 0xff, 0xff};
- 	struct dvobj_priv *pdvobj = adapter_to_dvobj(padapter);
- 
--	if (!memcmp(psta->hwaddr, bc_addr, ETH_ALEN))
-+	if (is_broadcast_ether_addr(psta->hwaddr))
- 		return;
- 
- 	if (!memcmp(psta->hwaddr, myid(&padapter->eeprompriv), ETH_ALEN)) {
-@@ -1807,10 +1806,9 @@ void rtw_alloc_macid(struct adapter *padapter, struct sta_info *psta)
- 
- void rtw_release_macid(struct adapter *padapter, struct sta_info *psta)
- {
--	u8 bc_addr[ETH_ALEN] = {0xff, 0xff, 0xff, 0xff, 0xff, 0xff};
- 	struct dvobj_priv *pdvobj = adapter_to_dvobj(padapter);
- 
--	if (!memcmp(psta->hwaddr, bc_addr, ETH_ALEN))
-+	if (is_broadcast_ether_addr(psta->hwaddr))
- 		return;
- 
- 	if (!memcmp(psta->hwaddr, myid(&padapter->eeprompriv), ETH_ALEN))
+ 			for (ii = 0; ii < CB_VT3253B0_AGC_FOR_RFMD2959; ii++)
+ 				result &= bb_write_embedded(priv,
 -- 
-2.25.1
-
+2.34.1
+On Wed, Aug 02, 2023 at 04:33:24PM +0300, Dan Carpenter wrote:
+> On Wed, Aug 02, 2023 at 06:56:35PM +0530, Pavan Bobba wrote:
+> > Replace array name of camel case by small case. Issue found
+> > by checkpatch
+> > 
+> > Signed-off-by: Pavan Bobba <opensource206@gmail.com>
+> > ---
+> >  drivers/staging/vt6655/baseband.c | 6 +++---
+> >  1 file changed, 3 insertions(+), 3 deletions(-)
+> > 
+> > diff --git a/drivers/staging/vt6655/baseband.c b/drivers/staging/vt6655/baseband.c
+> > index 0e135af8316b..8b913c64845c 100644
+> > --- a/drivers/staging/vt6655/baseband.c
+> > +++ b/drivers/staging/vt6655/baseband.c
+> > @@ -499,7 +499,7 @@ static const unsigned char by_vt3253_init_tab_rfmd[CB_VT3253_INIT_FOR_RFMD][2] =
+> >  };
+> >  
+> >  #define CB_VT3253B0_INIT_FOR_RFMD 256
+> > -static const unsigned char byVT3253B0_RFMD[CB_VT3253B0_INIT_FOR_RFMD][2] = {
+> > +static const unsigned char byvt3253b0_rfmd[CB_VT3253B0_INIT_FOR_RFMD][2] = {
+> 
+> The one before it is called something liek by_vt3253b0_rfmd.
+> 
+> I don't know what by_ or bb_ meant to the driver authors so I can't say
+> if that's a good name, but lets at least keep it consistent and put an
+> underscore between by and vt, by_vt.
+> 
+> regards,
+> dan carpenter
+> 
