@@ -1,48 +1,52 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ot1-f53.google.com (mail-ot1-f53.google.com [209.85.210.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF4341AA8B;
-	Fri,  4 Aug 2023 22:09:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1691186992; x=1722722992;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=+/BS+Rvisp7L8UgJflJZ7ycoucyI445uJGyTgag8Swg=;
-  b=W65I2iexxYuXqVfrDtGuNYOjfSV5eWqqe9G6DxF22h8jsYcEe+q/RJEO
-   wXFDNiXwET5wfHp76QhyttfLMLGlpEfx1jjUuT3X754mVpqgj081l3ogh
-   Kctm8ufkKqDYqM0o8Z90mTZOO4soRQ9/H5WuURKpQJV8UL7WqSTFrO6ea
-   09qzVxD7Q+97FjASgNcvLDEVX0wfNjlm4/UNobzMJH/R+1Nw71Itka9oQ
-   ZzDOq1gpvLWz1E50FTfBkM2F0Ei00m8sW/49x3TjJGUZCvuBwISUg2yN3
-   HO54E3A6r2VVJeqheNR3p83njOH19ylb/qt4RvlI1nz2kR8M5H2Sb7nZB
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10792"; a="401215264"
-X-IronPort-AV: E=Sophos;i="6.01,256,1684825200"; 
-   d="scan'208";a="401215264"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Aug 2023 15:09:51 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10792"; a="765297877"
-X-IronPort-AV: E=Sophos;i="6.01,256,1684825200"; 
-   d="scan'208";a="765297877"
-Received: from lkp-server01.sh.intel.com (HELO d1ccc7e87e8f) ([10.239.97.150])
-  by orsmga001.jf.intel.com with ESMTP; 04 Aug 2023 15:09:46 -0700
-Received: from kbuild by d1ccc7e87e8f with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qS2zT-00038h-0n;
-	Fri, 04 Aug 2023 22:09:47 +0000
-Date: Sat, 5 Aug 2023 06:09:36 +0800
-From: kernel test robot <lkp@intel.com>
-To: Madhumitha Prabakaran <madhumithabiw@gmail.com>, vaibhav.sr@gmail.com,
-	mgreer@animalcreek.com, johan@kernel.org, elder@kernel.org,
-	gregkh@linuxfoundation.org, greybus-dev@lists.linaro.org,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, skhan@linuxfoundation.org,
-	ivan.orlov0322@gmail.com
-Subject: Re: [PATCH] staging: greybus: Refactor gb_audio_gb_get_topology()
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D07A1C13
+	for <linux-staging@lists.linux.dev>; Sat,  5 Aug 2023 01:42:37 +0000 (UTC)
+Received: by mail-ot1-f53.google.com with SMTP id 46e09a7af769-6bcd455fc88so1051582a34.2
+        for <linux-staging@lists.linux.dev>; Fri, 04 Aug 2023 18:42:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1691199756; x=1691804556;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=SR4+0lK8VMa7xEJXrkPeazYWkv8MbM9OkffI+Wr4AlU=;
+        b=MT7P9SzDvq3ZHRNDZExMw50zHVv9hnPu4zmqDXEEci98q5btHQOIQb0/T/ASjxgoYK
+         u5OtHfy3UJNc36TeWj/1Z45/wC/4qV7nnb8Vdy5lbtVtkimaN803ZsGYDncvjP3GMtSF
+         OoRYkO6xzMcDYjFIcwTOFsyd+ISJt5GjXo5lHD9os9qWQaaAYWR1MIlDrqF0eQHGTiCc
+         A1r5UcE8FXCgIk0dFctLYA6VUxpqty2cpIGm3/tf7DnWeFhEF1djbAvVqxuoEM4GNacg
+         N+Ht7qhleRaT90+f7gW0OEg0zpgYHOONBaIwOOTZZXHD/tpvvR3rRSUySFEe/W+5DhtM
+         FkAA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1691199756; x=1691804556;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=SR4+0lK8VMa7xEJXrkPeazYWkv8MbM9OkffI+Wr4AlU=;
+        b=K/jCrYkfcmK51LNKmMCXDGX4fOY+8MEWUrTc/qMMjwzDr1ZOfVlhSjc+nGeVg6akTt
+         Jqz4gfYSagYObx1v9snRiImpeNdH6+NPSMMoYJkBIDncQgfvOEyXKxmU35watY7OOe3M
+         fahsCn4hJDj/dUaXL/kBEAZn+D5Z6GqNz34gVFEdGJWXVy3nhmYcfEi2iva378Obhq05
+         Jti2zvqO3i0S2jeUwEGzbPsauoqEDYZFRiXjqWEd6WSLa/YAzi2Bgs02kIrwdEuEvouM
+         V1J+A7tIvk1aNfeo85p/MmaU9pMqrnKvkXoisiisp8PMc0dl2F2+T2e3Y7Ul9FISkWva
+         a7gQ==
+X-Gm-Message-State: AOJu0YxlKGdbQHtOmAwzERQxCt89/b/8rIlWQmrRohepIjDZf8DKH9Z5
+	rP9kUWsHIMERTq4U8VVfGcU=
+X-Google-Smtp-Source: AGHT+IFBWyNqEvS4q0WvesTp6PCfMAaDtxmOs5YBue/bsaJxgXfOd7Kb003+ZuRH1oaq86Bv8XjGAQ==
+X-Received: by 2002:a05:6871:452:b0:1b7:4521:31f with SMTP id e18-20020a056871045200b001b74521031fmr3373967oag.18.1691199756170;
+        Fri, 04 Aug 2023 18:42:36 -0700 (PDT)
+Received: from madhu-kernel (99-145-207-128.lightspeed.austtx.sbcglobal.net. [99.145.207.128])
+        by smtp.gmail.com with ESMTPSA id v3-20020a056870e28300b001b36699bd5fsm1872379oad.35.2023.08.04.18.42.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 04 Aug 2023 18:42:35 -0700 (PDT)
+Date: Fri, 4 Aug 2023 20:42:34 -0500
+From: Madhumitha Prabakaran <madhumithabiw@gmail.com>
+To: vaibhav.sr@gmail.com, mgreer@animalcreek.com, johan@kernel.org,
+	elder@kernel.org, gregkh@linuxfoundation.org,
+	greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Cc: skhan@linuxfoundation.org, ivan.orlov0322@gmail.com,
+	madhumithabiw@gmail.com
+Subject: [PATCH v2] staging: greybus: Refactor gb_audio_gb_get_topology()
  into separate calls
-Message-ID: <202308050511.y5Yb9otW-lkp@intel.com>
-References: <20230804203134.GA618419@madhu-kernel>
+Message-ID: <20230805014234.GA948556@madhu-kernel>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -51,66 +55,122 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230804203134.GA618419@madhu-kernel>
 
-Hi Madhumitha,
+Refactor gb_audio_gb_get_topology() into separate calls for better modularity
 
-kernel test robot noticed the following build warnings:
+Signed-off-by: Madhumitha Prabakaran <madhumithabiw@gmail.com>
+----
+Changes in v2:
+Include prototype in the /audio_codec.h, as
+Reported-by: kernel test robot <lkp@intel.com>
+Closes: https://lore.kernel.org/oe-kbuild-all/202308050511.y5Yb9otW-lkp@intel.com/
+---
+ drivers/staging/greybus/audio_codec.h |  4 ++
+ drivers/staging/greybus/audio_gb.c    | 67 +++++++++++++++++----------
+ 2 files changed, 46 insertions(+), 25 deletions(-)
 
-[auto build test WARNING on staging/staging-testing]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Madhumitha-Prabakaran/staging-greybus-Refactor-gb_audio_gb_get_topology-into-separate-calls/20230805-043242
-base:   staging/staging-testing
-patch link:    https://lore.kernel.org/r/20230804203134.GA618419%40madhu-kernel
-patch subject: [PATCH] staging: greybus: Refactor gb_audio_gb_get_topology() into separate calls
-config: loongarch-allyesconfig (https://download.01.org/0day-ci/archive/20230805/202308050511.y5Yb9otW-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230805/202308050511.y5Yb9otW-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308050511.y5Yb9otW-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
->> drivers/staging/greybus/audio_gb.c:11:5: warning: no previous prototype for 'gb_audio_gb_get_topology_size' [-Wmissing-prototypes]
-      11 | int gb_audio_gb_get_topology_size(struct gb_connection *connection, u16 *size)
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/staging/greybus/audio_gb.c:25:27: warning: no previous prototype for 'gb_audio_gb_alloc_topology' [-Wmissing-prototypes]
-      25 | struct gb_audio_topology *gb_audio_gb_alloc_topology(u16 size)
-         |                           ^~~~~~~~~~~~~~~~~~~~~~~~~~
-
-
-vim +/gb_audio_gb_get_topology_size +11 drivers/staging/greybus/audio_gb.c
-
-    10	
-  > 11	int gb_audio_gb_get_topology_size(struct gb_connection *connection, u16 *size)
-    12	{
-    13	    struct gb_audio_get_topology_size_response size_resp;
-    14	    int ret;
-    15	
-    16	    ret = gb_operation_sync(connection, GB_AUDIO_TYPE_GET_TOPOLOGY_SIZE,
-    17	                            NULL, 0, &size_resp, sizeof(size_resp));
-    18	    if (ret)
-    19	        return ret;
-    20	
-    21	    *size = le16_to_cpu(size_resp.size);
-    22	    return 0;
-    23	}
-    24	
-  > 25	struct gb_audio_topology *gb_audio_gb_alloc_topology(u16 size)
-    26	{
-    27	    struct gb_audio_topology *topo;
-    28	
-    29	    if (size < sizeof(struct gb_audio_topology))
-    30	        return NULL;
-    31	
-    32	    topo = kzalloc(size, GFP_KERNEL);
-    33	    return topo;
-    34	}
-    35	
-
+diff --git a/drivers/staging/greybus/audio_codec.h b/drivers/staging/greybus/audio_codec.h
+index ce15e800e607..356143f3e241 100644
+--- a/drivers/staging/greybus/audio_codec.h
++++ b/drivers/staging/greybus/audio_codec.h
+@@ -176,7 +176,11 @@ int gbaudio_module_update(struct gbaudio_codec_info *codec,
+ int gbaudio_register_module(struct gbaudio_module_info *module);
+ void gbaudio_unregister_module(struct gbaudio_module_info *module);
+ 
++struct gb_audio_topology *gb_audio_gb_alloc_topology(u16 size);
++
+ /* protocol related */
++int gb_audio_gb_get_topology_size(struct gb_connection *connection,
++                 u16 *size);
+ int gb_audio_gb_get_topology(struct gb_connection *connection,
+ 			     struct gb_audio_topology **topology);
+ int gb_audio_gb_get_control(struct gb_connection *connection,
+diff --git a/drivers/staging/greybus/audio_gb.c b/drivers/staging/greybus/audio_gb.c
+index 9d8994fdb41a..a48ddadd6f1e 100644
+--- a/drivers/staging/greybus/audio_gb.c
++++ b/drivers/staging/greybus/audio_gb.c
+@@ -8,39 +8,56 @@
+ #include <linux/greybus.h>
+ #include "audio_codec.h"
+ 
+-/* TODO: Split into separate calls */
+-int gb_audio_gb_get_topology(struct gb_connection *connection,
+-			     struct gb_audio_topology **topology)
++int gb_audio_gb_get_topology_size(struct gb_connection *connection, u16 *size)
+ {
+-	struct gb_audio_get_topology_size_response size_resp;
+-	struct gb_audio_topology *topo;
+-	u16 size;
+-	int ret;
++    struct gb_audio_get_topology_size_response size_resp;
++    int ret;
+ 
+-	ret = gb_operation_sync(connection, GB_AUDIO_TYPE_GET_TOPOLOGY_SIZE,
+-				NULL, 0, &size_resp, sizeof(size_resp));
+-	if (ret)
+-		return ret;
++    ret = gb_operation_sync(connection, GB_AUDIO_TYPE_GET_TOPOLOGY_SIZE,
++                            NULL, 0, &size_resp, sizeof(size_resp));
++    if (ret)
++        return ret;
+ 
+-	size = le16_to_cpu(size_resp.size);
+-	if (size < sizeof(*topo))
+-		return -ENODATA;
++    *size = le16_to_cpu(size_resp.size);
++    return 0;
++}
+ 
+-	topo = kzalloc(size, GFP_KERNEL);
+-	if (!topo)
+-		return -ENOMEM;
++struct gb_audio_topology *gb_audio_gb_alloc_topology(u16 size)
++{
++    struct gb_audio_topology *topo;
+ 
+-	ret = gb_operation_sync(connection, GB_AUDIO_TYPE_GET_TOPOLOGY, NULL, 0,
+-				topo, size);
+-	if (ret) {
+-		kfree(topo);
+-		return ret;
+-	}
++    if (size < sizeof(struct gb_audio_topology))
++        return NULL;
+ 
+-	*topology = topo;
++    topo = kzalloc(size, GFP_KERNEL);
++    return topo;
++}
+ 
+-	return 0;
++int gb_audio_gb_get_topology(struct gb_connection *connection,
++                             struct gb_audio_topology **topology)
++{
++    u16 size;
++    int ret;
++
++    ret = gb_audio_gb_get_topology_size(connection, &size);
++    if (ret)
++        return ret;
++
++    *topology = gb_audio_gb_alloc_topology(size);
++    if (!*topology)
++        return -ENOMEM;
++
++    ret = gb_operation_sync(connection, GB_AUDIO_TYPE_GET_TOPOLOGY,
++                            NULL, 0, *topology, size);
++    if (ret) {
++        kfree(*topology);
++        *topology = NULL;
++        return ret;
++    }
++
++    return 0;
+ }
++
+ EXPORT_SYMBOL_GPL(gb_audio_gb_get_topology);
+ 
+ int gb_audio_gb_get_control(struct gb_connection *connection,
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.25.1
+
