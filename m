@@ -1,73 +1,131 @@
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B0F0C2F2
-	for <linux-staging@lists.linux.dev>; Sat,  5 Aug 2023 16:30:22 +0000 (UTC)
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-3fb4146e8deso30455335e9.0
-        for <linux-staging@lists.linux.dev>; Sat, 05 Aug 2023 09:30:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1691253021; x=1691857821;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=wo3w1ApZWKuGrSbea348OXXQyWwZNwJbQdm22ZLzFNw=;
-        b=psXjkU5aini3wj8lH8+MxUkfwJV8N46+ihZJooo6e5bIxjYd75ezU5aK5g4jRax7X4
-         Qh0fPAtqmBIf0Nc3L7rRgFylqa8Ja46C5Al7FArOTX45Iz+3V728cZWrllsduCsNSstJ
-         36E6bNPWXoliaMLizKfRSyV234cA3vU9dfeaZ4ErbI+dge4DDmz464eMhT0uKERdce1N
-         Zq3cBRKBDNDYUeaa3LRgi7XryIR78jxnf1BKoePFbUSrKBfpQBbvEtIxf7IgaO9FjMhY
-         3PLfjNi3tadNIWzlAl9IZbl3YKEdojRjWOL0IxSpJGR8Ppedlv8ODodi4PCEkhpGxQt+
-         USDQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1691253021; x=1691857821;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=wo3w1ApZWKuGrSbea348OXXQyWwZNwJbQdm22ZLzFNw=;
-        b=MzlGEwd0lOMnlkFch+1EJJIk6UC7VNU+/X43Gfku1q473UX68vqsD6nfFim1RrGP5n
-         Z69k6PWFQPmytUEVn9MeWpAcpXoyuNRU0vQ6HhrSO0jMfSdK8ziNgaWY3PRade2pjpIL
-         OU27lq4Id5gcDmGaFnUB7TcDHPuVubATBjyCTI4aUW5gZcGn2KITcrFzUMZAp9P5R+Os
-         s/d9y60jMIGgfEY71z5cpGim5GlFLYulEeRNuontrKPVmie4UbM4hxKMVZvuMuIUaeL7
-         y9rw9usBORNlNKkovIu9d+Gc9rtztrtgyTDipLpfqj3yp+zUdMJyyg7PQbUmNavNVjS7
-         TyYg==
-X-Gm-Message-State: AOJu0YxPwjMqOipN2iJ8PX+7RIrFqj/Nj9pe3InNai4w733PLJrrzwSJ
-	oCZykWPTEL/zHvTaX6fEAX0srQ==
-X-Google-Smtp-Source: AGHT+IHrWXCvWbLCzmTGkjlQNcKl+Sj87RrTsEekUpleiD6eEbMOGwg9ato0FbdfU04+tuslEQMg/w==
-X-Received: by 2002:a1c:6a16:0:b0:3fe:2606:84a4 with SMTP id f22-20020a1c6a16000000b003fe260684a4mr3943676wmc.34.1691253021116;
-        Sat, 05 Aug 2023 09:30:21 -0700 (PDT)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id a5-20020a5d4565000000b0030647449730sm5486104wrc.74.2023.08.05.09.30.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 05 Aug 2023 09:30:20 -0700 (PDT)
-Date: Sat, 5 Aug 2023 19:30:18 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Pavan Bobba <opensource206@gmail.com>
-Cc: Forest Bond <forest@alittletooquiet.net>,
-	Michael Straube <straube.linux@gmail.com>,
-	Philipp Hortmann <philipp.g.hortmann@gmail.com>,
-	outreachy@lists.linux.dev, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] staging: vt6655: replace camel case by snake case
-Message-ID: <247b9239-bd87-40ab-a0c7-18883cad2268@kadam.mountain>
-References: <ZM4PWL55pMQiYIX6@ubuntu.myguest.virtualbox.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A320910EA;
+	Sat,  5 Aug 2023 20:36:13 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8402EC433C7;
+	Sat,  5 Aug 2023 20:36:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1691267773;
+	bh=HV9N1662vFNg45/injmUeZzoXqqRaYKc6xS67ObhrCE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=T8b37KpHrfdrHcPTjbp9eehNf/qy/zQ094uspwpe3knxbV/SAwFyOO+iL6poGeRt5
+	 mmN2THgQL8TANiBbUZTIqmUiv0S7zyq3SAoSc1CzwM7lN991SYLqic8rCimc7bWwRI
+	 Vu7ZXvkbMfRfxqG+wpJINgbL+2KpSYU+uMd2Pk44r5RPsQzRq94XsuoRFZfLcF3djQ
+	 F5MggUSz0nkmmAejuORlF5VcmTYFbpwgyjqW04dzJAO9QAMzfqz5myArTvUzYEHRfd
+	 0AdEI801aM4xbN8FAEhz4+QIYaCxO1e4lYxIngw3YRdHEiuSSaRBpD/K+KyiSmsD0z
+	 8QDHViYep2Zwg==
+Date: Sat, 5 Aug 2023 22:36:10 +0200
+From: Andi Shyti <andi.shyti@kernel.org>
+To: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+Cc: Thierry Reding <thierry.reding@gmail.com>,
+	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Bartosz Golaszewski <brgl@bgdev.pl>,
+	Andy Shevchenko <andy@kernel.org>,
+	Douglas Anderson <dianders@chromium.org>,
+	Andrzej Hajda <andrzej.hajda@intel.com>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Robert Foss <rfoss@kernel.org>, Jonas Karlman <jonas@kwiboo.se>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+	Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
+	Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>,
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+	Nicolas Ferre <nicolas.ferre@microchip.com>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Claudiu Beznea <claudiu.beznea@microchip.com>,
+	Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>,
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+	Florian Fainelli <florian.fainelli@broadcom.com>,
+	Alexander Shiyan <shc_work@mail.ru>,
+	Benson Leung <bleung@chromium.org>,
+	Guenter Roeck <groeck@chromium.org>,
+	Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	NXP Linux Team <linux-imx@nxp.com>,
+	Paul Cercueil <paul@crapouillou.net>,
+	Vladimir Zapolskiy <vz@mleia.com>,
+	Kevin Hilman <khilman@baylibre.com>,
+	Jerome Brunet <jbrunet@baylibre.com>,
+	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+	Conor Dooley <conor.dooley@microchip.com>,
+	Daire McNamara <daire.mcnamara@microchip.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Jonathan =?utf-8?Q?Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>,
+	Heiko Stuebner <heiko@sntech.de>,
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+	Alim Akhtar <alim.akhtar@samsung.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Michael Walle <michael@walle.cc>, Orson Zhai <orsonzhai@gmail.com>,
+	Baolin Wang <baolin.wang@linux.alibaba.com>,
+	Chunyan Zhang <zhang.lyra@gmail.com>,
+	Fabrice Gasnier <fabrice.gasnier@foss.st.com>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>,
+	Hammer Hsieh <hammerh0314@gmail.com>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>,
+	Sean Anderson <sean.anderson@seco.com>,
+	Michal Simek <michal.simek@amd.com>,
+	Johan Hovold <johan@kernel.org>, Alex Elder <elder@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Anjelique Melendez <quic_amelende@quicinc.com>,
+	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+	Luca Weiss <luca@z3ntu.xyz>,
+	Bjorn Andersson <quic_bjorande@quicinc.com>,
+	linux-pwm@vger.kernel.org, linux-gpio@vger.kernel.org,
+	dri-devel@lists.freedesktop.org, linux-leds@vger.kernel.org,
+	asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+	linux-rpi-kernel@lists.infradead.org,
+	chrome-platform@lists.linux.dev, linux-mips@vger.kernel.org,
+	linux-amlogic@lists.infradead.org, linux-riscv@lists.infradead.org,
+	linux-mediatek@lists.infradead.org,
+	linux-rockchip@lists.infradead.org,
+	linux-samsung-soc@vger.kernel.org,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org,
+	greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev
+Subject: Re: [PATCH v2 1/2] pwm: Manage owner assignment implicitly for
+ drivers
+Message-ID: <20230805203610.jl7eea2lasmg2as2@intel.intel>
+References: <20230804142707.412137-1-u.kleine-koenig@pengutronix.de>
+ <20230804142707.412137-2-u.kleine-koenig@pengutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-15
 Content-Disposition: inline
-In-Reply-To: <ZM4PWL55pMQiYIX6@ubuntu.myguest.virtualbox.org>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230804142707.412137-2-u.kleine-koenig@pengutronix.de>
 
-On Sat, Aug 05, 2023 at 02:29:04PM +0530, Pavan Bobba wrote:
-> Replace array name of camel case by snake case. Issue found
-> by checkpatch
+Hi Uwe,
+
+On Fri, Aug 04, 2023 at 04:27:06PM +0200, Uwe Kleine-König wrote:
+> Instead of requiring each driver to care for assigning the owner member
+> of struct pwm_ops, handle that implicitly using a macro. Note that the
+> owner member has to be moved to struct pwm_chip, as the ops structure
+> usually lives in read-only memory and so cannot be modified.
 > 
-> Signed-off-by: Pavan Bobba <opensource206@gmail.com>
-> ---
->  v1 -> v2: 1.character '_' added in the array name "byvt3253b0_rfmde"
+> The upside is that new lowlevel drivers cannot forget the assignment and
+> save one line each. The pwm-crc driver didn't assign .owner, that's not
+> a problem in practise though as the driver cannot be compiled as a
 
-You never actually added a _ character.  It should be by_vt3253b0_rfmde.
+/practise/practice/
 
-regards,
-dan carpenter
+> module.
+> 
+> Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
 
+Acked-by: Andi Shyti <andi.shyti@kernel.org> 
+
+Thanks,
+Andi
