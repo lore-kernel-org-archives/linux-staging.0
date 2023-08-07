@@ -1,116 +1,96 @@
-Received: from pb-smtp1.pobox.com (pb-smtp1.pobox.com [64.147.108.70])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk1-f177.google.com (mail-qk1-f177.google.com [209.85.222.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 819E71382
-	for <linux-staging@lists.linux.dev>; Mon,  7 Aug 2023 05:48:16 +0000 (UTC)
-Received: from pb-smtp1.pobox.com (unknown [127.0.0.1])
-	by pb-smtp1.pobox.com (Postfix) with ESMTP id 8CC031A0BD8;
-	Mon,  7 Aug 2023 01:45:51 -0400 (EDT)
-	(envelope-from tdavies@darkphysics.net)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed; d=pobox.com; h=from:to:cc
-	:subject:date:message-id:in-reply-to:references:mime-version
-	:content-transfer-encoding; s=sasl; bh=VMt5lkXuonoG2y3uP9PFjCZO6
-	91m2Hji0vyUDwwToVI=; b=dj+3apV8MDn6MpF01sRHPAmh29ZEEB0bR7o6N1T9Z
-	YDvENZyQXWYAmityGI39ukMezJjfnrTnzpOjdNwXJaMk2BNfXNI8rDCOev7xWPed
-	/eY7YwmmKz3Y8gO72n5H7of7YKgRn07LcpAGEq0qssfFZnY7H6dC0Zi0X1YkMgBu
-	3g=
-Received: from pb-smtp1.nyi.icgroup.com (unknown [127.0.0.1])
-	by pb-smtp1.pobox.com (Postfix) with ESMTP id 858BE1A0BD6;
-	Mon,  7 Aug 2023 01:45:51 -0400 (EDT)
-	(envelope-from tdavies@darkphysics.net)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed; d=darkphysics.net;
- h=from:to:cc:subject:date:message-id:in-reply-to:references:mime-version:content-transfer-encoding; s=2019-09.pbsmtp; bh=mB7sH0SJCbApPkpurdRl6F0uzB4zzON+qh7H0G7S1j8=; b=hiWFFn9CfvpSv0uCSKx+0SzKUWh278Qwu9AnmeaKVoRKXN/wmEbefayxhEGrHXXOibUWr54kAHXVtao9HPIOhPhz5ofQHuLbDoFftL7GSZp3mLqR1WZK0fW69e6c2MK6gaM/3zG+KF3Rcjy6XE2B2+Si9a7hxn13Xdzp7WqxaKE=
-Received: from basil.darkphysics (unknown [76.146.178.2])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by pb-smtp1.pobox.com (Postfix) with ESMTPSA id CE3A21A0BD1;
-	Mon,  7 Aug 2023 01:45:48 -0400 (EDT)
-	(envelope-from tdavies@darkphysics.net)
-From: Tree Davies <tdavies@darkphysics.net>
-To: gregkh@linuxfoundation.org,
-	philipp.g.hortmann@gmail.com,
-	anjan@momi.ca,
-	error27@gmail.com
-Cc: linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Tree Davies <tdavies@darkphysics.net>
-Subject: [PATCH 1/5] Staging: rtl8192e: Rename function TsInitAddBA
-Date: Sun,  6 Aug 2023 22:47:28 -0700
-Message-ID: <20230807054732.1864827-2-tdavies@darkphysics.net>
-X-Mailer: git-send-email 2.41.0
-In-Reply-To: <20230807054732.1864827-1-tdavies@darkphysics.net>
-References: <20230807054732.1864827-1-tdavies@darkphysics.net>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1522110780
+	for <linux-staging@lists.linux.dev>; Mon,  7 Aug 2023 15:13:46 +0000 (UTC)
+Received: by mail-qk1-f177.google.com with SMTP id af79cd13be357-76595a7b111so329656085a.2
+        for <linux-staging@lists.linux.dev>; Mon, 07 Aug 2023 08:13:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1691421226; x=1692026026;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=Uur4kbHWMbvbwOkDXCymcrT3HOQZL6Apml/tJhcRoXI=;
+        b=KCndBI6wgPbEZIS4Q5OE6/jTs7/9XSLveGSEG9MJEm8Or3aRhjTyLdRhirnLYB+hrQ
+         GiD/IFY6BdrQIkIu+6vyCwF5dDW033hjzqY9T/vfA9GxWwracFnrU1u+h/XbGuqGJZa3
+         BL9N7D8o9hU105TCsdbxVoQVyDhx3Gb3uPF3diMWYOKi7hUktGtq/an8rNImHV+k4YkD
+         EVbhx5Agi4PJrYoMVCqVBSWTRMkt9i/1/mkBJaFJc5fYEPIGiT6Hbxe6HYu+XrHftLjW
+         RrhddGms1rRy3FAQNCmTwXpYWji1wzutDlhYF6tjp7iSs6WKRbpyadfXqOnS4zt+6B54
+         KzpA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1691421226; x=1692026026;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Uur4kbHWMbvbwOkDXCymcrT3HOQZL6Apml/tJhcRoXI=;
+        b=et7StyEoPLynKX0cMIKD2ewYcHjEe7VLhd/cHuN7pUmL5XWxoQhbO+FzQVT+WqbCE4
+         OceOd/yVSR6i/cZlYNH5sE6nNr2QHJggkgY4bYruHx6wW0L0U/y9p0R0LQoumkm74TcF
+         NZSeIsh9o+n/HpxboqXIxfqas3bBcXPtlqgDNMfzcOIDEEXwhpizigVaOhaUEZ4uGCHy
+         04eOWqKUOxfDIld/zceGBKUW5ankpWczp5OnbavijjUcPGNSWlXkPK4k4OGCR27Ww7K+
+         xe9h++m68M/u9xqty0uAKrHLft9RGHjF9zwbVE/7uPrKXP0VtMCxHNkk6e0Q31yBvqfO
+         rDwA==
+X-Gm-Message-State: AOJu0YxCDb8DUqckLANDbyR95+eYFrUB8v65El3THCdig3Z7KkrDNMCU
+	pWAsHPIRoUjFozpYw6vywmE=
+X-Google-Smtp-Source: AGHT+IGzWGavyM5RHvSarI9BxLEm18ljH6FzqkXabSCDqDt2ehE8J3z7jezUd7h4TwClDHjg69abgA==
+X-Received: by 2002:a05:620a:b5a:b0:768:535:5950 with SMTP id x26-20020a05620a0b5a00b0076805355950mr10720544qkg.68.1691421225593;
+        Mon, 07 Aug 2023 08:13:45 -0700 (PDT)
+Received: from alolivei-thinkpadt480s.gru.csb ([2804:14c:bf20:86d6:7871:f7e9:8a15:865a])
+        by smtp.gmail.com with ESMTPSA id pa35-20020a05620a832300b00767b0c35c15sm2618353qkn.91.2023.08.07.08.13.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 07 Aug 2023 08:13:45 -0700 (PDT)
+Date: Mon, 7 Aug 2023 12:13:40 -0300
+From: Alexon Oliveira <alexondunkan@gmail.com>
+To: Greg KH <gregkh@linuxfoundation.org>
+Cc: martyn@welchs.me.uk, manohar.vanga@gmail.com,
+	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
+Subject: Re: [PATCH] staging: vme_user: fix check alignment should match open
+ parenthesis
+Message-ID: <ZNEKJH3mEoOwV6eF@alolivei-thinkpadt480s.gru.csb>
+References: <ZM1rsu0M22HHtjfl@alolivei-thinkpadt480s.gru.csb>
+ <2023080510-vacation-support-7afe@gregkh>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Pobox-Relay-ID:
- AA491ABA-34E5-11EE-A3C3-C65BE52EC81B-45285927!pb-smtp1.pobox.com
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <2023080510-vacation-support-7afe@gregkh>
 
-Rename function TsInitAddBA to rtllib_ts_init_add_ba in order to Fix
-checkpatch warning: Avoid CamelCase.
+On Sat, Aug 05, 2023 at 08:14:33AM +0200, Greg KH wrote:
+> On Fri, Aug 04, 2023 at 06:20:50PM -0300, Alexon Oliveira wrote:
+> > Fixed all CHECK: Alignment should match open parenthesis
+> > as reported by checkpatch to adhere to the Linux kernel
+> > coding-style guidelines.
+> 
+> This does not describe the changes you actually made in this patch :(
+> 
+Hi Greg,
 
-Signed-off-by: Tree Davies <tdavies@darkphysics.net>
----
- drivers/staging/rtl8192e/rtl819x_BAProc.c | 4 ++--
- drivers/staging/rtl8192e/rtl819x_TSProc.c | 2 +-
- drivers/staging/rtl8192e/rtllib.h         | 4 ++--
- 3 files changed, 5 insertions(+), 5 deletions(-)
+Thank you for your feedback. Don't get me wrong, please, I'm just trying
+to understand it now, but honestly I don't know what is wrong with
+it this time. I described exactly what I did in the code: ran the
+checkpatch, which identified a lot of "CHECK: Alignment should match
+open parenthesis" messages, fixed them all according to the coding-style
+guidelines and comitted it.
 
-diff --git a/drivers/staging/rtl8192e/rtl819x_BAProc.c b/drivers/staging/=
-rtl8192e/rtl819x_BAProc.c
-index 600802c795b9..9605d21bbf40 100644
---- a/drivers/staging/rtl8192e/rtl819x_BAProc.c
-+++ b/drivers/staging/rtl8192e/rtl819x_BAProc.c
-@@ -461,8 +461,8 @@ int rtllib_rx_DELBA(struct rtllib_device *ieee, struc=
-t sk_buff *skb)
- 	return 0;
- }
-=20
--void TsInitAddBA(struct rtllib_device *ieee, struct tx_ts_record *pTS,
--		 u8 Policy, u8	bOverwritePending)
-+void rtllib_ts_init_add_ba(struct rtllib_device *ieee, struct tx_ts_reco=
-rd *pTS,
-+			   u8 Policy, u8	bOverwritePending)
- {
- 	struct ba_record *pBA =3D &pTS->TxPendingBARecord;
-=20
-diff --git a/drivers/staging/rtl8192e/rtl819x_TSProc.c b/drivers/staging/=
-rtl8192e/rtl819x_TSProc.c
-index 14e0c000a31a..a36f175ba230 100644
---- a/drivers/staging/rtl8192e/rtl819x_TSProc.c
-+++ b/drivers/staging/rtl8192e/rtl819x_TSProc.c
-@@ -88,7 +88,7 @@ static void TsAddBaProcess(struct timer_list *t)
- 	struct rtllib_device *ieee =3D container_of(pTxTs, struct rtllib_device=
-,
- 				     TxTsRecord[num]);
-=20
--	TsInitAddBA(ieee, pTxTs, BA_POLICY_IMMEDIATE, false);
-+	rtllib_ts_init_add_ba(ieee, pTxTs, BA_POLICY_IMMEDIATE, false);
- 	netdev_dbg(ieee->dev, "%s(): ADDBA Req is started\n", __func__);
- }
-=20
-diff --git a/drivers/staging/rtl8192e/rtllib.h b/drivers/staging/rtl8192e=
-/rtllib.h
-index c5a692dfcd17..c38dc5ae0b72 100644
---- a/drivers/staging/rtl8192e/rtllib.h
-+++ b/drivers/staging/rtl8192e/rtllib.h
-@@ -2002,8 +2002,8 @@ u16  TxCountToDataRate(struct rtllib_device *ieee, =
-u8 nDataRate);
- int rtllib_rx_ADDBAReq(struct rtllib_device *ieee, struct sk_buff *skb);
- int rtllib_rx_ADDBARsp(struct rtllib_device *ieee, struct sk_buff *skb);
- int rtllib_rx_DELBA(struct rtllib_device *ieee, struct sk_buff *skb);
--void TsInitAddBA(struct rtllib_device *ieee, struct tx_ts_record *pTS,
--		 u8 Policy, u8 bOverwritePending);
-+void rtllib_ts_init_add_ba(struct rtllib_device *ieee, struct tx_ts_reco=
-rd *pTS,
-+			   u8 Policy, u8 bOverwritePending);
- void TsInitDelBA(struct rtllib_device *ieee,
- 		 struct ts_common_info *pTsCommonInfo,
- 		 enum tr_select TxRxSelect);
---=20
-2.41.0
+This is the same thing I did previously for the file
+drivers/staging/vme_user/vme_bridge.h in the commit
+7d5ce25fb4c3cc91d16e27163dc141de0eba213b, but now is the file
+drivers/staging/vme_user/vme.c and commit
+a1f0b0a8ba9a496504c2e3d4b37cee388e78f0ea. Different files,
+different commits, similar fixes for the same warnings,
+and same description.
 
+The only thing I found strange is because instead of starting a new
+email thread it ended up in the same email thread as the previous
+patch. Would that be the problem?
+
+If not, would you mind, please, to explain to me what would be the most
+appropriate way you'd like me to write this changelog?
+
+I really appreciate your patience and help.
+
+Thank you.
+
+Regards.
