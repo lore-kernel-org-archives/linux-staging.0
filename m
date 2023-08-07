@@ -1,30 +1,31 @@
 Received: from pb-smtp1.pobox.com (pb-smtp1.pobox.com [64.147.108.70])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F6731369
-	for <linux-staging@lists.linux.dev>; Mon,  7 Aug 2023 05:46:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7ED37136A
+	for <linux-staging@lists.linux.dev>; Mon,  7 Aug 2023 05:48:16 +0000 (UTC)
 Received: from pb-smtp1.pobox.com (unknown [127.0.0.1])
-	by pb-smtp1.pobox.com (Postfix) with ESMTP id E2EE31A0BEB;
-	Mon,  7 Aug 2023 01:46:01 -0400 (EDT)
+	by pb-smtp1.pobox.com (Postfix) with ESMTP id 008BE1A0BD4;
+	Mon,  7 Aug 2023 01:45:49 -0400 (EDT)
 	(envelope-from tdavies@darkphysics.net)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed; d=pobox.com; h=from:to:cc
-	:subject:date:message-id:in-reply-to:references:mime-version
-	:content-transfer-encoding; s=sasl; bh=5eoqeurc7Us0RGOhn2V/CP1M+
-	zcVavoyIN8KV85/gWA=; b=oQwGa+drz6TnJ8Af5ni3LgGzhv2HJzrSCcbdbo8qu
-	Wl3QZPix8c8JaE84Bb4gIxI+3s2z7EK2PtLsij0u9ElzC8llbUR5ZltvR9+Ztf/C
-	pzlu93n9z0eb4Ij9I2fMYePeDsrQmLBBXmWraT+JDb+hnHePTC4uVM2TTl5teJ/4
-	/M=
+	:subject:date:message-id:mime-version:content-transfer-encoding;
+	 s=sasl; bh=UinChLaUXH1xK11hEJ+w7bYhyWb0ufAj4sr25zSbsME=; b=ZY4x
+	H63Gd1fm7y3CEuO3d4QIDqripJTN9ysdGaUmjTYE0I+wBLFqZP4AWNqu9IhJt5ij
+	ahu2Ikh1y0FBWNcM8xVP1l2zjfkL97y/4+EDBwOhzUHSCgvyzsC8rY4hmAt5VNZs
+	+JLh4razpdvwfoB/9rlo0xyGjxBfSIHnFaeOhL8=
 Received: from pb-smtp1.nyi.icgroup.com (unknown [127.0.0.1])
-	by pb-smtp1.pobox.com (Postfix) with ESMTP id CDB551A0BEA;
-	Mon,  7 Aug 2023 01:46:01 -0400 (EDT)
+	by pb-smtp1.pobox.com (Postfix) with ESMTP id DD0791A0BD2;
+	Mon,  7 Aug 2023 01:45:48 -0400 (EDT)
 	(envelope-from tdavies@darkphysics.net)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed; d=darkphysics.net;
- h=from:to:cc:subject:date:message-id:in-reply-to:references:mime-version:content-transfer-encoding; s=2019-09.pbsmtp; bh=r0indpjmfnijE9fv7U/ET5pUCSjmsRLkWxgQVJN/Iic=; b=cdnmELMA1jSG5cZGNfhsnBljPxpdxRyA7oI/mGmhcsMT6PcmEBhC5pYav803MqCyCXZNhJHUCVJSveIl6TAc+BrA7abIuY8GA6KkvyDRo63co9qtBRaW2kkoRJyZ5pjtwNTzRVZBP/Fikfrut2ZD/2MaRBWKDyiEV8wYat4pbp8=
+ h=from:to:cc:subject:date:message-id:mime-version:content-transfer-encoding;
+ s=2019-09.pbsmtp; bh=98BUAZNgwnh1QBNdyw4hD6dVgs5FtbjzJUITJr09lkc=;
+ b=ZNWfiJxHdhU/0xsO7uHidRsgr+wd3JFtQEnUXC+G/Wy8R3Bs97cZFmLKkIa3O01PmvL19Xty9DAPIauzvnDm4xRBJvSmwT9E3J43dZwuJq+Og+EZC+ldFTe7vInbMVyrSBLw7QqQUZKYaf5LoSih+TJTrHKKVbe/FA2OJDmWnjw=
 Received: from basil.darkphysics (unknown [76.146.178.2])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by pb-smtp1.pobox.com (Postfix) with ESMTPSA id 2CE041A0BE4;
-	Mon,  7 Aug 2023 01:45:59 -0400 (EDT)
+	by pb-smtp1.pobox.com (Postfix) with ESMTPSA id 61A741A0BD0;
+	Mon,  7 Aug 2023 01:45:47 -0400 (EDT)
 	(envelope-from tdavies@darkphysics.net)
 From: Tree Davies <tdavies@darkphysics.net>
 To: gregkh@linuxfoundation.org,
@@ -34,12 +35,10 @@ To: gregkh@linuxfoundation.org,
 Cc: linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Tree Davies <tdavies@darkphysics.net>
-Subject: [PATCH 5/5] Staging: rtl8192e: Rename function RxBaInactTimeout
-Date: Sun,  6 Aug 2023 22:47:32 -0700
-Message-ID: <20230807054732.1864827-6-tdavies@darkphysics.net>
+Subject: [PATCH 0/5] Staging: rtl8192e: Function name cleanup series 2
+Date: Sun,  6 Aug 2023 22:47:27 -0700
+Message-ID: <20230807054732.1864827-1-tdavies@darkphysics.net>
 X-Mailer: git-send-email 2.41.0
-In-Reply-To: <20230807054732.1864827-1-tdavies@darkphysics.net>
-References: <20230807054732.1864827-1-tdavies@darkphysics.net>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -47,63 +46,27 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 X-Pobox-Relay-ID:
- B0740292-34E5-11EE-9874-C65BE52EC81B-45285927!pb-smtp1.pobox.com
+ A8F0DB94-34E5-11EE-89BD-C65BE52EC81B-45285927!pb-smtp1.pobox.com
 Content-Transfer-Encoding: quoted-printable
 
-Rename function RxBaInactTimeout to rtllib_rx_ba_inact_timeout in order
-to Fix checkpatch warning: Avoid CamelCase.
+This patch series renames functions to avoid checkpatch warning:=20
+Avoid CamelCase.
 
-Signed-off-by: Tree Davies <tdavies@darkphysics.net>
----
- drivers/staging/rtl8192e/rtl819x_BAProc.c | 2 +-
- drivers/staging/rtl8192e/rtl819x_TSProc.c | 2 +-
- drivers/staging/rtl8192e/rtllib.h         | 2 +-
- 3 files changed, 3 insertions(+), 3 deletions(-)
+Thank you in advance to the reviewers.
+~ Tree
 
-diff --git a/drivers/staging/rtl8192e/rtl819x_BAProc.c b/drivers/staging/=
-rtl8192e/rtl819x_BAProc.c
-index 1eac56fa97f9..0e3372868f97 100644
---- a/drivers/staging/rtl8192e/rtl819x_BAProc.c
-+++ b/drivers/staging/rtl8192e/rtl819x_BAProc.c
-@@ -530,7 +530,7 @@ void rtllib_tx_ba_inact_timeout(struct timer_list *t)
- 			  DELBA_REASON_TIMEOUT);
- }
-=20
--void RxBaInactTimeout(struct timer_list *t)
-+void rtllib_rx_ba_inact_timeout(struct timer_list *t)
- {
- 	struct rx_ts_record *pRxTs =3D from_timer(pRxTs, t,
- 					      rx_admitted_ba_record.timer);
-diff --git a/drivers/staging/rtl8192e/rtl819x_TSProc.c b/drivers/staging/=
-rtl8192e/rtl819x_TSProc.c
-index c57bc0c8816b..24a8b9fc0168 100644
---- a/drivers/staging/rtl8192e/rtl819x_TSProc.c
-+++ b/drivers/staging/rtl8192e/rtl819x_TSProc.c
-@@ -154,7 +154,7 @@ void TSInitialize(struct rtllib_device *ieee)
- 		pRxTS->num =3D count;
- 		INIT_LIST_HEAD(&pRxTS->rx_pending_pkt_list);
- 		timer_setup(&pRxTS->rx_admitted_ba_record.timer,
--			    RxBaInactTimeout, 0);
-+			    rtllib_rx_ba_inact_timeout, 0);
-=20
- 		timer_setup(&pRxTS->rx_pkt_pending_timer, RxPktPendingTimeout, 0);
-=20
-diff --git a/drivers/staging/rtl8192e/rtllib.h b/drivers/staging/rtl8192e=
-/rtllib.h
-index 3383dab0d1ca..0c812eb02ba6 100644
---- a/drivers/staging/rtl8192e/rtllib.h
-+++ b/drivers/staging/rtl8192e/rtllib.h
-@@ -2009,7 +2009,7 @@ void rtllib_ts_init_del_ba(struct rtllib_device *ie=
-ee,
- 			   enum tr_select TxRxSelect);
- void rtllib_ba_setup_timeout(struct timer_list *t);
- void rtllib_tx_ba_inact_timeout(struct timer_list *t);
--void RxBaInactTimeout(struct timer_list *t);
-+void rtllib_rx_ba_inact_timeout(struct timer_list *t);
- void rtllib_reset_ba_entry(struct ba_record *pBA);
- bool GetTs(struct rtllib_device *ieee, struct ts_common_info **ppTS, u8 =
-*Addr,
- 	   u8 TID, enum tr_select TxRxSelect, bool bAddNewTs);
+Tree Davies (5):
+  Staging: rtl8192e: Rename function TsInitAddBA
+  Staging: rtl8192e: Rename function TsInitDelBA
+  Staging: rtl8192e: Rename function BaSetupTimeOut
+  Staging: rtl8192e: Rename function TxBaInactTimeout
+  Staging: rtl8192e: Rename function RxBaInactTimeout
+
+ drivers/staging/rtl8192e/rtl819x_BAProc.c | 16 ++++++++--------
+ drivers/staging/rtl8192e/rtl819x_TSProc.c | 10 +++++-----
+ drivers/staging/rtl8192e/rtllib.h         | 16 ++++++++--------
+ 3 files changed, 21 insertions(+), 21 deletions(-)
+
 --=20
 2.41.0
 
