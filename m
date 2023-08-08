@@ -1,123 +1,115 @@
-Received: from mail-yw1-f170.google.com (mail-yw1-f170.google.com [209.85.128.170])
+Received: from mail-ot1-f46.google.com (mail-ot1-f46.google.com [209.85.210.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCBD9125B9
-	for <linux-staging@lists.linux.dev>; Tue,  8 Aug 2023 13:18:42 +0000 (UTC)
-Received: by mail-yw1-f170.google.com with SMTP id 00721157ae682-585fd99ed8bso95260847b3.1
-        for <linux-staging@lists.linux.dev>; Tue, 08 Aug 2023 06:18:42 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0C8D100B2
+	for <linux-staging@lists.linux.dev>; Tue,  8 Aug 2023 13:59:46 +0000 (UTC)
+Received: by mail-ot1-f46.google.com with SMTP id 46e09a7af769-6bcf2fd5d69so2129258a34.1
+        for <linux-staging@lists.linux.dev>; Tue, 08 Aug 2023 06:59:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1691500721; x=1692105521;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=cCJVGIzRWp3n6+ocRSshdb4+bDJCLF8hHPywBz67DZU=;
-        b=iy7zswmtYx6ZYNzYmCG5rqHRjdv+HqB8GrEKYccjle/8dJ9x1OShHO9OgMow0zFYho
-         RJhCC40wkFuTTf25ecgjND4T7pSlTzynELSybpF4Tq9lm0vpF/1WhH9PVjPDo3D92r0t
-         vE0MwfGWmp5O6GeDRRPpN190ezwOTKyeDzoh+6spHPvGNcXvDC15NYX5Fh6AdODwNh9i
-         u+xgCMzltAjprgtTTXUMnRSMUGU88rU5hQybpWcAAj9weIpW1fiVIhA90pqCkvmL6npO
-         3XYinfPiJb8jbNTnaImLtOznhk/zT3v7clUSSq2VXwojFDvEIz4Ap+Wto2wlmlxEy3FT
-         jTzQ==
+        d=gmail.com; s=20221208; t=1691503186; x=1692107986;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=sVJ0p0WaC8Bx3ZnF3RkzwD7YcCGFMibfiG+VoV03ROc=;
+        b=RmLHNUI3zgJOG/RTD9KOLrXGnYEwUILSJ2NZ2ZIUOXp2wRAcQBceURWhB7HCjywQuD
+         nWBRDle8K2KQKLHZy5N4aDwLepkKZybHNo2w7S8gi7VH4YbhD1n0dX1M3NWAWaYMzmiG
+         TF7xv9EB5GDHCC8HEisLev1JEAzUpn6LeFtoJl+kACtxRWVlCIi+5tNhxxtOkxLcqwtK
+         mrgs3OnJ0Kw1hJcFwsOUXgLvDZKPAwPU3Fgxk3bB9B2K2sx471zrxrzAzY20HHl7DSj1
+         W+qnwf0K3nX2pe9/oFyk1k7m/nx4Ddhzx9V0lG07BAQ6kkU+xujNOJm+hK9atRu/mzmq
+         AO9g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1691500721; x=1692105521;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=cCJVGIzRWp3n6+ocRSshdb4+bDJCLF8hHPywBz67DZU=;
-        b=fntg8noc4dDv3qN+Zt99xg90vpXKVBwNtYUqa8k6runeF5rDResz3xHLFbx0SenzbH
-         Dwk/MnwsJIflyLxFQ+3ICn0PGRjb2y84pXMriMU6geFVu0VT3UAbknl/jyhEjodwee+S
-         OQdOo8SsWc6DrOm7ttryy435jWvHRk94RxBn2yS+AQKD+N7/dyrev7bysktpfyMY32TU
-         grlT19JNHW/1UJP1qwQ7dXjHlU86GP8TXKCrajbWiG6ifbbTXm2BSjFID+WLzWf6bjkt
-         vFmK/uhW2p4VTHCCsVxv00b5MfganjuX5+SrFQbFApO/ql1jVI6rXhFx8MjR4m2U75wb
-         /hNg==
-X-Gm-Message-State: AOJu0YzNXDnAh4J5Sge9mZeGm9ZsjUzq9Ply+UuSt1V9q9fj1/UQWPXy
-	9vlAuQnerNv1xPbzpIk2Ad6Z31vL/BUeJQCXHVAf1Q==
-X-Google-Smtp-Source: AGHT+IGCQegfute4wq8vuctRCNyh2F9D25HtOrYRCxA1KPyHbK9gB5btAs+lYOVd+Us7kHls2/CFh6KxK9tgT70dyU8=
-X-Received: by 2002:a25:d14e:0:b0:cee:80e:23af with SMTP id
- i75-20020a25d14e000000b00cee080e23afmr3349036ybg.11.1691500721596; Tue, 08
- Aug 2023 06:18:41 -0700 (PDT)
+        d=1e100.net; s=20221208; t=1691503186; x=1692107986;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=sVJ0p0WaC8Bx3ZnF3RkzwD7YcCGFMibfiG+VoV03ROc=;
+        b=ZlqPm0X22dhPvIxDvts4RwP0SMwMiee3jHvF8GWVg7i0aGBsviVGdF4C6pMaPQ1u9V
+         pMIpeECMXrvVsls2Kkmksn7uh3Ca86ahh0kPzGoaHi7fOaxmppzkl2r7/BCjb6hc/OlE
+         hCtYfAzR3GCOkCR2nchIb8F3dw6p+v4vbWIzJaST9XVHq5JR0unh6LTDSqGMJmLnHOee
+         cFJwrLUGF+h1AY+yxVQJ55DpnzyIpqHfzwgmAsKMhiOVwJpbnDDlAiEYfNtaQMWEUdNU
+         cgJsR9dOGCQ4IggxXGE3QFZ9vfvOAhkbzaSkLlWSk11SvtHcvM9WXxSsr1zFMfzteRqv
+         exVw==
+X-Gm-Message-State: AOJu0YwqJpWRTgf/due/gKq6qOk3mXxbJ75OomRjQw4QcZbpLZb+OyLP
+	uKPANhF0nzL5fTjNgOo4sCE=
+X-Google-Smtp-Source: AGHT+IFzjfgPVAMDP/IlnyhvMVGjufQyfLVhLezbz0C9N3wFwCNGl/Q+UyVhyvKUu5mXkp/cCiQSbQ==
+X-Received: by 2002:a05:6870:3911:b0:1b0:3d61:553e with SMTP id b17-20020a056870391100b001b03d61553emr14068619oap.15.1691503185589;
+        Tue, 08 Aug 2023 06:59:45 -0700 (PDT)
+Received: from alolivei-thinkpadt480s.gru.csb ([2804:14c:bf20:86d6:7871:f7e9:8a15:865a])
+        by smtp.gmail.com with ESMTPSA id tp11-20020a0568718b8b00b001bec2a8f4e3sm6074614oab.14.2023.08.08.06.59.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 08 Aug 2023 06:59:45 -0700 (PDT)
+Date: Tue, 8 Aug 2023 10:59:40 -0300
+From: Alexon Oliveira <alexondunkan@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: martyn@welchs.me.uk, manohar.vanga@gmail.com,
+	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
+Subject: [PATCH v3] staging: vme_user: fix alignment of open parenthesis and
+ deleted trailing spaces
+Message-ID: <ZNJKTLZ62SZMM6D8@alolivei-thinkpadt480s.gru.csb>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20230804142707.412137-1-u.kleine-koenig@pengutronix.de>
-In-Reply-To: <20230804142707.412137-1-u.kleine-koenig@pengutronix.de>
-From: Linus Walleij <linus.walleij@linaro.org>
-Date: Tue, 8 Aug 2023 15:18:30 +0200
-Message-ID: <CACRpkdZ4OqLywBhCkDmA6bEkf3rfHpCODba9Rhx36fuP8ywt6Q@mail.gmail.com>
-Subject: Re: [PATCH v2 0/2] pwm: Manage owner assignment implicitly for drivers
-To: =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-Cc: Thierry Reding <thierry.reding@gmail.com>, 
-	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, Bartosz Golaszewski <brgl@bgdev.pl>, 
-	Andy Shevchenko <andy@kernel.org>, Douglas Anderson <dianders@chromium.org>, 
-	Andrzej Hajda <andrzej.hajda@intel.com>, Neil Armstrong <neil.armstrong@linaro.org>, 
-	Robert Foss <rfoss@kernel.org>, Jonas Karlman <jonas@kwiboo.se>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, David Airlie <airlied@gmail.com>, 
-	Daniel Vetter <daniel@ffwll.ch>, Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>, 
-	Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>, 
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>, Nicolas Ferre <nicolas.ferre@microchip.com>, 
-	Alexandre Belloni <alexandre.belloni@bootlin.com>, 
-	Claudiu Beznea <claudiu.beznea@microchip.com>, Ray Jui <rjui@broadcom.com>, 
-	Scott Branden <sbranden@broadcom.com>, 
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, 
-	Florian Fainelli <florian.fainelli@broadcom.com>, Alexander Shiyan <shc_work@mail.ru>, 
-	Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>, 
-	Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
-	Pengutronix Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, 
-	NXP Linux Team <linux-imx@nxp.com>, Paul Cercueil <paul@crapouillou.net>, 
-	Vladimir Zapolskiy <vz@mleia.com>, Kevin Hilman <khilman@baylibre.com>, 
-	Jerome Brunet <jbrunet@baylibre.com>, 
-	Martin Blumenstingl <martin.blumenstingl@googlemail.com>, 
-	Conor Dooley <conor.dooley@microchip.com>, Daire McNamara <daire.mcnamara@microchip.com>, 
-	Matthias Brugger <matthias.bgg@gmail.com>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
-	=?UTF-8?Q?Jonathan_Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>, 
-	Heiko Stuebner <heiko@sntech.de>, Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, 
-	Alim Akhtar <alim.akhtar@samsung.com>, Palmer Dabbelt <palmer@dabbelt.com>, 
-	Paul Walmsley <paul.walmsley@sifive.com>, Michael Walle <michael@walle.cc>, 
-	Orson Zhai <orsonzhai@gmail.com>, Baolin Wang <baolin.wang@linux.alibaba.com>, 
-	Chunyan Zhang <zhang.lyra@gmail.com>, Fabrice Gasnier <fabrice.gasnier@foss.st.com>, 
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>, Alexandre Torgue <alexandre.torgue@foss.st.com>, 
-	Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>, 
-	Hammer Hsieh <hammerh0314@gmail.com>, Jonathan Hunter <jonathanh@nvidia.com>, 
-	Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>, Sean Anderson <sean.anderson@seco.com>, 
-	Michal Simek <michal.simek@amd.com>, Johan Hovold <johan@kernel.org>, Alex Elder <elder@kernel.org>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Anjelique Melendez <quic_amelende@quicinc.com>, 
-	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Luca Weiss <luca@z3ntu.xyz>, 
-	Bjorn Andersson <quic_bjorande@quicinc.com>, linux-pwm@vger.kernel.org, 
-	linux-gpio@vger.kernel.org, dri-devel@lists.freedesktop.org, 
-	linux-leds@vger.kernel.org, asahi@lists.linux.dev, 
-	linux-arm-kernel@lists.infradead.org, linux-rpi-kernel@lists.infradead.org, 
-	chrome-platform@lists.linux.dev, linux-mips@vger.kernel.org, 
-	linux-amlogic@lists.infradead.org, linux-riscv@lists.infradead.org, 
-	linux-mediatek@lists.infradead.org, linux-rockchip@lists.infradead.org, 
-	linux-samsung-soc@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com, 
-	linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org, 
-	greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Fri, Aug 4, 2023 at 4:28=E2=80=AFPM Uwe Kleine-K=C3=B6nig
-<u.kleine-koenig@pengutronix.de> wrote:
+Fixed all CHECK: Alignment should match open parenthesis
+and deleted the trailing whitespaces as reported by
+checkpatch to adhere to the Linux kernel coding-style
+guidelines.
 
-> (implicit) v1 of this series can be found at
-> https://lore.kernel.org/linux-pwm/20230803140633.138165-1-u.kleine-koenig=
-@pengutronix.de .
->
-> Changes since then only affect documentation that I missed to adapt befor=
-e.
-> Thanks to Laurent for catching that
->
-> Best regards
-> Uwe
->
-> Uwe Kleine-K=C3=B6nig (2):
->   pwm: Manage owner assignment implicitly for drivers
->   pwm: crc: Allow compilation as module and with COMPILE_TEST
+Signed-off-by: Alexon Oliveira <alexondunkan@gmail.com>
+---
 
-Clearly the right thing to do! Nice patches.
-Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
+Changes in v3:
+- Rebased against staging.git and staging-next branch, noted by Greg KH
 
-Yours,
-Linus Walleij
+Changes in v2:
+- Fixed changelog, noted by Greg KH
+
+ drivers/staging/vme_user/vme.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/staging/vme_user/vme.c b/drivers/staging/vme_user/vme.c
+index 977c81e2f3c7..741593d75a63 100644
+--- a/drivers/staging/vme_user/vme.c
++++ b/drivers/staging/vme_user/vme.c
+@@ -563,7 +563,7 @@ EXPORT_SYMBOL(vme_master_request);
+  *         returned.
+  */
+ int vme_master_set(struct vme_resource *resource, int enabled,
+-		   unsigned long long vme_base, unsigned long long size, 
++		   unsigned long long vme_base, unsigned long long size,
+ 		   u32 aspace, u32 cycle, u32 dwidth)
+ {
+ 	struct vme_bridge *bridge = find_bridge(resource);
+@@ -614,7 +614,7 @@ EXPORT_SYMBOL(vme_master_set);
+  *         device or if an invalid resource has been provided.
+  */
+ int vme_master_get(struct vme_resource *resource, int *enabled,
+-		   unsigned long long *vme_base, unsigned long long *size, 
++		   unsigned long long *vme_base, unsigned long long *size,
+ 		   u32 *aspace, u32 *cycle, u32 *dwidth)
+ {
+ 	struct vme_bridge *bridge = find_bridge(resource);
+@@ -1045,7 +1045,7 @@ EXPORT_SYMBOL(vme_dma_pci_attribute);
+  * Return: Pointer to VME DMA attribute, NULL on failure.
+  */
+ struct vme_dma_attr *vme_dma_vme_attribute(unsigned long long address,
+-					   u32 aspace, u32 cycle, 
++					   u32 aspace, u32 cycle,
+ 					   u32 dwidth)
+ {
+ 	struct vme_dma_attr *attributes;
+@@ -1841,7 +1841,7 @@ EXPORT_SYMBOL(vme_unregister_bridge);
+ /* - Driver Registration --------------------------------------------------- */
+ 
+ static int __vme_register_driver_bus(struct vme_driver *drv,
+-				     struct vme_bridge *bridge, 
++				     struct vme_bridge *bridge,
+ 				     unsigned int ndevs)
+ {
+ 	int err;
+-- 
+2.41.0
+
