@@ -1,112 +1,69 @@
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 026D6100B6
-	for <linux-staging@lists.linux.dev>; Wed,  9 Aug 2023 10:20:40 +0000 (UTC)
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-3fe4a89e8c4so40370645e9.3
-        for <linux-staging@lists.linux.dev>; Wed, 09 Aug 2023 03:20:40 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00BC5613A
+	for <linux-staging@lists.linux.dev>; Wed,  9 Aug 2023 10:42:55 +0000 (UTC)
+Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-3fe2ba3e260so62883445e9.2
+        for <linux-staging@lists.linux.dev>; Wed, 09 Aug 2023 03:42:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1691576439; x=1692181239;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=gsYLfemCDR3/R1OmOhG/J3IN0SL/2dsEeDv4LiZM2ak=;
-        b=QeyVH5qvWhQI6SNu04rR8TU75B5jlX7waD+AxXoTZUGBLl02NVKTSfDztBgpLL9fFW
-         xD4wuWN2AhAvmxKQd8KAiIZHrNDwhcbmJpQ1dg4gN442dbw08a6BhnRQit7hbnJ7zI0R
-         WScQcU6R6WVcj1sN19cV+3mEo7lNbfYsX31zdwbl/UwpzoQzeKi4TpabUOlLRa67PN1h
-         /N/dycbaf8GT7hFiLYrHWsXmnny2wLkSaQPDIDuBasR2SLCrN9AroskYqzRcC5vmkmr3
-         JkQAXyZ8aBNLQ5kpVU99rS8oi21Zy1gRuzweDmzD4EnmwQPiQQeSTEBVQdeaE1eR77RU
-         OiPg==
+        d=linaro.org; s=google; t=1691577774; x=1692182574;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=NuNy8g9v0XZLJnfH4Zk2WUp3xF2RINxa9KJil3UC/Bo=;
+        b=qIN7uy//9FCYHPPoZ3x7PzQL1tihFLzKJlhr+wXS1AvgxdhrwU37O8BmJm3G/f3lq7
+         Nv4TE288fgflxk8n8tNaFGHl5R7kUmSAdTv9KTd4Dbn2NtVcUOUVp0gc2hMWxW3atcfT
+         ew3PH4Y3OWVP5pTm0zCUJK4D/psuV361aK0vZZtdZswcWGIssOdbnJdnFI+XCy4mWFyc
+         3XMK2bKlE7mSUPV0E537ASiAOWSYBKeR2OAea/bnL8J1MYvWgUszn564FHwqHov1IRzt
+         1i9l0so4Z27BvYBM7NJdT/oIfiSIMI8+nfM35H5OUgm92BykSnkfujyp+/ce0ZpFNnxM
+         wq6w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1691576439; x=1692181239;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=gsYLfemCDR3/R1OmOhG/J3IN0SL/2dsEeDv4LiZM2ak=;
-        b=JzVvTnkcsI8aYJrcTWtTzAYWgsore1GUMOtt1yPz966UeZ5S9qRTMo5IfU0dd/aAM+
-         K2AjCe2DsN5UydDHBGe4mUanFVDVPo5qYIj+8ObXXMSrSLYaRgii3XjoKOpbNjzYBTqH
-         bZBNss4t//E0h6QT4WplvfZnQKR2V5KjfUnz5uRCGsPKio1SDbqunaAaDd6KwkZ+t3ng
-         4pRpBCKF675tdtkX9fWYhwJyHnDDLRHIhRRVp0mAOvSgfTYXGLAa94krXOs4yOzn4DFG
-         qw3dybchZm9KK/NtFplShMa22HBZb1Oc0Eh03qtBS16x++UgWYzNJi/XTi5U7TjjbYX+
-         J9LQ==
-X-Gm-Message-State: AOJu0Yzj+kSg0WB8opAhScZlcl0vI9w6aneNmZWWLRQRBHJ2TZyul2o5
-	LsqhIikO14Qw2CVOwyKlZpryPAxhGYkWTg==
-X-Google-Smtp-Source: AGHT+IE5wchFXx9HMqNH7ff60Rs2b0MNZRBtR1xt/ZEPu2aDA2yeCx4egWKx+Vp7x8pZRMcKghEwEQ==
-X-Received: by 2002:a7b:c3d1:0:b0:3fb:b34f:6cd6 with SMTP id t17-20020a7bc3d1000000b003fbb34f6cd6mr1761740wmj.41.1691576438805;
-        Wed, 09 Aug 2023 03:20:38 -0700 (PDT)
-Received: from archdev (pa5-84-91-151-142.netvisao.pt. [84.91.151.142])
-        by smtp.gmail.com with ESMTPSA id u10-20020a05600c210a00b003fc02e8ea68sm1555616wml.13.2023.08.09.03.20.37
+        d=1e100.net; s=20221208; t=1691577774; x=1692182574;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=NuNy8g9v0XZLJnfH4Zk2WUp3xF2RINxa9KJil3UC/Bo=;
+        b=LHD48xRfMUHD3jJUMoVPAUpJXkemZTB/7qS6B8uwqXeiQDRUqx0G/1MohzlTKWfjkU
+         FGihkZ5sOSpSE+YxgYDcpu0F4lE4a9zCMrA9+YaLhSRP/yV/6DmYyuFJYO3eKmVbM+FV
+         vzxPwY2Al61xveS5KCIGzSTqWUQnjFb7s1Lk4brNLNef/KHYTBPN86K7bTyZhQbNKunj
+         NsnYd9y7kkr0Mfm0INfZyxCOshEfHiaGALv0EMtXsGWyK76vyejj1dVryfv5tSTgm/jv
+         NxLvDMsJ5F8ZnD6nd9MZHaotRQV931UIjX0LKSAbtXPfkN16tR4M2o1TJQdHVoeZBQfj
+         Qa+Q==
+X-Gm-Message-State: AOJu0YwZ101mziWAvtNvbv/WobOwLLHMdqC24OKwuOu99EgbK8hATXq7
+	Vd53wvBp4W9uJIZ4MWHyzn6Yug==
+X-Google-Smtp-Source: AGHT+IE2p1Bk+C5vt6M9KxyfM0nYfTWopDI7PLc5yJE+1vsBtyC4zU3p7uMr2RygHc9Q9YF/zvZoCA==
+X-Received: by 2002:a5d:4ac5:0:b0:317:5168:c21f with SMTP id y5-20020a5d4ac5000000b003175168c21fmr1397789wrs.31.1691577773976;
+        Wed, 09 Aug 2023 03:42:53 -0700 (PDT)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id h6-20020adff4c6000000b003176eab8868sm16450196wrp.82.2023.08.09.03.42.52
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 09 Aug 2023 03:20:38 -0700 (PDT)
-Received: by archdev (Postfix, from userid 0)
-	id E7B0E1A3960; Wed,  9 Aug 2023 00:14:25 +0100 (WEST)
-From: Diogo Silva <diogompaissilva@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Cc: Diogo Silva <diogompaissilva@gmail.com>
-Subject: [PATCH] staging: wlan-ng: cfg80211.c: removed unnecessary parenthesis to match coding style
-Date: Wed,  9 Aug 2023 00:13:20 +0100
-Message-ID: <20230808231424.3270-1-diogompaissilva@gmail.com>
-X-Mailer: git-send-email 2.41.0
-In-Reply-To: <2023080951-escalate-unnamed-e6d4@gregkh>
+        Wed, 09 Aug 2023 03:42:53 -0700 (PDT)
+Date: Wed, 9 Aug 2023 13:42:50 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Diogo Silva <diogompaissilva@gmail.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: wlan-ng: cfg80211.c: removed unnecessary
+ parenthesis to match coding style
+Message-ID: <f651cab8-d6ff-4bef-931a-ca7d666f515b@kadam.mountain>
 References: <2023080951-escalate-unnamed-e6d4@gregkh>
+ <20230808231424.3270-1-diogompaissilva@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230808231424.3270-1-diogompaissilva@gmail.com>
 
-Removed unnecessary parenthesis around some conditions to comply with
-the checkpatch coding style.
+Please, don't resend this patch.  Greg likes the parentheses for
+readability.
+https://lore.kernel.org/all/?q=prism2_get_station
 
-Signed-off-by: Diogo Silva <diogompaissilva@gmail.com>
----
- drivers/staging/wlan-ng/cfg80211.c | 14 +++++++-------
- 1 file changed, 7 insertions(+), 7 deletions(-)
+But also you re-sent it in the wrong format.
+https://staticthinking.wordpress.com/2022/07/27/how-to-send-a-v2-patch/
 
-diff --git a/drivers/staging/wlan-ng/cfg80211.c b/drivers/staging/wlan-ng/cfg80211.c
-index 471bb310176f..57c16afe8773 100644
---- a/drivers/staging/wlan-ng/cfg80211.c
-+++ b/drivers/staging/wlan-ng/cfg80211.c
-@@ -247,7 +247,7 @@ static int prism2_get_station(struct wiphy *wiphy, struct net_device *dev,
- 
- 	memset(sinfo, 0, sizeof(*sinfo));
- 
--	if (!wlandev || (wlandev->msdstate != WLAN_MSD_RUNNING))
-+	if (!wlandev || wlandev->msdstate != WLAN_MSD_RUNNING)
- 		return -EOPNOTSUPP;
- 
- 	/* build request message */
-@@ -351,8 +351,8 @@ static int prism2_scan(struct wiphy *wiphy,
- 		msg2->bssindex.data = i;
- 
- 		result = p80211req_dorequest(wlandev, (u8 *)&msg2);
--		if ((result != 0) ||
--		    (msg2->resultcode.data != P80211ENUM_resultcode_success)) {
-+		if (result != 0 ||
-+		    msg2->resultcode.data != P80211ENUM_resultcode_success) {
- 			break;
- 		}
- 
-@@ -459,11 +459,11 @@ static int prism2_connect(struct wiphy *wiphy, struct net_device *dev,
- 	}
- 
- 	/* Set the authorization */
--	if ((sme->auth_type == NL80211_AUTHTYPE_OPEN_SYSTEM) ||
--	    ((sme->auth_type == NL80211_AUTHTYPE_AUTOMATIC) && !is_wep))
-+	if (sme->auth_type == NL80211_AUTHTYPE_OPEN_SYSTEM ||
-+	    (sme->auth_type == NL80211_AUTHTYPE_AUTOMATIC && !is_wep))
- 		msg_join.authtype.data = P80211ENUM_authalg_opensystem;
--	else if ((sme->auth_type == NL80211_AUTHTYPE_SHARED_KEY) ||
--		 ((sme->auth_type == NL80211_AUTHTYPE_AUTOMATIC) && is_wep))
-+	else if (sme->auth_type == NL80211_AUTHTYPE_SHARED_KEY ||
-+		 (sme->auth_type == NL80211_AUTHTYPE_AUTOMATIC && is_wep))
- 		msg_join.authtype.data = P80211ENUM_authalg_sharedkey;
- 	else
- 		netdev_warn(dev,
--- 
-2.41.0
+regards,
+dan carpenter
 
