@@ -1,100 +1,86 @@
-Received: from mail-lj1-f178.google.com (mail-lj1-f178.google.com [209.85.208.178])
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0B1D17754
-	for <linux-staging@lists.linux.dev>; Wed,  9 Aug 2023 14:29:36 +0000 (UTC)
-Received: by mail-lj1-f178.google.com with SMTP id 38308e7fff4ca-2b9fa64db41so108037161fa.1
-        for <linux-staging@lists.linux.dev>; Wed, 09 Aug 2023 07:29:36 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E28619BB4
+	for <linux-staging@lists.linux.dev>; Wed,  9 Aug 2023 15:42:35 +0000 (UTC)
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-3fe167d4a18so65595645e9.0
+        for <linux-staging@lists.linux.dev>; Wed, 09 Aug 2023 08:42:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1691591374; x=1692196174;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=W8FitPhYl1bw/RbzqKoKTQcV3ylIG1k/12INyc5DHZ8=;
-        b=DV2B5uOxm0xt7UyOES30f0HxFNx+7J7iBW6mvXOlUTaVfhDY3ZJfUIMIAasBloG4fz
-         9lvBGnbWWSDdEOvRkLRYdRoix0+UV9YbGEULfea/4wKelbVYFuLfOt7i+b0tC088AYUJ
-         IqGdzYUjar3PLnEEqFh88ynZfHPLo5SxBWVJdxcW6D0M04XXY7+9GVB07/vRQ8cwlJ65
-         qztX+MBHVWmFZb6Z/2jwuJh4b+XbGzKJT/ZiyTpBVbd4MI6dcJElEIZcOdewAF8B0eGx
-         M1yrYYdifX0YMkh/4B4avzvfkoFrn6PiXCHbIkK4ZglSg/yly3sSV/48JeivOiscumi/
-         T5wg==
+        d=gmail.com; s=20221208; t=1691595753; x=1692200553;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=OyZNEgArShADQF9PvMzNpSn4eyGg1gUeWUuFAHYPIIc=;
+        b=U2G50LDm2r3hBiOOTBh+mEYkReDXT9VmOUo8QvYZDTsYxdt3A3HrUzdH4u9yYaD2to
+         2Eyl+/A13HoPXcDYgC9XXf7J4f0w4Iu5wGyaf/He4O/PSu1ZBkCSX9eBx6xvy9l3UgN8
+         wIvfJZQJ7v7JKtejHBgBiWz7LemS+McjSGmhQPbauobiBtJcOr9jHu0gupzsZk7zq2hK
+         kFko1iaJOXGd3Fg+lGcEBHanlniEx9MQpSq7i3ri4gFFNDmrZtLfTdjc7mEn/aTX0pL5
+         cHGzCu0aBZqovPGa0L+l3xJU7RohXb6fICDiVKUxyaOBGgk/EQwRGOWaHenZBqk5tjXU
+         hSow==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1691591374; x=1692196174;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=W8FitPhYl1bw/RbzqKoKTQcV3ylIG1k/12INyc5DHZ8=;
-        b=NxFNRLKAKGDc779CPOLGLTaoAEBc/fTSB/GSBicwxygsUyf4c9hXYuJAiUCJH9EP6K
-         KBfn9fZ76lMdg7r7zpXYDC/J9Z1FFwix7WeVYOfC+Rg0EaWAXyzzzPz9J3kveafrTIR3
-         gBWn3wb68y67SbXdQ8oPTUyy+0NRcXAmEvKeRzOIJomrHmD85e2Ab/Y37Pf/xjvEIFIf
-         gPRnxNpPhGCUdRXYJXRAK0UuHdtWFatKMzB2NuBr4gd0YPqF4DXZLXYWoaEpfPZeNybo
-         wU2t1ObLkh9OwIQAcQrM1Y41H4ImmeVDSmbkH8JQi76n9dcdcjXWhNoDVkYHo3EiKAT2
-         eUuA==
-X-Gm-Message-State: AOJu0YxAeNDdnI6CJnOi2kqLv6694q9Qq79k5DpnM5dUMjeqegCdXvA1
-	4mk15TTSMlXI8kYG1PkmPwVjEnI7KGlyfw==
-X-Google-Smtp-Source: AGHT+IH5rkstwyUYASBosdCGaItnG09JoYLdgtEi5/UoDU+8EBPkBlpWWYECaN+yeFMdiryAYsnqtg==
-X-Received: by 2002:a2e:9195:0:b0:2b9:acad:b4b2 with SMTP id f21-20020a2e9195000000b002b9acadb4b2mr2206921ljg.6.1691591373921;
-        Wed, 09 Aug 2023 07:29:33 -0700 (PDT)
-Received: from nam-dell (ip-217-105-46-58.ip.prioritytelecom.net. [217.105.46.58])
-        by smtp.gmail.com with ESMTPSA id gw1-20020a170906f14100b0099b8234a9fesm8186866ejb.1.2023.08.09.07.29.32
+        d=1e100.net; s=20221208; t=1691595753; x=1692200553;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=OyZNEgArShADQF9PvMzNpSn4eyGg1gUeWUuFAHYPIIc=;
+        b=X9WJilJk48vc0uHHac9XeZ8Tqv6RmRCr1o9Tj/l00QJNcjo05h4p+wvdt2EhESNQrS
+         04drnLHCqhDjK6ETbNHXc1MN+xoPzoD93vQN2fqjMBThQMknxnRnhZvoUVHWoYr1ly/9
+         2b99BroDK7/ZJdG2AlnSCWIcO/BVANk59sTybraI/4ycGwRQ834dvDBrAG7kIXydOOOl
+         OX05IDdXDCMhm8DbVoak+n/tIJRGCh7g8z3LtVurWcV+ujJZmfhzgkNL9ZkI0skwBN5m
+         suC7tY/K1X5shYbVGJbF0kJsTehJEnDC5pNQZoE2raTEXHD1JOpu0bBMhGDrPZjgH0kW
+         Fwrw==
+X-Gm-Message-State: AOJu0YxMdkWnqpi8xqLk7oyeQ998sXv+J+ixe6JrY2kKRhLFVGagxYRO
+	NJhrT8mQ54Exp2U6FfsF43w=
+X-Google-Smtp-Source: AGHT+IE6f00sGS03vtl8WnoLUu/HwU4lXGGrrbsBQ9ZtumkQc2d4KbMY8YJWW9U6q2xkdTVxwRbYAQ==
+X-Received: by 2002:a1c:790d:0:b0:3fe:4e4e:beeb with SMTP id l13-20020a1c790d000000b003fe4e4ebeebmr2627300wme.38.1691595753349;
+        Wed, 09 Aug 2023 08:42:33 -0700 (PDT)
+Received: from localhost.localdomain ([92.85.190.61])
+        by smtp.gmail.com with ESMTPSA id f21-20020a1c6a15000000b003fc02218d6csm2296527wmc.25.2023.08.09.08.42.32
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 09 Aug 2023 07:29:33 -0700 (PDT)
-Date: Wed, 9 Aug 2023 16:29:32 +0200
-From: Nam Cao <namcaov@gmail.com>
-To: Alexon Oliveira <alexondunkan@gmail.com>
-Cc: gregkh@linuxfoundation.org, martyn@welchs.me.uk,
-	manohar.vanga@gmail.com, linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev
-Subject: Re: [PATCH v3] staging: vme_user: fix alignment of open parenthesis
- and deleted trailing spaces
-Message-ID: <ZNOizFnDXojT4s85@nam-dell>
-References: <ZNJKTLZ62SZMM6D8@alolivei-thinkpadt480s.gru.csb>
+        Wed, 09 Aug 2023 08:42:32 -0700 (PDT)
+From: Andrei Coardos <aboutphysycs@gmail.com>
+To: linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-tegra@vger.kernel.org,
+	ac100@lists.launchpad.net
+Cc: gregkh@linuxfoundation.org,
+	marvin24@gmx.de,
+	alex@shruggie.ro,
+	Andrei Coardos <aboutphysycs@gmail.com>
+Subject: [PATCH] staging: nvec: paz00: remove unneeded call to platform_set_drvdata()
+Date: Wed,  9 Aug 2023 18:42:11 +0300
+Message-Id: <20230809154211.15741-1-aboutphysycs@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZNJKTLZ62SZMM6D8@alolivei-thinkpadt480s.gru.csb>
+Content-Transfer-Encoding: 8bit
 
-On Tue, Aug 08, 2023 at 10:59:40AM -0300, Alexon Oliveira wrote:
-> Fixed all CHECK: Alignment should match open parenthesis
-> and deleted the trailing whitespaces as reported by
-> checkpatch to adhere to the Linux kernel coding-style
-> guidelines.
-> 
-> Signed-off-by: Alexon Oliveira <alexondunkan@gmail.com>
-> ---
-> 
-> Changes in v3:
-> - Rebased against staging.git and staging-next branch, noted by Greg KH
-> 
-> Changes in v2:
-> - Fixed changelog, noted by Greg KH
-> 
->  drivers/staging/vme_user/vme.c | 8 ++++----
->  1 file changed, 4 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/staging/vme_user/vme.c b/drivers/staging/vme_user/vme.c
-> index 977c81e2f3c7..741593d75a63 100644
-> --- a/drivers/staging/vme_user/vme.c
-> +++ b/drivers/staging/vme_user/vme.c
-> @@ -563,7 +563,7 @@ EXPORT_SYMBOL(vme_master_request);
->   *         returned.
->   */
->  int vme_master_set(struct vme_resource *resource, int enabled,
-> -		   unsigned long long vme_base, unsigned long long size, 
-> +		   unsigned long long vme_base, unsigned long long size,
->  		   u32 aspace, u32 cycle, u32 dwidth)
+This function call was found to be unnecessary as there is no equivalent
+platform_get_drvdata() call to access the private data of the driver. Also,
+the private data is defined in this driver, so there is no risk of it being
+accessed outside of this driver file.
 
-As Greg said, it doesn't look like this in staging tree, so your patch doesn't apply.
+Signed-off-by: Andrei Coardos <aboutphysycs@gmail.com>
+---
+ drivers/staging/nvec/nvec_paz00.c | 2 --
+ 1 file changed, 2 deletions(-)
 
-However I look it up and the last change to this line was 12 years ago, so I doubt
-that it is because you didn't rebase to Greg's tree. I think the more likely
-possibility is that you have a commit to this line yourself (by mistake perhaps?),
-and this patch is on top of that.
+diff --git a/drivers/staging/nvec/nvec_paz00.c b/drivers/staging/nvec/nvec_paz00.c
+index 55d59840fca4..9c01c51f0ab5 100644
+--- a/drivers/staging/nvec/nvec_paz00.c
++++ b/drivers/staging/nvec/nvec_paz00.c
+@@ -53,8 +53,6 @@ static int nvec_paz00_probe(struct platform_device *pdev)
+ 	led->cdev.flags |= LED_CORE_SUSPENDRESUME;
+ 	led->nvec = nvec;
+ 
+-	platform_set_drvdata(pdev, led);
+-
+ 	ret = devm_led_classdev_register(&pdev->dev, &led->cdev);
+ 	if (ret < 0)
+ 		return ret;
+-- 
+2.34.1
 
-Make sure you don't have any accident commit that modifies this line in your tree.
-
-Best regards,
-Nam
