@@ -1,52 +1,53 @@
-Received: from mail-oa1-f51.google.com (mail-oa1-f51.google.com [209.85.160.51])
+Received: from mail-oa1-f54.google.com (mail-oa1-f54.google.com [209.85.160.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1051718AE1
-	for <linux-staging@lists.linux.dev>; Wed,  9 Aug 2023 16:13:31 +0000 (UTC)
-Received: by mail-oa1-f51.google.com with SMTP id 586e51a60fabf-1bf08ca187cso5340003fac.3
-        for <linux-staging@lists.linux.dev>; Wed, 09 Aug 2023 09:13:31 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB02B18AE4
+	for <linux-staging@lists.linux.dev>; Wed,  9 Aug 2023 16:18:45 +0000 (UTC)
+Received: by mail-oa1-f54.google.com with SMTP id 586e51a60fabf-1c02345cad6so732040fac.0
+        for <linux-staging@lists.linux.dev>; Wed, 09 Aug 2023 09:18:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1691597611; x=1692202411;
+        d=gmail.com; s=20221208; t=1691597925; x=1692202725;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=OgDFpldPgAGUwsz5nVjA6iwGleVqPZrR7mQ0AP3vWmo=;
-        b=cXhIiBiLM018GsufSGIcEDDIMzQlZEz4vliqbqvQAhaaysoska0pkc0i2y370nF5tK
-         sBntGdSuNZnBeLpMro/4md7WC9y34cCudI63VcmF3Q6wH5OvlVs/catHEJJYgQ7qzA7t
-         +p2nRlrQnNajbEb9zB1jmSNgp7Pc3I6xdpXIHZzs3bQvSPQ4OuP8dZNHBJygzyOlbfZ5
-         AF2HtrbOlKG2GnT8yBU0Y2rvbkLQevQkgJcEErQqyQF7qeQU0Dfg5AYpep0AiyLjv+2f
-         IGcXo4bk8s2fdSQONTO3v60f1VeVf1I0WzpWG124ST5+q49NRnD0uXC3yAf21QpdGdZx
-         zD8g==
+        bh=Ti5YpVJETeixuCpoZ0ZGTbW0aEvrY5dl5mp0PqcF+V8=;
+        b=ceKIciqrukI/00ca1jssImFg3oAqLm/cE3tjjF6cgD8FiPZe3vRSDzcykHMEXCv37j
+         D4pU6Fd8uLOHmgjNuMRxoth+sXIcx17ulWLub9i/XONASsRC57RU4im/ix3q5vAAH4ja
+         xci0E1+fvRsJSMdWdkQcbh2MXViWsRRQsgHBhRnPsar0SFMvAsLCderlYdrOsvAgVO8F
+         684V3rUcjJ2d69wQOpwYlM2xYWkpMPfc7tVK2dqyy+giH8506zFfI6d6j3gQnSBTkorS
+         rox6PHwddACVmLn9qESep6JCgPDszCeTNjilFYmcSHAG7wXaMPhk5r3Cp5CsPeqBcq3I
+         NUiw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1691597611; x=1692202411;
+        d=1e100.net; s=20221208; t=1691597925; x=1692202725;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=OgDFpldPgAGUwsz5nVjA6iwGleVqPZrR7mQ0AP3vWmo=;
-        b=Ny1SWPIyhyryh8eFTqdUume2PHejC7egQGUGFHssaSHIK+7JYwoK0fD32GpeXlCKrc
-         mRHh504g6dU1511PJdIvPLmVVxmjD50MhR5Bz/QbHtUVJpUtWeMzjmBWqi2UF3xquIke
-         dsJoPVLguLXGlsErCo6AciSmyqvC1gq86GfSrs8b8nsILpwPry2ROS9nWTulG+sRYZ0c
-         dmlb8YD1z/61L6Za4MGTnN5AjMnQKFedrWHbpVuQb0RHFeuplEkVB3GNwdgqz5nsOXrn
-         zXs1p0WCZJWRej5G2c7PcWLokF/uX+IJdsG8n0humUnKO/AzWBCx9feRzZD0BdSNQ1qs
-         R73w==
-X-Gm-Message-State: AOJu0YySkbGG/HugAxmt7CT4vKGKVnkFEHEvuunyXHZMwqfW+7IpmlGq
-	zjzpWd5JWw9oNZ2iW/jgLsE=
-X-Google-Smtp-Source: AGHT+IGQOc7LJ63guOVnss4GJMRJFRHmnbH9p4lD+sJ+Md5W38pnvkNcCvDvPni2ZgeMSYNRrvd1tA==
-X-Received: by 2002:a05:6870:c082:b0:1bf:74cc:c815 with SMTP id c2-20020a056870c08200b001bf74ccc815mr3636754oad.19.1691597610814;
-        Wed, 09 Aug 2023 09:13:30 -0700 (PDT)
+        bh=Ti5YpVJETeixuCpoZ0ZGTbW0aEvrY5dl5mp0PqcF+V8=;
+        b=aLp4ltRoFtWvMTt9qnRNfH/Vpz1yp1xPchuPn1jTAZoIb8AXzSTNh3My1pUTUUvFrw
+         I1XQ7/Hhov1XoQhYm0RTbHvGFy+Gbq8VQlV3EUrQOnCy7asd1GQyvEMcQJIsn9IDhTM2
+         qaviKO3/AUg4McRXvssaBG2DRhiAWJUiTPpUIIhPCT9VXdnKJhKMRXzsxYeYbKvNaLPM
+         DTLSmYWugecfaJUZbU6XzEzIWmqaAKkFoaVAfCPrHxm9J18vNUnQa7tcdwxJ1RUh1tdI
+         M6CR99wsrLo7A+y327yfatWtrYK8XLyn0TSMrajjEu0RBvMp1zdPO5wmtRl2IDMDTBnQ
+         O/eA==
+X-Gm-Message-State: AOJu0YyYe4CM8UTYjDiIsZsln4GdQJ/iN6seoxZZapK2iJHF32aHf5UT
+	A/K8Y30LJ4rcAqvcHcyqSuY=
+X-Google-Smtp-Source: AGHT+IE3mYF8NBLvPfFZJAlmgPoKDX1p00mZmHw4Ov1A71c7/UXf/pDlVx94W+4hr52Gy3ipZTD/7g==
+X-Received: by 2002:a05:6870:171b:b0:1b0:3821:f09b with SMTP id h27-20020a056870171b00b001b03821f09bmr2323177oae.13.1691597924625;
+        Wed, 09 Aug 2023 09:18:44 -0700 (PDT)
 Received: from alolivei-thinkpadt480s.gru.csb ([2804:14c:bf20:86d6:7871:f7e9:8a15:865a])
-        by smtp.gmail.com with ESMTPSA id o2-20020a056870a50200b001bf817a62fesm7329356oal.31.2023.08.09.09.13.28
+        by smtp.gmail.com with ESMTPSA id cc4-20020a056871e18400b001a9eb707366sm7282513oac.15.2023.08.09.09.18.41
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 09 Aug 2023 09:13:30 -0700 (PDT)
-Date: Wed, 9 Aug 2023 13:13:25 -0300
+        Wed, 09 Aug 2023 09:18:44 -0700 (PDT)
+Date: Wed, 9 Aug 2023 13:18:38 -0300
 From: Alexon Oliveira <alexondunkan@gmail.com>
-To: Greg KH <gregkh@linuxfoundation.org>
-Cc: martyn@welchs.me.uk, manohar.vanga@gmail.com,
-	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
+To: Nam Cao <namcaov@gmail.com>
+Cc: gregkh@linuxfoundation.org, martyn@welchs.me.uk,
+	manohar.vanga@gmail.com, linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev
 Subject: Re: [PATCH v3] staging: vme_user: fix alignment of open parenthesis
  and deleted trailing spaces
-Message-ID: <ZNO7JRmwnMmaHtzf@alolivei-thinkpadt480s.gru.csb>
+Message-ID: <ZNO8XmOpylyE0AWS@alolivei-thinkpadt480s.gru.csb>
 References: <ZNJKTLZ62SZMM6D8@alolivei-thinkpadt480s.gru.csb>
- <2023080902-cattle-disparate-6b82@gregkh>
+ <ZNOizFnDXojT4s85@nam-dell>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -55,9 +56,9 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <2023080902-cattle-disparate-6b82@gregkh>
+In-Reply-To: <ZNOizFnDXojT4s85@nam-dell>
 
-On Wed, Aug 09, 2023 at 02:24:25PM +0200, Greg KH wrote:
+On Wed, Aug 09, 2023 at 04:29:32PM +0200, Nam Cao wrote:
 > On Tue, Aug 08, 2023 at 10:59:40AM -0300, Alexon Oliveira wrote:
 > > Fixed all CHECK: Alignment should match open parenthesis
 > > and deleted the trailing whitespaces as reported by
@@ -69,121 +70,53 @@ On Wed, Aug 09, 2023 at 02:24:25PM +0200, Greg KH wrote:
 > > 
 > > Changes in v3:
 > > - Rebased against staging.git and staging-next branch, noted by Greg KH
+> > 
+> > Changes in v2:
+> > - Fixed changelog, noted by Greg KH
+> > 
+> >  drivers/staging/vme_user/vme.c | 8 ++++----
+> >  1 file changed, 4 insertions(+), 4 deletions(-)
+> > 
+> > diff --git a/drivers/staging/vme_user/vme.c b/drivers/staging/vme_user/vme.c
+> > index 977c81e2f3c7..741593d75a63 100644
+> > --- a/drivers/staging/vme_user/vme.c
+> > +++ b/drivers/staging/vme_user/vme.c
+> > @@ -563,7 +563,7 @@ EXPORT_SYMBOL(vme_master_request);
+> >   *         returned.
+> >   */
+> >  int vme_master_set(struct vme_resource *resource, int enabled,
+> > -		   unsigned long long vme_base, unsigned long long size, 
+> > +		   unsigned long long vme_base, unsigned long long size,
+> >  		   u32 aspace, u32 cycle, u32 dwidth)
 > 
-> I don't think you did this as it still fails to apply for me :(
-> 
-> Can you go through the exact steps and try again?
+> As Greg said, it doesn't look like this in staging tree, so your patch doesn't apply.
 > 
 
-I'm pretty positive I did as you instructed me, but I think the problem
-seems to be another thing:
+Hi Nam,
 
-$ git fetch origin
+I did all the steps to have my branch updated with the origin/main
+branch, but I've found out that was something more.
 
-remote: Enumerating objects: 46, done.
-remote: Counting objects: 100% (46/46), done.
-remote: Compressing objects: 100% (46/46), done.
-remote: Total 46 (delta 35), reused 0 (delta 0), pack-reused 0
-Unpacking objects: 100% (46/46), 33.97 KiB | 135.00 KiB/s, done.
-From git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging
-   1422b526fba9..c3bdcb94967d  staging-testing -> origin/staging-testing
-
-$ git rebase -i origin/staging-testing
-
-warning: skipped previously applied commit 7d5ce25fb4c3
-hint: use --reapply-cherry-picks to include skipped commits
-hint: Disable this message with "git config advice.skippedCherryPicks false"
-^[[AERROR: trailing whitespace
-#158: FILE: drivers/staging/vme_user/vme.c:566:
-+^I^I   unsigned long long vme_base, unsigned long long size, $
-
-ERROR: trailing whitespace
-#180: FILE: drivers/staging/vme_user/vme.c:617:
-+^I^I   unsigned long long *vme_base, unsigned long long *size, $
-
-ERROR: trailing whitespace
-#244: FILE: drivers/staging/vme_user/vme.c:1048:
-+^I^I^I^I^I   u32 aspace, u32 cycle, $
-
-ERROR: trailing whitespace
-#311: FILE: drivers/staging/vme_user/vme.c:1844:
-+^I^I^I^I     struct vme_bridge *bridge, $
-
-total: 4 errors, 0 warnings, 0 checks, 277 lines checked
-
-NOTE: For some of the reported defects, checkpatch may be able to
-      mechanically convert to the typical style using --fix or --fix-inplace.
-
-NOTE: Whitespace errors detected.
-      You may wish to use scripts/cleanpatch or scripts/cleanfile
-
-"[PATCH] staging: vme_user: fix alignment of open parenthesis and" has style problems, please review.
-
-NOTE: If any of the errors are false positives, please report
-      them to the maintainer, see CHECKPATCH in MAINTAINERS.
-total: 0 errors, 0 warnings, 0 checks, 32 lines checked
-
-"[PATCH] staging: vme_user: fix alignment of open parenthesis and" has no obvious style problems and is ready for submission.
-Successfully rebased and updated refs/heads/first-patch.
-
-$ git rebase -i origin/staging-testing
-Stopped at d13431f7a7ba...  staging: vme_user: fix alignment of open parenthesis and deleted trailing spaces
-You can amend the commit now, with
-
-  git commit --amend
-
-Once you are satisfied with your changes, run
-
-  git rebase --continue
-
-$ git commit --amend -s -v
-ERROR: trailing whitespace
-#158: FILE: drivers/staging/vme_user/vme.c:566:
-+^I^I   unsigned long long vme_base, unsigned long long size, $
-
-ERROR: trailing whitespace
-#180: FILE: drivers/staging/vme_user/vme.c:617:
-+^I^I   unsigned long long *vme_base, unsigned long long *size, $
-
-ERROR: trailing whitespace
-#244: FILE: drivers/staging/vme_user/vme.c:1048:
-+^I^I^I^I^I   u32 aspace, u32 cycle, $
-
-ERROR: trailing whitespace
-#311: FILE: drivers/staging/vme_user/vme.c:1844:
-+^I^I^I^I     struct vme_bridge *bridge, $
-
-total: 4 errors, 0 warnings, 0 checks, 277 lines checked
-
-NOTE: For some of the reported defects, checkpatch may be able to
-      mechanically convert to the typical style using --fix or --fix-inplace.
-
-NOTE: Whitespace errors detected.
-      You may wish to use scripts/cleanpatch or scripts/cleanfile
-
-"[PATCH] staging: vme_user: fix alignment of open parenthesis and" has style problems, please review.
-
-NOTE: If any of the errors are false positives, please report
-      them to the maintainer, see CHECKPATCH in MAINTAINERS.
-[detached HEAD 527a5480c032] staging: vme_user: fix alignment of open parenthesis and deleted trailing spaces
- Date: Fri Aug 4 18:01:54 2023 -0300
- 1 file changed, 43 insertions(+), 42 deletions(-)
-
-$ git rebase --continue
-total: 0 errors, 0 warnings, 0 checks, 32 lines checked
-
-"[PATCH] staging: vme_user: fix alignment of open parenthesis and" has no obvious style problems and is ready for submission.
-Successfully rebased and updated refs/heads/first-patch.
-
-$ git rebase -i origin/staging-testing
-Successfully rebased and updated refs/heads/first-patch.
-
-$ git rebase -i origin/staging-next
-Successfully rebased and updated refs/heads/first-patch.
-
-> thanks,
+> However I look it up and the last change to this line was 12 years ago, so I doubt
+> that it is because you didn't rebase to Greg's tree. I think the more likely
+> possibility is that you have a commit to this line yourself (by mistake perhaps?),
+> and this patch is on top of that.
 > 
-> greg k-h
+
+Thank you for poiting that out. You're right. I found that was indeed an issue on my
+side thanks to your input.
+
+> Make sure you don't have any accident commit that modifies this line in your tree.
+> 
+
+There was indeed and accident commit modifying more than one line in my
+tree, hence the "trailing whitespaces" messages in one of the commits.
+So, to clean evertyhing up, I decided to drop these commits and start
+all over again, from scratch. That way I'm sure I'm not messing up
+anything else. I just sent a fresh patch in another thread.
+
+> Best regards,
+> Nam
 
 Thank you.
 
