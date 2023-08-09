@@ -1,82 +1,74 @@
-Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com [209.85.167.48])
+Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C2531D2EF
-	for <linux-staging@lists.linux.dev>; Wed,  9 Aug 2023 18:02:29 +0000 (UTC)
-Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-4fe216edaf7so1443073e87.0
-        for <linux-staging@lists.linux.dev>; Wed, 09 Aug 2023 11:02:29 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 478D124513
+	for <linux-staging@lists.linux.dev>; Wed,  9 Aug 2023 19:26:04 +0000 (UTC)
+Received: by mail-ed1-f44.google.com with SMTP id 4fb4d7f45d1cf-51a52a7d859so2674938a12.0
+        for <linux-staging@lists.linux.dev>; Wed, 09 Aug 2023 12:26:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1691604147; x=1692208947;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=s7fGsaZkei2JbOs46S4RpA6VOYs6YwSnheNDWkYL++U=;
-        b=a3W4WLPinW03b2ad1A+a050W18mixwpnK6EG3o8SX18sJQ9+VS3uF5GUvaAj03aoKn
-         /JpxmLXFAYt1Hl9G7rDBbKpj9Cey2xI0F2hY7khLrdJgyznwW0gxpPWPNH0UCmzTJSOe
-         6iCvfP6BSqeYe9/4W5BedFFmTNapxluo9wAsrWQ3IgQUSfNsVbVMJ8ReQQMWADdIzMW3
-         /+0FA3N5qOMy0yCi/dxtFRg3EVeZeMutlq83QTK5Ex1HfMbG9vIC2Jfni7jByGD3uW2N
-         Oy01LHBOaes6WZYwx/veEBONEOavAVKxriQAYFWsTz27AaXZpnNnwgiRfUKxbyRmBBoz
-         GThQ==
+        d=gmail.com; s=20221208; t=1691609162; x=1692213962;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=vjD6SnFC9OBpLFcPn947ZxmbIrE3ZcubJS7r5cKfK/g=;
+        b=hkJJ/OK+5utE0Nm6SDF5F8RwnoyMkEd1oh9WNIZQd1hMOJ7X0AwTwXQ8XzlYfqE5qk
+         Z4Oiz6py0VjD+E3x2ItjagMRyk9Ie+8a0L6up+JN8EQfv9BP5XwxRPjLEBU6tZWABJHQ
+         ImpK8zTkNRAE0ECdB445cP+lWCC7EmxwOsmbf1xQLe+sv+fiC8bpa1gdQ1Q4VPtVezPA
+         ki49w8Ibrcw5Cg/gMUUTPJ/SZ2RV3S36x51MHm7n7UOjhmnBFL4e8mXYtQUA3IUqWOCC
+         HpKGec9LapvTyfRZYJmAz0eHrT7fAp2MviZakyidkpAu5aCyb+YRTMd0JuggsvELgFnP
+         IhQw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1691604147; x=1692208947;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=s7fGsaZkei2JbOs46S4RpA6VOYs6YwSnheNDWkYL++U=;
-        b=AIQoPogmW8LbJF5ZNNG/nnselih87zzkXtZWFw2aaVyIjI/EYFTV1BCSYBiGOF5opw
-         /10sUqJPmimBRM0j4G3+aGyjd78VnsaFm4B7IbtEHk131fAthUKs+VaVp35I0mWafXcu
-         apm0YTCJYdvodXoPJSMfyTq/VGtI3OI5JUIk8utBRy6VLvgKnk1/xRw1hj7Wj5rWtVsO
-         vgZKpRb0vwKpNaLOQ5QXglTQbVQ1Z2nUuUrJxw1IwehjZYeILM3DzQdPkLdy/U3pWZXF
-         6nSXTLqkhY+EnlbdLl/bSjGJJDLuqMuiL35XOVfSAqMuBu0wbT6KpKnn3Q1yOviob45S
-         y6sw==
-X-Gm-Message-State: AOJu0YwtRq/b7sgkv7A33gjtLNO3nkQ1cU4XNy0cdK8zMPOsXiMYnCjC
-	zJZ+416LTbMIuLJlaGtPRmOy+JBaoVA=
-X-Google-Smtp-Source: AGHT+IEpLPXq7kk+7GLW3TMiNBOTYKDDcnqIVDWbtbKXR/emAzIG6dv949BLDTrnlt95Q5g886I5rw==
-X-Received: by 2002:a17:907:7fa1:b0:99c:c8eb:51b2 with SMTP id qk33-20020a1709077fa100b0099cc8eb51b2mr455602ejc.2.1691604126433;
-        Wed, 09 Aug 2023 11:02:06 -0700 (PDT)
-Received: from [192.168.0.101] (ip5f5abbd8.dynamic.kabel-deutschland.de. [95.90.187.216])
-        by smtp.gmail.com with ESMTPSA id bi20-20020a170906a25400b0099bcd1fa5b0sm8283337ejb.192.2023.08.09.11.02.05
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 09 Aug 2023 11:02:05 -0700 (PDT)
-Message-ID: <b15bc777-b470-3c15-5ea7-8ef2f89622c3@gmail.com>
-Date: Wed, 9 Aug 2023 20:02:05 +0200
+        d=1e100.net; s=20221208; t=1691609162; x=1692213962;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=vjD6SnFC9OBpLFcPn947ZxmbIrE3ZcubJS7r5cKfK/g=;
+        b=Fry8QA3lQ1mjcNRqgkbg28RNHqAtnTHhP+mHu8Dpr5GocnhwGBoOpRADuxsJcIPgzD
+         Xa54cdlG67SeTj6dJbmmwGScPQ4z1YUk8fiGpcqc1FcTiABxuWOhxPtcpUUN2LdQTq5/
+         wAiQ4xHySau/czml1iM9x8O7JG2p4f+LdT9h+royRU2ekhM/wdiNeXoEaFRugsqGAa6v
+         Fw0uAtXBS4MPIIHOzZQvR6Nuj/MtyRp7PbYCMFAvNKuiea38P83OEQfM6jVPMlluwlT3
+         JVZ2CgHXgyKm63zllXwz6tXuRGWIbr37KK7fVYnKfIXsDcwFnRg23TzmzsUB6DIn0Y1V
+         a52Q==
+X-Gm-Message-State: AOJu0YwfZJMxu9b0a+zSzyCXl+dxLtUtN4Z7a+zFebdKmikj8sb4Vih3
+	UpWjMdMcNsbp4WQz8u4h+2mwbjzgfJcjGQ==
+X-Google-Smtp-Source: AGHT+IENJ7d8S4cUWVhvYtD3JCAWasRB5eZFzuCICORT2qGVlynQu6hFwzEIunA7TxVmkTH4KddNeg==
+X-Received: by 2002:a17:907:c13:b0:974:fb94:8067 with SMTP id ga19-20020a1709070c1300b00974fb948067mr637357ejc.23.1691609161893;
+        Wed, 09 Aug 2023 12:26:01 -0700 (PDT)
+Received: from nam-dell (ip-217-105-46-58.ip.prioritytelecom.net. [217.105.46.58])
+        by smtp.gmail.com with ESMTPSA id l7-20020a1709066b8700b0099c53c4407dsm8419091ejr.78.2023.08.09.12.26.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 09 Aug 2023 12:26:01 -0700 (PDT)
+Date: Wed, 9 Aug 2023 21:26:00 +0200
+From: Nam Cao <namcaov@gmail.com>
+To: Alexon Oliveira <alexondunkan@gmail.com>
+Cc: gregkh@linuxfoundation.org, martyn@welchs.me.uk,
+	manohar.vanga@gmail.com, linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev
+Subject: Re: [PATCH v3] staging: vme_user: fix alignment of open parenthesis
+ and deleted trailing spaces
+Message-ID: <ZNPoSCriq7MYOLlc@nam-dell>
+References: <ZNJKTLZ62SZMM6D8@alolivei-thinkpadt480s.gru.csb>
+ <ZNOizFnDXojT4s85@nam-dell>
+ <ZNO8XmOpylyE0AWS@alolivei-thinkpadt480s.gru.csb>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.14.0
-Subject: Re: [PATCH] staging: rtl8192e: prefer strscpy over strncpy
-To: Greg KH <gregkh@linuxfoundation.org>
-Cc: philipp.g.hortmann@gmail.com, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org
-References: <20230805075114.15186-1-straube.linux@gmail.com>
- <2023080952-maroon-waviness-9621@gregkh>
-Content-Language: en-US
-From: Michael Straube <straube.linux@gmail.com>
-In-Reply-To: <2023080952-maroon-waviness-9621@gregkh>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ZNO8XmOpylyE0AWS@alolivei-thinkpadt480s.gru.csb>
 
-On 8/9/23 14:21, Greg KH wrote:
-> On Sat, Aug 05, 2023 at 09:51:14AM +0200, Michael Straube wrote:
->> Replace strncpy with strscpy in two places where the destination buffer
->> should be NUL-terminated. Found by checkpatch.
->>
->> WARNING: Prefer strscpy, strscpy_pad, or __nonstring over strncpy - see: https://github.com/KSPP/linux/issues/90
-> 
-> If a global search/replace could be done, it would have happend a long
-> time ago.
-> 
-> How was this tested?  The functions work differently, are you sure there
-> is no change in functionality here?
-> 
+On Wed, Aug 09, 2023 at 01:18:38PM -0300, Alexon Oliveira wrote:
+> There was indeed and accident commit modifying more than one line in my
+> tree, hence the "trailing whitespaces" messages in one of the commits.
+> So, to clean evertyhing up, I decided to drop these commits and start
+> all over again, from scratch. That way I'm sure I'm not messing up
+> anything else. I just sent a fresh patch in another thread.
 
-It was only compile tested. To me it looked as it does not change
-functionality, but looking a bit deeper at it I'm not sure anymore.
-So, we should leave it as is.
+FYI just in case you are new with git, you can always work on different stuffs
+in different git branches. No need to delete your previous works, just create a
+new fresh branch.
 
-thank you
-Michael
+Best regards,
+Nam
