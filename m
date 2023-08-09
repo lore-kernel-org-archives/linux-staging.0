@@ -1,54 +1,55 @@
-Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
+Received: from mail-oo1-f54.google.com (mail-oo1-f54.google.com [209.85.161.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 478D124513
-	for <linux-staging@lists.linux.dev>; Wed,  9 Aug 2023 19:26:04 +0000 (UTC)
-Received: by mail-ed1-f44.google.com with SMTP id 4fb4d7f45d1cf-51a52a7d859so2674938a12.0
-        for <linux-staging@lists.linux.dev>; Wed, 09 Aug 2023 12:26:04 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75BCF24518
+	for <linux-staging@lists.linux.dev>; Wed,  9 Aug 2023 20:09:47 +0000 (UTC)
+Received: by mail-oo1-f54.google.com with SMTP id 006d021491bc7-56d6dfa1f3cso190438eaf.0
+        for <linux-staging@lists.linux.dev>; Wed, 09 Aug 2023 13:09:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1691609162; x=1692213962;
+        d=gmail.com; s=20221208; t=1691611786; x=1692216586;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=vjD6SnFC9OBpLFcPn947ZxmbIrE3ZcubJS7r5cKfK/g=;
-        b=hkJJ/OK+5utE0Nm6SDF5F8RwnoyMkEd1oh9WNIZQd1hMOJ7X0AwTwXQ8XzlYfqE5qk
-         Z4Oiz6py0VjD+E3x2ItjagMRyk9Ie+8a0L6up+JN8EQfv9BP5XwxRPjLEBU6tZWABJHQ
-         ImpK8zTkNRAE0ECdB445cP+lWCC7EmxwOsmbf1xQLe+sv+fiC8bpa1gdQ1Q4VPtVezPA
-         ki49w8Ibrcw5Cg/gMUUTPJ/SZ2RV3S36x51MHm7n7UOjhmnBFL4e8mXYtQUA3IUqWOCC
-         HpKGec9LapvTyfRZYJmAz0eHrT7fAp2MviZakyidkpAu5aCyb+YRTMd0JuggsvELgFnP
-         IhQw==
+        bh=F+guNxHUje3lymS48k+nwBpzTKa7bGAQuVmk1BhhlZk=;
+        b=K9Y7e2sgUD63V7qyabdp/c3ek8LxXZ4HDsKpcmrSDO1lsYxzQ7E8Fnnp6JZKwGEpsQ
+         1vyqMH00Q6lcvDX/Kzz5RM5FWzfhXJwtGaKfhhK44e6VQKYVXjQXSmgHYcVzZHF3MIhU
+         vVBt6RY6k4v13HpNrCS7Me7qCCe7zeLKJIufmtTtv1+JGAkt3W74G6g45mGGZeYZa8PV
+         oa9ol5VUaBTrByF4M9B0gxL5DawTdkP6MgP1nr6MUz/3KDwSSeOtr3/Pwow1V+QtGD77
+         S7NRZGufnRPZMAbW4mi5PpGuX421ouypNdcRGPAL2wlKPYT70OcjjTdBWq9kcFGo+fp0
+         +pPA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1691609162; x=1692213962;
+        d=1e100.net; s=20221208; t=1691611786; x=1692216586;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=vjD6SnFC9OBpLFcPn947ZxmbIrE3ZcubJS7r5cKfK/g=;
-        b=Fry8QA3lQ1mjcNRqgkbg28RNHqAtnTHhP+mHu8Dpr5GocnhwGBoOpRADuxsJcIPgzD
-         Xa54cdlG67SeTj6dJbmmwGScPQ4z1YUk8fiGpcqc1FcTiABxuWOhxPtcpUUN2LdQTq5/
-         wAiQ4xHySau/czml1iM9x8O7JG2p4f+LdT9h+royRU2ekhM/wdiNeXoEaFRugsqGAa6v
-         Fw0uAtXBS4MPIIHOzZQvR6Nuj/MtyRp7PbYCMFAvNKuiea38P83OEQfM6jVPMlluwlT3
-         JVZ2CgHXgyKm63zllXwz6tXuRGWIbr37KK7fVYnKfIXsDcwFnRg23TzmzsUB6DIn0Y1V
-         a52Q==
-X-Gm-Message-State: AOJu0YwfZJMxu9b0a+zSzyCXl+dxLtUtN4Z7a+zFebdKmikj8sb4Vih3
-	UpWjMdMcNsbp4WQz8u4h+2mwbjzgfJcjGQ==
-X-Google-Smtp-Source: AGHT+IENJ7d8S4cUWVhvYtD3JCAWasRB5eZFzuCICORT2qGVlynQu6hFwzEIunA7TxVmkTH4KddNeg==
-X-Received: by 2002:a17:907:c13:b0:974:fb94:8067 with SMTP id ga19-20020a1709070c1300b00974fb948067mr637357ejc.23.1691609161893;
-        Wed, 09 Aug 2023 12:26:01 -0700 (PDT)
-Received: from nam-dell (ip-217-105-46-58.ip.prioritytelecom.net. [217.105.46.58])
-        by smtp.gmail.com with ESMTPSA id l7-20020a1709066b8700b0099c53c4407dsm8419091ejr.78.2023.08.09.12.26.00
+        bh=F+guNxHUje3lymS48k+nwBpzTKa7bGAQuVmk1BhhlZk=;
+        b=ORpkf8uD6aqrHaw/z6Iia6/NrnIqjILzkOxHiovf1h/s6N1HlGczOkcjzJ28kFVB5h
+         vovZL3Ii8z7lm75uaO7/DQX7QlJfsoiskeMlGu9LrVVS/Qt+cFzyS8d7b8Zm2/uvC4nb
+         8IkAZP5Kr8FNmUnxjlsN+IQYf96yzWE+pGv6MuTrMBUldcbtwyjAMa2cXid7q5V1npwX
+         0Ri/aUxoBkfISTw7ULz1KEKcgm7wPemSiZxOoD2FBn4Jr5TJadGWF7/OhDrYTTqeRwME
+         Dxmd238AykagBoClQ0BxRcgyqaiQcRYSQNV+Ye44UeRUJoKThNZZLQvEIRdp+3xt5DtS
+         B3qg==
+X-Gm-Message-State: AOJu0YwZ2dOppGk/9Spxr6CERF9A9Q+jeF0jLPDvztzil0OSX9LuUEuX
+	p1nhikgoaRkenmlZmDi9JJUczmkOJQg=
+X-Google-Smtp-Source: AGHT+IH8tOSf0R57BpEPXZz2hqXb84k0sxHYie+rlNmtEDYZYrLz3ZtYaCnp96AJqgoW60Ws5oSKWA==
+X-Received: by 2002:a4a:274b:0:b0:56c:dce3:ce89 with SMTP id w11-20020a4a274b000000b0056cdce3ce89mr258142oow.5.1691611786223;
+        Wed, 09 Aug 2023 13:09:46 -0700 (PDT)
+Received: from alolivei-thinkpadt480s.gru.csb ([2804:14c:bf20:86d6:7871:f7e9:8a15:865a])
+        by smtp.gmail.com with ESMTPSA id 125-20020a4a1183000000b00565fcfabab8sm7247008ooc.21.2023.08.09.13.09.44
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 09 Aug 2023 12:26:01 -0700 (PDT)
-Date: Wed, 9 Aug 2023 21:26:00 +0200
-From: Nam Cao <namcaov@gmail.com>
-To: Alexon Oliveira <alexondunkan@gmail.com>
+        Wed, 09 Aug 2023 13:09:45 -0700 (PDT)
+Date: Wed, 9 Aug 2023 17:09:40 -0300
+From: Alexon Oliveira <alexondunkan@gmail.com>
+To: Nam Cao <namcaov@gmail.com>
 Cc: gregkh@linuxfoundation.org, martyn@welchs.me.uk,
 	manohar.vanga@gmail.com, linux-kernel@vger.kernel.org,
 	linux-staging@lists.linux.dev
 Subject: Re: [PATCH v3] staging: vme_user: fix alignment of open parenthesis
  and deleted trailing spaces
-Message-ID: <ZNPoSCriq7MYOLlc@nam-dell>
+Message-ID: <ZNPyhNbl5mEbGxR+@alolivei-thinkpadt480s.gru.csb>
 References: <ZNJKTLZ62SZMM6D8@alolivei-thinkpadt480s.gru.csb>
  <ZNOizFnDXojT4s85@nam-dell>
  <ZNO8XmOpylyE0AWS@alolivei-thinkpadt480s.gru.csb>
+ <ZNPoSCriq7MYOLlc@nam-dell>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -57,18 +58,32 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ZNO8XmOpylyE0AWS@alolivei-thinkpadt480s.gru.csb>
+In-Reply-To: <ZNPoSCriq7MYOLlc@nam-dell>
 
-On Wed, Aug 09, 2023 at 01:18:38PM -0300, Alexon Oliveira wrote:
-> There was indeed and accident commit modifying more than one line in my
-> tree, hence the "trailing whitespaces" messages in one of the commits.
-> So, to clean evertyhing up, I decided to drop these commits and start
-> all over again, from scratch. That way I'm sure I'm not messing up
-> anything else. I just sent a fresh patch in another thread.
+On Wed, Aug 09, 2023 at 09:26:00PM +0200, Nam Cao wrote:
+> On Wed, Aug 09, 2023 at 01:18:38PM -0300, Alexon Oliveira wrote:
+> > There was indeed and accident commit modifying more than one line in my
+> > tree, hence the "trailing whitespaces" messages in one of the commits.
+> > So, to clean evertyhing up, I decided to drop these commits and start
+> > all over again, from scratch. That way I'm sure I'm not messing up
+> > anything else. I just sent a fresh patch in another thread.
+> 
+> FYI just in case you are new with git, you can always work on different stuffs
+> in different git branches. No need to delete your previous works, just create a
+> new fresh branch.
+> 
 
-FYI just in case you are new with git, you can always work on different stuffs
-in different git branches. No need to delete your previous works, just create a
-new fresh branch.
+ACK, thank you for the tip. I'm not new with git, but I'm indeed new
+using git to contribute do kernel. I'm still learning my way through
+the steps needed to adhere to the community procedures.
 
-Best regards,
-Nam
+In this case, I preferred to start from scratch because I'm using this
+branch only for this type of stuff, and I'm going to use different
+branches for different purposes.
+
+> Best regards,
+> Nam
+
+Thank you.
+
+Alexon Oliveira
