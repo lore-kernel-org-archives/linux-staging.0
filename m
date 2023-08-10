@@ -1,52 +1,52 @@
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14178EBD
-	for <linux-staging@lists.linux.dev>; Thu, 10 Aug 2023 04:59:19 +0000 (UTC)
-Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-317c1845a07so492506f8f.2
-        for <linux-staging@lists.linux.dev>; Wed, 09 Aug 2023 21:59:19 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F07FEBD
+	for <linux-staging@lists.linux.dev>; Thu, 10 Aug 2023 05:01:50 +0000 (UTC)
+Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-31757edd9edso455221f8f.2
+        for <linux-staging@lists.linux.dev>; Wed, 09 Aug 2023 22:01:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1691643558; x=1692248358;
+        d=linaro.org; s=google; t=1691643708; x=1692248508;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=euAie5sbhK9BZf83ob1dTMY0SFdxl8s8/ookcEMMCEs=;
-        b=I+PAaO+y1JB40rnflIsP6qBHBb7+RnISJLYhNDdFx/8rkwSCvoaZCc9WUcfgKVmo9O
-         36xL2Axim6NdRpTxC7LOXn+MCe57LcPQwiKMaGU+6b5iQDiFueAJ3QkN8pfTcz40G4eV
-         mBtdYd4xjLoyp3tiS3Mgdvsvy2gRrYYdComQMx9D1KHS598qJomyTYFKrnlkXN0paRfQ
-         uSP2N5O6ucvbMYPUubns+lOLKg6xDYOJmDenW29Kwd2dFUDo5SHyXLTi1CXoVtXQ04TM
-         mMYdyq9+lWKvOljC/jKm7kODtA5Nh8Svg+YsXwgjEbaZYjxfW4qCOqXUmVoOtsp5CIRE
-         TDtg==
+        bh=CjjZvzyvl3fP1L/RGhqR7wcU7Jb4ABWNT4G18XbFhog=;
+        b=Cyl6o2ALERVWYlXqKYobvRLYgo41YupXcmaSY9DluOqy0pNkV1zl6lx9YQsViuXzTy
+         2pj3GLOX3EPuT1+rcWWwQhDVqVkuA7xp56dFWLYVUGIh0L/1907V0Ef4Wz8xYnUUFeJl
+         GT6XdeFaf38ftDlwdlv1mDlTLCxuvt5LRnrocua1nb5ssKWHUC9M4lMT6FPPnRjhA8Yz
+         jyVPemyXlbs/ZLs0CXd2OkSMVv2WEQCszNF5MHEp3zjyIZe3KNynQY/K9fQ2AqgJxhML
+         1pzUPS/Bf/54KGD6AaUSgIUCpEntyNDbvk9sq3XBAXeH6L7cP3ekNHrGqAJzCdWRN3U2
+         NU0w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1691643558; x=1692248358;
+        d=1e100.net; s=20221208; t=1691643708; x=1692248508;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=euAie5sbhK9BZf83ob1dTMY0SFdxl8s8/ookcEMMCEs=;
-        b=TzieWECdM7CVjO+9G20pBuk1eUeYpIApz785s6mVUD5WPGoMVJOlY7AqBhNyCII3lC
-         1LvvLviWQlXyoPhJRQWRhRGSUNMdCZ7zOgjjY93LSD73FYhcKjSQkHsB9DtoER7+i/gX
-         K67lM8WoEXJcDi+N0U6Rq43b2yg8rxB+rsx643FO4pCobFq5mxoVpn+6dEjYT/SJ13qS
-         lvACj3oy4xkzgrPl5VD8ZHwcKUSRgFtzQ4A0BGxPKpWGn4RgchK2aSgzoKghBWxotBCD
-         RN7AsK+VuPoz/pvrB5sXCXhwziCRd8Z6pYG0utvvnquezYz1zcTmp7hWjp6QqXf9IUby
-         bxpw==
-X-Gm-Message-State: AOJu0Yx87o2XLWWiaLx4NktaTC/0CMRL/Dy9OioGCqhbKEKYvhSoXdPj
-	RIsUzKEguuKSni6S9+DLrpQsFw==
-X-Google-Smtp-Source: AGHT+IE3qMjYxsryjuXtRo6j6co1x8mQdJoIMUPhdqd9mvnf9/A15YHII3zIiOejSOGEayfI8ONtNg==
-X-Received: by 2002:adf:d0c2:0:b0:315:a043:5e0a with SMTP id z2-20020adfd0c2000000b00315a0435e0amr1029294wrh.56.1691643558126;
-        Wed, 09 Aug 2023 21:59:18 -0700 (PDT)
+        bh=CjjZvzyvl3fP1L/RGhqR7wcU7Jb4ABWNT4G18XbFhog=;
+        b=ABhZJJJCg43uqzPmS53uUG1srp/OsFLjia5jL6zzS72lv0kyGOypn3Oz6JNPtvSWkJ
+         0HXFT2JSE9E+MECcv3u3biZdLlL+LZCZLwcDQznvRtQexMxdsQ8mSVXojO2Dp43EOHAc
+         X8LvHLTCdR7y/zReIC6ENwkuiZqqiPj2oFMDF/KjOsVTGGwYzPER7StVpnpvHC5CfUS5
+         uIpwHlHvtAJbbIRbJQlFt3pfUuvPurzUQva3CKadHY+qZ02MGUGp3zYR/+9gYUVtHDni
+         OG+LByHEBYHY5jjMAJ6RTXRv6aG7TifxTVVtez0EkZ8ji5mPTxoC7WKp3IfLvvlAN/KC
+         9YtA==
+X-Gm-Message-State: AOJu0Yw2+oRMNUZWQAAAv7ndVlSeu1u8abmdtrJwz/0/0dQl/VyfCFC4
+	68cNyYU1F/xYDVF7zOkHjG1b4A==
+X-Google-Smtp-Source: AGHT+IHPeTvxwR9osIlv77E3zC7KUrombdsvkyCZRjVf7XIk9LhSLB/X67wTD+n/fo7hKsBZ77WdAg==
+X-Received: by 2002:a05:6000:12ce:b0:317:15f5:a1ca with SMTP id l14-20020a05600012ce00b0031715f5a1camr1168913wrx.10.1691643708386;
+        Wed, 09 Aug 2023 22:01:48 -0700 (PDT)
 Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id i8-20020a5d4388000000b0030647449730sm779008wrq.74.2023.08.09.21.59.17
+        by smtp.gmail.com with ESMTPSA id g5-20020adfe405000000b0031773a8e5c4sm809898wrm.37.2023.08.09.22.01.47
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 09 Aug 2023 21:59:17 -0700 (PDT)
-Date: Thu, 10 Aug 2023 07:59:15 +0300
+        Wed, 09 Aug 2023 22:01:48 -0700 (PDT)
+Date: Thu, 10 Aug 2023 08:01:45 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Andrei Coardos <aboutphysycs@gmail.com>
-Cc: linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev,
-	linux-tegra@vger.kernel.org, ac100@lists.launchpad.net,
-	gregkh@linuxfoundation.org, marvin24@gmx.de, alex@shruggie.ro
-Subject: Re: [PATCH] staging: nvec: paz00: remove unneeded call to
- platform_set_drvdata()
-Message-ID: <fb1cc561-926e-478d-a6ce-9d97fa0dd0e1@kadam.mountain>
-References: <20230809154211.15741-1-aboutphysycs@gmail.com>
+To: Michael Straube <straube.linux@gmail.com>
+Cc: Greg KH <gregkh@linuxfoundation.org>, philipp.g.hortmann@gmail.com,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: rtl8192e: prefer strscpy over strncpy
+Message-ID: <cbca3311-2d5d-4b87-8966-e2b57d74d6e1@kadam.mountain>
+References: <20230805075114.15186-1-straube.linux@gmail.com>
+ <2023080952-maroon-waviness-9621@gregkh>
+ <b15bc777-b470-3c15-5ea7-8ef2f89622c3@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -55,21 +55,38 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230809154211.15741-1-aboutphysycs@gmail.com>
+In-Reply-To: <b15bc777-b470-3c15-5ea7-8ef2f89622c3@gmail.com>
 
-On Wed, Aug 09, 2023 at 06:42:11PM +0300, Andrei Coardos wrote:
-> This function call was found to be unnecessary as there is no equivalent
-> platform_get_drvdata() call to access the private data of the driver. Also,
-> the private data is defined in this driver, so there is no risk of it being
-> accessed outside of this driver file.
+On Wed, Aug 09, 2023 at 08:02:05PM +0200, Michael Straube wrote:
+> On 8/9/23 14:21, Greg KH wrote:
+> > On Sat, Aug 05, 2023 at 09:51:14AM +0200, Michael Straube wrote:
+> > > Replace strncpy with strscpy in two places where the destination buffer
+> > > should be NUL-terminated. Found by checkpatch.
+> > > 
+> > > WARNING: Prefer strscpy, strscpy_pad, or __nonstring over strncpy - see: https://github.com/KSPP/linux/issues/90
+> > 
+> > If a global search/replace could be done, it would have happend a long
+> > time ago.
+> > 
+> > How was this tested?  The functions work differently, are you sure there
+> > is no change in functionality here?
+> > 
 > 
-> Signed-off-by: Andrei Coardos <aboutphysycs@gmail.com>
-> ---
+> It was only compile tested. To me it looked as it does not change
+> functionality, but looking a bit deeper at it I'm not sure anymore.
+> So, we should leave it as is.
 
-I think you are right, but why are we doing this?  That one line is
-hardly a huge eyesore.  It's all risk and no reward.
+So there are three main differences between strncpy() and strcpy().
 
-Have you tested this change on real hardware?
+1) The return.
+2) strncpy() will always write net->hidden_ssid_len bytes.  If the
+   string to copy is smaller than net->hidden_ssid_len bytes it will
+   fill the rest with zeroes.  This can be important for preventing
+   information leaks.
+3) strscpy() will always add a NUL terminator where strncpy() just
+   truncates a too long string without adding a terminator.
+
+We want #3.  We don't care about #1.  The only thing to check is #2.
 
 regards,
 dan carpenter
