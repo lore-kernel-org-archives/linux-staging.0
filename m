@@ -1,109 +1,68 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
+Received: from szxga03-in.huawei.com (szxga03-in.huawei.com [45.249.212.189])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EAE9E53A2
-	for <linux-staging@lists.linux.dev>; Fri, 11 Aug 2023 09:11:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1691745106; x=1723281106;
-  h=date:from:to:cc:subject:in-reply-to:message-id:
-   references:mime-version;
-  bh=PIyYb86jQXoQP2Kws+Hf7GsK88ApYcG7AUxYkztV4RA=;
-  b=Rpvf8T85ErzkkX3r49O9oxwwiy8OPbW9zCxGgKmh9QXuJj8JeEw5zfGw
-   zPfqT3UoeLp1WqSs+60fGTRly+Uwa15Pdxqke9gwAwkdn50IVaJqHruWS
-   TdJ7oHDvANMycUYzv1/etboQonHYHw5QAuhGCILAR18oixdHX/Se+o19S
-   ov74xQ0Gh/uZJvsGyNbabnK/ckP5j7rKJ+O8aDTsktdnqV88liKHJzJe+
-   IvH5rJnWWOevg1y56c64KM+DeISUSSYr2MuyhT6Li3F6ERK7pMoEG5ctQ
-   HdidNwG+J8DdNbRhxFNkzV0vxHLSeMuCuPlHfYb9XZRuLhvVJPBomjYb+
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10798"; a="369105995"
-X-IronPort-AV: E=Sophos;i="6.01,165,1684825200"; 
-   d="scan'208";a="369105995"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Aug 2023 02:11:45 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10798"; a="732603755"
-X-IronPort-AV: E=Sophos;i="6.01,165,1684825200"; 
-   d="scan'208";a="732603755"
-Received: from aberko-mobl1.ger.corp.intel.com ([10.252.51.87])
-  by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Aug 2023 02:11:41 -0700
-Date: Fri, 11 Aug 2023 12:11:39 +0300 (EEST)
-From: =?ISO-8859-15?Q?Ilpo_J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>
-To: "Jiri Slaby (SUSE)" <jirislaby@kernel.org>
-cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-    linux-serial <linux-serial@vger.kernel.org>, 
-    LKML <linux-kernel@vger.kernel.org>, 
-    Dan Carpenter <dan.carpenter@linaro.org>, linux-staging@lists.linux.dev
-Subject: Re: [PATCH 34-and-three-quarters/36] tty: gdm724x: simplify
- gdm_tty_write()
-In-Reply-To: <20230810103900.19353-1-jirislaby@kernel.org>
-Message-ID: <8df438f1-354a-7e2c-53c5-872f32c56a7@linux.intel.com>
-References: <ba8becf4-786a-4923-92f7-b4ec3038295f@kadam.mountain> <20230810103900.19353-1-jirislaby@kernel.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F13D95675
+	for <linux-staging@lists.linux.dev>; Fri, 11 Aug 2023 09:20:40 +0000 (UTC)
+Received: from dggpemm100003.china.huawei.com (unknown [172.30.72.53])
+	by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4RMdVb4g76zqSgF;
+	Fri, 11 Aug 2023 17:17:43 +0800 (CST)
+Received: from dggpemm500007.china.huawei.com (7.185.36.183) by
+ dggpemm100003.china.huawei.com (7.185.36.68) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.27; Fri, 11 Aug 2023 17:20:35 +0800
+Received: from huawei.com (10.175.103.91) by dggpemm500007.china.huawei.com
+ (7.185.36.183) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.27; Fri, 11 Aug
+ 2023 17:20:35 +0800
+From: Yang Yingliang <yangyingliang@huawei.com>
+To: <linux-staging@lists.linux.dev>
+CC: <gregkh@linuxfoundation.org>, <yangyingliang@huawei.com>
+Subject: [PATCH -next] staging: ks7010: remove unnecessary sdio_set_drvdata() function
+Date: Fri, 11 Aug 2023 17:17:36 +0800
+Message-ID: <20230811091736.887120-1-yangyingliang@huawei.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="8323329-213125295-1691745104=:1742"
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.175.103.91]
+X-ClientProxiedBy: dggems701-chm.china.huawei.com (10.3.19.178) To
+ dggpemm500007.china.huawei.com (7.185.36.183)
+X-CFilter-Loop: Reflected
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
+The driver data will be cleared in device_unbind_cleanup() in driver
+core code. So the sdio_set_drvdata(..., NULL) called in remove and
+error path in probe can be removed.
 
---8323329-213125295-1691745104=:1742
-Content-Type: text/plain; charset=ISO-8859-15
-Content-Transfer-Encoding: 8BIT
+Signed-off-by: Yang Yingliang <yangyingliang@huawei.com>
+---
+ drivers/staging/ks7010/ks7010_sdio.c | 2 --
+ 1 file changed, 2 deletions(-)
 
-On Thu, 10 Aug 2023, Jiri Slaby (SUSE) wrote:
-
-> len and remain can never be negative in gdm_tty_write(). So remove such
-> a check and move the check of remaining bytes to the loop condition.
-> This way, the preceding 'if' is now superfluous too. Fix all that and
-> make the code cleaner.
-> 
-> Signed-off-by: Jiri Slaby (SUSE) <jirislaby@kernel.org>
-> Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-
-I guess Suggested-by would be more appropriate since there's no problem 
-being fixed here.
-
-> Cc: linux-staging@lists.linux.dev
-
-Reviewed-by: Ilpo Järvinen <ilpo.jarvinen@linux.intel.com>
-
+diff --git a/drivers/staging/ks7010/ks7010_sdio.c b/drivers/staging/ks7010/ks7010_sdio.c
+index 9fb118e77a1f..74a0ad787f4a 100644
+--- a/drivers/staging/ks7010/ks7010_sdio.c
++++ b/drivers/staging/ks7010/ks7010_sdio.c
+@@ -1044,7 +1044,6 @@ static int ks7010_sdio_probe(struct sdio_func *func,
+ 	sdio_disable_func(func);
+  err_free_card:
+ 	sdio_release_host(func);
+-	sdio_set_drvdata(func, NULL);
+ 	kfree(card);
+ 
+ 	return -ENODEV;
+@@ -1118,7 +1117,6 @@ static void ks7010_sdio_remove(struct sdio_func *func)
+ 	sdio_disable_func(func);
+ 	sdio_release_host(func);
+ err_free_card:
+-	sdio_set_drvdata(func, NULL);
+ 	kfree(card);
+ }
+ 
 -- 
- i.
+2.25.1
 
-
-
-> ---
->  drivers/staging/gdm724x/gdm_tty.c | 7 +------
->  1 file changed, 1 insertion(+), 6 deletions(-)
-> 
-> diff --git a/drivers/staging/gdm724x/gdm_tty.c b/drivers/staging/gdm724x/gdm_tty.c
-> index cbaaa8fa7474..67d9bf41e836 100644
-> --- a/drivers/staging/gdm724x/gdm_tty.c
-> +++ b/drivers/staging/gdm724x/gdm_tty.c
-> @@ -158,10 +158,7 @@ static ssize_t gdm_tty_write(struct tty_struct *tty, const u8 *buf, size_t len)
->  	if (!gdm_tty_ready(gdm))
->  		return -ENODEV;
->  
-> -	if (!len)
-> -		return 0;
-> -
-> -	while (1) {
-> +	while (remain) {
->  		size_t sending_len = min(MUX_TX_MAX_SIZE, remain);
->  		gdm->tty_dev->send_func(gdm->tty_dev->priv_dev,
->  					(void *)(buf + sent_len),
-> @@ -171,8 +168,6 @@ static ssize_t gdm_tty_write(struct tty_struct *tty, const u8 *buf, size_t len)
->  					gdm);
->  		sent_len += sending_len;
->  		remain -= sending_len;
-> -		if (remain <= 0)
-> -			break;
->  	}
->  
->  	return len;
-> 
---8323329-213125295-1691745104=:1742--
