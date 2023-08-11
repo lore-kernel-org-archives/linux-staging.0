@@ -1,28 +1,27 @@
-Received: from szxga08-in.huawei.com (szxga08-in.huawei.com [45.249.212.255])
+Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC687A47;
-	Fri, 11 Aug 2023 03:11:17 +0000 (UTC)
-Received: from kwepemi500008.china.huawei.com (unknown [172.30.72.55])
-	by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4RMSt92Km4z1L9Kn;
-	Fri, 11 Aug 2023 10:49:05 +0800 (CST)
-Received: from huawei.com (10.90.53.73) by kwepemi500008.china.huawei.com
- (7.221.188.139) with Microsoft SMTP Server (version=TLS1_2,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 945E0185A
+	for <linux-staging@lists.linux.dev>; Fri, 11 Aug 2023 07:11:28 +0000 (UTC)
+Received: from dggpemm500012.china.huawei.com (unknown [172.30.72.54])
+	by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4RMZcn1XLrztS7P;
+	Fri, 11 Aug 2023 15:07:53 +0800 (CST)
+Received: from dggpemm500007.china.huawei.com (7.185.36.183) by
+ dggpemm500012.china.huawei.com (7.185.36.89) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.27; Fri, 11 Aug 2023 15:11:24 +0800
+Received: from huawei.com (10.175.103.91) by dggpemm500007.china.huawei.com
+ (7.185.36.183) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.27; Fri, 11 Aug
- 2023 10:50:17 +0800
-From: Ruan Jinjie <ruanjinjie@huawei.com>
-To: <TheSven73@gmail.com>, <gregkh@linuxfoundation.org>, <mripard@kernel.org>,
-	<paul.kocialkowski@bootlin.com>, <mchehab@kernel.org>, <wens@csie.org>,
-	<jernej.skrabec@gmail.com>, <samuel@sholland.org>,
-	<linux-staging@lists.linux.dev>, <linux-media@vger.kernel.org>,
-	<linux-arm-kernel@lists.infradead.org>, <linux-sunxi@lists.linux.dev>
-CC: <ruanjinjie@huawei.com>
-Subject: [PATCH -next 2/2] media: staging: media: sunxi: cedrus: Remove redundant of_match_ptr()
-Date: Fri, 11 Aug 2023 10:49:45 +0800
-Message-ID: <20230811024945.2256437-3-ruanjinjie@huawei.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230811024945.2256437-1-ruanjinjie@huawei.com>
-References: <20230811024945.2256437-1-ruanjinjie@huawei.com>
+ 2023 15:11:23 +0800
+From: Yang Yingliang <yangyingliang@huawei.com>
+To: <linux-staging@lists.linux.dev>, <greybus-dev@lists.linaro.org>
+CC: <hvaibhav.linux@gmail.com>, <johan@kernel.org>, <elder@kernel.org>,
+	<gregkh@linuxfoundation.org>, <yangyingliang@huawei.com>
+Subject: [PATCH -next] staging: greybus: arche-apb-ctrl: remove unnecessary platform_set_drvdata()
+Date: Fri, 11 Aug 2023 15:08:26 +0800
+Message-ID: <20230811070826.739049-1-yangyingliang@huawei.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -31,32 +30,32 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-Originating-IP: [10.90.53.73]
-X-ClientProxiedBy: dggems701-chm.china.huawei.com (10.3.19.178) To
- kwepemi500008.china.huawei.com (7.221.188.139)
+X-Originating-IP: [10.175.103.91]
+X-ClientProxiedBy: dggems704-chm.china.huawei.com (10.3.19.181) To
+ dggpemm500007.china.huawei.com (7.185.36.183)
 X-CFilter-Loop: Reflected
 
-The driver depends on CONFIG_OF, it is not necessary to use
-of_match_ptr() here.
+Remove unnecessary platform_set_drvdata(..., NULL) in ->remove(),
+the driver_data will be cleared in device_unbind_cleanup() after
+calling ->remove() in driver call code.
 
-Signed-off-by: Ruan Jinjie <ruanjinjie@huawei.com>
+Signed-off-by: Yang Yingliang <yangyingliang@huawei.com>
 ---
- drivers/staging/media/sunxi/cedrus/cedrus.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/staging/greybus/arche-apb-ctrl.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/drivers/staging/media/sunxi/cedrus/cedrus.c b/drivers/staging/media/sunxi/cedrus/cedrus.c
-index 8e248d4a0aec..f52df6836045 100644
---- a/drivers/staging/media/sunxi/cedrus/cedrus.c
-+++ b/drivers/staging/media/sunxi/cedrus/cedrus.c
-@@ -708,7 +708,7 @@ static struct platform_driver cedrus_driver = {
- 	.remove_new	= cedrus_remove,
- 	.driver		= {
- 		.name		= CEDRUS_NAME,
--		.of_match_table	= of_match_ptr(cedrus_dt_match),
-+		.of_match_table	= cedrus_dt_match,
- 		.pm		= &cedrus_dev_pm_ops,
- 	},
- };
+diff --git a/drivers/staging/greybus/arche-apb-ctrl.c b/drivers/staging/greybus/arche-apb-ctrl.c
+index 8541995008da..5c77c1813214 100644
+--- a/drivers/staging/greybus/arche-apb-ctrl.c
++++ b/drivers/staging/greybus/arche-apb-ctrl.c
+@@ -423,7 +423,6 @@ static void arche_apb_ctrl_remove(struct platform_device *pdev)
+ {
+ 	device_remove_file(&pdev->dev, &dev_attr_state);
+ 	poweroff_seq(pdev);
+-	platform_set_drvdata(pdev, NULL);
+ }
+ 
+ static int __maybe_unused arche_apb_ctrl_suspend(struct device *dev)
 -- 
-2.34.1
+2.25.1
 
