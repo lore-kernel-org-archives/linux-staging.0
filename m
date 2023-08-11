@@ -1,61 +1,109 @@
-Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 945E0185A
-	for <linux-staging@lists.linux.dev>; Fri, 11 Aug 2023 07:11:28 +0000 (UTC)
-Received: from dggpemm500012.china.huawei.com (unknown [172.30.72.54])
-	by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4RMZcn1XLrztS7P;
-	Fri, 11 Aug 2023 15:07:53 +0800 (CST)
-Received: from dggpemm500007.china.huawei.com (7.185.36.183) by
- dggpemm500012.china.huawei.com (7.185.36.89) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.27; Fri, 11 Aug 2023 15:11:24 +0800
-Received: from huawei.com (10.175.103.91) by dggpemm500007.china.huawei.com
- (7.185.36.183) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.27; Fri, 11 Aug
- 2023 15:11:23 +0800
-From: Yang Yingliang <yangyingliang@huawei.com>
-To: <linux-staging@lists.linux.dev>, <greybus-dev@lists.linaro.org>
-CC: <hvaibhav.linux@gmail.com>, <johan@kernel.org>, <elder@kernel.org>,
-	<gregkh@linuxfoundation.org>, <yangyingliang@huawei.com>
-Subject: [PATCH -next] staging: greybus: arche-apb-ctrl: remove unnecessary platform_set_drvdata()
-Date: Fri, 11 Aug 2023 15:08:26 +0800
-Message-ID: <20230811070826.739049-1-yangyingliang@huawei.com>
-X-Mailer: git-send-email 2.25.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EAE9E53A2
+	for <linux-staging@lists.linux.dev>; Fri, 11 Aug 2023 09:11:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1691745106; x=1723281106;
+  h=date:from:to:cc:subject:in-reply-to:message-id:
+   references:mime-version;
+  bh=PIyYb86jQXoQP2Kws+Hf7GsK88ApYcG7AUxYkztV4RA=;
+  b=Rpvf8T85ErzkkX3r49O9oxwwiy8OPbW9zCxGgKmh9QXuJj8JeEw5zfGw
+   zPfqT3UoeLp1WqSs+60fGTRly+Uwa15Pdxqke9gwAwkdn50IVaJqHruWS
+   TdJ7oHDvANMycUYzv1/etboQonHYHw5QAuhGCILAR18oixdHX/Se+o19S
+   ov74xQ0Gh/uZJvsGyNbabnK/ckP5j7rKJ+O8aDTsktdnqV88liKHJzJe+
+   IvH5rJnWWOevg1y56c64KM+DeISUSSYr2MuyhT6Li3F6ERK7pMoEG5ctQ
+   HdidNwG+J8DdNbRhxFNkzV0vxHLSeMuCuPlHfYb9XZRuLhvVJPBomjYb+
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10798"; a="369105995"
+X-IronPort-AV: E=Sophos;i="6.01,165,1684825200"; 
+   d="scan'208";a="369105995"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Aug 2023 02:11:45 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10798"; a="732603755"
+X-IronPort-AV: E=Sophos;i="6.01,165,1684825200"; 
+   d="scan'208";a="732603755"
+Received: from aberko-mobl1.ger.corp.intel.com ([10.252.51.87])
+  by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Aug 2023 02:11:41 -0700
+Date: Fri, 11 Aug 2023 12:11:39 +0300 (EEST)
+From: =?ISO-8859-15?Q?Ilpo_J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>
+To: "Jiri Slaby (SUSE)" <jirislaby@kernel.org>
+cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+    linux-serial <linux-serial@vger.kernel.org>, 
+    LKML <linux-kernel@vger.kernel.org>, 
+    Dan Carpenter <dan.carpenter@linaro.org>, linux-staging@lists.linux.dev
+Subject: Re: [PATCH 34-and-three-quarters/36] tty: gdm724x: simplify
+ gdm_tty_write()
+In-Reply-To: <20230810103900.19353-1-jirislaby@kernel.org>
+Message-ID: <8df438f1-354a-7e2c-53c5-872f32c56a7@linux.intel.com>
+References: <ba8becf4-786a-4923-92f7-b4ec3038295f@kadam.mountain> <20230810103900.19353-1-jirislaby@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.175.103.91]
-X-ClientProxiedBy: dggems704-chm.china.huawei.com (10.3.19.181) To
- dggpemm500007.china.huawei.com (7.185.36.183)
-X-CFilter-Loop: Reflected
+Content-Type: multipart/mixed; boundary="8323329-213125295-1691745104=:1742"
 
-Remove unnecessary platform_set_drvdata(..., NULL) in ->remove(),
-the driver_data will be cleared in device_unbind_cleanup() after
-calling ->remove() in driver call code.
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
 
-Signed-off-by: Yang Yingliang <yangyingliang@huawei.com>
----
- drivers/staging/greybus/arche-apb-ctrl.c | 1 -
- 1 file changed, 1 deletion(-)
+--8323329-213125295-1691745104=:1742
+Content-Type: text/plain; charset=ISO-8859-15
+Content-Transfer-Encoding: 8BIT
 
-diff --git a/drivers/staging/greybus/arche-apb-ctrl.c b/drivers/staging/greybus/arche-apb-ctrl.c
-index 8541995008da..5c77c1813214 100644
---- a/drivers/staging/greybus/arche-apb-ctrl.c
-+++ b/drivers/staging/greybus/arche-apb-ctrl.c
-@@ -423,7 +423,6 @@ static void arche_apb_ctrl_remove(struct platform_device *pdev)
- {
- 	device_remove_file(&pdev->dev, &dev_attr_state);
- 	poweroff_seq(pdev);
--	platform_set_drvdata(pdev, NULL);
- }
- 
- static int __maybe_unused arche_apb_ctrl_suspend(struct device *dev)
+On Thu, 10 Aug 2023, Jiri Slaby (SUSE) wrote:
+
+> len and remain can never be negative in gdm_tty_write(). So remove such
+> a check and move the check of remaining bytes to the loop condition.
+> This way, the preceding 'if' is now superfluous too. Fix all that and
+> make the code cleaner.
+> 
+> Signed-off-by: Jiri Slaby (SUSE) <jirislaby@kernel.org>
+> Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+
+I guess Suggested-by would be more appropriate since there's no problem 
+being fixed here.
+
+> Cc: linux-staging@lists.linux.dev
+
+Reviewed-by: Ilpo Järvinen <ilpo.jarvinen@linux.intel.com>
+
 -- 
-2.25.1
+ i.
 
+
+
+> ---
+>  drivers/staging/gdm724x/gdm_tty.c | 7 +------
+>  1 file changed, 1 insertion(+), 6 deletions(-)
+> 
+> diff --git a/drivers/staging/gdm724x/gdm_tty.c b/drivers/staging/gdm724x/gdm_tty.c
+> index cbaaa8fa7474..67d9bf41e836 100644
+> --- a/drivers/staging/gdm724x/gdm_tty.c
+> +++ b/drivers/staging/gdm724x/gdm_tty.c
+> @@ -158,10 +158,7 @@ static ssize_t gdm_tty_write(struct tty_struct *tty, const u8 *buf, size_t len)
+>  	if (!gdm_tty_ready(gdm))
+>  		return -ENODEV;
+>  
+> -	if (!len)
+> -		return 0;
+> -
+> -	while (1) {
+> +	while (remain) {
+>  		size_t sending_len = min(MUX_TX_MAX_SIZE, remain);
+>  		gdm->tty_dev->send_func(gdm->tty_dev->priv_dev,
+>  					(void *)(buf + sent_len),
+> @@ -171,8 +168,6 @@ static ssize_t gdm_tty_write(struct tty_struct *tty, const u8 *buf, size_t len)
+>  					gdm);
+>  		sent_len += sending_len;
+>  		remain -= sending_len;
+> -		if (remain <= 0)
+> -			break;
+>  	}
+>  
+>  	return len;
+> 
+--8323329-213125295-1691745104=:1742--
