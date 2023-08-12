@@ -1,51 +1,51 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 025541868
-	for <linux-staging@lists.linux.dev>; Sat, 12 Aug 2023 11:02:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB1021FB7
+	for <linux-staging@lists.linux.dev>; Sat, 12 Aug 2023 11:03:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1691838132;
+	s=mimecast20190719; t=1691838182;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 to:to:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=hUQODfZCQSly3skRl2EdqxgNTUVNaeM4NYBujWjSHHY=;
-	b=dXvvNAtevWCkA2GzljnvSizEFjUd7PnY5R8cm2d5mQmyLzl3qIHnJtZSAnOkDcHbqcEuIp
-	kmySzRXa6KFNic0i9+0TRI/w+Xh10ke4cBHK207TTkYAl750xP056CUGTSzhtRXZ6QAMWs
-	zhpXDDYMW+dgrw4AjMRuhCJHvBbnZNg=
-Received: from mail-lj1-f197.google.com (mail-lj1-f197.google.com
- [209.85.208.197]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=c2GV+MmfJdwb2+T6uThFnRnwjkPBZMA3GH/GlPWF0S0=;
+	b=cYBUAGWbqirsKiELFBTsaPm/TmbLq+e9JLHER+Ho05kTHjTZ+SLcOUxOt9feqQFdlwLvMm
+	mOTesQOqJpBBu8UaOL+bS/4wd0TnRJ3pPj1nsEj2oML9cHDb7G3achVcZGUg6nt/m+iOPE
+	SLO9ZXwrrHMFVJkmqnMmSq+pOaATByo=
+Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
+ [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-621-8D1s1QvMPe6dCWpSwkabiw-1; Sat, 12 Aug 2023 07:02:11 -0400
-X-MC-Unique: 8D1s1QvMPe6dCWpSwkabiw-1
-Received: by mail-lj1-f197.google.com with SMTP id 38308e7fff4ca-2ba0f144938so29793101fa.3
-        for <linux-staging@lists.linux.dev>; Sat, 12 Aug 2023 04:02:10 -0700 (PDT)
+ us-mta-570-hvx9VxCUPKuzcfBv85IJKw-1; Sat, 12 Aug 2023 07:03:01 -0400
+X-MC-Unique: hvx9VxCUPKuzcfBv85IJKw-1
+Received: by mail-ej1-f71.google.com with SMTP id a640c23a62f3a-94a355cf318so183409866b.2
+        for <linux-staging@lists.linux.dev>; Sat, 12 Aug 2023 04:03:00 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1691838114; x=1692442914;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
+        d=1e100.net; s=20221208; t=1691838180; x=1692442980;
+        h=content-transfer-encoding:in-reply-to:from:references:to
+         :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=hUQODfZCQSly3skRl2EdqxgNTUVNaeM4NYBujWjSHHY=;
-        b=bfNVYrjs/z1liBp5EVD00RXmgvzmpPQQduT4mPaZsEZYrj50nSy1UrI2VqxBYBfwQX
-         BNLsvRJYL1jYlhhMrsrltv0nQMKuC9XLZU9yGE8vpidDmLkPGEd+SDp2+wGD3S190Sm4
-         jD6eXkYVO3KIFBu8SYXVQpbsfuzOsssVEChvQku8rJ5xy+Z0KMSCbaJAlgqgqAUjtVyF
-         P3BH41l9RsCmkKHONuDR/G1dzcLsdgafR4HitPVziQneZ90NQyscOl3Tbn/VhLEDMQqm
-         kGwLYNA3m1Z7UYJLXDcJSYfI6ANJfaIa0xZOGu3DkNkxkk8scOqGJcZFpGKj7QAk2iZe
-         W5FA==
-X-Gm-Message-State: AOJu0YyCSTPnfKV8mf5JnqiJ6mJ4UgL0eO0KWpH79GIpwhkNACQCzf+K
-	aDaHeGRHkAdT37BAwzxPH8lZWeWcQdtTvUMGZ/Nt6RN84rCXKvNzYHUHUENV8pXBgwDvRiUr/FE
-	18DASEISAvYxGkOcT8oPLlSJ5Gg==
-X-Received: by 2002:a2e:6a10:0:b0:2b6:e361:4b3c with SMTP id f16-20020a2e6a10000000b002b6e3614b3cmr3340990ljc.14.1691838114319;
-        Sat, 12 Aug 2023 04:01:54 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEVkmLxJ4rN4icCeOX6whnRxHTUgwxoqhAMuMSHLlrs8YdydySDT+7hEsYkmxBnP8IpH5ltPg==
-X-Received: by 2002:a2e:6a10:0:b0:2b6:e361:4b3c with SMTP id f16-20020a2e6a10000000b002b6e3614b3cmr3340972ljc.14.1691838114002;
-        Sat, 12 Aug 2023 04:01:54 -0700 (PDT)
+        bh=c2GV+MmfJdwb2+T6uThFnRnwjkPBZMA3GH/GlPWF0S0=;
+        b=d9u2d2JUSnxkVufBYm8ogsCJoqwSLO9xzyHfiF0d3Feq/9emKvzisvO/NBLWYQ7xvj
+         c2FHgQEZpNHaGmzp99+U8G05lU7bADiqndl8K3KudO3pRopFrH6D0OGlpJYntjClnKO+
+         ZOOWIosENggLorZPTkBU2davFBGxN+nAMtGWZQdwQbL9P8n9c/e4Iask2onIX7V6OQSc
+         U1PBH6rXySWRHae0YZRJYcMadRaPD+ORS46kACXlbpadXpP2h1kCkh6JD4DBgnJB8jLF
+         g1/Rf/JgIMJj5Gpx3x57XtwpuDgSlynX2XOj5lcavOIalHjk/+CxJMGkNo0ti78ziW7z
+         8WqA==
+X-Gm-Message-State: AOJu0Yy4AqH4h8DzVGcfUIRgakTjkXK0EULf2S2p9EErvOsSU3dV2uRI
+	AQbfAJ7CY/y16M1NVVCq/nZk0QWoOtgN3CBQlFbmlZsIdx2be4KQlI1qWXvZY2tuBXNQD/9WuDv
+	d4fsdN3lmUyvcSbpCEh61Weh8iw==
+X-Received: by 2002:a17:906:8458:b0:99c:5710:674a with SMTP id e24-20020a170906845800b0099c5710674amr4096364ejy.37.1691838180117;
+        Sat, 12 Aug 2023 04:03:00 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHJXYFBbu5uWfrMiynh4BxqH2e07HqKYg+/DlAdR7ZJyWQSCF7C7zL6oQPrUcgF+srdFa/uhQ==
+X-Received: by 2002:a17:906:8458:b0:99c:5710:674a with SMTP id e24-20020a170906845800b0099c5710674amr4096352ejy.37.1691838179867;
+        Sat, 12 Aug 2023 04:02:59 -0700 (PDT)
 Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
-        by smtp.gmail.com with ESMTPSA id si28-20020a170906cedc00b00988dbbd1f7esm3315334ejb.213.2023.08.12.04.01.53
+        by smtp.gmail.com with ESMTPSA id qn17-20020a170907211100b00992b510089asm3328648ejb.84.2023.08.12.04.02.59
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 12 Aug 2023 04:01:53 -0700 (PDT)
-Message-ID: <f332c309-795e-195b-9b77-1e2902938cec@redhat.com>
-Date: Sat, 12 Aug 2023 13:01:52 +0200
+        Sat, 12 Aug 2023 04:02:59 -0700 (PDT)
+Message-ID: <e69b189d-2a43-2b5f-4039-ac700c849a59@redhat.com>
+Date: Sat, 12 Aug 2023 13:02:58 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -54,55 +54,83 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.13.0
-Subject: Re: [PATCH] media: atomisp: csi2-bridge: check for negative port
- values
-To: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+Subject: Re: [PATCH 00/12] Make atomisp driver to be generic
+To: Kate Hsuan <hpa@redhat.com>, Mauro Carvalho Chehab <mchehab@kernel.org>,
  Sakari Ailus <sakari.ailus@linux.intel.com>,
  Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Andy Shevchenko <andy.shevchenko@gmail.com>, linux-media@vger.kernel.org,
- linux-staging@lists.linux.dev, kernel-janitors@vger.kernel.org
-References: <8bc2ab0f-88ac-42f1-876b-147da525b1eb@moroto.mountain>
+ linux-media@vger.kernel.org, linux-staging@lists.linux.dev
+References: <20230802095606.1298152-1-hpa@redhat.com>
 From: Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <8bc2ab0f-88ac-42f1-876b-147da525b1eb@moroto.mountain>
+In-Reply-To: <20230802095606.1298152-1-hpa@redhat.com>
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Language: en-US, nl
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-Hi Dan,
+Hi Kate,
 
-On 8/5/23 08:53, Dan Carpenter wrote:
-> The atomisp_csi2_get_port() function reads an integer value from the
-> firmware.  We check for invalid positive values but we should also
-> check for negatives.
+On 8/2/23 11:55, Kate Hsuan wrote:
+> This batch of work removed all the #ifdef and made the driver able to
+> drive both ISP2400 and ISP2401. The changes include:
 > 
-> Fixes: 8d28ec7e9145 ("media: atomisp: Add support for v4l2-async sensor registration")
-> Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
-> ---
->  drivers/staging/media/atomisp/pci/atomisp_csi2_bridge.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/staging/media/atomisp/pci/atomisp_csi2_bridge.c b/drivers/staging/media/atomisp/pci/atomisp_csi2_bridge.c
-> index 46d9f31986c9..0f0ec5d7e49d 100644
-> --- a/drivers/staging/media/atomisp/pci/atomisp_csi2_bridge.c
-> +++ b/drivers/staging/media/atomisp/pci/atomisp_csi2_bridge.c
-> @@ -626,7 +626,7 @@ static int atomisp_csi2_connect_sensor(const struct atomisp_csi2_sensor_config *
->  			goto err_put_adev;
->  
->  		sensor->port = atomisp_csi2_get_port(adev, clock_num);
-> -		if (sensor->port >= ATOMISP_CAMERA_NR_PORTS) {
-> +		if (sensor->port < 0 || sensor->port >= ATOMISP_CAMERA_NR_PORTS) {
->  			acpi_handle_err(adev->handle, "Invalid port: %d\n", sensor->port);
->  			ret = -EINVAL;
->  			goto err_put_adev;
+> 1. #ifdef were removed and the driver execution flow is determined in
+>    runtime.
+> 2. ia_css_mipi_frame_enable_check_on_size() wasn't used so it also
+>    removed.
+> 3. sh_css_config_input_network() for ISP2400 and ISP2401 was determined
+>    in compiler time. This was also renamed to
+>    sh_css_config_input_network_2400() and
+>    sh_css_config_input_network_2401() for both types of atomisp.
+> 4. The atomisp type test at the begining of the driver was removed so
+>    this driver can drive both types of atomisp.
 
-Thank you for the fix, this code has been refactored in -next and now it uses sensor->link rather then sensor->port with sensor now being a 'struct ipu_sensor *' and link being a 'u8' so checking for < 0 no longer is necessary.
+Thank you, all 12 patches look good to me:
+
+Reviewed-by: Hans de Goede <hdegoede@redhat.com>
+
+for the series.
+
+And I have merged this into my hansg/media-atomisp branch now.
 
 Regards,
 
 Hans
 
 
+
+> Kate Hsuan (12):
+>   media: atomisp: ia_css_raw.host: Remove #ifdef ISP2401 to make the
+>     driver generic
+>   media: atomisp: binary: Removed #ifdef ISP2401 to make driver generic
+>   media: atomisp: hive_isp_css_include: Removed #ifdef ISP2401 to make
+>     driver generic
+>   media: atomisp: atomisp_compat_css20: Removed #ifdef ISP2401 to make
+>     driver generic
+>   media: atomisp: sh_css_mipi: Removed unused code
+>     ia_css_mipi_frame_enable_check_on_size()
+>   media: atomisp: sh_css: Removed #ifdef ISP2401 to make the driver
+>     generic
+>   media: atomisp: sh_css_sp: Remove #ifdef ISP2401 to make driver
+>     generic
+>   media: atomisp: sh_css: Removed #ifdef ISP2401 to make driver generic
+>   media: atomisp: sh_css: Renamed sh_css_config_input_network()
+>   media: atomisp: sh_css: Removed #ifdef ISP2401 to make code generic
+>   media: atomisp: sh_css: Removed #ifdef ISP2401 to make the driver
+>     generic
+>   media: atomisp: atomisp_v4l2: Removed unnecessary code
+> 
+>  .../media/atomisp/pci/atomisp_compat_css20.c  |  14 +-
+>  .../staging/media/atomisp/pci/atomisp_v4l2.c  |  19 --
+>  .../hive_isp_css_include/host/csi_rx_public.h |   2 -
+>  .../host/pixelgen_public.h                    |   2 -
+>  .../staging/media/atomisp/pci/ia_css_mipi.h   |  16 --
+>  .../isp/kernels/raw/raw_1.0/ia_css_raw.host.c |  21 +-
+>  .../atomisp/pci/runtime/binary/src/binary.c   |  15 +-
+>  drivers/staging/media/atomisp/pci/sh_css.c    | 232 ++++++++----------
+>  .../staging/media/atomisp/pci/sh_css_mipi.c   |  29 ---
+>  drivers/staging/media/atomisp/pci/sh_css_sp.c |  60 ++---
+>  drivers/staging/media/atomisp/pci/sh_css_sp.h |   2 -
+>  11 files changed, 143 insertions(+), 269 deletions(-)
+> 
 
