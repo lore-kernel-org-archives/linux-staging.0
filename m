@@ -1,44 +1,51 @@
-Received: from pb-smtp20.pobox.com (pb-smtp20.pobox.com [173.228.157.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E4DE847B
-	for <linux-staging@lists.linux.dev>; Sat, 12 Aug 2023 20:18:52 +0000 (UTC)
-Received: from pb-smtp20.pobox.com (unknown [127.0.0.1])
-	by pb-smtp20.pobox.com (Postfix) with ESMTP id 7023C1BE86;
-	Sat, 12 Aug 2023 16:15:01 -0400 (EDT)
-	(envelope-from tdavies@darkphysics.net)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed; d=pobox.com; h=from:to:cc
-	:subject:date:message-id:in-reply-to:references:mime-version
-	:content-transfer-encoding; s=sasl; bh=jDI9LdcLjxhciyvlQxAI0TxXP
-	3cRH+KlrKyc6EFAOKk=; b=Jbs8wWgdFjtbebWImwv5in3bu7ANKxfJrnYUTjxN4
-	gWTN/KavYkEsQcg/qIXhmrOK1t1ObLLL4x5vqm8nmdUb687UOLJ9cA293S4/i6Sy
-	YWlYTrEs+27TYUEZO98bhSjijbRPO14sKnVTwJ4gBNHB9mjmWYWSbQiLmX67BEMN
-	Qc=
-Received: from pb-smtp20.sea.icgroup.com (unknown [127.0.0.1])
-	by pb-smtp20.pobox.com (Postfix) with ESMTP id 688FC1BE85;
-	Sat, 12 Aug 2023 16:15:01 -0400 (EDT)
-	(envelope-from tdavies@darkphysics.net)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed; d=darkphysics.net;
- h=from:to:cc:subject:date:message-id:in-reply-to:references:mime-version:content-transfer-encoding; s=2019-09.pbsmtp; bh=yl+/X8GENc3EniLq1csMY/Zmd8cTbl/awZpte9T/0Po=; b=HGsYHAjK4EU2BuxEAA0Io82dizW2eot5Kk4RbRauIhbAt65y64blH8aofgqEWx6I36e5h7iuqE8MeyggcwRk3n9+dYldzivmSiVLpPlm31Tc1n1ElBVpQYchXokiHZycQBdHHP8aajj3AZDuhiq9KFb0bO+ur/ZZkmoEl96IQ54=
-Received: from basil.darkphysics (unknown [76.146.178.2])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by pb-smtp20.pobox.com (Postfix) with ESMTPSA id A662D1BE7F;
-	Sat, 12 Aug 2023 16:14:56 -0400 (EDT)
-	(envelope-from tdavies@darkphysics.net)
-From: Tree Davies <tdavies@darkphysics.net>
-To: gregkh@linuxfoundation.org,
-	philipp.g.hortmann@gmail.com,
-	anjan@momi.ca,
-	error27@gmail.com
-Cc: linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Tree Davies <tdavies@darkphysics.net>
-Subject: [PATCH 01/16] Staging: rtl8192e: Rename variable pBa in function rx_ts_delete_ba()
-Date: Sat, 12 Aug 2023 13:16:47 -0700
-Message-ID: <20230812201702.83421-2-tdavies@darkphysics.net>
-X-Mailer: git-send-email 2.41.0
-In-Reply-To: <20230812201702.83421-1-tdavies@darkphysics.net>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2C401CCCC
+	for <linux-staging@lists.linux.dev>; Sat, 12 Aug 2023 21:14:00 +0000 (UTC)
+Received: by mail-ed1-f51.google.com with SMTP id 4fb4d7f45d1cf-51d95aed33aso4014127a12.3
+        for <linux-staging@lists.linux.dev>; Sat, 12 Aug 2023 14:14:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1691874839; x=1692479639;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=+qN4+JPQ2uMhH474HegNnWcROGyA8dAp5RWQJWrAdXg=;
+        b=gFgNBX8i2ETarPsMHY5Nwpour5KM7lxMnTS87CWAozeTybwQL9q2Rb3kTOnNRI97j+
+         r/i//H2etz35n45IOeq6yt534e2jH2A44yH+8/sru3i64/uOzJYDWo5ADHM51OMvUuiW
+         5z6AIkEj2il96lkFKvQxYqvk4GNv5EFMm7pwKINEShREVSMQlad+4h54SjA9CRwt0iKM
+         YaIdFYdISI5qJZOAY0FDLGouscOt5FxryP+tuSa7Rh4kFZxZqV4m83k9KGu/bI+OAvOr
+         7GCAj1N1mAOVYWytrqzBqDUvPMY6QnLBmpbLLQBykvub8CYMliJJ0McWg7+bzS+OoQFK
+         11/g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1691874839; x=1692479639;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=+qN4+JPQ2uMhH474HegNnWcROGyA8dAp5RWQJWrAdXg=;
+        b=AqzXTO4wQOaqWEriLPsgGl6nPbOqTgS8ROFbFzbWRm0P4JygRiMHnt+EVwWHtg9ByU
+         QDKppmibZrLu1Wbg6HqJIV7NjeCJkJMcSWTv+Pl38h+w37Wt+jUVjC8WR01qh3wj9g7K
+         x2MLyyBaemaXE/fNw3MYAmUmO/TfLPlCwJ3RszOh6uLDNfwPuF3YO8Ckv35CviEu25+b
+         SYs112EnpKM0vCljMeGt/TAj91yNZmBOKAtolqTfegYZ5czQkIStMjjpQNIpa3kOWNTS
+         5ZmTrRJT6yO4xn9WJ8uEGTnKva27VHCwVbrwFoxVMEG7YQDSFUaHtyvVP/SzBxIaP13u
+         07Zw==
+X-Gm-Message-State: AOJu0YxS/5cE6GqZGc/k4AqMtC4KxEE4DAmp3rtWuwCBpaOgjurmBGkw
+	p7TJvOLdzmcxkE1btz5YcmA=
+X-Google-Smtp-Source: AGHT+IH1wsb9qoAkdoUo98/0EkE5TmD0l13LQU66xkUbR5ROmc684BH2TKxF6ywCJFe7fWDIVYRQMg==
+X-Received: by 2002:a05:6402:1b06:b0:522:1956:a291 with SMTP id by6-20020a0564021b0600b005221956a291mr4407137edb.8.1691874838601;
+        Sat, 12 Aug 2023 14:13:58 -0700 (PDT)
+Received: from nam-dell (ip-217-105-46-58.ip.prioritytelecom.net. [217.105.46.58])
+        by smtp.gmail.com with ESMTPSA id c23-20020a056402121700b00523653295f9sm3648305edw.94.2023.08.12.14.13.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 12 Aug 2023 14:13:58 -0700 (PDT)
+Date: Sat, 12 Aug 2023 23:13:56 +0200
+From: Nam Cao <namcaov@gmail.com>
+To: Tree Davies <tdavies@darkphysics.net>
+Cc: gregkh@linuxfoundation.org, philipp.g.hortmann@gmail.com, anjan@momi.ca,
+	error27@gmail.com, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 00/16] Staging: rtl8192e: Rename struct rx_ts_record
+ references
+Message-ID: <ZNf2FJNPF6A4jwcX@nam-dell>
 References: <20230812201702.83421-1-tdavies@darkphysics.net>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -46,38 +53,23 @@ List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Pobox-Relay-ID:
- E89C0CE4-394C-11EE-9A1A-C2DA088D43B2-45285927!pb-smtp20.pobox.com
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230812201702.83421-1-tdavies@darkphysics.net>
 
-Rename variable pBa in function rx_ts_delete_ba() to rx_ts
-to fix checkpatch warning Avoid CamelCase.
+On Sat, Aug 12, 2023 at 01:16:46PM -0700, Tree Davies wrote:
+> This patch series fixes checkpatch warning Avoid CamelCase, for all references
+> of struct rx_ts_record, and renames them to rx_ts for consistency and 
+> readability. Each patch renames references for a single function.
+> 
+> Thank you in advance to the reviewers
+> ~ Tree 
+> 
+> Tree Davies (16):
 
-Signed-off-by: Tree Davies <tdavies@darkphysics.net>
----
- drivers/staging/rtl8192e/rtl819x_BAProc.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Here it says there are 16 patches, but you have only sent 6 patches. Are some
+of them missing?
 
-diff --git a/drivers/staging/rtl8192e/rtl819x_BAProc.c b/drivers/staging/=
-rtl8192e/rtl819x_BAProc.c
-index 0e3372868f97..1eff30533f47 100644
---- a/drivers/staging/rtl8192e/rtl819x_BAProc.c
-+++ b/drivers/staging/rtl8192e/rtl819x_BAProc.c
-@@ -41,9 +41,9 @@ static u8 tx_ts_delete_ba(struct rtllib_device *ieee, s=
-truct tx_ts_record *pTxTs
- 	return bSendDELBA;
- }
-=20
--static u8 rx_ts_delete_ba(struct rtllib_device *ieee, struct rx_ts_recor=
-d *pRxTs)
-+static u8 rx_ts_delete_ba(struct rtllib_device *ieee, struct rx_ts_recor=
-d *rx_ts)
- {
--	struct ba_record *pBa =3D &pRxTs->rx_admitted_ba_record;
-+	struct ba_record *pBa =3D &rx_ts->rx_admitted_ba_record;
- 	u8			bSendDELBA =3D false;
-=20
- 	if (pBa->b_valid) {
---=20
-2.41.0
+Best regards,
+Nam
 
