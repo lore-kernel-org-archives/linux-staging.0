@@ -1,104 +1,93 @@
-Received: from out4-smtp.messagingengine.com (out4-smtp.messagingengine.com [66.111.4.28])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E0F111700;
-	Fri, 11 Aug 2023 21:27:15 +0000 (UTC)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-	by mailout.nyi.internal (Postfix) with ESMTP id F28575C00B7;
-	Fri, 11 Aug 2023 17:27:14 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute5.internal (MEProxy); Fri, 11 Aug 2023 17:27:14 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kroah.com; h=cc
-	:cc:content-type:content-type:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:sender
-	:subject:subject:to:to; s=fm3; t=1691789234; x=1691875634; bh=4V
-	NI7jS/8qVbjFTBRtqsnBUfSpb9eImvRnT47kuj8XY=; b=bk8JtnrMXi5l+pPL/W
-	a1R0q2mHUG0nMd6DTwTeAoE43YrMJmryF8JVjG9srBIr6Bnz1fAi/UZSII8FLZF6
-	JX5CrCf5ZUK/y+wL0e6ZW35h2Vmx+W5hIRSGRkUGDS9jMIa0JBDjGMzMhOZd37OK
-	bL2qCS50IyBThyYQoVx6oVsIUM7e4oLtTDBg9PRxkBtWFEao6KAfGY59D5QzICZR
-	3ePYXsaIGXGtduHyFVZunrDBTD3jCVcuqkdrBqtHk37bPlj85G7Rzw+d3w433zVN
-	Xjdm/HPkPRHm7DDeJOa4lIoaSHNb7YSg9TeA2RRZyD1dNHId1BNJfYQxevbeWm1V
-	dvmw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:sender:subject
-	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-	:x-sasl-enc; s=fm3; t=1691789234; x=1691875634; bh=4VNI7jS/8qVbj
-	FTBRtqsnBUfSpb9eImvRnT47kuj8XY=; b=3g5jyKj6jtmQc6Ft2o+QmxGX289lz
-	gYbHhFWlrTky3jmpeciOatqW6dvgPC5IGERyv6AJnuQXUGShsOAs/8d9oknN0VYa
-	zuMqhSa3aSrNZGi6JD8pXoozIwAPK96S2wHPfntoIP/IJaerwVXfGFt0wJKBzoFL
-	NnbD2bYvABKXiZqfx8xOozjSctBnvBMJ8UXzM0Ey6OWD38GwMqOKnBmm6XdulLAH
-	kFYN2r5Tq2tNCGwZBSo1LhQpY09dg+kIcPt89KVMOy0a2wFMZDe95HMG0t4h91Xu
-	6QlFO3LxpBnTocHEDAupQuquYvoLnGAJaoiWePjjoT/jL2RDDo8qbeaPg==
-X-ME-Sender: <xms:sqfWZPz0HAaXQ40PCIetscvZQODetI5oHf6wKS-8XxzhQdG0uhp9WA>
-    <xme:sqfWZHTTtEZiUd46RTuAmyFyf1qLJxC6oXtLSgcxGvjbYQJUBog9yrRxLZ6AZCvv-
-    QUxY-Vjug1dKw>
-X-ME-Received: <xmr:sqfWZJWYSA8S4WrYuCZe0x2CSX9tZvZ9chd6wXncN7LjfekvbZYigJU9oC5352wYIbjIUFv3UT_QjnzpoxdBOXgOuxiAoToWNxktXg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedviedrleekgdduheelucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepfffhvfevuffkfhggtggujgesthdtredttddtvdenucfhrhhomhepifhrvghg
-    ucfmjfcuoehgrhgvgheskhhrohgrhhdrtghomheqnecuggftrfgrthhtvghrnhepheegvd
-    evvdeljeeugfdtudduhfekledtiefhveejkeejuefhtdeufefhgfehkeetnecuvehluhhs
-    thgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepghhrvghgsehkrhhorg
-    hhrdgtohhm
-X-ME-Proxy: <xmx:sqfWZJhBPt-5ALO6FeyWycEccacHsiUpxeiIsgphLWfwyJsbwf4wrg>
-    <xmx:sqfWZBBC1IA1AJXTBTq0np5K-bIDsION0oYGQ2TaJ16GBfdL4BlEEg>
-    <xmx:sqfWZCIdYdVR4r4GDGHFbvGqPtV_VrNe7zurQzieM9GhOyXMSB1wpw>
-    <xmx:sqfWZF7FEuWwFRetKshEvumw2OjzYxyJzRydAVj1N9tD8-FR1hPdYg>
-Feedback-ID: i787e41f1:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 11 Aug 2023 17:27:14 -0400 (EDT)
-Date: Fri, 11 Aug 2023 23:27:10 +0200
-From: Greg KH <greg@kroah.com>
-To: Pavan Bobba <opensource206@gmail.com>
-Cc: Forest Bond <forest@alittletooquiet.net>,
-	Michael Straube <straube.linux@gmail.com>,
-	Philipp Hortmann <philipp.g.hortmann@gmail.com>,
-	outreachy@lists.linux.dev, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] staging: vt6655: replace camel case by snake case
-Message-ID: <2023081150-hamster-sulfide-4231@gregkh>
-References: <ZNOK2u1sJoRAxhIC@ubuntu.myguest.virtualbox.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 367F8370
+	for <linux-staging@lists.linux.dev>; Sat, 12 Aug 2023 10:46:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1691837189;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=m9W5ai7H7CUetv3d/Spr4U/Md6fUQTUL7anIUIfrJl8=;
+	b=CL6jWEVbIRzKhnnnKFuh49WLyfVIKUCd4uYt3oEbT/rYgJmh9dISjKxcOGmI6zFm+6wpin
+	Ra6n72BiyCyTtevSOvIhPoSnahR1Sxlas4O/ZdcLX6fgalBMIEnVX6Yng0hLDut85ToUei
+	/qXS6Ztt95ivIT3a7Xcgt9diDoq9n44=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-7-rMCprpMsPI2oelVtOykKLw-1; Sat, 12 Aug 2023 06:46:23 -0400
+X-MC-Unique: rMCprpMsPI2oelVtOykKLw-1
+Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com [10.11.54.9])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 6C62B801CF3;
+	Sat, 12 Aug 2023 10:46:22 +0000 (UTC)
+Received: from localhost.localdomain (unknown [10.39.192.45])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id B6A00492B0F;
+	Sat, 12 Aug 2023 10:46:20 +0000 (UTC)
+From: Hans de Goede <hdegoede@redhat.com>
+To: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Andy Shevchenko <andy@kernel.org>
+Cc: Hans de Goede <hdegoede@redhat.com>,
+	Kate Hsuan <hpa@redhat.com>,
+	Tsuchiya Yuto <kitakar@gmail.com>,
+	Yury Luneff <yury.lunev@gmail.com>,
+	Nable <nable.maininbox@googlemail.com>,
+	andrey.i.trufanov@gmail.com,
+	Fabio Aiuto <fabioaiuto83@gmail.com>,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev
+Subject: [PATCH] media: atomisp: Simplify some if (IS_ISP2401...) statements
+Date: Sat, 12 Aug 2023 12:46:12 +0200
+Message-ID: <20230812104612.38806-1-hdegoede@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZNOK2u1sJoRAxhIC@ubuntu.myguest.virtualbox.org>
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
 
-On Wed, Aug 09, 2023 at 06:17:22PM +0530, Pavan Bobba wrote:
-> Replace array name of camel case by snake case. Issue found
-> by checkpatch
-> 
-> Signed-off-by: Pavan Bobba <opensource206@gmail.com>
-> ---
->  v1 -> v2: 1. array name renamed from byVT3253B0_RFMD to by_vt3253b0_rfmd
->            2. typo in the subject line "small case" corrected with the
->               proper word "snake case"
-> 
-> Signed-off-by: Pavan Bobba <opensource206@gmail.com>
-> ---
->  drivers/staging/vt6655/baseband.c | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/staging/vt6655/baseband.c b/drivers/staging/vt6655/baseband.c
-> index 0e135af8316b..cc8793256661 100644
-> --- a/drivers/staging/vt6655/baseband.c
-> +++ b/drivers/staging/vt6655/baseband.c
-> @@ -499,7 +499,7 @@ static const unsigned char by_vt3253_init_tab_rfmd[CB_VT3253_INIT_FOR_RFMD][2] =
->  };
->  
->  #define CB_VT3253B0_INIT_FOR_RFMD 256
-> -static const unsigned char byVT3253B0_RFMD[CB_VT3253B0_INIT_FOR_RFMD][2] = {
-> +static const unsigned char by_vt3253b0_rfmd[CB_VT3253B0_INIT_FOR_RFMD][2] = {
+Replace:
 
-Again, the "by" needs to just be dropped.
+ if (!IS_ISP2401 || (IS_ISP2401 && xxx))
 
-thanks,
+with:
 
-greg k-h
+ if (!IS_ISP2401 || xxx)
+
+If the right side of the '||' needs to be evaluated then it is
+already known that IS_ISP2401 is true, so no need to check for it.
+
+Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+---
+ drivers/staging/media/atomisp/pci/sh_css.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/staging/media/atomisp/pci/sh_css.c b/drivers/staging/media/atomisp/pci/sh_css.c
+index 81f18db7316c..f35c90809414 100644
+--- a/drivers/staging/media/atomisp/pci/sh_css.c
++++ b/drivers/staging/media/atomisp/pci/sh_css.c
+@@ -7351,7 +7351,7 @@ static int capture_start(struct ia_css_pipe *pipe)
+ 		}
+ 	}
+ 	/* old isys: need to send_mipi_frames() in all pipe modes */
+-	if (!IS_ISP2401 || (IS_ISP2401 && pipe->config.mode != IA_CSS_PIPE_MODE_COPY)) {
++	if (!IS_ISP2401 || pipe->config.mode != IA_CSS_PIPE_MODE_COPY) {
+ 		err = send_mipi_frames(pipe);
+ 		if (err) {
+ 			IA_CSS_LEAVE_ERR_PRIVATE(err);
+@@ -8077,7 +8077,7 @@ ia_css_stream_create(const struct ia_css_stream_config *stream_config,
+ 
+ 	/* check if mipi size specified */
+ 	if (stream_config->mode == IA_CSS_INPUT_MODE_BUFFERED_SENSOR)
+-		if (!IS_ISP2401 || (IS_ISP2401 && !stream_config->online))
++		if (!IS_ISP2401 || !stream_config->online)
+ 		{
+ 			unsigned int port = (unsigned int)stream_config->source.port.port;
+ 
+-- 
+2.41.0
+
