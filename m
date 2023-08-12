@@ -1,46 +1,52 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF80B7483
-	for <linux-staging@lists.linux.dev>; Sat, 12 Aug 2023 13:36:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1691847395;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=RNX1BzU+T+Xz8IH6oydVygmv3wQ30NXpfy0+avjdd1o=;
-	b=M/lI4kGxBbkYfELLcM+zjhLE4nyLPH3vtq9Kqm+CDH+a8KzMy9R2lc0+v2XN5Hz6WbhKO1
-	B9dDvuqlLyoFUsnK7WFjVzURKeEa4JVfErYOPEbS8+AdRqys/yYI66OsenyxLjSPaLkae5
-	g0zQss0jlhq0k0dkxCmOQVnRIQTuRb4=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-573-6BDpPCMWNByBlATOG1kmPw-1; Sat, 12 Aug 2023 09:36:31 -0400
-X-MC-Unique: 6BDpPCMWNByBlATOG1kmPw-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com [10.11.54.5])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 06E3E85CBE0;
-	Sat, 12 Aug 2023 13:36:31 +0000 (UTC)
-Received: from shalem.redhat.com (unknown [10.39.192.5])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 6C0F15CC9A;
-	Sat, 12 Aug 2023 13:36:29 +0000 (UTC)
-From: Hans de Goede <hdegoede@redhat.com>
-To: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Andy Shevchenko <andy@kernel.org>
-Cc: Hans de Goede <hdegoede@redhat.com>,
-	Kate Hsuan <hpa@redhat.com>,
-	Tsuchiya Yuto <kitakar@gmail.com>,
-	Yury Luneff <yury.lunev@gmail.com>,
-	Nable <nable.maininbox@googlemail.com>,
-	andrey.i.trufanov@gmail.com,
-	Fabio Aiuto <fabioaiuto83@gmail.com>,
-	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev
-Subject: [PATCH] media: gc0310: Stop setting v4l2_subdev.fwnode to the endpoint fwnode
-Date: Sat, 12 Aug 2023 15:36:28 +0200
-Message-ID: <20230812133628.355812-1-hdegoede@redhat.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83CD429AC
+	for <linux-staging@lists.linux.dev>; Sat, 12 Aug 2023 15:17:20 +0000 (UTC)
+Received: by mail-pf1-f174.google.com with SMTP id d2e1a72fcca58-686d8c8fc65so2042710b3a.0
+        for <linux-staging@lists.linux.dev>; Sat, 12 Aug 2023 08:17:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1691853440; x=1692458240;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Jkg+99q2jkIEbaaLXm4ckuKBa2l8d/PAgKSWsNBBH+s=;
+        b=mxS1vOFsoHnTDaieUocJHl8yuT1e6O6TxlKtyL0cIbONvGpg+WiOnS0jdQo/or2dGp
+         GWYojwb49wqcqVdEfPDH1pZw+uJPetUGbkHyXo/qM0qCFS50RiV8uBB82DJsqOKU53ky
+         csKGrkS3DhBBUxP9/yDRa6t/A9zh6xiyaBM6qIN49kW0oKHLniFNBqVXojEys7oDairy
+         9imd/Gf3vdLFmREFx4sjUNu5ULrulqkLmBHGPgMAZ5eN8n5/OLgyMOrBTq5Lf40V2+SN
+         SA+xPZ3zW5PJN1lKSP3ts8hFrkAFFd5wT7usrnlAA1ObX0GQl2FJn5RbFfO09hw1Vrni
+         YJ+w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1691853440; x=1692458240;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Jkg+99q2jkIEbaaLXm4ckuKBa2l8d/PAgKSWsNBBH+s=;
+        b=lGWPkVKNQ3imBwP8dNfvHR5Xo/UbfzgkSn5LvadzQKJk5hNvvnhua2COl0RwnvizW9
+         B+hLmAdQQILG1sXlQSS2UtPMTE6dUGJbPbHt0L7EKWH0C1U881hTSPQDUNX9hRzBXNtW
+         +8w+lBf+7R1ODmFJfJ+ddLsXuYz0nYp2l+EAv5J6NCKUVle03/v49MPkEkpbcbkucRCC
+         EOamMYuki4SbsogHjy4+grThou3AGNsAXqWfrbIyBEF9uBwy/QNjryKQIgHD39MouqUi
+         UpY9RGt4ARczcSTo/wckocCso3TKEgRRBbwZAh9XuetmdlEUQcIPaNm1AnNzGU0+JQ37
+         JWUQ==
+X-Gm-Message-State: AOJu0YxMYGtSp9wDmkby22eS7L56LaDQ8MMWcGx1FHuLbHUuIin2CyTn
+	nIQVa6MbiGVEWNtnUcy3Ef8=
+X-Google-Smtp-Source: AGHT+IEmj0fEJ/ryVZ8OLaU4Ozlv2i/wsc+i6dBxDii+xNo+DcRAheXQZKad2SQRpCqk6KME0BpQkQ==
+X-Received: by 2002:a05:6a00:24d3:b0:667:85e6:4e9 with SMTP id d19-20020a056a0024d300b0066785e604e9mr4633565pfv.24.1691853439692;
+        Sat, 12 Aug 2023 08:17:19 -0700 (PDT)
+Received: from vm.localdomain (42-98-38-031.static.netvigator.com. [42.98.38.31])
+        by smtp.gmail.com with ESMTPSA id e24-20020aa78c58000000b006829969e3b0sm5014611pfd.85.2023.08.12.08.17.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 12 Aug 2023 08:17:19 -0700 (PDT)
+From: Mingzai Sun <szp2017@gmail.com>
+To: forest@alittletooquiet.net,
+	gregkh@linuxfoundation.org
+Cc: linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Mingzai Sun <szp2017@gmail.com>
+Subject: [PATCH] staging: vt6655: Change camel case variables to snake case
+Date: Sat, 12 Aug 2023 23:17:10 +0800
+Message-Id: <20230812151710.462685-1-szp2017@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -48,83 +54,48 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
 
-Endpoint matching is now handled by the v4l2-core and drivers no longer
-should set v4l2_subdev.fwnode to the endpoint fwnode.
+Change camel case to snake case and remove the unneeded "by" prefix.
+Issue found by checkpatch.
 
-Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+Signed-off-by: Mingzai Sun <szp2017@gmail.com>
 ---
- .../media/atomisp/i2c/atomisp-gc0310.c        | 20 +++++++++----------
- 1 file changed, 9 insertions(+), 11 deletions(-)
+base-commit: f551dc6e7646204adf79b7a8e2db417c46b4fbe5
+---
+ drivers/staging/vt6655/srom.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/staging/media/atomisp/i2c/atomisp-gc0310.c b/drivers/staging/media/atomisp/i2c/atomisp-gc0310.c
-index 9a11793f34f7..c438accb0472 100644
---- a/drivers/staging/media/atomisp/i2c/atomisp-gc0310.c
-+++ b/drivers/staging/media/atomisp/i2c/atomisp-gc0310.c
-@@ -83,7 +83,6 @@ struct gc0310_device {
- 	struct mutex input_lock;
- 	bool is_streaming;
- 
--	struct fwnode_handle *ep_fwnode;
- 	struct gpio_desc *reset;
- 	struct gpio_desc *powerdown;
- 
-@@ -599,37 +598,37 @@ static void gc0310_remove(struct i2c_client *client)
- 	media_entity_cleanup(&dev->sd.entity);
- 	v4l2_ctrl_handler_free(&dev->ctrls.handler);
- 	mutex_destroy(&dev->input_lock);
--	fwnode_handle_put(dev->ep_fwnode);
- 	pm_runtime_disable(&client->dev);
- }
- 
- static int gc0310_probe(struct i2c_client *client)
+diff --git a/drivers/staging/vt6655/srom.c b/drivers/staging/vt6655/srom.c
+index ee5ca4db74dc..1b89d401a7eb 100644
+--- a/drivers/staging/vt6655/srom.c
++++ b/drivers/staging/vt6655/srom.c
+@@ -49,7 +49,7 @@
+  * Parameters:
+  *  In:
+  *      iobase          - I/O base address
+- *      byContntOffset  - address of EEPROM
++ *      contnt_offset  - address of EEPROM
+  *  Out:
+  *      none
+  *
+@@ -57,7 +57,7 @@
+  *
+  */
+ unsigned char SROMbyReadEmbedded(void __iomem *iobase,
+-				 unsigned char byContntOffset)
++				 unsigned char contnt_offset)
  {
-+	struct fwnode_handle *ep_fwnode;
- 	struct gc0310_device *dev;
- 	int ret;
+ 	unsigned short wDelay, wNoACK;
+ 	unsigned char byWait;
+@@ -70,7 +70,7 @@ unsigned char SROMbyReadEmbedded(void __iomem *iobase,
+ 	iowrite8(byOrg & (~I2MCFG_NORETRY), iobase + MAC_REG_I2MCFG);
+ 	for (wNoACK = 0; wNoACK < W_MAX_I2CRETRY; wNoACK++) {
+ 		iowrite8(EEP_I2C_DEV_ID, iobase + MAC_REG_I2MTGID);
+-		iowrite8(byContntOffset, iobase + MAC_REG_I2MTGAD);
++		iowrite8(contnt_offset, iobase + MAC_REG_I2MTGAD);
  
--	dev = devm_kzalloc(&client->dev, sizeof(*dev), GFP_KERNEL);
--	if (!dev)
--		return -ENOMEM;
--
- 	/*
- 	 * Sometimes the fwnode graph is initialized by the bridge driver.
- 	 * Bridge drivers doing this may also add GPIO mappings, wait for this.
- 	 */
--	dev->ep_fwnode = fwnode_graph_get_next_endpoint(dev_fwnode(&client->dev), NULL);
--	if (!dev->ep_fwnode)
-+	ep_fwnode = fwnode_graph_get_next_endpoint(dev_fwnode(&client->dev), NULL);
-+	if (!ep_fwnode)
- 		return dev_err_probe(&client->dev, -EPROBE_DEFER, "waiting for fwnode graph endpoint\n");
- 
-+	fwnode_handle_put(ep_fwnode);
-+
-+	dev = devm_kzalloc(&client->dev, sizeof(*dev), GFP_KERNEL);
-+	if (!dev)
-+		return -ENOMEM;
-+
- 	dev->reset = devm_gpiod_get(&client->dev, "reset", GPIOD_OUT_HIGH);
- 	if (IS_ERR(dev->reset)) {
--		fwnode_handle_put(dev->ep_fwnode);
- 		return dev_err_probe(&client->dev, PTR_ERR(dev->reset),
- 				     "getting reset GPIO\n");
- 	}
- 
- 	dev->powerdown = devm_gpiod_get(&client->dev, "powerdown", GPIOD_OUT_HIGH);
- 	if (IS_ERR(dev->powerdown)) {
--		fwnode_handle_put(dev->ep_fwnode);
- 		return dev_err_probe(&client->dev, PTR_ERR(dev->powerdown),
- 				     "getting powerdown GPIO\n");
- 	}
-@@ -652,7 +651,6 @@ static int gc0310_probe(struct i2c_client *client)
- 	dev->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE;
- 	dev->pad.flags = MEDIA_PAD_FL_SOURCE;
- 	dev->sd.entity.function = MEDIA_ENT_F_CAM_SENSOR;
--	dev->sd.fwnode = dev->ep_fwnode;
- 
- 	ret = gc0310_init_controls(dev);
- 	if (ret) {
+ 		/* issue read command */
+ 		iowrite8(I2MCSR_EEMR, iobase + MAC_REG_I2MCSR);
 -- 
-2.41.0
+2.34.1
 
