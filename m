@@ -1,84 +1,105 @@
-Received: from mail3-relais-sop.national.inria.fr (mail3-relais-sop.national.inria.fr [192.134.164.104])
+Received: from pb-smtp20.pobox.com (pb-smtp20.pobox.com [173.228.157.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1BAC1CCCC;
-	Sat, 12 Aug 2023 18:41:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=inria.fr; s=dc;
-  h=date:from:to:cc:subject:in-reply-to:message-id:
-   references:mime-version;
-  bh=fjShP+R73JvkzExClJjJoaqs0KgU7GKPFvHgV12d4o8=;
-  b=tMdCukHeTTFNEUVgMy+xyPSwYQR2malzIgDzVvdGdTYaLXwmXJifPJdu
-   dJP+TjJ+wZ134B4aKZ/CuFQ34BWayjZvGlGIwxLAS2zzzTE2p0WfdXOnD
-   9ReuFURMnYer4QfrPsLGqH+bAs1LehRCAfwuXtxFtIevmhDAMrN9HCEoL
-   I=;
-Authentication-Results: mail3-relais-sop.national.inria.fr; dkim=none (message not signed) header.i=none; spf=SoftFail smtp.mailfrom=julia.lawall@inria.fr; dmarc=fail (p=none dis=none) d=inria.fr
-X-IronPort-AV: E=Sophos;i="6.01,168,1684792800"; 
-   d="scan'208";a="63412516"
-Received: from 231.85.89.92.rev.sfr.net (HELO hadrien) ([92.89.85.231])
-  by mail3-relais-sop.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Aug 2023 20:41:51 +0200
-Date: Sat, 12 Aug 2023 20:41:51 +0200 (CEST)
-From: Julia Lawall <julia.lawall@inria.fr>
-X-X-Sender: jll@hadrien
-To: Pavan Bobba <opensource206@gmail.com>
-cc: Greg KH <greg@kroah.com>, Forest Bond <forest@alittletooquiet.net>, 
-    Michael Straube <straube.linux@gmail.com>, 
-    Philipp Hortmann <philipp.g.hortmann@gmail.com>, outreachy@lists.linux.dev, 
-    linux-staging@lists.linux.dev, linuxkernel@vger.kernel.org
-Subject: Re: [PATCH v2] staging: vt6655: replace camel case by snake case
-In-Reply-To: <ZNfPiQAL3ixA7tjz@ubuntu.myguest.virtualbox.org>
-Message-ID: <alpine.DEB.2.22.394.2308122041160.3315@hadrien>
-References: <ZNOK2u1sJoRAxhIC@ubuntu.myguest.virtualbox.org> <2023081150-hamster-sulfide-4231@gregkh> <ZNfPiQAL3ixA7tjz@ubuntu.myguest.virtualbox.org>
-User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF0727472
+	for <linux-staging@lists.linux.dev>; Sat, 12 Aug 2023 20:15:05 +0000 (UTC)
+Received: from pb-smtp20.pobox.com (unknown [127.0.0.1])
+	by pb-smtp20.pobox.com (Postfix) with ESMTP id 162401BE8C;
+	Sat, 12 Aug 2023 16:15:05 -0400 (EDT)
+	(envelope-from tdavies@darkphysics.net)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed; d=pobox.com; h=from:to:cc
+	:subject:date:message-id:in-reply-to:references:mime-version
+	:content-transfer-encoding; s=sasl; bh=tsra4Fxmv3t8/SlHLoKd+wfLd
+	vgMaOz/JgsNpOzQI/A=; b=Wjj3II00bRtB6K5WB6/wvlOgetcUtJxDl+IhjVPA0
+	/jOviGdbS/c2/qZd/7NmItYx8wNA526wOik80G76DsFkd9RhA8orHKX9bv7sq2nx
+	mQ1zydPxBTG1UFYngUmaCch/ZeQohei8VK+pI+MVeCr4y5oHl0AgrrSGBFf0khwX
+	O0=
+Received: from pb-smtp20.sea.icgroup.com (unknown [127.0.0.1])
+	by pb-smtp20.pobox.com (Postfix) with ESMTP id 0FCAF1BE8B;
+	Sat, 12 Aug 2023 16:15:05 -0400 (EDT)
+	(envelope-from tdavies@darkphysics.net)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed; d=darkphysics.net;
+ h=from:to:cc:subject:date:message-id:in-reply-to:references:mime-version:content-transfer-encoding; s=2019-09.pbsmtp; bh=86Xko29Iki6Q0QUjUJghTKR29plkaRYWnriST3Hsmsc=; b=hbNZ8aAL3T8sqTmP0OqgpqYlE8Y134Vhul3XVxSXCDu4FqU5ABCKWimC5BZ4Be8mhvUQCT0nW45cAxk9PfJuzt0bxOliu8NePMmmSdNhIYPb5HSm4Nkw9hduvw9BUK7X9tVfT6fAPsAgwZnGGdQiAetnAFkplmX0+/WHpHFouQI=
+Received: from basil.darkphysics (unknown [76.146.178.2])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by pb-smtp20.pobox.com (Postfix) with ESMTPSA id 3563E1BE82;
+	Sat, 12 Aug 2023 16:15:00 -0400 (EDT)
+	(envelope-from tdavies@darkphysics.net)
+From: Tree Davies <tdavies@darkphysics.net>
+To: gregkh@linuxfoundation.org,
+	philipp.g.hortmann@gmail.com,
+	anjan@momi.ca,
+	error27@gmail.com
+Cc: linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Tree Davies <tdavies@darkphysics.net>
+Subject: [PATCH 02/16] Staging: rtl8192e: Rename variable pTS in function rtllib_rx_ADDBAReq()
+Date: Sat, 12 Aug 2023 13:16:48 -0700
+Message-ID: <20230812201702.83421-3-tdavies@darkphysics.net>
+X-Mailer: git-send-email 2.41.0
+In-Reply-To: <20230812201702.83421-1-tdavies@darkphysics.net>
+References: <20230812201702.83421-1-tdavies@darkphysics.net>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+X-Pobox-Relay-ID:
+ EAB6A804-394C-11EE-A124-C2DA088D43B2-45285927!pb-smtp20.pobox.com
+Content-Transfer-Encoding: quoted-printable
 
+Rename variable pTS in function rtllib_rx_ADDBAReq() to rx_ts
+to fix checkpatch warning Avoid CamelCase.
 
+Signed-off-by: Tree Davies <tdavies@darkphysics.net>
+---
+ drivers/staging/rtl8192e/rtl819x_BAProc.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-On Sat, 12 Aug 2023, Pavan Bobba wrote:
+diff --git a/drivers/staging/rtl8192e/rtl819x_BAProc.c b/drivers/staging/=
+rtl8192e/rtl819x_BAProc.c
+index 1eff30533f47..2748ab59545c 100644
+--- a/drivers/staging/rtl8192e/rtl819x_BAProc.c
++++ b/drivers/staging/rtl8192e/rtl819x_BAProc.c
+@@ -220,7 +220,7 @@ int rtllib_rx_ADDBAReq(struct rtllib_device *ieee, st=
+ruct sk_buff *skb)
+ 	union ba_param_set *pBaParamSet =3D NULL;
+ 	u16 *pBaTimeoutVal =3D NULL;
+ 	union sequence_control *pBaStartSeqCtrl =3D NULL;
+-	struct rx_ts_record *pTS =3D NULL;
++	struct rx_ts_record *rx_ts =3D NULL;
+=20
+ 	if (skb->len < sizeof(struct rtllib_hdr_3addr) + 9) {
+ 		netdev_warn(ieee->dev, "Invalid skb len in BAREQ(%d / %d)\n",
+@@ -253,13 +253,13 @@ int rtllib_rx_ADDBAReq(struct rtllib_device *ieee, =
+struct sk_buff *skb)
+ 			    ieee->ht_info->bCurrentHTSupport);
+ 		goto OnADDBAReq_Fail;
+ 	}
+-	if (!GetTs(ieee, (struct ts_common_info **)&pTS, dst,
++	if (!GetTs(ieee, (struct ts_common_info **)&rx_ts, dst,
+ 		   (u8)(pBaParamSet->field.tid), RX_DIR, true)) {
+ 		rc =3D ADDBA_STATUS_REFUSED;
+ 		netdev_warn(ieee->dev, "%s(): can't get TS\n", __func__);
+ 		goto OnADDBAReq_Fail;
+ 	}
+-	pBA =3D &pTS->rx_admitted_ba_record;
++	pBA =3D &rx_ts->rx_admitted_ba_record;
+=20
+ 	if (pBaParamSet->field.ba_policy =3D=3D BA_POLICY_DELAYED) {
+ 		rc =3D ADDBA_STATUS_INVALID_PARAM;
+@@ -268,7 +268,7 @@ int rtllib_rx_ADDBAReq(struct rtllib_device *ieee, st=
+ruct sk_buff *skb)
+ 		goto OnADDBAReq_Fail;
+ 	}
+=20
+-	rtllib_FlushRxTsPendingPkts(ieee, pTS);
++	rtllib_FlushRxTsPendingPkts(ieee, rx_ts);
+=20
+ 	deactivate_ba_entry(ieee, pBA);
+ 	pBA->dialog_token =3D *pDialogToken;
+--=20
+2.41.0
 
-> On Fri, Aug 11, 2023 at 11:27:10PM +0200, Greg KH wrote:
-> > On Wed, Aug 09, 2023 at 06:17:22PM +0530, Pavan Bobba wrote:
-> > > Replace array name of camel case by snake case. Issue found
-> > > by checkpatch
-> > >
-> > > Signed-off-by: Pavan Bobba <opensource206@gmail.com>
-> > > ---
-> > >  v1 -> v2: 1. array name renamed from byVT3253B0_RFMD to by_vt3253b0_rfmd
-> > >            2. typo in the subject line "small case" corrected with the
-> > >               proper word "snake case"
-> > >
-> > > Signed-off-by: Pavan Bobba <opensource206@gmail.com>
-> > > ---
-> > >  drivers/staging/vt6655/baseband.c | 6 +++---
-> > >  1 file changed, 3 insertions(+), 3 deletions(-)
-> > >
-> > > diff --git a/drivers/staging/vt6655/baseband.c b/drivers/staging/vt6655/baseband.c
-> > > index 0e135af8316b..cc8793256661 100644
-> > > --- a/drivers/staging/vt6655/baseband.c
-> > > +++ b/drivers/staging/vt6655/baseband.c
-> > > @@ -499,7 +499,7 @@ static const unsigned char by_vt3253_init_tab_rfmd[CB_VT3253_INIT_FOR_RFMD][2] =
-> > >  };
-> > >
-> > >  #define CB_VT3253B0_INIT_FOR_RFMD 256
-> > > -static const unsigned char byVT3253B0_RFMD[CB_VT3253B0_INIT_FOR_RFMD][2] = {
-> > > +static const unsigned char by_vt3253b0_rfmd[CB_VT3253B0_INIT_FOR_RFMD][2] = {
-> >
-> > Again, the "by" needs to just be dropped.
-> >
-> > thanks,
-> >
-> > greg k-h
->
-> hi greg...did'nt get your comment. can you please provide more elaborate
-> info?
-
-Drop the letter "by_" at the beginning of the function name.  It is there
-ot indicate the type, which isn't done in the kernel.
-
-julia
