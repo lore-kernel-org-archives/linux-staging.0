@@ -1,87 +1,169 @@
-Received: from pb-smtp21.pobox.com (pb-smtp21.pobox.com [173.228.157.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f180.google.com (mail-qt1-f180.google.com [209.85.160.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4541161
-	for <linux-staging@lists.linux.dev>; Sun, 13 Aug 2023 00:15:26 +0000 (UTC)
-Received: from pb-smtp21.pobox.com (unknown [127.0.0.1])
-	by pb-smtp21.pobox.com (Postfix) with ESMTP id 831052F21D;
-	Sat, 12 Aug 2023 20:13:07 -0400 (EDT)
-	(envelope-from tdavies@darkphysics.net)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed; d=pobox.com; h=date:from
-	:to:cc:subject:message-id:references:mime-version:content-type
-	:in-reply-to; s=sasl; bh=RQs00HUeD33qhp3HMkv3YKtlQJ7Ps9xBsaEa55z
-	1fds=; b=mVr0aYpMcHrsC0ALH5Q8IHqThR7AsjzGkEokZle7andtQnlftebn/x3
-	6U3T8ljteDzMau/ns4Qsa9jQA0VviDm5dQr2WYUSa0GDeCCQpnJsTlZTTJYWpWQL
-	4/9AzMR9KCVbVXpc6KzSqH+cz1kHJDNsdmcWdmU/3gCG1xLqwXOg=
-Received: from pb-smtp21.sea.icgroup.com (unknown [127.0.0.1])
-	by pb-smtp21.pobox.com (Postfix) with ESMTP id 7BDA72F21C;
-	Sat, 12 Aug 2023 20:13:07 -0400 (EDT)
-	(envelope-from tdavies@darkphysics.net)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed; d=darkphysics.net;
- h=date:from:to:cc:subject:message-id:references:mime-version:content-type:in-reply-to; s=2019-09.pbsmtp; bh=RQs00HUeD33qhp3HMkv3YKtlQJ7Ps9xBsaEa55z1fds=; b=biPoSJE0VIyQP35Xlpis20iHKKnHuGKdvCl43c5QR0gq2YMvqXmOgSW5jyrvvurCWti1Md50P53qeE3KFZ8CPBJQoadVmC411QAW9AlM09Q35mpC0BdWsIkEgyLzVVsiC7YiNTrbwUyS+aQ3kpOGpfNteqJU8H7a05rRV3wDg8Q=
-Received: from basil (unknown [76.146.178.2])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by pb-smtp21.pobox.com (Postfix) with ESMTPSA id A95FC2F21B;
-	Sat, 12 Aug 2023 20:13:03 -0400 (EDT)
-	(envelope-from tdavies@darkphysics.net)
-Date: Sat, 12 Aug 2023 17:15:15 -0700
-From: Tree Davies <tdavies@darkphysics.net>
-To: Nam Cao <namcaov@gmail.com>
-Cc: gregkh@linuxfoundation.org, philipp.g.hortmann@gmail.com, anjan@momi.ca,
-	error27@gmail.com, linux-staging@lists.linux.dev,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6D467E
+	for <linux-staging@lists.linux.dev>; Sun, 13 Aug 2023 00:52:02 +0000 (UTC)
+Received: by mail-qt1-f180.google.com with SMTP id d75a77b69052e-40849e69eb5so20340851cf.1
+        for <linux-staging@lists.linux.dev>; Sat, 12 Aug 2023 17:52:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1691887921; x=1692492721;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=7feWcNuqlvaMjAjbTkKsTbz2ttRhhnPSLZsSIUE8mho=;
+        b=V5+CEj7GT+FOTcw/fdoIEvaydRZ+vhgjsiRLhg3tbEDSPQr+3zFl12CmbHQ64WXKNT
+         K8gdu37Jr12iDYbbh/bRjTBS7J/5ipavA3U4DWqMxJvNme/kfuMBxf8OAz7sdrJ5xKQG
+         tHAVLI3wUX4pJobDeFKUvpqmKdDpWy/7gbi3FVRmT5PZ0s8a3D9DfIiVSLTVGFzsdzHs
+         HBSFA8HTP2CoB8YlATivw1UL35UrutndellOG7Yndb/iL5yEMbaI4kEsAiP8hy6DIvCs
+         1cJmxrG0dh+j4b9sNdfvT1Uf6Q5X/EV6GLNGF9eAfBTKYEjYyrTQEfpRZ+SDEUx0XJVr
+         WKhw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1691887921; x=1692492721;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=7feWcNuqlvaMjAjbTkKsTbz2ttRhhnPSLZsSIUE8mho=;
+        b=i7J5PpYY/h4MeZF9cULJ/tAAzzZBSpTOAuO+PRUS7HNrIkYAwZyE8Bc31qVpnVf4Ab
+         bzpxP4FQuOZR5zvcP8MLUSYoZsFdQGoR5D8KpTVI380nBpzljgbjAvlsNYF54SmTcylW
+         LrjcqC3OT7N7GKBoOek+SXTdSV0Kv4sSgmM4u+qtYyLPzVPtF0zwMHj2bTSP4n5oyOST
+         DCTi4q213GZEK8pl66SC1IKOp5JjBXwXtafbBFksg3NNYj0fnkExNVpBdU7BWUhCHpgF
+         KgsvbmS96ooPikWbEMJfGf1flN17+CtF/4DNPbMhAZ/90684IX70pt6dA+LYnZnr4m+n
+         YVCQ==
+X-Gm-Message-State: AOJu0Yw39s5l9/MB5e6I3G46UosHuKh2W5bpZbMshCnWI2I/aiZYMyCr
+	8BJJezLrVUST4s/I47hl2vs=
+X-Google-Smtp-Source: AGHT+IEBSOhpavhH2aTfUovlvQ39ovMTQvLiSofwyGGuylN74uOv9dFUjFEfwix95honyJ+QInkt1g==
+X-Received: by 2002:ac8:5ccb:0:b0:403:ab73:9d55 with SMTP id s11-20020ac85ccb000000b00403ab739d55mr8815753qta.6.1691887921489;
+        Sat, 12 Aug 2023 17:52:01 -0700 (PDT)
+Received: from localhost.localdomain (c-73-236-155-147.hsd1.md.comcast.net. [73.236.155.147])
+        by smtp.gmail.com with ESMTPSA id f19-20020ac84993000000b004053bcffe49sm2130360qtq.9.2023.08.12.17.52.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 12 Aug 2023 17:52:01 -0700 (PDT)
+From: Cyrus Ramavarapu <cyrus.ramavarapu@gmail.com>
+To: gregkh@linuxfoundation.org,
+	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 00/16] Staging: rtl8192e: Rename struct rx_ts_record
- references
-Message-ID: <ZNggk9M5Xbg27Uq6@basil>
-References: <20230812201702.83421-1-tdavies@darkphysics.net>
- <ZNf2FJNPF6A4jwcX@nam-dell>
- <ZNgRub125FKvIPXa@basil>
+Cc: Cyrus Ramavarapu <cyrus.ramavarapu@gmail.com>
+Subject: [PATCH] staging: octeon: Remove unnecessary parentheses
+Date: Sat, 12 Aug 2023 20:53:26 -0400
+Message-ID: <20230813005326.98905-1-cyrus.ramavarapu@gmail.com>
+X-Mailer: git-send-email 2.41.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZNgRub125FKvIPXa@basil>
-X-Pobox-Relay-ID:
- 2BBA7210-396E-11EE-9159-B31D44D1D7AA-45285927!pb-smtp21.pobox.com
+Content-Transfer-Encoding: 8bit
 
-On Sat, Aug 12, 2023 at 04:11:53PM -0700, Tree Davies wrote:
-> On Sat, Aug 12, 2023 at 11:13:56PM +0200, Nam Cao wrote:
-> > On Sat, Aug 12, 2023 at 01:16:46PM -0700, Tree Davies wrote:
-> > > This patch series fixes checkpatch warning Avoid CamelCase, for all references
-> > > of struct rx_ts_record, and renames them to rx_ts for consistency and 
-> > > readability. Each patch renames references for a single function.
-> > > 
-> > > Thank you in advance to the reviewers
-> > > ~ Tree 
-> > > 
-> > > Tree Davies (16):
-> > 
-> > Here it says there are 16 patches, but you have only sent 6 patches. Are some
-> > of them missing?
-> > 
-> > Best regards,
-> > Nam
-> > 
-> Thanks Nam,
-> 
-> Yes they are missing. git send-email errored during submition. 
-> I will resend. 
-> Question: In this case do I need to send it as a v2?
-> 
-> Tree
-> 
+Remove unnecessary parentheses found by checkpatch.
 
-OK, I know what happened. I was rate limited by my email provider.
-I've requested a limit increase.
+Signed-off-by: Cyrus Ramavarapu <cyrus.ramavarapu@gmail.com>
+---
+ drivers/staging/octeon/ethernet-rgmii.c | 2 +-
+ drivers/staging/octeon/ethernet-rx.c    | 5 ++---
+ drivers/staging/octeon/ethernet-tx.c    | 8 ++++----
+ drivers/staging/octeon/ethernet.c       | 6 +++---
+ 4 files changed, 10 insertions(+), 11 deletions(-)
 
-I suppose I could break up the patch-set into multiple series and label
-them as series A, B, and C?
-
-Tree
-
+diff --git a/drivers/staging/octeon/ethernet-rgmii.c b/drivers/staging/octeon/ethernet-rgmii.c
+index 0c4fac31540a..15d2c84925ba 100644
+--- a/drivers/staging/octeon/ethernet-rgmii.c
++++ b/drivers/staging/octeon/ethernet-rgmii.c
+@@ -148,7 +148,7 @@ int cvm_oct_rgmii_open(struct net_device *dev)
+ 		 */
+ 		if ((priv->imode == CVMX_HELPER_INTERFACE_MODE_GMII &&
+ 		     priv->port  == 0) ||
+-		    (priv->imode == CVMX_HELPER_INTERFACE_MODE_RGMII)) {
++		    priv->imode == CVMX_HELPER_INTERFACE_MODE_RGMII) {
+ 			priv->poll = cvm_oct_check_preamble_errors;
+ 			cvm_oct_check_preamble_errors(dev);
+ 		}
+diff --git a/drivers/staging/octeon/ethernet-rx.c b/drivers/staging/octeon/ethernet-rx.c
+index 965330eec80a..db359a1e0b08 100644
+--- a/drivers/staging/octeon/ethernet-rx.c
++++ b/drivers/staging/octeon/ethernet-rx.c
+@@ -69,7 +69,7 @@ static inline int cvm_oct_check_rcv_error(struct cvmx_wqe *work)
+ 	else
+ 		port = work->word1.cn38xx.ipprt;
  
+-	if ((work->word2.snoip.err_code == 10) && (work->word1.len <= 64))
++	if (work->word2.snoip.err_code == 10 && work->word1.len <= 64)
+ 		/*
+ 		 * Ignore length errors on min size packets. Some
+ 		 * equipment incorrectly pads packets to 64+4FCS
+@@ -324,8 +324,7 @@ static int cvm_oct_poll(struct oct_rx_group *rx_group, int budget)
+ 			}
+ 			packet_not_copied = 0;
+ 		}
+-		if (likely((port < TOTAL_NUMBER_OF_PORTS) &&
+-			   cvm_oct_device[port])) {
++		if (likely(port < TOTAL_NUMBER_OF_PORTS && cvm_oct_device[port])) {
+ 			struct net_device *dev = cvm_oct_device[port];
+ 
+ 			/*
+diff --git a/drivers/staging/octeon/ethernet-tx.c b/drivers/staging/octeon/ethernet-tx.c
+index bbf33b88bb7c..0954509ea42c 100644
+--- a/drivers/staging/octeon/ethernet-tx.c
++++ b/drivers/staging/octeon/ethernet-tx.c
+@@ -153,8 +153,8 @@ netdev_tx_t cvm_oct_xmit(struct sk_buff *skb, struct net_device *dev)
+ 	 * completely remove "qos" in the event neither interface
+ 	 * supports multiple queues per port.
+ 	 */
+-	if ((CVMX_PKO_QUEUES_PER_PORT_INTERFACE0 > 1) ||
+-	    (CVMX_PKO_QUEUES_PER_PORT_INTERFACE1 > 1)) {
++	if (CVMX_PKO_QUEUES_PER_PORT_INTERFACE0 > 1 ||
++	    CVMX_PKO_QUEUES_PER_PORT_INTERFACE1 > 1) {
+ 		qos = GET_SKBUFF_QOS(skb);
+ 		if (qos <= 0)
+ 			qos = 0;
+@@ -224,7 +224,7 @@ netdev_tx_t cvm_oct_xmit(struct sk_buff *skb, struct net_device *dev)
+ 	 * no room to add the padding.  The kernel should always give
+ 	 * us at least a cache line
+ 	 */
+-	if ((skb->len < 64) && OCTEON_IS_MODEL(OCTEON_CN3XXX)) {
++	if (skb->len < 64 && OCTEON_IS_MODEL(OCTEON_CN3XXX)) {
+ 		union cvmx_gmxx_prtx_cfg gmx_prt_cfg;
+ 		int interface = INTERFACE(priv->port);
+ 		int index = INDEX(priv->port);
+@@ -360,7 +360,7 @@ netdev_tx_t cvm_oct_xmit(struct sk_buff *skb, struct net_device *dev)
+ dont_put_skbuff_in_hw:
+ 
+ 	/* Check if we can use the hardware checksumming */
+-	if ((skb->protocol == htons(ETH_P_IP)) &&
++	if (skb->protocol == htons(ETH_P_IP) &&
+ 	    (ip_hdr(skb)->version == 4) &&
+ 	    (ip_hdr(skb)->ihl == 5) &&
+ 	    ((ip_hdr(skb)->frag_off == 0) ||
+diff --git a/drivers/staging/octeon/ethernet.c b/drivers/staging/octeon/ethernet.c
+index 9eee28f2940c..d025ce51e755 100644
+--- a/drivers/staging/octeon/ethernet.c
++++ b/drivers/staging/octeon/ethernet.c
+@@ -248,7 +248,7 @@ static int cvm_oct_common_change_mtu(struct net_device *dev, int new_mtu)
+ 
+ 	dev->mtu = new_mtu;
+ 
+-	if ((interface < 2) &&
++	if (interface < 2 &&
+ 	    (cvmx_helper_interface_get_mode(interface) !=
+ 		CVMX_HELPER_INTERFACE_MODE_SPI)) {
+ 		int index = INDEX(priv->port);
+@@ -294,7 +294,7 @@ static void cvm_oct_common_set_multicast_list(struct net_device *dev)
+ 	struct octeon_ethernet *priv = netdev_priv(dev);
+ 	int interface = INTERFACE(priv->port);
+ 
+-	if ((interface < 2) &&
++	if (interface < 2 &&
+ 	    (cvmx_helper_interface_get_mode(interface) !=
+ 		CVMX_HELPER_INTERFACE_MODE_SPI)) {
+ 		union cvmx_gmxx_rxx_adr_ctl control;
+@@ -346,7 +346,7 @@ static int cvm_oct_set_mac_filter(struct net_device *dev)
+ 	union cvmx_gmxx_prtx_cfg gmx_cfg;
+ 	int interface = INTERFACE(priv->port);
+ 
+-	if ((interface < 2) &&
++	if (interface < 2 &&
+ 	    (cvmx_helper_interface_get_mode(interface) !=
+ 		CVMX_HELPER_INTERFACE_MODE_SPI)) {
+ 		int i;
+-- 
+2.41.0
+
