@@ -1,87 +1,98 @@
-Received: from pb-smtp1.pobox.com (pb-smtp1.pobox.com [64.147.108.70])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE45C17CA
-	for <linux-staging@lists.linux.dev>; Sun, 13 Aug 2023 07:09:33 +0000 (UTC)
-Received: from pb-smtp1.pobox.com (unknown [127.0.0.1])
-	by pb-smtp1.pobox.com (Postfix) with ESMTP id 070BB1B2B1A;
-	Sun, 13 Aug 2023 03:09:26 -0400 (EDT)
-	(envelope-from tdavies@darkphysics.net)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed; d=pobox.com; h=date:from
-	:to:cc:subject:message-id:references:mime-version:content-type
-	:in-reply-to; s=sasl; bh=2iQ48nZI9z1J0dm2McHW26VPiQcbx6Sxd3MpBlo
-	1sDI=; b=YzJFq3RwlPWMkApFfZ/0RRq0p1tWlaQeH4J4GqJnm+FYAcQceVDWn0H
-	BO9B2POjpLcjqbZaxC0tj4SA8YV/SmH+jdZtsl8U5xySkx8JggJhSt7+WuTlfL36
-	xmmA7uBEK7n550EQ56O0B1NS4sfpYvh8I3EVmvRrke2Cttmf8k9I=
-Received: from pb-smtp1.nyi.icgroup.com (unknown [127.0.0.1])
-	by pb-smtp1.pobox.com (Postfix) with ESMTP id E45211B2B18;
-	Sun, 13 Aug 2023 03:09:25 -0400 (EDT)
-	(envelope-from tdavies@darkphysics.net)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed; d=darkphysics.net;
- h=date:from:to:cc:subject:message-id:references:mime-version:content-type:in-reply-to; s=2019-09.pbsmtp; bh=2iQ48nZI9z1J0dm2McHW26VPiQcbx6Sxd3MpBlo1sDI=; b=rX7s6N3zBlz/vzlcViWy/nlFPLfW/8nTTwuEOzEMMGvuyV55T6Bz4akKPG638IBelk1MKlmhdrY7JGd0iA1o9gwYU0Dbbs2w8SDAtypaG695R0bnCtDq4lxNYXTcza2i0m/+wtykNPnv15TET9XgJAPlCEl2Ja3BzM8mpNI6Gtk=
-Received: from basil (unknown [76.146.178.2])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by pb-smtp1.pobox.com (Postfix) with ESMTPSA id E25DA1B2B0C;
-	Sun, 13 Aug 2023 03:09:24 -0400 (EDT)
-	(envelope-from tdavies@darkphysics.net)
-Date: Sun, 13 Aug 2023 00:11:37 -0700
-From: Tree Davies <tdavies@darkphysics.net>
-To: Greg KH <gregkh@linuxfoundation.org>
-Cc: philipp.g.hortmann@gmail.com, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 2/6] Staging: rtl8192e: Rename variable pTS in
- function rtllib_rx_ADDBAReq()
-Message-ID: <ZNiCKbAFZ4UOtSn1@basil>
-References: <20230813065035.95157-1-tdavies@darkphysics.net>
- <20230813065035.95157-3-tdavies@darkphysics.net>
- <2023081315-grandma-fifth-1e9c@gregkh>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 172466FA6;
+	Sun, 13 Aug 2023 15:22:58 +0000 (UTC)
+Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-99c4923195dso484552066b.2;
+        Sun, 13 Aug 2023 08:22:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1691940177; x=1692544977;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=xOYu2IPoVjQ+GlOQpp/sc735FXMDqqp74Kxel4PS4WY=;
+        b=a3PZcVhzZuz5/aDJbeO8G0equz5aNJ+edAoIRlJjEa99ZpM3dCVO/TpUK25mSTOXab
+         3sqpNEHvolDXdsdXNLJSsUaetXUgPWrkqohq4kgUcf55FeGpM+9lRE5pmTpaL4KVqJn6
+         Xm9beVm89diSQBbDlPpADDpOP7ElHW4OOs/oOrPCPjfzMbw7eklGXVqGqpvj6awDrNbU
+         LTFQzv0NC7+qLReKpxc+HhdEm+3OCMsK2miRC9MvlG3YsIPrdvswTs3fFaR1FGGAWD/4
+         0FdA+FgPFyWSWqPZYL/X8LfJ0xsjMKv8W040Y4fklkjudmbAUHGM6y3tIkq71oLOm1+I
+         Y5Qw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1691940177; x=1692544977;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=xOYu2IPoVjQ+GlOQpp/sc735FXMDqqp74Kxel4PS4WY=;
+        b=IP1o+MUD+Ob4V7OEytxVBhNtNrhoKcQ/5GLVn6Srqtq3mrN0EbZQIaFxPPtXZGmJOH
+         YpQbJnthUHNQmpyk+qYZTnkC1Ixf93aHAMPlqwqkCQxti6zHS3y0a+gKjgFpP9zV8pgY
+         +94Mo7WzaDnoJfbTQe04GrSa15Fp7j1qVUIwITQRDPBQaY1NeIaWQE+ugA58yOEXuWq1
+         CgHBauCM5h9MRS7b+0+nisnGGuR0MvVXaRPKVmg6kYEjveEHfPBKCP02wrSYBu0RdQ5L
+         /a18nsDAOu2ZkKAM/blHIxs7MoMvq3ILdseBeu4BPLg4Y590oart6a7SUxbEgbXGlxYi
+         XQfQ==
+X-Gm-Message-State: AOJu0Yw9CC0WdEmI/dDNXzwM+AcqYCGwJOr9/nBFRIshoYrIDWSYMiCC
+	3tHZYWbuB9hfAXpTJSAwgMk=
+X-Google-Smtp-Source: AGHT+IEiqZ/AH2dkvv+d1Un7SV0dOkHEcRzNWsuK/wOuO/Tj+4wEfa+y+RQkJrzGLHdjNr5/Y97sXA==
+X-Received: by 2002:a17:906:32d6:b0:99d:5adc:fdff with SMTP id k22-20020a17090632d600b0099d5adcfdffmr6179021ejk.45.1691940177122;
+        Sun, 13 Aug 2023 08:22:57 -0700 (PDT)
+Received: from jernej-laptop.localnet (89-212-118-115.static.t-2.net. [89.212.118.115])
+        by smtp.gmail.com with ESMTPSA id y12-20020a17090629cc00b0099bccb03eadsm4656049eje.205.2023.08.13.08.22.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 13 Aug 2023 08:22:56 -0700 (PDT)
+From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
+To: TheSven73@gmail.com, gregkh@linuxfoundation.org, mripard@kernel.org,
+ paul.kocialkowski@bootlin.com, mchehab@kernel.org, wens@csie.org,
+ samuel@sholland.org, linux-staging@lists.linux.dev,
+ linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, Ruan Jinjie <ruanjinjie@huawei.com>
+Cc: ruanjinjie@huawei.com
+Subject:
+ Re: [PATCH -next 2/2] media: staging: media: sunxi: cedrus: Remove redundant
+ of_match_ptr()
+Date: Sun, 13 Aug 2023 17:22:55 +0200
+Message-ID: <5698814.DvuYhMxLoT@jernej-laptop>
+In-Reply-To: <20230811024945.2256437-3-ruanjinjie@huawei.com>
+References:
+ <20230811024945.2256437-1-ruanjinjie@huawei.com>
+ <20230811024945.2256437-3-ruanjinjie@huawei.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <2023081315-grandma-fifth-1e9c@gregkh>
-X-Pobox-Relay-ID:
- 55D75254-39A8-11EE-88F2-C65BE52EC81B-45285927!pb-smtp1.pobox.com
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-On Sun, Aug 13, 2023 at 08:55:21AM +0200, Greg KH wrote:
-> On Sat, Aug 12, 2023 at 11:50:31PM -0700, Tree Davies wrote:
-> > Rename variable pTS in function rtllib_rx_ADDBAReq() to rx_ts
-> > to fix checkpatch warning Avoid CamelCase.
-> > 
-> > Signed-off-by: Tree Davies <tdavies@darkphysics.net>
-> > ---
-> > v2:Resending in smaller patch series
-> >  drivers/staging/rtl8192e/rtl819x_BAProc.c | 8 ++++----
-> >  1 file changed, 4 insertions(+), 4 deletions(-)
-> > 
-> > diff --git a/drivers/staging/rtl8192e/rtl819x_BAProc.c b/drivers/staging/rtl8192e/rtl819x_BAProc.c
-> > index 1eff30533f47..2748ab59545c 100644
-> > --- a/drivers/staging/rtl8192e/rtl819x_BAProc.c
-> > +++ b/drivers/staging/rtl8192e/rtl819x_BAProc.c
-> > @@ -220,7 +220,7 @@ int rtllib_rx_ADDBAReq(struct rtllib_device *ieee, struct sk_buff *skb)
-> >  	union ba_param_set *pBaParamSet = NULL;
-> >  	u16 *pBaTimeoutVal = NULL;
-> >  	union sequence_control *pBaStartSeqCtrl = NULL;
-> > -	struct rx_ts_record *pTS = NULL;
-> > +	struct rx_ts_record *rx_ts = NULL;
+Dne petek, 11. avgust 2023 ob 04:49:45 CEST je Ruan Jinjie napisal(a):
+> The driver depends on CONFIG_OF, it is not necessary to use
+> of_match_ptr() here.
 > 
-> This should just be called "ts" as that's what it is being used for, as
-> the original name says.
-> 
-> I've stopped reviewing the series here, please go through and make sure
-> all of your renames make logical sense as that is important when reading
-> the code in the future.
-> 
-> thanks,
-> 
-> greg k-h
+> Signed-off-by: Ruan Jinjie <ruanjinjie@huawei.com>
 
-Thanks Greg, will fix.
-~Tree
+Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+
+Best regards,
+Jernej
+
+> ---
+>  drivers/staging/media/sunxi/cedrus/cedrus.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/staging/media/sunxi/cedrus/cedrus.c
+> b/drivers/staging/media/sunxi/cedrus/cedrus.c index
+> 8e248d4a0aec..f52df6836045 100644
+> --- a/drivers/staging/media/sunxi/cedrus/cedrus.c
+> +++ b/drivers/staging/media/sunxi/cedrus/cedrus.c
+> @@ -708,7 +708,7 @@ static struct platform_driver cedrus_driver = {
+>  	.remove_new	= cedrus_remove,
+>  	.driver		= {
+>  		.name		= CEDRUS_NAME,
+> -		.of_match_table	= of_match_ptr(cedrus_dt_match),
+> +		.of_match_table	= cedrus_dt_match,
+>  		.pm		= &cedrus_dev_pm_ops,
+>  	},
+>  };
+
+
 
 
