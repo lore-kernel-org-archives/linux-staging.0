@@ -1,30 +1,31 @@
-Received: from pb-smtp2.pobox.com (pb-smtp2.pobox.com [64.147.108.71])
+Received: from pb-smtp21.pobox.com (pb-smtp21.pobox.com [173.228.157.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BD041846
-	for <linux-staging@lists.linux.dev>; Sun, 13 Aug 2023 06:49:18 +0000 (UTC)
-Received: from pb-smtp2.pobox.com (unknown [127.0.0.1])
-	by pb-smtp2.pobox.com (Postfix) with ESMTP id 614421A3DDC;
-	Sun, 13 Aug 2023 02:48:44 -0400 (EDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 757911846
+	for <linux-staging@lists.linux.dev>; Sun, 13 Aug 2023 06:52:40 +0000 (UTC)
+Received: from pb-smtp21.pobox.com (unknown [127.0.0.1])
+	by pb-smtp21.pobox.com (Postfix) with ESMTP id 9058B311F9;
+	Sun, 13 Aug 2023 02:52:39 -0400 (EDT)
 	(envelope-from tdavies@darkphysics.net)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed; d=pobox.com; h=from:to:cc
-	:subject:date:message-id:in-reply-to:references:mime-version
-	:content-transfer-encoding; s=sasl; bh=sVee+W8119kwgUAW/R4Ll71lA
-	937X6iLrza/lgqQ3sI=; b=VQ8Y9ZhnhMTSJtRooUdxg5/UsT57W80qGPs8HJ/N+
-	1OFdDyzx9rXAfpKziYodZ3a8/zEHviMVKLmNvg9ZI7+ySTQeEYtf7A365CrKfdRr
-	A05nsE3bfncHsra2FpqTCb6f3lfn2M6Q5rXzRHx6tIWKRWb+clJEDS+r+xqBIk6E
-	Xk=
-Received: from pb-smtp2.nyi.icgroup.com (unknown [127.0.0.1])
-	by pb-smtp2.pobox.com (Postfix) with ESMTP id 598E31A3DDB;
-	Sun, 13 Aug 2023 02:48:44 -0400 (EDT)
+	:subject:date:message-id:mime-version:content-transfer-encoding;
+	 s=sasl; bh=kue6Q46w73jzsNU++Dc/jKGRQF8pCSsBB+mQ6LgULaI=; b=OjND
+	cy18YfYmSyW9Bk7bLz9tjMsOJeHKtsRpmuwHPncEleum5jqRWerCvZabri1otwmY
+	FfBZG740JosTZGv2IS9+S8bs4oCF79PSZAQgHBPiYIxB6KD1BbOyQ/jMw9ZL0fjn
+	ef80NoOTaM248jamOwgsl2wn3xIP17bPJBmgAgU=
+Received: from pb-smtp21.sea.icgroup.com (unknown [127.0.0.1])
+	by pb-smtp21.pobox.com (Postfix) with ESMTP id 89011311F8;
+	Sun, 13 Aug 2023 02:52:39 -0400 (EDT)
 	(envelope-from tdavies@darkphysics.net)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed; d=darkphysics.net;
- h=from:to:cc:subject:date:message-id:in-reply-to:references:mime-version:content-transfer-encoding; s=2019-09.pbsmtp; bh=4Zlyxu74DmQiQA44UrA7Mb0JkNtuyzCmhp1IS86V+sE=; b=VBcF1eNDO8rBaRKCM/PIth9fMZT3JLrJAjVYAGfWtK6Noikz2HJ3+jZ3QI1mFjECBqpg4JHObEgTsH13S5CDw/T1rVAzWG7sZRr8M2+gg/tyV5l5oDSaur1YNpnAqiNa+fU91T3pJKHI1/OmdNXBDKmaIBMOk8tHrofFGukFeMc=
+ h=from:to:cc:subject:date:message-id:mime-version:content-transfer-encoding;
+ s=2019-09.pbsmtp; bh=/9CZ3kBN2cbhC5zjzOkoFvp3dRA8ti1xkB115mT2bQk=;
+ b=Y8o7ZWPDRlwI9pLLSzFnrbMFrK7EPhJnx3hCqmLNgtydQff+FBRMidW3yAMxyhMLj4unByxp91R9ew8xId1ER4UoSbu5XGk8QZI4uy58V7hNDAT0WbNPbOnL7Q8hm+qdhkMetg6vZrxgcqcc2lM6n9qi1j+9zEJvLYvnXl43Bjc=
 Received: from basil.darkphysics (unknown [76.146.178.2])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by pb-smtp2.pobox.com (Postfix) with ESMTPSA id 0D7C61A3DD7;
-	Sun, 13 Aug 2023 02:48:41 -0400 (EDT)
+	by pb-smtp21.pobox.com (Postfix) with ESMTPSA id B5BB3311F6;
+	Sun, 13 Aug 2023 02:52:35 -0400 (EDT)
 	(envelope-from tdavies@darkphysics.net)
 From: Tree Davies <tdavies@darkphysics.net>
 To: gregkh@linuxfoundation.org,
@@ -32,12 +33,10 @@ To: gregkh@linuxfoundation.org,
 Cc: linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Tree Davies <tdavies@darkphysics.net>
-Subject: [PATCH v2 2/6] Staging: rtl8192e: Rename variable pTS in function rtllib_rx_ADDBAReq()
-Date: Sat, 12 Aug 2023 23:50:31 -0700
-Message-ID: <20230813065035.95157-3-tdavies@darkphysics.net>
+Subject: [PATCH 0/5] Staging: rtl8192e: Series-B Rename struct rx_ts_record references
+Date: Sat, 12 Aug 2023 23:54:40 -0700
+Message-ID: <20230813065445.95205-1-tdavies@darkphysics.net>
 X-Mailer: git-send-email 2.41.0
-In-Reply-To: <20230813065035.95157-1-tdavies@darkphysics.net>
-References: <20230813065035.95157-1-tdavies@darkphysics.net>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -45,60 +44,33 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 X-Pobox-Relay-ID:
- 71AD2B8C-39A5-11EE-A4E7-307A8E0A682E-45285927!pb-smtp2.pobox.com
+ FC2BF450-39A5-11EE-B1C6-B31D44D1D7AA-45285927!pb-smtp21.pobox.com
 Content-Transfer-Encoding: quoted-printable
 
-Rename variable pTS in function rtllib_rx_ADDBAReq() to rx_ts
-to fix checkpatch warning Avoid CamelCase.
+This is the Second series, Series-B, of a 3 part patch-series, which shou=
+ld be=20
+applied in the order of A, B and then C.=20
 
-Signed-off-by: Tree Davies <tdavies@darkphysics.net>
----
-v2:Resending in smaller patch series
- drivers/staging/rtl8192e/rtl819x_BAProc.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+This 3 part patch series fixes checkpatch warning Avoid CamelCase, for=20
+all references of struct rx_ts_record, and renames them to rx_ts for=20
+consistency and readability. Each patch renames references for a single=20
+function.
 
-diff --git a/drivers/staging/rtl8192e/rtl819x_BAProc.c b/drivers/staging/=
-rtl8192e/rtl819x_BAProc.c
-index 1eff30533f47..2748ab59545c 100644
---- a/drivers/staging/rtl8192e/rtl819x_BAProc.c
-+++ b/drivers/staging/rtl8192e/rtl819x_BAProc.c
-@@ -220,7 +220,7 @@ int rtllib_rx_ADDBAReq(struct rtllib_device *ieee, st=
-ruct sk_buff *skb)
- 	union ba_param_set *pBaParamSet =3D NULL;
- 	u16 *pBaTimeoutVal =3D NULL;
- 	union sequence_control *pBaStartSeqCtrl =3D NULL;
--	struct rx_ts_record *pTS =3D NULL;
-+	struct rx_ts_record *rx_ts =3D NULL;
-=20
- 	if (skb->len < sizeof(struct rtllib_hdr_3addr) + 9) {
- 		netdev_warn(ieee->dev, "Invalid skb len in BAREQ(%d / %d)\n",
-@@ -253,13 +253,13 @@ int rtllib_rx_ADDBAReq(struct rtllib_device *ieee, =
-struct sk_buff *skb)
- 			    ieee->ht_info->bCurrentHTSupport);
- 		goto OnADDBAReq_Fail;
- 	}
--	if (!GetTs(ieee, (struct ts_common_info **)&pTS, dst,
-+	if (!GetTs(ieee, (struct ts_common_info **)&rx_ts, dst,
- 		   (u8)(pBaParamSet->field.tid), RX_DIR, true)) {
- 		rc =3D ADDBA_STATUS_REFUSED;
- 		netdev_warn(ieee->dev, "%s(): can't get TS\n", __func__);
- 		goto OnADDBAReq_Fail;
- 	}
--	pBA =3D &pTS->rx_admitted_ba_record;
-+	pBA =3D &rx_ts->rx_admitted_ba_record;
-=20
- 	if (pBaParamSet->field.ba_policy =3D=3D BA_POLICY_DELAYED) {
- 		rc =3D ADDBA_STATUS_INVALID_PARAM;
-@@ -268,7 +268,7 @@ int rtllib_rx_ADDBAReq(struct rtllib_device *ieee, st=
-ruct sk_buff *skb)
- 		goto OnADDBAReq_Fail;
- 	}
-=20
--	rtllib_FlushRxTsPendingPkts(ieee, pTS);
-+	rtllib_FlushRxTsPendingPkts(ieee, rx_ts);
-=20
- 	deactivate_ba_entry(ieee, pBA);
- 	pBA->dialog_token =3D *pDialogToken;
+Thank you in advance to the reviewers
+~ Tree=20
+
+Tree Davies (5):
+  Staging: rtl8192e: Rename variable pTS in function ResetRxTsEntry()
+  Staging: rtl8192e: Rename variable pRxTS in function TSInitialize()
+  Staging: rtl8192e: Rename variable tmp in function GetTs()
+  Staging: rtl8192e: Rename variable pRxTS in function RemoveTsEntry()
+  Staging: rtl8192e: Rename variable pTS in function prototype
+    rtllib_FlushRxTsPendingPkts()
+
+ drivers/staging/rtl8192e/rtl819x_TSProc.c | 40 +++++++++++------------
+ drivers/staging/rtl8192e/rtllib.h         |  2 +-
+ 2 files changed, 21 insertions(+), 21 deletions(-)
+
 --=20
 2.41.0
 
