@@ -1,98 +1,85 @@
-Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 172466FA6;
-	Sun, 13 Aug 2023 15:22:58 +0000 (UTC)
-Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-99c4923195dso484552066b.2;
-        Sun, 13 Aug 2023 08:22:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1691940177; x=1692544977;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=xOYu2IPoVjQ+GlOQpp/sc735FXMDqqp74Kxel4PS4WY=;
-        b=a3PZcVhzZuz5/aDJbeO8G0equz5aNJ+edAoIRlJjEa99ZpM3dCVO/TpUK25mSTOXab
-         3sqpNEHvolDXdsdXNLJSsUaetXUgPWrkqohq4kgUcf55FeGpM+9lRE5pmTpaL4KVqJn6
-         Xm9beVm89diSQBbDlPpADDpOP7ElHW4OOs/oOrPCPjfzMbw7eklGXVqGqpvj6awDrNbU
-         LTFQzv0NC7+qLReKpxc+HhdEm+3OCMsK2miRC9MvlG3YsIPrdvswTs3fFaR1FGGAWD/4
-         0FdA+FgPFyWSWqPZYL/X8LfJ0xsjMKv8W040Y4fklkjudmbAUHGM6y3tIkq71oLOm1+I
-         Y5Qw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1691940177; x=1692544977;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=xOYu2IPoVjQ+GlOQpp/sc735FXMDqqp74Kxel4PS4WY=;
-        b=IP1o+MUD+Ob4V7OEytxVBhNtNrhoKcQ/5GLVn6Srqtq3mrN0EbZQIaFxPPtXZGmJOH
-         YpQbJnthUHNQmpyk+qYZTnkC1Ixf93aHAMPlqwqkCQxti6zHS3y0a+gKjgFpP9zV8pgY
-         +94Mo7WzaDnoJfbTQe04GrSa15Fp7j1qVUIwITQRDPBQaY1NeIaWQE+ugA58yOEXuWq1
-         CgHBauCM5h9MRS7b+0+nisnGGuR0MvVXaRPKVmg6kYEjveEHfPBKCP02wrSYBu0RdQ5L
-         /a18nsDAOu2ZkKAM/blHIxs7MoMvq3ILdseBeu4BPLg4Y590oart6a7SUxbEgbXGlxYi
-         XQfQ==
-X-Gm-Message-State: AOJu0Yw9CC0WdEmI/dDNXzwM+AcqYCGwJOr9/nBFRIshoYrIDWSYMiCC
-	3tHZYWbuB9hfAXpTJSAwgMk=
-X-Google-Smtp-Source: AGHT+IEiqZ/AH2dkvv+d1Un7SV0dOkHEcRzNWsuK/wOuO/Tj+4wEfa+y+RQkJrzGLHdjNr5/Y97sXA==
-X-Received: by 2002:a17:906:32d6:b0:99d:5adc:fdff with SMTP id k22-20020a17090632d600b0099d5adcfdffmr6179021ejk.45.1691940177122;
-        Sun, 13 Aug 2023 08:22:57 -0700 (PDT)
-Received: from jernej-laptop.localnet (89-212-118-115.static.t-2.net. [89.212.118.115])
-        by smtp.gmail.com with ESMTPSA id y12-20020a17090629cc00b0099bccb03eadsm4656049eje.205.2023.08.13.08.22.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 13 Aug 2023 08:22:56 -0700 (PDT)
-From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: TheSven73@gmail.com, gregkh@linuxfoundation.org, mripard@kernel.org,
- paul.kocialkowski@bootlin.com, mchehab@kernel.org, wens@csie.org,
- samuel@sholland.org, linux-staging@lists.linux.dev,
- linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, Ruan Jinjie <ruanjinjie@huawei.com>
-Cc: ruanjinjie@huawei.com
-Subject:
- Re: [PATCH -next 2/2] media: staging: media: sunxi: cedrus: Remove redundant
- of_match_ptr()
-Date: Sun, 13 Aug 2023 17:22:55 +0200
-Message-ID: <5698814.DvuYhMxLoT@jernej-laptop>
-In-Reply-To: <20230811024945.2256437-3-ruanjinjie@huawei.com>
-References:
- <20230811024945.2256437-1-ruanjinjie@huawei.com>
- <20230811024945.2256437-3-ruanjinjie@huawei.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 788C917C5
+	for <linux-staging@lists.linux.dev>; Sun, 13 Aug 2023 15:27:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1691940421;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=njCjOgKGgSzDsDd00HdB6fBX7QUAsffjlxT9ptgJNyY=;
+	b=QBCSUp2QY16AbrA8qeBj8vkHooCzIAsw2eK7OaQUbwgqzKK4exnOBp4RQSTJzPVMlWwcW5
+	qKkBx9qg6FMeGCNg6yXa3WACuzkaD2d5aOWCdnp+9LbSxbZHSleo+ikwKtoZeeUQHeO10o
+	f6HC3j2RcFuxZHQHl/aBjARmulVKD2g=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-571-Q-gFEzWYNEy8Yucy8BIVwA-1; Sun, 13 Aug 2023 11:26:55 -0400
+X-MC-Unique: Q-gFEzWYNEy8Yucy8BIVwA-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com [10.11.54.8])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 3F4DF85CBE6;
+	Sun, 13 Aug 2023 15:26:55 +0000 (UTC)
+Received: from localhost.localdomain (unknown [10.39.192.68])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 44D7FC15BAD;
+	Sun, 13 Aug 2023 15:26:53 +0000 (UTC)
+From: Hans de Goede <hdegoede@redhat.com>
+To: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Andy Shevchenko <andy@kernel.org>
+Cc: Hans de Goede <hdegoede@redhat.com>,
+	Kate Hsuan <hpa@redhat.com>,
+	Tsuchiya Yuto <kitakar@gmail.com>,
+	Yury Luneff <yury.lunev@gmail.com>,
+	Nable <nable.maininbox@googlemail.com>,
+	andrey.i.trufanov@gmail.com,
+	Fabio Aiuto <fabioaiuto83@gmail.com>,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev
+Subject: [PATCH 1/2] media: atomisp: Disable VCM for OV5693 for now
+Date: Sun, 13 Aug 2023 17:26:44 +0200
+Message-ID: <20230813152645.45834-1-hdegoede@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
 
-Dne petek, 11. avgust 2023 ob 04:49:45 CEST je Ruan Jinjie napisal(a):
-> The driver depends on CONFIG_OF, it is not necessary to use
-> of_match_ptr() here.
-> 
-> Signed-off-by: Ruan Jinjie <ruanjinjie@huawei.com>
+ov5693 sensor modules have a VCM, but for unknown reasons
+the sensor fails to start streaming when instantiating
+a VCM i2c-client (and the runtime-pm link between VCM
+and sensor).
 
-Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+Disable the VCM for now, until this is resolved.
 
-Best regards,
-Jernej
+Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+---
+ drivers/staging/media/atomisp/pci/atomisp_csi2_bridge.c | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
-> ---
->  drivers/staging/media/sunxi/cedrus/cedrus.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/staging/media/sunxi/cedrus/cedrus.c
-> b/drivers/staging/media/sunxi/cedrus/cedrus.c index
-> 8e248d4a0aec..f52df6836045 100644
-> --- a/drivers/staging/media/sunxi/cedrus/cedrus.c
-> +++ b/drivers/staging/media/sunxi/cedrus/cedrus.c
-> @@ -708,7 +708,7 @@ static struct platform_driver cedrus_driver = {
->  	.remove_new	= cedrus_remove,
->  	.driver		= {
->  		.name		= CEDRUS_NAME,
-> -		.of_match_table	= of_match_ptr(cedrus_dt_match),
-> +		.of_match_table	= cedrus_dt_match,
->  		.pm		= &cedrus_dev_pm_ops,
->  	},
->  };
-
-
-
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_csi2_bridge.c b/drivers/staging/media/atomisp/pci/atomisp_csi2_bridge.c
+index 03940c11505f..2483eaeeac73 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_csi2_bridge.c
++++ b/drivers/staging/media/atomisp/pci/atomisp_csi2_bridge.c
+@@ -521,7 +521,12 @@ static char *atomisp_csi2_get_vcm_type(struct acpi_device *adev)
+ }
+ 
+ static const struct acpi_device_id atomisp_sensor_configs[] = {
+-	ATOMISP_SENSOR_CONFIG("INT33BE", 2, true),	/* OV5693 */
++	/*
++	 * FIXME ov5693 modules have a VCM, but for unknown reasons
++	 * the sensor fails to start streaming when instantiating
++	 * an i2c-client for the VCM, so it is disabled for now.
++	 */
++	ATOMISP_SENSOR_CONFIG("INT33BE", 2, false),	/* OV5693 */
+ 	{}
+ };
+ 
+-- 
+2.41.0
 
