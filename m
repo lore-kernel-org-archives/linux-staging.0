@@ -1,74 +1,96 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oo1-f53.google.com (mail-oo1-f53.google.com [209.85.161.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A48F8825
-	for <linux-staging@lists.linux.dev>; Sun, 13 Aug 2023 16:11:22 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DD26EC433C9;
-	Sun, 13 Aug 2023 16:11:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1691943082;
-	bh=Xl+zWuxlzf8UrZZuScqSJCZOz7bnr8WH0zt1Hh4Qr00=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=bv7KSdTJ0lA805HeMN/fnjuNl4yEWbGFW694vEMhu0z+Xj4InDf6saXe7+TjhJ1Zq
-	 Qr+loXLrYVoAEk/wteyOmVrUbKMVrmc5ZiWYW5s9aqwFSTKNXBg+q788b6p64hqvfl
-	 mhgKO3ky1WAGCAKbbLFSvd0ZcIplhXdV6mrJNYEcdxgGPvYv/tLzxMwpMuOaI7fyQf
-	 Os0zwWTjpNf1RS0KNTHC8PiqK7zsStCGDDSUZerwC0fDhTyI/DEKpVtOfcqAY+XAge
-	 lelD9PPftsVIqppMqFiPq7wYrqOxM6uLh126n/vj6rUiEWbAmicViNCzif9sDf7rBe
-	 1MY3fKbx8qw3g==
-From: Sasha Levin <sashal@kernel.org>
-To: linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Cc: Raphael Gallais-Pou <rgallaispou@gmail.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Sasha Levin <sashal@kernel.org>,
-	dri-devel@lists.freedesktop.org,
-	linux-fbdev@vger.kernel.org,
-	linux-staging@lists.linux.dev
-Subject: [PATCH AUTOSEL 5.10 23/25] staging: fbtft: ili9341: use macro FBTFT_REGISTER_SPI_DRIVER
-Date: Sun, 13 Aug 2023 12:09:34 -0400
-Message-Id: <20230813160936.1082758-23-sashal@kernel.org>
-X-Mailer: git-send-email 2.40.1
-In-Reply-To: <20230813160936.1082758-1-sashal@kernel.org>
-References: <20230813160936.1082758-1-sashal@kernel.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54C0F9443
+	for <linux-staging@lists.linux.dev>; Sun, 13 Aug 2023 20:13:07 +0000 (UTC)
+Received: by mail-oo1-f53.google.com with SMTP id 006d021491bc7-56c96982829so2876234eaf.0
+        for <linux-staging@lists.linux.dev>; Sun, 13 Aug 2023 13:13:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1691957586; x=1692562386;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=rXhA9VRypepdUYlLq8uxDNx03e0EEVDPrRCX89Gek+Q=;
+        b=avjWWF+CYtAUxIPOADKviSekp/KNT7LY5C4A145WF5cFRdYA6xlaUHy16HCrvKK8OW
+         KQH4V4G2RXbS3+D+JaSBD8s9bhDaD1MSrFaSqcCi948CJiHr81aZI4jLiQicPXMfsZQ4
+         bn5aWuUA4PsKPIsgDjOBVsMRqbzYvNnBnGn1F0glYZ0e6mWyB+tfAkZo+PIROcbDm1UU
+         A8Zvfy99aKzR+VGJAR9ujIifAJk7IHh0O8lyzIZvddiB8IUqiGRxuPKB6Z8Ru5VmWBgf
+         dMTUyajRgWjPF39/HW46B7dc5+pgXiMhe+1I+ie6JWSSMiHHiCj3GF9nKcrBiTsVxX1j
+         jA+w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1691957586; x=1692562386;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=rXhA9VRypepdUYlLq8uxDNx03e0EEVDPrRCX89Gek+Q=;
+        b=eKgg8CvP8WNMOvR9KGdyFMy+dMxmxO8vHFSRpJMitQZB0LfTVsUaV+7RIigJSZD1C3
+         cUD+3OB5Xl737vD0OABXIYWZJoT+s4h2+BRl0JMSsRGVY6iKhmZkXFZDbs/HOrfYe8HZ
+         1k5T86Tmw1q0//8fQRPAHc5gWCrP3Im4us68ezeeCBOBNyPoEw0WQeJaWMWADw1pdCsp
+         cUifjL68NWHpH5C4CzVTAsSYJlY2RVr54zSazOLl2K48x4pVE+MU0aJSBUW292It1wYP
+         f1ZHu0SINJZiEdYmOy39IrwmccPm3YP88Wyzh579n8Sc2pS3qt9GPwyZWtrltrG0XqGk
+         u0iQ==
+X-Gm-Message-State: AOJu0YxxNNi84orGOwImtVUtaySF2bP3CnswHICjZBZ3K5ATr8PKcjrZ
+	i02WNlpp+G8T/HDtBqZudEHCkn8vfcbPRW1dxNM=
+X-Google-Smtp-Source: AGHT+IGYWJNDAzwfNOhWGVkDMzwo2Wl0/fRXN16lRNd+1y1bkDOswhTde9q5Z9pka+YtmXHDLv1VPUPEIjmf/x93JuA=
+X-Received: by 2002:a4a:2a1d:0:b0:55a:f44b:43cd with SMTP id
+ k29-20020a4a2a1d000000b0055af44b43cdmr5301262oof.7.1691957586149; Sun, 13 Aug
+ 2023 13:13:06 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-X-stable-base: Linux 5.10.190
-Content-Transfer-Encoding: 8bit
+References: <20230812133628.355812-1-hdegoede@redhat.com>
+In-Reply-To: <20230812133628.355812-1-hdegoede@redhat.com>
+From: Andy Shevchenko <andy.shevchenko@gmail.com>
+Date: Sun, 13 Aug 2023 23:12:30 +0300
+Message-ID: <CAHp75VcrjE1dBCrJ-=orACQaMNsm5i3qw-6s2Z0YLdKV0_eXvg@mail.gmail.com>
+Subject: Re: [PATCH] media: gc0310: Stop setting v4l2_subdev.fwnode to the
+ endpoint fwnode
+To: Hans de Goede <hdegoede@redhat.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
+	Andy Shevchenko <andy@kernel.org>, Kate Hsuan <hpa@redhat.com>, Tsuchiya Yuto <kitakar@gmail.com>, 
+	Yury Luneff <yury.lunev@gmail.com>, Nable <nable.maininbox@googlemail.com>, 
+	andrey.i.trufanov@gmail.com, Fabio Aiuto <fabioaiuto83@gmail.com>, 
+	linux-media@vger.kernel.org, linux-staging@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-From: Raphael Gallais-Pou <rgallaispou@gmail.com>
+On Sat, Aug 12, 2023 at 4:36=E2=80=AFPM Hans de Goede <hdegoede@redhat.com>=
+ wrote:
+>
+> Endpoint matching is now handled by the v4l2-core and drivers no longer
+> should set v4l2_subdev.fwnode to the endpoint fwnode.
 
-[ Upstream commit 4912649e1cf0317bf563f91655e04a303cacaf8d ]
+...
 
-Using FBTFT_REGISTER_DRIVER resolves to a NULL struct spi_device_id. This
-ultimately causes a warning when the module probes. Fixes it.
+>         dev->reset =3D devm_gpiod_get(&client->dev, "reset", GPIOD_OUT_HI=
+GH);
+>         if (IS_ERR(dev->reset)) {
+> -               fwnode_handle_put(dev->ep_fwnode);
+>                 return dev_err_probe(&client->dev, PTR_ERR(dev->reset),
+>                                      "getting reset GPIO\n");
+>         }
 
-Signed-off-by: Raphael Gallais-Pou <rgallaispou@gmail.com>
-Link: https://lore.kernel.org/r/20230718172024.67488-1-rgallaispou@gmail.com
-Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/staging/fbtft/fb_ili9341.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Now {} can be dropped.
 
-diff --git a/drivers/staging/fbtft/fb_ili9341.c b/drivers/staging/fbtft/fb_ili9341.c
-index 9ccd0823c3ab3..47e72b87d76d9 100644
---- a/drivers/staging/fbtft/fb_ili9341.c
-+++ b/drivers/staging/fbtft/fb_ili9341.c
-@@ -145,7 +145,7 @@ static struct fbtft_display display = {
- 	},
- };
- 
--FBTFT_REGISTER_DRIVER(DRVNAME, "ilitek,ili9341", &display);
-+FBTFT_REGISTER_SPI_DRIVER(DRVNAME, "ilitek", "ili9341", &display);
- 
- MODULE_ALIAS("spi:" DRVNAME);
- MODULE_ALIAS("platform:" DRVNAME);
--- 
-2.40.1
+...
 
+>         dev->powerdown =3D devm_gpiod_get(&client->dev, "powerdown", GPIO=
+D_OUT_HIGH);
+>         if (IS_ERR(dev->powerdown)) {
+> -               fwnode_handle_put(dev->ep_fwnode);
+>                 return dev_err_probe(&client->dev, PTR_ERR(dev->powerdown=
+),
+>                                      "getting powerdown GPIO\n");
+>         }
+
+Ditto.
+
+However, no strong opinion here as it is more style thingy. FWIW,
+Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
+
+--=20
+With Best Regards,
+Andy Shevchenko
