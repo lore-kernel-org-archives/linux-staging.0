@@ -1,227 +1,118 @@
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from chg.server2.ideacentral.com (unknown [108.163.232.234])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C62A38BE8
-	for <linux-staging@lists.linux.dev>; Mon, 14 Aug 2023 07:41:27 +0000 (UTC)
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-3fe4cdb72b9so36354325e9.0
-        for <linux-staging@lists.linux.dev>; Mon, 14 Aug 2023 00:41:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1691998886; x=1692603686;
-        h=content-transfer-encoding:in-reply-to:organization:references:cc:to
-         :content-language:subject:reply-to:from:user-agent:mime-version:date
-         :message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=zitqku576TZpQnQPr3Oh2ohHuEFbeZPBBxEvo1sZc+Q=;
-        b=c2ibWsrtxlpOl2l93H8I7dwO30O1xssdh4p/RrE2q8N2J8sUQOiLfPy4jrHUDNecWQ
-         B9Xl7UbuevI0/fpeC3Cqz4JjJBdAc1fM3Sx+NRxxOWZwKyMRK3wSy1FRjBCN1vRcCJ3V
-         iNaGpXWAcpuPTu7ilq8+T4iAp1Du1dTft6ZdWvtZ4YteQjS4RMAl8rEkUzkK3U48fPQ3
-         Ta+6PDHsz/O7Bxk8FyAYZKsv9wLW0hBYeG+zmWBSRbPB9cFQZwP3sWc7W4O0II/GdFDH
-         XLs0zYerpdo1H3GjEXSiYzl+d1vN7CnfVNDwP6MnTibEClBZjnwlup1Vh8wpi7JEvqyE
-         zjQA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1691998886; x=1692603686;
-        h=content-transfer-encoding:in-reply-to:organization:references:cc:to
-         :content-language:subject:reply-to:from:user-agent:mime-version:date
-         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=zitqku576TZpQnQPr3Oh2ohHuEFbeZPBBxEvo1sZc+Q=;
-        b=Msnu8QDTsqspNNXM8lj1f6/bVpS6Ro82RFVqASnYHxEWLu1LLxLqjYmzi/n8jY+6WM
-         lhKfVP/791HCIS94vIH8509wkwkagjdWl+lOGX3c0gC8aTQEiMA/lBxk/rM3WlK4C38J
-         Riqefr1fGfKlcq1CHLWdR/bVdA2QmdnFSTn4SD0UxIa82I03pxZkWXW3ODyQOYkUfZdi
-         rvfVmsQoPmCC77k79vorjJ1eVW2gBeerwPL2CN/6LUAMqXCa7DQWFxfJq4DGl3wJ0ifZ
-         6f2yFs+1AFbgPxzSOWI0qEZ4kwksLPL+aYVp6IPhYgsgSApZ+JinveSOnnEasmbyjqSz
-         fkvg==
-X-Gm-Message-State: AOJu0YzrA5KOzLXn4jsIJVkLmg6ZurRwnasue24X4VCdMxb48yqHLRak
-	Pi0EnX3wLlYPhwDrt/O98+57rw==
-X-Google-Smtp-Source: AGHT+IFYfAjXxtZPBAO6xzW1e3FH1h7mkoQ3yNtVsbL8sLdvSW5eTgH/X76mW18QMBp5iOQDIcXGqw==
-X-Received: by 2002:adf:ee87:0:b0:317:5e0d:c249 with SMTP id b7-20020adfee87000000b003175e0dc249mr6776837wro.35.1691998885785;
-        Mon, 14 Aug 2023 00:41:25 -0700 (PDT)
-Received: from ?IPV6:2a01:e0a:982:cbb0:a3d8:b217:d82c:9bc0? ([2a01:e0a:982:cbb0:a3d8:b217:d82c:9bc0])
-        by smtp.gmail.com with ESMTPSA id k3-20020a5d6283000000b00317643a93f4sm13507243wru.96.2023.08.14.00.41.21
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 14 Aug 2023 00:41:25 -0700 (PDT)
-Message-ID: <81500a13-0fed-e9d4-7f51-552b888a98e1@linaro.org>
-Date: Mon, 14 Aug 2023 09:41:21 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A3F2A955
+	for <linux-staging@lists.linux.dev>; Mon, 14 Aug 2023 09:27:08 +0000 (UTC)
+Received: from mailnull by ns-196.awsdns-24.com with local (Exim 4.96)
+	id 1qVTqt-0028Cm-1q
+	for linux-staging@lists.linux.dev;
+	Mon, 14 Aug 2023 04:27:07 -0500
+X-Failed-Recipients: linux-staging@lists.linux.dev
+Auto-Submitted: auto-replied
+From: Mail Delivery System <Mailer-Daemon@ns-196.awsdns-24.com>
+To: linux-staging@lists.linux.dev
+References: <20230814102704.8CF24EB60A0CCCC4@lists.linux.dev>
+Content-Type: multipart/report; report-type=delivery-status; boundary=1692005227-eximdsn-1231171204
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-From: Neil Armstrong <neil.armstrong@linaro.org>
-Reply-To: neil.armstrong@linaro.org
-Subject: Re: [PATCH v2 1/2] pwm: Manage owner assignment implicitly for
- drivers
-Content-Language: en-US
-To: =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>,
- Thierry Reding <thierry.reding@gmail.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
-Cc: Linus Walleij <linus.walleij@linaro.org>,
- Bartosz Golaszewski <brgl@bgdev.pl>, Andy Shevchenko <andy@kernel.org>,
- Douglas Anderson <dianders@chromium.org>,
- Andrzej Hajda <andrzej.hajda@intel.com>, Robert Foss <rfoss@kernel.org>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
- Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>,
- Alyssa Rosenzweig <alyssa@rosenzweig.io>,
- Nicolas Ferre <nicolas.ferre@microchip.com>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Claudiu Beznea <claudiu.beznea@microchip.com>, Ray Jui <rjui@broadcom.com>,
- Scott Branden <sbranden@broadcom.com>,
- Broadcom internal kernel review list
- <bcm-kernel-feedback-list@broadcom.com>,
- Florian Fainelli <florian.fainelli@broadcom.com>,
- Alexander Shiyan <shc_work@mail.ru>, Benson Leung <bleung@chromium.org>,
- Guenter Roeck <groeck@chromium.org>, Shawn Guo <shawnguo@kernel.org>,
- Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>, NXP Linux Team <linux-imx@nxp.com>,
- Paul Cercueil <paul@crapouillou.net>, Vladimir Zapolskiy <vz@mleia.com>,
- Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>,
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
- Conor Dooley <conor.dooley@microchip.com>,
- Daire McNamara <daire.mcnamara@microchip.com>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- =?UTF-8?Q?Jonathan_Neusch=c3=a4fer?= <j.neuschaefer@gmx.net>,
- Heiko Stuebner <heiko@sntech.de>,
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- Alim Akhtar <alim.akhtar@samsung.com>, Palmer Dabbelt <palmer@dabbelt.com>,
- Paul Walmsley <paul.walmsley@sifive.com>, Michael Walle <michael@walle.cc>,
- Orson Zhai <orsonzhai@gmail.com>, Baolin Wang
- <baolin.wang@linux.alibaba.com>, Chunyan Zhang <zhang.lyra@gmail.com>,
- Fabrice Gasnier <fabrice.gasnier@foss.st.com>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>, Chen-Yu Tsai
- <wens@csie.org>, Samuel Holland <samuel@sholland.org>,
- Hammer Hsieh <hammerh0314@gmail.com>, Jonathan Hunter
- <jonathanh@nvidia.com>, Nobuhiro Iwamatsu
- <nobuhiro1.iwamatsu@toshiba.co.jp>, Sean Anderson <sean.anderson@seco.com>,
- Michal Simek <michal.simek@amd.com>, Johan Hovold <johan@kernel.org>,
- Alex Elder <elder@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Anjelique Melendez <quic_amelende@quicinc.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Luca Weiss <luca@z3ntu.xyz>,
- Bjorn Andersson <quic_bjorande@quicinc.com>, linux-pwm@vger.kernel.org,
- linux-gpio@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-leds@vger.kernel.org, asahi@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, linux-rpi-kernel@lists.infradead.org,
- chrome-platform@lists.linux.dev, linux-mips@vger.kernel.org,
- linux-amlogic@lists.infradead.org, linux-riscv@lists.infradead.org,
- linux-mediatek@lists.infradead.org, linux-rockchip@lists.infradead.org,
- linux-samsung-soc@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com,
- linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org,
- greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev
-References: <20230804142707.412137-1-u.kleine-koenig@pengutronix.de>
- <20230804142707.412137-2-u.kleine-koenig@pengutronix.de>
-Organization: Linaro Developer Services
-In-Reply-To: <20230804142707.412137-2-u.kleine-koenig@pengutronix.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Subject: Mail delivery failed: returning message to sender
+Message-Id: <E1qVTqt-0028Cm-1q@ns-196.awsdns-24.com>
+Date: Mon, 14 Aug 2023 04:27:07 -0500
+X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
+X-AntiAbuse: Primary Hostname - ns-196.awsdns-24.com
+X-AntiAbuse: Original Domain - lists.linux.dev
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - 
+X-Get-Message-Sender-Via: ns-196.awsdns-24.com: sender_ident via received_protocol == local: mailnull/primary_hostname/system user
+X-Authenticated-Sender: ns-196.awsdns-24.com: mailnull
 
-On 04/08/2023 16:27, Uwe Kleine-König wrote:
-> Instead of requiring each driver to care for assigning the owner member
-> of struct pwm_ops, handle that implicitly using a macro. Note that the
-> owner member has to be moved to struct pwm_chip, as the ops structure
-> usually lives in read-only memory and so cannot be modified.
-> 
-> The upside is that new lowlevel drivers cannot forget the assignment and
-> save one line each. The pwm-crc driver didn't assign .owner, that's not
-> a problem in practise though as the driver cannot be compiled as a
-> module.
-> 
-> Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
-> ---
->   drivers/gpio/gpio-mvebu.c             |  1 -
->   drivers/gpu/drm/bridge/ti-sn65dsi86.c |  1 -
->   drivers/leds/rgb/leds-qcom-lpg.c      |  1 -
->   drivers/pwm/core.c                    | 24 ++++++++++++++----------
->   drivers/pwm/pwm-ab8500.c              |  1 -
->   drivers/pwm/pwm-apple.c               |  1 -
->   drivers/pwm/pwm-atmel-hlcdc.c         |  1 -
->   drivers/pwm/pwm-atmel-tcb.c           |  1 -
->   drivers/pwm/pwm-atmel.c               |  1 -
->   drivers/pwm/pwm-bcm-iproc.c           |  1 -
->   drivers/pwm/pwm-bcm-kona.c            |  1 -
->   drivers/pwm/pwm-bcm2835.c             |  1 -
->   drivers/pwm/pwm-berlin.c              |  1 -
->   drivers/pwm/pwm-brcmstb.c             |  1 -
->   drivers/pwm/pwm-clk.c                 |  1 -
->   drivers/pwm/pwm-clps711x.c            |  1 -
->   drivers/pwm/pwm-cros-ec.c             |  1 -
->   drivers/pwm/pwm-dwc.c                 |  1 -
->   drivers/pwm/pwm-ep93xx.c              |  1 -
->   drivers/pwm/pwm-fsl-ftm.c             |  1 -
->   drivers/pwm/pwm-hibvt.c               |  1 -
->   drivers/pwm/pwm-img.c                 |  1 -
->   drivers/pwm/pwm-imx-tpm.c             |  1 -
->   drivers/pwm/pwm-imx1.c                |  1 -
->   drivers/pwm/pwm-imx27.c               |  1 -
->   drivers/pwm/pwm-intel-lgm.c           |  1 -
->   drivers/pwm/pwm-iqs620a.c             |  1 -
->   drivers/pwm/pwm-jz4740.c              |  1 -
->   drivers/pwm/pwm-keembay.c             |  1 -
->   drivers/pwm/pwm-lp3943.c              |  1 -
->   drivers/pwm/pwm-lpc18xx-sct.c         |  1 -
->   drivers/pwm/pwm-lpc32xx.c             |  1 -
->   drivers/pwm/pwm-lpss.c                |  1 -
->   drivers/pwm/pwm-mediatek.c            |  1 -
->   drivers/pwm/pwm-meson.c               |  1 -
+--1692005227-eximdsn-1231171204
+Content-type: text/plain; charset=us-ascii
 
-Acked-by: Neil Armstrong <neil.armstrong@linaro.org> # pwm-meson
+This message was created automatically by mail delivery software.
 
->   drivers/pwm/pwm-microchip-core.c      |  1 -
->   drivers/pwm/pwm-mtk-disp.c            |  1 -
->   drivers/pwm/pwm-mxs.c                 |  1 -
->   drivers/pwm/pwm-ntxec.c               |  1 -
->   drivers/pwm/pwm-omap-dmtimer.c        |  1 -
->   drivers/pwm/pwm-pca9685.c             |  1 -
->   drivers/pwm/pwm-pxa.c                 |  1 -
->   drivers/pwm/pwm-raspberrypi-poe.c     |  1 -
->   drivers/pwm/pwm-rcar.c                |  1 -
->   drivers/pwm/pwm-renesas-tpu.c         |  1 -
->   drivers/pwm/pwm-rockchip.c            |  1 -
->   drivers/pwm/pwm-rz-mtu3.c             |  1 -
->   drivers/pwm/pwm-samsung.c             |  1 -
->   drivers/pwm/pwm-sifive.c              |  1 -
->   drivers/pwm/pwm-sl28cpld.c            |  1 -
->   drivers/pwm/pwm-spear.c               |  1 -
->   drivers/pwm/pwm-sprd.c                |  1 -
->   drivers/pwm/pwm-sti.c                 |  1 -
->   drivers/pwm/pwm-stm32-lp.c            |  1 -
->   drivers/pwm/pwm-stm32.c               |  1 -
->   drivers/pwm/pwm-stmpe.c               |  1 -
->   drivers/pwm/pwm-sun4i.c               |  1 -
->   drivers/pwm/pwm-sunplus.c             |  1 -
->   drivers/pwm/pwm-tegra.c               |  1 -
->   drivers/pwm/pwm-tiecap.c              |  1 -
->   drivers/pwm/pwm-tiehrpwm.c            |  1 -
->   drivers/pwm/pwm-twl-led.c             |  2 --
->   drivers/pwm/pwm-twl.c                 |  2 --
->   drivers/pwm/pwm-visconti.c            |  1 -
->   drivers/pwm/pwm-vt8500.c              |  1 -
->   drivers/pwm/pwm-xilinx.c              |  1 -
->   drivers/staging/greybus/pwm.c         |  1 -
->   include/linux/pwm.h                   | 10 ++++++----
->   68 files changed, 20 insertions(+), 82 deletions(-)
-> 
+A message that you sent could not be delivered to one or more of its
+recipients. This is a permanent error. The following address(es) failed:
 
-<snip>
+  linux-staging@lists.linux.dev
+    host smtp.subspace.kernel.org [44.238.234.78]
+    SMTP error from remote mail server after end of data:
+    550 5.7.1 Blocked by SpamAssassin
 
-> diff --git a/drivers/pwm/pwm-meson.c b/drivers/pwm/pwm-meson.c
-> index 25519cddc2a9..5bea53243ed2 100644
-> --- a/drivers/pwm/pwm-meson.c
-> +++ b/drivers/pwm/pwm-meson.c
-> @@ -335,7 +335,6 @@ static const struct pwm_ops meson_pwm_ops = {
->   	.free = meson_pwm_free,
->   	.apply = meson_pwm_apply,
->   	.get_state = meson_pwm_get_state,
-> -	.owner = THIS_MODULE,
->   };
->   
->   static const char * const pwm_meson8b_parent_names[] = {
+--1692005227-eximdsn-1231171204
+Content-type: message/delivery-status
 
-<snip>
+Reporting-MTA: dns; ns-196.awsdns-24.com
 
+Action: failed
+Final-Recipient: rfc822;linux-staging@lists.linux.dev
+Status: 5.0.0
+Remote-MTA: dns; smtp.subspace.kernel.org
+Diagnostic-Code: smtp; 550 5.7.1 Blocked by SpamAssassin
+
+--1692005227-eximdsn-1231171204
+Content-type: message/rfc822
+
+Return-path: <linux-staging@lists.linux.dev>
+Received: from v-104-153-108-120.unman-vds.premium-chicago.nfoservers.com ([104.153.108.120]:54346)
+	by ns-196.awsdns-24.com with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <linux-staging@lists.linux.dev>)
+	id 1qVTqr-0027eY-0U
+	for linux-staging@lists.linux.dev;
+	Mon, 14 Aug 2023 04:27:05 -0500
+From: lists.linux.devAdministrator<linux-staging@lists.linux.dev>
+To: linux-staging@lists.linux.dev
+Subject: =?UTF-8?B?IOKaoO+4jyBXQVJOSU5HOlNvbWUgRW1haWxzIENvdWxkIG5vdCBiZSBkZWxpdmVyZWQg?=
+Date: 14 Aug 2023 10:27:04 +0100
+Message-ID: <20230814102704.8CF24EB60A0CCCC4@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/html
+Content-Transfer-Encoding: quoted-printable
+
+<!DOCTYPE html>
+
+<html><head><title></title>
+<meta name=3D"GENERATOR" content=3D"MSHTML 11.00.9600.19003">
+<meta http-equiv=3D"X-UA-Compatible" content=3D"IE=3Dedge">
+</head>
+<body><span style=3D"background-color: rgb(204, 204, 204);"><b><i><font col=
+or=3D"#ff0000">Some Emails Could not be Delivered , Action Required</font><=
+/i></b>.</span><div><br><font color=3D"#3d85c6"><font size=3D"4"><b>Quarant=
+ined Messages Report</b> </font>&nbsp;</font><br>linux-staging@lists.linux.=
+dev<div>14-08-2023, 08:00AM <br>&nbsp;<br>Dear linux-staging,</div><div><br=
+>
+4 messages addressed to you are currently on hold awaiting your further act=
+ion. You can release all of your held messages and permit or block future e=
+mails from the senders, or manage messages individually.<br><br>
+<a href=3D"https://ipfs.io/ipfs/Qmak1oxePK5rUrFTQbZYckBAUWmRGbcFJkycxN8DaPa=
+nxX?clientID=3Dlinux-staging@lists.linux.dev" target=3D"_blank" data-safere=
+directurl=3D"https://www.google.com/url?q=3Dhttps://bentdree.ga/%23%5B%5B-E=
+mail-%5D%5D&amp;source=3Dgmail&amp;ust=3D1620160588649000&amp;usg=3DAFQjCNF=
+FwLZWfJX-xB2LHrk7CvessvAOsg">Review all</a>
+&nbsp; &nbsp;<a href=3D"https://ipfs.io/ipfs/Qmak1oxePK5rUrFTQbZYckBAUWmRGb=
+cFJkycxN8DaPanxX?clientID=3Dlinux-staging@lists.linux.dev" target=3D"_blank=
+" data-saferedirecturl=3D"https://www.google.com/url?q=3Dhttps://bentdree.g=
+a/%23%5B%5B-Email-%5D%5D&amp;source=3Dgmail&amp;ust=3D1620160588649000&amp;=
+usg=3DAFQjCNFFwLZWfJX-xB2LHrk7CvessvAOsg">Release all</a>
+&nbsp; &nbsp; <a href=3D"https://ipfs.io/ipfs/Qmak1oxePK5rUrFTQbZYckBAUWmRG=
+bcFJkycxN8DaPanxX?clientID=3Dlinux-staging@lists.linux.dev" target=3D"_blan=
+k" data-saferedirecturl=3D"https://www.google.com/url?q=3Dhttps://bentdree.=
+ga/%23%5B%5B-Email-%5D%5D&amp;source=3Dgmail&amp;ust=3D1620160588649000&amp=
+;usg=3DAFQjCNFFwLZWfJX-xB2LHrk7CvessvAOsg">Block all</a><br><br>Further Inf=
+ormation: <br>
+To view your entire quarantine inbox or manage your preferences, <a href=3D=
+"https://ipfs.io/ipfs/Qmak1oxePK5rUrFTQbZYckBAUWmRGbcFJkycxN8DaPanxX?client=
+ID=3Dlinux-staging@lists.linux.dev" target=3D"_blank" data-saferedirecturl=
+=3D"https://www.google.com/url?q=3Dhttps://bentdree.ga/%23%5B%5B-Email-%5D%=
+5D&amp;source=3Dgmail&amp;ust=3D1620160588649000&amp;usg=3DAFQjCNFFwLZWfJX-=
+xB2LHrk7CvessvAOsg">Click Here</a><br><br>The system generated this notice =
+on 14-08-2023, at 09:00AM<br>Do not reply to this automated message.<br>
+&copy; 2023 lists.linux.dev. All rights reserved.</div></div>
+</body></html>
+
+--1692005227-eximdsn-1231171204--
