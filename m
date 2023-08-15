@@ -1,29 +1,51 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ua1-f51.google.com (mail-ua1-f51.google.com [209.85.222.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAA41134CE
-	for <linux-staging@lists.linux.dev>; Tue, 15 Aug 2023 17:22:49 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F1F1EC433C8;
-	Tue, 15 Aug 2023 17:22:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1692120169;
-	bh=7O9FdqMiLm40fpPG8sUMe1FLvmeqL8CETydj3KFafrM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ATni7ZcWLK7LxKF2dqg/BcRGt2/E1l6M1qW78YiYhEygtMnZ8xUpdOngoWuoiBLyz
-	 giTI+h7KBgFTnN6wk+pwbkqcR8RaBraeiDH/vW/XOBGv2X+jyf2HzWfP4BixMAmgQG
-	 vvx5UTJtNAsNC8G00Y4sNWHJYu8Z5wfLymHFwGLBKdUi0XqXe9JvsvbVVDDgHqIgmW
-	 dMZc3ychRFhcIw6TfRBpoIi/KcjP5/tKHYQ5sPDKzsfAqUTj8W4RzgVnM5ybRxXbTb
-	 IGC73JEQSvrLS5tySj3z3OlNVm7PKsFCYRcTLfNS/Gf72UgoSz/sE2h/vR8LwwJwX6
-	 /PNngo4A8tGIQ==
-Date: Tue, 15 Aug 2023 10:22:47 -0700
-From: Nathan Chancellor <nathan@kernel.org>
-To: "Jiri Slaby (SUSE)" <jirislaby@kernel.org>
-Cc: gregkh@linuxfoundation.org, linux-serial@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
-Subject: Re: [PATCH 34/36] tty: gdm724x: convert counts to size_t
-Message-ID: <20230815172247.GA1690054@dev-arch.thelio-3990X>
-References: <20230810091510.13006-1-jirislaby@kernel.org>
- <20230810091510.13006-35-jirislaby@kernel.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BD8F2C9E
+	for <linux-staging@lists.linux.dev>; Tue, 15 Aug 2023 18:44:35 +0000 (UTC)
+Received: by mail-ua1-f51.google.com with SMTP id a1e0cc1a2514c-79969c14964so1641863241.2
+        for <linux-staging@lists.linux.dev>; Tue, 15 Aug 2023 11:44:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1692125074; x=1692729874;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=mr89f7jlVGVNCiS1wFJrPscC+n1hf6qGfxlXNpoD46A=;
+        b=WMAQvCeiTFAjlOFLgFleqIQX7ucLCx4JlbR26BMfSLYqCBaYnmPSnQHOS5g9Rpq4fX
+         MOkachJJHldDF4XpEiJ34S3tPw8N61k4csG52/sWSTNVNOex7xc5jiOcHhjmX3j46d17
+         KDbZWz6dbZR3H0gpKxTc5naXTvIYiy14eLzi9g/eFBxJy16zvjMVaaEWW5O9GujFqRwW
+         A/A6WaYPW7QK9labOqQ5/jLSbsIQcsl8KKniP5Kz1p3kI+GqLs7leXzD0m909vK0bogb
+         wNaga3fvdYMqbim9NcMkMcrrbzCtVXDgA6uo18ZaCvQgs0dBd3xRzwC361OPcyacgOZN
+         GRTg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1692125074; x=1692729874;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=mr89f7jlVGVNCiS1wFJrPscC+n1hf6qGfxlXNpoD46A=;
+        b=JMhGmJbPGmIiajfNiGVrb4uiasn6pbofxEpNH0AFOKDA/5S5P3LvWcKLOI76Vx+60O
+         sYUT8d15CGkIBoFQjfr0RDVogNOAjGqyoJkre7l7VBC683y8//nsa9OIfXwBTlhF0rIp
+         VGX2kK57AF2wNOY7cQj89J3m+1jxfaY6DGLOyvn0gwq+TKcdGsJ6MMTdbyS49Hgtw6dC
+         zFZ/SGncU5QEzC1hhKt87jYDgU9wY5yt+TPOikma3XjzIk9n9NdEY8RfbERVENECRlcP
+         52Mu6rJzQ9POwzKYNoxlfaBpvKp0rz2MFMHuAYfqF8Y91Nyb8OZ2UTX9RwTuzCLdf4F4
+         +/zA==
+X-Gm-Message-State: AOJu0Yy1wx4Ju9zbFu4gzPpZc28yMn9QIyXo6N2WAY9JhuxMDvcvIQIe
+	dSL2weq1ZxJ5Vi16nzJfIY8=
+X-Google-Smtp-Source: AGHT+IGQDjfmkVlbrf2M9Fn/0we+GLd6kPwKwgcfcbJC9Id9MA/LoYhbuwY+Z1gF2f/sQh6DXh93aw==
+X-Received: by 2002:a67:fc94:0:b0:445:872:67ea with SMTP id x20-20020a67fc94000000b00445087267eamr13341344vsp.34.1692125074023;
+        Tue, 15 Aug 2023 11:44:34 -0700 (PDT)
+Received: from abdel (bras-base-ktnron0692w-grc-13-174-95-13-129.dsl.bell.ca. [174.95.13.129])
+        by smtp.gmail.com with ESMTPSA id y3-20020a0cd983000000b0063d152e5d9asm2186570qvj.120.2023.08.15.11.44.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 15 Aug 2023 11:44:33 -0700 (PDT)
+Date: Tue, 15 Aug 2023 14:44:29 -0400
+From: Abdel Alkuor <alkuor@gmail.com>
+To: Nam Cao <namcaov@gmail.com>
+Cc: gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev, linux-fbdev@vger.kernel.org
+Subject: Re: [PATCH] staging: sm750fb: fix sii164InitChip function name
+Message-ID: <ZNvHjUlGnWqUVSNe@abdel>
+References: <20230815043759.404423-1-alkuor@gmail.com>
+ <ZNsOv7F1B9AnlUVG@nam-dell>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -32,80 +54,79 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230810091510.13006-35-jirislaby@kernel.org>
+In-Reply-To: <ZNsOv7F1B9AnlUVG@nam-dell>
 
-On Thu, Aug 10, 2023 at 11:15:08AM +0200, Jiri Slaby (SUSE) wrote:
-> Unify the type of tty_operations::write() counters with the 'count'
-> parameter. I.e. use size_t for them.
+On Tue, Aug 15, 2023 at 07:35:59AM +0200, Nam Cao wrote:
+> On Tue, Aug 15, 2023 at 12:37:59AM -0400, Abdel Alkuor wrote:
+> > Adhere to Linux Kernel coding style. Found by checkpatch.
+> > 
+> > Signed-off-by: Abdel Alkuor <alkuor@gmail.com>
+> > ---
+> >  drivers/staging/sm750fb/ddk750_dvi.c    | 2 +-
+> >  drivers/staging/sm750fb/ddk750_sii164.c | 4 ++--
+> >  drivers/staging/sm750fb/ddk750_sii164.h | 2 +-
+> >  3 files changed, 4 insertions(+), 4 deletions(-)
+> > 
+> > diff --git a/drivers/staging/sm750fb/ddk750_dvi.c b/drivers/staging/sm750fb/ddk750_dvi.c
+> > index e0c7ff3352bf..8b81e8642f9e 100644
+> > --- a/drivers/staging/sm750fb/ddk750_dvi.c
+> > +++ b/drivers/staging/sm750fb/ddk750_dvi.c
+> > @@ -14,7 +14,7 @@
+> >  static struct dvi_ctrl_device dcft_supported_dvi_controller[] = {
+> >  #ifdef DVI_CTRL_SII164
+> >  	{
+> > -		.init = sii164InitChip,
+> > +		.init = sii164_init_chip,
+> >  		.get_vendor_id = sii164_get_vendor_id,
+> >  		.get_device_id = sii164GetDeviceID,
+> >  #ifdef SII164_FULL_FUNCTIONS
+> > diff --git a/drivers/staging/sm750fb/ddk750_sii164.c b/drivers/staging/sm750fb/ddk750_sii164.c
+> > index 3da1796cd7aa..d162e1a16584 100644
+> > --- a/drivers/staging/sm750fb/ddk750_sii164.c
+> > +++ b/drivers/staging/sm750fb/ddk750_sii164.c
+> > @@ -72,7 +72,7 @@ unsigned short sii164GetDeviceID(void)
+> >   */
+> >  
+> >  /*
+> > - *  sii164InitChip
+> > + *  sii164_init_chip
+> >   *      This function initialize and detect the DVI controller chip.
+> >   *
+> >   *  Input:
+> > @@ -118,7 +118,7 @@ unsigned short sii164GetDeviceID(void)
+> >   *      0   - Success
+> >   *     -1   - Fail.
+> >   */
+> > -long sii164InitChip(unsigned char edge_select,
+> > +long sii164_init_chip(unsigned char edge_select,
+> >  		    unsigned char bus_select,
+> >  		    unsigned char dual_edge_clk_select,
+> >  		    unsigned char hsync_enable,
 > 
-> This includes changing constants to UL to keep min() and avoid min_t().
-
-This patch appears to cause a warning/error on 32-bit architectures now
-due to this part of the change, as size_t is 'unsigned int' there:
-
-  In file included from include/linux/kernel.h:27,
-                   from drivers/staging/gdm724x/gdm_tty.c:6:
-  drivers/staging/gdm724x/gdm_tty.c: In function 'gdm_tty_write':
-  include/linux/minmax.h:21:35: error: comparison of distinct pointer types lacks a cast [-Werror]
-     21 |         (!!(sizeof((typeof(x) *)1 == (typeof(y) *)1)))
-        |                                   ^~
-  include/linux/minmax.h:27:18: note: in expansion of macro '__typecheck'
-     27 |                 (__typecheck(x, y) && __no_side_effects(x, y))
-        |                  ^~~~~~~~~~~
-  include/linux/minmax.h:37:31: note: in expansion of macro '__safe_cmp'
-     37 |         __builtin_choose_expr(__safe_cmp(x, y), \
-        |                               ^~~~~~~~~~
-  include/linux/minmax.h:68:25: note: in expansion of macro '__careful_cmp'
-     68 | #define min(x, y)       __careful_cmp(x, y, <)
-        |                         ^~~~~~~~~~~~~
-  drivers/staging/gdm724x/gdm_tty.c:162:38: note: in expansion of macro 'min'
-    162 |                 size_t sending_len = min(MUX_TX_MAX_SIZE, remain);
-        |                                      ^~~
-  cc1: all warnings being treated as errors
-
-> Signed-off-by: Jiri Slaby (SUSE) <jirislaby@kernel.org>
-> Cc: linux-staging@lists.linux.dev
-> ---
->  drivers/staging/gdm724x/gdm_tty.c | 11 +++++------
->  1 file changed, 5 insertions(+), 6 deletions(-)
+> I think you introduce new checkpatch warnings here.
 > 
-> diff --git a/drivers/staging/gdm724x/gdm_tty.c b/drivers/staging/gdm724x/gdm_tty.c
-> index b31f2afb0286..cbaaa8fa7474 100644
-> --- a/drivers/staging/gdm724x/gdm_tty.c
-> +++ b/drivers/staging/gdm724x/gdm_tty.c
-> @@ -17,9 +17,9 @@
->  #define GDM_TTY_MAJOR 0
->  #define GDM_TTY_MINOR 32
->  
-> -#define WRITE_SIZE 2048
-> +#define WRITE_SIZE 2048UL
->  
-> -#define MUX_TX_MAX_SIZE 2048
-> +#define MUX_TX_MAX_SIZE 2048UL
->  
->  static inline bool gdm_tty_ready(struct gdm *gdm)
->  {
-> @@ -152,9 +152,8 @@ static void gdm_tty_send_complete(void *arg)
->  static ssize_t gdm_tty_write(struct tty_struct *tty, const u8 *buf, size_t len)
->  {
->  	struct gdm *gdm = tty->driver_data;
-> -	int remain = len;
-> -	int sent_len = 0;
-> -	int sending_len = 0;
-> +	size_t remain = len;
-> +	size_t sent_len = 0;
->  
->  	if (!gdm_tty_ready(gdm))
->  		return -ENODEV;
-> @@ -163,7 +162,7 @@ static ssize_t gdm_tty_write(struct tty_struct *tty, const u8 *buf, size_t len)
->  		return 0;
->  
->  	while (1) {
-> -		sending_len = min(MUX_TX_MAX_SIZE, remain);
-> +		size_t sending_len = min(MUX_TX_MAX_SIZE, remain);
->  		gdm->tty_dev->send_func(gdm->tty_dev->priv_dev,
->  					(void *)(buf + sent_len),
->  					sending_len,
-> -- 
-> 2.41.0
+> > diff --git a/drivers/staging/sm750fb/ddk750_sii164.h b/drivers/staging/sm750fb/ddk750_sii164.h
+> > index ca330f6a43e2..13420bcc282c 100644
+> > --- a/drivers/staging/sm750fb/ddk750_sii164.h
+> > +++ b/drivers/staging/sm750fb/ddk750_sii164.h
+> > @@ -16,7 +16,7 @@ enum sii164_hot_plug_mode {
+> >  };
+> >  
+> >  /* Silicon Image SiI164 chip prototype */
+> > -long sii164InitChip(unsigned char edgeSelect,
+> > +long sii164_init_chip(unsigned char edgeSelect,
+> >  		    unsigned char busSelect,
+> >  		    unsigned char dualEdgeClkSelect,
+> >  		    unsigned char hsyncEnable,
 > 
+> Also here.
+> 
+> Best regards,
+> Nam
+> > 
+
+Hi Nam,
+
+Thanks for the review. I will update the indentation in V2.
+
+Abdel
