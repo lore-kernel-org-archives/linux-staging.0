@@ -1,50 +1,29 @@
-Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 445603C00
-	for <linux-staging@lists.linux.dev>; Tue, 15 Aug 2023 05:36:03 +0000 (UTC)
-Received: by mail-ed1-f50.google.com with SMTP id 4fb4d7f45d1cf-523476e868dso6544675a12.3
-        for <linux-staging@lists.linux.dev>; Mon, 14 Aug 2023 22:36:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1692077761; x=1692682561;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=bIk/OqrRoEJjSTmzxoUEBu2a2Sc3kU0E+CExCTOuyHE=;
-        b=CG+YeVRvcwfSJmOckrdC21CEF0oQ+gNUvj41XFDEK8uLJKzEz++eaZjTG7Ns/k0cVk
-         LWttB8k3vyVBFL5ZFpDiyrjiKo6eRBhq7/fAIXhOarOA/t0S5IOBZBg566OqZT7ZNFTw
-         BoOkLsaJeGOQX+BnYA661Lq/eLbLS2HFWfprUcyVUNaio7ZNsaWtU/Jph27EeWJs3Pzf
-         3oB5wa2hNQ/R9LaviQV0oBpuf5we02cJlhz3/MjD4p3yacteiajzmzRGZgeGGouVAfAA
-         sTdTMrffIyyt+SuUjJ9DOAvcXp3IjijzBFrgP08d+pdrYWxFBur5nirjGjSRo/cVEPit
-         Zykg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692077761; x=1692682561;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=bIk/OqrRoEJjSTmzxoUEBu2a2Sc3kU0E+CExCTOuyHE=;
-        b=N1TCISX+lSef03fT6CBCF/1TLCA5ULgAvlSCr9J/Ykx4AhoZkWdoBMP41AAJoPlQtb
-         wPS8B5t6onuDKuY+qYEr4D+WrJFv/HIuDh0Bd64CJ1pwpTjBOX7YAS4V8BXSBs3dUN7Q
-         UH68sOOA6778dTzfz3xNtmh/QrEjV82xy40srX9962rWpZ5c6///lfAMMyhaltjpvuWx
-         jtq4fEHnHkbotAWtEA4egUze7RMs4xyCw6Rp6m/1xqn8HArZ1XDRYgsYuRQrOQHwaS4e
-         Ny1Id5aGAVBA7AgbQREBL28aMOzytVHSFOg0402rQRCOPDX3cFiNsE4sPVCkp56Ycuyv
-         oiWw==
-X-Gm-Message-State: AOJu0Yw3mbnpOLjrTX07Iof/rGmq4WbeicKwHKtf1g1ZuXNuBEP1Df6A
-	MYvdu6HNBCXBzyv7pVBUjdM=
-X-Google-Smtp-Source: AGHT+IFpLPB6bcWraXia54uKaz4BAJCTyZFd7fSE26sxCsBffFUTbk0czBecUfcy0Dz8JukUC97nYw==
-X-Received: by 2002:a05:6402:124d:b0:525:4420:c425 with SMTP id l13-20020a056402124d00b005254420c425mr6430763edw.12.1692077760995;
-        Mon, 14 Aug 2023 22:36:00 -0700 (PDT)
-Received: from nam-dell (ip-217-105-46-58.ip.prioritytelecom.net. [217.105.46.58])
-        by smtp.gmail.com with ESMTPSA id q9-20020a056402040900b0051dd19d6d6esm6449284edv.73.2023.08.14.22.35.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 14 Aug 2023 22:36:00 -0700 (PDT)
-Date: Tue, 15 Aug 2023 07:35:59 +0200
-From: Nam Cao <namcaov@gmail.com>
-To: Abdel Alkuor <alkuor@gmail.com>
-Cc: gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev, linux-fbdev@vger.kernel.org
-Subject: Re: [PATCH] staging: sm750fb: fix sii164InitChip function name
-Message-ID: <ZNsOv7F1B9AnlUVG@nam-dell>
-References: <20230815043759.404423-1-alkuor@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAA41134CE
+	for <linux-staging@lists.linux.dev>; Tue, 15 Aug 2023 17:22:49 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F1F1EC433C8;
+	Tue, 15 Aug 2023 17:22:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1692120169;
+	bh=7O9FdqMiLm40fpPG8sUMe1FLvmeqL8CETydj3KFafrM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=ATni7ZcWLK7LxKF2dqg/BcRGt2/E1l6M1qW78YiYhEygtMnZ8xUpdOngoWuoiBLyz
+	 giTI+h7KBgFTnN6wk+pwbkqcR8RaBraeiDH/vW/XOBGv2X+jyf2HzWfP4BixMAmgQG
+	 vvx5UTJtNAsNC8G00Y4sNWHJYu8Z5wfLymHFwGLBKdUi0XqXe9JvsvbVVDDgHqIgmW
+	 dMZc3ychRFhcIw6TfRBpoIi/KcjP5/tKHYQ5sPDKzsfAqUTj8W4RzgVnM5ybRxXbTb
+	 IGC73JEQSvrLS5tySj3z3OlNVm7PKsFCYRcTLfNS/Gf72UgoSz/sE2h/vR8LwwJwX6
+	 /PNngo4A8tGIQ==
+Date: Tue, 15 Aug 2023 10:22:47 -0700
+From: Nathan Chancellor <nathan@kernel.org>
+To: "Jiri Slaby (SUSE)" <jirislaby@kernel.org>
+Cc: gregkh@linuxfoundation.org, linux-serial@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
+Subject: Re: [PATCH 34/36] tty: gdm724x: convert counts to size_t
+Message-ID: <20230815172247.GA1690054@dev-arch.thelio-3990X>
+References: <20230810091510.13006-1-jirislaby@kernel.org>
+ <20230810091510.13006-35-jirislaby@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -53,72 +32,80 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230815043759.404423-1-alkuor@gmail.com>
+In-Reply-To: <20230810091510.13006-35-jirislaby@kernel.org>
 
-On Tue, Aug 15, 2023 at 12:37:59AM -0400, Abdel Alkuor wrote:
-> Adhere to Linux Kernel coding style. Found by checkpatch.
+On Thu, Aug 10, 2023 at 11:15:08AM +0200, Jiri Slaby (SUSE) wrote:
+> Unify the type of tty_operations::write() counters with the 'count'
+> parameter. I.e. use size_t for them.
 > 
-> Signed-off-by: Abdel Alkuor <alkuor@gmail.com>
+> This includes changing constants to UL to keep min() and avoid min_t().
+
+This patch appears to cause a warning/error on 32-bit architectures now
+due to this part of the change, as size_t is 'unsigned int' there:
+
+  In file included from include/linux/kernel.h:27,
+                   from drivers/staging/gdm724x/gdm_tty.c:6:
+  drivers/staging/gdm724x/gdm_tty.c: In function 'gdm_tty_write':
+  include/linux/minmax.h:21:35: error: comparison of distinct pointer types lacks a cast [-Werror]
+     21 |         (!!(sizeof((typeof(x) *)1 == (typeof(y) *)1)))
+        |                                   ^~
+  include/linux/minmax.h:27:18: note: in expansion of macro '__typecheck'
+     27 |                 (__typecheck(x, y) && __no_side_effects(x, y))
+        |                  ^~~~~~~~~~~
+  include/linux/minmax.h:37:31: note: in expansion of macro '__safe_cmp'
+     37 |         __builtin_choose_expr(__safe_cmp(x, y), \
+        |                               ^~~~~~~~~~
+  include/linux/minmax.h:68:25: note: in expansion of macro '__careful_cmp'
+     68 | #define min(x, y)       __careful_cmp(x, y, <)
+        |                         ^~~~~~~~~~~~~
+  drivers/staging/gdm724x/gdm_tty.c:162:38: note: in expansion of macro 'min'
+    162 |                 size_t sending_len = min(MUX_TX_MAX_SIZE, remain);
+        |                                      ^~~
+  cc1: all warnings being treated as errors
+
+> Signed-off-by: Jiri Slaby (SUSE) <jirislaby@kernel.org>
+> Cc: linux-staging@lists.linux.dev
 > ---
->  drivers/staging/sm750fb/ddk750_dvi.c    | 2 +-
->  drivers/staging/sm750fb/ddk750_sii164.c | 4 ++--
->  drivers/staging/sm750fb/ddk750_sii164.h | 2 +-
->  3 files changed, 4 insertions(+), 4 deletions(-)
+>  drivers/staging/gdm724x/gdm_tty.c | 11 +++++------
+>  1 file changed, 5 insertions(+), 6 deletions(-)
 > 
-> diff --git a/drivers/staging/sm750fb/ddk750_dvi.c b/drivers/staging/sm750fb/ddk750_dvi.c
-> index e0c7ff3352bf..8b81e8642f9e 100644
-> --- a/drivers/staging/sm750fb/ddk750_dvi.c
-> +++ b/drivers/staging/sm750fb/ddk750_dvi.c
-> @@ -14,7 +14,7 @@
->  static struct dvi_ctrl_device dcft_supported_dvi_controller[] = {
->  #ifdef DVI_CTRL_SII164
->  	{
-> -		.init = sii164InitChip,
-> +		.init = sii164_init_chip,
->  		.get_vendor_id = sii164_get_vendor_id,
->  		.get_device_id = sii164GetDeviceID,
->  #ifdef SII164_FULL_FUNCTIONS
-> diff --git a/drivers/staging/sm750fb/ddk750_sii164.c b/drivers/staging/sm750fb/ddk750_sii164.c
-> index 3da1796cd7aa..d162e1a16584 100644
-> --- a/drivers/staging/sm750fb/ddk750_sii164.c
-> +++ b/drivers/staging/sm750fb/ddk750_sii164.c
-> @@ -72,7 +72,7 @@ unsigned short sii164GetDeviceID(void)
->   */
+> diff --git a/drivers/staging/gdm724x/gdm_tty.c b/drivers/staging/gdm724x/gdm_tty.c
+> index b31f2afb0286..cbaaa8fa7474 100644
+> --- a/drivers/staging/gdm724x/gdm_tty.c
+> +++ b/drivers/staging/gdm724x/gdm_tty.c
+> @@ -17,9 +17,9 @@
+>  #define GDM_TTY_MAJOR 0
+>  #define GDM_TTY_MINOR 32
 >  
->  /*
-> - *  sii164InitChip
-> + *  sii164_init_chip
->   *      This function initialize and detect the DVI controller chip.
->   *
->   *  Input:
-> @@ -118,7 +118,7 @@ unsigned short sii164GetDeviceID(void)
->   *      0   - Success
->   *     -1   - Fail.
->   */
-> -long sii164InitChip(unsigned char edge_select,
-> +long sii164_init_chip(unsigned char edge_select,
->  		    unsigned char bus_select,
->  		    unsigned char dual_edge_clk_select,
->  		    unsigned char hsync_enable,
-
-I think you introduce new checkpatch warnings here.
-
-> diff --git a/drivers/staging/sm750fb/ddk750_sii164.h b/drivers/staging/sm750fb/ddk750_sii164.h
-> index ca330f6a43e2..13420bcc282c 100644
-> --- a/drivers/staging/sm750fb/ddk750_sii164.h
-> +++ b/drivers/staging/sm750fb/ddk750_sii164.h
-> @@ -16,7 +16,7 @@ enum sii164_hot_plug_mode {
->  };
+> -#define WRITE_SIZE 2048
+> +#define WRITE_SIZE 2048UL
 >  
->  /* Silicon Image SiI164 chip prototype */
-> -long sii164InitChip(unsigned char edgeSelect,
-> +long sii164_init_chip(unsigned char edgeSelect,
->  		    unsigned char busSelect,
->  		    unsigned char dualEdgeClkSelect,
->  		    unsigned char hsyncEnable,
-
-Also here.
-
-Best regards,
-Nam
+> -#define MUX_TX_MAX_SIZE 2048
+> +#define MUX_TX_MAX_SIZE 2048UL
+>  
+>  static inline bool gdm_tty_ready(struct gdm *gdm)
+>  {
+> @@ -152,9 +152,8 @@ static void gdm_tty_send_complete(void *arg)
+>  static ssize_t gdm_tty_write(struct tty_struct *tty, const u8 *buf, size_t len)
+>  {
+>  	struct gdm *gdm = tty->driver_data;
+> -	int remain = len;
+> -	int sent_len = 0;
+> -	int sending_len = 0;
+> +	size_t remain = len;
+> +	size_t sent_len = 0;
+>  
+>  	if (!gdm_tty_ready(gdm))
+>  		return -ENODEV;
+> @@ -163,7 +162,7 @@ static ssize_t gdm_tty_write(struct tty_struct *tty, const u8 *buf, size_t len)
+>  		return 0;
+>  
+>  	while (1) {
+> -		sending_len = min(MUX_TX_MAX_SIZE, remain);
+> +		size_t sending_len = min(MUX_TX_MAX_SIZE, remain);
+>  		gdm->tty_dev->send_func(gdm->tty_dev->priv_dev,
+>  					(void *)(buf + sent_len),
+>  					sending_len,
+> -- 
+> 2.41.0
 > 
