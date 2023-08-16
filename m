@@ -1,70 +1,109 @@
-Received: from eu-smtp-delivery-151.mimecast.com (eu-smtp-delivery-151.mimecast.com [185.58.86.151])
+Received: from mslow1.mail.gandi.net (mslow1.mail.gandi.net [217.70.178.240])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DD64D53B
-	for <linux-staging@lists.linux.dev>; Wed, 16 Aug 2023 09:21:02 +0000 (UTC)
-Received: from AcuMS.aculab.com (156.67.243.121 [156.67.243.121]) by
- relay.mimecast.com with ESMTP with both STARTTLS and AUTH (version=TLSv1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- uk-mtapsc-7-tOIxv-NvMECBkHxU2QaG3g-1; Wed, 16 Aug 2023 10:20:00 +0100
-X-MC-Unique: tOIxv-NvMECBkHxU2QaG3g-1
-Received: from AcuMS.Aculab.com (10.202.163.6) by AcuMS.aculab.com
- (10.202.163.6) with Microsoft SMTP Server (TLS) id 15.0.1497.48; Wed, 16 Aug
- 2023 10:18:03 +0100
-Received: from AcuMS.Aculab.com ([::1]) by AcuMS.aculab.com ([::1]) with mapi
- id 15.00.1497.048; Wed, 16 Aug 2023 10:18:03 +0100
-From: David Laight <David.Laight@ACULAB.COM>
-To: 'Jiri Slaby' <jirislaby@kernel.org>, Nathan Chancellor <nathan@kernel.org>
-CC: "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
-	"linux-serial@vger.kernel.org" <linux-serial@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"linux-staging@lists.linux.dev" <linux-staging@lists.linux.dev>
-Subject: RE: [PATCH 34/36] tty: gdm724x: convert counts to size_t
-Thread-Topic: [PATCH 34/36] tty: gdm724x: convert counts to size_t
-Thread-Index: AQHZ0A2Smc/5XT+NnUuSfmLwyiVGwq/smYqg///1V4CAABGqoA==
-Date: Wed, 16 Aug 2023 09:18:03 +0000
-Message-ID: <9c4a831ae5284aec887ea60d4dda2b8c@AcuMS.aculab.com>
-References: <20230810091510.13006-1-jirislaby@kernel.org>
- <20230810091510.13006-35-jirislaby@kernel.org>
- <20230815172247.GA1690054@dev-arch.thelio-3990X>
- <937e14c1-d884-0b6e-595a-e8aaa3d09025@kernel.org>
- <bdbdfdaad3a842d2837ac9d15ef2ab25@AcuMS.aculab.com>
- <00de3273-9433-138d-b659-826457e6a008@kernel.org>
-In-Reply-To: <00de3273-9433-138d-b659-826457e6a008@kernel.org>
-Accept-Language: en-GB, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.202.205.107]
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D6A4DDBA;
+	Wed, 16 Aug 2023 10:18:07 +0000 (UTC)
+Received: from relay9-d.mail.gandi.net (unknown [IPv6:2001:4b98:dc4:8::229])
+	by mslow1.mail.gandi.net (Postfix) with ESMTP id 2976CC7E6D;
+	Wed, 16 Aug 2023 10:10:01 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 5B9CDFF806;
+	Wed, 16 Aug 2023 10:09:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1692180593;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=h5lQWAeW+NPtPE1/7EDtPleEl+xEGXup9jpMcYQ0n6M=;
+	b=DlYF10Orb/YRYdAJs40h8geepm6lgzERhMPFuAx1rfJ/3D5mqvGKAigz3jivXKPYWOycQn
+	qpxAjJqFrAc0N299pIhFnHFZHdgK/nvL9HTAX6AZ9bhMxRgSGiwOGvbiQ5XggUY7Yo0wMm
+	oWEo+kO2upJ/QaYtpHrS5Eon0/ocUF6tCrRS5RA1aHOJHnPiLy3qMkcZSPBPSWSheJ65qe
+	H/fSWk1/uHEdaiXI8H0F5lcOYbUqDsyg/lDKX8wUzaV3CfgNe+U5nbe9xR2BN7TsKKUFy3
+	njFLId+hO/MILW2rbPy3ZtCs67tNbZoIXSYuzxmrVTDZP/UGsG6PEk+X5scbOg==
+Date: Wed, 16 Aug 2023 12:09:47 +0200
+From: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+To: Ruan Jinjie <ruanjinjie@huawei.com>
+Cc: TheSven73@gmail.com, gregkh@linuxfoundation.org, mripard@kernel.org,
+	mchehab@kernel.org, wens@csie.org, jernej.skrabec@gmail.com,
+	samuel@sholland.org, linux-staging@lists.linux.dev,
+	linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH -next 2/2] media: staging: media: sunxi: cedrus: Remove
+ redundant of_match_ptr()
+Message-ID: <ZNyga6GGlSiKpMqE@aptenodytes>
+References: <20230811024945.2256437-1-ruanjinjie@huawei.com>
+ <20230811024945.2256437-3-ruanjinjie@huawei.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: aculab.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: base64
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="A9Pa7haUiISTifj7"
+Content-Disposition: inline
+In-Reply-To: <20230811024945.2256437-3-ruanjinjie@huawei.com>
+X-GND-Sasl: paul.kocialkowski@bootlin.com
 
-RnJvbTogSmlyaSBTbGFieQ0KPiBTZW50OiBXZWRuZXNkYXksIEF1Z3VzdCAxNiwgMjAyMyA5OjU5
-IEFNDQouLi4NCj4gPiAnVm90ZSB1cCcgbXkgcGF0Y2hlcyB0byBtaW5tYXguaCB0aGF0IG1ha2Ug
-dGhpcyBhbGwgd29yay4NCj4gPiBUaGVuIGl0IHdvbid0IGNhcmUgcHJvdmlkZWQgYm90aCB2YWx1
-ZXMgaGF2ZSB0aGUgc2FtZSBzaWduZWRuZXNzLg0KPiA+IChvciwgd2l0aCBwYXRjaCA1LCBhcmUg
-bm9uLW5lZ2F0aXZlIDMxYml0IGNvbXBpbGUgdGltZSBjb25zdGFudHMuKQ0KPiANCj4gT2ggeWVh
-aCwgdGhhdCBbMV0gbG9va3MgZ3JlYXQuIFdoeSBzaG91bGQgb25lIGNhcmUgaW4gbWluKDQwOTYs
-DQo+IHNpemVvZigpKSBhZnRlciBhbGzigKYNCj4gDQo+IFNvIHdoYXQncyB0aGUgY3VycmVudCBz
-dGF0dXMgb2YgdGhvc2U/DQoNCldhaXRpbmcuLi4gOi0oDQoNClRoZSBvbmx5IGNvbW1lbnQgaXMg
-ZnJvbSBMaW51cyB3aG8gcmVhbGx5IGRvZXNuJ3QgbGlrZSB0aGUgaWRlYQ0KdGhhdCBtaW4oc2ln
-bmVkX3ZhciwgNHUpIHNob3VsZCBiZSB0aGUgc2FtZSBhcyBtaW4oc2lnbmVkX3ZhciwgNCkuDQpJ
-IHRoaW5rIGhlIGlzIG9rIHdpdGggbWluKHVuc2lnbmVkX3ZhciwgNCkgdGhvdWdoLg0KDQpUaGUg
-bWluX3QodTE2LC4uLikgSSBxdW90ZWQgZnJvbSB0aGUgY29uc29sZSBidWZmZXIgY29kZSBpcw0K
-YSByZWFsIGJ1ZyB0aGF0IHdhcyBpZGVudGlmaWVkIGJ5IHNvbWVvbmUgZWxzZSBsYXN0IHdlZWsu
-DQoNClJlYWxseSBtaW5fdCgpIGlzIGp1c3QgYW4gYWNjaWRlbnQgd2FpdGluZyB0byBoYXBwZW4u
-DQoNCglEYXZpZA0KDQo+IA0KPiBbMV0NCj4gaHR0cHM6Ly9sb3JlLmtlcm5lbC5vcmcvYWxsL2I0
-Y2U5ZGFkNzQ4ZTQ4OWY5MzE0YTJkYzk1NjE1MDMzQEFjdU1TLmFjdWxhYi5jb20vDQo+IA0KPiB0
-aGFua3MsDQo+IC0tDQo+IGpzDQo+IHN1c2UgbGFicw0KDQotDQpSZWdpc3RlcmVkIEFkZHJlc3Mg
-TGFrZXNpZGUsIEJyYW1sZXkgUm9hZCwgTW91bnQgRmFybSwgTWlsdG9uIEtleW5lcywgTUsxIDFQ
-VCwgVUsNClJlZ2lzdHJhdGlvbiBObzogMTM5NzM4NiAoV2FsZXMpDQo=
 
+--A9Pa7haUiISTifj7
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+Hi,
+
+On Fri 11 Aug 23, 10:49, Ruan Jinjie wrote:
+> The driver depends on CONFIG_OF, it is not necessary to use
+> of_match_ptr() here.
+>=20
+> Signed-off-by: Ruan Jinjie <ruanjinjie@huawei.com>
+
+Acked-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+
+Thanks for the patch!
+
+Paul
+
+> ---
+>  drivers/staging/media/sunxi/cedrus/cedrus.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> diff --git a/drivers/staging/media/sunxi/cedrus/cedrus.c b/drivers/stagin=
+g/media/sunxi/cedrus/cedrus.c
+> index 8e248d4a0aec..f52df6836045 100644
+> --- a/drivers/staging/media/sunxi/cedrus/cedrus.c
+> +++ b/drivers/staging/media/sunxi/cedrus/cedrus.c
+> @@ -708,7 +708,7 @@ static struct platform_driver cedrus_driver =3D {
+>  	.remove_new	=3D cedrus_remove,
+>  	.driver		=3D {
+>  		.name		=3D CEDRUS_NAME,
+> -		.of_match_table	=3D of_match_ptr(cedrus_dt_match),
+> +		.of_match_table	=3D cedrus_dt_match,
+>  		.pm		=3D &cedrus_dev_pm_ops,
+>  	},
+>  };
+> --=20
+> 2.34.1
+>=20
+
+--=20
+Paul Kocialkowski, Bootlin
+Embedded Linux and kernel engineering
+https://bootlin.com
+
+--A9Pa7haUiISTifj7
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAmTcoGsACgkQ3cLmz3+f
+v9EqXwf8CN23uyCZvWuHCFCGwyazYagcl06F9igVRFlNx1JcpSilPC0s/vCeZzks
+240k+JQDOqoIeC6sHKJfyfBWSEWwc7j7GnKQRZnVA0+bU5fl4f3/wDWzKl6hnUVR
+aW6ZVyVigGKuTeGw3DwvRXvdFHPvLwAuDJ3SYz2E51XJ06KPaVxZyu2ifoQUqIXk
+RWUJkZR6e/lt/9376J5JItKThqFa8LEe2RBk3E55GeNHBXBr2d/9Q36XW/wdow38
+E84wzyD4jFeO1iRdm1n0rZIojgtwTc2iPxm+OM8vvGaCdgliLpfpezZZ+1zWuJCq
+5+q6bs4Dr5apCGu86U3CcviVi3oL2w==
+=frhy
+-----END PGP SIGNATURE-----
+
+--A9Pa7haUiISTifj7--
