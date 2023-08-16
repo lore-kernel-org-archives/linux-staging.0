@@ -1,109 +1,118 @@
-Received: from mslow1.mail.gandi.net (mslow1.mail.gandi.net [217.70.178.240])
+Received: from chg.server2.ideacentral.com (unknown [108.163.232.234])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D6A4DDBA;
-	Wed, 16 Aug 2023 10:18:07 +0000 (UTC)
-Received: from relay9-d.mail.gandi.net (unknown [IPv6:2001:4b98:dc4:8::229])
-	by mslow1.mail.gandi.net (Postfix) with ESMTP id 2976CC7E6D;
-	Wed, 16 Aug 2023 10:10:01 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 5B9CDFF806;
-	Wed, 16 Aug 2023 10:09:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1692180593;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=h5lQWAeW+NPtPE1/7EDtPleEl+xEGXup9jpMcYQ0n6M=;
-	b=DlYF10Orb/YRYdAJs40h8geepm6lgzERhMPFuAx1rfJ/3D5mqvGKAigz3jivXKPYWOycQn
-	qpxAjJqFrAc0N299pIhFnHFZHdgK/nvL9HTAX6AZ9bhMxRgSGiwOGvbiQ5XggUY7Yo0wMm
-	oWEo+kO2upJ/QaYtpHrS5Eon0/ocUF6tCrRS5RA1aHOJHnPiLy3qMkcZSPBPSWSheJ65qe
-	H/fSWk1/uHEdaiXI8H0F5lcOYbUqDsyg/lDKX8wUzaV3CfgNe+U5nbe9xR2BN7TsKKUFy3
-	njFLId+hO/MILW2rbPy3ZtCs67tNbZoIXSYuzxmrVTDZP/UGsG6PEk+X5scbOg==
-Date: Wed, 16 Aug 2023 12:09:47 +0200
-From: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-To: Ruan Jinjie <ruanjinjie@huawei.com>
-Cc: TheSven73@gmail.com, gregkh@linuxfoundation.org, mripard@kernel.org,
-	mchehab@kernel.org, wens@csie.org, jernej.skrabec@gmail.com,
-	samuel@sholland.org, linux-staging@lists.linux.dev,
-	linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH -next 2/2] media: staging: media: sunxi: cedrus: Remove
- redundant of_match_ptr()
-Message-ID: <ZNyga6GGlSiKpMqE@aptenodytes>
-References: <20230811024945.2256437-1-ruanjinjie@huawei.com>
- <20230811024945.2256437-3-ruanjinjie@huawei.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06FCD101E2
+	for <linux-staging@lists.linux.dev>; Wed, 16 Aug 2023 10:32:48 +0000 (UTC)
+Received: from mailnull by ns-196.awsdns-24.com with local (Exim 4.96)
+	id 1qWDpY-00CBlb-0E
+	for linux-staging@lists.linux.dev;
+	Wed, 16 Aug 2023 05:32:48 -0500
+X-Failed-Recipients: linux-staging@lists.linux.dev
+Auto-Submitted: auto-replied
+From: Mail Delivery System <Mailer-Daemon@ns-196.awsdns-24.com>
+To: linux-staging@lists.linux.dev
+References: <20230816113242.DA07B8DB3BA1A07D@lists.linux.dev>
+Content-Type: multipart/report; report-type=delivery-status; boundary=1692181968-eximdsn-6837268
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="A9Pa7haUiISTifj7"
-Content-Disposition: inline
-In-Reply-To: <20230811024945.2256437-3-ruanjinjie@huawei.com>
-X-GND-Sasl: paul.kocialkowski@bootlin.com
+Subject: Mail delivery failed: returning message to sender
+Message-Id: <E1qWDpY-00CBlb-0E@ns-196.awsdns-24.com>
+Date: Wed, 16 Aug 2023 05:32:48 -0500
+X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
+X-AntiAbuse: Primary Hostname - ns-196.awsdns-24.com
+X-AntiAbuse: Original Domain - lists.linux.dev
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - 
+X-Get-Message-Sender-Via: ns-196.awsdns-24.com: sender_ident via received_protocol == local: mailnull/primary_hostname/system user
+X-Authenticated-Sender: ns-196.awsdns-24.com: mailnull
 
+--1692181968-eximdsn-6837268
+Content-type: text/plain; charset=us-ascii
 
---A9Pa7haUiISTifj7
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+This message was created automatically by mail delivery software.
+
+A message that you sent could not be delivered to one or more of its
+recipients. This is a permanent error. The following address(es) failed:
+
+  linux-staging@lists.linux.dev
+    host smtp.subspace.kernel.org [44.238.234.78]
+    SMTP error from remote mail server after end of data:
+    550 5.7.1 Blocked by SpamAssassin
+
+--1692181968-eximdsn-6837268
+Content-type: message/delivery-status
+
+Reporting-MTA: dns; ns-196.awsdns-24.com
+
+Action: failed
+Final-Recipient: rfc822;linux-staging@lists.linux.dev
+Status: 5.0.0
+Remote-MTA: dns; smtp.subspace.kernel.org
+Diagnostic-Code: smtp; 550 5.7.1 Blocked by SpamAssassin
+
+--1692181968-eximdsn-6837268
+Content-type: message/rfc822
+
+Return-path: <linux-staging@lists.linux.dev>
+Received: from v-104-153-108-120.unman-vds.premium-chicago.nfoservers.com ([104.153.108.120]:51513)
+	by ns-196.awsdns-24.com with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <linux-staging@lists.linux.dev>)
+	id 1qWDpT-00CACB-2b
+	for linux-staging@lists.linux.dev;
+	Wed, 16 Aug 2023 05:32:43 -0500
+From: lists.linux.devAdministrator<linux-staging@lists.linux.dev>
+To: linux-staging@lists.linux.dev
+Subject: =?UTF-8?B?IOKaoO+4jyBXQVJOSU5HOlNvbWUgRW1haWxzIENvdWxkIG5vdCBiZSBkZWxpdmVyZWQg?=
+Date: 16 Aug 2023 11:32:42 +0100
+Message-ID: <20230816113242.DA07B8DB3BA1A07D@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/html
 Content-Transfer-Encoding: quoted-printable
 
-Hi,
+<!DOCTYPE html>
 
-On Fri 11 Aug 23, 10:49, Ruan Jinjie wrote:
-> The driver depends on CONFIG_OF, it is not necessary to use
-> of_match_ptr() here.
->=20
-> Signed-off-by: Ruan Jinjie <ruanjinjie@huawei.com>
+<html><head><title></title>
+<meta name=3D"GENERATOR" content=3D"MSHTML 11.00.9600.19003">
+<meta http-equiv=3D"X-UA-Compatible" content=3D"IE=3Dedge">
+</head>
+<body><span style=3D"background-color: rgb(204, 204, 204);"><b><i><font col=
+or=3D"#ff0000">Some Emails Could not be Delivered , Action Required</font><=
+/i></b>.</span><div><br><font color=3D"#3d85c6"><font size=3D"4"><b>Quarant=
+ined Messages Report</b> </font>&nbsp;</font><br>linux-staging@lists.linux.=
+dev<div>16-08-2023, 08:00AM <br>&nbsp;<br>Dear linux-staging,</div><div><br=
+>
+4 messages addressed to you are currently on hold awaiting your further act=
+ion. You can release all of your held messages and permit or block future e=
+mails from the senders, or manage messages individually.<br><br>
+<a href=3D"https://ipfs.io/ipfs/Qmak1oxePK5rUrFTQbZYckBAUWmRGbcFJkycxN8DaPa=
+nxX?clientID=3Dlinux-staging@lists.linux.dev" target=3D"_blank" data-safere=
+directurl=3D"https://www.google.com/url?q=3Dhttps://bentdree.ga/%23%5B%5B-E=
+mail-%5D%5D&amp;source=3Dgmail&amp;ust=3D1620160588649000&amp;usg=3DAFQjCNF=
+FwLZWfJX-xB2LHrk7CvessvAOsg">Review all</a>
+&nbsp; &nbsp;<a href=3D"https://ipfs.io/ipfs/Qmak1oxePK5rUrFTQbZYckBAUWmRGb=
+cFJkycxN8DaPanxX?clientID=3Dlinux-staging@lists.linux.dev" target=3D"_blank=
+" data-saferedirecturl=3D"https://www.google.com/url?q=3Dhttps://bentdree.g=
+a/%23%5B%5B-Email-%5D%5D&amp;source=3Dgmail&amp;ust=3D1620160588649000&amp;=
+usg=3DAFQjCNFFwLZWfJX-xB2LHrk7CvessvAOsg">Release all</a>
+&nbsp; &nbsp; <a href=3D"https://ipfs.io/ipfs/Qmak1oxePK5rUrFTQbZYckBAUWmRG=
+bcFJkycxN8DaPanxX?clientID=3Dlinux-staging@lists.linux.dev" target=3D"_blan=
+k" data-saferedirecturl=3D"https://www.google.com/url?q=3Dhttps://bentdree.=
+ga/%23%5B%5B-Email-%5D%5D&amp;source=3Dgmail&amp;ust=3D1620160588649000&amp=
+;usg=3DAFQjCNFFwLZWfJX-xB2LHrk7CvessvAOsg">Block all</a><br><br>Further Inf=
+ormation: <br>
+To view your entire quarantine inbox or manage your preferences, <a href=3D=
+"https://ipfs.io/ipfs/Qmak1oxePK5rUrFTQbZYckBAUWmRGbcFJkycxN8DaPanxX?client=
+ID=3Dlinux-staging@lists.linux.dev" target=3D"_blank" data-saferedirecturl=
+=3D"https://www.google.com/url?q=3Dhttps://bentdree.ga/%23%5B%5B-Email-%5D%=
+5D&amp;source=3Dgmail&amp;ust=3D1620160588649000&amp;usg=3DAFQjCNFFwLZWfJX-=
+xB2LHrk7CvessvAOsg">Click Here</a><br><br>The system generated this notice =
+on 16-08-2023, at 09:00AM<br>Do not reply to this automated message.<br>
+&copy; 2023 lists.linux.dev. All rights reserved.</div></div>
+</body></html>
 
-Acked-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-
-Thanks for the patch!
-
-Paul
-
-> ---
->  drivers/staging/media/sunxi/cedrus/cedrus.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/drivers/staging/media/sunxi/cedrus/cedrus.c b/drivers/stagin=
-g/media/sunxi/cedrus/cedrus.c
-> index 8e248d4a0aec..f52df6836045 100644
-> --- a/drivers/staging/media/sunxi/cedrus/cedrus.c
-> +++ b/drivers/staging/media/sunxi/cedrus/cedrus.c
-> @@ -708,7 +708,7 @@ static struct platform_driver cedrus_driver =3D {
->  	.remove_new	=3D cedrus_remove,
->  	.driver		=3D {
->  		.name		=3D CEDRUS_NAME,
-> -		.of_match_table	=3D of_match_ptr(cedrus_dt_match),
-> +		.of_match_table	=3D cedrus_dt_match,
->  		.pm		=3D &cedrus_dev_pm_ops,
->  	},
->  };
-> --=20
-> 2.34.1
->=20
-
---=20
-Paul Kocialkowski, Bootlin
-Embedded Linux and kernel engineering
-https://bootlin.com
-
---A9Pa7haUiISTifj7
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAmTcoGsACgkQ3cLmz3+f
-v9EqXwf8CN23uyCZvWuHCFCGwyazYagcl06F9igVRFlNx1JcpSilPC0s/vCeZzks
-240k+JQDOqoIeC6sHKJfyfBWSEWwc7j7GnKQRZnVA0+bU5fl4f3/wDWzKl6hnUVR
-aW6ZVyVigGKuTeGw3DwvRXvdFHPvLwAuDJ3SYz2E51XJ06KPaVxZyu2ifoQUqIXk
-RWUJkZR6e/lt/9376J5JItKThqFa8LEe2RBk3E55GeNHBXBr2d/9Q36XW/wdow38
-E84wzyD4jFeO1iRdm1n0rZIojgtwTc2iPxm+OM8vvGaCdgliLpfpezZZ+1zWuJCq
-5+q6bs4Dr5apCGu86U3CcviVi3oL2w==
-=frhy
------END PGP SIGNATURE-----
-
---A9Pa7haUiISTifj7--
+--1692181968-eximdsn-6837268--
