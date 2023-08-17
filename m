@@ -1,127 +1,110 @@
-Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
+Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EEA7AE55B;
-	Thu, 17 Aug 2023 12:08:44 +0000 (UTC)
-Received: by mail-pf1-f182.google.com with SMTP id d2e1a72fcca58-6886d6895a9so2079848b3a.0;
-        Thu, 17 Aug 2023 05:08:44 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0CF92918
+	for <linux-staging@lists.linux.dev>; Thu, 17 Aug 2023 20:45:26 +0000 (UTC)
+Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-1bdc243d62bso1806605ad.3
+        for <linux-staging@lists.linux.dev>; Thu, 17 Aug 2023 13:45:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1692274124; x=1692878924;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=HqxtbcBfbYTw4bwKds0vVLnrXgHI7+miuCUNWaBWa7U=;
-        b=BSgwA8FXepJGHNhfB9zJbVWBhnIrXJhVXSUfj4T0t1L4KxfRWLvdnF3uzzzq62kDXT
-         BxgWWjNkFkbM+xhp8I833GFtzfUuY6fJLTiPdmR32nFDbiFaUtrGpq8838hxJtMXIBdm
-         gkvNanDoQ8SdBc4j8h4t7bpE6MeZmN/cjc9L+/5U1rguB3Hl1Ap4CZs6LUOnaI8EqzT9
-         qMLRvvNIpuG/8jQJIvLTDWVURSRlrACQyMTU22DMCR5Zp1Kk3McH83kZdmYUeZzqAGT+
-         eNGE938Y9W5dXbSsUeIVmSXC0eEqSNXVphiWmynPp12fUtifvL1wkRtoPdP7oiBImD9m
-         i4fQ==
+        d=chromium.org; s=google; t=1692305126; x=1692909926;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=pMm0/808CNGa3aT1/hWj5cxfbWGv7KS7xsYpPdCv0WE=;
+        b=Hba9RUgUZEtj0CVdjLz7pSKYV71ZGnjTWbN7fT7j8VmDbWCNH7/Kb8mwvIODbEdUjh
+         G4Dez3nqrO2b5mJVfoUjbCWCIbo3JLVEO8py6g+qeU3Q2hpyjq30jFe3SjLvKgYPKQhs
+         kRO8DdhFpW1DHPFaa64Byi9R/aHUlYKD1cxb8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692274124; x=1692878924;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=HqxtbcBfbYTw4bwKds0vVLnrXgHI7+miuCUNWaBWa7U=;
-        b=LERNbBKAYobyumz4TpnDJY8HRYlVTiWFQCg6nrQruZo0DE2Arm9vcJoX0sVHcaWxTf
-         zawDx53oLTe17ffcvTe/mbkJe/WLtGh9wrzznbImLuk11Ub0Wsuny1FwtlfBQ/inWyo9
-         KELFm0YvumuTeYP73TgfVfuj+nZshI3KHdCdkjwot/SKG/oVE0iBFGMXD04oE/JNqRZ5
-         GG42JZM54ERTimqfupyd3+x0bIcYpUNkft+PUMJXmQWYVDi8QvaU4/6XuVwBGsyyfnQZ
-         lyLHtvUNbNsVCD7PKuzWqJZyzKsrFJhcD2NkpJV3f6nVmOLI+weBQYF9CNYu8J1Lzh5W
-         26Bw==
-X-Gm-Message-State: AOJu0Yz317AisXdTHsNUStfBMliSTXWW1KaJkSCEZxl0gb9gRyUSr4ne
-	IiARNf5VVQqJP1u2U17K2bU=
-X-Google-Smtp-Source: AGHT+IEaXBIjxK7FY23yjT6hXgMXg2LTXvxMF1ggJVAz2jrS50SMzy16h8KpOxh3qWjqck/pag4OaA==
-X-Received: by 2002:a05:6a21:4889:b0:140:b178:9b36 with SMTP id av9-20020a056a21488900b00140b1789b36mr5468021pzc.48.1692274123919;
-        Thu, 17 Aug 2023 05:08:43 -0700 (PDT)
-Received: from ubuntu.myguest.virtualbox.org ([122.162.54.25])
-        by smtp.gmail.com with ESMTPSA id y18-20020a62b512000000b006875df47743sm12724003pfe.156.2023.08.17.05.08.41
+        d=1e100.net; s=20221208; t=1692305126; x=1692909926;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=pMm0/808CNGa3aT1/hWj5cxfbWGv7KS7xsYpPdCv0WE=;
+        b=eA5qZ5D016bUfdz4xOYKob5MIMHKQXuf11s1io+OrYn3xPVc2Kuenhb3UTPTteNNe/
+         HS1nyioJ3Fu2kpGq6QDxYivDfOxZ7YTwUSmOcJPVWqYJlTdLhvu6UPQbaJng5CdB+CSt
+         7WdlNNOV5OnxFEoAN6Abvf2mo5SZx55i+OBml3D8aTDUMxzbKy3IIGqrZnhQP/cwRs7q
+         4qBJjUsf8oK2GVs0lgt+fAiV1f4k5VFwBrrjgvPi3xx+AnMaQSva9YnlfCI+0l772u4t
+         qzmiZIsFTR9FFTNcY49fKvGxj4O+VQxEJOc0IXj1oGEM+RFlr88zdeJ6RXTEKb/NTV38
+         cW8w==
+X-Gm-Message-State: AOJu0Yykt/0Jmb339JJeXePWQ7xJ4OYtXGrSSRfTrTX7u5a6FvNA4Dkh
+	exFQHsw004z36nqowyQaC15h4A==
+X-Google-Smtp-Source: AGHT+IHk55UnrVjKhLbeoH0FOsI/LvZ/lE2QJL1gJ+D+E8C0Gwzt+7qwXOdkBQv9AkY7J3V6Bv/K9A==
+X-Received: by 2002:a17:902:f7d6:b0:1be:f53b:4335 with SMTP id h22-20020a170902f7d600b001bef53b4335mr494226plw.20.1692305126211;
+        Thu, 17 Aug 2023 13:45:26 -0700 (PDT)
+Received: from www.outflux.net (198-0-35-241-static.hfc.comcastbusiness.net. [198.0.35.241])
+        by smtp.gmail.com with ESMTPSA id je9-20020a170903264900b001bee782a1desm189883plb.181.2023.08.17.13.45.25
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 17 Aug 2023 05:08:43 -0700 (PDT)
-Date: Thu, 17 Aug 2023 17:38:39 +0530
-From: Pavan Bobba <opensource206@gmail.com>
-To: Greg KH <gregkh@linuxfoundation.org>,
-	Forest Bond <forest@alittletooquiet.net>,
-	Michael Straube <straube.linux@gmail.com>,
+        Thu, 17 Aug 2023 13:45:25 -0700 (PDT)
+From: Kees Cook <keescook@chromium.org>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Kees Cook <keescook@chromium.org>,
 	Philipp Hortmann <philipp.g.hortmann@gmail.com>,
-	outreachy@lists.linux.dev
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] staging: vt6655: replace camel case by snake case
-Message-ID: <ZN4NxzozblvEX7IS@ubuntu.myguest.virtualbox.org>
-References: <ZNOK2u1sJoRAxhIC@ubuntu.myguest.virtualbox.org>
- <2023081150-hamster-sulfide-4231@gregkh>
- <ZNfPiQAL3ixA7tjz@ubuntu.myguest.virtualbox.org>
- <alpine.DEB.2.22.394.2308122041160.3315@hadrien>
- <ZNolyVLwygowAzE2@ubuntu.myguest.virtualbox.org>
- <2023081442-cartridge-thaw-1656@gregkh>
+	linux-staging@lists.linux.dev,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nick Desaulniers <ndesaulniers@google.com>,
+	Tom Rix <trix@redhat.com>,
+	Yogesh Hegde <yogi.kernel@gmail.com>,
+	Sumitra Sharma <sumitraartsy@gmail.com>,
+	linux-kernel@vger.kernel.org,
+	llvm@lists.linux.dev,
+	linux-hardening@vger.kernel.org
+Subject: [PATCH] staging: rtl8192e: Annotate struct rtllib_txb with __counted_by
+Date: Thu, 17 Aug 2023 13:45:24 -0700
+Message-Id: <20230817204523.never.034-kees@kernel.org>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <2023081442-cartridge-thaw-1656@gregkh>
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1219; i=keescook@chromium.org;
+ h=from:subject:message-id; bh=UUiTzVogaZirmWMGpsPMj7phpen0D5w/qKNcKFWYCRw=;
+ b=owEBbQKS/ZANAwAKAYly9N/cbcAmAcsmYgBk3obkTXsIF42rVOApuK1+6hZwZMndX3d7u3bA8
+ wUVSJ8CkOKJAjMEAAEKAB0WIQSlw/aPIp3WD3I+bhOJcvTf3G3AJgUCZN6G5AAKCRCJcvTf3G3A
+ JjL1D/48cDpSX2Ac20S71nPjuKbgJSg1g+7exjTTXnTvVNl4NVcTcYOOX6XG+Q8Lnb2J6ZF49IB
+ zYwnG+ICNOHrimTy9xnEzL8t/7AlZD9fhSo6JEZZfuqzW2qI1F3dKW13uWuvTMRsHPXUV0i6OWo
+ aJDlbIWjkrLP4tfCBxa9yL10Y0+NXb2kmRpmxqFBbvFaY2RaEepM/ST6csF1yuviXLe6OH7o0zL
+ Phe1f9UmMqa1oHNdo3IUlmmDjPTfNH6ZX0FmjGPiWEV0IrAYgqWEkcHQKzt8P2h4hl36WSq9cpM
+ cgSkbtOdwBQtKKi74PisY5UFmgWtDx7zlWZMa2/legptjd7gbbI69cOYyHn3pw5v0aTNwkXe3yd
+ 2iyApZjS8bGmYne4s8QCkiAl6JKnzvoRsH2uq+B8TTUDuncVwVADZIr9nmhlUnAho5eigZpy2/n
+ 7UM3vKjQjBVJmZdwFij8jHhCMOFNIMkw6t/RNcu+roCj8+Jg8i+LQOiPxMkdoQaCqEg8YiRZctG
+ bLEix0Ky3IWQOFgETdkh6K76+opM5AT7FkbZ7NEzqJcRgGq4e4dOTht2Rh72Et3YvN8S22JilbP
+ fDs2++6vYppmECcd6ksWFXfHYilH1HC+fUTYwW0VyBcMBSYMcIYS3x7r4WobnHxJGpqaTt/aqCK
+ uascUme ok0NojuA==
+X-Developer-Key: i=keescook@chromium.org; a=openpgp; fpr=A5C3F68F229DD60F723E6E138972F4DFDC6DC026
+Content-Transfer-Encoding: 8bit
 
-On Mon, Aug 14, 2023 at 05:20:40PM +0200, Greg KH wrote:
-> On Mon, Aug 14, 2023 at 06:32:01PM +0530, Pavan Bobba wrote:
-> > On Sat, Aug 12, 2023 at 08:41:51PM +0200, Julia Lawall wrote:
-> > > 
-> > > 
-> > > On Sat, 12 Aug 2023, Pavan Bobba wrote:
-> > > 
-> > > > On Fri, Aug 11, 2023 at 11:27:10PM +0200, Greg KH wrote:
-> > > > > On Wed, Aug 09, 2023 at 06:17:22PM +0530, Pavan Bobba wrote:
-> > > > > > Replace array name of camel case by snake case. Issue found
-> > > > > > by checkpatch
-> > > > > >
-> > > > > > Signed-off-by: Pavan Bobba <opensource206@gmail.com>
-> > > > > > ---
-> > > > > >  v1 -> v2: 1. array name renamed from byVT3253B0_RFMD to by_vt3253b0_rfmd
-> > > > > >            2. typo in the subject line "small case" corrected with the
-> > > > > >               proper word "snake case"
-> > > > > >
-> > > > > > Signed-off-by: Pavan Bobba <opensource206@gmail.com>
-> > > > > > ---
-> > > > > >  drivers/staging/vt6655/baseband.c | 6 +++---
-> > > > > >  1 file changed, 3 insertions(+), 3 deletions(-)
-> > > > > >
-> > > > > > diff --git a/drivers/staging/vt6655/baseband.c b/drivers/staging/vt6655/baseband.c
-> > > > > > index 0e135af8316b..cc8793256661 100644
-> > > > > > --- a/drivers/staging/vt6655/baseband.c
-> > > > > > +++ b/drivers/staging/vt6655/baseband.c
-> > > > > > @@ -499,7 +499,7 @@ static const unsigned char by_vt3253_init_tab_rfmd[CB_VT3253_INIT_FOR_RFMD][2] =
-> > > > > >  };
-> > > > > >
-> > > > > >  #define CB_VT3253B0_INIT_FOR_RFMD 256
-> > > > > > -static const unsigned char byVT3253B0_RFMD[CB_VT3253B0_INIT_FOR_RFMD][2] = {
-> > > > > > +static const unsigned char by_vt3253b0_rfmd[CB_VT3253B0_INIT_FOR_RFMD][2] = {
-> > > > >
-> > > > > Again, the "by" needs to just be dropped.
-> > > > >
-> > > > > thanks,
-> > > > >
-> > > > > greg k-h
-> > > >
-> > > > hi greg...did'nt get your comment. can you please provide more elaborate
-> > > > info?
-> > > 
-> > > Drop the letter "by_" at the beginning of the function name.  It is there
-> > > ot indicate the type, which isn't done in the kernel.
-> > > 
-> > > julia
-> > 
-> > this is'nt a function name but an array name. is in't it fine?
-> > 
-> 
-> Not at all.  The issue is the name, why are you just adding a "_" here?
-> What does "by" mean?  (hint, this is a rhetorical question, I know, I
-> need you to figure it out so you know how to properly rename the
-> variable here...)
-> 
-> thanks,
-> 
-> greg k-h
+Prepare for the coming implementation by GCC and Clang of the __counted_by
+attribute. Flexible array members annotated with __counted_by can have
+their accesses bounds-checked at run-time checking via CONFIG_UBSAN_BOUNDS
+(for array indexing) and CONFIG_FORTIFY_SOURCE (for strcpy/memcpy-family
+functions).
 
-Thank you for the info. i have updated the patchset V3 based on this
-discussion and will keep this point for future patchsets
+As found with Coccinelle[1], add __counted_by for struct rtllib_txb.
+
+[1] https://github.com/kees/kernel-tools/blob/trunk/coccinelle/examples/counted_by.cocci
+
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+Cc: linux-staging@lists.linux.dev
+Signed-off-by: Kees Cook <keescook@chromium.org>
+---
+ drivers/staging/rtl8192e/rtllib.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/staging/rtl8192e/rtllib.h b/drivers/staging/rtl8192e/rtllib.h
+index c5a692dfcd17..543d8671281d 100644
+--- a/drivers/staging/rtl8192e/rtllib.h
++++ b/drivers/staging/rtl8192e/rtllib.h
+@@ -818,7 +818,7 @@ struct rtllib_txb {
+ 	u16 reserved;
+ 	__le16 frag_size;
+ 	__le16 payload_size;
+-	struct sk_buff *fragments[];
++	struct sk_buff *fragments[] __counted_by(nr_frags);
+ };
+ 
+ #define MAX_SUBFRAME_COUNT		  64
+-- 
+2.34.1
+
