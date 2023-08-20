@@ -1,43 +1,43 @@
-Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com [209.85.216.46])
+Received: from mail-qk1-f175.google.com (mail-qk1-f175.google.com [209.85.222.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 806C5A3D
-	for <linux-staging@lists.linux.dev>; Sun, 20 Aug 2023 00:45:27 +0000 (UTC)
-Received: by mail-pj1-f46.google.com with SMTP id 98e67ed59e1d1-269304c135aso1499330a91.3
-        for <linux-staging@lists.linux.dev>; Sat, 19 Aug 2023 17:45:27 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 081B6A35
+	for <linux-staging@lists.linux.dev>; Sun, 20 Aug 2023 00:45:28 +0000 (UTC)
+Received: by mail-qk1-f175.google.com with SMTP id af79cd13be357-76ca7b4782cso150591485a.0
+        for <linux-staging@lists.linux.dev>; Sat, 19 Aug 2023 17:45:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=darkphysics.net; s=google; t=1692492327; x=1693097127;
+        d=darkphysics.net; s=google; t=1692492328; x=1693097128;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=5b24yTN6PgZpHb8A0TLFMxrHJdvHtJ3OKJgdjirWdIM=;
-        b=e2WKAbCwUcFtqTbC3x8ysZWAiVu426Y/WcK0VO+rWvjjIcKnaKJVvgf1Yhs11eujm2
-         7KJbR5xY+0wLEF1ErmtqiM/kXiHpabRu+IUemIy+kXOhk5JpWTH2cPaE1Zb8Gr5IS+8I
-         PPxlMigWCnftIAyWH4Z3cBfODcWkFwDqKkMDuCh6H9ESeohTurDXS9BMJkwUtH0/ZMBf
-         eEo5CWR1UYYZ2t9ZrDTYMxqvO68K4yqtfU5KxVcGQG7Yk2ghctaYrQao+5AqLWSFEkVW
-         rvIatsJJI8ULbvR1CcqHju5BWcCmdQv+FAHD2DFOQ3PAMCsV5Z7KYDmXHcezkK/zUXnH
-         9FmA==
+        bh=sAOkobjP7Wkz3qWYoXgCw5Zbn+EJxaWf/bYJaog4oo8=;
+        b=k2VZ87YKBlm1HUYmHdzMuIb9GMbJCxHTlletAiMw/oLTpVP7RM1wreeYnyx/bZ5los
+         C3bILGXuQE5CZgUqzYEBQaD6J+UUS3EIKenWtcg7RCROuFF0Ed+5FNOtlg2uofm+GSqr
+         dnPnkyN73QKSqeQP2TdfbXN0CD4wnrHlnFaBQXS6M/H/PwjRynF9RQO+EEZKXdur+8r3
+         YRYdodIqqt9+mwUPXkZJTf87+gOdzE3p7/w+bizezQbI8xaKD+zBcgNnz5tHstgxUKac
+         IGvVFGa51k+4+jCWdWU6SqggLkOrMlg+bWhricGY2iux53GmPHuuwWPlwn5cc9dMxVOM
+         NmuQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692492327; x=1693097127;
+        d=1e100.net; s=20221208; t=1692492328; x=1693097128;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=5b24yTN6PgZpHb8A0TLFMxrHJdvHtJ3OKJgdjirWdIM=;
-        b=CIqH0qAtr6JyTaxjf5CrzpS7KYBR77x1J4OHwRv1yEdHFwECjjIWH3fokV8HivteL3
-         Xm5JxQiMz6j9t5k5Nsjh7jBeodFoL78odj+jhrrmXLKBt63rW2KvYXwgz7WkbVSdiG/m
-         auqaxme/mTWGJit/Xr2eIlZthu5nR63nJcpVVkvDqLzbXcUwS02auayNoeBWXtmjkK0A
-         +OO7/83WGQTgfZocDWil7yGj0rCDdmnQT8cceXDaXQ8kO4DH25DKFeufYqP6/9B/HD1T
-         vifAnooynBZtn9eH7e2eE62BSt+dCrFkgKPoxFD0kNZ5V/YEC+Nx2Tok7nuPxDTdkJio
-         nTew==
-X-Gm-Message-State: AOJu0Yy4Vlv7NO4fOgUlbWBXprYrX7Oxu3uGBygF1So/fGNl5LW4kbJT
-	eXKRV93dA7xWR8qBXdyTvKl0Zw==
-X-Google-Smtp-Source: AGHT+IHjEb6jdUNSvDcgsjopg+OwBVex/DQvMumX9weIIwoE/vfQ//iZffuyvCaEUoT/KzU1/XEd2A==
-X-Received: by 2002:a17:90b:108d:b0:268:1e51:3496 with SMTP id gj13-20020a17090b108d00b002681e513496mr2752387pjb.21.1692492326964;
-        Sat, 19 Aug 2023 17:45:26 -0700 (PDT)
+        bh=sAOkobjP7Wkz3qWYoXgCw5Zbn+EJxaWf/bYJaog4oo8=;
+        b=hAwF+9RTJfsK2sDQMSkT8EZOdxSMNsB1intooZnQ+yVZljB9vz2RKlEWDIkWNpOJww
+         XxThh1cHjeufTEg3j7FWLhBWN0F3+Wx6uNjP2Hu6rcMueLayhbHnHugo+i0Di1qSVZrW
+         oD0Dq9IChbV7d9HstWIgyBXxl96axxZd+HLZ8VG1E/rXxgs9Om5tA7YOwxRAbJ+wlpj/
+         YtFHIq1eXPho4baE+l56HgR7xaH2uRKtq002tOTFIrZU2F6itjQ0w7JOMbX+1jC1vhgm
+         xhZ62A6GPTBngp6ipjvepyrpi91Q/Vb2H2rVlqLfHYyBGJVg4YIWeJdJBAJRmaIRMgxF
+         ZUNQ==
+X-Gm-Message-State: AOJu0YzlLkL3EC7L63zb2pwA87/r6RI3KSFdgbRaRT5GUVZNJMbTpu4a
+	8PtEI1lfghXjkn9oA328t5BJrw==
+X-Google-Smtp-Source: AGHT+IFegj/z8aF56tvf5mmWpMbfhNfPowM/PyDVQ3EYK+tT6/nq8y8gRAdPO4BNs4xOEZ68PtCjzQ==
+X-Received: by 2002:a37:ef17:0:b0:76c:e9d3:cac2 with SMTP id j23-20020a37ef17000000b0076ce9d3cac2mr3698598qkk.27.1692492327816;
+        Sat, 19 Aug 2023 17:45:27 -0700 (PDT)
 Received: from basil.darkphysics (c-76-146-178-2.hsd1.wa.comcast.net. [76.146.178.2])
-        by smtp.gmail.com with ESMTPSA id 25-20020a17090a1a1900b00268b439a0cbsm4004884pjk.23.2023.08.19.17.45.26
+        by smtp.gmail.com with ESMTPSA id 25-20020a17090a1a1900b00268b439a0cbsm4004884pjk.23.2023.08.19.17.45.27
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 19 Aug 2023 17:45:26 -0700 (PDT)
+        Sat, 19 Aug 2023 17:45:27 -0700 (PDT)
 From: Tree Davies <tdavies@darkphysics.net>
 To: gregkh@linuxfoundation.org,
 	philipp.g.hortmann@gmail.com,
@@ -45,9 +45,9 @@ To: gregkh@linuxfoundation.org,
 Cc: linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Tree Davies <tdavies@darkphysics.net>
-Subject: [PATCH 10/16] Staging: rtl8192e: Rename variable pRxTS in function RemoveTsEntry()
-Date: Sat, 19 Aug 2023 17:47:38 -0700
-Message-ID: <20230820004744.278022-11-tdavies@darkphysics.net>
+Subject: [PATCH 11/16] Staging: rtl8192e: Rename variable pTS in function prototype rtllib_FlushRxTsPendingPkts()
+Date: Sat, 19 Aug 2023 17:47:39 -0700
+Message-ID: <20230820004744.278022-12-tdavies@darkphysics.net>
 X-Mailer: git-send-email 2.41.0
 In-Reply-To: <20230820004744.278022-1-tdavies@darkphysics.net>
 References: <20230820004744.278022-1-tdavies@darkphysics.net>
@@ -59,38 +59,27 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Rename variable pRxTS in function RemoveTsEntry() to ts
-to fix checkpatch warning Avoid CamelCase.
+Rename variable pTS in function prototype rtllib_FlushRxTsPendingPkts()
+to ts, to fix checkpatch warning Avoid CamelCase.
 
 Signed-off-by: Tree Davies <tdavies@darkphysics.net>
 ---
- drivers/staging/rtl8192e/rtl819x_TSProc.c | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+ drivers/staging/rtl8192e/rtllib.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/staging/rtl8192e/rtl819x_TSProc.c b/drivers/staging/rtl8192e/rtl819x_TSProc.c
-index 131a5d7b4599..944970272801 100644
---- a/drivers/staging/rtl8192e/rtl819x_TSProc.c
-+++ b/drivers/staging/rtl8192e/rtl819x_TSProc.c
-@@ -364,14 +364,14 @@ static void RemoveTsEntry(struct rtllib_device *ieee,
- 
- 	if (TxRxSelect == RX_DIR) {
- 		struct rx_reorder_entry *pRxReorderEntry;
--		struct rx_ts_record *pRxTS = (struct rx_ts_record *)pTs;
-+		struct rx_ts_record *ts = (struct rx_ts_record *)pTs;
- 
--		if (timer_pending(&pRxTS->rx_pkt_pending_timer))
--			del_timer_sync(&pRxTS->rx_pkt_pending_timer);
-+		if (timer_pending(&ts->rx_pkt_pending_timer))
-+			del_timer_sync(&ts->rx_pkt_pending_timer);
- 
--		while (!list_empty(&pRxTS->rx_pending_pkt_list)) {
-+		while (!list_empty(&ts->rx_pending_pkt_list)) {
- 			pRxReorderEntry = (struct rx_reorder_entry *)
--					list_entry(pRxTS->rx_pending_pkt_list.prev,
-+					list_entry(ts->rx_pending_pkt_list.prev,
- 					struct rx_reorder_entry, List);
- 			netdev_dbg(ieee->dev,  "%s(): Delete SeqNum %d!\n",
- 				   __func__, pRxReorderEntry->SeqNum);
+diff --git a/drivers/staging/rtl8192e/rtllib.h b/drivers/staging/rtl8192e/rtllib.h
+index 0c812eb02ba6..9c2817e8a5d4 100644
+--- a/drivers/staging/rtl8192e/rtllib.h
++++ b/drivers/staging/rtl8192e/rtllib.h
+@@ -2039,7 +2039,7 @@ bool rtllib_MgntDisconnect(struct rtllib_device *rtllib, u8 asRsn);
+  * ieee handler to refer to it.
+  */
+ void rtllib_FlushRxTsPendingPkts(struct rtllib_device *ieee,
+-				 struct rx_ts_record *pTS);
++				 struct rx_ts_record *ts);
+ int rtllib_parse_info_param(struct rtllib_device *ieee,
+ 			    struct rtllib_info_element *info_element,
+ 			    u16 length,
 -- 
 2.41.0
 
