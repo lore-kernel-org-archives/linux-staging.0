@@ -1,90 +1,99 @@
-Received: from mout.gmx.net (mout.gmx.net [212.227.15.15])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80C9623D4
-	for <linux-staging@lists.linux.dev>; Sun, 20 Aug 2023 20:48:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.de;
- s=s31663417; t=1692564475; x=1693169275; i=marvin24@gmx.de;
- bh=UqSdzhzgDMynAd+cmKiCvh4no7cVUic+d0Tx96GVAPs=;
- h=X-UI-Sender-Class:Date:From:To:cc:Subject:In-Reply-To:References;
- b=lg0/7qNrvuKuMLcZ21agSVPnw8VRAXyGNZu4n+DHffKL+SAIgHM7NB9wNjaL1vBVsLPMVyW
- PaMH0bORQemiFznjRqvUuBco9XSskQJYyMBK/BE7V3W+TWPrwNuCZ+ONUtU9RSuipAJrdHqpB
- BKnq2rdmcmhecBNu1HjPx0gicEehz6SxL/osOWG1VDVQCyHtfKSZeCj69P0g8r8kh+C+TRwZR
- /SBilVxI470rXn2PsF/jKELSk+JwCTpk8BnmqDWGNvOr9IaLZXJcpL3RtjdXVm6bA7aBeGPci
- FUWNLss8ozYy9wFcXOF0qXx/yOQ8Cic7mwR3QDuvtZDCEfpJ64AQ==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from n5219w05.fritz.box ([92.117.212.31]) by mail.gmx.net (mrgmx005
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1N5mGH-1peYm80zGd-017EUh; Sun, 20
- Aug 2023 22:47:55 +0200
-Date: Sun, 20 Aug 2023 22:47:54 +0200 (CEST)
-From: Marc Dietrich <marvin24@gmx.de>
-To: Dan Carpenter <dan.carpenter@linaro.org>
-cc: Andrei Coardos <aboutphysycs@gmail.com>, linux-kernel@vger.kernel.org, 
-    linux-staging@lists.linux.dev, linux-tegra@vger.kernel.org, 
-    ac100@lists.launchpad.net, gregkh@linuxfoundation.org, marvin24@gmx.de, 
-    alex@shruggie.ro
-Subject: Re: [PATCH] staging: nvec: paz00: remove unneeded call to
- platform_set_drvdata()
-In-Reply-To: <fb1cc561-926e-478d-a6ce-9d97fa0dd0e1@kadam.mountain>
-Message-ID: <d772f63c-ed2d-ce3a-e466-eb2d2d46f700@gmx.de>
-References: <20230809154211.15741-1-aboutphysycs@gmail.com> <fb1cc561-926e-478d-a6ce-9d97fa0dd0e1@kadam.mountain>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1210653AD;
+	Mon, 21 Aug 2023 12:44:00 +0000 (UTC)
+Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-68a3de5f231so621487b3a.0;
+        Mon, 21 Aug 2023 05:44:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1692621840; x=1693226640;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=mDOcyp7eDilYpxFe5Q1bO3kEe7vayX0PPFX25s4ksUM=;
+        b=GTvWXJ+L/cYlHcXSI3x/PA3hA3cF3ft0F7in0VsVJqSvoWrANU7LoIJhLlb4sjMPn1
+         UFK5rO1Fg2XEeTc4Ey464JHDyfKHrziA1VicQtCuVclZsO9AhsophDjXKAGd0pdI9EJW
+         hwqs81Cn2uJpXYctzBZ6aJ8FyetvQRAeTm/zX8kb2UaBFx9MBNFOK4T4WgmQbaa1aVoN
+         Y7ehGtjR76HZumfAeB9xR/8MNLmxzC66BMWKoDcqKfYkV6peQq4BDiISAXjLAsKDmnKm
+         R53Zkhv75jJljGHKwT0zMeelQAerfCBJ+ptPjixklKn4UijQBOesILG9/L9WrKjvyc/B
+         wf8Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1692621840; x=1693226640;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=mDOcyp7eDilYpxFe5Q1bO3kEe7vayX0PPFX25s4ksUM=;
+        b=NOZ44vCw+W5n1OTMRII7Y4A1dre2to0Xy5Etp20ZW+xZc2d4hqG7AVkn4thVReavtm
+         852pZ+mmczcEVkidWO6uPY7OugmXet7mW7bb+BFOINbVmEbD81w/YoZO1ttZEuVmlJWL
+         R9Pd/6hzWG60Vy8WJJyvSONgr2rNKVOCM9zwcRWuLIaHyIS+N6SCxQXKnsmEwhTglcGw
+         +CjoIbtb+TLUJ2qtbARLbFswfFIrXo3HGt3iuTGzJbsHV5CUzYFpkYhfgFGjEyAyYBw2
+         vzEbNWk2QOhiKXRveU2A9iz2UUguCYgc0ITkJGtU57UsrzV1lILMSC05n/Vk0r5UKdoC
+         ++5Q==
+X-Gm-Message-State: AOJu0Yx61jIZyu3ovFt1IHFw/jBJSXctYpS0AbkmN/NB6mDY2Plopnn+
+	n3joBqoWylZsR9lV/M/Gw2I=
+X-Google-Smtp-Source: AGHT+IGTsRcU2Kc+glTJ9NmWfOcf+p4pz82g7fyC6W2t/qHl8rmdDa+/doODgp8x1oiGLeWgPTjEGg==
+X-Received: by 2002:a05:6a21:9999:b0:13c:988c:e885 with SMTP id ve25-20020a056a21999900b0013c988ce885mr5425645pzb.56.1692621840090;
+        Mon, 21 Aug 2023 05:44:00 -0700 (PDT)
+Received: from ubuntu.myguest.virtualbox.org ([122.162.51.13])
+        by smtp.gmail.com with ESMTPSA id m4-20020a170902768400b001b04c2023e3sm6939514pll.218.2023.08.21.05.43.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 21 Aug 2023 05:43:59 -0700 (PDT)
+Date: Mon, 21 Aug 2023 18:13:54 +0530
+From: Pavan Bobba <opensource206@gmail.com>
+To: Forest Bond <forest@alittletooquiet.net>,
+	Michael Straube <straube.linux@gmail.com>,
+	Philipp Hortmann <philipp.g.hortmann@gmail.com>,
+	outreachy@lists.linux.dev
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: [PATCH v3] staging: vt6655: replace camel case by snake case
+Message-ID: <ZONcClwtt40vTHla@ubuntu.myguest.virtualbox.org>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII; format=flowed
-X-Provags-ID: V03:K1:YakV46+WJwdGPCWRBnz6aKvQNtkltFPA+uQYZs3owXYf6lzGo3b
- PhrzvSoD6AOslsMbuJqI1pFBUMpOkfaV5OhOJHCcggfaqxNu+jd78yjWdCwZnla4Iwj5zHu
- 1qCFoDZ3uVk8Un9BVIzNpPzMFIRWmiohotWLYNTLIK9tpy1SM/GmGvtlpmkO18TTMnZj1KV
- vDrU/8EppClUw2Xe3kceA==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:ZfxN4xRr7iQ=;tyMI1esC88vfMqYJR6jampCCJ7+
- fC6f0Lg1nzc2allvz3NVzvgVr3SeVr/ZS37ykwuHMqwFBD24RxzGWyb/P8kYFyd48YWosah86
- ewlewQxEyWWXPRgk3v+Cc8Ou/0su1u+N7AOSOg34AKeJK9bQjUh+XzV3XYvWU9YAlyJdaeXEC
- azoCC2NeZ1IX3FP1UN1OjmllQ6opNFh+gPRUa6P3X14dJ4eq82hoZzsVU/OgqR6cZF4krGsSd
- uaObR2AHge+ENQJMXUGoQ0+JgflUCRSs1BvXQvhI7s6h7aOpmZgw9m2WjNC+OuJDX4jGJak5H
- besPx7qTFvqNsppg9CnZhGWyWRpQN0r3+TlS1aRmX8N2HeCd3o8enOgDYhF0IhoI1hIzQeoPB
- YZSGsPzLA/bU9jAfhqS40CjPTa8lncDh0byKdW7n9NDFrBkF2UNgalKAHV4BNK/cjX5pi3MSr
- FHnJG/RLgeWAELyYTfk0VyvnGNfAQOooXRj5XHY4uTJEeYYeNpYh4V6ibyqXlWkig0pZ/tGiY
- Q3g8mapx9M+h3ZwMBNPji8Og5gcmLqEMMP0cxkNkb/xiByukR7VwTsN14nTVeI+o5dylSFpTf
- AKNK2n5bD69rY4riq/0IePo5vQpiyChEPrIGMEYxSmoMtBSXkox0Rr7YgEjeOUtb/JtMo79sP
- zlVQiB0hPPSeK47oqRd73xXB3tl6QwGa6T0FVa6h0xZS4zaNjUndxybRJpjhowGXcqb9ekY9A
- lgnBSntB0TPuIU2zOCOQk7lHMgqDqqabYSFWqtaTs7EQMRoDk753bJX7mxlcpRJNwPfvH5TzI
- 7lPIFDglOMe4vRiDp8wjb+q3zEMqPrEWUvXNY7qCTcw79+4EGc9bX/kmtiNv3WJQc6afss8Bd
- cdpHfO7p67Ve9+Wxc/WU8gBLwzhgnOSFkUUNkoNh/Bwde1OvHocHmB608chO0cWy8j651TOMc
- AanymQ==
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Hi,
+Replace array name of camel case by snake case. Issue found
+by checkpatch
 
-On Thu, 10 Aug 2023, Dan Carpenter wrote:
+Signed-off-by: Pavan Bobba <opensource206@gmail.com>
+---
+ v1 -> v2: 1. array name renamed from byVT3253B0_RFMD to by_vt3253b0_rfmd
+           2. typo in the subject line "small case" corrected with the
+              proper word "snake case"
+ v2 -> v3: word "by_" dropped from array name "by_vt3253b0_rfmd"
+           and became ""vt3253b0_rfmd
 
-> On Wed, Aug 09, 2023 at 06:42:11PM +0300, Andrei Coardos wrote:
->> This function call was found to be unnecessary as there is no equivalen=
-t
->> platform_get_drvdata() call to access the private data of the driver. A=
-lso,
->> the private data is defined in this driver, so there is no risk of it b=
-eing
->> accessed outside of this driver file.
->>
->> Signed-off-by: Andrei Coardos <aboutphysycs@gmail.com>
->> ---
->
-> I think you are right, but why are we doing this?  That one line is
-> hardly a huge eyesore.  It's all risk and no reward.
+Signed-off-by: Pavan Bobba <opensource206@gmail.com>
+---
+ drivers/staging/vt6655/baseband.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-I guess this was placed in order to implement a module unload function,
-but this was never done. The driver also seems to have found another
-method to get its private data, so this can be safely removed.
-
-> Have you tested this change on real hardware?
-
-I just checked that it compiles and works on my AC100.
-
-Thanks!
-
-Marc
+diff --git a/drivers/staging/vt6655/baseband.c b/drivers/staging/vt6655/baseband.c
+index 0e135af8316b..696d4dd03aa2 100644
+--- a/drivers/staging/vt6655/baseband.c
++++ b/drivers/staging/vt6655/baseband.c
+@@ -499,7 +499,7 @@ static const unsigned char by_vt3253_init_tab_rfmd[CB_VT3253_INIT_FOR_RFMD][2] =
+ };
+ 
+ #define CB_VT3253B0_INIT_FOR_RFMD 256
+-static const unsigned char byVT3253B0_RFMD[CB_VT3253B0_INIT_FOR_RFMD][2] = {
++static const unsigned char vt3253b0_rfmd[CB_VT3253B0_INIT_FOR_RFMD][2] = {
+ 	{0x00, 0x31},
+ 	{0x01, 0x00},
+ 	{0x02, 0x00},
+@@ -2005,8 +2005,8 @@ bool bb_vt3253_init(struct vnt_private *priv)
+ 		} else {
+ 			for (ii = 0; ii < CB_VT3253B0_INIT_FOR_RFMD; ii++)
+ 				result &= bb_write_embedded(priv,
+-					byVT3253B0_RFMD[ii][0],
+-					byVT3253B0_RFMD[ii][1]);
++					vt3253b0_rfmd[ii][0],
++					vt3253b0_rfmd[ii][1]);
+ 
+ 			for (ii = 0; ii < CB_VT3253B0_AGC_FOR_RFMD2959; ii++)
+ 				result &= bb_write_embedded(priv,
+-- 
+2.34.1
 
