@@ -1,130 +1,97 @@
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8C517F
-	for <linux-staging@lists.linux.dev>; Tue, 22 Aug 2023 12:55:55 +0000 (UTC)
-Received: from [IPV6:2a01:e0a:120:3210:3563:6666:ae23:a4c4] (unknown [IPv6:2a01:e0a:120:3210:3563:6666:ae23:a4c4])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits))
-	(No client certificate requested)
-	(Authenticated sender: benjamin.gaignard)
-	by madras.collabora.co.uk (Postfix) with ESMTPSA id 4F1A2660720C;
-	Tue, 22 Aug 2023 13:55:52 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1692708952;
-	bh=zXRypGU5FsRfhkFlbeXKbtBhVbkG+5Y4xfAintMySxw=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=ARcDBLfBysC7onBBYtCrspJOHt8EjSFAYAgeuylL762rhXnUM4p5fvNTe7DvIRXPT
-	 BSHTBxBQKj1T6VjIPUWTrKxwyTUoLQXcrL8j4Z5ocRtVmmuIpCUrT4P+lahDjflprW
-	 LecaZRMcz4V9esjesDljvzQ/XJ+qtAnNsTL3b2ndkaKpdBbtE/zTpCaphUPYhpo9T1
-	 gw/LfuDvfdNI6znMPbQze6xvhJPs8I9GTN1hah3HQIOFL7eJ1s4gabuu8aSLCBqV89
-	 b+hiQVys4wFCRGeKoYYZab+W1908q6RRSKmhV9D5SqPRbghXNrdpw4/PB5Ap7Irp00
-	 khZZl03hn60LA==
-Message-ID: <37dec78e-462c-b7a4-1acb-253520e47c1e@collabora.com>
-Date: Tue, 22 Aug 2023 14:55:49 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AEFF87F
+	for <linux-staging@lists.linux.dev>; Tue, 22 Aug 2023 13:46:58 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E67A5C433C9;
+	Tue, 22 Aug 2023 13:46:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1692712018;
+	bh=2tqfJL32FPqN+NczC6Z7cjoqXSXsEnZTlELEtiARWsQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=My70Q2bs6Q/y5DFcmYjS1m6KCp6pY76c9xj6l4FFEnpJxdz80oCRW7y1nLnaYMqAz
+	 X3qhL+cPLeVFoyI22kjEGbQIF/LwustXk8klus5TMAkAt/9p7As9YMq6ewBaQ0hbBc
+	 jXB94CcMD2G/2No2W/zqaAgPZycuv9wwDHpNR/E8=
+Date: Tue, 22 Aug 2023 15:46:55 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Nicklaus Choo <nicklauscyc@gmail.com>
+Cc: linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
+Subject: Re: [PATCH] Fix print formatting warning for some functions in
+ drivers/staging/vme_user/vme.c
+Message-ID: <2023082228-staunch-carload-5553@gregkh>
+References: <20230817015634.18428-1-nicklauscyc@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH v4 05/10] media: verisilicon: Store chroma and motion
- vectors offset
-Content-Language: en-US
-To: Hans Verkuil <hverkuil-cisco@xs4all.nl>, mchehab@kernel.org,
- tfiga@chromium.org, m.szyprowski@samsung.com, ming.qian@nxp.com,
- ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de,
- gregkh@linuxfoundation.org, nicolas.dufresne@collabora.com
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org,
- linux-arm-msm@vger.kernel.org, linux-rockchip@lists.infradead.org,
- linux-staging@lists.linux.dev, kernel@collabora.com
-References: <20230705121056.37017-1-benjamin.gaignard@collabora.com>
- <20230705121056.37017-6-benjamin.gaignard@collabora.com>
- <1b87f062-9d5e-fa8e-3d3b-e766362c6e3b@xs4all.nl>
-From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-In-Reply-To: <1b87f062-9d5e-fa8e-3d3b-e766362c6e3b@xs4all.nl>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230817015634.18428-1-nicklauscyc@gmail.com>
 
+On Wed, Aug 16, 2023 at 06:56:34PM -0700, Nicklaus Choo wrote:
+> Fixed a coding style issue.
+> 
+> Signed-off-by: Nicklaus Choo <nicklauscyc@gmail.com>
+> ---
+>  drivers/staging/vme_user/vme.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/staging/vme_user/vme.c b/drivers/staging/vme_user/vme.c
+> index b5555683a069..d583c4abbf50 100644
+> --- a/drivers/staging/vme_user/vme.c
+> +++ b/drivers/staging/vme_user/vme.c
+> @@ -1742,12 +1742,12 @@ int vme_slot_num(struct vme_dev *vdev)
+>  
+>  	bridge = vdev->bridge;
+>  	if (!bridge) {
+> -		printk(KERN_ERR "Can't find VME bus\n");
+> +		pr_err("Can't find VME bus\n");
+>  		return -EINVAL;
+>  	}
+>  
+>  	if (!bridge->slot_get) {
+> -		printk(KERN_WARNING "vme_slot_num not supported\n");
+> +		pr_warn("%s not supported\n", __func__);
+>  		return -EINVAL;
+>  	}
+>  
+> -- 
+> 2.41.0
+> 
+> 
 
-Le 21/08/2023 à 16:41, Hans Verkuil a écrit :
-> On 05/07/2023 14:10, Benjamin Gaignard wrote:
->> Store computed values of chroma and motion vectors offset because
->> they depends on width and height values which change if the resolution
->> change.
-> Is this a bug fix? Does this patch belong in this series?
->
-> Same actually for the next few verisilicon patches. Shouldn't they be
-> part of a separate 'fixes' patch series? It's confusing to see them
-> in this series.
+Hi,
 
-They fix bugs that happens only when VP9 resolution change without doing stream off/on
-that why they are in this series.
+This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
+a patch that has triggered this response.  He used to manually respond
+to these common problems, but in order to save his sanity (he kept
+writing the same thing over and over, yet to different people), I was
+created.  Hopefully you will not take offence and will fix the problem
+in your patch and resubmit it so that it can be accepted into the Linux
+kernel tree.
 
-This one, for example, is useless if the resolution change on a keyframe because the
-frame will have the same resolution than the current one but is need to store resolution
-of each frames if the resize happens between keyframes.
+You are receiving this message because of the following common error(s)
+as indicated below:
 
-Benjamin
+- You did not specify a description of why the patch is needed, or
+  possibly, any description at all, in the email body.  Please read the
+  section entitled "The canonical patch format" in the kernel file,
+  Documentation/process/submitting-patches.rst for what is needed in
+  order to properly describe the change.
 
->
-> Regards,
->
-> 	Hans
->
->> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
->> ---
->>   drivers/media/platform/verisilicon/hantro.h            | 2 ++
->>   drivers/media/platform/verisilicon/hantro_g2_vp9_dec.c | 6 ++++--
->>   2 files changed, 6 insertions(+), 2 deletions(-)
->>
->> diff --git a/drivers/media/platform/verisilicon/hantro.h b/drivers/media/platform/verisilicon/hantro.h
->> index c8a3cf10cc64..53be00142473 100644
->> --- a/drivers/media/platform/verisilicon/hantro.h
->> +++ b/drivers/media/platform/verisilicon/hantro.h
->> @@ -320,6 +320,8 @@ struct hantro_vp9_decoded_buffer_info {
->>   	/* Info needed when the decoded frame serves as a reference frame. */
->>   	unsigned short width;
->>   	unsigned short height;
->> +	size_t chroma_offset;
->> +	size_t mv_offset;
->>   	u32 bit_depth : 4;
->>   };
->>   
->> diff --git a/drivers/media/platform/verisilicon/hantro_g2_vp9_dec.c b/drivers/media/platform/verisilicon/hantro_g2_vp9_dec.c
->> index 6fc4b555517f..6db1c32fce4d 100644
->> --- a/drivers/media/platform/verisilicon/hantro_g2_vp9_dec.c
->> +++ b/drivers/media/platform/verisilicon/hantro_g2_vp9_dec.c
->> @@ -158,9 +158,11 @@ static void config_output(struct hantro_ctx *ctx,
->>   
->>   	chroma_addr = luma_addr + chroma_offset(ctx, dec_params);
->>   	hantro_write_addr(ctx->dev, G2_OUT_CHROMA_ADDR, chroma_addr);
->> +	dst->vp9.chroma_offset = chroma_offset(ctx, dec_params);
->>   
->>   	mv_addr = luma_addr + mv_offset(ctx, dec_params);
->>   	hantro_write_addr(ctx->dev, G2_OUT_MV_ADDR, mv_addr);
->> +	dst->vp9.mv_offset = mv_offset(ctx, dec_params);
->>   }
->>   
->>   struct hantro_vp9_ref_reg {
->> @@ -195,7 +197,7 @@ static void config_ref(struct hantro_ctx *ctx,
->>   	luma_addr = hantro_get_dec_buf_addr(ctx, &buf->base.vb.vb2_buf);
->>   	hantro_write_addr(ctx->dev, ref_reg->y_base, luma_addr);
->>   
->> -	chroma_addr = luma_addr + chroma_offset(ctx, dec_params);
->> +	chroma_addr = luma_addr + buf->vp9.chroma_offset;
->>   	hantro_write_addr(ctx->dev, ref_reg->c_base, chroma_addr);
->>   }
->>   
->> @@ -238,7 +240,7 @@ static void config_ref_registers(struct hantro_ctx *ctx,
->>   	config_ref(ctx, dst, &ref_regs[2], dec_params, dec_params->alt_frame_ts);
->>   
->>   	mv_addr = hantro_get_dec_buf_addr(ctx, &mv_ref->base.vb.vb2_buf) +
->> -		  mv_offset(ctx, dec_params);
->> +		  mv_ref->vp9.mv_offset;
->>   	hantro_write_addr(ctx->dev, G2_REF_MV_ADDR(0), mv_addr);
->>   
->>   	hantro_reg_write(ctx->dev, &vp9_last_sign_bias,
+- You did not write a descriptive Subject: for the patch, allowing Greg,
+  and everyone else, to know what this patch is all about.  Please read
+  the section entitled "The canonical patch format" in the kernel file,
+  Documentation/process/submitting-patches.rst for what a proper
+  Subject: line should look like.
+
+If you wish to discuss this problem further, or you have questions about
+how to resolve this issue, please feel free to respond to this email and
+Greg will reply once he has dug out from the pending patches received
+from other developers.
+
+thanks,
+
+greg k-h's patch email bot
