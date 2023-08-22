@@ -1,105 +1,90 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oi1-f169.google.com (mail-oi1-f169.google.com [209.85.167.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3D7779D2
-	for <linux-staging@lists.linux.dev>; Mon, 21 Aug 2023 14:41:32 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 261F7C433C7;
-	Mon, 21 Aug 2023 14:41:28 +0000 (UTC)
-Message-ID: <1b87f062-9d5e-fa8e-3d3b-e766362c6e3b@xs4all.nl>
-Date: Mon, 21 Aug 2023 16:41:27 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CEE36ED5
+	for <linux-staging@lists.linux.dev>; Tue, 22 Aug 2023 04:34:43 +0000 (UTC)
+Received: by mail-oi1-f169.google.com with SMTP id 5614622812f47-3a7781225b4so2760924b6e.3
+        for <linux-staging@lists.linux.dev>; Mon, 21 Aug 2023 21:34:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1692678882; x=1693283682;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=I/B6vSrfqQkHZ9MGnWavpPlid0LaCXX9sTu7mRh3O40=;
+        b=CSsvM8hp3zvOhZ7qiYO2s6YUw1K8nGMdYE2Uzxl0HaavaRsv77ln3r5n2G5ISifKpA
+         hebPnxsOLxQ3SjeysWxYOAVDiLwb61VMKn61shKH94GEJkHUlYvsrYY6sKO4x15eHSMB
+         uarrQmG2qmxHU14g6et8c2XSmyn3r6tJ8o6kmuItlQgRZqugoiBgtTKGoxJCpjvmllJW
+         r6w7wbPTbuKF0hSk4EG6xf7nivvkWP2I2xXgZVv1AiGOqOwn/jqiH8T5ASns1FvV9E+b
+         JzA8VGaLp/3zvmcAAqcCH7jTMeLxZmADd4AjFq3j6QYuLcLfKXLh1hznSWtnYEFDOxYb
+         KHaQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1692678882; x=1693283682;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=I/B6vSrfqQkHZ9MGnWavpPlid0LaCXX9sTu7mRh3O40=;
+        b=aCHeEcK+pF3wOGSQ2DNXHv8KIrRe/6Dz0GdGm9qo6WKLKXP6YboqbwiJlBjneh6Tfp
+         MN1PFEn0Cm6upuMv3iQldVGN6MXLSe024DhZt8HYgye19jbJne4DRNE4b1/VUKTBNglc
+         ggIL5/b9zNJ/xFEZxPBO1u0RBOxJs4rMLsk2KAUJERyuCxR68v//sYc4flTppGUDmSCc
+         fLvpvy1zCZT+Nlb9c0+PM7424BU+NTu3Yfhz1ZSWzNkXqDfesb81o7teO1+nPeJ04JrH
+         HxusioZZTzz5dO7LkOc5CKJZv8Sn4QL4Px3ypBZ2KejeDyDRf4eImijuu8Z6FTHqE8PG
+         cy+A==
+X-Gm-Message-State: AOJu0YzUfIQOgeuVG+NJo/a2Wk79ZHvFiUNEV9QM7ZSVsWvKE7Y5Qf6U
+	uTfemwCMSQpe1EJ3GQ1Un5k=
+X-Google-Smtp-Source: AGHT+IGfkVNEJkRALtoo5l+ZFeQlBOR5Jv8a61+OQq8fWc5wxHXxbi1m3M88hFXxMvz0I6Qipj9a1w==
+X-Received: by 2002:a05:6808:408d:b0:3a7:470a:e702 with SMTP id db13-20020a056808408d00b003a7470ae702mr8893825oib.16.1692678882647;
+        Mon, 21 Aug 2023 21:34:42 -0700 (PDT)
+Received: from XHD-CHAVAN-L1.amd.com ([103.115.201.73])
+        by smtp.gmail.com with ESMTPSA id a17-20020a17090abe1100b0026b76edd607sm6959365pjs.15.2023.08.21.21.34.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 21 Aug 2023 21:34:42 -0700 (PDT)
+From: Rohit Chavan <roheetchavan@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Cc: Rohit Chavan <roheetchavan@gmail.com>
+Subject: [PATCH] staging: axis-fifo: fix alignment of open parenthesis
+Date: Tue, 22 Aug 2023 10:04:26 +0530
+Message-Id: <20230822043426.1966-1-roheetchavan@gmail.com>
+X-Mailer: git-send-email 2.30.2
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.12.0
-Subject: Re: [PATCH v4 05/10] media: verisilicon: Store chroma and motion
- vectors offset
-Content-Language: en-US, nl
-To: Benjamin Gaignard <benjamin.gaignard@collabora.com>, mchehab@kernel.org,
- tfiga@chromium.org, m.szyprowski@samsung.com, ming.qian@nxp.com,
- ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de,
- gregkh@linuxfoundation.org, nicolas.dufresne@collabora.com
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org,
- linux-arm-msm@vger.kernel.org, linux-rockchip@lists.infradead.org,
- linux-staging@lists.linux.dev, kernel@collabora.com
-References: <20230705121056.37017-1-benjamin.gaignard@collabora.com>
- <20230705121056.37017-6-benjamin.gaignard@collabora.com>
-From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-In-Reply-To: <20230705121056.37017-6-benjamin.gaignard@collabora.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 05/07/2023 14:10, Benjamin Gaignard wrote:
-> Store computed values of chroma and motion vectors offset because
-> they depends on width and height values which change if the resolution
-> change.
+Fixed all CHECK: Alignment should match open parenthesis
+as reported by checkpatch to adhere to the Linux kernel
+coding-style guidelines.
 
-Is this a bug fix? Does this patch belong in this series?
+Signed-off-by: Rohit Chavan <roheetchavan@gmail.com>
+---
+ drivers/staging/axis-fifo/axis-fifo.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Same actually for the next few verisilicon patches. Shouldn't they be
-part of a separate 'fixes' patch series? It's confusing to see them
-in this series.
+diff --git a/drivers/staging/axis-fifo/axis-fifo.c b/drivers/staging/axis-fifo/axis-fifo.c
+index 727b956aa231..d0ca82a755e4 100644
+--- a/drivers/staging/axis-fifo/axis-fifo.c
++++ b/drivers/staging/axis-fifo/axis-fifo.c
+@@ -381,7 +381,7 @@ static ssize_t axis_fifo_read(struct file *f, char __user *buf,
+ 		 */
+ 		mutex_lock(&fifo->read_lock);
+ 		ret = wait_event_interruptible_timeout(fifo->read_queue,
+-			ioread32(fifo->base_addr + XLLF_RDFO_OFFSET),
++						       ioread32(fifo->base_addr + XLLF_RDFO_OFFSET),
+ 			read_timeout);
 
-Regards,
+ 		if (ret <= 0) {
+@@ -522,7 +522,7 @@ static ssize_t axis_fifo_write(struct file *f, const char __user *buf,
+ 		 */
+ 		mutex_lock(&fifo->write_lock);
+ 		ret = wait_event_interruptible_timeout(fifo->write_queue,
+-			ioread32(fifo->base_addr + XLLF_TDFV_OFFSET)
++						       ioread32(fifo->base_addr + XLLF_TDFV_OFFSET)
+ 				 >= words_to_write,
+ 			write_timeout);
 
-	Hans
-
-> 
-> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-> ---
->  drivers/media/platform/verisilicon/hantro.h            | 2 ++
->  drivers/media/platform/verisilicon/hantro_g2_vp9_dec.c | 6 ++++--
->  2 files changed, 6 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/media/platform/verisilicon/hantro.h b/drivers/media/platform/verisilicon/hantro.h
-> index c8a3cf10cc64..53be00142473 100644
-> --- a/drivers/media/platform/verisilicon/hantro.h
-> +++ b/drivers/media/platform/verisilicon/hantro.h
-> @@ -320,6 +320,8 @@ struct hantro_vp9_decoded_buffer_info {
->  	/* Info needed when the decoded frame serves as a reference frame. */
->  	unsigned short width;
->  	unsigned short height;
-> +	size_t chroma_offset;
-> +	size_t mv_offset;
->  	u32 bit_depth : 4;
->  };
->  
-> diff --git a/drivers/media/platform/verisilicon/hantro_g2_vp9_dec.c b/drivers/media/platform/verisilicon/hantro_g2_vp9_dec.c
-> index 6fc4b555517f..6db1c32fce4d 100644
-> --- a/drivers/media/platform/verisilicon/hantro_g2_vp9_dec.c
-> +++ b/drivers/media/platform/verisilicon/hantro_g2_vp9_dec.c
-> @@ -158,9 +158,11 @@ static void config_output(struct hantro_ctx *ctx,
->  
->  	chroma_addr = luma_addr + chroma_offset(ctx, dec_params);
->  	hantro_write_addr(ctx->dev, G2_OUT_CHROMA_ADDR, chroma_addr);
-> +	dst->vp9.chroma_offset = chroma_offset(ctx, dec_params);
->  
->  	mv_addr = luma_addr + mv_offset(ctx, dec_params);
->  	hantro_write_addr(ctx->dev, G2_OUT_MV_ADDR, mv_addr);
-> +	dst->vp9.mv_offset = mv_offset(ctx, dec_params);
->  }
->  
->  struct hantro_vp9_ref_reg {
-> @@ -195,7 +197,7 @@ static void config_ref(struct hantro_ctx *ctx,
->  	luma_addr = hantro_get_dec_buf_addr(ctx, &buf->base.vb.vb2_buf);
->  	hantro_write_addr(ctx->dev, ref_reg->y_base, luma_addr);
->  
-> -	chroma_addr = luma_addr + chroma_offset(ctx, dec_params);
-> +	chroma_addr = luma_addr + buf->vp9.chroma_offset;
->  	hantro_write_addr(ctx->dev, ref_reg->c_base, chroma_addr);
->  }
->  
-> @@ -238,7 +240,7 @@ static void config_ref_registers(struct hantro_ctx *ctx,
->  	config_ref(ctx, dst, &ref_regs[2], dec_params, dec_params->alt_frame_ts);
->  
->  	mv_addr = hantro_get_dec_buf_addr(ctx, &mv_ref->base.vb.vb2_buf) +
-> -		  mv_offset(ctx, dec_params);
-> +		  mv_ref->vp9.mv_offset;
->  	hantro_write_addr(ctx->dev, G2_REF_MV_ADDR(0), mv_addr);
->  
->  	hantro_reg_write(ctx->dev, &vp9_last_sign_bias,
+--
+2.30.2
 
