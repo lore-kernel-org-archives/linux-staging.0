@@ -1,49 +1,49 @@
-Received: from mail-qk1-f170.google.com (mail-qk1-f170.google.com [209.85.222.170])
+Received: from mail-qt1-f178.google.com (mail-qt1-f178.google.com [209.85.160.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 729B51380
-	for <linux-staging@lists.linux.dev>; Wed, 23 Aug 2023 01:37:54 +0000 (UTC)
-Received: by mail-qk1-f170.google.com with SMTP id af79cd13be357-76dcf1d8957so10828985a.1
-        for <linux-staging@lists.linux.dev>; Tue, 22 Aug 2023 18:37:54 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCFAF10E9
+	for <linux-staging@lists.linux.dev>; Wed, 23 Aug 2023 01:40:18 +0000 (UTC)
+Received: by mail-qt1-f178.google.com with SMTP id d75a77b69052e-41090ef118eso20490941cf.1
+        for <linux-staging@lists.linux.dev>; Tue, 22 Aug 2023 18:40:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1692754673; x=1693359473;
+        d=gmail.com; s=20221208; t=1692754817; x=1693359617;
         h=content-disposition:mime-version:message-id:subject:cc:to:from:date
          :from:to:cc:subject:date:message-id:reply-to;
         bh=zraoR6noj6EHn4OxAsMlxddazRXBRd6htkpsGGslKZU=;
-        b=K2F1f6F5NV6yWhcUB4eipqri8/M+alccOsCDQojhqAzNeJTioZeToDOplHkwDBxogM
-         HOqfCXF2QiKC6Hv79y3LsFgI3IRRkWbP+lakXdpoG+wPkVHiXyrpkeAKX5FgcMw9Ez8z
-         l9ETtSrsqI55m3C+VgqGAtmeuh5gAA/utlp5PFzIG4ywdZtYCXnbMw+vfxw1u71LdbrI
-         QHN5eFjFW69TcN3+ORtjwsOlyEh8KlUs1cb8sUPkoYAXo4Rvdb3CKtCudksgGMJd/JYR
-         vdnc+AWryCmHRqeBjhbBXWoTSpmKwSdnT0C2DXReXCO1NXziTOPmoNoEAI2yuHiVZuId
-         MCKw==
+        b=fWg0LeIFzL2SjtZ/Zs08cqTOtvQLhPzigv0rCgI0QES9ET0nvcE3j9xRxQGjTfDjeu
+         56W7LVAGAZN1MrSpR/9D9ssPgKTXKpC2dSA5RKkfBLbKbpBX+6klmsZzSiK6Oj6YyzGA
+         hOqTm8Rvq52+cyZkX8cDkskknPAkVLKKt4B0rfPAGMgLzq2uDBvuvgvro9dB+TtRQDtd
+         ChJRbb+uRdRjNlqVUsUn3EqLerZi+gDAU9+mzFmuZ8z6o0WrncX08N6cbqrB/E4IX5gK
+         ENYmhROjLyFBFdbt83U2hMByqlFM8rh8oj3iAGWzz+bt9NNLsPNLcyqFHjfTCrwNbKIh
+         dLxQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692754673; x=1693359473;
+        d=1e100.net; s=20221208; t=1692754817; x=1693359617;
         h=content-disposition:mime-version:message-id:subject:cc:to:from:date
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
         bh=zraoR6noj6EHn4OxAsMlxddazRXBRd6htkpsGGslKZU=;
-        b=dkv61/DEAFSUPTnMq9k0ouicqEOcj3304NBVt3AJddyYPiqQHitf5noaoicmrnwopN
-         YWtIIyDBK/bvLn9OT4GByeQe923R64rvT8aJ/p2D2467SPoKbzXwIdIfGuxvI17BlEHd
-         MUnK0w6cnRdbblvIY37IDjRcKSs3DMAm2D/J2XfLMg4igj7qrmvS8TFBaFWEBqmbNfDm
-         bOY5mqtevDkni8LJWxiuduJBw1l+JGOjCxDbLxY058I76hL7wkml/SculKOu+9z380Zr
-         Al2HocQ9uZ8tDgPo96Jkz7gI1EY1cj/kxBKFj+OS8bsUj+QVc5FkPqRcyTsrUJtSFcux
-         /4NQ==
-X-Gm-Message-State: AOJu0Yxge6dGg/VfGgmc9g95O7neLVmU6noSXnBCYgvdArnn3+B5bm1n
-	9x4lCAGa3ZcnuaabYbzcEaI=
-X-Google-Smtp-Source: AGHT+IEFnJmxAy1A6K2ykvxgVt1zMpjpe2n8UH/M1oai/FvYg42sxPZS3DhfOIQlGUv0K6m8eDqtdw==
-X-Received: by 2002:a05:622a:1049:b0:403:b869:9d37 with SMTP id f9-20020a05622a104900b00403b8699d37mr16290637qte.0.1692754673007;
-        Tue, 22 Aug 2023 18:37:53 -0700 (PDT)
+        b=goDfBrrE6yOCmj5h8poZykVZPHPIKqdig1d8dOEHHrEgYmdF/ol9SOml2Z+LG2kqyS
+         KdAbrc+ECbVf9EUvG2mklwuO0Y82FJ+4D58RWGtsIv/WT6sqF6zs4PRB9O7qLBXS6DAV
+         w7feUSpvz7OkyKnITeOn4edZFrquG5lOo5KHhDtiXOVoqSL7BfVLjzev5AbSXA+Z1rPr
+         FE/TkRdjCQwKWWgS2EdAYJZgYfJ4QqhldBi4VCj0XQUVx9ovm5DpGsA6FiwcFf2Z5B3F
+         0n8tjsMuyrVaoJwvEk0PgV/WRZPql73FdxR6NlWdOYzSWK406dguYU98cqN2lVMUnYn0
+         +99A==
+X-Gm-Message-State: AOJu0YwYHbtWA5ec+psLeZYpb9gLJB/mz2nICONfxJEywfQUUeJfPpsw
+	Wl/XjsWpob2N6ZcBldoUNAI=
+X-Google-Smtp-Source: AGHT+IEehiBC36QHK7hjy0nsRp/qMs3yoSpmxdLVVILKewOE5Gvwq/5sDUAMm3sNn1wuiqhAhMaSwg==
+X-Received: by 2002:ac8:57d0:0:b0:403:a91f:7b79 with SMTP id w16-20020ac857d0000000b00403a91f7b79mr16650881qta.20.1692754817432;
+        Tue, 22 Aug 2023 18:40:17 -0700 (PDT)
 Received: from alolivei-thinkpadt480s.gru.csb ([2804:14c:bf20:86d6:7871:f7e9:8a15:865a])
-        by smtp.gmail.com with ESMTPSA id oo23-20020a05620a531700b0076c98dad91dsm3609665qkn.120.2023.08.22.18.37.51
+        by smtp.gmail.com with ESMTPSA id t5-20020a05622a148500b004116b082feesm40149qtx.75.2023.08.22.18.40.15
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 22 Aug 2023 18:37:52 -0700 (PDT)
-Date: Tue, 22 Aug 2023 22:37:48 -0300
+        Tue, 22 Aug 2023 18:40:17 -0700 (PDT)
+Date: Tue, 22 Aug 2023 22:40:12 -0300
 From: Alexon Oliveira <alexondunkan@gmail.com>
 To: gregkh@linuxfoundation.org
-Cc: artyn@welchs.me.uk, manohar.vanga@gmail.com,
+Cc: martyn@welchs.me.uk, manohar.vanga@gmail.com,
 	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
 Subject: [PATCH] staging: vme_user: fix check unbalaced braces and
  misspellings
-Message-ID: <ZOVi7BC4J1PeIjpN@alolivei-thinkpadt480s.gru.csb>
+Message-ID: <ZOVjfKUWsSAkbpZG@alolivei-thinkpadt480s.gru.csb>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
