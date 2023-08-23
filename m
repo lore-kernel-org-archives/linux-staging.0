@@ -1,34 +1,50 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f177.google.com (mail-pg1-f177.google.com [209.85.215.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5439420F1
-	for <linux-staging@lists.linux.dev>; Wed, 23 Aug 2023 07:25:04 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1AD3BC433C7;
-	Wed, 23 Aug 2023 07:25:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1692775504;
-	bh=1studFEeQMbmLRoPYWeUq2xQ+7OX2VLP9fugdfnqMkE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=LWyMlhWRv6sXMsR1yMY0M9pZpNmcpuiFGEDlVRBO4ODn9UpeuaWafzD6RukGWnyDg
-	 PD0UtLcmgoyihQa3WbjhfDgV8NYgm03/Wr/rieFEDyRZT/R61YE5jdIQWvJuejV0Lt
-	 yvDtExPHqxNWIMWIDxuYITnvaSL7zgXCS14NZj/RX5DlzX7bDlitsl9BOfLlAtLcIn
-	 8wHhUZ7wrp2I9JCozw7Q/hLK674mQQX1Jj3jdt7zTAAaZYLONydoLMzgHJaZ7WAwjG
-	 hyQRQAcJtEnmGcOHjAsp+aIBGs5X2OPXUyubrhgJ6+jowHRj31YFcYQg6S1AEWkEu2
-	 niB3JP7EqEV+A==
-Received: from johan by theta with local (Exim 4.96)
-	(envelope-from <johan@kernel.org>)
-	id 1qYiEX-0007eb-1b;
-	Wed, 23 Aug 2023 09:24:53 +0200
-Date: Wed, 23 Aug 2023 09:24:53 +0200
-From: Johan Hovold <johan@kernel.org>
-To: Yang Yingliang <yangyingliang@huawei.com>
-Cc: linux-staging@lists.linux.dev, greybus-dev@lists.linaro.org,
-	hvaibhav.linux@gmail.com, elder@kernel.org,
-	gregkh@linuxfoundation.org
-Subject: Re: [PATCH -next] staging: greybus: arche-apb-ctrl: remove
- unnecessary platform_set_drvdata()
-Message-ID: <ZOW0ReI1EUM70YGm@hovoldconsulting.com>
-References: <20230811070826.739049-1-yangyingliang@huawei.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39D59110B;
+	Wed, 23 Aug 2023 12:53:13 +0000 (UTC)
+Received: by mail-pg1-f177.google.com with SMTP id 41be03b00d2f7-565f86ff4d1so3187310a12.2;
+        Wed, 23 Aug 2023 05:53:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1692795192; x=1693399992;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=9bhZs1e5q1KWpzONagveUUIWGVxIIkKWBWmcf7t0PXI=;
+        b=lbFGqb76MbHiV3fYCPFXBp/EBcceku/rDW4uSg3/3+oDmJUEvqnUBAqY2Dt4o6hCko
+         7cjJEoznspMnVuspRRnh9lBXAJKK/OfL6jgsFggULNAiZaKSNyy50vAG74f9Pb04NZ6M
+         +4ODoHFqPXVZz2J8uRV/7/ADTTgAz0yfBOIWoDEQR/Ye8km2qij2vbWkdzOuoJdkDo4W
+         /xceDVgim7dfE/2ZDmjJ7qoN1xuxdI10Jh0MZcLbJgwI7vREjrCmrtx/6YMkm/K1rtpQ
+         xnQPiLu1xNO3Nhj2yd1+4lZxYv/+aHa4EbBUPLkU+WYS7xceW9uImh/k6m/I2vpMc0eS
+         TxWA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1692795192; x=1693399992;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=9bhZs1e5q1KWpzONagveUUIWGVxIIkKWBWmcf7t0PXI=;
+        b=CXR3IFWTLuAbosjPrz1C8feeiFVoI5ofHookbmLGdBC95EevQULxT+DZS84M4ZnQyC
+         IATvKL1gWRDNFCNddz/g3ZRn67uDQLkqVrFOEUok8VzqDDYkcaEGzdCFgAcGvyILBk9u
+         gwxOXcl09kBPUP0SMSy9H7zFI482USRM1VQF8YKdmUWTK+7Y6rZ01OTPB8gCjPmiAYDP
+         d69GwWe8Ie8Qtv8cyRGpvPs8V/xX4wKvGcQvKDGvxN3lu/oOmhlm77Z4xcbUIBb3lrkB
+         ZAfPBDK0mIVH+d6KJKtw8ixuD3eIXTzXb7V7zSfBjhatuSh/QlclDGeUw6CJCCK4U3Fb
+         XWIw==
+X-Gm-Message-State: AOJu0YzfZ64bJso3laQWQ+L5CZoYqQxkKFYJMTEl2mx7RRKHOZeF77iY
+	6KJ7Qa+H1/wuw8lp+cnI5LY=
+X-Google-Smtp-Source: AGHT+IFk2vhMke3lTfoMgYmxrcS833teoMLDPiChgJfNhJf7lvGeDbLw4sjXmkabTDM7eIzE43o/DQ==
+X-Received: by 2002:a17:90b:287:b0:268:b682:23da with SMTP id az7-20020a17090b028700b00268b68223damr9327465pjb.34.1692795192289;
+        Wed, 23 Aug 2023 05:53:12 -0700 (PDT)
+Received: from ubuntu.myguest.virtualbox.org ([122.162.51.13])
+        by smtp.gmail.com with ESMTPSA id t5-20020a17090a024500b00262e604724dsm12209797pje.50.2023.08.23.05.53.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 23 Aug 2023 05:53:11 -0700 (PDT)
+Date: Wed, 23 Aug 2023 18:23:07 +0530
+From: Pavan Bobba <opensource206@gmail.com>
+To: Forest Bond <forest@alittletooquiet.net>,
+	Michael Straube <straube.linux@gmail.com>,
+	Philipp Hortmann <philipp.g.hortmann@gmail.com>,
+	outreachy@lists.linux.dev
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: [PATCH v2] staging: vt6655: replace camel case by snake case
+Message-ID: <ZOYBM9t0agzTKWwz@ubuntu.myguest.virtualbox.org>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -37,33 +53,128 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230811070826.739049-1-yangyingliang@huawei.com>
 
-On Fri, Aug 11, 2023 at 03:08:26PM +0800, Yang Yingliang wrote:
-> Remove unnecessary platform_set_drvdata(..., NULL) in ->remove(),
-> the driver_data will be cleared in device_unbind_cleanup() after
-> calling ->remove() in driver call code.
+1.Conversion of formal argument names from camel case to snake case for below functions:
+      a.SROMvReadAllContents
+      b.SROMvReadEtherAddress
 
-s/call/core/
+2.Conversion of local variable names from camel case to snake case in function SROMvReadEtherAddress
+
+Issue found by checkpatch
+
+Signed-off-by: Pavan Bobba <opensource206@gmail.com>
+---
+ v1 -> v2: encoding of type information in variable names dropped
  
-> Signed-off-by: Yang Yingliang <yangyingliang@huawei.com>
-> ---
->  drivers/staging/greybus/arche-apb-ctrl.c | 1 -
->  1 file changed, 1 deletion(-)
-> 
-> diff --git a/drivers/staging/greybus/arche-apb-ctrl.c b/drivers/staging/greybus/arche-apb-ctrl.c
-> index 8541995008da..5c77c1813214 100644
-> --- a/drivers/staging/greybus/arche-apb-ctrl.c
-> +++ b/drivers/staging/greybus/arche-apb-ctrl.c
-> @@ -423,7 +423,6 @@ static void arche_apb_ctrl_remove(struct platform_device *pdev)
->  {
->  	device_remove_file(&pdev->dev, &dev_attr_state);
->  	poweroff_seq(pdev);
-> -	platform_set_drvdata(pdev, NULL);
->  }
+ drivers/staging/vt6655/srom.c | 48 +++++++++++++++++------------------
+ 1 file changed, 24 insertions(+), 24 deletions(-)
 
-Should be ok:
+diff --git a/drivers/staging/vt6655/srom.c b/drivers/staging/vt6655/srom.c
+index ee5ca4db74dc..9c13ad089d78 100644
+--- a/drivers/staging/vt6655/srom.c
++++ b/drivers/staging/vt6655/srom.c
+@@ -59,36 +59,36 @@
+ unsigned char SROMbyReadEmbedded(void __iomem *iobase,
+ 				 unsigned char byContntOffset)
+ {
+-	unsigned short wDelay, wNoACK;
+-	unsigned char byWait;
+-	unsigned char byData;
+-	unsigned char byOrg;
++	unsigned short delay, noack;
++	unsigned char wait;
++	unsigned char data;
++	unsigned char org;
+ 
+-	byData = 0xFF;
+-	byOrg = ioread8(iobase + MAC_REG_I2MCFG);
++	data = 0xFF;
++	org = ioread8(iobase + MAC_REG_I2MCFG);
+ 	/* turn off hardware retry for getting NACK */
+-	iowrite8(byOrg & (~I2MCFG_NORETRY), iobase + MAC_REG_I2MCFG);
+-	for (wNoACK = 0; wNoACK < W_MAX_I2CRETRY; wNoACK++) {
++	iowrite8(org & (~I2MCFG_NORETRY), iobase + MAC_REG_I2MCFG);
++	for (noack = 0; noack < W_MAX_I2CRETRY; noack++) {
+ 		iowrite8(EEP_I2C_DEV_ID, iobase + MAC_REG_I2MTGID);
+ 		iowrite8(byContntOffset, iobase + MAC_REG_I2MTGAD);
+ 
+ 		/* issue read command */
+ 		iowrite8(I2MCSR_EEMR, iobase + MAC_REG_I2MCSR);
+ 		/* wait DONE be set */
+-		for (wDelay = 0; wDelay < W_MAX_TIMEOUT; wDelay++) {
+-			byWait = ioread8(iobase + MAC_REG_I2MCSR);
+-			if (byWait & (I2MCSR_DONE | I2MCSR_NACK))
++		for (delay = 0; delay < W_MAX_TIMEOUT; delay++) {
++			wait = ioread8(iobase + MAC_REG_I2MCSR);
++			if (wait & (I2MCSR_DONE | I2MCSR_NACK))
+ 				break;
+ 			udelay(CB_DELAY_LOOP_WAIT);
+ 		}
+-		if ((wDelay < W_MAX_TIMEOUT) &&
+-		    (!(byWait & I2MCSR_NACK))) {
++		if ((delay < W_MAX_TIMEOUT) &&
++		    (!(wait & I2MCSR_NACK))) {
+ 			break;
+ 		}
+ 	}
+-	byData = ioread8(iobase + MAC_REG_I2MDIPT);
+-	iowrite8(byOrg, iobase + MAC_REG_I2MCFG);
+-	return byData;
++	data = ioread8(iobase + MAC_REG_I2MDIPT);
++	iowrite8(org, iobase + MAC_REG_I2MCFG);
++	return data;
+ }
+ 
+ /*
+@@ -98,20 +98,20 @@ unsigned char SROMbyReadEmbedded(void __iomem *iobase,
+  *  In:
+  *      iobase          - I/O base address
+  *  Out:
+- *      pbyEepromRegs   - EEPROM content Buffer
++ *      eepromregs   - EEPROM content Buffer
+  *
+  * Return Value: none
+  *
+  */
+-void SROMvReadAllContents(void __iomem *iobase, unsigned char *pbyEepromRegs)
++void SROMvReadAllContents(void __iomem *iobase, unsigned char *eepromregs)
+ {
+ 	int     ii;
+ 
+ 	/* ii = Rom Address */
+ 	for (ii = 0; ii < EEP_MAX_CONTEXT_SIZE; ii++) {
+-		*pbyEepromRegs = SROMbyReadEmbedded(iobase,
++		*eepromregs = SROMbyReadEmbedded(iobase,
+ 						    (unsigned char)ii);
+-		pbyEepromRegs++;
++		eepromregs++;
+ 	}
+ }
+ 
+@@ -122,19 +122,19 @@ void SROMvReadAllContents(void __iomem *iobase, unsigned char *pbyEepromRegs)
+  *  In:
+  *      iobase          - I/O base address
+  *  Out:
+- *      pbyEtherAddress - Ethernet Address buffer
++ *      etheraddress - Ethernet Address buffer
+  *
+  * Return Value: none
+  *
+  */
+ void SROMvReadEtherAddress(void __iomem *iobase,
+-			   unsigned char *pbyEtherAddress)
++			   unsigned char *etheraddress)
+ {
+ 	unsigned char ii;
+ 
+ 	/* ii = Rom Address */
+ 	for (ii = 0; ii < ETH_ALEN; ii++) {
+-		*pbyEtherAddress = SROMbyReadEmbedded(iobase, ii);
+-		pbyEtherAddress++;
++		*etheraddress = SROMbyReadEmbedded(iobase, ii);
++		etheraddress++;
+ 	}
+ }
+-- 
+2.34.1
 
-Reviewed-by: Johan Hovold <johan@kernel.org>
-
-Johan
