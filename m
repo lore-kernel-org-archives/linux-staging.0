@@ -1,179 +1,75 @@
-Received: from mail3-relais-sop.national.inria.fr (mail3-relais-sop.national.inria.fr [192.134.164.104])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FBF520F18;
-	Wed, 23 Aug 2023 12:59:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8AF720F18;
+	Wed, 23 Aug 2023 13:08:57 +0000 (UTC)
+Received: by mail-pf1-f170.google.com with SMTP id d2e1a72fcca58-68a3082c771so2651671b3a.0;
+        Wed, 23 Aug 2023 06:08:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=inria.fr; s=dc;
-  h=date:from:to:cc:subject:in-reply-to:message-id:
-   references:mime-version;
-  bh=1W9ssUea60J+pSvyJCVBbSbx44jAQJcv36rjM60pRZw=;
-  b=mNVbsb89Ke7zWlggcrx74W4kIPzu7oEpVIoQuVnm86CU+uyFFGZGwsAZ
-   M+kwP9mw3qQ7zzLqbUrpUFE595wK0/SlACEs3yzveCwH0YLt2JWrTUi9D
-   VKrVyBkYSr56IDqBveyl2R5EJUF5Q2rFVCgq2Fum8JUT174j2JPO14UQr
-   g=;
-Authentication-Results: mail3-relais-sop.national.inria.fr; dkim=none (message not signed) header.i=none; spf=SoftFail smtp.mailfrom=julia.lawall@inria.fr; dmarc=fail (p=none dis=none) d=inria.fr
-X-IronPort-AV: E=Sophos;i="6.01,195,1684792800"; 
-   d="scan'208";a="64020145"
-Received: from 98.66.136.77.rev.sfr.net (HELO hadrien) ([77.136.66.98])
-  by mail3-relais-sop.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Aug 2023 14:58:39 +0200
-Date: Wed, 23 Aug 2023 14:58:38 +0200 (CEST)
-From: Julia Lawall <julia.lawall@inria.fr>
-X-X-Sender: jll@hadrien
-To: Pavan Bobba <opensource206@gmail.com>
-cc: Forest Bond <forest@alittletooquiet.net>, 
-    Michael Straube <straube.linux@gmail.com>, 
-    Philipp Hortmann <philipp.g.hortmann@gmail.com>, outreachy@lists.linux.dev, 
-    linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] staging: vt6655: replace camel case by snake case
-In-Reply-To: <ZOYBM9t0agzTKWwz@ubuntu.myguest.virtualbox.org>
-Message-ID: <alpine.DEB.2.22.394.2308231457310.3210@hadrien>
-References: <ZOYBM9t0agzTKWwz@ubuntu.myguest.virtualbox.org>
-User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
+        d=gmail.com; s=20221208; t=1692796137; x=1693400937;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=qf4G25XaAsD/bFVHzR33gk1moFWId2eULxYKt6rsK5A=;
+        b=X0oEopZ67vZ521E3wtTlBhVphVkOlbEjB96po7Mjw3+RPZNFohwK2JhQ4lwLUwls/n
+         69IB7hknFGKnFZn9eEbcgPiZlTuB+iZhzBE10sBpCR4NB/VPxTp0vVsdOBEfKcV9S+SN
+         dfqC1A3ry9C+h7K1jvjplvekVDI6DSadWGkYYYoX1LtO7GyJOFILc8pf3V4OPfMJ0r/X
+         pRZLCoBhhI4wnKmIvuNqcbEIdR3nOysYYpdUei4Fq4tVhSSos/0dWu2mUwBuvDS/RBkd
+         kUsyZMvdu92ENrEcJNCgeLLmgmTtxVzYRNLV7E5lJQXS/8z2eE6G5g2F2c8+rSwFyvX+
+         QlEw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1692796137; x=1693400937;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=qf4G25XaAsD/bFVHzR33gk1moFWId2eULxYKt6rsK5A=;
+        b=f1zWJbMEnYvxmrdAnaDpRW4eASV1URCfOM9h65SQu1ygl1n4bu28EGwGTQmt8kFLf5
+         K51Bp+C20u0SpXLbMTmFKWYF8EP+jdvPfZY/ttyRRE6lHfUeaZPLLV5I/hQlGZX2YgV/
+         t93o59ni8IFXE6OU4X3bjgLFlxxnog/DW8Cnmj3pD5ra0J0YPXurlr6Oj/HvV0D98XGk
+         2J+6Tj5w0oOLnCvkwNxIbhMf4Wiltw6oX6A8/R6vQx2pxEQ56W+vZfQB/LYQhNZaygem
+         ckgWjsa2aJJc4bDO6mSsL7kTBtcHF/eSqc6W3yTqCmvfnX7Pb3py0dO09ACPy98jWpgX
+         vh0Q==
+X-Gm-Message-State: AOJu0YyrU/3mH+wClcoGS8/QTvthTH6M8pDLTrOGBkN5u0VsSwineAsu
+	jK/3SVh6OTdxSAIC6d36nZlvMpKlU3k=
+X-Google-Smtp-Source: AGHT+IEhZg97xgWmxGmje8X6eRI20mOdZfA/gtCn7BWIkRhmlu6tUPcPIcZWGe1nuUS6je1oDprjow==
+X-Received: by 2002:a05:6a00:1a15:b0:68a:5937:eaa2 with SMTP id g21-20020a056a001a1500b0068a5937eaa2mr9500711pfv.12.1692796136883;
+        Wed, 23 Aug 2023 06:08:56 -0700 (PDT)
+Received: from ubuntu.myguest.virtualbox.org ([122.162.51.13])
+        by smtp.gmail.com with ESMTPSA id a24-20020a62e218000000b0068bdb0be6bdsm1226466pfi.191.2023.08.23.06.08.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 23 Aug 2023 06:08:56 -0700 (PDT)
+Date: Wed, 23 Aug 2023 18:38:52 +0530
+From: Pavan Bobba <opensource206@gmail.com>
+To: Philipp Hortmann <philipp.g.hortmann@gmail.com>,
+	Forest Bond <forest@alittletooquiet.net>,
+	Michael Straube <straube.linux@gmail.com>,
+	outreachy@lists.linux.dev
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: vt6655: replace camel case by snake case
+Message-ID: <ZOYE5DI+AjRlRUnd@ubuntu.myguest.virtualbox.org>
+References: <ZOTUCRICU6lSYfdn@ubuntu.myguest.virtualbox.org>
+ <e5eb5935-5219-4d43-892b-96a03f8eb755@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <e5eb5935-5219-4d43-892b-96a03f8eb755@gmail.com>
 
-
-
-On Wed, 23 Aug 2023, Pavan Bobba wrote:
-
-> 1.Conversion of formal argument names from camel case to snake case for below functions:
->       a.SROMvReadAllContents
->       b.SROMvReadEtherAddress
->
-> 2.Conversion of local variable names from camel case to snake case in function SROMvReadEtherAddress
->
-> Issue found by checkpatch
->
-> Signed-off-by: Pavan Bobba <opensource206@gmail.com>
-> ---
->  v1 -> v2: encoding of type information in variable names dropped
->
->  drivers/staging/vt6655/srom.c | 48 +++++++++++++++++------------------
->  1 file changed, 24 insertions(+), 24 deletions(-)
->
-> diff --git a/drivers/staging/vt6655/srom.c b/drivers/staging/vt6655/srom.c
-> index ee5ca4db74dc..9c13ad089d78 100644
-> --- a/drivers/staging/vt6655/srom.c
-> +++ b/drivers/staging/vt6655/srom.c
-> @@ -59,36 +59,36 @@
->  unsigned char SROMbyReadEmbedded(void __iomem *iobase,
->  				 unsigned char byContntOffset)
->  {
-> -	unsigned short wDelay, wNoACK;
-> -	unsigned char byWait;
-> -	unsigned char byData;
-> -	unsigned char byOrg;
-> +	unsigned short delay, noack;
-> +	unsigned char wait;
-> +	unsigned char data;
-> +	unsigned char org;
->
-> -	byData = 0xFF;
-> -	byOrg = ioread8(iobase + MAC_REG_I2MCFG);
-> +	data = 0xFF;
-> +	org = ioread8(iobase + MAC_REG_I2MCFG);
->  	/* turn off hardware retry for getting NACK */
-> -	iowrite8(byOrg & (~I2MCFG_NORETRY), iobase + MAC_REG_I2MCFG);
-> -	for (wNoACK = 0; wNoACK < W_MAX_I2CRETRY; wNoACK++) {
-> +	iowrite8(org & (~I2MCFG_NORETRY), iobase + MAC_REG_I2MCFG);
-> +	for (noack = 0; noack < W_MAX_I2CRETRY; noack++) {
->  		iowrite8(EEP_I2C_DEV_ID, iobase + MAC_REG_I2MTGID);
->  		iowrite8(byContntOffset, iobase + MAC_REG_I2MTGAD);
->
->  		/* issue read command */
->  		iowrite8(I2MCSR_EEMR, iobase + MAC_REG_I2MCSR);
->  		/* wait DONE be set */
-> -		for (wDelay = 0; wDelay < W_MAX_TIMEOUT; wDelay++) {
-> -			byWait = ioread8(iobase + MAC_REG_I2MCSR);
-> -			if (byWait & (I2MCSR_DONE | I2MCSR_NACK))
-> +		for (delay = 0; delay < W_MAX_TIMEOUT; delay++) {
-> +			wait = ioread8(iobase + MAC_REG_I2MCSR);
-> +			if (wait & (I2MCSR_DONE | I2MCSR_NACK))
->  				break;
->  			udelay(CB_DELAY_LOOP_WAIT);
->  		}
-> -		if ((wDelay < W_MAX_TIMEOUT) &&
-> -		    (!(byWait & I2MCSR_NACK))) {
-> +		if ((delay < W_MAX_TIMEOUT) &&
-
-Maybe the W_ should also be dropped?
-
-> +		    (!(wait & I2MCSR_NACK))) {
->  			break;
->  		}
->  	}
-> -	byData = ioread8(iobase + MAC_REG_I2MDIPT);
-> -	iowrite8(byOrg, iobase + MAC_REG_I2MCFG);
-> -	return byData;
-> +	data = ioread8(iobase + MAC_REG_I2MDIPT);
-> +	iowrite8(org, iobase + MAC_REG_I2MCFG);
-> +	return data;
->  }
->
->  /*
-> @@ -98,20 +98,20 @@ unsigned char SROMbyReadEmbedded(void __iomem *iobase,
->   *  In:
->   *      iobase          - I/O base address
->   *  Out:
-> - *      pbyEepromRegs   - EEPROM content Buffer
-> + *      eepromregs   - EEPROM content Buffer
-
-Here you could add some spaces to get the - EEPROM to line up with the
-rest.  Likewise later.
-
-julia
-
->   *
->   * Return Value: none
->   *
->   */
-> -void SROMvReadAllContents(void __iomem *iobase, unsigned char *pbyEepromRegs)
-> +void SROMvReadAllContents(void __iomem *iobase, unsigned char *eepromregs)
->  {
->  	int     ii;
->
->  	/* ii = Rom Address */
->  	for (ii = 0; ii < EEP_MAX_CONTEXT_SIZE; ii++) {
-> -		*pbyEepromRegs = SROMbyReadEmbedded(iobase,
-> +		*eepromregs = SROMbyReadEmbedded(iobase,
->  						    (unsigned char)ii);
-> -		pbyEepromRegs++;
-> +		eepromregs++;
->  	}
->  }
->
-> @@ -122,19 +122,19 @@ void SROMvReadAllContents(void __iomem *iobase, unsigned char *pbyEepromRegs)
->   *  In:
->   *      iobase          - I/O base address
->   *  Out:
-> - *      pbyEtherAddress - Ethernet Address buffer
-> + *      etheraddress - Ethernet Address buffer
->   *
->   * Return Value: none
->   *
->   */
->  void SROMvReadEtherAddress(void __iomem *iobase,
-> -			   unsigned char *pbyEtherAddress)
-> +			   unsigned char *etheraddress)
->  {
->  	unsigned char ii;
->
->  	/* ii = Rom Address */
->  	for (ii = 0; ii < ETH_ALEN; ii++) {
-> -		*pbyEtherAddress = SROMbyReadEmbedded(iobase, ii);
-> -		pbyEtherAddress++;
-> +		*etheraddress = SROMbyReadEmbedded(iobase, ii);
-> +		etheraddress++;
->  	}
->  }
-> --
-> 2.34.1
->
->
->
+On Tue, Aug 22, 2023 at 07:31:21PM +0200, Philipp Hortmann wrote:
+> On 8/22/23 17:28, Pavan Bobba wrote:
+> > Replace formal arguments of few functions and local variables of camel case by snake case.
+> > Issue found by checkpatch
+> > 
+> > Signed-off-by: Pavan Bobba<opensource206@gmail.com>
+> 
+> Hi,
+> 
+> please find a unique subject so that we see it is something new.
+> 
+> Thanks
+> 
+> Bye Philipp
+Thank you Philipp.i have updated my patch description in next patch
