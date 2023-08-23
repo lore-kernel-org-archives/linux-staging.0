@@ -1,61 +1,46 @@
-Received: from szxga08-in.huawei.com (szxga08-in.huawei.com [45.249.212.255])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3EE520F0D
-	for <linux-staging@lists.linux.dev>; Wed, 23 Aug 2023 03:52:44 +0000 (UTC)
-Received: from kwepemi500008.china.huawei.com (unknown [172.30.72.53])
-	by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4RVshJ0krTz1L9LB;
-	Wed, 23 Aug 2023 11:51:12 +0800 (CST)
-Received: from huawei.com (10.90.53.73) by kwepemi500008.china.huawei.com
- (7.221.188.139) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.31; Wed, 23 Aug
- 2023 11:52:40 +0800
-From: Jinjie Ruan <ruanjinjie@huawei.com>
-To: <linux-staging@lists.linux.dev>, <mikem@ring3k.org>, Greg Kroah-Hartman
-	<gregkh@linuxfoundation.org>, Larry Finger <Larry.Finger@lwfinger.net>,
-	wlanfae <wlanfae@realtek.com>
-CC: <ruanjinjie@huawei.com>
-Subject: [PATCH -next] staging: rtl8192e: Do not call kfree_skb() under spin_lock_irqsave()
-Date: Wed, 23 Aug 2023 11:52:24 +0800
-Message-ID: <20230823035225.1282901-1-ruanjinjie@huawei.com>
-X-Mailer: git-send-email 2.34.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 218BC20EE0
+	for <linux-staging@lists.linux.dev>; Wed, 23 Aug 2023 06:49:28 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 24840C433C7;
+	Wed, 23 Aug 2023 06:49:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1692773368;
+	bh=TCyII1sw1DT4Dy8tv/bVcCUwpjPGev1c+kC0FfES710=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=hm+Qq3XxNzkxghSp+nHCOaaFpX0biVs/K+hTNFF532cltV0IkQ+nh5HcgthHhwq7p
+	 dOhuCCDVxcvW+yRNTH+XW2pw/z4hOPC9zDMPqk5N2732+++upwI7Bl5FQdZoT/UlQh
+	 TAkZMCPfrzV8M/AGeCWx9I2yFZ8t4Yf1O9V7Nizk=
+Date: Wed, 23 Aug 2023 08:49:25 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Alexon Oliveira <alexondunkan@gmail.com>
+Cc: martyn@welchs.me.uk, manohar.vanga@gmail.com,
+	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
+Subject: Re: [PATCH] staging: vme_user: fix check unbalaced braces and
+ misspellings
+Message-ID: <2023082303-balmy-bucktooth-f85b@gregkh>
+References: <ZOVjfKUWsSAkbpZG@alolivei-thinkpadt480s.gru.csb>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.90.53.73]
-X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
- kwepemi500008.china.huawei.com (7.221.188.139)
-X-CFilter-Loop: Reflected
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ZOVjfKUWsSAkbpZG@alolivei-thinkpadt480s.gru.csb>
 
-It is not allowed to call kfree_skb() from hardware interrupt
-context or with hardware interrupts being disabled.
-So replace kfree_skb() with dev_kfree_skb_irq() under
-spin_lock_irqsave(). Compile tested only.
+On Tue, Aug 22, 2023 at 10:40:12PM -0300, Alexon Oliveira wrote:
+> Fixed all CHECK: Unbalanced braces around else statement,
+> CHECK: braces {} should be used on all arms of this statement,
+> and CHECK: 'specificed' may be misspelled - perhaps 'specified'?
+> as reported by checkpatch to adhere to the Linux kernel
+> coding-style guidelines.
 
-Fixes: 94a799425eee ("From: wlanfae <wlanfae@realtek.com> [PATCH 1/8] rtl8192e: Import new version of driver from realtek")
-Signed-off-by: Jinjie Ruan <ruanjinjie@huawei.com>
----
- drivers/staging/rtl8192e/rtl8192e/rtl_core.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+That's two different things, so that means it should be two different
+patches.  Please send a patch series for this.
 
-diff --git a/drivers/staging/rtl8192e/rtl8192e/rtl_core.c b/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
-index 50eb8f3494ec..5a613b116925 100644
---- a/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
-+++ b/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
-@@ -1663,7 +1663,7 @@ void rtl92e_reset_desc_ring(struct net_device *dev)
- 				dma_unmap_single(&priv->pdev->dev,
- 						 entry->TxBuffAddr, skb->len,
- 						 DMA_TO_DEVICE);
--				kfree_skb(skb);
-+				dev_kfree_skb_irq(skb);
- 				ring->idx = (ring->idx + 1) % ring->entries;
- 			}
- 			ring->idx = 0;
--- 
-2.34.1
+thanks,
 
+greg k-h
