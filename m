@@ -1,75 +1,102 @@
-Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
+Received: from mail-qk1-f170.google.com (mail-qk1-f170.google.com [209.85.222.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CF7E2B545;
-	Tue, 22 Aug 2023 17:31:24 +0000 (UTC)
-Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-4ff7ecd0a0dso1387407e87.0;
-        Tue, 22 Aug 2023 10:31:24 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 729B51380
+	for <linux-staging@lists.linux.dev>; Wed, 23 Aug 2023 01:37:54 +0000 (UTC)
+Received: by mail-qk1-f170.google.com with SMTP id af79cd13be357-76dcf1d8957so10828985a.1
+        for <linux-staging@lists.linux.dev>; Tue, 22 Aug 2023 18:37:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1692725483; x=1693330283;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
+        d=gmail.com; s=20221208; t=1692754673; x=1693359473;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=QfKHgUSTtafoCDv9qIGxx5rTmDvawh/uB7wOQLfeuKA=;
-        b=Lm7nygwsiSap6Z09Y/8KweIlb6brFubBzcq23SZTWxfuTRXe+8kS4e0IYA410F/OgF
-         qC7nrZ1hp+zP6GtYf68mpBc3B/gyxRikAbFZpeko/66y1kZzTKA5KyjjC7nQMFuzuwae
-         WLcXo0tKqn1TNQabSXTgFYs42Qihic5AYYfkJmJqZ/HnZjan68yxxNvXYryMaK0kCtF5
-         09shWohCJRUizhD28gKpGgjoMSUt+4clMPfBG3l73cDJxLPtpNyIolPJxxdlhExNCX3T
-         rGGmOwXDkUcNt8zJqAxzhfiJPRpWZxopd8Cu8r4CHGqZP2wmSg0uD8yJbRSEotXGuZJ6
-         V1xg==
+        bh=zraoR6noj6EHn4OxAsMlxddazRXBRd6htkpsGGslKZU=;
+        b=K2F1f6F5NV6yWhcUB4eipqri8/M+alccOsCDQojhqAzNeJTioZeToDOplHkwDBxogM
+         HOqfCXF2QiKC6Hv79y3LsFgI3IRRkWbP+lakXdpoG+wPkVHiXyrpkeAKX5FgcMw9Ez8z
+         l9ETtSrsqI55m3C+VgqGAtmeuh5gAA/utlp5PFzIG4ywdZtYCXnbMw+vfxw1u71LdbrI
+         QHN5eFjFW69TcN3+ORtjwsOlyEh8KlUs1cb8sUPkoYAXo4Rvdb3CKtCudksgGMJd/JYR
+         vdnc+AWryCmHRqeBjhbBXWoTSpmKwSdnT0C2DXReXCO1NXziTOPmoNoEAI2yuHiVZuId
+         MCKw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692725483; x=1693330283;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
+        d=1e100.net; s=20221208; t=1692754673; x=1693359473;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=QfKHgUSTtafoCDv9qIGxx5rTmDvawh/uB7wOQLfeuKA=;
-        b=J/C3ME0UV76wsPTISy+R1c09DTCUgb/3g9qZ8O3I1papItQxufYN2PKt41yDeZmF13
-         E3gCHPh9sOhZmxZ6McUbUNbtCqPs0ibM1YQBK0Md/0ZO3WlFDADUi+aCHjzJCwO2aYqW
-         GQ6GuAaPhUS+V3Aw+TLL5odei7uvMuL2uxlGnK7cHIIcJTwk/yA4HbtDwe+ZpEbBP4aF
-         AfV/vCTnD1cA1sAQdrorw58PmdzEUHh2P+gqvHsdDpIl+NWW31EUuBR0QV2cLLPtRuQy
-         KjD3mvOcJemK4Gp9U8IDDrjzhg/3XxD+M8NYGPBlssiJft9YMMHcg0NsgfvzQKnRDYJb
-         hU+A==
-X-Gm-Message-State: AOJu0YzbhcEBaYnFlHI75tXPDqSU2eOHyJ4JiD3QdXBcl0gZ3uCxpTGc
-	9bFVgpnInu3oEmi41kx8TdA=
-X-Google-Smtp-Source: AGHT+IFKsA5y+4A45gtr4oOX0jTZC3l4FhZV7lIud8i/1g+uNYS7PKF7EUvH1WKUiZXGy9HenbYx+g==
-X-Received: by 2002:a19:f81a:0:b0:4fb:9477:f713 with SMTP id a26-20020a19f81a000000b004fb9477f713mr5925771lff.6.1692725482596;
-        Tue, 22 Aug 2023 10:31:22 -0700 (PDT)
-Received: from [192.168.0.100] (p579356c7.dip0.t-ipconnect.de. [87.147.86.199])
-        by smtp.gmail.com with ESMTPSA id x20-20020a05600c2a5400b003fef60005b5sm4049810wme.9.2023.08.22.10.31.21
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 22 Aug 2023 10:31:22 -0700 (PDT)
-Message-ID: <e5eb5935-5219-4d43-892b-96a03f8eb755@gmail.com>
-Date: Tue, 22 Aug 2023 19:31:21 +0200
+        bh=zraoR6noj6EHn4OxAsMlxddazRXBRd6htkpsGGslKZU=;
+        b=dkv61/DEAFSUPTnMq9k0ouicqEOcj3304NBVt3AJddyYPiqQHitf5noaoicmrnwopN
+         YWtIIyDBK/bvLn9OT4GByeQe923R64rvT8aJ/p2D2467SPoKbzXwIdIfGuxvI17BlEHd
+         MUnK0w6cnRdbblvIY37IDjRcKSs3DMAm2D/J2XfLMg4igj7qrmvS8TFBaFWEBqmbNfDm
+         bOY5mqtevDkni8LJWxiuduJBw1l+JGOjCxDbLxY058I76hL7wkml/SculKOu+9z380Zr
+         Al2HocQ9uZ8tDgPo96Jkz7gI1EY1cj/kxBKFj+OS8bsUj+QVc5FkPqRcyTsrUJtSFcux
+         /4NQ==
+X-Gm-Message-State: AOJu0Yxge6dGg/VfGgmc9g95O7neLVmU6noSXnBCYgvdArnn3+B5bm1n
+	9x4lCAGa3ZcnuaabYbzcEaI=
+X-Google-Smtp-Source: AGHT+IEFnJmxAy1A6K2ykvxgVt1zMpjpe2n8UH/M1oai/FvYg42sxPZS3DhfOIQlGUv0K6m8eDqtdw==
+X-Received: by 2002:a05:622a:1049:b0:403:b869:9d37 with SMTP id f9-20020a05622a104900b00403b8699d37mr16290637qte.0.1692754673007;
+        Tue, 22 Aug 2023 18:37:53 -0700 (PDT)
+Received: from alolivei-thinkpadt480s.gru.csb ([2804:14c:bf20:86d6:7871:f7e9:8a15:865a])
+        by smtp.gmail.com with ESMTPSA id oo23-20020a05620a531700b0076c98dad91dsm3609665qkn.120.2023.08.22.18.37.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 22 Aug 2023 18:37:52 -0700 (PDT)
+Date: Tue, 22 Aug 2023 22:37:48 -0300
+From: Alexon Oliveira <alexondunkan@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: artyn@welchs.me.uk, manohar.vanga@gmail.com,
+	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
+Subject: [PATCH] staging: vme_user: fix check unbalaced braces and
+ misspellings
+Message-ID: <ZOVi7BC4J1PeIjpN@alolivei-thinkpadt480s.gru.csb>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH] staging: vt6655: replace camel case by snake case
-Content-Language: en-US
-To: Pavan Bobba <opensource206@gmail.com>,
- Forest Bond <forest@alittletooquiet.net>,
- Michael Straube <straube.linux@gmail.com>, outreachy@lists.linux.dev
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-References: <ZOTUCRICU6lSYfdn@ubuntu.myguest.virtualbox.org>
-From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-In-Reply-To: <ZOTUCRICU6lSYfdn@ubuntu.myguest.virtualbox.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On 8/22/23 17:28, Pavan Bobba wrote:
-> Replace formal arguments of few functions and local variables of camel case by snake case.
-> Issue found by checkpatch
-> 
-> Signed-off-by: Pavan Bobba<opensource206@gmail.com>
+Fixed all CHECK: Unbalanced braces around else statement,
+CHECK: braces {} should be used on all arms of this statement,
+and CHECK: 'specificed' may be misspelled - perhaps 'specified'?
+as reported by checkpatch to adhere to the Linux kernel
+coding-style guidelines.
 
-Hi,
+Signed-off-by: Alexon Oliveira <alexondunkan@gmail.com>
+---
+ drivers/staging/vme_user/vme.c | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
 
-please find a unique subject so that we see it is something new.
+diff --git a/drivers/staging/vme_user/vme.c b/drivers/staging/vme_user/vme.c
+index d0366dd3f2b1..1e11047acf54 100644
+--- a/drivers/staging/vme_user/vme.c
++++ b/drivers/staging/vme_user/vme.c
+@@ -1620,7 +1620,7 @@ EXPORT_SYMBOL(vme_lm_get);
+  * @callback: Pointer to callback function called when triggered.
+  * @data: Generic pointer that will be passed to the callback function.
+  *
+- * Attach a callback to the specificed offset into the location monitors
++ * Attach a callback to the specified offset into the location monitors
+  * monitored addresses. A generic pointer is provided to allow data to be
+  * passed to the callback when called.
+  *
+@@ -1655,7 +1655,7 @@ EXPORT_SYMBOL(vme_lm_attach);
+  * @resource: Pointer to VME location monitor resource.
+  * @monitor: Offset to which callback should be removed.
+  *
+- * Remove the callback associated with the specificed offset into the
++ * Remove the callback associated with the specified offset into the
+  * location monitors monitored addresses.
+  *
+  * Return: Zero on success, -EINVAL when provided with an invalid location
+@@ -1866,8 +1866,9 @@ static int __vme_register_driver_bus(struct vme_driver *drv,
+ 		if (vdev->dev.platform_data) {
+ 			list_add_tail(&vdev->drv_list, &drv->devices);
+ 			list_add_tail(&vdev->bridge_list, &bridge->devices);
+-		} else
++		} else {
+ 			device_unregister(&vdev->dev);
++		}
+ 	}
+ 	return 0;
+ 
+-- 
+2.41.0
 
-Thanks
-
-Bye Philipp
