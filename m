@@ -1,54 +1,28 @@
-Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 645B3BE4D;
-	Wed, 23 Aug 2023 13:32:45 +0000 (UTC)
-Received: by mail-pf1-f175.google.com with SMTP id d2e1a72fcca58-68a3f0a7092so3108055b3a.1;
-        Wed, 23 Aug 2023 06:32:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1692797565; x=1693402365;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=xv5eVKePCA5KFSpA2pd5w6RyWeOWdv6lLQse6vIRw0g=;
-        b=d0rgYS8Y+6I1+6cozNjw+GCbqT2zjh8JbBLG+5cUq6a7l8pa16P7H7MhNGEeYzzkOm
-         l4owq0Keli6qT4oZNQX5IDcU/SrmoNm85FbK+7kl2MSMZJczgQC0MOS6NOElJ4Vligka
-         LQ5XQKtSN07khtSl7L+wx0+27mqT6nH0NCIiKh7OfyDFr7A+whwjzWmXU1QzfmrLIVL1
-         tdvZdaamBtkdSXIMRjB4ubOddSASK1EU5lhzV9T6Ko0MhnWtaiEgwiKD5WcA6hDeOt47
-         oC2jHxemd/cNAi+BqwrNVD8MNZp4CQtXwamK3h5qSyx8e8X1RFTiGjapTB/ACvAmoBLZ
-         HEEA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692797565; x=1693402365;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=xv5eVKePCA5KFSpA2pd5w6RyWeOWdv6lLQse6vIRw0g=;
-        b=HHlaIzvrH2YIpGWlbQdvpxuZmoiOoZySUOLeAJo5UAWQAdPK1dw/0/YM/XA23I+MRl
-         oBt+tg4ummNWzQybBIubthK4e7HngQUpJPAsBjIJqqvbL56dMTh0ZBCgfj/L1scLrBtj
-         Qp5eq3xV9MYRyUuz6RDg4My7Pvm0KOzhHWdY3U7l7gc/DkMOz0y/ISqNKNxpnb5XDP8c
-         QH7u5i4BvSN+o7YI1QM0+DbMntxuDzFdl52dKnJVhBvjDBA2RjxnLXv1ivdZGBXF41HY
-         nuDo1i592nKJbaa/I4H9htTY2vtfWLw9esLBWWaGZuoEEOwDn+WW/ZxjdjZ2yEtt8aQ8
-         1AOg==
-X-Gm-Message-State: AOJu0Yyr1hZPmD9p/wuZ3cRajZzuq4atbvZWwpK15lvhodhPBqnhZo94
-	qEK1gzu4h5YPQRrSedLVp/Q=
-X-Google-Smtp-Source: AGHT+IE81MW+dSvaXdO6AZ/Q5CDuianMLXm+d6NIWse2tOCvqLNqSdjiZ2QP2U/ORRuxCdQJXu3NOA==
-X-Received: by 2002:a05:6a00:2d08:b0:688:45a0:eb22 with SMTP id fa8-20020a056a002d0800b0068845a0eb22mr13346538pfb.1.1692797565242;
-        Wed, 23 Aug 2023 06:32:45 -0700 (PDT)
-Received: from ubuntu.myguest.virtualbox.org ([122.162.51.13])
-        by smtp.gmail.com with ESMTPSA id a21-20020aa780d5000000b00689f10adef9sm9569926pfn.67.2023.08.23.06.32.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 23 Aug 2023 06:32:44 -0700 (PDT)
-Date: Wed, 23 Aug 2023 19:02:40 +0530
-From: Pavan Bobba <opensource206@gmail.com>
-To: Julia Lawall <julia.lawall@inria.fr>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 356FCC131;
+	Wed, 23 Aug 2023 13:58:13 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 34F29C433C7;
+	Wed, 23 Aug 2023 13:58:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1692799093;
+	bh=Zdj/CQUvNhqQqF/31Re5nB/bK10f0Wsxm66WwFiAdQY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=a4gN8dgcZjPFTRxRmbUOZcHC3jTv6595R505EgCIsVsu64tv7iJ2P/RM/mF6t2d7X
+	 q+rpNCq9O9JSpvftgqK1ZhnymVt/1aKyW1nmVaxdG4V+WEQwXVQ5XCpdpatSIDTM1d
+	 Q7b5wSDu1urHsRqvwFDWNsv9JHC/9/gUu22Mp8dA=
+Date: Wed, 23 Aug 2023 15:58:10 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Pavan Bobba <opensource206@gmail.com>
 Cc: Forest Bond <forest@alittletooquiet.net>,
 	Michael Straube <straube.linux@gmail.com>,
 	Philipp Hortmann <philipp.g.hortmann@gmail.com>,
 	outreachy@lists.linux.dev, linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
 Subject: Re: [PATCH v2] staging: vt6655: replace camel case by snake case
-Message-ID: <ZOYKePdysbxp8lDy@ubuntu.myguest.virtualbox.org>
+Message-ID: <2023082300-oxygen-stratus-4602@gregkh>
 References: <ZOYBM9t0agzTKWwz@ubuntu.myguest.virtualbox.org>
- <alpine.DEB.2.22.394.2308231457310.3210@hadrien>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -57,63 +31,119 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <alpine.DEB.2.22.394.2308231457310.3210@hadrien>
+In-Reply-To: <ZOYBM9t0agzTKWwz@ubuntu.myguest.virtualbox.org>
 
-On Wed, Aug 23, 2023 at 02:58:38PM +0200, Julia Lawall wrote:
+On Wed, Aug 23, 2023 at 06:23:07PM +0530, Pavan Bobba wrote:
+> 1.Conversion of formal argument names from camel case to snake case for below functions:
+>       a.SROMvReadAllContents
+>       b.SROMvReadEtherAddress
 > 
-> >  		}
-> > -		if ((wDelay < W_MAX_TIMEOUT) &&
-> > -		    (!(byWait & I2MCSR_NACK))) {
-> > +		if ((delay < W_MAX_TIMEOUT) &&
-> 
-> Maybe the W_ should also be dropped?
-even non staging driver have this
-https://elixir.bootlin.com/linux/v6.5-rc7/source/drivers/net/ethernet/via/via-velocity.h#L959
+> 2.Conversion of local variable names from camel case to snake case in function SROMvReadEtherAddress
 
-> >   *  Out:
-> > - *      pbyEepromRegs   - EEPROM content Buffer
-> > + *      eepromregs   - EEPROM content Buffer
-> 
-> Here you could add some spaces to get the - EEPROM to line up with the
-> rest.  Likewise later.
-> 
-> julia
+When you list the different things you are doing, that usually means you
+want multiple patches.  Would you want to review something that mixed
+something like this together?
 
-ok 
+Also, please read the kernel documentation for how to write a good
+changelog, and subject, this subject is identical to the one that you
+were told to change and you agreed to :(
 
-> >   *
-> >   * Return Value: none
-> >   *
-> >   */
-> > -void SROMvReadAllContents(void __iomem *iobase, unsigned char *pbyEepromRegs)
-> > +void SROMvReadAllContents(void __iomem *iobase, unsigned char *eepromregs)
-> >  {
-> >  	int     ii;
-> >
-> >  	/* ii = Rom Address */
-> >  	for (ii = 0; ii < EEP_MAX_CONTEXT_SIZE; ii++) {
-> > -		*pbyEepromRegs = SROMbyReadEmbedded(iobase,
-> > +		*eepromregs = SROMbyReadEmbedded(iobase,
-> >  						    (unsigned char)ii);
-> > -		pbyEepromRegs++;
-> > +		eepromregs++;
-> >  	}
-> >  }
-> >
-> > @@ -122,19 +122,19 @@ void SROMvReadAllContents(void __iomem *iobase, unsigned char *pbyEepromRegs)
-> >   *  In:
-> >   *      iobase          - I/O base address
-> >   *  Out:
-> > - *      pbyEtherAddress - Ethernet Address buffer
-> > + *      etheraddress - Ethernet Address buffer
-> >   *
-> >   * Return Value: none
-> >   *
-> >   */
-> >  	}
-> >  }
-> > --
-> > 2.34.1
-> >
-> >
-> >
+> Issue found by checkpatch
+> 
+> Signed-off-by: Pavan Bobba <opensource206@gmail.com>
+> ---
+>  v1 -> v2: encoding of type information in variable names dropped
+
+You also forgot to actually cc: the maintainer that could take this
+patch :(
+
+
+
+>  
+>  drivers/staging/vt6655/srom.c | 48 +++++++++++++++++------------------
+>  1 file changed, 24 insertions(+), 24 deletions(-)
+> 
+> diff --git a/drivers/staging/vt6655/srom.c b/drivers/staging/vt6655/srom.c
+> index ee5ca4db74dc..9c13ad089d78 100644
+> --- a/drivers/staging/vt6655/srom.c
+> +++ b/drivers/staging/vt6655/srom.c
+> @@ -59,36 +59,36 @@
+>  unsigned char SROMbyReadEmbedded(void __iomem *iobase,
+>  				 unsigned char byContntOffset)
+>  {
+> -	unsigned short wDelay, wNoACK;
+> -	unsigned char byWait;
+> -	unsigned char byData;
+> -	unsigned char byOrg;
+> +	unsigned short delay, noack;
+> +	unsigned char wait;
+> +	unsigned char data;
+> +	unsigned char org;
+>  
+> -	byData = 0xFF;
+> -	byOrg = ioread8(iobase + MAC_REG_I2MCFG);
+> +	data = 0xFF;
+> +	org = ioread8(iobase + MAC_REG_I2MCFG);
+>  	/* turn off hardware retry for getting NACK */
+> -	iowrite8(byOrg & (~I2MCFG_NORETRY), iobase + MAC_REG_I2MCFG);
+> -	for (wNoACK = 0; wNoACK < W_MAX_I2CRETRY; wNoACK++) {
+> +	iowrite8(org & (~I2MCFG_NORETRY), iobase + MAC_REG_I2MCFG);
+> +	for (noack = 0; noack < W_MAX_I2CRETRY; noack++) {
+>  		iowrite8(EEP_I2C_DEV_ID, iobase + MAC_REG_I2MTGID);
+>  		iowrite8(byContntOffset, iobase + MAC_REG_I2MTGAD);
+>  
+>  		/* issue read command */
+>  		iowrite8(I2MCSR_EEMR, iobase + MAC_REG_I2MCSR);
+>  		/* wait DONE be set */
+> -		for (wDelay = 0; wDelay < W_MAX_TIMEOUT; wDelay++) {
+> -			byWait = ioread8(iobase + MAC_REG_I2MCSR);
+> -			if (byWait & (I2MCSR_DONE | I2MCSR_NACK))
+> +		for (delay = 0; delay < W_MAX_TIMEOUT; delay++) {
+> +			wait = ioread8(iobase + MAC_REG_I2MCSR);
+> +			if (wait & (I2MCSR_DONE | I2MCSR_NACK))
+>  				break;
+>  			udelay(CB_DELAY_LOOP_WAIT);
+>  		}
+> -		if ((wDelay < W_MAX_TIMEOUT) &&
+> -		    (!(byWait & I2MCSR_NACK))) {
+> +		if ((delay < W_MAX_TIMEOUT) &&
+> +		    (!(wait & I2MCSR_NACK))) {
+>  			break;
+>  		}
+>  	}
+> -	byData = ioread8(iobase + MAC_REG_I2MDIPT);
+> -	iowrite8(byOrg, iobase + MAC_REG_I2MCFG);
+> -	return byData;
+> +	data = ioread8(iobase + MAC_REG_I2MDIPT);
+> +	iowrite8(org, iobase + MAC_REG_I2MCFG);
+> +	return data;
+>  }
+>  
+>  /*
+> @@ -98,20 +98,20 @@ unsigned char SROMbyReadEmbedded(void __iomem *iobase,
+>   *  In:
+>   *      iobase          - I/O base address
+>   *  Out:
+> - *      pbyEepromRegs   - EEPROM content Buffer
+> + *      eepromregs   - EEPROM content Buffer
+>   *
+>   * Return Value: none
+>   *
+>   */
+> -void SROMvReadAllContents(void __iomem *iobase, unsigned char *pbyEepromRegs)
+> +void SROMvReadAllContents(void __iomem *iobase, unsigned char *eepromregs)
+>  {
+>  	int     ii;
+>  
+>  	/* ii = Rom Address */
+>  	for (ii = 0; ii < EEP_MAX_CONTEXT_SIZE; ii++) {
+> -		*pbyEepromRegs = SROMbyReadEmbedded(iobase,
+> +		*eepromregs = SROMbyReadEmbedded(iobase,
+>  						    (unsigned char)ii);
+
+You now have an alignment issue, right?  Did you run this through
+checkpatch?
+
+thanks,
+
+greg k-h
