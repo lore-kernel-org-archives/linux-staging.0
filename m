@@ -1,145 +1,69 @@
-Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DDE820F05
-	for <linux-staging@lists.linux.dev>; Wed, 23 Aug 2023 07:15:07 +0000 (UTC)
-Received: from kwepemi500008.china.huawei.com (unknown [172.30.72.53])
-	by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4RVy7H1mYgzNnDn;
-	Wed, 23 Aug 2023 15:11:23 +0800 (CST)
-Received: from huawei.com (10.90.53.73) by kwepemi500008.china.huawei.com
- (7.221.188.139) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.31; Wed, 23 Aug
- 2023 15:14:57 +0800
-From: Jinjie Ruan <ruanjinjie@huawei.com>
-To: <linux-staging@lists.linux.dev>, <alexondunkan@gmail.com>, Martyn Welch
-	<martyn@welchs.me.uk>, Manohar Vanga <manohar.vanga@gmail.com>, Greg
- Kroah-Hartman <gregkh@linuxfoundation.org>
-CC: <ruanjinjie@huawei.com>
-Subject: [PATCH -next] staging: vme_user: Use list_for_each_entry() helper
-Date: Wed, 23 Aug 2023 15:14:37 +0800
-Message-ID: <20230823071437.450460-1-ruanjinjie@huawei.com>
-X-Mailer: git-send-email 2.34.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5439420F1
+	for <linux-staging@lists.linux.dev>; Wed, 23 Aug 2023 07:25:04 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1AD3BC433C7;
+	Wed, 23 Aug 2023 07:25:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1692775504;
+	bh=1studFEeQMbmLRoPYWeUq2xQ+7OX2VLP9fugdfnqMkE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=LWyMlhWRv6sXMsR1yMY0M9pZpNmcpuiFGEDlVRBO4ODn9UpeuaWafzD6RukGWnyDg
+	 PD0UtLcmgoyihQa3WbjhfDgV8NYgm03/Wr/rieFEDyRZT/R61YE5jdIQWvJuejV0Lt
+	 yvDtExPHqxNWIMWIDxuYITnvaSL7zgXCS14NZj/RX5DlzX7bDlitsl9BOfLlAtLcIn
+	 8wHhUZ7wrp2I9JCozw7Q/hLK674mQQX1Jj3jdt7zTAAaZYLONydoLMzgHJaZ7WAwjG
+	 hyQRQAcJtEnmGcOHjAsp+aIBGs5X2OPXUyubrhgJ6+jowHRj31YFcYQg6S1AEWkEu2
+	 niB3JP7EqEV+A==
+Received: from johan by theta with local (Exim 4.96)
+	(envelope-from <johan@kernel.org>)
+	id 1qYiEX-0007eb-1b;
+	Wed, 23 Aug 2023 09:24:53 +0200
+Date: Wed, 23 Aug 2023 09:24:53 +0200
+From: Johan Hovold <johan@kernel.org>
+To: Yang Yingliang <yangyingliang@huawei.com>
+Cc: linux-staging@lists.linux.dev, greybus-dev@lists.linaro.org,
+	hvaibhav.linux@gmail.com, elder@kernel.org,
+	gregkh@linuxfoundation.org
+Subject: Re: [PATCH -next] staging: greybus: arche-apb-ctrl: remove
+ unnecessary platform_set_drvdata()
+Message-ID: <ZOW0ReI1EUM70YGm@hovoldconsulting.com>
+References: <20230811070826.739049-1-yangyingliang@huawei.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.90.53.73]
-X-ClientProxiedBy: dggems702-chm.china.huawei.com (10.3.19.179) To
- kwepemi500008.china.huawei.com (7.221.188.139)
-X-CFilter-Loop: Reflected
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230811070826.739049-1-yangyingliang@huawei.com>
 
-Convert list_for_each() to list_for_each_entry() so that the
-slave/master/dma/handler/lm_pos list_head pointer and list_entry()
-call are no longer needed, which can reduce a few lines
-of code. No functional changed.
+On Fri, Aug 11, 2023 at 03:08:26PM +0800, Yang Yingliang wrote:
+> Remove unnecessary platform_set_drvdata(..., NULL) in ->remove(),
+> the driver_data will be cleared in device_unbind_cleanup() after
+> calling ->remove() in driver call code.
 
-Signed-off-by: Jinjie Ruan <ruanjinjie@huawei.com>
----
- drivers/staging/vme_user/vme.c | 27 +++++----------------------
- 1 file changed, 5 insertions(+), 22 deletions(-)
+s/call/core/
+ 
+> Signed-off-by: Yang Yingliang <yangyingliang@huawei.com>
+> ---
+>  drivers/staging/greybus/arche-apb-ctrl.c | 1 -
+>  1 file changed, 1 deletion(-)
+> 
+> diff --git a/drivers/staging/greybus/arche-apb-ctrl.c b/drivers/staging/greybus/arche-apb-ctrl.c
+> index 8541995008da..5c77c1813214 100644
+> --- a/drivers/staging/greybus/arche-apb-ctrl.c
+> +++ b/drivers/staging/greybus/arche-apb-ctrl.c
+> @@ -423,7 +423,6 @@ static void arche_apb_ctrl_remove(struct platform_device *pdev)
+>  {
+>  	device_remove_file(&pdev->dev, &dev_attr_state);
+>  	poweroff_seq(pdev);
+> -	platform_set_drvdata(pdev, NULL);
+>  }
 
-diff --git a/drivers/staging/vme_user/vme.c b/drivers/staging/vme_user/vme.c
-index 5eb0d780c77f..cc8ead48a4e0 100644
---- a/drivers/staging/vme_user/vme.c
-+++ b/drivers/staging/vme_user/vme.c
-@@ -282,7 +282,6 @@ struct vme_resource *vme_slave_request(struct vme_dev *vdev, u32 address,
- 				       u32 cycle)
- {
- 	struct vme_bridge *bridge;
--	struct list_head *slave_pos = NULL;
- 	struct vme_slave_resource *allocated_image = NULL;
- 	struct vme_slave_resource *slave_image = NULL;
- 	struct vme_resource *resource = NULL;
-@@ -294,10 +293,7 @@ struct vme_resource *vme_slave_request(struct vme_dev *vdev, u32 address,
- 	}
- 
- 	/* Loop through slave resources */
--	list_for_each(slave_pos, &bridge->slave_resources) {
--		slave_image = list_entry(slave_pos,
--					 struct vme_slave_resource, list);
--
-+	list_for_each_entry(slave_image, &bridge->slave_resources, list) {
- 		if (!slave_image) {
- 			printk(KERN_ERR "Registered NULL Slave resource\n");
- 			continue;
-@@ -483,7 +479,6 @@ struct vme_resource *vme_master_request(struct vme_dev *vdev, u32 address,
- 					u32 cycle, u32 dwidth)
- {
- 	struct vme_bridge *bridge;
--	struct list_head *master_pos = NULL;
- 	struct vme_master_resource *allocated_image = NULL;
- 	struct vme_master_resource *master_image = NULL;
- 	struct vme_resource *resource = NULL;
-@@ -495,10 +490,7 @@ struct vme_resource *vme_master_request(struct vme_dev *vdev, u32 address,
- 	}
- 
- 	/* Loop through master resources */
--	list_for_each(master_pos, &bridge->master_resources) {
--		master_image = list_entry(master_pos,
--					  struct vme_master_resource, list);
--
-+	list_for_each_entry(master_image, &bridge->master_resources, list) {
- 		if (!master_image) {
- 			printk(KERN_WARNING "Registered NULL master resource\n");
- 			continue;
-@@ -860,7 +852,6 @@ EXPORT_SYMBOL(vme_master_free);
- struct vme_resource *vme_dma_request(struct vme_dev *vdev, u32 route)
- {
- 	struct vme_bridge *bridge;
--	struct list_head *dma_pos = NULL;
- 	struct vme_dma_resource *allocated_ctrlr = NULL;
- 	struct vme_dma_resource *dma_ctrlr = NULL;
- 	struct vme_resource *resource = NULL;
-@@ -875,9 +866,7 @@ struct vme_resource *vme_dma_request(struct vme_dev *vdev, u32 route)
- 	}
- 
- 	/* Loop through DMA resources */
--	list_for_each(dma_pos, &bridge->dma_resources) {
--		dma_ctrlr = list_entry(dma_pos,
--				       struct vme_dma_resource, list);
-+	list_for_each_entry(dma_ctrlr, &bridge->dma_resources, list) {
- 		if (!dma_ctrlr) {
- 			printk(KERN_ERR "Registered NULL DMA resource\n");
- 			continue;
-@@ -1245,14 +1234,11 @@ EXPORT_SYMBOL(vme_dma_free);
- void vme_bus_error_handler(struct vme_bridge *bridge,
- 			   unsigned long long address, int am)
- {
--	struct list_head *handler_pos = NULL;
- 	struct vme_error_handler *handler;
- 	int handler_triggered = 0;
- 	u32 aspace = vme_get_aspace(am);
- 
--	list_for_each(handler_pos, &bridge->vme_error_handlers) {
--		handler = list_entry(handler_pos, struct vme_error_handler,
--				     list);
-+	list_for_each_entry(handler, &bridge->vme_error_handlers, list) {
- 		if ((aspace == handler->aspace) &&
- 		    (address >= handler->start) &&
- 		    (address < handler->end)) {
-@@ -1465,7 +1451,6 @@ EXPORT_SYMBOL(vme_irq_generate);
- struct vme_resource *vme_lm_request(struct vme_dev *vdev)
- {
- 	struct vme_bridge *bridge;
--	struct list_head *lm_pos = NULL;
- 	struct vme_lm_resource *allocated_lm = NULL;
- 	struct vme_lm_resource *lm = NULL;
- 	struct vme_resource *resource = NULL;
-@@ -1477,9 +1462,7 @@ struct vme_resource *vme_lm_request(struct vme_dev *vdev)
- 	}
- 
- 	/* Loop through LM resources */
--	list_for_each(lm_pos, &bridge->lm_resources) {
--		lm = list_entry(lm_pos,
--				struct vme_lm_resource, list);
-+	list_for_each_entry(lm, &bridge->lm_resources, list) {
- 		if (!lm) {
- 			printk(KERN_ERR "Registered NULL Location Monitor resource\n");
- 			continue;
--- 
-2.34.1
+Should be ok:
 
+Reviewed-by: Johan Hovold <johan@kernel.org>
+
+Johan
