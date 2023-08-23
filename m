@@ -1,88 +1,96 @@
-Received: from mail-qk1-f177.google.com (mail-qk1-f177.google.com [209.85.222.177])
+Received: from mail-oa1-f43.google.com (mail-oa1-f43.google.com [209.85.160.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37C5CC8EC
-	for <linux-staging@lists.linux.dev>; Wed, 23 Aug 2023 16:17:18 +0000 (UTC)
-Received: by mail-qk1-f177.google.com with SMTP id af79cd13be357-76d83954c40so402035585a.1
-        for <linux-staging@lists.linux.dev>; Wed, 23 Aug 2023 09:17:18 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9078A9445
+	for <linux-staging@lists.linux.dev>; Wed, 23 Aug 2023 16:33:34 +0000 (UTC)
+Received: by mail-oa1-f43.google.com with SMTP id 586e51a60fabf-1c4c5375329so3854353fac.2
+        for <linux-staging@lists.linux.dev>; Wed, 23 Aug 2023 09:33:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1692807438; x=1693412238;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=8Sb+MR/Lt+uikyl1c75o5pU9syq5jGmJBTY3hwwDWFw=;
-        b=gnZ6gP/4kTK+Ozb5yJMZy8i97A7/By1IZQU3ZwcZlBiZWZNcES/FqIsOCIOGvPn7Fs
-         7IHIqcUD9ACXWOfqxUErkeIT7h7np3gUa7vFuLXjxwnQw42/Q4+ntjqSBKLaeKdJ8zvS
-         yTIzREC1nDLJo5bq+0Dvl0QwhQWtQfh1ak/Eh5Fm5ApSuKxVjJXSwqZX/C8w3UKMxRNk
-         OjM4Bd7JbcmPFNIPtrFNAfsZFdseUVwMs24TW5WGtm3mj6yU/RRFzMkyQpaCWUU6S/B6
-         jehBYVsKrEKjCjhTYgDOcgeWZfZrshXe30Gto3PC6lNMG4/uxzgZHIliPpgDDSwkVnV2
-         0EEQ==
+        d=gmail.com; s=20221208; t=1692808413; x=1693413213;
+        h=content-transfer-encoding:in-reply-to:from:references:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=biBWlZOCmK/KsAHuVrUAhW2jC+krkWbIzFYb49cXzMw=;
+        b=evjXd3z0R3ITU/OZxJyDTfUSI+Vfd9wdLsGnXSfUZc2ievRee9F4QI5d4soz3Zz9Nx
+         IvbxjqlpX4dhIu2sN2VBwOuEuKhTNsC7Z+ufI412d8C4b6SbV/PoRDl33b7ql71K1H2f
+         j7L7VpUzjSmHjnHpC4or/th67Vv+O78QjquJKOZsrUZbbun7F0xg99oXnU+eRPGTB8OA
+         93MsDsUcThrnoD/71KnV1C9aj8wP/euHh4awKHxZtS2nLC1QjDu6t36ornI6YIVyDCBR
+         9q6bKcQOv7ZxQcxSG1Dx1QFEtzRADoUXOfZSfLaQckmlql/FOGIUMNhk0xuWTEKz01lz
+         1BIQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692807438; x=1693412238;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=8Sb+MR/Lt+uikyl1c75o5pU9syq5jGmJBTY3hwwDWFw=;
-        b=ct4pJRzze+Y8GECmGRIk5D8KkTz5vrfbQeRLD9OXU38Sk3+xGjKnAa8bYoNjXNs0RI
-         9U2fOKIq4PM9nMbZODlxBmPutil/zBpyg9DlH3gfR8KBDWYY68deHwBLO8N/NgfMIM25
-         jUlLOQO75QM1zykkDpJ3a3Jt9VpGnSN4E80paYgWLhSwilOY3KW5AMFHvoGJ4N0AmuL1
-         UBCpyFpotAaksFFXJs4Cbfs+ZLSaclDOk8TX4fOSeIFdYJqRz3h9VZVglJPKm5tKGnSu
-         NGovfJ81sMzrjnikvGPeoUOMDz7yxhKpQPp4CupFvxlh12LBu5J0h2DUbbzQwAUHSWDN
-         wpgw==
-X-Gm-Message-State: AOJu0YzD9Kd2GRoyDRLCItKcxQHHhPqZ6t1SW4oR+fdMIpZ0iAQZoWxT
-	vgxh/RasUG1+569gmdcWUMM=
-X-Google-Smtp-Source: AGHT+IEAfeIP+ECkRHM/ZnJvfacEMrbMzK3qL6v0mlT6M71nKJPK8Q9PhjD640mqIfNytSoJqju+Pw==
-X-Received: by 2002:a05:622a:4c7:b0:410:92f3:8ede with SMTP id q7-20020a05622a04c700b0041092f38edemr14158882qtx.9.1692807437671;
-        Wed, 23 Aug 2023 09:17:17 -0700 (PDT)
-Received: from alolivei-thinkpadt480s.gru.csb ([2804:14c:bf20:82ea:8c7c:b784:3f92:988a])
-        by smtp.gmail.com with ESMTPSA id d14-20020ac8614e000000b00410ab3c78efsm450829qtm.11.2023.08.23.09.17.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 23 Aug 2023 09:17:17 -0700 (PDT)
-Date: Wed, 23 Aug 2023 13:17:13 -0300
-From: Alexon Oliveira <alexondunkan@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: martyn@welchs.me.uk, manohar.vanga@gmail.com,
-	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
-Subject: [PATCH] staging: vme_user: fix check misspellings
-Message-ID: <ZOYxCQlCd04HHFZ+@alolivei-thinkpadt480s.gru.csb>
+        d=1e100.net; s=20221208; t=1692808413; x=1693413213;
+        h=content-transfer-encoding:in-reply-to:from:references:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :sender:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=biBWlZOCmK/KsAHuVrUAhW2jC+krkWbIzFYb49cXzMw=;
+        b=CMcUc9PETyjZtJV4yEBfn3kcPk6gVV6dPJcZ2Oi8RHCRHFgLw6b8O3zJjk2gCmmeHt
+         5XLWCSt1IWX2Ls+dPXas5lPMIEjqFwgijt8N+zTAjcIUd1SgBfk04bMP7qj92HtdPojJ
+         paBmMKaX3qfOEAwMaBFKoft5k4Q7h6au+js2t2l9rim7470NngPU7OWOn43kHnNF7PVY
+         o9Dfe8NlwE7xVsvWWxsRfCqtsxcrjTCokf9eoj5EvPxsSdIsYwudt3uyOLQAb4IwvQpV
+         ghQPJwiKqPPv6nGOJgTmTe/9mOuOPi9TNGBuaILi4BxgtbDW1yidVf1OWTn09zdWNe7V
+         Bwcg==
+X-Gm-Message-State: AOJu0YwSPYUqILUp8tt/FziES8njpAQh1zpFcvs2ejj2wgIlxCQ5pOrg
+	kxjtHw0c8uhcP2p5a7uO7gMiAAhDZHk=
+X-Google-Smtp-Source: AGHT+IHZDz8Q6sbVNUjeumuWJnB9xv+l7MdGvW8zDiC7KQRBBGXG/aWkTJsAf/3lx8MZgJsQ0y8nYQ==
+X-Received: by 2002:a05:6870:96a1:b0:1c8:2f7f:3c09 with SMTP id o33-20020a05687096a100b001c82f7f3c09mr12185415oaq.23.1692808413254;
+        Wed, 23 Aug 2023 09:33:33 -0700 (PDT)
+Received: from [192.168.1.119] ([216.130.59.33])
+        by smtp.gmail.com with ESMTPSA id k3-20020a056870350300b001bb803c1cb6sm7093005oah.11.2023.08.23.09.33.32
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 23 Aug 2023 09:33:32 -0700 (PDT)
+Sender: Larry Finger <larry.finger@gmail.com>
+Message-ID: <89aae6c9-e64f-a0e8-1337-c929e83c790a@lwfinger.net>
+Date: Wed, 23 Aug 2023 11:33:31 -0500
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.14.0
+Subject: Re: [PATCH -next] staging: rtl8192e: Do not call kfree_skb() under
+ spin_lock_irqsave()
+Content-Language: en-US
+To: Jinjie Ruan <ruanjinjie@huawei.com>, linux-staging@lists.linux.dev,
+ mikem@ring3k.org, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ wlanfae <wlanfae@realtek.com>
+References: <20230823035225.1282901-1-ruanjinjie@huawei.com>
+From: Larry Finger <Larry.Finger@lwfinger.net>
+In-Reply-To: <20230823035225.1282901-1-ruanjinjie@huawei.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Fixed all CHECK: 'specificed' may be misspelled - perhaps 'specified'?
-as reported by checkpatch to adhere to the Linux kernel
-coding-style guidelines.
+On 8/22/23 22:52, Jinjie Ruan wrote:
+> It is not allowed to call kfree_skb() from hardware interrupt
+> context or with hardware interrupts being disabled.
+> So replace kfree_skb() with dev_kfree_skb_irq() under
+> spin_lock_irqsave(). Compile tested only.
+> 
+> Fixes: 94a799425eee ("From: wlanfae <wlanfae@realtek.com> [PATCH 1/8] rtl8192e: Import new version of driver from realtek")
+> Signed-off-by: Jinjie Ruan <ruanjinjie@huawei.com>
+> ---
+>   drivers/staging/rtl8192e/rtl8192e/rtl_core.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/staging/rtl8192e/rtl8192e/rtl_core.c b/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
+> index 50eb8f3494ec..5a613b116925 100644
+> --- a/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
+> +++ b/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
+> @@ -1663,7 +1663,7 @@ void rtl92e_reset_desc_ring(struct net_device *dev)
+>   				dma_unmap_single(&priv->pdev->dev,
+>   						 entry->TxBuffAddr, skb->len,
+>   						 DMA_TO_DEVICE);
+> -				kfree_skb(skb);
+> +				dev_kfree_skb_irq(skb);
+>   				ring->idx = (ring->idx + 1) % ring->entries;
+>   			}
+>   			ring->idx = 0;
 
-Signed-off-by: Alexon Oliveira <alexondunkan@gmail.com>
----
- drivers/staging/vme_user/vme.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Reviewed-by: Larry Finger <Larry.Finger@lwfinger.net>
 
-diff --git a/drivers/staging/vme_user/vme.c b/drivers/staging/vme_user/vme.c
-index ac98b3da6bed..1e11047acf54 100644
---- a/drivers/staging/vme_user/vme.c
-+++ b/drivers/staging/vme_user/vme.c
-@@ -1620,7 +1620,7 @@ EXPORT_SYMBOL(vme_lm_get);
-  * @callback: Pointer to callback function called when triggered.
-  * @data: Generic pointer that will be passed to the callback function.
-  *
-- * Attach a callback to the specificed offset into the location monitors
-+ * Attach a callback to the specified offset into the location monitors
-  * monitored addresses. A generic pointer is provided to allow data to be
-  * passed to the callback when called.
-  *
-@@ -1655,7 +1655,7 @@ EXPORT_SYMBOL(vme_lm_attach);
-  * @resource: Pointer to VME location monitor resource.
-  * @monitor: Offset to which callback should be removed.
-  *
-- * Remove the callback associated with the specificed offset into the
-+ * Remove the callback associated with the specified offset into the
-  * location monitors monitored addresses.
-  *
-  * Return: Zero on success, -EINVAL when provided with an invalid location
--- 
-2.41.0
+Thanks,
+
+Larry
 
