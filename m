@@ -1,180 +1,179 @@
-Received: from mail-pg1-f177.google.com (mail-pg1-f177.google.com [209.85.215.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail3-relais-sop.national.inria.fr (mail3-relais-sop.national.inria.fr [192.134.164.104])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39D59110B;
-	Wed, 23 Aug 2023 12:53:13 +0000 (UTC)
-Received: by mail-pg1-f177.google.com with SMTP id 41be03b00d2f7-565f86ff4d1so3187310a12.2;
-        Wed, 23 Aug 2023 05:53:12 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FBF520F18;
+	Wed, 23 Aug 2023 12:59:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1692795192; x=1693399992;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=9bhZs1e5q1KWpzONagveUUIWGVxIIkKWBWmcf7t0PXI=;
-        b=lbFGqb76MbHiV3fYCPFXBp/EBcceku/rDW4uSg3/3+oDmJUEvqnUBAqY2Dt4o6hCko
-         7cjJEoznspMnVuspRRnh9lBXAJKK/OfL6jgsFggULNAiZaKSNyy50vAG74f9Pb04NZ6M
-         +4ODoHFqPXVZz2J8uRV/7/ADTTgAz0yfBOIWoDEQR/Ye8km2qij2vbWkdzOuoJdkDo4W
-         /xceDVgim7dfE/2ZDmjJ7qoN1xuxdI10Jh0MZcLbJgwI7vREjrCmrtx/6YMkm/K1rtpQ
-         xnQPiLu1xNO3Nhj2yd1+4lZxYv/+aHa4EbBUPLkU+WYS7xceW9uImh/k6m/I2vpMc0eS
-         TxWA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692795192; x=1693399992;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=9bhZs1e5q1KWpzONagveUUIWGVxIIkKWBWmcf7t0PXI=;
-        b=CXR3IFWTLuAbosjPrz1C8feeiFVoI5ofHookbmLGdBC95EevQULxT+DZS84M4ZnQyC
-         IATvKL1gWRDNFCNddz/g3ZRn67uDQLkqVrFOEUok8VzqDDYkcaEGzdCFgAcGvyILBk9u
-         gwxOXcl09kBPUP0SMSy9H7zFI482USRM1VQF8YKdmUWTK+7Y6rZ01OTPB8gCjPmiAYDP
-         d69GwWe8Ie8Qtv8cyRGpvPs8V/xX4wKvGcQvKDGvxN3lu/oOmhlm77Z4xcbUIBb3lrkB
-         ZAfPBDK0mIVH+d6KJKtw8ixuD3eIXTzXb7V7zSfBjhatuSh/QlclDGeUw6CJCCK4U3Fb
-         XWIw==
-X-Gm-Message-State: AOJu0YzfZ64bJso3laQWQ+L5CZoYqQxkKFYJMTEl2mx7RRKHOZeF77iY
-	6KJ7Qa+H1/wuw8lp+cnI5LY=
-X-Google-Smtp-Source: AGHT+IFk2vhMke3lTfoMgYmxrcS833teoMLDPiChgJfNhJf7lvGeDbLw4sjXmkabTDM7eIzE43o/DQ==
-X-Received: by 2002:a17:90b:287:b0:268:b682:23da with SMTP id az7-20020a17090b028700b00268b68223damr9327465pjb.34.1692795192289;
-        Wed, 23 Aug 2023 05:53:12 -0700 (PDT)
-Received: from ubuntu.myguest.virtualbox.org ([122.162.51.13])
-        by smtp.gmail.com with ESMTPSA id t5-20020a17090a024500b00262e604724dsm12209797pje.50.2023.08.23.05.53.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 23 Aug 2023 05:53:11 -0700 (PDT)
-Date: Wed, 23 Aug 2023 18:23:07 +0530
-From: Pavan Bobba <opensource206@gmail.com>
-To: Forest Bond <forest@alittletooquiet.net>,
-	Michael Straube <straube.linux@gmail.com>,
-	Philipp Hortmann <philipp.g.hortmann@gmail.com>,
-	outreachy@lists.linux.dev
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [PATCH v2] staging: vt6655: replace camel case by snake case
-Message-ID: <ZOYBM9t0agzTKWwz@ubuntu.myguest.virtualbox.org>
+  d=inria.fr; s=dc;
+  h=date:from:to:cc:subject:in-reply-to:message-id:
+   references:mime-version;
+  bh=1W9ssUea60J+pSvyJCVBbSbx44jAQJcv36rjM60pRZw=;
+  b=mNVbsb89Ke7zWlggcrx74W4kIPzu7oEpVIoQuVnm86CU+uyFFGZGwsAZ
+   M+kwP9mw3qQ7zzLqbUrpUFE595wK0/SlACEs3yzveCwH0YLt2JWrTUi9D
+   VKrVyBkYSr56IDqBveyl2R5EJUF5Q2rFVCgq2Fum8JUT174j2JPO14UQr
+   g=;
+Authentication-Results: mail3-relais-sop.national.inria.fr; dkim=none (message not signed) header.i=none; spf=SoftFail smtp.mailfrom=julia.lawall@inria.fr; dmarc=fail (p=none dis=none) d=inria.fr
+X-IronPort-AV: E=Sophos;i="6.01,195,1684792800"; 
+   d="scan'208";a="64020145"
+Received: from 98.66.136.77.rev.sfr.net (HELO hadrien) ([77.136.66.98])
+  by mail3-relais-sop.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Aug 2023 14:58:39 +0200
+Date: Wed, 23 Aug 2023 14:58:38 +0200 (CEST)
+From: Julia Lawall <julia.lawall@inria.fr>
+X-X-Sender: jll@hadrien
+To: Pavan Bobba <opensource206@gmail.com>
+cc: Forest Bond <forest@alittletooquiet.net>, 
+    Michael Straube <straube.linux@gmail.com>, 
+    Philipp Hortmann <philipp.g.hortmann@gmail.com>, outreachy@lists.linux.dev, 
+    linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] staging: vt6655: replace camel case by snake case
+In-Reply-To: <ZOYBM9t0agzTKWwz@ubuntu.myguest.virtualbox.org>
+Message-ID: <alpine.DEB.2.22.394.2308231457310.3210@hadrien>
+References: <ZOYBM9t0agzTKWwz@ubuntu.myguest.virtualbox.org>
+User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Type: text/plain; charset=US-ASCII
 
-1.Conversion of formal argument names from camel case to snake case for below functions:
-      a.SROMvReadAllContents
-      b.SROMvReadEtherAddress
 
-2.Conversion of local variable names from camel case to snake case in function SROMvReadEtherAddress
 
-Issue found by checkpatch
+On Wed, 23 Aug 2023, Pavan Bobba wrote:
 
-Signed-off-by: Pavan Bobba <opensource206@gmail.com>
----
- v1 -> v2: encoding of type information in variable names dropped
- 
- drivers/staging/vt6655/srom.c | 48 +++++++++++++++++------------------
- 1 file changed, 24 insertions(+), 24 deletions(-)
+> 1.Conversion of formal argument names from camel case to snake case for below functions:
+>       a.SROMvReadAllContents
+>       b.SROMvReadEtherAddress
+>
+> 2.Conversion of local variable names from camel case to snake case in function SROMvReadEtherAddress
+>
+> Issue found by checkpatch
+>
+> Signed-off-by: Pavan Bobba <opensource206@gmail.com>
+> ---
+>  v1 -> v2: encoding of type information in variable names dropped
+>
+>  drivers/staging/vt6655/srom.c | 48 +++++++++++++++++------------------
+>  1 file changed, 24 insertions(+), 24 deletions(-)
+>
+> diff --git a/drivers/staging/vt6655/srom.c b/drivers/staging/vt6655/srom.c
+> index ee5ca4db74dc..9c13ad089d78 100644
+> --- a/drivers/staging/vt6655/srom.c
+> +++ b/drivers/staging/vt6655/srom.c
+> @@ -59,36 +59,36 @@
+>  unsigned char SROMbyReadEmbedded(void __iomem *iobase,
+>  				 unsigned char byContntOffset)
+>  {
+> -	unsigned short wDelay, wNoACK;
+> -	unsigned char byWait;
+> -	unsigned char byData;
+> -	unsigned char byOrg;
+> +	unsigned short delay, noack;
+> +	unsigned char wait;
+> +	unsigned char data;
+> +	unsigned char org;
+>
+> -	byData = 0xFF;
+> -	byOrg = ioread8(iobase + MAC_REG_I2MCFG);
+> +	data = 0xFF;
+> +	org = ioread8(iobase + MAC_REG_I2MCFG);
+>  	/* turn off hardware retry for getting NACK */
+> -	iowrite8(byOrg & (~I2MCFG_NORETRY), iobase + MAC_REG_I2MCFG);
+> -	for (wNoACK = 0; wNoACK < W_MAX_I2CRETRY; wNoACK++) {
+> +	iowrite8(org & (~I2MCFG_NORETRY), iobase + MAC_REG_I2MCFG);
+> +	for (noack = 0; noack < W_MAX_I2CRETRY; noack++) {
+>  		iowrite8(EEP_I2C_DEV_ID, iobase + MAC_REG_I2MTGID);
+>  		iowrite8(byContntOffset, iobase + MAC_REG_I2MTGAD);
+>
+>  		/* issue read command */
+>  		iowrite8(I2MCSR_EEMR, iobase + MAC_REG_I2MCSR);
+>  		/* wait DONE be set */
+> -		for (wDelay = 0; wDelay < W_MAX_TIMEOUT; wDelay++) {
+> -			byWait = ioread8(iobase + MAC_REG_I2MCSR);
+> -			if (byWait & (I2MCSR_DONE | I2MCSR_NACK))
+> +		for (delay = 0; delay < W_MAX_TIMEOUT; delay++) {
+> +			wait = ioread8(iobase + MAC_REG_I2MCSR);
+> +			if (wait & (I2MCSR_DONE | I2MCSR_NACK))
+>  				break;
+>  			udelay(CB_DELAY_LOOP_WAIT);
+>  		}
+> -		if ((wDelay < W_MAX_TIMEOUT) &&
+> -		    (!(byWait & I2MCSR_NACK))) {
+> +		if ((delay < W_MAX_TIMEOUT) &&
 
-diff --git a/drivers/staging/vt6655/srom.c b/drivers/staging/vt6655/srom.c
-index ee5ca4db74dc..9c13ad089d78 100644
---- a/drivers/staging/vt6655/srom.c
-+++ b/drivers/staging/vt6655/srom.c
-@@ -59,36 +59,36 @@
- unsigned char SROMbyReadEmbedded(void __iomem *iobase,
- 				 unsigned char byContntOffset)
- {
--	unsigned short wDelay, wNoACK;
--	unsigned char byWait;
--	unsigned char byData;
--	unsigned char byOrg;
-+	unsigned short delay, noack;
-+	unsigned char wait;
-+	unsigned char data;
-+	unsigned char org;
- 
--	byData = 0xFF;
--	byOrg = ioread8(iobase + MAC_REG_I2MCFG);
-+	data = 0xFF;
-+	org = ioread8(iobase + MAC_REG_I2MCFG);
- 	/* turn off hardware retry for getting NACK */
--	iowrite8(byOrg & (~I2MCFG_NORETRY), iobase + MAC_REG_I2MCFG);
--	for (wNoACK = 0; wNoACK < W_MAX_I2CRETRY; wNoACK++) {
-+	iowrite8(org & (~I2MCFG_NORETRY), iobase + MAC_REG_I2MCFG);
-+	for (noack = 0; noack < W_MAX_I2CRETRY; noack++) {
- 		iowrite8(EEP_I2C_DEV_ID, iobase + MAC_REG_I2MTGID);
- 		iowrite8(byContntOffset, iobase + MAC_REG_I2MTGAD);
- 
- 		/* issue read command */
- 		iowrite8(I2MCSR_EEMR, iobase + MAC_REG_I2MCSR);
- 		/* wait DONE be set */
--		for (wDelay = 0; wDelay < W_MAX_TIMEOUT; wDelay++) {
--			byWait = ioread8(iobase + MAC_REG_I2MCSR);
--			if (byWait & (I2MCSR_DONE | I2MCSR_NACK))
-+		for (delay = 0; delay < W_MAX_TIMEOUT; delay++) {
-+			wait = ioread8(iobase + MAC_REG_I2MCSR);
-+			if (wait & (I2MCSR_DONE | I2MCSR_NACK))
- 				break;
- 			udelay(CB_DELAY_LOOP_WAIT);
- 		}
--		if ((wDelay < W_MAX_TIMEOUT) &&
--		    (!(byWait & I2MCSR_NACK))) {
-+		if ((delay < W_MAX_TIMEOUT) &&
-+		    (!(wait & I2MCSR_NACK))) {
- 			break;
- 		}
- 	}
--	byData = ioread8(iobase + MAC_REG_I2MDIPT);
--	iowrite8(byOrg, iobase + MAC_REG_I2MCFG);
--	return byData;
-+	data = ioread8(iobase + MAC_REG_I2MDIPT);
-+	iowrite8(org, iobase + MAC_REG_I2MCFG);
-+	return data;
- }
- 
- /*
-@@ -98,20 +98,20 @@ unsigned char SROMbyReadEmbedded(void __iomem *iobase,
-  *  In:
-  *      iobase          - I/O base address
-  *  Out:
-- *      pbyEepromRegs   - EEPROM content Buffer
-+ *      eepromregs   - EEPROM content Buffer
-  *
-  * Return Value: none
-  *
-  */
--void SROMvReadAllContents(void __iomem *iobase, unsigned char *pbyEepromRegs)
-+void SROMvReadAllContents(void __iomem *iobase, unsigned char *eepromregs)
- {
- 	int     ii;
- 
- 	/* ii = Rom Address */
- 	for (ii = 0; ii < EEP_MAX_CONTEXT_SIZE; ii++) {
--		*pbyEepromRegs = SROMbyReadEmbedded(iobase,
-+		*eepromregs = SROMbyReadEmbedded(iobase,
- 						    (unsigned char)ii);
--		pbyEepromRegs++;
-+		eepromregs++;
- 	}
- }
- 
-@@ -122,19 +122,19 @@ void SROMvReadAllContents(void __iomem *iobase, unsigned char *pbyEepromRegs)
-  *  In:
-  *      iobase          - I/O base address
-  *  Out:
-- *      pbyEtherAddress - Ethernet Address buffer
-+ *      etheraddress - Ethernet Address buffer
-  *
-  * Return Value: none
-  *
-  */
- void SROMvReadEtherAddress(void __iomem *iobase,
--			   unsigned char *pbyEtherAddress)
-+			   unsigned char *etheraddress)
- {
- 	unsigned char ii;
- 
- 	/* ii = Rom Address */
- 	for (ii = 0; ii < ETH_ALEN; ii++) {
--		*pbyEtherAddress = SROMbyReadEmbedded(iobase, ii);
--		pbyEtherAddress++;
-+		*etheraddress = SROMbyReadEmbedded(iobase, ii);
-+		etheraddress++;
- 	}
- }
--- 
-2.34.1
+Maybe the W_ should also be dropped?
 
+> +		    (!(wait & I2MCSR_NACK))) {
+>  			break;
+>  		}
+>  	}
+> -	byData = ioread8(iobase + MAC_REG_I2MDIPT);
+> -	iowrite8(byOrg, iobase + MAC_REG_I2MCFG);
+> -	return byData;
+> +	data = ioread8(iobase + MAC_REG_I2MDIPT);
+> +	iowrite8(org, iobase + MAC_REG_I2MCFG);
+> +	return data;
+>  }
+>
+>  /*
+> @@ -98,20 +98,20 @@ unsigned char SROMbyReadEmbedded(void __iomem *iobase,
+>   *  In:
+>   *      iobase          - I/O base address
+>   *  Out:
+> - *      pbyEepromRegs   - EEPROM content Buffer
+> + *      eepromregs   - EEPROM content Buffer
+
+Here you could add some spaces to get the - EEPROM to line up with the
+rest.  Likewise later.
+
+julia
+
+>   *
+>   * Return Value: none
+>   *
+>   */
+> -void SROMvReadAllContents(void __iomem *iobase, unsigned char *pbyEepromRegs)
+> +void SROMvReadAllContents(void __iomem *iobase, unsigned char *eepromregs)
+>  {
+>  	int     ii;
+>
+>  	/* ii = Rom Address */
+>  	for (ii = 0; ii < EEP_MAX_CONTEXT_SIZE; ii++) {
+> -		*pbyEepromRegs = SROMbyReadEmbedded(iobase,
+> +		*eepromregs = SROMbyReadEmbedded(iobase,
+>  						    (unsigned char)ii);
+> -		pbyEepromRegs++;
+> +		eepromregs++;
+>  	}
+>  }
+>
+> @@ -122,19 +122,19 @@ void SROMvReadAllContents(void __iomem *iobase, unsigned char *pbyEepromRegs)
+>   *  In:
+>   *      iobase          - I/O base address
+>   *  Out:
+> - *      pbyEtherAddress - Ethernet Address buffer
+> + *      etheraddress - Ethernet Address buffer
+>   *
+>   * Return Value: none
+>   *
+>   */
+>  void SROMvReadEtherAddress(void __iomem *iobase,
+> -			   unsigned char *pbyEtherAddress)
+> +			   unsigned char *etheraddress)
+>  {
+>  	unsigned char ii;
+>
+>  	/* ii = Rom Address */
+>  	for (ii = 0; ii < ETH_ALEN; ii++) {
+> -		*pbyEtherAddress = SROMbyReadEmbedded(iobase, ii);
+> -		pbyEtherAddress++;
+> +		*etheraddress = SROMbyReadEmbedded(iobase, ii);
+> +		etheraddress++;
+>  	}
+>  }
+> --
+> 2.34.1
+>
+>
+>
