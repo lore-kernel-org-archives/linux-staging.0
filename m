@@ -1,25 +1,45 @@
-Received: from smtp.smtpout.orange.fr (smtp-24.smtpout.orange.fr [80.12.242.24])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 491B3134A1
-	for <linux-staging@lists.linux.dev>; Thu, 24 Aug 2023 19:02:02 +0000 (UTC)
-Received: from [192.168.1.18] ([86.243.2.178])
-	by smtp.orange.fr with ESMTPA
-	id ZF7QqAefwuWDMZF7Rqe7Po; Thu, 24 Aug 2023 20:31:48 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
-	s=t20230301; t=1692901908;
-	bh=nPsDNUjBoakY0a/VnBFZAypFsdRwpC9qQ/hznAqbH/g=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=VPg0zs3QpX8+1VbR+lNw3MYEEhAA7PHPxtG6IO0tPTiMoUC+tB5S+AbPMwkT4YPrW
-	 gMT1XE1GyCj99tRP6zCmczJVRrwCrWXecpfMR2w63qVrU5jktnvAxwUO0kyHe41dE4
-	 EkFPetm+uWmlgkV2+Emhfp3XJVG7zFQMZ9mAv52NYzetCRYWC2nGBKcK3vu75+o7CN
-	 lZU4ZmqLdwU+L5eO1II6bO/8bF9ppd7zwHsV22JA61zlIPTfnB7pf7xZ2E9O8qk3mr
-	 ITF/u93ACO/yi4tTqGx8VZv7KIsgmJbIaaH237zFUCo5jzcds+3ENhtNkWAZO0U+8Z
-	 64EQnUi+QWYFQ==
-X-ME-Helo: [192.168.1.18]
-X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
-X-ME-Date: Thu, 24 Aug 2023 20:31:48 +0200
-X-ME-IP: 86.243.2.178
-Message-ID: <74183f7b-6e53-ba3d-2160-1e526d61073b@wanadoo.fr>
-Date: Thu, 24 Aug 2023 20:31:44 +0200
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50C0B7F
+	for <linux-staging@lists.linux.dev>; Thu, 24 Aug 2023 20:36:55 +0000 (UTC)
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-3fef29ce3e5so615895e9.0
+        for <linux-staging@lists.linux.dev>; Thu, 24 Aug 2023 13:36:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1692909413; x=1693514213;
+        h=content-transfer-encoding:in-reply-to:from:references:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=6VLx9gqSST00IbmllbyFsN5XX88de7SuAeNcazIf2rQ=;
+        b=YivTrW26hyzPokaPM8ylWeIkHnW2SeXFMv70ILXcfh8swo1gAxxCOjRS86vhp9D4DO
+         uPMeSrmDvaEhXqltnuQxDGdxthqhZXE9ct7Bs6wDbShEDstPVfqvrSIg++isZ7m3vfjt
+         U2vfpFg7tubF0dk6AHfk/QsF/ypf387K5r78mMvZ+1mz5mbpaNCwPyhFXhBPeUtJJc6h
+         DZR/fkEd/p3wcijsZ3eZrFQFQ/XrqFt6uH5f/vJScgRdJSFC6PmQpViSMlJwDfmfWsZp
+         vLwHUFERjkUpQmVRJRRmykzGKA/mi94Gi30QdGt4JVO3ypUAdXOwLIEDFUoaj45gPAyM
+         0Ylg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1692909413; x=1693514213;
+        h=content-transfer-encoding:in-reply-to:from:references:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=6VLx9gqSST00IbmllbyFsN5XX88de7SuAeNcazIf2rQ=;
+        b=j+NJFTBJXVH/ljAc4819HAgv+iWG5K027e5PK0xjRk1mRMvUI9AIjceW5G2Yew9dwN
+         tHo/jrZ5/7jRlhdn3OOG8gL0yfU0wEWC+PSrivSUsJDbkGgbrjRxcXaDtg1zjK4uV+Dn
+         SfwDxyJjUvJ4lfGH2kwUS6/PeABJA5bWWQjtm2OrKSd/Gq3BvtIRycpEeZ+FFMJ470RF
+         6bpvJIRhTnrwCgnLR7SKybs/UoIDzj/yFwmlIQFXHvmtKDd6EoFiqCHagL7/ujG5WNOc
+         ow1U9KfaD6XcuLB3xUplKWF52IOOyGbpMaP6ocXqHKsXqGmasyPN1xQLjb97sMzdL+EC
+         6tyw==
+X-Gm-Message-State: AOJu0YwMAjIXHiDTdkLE9k7/QC07Sx+nqhTEhTO0TH8AzsiislV3EfiU
+	kyk/36WXW5ma2kn8LR5GUSg=
+X-Google-Smtp-Source: AGHT+IEoe6VzFI7+pm+LRjTQr/0e9d0yJJzaviOuyZFdD/POCNB1SDq5ZyGblRp0Ibg9Hw8nq5gkQw==
+X-Received: by 2002:a05:600c:1d9b:b0:401:b2d9:d5e6 with SMTP id p27-20020a05600c1d9b00b00401b2d9d5e6mr1002868wms.2.1692909413071;
+        Thu, 24 Aug 2023 13:36:53 -0700 (PDT)
+Received: from [192.168.0.101] (p579356c7.dip0.t-ipconnect.de. [87.147.86.199])
+        by smtp.gmail.com with ESMTPSA id m17-20020a5d6a11000000b003142e438e8csm177069wru.26.2023.08.24.13.36.50
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 24 Aug 2023 13:36:52 -0700 (PDT)
+Message-ID: <c63053be-1852-4966-a5a3-38472d1cca00@gmail.com>
+Date: Thu, 24 Aug 2023 22:36:46 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -28,145 +48,40 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.13.0
-Subject: Re: [PATCH v8 3/8] media: staging: media: starfive: camss: Add core
- driver
-To: Jack Zhu <jack.zhu@starfivetech.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Robert Foss <rfoss@kernel.org>,
- Todor Tomov <todor.too@gmail.com>, bryan.odonoghue@linaro.org,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Philipp Zabel <p.zabel@pengutronix.de>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
- devicetree@vger.kernel.org, linux-staging@lists.linux.dev,
- changhuang.liang@starfivetech.com
-References: <20230824080109.89613-1-jack.zhu@starfivetech.com>
- <20230824080109.89613-4-jack.zhu@starfivetech.com>
-Content-Language: fr
-From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-In-Reply-To: <20230824080109.89613-4-jack.zhu@starfivetech.com>
+Subject: Re: [PATCH -next 0/2] staging: rtl8192e: Do not call kfree_skb()
+ under spin_lock_irqsave()
+Content-Language: en-US
+To: Jinjie Ruan <ruanjinjie@huawei.com>, gregkh@linuxfoundation.org,
+ straube.linux@gmail.com, seanm@seanm.ca, mikem@ring3k.org,
+ Larry.Finger@lwfinger.net, wlanfae@realtek.com, linux-staging@lists.linux.dev
+References: <20230824074557.1928715-1-ruanjinjie@huawei.com>
+From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+In-Reply-To: <20230824074557.1928715-1-ruanjinjie@huawei.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
-Le 24/08/2023 à 10:01, Jack Zhu a écrit :
-> Add core driver for StarFive Camera Subsystem. The code parses
-> the device platform resources and registers related devices.
+On 8/24/23 09:45, Jinjie Ruan wrote:
+> It is not allowed to call kfree_skb() from hardware interrupt
+> context or with interrupts being disabled. This patchset is
+> trying to add all skb to a free list, then free them after
+> spin_unlock_irqrestore() at once.
 > 
-> Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-> Signed-off-by: Jack Zhu <jack.zhu@starfivetech.com>
-> ---
+> Jinjie Ruan (2):
+>    staging: rtl8192e: Do not call kfree_skb() under spin_lock_irqsave()
+>    staging: rtl8192e: Do not call kfree_skb() under spin_lock_irqsave()
+> 
+>   drivers/staging/rtl8192e/rtl8192e/rtl_core.c | 22 ++++++++++++--------
+>   drivers/staging/rtl8192e/rtllib_softmac.c    |  6 +++++-
+>   2 files changed, 18 insertions(+), 10 deletions(-)
+> 
 
-...
 
-> diff --git a/drivers/staging/media/starfive/camss/Kconfig b/drivers/staging/media/starfive/camss/Kconfig
-> new file mode 100644
-> index 000000000000..8d20e2bd2559
-> --- /dev/null
-> +++ b/drivers/staging/media/starfive/camss/Kconfig
-> @@ -0,0 +1,17 @@
-> +# SPDX-License-Identifier: GPL-2.0-only
-> +config VIDEO_STARFIVE_CAMSS
-> +	tristate "Starfive Camera Subsystem driver"
-> +	depends on V4L_PLATFORM_DRIVERS
-> +	depends on VIDEO_DEV && OF
-> +	depends on HAS_DMA
-> +	depends on PM
-> +	select MEDIA_CONTROLLER
-> +	select VIDEO_V4L2_SUBDEV_API
-> +	select VIDEOBUF2_DMA_CONTIG
-> +	select V4L2_FWNODE
-> +	help
-> +	   Enable this to support for the Starfive Camera subsystem
-> +	   found on Starfive JH7110 SoC.
-> +
-> +	   To compile this driver as a module, choose M here: the
-> +	   module will be called stf-camss.
+Hi,
 
-stf_camss? (s/-/_)
+for me as a tester I need to have different Subjects. I think I have now 
+3 patches with the same subject and a very similar description. Sorry 
+How can I confirm which one is tested?
 
-> diff --git a/drivers/staging/media/starfive/camss/Makefile b/drivers/staging/media/starfive/camss/Makefile
-> new file mode 100644
-> index 000000000000..f53c5cbe958f
-> --- /dev/null
-> +++ b/drivers/staging/media/starfive/camss/Makefile
-> @@ -0,0 +1,9 @@
-> +# SPDX-License-Identifier: GPL-2.0
-> +#
-> +# Makefile for StarFive Camera Subsystem driver
-> +#
-> +
-> +starfive-camss-objs += \
-> +		stf_camss.o
-> +
-> +obj-$(CONFIG_VIDEO_STARFIVE_CAMSS) += starfive-camss.o
+Thanks for your patience.
 
-I'm not an expert in Makefile files, but this stf_camss.o and 
-starfive-camss.o look strange to me.
-
-> diff --git a/drivers/staging/media/starfive/camss/stf_camss.c b/drivers/staging/media/starfive/camss/stf_camss.c
-> new file mode 100644
-> index 000000000000..75ebc3a35218
-> --- /dev/null
-> +++ b/drivers/staging/media/starfive/camss/stf_camss.c
-
-...
-
-> +static int stfcamss_of_parse_ports(struct stfcamss *stfcamss)
-> +{
-> +	struct device_node *node = NULL;
-> +	int ret, num_subdevs = 0;
-> +
-> +	for_each_endpoint_of_node(stfcamss->dev->of_node, node) {
-> +		struct stfcamss_async_subdev *csd;
-> +
-> +		if (!of_device_is_available(node))
-> +			continue;
-> +
-> +		csd = v4l2_async_nf_add_fwnode_remote(&stfcamss->notifier,
-> +						      of_fwnode_handle(node),
-> +						      struct stfcamss_async_subdev);
-> +		if (IS_ERR(csd)) {
-> +			ret = PTR_ERR(csd);
-> +			dev_err(stfcamss->dev, "failed to add async notifier\n");
-> +			v4l2_async_nf_cleanup(&stfcamss->notifier);
-
-having it here, looks strange to me.
-It is already called in the error handling path of the probe.
-
-Should there be a "of_node_put(node);" if we return here?
-
-> +			return ret;
-> +		}
-> +
-> +		ret = stfcamss_of_parse_endpoint_node(stfcamss, node, csd);
-> +		if (ret)
-> +			return ret;
-> +
-> +		num_subdevs++;
-> +	}
-> +
-> +	return num_subdevs;
-> +}
-
-...
-
-> +static int stfcamss_remove(struct platform_device *pdev)
-> +{
-> +	struct stfcamss *stfcamss = platform_get_drvdata(pdev);
-> +
-> +	v4l2_device_unregister(&stfcamss->v4l2_dev);
-> +	media_device_cleanup(&stfcamss->media_dev);
-
-Is a "v4l2_async_nf_cleanup(&stfcamss->notifier);" missing to match the 
-error handling path of the probe?
-
-> +	pm_runtime_disable(&pdev->dev);
-> +
-> +	return 0;
-> +}
-> +
-
-...
+Bye Philipp
