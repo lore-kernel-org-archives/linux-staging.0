@@ -1,385 +1,153 @@
-Received: from ex01.ufhost.com (ex01.ufhost.com [61.152.239.75])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E950F525A
-	for <linux-staging@lists.linux.dev>; Thu, 24 Aug 2023 08:04:22 +0000 (UTC)
-Received: from EXMBX165.cuchost.com (unknown [175.102.18.54])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(Client CN "EXMBX165", Issuer "EXMBX165" (not verified))
-	by ex01.ufhost.com (Postfix) with ESMTP id 5B6AF24E339;
-	Thu, 24 Aug 2023 16:01:11 +0800 (CST)
-Received: from EXMBX073.cuchost.com (172.16.6.83) by EXMBX165.cuchost.com
- (172.16.6.75) with Microsoft SMTP Server (TLS) id 15.0.1497.42; Thu, 24 Aug
- 2023 16:01:11 +0800
-Received: from xiaofei.localdomain (180.164.60.184) by EXMBX073.cuchost.com
- (172.16.6.83) with Microsoft SMTP Server (TLS) id 15.0.1497.42; Thu, 24 Aug
- 2023 16:01:10 +0800
-From: Jack Zhu <jack.zhu@starfivetech.com>
-To: Mauro Carvalho Chehab <mchehab@kernel.org>, Robert Foss
-	<rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>,
-	<bryan.odonoghue@linaro.org>, Rob Herring <robh+dt@kernel.org>, "Krzysztof
- Kozlowski" <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley
-	<conor+dt@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Philipp Zabel <p.zabel@pengutronix.de>, Laurent Pinchart
-	<laurent.pinchart@ideasonboard.com>, Hans Verkuil <hverkuil-cisco@xs4all.nl>
-CC: <linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<devicetree@vger.kernel.org>, <linux-staging@lists.linux.dev>,
-	<jack.zhu@starfivetech.com>, <changhuang.liang@starfivetech.com>
-Subject: [PATCH v8 0/8] Add StarFive Camera Subsystem driver
-Date: Thu, 24 Aug 2023 16:01:01 +0800
-Message-ID: <20230824080109.89613-1-jack.zhu@starfivetech.com>
-X-Mailer: git-send-email 2.34.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BF94D510
+	for <linux-staging@lists.linux.dev>; Thu, 24 Aug 2023 09:21:49 +0000 (UTC)
+Received: from benjamin-XPS-13-9310.. (unknown [IPv6:2a01:e0a:120:3210:672:c310:4c8a:3a97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: benjamin.gaignard)
+	by madras.collabora.co.uk (Postfix) with ESMTPSA id 212A2660726A;
+	Thu, 24 Aug 2023 10:21:42 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1692868902;
+	bh=cn8IhtAp7t/KmadvHHA388VFOzyoMeHQwyTqRoV/2lA=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=NLkGbF95bKcuL65/8uVA9VQvwHahygMS28IywoUqfH1UxvGLsDpMUOkUh6LE9pT/N
+	 nrwyK2bx/d++LRCJ84DbsJzolb2pTfpQzigx0dqWD+qF1NPsctWQB1BBSzTcNLACCI
+	 /Fc8lHDDRNtvp095Dt8F6u9fCN8ar4m7KQePKzM/b8PuMhhwbZdvfHMc+BKPg3KSNq
+	 +agwmyVBnMXqZLG7kkfTIvLNVIUzeyDQPe7H+c5UU7nKprBxxTl8Trq7FNr2QvHOc3
+	 +5p2RASI/s8THaLMfaFRjTbhRAtBg+pf5n+ErJO6wHcajmBL6m+z7l/7gvne5klc74
+	 4xCkDPuQUnbnA==
+From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+To: mchehab@kernel.org,
+	tfiga@chromium.org,
+	m.szyprowski@samsung.com,
+	ming.qian@nxp.com,
+	ezequiel@vanguardiasur.com.ar,
+	p.zabel@pengutronix.de,
+	gregkh@linuxfoundation.org,
+	hverkuil-cisco@xs4all.nl,
+	nicolas.dufresne@collabora.com
+Cc: linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org,
+	linux-arm-msm@vger.kernel.org,
+	linux-rockchip@lists.infradead.org,
+	linux-staging@lists.linux.dev,
+	kernel@collabora.com,
+	Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Subject: [PATCH v5 01/10] media: videobuf2: Rework offset 'cookie' encoding pattern
+Date: Thu, 24 Aug 2023 11:21:24 +0200
+Message-Id: <20230824092133.39510-2-benjamin.gaignard@collabora.com>
+X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20230824092133.39510-1-benjamin.gaignard@collabora.com>
+References: <20230824092133.39510-1-benjamin.gaignard@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [180.164.60.184]
-X-ClientProxiedBy: EXCAS062.cuchost.com (172.16.6.22) To EXMBX073.cuchost.com
- (172.16.6.83)
-X-YovoleRuleAgent: yovoleflag
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-Hi,
+Change how offset 'cookie' field value is computed to make possible
+to use more buffers (up to 0xffff).
+With this encoding pattern we know the maximum number that a queue
+could store so we can check ing at queue init time.
+It also make easier and faster to find buffer and plane from using
+the offset field.
 
-This series is the v8 series that attempts to support the Camera Subsyste=
-m
-found on StarFive JH7110 SoC.
+Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+---
+v5:
+- I haven't change DST_QUEUE_OFF_BASE definition because it used in
+  v4l2-mem2mem and s5p_mfc driver with a shift.
 
-The following are the media graph for the device and the v4l2-compliance
-output.
+ .../media/common/videobuf2/videobuf2-core.c   | 48 +++++++++----------
+ 1 file changed, 24 insertions(+), 24 deletions(-)
 
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-[the media graph]:
-
-digraph board {
-	rankdir=3DTB
-	n00000001 [label=3D"{{<port0> 0} | stf_isp\n/dev/v4l-subdev0 | {<port1> =
-1}}", shape=3DMrecord, style=3Dfilled, fillcolor=3Dgreen]
-	n00000001:port1 -> n00000008 [style=3Ddashed]
-	n00000004 [label=3D"capture_raw\n/dev/video0", shape=3Dbox, style=3Dfill=
-ed, fillcolor=3Dyellow]
-	n00000008 [label=3D"capture_yuv\n/dev/video1", shape=3Dbox, style=3Dfill=
-ed, fillcolor=3Dyellow]
-	n0000000e [label=3D"{{<port0> 0} | cdns_csi2rx.19800000.csi-bridge\n | {=
-<port1> 1 | <port2> 2 | <port3> 3 | <port4> 4}}", shape=3DMrecord, style=3D=
-filled, fillcolor=3Dgreen]
-	n0000000e:port1 -> n00000001:port0 [style=3Ddashed]
-	n0000000e:port1 -> n00000004 [style=3Ddashed]
-	n00000018 [label=3D"{{} | imx219 6-0010\n/dev/v4l-subdev1 | {<port0> 0}}=
-", shape=3DMrecord, style=3Dfilled, fillcolor=3Dgreen]
-	n00000018:port0 -> n0000000e:port0 [style=3Dbold]
-}
-
-[the device topology]:
-
-Media controller API version 6.5.0
-
-Media device information
-------------------------
-driver          starfive-camss
-model           Starfive Camera Subsystem
-serial         =20
-bus info        platform:19840000.camss
-hw revision     0x0
-driver version  6.5.0
-
-Device topology
-- entity 1: stf_isp (2 pads, 2 links)
-            type V4L2 subdev subtype Unknown flags 0
-            device node name /dev/v4l-subdev0
-	pad0: Sink
-		[fmt:SRGGB10_1X10/1920x1080 field:none colorspace:srgb
-		 crop.bounds:(0,0)/1920x1080
-		 crop:(0,0)/1920x1080]
-		<- "cdns_csi2rx.19800000.csi-bridge":1 []
-	pad1: Source
-		[fmt:YUYV8_1_5X8/1920x1080 field:none colorspace:srgb
-		 crop.bounds:(0,0)/1920x1080
-		 crop:(0,0)/1920x1080]
-		-> "capture_yuv":0 []
-
-- entity 4: capture_raw (1 pad, 1 link)
-            type Node subtype V4L flags 0
-            device node name /dev/video0
-	pad0: Sink
-		<- "cdns_csi2rx.19800000.csi-bridge":1 []
-
-- entity 8: capture_yuv (1 pad, 1 link)
-            type Node subtype V4L flags 0
-            device node name /dev/video1
-	pad0: Sink
-		<- "stf_isp":1 []
-
-- entity 14: cdns_csi2rx.19800000.csi-bridge (5 pads, 3 links)
-             type V4L2 subdev subtype Unknown flags 0
-	pad0: Sink
-		<- "imx219 6-0010":0 [ENABLED,IMMUTABLE]
-	pad1: Source
-		-> "stf_isp":0 []
-		-> "capture_raw":0 []
-	pad2: Source
-	pad3: Source
-	pad4: Source
-
-- entity 24: imx219 6-0010 (1 pad, 1 link)
-             type V4L2 subdev subtype Sensor flags 0
-             device node name /dev/v4l-subdev1
-	pad0: Source
-		[fmt:SRGGB10_1X10/3280x2464 field:none colorspace:srgb xfer:srgb ycbcr:=
-601 quantization:full-range
-		 crop.bounds:(8,8)/3280x2464
-		 crop:(8,8)/3280x2464]
-		-> "cdns_csi2rx.19800000.csi-bridge":0 [ENABLED,IMMUTABLE]
-
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-[the v4l2-compliance output]:
-
-v4l2-compliance 1.24.1, 64 bits, 64-bit time_t
-
-Compliance test for stf camss device /dev/video1:
-
-Driver Info:
-	Driver name      : stf camss
-	Card type        : Starfive Camera Subsystem
-	Bus info         : platform:19840000.camss
-	Driver version   : 6.5.0
-	Capabilities     : 0x84200001
-		Video Capture
-		Streaming
-		Extended Pix Format
-		Device Capabilities
-	Device Caps      : 0x04200001
-		Video Capture
-		Streaming
-		Extended Pix Format
-Media Driver Info:
-	Driver name      : starfive-camss
-	Model            : Starfive Camera Subsystem
-	Serial           :=20
-	Bus info         : platform:19840000.camss
-	Media version    : 6.5.0
-	Hardware revision: 0x00000000 (0)
-	Driver version   : 6.5.0
-Interface Info:
-	ID               : 0x0300000a
-	Type             : V4L Video
-Entity Info:
-	ID               : 0x00000008 (8)
-	Name             : capture_yuv
-	Function         : V4L2 I/O
-	Pad 0x01000009   : 0: Sink
-	  Link 0x0200000c: from remote pad 0x1000003 of entity 'stf_isp' (Unknow=
-n Function (00004009)): Data, Enabled
-
-Required ioctls:
-	test MC information (see 'Media Driver Info' above): OK
-	test VIDIOC_QUERYCAP: OK
-	test invalid ioctls: OK
-
-Allow for multiple opens:
-	test second /dev/video1 open: OK
-	test VIDIOC_QUERYCAP: OK
-	test VIDIOC_G/S_PRIORITY: OK
-	test for unlimited opens: OK
-
-Debug ioctls:
-	test VIDIOC_DBG_G/S_REGISTER: OK (Not Supported)
-	test VIDIOC_LOG_STATUS: OK (Not Supported)
-
-Input ioctls:
-	test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
-	test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
-	test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
-	test VIDIOC_ENUMAUDIO: OK (Not Supported)
-	test VIDIOC_G/S/ENUMINPUT: OK (Not Supported)
-	test VIDIOC_G/S_AUDIO: OK (Not Supported)
-	Inputs: 0 Audio Inputs: 0 Tuners: 0
-
-Output ioctls:
-	test VIDIOC_G/S_MODULATOR: OK (Not Supported)
-	test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
-	test VIDIOC_ENUMAUDOUT: OK (Not Supported)
-	test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
-	test VIDIOC_G/S_AUDOUT: OK (Not Supported)
-	Outputs: 0 Audio Outputs: 0 Modulators: 0
-
-Input/Output configuration ioctls:
-	test VIDIOC_ENUM/G/S/QUERY_STD: OK (Not Supported)
-	test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK (Not Supported)
-	test VIDIOC_DV_TIMINGS_CAP: OK (Not Supported)
-	test VIDIOC_G/S_EDID: OK (Not Supported)
-
-Control ioctls:
-	test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK (Not Supported)
-	test VIDIOC_QUERYCTRL: OK (Not Supported)
-	test VIDIOC_G/S_CTRL: OK (Not Supported)
-	test VIDIOC_G/S/TRY_EXT_CTRLS: OK (Not Supported)
-	test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK (Not Supported)
-	test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
-	Standard Controls: 0 Private Controls: 0
-
-Format ioctls:
-	test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK
-	test VIDIOC_G/S_PARM: OK (Not Supported)
-	test VIDIOC_G_FBUF: OK (Not Supported)
-	test VIDIOC_G_FMT: OK
-	test VIDIOC_TRY_FMT: OK
-	test VIDIOC_S_FMT: OK
-	test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
-	test Cropping: OK (Not Supported)
-	test Composing: OK (Not Supported)
-	test Scaling: OK
-
-Codec ioctls:
-	test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Supported)
-	test VIDIOC_G_ENC_INDEX: OK (Not Supported)
-	test VIDIOC_(TRY_)DECODER_CMD: OK (Not Supported)
-
-Buffer ioctls:
-	test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK
-	test VIDIOC_EXPBUF: OK
-	test Requests: OK (Not Supported)
-
-Test input 0:
-
-Streaming ioctls:
-	test read/write: OK (Not Supported)
-	test blocking wait: OK
-	test MMAP (no poll): OK                          =20
-	test MMAP (select): OK                           =20
-	test MMAP (epoll): OK                            =20
-	test USERPTR (no poll): OK (Not Supported)
-	test USERPTR (select): OK (Not Supported)
-	test DMABUF: Cannot test, specify --expbuf-device
-
-Total for stf camss device /dev/video1: 53, Succeeded: 53, Failed: 0, War=
-nings: 0
-
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-
-Changes in v8:
-- Rebased on v6.5-rc7.
-- Dropped VIN subdev.
-- Created two new video devices: capture_raw and capture_yuv, to replace
-  the previous video devices.
-- Dropped VB2_READ io methods.
-- Recursively called .s_stream() on subdevs.
-
-v7 link: https://lore.kernel.org/all/20230619112838.19797-1-jack.zhu@star=
-fivetech.com/
-
-Changes in v7:
-- HAS_DMA is used instead of DMA_CMA in Kconfig.
-- Dropped some non-essential member variables.
-- Used v4l2_async_nf_add_fwnode_remote() to simplify the relevant code.
-- Modified some Local variable types in the function.
-- Used v4l2_create_fwnode_links_to_pad() to simplify the relevant code.
-- Added error handling for clk_prepare_enable().
-- Simplified stfcamss_format_info struct and modified the relevant code.
-- Dropped enum_input, g_input and s_input.
-- Unified v4l2_ioctl_ops struct.
-- Used v4l2_fh_open()/vb2_fop_release to replace deprecated APIs.
-- Added a camss directory under the starfive directory and modified the
-  patch title.
-
-v6 link: https://lore.kernel.org/all/20230525083202.67933-1-jack.zhu@star=
-fivetech.com/
-
-Changes in v6:
-- Added 'bus-type' in bindings example.
-- Corrected spelling errors.
-- As reviewed by Bryan, used 'nclks' and 'nrsts' variables.
-- Added lccf config for ISP.
-
-v5 link: https://lore.kernel.org/all/20230512102844.51084-1-jack.zhu@star=
-fivetech.com/
-
-Changes in v5:
-- Rebased on v6.4-rc1.
-- Added new patch.
-- Modified ISP driver.
-
-v4 link: https://lore.kernel.org/all/20230413035541.62129-1-jack.zhu@star=
-fivetech.com/
-
-Previous cover letter from v4:
-
-This patch series adds support for the StarFive Camera Subsystem
-found on StarFive JH7110 SoC.
-
-The driver implements V4L2, Media controller and V4L2 subdev interfaces.
-Camera sensor using V4L2 subdev interface in the kernel is supported.
-
-The driver is tested on VisionFive V2 board with IMX219 camera sensor.
-GStreamer 1.18.5 with v4l2src plugin is supported.
-
-Previous version link, missing v1 version:
-
-  v3: https://lore.kernel.org/all/20230331121826.96973-1-jack.zhu@starfiv=
-etech.com/
-  v2: https://lore.kernel.org/all/20230310120553.60586-1-jack.zhu@starfiv=
-etech.com/
-
-Jack Zhu (8):
-  media: dt-bindings: Add JH7110 Camera Subsystem
-  media: admin-guide: Add starfive_camss.rst for Starfive Camera
-    Subsystem
-  media: staging: media: starfive: camss: Add core driver
-  media: staging: media: starfive: camss: Add video driver
-  media: staging: media: starfive: camss: Add ISP driver
-  media: staging: media: starfive: camss: Add capture driver
-  media: staging: media: starfive: camss: Add interrupt handling
-  media: staging: media: starfive: camss: Register devices
-
- .../admin-guide/media/starfive_camss.rst      |  72 +++
- .../media/starfive_camss_graph.dot            |  12 +
- .../admin-guide/media/v4l-drivers.rst         |   1 +
- .../bindings/media/starfive,jh7110-camss.yaml | 180 ++++++
- MAINTAINERS                                   |   9 +
- drivers/staging/media/Kconfig                 |   2 +
- drivers/staging/media/Makefile                |   1 +
- drivers/staging/media/starfive/Kconfig        |   5 +
- drivers/staging/media/starfive/Makefile       |   2 +
- drivers/staging/media/starfive/camss/Kconfig  |  17 +
- drivers/staging/media/starfive/camss/Makefile |  13 +
- .../staging/media/starfive/camss/stf_camss.c  | 432 +++++++++++++
- .../staging/media/starfive/camss/stf_camss.h  | 134 ++++
- .../media/starfive/camss/stf_capture.c        | 603 ++++++++++++++++++
- .../media/starfive/camss/stf_capture.h        |  87 +++
- .../staging/media/starfive/camss/stf_isp.c    | 407 ++++++++++++
- .../staging/media/starfive/camss/stf_isp.h    | 428 +++++++++++++
- .../media/starfive/camss/stf_isp_hw_ops.c     | 445 +++++++++++++
- .../staging/media/starfive/camss/stf_video.c  | 557 ++++++++++++++++
- .../staging/media/starfive/camss/stf_video.h  | 100 +++
- 20 files changed, 3507 insertions(+)
- create mode 100644 Documentation/admin-guide/media/starfive_camss.rst
- create mode 100644 Documentation/admin-guide/media/starfive_camss_graph.=
-dot
- create mode 100644 Documentation/devicetree/bindings/media/starfive,jh71=
-10-camss.yaml
- create mode 100644 drivers/staging/media/starfive/Kconfig
- create mode 100644 drivers/staging/media/starfive/Makefile
- create mode 100644 drivers/staging/media/starfive/camss/Kconfig
- create mode 100644 drivers/staging/media/starfive/camss/Makefile
- create mode 100644 drivers/staging/media/starfive/camss/stf_camss.c
- create mode 100644 drivers/staging/media/starfive/camss/stf_camss.h
- create mode 100644 drivers/staging/media/starfive/camss/stf_capture.c
- create mode 100644 drivers/staging/media/starfive/camss/stf_capture.h
- create mode 100644 drivers/staging/media/starfive/camss/stf_isp.c
- create mode 100644 drivers/staging/media/starfive/camss/stf_isp.h
- create mode 100644 drivers/staging/media/starfive/camss/stf_isp_hw_ops.c
- create mode 100644 drivers/staging/media/starfive/camss/stf_video.c
- create mode 100644 drivers/staging/media/starfive/camss/stf_video.h
-
---=20
-2.34.1
+diff --git a/drivers/media/common/videobuf2/videobuf2-core.c b/drivers/media/common/videobuf2/videobuf2-core.c
+index cf6727d9c81f..e06905533ef4 100644
+--- a/drivers/media/common/videobuf2/videobuf2-core.c
++++ b/drivers/media/common/videobuf2/videobuf2-core.c
+@@ -31,6 +31,10 @@
+ 
+ #include <trace/events/vb2.h>
+ 
++#define PLANE_INDEX_SHIFT	3
++#define PLANE_INDEX_MASK	0x7
++#define MAX_BUFFERS		0xffff
++
+ static int debug;
+ module_param(debug, int, 0644);
+ 
+@@ -358,21 +362,23 @@ static void __setup_offsets(struct vb2_buffer *vb)
+ 	unsigned int plane;
+ 	unsigned long off = 0;
+ 
+-	if (vb->index) {
+-		struct vb2_buffer *prev = q->bufs[vb->index - 1];
+-		struct vb2_plane *p = &prev->planes[prev->num_planes - 1];
+-
+-		off = PAGE_ALIGN(p->m.offset + p->length);
+-	}
++	/*
++	 * Offsets cookies value have the following constraints:
++	 * - a buffer could have up to 8 planes.
++	 * - v4l2 mem2mem use bit 30 to distinguish between source and destination buffers.
++	 * - must be page aligned
++	 * That led to this bit mapping:
++	 * |30                |29        15|14       12|11 0|
++	 * |DST_QUEUE_OFF_BASE|buffer index|plane index| 0  |
++	 * where there is 16 bits to store buffer index.
++	 */
++	off = vb->index << (PLANE_INDEX_SHIFT + PAGE_SHIFT);
+ 
+ 	for (plane = 0; plane < vb->num_planes; ++plane) {
+-		vb->planes[plane].m.offset = off;
++		vb->planes[plane].m.offset = off + (plane << PAGE_SHIFT);
+ 
+ 		dprintk(q, 3, "buffer %d, plane %d offset 0x%08lx\n",
+ 				vb->index, plane, off);
+-
+-		off += vb->planes[plane].length;
+-		off = PAGE_ALIGN(off);
+ 	}
+ }
+ 
+@@ -2209,21 +2215,15 @@ static int __find_plane_by_offset(struct vb2_queue *q, unsigned long off,
+ 		return -EBUSY;
+ 	}
+ 
+-	/*
+-	 * Go over all buffers and their planes, comparing the given offset
+-	 * with an offset assigned to each plane. If a match is found,
+-	 * return its buffer and plane numbers.
+-	 */
+-	for (buffer = 0; buffer < q->num_buffers; ++buffer) {
+-		vb = q->bufs[buffer];
++	/* Get buffer and plane from the offset */
++	buffer = (off >> (PLANE_INDEX_SHIFT + PAGE_SHIFT)) & MAX_BUFFERS;
++	plane = (off >> PAGE_SHIFT) & PLANE_INDEX_MASK;
+ 
+-		for (plane = 0; plane < vb->num_planes; ++plane) {
+-			if (vb->planes[plane].m.offset == off) {
+-				*_buffer = buffer;
+-				*_plane = plane;
+-				return 0;
+-			}
+-		}
++	vb = q->bufs[buffer];
++	if (vb->planes[plane].m.offset == off) {
++		*_buffer = buffer;
++		*_plane = plane;
++		return 0;
+ 	}
+ 
+ 	return -EINVAL;
+-- 
+2.39.2
 
