@@ -1,77 +1,172 @@
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5731D288E6
-	for <linux-staging@lists.linux.dev>; Thu, 24 Aug 2023 13:34:44 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 48D7E87F3;
-	Thu, 24 Aug 2023 15:33:16 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1692883996;
-	bh=RtNbFIR0XA7+6sM+MvEk7hEJmH/z0Dgzl+g1Q9EPiCw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=uPuSFwPzsj0pgdNy1El4Td8QW11v72tF62hBjZQ4LWneTpB4KVpChDuOHTgl8V/bK
-	 uhyUGLY53+FCzCGv+gCF62uvQBSmSYkKBsCmyj1/j2O2FycUYzG93/5mTZTHo2vqsf
-	 PrdWcKk+nbYQt+9VJMnEdX0yV/LlApMTqz01Fo8k=
-Date: Thu, 24 Aug 2023 16:34:41 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Jack Zhu <jack.zhu@starfivetech.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Robert Foss <rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>,
-	bryan.odonoghue@linaro.org, Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-staging@lists.linux.dev,
-	changhuang.liang@starfivetech.com
-Subject: Re: [PATCH v8 0/8] Add StarFive Camera Subsystem driver
-Message-ID: <20230824133441.GC27092@pendragon.ideasonboard.com>
-References: <20230824080109.89613-1-jack.zhu@starfivetech.com>
- <2023082436-spendable-reshuffle-878d@gregkh>
- <a6f60dfc-ffbf-da4d-a81c-06caf92955d6@starfivetech.com>
- <2023082416-flanking-requisite-a8ed@gregkh>
+Received: from smtp.smtpout.orange.fr (smtp-24.smtpout.orange.fr [80.12.242.24])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 491B3134A1
+	for <linux-staging@lists.linux.dev>; Thu, 24 Aug 2023 19:02:02 +0000 (UTC)
+Received: from [192.168.1.18] ([86.243.2.178])
+	by smtp.orange.fr with ESMTPA
+	id ZF7QqAefwuWDMZF7Rqe7Po; Thu, 24 Aug 2023 20:31:48 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
+	s=t20230301; t=1692901908;
+	bh=nPsDNUjBoakY0a/VnBFZAypFsdRwpC9qQ/hznAqbH/g=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=VPg0zs3QpX8+1VbR+lNw3MYEEhAA7PHPxtG6IO0tPTiMoUC+tB5S+AbPMwkT4YPrW
+	 gMT1XE1GyCj99tRP6zCmczJVRrwCrWXecpfMR2w63qVrU5jktnvAxwUO0kyHe41dE4
+	 EkFPetm+uWmlgkV2+Emhfp3XJVG7zFQMZ9mAv52NYzetCRYWC2nGBKcK3vu75+o7CN
+	 lZU4ZmqLdwU+L5eO1II6bO/8bF9ppd7zwHsV22JA61zlIPTfnB7pf7xZ2E9O8qk3mr
+	 ITF/u93ACO/yi4tTqGx8VZv7KIsgmJbIaaH237zFUCo5jzcds+3ENhtNkWAZO0U+8Z
+	 64EQnUi+QWYFQ==
+X-ME-Helo: [192.168.1.18]
+X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
+X-ME-Date: Thu, 24 Aug 2023 20:31:48 +0200
+X-ME-IP: 86.243.2.178
+Message-ID: <74183f7b-6e53-ba3d-2160-1e526d61073b@wanadoo.fr>
+Date: Thu, 24 Aug 2023 20:31:44 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <2023082416-flanking-requisite-a8ed@gregkh>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH v8 3/8] media: staging: media: starfive: camss: Add core
+ driver
+To: Jack Zhu <jack.zhu@starfivetech.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Robert Foss <rfoss@kernel.org>,
+ Todor Tomov <todor.too@gmail.com>, bryan.odonoghue@linaro.org,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Philipp Zabel <p.zabel@pengutronix.de>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-staging@lists.linux.dev,
+ changhuang.liang@starfivetech.com
+References: <20230824080109.89613-1-jack.zhu@starfivetech.com>
+ <20230824080109.89613-4-jack.zhu@starfivetech.com>
+Content-Language: fr
+From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+In-Reply-To: <20230824080109.89613-4-jack.zhu@starfivetech.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Thu, Aug 24, 2023 at 03:08:33PM +0200, Greg Kroah-Hartman wrote:
-> On Thu, Aug 24, 2023 at 08:23:33PM +0800, Jack Zhu wrote:
-> > On 2023/8/24 19:37, Greg Kroah-Hartman wrote:
-> > > On Thu, Aug 24, 2023 at 04:01:01PM +0800, Jack Zhu wrote:
-> > >> Hi,
-> > >> 
-> > >> This series is the v8 series that attempts to support the Camera Subsystem
-> > >> found on StarFive JH7110 SoC.
-> > > 
-> > > I don't see anything here about why this is in drivers/staging/media/
-> > > now and not just in drivers/media/.  What is preventing this to be put
-> > > into the correct place to start with?  What needs to be done to the code
-> > > to get it out of drivers/staging/media/ and who is going to do that
-> > > work?
-> > 
-> > The series does not contain 3A interface. According to Laurent's suggestion,
-> > we put the driver in the staging directory first. In the next stage, we will
-> > continue to submit the 3A interface in the way of incremental development,
-> > and finally expect the code to be placed in the drivers/media/.
+Le 24/08/2023 à 10:01, Jack Zhu a écrit :
+> Add core driver for StarFive Camera Subsystem. The code parses
+> the device platform resources and registers related devices.
 > 
-> Can you please say that in the changelog text for when you are adding
-> the driver so that we know this?
+> Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+> Signed-off-by: Jack Zhu <jack.zhu@starfivetech.com>
+> ---
 
-It's also customary to add a TODO file in the driver directory to list
-the work needed before moving the code to drivers/media/. Jack, could
-you please do so ?
+...
 
+> diff --git a/drivers/staging/media/starfive/camss/Kconfig b/drivers/staging/media/starfive/camss/Kconfig
+> new file mode 100644
+> index 000000000000..8d20e2bd2559
+> --- /dev/null
+> +++ b/drivers/staging/media/starfive/camss/Kconfig
+> @@ -0,0 +1,17 @@
+> +# SPDX-License-Identifier: GPL-2.0-only
+> +config VIDEO_STARFIVE_CAMSS
+> +	tristate "Starfive Camera Subsystem driver"
+> +	depends on V4L_PLATFORM_DRIVERS
+> +	depends on VIDEO_DEV && OF
+> +	depends on HAS_DMA
+> +	depends on PM
+> +	select MEDIA_CONTROLLER
+> +	select VIDEO_V4L2_SUBDEV_API
+> +	select VIDEOBUF2_DMA_CONTIG
+> +	select V4L2_FWNODE
+> +	help
+> +	   Enable this to support for the Starfive Camera subsystem
+> +	   found on Starfive JH7110 SoC.
+> +
+> +	   To compile this driver as a module, choose M here: the
+> +	   module will be called stf-camss.
 
--- 
-Regards,
+stf_camss? (s/-/_)
 
-Laurent Pinchart
+> diff --git a/drivers/staging/media/starfive/camss/Makefile b/drivers/staging/media/starfive/camss/Makefile
+> new file mode 100644
+> index 000000000000..f53c5cbe958f
+> --- /dev/null
+> +++ b/drivers/staging/media/starfive/camss/Makefile
+> @@ -0,0 +1,9 @@
+> +# SPDX-License-Identifier: GPL-2.0
+> +#
+> +# Makefile for StarFive Camera Subsystem driver
+> +#
+> +
+> +starfive-camss-objs += \
+> +		stf_camss.o
+> +
+> +obj-$(CONFIG_VIDEO_STARFIVE_CAMSS) += starfive-camss.o
+
+I'm not an expert in Makefile files, but this stf_camss.o and 
+starfive-camss.o look strange to me.
+
+> diff --git a/drivers/staging/media/starfive/camss/stf_camss.c b/drivers/staging/media/starfive/camss/stf_camss.c
+> new file mode 100644
+> index 000000000000..75ebc3a35218
+> --- /dev/null
+> +++ b/drivers/staging/media/starfive/camss/stf_camss.c
+
+...
+
+> +static int stfcamss_of_parse_ports(struct stfcamss *stfcamss)
+> +{
+> +	struct device_node *node = NULL;
+> +	int ret, num_subdevs = 0;
+> +
+> +	for_each_endpoint_of_node(stfcamss->dev->of_node, node) {
+> +		struct stfcamss_async_subdev *csd;
+> +
+> +		if (!of_device_is_available(node))
+> +			continue;
+> +
+> +		csd = v4l2_async_nf_add_fwnode_remote(&stfcamss->notifier,
+> +						      of_fwnode_handle(node),
+> +						      struct stfcamss_async_subdev);
+> +		if (IS_ERR(csd)) {
+> +			ret = PTR_ERR(csd);
+> +			dev_err(stfcamss->dev, "failed to add async notifier\n");
+> +			v4l2_async_nf_cleanup(&stfcamss->notifier);
+
+having it here, looks strange to me.
+It is already called in the error handling path of the probe.
+
+Should there be a "of_node_put(node);" if we return here?
+
+> +			return ret;
+> +		}
+> +
+> +		ret = stfcamss_of_parse_endpoint_node(stfcamss, node, csd);
+> +		if (ret)
+> +			return ret;
+> +
+> +		num_subdevs++;
+> +	}
+> +
+> +	return num_subdevs;
+> +}
+
+...
+
+> +static int stfcamss_remove(struct platform_device *pdev)
+> +{
+> +	struct stfcamss *stfcamss = platform_get_drvdata(pdev);
+> +
+> +	v4l2_device_unregister(&stfcamss->v4l2_dev);
+> +	media_device_cleanup(&stfcamss->media_dev);
+
+Is a "v4l2_async_nf_cleanup(&stfcamss->notifier);" missing to match the 
+error handling path of the probe?
+
+> +	pm_runtime_disable(&pdev->dev);
+> +
+> +	return 0;
+> +}
+> +
+
+...
