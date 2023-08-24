@@ -1,19 +1,19 @@
-Received: from fd01.gateway.ufhost.com (fd01.gateway.ufhost.com [61.152.239.71])
+Received: from ex01.ufhost.com (ex01.ufhost.com [61.152.239.75])
 	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E16C8AD33
-	for <linux-staging@lists.linux.dev>; Thu, 24 Aug 2023 08:03:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E950F525A
+	for <linux-staging@lists.linux.dev>; Thu, 24 Aug 2023 08:04:22 +0000 (UTC)
 Received: from EXMBX165.cuchost.com (unknown [175.102.18.54])
 	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
 	(Client CN "EXMBX165", Issuer "EXMBX165" (not verified))
-	by fd01.gateway.ufhost.com (Postfix) with ESMTP id 2A5658157;
-	Thu, 24 Aug 2023 16:01:13 +0800 (CST)
+	by ex01.ufhost.com (Postfix) with ESMTP id 5B6AF24E339;
+	Thu, 24 Aug 2023 16:01:11 +0800 (CST)
 Received: from EXMBX073.cuchost.com (172.16.6.83) by EXMBX165.cuchost.com
  (172.16.6.75) with Microsoft SMTP Server (TLS) id 15.0.1497.42; Thu, 24 Aug
- 2023 16:01:13 +0800
+ 2023 16:01:11 +0800
 Received: from xiaofei.localdomain (180.164.60.184) by EXMBX073.cuchost.com
  (172.16.6.83) with Microsoft SMTP Server (TLS) id 15.0.1497.42; Thu, 24 Aug
- 2023 16:01:12 +0800
+ 2023 16:01:10 +0800
 From: Jack Zhu <jack.zhu@starfivetech.com>
 To: Mauro Carvalho Chehab <mchehab@kernel.org>, Robert Foss
 	<rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>,
@@ -25,12 +25,10 @@ To: Mauro Carvalho Chehab <mchehab@kernel.org>, Robert Foss
 CC: <linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
 	<devicetree@vger.kernel.org>, <linux-staging@lists.linux.dev>,
 	<jack.zhu@starfivetech.com>, <changhuang.liang@starfivetech.com>
-Subject: [PATCH v8 6/8] media: staging: media: starfive: camss: Add capture driver
-Date: Thu, 24 Aug 2023 16:01:07 +0800
-Message-ID: <20230824080109.89613-7-jack.zhu@starfivetech.com>
+Subject: [PATCH v8 0/8] Add StarFive Camera Subsystem driver
+Date: Thu, 24 Aug 2023 16:01:01 +0800
+Message-ID: <20230824080109.89613-1-jack.zhu@starfivetech.com>
 X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230824080109.89613-1-jack.zhu@starfivetech.com>
-References: <20230824080109.89613-1-jack.zhu@starfivetech.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -44,764 +42,344 @@ X-ClientProxiedBy: EXCAS062.cuchost.com (172.16.6.22) To EXMBX073.cuchost.com
 X-YovoleRuleAgent: yovoleflag
 Content-Transfer-Encoding: quoted-printable
 
-Add capture driver for StarFive Camera Subsystem. It contains two video
-devices: capture_yuv and capture_raw.
+Hi,
 
-Signed-off-by: Jack Zhu <jack.zhu@starfivetech.com>
----
- drivers/staging/media/starfive/camss/Makefile |   1 +
- .../staging/media/starfive/camss/stf_camss.h  |   2 +
+This series is the v8 series that attempts to support the Camera Subsyste=
+m
+found on StarFive JH7110 SoC.
+
+The following are the media graph for the device and the v4l2-compliance
+output.
+
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+[the media graph]:
+
+digraph board {
+	rankdir=3DTB
+	n00000001 [label=3D"{{<port0> 0} | stf_isp\n/dev/v4l-subdev0 | {<port1> =
+1}}", shape=3DMrecord, style=3Dfilled, fillcolor=3Dgreen]
+	n00000001:port1 -> n00000008 [style=3Ddashed]
+	n00000004 [label=3D"capture_raw\n/dev/video0", shape=3Dbox, style=3Dfill=
+ed, fillcolor=3Dyellow]
+	n00000008 [label=3D"capture_yuv\n/dev/video1", shape=3Dbox, style=3Dfill=
+ed, fillcolor=3Dyellow]
+	n0000000e [label=3D"{{<port0> 0} | cdns_csi2rx.19800000.csi-bridge\n | {=
+<port1> 1 | <port2> 2 | <port3> 3 | <port4> 4}}", shape=3DMrecord, style=3D=
+filled, fillcolor=3Dgreen]
+	n0000000e:port1 -> n00000001:port0 [style=3Ddashed]
+	n0000000e:port1 -> n00000004 [style=3Ddashed]
+	n00000018 [label=3D"{{} | imx219 6-0010\n/dev/v4l-subdev1 | {<port0> 0}}=
+", shape=3DMrecord, style=3Dfilled, fillcolor=3Dgreen]
+	n00000018:port0 -> n0000000e:port0 [style=3Dbold]
+}
+
+[the device topology]:
+
+Media controller API version 6.5.0
+
+Media device information
+------------------------
+driver          starfive-camss
+model           Starfive Camera Subsystem
+serial         =20
+bus info        platform:19840000.camss
+hw revision     0x0
+driver version  6.5.0
+
+Device topology
+- entity 1: stf_isp (2 pads, 2 links)
+            type V4L2 subdev subtype Unknown flags 0
+            device node name /dev/v4l-subdev0
+	pad0: Sink
+		[fmt:SRGGB10_1X10/1920x1080 field:none colorspace:srgb
+		 crop.bounds:(0,0)/1920x1080
+		 crop:(0,0)/1920x1080]
+		<- "cdns_csi2rx.19800000.csi-bridge":1 []
+	pad1: Source
+		[fmt:YUYV8_1_5X8/1920x1080 field:none colorspace:srgb
+		 crop.bounds:(0,0)/1920x1080
+		 crop:(0,0)/1920x1080]
+		-> "capture_yuv":0 []
+
+- entity 4: capture_raw (1 pad, 1 link)
+            type Node subtype V4L flags 0
+            device node name /dev/video0
+	pad0: Sink
+		<- "cdns_csi2rx.19800000.csi-bridge":1 []
+
+- entity 8: capture_yuv (1 pad, 1 link)
+            type Node subtype V4L flags 0
+            device node name /dev/video1
+	pad0: Sink
+		<- "stf_isp":1 []
+
+- entity 14: cdns_csi2rx.19800000.csi-bridge (5 pads, 3 links)
+             type V4L2 subdev subtype Unknown flags 0
+	pad0: Sink
+		<- "imx219 6-0010":0 [ENABLED,IMMUTABLE]
+	pad1: Source
+		-> "stf_isp":0 []
+		-> "capture_raw":0 []
+	pad2: Source
+	pad3: Source
+	pad4: Source
+
+- entity 24: imx219 6-0010 (1 pad, 1 link)
+             type V4L2 subdev subtype Sensor flags 0
+             device node name /dev/v4l-subdev1
+	pad0: Source
+		[fmt:SRGGB10_1X10/3280x2464 field:none colorspace:srgb xfer:srgb ycbcr:=
+601 quantization:full-range
+		 crop.bounds:(8,8)/3280x2464
+		 crop:(8,8)/3280x2464]
+		-> "cdns_csi2rx.19800000.csi-bridge":0 [ENABLED,IMMUTABLE]
+
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+[the v4l2-compliance output]:
+
+v4l2-compliance 1.24.1, 64 bits, 64-bit time_t
+
+Compliance test for stf camss device /dev/video1:
+
+Driver Info:
+	Driver name      : stf camss
+	Card type        : Starfive Camera Subsystem
+	Bus info         : platform:19840000.camss
+	Driver version   : 6.5.0
+	Capabilities     : 0x84200001
+		Video Capture
+		Streaming
+		Extended Pix Format
+		Device Capabilities
+	Device Caps      : 0x04200001
+		Video Capture
+		Streaming
+		Extended Pix Format
+Media Driver Info:
+	Driver name      : starfive-camss
+	Model            : Starfive Camera Subsystem
+	Serial           :=20
+	Bus info         : platform:19840000.camss
+	Media version    : 6.5.0
+	Hardware revision: 0x00000000 (0)
+	Driver version   : 6.5.0
+Interface Info:
+	ID               : 0x0300000a
+	Type             : V4L Video
+Entity Info:
+	ID               : 0x00000008 (8)
+	Name             : capture_yuv
+	Function         : V4L2 I/O
+	Pad 0x01000009   : 0: Sink
+	  Link 0x0200000c: from remote pad 0x1000003 of entity 'stf_isp' (Unknow=
+n Function (00004009)): Data, Enabled
+
+Required ioctls:
+	test MC information (see 'Media Driver Info' above): OK
+	test VIDIOC_QUERYCAP: OK
+	test invalid ioctls: OK
+
+Allow for multiple opens:
+	test second /dev/video1 open: OK
+	test VIDIOC_QUERYCAP: OK
+	test VIDIOC_G/S_PRIORITY: OK
+	test for unlimited opens: OK
+
+Debug ioctls:
+	test VIDIOC_DBG_G/S_REGISTER: OK (Not Supported)
+	test VIDIOC_LOG_STATUS: OK (Not Supported)
+
+Input ioctls:
+	test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
+	test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+	test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
+	test VIDIOC_ENUMAUDIO: OK (Not Supported)
+	test VIDIOC_G/S/ENUMINPUT: OK (Not Supported)
+	test VIDIOC_G/S_AUDIO: OK (Not Supported)
+	Inputs: 0 Audio Inputs: 0 Tuners: 0
+
+Output ioctls:
+	test VIDIOC_G/S_MODULATOR: OK (Not Supported)
+	test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+	test VIDIOC_ENUMAUDOUT: OK (Not Supported)
+	test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
+	test VIDIOC_G/S_AUDOUT: OK (Not Supported)
+	Outputs: 0 Audio Outputs: 0 Modulators: 0
+
+Input/Output configuration ioctls:
+	test VIDIOC_ENUM/G/S/QUERY_STD: OK (Not Supported)
+	test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK (Not Supported)
+	test VIDIOC_DV_TIMINGS_CAP: OK (Not Supported)
+	test VIDIOC_G/S_EDID: OK (Not Supported)
+
+Control ioctls:
+	test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK (Not Supported)
+	test VIDIOC_QUERYCTRL: OK (Not Supported)
+	test VIDIOC_G/S_CTRL: OK (Not Supported)
+	test VIDIOC_G/S/TRY_EXT_CTRLS: OK (Not Supported)
+	test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK (Not Supported)
+	test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
+	Standard Controls: 0 Private Controls: 0
+
+Format ioctls:
+	test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK
+	test VIDIOC_G/S_PARM: OK (Not Supported)
+	test VIDIOC_G_FBUF: OK (Not Supported)
+	test VIDIOC_G_FMT: OK
+	test VIDIOC_TRY_FMT: OK
+	test VIDIOC_S_FMT: OK
+	test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
+	test Cropping: OK (Not Supported)
+	test Composing: OK (Not Supported)
+	test Scaling: OK
+
+Codec ioctls:
+	test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Supported)
+	test VIDIOC_G_ENC_INDEX: OK (Not Supported)
+	test VIDIOC_(TRY_)DECODER_CMD: OK (Not Supported)
+
+Buffer ioctls:
+	test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK
+	test VIDIOC_EXPBUF: OK
+	test Requests: OK (Not Supported)
+
+Test input 0:
+
+Streaming ioctls:
+	test read/write: OK (Not Supported)
+	test blocking wait: OK
+	test MMAP (no poll): OK                          =20
+	test MMAP (select): OK                           =20
+	test MMAP (epoll): OK                            =20
+	test USERPTR (no poll): OK (Not Supported)
+	test USERPTR (select): OK (Not Supported)
+	test DMABUF: Cannot test, specify --expbuf-device
+
+Total for stf camss device /dev/video1: 53, Succeeded: 53, Failed: 0, War=
+nings: 0
+
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+
+Changes in v8:
+- Rebased on v6.5-rc7.
+- Dropped VIN subdev.
+- Created two new video devices: capture_raw and capture_yuv, to replace
+  the previous video devices.
+- Dropped VB2_READ io methods.
+- Recursively called .s_stream() on subdevs.
+
+v7 link: https://lore.kernel.org/all/20230619112838.19797-1-jack.zhu@star=
+fivetech.com/
+
+Changes in v7:
+- HAS_DMA is used instead of DMA_CMA in Kconfig.
+- Dropped some non-essential member variables.
+- Used v4l2_async_nf_add_fwnode_remote() to simplify the relevant code.
+- Modified some Local variable types in the function.
+- Used v4l2_create_fwnode_links_to_pad() to simplify the relevant code.
+- Added error handling for clk_prepare_enable().
+- Simplified stfcamss_format_info struct and modified the relevant code.
+- Dropped enum_input, g_input and s_input.
+- Unified v4l2_ioctl_ops struct.
+- Used v4l2_fh_open()/vb2_fop_release to replace deprecated APIs.
+- Added a camss directory under the starfive directory and modified the
+  patch title.
+
+v6 link: https://lore.kernel.org/all/20230525083202.67933-1-jack.zhu@star=
+fivetech.com/
+
+Changes in v6:
+- Added 'bus-type' in bindings example.
+- Corrected spelling errors.
+- As reviewed by Bryan, used 'nclks' and 'nrsts' variables.
+- Added lccf config for ISP.
+
+v5 link: https://lore.kernel.org/all/20230512102844.51084-1-jack.zhu@star=
+fivetech.com/
+
+Changes in v5:
+- Rebased on v6.4-rc1.
+- Added new patch.
+- Modified ISP driver.
+
+v4 link: https://lore.kernel.org/all/20230413035541.62129-1-jack.zhu@star=
+fivetech.com/
+
+Previous cover letter from v4:
+
+This patch series adds support for the StarFive Camera Subsystem
+found on StarFive JH7110 SoC.
+
+The driver implements V4L2, Media controller and V4L2 subdev interfaces.
+Camera sensor using V4L2 subdev interface in the kernel is supported.
+
+The driver is tested on VisionFive V2 board with IMX219 camera sensor.
+GStreamer 1.18.5 with v4l2src plugin is supported.
+
+Previous version link, missing v1 version:
+
+  v3: https://lore.kernel.org/all/20230331121826.96973-1-jack.zhu@starfiv=
+etech.com/
+  v2: https://lore.kernel.org/all/20230310120553.60586-1-jack.zhu@starfiv=
+etech.com/
+
+Jack Zhu (8):
+  media: dt-bindings: Add JH7110 Camera Subsystem
+  media: admin-guide: Add starfive_camss.rst for Starfive Camera
+    Subsystem
+  media: staging: media: starfive: camss: Add core driver
+  media: staging: media: starfive: camss: Add video driver
+  media: staging: media: starfive: camss: Add ISP driver
+  media: staging: media: starfive: camss: Add capture driver
+  media: staging: media: starfive: camss: Add interrupt handling
+  media: staging: media: starfive: camss: Register devices
+
+ .../admin-guide/media/starfive_camss.rst      |  72 +++
+ .../media/starfive_camss_graph.dot            |  12 +
+ .../admin-guide/media/v4l-drivers.rst         |   1 +
+ .../bindings/media/starfive,jh7110-camss.yaml | 180 ++++++
+ MAINTAINERS                                   |   9 +
+ drivers/staging/media/Kconfig                 |   2 +
+ drivers/staging/media/Makefile                |   1 +
+ drivers/staging/media/starfive/Kconfig        |   5 +
+ drivers/staging/media/starfive/Makefile       |   2 +
+ drivers/staging/media/starfive/camss/Kconfig  |  17 +
+ drivers/staging/media/starfive/camss/Makefile |  13 +
+ .../staging/media/starfive/camss/stf_camss.c  | 432 +++++++++++++
+ .../staging/media/starfive/camss/stf_camss.h  | 134 ++++
  .../media/starfive/camss/stf_capture.c        | 603 ++++++++++++++++++
  .../media/starfive/camss/stf_capture.h        |  87 +++
- 4 files changed, 693 insertions(+)
+ .../staging/media/starfive/camss/stf_isp.c    | 407 ++++++++++++
+ .../staging/media/starfive/camss/stf_isp.h    | 428 +++++++++++++
+ .../media/starfive/camss/stf_isp_hw_ops.c     | 445 +++++++++++++
+ .../staging/media/starfive/camss/stf_video.c  | 557 ++++++++++++++++
+ .../staging/media/starfive/camss/stf_video.h  | 100 +++
+ 20 files changed, 3507 insertions(+)
+ create mode 100644 Documentation/admin-guide/media/starfive_camss.rst
+ create mode 100644 Documentation/admin-guide/media/starfive_camss_graph.=
+dot
+ create mode 100644 Documentation/devicetree/bindings/media/starfive,jh71=
+10-camss.yaml
+ create mode 100644 drivers/staging/media/starfive/Kconfig
+ create mode 100644 drivers/staging/media/starfive/Makefile
+ create mode 100644 drivers/staging/media/starfive/camss/Kconfig
+ create mode 100644 drivers/staging/media/starfive/camss/Makefile
+ create mode 100644 drivers/staging/media/starfive/camss/stf_camss.c
+ create mode 100644 drivers/staging/media/starfive/camss/stf_camss.h
  create mode 100644 drivers/staging/media/starfive/camss/stf_capture.c
  create mode 100644 drivers/staging/media/starfive/camss/stf_capture.h
+ create mode 100644 drivers/staging/media/starfive/camss/stf_isp.c
+ create mode 100644 drivers/staging/media/starfive/camss/stf_isp.h
+ create mode 100644 drivers/staging/media/starfive/camss/stf_isp_hw_ops.c
+ create mode 100644 drivers/staging/media/starfive/camss/stf_video.c
+ create mode 100644 drivers/staging/media/starfive/camss/stf_video.h
 
-diff --git a/drivers/staging/media/starfive/camss/Makefile b/drivers/stag=
-ing/media/starfive/camss/Makefile
-index cdf57e8c9546..685f9f16acba 100644
---- a/drivers/staging/media/starfive/camss/Makefile
-+++ b/drivers/staging/media/starfive/camss/Makefile
-@@ -5,6 +5,7 @@
-=20
- starfive-camss-objs +=3D \
- 		stf_camss.o \
-+		stf_capture.o \
- 		stf_isp.o \
- 		stf_isp_hw_ops.o \
- 		stf_video.o
-diff --git a/drivers/staging/media/starfive/camss/stf_camss.h b/drivers/s=
-taging/media/starfive/camss/stf_camss.h
-index e0f7ee9f2583..5e026a4c0528 100644
---- a/drivers/staging/media/starfive/camss/stf_camss.h
-+++ b/drivers/staging/media/starfive/camss/stf_camss.h
-@@ -19,6 +19,7 @@
- #include <media/v4l2-device.h>
-=20
- #include "stf_isp.h"
-+#include "stf_capture.h"
-=20
- enum stf_port_num {
- 	STF_PORT_DVP =3D 0,
-@@ -52,6 +53,7 @@ struct stfcamss {
- 	struct media_pipeline pipe;
- 	struct device *dev;
- 	struct stf_isp_dev isp_dev;
-+	struct stf_capture captures[STF_CAPTURE_NUM];
- 	struct v4l2_async_notifier notifier;
- 	void __iomem *syscon_base;
- 	void __iomem *isp_base;
-diff --git a/drivers/staging/media/starfive/camss/stf_capture.c b/drivers=
-/staging/media/starfive/camss/stf_capture.c
-new file mode 100644
-index 000000000000..ebdb2550174e
---- /dev/null
-+++ b/drivers/staging/media/starfive/camss/stf_capture.c
-@@ -0,0 +1,603 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * stf_capture.c
-+ *
-+ * StarFive Camera Subsystem - capture device
-+ *
-+ * Copyright (C) 2021-2023 StarFive Technology Co., Ltd.
-+ */
-+
-+#include "stf_camss.h"
-+
-+static const char * const stf_cap_names[] =3D {
-+	"capture_raw",
-+	"capture_yuv",
-+};
-+
-+static const struct stfcamss_format_info stf_wr_fmts[] =3D {
-+	{
-+		.code =3D MEDIA_BUS_FMT_SRGGB10_1X10,
-+		.pixelformat =3D V4L2_PIX_FMT_SRGGB10,
-+		.planes =3D 1,
-+		.vsub =3D { 1 },
-+		.bpp =3D 10,
-+	},
-+	{
-+		.code =3D MEDIA_BUS_FMT_SGRBG10_1X10,
-+		.pixelformat =3D V4L2_PIX_FMT_SGRBG10,
-+		.planes =3D 1,
-+		.vsub =3D { 1 },
-+		.bpp =3D 10,
-+	},
-+	{
-+		.code =3D MEDIA_BUS_FMT_SGBRG10_1X10,
-+		.pixelformat =3D V4L2_PIX_FMT_SGBRG10,
-+		.planes =3D 1,
-+		.vsub =3D { 1 },
-+		.bpp =3D 10,
-+	},
-+	{
-+		.code =3D MEDIA_BUS_FMT_SBGGR10_1X10,
-+		.pixelformat =3D V4L2_PIX_FMT_SBGGR10,
-+		.planes =3D 1,
-+		.vsub =3D { 1 },
-+		.bpp =3D 10,
-+	},
-+};
-+
-+static const struct stfcamss_format_info stf_isp_fmts[] =3D {
-+	{
-+		.code =3D MEDIA_BUS_FMT_YUYV8_1_5X8,
-+		.pixelformat =3D V4L2_PIX_FMT_NV12,
-+		.planes =3D 2,
-+		.vsub =3D { 1, 2 },
-+		.bpp =3D 8,
-+	},
-+};
-+
-+static inline struct stf_capture *to_stf_capture(struct stfcamss_video *=
-video)
-+{
-+	return container_of(video, struct stf_capture, video);
-+}
-+
-+static void stf_set_raw_addr(struct stfcamss *stfcamss, dma_addr_t addr)
-+{
-+	stf_syscon_reg_write(stfcamss, VIN_START_ADDR_O, (long)addr);
-+	stf_syscon_reg_write(stfcamss, VIN_START_ADDR_N, (long)addr);
-+}
-+
-+static void stf_set_yuv_addr(struct stfcamss *stfcamss,
-+			     dma_addr_t y_addr, dma_addr_t uv_addr)
-+{
-+	stf_isp_reg_write(stfcamss, ISP_REG_Y_PLANE_START_ADDR, y_addr);
-+	stf_isp_reg_write(stfcamss, ISP_REG_UV_PLANE_START_ADDR, uv_addr);
-+}
-+
-+static void stf_init_addrs(struct stfcamss_video *video)
-+{
-+	struct stf_capture *cap =3D to_stf_capture(video);
-+	struct stf_v_buf *output =3D &cap->buffers;
-+	dma_addr_t addr0, addr1;
-+
-+	output->active_buf =3D 0;
-+
-+	if (!output->buf[0])
-+		return;
-+
-+	addr0 =3D output->buf[0]->addr[0];
-+	addr1 =3D output->buf[0]->addr[1];
-+
-+	if (cap->type =3D=3D STF_CAPTURE_RAW)
-+		stf_set_raw_addr(video->stfcamss, addr0);
-+	else if (cap->type =3D=3D STF_CAPTURE_YUV)
-+		stf_set_yuv_addr(video->stfcamss, addr0, addr1);
-+}
-+
-+static struct stfcamss_buffer *stf_buf_get_pending(struct stf_v_buf *out=
-put)
-+{
-+	struct stfcamss_buffer *buffer =3D NULL;
-+
-+	if (!list_empty(&output->pending_bufs)) {
-+		buffer =3D list_first_entry(&output->pending_bufs,
-+					  struct stfcamss_buffer,
-+					  queue);
-+		list_del(&buffer->queue);
-+	}
-+
-+	return buffer;
-+}
-+
-+static void stf_cap_s_cfg(struct stfcamss_video *video)
-+{
-+	struct stf_capture *cap =3D to_stf_capture(video);
-+	struct stf_v_buf *output =3D &cap->buffers;
-+	unsigned long flags;
-+
-+	spin_lock_irqsave(&output->lock, flags);
-+
-+	output->state =3D STF_OUTPUT_IDLE;
-+	output->buf[0] =3D stf_buf_get_pending(output);
-+
-+	if (!output->buf[0] && output->buf[1]) {
-+		output->buf[0] =3D output->buf[1];
-+		output->buf[1] =3D NULL;
-+	}
-+
-+	if (output->buf[0])
-+		output->state =3D STF_OUTPUT_SINGLE;
-+
-+	output->sequence =3D 0;
-+	stf_init_addrs(video);
-+
-+	spin_unlock_irqrestore(&output->lock, flags);
-+}
-+
-+static int stf_cap_s_cleanup(struct stfcamss_video *video)
-+{
-+	struct stf_capture *cap =3D to_stf_capture(video);
-+	struct stf_v_buf *output =3D &cap->buffers;
-+	unsigned long flags;
-+
-+	spin_lock_irqsave(&output->lock, flags);
-+
-+	output->state =3D STF_OUTPUT_OFF;
-+
-+	spin_unlock_irqrestore(&output->lock, flags);
-+
-+	return 0;
-+}
-+
-+static void stf_wr_data_en(struct stfcamss_video *video)
-+{
-+	struct stf_capture *cap =3D to_stf_capture(video);
-+	struct stfcamss *stfcamss =3D cap->video.stfcamss;
-+
-+	stf_syscon_reg_set_bit(stfcamss, VIN_CHANNEL_SEL_EN, U0_VIN_AXIWR0_EN);
-+}
-+
-+static void stf_wr_irq_enable(struct stfcamss_video *video)
-+{
-+	struct stf_capture *cap =3D to_stf_capture(video);
-+	struct stfcamss *stfcamss =3D cap->video.stfcamss;
-+
-+	stf_syscon_reg_clear_bit(stfcamss, VIN_INRT_PIX_CFG, U0_VIN_INTR_M);
-+}
-+
-+static void stf_wr_irq_disable(struct stfcamss_video *video)
-+{
-+	struct stf_capture *cap =3D to_stf_capture(video);
-+	struct stfcamss *stfcamss =3D cap->video.stfcamss;
-+
-+	stf_syscon_reg_set_bit(stfcamss, VIN_INRT_PIX_CFG, U0_VIN_INTR_CLEAN);
-+	stf_syscon_reg_clear_bit(stfcamss, VIN_INRT_PIX_CFG, U0_VIN_INTR_CLEAN)=
-;
-+	stf_syscon_reg_set_bit(stfcamss, VIN_INRT_PIX_CFG, U0_VIN_INTR_M);
-+}
-+
-+static void stf_channel_set(struct stfcamss_video *video)
-+{
-+	struct stf_capture *cap =3D to_stf_capture(video);
-+	struct stfcamss *stfcamss =3D cap->video.stfcamss;
-+	u32 val;
-+
-+	if (cap->type =3D=3D STF_CAPTURE_RAW) {
-+		val =3D stf_syscon_reg_read(stfcamss, VIN_CHANNEL_SEL_EN);
-+		val &=3D ~U0_VIN_CHANNEL_SEL_MASK;
-+		val |=3D CHANNEL(0);
-+		stf_syscon_reg_write(stfcamss, VIN_CHANNEL_SEL_EN, val);
-+
-+		val =3D stf_syscon_reg_read(stfcamss, VIN_INRT_PIX_CFG);
-+		val &=3D ~U0_VIN_PIX_CT_MASK;
-+		val |=3D PIX_CT(1);
-+
-+		val &=3D ~U0_VIN_PIXEL_HEIGH_BIT_SEL_MAKS;
-+		val |=3D PIXEL_HEIGH_BIT_SEL(0);
-+
-+		val &=3D ~U0_VIN_PIX_CNT_END_MASK;
-+		val |=3D PIX_CNT_END(IMAGE_MAX_WIDTH / 4 - 1);
-+
-+		stf_syscon_reg_write(stfcamss, VIN_INRT_PIX_CFG, val);
-+	} else if (cap->type =3D=3D STF_CAPTURE_YUV) {
-+		val =3D stf_syscon_reg_read(stfcamss, VIN_CFG_REG);
-+		val &=3D ~U0_VIN_MIPI_BYTE_EN_ISP0_MASK;
-+		val |=3D U0_VIN_MIPI_BYTE_EN_ISP0(0);
-+
-+		val &=3D ~U0_VIN_MIPI_CHANNEL_SEL0_MASK;
-+		val |=3D U0_VIN_MIPI_CHANNEL_SEL0(0);
-+
-+		val &=3D ~U0_VIN_PIX_NUM_MASK;
-+		val |=3D U0_VIN_PIX_NUM(0);
-+
-+		val &=3D ~U0_VIN_P_I_MIPI_HAEDER_EN0_MASK;
-+		val |=3D U0_VIN_P_I_MIPI_HAEDER_EN0(1);
-+
-+		stf_syscon_reg_write(stfcamss, VIN_CFG_REG, val);
-+	}
-+}
-+
-+static void stf_capture_start(struct stfcamss_video *video)
-+{
-+	struct stf_capture *cap =3D to_stf_capture(video);
-+
-+	stf_channel_set(video);
-+	if (cap->type =3D=3D STF_CAPTURE_RAW) {
-+		stf_wr_irq_enable(video);
-+		stf_wr_data_en(video);
-+	}
-+
-+	stf_cap_s_cfg(video);
-+}
-+
-+static void stf_capture_stop(struct stfcamss_video *video)
-+{
-+	struct stf_capture *cap =3D to_stf_capture(video);
-+
-+	if (cap->type =3D=3D STF_CAPTURE_RAW)
-+		stf_wr_irq_disable(video);
-+
-+	stf_cap_s_cleanup(video);
-+}
-+
-+static void stf_capture_init(struct stfcamss *stfcamss, struct stf_captu=
-re *cap)
-+{
-+	cap->buffers.state =3D STF_OUTPUT_OFF;
-+	cap->buffers.buf[0] =3D NULL;
-+	cap->buffers.buf[1] =3D NULL;
-+	cap->buffers.active_buf =3D 0;
-+	atomic_set(&cap->buffers.frame_skip, 4);
-+	INIT_LIST_HEAD(&cap->buffers.pending_bufs);
-+	INIT_LIST_HEAD(&cap->buffers.ready_bufs);
-+	spin_lock_init(&cap->buffers.lock);
-+
-+	cap->video.type =3D V4L2_BUF_TYPE_VIDEO_CAPTURE;
-+	cap->video.stfcamss =3D stfcamss;
-+	cap->video.bpl_alignment =3D 16 * 8;
-+
-+	if (cap->type =3D=3D STF_CAPTURE_RAW) {
-+		cap->video.formats =3D stf_wr_fmts;
-+		cap->video.nformats =3D ARRAY_SIZE(stf_wr_fmts);
-+		cap->video.bpl_alignment =3D 8;
-+	} else if (cap->type =3D=3D STF_CAPTURE_YUV) {
-+		cap->video.formats =3D stf_isp_fmts;
-+		cap->video.nformats =3D ARRAY_SIZE(stf_isp_fmts);
-+		cap->video.bpl_alignment =3D 1;
-+	}
-+}
-+
-+static void stf_buf_add_ready(struct stf_v_buf *output,
-+			      struct stfcamss_buffer *buffer)
-+{
-+	INIT_LIST_HEAD(&buffer->queue);
-+	list_add_tail(&buffer->queue, &output->ready_bufs);
-+}
-+
-+static struct stfcamss_buffer *stf_buf_get_ready(struct stf_v_buf *outpu=
-t)
-+{
-+	struct stfcamss_buffer *buffer =3D NULL;
-+
-+	if (!list_empty(&output->ready_bufs)) {
-+		buffer =3D list_first_entry(&output->ready_bufs,
-+					  struct stfcamss_buffer,
-+					  queue);
-+		list_del(&buffer->queue);
-+	}
-+
-+	return buffer;
-+}
-+
-+static void stf_buf_add_pending(struct stf_v_buf *output,
-+				struct stfcamss_buffer *buffer)
-+{
-+	INIT_LIST_HEAD(&buffer->queue);
-+	list_add_tail(&buffer->queue, &output->pending_bufs);
-+}
-+
-+static void stf_buf_update_on_last(struct stf_v_buf *output)
-+{
-+	switch (output->state) {
-+	case STF_OUTPUT_CONTINUOUS:
-+		output->state =3D STF_OUTPUT_SINGLE;
-+		output->active_buf =3D !output->active_buf;
-+		break;
-+	case STF_OUTPUT_SINGLE:
-+		output->state =3D STF_OUTPUT_STOPPING;
-+		break;
-+	default:
-+		break;
-+	}
-+}
-+
-+static void stf_buf_update_on_next(struct stf_v_buf *output)
-+{
-+	switch (output->state) {
-+	case STF_OUTPUT_CONTINUOUS:
-+		output->active_buf =3D !output->active_buf;
-+		break;
-+	case STF_OUTPUT_SINGLE:
-+	default:
-+		break;
-+	}
-+}
-+
-+static void stf_buf_update_on_new(struct stfcamss_video *video,
-+				  struct stfcamss_buffer *new_buf)
-+{
-+	struct stf_capture *cap =3D to_stf_capture(video);
-+	struct stf_v_buf *output =3D &cap->buffers;
-+
-+	switch (output->state) {
-+	case STF_OUTPUT_SINGLE:
-+		stf_buf_add_pending(output, new_buf);
-+		break;
-+	case STF_OUTPUT_IDLE:
-+		if (!output->buf[0]) {
-+			output->buf[0] =3D new_buf;
-+			stf_init_addrs(video);
-+			output->state =3D STF_OUTPUT_SINGLE;
-+		} else {
-+			stf_buf_add_pending(output, new_buf);
-+		}
-+		break;
-+	case STF_OUTPUT_STOPPING:
-+		if (output->last_buffer) {
-+			output->buf[output->active_buf] =3D output->last_buffer;
-+			output->last_buffer =3D NULL;
-+		}
-+
-+		output->state =3D STF_OUTPUT_SINGLE;
-+		stf_buf_add_pending(output, new_buf);
-+		break;
-+	case STF_OUTPUT_CONTINUOUS:
-+	default:
-+		stf_buf_add_pending(output, new_buf);
-+		break;
-+	}
-+}
-+
-+static void stf_buf_flush(struct stf_v_buf *output, enum vb2_buffer_stat=
-e state)
-+{
-+	struct stfcamss_buffer *buf;
-+	struct stfcamss_buffer *t;
-+
-+	list_for_each_entry_safe(buf, t, &output->pending_bufs, queue) {
-+		vb2_buffer_done(&buf->vb.vb2_buf, state);
-+		list_del(&buf->queue);
-+	}
-+	list_for_each_entry_safe(buf, t, &output->ready_bufs, queue) {
-+		vb2_buffer_done(&buf->vb.vb2_buf, state);
-+		list_del(&buf->queue);
-+	}
-+}
-+
-+static void stf_buf_done(struct stf_v_buf *output)
-+{
-+	struct stfcamss_buffer *ready_buf;
-+	u64 ts =3D ktime_get_ns();
-+	unsigned long flags;
-+
-+	if (output->state =3D=3D STF_OUTPUT_OFF ||
-+	    output->state =3D=3D STF_OUTPUT_RESERVED)
-+		return;
-+
-+	spin_lock_irqsave(&output->lock, flags);
-+
-+	while ((ready_buf =3D stf_buf_get_ready(output))) {
-+		ready_buf->vb.vb2_buf.timestamp =3D ts;
-+		ready_buf->vb.sequence =3D output->sequence++;
-+
-+		vb2_buffer_done(&ready_buf->vb.vb2_buf, VB2_BUF_STATE_DONE);
-+	}
-+
-+	spin_unlock_irqrestore(&output->lock, flags);
-+}
-+
-+static void stf_change_buffer(struct stf_v_buf *output)
-+{
-+	struct stf_capture *cap =3D container_of(output, struct stf_capture,
-+					       buffers);
-+	struct stfcamss *stfcamss =3D cap->video.stfcamss;
-+	struct stfcamss_buffer *ready_buf;
-+	dma_addr_t *new_addr;
-+	unsigned long flags;
-+	u32 active_index;
-+
-+	if (output->state =3D=3D STF_OUTPUT_OFF ||
-+	    output->state =3D=3D STF_OUTPUT_STOPPING ||
-+	    output->state =3D=3D STF_OUTPUT_RESERVED ||
-+	    output->state =3D=3D STF_OUTPUT_IDLE)
-+		return;
-+
-+	spin_lock_irqsave(&output->lock, flags);
-+
-+	active_index =3D output->active_buf;
-+
-+	ready_buf =3D output->buf[active_index];
-+	if (!ready_buf) {
-+		dev_dbg(stfcamss->dev, "missing ready buf %d %d.\n",
-+			active_index, output->state);
-+		active_index =3D !active_index;
-+		ready_buf =3D output->buf[active_index];
-+		if (!ready_buf) {
-+			dev_dbg(stfcamss->dev,
-+				"missing ready buf2 %d %d.\n",
-+				active_index, output->state);
-+			goto out_unlock;
-+		}
-+	}
-+
-+	/* Get next buffer */
-+	output->buf[active_index] =3D stf_buf_get_pending(output);
-+	if (!output->buf[active_index]) {
-+		new_addr =3D ready_buf->addr;
-+		stf_buf_update_on_last(output);
-+	} else {
-+		new_addr =3D output->buf[active_index]->addr;
-+		stf_buf_update_on_next(output);
-+	}
-+
-+	if (output->state =3D=3D STF_OUTPUT_STOPPING) {
-+		output->last_buffer =3D ready_buf;
-+	} else {
-+		if (cap->type =3D=3D STF_CAPTURE_RAW)
-+			stf_set_raw_addr(stfcamss, new_addr[0]);
-+		else if (cap->type =3D=3D STF_CAPTURE_YUV)
-+			stf_set_yuv_addr(stfcamss, new_addr[0], new_addr[1]);
-+
-+		stf_buf_add_ready(output, ready_buf);
-+	}
-+
-+out_unlock:
-+	spin_unlock_irqrestore(&output->lock, flags);
-+}
-+
-+irqreturn_t stf_wr_irq_handler(int irq, void *priv)
-+{
-+	struct stfcamss *stfcamss =3D priv;
-+	struct stf_capture *cap =3D &stfcamss->captures[STF_CAPTURE_RAW];
-+
-+	if (atomic_dec_if_positive(&cap->buffers.frame_skip) < 0) {
-+		stf_change_buffer(&cap->buffers);
-+		stf_buf_done(&cap->buffers);
-+	}
-+
-+	stf_syscon_reg_set_bit(stfcamss, VIN_INRT_PIX_CFG, U0_VIN_INTR_CLEAN);
-+	stf_syscon_reg_clear_bit(stfcamss, VIN_INRT_PIX_CFG, U0_VIN_INTR_CLEAN)=
-;
-+
-+	return IRQ_HANDLED;
-+}
-+
-+irqreturn_t stf_isp_irq_handler(int irq, void *priv)
-+{
-+	struct stfcamss *stfcamss =3D priv;
-+	struct stf_capture *cap =3D &stfcamss->captures[STF_CAPTURE_YUV];
-+	u32 status;
-+
-+	status =3D stf_isp_reg_read(stfcamss, ISP_REG_ISP_CTRL_0);
-+	if (status & ISPC_ISP) {
-+		if (status & ISPC_ENUO)
-+			stf_buf_done(&cap->buffers);
-+
-+		stf_isp_reg_write(stfcamss, ISP_REG_ISP_CTRL_0,
-+				  (status & ~ISPC_INT_ALL_MASK) |
-+				  ISPC_ISP | ISPC_CSI | ISPC_SC);
-+	}
-+
-+	return IRQ_HANDLED;
-+}
-+
-+irqreturn_t stf_line_irq_handler(int irq, void *priv)
-+{
-+	struct stfcamss *stfcamss =3D priv;
-+	struct stf_capture *cap =3D &stfcamss->captures[STF_CAPTURE_YUV];
-+	u32 status;
-+
-+	status =3D stf_isp_reg_read(stfcamss, ISP_REG_ISP_CTRL_0);
-+	if (status & ISPC_LINE) {
-+		if (atomic_dec_if_positive(&cap->buffers.frame_skip) < 0) {
-+			if ((status & ISPC_ENUO))
-+				stf_change_buffer(&cap->buffers);
-+		}
-+
-+		stf_isp_reg_set_bit(stfcamss, ISP_REG_CSIINTS,
-+				    CSI_INTS_MASK, CSI_INTS(0x3));
-+		stf_isp_reg_set_bit(stfcamss, ISP_REG_IESHD,
-+				    SHAD_UP_M | SHAD_UP_EN, 0x3);
-+
-+		stf_isp_reg_write(stfcamss, ISP_REG_ISP_CTRL_0,
-+				  (status & ~ISPC_INT_ALL_MASK) | ISPC_LINE);
-+	}
-+
-+	return IRQ_HANDLED;
-+}
-+
-+static int stf_queue_buffer(struct stfcamss_video *video,
-+			    struct stfcamss_buffer *buf)
-+{
-+	struct stf_capture *cap =3D to_stf_capture(video);
-+	struct stf_v_buf *v_bufs =3D &cap->buffers;
-+	unsigned long flags;
-+
-+	spin_lock_irqsave(&v_bufs->lock, flags);
-+	stf_buf_update_on_new(video, buf);
-+	spin_unlock_irqrestore(&v_bufs->lock, flags);
-+
-+	return 0;
-+}
-+
-+static int stf_flush_buffers(struct stfcamss_video *video,
-+			     enum vb2_buffer_state state)
-+{
-+	struct stf_capture *cap =3D to_stf_capture(video);
-+	struct stf_v_buf *v_bufs =3D &cap->buffers;
-+	unsigned long flags;
-+	unsigned int i;
-+
-+	spin_lock_irqsave(&v_bufs->lock, flags);
-+
-+	stf_buf_flush(v_bufs, state);
-+
-+	for (i =3D 0; i < ARRAY_SIZE(v_bufs->buf); i++) {
-+		if (v_bufs->buf[i])
-+			vb2_buffer_done(&v_bufs->buf[i]->vb.vb2_buf, state);
-+
-+		v_bufs->buf[i] =3D NULL;
-+	}
-+
-+	if (v_bufs->last_buffer) {
-+		vb2_buffer_done(&v_bufs->last_buffer->vb.vb2_buf, state);
-+		v_bufs->last_buffer =3D NULL;
-+	}
-+
-+	spin_unlock_irqrestore(&v_bufs->lock, flags);
-+	return 0;
-+}
-+
-+static const struct stfcamss_video_ops stf_capture_ops =3D {
-+	.queue_buffer =3D stf_queue_buffer,
-+	.flush_buffers =3D stf_flush_buffers,
-+	.start_streaming =3D stf_capture_start,
-+	.stop_streaming =3D stf_capture_stop,
-+};
-+
-+static void stf_capture_unregister_one(struct stf_capture *cap)
-+{
-+	if (!video_is_registered(&cap->video.vdev))
-+		return;
-+
-+	media_entity_cleanup(&cap->video.vdev.entity);
-+	vb2_video_unregister_device(&cap->video.vdev);
-+}
-+
-+void stf_capture_unregister(struct stfcamss *stfcamss)
-+{
-+	struct stf_capture *cap_raw =3D &stfcamss->captures[STF_CAPTURE_RAW];
-+	struct stf_capture *cap_yuv =3D &stfcamss->captures[STF_CAPTURE_YUV];
-+
-+	stf_capture_unregister_one(cap_raw);
-+	stf_capture_unregister_one(cap_yuv);
-+}
-+
-+int stf_capture_register(struct stfcamss *stfcamss,
-+			 struct v4l2_device *v4l2_dev)
-+{
-+	unsigned int i;
-+	int ret;
-+
-+	for (i =3D 0; i < ARRAY_SIZE(stfcamss->captures); i++) {
-+		struct stf_capture *capture =3D &stfcamss->captures[i];
-+
-+		capture->type =3D i;
-+		capture->video.ops =3D &stf_capture_ops;
-+		stf_capture_init(stfcamss, capture);
-+
-+		ret =3D stf_video_register(&capture->video, v4l2_dev,
-+					 stf_cap_names[i]);
-+		if (ret < 0) {
-+			dev_err(stfcamss->dev,
-+				"Failed to register video node: %d\n", ret);
-+			stf_capture_unregister(stfcamss);
-+			return ret;
-+		}
-+	}
-+
-+	return 0;
-+}
-diff --git a/drivers/staging/media/starfive/camss/stf_capture.h b/drivers=
-/staging/media/starfive/camss/stf_capture.h
-new file mode 100644
-index 000000000000..a01782eb5019
---- /dev/null
-+++ b/drivers/staging/media/starfive/camss/stf_capture.h
-@@ -0,0 +1,87 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+/*
-+ * stf_capture.h
-+ *
-+ * Starfive Camera Subsystem driver
-+ *
-+ * Copyright (C) 2021-2023 StarFive Technology Co., Ltd.
-+ */
-+
-+#ifndef STF_CAPTURE_H
-+#define STF_CAPTURE_H
-+
-+#include "stf_video.h"
-+
-+#define VIN_CHANNEL_SEL_EN			0x14
-+#define VIN_START_ADDR_N			0x18
-+#define VIN_INRT_PIX_CFG			0x1c
-+#define VIN_START_ADDR_O			0x20
-+#define VIN_CFG_REG				0x24
-+
-+#define U0_VIN_CNFG_AXI_DVP_EN			BIT(2)
-+
-+#define U0_VIN_CHANNEL_SEL_MASK			GENMASK(3, 0)
-+#define U0_VIN_AXIWR0_EN			BIT(4)
-+#define CHANNEL(x)				((x) << 0)
-+
-+#define U0_VIN_INTR_CLEAN			BIT(0)
-+#define U0_VIN_INTR_M				BIT(1)
-+#define U0_VIN_PIX_CNT_END_MASK			GENMASK(12, 2)
-+#define U0_VIN_PIX_CT_MASK			GENMASK(14, 13)
-+#define U0_VIN_PIXEL_HEIGH_BIT_SEL_MAKS		GENMASK(16, 15)
-+
-+#define PIX_CNT_END(x)				((x) << 2)
-+#define PIX_CT(x)				((x) << 13)
-+#define PIXEL_HEIGH_BIT_SEL(x)			((x) << 15)
-+
-+#define U0_VIN_CNFG_DVP_HS_POS			BIT(1)
-+#define U0_VIN_CNFG_DVP_SWAP_EN			BIT(2)
-+#define U0_VIN_CNFG_DVP_VS_POS			BIT(3)
-+#define U0_VIN_CNFG_GEN_EN_AXIRD		BIT(4)
-+#define U0_VIN_CNFG_ISP_DVP_EN0			BIT(5)
-+#define U0_VIN_MIPI_BYTE_EN_ISP0(n)		((n) << 6)
-+#define U0_VIN_MIPI_CHANNEL_SEL0(n)		((n) << 8)
-+#define U0_VIN_P_I_MIPI_HAEDER_EN0(n)		((n) << 12)
-+#define U0_VIN_PIX_NUM(n)			((n) << 13)
-+#define U0_VIN_MIPI_BYTE_EN_ISP0_MASK		GENMASK(7, 6)
-+#define U0_VIN_MIPI_CHANNEL_SEL0_MASK		GENMASK(11, 8)
-+#define U0_VIN_P_I_MIPI_HAEDER_EN0_MASK		BIT(12)
-+#define U0_VIN_PIX_NUM_MASK			GENMASK(16, 13)
-+
-+enum stf_v_state {
-+	STF_OUTPUT_OFF,
-+	STF_OUTPUT_RESERVED,
-+	STF_OUTPUT_SINGLE,
-+	STF_OUTPUT_CONTINUOUS,
-+	STF_OUTPUT_IDLE,
-+	STF_OUTPUT_STOPPING
-+};
-+
-+struct stf_v_buf {
-+	int active_buf;
-+	struct stfcamss_buffer *buf[2];
-+	struct stfcamss_buffer *last_buffer;
-+	struct list_head pending_bufs;
-+	struct list_head ready_bufs;
-+	enum stf_v_state state;
-+	unsigned int sequence;
-+	/* protects the above member variables */
-+	spinlock_t lock;
-+	atomic_t frame_skip;
-+};
-+
-+struct stf_capture {
-+	struct stfcamss_video video;
-+	struct stf_v_buf buffers;
-+	enum stf_capture_type type;
-+};
-+
-+irqreturn_t stf_wr_irq_handler(int irq, void *priv);
-+irqreturn_t stf_isp_irq_handler(int irq, void *priv);
-+irqreturn_t stf_line_irq_handler(int irq, void *priv);
-+int stf_capture_register(struct stfcamss *stfcamss,
-+			 struct v4l2_device *v4l2_dev);
-+void stf_capture_unregister(struct stfcamss *stfcamss);
-+
-+#endif
-+
 --=20
 2.34.1
 
