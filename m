@@ -1,42 +1,43 @@
-Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
+Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F295E101D1
-	for <linux-staging@lists.linux.dev>; Fri, 25 Aug 2023 14:06:16 +0000 (UTC)
-Received: by mail-pf1-f170.google.com with SMTP id d2e1a72fcca58-68c3b9f8333so17783b3a.1
-        for <linux-staging@lists.linux.dev>; Fri, 25 Aug 2023 07:06:16 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14266101E9
+	for <linux-staging@lists.linux.dev>; Fri, 25 Aug 2023 14:06:17 +0000 (UTC)
+Received: by mail-pf1-f175.google.com with SMTP id d2e1a72fcca58-68a56401b9aso806745b3a.1
+        for <linux-staging@lists.linux.dev>; Fri, 25 Aug 2023 07:06:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=darkphysics.net; s=google; t=1692972376; x=1693577176;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=/vUdqwdRYBAdAyAf4qgMbXsZ4Ix9El+5T23vOVq68bQ=;
-        b=B7WhlnWTRQaL35hB6/MjGpm34XkPQ5kdSXFSqwv1QHYZtvJoDbOGHyZRXdJA3E1xBy
-         GSZ+7YPPSH655WdcMcsOY5AKAZgOSnRewe2n9McgeewOR83CrVFX4/jCkK2EJ4TIBGjy
-         qRcRLzAakHt9eoKAxs+PZiT+7NGTp4WQzYfWrzVG0cDCTZFVu/9NtkStymTNeOMKzXZ5
-         MNqRDppgU5+ZtJBrxabY9Lqk/jdamkHvhl4m5+/VgnaLce/AxK5fRne0WYSZCTRu8zpS
-         j6XTIsUN9ItKEKirB9c+wCTn/hM0fc9lAsgblNeA6LY416JuCIbElDPAAcc8wWUFgKh3
-         JmrA==
+        d=darkphysics.net; s=google; t=1692972377; x=1693577177;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=X7BuzSgv+mV1XgYmM8KKw4E3Wmr18hM3/dmMAvH4FIg=;
+        b=Bj7OWyCmjpTyzAG3Z5hNbC0NmbuodJ7j+VUJ4kdJW8rQzR1A80UnFgX/ARmAjkacfY
+         mr5htT9mwrw+58SleD8l++DqdjItLH25+6phCFdZLLUbqsxk3cJ4pyodziDjJV4ruPgn
+         SZ3JPpbfauid7bfRHGD1Mooq0/ljcbTyb0MBXtQ3qAOuFBFZWo2f2p+gkAWyyLlABChO
+         cuQEyo+9r3ByqWJTktG+AZCdezw3QvVM7eF+sDOKAwn8kJk7/3YN5akbGnzMvjDiQCoU
+         AzBNbOz4FsYxOxn/Se4DLzSU35LGNa3GxbdnLaWkZc8/VJqRQEKeJNHS84LSEhRwefLA
+         N5yQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692972376; x=1693577176;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=/vUdqwdRYBAdAyAf4qgMbXsZ4Ix9El+5T23vOVq68bQ=;
-        b=A+GVDIB3ACENYGxaVTbkDciN4Q5vOepkZq+U/gRYlcUgCKkJkmu71Ph1FZqBxnT/jr
-         nJULyFykcIONErHTvbTqFhJYDEhg/1J2x2nx9tXFKp9MhMoiKOIg3WYil2mgAig4swz5
-         2T9XA8yCGHgCNCLkSYKr6yifluq9s2fNaCY0BVNdbi/0iLwhNTIOsr5cOmeKXS2iQWPj
-         mk50J7RH2c5CsAqPlSgMwicpFr1w4kM5sM7xTSc6ja6gGjZb9FMqw/adeGwXL+w7NcBX
-         9vlbU3KeD/4SNluixJMFbM+uZAq5Envs+RROUPomguG+VEXibm4QAiYu7Sb75J59PDRD
-         Yd7w==
-X-Gm-Message-State: AOJu0Yzy9zrAqP0QYMiQ0y5itxwb0V4NHYa/nzPNbxKyNp10X3itw/Zg
-	BF39b0umSTL2PQo35hkEYDkRNw==
-X-Google-Smtp-Source: AGHT+IFKJQf2nnVuRdrG02X9VWtIhK0vBTk9y+4MLMWwcn5k15IpNoQYCkL5TzyWiHENlsk0PMxRPw==
-X-Received: by 2002:a05:6a20:938a:b0:140:d536:d434 with SMTP id x10-20020a056a20938a00b00140d536d434mr28945743pzh.10.1692972376004;
-        Fri, 25 Aug 2023 07:06:16 -0700 (PDT)
+        d=1e100.net; s=20221208; t=1692972377; x=1693577177;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=X7BuzSgv+mV1XgYmM8KKw4E3Wmr18hM3/dmMAvH4FIg=;
+        b=XXH0Pxd5J47iA2OmcqpgwI2g9pjH9h86e0fSNZDE4P0y9LI3xeGYYVt0dNuwDBP/4C
+         kplr8elCcUqIcNsPXQGpd2A48fXet+/ihpPl+l4rkyiJtMo2JRHWY9Z1Odvmwp0fLgp4
+         O6aUEKduwcLcn8pRRSA0nJYyOjUe9qoltR2HRUPaf7mnX7JJ2xtpm0ULCFmXQWwQfseX
+         gvN06l3nvgvFliPBhio1DfK/GTy86i+FxQpUME+xAvqnOovSv6Xt5kOD4kJa37zIDFXu
+         V31Gv/Xo1EbflVXjOm58qf7sPO87iAhRTyyK+mnfAgioLj5KSViDRd41dPJ0HyQq83Mi
+         dK7Q==
+X-Gm-Message-State: AOJu0Yz2q4I+gnMdCg7X858BhgO+gchBSxXtHOdwbbOVcbelUQ/TkS2y
+	DBsr7nJe0LyzJe+p3FbR6bCaNw==
+X-Google-Smtp-Source: AGHT+IHFjPmazLN9TKXBJHjpSBbOGbQOCMalqzkwNPATG5eN2Xdd6Zyw65eD81dmEyAH64op4N6rRw==
+X-Received: by 2002:a05:6a20:948a:b0:13f:8855:d5a0 with SMTP id hs10-20020a056a20948a00b0013f8855d5a0mr13376475pzb.50.1692972377069;
+        Fri, 25 Aug 2023 07:06:17 -0700 (PDT)
 Received: from basil.darkphysics (c-76-146-178-2.hsd1.wa.comcast.net. [76.146.178.2])
-        by smtp.gmail.com with ESMTPSA id v23-20020a62a517000000b006870721fcc5sm1628232pfm.175.2023.08.25.07.06.15
+        by smtp.gmail.com with ESMTPSA id v23-20020a62a517000000b006870721fcc5sm1628232pfm.175.2023.08.25.07.06.16
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 25 Aug 2023 07:06:15 -0700 (PDT)
+        Fri, 25 Aug 2023 07:06:16 -0700 (PDT)
 From: Tree Davies <tdavies@darkphysics.net>
 To: gregkh@linuxfoundation.org,
 	philipp.g.hortmann@gmail.com,
@@ -44,10 +45,12 @@ To: gregkh@linuxfoundation.org,
 Cc: linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Tree Davies <tdavies@darkphysics.net>
-Subject: [PATCH v4 00/16] Staging: rtl8192e: Rename struct rx_ts_record references
-Date: Fri, 25 Aug 2023 07:08:31 -0700
-Message-ID: <20230825140847.501113-1-tdavies@darkphysics.net>
+Subject: [PATCH v4 01/16] Staging: rtl8192e: Rename variable pRxTs in function rx_ts_delete_ba()
+Date: Fri, 25 Aug 2023 07:08:32 -0700
+Message-ID: <20230825140847.501113-2-tdavies@darkphysics.net>
 X-Mailer: git-send-email 2.41.0
+In-Reply-To: <20230825140847.501113-1-tdavies@darkphysics.net>
+References: <20230825140847.501113-1-tdavies@darkphysics.net>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -56,46 +59,34 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The goal of this series is to fix checkpatch warning Avoid CamelCase,
-for all references of struct rx_ts_record. In most cases renames the
-references to, ts, to make the naming consistent.
+Rename variable pRxTs in function rx_ts_delete_ba() to ts
+to fix checkpatch warning Avoid CamelCase.
 
-Thank you in advance to the reviewers,
-~ Tree
+Signed-off-by: Tree Davies <tdavies@darkphysics.net>
+Tested-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+---
+v4:Resending as v4
+v3:Resend as 16 patch series - no longer throttled by email provider, fix commit msg
+v2:Resending in smaller patch series
+ drivers/staging/rtl8192e/rtl819x_BAProc.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Tree Davies (16):
-  Staging: rtl8192e: Rename variable pRxTs in function rx_ts_delete_ba()
-  Staging: rtl8192e: Rename variable pTS in function
-    rtllib_rx_ADDBAReq()
-  Staging: rtl8192e: Rename variable pRxTs in function rtllib_rx_DELBA()
-  Staging: rtl8192e: Rename variable pRxTs in function
-    rtllib_ts_init_del_ba()
-  Staging: rtl8192e: Rename variable pRxTs in function
-    rtllib_rx_ba_inact_timeout()
-  Staging: rtl8192e: Rename variable pRxTs in function
-    RxPktPendingTimeout()
-  Staging: rtl8192e: Rename variable pTS in function ResetRxTsEntry()
-  Staging: rtl8192e: Rename variable pRxTS in function TSInitialize()
-  Staging: rtl8192e: Rename variable tmp in function GetTs()
-  Staging: rtl8192e: Rename variable pRxTS in function RemoveTsEntry()
-  Staging: rtl8192e: Rename variable pTS in function prototype
-    rtllib_FlushRxTsPendingPkts()
-  Staging: rtl8192e: Rename variable pTS in function AddReorderEntry()
-  Staging: rtl8192e: Rename variable pTS in function
-    rtllib_FlushRxTsPendingPkts()
-  Staging: rtl8192e: Rename variable pTS in function
-    RxReorderIndicatePacket()
-  Staging: rtl8192e: Rename variable pRxTS in function
-    rtllib_rx_check_duplicate()
-  Staging: rtl8192e: Rename variable pTS in function
-    rtllib_rx_InfraAdhoc()
-
- drivers/staging/rtl8192e/rtl819x_BAProc.c | 36 ++++-----
- drivers/staging/rtl8192e/rtl819x_TSProc.c | 73 +++++++++---------
- drivers/staging/rtl8192e/rtllib.h         |  2 +-
- drivers/staging/rtl8192e/rtllib_rx.c      | 94 +++++++++++------------
- 4 files changed, 102 insertions(+), 103 deletions(-)
-
+diff --git a/drivers/staging/rtl8192e/rtl819x_BAProc.c b/drivers/staging/rtl8192e/rtl819x_BAProc.c
+index 0e3372868f97..da29163f3022 100644
+--- a/drivers/staging/rtl8192e/rtl819x_BAProc.c
++++ b/drivers/staging/rtl8192e/rtl819x_BAProc.c
+@@ -41,9 +41,9 @@ static u8 tx_ts_delete_ba(struct rtllib_device *ieee, struct tx_ts_record *pTxTs
+ 	return bSendDELBA;
+ }
+ 
+-static u8 rx_ts_delete_ba(struct rtllib_device *ieee, struct rx_ts_record *pRxTs)
++static u8 rx_ts_delete_ba(struct rtllib_device *ieee, struct rx_ts_record *ts)
+ {
+-	struct ba_record *pBa = &pRxTs->rx_admitted_ba_record;
++	struct ba_record *pBa = &ts->rx_admitted_ba_record;
+ 	u8			bSendDELBA = false;
+ 
+ 	if (pBa->b_valid) {
 -- 
 2.41.0
 
