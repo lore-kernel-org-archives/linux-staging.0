@@ -1,85 +1,133 @@
-Received: from ex01.ufhost.com (ex01.ufhost.com [61.152.239.75])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32B3AC8C4
-	for <linux-staging@lists.linux.dev>; Fri, 25 Aug 2023 09:58:02 +0000 (UTC)
-Received: from EXMBX166.cuchost.com (unknown [175.102.18.54])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(Client CN "EXMBX166", Issuer "EXMBX166" (not verified))
-	by ex01.ufhost.com (Postfix) with ESMTP id C026F24E269;
-	Fri, 25 Aug 2023 17:57:59 +0800 (CST)
-Received: from EXMBX073.cuchost.com (172.16.6.83) by EXMBX166.cuchost.com
- (172.16.6.76) with Microsoft SMTP Server (TLS) id 15.0.1497.42; Fri, 25 Aug
- 2023 17:57:59 +0800
-Received: from [192.168.1.218] (180.164.60.184) by EXMBX073.cuchost.com
- (172.16.6.83) with Microsoft SMTP Server (TLS) id 15.0.1497.42; Fri, 25 Aug
- 2023 17:57:59 +0800
-Message-ID: <109d69d1-bd64-9157-da6b-a099dbe700fe@starfivetech.com>
-Date: Fri, 25 Aug 2023 17:57:58 +0800
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8FEDCA61;
+	Fri, 25 Aug 2023 10:31:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1692959464; x=1724495464;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=wVJ88ABD5p0H2+9hwW3zAACiH9v23ThhILL1RUf5G20=;
+  b=ON4UjiYvi6rEoGKjzkMsr/RF1ShOWhtCJnhFdtkdKCW6JsCgQzWbIURf
+   rv8zT6SgEDdMXWD8xZfYUp7h1uO6bkfIrNs3OKfHE3iCDifNFzZ60Femj
+   eVkSNe53eD802I/yyAeKEVGBgTKZjtCHHHiOLsIN5aJqZfsKeO/w9ziDd
+   lBjzUMMjw0EludFu9z4C5APoalQXWmVKtRQhz5eunWTa9kg4Y5CEdoOj4
+   f9RoJ7SSvraQJlxTOVBHpvGbLDF3y/VU5o4VG+Cfk55ySh7u2j1vMN1hX
+   gcIrGUCFtTc/KNK0Tu2ric2KJ1cMMmEtEC0RRuSxlchmIOdkZMXIy5Wg2
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10812"; a="373554766"
+X-IronPort-AV: E=Sophos;i="6.02,195,1688454000"; 
+   d="scan'208";a="373554766"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Aug 2023 03:31:03 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10812"; a="687259081"
+X-IronPort-AV: E=Sophos;i="6.02,195,1688454000"; 
+   d="scan'208";a="687259081"
+Received: from lkp-server02.sh.intel.com (HELO daf8bb0a381d) ([10.239.97.151])
+  by orsmga003.jf.intel.com with ESMTP; 25 Aug 2023 03:30:50 -0700
+Received: from kbuild by daf8bb0a381d with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qZU5Y-0003Rw-15;
+	Fri, 25 Aug 2023 10:30:48 +0000
+Date: Fri, 25 Aug 2023 18:29:54 +0800
+From: kernel test robot <lkp@intel.com>
+To: Benjamin Gaignard <benjamin.gaignard@collabora.com>, mchehab@kernel.org,
+	tfiga@chromium.org, m.szyprowski@samsung.com, ming.qian@nxp.com,
+	ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de,
+	gregkh@linuxfoundation.org, hverkuil-cisco@xs4all.nl,
+	nicolas.dufresne@collabora.com
+Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+	linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
+	kernel@collabora.com,
+	Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Subject: Re: [PATCH v5 10/10] media: v4l2: Add mem2mem helpers for
+ DELETE_BUFS ioctl
+Message-ID: <202308251828.fSyIXACx-lkp@intel.com>
+References: <20230824092133.39510-11-benjamin.gaignard@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.14.0
-Subject: Re: [PATCH v8 0/8] Add StarFive Camera Subsystem driver
-Content-Language: en-US
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-CC: Mauro Carvalho Chehab <mchehab@kernel.org>, Robert Foss
-	<rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>,
-	<bryan.odonoghue@linaro.org>, Rob Herring <robh+dt@kernel.org>, "Krzysztof
- Kozlowski" <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley
-	<conor+dt@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>, "Laurent
- Pinchart" <laurent.pinchart@ideasonboard.com>, Hans Verkuil
-	<hverkuil-cisco@xs4all.nl>, <linux-media@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
-	<linux-staging@lists.linux.dev>, <changhuang.liang@starfivetech.com>
-References: <20230824080109.89613-1-jack.zhu@starfivetech.com>
- <2023082436-spendable-reshuffle-878d@gregkh>
- <a6f60dfc-ffbf-da4d-a81c-06caf92955d6@starfivetech.com>
- <2023082416-flanking-requisite-a8ed@gregkh>
-From: Jack Zhu <jack.zhu@starfivetech.com>
-In-Reply-To: <2023082416-flanking-requisite-a8ed@gregkh>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [180.164.60.184]
-X-ClientProxiedBy: EXCAS064.cuchost.com (172.16.6.24) To EXMBX073.cuchost.com
- (172.16.6.83)
-X-YovoleRuleAgent: yovoleflag
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230824092133.39510-11-benjamin.gaignard@collabora.com>
+
+Hi Benjamin,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on next-20230824]
+[also build test ERROR on v6.5-rc7]
+[cannot apply to linus/master v6.5-rc7 v6.5-rc6 v6.5-rc5]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Benjamin-Gaignard/media-videobuf2-Rework-offset-cookie-encoding-pattern/20230824-172416
+base:   next-20230824
+patch link:    https://lore.kernel.org/r/20230824092133.39510-11-benjamin.gaignard%40collabora.com
+patch subject: [PATCH v5 10/10] media: v4l2: Add mem2mem helpers for DELETE_BUFS ioctl
+config: alpha-randconfig-r005-20230825 (https://download.01.org/0day-ci/archive/20230825/202308251828.fSyIXACx-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20230825/202308251828.fSyIXACx-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308251828.fSyIXACx-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+>> drivers/media/test-drivers/vim2m.c:963:10: error: 'const struct v4l2_ioctl_ops' has no member named 'vidioc_delete_buf'; did you mean 'vidioc_delete_bufs'?
+     963 |         .vidioc_delete_buf      = v4l2_m2m_ioctl_delete_buf,
+         |          ^~~~~~~~~~~~~~~~~
+         |          vidioc_delete_bufs
+>> drivers/media/test-drivers/vim2m.c:963:35: error: 'v4l2_m2m_ioctl_delete_buf' undeclared here (not in a function); did you mean 'v4l2_m2m_ioctl_delete_bufs'?
+     963 |         .vidioc_delete_buf      = v4l2_m2m_ioctl_delete_buf,
+         |                                   ^~~~~~~~~~~~~~~~~~~~~~~~~
+         |                                   v4l2_m2m_ioctl_delete_bufs
 
 
+vim +963 drivers/media/test-drivers/vim2m.c
 
-On 2023/8/24 21:08, Greg Kroah-Hartman wrote:
-> On Thu, Aug 24, 2023 at 08:23:33PM +0800, Jack Zhu wrote:
->> Hi Greg,
->> 
->> On 2023/8/24 19:37, Greg Kroah-Hartman wrote:
->> > On Thu, Aug 24, 2023 at 04:01:01PM +0800, Jack Zhu wrote:
->> >> Hi,
->> >> 
->> >> This series is the v8 series that attempts to support the Camera Subsystem
->> >> found on StarFive JH7110 SoC.
->> > 
->> > I don't see anything here about why this is in drivers/staging/media/
->> > now and not just in drivers/media/.  What is preventing this to be put
->> > into the correct place to start with?  What needs to be done to the code
->> > to get it out of drivers/staging/media/ and who is going to do that
->> > work?
->> > 
->> 
->> The series does not contain 3A interface. According to Laurent's suggestion,
->> we put the driver in the staging directory first. In the next stage, we will
->> continue to submit the 3A interface in the way of incremental development,
->> and finally expect the code to be placed in the drivers/media/.
-> 
-> Can you please say that in the changelog text for when you are adding
-> the driver so that we know this?
-> 
+   942	
+   943	static const struct v4l2_ioctl_ops vim2m_ioctl_ops = {
+   944		.vidioc_querycap	= vidioc_querycap,
+   945	
+   946		.vidioc_enum_fmt_vid_cap = vidioc_enum_fmt_vid_cap,
+   947		.vidioc_enum_framesizes = vidioc_enum_framesizes,
+   948		.vidioc_g_fmt_vid_cap	= vidioc_g_fmt_vid_cap,
+   949		.vidioc_try_fmt_vid_cap	= vidioc_try_fmt_vid_cap,
+   950		.vidioc_s_fmt_vid_cap	= vidioc_s_fmt_vid_cap,
+   951	
+   952		.vidioc_enum_fmt_vid_out = vidioc_enum_fmt_vid_out,
+   953		.vidioc_g_fmt_vid_out	= vidioc_g_fmt_vid_out,
+   954		.vidioc_try_fmt_vid_out	= vidioc_try_fmt_vid_out,
+   955		.vidioc_s_fmt_vid_out	= vidioc_s_fmt_vid_out,
+   956	
+   957		.vidioc_reqbufs		= v4l2_m2m_ioctl_reqbufs,
+   958		.vidioc_querybuf	= v4l2_m2m_ioctl_querybuf,
+   959		.vidioc_qbuf		= v4l2_m2m_ioctl_qbuf,
+   960		.vidioc_dqbuf		= v4l2_m2m_ioctl_dqbuf,
+   961		.vidioc_prepare_buf	= v4l2_m2m_ioctl_prepare_buf,
+   962		.vidioc_create_bufs	= v4l2_m2m_ioctl_create_bufs,
+ > 963		.vidioc_delete_buf	= v4l2_m2m_ioctl_delete_buf,
+   964		.vidioc_expbuf		= v4l2_m2m_ioctl_expbuf,
+   965	
+   966		.vidioc_streamon	= v4l2_m2m_ioctl_streamon,
+   967		.vidioc_streamoff	= v4l2_m2m_ioctl_streamoff,
+   968	
+   969		.vidioc_subscribe_event = v4l2_ctrl_subscribe_event,
+   970		.vidioc_unsubscribe_event = v4l2_event_unsubscribe,
+   971	};
+   972	
 
-Yes, will do it. Thank you for your suggestion!
-
-> thanks,
-> 
-> greg k-h
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
