@@ -1,133 +1,211 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from ex01.ufhost.com (ex01.ufhost.com [61.152.239.75])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8FEDCA61;
-	Fri, 25 Aug 2023 10:31:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1692959464; x=1724495464;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=wVJ88ABD5p0H2+9hwW3zAACiH9v23ThhILL1RUf5G20=;
-  b=ON4UjiYvi6rEoGKjzkMsr/RF1ShOWhtCJnhFdtkdKCW6JsCgQzWbIURf
-   rv8zT6SgEDdMXWD8xZfYUp7h1uO6bkfIrNs3OKfHE3iCDifNFzZ60Femj
-   eVkSNe53eD802I/yyAeKEVGBgTKZjtCHHHiOLsIN5aJqZfsKeO/w9ziDd
-   lBjzUMMjw0EludFu9z4C5APoalQXWmVKtRQhz5eunWTa9kg4Y5CEdoOj4
-   f9RoJ7SSvraQJlxTOVBHpvGbLDF3y/VU5o4VG+Cfk55ySh7u2j1vMN1hX
-   gcIrGUCFtTc/KNK0Tu2ric2KJ1cMMmEtEC0RRuSxlchmIOdkZMXIy5Wg2
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10812"; a="373554766"
-X-IronPort-AV: E=Sophos;i="6.02,195,1688454000"; 
-   d="scan'208";a="373554766"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Aug 2023 03:31:03 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10812"; a="687259081"
-X-IronPort-AV: E=Sophos;i="6.02,195,1688454000"; 
-   d="scan'208";a="687259081"
-Received: from lkp-server02.sh.intel.com (HELO daf8bb0a381d) ([10.239.97.151])
-  by orsmga003.jf.intel.com with ESMTP; 25 Aug 2023 03:30:50 -0700
-Received: from kbuild by daf8bb0a381d with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qZU5Y-0003Rw-15;
-	Fri, 25 Aug 2023 10:30:48 +0000
-Date: Fri, 25 Aug 2023 18:29:54 +0800
-From: kernel test robot <lkp@intel.com>
-To: Benjamin Gaignard <benjamin.gaignard@collabora.com>, mchehab@kernel.org,
-	tfiga@chromium.org, m.szyprowski@samsung.com, ming.qian@nxp.com,
-	ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de,
-	gregkh@linuxfoundation.org, hverkuil-cisco@xs4all.nl,
-	nicolas.dufresne@collabora.com
-Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
-	linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
-	kernel@collabora.com,
-	Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Subject: Re: [PATCH v5 10/10] media: v4l2: Add mem2mem helpers for
- DELETE_BUFS ioctl
-Message-ID: <202308251828.fSyIXACx-lkp@intel.com>
-References: <20230824092133.39510-11-benjamin.gaignard@collabora.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCF76C2EB
+	for <linux-staging@lists.linux.dev>; Fri, 25 Aug 2023 10:44:56 +0000 (UTC)
+Received: from EXMBX165.cuchost.com (unknown [175.102.18.54])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(Client CN "EXMBX165", Issuer "EXMBX165" (not verified))
+	by ex01.ufhost.com (Postfix) with ESMTP id 649C724E236;
+	Fri, 25 Aug 2023 18:44:54 +0800 (CST)
+Received: from EXMBX073.cuchost.com (172.16.6.83) by EXMBX165.cuchost.com
+ (172.16.6.75) with Microsoft SMTP Server (TLS) id 15.0.1497.42; Fri, 25 Aug
+ 2023 18:44:54 +0800
+Received: from [192.168.1.218] (180.164.60.184) by EXMBX073.cuchost.com
+ (172.16.6.83) with Microsoft SMTP Server (TLS) id 15.0.1497.42; Fri, 25 Aug
+ 2023 18:44:53 +0800
+Message-ID: <a0c023e0-e145-f6f7-3a84-ac6045a6c495@starfivetech.com>
+Date: Fri, 25 Aug 2023 18:44:53 +0800
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230824092133.39510-11-benjamin.gaignard@collabora.com>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.14.0
+Subject: Re: [PATCH v8 3/8] media: staging: media: starfive: camss: Add core
+ driver
+Content-Language: en-US
+To: Christophe JAILLET <christophe.jaillet@wanadoo.fr>, Mauro Carvalho Chehab
+	<mchehab@kernel.org>, Robert Foss <rfoss@kernel.org>, Todor Tomov
+	<todor.too@gmail.com>, <bryan.odonoghue@linaro.org>, Rob Herring
+	<robh+dt@kernel.org>, Krzysztof Kozlowski
+	<krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>,
+	"Greg Kroah-Hartman" <gregkh@linuxfoundation.org>, Philipp Zabel
+	<p.zabel@pengutronix.de>, Laurent Pinchart
+	<laurent.pinchart@ideasonboard.com>, Hans Verkuil <hverkuil-cisco@xs4all.nl>
+CC: <linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<devicetree@vger.kernel.org>, <linux-staging@lists.linux.dev>,
+	<changhuang.liang@starfivetech.com>
+References: <20230824080109.89613-1-jack.zhu@starfivetech.com>
+ <20230824080109.89613-4-jack.zhu@starfivetech.com>
+ <74183f7b-6e53-ba3d-2160-1e526d61073b@wanadoo.fr>
+From: Jack Zhu <jack.zhu@starfivetech.com>
+In-Reply-To: <74183f7b-6e53-ba3d-2160-1e526d61073b@wanadoo.fr>
+Content-Type: text/plain; charset="UTF-8"
+X-Originating-IP: [180.164.60.184]
+X-ClientProxiedBy: EXCAS062.cuchost.com (172.16.6.22) To EXMBX073.cuchost.com
+ (172.16.6.83)
+X-YovoleRuleAgent: yovoleflag
+Content-Transfer-Encoding: quoted-printable
 
-Hi Benjamin,
+Hi Christophe,
 
-kernel test robot noticed the following build errors:
+Thank you for your comment!
 
-[auto build test ERROR on next-20230824]
-[also build test ERROR on v6.5-rc7]
-[cannot apply to linus/master v6.5-rc7 v6.5-rc6 v6.5-rc5]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+On 2023/8/25 2:31, Christophe JAILLET wrote:
+> Le 24/08/2023 =C3=A0 10:01, Jack Zhu a =C3=A9crit=C2=A0:
+>> Add core driver for StarFive Camera Subsystem. The code parses
+>> the device platform resources and registers related devices.
+>>
+>> Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+>> Signed-off-by: Jack Zhu <jack.zhu@starfivetech.com>
+>> ---
+>=20
+> ...
+>=20
+>> diff --git a/drivers/staging/media/starfive/camss/Kconfig b/drivers/st=
+aging/media/starfive/camss/Kconfig
+>> new file mode 100644
+>> index 000000000000..8d20e2bd2559
+>> --- /dev/null
+>> +++ b/drivers/staging/media/starfive/camss/Kconfig
+>> @@ -0,0 +1,17 @@
+>> +# SPDX-License-Identifier: GPL-2.0-only
+>> +config VIDEO_STARFIVE_CAMSS
+>> +=C2=A0=C2=A0=C2=A0 tristate "Starfive Camera Subsystem driver"
+>> +=C2=A0=C2=A0=C2=A0 depends on V4L_PLATFORM_DRIVERS
+>> +=C2=A0=C2=A0=C2=A0 depends on VIDEO_DEV && OF
+>> +=C2=A0=C2=A0=C2=A0 depends on HAS_DMA
+>> +=C2=A0=C2=A0=C2=A0 depends on PM
+>> +=C2=A0=C2=A0=C2=A0 select MEDIA_CONTROLLER
+>> +=C2=A0=C2=A0=C2=A0 select VIDEO_V4L2_SUBDEV_API
+>> +=C2=A0=C2=A0=C2=A0 select VIDEOBUF2_DMA_CONTIG
+>> +=C2=A0=C2=A0=C2=A0 select V4L2_FWNODE
+>> +=C2=A0=C2=A0=C2=A0 help
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 Enable this to support for the S=
+tarfive Camera subsystem
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 found on Starfive JH7110 SoC.
+>> +
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 To compile this driver as a modu=
+le, choose M here: the
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 module will be called stf-camss.
+>=20
+> stf_camss? (s/-/_)
+>=20
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Benjamin-Gaignard/media-videobuf2-Rework-offset-cookie-encoding-pattern/20230824-172416
-base:   next-20230824
-patch link:    https://lore.kernel.org/r/20230824092133.39510-11-benjamin.gaignard%40collabora.com
-patch subject: [PATCH v5 10/10] media: v4l2: Add mem2mem helpers for DELETE_BUFS ioctl
-config: alpha-randconfig-r005-20230825 (https://download.01.org/0day-ci/archive/20230825/202308251828.fSyIXACx-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230825/202308251828.fSyIXACx-lkp@intel.com/reproduce)
+Refer to the writing method of other media drivers, most of them use hyph=
+en. It
+may be better to use =E2=80=98starfive-camss'=EF=BC=9F
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308251828.fSyIXACx-lkp@intel.com/
+>> diff --git a/drivers/staging/media/starfive/camss/Makefile b/drivers/s=
+taging/media/starfive/camss/Makefile
+>> new file mode 100644
+>> index 000000000000..f53c5cbe958f
+>> --- /dev/null
+>> +++ b/drivers/staging/media/starfive/camss/Makefile
+>> @@ -0,0 +1,9 @@
+>> +# SPDX-License-Identifier: GPL-2.0
+>> +#
+>> +# Makefile for StarFive Camera Subsystem driver
+>> +#
+>> +
+>> +starfive-camss-objs +=3D \
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 stf_camss.o
+>> +
+>> +obj-$(CONFIG_VIDEO_STARFIVE_CAMSS) +=3D starfive-camss.o
+>=20
+> I'm not an expert in Makefile files, but this stf_camss.o and starfive-=
+camss.o look strange to me.
+>=20
 
-All errors (new ones prefixed by >>):
+Is it better to replace 'stf_camss.o' with 'stf-camss.o', which is consis=
+tent
+with the driving style of other media drivers?
 
->> drivers/media/test-drivers/vim2m.c:963:10: error: 'const struct v4l2_ioctl_ops' has no member named 'vidioc_delete_buf'; did you mean 'vidioc_delete_bufs'?
-     963 |         .vidioc_delete_buf      = v4l2_m2m_ioctl_delete_buf,
-         |          ^~~~~~~~~~~~~~~~~
-         |          vidioc_delete_bufs
->> drivers/media/test-drivers/vim2m.c:963:35: error: 'v4l2_m2m_ioctl_delete_buf' undeclared here (not in a function); did you mean 'v4l2_m2m_ioctl_delete_bufs'?
-     963 |         .vidioc_delete_buf      = v4l2_m2m_ioctl_delete_buf,
-         |                                   ^~~~~~~~~~~~~~~~~~~~~~~~~
-         |                                   v4l2_m2m_ioctl_delete_bufs
+>> diff --git a/drivers/staging/media/starfive/camss/stf_camss.c b/driver=
+s/staging/media/starfive/camss/stf_camss.c
+>> new file mode 100644
+>> index 000000000000..75ebc3a35218
+>> --- /dev/null
+>> +++ b/drivers/staging/media/starfive/camss/stf_camss.c
+>=20
+> ...
+>=20
+>> +static int stfcamss_of_parse_ports(struct stfcamss *stfcamss)
+>> +{
+>> +=C2=A0=C2=A0=C2=A0 struct device_node *node =3D NULL;
+>> +=C2=A0=C2=A0=C2=A0 int ret, num_subdevs =3D 0;
+>> +
+>> +=C2=A0=C2=A0=C2=A0 for_each_endpoint_of_node(stfcamss->dev->of_node, =
+node) {
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct stfcamss_async_subd=
+ev *csd;
+>> +
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (!of_device_is_availabl=
+e(node))
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 co=
+ntinue;
+>> +
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 csd =3D v4l2_async_nf_add_=
+fwnode_remote(&stfcamss->notifier,
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 of_fwnode_handle(node),
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct stfcamss_async_subdev);
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (IS_ERR(csd)) {
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 re=
+t =3D PTR_ERR(csd);
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 de=
+v_err(stfcamss->dev, "failed to add async notifier\n");
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 v4=
+l2_async_nf_cleanup(&stfcamss->notifier);
+>=20
+> having it here, looks strange to me.
+> It is already called in the error handling path of the probe.
+>=20
+> Should there be a "of_node_put(node);" if we return here?
+>=20
 
+We do not call a 'get' interface, is it necessary to use the 'put' interf=
+ace?
 
-vim +963 drivers/media/test-drivers/vim2m.c
-
-   942	
-   943	static const struct v4l2_ioctl_ops vim2m_ioctl_ops = {
-   944		.vidioc_querycap	= vidioc_querycap,
-   945	
-   946		.vidioc_enum_fmt_vid_cap = vidioc_enum_fmt_vid_cap,
-   947		.vidioc_enum_framesizes = vidioc_enum_framesizes,
-   948		.vidioc_g_fmt_vid_cap	= vidioc_g_fmt_vid_cap,
-   949		.vidioc_try_fmt_vid_cap	= vidioc_try_fmt_vid_cap,
-   950		.vidioc_s_fmt_vid_cap	= vidioc_s_fmt_vid_cap,
-   951	
-   952		.vidioc_enum_fmt_vid_out = vidioc_enum_fmt_vid_out,
-   953		.vidioc_g_fmt_vid_out	= vidioc_g_fmt_vid_out,
-   954		.vidioc_try_fmt_vid_out	= vidioc_try_fmt_vid_out,
-   955		.vidioc_s_fmt_vid_out	= vidioc_s_fmt_vid_out,
-   956	
-   957		.vidioc_reqbufs		= v4l2_m2m_ioctl_reqbufs,
-   958		.vidioc_querybuf	= v4l2_m2m_ioctl_querybuf,
-   959		.vidioc_qbuf		= v4l2_m2m_ioctl_qbuf,
-   960		.vidioc_dqbuf		= v4l2_m2m_ioctl_dqbuf,
-   961		.vidioc_prepare_buf	= v4l2_m2m_ioctl_prepare_buf,
-   962		.vidioc_create_bufs	= v4l2_m2m_ioctl_create_bufs,
- > 963		.vidioc_delete_buf	= v4l2_m2m_ioctl_delete_buf,
-   964		.vidioc_expbuf		= v4l2_m2m_ioctl_expbuf,
-   965	
-   966		.vidioc_streamon	= v4l2_m2m_ioctl_streamon,
-   967		.vidioc_streamoff	= v4l2_m2m_ioctl_streamoff,
-   968	
-   969		.vidioc_subscribe_event = v4l2_ctrl_subscribe_event,
-   970		.vidioc_unsubscribe_event = v4l2_event_unsubscribe,
-   971	};
-   972	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 re=
+turn ret;
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
+>> +
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ret =3D stfcamss_of_parse_=
+endpoint_node(stfcamss, node, csd);
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (ret)
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 re=
+turn ret;
+>> +
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 num_subdevs++;
+>> +=C2=A0=C2=A0=C2=A0 }
+>> +
+>> +=C2=A0=C2=A0=C2=A0 return num_subdevs;
+>> +}
+>=20
+> ...
+>=20
+>> +static int stfcamss_remove(struct platform_device *pdev)
+>> +{
+>> +=C2=A0=C2=A0=C2=A0 struct stfcamss *stfcamss =3D platform_get_drvdata=
+(pdev);
+>> +
+>> +=C2=A0=C2=A0=C2=A0 v4l2_device_unregister(&stfcamss->v4l2_dev);
+>> +=C2=A0=C2=A0=C2=A0 media_device_cleanup(&stfcamss->media_dev);
+>=20
+> Is a "v4l2_async_nf_cleanup(&stfcamss->notifier);" missing to match the=
+ error handling path of the probe?
+>=20
+>> +=C2=A0=C2=A0=C2=A0 pm_runtime_disable(&pdev->dev);
+>> +
+>> +=C2=A0=C2=A0=C2=A0 return 0;
+>> +}
+>> +
+>=20
+> ...
