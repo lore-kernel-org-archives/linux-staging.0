@@ -1,87 +1,176 @@
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D65B817E8
-	for <linux-staging@lists.linux.dev>; Fri, 25 Aug 2023 05:47:47 +0000 (UTC)
-Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-31c66b7da88so99865f8f.0
-        for <linux-staging@lists.linux.dev>; Thu, 24 Aug 2023 22:47:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1692942466; x=1693547266;
-        h=content-transfer-encoding:in-reply-to:from:references:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=xnFJwaSc8RMd8LM7uqcLA2ZQmKE9plAOwmZT8o533ck=;
-        b=Wqigs+s0BGqRIPWPvngEeU7TjPM7wzJF4abyi7B8R6B/s9zFeZ4vtUvXsbVLHT2N+z
-         nuM6Bk9W865kwvVqEOa58J3UcXxcTbvsO03rSyC97by8ME4iPW9z2BlWRpDX21qstCGS
-         z07TB8h9NkeRVLOpwN7CA9ZFyJO+LGj/rT5r4+aovjutTsV3PjtHiQtNIvQoTmzmdeW/
-         Zosp6T0VKEN+8AyS+9rXeg43g3Y2B1jO1YsCSXUJSPLnq+SN+Qbo9+EIb0eTnmd7gc0E
-         WIPHetk1WNc8mPuhqB7yoxArVPBTfoEOT5GkvYx9lQU+7bMuYj59vWMVPj23rhzlkfPs
-         W+sQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692942466; x=1693547266;
-        h=content-transfer-encoding:in-reply-to:from:references:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=xnFJwaSc8RMd8LM7uqcLA2ZQmKE9plAOwmZT8o533ck=;
-        b=dasQiXoONFWONA0UCafePRo63stF4JxLUDy6I3/A6xfe+nMbG08oZmHqBgQkWs11hs
-         oiNn33l2UpyNh/JfX/NiUQuMrMU7AHOmVJT1PH0yjv9hMnzpfff3Sry4UW7qUsL89YMI
-         uN2IfkiiIvXNyYBLlcdtzqqxuxy7YUwg5WBQkq79bl2LQKkiS1Lq4iyoHljdElGM0pEV
-         ttwoY9hweaUFCHZG8fc2NA6a75sYrifMOR4tkveE0lvkEMuwpLLqIiAXcPZ+sWcY3Bgd
-         9fGBxfPtBzfoPQvz5+HxCnFTwN7PUMd1K9IqMoG3RabUyDPzXADRCbtuGOASJ9copxCM
-         gauQ==
-X-Gm-Message-State: AOJu0YwXxItvxRwBjQ20NQzUvt6aBo8HlRRT3HhqyGHkRtb43W1/EYEi
-	XzJiYMvutP6JIqNiyvL81c4=
-X-Google-Smtp-Source: AGHT+IEzJKxzzj4jfsrOv1wT7COpBqTri0tOlXTOzJHS+7ze590Gqy3UK6AB+iHnDPUG0oABk+IUDA==
-X-Received: by 2002:adf:e543:0:b0:319:7624:4c8d with SMTP id z3-20020adfe543000000b0031976244c8dmr13458884wrm.0.1692942465683;
-        Thu, 24 Aug 2023 22:47:45 -0700 (PDT)
-Received: from [192.168.0.101] (p579356c7.dip0.t-ipconnect.de. [87.147.86.199])
-        by smtp.gmail.com with ESMTPSA id w4-20020a5d6804000000b0031c77c010e1sm1106826wru.96.2023.08.24.22.47.44
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 24 Aug 2023 22:47:45 -0700 (PDT)
-Message-ID: <45f6dbe0-e603-7c31-6d6c-04083e595d7d@gmail.com>
-Date: Fri, 25 Aug 2023 07:47:44 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B04E5C8C4
+	for <linux-staging@lists.linux.dev>; Fri, 25 Aug 2023 09:56:29 +0000 (UTC)
+Received: from kwepemi500008.china.huawei.com (unknown [172.30.72.54])
+	by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4RXFg20SCRzfbms;
+	Fri, 25 Aug 2023 17:54:54 +0800 (CST)
+Received: from huawei.com (10.90.53.73) by kwepemi500008.china.huawei.com
+ (7.221.188.139) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.31; Fri, 25 Aug
+ 2023 17:56:26 +0800
+From: Jinjie Ruan <ruanjinjie@huawei.com>
+To: <linux-iio@vger.kernel.org>, <linux-staging@lists.linux.dev>, Lars-Peter
+ Clausen <lars@metafoo.de>, Michael Hennerich <Michael.Hennerich@analog.com>,
+	Jonathan Cameron <jic23@kernel.org>, Greg Kroah-Hartman
+	<gregkh@linuxfoundation.org>
+CC: <ruanjinjie@huawei.com>
+Subject: [PATCH -next] staging: iio: Use devm_clk_get_enabled() helper function
+Date: Fri, 25 Aug 2023 17:56:12 +0800
+Message-ID: <20230825095612.2972892-1-ruanjinjie@huawei.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH -next v2 0/3] staging: rtl8192e: Do not call kfree_skb()
- under spin_lock_irqsave()
-Content-Language: en-US
-To: Jinjie Ruan <ruanjinjie@huawei.com>, gregkh@linuxfoundation.org,
- straube.linux@gmail.com, Larry.Finger@lwfinger.net, wlanfae@realtek.com,
- mikem@ring3k.org, seanm@seanm.ca, linux-staging@lists.linux.dev
-References: <20230825015213.2697347-1-ruanjinjie@huawei.com>
-From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-In-Reply-To: <20230825015213.2697347-1-ruanjinjie@huawei.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.90.53.73]
+X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
+ kwepemi500008.china.huawei.com (7.221.188.139)
+X-CFilter-Loop: Reflected
 
-On 8/25/23 03:52, Jinjie Ruan wrote:
-> It is not allowed to call kfree_skb() from hardware interrupt
-> context or with interrupts being disabled. This patchset is
-> trying to use dev_kfree_skb_irq() or add all skb to a free list, then
-> free them after spin_unlock_irqrestore() at once.
-> 
-> Changes in v2:
-> - Combine the three patches into one patch set.
-> - Update the commit message and subject prefix.
-> 
-> Jinjie Ruan (3):
->    staging: rtl8192e: rtl_core: Call dev_kfree_skb_irq() instead of
->      kfree_skb() under spin_lock_irqsave()
->    staging: rtl8192e: rtl_core: Do not call kfree_skb() under
->      spin_lock_irqsave() for _rtl92e_irq()
->    Staging: rtl8192e: rtllib_softmac: Do not call kfree_skb() under
->      spin_lock_irqsave()
-> 
->   drivers/staging/rtl8192e/rtl8192e/rtl_core.c | 24 ++++++++++++--------
->   drivers/staging/rtl8192e/rtllib_softmac.c    |  6 ++++-
->   2 files changed, 19 insertions(+), 11 deletions(-)
-> 
+The devm_clk_get_enabled() helper:
+    - calls devm_clk_get()
+    - calls clk_prepare_enable() and registers what is needed in order to
+      call clk_disable_unprepare() when needed, as a managed resource.
 
-Patch number 01 is missing. Patch number 2 and 3 are OK
-Tested-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+This simplifies the code and avoids the need of a dedicated function used
+with devm_add_action_or_reset().
+
+Signed-off-by: Jinjie Ruan <ruanjinjie@huawei.com>
+---
+ drivers/staging/iio/frequency/ad9832.c        | 15 +------------
+ drivers/staging/iio/frequency/ad9834.c        | 20 ++---------------
+ .../staging/iio/impedance-analyzer/ad5933.c   | 22 ++-----------------
+ 3 files changed, 5 insertions(+), 52 deletions(-)
+
+diff --git a/drivers/staging/iio/frequency/ad9832.c b/drivers/staging/iio/frequency/ad9832.c
+index 6f9eebd6c7ee..6c390c4eb26d 100644
+--- a/drivers/staging/iio/frequency/ad9832.c
++++ b/drivers/staging/iio/frequency/ad9832.c
+@@ -299,11 +299,6 @@ static void ad9832_reg_disable(void *reg)
+ 	regulator_disable(reg);
+ }
+ 
+-static void ad9832_clk_disable(void *clk)
+-{
+-	clk_disable_unprepare(clk);
+-}
+-
+ static int ad9832_probe(struct spi_device *spi)
+ {
+ 	struct ad9832_platform_data *pdata = dev_get_platdata(&spi->dev);
+@@ -350,18 +345,10 @@ static int ad9832_probe(struct spi_device *spi)
+ 	if (ret)
+ 		return ret;
+ 
+-	st->mclk = devm_clk_get(&spi->dev, "mclk");
++	st->mclk = devm_clk_get_enabled(&spi->dev, "mclk");
+ 	if (IS_ERR(st->mclk))
+ 		return PTR_ERR(st->mclk);
+ 
+-	ret = clk_prepare_enable(st->mclk);
+-	if (ret < 0)
+-		return ret;
+-
+-	ret = devm_add_action_or_reset(&spi->dev, ad9832_clk_disable, st->mclk);
+-	if (ret)
+-		return ret;
+-
+ 	st->spi = spi;
+ 	mutex_init(&st->lock);
+ 
+diff --git a/drivers/staging/iio/frequency/ad9834.c b/drivers/staging/iio/frequency/ad9834.c
+index 285df0e489a6..4f35def05fb7 100644
+--- a/drivers/staging/iio/frequency/ad9834.c
++++ b/drivers/staging/iio/frequency/ad9834.c
+@@ -394,13 +394,6 @@ static void ad9834_disable_reg(void *data)
+ 	regulator_disable(reg);
+ }
+ 
+-static void ad9834_disable_clk(void *data)
+-{
+-	struct clk *clk = data;
+-
+-	clk_disable_unprepare(clk);
+-}
+-
+ static int ad9834_probe(struct spi_device *spi)
+ {
+ 	struct ad9834_state *st;
+@@ -429,22 +422,13 @@ static int ad9834_probe(struct spi_device *spi)
+ 	}
+ 	st = iio_priv(indio_dev);
+ 	mutex_init(&st->lock);
+-	st->mclk = devm_clk_get(&spi->dev, NULL);
++	st->mclk = devm_clk_get_enabled(&spi->dev, NULL);
+ 	if (IS_ERR(st->mclk)) {
+-		ret = PTR_ERR(st->mclk);
+-		return ret;
+-	}
+-
+-	ret = clk_prepare_enable(st->mclk);
+-	if (ret) {
+ 		dev_err(&spi->dev, "Failed to enable master clock\n");
++		ret = PTR_ERR(st->mclk);
+ 		return ret;
+ 	}
+ 
+-	ret = devm_add_action_or_reset(&spi->dev, ad9834_disable_clk, st->mclk);
+-	if (ret)
+-		return ret;
+-
+ 	st->spi = spi;
+ 	st->devid = spi_get_device_id(spi)->driver_data;
+ 	indio_dev->name = spi_get_device_id(spi)->name;
+diff --git a/drivers/staging/iio/impedance-analyzer/ad5933.c b/drivers/staging/iio/impedance-analyzer/ad5933.c
+index 46db6d91542a..e748a5d04e97 100644
+--- a/drivers/staging/iio/impedance-analyzer/ad5933.c
++++ b/drivers/staging/iio/impedance-analyzer/ad5933.c
+@@ -667,13 +667,6 @@ static void ad5933_reg_disable(void *data)
+ 	regulator_disable(st->reg);
+ }
+ 
+-static void ad5933_clk_disable(void *data)
+-{
+-	struct ad5933_state *st = data;
+-
+-	clk_disable_unprepare(st->mclk);
+-}
+-
+ static int ad5933_probe(struct i2c_client *client)
+ {
+ 	const struct i2c_device_id *id = i2c_client_get_device_id(client);
+@@ -712,23 +705,12 @@ static int ad5933_probe(struct i2c_client *client)
+ 
+ 	st->vref_mv = ret / 1000;
+ 
+-	st->mclk = devm_clk_get(&client->dev, "mclk");
++	st->mclk = devm_clk_get_enabled(&client->dev, "mclk");
+ 	if (IS_ERR(st->mclk) && PTR_ERR(st->mclk) != -ENOENT)
+ 		return PTR_ERR(st->mclk);
+ 
+-	if (!IS_ERR(st->mclk)) {
+-		ret = clk_prepare_enable(st->mclk);
+-		if (ret < 0)
+-			return ret;
+-
+-		ret = devm_add_action_or_reset(&client->dev,
+-					       ad5933_clk_disable,
+-					       st);
+-		if (ret)
+-			return ret;
+-
++	if (!IS_ERR(st->mclk))
+ 		ext_clk_hz = clk_get_rate(st->mclk);
+-	}
+ 
+ 	if (ext_clk_hz) {
+ 		st->mclk_hz = ext_clk_hz;
+-- 
+2.34.1
+
