@@ -1,88 +1,107 @@
-Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE639621
-	for <linux-staging@lists.linux.dev>; Fri, 25 Aug 2023 01:52:45 +0000 (UTC)
-Received: from kwepemi500008.china.huawei.com (unknown [172.30.72.57])
-	by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4RX2wn1vJczrSgq;
-	Fri, 25 Aug 2023 09:51:05 +0800 (CST)
-Received: from huawei.com (10.90.53.73) by kwepemi500008.china.huawei.com
- (7.221.188.139) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.31; Fri, 25 Aug
- 2023 09:52:37 +0800
-From: Jinjie Ruan <ruanjinjie@huawei.com>
-To: <gregkh@linuxfoundation.org>, <philipp.g.hortmann@gmail.com>,
-	<straube.linux@gmail.com>, <Larry.Finger@lwfinger.net>,
-	<wlanfae@realtek.com>, <mikem@ring3k.org>, <seanm@seanm.ca>,
-	<linux-staging@lists.linux.dev>
-CC: <ruanjinjie@huawei.com>
-Subject: [PATCH -next v2 3/3] Staging: rtl8192e: rtllib_softmac: Do not call kfree_skb() under spin_lock_irqsave()
-Date: Fri, 25 Aug 2023 09:52:13 +0800
-Message-ID: <20230825015213.2697347-4-ruanjinjie@huawei.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230825015213.2697347-1-ruanjinjie@huawei.com>
-References: <20230825015213.2697347-1-ruanjinjie@huawei.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B94D9A41
+	for <linux-staging@lists.linux.dev>; Fri, 25 Aug 2023 05:13:45 +0000 (UTC)
+Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-99bcc0adab4so58752366b.2
+        for <linux-staging@lists.linux.dev>; Thu, 24 Aug 2023 22:13:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1692940424; x=1693545224;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=Atdwlr4ZDNiktFeelgF93mSGgIj/iGi0rNQszZlVpA4=;
+        b=JRqmp0QSyt72qo5V3cY0Y5k8QRHmC1Ls5KH6YuJFu1V7KG3KZvjUZ2uvVFpanGmaaU
+         wlb3p5+BP9+JQ8HphFo4omJCJAdQyBJ/nm9rZ+QqDLK1LK9qz8C+eZ/QkJsp+FWhmvjx
+         iKbREA1UX34MRYfAcxZ9mZojJKrvJj6XzSrG9twaF5iDKmenYtdKh8qWlmrfH5cDJtyl
+         QLXjB01usvhO/upOTIRrUW5ktHTjqZHRlV3orlT9Jgg9KxchkFkADCm7lva/vevDro42
+         ZgX2dSu2aWqWUiV16z0g2lYoqXgAaPoXMgNe+Xrag0NqcFB6pOOI4Ye+jWPM57RqRBOx
+         xnvw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1692940424; x=1693545224;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Atdwlr4ZDNiktFeelgF93mSGgIj/iGi0rNQszZlVpA4=;
+        b=ddW5IRX0BpJAlQVnzK90ybCwuYqx2U6d/JKCfBW/SRqHI5/N1aZxjO3xboPwQo0SHn
+         h/JHcg4N0hkQ8hFj3VbVpXcAgybM4tEkDGmjs1T+nnJA31OgbD7wH5JC5MivbfIwL9vS
+         wxh+c70J7uTnQqFzq11ncGjxaFgni6CKHXNi7gXixOmdcippHW8Bobs2diQLY5eZ958b
+         T2cTy8f19gmUZo9giR9VChSFP0vGAzJu5MK48dVeHRTcDL/kwUNlzqMxXJmtqMp3rXxu
+         bdaZSXZJ/utE0mB1kDwlU0jD4yO1wR3DLnEt4UnATMFWch4PKXD21McKdm4JA5P9l/Mf
+         MXng==
+X-Gm-Message-State: AOJu0Yw/PSU/JznjXzZnGtZ88N5DaVnvi+FVNbtZtP9+lc9sndSmXGUh
+	SnCHmqLlDi8jIZdMb2q9I5M=
+X-Google-Smtp-Source: AGHT+IEgarRabzEcG24RtoV2YIp8m8hWRSh94oPfHQvl0dgLnog3qHo8ZEbPuFDN1wXxUV+4gMXAbw==
+X-Received: by 2002:a17:907:1de6:b0:9a1:f21e:cdfd with SMTP id og38-20020a1709071de600b009a1f21ecdfdmr4319104ejc.34.1692940423527;
+        Thu, 24 Aug 2023 22:13:43 -0700 (PDT)
+Received: from [192.168.0.101] (ip5f5aba12.dynamic.kabel-deutschland.de. [95.90.186.18])
+        by smtp.gmail.com with ESMTPSA id u22-20020a17090626d600b00993159ce075sm505143ejc.210.2023.08.24.22.13.42
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 24 Aug 2023 22:13:43 -0700 (PDT)
+Message-ID: <69226eca-d345-f6fa-59fe-3c55674cc534@gmail.com>
+Date: Fri, 25 Aug 2023 07:13:42 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.90.53.73]
-X-ClientProxiedBy: dggems702-chm.china.huawei.com (10.3.19.179) To
- kwepemi500008.china.huawei.com (7.221.188.139)
-X-CFilter-Loop: Reflected
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.14.0
+Subject: Re: [PATCH] staging: rtl8192e: prefer strscpy over strncpy
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Cc: Greg KH <gregkh@linuxfoundation.org>, philipp.g.hortmann@gmail.com,
+ linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+References: <20230805075114.15186-1-straube.linux@gmail.com>
+ <2023080952-maroon-waviness-9621@gregkh>
+ <b15bc777-b470-3c15-5ea7-8ef2f89622c3@gmail.com>
+ <cbca3311-2d5d-4b87-8966-e2b57d74d6e1@kadam.mountain>
+Content-Language: en-US
+From: Michael Straube <straube.linux@gmail.com>
+In-Reply-To: <cbca3311-2d5d-4b87-8966-e2b57d74d6e1@kadam.mountain>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-It is not allowed to call kfree_skb() from hardware interrupt
-context or with hardware interrupts being disabled. All the SKBs have
-been dequeued from the old queue, so it's safe to enqueue these
-SKBs to a free queue, then free them after spin_unlock_irqrestore()
-at once. Compile tested only.
+On 8/10/23 07:01, Dan Carpenter wrote:
+> On Wed, Aug 09, 2023 at 08:02:05PM +0200, Michael Straube wrote:
+>> On 8/9/23 14:21, Greg KH wrote:
+>>> On Sat, Aug 05, 2023 at 09:51:14AM +0200, Michael Straube wrote:
+>>>> Replace strncpy with strscpy in two places where the destination buffer
+>>>> should be NUL-terminated. Found by checkpatch.
+>>>>
+>>>> WARNING: Prefer strscpy, strscpy_pad, or __nonstring over strncpy - see: https://github.com/KSPP/linux/issues/90
+>>>
+>>> If a global search/replace could be done, it would have happend a long
+>>> time ago.
+>>>
+>>> How was this tested?  The functions work differently, are you sure there
+>>> is no change in functionality here?
+>>>
+>>
+>> It was only compile tested. To me it looked as it does not change
+>> functionality, but looking a bit deeper at it I'm not sure anymore.
+>> So, we should leave it as is.
+> 
+> So there are three main differences between strncpy() and strcpy().
+> 
+> 1) The return.
+> 2) strncpy() will always write net->hidden_ssid_len bytes.  If the
+>     string to copy is smaller than net->hidden_ssid_len bytes it will
+>     fill the rest with zeroes.  This can be important for preventing
+>     information leaks.
+> 3) strscpy() will always add a NUL terminator where strncpy() just
+>     truncates a too long string without adding a terminator.
+> 
+> We want #3.  We don't care about #1.  The only thing to check is #2.
+> 
+> regards,
+> dan carpenter
+> 
 
-Fixes: 94a799425eee ("From: wlanfae <wlanfae@realtek.com> [PATCH 1/8] rtl8192e: Import new version of driver from realtek")
-Signed-off-by: Jinjie Ruan <ruanjinjie@huawei.com>
----
-v2:
-- Update the commit title and subject prefix.
----
- drivers/staging/rtl8192e/rtllib_softmac.c | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+Thank you Dan,
 
-diff --git a/drivers/staging/rtl8192e/rtllib_softmac.c b/drivers/staging/rtl8192e/rtllib_softmac.c
-index 0e52b207942d..398fb354d342 100644
---- a/drivers/staging/rtl8192e/rtllib_softmac.c
-+++ b/drivers/staging/rtl8192e/rtllib_softmac.c
-@@ -2353,8 +2353,10 @@ void rtllib_softmac_xmit(struct rtllib_txb *txb, struct rtllib_device *ieee)
- 	unsigned long flags;
- 	int  i;
- 	struct cb_desc *tcb_desc = NULL;
-+	struct sk_buff_head free_list;
- 	unsigned long queue_len = 0;
- 
-+	skb_queue_head_init(&free_list);
- 	spin_lock_irqsave(&ieee->lock, flags);
- 
- 	/* called with 2nd parm 0, no tx mgmt lock required */
-@@ -2382,7 +2384,7 @@ void rtllib_softmac_xmit(struct rtllib_txb *txb, struct rtllib_device *ieee)
- 				skb_queue_tail(&ieee->skb_waitQ[queue_index],
- 					       txb->fragments[i]);
- 			else
--				kfree_skb(txb->fragments[i]);
-+				__skb_queue_tail(&free_list, txb->fragments[i]);
- 		} else {
- 			ieee->softmac_data_hard_start_xmit(
- 					txb->fragments[i],
-@@ -2393,6 +2395,8 @@ void rtllib_softmac_xmit(struct rtllib_txb *txb, struct rtllib_device *ieee)
- 	rtllib_txb_free(txb);
- 
- 	spin_unlock_irqrestore(&ieee->lock, flags);
-+
-+	__skb_queue_purge(&free_list);
- }
- 
- void rtllib_reset_queue(struct rtllib_device *ieee)
--- 
-2.34.1
+so in this case we should/could replace strncpy with strscpy_pad,
+correct?
 
+regards,
+Michael
