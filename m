@@ -1,111 +1,134 @@
-Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF2651096F
-	for <linux-staging@lists.linux.dev>; Fri, 25 Aug 2023 14:06:32 +0000 (UTC)
-Received: by mail-pf1-f179.google.com with SMTP id d2e1a72fcca58-68a529e1974so778301b3a.3
-        for <linux-staging@lists.linux.dev>; Fri, 25 Aug 2023 07:06:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=darkphysics.net; s=google; t=1692972392; x=1693577192;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=b8uZGn2rcr8NpmsddpOyVm5Sphf/55sH0+4L2Cu0FSA=;
-        b=AKdRlJEYU6psAoEVGBsYYok8ix5lDY0otfHYW812fh6kToF4lXC4NDFUDMowtOKUVt
-         e9O1qn3LeA8iRzyrVLUjGCI3jqrMD/UOQCrxw7A7m0mTHVFblAYwfbBKOdiwGItquHD7
-         j+nSEOf8Ol+cmv17brgTKvB6fKeytR81LPXmU5u4CzHrhx//STuP6YHKLzd05EoWV/cf
-         3MKzQrD2yg+t1V9fM1kdmH/SyQZlD63sPyUrT+E7TyEEWsvYtb/i9bh8H/kMcmxbDDwS
-         +37jUkqwtW7lzmLUsNLSOJx0tGCgVibiOPnueP6qnJAp3nMfrZIMpmxFrgDCH0YFrAjx
-         /Qxg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692972392; x=1693577192;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=b8uZGn2rcr8NpmsddpOyVm5Sphf/55sH0+4L2Cu0FSA=;
-        b=XWFNYIe7dAawI0hU/F1Fu02/xPskJZ0Zc3xRC0Tpfw1+p9O3mjj7ii21CULcpwrqcC
-         UuU3CzBFVgndeD2TcVEga9eM1QB+bk5ygSLiDORdLpv5IjjuLzqaW0qP0OkZsgTsOrN2
-         V/Wxqa4YFh5rfhfN4GiJ41sb0PT+/1I85bAFzvQtxBNIhi+s7IHxbHZYTZ99NlypiDKp
-         85cGYZdQTYryoLQYrmkEyn7UYXJnLRS+n55QlVDLMeFkdfysj5dLzXcfNhpW1gaTFvgP
-         r7ino3WRI1SBROMtsEdFZbQPduVCqAF/1Je3Vijz6d5SyykJ+NUIhMVxpf/s/V7XoDjP
-         dkUQ==
-X-Gm-Message-State: AOJu0Yz0Ym750+aLrxPYqoi86uEBDVpI+OBqfJwbW/sAAMMEUlUqI+rU
-	f6cgbVTTjj1pVVdi8nxOQBrtZA==
-X-Google-Smtp-Source: AGHT+IEo7LTkz1ucBHQ9GfN2n8Hk4OLNSZrioh3z59fcp535MkMdKBvKRvasUZb9/5nRsDRNLBSirw==
-X-Received: by 2002:a05:6a00:22c1:b0:686:f84d:a4ec with SMTP id f1-20020a056a0022c100b00686f84da4ecmr18251315pfj.27.1692972392134;
-        Fri, 25 Aug 2023 07:06:32 -0700 (PDT)
-Received: from basil.darkphysics (c-76-146-178-2.hsd1.wa.comcast.net. [76.146.178.2])
-        by smtp.gmail.com with ESMTPSA id v23-20020a62a517000000b006870721fcc5sm1628232pfm.175.2023.08.25.07.06.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 25 Aug 2023 07:06:31 -0700 (PDT)
-From: Tree Davies <tdavies@darkphysics.net>
-To: gregkh@linuxfoundation.org,
-	philipp.g.hortmann@gmail.com,
-	anjan@momi.ca
-Cc: linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Tree Davies <tdavies@darkphysics.net>
-Subject: [PATCH v4 16/16] Staging: rtl8192e: Rename variable pTS in function rtllib_rx_InfraAdhoc()
-Date: Fri, 25 Aug 2023 07:08:47 -0700
-Message-ID: <20230825140847.501113-17-tdavies@darkphysics.net>
-X-Mailer: git-send-email 2.41.0
-In-Reply-To: <20230825140847.501113-1-tdavies@darkphysics.net>
-References: <20230825140847.501113-1-tdavies@darkphysics.net>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D448101DE;
+	Fri, 25 Aug 2023 15:34:26 +0000 (UTC)
+Received: from [IPV6:2a01:e0a:120:3210:2dee:15f0:cfc3:3cd5] (unknown [IPv6:2a01:e0a:120:3210:2dee:15f0:cfc3:3cd5])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: benjamin.gaignard)
+	by madras.collabora.co.uk (Postfix) with ESMTPSA id 7FDCE660725E;
+	Fri, 25 Aug 2023 16:34:18 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1692977659;
+	bh=CBKe/NVdZbzitVrTSsyh2xKdG8S8gYJrAaysQDniztE=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=YlnB7ll7pJGfXX++LNsPl6V43qmCwf0p3rjW0MUYZy5/x+id10SMY7HQFDJfPWJdp
+	 OVnwwh8BoN4p+r9sAnfjGIY1MQOe0SKxuI19lrf/bYnmoF/9IzNCDHDt/Vj9Jfa7Qn
+	 qUJvbG4tD3L2ZEHygCL+QAu5abf5nk1uGsfkbndYzxL2wN6BcyVXOdXp1xgMQYUGIq
+	 9rON2LnbBv8pQSc5rI7vUwVJu2gZX/J1BepAAvhxVN6fgZ/d3mdmS/Z9zVljRa/5gE
+	 al+qg8yGstW6qyTxtQ9oVOj0yqd0FqELCVx0k3+fTqAsH2R83FRcs/2Fae39CrVd6/
+	 1ZcrTqNEmmE8Q==
+Message-ID: <d4121940-e19f-8ed9-663b-01a4bbab0df1@collabora.com>
+Date: Fri, 25 Aug 2023 17:34:16 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH v5 10/10] media: v4l2: Add mem2mem helpers for DELETE_BUFS
+ ioctl
+To: kernel test robot <lkp@intel.com>, mchehab@kernel.org,
+ tfiga@chromium.org, m.szyprowski@samsung.com, ming.qian@nxp.com,
+ ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de,
+ gregkh@linuxfoundation.org, hverkuil-cisco@xs4all.nl,
+ nicolas.dufresne@collabora.com
+Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+ linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
+ kernel@collabora.com
+References: <20230824092133.39510-11-benjamin.gaignard@collabora.com>
+ <202308251828.fSyIXACx-lkp@intel.com>
+Content-Language: en-US
+From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+In-Reply-To: <202308251828.fSyIXACx-lkp@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-Rename variable pTS in function rtllib_rx_InfraAdhoc() to ts
-to fix checkpatch warning Avoid CamelCase.
 
-Signed-off-by: Tree Davies <tdavies@darkphysics.net>
-Tested-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
----
-v4:Resending whole series as v4
-v3:No Changes
-v2:No Changes
- drivers/staging/rtl8192e/rtllib_rx.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+Le 25/08/2023 à 12:29, kernel test robot a écrit :
+> Hi Benjamin,
 
-diff --git a/drivers/staging/rtl8192e/rtllib_rx.c b/drivers/staging/rtl8192e/rtllib_rx.c
-index 491789ebcc08..53ec4f077bd8 100644
---- a/drivers/staging/rtl8192e/rtllib_rx.c
-+++ b/drivers/staging/rtl8192e/rtllib_rx.c
-@@ -1280,7 +1280,7 @@ static int rtllib_rx_InfraAdhoc(struct rtllib_device *ieee, struct sk_buff *skb,
- 	struct rtllib_hdr_4addr *hdr = (struct rtllib_hdr_4addr *)skb->data;
- 	struct lib80211_crypt_data *crypt = NULL;
- 	struct rtllib_rxb *rxb = NULL;
--	struct rx_ts_record *pTS = NULL;
-+	struct rx_ts_record *ts = NULL;
- 	u16 fc, sc, SeqNum = 0;
- 	u8 type, stype, multicast = 0, unicast = 0, nr_subframes = 0, TID = 0;
- 	u8 dst[ETH_ALEN];
-@@ -1386,7 +1386,7 @@ static int rtllib_rx_InfraAdhoc(struct rtllib_device *ieee, struct sk_buff *skb,
- 		&& (!bToOtherSTA)) {
- 		TID = Frame_QoSTID(skb->data);
- 		SeqNum = WLAN_GET_SEQ_SEQ(sc);
--		GetTs(ieee, (struct ts_common_info **)&pTS, hdr->addr2, TID,
-+		GetTs(ieee, (struct ts_common_info **)&ts, hdr->addr2, TID,
- 		      RX_DIR, true);
- 		if (TID != 0 && TID != 3)
- 			ieee->bis_any_nonbepkts = true;
-@@ -1425,10 +1425,10 @@ static int rtllib_rx_InfraAdhoc(struct rtllib_device *ieee, struct sk_buff *skb,
- 	}
- 
- 	/* Indicate packets to upper layer or Rx Reorder */
--	if (!ieee->ht_info->cur_rx_reorder_enable || pTS == NULL || bToOtherSTA)
-+	if (!ieee->ht_info->cur_rx_reorder_enable || ts == NULL || bToOtherSTA)
- 		rtllib_rx_indicate_pkt_legacy(ieee, rx_stats, rxb, dst, src);
- 	else
--		RxReorderIndicatePacket(ieee, rxb, pTS, SeqNum);
-+		RxReorderIndicatePacket(ieee, rxb, ts, SeqNum);
- 
- 	dev_kfree_skb(skb);
- 
--- 
-2.41.0
+Damned I have forgot this configuration flag when rebasing my code after 
+holidays...
 
+It will be fixed for v6 but I will wait for more comments before send it.
+
+Regards,
+
+Benjamin
+
+>
+> kernel test robot noticed the following build errors:
+>
+> [auto build test ERROR on next-20230824]
+> [also build test ERROR on v6.5-rc7]
+> [cannot apply to linus/master v6.5-rc7 v6.5-rc6 v6.5-rc5]
+> [If your patch is applied to the wrong git tree, kindly drop us a note.
+> And when submitting patch, we suggest to use '--base' as documented in
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+>
+> url:    https://github.com/intel-lab-lkp/linux/commits/Benjamin-Gaignard/media-videobuf2-Rework-offset-cookie-encoding-pattern/20230824-172416
+> base:   next-20230824
+> patch link:    https://lore.kernel.org/r/20230824092133.39510-11-benjamin.gaignard%40collabora.com
+> patch subject: [PATCH v5 10/10] media: v4l2: Add mem2mem helpers for DELETE_BUFS ioctl
+> config: alpha-randconfig-r005-20230825 (https://download.01.org/0day-ci/archive/20230825/202308251828.fSyIXACx-lkp@intel.com/config)
+> compiler: alpha-linux-gcc (GCC) 13.2.0
+> reproduce: (https://download.01.org/0day-ci/archive/20230825/202308251828.fSyIXACx-lkp@intel.com/reproduce)
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202308251828.fSyIXACx-lkp@intel.com/
+>
+> All errors (new ones prefixed by >>):
+>
+>>> drivers/media/test-drivers/vim2m.c:963:10: error: 'const struct v4l2_ioctl_ops' has no member named 'vidioc_delete_buf'; did you mean 'vidioc_delete_bufs'?
+>       963 |         .vidioc_delete_buf      = v4l2_m2m_ioctl_delete_buf,
+>           |          ^~~~~~~~~~~~~~~~~
+>           |          vidioc_delete_bufs
+>>> drivers/media/test-drivers/vim2m.c:963:35: error: 'v4l2_m2m_ioctl_delete_buf' undeclared here (not in a function); did you mean 'v4l2_m2m_ioctl_delete_bufs'?
+>       963 |         .vidioc_delete_buf      = v4l2_m2m_ioctl_delete_buf,
+>           |                                   ^~~~~~~~~~~~~~~~~~~~~~~~~
+>           |                                   v4l2_m2m_ioctl_delete_bufs
+>
+>
+> vim +963 drivers/media/test-drivers/vim2m.c
+>
+>     942	
+>     943	static const struct v4l2_ioctl_ops vim2m_ioctl_ops = {
+>     944		.vidioc_querycap	= vidioc_querycap,
+>     945	
+>     946		.vidioc_enum_fmt_vid_cap = vidioc_enum_fmt_vid_cap,
+>     947		.vidioc_enum_framesizes = vidioc_enum_framesizes,
+>     948		.vidioc_g_fmt_vid_cap	= vidioc_g_fmt_vid_cap,
+>     949		.vidioc_try_fmt_vid_cap	= vidioc_try_fmt_vid_cap,
+>     950		.vidioc_s_fmt_vid_cap	= vidioc_s_fmt_vid_cap,
+>     951	
+>     952		.vidioc_enum_fmt_vid_out = vidioc_enum_fmt_vid_out,
+>     953		.vidioc_g_fmt_vid_out	= vidioc_g_fmt_vid_out,
+>     954		.vidioc_try_fmt_vid_out	= vidioc_try_fmt_vid_out,
+>     955		.vidioc_s_fmt_vid_out	= vidioc_s_fmt_vid_out,
+>     956	
+>     957		.vidioc_reqbufs		= v4l2_m2m_ioctl_reqbufs,
+>     958		.vidioc_querybuf	= v4l2_m2m_ioctl_querybuf,
+>     959		.vidioc_qbuf		= v4l2_m2m_ioctl_qbuf,
+>     960		.vidioc_dqbuf		= v4l2_m2m_ioctl_dqbuf,
+>     961		.vidioc_prepare_buf	= v4l2_m2m_ioctl_prepare_buf,
+>     962		.vidioc_create_bufs	= v4l2_m2m_ioctl_create_bufs,
+>   > 963		.vidioc_delete_buf	= v4l2_m2m_ioctl_delete_buf,
+>     964		.vidioc_expbuf		= v4l2_m2m_ioctl_expbuf,
+>     965	
+>     966		.vidioc_streamon	= v4l2_m2m_ioctl_streamon,
+>     967		.vidioc_streamoff	= v4l2_m2m_ioctl_streamoff,
+>     968	
+>     969		.vidioc_subscribe_event = v4l2_ctrl_subscribe_event,
+>     970		.vidioc_unsubscribe_event = v4l2_event_unsubscribe,
+>     971	};
+>     972	
+>
