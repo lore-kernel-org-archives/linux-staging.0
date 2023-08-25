@@ -1,176 +1,91 @@
-Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from ex01.ufhost.com (ex01.ufhost.com [61.152.239.75])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B04E5C8C4
-	for <linux-staging@lists.linux.dev>; Fri, 25 Aug 2023 09:56:29 +0000 (UTC)
-Received: from kwepemi500008.china.huawei.com (unknown [172.30.72.54])
-	by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4RXFg20SCRzfbms;
-	Fri, 25 Aug 2023 17:54:54 +0800 (CST)
-Received: from huawei.com (10.90.53.73) by kwepemi500008.china.huawei.com
- (7.221.188.139) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.31; Fri, 25 Aug
- 2023 17:56:26 +0800
-From: Jinjie Ruan <ruanjinjie@huawei.com>
-To: <linux-iio@vger.kernel.org>, <linux-staging@lists.linux.dev>, Lars-Peter
- Clausen <lars@metafoo.de>, Michael Hennerich <Michael.Hennerich@analog.com>,
-	Jonathan Cameron <jic23@kernel.org>, Greg Kroah-Hartman
-	<gregkh@linuxfoundation.org>
-CC: <ruanjinjie@huawei.com>
-Subject: [PATCH -next] staging: iio: Use devm_clk_get_enabled() helper function
-Date: Fri, 25 Aug 2023 17:56:12 +0800
-Message-ID: <20230825095612.2972892-1-ruanjinjie@huawei.com>
-X-Mailer: git-send-email 2.34.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FBC9C8C4
+	for <linux-staging@lists.linux.dev>; Fri, 25 Aug 2023 09:56:45 +0000 (UTC)
+Received: from EXMBX165.cuchost.com (unknown [175.102.18.54])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(Client CN "EXMBX165", Issuer "EXMBX165" (not verified))
+	by ex01.ufhost.com (Postfix) with ESMTP id BFAE024E266;
+	Fri, 25 Aug 2023 17:56:37 +0800 (CST)
+Received: from EXMBX073.cuchost.com (172.16.6.83) by EXMBX165.cuchost.com
+ (172.16.6.75) with Microsoft SMTP Server (TLS) id 15.0.1497.42; Fri, 25 Aug
+ 2023 17:56:37 +0800
+Received: from [192.168.1.218] (180.164.60.184) by EXMBX073.cuchost.com
+ (172.16.6.83) with Microsoft SMTP Server (TLS) id 15.0.1497.42; Fri, 25 Aug
+ 2023 17:56:37 +0800
+Message-ID: <6de4333d-747f-a0f4-859d-88a8fa83369d@starfivetech.com>
+Date: Fri, 25 Aug 2023 17:56:36 +0800
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.90.53.73]
-X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
- kwepemi500008.china.huawei.com (7.221.188.139)
-X-CFilter-Loop: Reflected
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.14.0
+Subject: Re: [PATCH v8 0/8] Add StarFive Camera Subsystem driver
+Content-Language: en-US
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Greg Kroah-Hartman
+	<gregkh@linuxfoundation.org>
+CC: Mauro Carvalho Chehab <mchehab@kernel.org>, Robert Foss
+	<rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>,
+	<bryan.odonoghue@linaro.org>, Rob Herring <robh+dt@kernel.org>, "Krzysztof
+ Kozlowski" <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley
+	<conor+dt@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>, Hans Verkuil
+	<hverkuil-cisco@xs4all.nl>, <linux-media@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
+	<linux-staging@lists.linux.dev>, <changhuang.liang@starfivetech.com>
+References: <20230824080109.89613-1-jack.zhu@starfivetech.com>
+ <2023082436-spendable-reshuffle-878d@gregkh>
+ <a6f60dfc-ffbf-da4d-a81c-06caf92955d6@starfivetech.com>
+ <2023082416-flanking-requisite-a8ed@gregkh>
+ <20230824133441.GC27092@pendragon.ideasonboard.com>
+From: Jack Zhu <jack.zhu@starfivetech.com>
+In-Reply-To: <20230824133441.GC27092@pendragon.ideasonboard.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [180.164.60.184]
+X-ClientProxiedBy: EXCAS064.cuchost.com (172.16.6.24) To EXMBX073.cuchost.com
+ (172.16.6.83)
+X-YovoleRuleAgent: yovoleflag
 
-The devm_clk_get_enabled() helper:
-    - calls devm_clk_get()
-    - calls clk_prepare_enable() and registers what is needed in order to
-      call clk_disable_unprepare() when needed, as a managed resource.
 
-This simplifies the code and avoids the need of a dedicated function used
-with devm_add_action_or_reset().
 
-Signed-off-by: Jinjie Ruan <ruanjinjie@huawei.com>
----
- drivers/staging/iio/frequency/ad9832.c        | 15 +------------
- drivers/staging/iio/frequency/ad9834.c        | 20 ++---------------
- .../staging/iio/impedance-analyzer/ad5933.c   | 22 ++-----------------
- 3 files changed, 5 insertions(+), 52 deletions(-)
+On 2023/8/24 21:34, Laurent Pinchart wrote:
+> On Thu, Aug 24, 2023 at 03:08:33PM +0200, Greg Kroah-Hartman wrote:
+>> On Thu, Aug 24, 2023 at 08:23:33PM +0800, Jack Zhu wrote:
+>> > On 2023/8/24 19:37, Greg Kroah-Hartman wrote:
+>> > > On Thu, Aug 24, 2023 at 04:01:01PM +0800, Jack Zhu wrote:
+>> > >> Hi,
+>> > >> 
+>> > >> This series is the v8 series that attempts to support the Camera Subsystem
+>> > >> found on StarFive JH7110 SoC.
+>> > > 
+>> > > I don't see anything here about why this is in drivers/staging/media/
+>> > > now and not just in drivers/media/.  What is preventing this to be put
+>> > > into the correct place to start with?  What needs to be done to the code
+>> > > to get it out of drivers/staging/media/ and who is going to do that
+>> > > work?
+>> > 
+>> > The series does not contain 3A interface. According to Laurent's suggestion,
+>> > we put the driver in the staging directory first. In the next stage, we will
+>> > continue to submit the 3A interface in the way of incremental development,
+>> > and finally expect the code to be placed in the drivers/media/.
+>> 
+>> Can you please say that in the changelog text for when you are adding
+>> the driver so that we know this?
+> 
+> It's also customary to add a TODO file in the driver directory to list
+> the work needed before moving the code to drivers/media/. Jack, could
+> you please do so ?
+> 
 
-diff --git a/drivers/staging/iio/frequency/ad9832.c b/drivers/staging/iio/frequency/ad9832.c
-index 6f9eebd6c7ee..6c390c4eb26d 100644
---- a/drivers/staging/iio/frequency/ad9832.c
-+++ b/drivers/staging/iio/frequency/ad9832.c
-@@ -299,11 +299,6 @@ static void ad9832_reg_disable(void *reg)
- 	regulator_disable(reg);
- }
- 
--static void ad9832_clk_disable(void *clk)
--{
--	clk_disable_unprepare(clk);
--}
--
- static int ad9832_probe(struct spi_device *spi)
- {
- 	struct ad9832_platform_data *pdata = dev_get_platdata(&spi->dev);
-@@ -350,18 +345,10 @@ static int ad9832_probe(struct spi_device *spi)
- 	if (ret)
- 		return ret;
- 
--	st->mclk = devm_clk_get(&spi->dev, "mclk");
-+	st->mclk = devm_clk_get_enabled(&spi->dev, "mclk");
- 	if (IS_ERR(st->mclk))
- 		return PTR_ERR(st->mclk);
- 
--	ret = clk_prepare_enable(st->mclk);
--	if (ret < 0)
--		return ret;
--
--	ret = devm_add_action_or_reset(&spi->dev, ad9832_clk_disable, st->mclk);
--	if (ret)
--		return ret;
--
- 	st->spi = spi;
- 	mutex_init(&st->lock);
- 
-diff --git a/drivers/staging/iio/frequency/ad9834.c b/drivers/staging/iio/frequency/ad9834.c
-index 285df0e489a6..4f35def05fb7 100644
---- a/drivers/staging/iio/frequency/ad9834.c
-+++ b/drivers/staging/iio/frequency/ad9834.c
-@@ -394,13 +394,6 @@ static void ad9834_disable_reg(void *data)
- 	regulator_disable(reg);
- }
- 
--static void ad9834_disable_clk(void *data)
--{
--	struct clk *clk = data;
--
--	clk_disable_unprepare(clk);
--}
--
- static int ad9834_probe(struct spi_device *spi)
- {
- 	struct ad9834_state *st;
-@@ -429,22 +422,13 @@ static int ad9834_probe(struct spi_device *spi)
- 	}
- 	st = iio_priv(indio_dev);
- 	mutex_init(&st->lock);
--	st->mclk = devm_clk_get(&spi->dev, NULL);
-+	st->mclk = devm_clk_get_enabled(&spi->dev, NULL);
- 	if (IS_ERR(st->mclk)) {
--		ret = PTR_ERR(st->mclk);
--		return ret;
--	}
--
--	ret = clk_prepare_enable(st->mclk);
--	if (ret) {
- 		dev_err(&spi->dev, "Failed to enable master clock\n");
-+		ret = PTR_ERR(st->mclk);
- 		return ret;
- 	}
- 
--	ret = devm_add_action_or_reset(&spi->dev, ad9834_disable_clk, st->mclk);
--	if (ret)
--		return ret;
--
- 	st->spi = spi;
- 	st->devid = spi_get_device_id(spi)->driver_data;
- 	indio_dev->name = spi_get_device_id(spi)->name;
-diff --git a/drivers/staging/iio/impedance-analyzer/ad5933.c b/drivers/staging/iio/impedance-analyzer/ad5933.c
-index 46db6d91542a..e748a5d04e97 100644
---- a/drivers/staging/iio/impedance-analyzer/ad5933.c
-+++ b/drivers/staging/iio/impedance-analyzer/ad5933.c
-@@ -667,13 +667,6 @@ static void ad5933_reg_disable(void *data)
- 	regulator_disable(st->reg);
- }
- 
--static void ad5933_clk_disable(void *data)
--{
--	struct ad5933_state *st = data;
--
--	clk_disable_unprepare(st->mclk);
--}
--
- static int ad5933_probe(struct i2c_client *client)
- {
- 	const struct i2c_device_id *id = i2c_client_get_device_id(client);
-@@ -712,23 +705,12 @@ static int ad5933_probe(struct i2c_client *client)
- 
- 	st->vref_mv = ret / 1000;
- 
--	st->mclk = devm_clk_get(&client->dev, "mclk");
-+	st->mclk = devm_clk_get_enabled(&client->dev, "mclk");
- 	if (IS_ERR(st->mclk) && PTR_ERR(st->mclk) != -ENOENT)
- 		return PTR_ERR(st->mclk);
- 
--	if (!IS_ERR(st->mclk)) {
--		ret = clk_prepare_enable(st->mclk);
--		if (ret < 0)
--			return ret;
--
--		ret = devm_add_action_or_reset(&client->dev,
--					       ad5933_clk_disable,
--					       st);
--		if (ret)
--			return ret;
--
-+	if (!IS_ERR(st->mclk))
- 		ext_clk_hz = clk_get_rate(st->mclk);
--	}
- 
- 	if (ext_clk_hz) {
- 		st->mclk_hz = ext_clk_hz;
+Yes, thank you for your reminder.
+
+> 
+
 -- 
-2.34.1
+Regards,
 
+Jack Zhu
