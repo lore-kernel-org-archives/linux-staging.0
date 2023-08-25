@@ -1,43 +1,43 @@
-Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
+Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCAD6101D1
-	for <linux-staging@lists.linux.dev>; Fri, 25 Aug 2023 14:06:18 +0000 (UTC)
-Received: by mail-pf1-f179.google.com with SMTP id d2e1a72fcca58-68a520dba33so830393b3a.0
-        for <linux-staging@lists.linux.dev>; Fri, 25 Aug 2023 07:06:18 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D28DE101E9
+	for <linux-staging@lists.linux.dev>; Fri, 25 Aug 2023 14:06:19 +0000 (UTC)
+Received: by mail-pf1-f178.google.com with SMTP id d2e1a72fcca58-686be3cbea0so1447618b3a.0
+        for <linux-staging@lists.linux.dev>; Fri, 25 Aug 2023 07:06:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=darkphysics.net; s=google; t=1692972378; x=1693577178;
+        d=darkphysics.net; s=google; t=1692972379; x=1693577179;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=FjYzdVLvE2mBXqluKBhvaZb65T+FBQkKGDwfPiHVKB0=;
-        b=WkDCH1SOSXwUGtkPwdqo3SkIUKUnH6cEeY86N+yjCVsgVz47uMOya+YAcw9JoOv6+1
-         z5WzyvJWgPTpRcCjXTNZscAx1UvJcHayDO+yFojMwgnIldlehzqpc5YfXqJEBkYfalyV
-         a7uUCi92Aja+pCRgNU7WIsbu7NudtptdGgDjzU/oFOBfzpOG7ft55FbLF+/U3Tj2fqU5
-         IW0peGSaByHxgUMvF+W34zkAbECNIJA1Bj2qRuwH0yBdWHAEYmq1/ThEed/TILrITSEj
-         I8XHlIY7NJWTN5c4OGGveeYPYSnqhuTsECSFOhMejHlNWVDz5H9BFu7XbOUlLjmNIqN0
-         fUqQ==
+        bh=fRPP7TQ9KfSawkNqM8uvBK91gxMIgkxn+DlDjJdQVs8=;
+        b=M0dHbT4ffxh7h/+nBJRWUmR9zOdNMG0aqKSpypPyKDFy9YMuZ7F72PuwxclWYVg28g
+         fL8UHBruubmlndOfGd/6LcjFKtBGCHi6Z7r+H8hFNTtA5PvAkjTXwahbgkb1aPji9UpY
+         OEdkqK82U67b5n/kGyKQXLVJvEN2hvb3pFj9arFpaAAcGff8OxfL2j11Zvxp13J2/+nQ
+         WKNFF4FSmBr5i1K7NAA12Cb+ED3HmFsLbINo4uggvWBSBZiy7+e1nzThR2RDzQCSX7VK
+         ozBs8BFpHQLBxbxNnuCaOQSaAEE5bz6cln32zdKIxDaYr+Le8/LKSOVSJpIi1i4OdrQN
+         tgTw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692972378; x=1693577178;
+        d=1e100.net; s=20221208; t=1692972379; x=1693577179;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=FjYzdVLvE2mBXqluKBhvaZb65T+FBQkKGDwfPiHVKB0=;
-        b=b7HhUch2xN+rJc53A0MonktcZioOYXIW6i2a5ebs5BrVC5ZR3sVeHOENoij3ej7ysJ
-         WaZCu6wjuVLsEzvbTlTn9UpvQ2OQr8VdCKt4m8N4WEiKIO8AamYmEvYZwBZ2ohdWPP0e
-         SesuCEA+1XaGkap7DvRjnwjh70Zcx9Pb4y0yeFwXTWTwB/71dnxj0G+PFo/GGKAHf9EQ
-         uYCU31gPZGdr0opOu9QyUSKvQASLDudTTLA88l+D/F3eo9RNsClAe7lu64Jx6Vb4pi0E
-         JYEfeAzcb8w1a7RPju4k2+wGgQFfn4eDy4YK7laoBKQtTWINbZBg/cfD9oB49wN1HeR2
-         PW4Q==
-X-Gm-Message-State: AOJu0YzJKqpmqDF2KaCZb/AB12R4uJ3xFrPtJihsHcJ5JPfdDsqa78Hw
-	BMqxl0pg0YEVi+ft0reRwoyZoQ==
-X-Google-Smtp-Source: AGHT+IHRe9MGZncFusl59k0P+AniLXaJil8um4Amt9WTvPd3mzMDsySsYYFEmHzpaxFDALDhb9Os6g==
-X-Received: by 2002:a05:6a21:8187:b0:135:4858:683 with SMTP id pd7-20020a056a21818700b0013548580683mr18727399pzb.48.1692972378192;
-        Fri, 25 Aug 2023 07:06:18 -0700 (PDT)
+        bh=fRPP7TQ9KfSawkNqM8uvBK91gxMIgkxn+DlDjJdQVs8=;
+        b=P2HgJcoKOwdQoyaJsjpLfkr2JnraBxTK/zTZLqiu+gJ35JKbe3iyNieUm/L46JAVmi
+         MGDW8In9tvLpOWZ6uBX2+RVgU1H5PBsWV9+XR5wv+OV9XFu3CST7npIi4fvL72r1h0hV
+         n2IjoiENSWbudrouk6Roaum4bI5UcKQeG1kizrJX41mCvBjryFp+t07X4UDZuifZhzG6
+         CLIXrNF2cxp1vaw1UrOr6qmNyQYFsep2Q4JC8ju80l6MPZXG/dkClLrsYzIm0OwM78sG
+         8ywbnD8ZsykeANd5d+7Yjb/5gm7Z77sHTKprryKZnq3d7W6tEtkFjTXgkuXm1pgT3ZxL
+         NIhQ==
+X-Gm-Message-State: AOJu0YwdaKN47V9LZzwDSkt9PyM9n+MueO/IXrJPYKAPGTRwTj47Q9tX
+	o2yUe5Z65rY2UXnHouF1FbRtzixNycDtoJ70fvp1P6v9
+X-Google-Smtp-Source: AGHT+IGplBzchvbqmi/hMnA20xZfDwTwABqVEKfA+gaXK0j4yB7R7jeHWAAnpfGCzJHUMKH/z/+6FQ==
+X-Received: by 2002:a05:6a20:1456:b0:13f:c159:63ec with SMTP id a22-20020a056a20145600b0013fc15963ecmr27546337pzi.24.1692972379208;
+        Fri, 25 Aug 2023 07:06:19 -0700 (PDT)
 Received: from basil.darkphysics (c-76-146-178-2.hsd1.wa.comcast.net. [76.146.178.2])
-        by smtp.gmail.com with ESMTPSA id v23-20020a62a517000000b006870721fcc5sm1628232pfm.175.2023.08.25.07.06.17
+        by smtp.gmail.com with ESMTPSA id v23-20020a62a517000000b006870721fcc5sm1628232pfm.175.2023.08.25.07.06.18
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 25 Aug 2023 07:06:17 -0700 (PDT)
+        Fri, 25 Aug 2023 07:06:18 -0700 (PDT)
 From: Tree Davies <tdavies@darkphysics.net>
 To: gregkh@linuxfoundation.org,
 	philipp.g.hortmann@gmail.com,
@@ -45,9 +45,9 @@ To: gregkh@linuxfoundation.org,
 Cc: linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Tree Davies <tdavies@darkphysics.net>
-Subject: [PATCH v4 02/16] Staging: rtl8192e: Rename variable pTS in function rtllib_rx_ADDBAReq()
-Date: Fri, 25 Aug 2023 07:08:33 -0700
-Message-ID: <20230825140847.501113-3-tdavies@darkphysics.net>
+Subject: [PATCH v4 03/16] Staging: rtl8192e: Rename variable pRxTs in function rtllib_rx_DELBA()
+Date: Fri, 25 Aug 2023 07:08:34 -0700
+Message-ID: <20230825140847.501113-4-tdavies@darkphysics.net>
 X-Mailer: git-send-email 2.41.0
 In-Reply-To: <20230825140847.501113-1-tdavies@darkphysics.net>
 References: <20230825140847.501113-1-tdavies@darkphysics.net>
@@ -59,7 +59,7 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Rename variable pTS in function rtllib_rx_ADDBAReq() to ts
+Rename variable pRxTs in function rtllib_rx_DELBA() to ts
 to fix checkpatch warning Avoid CamelCase.
 
 Signed-off-by: Tree Davies <tdavies@darkphysics.net>
@@ -68,47 +68,34 @@ Tested-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
 v4:Resending as v4
 v3:Resend as 16 patch series - no longer throttled by email provider
 v2:Resending in smaller patch series
- drivers/staging/rtl8192e/rtl819x_BAProc.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ drivers/staging/rtl8192e/rtl819x_BAProc.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/staging/rtl8192e/rtl819x_BAProc.c b/drivers/staging/rtl8192e/rtl819x_BAProc.c
-index da29163f3022..03d76765e85f 100644
+index 03d76765e85f..c584e9ec48b6 100644
 --- a/drivers/staging/rtl8192e/rtl819x_BAProc.c
 +++ b/drivers/staging/rtl8192e/rtl819x_BAProc.c
-@@ -220,7 +220,7 @@ int rtllib_rx_ADDBAReq(struct rtllib_device *ieee, struct sk_buff *skb)
- 	union ba_param_set *pBaParamSet = NULL;
- 	u16 *pBaTimeoutVal = NULL;
- 	union sequence_control *pBaStartSeqCtrl = NULL;
--	struct rx_ts_record *pTS = NULL;
-+	struct rx_ts_record *ts = NULL;
+@@ -430,9 +430,9 @@ int rtllib_rx_DELBA(struct rtllib_device *ieee, struct sk_buff *skb)
+ 	pDelBaParamSet = (union delba_param_set *)&delba->payload[2];
  
- 	if (skb->len < sizeof(struct rtllib_hdr_3addr) + 9) {
- 		netdev_warn(ieee->dev, "Invalid skb len in BAREQ(%d / %d)\n",
-@@ -253,13 +253,13 @@ int rtllib_rx_ADDBAReq(struct rtllib_device *ieee, struct sk_buff *skb)
- 			    ieee->ht_info->bCurrentHTSupport);
- 		goto OnADDBAReq_Fail;
- 	}
--	if (!GetTs(ieee, (struct ts_common_info **)&pTS, dst,
-+	if (!GetTs(ieee, (struct ts_common_info **)&ts, dst,
- 		   (u8)(pBaParamSet->field.tid), RX_DIR, true)) {
- 		rc = ADDBA_STATUS_REFUSED;
- 		netdev_warn(ieee->dev, "%s(): can't get TS\n", __func__);
- 		goto OnADDBAReq_Fail;
- 	}
--	pBA = &pTS->rx_admitted_ba_record;
-+	pBA = &ts->rx_admitted_ba_record;
+ 	if (pDelBaParamSet->field.initiator == 1) {
+-		struct rx_ts_record *pRxTs;
++		struct rx_ts_record *ts;
  
- 	if (pBaParamSet->field.ba_policy == BA_POLICY_DELAYED) {
- 		rc = ADDBA_STATUS_INVALID_PARAM;
-@@ -268,7 +268,7 @@ int rtllib_rx_ADDBAReq(struct rtllib_device *ieee, struct sk_buff *skb)
- 		goto OnADDBAReq_Fail;
- 	}
+-		if (!GetTs(ieee, (struct ts_common_info **)&pRxTs, dst,
++		if (!GetTs(ieee, (struct ts_common_info **)&ts, dst,
+ 			   (u8)pDelBaParamSet->field.tid, RX_DIR, false)) {
+ 			netdev_warn(ieee->dev,
+ 				    "%s(): can't get TS for RXTS. dst:%pM TID:%d\n",
+@@ -441,7 +441,7 @@ int rtllib_rx_DELBA(struct rtllib_device *ieee, struct sk_buff *skb)
+ 			return -1;
+ 		}
  
--	rtllib_FlushRxTsPendingPkts(ieee, pTS);
-+	rtllib_FlushRxTsPendingPkts(ieee, ts);
+-		rx_ts_delete_ba(ieee, pRxTs);
++		rx_ts_delete_ba(ieee, ts);
+ 	} else {
+ 		struct tx_ts_record *pTxTs;
  
- 	deactivate_ba_entry(ieee, pBA);
- 	pBA->dialog_token = *pDialogToken;
 -- 
 2.41.0
 
