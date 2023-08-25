@@ -1,43 +1,43 @@
-Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176])
+Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65ED4107AA
-	for <linux-staging@lists.linux.dev>; Fri, 25 Aug 2023 14:06:30 +0000 (UTC)
-Received: by mail-pf1-f176.google.com with SMTP id d2e1a72fcca58-68a3f1d8be2so812922b3a.3
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 389DD101E9
+	for <linux-staging@lists.linux.dev>; Fri, 25 Aug 2023 14:06:31 +0000 (UTC)
+Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-68a41031768so831452b3a.3
         for <linux-staging@lists.linux.dev>; Fri, 25 Aug 2023 07:06:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=darkphysics.net; s=google; t=1692972389; x=1693577189;
+        d=darkphysics.net; s=google; t=1692972390; x=1693577190;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=QevXQoCS1wqQ8jrH7QdGom/cY++tygCz3u7KvlsH/DM=;
-        b=IQ64K2avtOzvmOlRAtSIGm9/xoZ49AXYp7+QaP8cgiXIlxQTpqjLJBYxk9JnbeBOjQ
-         CZvFU8jSwZMW19cETbcb0fqzsGOZTgliz3v8nIUkfyC4j+WJ5oapHww+2xxjOXghY9pn
-         7prSf+xpZYsCg7nE2jmJnA90J0/mGVn8MR8J2wskTtue8wjrsrvILf/1dpEvP0TX+kbe
-         jjzY1FaWZmgtUacnm6Xzh0OyBUbsuS7neqB2Hq7rv5w9rn9ZzkCVuNMfjc/UzvyB2c2O
-         ZPiZ5/T7b/hc8nFX6INkm2h4IHrERNuytgmm86xglG/dYU8+n7itHTztwXXs8oq27xnN
-         onBg==
+        bh=//JyP/NDkIwjte1iW7xlQ5CbR8Pu664kvEqMOzkiD8g=;
+        b=cm5l8UFrt1fkFDpJ5k34WVbNfrNrKTSChvesOCHgwnPiUeDqPDsdte2dkoOmx1C2Z6
+         7Xw/ou/rx0fVhsjOj6LXqOUHxOlS+k9DPzA0cd86/rnw522D721GrkTy3+2XFYbzXgu3
+         w4AjLm/7Pn50niMdKlr8wtnjtuSFMmjX4fuaBTn/mSPQVmRdGaH1I7UBNT6lyXmAwKps
+         O4H5mNI68ibA28WSS6oPU6CZsAjIMMApbRBZpDSc+LA5NlR9KSdl/p3mvpxTc7EKHSOx
+         GlYx0ho5bklxmwmfhpiSdzVdgo599MqEy6vood5FCjjiuNt5SQHa3a332oe9S9k1gT7y
+         GOHw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692972389; x=1693577189;
+        d=1e100.net; s=20221208; t=1692972390; x=1693577190;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=QevXQoCS1wqQ8jrH7QdGom/cY++tygCz3u7KvlsH/DM=;
-        b=FHJefYlFdL2hXwyI9Mp8fmeIwIGMTXims9AMvAsKtc7AezhpX2yGGj68EKxK4ziPpB
-         v3eYFXN7dVUllAGns5NZqGEBzkthTXXX2adjl6eDB618qOMeIYxl2HBRPuaPC1uT4sia
-         d5DN8ITD4Pl0Yb9K7t4hqsmz09d/zhmi+7skrSkaMMNW3OpjhHrraQy3WxBcUOB9VNQF
-         VPxoI0ziODLSuwe8Yk5zYaFqRNQZjHdtBoybudYCbJV8UtbV3urTpjtUwBV8atmK/c0z
-         a3j3OfLjpD/qenO6n/Op2N2+ZgYvxVOh68lC0y7mkxD1O0cz9tYGhhRZEUZouuADBMZN
-         +QZg==
-X-Gm-Message-State: AOJu0YwIGmkA1mWidafypkQbzjjYGL+1gfrfaLB4KP7/lsj2wlQ35PeW
-	rfRCcW0NQUg6eKIucAfgyaWi6ycZ0BvbstRqHBoTFafS
-X-Google-Smtp-Source: AGHT+IGLMc2nFABpBMSJuWzj3rAN+uAoGxBJyU6d71j2CKqMY87x1mnlDQW9rFhiOFNhGz30CM3Lmg==
-X-Received: by 2002:a05:6a21:33a6:b0:140:a6ec:b55f with SMTP id yy38-20020a056a2133a600b00140a6ecb55fmr23941792pzb.16.1692972389701;
-        Fri, 25 Aug 2023 07:06:29 -0700 (PDT)
+        bh=//JyP/NDkIwjte1iW7xlQ5CbR8Pu664kvEqMOzkiD8g=;
+        b=aquZk0Agju+FBqdBGdM6ZSG8mNPI+RhyOCPvqzArSLBCcKGsLTDm8S/IO1gv4zJhbZ
+         9tT0mezkS7lIXOziBqkeSzV8HI80lSQBec1JQ1t9qxo1PGzy05GCNKzhAo2h5LbJJRMl
+         B28pgCw1V8lAA9MwKE8EndctQRAKFe5aT6DSjhV1p0KYnFclUIwomeumWouSiO96PFvO
+         0/53V2GVmC4jCGNJOA6gfptvtXzxefLgCIaV8KQYw3PjQrOehJYi/d/kZBOHQ2KDrjGh
+         qcgM9Jwq/r+y2oXXjlwwTIPsgXC0w2vp0tV3kY8ZAg5qVZDpSXDpaOIFXNsjya3ppysq
+         amAg==
+X-Gm-Message-State: AOJu0YyOyMtpYWawhMMjg3rWNLL/uepq/VYRbZXvBWLkoTDMyQ1OKK0X
+	cX0uvxRERgo206FAKAVO6MqWxQ==
+X-Google-Smtp-Source: AGHT+IFvp1ogbDY5dynTMrWmlP7qjmUewSc7uV7Zdlvhkvy06D9NBZELctXRTdEtGrWUTqMdSMLjNg==
+X-Received: by 2002:a05:6a20:548f:b0:137:23f1:4281 with SMTP id i15-20020a056a20548f00b0013723f14281mr19308023pzk.12.1692972390532;
+        Fri, 25 Aug 2023 07:06:30 -0700 (PDT)
 Received: from basil.darkphysics (c-76-146-178-2.hsd1.wa.comcast.net. [76.146.178.2])
-        by smtp.gmail.com with ESMTPSA id v23-20020a62a517000000b006870721fcc5sm1628232pfm.175.2023.08.25.07.06.28
+        by smtp.gmail.com with ESMTPSA id v23-20020a62a517000000b006870721fcc5sm1628232pfm.175.2023.08.25.07.06.29
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 25 Aug 2023 07:06:29 -0700 (PDT)
+        Fri, 25 Aug 2023 07:06:30 -0700 (PDT)
 From: Tree Davies <tdavies@darkphysics.net>
 To: gregkh@linuxfoundation.org,
 	philipp.g.hortmann@gmail.com,
@@ -45,9 +45,9 @@ To: gregkh@linuxfoundation.org,
 Cc: linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Tree Davies <tdavies@darkphysics.net>
-Subject: [PATCH v4 13/16] Staging: rtl8192e: Rename variable pTS in function rtllib_FlushRxTsPendingPkts()
-Date: Fri, 25 Aug 2023 07:08:44 -0700
-Message-ID: <20230825140847.501113-14-tdavies@darkphysics.net>
+Subject: [PATCH v4 14/16] Staging: rtl8192e: Rename variable pTS in function RxReorderIndicatePacket()
+Date: Fri, 25 Aug 2023 07:08:45 -0700
+Message-ID: <20230825140847.501113-15-tdavies@darkphysics.net>
 X-Mailer: git-send-email 2.41.0
 In-Reply-To: <20230825140847.501113-1-tdavies@darkphysics.net>
 References: <20230825140847.501113-1-tdavies@darkphysics.net>
@@ -59,7 +59,7 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Rename variable pTS in function rtllib_FlushRxTsPendingPkts() to ts
+Rename variable pTS in function RxReorderIndicatePacket() to ts
 to fix checkpatch warning Avoid CamelCase.
 
 Signed-off-by: Tree Davies <tdavies@darkphysics.net>
@@ -68,48 +68,167 @@ Tested-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
 v4:Resending whole series as v4
 v3:No Changes
 v2:No Changes
- drivers/staging/rtl8192e/rtllib_rx.c | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+ drivers/staging/rtl8192e/rtllib_rx.c | 58 ++++++++++++++--------------
+ 1 file changed, 29 insertions(+), 29 deletions(-)
 
 diff --git a/drivers/staging/rtl8192e/rtllib_rx.c b/drivers/staging/rtl8192e/rtllib_rx.c
-index 1d41f62fa346..4907468ddaa5 100644
+index 4907468ddaa5..e97debe6a7d2 100644
 --- a/drivers/staging/rtl8192e/rtllib_rx.c
 +++ b/drivers/staging/rtl8192e/rtllib_rx.c
-@@ -520,13 +520,13 @@ void rtllib_indicate_packets(struct rtllib_device *ieee,
- }
- 
- void rtllib_FlushRxTsPendingPkts(struct rtllib_device *ieee,
--				 struct rx_ts_record *pTS)
-+				 struct rx_ts_record *ts)
- {
- 	struct rx_reorder_entry *pRxReorderEntry;
- 	u8 RfdCnt = 0;
- 
--	del_timer_sync(&pTS->rx_pkt_pending_timer);
--	while (!list_empty(&pTS->rx_pending_pkt_list)) {
-+	del_timer_sync(&ts->rx_pkt_pending_timer);
-+	while (!list_empty(&ts->rx_pending_pkt_list)) {
- 		if (RfdCnt >= REORDER_WIN_SIZE) {
- 			netdev_info(ieee->dev,
- 				    "-------------->%s() error! RfdCnt >= REORDER_WIN_SIZE\n",
-@@ -535,7 +535,7 @@ void rtllib_FlushRxTsPendingPkts(struct rtllib_device *ieee,
- 		}
- 
- 		pRxReorderEntry = (struct rx_reorder_entry *)
--				  list_entry(pTS->rx_pending_pkt_list.prev,
-+				  list_entry(ts->rx_pending_pkt_list.prev,
- 					     struct rx_reorder_entry, List);
- 		netdev_dbg(ieee->dev, "%s(): Indicate SeqNum %d!\n", __func__,
- 			   pRxReorderEntry->SeqNum);
-@@ -549,7 +549,7 @@ void rtllib_FlushRxTsPendingPkts(struct rtllib_device *ieee,
- 	}
- 	rtllib_indicate_packets(ieee, ieee->RfdArray, RfdCnt);
- 
--	pTS->rx_indicate_seq = 0xffff;
-+	ts->rx_indicate_seq = 0xffff;
- }
+@@ -554,7 +554,7 @@ void rtllib_FlushRxTsPendingPkts(struct rtllib_device *ieee,
  
  static void RxReorderIndicatePacket(struct rtllib_device *ieee,
+ 				    struct rtllib_rxb *prxb,
+-				    struct rx_ts_record *pTS, u16 SeqNum)
++				    struct rx_ts_record *ts, u16 SeqNum)
+ {
+ 	struct rt_hi_throughput *ht_info = ieee->ht_info;
+ 	struct rx_reorder_entry *pReorderEntry = NULL;
+@@ -565,21 +565,21 @@ static void RxReorderIndicatePacket(struct rtllib_device *ieee,
+ 	unsigned long flags;
+ 
+ 	netdev_dbg(ieee->dev,
+-		   "%s(): Seq is %d, pTS->rx_indicate_seq is %d, WinSize is %d\n",
+-		   __func__, SeqNum, pTS->rx_indicate_seq, WinSize);
++		   "%s(): Seq is %d, ts->rx_indicate_seq is %d, WinSize is %d\n",
++		   __func__, SeqNum, ts->rx_indicate_seq, WinSize);
+ 
+ 	spin_lock_irqsave(&(ieee->reorder_spinlock), flags);
+ 
+-	WinEnd = (pTS->rx_indicate_seq + WinSize - 1) % 4096;
++	WinEnd = (ts->rx_indicate_seq + WinSize - 1) % 4096;
+ 	/* Rx Reorder initialize condition.*/
+-	if (pTS->rx_indicate_seq == 0xffff)
+-		pTS->rx_indicate_seq = SeqNum;
++	if (ts->rx_indicate_seq == 0xffff)
++		ts->rx_indicate_seq = SeqNum;
+ 
+ 	/* Drop out the packet which SeqNum is smaller than WinStart */
+-	if (SN_LESS(SeqNum, pTS->rx_indicate_seq)) {
++	if (SN_LESS(SeqNum, ts->rx_indicate_seq)) {
+ 		netdev_dbg(ieee->dev,
+ 			   "Packet Drop! IndicateSeq: %d, NewSeq: %d\n",
+-			   pTS->rx_indicate_seq, SeqNum);
++			   ts->rx_indicate_seq, SeqNum);
+ 		ht_info->rx_reorder_drop_counter++;
+ 		{
+ 			int i;
+@@ -597,18 +597,18 @@ static void RxReorderIndicatePacket(struct rtllib_device *ieee,
+ 	 * 1. Incoming SeqNum is equal to WinStart =>Window shift 1
+ 	 * 2. Incoming SeqNum is larger than the WinEnd => Window shift N
+ 	 */
+-	if (SN_EQUAL(SeqNum, pTS->rx_indicate_seq)) {
+-		pTS->rx_indicate_seq = (pTS->rx_indicate_seq + 1) % 4096;
++	if (SN_EQUAL(SeqNum, ts->rx_indicate_seq)) {
++		ts->rx_indicate_seq = (ts->rx_indicate_seq + 1) % 4096;
+ 		bMatchWinStart = true;
+ 	} else if (SN_LESS(WinEnd, SeqNum)) {
+ 		if (SeqNum >= (WinSize - 1))
+-			pTS->rx_indicate_seq = SeqNum + 1 - WinSize;
++			ts->rx_indicate_seq = SeqNum + 1 - WinSize;
+ 		else
+-			pTS->rx_indicate_seq = 4095 -
++			ts->rx_indicate_seq = 4095 -
+ 					     (WinSize - (SeqNum + 1)) + 1;
+ 		netdev_dbg(ieee->dev,
+ 			   "Window Shift! IndicateSeq: %d, NewSeq: %d\n",
+-			   pTS->rx_indicate_seq, SeqNum);
++			   ts->rx_indicate_seq, SeqNum);
+ 	}
+ 
+ 	/* Indication process.
+@@ -625,7 +625,7 @@ static void RxReorderIndicatePacket(struct rtllib_device *ieee,
+ 		/* Current packet is going to be indicated.*/
+ 		netdev_dbg(ieee->dev,
+ 			   "Packets indication! IndicateSeq: %d, NewSeq: %d\n",
+-			   pTS->rx_indicate_seq, SeqNum);
++			   ts->rx_indicate_seq, SeqNum);
+ 		ieee->prxbIndicateArray[0] = prxb;
+ 		index = 1;
+ 	} else {
+@@ -642,12 +642,12 @@ static void RxReorderIndicatePacket(struct rtllib_device *ieee,
+ 			pReorderEntry->SeqNum = SeqNum;
+ 			pReorderEntry->prxb = prxb;
+ 
+-			if (!AddReorderEntry(pTS, pReorderEntry)) {
++			if (!AddReorderEntry(ts, pReorderEntry)) {
+ 				int i;
+ 
+ 				netdev_dbg(ieee->dev,
+ 					   "%s(): Duplicate packet is dropped. IndicateSeq: %d, NewSeq: %d\n",
+-					   __func__, pTS->rx_indicate_seq,
++					   __func__, ts->rx_indicate_seq,
+ 					   SeqNum);
+ 				list_add_tail(&pReorderEntry->List,
+ 					      &ieee->RxReorder_Unused_List);
+@@ -659,7 +659,7 @@ static void RxReorderIndicatePacket(struct rtllib_device *ieee,
+ 			} else {
+ 				netdev_dbg(ieee->dev,
+ 					   "Pkt insert into struct buffer. IndicateSeq: %d, NewSeq: %d\n",
+-					   pTS->rx_indicate_seq, SeqNum);
++					   ts->rx_indicate_seq, SeqNum);
+ 			}
+ 		} else {
+ 			/* Packets are dropped if there are not enough reorder
+@@ -682,16 +682,16 @@ static void RxReorderIndicatePacket(struct rtllib_device *ieee,
+ 	}
+ 
+ 	/* Check if there is any packet need indicate.*/
+-	while (!list_empty(&pTS->rx_pending_pkt_list)) {
++	while (!list_empty(&ts->rx_pending_pkt_list)) {
+ 		netdev_dbg(ieee->dev, "%s(): start RREORDER indicate\n",
+ 			   __func__);
+ 
+ 		pReorderEntry = (struct rx_reorder_entry *)
+-					list_entry(pTS->rx_pending_pkt_list.prev,
++					list_entry(ts->rx_pending_pkt_list.prev,
+ 						   struct rx_reorder_entry,
+ 						   List);
+-		if (SN_LESS(pReorderEntry->SeqNum, pTS->rx_indicate_seq) ||
+-		    SN_EQUAL(pReorderEntry->SeqNum, pTS->rx_indicate_seq)) {
++		if (SN_LESS(pReorderEntry->SeqNum, ts->rx_indicate_seq) ||
++		    SN_EQUAL(pReorderEntry->SeqNum, ts->rx_indicate_seq)) {
+ 			/* This protect struct buffer from overflow. */
+ 			if (index >= REORDER_WIN_SIZE) {
+ 				netdev_err(ieee->dev,
+@@ -703,8 +703,8 @@ static void RxReorderIndicatePacket(struct rtllib_device *ieee,
+ 
+ 			list_del_init(&pReorderEntry->List);
+ 
+-			if (SN_EQUAL(pReorderEntry->SeqNum, pTS->rx_indicate_seq))
+-				pTS->rx_indicate_seq = (pTS->rx_indicate_seq + 1) %
++			if (SN_EQUAL(pReorderEntry->SeqNum, ts->rx_indicate_seq))
++				ts->rx_indicate_seq = (ts->rx_indicate_seq + 1) %
+ 						     4096;
+ 
+ 			ieee->prxbIndicateArray[index] = pReorderEntry->prxb;
+@@ -724,9 +724,9 @@ static void RxReorderIndicatePacket(struct rtllib_device *ieee,
+ 	 * Rx buffering.
+ 	 */
+ 	if (index > 0) {
+-		if (timer_pending(&pTS->rx_pkt_pending_timer))
+-			del_timer_sync(&pTS->rx_pkt_pending_timer);
+-		pTS->rx_timeout_indicate_seq = 0xffff;
++		if (timer_pending(&ts->rx_pkt_pending_timer))
++			del_timer_sync(&ts->rx_pkt_pending_timer);
++		ts->rx_timeout_indicate_seq = 0xffff;
+ 
+ 		if (index > REORDER_WIN_SIZE) {
+ 			netdev_err(ieee->dev,
+@@ -740,10 +740,10 @@ static void RxReorderIndicatePacket(struct rtllib_device *ieee,
+ 		bPktInBuf = false;
+ 	}
+ 
+-	if (bPktInBuf && pTS->rx_timeout_indicate_seq == 0xffff) {
++	if (bPktInBuf && ts->rx_timeout_indicate_seq == 0xffff) {
+ 		netdev_dbg(ieee->dev, "%s(): SET rx timeout timer\n", __func__);
+-		pTS->rx_timeout_indicate_seq = pTS->rx_indicate_seq;
+-		mod_timer(&pTS->rx_pkt_pending_timer, jiffies +
++		ts->rx_timeout_indicate_seq = ts->rx_indicate_seq;
++		mod_timer(&ts->rx_pkt_pending_timer, jiffies +
+ 			  msecs_to_jiffies(ht_info->rx_reorder_pending_time));
+ 	}
+ 	spin_unlock_irqrestore(&(ieee->reorder_spinlock), flags);
 -- 
 2.41.0
 
