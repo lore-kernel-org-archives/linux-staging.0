@@ -1,118 +1,84 @@
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com (mail-bn8nam12olkn2027.outbound.protection.outlook.com [40.92.21.27])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oa1-f52.google.com (mail-oa1-f52.google.com [209.85.160.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DD5433FB
-	for <linux-staging@lists.linux.dev>; Sun, 27 Aug 2023 22:32:56 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=KEsTLI+ygFShyBBkc3lG6HnLgNcxB9O0r03A8WenE3V0ak2m4jieVmZ+j6Xu8BwHY3xGIAVQeFStBv0XclFBAVxahiKS5A0Qpv9gEWk5SKUud2G6jvYYvlVrsIPDwon3iJVODw2e+Dfe3IDNiXxGXQFVXNF2bG4rj+GajTcUSj/Ij9M1Lf3vlTFdu526O0oRWuswNf8ck8HIT6SFsf6fHw0Vzx0VAwYr86A60HDwee0vu+CrBYGm0mrlOdkioOuExbhW1FPe/hc6dgIIhnivi+9VDE6OBRhsjA3oTeMABoTUoAe3fTnwnSfcKlGnLYr7i6d7CZ4J14BqnM8Kf0O6hA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=paQfAqlRiUUJw4oOf6slVFlsEDkfp4G8pHYcqcr9aUQ=;
- b=m3GhesVHxtusoR7RBFZKUSgQLIsfUluDuJbFJu5h1SrkqCOdXnhPlyIOkfIiBXkVfecMQDfCxGWb/pFF9Hl9Ro7m2CExa7U+scbOApggY9bKVKnw1xEPESGUhhA1zmFt6hgFE//En16neCdTVCET68VyrI80k6T+GC3JNnPGupaTO/ssopNlyRXpvBv+Nd08haPCZQsDpXUK2w6/OOmz4Dv+qCs7mhB90ZGPdNUf6xsp+7dWMeG2BPdGk1J0QIs//CgcuncP3bOPZF3u2ac35Y4jqzca3BSfanVlL0wTTZBDR82B+ovFurIa5DMLlbIstmugSgCxUY7+C4it2Npvyg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=hotmail.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=paQfAqlRiUUJw4oOf6slVFlsEDkfp4G8pHYcqcr9aUQ=;
- b=bOUCR4DleJulxXTzplsHRLgsHplh0+QFUWpAqYUsxbmNGsv0NGNVZoMabgYcRm5Xw6v5bHuBfLjhn70PqYLGOLaKd3/r8Vm3H9qe5WrZ/3vua+bz2ITF3S4YBGHmPPJcPSNplBaDdNqytuFvbwjiO5XYmRIi10m6JMFz8jRBDI5KrtNoH4MqFMr4GTvJY7Z3zkN+GpA8fjxBdurTnon6Y1SWSkqhBESSrf7P6b1YSNcxl50Iwe5uHjmZDBfoKwUsqQxCxz72eDzl6Qw09xeHw0YSXUDhQrBMeKDCFA1NtRbMpJ1bUgURLvMuqvC1NAUz+BXD0Aan7vsEgbL3QHdOpw==
-Received: from PH7PR11MB7643.namprd11.prod.outlook.com (2603:10b6:510:27c::22)
- by SJ2PR11MB8421.namprd11.prod.outlook.com (2603:10b6:a03:549::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6699.34; Sun, 27 Aug
- 2023 22:32:54 +0000
-Received: from PH7PR11MB7643.namprd11.prod.outlook.com
- ([fe80::bfb7:d3a3:2ed:6e20]) by PH7PR11MB7643.namprd11.prod.outlook.com
- ([fe80::bfb7:d3a3:2ed:6e20%7]) with mapi id 15.20.6699.034; Sun, 27 Aug 2023
- 22:32:54 +0000
-Date: Sun, 27 Aug 2023 18:32:51 -0400
-To: Nam Cao <namcaov@gmail.com>
-Cc: gregkh@linuxfoundation.org, colin.i.king@gmail.com, 
-	sumitraartsy@gmail.com, u.kleine-koenig@pengutronix.de, geert@linux-m68k.org, 
-	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
-Subject: Re: [PATCH 1/6] staging: octeon: clean up the octeon ethernet driver
-Message-ID:
- <PH7PR11MB764320782B13A53D79F3DF69BCE1A@PH7PR11MB7643.namprd11.prod.outlook.com>
-References: <PH7PR11MB76436F3A05897D8F8DC9F967BCE1A@PH7PR11MB7643.namprd11.prod.outlook.com>
- <ZOvNvkRJstLt4ghx@nam-dell>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZOvNvkRJstLt4ghx@nam-dell>
-From: <ozlinux@hotmail.com>
-X-TMN: [cRA5uZnRz2Qkna/nV+vbbcpK8YdRxB5PXHBg1hvrMpOieNTblFqigkcffI7kKNNv]
-X-ClientProxiedBy: MN2PR16CA0050.namprd16.prod.outlook.com
- (2603:10b6:208:234::19) To PH7PR11MB7643.namprd11.prod.outlook.com
- (2603:10b6:510:27c::22)
-X-Microsoft-Original-Message-ID:
- <qpzblgkrhi3usgybnkinctqifnyw65j7fe2dmsu5wk2fneu5zo@ius6szerbne3>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2ADB33FB
+	for <linux-staging@lists.linux.dev>; Sun, 27 Aug 2023 22:47:22 +0000 (UTC)
+Received: by mail-oa1-f52.google.com with SMTP id 586e51a60fabf-1c4d8eaa8ebso1964918fac.0
+        for <linux-staging@lists.linux.dev>; Sun, 27 Aug 2023 15:47:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1693176441; x=1693781241;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=epUIiVqABeIowLt4jzYenygYHrRc/gN9x8tk0ImlTJ0=;
+        b=PmSImoLKfQrb+YbDPW/g1JLVResIS4mOist3R9UtVGvDptAEbIRXxhgXf7N1jX6tQ1
+         HUSGkozPR6SMa4NGt/TTIrywgzSkzg88XdCqaMMR8MMFNm+zE8E2XZ+a0dkGV9vBaBIv
+         2T33JsFrtJ0oTw+zHOmxJFeygPCDUCtE34sMB/4Bo0L0P1HTyWvHHbO3U54hEDMmEW6x
+         QJIfn0xeNRuWX3ibvK4IjLiN3Er1X5ey4wk0y33m4KrOp8eO5fVkXgKO2QbUL3Q2K4MO
+         bvoH8txA9/ygilxSC0QtHxNFmIS29wXfWHueSqwfMUDPoidzwJpr5OG0Ymflvmi6je4j
+         xZoA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1693176441; x=1693781241;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=epUIiVqABeIowLt4jzYenygYHrRc/gN9x8tk0ImlTJ0=;
+        b=Nspz1FohPs7lVhFvkqdwnX2bc6s7cFnssgwKvUeGlTk0XMBatcz8mV9KpxnKDZ1NFC
+         oa/DRQOcg/0PLVXyZAMZDZgqprvx8YA17Wb5IUIh/nMUJ4nSl09bsmDO32WPDgN6Dtx3
+         FhJDaIujOKfd0x3e7pJZz9URTodUb68CJ+5/z9ezV2t197MJP1rdjBDtXIBrW+jR9Qe2
+         Rt2XI+CktI2rOpWQ5/8ZrjT6LuZyvj06msOhNxA6vBv151HyTgE9o4mpbSxrU9/lpimY
+         UYcUdxdfudH8lDsHnh2TNG2EtoTUJGnHvjCiFfSKhCng6rLOMJ5Vosdenh7Q+U0RjEbZ
+         AsZw==
+X-Gm-Message-State: AOJu0YwKLsvmF1EbCmZbG26yzXc4iYU/ThR3T/J/lT3KwxN3GujMZWUG
+	S6+OYOwTLlL54iWUcFztRa8puWLQxuKQKcdXiG4=
+X-Google-Smtp-Source: AGHT+IGytyXnjNFz5kjqSOpNXpmyYRksnRPkEAAwdAEzTMcmMXeJd+xh02gz2541f/Y2MmWW/g5a3mj/MF1Aw2g49uc=
+X-Received: by 2002:a05:6871:14a:b0:1ba:d044:8a4 with SMTP id
+ z10-20020a056871014a00b001bad04408a4mr11353149oab.18.1693176441471; Sun, 27
+ Aug 2023 15:47:21 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR11MB7643:EE_|SJ2PR11MB8421:EE_
-X-MS-Office365-Filtering-Correlation-Id: a1fa64a7-8555-42bd-6876-08dba74d8de3
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	kRBI1kRfQwWYe89gbOwLJSzAneG5PYvtuLatewuk9UvHOAouXp4h2ecIO2QkYyCerGiRfG6bi2EHWAAaLE/T87rQKojCUCcKbQhqMUITeFCpS5Rdbu7SbYK8Z0Ctn1qKUCNoBP2ni9r4F9DIS1dZENgZPfmGdcvUgLkT8rg9lUF4qxnYdiFf7LsowAgZ+3f3lo7lPUeVJ4YB9KTOskC2XmM9xKAvX7sZItuArobQCZX22rEv9lV80P5+x1ven0LNcU8It5qDGflLzCa0xusj2bFAnlRuqv53zgPYsjZ7PwG8sNfPwoWS4m1U8UpgC7sUNtj/2lWBR7N6sHn4qxKul4AjGkEBm3EkfKn4Sq9e3QVAth5+B9HmR5NMlNvR6zQ0jKwBv5KfoPyNEZ8pMHIqDinVuvnRQYpsB+CY6A9JeDP17uoGxMkE+8je0xR8ouMbDHaqPuPoA6deWv1A8u05Ny4awzPplY2U69wb789UsghxXC6OjiFmkf5HMpd/UfjbEwgFr05bcVOlMQGUWB1JcjIeSkd/viOtYWyC2QXnbVllSOMb+HJH1pK2yXHcv6/l
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?eg2yiM+csfjiTznDsHru8IrXVomg+3r4LkaxHpdQKgIgzjRIQjuJhXXRlkNf?=
- =?us-ascii?Q?sA/cAVEaNmWXT0j9/w6DK5KSw6kZLmYjYnxlS8YdDt2GBoeosvadyoJCjKAB?=
- =?us-ascii?Q?Wlo0lyBLw8rxpv3RBS7uRgXRXoBUzuqB9sGjHOAYSv9LPDMsNPANJaJYTKop?=
- =?us-ascii?Q?4Rfi7fG8xmbHHCkktAf1GxdJJK5W9I+PnegYAOj9qMvmtUSAvVDfZH5OjKWz?=
- =?us-ascii?Q?++UWkWgxSBxi4dBk8C8pGlZtvlLw47e7MZ3X+yNyTQ5xafsdCgBAj3WP/q01?=
- =?us-ascii?Q?3Afjy1MhuA4YBaIdUbjbZA5u2WCtkQgxZLa/OaANjymUx/emaPnPIii8rvH4?=
- =?us-ascii?Q?kKZKqb1bs4eepdblTIi2iinj/lOrqSqO+4/m2WaqCo994GR1BYiXdIl1nU4Q?=
- =?us-ascii?Q?8H/REWly+NyFPTgmM8SvjqruG3EmWj4TX5Fs75bV99P7IqmR/9UYVhUwG/+n?=
- =?us-ascii?Q?mtc4FdTXOrwRXjRh74cj1NNN5iSsa63TS2cPBXSNTf/ni41L4/NkXVM1VKUc?=
- =?us-ascii?Q?UFTjEjaqlxaJAOgGN2WK4lxNph2wFiqXkrei2kuIxohQ8BVlY2Jqkoj+zC0C?=
- =?us-ascii?Q?g8FUzUaFY1IxVhnyZJfnVjF7sr/ps0Z+96MrCHUN55mLwWN+PY9E4g7koS3b?=
- =?us-ascii?Q?s2DjkKzwtSnY7QHINWh26j9P6zZnOQ5tLzX2nuA5l/uS3NOvRmFVetG30PN/?=
- =?us-ascii?Q?id4tC21G5zGqE64F5MMHToi7les7RsSMV9o0/vPGhpy0lfkyNtpP0u20/6oq?=
- =?us-ascii?Q?VgtRHVaEv9AakxFgJXzh4bJXMArz4T2Lo5BhcLq24o7BvEXZwI/lGRT5H0p1?=
- =?us-ascii?Q?Zyitmy8SjeWGH25GsoOcT2YaR0jtswiPhr59Bcp7rz2a6BpkeDLjwQG3c47/?=
- =?us-ascii?Q?pwfcXi0Dioa13z9f40lD09OIS6zyb5lox8fNMKBWfEWoPSaPtKBPZPhRcYCB?=
- =?us-ascii?Q?B5DgJ6N/Irkv+wrXZ+fJYXznIZtP8ffcl1B4Hi6oNBrq3luSI5RqrLo81FKG?=
- =?us-ascii?Q?ohdQl/eU7pD9Vxnr9RYl0aEhzxZGFDsGN3HtFoNZOEbiEqNzabqx63QG05+e?=
- =?us-ascii?Q?P4ceLUpdSSPLuLBB6vtsgVfeLDu77g9KbyEqOgtmoXuHZHvV7LZzhzZS4zyi?=
- =?us-ascii?Q?7KH27WxuwFLWwadorPJfcJ9NafwVi6tpfzMPEGPb3tDd9BUZr7OGvuNe4BV0?=
- =?us-ascii?Q?cpREqsUrYEM3HYJqSH+sc7VBJkT7knshykE1Wgn3+hcxa1IuPo18cvk+pA1C?=
- =?us-ascii?Q?QFaO3Eyex/L1wCoP4rfrJ/MC8pF/OrK66XDrHSLZDQ=3D=3D?=
-X-OriginatorOrg: sct-15-20-4755-11-msonline-outlook-e8f36.templateTenant
-X-MS-Exchange-CrossTenant-Network-Message-Id: a1fa64a7-8555-42bd-6876-08dba74d8de3
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR11MB7643.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Aug 2023 22:32:54.0911
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg:
-	00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ2PR11MB8421
+References: <PH7PR11MB76436F3A05897D8F8DC9F967BCE1A@PH7PR11MB7643.namprd11.prod.outlook.com>
+ <ZOvNvkRJstLt4ghx@nam-dell> <PH7PR11MB764320782B13A53D79F3DF69BCE1A@PH7PR11MB7643.namprd11.prod.outlook.com>
+In-Reply-To: <PH7PR11MB764320782B13A53D79F3DF69BCE1A@PH7PR11MB7643.namprd11.prod.outlook.com>
+From: Nam Cao <namcaov@gmail.com>
+Date: Mon, 28 Aug 2023 00:47:10 +0200
+Message-ID: <CA+sZ8B_inWKE6_zk4ghVtcxXXdP4NBkkQs5qb6Uu7BygY5UMvQ@mail.gmail.com>
+Subject: Re: [PATCH 1/6] staging: octeon: clean up the octeon ethernet driver
+To: ozlinux@hotmail.com
+Cc: gregkh@linuxfoundation.org, colin.i.king@gmail.com, sumitraartsy@gmail.com, 
+	u.kleine-koenig@pengutronix.de, geert@linux-m68k.org, 
+	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, Aug 28, 2023 at 12:27:10AM +0200, Nam Cao wrote:
-> On Sun, Aug 27, 2023 at 05:12:04PM -0400, Oliver Crumrine wrote:
-> > Make the octeon ethernet driver better adhere to the
-> > kernel coding standard
-> > 
-> > Signed-off-by: Oliver Crumrine <ozlinux@hotmail.com>
-> 
-> See this conversation about a similar mistake that you also made with your
-> patch series:
-> https://lore.kernel.org/linux-staging/ZOpq4t22iRXewekD@alolivei-thinkpadt480s.gru.csb/T/#t
-> 
-> Best regards,
-> Nam
+On Mon, Aug 28, 2023 at 12:32=E2=80=AFAM <ozlinux@hotmail.com> wrote:
+>
+> On Mon, Aug 28, 2023 at 12:27:10AM +0200, Nam Cao wrote:
+> > On Sun, Aug 27, 2023 at 05:12:04PM -0400, Oliver Crumrine wrote:
+> > > Make the octeon ethernet driver better adhere to the
+> > > kernel coding standard
+> > >
+> > > Signed-off-by: Oliver Crumrine <ozlinux@hotmail.com>
+> >
+> > See this conversation about a similar mistake that you also made with y=
+our
+> > patch series:
+> > https://lore.kernel.org/linux-staging/ZOpq4t22iRXewekD@alolivei-thinkpa=
+dt480s.gru.csb/T/#t
+> >
+> > Best regards,
+> > Nam
+>
+> That is totally my bad. Should I leave it as is? Should I resend the
+> whole patch set? Should I resend just the last five, but attach them to
+> the first one? This is my first kernel patch, so I'll take any advice I
+> can get.
 
-That is totally my bad. Should I leave it as is? Should I resend the
-whole patch set? Should I resend just the last five, but attach them to
-the first one? This is my first kernel patch, so I'll take any advice I
-can get.
+You should resend everything. Don't forget to add the "v2" tag ;-)
 
-Thanks,
-Oliver
+Best regards,
+Nam
