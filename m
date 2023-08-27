@@ -1,260 +1,204 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A58988478
-	for <linux-staging@lists.linux.dev>; Sun, 27 Aug 2023 16:33:10 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A75C7C433C7;
-	Sun, 27 Aug 2023 16:33:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1693153990;
-	bh=SKIGxINZphwjOwTRw2aotndWK4/5JrK1CjkNZQ2GaTw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=KSJ1B8VbzWcyyzYjc5p5/dPAqq8nZJ9RifM1OOliQYBjUhQ2w8JMvP+MRjdh6nTAy
-	 JiGTe6ZQ7WvcBcPKF+qJXl2JJCpF43gGbr398inFRGTK0s3CRaJcvF6KBuMMwh0MTj
-	 Go7fvnNJCV8ufS4BQRgwnFLQoY4HVqfAJ4LBnjds=
-Date: Sun, 27 Aug 2023 18:33:07 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Oliver Crumrine <ozlinux@hotmail.com>
-Cc: colin.i.king@gmail.com, sumitraartsy@gmail.com,
-	u.kleine-koenig@pengutronix.de, geert@linux-m68k.org,
-	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
-Subject: Re: [PATCH v2] staging: octeon: clean up octeon ethernet driver
-Message-ID: <2023082744-alike-spendable-5b87@gregkh>
-References: <PH7PR11MB7643572E8C1231C013762613BCE1A@PH7PR11MB7643.namprd11.prod.outlook.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37A7612B60
+	for <linux-staging@lists.linux.dev>; Sun, 27 Aug 2023 17:50:58 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9C3C5C433C8;
+	Sun, 27 Aug 2023 17:50:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1693158658;
+	bh=5xz3DHo3+ExcQzL2u+K582TBNT8T2t2bLx0+hhyHeY0=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=rq5Tk1E8sKFUVkm6G+52xVFTMI+2FKZSsgG5zFjoEjWg2kaH6v0UrrqSYOEfSNWlr
+	 Bu2CyWnXCzvdw0lDExcrSUd/XslvOsp5Bl24LWzOfFuTT8cPPPIVqOorV8DFKc3O9e
+	 gJwuiwFZwNfIZDFfeoivM79lOosXGw7FffqW1aOh/4z5CalvUb+MZFnHYH+i+B9wJz
+	 lQun9vfgJjXZds4lKbaTr/rH3ApGD6ncnHxl2yyFuA2vWN5w5QvN1H/tJfHYV4nf9a
+	 zZWb0bmQYMhcn0jo6QcWGc3p9OWqMTVlXrZjf09yxW5KDHwsZehdy5dkShRH7yhRQM
+	 bsyPxwZEmGvXg==
+Date: Sun, 27 Aug 2023 18:51:18 +0100
+From: Jonathan Cameron <jic23@kernel.org>
+To: Jinjie Ruan <ruanjinjie@huawei.com>
+Cc: <linux-iio@vger.kernel.org>, <linux-staging@lists.linux.dev>, Lars-Peter
+ Clausen <lars@metafoo.de>, Michael Hennerich
+ <Michael.Hennerich@analog.com>, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>
+Subject: Re: [PATCH -next] staging: iio: Use devm_clk_get_enabled() helper
+ function
+Message-ID: <20230827185118.1fe35cc0@jic23-huawei>
+In-Reply-To: <20230825095612.2972892-1-ruanjinjie@huawei.com>
+References: <20230825095612.2972892-1-ruanjinjie@huawei.com>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <PH7PR11MB7643572E8C1231C013762613BCE1A@PH7PR11MB7643.namprd11.prod.outlook.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Sun, Aug 27, 2023 at 09:02:07AM -0400, Oliver Crumrine wrote:
-> Make the octeon ethernet driver better adhere to the kernel
-> coding standard
+On Fri, 25 Aug 2023 17:56:12 +0800
+Jinjie Ruan <ruanjinjie@huawei.com> wrote:
+
+> The devm_clk_get_enabled() helper:
+>     - calls devm_clk_get()
+>     - calls clk_prepare_enable() and registers what is needed in order to
+>       call clk_disable_unprepare() when needed, as a managed resource.
 > 
-> Signed-off-by: Oliver Crumrine <ozlinux@hotmail.com>
+> This simplifies the code and avoids the need of a dedicated function used
+> with devm_add_action_or_reset().
+> 
+> Signed-off-by: Jinjie Ruan <ruanjinjie@huawei.com>
+Even for staging IIO drivers I generally prefer one patch per driver.
+However I don't care enough for a simple case like this one so I've applied
+it to the togreg branch of iio.git.
+
+I made a minor tweak inline.  The driver in question has several similar
+odd 
+	ret = A;
+	return ret;
+
+blocks, but I've only tidied up the one you touched here
+
+Thanks,
+
+Jonathan
+
 > ---
->  drivers/staging/octeon/ethernet.c     |  6 +--
->  drivers/staging/octeon/octeon-stubs.h | 53 ++++++++++++++-------------
->  2 files changed, 30 insertions(+), 29 deletions(-)
+>  drivers/staging/iio/frequency/ad9832.c        | 15 +------------
+>  drivers/staging/iio/frequency/ad9834.c        | 20 ++---------------
+>  .../staging/iio/impedance-analyzer/ad5933.c   | 22 ++-----------------
+>  3 files changed, 5 insertions(+), 52 deletions(-)
 > 
-> diff --git a/drivers/staging/octeon/ethernet.c b/drivers/staging/octeon/ethernet.c
-> index 9eee28f2940c..8e1f4b987a25 100644
-> --- a/drivers/staging/octeon/ethernet.c
-> +++ b/drivers/staging/octeon/ethernet.c
-> @@ -201,8 +201,8 @@ EXPORT_SYMBOL(cvm_oct_free_work);
->   */
->  static struct net_device_stats *cvm_oct_common_get_stats(struct net_device *dev)
+> diff --git a/drivers/staging/iio/frequency/ad9832.c b/drivers/staging/iio/frequency/ad9832.c
+> index 6f9eebd6c7ee..6c390c4eb26d 100644
+> --- a/drivers/staging/iio/frequency/ad9832.c
+> +++ b/drivers/staging/iio/frequency/ad9832.c
+> @@ -299,11 +299,6 @@ static void ad9832_reg_disable(void *reg)
+>  	regulator_disable(reg);
+>  }
+>  
+> -static void ad9832_clk_disable(void *clk)
+> -{
+> -	clk_disable_unprepare(clk);
+> -}
+> -
+>  static int ad9832_probe(struct spi_device *spi)
 >  {
-> -	cvmx_pip_port_status_t rx_status;
-> -	cvmx_pko_port_status_t tx_status;
-> +	struct cvmx_pip_port_status rx_status;
-> +	struct cvmx_pko_port_status tx_status;
->  	struct octeon_ethernet *priv = netdev_priv(dev);
+>  	struct ad9832_platform_data *pdata = dev_get_platdata(&spi->dev);
+> @@ -350,18 +345,10 @@ static int ad9832_probe(struct spi_device *spi)
+>  	if (ret)
+>  		return ret;
 >  
->  	if (priv->port < CVMX_PIP_NUM_INPUT_PORTS) {
-> @@ -798,7 +798,7 @@ static int cvm_oct_probe(struct platform_device *pdev)
+> -	st->mclk = devm_clk_get(&spi->dev, "mclk");
+> +	st->mclk = devm_clk_get_enabled(&spi->dev, "mclk");
+>  	if (IS_ERR(st->mclk))
+>  		return PTR_ERR(st->mclk);
 >  
->  	num_interfaces = cvmx_helper_get_number_of_interfaces();
->  	for (interface = 0; interface < num_interfaces; interface++) {
-> -		cvmx_helper_interface_mode_t imode =
-> +		enum cvmx_helper_interface_mode imode =
->  		    cvmx_helper_interface_get_mode(interface);
->  		int num_ports = cvmx_helper_ports_on_interface(interface);
->  		int port;
-> diff --git a/drivers/staging/octeon/octeon-stubs.h b/drivers/staging/octeon/octeon-stubs.h
-> index 3e7b92cd2e35..1e3b32b304dc 100644
-> --- a/drivers/staging/octeon/octeon-stubs.h
-> +++ b/drivers/staging/octeon/octeon-stubs.h
-> @@ -213,14 +213,14 @@ enum cvmx_fau_op_size {
->  	CVMX_FAU_OP_SIZE_64 = 3
->  };
+> -	ret = clk_prepare_enable(st->mclk);
+> -	if (ret < 0)
+> -		return ret;
+> -
+> -	ret = devm_add_action_or_reset(&spi->dev, ad9832_clk_disable, st->mclk);
+> -	if (ret)
+> -		return ret;
+> -
+>  	st->spi = spi;
+>  	mutex_init(&st->lock);
 >  
-> -typedef enum {
-> +enum cvmx_spi_mode {
->  	CVMX_SPI_MODE_UNKNOWN = 0,
->  	CVMX_SPI_MODE_TX_HALFPLEX = 1,
->  	CVMX_SPI_MODE_RX_HALFPLEX = 2,
->  	CVMX_SPI_MODE_DUPLEX = 3
-> -} cvmx_spi_mode_t;
-> +};
->  
-> -typedef enum {
-> +enum cvmx_helper_interface_mode {
->  	CVMX_HELPER_INTERFACE_MODE_DISABLED,
->  	CVMX_HELPER_INTERFACE_MODE_RGMII,
->  	CVMX_HELPER_INTERFACE_MODE_GMII,
-> @@ -231,20 +231,20 @@ typedef enum {
->  	CVMX_HELPER_INTERFACE_MODE_PICMG,
->  	CVMX_HELPER_INTERFACE_MODE_NPI,
->  	CVMX_HELPER_INTERFACE_MODE_LOOP,
-> -} cvmx_helper_interface_mode_t;
-> +};
->  
-> -typedef enum {
-> +enum cvmx_pow_wait {
->  	CVMX_POW_WAIT = 1,
->  	CVMX_POW_NO_WAIT = 0,
-> -} cvmx_pow_wait_t;
-> +};
->  
-> -typedef enum {
-> +enum cvmx_pko_lock {
->  	CVMX_PKO_LOCK_NONE = 0,
->  	CVMX_PKO_LOCK_ATOMIC_TAG = 1,
->  	CVMX_PKO_LOCK_CMD_QUEUE = 2,
-> -} cvmx_pko_lock_t;
-> +};
->  
-> -typedef enum {
-> +enum cvmx_pko_status {
->  	CVMX_PKO_SUCCESS,
->  	CVMX_PKO_INVALID_PORT,
->  	CVMX_PKO_INVALID_QUEUE,
-> @@ -252,7 +252,7 @@ typedef enum {
->  	CVMX_PKO_NO_MEMORY,
->  	CVMX_PKO_PORT_ALREADY_SETUP,
->  	CVMX_PKO_CMD_QUEUE_INIT_ERROR
-> -} cvmx_pko_status_t;
-> +};
->  
->  enum cvmx_pow_tag_type {
->  	CVMX_POW_TAG_TYPE_ORDERED   = 0L,
-> @@ -384,7 +384,7 @@ union cvmx_ipd_sub_port_qos_cnt {
->  	} s;
->  };
->  
-> -typedef struct {
-> +struct cvmx_pip_port_status {
->  	uint32_t dropped_octets;
->  	uint32_t dropped_packets;
->  	uint32_t pci_raw_packets;
-> @@ -407,13 +407,13 @@ typedef struct {
->  	uint32_t inb_packets;
->  	uint64_t inb_octets;
->  	uint16_t inb_errors;
-> -} cvmx_pip_port_status_t;
-> +};
->  
-> -typedef struct {
-> +struct cvmx_pko_port_status {
->  	uint32_t packets;
->  	uint64_t octets;
->  	uint64_t doorbell;
-> -} cvmx_pko_port_status_t;
-> +};
->  
->  union cvmx_pip_frm_len_chkx {
->  	uint64_t u64;
-> @@ -1258,15 +1258,15 @@ static inline int octeon_is_simulation(void)
+> diff --git a/drivers/staging/iio/frequency/ad9834.c b/drivers/staging/iio/frequency/ad9834.c
+> index 285df0e489a6..4f35def05fb7 100644
+> --- a/drivers/staging/iio/frequency/ad9834.c
+> +++ b/drivers/staging/iio/frequency/ad9834.c
+> @@ -394,13 +394,6 @@ static void ad9834_disable_reg(void *data)
+>  	regulator_disable(reg);
 >  }
 >  
->  static inline void cvmx_pip_get_port_status(uint64_t port_num, uint64_t clear,
-> -					    cvmx_pip_port_status_t *status)
-> +					    struct cvmx_pip_port_status *status)
->  { }
->  
->  static inline void cvmx_pko_get_port_status(uint64_t port_num, uint64_t clear,
-> -					    cvmx_pko_port_status_t *status)
-> +					    struct cvmx_pko_port_status *status)
->  { }
->  
-> -static inline cvmx_helper_interface_mode_t cvmx_helper_interface_get_mode(int
-> -								   interface)
-> +static inline enum cvmx_helper_interface_mode cvmx_helper_interface_get_mode(int
-> +									     interface)
+> -static void ad9834_disable_clk(void *data)
+> -{
+> -	struct clk *clk = data;
+> -
+> -	clk_disable_unprepare(clk);
+> -}
+> -
+>  static int ad9834_probe(struct spi_device *spi)
 >  {
->  	return 0;
+>  	struct ad9834_state *st;
+> @@ -429,22 +422,13 @@ static int ad9834_probe(struct spi_device *spi)
+>  	}
+>  	st = iio_priv(indio_dev);
+>  	mutex_init(&st->lock);
+> -	st->mclk = devm_clk_get(&spi->dev, NULL);
+> +	st->mclk = devm_clk_get_enabled(&spi->dev, NULL);
+>  	if (IS_ERR(st->mclk)) {
+> -		ret = PTR_ERR(st->mclk);
+> -		return ret;
+> -	}
+> -
+> -	ret = clk_prepare_enable(st->mclk);
+> -	if (ret) {
+>  		dev_err(&spi->dev, "Failed to enable master clock\n");
+> +		ret = PTR_ERR(st->mclk);
+>  		return ret;
+I combined this as
+		return PTR_ERR(st->mclk);
+whilst applying.
+
+There are other equally messy error handling lines int his driver, but
+whilst we are here we can clean at least this one up ;)
+
+Jonathan
+>  	}
+>  
+> -	ret = devm_add_action_or_reset(&spi->dev, ad9834_disable_clk, st->mclk);
+> -	if (ret)
+> -		return ret;
+> -
+>  	st->spi = spi;
+>  	st->devid = spi_get_device_id(spi)->driver_data;
+>  	indio_dev->name = spi_get_device_id(spi)->name;
+> diff --git a/drivers/staging/iio/impedance-analyzer/ad5933.c b/drivers/staging/iio/impedance-analyzer/ad5933.c
+> index 46db6d91542a..e748a5d04e97 100644
+> --- a/drivers/staging/iio/impedance-analyzer/ad5933.c
+> +++ b/drivers/staging/iio/impedance-analyzer/ad5933.c
+> @@ -667,13 +667,6 @@ static void ad5933_reg_disable(void *data)
+>  	regulator_disable(st->reg);
 >  }
-> @@ -1342,11 +1342,11 @@ static inline unsigned int cvmx_get_core_num(void)
->  }
 >  
->  static inline void cvmx_pow_work_request_async_nocheck(int scr_addr,
-> -						       cvmx_pow_wait_t wait)
-> +						       enum cvmx_pow_wait wait)
->  { }
->  
->  static inline void cvmx_pow_work_request_async(int scr_addr,
-> -					       cvmx_pow_wait_t wait)
-> +					       enum cvmx_pow_wait wait)
->  { }
->  
->  static inline struct cvmx_wqe *cvmx_pow_work_response_async(int scr_addr)
-> @@ -1356,13 +1356,13 @@ static inline struct cvmx_wqe *cvmx_pow_work_response_async(int scr_addr)
->  	return wqe;
->  }
->  
-> -static inline struct cvmx_wqe *cvmx_pow_work_request_sync(cvmx_pow_wait_t wait)
-> +static inline struct cvmx_wqe *cvmx_pow_work_request_sync(enum cvmx_pow_wait wait)
+> -static void ad5933_clk_disable(void *data)
+> -{
+> -	struct ad5933_state *st = data;
+> -
+> -	clk_disable_unprepare(st->mclk);
+> -}
+> -
+>  static int ad5933_probe(struct i2c_client *client)
 >  {
->  	return (void *)(unsigned long)wait;
->  }
+>  	const struct i2c_device_id *id = i2c_client_get_device_id(client);
+> @@ -712,23 +705,12 @@ static int ad5933_probe(struct i2c_client *client)
 >  
->  static inline int cvmx_spi_restart_interface(int interface,
-> -					cvmx_spi_mode_t mode, int timeout)
-> +					     enum cvmx_spi_mode mode, int timeout)
->  {
->  	return 0;
->  }
-> @@ -1381,12 +1381,13 @@ static inline union cvmx_gmxx_rxx_rx_inbnd cvmx_spi4000_check_speed(int interfac
->  }
+>  	st->vref_mv = ret / 1000;
 >  
->  static inline void cvmx_pko_send_packet_prepare(uint64_t port, uint64_t queue,
-> -						cvmx_pko_lock_t use_locking)
-> +						enum cvmx_pko_lock use_locking)
->  { }
+> -	st->mclk = devm_clk_get(&client->dev, "mclk");
+> +	st->mclk = devm_clk_get_enabled(&client->dev, "mclk");
+>  	if (IS_ERR(st->mclk) && PTR_ERR(st->mclk) != -ENOENT)
+>  		return PTR_ERR(st->mclk);
 >  
-> -static inline cvmx_pko_status_t cvmx_pko_send_packet_finish(uint64_t port,
-> -		uint64_t queue, union cvmx_pko_command_word0 pko_command,
-> -		union cvmx_buf_ptr packet, cvmx_pko_lock_t use_locking)
-> +static inline enum cvmx_pko_status cvmx_pko_send_packet_finish(uint64_t port, uint64_t queue,
-> +							       union cvmx_pko_command_word0 pko_command,
-> +							       union cvmx_buf_ptr packet,
-> +							       enum cvmx_pko_lock use_locking)
->  {
->  	return 0;
->  }
-> -- 
-> 2.39.3
-> 
-> 
+> -	if (!IS_ERR(st->mclk)) {
+> -		ret = clk_prepare_enable(st->mclk);
+> -		if (ret < 0)
+> -			return ret;
+> -
+> -		ret = devm_add_action_or_reset(&client->dev,
+> -					       ad5933_clk_disable,
+> -					       st);
+> -		if (ret)
+> -			return ret;
+> -
+> +	if (!IS_ERR(st->mclk))
+>  		ext_clk_hz = clk_get_rate(st->mclk);
+> -	}
+>  
+>  	if (ext_clk_hz) {
+>  		st->mclk_hz = ext_clk_hz;
 
-Hi,
-
-This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
-a patch that has triggered this response.  He used to manually respond
-to these common problems, but in order to save his sanity (he kept
-writing the same thing over and over, yet to different people), I was
-created.  Hopefully you will not take offence and will fix the problem
-in your patch and resubmit it so that it can be accepted into the Linux
-kernel tree.
-
-You are receiving this message because of the following common error(s)
-as indicated below:
-
-- Your patch did many different things all at once, making it difficult
-  to review.  All Linux kernel patches need to only do one thing at a
-  time.  If you need to do multiple things (such as clean up all coding
-  style issues in a file/driver), do it in a sequence of patches, each
-  one doing only one thing.  This will make it easier to review the
-  patches to ensure that they are correct, and to help alleviate any
-  merge issues that larger patches can cause.
-
-- This looks like a new version of a previously submitted patch, but you
-  did not list below the --- line any changes from the previous version.
-  Please read the section entitled "The canonical patch format" in the
-  kernel file, Documentation/process/submitting-patches.rst for what
-  needs to be done here to properly describe this.
-
-
-If you wish to discuss this problem further, or you have questions about
-how to resolve this issue, please feel free to respond to this email and
-Greg will reply once he has dug out from the pending patches received
-from other developers.
-
-thanks,
-
-greg k-h's patch email bot
