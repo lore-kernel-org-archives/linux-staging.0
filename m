@@ -1,107 +1,132 @@
-Received: from mail-ot1-f41.google.com (mail-ot1-f41.google.com [209.85.210.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com (mail-bn8nam12olkn2105.outbound.protection.outlook.com [40.92.21.105])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1383314261
-	for <linux-staging@lists.linux.dev>; Sun, 27 Aug 2023 19:34:02 +0000 (UTC)
-Received: by mail-ot1-f41.google.com with SMTP id 46e09a7af769-6bf01bcb1aeso888084a34.3
-        for <linux-staging@lists.linux.dev>; Sun, 27 Aug 2023 12:34:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1693164842; x=1693769642;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=HfuobNFZiIqUm1JZsSbHScwqD8twWVWxz8M0FngOBaU=;
-        b=W6NguLYdal3s4o4UZi28iQ9mrJ62+WJTdtaZbaZ3UUf6GaxfwmPvKNzF0RUDxKhgfJ
-         JO/3y11wS8z1VjCTiAnZd8/ppM+OPPXWLzKi7zv3wxQAhG8rveMpuAQs6ccRFl6jsZvA
-         R6C9xlGCbpkD/Uslb4IYlsBma08JrXcdauwuqAuP/s1HFxT5UAJuD2RnzAsOd4pGOqhY
-         y+KHDPZo4uVuJBkBB3dmnX78w1ucxoqZaN1m1NXp25CXZSN8wQfZ51sVl4mi7hrMUjXL
-         uaNOpYaZNQ3J6sD+SXA5Z2GKvd2s3sMCvOc5NH2pe0Tx1qyVGRGC64xNHVXDGbU1rrcX
-         QJqg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1693164842; x=1693769642;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=HfuobNFZiIqUm1JZsSbHScwqD8twWVWxz8M0FngOBaU=;
-        b=L0C4zppSbNyYLeifZNaiawPUrEpqUvqorb5esL05WGX9X4fNm50iNnrKr+2d6XF1X9
-         iBxCQ5Y/T4Ep4n76MGYqflU+nAiQkNcAiPZTq4o8gOpJsH2AjdXLbf6kDHU48i2mSNYk
-         ew6Kf5V9F7pCzXgwu41wol0T3dAnBIA77mOHUOPBTtjvyTpS1V9izpJiDC1VxkDRgcu+
-         gLNq0IXhekgqrDWIhwcBk36w7VYPm4CStPSiYHkIKquSio6kkvEDsQDPx49rpIj1B2mU
-         ZAehZ7fHXLfavCwTp6LwSI5sMSNO3U2eEuI4xeNkVwGlRkOVpdr7h9TzjK++7EujHLh1
-         3dCw==
-X-Gm-Message-State: AOJu0YwZE0+/fHHFhA75lyL8zYjwn3upAgKbl+YVbtjmlAnDauTMLn1v
-	sB2nwn/0zC14hlNpGDMZ9jrP6j7uClc=
-X-Google-Smtp-Source: AGHT+IFF4sh2E0Dky2o8LohJbQLJcVgHVTEO1rtPT6IhI606JqnU5iu2NedcasdSsl1mHsQvibQqHw==
-X-Received: by 2002:a05:6830:45b:b0:6bd:bba9:2d63 with SMTP id d27-20020a056830045b00b006bdbba92d63mr12999917otc.9.1693164841915;
-        Sun, 27 Aug 2023 12:34:01 -0700 (PDT)
-Received: from alolivei-thinkpadt480s.gru.csb ([2804:14c:bf20:82ea:8c7c:b784:3f92:988a])
-        by smtp.gmail.com with ESMTPSA id l8-20020a9d7348000000b006b96384ba1csm1640272otk.77.2023.08.27.12.33.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 27 Aug 2023 12:34:01 -0700 (PDT)
-From: Alexon Oliveira <alexondunkan@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: martyn@welchs.me.uk,
-	manohar.vanga@gmail.com,
-	linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	Alexon Oliveira <alexondunkan@gmail.com>
-Subject: [PATCH v4 4/4] staging: vme_user: fix check unnecessary space after a cast in vme_fake.c
-Date: Sun, 27 Aug 2023 16:32:55 -0300
-Message-ID: <603976b29ad4d9a0e4cbd8452ff674ec70a227a8.1693164540.git.alexondunkan@gmail.com>
-X-Mailer: git-send-email 2.41.0
-In-Reply-To: <cover.1693164540.git.alexondunkan@gmail.com>
-References: <cover.1693164540.git.alexondunkan@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26D33111A3
+	for <linux-staging@lists.linux.dev>; Sun, 27 Aug 2023 21:12:09 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=NYqTJFi1vZfBD7vnNUU3+8uBnmw4FKiNXimC6I8z43t7rkN6gHuTo7UK+2dpfkHkiYBc4F3EVsb1uZcdNrMKn0xoC92tJRg4MbWvmZicdINUuCIX9qkAp1CEkroBfCN2lX39eSPjPA+s0JBosARdZF/qv+y+vqZDEgZnguAmMkb47CLxifEVd0VC8HLwkOgI+CxhXlq7oBVODbZPoSIAkEdOQSxvuNwGD1EZuPIxiIDe6EmUsOWkXjSwZO4PSNVWqK2/In53eCI2bn7zNo/cQkEZRyDE+C/nw4iNNXSsZwgFv8R8171t61MwSB9LhAxvnmgfkAmD0outAGIvPar+7g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=FdXDI/GYdqfJGigMORnSNOFqzxayvkrYT2LW+tl1Od4=;
+ b=blAoOoRAgCYbfy67XFhAXVpqIRfbFyUiixqkhJSfeAWJKs8ZXXkI/u702cs62C8nT/CQw1AYeg8TrGOv25IgwDwoXvl36VaORpbbWR6mI0yEhmISE5K/joPRQszfRuPYhHhXkiA1ensro0M5CVQBkuJ2eqKi9X59D8ntXPsjHTXqZaHR2YYyRgjQAvTRXsXE3jkeEzXNsJRr+k+X0q6JyjyWvTbfIBkRsrxvqvyBgDXWA2lFO0+Cw0ULAy6aXQ9D2YZyNUqGEnYLTKk7BNnGc4GOYft6ir2+vI67D6Es652Bq2tVMvY7RubNWULwCShR/fjqk7wxpQKifk7vo3X5AQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=hotmail.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=FdXDI/GYdqfJGigMORnSNOFqzxayvkrYT2LW+tl1Od4=;
+ b=sc3hpRJOmcWu08NU4R5sB0HB5OPKigan1N3jT5ku7qNwkUDGRaZVAw3VApqXDMv0pj624ASji+kM8+jo/1zKx9kQhsAFnqXVVGZVN8VRoEXDg0iR4ssIe7+3GNGpgeQFqUjVWFdF/2PKda6W2xy05idowEUIKmGAhtEi/z6bY1olflow77WsWQzZSEBSkdkkPY6XK45LTT2zvvkGs9yFC7eY/+Mw8r4v5M9a9D1s4dxS4UKP8Ik+AOfLeOgXyZgsU+omSAfRVAZqb0TB8RRUoe6AOGDsJlwXk+0h34bj7OvZ84ruQQXltnrVkPA2Q3kBTuvNKsGhCnYcXlTmq7sIkA==
+Received: from PH7PR11MB7643.namprd11.prod.outlook.com (2603:10b6:510:27c::22)
+ by CY5PR11MB6115.namprd11.prod.outlook.com (2603:10b6:930:2c::19) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6699.34; Sun, 27 Aug
+ 2023 21:12:07 +0000
+Received: from PH7PR11MB7643.namprd11.prod.outlook.com
+ ([fe80::bfb7:d3a3:2ed:6e20]) by PH7PR11MB7643.namprd11.prod.outlook.com
+ ([fe80::bfb7:d3a3:2ed:6e20%7]) with mapi id 15.20.6699.034; Sun, 27 Aug 2023
+ 21:12:07 +0000
+Date: Sun, 27 Aug 2023 17:12:04 -0400
+From: Oliver Crumrine <ozlinux@hotmail.com>
+To: gregkh@linuxfoundation.org, colin.i.king@gmail.com, 
+	sumitraartsy@gmail.com, u.kleine-koenig@pengutronix.de, geert@linux-m68k.org
+Cc: linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
+Subject: [PATCH 1/6] staging: octeon: clean up the octeon ethernet driver
+Message-ID:
+ <PH7PR11MB76436F3A05897D8F8DC9F967BCE1A@PH7PR11MB7643.namprd11.prod.outlook.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+X-TMN: [29ZPbi+SR8aqL1hHHKUHFsD+8HXxIoUk54Ohnblq5PijCUI9sOG9CQKbj3W8tthc]
+X-ClientProxiedBy: BL1PR13CA0253.namprd13.prod.outlook.com
+ (2603:10b6:208:2ba::18) To PH7PR11MB7643.namprd11.prod.outlook.com
+ (2603:10b6:510:27c::22)
+X-Microsoft-Original-Message-ID:
+ <myp3wbxeqytaoupflycbgsnxjgszz3l3cq6zbyi3fbjf6lwpd7@ygh2gtxm5dmv>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-Exchange-MessageSentRepresentingType: 1
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR11MB7643:EE_|CY5PR11MB6115:EE_
+X-MS-Office365-Filtering-Correlation-Id: eb9092e9-3a93-4b98-00ce-08dba74244f4
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	Er4zWfsPDX4/H4a7m15DJVHUIsI81wSHvnF47mtly41e5njTImKi6NRXDvTvsUr6eP6kQs2DEys297yShWnPe/Ky+gWYiVq+/2Q+WB0KrcF4a1lZQUMlK2P8qZqw3p+hkCSVzAKSKdKrKYqbyMDqdH3ZW4CoPeVZbRo6M95VfW4eR8VvG80wlOsQ82V5hG8dB3Bp07Ei7qqxLjdQcAb6ZjMUrVO9DqzYN9MRcHNBmkayyPIzXssyROhXl9pP4jJMtlLp/UwM9DY0hPnICOPykPquAUtgZPt5GwjF+IjdG43QWUlbrBISk0VQz41HWYyzIcaZc3yVaWzr3cFfK7A0Ron70JCrLu+tL2QDluf4FsFc++QeuJukeC4MppkpMQfcKPnT4kqxedxgDyM/A+Gk+7ESPlIgfZpVLLmyorN32K+LTX+zRJomiETXnxUxQswu8uYBOfRV9dvy89q8I2PccRDvNwHxCiOxmb0vWFJ1L8Ma1T4zM175VkXMmBHsJkSZrrKHC38XzTrwySgwZ8Oof1WldnIJ1p6ScEQXhv9RJR4rUgDF+egI0HcyJa5g4dBl
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?nrwOL6tB9N8RoBpxTMB6IGETqFKnoLbCr8z5jq8teNFp7wmebkz36MvuzCBB?=
+ =?us-ascii?Q?9iBECyxThCyb+/85hyvTgNA6DRlvb5StURqdr9cKg3P0a7VpkvKnCVfuYW1P?=
+ =?us-ascii?Q?pn33h9N0I2dYIiZvDHy+rlvi5yN956BHQYxdkA2tyIVN6gWVgSXxnwD9ONrk?=
+ =?us-ascii?Q?xQnKnYjQF/Btzk9DJ252qSOPXmxDZCt0kU8mYwymQfVFS7aDB0u7tnlE917m?=
+ =?us-ascii?Q?brEUdW4RzjhLuTrZQcFDDJOPDi5cdKsei9kYJBBmEPI4RXeWsI8H4Az/hpLr?=
+ =?us-ascii?Q?kK78gQYuQTAWgXkfw5QFOBs70NRgQCYc0pb/hl9u5sQpo0I2U3ZLazk3TK5k?=
+ =?us-ascii?Q?5OAsKEmdfLo5hiBM+bDXcNEgb5ow92emGJcuFj+wNofiT7wp7SNj8EVn1VeP?=
+ =?us-ascii?Q?wfJ6RAq5sJqyx+6DDqXyM2hL08Bc8t2v0g+6nznYpNOTqGqhGxEJvOnBcjaL?=
+ =?us-ascii?Q?Wiqv8NvEbK//68ov6H5a3TOKQdAfGRbrs6VfqWrR/S5lpuJd5iH+QI2VnImH?=
+ =?us-ascii?Q?Wed9fYWDsU0YoZGM1jTXx6/jF9nAdZW/YgyIxJMkihJzkfuI5XPUe95yGXt+?=
+ =?us-ascii?Q?yuvlP3RxAH48iXqLEujTKvD1NKWQsRXye+YPsCYGMQYsKPkWNTJcZ7mqa5QE?=
+ =?us-ascii?Q?/6BITH8DefReYFgKBcAqO5DJ76MTd+wXp33AYkorAbgAV6QuUIoCMwHanM8c?=
+ =?us-ascii?Q?lbfEiMGDmQVU07BloL1F3IPTFJKa0p8YawlvHHn6eogQ6PUzeDooveH7h4Gw?=
+ =?us-ascii?Q?BJIiSn1tNT4nS436r9U/wTRkT5TdvDt0y7/DvgVR2zW/mTzG1aW780dS5Q9Y?=
+ =?us-ascii?Q?trtOToHAvmaK94JgYCAlMDwvrJV6baKNu97FI3de+4huoiLXGTaxOFXM20vi?=
+ =?us-ascii?Q?78CZT4IW8W9Fzf3FbZWRANJ2TcRaKpaLp0Ns7WncrATH8iGMwKz+EQdEHffl?=
+ =?us-ascii?Q?YyeA50YBVJ0byjJa6QXTo4JjLxNMBcPbZlGfzg/47WVRv+Je73+TBkYfgzO4?=
+ =?us-ascii?Q?GpbtenghZk5XbPZ6G3/3/9mbryX2kbCfnTGmG9x+5XP7kAEXx2L+PEtrlQUu?=
+ =?us-ascii?Q?po0ZuDA8xNGqLesU4saYJrhmo7pejbIFgatLD3naEDPD9UzeKV4OARmWxJQ+?=
+ =?us-ascii?Q?DPitUhFdWj568OuZoX5lNOvmNo8a/zRd6dbLAbXCS/a9iD7QfaKk23YGAvQW?=
+ =?us-ascii?Q?HW746XX7a149sljDUFS+gnqJ8QhPC6K4EKIfeAyPOQOGm62lvfXwO/dFYC8Z?=
+ =?us-ascii?Q?7Twfh6nMlDQx3OVAlS7WfCPby9a3ih/ZAdsKqWKdDQ=3D=3D?=
+X-OriginatorOrg: sct-15-20-4755-11-msonline-outlook-e8f36.templateTenant
+X-MS-Exchange-CrossTenant-Network-Message-Id: eb9092e9-3a93-4b98-00ce-08dba74244f4
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR11MB7643.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Aug 2023 21:12:07.4208
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg:
+	00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY5PR11MB6115
 
-Fixed all CHECK: No space is necessary after a cast
-as reported by checkpatch to adhere to the Linux kernel
-coding-style guidelines.
+Make the octeon ethernet driver better adhere to the
+kernel coding standard
 
-Signed-off-by: Alexon Oliveira <alexondunkan@gmail.com>
+Signed-off-by: Oliver Crumrine <ozlinux@hotmail.com>
 ---
+ drivers/staging/octeon/octeon-stubs.h | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-Changes in v2:
-- Fixed summary phrase with tags to indicate commit order
-in the patch series, noted by Greg KH
-
-Changes in v3:
-- Sent patch series in a single email thread, noted by Nam Cao
-
-Changes in v4:
-- Versioning the patch series with the forgotten information
-about the changes in the previous versions, noted by Greg KH
-
- drivers/staging/vme_user/vme_fake.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/staging/vme_user/vme_fake.c b/drivers/staging/vme_user/vme_fake.c
-index 4258ed6033e7..4ccb16dd0d0b 100644
---- a/drivers/staging/vme_user/vme_fake.c
-+++ b/drivers/staging/vme_user/vme_fake.c
-@@ -95,7 +95,7 @@ static void fake_VIRQ_tasklet(unsigned long data)
- 	struct vme_bridge *fake_bridge;
- 	struct fake_driver *bridge;
+diff --git a/drivers/staging/octeon/octeon-stubs.h b/drivers/staging/octeon/octeon-stubs.h
+index 3e7b92cd2e35..9f269626b862 100644
+--- a/drivers/staging/octeon/octeon-stubs.h
++++ b/drivers/staging/octeon/octeon-stubs.h
+@@ -213,12 +213,12 @@ enum cvmx_fau_op_size {
+ 	CVMX_FAU_OP_SIZE_64 = 3
+ };
  
--	fake_bridge = (struct vme_bridge *) data;
-+	fake_bridge = (struct vme_bridge *)data;
- 	bridge = fake_bridge->driver_priv;
+-typedef enum {
++enum cvmx_spi_mode {
+ 	CVMX_SPI_MODE_UNKNOWN = 0,
+ 	CVMX_SPI_MODE_TX_HALFPLEX = 1,
+ 	CVMX_SPI_MODE_RX_HALFPLEX = 2,
+ 	CVMX_SPI_MODE_DUPLEX = 3
+-} cvmx_spi_mode_t;
++};
  
- 	vme_irq_handler(fake_bridge, bridge->int_level, bridge->int_statid);
-@@ -1092,7 +1092,7 @@ static int __init fake_init(void)
- 	mutex_init(&fake_device->vme_int);
- 	mutex_init(&fake_bridge->irq_mtx);
- 	tasklet_init(&fake_device->int_tasklet, fake_VIRQ_tasklet,
--		     (unsigned long) fake_bridge);
-+		     (unsigned long)fake_bridge);
+ typedef enum {
+ 	CVMX_HELPER_INTERFACE_MODE_DISABLED,
+@@ -1362,7 +1362,7 @@ static inline struct cvmx_wqe *cvmx_pow_work_request_sync(cvmx_pow_wait_t wait)
+ }
  
- 	strcpy(fake_bridge->name, driver_name);
- 
+ static inline int cvmx_spi_restart_interface(int interface,
+-					cvmx_spi_mode_t mode, int timeout)
++					enum cvmx_spi_mode mode, int timeout)
+ {
+ 	return 0;
+ }
 -- 
-2.41.0
+2.39.3
 
