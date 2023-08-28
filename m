@@ -1,178 +1,84 @@
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com (mail-dm6nam11olkn2025.outbound.protection.outlook.com [40.92.19.25])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com [209.85.167.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05E4612B6C
-	for <linux-staging@lists.linux.dev>; Mon, 28 Aug 2023 13:40:20 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=XmwsLzPbxNI7SbVoGTbhMW1fcxju1FAaMxuVUv2Q5GIgELrP8pcxzDeidJz+QbD+NAJppadtOvRBWI0C8D95kFAT9gwjn9JijDszn/7lmR7RlrJoUdi9kNN9/VR84bwnrnTfN9ayJ3WEe9Q863m9w+LrxNXWomZGNfvEY0PJoSRydJX0tCvOLvGiQ2orhYSgTujufq6JmbmVnthbQXzFQ8poMmOWWWc6VHA7NamOkZZl8apv5/UHwPmGBpsYsWhL1APsMk+he1MULK7f+Me7oDp6saqDWw2L6yfp0slQiCnp59wNTYeTSIPy4ZqZwTIlYARZMkD6qIPNTFS6+pk5Jw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=9hn69V79SOUQHhXoiSJ9I/wSOI0ikr8NuuZiGEyLuBY=;
- b=NkMCXupTJf4/Dq4MhfjmHZej4k3hu+iwOjZ9RnRr0btDvEX1+SdTi6Dd7TVN4rz335yqmA06x9dO60YRYHNf+1TRnR89f4F0uayK1lLqLIpZC3msjlBguHA3VasBGD0u7U/Uw6uIHKacy6pOa4QHLdfR04H03/FZS3ZJR8H0DzBtWS3i4+MTNC+ZXrX/E8MIree+jPwqhhQY0qPvMVF6ONOOvhW5yg6T4VXN0qxAGWOXuTcpNrMcYkcpqGdEpLeZWtu24W386TXN4sSEcIs2LpEw9ZvxaqnIFmObyONH53zkMPN4b3pyhLE9BWQBm9FRCJzS0vG+4cwGj4zR9G2clw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=hotmail.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=9hn69V79SOUQHhXoiSJ9I/wSOI0ikr8NuuZiGEyLuBY=;
- b=cVPtZH01N6/wYAXFcW03L+kh7sBM8VFLkcfV6/O5BrRNCG8wAQbdRC7agJpJzK9DSilwuGqKrc4jMNoCiB3MUxLgNA8u/SvgkY9FGLEM006y8+xuRhZLmIVmyffpc+SV5C3Nhmj05eHTJQuGw+OGby4jXNN9fuPo3SRuVVNbjadHcHpGdQ5wDx7uQ00qga47MmSPi8MbyTAZO8yy0aApy/eAXtvWZlIci6rPVIzTuWhrPf1wFzLpEcMJMvGLW3e0nAC/cdC9svIVClF3sApU59JwwT8lXajDfYoIr1G+ifrp1oVloCz2zlJWcV3McACdsgqBmubUtlvrT43itRNTqQ==
-Received: from PH7PR11MB7643.namprd11.prod.outlook.com (2603:10b6:510:27c::22)
- by CH3PR11MB8773.namprd11.prod.outlook.com (2603:10b6:610:1cb::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6699.35; Mon, 28 Aug
- 2023 13:40:19 +0000
-Received: from PH7PR11MB7643.namprd11.prod.outlook.com
- ([fe80::bfb7:d3a3:2ed:6e20]) by PH7PR11MB7643.namprd11.prod.outlook.com
- ([fe80::bfb7:d3a3:2ed:6e20%7]) with mapi id 15.20.6699.034; Mon, 28 Aug 2023
- 13:40:19 +0000
-From: Oliver Crumrine <ozlinux@hotmail.com>
-To: gregkh@linuxfoundation.org,
-	colin.i.king@gmail.com,
-	sumitraartsy@gmail.com,
-	u.kleine-koenig@pengutronix.de,
-	geert@linux-m68k.org
-Cc: Oliver Crumrine <ozlinux@hotmail.com>,
-	linux-kernel@vger.kernel.org,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDFBB11C9D
+	for <linux-staging@lists.linux.dev>; Mon, 28 Aug 2023 14:17:20 +0000 (UTC)
+Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-500b3f7f336so2533765e87.1
+        for <linux-staging@lists.linux.dev>; Mon, 28 Aug 2023 07:17:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1693232238; x=1693837038;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=znr7jcRrSJ1Rtj66K8AVDTql7nVoIVkV95oWwStm0/Y=;
+        b=rXj/RLREkCMeOmmFTqEHO1MePaKjNZOirGnqEMoPdKn/eURsSaLlxCeKxePVKJ+qGt
+         +uqH/oZJYdX0B0Q15s2kzDNraQS9EQDJ38mwix3OM6oVglg+6boNjfTpnBauORSs+RW6
+         KY/J6Pe3CmyBfvVCzwqViELtWqrRFnH3LB3U2AZrUsV1wgbmtrq0GNskIlOqAmsvwkMj
+         JpEazsTojokjE3hk5gDyFuDZJHFi1aBLu5A3BbOTI/Dk0ri92vTzmAOTcGRdhwbJRROx
+         9bdURRf4OxODf+0xG5bBGqV9C4V0QnB5OlHRF1fzPBOkG93rMm9gm0SZpkUUoqzbIZJu
+         clhA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1693232238; x=1693837038;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=znr7jcRrSJ1Rtj66K8AVDTql7nVoIVkV95oWwStm0/Y=;
+        b=JXK4eO62+HC/0dcvy12v3GHEgxKJHG/92q/O3d1DsO3/LcI1DCXmwJciLvTL1vt9yI
+         QZ/Clnw8unYCLbJiWE71YFNc1OoowrfU8FInAlpl6F6NIyZRXIylBfVBRzyrQ8yMMxz0
+         GUZVzsUvUFGF6RzAt33oAftIsuIrLA3BFTGyCdIDU3rMRWEF6DWml/JztQgQe3LSUMJ2
+         6qBoMadjyEf7PXQQ/PILszzIrtxJT2NnweiufIP5Mdyf8mjpfLDLeACEX46euQMzZ5uO
+         2LbQikK6DLNrr3w/uz4Qr4XIUsX7QcSfxTV7I1C7osiL/2hVuG1bAQT0wFuGwH17ODPS
+         O2cQ==
+X-Gm-Message-State: AOJu0YwcygzwcMFgtiGmMwGl8hMXvpHWwRF16kGZONvcuEZp1XXRGdCg
+	ae8MBg3d8Ijb3dNQkMhwxBPtCnMsMx0=
+X-Google-Smtp-Source: AGHT+IGUpROOCsmb9my59ywO3DgU8ggD7WyvJYhxzdr19qAh981l8KPVz1/jicIv3oTHCgX+JHJC6w==
+X-Received: by 2002:ac2:551b:0:b0:500:9a29:bcb0 with SMTP id j27-20020ac2551b000000b005009a29bcb0mr9735911lfk.42.1693232238074;
+        Mon, 28 Aug 2023 07:17:18 -0700 (PDT)
+Received: from nam-dell (ip-217-105-46-58.ip.prioritytelecom.net. [217.105.46.58])
+        by smtp.gmail.com with ESMTPSA id n25-20020a05640206d900b0052a1c0c859asm4509324edy.59.2023.08.28.07.17.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 28 Aug 2023 07:17:17 -0700 (PDT)
+Date: Mon, 28 Aug 2023 16:17:16 +0200
+From: Nam Cao <namcaov@gmail.com>
+To: Oliver Crumrine <ozlinux@hotmail.com>
+Cc: gregkh@linuxfoundation.org, colin.i.king@gmail.com,
+	sumitraartsy@gmail.com, u.kleine-koenig@pengutronix.de,
+	geert@linux-m68k.org, linux-kernel@vger.kernel.org,
 	linux-staging@lists.linux.dev
-Subject: [PATCH v4 6/6] staging: octeon: clean up the octeon ethernet driver
-Date: Mon, 28 Aug 2023 09:39:19 -0400
-Message-ID:
- <PH7PR11MB7643E52AF72688CEFDA4DAFABCE0A@PH7PR11MB7643.namprd11.prod.outlook.com>
-X-Mailer: git-send-email 2.39.3
-In-Reply-To: <cover.1693229582.git.ozlinux@hotmail.com>
-References: <cover.1693229582.git.ozlinux@hotmail.com>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-TMN: [Wcj4upEAaSx8vgGVScVMhJC4XSCAKy71u+cW44KtJgVbdtr7bqUGZ6/VtgtmoPYh]
-X-ClientProxiedBy: MN2PR19CA0008.namprd19.prod.outlook.com
- (2603:10b6:208:178::21) To PH7PR11MB7643.namprd11.prod.outlook.com
- (2603:10b6:510:27c::22)
-X-Microsoft-Original-Message-ID:
- <5f5e9ee60edff26fbf12c47928943699509272c0.1693229582.git.ozlinux@hotmail.com>
+Subject: Re: [PATCH v4 0/6] staging: octeon: clean up the octeon ethernet
+ driver
+Message-ID: <ZOysbIihBA5ZMGc9@nam-dell>
+References: <PH7PR11MB7643280D48E45D2B660F5B6CBCE0A@PH7PR11MB7643.namprd11.prod.outlook.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR11MB7643:EE_|CH3PR11MB8773:EE_
-X-MS-Office365-Filtering-Correlation-Id: ee372cae-cb68-483e-ba3d-08dba7cc51bd
-X-MS-Exchange-SLBlob-MailProps:
-	AZnQBsB9Xmr1VCrDDYJl/lCLgD1Tr5zrrErctzovFMAyPOmh8m/0VDJhwbEeVYnckXHZD6tHeBrmWmvCGrx+BD55OYNf1IKp8rr62kGMYGNxMPyfuIPI7TY4cSblf/e3m2NUe+ApGbfpGfJmTYvuu/RKIL/uAqD+GJQGCB0rSbIjNQaHpapmsabBFiMfDQOMw9KV0b0PqbwyIIp72AY79oaypUBXCS9KUsVKALXRikirk6Cadn3Te9rM4YS22jDhf20hxuofRCVBgkXGLukg/zR/Q7WOU2abdNd7c2Txi1PGMx7moNLXZhNl3yCXTw+MD8/cx6I1s5Rd03fzDdSZc2rQm7X8JKWUWUIOx5aebSYiWDllrZrXP3603RcSm/JwZNQzBnkb3GrBpPvg2foJbxRNRyoJ9KPej8YVW60sCQxDUGIc3sTjtG8MkWaaBjxVolPHUwHGJYqT/G/UD+ktK5BA7lPfFvtLNxu95qIL+++ZDC1KDpYfoMopl/g2NRA6UhnwfxT5mlKFOPNgMEX/GnPjZovckehiODkJ88SoGrfJ9OA3KRDPeezxgoi6buXQqBSD3Vp9fBRrTS5p0RDswS7ytntRsj9YJy92tMIhvQq5Q3LhfyWq79M4PjYXqScio1mqQYM8vVod9WI4u3TT4ve/YDs++lhb6H1lGfogksQzFpxQQcpqunG3bRMCazrzr5UEhrMf0V2kjw9crc20ezDT+tsw/2FyOVDQpuqLU/3dUk+6OocSU38POhYJD1yiZosAbApgO0M=
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	5d07+gccOpWkD7979oPFuo56m8e3ypccGTuygZou4pottV3JcF2EiT3TQGEGQIaRcMB9MZa09T2Cr5bBnblRuO8gr6rmLfWSf36TsTBWlrcRyvEN9j/Jy3012S5XdCTG4cjbxcQ/9XEt2xCi3joEVRqOI6EpJ69c7OgiWL3jQXizPQxtBCztectgpcFyifUezHMjHV/y2uERYqZleEK9OlGbgNPo3yY1t/iMWyUTJW+p+BwSI0CD4b2NRBiLRg+EcZVmJaXKv8bllUjbudlPCJWwZkSmwsKqfKy7DfQ+5zx6T5fKyZlIglZldHoP6RISD489ZjsReEoBK/yhCHYuDUTtjj5DugcWpv94hfh/06rxQKp6Wn59Gzi5kT6ag454HCR3vqAZEDDcYAaQjW+aeYRM1fBz8hIPBP7dfBlG5PJeqbin9ZW/fR0mTU4aSjq6740OW+gWxVr2K2RW0CgHUQ1zYjyi2Rz70bw1Evy6FADIwalyr+dD9164cakQ+f8RHS5VTKgU/ZjqO2iX2spDj8g/o2m2tOzCUc2osqK+VGpT2AtFaDTC6Z2yBQIs4jG3TGoA2PXil4FnakIce1ebOY3Fcxu+kRipn+vYJHmpnUjwtjl59qRhztQCQ265+JXn
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?yA/Ztdf9rrV6G7IQJdKCBFkJ/3B/vumrEpGF4aRb/X1lL6q/2nIuUH46wWJJ?=
- =?us-ascii?Q?8v3ljd088Px4+Mc6/nB8hSu/jceMrpRd8Hqq0r3WafM+Fw8JohKxFihkKz2V?=
- =?us-ascii?Q?Egc3tZ2Ll1FDtG5eDGMcKD1SPTMvmoQtKMZ/PZXRY1FIJ217VqtbfU0wtrr7?=
- =?us-ascii?Q?g3iVrKatcK3vQYxvwLLkYQQT2wBoc7b2NNIcYGtyHm2L77WnNPdphNnyAmFM?=
- =?us-ascii?Q?4POWuV6fo0eVry5qRhNz/KnWnRrbV6lxvcq+DkGkeVmIXKn23qW4d188ns9m?=
- =?us-ascii?Q?bgllVMQabluHucqoV7iozDuu/BDpDA29ZNEu23GMhVnryFmEgKJDWCBqq/h7?=
- =?us-ascii?Q?03v5ug1u7MVNF27bAsrhrm4q9c6ta4x4fRvLErzajDIqCAnz+Yvn0hKCs0OV?=
- =?us-ascii?Q?sxPoeHkD1bsj6lZtNUOwModGsHlGJKRSXwhJNO7uInrFc8OB3wNv6ZrBDct2?=
- =?us-ascii?Q?j5r8fSgCGgwgMlavrdBnjjpZO7CEx0pCZ1evwcp99Mn6EVG93Q3MsC9Ehgon?=
- =?us-ascii?Q?+YYDonk2097Ja6+xa62t/w2/0I7h4NyIQ25+Xe749IGVI3+vr5KcFbG3ih5I?=
- =?us-ascii?Q?YLtv7xQOEjA0mJdOd7GLNPxT6vnBj5gijon4InD5iJ12oGBwu74JY+Ar6sfg?=
- =?us-ascii?Q?VtMvWNJoTqsLc0kFJ7QXPYnS7mnyxL/+CTgErO5ZA2QmJFV9ijzDIx4tHgww?=
- =?us-ascii?Q?jSUzreR7cW84F/cgEKiaNVLpRg7WfSqa0C+p7i648if23410Fe9Y/yulc3Na?=
- =?us-ascii?Q?YFTdudT87BwXZWN5+uYFqFTWoekKnj/Jl1HSwAnz4ZT+A9NLsWyHi3qxBDQh?=
- =?us-ascii?Q?fpBYsjVtv1RaEdllrqpDkHxqPLAeqqccXIoxCfqcrTfUfxBOFlpUura8C5uz?=
- =?us-ascii?Q?z3DrYXQa3MGVvcLHu/0DLrDdXu/ZVa2t+x4+lxmeteCVUlSZawbwJhYV/+UM?=
- =?us-ascii?Q?T6fcLsOHv/Bh1Lzh6TPQP7l5vr6NFPB5jVQ+QOl/FjrLWWM+H/HU4etT+cbr?=
- =?us-ascii?Q?46dGG1WsbGJ9fo65+M3JVmNwrW2DQiQNwjEUW1Gh2YoQ1u77X4reZWcpw9N0?=
- =?us-ascii?Q?4Dxz/E2eNvr6G8X9qHh+wCY7nYUFUOljxFzNGEMhr50fG73zpP9W/UqCh5LZ?=
- =?us-ascii?Q?KMpBT3AEA59GvL3i1kcrTkzcQDxtWaRr6qQgsLhGd8HQbzTS5l58QVaKenNO?=
- =?us-ascii?Q?ibzQztKjLk4Vhhlg0HrJTdKF27ZejBplMcsHtBYLdJm+f8yRPP63IcVe9meU?=
- =?us-ascii?Q?HmuWchBQwKzsexxW9iG/BS6Ph8WbCy2xMmHSthZf/g=3D=3D?=
-X-OriginatorOrg: sct-15-20-4755-11-msonline-outlook-e8f36.templateTenant
-X-MS-Exchange-CrossTenant-Network-Message-Id: ee372cae-cb68-483e-ba3d-08dba7cc51bd
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR11MB7643.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Aug 2023 13:40:19.2984
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg:
-	00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR11MB8773
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <PH7PR11MB7643280D48E45D2B660F5B6CBCE0A@PH7PR11MB7643.namprd11.prod.outlook.com>
 
-Make the octeon ethernet driver better adhere to the
-kernel coding standard
+On Mon, Aug 28, 2023 at 09:39:13AM -0400, Oliver Crumrine wrote:
+> Make the octeon ethernet driver better conform to the linux kernel coding standards
+> 
+> Oliver Crumrine (6):
+>   staging: octeon: clean up the octeon ethernet driver
+>   staging: octeon: clean up the octeon ethernet driver
+>   staging: octeon: clean up the octeon ethernet driver
+>   staging: octeon: clean up the octeon ethernet driver
+>   staging: octeon: clean up the octeon ethernet driver
+>   staging: octeon: clean up the octeon ethernet driver
+> 
+>  drivers/staging/octeon/ethernet.c     |  6 ++--
+>  drivers/staging/octeon/octeon-stubs.h | 50 +++++++++++++--------------
+>  2 files changed, 28 insertions(+), 28 deletions(-)
+> 
+> -- 
+> 2.39.3
+>
 
-Signed-off-by: Oliver Crumrine <ozlinux@hotmail.com>
----
-v2: Actually send the patch set properly
-v3: Fixed a bug where I forgot to change all instances of a struct
-v4: Actually fix that bug (this is my first patch, give me a break)
+The patches themselves should also be sent with this cover letter. Instead they
+are sent in a different thread :(
 
- drivers/staging/octeon/ethernet.c     |  4 ++--
- drivers/staging/octeon/octeon-stubs.h | 12 ++++++------
- 2 files changed, 8 insertions(+), 8 deletions(-)
-
-diff --git a/drivers/staging/octeon/ethernet.c b/drivers/staging/octeon/ethernet.c
-index 023b107e077a..8e1f4b987a25 100644
---- a/drivers/staging/octeon/ethernet.c
-+++ b/drivers/staging/octeon/ethernet.c
-@@ -201,8 +201,8 @@ EXPORT_SYMBOL(cvm_oct_free_work);
-  */
- static struct net_device_stats *cvm_oct_common_get_stats(struct net_device *dev)
- {
--	cvmx_pip_port_status_t rx_status;
--	cvmx_pko_port_status_t tx_status;
-+	struct cvmx_pip_port_status rx_status;
-+	struct cvmx_pko_port_status tx_status;
- 	struct octeon_ethernet *priv = netdev_priv(dev);
- 
- 	if (priv->port < CVMX_PIP_NUM_INPUT_PORTS) {
-diff --git a/drivers/staging/octeon/octeon-stubs.h b/drivers/staging/octeon/octeon-stubs.h
-index b9852994882b..579c755cfdc0 100644
---- a/drivers/staging/octeon/octeon-stubs.h
-+++ b/drivers/staging/octeon/octeon-stubs.h
-@@ -384,7 +384,7 @@ union cvmx_ipd_sub_port_qos_cnt {
- 	} s;
- };
- 
--typedef struct {
-+struct cvmx_pip_port_status {
- 	uint32_t dropped_octets;
- 	uint32_t dropped_packets;
- 	uint32_t pci_raw_packets;
-@@ -407,13 +407,13 @@ typedef struct {
- 	uint32_t inb_packets;
- 	uint64_t inb_octets;
- 	uint16_t inb_errors;
--} cvmx_pip_port_status_t;
-+};
- 
--typedef struct {
-+struct cvmx_pko_port_status {
- 	uint32_t packets;
- 	uint64_t octets;
- 	uint64_t doorbell;
--} cvmx_pko_port_status_t;
-+};
- 
- union cvmx_pip_frm_len_chkx {
- 	uint64_t u64;
-@@ -1258,11 +1258,11 @@ static inline int octeon_is_simulation(void)
- }
- 
- static inline void cvmx_pip_get_port_status(uint64_t port_num, uint64_t clear,
--					    cvmx_pip_port_status_t *status)
-+					    struct cvmx_pip_port_status *status)
- { }
- 
- static inline void cvmx_pko_get_port_status(uint64_t port_num, uint64_t clear,
--					    cvmx_pko_port_status_t *status)
-+					    struct cvmx_pko_port_status *status)
- { }
- 
- static inline enum cvmx_helper_interface_mode cvmx_helper_interface_get_mode(int
--- 
-2.39.3
-
+Best regards,
+Nam 
