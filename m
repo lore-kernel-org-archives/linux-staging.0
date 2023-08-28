@@ -1,150 +1,188 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBB8A7ED;
-	Mon, 28 Aug 2023 05:23:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1693200234; x=1724736234;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=cO++omuLyms88qpNv3C6kcsd9qhEYo3oBToxdE5o3Ao=;
-  b=k/pqASkOeCSBPh1DFRo/dH1xYEE6J8dFEnAPxOCykydDAGVxmL/kpbU9
-   TL4r+gltNTNrUWL2ZFRsC9ZSLD4ywaMtBwyK6mpAO/pWSXkdhNhFy0jKe
-   Uz+q/7qAt4ZUDIZyePa1lq8fGKfenqXoprvT4SM5Veg5uqsLoZ2RFlAjY
-   VKgJ8HMi7h3S3ypwmjK7GI/jKLiP8HI5TRA8S686TPKiDsYIlmFdUUmhZ
-   p+Gff53aGWDCEzx1Pw/+pS/J+vbNmSKQzCjPOVOMGHrwHSt4gE54MmAYC
-   UUibF2n/X3hODGgQFrvM+RW6y1UOhvxekrgpLAKvxwIAaX28fHsCKcSxx
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10815"; a="377749249"
-X-IronPort-AV: E=Sophos;i="6.02,206,1688454000"; 
-   d="scan'208";a="377749249"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Aug 2023 22:23:53 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10815"; a="828211162"
-X-IronPort-AV: E=Sophos;i="6.02,206,1688454000"; 
-   d="scan'208";a="828211162"
-Received: from lkp-server02.sh.intel.com (HELO daf8bb0a381d) ([10.239.97.151])
-  by FMSMGA003.fm.intel.com with ESMTP; 27 Aug 2023 22:23:50 -0700
-Received: from kbuild by daf8bb0a381d with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qaUfc-0007ag-1q;
-	Mon, 28 Aug 2023 05:20:35 +0000
-Date: Mon, 28 Aug 2023 13:19:18 +0800
-From: kernel test robot <lkp@intel.com>
-To: Oliver Crumrine <ozlinux@hotmail.com>, gregkh@linuxfoundation.org,
-	colin.i.king@gmail.com, sumitraartsy@gmail.com,
-	u.kleine-koenig@pengutronix.de, geert@linux-m68k.org
-Cc: oe-kbuild-all@lists.linux.dev, Oliver Crumrine <ozlinux@hotmail.com>,
-	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
-Subject: Re: [PATCH v3 6/6] staging: octeon: clean up the octeon ethernet
- driver
-Message-ID: <202308281356.A52cXVbt-lkp@intel.com>
-References: <PH7PR11MB764329EC8CFB56ABFA7A8D77BCE1A@PH7PR11MB7643.namprd11.prod.outlook.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49B9646BA
+	for <linux-staging@lists.linux.dev>; Mon, 28 Aug 2023 13:21:37 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 8A6E21FD60;
+	Mon, 28 Aug 2023 13:21:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1693228895; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=SEjIfU5qkBkLS6zCELI50VsWPShlN/pL6jvMkczxRoU=;
+	b=LT2rFmi1XWFhXlVBekdYnBO4HjgbLNLN27jqTKW3v6l05aOeqA5R5TpJ2vC7zXWBJw2Gt1
+	qlKVa9noO6GN9/Pc8zIfE+vPsiQXMqpdUE0IL3ipJWGkEOw7ElJnWhmGWBxzN1P5r82mjH
+	UUvpntqPuA+PV61KXCBWyrpJ732HHKI=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1693228895;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=SEjIfU5qkBkLS6zCELI50VsWPShlN/pL6jvMkczxRoU=;
+	b=Q6E7Oj5b9gd6mmeJUJYGRCsRKQFlT8CC+/Ap3Hu7rBLJJfdk5NNwxZOX+tN4ezXjugxNWZ
+	GUKWv3LadH1XexBg==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 4F09013A1C;
+	Mon, 28 Aug 2023 13:21:35 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+	by imap2.suse-dmz.suse.de with ESMTPSA
+	id EKZkEl+f7GTyOAAAMHmgww
+	(envelope-from <tzimmermann@suse.de>); Mon, 28 Aug 2023 13:21:35 +0000
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: deller@gmx.de,
+	daniel@ffwll.ch,
+	sam@ravnborg.org,
+	javierm@redhat.com
+Cc: linux-fbdev@vger.kernel.org,
+	dri-devel@lists.freedesktop.org,
+	linux-staging@lists.linux.dev,
+	linux-hyperv@vger.kernel.org,
+	linux-input@vger.kernel.org,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Bernie Thompson <bernie@plugable.com>
+Subject: [PATCH 2/8] fbdev/udlfb: Use fb_ops helpers for deferred I/O
+Date: Mon, 28 Aug 2023 15:14:18 +0200
+Message-ID: <20230828132131.29295-3-tzimmermann@suse.de>
+X-Mailer: git-send-email 2.41.0
+In-Reply-To: <20230828132131.29295-1-tzimmermann@suse.de>
+References: <20230828132131.29295-1-tzimmermann@suse.de>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <PH7PR11MB764329EC8CFB56ABFA7A8D77BCE1A@PH7PR11MB7643.namprd11.prod.outlook.com>
+Content-Transfer-Encoding: 8bit
 
-Hi Oliver,
+Generate callback functions for struct fb_ops with the fbdev macro
+FB_GEN_DEFAULT_DEFERRED_SYSMEM_OPS(). Initialize struct fb_ops to
+the generated functions with fbdev initializer macros.
 
-kernel test robot noticed the following build errors:
+Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Bernie Thompson <bernie@plugable.com>
+---
+ drivers/video/fbdev/udlfb.c | 89 +++++++++----------------------------
+ 1 file changed, 22 insertions(+), 67 deletions(-)
 
-[auto build test ERROR on staging/staging-testing]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Oliver-Crumrine/staging-octeon-clean-up-the-octeon-ethernet-driver/20230828-080105
-base:   staging/staging-testing
-patch link:    https://lore.kernel.org/r/PH7PR11MB764329EC8CFB56ABFA7A8D77BCE1A%40PH7PR11MB7643.namprd11.prod.outlook.com
-patch subject: [PATCH v3 6/6] staging: octeon: clean up the octeon ethernet driver
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20230828/202308281356.A52cXVbt-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230828/202308281356.A52cXVbt-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308281356.A52cXVbt-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   drivers/staging/octeon/ethernet.c: In function 'cvm_oct_common_get_stats':
->> drivers/staging/octeon/ethernet.c:204:39: error: storage size of 'rx_status' isn't known
-     204 |         struct cvmx_pip_port_status_t rx_status;
-         |                                       ^~~~~~~~~
-   In file included from include/linux/string.h:254,
-                    from include/linux/bitmap.h:11,
-                    from include/linux/cpumask.h:12,
-                    from arch/x86/include/asm/paravirt.h:17,
-                    from arch/x86/include/asm/irqflags.h:60,
-                    from include/linux/irqflags.h:17,
-                    from include/linux/rcupdate.h:26,
-                    from include/linux/rculist.h:11,
-                    from include/linux/pid.h:5,
-                    from include/linux/sched.h:14,
-                    from include/linux/ratelimit.h:6,
-                    from include/linux/dev_printk.h:16,
-                    from include/linux/device.h:15,
-                    from include/linux/platform_device.h:13,
-                    from drivers/staging/octeon/ethernet.c:8:
-   include/linux/fortify-string.h:515:65: warning: left-hand operand of comma expression has no effect [-Wunused-value]
-     515 |         fortify_memset_chk(__fortify_size, p_size, p_size_field),       \
-         |                                                                 ^
-   include/linux/fortify-string.h:524:25: note: in expansion of macro '__fortify_memset_chk'
-     524 | #define memset(p, c, s) __fortify_memset_chk(p, c, s,                   \
-         |                         ^~~~~~~~~~~~~~~~~~~~
-   drivers/staging/octeon/ethernet.c:211:25: note: in expansion of macro 'memset'
-     211 |                         memset(&rx_status, 0, sizeof(rx_status));
-         |                         ^~~~~~
-   drivers/staging/octeon/ethernet.c:204:39: warning: unused variable 'rx_status' [-Wunused-variable]
-     204 |         struct cvmx_pip_port_status_t rx_status;
-         |                                       ^~~~~~~~~
-
-
-vim +204 drivers/staging/octeon/ethernet.c
-
-   195	
-   196	/**
-   197	 * cvm_oct_common_get_stats - get the low level ethernet statistics
-   198	 * @dev:    Device to get the statistics from
-   199	 *
-   200	 * Returns Pointer to the statistics
-   201	 */
-   202	static struct net_device_stats *cvm_oct_common_get_stats(struct net_device *dev)
-   203	{
- > 204		struct cvmx_pip_port_status_t rx_status;
-   205		cvmx_pko_port_status_t tx_status;
-   206		struct octeon_ethernet *priv = netdev_priv(dev);
-   207	
-   208		if (priv->port < CVMX_PIP_NUM_INPUT_PORTS) {
-   209			if (octeon_is_simulation()) {
-   210				/* The simulator doesn't support statistics */
-   211				memset(&rx_status, 0, sizeof(rx_status));
-   212				memset(&tx_status, 0, sizeof(tx_status));
-   213			} else {
-   214				cvmx_pip_get_port_status(priv->port, 1, &rx_status);
-   215				cvmx_pko_get_port_status(priv->port, 1, &tx_status);
-   216			}
-   217	
-   218			dev->stats.rx_packets += rx_status.inb_packets;
-   219			dev->stats.tx_packets += tx_status.packets;
-   220			dev->stats.rx_bytes += rx_status.inb_octets;
-   221			dev->stats.tx_bytes += tx_status.octets;
-   222			dev->stats.multicast += rx_status.multicast_packets;
-   223			dev->stats.rx_crc_errors += rx_status.inb_errors;
-   224			dev->stats.rx_frame_errors += rx_status.fcs_align_err_packets;
-   225			dev->stats.rx_dropped += rx_status.dropped_packets;
-   226		}
-   227	
-   228		return &dev->stats;
-   229	}
-   230	
-
+diff --git a/drivers/video/fbdev/udlfb.c b/drivers/video/fbdev/udlfb.c
+index b70762ead13c..2460ff4ac86b 100644
+--- a/drivers/video/fbdev/udlfb.c
++++ b/drivers/video/fbdev/udlfb.c
+@@ -715,68 +715,6 @@ static void dlfb_offload_damage(struct dlfb_data *dlfb, int x, int y, int width,
+ 	schedule_work(&dlfb->damage_work);
+ }
+ 
+-/*
+- * Path triggered by usermode clients who write to filesystem
+- * e.g. cat filename > /dev/fb1
+- * Not used by X Windows or text-mode console. But useful for testing.
+- * Slow because of extra copy and we must assume all pixels dirty.
+- */
+-static ssize_t dlfb_ops_write(struct fb_info *info, const char __user *buf,
+-			  size_t count, loff_t *ppos)
+-{
+-	ssize_t result;
+-	struct dlfb_data *dlfb = info->par;
+-	u32 offset = (u32) *ppos;
+-
+-	result = fb_sys_write(info, buf, count, ppos);
+-
+-	if (result > 0) {
+-		int start = max((int)(offset / info->fix.line_length), 0);
+-		int lines = min((u32)((result / info->fix.line_length) + 1),
+-				(u32)info->var.yres);
+-
+-		dlfb_handle_damage(dlfb, 0, start, info->var.xres,
+-			lines);
+-	}
+-
+-	return result;
+-}
+-
+-/* hardware has native COPY command (see libdlo), but not worth it for fbcon */
+-static void dlfb_ops_copyarea(struct fb_info *info,
+-				const struct fb_copyarea *area)
+-{
+-
+-	struct dlfb_data *dlfb = info->par;
+-
+-	sys_copyarea(info, area);
+-
+-	dlfb_offload_damage(dlfb, area->dx, area->dy,
+-			area->width, area->height);
+-}
+-
+-static void dlfb_ops_imageblit(struct fb_info *info,
+-				const struct fb_image *image)
+-{
+-	struct dlfb_data *dlfb = info->par;
+-
+-	sys_imageblit(info, image);
+-
+-	dlfb_offload_damage(dlfb, image->dx, image->dy,
+-			image->width, image->height);
+-}
+-
+-static void dlfb_ops_fillrect(struct fb_info *info,
+-			  const struct fb_fillrect *rect)
+-{
+-	struct dlfb_data *dlfb = info->par;
+-
+-	sys_fillrect(info, rect);
+-
+-	dlfb_offload_damage(dlfb, rect->dx, rect->dy, rect->width,
+-			      rect->height);
+-}
+-
+ /*
+  * NOTE: fb_defio.c is holding info->fbdefio.mutex
+  *   Touching ANY framebuffer memory that triggers a page fault
+@@ -1186,14 +1124,31 @@ static int dlfb_ops_blank(int blank_mode, struct fb_info *info)
+ 	return 0;
+ }
+ 
++static void dlfb_ops_damage_range(struct fb_info *info, off_t off, size_t len)
++{
++	struct dlfb_data *dlfb = info->par;
++	int start = max((int)(off / info->fix.line_length), 0);
++	int lines = min((u32)((len / info->fix.line_length) + 1), (u32)info->var.yres);
++
++	dlfb_handle_damage(dlfb, 0, start, info->var.xres, lines);
++}
++
++static void dlfb_ops_damage_area(struct fb_info *info, u32 x, u32 y, u32 width, u32 height)
++{
++	struct dlfb_data *dlfb = info->par;
++
++	dlfb_offload_damage(dlfb, x, y, width, height);
++}
++
++FB_GEN_DEFAULT_DEFERRED_SYSMEM_OPS(dlfb_ops,
++				   dlfb_ops_damage_range,
++				   dlfb_ops_damage_area)
++
+ static const struct fb_ops dlfb_ops = {
+ 	.owner = THIS_MODULE,
+-	.fb_read = fb_sys_read,
+-	.fb_write = dlfb_ops_write,
++	__FB_DEFAULT_DEFERRED_OPS_RDWR(dlfb_ops),
+ 	.fb_setcolreg = dlfb_ops_setcolreg,
+-	.fb_fillrect = dlfb_ops_fillrect,
+-	.fb_copyarea = dlfb_ops_copyarea,
+-	.fb_imageblit = dlfb_ops_imageblit,
++	__FB_DEFAULT_DEFERRED_OPS_DRAW(dlfb_ops),
+ 	.fb_mmap = dlfb_ops_mmap,
+ 	.fb_ioctl = dlfb_ops_ioctl,
+ 	.fb_open = dlfb_ops_open,
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.41.0
+
