@@ -1,37 +1,37 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BC4C654;
-	Mon, 28 Aug 2023 02:48:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBB8A7ED;
+	Mon, 28 Aug 2023 05:23:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1693190930; x=1724726930;
+  t=1693200234; x=1724736234;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=MGOQof3/0GwxYRKJJukycYMzoBjUOOyTQDx9zZt6q8s=;
-  b=kBIOlSBa6L6YhJ/+9Ex8djQeSWGTyaoloEIIahJfHwKzb/mNF2/Si8aR
-   xn/MU4gZ6/MrlepkEwoyTYMEPuBBQ6dEp7tRR1IPiy5B++FZTiO3tOgjr
-   lF8mV7vbez2S77wFvPQM+uXTYKpVokZ7TKo6otTQCU4/30jeZvnWEOAa/
-   pUlg4G++f3zEJx8HDoU1y5STVZeGZyijV6XHhSFgUItWxVnpee3SkSuq+
-   RedL7eTafeOD20ilpDyksyU46fvf7Ur+oiAy4rTffyByxVVjl898gB0jg
-   queWdv5ocjKbMwBQVErQuxiqIzQtHgpYA2+ajMXX2rcrHZor9o9tq3fie
+  bh=cO++omuLyms88qpNv3C6kcsd9qhEYo3oBToxdE5o3Ao=;
+  b=k/pqASkOeCSBPh1DFRo/dH1xYEE6J8dFEnAPxOCykydDAGVxmL/kpbU9
+   TL4r+gltNTNrUWL2ZFRsC9ZSLD4ywaMtBwyK6mpAO/pWSXkdhNhFy0jKe
+   Uz+q/7qAt4ZUDIZyePa1lq8fGKfenqXoprvT4SM5Veg5uqsLoZ2RFlAjY
+   VKgJ8HMi7h3S3ypwmjK7GI/jKLiP8HI5TRA8S686TPKiDsYIlmFdUUmhZ
+   p+Gff53aGWDCEzx1Pw/+pS/J+vbNmSKQzCjPOVOMGHrwHSt4gE54MmAYC
+   UUibF2n/X3hODGgQFrvM+RW6y1UOhvxekrgpLAKvxwIAaX28fHsCKcSxx
    w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10815"; a="378774567"
+X-IronPort-AV: E=McAfee;i="6600,9927,10815"; a="377749249"
 X-IronPort-AV: E=Sophos;i="6.02,206,1688454000"; 
-   d="scan'208";a="378774567"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Aug 2023 19:48:49 -0700
+   d="scan'208";a="377749249"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Aug 2023 22:23:53 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10815"; a="984718120"
+X-IronPort-AV: E=McAfee;i="6600,9927,10815"; a="828211162"
 X-IronPort-AV: E=Sophos;i="6.02,206,1688454000"; 
-   d="scan'208";a="984718120"
+   d="scan'208";a="828211162"
 Received: from lkp-server02.sh.intel.com (HELO daf8bb0a381d) ([10.239.97.151])
-  by fmsmga006.fm.intel.com with ESMTP; 27 Aug 2023 19:48:46 -0700
+  by FMSMGA003.fm.intel.com with ESMTP; 27 Aug 2023 22:23:50 -0700
 Received: from kbuild by daf8bb0a381d with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qaSJ3-0006Ql-2J;
-	Mon, 28 Aug 2023 02:48:45 +0000
-Date: Mon, 28 Aug 2023 10:48:16 +0800
+	id 1qaUfc-0007ag-1q;
+	Mon, 28 Aug 2023 05:20:35 +0000
+Date: Mon, 28 Aug 2023 13:19:18 +0800
 From: kernel test robot <lkp@intel.com>
 To: Oliver Crumrine <ozlinux@hotmail.com>, gregkh@linuxfoundation.org,
 	colin.i.king@gmail.com, sumitraartsy@gmail.com,
@@ -40,7 +40,7 @@ Cc: oe-kbuild-all@lists.linux.dev, Oliver Crumrine <ozlinux@hotmail.com>,
 	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
 Subject: Re: [PATCH v3 6/6] staging: octeon: clean up the octeon ethernet
  driver
-Message-ID: <202308281043.2o6mVbgk-lkp@intel.com>
+Message-ID: <202308281356.A52cXVbt-lkp@intel.com>
 References: <PH7PR11MB764329EC8CFB56ABFA7A8D77BCE1A@PH7PR11MB7643.namprd11.prod.outlook.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -54,27 +54,27 @@ In-Reply-To: <PH7PR11MB764329EC8CFB56ABFA7A8D77BCE1A@PH7PR11MB7643.namprd11.prod
 
 Hi Oliver,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on staging/staging-testing]
+[auto build test ERROR on staging/staging-testing]
 
 url:    https://github.com/intel-lab-lkp/linux/commits/Oliver-Crumrine/staging-octeon-clean-up-the-octeon-ethernet-driver/20230828-080105
 base:   staging/staging-testing
 patch link:    https://lore.kernel.org/r/PH7PR11MB764329EC8CFB56ABFA7A8D77BCE1A%40PH7PR11MB7643.namprd11.prod.outlook.com
 patch subject: [PATCH v3 6/6] staging: octeon: clean up the octeon ethernet driver
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20230828/202308281043.2o6mVbgk-lkp@intel.com/config)
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20230828/202308281356.A52cXVbt-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230828/202308281043.2o6mVbgk-lkp@intel.com/reproduce)
+reproduce: (https://download.01.org/0day-ci/archive/20230828/202308281356.A52cXVbt-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308281043.2o6mVbgk-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308281356.A52cXVbt-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
    drivers/staging/octeon/ethernet.c: In function 'cvm_oct_common_get_stats':
-   drivers/staging/octeon/ethernet.c:204:39: error: storage size of 'rx_status' isn't known
+>> drivers/staging/octeon/ethernet.c:204:39: error: storage size of 'rx_status' isn't known
      204 |         struct cvmx_pip_port_status_t rx_status;
          |                                       ^~~~~~~~~
    In file included from include/linux/string.h:254,
@@ -92,7 +92,7 @@ All warnings (new ones prefixed by >>):
                     from include/linux/device.h:15,
                     from include/linux/platform_device.h:13,
                     from drivers/staging/octeon/ethernet.c:8:
->> include/linux/fortify-string.h:515:65: warning: left-hand operand of comma expression has no effect [-Wunused-value]
+   include/linux/fortify-string.h:515:65: warning: left-hand operand of comma expression has no effect [-Wunused-value]
      515 |         fortify_memset_chk(__fortify_size, p_size, p_size_field),       \
          |                                                                 ^
    include/linux/fortify-string.h:524:25: note: in expansion of macro '__fortify_memset_chk'
@@ -101,12 +101,12 @@ All warnings (new ones prefixed by >>):
    drivers/staging/octeon/ethernet.c:211:25: note: in expansion of macro 'memset'
      211 |                         memset(&rx_status, 0, sizeof(rx_status));
          |                         ^~~~~~
->> drivers/staging/octeon/ethernet.c:204:39: warning: unused variable 'rx_status' [-Wunused-variable]
+   drivers/staging/octeon/ethernet.c:204:39: warning: unused variable 'rx_status' [-Wunused-variable]
      204 |         struct cvmx_pip_port_status_t rx_status;
          |                                       ^~~~~~~~~
 
 
-vim +/rx_status +204 drivers/staging/octeon/ethernet.c
+vim +204 drivers/staging/octeon/ethernet.c
 
    195	
    196	/**
