@@ -1,42 +1,42 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19B6312B70
-	for <linux-staging@lists.linux.dev>; Mon, 28 Aug 2023 13:21:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90F0D12B71
+	for <linux-staging@lists.linux.dev>; Mon, 28 Aug 2023 13:21:38 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 49E73219E8;
-	Mon, 28 Aug 2023 13:21:35 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id C0EEF1FD6E;
+	Mon, 28 Aug 2023 13:21:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1693228895; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
+	t=1693228896; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=8GJmmvfwBrAhX80vy9z3XmR9U1soXnui0Gq8I5hETh4=;
-	b=aDMxuHdYAtgtwCiMpngP+xUirP9sNewsDx8jCjryGF6r0cFnKlB94mf39dB2lvs/L+JrSo
-	axsSbB3YDAA9PdU44E1dzxlrfERqsPEgVBRY6K2xAafehOPxQzpjWiTut3klsGTPH7ip1Q
-	nBhkHkgRgpuksq9UIYIzTW6TuyMnpY8=
+	bh=ldw1MdaRpEpS7svygzNDrqBtCJfAtQHJJvySgzI7rd0=;
+	b=bcNT1BK9I1tD98v3xdWzr0bMmjekx6ajdgM5vXUCRtjaKZztqQ7k1nK70+SpIt+MLG65IK
+	HYwm56YO7FlLJn9NZyZXvk5Eu5buoljh51svd5F/sV9X55WLC9M5DokQhaRMGojzLKL39G
+	G/uY2g0gnB0ZoJsbLcOOE/f8i5hhBH8=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1693228895;
+	s=susede2_ed25519; t=1693228896;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
+	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=8GJmmvfwBrAhX80vy9z3XmR9U1soXnui0Gq8I5hETh4=;
-	b=g5flVod5dpKEV8gcf7hYE67LzXQdJojcSfCoxLxYnB7FGltw2ct6Assa4LVWJEe6PqZWU9
-	GsvXxvvuUoYKARCQ==
+	bh=ldw1MdaRpEpS7svygzNDrqBtCJfAtQHJJvySgzI7rd0=;
+	b=GbOqHAoa1Omaq6Uq6ROcQ8XZwpHs3Pr4RkEfZQ9zoUWDXiqMCHwOAK1exQoNUuzU066jK6
+	MD68OPa6h1u3enDw==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 11C4513A11;
-	Mon, 28 Aug 2023 13:21:35 +0000 (UTC)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 6B05213A1C;
+	Mon, 28 Aug 2023 13:21:36 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
 	by imap2.suse-dmz.suse.de with ESMTPSA
-	id +JVuA1+f7GTyOAAAMHmgww
-	(envelope-from <tzimmermann@suse.de>); Mon, 28 Aug 2023 13:21:35 +0000
+	id gDQ8GWCf7GTyOAAAMHmgww
+	(envelope-from <tzimmermann@suse.de>); Mon, 28 Aug 2023 13:21:36 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: deller@gmx.de,
 	daniel@ffwll.ch,
@@ -48,10 +48,12 @@ Cc: linux-fbdev@vger.kernel.org,
 	linux-hyperv@vger.kernel.org,
 	linux-input@vger.kernel.org,
 	Thomas Zimmermann <tzimmermann@suse.de>,
-	Steve Glendinning <steve.glendinning@shawell.net>
-Subject: [PATCH 1/8] fbdev/smscufx: Use fb_ops helpers for deferred I/O
-Date: Mon, 28 Aug 2023 15:14:17 +0200
-Message-ID: <20230828132131.29295-2-tzimmermann@suse.de>
+	Jiri Kosina <jikos@kernel.org>,
+	Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+	=?UTF-8?q?Bruno=20Pr=C3=A9mont?= <bonbons@linux-vserver.org>
+Subject: [PATCH 6/8] hid/picolcd: Use fb_ops helpers for deferred I/O
+Date: Mon, 28 Aug 2023 15:14:22 +0200
+Message-ID: <20230828132131.29295-7-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.41.0
 In-Reply-To: <20230828132131.29295-1-tzimmermann@suse.de>
 References: <20230828132131.29295-1-tzimmermann@suse.de>
@@ -61,124 +63,136 @@ List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
 Generate callback functions for struct fb_ops with the fbdev macro
 FB_GEN_DEFAULT_DEFERRED_SYSMEM_OPS(). Initialize struct fb_ops to
-the generated functions with fbdev initializer macros.
+the generated functions with an fbdev initializer macro.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: Steve Glendinning <steve.glendinning@shawell.net>
+Cc: Jiri Kosina <jikos@kernel.org>
+Cc: Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Cc: "Bruno Prémont" <bonbons@linux-vserver.org>
 ---
- drivers/video/fbdev/smscufx.c | 85 +++++++++--------------------------
- 1 file changed, 22 insertions(+), 63 deletions(-)
+ drivers/hid/Kconfig          |  6 +--
+ drivers/hid/hid-picolcd_fb.c | 73 ++++++++++--------------------------
+ 2 files changed, 20 insertions(+), 59 deletions(-)
 
-diff --git a/drivers/video/fbdev/smscufx.c b/drivers/video/fbdev/smscufx.c
-index 387d18706fec..90a77d19b236 100644
---- a/drivers/video/fbdev/smscufx.c
-+++ b/drivers/video/fbdev/smscufx.c
-@@ -894,64 +894,6 @@ static int ufx_handle_damage(struct ufx_data *dev, int x, int y,
- 	return 0;
+diff --git a/drivers/hid/Kconfig b/drivers/hid/Kconfig
+index b50054a41c10..dbf632bb7e26 100644
+--- a/drivers/hid/Kconfig
++++ b/drivers/hid/Kconfig
+@@ -871,11 +871,7 @@ config HID_PICOLCD_FB
+ 	default !EXPERT
+ 	depends on HID_PICOLCD
+ 	depends on HID_PICOLCD=FB || FB=y
+-	select FB_DEFERRED_IO
+-	select FB_SYS_FILLRECT
+-	select FB_SYS_COPYAREA
+-	select FB_SYS_IMAGEBLIT
+-	select FB_SYS_FOPS
++	select FB_SYSMEM_HELPERS_DEFERRED
+ 	help
+ 	  Provide access to PicoLCD's 256x64 monochrome display via a
+ 	  framebuffer device.
+diff --git a/drivers/hid/hid-picolcd_fb.c b/drivers/hid/hid-picolcd_fb.c
+index d726aaafb146..a4dccdcda26f 100644
+--- a/drivers/hid/hid-picolcd_fb.c
++++ b/drivers/hid/hid-picolcd_fb.c
+@@ -283,54 +283,6 @@ static void picolcd_fb_update(struct fb_info *info)
+ 	mutex_unlock(&info->lock);
  }
  
--/* Path triggered by usermode clients who write to filesystem
-- * e.g. cat filename > /dev/fb1
-- * Not used by X Windows or text-mode console. But useful for testing.
-- * Slow because of extra copy and we must assume all pixels dirty. */
--static ssize_t ufx_ops_write(struct fb_info *info, const char __user *buf,
--			  size_t count, loff_t *ppos)
+-/* Stub to call the system default and update the image on the picoLCD */
+-static void picolcd_fb_fillrect(struct fb_info *info,
+-		const struct fb_fillrect *rect)
 -{
--	ssize_t result;
--	struct ufx_data *dev = info->par;
--	u32 offset = (u32) *ppos;
--
--	result = fb_sys_write(info, buf, count, ppos);
--
--	if (result > 0) {
--		int start = max((int)(offset / info->fix.line_length), 0);
--		int lines = min((u32)((result / info->fix.line_length) + 1),
--				(u32)info->var.yres);
--
--		ufx_handle_damage(dev, 0, start, info->var.xres, lines);
--	}
--
--	return result;
--}
--
--static void ufx_ops_copyarea(struct fb_info *info,
--				const struct fb_copyarea *area)
--{
--
--	struct ufx_data *dev = info->par;
--
--	sys_copyarea(info, area);
--
--	ufx_handle_damage(dev, area->dx, area->dy,
--			area->width, area->height);
--}
--
--static void ufx_ops_imageblit(struct fb_info *info,
--				const struct fb_image *image)
--{
--	struct ufx_data *dev = info->par;
--
--	sys_imageblit(info, image);
--
--	ufx_handle_damage(dev, image->dx, image->dy,
--			image->width, image->height);
--}
--
--static void ufx_ops_fillrect(struct fb_info *info,
--			  const struct fb_fillrect *rect)
--{
--	struct ufx_data *dev = info->par;
--
+-	if (!info->par)
+-		return;
 -	sys_fillrect(info, rect);
 -
--	ufx_handle_damage(dev, rect->dx, rect->dy, rect->width,
--			      rect->height);
+-	schedule_delayed_work(&info->deferred_work, 0);
 -}
 -
- /* NOTE: fb_defio.c is holding info->fbdefio.mutex
-  *   Touching ANY framebuffer memory that triggers a page fault
-  *   in fb_defio will cause a deadlock, when it also tries to
-@@ -1279,14 +1221,31 @@ static int ufx_ops_blank(int blank_mode, struct fb_info *info)
+-/* Stub to call the system default and update the image on the picoLCD */
+-static void picolcd_fb_copyarea(struct fb_info *info,
+-		const struct fb_copyarea *area)
+-{
+-	if (!info->par)
+-		return;
+-	sys_copyarea(info, area);
+-
+-	schedule_delayed_work(&info->deferred_work, 0);
+-}
+-
+-/* Stub to call the system default and update the image on the picoLCD */
+-static void picolcd_fb_imageblit(struct fb_info *info, const struct fb_image *image)
+-{
+-	if (!info->par)
+-		return;
+-	sys_imageblit(info, image);
+-
+-	schedule_delayed_work(&info->deferred_work, 0);
+-}
+-
+-/*
+- * this is the slow path from userspace. they can seek and write to
+- * the fb. it's inefficient to do anything less than a full screen draw
+- */
+-static ssize_t picolcd_fb_write(struct fb_info *info, const char __user *buf,
+-		size_t count, loff_t *ppos)
+-{
+-	ssize_t ret;
+-	if (!info->par)
+-		return -ENODEV;
+-	ret = fb_sys_write(info, buf, count, ppos);
+-	if (ret >= 0)
+-		schedule_delayed_work(&info->deferred_work, 0);
+-	return ret;
+-}
+-
+ static int picolcd_fb_blank(int blank, struct fb_info *info)
+ {
+ 	/* We let fb notification do this for us via lcd/backlight device */
+@@ -417,18 +369,31 @@ static int picolcd_set_par(struct fb_info *info)
  	return 0;
  }
  
-+static void ufx_ops_damage_range(struct fb_info *info, off_t off, size_t len)
++static void picolcdfb_ops_damage_range(struct fb_info *info, off_t off, size_t len)
 +{
-+	struct ufx_data *dev = info->par;
-+	int start = max((int)(off / info->fix.line_length), 0);
-+	int lines = min((u32)((len / info->fix.line_length) + 1), (u32)info->var.yres);
-+
-+	ufx_handle_damage(dev, 0, start, info->var.xres, lines);
++	if (!info->par)
++		return;
++	schedule_delayed_work(&info->deferred_work, 0);
 +}
 +
-+static void ufx_ops_damage_area(struct fb_info *info, u32 x, u32 y, u32 width, u32 height)
++static void picolcdfb_ops_damage_area(struct fb_info *info, u32 x, u32 y, u32 width, u32 height)
 +{
-+	struct ufx_data *dev = info->par;
-+
-+	ufx_handle_damage(dev, x, y, width, height);
++	if (!info->par)
++		return;
++	schedule_delayed_work(&info->deferred_work, 0);
 +}
 +
-+FB_GEN_DEFAULT_DEFERRED_SYSMEM_OPS(ufx_ops,
-+				   ufx_ops_damage_range,
-+				   ufx_ops_damage_area)
++FB_GEN_DEFAULT_DEFERRED_SYSMEM_OPS(picolcdfb_ops,
++				   picolcdfb_ops_damage_range,
++				   picolcdfb_ops_damage_area)
 +
- static const struct fb_ops ufx_ops = {
- 	.owner = THIS_MODULE,
--	.fb_read = fb_sys_read,
--	.fb_write = ufx_ops_write,
-+	__FB_DEFAULT_DEFERRED_OPS_RDWR(ufx_ops),
- 	.fb_setcolreg = ufx_ops_setcolreg,
--	.fb_fillrect = ufx_ops_fillrect,
--	.fb_copyarea = ufx_ops_copyarea,
--	.fb_imageblit = ufx_ops_imageblit,
-+	__FB_DEFAULT_DEFERRED_OPS_DRAW(ufx_ops),
- 	.fb_mmap = ufx_ops_mmap,
- 	.fb_ioctl = ufx_ops_ioctl,
- 	.fb_open = ufx_ops_open,
+ static const struct fb_ops picolcdfb_ops = {
+ 	.owner        = THIS_MODULE,
++	FB_DEFAULT_DEFERRED_OPS(picolcdfb_ops),
+ 	.fb_destroy   = picolcd_fb_destroy,
+-	.fb_read      = fb_sys_read,
+-	.fb_write     = picolcd_fb_write,
+ 	.fb_blank     = picolcd_fb_blank,
+-	.fb_fillrect  = picolcd_fb_fillrect,
+-	.fb_copyarea  = picolcd_fb_copyarea,
+-	.fb_imageblit = picolcd_fb_imageblit,
+ 	.fb_check_var = picolcd_fb_check_var,
+ 	.fb_set_par   = picolcd_set_par,
+-	.fb_mmap      = fb_deferred_io_mmap,
+ };
+ 
+ 
 -- 
 2.41.0
 
