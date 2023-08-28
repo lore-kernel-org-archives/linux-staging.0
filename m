@@ -1,43 +1,43 @@
-Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
+Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F38E46BA
-	for <linux-staging@lists.linux.dev>; Mon, 28 Aug 2023 14:23:32 +0000 (UTC)
-Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-9a19bf6ab66so431619166b.3
-        for <linux-staging@lists.linux.dev>; Mon, 28 Aug 2023 07:23:32 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07C5246AB
+	for <linux-staging@lists.linux.dev>; Mon, 28 Aug 2023 14:38:35 +0000 (UTC)
+Received: by mail-ed1-f47.google.com with SMTP id 4fb4d7f45d1cf-52a39a1c4d5so4361602a12.3
+        for <linux-staging@lists.linux.dev>; Mon, 28 Aug 2023 07:38:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1693232611; x=1693837411;
+        d=gmail.com; s=20221208; t=1693233513; x=1693838313;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=LR+WaKAv8bFCpNLn1HT9C6vyjEwM7tIBgDBW1Ng29Oc=;
-        b=oRWijh8pUECA+jhR1lOWv4zM0KbH+oQt9jKyakF4lLp3j0B1qgj2b12WX9KYkq2ZiV
-         ucWpBdeYdiUDB7YJb/Xx9NYPG5nuAd0wo+w5+K90OkBceOKXg9+abSSwjO1JEMFtzfXX
-         DWfWnqdRO2ZVos2vjg9GxJMkUly5qOh/qKCkk7uqPr0tPJhoI0FQttQCsNs3iVx4MOeE
-         whxSb6pL8ne7CS1sADbgrH5nFsWP4JCD6ou5KLl0A6NollLYqkigDjHq4KabX0ZaXOWD
-         ULOwEeWq/CcLYcA52Awj50Tgmq8PtCbeHfks+mZrDCEhAgOaglgKufVCnGehwRWn7yIe
-         bgxQ==
+        bh=4s4gvqIGyF3PL0WV1Hs8kg7yCGjq/lL5qZsL8CvtqI4=;
+        b=eDjJ/trNeUKfJJIPkz1v8S2ENlWGGtY2DO+7pe+A0aot+oko35vujCtMJmSOiU77DB
+         PIzAMCM+tjJP+nNFEKt6moLi5MwIuOVIwztwgn7RDIZDYTuxcQ3Ia0wf9etwkSIX2+pL
+         lx87il3CaYx6tdsP3BO8FP7kgGlZCCWPns/9jNxkJtGXUx9Ue0E8SYkrN20612xbHjDX
+         KliC+vVClrJp5mFnj685dy/qzOPBD0kP6qCAmI/Hp0E3nzWL1C3lCwuX5z3wMIkXpuhk
+         WCSiT7aoNMZyzjtOn6M/ZKzgBbLOe3SbnKP/iuD86EL5cZwTuHEsMk/QhLsuj7R5X2M3
+         OVVw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1693232611; x=1693837411;
+        d=1e100.net; s=20221208; t=1693233513; x=1693838313;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=LR+WaKAv8bFCpNLn1HT9C6vyjEwM7tIBgDBW1Ng29Oc=;
-        b=QGYXmdpeSA4mcCvf8sWjZ9pYjgzxjqc+l9bZyJQ+Dh0x6fYtRV8iiicx+AQHcmsLuo
-         6x5qjw6VdIm/qSW7IfRrZAFvDNRLaUPvOI06DVJecO5SIujD5PEsKz5DG4amAz+t3Ih2
-         ZPkzt6Q0vKF2dDKA6LRGKzsZis2G1hKwXl6TCGCFnToYlihpzpjldCgvlXJnpaV5h64u
-         gW/9Zbt8O9ep7cw2GDpvigDPNhM2pVuzIEe/5eN8JugvLlck84V5oIb6r9BVXn840rB9
-         X2X0k0ZKWJ7eg0w34+9vMfYTiDJPrIif1V9ga6lfnGINEmFzgJhADxScp0wQFQ5Tp5wP
-         +uTA==
-X-Gm-Message-State: AOJu0Yy+Z8EyN1sWkbM4jN1tgl7XGn65AQpyfKBhtW7JAEK05gJaOxKD
-	NGGD9goNNnspf+JznBLU2Ahp1hwFFxg=
-X-Google-Smtp-Source: AGHT+IFsdWF4nx4kMCBbcVt4bM6HLGc1akJNpCdNi1oJzcLJPhDWDutIOU5aAhV3RjleKfdHuDRz0A==
-X-Received: by 2002:a17:906:209b:b0:9a1:c225:1cea with SMTP id 27-20020a170906209b00b009a1c2251ceamr13949482ejq.65.1693232610645;
-        Mon, 28 Aug 2023 07:23:30 -0700 (PDT)
+        bh=4s4gvqIGyF3PL0WV1Hs8kg7yCGjq/lL5qZsL8CvtqI4=;
+        b=DYDUVZRsp6rwB165l1XsEM1EhhxAuZNA1vgnvhpCOyaDxzJPNyB7nSts8EtRgoNiZ3
+         DyafTxOPxwN4dvTZDK2pWxGiLBWG8E2OT2QIZKantKPL9S4gTz1W1zAHCgBJDL+Mogx3
+         u74YXibX0njb2gku52Qj1KcdnHSK85mO1SOI3LuEbxWKPNicUpeASoGyYS8n1taSI8uT
+         74nbsBs2ceJnufFIEnOWGtO7vauUJjz7/IuWTj/cSlK/Hpl42W7oQcOVFxwvI0ylTS0J
+         1QGOTAeJEIfmv5L0wcx0M311yBg7S4v5qp6sfnCGq1DCqV6njQlEpzPrGoY/1pAufmf2
+         RScA==
+X-Gm-Message-State: AOJu0YwBKYTZS/wgRB8mqsWoTiNzai2M/QYCbe0oCQR0qkCLdvrb7AtU
+	9iTYvgUb1FBQWkJucQUve7XGCraSdMQ=
+X-Google-Smtp-Source: AGHT+IE87KzS9bEzrr8Y0EZ6EpGP+ApCQioItRU8nouVpJwSwnNKnYT890IqwGJAU0fJNg6738yCGQ==
+X-Received: by 2002:a05:6402:2039:b0:525:4dd9:d247 with SMTP id ay25-20020a056402203900b005254dd9d247mr18298871edb.35.1693233513458;
+        Mon, 28 Aug 2023 07:38:33 -0700 (PDT)
 Received: from nam-dell (ip-217-105-46-58.ip.prioritytelecom.net. [217.105.46.58])
-        by smtp.gmail.com with ESMTPSA id x6-20020a170906710600b0099cc1ffd8f5sm4686690ejj.53.2023.08.28.07.23.29
+        by smtp.gmail.com with ESMTPSA id z6-20020aa7cf86000000b00523d5d9bf1bsm4486393edx.23.2023.08.28.07.38.32
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 28 Aug 2023 07:23:30 -0700 (PDT)
-Date: Mon, 28 Aug 2023 16:23:29 +0200
+        Mon, 28 Aug 2023 07:38:33 -0700 (PDT)
+Date: Mon, 28 Aug 2023 16:38:32 +0200
 From: Nam Cao <namcaov@gmail.com>
 To: Oliver Crumrine <ozlinux@hotmail.com>
 Cc: gregkh@linuxfoundation.org, colin.i.king@gmail.com,
@@ -46,7 +46,7 @@ Cc: gregkh@linuxfoundation.org, colin.i.king@gmail.com,
 	linux-staging@lists.linux.dev
 Subject: Re: [PATCH v4 1/6] staging: octeon: clean up the octeon ethernet
  driver
-Message-ID: <ZOyt4QEYivtMVaFE@nam-dell>
+Message-ID: <ZOyxaLDCI81W96/X@nam-dell>
 References: <cover.1693229582.git.ozlinux@hotmail.com>
  <PH7PR11MB7643C65E067BAB032F930488BCE0A@PH7PR11MB7643.namprd11.prod.outlook.com>
 Precedence: bulk
@@ -62,12 +62,18 @@ In-Reply-To: <PH7PR11MB7643C65E067BAB032F930488BCE0A@PH7PR11MB7643.namprd11.prod
 On Mon, Aug 28, 2023 at 09:39:14AM -0400, Oliver Crumrine wrote:
 > Make the octeon ethernet driver better adhere to the
 > kernel coding standard
+> 
+> Signed-off-by: Oliver Crumrine <ozlinux@hotmail.com>
+> ---
+> v2: Actually send the patch set properly
+> v3: Fixed a bug where I forgot to change all instances of a struct
+> v4: Actually fix that bug (this is my first patch, give me a break)
 
-Try to be more specific with your description. For example, mention that the
-patch remove typedef cvmx_spi_mode_t because "...". Same thing for your title,
-it's way too generic.
+Don't give up! You will get it right eventually.
 
-Have a look at the accepted patches to see how commit messages should be written.
+This is not important, but I prefer you revert the order of the change log.
+The changes compared to the last version is most relevant, so preferably they
+should be put on top.
 
 Best regards,
 Nam
