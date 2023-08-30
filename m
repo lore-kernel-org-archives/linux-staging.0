@@ -1,12 +1,12 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59F9C1C16
-	for <linux-staging@lists.linux.dev>; Wed, 30 Aug 2023 10:41:34 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BFFD6C433C8;
-	Wed, 30 Aug 2023 10:41:31 +0000 (UTC)
-Message-ID: <29f7f201-13eb-0150-91e9-ab68b2bba13a@xs4all.nl>
-Date: Wed, 30 Aug 2023 12:41:30 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75EFE20E2
+	for <linux-staging@lists.linux.dev>; Wed, 30 Aug 2023 10:45:02 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id ECBC4C433C7;
+	Wed, 30 Aug 2023 10:44:58 +0000 (UTC)
+Message-ID: <d4b12bc1-65b8-6881-3648-85099d9319ec@xs4all.nl>
+Date: Wed, 30 Aug 2023 12:44:57 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -141,8 +141,9 @@ On 24/08/2023 10:01, Jack Zhu wrote:
 > +	   To compile this driver as a module, choose M here: the
 > +	   module will be called stf-camss.
 
-Erm, isn't it called starfive-camss.ko?
+This is actually called starfive-camss.ko!
 
 Regards,
 
 	Hans
+
