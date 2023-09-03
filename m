@@ -1,87 +1,83 @@
-Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com [209.85.216.46])
+Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com [209.85.167.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8591B1843
-	for <linux-staging@lists.linux.dev>; Sun,  3 Sep 2023 09:54:44 +0000 (UTC)
-Received: by mail-pj1-f46.google.com with SMTP id 98e67ed59e1d1-26f6b2c8e80so345224a91.1
-        for <linux-staging@lists.linux.dev>; Sun, 03 Sep 2023 02:54:44 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8FEF23B1
+	for <linux-staging@lists.linux.dev>; Sun,  3 Sep 2023 14:09:23 +0000 (UTC)
+Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-4fe27849e6aso994256e87.1
+        for <linux-staging@lists.linux.dev>; Sun, 03 Sep 2023 07:09:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1693734884; x=1694339684; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=aSZnlEu/1rZ58eHSJVj+WQ7718jJFMdsyl5ARuTMrGw=;
-        b=SqqEVHeZw8Z+54i8PUTznEPAitAWzldVM3oHuZeKf81BxXhjsugEJ/LuVUWCJhJhuD
-         DbdB93aYafQfMWW6+n3YXWgKT9HOovFsoZ0aOmObCZayroOtLT+nM9MZsyDdQbZkoiCu
-         /7KY50b4uiK/7T2um1/MzfOryGAnhIfy3j/2x6wBYp1V9fZDC1G1n8QnNAGvgWqSWP5Y
-         0WcLqEppEvMVMSl/sTRYOa/qx6t2ml2qo60dTCg3oMK5XPy/boGQ7EY7+ZVq1s9zx9sb
-         XoRq5qx1RSp/8ZFx3ZSfIKuthkGASehznP+rvqKmeqzfz+Yo9Z2JSa4GD04iIvr2So5A
-         uMtA==
+        d=gmail.com; s=20221208; t=1693750161; x=1694354961; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=AALeIaiiugA/l8EFRK5HkASlp0QQvRxkOCyJ73bcZ4M=;
+        b=scJO0zgzwKwQz3xwPzwPPrUzvYWmfEEU4lsmzzXxp4n4PWvEAG05aX9UX0Ab2ExPb9
+         b+mcWeocnvgtq98f9rVr8GKksCaHhthvWojz3BKVEB8Y36hAMq4/r4cPykk972d02LYf
+         tAfNW3+iRCGm+uita+mzEUIadwDhQWMp4eUX5ruudS5ONns4GlQv/XHZiey45LM3mJPz
+         exe19xxwd9l0PcO8GaROrB98Qpk7EmaXS493fNdUzdxtqzQCxiJjAWoxZ/5W5WRAZlw8
+         xSmfFGHTgOp2cqGQiK4Z3yE3aLDgLh0Qdioq9frjMohYjtAhqUv4ewOVtYMQd4hyYCg3
+         +Eyw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1693734884; x=1694339684;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=aSZnlEu/1rZ58eHSJVj+WQ7718jJFMdsyl5ARuTMrGw=;
-        b=SinfRWx2F5HVuv16nOXbOtXr2or7Zckmb0LTj3CY6X36+5wXw3kd5YRQdz4Km+B1KM
-         NNdJdMMNYJw0MN1x4yTTtgBYJeWswrm/DJizJL7h86BEPlGlecG8eloRHbTlp1Y461rd
-         2SwwaUzkG0Wal8sUDM6r2DuP/DMUgnTC3w3W0xlx7Z5AhO8Osdb0ofT8EDyuuZTR5YKp
-         Mg6HSAjEyIOrjQxJ3tI7vNlc4ISOBfo2m3Y4KYQKcxjG55Pu8BYJZXW2a4tSKulvfeaP
-         04BLM1F3h2TqyytSCHvjbY8y8Wvav6qVPDWX+p2uA6q+KJUtjaFk+JtSC919TAjbJBtS
-         ulQg==
-X-Gm-Message-State: AOJu0YwfwVMKih9jlWMZXPSEbUAblw4TMqg1et6I07k7ZpB46anceAP8
-	NC3opYZxOFpw17bvDkiOli3WgGBV602WsAFIG/0QrADdIt7CWXTU7WA=
-X-Google-Smtp-Source: AGHT+IFLSgzbrRKCnF9RL63/5b8qz1Rz5YWHK+jFN02iQnHY6JEc6/Tjg+6d/Pvn3J8BBIqmfwsV3/N1+6hGB8fSfvo=
-X-Received: by 2002:a17:90a:db4c:b0:268:5c3b:6f37 with SMTP id
- u12-20020a17090adb4c00b002685c3b6f37mr6657137pjx.0.1693734883661; Sun, 03 Sep
- 2023 02:54:43 -0700 (PDT)
+        d=1e100.net; s=20221208; t=1693750161; x=1694354961;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=AALeIaiiugA/l8EFRK5HkASlp0QQvRxkOCyJ73bcZ4M=;
+        b=jKO+HA2rPThjuc2Nr7+ZcRW5Ng5n/ozDq6OD2B6GV6T8iTnMrRNIIFKhPE2OoQ2Xwg
+         vu2TQBKXuCXuGJeO/hKc2x+Y7ubszqM1bhFc3Rqa5E8OxEutaEmEGkhej9d0SzNN+Akj
+         LsHYHxEDCFZjQ3tVcVWTkXDhkfGfY6E+vv/GPsEpisqFztP5FFslGT1J40yKpkuvwqvB
+         dtiU1IWwRYqbn0g3v25TKVtIfWQ1cXj82vsMg0MUmPFwaOMvDZU2C/g5iWifrviKzLtA
+         zVhpHQYWvjpuRgfRrdmzchqtPsQOuWxxjHzEHJd3OKGjjV2Rjwy/ssRjDA4GNGsZBwDW
+         5pmg==
+X-Gm-Message-State: AOJu0YxcfMyCDOCH7KRY6kUOISWAtBeFpHXFx0Hh5iMYkZfznyRuNAGZ
+	LudgOUo6sr+0iqWu8A5pnh0=
+X-Google-Smtp-Source: AGHT+IG3iDVr+bwDU+PL99hfbuiHt0zCiHIQWUcrjXsJ5KxrLrcR+/Y2Ex+c4EakkXcwlh8smdZPcA==
+X-Received: by 2002:a19:504e:0:b0:500:b7ed:105a with SMTP id z14-20020a19504e000000b00500b7ed105amr4902785lfj.29.1693750161061;
+        Sun, 03 Sep 2023 07:09:21 -0700 (PDT)
+Received: from HP-ENVY-Notebook.lan (81-229-94-10-no68.tbcn.telia.com. [81.229.94.10])
+        by smtp.googlemail.com with ESMTPSA id b25-20020a056512025900b004fbb69d8791sm1275305lfo.79.2023.09.03.07.09.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 03 Sep 2023 07:09:20 -0700 (PDT)
+From: Jonathan Bergh <bergh.jonathan@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Jonathan Bergh <bergh.jonathan@gmail.com>
+Subject: [PATCH] staging: vme_user: Add missing '*' in multiline comments
+Date: Sun,  3 Sep 2023 16:06:17 +0200
+Message-Id: <20230903140617.567850-1-bergh.jonathan@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20230903082253.562042-1-bergh.jonathan@gmail.com>
- <2023090324-recopy-unisexual-db41@gregkh> <CA+MPq=VjvQSmY_coVxrmisXavgaZa78ram-SH2pHvOZ=AvaqRQ@mail.gmail.com>
- <2023090349-fresh-empirical-425d@gregkh>
-In-Reply-To: <2023090349-fresh-empirical-425d@gregkh>
-From: Jonathan Bergh <bergh.jonathan@gmail.com>
-Date: Sun, 3 Sep 2023 11:54:32 +0200
-Message-ID: <CA+MPq=U87cDJt1r8HCrw4LoM4PwtBRuP+z77=CcqG1HAKJZ=NQ@mail.gmail.com>
-Subject: Re: [PATCH] Staging: Fixed some formatting warnings in the vme_user driver
-To: Greg KH <gregkh@linuxfoundation.org>
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-Ok, thanks mate, appreciate that. I'll check it out and give it
-another whirl (assuming the rest of the talk is still valid ... and
-you guys still want these sorts of patches!)
-Cheers
-JB
+This patch resolves a warning reported by checkpatch where multiline
+block comments should use '*' on intermediate lines in order to adhere
+to the Linux kernel coding-style guidelines.
 
+Signed-off-by: Jonathan Bergh <bergh.jonathan@gmail.com>
+---
+ drivers/staging/vme_user/vme_fake.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-On Sun, Sep 3, 2023 at 11:40=E2=80=AFAM Greg KH <gregkh@linuxfoundation.org=
-> wrote:
->
-> On Sun, Sep 03, 2023 at 11:17:41AM +0200, Jonathan Bergh wrote:
-> > Hi Greg,
-> > I hope you are well. I got this response from your bot!
-> > I pretty much followed your FOSDEM instructions for *first kernel
-> > patches* so i thought I was doing it right.
->
-> That's a really old talk, things have changed a bit since then :)
->
-> > Based on the video of your talk, is more required in the SUBJECT and
-> > BODY for such a (basic) change? It seemed the above was pretty much
-> > inline with the terseness / examples you showed in your presentation.
-> > Hopefully thats the case.
->
-> Yes, you need a better changelog and subject line.  Read the link that
-> the bot referred you to and look at all of the examples commits that
-> have been accepted for the files that you modified to give you an idea
-> of what is needed.
->
-> thanks,
->
-> greg k-h
+diff --git a/drivers/staging/vme_user/vme_fake.c b/drivers/staging/vme_user/vme_fake.c
+index 7c53a8a7b79b..90aaf650524d 100644
+--- a/drivers/staging/vme_user/vme_fake.c
++++ b/drivers/staging/vme_user/vme_fake.c
+@@ -1010,8 +1010,8 @@ static void fake_free_consistent(struct device *parent, size_t size,
+ {
+ 	kfree(vaddr);
+ /*
+-	dma_free_coherent(parent, size, vaddr, dma);
+-*/
++ *	dma_free_coherent(parent, size, vaddr, dma);
++ */
+ }
+ 
+ /*
+-- 
+2.34.1
+
