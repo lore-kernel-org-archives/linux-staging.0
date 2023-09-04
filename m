@@ -1,62 +1,61 @@
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71805C14D
-	for <linux-staging@lists.linux.dev>; Mon,  4 Sep 2023 15:26:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4ED42C13A
+	for <linux-staging@lists.linux.dev>; Mon,  4 Sep 2023 15:28:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1693841189;
+	s=mimecast20190719; t=1693841302;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=3w9m5Kyek9McC6DIqWL/AU9aeKuaClRRwuI23BVEZVQ=;
-	b=GEO5pWuW+796+9zS7TTx4G3A3BX7uE08soZAQP/szGAwIfFw7FrTptTov7oj9pTGHWQglA
-	bQi3et3MZ2euGsNSE2EUMdbDVijHhWbU2lyF27ieXwdskIDvJRKINVjcCd4Zrqvg8A3ywx
-	liRwE59eJMNFLzQAOXbNjeOme4Xd3ck=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=zrkFFETteuVae/tXCmZrIh7LT8QUm9zk2gxUS8x5iBg=;
+	b=Ng4//mxVEHJNCcbGf4HvXFv841XaYXBNtfUaYYCQzpk88TihdXGvnoOzUSg+lZi/RqvD5u
+	HYATYOzNiUQiXIQDFNC371m6OtAWmoZ4q3cWRGppMjjbLCj5yVvLOp0a5bPz+BQyvEQkLj
+	Qg1GtzsRmnDmHZa5dZsuAHFkRkwng0Y=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-583-coqvgAQcPlSrkeMWCKilRw-1; Mon, 04 Sep 2023 11:26:28 -0400
-X-MC-Unique: coqvgAQcPlSrkeMWCKilRw-1
-Received: by mail-wm1-f70.google.com with SMTP id 5b1f17b1804b1-3fefea09bd0so10252425e9.0
-        for <linux-staging@lists.linux.dev>; Mon, 04 Sep 2023 08:26:28 -0700 (PDT)
+ us-mta-599-8TZiy6dxNw-s73oG-U5iRA-1; Mon, 04 Sep 2023 11:28:21 -0400
+X-MC-Unique: 8TZiy6dxNw-s73oG-U5iRA-1
+Received: by mail-wr1-f71.google.com with SMTP id ffacd0b85a97d-31c5adb698aso797692f8f.2
+        for <linux-staging@lists.linux.dev>; Mon, 04 Sep 2023 08:28:20 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1693841187; x=1694445987;
+        d=1e100.net; s=20221208; t=1693841300; x=1694446100;
         h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
          :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=3w9m5Kyek9McC6DIqWL/AU9aeKuaClRRwuI23BVEZVQ=;
-        b=Yk3wlx7A8aURijLxG/oktWH0CqNpKGvrqwLefttsSH2q75jqq5fuwGuT6q5nXfzfSC
-         tBr589543aX0tCT4rHniZqU4YycjT2thu52vJiWCcCknaaN28vMcSQam86pK5OCdDnBP
-         iJeuqQSmYgc7LHbtRgYyYSuQl2zJmTCoFVdRsHLWLtjdMop1ckyqEdg+HRgjJIrGCDkX
-         6ABT4ZBR93grfQFsAPWV+D4XVbJBfq0WRywuse6ABXNixsglFb6t5Ijfpn3WjxzP8dcR
-         /MdHGLS8lQokaEXk0QCNXrwZk7gDnqWRCbEJMyg1ybK2qZrHbKSMBk12VoyiQLrYSVbo
-         dVnA==
-X-Gm-Message-State: AOJu0YyK/i9s8NQGiWwlFo+F5gmAMoHtFRkXK+jtrzF513PuQNnMq2wi
-	yBOvt/qHvlM0vjzrSbzi4Zy2cRVcCaL5qE3Kylu8OaNS5NXF+0fW31Zh7vYV272irkx14kjdpnv
-	NTaRrUDLho+tnWd8C7Fce4kCETw==
-X-Received: by 2002:a05:600c:230a:b0:401:aa8f:7566 with SMTP id 10-20020a05600c230a00b00401aa8f7566mr7184370wmo.26.1693841187211;
-        Mon, 04 Sep 2023 08:26:27 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IH/QgrG9ZZeCMMajoiNwd74ytk48aIpSmfM9Lf3C5BkHGpRWOhGbvtZxEvbd/m0qpvgeZC8gA==
-X-Received: by 2002:a05:600c:230a:b0:401:aa8f:7566 with SMTP id 10-20020a05600c230a00b00401aa8f7566mr7184357wmo.26.1693841186846;
-        Mon, 04 Sep 2023 08:26:26 -0700 (PDT)
+        bh=zrkFFETteuVae/tXCmZrIh7LT8QUm9zk2gxUS8x5iBg=;
+        b=Uh23lCdDWVYo6Rl6JvKYVvKySt4EdkQrD9VwVgxp7kqDcteNPnU0EuwZLpL+bR5s/1
+         QJlvPJYMO0OkFlaSfVCoTeP69tDP7YMEYKq3TmcWqtpXX8LqI3a2LaSAfdOkfzzkPQU3
+         6c5DGU0GnODdrloZPhwDFQdbneQEux+uINe8wEwHxYZHvBEsSHBiLLglWa/P9oO95AmU
+         G9A3IrGmclaYU9XIT85wp0ByCw2agHRmfqhJCwORrPGTgsGVRSAnZQ8YNvqYyBlRGoZ5
+         9W3M7+oRLgDOODCEdQZmJX4EUEyZ+N2lIq/9r6QhnClj3d95Qu4K8LQKpqbLGNBURaBU
+         ZyKA==
+X-Gm-Message-State: AOJu0YzHZvp6/3szj4jc6CrtWGVC7WmoHg4dC/29dhbEGu//Juoxdfyl
+	BhpGLb/JHfICNlcr2ovcoIjvni8bniUTs0LtFkof65fHhgvSNCg7E3ZVB7n23CGw52gPdWGKtmM
+	DMBEms4QpzEjWyGsJmYCJPZJaYA==
+X-Received: by 2002:a05:6000:151:b0:317:5d60:2fea with SMTP id r17-20020a056000015100b003175d602feamr8786753wrx.52.1693841299901;
+        Mon, 04 Sep 2023 08:28:19 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEqr9n5OuCxsaX4v3hREg3LRHhHWX1kh5NPq1tl5TVMsK10UjE7B2EYUhMfWqJeDR4jr+Z45A==
+X-Received: by 2002:a05:6000:151:b0:317:5d60:2fea with SMTP id r17-20020a056000015100b003175d602feamr8786735wrx.52.1693841299613;
+        Mon, 04 Sep 2023 08:28:19 -0700 (PDT)
 Received: from localhost (156.pool92-189-221.dynamic.orange.es. [92.189.221.156])
-        by smtp.gmail.com with ESMTPSA id p15-20020a5d68cf000000b0031416362e23sm14937968wrw.3.2023.09.04.08.26.26
+        by smtp.gmail.com with ESMTPSA id e12-20020adf9bcc000000b0031759e6b43fsm11564376wrc.39.2023.09.04.08.28.19
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 04 Sep 2023 08:26:26 -0700 (PDT)
+        Mon, 04 Sep 2023 08:28:19 -0700 (PDT)
 From: Javier Martinez Canillas <javierm@redhat.com>
 To: Thomas Zimmermann <tzimmermann@suse.de>, deller@gmx.de, daniel@ffwll.ch,
  sam@ravnborg.org
-Cc: Steve Glendinning <steve.glendinning@shawell.net>,
- linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev,
- linux-hyperv@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-input@vger.kernel.org
-Subject: Re: [PATCH 1/8] fbdev/smscufx: Use fb_ops helpers for deferred I/O
-In-Reply-To: <b9b985e7-4f60-7c59-3121-b26b07b13b03@suse.de>
+Cc: linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev,
+ linux-hyperv@vger.kernel.org, dri-devel@lists.freedesktop.org, Bernie
+ Thompson <bernie@plugable.com>, linux-input@vger.kernel.org
+Subject: Re: [PATCH 2/8] fbdev/udlfb: Use fb_ops helpers for deferred I/O
+In-Reply-To: <37906737-5ca3-7f46-af30-85a117875eea@suse.de>
 References: <20230828132131.29295-1-tzimmermann@suse.de>
- <20230828132131.29295-2-tzimmermann@suse.de>
- <877cp66qmp.fsf@minerva.mail-host-address-is-not-set>
- <b9b985e7-4f60-7c59-3121-b26b07b13b03@suse.de>
-Date: Mon, 04 Sep 2023 17:26:25 +0200
-Message-ID: <871qfe6jtq.fsf@minerva.mail-host-address-is-not-set>
+ <20230828132131.29295-3-tzimmermann@suse.de>
+ <874jka6qd7.fsf@minerva.mail-host-address-is-not-set>
+ <37906737-5ca3-7f46-af30-85a117875eea@suse.de>
+Date: Mon, 04 Sep 2023 17:28:18 +0200
+Message-ID: <87y1hm5565.fsf@minerva.mail-host-address-is-not-set>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -69,69 +68,51 @@ Content-Type: text/plain
 
 Thomas Zimmermann <tzimmermann@suse.de> writes:
 
-> Hi Javier
->
-> Am 04.09.23 um 14:59 schrieb Javier Martinez Canillas:
+> Am 04.09.23 um 15:05 schrieb Javier Martinez Canillas:
 >> Thomas Zimmermann <tzimmermann@suse.de> writes:
->> 
->> Hello Thomas,
 >> 
 >>> Generate callback functions for struct fb_ops with the fbdev macro
 >>> FB_GEN_DEFAULT_DEFERRED_SYSMEM_OPS(). Initialize struct fb_ops to
 >>> the generated functions with fbdev initializer macros.
 >>>
 >>> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
->>> Cc: Steve Glendinning <steve.glendinning@shawell.net>
+>>> Cc: Bernie Thompson <bernie@plugable.com>
 >>> ---
->> 
->> The patch looks good to me, but I've a question below.
 >> 
 >> Acked-by: Javier Martinez Canillas <javierm@redhat.com>
 >> 
->>>   drivers/video/fbdev/smscufx.c | 85 +++++++++--------------------------
->>>   1 file changed, 22 insertions(+), 63 deletions(-)
->>>
->>> diff --git a/drivers/video/fbdev/smscufx.c b/drivers/video/fbdev/smscufx.c
->> 
 >> [...]
 >> 
->>>   static const struct fb_ops ufx_ops = {
->>>   	.owner = THIS_MODULE,
->>> -	.fb_read = fb_sys_read,
->>> -	.fb_write = ufx_ops_write,
->>> +	__FB_DEFAULT_DEFERRED_OPS_RDWR(ufx_ops),
->>>   	.fb_setcolreg = ufx_ops_setcolreg,
->>> -	.fb_fillrect = ufx_ops_fillrect,
->>> -	.fb_copyarea = ufx_ops_copyarea,
->>> -	.fb_imageblit = ufx_ops_imageblit,
->>> +	__FB_DEFAULT_DEFERRED_OPS_DRAW(ufx_ops),
->>>   	.fb_mmap = ufx_ops_mmap,
+>>> +static void dlfb_ops_damage_range(struct fb_info *info, off_t off, size_t len)
+>>> +{
+>>> +	struct dlfb_data *dlfb = info->par;
+>>> +	int start = max((int)(off / info->fix.line_length), 0);
+>>> +	int lines = min((u32)((len / info->fix.line_length) + 1), (u32)info->var.yres);
+>>> +
+>>> +	dlfb_handle_damage(dlfb, 0, start, info->var.xres, lines);
+>>> +}
+>>> +
+>>> +static void dlfb_ops_damage_area(struct fb_info *info, u32 x, u32 y, u32 width, u32 height)
+>>> +{
+>>> +	struct dlfb_data *dlfb = info->par;
+>>> +
+>>> +	dlfb_offload_damage(dlfb, x, y, width, height);
+>>> +}
+>>> +
 >> 
->> There are no generated functions for .fb_mmap, I wonder what's the value
->> of __FB_DEFAULT_DEFERRED_OPS_MMAP() ? Maybe just removing that macro and
->> setting .fb_mmap = fb_deferred_io_mmap instead if there's no custom mmap
->> handler would be easier to read ?
+>> These two are very similar to the helpers you added for the smscufx driver
+>> in patch #1. I guess there's room for further consolidation as follow-up ?
 >
-> At least two drivers could use __FB_DEFAULT_DEFERRED_OPS_MMAP: 
-> picolcd-fb and hyperv_fb. At some point, we might want to set/clear 
-> fb_mmap depending on some Kconfig value. Having 
-> __FB_DEFAULT_DEFERRED_OPS_MMAP might be helpful then.
+> Maybe. I had patches that take the rectangle computation from [1] and 
+> turn it into a helper for these USB drivers. But it's an unrelated 
+> change, so I dropped them from this patchset.
 >
 
-Got it, thanks for the explanation.
+Great and yes, I meant as separate patch-set, not as a part of this one.
 
->> 
->> Alternatively, __FB_DEFAULT_DEFERRED_OPS_MMAP() could still be left but
->> not taking a __prefix argument since that is not used anyways ?
+> Best regards
+> Thomas
 >
-> The driver optionally provides mmap without deferred I/O, hence the mmap 
-> function. That makes no sense, as these writes to the buffer would never 
-> make it to the device memory. But I didn't want to remove the code 
-> either. So I just left the existing function as-is. Usually, the 
-> deferred-I/O mmap is called immediately. [1]
->
-
-Makes sense.
 
 -- 
 Best regards,
