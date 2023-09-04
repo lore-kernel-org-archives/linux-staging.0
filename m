@@ -1,62 +1,61 @@
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCA34442D
-	for <linux-staging@lists.linux.dev>; Mon,  4 Sep 2023 13:18:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F25F3D9F
+	for <linux-staging@lists.linux.dev>; Mon,  4 Sep 2023 13:24:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1693833490;
+	s=mimecast20190719; t=1693833896;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=rBLzSQTLv+8pipDzuuK9IQr80p06o9JPiTCzfewmJxw=;
-	b=JSaCtwUapIaYsR7l6FcK6XEyuFHlAlzDnqiO4Eek9d4+nHsEvbWuDhAWkA/iuV3ED49Zpv
-	+4Zyi1mp9cFMyBoDFHPfGUByd0ZA9lNlRafBtPhCgxUYviZv5A/7FXQyKJh/DmbXX1uOim
-	ecO3+3TaxDJiwLl+2kpBg0nQbbzMgT4=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=xPaq3CuDZRpQmuDqucr0HZhD9ZzK56uaUpku88i4nOk=;
+	b=OQVg5s8TUYNUhczp7b+AX7o0osHbI7hvP83FPdfMdrUXxScedWqOVc5gYQVi9SM7Fi1syp
+	JY32+6CzutwCS7qtkpupDrRs2FPj9ODHEKnIsw40+GC415HbEPP51bR1+B1wmtVfTmK1rH
+	v5uOgJV7kXqewAW3Luk+DKeit2e0M4k=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-505-YNU3EkzROK6VTDRQMKURFQ-1; Mon, 04 Sep 2023 09:18:09 -0400
-X-MC-Unique: YNU3EkzROK6VTDRQMKURFQ-1
-Received: by mail-wm1-f70.google.com with SMTP id 5b1f17b1804b1-4011fa32e99so9447605e9.0
-        for <linux-staging@lists.linux.dev>; Mon, 04 Sep 2023 06:18:08 -0700 (PDT)
+ us-mta-327-PfhhvYSBMLi4ZnOvfBZ8Ug-1; Mon, 04 Sep 2023 09:24:54 -0400
+X-MC-Unique: PfhhvYSBMLi4ZnOvfBZ8Ug-1
+Received: by mail-wm1-f72.google.com with SMTP id 5b1f17b1804b1-402cba95486so7082515e9.0
+        for <linux-staging@lists.linux.dev>; Mon, 04 Sep 2023 06:24:54 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1693833488; x=1694438288;
+        d=1e100.net; s=20221208; t=1693833893; x=1694438693;
         h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
          :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=rBLzSQTLv+8pipDzuuK9IQr80p06o9JPiTCzfewmJxw=;
-        b=YRqX86NSXqIbiLtNzW8nLFr+tszOoCW24Jym8v0tBnPkwO7OJ+iQ9IMnjnWsBuyhyg
-         7W9kFFWbEem8vH1sFDLHh7eEb3DspmIhlV14v0g02AAJ7N14lSdbhmFWOE2JmS6gISVd
-         rYgVizI+rvBdKD0cYiN3NiCY4QlkczGaq3MwpdJpXcZXsDRkDEbJYvi+IB0dkkHxgA36
-         BLwbVuuMqnNsOJXPy1K0xSRTmGP1bq7F0OZWFIQTFVk+vV4jZmN/8EHcfKQgWpdm5kiX
-         sBjtFnS37IhQPEOKnOb0r5l3zSwIFmtIbyt1H53ZgDM2lY3MYFoU6sfVIUvKALMpiFK3
-         ODNQ==
-X-Gm-Message-State: AOJu0YyUNHyBmq1Ihv4tIrTkUns5wbGTo5GCUibTW6iDQVizSS31H4aD
-	PKKp6K9Jir5RwuT2jQ8JWgo7qpuUsrpNP/I47DDJBtj2CQK8xEH2OE9FJsYLTRLnxHwgzLntqt8
-	u/v1zzgT0oNvITRhlfE4YS380Zg==
-X-Received: by 2002:a05:6000:82:b0:31d:cd2f:4a4b with SMTP id m2-20020a056000008200b0031dcd2f4a4bmr6453150wrx.50.1693833488025;
-        Mon, 04 Sep 2023 06:18:08 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFMneOVTl+tO7EjPHxWk7aAIbA+6YIUPO8GkkaydyT763T9pc7YLR5Hmg/1C6iUl0u80TgQ3Q==
-X-Received: by 2002:a05:6000:82:b0:31d:cd2f:4a4b with SMTP id m2-20020a056000008200b0031dcd2f4a4bmr6453136wrx.50.1693833487752;
-        Mon, 04 Sep 2023 06:18:07 -0700 (PDT)
+        bh=xPaq3CuDZRpQmuDqucr0HZhD9ZzK56uaUpku88i4nOk=;
+        b=Agzhp2zk6kgr/lEjVvhdqKC5QKwY2Sff0Huy9ICVjMLQisPradbT/mfSWaDPwNbocS
+         wMiGQqB238QI1/ucsmu6GMbi3EXWfdRU3Rtr9TWVThMrilZ/BMJ8M82QnWPcIEFPd1Rh
+         Kp6yEDt73tQ5udH0OF4w1jB1nwT92yLEMEgPLhp+mFFyycOjEMOtk8oCYoas6eI7yl8l
+         /nIXZt1adXH5TN6tXyfU9qAi4SDPBpzrieffGUNm9qUjldNaDNGlAEBXp0dX9YUC/fHZ
+         FbAfgjN8WSgVI2wypkmt4fnVxeQneTKdzZmKwhpieLc+MQJH6nkyTGhAvZC5FTObW78e
+         qPhg==
+X-Gm-Message-State: AOJu0YyhicLiLGXWzqOLwhbaxxpMmFlMC2ggy8NgUKWq5I7UE2DiN+oe
+	yYHO5zeVyfDnHPZrFhhEaRrMikRCjhMnz13qdvjVMz6/ExNKQegv2nQgGuF/flUX5R72sxr6fB7
+	O3mzzmK82XDVU7Ngh91ea22hhng==
+X-Received: by 2002:a7b:ce18:0:b0:3fb:f0ef:4669 with SMTP id m24-20020a7bce18000000b003fbf0ef4669mr7620181wmc.17.1693833893702;
+        Mon, 04 Sep 2023 06:24:53 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGVceTFRRCJx3QEHC1v0Fwwk5gpR/JTxujmvjvpSbrcXuud5RQf6XSV8UmJ3S8NFK1PJ6NVpQ==
+X-Received: by 2002:a7b:ce18:0:b0:3fb:f0ef:4669 with SMTP id m24-20020a7bce18000000b003fbf0ef4669mr7620172wmc.17.1693833893448;
+        Mon, 04 Sep 2023 06:24:53 -0700 (PDT)
 Received: from localhost (205.pool92-176-231.dynamic.orange.es. [92.176.231.205])
-        by smtp.gmail.com with ESMTPSA id f3-20020a5d6643000000b00318147fd2d3sm14498682wrw.41.2023.09.04.06.18.07
+        by smtp.gmail.com with ESMTPSA id m13-20020a7bce0d000000b003fed630f560sm14111682wmc.36.2023.09.04.06.24.53
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 04 Sep 2023 06:18:07 -0700 (PDT)
+        Mon, 04 Sep 2023 06:24:53 -0700 (PDT)
 From: Javier Martinez Canillas <javierm@redhat.com>
 To: Thomas Zimmermann <tzimmermann@suse.de>, deller@gmx.de, daniel@ffwll.ch,
  sam@ravnborg.org
 Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
  linux-staging@lists.linux.dev, linux-hyperv@vger.kernel.org,
- linux-input@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>, "K.
- Y. Srinivasan" <kys@microsoft.com>, Haiyang Zhang
- <haiyangz@microsoft.com>, Wei Liu <wei.liu@kernel.org>, Dexuan Cui
- <decui@microsoft.com>
-Subject: Re: [PATCH 4/8] fbdev/hyperv_fb: Use fb_ops helpers for deferred I/O
-In-Reply-To: <20230828132131.29295-5-tzimmermann@suse.de>
+ linux-input@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>, Jiri
+ Kosina <jikos@kernel.org>, Benjamin Tissoires
+ <benjamin.tissoires@redhat.com>
+Subject: Re: [PATCH 5/8] hid: Remove trailing whitespace
+In-Reply-To: <20230828132131.29295-6-tzimmermann@suse.de>
 References: <20230828132131.29295-1-tzimmermann@suse.de>
- <20230828132131.29295-5-tzimmermann@suse.de>
-Date: Mon, 04 Sep 2023 15:18:06 +0200
-Message-ID: <87fs3ucc1d.fsf@minerva.mail-host-address-is-not-set>
+ <20230828132131.29295-6-tzimmermann@suse.de>
+Date: Mon, 04 Sep 2023 15:24:52 +0200
+Message-ID: <87cyyycbq3.fsf@minerva.mail-host-address-is-not-set>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -69,15 +68,12 @@ Content-Type: text/plain
 
 Thomas Zimmermann <tzimmermann@suse.de> writes:
 
-> Generate callback functions for struct fb_ops with the fbdev macro
-> FB_GEN_DEFAULT_DEFERRED_IOMEM_OPS(). Initialize struct fb_ops to
-> the generated functions with fbdev initializer macros.
->
-> The hyperv_fb driver is incomplete in its handling of deferred I/O
-> and damage framebuffers. Write operations do no trigger damage handling.
-> Fixing this is beyond the scope of this patch.
+> Fix coding style in Kconfig. No functional changes.
 >
 > Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> Cc: Jiri Kosina <jikos@kernel.org>
+> Cc: Benjamin Tissoires <benjamin.tissoires@redhat.com>
+> ---
 
 Acked-by: Javier Martinez Canillas <javierm@redhat.com>
 
