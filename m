@@ -1,84 +1,128 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD744BA42
-	for <linux-staging@lists.linux.dev>; Mon,  4 Sep 2023 13:28:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1693834137;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Ogc35j5wnFZjYknca/Dmxrctu7aJYOr7uX6tINC9GWs=;
-	b=eVMR9mHWlE+I25vv9vjngZNjD2SmjS/XMAZrK8cTk7kD0sdVAcRBcFfxzL9T0UsOYvkrOB
-	EqHSot500snx9SFPg50x42o8lsq7tDv+ig1u48ATVv56U+Tp/4vt5YAJvJJXI098KEylsM
-	hVSQnMU3WuR9fJbI1equGbue5uVtSUo=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-191-7pCyZe9YM8y5rVSaA1sqlQ-1; Mon, 04 Sep 2023 09:28:55 -0400
-X-MC-Unique: 7pCyZe9YM8y5rVSaA1sqlQ-1
-Received: by mail-wr1-f71.google.com with SMTP id ffacd0b85a97d-3172a94b274so824820f8f.0
-        for <linux-staging@lists.linux.dev>; Mon, 04 Sep 2023 06:28:55 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1693834134; x=1694438934;
-        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Ogc35j5wnFZjYknca/Dmxrctu7aJYOr7uX6tINC9GWs=;
-        b=YNjjoZZRFzWG19RDvPYYMV6dBhRkoDVIV93M3drxesWN0jOJPHTwixFwcfAkdquwiI
-         FaQyOdxb5+AKO6neZ1uL30sPZx/S822y7YuvXJA++dz+kZuqzq2O31DTJmvPpDkhgBnp
-         bsyQHqyDUKq5XCkZnR13cm2L9Y+08Cwwwdz8R/A5wgqWsxRd9LMeNBWIy7L7Cl3jP6S4
-         EAmMLb/uocDFTX/C8fUM8zPhTRk+EyZIj2m8TCqOHH0jRT6a2u+ah2Dbj/rQ66dWLBPQ
-         VRi25SWcQKXN6FVdlgZN8DVwzvaIkD5Qdx2m2EGJo/JqS6vZF8LTuxHCSRLWv+mdDeWT
-         ZEsw==
-X-Gm-Message-State: AOJu0YygMBgk/C7VjAhfbTOchaxHpDYNd7/TuJushfNxS5oc3mxUVQ0N
-	eq/Mm3y/H5F+A4eKblsNzRzuqNxVVRo4Q/IPKtAM6i31e0bicCIW2jv5GAIB1MQx5TNzZt4nuw1
-	z926nFNKBjic7mrPkWY1a9jgdcqPFxvjdXQ==
-X-Received: by 2002:a5d:43c3:0:b0:317:3d36:b2cd with SMTP id v3-20020a5d43c3000000b003173d36b2cdmr6107641wrr.71.1693834134387;
-        Mon, 04 Sep 2023 06:28:54 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IG3pL/7M37MZ8DDYOtxB0J933cOF0hsfKFCSqFaXm8ULHyrObL/1Lf5LyHUOXJD35lTdHtBaw==
-X-Received: by 2002:a5d:43c3:0:b0:317:3d36:b2cd with SMTP id v3-20020a5d43c3000000b003173d36b2cdmr6107629wrr.71.1693834134083;
-        Mon, 04 Sep 2023 06:28:54 -0700 (PDT)
-Received: from localhost (205.pool92-176-231.dynamic.orange.es. [92.176.231.205])
-        by smtp.gmail.com with ESMTPSA id p3-20020a05600c1d8300b00401e32b25adsm14407260wms.4.2023.09.04.06.28.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 04 Sep 2023 06:28:53 -0700 (PDT)
-From: Javier Martinez Canillas <javierm@redhat.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>, deller@gmx.de, daniel@ffwll.ch,
- sam@ravnborg.org
-Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-staging@lists.linux.dev, linux-hyperv@vger.kernel.org,
- linux-input@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH 8/8] staging/fbtft: Use fb_ops helpers for deferred I/O
-In-Reply-To: <20230828132131.29295-9-tzimmermann@suse.de>
-References: <20230828132131.29295-1-tzimmermann@suse.de>
- <20230828132131.29295-9-tzimmermann@suse.de>
-Date: Mon, 04 Sep 2023 15:28:53 +0200
-Message-ID: <874jkacbje.fsf@minerva.mail-host-address-is-not-set>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A36D3C127
+	for <linux-staging@lists.linux.dev>; Mon,  4 Sep 2023 14:09:08 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4A9A6C433C8;
+	Mon,  4 Sep 2023 14:09:05 +0000 (UTC)
+Message-ID: <b3561832-b7e4-f612-4729-fd4ca8234602@xs4all.nl>
+Date: Mon, 4 Sep 2023 16:09:03 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.12.0
+Subject: Re: [PATCH v6 11/18] media: videobuf2: Be more flexible on the number
+ of queue stored buffers
+Content-Language: en-US, nl
+To: Benjamin Gaignard <benjamin.gaignard@collabora.com>, mchehab@kernel.org,
+ tfiga@chromium.org, m.szyprowski@samsung.com, ming.qian@nxp.com,
+ ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de,
+ gregkh@linuxfoundation.org, nicolas.dufresne@collabora.com
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org,
+ linux-arm-msm@vger.kernel.org, linux-rockchip@lists.infradead.org,
+ linux-staging@lists.linux.dev, kernel@collabora.com
+References: <20230901124414.48497-1-benjamin.gaignard@collabora.com>
+ <20230901124414.48497-12-benjamin.gaignard@collabora.com>
+ <37e5e418-c38a-b863-ffdf-72ce300cf227@xs4all.nl>
+ <319d6103-26c3-bc02-3f80-90e653c8ee37@collabora.com>
+From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+In-Reply-To: <319d6103-26c3-bc02-3f80-90e653c8ee37@collabora.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Thomas Zimmermann <tzimmermann@suse.de> writes:
+Hi Benjamin,
 
-> Generate callback functions for struct fb_ops with the fbdev macro
-> FB_GEN_DEFAULT_DEFERRED_SYSMEM_OPS(). Initialize struct fb_ops to
-> the generated functions with an fbdev initializer macro.
->
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> ---
+This patch can be folded into 11/18 to make it work properly.
 
-Acked-by: Javier Martinez Canillas <javierm@redhat.com>
+vb2_core_queue_release() is also called when the file handle of the video device is
+closed and it is also the owner of the currently allocated buffers. This will free
+q->bufs, but queue_init isn't called a second time for non-m2m devices. So move
+the allocation of q->bufs from queue_init to reqbufs/create_buffers.
+
+And when releasing the file handle we also check if there is no owner at all:
+in that case vb2_queue_release() must still be called to free q->bufs.
+
+Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+---
+ drivers/media/common/videobuf2/videobuf2-core.c | 15 +++++++++++++--
+ drivers/media/common/videobuf2/videobuf2-v4l2.c |  4 ++--
+ 2 files changed, 15 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/media/common/videobuf2/videobuf2-core.c b/drivers/media/common/videobuf2/videobuf2-core.c
+index dc7f6b59d237..202d7c80ffd2 100644
+--- a/drivers/media/common/videobuf2/videobuf2-core.c
++++ b/drivers/media/common/videobuf2/videobuf2-core.c
+@@ -859,6 +859,12 @@ int vb2_core_reqbufs(struct vb2_queue *q, enum vb2_memory memory,
+ 			return 0;
+ 	}
+
++	if (!q->bufs) {
++		q->bufs = kcalloc(q->max_allowed_buffers, sizeof(*q->bufs), GFP_KERNEL);
++		if (!q->bufs)
++			return -ENOMEM;
++	}
++
+ 	/*
+ 	 * Make sure the requested values and current defaults are sane.
+ 	 */
+@@ -985,6 +991,12 @@ int vb2_core_create_bufs(struct vb2_queue *q, enum vb2_memory memory,
+ 		return -ENOBUFS;
+ 	}
+
++	if (!q->bufs) {
++		q->bufs = kcalloc(q->max_allowed_buffers, sizeof(*q->bufs), GFP_KERNEL);
++		if (!q->bufs)
++			return -ENOMEM;
++	}
++
+ 	if (no_previous_buffers) {
+ 		if (q->waiting_in_dqbuf && *count) {
+ 			dprintk(q, 1, "another dup()ped fd is waiting for a buffer\n");
+@@ -2525,8 +2537,6 @@ int vb2_core_queue_init(struct vb2_queue *q)
+ 	/* The maximum is limited by offset cookie encoding pattern */
+ 	q->max_allowed_buffers = min_t(unsigned int, q->max_allowed_buffers, BUFFER_INDEX_MASK);
+
+-	q->bufs = kcalloc(q->max_allowed_buffers, sizeof(*q->bufs), GFP_KERNEL);
+-
+ 	if (q->buf_struct_size == 0)
+ 		q->buf_struct_size = sizeof(struct vb2_buffer);
+
+@@ -2552,6 +2562,7 @@ void vb2_core_queue_release(struct vb2_queue *q)
+ 	mutex_lock(&q->mmap_lock);
+ 	__vb2_queue_free(q, q->num_buffers);
+ 	kfree(q->bufs);
++	q->bufs = NULL;
+ 	mutex_unlock(&q->mmap_lock);
+ }
+ EXPORT_SYMBOL_GPL(vb2_core_queue_release);
+diff --git a/drivers/media/common/videobuf2/videobuf2-v4l2.c b/drivers/media/common/videobuf2/videobuf2-v4l2.c
+index 8ba658ad9891..104fc5c4f574 100644
+--- a/drivers/media/common/videobuf2/videobuf2-v4l2.c
++++ b/drivers/media/common/videobuf2/videobuf2-v4l2.c
+@@ -1148,7 +1148,7 @@ int _vb2_fop_release(struct file *file, struct mutex *lock)
+
+ 	if (lock)
+ 		mutex_lock(lock);
+-	if (file->private_data == vdev->queue->owner) {
++	if (!vdev->queue->owner || file->private_data == vdev->queue->owner) {
+ 		vb2_queue_release(vdev->queue);
+ 		vdev->queue->owner = NULL;
+ 	}
+@@ -1276,7 +1276,7 @@ void vb2_video_unregister_device(struct video_device *vdev)
+ 	 */
+ 	get_device(&vdev->dev);
+ 	video_unregister_device(vdev);
+-	if (vdev->queue && vdev->queue->owner) {
++	if (vdev->queue) {
+ 		struct mutex *lock = vdev->queue->lock ?
+ 			vdev->queue->lock : vdev->lock;
 
 -- 
-Best regards,
+2.40.1
 
-Javier Martinez Canillas
-Core Platforms
-Red Hat
 
