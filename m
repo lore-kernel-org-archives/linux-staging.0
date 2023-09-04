@@ -1,60 +1,60 @@
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E36C47471
-	for <linux-staging@lists.linux.dev>; Mon,  4 Sep 2023 12:59:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96CE3BA42
+	for <linux-staging@lists.linux.dev>; Mon,  4 Sep 2023 13:05:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1693832370;
+	s=mimecast20190719; t=1693832712;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=zEV+8LVB0e1YVGA/3PaV1RliEe0ZafqnElnGxMEFxlo=;
-	b=AYJDEEcc+Ui+3vgPX45vT/4XC4eP1Tb6WEVrknTTafPsCQUNyjYD6UOB6PjMIn2SIE3hIO
-	NwGnNWr3O9YsJAASHU7aupR3okRGYZo0lCFenPysYxORsjYQpz/2/mh9jCALEUWNJXWRQN
-	FH54GScAa+++RhlqG9XKwtnnTahZsgs=
+	bh=JGDuo0fidzIyb7lQTlkFMMjSr0JbZNOTrueOM/c6sEY=;
+	b=T5zWLRHrBVs1USqX/tvB5tN2WMDSXsH1eXhwvC8fsQ+zR+BLJAY+ZK+8eQX7saTwKWQtjA
+	4LM34LkAfFrcqjbiVQVcW8ckeNShrt27IxgXRAwe5mjqnMOdl1HwmMOcNcWf86wHbxP+xC
+	eyEtsPaVLx0lEyVLKbzyky9KEXT88W0=
 Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
  [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-154-tEUN7WPAPx2kwR7gLXgvMA-1; Mon, 04 Sep 2023 08:59:29 -0400
-X-MC-Unique: tEUN7WPAPx2kwR7gLXgvMA-1
-Received: by mail-wr1-f69.google.com with SMTP id ffacd0b85a97d-31aef4011cfso805702f8f.2
-        for <linux-staging@lists.linux.dev>; Mon, 04 Sep 2023 05:59:29 -0700 (PDT)
+ us-mta-400-FZ9Qf19oPp2eiZ44AI4laQ-1; Mon, 04 Sep 2023 09:05:11 -0400
+X-MC-Unique: FZ9Qf19oPp2eiZ44AI4laQ-1
+Received: by mail-wr1-f69.google.com with SMTP id ffacd0b85a97d-3172a94b274so813544f8f.0
+        for <linux-staging@lists.linux.dev>; Mon, 04 Sep 2023 06:05:10 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1693832368; x=1694437168;
+        d=1e100.net; s=20221208; t=1693832710; x=1694437510;
         h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
          :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=zEV+8LVB0e1YVGA/3PaV1RliEe0ZafqnElnGxMEFxlo=;
-        b=ARotTN5jGMFTGU94lam2ooK4+hSWPqdGzZa54/3VNzZUXwzxLoOSE36FPZ3flHd2+F
-         3oOPZQmQJlFH5oILLZKyqYMFEjIQ91GZxc4l24I58kosBMgz0eCWcbegTKM65NCPsMQI
-         uZCaRVGzACI/KRMb1vOa4r9sUFLiqF73KHDBe4etKefiCG3xcXhVY2qgPExAXi7z1/dj
-         +g6aozGUXoMTZAAbyTlgrR6HIms1lrvQ3NxvmdR019xpjpWwYZsxocsSaAVaroa1uuFP
-         pzH31m/Bq6AMy1WYxNMpkZzsvaI7sTNUeGB09VJezuRMfo3flYJjlJgTiRy44i0q6U4q
-         HLNg==
-X-Gm-Message-State: AOJu0YyIIfa7gWrCpbZbYgEJUU2GqD8Ix6yTdv+tWxd4fmLHoUcV8G8U
-	2i+zrglJ3GqetXzYoIVkUSyU7syCd19QM1kpc/ubt0v8l5qWVv6DRtfhnuKCTH5N+RjLJ7eqp4/
-	A3ODf9JBIYQQNiEK72BEl19wMDA==
-X-Received: by 2002:a5d:4591:0:b0:31d:d977:4e3d with SMTP id p17-20020a5d4591000000b0031dd9774e3dmr7801071wrq.19.1693832368175;
-        Mon, 04 Sep 2023 05:59:28 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHKikRn5bbMbcnbDDAwQ42B3JKHCa5zsGawpabxpCAhlcfEHQ3tfQsF2MOZFWXS2OqG+gZYTw==
-X-Received: by 2002:a5d:4591:0:b0:31d:d977:4e3d with SMTP id p17-20020a5d4591000000b0031dd9774e3dmr7801053wrq.19.1693832367823;
-        Mon, 04 Sep 2023 05:59:27 -0700 (PDT)
+        bh=JGDuo0fidzIyb7lQTlkFMMjSr0JbZNOTrueOM/c6sEY=;
+        b=dIHXjMlHMaihAWqs68KMD9OQizwNSMTVicbGXCsXDCBRSLtEzAwSWyezzZJCbpmPi3
+         CUqiSEdqlA0g/N4Dj1zIyKQuhtID3WXNi9swXv+5TlD1NPmlOkzz1LorE7FUyVCSxnW/
+         7ksXS6bQd4lX0FvxLVZGDJoPCmsTyopTtcn4PZs0/CI/nAkFcFQydeV8nuQ+5BbAYBea
+         P+5/Kra+WtW+FDW1w1QTO8KAL/nfZZn2y2K7hwEPiIQGgOZW50oD4ueMMwX9y4DK/cwa
+         XjSAoawFQ45UVM83ZTf02OyPz0MaKzHcqYLoPqXUQt0/6FpMZrEMOkpdgT6kGkvR0fsu
+         zqLQ==
+X-Gm-Message-State: AOJu0Yyz9/2j4FCO59n6UaXeYp3mXUq9syZHZtkb+T2ChL/W94pUpjLW
+	plq7xTp00RMErwRmL2FEnuiNl6SY7/m+2PBZf5bQEjn/clN32x/K6GlAaxKWpU7hA3RdzKygxsP
+	m/zyZ+B5S5ebbH/fCgR0EKbYeJA==
+X-Received: by 2002:a05:6000:1cd:b0:317:5de3:86fb with SMTP id t13-20020a05600001cd00b003175de386fbmr7162735wrx.10.1693832709956;
+        Mon, 04 Sep 2023 06:05:09 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGXjVWzCt7e02jUxRGN8dZzdROG6Y6I7k2Dqt3rSE/+w+cQmE9Wq23/UuCwnni8eIyMrEIxCA==
+X-Received: by 2002:a05:6000:1cd:b0:317:5de3:86fb with SMTP id t13-20020a05600001cd00b003175de386fbmr7162714wrx.10.1693832709657;
+        Mon, 04 Sep 2023 06:05:09 -0700 (PDT)
 Received: from localhost (205.pool92-176-231.dynamic.orange.es. [92.176.231.205])
-        by smtp.gmail.com with ESMTPSA id c7-20020a5d4147000000b0031de43fe9bfsm14636476wrq.0.2023.09.04.05.59.27
+        by smtp.gmail.com with ESMTPSA id f7-20020adffcc7000000b0031c7682607asm14485436wrs.111.2023.09.04.06.05.09
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 04 Sep 2023 05:59:27 -0700 (PDT)
+        Mon, 04 Sep 2023 06:05:09 -0700 (PDT)
 From: Javier Martinez Canillas <javierm@redhat.com>
 To: Thomas Zimmermann <tzimmermann@suse.de>, deller@gmx.de, daniel@ffwll.ch,
  sam@ravnborg.org
 Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
  linux-staging@lists.linux.dev, linux-hyperv@vger.kernel.org,
  linux-input@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>,
- Steve Glendinning <steve.glendinning@shawell.net>
-Subject: Re: [PATCH 1/8] fbdev/smscufx: Use fb_ops helpers for deferred I/O
-In-Reply-To: <20230828132131.29295-2-tzimmermann@suse.de>
+ Bernie Thompson <bernie@plugable.com>
+Subject: Re: [PATCH 2/8] fbdev/udlfb: Use fb_ops helpers for deferred I/O
+In-Reply-To: <20230828132131.29295-3-tzimmermann@suse.de>
 References: <20230828132131.29295-1-tzimmermann@suse.de>
- <20230828132131.29295-2-tzimmermann@suse.de>
-Date: Mon, 04 Sep 2023 14:59:26 +0200
-Message-ID: <877cp66qmp.fsf@minerva.mail-host-address-is-not-set>
+ <20230828132131.29295-3-tzimmermann@suse.de>
+Date: Mon, 04 Sep 2023 15:05:08 +0200
+Message-ID: <874jka6qd7.fsf@minerva.mail-host-address-is-not-set>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -67,46 +67,37 @@ Content-Type: text/plain
 
 Thomas Zimmermann <tzimmermann@suse.de> writes:
 
-Hello Thomas,
-
 > Generate callback functions for struct fb_ops with the fbdev macro
 > FB_GEN_DEFAULT_DEFERRED_SYSMEM_OPS(). Initialize struct fb_ops to
 > the generated functions with fbdev initializer macros.
 >
 > Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> Cc: Steve Glendinning <steve.glendinning@shawell.net>
+> Cc: Bernie Thompson <bernie@plugable.com>
 > ---
-
-The patch looks good to me, but I've a question below.
 
 Acked-by: Javier Martinez Canillas <javierm@redhat.com>
 
->  drivers/video/fbdev/smscufx.c | 85 +++++++++--------------------------
->  1 file changed, 22 insertions(+), 63 deletions(-)
->
-> diff --git a/drivers/video/fbdev/smscufx.c b/drivers/video/fbdev/smscufx.c
-
 [...]
 
->  static const struct fb_ops ufx_ops = {
->  	.owner = THIS_MODULE,
-> -	.fb_read = fb_sys_read,
-> -	.fb_write = ufx_ops_write,
-> +	__FB_DEFAULT_DEFERRED_OPS_RDWR(ufx_ops),
->  	.fb_setcolreg = ufx_ops_setcolreg,
-> -	.fb_fillrect = ufx_ops_fillrect,
-> -	.fb_copyarea = ufx_ops_copyarea,
-> -	.fb_imageblit = ufx_ops_imageblit,
-> +	__FB_DEFAULT_DEFERRED_OPS_DRAW(ufx_ops),
->  	.fb_mmap = ufx_ops_mmap,
+> +static void dlfb_ops_damage_range(struct fb_info *info, off_t off, size_t len)
+> +{
+> +	struct dlfb_data *dlfb = info->par;
+> +	int start = max((int)(off / info->fix.line_length), 0);
+> +	int lines = min((u32)((len / info->fix.line_length) + 1), (u32)info->var.yres);
+> +
+> +	dlfb_handle_damage(dlfb, 0, start, info->var.xres, lines);
+> +}
+> +
+> +static void dlfb_ops_damage_area(struct fb_info *info, u32 x, u32 y, u32 width, u32 height)
+> +{
+> +	struct dlfb_data *dlfb = info->par;
+> +
+> +	dlfb_offload_damage(dlfb, x, y, width, height);
+> +}
+> +
 
-There are no generated functions for .fb_mmap, I wonder what's the value
-of __FB_DEFAULT_DEFERRED_OPS_MMAP() ? Maybe just removing that macro and
-setting .fb_mmap = fb_deferred_io_mmap instead if there's no custom mmap
-handler would be easier to read ?
-
-Alternatively, __FB_DEFAULT_DEFERRED_OPS_MMAP() could still be left but
-not taking a __prefix argument since that is not used anyways ?
+These two are very similar to the helpers you added for the smscufx driver
+in patch #1. I guess there's room for further consolidation as follow-up ?
 
 -- 
 Best regards,
