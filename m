@@ -1,53 +1,54 @@
-Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com [209.85.167.41])
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83498A38
-	for <linux-staging@lists.linux.dev>; Tue,  5 Sep 2023 09:39:02 +0000 (UTC)
-Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-501bd6f7d11so872114e87.1
-        for <linux-staging@lists.linux.dev>; Tue, 05 Sep 2023 02:39:02 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B32E63DF
+	for <linux-staging@lists.linux.dev>; Tue,  5 Sep 2023 09:41:33 +0000 (UTC)
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-401bbfc05fcso24230165e9.3
+        for <linux-staging@lists.linux.dev>; Tue, 05 Sep 2023 02:41:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1693906740; x=1694511540; darn=lists.linux.dev;
+        d=linaro.org; s=google; t=1693906891; x=1694511691; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=i199O6KiKKQM7slulMeIIsZKZZFjKrLdAh5+q0Dt1H4=;
-        b=rf0ONTFJbQccV7AijSyZIEHl/N45Ux+0ItHoAJY4zp4rWRAYs+vOCLyPwAkKe50CUQ
-         +3bTKsPiQDZEbyM3M24uB09pDWw2XCFZwlEklLXkTqbzzIK7iEYKtpBkKBv7e+nSUR+l
-         3DxZSB0nF16c8Q02ayPvjVslHZiD9ZgMmWmhXTlfLWUo1IDMB/7zSnDEC+oMOtwISQDm
-         jDsNwBuEBRZCV6xU4vI44k3V5/2HV2Bf+WKLYvCaoNJF/CDHivbvg+CLxWAIj666Rq8b
-         44kLwWMqKIW/GxQg3S9rYQ97olpUlwgvgpmCekNP/dRIMOXYPM0yg8iJq6iuRzyUiNdu
-         k+3A==
+        bh=7xJD4WZzooRqeAys3kMlFGQT7fDRPnPG5AfEDZE/Wns=;
+        b=bufBPEmnUqrcT5HWgi7zUJIS4PiGTxT/obr7YCQR+3jm/VU1rQTaeN3bYtb7uiK8YD
+         mNnzI1U0rIYuTwd+DnQZe9gs0hiq84kgU5Irb2ONU3ZwH3PjK3LyJHun44y/CSYL91xN
+         2NyyrVAbaTvGl9rZ0tOGssS8cSA+yJWmHdSsM+1Vqh3q5cd04oUn1veXqgZVuJogsvwx
+         NcwAtPwh2cAfqKwVBHEx+vfHqAacG4c/HDolX9x8xrmlecwjebxitqaxAxRSH6X4N+k4
+         cG9kNoXJ8OMf7EQEjAxDuZwTSxOMqWtkK6kdGytk0ybPc8Xb70Rqy2evPY7c7L+60NoG
+         jBWg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1693906740; x=1694511540;
+        d=1e100.net; s=20221208; t=1693906891; x=1694511691;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=i199O6KiKKQM7slulMeIIsZKZZFjKrLdAh5+q0Dt1H4=;
-        b=LO6r9K3h9VfLibDGwQx/VyFcRxBSjUa+S7IXU6TYdUCj117pUvDLP9ZLvJpDrVV93K
-         E7k98Y+pDhptfbSPjXL8NfaV/Zl5XkpzLwGnJBkrhjI5wfd3WPLe997gTmlKnCsncXTK
-         a2kGE0ibAorWf5lbDdCmmu23x5JXSQaggSOGm0OeY3Ka7nEcmSYMt2Qd3eO9u/fV8ROI
-         SicvwrOHuMIXUqYB1mZLaoZ/NIsJ3yFU/FuLzsFLg5N+US6/amhiBw+kr1sVG4thvL8H
-         +qAB6XEn1Hm7zXwK9cn/lyYmfFkss/V3XAe52FeaYAK88XGbmF7p+Cl1hQeoxFtNhHlY
-         y1xg==
-X-Gm-Message-State: AOJu0Yx49P9N4obIjZL16H2PQ0K/xRKz4q0GWhdFXz3+m3tM5+GijN4p
-	5yENsBvwXTGd1037e3+oJ8YWxw==
-X-Google-Smtp-Source: AGHT+IHHn25rlu/t0c0vstO4j/XpuwapT2mw2oB/ChLqaG0B8v4X+GFfCmsaepyxblW51Jp99wh0hg==
-X-Received: by 2002:a19:384a:0:b0:4f8:49a8:a0e2 with SMTP id d10-20020a19384a000000b004f849a8a0e2mr7254434lfj.16.1693906740044;
-        Tue, 05 Sep 2023 02:39:00 -0700 (PDT)
+        bh=7xJD4WZzooRqeAys3kMlFGQT7fDRPnPG5AfEDZE/Wns=;
+        b=ZkQB0537vK54MMovtjZOokMEttLvcqNYAQCM27XMd8EYuyvR6P2bXBVXechzdGWokX
+         MmXvzPVvFEV15V+IKD7TlyQArQHmWiyMvivYV7CWwrZcoaXvxdVKpHhlphqxDSbaJ7qJ
+         GnkCYLZw6UlB3PSycEqS3nddT4MJjTvhr4wjzznubkTxyMrflxQ5SBwKmw+hgIQMuvuW
+         UcJSNj+fPwRPA9/urBOsqiqSvx883i1Ai7XGGxpRxOgdQSmZjiGRv/ULL43k7AsJCkL8
+         3vCmtyuhmpfVB0E1XT4Ylp61qUm8r4cR+6O5+YLpmrSX4GWh4HOOgPUDmhIjq1ij8PKo
+         iqKw==
+X-Gm-Message-State: AOJu0YwdN37yg5nTXtUlVjNmHgHbQZAysykbjztPAcjJ1ToDeLsUUEwZ
+	HvFqtMx5gmbhHPv32samBxJS5A==
+X-Google-Smtp-Source: AGHT+IEJwZxZXiRrwIx12aJkx7UtlPucJ+t0epYniwlLopc18cGms6bY6YAxIWaBO20cE1QEysaciA==
+X-Received: by 2002:a5d:4591:0:b0:31d:d977:4e3d with SMTP id p17-20020a5d4591000000b0031dd9774e3dmr9934077wrq.19.1693906891481;
+        Tue, 05 Sep 2023 02:41:31 -0700 (PDT)
 Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id y8-20020adff148000000b00317c742ca9asm16707010wro.43.2023.09.05.02.38.59
+        by smtp.gmail.com with ESMTPSA id q12-20020adffecc000000b00316eb7770b8sm17106364wrs.5.2023.09.05.02.41.30
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 05 Sep 2023 02:38:59 -0700 (PDT)
-Date: Tue, 5 Sep 2023 12:38:56 +0300
+        Tue, 05 Sep 2023 02:41:31 -0700 (PDT)
+Date: Tue, 5 Sep 2023 12:41:28 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
 To: Oliver Crumrine <ozlinux@hotmail.com>
 Cc: gregkh@linuxfoundation.org, colin.i.king@gmail.com,
 	sumitraartsy@gmail.com, u.kleine-koenig@pengutronix.de,
 	geert@linux-m68k.org, linux-kernel@vger.kernel.org,
 	linux-staging@lists.linux.dev
-Subject: Re: [PATCH v3 0/6] staging: octeon: clean up the octeon ethernet
+Subject: Re: [PATCH v3 1/6] staging: octeon: clean up the octeon ethernet
  driver
-Message-ID: <88fdf861-91fa-4ab7-8f43-53d844e9bca5@kadam.mountain>
-References: <PH7PR11MB76434E13489C9713CB562A74BCE1A@PH7PR11MB7643.namprd11.prod.outlook.com>
+Message-ID: <e76545f3-b6f6-4bf0-a854-2bc33b743759@kadam.mountain>
+References: <cover.1693180346.git.ozlinux@hotmail.com>
+ <PH7PR11MB7643335E674EE3396E78E004BCE1A@PH7PR11MB7643.namprd11.prod.outlook.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -56,26 +57,16 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <PH7PR11MB76434E13489C9713CB562A74BCE1A@PH7PR11MB7643.namprd11.prod.outlook.com>
+In-Reply-To: <PH7PR11MB7643335E674EE3396E78E004BCE1A@PH7PR11MB7643.namprd11.prod.outlook.com>
 
-On Sun, Aug 27, 2023 at 07:58:16PM -0400, Oliver Crumrine wrote:
+On Sun, Aug 27, 2023 at 07:58:17PM -0400, Oliver Crumrine wrote:
 > Make the octeon ethernet driver better adhere to the
-> kernel coding standards
-> 
-> Oliver Crumrine (6):
->   staging: octeon: clean up the octeon ethernet driver
->   staging: octeon: clean up the octeon ethernet driver
->   staging: octeon: clean up the octeon ethernet driver
->   staging: octeon: clean up the octeon ethernet driver
->   staging: octeon: clean up the octeon ethernet driver
->   staging: octeon: clean up the octeon ethernet driver
+> kernel coding standard.
 
-You can't send more than one patch with the same subject.  These all
-have the same subject.
+This is way way way too vague.  It should be something like:
 
-Also you're resending v2 v3 v4 too quickly.  You should wait for a day.
-Do some testing.  See if people have additional comments.  There is no
-rush.
+Checkpatch complains about "quoted text".  Remove the typedef and use
+the raw enum instead.
 
 regards,
 dan carpenter
