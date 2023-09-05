@@ -1,54 +1,51 @@
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B32E63DF
-	for <linux-staging@lists.linux.dev>; Tue,  5 Sep 2023 09:41:33 +0000 (UTC)
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-401bbfc05fcso24230165e9.3
-        for <linux-staging@lists.linux.dev>; Tue, 05 Sep 2023 02:41:33 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45D0ECA70
+	for <linux-staging@lists.linux.dev>; Tue,  5 Sep 2023 11:28:49 +0000 (UTC)
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-402d499580dso7994515e9.1
+        for <linux-staging@lists.linux.dev>; Tue, 05 Sep 2023 04:28:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1693906891; x=1694511691; darn=lists.linux.dev;
+        d=linaro.org; s=google; t=1693913327; x=1694518127; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=7xJD4WZzooRqeAys3kMlFGQT7fDRPnPG5AfEDZE/Wns=;
-        b=bufBPEmnUqrcT5HWgi7zUJIS4PiGTxT/obr7YCQR+3jm/VU1rQTaeN3bYtb7uiK8YD
-         mNnzI1U0rIYuTwd+DnQZe9gs0hiq84kgU5Irb2ONU3ZwH3PjK3LyJHun44y/CSYL91xN
-         2NyyrVAbaTvGl9rZ0tOGssS8cSA+yJWmHdSsM+1Vqh3q5cd04oUn1veXqgZVuJogsvwx
-         NcwAtPwh2cAfqKwVBHEx+vfHqAacG4c/HDolX9x8xrmlecwjebxitqaxAxRSH6X4N+k4
-         cG9kNoXJ8OMf7EQEjAxDuZwTSxOMqWtkK6kdGytk0ybPc8Xb70Rqy2evPY7c7L+60NoG
-         jBWg==
+        bh=SBDYPrNVNQs8uedEw8LKqB5eVyDGiSNo3aWK9hkZDss=;
+        b=qzsSTOFAse2lHx1gLIpensioERgLXoAwf4NDKqnbsZIu6zf5MStcdH6M08+ILcw8+k
+         Ic0+yDUlsvDLM/ywz17tFQjkxBed7dVwYGmlpGkFECQXOodBRDxLbcN2kPiPTEyRJD9p
+         UyW7lG1P/161mcU4FRLVuZkdc3rpCLDDugHBgyV2BL88jmcKQ9VPvzXoHhVUchdTP8u6
+         9/4aFyIsFWlzOclRajMrMapYSOBlK/9s5xB/ghzM8M5PNVvw7lEzM7GVOhITY9XBylr2
+         c75pL+VnDWc1xzg9AxtylZZ/Np+VKjngoV6BuMvRVdNgqDiu8nNkgKV44xjCca78Aml5
+         rdFA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1693906891; x=1694511691;
+        d=1e100.net; s=20221208; t=1693913327; x=1694518127;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=7xJD4WZzooRqeAys3kMlFGQT7fDRPnPG5AfEDZE/Wns=;
-        b=ZkQB0537vK54MMovtjZOokMEttLvcqNYAQCM27XMd8EYuyvR6P2bXBVXechzdGWokX
-         MmXvzPVvFEV15V+IKD7TlyQArQHmWiyMvivYV7CWwrZcoaXvxdVKpHhlphqxDSbaJ7qJ
-         GnkCYLZw6UlB3PSycEqS3nddT4MJjTvhr4wjzznubkTxyMrflxQ5SBwKmw+hgIQMuvuW
-         UcJSNj+fPwRPA9/urBOsqiqSvx883i1Ai7XGGxpRxOgdQSmZjiGRv/ULL43k7AsJCkL8
-         3vCmtyuhmpfVB0E1XT4Ylp61qUm8r4cR+6O5+YLpmrSX4GWh4HOOgPUDmhIjq1ij8PKo
-         iqKw==
-X-Gm-Message-State: AOJu0YwdN37yg5nTXtUlVjNmHgHbQZAysykbjztPAcjJ1ToDeLsUUEwZ
-	HvFqtMx5gmbhHPv32samBxJS5A==
-X-Google-Smtp-Source: AGHT+IEJwZxZXiRrwIx12aJkx7UtlPucJ+t0epYniwlLopc18cGms6bY6YAxIWaBO20cE1QEysaciA==
-X-Received: by 2002:a5d:4591:0:b0:31d:d977:4e3d with SMTP id p17-20020a5d4591000000b0031dd9774e3dmr9934077wrq.19.1693906891481;
-        Tue, 05 Sep 2023 02:41:31 -0700 (PDT)
+        bh=SBDYPrNVNQs8uedEw8LKqB5eVyDGiSNo3aWK9hkZDss=;
+        b=M3NwiBrC91CHKmY7VkqVG/U5oiVOf6umdApTVuNaXG+QdHT7MZJSE2If7OpAXNxkyH
+         9FpTRicRa6eTouYYniNyj4RPupJVr2Q3e2JCku9HRH8lgsOp0bitZ9TTXRzgdOharWPc
+         s4n8ykGs/FB61sk/oojCc4G34wPh6Hqt2Gb4QnUM0+ex9znWFdo0k1E4BLG/dg7+MAYJ
+         Kami0XQj1wwRgEEmPrguNhzVb3GZPbb5OXdgKBWvUQ+9Ue/R+3V+ipKyWABNQNmyckpw
+         kikPEegWnkKAMYeQuzrapbocBUOpqiEoO6mqvgRkAmQXx+qULn+irlEuw3b5UntfxQLq
+         bFIg==
+X-Gm-Message-State: AOJu0YyY/pOdOS/EfWr7x2EDnt8LI+H+stq3UGi7XpMWC1XSnDleym+/
+	CVL3OQEjADBt4UZRR9A1MzklSg==
+X-Google-Smtp-Source: AGHT+IGDVf33SsIv4JjPVvlDTBDhZwEBkV1Kn8Ud5kUo8iMjmsdpaIcy8Ty86NaRmLG7gKJTd1v7gg==
+X-Received: by 2002:a7b:c8d5:0:b0:3fe:3004:1ffd with SMTP id f21-20020a7bc8d5000000b003fe30041ffdmr10106023wml.4.1693913327216;
+        Tue, 05 Sep 2023 04:28:47 -0700 (PDT)
 Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id q12-20020adffecc000000b00316eb7770b8sm17106364wrs.5.2023.09.05.02.41.30
+        by smtp.gmail.com with ESMTPSA id o3-20020a5d4083000000b0031435731dfasm17137871wrp.35.2023.09.05.04.28.46
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 05 Sep 2023 02:41:31 -0700 (PDT)
-Date: Tue, 5 Sep 2023 12:41:28 +0300
+        Tue, 05 Sep 2023 04:28:46 -0700 (PDT)
+Date: Tue, 5 Sep 2023 14:28:44 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Oliver Crumrine <ozlinux@hotmail.com>
-Cc: gregkh@linuxfoundation.org, colin.i.king@gmail.com,
-	sumitraartsy@gmail.com, u.kleine-koenig@pengutronix.de,
-	geert@linux-m68k.org, linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev
-Subject: Re: [PATCH v3 1/6] staging: octeon: clean up the octeon ethernet
- driver
-Message-ID: <e76545f3-b6f6-4bf0-a854-2bc33b743759@kadam.mountain>
-References: <cover.1693180346.git.ozlinux@hotmail.com>
- <PH7PR11MB7643335E674EE3396E78E004BCE1A@PH7PR11MB7643.namprd11.prod.outlook.com>
+To: Jonathan Bergh <bergh.jonathan@gmail.com>
+Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: vme_user: Fix block comments where '*' on each
+ line should be aligned
+Message-ID: <8ab11a98-5631-4ff2-93d7-dd0a7d72dd6a@kadam.mountain>
+References: <20230903203732.585378-1-bergh.jonathan@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -57,16 +54,18 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <PH7PR11MB7643335E674EE3396E78E004BCE1A@PH7PR11MB7643.namprd11.prod.outlook.com>
+In-Reply-To: <20230903203732.585378-1-bergh.jonathan@gmail.com>
 
-On Sun, Aug 27, 2023 at 07:58:17PM -0400, Oliver Crumrine wrote:
-> Make the octeon ethernet driver better adhere to the
-> kernel coding standard.
+On Sun, Sep 03, 2023 at 10:37:32PM +0200, Jonathan Bergh wrote:
+> Fixed checkpatch warnings where lines with '*' in block comments should
+> be aligned and were not as well as incorrect tab spacings at the start of
+> comment lines. Also removed spurious newlines between define statements
+> in define blocks
 
-This is way way way too vague.  It should be something like:
+Do this in two patches.
 
-Checkpatch complains about "quoted text".  Remove the typedef and use
-the raw enum instead.
+patch 1: delete blank lines
+patch 2: change comments
 
 regards,
 dan carpenter
