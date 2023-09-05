@@ -1,47 +1,24 @@
-Received: from mail-qk1-f174.google.com (mail-qk1-f174.google.com [209.85.222.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DAD27E
-	for <linux-staging@lists.linux.dev>; Tue,  5 Sep 2023 03:47:41 +0000 (UTC)
-Received: by mail-qk1-f174.google.com with SMTP id af79cd13be357-76f2843260bso129947185a.3
-        for <linux-staging@lists.linux.dev>; Mon, 04 Sep 2023 20:47:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1693885660; x=1694490460; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=p3kqOBQ4SWwtmqJaVKiTK8RTKEn/bkc8/7Nm3cWOW8M=;
-        b=Jyn6bPPBxavQIsFwkoWMImt6lo6kMKBT3N7oRG0Uh/gaHCCmIanDZ1dCvbN1PYaXQP
-         l4ViCimLVy5cWfZd1JicUzHvRbZnpBWmcbNNXa8WqhJuv741irUUXdgdsHkg8EiW5al8
-         UK5vi+chC7c3Up/c/CAFLRCujBGAR6OEobkYnv02J19/WF6t+NWLUMVzb/WZd36QW6uv
-         k/dRVldQnhPzjfGtSq73kgUSwsz6G3rMApmoQQG5XAP5avh7F3XA+6BFGVFJz4yhXivj
-         TNglsuyy8rDUKfPmQqviw7uZ+if8kgREpcPrxNf4bh/tyqiSo6kwt2QaiHxubmn8N6WK
-         2VPQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1693885660; x=1694490460;
-        h=content-disposition:mime-version:message-id:subject:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=p3kqOBQ4SWwtmqJaVKiTK8RTKEn/bkc8/7Nm3cWOW8M=;
-        b=dbxDG/5AdF3LIYt3lQt4Dzkt79ptf9GBkPmDS8DwsVEz6n7BRyYKo6ozV0KU9TBml8
-         K4ZzRwe7kzyER9TC/Rkqxq60l7TpmeqVVigdvca/Yp+fDvqCtxZYlwx6aa1GINf2A0Gk
-         2Bsgl4PxEadI7eiBlYG0Lv2D8o7tEs423F+Gxpsyw1estYlOacnXST+q/ZmKxOTIS7Ec
-         CVcc0olT6jDOh62uuhnZqAVFChY1HHd4KOPrS2PcBJvwCYbXxA3D//BdPZrPHJ2b1vDa
-         gPWZk5eJvxi810uM8wZ00v/nbvK4+m0YK7lw+B8QYw/M9p5IyKvTSFU+jcUWcJm3nues
-         066w==
-X-Gm-Message-State: AOJu0Yynv+g6Miz85oYjWY8Di0Ka485zN7SjzsuOMs8Ux69peHUXo+R2
-	r6gI7yQf9W6n2Q0XP5MNIB8=
-X-Google-Smtp-Source: AGHT+IGDY1gvVPRRgh0SuAQ7QVmCzNsri1r/n/759svhqiET99omlzUAbIV+g5tu9e9ZCWDFMBq4Hw==
-X-Received: by 2002:a05:620a:4509:b0:76f:272f:46ad with SMTP id t9-20020a05620a450900b0076f272f46admr14964942qkp.49.1693885660224;
-        Mon, 04 Sep 2023 20:47:40 -0700 (PDT)
-Received: from midnight ([2001:8003:6434:b000:c30f:d88d:412c:6e9a])
-        by smtp.gmail.com with ESMTPSA id d22-20020aa78696000000b00686bf824b3bsm8022513pfo.136.2023.09.04.20.47.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 04 Sep 2023 20:47:39 -0700 (PDT)
-Date: Tue, 5 Sep 2023 13:47:36 +1000
-From: Angus Gardner <angusg778@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [PATCH] staging: wlan-ng
-Message-ID: <ZPak2AD8lKfcqEXG@midnight>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39FC4A38
+	for <linux-staging@lists.linux.dev>; Tue,  5 Sep 2023 07:17:38 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 36A2DC433C8;
+	Tue,  5 Sep 2023 07:17:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1693898258;
+	bh=0bNZ/Ik9ie+O/I+s8u69OtphKsy1cdeCYHDnRIKduRw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=obZewG3rTxP/ed8H8LU4I5ip8ZwuGLgsJ+m9KMiBF5rCcPWMXGKuYZOifHm2SqsSs
+	 s/XEkCIWxpcDO9YXsV6+thUn66RE41M2M0U+UQoIgavdJUpqIj0aUhhGcXhIk5awGy
+	 VAqGPGSWjrr2xaIft3b6MmYn8iS76mKzMLrUY2iw=
+Date: Tue, 5 Sep 2023 08:17:34 +0100
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Angus Gardner <angusg778@gmail.com>
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: wlan-ng
+Message-ID: <2023090537-gathering-evil-22bd@gregkh>
+References: <ZPak2AD8lKfcqEXG@midnight>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -50,27 +27,63 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <ZPak2AD8lKfcqEXG@midnight>
 
-Unnecessary parentheses identified by checkpatch.pl removed.
+On Tue, Sep 05, 2023 at 01:47:36PM +1000, Angus Gardner wrote:
+> Unnecessary parentheses identified by checkpatch.pl removed.
+> 
+> Signed-off-by: Angus Gardner <angusg778@gmail.com>
+> ---
+>  drivers/staging/wlan-ng/cfg80211.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/staging/wlan-ng/cfg80211.c b/drivers/staging/wlan-ng/cfg80211.c
+> index 471bb310176f..948db2433463 100644
+> --- a/drivers/staging/wlan-ng/cfg80211.c
+> +++ b/drivers/staging/wlan-ng/cfg80211.c
+> @@ -351,7 +351,7 @@ static int prism2_scan(struct wiphy *wiphy,
+>  		msg2->bssindex.data = i;
+>  
+>  		result = p80211req_dorequest(wlandev, (u8 *)&msg2);
+> -		if ((result != 0) ||
+> +		if (result != 0 ||
+>  		    (msg2->resultcode.data != P80211ENUM_resultcode_success)) {
+>  			break;
+>  		}
+> -- 
+> 2.40.1
+> 
+> 
 
-Signed-off-by: Angus Gardner <angusg778@gmail.com>
----
- drivers/staging/wlan-ng/cfg80211.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Hi,
 
-diff --git a/drivers/staging/wlan-ng/cfg80211.c b/drivers/staging/wlan-ng/cfg80211.c
-index 471bb310176f..948db2433463 100644
---- a/drivers/staging/wlan-ng/cfg80211.c
-+++ b/drivers/staging/wlan-ng/cfg80211.c
-@@ -351,7 +351,7 @@ static int prism2_scan(struct wiphy *wiphy,
- 		msg2->bssindex.data = i;
- 
- 		result = p80211req_dorequest(wlandev, (u8 *)&msg2);
--		if ((result != 0) ||
-+		if (result != 0 ||
- 		    (msg2->resultcode.data != P80211ENUM_resultcode_success)) {
- 			break;
- 		}
--- 
-2.40.1
+This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
+a patch that has triggered this response.  He used to manually respond
+to these common problems, but in order to save his sanity (he kept
+writing the same thing over and over, yet to different people), I was
+created.  Hopefully you will not take offence and will fix the problem
+in your patch and resubmit it so that it can be accepted into the Linux
+kernel tree.
 
+You are receiving this message because of the following common error(s)
+as indicated below:
+
+- You did not write a descriptive Subject: for the patch, allowing Greg,
+  and everyone else, to know what this patch is all about.  Please read
+  the section entitled "The canonical patch format" in the kernel file,
+  Documentation/process/submitting-patches.rst for what a proper
+  Subject: line should look like.
+
+- You sent a patch that has been sent multiple times in the past few
+  days, and is identical to ones that has been recently rejected.
+  Please always look at the mailing list traffic to determine if you are
+  duplicating other people's work.
+
+If you wish to discuss this problem further, or you have questions about
+how to resolve this issue, please feel free to respond to this email and
+Greg will reply once he has dug out from the pending patches received
+from other developers.
+
+thanks,
+
+greg k-h's patch email bot
