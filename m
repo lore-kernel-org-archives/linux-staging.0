@@ -1,182 +1,101 @@
-Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24A5063A3
-	for <linux-staging@lists.linux.dev>; Thu,  7 Sep 2023 12:23:50 +0000 (UTC)
-Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-1c09673b006so6491785ad.1
-        for <linux-staging@lists.linux.dev>; Thu, 07 Sep 2023 05:23:50 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E502E63C3
+	for <linux-staging@lists.linux.dev>; Thu,  7 Sep 2023 12:49:13 +0000 (UTC)
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-3fe4f3b5f25so2647465e9.0
+        for <linux-staging@lists.linux.dev>; Thu, 07 Sep 2023 05:49:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1694089430; x=1694694230; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+        d=gmail.com; s=20221208; t=1694090952; x=1694695752; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=nru8i4bgjGam2s0eVDHGzt5BZMucVHF+hIDLNbT6b4E=;
-        b=LEqrf2SCTTsz6lJqrfOvKpibqXkmTA45YZJAeZgGLRwtUmGFXnEfRCOEvVCawwrgvY
-         MGk62zFWEeYwXVy2IdfynZbf52CY8AClrHrlErC1XK4vCZc+6uydkL8XWCHuu0IAT3a4
-         slKRfW01niTSRkK5orY3l3HCjZjfdyMZumC8egx3at7jvpNaus7pggXjZijzT0DFmWx0
-         t+/IBCJANGTFLaonmoAea/ZndiHI64oI2o/orn/Uhzknm2413ZMIZDdDH0p4xNgdU2Hq
-         jA3/5ibTldU/80EDbKCWgG2d4eyEkYoX4Xj0EmJ/F90ja6p9PnZkKYOSr06rNSfPChN2
-         gqWg==
+        bh=hn2uDmjOOXu6fIxxN8+ualmECQ/DiaKNpRYaCI67NFc=;
+        b=X4HErM12LKOYKPfIw0t2DZ9rYMZzo0+KR17OiITYSUw0mnftZIeLmhS8BQ7E8hC2Tw
+         xzhdNl5ATTTFXh742gfpMWrcdRwQXc5eGm9QrpeR9jSM3aMqAAy0TAujz+zfAmaMJyet
+         XLsHnPLzAY4zPYCjCU2Md5l1Zsl0rU4mfaRCDOQHL0JeuwyNQxr+3ADPNoU0LNfi6Yxr
+         ePZv3FsNgIzAu9EWm4gAOTuCjL+e24b2YUFJXr1ZKZQBxkop5sltx0VeK8Y0Kk7h1M4v
+         Pd2UxiyKK7V6KcOVNsM8UXG4VD13ZrY5vHycouGFnndwzxgSO2EJEbpGr2URLb8JEEcq
+         6eSg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1694089430; x=1694694230;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+        d=1e100.net; s=20221208; t=1694090952; x=1694695752;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=nru8i4bgjGam2s0eVDHGzt5BZMucVHF+hIDLNbT6b4E=;
-        b=YLVMJ5HuxNcEnCheaYn2RDBooh/So3qrA/nLGuTrSCJEGgzyhvuL+XqE8kF48UuHF5
-         1jNZdvq3DO6nAky++nlKBKrMIqMYeD6rkeqUal5CSWRm+4jhy67e9HvK0BrGosT5KyFr
-         9+TgjiUevNrtcO38YlDlyGAB9CoKbu5Nl7NszZ0MixrkEAnP0VGaNjXYN8HEdsTahgpK
-         Xo82IEhDglTAVyaT7PDwU8REhbcBbzlD6XUCAsKgiZ0nG71++Dppm8p0fEZXv4s/Rp+Y
-         NAjAzlCE4GJ/Qs7IIrDPx8oCh+M373UoiiD9dVuked5ay3ZopN3S9IzGR0aGdv5NzFpi
-         UQmw==
-X-Gm-Message-State: AOJu0YzaYHf6hXFPHTDO8ZxxCu/xShrsuSUWM8tqTWtkjKlvCAfqzl8Q
-	NZXtG/ElffCS+dDWQp/G0o6z8l5FPIE=
-X-Google-Smtp-Source: AGHT+IFhCSc3IyOjLVb0sGvRbSDHFLGpOyNjFl+tTbEmTaH9vc5oAwVyigLfHtpR0V8LFgRy/gSLBw==
-X-Received: by 2002:a17:902:f802:b0:1c0:a417:ccb2 with SMTP id ix2-20020a170902f80200b001c0a417ccb2mr14397662plb.35.1694089430194;
-        Thu, 07 Sep 2023 05:23:50 -0700 (PDT)
-Received: from ubuntu.myguest.virtualbox.org ([223.178.252.251])
-        by smtp.gmail.com with ESMTPSA id jl1-20020a170903134100b001c32fd9e412sm8060207plb.58.2023.09.07.05.23.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 07 Sep 2023 05:23:49 -0700 (PDT)
-Date: Thu, 7 Sep 2023 17:53:44 +0530
-From: Pavan Bobba <opensource206@gmail.com>
-To: Forest Bond <forest@alittletooquiet.net>,
-	Michael Straube <straube.linux@gmail.com>,
-	Philipp Hortmann <philipp.g.hortmann@gmail.com>
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [PATCH v2] staging: vt6655: array names updated as per kernel coding
- guidelines
-Message-ID: <ZPnA0Pra2HK30nBu@ubuntu.myguest.virtualbox.org>
+        bh=hn2uDmjOOXu6fIxxN8+ualmECQ/DiaKNpRYaCI67NFc=;
+        b=k9v9WqYayaj0/uJ0m/oMYp40XyyfZpxrECfxaxITcGp9wKLfm5LCNiIB6SB8WUwSR5
+         +YaEuZB8CLSMIWeJrwOBA91of4kj2RKhOtBHRZ1RQNusXEDXSRn5ifHE/wecLyHk9BeP
+         6SfdzKUB84o+/E/V8Lz7vIvi10pDbhnP24U38wkk21WnQgkc9RS3cg/xyEfYQZ44YxTc
+         Ils0mpfuUZfpRSa7ys5ZGJ1BsrqR6lbIsmmA0f+OZMYuurDMdvybUWkkojTcvmoJgv+Q
+         hTFpIBB0kCrTABqv7PE3wacmFusgt7DMIgQqMH5FSNJqHkoBZaUJCy6ttnrbukGdt+SB
+         A2KA==
+X-Gm-Message-State: AOJu0Yz8PEhD1lWkL3B20B7Z+S+VEPDbxHZzTsxJv/N/cewKwfzxc/DJ
+	xN/uKiN7zsjA2AfTO3l8zvE=
+X-Google-Smtp-Source: AGHT+IFnHGLb3wX8hiYQ6tqvPReQabYj+GoY6alyacmcc5c8OcdRZufgIb42eLrUhf90NY6IY9RlHg==
+X-Received: by 2002:a05:600c:1c8f:b0:3fe:21a6:a18 with SMTP id k15-20020a05600c1c8f00b003fe21a60a18mr15226116wms.3.1694090951606;
+        Thu, 07 Sep 2023 05:49:11 -0700 (PDT)
+Received: from [192.168.0.102] (p579356c7.dip0.t-ipconnect.de. [87.147.86.199])
+        by smtp.gmail.com with ESMTPSA id u3-20020a05600c210300b003fe601a7d46sm2406390wml.45.2023.09.07.05.49.10
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 07 Sep 2023 05:49:11 -0700 (PDT)
+Message-ID: <f872ed00-f474-b217-ed78-8612242d448b@gmail.com>
+Date: Thu, 7 Sep 2023 14:49:10 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.0
+Subject: Re: [PATCH v2] staging: vt6655: array names updated as per kernel
+ coding guidelines
+Content-Language: en-US
+To: Pavan Bobba <opensource206@gmail.com>,
+ Forest Bond <forest@alittletooquiet.net>,
+ Michael Straube <straube.linux@gmail.com>
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+References: <ZPnA0Pra2HK30nBu@ubuntu.myguest.virtualbox.org>
+From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+In-Reply-To: <ZPnA0Pra2HK30nBu@ubuntu.myguest.virtualbox.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Below array names updated as per coding guidelines:
+On 9/7/23 14:23, Pavan Bobba wrote:
+> Below array names updated as per coding guidelines:
+> 
+>     1.byVT3253B0_AGC4_RFMD2959
+>     2.byVT3253B0_AIROHA2230
+>     3.byVT3253B0_UW2451
+>     4.byVT3253B0_AGC
+> 
+>     Conversions performed:
+>     a.type encoding info dropped from names
+>     b.names replaced by snakecase
+> 
+>     Issue found by checkpatch
+> 
+> Signed-off-by: Pavan Bobba<opensource206@gmail.com>
+> ---
+>    v1 -> v2: 1.subject name modified to more meaningful detail
+>              2.name of the tool added in body of explanation,
+> 	      which found this issue
 
-   1.byVT3253B0_AGC4_RFMD2959
-   2.byVT3253B0_AIROHA2230
-   3.byVT3253B0_UW2451
-   4.byVT3253B0_AGC
+Hi Pavan,
 
-   Conversions performed:
-   a.type encoding info dropped from names
-   b.names replaced by snakecase
+you did not fullfil what Greg wrote:
 
-   Issue found by checkpatch
+- You did not write a descriptive Subject: for the patch, allowing Greg,
+   and everyone else, to know what this patch is all about.  Please read
+   the section entitled "The canonical patch format" in the kernel file,
+   Documentation/process/submitting-patches.rst for what a proper
+   Subject: line should look like.
 
-Signed-off-by: Pavan Bobba <opensource206@gmail.com>
----
-  v1 -> v2: 1.subject name modified to more meaningful detail
-            2.name of the tool added in body of explanation, 
-	      which found this issue  
+The issue is that hundreds of patches could have this title: "array 
+names updated as per kernel coding guidelines" Make it more unique.
 
- drivers/staging/vt6655/baseband.c | 32 +++++++++++++++----------------
- 1 file changed, 16 insertions(+), 16 deletions(-)
+Rename CamelCase variable starting with byVT3253B0_
 
-diff --git a/drivers/staging/vt6655/baseband.c b/drivers/staging/vt6655/baseband.c
-index 696d4dd03aa2..55224918794b 100644
---- a/drivers/staging/vt6655/baseband.c
-+++ b/drivers/staging/vt6655/baseband.c
-@@ -761,7 +761,7 @@ static const unsigned char vt3253b0_rfmd[CB_VT3253B0_INIT_FOR_RFMD][2] = {
- #define CB_VT3253B0_AGC_FOR_RFMD2959 195
- /* For RFMD2959 */
- static
--unsigned char byVT3253B0_AGC4_RFMD2959[CB_VT3253B0_AGC_FOR_RFMD2959][2] = {
-+unsigned char vt3253b0_agc4_rfmd2959[CB_VT3253B0_AGC_FOR_RFMD2959][2] = {
- 	{0xF0, 0x00},
- 	{0xF1, 0x3E},
- 	{0xF0, 0x80},
-@@ -962,7 +962,7 @@ unsigned char byVT3253B0_AGC4_RFMD2959[CB_VT3253B0_AGC_FOR_RFMD2959][2] = {
- #define CB_VT3253B0_INIT_FOR_AIROHA2230 256
- /* For AIROHA */
- static
--unsigned char byVT3253B0_AIROHA2230[CB_VT3253B0_INIT_FOR_AIROHA2230][2] = {
-+unsigned char vt3253b0_airoha2230[CB_VT3253B0_INIT_FOR_AIROHA2230][2] = {
- 	{0x00, 0x31},
- 	{0x01, 0x00},
- 	{0x02, 0x00},
-@@ -1223,7 +1223,7 @@ unsigned char byVT3253B0_AIROHA2230[CB_VT3253B0_INIT_FOR_AIROHA2230][2] = {
- 
- #define CB_VT3253B0_INIT_FOR_UW2451 256
- /* For UW2451 */
--static unsigned char byVT3253B0_UW2451[CB_VT3253B0_INIT_FOR_UW2451][2] = {
-+static unsigned char vt3253b0_uw2451[CB_VT3253B0_INIT_FOR_UW2451][2] = {
- 	{0x00, 0x31},
- 	{0x01, 0x00},
- 	{0x02, 0x00},
-@@ -1484,7 +1484,7 @@ static unsigned char byVT3253B0_UW2451[CB_VT3253B0_INIT_FOR_UW2451][2] = {
- 
- #define CB_VT3253B0_AGC 193
- /* For AIROHA */
--static unsigned char byVT3253B0_AGC[CB_VT3253B0_AGC][2] = {
-+static unsigned char vt3253b0_agc[CB_VT3253B0_AGC][2] = {
- 	{0xF0, 0x00},
- 	{0xF1, 0x00},
- 	{0xF0, 0x80},
-@@ -2010,8 +2010,8 @@ bool bb_vt3253_init(struct vnt_private *priv)
- 
- 			for (ii = 0; ii < CB_VT3253B0_AGC_FOR_RFMD2959; ii++)
- 				result &= bb_write_embedded(priv,
--					byVT3253B0_AGC4_RFMD2959[ii][0],
--					byVT3253B0_AGC4_RFMD2959[ii][1]);
-+					vt3253b0_agc4_rfmd2959[ii][0],
-+					vt3253b0_agc4_rfmd2959[ii][1]);
- 
- 			iowrite32(0x23, iobase + MAC_REG_ITRTMSET);
- 			vt6655_mac_reg_bits_on(iobase, MAC_REG_PAPEDELAY, BIT(0));
-@@ -2027,12 +2027,12 @@ bool bb_vt3253_init(struct vnt_private *priv)
- 	} else if ((by_rf_type == RF_AIROHA) || (by_rf_type == RF_AL2230S)) {
- 		for (ii = 0; ii < CB_VT3253B0_INIT_FOR_AIROHA2230; ii++)
- 			result &= bb_write_embedded(priv,
--				byVT3253B0_AIROHA2230[ii][0],
--				byVT3253B0_AIROHA2230[ii][1]);
-+				vt3253b0_airoha2230[ii][0],
-+				vt3253b0_airoha2230[ii][1]);
- 
- 		for (ii = 0; ii < CB_VT3253B0_AGC; ii++)
- 			result &= bb_write_embedded(priv,
--				byVT3253B0_AGC[ii][0], byVT3253B0_AGC[ii][1]);
-+				vt3253b0_agc[ii][0], vt3253b0_agc[ii][1]);
- 
- 		priv->abyBBVGA[0] = 0x1C;
- 		priv->abyBBVGA[1] = 0x10;
-@@ -2045,13 +2045,13 @@ bool bb_vt3253_init(struct vnt_private *priv)
- 	} else if (by_rf_type == RF_UW2451) {
- 		for (ii = 0; ii < CB_VT3253B0_INIT_FOR_UW2451; ii++)
- 			result &= bb_write_embedded(priv,
--				byVT3253B0_UW2451[ii][0],
--				byVT3253B0_UW2451[ii][1]);
-+				vt3253b0_uw2451[ii][0],
-+				vt3253b0_uw2451[ii][1]);
- 
- 		for (ii = 0; ii < CB_VT3253B0_AGC; ii++)
- 			result &= bb_write_embedded(priv,
--				byVT3253B0_AGC[ii][0],
--				byVT3253B0_AGC[ii][1]);
-+				vt3253b0_agc[ii][0],
-+				vt3253b0_agc[ii][1]);
- 
- 		iowrite8(0x23, iobase + MAC_REG_ITRTMSET);
- 		vt6655_mac_reg_bits_on(iobase, MAC_REG_PAPEDELAY, BIT(0));
-@@ -2067,12 +2067,12 @@ bool bb_vt3253_init(struct vnt_private *priv)
- 	} else if (by_rf_type == RF_VT3226) {
- 		for (ii = 0; ii < CB_VT3253B0_INIT_FOR_AIROHA2230; ii++)
- 			result &= bb_write_embedded(priv,
--				byVT3253B0_AIROHA2230[ii][0],
--				byVT3253B0_AIROHA2230[ii][1]);
-+				vt3253b0_airoha2230[ii][0],
-+				vt3253b0_airoha2230[ii][1]);
- 
- 		for (ii = 0; ii < CB_VT3253B0_AGC; ii++)
- 			result &= bb_write_embedded(priv,
--				byVT3253B0_AGC[ii][0], byVT3253B0_AGC[ii][1]);
-+				vt3253b0_agc[ii][0], vt3253b0_agc[ii][1]);
- 
- 		priv->abyBBVGA[0] = 0x1C;
- 		priv->abyBBVGA[1] = 0x10;
--- 
-2.34.1
+Always consider that Greg reads a lot of patches per day.
 
+Bye Philipp
