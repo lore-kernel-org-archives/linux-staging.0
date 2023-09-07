@@ -1,28 +1,48 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0DFD613D
-	for <linux-staging@lists.linux.dev>; Wed,  6 Sep 2023 16:25:15 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E9823C433C8;
-	Wed,  6 Sep 2023 16:25:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1694017515;
-	bh=Aq4mT0Otg/RqtdkGVBJyVVyZVVYAD1eqMhWaJ0s6hJY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=AOm9d4hsD3xJf8mefKypKDyA8Hs96CQZyuxFP8LZ883axwlvVZOqVGK+XekoSus6N
-	 CpbBYzMsIEpEuK3WZXhcePc4d5ZIDYehkLiJn4XlEYbhlVPeWM6fk5MGm5yX+dayE8
-	 RNgG4asz9+f4vMiA193o/ElzEazHW6v/FPiUChmU=
-Date: Wed, 6 Sep 2023 17:25:12 +0100
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Pavan Bobba <opensource206@gmail.com>
-Cc: Forest Bond <forest@alittletooquiet.net>,
-	Michael Straube <straube.linux@gmail.com>,
-	Philipp Hortmann <philipp.g.hortmann@gmail.com>,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6635EA29
+	for <linux-staging@lists.linux.dev>; Thu,  7 Sep 2023 02:01:02 +0000 (UTC)
+Received: by mail-pf1-f169.google.com with SMTP id d2e1a72fcca58-68a3b66f350so440660b3a.3
+        for <linux-staging@lists.linux.dev>; Wed, 06 Sep 2023 19:01:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1694052061; x=1694656861; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=1vewNX7v9Jsogj+AcffyXezNkGsw817ei7jyYCtcy/M=;
+        b=o1uQzhxBfnBYyc2k/nDi8G4rys0TU8egiSzFIQX1bIYOcvxrbKD5Vg5wgx4L9zA39Z
+         78lSPjJ1p/ISwsAX7KWhxOwd7+Jdc6XlGjRG21dpswAwBnYFO1jgRMRzvN903AgvpAjM
+         jr/kIgVXc4HZWxd3vH/gDO0i6gaCMKPQNxVvMoWSbuaViUJYuYiLTSetw5dN9oNQ+2KK
+         MFXPDRmShtbQshGC+40ImWtiUWtP20BPKrlbigRHmHLboUubBG48qb4NUcJhhFUEHz5C
+         5cbFsAiLBGpWbxJSY016pgt+myKWIz/edoDrFEtLtw+JNIqTJF5aveIPZ0XCb7SgDVRR
+         nlRQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1694052061; x=1694656861;
+        h=content-disposition:mime-version:message-id:subject:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=1vewNX7v9Jsogj+AcffyXezNkGsw817ei7jyYCtcy/M=;
+        b=iIjGCY02qI7LybrCFxCVwhOSUQQ3KB7W6DTLL9bW9CZWkLzOTNAKbVdf58HxlCYv7G
+         AXM74TttBnNDYuOcWpG5+urQMNVIt4EYK9vOEq9hHgqLJ33rJ5Kcw6/H6Q3BfrKoW2h8
+         8S91HXy+cE1eCD9WKt/euHdZiqlMcgDfeRSfTu9VT0VrNhYzwDuWgZZzp3MKVeWWoITX
+         dvc8clukgKgp22eAf8WEmZ+zSB3zwFA36Rtrhst61ZqfKnapsO9+fz82ZskQ2YOJd07H
+         Bj9mb3KAtrAJV7SCK9reVJAvO9GSbAPyv4ExJ8h5MD1OvNhCecFWZh3xUfeGjeGW+mmX
+         NUFA==
+X-Gm-Message-State: AOJu0YzEibhGORUYt2GKg7DoX8EJ75pmnFerAzbSCQBOxN04EDaA5K5b
+	A2Gn0ux+Y6jUvhLYKsg7Yjs=
+X-Google-Smtp-Source: AGHT+IHceUUoZG5LCctYCX8aJdipsimumNOe8uKkWOWovio35NejQo4+wc0xoeEkmmog5fgmMJGyog==
+X-Received: by 2002:a05:6a21:71cb:b0:13e:e053:1050 with SMTP id ay11-20020a056a2171cb00b0013ee0531050mr19528449pzc.56.1694052061501;
+        Wed, 06 Sep 2023 19:01:01 -0700 (PDT)
+Received: from midnight ([2001:8003:6434:b000:c30f:d88d:412c:6e9a])
+        by smtp.gmail.com with ESMTPSA id fm14-20020a056a002f8e00b0068c6889e146sm11685890pfb.98.2023.09.06.19.00.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 06 Sep 2023 19:01:00 -0700 (PDT)
+Date: Thu, 7 Sep 2023 12:00:57 +1000
+From: Angus Gardner <angusg778@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: vt6655: array names updated as per coding
- guidelines
-Message-ID: <2023090644-rectal-stunner-e647@gregkh>
-References: <ZPhyl29tTHn77/hd@ubuntu.myguest.virtualbox.org>
+Subject: [PATCH] Staging: wlan-ng: Removed unnecessary parentheses in wlan-ng
+ driver cfg80211.
+Message-ID: <ZPku2UC5g99ILEI3@midnight>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -31,161 +51,27 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ZPhyl29tTHn77/hd@ubuntu.myguest.virtualbox.org>
 
-On Wed, Sep 06, 2023 at 06:07:43PM +0530, Pavan Bobba wrote:
-> Below array names updated as per coding guidelines:
-> 
->    1.byVT3253B0_AGC4_RFMD2959
->    2.byVT3253B0_AIROHA2230
->    3.byVT3253B0_UW2451
->    4.byVT3253B0_AGC
-> 
->    Conversions performed:
->    a.type encoding info dropped from names
->    b.names replaced by snakecase
-> 
-> Signed-off-by: Pavan Bobba <opensource206@gmail.com>
-> ---
->  drivers/staging/vt6655/baseband.c | 32 +++++++++++++++----------------
->  1 file changed, 16 insertions(+), 16 deletions(-)
-> 
-> diff --git a/drivers/staging/vt6655/baseband.c b/drivers/staging/vt6655/baseband.c
-> index 696d4dd03aa2..55224918794b 100644
-> --- a/drivers/staging/vt6655/baseband.c
-> +++ b/drivers/staging/vt6655/baseband.c
-> @@ -761,7 +761,7 @@ static const unsigned char vt3253b0_rfmd[CB_VT3253B0_INIT_FOR_RFMD][2] = {
->  #define CB_VT3253B0_AGC_FOR_RFMD2959 195
->  /* For RFMD2959 */
->  static
-> -unsigned char byVT3253B0_AGC4_RFMD2959[CB_VT3253B0_AGC_FOR_RFMD2959][2] = {
-> +unsigned char vt3253b0_agc4_rfmd2959[CB_VT3253B0_AGC_FOR_RFMD2959][2] = {
->  	{0xF0, 0x00},
->  	{0xF1, 0x3E},
->  	{0xF0, 0x80},
-> @@ -962,7 +962,7 @@ unsigned char byVT3253B0_AGC4_RFMD2959[CB_VT3253B0_AGC_FOR_RFMD2959][2] = {
->  #define CB_VT3253B0_INIT_FOR_AIROHA2230 256
->  /* For AIROHA */
->  static
-> -unsigned char byVT3253B0_AIROHA2230[CB_VT3253B0_INIT_FOR_AIROHA2230][2] = {
-> +unsigned char vt3253b0_airoha2230[CB_VT3253B0_INIT_FOR_AIROHA2230][2] = {
->  	{0x00, 0x31},
->  	{0x01, 0x00},
->  	{0x02, 0x00},
-> @@ -1223,7 +1223,7 @@ unsigned char byVT3253B0_AIROHA2230[CB_VT3253B0_INIT_FOR_AIROHA2230][2] = {
->  
->  #define CB_VT3253B0_INIT_FOR_UW2451 256
->  /* For UW2451 */
-> -static unsigned char byVT3253B0_UW2451[CB_VT3253B0_INIT_FOR_UW2451][2] = {
-> +static unsigned char vt3253b0_uw2451[CB_VT3253B0_INIT_FOR_UW2451][2] = {
->  	{0x00, 0x31},
->  	{0x01, 0x00},
->  	{0x02, 0x00},
-> @@ -1484,7 +1484,7 @@ static unsigned char byVT3253B0_UW2451[CB_VT3253B0_INIT_FOR_UW2451][2] = {
->  
->  #define CB_VT3253B0_AGC 193
->  /* For AIROHA */
-> -static unsigned char byVT3253B0_AGC[CB_VT3253B0_AGC][2] = {
-> +static unsigned char vt3253b0_agc[CB_VT3253B0_AGC][2] = {
->  	{0xF0, 0x00},
->  	{0xF1, 0x00},
->  	{0xF0, 0x80},
-> @@ -2010,8 +2010,8 @@ bool bb_vt3253_init(struct vnt_private *priv)
->  
->  			for (ii = 0; ii < CB_VT3253B0_AGC_FOR_RFMD2959; ii++)
->  				result &= bb_write_embedded(priv,
-> -					byVT3253B0_AGC4_RFMD2959[ii][0],
-> -					byVT3253B0_AGC4_RFMD2959[ii][1]);
-> +					vt3253b0_agc4_rfmd2959[ii][0],
-> +					vt3253b0_agc4_rfmd2959[ii][1]);
->  
->  			iowrite32(0x23, iobase + MAC_REG_ITRTMSET);
->  			vt6655_mac_reg_bits_on(iobase, MAC_REG_PAPEDELAY, BIT(0));
-> @@ -2027,12 +2027,12 @@ bool bb_vt3253_init(struct vnt_private *priv)
->  	} else if ((by_rf_type == RF_AIROHA) || (by_rf_type == RF_AL2230S)) {
->  		for (ii = 0; ii < CB_VT3253B0_INIT_FOR_AIROHA2230; ii++)
->  			result &= bb_write_embedded(priv,
-> -				byVT3253B0_AIROHA2230[ii][0],
-> -				byVT3253B0_AIROHA2230[ii][1]);
-> +				vt3253b0_airoha2230[ii][0],
-> +				vt3253b0_airoha2230[ii][1]);
->  
->  		for (ii = 0; ii < CB_VT3253B0_AGC; ii++)
->  			result &= bb_write_embedded(priv,
-> -				byVT3253B0_AGC[ii][0], byVT3253B0_AGC[ii][1]);
-> +				vt3253b0_agc[ii][0], vt3253b0_agc[ii][1]);
->  
->  		priv->abyBBVGA[0] = 0x1C;
->  		priv->abyBBVGA[1] = 0x10;
-> @@ -2045,13 +2045,13 @@ bool bb_vt3253_init(struct vnt_private *priv)
->  	} else if (by_rf_type == RF_UW2451) {
->  		for (ii = 0; ii < CB_VT3253B0_INIT_FOR_UW2451; ii++)
->  			result &= bb_write_embedded(priv,
-> -				byVT3253B0_UW2451[ii][0],
-> -				byVT3253B0_UW2451[ii][1]);
-> +				vt3253b0_uw2451[ii][0],
-> +				vt3253b0_uw2451[ii][1]);
->  
->  		for (ii = 0; ii < CB_VT3253B0_AGC; ii++)
->  			result &= bb_write_embedded(priv,
-> -				byVT3253B0_AGC[ii][0],
-> -				byVT3253B0_AGC[ii][1]);
-> +				vt3253b0_agc[ii][0],
-> +				vt3253b0_agc[ii][1]);
->  
->  		iowrite8(0x23, iobase + MAC_REG_ITRTMSET);
->  		vt6655_mac_reg_bits_on(iobase, MAC_REG_PAPEDELAY, BIT(0));
-> @@ -2067,12 +2067,12 @@ bool bb_vt3253_init(struct vnt_private *priv)
->  	} else if (by_rf_type == RF_VT3226) {
->  		for (ii = 0; ii < CB_VT3253B0_INIT_FOR_AIROHA2230; ii++)
->  			result &= bb_write_embedded(priv,
-> -				byVT3253B0_AIROHA2230[ii][0],
-> -				byVT3253B0_AIROHA2230[ii][1]);
-> +				vt3253b0_airoha2230[ii][0],
-> +				vt3253b0_airoha2230[ii][1]);
->  
->  		for (ii = 0; ii < CB_VT3253B0_AGC; ii++)
->  			result &= bb_write_embedded(priv,
-> -				byVT3253B0_AGC[ii][0], byVT3253B0_AGC[ii][1]);
-> +				vt3253b0_agc[ii][0], vt3253b0_agc[ii][1]);
->  
->  		priv->abyBBVGA[0] = 0x1C;
->  		priv->abyBBVGA[1] = 0x10;
-> -- 
-> 2.34.1
-> 
-> 
+Signed-off-by: Angus Gardner <angusg778@gmail.com>
+---
+ drivers/staging/wlan-ng/cfg80211.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Hi,
+diff --git a/drivers/staging/wlan-ng/cfg80211.c b/drivers/staging/wlan-ng/cfg80211.c
+index 471bb310176f..d7d8a99adf52 100644
+--- a/drivers/staging/wlan-ng/cfg80211.c
++++ b/drivers/staging/wlan-ng/cfg80211.c
+@@ -351,8 +351,8 @@ static int prism2_scan(struct wiphy *wiphy,
+ 		msg2->bssindex.data = i;
+ 
+ 		result = p80211req_dorequest(wlandev, (u8 *)&msg2);
+-		if ((result != 0) ||
+-		    (msg2->resultcode.data != P80211ENUM_resultcode_success)) {
++		if (result != 0 ||
++		    msg2->resultcode.data != P80211ENUM_resultcode_success) {
+ 			break;
+ 		}
+ 
+-- 
+2.40.1
 
-This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
-a patch that has triggered this response.  He used to manually respond
-to these common problems, but in order to save his sanity (he kept
-writing the same thing over and over, yet to different people), I was
-created.  Hopefully you will not take offence and will fix the problem
-in your patch and resubmit it so that it can be accepted into the Linux
-kernel tree.
-
-You are receiving this message because of the following common error(s)
-as indicated below:
-
-- You did not specify a description of why the patch is needed, or
-  possibly, any description at all, in the email body.  Please read the
-  section entitled "The canonical patch format" in the kernel file,
-  Documentation/process/submitting-patches.rst for what is needed in
-  order to properly describe the change.
-
-- You did not write a descriptive Subject: for the patch, allowing Greg,
-  and everyone else, to know what this patch is all about.  Please read
-  the section entitled "The canonical patch format" in the kernel file,
-  Documentation/process/submitting-patches.rst for what a proper
-  Subject: line should look like.
-
-If you wish to discuss this problem further, or you have questions about
-how to resolve this issue, please feel free to respond to this email and
-Greg will reply once he has dug out from the pending patches received
-from other developers.
-
-thanks,
-
-greg k-h's patch email bot
