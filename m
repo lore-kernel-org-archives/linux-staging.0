@@ -1,20 +1,20 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8904D63AB
-	for <linux-staging@lists.linux.dev>; Fri,  8 Sep 2023 18:15:49 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 19A84C433C9;
-	Fri,  8 Sep 2023 18:15:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47D1E14AA6
+	for <linux-staging@lists.linux.dev>; Fri,  8 Sep 2023 18:17:59 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E583DC433CC;
+	Fri,  8 Sep 2023 18:17:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1694196949;
-	bh=2pPysu3Wx4heb2VQmsEptnE69KELV8FxTQwHIrV536M=;
+	s=k20201202; t=1694197079;
+	bh=60+wRiJZ4B9SMn52DiBClkjaKlog6sxPVet0ZR708W4=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=ntYZoyOpdiLv08QiCMoJp0YhrNVdRMSW4w4+KOLoR3k/F/CO0hIgs9rjtZdzWKDSe
-	 InyUCPUIyfwMnd6nSBFIFZqy/kWpb1pOLflW6v5fvLKd+cLmC8CU+JIbpR+zCJ5sA6
-	 BQPW/CkqSIPl7Pnt4gHwo77sosII1VtqUvcTPTV5A85PaOX1aP6wQ7QiWB/aIsLSvL
-	 4r8KikVk/3YzDkTxLXEVBGxSiiyi/vd1C7RJG7Xy8VVuJKwJStZZY+UVn0Q8aWL4CS
-	 DvdyHz6CgY4NnJVBnA4K5Km1c1ELXV0O32amcQCVPfJhCuHdzFVwOUXdIqHkPYsevp
-	 EmHUcuZLA+iDQ==
+	b=mHhSfbZwFNJFpK3zCO/RxM3srE56eV90r09+NQIztqkfLaawCtdyVee/cV5vy+qrT
+	 Pj36S5x9NMmsCOoJXuusSvvzy+CEwCpObM0YA/CSUaYWreWMrJfbJC3AZCKyNlLLuy
+	 eumW/7CDV2rfNoeGeqWWNr22yG4gTzyH3izOGloJwB43k299VUTfJ3t4XKBZyfMRSi
+	 33ULzQONUS1YWmsRNiQS7mrBTgTZyTdueAjKID1d/Pw1qKwCiIX9MqdpswsGHi4VwB
+	 JlWvQQtg5qM7QSRGJi45DSOMRwTiIn4Wn34u46WSphuQsYNMhgUtKWyK2Sj3f7llWv
+	 MZCuVAEJ6Rk3A==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
@@ -37,18 +37,22 @@ Cc: Alan Stern <stern@rowland.harvard.edu>,
 	markgross@kernel.org,
 	johannes.berg@intel.com,
 	alexander@wetzel-home.de,
-	error27@gmail.com,
 	szymon.heidrich@gmail.com,
+	error27@gmail.com,
+	alexanderduyck@fb.com,
 	gustavoars@kernel.org,
+	horms@kernel.org,
 	lynxis@fe80.eu,
-	daniel@makrotopia.org,
+	evelyn.tsai@mediatek.com,
+	StanleyYP.Wang@mediatek.com,
 	arnd@arndb.de,
 	shayne.chen@mediatek.com,
 	keescook@chromium.org,
-	tglx@linutronix.de,
-	pabeni@redhat.com,
-	rostedt@goodmis.org,
+	pavel@ucw.cz,
 	jacob.e.keller@intel.com,
+	anna-maria@linutronix.de,
+	rostedt@goodmis.org,
+	tglx@linutronix.de,
 	ath10k@lists.infradead.org,
 	linux-wireless@vger.kernel.org,
 	ath11k@lists.infradead.org,
@@ -58,12 +62,12 @@ Cc: Alan Stern <stern@rowland.harvard.edu>,
 	acpi4asus-user@lists.sourceforge.net,
 	platform-driver-x86@vger.kernel.org,
 	linux-staging@lists.linux.dev
-Subject: [PATCH AUTOSEL 6.5 43/45] Fix nomenclature for USB and PCI wireless devices
-Date: Fri,  8 Sep 2023 14:13:24 -0400
-Message-Id: <20230908181327.3459042-43-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.4 39/41] Fix nomenclature for USB and PCI wireless devices
+Date: Fri,  8 Sep 2023 14:15:53 -0400
+Message-Id: <20230908181555.3459640-39-sashal@kernel.org>
 X-Mailer: git-send-email 2.40.1
-In-Reply-To: <20230908181327.3459042-1-sashal@kernel.org>
-References: <20230908181327.3459042-1-sashal@kernel.org>
+In-Reply-To: <20230908181555.3459640-1-sashal@kernel.org>
+References: <20230908181555.3459640-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -72,7 +76,7 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.5.2
+X-stable-base: Linux 6.4.15
 Content-Transfer-Encoding: 8bit
 
 From: Alan Stern <stern@rowland.harvard.edu>
@@ -148,10 +152,10 @@ index b0067af685b16..3c482baacec10 100644
 +MODULE_DESCRIPTION("Driver support for Qualcomm Atheros USB 802.11ac WLAN devices");
  MODULE_LICENSE("Dual BSD/GPL");
 diff --git a/drivers/net/wireless/ath/ath11k/pci.c b/drivers/net/wireless/ath/ath11k/pci.c
-index 79e2cbe826384..bfa9d4c950f11 100644
+index 7b33731a50ee7..650587c8fcf8d 100644
 --- a/drivers/net/wireless/ath/ath11k/pci.c
 +++ b/drivers/net/wireless/ath/ath11k/pci.c
-@@ -1034,7 +1034,7 @@ static void ath11k_pci_exit(void)
+@@ -1033,7 +1033,7 @@ static void ath11k_pci_exit(void)
  
  module_exit(ath11k_pci_exit);
  
@@ -161,10 +165,10 @@ index 79e2cbe826384..bfa9d4c950f11 100644
  
  /* firmware files */
 diff --git a/drivers/net/wireless/ath/ath12k/pci.c b/drivers/net/wireless/ath/ath12k/pci.c
-index 5990a55801f0a..bd689efa7daaf 100644
+index 9f174daf324c9..05915f75d734c 100644
 --- a/drivers/net/wireless/ath/ath12k/pci.c
 +++ b/drivers/net/wireless/ath/ath12k/pci.c
-@@ -1409,5 +1409,5 @@ static void ath12k_pci_exit(void)
+@@ -1397,5 +1397,5 @@ static void ath12k_pci_exit(void)
  
  module_exit(ath12k_pci_exit);
  
@@ -393,10 +397,10 @@ index dcccc290a7f52..d1fd66d44a7ed 100644
  
  config RT2800USB_RT53XX
 diff --git a/drivers/net/wireless/realtek/rtw88/pci.c b/drivers/net/wireless/realtek/rtw88/pci.c
-index 44a8fff34cddf..2bfc0e822b8d0 100644
+index 672ddde808160..a628606e48c1e 100644
 --- a/drivers/net/wireless/realtek/rtw88/pci.c
 +++ b/drivers/net/wireless/realtek/rtw88/pci.c
-@@ -1828,5 +1828,5 @@ void rtw_pci_shutdown(struct pci_dev *pdev)
+@@ -1827,5 +1827,5 @@ void rtw_pci_shutdown(struct pci_dev *pdev)
  EXPORT_SYMBOL(rtw_pci_shutdown);
  
  MODULE_AUTHOR("Realtek Corporation");
@@ -404,10 +408,10 @@ index 44a8fff34cddf..2bfc0e822b8d0 100644
 +MODULE_DESCRIPTION("Realtek PCI 802.11ac wireless driver");
  MODULE_LICENSE("Dual BSD/GPL");
 diff --git a/drivers/net/wireless/realtek/rtw88/usb.c b/drivers/net/wireless/realtek/rtw88/usb.c
-index 4a57efdba97bb..1f0625bfcee1c 100644
+index 976eafa739a2d..92ee9304d0723 100644
 --- a/drivers/net/wireless/realtek/rtw88/usb.c
 +++ b/drivers/net/wireless/realtek/rtw88/usb.c
-@@ -927,5 +927,5 @@ void rtw_usb_disconnect(struct usb_interface *intf)
+@@ -920,5 +920,5 @@ void rtw_usb_disconnect(struct usb_interface *intf)
  EXPORT_SYMBOL(rtw_usb_disconnect);
  
  MODULE_AUTHOR("Realtek Corporation");
@@ -415,10 +419,10 @@ index 4a57efdba97bb..1f0625bfcee1c 100644
 +MODULE_DESCRIPTION("Realtek USB 802.11ac wireless driver");
  MODULE_LICENSE("Dual BSD/GPL");
 diff --git a/drivers/net/wireless/realtek/rtw89/pci.c b/drivers/net/wireless/realtek/rtw89/pci.c
-index 9402f1a0caea8..3a4bfc44142b6 100644
+index 70b4754667c98..eceaf1e5d2066 100644
 --- a/drivers/net/wireless/realtek/rtw89/pci.c
 +++ b/drivers/net/wireless/realtek/rtw89/pci.c
-@@ -3939,5 +3939,5 @@ void rtw89_pci_remove(struct pci_dev *pdev)
+@@ -3938,5 +3938,5 @@ void rtw89_pci_remove(struct pci_dev *pdev)
  EXPORT_SYMBOL(rtw89_pci_remove);
  
  MODULE_AUTHOR("Realtek Corporation");
