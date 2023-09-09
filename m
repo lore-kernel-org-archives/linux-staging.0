@@ -1,49 +1,48 @@
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E138D748C
-	for <linux-staging@lists.linux.dev>; Sat,  9 Sep 2023 18:20:20 +0000 (UTC)
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-3fe4f3b5f25so8897455e9.0
-        for <linux-staging@lists.linux.dev>; Sat, 09 Sep 2023 11:20:20 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0003748C
+	for <linux-staging@lists.linux.dev>; Sat,  9 Sep 2023 18:20:26 +0000 (UTC)
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-401314e7838so9061635e9.1
+        for <linux-staging@lists.linux.dev>; Sat, 09 Sep 2023 11:20:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1694283619; x=1694888419; darn=lists.linux.dev;
+        d=gmail.com; s=20221208; t=1694283625; x=1694888425; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=InFO5e10TT39/SdX7ezViSAF4gHuUpUJjSKidTX3SGs=;
-        b=Pmc8hkOXvimqFYrsSjKrc1lMRGtbyDj0D8+2gEopUntxtwxFiECfpRbA1lahgZD13j
-         7U/wAmdsiTBLhhpgdcxrqXOG1Cn7Xg9mwengyekxvXZiHE3hODHtuT2zG/FGW5KrCAiC
-         aUEJrwMGCxJt7/7XfFAYpOsk82+yeyFzn4lXok11racqXBJANUgYEe2LNAsfkRFhArnk
-         vawp8tUmG4Ho6qmLsF4O28x+hxSk9FIAkE8AFrQHR9hvO7qS3NfDo8/XOTZ0VSpfvwwB
-         BycCA+69gE37PUnDXigHPT2ADmTvv96bIr2oS9xVJZKafaToJfM2xMYAPg4rRs5BpAGC
-         reWA==
+        bh=jSwFvBNQ2AMCc4pS5SxTSy3TPsMqYhfRv4nOtRztjH4=;
+        b=Jtx+7Dx2zv3uP3ltLUtvL9ieFfa2k+ds89D+VAMfAo0RFB9s5x9frMWGwQHJYKC/Kv
+         EmhiMYxpR8uTpBTRpA/FWQ7Njcx2IVP6yhgFVGAzKDs2T8S05D3//ny0jY1QvLUkQ1FL
+         060Q+vRdAvpgZnPqCxaPe5mO79hSSsIYVgoaxVw6OVucISC+lcXnev+XeiwUJ+HS8/Z9
+         YQ2kZP3knrXiHvuvrzX3oSUfAo6xwWWIUZey9pMqh5EcpPKcHixMdYZY16jmV3hjVFGS
+         lB7GQFZFxvIuaCSg6PwW/zyUsrLz0KRuBvFrzbG2A9ALnHhAEh73eqCwR4WaQ/sqlGEn
+         09LQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1694283619; x=1694888419;
+        d=1e100.net; s=20230601; t=1694283625; x=1694888425;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=InFO5e10TT39/SdX7ezViSAF4gHuUpUJjSKidTX3SGs=;
-        b=FWasArmWSU1EJTZK5hY91PwfAri8aQ47GS0n02SPOj73AVbb1eA+Wpezw9emFb+45E
-         N3DK/AooJTqG/3Ialf9ktvwfFrM/VQ560cecmLx7KWxhPEvfOccYOU80U4drJkLBC5ET
-         eXjsnr+8ZCENtUSMYCKvHz5DDBJDLyhe2ZqTJgINZi4S48GTOnxkK6TBSYvae7+08C9L
-         bI1RNmTsofjUPUh/cGuvUp7tjdIDS74dO3DL9hDBlGnVarHXKewrdijGEIqFFvMUizZ3
-         WvjS9n2g/JUA4H9FneRUDGn2SG6nr/+j2FhE/cJQd0gbIeSvSs3+v/EBcc9bVglL1N9a
-         qo9A==
-X-Gm-Message-State: AOJu0Yxmfnt5o523rA3HqkvkF84VCAjyUqpIzYAPK7TyxVHEzFEp1pUp
-	ZwW5YksOEfSS7I8Bn8WFkWA=
-X-Google-Smtp-Source: AGHT+IFmHBu6ljIRTmRyYy1SpBZ1gCSVnv+p1A8zib68h/rTIWoSPqEsLOkbDRwo2oE1W8EpBvX7qw==
-X-Received: by 2002:a05:600c:1d0a:b0:401:c6a2:3cd5 with SMTP id l10-20020a05600c1d0a00b00401c6a23cd5mr4916851wms.2.1694283619199;
-        Sat, 09 Sep 2023 11:20:19 -0700 (PDT)
+        bh=jSwFvBNQ2AMCc4pS5SxTSy3TPsMqYhfRv4nOtRztjH4=;
+        b=Qe81hqvRKCmyMTlN/X2LMuUcKr42LuuP4eRd2UBN3+BsM15yRQEqFIXA9yWLT0kpD8
+         0owUy12gDj+1Rahy56wgowEvnzj0kaC4RRF6SekhRlbFeKH7ZHb+Oasele4yn/BuN6E1
+         Sn+Xfgb7DutFeaPSEjx5WX68908p0nBC1tBFVKGIo1dfcdA5++i1JhVDosVvXlxzKe+s
+         bkojmjDE/cV0tGfQ0fTaxZMnDtfbADzk+AOiO4m1FGLVkUZiJTUSm2O/ZN6HkqvH9iNE
+         Kzb3FdOTHTlX0cemtVWdjHKBuVuEtIps51z3/hvxuFSC6X9X36QGzZuakwNSCVVVCLnw
+         Eg9g==
+X-Gm-Message-State: AOJu0YxIQ/qylBl4yXk5cvsveWeFA/k+cmY1d4Y3/zeuU8/03rEvVQYn
+	QhqqErjZaDB9cgVoC85DnWfxiDXTpcpCdw==
+X-Google-Smtp-Source: AGHT+IGYzLWM2bWX2MqgLDzD2AesQMqSmGp4wAHxG4NYNRnSG7mwZwWtOjrIvDOjnkEpxeFYr1ZZ5A==
+X-Received: by 2002:a05:600c:3ba6:b0:3ff:8617:672b with SMTP id n38-20020a05600c3ba600b003ff8617672bmr4974721wms.2.1694283625280;
+        Sat, 09 Sep 2023 11:20:25 -0700 (PDT)
 Received: from matrix-ESPRIMO-P710 (p579356c7.dip0.t-ipconnect.de. [87.147.86.199])
-        by smtp.gmail.com with ESMTPSA id l23-20020a1c7917000000b003fe17901fcdsm8447910wme.32.2023.09.09.11.20.18
+        by smtp.gmail.com with ESMTPSA id l19-20020a05600c4f1300b00403038d7652sm2192312wmq.39.2023.09.09.11.20.24
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 09 Sep 2023 11:20:18 -0700 (PDT)
-Date: Sat, 9 Sep 2023 20:20:17 +0200
+        Sat, 09 Sep 2023 11:20:25 -0700 (PDT)
+Date: Sat, 9 Sep 2023 20:20:23 +0200
 From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [PATCH 7/8] staging: rtl8192e: Replace rtl92e_enable_irq with
- rtl92e_irq_enable
-Message-ID: <a2409c0e7dba22035c8bc43b819b837589f50886.1694282907.git.philipp.g.hortmann@gmail.com>
+Subject: [PATCH 8/8] staging: rtl8192e: Remove rtllib_get_payload()
+Message-ID: <cea7bba329e0dabdbf3d020abafd7e7c122587da.1694282907.git.philipp.g.hortmann@gmail.com>
 References: <cover.1694282907.git.philipp.g.hortmann@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -55,61 +54,83 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 In-Reply-To: <cover.1694282907.git.philipp.g.hortmann@gmail.com>
 
-Replace rtl92e_enable_irq with rtl92e_irq_enable to increase readability.
-priv->irq_enabled = 1 was set in both functions.
+rtllib_process_action() is only called in one place with management
+frames. Frame is passed over to rtllib_get_payload() which passes it to
+rtllib_get_hdrlen(). In rtllib_get_hdrlen() all management frames
+return with hdrlen = RTLLIB_3ADDR_LEN. Therefore the switch in
+rtllib_get_payload() is useless and dead code. The condition act == NULL
+cannot occur and can also be removed. Then rtllib_hdr_2addr is not used
+anymore and can be removed as well.
 
 Signed-off-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
 ---
- drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c | 2 +-
- drivers/staging/rtl8192e/rtl8192e/r8192E_dev.h | 1 -
- drivers/staging/rtl8192e/rtl8192e/rtl_core.c   | 9 ---------
- 3 files changed, 1 insertion(+), 11 deletions(-)
+ drivers/staging/rtl8192e/rtllib.h         | 23 -----------------------
+ drivers/staging/rtl8192e/rtllib_softmac.c |  9 +--------
+ 2 files changed, 1 insertion(+), 31 deletions(-)
 
-diff --git a/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c b/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c
-index e0500946dea5..70e1eff9c600 100644
---- a/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c
-+++ b/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c
-@@ -1870,7 +1870,7 @@ rtl92e_init_variables(struct net_device  *dev)
- 	priv->bfirst_after_down = false;
+diff --git a/drivers/staging/rtl8192e/rtllib.h b/drivers/staging/rtl8192e/rtllib.h
+index 7dfb93f0590c..565a6e41b982 100644
+--- a/drivers/staging/rtl8192e/rtllib.h
++++ b/drivers/staging/rtl8192e/rtllib.h
+@@ -692,14 +692,6 @@ struct rtllib_hdr_1addr {
+ 	u8 payload[];
+ } __packed;
+ 
+-struct rtllib_hdr_2addr {
+-	__le16 frame_ctl;
+-	__le16 duration_id;
+-	u8 addr1[ETH_ALEN];
+-	u8 addr2[ETH_ALEN];
+-	u8 payload[];
+-} __packed;
+-
+ struct rtllib_hdr_3addr {
+ 	__le16 frame_ctl;
+ 	__le16 duration_id;
+@@ -1781,21 +1773,6 @@ static inline int rtllib_get_hdrlen(u16 fc)
+ 	return hdrlen;
  }
  
--void rtl92e_enable_irq(struct net_device *dev)
-+void rtl92e_irq_enable(struct net_device *dev)
- {
- 	struct r8192_priv *priv = (struct r8192_priv *)rtllib_priv(dev);
- 
-diff --git a/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.h b/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.h
-index 3c06e1da4408..14a091ae1b7d 100644
---- a/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.h
-+++ b/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.h
-@@ -16,7 +16,6 @@ bool rtl92e_is_rx_stuck(struct net_device *dev);
- void rtl92e_ack_irq(struct net_device *dev, u32 *p_inta);
- void rtl92e_enable_rx(struct net_device *dev);
- void rtl92e_enable_tx(struct net_device *dev);
--void rtl92e_enable_irq(struct net_device *dev);
- void rtl92e_init_variables(struct net_device  *dev);
- void rtl92e_start_beacon(struct net_device *dev);
- void rtl92e_set_reg(struct net_device *dev, u8 variable, u8 *val);
-diff --git a/drivers/staging/rtl8192e/rtl8192e/rtl_core.c b/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
-index 055cd513d76a..63bf8be3fda5 100644
---- a/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
-+++ b/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
-@@ -227,15 +227,6 @@ static void _rtl92e_tx_timeout(struct net_device *dev, unsigned int txqueue)
- 	netdev_info(dev, "TXTIMEOUT");
- }
- 
--void rtl92e_irq_enable(struct net_device *dev)
+-static inline u8 *rtllib_get_payload(struct rtllib_hdr *hdr)
 -{
--	struct r8192_priv *priv = rtllib_priv(dev);
--
--	priv->irq_enabled = 1;
--
--	rtl92e_enable_irq(dev);
+-	switch (rtllib_get_hdrlen(le16_to_cpu(hdr->frame_ctl))) {
+-	case RTLLIB_1ADDR_LEN:
+-		return ((struct rtllib_hdr_1addr *)hdr)->payload;
+-	case RTLLIB_2ADDR_LEN:
+-		return ((struct rtllib_hdr_2addr *)hdr)->payload;
+-	case RTLLIB_3ADDR_LEN:
+-		return ((struct rtllib_hdr_3addr *)hdr)->payload;
+-	case RTLLIB_4ADDR_LEN:
+-		return ((struct rtllib_hdr_4addr *)hdr)->payload;
+-	}
+-	return NULL;
 -}
 -
- static void _rtl92e_set_chan(struct net_device *dev, short ch)
+ static inline int rtllib_is_ofdm_rate(u8 rate)
  {
- 	struct r8192_priv *priv = rtllib_priv(dev);
+ 	switch (rate & ~RTLLIB_BASIC_RATE_MASK) {
+diff --git a/drivers/staging/rtl8192e/rtllib_softmac.c b/drivers/staging/rtl8192e/rtllib_softmac.c
+index 5de57331c1cf..904be0ef867f 100644
+--- a/drivers/staging/rtl8192e/rtllib_softmac.c
++++ b/drivers/staging/rtl8192e/rtllib_softmac.c
+@@ -1921,16 +1921,9 @@ EXPORT_SYMBOL(rtllib_ps_tx_ack);
+ static void rtllib_process_action(struct rtllib_device *ieee,
+ 				  struct sk_buff *skb)
+ {
+-	struct rtllib_hdr_3addr *header = (struct rtllib_hdr_3addr *)skb->data;
+-	u8 *act = rtllib_get_payload((struct rtllib_hdr *)header);
++	u8 *act = skb->data + RTLLIB_3ADDR_LEN;
+ 	u8 category = 0;
+ 
+-	if (act == NULL) {
+-		netdev_warn(ieee->dev,
+-			    "Error getting payload of action frame\n");
+-		return;
+-	}
+-
+ 	category = *act;
+ 	act++;
+ 	switch (category) {
 -- 
 2.41.0
 
