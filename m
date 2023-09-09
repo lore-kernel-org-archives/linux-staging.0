@@ -1,44 +1,54 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DBB11FBB
-	for <linux-staging@lists.linux.dev>; Fri,  8 Sep 2023 21:31:58 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2F758C433C7;
-	Fri,  8 Sep 2023 21:31:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1694208718;
-	bh=jnZW3kJ1q2GcV2pxAvLRxz+0IUuoJxM+MtHeCLvaV3k=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=rL/hXl1JmyCN2+NX3XFRjO3IBjzj3gm/vyTf/yQM/ms1fYHZLLheiBdkAscyPD4ig
-	 xEJBQ/sHZdVG/iM0p8OjYq7bcd79OWbtESi4cnpza8CsO0AlxstTVZg+crAliB0M+u
-	 sMtzHFoNhDRydKXF6ghbQDeG3lQZH7cQseD/hGy4=
-Date: Fri, 8 Sep 2023 22:31:55 +0100
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Alan Stern <stern@rowland.harvard.edu>
-Cc: Sasha Levin <sashal@kernel.org>, linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org, Kalle Valo <kvalo@kernel.org>,
-	quic_jjohnson@quicinc.com, nbd@nbd.name, lorenzo@kernel.org,
-	ryder.lee@mediatek.com, matthias.bgg@gmail.com, kuba@kernel.org,
-	srini.raju@purelifi.com, stf_xl@wp.pl, helmut.schaa@googlemail.com,
-	pkshih@realtek.com, corentin.chary@gmail.com, hdegoede@redhat.com,
-	markgross@kernel.org, johannes.berg@intel.com,
-	alexander@wetzel-home.de, error27@gmail.com,
-	szymon.heidrich@gmail.com, gustavoars@kernel.org, lynxis@fe80.eu,
-	daniel@makrotopia.org, arnd@arndb.de, shayne.chen@mediatek.com,
-	keescook@chromium.org, tglx@linutronix.de, pabeni@redhat.com,
-	rostedt@goodmis.org, jacob.e.keller@intel.com,
-	ath10k@lists.infradead.org, linux-wireless@vger.kernel.org,
-	ath11k@lists.infradead.org, ath12k@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org,
-	acpi4asus-user@lists.sourceforge.net,
-	platform-driver-x86@vger.kernel.org, linux-staging@lists.linux.dev
-Subject: Re: [PATCH AUTOSEL 6.5 43/45] Fix nomenclature for USB and PCI
- wireless devices
-Message-ID: <2023090838-slurp-tilt-c7c4@gregkh>
-References: <20230908181327.3459042-1-sashal@kernel.org>
- <20230908181327.3459042-43-sashal@kernel.org>
- <0d2ddf90-2334-4d0c-9f63-018c150e06a9@rowland.harvard.edu>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 219361878
+	for <linux-staging@lists.linux.dev>; Sat,  9 Sep 2023 08:43:14 +0000 (UTC)
+Received: by mail-pf1-f180.google.com with SMTP id d2e1a72fcca58-68a3082c771so1991238b3a.0
+        for <linux-staging@lists.linux.dev>; Sat, 09 Sep 2023 01:43:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1694248994; x=1694853794; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=ThoAJQ7R+le+t9BWKxFb3NnyvFQ177oeH/Jedkgpock=;
+        b=LaGnrB2nr7JG0XxGkGFOph9/05wgtj54cJDcz1XLRdWOYp2zaLMoQTln4fzu5DbEAy
+         Tmd2bFQ4cChUplpAezFtgJAFFFLOm9sR5sxRPPrhcvhKfgMhxyyc9OCEr3VxmPc5//30
+         qU1Wp07HtNjKs0xSed9bRaEdFi0p3N4Ooz7D8SuMlnV9aUgHHfcshUotTTyMtNDehTIk
+         eTCQJPXZhcYq57vYHQjkjSxFS7wMmsmLNUZxK/MWHq90gZfif2jqpPkZyWs3vG0mL6w0
+         7jzJCsxRibofn6+sZ/dX+ziNQEgVgSuLVwF5mS8ener44a3NOP/W8IVjTXBHTHRYn+sA
+         4irA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1694248994; x=1694853794;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ThoAJQ7R+le+t9BWKxFb3NnyvFQ177oeH/Jedkgpock=;
+        b=D/yL47TCVS6nCa8qZyuQCJlxxWzGrHoghFpWC0zRA5MzQeAChEVu1dfkNJEE4jlnsD
+         ALY3/A3CBsy3qNJsT/a+PUiXWPA4XK2kTpPlt31SdNSQAr3Agq3TBZ3uMO9rW42G+KAt
+         uaV8JvfnceOu1IcOo4JCwy2jyhA4I5D1Rjk4Yr9qCR8CSZSw3KHh4tF4pyesPuPdIJOL
+         cJovfccpYJ1k6tbYM1U6SUWREbh6iRDMTpfhOhZ1caShNykqWWXSPzBbCwqLCA/AxLEG
+         3qaYakFADkUXlZHAPKxZ/o1U3H9D5+82NpqUUTT8Cd1sU/II+wsPunlumPMxhE0wQ70l
+         x1zA==
+X-Gm-Message-State: AOJu0Yxtaqm1mAYX1OJGRsq7UT12atUiIPUBEvJYLXLCBjqAUfMH3fgS
+	L2Y6W06mn9NfIDpuebhyJ4g=
+X-Google-Smtp-Source: AGHT+IH5mFmbkeOpk4JDcg5uSRaKHYaekmXQCVdNMFXfvc+bDuheJu2c+lU7X6vO1FKNAfuSFZUbIA==
+X-Received: by 2002:a05:6a00:a1b:b0:68e:28dc:8d5e with SMTP id p27-20020a056a000a1b00b0068e28dc8d5emr12388144pfh.16.1694248994272;
+        Sat, 09 Sep 2023 01:43:14 -0700 (PDT)
+Received: from ubuntu.myguest.virtualbox.org ([223.178.252.251])
+        by smtp.gmail.com with ESMTPSA id i12-20020aa787cc000000b0064d57ecaa1dsm2376397pfo.28.2023.09.09.01.43.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 09 Sep 2023 01:43:13 -0700 (PDT)
+Date: Sat, 9 Sep 2023 14:13:09 +0530
+From: Pavan Bobba <opensource206@gmail.com>
+To: Greg KH <gregkh@linuxfoundation.org>
+Cc: Forest Bond <forest@alittletooquiet.net>,
+	Michael Straube <straube.linux@gmail.com>,
+	Philipp Hortmann <philipp.g.hortmann@gmail.com>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3] staging: vt6655: Type encoding info dropped from
+ array name "byVT3253B0_"
+Message-ID: <ZPwwHY1TDOBEljxr@ubuntu.myguest.virtualbox.org>
+References: <ZPnLw+njcL/D391S@ubuntu.myguest.virtualbox.org>
+ <2023090724-trial-ipod-93d2@gregkh>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -47,45 +57,41 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <0d2ddf90-2334-4d0c-9f63-018c150e06a9@rowland.harvard.edu>
+In-Reply-To: <2023090724-trial-ipod-93d2@gregkh>
 
-On Fri, Sep 08, 2023 at 03:12:26PM -0400, Alan Stern wrote:
-> On Fri, Sep 08, 2023 at 02:13:24PM -0400, Sasha Levin wrote:
-> > From: Alan Stern <stern@rowland.harvard.edu>
+On Thu, Sep 07, 2023 at 03:43:53PM +0100, Greg KH wrote:
+> On Thu, Sep 07, 2023 at 06:40:27PM +0530, Pavan Bobba wrote:
+> > Below array names updated as per coding guidelines:
 > > 
-> > [ Upstream commit 5d7cf67f72ae34d38e090bdfa673da4aefe4048e ]
+> >    1.byVT3253B0_AGC4_RFMD2959
+> >    2.byVT3253B0_AIROHA2230
+> >    3.byVT3253B0_UW2451
+> >    4.byVT3253B0_AGC
 > > 
-> > A mouse that uses a USB connection is called a "USB mouse" device (or
-> > "USB mouse" for short), not a "mouse USB" device.  By analogy, a WiFi
-> > adapter that connects to the host computer via USB is a "USB wireless"
-> > device, not a "wireless USB" device.  (The latter term more properly
-> > refers to a defunct Wireless USB specification, which described a
-> > technology for sending USB protocol messages over an ultra wideband
-> > radio link.)
+> >    Conversions performed:
+> >    a.type encoding info dropped from names
+> >    b.names replaced by snakecase
 > > 
-> > Similarly for a WiFi adapter card that plugs into a PCIe slot: It is a
-> > "PCIe wireless" device, not a "wireless PCIe" device.
+> >    Issue found by checkpatch
 > > 
-> > Rephrase the text in the kernel source where the word ordering is
-> > wrong.
+> > Signed-off-by: Pavan Bobba <opensource206@gmail.com>
+> > ---
+> >  v1 -> v2: Name of the tool added in the body of explanation,
+> >            which found this issue
 > > 
-> > Signed-off-by: Alan Stern <stern@rowland.harvard.edu>
-> > Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> > Signed-off-by: Kalle Valo <kvalo@kernel.org>
-> > Link: https://lore.kernel.org/r/57da7c80-0e48-41b5-8427-884a02648f55@rowland.harvard.edu
-> > Signed-off-by: Sasha Levin <sashal@kernel.org>
+> >  v2 -> v3: subject modified to more specific detail
 > 
+> Any specific reason you are not sending this to the maintainer that can
+> take it?
+i used scripts/get_maintainer.pl to get maintainers names and i am
+adding all those people to the mail. kindly let me know the maintainer id
+and the correct way to know the mainter of a file
 > 
-> Is there any real reason to apply this commit to the -stable kernels?
-> I did not mark it that way when it was submitted, and it doesn't fix
-> any bugs.  In fact, aside from updating some module and device
-> description strings, all it does is change a bunch of comments.
+> Also, your changelog needs work, please read the link the bot referred
+> you to.
 > 
-> Does that really fall under the -stable rules for acceptance?
+> thanks,
+> 
+> greg k-h
 
-Not really, this is just documentation, it should be dropped from the
-autosel queues.
-
-thanks,
-
-greg k-h
+sure. i will cross check once. Thank you
