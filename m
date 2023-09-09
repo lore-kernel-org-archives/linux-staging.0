@@ -1,56 +1,48 @@
-Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com [209.85.208.177])
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C97C1FAB
-	for <linux-staging@lists.linux.dev>; Sat,  9 Sep 2023 10:01:20 +0000 (UTC)
-Received: by mail-lj1-f177.google.com with SMTP id 38308e7fff4ca-2bcbfb3705dso46629331fa.1
-        for <linux-staging@lists.linux.dev>; Sat, 09 Sep 2023 03:01:19 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 380981851
+	for <linux-staging@lists.linux.dev>; Sat,  9 Sep 2023 18:19:26 +0000 (UTC)
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-3fe4f3b5f25so8896335e9.0
+        for <linux-staging@lists.linux.dev>; Sat, 09 Sep 2023 11:19:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1694253678; x=1694858478; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=oP3Ad7tpf4jZq5Asm4UcDHA1fh15q5/8MbXPXoqPnzE=;
-        b=skHTaE50HLJgIbKXQCMIrP15+WUx9Bp8cRmQldpe4/PE9rkhwMaTZtw+vUteP7hLkg
-         xPzqj1o5jnQdyzSRciovnRLfeSsl65zJ0INDNoYYAQ2hu3VgvsPHYf8Cp0MLbJR8++mW
-         bxeoXqIpomfZAoQ65ajX/GCh8+FgUZRvmNHJjCc47jBcCwmVKTXH5TM7sbUDK3uE2BLC
-         ChKJBJ83It12bZm6aNXww3YcIYrBSOYcZn14ZRJSFItUoGkxiStsVkx0XapPHvapo12M
-         goF9Vnzj6gh4QlImOpL/DVAMIkz8r1Pb8HN2KMYsLj6nao6z7g/KHW8bWIEnJzHf1xNX
-         uEYQ==
+        d=gmail.com; s=20221208; t=1694283565; x=1694888365; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=nmrZVxHXaLRpMM6rOmTmq9YaL32Ts5BcYnXcNL+bdlw=;
+        b=o0TJ9wbkUAu+1yxW7TnuSwMPusMzrYv9n779sAHX6d5g6rRFu62VRnefTHxOBAJwd/
+         Aenchp4/k7pbTw+YU619T460r4HIbmdyb0xZrUKLbARR1zo7uv+kNYF+LY/Qira8929m
+         4CqsZaxVD1wveV7ZLft3NCyeMK7Kht+wRu7QqxCWDqGyIqaSrOaI49AMoMtZAb++Kbv4
+         PhsHu9G9yLlxrCluSNWROef2lH0Rs06EAMZQGBV566XdULhBQSkBdsyEQk6xtssrbfNj
+         +ntPXCyCMSPlMA3yBqmzwy3/4D7wgMMAKWrZzsl8in/+UukEvdmLe8VN1Zq54+qqBSkk
+         Sx5Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1694253678; x=1694858478;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=oP3Ad7tpf4jZq5Asm4UcDHA1fh15q5/8MbXPXoqPnzE=;
-        b=FHfVWfynBk/NP8HuY3VJ5hIFGKvyoMe4BDaZASuLrqCZqfRcLpYWWDg9eG2HD6SKIz
-         Ks/6gyxzAHthtBEoH0OD5w1nNFvGFMAcJ3UCxPDXQCCLFmB7IEphFBp5JZXjxngKJ+Qu
-         +8Vluzfh8RSJuKAm9SDjzZfXR5x7gHUhlEYWfZemUzmrpa7JEkhPfCIuZbchdibVUS8d
-         Qv8AFbWX59q8bslnTErwmUjee/TpL1TFgbVdGTVBIDQESTqOjt5R4QY6oYyGVpJlPj/0
-         xDfrexJnmxEolJ5nbpW0Wmy60KDDac16cqzkRUiNLNMEzQDRYBuNslhJQtjLH84tcHi6
-         FJLw==
-X-Gm-Message-State: AOJu0Yyyc1+5Y2Ty8PLdyTQ+2JhhL0tCwYtuNkYiyJ02s+H0hvmKHEZb
-	V4CXM+t2eV7PB52UklGq3zk=
-X-Google-Smtp-Source: AGHT+IG+ak0urT0LkXjEl/AFuu5XF+f2hYsvtZqQOgwc/PJ9LemWW+ubSRznDLamHiePAqay7dS0nw==
-X-Received: by 2002:a2e:9b4c:0:b0:2b6:a5df:c7fb with SMTP id o12-20020a2e9b4c000000b002b6a5dfc7fbmr3881018ljj.26.1694253677892;
-        Sat, 09 Sep 2023 03:01:17 -0700 (PDT)
-Received: from nam-dell (ip-217-105-46-58.ip.prioritytelecom.net. [217.105.46.58])
-        by smtp.gmail.com with ESMTPSA id gf13-20020a170906e20d00b009928b4e3b9fsm2161642ejb.114.2023.09.09.03.01.16
+        d=1e100.net; s=20230601; t=1694283565; x=1694888365;
+        h=content-disposition:mime-version:message-id:subject:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=nmrZVxHXaLRpMM6rOmTmq9YaL32Ts5BcYnXcNL+bdlw=;
+        b=DXhmVlRv4R22JDrISaTExYZcINMvp7DI1f8pJyIhraCv4oYNNxX8BpSGlASz4VZD/e
+         DcpHA3kpQG/cBVuzCnOVvAorJ9DZXi58RVXwWav6uU1DXjtV9INfqku9LP7sOkz0CD5P
+         PsINoZEfxFQHmpX8WXMqv5RAVPuiJobiZdBfaxqifb07+NDFB5jXNSpXoQKsAmOXO91S
+         TOd9zSredumu3jQuLdIbjkJ0BP3ulQXq1Anr4NrSVkBEplkuFzvdEcgPUv9ywDIf/PQS
+         CRkfs+XACPTXAoTpFjFYxnXQ2fWRjAGfyfqLcfsnNK4cqqqzmqnzQZx+FH5L627wJKVY
+         Sarw==
+X-Gm-Message-State: AOJu0YzYIewE1JNZHREb++xeJOh1sEp6DfwxP3MxgELblqOB8JZBewvN
+	IeJUPtzbNhsGiD3mRnGSpAQ=
+X-Google-Smtp-Source: AGHT+IEMPxyBRvmMm4R+LH9p4X8d910dR48P0wuk8KscvWNtiGlushElfB2n7Jpi9n0RLEG9ZrUW5g==
+X-Received: by 2002:a05:600c:1d0a:b0:401:c6a2:3cd5 with SMTP id l10-20020a05600c1d0a00b00401c6a23cd5mr4915477wms.2.1694283564957;
+        Sat, 09 Sep 2023 11:19:24 -0700 (PDT)
+Received: from matrix-ESPRIMO-P710 (p579356c7.dip0.t-ipconnect.de. [87.147.86.199])
+        by smtp.gmail.com with ESMTPSA id r14-20020adfdc8e000000b003196b1bb528sm5397229wrj.64.2023.09.09.11.19.24
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 09 Sep 2023 03:01:17 -0700 (PDT)
-Date: Sat, 9 Sep 2023 12:01:15 +0200
-From: Nam Cao <namcaov@gmail.com>
-To: Pavan Bobba <opensource206@gmail.com>
-Cc: Greg KH <gregkh@linuxfoundation.org>,
-	Forest Bond <forest@alittletooquiet.net>,
-	Michael Straube <straube.linux@gmail.com>,
-	Philipp Hortmann <philipp.g.hortmann@gmail.com>,
+        Sat, 09 Sep 2023 11:19:24 -0700 (PDT)
+Date: Sat, 9 Sep 2023 20:19:23 +0200
+From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3] staging: vt6655: Type encoding info dropped from
- array name "byVT3253B0_"
-Message-ID: <ZPxCa/UOd7T2phqX@nam-dell>
-References: <ZPnLw+njcL/D391S@ubuntu.myguest.virtualbox.org>
- <2023090724-trial-ipod-93d2@gregkh>
- <ZPwwHY1TDOBEljxr@ubuntu.myguest.virtualbox.org>
+Subject: [PATCH 0/8] staging: rtl8192e: Use standard functions like
+ ieee80211_is_beacon()
+Message-ID: <cover.1694282907.git.philipp.g.hortmann@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -59,47 +51,34 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ZPwwHY1TDOBEljxr@ubuntu.myguest.virtualbox.org>
 
-On Sat, Sep 09, 2023 at 02:13:09PM +0530, Pavan Bobba wrote:
-> On Thu, Sep 07, 2023 at 03:43:53PM +0100, Greg KH wrote:
-> > On Thu, Sep 07, 2023 at 06:40:27PM +0530, Pavan Bobba wrote:
-> > > Below array names updated as per coding guidelines:
-> > > 
-> > >    1.byVT3253B0_AGC4_RFMD2959
-> > >    2.byVT3253B0_AIROHA2230
-> > >    3.byVT3253B0_UW2451
-> > >    4.byVT3253B0_AGC
-> > > 
-> > >    Conversions performed:
-> > >    a.type encoding info dropped from names
-> > >    b.names replaced by snakecase
-> > > 
-> > >    Issue found by checkpatch
-> > > 
-> > > Signed-off-by: Pavan Bobba <opensource206@gmail.com>
-> > > ---
-> > >  v1 -> v2: Name of the tool added in the body of explanation,
-> > >            which found this issue
-> > > 
-> > >  v2 -> v3: subject modified to more specific detail
-> > 
-> > Any specific reason you are not sending this to the maintainer that can
-> > take it?
-> i used scripts/get_maintainer.pl to get maintainers names and i am
-> adding all those people to the mail. kindly let me know the maintainer id
-> and the correct way to know the mainter of a file
+Remove useless equation in debug output.
+Use standard functions like ieee80211_is_beacon().
+Optimize code for improved readability.
 
-    ./scripts/get_maintainer.pl ~/Downloads/PATCH-v3-staging-vt6655-Type-encoding-info-dropped-from-array-name-byVT3253B0_.txt
-Forest Bond <forest@alittletooquiet.net> (odd fixer:STAGING - VIA VT665X DRIVERS)
-Greg Kroah-Hartman <gregkh@linuxfoundation.org> (supporter:STAGING SUBSYSTEM,commit_signer:2/2=100%)
-Michael Straube <straube.linux@gmail.com> (commit_signer:2/2=100%,authored:2/2=100%,removed_lines:44/44=100%)
-linux-staging@lists.linux.dev (open list:STAGING SUBSYSTEM)
-linux-kernel@vger.kernel.org (open list)
+Tested with rtl8192e (WLL6130-D99) in Mode n (12.5 MB/s)
+Transferred this patch over wlan connection of rtl8192e.
 
-Greg shows up as one of the maintainers for me.
+Philipp Hortmann (8):
+  staging: rtl8192e: Remove useless equation in debug output
+  staging: rtl8192e: Use standard ieee80211 function in rtllib_rx_mgt()
+  staging: rtl8192e: Use standard function in
+    rtllib_process_probe_response()
+  staging: rtl8192e: Use standard function in
+    rtllib_rx_check_duplicate()
+  staging: rtl8192e: Use standard function in softmac_mgmt_xmit()
+  staging: rtl8192e: Replace rtl92e_disable_irq with rtl92e_irq_disable
+  staging: rtl8192e: Replace rtl92e_enable_irq with rtl92e_irq_enable
+  staging: rtl8192e: Remove rtllib_get_payload()
 
-Either a bug with get_maintainer.pl (unlikely), or you did something incorrectly.
+ .../staging/rtl8192e/rtl8192e/r8192E_dev.c    |  6 +--
+ .../staging/rtl8192e/rtl8192e/r8192E_dev.h    |  2 -
+ drivers/staging/rtl8192e/rtl8192e/rtl_core.c  | 18 -------
+ drivers/staging/rtl8192e/rtllib.h             | 24 ---------
+ drivers/staging/rtl8192e/rtllib_rx.c          | 54 ++++++-------------
+ drivers/staging/rtl8192e/rtllib_softmac.c     | 11 +---
+ 6 files changed, 22 insertions(+), 93 deletions(-)
 
-Best regards,
-Nam
+-- 
+2.41.0
+
