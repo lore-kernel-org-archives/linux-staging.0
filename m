@@ -1,48 +1,50 @@
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 380981851
-	for <linux-staging@lists.linux.dev>; Sat,  9 Sep 2023 18:19:26 +0000 (UTC)
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-3fe4f3b5f25so8896335e9.0
-        for <linux-staging@lists.linux.dev>; Sat, 09 Sep 2023 11:19:26 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA2A21851
+	for <linux-staging@lists.linux.dev>; Sat,  9 Sep 2023 18:19:33 +0000 (UTC)
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-401ef656465so9072695e9.1
+        for <linux-staging@lists.linux.dev>; Sat, 09 Sep 2023 11:19:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1694283565; x=1694888365; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=nmrZVxHXaLRpMM6rOmTmq9YaL32Ts5BcYnXcNL+bdlw=;
-        b=o0TJ9wbkUAu+1yxW7TnuSwMPusMzrYv9n779sAHX6d5g6rRFu62VRnefTHxOBAJwd/
-         Aenchp4/k7pbTw+YU619T460r4HIbmdyb0xZrUKLbARR1zo7uv+kNYF+LY/Qira8929m
-         4CqsZaxVD1wveV7ZLft3NCyeMK7Kht+wRu7QqxCWDqGyIqaSrOaI49AMoMtZAb++Kbv4
-         PhsHu9G9yLlxrCluSNWROef2lH0Rs06EAMZQGBV566XdULhBQSkBdsyEQk6xtssrbfNj
-         +ntPXCyCMSPlMA3yBqmzwy3/4D7wgMMAKWrZzsl8in/+UukEvdmLe8VN1Zq54+qqBSkk
-         Sx5Q==
+        d=gmail.com; s=20221208; t=1694283572; x=1694888372; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=ssVWE9PyVo0MJDIoiWo0h0qTjLlpWHSLjGBywkF+JnM=;
+        b=l0sV8gghdplb7iww2NigaXXUgb4CdLbvrFfh3mqNuLZEA+G/AOFIIwgOLj6iac+ivY
+         UprGJUimbwAmFSgE0scHQuTCdBYm8W4sQac3flPxVQhsRl0bT2Ivjg4gfptgO36v8Phv
+         iXKkV0jD8C0gIh4fVhqZdPqnxdDOR3sHl5yJhx/eliZBlm9XWhdX+qMUqlu4k/iAisf7
+         9+Xj5DTgB9cGUa1B0CGswp+kh0OMiHdEdOP9Xgd3HYfAE6bJSlHPtBGjNa5PNVB3zpqu
+         8ORszpP6HjsQy1qGG46ZLo8JLueSFHgUQdTiP1UimkQuONTU7igl2IPX9U38hUmiL1t1
+         QdsA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1694283565; x=1694888365;
-        h=content-disposition:mime-version:message-id:subject:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=nmrZVxHXaLRpMM6rOmTmq9YaL32Ts5BcYnXcNL+bdlw=;
-        b=DXhmVlRv4R22JDrISaTExYZcINMvp7DI1f8pJyIhraCv4oYNNxX8BpSGlASz4VZD/e
-         DcpHA3kpQG/cBVuzCnOVvAorJ9DZXi58RVXwWav6uU1DXjtV9INfqku9LP7sOkz0CD5P
-         PsINoZEfxFQHmpX8WXMqv5RAVPuiJobiZdBfaxqifb07+NDFB5jXNSpXoQKsAmOXO91S
-         TOd9zSredumu3jQuLdIbjkJ0BP3ulQXq1Anr4NrSVkBEplkuFzvdEcgPUv9ywDIf/PQS
-         CRkfs+XACPTXAoTpFjFYxnXQ2fWRjAGfyfqLcfsnNK4cqqqzmqnzQZx+FH5L627wJKVY
-         Sarw==
-X-Gm-Message-State: AOJu0YzYIewE1JNZHREb++xeJOh1sEp6DfwxP3MxgELblqOB8JZBewvN
-	IeJUPtzbNhsGiD3mRnGSpAQ=
-X-Google-Smtp-Source: AGHT+IEMPxyBRvmMm4R+LH9p4X8d910dR48P0wuk8KscvWNtiGlushElfB2n7Jpi9n0RLEG9ZrUW5g==
-X-Received: by 2002:a05:600c:1d0a:b0:401:c6a2:3cd5 with SMTP id l10-20020a05600c1d0a00b00401c6a23cd5mr4915477wms.2.1694283564957;
-        Sat, 09 Sep 2023 11:19:24 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1694283572; x=1694888372;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ssVWE9PyVo0MJDIoiWo0h0qTjLlpWHSLjGBywkF+JnM=;
+        b=c6eiIk0hjhHyrHWt2fk4kqONlF1su5QpCTsfmZYiSK84T8OmT336nw6qDdxjt9JDv4
+         +Nnv89LlOPnp5pBA7FgV9QYhgoaDkoEKlp0rWk0+0AFdjzntTQPQ9dWtL/84tFcsdxMp
+         LXE9mB5lzGsm46ZHaWEbbz0N/qdOJ0UW6xQPA08K+TCOjjM1UkNa254YwQaMXoxg4W9s
+         Nd2scO/YMeyKRGYjh7vEp3Y6EHJ5oTmg7YObWQNnorcv9sVDdNyK1vR1bdJFVa9V+sfX
+         qeDsp6XQKTZfZbrTmzlEIFxkG6uvU5L3R2xiYxYxxj7cqw+KFU3dO44zNxjr1yDItQtS
+         QXRQ==
+X-Gm-Message-State: AOJu0YwqgcZHzgZcRa9sXiACqweb4/AgbFCqrl+wgSvNT++p5jCVTBo9
+	zBu7shPaZ6KghOIdPFdOmB8=
+X-Google-Smtp-Source: AGHT+IEhuPEY0HZVsNBEFRYiSMZ0IGtHD9bjAZpJ1rbS5hq35Mso0ccW4ZxJ0leRhLTYra4AhoiHIg==
+X-Received: by 2002:a05:600c:3114:b0:3fe:d46a:ef4b with SMTP id g20-20020a05600c311400b003fed46aef4bmr5151459wmo.1.1694283571697;
+        Sat, 09 Sep 2023 11:19:31 -0700 (PDT)
 Received: from matrix-ESPRIMO-P710 (p579356c7.dip0.t-ipconnect.de. [87.147.86.199])
-        by smtp.gmail.com with ESMTPSA id r14-20020adfdc8e000000b003196b1bb528sm5397229wrj.64.2023.09.09.11.19.24
+        by smtp.gmail.com with ESMTPSA id a2-20020a05600c224200b003fed8e12d62sm5242873wmm.27.2023.09.09.11.19.31
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 09 Sep 2023 11:19:24 -0700 (PDT)
-Date: Sat, 9 Sep 2023 20:19:23 +0200
+        Sat, 09 Sep 2023 11:19:31 -0700 (PDT)
+Date: Sat, 9 Sep 2023 20:19:29 +0200
 From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [PATCH 0/8] staging: rtl8192e: Use standard functions like
- ieee80211_is_beacon()
-Message-ID: <cover.1694282907.git.philipp.g.hortmann@gmail.com>
+Subject: [PATCH 1/8] staging: rtl8192e: Remove useless equation in debug
+ output
+Message-ID: <34330df02f386b9e3b69baf582cb2933635867c4.1694282907.git.philipp.g.hortmann@gmail.com>
+References: <cover.1694282907.git.philipp.g.hortmann@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -51,34 +53,50 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <cover.1694282907.git.philipp.g.hortmann@gmail.com>
 
-Remove useless equation in debug output.
-Use standard functions like ieee80211_is_beacon().
-Optimize code for improved readability.
+When "switch (WLAN_FC_GET_STYPE(le16_to_cpu(header->frame_ctl)))" results
+in "case RTLLIB_STYPE_BEACON:" there is no need to calculate this again
+inside "case" and when a frame is a beacon there is no need to print the
+frame identifier again as it is explicit.
+Same for PROBE RESPONSE and PROBE REQUEST. Remove dead code.
 
-Tested with rtl8192e (WLL6130-D99) in Mode n (12.5 MB/s)
-Transferred this patch over wlan connection of rtl8192e.
+Signed-off-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+---
+ drivers/staging/rtl8192e/rtllib_rx.c | 9 +++------
+ 1 file changed, 3 insertions(+), 6 deletions(-)
 
-Philipp Hortmann (8):
-  staging: rtl8192e: Remove useless equation in debug output
-  staging: rtl8192e: Use standard ieee80211 function in rtllib_rx_mgt()
-  staging: rtl8192e: Use standard function in
-    rtllib_process_probe_response()
-  staging: rtl8192e: Use standard function in
-    rtllib_rx_check_duplicate()
-  staging: rtl8192e: Use standard function in softmac_mgmt_xmit()
-  staging: rtl8192e: Replace rtl92e_disable_irq with rtl92e_irq_disable
-  staging: rtl8192e: Replace rtl92e_enable_irq with rtl92e_irq_enable
-  staging: rtl8192e: Remove rtllib_get_payload()
-
- .../staging/rtl8192e/rtl8192e/r8192E_dev.c    |  6 +--
- .../staging/rtl8192e/rtl8192e/r8192E_dev.h    |  2 -
- drivers/staging/rtl8192e/rtl8192e/rtl_core.c  | 18 -------
- drivers/staging/rtl8192e/rtllib.h             | 24 ---------
- drivers/staging/rtl8192e/rtllib_rx.c          | 54 ++++++-------------
- drivers/staging/rtl8192e/rtllib_softmac.c     | 11 +---
- 6 files changed, 22 insertions(+), 93 deletions(-)
-
+diff --git a/drivers/staging/rtl8192e/rtllib_rx.c b/drivers/staging/rtl8192e/rtllib_rx.c
+index 0e695b144b36..9f944eefa41e 100644
+--- a/drivers/staging/rtl8192e/rtllib_rx.c
++++ b/drivers/staging/rtl8192e/rtllib_rx.c
+@@ -2652,8 +2652,7 @@ static void rtllib_rx_mgt(struct rtllib_device *ieee,
+ 
+ 	switch (WLAN_FC_GET_STYPE(le16_to_cpu(header->frame_ctl))) {
+ 	case RTLLIB_STYPE_BEACON:
+-		netdev_dbg(ieee->dev, "received BEACON (%d)\n",
+-			   WLAN_FC_GET_STYPE(le16_to_cpu(header->frame_ctl)));
++		netdev_dbg(ieee->dev, "received BEACON\n");
+ 		rtllib_process_probe_response(
+ 				ieee, (struct rtllib_probe_response *)header,
+ 				stats);
+@@ -2666,14 +2665,12 @@ static void rtllib_rx_mgt(struct rtllib_device *ieee,
+ 		break;
+ 
+ 	case RTLLIB_STYPE_PROBE_RESP:
+-		netdev_dbg(ieee->dev, "received PROBE RESPONSE (%d)\n",
+-			   WLAN_FC_GET_STYPE(le16_to_cpu(header->frame_ctl)));
++		netdev_dbg(ieee->dev, "received PROBE RESPONSE\n");
+ 		rtllib_process_probe_response(ieee,
+ 			      (struct rtllib_probe_response *)header, stats);
+ 		break;
+ 	case RTLLIB_STYPE_PROBE_REQ:
+-		netdev_dbg(ieee->dev, "received PROBE REQUEST (%d)\n",
+-			   WLAN_FC_GET_STYPE(le16_to_cpu(header->frame_ctl)));
++		netdev_dbg(ieee->dev, "received PROBE REQUEST\n");
+ 		if ((ieee->softmac_features & IEEE_SOFTMAC_PROBERS) &&
+ 		    (ieee->iw_mode == IW_MODE_ADHOC &&
+ 		    ieee->link_state == MAC80211_LINKED))
 -- 
 2.41.0
 
