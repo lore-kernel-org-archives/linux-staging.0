@@ -1,117 +1,80 @@
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 236C87477
-	for <linux-staging@lists.linux.dev>; Sun, 10 Sep 2023 13:21:46 +0000 (UTC)
-Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-31f6ddb3047so3357521f8f.1
-        for <linux-staging@lists.linux.dev>; Sun, 10 Sep 2023 06:21:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1694352105; x=1694956905; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=x3yiYILhEuCNUQeqPmsTOJF5pdnP1MyjjDZaseeFDik=;
-        b=N4VPaUTFgoomwQULqPBhylfFYcbCgb3ftUygPooMbbsMuC65ejbP6nWjntd1JU8gGn
-         8jMa5YBEiHpZpu9MRopzOOeZ2D29AzjwlBBK5P3dXA6PLoUUgkDNsU9sEDgGGxGvUVLi
-         DTPsdDHgZzphhQzGrSvrteycqCC6bUsSig1BQUey6gLW99xF9qALeXyw+C3wMZXC1R3O
-         G4LjKyB7yj+awYkvqo8LbvaEscGLlxgTbQMmlsm7VuUm2Rq6Y9QBHBy9GqWZidA2BmqF
-         c1mKntkjyORC7q0eCbIZtaNmZD1gKibe54ubO5J28Ex0YVPcKZkv2P6E8O8iUXboQzbf
-         vyiQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1694352105; x=1694956905;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=x3yiYILhEuCNUQeqPmsTOJF5pdnP1MyjjDZaseeFDik=;
-        b=xBs0Jgq4SDlNzuR5v3DasROHISRh6UJ7vLfo37L2y69mNMrm2TsqEckOO4bxD233gk
-         Ixy3N/r+z1B8Ix+dHjqOhrKBdD2Oe2NgJpOgADv8OGGPPwIirtsHD1cTEsxDRfr2ZCgG
-         mZLiSVIlaogP0En9P5PC7oFWhGf4l5ES3pQm2AK+Fe3Jk4ctcVaXXF71kV2VAklM5Izk
-         TeQv7AWMSLhIZLK/IVmJ2I51Y7aKWyWjZQbN7fvi0pU+ZoctAhKqqy0IlL9SX6RUp6TO
-         1PUYKMU8nP0zo0kS9Qh1ruWIydc/Rr5NUhEKPe/2J1IiaemT5Io/J+BrS4i7gdoO2ynz
-         hGRQ==
-X-Gm-Message-State: AOJu0YyNmA7bmaxXFKU0m0NVxbk70t3tya2dk86DM8efW9fnjVdKQ5LR
-	D04oq/dvlBRH4UWWOJoCM7c=
-X-Google-Smtp-Source: AGHT+IHBW5u0oYJcRGEvrYuxS4KJf+ofoX9BINJgRqjlcAtgbTBDPybxSD7j2EjBbYgPCuTfVGTdFA==
-X-Received: by 2002:a5d:4809:0:b0:317:73d3:441a with SMTP id l9-20020a5d4809000000b0031773d3441amr5628694wrq.46.1694352104814;
-        Sun, 10 Sep 2023 06:21:44 -0700 (PDT)
-Received: from jernej-laptop.localnet (82-149-12-148.dynamic.telemach.net. [82.149.12.148])
-        by smtp.gmail.com with ESMTPSA id d22-20020aa7ce16000000b005233609e39dsm3358895edv.30.2023.09.10.06.21.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 10 Sep 2023 06:21:44 -0700 (PDT)
-From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: mchehab@kernel.org, tfiga@chromium.org, m.szyprowski@samsung.com,
- ming.qian@nxp.com, ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de,
- gregkh@linuxfoundation.org, hverkuil-cisco@xs4all.nl,
- nicolas.dufresne@collabora.com,
- Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org,
- linux-arm-msm@vger.kernel.org, linux-rockchip@lists.infradead.org,
- linux-staging@lists.linux.dev, kernel@collabora.com,
- Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Subject:
- Re: [PATCH v6 14/18] media: verisilicon: vp9: Use destination buffer height
- to compute chroma offset
-Date: Sun, 10 Sep 2023 15:21:41 +0200
-Message-ID: <4856958.31r3eYUQgx@jernej-laptop>
-In-Reply-To: <20230901124414.48497-15-benjamin.gaignard@collabora.com>
-References:
- <20230901124414.48497-1-benjamin.gaignard@collabora.com>
- <20230901124414.48497-15-benjamin.gaignard@collabora.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B569E1FB8;
+	Mon, 11 Sep 2023 04:31:40 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 3979EC433CD;
+	Mon, 11 Sep 2023 04:31:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1694406700;
+	bh=UepKFV/RYGBvPBdow3H0Kx6KiHwRlGChrZoa/xUHr6g=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+	b=Lx9qX2N10++hfk0wbyInOwoEda8jSGtqfzDaHtPIys4N4GqOlzXvSj7ZhwEsFwyjP
+	 AimXb0YGhDW4drnaLrnbf8UMfhOekC4fGjyHacUpPHDyv0ZMzDpwmJ5A7RUESvaADn
+	 Mj2iLEs4vjYOUqwD3I8CcZnH/7J9O4E7P2du8TO3vLhgQbUtZwYzQd06/+2LSLbBQT
+	 KYImvYc3MFKWvSynXJO5OdsTPq+bUXjgH3yO5+o2Lf1M3fqRA4r/LBDqYuWkDrRQgY
+	 O7xANpP+sYrQvi3iinG7eOcBBQ0subiQgFVVUOpe9J+2pnElyGSQoWdZ10uk/3z9uU
+	 EPN5NdbrqvX1A==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 23B43E1F67F;
+	Mon, 11 Sep 2023 04:31:40 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH 00/10] pwm: Constistenly name pwm_chip variables "chip"
+From: patchwork-bot+chrome-platform@kernel.org
+Message-Id: 
+ <169440670014.22573.14581572371535756981.git-patchwork-notify@kernel.org>
+Date: Mon, 11 Sep 2023 04:31:40 +0000
+References: <20230714205623.2496590-1-u.kleine-koenig@pengutronix.de>
+In-Reply-To: <20230714205623.2496590-1-u.kleine-koenig@pengutronix.de>
+To: =?utf-8?q?Uwe_Kleine-K=C3=B6nig_=3Cu=2Ekleine-koenig=40pengutronix=2Ede=3E?=@ci.codeaurora.org
+Cc: thierry.reding@gmail.com, nicolas.ferre@microchip.com,
+ alexandre.belloni@bootlin.com, claudiu.beznea@microchip.com,
+ florian.fainelli@broadcom.com, rjui@broadcom.com, sbranden@broadcom.com,
+ bleung@chromium.org, heiko@sntech.de, palmer@dabbelt.com,
+ paul.walmsley@sifive.com, michael@walle.cc, johan@kernel.org,
+ elder@kernel.org, gregkh@linuxfoundation.org, linux-pwm@vger.kernel.org,
+ kernel@pengutronix.de, linux-arm-kernel@lists.infradead.org,
+ bcm-kernel-feedback-list@broadcom.com, groeck@chromium.org,
+ chrome-platform@lists.linux.dev, linux-rockchip@lists.infradead.org,
+ linux-riscv@lists.infradead.org, greybus-dev@lists.linaro.org,
+ linux-staging@lists.linux.dev
 
-Hi Benjamin!
+Hello:
 
-Dne petek, 01. september 2023 ob 14:44:10 CEST je Benjamin Gaignard 
-napisal(a):
-> Source and destination buffer height may not be the same because
-> alignment constraint are different.
-> Use destination height to compute chroma offset because we target
-> this buffer as hardware output.
+This patch was applied to chrome-platform/linux.git (for-kernelci)
+by Thierry Reding <thierry.reding@gmail.com>:
+
+On Fri, 14 Jul 2023 22:56:13 +0200 you wrote:
+> while working on an extension for the pwm framework, I noticed that some
+> drivers and even the core only nearly consistently named all variables
+> and struct members holding a pointer to a struct pwm_chip "chip":
 > 
-> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-> Fixes: e2da465455ce ("media: hantro: Support VP9 on the G2 core")
-> ---
->  drivers/media/platform/verisilicon/hantro_g2_vp9_dec.c | 4 +---
->  1 file changed, 1 insertion(+), 3 deletions(-)
+> $ git grep -Pho 'struct pwm_chip \**[a-z0-9_]+(*nla:[\(a-z0-9_])' v6.5-rc1 | sort | uniq -c | sort -n
+>       1 struct pwm_chip *pwm
+>       1 struct pwm_chip pwm
+>       1 struct pwm_chip pwm_chip
+>       2 struct pwm_chip *_chip
+>       4 struct pwm_chip *c
+>       8 struct pwm_chip *pc
+>      57 struct pwm_chip chip
+>     358 struct pwm_chip *chip
 > 
-> diff --git a/drivers/media/platform/verisilicon/hantro_g2_vp9_dec.c
-> b/drivers/media/platform/verisilicon/hantro_g2_vp9_dec.c index
-> 6db1c32fce4d..1f3f5e7ce978 100644
-> --- a/drivers/media/platform/verisilicon/hantro_g2_vp9_dec.c
-> +++ b/drivers/media/platform/verisilicon/hantro_g2_vp9_dec.c
-> @@ -93,9 +93,7 @@ static int start_prepare_run(struct hantro_ctx *ctx, const
-> struct v4l2_ctrl_vp9_ static size_t chroma_offset(const struct hantro_ctx
-> *ctx,
->  			    const struct v4l2_ctrl_vp9_frame 
-*dec_params)
->  {
-> -	int bytes_per_pixel = dec_params->bit_depth == 8 ? 1 : 2;
-> -
-> -	return ctx->src_fmt.width * ctx->src_fmt.height * bytes_per_pixel;
-> +	return ctx->dst_fmt.width * ctx->dst_fmt.height * ctx->bit_depth / 
-8;
+> [...]
 
-Commit message doesn't mention bit_depth change at all. While I think there is 
-no difference between dec_params->bit_depth and ctx->bit_depth, you shouldn't 
-just use ordinary division. If bit_depth is 10, it will be rounded down. And 
-if you decide to use bit_depth from context, please remove dec_params 
-argument.
+Here is the summary with links:
+  - [05/10] pwm: cros-ec: Consistenly name pwm_chip variables "chip"
+    https://git.kernel.org/chrome-platform/c/5996cdf132da
 
-Best regards,
-Jernej
-
->  }
-> 
->  static size_t mv_offset(const struct hantro_ctx *ctx,
-
-
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
 
 
