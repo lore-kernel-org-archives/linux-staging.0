@@ -1,125 +1,148 @@
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 923E211716
-	for <linux-staging@lists.linux.dev>; Mon, 11 Sep 2023 14:13:28 +0000 (UTC)
-Received: from www.ideasonboard.com (unknown [103.238.109.17])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 74296D51;
-	Mon, 11 Sep 2023 16:05:48 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1694441152;
-	bh=r1n7/4lPzB2GT8jcfXBHIKcAzHyqSpSu9d7J76LCGrQ=;
-	h=From:To:Cc:Subject:Date:From;
-	b=S32Xd4x5wQmnD5utvcQjihwTjgSPWnEEqHBdEcqHIbSBnFTvtJs5OfsCQnWKkuLQJ
-	 oKUtix42m1bLL+FR4sYZ8H5Ky8Ll7NZSCwSUe1IbNJioNmXF60oWheC9gJfUyHnisb
-	 KxbNyAdPTv3xGgp3hJxpgdTdE9HN/+vfgACd1OmI=
-From: Umang Jain <umang.jain@ideasonboard.com>
-To: linux-staging@lists.linux.dev,
-	linux-rpi-kernel@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: stefan.wahren@i2se.com,
-	gregkh@linuxfoundation.org,
-	f.fainelli@gmail.com,
-	athierry@redhat.com,
-	error27@gmail.com,
-	kieran.bingham@ideasonboard.com,
-	laurent.pinchart@ideasonboard.com,
-	dave.stevenson@raspberrypi.com,
-	Umang Jain <umang.jain@ideasonboard.com>
-Subject: [PATCH v10 0/5] staging: vc04_services: vchiq: Register devices with a custom bus_type
-Date: Mon, 11 Sep 2023 10:07:07 -0400
-Message-ID: <20230911140712.180751-1-umang.jain@ideasonboard.com>
-X-Mailer: git-send-email 2.41.0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7AED433EE
+	for <linux-staging@lists.linux.dev>; Mon, 11 Sep 2023 16:36:23 +0000 (UTC)
+Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-986d8332f50so622213166b.0
+        for <linux-staging@lists.linux.dev>; Mon, 11 Sep 2023 09:36:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1694450181; x=1695054981; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=tn6ORcYdF7wmn9zYudPCVDeUReDbRM6yHR4pM4CXkGQ=;
+        b=A5h5iELdYOVFGT9btpTKcLHswXUnFbkEojrYH7j3lz6/z5q9D8+spGB6NJdeuU9FSt
+         k/n90emrJxR8i7iDszK91DANJQxxmMe3jDAdCudQGd4AJ5fkEEgPL5xF2zEw41m5R5VV
+         H9TblNpFCPAmqPtl6HIuU7TLuyYfhQ+XISL0ohQqc2b34DEuHbf9X5TACLcqZZI9hXdf
+         AgS5vIjkmRITCkJhqbDHGJk5VDOZZtFDw03XAUtbobA2POo/NhIvHYasfLXi+CdL2uyu
+         EY4jI3MVveZUJYVH2x6IMymqVsaxt++VbNVUB9TOiVVNdiDnHLsjJAjTSrfo+v5u7mXE
+         ITkg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1694450181; x=1695054981;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=tn6ORcYdF7wmn9zYudPCVDeUReDbRM6yHR4pM4CXkGQ=;
+        b=TdBOQP4icSgj7QDCfK12NTUgVxmYzb7TqtAXGC0RwSEJcmsFMzkCV881i87D0ql6Dc
+         zyG3KXHmThiAIhpsgcOna4z5CHxNJBodADOMi/v/c25o5zolV1ZZ2o+DviiXe8SNuSYW
+         242GqOchtAX/jdDM2fTvk41J0F6iXGkuUl+7mdmp1ZkAjG84KrOQAAo0005DifadEzwd
+         MtBwGXyy8Ha7zSVTppPlMqbMWvu9lI2u/7qiaA2hS9WL9MXmOpkuPQAeKmqHr4MZNwxq
+         6I697r+rxS/yOWXcGoWkhg/r2jUNBAHCTuOc+u/pP7EoFCAKb7ASWgoneJZB77Zd7yqh
+         lL1Q==
+X-Gm-Message-State: AOJu0Yzx+Jsd3rycHdKtZ7qCuyWUuhCuz0T9IYxGjMCPqSCikvYAnehl
+	SNRljtbH6qWkueurYIgC570=
+X-Google-Smtp-Source: AGHT+IEZkDEwJehDR4fKggLpjoJhnXiAupV9qorq7MLXFhFfk7fRQqvtYUP3Mho6rsQ4juPA6IGloQ==
+X-Received: by 2002:a17:906:224a:b0:9a9:e6c3:ad28 with SMTP id 10-20020a170906224a00b009a9e6c3ad28mr9042772ejr.69.1694450181242;
+        Mon, 11 Sep 2023 09:36:21 -0700 (PDT)
+Received: from jernej-laptop.localnet (82-149-12-148.dynamic.telemach.net. [82.149.12.148])
+        by smtp.gmail.com with ESMTPSA id h17-20020a170906261100b00999bb1e01dfsm5534149ejc.52.2023.09.11.09.36.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 11 Sep 2023 09:36:20 -0700 (PDT)
+From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
+To: mchehab@kernel.org, tfiga@chromium.org, m.szyprowski@samsung.com,
+ ming.qian@nxp.com, ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de,
+ gregkh@linuxfoundation.org, hverkuil-cisco@xs4all.nl,
+ nicolas.dufresne@collabora.com,
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org,
+ linux-arm-msm@vger.kernel.org, linux-rockchip@lists.infradead.org,
+ linux-staging@lists.linux.dev, kernel@collabora.com
+Subject:
+ Re: [PATCH v6 14/18] media: verisilicon: vp9: Use destination buffer height
+ to compute chroma offset
+Date: Mon, 11 Sep 2023 18:36:19 +0200
+Message-ID: <3248154.aeNJFYEL58@jernej-laptop>
+In-Reply-To: <7da0a2ab-032a-9de9-e136-58f973238c5b@collabora.com>
+References:
+ <20230901124414.48497-1-benjamin.gaignard@collabora.com>
+ <4856958.31r3eYUQgx@jernej-laptop>
+ <7da0a2ab-032a-9de9-e136-58f973238c5b@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="UTF-8"
 
-The patch series added a new bus type vchiq_bus_type and registers
-child devices in order to move them away from using platform
-device/driver.
+Dne ponedeljek, 11. september 2023 ob 10:55:02 CEST je Benjamin Gaignard=20
+napisal(a):
+> Le 10/09/2023 =C3=A0 15:21, Jernej =C5=A0krabec a =C3=A9crit :
+> > Hi Benjamin!
+> >=20
+> > Dne petek, 01. september 2023 ob 14:44:10 CEST je Benjamin Gaignard
+> >=20
+> > napisal(a):
+> >> Source and destination buffer height may not be the same because
+> >> alignment constraint are different.
+> >> Use destination height to compute chroma offset because we target
+> >> this buffer as hardware output.
+> >>=20
+> >> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+> >> Fixes: e2da465455ce ("media: hantro: Support VP9 on the G2 core")
+> >> ---
+> >>=20
+> >>   drivers/media/platform/verisilicon/hantro_g2_vp9_dec.c | 4 +---
+> >>   1 file changed, 1 insertion(+), 3 deletions(-)
+> >>=20
+> >> diff --git a/drivers/media/platform/verisilicon/hantro_g2_vp9_dec.c
+> >> b/drivers/media/platform/verisilicon/hantro_g2_vp9_dec.c index
+> >> 6db1c32fce4d..1f3f5e7ce978 100644
+> >> --- a/drivers/media/platform/verisilicon/hantro_g2_vp9_dec.c
+> >> +++ b/drivers/media/platform/verisilicon/hantro_g2_vp9_dec.c
+> >> @@ -93,9 +93,7 @@ static int start_prepare_run(struct hantro_ctx *ctx,
+> >> const struct v4l2_ctrl_vp9_ static size_t chroma_offset(const struct
+> >> hantro_ctx *ctx,
+> >>=20
+> >>   			    const struct v4l2_ctrl_vp9_frame
+> >=20
+> > *dec_params)
+> >=20
+> >>   {
+> >>=20
+> >> -	int bytes_per_pixel =3D dec_params->bit_depth =3D=3D 8 ? 1 : 2;
+> >> -
+> >> -	return ctx->src_fmt.width * ctx->src_fmt.height * bytes_per_pixel;
+> >> +	return ctx->dst_fmt.width * ctx->dst_fmt.height * ctx->bit_depth /
+> >=20
+> > 8;
+> >=20
+> > Commit message doesn't mention bit_depth change at all. While I think
+> > there is no difference between dec_params->bit_depth and ctx->bit_depth,
+> > you shouldn't just use ordinary division. If bit_depth is 10, it will be
+> > rounded down. And if you decide to use bit_depth from context, please
+> > remove dec_params argument.
+>=20
+> I will change this patch and create a helpers function for chroma and mot=
+ion
+> vectors offsets that VP9 and HEVC code will use since they are identical.
+> I don't see issue with the division. If you have in mind a solution please
+> write it so I could test it.
 
-Tested on RPi-3-b with media tree master branch.
+Solution is same as the code that you removed:
+int bytes_per_pixel =3D dec_params->bit_depth =3D=3D 8 ? 1 : 2;
 
-Patch 1/5 and 2/5 adds a new bus_type and registers them to vchiq
-interface
+Or alternatively:
+int bytes_per_pixel =3D DIV_ROUND_UP(dec_params->bit_depth, 8);
 
-Patch 3/5 and 4/5 moves the bcm2835-camera and bcm2835-audio
-to the new bus respectively
+Consider bit_depth being 10. With old code you get 2, with yours you get 1.
 
-Patch 5/5 removes a platform registeration helper which is no
-longer required.
+Best regards,
+Jernej
 
-Changes in v10:
-- fix dma_attr WARN issue with bcm2835-audio module loading
-- Unregister bus on parent platform device fails to register
-- Reword commit to highlight bcm2835_audio to bcm2835-audio name change
-
-Changes in v9:
-- Fix module autoloading
-- Implement bus_type's probe() callback to load drivers
-- Implement bus_type's uevent() to make sure appropriate drivers are
-  loaded when device are registed from vchiq.
-
-Changes in v8:
-- Drop dual licensing. Instead use GPL-2.0 only for patch 1/5
-
-Changes in v7:
-(5 out of 6 patches from v6 merged)
-- Split the main patch (6/6) as requested.
-- Use struct vchiq_device * instead of struct device * in
-  all bus functions.
-- Drop additional name attribute displayed in sysfs (redundant info)
-- Document vchiq_interface doesn't enumerate device discovery
-- remove EXPORT_SYMBOL_GPL(vchiq_bus_type)
-
-Changes in v6:
-- Split struct device and struct driver wrappers in vchiq_device.[ch]
-- Move vchiq_bus_type definition to vchiq_device.[ch] as well
-- return error on bus_register() failure
-- drop dma_set_mask_and_coherent
-- trivial variable name change
-
-Changes in v5:
-- Fixup missing "staging: " in commits' subject line
-- No code changes from v4
-
-Changes in v4:
-- Introduce patches to drop include directives from Makefile
-
-Changes in v3:
-- Rework entirely to replace platform devices/driver model
-
--v2:
-https://lore.kernel.org/all/20221222191500.515795-1-umang.jain@ideasonboard.com/
-
--v1:
-https://lore.kernel.org/all/20221220084404.19280-1-umang.jain@ideasonboard.com/
-
-Umang Jain (5):
-  staging: vc04_services: vchiq_arm: Add new bus type and device type
-  staging: vc04_services: vchiq_arm: Register vchiq_bus_type
-  staging: bcm2835-camera: Register bcm2835-camera with vchiq_bus_type
-  staging: bcm2835-audio: Register bcm2835-audio with vchiq_bus_type
-  staging: vc04_services: vchiq_arm: Remove vchiq_register_child()
-
- drivers/staging/vc04_services/Makefile        |   1 +
- .../vc04_services/bcm2835-audio/bcm2835.c     |  20 ++--
- .../bcm2835-camera/bcm2835-camera.c           |  17 +--
- .../interface/vchiq_arm/vchiq_arm.c           |  52 ++++----
- .../interface/vchiq_arm/vchiq_device.c        | 111 ++++++++++++++++++
- .../interface/vchiq_arm/vchiq_device.h        |  54 +++++++++
- 6 files changed, 208 insertions(+), 47 deletions(-)
- create mode 100644 drivers/staging/vc04_services/interface/vchiq_arm/vchiq_device.c
- create mode 100644 drivers/staging/vc04_services/interface/vchiq_arm/vchiq_device.h
+>=20
+> Regards,
+> Benjamin
+>=20
+> > Best regards,
+> > Jernej
+> >=20
+> >>   }
+> >>  =20
+> >>   static size_t mv_offset(const struct hantro_ctx *ctx,
 
 
-base-commit: 9a5d660fdb25d20748d7f9e9559c86073c3bb368
--- 
-2.41.0
+
 
