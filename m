@@ -1,23 +1,23 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B569E1FB8;
-	Mon, 11 Sep 2023 04:31:40 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 3979EC433CD;
-	Mon, 11 Sep 2023 04:31:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD7CE185D;
+	Mon, 11 Sep 2023 04:49:00 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 4AC93C433CD;
+	Mon, 11 Sep 2023 04:49:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1694406700;
-	bh=UepKFV/RYGBvPBdow3H0Kx6KiHwRlGChrZoa/xUHr6g=;
+	s=k20201202; t=1694407740;
+	bh=B+BA/wventHVJsSezWS2OunhdTGAZAZ+4bFsflnSOAY=;
 	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=Lx9qX2N10++hfk0wbyInOwoEda8jSGtqfzDaHtPIys4N4GqOlzXvSj7ZhwEsFwyjP
-	 AimXb0YGhDW4drnaLrnbf8UMfhOekC4fGjyHacUpPHDyv0ZMzDpwmJ5A7RUESvaADn
-	 Mj2iLEs4vjYOUqwD3I8CcZnH/7J9O4E7P2du8TO3vLhgQbUtZwYzQd06/+2LSLbBQT
-	 KYImvYc3MFKWvSynXJO5OdsTPq+bUXjgH3yO5+o2Lf1M3fqRA4r/LBDqYuWkDrRQgY
-	 O7xANpP+sYrQvi3iinG7eOcBBQ0subiQgFVVUOpe9J+2pnElyGSQoWdZ10uk/3z9uU
-	 EPN5NdbrqvX1A==
+	b=Z3zrXwT/q/hreCYxPS2EE70ljquRd84Fah9X6JkVO3NxaC9eDkqnJ4VHWw85v5dmT
+	 Stotx/y+10r9bDYbshfInvSGWR8w7PxzWsKks/sIqhqc5ZnyVhbcF6AIQulFwrvMpj
+	 DlsYPOQ605oic6i5NjHH///uQZIeo95OJe7AsQtDoleQvzpeIQUiPTcplU8/M6qBpd
+	 D948Mv/Y1Y81wEQjMlHTjxT97AgBOwfgAjXS5VoAL/eqyJJC8pmmM1wcupo+BqB16h
+	 A7zeLFelWhnQNvY+B64ILh3nvysOgtbYDft4kq/HRFHPVAyQVvdHxynMtFHIBdDHPn
+	 B2BdLJUcHuAxQ==
 Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 23B43E1F67F;
-	Mon, 11 Sep 2023 04:31:40 +0000 (UTC)
+	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 31C47E1F67F;
+	Mon, 11 Sep 2023 04:49:00 +0000 (UTC)
 Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -29,8 +29,8 @@ Content-Transfer-Encoding: 8bit
 Subject: Re: [PATCH 00/10] pwm: Constistenly name pwm_chip variables "chip"
 From: patchwork-bot+chrome-platform@kernel.org
 Message-Id: 
- <169440670014.22573.14581572371535756981.git-patchwork-notify@kernel.org>
-Date: Mon, 11 Sep 2023 04:31:40 +0000
+ <169440774020.22573.10062500641878947449.git-patchwork-notify@kernel.org>
+Date: Mon, 11 Sep 2023 04:49:00 +0000
 References: <20230714205623.2496590-1-u.kleine-koenig@pengutronix.de>
 In-Reply-To: <20230714205623.2496590-1-u.kleine-koenig@pengutronix.de>
 To: =?utf-8?q?Uwe_Kleine-K=C3=B6nig_=3Cu=2Ekleine-koenig=40pengutronix=2Ede=3E?=@ci.codeaurora.org
@@ -48,7 +48,7 @@ Cc: thierry.reding@gmail.com, nicolas.ferre@microchip.com,
 
 Hello:
 
-This patch was applied to chrome-platform/linux.git (for-kernelci)
+This patch was applied to chrome-platform/linux.git (for-next)
 by Thierry Reding <thierry.reding@gmail.com>:
 
 On Fri, 14 Jul 2023 22:56:13 +0200 you wrote:
