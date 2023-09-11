@@ -1,111 +1,180 @@
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68781AD38
-	for <linux-staging@lists.linux.dev>; Mon, 11 Sep 2023 08:55:12 +0000 (UTC)
-Received: from [IPV6:2a01:e0a:120:3210:f6d2:1ce:5613:f24a] (unknown [IPv6:2a01:e0a:120:3210:f6d2:1ce:5613:f24a])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: benjamin.gaignard)
-	by madras.collabora.co.uk (Postfix) with ESMTPSA id 91D0D6603102;
-	Mon, 11 Sep 2023 09:55:04 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1694422505;
-	bh=bXZ/y5UwHuIW7LHJ/2UaGAz707yCMlzXFy5iLkMD5KE=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=LSvj0uuM7T/1Mnr3Ka3vwgUPI90SIUqU28BQnuh1OWQDZrhsHjfYL8jl60GKQdhfr
-	 R14jZlT+4oGAAiDbD0SvczFfNn/jWzYj9K6Yvc4fhOiXf5To04ZZduEF38xYfwbdba
-	 orjsx1a2Whu90oN2NAx/5a9CFeFaNNGbpvt2zUhOtDAn2ApK/dIsmJYm+syj84pyso
-	 To0uuVEWS9AeZRuwnBoEvzL1M9nmtYQ4dB3OnVRajh78Hbx6pgBZlbNoxAi7GgIxwe
-	 tVnBC2pzEoT+aGS7JwYU0dM2IiQbiSa2vhpDtb6vprr1FM7FxZTJB45HDY49iSVOaJ
-	 msYSYfexglywQ==
-Message-ID: <7da0a2ab-032a-9de9-e136-58f973238c5b@collabora.com>
-Date: Mon, 11 Sep 2023 10:55:02 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1ABC13D65
+	for <linux-staging@lists.linux.dev>; Mon, 11 Sep 2023 12:32:00 +0000 (UTC)
+Received: by mail-pf1-f174.google.com with SMTP id d2e1a72fcca58-68fb85afef4so913267b3a.1
+        for <linux-staging@lists.linux.dev>; Mon, 11 Sep 2023 05:32:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1694435520; x=1695040320; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=8kKTe1T75lovUyiyBDcmoT8Re7ucuewSdAO9f367BwM=;
+        b=OwaxKo4mH/54Us/FJ/jFdClSSDVue7EYeAreg2LOaDf8d01ZTAT87wbvl+LI62d9Pv
+         jJPj6iGZ/k6RXPqGbpIzxQW+IUBepDClJG0caZxGqYk8f5WlnuhZuMEomBv+1xTqdDMk
+         zW7JnsscmR3wa0vKfdsPvecBSuNMk3E/16PBiO/HFRHPzKVxAl5/3YKNb3pZNcDJRjfZ
+         NqXY+Rx1COCl0R2PgmKjLPsV9E9+8pGjRcJDO6H+w9hxxnm2WVqDrIkCe7eueWSUystl
+         paAPGygAuvOoJGNhdqgT7dYUpboJA6IhcapFHqErzDyjjP3yUgvfAbmLdX9vbWGkg5Em
+         4rOg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1694435520; x=1695040320;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=8kKTe1T75lovUyiyBDcmoT8Re7ucuewSdAO9f367BwM=;
+        b=eE6CtmUtRG+A/udNj3W2P5N0vDg9OEajRkTwwoJ8EgBWYDH34s1QfOlqRIP1eEAFtd
+         lvjgDwdaJBkbjhk2OkFHNv2vJ8BAtVqJptKXfPd7WR0R+IG+Jcn8TFiVtb2A9I8G0SqE
+         lIR/eTRz+2ECrC9qA3gxl8v+oFdjaXMFJfGbOyrjLt1Nf4Otm3tsA+zKWgDL/YCHs1RJ
+         1xJNSCcHP+Jb/rwY2onDcJFeLIalVeG/JTDJn9A3eXrbZEmev4r9dPVXXrawsgH4d+SZ
+         vpWY2/Hw+Hz+Z3t8nTIoQrsMiRZOdhnIbzzOR7nTNhtcRyy5gGjNfH8lO2/OlEuWSItG
+         ggmA==
+X-Gm-Message-State: AOJu0YwjH35g3JX49Avu83sPquMHcC+kJOiQdPJBusuxHIPZtT62PDTP
+	Vhl8eJ6GhTNLpGsQAvd/bAM=
+X-Google-Smtp-Source: AGHT+IEMabRYMAN4VuhMD5tbvhXixocNtk9qgXw0p2/MmKHXYFDqDg9GCB9eM1hRn/wvRYOfYrptqA==
+X-Received: by 2002:a05:6a20:7349:b0:153:7978:4faa with SMTP id v9-20020a056a20734900b0015379784faamr9399342pzc.37.1694435520166;
+        Mon, 11 Sep 2023 05:32:00 -0700 (PDT)
+Received: from ubuntu.myguest.virtualbox.org ([106.205.101.29])
+        by smtp.gmail.com with ESMTPSA id y5-20020aa78045000000b0064d74808738sm5492186pfm.214.2023.09.11.05.31.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 11 Sep 2023 05:31:59 -0700 (PDT)
+Date: Mon, 11 Sep 2023 18:01:55 +0530
+From: Pavan Bobba <opensource206@gmail.com>
+To: Forest Bond <forest@alittletooquiet.net>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Michael Straube <straube.linux@gmail.com>
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: [PATCH v4] staging: vt6655: Type encoding info dropped from array
+ name "byVT3253B0_"
+Message-ID: <ZP8Iu+Hh8YD+VhYH@ubuntu.myguest.virtualbox.org>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.0
-Subject: Re: [PATCH v6 14/18] media: verisilicon: vp9: Use destination buffer
- height to compute chroma offset
-To: =?UTF-8?Q?Jernej_=c5=a0krabec?= <jernej.skrabec@gmail.com>,
- mchehab@kernel.org, tfiga@chromium.org, m.szyprowski@samsung.com,
- ming.qian@nxp.com, ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de,
- gregkh@linuxfoundation.org, hverkuil-cisco@xs4all.nl,
- nicolas.dufresne@collabora.com
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org,
- linux-arm-msm@vger.kernel.org, linux-rockchip@lists.infradead.org,
- linux-staging@lists.linux.dev, kernel@collabora.com
-References: <20230901124414.48497-1-benjamin.gaignard@collabora.com>
- <20230901124414.48497-15-benjamin.gaignard@collabora.com>
- <4856958.31r3eYUQgx@jernej-laptop>
-Content-Language: en-US
-From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-In-Reply-To: <4856958.31r3eYUQgx@jernej-laptop>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
+Array names starting with "byVT3253B0_" updated like below:
 
-Le 10/09/2023 à 15:21, Jernej Škrabec a écrit :
-> Hi Benjamin!
->
-> Dne petek, 01. september 2023 ob 14:44:10 CEST je Benjamin Gaignard
-> napisal(a):
->> Source and destination buffer height may not be the same because
->> alignment constraint are different.
->> Use destination height to compute chroma offset because we target
->> this buffer as hardware output.
->>
->> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
->> Fixes: e2da465455ce ("media: hantro: Support VP9 on the G2 core")
->> ---
->>   drivers/media/platform/verisilicon/hantro_g2_vp9_dec.c | 4 +---
->>   1 file changed, 1 insertion(+), 3 deletions(-)
->>
->> diff --git a/drivers/media/platform/verisilicon/hantro_g2_vp9_dec.c
->> b/drivers/media/platform/verisilicon/hantro_g2_vp9_dec.c index
->> 6db1c32fce4d..1f3f5e7ce978 100644
->> --- a/drivers/media/platform/verisilicon/hantro_g2_vp9_dec.c
->> +++ b/drivers/media/platform/verisilicon/hantro_g2_vp9_dec.c
->> @@ -93,9 +93,7 @@ static int start_prepare_run(struct hantro_ctx *ctx, const
->> struct v4l2_ctrl_vp9_ static size_t chroma_offset(const struct hantro_ctx
->> *ctx,
->>   			    const struct v4l2_ctrl_vp9_frame
-> *dec_params)
->>   {
->> -	int bytes_per_pixel = dec_params->bit_depth == 8 ? 1 : 2;
->> -
->> -	return ctx->src_fmt.width * ctx->src_fmt.height * bytes_per_pixel;
->> +	return ctx->dst_fmt.width * ctx->dst_fmt.height * ctx->bit_depth /
-> 8;
->
-> Commit message doesn't mention bit_depth change at all. While I think there is
-> no difference between dec_params->bit_depth and ctx->bit_depth, you shouldn't
-> just use ordinary division. If bit_depth is 10, it will be rounded down. And
-> if you decide to use bit_depth from context, please remove dec_params
-> argument.
+a.type encoding info dropped from names
+b.camelcase names replaced by snakecase
 
-I will change this patch and create a helpers function for chroma and motion vectors
-offsets that VP9 and HEVC code will use since they are identical.
-I don't see issue with the division. If you have in mind a solution please write it
-so I could test it.
+Issue found by checkpatch
 
-Regards,
-Benjamin
+Signed-off-by: Pavan Bobba <opensource206@gmail.com>
+---
 
->
-> Best regards,
-> Jernej
->
->>   }
->>
->>   static size_t mv_offset(const struct hantro_ctx *ctx,
->
->
->
->
+ v1 -> v2: Name of the tool added in the body of explanation,
+           which found this issue
+
+ v2 -> v3: subject modified to more specific detail
+
+ v3 -> v4: changelog modified as per patch submission guidelines
+
+ drivers/staging/vt6655/baseband.c | 32 +++++++++++++++----------------
+ 1 file changed, 16 insertions(+), 16 deletions(-)
+
+diff --git a/drivers/staging/vt6655/baseband.c b/drivers/staging/vt6655/baseband.c
+index 696d4dd03aa2..55224918794b 100644
+--- a/drivers/staging/vt6655/baseband.c
++++ b/drivers/staging/vt6655/baseband.c
+@@ -761,7 +761,7 @@ static const unsigned char vt3253b0_rfmd[CB_VT3253B0_INIT_FOR_RFMD][2] = {
+ #define CB_VT3253B0_AGC_FOR_RFMD2959 195
+ /* For RFMD2959 */
+ static
+-unsigned char byVT3253B0_AGC4_RFMD2959[CB_VT3253B0_AGC_FOR_RFMD2959][2] = {
++unsigned char vt3253b0_agc4_rfmd2959[CB_VT3253B0_AGC_FOR_RFMD2959][2] = {
+ 	{0xF0, 0x00},
+ 	{0xF1, 0x3E},
+ 	{0xF0, 0x80},
+@@ -962,7 +962,7 @@ unsigned char byVT3253B0_AGC4_RFMD2959[CB_VT3253B0_AGC_FOR_RFMD2959][2] = {
+ #define CB_VT3253B0_INIT_FOR_AIROHA2230 256
+ /* For AIROHA */
+ static
+-unsigned char byVT3253B0_AIROHA2230[CB_VT3253B0_INIT_FOR_AIROHA2230][2] = {
++unsigned char vt3253b0_airoha2230[CB_VT3253B0_INIT_FOR_AIROHA2230][2] = {
+ 	{0x00, 0x31},
+ 	{0x01, 0x00},
+ 	{0x02, 0x00},
+@@ -1223,7 +1223,7 @@ unsigned char byVT3253B0_AIROHA2230[CB_VT3253B0_INIT_FOR_AIROHA2230][2] = {
+ 
+ #define CB_VT3253B0_INIT_FOR_UW2451 256
+ /* For UW2451 */
+-static unsigned char byVT3253B0_UW2451[CB_VT3253B0_INIT_FOR_UW2451][2] = {
++static unsigned char vt3253b0_uw2451[CB_VT3253B0_INIT_FOR_UW2451][2] = {
+ 	{0x00, 0x31},
+ 	{0x01, 0x00},
+ 	{0x02, 0x00},
+@@ -1484,7 +1484,7 @@ static unsigned char byVT3253B0_UW2451[CB_VT3253B0_INIT_FOR_UW2451][2] = {
+ 
+ #define CB_VT3253B0_AGC 193
+ /* For AIROHA */
+-static unsigned char byVT3253B0_AGC[CB_VT3253B0_AGC][2] = {
++static unsigned char vt3253b0_agc[CB_VT3253B0_AGC][2] = {
+ 	{0xF0, 0x00},
+ 	{0xF1, 0x00},
+ 	{0xF0, 0x80},
+@@ -2010,8 +2010,8 @@ bool bb_vt3253_init(struct vnt_private *priv)
+ 
+ 			for (ii = 0; ii < CB_VT3253B0_AGC_FOR_RFMD2959; ii++)
+ 				result &= bb_write_embedded(priv,
+-					byVT3253B0_AGC4_RFMD2959[ii][0],
+-					byVT3253B0_AGC4_RFMD2959[ii][1]);
++					vt3253b0_agc4_rfmd2959[ii][0],
++					vt3253b0_agc4_rfmd2959[ii][1]);
+ 
+ 			iowrite32(0x23, iobase + MAC_REG_ITRTMSET);
+ 			vt6655_mac_reg_bits_on(iobase, MAC_REG_PAPEDELAY, BIT(0));
+@@ -2027,12 +2027,12 @@ bool bb_vt3253_init(struct vnt_private *priv)
+ 	} else if ((by_rf_type == RF_AIROHA) || (by_rf_type == RF_AL2230S)) {
+ 		for (ii = 0; ii < CB_VT3253B0_INIT_FOR_AIROHA2230; ii++)
+ 			result &= bb_write_embedded(priv,
+-				byVT3253B0_AIROHA2230[ii][0],
+-				byVT3253B0_AIROHA2230[ii][1]);
++				vt3253b0_airoha2230[ii][0],
++				vt3253b0_airoha2230[ii][1]);
+ 
+ 		for (ii = 0; ii < CB_VT3253B0_AGC; ii++)
+ 			result &= bb_write_embedded(priv,
+-				byVT3253B0_AGC[ii][0], byVT3253B0_AGC[ii][1]);
++				vt3253b0_agc[ii][0], vt3253b0_agc[ii][1]);
+ 
+ 		priv->abyBBVGA[0] = 0x1C;
+ 		priv->abyBBVGA[1] = 0x10;
+@@ -2045,13 +2045,13 @@ bool bb_vt3253_init(struct vnt_private *priv)
+ 	} else if (by_rf_type == RF_UW2451) {
+ 		for (ii = 0; ii < CB_VT3253B0_INIT_FOR_UW2451; ii++)
+ 			result &= bb_write_embedded(priv,
+-				byVT3253B0_UW2451[ii][0],
+-				byVT3253B0_UW2451[ii][1]);
++				vt3253b0_uw2451[ii][0],
++				vt3253b0_uw2451[ii][1]);
+ 
+ 		for (ii = 0; ii < CB_VT3253B0_AGC; ii++)
+ 			result &= bb_write_embedded(priv,
+-				byVT3253B0_AGC[ii][0],
+-				byVT3253B0_AGC[ii][1]);
++				vt3253b0_agc[ii][0],
++				vt3253b0_agc[ii][1]);
+ 
+ 		iowrite8(0x23, iobase + MAC_REG_ITRTMSET);
+ 		vt6655_mac_reg_bits_on(iobase, MAC_REG_PAPEDELAY, BIT(0));
+@@ -2067,12 +2067,12 @@ bool bb_vt3253_init(struct vnt_private *priv)
+ 	} else if (by_rf_type == RF_VT3226) {
+ 		for (ii = 0; ii < CB_VT3253B0_INIT_FOR_AIROHA2230; ii++)
+ 			result &= bb_write_embedded(priv,
+-				byVT3253B0_AIROHA2230[ii][0],
+-				byVT3253B0_AIROHA2230[ii][1]);
++				vt3253b0_airoha2230[ii][0],
++				vt3253b0_airoha2230[ii][1]);
+ 
+ 		for (ii = 0; ii < CB_VT3253B0_AGC; ii++)
+ 			result &= bb_write_embedded(priv,
+-				byVT3253B0_AGC[ii][0], byVT3253B0_AGC[ii][1]);
++				vt3253b0_agc[ii][0], vt3253b0_agc[ii][1]);
+ 
+ 		priv->abyBBVGA[0] = 0x1C;
+ 		priv->abyBBVGA[1] = 0x10;
+-- 
+2.34.1
+
