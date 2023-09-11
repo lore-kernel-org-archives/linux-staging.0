@@ -1,50 +1,56 @@
-Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174])
+Received: from mail-pg1-f179.google.com (mail-pg1-f179.google.com [209.85.215.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1ABC13D65
-	for <linux-staging@lists.linux.dev>; Mon, 11 Sep 2023 12:32:00 +0000 (UTC)
-Received: by mail-pf1-f174.google.com with SMTP id d2e1a72fcca58-68fb85afef4so913267b3a.1
-        for <linux-staging@lists.linux.dev>; Mon, 11 Sep 2023 05:32:00 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F39E94432
+	for <linux-staging@lists.linux.dev>; Mon, 11 Sep 2023 12:39:11 +0000 (UTC)
+Received: by mail-pg1-f179.google.com with SMTP id 41be03b00d2f7-51b4ef5378bso3743676a12.1
+        for <linux-staging@lists.linux.dev>; Mon, 11 Sep 2023 05:39:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1694435520; x=1695040320; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=8kKTe1T75lovUyiyBDcmoT8Re7ucuewSdAO9f367BwM=;
-        b=OwaxKo4mH/54Us/FJ/jFdClSSDVue7EYeAreg2LOaDf8d01ZTAT87wbvl+LI62d9Pv
-         jJPj6iGZ/k6RXPqGbpIzxQW+IUBepDClJG0caZxGqYk8f5WlnuhZuMEomBv+1xTqdDMk
-         zW7JnsscmR3wa0vKfdsPvecBSuNMk3E/16PBiO/HFRHPzKVxAl5/3YKNb3pZNcDJRjfZ
-         NqXY+Rx1COCl0R2PgmKjLPsV9E9+8pGjRcJDO6H+w9hxxnm2WVqDrIkCe7eueWSUystl
-         paAPGygAuvOoJGNhdqgT7dYUpboJA6IhcapFHqErzDyjjP3yUgvfAbmLdX9vbWGkg5Em
-         4rOg==
+        d=gmail.com; s=20221208; t=1694435951; x=1695040751; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=67gCs8f5mdy5XgNTerTC5kFAgH0Oc7zcxedUQ1vHbvQ=;
+        b=akExBilydUXPm1dv6zaDki8js0TGoDbZjYeqnokbckuX1lUywsyyVUV+mmPjDEC3f2
+         7abTWdParGZqmXBGnklshb+8FMOVtrjP065K9eXfttrrlmalhydPlbKscexlrp9NWSz3
+         tcI/nNOAagVN0sMJEmX3bhx8YdzwipQM7K3twRGYh8dN2ofJDdIACcfsVmWkYCrxFJpg
+         zTghY/MroS0FpiFbDDllCQWXjGjEYkY+b2lTyR/QAriAz6m3wg9AlvtM4gl6/I7zButm
+         2hT31bhO5+tETjdFxoCKtGVyg6pLFhDg9um3ehPv7r5G7v9Phzm12dnpMNQccA3uzfc1
+         27LQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1694435520; x=1695040320;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=8kKTe1T75lovUyiyBDcmoT8Re7ucuewSdAO9f367BwM=;
-        b=eE6CtmUtRG+A/udNj3W2P5N0vDg9OEajRkTwwoJ8EgBWYDH34s1QfOlqRIP1eEAFtd
-         lvjgDwdaJBkbjhk2OkFHNv2vJ8BAtVqJptKXfPd7WR0R+IG+Jcn8TFiVtb2A9I8G0SqE
-         lIR/eTRz+2ECrC9qA3gxl8v+oFdjaXMFJfGbOyrjLt1Nf4Otm3tsA+zKWgDL/YCHs1RJ
-         1xJNSCcHP+Jb/rwY2onDcJFeLIalVeG/JTDJn9A3eXrbZEmev4r9dPVXXrawsgH4d+SZ
-         vpWY2/Hw+Hz+Z3t8nTIoQrsMiRZOdhnIbzzOR7nTNhtcRyy5gGjNfH8lO2/OlEuWSItG
-         ggmA==
-X-Gm-Message-State: AOJu0YwjH35g3JX49Avu83sPquMHcC+kJOiQdPJBusuxHIPZtT62PDTP
-	Vhl8eJ6GhTNLpGsQAvd/bAM=
-X-Google-Smtp-Source: AGHT+IEMabRYMAN4VuhMD5tbvhXixocNtk9qgXw0p2/MmKHXYFDqDg9GCB9eM1hRn/wvRYOfYrptqA==
-X-Received: by 2002:a05:6a20:7349:b0:153:7978:4faa with SMTP id v9-20020a056a20734900b0015379784faamr9399342pzc.37.1694435520166;
-        Mon, 11 Sep 2023 05:32:00 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1694435951; x=1695040751;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=67gCs8f5mdy5XgNTerTC5kFAgH0Oc7zcxedUQ1vHbvQ=;
+        b=wsomIw75l4d2jgXdSpvIYDO5yG4llNZZDUxSSZ7ks8Wj1CIDtYOpvNnYC7BG1gysfF
+         crY05MeGVfgsmxtI076rYVxyLYN9ypy8wXPElHaPJmLwSgHpNZpJImkcIBe1ENn3BZvI
+         VI1jn5wjj2P/RGxBNjqLXobJmkbHTqLiiRYYbMQeeNikoMz30UR3TU4zdYpcmFivEmL4
+         ua/Q+rIqL2d11BAyCiIg8XSlWY0pHhTzuib6tbim8NW1Q1kKDYUERIR1Lvnas0v74jjr
+         EzK+Ibh27LAcXH67nrfW3LqhJ3xBn3B6NUeb+nyWTlTm6N7CPVzQqHUiVx+kho6nFhbv
+         WEUA==
+X-Gm-Message-State: AOJu0YyVaq1UlP1BiVVklBBubeGijur3jM2dbPxLUI8WXCbuMj7DPM+7
+	Zsms5trUMTDMst/OHU/Gy1U2hKIV8D8=
+X-Google-Smtp-Source: AGHT+IEN3B/vp/Bz84j6bhpYODzTYGAD4HzUT+dgxsIzCZIrQdRUDOCEReBWrAFEKjKxEyeSc50bnA==
+X-Received: by 2002:a17:90a:1548:b0:26d:17e0:2f3d with SMTP id y8-20020a17090a154800b0026d17e02f3dmr9014298pja.44.1694435951137;
+        Mon, 11 Sep 2023 05:39:11 -0700 (PDT)
 Received: from ubuntu.myguest.virtualbox.org ([106.205.101.29])
-        by smtp.gmail.com with ESMTPSA id y5-20020aa78045000000b0064d74808738sm5492186pfm.214.2023.09.11.05.31.58
+        by smtp.gmail.com with ESMTPSA id t8-20020a17090a0d0800b00262fc3d911esm7968067pja.28.2023.09.11.05.39.08
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 11 Sep 2023 05:31:59 -0700 (PDT)
-Date: Mon, 11 Sep 2023 18:01:55 +0530
+        Mon, 11 Sep 2023 05:39:10 -0700 (PDT)
+Date: Mon, 11 Sep 2023 18:09:06 +0530
 From: Pavan Bobba <opensource206@gmail.com>
-To: Forest Bond <forest@alittletooquiet.net>,
+To: Nam Cao <namcaov@gmail.com>
+Cc: Forest Bond <forest@alittletooquiet.net>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Michael Straube <straube.linux@gmail.com>
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [PATCH v4] staging: vt6655: Type encoding info dropped from array
- name "byVT3253B0_"
-Message-ID: <ZP8Iu+Hh8YD+VhYH@ubuntu.myguest.virtualbox.org>
+	Michael Straube <straube.linux@gmail.com>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3] staging: vt6655: Type encoding info dropped from
+ array name "byVT3253B0_"
+Message-ID: <ZP8Kakx1sUjnjWrQ@ubuntu.myguest.virtualbox.org>
+References: <ZPnLw+njcL/D391S@ubuntu.myguest.virtualbox.org>
+ <2023090724-trial-ipod-93d2@gregkh>
+ <ZPwwHY1TDOBEljxr@ubuntu.myguest.virtualbox.org>
+ <ZPxCa/UOd7T2phqX@nam-dell>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -53,128 +59,55 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <ZPxCa/UOd7T2phqX@nam-dell>
 
-Array names starting with "byVT3253B0_" updated like below:
+On Sat, Sep 09, 2023 at 12:01:15PM +0200, Nam Cao wrote:
+> On Sat, Sep 09, 2023 at 02:13:09PM +0530, Pavan Bobba wrote:
+> > On Thu, Sep 07, 2023 at 03:43:53PM +0100, Greg KH wrote:
+> > > On Thu, Sep 07, 2023 at 06:40:27PM +0530, Pavan Bobba wrote:
+> > > > Below array names updated as per coding guidelines:
+> > > > 
+> > > >    1.byVT3253B0_AGC4_RFMD2959
+> > > >    2.byVT3253B0_AIROHA2230
+> > > >    3.byVT3253B0_UW2451
+> > > >    4.byVT3253B0_AGC
+> > > > 
+> > > >    Conversions performed:
+> > > >    a.type encoding info dropped from names
+> > > >    b.names replaced by snakecase
+> > > > 
+> > > >    Issue found by checkpatch
+> > > > 
+> > > > Signed-off-by: Pavan Bobba <opensource206@gmail.com>
+> > > > ---
+> > > >  v1 -> v2: Name of the tool added in the body of explanation,
+> > > >            which found this issue
+> > > > 
+> > > >  v2 -> v3: subject modified to more specific detail
+> > > 
+> > > Any specific reason you are not sending this to the maintainer that can
+> > > take it?
+> > i used scripts/get_maintainer.pl to get maintainers names and i am
+> > adding all those people to the mail. kindly let me know the maintainer id
+> > and the correct way to know the mainter of a file
+> 
+>     ./scripts/get_maintainer.pl ~/Downloads/PATCH-v3-staging-vt6655-Type-encoding-info-dropped-from-array-name-byVT3253B0_.txt
+> Forest Bond <forest@alittletooquiet.net> (odd fixer:STAGING - VIA VT665X DRIVERS)
+> Greg Kroah-Hartman <gregkh@linuxfoundation.org> (supporter:STAGING SUBSYSTEM,commit_signer:2/2=100%)
+> Michael Straube <straube.linux@gmail.com> (commit_signer:2/2=100%,authored:2/2=100%,removed_lines:44/44=100%)
+> linux-staging@lists.linux.dev (open list:STAGING SUBSYSTEM)
+> linux-kernel@vger.kernel.org (open list)
+> 
+> Greg shows up as one of the maintainers for me.
+> 
+> Either a bug with get_maintainer.pl (unlikely), or you did something incorrectly.
+> 
+> Best regards,
+> Nam
 
-a.type encoding info dropped from names
-b.camelcase names replaced by snakecase
+yes. now it is showing Greg as maintainer for me too. i might have used
+the script incorrectly earlier. added Greg to my mail while sending
+next patch.
 
-Issue found by checkpatch
-
-Signed-off-by: Pavan Bobba <opensource206@gmail.com>
----
-
- v1 -> v2: Name of the tool added in the body of explanation,
-           which found this issue
-
- v2 -> v3: subject modified to more specific detail
-
- v3 -> v4: changelog modified as per patch submission guidelines
-
- drivers/staging/vt6655/baseband.c | 32 +++++++++++++++----------------
- 1 file changed, 16 insertions(+), 16 deletions(-)
-
-diff --git a/drivers/staging/vt6655/baseband.c b/drivers/staging/vt6655/baseband.c
-index 696d4dd03aa2..55224918794b 100644
---- a/drivers/staging/vt6655/baseband.c
-+++ b/drivers/staging/vt6655/baseband.c
-@@ -761,7 +761,7 @@ static const unsigned char vt3253b0_rfmd[CB_VT3253B0_INIT_FOR_RFMD][2] = {
- #define CB_VT3253B0_AGC_FOR_RFMD2959 195
- /* For RFMD2959 */
- static
--unsigned char byVT3253B0_AGC4_RFMD2959[CB_VT3253B0_AGC_FOR_RFMD2959][2] = {
-+unsigned char vt3253b0_agc4_rfmd2959[CB_VT3253B0_AGC_FOR_RFMD2959][2] = {
- 	{0xF0, 0x00},
- 	{0xF1, 0x3E},
- 	{0xF0, 0x80},
-@@ -962,7 +962,7 @@ unsigned char byVT3253B0_AGC4_RFMD2959[CB_VT3253B0_AGC_FOR_RFMD2959][2] = {
- #define CB_VT3253B0_INIT_FOR_AIROHA2230 256
- /* For AIROHA */
- static
--unsigned char byVT3253B0_AIROHA2230[CB_VT3253B0_INIT_FOR_AIROHA2230][2] = {
-+unsigned char vt3253b0_airoha2230[CB_VT3253B0_INIT_FOR_AIROHA2230][2] = {
- 	{0x00, 0x31},
- 	{0x01, 0x00},
- 	{0x02, 0x00},
-@@ -1223,7 +1223,7 @@ unsigned char byVT3253B0_AIROHA2230[CB_VT3253B0_INIT_FOR_AIROHA2230][2] = {
- 
- #define CB_VT3253B0_INIT_FOR_UW2451 256
- /* For UW2451 */
--static unsigned char byVT3253B0_UW2451[CB_VT3253B0_INIT_FOR_UW2451][2] = {
-+static unsigned char vt3253b0_uw2451[CB_VT3253B0_INIT_FOR_UW2451][2] = {
- 	{0x00, 0x31},
- 	{0x01, 0x00},
- 	{0x02, 0x00},
-@@ -1484,7 +1484,7 @@ static unsigned char byVT3253B0_UW2451[CB_VT3253B0_INIT_FOR_UW2451][2] = {
- 
- #define CB_VT3253B0_AGC 193
- /* For AIROHA */
--static unsigned char byVT3253B0_AGC[CB_VT3253B0_AGC][2] = {
-+static unsigned char vt3253b0_agc[CB_VT3253B0_AGC][2] = {
- 	{0xF0, 0x00},
- 	{0xF1, 0x00},
- 	{0xF0, 0x80},
-@@ -2010,8 +2010,8 @@ bool bb_vt3253_init(struct vnt_private *priv)
- 
- 			for (ii = 0; ii < CB_VT3253B0_AGC_FOR_RFMD2959; ii++)
- 				result &= bb_write_embedded(priv,
--					byVT3253B0_AGC4_RFMD2959[ii][0],
--					byVT3253B0_AGC4_RFMD2959[ii][1]);
-+					vt3253b0_agc4_rfmd2959[ii][0],
-+					vt3253b0_agc4_rfmd2959[ii][1]);
- 
- 			iowrite32(0x23, iobase + MAC_REG_ITRTMSET);
- 			vt6655_mac_reg_bits_on(iobase, MAC_REG_PAPEDELAY, BIT(0));
-@@ -2027,12 +2027,12 @@ bool bb_vt3253_init(struct vnt_private *priv)
- 	} else if ((by_rf_type == RF_AIROHA) || (by_rf_type == RF_AL2230S)) {
- 		for (ii = 0; ii < CB_VT3253B0_INIT_FOR_AIROHA2230; ii++)
- 			result &= bb_write_embedded(priv,
--				byVT3253B0_AIROHA2230[ii][0],
--				byVT3253B0_AIROHA2230[ii][1]);
-+				vt3253b0_airoha2230[ii][0],
-+				vt3253b0_airoha2230[ii][1]);
- 
- 		for (ii = 0; ii < CB_VT3253B0_AGC; ii++)
- 			result &= bb_write_embedded(priv,
--				byVT3253B0_AGC[ii][0], byVT3253B0_AGC[ii][1]);
-+				vt3253b0_agc[ii][0], vt3253b0_agc[ii][1]);
- 
- 		priv->abyBBVGA[0] = 0x1C;
- 		priv->abyBBVGA[1] = 0x10;
-@@ -2045,13 +2045,13 @@ bool bb_vt3253_init(struct vnt_private *priv)
- 	} else if (by_rf_type == RF_UW2451) {
- 		for (ii = 0; ii < CB_VT3253B0_INIT_FOR_UW2451; ii++)
- 			result &= bb_write_embedded(priv,
--				byVT3253B0_UW2451[ii][0],
--				byVT3253B0_UW2451[ii][1]);
-+				vt3253b0_uw2451[ii][0],
-+				vt3253b0_uw2451[ii][1]);
- 
- 		for (ii = 0; ii < CB_VT3253B0_AGC; ii++)
- 			result &= bb_write_embedded(priv,
--				byVT3253B0_AGC[ii][0],
--				byVT3253B0_AGC[ii][1]);
-+				vt3253b0_agc[ii][0],
-+				vt3253b0_agc[ii][1]);
- 
- 		iowrite8(0x23, iobase + MAC_REG_ITRTMSET);
- 		vt6655_mac_reg_bits_on(iobase, MAC_REG_PAPEDELAY, BIT(0));
-@@ -2067,12 +2067,12 @@ bool bb_vt3253_init(struct vnt_private *priv)
- 	} else if (by_rf_type == RF_VT3226) {
- 		for (ii = 0; ii < CB_VT3253B0_INIT_FOR_AIROHA2230; ii++)
- 			result &= bb_write_embedded(priv,
--				byVT3253B0_AIROHA2230[ii][0],
--				byVT3253B0_AIROHA2230[ii][1]);
-+				vt3253b0_airoha2230[ii][0],
-+				vt3253b0_airoha2230[ii][1]);
- 
- 		for (ii = 0; ii < CB_VT3253B0_AGC; ii++)
- 			result &= bb_write_embedded(priv,
--				byVT3253B0_AGC[ii][0], byVT3253B0_AGC[ii][1]);
-+				vt3253b0_agc[ii][0], vt3253b0_agc[ii][1]);
- 
- 		priv->abyBBVGA[0] = 0x1C;
- 		priv->abyBBVGA[1] = 0x10;
--- 
-2.34.1
-
+Thank you,
+pavan
