@@ -1,129 +1,300 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D7C0EDE;
-	Tue, 12 Sep 2023 01:10:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1694481008; x=1726017008;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=tGzkG5QJfkRexOBDeMPfPnpMWd67HwQMNA7xHo3Cbvs=;
-  b=OaPa8CG3eqzindEjYftR5NY7XduiyMgcxycLbULDkWFKfQDqw4z0uNQh
-   zUMGfvZp3KH7u72Kil1ULkSK7J5qmlQ5LKGeS/InKl2hQYCCrQGxZilV8
-   Wmg7Wxf6LenMzZMcAx1qfrAEb5q+rBlqdn7G5B/bOqo7SAiBVNr+8eYAG
-   DLD1ISIWn5gZt8a2puxC+2UwfgNkZ5WT/hxIfDX+IfaQkOeM8Qxepaz8y
-   xQMVLmHiXjJccX+kh7g+QWi0UTMSSEMExdmRkvu2C8DyAJwZgBjLcMMVE
-   tYAagno+nPY3vi5nzeJBxgR760nZ8q1ghtgC2sjwXTOeKnR7HcwiL+pkD
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10830"; a="464616353"
-X-IronPort-AV: E=Sophos;i="6.02,244,1688454000"; 
-   d="scan'208";a="464616353"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Sep 2023 18:10:06 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10830"; a="867162249"
-X-IronPort-AV: E=Sophos;i="6.02,244,1688454000"; 
-   d="scan'208";a="867162249"
-Received: from lkp-server01.sh.intel.com (HELO 59b3c6e06877) ([10.239.97.150])
-  by orsmga004.jf.intel.com with ESMTP; 11 Sep 2023 18:10:05 -0700
-Received: from kbuild by 59b3c6e06877 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qfruk-00071x-2c;
-	Tue, 12 Sep 2023 01:10:02 +0000
-Date: Tue, 12 Sep 2023 09:09:13 +0800
-From: kernel test robot <lkp@intel.com>
-To: Philipp Hortmann <philipp.g.hortmann@gmail.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH 4/8] staging: rtl8192e: Use standard function in
- rtllib_rx_check_duplicate()
-Message-ID: <202309120956.6aSRBSxJ-lkp@intel.com>
-References: <c636aadd4cf4898c57c348a1d789790c5a459749.1694282907.git.philipp.g.hortmann@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE9B217D0
+	for <linux-staging@lists.linux.dev>; Tue, 12 Sep 2023 05:50:32 +0000 (UTC)
+Received: from [192.168.1.110] (unknown [103.251.226.41])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id F19E9BEB;
+	Tue, 12 Sep 2023 07:48:55 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1694497738;
+	bh=a9DyY6o5t7bkr8tkQopXYkiw/TlLaoHCbQzS2foii3s=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=ghh/qR1kI7n4jKq41uvBT7YILzp7QusiKhLMMuptUmwBC0taDZqxNMAscekBfH3tp
+	 zWuuK46S6ZXkQE4jZ+NYap/dePplnNvgXw8tNg4GcMG37WbyH6tQ+GNmfMuI7aGp1Y
+	 S8BfOkrvHgXIY/Xb8TLpZPZ8SfJAatE66Tpioab8=
+Message-ID: <d006e31a-33df-51b1-c8cf-9c7e5590adb6@ideasonboard.com>
+Date: Tue, 12 Sep 2023 11:20:22 +0530
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <c636aadd4cf4898c57c348a1d789790c5a459749.1694282907.git.philipp.g.hortmann@gmail.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [PATCH v10 1/5] staging: vc04_services: vchiq_arm: Add new bus
+ type and device type
+To: Stefan Wahren <wahrenst@gmx.net>, Robin Murphy <robin.murphy@arm.com>
+Cc: gregkh@linuxfoundation.org, f.fainelli@gmail.com, athierry@redhat.com,
+ error27@gmail.com, kieran.bingham@ideasonboard.com,
+ laurent.pinchart@ideasonboard.com, dave.stevenson@raspberrypi.com,
+ linux-kernel@vger.kernel.org, linux-rpi-kernel@lists.infradead.org,
+ linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+ linux-media@vger.kernel.org
+References: <20230911140712.180751-1-umang.jain@ideasonboard.com>
+ <20230911140712.180751-2-umang.jain@ideasonboard.com>
+ <c96262e7-9bd9-c75d-7584-e6ff62f69530@gmx.net>
+Content-Language: en-US
+From: Umang Jain <umang.jain@ideasonboard.com>
+In-Reply-To: <c96262e7-9bd9-c75d-7584-e6ff62f69530@gmx.net>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Hi Philipp,
+Hi Stephan
 
-kernel test robot noticed the following build warnings:
+On 9/12/23 1:52 AM, Stefan Wahren wrote:
+> Hi Umang,
+>
+> Am 11.09.23 um 16:07 schrieb Umang Jain:
+>> The devices that the vchiq interface registers (bcm2835-audio,
+>> bcm2835-camera) are implemented and exposed by the VC04 firmware.
+>> The device tree describes the VC04 itself with the resources required
+>> to communicate with it through a mailbox interface. However, the
+>> vchiq interface registers these devices as platform devices. This
+>> also means the specific drivers for these devices are getting
+>> registered as platform drivers. This is not correct and a blatant
+>> abuse of platform device/driver.
+>>
+>> Add a new bus type, vchiq_bus_type and device type (struct vchiq_device)
+>> which will be used to migrate child devices that the vchiq interfaces
+>> creates/registers from the platform device/driver.
+>>
+>> Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
+>> ---
+>>   drivers/staging/vc04_services/Makefile        |   1 +
+>>   .../interface/vchiq_arm/vchiq_device.c        | 111 ++++++++++++++++++
+>>   .../interface/vchiq_arm/vchiq_device.h        |  54 +++++++++
+>>   3 files changed, 166 insertions(+)
+>>   create mode 100644 
+>> drivers/staging/vc04_services/interface/vchiq_arm/vchiq_device.c
+>>   create mode 100644 
+>> drivers/staging/vc04_services/interface/vchiq_arm/vchiq_device.h
+>>
+>> diff --git a/drivers/staging/vc04_services/Makefile 
+>> b/drivers/staging/vc04_services/Makefile
+>> index 44794bdf6173..2d071e55e175 100644
+>> --- a/drivers/staging/vc04_services/Makefile
+>> +++ b/drivers/staging/vc04_services/Makefile
+>> @@ -5,6 +5,7 @@ vchiq-objs := \
+>>      interface/vchiq_arm/vchiq_core.o  \
+>>      interface/vchiq_arm/vchiq_arm.o \
+>>      interface/vchiq_arm/vchiq_debugfs.o \
+>> +   interface/vchiq_arm/vchiq_device.o \
+>>      interface/vchiq_arm/vchiq_connected.o \
+>>
+>>   ifdef CONFIG_VCHIQ_CDEV
+>> diff --git 
+>> a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_device.c 
+>> b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_device.c
+>> new file mode 100644
+>> index 000000000000..aad55c461905
+>> --- /dev/null
+>> +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_device.c
+>> @@ -0,0 +1,111 @@
+>> +// SPDX-License-Identifier: GPL-2.0
+>> +/*
+>> + * vchiq_device.c - VCHIQ generic device and bus-type
+>> + *
+>> + * Copyright (c) 2023 Ideas On Board Oy
+>> + */
+>> +
+>> +#include <linux/device/bus.h>
+>> +#include <linux/dma-mapping.h>
+>> +#include <linux/of_device.h>
+>> +#include <linux/slab.h>
+>> +#include <linux/string.h>
+>> +
+>> +#include "vchiq_device.h"
+>> +
+>> +static int vchiq_bus_type_match(struct device *dev, struct 
+>> device_driver *drv)
+>> +{
+>> +    if (dev->bus == &vchiq_bus_type &&
+>> +        strcmp(dev_name(dev), drv->name) == 0)
+>> +        return 1;
+>> +
+>> +    return 0;
+>> +}
+>> +
+>> +static int vchiq_bus_uevent(const struct device *dev, struct 
+>> kobj_uevent_env *env)
+>> +{
+>> +    const struct vchiq_device *device = container_of_const(dev, 
+>> struct vchiq_device, dev);
+>> +
+>> +    return add_uevent_var(env, "MODALIAS=%s", dev_name(&device->dev));
+>> +}
+>> +
+>> +static int vchiq_bus_probe(struct device *dev)
+>> +{
+>> +    struct vchiq_device *device = to_vchiq_device(dev);
+>> +    struct vchiq_driver *driver = to_vchiq_driver(dev->driver);
+>> +    int ret;
+>> +
+>> +    ret = driver->probe(device);
+>> +    if (ret == 0)
+>> +        return 0;
+>> +
+>> +    return ret;
+>> +}
+>> +
+>> +struct bus_type vchiq_bus_type = {
+>> +    .name   = "vchiq-bus",
+>> +    .match  = vchiq_bus_type_match,
+>> +    .uevent = vchiq_bus_uevent,
+>> +    .probe  = vchiq_bus_probe,
+>> +};
+>> +
+>> +static void vchiq_device_release(struct device *dev)
+>> +{
+>> +    struct vchiq_device *device = to_vchiq_device(dev);
+>> +
+>> +    kfree(device);
+>> +}
+>> +
+>> +struct vchiq_device *
+>> +vchiq_device_register(struct device *parent, const char *name)
+>> +{
+>> +    struct vchiq_device *device;
+>> +    int ret;
+>> +
+>> +    device = kzalloc(sizeof(*device), GFP_KERNEL);
+>> +    if (!device) {
+>> +        dev_err(parent, "Cannot register %s: Insufficient memory\n",
+>> +            name);
+>> +        return NULL;
+>> +    }
+>> +
+>> +    device->dev.init_name = name;
+>> +    device->dev.parent = parent;
+>> +    device->dev.bus = &vchiq_bus_type;
+>> +    device->dev.release = vchiq_device_release;
+>> +
+>> +    of_dma_configure(&device->dev, parent->of_node, true);
+>> +    ret = dma_set_mask_and_coherent(&device->dev, DMA_BIT_MASK(32));
+>> +    if (ret) {
+>> +        dev_err(&device->dev, "32-bit DMA enable failed\n");
+>> +        return NULL;
+>> +    }
+>
+> Unfortunately the call of of_dma_configure() generates warnings likes
+> this (Raspberry Pi 3A+ with multi_v7_defconfig + VCHIQ):
+>
+> [    9.206802] vchiq-bus bcm2835-audio: DMA mask not set
+> [    9.206892] vchiq-bus bcm2835-camera: DMA mask not set
 
-[auto build test WARNING on staging/staging-testing]
+huh, really weird, as on my RPi-3-b I get these set correctly and I 
+don't any such warning.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Philipp-Hortmann/staging-rtl8192e-Remove-useless-equation-in-debug-output/20230910-022154
-base:   staging/staging-testing
-patch link:    https://lore.kernel.org/r/c636aadd4cf4898c57c348a1d789790c5a459749.1694282907.git.philipp.g.hortmann%40gmail.com
-patch subject: [PATCH 4/8] staging: rtl8192e: Use standard function in rtllib_rx_check_duplicate()
-config: i386-allyesconfig (https://download.01.org/0day-ci/archive/20230912/202309120956.6aSRBSxJ-lkp@intel.com/config)
-compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230912/202309120956.6aSRBSxJ-lkp@intel.com/reproduce)
+I am even checking the ret value here, so if it can't set it, it will 
+log an error. I don't that getting logged on my end. Can you share you 
+entire dmesg output please?
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309120956.6aSRBSxJ-lkp@intel.com/
+Also, I have tested this against arm64 kernel, I assume you are using 
+32-bit?
 
-All warnings (new ones prefixed by >>):
+>
+> In the old platform driver code we had something like
+>
+>   pdevinfo.dma_mask = DMA_BIT_MASK(32);
+>
+> So there is still something missing for our new bus driver.
 
->> drivers/staging/rtl8192e/rtllib_rx.c:925:9: warning: variable 'fc' is uninitialized when used here [-Wuninitialized]
-                           if ((fc & (1 << 11)) && (frag == pRxTS->rx_last_frag_num) &&
-                                ^~
-   drivers/staging/rtl8192e/rtllib_rx.c:906:8: note: initialize the variable 'fc' to silence this warning
-           u16 fc, sc;
-                 ^
-                  = 0
-   1 warning generated.
+>
+>> +
+>> +    ret = device_register(&device->dev);
+>> +    if (ret) {
+>> +        dev_err(parent, "Cannot register %s: %d\n", name, ret);
+>> +        put_device(&device->dev);
+>> +        return NULL;
+>> +    }
+>> +
+>> +    return device;
+>> +}
+>> +
+>> +void vchiq_device_unregister(struct vchiq_device *vchiq_dev)
+>> +{
+>> +    device_unregister(&vchiq_dev->dev);
+>> +}
+>> +
+>> +int vchiq_driver_register(struct vchiq_driver *vchiq_drv)
+>> +{
+>> +    vchiq_drv->driver.bus = &vchiq_bus_type;
+>> +
+>> +    return driver_register(&vchiq_drv->driver);
+>> +}
+>> +EXPORT_SYMBOL_GPL(vchiq_driver_register);
+>> +
+>> +void vchiq_driver_unregister(struct vchiq_driver *vchiq_drv)
+>> +{
+>> +    driver_unregister(&vchiq_drv->driver);
+>> +}
+>> +EXPORT_SYMBOL_GPL(vchiq_driver_unregister);
+>> diff --git 
+>> a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_device.h 
+>> b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_device.h
+>> new file mode 100644
+>> index 000000000000..7eaaf9a91cda
+>> --- /dev/null
+>> +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_device.h
+>> @@ -0,0 +1,54 @@
+>> +/* SPDX-License-Identifier: GPL-2.0 */
+>> +/*
+>> + * Copyright (c) 2023 Ideas On Board Oy
+>> + */
+>> +
+>> +#ifndef _VCHIQ_DEVICE_H
+>> +#define _VCHIQ_DEVICE_H
+>> +
+>> +#include <linux/device.h>
+>> +
+>> +struct vchiq_device {
+>> +    struct device dev;
+>> +};
+>> +
+>> +struct vchiq_driver {
+>> +    int        (*probe)(struct vchiq_device *device);
+>> +    void        (*remove)(struct vchiq_device *device);
+>> +    int        (*resume)(struct vchiq_device *device);
+>> +    int        (*suspend)(struct vchiq_device *device,
+>> +                   pm_message_t state);
+>> +    struct device_driver driver;
+>> +};
+>> +
+>> +static inline struct vchiq_device *to_vchiq_device(struct device *d)
+>> +{
+>> +    return container_of(d, struct vchiq_device, dev);
+>> +}
+>> +
+>> +static inline struct vchiq_driver *to_vchiq_driver(struct 
+>> device_driver *d)
+>> +{
+>> +    return container_of(d, struct vchiq_driver, driver);
+>> +}
+>> +
+>> +extern struct bus_type vchiq_bus_type;
+>> +
+>> +struct vchiq_device *
+>> +vchiq_device_register(struct device *parent, const char *name);
+>> +void vchiq_device_unregister(struct vchiq_device *dev);
+>> +
+>> +int vchiq_driver_register(struct vchiq_driver *vchiq_drv);
+>> +void vchiq_driver_unregister(struct vchiq_driver *vchiq_drv);
+>> +
+>> +/**
+>> + * module_vchiq_driver() - Helper macro for registering a vchiq driver
+>> + * @__vchiq_driver: vchiq driver struct
+>> + *
+>> + * Helper macro for vchiq drivers which do not do anything special in
+>> + * module init/exit. This eliminates a lot of boilerplate. Each 
+>> module may only
+>> + * use this macro once, and calling it replaces module_init() and 
+>> module_exit()
+>> + */
+>> +#define module_vchiq_driver(__vchiq_driver) \
+>> +    module_driver(__vchiq_driver, vchiq_driver_register, 
+>> vchiq_driver_unregister)
+>> +
+>> +#endif /* _VCHIQ_DEVICE_H */
 
-
-vim +/fc +925 drivers/staging/rtl8192e/rtllib_rx.c
-
-94a799425eee82 Larry Finger       2011-08-23  901  
-49aab5fd9df153 Larry Finger       2011-08-25  902  static int rtllib_rx_check_duplicate(struct rtllib_device *ieee,
-49aab5fd9df153 Larry Finger       2011-08-25  903  				     struct sk_buff *skb, u8 multicast)
-94a799425eee82 Larry Finger       2011-08-23  904  {
-94a799425eee82 Larry Finger       2011-08-23  905  	struct rtllib_hdr_4addr *hdr = (struct rtllib_hdr_4addr *)skb->data;
-94a799425eee82 Larry Finger       2011-08-23  906  	u16 fc, sc;
-ffed9955529a37 Philipp Hortmann   2023-09-09  907  	u8 frag;
-94a799425eee82 Larry Finger       2011-08-23  908  
-94a799425eee82 Larry Finger       2011-08-23  909  	sc = le16_to_cpu(hdr->seq_ctl);
-94a799425eee82 Larry Finger       2011-08-23  910  	frag = WLAN_GET_SEQ_FRAG(sc);
-94a799425eee82 Larry Finger       2011-08-23  911  
-ccdbe14b77a5e3 Philipp Hortmann   2022-11-13  912  	if (!ieee->ht_info->cur_rx_reorder_enable ||
-94a799425eee82 Larry Finger       2011-08-23  913  		!ieee->current_network.qos_data.active ||
-94a799425eee82 Larry Finger       2011-08-23  914  		!IsDataFrame(skb->data) ||
-94a799425eee82 Larry Finger       2011-08-23  915  		IsLegacyDataFrame(skb->data)) {
-ffed9955529a37 Philipp Hortmann   2023-09-09  916  		if (!ieee80211_is_beacon(hdr->frame_ctl)) {
-db8971b618ed96 Larry Finger       2011-08-25  917  			if (is_duplicate_packet(ieee, hdr))
-94a799425eee82 Larry Finger       2011-08-23  918  				return -1;
-94a799425eee82 Larry Finger       2011-08-23  919  		}
-94a799425eee82 Larry Finger       2011-08-23  920  	} else {
-2c47ae282a4bba Larry Finger       2011-07-18  921  		struct rx_ts_record *pRxTS = NULL;
-3a6b70c3f3558a Matthew Casey      2014-08-22  922  
-74724de1c40192 Larry Finger       2011-07-18  923  		if (GetTs(ieee, (struct ts_common_info **)&pRxTS, hdr->addr2,
-94a799425eee82 Larry Finger       2011-08-23  924  			(u8)Frame_QoSTID((u8 *)(skb->data)), RX_DIR, true)) {
-3b32b210c0717d William Durand     2021-03-01 @925  			if ((fc & (1 << 11)) && (frag == pRxTS->rx_last_frag_num) &&
-6d852649821da7 William Durand     2021-03-01  926  			    (WLAN_GET_SEQ_SEQ(sc) == pRxTS->rx_last_seq_num))
-94a799425eee82 Larry Finger       2011-08-23  927  				return -1;
-3b32b210c0717d William Durand     2021-03-01  928  			pRxTS->rx_last_frag_num = frag;
-6d852649821da7 William Durand     2021-03-01  929  			pRxTS->rx_last_seq_num = WLAN_GET_SEQ_SEQ(sc);
-94a799425eee82 Larry Finger       2011-08-23  930  		} else {
-11e672c3e2d2a1 Mateusz Kulikowski 2015-05-31  931  			netdev_warn(ieee->dev, "%s(): No TS! Skip the check!\n",
-11e672c3e2d2a1 Mateusz Kulikowski 2015-05-31  932  				    __func__);
-94a799425eee82 Larry Finger       2011-08-23  933  			return -1;
-94a799425eee82 Larry Finger       2011-08-23  934  		}
-94a799425eee82 Larry Finger       2011-08-23  935  	}
-94a799425eee82 Larry Finger       2011-08-23  936  
-94a799425eee82 Larry Finger       2011-08-23  937  	return 0;
-94a799425eee82 Larry Finger       2011-08-23  938  }
-db8971b618ed96 Larry Finger       2011-08-25  939  
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
