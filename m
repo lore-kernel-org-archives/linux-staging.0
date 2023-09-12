@@ -1,49 +1,49 @@
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0CF6A95A
-	for <linux-staging@lists.linux.dev>; Tue, 12 Sep 2023 19:28:28 +0000 (UTC)
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-3fe4f3b5f25so17570875e9.0
-        for <linux-staging@lists.linux.dev>; Tue, 12 Sep 2023 12:28:28 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0825A95A
+	for <linux-staging@lists.linux.dev>; Tue, 12 Sep 2023 19:28:34 +0000 (UTC)
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-401d61e9fecso18434605e9.0
+        for <linux-staging@lists.linux.dev>; Tue, 12 Sep 2023 12:28:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1694546907; x=1695151707; darn=lists.linux.dev;
+        d=gmail.com; s=20221208; t=1694546913; x=1695151713; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=VFhh3RYguSGZkGRqPmnmCXiDYtANu+EmtRXu+PYPOCI=;
-        b=GXhrZTjo/boPceS6TnkdqtYjIsKSVGrboV1/EKCtR+KrMKo9wgiG2FmUEcDcBDgAcz
-         tHP0fVywelGFHYmTEKUuskCidBeEnNtQFYDHqqa3p2RuanacO4D14KvMhKFESp8oU4mc
-         V4jjX0O/ouIIHDo8nDVlqE1mjlT8qz/vJg0/MJFNSSdKGwKMEDIMUWjSJdF1MyeUqmqT
-         n41Y0VWVQ79pOd4mtngyjjLLOho5ORSbAUc0xNUD0kcVD27+Q7YCwW85zv+K5bYw2XkI
-         ttTqGW85eOpTcCgdCTLNMbBiKpxDOSNbOUgsFNxjWZ41tRRVP/k0rBB71a2jobIqY5L2
-         5CGg==
+        bh=jUSgJtFk7zn2O1gmuDqCli3+YafBtkOy6GThkBfBxcY=;
+        b=h/hRffKsnLZy9E1td3KIAWP7PwDRxzZQ6vF7tHNQay7TAdxQYUrZvEa6rP4dOl6NJv
+         nYnmntdSvkDVT/4fz8HSLozB5t8zuv21/FtfvR1eaNrQqCryWDDEUKvsoRn0p7n6uq4f
+         1zUJdA+eRXQinIUn6Lhm60ri/04sBRNYOVj+ajZC/cW4s/CSqkV/UgA1Zx9xbqRI15RK
+         v1PXB4E5GH91eEEYhI9xBQEOU3KZsLCul9AEsmKDpzmX9LsKeCqr72E67JMsyi6TLdCA
+         jhuOC5pNlVKpj9Wc7/rv+WgnJTU1aQEar0dRULkhQddN91aZ5Gr9tc12WxqQtsXz7lr+
+         yW2w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1694546907; x=1695151707;
+        d=1e100.net; s=20230601; t=1694546913; x=1695151713;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=VFhh3RYguSGZkGRqPmnmCXiDYtANu+EmtRXu+PYPOCI=;
-        b=JXLDhiMgZjsIFbT9dSCk4zc/wwgWcO0Z63kOth7iismgLFIzcELDZ0bAMBTrY29t/j
-         I4BM3CP3Sl9/afuKa2Csn+Mv1xqk5O84OmblTtg20RwykHCWtLUONLH8/ZDvrygkClXD
-         1OpeGey1f0kOKSPjosA4JST6a2UJ7wUfF99i28dT7fWtoztRzTFN4m50s9sz7QhMxs/+
-         GSEINatSLdNocJDxD9vItoCsNfP/Dj1MKzom3WwGiQ/sxL6DhHv1yc8aP93UeFeabZo7
-         //T+4J0oZfSfun5MCvf9B+rkY0bMRZMzu0nlUHL6tED/qKuLygCNZsdJ8c82cITV4thj
-         7YVA==
-X-Gm-Message-State: AOJu0YzWHRVMKTkuHKnPkQATNldPFBWqm2Pwi90O6ZUAXsu8QTJHkOTH
-	pTa2FyG6z2zTMvZVUr0qUKI=
-X-Google-Smtp-Source: AGHT+IEWeO9Hgpc5nHkKHmZJfxWb6esn5cYbn63twoTBUk9Fy18fYsflOzliC1ojWtha+ePEtaKcKQ==
-X-Received: by 2002:a05:600c:314b:b0:401:c6a2:3cd5 with SMTP id h11-20020a05600c314b00b00401c6a23cd5mr299818wmo.2.1694546906801;
-        Tue, 12 Sep 2023 12:28:26 -0700 (PDT)
+        bh=jUSgJtFk7zn2O1gmuDqCli3+YafBtkOy6GThkBfBxcY=;
+        b=PsJUErwCOE0M4cHkcdtP8V7tItreHsqrU6LXs7/J3nWx8IF1PSGkFFMaQzrgcZh/m/
+         7j8pCcaUJYD2R5Hg/QVJSQem+u1cfT1+/5lDWlOgL1j4f/XwBgd8VWEF+C8/BxbHB9M5
+         JGX5d+ZVd5pu8RDa6CTRWv4Pezc9Is/37AP7NvjJ0Uw0DxF2P/WwwjiLTFe0/Daef4LT
+         GbzKYofCXc7x5UpPWlw1IN+5vig6Iv0JkyztcnGZ2IbGiDwZsAbMsTbVsSAJwuLVJoBs
+         HK6AdgClpoafuN0j8NKI6EMisFmnYz4Y405jSk5JEpNfZHrsN0Obt/b4i/TMFHkf6kXK
+         cJlQ==
+X-Gm-Message-State: AOJu0YzzAGka4WkLcLqcZf4Ewz3U8bIJep/3M0yC9apVnVmy6lE0F7PR
+	p4FRFO5JlQlPon6FkhldFNc=
+X-Google-Smtp-Source: AGHT+IGqOIYmi2l1DyVrMwTfLa+JUN+8lA9615h8SmvYbWu5dZb5HvlJxUsgVxp4X1QmESkR3WuoFw==
+X-Received: by 2002:a05:600c:1c0d:b0:401:c07f:72bd with SMTP id j13-20020a05600c1c0d00b00401c07f72bdmr276361wms.4.1694546912952;
+        Tue, 12 Sep 2023 12:28:32 -0700 (PDT)
 Received: from matrix-ESPRIMO-P710 (p579356c7.dip0.t-ipconnect.de. [87.147.86.199])
-        by smtp.gmail.com with ESMTPSA id l40-20020a05600c1d2800b00402f7b50517sm13840629wms.40.2023.09.12.12.28.26
+        by smtp.gmail.com with ESMTPSA id e6-20020a05600c218600b003fe1c332810sm16810452wme.33.2023.09.12.12.28.32
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 12 Sep 2023 12:28:26 -0700 (PDT)
-Date: Tue, 12 Sep 2023 21:28:25 +0200
+        Tue, 12 Sep 2023 12:28:32 -0700 (PDT)
+Date: Tue, 12 Sep 2023 21:28:31 +0200
 From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [PATCH v2 4/8] staging: rtl8192e: Use standard function in
- rtllib_rx_check_duplicate()
-Message-ID: <b74b6ef5e266504b9e3d84495bcd8fe4978b4ded.1694546300.git.philipp.g.hortmann@gmail.com>
+Subject: [PATCH v2 5/8] staging: rtl8192e: Use standard function in
+ softmac_mgmt_xmit()
+Message-ID: <bd648e8e3c9c93c7944b72778ef7288973d8386e.1694546300.git.philipp.g.hortmann@gmail.com>
 References: <cover.1694546300.git.philipp.g.hortmann@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -55,43 +55,57 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 In-Reply-To: <cover.1694546300.git.philipp.g.hortmann@gmail.com>
 
-Use standard function ieee80211_is_beacon() to avoid proprietary code and
-to increase readability.
+Use standard function ieee80211_is_beacon() to avoid proprietary code to
+identify beacon and to increase readability in softmac_mgmt_xmit() and
+_rtl92e_translate_rx_signal_stats()
 
 Signed-off-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
 ---
-v1->v2: Take wrongly removed definition of fc back in.
+v1->v2: Unchanged
 ---
- drivers/staging/rtl8192e/rtllib_rx.c | 7 ++-----
- 1 file changed, 2 insertions(+), 5 deletions(-)
+ drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c | 2 +-
+ drivers/staging/rtl8192e/rtllib.h              | 1 -
+ drivers/staging/rtl8192e/rtllib_softmac.c      | 2 +-
+ 3 files changed, 2 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/staging/rtl8192e/rtllib_rx.c b/drivers/staging/rtl8192e/rtllib_rx.c
-index 89c8d66765fe..7c16d4db67ad 100644
---- a/drivers/staging/rtl8192e/rtllib_rx.c
-+++ b/drivers/staging/rtl8192e/rtllib_rx.c
-@@ -904,11 +904,9 @@ static int rtllib_rx_check_duplicate(struct rtllib_device *ieee,
- {
- 	struct rtllib_hdr_4addr *hdr = (struct rtllib_hdr_4addr *)skb->data;
- 	u16 fc, sc;
--	u8 frag, type, stype;
-+	u8 frag;
+diff --git a/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c b/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c
+index 58e90b7772ef..8adf53174239 100644
+--- a/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c
++++ b/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c
+@@ -1584,7 +1584,7 @@ static void _rtl92e_translate_rx_signal_stats(struct net_device *dev,
+ 		 (!pstats->bHwError) && (!pstats->bCRC) && (!pstats->bICV));
+ 	bpacket_toself = bpacket_match_bssid &&		/* check this */
+ 			 ether_addr_equal(praddr, priv->rtllib->dev->dev_addr);
+-	if (WLAN_FC_GET_FRAMETYPE(fc) == RTLLIB_STYPE_BEACON)
++	if (ieee80211_is_beacon(hdr->frame_ctl))
+ 		bPacketBeacon = true;
+ 	_rtl92e_process_phyinfo(priv, tmp_buf, &previous_stats, pstats);
+ 	_rtl92e_query_rxphystatus(priv, pstats, pdesc, pdrvinfo,
+diff --git a/drivers/staging/rtl8192e/rtllib.h b/drivers/staging/rtl8192e/rtllib.h
+index 95c9f6679d71..7dfb93f0590c 100644
+--- a/drivers/staging/rtl8192e/rtllib.h
++++ b/drivers/staging/rtl8192e/rtllib.h
+@@ -459,7 +459,6 @@ enum _REG_PREAMBLE_MODE {
+ #define WLAN_FC_GET_STYPE(fc) ((fc) & RTLLIB_FCTL_STYPE)
+ #define WLAN_FC_MORE_DATA(fc) ((fc) & RTLLIB_FCTL_MOREDATA)
  
- 	fc = le16_to_cpu(hdr->frame_ctl);
--	type = WLAN_FC_GET_TYPE(fc);
--	stype = WLAN_FC_GET_STYPE(fc);
- 	sc = le16_to_cpu(hdr->seq_ctl);
- 	frag = WLAN_GET_SEQ_FRAG(sc);
+-#define WLAN_FC_GET_FRAMETYPE(fc) ((fc) & RTLLIB_FCTL_FRAMETYPE)
+ #define WLAN_GET_SEQ_FRAG(seq) ((seq) & RTLLIB_SCTL_FRAG)
+ #define WLAN_GET_SEQ_SEQ(seq)  (((seq) & RTLLIB_SCTL_SEQ) >> 4)
  
-@@ -916,8 +914,7 @@ static int rtllib_rx_check_duplicate(struct rtllib_device *ieee,
- 		!ieee->current_network.qos_data.active ||
- 		!IsDataFrame(skb->data) ||
- 		IsLegacyDataFrame(skb->data)) {
--		if (!((type == RTLLIB_FTYPE_MGMT) &&
--		      (stype == RTLLIB_STYPE_BEACON))) {
-+		if (!ieee80211_is_beacon(hdr->frame_ctl)) {
- 			if (is_duplicate_packet(ieee, hdr))
- 				return -1;
- 		}
+diff --git a/drivers/staging/rtl8192e/rtllib_softmac.c b/drivers/staging/rtl8192e/rtllib_softmac.c
+index de1702491191..5de57331c1cf 100644
+--- a/drivers/staging/rtl8192e/rtllib_softmac.c
++++ b/drivers/staging/rtl8192e/rtllib_softmac.c
+@@ -197,7 +197,7 @@ inline void softmac_mgmt_xmit(struct sk_buff *skb, struct rtllib_device *ieee)
+ 	/* called with 2nd param 0, no mgmt lock required */
+ 	rtllib_sta_wakeup(ieee, 0);
+ 
+-	if (le16_to_cpu(header->frame_ctl) == RTLLIB_STYPE_BEACON)
++	if (ieee80211_is_beacon(header->frame_ctl))
+ 		tcb_desc->queue_index = BEACON_QUEUE;
+ 	else
+ 		tcb_desc->queue_index = MGNT_QUEUE;
 -- 
 2.42.0
 
