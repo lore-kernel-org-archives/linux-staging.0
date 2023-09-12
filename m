@@ -1,27 +1,51 @@
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2DD21843
-	for <linux-staging@lists.linux.dev>; Tue, 12 Sep 2023 08:41:14 +0000 (UTC)
-Received: from [IPV6:2a01:e0a:120:3210:97bb:c25c:2a33:8c3f] (unknown [IPv6:2a01:e0a:120:3210:97bb:c25c:2a33:8c3f])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: benjamin.gaignard)
-	by madras.collabora.co.uk (Postfix) with ESMTPSA id F33E7660731E;
-	Tue, 12 Sep 2023 09:41:12 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1694508073;
-	bh=w/TdXTx3LDuhrwUkGlnc8ARDv3ZcTpp3jTCQlJdW2v8=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=AC9A0+iipuJDLFRye3agEFkEcsg6C2UVU2DfCR2L1ra1iXcm32H/m39HLqPjy/xft
-	 fll+pDqmkVfqffuDwA5YdxATA9PHvnw1fI884Lifj+XZk1AYGDXHp/xa8bIgrNSpxZ
-	 g1c+YrqE0GHxg4s7hpAADPl5/p/DgTxQ6SlY+axS9becasvU8ZiozOUgn2eH4JLSQg
-	 +Z19rAlw2Dk/4fPSSv+TLEacVygXl1Z11ADpxYIlANtZV2JZcOgy10SMWPsplVyt8S
-	 1GUm6ob77QADfyTrLgXphDbYV9UyGCkH+oIV6KZQcFAzgQwBgIXoXgpkm+l5hGll8q
-	 EIndAywMtvAhA==
-Message-ID: <40329795-a57d-d0f3-adb4-0720dd20f6e2@collabora.com>
-Date: Tue, 12 Sep 2023 10:41:10 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A15D1171B7
+	for <linux-staging@lists.linux.dev>; Tue, 12 Sep 2023 10:18:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1694513918;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=KdTXqRASMmH1JXd1OWR6o6x7A6iKWfX837xo1ITqZ/I=;
+	b=huEj81Vy+8i3lWzGWx/blbAXvbknf+SewlRWKR9cF5kmebK7HXKa7PGXLvwBjAdPtnQyWc
+	sp2et9A0xKa73/kRojq1lQRAH+DegPenvEOdgMl9NfKYDKBJKDM+dIBLT/heeYFe6shzRw
+	v7xhShuFOFggo6VUWZ0KHKjRFMYDAM0=
+Received: from mail-lf1-f69.google.com (mail-lf1-f69.google.com
+ [209.85.167.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-634-AdF5KoWHOxGngWWdbuFw8Q-1; Tue, 12 Sep 2023 06:18:37 -0400
+X-MC-Unique: AdF5KoWHOxGngWWdbuFw8Q-1
+Received: by mail-lf1-f69.google.com with SMTP id 2adb3069b0e04-5009796123dso5893736e87.1
+        for <linux-staging@lists.linux.dev>; Tue, 12 Sep 2023 03:18:36 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1694513915; x=1695118715;
+        h=content-transfer-encoding:in-reply-to:references:cc:to:from
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=KdTXqRASMmH1JXd1OWR6o6x7A6iKWfX837xo1ITqZ/I=;
+        b=D2SFx9/XayCwGDk2t6oO6BC/OAjtcjA03mQ0iP5KPzHREaDUOpFZcAFGKOh4hTRaO8
+         OyioAribEYBtV+uoRuri1jnlykOqrnt1XAX3YpShm4CEZSehnyWGir3lyZ9pczD8m8B1
+         wQj/CwowwYTzr4s0mPQoLWbblJpwm7zyY+88KBzRhsNoEnR1yUomxx4HbTj09hJv3nHA
+         O+39wHruXwqmtJpZIUjdV6EMc62JH42UpZgdRFoqRWcovL7LHOWaCz5wfHMhNCtQTNgX
+         bdbjReAXdT8mp+hjATDqaOKXpT+63LVVhgROh4VBV+W3kQDculB0L9sOrpXYhdCw9Pgg
+         tSWw==
+X-Gm-Message-State: AOJu0YzfC+ASriM/wsEeCLxgFwjOktxH5fpyukTqnt41k3lI05wHjin8
+	nIiKltSE5l9JboetgyMPf7FPmAN9xLAwddvv2xKejqUVroXbnicUD1gUINOq1SNkH22KJ0gdk92
+	ZvAGEn6tfHQ6/cXsqh77UauJJDw==
+X-Received: by 2002:a05:6512:3b29:b0:500:a2ee:a8f6 with SMTP id f41-20020a0565123b2900b00500a2eea8f6mr11233170lfv.5.1694513915545;
+        Tue, 12 Sep 2023 03:18:35 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IF6+JyJStPOoOhXPDi8evuK59l+cEpKE0j7C3sbdHhqjwz1aMKs3HNFNjvMDufDAn+vzpT4vg==
+X-Received: by 2002:a05:6512:3b29:b0:500:a2ee:a8f6 with SMTP id f41-20020a0565123b2900b00500a2eea8f6mr11233151lfv.5.1694513915094;
+        Tue, 12 Sep 2023 03:18:35 -0700 (PDT)
+Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
+        by smtp.gmail.com with ESMTPSA id pv26-20020a170907209a00b00992d122af63sm6587234ejb.89.2023.09.12.03.18.34
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 12 Sep 2023 03:18:34 -0700 (PDT)
+Message-ID: <ddcdd964-6e06-f352-1e1a-eea967034c89@redhat.com>
+Date: Tue, 12 Sep 2023 12:18:33 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -29,110 +53,206 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.0
-Subject: Re: [PATCH v6 14/18] media: verisilicon: vp9: Use destination buffer
- height to compute chroma offset
-To: =?UTF-8?Q?Jernej_=c5=a0krabec?= <jernej.skrabec@gmail.com>,
- mchehab@kernel.org, tfiga@chromium.org, m.szyprowski@samsung.com,
- ming.qian@nxp.com, ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de,
- gregkh@linuxfoundation.org, hverkuil-cisco@xs4all.nl,
- nicolas.dufresne@collabora.com
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org,
- linux-arm-msm@vger.kernel.org, linux-rockchip@lists.infradead.org,
- linux-staging@lists.linux.dev, kernel@collabora.com
-References: <20230901124414.48497-1-benjamin.gaignard@collabora.com>
- <4856958.31r3eYUQgx@jernej-laptop>
- <7da0a2ab-032a-9de9-e136-58f973238c5b@collabora.com>
- <3248154.aeNJFYEL58@jernej-laptop>
-Content-Language: en-US
-From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-In-Reply-To: <3248154.aeNJFYEL58@jernej-laptop>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+ Thunderbird/102.13.0
+Subject: Re: [GIT PULL] media: atomisp: Changes for 6.6-1
+From: Hans de Goede <hdegoede@redhat.com>
+To: Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Linux Media Mailing List <linux-media@vger.kernel.org>
+Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ linux-staging@lists.linux.dev, Kate Hsuan <hpa@redhat.com>
+References: <9fbc59f1-abb5-8966-8810-a3b8f57775fc@redhat.com>
+In-Reply-To: <9fbc59f1-abb5-8966-8810-a3b8f57775fc@redhat.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US, nl
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
+Hi.
 
-Le 11/09/2023 à 18:36, Jernej Škrabec a écrit :
-> Dne ponedeljek, 11. september 2023 ob 10:55:02 CEST je Benjamin Gaignard
-> napisal(a):
->> Le 10/09/2023 à 15:21, Jernej Škrabec a écrit :
->>> Hi Benjamin!
->>>
->>> Dne petek, 01. september 2023 ob 14:44:10 CEST je Benjamin Gaignard
->>>
->>> napisal(a):
->>>> Source and destination buffer height may not be the same because
->>>> alignment constraint are different.
->>>> Use destination height to compute chroma offset because we target
->>>> this buffer as hardware output.
->>>>
->>>> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
->>>> Fixes: e2da465455ce ("media: hantro: Support VP9 on the G2 core")
->>>> ---
->>>>
->>>>    drivers/media/platform/verisilicon/hantro_g2_vp9_dec.c | 4 +---
->>>>    1 file changed, 1 insertion(+), 3 deletions(-)
->>>>
->>>> diff --git a/drivers/media/platform/verisilicon/hantro_g2_vp9_dec.c
->>>> b/drivers/media/platform/verisilicon/hantro_g2_vp9_dec.c index
->>>> 6db1c32fce4d..1f3f5e7ce978 100644
->>>> --- a/drivers/media/platform/verisilicon/hantro_g2_vp9_dec.c
->>>> +++ b/drivers/media/platform/verisilicon/hantro_g2_vp9_dec.c
->>>> @@ -93,9 +93,7 @@ static int start_prepare_run(struct hantro_ctx *ctx,
->>>> const struct v4l2_ctrl_vp9_ static size_t chroma_offset(const struct
->>>> hantro_ctx *ctx,
->>>>
->>>>    			    const struct v4l2_ctrl_vp9_frame
->>> *dec_params)
->>>
->>>>    {
->>>>
->>>> -	int bytes_per_pixel = dec_params->bit_depth == 8 ? 1 : 2;
->>>> -
->>>> -	return ctx->src_fmt.width * ctx->src_fmt.height * bytes_per_pixel;
->>>> +	return ctx->dst_fmt.width * ctx->dst_fmt.height * ctx->bit_depth /
->>> 8;
->>>
->>> Commit message doesn't mention bit_depth change at all. While I think
->>> there is no difference between dec_params->bit_depth and ctx->bit_depth,
->>> you shouldn't just use ordinary division. If bit_depth is 10, it will be
->>> rounded down. And if you decide to use bit_depth from context, please
->>> remove dec_params argument.
->> I will change this patch and create a helpers function for chroma and motion
->> vectors offsets that VP9 and HEVC code will use since they are identical.
->> I don't see issue with the division. If you have in mind a solution please
->> write it so I could test it.
-> Solution is same as the code that you removed:
-> int bytes_per_pixel = dec_params->bit_depth == 8 ? 1 : 2;
->
-> Or alternatively:
-> int bytes_per_pixel = DIV_ROUND_UP(dec_params->bit_depth, 8);
->
-> Consider bit_depth being 10. With old code you get 2, with yours you get 1.
+On 8/13/23 17:45, Hans de Goede wrote:
+> Hi Mauro,
+> 
+> Here are the atomisp changes for 6.6. Most of the patches are from
+> Kate Hsuan this cycle.
+> 
+> Highlights:
+> - Complete #ifdef ISP2401 removal work (Kate Hsuan),
+>   no more CONFIG_VIDEO_ATOMISP_ISP2401. Instead a single build
+>   now works on both the ISP2400(BYT) and ISP2401(CHT)!
+> - The ACPI DSDT -> v4l2-subdev fwnode translation code (ipu-bridge) is
+>   now shared with the IPU3 code (already merged through Sakari's tree)
+> - Drop the atomisp-ov2680 driver, instead the main ov2680 driver
+>   can now be used (already merged through Sakari's tree)
+> - Drop the atomisp-ov5693 driver, instead the main ov5693 driver
+>   can now be used
 
-The old code is wrong ;-)
-If the format depth is 10 bits per pixel then chroma offset (in bytes) formula is
-width * height * 10 / 8 not width * height * 16 / 8.
+It seems that this has not made it into the media pull-req for 6.6 :(
 
-I have already confirm that with HEVC on the same hardware.
+I guess I'll just include the changes in my next atomisp pull-req
+for 6.7 then ?
 
 Regards,
-Benjamin
+ 
+Hans
 
->
-> Best regards,
-> Jernej
->
->> Regards,
->> Benjamin
->>
->>> Best regards,
->>> Jernej
->>>
->>>>    }
->>>>    
->>>>    static size_t mv_offset(const struct hantro_ctx *ctx,
->
->
->
->
+
+
+
+
+> The following changes since commit c816786c3b46ebe42c4887933e50a79b35c0a1c3:
+> 
+>   media: i2c: rdacm21: Fix uninitialized value (2023-08-11 13:36:19 +0200)
+> 
+> are available in the Git repository at:
+> 
+>   git://git.kernel.org/pub/scm/linux/kernel/git/hansg/linux.git tags/media-atomisp-6.6-1
+> 
+> for you to fetch changes up to f0bfb0e19c8921468404a10f3c4e8ee4e417249d:
+> 
+>   media: atomisp: Drop atomisp-ov5693 sensor driver (2023-08-13 17:30:38 +0200)
+> 
+> ----------------------------------------------------------------
+> atomisp staging driver changes for 6.6
+> 
+> Highlights:
+> - Complete #ifdef ISP2401 removal work (Kate Hsuan),
+>   no more CONFIG_VIDEO_ATOMISP_ISP2401. Instead a single build
+>   now works on both the ISP2400(BYT) and ISP2401(CHT)!
+> - The ACPI DSDT -> v4l2-subdev fwnode translation code (ipu-bridge) is
+>   now shared with the IPU3 code (already merged through Sakari's tree)
+> - Drop the atomisp-ov2680 driver, instead the main ov2680 driver
+>   can now be used (already merged through Sakari's tree)
+> - Drop the atomisp-ov5693 driver, instead the main ov5693 driver
+>   can now be used
+> 
+> ----------------------------------------------------------------
+> Hans de Goede (15):
+>       media: atomisp: Fix missing v4l2_fh_release() in atomisp_open() error exit
+>       media: atomisp: Clamp width to max 1920 pixels when in ATOMISP_RUN_MODE_PREVIEW
+>       media: atomisp: Change atomisp_enum_framesizes() too small cut off from 2/3th to 5/8th
+>       media: atomisp: Add some higher resolutions to atomisp_enum_framesizes()
+>       media: atomisp: Remove support for custom run-mode v4l2-ctrl on sensors
+>       media: atomisp: Remove v4l2_ctrl_s_ctrl(asd->run_mode) calls from atomisp_open()
+>       media: atomisp: Remove empty isys_public.h
+>       media: atomisp: Remove aliases for MIPI_FORMAT_2400_CUSTOM0
+>       media: atomisp: Mark ia_css_isys_240?_init() static
+>       media: atomisp: Simplify some if (IS_ISP2401...) statements
+>       media: atomisp: Drop ia_css_debug_dump_debug_info() and functions only used by it
+>       media: atomisp: Drop VIDEO_ATOMISP_ISP2401 Kconfig option
+>       media: atomisp: gc0310: Stop setting v4l2_subdev.fwnode to the endpoint fwnode
+>       media: atomisp: Disable VCM for OV5693 for now
+>       media: atomisp: Drop atomisp-ov5693 sensor driver
+> 
+> Kate Hsuan (26):
+>       media: atomisp: ia_css_debug: Removed unused codes for debug
+>       media: atomisp: Removed unused HAS_WATCHDOG_SP_THREAD_DEBUG debug
+>       media: atomisp: sh_css_internal: sh_css_params: Unifying sh_css_sp_group data structure
+>       media: atomisp: ia_css_debug: Removed debug codes for dumping status
+>       media: atomisp: Make two individual enum to define the MIPI format
+>       media: atomisp: Included both input system headers
+>       media: atomisp: css_2401_system: Remove #ifdef ISP2401 to make the driver generic
+>       media: atomisp: isys: Removed #if defined(ISP2401) to make driver generic
+>       media: atomisp: hive_isp_css_common: Removed #if defined(ISP2401) to make driver generic
+>       media: atomisp: pipeline: Removed #if defined(ISP2401) to make driver generic
+>       media: atomisp: ifmtr: Removed #if defined(ISP2401) to make driver generic
+>       media: atomisp: Compile the object codes for a generic driver
+>       media: atomisp: rx: Removed #if defined(ISP2401) to make driver generic
+>       media: atomisp: isys_init: Initiate atomisp in a generic manner
+>       media: atomisp: ia_css_raw.host: Remove #ifdef ISP2401 to make the driver generic
+>       media: atomisp: binary: Removed #ifdef ISP2401 to make driver generic
+>       media: atomisp: hive_isp_css_include: Removed #ifdef ISP2401 to make driver generic
+>       media: atomisp: atomisp_compat_css20: Removed #ifdef ISP2401 to make driver generic
+>       media: atomisp: sh_css_mipi: Removed unused code ia_css_mipi_frame_enable_check_on_size()
+>       media: atomisp: sh_css: Removed #ifdef ISP2401 to make the driver generic
+>       media: atomisp: sh_css_sp: Remove #ifdef ISP2401 to make driver generic
+>       media: atomisp: sh_css: Removed #ifdef ISP2401 to make driver generic
+>       media: atomisp: sh_css: Renamed sh_css_config_input_network()
+>       media: atomisp: sh_css: Removed #ifdef ISP2401 to make code generic
+>       media: atomisp: sh_css: Removed #ifdef ISP2401 to make the driver generic
+>       media: atomisp: atomisp_v4l2: Removed unnecessary code
+> 
+>  drivers/staging/media/atomisp/Kconfig              |   12 -
+>  drivers/staging/media/atomisp/Makefile             |   16 +-
+>  drivers/staging/media/atomisp/TODO                 |    3 -
+>  drivers/staging/media/atomisp/i2c/Kconfig          |   12 -
+>  drivers/staging/media/atomisp/i2c/Makefile         |    1 -
+>  drivers/staging/media/atomisp/i2c/atomisp-gc0310.c |   20 +-
+>  drivers/staging/media/atomisp/i2c/ov5693/Makefile  |    2 -
+>  drivers/staging/media/atomisp/i2c/ov5693/ad5823.h  |   63 -
+>  .../media/atomisp/i2c/ov5693/atomisp-ov5693.c      | 1763 --------------------
+>  drivers/staging/media/atomisp/i2c/ov5693/ov5693.h  | 1331 ---------------
+>  .../staging/media/atomisp/include/linux/atomisp.h  |   10 -
+>  drivers/staging/media/atomisp/pci/atomisp_cmd.c    |   26 +-
+>  drivers/staging/media/atomisp/pci/atomisp_cmd.h    |   13 -
+>  .../media/atomisp/pci/atomisp_compat_css20.c       |   14 +-
+>  .../media/atomisp/pci/atomisp_csi2_bridge.c        |    7 +-
+>  drivers/staging/media/atomisp/pci/atomisp_fops.c   |    7 +-
+>  drivers/staging/media/atomisp/pci/atomisp_ioctl.c  |   21 +-
+>  drivers/staging/media/atomisp/pci/atomisp_subdev.c |   48 -
+>  drivers/staging/media/atomisp/pci/atomisp_subdev.h |    2 -
+>  drivers/staging/media/atomisp/pci/atomisp_v4l2.c   |   19 -
+>  .../pci/css_2401_system/host/isys_irq_local.h      |    3 -
+>  .../pci/css_2401_system/host/isys_irq_private.h    |    2 -
+>  .../atomisp/pci/css_2401_system/isys_irq_global.h  |    2 -
+>  .../atomisp/pci/hive_isp_css_common/debug_global.h |    7 -
+>  .../atomisp/pci/hive_isp_css_common/host/dma.c     |  266 ---
+>  .../pci/hive_isp_css_common/host/dma_local.h       |  116 --
+>  .../pci/hive_isp_css_common/host/input_formatter.c |    2 -
+>  .../pci/hive_isp_css_common/host/input_system.c    |  446 -----
+>  .../atomisp/pci/hive_isp_css_common/host/irq.c     |   19 -
+>  .../pci/hive_isp_css_common/host/irq_local.h       |    8 -
+>  .../atomisp/pci/hive_isp_css_common/host/isp.c     |   60 -
+>  .../pci/hive_isp_css_common/host/isp_local.h       |   31 -
+>  .../atomisp/pci/hive_isp_css_common/host/sp.c      |   47 -
+>  .../pci/hive_isp_css_common/host/sp_local.h        |   26 -
+>  .../pci/hive_isp_css_include/host/csi_rx_public.h  |    2 -
+>  .../pci/hive_isp_css_include/host/dma_public.h     |   13 -
+>  .../pci/hive_isp_css_include/host/irq_public.h     |   10 -
+>  .../pci/hive_isp_css_include/host/isp_public.h     |   13 -
+>  .../hive_isp_css_include/host/isys_dma_public.h    |    2 -
+>  .../hive_isp_css_include/host/isys_irq_public.h    |    2 -
+>  .../pci/hive_isp_css_include/host/isys_public.h    |   38 -
+>  .../hive_isp_css_include/host/pixelgen_public.h    |    2 -
+>  .../pci/hive_isp_css_include/host/sp_public.h      |   16 -
+>  .../atomisp/pci/hive_isp_css_include/isys_irq.h    |    2 -
+>  .../staging/media/atomisp/pci/ia_css_acc_types.h   |    6 +-
+>  drivers/staging/media/atomisp/pci/ia_css_mipi.h    |   16 -
+>  .../staging/media/atomisp/pci/input_system_local.h |    7 +-
+>  .../media/atomisp/pci/input_system_private.h       |    7 +-
+>  .../media/atomisp/pci/input_system_public.h        |    4 +-
+>  .../pci/isp/kernels/raw/raw_1.0/ia_css_raw.host.c  |   21 +-
+>  .../media/atomisp/pci/isp2400_input_system_local.h |  198 +--
+>  .../atomisp/pci/isp2400_input_system_private.h     |    4 +-
+>  .../atomisp/pci/isp2400_input_system_public.h      |   42 +-
+>  .../media/atomisp/pci/isp2401_input_system_local.h |   88 +-
+>  .../atomisp/pci/isp2401_input_system_private.h     |  112 +-
+>  .../media/atomisp/pci/runtime/binary/src/binary.c  |   15 +-
+>  .../pci/runtime/debug/interface/ia_css_debug.h     |   85 -
+>  .../atomisp/pci/runtime/debug/src/ia_css_debug.c   | 1493 -----------------
+>  .../media/atomisp/pci/runtime/ifmtr/src/ifmtr.c    |    2 -
+>  .../pci/runtime/isys/interface/ia_css_isys.h       |    9 +-
+>  .../pci/runtime/isys/interface/ia_css_isys_comm.h  |    2 -
+>  .../atomisp/pci/runtime/isys/src/csi_rx_rmgr.c     |    2 -
+>  .../atomisp/pci/runtime/isys/src/isys_dma_rmgr.c   |    2 -
+>  .../media/atomisp/pci/runtime/isys/src/isys_init.c |   35 +-
+>  .../pci/runtime/isys/src/isys_stream2mmio_rmgr.c   |    2 -
+>  .../media/atomisp/pci/runtime/isys/src/rx.c        |  265 +--
+>  .../atomisp/pci/runtime/isys/src/virtual_isys.c    |    8 +-
+>  .../runtime/pipeline/interface/ia_css_pipeline.h   |    2 -
+>  .../atomisp/pci/runtime/pipeline/src/pipeline.c    |    2 -
+>  drivers/staging/media/atomisp/pci/sh_css.c         |  236 ++-
+>  .../staging/media/atomisp/pci/sh_css_internal.h    |   41 +-
+>  drivers/staging/media/atomisp/pci/sh_css_mipi.c    |   29 -
+>  drivers/staging/media/atomisp/pci/sh_css_params.c  |   41 +-
+>  drivers/staging/media/atomisp/pci/sh_css_sp.c      |   62 +-
+>  drivers/staging/media/atomisp/pci/sh_css_sp.h      |    4 -
+>  75 files changed, 485 insertions(+), 6882 deletions(-)
+>  delete mode 100644 drivers/staging/media/atomisp/i2c/ov5693/Makefile
+>  delete mode 100644 drivers/staging/media/atomisp/i2c/ov5693/ad5823.h
+>  delete mode 100644 drivers/staging/media/atomisp/i2c/ov5693/atomisp-ov5693.c
+>  delete mode 100644 drivers/staging/media/atomisp/i2c/ov5693/ov5693.h
+>  delete mode 100644 drivers/staging/media/atomisp/pci/hive_isp_css_include/host/isys_public.h
+> 
+
