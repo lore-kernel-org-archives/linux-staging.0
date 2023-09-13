@@ -1,104 +1,96 @@
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.22])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 879061E519
-	for <linux-staging@lists.linux.dev>; Wed, 13 Sep 2023 11:31:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net; s=s31663417;
- t=1694604676; x=1695209476; i=wahrenst@gmx.net;
- bh=28UftcTBRZ6helOYZnhliSx5p5LHun67O1lu6Xhm8Ig=;
- h=X-UI-Sender-Class:Date:Subject:From:To:Cc:References:In-Reply-To;
- b=MyagVk0GEzc/rKdlwS5PzESKtkYq0Nf6cWuUra2ZHvtCgX2vjRnEPbU+JsbfJKpDzYbFmGi/McI
- FRPiQ/BgTf2ujLvaJn3sjGkGCNkOozTSokMOeCa/wZ04AbkfGfbOa+qFRQ/0zwE00wavBpdrvL4IY
- w2rhGsFV8Zu7H3nVIIlsQ4OJtcvX1qxLvUUUbx0IKTTT/2xp1k1ug+kOsR8C4piqv64h9pLaw3hfS
- 1lnkBScVLvJjvqZ4e5fIUt/sV2KRgi9ZDf3AOe48Xt8BdPuxQ5PUjC1kj6Y5BXC3RujGb1Wg078/W
- lvffdQHRErnY/l1+xCRziKS2WbtTBDT0AhWA==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from [192.168.1.129] ([37.4.248.43]) by mail.gmx.net (mrgmx104
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1M6Udt-1qmgYP26np-006vkL; Wed, 13
- Sep 2023 13:31:16 +0200
-Message-ID: <66a6c513-7277-255d-dd56-eed1d6a8efe8@gmx.net>
-Date: Wed, 13 Sep 2023 13:31:15 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BB131E526
+	for <linux-staging@lists.linux.dev>; Wed, 13 Sep 2023 11:46:54 +0000 (UTC)
+Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-1c3887039d4so37945405ad.1
+        for <linux-staging@lists.linux.dev>; Wed, 13 Sep 2023 04:46:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1694605614; x=1695210414; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=t8G7CBFVeKBYWJi3/h4tOeDyucqZ1aEGQkR5n5w67CE=;
+        b=DzGfdn+yO23tys3o6+g40o0lRWtS+qNl8yLk30dWYMrFnILTbSPyGt/J/6lor1HTNR
+         YVQBWEGH7n28ldDT2dKWBNxc5x3d50L9rWQ+G17+gYGpKRMRDWW4dpW7Bv0IyHZA6uU6
+         13w7ew2w1v2KuCTNYeqLTrMPhbpDV+HJHFRV7RnwrRI/h6T74Fuhq+o340WlJvd3TixF
+         DIrUWV6D34auAPvyoYGBU9A9TDTNGaGix/SJvinR/gfSlp1zD9UIkQ4GCBwxUMmyuOF3
+         SnIAq1t6XqG2OdZSiAQ/PPyDryFz43uA3j0AE+dFa5Es9AC9ued6dxXzeRbB+IPgKYgJ
+         slxw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1694605614; x=1695210414;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=t8G7CBFVeKBYWJi3/h4tOeDyucqZ1aEGQkR5n5w67CE=;
+        b=jp9Y3Q8P1xtmBPZxrKNm8LaQJ2l1lWcBk1y/b3SFJtffMCTE3wTgj4rhHdgMRL1HoH
+         ceUjad/LNvAHHbKBA4n6+/rkf0WDNIieVwTOQVuqtTtzWrLp7fumpirOyCPi/lM6vxSL
+         6dPzSvc6lnLHhi7Luzg1U7hoKXmM06TpQ24JtAb4K0cjU0qTU8Od+W4yfN3f2jgbKwA9
+         vs631GZ44UWKdTwzAf3BYVYa+sn0tECb07/HUd/BfJlCQXoiWi/Ygrn9IzNsqe3i7DMX
+         TtWofvZ/ZEmZy91GJmfXua+NMmz4SqvmKCxI16IX1LeZrkVOkTwJQU3y6h3rKQahSccL
+         0+Nw==
+X-Gm-Message-State: AOJu0YxpTPD1vGkQBwMsgA5duHepElHKO8jzBfYI3McT1ignkvjkKXZT
+	I/FoTmQDOnSm/kUiXR7B6E0=
+X-Google-Smtp-Source: AGHT+IEuFaFLKsJwuEVKSOqqT8tBBTn1CG95mnBnNPn5WZFZi74cXWpTD+xF+pEYnzAuND8luPllBg==
+X-Received: by 2002:a17:902:ecc8:b0:1bf:22b7:86d with SMTP id a8-20020a170902ecc800b001bf22b7086dmr3001733plh.3.1694605613617;
+        Wed, 13 Sep 2023 04:46:53 -0700 (PDT)
+Received: from ubuntu.myguest.virtualbox.org ([106.205.101.29])
+        by smtp.gmail.com with ESMTPSA id j12-20020a170902c3cc00b001b869410ed2sm10220458plj.72.2023.09.13.04.46.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 13 Sep 2023 04:46:53 -0700 (PDT)
+Date: Wed, 13 Sep 2023 17:16:38 +0530
+From: Pavan Bobba <opensource206@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Forest Bond <forest@alittletooquiet.net>,
+	Michael Straube <straube.linux@gmail.com>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v4] staging: vt6655: Type encoding info dropped from
+ array name "byVT3253B0_"
+Message-ID: <ZQGhHj0q5ISLkfzN@ubuntu.myguest.virtualbox.org>
+References: <ZP8Iu+Hh8YD+VhYH@ubuntu.myguest.virtualbox.org>
+ <2023091210-wok-laziness-b64e@gregkh>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.0
-Subject: Re: [PATCH v10 1/5] staging: vc04_services: vchiq_arm: Add new bus
- type and device type
-From: Stefan Wahren <wahrenst@gmx.net>
-To: Umang Jain <umang.jain@ideasonboard.com>,
- Robin Murphy <robin.murphy@arm.com>
-Cc: gregkh@linuxfoundation.org, f.fainelli@gmail.com, athierry@redhat.com,
- error27@gmail.com, kieran.bingham@ideasonboard.com,
- laurent.pinchart@ideasonboard.com, dave.stevenson@raspberrypi.com,
- linux-kernel@vger.kernel.org, linux-rpi-kernel@lists.infradead.org,
- linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
- linux-media@vger.kernel.org
-References: <20230911140712.180751-1-umang.jain@ideasonboard.com>
- <20230911140712.180751-2-umang.jain@ideasonboard.com>
- <c96262e7-9bd9-c75d-7584-e6ff62f69530@gmx.net>
- <d006e31a-33df-51b1-c8cf-9c7e5590adb6@ideasonboard.com>
- <7b7d322d-5ea6-5048-0cbe-8d292853ba12@gmx.net>
-Content-Language: en-US
-In-Reply-To: <7b7d322d-5ea6-5048-0cbe-8d292853ba12@gmx.net>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:J3aK1TsqiktJsf7+0PTG00rcEOkVlbMc3Ux6kZqx1ZcLBD2VqER
- snLZGlzHKbA1aKZcxgBUjapCgacwK30bDRXQkvZfGtmDSy9thlorNODA7nzs6wq6YxWjhzA
- r3fCuVhgYW5xuZNxbQuOoOlOVMhT4NMh25lcM3LPeUEgLPw3Qbq6IHks5lSZsNtzKIYLbTQ
- qyfZb4FnvwqwmR09bQRsA==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:Aa5zqFzzW6Q=;TSWzz8UOW2Vrt7q1EYQ7JyeekD0
- M+7Y4SFDSO+xdOqfCDjRpApbN5hZI14riCM5UsU6vFcrmWW82Svc7KuBdelxTx1Z9lBKm/Roe
- QTfAck/dmZYo0L2pam5cPN3OENeHAE5IxL/mJJ0x3ZTx6xQ8UkfGhuGlTDtJ/XZLeRyf7dupD
- ib3VyCS7vkjDODHyKfKrIW5pnlAfKWTWFjNOjMLDJhfqB2mxrxeP5/vdQAbty5/nhHaypPKfI
- hw1vQtloYDs0Xao4EeihkjRxDfUxO8Z8+tzYzmQ1rvWtcM26zxTf3cwKII4NxmwvrZ/E3DT/t
- IfEWI67d0tc6snnI2N6EsgxaysXvK40C7YlB3OqAqGjQE/HtOOM5Ym/rrQzWNyBXrolcC/T9s
- z43f1kotSPl/PT8JXdvI3xRiou7QBYGy8ChoI3xiEwGdHp14kYauzz4O9G0j+vkAubabfve9P
- q0TtwBj4gVZ0i9md8IlMFLWf/u8ez6ddl5+2irvJ9Pr2qrUrsocrRbvUsxhaQP45Wq/e2QCw3
- rMtkkmzOUC0gYVxswc+dxpa1bKazq9E7y3zib0ShUm8u1ZDtoe/bduVvJPiPY750WWtmWmiDN
- bzPrt2TR3uHisyfSy8j2cndFAudj4nqHguL8yAD+MroQLU0TAwV0Av4jGJuwW2TQOVTdTgeBy
- LHzb7sqtc4vBP/OQiWQIoxNUhz2UGA55BK9bHWNodU5OMGGfdpMPike3ENoKlOZNceuT6az9F
- HxWfUR5BOIqftK62M8bVrpwAU00keHnU45XQTlpey0swdgv6b0qKpFF6BQPm+6wEotlPHVZTg
- I1cjzvxWr5Y2Co8ZZygeEfSHXvn5PxmBvwZxCJO3hmc3pksduuzoSXto9DLfn1JLb5Ex8Q0BB
- f8Jf7Q66yFsnREfh8tpHQV7OYVOuRTaICWj8O57GuG3fqfPEtnuMzZBaGmhWWyQakN48S8zqv
- FYfVNkEj5knalnKKuK0vjRYsC90=
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <2023091210-wok-laziness-b64e@gregkh>
 
-Hi Umang,
+On Tue, Sep 12, 2023 at 03:58:32PM +0200, Greg Kroah-Hartman wrote:
+> On Mon, Sep 11, 2023 at 06:01:55PM +0530, Pavan Bobba wrote:
+> > Array names starting with "byVT3253B0_" updated like below:
+> > 
+> > a.type encoding info dropped from names
+> > b.camelcase names replaced by snakecase
+> > 
+> > Issue found by checkpatch
+> > 
+> > Signed-off-by: Pavan Bobba <opensource206@gmail.com>
+> > ---
+> > 
+> >  v1 -> v2: Name of the tool added in the body of explanation,
+> >            which found this issue
+> > 
+> >  v2 -> v3: subject modified to more specific detail
+> > 
+> >  v3 -> v4: changelog modified as per patch submission guidelines
+> > 
+> 
+> I see 2 v4 patches on the mailing list, sent on different days.  Which
+> one is correct?
+> 
+> I'll drop both and wait for a v5.
+> 
+> thanks,
+> 
+> greg k-h
 
-Am 12.09.23 um 09:23 schrieb Stefan Wahren:
-> Hi Umang,
->
-> Am 12.09.23 um 07:50 schrieb Umang Jain:
->> Hi Stephan
->>
->> On 9/12/23 1:52 AM, Stefan Wahren wrote:
->>> Hi Umang,
->>>
->>> Am 11.09.23 um 16:07 schrieb Umang Jain:
->>>> ...
->>>
->>> Unfortunately the call of of_dma_configure() generates warnings likes
->>> this (Raspberry Pi 3A+ with multi_v7_defconfig + VCHIQ):
->>>
->>> [=C2=A0=C2=A0=C2=A0 9.206802] vchiq-bus bcm2835-audio: DMA mask not se=
-t
->>> [=C2=A0=C2=A0=C2=A0 9.206892] vchiq-bus bcm2835-camera: DMA mask not s=
-et
->>
->> huh, really weird, as on my RPi-3-b I get these set correctly and I
->> don't any such warning.
-> This warning comes from this line [1]. Did you test with the mainline
-> devicetree from [2] which must be specified in the config.txt? Be
-> aware the arm dts files has moved into a sub directory just like
-> arm64. I don't use U-Boot, just the vendor bootloader from Raspberry
-> Pi OS. Please look at [3] for the details.
-please look at [4], which is possible a solution. AFAIK the dwc2 also
-had the same problem.
+apologies for the confusion greg. second v4 patch i sent since 
+in first v4 patch mail , you are not there in mail receipents.
 
-[4] -
-https://elixir.bootlin.com/linux/latest/source/drivers/usb/dwc2/platform.c=
-#L448
+anyway, i will send v5 to avoid confusion
+
+thanks,
+pavan
