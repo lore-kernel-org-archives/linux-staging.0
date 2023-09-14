@@ -1,25 +1,25 @@
 Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4AE121A03
-	for <linux-staging@lists.linux.dev>; Thu, 14 Sep 2023 13:33:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AABD521A01
+	for <linux-staging@lists.linux.dev>; Thu, 14 Sep 2023 13:33:41 +0000 (UTC)
 Received: from benjamin-XPS-13-9310.. (unknown [IPv6:2a01:e0a:120:3210:36f2:37bd:ccbb:373f])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
 	(Authenticated sender: benjamin.gaignard)
-	by madras.collabora.co.uk (Postfix) with ESMTPSA id D61D56607355;
-	Thu, 14 Sep 2023 14:33:34 +0100 (BST)
+	by madras.collabora.co.uk (Postfix) with ESMTPSA id CEC4E6607352;
+	Thu, 14 Sep 2023 14:33:33 +0100 (BST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1694698415;
-	bh=iZqd1w+9hJa+OQD7BuHGMyLxr+up+MZt6k1cr275d/4=;
+	s=mail; t=1694698414;
+	bh=xgQ59ci0u36Sg6Kfk6W/knjQu2QF8jMpnRAVGSPYz3E=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=YBKyrFSx5bL9zrE3+6VE9UoNa6a/2EJcx9kGRCOy32Z7Tk5r/DL0ScHoaO+15m5om
-	 N3rNbLa3LJTej/+SCRGhoNXiyiU1YiLJslsY4DKCRXNkTxrLLplPbTqmchMGtMDRxR
-	 q6ZVBm+UXjnzSvx1PsV5VMB9+xq0i012Mxl3b9jb39a2e0KQ+p+OrJ7Q9uCl8zBFJW
-	 9alTy9FMYas1CjZb3DLQJ06R+SLjPCU12THGyJl5MqIYAfXmnkO+8u3Hj2acXQzbHV
-	 fco8OlfKWtLh+L+nT+ohqLGOQQfdwRAd0HxvgnREI6AwPfGBVum0a8mvtL2WH6UG/1
-	 PlZooX4ru6Xvg==
+	b=fXFkwMr58pl3kD2w2eazXiEVaY7bh84f8fTUEWWcFm6cCqDY+NSc7hG1r0DeF6miz
+	 pHYzFvsDbkSYNCm/xiCiJRXzC97mFpmyvwa+L3PQp1WMW4KKJT83cfXK8G6UkMSaby
+	 A3nqQvqr0PzdYG6SsQDnF41oZRMoCbi0V915JyNVzNlQnZC5BVNSQlsoC6bQNvlVxA
+	 EftWfHSXVZ65cL2KxeGPnd8D/GyqyRKpJX1C/gBZKZ5idmeIclqHJz/7hrnVe51qAv
+	 KZvlJl/GS7fEeC6aOAooDYoaXzCNDEgPJFrVufQy43TwseFRQuERNAuut8dukGwG9i
+	 qs9CFTrFBSAqg==
 From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
 To: mchehab@kernel.org,
 	tfiga@chromium.org,
@@ -39,9 +39,9 @@ Cc: linux-media@vger.kernel.org,
 	linux-staging@lists.linux.dev,
 	kernel@collabora.com,
 	Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Subject: [PATCH v7 07/49] media: sti: hva: Use vb2_get_buffer() instead of directly access to buffers array
-Date: Thu, 14 Sep 2023 15:32:41 +0200
-Message-Id: <20230914133323.198857-8-benjamin.gaignard@collabora.com>
+Subject: [PATCH v7 05/49] media: mediatek: jpeg: Use vb2_get_buffer() instead of directly access to buffers array
+Date: Thu, 14 Sep 2023 15:32:39 +0200
+Message-Id: <20230914133323.198857-6-benjamin.gaignard@collabora.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230914133323.198857-1-benjamin.gaignard@collabora.com>
 References: <20230914133323.198857-1-benjamin.gaignard@collabora.com>
@@ -61,24 +61,29 @@ a valid pointer so check the return value of all of them.
 
 Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
 ---
- drivers/media/platform/st/sti/hva/hva-v4l2.c | 4 ++++
- 1 file changed, 4 insertions(+)
+ drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c | 7 +++----
+ 1 file changed, 3 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/media/platform/st/sti/hva/hva-v4l2.c b/drivers/media/platform/st/sti/hva/hva-v4l2.c
-index 3a848ca32a0e..326be09bdb55 100644
---- a/drivers/media/platform/st/sti/hva/hva-v4l2.c
-+++ b/drivers/media/platform/st/sti/hva/hva-v4l2.c
-@@ -577,6 +577,10 @@ static int hva_qbuf(struct file *file, void *priv, struct v4l2_buffer *buf)
- 		}
+diff --git a/drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c b/drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c
+index 7194f88edc0f..73a063b1569b 100644
+--- a/drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c
++++ b/drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c
+@@ -598,12 +598,11 @@ static int mtk_jpeg_qbuf(struct file *file, void *priv, struct v4l2_buffer *buf)
+ 		goto end;
  
- 		vb2_buf = vb2_get_buffer(vq, buf->index);
-+		if (!vb2_buf) {
-+			dev_dbg(dev, "%s buffer index %d not found\n", ctx->name, buf->index);
-+			return -EINVAL;
-+		}
- 		stream = to_hva_stream(to_vb2_v4l2_buffer(vb2_buf));
- 		stream->bytesused = buf->bytesused;
+ 	vq = v4l2_m2m_get_vq(fh->m2m_ctx, buf->type);
+-	if (buf->index >= vq->num_buffers) {
+-		dev_err(ctx->jpeg->dev, "buffer index out of range\n");
++	vb = vb2_get_buffer(vq, buf->index);
++	if (!vb) {
++		dev_err(ctx->jpeg->dev, "buffer not found\n");
+ 		return -EINVAL;
  	}
+-
+-	vb = vq->bufs[buf->index];
+ 	jpeg_src_buf = mtk_jpeg_vb2_to_srcbuf(vb);
+ 	jpeg_src_buf->bs_size = buf->m.planes[0].bytesused;
+ 
 -- 
 2.39.2
 
