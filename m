@@ -1,83 +1,205 @@
-Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from fd01.gateway.ufhost.com (fd01.gateway.ufhost.com [61.152.239.71])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26B0CEC4
-	for <linux-staging@lists.linux.dev>; Thu, 14 Sep 2023 02:16:39 +0000 (UTC)
-Received: from kwepemi500008.china.huawei.com (unknown [172.30.72.54])
-	by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4RmL6y0BrNzVjP2;
-	Thu, 14 Sep 2023 09:57:30 +0800 (CST)
-Received: from [10.67.109.254] (10.67.109.254) by
- kwepemi500008.china.huawei.com (7.221.188.139) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.31; Thu, 14 Sep 2023 10:00:18 +0800
-Message-ID: <89d2e898-3a5f-75cd-14db-1af3319a2a4d@huawei.com>
-Date: Thu, 14 Sep 2023 10:00:17 +0800
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B7C8A53
+	for <linux-staging@lists.linux.dev>; Thu, 14 Sep 2023 03:16:17 +0000 (UTC)
+Received: from EXMBX165.cuchost.com (unknown [175.102.18.54])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(Client CN "EXMBX165", Issuer "EXMBX165" (not verified))
+	by fd01.gateway.ufhost.com (Postfix) with ESMTP id 564B28022;
+	Thu, 14 Sep 2023 11:16:10 +0800 (CST)
+Received: from EXMBX073.cuchost.com (172.16.6.83) by EXMBX165.cuchost.com
+ (172.16.6.75) with Microsoft SMTP Server (TLS) id 15.0.1497.42; Thu, 14 Sep
+ 2023 11:16:10 +0800
+Received: from xiaofei.localdomain (180.164.60.184) by EXMBX073.cuchost.com
+ (172.16.6.83) with Microsoft SMTP Server (TLS) id 15.0.1497.42; Thu, 14 Sep
+ 2023 11:16:10 +0800
+From: Jack Zhu <jack.zhu@starfivetech.com>
+To: Mauro Carvalho Chehab <mchehab@kernel.org>, Robert Foss
+	<rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>,
+	<bryan.odonoghue@linaro.org>, Rob Herring <robh+dt@kernel.org>, "Krzysztof
+ Kozlowski" <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley
+	<conor+dt@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Philipp Zabel <p.zabel@pengutronix.de>, Laurent Pinchart
+	<laurent.pinchart@ideasonboard.com>, Hans Verkuil <hverkuil-cisco@xs4all.nl>
+CC: <linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<devicetree@vger.kernel.org>, <linux-staging@lists.linux.dev>,
+	<jack.zhu@starfivetech.com>, <changhuang.liang@starfivetech.com>
+Subject: [PATCH v9 2/8] media: admin-guide: Add starfive_camss.rst for Starfive Camera Subsystem
+Date: Thu, 14 Sep 2023 11:16:01 +0800
+Message-ID: <20230914031607.34877-3-jack.zhu@starfivetech.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20230914031607.34877-1-jack.zhu@starfivetech.com>
+References: <20230914031607.34877-1-jack.zhu@starfivetech.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.0
-Subject: Re: [PATCH -next v2 1/3] staging: rtl8192e: rtl_core: Call
- dev_kfree_skb_irq() instead of kfree_skb() under spin_lock_irqsave()
-Content-Language: en-US
-To: Greg KH <gregkh@linuxfoundation.org>
-CC: <philipp.g.hortmann@gmail.com>, <straube.linux@gmail.com>,
-	<Larry.Finger@lwfinger.net>, <wlanfae@realtek.com>, <mikem@ring3k.org>,
-	<seanm@seanm.ca>, <linux-staging@lists.linux.dev>
-References: <20230825015213.2697347-1-ruanjinjie@huawei.com>
- <20230825015213.2697347-2-ruanjinjie@huawei.com>
- <2023091352-mouth-escapist-6eb4@gregkh>
-From: Ruan Jinjie <ruanjinjie@huawei.com>
-In-Reply-To: <2023091352-mouth-escapist-6eb4@gregkh>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.67.109.254]
-X-ClientProxiedBy: dggems702-chm.china.huawei.com (10.3.19.179) To
- kwepemi500008.china.huawei.com (7.221.188.139)
-X-CFilter-Loop: Reflected
+Content-Type: text/plain
+X-Originating-IP: [180.164.60.184]
+X-ClientProxiedBy: EXCAS061.cuchost.com (172.16.6.21) To EXMBX073.cuchost.com
+ (172.16.6.83)
+X-YovoleRuleAgent: yovoleflag
+Content-Transfer-Encoding: quoted-printable
 
+Add starfive_camss.rst file that documents the Starfive Camera
+Subsystem driver which is used for handing image sensor data.
 
+Signed-off-by: Jack Zhu <jack.zhu@starfivetech.com>
+---
+ .../admin-guide/media/starfive_camss.rst      | 72 +++++++++++++++++++
+ .../media/starfive_camss_graph.dot            | 12 ++++
+ .../admin-guide/media/v4l-drivers.rst         |  1 +
+ MAINTAINERS                                   |  1 +
+ 4 files changed, 86 insertions(+)
+ create mode 100644 Documentation/admin-guide/media/starfive_camss.rst
+ create mode 100644 Documentation/admin-guide/media/starfive_camss_graph.=
+dot
 
-On 2023/9/13 16:34, Greg KH wrote:
-> On Fri, Aug 25, 2023 at 09:52:11AM +0800, Jinjie Ruan wrote:
->> It is not allowed to call kfree_skb() from hardware interrupt
->> context or with hardware interrupts being disabled.
-> 
-> Why not?  Seems to work so far :)
+diff --git a/Documentation/admin-guide/media/starfive_camss.rst b/Documen=
+tation/admin-guide/media/starfive_camss.rst
+new file mode 100644
+index 000000000000..ca42e9447c47
+--- /dev/null
++++ b/Documentation/admin-guide/media/starfive_camss.rst
+@@ -0,0 +1,72 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++.. include:: <isonum.txt>
++
++=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D
++Starfive Camera Subsystem driver
++=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D
++
++Introduction
++------------
++
++This file documents the driver for the Starfive Camera Subsystem found o=
+n
++Starfive JH7110 SoC. The driver is located under drivers/staging/media/s=
+tarfive/
++camss.
++
++The driver implements V4L2, Media controller and v4l2_subdev interfaces.=
+ Camera
++sensor using V4L2 subdev interface in the kernel is supported.
++
++The driver has been successfully used on the Gstreamer 1.18.5 with v4l2s=
+rc
++plugin.
++
++
++Starfive Camera Subsystem hardware
++----------------------------------
++
++The Starfive Camera Subsystem hardware consists of::
++
++                    |\         +---------------+      +-----------+
++  +----------+      |  \       |               |      |           |
++  |          |      |   |      |               |      |           |
++  |   MIPI   |----->|   |----->|      ISP      |----->|           |
++  |          |      |   |      |               |      |           |
++  +----------+      |   |      |               |      |  Memory   |
++                    |MUX|      +---------------+      | Interface |
++  +----------+      |   |                             |           |
++  |          |      |   |---------------------------->|           |
++  | Parallel |----->|   |                             |           |
++  |          |      |   |                             |           |
++  +----------+      |  /                              |           |
++                    |/                                +-----------+
++
++- MIPI: The MIPI interface, receiving data from a MIPI CSI-2 camera sens=
+or.
++
++- Parallel: The parallel interface,  receiving data from a parallel sens=
+or.
++
++- ISP: The ISP, processing raw Bayer data from an image sensor and produ=
+cing
++  YUV frames.
++
++
++Topology
++--------
++
++The media controller pipeline graph is as follows:
++
++.. _starfive_camss_graph:
++
++.. kernel-figure:: starfive_camss_graph.dot
++    :alt:   starfive_camss_graph.dot
++    :align: center
++
++The driver has 2 video devices:
++
++- capture_raw: The capture device, capturing image data directly from a =
+sensor.
++- capture_yuv: The capture device, capturing YUV frame data processed by=
+ the
++  ISP module
++
++The driver has 3 subdevices:
++
++- stf_isp: is responsible for all the isp operations, outputs YUV frames=
+.
++- cdns_csi2rx: a CSI-2 bridge supporting up to 4 CSI lanes in input, and=
+ 4
++  different pixel streams in output.
++- imx219: an image sensor, image data is sent through MIPI CSI-2.
+diff --git a/Documentation/admin-guide/media/starfive_camss_graph.dot b/D=
+ocumentation/admin-guide/media/starfive_camss_graph.dot
+new file mode 100644
+index 000000000000..8eff1f161ac7
+--- /dev/null
++++ b/Documentation/admin-guide/media/starfive_camss_graph.dot
+@@ -0,0 +1,12 @@
++digraph board {
++	rankdir=3DTB
++	n00000001 [label=3D"{{<port0> 0} | stf_isp\n/dev/v4l-subdev0 | {<port1>=
+ 1}}", shape=3DMrecord, style=3Dfilled, fillcolor=3Dgreen]
++	n00000001:port1 -> n00000008 [style=3Ddashed]
++	n00000004 [label=3D"capture_raw\n/dev/video0", shape=3Dbox, style=3Dfil=
+led, fillcolor=3Dyellow]
++	n00000008 [label=3D"capture_yuv\n/dev/video1", shape=3Dbox, style=3Dfil=
+led, fillcolor=3Dyellow]
++	n0000000e [label=3D"{{<port0> 0} | cdns_csi2rx.19800000.csi-bridge\n | =
+{<port1> 1 | <port2> 2 | <port3> 3 | <port4> 4}}", shape=3DMrecord, style=
+=3Dfilled, fillcolor=3Dgreen]
++	n0000000e:port1 -> n00000001:port0 [style=3Ddashed]
++	n0000000e:port1 -> n00000004 [style=3Ddashed]
++	n00000018 [label=3D"{{} | imx219 6-0010\n/dev/v4l-subdev1 | {<port0> 0}=
+}", shape=3DMrecord, style=3Dfilled, fillcolor=3Dgreen]
++	n00000018:port0 -> n0000000e:port0 [style=3Dbold]
++}
+diff --git a/Documentation/admin-guide/media/v4l-drivers.rst b/Documentat=
+ion/admin-guide/media/v4l-drivers.rst
+index 1c41f87c3917..2274fd29c1d7 100644
+--- a/Documentation/admin-guide/media/v4l-drivers.rst
++++ b/Documentation/admin-guide/media/v4l-drivers.rst
+@@ -27,6 +27,7 @@ Video4Linux (V4L) driver-specific documentation
+ 	si470x
+ 	si4713
+ 	si476x
++	starfive_camss
+ 	vimc
+ 	visl
+ 	vivid
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 8fd44a3e0b8f..60945bf4b381 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -20268,6 +20268,7 @@ M:	Jack Zhu <jack.zhu@starfivetech.com>
+ M:	Changhuang Liang <changhuang.liang@starfivetech.com>
+ L:	linux-media@vger.kernel.org
+ S:	Maintained
++F:	Documentation/admin-guide/media/starfive_camss.rst
+ F:	Documentation/devicetree/bindings/media/starfive,jh7110-camss.yaml
+=20
+ STARFIVE CRYPTO DRIVER
+--=20
+2.34.1
 
-The commit e6247027e517 ("net: introduce dev_consume_skb_any()") has the
-below comment:
-
-3830 /*
-3831  * It is not allowed to call kfree_skb() or consume_skb() from hardware
-3832  * interrupt context or with hardware interrupts being disabled.
-3833  * (in_hardirq() || irqs_disabled())
-3834  *
-3835  * We provide four helpers that can be used in following contexts :
-3836  *
-3837  * dev_kfree_skb_irq(skb) when caller drops a packet from irq context,
-3838  *  replacing kfree_skb(skb)
-3839  *
-3840  * dev_consume_skb_irq(skb) when caller consumes a packet from irq
-context.
-3841  *  Typically used in place of consume_skb(skb) in TX completion path
-3842  *
-3843  * dev_kfree_skb_any(skb) when caller doesn't know its current irq
-context,
-3844  *  replacing kfree_skb(skb)
-3845  *
-3846  * dev_consume_skb_any(skb) when caller doesn't know its current
-irq context,
-3847  *  and consumed a packet. Used in place of consume_skb(skb)
-3848  */
-
-
-> 
-> Are you fixing up all of the normal network drivers for this first?
-> 
-> thanks,
-> 
-> greg k-h
