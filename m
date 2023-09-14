@@ -1,50 +1,50 @@
-Received: from mail-lj1-f182.google.com (mail-lj1-f182.google.com [209.85.208.182])
+Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com [209.85.208.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C4222137E
-	for <linux-staging@lists.linux.dev>; Thu, 14 Sep 2023 20:07:19 +0000 (UTC)
-Received: by mail-lj1-f182.google.com with SMTP id 38308e7fff4ca-2bfc5218dd8so21811961fa.2
-        for <linux-staging@lists.linux.dev>; Thu, 14 Sep 2023 13:07:19 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A738C2137E
+	for <linux-staging@lists.linux.dev>; Thu, 14 Sep 2023 20:08:12 +0000 (UTC)
+Received: by mail-lj1-f180.google.com with SMTP id 38308e7fff4ca-2bfc2b26437so21384131fa.0
+        for <linux-staging@lists.linux.dev>; Thu, 14 Sep 2023 13:08:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1694722037; x=1695326837; darn=lists.linux.dev;
+        d=gmail.com; s=20221208; t=1694722091; x=1695326891; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=5ry9s078EXiAMlrtPVQmJBgmFI58bw0qDCvSBdknb1Y=;
-        b=mMACUgd8dFrvjCFfCKpA46HusPgHt5kNMHaLFbxVEezOkdfiHhl+k6C2cn49ek61Ds
-         ye3MxNFI9H+mTm7g5h8O+ILC9F2rRbbWUlaznjnYzBqKxjA/zT1TR/NbzyfDV8TT1zEq
-         wfUwLk4nFiICAXKsp/SbKHrXPYpIjo9sKR0lPQkEwrkiiT8avA0pM+KdjfXAN3V80GCn
-         Z+8kU0fS4McfGuACavtvfSn/0LgHqitOEJHmlNCJfT66xoSrPt15s3wP89Kr5uzi2L7A
-         j2tEidaR9/x1avn3dyqOc2f4NPSifuMC53YL5CpPt0gbLz/Ino5njZVr2uFXERsLCiiH
-         oPYg==
+        bh=qPAlSeS++kCWIJ+EqEuLd7WwF5rJGSHk2Ruf/GI+PiU=;
+        b=Ce94ZMTIOv0JpXdlvFsch8P51AkIdyQ0yJt1uK7OvDzEKNxNQLrwK/1LBV/jtuZkzc
+         opz7jLEF1bV2PKnIZf3QIayf9V+EOQ8rYNDaCjMpmR7GrV8xmY9U0Vs5jI/f4cYF2wVS
+         3hXkYAmxBkwTVNnmyTj8cvaEhJEyxu+wfgIiOMQg+pS9j5CstpZBUjszgm89GzJTDn2A
+         lfzm86HBU/srxybHo5+X3lK/HXBxr6KRo782CoEHIt2Jk9ZCMzX9pL+BYp+gI/8NiJKc
+         kMw2vYt3GN4bLE8aIIoRuYPq/brwXlU78mf+tTpwfyGzTo7l4Gmfw5Hf5IyJmnm6QKTO
+         YMHw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1694722037; x=1695326837;
+        d=1e100.net; s=20230601; t=1694722091; x=1695326891;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=5ry9s078EXiAMlrtPVQmJBgmFI58bw0qDCvSBdknb1Y=;
-        b=q/zxGCITMF+ywLqhB/yf5pdiTIhGDjdVoqhWdgHPd2Dgjb8/WBsoZv/RVEhoi0kcCY
-         pVHBsckl6HLUpb/13bbZQtQ6b27xGdVq3NoxH2n4UjOb6yjhDsAjWhckS1IJVkoW7XcM
-         Z3AcmA5v3T5pUQ1/CnjMjsySlzCmmz4wy8U/NT8phGkA3ZuzWG6oi4QuuTfanxSPqmkq
-         dLN9t8f7YBeTcjYPsF8FlLikrqHWTy7Kfuqh7IaL3tnNThOrRwJZ+7qurZESSjW7Z78H
-         oPiZEpHVEx6IylzT5m3HKCeBqaSmBFxF2vTiporK35vT45JSWP/a7KSCj2VTBAsJGrUH
-         +A4A==
-X-Gm-Message-State: AOJu0YxINIKqsPBYrMMixMfVZoTysnI2mHcbzQcbHJODygqXCAa0nHGs
-	O8pNnpO5UxkjPWumI0tz6Yw=
-X-Google-Smtp-Source: AGHT+IE4QrJGJnzm6+9tMJvwmQOMA7/wp+Mi3TzvgrT240zk3wvBoqrwBG6BW4ylOuJPXcnsKk/9Kg==
-X-Received: by 2002:a05:651c:144:b0:2bc:bb46:4fc7 with SMTP id c4-20020a05651c014400b002bcbb464fc7mr5580338ljd.24.1694722037327;
-        Thu, 14 Sep 2023 13:07:17 -0700 (PDT)
+        bh=qPAlSeS++kCWIJ+EqEuLd7WwF5rJGSHk2Ruf/GI+PiU=;
+        b=aOPAG21ul6PyuDuxrynyGLo0aX3QHMFAOicCltYio4YGS7DSAoaKeGhpLw5bCgrWwH
+         OUKoX9j93iv5IareuoMaEZe2191LN0mpwwCymDVu41oyB7FkGGbtBtJefNMR0ZGdTFWd
+         ARod4NERJBHwKtQGsoJzBVvfndN4LYId3jy/9b91G/Maq4XHDaVgLBzAtYSJrLTiF2SR
+         2cuacqb3XTfLLBEXCkWIRFqcDn4S56oyuZ3liX+4VlOGSuZ3DSTGuUy6ngGsZbt0F1Y+
+         KKHma6H1kYhFbyglehb2p7en4R5sUBjvXtH6fbrgS6IXi/LqfuQi/xwfGL+f/FlffnbI
+         uZqQ==
+X-Gm-Message-State: AOJu0YyAV03jsMj7KDHcYMPJNjdhA9T1vNM9uba7xemJDjsNT1VhK3Eg
+	wwFbWqBh5209ZAQy+VVSkZo=
+X-Google-Smtp-Source: AGHT+IFzc73UkN1c8QJnb8AEZ57DjlnsQcy+aGg43EQkZLbJLtGdD1PQ+enj2iAKJZBpUmXfzD9NUQ==
+X-Received: by 2002:a2e:910d:0:b0:2b7:2066:10e1 with SMTP id m13-20020a2e910d000000b002b7206610e1mr5909477ljg.0.1694722090289;
+        Thu, 14 Sep 2023 13:08:10 -0700 (PDT)
 Received: from HP-ENVY-Notebook.lan (81-229-94-10-no68.tbcn.telia.com. [81.229.94.10])
-        by smtp.googlemail.com with ESMTPSA id y16-20020a05651c021000b002b9ead74535sm418368ljn.15.2023.09.14.13.07.15
+        by smtp.googlemail.com with ESMTPSA id x22-20020a2e8396000000b002bcb239a7efsm411426ljg.56.2023.09.14.13.08.08
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 14 Sep 2023 13:07:16 -0700 (PDT)
+        Thu, 14 Sep 2023 13:08:09 -0700 (PDT)
 From: Jonathan Bergh <bergh.jonathan@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Jonathan Bergh <bergh.jonathan@gmail.com>
-Subject: [PATCH v2 1/2] staging: vme_user: Remove spurious newlines between define statements
-Date: Thu, 14 Sep 2023 22:05:37 +0200
-Message-Id: <20230914200536.47619-1-bergh.jonathan@gmail.com>
+Subject: [PATCH v2 2/2] staging: vme_user: Fix various comment formatting issues including comment content
+Date: Thu, 14 Sep 2023 22:07:33 +0200
+Message-Id: <20230914200732.47659-1-bergh.jonathan@gmail.com>
 X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -54,32 +54,302 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Removed spurious newlines in define statements so that defines which
-should be grouped together for readability are grouped as such.
+Fixed various issues relating to comments including:
+    * Lines with '*' in block comments which should be aligned and
+      were not
+    * Corrected comments where closing multiline comment identifier 
+      ran over into second newline spuriously
+    * Corrected comment content to correctly reflect hexadecimal for
+      the offsets rather than integers
 
 Signed-off-by: Jonathan Bergh <bergh.jonathan@gmail.com>
 ---
- drivers/staging/vme_user/vme_tsi148.h | 4 ----
- 1 file changed, 4 deletions(-)
+ drivers/staging/vme_user/vme_tsi148.h | 156 +++++++++++++-------------
+ 1 file changed, 77 insertions(+), 79 deletions(-)
 
 diff --git a/drivers/staging/vme_user/vme_tsi148.h b/drivers/staging/vme_user/vme_tsi148.h
-index 63f726e1811a..dbdf5dabaf90 100644
+index dbdf5dabaf90..f3c3dce7048a 100644
 --- a/drivers/staging/vme_user/vme_tsi148.h
 +++ b/drivers/staging/vme_user/vme_tsi148.h
-@@ -96,13 +96,9 @@ struct tsi148_dma_entry {
- #define TSI148_PCFS_MISC0		0xC
- #define TSI148_PCFS_MBARL		0x10
- #define TSI148_PCFS_MBARU		0x14
--
- #define TSI148_PCFS_SUBID		0x28
--
- #define TSI148_PCFS_CAPP		0x34
--
- #define TSI148_PCFS_MISC1		0x3C
--
- #define TSI148_PCFS_XCAPP		0x40
- #define TSI148_PCFS_XSTAT		0x44
+@@ -206,7 +206,7 @@ static const int TSI148_LCSR_OT[8] = { TSI148_LCSR_OT0, TSI148_LCSR_OT1,
  
+ /*
+  * VMEbus interrupt ack
+- * offset  200
++ * offset  0x200
+  */
+ #define TSI148_LCSR_VIACK1	0x204
+ #define TSI148_LCSR_VIACK2	0x208
+@@ -223,7 +223,7 @@ static const int TSI148_LCSR_VIACK[8] = { 0, TSI148_LCSR_VIACK1,
+ 
+ /*
+  * RMW
+- * offset    220
++ * offset    0x220
+  */
+ #define TSI148_LCSR_RMWAU	0x220
+ #define TSI148_LCSR_RMWAL	0x224
+@@ -233,7 +233,7 @@ static const int TSI148_LCSR_VIACK[8] = { 0, TSI148_LCSR_VIACK1,
+ 
+ /*
+  * VMEbus control
+- * offset    234
++ * offset    0x234
+  */
+ #define TSI148_LCSR_VMCTRL	0x234
+ #define TSI148_LCSR_VCTRL	0x238
+@@ -241,38 +241,38 @@ static const int TSI148_LCSR_VIACK[8] = { 0, TSI148_LCSR_VIACK1,
+ 
+ /*
+  * PCI status
+- * offset  240
++ * offset  0x240
+  */
+ #define TSI148_LCSR_PSTAT	0x240
+ 
+ /*
+  * VME filter.
+- * offset  250
++ * offset  0x250
+  */
+ #define TSI148_LCSR_VMEFL	0x250
+ 
+-	/*
+-	 * VME exception.
+-	 * offset  260
++/*
++ * VME exception.
++ * offset  0x260
+  */
+ #define TSI148_LCSR_VEAU	0x260
+ #define TSI148_LCSR_VEAL	0x264
+ #define TSI148_LCSR_VEAT	0x268
+ 
+-	/*
+-	 * PCI error
+-	 * offset  270
+-	 */
++/*
++ * PCI error
++ * offset  0x270
++ */
+ #define TSI148_LCSR_EDPAU	0x270
+ #define TSI148_LCSR_EDPAL	0x274
+ #define TSI148_LCSR_EDPXA	0x278
+ #define TSI148_LCSR_EDPXS	0x27C
+ #define TSI148_LCSR_EDPAT	0x280
+ 
+-	/*
+-	 * Inbound Translations
+-	 * offset  300
+-	 */
++/*
++ * Inbound Translations
++ * offset  0x300
++ */
+ #define TSI148_LCSR_IT0_ITSAU		0x300
+ #define TSI148_LCSR_IT0_ITSAL		0x304
+ #define TSI148_LCSR_IT0_ITEAU		0x308
+@@ -359,53 +359,53 @@ static const int TSI148_LCSR_IT[8] = { TSI148_LCSR_IT0, TSI148_LCSR_IT1,
+ #define TSI148_LCSR_OFFSET_ITOFL	0x14
+ #define TSI148_LCSR_OFFSET_ITAT		0x18
+ 
+-	/*
+-	 * Inbound Translation GCSR
+-	 * offset  400
+-	 */
++/*
++ * Inbound Translation GCSR
++ * offset  0x400
++ */
+ #define TSI148_LCSR_GBAU	0x400
+ #define TSI148_LCSR_GBAL	0x404
+ #define TSI148_LCSR_GCSRAT	0x408
+ 
+-	/*
+-	 * Inbound Translation CRG
+-	 * offset  40C
+-	 */
++/*
++ * Inbound Translation CRG
++ * offset  0x40C
++ */
+ #define TSI148_LCSR_CBAU	0x40C
+ #define TSI148_LCSR_CBAL	0x410
+ #define TSI148_LCSR_CSRAT	0x414
+ 
+-	/*
+-	 * Inbound Translation CR/CSR
+-	 *         CRG
+-	 * offset  418
+-	 */
++/*
++ * Inbound Translation CR/CSR
++ *         CRG
++ * offset  0x418
++ */
+ #define TSI148_LCSR_CROU	0x418
+ #define TSI148_LCSR_CROL	0x41C
+ #define TSI148_LCSR_CRAT	0x420
+ 
+-	/*
+-	 * Inbound Translation Location Monitor
+-	 * offset  424
+-	 */
++/*
++ * Inbound Translation Location Monitor
++ * offset  0x424
++ */
+ #define TSI148_LCSR_LMBAU	0x424
+ #define TSI148_LCSR_LMBAL	0x428
+ #define TSI148_LCSR_LMAT	0x42C
+ 
+-	/*
+-	 * VMEbus Interrupt Control.
+-	 * offset  430
+-	 */
++/*
++ * VMEbus Interrupt Control.
++ * offset  0x430
++ */
+ #define TSI148_LCSR_BCU		0x430
+ #define TSI148_LCSR_BCL		0x434
+ #define TSI148_LCSR_BPGTR	0x438
+ #define TSI148_LCSR_BPCTR	0x43C
+ #define TSI148_LCSR_VICR	0x440
+ 
+-	/*
+-	 * Local Bus Interrupt Control.
+-	 * offset  448
+-	 */
++/*
++ * Local Bus Interrupt Control.
++ * offset  0x448
++ */
+ #define TSI148_LCSR_INTEN	0x448
+ #define TSI148_LCSR_INTEO	0x44C
+ #define TSI148_LCSR_INTS	0x450
+@@ -413,10 +413,10 @@ static const int TSI148_LCSR_IT[8] = { TSI148_LCSR_IT0, TSI148_LCSR_IT1,
+ #define TSI148_LCSR_INTM1	0x458
+ #define TSI148_LCSR_INTM2	0x45C
+ 
+-	/*
+-	 * DMA Controllers
+-	 * offset 500
+-	 */
++/*
++ * DMA Controllers
++ * offset 0x500
++ */
+ #define TSI148_LCSR_DCTL0	0x500
+ #define TSI148_LCSR_DSTA0	0x504
+ #define TSI148_LCSR_DCSAU0	0x508
+@@ -480,27 +480,27 @@ static const int TSI148_LCSR_DMA[TSI148_MAX_DMA] = { TSI148_LCSR_DMA0,
+ #define TSI148_LCSR_OFFSET_DCNT		0x40
+ #define TSI148_LCSR_OFFSET_DDBS		0x44
+ 
+-	/*
+-	 * GCSR Register Group
+-	 */
++/*
++ * GCSR Register Group
++ */
+ 
+-	/*
+-	 *         GCSR    CRG
+-	 * offset   00     600 - DEVI/VENI
+-	 * offset   04     604 - CTRL/GA/REVID
+-	 * offset   08     608 - Semaphore3/2/1/0
+-	 * offset   0C     60C - Seamphore7/6/5/4
+-	 */
++/*
++ *          GCSR    CRG
++ * offset   0x00     0x600 - DEVI/VENI
++ * offset   0x04     0x604 - CTRL/GA/REVID
++ * offset   0x08     0x608 - Semaphore3/2/1/0
++ * offset   0x0C     0x60C - Seamphore7/6/5/4
++ */
+ #define TSI148_GCSR_ID		0x600
+ #define TSI148_GCSR_CSR		0x604
+ #define TSI148_GCSR_SEMA0	0x608
+ #define TSI148_GCSR_SEMA1	0x60C
+ 
+-	/*
+-	 * Mail Box
+-	 *         GCSR    CRG
+-	 * offset   10     610 - Mailbox0
+-	 */
++/*
++ * Mail Box
++ *          GCSR    CRG
++ * offset   0x10    0x610 - Mailbox0
++ */
+ #define TSI148_GCSR_MBOX0	0x610
+ #define TSI148_GCSR_MBOX1	0x614
+ #define TSI148_GCSR_MBOX2	0x618
+@@ -511,27 +511,27 @@ static const int TSI148_GCSR_MBOX[4] = { TSI148_GCSR_MBOX0,
+ 					TSI148_GCSR_MBOX2,
+ 					TSI148_GCSR_MBOX3 };
+ 
+-	/*
+-	 * CR/CSR
+-	 */
++/*
++ * CR/CSR
++ */
+ 
+-	/*
+-	 *        CR/CSR   CRG
+-	 * offset  7FFF4   FF4 - CSRBCR
+-	 * offset  7FFF8   FF8 - CSRBSR
+-	 * offset  7FFFC   FFC - CBAR
+-	 */
++/*
++ *         CR/CSR    CRG
++ * offset  0x7FFF4   0xFF4 - CSRBCR
++ * offset  0x7FFF8   0xFF8 - CSRBSR
++ * offset  0x7FFFC   0xFFC - CBAR
++ */
+ #define TSI148_CSRBCR	0xFF4
+ #define TSI148_CSRBSR	0xFF8
+ #define TSI148_CBAR	0xFFC
+ 
+-	/*
+-	 *  TSI148 Register Bit Definitions
+-	 */
++/*
++ *  TSI148 Register Bit Definitions
++ */
+ 
+-	/*
+-	 *  PFCS Register Set
+-	 */
++/*
++ *  PFCS Register Set
++ */
+ #define TSI148_PCFS_CMMD_SERR          BIT(8)	/* SERR_L out pin ssys err */
+ #define TSI148_PCFS_CMMD_PERR          BIT(6)	/* PERR_L out pin  parity */
+ #define TSI148_PCFS_CMMD_MSTR          BIT(2)	/* PCI bus master */
+@@ -603,8 +603,7 @@ static const int TSI148_GCSR_MBOX[4] = { TSI148_GCSR_MBOX0,
+  */
+ #define TSI148_PCFS_PCIXSTAT_RSCEM     BIT(29)	/* Received Split Comp Error */
+ #define TSI148_PCFS_PCIXSTAT_DMCRS_M   (7<<26)	/* max Cumulative Read Size */
+-#define TSI148_PCFS_PCIXSTAT_DMOST_M   (7<<23)	/* max outstanding Split Trans
+-						 */
++#define TSI148_PCFS_PCIXSTAT_DMOST_M   (7<<23)	/* max outstanding Split Trans */
+ #define TSI148_PCFS_PCIXSTAT_DMMRC_M   (3<<21)	/* max mem read byte count */
+ #define TSI148_PCFS_PCIXSTAT_DC        BIT(20)	/* Device Complexity */
+ #define TSI148_PCFS_PCIXSTAT_USC       BIT(19)	/* Unexpected Split comp */
+@@ -766,8 +765,7 @@ static const int TSI148_GCSR_MBOX[4] = { TSI148_GCSR_MBOX0,
+ #define TSI148_LCSR_VCTRL_ATOEN        BIT(7)	/* Arbiter Time-out Enable */
+ #define TSI148_LCSR_VCTRL_ROBIN        BIT(6)	/* VMEbus Round Robin */
+ 
+-#define TSI148_LCSR_VCTRL_GTO_M        (7<<0)	/* VMEbus Global Time-out Mask
+-						 */
++#define TSI148_LCSR_VCTRL_GTO_M        (7<<0)	/* VMEbus Global Time-out Mask*/
+ #define TSI148_LCSR_VCTRL_GTO_8	      (0<<0)	/* 8 us */
+ #define TSI148_LCSR_VCTRL_GTO_16	      BIT(0)	/* 16 us */
+ #define TSI148_LCSR_VCTRL_GTO_32	      (2<<0)	/* 32 us */
 -- 
 2.34.1
 
