@@ -1,355 +1,307 @@
-Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com [209.85.208.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A738C2137E
-	for <linux-staging@lists.linux.dev>; Thu, 14 Sep 2023 20:08:12 +0000 (UTC)
-Received: by mail-lj1-f180.google.com with SMTP id 38308e7fff4ca-2bfc2b26437so21384131fa.0
-        for <linux-staging@lists.linux.dev>; Thu, 14 Sep 2023 13:08:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1694722091; x=1695326891; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=qPAlSeS++kCWIJ+EqEuLd7WwF5rJGSHk2Ruf/GI+PiU=;
-        b=Ce94ZMTIOv0JpXdlvFsch8P51AkIdyQ0yJt1uK7OvDzEKNxNQLrwK/1LBV/jtuZkzc
-         opz7jLEF1bV2PKnIZf3QIayf9V+EOQ8rYNDaCjMpmR7GrV8xmY9U0Vs5jI/f4cYF2wVS
-         3hXkYAmxBkwTVNnmyTj8cvaEhJEyxu+wfgIiOMQg+pS9j5CstpZBUjszgm89GzJTDn2A
-         lfzm86HBU/srxybHo5+X3lK/HXBxr6KRo782CoEHIt2Jk9ZCMzX9pL+BYp+gI/8NiJKc
-         kMw2vYt3GN4bLE8aIIoRuYPq/brwXlU78mf+tTpwfyGzTo7l4Gmfw5Hf5IyJmnm6QKTO
-         YMHw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1694722091; x=1695326891;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=qPAlSeS++kCWIJ+EqEuLd7WwF5rJGSHk2Ruf/GI+PiU=;
-        b=aOPAG21ul6PyuDuxrynyGLo0aX3QHMFAOicCltYio4YGS7DSAoaKeGhpLw5bCgrWwH
-         OUKoX9j93iv5IareuoMaEZe2191LN0mpwwCymDVu41oyB7FkGGbtBtJefNMR0ZGdTFWd
-         ARod4NERJBHwKtQGsoJzBVvfndN4LYId3jy/9b91G/Maq4XHDaVgLBzAtYSJrLTiF2SR
-         2cuacqb3XTfLLBEXCkWIRFqcDn4S56oyuZ3liX+4VlOGSuZ3DSTGuUy6ngGsZbt0F1Y+
-         KKHma6H1kYhFbyglehb2p7en4R5sUBjvXtH6fbrgS6IXi/LqfuQi/xwfGL+f/FlffnbI
-         uZqQ==
-X-Gm-Message-State: AOJu0YyAV03jsMj7KDHcYMPJNjdhA9T1vNM9uba7xemJDjsNT1VhK3Eg
-	wwFbWqBh5209ZAQy+VVSkZo=
-X-Google-Smtp-Source: AGHT+IFzc73UkN1c8QJnb8AEZ57DjlnsQcy+aGg43EQkZLbJLtGdD1PQ+enj2iAKJZBpUmXfzD9NUQ==
-X-Received: by 2002:a2e:910d:0:b0:2b7:2066:10e1 with SMTP id m13-20020a2e910d000000b002b7206610e1mr5909477ljg.0.1694722090289;
-        Thu, 14 Sep 2023 13:08:10 -0700 (PDT)
-Received: from HP-ENVY-Notebook.lan (81-229-94-10-no68.tbcn.telia.com. [81.229.94.10])
-        by smtp.googlemail.com with ESMTPSA id x22-20020a2e8396000000b002bcb239a7efsm411426ljg.56.2023.09.14.13.08.08
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 14 Sep 2023 13:08:09 -0700 (PDT)
-From: Jonathan Bergh <bergh.jonathan@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Jonathan Bergh <bergh.jonathan@gmail.com>
-Subject: [PATCH v2 2/2] staging: vme_user: Fix various comment formatting issues including comment content
-Date: Thu, 14 Sep 2023 22:07:33 +0200
-Message-Id: <20230914200732.47659-1-bergh.jonathan@gmail.com>
-X-Mailer: git-send-email 2.34.1
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5AB6C10A0C
+	for <linux-staging@lists.linux.dev>; Thu, 14 Sep 2023 22:15:21 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 959BA1FB;
+	Thu, 14 Sep 2023 15:15:57 -0700 (PDT)
+Received: from [10.57.93.68] (unknown [10.57.93.68])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id DE2723F738;
+	Thu, 14 Sep 2023 15:15:17 -0700 (PDT)
+Message-ID: <f4601452-061f-203e-6c05-3e03977eb7f9@arm.com>
+Date: Thu, 14 Sep 2023 23:15:09 +0100
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.1
+Subject: Re: [PATCH v11 1/5] staging: vc04_services: vchiq_arm: Add new bus
+ type and device type
+Content-Language: en-GB
+To: Stefan Wahren <wahrenst@gmx.net>, Umang Jain
+ <umang.jain@ideasonboard.com>, linux-staging@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, linux-rpi-kernel@lists.infradead.org,
+ linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc: Stefan Wahren <stefan.wahren@i2se.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Florian Fainelli <f.fainelli@gmail.com>, Adrien Thierry
+ <athierry@redhat.com>, Dan Carpenter <error27@gmail.com>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ Kieran Bingham <kieran.bingham@ideasonboard.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+References: <20230913195354.835884-1-umang.jain@ideasonboard.com>
+ <20230913195354.835884-2-umang.jain@ideasonboard.com>
+ <5e7aff1e-82de-2ec4-4d30-2b1f37ed2eed@gmx.net>
+From: Robin Murphy <robin.murphy@arm.com>
+In-Reply-To: <5e7aff1e-82de-2ec4-4d30-2b1f37ed2eed@gmx.net>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-Fixed various issues relating to comments including:
-    * Lines with '*' in block comments which should be aligned and
-      were not
-    * Corrected comments where closing multiline comment identifier 
-      ran over into second newline spuriously
-    * Corrected comment content to correctly reflect hexadecimal for
-      the offsets rather than integers
+On 2023-09-13 21:58, Stefan Wahren wrote:
+> Hi Umang,
+> 
+> Am 13.09.23 um 21:53 schrieb Umang Jain:
+>> The devices that the vchiq interface registers (bcm2835-audio,
+>> bcm2835-camera) are implemented and exposed by the VC04 firmware.
+>> The device tree describes the VC04 itself with the resources required
+>> to communicate with it through a mailbox interface. However, the
+>> vchiq interface registers these devices as platform devices. This
+>> also means the specific drivers for these devices are getting
+>> registered as platform drivers. This is not correct and a blatant
+>> abuse of platform device/driver.
+>>
+>> Add a new bus type, vchiq_bus_type and device type (struct vchiq_device)
+>> which will be used to migrate child devices that the vchiq interfaces
+>> creates/registers from the platform device/driver.
+>>
+>> Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
+>> ---
+>>   drivers/staging/vc04_services/Makefile        |   1 +
+>>   .../interface/vchiq_arm/vchiq_device.c        | 111 ++++++++++++++++++
+>>   .../interface/vchiq_arm/vchiq_device.h        |  54 +++++++++
+>>   3 files changed, 166 insertions(+)
+>>   create mode 100644 
+>> drivers/staging/vc04_services/interface/vchiq_arm/vchiq_device.c
+>>   create mode 100644 
+>> drivers/staging/vc04_services/interface/vchiq_arm/vchiq_device.h
+>>
+>> diff --git a/drivers/staging/vc04_services/Makefile 
+>> b/drivers/staging/vc04_services/Makefile
+>> index 44794bdf6173..2d071e55e175 100644
+>> --- a/drivers/staging/vc04_services/Makefile
+>> +++ b/drivers/staging/vc04_services/Makefile
+>> @@ -5,6 +5,7 @@ vchiq-objs := \
+>>      interface/vchiq_arm/vchiq_core.o  \
+>>      interface/vchiq_arm/vchiq_arm.o \
+>>      interface/vchiq_arm/vchiq_debugfs.o \
+>> +   interface/vchiq_arm/vchiq_device.o \
+>>      interface/vchiq_arm/vchiq_connected.o \
+>>
+>>   ifdef CONFIG_VCHIQ_CDEV
+>> diff --git 
+>> a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_device.c 
+>> b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_device.c
+>> new file mode 100644
+>> index 000000000000..aad55c461905
+>> --- /dev/null
+>> +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_device.c
+>> @@ -0,0 +1,111 @@
+>> +// SPDX-License-Identifier: GPL-2.0
+>> +/*
+>> + * vchiq_device.c - VCHIQ generic device and bus-type
+>> + *
+>> + * Copyright (c) 2023 Ideas On Board Oy
+>> + */
+>> +
+>> +#include <linux/device/bus.h>
+>> +#include <linux/dma-mapping.h>
+>> +#include <linux/of_device.h>
+>> +#include <linux/slab.h>
+>> +#include <linux/string.h>
+>> +
+>> +#include "vchiq_device.h"
+>> +
+>> +static int vchiq_bus_type_match(struct device *dev, struct 
+>> device_driver *drv)
+>> +{
+>> +    if (dev->bus == &vchiq_bus_type &&
+>> +        strcmp(dev_name(dev), drv->name) == 0)
+>> +        return 1;
+>> +
+>> +    return 0;
+>> +}
+>> +
+>> +static int vchiq_bus_uevent(const struct device *dev, struct 
+>> kobj_uevent_env *env)
+>> +{
+>> +    const struct vchiq_device *device = container_of_const(dev, 
+>> struct vchiq_device, dev);
+>> +
+>> +    return add_uevent_var(env, "MODALIAS=%s", dev_name(&device->dev));
+>> +}
+>> +
+>> +static int vchiq_bus_probe(struct device *dev)
+>> +{
+>> +    struct vchiq_device *device = to_vchiq_device(dev);
+>> +    struct vchiq_driver *driver = to_vchiq_driver(dev->driver);
+>> +    int ret;
+>> +
+>> +    ret = driver->probe(device);
+>> +    if (ret == 0)
+>> +        return 0;
+>> +
+>> +    return ret;
+>> +}
+>> +
+>> +struct bus_type vchiq_bus_type = {
+>> +    .name   = "vchiq-bus",
+>> +    .match  = vchiq_bus_type_match,
+>> +    .uevent = vchiq_bus_uevent,
+>> +    .probe  = vchiq_bus_probe,
+>> +};
+>> +
+>> +static void vchiq_device_release(struct device *dev)
+>> +{
+>> +    struct vchiq_device *device = to_vchiq_device(dev);
+>> +
+>> +    kfree(device);
+>> +}
+>> +
+>> +struct vchiq_device *
+>> +vchiq_device_register(struct device *parent, const char *name)
+>> +{
+>> +    struct vchiq_device *device;
+>> +    int ret;
+>> +
+>> +    device = kzalloc(sizeof(*device), GFP_KERNEL);
+>> +    if (!device) {
+>> +        dev_err(parent, "Cannot register %s: Insufficient memory\n",
+>> +            name);
+> AFAIK kzalloc already logs an error in case of insufficient memory, so
+> there is no need for this.
+>> +        return NULL;
+>> +    }
+>> +
+>> +    device->dev.init_name = name;
+>> +    device->dev.parent = parent;
+>> +    device->dev.bus = &vchiq_bus_type;
+>> +    device->dev.release = vchiq_device_release;
+>> +
+>> +    of_dma_configure(&device->dev, parent->of_node, true);
+>> +    ret = dma_set_mask_and_coherent(&device->dev, DMA_BIT_MASK(32));
+>  From my understand Robin suggested to drop dma_set_mask_and_coherent()
+> here, too. In case this cause a regression until patch 3 & 4 are
+> applied. The DMA mask parts should be applied separately before this patch.
 
-Signed-off-by: Jonathan Bergh <bergh.jonathan@gmail.com>
----
- drivers/staging/vme_user/vme_tsi148.h | 156 +++++++++++++-------------
- 1 file changed, 77 insertions(+), 79 deletions(-)
+Indeed, here we should have "device->dev.dma_mask = 
+&device->dev.dma_coherent_mask;", unconditionally, before 
+of_dma_configure() is called, and we should *not* be calling 
+dma_set_mask_and_coherent() at all. That will then be equivalent to what 
+the platform bus code was previously doing for these devices.
 
-diff --git a/drivers/staging/vme_user/vme_tsi148.h b/drivers/staging/vme_user/vme_tsi148.h
-index dbdf5dabaf90..f3c3dce7048a 100644
---- a/drivers/staging/vme_user/vme_tsi148.h
-+++ b/drivers/staging/vme_user/vme_tsi148.h
-@@ -206,7 +206,7 @@ static const int TSI148_LCSR_OT[8] = { TSI148_LCSR_OT0, TSI148_LCSR_OT1,
- 
- /*
-  * VMEbus interrupt ack
-- * offset  200
-+ * offset  0x200
-  */
- #define TSI148_LCSR_VIACK1	0x204
- #define TSI148_LCSR_VIACK2	0x208
-@@ -223,7 +223,7 @@ static const int TSI148_LCSR_VIACK[8] = { 0, TSI148_LCSR_VIACK1,
- 
- /*
-  * RMW
-- * offset    220
-+ * offset    0x220
-  */
- #define TSI148_LCSR_RMWAU	0x220
- #define TSI148_LCSR_RMWAL	0x224
-@@ -233,7 +233,7 @@ static const int TSI148_LCSR_VIACK[8] = { 0, TSI148_LCSR_VIACK1,
- 
- /*
-  * VMEbus control
-- * offset    234
-+ * offset    0x234
-  */
- #define TSI148_LCSR_VMCTRL	0x234
- #define TSI148_LCSR_VCTRL	0x238
-@@ -241,38 +241,38 @@ static const int TSI148_LCSR_VIACK[8] = { 0, TSI148_LCSR_VIACK1,
- 
- /*
-  * PCI status
-- * offset  240
-+ * offset  0x240
-  */
- #define TSI148_LCSR_PSTAT	0x240
- 
- /*
-  * VME filter.
-- * offset  250
-+ * offset  0x250
-  */
- #define TSI148_LCSR_VMEFL	0x250
- 
--	/*
--	 * VME exception.
--	 * offset  260
-+/*
-+ * VME exception.
-+ * offset  0x260
-  */
- #define TSI148_LCSR_VEAU	0x260
- #define TSI148_LCSR_VEAL	0x264
- #define TSI148_LCSR_VEAT	0x268
- 
--	/*
--	 * PCI error
--	 * offset  270
--	 */
-+/*
-+ * PCI error
-+ * offset  0x270
-+ */
- #define TSI148_LCSR_EDPAU	0x270
- #define TSI148_LCSR_EDPAL	0x274
- #define TSI148_LCSR_EDPXA	0x278
- #define TSI148_LCSR_EDPXS	0x27C
- #define TSI148_LCSR_EDPAT	0x280
- 
--	/*
--	 * Inbound Translations
--	 * offset  300
--	 */
-+/*
-+ * Inbound Translations
-+ * offset  0x300
-+ */
- #define TSI148_LCSR_IT0_ITSAU		0x300
- #define TSI148_LCSR_IT0_ITSAL		0x304
- #define TSI148_LCSR_IT0_ITEAU		0x308
-@@ -359,53 +359,53 @@ static const int TSI148_LCSR_IT[8] = { TSI148_LCSR_IT0, TSI148_LCSR_IT1,
- #define TSI148_LCSR_OFFSET_ITOFL	0x14
- #define TSI148_LCSR_OFFSET_ITAT		0x18
- 
--	/*
--	 * Inbound Translation GCSR
--	 * offset  400
--	 */
-+/*
-+ * Inbound Translation GCSR
-+ * offset  0x400
-+ */
- #define TSI148_LCSR_GBAU	0x400
- #define TSI148_LCSR_GBAL	0x404
- #define TSI148_LCSR_GCSRAT	0x408
- 
--	/*
--	 * Inbound Translation CRG
--	 * offset  40C
--	 */
-+/*
-+ * Inbound Translation CRG
-+ * offset  0x40C
-+ */
- #define TSI148_LCSR_CBAU	0x40C
- #define TSI148_LCSR_CBAL	0x410
- #define TSI148_LCSR_CSRAT	0x414
- 
--	/*
--	 * Inbound Translation CR/CSR
--	 *         CRG
--	 * offset  418
--	 */
-+/*
-+ * Inbound Translation CR/CSR
-+ *         CRG
-+ * offset  0x418
-+ */
- #define TSI148_LCSR_CROU	0x418
- #define TSI148_LCSR_CROL	0x41C
- #define TSI148_LCSR_CRAT	0x420
- 
--	/*
--	 * Inbound Translation Location Monitor
--	 * offset  424
--	 */
-+/*
-+ * Inbound Translation Location Monitor
-+ * offset  0x424
-+ */
- #define TSI148_LCSR_LMBAU	0x424
- #define TSI148_LCSR_LMBAL	0x428
- #define TSI148_LCSR_LMAT	0x42C
- 
--	/*
--	 * VMEbus Interrupt Control.
--	 * offset  430
--	 */
-+/*
-+ * VMEbus Interrupt Control.
-+ * offset  0x430
-+ */
- #define TSI148_LCSR_BCU		0x430
- #define TSI148_LCSR_BCL		0x434
- #define TSI148_LCSR_BPGTR	0x438
- #define TSI148_LCSR_BPCTR	0x43C
- #define TSI148_LCSR_VICR	0x440
- 
--	/*
--	 * Local Bus Interrupt Control.
--	 * offset  448
--	 */
-+/*
-+ * Local Bus Interrupt Control.
-+ * offset  0x448
-+ */
- #define TSI148_LCSR_INTEN	0x448
- #define TSI148_LCSR_INTEO	0x44C
- #define TSI148_LCSR_INTS	0x450
-@@ -413,10 +413,10 @@ static const int TSI148_LCSR_IT[8] = { TSI148_LCSR_IT0, TSI148_LCSR_IT1,
- #define TSI148_LCSR_INTM1	0x458
- #define TSI148_LCSR_INTM2	0x45C
- 
--	/*
--	 * DMA Controllers
--	 * offset 500
--	 */
-+/*
-+ * DMA Controllers
-+ * offset 0x500
-+ */
- #define TSI148_LCSR_DCTL0	0x500
- #define TSI148_LCSR_DSTA0	0x504
- #define TSI148_LCSR_DCSAU0	0x508
-@@ -480,27 +480,27 @@ static const int TSI148_LCSR_DMA[TSI148_MAX_DMA] = { TSI148_LCSR_DMA0,
- #define TSI148_LCSR_OFFSET_DCNT		0x40
- #define TSI148_LCSR_OFFSET_DDBS		0x44
- 
--	/*
--	 * GCSR Register Group
--	 */
-+/*
-+ * GCSR Register Group
-+ */
- 
--	/*
--	 *         GCSR    CRG
--	 * offset   00     600 - DEVI/VENI
--	 * offset   04     604 - CTRL/GA/REVID
--	 * offset   08     608 - Semaphore3/2/1/0
--	 * offset   0C     60C - Seamphore7/6/5/4
--	 */
-+/*
-+ *          GCSR    CRG
-+ * offset   0x00     0x600 - DEVI/VENI
-+ * offset   0x04     0x604 - CTRL/GA/REVID
-+ * offset   0x08     0x608 - Semaphore3/2/1/0
-+ * offset   0x0C     0x60C - Seamphore7/6/5/4
-+ */
- #define TSI148_GCSR_ID		0x600
- #define TSI148_GCSR_CSR		0x604
- #define TSI148_GCSR_SEMA0	0x608
- #define TSI148_GCSR_SEMA1	0x60C
- 
--	/*
--	 * Mail Box
--	 *         GCSR    CRG
--	 * offset   10     610 - Mailbox0
--	 */
-+/*
-+ * Mail Box
-+ *          GCSR    CRG
-+ * offset   0x10    0x610 - Mailbox0
-+ */
- #define TSI148_GCSR_MBOX0	0x610
- #define TSI148_GCSR_MBOX1	0x614
- #define TSI148_GCSR_MBOX2	0x618
-@@ -511,27 +511,27 @@ static const int TSI148_GCSR_MBOX[4] = { TSI148_GCSR_MBOX0,
- 					TSI148_GCSR_MBOX2,
- 					TSI148_GCSR_MBOX3 };
- 
--	/*
--	 * CR/CSR
--	 */
-+/*
-+ * CR/CSR
-+ */
- 
--	/*
--	 *        CR/CSR   CRG
--	 * offset  7FFF4   FF4 - CSRBCR
--	 * offset  7FFF8   FF8 - CSRBSR
--	 * offset  7FFFC   FFC - CBAR
--	 */
-+/*
-+ *         CR/CSR    CRG
-+ * offset  0x7FFF4   0xFF4 - CSRBCR
-+ * offset  0x7FFF8   0xFF8 - CSRBSR
-+ * offset  0x7FFFC   0xFFC - CBAR
-+ */
- #define TSI148_CSRBCR	0xFF4
- #define TSI148_CSRBSR	0xFF8
- #define TSI148_CBAR	0xFFC
- 
--	/*
--	 *  TSI148 Register Bit Definitions
--	 */
-+/*
-+ *  TSI148 Register Bit Definitions
-+ */
- 
--	/*
--	 *  PFCS Register Set
--	 */
-+/*
-+ *  PFCS Register Set
-+ */
- #define TSI148_PCFS_CMMD_SERR          BIT(8)	/* SERR_L out pin ssys err */
- #define TSI148_PCFS_CMMD_PERR          BIT(6)	/* PERR_L out pin  parity */
- #define TSI148_PCFS_CMMD_MSTR          BIT(2)	/* PCI bus master */
-@@ -603,8 +603,7 @@ static const int TSI148_GCSR_MBOX[4] = { TSI148_GCSR_MBOX0,
-  */
- #define TSI148_PCFS_PCIXSTAT_RSCEM     BIT(29)	/* Received Split Comp Error */
- #define TSI148_PCFS_PCIXSTAT_DMCRS_M   (7<<26)	/* max Cumulative Read Size */
--#define TSI148_PCFS_PCIXSTAT_DMOST_M   (7<<23)	/* max outstanding Split Trans
--						 */
-+#define TSI148_PCFS_PCIXSTAT_DMOST_M   (7<<23)	/* max outstanding Split Trans */
- #define TSI148_PCFS_PCIXSTAT_DMMRC_M   (3<<21)	/* max mem read byte count */
- #define TSI148_PCFS_PCIXSTAT_DC        BIT(20)	/* Device Complexity */
- #define TSI148_PCFS_PCIXSTAT_USC       BIT(19)	/* Unexpected Split comp */
-@@ -766,8 +765,7 @@ static const int TSI148_GCSR_MBOX[4] = { TSI148_GCSR_MBOX0,
- #define TSI148_LCSR_VCTRL_ATOEN        BIT(7)	/* Arbiter Time-out Enable */
- #define TSI148_LCSR_VCTRL_ROBIN        BIT(6)	/* VMEbus Round Robin */
- 
--#define TSI148_LCSR_VCTRL_GTO_M        (7<<0)	/* VMEbus Global Time-out Mask
--						 */
-+#define TSI148_LCSR_VCTRL_GTO_M        (7<<0)	/* VMEbus Global Time-out Mask*/
- #define TSI148_LCSR_VCTRL_GTO_8	      (0<<0)	/* 8 us */
- #define TSI148_LCSR_VCTRL_GTO_16	      BIT(0)	/* 16 us */
- #define TSI148_LCSR_VCTRL_GTO_32	      (2<<0)	/* 32 us */
--- 
-2.34.1
+The vchiq_device drivers can then call dma_set_mask_and_coherent() if 
+they need to (AFAICS I'm not sure if they're actually using DMA at the 
+moment?) and should not touch dev->dma_mask directly. That does not need 
+to be done in any particular order relative to this patch, since the 
+truth is that of_dma_configure() will still initialise the masks to 32 
+bits by default anyway (as it currently does for the platform devices), 
+however it is still correct to add explicit calls (and handle their 
+potential failure if DMA is entirely unusable), and not simply assume 
+that the default masks are OK.
 
+Hope that's clear.
+
+Thanks,
+Robin.
+
+>> +    if (ret) {
+>> +        dev_err(&device->dev, "32-bit DMA enable failed\n");
+>> +        return NULL;
+>> +    }
+>> +
+>> +    ret = device_register(&device->dev);
+>> +    if (ret) {
+>> +        dev_err(parent, "Cannot register %s: %d\n", name, ret);
+>> +        put_device(&device->dev);
+> Also Robin pointed out that there is a memory leak in the error path,
+> because the "device" get lost.
+> 
+> Thanks Stefan
+>> +        return NULL;
+>> +    }
+>> +
+>> +    return device;
+>> +}
+>> +
+>> +void vchiq_device_unregister(struct vchiq_device *vchiq_dev)
+>> +{
+>> +    device_unregister(&vchiq_dev->dev);
+>> +}
+>> +
+>> +int vchiq_driver_register(struct vchiq_driver *vchiq_drv)
+>> +{
+>> +    vchiq_drv->driver.bus = &vchiq_bus_type;
+>> +
+>> +    return driver_register(&vchiq_drv->driver);
+>> +}
+>> +EXPORT_SYMBOL_GPL(vchiq_driver_register);
+>> +
+>> +void vchiq_driver_unregister(struct vchiq_driver *vchiq_drv)
+>> +{
+>> +    driver_unregister(&vchiq_drv->driver);
+>> +}
+>> +EXPORT_SYMBOL_GPL(vchiq_driver_unregister);
+>> diff --git 
+>> a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_device.h 
+>> b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_device.h
+>> new file mode 100644
+>> index 000000000000..7eaaf9a91cda
+>> --- /dev/null
+>> +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_device.h
+>> @@ -0,0 +1,54 @@
+>> +/* SPDX-License-Identifier: GPL-2.0 */
+>> +/*
+>> + * Copyright (c) 2023 Ideas On Board Oy
+>> + */
+>> +
+>> +#ifndef _VCHIQ_DEVICE_H
+>> +#define _VCHIQ_DEVICE_H
+>> +
+>> +#include <linux/device.h>
+>> +
+>> +struct vchiq_device {
+>> +    struct device dev;
+>> +};
+>> +
+>> +struct vchiq_driver {
+>> +    int        (*probe)(struct vchiq_device *device);
+>> +    void        (*remove)(struct vchiq_device *device);
+>> +    int        (*resume)(struct vchiq_device *device);
+>> +    int        (*suspend)(struct vchiq_device *device,
+>> +                   pm_message_t state);
+>> +    struct device_driver driver;
+>> +};
+>> +
+>> +static inline struct vchiq_device *to_vchiq_device(struct device *d)
+>> +{
+>> +    return container_of(d, struct vchiq_device, dev);
+>> +}
+>> +
+>> +static inline struct vchiq_driver *to_vchiq_driver(struct 
+>> device_driver *d)
+>> +{
+>> +    return container_of(d, struct vchiq_driver, driver);
+>> +}
+>> +
+>> +extern struct bus_type vchiq_bus_type;
+>> +
+>> +struct vchiq_device *
+>> +vchiq_device_register(struct device *parent, const char *name);
+>> +void vchiq_device_unregister(struct vchiq_device *dev);
+>> +
+>> +int vchiq_driver_register(struct vchiq_driver *vchiq_drv);
+>> +void vchiq_driver_unregister(struct vchiq_driver *vchiq_drv);
+>> +
+>> +/**
+>> + * module_vchiq_driver() - Helper macro for registering a vchiq driver
+>> + * @__vchiq_driver: vchiq driver struct
+>> + *
+>> + * Helper macro for vchiq drivers which do not do anything special in
+>> + * module init/exit. This eliminates a lot of boilerplate. Each 
+>> module may only
+>> + * use this macro once, and calling it replaces module_init() and 
+>> module_exit()
+>> + */
+>> +#define module_vchiq_driver(__vchiq_driver) \
+>> +    module_driver(__vchiq_driver, vchiq_driver_register, 
+>> vchiq_driver_unregister)
+>> +
+>> +#endif /* _VCHIQ_DEVICE_H */
+> 
+> 
+> _______________________________________________
+> linux-arm-kernel mailing list
+> linux-arm-kernel@lists.infradead.org
+> http://lists.infradead.org/mailman/listinfo/linux-arm-kernel
