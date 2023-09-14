@@ -1,25 +1,25 @@
 Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8E6A224D2
-	for <linux-staging@lists.linux.dev>; Thu, 14 Sep 2023 13:33:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C950224DA
+	for <linux-staging@lists.linux.dev>; Thu, 14 Sep 2023 13:33:56 +0000 (UTC)
 Received: from benjamin-XPS-13-9310.. (unknown [IPv6:2a01:e0a:120:3210:36f2:37bd:ccbb:373f])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
 	(Authenticated sender: benjamin.gaignard)
-	by madras.collabora.co.uk (Postfix) with ESMTPSA id 30B6D660739D;
-	Thu, 14 Sep 2023 14:33:56 +0100 (BST)
+	by madras.collabora.co.uk (Postfix) with ESMTPSA id A8A7A6607398;
+	Thu, 14 Sep 2023 14:33:54 +0100 (BST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1694698436;
-	bh=pnW19QGFHas/i7g4P9JRpTYH72fRU9HVTUZzFWqPek8=;
+	s=mail; t=1694698435;
+	bh=6w/8aQcwRb0w/vjS1KTd+aWlNyxDUhgB4lU/p3jbJ9g=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=S/frdpA8eHkZ0lhsb6OXaBYpSmudN8EVRpzSoC5DCuaFoMu4vkWO3UO30WMap3lhx
-	 vlEIkg5EeJSc9xDMj78nC6kh+Bz3nHL3yjq0zCFAGiBEZSiSNP45IPDu39o7jbFWKh
-	 cCgy2t7vPOG96yTnB8sFbtJZs+HBoXtBq2XHU6/yEz0YtWDZnf39nwO2K/3kivxSSO
-	 W0TsANhosjjYHQ4+UyY2ytP1yKW71yRysB6IyV2TI7rvP9ilbajOUDDPXC1h+wv7Az
-	 /yDh4VvFsUr5vS8fSpUdwarVm7GMvygsYN+4kstLKwMLqxL7wgiy4sxp3XCr5p7tLo
-	 XFnuUK7BmSP5Q==
+	b=X/J7xY9XFtUzhePX/nxzqelDrY7C3199sZPVEtASrxAt8dNsTE5TkuGnSASkKCscO
+	 m52XzpY9A8Pz3lzh0VzR/D3MsZ/nHJgPn08ITNuPiyPjm9YLt0pOAcCgZChghDNajT
+	 ABS0bhgGXhp/bczlcWT+piKbrGReVRrOJk3qQIkGtmcjHqz28Mh7lIlY4kqiHo2TMZ
+	 UkWCbAMRcIVySD190UiPIilQ5w9rHxWApXORLD3R2sbNyctSDahbiy2WBqpirAA/bI
+	 dArcV5QRWh+AasTeZYSjdIvrjJj7sbXhM33axiYbLzo5MXJF0NU+GAsnWuFIeLQ68u
+	 tKNbEus1atCmg==
 From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
 To: mchehab@kernel.org,
 	tfiga@chromium.org,
@@ -39,9 +39,9 @@ Cc: linux-media@vger.kernel.org,
 	linux-staging@lists.linux.dev,
 	kernel@collabora.com,
 	Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Subject: [PATCH v7 48/49] media: v4l2: Add mem2mem helpers for DELETE_BUFS ioctl
-Date: Thu, 14 Sep 2023 15:33:22 +0200
-Message-Id: <20230914133323.198857-49-benjamin.gaignard@collabora.com>
+Subject: [PATCH v7 45/49] media: core: Add bitmap manage bufs array entries
+Date: Thu, 14 Sep 2023 15:33:19 +0200
+Message-Id: <20230914133323.198857-46-benjamin.gaignard@collabora.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230914133323.198857-1-benjamin.gaignard@collabora.com>
 References: <20230914133323.198857-1-benjamin.gaignard@collabora.com>
@@ -53,108 +53,205 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Create v4l2-mem2mem helpers for VIDIOC_DELETE_BUFS ioctl.
+Add a bitmap field to know which of bufs array entries are
+used or not.
+Remove no more used num_buffers field from queue structure.
+Use bitmap_find_next_zero_area() to find the first possible
+range when creating new buffers to fill the gaps.
 
 Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
 ---
- .../media/platform/verisilicon/hantro_v4l2.c  |  1 +
- drivers/media/test-drivers/vim2m.c            |  1 +
- drivers/media/v4l2-core/v4l2-mem2mem.c        | 20 +++++++++++++++++++
- include/media/v4l2-mem2mem.h                  | 12 +++++++++++
- 4 files changed, 34 insertions(+)
+ .../media/common/videobuf2/videobuf2-core.c   | 55 +++++++++++++++----
+ include/media/videobuf2-core.h                |  9 ++-
+ 2 files changed, 51 insertions(+), 13 deletions(-)
 
-diff --git a/drivers/media/platform/verisilicon/hantro_v4l2.c b/drivers/media/platform/verisilicon/hantro_v4l2.c
-index 27a1e77cca38..0fd1c2fc78c8 100644
---- a/drivers/media/platform/verisilicon/hantro_v4l2.c
-+++ b/drivers/media/platform/verisilicon/hantro_v4l2.c
-@@ -756,6 +756,7 @@ const struct v4l2_ioctl_ops hantro_ioctl_ops = {
- 	.vidioc_dqbuf = v4l2_m2m_ioctl_dqbuf,
- 	.vidioc_prepare_buf = v4l2_m2m_ioctl_prepare_buf,
- 	.vidioc_create_bufs = v4l2_m2m_ioctl_create_bufs,
-+	.vidioc_delete_bufs = v4l2_m2m_ioctl_delete_bufs,
- 	.vidioc_expbuf = v4l2_m2m_ioctl_expbuf,
- 
- 	.vidioc_subscribe_event = v4l2_ctrl_subscribe_event,
-diff --git a/drivers/media/test-drivers/vim2m.c b/drivers/media/test-drivers/vim2m.c
-index 3e3b424b4860..10bd8c92e340 100644
---- a/drivers/media/test-drivers/vim2m.c
-+++ b/drivers/media/test-drivers/vim2m.c
-@@ -960,6 +960,7 @@ static const struct v4l2_ioctl_ops vim2m_ioctl_ops = {
- 	.vidioc_dqbuf		= v4l2_m2m_ioctl_dqbuf,
- 	.vidioc_prepare_buf	= v4l2_m2m_ioctl_prepare_buf,
- 	.vidioc_create_bufs	= v4l2_m2m_ioctl_create_bufs,
-+	.vidioc_delete_bufs	= v4l2_m2m_ioctl_delete_bufs,
- 	.vidioc_expbuf		= v4l2_m2m_ioctl_expbuf,
- 
- 	.vidioc_streamon	= v4l2_m2m_ioctl_streamon,
-diff --git a/drivers/media/v4l2-core/v4l2-mem2mem.c b/drivers/media/v4l2-core/v4l2-mem2mem.c
-index 0cc30397fbad..d1d59943680f 100644
---- a/drivers/media/v4l2-core/v4l2-mem2mem.c
-+++ b/drivers/media/v4l2-core/v4l2-mem2mem.c
-@@ -831,6 +831,17 @@ int v4l2_m2m_prepare_buf(struct file *file, struct v4l2_m2m_ctx *m2m_ctx,
- }
- EXPORT_SYMBOL_GPL(v4l2_m2m_prepare_buf);
- 
-+int v4l2_m2m_delete_bufs(struct file *file, struct v4l2_m2m_ctx *m2m_ctx,
-+			 struct v4l2_delete_buffers *d)
-+{
-+	struct vb2_queue *vq;
-+
-+	vq = v4l2_m2m_get_vq(m2m_ctx, d->type);
-+
-+	return vb2_delete_bufs(vq, d);
-+}
-+EXPORT_SYMBOL_GPL(v4l2_m2m_delete_bufs);
-+
- int v4l2_m2m_create_bufs(struct file *file, struct v4l2_m2m_ctx *m2m_ctx,
- 			 struct v4l2_create_buffers *create)
+diff --git a/drivers/media/common/videobuf2/videobuf2-core.c b/drivers/media/common/videobuf2/videobuf2-core.c
+index a4c2fae8705d..c5d4a388331b 100644
+--- a/drivers/media/common/videobuf2/videobuf2-core.c
++++ b/drivers/media/common/videobuf2/videobuf2-core.c
+@@ -411,10 +411,11 @@ static void init_buffer_cache_hints(struct vb2_queue *q, struct vb2_buffer *vb)
+  */
+ static bool vb2_queue_add_buffer(struct vb2_queue *q, struct vb2_buffer *vb, unsigned int index)
  {
-@@ -1377,6 +1388,15 @@ int v4l2_m2m_ioctl_create_bufs(struct file *file, void *priv,
- }
- EXPORT_SYMBOL_GPL(v4l2_m2m_ioctl_create_bufs);
+-	if (index < q->max_allowed_buffers && !q->bufs[index]) {
++	if (index < q->max_allowed_buffers && !test_bit(index, q->bufs_map)) {
+ 		q->bufs[index] = vb;
+ 		vb->index = index;
+ 		vb->vb2_queue = q;
++		set_bit(index, q->bufs_map);
+ 		return true;
+ 	}
  
-+int v4l2_m2m_ioctl_delete_bufs(struct file *file, void *priv,
-+			       struct v4l2_delete_buffers *d)
-+{
-+	struct v4l2_fh *fh = file->private_data;
-+
-+	return v4l2_m2m_delete_bufs(file, fh->m2m_ctx, d);
-+}
-+EXPORT_SYMBOL_GPL(v4l2_m2m_ioctl_delete_bufs);
-+
- int v4l2_m2m_ioctl_querybuf(struct file *file, void *priv,
- 				struct v4l2_buffer *buf)
+@@ -428,9 +429,10 @@ static bool vb2_queue_add_buffer(struct vb2_queue *q, struct vb2_buffer *vb, uns
+  */
+ static void vb2_queue_remove_buffer(struct vb2_queue *q, struct vb2_buffer *vb)
  {
-diff --git a/include/media/v4l2-mem2mem.h b/include/media/v4l2-mem2mem.h
-index d6c8eb2b5201..161f85c42dc8 100644
---- a/include/media/v4l2-mem2mem.h
-+++ b/include/media/v4l2-mem2mem.h
-@@ -381,6 +381,16 @@ int v4l2_m2m_dqbuf(struct file *file, struct v4l2_m2m_ctx *m2m_ctx,
- int v4l2_m2m_prepare_buf(struct file *file, struct v4l2_m2m_ctx *m2m_ctx,
- 			 struct v4l2_buffer *buf);
+-	if (vb->index < q->max_allowed_buffers) {
++	if (vb->index < q->max_allowed_buffers && test_bit(vb->index, q->bufs_map)) {
+ 		q->bufs[vb->index] = NULL;
+ 		vb->vb2_queue = NULL;
++		clear_bit(vb->index, q->bufs_map);
+ 	}
+ }
  
-+/**
-+ * v4l2_m2m_delete_bufs() - delete buffers from the queue
-+ *
-+ * @file: pointer to struct &file
-+ * @m2m_ctx: m2m context assigned to the instance given by struct &v4l2_m2m_ctx
-+ * @d: pointer to struct &v4l2_delete_buffers
-+ */
-+int v4l2_m2m_delete_bufs(struct file *file, struct v4l2_m2m_ctx *m2m_ctx,
-+			 struct v4l2_delete_buffers *d);
+@@ -451,11 +453,12 @@ static int __vb2_queue_alloc(struct vb2_queue *q, enum vb2_memory memory,
+ 	unsigned long first_index;
+ 	int ret;
+ 
+-	/* Ensure that q->num_buffers+num_buffers is below q->max_allowed_buffers */
++	/* Ensure that the number of already queue + num_buffers is below q->max_allowed_buffers */
+ 	num_buffers = min_t(unsigned int, num_buffers,
+ 			    q->max_allowed_buffers - vb2_get_num_buffers(q));
+ 
+-	first_index = vb2_get_num_buffers(q);
++	first_index = bitmap_find_next_zero_area(q->bufs_map, q->max_allowed_buffers,
++						 0, num_buffers, 0);
+ 
+ 	if (first_index >= q->max_allowed_buffers)
+ 		return 0;
+@@ -675,7 +678,13 @@ static void __vb2_queue_free(struct vb2_queue *q, unsigned int buffers)
+ 
+ struct vb2_buffer *vb2_get_buffer(struct vb2_queue *q, unsigned int index)
+ {
+-	if (index < q->num_buffers)
++	if (!q->bufs_map || !q->bufs)
++		return NULL;
 +
++	if (index >= q->max_allowed_buffers)
++		return NULL;
++
++	if (test_bit(index, q->bufs_map))
+ 		return q->bufs[index];
+ 	return NULL;
+ }
+@@ -683,7 +692,10 @@ EXPORT_SYMBOL_GPL(vb2_get_buffer);
+ 
+ unsigned int vb2_get_num_buffers(struct vb2_queue *q)
+ {
+-	return q->num_buffers;
++	if (!q->bufs_map)
++		return 0;
++
++	return bitmap_weight(q->bufs_map, q->max_allowed_buffers);
+ }
+ EXPORT_SYMBOL_GPL(vb2_get_num_buffers);
+ 
+@@ -899,6 +911,14 @@ int vb2_core_reqbufs(struct vb2_queue *q, enum vb2_memory memory,
+ 		q->bufs = kcalloc(q->max_allowed_buffers, sizeof(*q->bufs), GFP_KERNEL);
+ 	if (!q->bufs)
+ 		ret = -ENOMEM;
++
++	if (!q->bufs_map)
++		q->bufs_map = bitmap_zalloc(q->max_allowed_buffers, GFP_KERNEL);
++	if (!q->bufs_map) {
++		ret = -ENOMEM;
++		kfree(q->bufs);
++		q->bufs = NULL;
++	}
+ 	q->memory = memory;
+ 	mutex_unlock(&q->mmap_lock);
+ 	if (ret)
+@@ -968,7 +988,6 @@ int vb2_core_reqbufs(struct vb2_queue *q, enum vb2_memory memory,
+ 	}
+ 
+ 	mutex_lock(&q->mmap_lock);
+-	q->num_buffers = allocated_buffers;
+ 
+ 	if (ret < 0) {
+ 		/*
+@@ -995,6 +1014,10 @@ int vb2_core_reqbufs(struct vb2_queue *q, enum vb2_memory memory,
+ 	mutex_lock(&q->mmap_lock);
+ 	q->memory = VB2_MEMORY_UNKNOWN;
+ 	mutex_unlock(&q->mmap_lock);
++	kfree(q->bufs);
++	q->bufs = NULL;
++	bitmap_free(q->bufs_map);
++	q->bufs_map = NULL;
+ 	return ret;
+ }
+ EXPORT_SYMBOL_GPL(vb2_core_reqbufs);
+@@ -1031,9 +1054,19 @@ int vb2_core_create_bufs(struct vb2_queue *q, enum vb2_memory memory,
+ 		q->memory = memory;
+ 		if (!q->bufs)
+ 			q->bufs = kcalloc(q->max_allowed_buffers, sizeof(*q->bufs), GFP_KERNEL);
+-		if (!q->bufs)
++		if (!q->bufs) {
++			ret = -ENOMEM;
++			goto unlock;
++		}
++		if (!q->bufs_map)
++			q->bufs_map = bitmap_zalloc(q->max_allowed_buffers, GFP_KERNEL);
++		if (!q->bufs_map) {
+ 			ret = -ENOMEM;
++			kfree(q->bufs);
++			q->bufs = NULL;
++		}
+ 		mutex_unlock(&q->mmap_lock);
++unlock:
+ 		if (ret)
+ 			return ret;
+ 		q->waiting_for_buffers = !q->is_output;
+@@ -1095,7 +1128,6 @@ int vb2_core_create_bufs(struct vb2_queue *q, enum vb2_memory memory,
+ 	}
+ 
+ 	mutex_lock(&q->mmap_lock);
+-	q->num_buffers += allocated_buffers;
+ 
+ 	if (ret < 0) {
+ 		/*
+@@ -2588,6 +2620,9 @@ void vb2_core_queue_release(struct vb2_queue *q)
+ 	__vb2_queue_free(q, q->max_allowed_buffers);
+ 	kfree(q->bufs);
+ 	q->bufs = NULL;
++	bitmap_free(q->bufs_map);
++	q->bufs_map = NULL;
++
+ 	mutex_unlock(&q->mmap_lock);
+ }
+ EXPORT_SYMBOL_GPL(vb2_core_queue_release);
+@@ -2944,7 +2979,7 @@ static size_t __vb2_perform_fileio(struct vb2_queue *q, char __user *data, size_
+ 	 * Check if we need to dequeue the buffer.
+ 	 */
+ 	index = fileio->cur_index;
+-	if (index >= q->num_buffers) {
++	if (!test_bit(index, q->bufs_map)) {
+ 		struct vb2_buffer *b;
+ 
+ 		/*
+diff --git a/include/media/videobuf2-core.h b/include/media/videobuf2-core.h
+index 19c93d8eb7c8..734437236cc4 100644
+--- a/include/media/videobuf2-core.h
++++ b/include/media/videobuf2-core.h
+@@ -557,7 +557,7 @@ struct vb2_buf_ops {
+  * @memory:	current memory type used
+  * @dma_dir:	DMA mapping direction.
+  * @bufs:	videobuf2 buffer structures
+- * @num_buffers: number of allocated/used buffers
++ * @bufs_map:	bitmap to manage bufs entries.
+  * @max_allowed_buffers: upper limit of number of allocated/used buffers
+  * @queued_list: list of buffers currently queued from userspace
+  * @queued_count: number of buffers queued and ready for streaming.
+@@ -621,7 +621,7 @@ struct vb2_queue {
+ 	unsigned int			memory;
+ 	enum dma_data_direction		dma_dir;
+ 	struct vb2_buffer		**bufs;
+-	unsigned int			num_buffers;
++	unsigned long			*bufs_map;
+ 	unsigned int			max_allowed_buffers;
+ 
+ 	struct list_head		queued_list;
+@@ -1151,7 +1151,10 @@ static inline bool vb2_fileio_is_active(struct vb2_queue *q)
+  */
+ static inline bool vb2_is_busy(struct vb2_queue *q)
+ {
+-	return (q->num_buffers > 0);
++	if (!q->bufs_map)
++		return false;
++
++	return (bitmap_weight(q->bufs_map, q->max_allowed_buffers) > 0);
+ }
+ 
  /**
-  * v4l2_m2m_create_bufs() - create a source or destination buffer, depending
-  * on the type
-@@ -860,6 +870,8 @@ int v4l2_m2m_ioctl_reqbufs(struct file *file, void *priv,
- 				struct v4l2_requestbuffers *rb);
- int v4l2_m2m_ioctl_create_bufs(struct file *file, void *fh,
- 				struct v4l2_create_buffers *create);
-+int v4l2_m2m_ioctl_delete_bufs(struct file *file, void *priv,
-+			       struct v4l2_delete_buffers *d);
- int v4l2_m2m_ioctl_querybuf(struct file *file, void *fh,
- 				struct v4l2_buffer *buf);
- int v4l2_m2m_ioctl_expbuf(struct file *file, void *fh,
 -- 
 2.39.2
 
