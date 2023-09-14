@@ -1,25 +1,25 @@
 Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCD5E224D2
-	for <linux-staging@lists.linux.dev>; Thu, 14 Sep 2023 13:33:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8C72224DC
+	for <linux-staging@lists.linux.dev>; Thu, 14 Sep 2023 13:33:56 +0000 (UTC)
 Received: from benjamin-XPS-13-9310.. (unknown [IPv6:2a01:e0a:120:3210:36f2:37bd:ccbb:373f])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
 	(Authenticated sender: benjamin.gaignard)
-	by madras.collabora.co.uk (Postfix) with ESMTPSA id 2AD386607397;
-	Thu, 14 Sep 2023 14:33:54 +0100 (BST)
+	by madras.collabora.co.uk (Postfix) with ESMTPSA id 30932660739B;
+	Thu, 14 Sep 2023 14:33:55 +0100 (BST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1694698434;
-	bh=yoC4Zwhq5KTur5ZjSqFZrMNs6UvSbNFXWhR9MCqzlE0=;
+	s=mail; t=1694698435;
+	bh=toYAovS+izT0LEoEizCbJtlr0mGm+eGtkX0GLil3vcc=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=EN1kyPC5ZKZ0JvmFCHlIc1mglG9qMNrLetcPCcD67N4xE1hTklCKDCBTvVfTSBYtU
-	 4VNAqqLMDJojsiDBr9PfSg4Kt/L5wOkzMHIp7Usvkg/OS+8DY4qa1pvR2N7afmXPyC
-	 NPow5YjSKRGIxTyvDgTgfOMCCa1zzZFqt6bl9BATFAck5lp7Bimj7Aas9Pf+8xC0Tq
-	 3NLcbDX6LdHM4Xmh6JOa78HIpfZYGLmJWaZHRQGjuXwOpDpMKaH5y5+d9U+DCk+m8K
-	 9ABes+Pt0cxXhdedx+kGDyyVz/RVHpy946pJKhtX/sNhAZUv13kdwss33nLLep2094
-	 cH5Qa5D0y4jKg==
+	b=oEps24M4VrGEsZjj534OIRuhGa5nrooJPEDbMc2XfeODZD/Snnj5GHpYmTeNJT9l+
+	 CnU62Cjhug0VYXFFocoTcbn5nVVz7hP+auojoUhN8d0sz0+dt5wdAcgRJyGvIHOZxs
+	 vCeZB7SShgrnW4lDf+dTiEik1PFHIThDnbFZMxPLLIB2BZR8K5+bOvZb955q3xuhx9
+	 56BPeGqp7XnfORhXvIKRsrY76WVS7I/k5Hdjk17tOl2cmfSRKgNs76OfI3XYNjMm4l
+	 xW6l0KS/HNEnfRoinzNpPeeTS9gcgrE2+B1lCiEu9EB4NTrO28oamIIUFNRIEB88yP
+	 ZS19F/X5nC2aA==
 From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
 To: mchehab@kernel.org,
 	tfiga@chromium.org,
@@ -39,9 +39,9 @@ Cc: linux-media@vger.kernel.org,
 	linux-staging@lists.linux.dev,
 	kernel@collabora.com,
 	Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Subject: [PATCH v7 44/49] media: cedrus: Stop direct calls to queue num_buffers field
-Date: Thu, 14 Sep 2023 15:33:18 +0200
-Message-Id: <20230914133323.198857-45-benjamin.gaignard@collabora.com>
+Subject: [PATCH v7 46/49] media: core: Free range of buffers
+Date: Thu, 14 Sep 2023 15:33:20 +0200
+Message-Id: <20230914133323.198857-47-benjamin.gaignard@collabora.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230914133323.198857-1-benjamin.gaignard@collabora.com>
 References: <20230914133323.198857-1-benjamin.gaignard@collabora.com>
@@ -53,52 +53,117 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Use vb2_get_num_buffers() to avoid using queue num_buffer field directly.
+Improve __vb2_queue_free() and __vb2_free_mem() to free
+range of buffers and not only the last few buffers.
+Intoduce starting index to be flexible on range and change the loops
+according to this parameters.
 
 Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
 ---
- drivers/staging/media/sunxi/cedrus/cedrus_h264.c | 4 +++-
- drivers/staging/media/sunxi/cedrus/cedrus_h265.c | 4 +++-
- 2 files changed, 6 insertions(+), 2 deletions(-)
+ .../media/common/videobuf2/videobuf2-core.c   | 30 +++++++++----------
+ 1 file changed, 14 insertions(+), 16 deletions(-)
 
-diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_h264.c b/drivers/staging/media/sunxi/cedrus/cedrus_h264.c
-index dfb401df138a..bbe5802ea861 100644
---- a/drivers/staging/media/sunxi/cedrus/cedrus_h264.c
-+++ b/drivers/staging/media/sunxi/cedrus/cedrus_h264.c
-@@ -649,11 +649,13 @@ static void cedrus_h264_stop(struct cedrus_ctx *ctx)
- 	struct cedrus_dev *dev = ctx->dev;
- 	struct cedrus_buffer *buf;
- 	struct vb2_queue *vq;
-+	unsigned int q_num_bufs;
- 	unsigned int i;
+diff --git a/drivers/media/common/videobuf2/videobuf2-core.c b/drivers/media/common/videobuf2/videobuf2-core.c
+index c5d4a388331b..88cdf4dcb07c 100644
+--- a/drivers/media/common/videobuf2/videobuf2-core.c
++++ b/drivers/media/common/videobuf2/videobuf2-core.c
+@@ -527,13 +527,12 @@ static int __vb2_queue_alloc(struct vb2_queue *q, enum vb2_memory memory,
+ /*
+  * __vb2_free_mem() - release all video buffer memory for a given queue
+  */
+-static void __vb2_free_mem(struct vb2_queue *q, unsigned int buffers)
++static void __vb2_free_mem(struct vb2_queue *q, unsigned int start, unsigned int count)
+ {
+-	unsigned int buffer = 0;
+-	long i = q->max_allowed_buffers;
++	unsigned int i, buffer = 0;
+ 	struct vb2_buffer *vb;
  
- 	vq = v4l2_m2m_get_vq(ctx->fh.m2m_ctx, V4L2_BUF_TYPE_VIDEO_CAPTURE);
-+	q_num_bufs = vb2_get_num_buffers(vq);
+-	for (i = q->max_allowed_buffers; i >= 0 && buffer < buffers; i--) {
++	for (i = start; i < q->max_allowed_buffers && buffer < count; i++) {
+ 		vb = vb2_get_buffer(q, i);
+ 		if (!vb)
+ 			continue;
+@@ -550,19 +549,18 @@ static void __vb2_free_mem(struct vb2_queue *q, unsigned int buffers)
+ }
  
--	for (i = 0; i < vq->num_buffers; i++) {
-+	for (i = 0; i < q_num_bufs; i++) {
- 		buf = vb2_to_cedrus_buffer(vb2_get_buffer(vq, i));
+ /*
+- * __vb2_queue_free() - free buffers at the end of the queue - video memory and
++ * __vb2_queue_free() - free count buffers from start index of the queue - video memory and
+  * related information, if no buffers are left return the queue to an
+  * uninitialized state. Might be called even if the queue has already been freed.
+  */
+-static void __vb2_queue_free(struct vb2_queue *q, unsigned int buffers)
++static void __vb2_queue_free(struct vb2_queue *q, unsigned int start, unsigned int count)
+ {
+-	unsigned int buffer;
+-	long i = q->max_allowed_buffers;
++	unsigned int i, buffer;
  
- 		if (buf->codec.h264.mv_col_buf_size > 0) {
-diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_h265.c b/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
-index fc9297232456..533a38316686 100644
---- a/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
-+++ b/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
-@@ -865,11 +865,13 @@ static void cedrus_h265_stop(struct cedrus_ctx *ctx)
- 	struct cedrus_dev *dev = ctx->dev;
- 	struct cedrus_buffer *buf;
- 	struct vb2_queue *vq;
-+	unsigned int q_num_bufs;
- 	unsigned int i;
+ 	lockdep_assert_held(&q->mmap_lock);
  
- 	vq = v4l2_m2m_get_vq(ctx->fh.m2m_ctx, V4L2_BUF_TYPE_VIDEO_CAPTURE);
-+	q_num_bufs = vb2_get_num_buffers(vq);
+ 	/* Call driver-provided cleanup function for each buffer, if provided */
+-	for (i = q->max_allowed_buffers, buffer = 0; i >= 0 && buffer < buffers; i--) {
++	for (i = start, buffer = 0; i < q->max_allowed_buffers && buffer < count; i++) {
+ 		struct vb2_buffer *vb = vb2_get_buffer(q, i);
  
--	for (i = 0; i < vq->num_buffers; i++) {
-+	for (i = 0; i < q_num_bufs; i++) {
- 		buf = vb2_to_cedrus_buffer(vb2_get_buffer(vq, i));
+ 		if (!vb)
+@@ -574,7 +572,7 @@ static void __vb2_queue_free(struct vb2_queue *q, unsigned int buffers)
+ 	}
  
- 		if (buf->codec.h265.mv_col_buf_size > 0) {
+ 	/* Release video buffer memory */
+-	__vb2_free_mem(q, buffers);
++	__vb2_free_mem(q, start, count);
+ 
+ #ifdef CONFIG_VIDEO_ADV_DEBUG
+ 	/*
+@@ -659,8 +657,8 @@ static void __vb2_queue_free(struct vb2_queue *q, unsigned int buffers)
+ #endif
+ 
+ 	/* Free vb2 buffers */
+-	for (i = q->max_allowed_buffers, buffer = 0; i > 0 && buffer < buffers; i--) {
+-		struct vb2_buffer *vb = vb2_get_buffer(q, buffer);
++	for (i = start, buffer = 0; i < q->max_allowed_buffers && buffer < count; i++) {
++		struct vb2_buffer *vb = vb2_get_buffer(q, i);
+ 
+ 		if (!vb)
+ 			continue;
+@@ -884,7 +882,7 @@ int vb2_core_reqbufs(struct vb2_queue *q, enum vb2_memory memory,
+ 		 * queued without ever calling STREAMON.
+ 		 */
+ 		__vb2_queue_cancel(q);
+-		__vb2_queue_free(q, q_num_bufs);
++		__vb2_queue_free(q, 0, q_num_bufs);
+ 		mutex_unlock(&q->mmap_lock);
+ 
+ 		/*
+@@ -995,7 +993,7 @@ int vb2_core_reqbufs(struct vb2_queue *q, enum vb2_memory memory,
+ 		 * from already queued buffers and it will reset q->memory to
+ 		 * VB2_MEMORY_UNKNOWN.
+ 		 */
+-		__vb2_queue_free(q, allocated_buffers);
++		__vb2_queue_free(q, 0, allocated_buffers);
+ 		mutex_unlock(&q->mmap_lock);
+ 		return ret;
+ 	}
+@@ -1135,7 +1133,7 @@ int vb2_core_create_bufs(struct vb2_queue *q, enum vb2_memory memory,
+ 		 * from already queued buffers and it will reset q->memory to
+ 		 * VB2_MEMORY_UNKNOWN.
+ 		 */
+-		__vb2_queue_free(q, allocated_buffers);
++		__vb2_queue_free(q, 0, allocated_buffers);
+ 		mutex_unlock(&q->mmap_lock);
+ 		return -ENOMEM;
+ 	}
+@@ -2617,7 +2615,7 @@ void vb2_core_queue_release(struct vb2_queue *q)
+ 	__vb2_cleanup_fileio(q);
+ 	__vb2_queue_cancel(q);
+ 	mutex_lock(&q->mmap_lock);
+-	__vb2_queue_free(q, q->max_allowed_buffers);
++	__vb2_queue_free(q, 0, q->max_allowed_buffers);
+ 	kfree(q->bufs);
+ 	q->bufs = NULL;
+ 	bitmap_free(q->bufs_map);
 -- 
 2.39.2
 
