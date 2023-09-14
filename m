@@ -1,25 +1,25 @@
 Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C4FA21A18
-	for <linux-staging@lists.linux.dev>; Thu, 14 Sep 2023 13:33:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBF2621A0F
+	for <linux-staging@lists.linux.dev>; Thu, 14 Sep 2023 13:33:45 +0000 (UTC)
 Received: from benjamin-XPS-13-9310.. (unknown [IPv6:2a01:e0a:120:3210:36f2:37bd:ccbb:373f])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
 	(Authenticated sender: benjamin.gaignard)
-	by madras.collabora.co.uk (Postfix) with ESMTPSA id BADF56607354;
-	Thu, 14 Sep 2023 14:33:45 +0100 (BST)
+	by madras.collabora.co.uk (Postfix) with ESMTPSA id 81ACF660734B;
+	Thu, 14 Sep 2023 14:33:40 +0100 (BST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1694698426;
-	bh=r/+dARFgLlqIYPCNsTNg9ylalWpmLzdptnRKI8OWLEk=;
+	s=mail; t=1694698420;
+	bh=orO42HgJZVmG5GsbDRr5p5aAYmAqR4f3jKdoimxCmR8=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=YvjvRTk2FQuuuUs3HNGiHLDrwCbLyrYMWAL9JKval+qun6XwuAj6wgBBBfYt4IfYc
-	 xbmXCiUoxGZ4dVyag8AP0dCKYveSLx8N/9qEJjjg7/AK+32irfARE5BXXCdaPQ8C5q
-	 eGm/YqgIEkTHpr2n7umROLKbceFmejEHZwmhe+YMQAbkP64MrVDmu7NcqXZqiiff9W
-	 gVkhsgGZ27DQpJjT0kvrPuk/Hz8Gqd2Apyrf407pV8PK+uLskqE/XxU8YrO4ActwJl
-	 Rgku5Vrd3E+aZf9DjbXETUSohr6bM123BAC87DsXQcitdM/BcaI8PjCHJvYVe/Z4+1
-	 7FpdiNtI5tZ0w==
+	b=jEyKLGVxdNGIKeLMpz746kqo6Ve+WUl2NaNIpmLz08Xw4NXo6f3Gc+8JDHzt45sC2
+	 BxamcwujM4l70xCIk0N+RjcA65h0NI4FnWqOfvPckyIa/R1SjIh63Xy8JkCtBmE6Tu
+	 tU9B8pJSm6Zvp/xCBnWU6IGAeUCRisISM8Xm57/PKT2jCAkgJEQBYAqoGqwVDKM1th
+	 EgcCyrb4S5gGIgS3P1306A7+0y6a03yUgJDstwdbiiD5DxZpwfNAQ8+Q+BLo6Z3acQ
+	 +VWLGLVn7lS+vvmwKPDhFceFJ9UjZeioznviCP+ph00kMU2B/MBXVeSgJnjAVw4YWV
+	 GQc8A6hsuyc4Q==
 From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
 To: mchehab@kernel.org,
 	tfiga@chromium.org,
@@ -39,9 +39,9 @@ Cc: linux-media@vger.kernel.org,
 	linux-staging@lists.linux.dev,
 	kernel@collabora.com,
 	Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Subject: [PATCH v7 28/49] media: amphion: Stop direct calls to queue num_buffers field
-Date: Thu, 14 Sep 2023 15:33:02 +0200
-Message-Id: <20230914133323.198857-29-benjamin.gaignard@collabora.com>
+Subject: [PATCH v7 18/49] media: Remove duplicated index vs q->num_buffers check
+Date: Thu, 14 Sep 2023 15:32:52 +0200
+Message-Id: <20230914133323.198857-19-benjamin.gaignard@collabora.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230914133323.198857-1-benjamin.gaignard@collabora.com>
 References: <20230914133323.198857-1-benjamin.gaignard@collabora.com>
@@ -53,76 +53,92 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Use vb2_get_num_buffers() to avoid using queue num_buffer field directly.
+vb2_get_buffer() already check if the requested index is valid.
+Stop duplicating this kind of check everywhere.
 
 Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
 ---
- drivers/media/platform/amphion/vpu_dbg.c  | 8 ++++----
- drivers/media/platform/amphion/vpu_v4l2.c | 4 ++--
- 2 files changed, 6 insertions(+), 6 deletions(-)
+ drivers/media/common/videobuf2/videobuf2-core.c |  8 ++++++++
+ drivers/media/common/videobuf2/videobuf2-v4l2.c | 13 -------------
+ include/media/videobuf2-core.h                  |  8 +-------
+ 3 files changed, 9 insertions(+), 20 deletions(-)
 
-diff --git a/drivers/media/platform/amphion/vpu_dbg.c b/drivers/media/platform/amphion/vpu_dbg.c
-index a462d6fe4ea9..61530ef92ff0 100644
---- a/drivers/media/platform/amphion/vpu_dbg.c
-+++ b/drivers/media/platform/amphion/vpu_dbg.c
-@@ -87,7 +87,7 @@ static int vpu_dbg_instance(struct seq_file *s, void *data)
- 	num = scnprintf(str, sizeof(str),
- 			"output (%2d, %2d): fmt = %c%c%c%c %d x %d, %d;",
- 			vb2_is_streaming(vq),
--			vq->num_buffers,
-+			vb2_get_num_buffers(vq),
- 			inst->out_format.pixfmt,
- 			inst->out_format.pixfmt >> 8,
- 			inst->out_format.pixfmt >> 16,
-@@ -111,7 +111,7 @@ static int vpu_dbg_instance(struct seq_file *s, void *data)
- 	num = scnprintf(str, sizeof(str),
- 			"capture(%2d, %2d): fmt = %c%c%c%c %d x %d, %d;",
- 			vb2_is_streaming(vq),
--			vq->num_buffers,
-+			vb2_get_num_buffers(vq),
- 			inst->cap_format.pixfmt,
- 			inst->cap_format.pixfmt >> 8,
- 			inst->cap_format.pixfmt >> 16,
-@@ -139,7 +139,7 @@ static int vpu_dbg_instance(struct seq_file *s, void *data)
- 		return 0;
- 
- 	vq = v4l2_m2m_get_src_vq(inst->fh.m2m_ctx);
--	for (i = 0; i < vq->num_buffers; i++) {
-+	for (i = 0; i < vq->max_allowed_buffers; i++) {
- 		struct vb2_buffer *vb;
- 		struct vb2_v4l2_buffer *vbuf;
- 
-@@ -161,7 +161,7 @@ static int vpu_dbg_instance(struct seq_file *s, void *data)
+diff --git a/drivers/media/common/videobuf2/videobuf2-core.c b/drivers/media/common/videobuf2/videobuf2-core.c
+index ee4df7c68397..2add7a6795e7 100644
+--- a/drivers/media/common/videobuf2/videobuf2-core.c
++++ b/drivers/media/common/videobuf2/videobuf2-core.c
+@@ -660,6 +660,14 @@ static void __vb2_queue_free(struct vb2_queue *q, unsigned int buffers)
  	}
- 
- 	vq = v4l2_m2m_get_dst_vq(inst->fh.m2m_ctx);
--	for (i = 0; i < vq->num_buffers; i++) {
-+	for (i = 0; i < vq->max_allowed_buffers; i++) {
- 		struct vb2_buffer *vb;
- 		struct vb2_v4l2_buffer *vbuf;
- 
-diff --git a/drivers/media/platform/amphion/vpu_v4l2.c b/drivers/media/platform/amphion/vpu_v4l2.c
-index 0f6e4c666440..87afb4a18d5d 100644
---- a/drivers/media/platform/amphion/vpu_v4l2.c
-+++ b/drivers/media/platform/amphion/vpu_v4l2.c
-@@ -439,7 +439,7 @@ int vpu_get_num_buffers(struct vpu_inst *inst, u32 type)
- 	else
- 		q = v4l2_m2m_get_dst_vq(inst->fh.m2m_ctx);
- 
--	return q->num_buffers;
-+	return vb2_get_num_buffers(q);
  }
  
- static void vpu_m2m_device_run(void *priv)
-@@ -587,7 +587,7 @@ static int vpu_vb2_start_streaming(struct vb2_queue *q, unsigned int count)
- 		  fmt->sizeimage[0], fmt->bytesperline[0],
- 		  fmt->sizeimage[1], fmt->bytesperline[1],
- 		  fmt->sizeimage[2], fmt->bytesperline[2],
--		  q->num_buffers);
-+		  vb2_get_num_buffers(q));
- 	vb2_clear_last_buffer_dequeued(q);
- 	ret = call_vop(inst, start, q->type);
- 	if (ret)
++struct vb2_buffer *vb2_get_buffer(struct vb2_queue *q, unsigned int index)
++{
++	if (index < q->num_buffers)
++		return q->bufs[index];
++	return NULL;
++}
++EXPORT_SYMBOL_GPL(vb2_get_buffer);
++
+ bool vb2_buffer_in_use(struct vb2_queue *q, struct vb2_buffer *vb)
+ {
+ 	unsigned int plane;
+diff --git a/drivers/media/common/videobuf2/videobuf2-v4l2.c b/drivers/media/common/videobuf2/videobuf2-v4l2.c
+index 87c2d5916960..f10b70d8e66a 100644
+--- a/drivers/media/common/videobuf2/videobuf2-v4l2.c
++++ b/drivers/media/common/videobuf2/videobuf2-v4l2.c
+@@ -378,11 +378,6 @@ static int vb2_queue_or_prepare_buf(struct vb2_queue *q, struct media_device *md
+ 		return -EINVAL;
+ 	}
+ 
+-	if (b->index >= q->num_buffers) {
+-		dprintk(q, 1, "%s: buffer index out of range\n", opname);
+-		return -EINVAL;
+-	}
+-
+ 	vb = vb2_get_buffer(q, b->index);
+ 	if (!vb) {
+ 		dprintk(q, 1, "%s: buffer is NULL\n", opname);
+@@ -829,10 +824,6 @@ int vb2_qbuf(struct vb2_queue *q, struct media_device *mdev,
+ 		return -EBUSY;
+ 	}
+ 
+-	if (b->index >= q->num_buffers) {
+-		dprintk(q, 1, "buffer index out of range\n");
+-		return -EINVAL;
+-	}
+ 	vb = vb2_get_buffer(q, b->index);
+ 	if (!vb) {
+ 		dprintk(q, 1, "can't find the requested buffer\n");
+@@ -904,10 +895,6 @@ int vb2_expbuf(struct vb2_queue *q, struct v4l2_exportbuffer *eb)
+ {
+ 	struct vb2_buffer *vb;
+ 
+-	if (eb->index >= q->num_buffers) {
+-		dprintk(q, 1, "buffer index out of range\n");
+-		return -EINVAL;
+-	}
+ 	vb = vb2_get_buffer(q, eb->index);
+ 	if (!vb) {
+ 		dprintk(q, 1, "can't find the requested buffer\n");
+diff --git a/include/media/videobuf2-core.h b/include/media/videobuf2-core.h
+index 97153c69583f..25ca395616a7 100644
+--- a/include/media/videobuf2-core.h
++++ b/include/media/videobuf2-core.h
+@@ -1238,13 +1238,7 @@ static inline void vb2_clear_last_buffer_dequeued(struct vb2_queue *q)
+  * operation, so the buffer lifetime should be taken into
+  * consideration.
+  */
+-static inline struct vb2_buffer *vb2_get_buffer(struct vb2_queue *q,
+-						unsigned int index)
+-{
+-	if (index < q->num_buffers)
+-		return q->bufs[index];
+-	return NULL;
+-}
++struct vb2_buffer *vb2_get_buffer(struct vb2_queue *q, unsigned int index);
+ 
+ /*
+  * The following functions are not part of the vb2 core API, but are useful
 -- 
 2.39.2
 
