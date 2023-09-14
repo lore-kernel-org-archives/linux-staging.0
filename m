@@ -1,25 +1,25 @@
 Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2D5221A10
-	for <linux-staging@lists.linux.dev>; Thu, 14 Sep 2023 13:33:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11C7D21A11
+	for <linux-staging@lists.linux.dev>; Thu, 14 Sep 2023 13:33:45 +0000 (UTC)
 Received: from benjamin-XPS-13-9310.. (unknown [IPv6:2a01:e0a:120:3210:36f2:37bd:ccbb:373f])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
 	(Authenticated sender: benjamin.gaignard)
-	by madras.collabora.co.uk (Postfix) with ESMTPSA id DDDFF6607357;
-	Thu, 14 Sep 2023 14:33:48 +0100 (BST)
+	by madras.collabora.co.uk (Postfix) with ESMTPSA id 16B99660734D;
+	Thu, 14 Sep 2023 14:33:42 +0100 (BST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1694698429;
-	bh=cbszs7jBOfbla1DDC74zl4poj/pPrdoEU2YTt7/fzAM=;
+	s=mail; t=1694698422;
+	bh=aeJc8Jxcb8/QbECmV25qK+8LTdH51/KXmWUpXuI4BR8=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=DgFMJRRyh60YBJZYxpe41d4iSCnr68fszfWc/Os4u8ajsF8XC9AFXRT6EhvbKtZXS
-	 zzKQ/uWBBQNX+NBxbagk5DA93roP6dIuPwnB4gFD3VHsI/lGtVNDTVmt+aBm4F0ERx
-	 ljulfrXW5Y7dPXtgO2n4k9+i7Ko1FY2c7zeqqMoMKi56WuIUIqrKelv9pyWvv9CUpv
-	 RCv8E4sD3F5X6MHv/K4mZ2Tu9xoycyQkpldbJReHwq99RJ3Q46OvnVyCn5EijXUDtW
-	 7XGXVNdiTBed00u9xyuSurvwIOCOoIE3uNBH75UpAN38S8PFj+uQ1S7jJvDWFpfDKH
-	 XgjvCiOHdFbIg==
+	b=lkLIjEy2vX3bpMH3buUT4cdpI7iRafMZckCzgDYWsix0SUPgu3Jc8uxt7LyFI/4FN
+	 zpki5QpXi/wJpp4RUvpkfSVJu5j5QMl9lueRCWkn/VlXfac6kiOCt7yUj64gPTODZT
+	 wLnIU5q+RBlJRH1uQh6RLh72Vm8WEFetXbdxsvY8gvnFTTU5bOJtuptiAXMpAD0/ru
+	 /wCR2yEG4NgHtL1iG2hqtlUo2K8JiZWp44XQ1+u1dnWMSHHAqdXA1LWFaD77pz9f7r
+	 gvMSAwli3PdGl/6EYHWc2QbbHdDP6st86TBiJddI7gFfvzgLJuG4osJSS8ICQPqXUU
+	 3sQ+c6hN6G+BA==
 From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
 To: mchehab@kernel.org,
 	tfiga@chromium.org,
@@ -39,9 +39,9 @@ Cc: linux-media@vger.kernel.org,
 	linux-staging@lists.linux.dev,
 	kernel@collabora.com,
 	Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Subject: [PATCH v7 34/49] media: ti: Stop direct calls to queue num_buffers field
-Date: Thu, 14 Sep 2023 15:33:08 +0200
-Message-Id: <20230914133323.198857-35-benjamin.gaignard@collabora.com>
+Subject: [PATCH v7 21/49] media: dvb: Stop direct calls to queue num_buffers field
+Date: Thu, 14 Sep 2023 15:32:55 +0200
+Message-Id: <20230914133323.198857-22-benjamin.gaignard@collabora.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230914133323.198857-1-benjamin.gaignard@collabora.com>
 References: <20230914133323.198857-1-benjamin.gaignard@collabora.com>
@@ -57,113 +57,42 @@ Use vb2_get_num_buffers() to avoid using queue num_buffer field directly.
 
 Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
 ---
- drivers/media/platform/ti/am437x/am437x-vpfe.c   | 5 +++--
- drivers/media/platform/ti/cal/cal-video.c        | 5 +++--
- drivers/media/platform/ti/davinci/vpif_capture.c | 5 +++--
- drivers/media/platform/ti/davinci/vpif_display.c | 5 +++--
- drivers/media/platform/ti/omap/omap_vout.c       | 5 +++--
- 5 files changed, 15 insertions(+), 10 deletions(-)
+ drivers/media/dvb-core/dvb_vb2.c          | 1 -
+ drivers/media/dvb-frontends/rtl2832_sdr.c | 5 +++--
+ 2 files changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/media/platform/ti/am437x/am437x-vpfe.c b/drivers/media/platform/ti/am437x/am437x-vpfe.c
-index 63092013d476..3b1e5dfecdbc 100644
---- a/drivers/media/platform/ti/am437x/am437x-vpfe.c
-+++ b/drivers/media/platform/ti/am437x/am437x-vpfe.c
-@@ -1774,10 +1774,11 @@ static int vpfe_queue_setup(struct vb2_queue *vq,
- 			    unsigned int sizes[], struct device *alloc_devs[])
+diff --git a/drivers/media/dvb-core/dvb_vb2.c b/drivers/media/dvb-core/dvb_vb2.c
+index 3a966fdf814c..a731b755a0b9 100644
+--- a/drivers/media/dvb-core/dvb_vb2.c
++++ b/drivers/media/dvb-core/dvb_vb2.c
+@@ -177,7 +177,6 @@ int dvb_vb2_init(struct dvb_vb2_ctx *ctx, const char *name, int nonblocking)
+ 	q->ops = &dvb_vb2_qops;
+ 	q->mem_ops = &vb2_vmalloc_memops;
+ 	q->buf_ops = &dvb_vb2_buf_ops;
+-	q->num_buffers = 0;
+ 	ret = vb2_core_queue_init(q);
+ 	if (ret) {
+ 		ctx->state = DVB_VB2_STATE_NONE;
+diff --git a/drivers/media/dvb-frontends/rtl2832_sdr.c b/drivers/media/dvb-frontends/rtl2832_sdr.c
+index 02c619e51641..023db6e793f8 100644
+--- a/drivers/media/dvb-frontends/rtl2832_sdr.c
++++ b/drivers/media/dvb-frontends/rtl2832_sdr.c
+@@ -439,12 +439,13 @@ static int rtl2832_sdr_queue_setup(struct vb2_queue *vq,
  {
- 	struct vpfe_device *vpfe = vb2_get_drv_priv(vq);
-+	unsigned int q_num_bufs = vb2_get_num_buffers(vq);
- 	unsigned size = vpfe->fmt.fmt.pix.sizeimage;
- 
--	if (vq->num_buffers + *nbuffers < 3)
--		*nbuffers = 3 - vq->num_buffers;
-+	if (q_num_bufs + *nbuffers < 3)
-+		*nbuffers = 3 - q_num_bufs;
- 
- 	if (*nplanes) {
- 		if (sizes[0] < size)
-diff --git a/drivers/media/platform/ti/cal/cal-video.c b/drivers/media/platform/ti/cal/cal-video.c
-index a8abcd0fee17..5dfe40ca47fc 100644
---- a/drivers/media/platform/ti/cal/cal-video.c
-+++ b/drivers/media/platform/ti/cal/cal-video.c
-@@ -602,10 +602,11 @@ static int cal_queue_setup(struct vb2_queue *vq,
- 			   unsigned int sizes[], struct device *alloc_devs[])
- {
- 	struct cal_ctx *ctx = vb2_get_drv_priv(vq);
-+	unsigned int q_num_bufs = vb2_get_num_buffers(vq);
- 	unsigned int size = ctx->v_fmt.fmt.pix.sizeimage;
- 
--	if (vq->num_buffers + *nbuffers < 3)
--		*nbuffers = 3 - vq->num_buffers;
-+	if (q_num_bufs + *nbuffers < 3)
-+		*nbuffers = 3 - q_num_bufs;
- 
- 	if (*nplanes) {
- 		if (sizes[0] < size)
-diff --git a/drivers/media/platform/ti/davinci/vpif_capture.c b/drivers/media/platform/ti/davinci/vpif_capture.c
-index 99fae8830c41..fc42b4bc37e6 100644
---- a/drivers/media/platform/ti/davinci/vpif_capture.c
-+++ b/drivers/media/platform/ti/davinci/vpif_capture.c
-@@ -113,6 +113,7 @@ static int vpif_buffer_queue_setup(struct vb2_queue *vq,
- 	struct channel_obj *ch = vb2_get_drv_priv(vq);
- 	struct common_obj *common = &ch->common[VPIF_VIDEO_INDEX];
- 	unsigned size = common->fmt.fmt.pix.sizeimage;
+ 	struct rtl2832_sdr_dev *dev = vb2_get_drv_priv(vq);
+ 	struct platform_device *pdev = dev->pdev;
 +	unsigned int q_num_bufs = vb2_get_num_buffers(vq);
  
- 	vpif_dbg(2, debug, "vpif_buffer_setup\n");
+ 	dev_dbg(&pdev->dev, "nbuffers=%d\n", *nbuffers);
  
-@@ -122,8 +123,8 @@ static int vpif_buffer_queue_setup(struct vb2_queue *vq,
- 		size = sizes[0];
- 	}
- 
--	if (vq->num_buffers + *nbuffers < 3)
--		*nbuffers = 3 - vq->num_buffers;
-+	if (q_num_bufs + *nbuffers < 3)
-+		*nbuffers = 3 - q_num_bufs;
- 
+ 	/* Need at least 8 buffers */
+-	if (vq->num_buffers + *nbuffers < 8)
+-		*nbuffers = 8 - vq->num_buffers;
++	if (q_num_bufs + *nbuffers < 8)
++		*nbuffers = 8 - q_num_bufs;
  	*nplanes = 1;
- 	sizes[0] = size;
-diff --git a/drivers/media/platform/ti/davinci/vpif_display.c b/drivers/media/platform/ti/davinci/vpif_display.c
-index f8ec2991c667..9dbab1003c1d 100644
---- a/drivers/media/platform/ti/davinci/vpif_display.c
-+++ b/drivers/media/platform/ti/davinci/vpif_display.c
-@@ -115,6 +115,7 @@ static int vpif_buffer_queue_setup(struct vb2_queue *vq,
- 	struct channel_obj *ch = vb2_get_drv_priv(vq);
- 	struct common_obj *common = &ch->common[VPIF_VIDEO_INDEX];
- 	unsigned size = common->fmt.fmt.pix.sizeimage;
-+	unsigned int q_num_bufs = vb2_get_num_buffers(vq);
- 
- 	if (*nplanes) {
- 		if (sizes[0] < size)
-@@ -122,8 +123,8 @@ static int vpif_buffer_queue_setup(struct vb2_queue *vq,
- 		size = sizes[0];
- 	}
- 
--	if (vq->num_buffers + *nbuffers < 3)
--		*nbuffers = 3 - vq->num_buffers;
-+	if (q_num_bufs + *nbuffers < 3)
-+		*nbuffers = 3 - q_num_bufs;
- 
- 	*nplanes = 1;
- 	sizes[0] = size;
-diff --git a/drivers/media/platform/ti/omap/omap_vout.c b/drivers/media/platform/ti/omap/omap_vout.c
-index 4143274089c3..72ce903717d3 100644
---- a/drivers/media/platform/ti/omap/omap_vout.c
-+++ b/drivers/media/platform/ti/omap/omap_vout.c
-@@ -944,10 +944,11 @@ static int omap_vout_vb2_queue_setup(struct vb2_queue *vq,
- 				     struct device *alloc_devs[])
- {
- 	struct omap_vout_device *vout = vb2_get_drv_priv(vq);
-+	unsigned int q_num_bufs = vb2_get_num_buffers(vq);
- 	int size = vout->pix.sizeimage;
- 
--	if (is_rotation_enabled(vout) && vq->num_buffers + *nbufs > VRFB_NUM_BUFS) {
--		*nbufs = VRFB_NUM_BUFS - vq->num_buffers;
-+	if (is_rotation_enabled(vout) && q_num_bufs + *nbufs > VRFB_NUM_BUFS) {
-+		*nbufs = VRFB_NUM_BUFS - q_num_bufs;
- 		if (*nbufs == 0)
- 			return -EINVAL;
- 	}
+ 	sizes[0] = PAGE_ALIGN(dev->buffersize);
+ 	dev_dbg(&pdev->dev, "nbuffers=%d sizes[0]=%d\n", *nbuffers, sizes[0]);
 -- 
 2.39.2
 
