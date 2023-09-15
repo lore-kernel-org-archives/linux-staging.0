@@ -1,49 +1,49 @@
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A82C11CB1
-	for <linux-staging@lists.linux.dev>; Fri, 15 Sep 2023 16:07:06 +0000 (UTC)
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-3fe4f3b5f25so6766075e9.0
-        for <linux-staging@lists.linux.dev>; Fri, 15 Sep 2023 09:07:06 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFB0711CA0
+	for <linux-staging@lists.linux.dev>; Fri, 15 Sep 2023 16:07:13 +0000 (UTC)
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-4046f7d49a9so5747665e9.1
+        for <linux-staging@lists.linux.dev>; Fri, 15 Sep 2023 09:07:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1694794025; x=1695398825; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1694794032; x=1695398832; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=n2PHM1eEcsGJe5Q3fmJzIu7/A4Sy54TXuvy1bSnpta0=;
-        b=LzmyKNXzIom+WfGpoz3lQK8n34Y5Bv6+w18JYTFdCJqwt50jNR4UD5QNSAlhmpiSnN
-         uhicrl3OqnoZBVVbKhDBE7BLYFYCexKtEvrwCgz2XhkL7dWq72UHDxSqrCVHT1dlA01q
-         V9QYh0R2W106dil8JtTJHdQswkRr6qqiUThu8s+KsD5BGOjym7XGfnCdRSOZZfSJrv9u
-         HXwviwKQePAo2ROkNJPK7YwdZ7LFLJqvMl1tO8vvOu2Vban7TlETz0e3D1SiFvZtPFyH
-         7jjdCXPsfDkd1XyWMb3t8RIwcra6sHYSOzW75VVIEgkeS1hm7acloEj8phySXWijnuwR
-         96Fw==
+        bh=8MAQysHswzKdSn6dt98Oe4Oe6j9LPER8jfsz6Ld6Vfw=;
+        b=NQuQEPNs/i3iaUZUTofu92ONjGNLQ+C3MXViBcls/Fl9lyPvT8BNzPspZYTk40qTL9
+         UcmFEp5Rcp/ZjP5daOg493axytw+eJHV/MCZ279i0ob7Wr5OLVPjzEwLH+Ko20fT0W85
+         mm2kukZ92Y70K4bJn4UYBFNxYUyovTJE3Cy+JtUX/irqI2FKKfUkw4DOyCp+0ul3MS1j
+         PNUYVR33cymfMdHOexe4mI9guVFbYlYgCYJnnJUuKP6cD05EGz606iAs3FrOTcY9iqOg
+         PSg/AuCO8skqrcdoRB5zo5RtADQVh8+jJBo+BDMFgLeiI4ZBW55n9ILvEzMOu3vswhlZ
+         6q+w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1694794025; x=1695398825;
+        d=1e100.net; s=20230601; t=1694794032; x=1695398832;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=n2PHM1eEcsGJe5Q3fmJzIu7/A4Sy54TXuvy1bSnpta0=;
-        b=sUCmu8bD6hCowLRIxfw9Wynn5cuoi/kKkfDKwQrt9vdB0PmZDMn35cMCJ5ReNu1SYr
-         MJlG6332ssMQBKjoMwKnIkdn/jIRh0YWEMT1aPmVDHwlx/RZNf7K0b7RtSIp9gGjlTYX
-         iLaH0/q42FYEta794SeuoxKtJ1kWa+53fLK1d5XiyyxZFLRYKXTe+vsPt+q9sv/kfNEk
-         8MqYOFS9KZOFqdjAllQEJWsN0tUO+5Nidwl+AoXxp2+mpZAS6+/LC7/zRk0JCZljs07+
-         ytXsgvbFxlBsta06M0OrC4Rx+0iw1ouLa8uZYJgwJafGC41beKGKE9RFUpHV9Rt+pjbM
-         P2FQ==
-X-Gm-Message-State: AOJu0YzczDnijCqcvPELwcj/EYxrFW21qdYGEtv6DjAOUzeC6zHb/Os8
-	NMk9HnIFfzdQfawA5NbNOxM=
-X-Google-Smtp-Source: AGHT+IF/ijfQPAUagQMR9utW7X9u3hMyteF1L/EmpYSHvLiidP3LzggjkFTr7qZE13hRNbBkeUFYiA==
-X-Received: by 2002:a05:600c:1da9:b0:404:72f9:d59a with SMTP id p41-20020a05600c1da900b0040472f9d59amr1957402wms.0.1694794024864;
-        Fri, 15 Sep 2023 09:07:04 -0700 (PDT)
+        bh=8MAQysHswzKdSn6dt98Oe4Oe6j9LPER8jfsz6Ld6Vfw=;
+        b=MCJI/up7baNhPJEmwqQluhAIhozzjIUBd5EzCkr+gfieduBqWYixjBbawZcD8agj9r
+         tk4Hni2Yrk/iEG4v84N7EzWz3ICfi7FkT3AzdiYFmopxIhXy5E3VqcdsndSX9o4QeLFN
+         SHAV/qeyVzKSazFCdGbZbPKA+Rz1pU70oMhinulAOreLwXMR14gFTvta20PjOMZ6VjFP
+         ACE6xPPJIWZRDJVmnZAjXa+uhVq9M3EsDSS1+jgKKjQwFoPQfQns8TBLurbtOSt5WVYI
+         6afcILL4hf7xRbxiqqfMe/Sm+8Eo5/UhN8kO1pbc2iewER4itmotbpt7HqJKbrtbnci7
+         VoBw==
+X-Gm-Message-State: AOJu0YwV3M5ncW9k6eGXE+KWS3KS8zQbP6o/i/5ZFL1KaIhUetqeaClt
+	zR2w4RBjEiUKHdqismUONVg=
+X-Google-Smtp-Source: AGHT+IFXqQzfmj5OEscy8clergs2nxHr2/MUqe9l2wpq9rBBOsyxjQVYLVGx0v6OtsmKK87tSUG8wQ==
+X-Received: by 2002:a05:6000:1047:b0:31f:a096:6e18 with SMTP id c7-20020a056000104700b0031fa0966e18mr1761609wrx.6.1694794032054;
+        Fri, 15 Sep 2023 09:07:12 -0700 (PDT)
 Received: from matrix-ESPRIMO-P710 (p579356c7.dip0.t-ipconnect.de. [87.147.86.199])
-        by smtp.gmail.com with ESMTPSA id s24-20020a7bc398000000b003feee8d8011sm7943810wmj.41.2023.09.15.09.07.04
+        by smtp.gmail.com with ESMTPSA id z4-20020a5d4c84000000b003197c7d08ddsm4759614wrs.71.2023.09.15.09.07.11
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 15 Sep 2023 09:07:04 -0700 (PDT)
-Date: Fri, 15 Sep 2023 18:07:03 +0200
+        Fri, 15 Sep 2023 09:07:11 -0700 (PDT)
+Date: Fri, 15 Sep 2023 18:07:10 +0200
 From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [PATCH 04/16] staging: rtl8192e: Replace struct rtllib_hdr_3addr in
- rtllib_softmac.c
-Message-ID: <8e385d0810132086ce44d295c47d3798960a391b.1694792595.git.philipp.g.hortmann@gmail.com>
+Subject: [PATCH 03/16] staging: rtl8192e: Replace struct rtllib_hdr_3addr in
+ rtl819x_BAProc.c
+Message-ID: <aa6d81b6a8bc0f126d174ccbee25fd93d072fa59.1694792595.git.philipp.g.hortmann@gmail.com>
 References: <cover.1694792595.git.philipp.g.hortmann@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -60,189 +60,174 @@ proprietary struct.
 
 Signed-off-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
 ---
- drivers/staging/rtl8192e/rtllib_softmac.c | 50 +++++++++++------------
- 1 file changed, 25 insertions(+), 25 deletions(-)
+ drivers/staging/rtl8192e/rtl819x_BAProc.c | 48 +++++++++++------------
+ 1 file changed, 24 insertions(+), 24 deletions(-)
 
-diff --git a/drivers/staging/rtl8192e/rtllib_softmac.c b/drivers/staging/rtl8192e/rtllib_softmac.c
-index 904be0ef867f..e3b15fa0edcb 100644
---- a/drivers/staging/rtl8192e/rtllib_softmac.c
-+++ b/drivers/staging/rtl8192e/rtllib_softmac.c
-@@ -187,8 +187,8 @@ inline void softmac_mgmt_xmit(struct sk_buff *skb, struct rtllib_device *ieee)
+diff --git a/drivers/staging/rtl8192e/rtl819x_BAProc.c b/drivers/staging/rtl8192e/rtl819x_BAProc.c
+index bc6f9e8c5dd8..4cadbf549933 100644
+--- a/drivers/staging/rtl8192e/rtl819x_BAProc.c
++++ b/drivers/staging/rtl8192e/rtl819x_BAProc.c
+@@ -68,7 +68,7 @@ static struct sk_buff *rtllib_ADDBA(struct rtllib_device *ieee, u8 *Dst,
+ 				    u16 StatusCode, u8 type)
  {
- 	unsigned long flags;
- 	short single = ieee->softmac_features & IEEE_SOFTMAC_SINGLE_QUEUE;
--	struct rtllib_hdr_3addr  *header =
--		(struct rtllib_hdr_3addr  *)skb->data;
-+	struct ieee80211_hdr_3addr  *header =
-+		(struct ieee80211_hdr_3addr  *)skb->data;
+ 	struct sk_buff *skb = NULL;
+-	struct rtllib_hdr_3addr *BAReq = NULL;
++	struct ieee80211_hdr_3addr *BAReq = NULL;
+ 	u8 *tag = NULL;
+ 	u16 len = ieee->tx_headroom + 9;
  
- 	struct cb_desc *tcb_desc = (struct cb_desc *)(skb->cb + 8);
+@@ -79,21 +79,21 @@ static struct sk_buff *rtllib_ADDBA(struct rtllib_device *ieee, u8 *Dst,
+ 		netdev_warn(ieee->dev, "pBA is NULL\n");
+ 		return NULL;
+ 	}
+-	skb = dev_alloc_skb(len + sizeof(struct rtllib_hdr_3addr));
++	skb = dev_alloc_skb(len + sizeof(struct ieee80211_hdr_3addr));
+ 	if (!skb)
+ 		return NULL;
  
-@@ -197,7 +197,7 @@ inline void softmac_mgmt_xmit(struct sk_buff *skb, struct rtllib_device *ieee)
- 	/* called with 2nd param 0, no mgmt lock required */
- 	rtllib_sta_wakeup(ieee, 0);
+-	memset(skb->data, 0, sizeof(struct rtllib_hdr_3addr));
++	memset(skb->data, 0, sizeof(struct ieee80211_hdr_3addr));
  
--	if (ieee80211_is_beacon(header->frame_ctl))
-+	if (ieee80211_is_beacon(header->frame_control))
- 		tcb_desc->queue_index = BEACON_QUEUE;
- 	else
- 		tcb_desc->queue_index = MGNT_QUEUE;
-@@ -213,7 +213,7 @@ inline void softmac_mgmt_xmit(struct sk_buff *skb, struct rtllib_device *ieee)
- 		if (ieee->queue_stop) {
- 			enqueue_mgmt(ieee, skb);
- 		} else {
--			header->seq_ctl = cpu_to_le16(ieee->seq_ctrl[0] << 4);
-+			header->seq_ctrl = cpu_to_le16(ieee->seq_ctrl[0] << 4);
+ 	skb_reserve(skb, ieee->tx_headroom);
  
- 			if (ieee->seq_ctrl[0] == 0xFFF)
- 				ieee->seq_ctrl[0] = 0;
-@@ -230,7 +230,7 @@ inline void softmac_mgmt_xmit(struct sk_buff *skb, struct rtllib_device *ieee)
- 		spin_unlock_irqrestore(&ieee->lock, flags);
- 		spin_lock_irqsave(&ieee->mgmt_tx_lock, flags);
+-	BAReq = skb_put(skb, sizeof(struct rtllib_hdr_3addr));
++	BAReq = skb_put(skb, sizeof(struct ieee80211_hdr_3addr));
  
--		header->seq_ctl = cpu_to_le16(ieee->seq_ctrl[0] << 4);
-+		header->seq_ctrl = cpu_to_le16(ieee->seq_ctrl[0] << 4);
+ 	ether_addr_copy(BAReq->addr1, Dst);
+ 	ether_addr_copy(BAReq->addr2, ieee->dev->dev_addr);
  
- 		if (ieee->seq_ctrl[0] == 0xFFF)
- 			ieee->seq_ctrl[0] = 0;
-@@ -264,12 +264,12 @@ softmac_ps_mgmt_xmit(struct sk_buff *skb,
- 		     struct rtllib_device *ieee)
+ 	ether_addr_copy(BAReq->addr3, ieee->current_network.bssid);
+-	BAReq->frame_ctl = cpu_to_le16(RTLLIB_STYPE_MANAGE_ACT);
++	BAReq->frame_control = cpu_to_le16(RTLLIB_STYPE_MANAGE_ACT);
+ 
+ 	tag = skb_put(skb, 9);
+ 	*tag++ = ACT_CAT_BA;
+@@ -129,7 +129,7 @@ static struct sk_buff *rtllib_DELBA(struct rtllib_device *ieee, u8 *dst,
  {
- 	short single = ieee->softmac_features & IEEE_SOFTMAC_SINGLE_QUEUE;
--	struct rtllib_hdr_3addr  *header =
--		(struct rtllib_hdr_3addr  *)skb->data;
-+	struct ieee80211_hdr_3addr  *header =
-+		(struct ieee80211_hdr_3addr  *)skb->data;
- 	u16 fc, type, stype;
- 	struct cb_desc *tcb_desc = (struct cb_desc *)(skb->cb + 8);
+ 	union delba_param_set DelbaParamSet;
+ 	struct sk_buff *skb = NULL;
+-	struct rtllib_hdr_3addr *Delba = NULL;
++	struct ieee80211_hdr_3addr *Delba = NULL;
+ 	u8 *tag = NULL;
+ 	u16 len = 6 + ieee->tx_headroom;
  
--	fc = le16_to_cpu(header->frame_ctl);
-+	fc = le16_to_cpu(header->frame_control);
- 	type = WLAN_FC_GET_TYPE(fc);
- 	stype = WLAN_FC_GET_STYPE(fc);
+@@ -142,18 +142,18 @@ static struct sk_buff *rtllib_DELBA(struct rtllib_device *ieee, u8 *dst,
+ 	DelbaParamSet.field.initiator = (TxRxSelect == TX_DIR) ? 1 : 0;
+ 	DelbaParamSet.field.tid	= pBA->ba_param_set.field.tid;
  
-@@ -287,7 +287,7 @@ softmac_ps_mgmt_xmit(struct sk_buff *skb,
- 	tcb_desc->tx_use_drv_assinged_rate = 1;
- 	if (single) {
- 		if (type != RTLLIB_FTYPE_CTL) {
--			header->seq_ctl = cpu_to_le16(ieee->seq_ctrl[0] << 4);
-+			header->seq_ctrl = cpu_to_le16(ieee->seq_ctrl[0] << 4);
- 
- 			if (ieee->seq_ctrl[0] == 0xFFF)
- 				ieee->seq_ctrl[0] = 0;
-@@ -300,7 +300,7 @@ softmac_ps_mgmt_xmit(struct sk_buff *skb,
- 
- 	} else {
- 		if (type != RTLLIB_FTYPE_CTL) {
--			header->seq_ctl = cpu_to_le16(ieee->seq_ctrl[0] << 4);
-+			header->seq_ctrl = cpu_to_le16(ieee->seq_ctrl[0] << 4);
- 
- 			if (ieee->seq_ctrl[0] == 0xFFF)
- 				ieee->seq_ctrl[0] = 0;
-@@ -912,21 +912,21 @@ static struct sk_buff *rtllib_probe_resp(struct rtllib_device *ieee,
- static struct sk_buff *rtllib_null_func(struct rtllib_device *ieee, short pwr)
- {
- 	struct sk_buff *skb;
--	struct rtllib_hdr_3addr *hdr;
-+	struct ieee80211_hdr_3addr *hdr;
- 
--	skb = dev_alloc_skb(sizeof(struct rtllib_hdr_3addr) + ieee->tx_headroom);
-+	skb = dev_alloc_skb(sizeof(struct ieee80211_hdr_3addr) + ieee->tx_headroom);
+-	skb = dev_alloc_skb(len + sizeof(struct rtllib_hdr_3addr));
++	skb = dev_alloc_skb(len + sizeof(struct ieee80211_hdr_3addr));
  	if (!skb)
  		return NULL;
  
  	skb_reserve(skb, ieee->tx_headroom);
  
--	hdr = skb_put(skb, sizeof(struct rtllib_hdr_3addr));
-+	hdr = skb_put(skb, sizeof(struct ieee80211_hdr_3addr));
+-	Delba = skb_put(skb, sizeof(struct rtllib_hdr_3addr));
++	Delba = skb_put(skb, sizeof(struct ieee80211_hdr_3addr));
  
- 	ether_addr_copy(hdr->addr1, ieee->current_network.bssid);
- 	ether_addr_copy(hdr->addr2, ieee->dev->dev_addr);
- 	ether_addr_copy(hdr->addr3, ieee->current_network.bssid);
+ 	ether_addr_copy(Delba->addr1, dst);
+ 	ether_addr_copy(Delba->addr2, ieee->dev->dev_addr);
+ 	ether_addr_copy(Delba->addr3, ieee->current_network.bssid);
+-	Delba->frame_ctl = cpu_to_le16(RTLLIB_STYPE_MANAGE_ACT);
++	Delba->frame_control = cpu_to_le16(RTLLIB_STYPE_MANAGE_ACT);
  
--	hdr->frame_ctl = cpu_to_le16(RTLLIB_FTYPE_DATA |
-+	hdr->frame_control = cpu_to_le16(RTLLIB_FTYPE_DATA |
- 		RTLLIB_STYPE_NULLFUNC | RTLLIB_FCTL_TODS |
- 		(pwr ? RTLLIB_FCTL_PM : 0));
+ 	tag = skb_put(skb, 6);
  
-@@ -1311,7 +1311,7 @@ static void rtllib_auth_challenge(struct rtllib_device *ieee, u8 *challenge,
- 			   "Sending authentication challenge response\n");
+@@ -213,7 +213,7 @@ static void rtllib_send_DELBA(struct rtllib_device *ieee, u8 *dst,
  
- 		rtllib_encrypt_fragment(ieee, skb,
--					sizeof(struct rtllib_hdr_3addr));
-+					sizeof(struct ieee80211_hdr_3addr));
- 
- 		softmac_mgmt_xmit(skb, ieee);
- 		mod_timer(&ieee->associate_timer, jiffies + (HZ / 2));
-@@ -1620,11 +1620,11 @@ static short probe_rq_parse(struct rtllib_device *ieee, struct sk_buff *skb,
- 	u8 *skbend;
- 	u8 *ssid = NULL;
- 	u8 ssidlen = 0;
--	struct rtllib_hdr_3addr   *header =
--		(struct rtllib_hdr_3addr   *)skb->data;
-+	struct ieee80211_hdr_3addr   *header =
-+		(struct ieee80211_hdr_3addr   *)skb->data;
- 	bool bssid_match;
- 
--	if (skb->len < sizeof(struct rtllib_hdr_3addr))
-+	if (skb->len < sizeof(struct ieee80211_hdr_3addr))
- 		return -1; /* corrupted */
- 
- 	bssid_match =
-@@ -1637,7 +1637,7 @@ static short probe_rq_parse(struct rtllib_device *ieee, struct sk_buff *skb,
- 
- 	skbend = (u8 *)skb->data + skb->len;
- 
--	tag = skb->data + sizeof(struct rtllib_hdr_3addr);
-+	tag = skb->data + sizeof(struct ieee80211_hdr_3addr);
- 
- 	while (tag + 1 < skbend) {
- 		if (*tag == 0) {
-@@ -1953,8 +1953,8 @@ rtllib_rx_assoc_resp(struct rtllib_device *ieee, struct sk_buff *skb,
- 	int aid;
- 	u8 *ies;
- 	struct rtllib_assoc_response_frame *assoc_resp;
--	struct rtllib_hdr_3addr *header = (struct rtllib_hdr_3addr *)skb->data;
--	u16 frame_ctl = le16_to_cpu(header->frame_ctl);
-+	struct ieee80211_hdr_3addr *header = (struct ieee80211_hdr_3addr *)skb->data;
-+	u16 frame_ctl = le16_to_cpu(header->frame_control);
- 
- 	netdev_dbg(ieee->dev, "received [RE]ASSOCIATION RESPONSE (%d)\n",
- 		   WLAN_FC_GET_STYPE(frame_ctl));
-@@ -2092,7 +2092,7 @@ rtllib_rx_auth(struct rtllib_device *ieee, struct sk_buff *skb,
- static inline int
- rtllib_rx_deauth(struct rtllib_device *ieee, struct sk_buff *skb)
+ int rtllib_rx_ADDBAReq(struct rtllib_device *ieee, struct sk_buff *skb)
  {
--	struct rtllib_hdr_3addr *header = (struct rtllib_hdr_3addr *)skb->data;
-+	struct ieee80211_hdr_3addr *header = (struct ieee80211_hdr_3addr *)skb->data;
- 	u16 frame_ctl;
+-	struct rtllib_hdr_3addr *req = NULL;
++	struct ieee80211_hdr_3addr *req = NULL;
+ 	u16 rc = 0;
+ 	u8 *dst = NULL, *pDialogToken = NULL, *tag = NULL;
+ 	struct ba_record *pBA = NULL;
+@@ -222,10 +222,10 @@ int rtllib_rx_ADDBAReq(struct rtllib_device *ieee, struct sk_buff *skb)
+ 	union sequence_control *pBaStartSeqCtrl = NULL;
+ 	struct rx_ts_record *ts = NULL;
  
- 	if (memcmp(header->addr3, ieee->current_network.bssid, ETH_ALEN) != 0)
-@@ -2104,7 +2104,7 @@ rtllib_rx_deauth(struct rtllib_device *ieee, struct sk_buff *skb)
- 	if ((ieee->softmac_features & IEEE_SOFTMAC_ASSOCIATE) &&
- 	    ieee->link_state == MAC80211_LINKED &&
- 	    (ieee->iw_mode == IW_MODE_INFRA)) {
--		frame_ctl = le16_to_cpu(header->frame_ctl);
-+		frame_ctl = le16_to_cpu(header->frame_control);
- 		netdev_info(ieee->dev,
- 			    "==========>received disassoc/deauth(%x) frame, reason code:%x\n",
- 			    WLAN_FC_GET_STYPE(frame_ctl),
-@@ -2128,13 +2128,13 @@ inline int rtllib_rx_frame_softmac(struct rtllib_device *ieee,
- 				   struct rtllib_rx_stats *rx_stats, u16 type,
- 				   u16 stype)
+-	if (skb->len < sizeof(struct rtllib_hdr_3addr) + 9) {
++	if (skb->len < sizeof(struct ieee80211_hdr_3addr) + 9) {
+ 		netdev_warn(ieee->dev, "Invalid skb len in BAREQ(%d / %d)\n",
+ 			    (int)skb->len,
+-			    (int)(sizeof(struct rtllib_hdr_3addr) + 9));
++			    (int)(sizeof(struct ieee80211_hdr_3addr) + 9));
+ 		return -1;
+ 	}
+ 
+@@ -234,10 +234,10 @@ int rtllib_rx_ADDBAReq(struct rtllib_device *ieee, struct sk_buff *skb)
+ 			     skb->data, skb->len);
+ #endif
+ 
+-	req = (struct rtllib_hdr_3addr *)skb->data;
++	req = (struct ieee80211_hdr_3addr *)skb->data;
+ 	tag = (u8 *)req;
+ 	dst = (u8 *)(&req->addr2[0]);
+-	tag += sizeof(struct rtllib_hdr_3addr);
++	tag += sizeof(struct ieee80211_hdr_3addr);
+ 	pDialogToken = tag + 2;
+ 	pBaParamSet = (union ba_param_set *)(tag + 3);
+ 	pBaTimeoutVal = (u16 *)(tag + 5);
+@@ -302,7 +302,7 @@ int rtllib_rx_ADDBAReq(struct rtllib_device *ieee, struct sk_buff *skb)
+ 
+ int rtllib_rx_ADDBARsp(struct rtllib_device *ieee, struct sk_buff *skb)
  {
--	struct rtllib_hdr_3addr *header = (struct rtllib_hdr_3addr *)skb->data;
-+	struct ieee80211_hdr_3addr *header = (struct ieee80211_hdr_3addr *)skb->data;
- 	u16 frame_ctl;
+-	struct rtllib_hdr_3addr *rsp = NULL;
++	struct ieee80211_hdr_3addr *rsp = NULL;
+ 	struct ba_record *pPendingBA, *pAdmittedBA;
+ 	struct tx_ts_record *pTS = NULL;
+ 	u8 *dst = NULL, *pDialogToken = NULL, *tag = NULL;
+@@ -310,16 +310,16 @@ int rtllib_rx_ADDBARsp(struct rtllib_device *ieee, struct sk_buff *skb)
+ 	union ba_param_set *pBaParamSet = NULL;
+ 	u16			ReasonCode;
  
- 	if (!ieee->proto_started)
- 		return 0;
+-	if (skb->len < sizeof(struct rtllib_hdr_3addr) + 9) {
++	if (skb->len < sizeof(struct ieee80211_hdr_3addr) + 9) {
+ 		netdev_warn(ieee->dev, "Invalid skb len in BARSP(%d / %d)\n",
+ 			    (int)skb->len,
+-			    (int)(sizeof(struct rtllib_hdr_3addr) + 9));
++			    (int)(sizeof(struct ieee80211_hdr_3addr) + 9));
+ 		return -1;
+ 	}
+-	rsp = (struct rtllib_hdr_3addr *)skb->data;
++	rsp = (struct ieee80211_hdr_3addr *)skb->data;
+ 	tag = (u8 *)rsp;
+ 	dst = (u8 *)(&rsp->addr2[0]);
+-	tag += sizeof(struct rtllib_hdr_3addr);
++	tag += sizeof(struct ieee80211_hdr_3addr);
+ 	pDialogToken = tag + 2;
+ 	pStatusCode = (u16 *)(tag + 3);
+ 	pBaParamSet = (union ba_param_set *)(tag + 5);
+@@ -401,14 +401,14 @@ int rtllib_rx_ADDBARsp(struct rtllib_device *ieee, struct sk_buff *skb)
  
--	frame_ctl = le16_to_cpu(header->frame_ctl);
-+	frame_ctl = le16_to_cpu(header->frame_control);
- 	switch (WLAN_FC_GET_STYPE(frame_ctl)) {
- 	case RTLLIB_STYPE_ASSOC_RESP:
- 	case RTLLIB_STYPE_REASSOC_RESP:
+ int rtllib_rx_DELBA(struct rtllib_device *ieee, struct sk_buff *skb)
+ {
+-	struct rtllib_hdr_3addr *delba = NULL;
++	struct ieee80211_hdr_3addr *delba = NULL;
+ 	union delba_param_set *pDelBaParamSet = NULL;
+ 	u8 *dst = NULL;
+ 
+-	if (skb->len < sizeof(struct rtllib_hdr_3addr) + 6) {
++	if (skb->len < sizeof(struct ieee80211_hdr_3addr) + 6) {
+ 		netdev_warn(ieee->dev, "Invalid skb len in DELBA(%d / %d)\n",
+ 			    (int)skb->len,
+-			    (int)(sizeof(struct rtllib_hdr_3addr) + 6));
++			    (int)(sizeof(struct ieee80211_hdr_3addr) + 6));
+ 		return -1;
+ 	}
+ 
+@@ -425,9 +425,9 @@ int rtllib_rx_DELBA(struct rtllib_device *ieee, struct sk_buff *skb)
+ 	print_hex_dump_bytes("%s: ", DUMP_PREFIX_NONE, skb->data,
+ 			     __func__, skb->len);
+ #endif
+-	delba = (struct rtllib_hdr_3addr *)skb->data;
++	delba = (struct ieee80211_hdr_3addr *)skb->data;
+ 	dst = (u8 *)(&delba->addr2[0]);
+-	pDelBaParamSet = (union delba_param_set *)&delba->payload[2];
++	pDelBaParamSet = (union delba_param_set *)&delba->seq_ctrl + 2;
+ 
+ 	if (pDelBaParamSet->field.initiator == 1) {
+ 		struct rx_ts_record *ts;
 -- 
 2.42.0
 
