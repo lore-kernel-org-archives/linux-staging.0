@@ -1,49 +1,48 @@
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DFA011C9A
-	for <linux-staging@lists.linux.dev>; Fri, 15 Sep 2023 16:07:46 +0000 (UTC)
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-4047ef37f55so1660365e9.1
-        for <linux-staging@lists.linux.dev>; Fri, 15 Sep 2023 09:07:46 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8FAF11C8D
+	for <linux-staging@lists.linux.dev>; Fri, 15 Sep 2023 16:09:15 +0000 (UTC)
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-40471c054f9so5604135e9.0
+        for <linux-staging@lists.linux.dev>; Fri, 15 Sep 2023 09:09:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1694794065; x=1695398865; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1694794154; x=1695398954; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=ncph5CZexW9We6WezbStn7amj7O6xH1iwRr3VCr+5No=;
-        b=MOfMaO68RixczSuV873knNEJShURws3tIt+A7mLCr9/JcYH3T1A4Orwg5o09TxV70+
-         pT1jhGZwePDuJGVq1T6pXmaqVUnkzENtL/0yQ1XpCZNBNqSlS5X0cy+jZZ1Jk4znIdKM
-         YCOaALWnbq4QoKANfoSgc/6zEorZbwk3uok53jV2QpIkl/33R+O4q2jaFPnItFgz+zZS
-         oQBFnlJblaMGStDwlW2HCyfWztAndH4gfepvxRKmvSrP3QmbZWePV3jXOSg03dDszXSk
-         URTeHD5nq2y4WmHHDKtQwqhB2AP7He+9BNi23pOi8SPHo4zBoidrl/r8LwzX5XdTaGrc
-         f2Jw==
+        bh=ynNGGR9H6zG8yLsSBpLmUzc6/oMQYAcAQhe/UbEO7W0=;
+        b=nqdUwNeiCx6p0EgycFmQ3hFG+GpDaV0yG1kh0kbgPvP8XbWe1y/zo3QxxPB+pzignY
+         jyCvF1LLZ1OsSYKEg9AOEQyefknu4Xwy2CVCy4WpJEmQJDmsc1jQmlM6zk7G6XQ5tRH4
+         /oKo2hXSlg52Cxm+iXml5R1eapPc2EHRfths6mCxu1qWzjMgdcbYnhrxsqLFf07+EfJ2
+         x/pTc9TkAQgfU/T6I0XqOM+wdSkhDhMGpriLuyMmPMfNbYd8D9LY8lp/oVs/EgLuoEH1
+         WkUuiC9RtXuckm3+/FQnFtN5NoP3ovRca4PCXBZrSfVFnN2Z4qVwJUb2mmzEptK21c91
+         3bhA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1694794065; x=1695398865;
+        d=1e100.net; s=20230601; t=1694794154; x=1695398954;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=ncph5CZexW9We6WezbStn7amj7O6xH1iwRr3VCr+5No=;
-        b=t6UkwBdXIAlvqemKYRxUlFD0wl1qwhgQ+zasdDBAJNKtOfYlAIU2LhkxEYz7o/99YJ
-         8OTfdcYqtGdwOBqnoRU40A7MndxYsqvxZ8KFkVvC5z5vUyy+GKoxsZqN2M8waf2dTxUt
-         sTuOqPWc/QrUSw1fzxCsJg1qnZnQcQ1sTVVAFRHd4BJZ2XLYlIzoU+1MZU/J3xlnSimf
-         Pa8YhdIKC8St+Tjwy9IcTVwwDsrkPl5xr4clMFN/DPiPmphl8ujoYuahlgz8N/oHRWi5
-         GIvdLTjUGFzYPQYOEzNt9+m+2TZn30yk0ufp0NobCoLgqzSArG6eaZ/N9y7b45GFKYCk
-         KuUw==
-X-Gm-Message-State: AOJu0Yzz1EzPstoEixrHwSj2sZ40uNGxK2Li7S8jwhpWNOa0r7UHqLwt
-	RPC3aQcy1stRPwj6N+fGlGN0s/l0LKMw1Q==
-X-Google-Smtp-Source: AGHT+IGOT/xnETxLKyDTThowNdS754Ym3aj6G+n144gWatSq6v+KRmw4LbBKPyVe0l9ooADpm6mmzA==
-X-Received: by 2002:a05:600c:3ba3:b0:401:c392:d28d with SMTP id n35-20020a05600c3ba300b00401c392d28dmr1902210wms.2.1694794064932;
-        Fri, 15 Sep 2023 09:07:44 -0700 (PDT)
+        bh=ynNGGR9H6zG8yLsSBpLmUzc6/oMQYAcAQhe/UbEO7W0=;
+        b=TTHTFlEvNJMFqUH6svsnIJK4tIPgHOhlVjnhQv1TyptI49wVFNJ/RQIxMO+pkUJ3P9
+         1EOZS8IRxvWPlExC27sm2OXwZugRJH+r2NRVy8myP9ZEj4m91SOj5ukUOmuynfQskxXL
+         ML+e6tE+TeEMbJ7o0FITPPMISzuJDx21Ra/aNaw8JtZePonw0s6GrMlhNkKSeWOn8FKq
+         2RC0olxkTpz14ZP5uigxAPgOW7YeIdYV3YPgsD8ZleGvtmFEOjt7CIida7phrLpXsTMI
+         MjOTbq4wpn7v4kBbshOnHjaZAGZmJPoI3bA1RLPSMXBrzvdRj3YcPCX4sKyfSYBnmm1m
+         ddnQ==
+X-Gm-Message-State: AOJu0YxbfrBVraq4BrWysXHaO0XDbSWyOxmpH/BeHg92um/PKM4BUBbo
+	UvU9Fd1X5jQM8SWxQeJiTR4=
+X-Google-Smtp-Source: AGHT+IHlhzwicHUW+AXzqmirR8SvviBjkS9KRug3YgBmK/c6b0ccV0WDVAI3fHG9R991lE/qqSOvfg==
+X-Received: by 2002:a05:600c:500c:b0:401:b53e:6c3e with SMTP id n12-20020a05600c500c00b00401b53e6c3emr2080082wmr.1.1694794153826;
+        Fri, 15 Sep 2023 09:09:13 -0700 (PDT)
 Received: from matrix-ESPRIMO-P710 (p579356c7.dip0.t-ipconnect.de. [87.147.86.199])
-        by smtp.gmail.com with ESMTPSA id l5-20020a7bc445000000b003fee849df23sm5029379wmi.22.2023.09.15.09.07.44
+        by smtp.gmail.com with ESMTPSA id y6-20020a7bcd86000000b003fee6e170f9sm4990117wmj.45.2023.09.15.09.09.13
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 15 Sep 2023 09:07:44 -0700 (PDT)
-Date: Fri, 15 Sep 2023 18:07:43 +0200
+        Fri, 15 Sep 2023 09:09:13 -0700 (PDT)
+Date: Fri, 15 Sep 2023 18:09:12 +0200
 From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [PATCH 08/16] staging: rtl8192e: Replace struct rtllib_hdr_4addr in
- rtllib_crypt*.c
-Message-ID: <6bbbe6617e62fb9e04b4bc23f8bac6c31befcfa8.1694792595.git.philipp.g.hortmann@gmail.com>
+Subject: [PATCH 09/16] staging: rtl8192e: Remove struct rtllib_hdr_4addr
+Message-ID: <532a589e017bb6edefe60fc2ea402f541eb237ed.1694792595.git.philipp.g.hortmann@gmail.com>
 References: <cover.1694792595.git.philipp.g.hortmann@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -56,196 +55,329 @@ Content-Disposition: inline
 In-Reply-To: <cover.1694792595.git.philipp.g.hortmann@gmail.com>
 
 Replace struct rtllib_hdr_4addr with struct ieee80211_hdr to avoid
-proprietary code in rtllib_crypt_tkip.c and rtllib_crypt_ccmp.c.
+proprietary code.
 
 Signed-off-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
 ---
- drivers/staging/rtl8192e/rtllib_crypt_ccmp.c | 14 ++++-----
- drivers/staging/rtl8192e/rtllib_crypt_tkip.c | 32 ++++++++++----------
- 2 files changed, 23 insertions(+), 23 deletions(-)
+ drivers/staging/rtl8192e/rtllib.h    | 11 ----
+ drivers/staging/rtl8192e/rtllib_rx.c | 96 ++++++++++++++--------------
+ 2 files changed, 48 insertions(+), 59 deletions(-)
 
-diff --git a/drivers/staging/rtl8192e/rtllib_crypt_ccmp.c b/drivers/staging/rtl8192e/rtllib_crypt_ccmp.c
-index f88096bcb181..8e4514cc132c 100644
---- a/drivers/staging/rtl8192e/rtllib_crypt_ccmp.c
-+++ b/drivers/staging/rtl8192e/rtllib_crypt_ccmp.c
-@@ -83,7 +83,7 @@ static void rtllib_ccmp_deinit(void *priv)
- 	kfree(priv);
- }
+diff --git a/drivers/staging/rtl8192e/rtllib.h b/drivers/staging/rtl8192e/rtllib.h
+index 717b74dc005d..dfdc45d06365 100644
+--- a/drivers/staging/rtl8192e/rtllib.h
++++ b/drivers/staging/rtl8192e/rtllib.h
+@@ -679,17 +679,6 @@ struct rtllib_pspoll_hdr {
+ 	u8 ta[ETH_ALEN];
+ } __packed;
  
--static int ccmp_init_iv_and_aad(struct rtllib_hdr_4addr *hdr,
-+static int ccmp_init_iv_and_aad(struct ieee80211_hdr *hdr,
- 				u8 *pn, u8 *iv, u8 *aad)
+-struct rtllib_hdr_4addr {
+-	__le16 frame_ctl;
+-	__le16 duration_id;
+-	u8 addr1[ETH_ALEN];
+-	u8 addr2[ETH_ALEN];
+-	u8 addr3[ETH_ALEN];
+-	__le16 seq_ctl;
+-	u8 addr4[ETH_ALEN];
+-	u8 payload[];
+-} __packed;
+-
+ struct rtllib_hdr_3addrqos {
+ 	__le16 frame_ctl;
+ 	__le16 duration_id;
+diff --git a/drivers/staging/rtl8192e/rtllib_rx.c b/drivers/staging/rtl8192e/rtllib_rx.c
+index 0c2135431f5b..05d1d47bed47 100644
+--- a/drivers/staging/rtl8192e/rtllib_rx.c
++++ b/drivers/staging/rtl8192e/rtllib_rx.c
+@@ -85,11 +85,11 @@ rtllib_frag_cache_find(struct rtllib_device *ieee, unsigned int seq,
+ /* Called only as a tasklet (software IRQ) */
+ static struct sk_buff *
+ rtllib_frag_cache_get(struct rtllib_device *ieee,
+-			 struct rtllib_hdr_4addr *hdr)
++			 struct ieee80211_hdr *hdr)
  {
- 	u8 *pos, qc = 0;
-@@ -91,7 +91,7 @@ static int ccmp_init_iv_and_aad(struct rtllib_hdr_4addr *hdr,
- 	u16 fc;
- 	int a4_included, qc_included;
+ 	struct sk_buff *skb = NULL;
+-	u16 fc = le16_to_cpu(hdr->frame_ctl);
+-	u16 sc = le16_to_cpu(hdr->seq_ctl);
++	u16 fc = le16_to_cpu(hdr->frame_control);
++	u16 sc = le16_to_cpu(hdr->seq_ctrl);
+ 	unsigned int frag = WLAN_GET_SEQ_FRAG(sc);
+ 	unsigned int seq = WLAN_GET_SEQ_SEQ(sc);
+ 	struct rtllib_frag_entry *entry;
+@@ -115,7 +115,7 @@ rtllib_frag_cache_get(struct rtllib_device *ieee,
+ 	if (frag == 0) {
+ 		/* Reserve enough space to fit maximum frame length */
+ 		skb = dev_alloc_skb(ieee->dev->mtu +
+-				    sizeof(struct rtllib_hdr_4addr) +
++				    sizeof(struct ieee80211_hdr) +
+ 				    8 /* LLC */ +
+ 				    2 /* alignment */ +
+ 				    8 /* WEP */ +
+@@ -156,10 +156,10 @@ rtllib_frag_cache_get(struct rtllib_device *ieee,
  
--	fc = le16_to_cpu(hdr->frame_ctl);
-+	fc = le16_to_cpu(hdr->frame_control);
- 	a4_included = ((fc & (RTLLIB_FCTL_TODS | RTLLIB_FCTL_FROMDS)) ==
- 		       (RTLLIB_FCTL_TODS | RTLLIB_FCTL_FROMDS));
- 
-@@ -134,7 +134,7 @@ static int ccmp_init_iv_and_aad(struct rtllib_hdr_4addr *hdr,
- 	memcpy(&aad[2], &hdr->addr1, ETH_ALEN);
- 	memcpy(&aad[8], &hdr->addr2, ETH_ALEN);
- 	memcpy(&aad[14], &hdr->addr3, ETH_ALEN);
--	pos = (u8 *)&hdr->seq_ctl;
-+	pos = (u8 *)&hdr->seq_ctrl;
- 	aad[20] = pos[0] & 0x0f;
- 	aad[21] = 0; /* all bits masked */
- 	memset(aad + 22, 0, 8);
-@@ -153,7 +153,7 @@ static int rtllib_ccmp_encrypt(struct sk_buff *skb, int hdr_len, void *priv)
- 	struct rtllib_ccmp_data *key = priv;
- 	int i;
- 	u8 *pos;
+ /* Called only as a tasklet (software IRQ) */
+ static int rtllib_frag_cache_invalidate(struct rtllib_device *ieee,
+-					   struct rtllib_hdr_4addr *hdr)
++					   struct ieee80211_hdr *hdr)
+ {
+-	u16 fc = le16_to_cpu(hdr->frame_ctl);
+-	u16 sc = le16_to_cpu(hdr->seq_ctl);
++	u16 fc = le16_to_cpu(hdr->frame_control);
++	u16 sc = le16_to_cpu(hdr->seq_ctrl);
+ 	unsigned int seq = WLAN_GET_SEQ_SEQ(sc);
+ 	struct rtllib_frag_entry *entry;
+ 	struct rtllib_hdr_3addrqos *hdr_3addrqos;
+@@ -233,14 +233,14 @@ static int rtllib_is_eapol_frame(struct rtllib_device *ieee,
+ {
+ 	struct net_device *dev = ieee->dev;
+ 	u16 fc, ethertype;
 -	struct rtllib_hdr_4addr *hdr;
 +	struct ieee80211_hdr *hdr;
- 	struct cb_desc *tcb_desc = (struct cb_desc *)(skb->cb +
- 				    MAX_DEV_ADDR_SIZE);
- 	if (skb_headroom(skb) < CCMP_HDR_LEN ||
-@@ -182,7 +182,7 @@ static int rtllib_ccmp_encrypt(struct sk_buff *skb, int hdr_len, void *priv)
- 	*pos++ = key->tx_pn[1];
- 	*pos++ = key->tx_pn[0];
+ 	u8 *pos;
+ 
+ 	if (skb->len < 24)
+ 		return 0;
  
 -	hdr = (struct rtllib_hdr_4addr *)skb->data;
+-	fc = le16_to_cpu(hdr->frame_ctl);
 +	hdr = (struct ieee80211_hdr *)skb->data;
- 	if (!tcb_desc->bHwSec) {
- 		struct aead_request *req;
- 		struct scatterlist sg[2];
-@@ -220,7 +220,7 @@ static int rtllib_ccmp_decrypt(struct sk_buff *skb, int hdr_len, void *priv)
++	fc = le16_to_cpu(hdr->frame_control);
+ 
+ 	/* check that the frame is unicast frame to us */
+ 	if ((fc & (RTLLIB_FCTL_TODS | RTLLIB_FCTL_FROMDS)) ==
+@@ -273,7 +273,7 @@ static inline int
+ rtllib_rx_frame_decrypt(struct rtllib_device *ieee, struct sk_buff *skb,
+ 			struct lib80211_crypt_data *crypt)
  {
- 	struct rtllib_ccmp_data *key = priv;
- 	u8 keyidx, *pos;
 -	struct rtllib_hdr_4addr *hdr;
 +	struct ieee80211_hdr *hdr;
- 	struct cb_desc *tcb_desc = (struct cb_desc *)(skb->cb +
- 				    MAX_DEV_ADDR_SIZE);
- 	u8 pn[6];
-@@ -230,7 +230,7 @@ static int rtllib_ccmp_decrypt(struct sk_buff *skb, int hdr_len, void *priv)
+ 	int res, hdrlen;
+ 
+ 	if (crypt == NULL || crypt->ops->decrypt_mpdu == NULL)
+@@ -289,8 +289,8 @@ rtllib_rx_frame_decrypt(struct rtllib_device *ieee, struct sk_buff *skb,
+ 			tcb_desc->bHwSec = 0;
+ 	}
+ 
+-	hdr = (struct rtllib_hdr_4addr *)skb->data;
+-	hdrlen = rtllib_get_hdrlen(le16_to_cpu(hdr->frame_ctl));
++	hdr = (struct ieee80211_hdr *)skb->data;
++	hdrlen = rtllib_get_hdrlen(le16_to_cpu(hdr->frame_control));
+ 
+ 	atomic_inc(&crypt->refcnt);
+ 	res = crypt->ops->decrypt_mpdu(skb, hdrlen, crypt->priv);
+@@ -313,7 +313,7 @@ static inline int
+ rtllib_rx_frame_decrypt_msdu(struct rtllib_device *ieee, struct sk_buff *skb,
+ 			     int keyidx, struct lib80211_crypt_data *crypt)
+ {
+-	struct rtllib_hdr_4addr *hdr;
++	struct ieee80211_hdr *hdr;
+ 	int res, hdrlen;
+ 
+ 	if (crypt == NULL || crypt->ops->decrypt_msdu == NULL)
+@@ -328,8 +328,8 @@ rtllib_rx_frame_decrypt_msdu(struct rtllib_device *ieee, struct sk_buff *skb,
+ 			tcb_desc->bHwSec = 0;
+ 	}
+ 
+-	hdr = (struct rtllib_hdr_4addr *)skb->data;
+-	hdrlen = rtllib_get_hdrlen(le16_to_cpu(hdr->frame_ctl));
++	hdr = (struct ieee80211_hdr *)skb->data;
++	hdrlen = rtllib_get_hdrlen(le16_to_cpu(hdr->frame_control));
+ 
+ 	atomic_inc(&crypt->refcnt);
+ 	res = crypt->ops->decrypt_msdu(skb, keyidx, hdrlen, crypt->priv);
+@@ -347,10 +347,10 @@ rtllib_rx_frame_decrypt_msdu(struct rtllib_device *ieee, struct sk_buff *skb,
+ /* this function is stolen from ipw2200 driver*/
+ #define IEEE_PACKET_RETRY_TIME (5 * HZ)
+ static int is_duplicate_packet(struct rtllib_device *ieee,
+-				      struct rtllib_hdr_4addr *header)
++				      struct ieee80211_hdr *header)
+ {
+-	u16 fc = le16_to_cpu(header->frame_ctl);
+-	u16 sc = le16_to_cpu(header->seq_ctl);
++	u16 fc = le16_to_cpu(header->frame_control);
++	u16 sc = le16_to_cpu(header->seq_ctrl);
+ 	u16 seq = WLAN_GET_SEQ_SEQ(sc);
+ 	u16 frag = WLAN_GET_SEQ_FRAG(sc);
+ 	u16 *last_seq, *last_frag;
+@@ -880,8 +880,8 @@ static size_t rtllib_rx_get_hdrlen(struct rtllib_device *ieee,
+ 				   struct sk_buff *skb,
+ 				   struct rtllib_rx_stats *rx_stats)
+ {
+-	struct rtllib_hdr_4addr *hdr = (struct rtllib_hdr_4addr *)skb->data;
+-	u16 fc = le16_to_cpu(hdr->frame_ctl);
++	struct ieee80211_hdr *hdr = (struct ieee80211_hdr *)skb->data;
++	u16 fc = le16_to_cpu(hdr->frame_control);
+ 	size_t hdrlen;
+ 
+ 	hdrlen = rtllib_get_hdrlen(fc);
+@@ -902,19 +902,19 @@ static size_t rtllib_rx_get_hdrlen(struct rtllib_device *ieee,
+ static int rtllib_rx_check_duplicate(struct rtllib_device *ieee,
+ 				     struct sk_buff *skb, u8 multicast)
+ {
+-	struct rtllib_hdr_4addr *hdr = (struct rtllib_hdr_4addr *)skb->data;
++	struct ieee80211_hdr *hdr = (struct ieee80211_hdr *)skb->data;
+ 	u16 fc, sc;
+ 	u8 frag;
+ 
+-	fc = le16_to_cpu(hdr->frame_ctl);
+-	sc = le16_to_cpu(hdr->seq_ctl);
++	fc = le16_to_cpu(hdr->frame_control);
++	sc = le16_to_cpu(hdr->seq_ctrl);
+ 	frag = WLAN_GET_SEQ_FRAG(sc);
+ 
+ 	if (!ieee->ht_info->cur_rx_reorder_enable ||
+ 		!ieee->current_network.qos_data.active ||
+ 		!IsDataFrame(skb->data) ||
+ 		IsLegacyDataFrame(skb->data)) {
+-		if (!ieee80211_is_beacon(hdr->frame_ctl)) {
++		if (!ieee80211_is_beacon(hdr->frame_control)) {
+ 			if (is_duplicate_packet(ieee, hdr))
+ 				return -1;
+ 		}
+@@ -939,10 +939,10 @@ static int rtllib_rx_check_duplicate(struct rtllib_device *ieee,
+ }
+ 
+ static void rtllib_rx_extract_addr(struct rtllib_device *ieee,
+-				   struct rtllib_hdr_4addr *hdr, u8 *dst,
++				   struct ieee80211_hdr *hdr, u8 *dst,
+ 				   u8 *src, u8 *bssid)
+ {
+-	u16 fc = le16_to_cpu(hdr->frame_ctl);
++	u16 fc = le16_to_cpu(hdr->frame_control);
+ 
+ 	switch (fc & (RTLLIB_FCTL_FROMDS | RTLLIB_FCTL_TODS)) {
+ 	case RTLLIB_FCTL_FROMDS:
+@@ -1026,8 +1026,8 @@ static int rtllib_rx_data_filter(struct rtllib_device *ieee, u16 fc,
+ static int rtllib_rx_get_crypt(struct rtllib_device *ieee, struct sk_buff *skb,
+ 			struct lib80211_crypt_data **crypt, size_t hdrlen)
+ {
+-	struct rtllib_hdr_4addr *hdr = (struct rtllib_hdr_4addr *)skb->data;
+-	u16 fc = le16_to_cpu(hdr->frame_ctl);
++	struct ieee80211_hdr *hdr = (struct ieee80211_hdr *)skb->data;
++	u16 fc = le16_to_cpu(hdr->frame_control);
+ 	int idx = 0;
+ 
+ 	if (skb->len >= hdrlen + 3)
+@@ -1060,14 +1060,14 @@ static int rtllib_rx_decrypt(struct rtllib_device *ieee, struct sk_buff *skb,
+ 		      struct rtllib_rx_stats *rx_stats,
+ 		      struct lib80211_crypt_data *crypt, size_t hdrlen)
+ {
+-	struct rtllib_hdr_4addr *hdr;
++	struct ieee80211_hdr *hdr;
+ 	int keyidx = 0;
+ 	u16 fc, sc;
+ 	u8 frag;
+ 
+-	hdr = (struct rtllib_hdr_4addr *)skb->data;
+-	fc = le16_to_cpu(hdr->frame_ctl);
+-	sc = le16_to_cpu(hdr->seq_ctl);
++	hdr = (struct ieee80211_hdr *)skb->data;
++	fc = le16_to_cpu(hdr->frame_control);
++	sc = le16_to_cpu(hdr->seq_ctrl);
+ 	frag = WLAN_GET_SEQ_FRAG(sc);
+ 
+ 	if ((!rx_stats->Decrypted))
+@@ -1081,7 +1081,7 @@ static int rtllib_rx_decrypt(struct rtllib_device *ieee, struct sk_buff *skb,
  		return -1;
  	}
  
 -	hdr = (struct rtllib_hdr_4addr *)skb->data;
 +	hdr = (struct ieee80211_hdr *)skb->data;
- 	pos = skb->data + hdr_len;
- 	keyidx = pos[3];
- 	if (!(keyidx & (1 << 5))) {
-diff --git a/drivers/staging/rtl8192e/rtllib_crypt_tkip.c b/drivers/staging/rtl8192e/rtllib_crypt_tkip.c
-index 9fdfcc017ee6..b7f9ea0e4f51 100644
---- a/drivers/staging/rtl8192e/rtllib_crypt_tkip.c
-+++ b/drivers/staging/rtl8192e/rtllib_crypt_tkip.c
-@@ -255,7 +255,7 @@ static int rtllib_tkip_encrypt(struct sk_buff *skb, int hdr_len, void *priv)
- 	struct rtllib_tkip_data *tkey = priv;
- 	int len;
- 	u8 *pos;
--	struct rtllib_hdr_4addr *hdr;
-+	struct ieee80211_hdr *hdr;
- 	struct cb_desc *tcb_desc = (struct cb_desc *)(skb->cb +
- 				    MAX_DEV_ADDR_SIZE);
- 	int ret = 0;
-@@ -266,7 +266,7 @@ static int rtllib_tkip_encrypt(struct sk_buff *skb, int hdr_len, void *priv)
- 	    skb->len < hdr_len)
- 		return -1;
- 
--	hdr = (struct rtllib_hdr_4addr *)skb->data;
-+	hdr = (struct ieee80211_hdr *)skb->data;
- 
- 	if (!tcb_desc->bHwSec) {
- 		if (!tkey->tx_phase1_done) {
-@@ -330,7 +330,7 @@ static int rtllib_tkip_decrypt(struct sk_buff *skb, int hdr_len, void *priv)
- 	u8 keyidx, *pos;
- 	u32 iv32;
- 	u16 iv16;
--	struct rtllib_hdr_4addr *hdr;
-+	struct ieee80211_hdr *hdr;
- 	struct cb_desc *tcb_desc = (struct cb_desc *)(skb->cb +
- 				    MAX_DEV_ADDR_SIZE);
- 	u8 rc4key[16];
-@@ -341,7 +341,7 @@ static int rtllib_tkip_decrypt(struct sk_buff *skb, int hdr_len, void *priv)
- 	if (skb->len < hdr_len + 8 + 4)
- 		return -1;
- 
--	hdr = (struct rtllib_hdr_4addr *)skb->data;
-+	hdr = (struct ieee80211_hdr *)skb->data;
- 	pos = skb->data + hdr_len;
- 	keyidx = pos[3];
- 	if (!(keyidx & (1 << 5))) {
-@@ -465,10 +465,10 @@ static int michael_mic(struct crypto_shash *tfm_michael, u8 *key, u8 *hdr,
- 
- static void michael_mic_hdr(struct sk_buff *skb, u8 *hdr)
- {
--	struct rtllib_hdr_4addr *hdr11;
-+	struct ieee80211_hdr *hdr11;
- 
--	hdr11 = (struct rtllib_hdr_4addr *)skb->data;
--	switch (le16_to_cpu(hdr11->frame_ctl) &
-+	hdr11 = (struct ieee80211_hdr *)skb->data;
-+	switch (le16_to_cpu(hdr11->frame_control) &
- 		(RTLLIB_FCTL_FROMDS | RTLLIB_FCTL_TODS)) {
- 	case RTLLIB_FCTL_TODS:
- 		ether_addr_copy(hdr, hdr11->addr3); /* DA */
-@@ -501,9 +501,9 @@ static int rtllib_michael_mic_add(struct sk_buff *skb, int hdr_len, void *priv)
- {
- 	struct rtllib_tkip_data *tkey = priv;
- 	u8 *pos;
--	struct rtllib_hdr_4addr *hdr;
-+	struct ieee80211_hdr *hdr;
- 
--	hdr = (struct rtllib_hdr_4addr *)skb->data;
-+	hdr = (struct ieee80211_hdr *)skb->data;
- 
- 	if (skb_tailroom(skb) < 8 || skb->len < hdr_len) {
- 		netdev_dbg(skb->dev,
-@@ -514,7 +514,7 @@ static int rtllib_michael_mic_add(struct sk_buff *skb, int hdr_len, void *priv)
- 
- 	michael_mic_hdr(skb, tkey->tx_hdr);
- 
--	if (RTLLIB_QOS_HAS_SEQ(le16_to_cpu(hdr->frame_ctl)))
-+	if (RTLLIB_QOS_HAS_SEQ(le16_to_cpu(hdr->frame_control)))
- 		tkey->tx_hdr[12] = *(skb->data + hdr_len - 2) & 0x07;
- 	pos = skb_put(skb, 8);
- 	if (michael_mic(tkey->tx_tfm_michael, &tkey->key[16], tkey->tx_hdr,
-@@ -525,7 +525,7 @@ static int rtllib_michael_mic_add(struct sk_buff *skb, int hdr_len, void *priv)
- }
- 
- static void rtllib_michael_mic_failure(struct net_device *dev,
--				       struct rtllib_hdr_4addr *hdr,
-+				       struct ieee80211_hdr *hdr,
- 				       int keyidx)
- {
- 	union iwreq_data wrqu;
-@@ -550,15 +550,15 @@ static int rtllib_michael_mic_verify(struct sk_buff *skb, int keyidx,
- {
- 	struct rtllib_tkip_data *tkey = priv;
- 	u8 mic[8];
--	struct rtllib_hdr_4addr *hdr;
-+	struct ieee80211_hdr *hdr;
- 
--	hdr = (struct rtllib_hdr_4addr *)skb->data;
-+	hdr = (struct ieee80211_hdr *)skb->data;
- 
- 	if (!tkey->key_set)
- 		return -1;
- 
- 	michael_mic_hdr(skb, tkey->rx_hdr);
--	if (RTLLIB_QOS_HAS_SEQ(le16_to_cpu(hdr->frame_ctl)))
-+	if (RTLLIB_QOS_HAS_SEQ(le16_to_cpu(hdr->frame_control)))
- 		tkey->rx_hdr[12] = *(skb->data + hdr_len - 2) & 0x07;
- 
- 	if (michael_mic(tkey->rx_tfm_michael, &tkey->key[24], tkey->rx_hdr,
-@@ -566,9 +566,9 @@ static int rtllib_michael_mic_verify(struct sk_buff *skb, int keyidx,
- 		return -1;
- 
- 	if (memcmp(mic, skb->data + skb->len - 8, 8) != 0) {
--		struct rtllib_hdr_4addr *hdr;
-+		struct ieee80211_hdr *hdr;
- 
+ 	if ((frag != 0 || (fc & RTLLIB_FCTL_MOREFRAGS))) {
+ 		int flen;
+ 		struct sk_buff *frag_skb = rtllib_frag_cache_get(ieee, hdr);
+@@ -1133,7 +1133,7 @@ static int rtllib_rx_decrypt(struct rtllib_device *ieee, struct sk_buff *skb,
+ 		 * delivered, so remove skb from fragment cache
+ 		 */
+ 		skb = frag_skb;
 -		hdr = (struct rtllib_hdr_4addr *)skb->data;
 +		hdr = (struct ieee80211_hdr *)skb->data;
- 		netdev_dbg(skb->dev,
- 			   "Michael MIC verification failed for MSDU from %pM keyidx=%d\n",
- 			   hdr->addr2, keyidx);
+ 		rtllib_frag_cache_invalidate(ieee, hdr);
+ 	}
+ 
+@@ -1146,7 +1146,7 @@ static int rtllib_rx_decrypt(struct rtllib_device *ieee, struct sk_buff *skb,
+ 		return -1;
+ 	}
+ 
+-	hdr = (struct rtllib_hdr_4addr *)skb->data;
++	hdr = (struct ieee80211_hdr *)skb->data;
+ 	if (crypt && !(fc & RTLLIB_FCTL_WEP) && !ieee->open_wep) {
+ 		if (/*ieee->ieee802_1x &&*/
+ 		    rtllib_is_eapol_frame(ieee, skb, hdrlen)) {
+@@ -1272,7 +1272,7 @@ static int rtllib_rx_InfraAdhoc(struct rtllib_device *ieee, struct sk_buff *skb,
+ 		 struct rtllib_rx_stats *rx_stats)
+ {
+ 	struct net_device *dev = ieee->dev;
+-	struct rtllib_hdr_4addr *hdr = (struct rtllib_hdr_4addr *)skb->data;
++	struct ieee80211_hdr *hdr = (struct ieee80211_hdr *)skb->data;
+ 	struct lib80211_crypt_data *crypt = NULL;
+ 	struct rtllib_rxb *rxb = NULL;
+ 	struct rx_ts_record *ts = NULL;
+@@ -1286,10 +1286,10 @@ static int rtllib_rx_InfraAdhoc(struct rtllib_device *ieee, struct sk_buff *skb,
+ 	bool bToOtherSTA = false;
+ 	int ret = 0, i = 0;
+ 
+-	fc = le16_to_cpu(hdr->frame_ctl);
++	fc = le16_to_cpu(hdr->frame_control);
+ 	type = WLAN_FC_GET_TYPE(fc);
+ 	stype = WLAN_FC_GET_STYPE(fc);
+-	sc = le16_to_cpu(hdr->seq_ctl);
++	sc = le16_to_cpu(hdr->seq_ctrl);
+ 
+ 	/*Filter pkt not to me*/
+ 	multicast = is_multicast_ether_addr(hdr->addr1);
+@@ -1375,7 +1375,7 @@ static int rtllib_rx_InfraAdhoc(struct rtllib_device *ieee, struct sk_buff *skb,
+ 		goto rx_exit;
+ 
+ 	/* Get TS for Rx Reorder  */
+-	hdr = (struct rtllib_hdr_4addr *)skb->data;
++	hdr = (struct ieee80211_hdr *)skb->data;
+ 	if (ieee->current_network.qos_data.active && IsQoSDataFrame(skb->data)
+ 		&& !is_multicast_ether_addr(hdr->addr1)
+ 		&& (!bToOtherSTA)) {
+@@ -1443,8 +1443,8 @@ static int rtllib_rx_InfraAdhoc(struct rtllib_device *ieee, struct sk_buff *skb,
+ static int rtllib_rx_Monitor(struct rtllib_device *ieee, struct sk_buff *skb,
+ 		 struct rtllib_rx_stats *rx_stats)
+ {
+-	struct rtllib_hdr_4addr *hdr = (struct rtllib_hdr_4addr *)skb->data;
+-	u16 fc = le16_to_cpu(hdr->frame_ctl);
++	struct ieee80211_hdr *hdr = (struct ieee80211_hdr *)skb->data;
++	u16 fc = le16_to_cpu(hdr->frame_control);
+ 	size_t hdrlen = rtllib_get_hdrlen(fc);
+ 
+ 	if (skb->len < hdrlen) {
+@@ -2634,13 +2634,13 @@ static void rtllib_rx_mgt(struct rtllib_device *ieee,
+ 			  struct sk_buff *skb,
+ 			  struct rtllib_rx_stats *stats)
+ {
+-	struct rtllib_hdr_4addr *header = (struct rtllib_hdr_4addr *)skb->data;
++	struct ieee80211_hdr *header = (struct ieee80211_hdr *)skb->data;
+ 
+-	if (!ieee80211_is_probe_resp(header->frame_ctl) &&
+-	    (!ieee80211_is_beacon(header->frame_ctl)))
++	if (!ieee80211_is_probe_resp(header->frame_control) &&
++	    (!ieee80211_is_beacon(header->frame_control)))
+ 		ieee->last_rx_ps_time = jiffies;
+ 
+-	if (ieee80211_is_beacon(header->frame_ctl)) {
++	if (ieee80211_is_beacon(header->frame_control)) {
+ 		netdev_dbg(ieee->dev, "received BEACON\n");
+ 		rtllib_process_probe_response(
+ 				ieee, (struct rtllib_probe_response *)header,
+@@ -2650,11 +2650,11 @@ static void rtllib_rx_mgt(struct rtllib_device *ieee,
+ 		    ieee->iw_mode == IW_MODE_INFRA &&
+ 		    ieee->link_state == MAC80211_LINKED))
+ 			schedule_work(&ieee->ps_task);
+-	} else if (ieee80211_is_probe_resp(header->frame_ctl)) {
++	} else if (ieee80211_is_probe_resp(header->frame_control)) {
+ 		netdev_dbg(ieee->dev, "received PROBE RESPONSE\n");
+ 		rtllib_process_probe_response(ieee,
+ 			      (struct rtllib_probe_response *)header, stats);
+-	} else if (ieee80211_is_probe_req(header->frame_ctl)) {
++	} else if (ieee80211_is_probe_req(header->frame_control)) {
+ 		netdev_dbg(ieee->dev, "received PROBE REQUEST\n");
+ 		if ((ieee->softmac_features & IEEE_SOFTMAC_PROBERS) &&
+ 		    (ieee->iw_mode == IW_MODE_ADHOC &&
 -- 
 2.42.0
 
