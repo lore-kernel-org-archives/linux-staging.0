@@ -1,49 +1,49 @@
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD59211C9A
-	for <linux-staging@lists.linux.dev>; Fri, 15 Sep 2023 16:07:40 +0000 (UTC)
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-4047ef37f55so1659855e9.1
-        for <linux-staging@lists.linux.dev>; Fri, 15 Sep 2023 09:07:40 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DFA011C9A
+	for <linux-staging@lists.linux.dev>; Fri, 15 Sep 2023 16:07:46 +0000 (UTC)
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-4047ef37f55so1660365e9.1
+        for <linux-staging@lists.linux.dev>; Fri, 15 Sep 2023 09:07:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1694794059; x=1695398859; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1694794065; x=1695398865; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=z8+9VTkbBAtEYZ5WKhgH4h5UYlHRNkMT6NJfQFUOH+k=;
-        b=BkhctFzpFqa5Mm8VOgTQ52C2P9ZmyqvtIFfapzrL9efEm2nwbVXEeFXMtn7236H1+9
-         ptMDQzHkYzdhOsymYxRG5DdBvRhh/N0tKUHQ5gGLSXrzJB64TZTNj3sJGhKtap5wQWub
-         +sgfS11nQZ4LRJGstCFsCkHkiZ+HOqX3bQIBR1+7XZIAgY4PKrKnZ6gKSA2XWR/66uwf
-         7C56VrGKF5WLW1S0LF386I2mz6R5Rl8kF+x4+h+YYmLAiulElpS7omGPZ/pWE5yiItTF
-         ohKu+vb5rNueznBKIr5q+1RGXytASFxoExcHgeykvgWURG2wRvPf6e09Hnw4VXAH54fT
-         UO4w==
+        bh=ncph5CZexW9We6WezbStn7amj7O6xH1iwRr3VCr+5No=;
+        b=MOfMaO68RixczSuV873knNEJShURws3tIt+A7mLCr9/JcYH3T1A4Orwg5o09TxV70+
+         pT1jhGZwePDuJGVq1T6pXmaqVUnkzENtL/0yQ1XpCZNBNqSlS5X0cy+jZZ1Jk4znIdKM
+         YCOaALWnbq4QoKANfoSgc/6zEorZbwk3uok53jV2QpIkl/33R+O4q2jaFPnItFgz+zZS
+         oQBFnlJblaMGStDwlW2HCyfWztAndH4gfepvxRKmvSrP3QmbZWePV3jXOSg03dDszXSk
+         URTeHD5nq2y4WmHHDKtQwqhB2AP7He+9BNi23pOi8SPHo4zBoidrl/r8LwzX5XdTaGrc
+         f2Jw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1694794059; x=1695398859;
+        d=1e100.net; s=20230601; t=1694794065; x=1695398865;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=z8+9VTkbBAtEYZ5WKhgH4h5UYlHRNkMT6NJfQFUOH+k=;
-        b=M/ciGR64tE4AmCff0ovCagVm3XqXYCcL2lJcy+RGl2gJjrCIHY5Tj+kHrzYio/qCwK
-         u0GrV/+/VXWDVNrK4cYFT/spZMzskcJ+FYD8k4eJo5S0XYLm6Cczq8VIwGVV/VK7sBxc
-         xSsZJrtpEQW1tecywwsS8eQL4rn9OR+4yajKsxMB/7dqXn/VEwb5YRNsZiYiUBY7UBdo
-         eg8sARlrkxjYzP8jvHSt9QkqjqgT1bdO/p4rvi8B7zc58G1xruNb0o69kIdhJIsRuECO
-         whqrJ4vKL5tpyoN1Fgxdndt22kfN8Etg8I4PY53qRbnEIk2KTGrjCf5yAFB9ztpk3JnQ
-         VOAQ==
-X-Gm-Message-State: AOJu0YxD9o/gO8NAeGAFUqraIVa1YbCnTMy1C3+WLgP/UapCDvEOmMQv
-	eeW7V9oljeB3jiTzR9Hwa1c=
-X-Google-Smtp-Source: AGHT+IEMz0Cuk/KznlLMCr55N+i+cr7n6FnthXKQ62l7UkydGt9f+g5SOG+eXXcHV0qRuXdChPvEkg==
-X-Received: by 2002:a7b:cd91:0:b0:3fe:d46a:ef4b with SMTP id y17-20020a7bcd91000000b003fed46aef4bmr1918796wmj.1.1694794058704;
-        Fri, 15 Sep 2023 09:07:38 -0700 (PDT)
+        bh=ncph5CZexW9We6WezbStn7amj7O6xH1iwRr3VCr+5No=;
+        b=t6UkwBdXIAlvqemKYRxUlFD0wl1qwhgQ+zasdDBAJNKtOfYlAIU2LhkxEYz7o/99YJ
+         8OTfdcYqtGdwOBqnoRU40A7MndxYsqvxZ8KFkVvC5z5vUyy+GKoxsZqN2M8waf2dTxUt
+         sTuOqPWc/QrUSw1fzxCsJg1qnZnQcQ1sTVVAFRHd4BJZ2XLYlIzoU+1MZU/J3xlnSimf
+         Pa8YhdIKC8St+Tjwy9IcTVwwDsrkPl5xr4clMFN/DPiPmphl8ujoYuahlgz8N/oHRWi5
+         GIvdLTjUGFzYPQYOEzNt9+m+2TZn30yk0ufp0NobCoLgqzSArG6eaZ/N9y7b45GFKYCk
+         KuUw==
+X-Gm-Message-State: AOJu0Yzz1EzPstoEixrHwSj2sZ40uNGxK2Li7S8jwhpWNOa0r7UHqLwt
+	RPC3aQcy1stRPwj6N+fGlGN0s/l0LKMw1Q==
+X-Google-Smtp-Source: AGHT+IGOT/xnETxLKyDTThowNdS754Ym3aj6G+n144gWatSq6v+KRmw4LbBKPyVe0l9ooADpm6mmzA==
+X-Received: by 2002:a05:600c:3ba3:b0:401:c392:d28d with SMTP id n35-20020a05600c3ba300b00401c392d28dmr1902210wms.2.1694794064932;
+        Fri, 15 Sep 2023 09:07:44 -0700 (PDT)
 Received: from matrix-ESPRIMO-P710 (p579356c7.dip0.t-ipconnect.de. [87.147.86.199])
-        by smtp.gmail.com with ESMTPSA id k8-20020a5d4288000000b00317a29af4b2sm4761826wrq.68.2023.09.15.09.07.38
+        by smtp.gmail.com with ESMTPSA id l5-20020a7bc445000000b003fee849df23sm5029379wmi.22.2023.09.15.09.07.44
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 15 Sep 2023 09:07:38 -0700 (PDT)
-Date: Fri, 15 Sep 2023 18:07:36 +0200
+        Fri, 15 Sep 2023 09:07:44 -0700 (PDT)
+Date: Fri, 15 Sep 2023 18:07:43 +0200
 From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [PATCH 07/16] staging: rtl8192e: Remove unused struct rtllib_hdr and
- two enums
-Message-ID: <4bdb5e4d604eb3bd46c7853ad6d9a60f6208dd4a.1694792595.git.philipp.g.hortmann@gmail.com>
+Subject: [PATCH 08/16] staging: rtl8192e: Replace struct rtllib_hdr_4addr in
+ rtllib_crypt*.c
+Message-ID: <6bbbe6617e62fb9e04b4bc23f8bac6c31befcfa8.1694792595.git.philipp.g.hortmann@gmail.com>
 References: <cover.1694792595.git.philipp.g.hortmann@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -55,79 +55,197 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 In-Reply-To: <cover.1694792595.git.philipp.g.hortmann@gmail.com>
 
-Remove struct rtllib_hdr, enum rt_ps_mode and enum fw_cmd_io_type as those
-are not used.
+Replace struct rtllib_hdr_4addr with struct ieee80211_hdr to avoid
+proprietary code in rtllib_crypt_tkip.c and rtllib_crypt_ccmp.c.
 
 Signed-off-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
 ---
- drivers/staging/rtl8192e/rtllib.h | 40 -------------------------------
- 1 file changed, 40 deletions(-)
+ drivers/staging/rtl8192e/rtllib_crypt_ccmp.c | 14 ++++-----
+ drivers/staging/rtl8192e/rtllib_crypt_tkip.c | 32 ++++++++++----------
+ 2 files changed, 23 insertions(+), 23 deletions(-)
 
-diff --git a/drivers/staging/rtl8192e/rtllib.h b/drivers/staging/rtl8192e/rtllib.h
-index 55f96f446f9e..717b74dc005d 100644
---- a/drivers/staging/rtl8192e/rtllib.h
-+++ b/drivers/staging/rtl8192e/rtllib.h
-@@ -679,12 +679,6 @@ struct rtllib_pspoll_hdr {
- 	u8 ta[ETH_ALEN];
- } __packed;
+diff --git a/drivers/staging/rtl8192e/rtllib_crypt_ccmp.c b/drivers/staging/rtl8192e/rtllib_crypt_ccmp.c
+index f88096bcb181..8e4514cc132c 100644
+--- a/drivers/staging/rtl8192e/rtllib_crypt_ccmp.c
++++ b/drivers/staging/rtl8192e/rtllib_crypt_ccmp.c
+@@ -83,7 +83,7 @@ static void rtllib_ccmp_deinit(void *priv)
+ 	kfree(priv);
+ }
  
--struct rtllib_hdr {
--	__le16 frame_ctl;
--	__le16 duration_id;
--	u8 payload[];
--} __packed;
--
- struct rtllib_hdr_4addr {
- 	__le16 frame_ctl;
- 	__le16 duration_id;
-@@ -1157,13 +1151,6 @@ enum fsync_state {
- 	SW_Fsync
- };
+-static int ccmp_init_iv_and_aad(struct rtllib_hdr_4addr *hdr,
++static int ccmp_init_iv_and_aad(struct ieee80211_hdr *hdr,
+ 				u8 *pn, u8 *iv, u8 *aad)
+ {
+ 	u8 *pos, qc = 0;
+@@ -91,7 +91,7 @@ static int ccmp_init_iv_and_aad(struct rtllib_hdr_4addr *hdr,
+ 	u16 fc;
+ 	int a4_included, qc_included;
  
--enum rt_ps_mode {
--	eActive,
--	eMaxPs,
--	eFastPs,
--	eAutoPs,
--};
--
- enum ips_callback_function {
- 	IPS_CALLBACK_NONE = 0,
- 	IPS_CALLBACK_MGNT_LINK_REQUEST = 1,
-@@ -1220,33 +1207,6 @@ enum scan_op_backup_opt {
- 	SCAN_OPT_MAX
- };
+-	fc = le16_to_cpu(hdr->frame_ctl);
++	fc = le16_to_cpu(hdr->frame_control);
+ 	a4_included = ((fc & (RTLLIB_FCTL_TODS | RTLLIB_FCTL_FROMDS)) ==
+ 		       (RTLLIB_FCTL_TODS | RTLLIB_FCTL_FROMDS));
  
--enum fw_cmd_io_type {
--	FW_CMD_DIG_ENABLE = 0,
--	FW_CMD_DIG_DISABLE = 1,
--	FW_CMD_DIG_HALT = 2,
--	FW_CMD_DIG_RESUME = 3,
--	FW_CMD_HIGH_PWR_ENABLE = 4,
--	FW_CMD_HIGH_PWR_DISABLE = 5,
--	FW_CMD_RA_RESET = 6,
--	FW_CMD_RA_ACTIVE = 7,
--	FW_CMD_RA_REFRESH_N = 8,
--	FW_CMD_RA_REFRESH_BG = 9,
--	FW_CMD_RA_INIT = 10,
--	FW_CMD_IQK_ENABLE = 11,
--	FW_CMD_TXPWR_TRACK_ENABLE = 12,
--	FW_CMD_TXPWR_TRACK_DISABLE = 13,
--	FW_CMD_TXPWR_TRACK_THERMAL = 14,
--	FW_CMD_PAUSE_DM_BY_SCAN = 15,
--	FW_CMD_RESUME_DM_BY_SCAN = 16,
--	FW_CMD_RA_REFRESH_N_COMB = 17,
--	FW_CMD_RA_REFRESH_BG_COMB = 18,
--	FW_CMD_ANTENNA_SW_ENABLE = 19,
--	FW_CMD_ANTENNA_SW_DISABLE = 20,
--	FW_CMD_TX_FEEDBACK_CCX_ENABLE = 21,
--	FW_CMD_LPS_ENTER = 22,
--	FW_CMD_LPS_LEAVE = 23,
--};
--
- #define RT_MAX_LD_SLOT_NUM	10
- struct rt_link_detect {
- 	u32				NumRecvBcnInPeriod;
+@@ -134,7 +134,7 @@ static int ccmp_init_iv_and_aad(struct rtllib_hdr_4addr *hdr,
+ 	memcpy(&aad[2], &hdr->addr1, ETH_ALEN);
+ 	memcpy(&aad[8], &hdr->addr2, ETH_ALEN);
+ 	memcpy(&aad[14], &hdr->addr3, ETH_ALEN);
+-	pos = (u8 *)&hdr->seq_ctl;
++	pos = (u8 *)&hdr->seq_ctrl;
+ 	aad[20] = pos[0] & 0x0f;
+ 	aad[21] = 0; /* all bits masked */
+ 	memset(aad + 22, 0, 8);
+@@ -153,7 +153,7 @@ static int rtllib_ccmp_encrypt(struct sk_buff *skb, int hdr_len, void *priv)
+ 	struct rtllib_ccmp_data *key = priv;
+ 	int i;
+ 	u8 *pos;
+-	struct rtllib_hdr_4addr *hdr;
++	struct ieee80211_hdr *hdr;
+ 	struct cb_desc *tcb_desc = (struct cb_desc *)(skb->cb +
+ 				    MAX_DEV_ADDR_SIZE);
+ 	if (skb_headroom(skb) < CCMP_HDR_LEN ||
+@@ -182,7 +182,7 @@ static int rtllib_ccmp_encrypt(struct sk_buff *skb, int hdr_len, void *priv)
+ 	*pos++ = key->tx_pn[1];
+ 	*pos++ = key->tx_pn[0];
+ 
+-	hdr = (struct rtllib_hdr_4addr *)skb->data;
++	hdr = (struct ieee80211_hdr *)skb->data;
+ 	if (!tcb_desc->bHwSec) {
+ 		struct aead_request *req;
+ 		struct scatterlist sg[2];
+@@ -220,7 +220,7 @@ static int rtllib_ccmp_decrypt(struct sk_buff *skb, int hdr_len, void *priv)
+ {
+ 	struct rtllib_ccmp_data *key = priv;
+ 	u8 keyidx, *pos;
+-	struct rtllib_hdr_4addr *hdr;
++	struct ieee80211_hdr *hdr;
+ 	struct cb_desc *tcb_desc = (struct cb_desc *)(skb->cb +
+ 				    MAX_DEV_ADDR_SIZE);
+ 	u8 pn[6];
+@@ -230,7 +230,7 @@ static int rtllib_ccmp_decrypt(struct sk_buff *skb, int hdr_len, void *priv)
+ 		return -1;
+ 	}
+ 
+-	hdr = (struct rtllib_hdr_4addr *)skb->data;
++	hdr = (struct ieee80211_hdr *)skb->data;
+ 	pos = skb->data + hdr_len;
+ 	keyidx = pos[3];
+ 	if (!(keyidx & (1 << 5))) {
+diff --git a/drivers/staging/rtl8192e/rtllib_crypt_tkip.c b/drivers/staging/rtl8192e/rtllib_crypt_tkip.c
+index 9fdfcc017ee6..b7f9ea0e4f51 100644
+--- a/drivers/staging/rtl8192e/rtllib_crypt_tkip.c
++++ b/drivers/staging/rtl8192e/rtllib_crypt_tkip.c
+@@ -255,7 +255,7 @@ static int rtllib_tkip_encrypt(struct sk_buff *skb, int hdr_len, void *priv)
+ 	struct rtllib_tkip_data *tkey = priv;
+ 	int len;
+ 	u8 *pos;
+-	struct rtllib_hdr_4addr *hdr;
++	struct ieee80211_hdr *hdr;
+ 	struct cb_desc *tcb_desc = (struct cb_desc *)(skb->cb +
+ 				    MAX_DEV_ADDR_SIZE);
+ 	int ret = 0;
+@@ -266,7 +266,7 @@ static int rtllib_tkip_encrypt(struct sk_buff *skb, int hdr_len, void *priv)
+ 	    skb->len < hdr_len)
+ 		return -1;
+ 
+-	hdr = (struct rtllib_hdr_4addr *)skb->data;
++	hdr = (struct ieee80211_hdr *)skb->data;
+ 
+ 	if (!tcb_desc->bHwSec) {
+ 		if (!tkey->tx_phase1_done) {
+@@ -330,7 +330,7 @@ static int rtllib_tkip_decrypt(struct sk_buff *skb, int hdr_len, void *priv)
+ 	u8 keyidx, *pos;
+ 	u32 iv32;
+ 	u16 iv16;
+-	struct rtllib_hdr_4addr *hdr;
++	struct ieee80211_hdr *hdr;
+ 	struct cb_desc *tcb_desc = (struct cb_desc *)(skb->cb +
+ 				    MAX_DEV_ADDR_SIZE);
+ 	u8 rc4key[16];
+@@ -341,7 +341,7 @@ static int rtllib_tkip_decrypt(struct sk_buff *skb, int hdr_len, void *priv)
+ 	if (skb->len < hdr_len + 8 + 4)
+ 		return -1;
+ 
+-	hdr = (struct rtllib_hdr_4addr *)skb->data;
++	hdr = (struct ieee80211_hdr *)skb->data;
+ 	pos = skb->data + hdr_len;
+ 	keyidx = pos[3];
+ 	if (!(keyidx & (1 << 5))) {
+@@ -465,10 +465,10 @@ static int michael_mic(struct crypto_shash *tfm_michael, u8 *key, u8 *hdr,
+ 
+ static void michael_mic_hdr(struct sk_buff *skb, u8 *hdr)
+ {
+-	struct rtllib_hdr_4addr *hdr11;
++	struct ieee80211_hdr *hdr11;
+ 
+-	hdr11 = (struct rtllib_hdr_4addr *)skb->data;
+-	switch (le16_to_cpu(hdr11->frame_ctl) &
++	hdr11 = (struct ieee80211_hdr *)skb->data;
++	switch (le16_to_cpu(hdr11->frame_control) &
+ 		(RTLLIB_FCTL_FROMDS | RTLLIB_FCTL_TODS)) {
+ 	case RTLLIB_FCTL_TODS:
+ 		ether_addr_copy(hdr, hdr11->addr3); /* DA */
+@@ -501,9 +501,9 @@ static int rtllib_michael_mic_add(struct sk_buff *skb, int hdr_len, void *priv)
+ {
+ 	struct rtllib_tkip_data *tkey = priv;
+ 	u8 *pos;
+-	struct rtllib_hdr_4addr *hdr;
++	struct ieee80211_hdr *hdr;
+ 
+-	hdr = (struct rtllib_hdr_4addr *)skb->data;
++	hdr = (struct ieee80211_hdr *)skb->data;
+ 
+ 	if (skb_tailroom(skb) < 8 || skb->len < hdr_len) {
+ 		netdev_dbg(skb->dev,
+@@ -514,7 +514,7 @@ static int rtllib_michael_mic_add(struct sk_buff *skb, int hdr_len, void *priv)
+ 
+ 	michael_mic_hdr(skb, tkey->tx_hdr);
+ 
+-	if (RTLLIB_QOS_HAS_SEQ(le16_to_cpu(hdr->frame_ctl)))
++	if (RTLLIB_QOS_HAS_SEQ(le16_to_cpu(hdr->frame_control)))
+ 		tkey->tx_hdr[12] = *(skb->data + hdr_len - 2) & 0x07;
+ 	pos = skb_put(skb, 8);
+ 	if (michael_mic(tkey->tx_tfm_michael, &tkey->key[16], tkey->tx_hdr,
+@@ -525,7 +525,7 @@ static int rtllib_michael_mic_add(struct sk_buff *skb, int hdr_len, void *priv)
+ }
+ 
+ static void rtllib_michael_mic_failure(struct net_device *dev,
+-				       struct rtllib_hdr_4addr *hdr,
++				       struct ieee80211_hdr *hdr,
+ 				       int keyidx)
+ {
+ 	union iwreq_data wrqu;
+@@ -550,15 +550,15 @@ static int rtllib_michael_mic_verify(struct sk_buff *skb, int keyidx,
+ {
+ 	struct rtllib_tkip_data *tkey = priv;
+ 	u8 mic[8];
+-	struct rtllib_hdr_4addr *hdr;
++	struct ieee80211_hdr *hdr;
+ 
+-	hdr = (struct rtllib_hdr_4addr *)skb->data;
++	hdr = (struct ieee80211_hdr *)skb->data;
+ 
+ 	if (!tkey->key_set)
+ 		return -1;
+ 
+ 	michael_mic_hdr(skb, tkey->rx_hdr);
+-	if (RTLLIB_QOS_HAS_SEQ(le16_to_cpu(hdr->frame_ctl)))
++	if (RTLLIB_QOS_HAS_SEQ(le16_to_cpu(hdr->frame_control)))
+ 		tkey->rx_hdr[12] = *(skb->data + hdr_len - 2) & 0x07;
+ 
+ 	if (michael_mic(tkey->rx_tfm_michael, &tkey->key[24], tkey->rx_hdr,
+@@ -566,9 +566,9 @@ static int rtllib_michael_mic_verify(struct sk_buff *skb, int keyidx,
+ 		return -1;
+ 
+ 	if (memcmp(mic, skb->data + skb->len - 8, 8) != 0) {
+-		struct rtllib_hdr_4addr *hdr;
++		struct ieee80211_hdr *hdr;
+ 
+-		hdr = (struct rtllib_hdr_4addr *)skb->data;
++		hdr = (struct ieee80211_hdr *)skb->data;
+ 		netdev_dbg(skb->dev,
+ 			   "Michael MIC verification failed for MSDU from %pM keyidx=%d\n",
+ 			   hdr->addr2, keyidx);
 -- 
 2.42.0
 
