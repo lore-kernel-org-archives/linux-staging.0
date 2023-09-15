@@ -1,142 +1,121 @@
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93A2CDDB7;
-	Fri, 15 Sep 2023 13:13:11 +0000 (UTC)
-Received: from [IPV6:2a01:e0a:120:3210:7735:5996:cf40:bca6] (unknown [IPv6:2a01:e0a:120:3210:7735:5996:cf40:bca6])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: benjamin.gaignard)
-	by madras.collabora.co.uk (Postfix) with ESMTPSA id 1D60B66072ED;
-	Fri, 15 Sep 2023 14:02:56 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1694782976;
-	bh=p3dIJk432sgjwEaG99pDgDD1HBalYst4ezbAkgYJyz4=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=jqb6/GyVg5IuUKgGjzBkcnNg1wXFDJFiSi6o2rQe5WYoXkRfqvzt8Zinleucikwy+
-	 hRA2+5AaN16cDBPUxAABqKfK854lwKRdJYLH8RyKWUWiXqEzYHGLPF9Ys9CeeeBeLt
-	 P5ikdtNdI08HzbDRZarbCfotl/dnWAQV31r2PuTklWR/YoAVfZUlHMP4VIrQXpyl1e
-	 nK+EOUaUt0FpTB3XBAIdy3He2cwufeUhtmXD+wwrne81yOtRh+7LA8r6ziwG6U/0tg
-	 5kKbsqRIMxeBTLzXkSWnJ9ADpe9KeV6QS8W7ybOhnSMEcatthVpy6JUQDM/efEajFH
-	 JtGFEwcByqq1A==
-Message-ID: <b048719a-9397-7490-0651-7c1470ef61e0@collabora.com>
-Date: Fri, 15 Sep 2023 15:02:53 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1128330D00
+	for <linux-staging@lists.linux.dev>; Fri, 15 Sep 2023 16:06:42 +0000 (UTC)
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-404724ec0dcso4969955e9.1
+        for <linux-staging@lists.linux.dev>; Fri, 15 Sep 2023 09:06:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1694794001; x=1695398801; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=dRUCqTPE6auQEVTrtndtlI84Jy0D1OtStetAdLqgP7o=;
+        b=HqaKT0UEEBw6Qtc3IqASEQ3PyE1nxPgIkk8glOKKqb/rgWkQlurysZeuc+UoUvGk4V
+         ZfrKwOs9Dqd840lOhfrfKVpJ8S33KzFCEYgEdd43/czrS/JzswKV3xdAICRCLlhtgeCA
+         GzALRp7ifT6VGSuteVb1ZBxju4GkCxvT5YonjimUy8E/aUJzX2fHWRSGr+1WmTF4UMm0
+         SHLv+h0JnKFeScEWE/quSo+mUPRAqEVmgPXmKGd0ZifpYoJS/wKAA0uoFrJOKQ0Gz8J+
+         QVkvLOSwwnqhN9xcf1iksNK6Cqpf4f/JiPmRd0d+ykN/jRn0Czjdga6CbY7oOG0QaNaf
+         2Dyg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1694794001; x=1695398801;
+        h=content-disposition:mime-version:message-id:subject:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=dRUCqTPE6auQEVTrtndtlI84Jy0D1OtStetAdLqgP7o=;
+        b=pibwDGlf8oknsleL7R2fNF2UU1cB+TfRS8pUczfAwLKqRNt95rdwPgH2dqMm3j3MBx
+         VPC2kvwdAEznhe/hrPh+29mBID4ME1Wv+0nZ/9FctGDYF4emFbr8AGdr8+40PwqY061p
+         ottKF2UPu7NdpGxfGEyFW/67WGCd71rCragEuWtJqxpmQay5+UgJ51Blao//niTXzM2N
+         elO5Nd12CWdWb08fLY+f9zRAtcICRC4POSx1DKtpryPz1PaNUjp6lECSFmakbKUCl2sB
+         tKOiI1rpRVr9N+gjADpFtgKZv3XBZZAeu0LzkBxUBjy37XhVBOgc4ZnQGNLumkCOJdDz
+         FiCA==
+X-Gm-Message-State: AOJu0YwkBFEcvP289Ibsh2wi9rA/jmeegCWJrBwmmUbQMz3+2PUl0o4a
+	bWq/urL5DH/04jO8dGh65cI=
+X-Google-Smtp-Source: AGHT+IF1D5kQXidw8I5QOt1/oTEv1JnRn6u/Z4yHMvC0UGDBmEPXPH5VkrVfA8j4DH34d7Ot4foPlg==
+X-Received: by 2002:a1c:7919:0:b0:401:db82:3eda with SMTP id l25-20020a1c7919000000b00401db823edamr1981061wme.1.1694794001023;
+        Fri, 15 Sep 2023 09:06:41 -0700 (PDT)
+Received: from matrix-ESPRIMO-P710 (p579356c7.dip0.t-ipconnect.de. [87.147.86.199])
+        by smtp.gmail.com with ESMTPSA id v15-20020adff68f000000b0031433443265sm4777995wrp.53.2023.09.15.09.06.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 15 Sep 2023 09:06:40 -0700 (PDT)
+Date: Fri, 15 Sep 2023 18:06:39 +0200
+From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: [PATCH 00/16] staging: rtl8192e: Replace struct rtllib_hdr_3addr
+Message-ID: <cover.1694792595.git.philipp.g.hortmann@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.1
-Subject: Re: [PATCH v7 45/49] media: core: Add bitmap manage bufs array
- entries
-Content-Language: en-US
-To: kernel test robot <lkp@intel.com>, mchehab@kernel.org,
- tfiga@chromium.org, m.szyprowski@samsung.com, ming.qian@nxp.com,
- ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de,
- gregkh@linuxfoundation.org, hverkuil-cisco@xs4all.nl,
- nicolas.dufresne@collabora.com
-Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
- linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
- kernel@collabora.com
-References: <20230914133323.198857-46-benjamin.gaignard@collabora.com>
- <202309150835.kxjWQyEU-lkp@intel.com>
-From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-In-Reply-To: <202309150835.kxjWQyEU-lkp@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
+Replace struct rtllib_hdr_3addr and and similar structs.
+Replace management subframe types constants with IEEE80211_* and
+similar constants.
 
-Le 15/09/2023 à 02:47, kernel test robot a écrit :
-> Hi Benjamin,
->
-> kernel test robot noticed the following build errors:
->
-> [auto build test ERROR on linus/master]
-> [also build test ERROR on v6.6-rc1]
-> [cannot apply to next-20230914]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
->
-> url:    https://github.com/intel-lab-lkp/linux/commits/Benjamin-Gaignard/media-videobuf2-Rework-offset-cookie-encoding-pattern/20230914-221757
-> base:   linus/master
-> patch link:    https://lore.kernel.org/r/20230914133323.198857-46-benjamin.gaignard%40collabora.com
-> patch subject: [PATCH v7 45/49] media: core: Add bitmap manage bufs array entries
-> config: sparc-allyesconfig (https://download.01.org/0day-ci/archive/20230915/202309150835.kxjWQyEU-lkp@intel.com/config)
-> compiler: sparc64-linux-gcc (GCC) 13.2.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230915/202309150835.kxjWQyEU-lkp@intel.com/reproduce)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202309150835.kxjWQyEU-lkp@intel.com/
->
-> All errors (new ones prefixed by >>):
->
->     samples/v4l/v4l2-pci-skeleton.c: In function 'queue_setup':
->>> samples/v4l/v4l2-pci-skeleton.c:170:15: error: 'struct vb2_queue' has no member named 'num_buffers'
->       170 |         if (vq->num_buffers + *nbuffers < 3)
->           |               ^~
->     samples/v4l/v4l2-pci-skeleton.c:171:35: error: 'struct vb2_queue' has no member named 'num_buffers'
->       171 |                 *nbuffers = 3 - vq->num_buffers;
->           |                                   ^~
-> --
->     drivers/input/touchscreen/sur40.c: In function 'sur40_queue_setup':
->>> drivers/input/touchscreen/sur40.c:851:14: error: 'struct vb2_queue' has no member named 'num_buffers'
->       851 |         if (q->num_buffers + *nbuffers < 3)
->           |              ^~
->     drivers/input/touchscreen/sur40.c:852:34: error: 'struct vb2_queue' has no member named 'num_buffers'
->       852 |                 *nbuffers = 3 - q->num_buffers;
->           |                                  ^~
->
->
-> vim +170 samples/v4l/v4l2-pci-skeleton.c
+Tested with rtl8192e (WLL6130-D99) in Mode n (12.2 MB/s)
+Transferred this patch over wlan connection of rtl8192e.
 
-v4l2 drivers outside drivers/media or drivers/staging/media direct directories.
-I have miss them. I will fix that in v8.
+---
+Here some tests regarding sizes of structs and one pointername change:
+printk("size rtllib_hdr_3addr: %ld\n",sizeof(struct rtllib_hdr_3addr));
+printk("size ieee80211_hdr_3addr: %ld\n",sizeof(struct ieee80211_hdr_3addr));
+[ 7413.371188] size rtllib_hdr_3addr: 24
+[ 7413.371196] size ieee80211_hdr_3addr: 24
 
-Regards,
-Benjamin
+delba = (struct rtllib_hdr_3addr *)skb->data;
+delba_ph = (struct ieee80211_hdr_3addr *)skb->data;
+pDelBaParamSet = (union delba_param_set *)&delba->payload[2];
+pDelBaParamSet_ph = (union delba_param_set *)&delba_ph->seq_ctrl + 2;
+int ph_payload = pDelBaParamSet - pDelBaParamSet_ph;
+printk("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!diff: %d\n", ph_payload);
+[ 5608.787297] !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!diff: 0
 
->
-> 926977e0ae7556 Documentation/video4linux/v4l2-pci-skeleton.c Hans Verkuil 2014-03-14  145
-> 926977e0ae7556 Documentation/video4linux/v4l2-pci-skeleton.c Hans Verkuil 2014-03-14  146  /*
-> 926977e0ae7556 Documentation/video4linux/v4l2-pci-skeleton.c Hans Verkuil 2014-03-14  147   * Setup the constraints of the queue: besides setting the number of planes
-> 926977e0ae7556 Documentation/video4linux/v4l2-pci-skeleton.c Hans Verkuil 2014-03-14  148   * per buffer and the size and allocation context of each plane, it also
-> 926977e0ae7556 Documentation/video4linux/v4l2-pci-skeleton.c Hans Verkuil 2014-03-14  149   * checks if sufficient buffers have been allocated. Usually 3 is a good
-> 926977e0ae7556 Documentation/video4linux/v4l2-pci-skeleton.c Hans Verkuil 2014-03-14  150   * minimum number: many DMA engines need a minimum of 2 buffers in the
-> 926977e0ae7556 Documentation/video4linux/v4l2-pci-skeleton.c Hans Verkuil 2014-03-14  151   * queue and you need to have another available for userspace processing.
-> 926977e0ae7556 Documentation/video4linux/v4l2-pci-skeleton.c Hans Verkuil 2014-03-14  152   */
-> df9ecb0cad14b9 Documentation/video4linux/v4l2-pci-skeleton.c Hans Verkuil 2015-10-28  153  static int queue_setup(struct vb2_queue *vq,
-> 926977e0ae7556 Documentation/video4linux/v4l2-pci-skeleton.c Hans Verkuil 2014-03-14  154  		       unsigned int *nbuffers, unsigned int *nplanes,
-> 36c0f8b32c4bd4 samples/v4l/v4l2-pci-skeleton.c               Hans Verkuil 2016-04-15  155  		       unsigned int sizes[], struct device *alloc_devs[])
-> 926977e0ae7556 Documentation/video4linux/v4l2-pci-skeleton.c Hans Verkuil 2014-03-14  156  {
-> 926977e0ae7556 Documentation/video4linux/v4l2-pci-skeleton.c Hans Verkuil 2014-03-14  157  	struct skeleton *skel = vb2_get_drv_priv(vq);
-> 926977e0ae7556 Documentation/video4linux/v4l2-pci-skeleton.c Hans Verkuil 2014-03-14  158
-> 5f26f2501b8119 Documentation/video4linux/v4l2-pci-skeleton.c Hans Verkuil 2014-04-11  159  	skel->field = skel->format.field;
-> 5f26f2501b8119 Documentation/video4linux/v4l2-pci-skeleton.c Hans Verkuil 2014-04-11  160  	if (skel->field == V4L2_FIELD_ALTERNATE) {
-> 5f26f2501b8119 Documentation/video4linux/v4l2-pci-skeleton.c Hans Verkuil 2014-04-11  161  		/*
-> 5f26f2501b8119 Documentation/video4linux/v4l2-pci-skeleton.c Hans Verkuil 2014-04-11  162  		 * You cannot use read() with FIELD_ALTERNATE since the field
-> 5f26f2501b8119 Documentation/video4linux/v4l2-pci-skeleton.c Hans Verkuil 2014-04-11  163  		 * information (TOP/BOTTOM) cannot be passed back to the user.
-> 5f26f2501b8119 Documentation/video4linux/v4l2-pci-skeleton.c Hans Verkuil 2014-04-11  164  		 */
-> 3130a28a1568b1 Documentation/video4linux/v4l2-pci-skeleton.c Hans Verkuil 2014-04-23  165  		if (vb2_fileio_is_active(vq))
-> 5f26f2501b8119 Documentation/video4linux/v4l2-pci-skeleton.c Hans Verkuil 2014-04-11  166  			return -EINVAL;
-> 5f26f2501b8119 Documentation/video4linux/v4l2-pci-skeleton.c Hans Verkuil 2014-04-11  167  		skel->field = V4L2_FIELD_TOP;
-> 5f26f2501b8119 Documentation/video4linux/v4l2-pci-skeleton.c Hans Verkuil 2014-04-11  168  	}
-> 5f26f2501b8119 Documentation/video4linux/v4l2-pci-skeleton.c Hans Verkuil 2014-04-11  169
-> 926977e0ae7556 Documentation/video4linux/v4l2-pci-skeleton.c Hans Verkuil 2014-03-14 @170  	if (vq->num_buffers + *nbuffers < 3)
-> 926977e0ae7556 Documentation/video4linux/v4l2-pci-skeleton.c Hans Verkuil 2014-03-14  171  		*nbuffers = 3 - vq->num_buffers;
-> 926977e0ae7556 Documentation/video4linux/v4l2-pci-skeleton.c Hans Verkuil 2014-03-14  172
-> df9ecb0cad14b9 Documentation/video4linux/v4l2-pci-skeleton.c Hans Verkuil 2015-10-28  173  	if (*nplanes)
-> df9ecb0cad14b9 Documentation/video4linux/v4l2-pci-skeleton.c Hans Verkuil 2015-10-28  174  		return sizes[0] < skel->format.sizeimage ? -EINVAL : 0;
-> 926977e0ae7556 Documentation/video4linux/v4l2-pci-skeleton.c Hans Verkuil 2014-03-14  175  	*nplanes = 1;
-> df9ecb0cad14b9 Documentation/video4linux/v4l2-pci-skeleton.c Hans Verkuil 2015-10-28  176  	sizes[0] = skel->format.sizeimage;
-> 926977e0ae7556 Documentation/video4linux/v4l2-pci-skeleton.c Hans Verkuil 2014-03-14  177  	return 0;
-> 926977e0ae7556 Documentation/video4linux/v4l2-pci-skeleton.c Hans Verkuil 2014-03-14  178  }
-> 926977e0ae7556 Documentation/video4linux/v4l2-pci-skeleton.c Hans Verkuil 2014-03-14  179
->
+printk("ieee80211_hdr %ld\n",sizeof(struct ieee80211_hdr));
+printk("rtllib_hdr_4addr %ld\n",sizeof(struct rtllib_hdr_4addr));
+[ 8182.169990] ieee80211_hdr 30
+[ 8182.170023] rtllib_hdr_4addr 30
+
+printk("ieee80211_pspoll %ld\n",sizeof(struct ieee80211_pspoll));
+printk("rtllib_pspoll_hdr %ld\n",sizeof(struct rtllib_pspoll_hdr));
+[12277.846879] ieee80211_pspoll 16
+[12277.846900] rtllib_pspoll_hdr 16
+
+Philipp Hortmann (16):
+  staging: rtl8192e: Replace struct rtllib_hdr_1addr with ieee80211_hdr
+  staging: rtl8192e: Replace struct rtllib_hdr_3addr in rtllib_rx.c
+  staging: rtl8192e: Replace struct rtllib_hdr_3addr in rtl819x_BAProc.c
+  staging: rtl8192e: Replace struct rtllib_hdr_3addr in rtllib_softmac.c
+  staging: rtl8192e: Replace struct rtllib_hdr_3addr in r8192E_dev.c
+  staging: rtl8192e: Replace struct rtllib_hdr_3addr in structs of
+    rtllib.h
+  staging: rtl8192e: Remove unused struct rtllib_hdr and two enums
+  staging: rtl8192e: Replace struct rtllib_hdr_4addr in rtllib_crypt*.c
+  staging: rtl8192e: Remove struct rtllib_hdr_4addr
+  staging: rtl8192e: Remove struct rtllib_hdr_3addrqos
+  staging: rtl8192e: Remove struct rtllib_hdr_4addrqos
+  staging: rtl8192e: Remove struct rtllib_pspoll_hdr
+  staging: rtl8192e: Replace management subframe types with
+    IEEE80211_STYPE_*
+  staging: rtl8192e: Replace control subframe types with
+    IEEE80211_STYPE_*
+  staging: rtl8192e: Replace usage of RTLLIB_FCTL_DSTODS with function
+  staging: rtl8192e: Replace frame control constants with
+    IEEE80211_FCTL_*
+
+ .../staging/rtl8192e/rtl8192e/r8192E_dev.c    |  18 +-
+ drivers/staging/rtl8192e/rtl8192e/rtl_core.c  |   8 +-
+ drivers/staging/rtl8192e/rtl819x_BAProc.c     |  48 ++--
+ drivers/staging/rtl8192e/rtllib.h             | 183 ++--------------
+ drivers/staging/rtl8192e/rtllib_crypt_ccmp.c  |  17 +-
+ drivers/staging/rtl8192e/rtllib_crypt_tkip.c  |  40 ++--
+ drivers/staging/rtl8192e/rtllib_rx.c          | 206 +++++++++---------
+ drivers/staging/rtl8192e/rtllib_softmac.c     | 100 ++++-----
+ drivers/staging/rtl8192e/rtllib_tx.c          |  36 +--
+ 9 files changed, 257 insertions(+), 399 deletions(-)
+
+-- 
+2.42.0
+
