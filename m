@@ -1,307 +1,144 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5AB6C10A0C
-	for <linux-staging@lists.linux.dev>; Thu, 14 Sep 2023 22:15:21 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 959BA1FB;
-	Thu, 14 Sep 2023 15:15:57 -0700 (PDT)
-Received: from [10.57.93.68] (unknown [10.57.93.68])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id DE2723F738;
-	Thu, 14 Sep 2023 15:15:17 -0700 (PDT)
-Message-ID: <f4601452-061f-203e-6c05-3e03977eb7f9@arm.com>
-Date: Thu, 14 Sep 2023 23:15:09 +0100
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D60A36A;
+	Fri, 15 Sep 2023 00:48:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1694738891; x=1726274891;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=0/Y8tr6+72dx/dGIQEQzCuenUy3CT3AAuLaoi6w6Aa4=;
+  b=jYcTL0PdCMO/j7Xh4EBa8kbXh96AbvWr830w3Gadq9+/Yhx5UNLLteG6
+   4k3RvPSmNGsQyfogKXDsZnK5uNeZ7SE0g/bM8JottQskagtYGgvebXWF9
+   Yi1aH46rNB4e6qifFUk10dzK0YOYh8lEe/Nm/BFg6+T5bd5zkBW8YpX6r
+   5KvOmdCRJl+9Pj51bCY1lihAsSzBpX/uUsIlycL1mzChzzjdrZj4y+sNH
+   PEx0QcrsnIcQ3HKFP1eg1H5YUAcNo8uZdU7ddLS+pd9igAIFzaQyH2ls4
+   37Sp5dPFiXxszVWWJsL7UGZ+UIdQCowWhKGf2PP++Xi8GQL2XZdHXkEi0
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10833"; a="410063863"
+X-IronPort-AV: E=Sophos;i="6.02,147,1688454000"; 
+   d="scan'208";a="410063863"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Sep 2023 17:48:10 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10833"; a="859950717"
+X-IronPort-AV: E=Sophos;i="6.02,147,1688454000"; 
+   d="scan'208";a="859950717"
+Received: from lkp-server02.sh.intel.com (HELO 9ef86b2655e5) ([10.239.97.151])
+  by fmsmga002.fm.intel.com with ESMTP; 14 Sep 2023 17:48:06 -0700
+Received: from kbuild by 9ef86b2655e5 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qgx07-0002Dx-2Z;
+	Fri, 15 Sep 2023 00:48:03 +0000
+Date: Fri, 15 Sep 2023 08:47:42 +0800
+From: kernel test robot <lkp@intel.com>
+To: Benjamin Gaignard <benjamin.gaignard@collabora.com>, mchehab@kernel.org,
+	tfiga@chromium.org, m.szyprowski@samsung.com, ming.qian@nxp.com,
+	ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de,
+	gregkh@linuxfoundation.org, hverkuil-cisco@xs4all.nl,
+	nicolas.dufresne@collabora.com
+Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+	linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
+	kernel@collabora.com,
+	Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Subject: Re: [PATCH v7 45/49] media: core: Add bitmap manage bufs array
+ entries
+Message-ID: <202309150835.kxjWQyEU-lkp@intel.com>
+References: <20230914133323.198857-46-benjamin.gaignard@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:102.0) Gecko/20100101
- Thunderbird/102.15.1
-Subject: Re: [PATCH v11 1/5] staging: vc04_services: vchiq_arm: Add new bus
- type and device type
-Content-Language: en-GB
-To: Stefan Wahren <wahrenst@gmx.net>, Umang Jain
- <umang.jain@ideasonboard.com>, linux-staging@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, linux-rpi-kernel@lists.infradead.org,
- linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc: Stefan Wahren <stefan.wahren@i2se.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Florian Fainelli <f.fainelli@gmail.com>, Adrien Thierry
- <athierry@redhat.com>, Dan Carpenter <error27@gmail.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- Kieran Bingham <kieran.bingham@ideasonboard.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-References: <20230913195354.835884-1-umang.jain@ideasonboard.com>
- <20230913195354.835884-2-umang.jain@ideasonboard.com>
- <5e7aff1e-82de-2ec4-4d30-2b1f37ed2eed@gmx.net>
-From: Robin Murphy <robin.murphy@arm.com>
-In-Reply-To: <5e7aff1e-82de-2ec4-4d30-2b1f37ed2eed@gmx.net>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230914133323.198857-46-benjamin.gaignard@collabora.com>
 
-On 2023-09-13 21:58, Stefan Wahren wrote:
-> Hi Umang,
-> 
-> Am 13.09.23 um 21:53 schrieb Umang Jain:
->> The devices that the vchiq interface registers (bcm2835-audio,
->> bcm2835-camera) are implemented and exposed by the VC04 firmware.
->> The device tree describes the VC04 itself with the resources required
->> to communicate with it through a mailbox interface. However, the
->> vchiq interface registers these devices as platform devices. This
->> also means the specific drivers for these devices are getting
->> registered as platform drivers. This is not correct and a blatant
->> abuse of platform device/driver.
->>
->> Add a new bus type, vchiq_bus_type and device type (struct vchiq_device)
->> which will be used to migrate child devices that the vchiq interfaces
->> creates/registers from the platform device/driver.
->>
->> Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
->> ---
->>   drivers/staging/vc04_services/Makefile        |   1 +
->>   .../interface/vchiq_arm/vchiq_device.c        | 111 ++++++++++++++++++
->>   .../interface/vchiq_arm/vchiq_device.h        |  54 +++++++++
->>   3 files changed, 166 insertions(+)
->>   create mode 100644 
->> drivers/staging/vc04_services/interface/vchiq_arm/vchiq_device.c
->>   create mode 100644 
->> drivers/staging/vc04_services/interface/vchiq_arm/vchiq_device.h
->>
->> diff --git a/drivers/staging/vc04_services/Makefile 
->> b/drivers/staging/vc04_services/Makefile
->> index 44794bdf6173..2d071e55e175 100644
->> --- a/drivers/staging/vc04_services/Makefile
->> +++ b/drivers/staging/vc04_services/Makefile
->> @@ -5,6 +5,7 @@ vchiq-objs := \
->>      interface/vchiq_arm/vchiq_core.o  \
->>      interface/vchiq_arm/vchiq_arm.o \
->>      interface/vchiq_arm/vchiq_debugfs.o \
->> +   interface/vchiq_arm/vchiq_device.o \
->>      interface/vchiq_arm/vchiq_connected.o \
->>
->>   ifdef CONFIG_VCHIQ_CDEV
->> diff --git 
->> a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_device.c 
->> b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_device.c
->> new file mode 100644
->> index 000000000000..aad55c461905
->> --- /dev/null
->> +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_device.c
->> @@ -0,0 +1,111 @@
->> +// SPDX-License-Identifier: GPL-2.0
->> +/*
->> + * vchiq_device.c - VCHIQ generic device and bus-type
->> + *
->> + * Copyright (c) 2023 Ideas On Board Oy
->> + */
->> +
->> +#include <linux/device/bus.h>
->> +#include <linux/dma-mapping.h>
->> +#include <linux/of_device.h>
->> +#include <linux/slab.h>
->> +#include <linux/string.h>
->> +
->> +#include "vchiq_device.h"
->> +
->> +static int vchiq_bus_type_match(struct device *dev, struct 
->> device_driver *drv)
->> +{
->> +    if (dev->bus == &vchiq_bus_type &&
->> +        strcmp(dev_name(dev), drv->name) == 0)
->> +        return 1;
->> +
->> +    return 0;
->> +}
->> +
->> +static int vchiq_bus_uevent(const struct device *dev, struct 
->> kobj_uevent_env *env)
->> +{
->> +    const struct vchiq_device *device = container_of_const(dev, 
->> struct vchiq_device, dev);
->> +
->> +    return add_uevent_var(env, "MODALIAS=%s", dev_name(&device->dev));
->> +}
->> +
->> +static int vchiq_bus_probe(struct device *dev)
->> +{
->> +    struct vchiq_device *device = to_vchiq_device(dev);
->> +    struct vchiq_driver *driver = to_vchiq_driver(dev->driver);
->> +    int ret;
->> +
->> +    ret = driver->probe(device);
->> +    if (ret == 0)
->> +        return 0;
->> +
->> +    return ret;
->> +}
->> +
->> +struct bus_type vchiq_bus_type = {
->> +    .name   = "vchiq-bus",
->> +    .match  = vchiq_bus_type_match,
->> +    .uevent = vchiq_bus_uevent,
->> +    .probe  = vchiq_bus_probe,
->> +};
->> +
->> +static void vchiq_device_release(struct device *dev)
->> +{
->> +    struct vchiq_device *device = to_vchiq_device(dev);
->> +
->> +    kfree(device);
->> +}
->> +
->> +struct vchiq_device *
->> +vchiq_device_register(struct device *parent, const char *name)
->> +{
->> +    struct vchiq_device *device;
->> +    int ret;
->> +
->> +    device = kzalloc(sizeof(*device), GFP_KERNEL);
->> +    if (!device) {
->> +        dev_err(parent, "Cannot register %s: Insufficient memory\n",
->> +            name);
-> AFAIK kzalloc already logs an error in case of insufficient memory, so
-> there is no need for this.
->> +        return NULL;
->> +    }
->> +
->> +    device->dev.init_name = name;
->> +    device->dev.parent = parent;
->> +    device->dev.bus = &vchiq_bus_type;
->> +    device->dev.release = vchiq_device_release;
->> +
->> +    of_dma_configure(&device->dev, parent->of_node, true);
->> +    ret = dma_set_mask_and_coherent(&device->dev, DMA_BIT_MASK(32));
->  From my understand Robin suggested to drop dma_set_mask_and_coherent()
-> here, too. In case this cause a regression until patch 3 & 4 are
-> applied. The DMA mask parts should be applied separately before this patch.
+Hi Benjamin,
 
-Indeed, here we should have "device->dev.dma_mask = 
-&device->dev.dma_coherent_mask;", unconditionally, before 
-of_dma_configure() is called, and we should *not* be calling 
-dma_set_mask_and_coherent() at all. That will then be equivalent to what 
-the platform bus code was previously doing for these devices.
+kernel test robot noticed the following build errors:
 
-The vchiq_device drivers can then call dma_set_mask_and_coherent() if 
-they need to (AFAICS I'm not sure if they're actually using DMA at the 
-moment?) and should not touch dev->dma_mask directly. That does not need 
-to be done in any particular order relative to this patch, since the 
-truth is that of_dma_configure() will still initialise the masks to 32 
-bits by default anyway (as it currently does for the platform devices), 
-however it is still correct to add explicit calls (and handle their 
-potential failure if DMA is entirely unusable), and not simply assume 
-that the default masks are OK.
+[auto build test ERROR on linus/master]
+[also build test ERROR on v6.6-rc1]
+[cannot apply to next-20230914]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Hope that's clear.
+url:    https://github.com/intel-lab-lkp/linux/commits/Benjamin-Gaignard/media-videobuf2-Rework-offset-cookie-encoding-pattern/20230914-221757
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20230914133323.198857-46-benjamin.gaignard%40collabora.com
+patch subject: [PATCH v7 45/49] media: core: Add bitmap manage bufs array entries
+config: sparc-allyesconfig (https://download.01.org/0day-ci/archive/20230915/202309150835.kxjWQyEU-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230915/202309150835.kxjWQyEU-lkp@intel.com/reproduce)
 
-Thanks,
-Robin.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309150835.kxjWQyEU-lkp@intel.com/
 
->> +    if (ret) {
->> +        dev_err(&device->dev, "32-bit DMA enable failed\n");
->> +        return NULL;
->> +    }
->> +
->> +    ret = device_register(&device->dev);
->> +    if (ret) {
->> +        dev_err(parent, "Cannot register %s: %d\n", name, ret);
->> +        put_device(&device->dev);
-> Also Robin pointed out that there is a memory leak in the error path,
-> because the "device" get lost.
-> 
-> Thanks Stefan
->> +        return NULL;
->> +    }
->> +
->> +    return device;
->> +}
->> +
->> +void vchiq_device_unregister(struct vchiq_device *vchiq_dev)
->> +{
->> +    device_unregister(&vchiq_dev->dev);
->> +}
->> +
->> +int vchiq_driver_register(struct vchiq_driver *vchiq_drv)
->> +{
->> +    vchiq_drv->driver.bus = &vchiq_bus_type;
->> +
->> +    return driver_register(&vchiq_drv->driver);
->> +}
->> +EXPORT_SYMBOL_GPL(vchiq_driver_register);
->> +
->> +void vchiq_driver_unregister(struct vchiq_driver *vchiq_drv)
->> +{
->> +    driver_unregister(&vchiq_drv->driver);
->> +}
->> +EXPORT_SYMBOL_GPL(vchiq_driver_unregister);
->> diff --git 
->> a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_device.h 
->> b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_device.h
->> new file mode 100644
->> index 000000000000..7eaaf9a91cda
->> --- /dev/null
->> +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_device.h
->> @@ -0,0 +1,54 @@
->> +/* SPDX-License-Identifier: GPL-2.0 */
->> +/*
->> + * Copyright (c) 2023 Ideas On Board Oy
->> + */
->> +
->> +#ifndef _VCHIQ_DEVICE_H
->> +#define _VCHIQ_DEVICE_H
->> +
->> +#include <linux/device.h>
->> +
->> +struct vchiq_device {
->> +    struct device dev;
->> +};
->> +
->> +struct vchiq_driver {
->> +    int        (*probe)(struct vchiq_device *device);
->> +    void        (*remove)(struct vchiq_device *device);
->> +    int        (*resume)(struct vchiq_device *device);
->> +    int        (*suspend)(struct vchiq_device *device,
->> +                   pm_message_t state);
->> +    struct device_driver driver;
->> +};
->> +
->> +static inline struct vchiq_device *to_vchiq_device(struct device *d)
->> +{
->> +    return container_of(d, struct vchiq_device, dev);
->> +}
->> +
->> +static inline struct vchiq_driver *to_vchiq_driver(struct 
->> device_driver *d)
->> +{
->> +    return container_of(d, struct vchiq_driver, driver);
->> +}
->> +
->> +extern struct bus_type vchiq_bus_type;
->> +
->> +struct vchiq_device *
->> +vchiq_device_register(struct device *parent, const char *name);
->> +void vchiq_device_unregister(struct vchiq_device *dev);
->> +
->> +int vchiq_driver_register(struct vchiq_driver *vchiq_drv);
->> +void vchiq_driver_unregister(struct vchiq_driver *vchiq_drv);
->> +
->> +/**
->> + * module_vchiq_driver() - Helper macro for registering a vchiq driver
->> + * @__vchiq_driver: vchiq driver struct
->> + *
->> + * Helper macro for vchiq drivers which do not do anything special in
->> + * module init/exit. This eliminates a lot of boilerplate. Each 
->> module may only
->> + * use this macro once, and calling it replaces module_init() and 
->> module_exit()
->> + */
->> +#define module_vchiq_driver(__vchiq_driver) \
->> +    module_driver(__vchiq_driver, vchiq_driver_register, 
->> vchiq_driver_unregister)
->> +
->> +#endif /* _VCHIQ_DEVICE_H */
-> 
-> 
-> _______________________________________________
-> linux-arm-kernel mailing list
-> linux-arm-kernel@lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-arm-kernel
+All errors (new ones prefixed by >>):
+
+   samples/v4l/v4l2-pci-skeleton.c: In function 'queue_setup':
+>> samples/v4l/v4l2-pci-skeleton.c:170:15: error: 'struct vb2_queue' has no member named 'num_buffers'
+     170 |         if (vq->num_buffers + *nbuffers < 3)
+         |               ^~
+   samples/v4l/v4l2-pci-skeleton.c:171:35: error: 'struct vb2_queue' has no member named 'num_buffers'
+     171 |                 *nbuffers = 3 - vq->num_buffers;
+         |                                   ^~
+--
+   drivers/input/touchscreen/sur40.c: In function 'sur40_queue_setup':
+>> drivers/input/touchscreen/sur40.c:851:14: error: 'struct vb2_queue' has no member named 'num_buffers'
+     851 |         if (q->num_buffers + *nbuffers < 3)
+         |              ^~
+   drivers/input/touchscreen/sur40.c:852:34: error: 'struct vb2_queue' has no member named 'num_buffers'
+     852 |                 *nbuffers = 3 - q->num_buffers;
+         |                                  ^~
+
+
+vim +170 samples/v4l/v4l2-pci-skeleton.c
+
+926977e0ae7556 Documentation/video4linux/v4l2-pci-skeleton.c Hans Verkuil 2014-03-14  145  
+926977e0ae7556 Documentation/video4linux/v4l2-pci-skeleton.c Hans Verkuil 2014-03-14  146  /*
+926977e0ae7556 Documentation/video4linux/v4l2-pci-skeleton.c Hans Verkuil 2014-03-14  147   * Setup the constraints of the queue: besides setting the number of planes
+926977e0ae7556 Documentation/video4linux/v4l2-pci-skeleton.c Hans Verkuil 2014-03-14  148   * per buffer and the size and allocation context of each plane, it also
+926977e0ae7556 Documentation/video4linux/v4l2-pci-skeleton.c Hans Verkuil 2014-03-14  149   * checks if sufficient buffers have been allocated. Usually 3 is a good
+926977e0ae7556 Documentation/video4linux/v4l2-pci-skeleton.c Hans Verkuil 2014-03-14  150   * minimum number: many DMA engines need a minimum of 2 buffers in the
+926977e0ae7556 Documentation/video4linux/v4l2-pci-skeleton.c Hans Verkuil 2014-03-14  151   * queue and you need to have another available for userspace processing.
+926977e0ae7556 Documentation/video4linux/v4l2-pci-skeleton.c Hans Verkuil 2014-03-14  152   */
+df9ecb0cad14b9 Documentation/video4linux/v4l2-pci-skeleton.c Hans Verkuil 2015-10-28  153  static int queue_setup(struct vb2_queue *vq,
+926977e0ae7556 Documentation/video4linux/v4l2-pci-skeleton.c Hans Verkuil 2014-03-14  154  		       unsigned int *nbuffers, unsigned int *nplanes,
+36c0f8b32c4bd4 samples/v4l/v4l2-pci-skeleton.c               Hans Verkuil 2016-04-15  155  		       unsigned int sizes[], struct device *alloc_devs[])
+926977e0ae7556 Documentation/video4linux/v4l2-pci-skeleton.c Hans Verkuil 2014-03-14  156  {
+926977e0ae7556 Documentation/video4linux/v4l2-pci-skeleton.c Hans Verkuil 2014-03-14  157  	struct skeleton *skel = vb2_get_drv_priv(vq);
+926977e0ae7556 Documentation/video4linux/v4l2-pci-skeleton.c Hans Verkuil 2014-03-14  158  
+5f26f2501b8119 Documentation/video4linux/v4l2-pci-skeleton.c Hans Verkuil 2014-04-11  159  	skel->field = skel->format.field;
+5f26f2501b8119 Documentation/video4linux/v4l2-pci-skeleton.c Hans Verkuil 2014-04-11  160  	if (skel->field == V4L2_FIELD_ALTERNATE) {
+5f26f2501b8119 Documentation/video4linux/v4l2-pci-skeleton.c Hans Verkuil 2014-04-11  161  		/*
+5f26f2501b8119 Documentation/video4linux/v4l2-pci-skeleton.c Hans Verkuil 2014-04-11  162  		 * You cannot use read() with FIELD_ALTERNATE since the field
+5f26f2501b8119 Documentation/video4linux/v4l2-pci-skeleton.c Hans Verkuil 2014-04-11  163  		 * information (TOP/BOTTOM) cannot be passed back to the user.
+5f26f2501b8119 Documentation/video4linux/v4l2-pci-skeleton.c Hans Verkuil 2014-04-11  164  		 */
+3130a28a1568b1 Documentation/video4linux/v4l2-pci-skeleton.c Hans Verkuil 2014-04-23  165  		if (vb2_fileio_is_active(vq))
+5f26f2501b8119 Documentation/video4linux/v4l2-pci-skeleton.c Hans Verkuil 2014-04-11  166  			return -EINVAL;
+5f26f2501b8119 Documentation/video4linux/v4l2-pci-skeleton.c Hans Verkuil 2014-04-11  167  		skel->field = V4L2_FIELD_TOP;
+5f26f2501b8119 Documentation/video4linux/v4l2-pci-skeleton.c Hans Verkuil 2014-04-11  168  	}
+5f26f2501b8119 Documentation/video4linux/v4l2-pci-skeleton.c Hans Verkuil 2014-04-11  169  
+926977e0ae7556 Documentation/video4linux/v4l2-pci-skeleton.c Hans Verkuil 2014-03-14 @170  	if (vq->num_buffers + *nbuffers < 3)
+926977e0ae7556 Documentation/video4linux/v4l2-pci-skeleton.c Hans Verkuil 2014-03-14  171  		*nbuffers = 3 - vq->num_buffers;
+926977e0ae7556 Documentation/video4linux/v4l2-pci-skeleton.c Hans Verkuil 2014-03-14  172  
+df9ecb0cad14b9 Documentation/video4linux/v4l2-pci-skeleton.c Hans Verkuil 2015-10-28  173  	if (*nplanes)
+df9ecb0cad14b9 Documentation/video4linux/v4l2-pci-skeleton.c Hans Verkuil 2015-10-28  174  		return sizes[0] < skel->format.sizeimage ? -EINVAL : 0;
+926977e0ae7556 Documentation/video4linux/v4l2-pci-skeleton.c Hans Verkuil 2014-03-14  175  	*nplanes = 1;
+df9ecb0cad14b9 Documentation/video4linux/v4l2-pci-skeleton.c Hans Verkuil 2015-10-28  176  	sizes[0] = skel->format.sizeimage;
+926977e0ae7556 Documentation/video4linux/v4l2-pci-skeleton.c Hans Verkuil 2014-03-14  177  	return 0;
+926977e0ae7556 Documentation/video4linux/v4l2-pci-skeleton.c Hans Verkuil 2014-03-14  178  }
+926977e0ae7556 Documentation/video4linux/v4l2-pci-skeleton.c Hans Verkuil 2014-03-14  179  
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
