@@ -1,122 +1,140 @@
-Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com [209.85.167.54])
+Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 610BD6FA7
-	for <linux-staging@lists.linux.dev>; Sun, 17 Sep 2023 20:01:53 +0000 (UTC)
-Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-50300e9e75bso2046095e87.1
-        for <linux-staging@lists.linux.dev>; Sun, 17 Sep 2023 13:01:53 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E46753AB
+	for <linux-staging@lists.linux.dev>; Sun, 17 Sep 2023 20:30:28 +0000 (UTC)
+Received: by mail-pf1-f170.google.com with SMTP id d2e1a72fcca58-68fbb10dea4so2889462b3a.3
+        for <linux-staging@lists.linux.dev>; Sun, 17 Sep 2023 13:30:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1694980911; x=1695585711; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=TBYyotW/pdIWdI0cH7Z40wrfoq7zKPeFkckDRbW/Efs=;
-        b=Ck928O34VGSulFBtvZQ5SPcq7Na5wFe8hj37EzmjQXhDLGiE5REiNdo70ZAKv3uJRl
-         RK9xzGztfa/qCAQ17ar24D986bsNtqOTuwZy66DDsbSdNIpl5jc97U/QFxeMi3r2cPTs
-         WLQhw/PX3/TUwu1i1xnXZqnA1DXCH5lpXrL2wKtI1RYRQIJ4fG+bR1FAsdrDEAPAdEBF
-         lPSL8UE4ZV9yBZtkjUTm8S//39GLvV3a+lr+MNIGDhCGyp6goxUUYd36wd8IOJsbwZJY
-         BtqbjHMdN2SDtYrzzHccwQvbIGBUslYANDSHbl26fVB4KWr/zPKDoTOUSH4bc3dak69w
-         tA/Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1694980911; x=1695585711;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1694982628; x=1695587428; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=TBYyotW/pdIWdI0cH7Z40wrfoq7zKPeFkckDRbW/Efs=;
-        b=toOOGXONENzv2toBOIF7um+03eRnzbi+QK6gle6wtgFNFK8Urcq4ZSQ474IMvSt7ft
-         cR/naJn/oQ6oeo6fiQNwRhPyaUv9lpFpXF/tDgJAj8vhLWYcHuUdvmk4GcXNr9ioBpGC
-         k5sn8xqZUZappQeY6u4qn4KOXfY9J0ug5lvyyGxaP3e4M+CTqA6ZnKY9HcQNUxKO57hs
-         wzPTWMR15BdGh3iSNN4bdh1BHQCEsVbakwW9QuA6NncYF7ORy8vrWdGlUgPc4HN7EGMf
-         M81jtXnQsQdXQ52b6CvsMMLTsBw8kMlndLUXduzfzzcMdWtBAgxpG8jcktucA6C7YDW4
-         kQnQ==
-X-Gm-Message-State: AOJu0YwTt37RbvNjtyADWNS35XKYZSkyhb9Rcq8dR1HpXjcu1jPdCoNz
-	Ctsr+KdKgFjyTXMu0M2Psk4=
-X-Google-Smtp-Source: AGHT+IETR6CvkBHbfEWd4EfCCD9JKVSO3/wNxkcelQ/OCb0FXFPYJydvmxxQ8XAqMfwqSMjBNYOYjw==
-X-Received: by 2002:ac2:58f8:0:b0:500:bb99:69a9 with SMTP id v24-20020ac258f8000000b00500bb9969a9mr5279065lfo.64.1694980911019;
-        Sun, 17 Sep 2023 13:01:51 -0700 (PDT)
-Received: from HP-ENVY-Notebook (81-229-94-10-no68.tbcn.telia.com. [81.229.94.10])
-        by smtp.gmail.com with ESMTPSA id b26-20020a0565120b9a00b005031939dbe9sm70495lfv.77.2023.09.17.13.01.49
+        bh=wmN3G4bFpi6nAbIJp8nMJiK+WmgTcWevUBMw6pAf8Vk=;
+        b=PQ3rdfwk02/2SjIWhQ4dFiKGUddUoct+FDv53L8Q7zI2jNcnPsjy+iqTF8CG4tt2Bg
+         CZST9CtJ22+4PM1n2tmM3MjcPHRAbWHkmy/r3WUxl4sStwfm2kh2dpBSbT7XBgR8X1Me
+         WFuOJ/RCuNpecY0/RhSRkE8HcqVSNpDvw80sONKaRgYzSYw3LfbgpygS0vTy9Xiozdum
+         kMb9HLr1Wj1icDhoNTjDrWIkK+RiQu9W+epjZPMp9su0DvQeugMYWj2R50Vts2FR39xF
+         cSYRE0vvf0fPmNPl0CtfHXt+d8o2Ana5mAdr60szTM7BbTys1VPlmgZubJt74rz5qgVr
+         J0jA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1694982628; x=1695587428;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=wmN3G4bFpi6nAbIJp8nMJiK+WmgTcWevUBMw6pAf8Vk=;
+        b=rBAbuNy9wuYJIyYVpHlFS2/x521ARA/vHjsJHSHQZyb0gs1VQCI3GAENkEWd2L+BBi
+         +qTAfFTiK/ESW7l5UBRsTULh8mROA1Oi9OMR1LbyG6bGh7AyN7pF8UMzyvMPYHy2l4KE
+         rPZDnpCx1nEvGcS7Vh1Joto7PjDPq/WtEk0XDFeZ+99vwzFmpo3UO1KjwVpuQpiWhdnc
+         86khEaFQkIaplImOt/UPUS6SfLVC2E5OUwTIbYJVHUVgp02mfCiBs+JipjBOepRCjmbU
+         53FpFbop2BkEeoBQsnhuBDW2cWGRiUvXHof+Ygi9WN0SalLQMZD6YEcracc0OD3I7DBS
+         tpdQ==
+X-Gm-Message-State: AOJu0YxdQKwpmz/xx/kizHC0gifS4Kcl0KgKMD3FeB0qz8u2gzFlPP5e
+	savfcBt55U9+1DcWwrb/X0E=
+X-Google-Smtp-Source: AGHT+IECasCq4QXMYQn3wUZn42e5l+bVc7WPy0pGFsbORQGQ9sFW5lXlpsfwRKvUNRjABaQXLFFhQQ==
+X-Received: by 2002:a05:6a20:8e0f:b0:134:d4d3:f0a8 with SMTP id y15-20020a056a208e0f00b00134d4d3f0a8mr7470800pzj.3.1694982627806;
+        Sun, 17 Sep 2023 13:30:27 -0700 (PDT)
+Received: from yqt-VirtualBox ([139.227.189.216])
+        by smtp.gmail.com with ESMTPSA id jk15-20020a170903330f00b001b9fef7f454sm4534874plb.73.2023.09.17.13.30.26
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 17 Sep 2023 13:01:50 -0700 (PDT)
-Date: Sun, 17 Sep 2023 22:01:47 +0200
-From: Jonathan Bergh <bergh.jonathan@gmail.com>
-To: Greg KH <gregkh@linuxfoundation.org>
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: vme_user: Replace strcpy with strscpy
-Message-ID: <ZQdbK95P/GRNQo1F@HP-ENVY-Notebook>
-References: <20230917154302.913956-1-bergh.jonathan@gmail.com>
- <2023091756-pastel-ipad-6cd7@gregkh>
+        Sun, 17 Sep 2023 13:30:27 -0700 (PDT)
+From: Piro Yang <piroyangg@gmail.com>
+To: gregkh@linuxfoundation.org,
+	philipp.g.hortmann@gmail.com
+Cc: linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Piro Yang <piroyangg@gmail.com>
+Subject: [PATCH v2] staging: vme_user: using __func__ to replace function's name in printk
+Date: Mon, 18 Sep 2023 04:30:19 +0800
+Message-Id: <20230917203019.79180-1-piroyangg@gmail.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <9548bc1c-23c9-427f-446e-61f051f14f9c@gmail.com>
+References: <9548bc1c-23c9-427f-446e-61f051f14f9c@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <2023091756-pastel-ipad-6cd7@gregkh>
+Content-Transfer-Encoding: 8bit
 
-On Sun, Sep 17, 2023 at 06:24:35PM +0200, Greg KH wrote:
-> On Sun, Sep 17, 2023 at 05:43:02PM +0200, Jonathan Bergh wrote:
-> > Replace strcpy with strscpy as preferred by checkpatch in vme_fake.c to
-> > prevent warnings.
-> > 
-> > Signed-off-by: Jonathan Bergh <bergh.jonathan@gmail.com>
-> > ---
-> >  drivers/staging/vme_user/vme_fake.c | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > 
-> > diff --git a/drivers/staging/vme_user/vme_fake.c b/drivers/staging/vme_user/vme_fake.c
-> > index 9bcb89a84d53..0cf5700e151f 100644
-> > --- a/drivers/staging/vme_user/vme_fake.c
-> > +++ b/drivers/staging/vme_user/vme_fake.c
-> > @@ -1093,7 +1093,7 @@ static int __init fake_init(void)
-> >  	tasklet_init(&fake_device->int_tasklet, fake_VIRQ_tasklet,
-> >  			(unsigned long) fake_bridge);
-> >  
-> > -	strcpy(fake_bridge->name, driver_name);
-> > +	strscpy(fake_bridge->name, driver_name, sizeof(fake_bridge->name));
-> 
+Fix issue relating to prink message:
+	*using __func__ to replace function's name
 
-Hi, thanks a lot for the review + comment.
+Issue found by checkpatch
 
-> If it were this easy, we would have swept the tree and done so, right?
-> Are you sure this is correct?  If so, please document exactly why it is
-> correct in the changelog text when you resend this.
+Signed-off-by: Piro Yang <piroyangg@gmail.com>
+---
+Changes in v2:
+  - Firstly, fix only one type of Waring by checkpatch.
+	using '"%s...", __func__' substitute for function's name of printked information
 
-Thought it better to discuss before sending an updated patch
-that might be wrong. 
-
-I think it is correct since driver_name:
-  * In: vme_fake.c:
-	static const char driver_name[] = "vme_fake": 
-
-will always fit into vme_bridge->name:
-  * In: vme_bridge.h:
-	...
-	#define VMENAMSIZ 16
-	...
-	struct vme_bridge {
-		...
-		char name[VMENAMSIZ];
-		...
-	}
-
-but I could have missed something. This is in the module __init
-method and i dont see that name pointer being reassigned before
-the strcpy call (which was changed).
-
-Maybe its not worth changing, but (if it is correct) it would get
-rid of the checkpatch warning and convert to the "preferred" API?
-
-> 
-> thanks,
-> 
-> greg k-h
-
-FWIW Wouldnt it always be better to use the "safe" option since it 
-at worst its going to truncate the destination string rather than 
-write off the end of the array? 
-
-thanks in advance
-cheers
-Jonathan
+diff --git a/drivers/staging/vme_user/vme.c b/drivers/staging/vme_user/vme.c
+index 5960562dcd96..de404c6765f3 100644
+--- a/drivers/staging/vme_user/vme.c
++++ b/drivers/staging/vme_user/vme.c
+@@ -418,7 +418,7 @@ int vme_slave_get(struct vme_resource *resource, int *enabled,
+ 	image = list_entry(resource->entry, struct vme_slave_resource, list);
+ 
+ 	if (!bridge->slave_get) {
+-		printk(KERN_ERR "vme_slave_get not supported\n");
++		printk(KERN_ERR "%s not supported\n", __func__);
+ 		return -EINVAL;
+ 	}
+ 
+@@ -568,7 +568,7 @@ int vme_master_set(struct vme_resource *resource, int enabled,
+ 	image = list_entry(resource->entry, struct vme_master_resource, list);
+ 
+ 	if (!bridge->master_set) {
+-		printk(KERN_WARNING "vme_master_set not supported\n");
++		printk(KERN_WARNING "%s not supported\n", __func__);
+ 		return -EINVAL;
+ 	}
+ 
+@@ -1552,7 +1552,7 @@ int vme_lm_set(struct vme_resource *resource, unsigned long long lm_base,
+ 	lm = list_entry(resource->entry, struct vme_lm_resource, list);
+ 
+ 	if (!bridge->lm_set) {
+-		printk(KERN_ERR "vme_lm_set not supported\n");
++		printk(KERN_ERR "%s not supported\n", __func__);
+ 		return -EINVAL;
+ 	}
+ 
+@@ -1588,7 +1588,7 @@ int vme_lm_get(struct vme_resource *resource, unsigned long long *lm_base,
+ 	lm = list_entry(resource->entry, struct vme_lm_resource, list);
+ 
+ 	if (!bridge->lm_get) {
+-		printk(KERN_ERR "vme_lm_get not supported\n");
++		printk(KERN_ERR "%s not supported\n", __func__);
+ 		return -EINVAL;
+ 	}
+ 
+@@ -1625,7 +1625,7 @@ int vme_lm_attach(struct vme_resource *resource, int monitor,
+ 	lm = list_entry(resource->entry, struct vme_lm_resource, list);
+ 
+ 	if (!bridge->lm_attach) {
+-		printk(KERN_ERR "vme_lm_attach not supported\n");
++		printk(KERN_ERR "%s not supported\n", __func__);
+ 		return -EINVAL;
+ 	}
+ 
+@@ -1658,7 +1658,7 @@ int vme_lm_detach(struct vme_resource *resource, int monitor)
+ 	lm = list_entry(resource->entry, struct vme_lm_resource, list);
+ 
+ 	if (!bridge->lm_detach) {
+-		printk(KERN_ERR "vme_lm_detach not supported\n");
++		printk(KERN_ERR "%s not supported\n", __func__);
+ 		return -EINVAL;
+ 	}
+ 
+@@ -1725,7 +1725,7 @@ int vme_slot_num(struct vme_dev *vdev)
+ 	}
+ 
+ 	if (!bridge->slot_get) {
+-		printk(KERN_WARNING "vme_slot_num not supported\n");
++		printk(KERN_WARNING "%s not supported\n", __func__);
+ 		return -EINVAL;
+ 	}
+ 
+-- 
+2.25.1
