@@ -1,103 +1,80 @@
-Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.126.135])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f179.google.com (mail-lj1-f179.google.com [209.85.208.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2568A4A39
-	for <linux-staging@lists.linux.dev>; Sun, 17 Sep 2023 15:36:26 +0000 (UTC)
-Received: from [192.168.1.129] ([37.4.248.43]) by mrelayeu.kundenserver.de
- (mreue012 [212.227.15.167]) with ESMTPSA (Nemesis) id
- 1M5jA2-1qnvQi1KaQ-007D1k; Sun, 17 Sep 2023 17:36:14 +0200
-Message-ID: <d8395455-44eb-6762-d978-e912bf2cfe73@i2se.com>
-Date: Sun, 17 Sep 2023 17:36:13 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBC524C60
+	for <linux-staging@lists.linux.dev>; Sun, 17 Sep 2023 15:44:31 +0000 (UTC)
+Received: by mail-lj1-f179.google.com with SMTP id 38308e7fff4ca-2bcbfb3705dso59172911fa.1
+        for <linux-staging@lists.linux.dev>; Sun, 17 Sep 2023 08:44:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1694965470; x=1695570270; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=kyE2cahixYUhSxqHETVMaNUic+89+Aiv8SH8B+785uI=;
+        b=JzttGeWtifYvIaYgtEcVqRAka8GZ4YEUBDvPVn7spZtcSYzRy/u/mqPUSovtdaSibu
+         8R6nWCTQQmnUO2VshP8V7/gARWEJrQgCFgzAt3CFog2Kish70jHgr1CXJ3fWTk2Oz7LC
+         c2FG98bjAkPBPWDNa7XmCiRVTFENVkS0uD5tm/CSDY8kebbB58KN0qm27HSt4cmiwpPr
+         DaS2coBG+UOF6AUzsZMrXIvELQOsLuqhxDfkcEurUCECrMp3j9QCTSgFjEyBFnHF+Y7m
+         8ZVtZQt8IrDZRfW6t2E22jVjmy1QV1bpzwOaJBVhrvDL2qpW6EofcfB5tUcfm+wq2ZUG
+         nfKg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1694965470; x=1695570270;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=kyE2cahixYUhSxqHETVMaNUic+89+Aiv8SH8B+785uI=;
+        b=NIOAW8fmH0vPIZaqrastKKcigXsHEFCghjq6BSmfZA4nD42U+2xd4b33OxSKB/Z9rV
+         1+ahoQ8mf+STgkBj8P2ctWdrMvaeeVvE84pgEqRcg7GJgnxcajJLqFygc4FW/lQYyGM5
+         gL1VIjyy77RDnThV88t/q4DX9YPGfo9RZsb2yxJYb64IT/5SfbG/7H0YuGbRq8HovDJz
+         4B08f4pD/z67k7b6+4CDL2xOzatCBVDTh+VtWOKwnfMN0i4+w0mOaRuWibpT3SjGr1Ex
+         VfRiAd+nOcm7OExYfDLXg6YapbZwB8bq2BrKXMxgUWYmFgeKyoOqjg5RUV4HXGtsDkmm
+         LWcQ==
+X-Gm-Message-State: AOJu0YzSqC/zMpAGSOTlkkQeFxRhju0LmIZamM8GdzCjIQ9X2U1GpBtG
+	pQ7HOD5cFLHBO0p7NBCE94U=
+X-Google-Smtp-Source: AGHT+IEX25Wx2tJPOYCZ/eMzwF4zM4wpul2EIIBw1pw2JVFiB+wZEFEffTxiQFokZgxXv7dCE4tYIg==
+X-Received: by 2002:a2e:a7c9:0:b0:2bf:ff17:811e with SMTP id x9-20020a2ea7c9000000b002bfff17811emr2215422ljp.14.1694965469323;
+        Sun, 17 Sep 2023 08:44:29 -0700 (PDT)
+Received: from HP-ENVY-Notebook.lan (81-229-94-10-no68.tbcn.telia.com. [81.229.94.10])
+        by smtp.googlemail.com with ESMTPSA id h19-20020a2e9ed3000000b002b836d8c839sm1668550ljk.40.2023.09.17.08.44.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 17 Sep 2023 08:44:28 -0700 (PDT)
+From: Jonathan Bergh <bergh.jonathan@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Jonathan Bergh <bergh.jonathan@gmail.com>
+Subject: [PATCH] staging: vme_user: Replace strcpy with strscpy
+Date: Sun, 17 Sep 2023 17:43:02 +0200
+Message-Id: <20230917154302.913956-1-bergh.jonathan@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.1
-Subject: Re: [RFC PATCH v2 0/4] staging: vc04: Drop custom logging
-To: Umang Jain <umang.jain@ideasonboard.com>,
- Dan Carpenter <dan.carpenter@linaro.org>
-Cc: linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
- linux-rpi-kernel@lists.infradead.org, linux-media@vger.kernel.org,
- linux-kernel@vger.kernel.org, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, Florian Fainelli <f.fainelli@gmail.com>,
- Adrien Thierry <athierry@redhat.com>, Dan Carpenter <error27@gmail.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- Kieran Bingham <kieran.bingham@ideasonboard.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Phil Elwell <phil@raspberrypi.com>
-References: <20230913185528.770634-1-umang.jain@ideasonboard.com>
- <1d54715d-25f9-4937-bdff-de0136c95fe8@kadam.mountain>
-Content-Language: en-US
-From: Stefan Wahren <stefan.wahren@i2se.com>
-In-Reply-To: <1d54715d-25f9-4937-bdff-de0136c95fe8@kadam.mountain>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Provags-ID: V03:K1:uPuw4stiPpBMOYelFVe2qtzF38EcAPeTCrViqcm3NlXkWZhzOZ0
- lnRBC8e0/8mhwjdFMc30OAJI+h5CV08nCC/h9O57Az0+31d+fXxvmXIH5shRDQWVqCQNuI5
- RZpM7Pn5yh8AxGTEn1BqkJRGQdwiij6WEhjLn3gV3wAN25rievUtmdoHdJlw0XhiEVedt50
- kQvy+lNWkN9hZTPJgq1EA==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:+VdWnsPgrrI=;T37xSK4VxoSptZfT7xZGg0iUS14
- JQE1cZm1YURTNMVGQtCROf7RJPspOj4NIGnhfPZcQsUNhh6QEDVWoaPAI2FCmBmyVM2g0bE0E
- E1WsQ7YlN+CCmbJ4ZWidCiY6VhBzkKHOUMP0BeTuDc0j2JfOMWEz6uGKwz0ThDoc4lHf5ZSWG
- Yb96VYx7BRV9PaL4CSiIFk3FUEyHxPdMQ26E1LFW3NhQSotoiGMQmA4tW9QoSAZYJxKo8ivoW
- 7qQrliTagWRa2eNQ+PCPZA8x2/DSzvEuFLTuRpLi8VH1y66KYywGoFIlhoN9LcWrPA9w1IqLl
- clgsC+2bcFXnom/srlkhh709duwNQldehrK93WMi5SarECMRLjM/scRv0fgg+1eVsiPA0vONf
- GGsL/MQh0C/mN1hXa2ovLE22vw4izu54MLh5sHD7Oh07RU9SVar6eF1nGeCQQPsszHCK5vn3l
- XCBg7ss6VT8ekSW1ax21kL4pRO0j6VJuK8WJeG+6RxFiqExtBvI5VX5vQ5kUALAdlHaO0ajyu
- U4aJBr6Up2p2nhSHbCrJAJ2EK9oR98MeaRAGd26IRqY0zmtpsHPedJbRup+jyuVZJIduIvoLd
- 6c1JIqtmjEVL/BatKyj9JNDTaNTb+61rd6qZD3KUNmDKpOStqdlVV+STXlQvk1oiFQtXYbHD7
- wJRvHZRwCjYLm7BoR+G59jnLn830j1ZVNJ1nWRLyQ1GyniaSfmYYjlyz31WCyYKdsJjDcVSTG
- VUL94g7l1j1KG0i3UH6y8Wd6SzVOG9sowtqz+5h0T+YoQ5R5OS1UNMl15bsP7Jie1m5N7GUD8
- lHqCC+oCW7JjE7YOf+5TcGhHyIlXiYszeo9lLPWMDMZYfgWVZ1TwZkE2srMUkadi7bkFLYfvL
- IFPUvTJvPegpBzw==
+Content-Transfer-Encoding: 8bit
 
-Hi,
+Replace strcpy with strscpy as preferred by checkpatch in vme_fake.c to
+prevent warnings.
 
-Am 14.09.23 um 08:35 schrieb Dan Carpenter:
-> On Thu, Sep 14, 2023 at 12:25:24AM +0530, Umang Jain wrote:
->> Hello,
->>
->> This series attempts to restart the discussion on custom logging used
->> in VC04. In the last feedback gathered in [1] it seems that the logging
->> would rather be moved to use dynamic debug. The series tries to move
->> in that direction.
->>
->> The elephant in the room is the ability of turning on/off log levels,
->> which this series just drops. Compensated by a crude strings
->> ("error", "warning", "info"... etc) for easier grepping.
->>
->> The log category are also just strings (which probably can be transformed
->> to dynamic debug class names moving forwards?).
->>
->> To move forwards, I would like feedback on the broader direction.
->> There are couple of TODOs in each of the patch (summarised in commit
->> messages) which require case-by-case discussion.
->>
->> Additional high-level questions to move forwards:
->> 1. Is loss of log levels by moving to dynamic debug, is actually a
->>     concern? Is dynamic debug a valid replacement?
-> 
-> Dynamic debug is honestly going to be an improvement.  I guess, Greg and
-> I said this back in Jan.
-> 
->> 2. Whether debugfs should be dropped as well, found vestigial in [2]
-> 
-> Yes. The "vchiq/log" should be removed.  Ideally as part of this
-> patchset so it's easier to understand.
+Signed-off-by: Jonathan Bergh <bergh.jonathan@gmail.com>
+---
+ drivers/staging/vme_user/vme_fake.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Yes, but please do not remote vchiq_debugfs entirely. I'm working on a 
-patch to move the state dump (debug feature) from the character device 
-/dev/vchiq to debugfs /sys/kernel/debug/vchiq/dump_state.
+diff --git a/drivers/staging/vme_user/vme_fake.c b/drivers/staging/vme_user/vme_fake.c
+index 9bcb89a84d53..0cf5700e151f 100644
+--- a/drivers/staging/vme_user/vme_fake.c
++++ b/drivers/staging/vme_user/vme_fake.c
+@@ -1093,7 +1093,7 @@ static int __init fake_init(void)
+ 	tasklet_init(&fake_device->int_tasklet, fake_VIRQ_tasklet,
+ 			(unsigned long) fake_bridge);
+ 
+-	strcpy(fake_bridge->name, driver_name);
++	strscpy(fake_bridge->name, driver_name, sizeof(fake_bridge->name));
+ 
+ 	/* Add master windows to list */
+ 	INIT_LIST_HEAD(&fake_bridge->master_resources);
+-- 
+2.34.1
 
-> 
->> 3. whether vchiq_log_trace() should actually be tracing support for VC04
-> 
-> That can be done later if people want.  No need to discuss it now.
-> 
-> regards,
-> dan carpenter
-> 
