@@ -1,147 +1,92 @@
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.21])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f182.google.com (mail-lj1-f182.google.com [209.85.208.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94A4110EF
-	for <linux-staging@lists.linux.dev>; Sun, 17 Sep 2023 08:41:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net; s=s31663417;
- t=1694940054; x=1695544854; i=wahrenst@gmx.net;
- bh=BC5dF8SPTBfjejsROono+ihw4XGqTENhs3mXoQWX3Rg=;
- h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:In-Reply-To;
- b=eUk2h3uap6yUCUlNivtJEC8ngP7zSoXreZyGAHa5yEDJ3HEcTgthYoOWuagJ9GfuocmSDM1rNlA
- sLASDliNAbzmWzJOZUdED+c7bbR3m8WIbKBPlSBi81cz7Otan30IsYrHdgnrz2a/GfKv2oAratI4L
- OtDN24KrQXe1AwtJ1lVndmv+obh4YN9CybT0aFUcc0YAja1fgl+euoxsXwqnjIMcP845n9ZKwfd5p
- KG43YNHm1LZ90p/0TctoCB5oSfhxW8dz5cCYs6h/mSWtvMNQ2c4g0m6MPZN7DJ43aBhEiXTh1ytwS
- 5g53zteYS6tHmY+7AA4rCbaEIjp3NQfilW/Q==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from [192.168.1.129] ([37.4.248.43]) by mail.gmx.net (mrgmx104
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1MxUrx-1rfN0B1SIL-00xsib; Sun, 17
- Sep 2023 10:40:54 +0200
-Message-ID: <0d2fe28c-27e0-c85a-9bcf-69ee712161d0@gmx.net>
-Date: Sun, 17 Sep 2023 10:40:53 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F0492594
+	for <linux-staging@lists.linux.dev>; Sun, 17 Sep 2023 11:51:28 +0000 (UTC)
+Received: by mail-lj1-f182.google.com with SMTP id 38308e7fff4ca-2c00a32cbb1so1427981fa.1
+        for <linux-staging@lists.linux.dev>; Sun, 17 Sep 2023 04:51:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1694951486; x=1695556286; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=O9xrQyEDDPF4pjN0t8fjnGLWFJ3LWmcH4FpyIlSZVAc=;
+        b=gtkwzQI+vgsizAOINOYaeHjlw81spN56/09mYCb3xqWcMkO3WCQ9yKr5acNKZ01q8k
+         /EuLbX4Km6wUueakSsqSSZpoRZai5SzoEXSznrlp8td2vfW6Fv1Assm/6kvrzEm/W8no
+         +yt21GayEFKYVsupXniPXVHRVrVaaXvH+hrRjno9dENW9hGnUPAiPWlkPpiKikHiVlXY
+         oQLWAhXu0YiYoFJYkplXAgM/CUch6i16VeVYNEazY8FnHQC3Ln9N1JSuGG14gwPRvoil
+         cVdnFBw5VBTIGZawFYvOngjoHid+oD1QaLaAoX1uq4F/80VhsJsk9no9ebE0YN5n7Cpk
+         crIQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1694951486; x=1695556286;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=O9xrQyEDDPF4pjN0t8fjnGLWFJ3LWmcH4FpyIlSZVAc=;
+        b=gwJMwR2jJn1w6fr/+ROrupXn4zt79FFvPRXXQK+W3bhwD+1e/nH9O2QFHZHiRtIMGf
+         W7bAQ0dU9TiFxR3PigG1Oyx4ooB1/5geHsv9UyqBH1ALnkVkY0itaxVEnOCOMTfUsNfk
+         3x6M/BefNTrtEKfJ/wLfay12OXmEmq9KtOLZ1snmpjS7z/KuP3Yh3GMoLaOgiTkrqVP6
+         aaPUVA3gp9cxLTroNxvmOWzizclH7cVsrY7/sMIFPHCYiYWLZZnRSk6YrHdlxWlWSHd1
+         3OW60329CGaEG/Kw7m8Q+WLaTdk+cUXvLuvRc3lio700oIzuj4zPpV2uqmEqrE4DdZ1d
+         NX3w==
+X-Gm-Message-State: AOJu0Yx/FupDBRPt3Z7MLrGn5Hkd7hU6Jdh19VFi7g2H2gExZmYZ+hlW
+	QNMueSi3rBia0epFBMopmDo=
+X-Google-Smtp-Source: AGHT+IH+qthPxv7+ASG27RAKsvysI0ixA/sFrrbszqVZbp5k3YQF1KyKecUXdsvDwO5fw4kcw5a17g==
+X-Received: by 2002:a2e:8e91:0:b0:2c0:7d6:570b with SMTP id z17-20020a2e8e91000000b002c007d6570bmr210492ljk.26.1694951485710;
+        Sun, 17 Sep 2023 04:51:25 -0700 (PDT)
+Received: from HP-ENVY-Notebook (81-229-94-10-no68.tbcn.telia.com. [81.229.94.10])
+        by smtp.gmail.com with ESMTPSA id l16-20020a2ea310000000b002bcbae4c21fsm1581454lje.50.2023.09.17.04.51.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 17 Sep 2023 04:51:25 -0700 (PDT)
+Date: Sun, 17 Sep 2023 13:51:23 +0200
+From: Jonathan Bergh <bergh.jonathan@gmail.com>
+To: Greg KH <gregkh@linuxfoundation.org>
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 2/2] staging: vme_user: Fix block comments where '*' on
+ each line should be aligned
+Message-ID: <ZQboO4KSoDuANDYe@HP-ENVY-Notebook>
+References: <20230909184818.699987-1-bergh.jonathan@gmail.com>
+ <2023091339-mountain-asleep-9439@gregkh>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.1
-Subject: Re: [PATCH v11 1/5] staging: vc04_services: vchiq_arm: Add new bus
- type and device type
-Content-Language: en-US
-To: Umang Jain <umang.jain@ideasonboard.com>, linux-staging@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, linux-rpi-kernel@lists.infradead.org,
- linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc: Stefan Wahren <stefan.wahren@i2se.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Florian Fainelli <f.fainelli@gmail.com>, Adrien Thierry
- <athierry@redhat.com>, Dan Carpenter <error27@gmail.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- Kieran Bingham <kieran.bingham@ideasonboard.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-References: <20230913195354.835884-1-umang.jain@ideasonboard.com>
- <20230913195354.835884-2-umang.jain@ideasonboard.com>
-From: Stefan Wahren <wahrenst@gmx.net>
-In-Reply-To: <20230913195354.835884-2-umang.jain@ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:zvPPD55M2TMVbfHIL+92M8ef1dUkI76EKA/GjkzhSVxi1IVwaTM
- plbYW/sKFu9eC9b05n1/k4P8s3xnoMwZpQfBM24mLJ94e5L91FR2ZBudm0Dcer3fMXlc5dI
- aJ49E2s8W6DcZPCe5Ag625xqE0BxIEifh9bBfXZrdP+fGNanlszB/tVUUBKl2JXLrnEkuxN
- EIiqHu8OFRoq5jGQqHSOQ==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:KcpKe48VCG8=;Nc+5w/Kk/BkQNcIobhTdowkhD2V
- OZq4+vBZOD93+bXCsqyzfVl7N67i6dMY/GkFh5JYr6XbSeCYs5gR7lDuKjKDrVRrMI0zV6wTR
- 3UYwC4uX1vQkL55Acq8SrbEu2MMBlv4xTcsdaaEsu2h14MojKvdnYMayAE6CG75W9lW3kT9rn
- 9d0cPCGyeOVDd941mrUjBh4ZDL4RVP1lciNduWL8/q1LZUQXb+wwJgzcqXvfnvu8gNalK9rPw
- VnMZrgY3Gq+XuSevaRibKQyG58E5B6TWMuywV9iRk5cLLNNSyI0Blyc7AB80jpGMUz+9yX0sI
- D97BmD3+PA4A9tO37Qpf+CQg8u74l5xAkNEbyjQ/VwAr6G6cebfWc5gI4spdQccLQKsJQXdx5
- eq7R7bSACikMI4sbRW76PDCz3P4qdJh+BUXCtOXgyT6DVqnMLX5fsKR/yK1ez0DwJFusFG1Q3
- ckE2QmWFLhOx82OU7XI3C8c045dJQq9TClLBiu0nxECCJ0OrW95wv+bJSJpNXnhchkelCeRf2
- D3SE/39N3ruPqymVrP8hNdc/21qX8d+veYad78HLe4j0MsDYCMqWZ4u7W1sVlFpkYfr+OTeW4
- iOnkn3W35j1hgPObTkaPcCke0PKloMIrJuyC5bVmBMOlPZp62GQ0mCDE71YJ5h1F0O1P0PPNJ
- XLMTqArmJflSKMzOzE9ot5ICzpU068R70Rd/xt3ALCX/9ah+7+BsAT8DxrLOLD9nXxNQFoEr5
- o1ShndfhjguFSe+KVOimO/UKe9znzwLV6DcxO862NxvFkMHDSo2+WjvYaQdD14X0vU8S24gZM
- Z9EGDwrWsXTerwGcvv5FD40e67j09shwcHxDSiBjBb/Far6t6iqDDOloIxvXNObTqMNJnvYjL
- kfqLdiX9Ys4gxKZKIZHfPRBkEuDrVnb2BSmHfL/7MWlvbUphQbcvo57iG3rrzzzpolYXdHv3p
- 1cRs6Q==
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <2023091339-mountain-asleep-9439@gregkh>
 
-Hi Umang,
+On Wed, Sep 13, 2023 at 10:33:24AM +0200, Greg KH wrote:
+> On Sat, Sep 09, 2023 at 08:48:18PM +0200, Jonathan Bergh wrote:
+> > Fixed checkpatch warnings where lines with '*' in block comments should
+> > be aligned and were not as well as incorrect tab spacings at the start of
+> > comment lines.
+> > 
+> > Signed-off-by: Jonathan Bergh <bergh.jonathan@gmail.com>
+> > ---
+> >  drivers/staging/vme_user/vme_tsi148.h | 140 +++++++++++++-------------
+> >  1 file changed, 70 insertions(+), 70 deletions(-)
+> > 
+> > diff --git a/drivers/staging/vme_user/vme_tsi148.h b/drivers/staging/vme_user/vme_tsi148.h
+> > index dbdf5dabaf90..9748b7897527 100644
+> > --- a/drivers/staging/vme_user/vme_tsi148.h
+> > +++ b/drivers/staging/vme_user/vme_tsi148.h
+> > @@ -251,28 +251,28 @@ static const int TSI148_LCSR_VIACK[8] = { 0, TSI148_LCSR_VIACK1,
+> >   */
+> >  #define TSI148_LCSR_VMEFL	0x250
+> >  
+> > -	/*
+> > -	 * VME exception.
+> > -	 * offset  260
+> > +/*
+> > + * VME exception.
+> > + * offset  0x260
+> 
+> This change is not documented :(
+> 
+> Also I have two 2/2 patches, yet they are both different :(
+> 
+> Please fix this up and send a whole new series, properly versioned,
+> as-is, I have no idea what to do here.
 
-Am 13.09.23 um 21:53 schrieb Umang Jain:
-> The devices that the vchiq interface registers (bcm2835-audio,
-> bcm2835-camera) are implemented and exposed by the VC04 firmware.
-> The device tree describes the VC04 itself with the resources required
-> to communicate with it through a mailbox interface. However, the
-> vchiq interface registers these devices as platform devices. This
-> also means the specific drivers for these devices are getting
-> registered as platform drivers. This is not correct and a blatant
-> abuse of platform device/driver.
->
-> Add a new bus type, vchiq_bus_type and device type (struct vchiq_device)
-> which will be used to migrate child devices that the vchiq interfaces
-> creates/registers from the platform device/driver.
->
-> Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
-> ---
->   drivers/staging/vc04_services/Makefile        |   1 +
->   .../interface/vchiq_arm/vchiq_device.c        | 111 ++++++++++++++++++
->   .../interface/vchiq_arm/vchiq_device.h        |  54 +++++++++
->   3 files changed, 166 insertions(+)
->   create mode 100644 drivers/staging/vc04_services/interface/vchiq_arm/v=
-chiq_device.c
-sorry for not noticing this before, but there is already a vchiq_dev.c
-file which represent the character device.
-
-In order to avoid confusion how about renaming vchiq_device.c to
-vchiq_bus.c ? This also matches the function names better.
->   create mode 100644 drivers/staging/vc04_services/interface/vchiq_arm/v=
-chiq_device.h
->
-> diff --git a/drivers/staging/vc04_services/Makefile b/drivers/staging/vc=
-04_services/Makefile
-> index 44794bdf6173..2d071e55e175 100644
-> --- a/drivers/staging/vc04_services/Makefile
-> +++ b/drivers/staging/vc04_services/Makefile
-> @@ -5,6 +5,7 @@ vchiq-objs :=3D \
->      interface/vchiq_arm/vchiq_core.o  \
->      interface/vchiq_arm/vchiq_arm.o \
->      interface/vchiq_arm/vchiq_debugfs.o \
-> +   interface/vchiq_arm/vchiq_device.o \
->      interface/vchiq_arm/vchiq_connected.o \
->
->   ifdef CONFIG_VCHIQ_CDEV
-> diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_dev=
-ice.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_device.c
-> new file mode 100644
-> index 000000000000..aad55c461905
-> --- /dev/null
-> +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_device.c
-> @@ -0,0 +1,111 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/*
-> + * vchiq_device.c - VCHIQ generic device and bus-type
-> + *
-> + * Copyright (c) 2023 Ideas On Board Oy
-> + */
-> +
-> +#include <linux/device/bus.h>
-> +#include <linux/dma-mapping.h>
-> +#include <linux/of_device.h>
-> +#include <linux/slab.h>
-> +#include <linux/string.h>
-> +
-> +#include "vchiq_device.h"
-> +
-> +static int vchiq_bus_type_match(struct device *dev, struct device_drive=
-r *drv)
-> +{
-> +	if (dev->bus =3D=3D &vchiq_bus_type &&
-> +	    strcmp(dev_name(dev), drv->name) =3D=3D 0)
-> +		return 1;
-> +
-> +	return 0;
-> +}
-> +
->
-
+Great, thanks for your help with these. 
