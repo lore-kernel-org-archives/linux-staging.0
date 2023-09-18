@@ -1,142 +1,178 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from ex01.ufhost.com (ex01.ufhost.com [61.152.239.75])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CCEF6ABA
-	for <linux-staging@lists.linux.dev>; Sun, 17 Sep 2023 21:09:55 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7B020C433C7;
-	Sun, 17 Sep 2023 21:09:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1694984995;
-	bh=yfQZHQBaumEUVpt3OXVxMtNrzQVKDvYGfyCXrbyai0g=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=XVkvgOb6q9neAJefI3SejajqUHz3PLStAivAcoQ09gjZRxPnd4lBu04m+B1fUUlcq
-	 cWnWW80ZQws5G5COLbo0Na8+2n1RdFdXG5C+AC5zfrzA38J3cKSzE2KU7DC9KaNdDX
-	 MWm8RSUmZMQb563zQjZX3CSw1WhAxWeBUh7raANQ=
-Date: Sun, 17 Sep 2023 21:32:23 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Piro Yang <piroyangg@gmail.com>
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] staging: vme_user: Fixed prink formatting issue
-Message-ID: <2023091709-diploma-ripcord-5cd5@gregkh>
-References: <2023091756-duct-agile-0023@gregkh>
- <20230917192359.78711-1-piroyangg@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 969CF156F5
+	for <linux-staging@lists.linux.dev>; Mon, 18 Sep 2023 09:30:17 +0000 (UTC)
+Received: from EXMBX165.cuchost.com (unknown [175.102.18.54])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(Client CN "EXMBX165", Issuer "EXMBX165" (not verified))
+	by ex01.ufhost.com (Postfix) with ESMTP id 30AB824E2BA;
+	Mon, 18 Sep 2023 17:30:09 +0800 (CST)
+Received: from EXMBX073.cuchost.com (172.16.6.83) by EXMBX165.cuchost.com
+ (172.16.6.75) with Microsoft SMTP Server (TLS) id 15.0.1497.42; Mon, 18 Sep
+ 2023 17:30:09 +0800
+Received: from [192.168.1.218] (180.164.60.184) by EXMBX073.cuchost.com
+ (172.16.6.83) with Microsoft SMTP Server (TLS) id 15.0.1497.42; Mon, 18 Sep
+ 2023 17:30:08 +0800
+Message-ID: <41370a5d-ffa3-f85b-aa2a-b6dd9cc570f6@starfivetech.com>
+Date: Mon, 18 Sep 2023 17:30:08 +0800
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230917192359.78711-1-piroyangg@gmail.com>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.1
+Subject: Re: [PATCH v9 0/8] Add StarFive Camera Subsystem driver
+To: Hans Verkuil <hverkuil-cisco@xs4all.nl>, Mauro Carvalho Chehab
+	<mchehab@kernel.org>, Robert Foss <rfoss@kernel.org>, Todor Tomov
+	<todor.too@gmail.com>, <bryan.odonoghue@linaro.org>, Rob Herring
+	<robh+dt@kernel.org>, Krzysztof Kozlowski
+	<krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>,
+	"Greg Kroah-Hartman" <gregkh@linuxfoundation.org>, Philipp Zabel
+	<p.zabel@pengutronix.de>, Laurent Pinchart
+	<laurent.pinchart@ideasonboard.com>
+CC: <linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<devicetree@vger.kernel.org>, <linux-staging@lists.linux.dev>,
+	<changhuang.liang@starfivetech.com>
+References: <20230914031607.34877-1-jack.zhu@starfivetech.com>
+ <11735008-1adf-4b84-9023-d295371caed5@xs4all.nl>
+Content-Language: en-US
+From: Jack Zhu <jack.zhu@starfivetech.com>
+In-Reply-To: <11735008-1adf-4b84-9023-d295371caed5@xs4all.nl>
+Content-Type: text/plain; charset="UTF-8"
+X-Originating-IP: [180.164.60.184]
+X-ClientProxiedBy: EXCAS062.cuchost.com (172.16.6.22) To EXMBX073.cuchost.com
+ (172.16.6.83)
+X-YovoleRuleAgent: yovoleflag
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, Sep 18, 2023 at 03:23:59AM +0800, Piro Yang wrote:
-> Fixed issue relating to prink message:
-> 	*using __func__ to replace function's name
-> 
-> Issue found by checkpatch
-> 
-> Signed-off-by: Piro Yang <piroyangg@gmail.com>
-> ---
->  drivers/staging/vme_user/vme.c | 14 +++++++-------
->  1 file changed, 7 insertions(+), 7 deletions(-)
-> 
-> diff --git a/drivers/staging/vme_user/vme.c b/drivers/staging/vme_user/vme.c
-> index 5960562dcd96..de404c6765f3 100644
-> --- a/drivers/staging/vme_user/vme.c
-> +++ b/drivers/staging/vme_user/vme.c
-> @@ -418,7 +418,7 @@ int vme_slave_get(struct vme_resource *resource, int *enabled,
->  	image = list_entry(resource->entry, struct vme_slave_resource, list);
->  
->  	if (!bridge->slave_get) {
-> -		printk(KERN_ERR "vme_slave_get not supported\n");
-> +		printk(KERN_ERR "%s not supported\n", __func__);
->  		return -EINVAL;
->  	}
->  
-> @@ -568,7 +568,7 @@ int vme_master_set(struct vme_resource *resource, int enabled,
->  	image = list_entry(resource->entry, struct vme_master_resource, list);
->  
->  	if (!bridge->master_set) {
-> -		printk(KERN_WARNING "vme_master_set not supported\n");
-> +		printk(KERN_WARNING "%s not supported\n", __func__);
->  		return -EINVAL;
->  	}
->  
-> @@ -1552,7 +1552,7 @@ int vme_lm_set(struct vme_resource *resource, unsigned long long lm_base,
->  	lm = list_entry(resource->entry, struct vme_lm_resource, list);
->  
->  	if (!bridge->lm_set) {
-> -		printk(KERN_ERR "vme_lm_set not supported\n");
-> +		printk(KERN_ERR "%s not supported\n", __func__);
->  		return -EINVAL;
->  	}
->  
-> @@ -1588,7 +1588,7 @@ int vme_lm_get(struct vme_resource *resource, unsigned long long *lm_base,
->  	lm = list_entry(resource->entry, struct vme_lm_resource, list);
->  
->  	if (!bridge->lm_get) {
-> -		printk(KERN_ERR "vme_lm_get not supported\n");
-> +		printk(KERN_ERR "%s not supported\n", __func__);
->  		return -EINVAL;
->  	}
->  
-> @@ -1625,7 +1625,7 @@ int vme_lm_attach(struct vme_resource *resource, int monitor,
->  	lm = list_entry(resource->entry, struct vme_lm_resource, list);
->  
->  	if (!bridge->lm_attach) {
-> -		printk(KERN_ERR "vme_lm_attach not supported\n");
-> +		printk(KERN_ERR "%s not supported\n", __func__);
->  		return -EINVAL;
->  	}
->  
-> @@ -1658,7 +1658,7 @@ int vme_lm_detach(struct vme_resource *resource, int monitor)
->  	lm = list_entry(resource->entry, struct vme_lm_resource, list);
->  
->  	if (!bridge->lm_detach) {
-> -		printk(KERN_ERR "vme_lm_detach not supported\n");
-> +		printk(KERN_ERR "%s not supported\n", __func__);
->  		return -EINVAL;
->  	}
->  
-> @@ -1725,7 +1725,7 @@ int vme_slot_num(struct vme_dev *vdev)
->  	}
->  
->  	if (!bridge->slot_get) {
-> -		printk(KERN_WARNING "vme_slot_num not supported\n");
-> +		printk(KERN_WARNING "%s not supported\n", __func__);
->  		return -EINVAL;
->  	}
->  
-> -- 
-> 2.25.1
-> 
-> 
+Hi Hans=EF=BC=8C
 
-Hi,
+Thanks for your comment.
 
-This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
-a patch that has triggered this response.  He used to manually respond
-to these common problems, but in order to save his sanity (he kept
-writing the same thing over and over, yet to different people), I was
-created.  Hopefully you will not take offence and will fix the problem
-in your patch and resubmit it so that it can be accepted into the Linux
-kernel tree.
+On 2023/9/15 17:26, Hans Verkuil wrote:
+> On 14/09/2023 05:15, Jack Zhu wrote:
+>> Hi,
+>>=20
+>> This series is the v9 series that attempts to support the Camera Subsy=
+stem
+>> found on StarFive JH7110 SoC.
+>>=20
+>> This series is based on top of the master branch of media_stage reposi=
+tory.
+>>=20
+>> The following are the media graph for the device and the v4l2-complian=
+ce
+>> output.
+>>=20
+>> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D
+>> [the media graph]:
+>>=20
+>> digraph board {
+>> 	rankdir=3DTB
+>> 	n00000001 [label=3D"{{<port0> 0} | stf_isp\n/dev/v4l-subdev0 | {<port=
+1> 1}}", shape=3DMrecord, style=3Dfilled, fillcolor=3Dgreen]
+>> 	n00000001:port1 -> n00000008 [style=3Ddashed]
+>> 	n00000004 [label=3D"capture_raw\n/dev/video0", shape=3Dbox, style=3Df=
+illed, fillcolor=3Dyellow]
+>> 	n00000008 [label=3D"capture_yuv\n/dev/video1", shape=3Dbox, style=3Df=
+illed, fillcolor=3Dyellow]
+>> 	n0000000e [label=3D"{{<port0> 0} | cdns_csi2rx.19800000.csi-bridge\n =
+| {<port1> 1 | <port2> 2 | <port3> 3 | <port4> 4}}", shape=3DMrecord, sty=
+le=3Dfilled, fillcolor=3Dgreen]
+>> 	n0000000e:port1 -> n00000001:port0 [style=3Ddashed]
+>> 	n0000000e:port1 -> n00000004 [style=3Ddashed]
+>> 	n00000018 [label=3D"{{} | imx219 6-0010\n/dev/v4l-subdev1 | {<port0> =
+0}}", shape=3DMrecord, style=3Dfilled, fillcolor=3Dgreen]
+>> 	n00000018:port0 -> n0000000e:port0 [style=3Dbold]
+>> }
+>>=20
+>> [the device topology]:
+>>=20
+>> Media controller API version 6.5.0
+>>=20
+>> Media device information
+>> ------------------------
+>> driver          starfive-camss
+>> model           Starfive Camera Subsystem
+>> serial         =20
+>> bus info        platform:19840000.camss
+>> hw revision     0x0
+>> driver version  6.5.0
+>>=20
+>> Device topology
+>> - entity 1: stf_isp (2 pads, 2 links)
+>>             type V4L2 subdev subtype Unknown flags 0
+>>             device node name /dev/v4l-subdev0
+>> 	pad0: Sink
+>> 		[fmt:SRGGB10_1X10/1920x1080 field:none colorspace:srgb
+>> 		 crop.bounds:(0,0)/1920x1080
+>> 		 crop:(0,0)/1920x1080]
+>> 		<- "cdns_csi2rx.19800000.csi-bridge":1 []
+>> 	pad1: Source
+>> 		[fmt:YUYV8_1_5X8/1920x1080 field:none colorspace:srgb
+>> 		 crop.bounds:(0,0)/1920x1080
+>> 		 crop:(0,0)/1920x1080]
+>> 		-> "capture_yuv":0 []
+>>=20
+>> - entity 4: capture_raw (1 pad, 1 link)
+>>             type Node subtype V4L flags 0
+>>             device node name /dev/video0
+>> 	pad0: Sink
+>> 		<- "cdns_csi2rx.19800000.csi-bridge":1 []
+>>=20
+>> - entity 8: capture_yuv (1 pad, 1 link)
+>>             type Node subtype V4L flags 0
+>>             device node name /dev/video1
+>> 	pad0: Sink
+>> 		<- "stf_isp":1 []
+>>=20
+>> - entity 14: cdns_csi2rx.19800000.csi-bridge (5 pads, 3 links)
+>>              type V4L2 subdev subtype Unknown flags 0
+>> 	pad0: Sink
+>> 		<- "imx219 6-0010":0 [ENABLED,IMMUTABLE]
+>> 	pad1: Source
+>> 		-> "stf_isp":0 []
+>> 		-> "capture_raw":0 []
+>> 	pad2: Source
+>> 	pad3: Source
+>> 	pad4: Source
+>>=20
+>> - entity 24: imx219 6-0010 (1 pad, 1 link)
+>>              type V4L2 subdev subtype Sensor flags 0
+>>              device node name /dev/v4l-subdev1
+>> 	pad0: Source
+>> 		[fmt:SRGGB10_1X10/3280x2464 field:none colorspace:srgb xfer:srgb ycb=
+cr:601 quantization:full-range
+>> 		 crop.bounds:(8,8)/3280x2464
+>> 		 crop:(8,8)/3280x2464]
+>> 		-> "cdns_csi2rx.19800000.csi-bridge":0 [ENABLED,IMMUTABLE]
+>>=20
+>> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D
+>> [the v4l2-compliance output]:
+>>=20
+>> v4l2-compliance 1.24.1, 64 bits, 64-bit time_t
+>=20
+> This v4l2-compliance version is from a distro. For driver acceptance yo=
+u
+> must test with a v4l2-compliance compiled from the git repo (git://linu=
+xtv.org/v4l-utils.git).
+>=20
 
-You are receiving this message because of the following common error(s)
-as indicated below:
+It is compiled from buildroot, but its source code is also downloaded fro=
+m the repo tag v4l-utils-1.24.1.
+Do you mean I should use the latest stable version (stable-1.24) on the r=
+epo?
 
-- This looks like a new version of a previously submitted patch, but you
-  did not list below the --- line any changes from the previous version.
-  Please read the section entitled "The canonical patch format" in the
-  kernel file, Documentation/process/submitting-patches.rst for what
-  needs to be done here to properly describe this.
+--=20
+Regards,
 
-If you wish to discuss this problem further, or you have questions about
-how to resolve this issue, please feel free to respond to this email and
-Greg will reply once he has dug out from the pending patches received
-from other developers.
-
-thanks,
-
-greg k-h's patch email bot
+Jack Zhu
