@@ -1,67 +1,72 @@
-Received: from tretyak2.mcst.ru (tretyak2.mcst.ru [212.5.119.215])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0806F110B
-	for <linux-staging@lists.linux.dev>; Tue, 19 Sep 2023 09:28:25 +0000 (UTC)
-Received: from tretyak2.mcst.ru (localhost [127.0.0.1])
-	by tretyak2.mcst.ru (Postfix) with ESMTP id B3EDF102395;
-	Tue, 19 Sep 2023 12:24:23 +0300 (MSK)
-Received: from frog.lab.sun.mcst.ru (frog.lab.sun.mcst.ru [176.16.4.50])
-	by tretyak2.mcst.ru (Postfix) with ESMTP id AEC1D101775;
-	Tue, 19 Sep 2023 12:23:47 +0300 (MSK)
-Received: from artemiev-i.lab.sun.mcst.ru (avior-1 [192.168.63.223])
-	by frog.lab.sun.mcst.ru (8.13.4/8.12.11) with ESMTP id 38J9NkLq017473;
-	Tue, 19 Sep 2023 12:23:47 +0300
-From: Igor Artemiev <Igor.A.Artemiev@mcst.ru>
-To: Larry Finger <Larry.Finger@lwfinger.net>
-Cc: Igor Artemiev <Igor.A.Artemiev@mcst.ru>,
-        Florian Schilhabel <florian.c.schilhabel@googlemail.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-        lvc-project@linuxtesting.org
-Subject: [lvc-project] [PATCH] staging: rtl8712: fix buffer overflow in r8712_xmitframe_complete()
-Date: Tue, 19 Sep 2023 12:23:18 +0300
-Message-Id: <20230919092318.14837-1-Igor.A.Artemiev@mcst.ru>
-X-Mailer: git-send-email 2.39.0.152.ga5737674b6
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14A95110B
+	for <linux-staging@lists.linux.dev>; Tue, 19 Sep 2023 09:31:31 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D1C0FC433C8;
+	Tue, 19 Sep 2023 09:31:27 +0000 (UTC)
+Message-ID: <93e9b143-664c-4fbb-8722-0beabd5b2c0c@xs4all.nl>
+Date: Tue, 19 Sep 2023 11:31:26 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Anti-Virus: Kaspersky Anti-Virus for Linux Mail Server 5.6.39/RELEASE,
-	 bases: 20111107 #2745587, check: 20230919 notchecked
-X-AV-Checked: ClamAV using ClamSMTP
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v7 07/49] media: sti: hva: Use vb2_get_buffer() instead of
+ directly access to buffers array
+Content-Language: en-US, nl
+To: Benjamin Gaignard <benjamin.gaignard@collabora.com>, mchehab@kernel.org,
+ tfiga@chromium.org, m.szyprowski@samsung.com, ming.qian@nxp.com,
+ ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de,
+ gregkh@linuxfoundation.org, nicolas.dufresne@collabora.com
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org,
+ linux-arm-msm@vger.kernel.org, linux-rockchip@lists.infradead.org,
+ linux-staging@lists.linux.dev, kernel@collabora.com
+References: <20230914133323.198857-1-benjamin.gaignard@collabora.com>
+ <20230914133323.198857-8-benjamin.gaignard@collabora.com>
+From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+In-Reply-To: <20230914133323.198857-8-benjamin.gaignard@collabora.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-The value of pxmitframe->attrib.priority in r8712_issue_addbareq_cmd(),
-which dump_xframe() calls, is used to calculate the index for accessing 
-an array of size 16. The value of pxmitframe->attrib.priority can be 
-greater than 15, because the r8712_update_attrib() function can write 
-a value up to 31 to attrib.priority, and r8712_xmitframe_complete() 
-checks that pxmitframe->attrib.priority is less than 16 before 
-calling r8712_xmitframe_coalesce().
+On 14/09/2023 15:32, Benjamin Gaignard wrote:
+> Use vb2_get_buffer() instead of directly access to vb2_buffer buffer array.
+> This could allow to change the type bufs[] field of vb2_buffer structure if
+> needed.
+> After each call to vb2_get_buffer() we need to be sure that we get
+> a valid pointer so check the return value of all of them.
+> 
+> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+> ---
+>  drivers/media/platform/st/sti/hva/hva-v4l2.c | 4 ++++
+>  1 file changed, 4 insertions(+)
+> 
+> diff --git a/drivers/media/platform/st/sti/hva/hva-v4l2.c b/drivers/media/platform/st/sti/hva/hva-v4l2.c
+> index 3a848ca32a0e..326be09bdb55 100644
+> --- a/drivers/media/platform/st/sti/hva/hva-v4l2.c
+> +++ b/drivers/media/platform/st/sti/hva/hva-v4l2.c
+> @@ -577,6 +577,10 @@ static int hva_qbuf(struct file *file, void *priv, struct v4l2_buffer *buf)
+>  		}
 
-Found by Linux Verification Center (linuxtesting.org) with SVACE.
+Above this line there is a buf->index check...
 
-Signed-off-by: Igor Artemiev <Igor.A.Artemiev@mcst.ru>
----
- drivers/staging/rtl8712/rtl8712_xmit.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+>  
+>  		vb2_buf = vb2_get_buffer(vq, buf->index);
+> +		if (!vb2_buf) {
+> +			dev_dbg(dev, "%s buffer index %d not found\n", ctx->name, buf->index);
+> +			return -EINVAL;
+> +		}
 
-diff --git a/drivers/staging/rtl8712/rtl8712_xmit.c b/drivers/staging/rtl8712/rtl8712_xmit.c
-index 4cb01f590673..8a39a3c8cfcb 100644
---- a/drivers/staging/rtl8712/rtl8712_xmit.c
-+++ b/drivers/staging/rtl8712/rtl8712_xmit.c
-@@ -669,7 +669,7 @@ int r8712_xmitframe_complete(struct _adapter *padapter,
- 			 */
- 			r8712_xmit_complete(padapter, pxmitframe);
- 		}
--		if (res == _SUCCESS)
-+		if (res == _SUCCESS && pxmitframe->attrib.priority <= 15)
- 			dump_xframe(padapter, pxmitframe);
- 		else
- 			r8712_free_xmitframe_ex(pxmitpriv, pxmitframe);
--- 
-2.30.2
+...I think that check can be dropped since vb2_get_buffer checks that already.
+
+Regards,
+
+	Hans
+
+>  		stream = to_hva_stream(to_vb2_v4l2_buffer(vb2_buf));
+>  		stream->bytesused = buf->bytesused;
+>  	}
 
