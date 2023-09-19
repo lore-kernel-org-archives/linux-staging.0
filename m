@@ -1,12 +1,12 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2DEE23B782
-	for <linux-staging@lists.linux.dev>; Tue, 19 Sep 2023 15:00:45 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5A9C1C433C8;
-	Tue, 19 Sep 2023 15:00:42 +0000 (UTC)
-Message-ID: <1142bbb4-b8f1-44ec-962e-9347a231782f@xs4all.nl>
-Date: Tue, 19 Sep 2023 17:00:40 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B87F3B782
+	for <linux-staging@lists.linux.dev>; Tue, 19 Sep 2023 15:09:48 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 634C8C433C8;
+	Tue, 19 Sep 2023 15:09:44 +0000 (UTC)
+Message-ID: <7a437626-f3f1-4828-9852-8332b02f7a34@xs4all.nl>
+Date: Tue, 19 Sep 2023 17:09:42 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -14,8 +14,7 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 45/49] media: core: Add bitmap manage bufs array
- entries
+Subject: Re: [PATCH v7 46/49] media: core: Free range of buffers
 Content-Language: en-US, nl
 To: Benjamin Gaignard <benjamin.gaignard@collabora.com>, mchehab@kernel.org,
  tfiga@chromium.org, m.szyprowski@samsung.com, ming.qian@nxp.com,
@@ -26,238 +25,139 @@ Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-arm-msm@vger.kernel.org, linux-rockchip@lists.infradead.org,
  linux-staging@lists.linux.dev, kernel@collabora.com
 References: <20230914133323.198857-1-benjamin.gaignard@collabora.com>
- <20230914133323.198857-46-benjamin.gaignard@collabora.com>
+ <20230914133323.198857-47-benjamin.gaignard@collabora.com>
 From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-In-Reply-To: <20230914133323.198857-46-benjamin.gaignard@collabora.com>
+In-Reply-To: <20230914133323.198857-47-benjamin.gaignard@collabora.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 14/09/2023 15:33, Benjamin Gaignard wrote:
-> Add a bitmap field to know which of bufs array entries are
-> used or not.
-> Remove no more used num_buffers field from queue structure.
-> Use bitmap_find_next_zero_area() to find the first possible
-> range when creating new buffers to fill the gaps.
+> Improve __vb2_queue_free() and __vb2_free_mem() to free
+> range of buffers and not only the last few buffers.
+> Intoduce starting index to be flexible on range and change the loops
+> according to this parameters.
 > 
 > Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
 > ---
->  .../media/common/videobuf2/videobuf2-core.c   | 55 +++++++++++++++----
->  include/media/videobuf2-core.h                |  9 ++-
->  2 files changed, 51 insertions(+), 13 deletions(-)
+>  .../media/common/videobuf2/videobuf2-core.c   | 30 +++++++++----------
+>  1 file changed, 14 insertions(+), 16 deletions(-)
 > 
 > diff --git a/drivers/media/common/videobuf2/videobuf2-core.c b/drivers/media/common/videobuf2/videobuf2-core.c
-> index a4c2fae8705d..c5d4a388331b 100644
+> index c5d4a388331b..88cdf4dcb07c 100644
 > --- a/drivers/media/common/videobuf2/videobuf2-core.c
 > +++ b/drivers/media/common/videobuf2/videobuf2-core.c
-> @@ -411,10 +411,11 @@ static void init_buffer_cache_hints(struct vb2_queue *q, struct vb2_buffer *vb)
+> @@ -527,13 +527,12 @@ static int __vb2_queue_alloc(struct vb2_queue *q, enum vb2_memory memory,
+>  /*
+>   * __vb2_free_mem() - release all video buffer memory for a given queue
 >   */
->  static bool vb2_queue_add_buffer(struct vb2_queue *q, struct vb2_buffer *vb, unsigned int index)
+> -static void __vb2_free_mem(struct vb2_queue *q, unsigned int buffers)
+> +static void __vb2_free_mem(struct vb2_queue *q, unsigned int start, unsigned int count)
 >  {
-> -	if (index < q->max_allowed_buffers && !q->bufs[index]) {
-> +	if (index < q->max_allowed_buffers && !test_bit(index, q->bufs_map)) {
-
-I think bufs_bitmap would be a better name.
-
->  		q->bufs[index] = vb;
->  		vb->index = index;
->  		vb->vb2_queue = q;
-> +		set_bit(index, q->bufs_map);
->  		return true;
->  	}
+> -	unsigned int buffer = 0;
+> -	long i = q->max_allowed_buffers;
+> +	unsigned int i, buffer = 0;
+>  	struct vb2_buffer *vb;
 >  
-> @@ -428,9 +429,10 @@ static bool vb2_queue_add_buffer(struct vb2_queue *q, struct vb2_buffer *vb, uns
->   */
->  static void vb2_queue_remove_buffer(struct vb2_queue *q, struct vb2_buffer *vb)
->  {
-> -	if (vb->index < q->max_allowed_buffers) {
-> +	if (vb->index < q->max_allowed_buffers && test_bit(vb->index, q->bufs_map)) {
+> -	for (i = q->max_allowed_buffers; i >= 0 && buffer < buffers; i--) {
+> +	for (i = start; i < q->max_allowed_buffers && buffer < count; i++) {
+>  		vb = vb2_get_buffer(q, i);
+>  		if (!vb)
+>  			continue;
 
-As mentioned in past reviews, I think these tests can be dropped, it makes no
-sense that these ever fail.
+Isn't there a 'buffer++' missing here?
 
->  		q->bufs[vb->index] = NULL;
->  		vb->vb2_queue = NULL;
-> +		clear_bit(vb->index, q->bufs_map);
->  	}
+> @@ -550,19 +549,18 @@ static void __vb2_free_mem(struct vb2_queue *q, unsigned int buffers)
 >  }
 >  
-> @@ -451,11 +453,12 @@ static int __vb2_queue_alloc(struct vb2_queue *q, enum vb2_memory memory,
->  	unsigned long first_index;
->  	int ret;
->  
-> -	/* Ensure that q->num_buffers+num_buffers is below q->max_allowed_buffers */
-> +	/* Ensure that the number of already queue + num_buffers is below q->max_allowed_buffers */
-
-Hmm, how about:
-
-	/* Ensure that vb2_get_num_buffers(q) + num_buffers is no more than q->max_allowed_buffers */
-
->  	num_buffers = min_t(unsigned int, num_buffers,
->  			    q->max_allowed_buffers - vb2_get_num_buffers(q));
->  
-> -	first_index = vb2_get_num_buffers(q);
-> +	first_index = bitmap_find_next_zero_area(q->bufs_map, q->max_allowed_buffers,
-> +						 0, num_buffers, 0);
->  
->  	if (first_index >= q->max_allowed_buffers)
->  		return 0;
-> @@ -675,7 +678,13 @@ static void __vb2_queue_free(struct vb2_queue *q, unsigned int buffers)
->  
->  struct vb2_buffer *vb2_get_buffer(struct vb2_queue *q, unsigned int index)
+>  /*
+> - * __vb2_queue_free() - free buffers at the end of the queue - video memory and
+> + * __vb2_queue_free() - free count buffers from start index of the queue - video memory and
+>   * related information, if no buffers are left return the queue to an
+>   * uninitialized state. Might be called even if the queue has already been freed.
+>   */
+> -static void __vb2_queue_free(struct vb2_queue *q, unsigned int buffers)
+> +static void __vb2_queue_free(struct vb2_queue *q, unsigned int start, unsigned int count)
 >  {
-> -	if (index < q->num_buffers)
-> +	if (!q->bufs_map || !q->bufs)
-> +		return NULL;
-
-I don't think this can ever happen.
-
-> +
-> +	if (index >= q->max_allowed_buffers)
-> +		return NULL;
-> +
-> +	if (test_bit(index, q->bufs_map))
->  		return q->bufs[index];
->  	return NULL;
->  }
-> @@ -683,7 +692,10 @@ EXPORT_SYMBOL_GPL(vb2_get_buffer);
+> -	unsigned int buffer;
+> -	long i = q->max_allowed_buffers;
+> +	unsigned int i, buffer;
 >  
->  unsigned int vb2_get_num_buffers(struct vb2_queue *q)
->  {
-> -	return q->num_buffers;
-> +	if (!q->bufs_map)
-> +		return 0;
+>  	lockdep_assert_held(&q->mmap_lock);
+>  
+>  	/* Call driver-provided cleanup function for each buffer, if provided */
+> -	for (i = q->max_allowed_buffers, buffer = 0; i >= 0 && buffer < buffers; i--) {
+> +	for (i = start, buffer = 0; i < q->max_allowed_buffers && buffer < count; i++) {
+>  		struct vb2_buffer *vb = vb2_get_buffer(q, i);
+>  
+>  		if (!vb)
+
+Same issue, 'buffer' is never incremented.
+
+> @@ -574,7 +572,7 @@ static void __vb2_queue_free(struct vb2_queue *q, unsigned int buffers)
+>  	}
+>  
+>  	/* Release video buffer memory */
+> -	__vb2_free_mem(q, buffers);
+> +	__vb2_free_mem(q, start, count);
+>  
+>  #ifdef CONFIG_VIDEO_ADV_DEBUG
+>  	/*
+> @@ -659,8 +657,8 @@ static void __vb2_queue_free(struct vb2_queue *q, unsigned int buffers)
+>  #endif
+>  
+>  	/* Free vb2 buffers */
+> -	for (i = q->max_allowed_buffers, buffer = 0; i > 0 && buffer < buffers; i--) {
+> -		struct vb2_buffer *vb = vb2_get_buffer(q, buffer);
+> +	for (i = start, buffer = 0; i < q->max_allowed_buffers && buffer < count; i++) {
+> +		struct vb2_buffer *vb = vb2_get_buffer(q, i);
+>  
+>  		if (!vb)
+>  			continue;
 
 Ditto.
 
-> +
-> +	return bitmap_weight(q->bufs_map, q->max_allowed_buffers);
->  }
->  EXPORT_SYMBOL_GPL(vb2_get_num_buffers);
->  
-> @@ -899,6 +911,14 @@ int vb2_core_reqbufs(struct vb2_queue *q, enum vb2_memory memory,
->  		q->bufs = kcalloc(q->max_allowed_buffers, sizeof(*q->bufs), GFP_KERNEL);
->  	if (!q->bufs)
->  		ret = -ENOMEM;
-> +
-> +	if (!q->bufs_map)
-> +		q->bufs_map = bitmap_zalloc(q->max_allowed_buffers, GFP_KERNEL);
-> +	if (!q->bufs_map) {
-> +		ret = -ENOMEM;
-> +		kfree(q->bufs);
-> +		q->bufs = NULL;
-> +	}
->  	q->memory = memory;
->  	mutex_unlock(&q->mmap_lock);
->  	if (ret)
-> @@ -968,7 +988,6 @@ int vb2_core_reqbufs(struct vb2_queue *q, enum vb2_memory memory,
->  	}
->  
->  	mutex_lock(&q->mmap_lock);
-> -	q->num_buffers = allocated_buffers;
->  
->  	if (ret < 0) {
->  		/*
-> @@ -995,6 +1014,10 @@ int vb2_core_reqbufs(struct vb2_queue *q, enum vb2_memory memory,
->  	mutex_lock(&q->mmap_lock);
->  	q->memory = VB2_MEMORY_UNKNOWN;
->  	mutex_unlock(&q->mmap_lock);
-> +	kfree(q->bufs);
-> +	q->bufs = NULL;
-> +	bitmap_free(q->bufs_map);
-> +	q->bufs_map = NULL;
->  	return ret;
->  }
->  EXPORT_SYMBOL_GPL(vb2_core_reqbufs);
-> @@ -1031,9 +1054,19 @@ int vb2_core_create_bufs(struct vb2_queue *q, enum vb2_memory memory,
->  		q->memory = memory;
->  		if (!q->bufs)
->  			q->bufs = kcalloc(q->max_allowed_buffers, sizeof(*q->bufs), GFP_KERNEL);
-> -		if (!q->bufs)
-> +		if (!q->bufs) {
-> +			ret = -ENOMEM;
-> +			goto unlock;
-> +		}
-> +		if (!q->bufs_map)
-> +			q->bufs_map = bitmap_zalloc(q->max_allowed_buffers, GFP_KERNEL);
-> +		if (!q->bufs_map) {
->  			ret = -ENOMEM;
-> +			kfree(q->bufs);
-> +			q->bufs = NULL;
-> +		}
+> @@ -884,7 +882,7 @@ int vb2_core_reqbufs(struct vb2_queue *q, enum vb2_memory memory,
+>  		 * queued without ever calling STREAMON.
+>  		 */
+>  		__vb2_queue_cancel(q);
+> -		__vb2_queue_free(q, q_num_bufs);
+> +		__vb2_queue_free(q, 0, q_num_bufs);
 >  		mutex_unlock(&q->mmap_lock);
-> +unlock:
->  		if (ret)
->  			return ret;
->  		q->waiting_for_buffers = !q->is_output;
-> @@ -1095,7 +1128,6 @@ int vb2_core_create_bufs(struct vb2_queue *q, enum vb2_memory memory,
->  	}
 >  
->  	mutex_lock(&q->mmap_lock);
-> -	q->num_buffers += allocated_buffers;
->  
->  	if (ret < 0) {
 >  		/*
-> @@ -2588,6 +2620,9 @@ void vb2_core_queue_release(struct vb2_queue *q)
->  	__vb2_queue_free(q, q->max_allowed_buffers);
+> @@ -995,7 +993,7 @@ int vb2_core_reqbufs(struct vb2_queue *q, enum vb2_memory memory,
+>  		 * from already queued buffers and it will reset q->memory to
+>  		 * VB2_MEMORY_UNKNOWN.
+>  		 */
+> -		__vb2_queue_free(q, allocated_buffers);
+> +		__vb2_queue_free(q, 0, allocated_buffers);
+
+Shouldn't we use 'first_index' here instead of '0'?
+
+>  		mutex_unlock(&q->mmap_lock);
+>  		return ret;
+>  	}
+> @@ -1135,7 +1133,7 @@ int vb2_core_create_bufs(struct vb2_queue *q, enum vb2_memory memory,
+>  		 * from already queued buffers and it will reset q->memory to
+>  		 * VB2_MEMORY_UNKNOWN.
+>  		 */
+> -		__vb2_queue_free(q, allocated_buffers);
+> +		__vb2_queue_free(q, 0, allocated_buffers);
+
+Ditto.
+
+>  		mutex_unlock(&q->mmap_lock);
+>  		return -ENOMEM;
+>  	}
+> @@ -2617,7 +2615,7 @@ void vb2_core_queue_release(struct vb2_queue *q)
+>  	__vb2_cleanup_fileio(q);
+>  	__vb2_queue_cancel(q);
+>  	mutex_lock(&q->mmap_lock);
+> -	__vb2_queue_free(q, q->max_allowed_buffers);
+> +	__vb2_queue_free(q, 0, q->max_allowed_buffers);
 >  	kfree(q->bufs);
 >  	q->bufs = NULL;
-> +	bitmap_free(q->bufs_map);
-> +	q->bufs_map = NULL;
-> +
->  	mutex_unlock(&q->mmap_lock);
->  }
->  EXPORT_SYMBOL_GPL(vb2_core_queue_release);
-> @@ -2944,7 +2979,7 @@ static size_t __vb2_perform_fileio(struct vb2_queue *q, char __user *data, size_
->  	 * Check if we need to dequeue the buffer.
->  	 */
->  	index = fileio->cur_index;
-> -	if (index >= q->num_buffers) {
-> +	if (!test_bit(index, q->bufs_map)) {
->  		struct vb2_buffer *b;
->  
->  		/*
-> diff --git a/include/media/videobuf2-core.h b/include/media/videobuf2-core.h
-> index 19c93d8eb7c8..734437236cc4 100644
-> --- a/include/media/videobuf2-core.h
-> +++ b/include/media/videobuf2-core.h
-> @@ -557,7 +557,7 @@ struct vb2_buf_ops {
->   * @memory:	current memory type used
->   * @dma_dir:	DMA mapping direction.
->   * @bufs:	videobuf2 buffer structures
-> - * @num_buffers: number of allocated/used buffers
-> + * @bufs_map:	bitmap to manage bufs entries.
->   * @max_allowed_buffers: upper limit of number of allocated/used buffers
->   * @queued_list: list of buffers currently queued from userspace
->   * @queued_count: number of buffers queued and ready for streaming.
-> @@ -621,7 +621,7 @@ struct vb2_queue {
->  	unsigned int			memory;
->  	enum dma_data_direction		dma_dir;
->  	struct vb2_buffer		**bufs;
-> -	unsigned int			num_buffers;
-> +	unsigned long			*bufs_map;
->  	unsigned int			max_allowed_buffers;
->  
->  	struct list_head		queued_list;
-> @@ -1151,7 +1151,10 @@ static inline bool vb2_fileio_is_active(struct vb2_queue *q)
->   */
->  static inline bool vb2_is_busy(struct vb2_queue *q)
->  {
-> -	return (q->num_buffers > 0);
-> +	if (!q->bufs_map)
-> +		return false;
-
-I don't think this can happen.
-
-> +
-> +	return (bitmap_weight(q->bufs_map, q->max_allowed_buffers) > 0);
-
-How about:
-
-	return vb2_get_num_buffers(q) > 0;
-
->  }
->  
->  /**
+>  	bitmap_free(q->bufs_map);
 
 Regards,
 
