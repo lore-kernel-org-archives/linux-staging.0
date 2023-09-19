@@ -1,12 +1,12 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84E62882E
-	for <linux-staging@lists.linux.dev>; Tue, 19 Sep 2023 11:21:03 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 98BAAC433C8;
-	Tue, 19 Sep 2023 11:20:59 +0000 (UTC)
-Message-ID: <b7b98f37-f9f0-46ef-8ee2-610e2990dfef@xs4all.nl>
-Date: Tue, 19 Sep 2023 13:20:57 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D47B6374C8
+	for <linux-staging@lists.linux.dev>; Tue, 19 Sep 2023 12:21:47 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DA738C433C7;
+	Tue, 19 Sep 2023 12:21:43 +0000 (UTC)
+Message-ID: <90ee9c16-f023-483c-8cc8-f4a15a29ea48@xs4all.nl>
+Date: Tue, 19 Sep 2023 14:21:41 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -14,8 +14,8 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 07/49] media: sti: hva: Use vb2_get_buffer() instead of
- directly access to buffers array
+Subject: Re: [PATCH v7 18/49] media: Remove duplicated index vs q->num_buffers
+ check
 Content-Language: en-US, nl
 To: Benjamin Gaignard <benjamin.gaignard@collabora.com>, mchehab@kernel.org,
  tfiga@chromium.org, m.szyprowski@samsung.com, ming.qian@nxp.com,
@@ -26,65 +26,115 @@ Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-arm-msm@vger.kernel.org, linux-rockchip@lists.infradead.org,
  linux-staging@lists.linux.dev, kernel@collabora.com
 References: <20230914133323.198857-1-benjamin.gaignard@collabora.com>
- <20230914133323.198857-8-benjamin.gaignard@collabora.com>
- <93e9b143-664c-4fbb-8722-0beabd5b2c0c@xs4all.nl>
- <ecfd1641-3cce-dfa4-b88c-3619fb12d710@collabora.com>
+ <20230914133323.198857-19-benjamin.gaignard@collabora.com>
 From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-In-Reply-To: <ecfd1641-3cce-dfa4-b88c-3619fb12d710@collabora.com>
+In-Reply-To: <20230914133323.198857-19-benjamin.gaignard@collabora.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
-On 19/09/2023 12:26, Benjamin Gaignard wrote:
-> 
-> Le 19/09/2023 à 11:31, Hans Verkuil a écrit :
->> On 14/09/2023 15:32, Benjamin Gaignard wrote:
->>> Use vb2_get_buffer() instead of directly access to vb2_buffer buffer array.
->>> This could allow to change the type bufs[] field of vb2_buffer structure if
->>> needed.
->>> After each call to vb2_get_buffer() we need to be sure that we get
->>> a valid pointer so check the return value of all of them.
->>>
->>> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
->>> ---
->>>   drivers/media/platform/st/sti/hva/hva-v4l2.c | 4 ++++
->>>   1 file changed, 4 insertions(+)
->>>
->>> diff --git a/drivers/media/platform/st/sti/hva/hva-v4l2.c b/drivers/media/platform/st/sti/hva/hva-v4l2.c
->>> index 3a848ca32a0e..326be09bdb55 100644
->>> --- a/drivers/media/platform/st/sti/hva/hva-v4l2.c
->>> +++ b/drivers/media/platform/st/sti/hva/hva-v4l2.c
->>> @@ -577,6 +577,10 @@ static int hva_qbuf(struct file *file, void *priv, struct v4l2_buffer *buf)
->>>           }
->> Above this line there is a buf->index check...
->>
->>>             vb2_buf = vb2_get_buffer(vq, buf->index);
->>> +        if (!vb2_buf) {
->>> +            dev_dbg(dev, "%s buffer index %d not found\n", ctx->name, buf->index);
->>> +            return -EINVAL;
->>> +        }
->> ...I think that check can be dropped since vb2_get_buffer checks that already.
-> 
-> No because in "media: sti: hva: Stop direct calls to queue num_buffers field" patch
-> I remove the above check since it use queue num_buffers field.
+On 14/09/2023 15:32, Benjamin Gaignard wrote:
+> vb2_get_buffer() already check if the requested index is valid.
 
-Why not do that here? And drop that later patch? It doesn't make sense to
-split it up, and also the commit log of patch 33/49 doesn't match that patch.
+typo: check -> checks
+
+> Stop duplicating this kind of check everywhere.
+
+Also mention you moved it from the header to videobuf2-core.c.
+
+Although I am not sure if it belongs in this patch, it is not
+needed for this. I think it is better to move it either into a
+separate patch, or move it to the patch where it is really needed.
+
+> 
+> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+> ---
+>  drivers/media/common/videobuf2/videobuf2-core.c |  8 ++++++++
+>  drivers/media/common/videobuf2/videobuf2-v4l2.c | 13 -------------
+>  include/media/videobuf2-core.h                  |  8 +-------
+>  3 files changed, 9 insertions(+), 20 deletions(-)
+> 
+> diff --git a/drivers/media/common/videobuf2/videobuf2-core.c b/drivers/media/common/videobuf2/videobuf2-core.c
+> index ee4df7c68397..2add7a6795e7 100644
+> --- a/drivers/media/common/videobuf2/videobuf2-core.c
+> +++ b/drivers/media/common/videobuf2/videobuf2-core.c
+> @@ -660,6 +660,14 @@ static void __vb2_queue_free(struct vb2_queue *q, unsigned int buffers)
+>  	}
+>  }
+>  
+> +struct vb2_buffer *vb2_get_buffer(struct vb2_queue *q, unsigned int index)
+> +{
+> +	if (index < q->num_buffers)
+> +		return q->bufs[index];
+> +	return NULL;
+> +}
+> +EXPORT_SYMBOL_GPL(vb2_get_buffer);
+> +
+>  bool vb2_buffer_in_use(struct vb2_queue *q, struct vb2_buffer *vb)
+>  {
+>  	unsigned int plane;
+> diff --git a/drivers/media/common/videobuf2/videobuf2-v4l2.c b/drivers/media/common/videobuf2/videobuf2-v4l2.c
+> index 87c2d5916960..f10b70d8e66a 100644
+> --- a/drivers/media/common/videobuf2/videobuf2-v4l2.c
+> +++ b/drivers/media/common/videobuf2/videobuf2-v4l2.c
+> @@ -378,11 +378,6 @@ static int vb2_queue_or_prepare_buf(struct vb2_queue *q, struct media_device *md
+>  		return -EINVAL;
+>  	}
+>  
+> -	if (b->index >= q->num_buffers) {
+> -		dprintk(q, 1, "%s: buffer index out of range\n", opname);
+> -		return -EINVAL;
+> -	}
+> -
+>  	vb = vb2_get_buffer(q, b->index);
+>  	if (!vb) {
+>  		dprintk(q, 1, "%s: buffer is NULL\n", opname);
+> @@ -829,10 +824,6 @@ int vb2_qbuf(struct vb2_queue *q, struct media_device *mdev,
+>  		return -EBUSY;
+>  	}
+>  
+> -	if (b->index >= q->num_buffers) {
+> -		dprintk(q, 1, "buffer index out of range\n");
+> -		return -EINVAL;
+> -	}
+>  	vb = vb2_get_buffer(q, b->index);
+>  	if (!vb) {
+>  		dprintk(q, 1, "can't find the requested buffer\n");
+> @@ -904,10 +895,6 @@ int vb2_expbuf(struct vb2_queue *q, struct v4l2_exportbuffer *eb)
+>  {
+>  	struct vb2_buffer *vb;
+>  
+> -	if (eb->index >= q->num_buffers) {
+> -		dprintk(q, 1, "buffer index out of range\n");
+> -		return -EINVAL;
+> -	}
+>  	vb = vb2_get_buffer(q, eb->index);
+>  	if (!vb) {
+>  		dprintk(q, 1, "can't find the requested buffer\n");
+
+This patch should be folded into 11/49. It is 11/49 that introduced these
+duplicate messages, and it should have removed those directly.
 
 Regards,
 
 	Hans
 
-> 
-> Regards,
-> Benjamin
-> 
->>
->> Regards,
->>
->>     Hans
->>
->>>           stream = to_hva_stream(to_vb2_v4l2_buffer(vb2_buf));
->>>           stream->bytesused = buf->bytesused;
->>>       }
->>
+> diff --git a/include/media/videobuf2-core.h b/include/media/videobuf2-core.h
+> index 97153c69583f..25ca395616a7 100644
+> --- a/include/media/videobuf2-core.h
+> +++ b/include/media/videobuf2-core.h
+> @@ -1238,13 +1238,7 @@ static inline void vb2_clear_last_buffer_dequeued(struct vb2_queue *q)
+>   * operation, so the buffer lifetime should be taken into
+>   * consideration.
+>   */
+> -static inline struct vb2_buffer *vb2_get_buffer(struct vb2_queue *q,
+> -						unsigned int index)
+> -{
+> -	if (index < q->num_buffers)
+> -		return q->bufs[index];
+> -	return NULL;
+> -}
+> +struct vb2_buffer *vb2_get_buffer(struct vb2_queue *q, unsigned int index);
+>  
+>  /*
+>   * The following functions are not part of the vb2 core API, but are useful
 
