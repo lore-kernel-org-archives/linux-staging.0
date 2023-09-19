@@ -1,65 +1,67 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from tretyak2.mcst.ru (tretyak2.mcst.ru [212.5.119.215])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 046E8110B
-	for <linux-staging@lists.linux.dev>; Tue, 19 Sep 2023 09:27:35 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0F406C433C7;
-	Tue, 19 Sep 2023 09:27:31 +0000 (UTC)
-Message-ID: <d6e80a02-c9c3-4652-a3e2-9d6cf1213536@xs4all.nl>
-Date: Tue, 19 Sep 2023 11:27:30 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0806F110B
+	for <linux-staging@lists.linux.dev>; Tue, 19 Sep 2023 09:28:25 +0000 (UTC)
+Received: from tretyak2.mcst.ru (localhost [127.0.0.1])
+	by tretyak2.mcst.ru (Postfix) with ESMTP id B3EDF102395;
+	Tue, 19 Sep 2023 12:24:23 +0300 (MSK)
+Received: from frog.lab.sun.mcst.ru (frog.lab.sun.mcst.ru [176.16.4.50])
+	by tretyak2.mcst.ru (Postfix) with ESMTP id AEC1D101775;
+	Tue, 19 Sep 2023 12:23:47 +0300 (MSK)
+Received: from artemiev-i.lab.sun.mcst.ru (avior-1 [192.168.63.223])
+	by frog.lab.sun.mcst.ru (8.13.4/8.12.11) with ESMTP id 38J9NkLq017473;
+	Tue, 19 Sep 2023 12:23:47 +0300
+From: Igor Artemiev <Igor.A.Artemiev@mcst.ru>
+To: Larry Finger <Larry.Finger@lwfinger.net>
+Cc: Igor Artemiev <Igor.A.Artemiev@mcst.ru>,
+        Florian Schilhabel <florian.c.schilhabel@googlemail.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+        lvc-project@linuxtesting.org
+Subject: [lvc-project] [PATCH] staging: rtl8712: fix buffer overflow in r8712_xmitframe_complete()
+Date: Tue, 19 Sep 2023 12:23:18 +0300
+Message-Id: <20230919092318.14837-1-Igor.A.Artemiev@mcst.ru>
+X-Mailer: git-send-email 2.39.0.152.ga5737674b6
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 22/49] media: i2c: Stop direct calls to queue
- num_buffers field
-Content-Language: en-US, nl
-To: Benjamin Gaignard <benjamin.gaignard@collabora.com>, mchehab@kernel.org,
- tfiga@chromium.org, m.szyprowski@samsung.com, ming.qian@nxp.com,
- ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de,
- gregkh@linuxfoundation.org, nicolas.dufresne@collabora.com
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org,
- linux-arm-msm@vger.kernel.org, linux-rockchip@lists.infradead.org,
- linux-staging@lists.linux.dev, kernel@collabora.com
-References: <20230914133323.198857-1-benjamin.gaignard@collabora.com>
- <20230914133323.198857-23-benjamin.gaignard@collabora.com>
-From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-In-Reply-To: <20230914133323.198857-23-benjamin.gaignard@collabora.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-Anti-Virus: Kaspersky Anti-Virus for Linux Mail Server 5.6.39/RELEASE,
+	 bases: 20111107 #2745587, check: 20230919 notchecked
+X-AV-Checked: ClamAV using ClamSMTP
 
-On 14/09/2023 15:32, Benjamin Gaignard wrote:
-> Use vb2_get_num_buffers() to avoid using queue num_buffer field directly.
+The value of pxmitframe->attrib.priority in r8712_issue_addbareq_cmd(),
+which dump_xframe() calls, is used to calculate the index for accessing 
+an array of size 16. The value of pxmitframe->attrib.priority can be 
+greater than 15, because the r8712_update_attrib() function can write 
+a value up to 31 to attrib.priority, and r8712_xmitframe_complete() 
+checks that pxmitframe->attrib.priority is less than 16 before 
+calling r8712_xmitframe_coalesce().
 
-Since this affects just one driver, can you change the subject to:
+Found by Linux Verification Center (linuxtesting.org) with SVACE.
 
-media: video-i2c: Stop direct calls to queue num_buffers field
+Signed-off-by: Igor Artemiev <Igor.A.Artemiev@mcst.ru>
+---
+ drivers/staging/rtl8712/rtl8712_xmit.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Thanks!
-
-	Hans
-
-> 
-> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-> ---
->  drivers/media/i2c/video-i2c.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/media/i2c/video-i2c.c b/drivers/media/i2c/video-i2c.c
-> index 537ebd9fa8d7..60d3e2f35afe 100644
-> --- a/drivers/media/i2c/video-i2c.c
-> +++ b/drivers/media/i2c/video-i2c.c
-> @@ -406,7 +406,7 @@ static int queue_setup(struct vb2_queue *vq,
->  	struct video_i2c_data *data = vb2_get_drv_priv(vq);
->  	unsigned int size = data->chip->buffer_size;
->  
-> -	if (vq->num_buffers + *nbuffers < 2)
-> +	if (vb2_get_num_buffers(vq) + *nbuffers < 2)
->  		*nbuffers = 2;
->  
->  	if (*nplanes)
+diff --git a/drivers/staging/rtl8712/rtl8712_xmit.c b/drivers/staging/rtl8712/rtl8712_xmit.c
+index 4cb01f590673..8a39a3c8cfcb 100644
+--- a/drivers/staging/rtl8712/rtl8712_xmit.c
++++ b/drivers/staging/rtl8712/rtl8712_xmit.c
+@@ -669,7 +669,7 @@ int r8712_xmitframe_complete(struct _adapter *padapter,
+ 			 */
+ 			r8712_xmit_complete(padapter, pxmitframe);
+ 		}
+-		if (res == _SUCCESS)
++		if (res == _SUCCESS && pxmitframe->attrib.priority <= 15)
+ 			dump_xframe(padapter, pxmitframe);
+ 		else
+ 			r8712_free_xmitframe_ex(pxmitpriv, pxmitframe);
+-- 
+2.30.2
 
