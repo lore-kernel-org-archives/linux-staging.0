@@ -1,12 +1,12 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55E0E1FAA
-	for <linux-staging@lists.linux.dev>; Tue, 19 Sep 2023 14:20:14 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CEF78C433C7;
-	Tue, 19 Sep 2023 14:20:10 +0000 (UTC)
-Message-ID: <e534208c-78ca-48f1-8250-d1a2790e080e@xs4all.nl>
-Date: Tue, 19 Sep 2023 16:20:10 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 770CA3715B
+	for <linux-staging@lists.linux.dev>; Tue, 19 Sep 2023 14:21:10 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A6884C433C8;
+	Tue, 19 Sep 2023 14:21:06 +0000 (UTC)
+Message-ID: <d6d62f0c-d39b-4f50-9d08-2a92d9f383a4@xs4all.nl>
+Date: Tue, 19 Sep 2023 16:21:06 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -14,7 +14,7 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 39/49] media: usb: hackrf: Stop direct calls to queue
+Subject: Re: [PATCH v7 40/49] media: usb: usbtv: Stop direct calls to queue
  num_buffers field
 Content-Language: en-US, nl
 To: Benjamin Gaignard <benjamin.gaignard@collabora.com>, mchehab@kernel.org,
@@ -26,9 +26,9 @@ Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-arm-msm@vger.kernel.org, linux-rockchip@lists.infradead.org,
  linux-staging@lists.linux.dev, kernel@collabora.com
 References: <20230914133323.198857-1-benjamin.gaignard@collabora.com>
- <20230914133323.198857-40-benjamin.gaignard@collabora.com>
+ <20230914133323.198857-41-benjamin.gaignard@collabora.com>
 From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-In-Reply-To: <20230914133323.198857-40-benjamin.gaignard@collabora.com>
+In-Reply-To: <20230914133323.198857-41-benjamin.gaignard@collabora.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
@@ -37,34 +37,30 @@ On 14/09/2023 15:33, Benjamin Gaignard wrote:
 > 
 > Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
 > ---
->  drivers/media/usb/hackrf/hackrf.c | 5 +++--
+>  drivers/media/usb/usbtv/usbtv-video.c | 5 +++--
 >  1 file changed, 3 insertions(+), 2 deletions(-)
 > 
-> diff --git a/drivers/media/usb/hackrf/hackrf.c b/drivers/media/usb/hackrf/hackrf.c
-> index 3e535be2c520..9c0ecd5f056c 100644
-> --- a/drivers/media/usb/hackrf/hackrf.c
-> +++ b/drivers/media/usb/hackrf/hackrf.c
-> @@ -753,12 +753,13 @@ static int hackrf_queue_setup(struct vb2_queue *vq,
->  		unsigned int *nplanes, unsigned int sizes[], struct device *alloc_devs[])
+> diff --git a/drivers/media/usb/usbtv/usbtv-video.c b/drivers/media/usb/usbtv/usbtv-video.c
+> index 1e30e05953dc..41704d45c65c 100644
+> --- a/drivers/media/usb/usbtv/usbtv-video.c
+> +++ b/drivers/media/usb/usbtv/usbtv-video.c
+> @@ -725,10 +725,11 @@ static int usbtv_queue_setup(struct vb2_queue *vq,
+>  	unsigned int *nplanes, unsigned int sizes[], struct device *alloc_devs[])
 >  {
->  	struct hackrf_dev *dev = vb2_get_drv_priv(vq);
+>  	struct usbtv *usbtv = vb2_get_drv_priv(vq);
 > +	unsigned int q_num_bufs = vb2_get_num_buffers(vq);
+>  	unsigned size = USBTV_CHUNK * usbtv->n_chunks * 2 * sizeof(u32);
 >  
->  	dev_dbg(dev->dev, "nbuffers=%d\n", *nbuffers);
->  
->  	/* Need at least 8 buffers */
-> -	if (vq->num_buffers + *nbuffers < 8)
-> -		*nbuffers = 8 - vq->num_buffers;
-> +	if (q_num_bufs + *nbuffers < 8)
-> +		*nbuffers = 8 - q_num_bufs;
+> -	if (vq->num_buffers + *nbuffers < 2)
+> -		*nbuffers = 2 - vq->num_buffers;
+> +	if (q_num_bufs + *nbuffers < 2)
+> +		*nbuffers = 2 - q_num_bufs;
 
-Drop check, set min_buffers_needed to 8.
-
-Regards,
+Drop check, set min_buffers_needed to 2.
 
 	Hans
 
+>  	if (*nplanes)
+>  		return sizes[0] < size ? -EINVAL : 0;
 >  	*nplanes = 1;
->  	sizes[0] = PAGE_ALIGN(dev->buffersize);
->  
 
