@@ -1,12 +1,12 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CF0C11714
-	for <linux-staging@lists.linux.dev>; Wed, 20 Sep 2023 08:56:10 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 807F4C433C8;
-	Wed, 20 Sep 2023 08:56:06 +0000 (UTC)
-Message-ID: <6c88160d-3421-4d1d-a4a9-0a495f0fe5f3@xs4all.nl>
-Date: Wed, 20 Sep 2023 10:56:04 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07AFA156E5;
+	Wed, 20 Sep 2023 12:37:27 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 72EC9C433C9;
+	Wed, 20 Sep 2023 12:37:24 +0000 (UTC)
+Message-ID: <daa98de2-62d3-43a9-9d09-389cf246ee15@xs4all.nl>
+Date: Wed, 20 Sep 2023 14:37:22 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -14,241 +14,139 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 12/49] media: videobuf2: Be more flexible on the number
- of queue stored buffers
+Subject: Re: [PATCH v9 0/8] Add StarFive Camera Subsystem driver
 Content-Language: en-US, nl
-From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-To: Benjamin Gaignard <benjamin.gaignard@collabora.com>, mchehab@kernel.org,
- tfiga@chromium.org, m.szyprowski@samsung.com, ming.qian@nxp.com,
- ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de,
- gregkh@linuxfoundation.org, nicolas.dufresne@collabora.com
+To: Jack Zhu <jack.zhu@starfivetech.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Robert Foss <rfoss@kernel.org>,
+ Todor Tomov <todor.too@gmail.com>, bryan.odonoghue@linaro.org,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Philipp Zabel <p.zabel@pengutronix.de>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org,
- linux-arm-msm@vger.kernel.org, linux-rockchip@lists.infradead.org,
- linux-staging@lists.linux.dev, kernel@collabora.com
-References: <20230914133323.198857-1-benjamin.gaignard@collabora.com>
- <20230914133323.198857-13-benjamin.gaignard@collabora.com>
- <c58cdf5a-7176-457e-98f3-85606cec7f09@xs4all.nl>
-In-Reply-To: <c58cdf5a-7176-457e-98f3-85606cec7f09@xs4all.nl>
+ devicetree@vger.kernel.org, linux-staging@lists.linux.dev,
+ changhuang.liang@starfivetech.com
+References: <20230914031607.34877-1-jack.zhu@starfivetech.com>
+ <11735008-1adf-4b84-9023-d295371caed5@xs4all.nl>
+ <41370a5d-ffa3-f85b-aa2a-b6dd9cc570f6@starfivetech.com>
+From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+In-Reply-To: <41370a5d-ffa3-f85b-aa2a-b6dd9cc570f6@starfivetech.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 19/09/2023 14:42, Hans Verkuil wrote:
-> On 14/09/2023 15:32, Benjamin Gaignard wrote:
->> Add 'max_allowed_buffers' field in vb2_queue struct to let drivers decide
->> how many buffers could be stored in a queue.
->> This request 'bufs' array to be allocated at queue init time and freed
->> when releasing the queue.
->> By default VB2_MAX_FRAME remains the limit.
+On 18/09/2023 11:30, Jack Zhu wrote:
+> Hi Hans，
+> 
+> Thanks for your comment.
+> 
+> On 2023/9/15 17:26, Hans Verkuil wrote:
+>> On 14/09/2023 05:15, Jack Zhu wrote:
+>>> Hi,
+>>>
+>>> This series is the v9 series that attempts to support the Camera Subsystem
+>>> found on StarFive JH7110 SoC.
+>>>
+>>> This series is based on top of the master branch of media_stage repository.
+>>>
+>>> The following are the media graph for the device and the v4l2-compliance
+>>> output.
+>>>
+>>> ===========================================================================
+>>> [the media graph]:
+>>>
+>>> digraph board {
+>>> 	rankdir=TB
+>>> 	n00000001 [label="{{<port0> 0} | stf_isp\n/dev/v4l-subdev0 | {<port1> 1}}", shape=Mrecord, style=filled, fillcolor=green]
+>>> 	n00000001:port1 -> n00000008 [style=dashed]
+>>> 	n00000004 [label="capture_raw\n/dev/video0", shape=box, style=filled, fillcolor=yellow]
+>>> 	n00000008 [label="capture_yuv\n/dev/video1", shape=box, style=filled, fillcolor=yellow]
+>>> 	n0000000e [label="{{<port0> 0} | cdns_csi2rx.19800000.csi-bridge\n | {<port1> 1 | <port2> 2 | <port3> 3 | <port4> 4}}", shape=Mrecord, style=filled, fillcolor=green]
+>>> 	n0000000e:port1 -> n00000001:port0 [style=dashed]
+>>> 	n0000000e:port1 -> n00000004 [style=dashed]
+>>> 	n00000018 [label="{{} | imx219 6-0010\n/dev/v4l-subdev1 | {<port0> 0}}", shape=Mrecord, style=filled, fillcolor=green]
+>>> 	n00000018:port0 -> n0000000e:port0 [style=bold]
+>>> }
+>>>
+>>> [the device topology]:
+>>>
+>>> Media controller API version 6.5.0
+>>>
+>>> Media device information
+>>> ------------------------
+>>> driver          starfive-camss
+>>> model           Starfive Camera Subsystem
+>>> serial          
+>>> bus info        platform:19840000.camss
+>>> hw revision     0x0
+>>> driver version  6.5.0
+>>>
+>>> Device topology
+>>> - entity 1: stf_isp (2 pads, 2 links)
+>>>             type V4L2 subdev subtype Unknown flags 0
+>>>             device node name /dev/v4l-subdev0
+>>> 	pad0: Sink
+>>> 		[fmt:SRGGB10_1X10/1920x1080 field:none colorspace:srgb
+>>> 		 crop.bounds:(0,0)/1920x1080
+>>> 		 crop:(0,0)/1920x1080]
+>>> 		<- "cdns_csi2rx.19800000.csi-bridge":1 []
+>>> 	pad1: Source
+>>> 		[fmt:YUYV8_1_5X8/1920x1080 field:none colorspace:srgb
+>>> 		 crop.bounds:(0,0)/1920x1080
+>>> 		 crop:(0,0)/1920x1080]
+>>> 		-> "capture_yuv":0 []
+>>>
+>>> - entity 4: capture_raw (1 pad, 1 link)
+>>>             type Node subtype V4L flags 0
+>>>             device node name /dev/video0
+>>> 	pad0: Sink
+>>> 		<- "cdns_csi2rx.19800000.csi-bridge":1 []
+>>>
+>>> - entity 8: capture_yuv (1 pad, 1 link)
+>>>             type Node subtype V4L flags 0
+>>>             device node name /dev/video1
+>>> 	pad0: Sink
+>>> 		<- "stf_isp":1 []
+>>>
+>>> - entity 14: cdns_csi2rx.19800000.csi-bridge (5 pads, 3 links)
+>>>              type V4L2 subdev subtype Unknown flags 0
+>>> 	pad0: Sink
+>>> 		<- "imx219 6-0010":0 [ENABLED,IMMUTABLE]
+>>> 	pad1: Source
+>>> 		-> "stf_isp":0 []
+>>> 		-> "capture_raw":0 []
+>>> 	pad2: Source
+>>> 	pad3: Source
+>>> 	pad4: Source
+>>>
+>>> - entity 24: imx219 6-0010 (1 pad, 1 link)
+>>>              type V4L2 subdev subtype Sensor flags 0
+>>>              device node name /dev/v4l-subdev1
+>>> 	pad0: Source
+>>> 		[fmt:SRGGB10_1X10/3280x2464 field:none colorspace:srgb xfer:srgb ycbcr:601 quantization:full-range
+>>> 		 crop.bounds:(8,8)/3280x2464
+>>> 		 crop:(8,8)/3280x2464]
+>>> 		-> "cdns_csi2rx.19800000.csi-bridge":0 [ENABLED,IMMUTABLE]
+>>>
+>>> ===========================================================================
+>>> [the v4l2-compliance output]:
+>>>
+>>> v4l2-compliance 1.24.1, 64 bits, 64-bit time_t
 >>
->> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
->> Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
->> ---
->>  .../media/common/videobuf2/videobuf2-core.c   | 40 ++++++++++++++-----
->>  .../media/common/videobuf2/videobuf2-v4l2.c   |  4 +-
->>  include/media/videobuf2-core.h                |  4 +-
->>  3 files changed, 35 insertions(+), 13 deletions(-)
+>> This v4l2-compliance version is from a distro. For driver acceptance you
+>> must test with a v4l2-compliance compiled from the git repo (git://linuxtv.org/v4l-utils.git).
+>>
 > 
-> After this patch I would like to see a patches adding support for this to
-> vicodec and vivid. For vivid it might be a good idea to mix this: say
-> the video output remains at 32 buffers, but video capture can do more.
+> It is compiled from buildroot, but its source code is also downloaded from the repo tag v4l-utils-1.24.1.
+> Do you mean I should use the latest stable version (stable-1.24) on the repo?
 > 
-> And the swradio device should be able to handle quite a lot more (try
-> 1024 there) since these buffers are quite small (32 kB).
 
-I thought about this a bit more, and I think it would be good to select
-the maximum number of buffers (32768) for the VBI capture queue in vivid.
+No, you want the latest version, period. So just the master branch of the v4l-utils git repo.
 
-These buffers are small (1440 bytes), so choosing to use 32768 buffers
-is feasible for testing on most systems (a bit less than 50 MB).
-
-This is nice for v4l2-compliance, since it can test that corner case.
+For the compliance tests you want the latest and greatest, since the stable tags are often
+fairly old.
 
 Regards,
 
 	Hans
-
-> 
-> The vicodec driver can increase it to 64, just as the verisilicon driver
-> does.
-> 
-> This makes it easy to do compliance testing for this new feature.
-> 
-> Regards,
-> 
-> 	Hans
-> 
->>
->> diff --git a/drivers/media/common/videobuf2/videobuf2-core.c b/drivers/media/common/videobuf2/videobuf2-core.c
->> index afe76577acc1..ee4df7c68397 100644
->> --- a/drivers/media/common/videobuf2/videobuf2-core.c
->> +++ b/drivers/media/common/videobuf2/videobuf2-core.c
->> @@ -411,7 +411,7 @@ static void init_buffer_cache_hints(struct vb2_queue *q, struct vb2_buffer *vb)
->>   */
->>  static bool vb2_queue_add_buffer(struct vb2_queue *q, struct vb2_buffer *vb, unsigned int index)
->>  {
->> -	if (index < VB2_MAX_FRAME && !q->bufs[index]) {
->> +	if (index < q->max_allowed_buffers && !q->bufs[index]) {
->>  		q->bufs[index] = vb;
->>  		vb->index = index;
->>  		vb->vb2_queue = q;
->> @@ -428,7 +428,7 @@ static bool vb2_queue_add_buffer(struct vb2_queue *q, struct vb2_buffer *vb, uns
->>   */
->>  static void vb2_queue_remove_buffer(struct vb2_queue *q, struct vb2_buffer *vb)
->>  {
->> -	if (vb->index < VB2_MAX_FRAME) {
->> +	if (vb->index < q->max_allowed_buffers) {
->>  		q->bufs[vb->index] = NULL;
->>  		vb->vb2_queue = NULL;
->>  	}
->> @@ -449,9 +449,9 @@ static int __vb2_queue_alloc(struct vb2_queue *q, enum vb2_memory memory,
->>  	struct vb2_buffer *vb;
->>  	int ret;
->>  
->> -	/* Ensure that q->num_buffers+num_buffers is below VB2_MAX_FRAME */
->> +	/* Ensure that q->num_buffers+num_buffers is below q->max_allowed_buffers */
->>  	num_buffers = min_t(unsigned int, num_buffers,
->> -			    VB2_MAX_FRAME - q->num_buffers);
->> +			    q->max_allowed_buffers - q->num_buffers);
->>  
->>  	for (buffer = 0; buffer < num_buffers; ++buffer) {
->>  		/* Allocate vb2 buffer structures */
->> @@ -814,7 +814,7 @@ int vb2_core_reqbufs(struct vb2_queue *q, enum vb2_memory memory,
->>  	unsigned plane_sizes[VB2_MAX_PLANES] = { };
->>  	bool non_coherent_mem = flags & V4L2_MEMORY_FLAG_NON_COHERENT;
->>  	unsigned int i;
->> -	int ret;
->> +	int ret = 0;
->>  
->>  	if (q->streaming) {
->>  		dprintk(q, 1, "streaming active\n");
->> @@ -858,17 +858,23 @@ int vb2_core_reqbufs(struct vb2_queue *q, enum vb2_memory memory,
->>  	/*
->>  	 * Make sure the requested values and current defaults are sane.
->>  	 */
->> -	WARN_ON(q->min_buffers_needed > VB2_MAX_FRAME);
->> +	WARN_ON(q->min_buffers_needed > q->max_allowed_buffers);
->>  	num_buffers = max_t(unsigned int, *count, q->min_buffers_needed);
->> -	num_buffers = min_t(unsigned int, num_buffers, VB2_MAX_FRAME);
->> +	num_buffers = min_t(unsigned int, num_buffers, q->max_allowed_buffers);
->>  	memset(q->alloc_devs, 0, sizeof(q->alloc_devs));
->>  	/*
->>  	 * Set this now to ensure that drivers see the correct q->memory value
->>  	 * in the queue_setup op.
->>  	 */
->>  	mutex_lock(&q->mmap_lock);
->> +	if (!q->bufs)
->> +		q->bufs = kcalloc(q->max_allowed_buffers, sizeof(*q->bufs), GFP_KERNEL);
->> +	if (!q->bufs)
->> +		ret = -ENOMEM;
->>  	q->memory = memory;
->>  	mutex_unlock(&q->mmap_lock);
->> +	if (ret)
->> +		return ret;
->>  	set_queue_coherency(q, non_coherent_mem);
->>  
->>  	/*
->> @@ -974,9 +980,9 @@ int vb2_core_create_bufs(struct vb2_queue *q, enum vb2_memory memory,
->>  	unsigned plane_sizes[VB2_MAX_PLANES] = { };
->>  	bool non_coherent_mem = flags & V4L2_MEMORY_FLAG_NON_COHERENT;
->>  	bool no_previous_buffers = !q->num_buffers;
->> -	int ret;
->> +	int ret = 0;
->>  
->> -	if (q->num_buffers == VB2_MAX_FRAME) {
->> +	if (q->num_buffers == q->max_allowed_buffers) {
->>  		dprintk(q, 1, "maximum number of buffers already allocated\n");
->>  		return -ENOBUFS;
->>  	}
->> @@ -993,7 +999,13 @@ int vb2_core_create_bufs(struct vb2_queue *q, enum vb2_memory memory,
->>  		 */
->>  		mutex_lock(&q->mmap_lock);
->>  		q->memory = memory;
->> +		if (!q->bufs)
->> +			q->bufs = kcalloc(q->max_allowed_buffers, sizeof(*q->bufs), GFP_KERNEL);
->> +		if (!q->bufs)
->> +			ret = -ENOMEM;
->>  		mutex_unlock(&q->mmap_lock);
->> +		if (ret)
->> +			return ret;
->>  		q->waiting_for_buffers = !q->is_output;
->>  		set_queue_coherency(q, non_coherent_mem);
->>  	} else {
->> @@ -1005,7 +1017,7 @@ int vb2_core_create_bufs(struct vb2_queue *q, enum vb2_memory memory,
->>  			return -EINVAL;
->>  	}
->>  
->> -	num_buffers = min(*count, VB2_MAX_FRAME - q->num_buffers);
->> +	num_buffers = min(*count, q->max_allowed_buffers - q->num_buffers);
->>  
->>  	if (requested_planes && requested_sizes) {
->>  		num_planes = requested_planes;
->> @@ -2515,6 +2527,12 @@ int vb2_core_queue_init(struct vb2_queue *q)
->>  
->>  	q->memory = VB2_MEMORY_UNKNOWN;
->>  
->> +	if (!q->max_allowed_buffers)
->> +		q->max_allowed_buffers = VB2_MAX_FRAME;
->> +
->> +	/* The maximum is limited by offset cookie encoding pattern */
->> +	q->max_allowed_buffers = min_t(unsigned int, q->max_allowed_buffers, BUFFER_INDEX_MASK + 1);
->> +
->>  	if (q->buf_struct_size == 0)
->>  		q->buf_struct_size = sizeof(struct vb2_buffer);
->>  
->> @@ -2539,6 +2557,8 @@ void vb2_core_queue_release(struct vb2_queue *q)
->>  	__vb2_queue_cancel(q);
->>  	mutex_lock(&q->mmap_lock);
->>  	__vb2_queue_free(q, q->num_buffers);
->> +	kfree(q->bufs);
->> +	q->bufs = NULL;
->>  	mutex_unlock(&q->mmap_lock);
->>  }
->>  EXPORT_SYMBOL_GPL(vb2_core_queue_release);
->> diff --git a/drivers/media/common/videobuf2/videobuf2-v4l2.c b/drivers/media/common/videobuf2/videobuf2-v4l2.c
->> index f460cac560f6..87c2d5916960 100644
->> --- a/drivers/media/common/videobuf2/videobuf2-v4l2.c
->> +++ b/drivers/media/common/videobuf2/videobuf2-v4l2.c
->> @@ -1156,7 +1156,7 @@ int _vb2_fop_release(struct file *file, struct mutex *lock)
->>  
->>  	if (lock)
->>  		mutex_lock(lock);
->> -	if (file->private_data == vdev->queue->owner) {
->> +	if (!vdev->queue->owner || file->private_data == vdev->queue->owner) {
->>  		vb2_queue_release(vdev->queue);
->>  		vdev->queue->owner = NULL;
->>  	}
->> @@ -1284,7 +1284,7 @@ void vb2_video_unregister_device(struct video_device *vdev)
->>  	 */
->>  	get_device(&vdev->dev);
->>  	video_unregister_device(vdev);
->> -	if (vdev->queue && vdev->queue->owner) {
->> +	if (vdev->queue) {
->>  		struct mutex *lock = vdev->queue->lock ?
->>  			vdev->queue->lock : vdev->lock;
->>  
->> diff --git a/include/media/videobuf2-core.h b/include/media/videobuf2-core.h
->> index cd3ff1cd759d..97153c69583f 100644
->> --- a/include/media/videobuf2-core.h
->> +++ b/include/media/videobuf2-core.h
->> @@ -558,6 +558,7 @@ struct vb2_buf_ops {
->>   * @dma_dir:	DMA mapping direction.
->>   * @bufs:	videobuf2 buffer structures
->>   * @num_buffers: number of allocated/used buffers
->> + * @max_allowed_buffers: upper limit of number of allocated/used buffers
->>   * @queued_list: list of buffers currently queued from userspace
->>   * @queued_count: number of buffers queued and ready for streaming.
->>   * @owned_by_drv_count: number of buffers owned by the driver
->> @@ -619,8 +620,9 @@ struct vb2_queue {
->>  	struct mutex			mmap_lock;
->>  	unsigned int			memory;
->>  	enum dma_data_direction		dma_dir;
->> -	struct vb2_buffer		*bufs[VB2_MAX_FRAME];
->> +	struct vb2_buffer		**bufs;
->>  	unsigned int			num_buffers;
->> +	unsigned int			max_allowed_buffers;
->>  
->>  	struct list_head		queued_list;
->>  	unsigned int			queued_count;
-> 
-
