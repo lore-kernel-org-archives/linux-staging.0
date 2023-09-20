@@ -1,45 +1,27 @@
-Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBE788836
-	for <linux-staging@lists.linux.dev>; Tue, 19 Sep 2023 19:31:57 +0000 (UTC)
-Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-1c4194f7635so1317115ad.0
-        for <linux-staging@lists.linux.dev>; Tue, 19 Sep 2023 12:31:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1695151917; x=1695756717; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=jjsN1SvSzM74FCs+epYa3vF7No0rymKrcXSLojQ1y0s=;
-        b=PT/fiJTr4BDOWbolMWqOQuazU10N69Lcm7uTV+sXH72mxy6cRJ+nPPgJCnW8xWuoc7
-         Qyq6vzeZjhPhzXT2ONMeiUunTgITXPOFD/JwPC4s/f15VIZc6ewP8NoYDwrQkw7VzKR/
-         Hbmya6+pNUR98RRjpOHew15CBvw4l0VFR/4gwGX/IkZnmmfzL+vHylla+MhW1AUrd0oi
-         771fVC7Pk10r7tY95EQ8h7rWQJ81OVJc41N/iCGNnfl+mSuHtMXRpR2bhXMD+oaIXH0C
-         8vnIlPpPCCSWERjmDvs28rOIz1KeU50yBry1N9K9FFIBdiLDkaq0rLScFBR0CopRhzO0
-         1ueA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1695151917; x=1695756717;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=jjsN1SvSzM74FCs+epYa3vF7No0rymKrcXSLojQ1y0s=;
-        b=us6yIXvfXhFctemw+42nfDNapb/WZ9J5Kb3hbK4tjvvep7zWhl7JEKpMuqinWLQ2ep
-         blW+Mr/AWPPQYvxQ7s9AR0BusUdapu3UgNhrALZcEMcb3u6xHyaSyDXIMX3pN/TVDQ//
-         fUDGu1crt5i5hcT4GcHF/oSJOUibXdKJ3fxPAYV1ZsON9D5zePJjwKbJXtgnXk1TZ47U
-         6VJ6xHtRBfPJ0fJItX+9SqoYJQpizppFF8Nv86IAnoJs19wNHrMa1nbwmx0qqNfADM8U
-         dZ6JbfR1a6j+9HkSIIKSAy5AvMY56PrFptfykQGsBafLp9c0RejBVt9k4oJiMLKbuZmU
-         M1+Q==
-X-Gm-Message-State: AOJu0YxJ6N4r5RwvfFduNpGhG/p6OTeHeuGYfBNI3+Y4xfkg04drqo4t
-	1ktIGQCpPavxLj9mkgxckks=
-X-Google-Smtp-Source: AGHT+IEHDDuWl6hsVpOsfQ9/JE/vnkvU73VZnh0N/Tcc3CorV3mRj3eL1GifHFVn+prkrVS/GHpHZg==
-X-Received: by 2002:a17:903:2283:b0:1b6:a37a:65b7 with SMTP id b3-20020a170903228300b001b6a37a65b7mr4769859plh.23.1695151917051;
-        Tue, 19 Sep 2023 12:31:57 -0700 (PDT)
-Received: from [192.168.31.134] ([117.243.68.251])
-        by smtp.gmail.com with ESMTPSA id ji22-20020a170903325600b001c1f0b3e900sm6909509plb.229.2023.09.19.12.31.55
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 19 Sep 2023 12:31:56 -0700 (PDT)
-Message-ID: <1fadd651-2e2d-8fd7-3f39-8d3b31921951@gmail.com>
-Date: Wed, 20 Sep 2023 01:01:51 +0530
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7EA052584
+	for <linux-staging@lists.linux.dev>; Wed, 20 Sep 2023 07:44:07 +0000 (UTC)
+Received: from [IPV6:2a01:e0a:120:3210:def9:8f6c:3807:7d89] (unknown [IPv6:2a01:e0a:120:3210:def9:8f6c:3807:7d89])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: benjamin.gaignard)
+	by madras.collabora.co.uk (Postfix) with ESMTPSA id 47BA36602173;
+	Wed, 20 Sep 2023 08:44:05 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1695195845;
+	bh=eSYDs+qZU32e2E7cB12pTV5zRWbHto0dzuV5YKjfLWo=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=Xalbv7WF546UBvMJ/uGdPNld1qXxWIZmEZBQNskDrTzN3Kc+mJm2K9bvp4I5jtKtk
+	 xh/X+B7ucMdy42dseAz54rg4P7I9YJA/3FoQItb9vwQqHPyUNl7fc+dshVakekBHXb
+	 QcP1y4mgDUSV5tY2k7TpkbMndUSxWS785NAY9lNPZHJ6xrOwqoVA0akSgEhrXfyBKv
+	 Zwaxq58FH2PeIV5GsXJ0NbMHwbSwRC/aW/RyPQ+MIUv1c82tP51tb2XKxB3Y308Gqb
+	 6NwPnaeD8HFNYScL6HU9hUz1inEGA8duZz+ac3Je4mIy3XMK6cx+laUynATVkjms8Q
+	 FvmXdUFWloOmA==
+Message-ID: <f6332d70-4392-3eee-edaa-0f7e4308fa67@collabora.com>
+Date: Wed, 20 Sep 2023 09:44:03 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -47,37 +29,83 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.0
-Subject: Re: [PATCH] staging: rtl8723bs: hal: Fix codespell-reported spelling
- mistakes
+ Thunderbird/102.15.1
+Subject: Re: [PATCH v7 16/49] media: verisilicon: postproc: Fix down scale
+ test
+To: Hans Verkuil <hverkuil-cisco@xs4all.nl>, mchehab@kernel.org,
+ tfiga@chromium.org, m.szyprowski@samsung.com, ming.qian@nxp.com,
+ ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de,
+ gregkh@linuxfoundation.org, nicolas.dufresne@collabora.com
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org,
+ linux-arm-msm@vger.kernel.org, linux-rockchip@lists.infradead.org,
+ linux-staging@lists.linux.dev, kernel@collabora.com
+References: <20230914133323.198857-1-benjamin.gaignard@collabora.com>
+ <20230914133323.198857-17-benjamin.gaignard@collabora.com>
+ <cbfef598-8faa-40e6-8dc2-a1efd03f9560@xs4all.nl>
 Content-Language: en-US
-To: Greg KH <gregkh@linuxfoundation.org>
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-References: <20230917134940.2746-1-bragathemanick0908@gmail.com>
- <CAHZF+VZVBkRP6D4xJEhoqKmr9MbjNFJ8A0NZXSwDEMFJhqBc-w@mail.gmail.com>
- <2023091949-drove-goatskin-3627@gregkh>
-From: Bragatheswaran Manickavel <bragathemanick0908@gmail.com>
-In-Reply-To: <2023091949-drove-goatskin-3627@gregkh>
+From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+In-Reply-To: <cbfef598-8faa-40e6-8dc2-a1efd03f9560@xs4all.nl>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
 
-On 20/09/23 00:35, Greg KH wrote:
-> On Tue, Sep 19, 2023 at 09:31:48PM +0530, Bragatheswaran Manickavel wrote:
->> Gentle reminder !
-> of what?
+Le 19/09/2023 à 13:16, Hans Verkuil a écrit :
+> On 14/09/2023 15:32, Benjamin Gaignard wrote:
+>> Do not allow down scaling if the source buffer resolution is
+>> smaller  than destination one.
+>>
+>> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+>> Fixes: fbb6c848dd89 ("media: destage Hantro VPU driver")
+> Is this really a fix? I gather that this relies on "VP9 resolution change without
+> doing stream off/on" support, and support for that is added by these patches.
 >
-Sent this remainder for considering my patch.
->> On Sun, 17 Sept 2023 at 19:19, Bragatheswaran Manickavel <
->> bragathemanick0908@gmail.com> wrote:
-> You sent this 2 days ago, for a spelling fix?  Please relax, there is
-> obviously no rush.
+> Adding the Fixes tag would cause stable maintainers to queue this patch up for
+> older kernels, but I don't think that is needed here at all.
 >
-> greg k-h
+> And related I also think that this really does not belong to this patch series.
 >
-Actually, this was my first patch mail. Just want to make sure, the way 
-I sent the patch and other things are fine. Anyway thanks for your response
+> As I understand it, patch 13/49 extends the verisilicon driver to support more
+> than 32 buffers, so that one makes sense in the context of this series.
+>
+> But the other verisilicon patches appear to be unrelated and instead add a new
+> feature, and I don't believe it relates to this series at all.
+>
+> If I am right, then please post this as a separate series, possibly mentioning
+> that it sits on top of this series.
 
-Thanks,
-Bragathe
+Marek has send the same patch and got it merged in stage branch:
+https://patchwork.kernel.org/project/linux-media/patch/20230824013935.303132-1-marex@denx.de/
+so I can skip it now.
 
+The other patches are needed to enable VP9 dynamic resolution change, which is the feature
+I target with this series.
+2 patches fix chroma / motion vector offset issues.
+1 allow to change the resolution while stream.
+
+Regards,
+Benjamin
+
+>
+> Regards,
+>
+> 	Hans
+>
+>> ---
+>>   drivers/media/platform/verisilicon/hantro_postproc.c | 2 +-
+>>   1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/drivers/media/platform/verisilicon/hantro_postproc.c b/drivers/media/platform/verisilicon/hantro_postproc.c
+>> index e624cd98f41b..77d8ecfbe12f 100644
+>> --- a/drivers/media/platform/verisilicon/hantro_postproc.c
+>> +++ b/drivers/media/platform/verisilicon/hantro_postproc.c
+>> @@ -107,7 +107,7 @@ static void hantro_postproc_g1_enable(struct hantro_ctx *ctx)
+>>   
+>>   static int down_scale_factor(struct hantro_ctx *ctx)
+>>   {
+>> -	if (ctx->src_fmt.width == ctx->dst_fmt.width)
+>> +	if (ctx->src_fmt.width <= ctx->dst_fmt.width)
+>>   		return 0;
+>>   
+>>   	return DIV_ROUND_CLOSEST(ctx->src_fmt.width, ctx->dst_fmt.width);
+>
