@@ -1,40 +1,23 @@
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E98CB641
-	for <linux-staging@lists.linux.dev>; Thu, 21 Sep 2023 13:07:11 +0000 (UTC)
-Received: from [IPV6:2a01:e0a:120:3210:9fdf:789a:7434:5a59] (unknown [IPv6:2a01:e0a:120:3210:9fdf:789a:7434:5a59])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits))
-	(No client certificate requested)
-	(Authenticated sender: benjamin.gaignard)
-	by madras.collabora.co.uk (Postfix) with ESMTPSA id 0993D660730F;
-	Thu, 21 Sep 2023 14:07:08 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1695301628;
-	bh=mmmqwe8q35EF60gRPt25qgUoNhlMJ6f3fdyHBPL8m3I=;
-	h=Date:Subject:From:To:Cc:References:In-Reply-To:From;
-	b=eycWj38iy+o38Wd27qeabpN9rCIeaUbg4iCFmr/gYTc1iI0sd4g6PA9ixzl7OCbql
-	 WhNNn1IPL7jCZXaa2tfeNuBKI4ukEnhi++qwS4TsPhYUByBrX434lzly16fjBPPHT7
-	 QgOvqo9F9b7POofosZ0jRYZqHKDttSbNFGaU2H1A13qYx12llkfYMrgHPECpHbIT10
-	 CDRhZxzqHs5xvj42Z+kN44idFLmv+2Iv0EQNVANYJmritM3Pcy1Epy6YGXCzq9e//j
-	 GHNFOeedc4smhZgCbok3W1igHvgk7paj/48e3GyHtkEXS65ykPybPaMsxYkchfcfsY
-	 85EKNLZgBqdMQ==
-Message-ID: <bf659f27-1669-86b8-df30-f1e7f9ecf371@collabora.com>
-Date: Thu, 21 Sep 2023 15:07:05 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52E4BB641
+	for <linux-staging@lists.linux.dev>; Thu, 21 Sep 2023 13:48:12 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BEF7DC4E74B;
+	Thu, 21 Sep 2023 13:48:08 +0000 (UTC)
+Message-ID: <13b47528-153d-417d-8fe3-0288aa4d1003@xs4all.nl>
+Date: Thu, 21 Sep 2023 15:48:06 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.1
+User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH v7 45/49] media: core: Add bitmap manage bufs array
  entries
-Content-Language: en-US
-From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-To: Hans Verkuil <hverkuil-cisco@xs4all.nl>, mchehab@kernel.org,
+Content-Language: en-US, nl
+To: Benjamin Gaignard <benjamin.gaignard@collabora.com>, mchehab@kernel.org,
  tfiga@chromium.org, m.szyprowski@samsung.com, ming.qian@nxp.com,
  ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de,
  gregkh@linuxfoundation.org, nicolas.dufresne@collabora.com
@@ -52,13 +35,13 @@ References: <20230914133323.198857-1-benjamin.gaignard@collabora.com>
  <aa649adf-8faf-801b-f6bd-d4a4760e040f@collabora.com>
  <a6a6da68-d9f2-44d3-9741-aa2cf83fac6d@xs4all.nl>
  <c8b7db47-3875-a10b-8d81-a0b3dcbc564a@collabora.com>
+From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 In-Reply-To: <c8b7db47-3875-a10b-8d81-a0b3dcbc564a@collabora.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-
-Le 21/09/2023 à 14:46, Benjamin Gaignard a écrit :
->
+On 21/09/2023 14:46, Benjamin Gaignard wrote:
+> 
 > Le 21/09/2023 à 14:13, Hans Verkuil a écrit :
 >> On 21/09/2023 14:05, Benjamin Gaignard wrote:
 >>> Le 21/09/2023 à 12:24, Hans Verkuil a écrit :
@@ -68,18 +51,14 @@ Le 21/09/2023 à 14:46, Benjamin Gaignard a écrit :
 >>>>>> <snip>
 >>>>>>
 >>>>>>>>>          num_buffers = min_t(unsigned int, num_buffers,
->>>>>>>>>                      q->max_allowed_buffers - 
->>>>>>>>> vb2_get_num_buffers(q));
+>>>>>>>>>                      q->max_allowed_buffers - vb2_get_num_buffers(q));
 >>>>>>>>>      -    first_index = vb2_get_num_buffers(q);
->>>>>>>>> +    first_index = bitmap_find_next_zero_area(q->bufs_map, 
->>>>>>>>> q->max_allowed_buffers,
+>>>>>>>>> +    first_index = bitmap_find_next_zero_area(q->bufs_map, q->max_allowed_buffers,
 >>>>>>>>> +                         0, num_buffers, 0);
 >>>>>>>>>            if (first_index >= q->max_allowed_buffers)
 >>>>>>>>>              return 0;
->>>>>>>>> @@ -675,7 +678,13 @@ static void __vb2_queue_free(struct 
->>>>>>>>> vb2_queue *q, unsigned int buffers)
->>>>>>>>>        struct vb2_buffer *vb2_get_buffer(struct vb2_queue *q, 
->>>>>>>>> unsigned int index)
+>>>>>>>>> @@ -675,7 +678,13 @@ static void __vb2_queue_free(struct vb2_queue *q, unsigned int buffers)
+>>>>>>>>>        struct vb2_buffer *vb2_get_buffer(struct vb2_queue *q, unsigned int index)
 >>>>>>>>>      {
 >>>>>>>>> -    if (index < q->num_buffers)
 >>>>>>>>> +    if (!q->bufs_map || !q->bufs)
@@ -87,11 +66,9 @@ Le 21/09/2023 à 14:46, Benjamin Gaignard a écrit :
 >>>>>>>> I don't think this can ever happen.
 >>>>>>> I got kernel crash without them.
 >>>>>>> I will keep them.
->>>>>> What is the backtrace? How can this happen? It feels wrong that 
->>>>>> this can be
+>>>>>> What is the backtrace? How can this happen? It feels wrong that this can be
 >>>>>> called with a vb2_queue that apparently is not properly initialized.
->>>>> I have this log when adding dump_stack() in vb2_get_buffer() if 
->>>>> !q->bufs_bitmap:
+>>>>> I have this log when adding dump_stack() in vb2_get_buffer() if !q->bufs_bitmap:
 >>>>>
 >>>>> [   18.924627] Call trace:
 >>>>> [   18.927090]  dump_backtrace+0x94/0xec
@@ -114,45 +91,26 @@ Le 21/09/2023 à 14:46, Benjamin Gaignard a écrit :
 >>>>> [   18.990470]  el0t_64_sync_handler+0x100/0x12c
 >>>>> [   18.994842]  el0t_64_sync+0x190/0x194
 >>>>>
->>>>> This happen at boot time when hantro driver is open and close 
->>>>> without other actions.
+>>>>> This happen at boot time when hantro driver is open and close without other actions.
 >>>> Ah, now I see the problem. q->bufs and q->bufs_map are allocated in
->>>> vb2_core_create_bufs and vb2_core_reqbufs, but they should be 
->>>> allocated
+>>>> vb2_core_create_bufs and vb2_core_reqbufs, but they should be allocated
 >>>> in vb2_queue_init: that's the counterpart of vb2_core_queue_release.
-
-Hans,
-I think we are doing loops in your comment :-)
-https://patchwork.kernel.org/comment/25496456/
-
-Regards,
-Benjamin
-
 >>>>
->>>> With that change you shouldn't have to check for q->bufs/bufs_map 
->>>> anymore.
->>> It is a better solution but even like this vb2_core_queue_release() 
->>> is called
->>> at least 2 times on the same vivid queue and without testing 
->>> q->bufs_bitmap
+>>>> With that change you shouldn't have to check for q->bufs/bufs_map anymore.
+>>> It is a better solution but even like this vb2_core_queue_release() is called
+>>> at least 2 times on the same vivid queue and without testing q->bufs_bitmap
 >>> makes kernel crash.
->> Do you have a stacktrace for that? Perhaps vb2_core_queue_release 
->> should check
->> for q->bufs/q->bufs_map and return if those are NULL. But it could 
->> also be a
->> bug that it is called twice, it just was never noticed because it was 
->> harmless
+>> Do you have a stacktrace for that? Perhaps vb2_core_queue_release should check
+>> for q->bufs/q->bufs_map and return if those are NULL. But it could also be a
+>> bug that it is called twice, it just was never noticed because it was harmless
 >> before.
->
+> 
 > I have added some printk to log that when running test-media on vivid:
->
-> [  130.497426] vb2_core_queue_init queue cap-0000000050d195ab allocate 
-> q->bufs 00000000dc2c15ed and q->bufs_bitmap 000000008173fc5a
+> 
+> [  130.497426] vb2_core_queue_init queue cap-0000000050d195ab allocate q->bufs 00000000dc2c15ed and q->bufs_bitmap 000000008173fc5a
 > ...
-> [  130.733967] vb2_core_queue_release queue cap-0000000050d195ab 
-> release q->bufs and q->bufs_bitmap
-> [  133.866345] vb2_get_buffer queue cap-0000000050d195ab 
-> q->bufs_bitmap is NULL
+> [  130.733967] vb2_core_queue_release queue cap-0000000050d195ab release q->bufs and q->bufs_bitmap
+> [  133.866345] vb2_get_buffer queue cap-0000000050d195ab q->bufs_bitmap is NULL
 > [  133.873454] CPU: 1 PID: 321 Comm: v4l2-ctl Not tainted 6.6.0-rc1+ #542
 > [  133.879997] Hardware name: NXP i.MX8MQ EVK (DT)
 > [  133.884536] Call trace:
@@ -175,14 +133,11 @@ Benjamin
 > [  133.947677]  el0_svc+0x40/0xe8
 > [  133.950741]  el0t_64_sync_handler+0x100/0x12c
 > [  133.955109]  el0t_64_sync+0x190/0x194
->
-> and later I have a call to reqbufs on the same queue without call to 
-> vb2_core_queue_init before
->
-> [   58.696812] __vb2_queue_alloc queue cap- 
-> 0000000050d195abq->bufs_bitmap is NULL
-> [   58.704148] CPU: 1 PID: 319 Comm: v4l2-compliance Not tainted 
-> 6.6.0-rc1+ #544
+> 
+> and later I have a call to reqbufs on the same queue without call to vb2_core_queue_init before
+> 
+> [   58.696812] __vb2_queue_alloc queue cap- 0000000050d195abq->bufs_bitmap is NULL
+> [   58.704148] CPU: 1 PID: 319 Comm: v4l2-compliance Not tainted 6.6.0-rc1+ #544
 > [   58.711291] Hardware name: NXP i.MX8MQ EVK (DT)
 > [   58.715826] Call trace:
 > [   58.718274]  dump_backtrace+0x94/0xec
@@ -205,7 +160,34 @@ Benjamin
 > [   58.782520]  el0_svc+0x40/0xe8
 > [   58.785580]  el0t_64_sync_handler+0x100/0x12c
 > [   58.789942]  el0t_64_sync+0x190/0x194
->
+
+Argh, I see what is happening. The root cause is that vb2_core_queue_release
+is actually not a true counterpart to vb2_core_queue_init.
+
+The '_release' part refers to when a file handle is released, and not to
+releasing resources allocated in queue_init.
+
+The queue_init function never actually allocated any resources, so there
+was never a reason to make a counterpart to that, but now that bites us.
+
+Changing this would be a huge amount of work, and it is not worth the
+effort, IMHO.
+
+But at least we shouldn't have to test for both bufs and bufs_map,
+they are either both set or both NULL. Just test one of the two.
+
+The vb2_core_queue_init() function documentation in the header
+should perhaps be more clear about the fact that this function
+does not allocate any resources, and that there is no cleanup
+counterpart.
+
+It is what got me confused...
+
+Regards,
+
+	Hans
+
+> 
 >>
 >> Regards,
 >>
@@ -215,14 +197,13 @@ Benjamin
 >>>>
 >>>>      Hans
 >>>>
+>>>>>    
 >>>>>>>>> +
->>>>>>>>> +    return (bitmap_weight(q->bufs_map, 
->>>>>>>>> q->max_allowed_buffers) > 0);
+>>>>>>>>> +    return (bitmap_weight(q->bufs_map, q->max_allowed_buffers) > 0);
 >>>>>>>> How about:
 >>>>>>>>
 >>>>>>>>        return vb2_get_num_buffers(q) > 0;
->>>>>>> vb2_get_num_buffers is defined in videobuf2-core.c, I'm not sure 
->>>>>>> that
+>>>>>>> vb2_get_num_buffers is defined in videobuf2-core.c, I'm not sure that
 >>>>>>> an inline function could depend of a module function.
 >>>>>> Not a problem. E.g. v4l2-ctrls.h is full of such static inlines.
 >>>>>>
@@ -231,3 +212,4 @@ Benjamin
 >>>>>>       Hans
 >>>>>>
 >>
+
