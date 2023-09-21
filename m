@@ -1,43 +1,43 @@
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FC1ABA3A
-	for <linux-staging@lists.linux.dev>; Thu, 21 Sep 2023 14:22:47 +0000 (UTC)
-Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-3200bc30666so947591f8f.2
-        for <linux-staging@lists.linux.dev>; Thu, 21 Sep 2023 07:22:47 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 410BBBA26
+	for <linux-staging@lists.linux.dev>; Thu, 21 Sep 2023 14:22:48 +0000 (UTC)
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-402c46c49f4so10661335e9.1
+        for <linux-staging@lists.linux.dev>; Thu, 21 Sep 2023 07:22:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1695306165; x=1695910965; darn=lists.linux.dev;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1695306166; x=1695910966; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=FFHoFBATjyYAR3S3Kihiw7DM+oB505Wu13vuO5lq7BQ=;
-        b=16lotpLqSe4LaMn4PDpwyklUu2ppWQ//FIq5uZulMC6OdBFdaKBf3ooWa5L4mkfGuU
-         XnDOCfbgxOWv3Im+0Ot64Y5SZjMm93dvznx7H6oQSEJ2Fu++yJSJEOGsEPScjiAu/0jF
-         HbqFLqRmwvXG0IpN0y0xKwc1ZflaHBuc8Vbqd0+9zgNOZ7qOGqpExbi63alPvHeCM2rr
-         hoAFmG4n6hZs2y5phGjBUOEaa3AmTe26cSOWmoEUAC/5Xt8YOYME6A2X7rPqrCKYNTO3
-         i6CBbv60YcJ+dM5ho5A3PbNFZ5vHFIpuAZjk6Qkmhg22PN8l3Sonnn4Hv6ZEWHjcHymV
-         sBlw==
+        bh=nYFN9YS9lGoY3Drq+6yfHeUu5PUEzCkva/9j6XN0ZE4=;
+        b=fzkfG5CY9MlOKqMncLV046E2Gh6EPLmNmas+EWj0enD2VYBvlro86JvLIBwhnfz9Ge
+         TtIXGp35N34xyJhb2Et1dycv5w26Vm/Dn7arOHtLcqIGl61hO9j9Xif9j6LVCUM3dnQB
+         SdZJfNdEU4ZET6Og6J+PFwZbCyBzCVNtgXDeUQ94wMgP+aaLpIED+Oq8C1Y18NCeoCvr
+         pe/g+VV7R/iCZ0GiiVmqOFDGD/bQJDqRuw+BbBAis8WX8slkimuxEGO73rwbLmkwnVTt
+         7t1jHsFsUsSpPrHusZz2PZgG3AEkx0rrlBdQJx4FUvlooRYMQK0gJxLX0dbvtpBYJpAF
+         5K7Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1695306165; x=1695910965;
+        d=1e100.net; s=20230601; t=1695306166; x=1695910966;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=FFHoFBATjyYAR3S3Kihiw7DM+oB505Wu13vuO5lq7BQ=;
-        b=llJaKDOpD1JGw5222SqD3iAhQVpC6hd/3jTtCm6CMP8gBkYw5ISZNZf0kzIVVor83+
-         03RkerRbnxfypY43o5E/qfb2bZDEe8gGB9biiuIjsNv1iFGIulClYwdwkuoo3/ujvULa
-         yCTO3vZopw9+6x7P62mI5VHgwdwNHS7dz5R5rssz5Vs2RVjVCWndgEdZS9T7E7w553G0
-         bz/hItSE79clJoKRrVpkqg2VD6oODjGNuYXRfUlMwNi7E1/yJ5jheyiSwXjdO1wh3P6Q
-         s+06nQQwvqFUWZcGcJXu0OnC0GcoKqgrIBYSMrf5XfwlSdBp0w764lZgOAENYMqHYVUC
-         xkPQ==
-X-Gm-Message-State: AOJu0YySCJorR/pNx5xg5uWXkcQGuMoJ6VjBCjKeVSKp/UcPGYhEjNq7
-	DIrLQ4PN0J+PLvEXvaSJRCvp8A==
-X-Google-Smtp-Source: AGHT+IEuEQ+yHcKXMmNkfUgwvUgJV0TYHVRrMSBE2WgINBdiZLHbPgjRXkTk6HjPHk2lj+d6o1Or/w==
-X-Received: by 2002:adf:fb47:0:b0:316:fc63:dfed with SMTP id c7-20020adffb47000000b00316fc63dfedmr3915975wrs.39.1695306165716;
-        Thu, 21 Sep 2023 07:22:45 -0700 (PDT)
+        bh=nYFN9YS9lGoY3Drq+6yfHeUu5PUEzCkva/9j6XN0ZE4=;
+        b=LtJPabIPLX0ulL+BcRRKl5mNsW6R835qwiYGMVuws/YSyASav7JrH44k+2j8RY8fs5
+         TD8q1lPNQMYmuhUHuymojQjPDv/ueFSdiJCsLvX7X4WsO+PxU9/9Z8hcwZurvyM7xegw
+         hsiCygl07hbZ2zoCdMa7vumIQzQwAcNWPQXCDuQQNnirp3narhQ1cDAIsOIJD65xogO6
+         7H2nmRH76K0WG6ZvmJk5rDIkbuD7ZsFMIXiIlyQc2Ol/g+0NgWshmG1fmIvEEc+xFA6U
+         qZtXr3GoTli96HCsqdsy3AUfTErshBtO96TSEqJK4R530twQrWFWWFv4cc8MTihSydqj
+         eQJA==
+X-Gm-Message-State: AOJu0Yxh2eSwoDVHaf/YN7isW4BxMF9cklnw9keLKLeqmxdMq7OvMsGy
+	+wcRtyFlErd4LJR0ObFKbm0pEg==
+X-Google-Smtp-Source: AGHT+IFu1F25pmyaAgzXYF1qsHUDXBwQ437AiaWnWjMjwmw80fpRWTPc2ECeCGljKdTfsMbdgIq1Yg==
+X-Received: by 2002:a1c:ed08:0:b0:405:1bbd:aa9c with SMTP id l8-20020a1ced08000000b004051bbdaa9cmr5515593wmh.34.1695306166581;
+        Thu, 21 Sep 2023 07:22:46 -0700 (PDT)
 Received: from localhost.localdomain (abordeaux-655-1-129-86.w90-5.abo.wanadoo.fr. [90.5.10.86])
-        by smtp.gmail.com with ESMTPSA id n11-20020a5d4c4b000000b0031fbbe347ebsm1901426wrt.22.2023.09.21.07.22.44
+        by smtp.gmail.com with ESMTPSA id n11-20020a5d4c4b000000b0031fbbe347ebsm1901426wrt.22.2023.09.21.07.22.45
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 21 Sep 2023 07:22:45 -0700 (PDT)
+        Thu, 21 Sep 2023 07:22:46 -0700 (PDT)
 From: David Lechner <dlechner@baylibre.com>
 To: linux-iio@vger.kernel.org,
 	devicetree@vger.kernel.org,
@@ -52,9 +52,9 @@ Cc: linux-kernel@vger.kernel.org,
 	Axel Haslam <ahaslam@baylibre.com>,
 	Philip Molloy <pmolloy@baylibre.com>,
 	David Lechner <dlechner@baylibre.com>
-Subject: [v2 15/19] staging: iio: resolver: ad2s1210: read excitation frequency from control register
-Date: Thu, 21 Sep 2023 09:19:43 -0500
-Message-Id: <20230921141947.57784-18-dlechner@baylibre.com>
+Subject: [v2 16/19] staging: iio: resolver: ad2s1210: rename fexcit attribute
+Date: Thu, 21 Sep 2023 09:19:44 -0500
+Message-Id: <20230921141947.57784-19-dlechner@baylibre.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230921141947.57784-1-dlechner@baylibre.com>
 References: <20230921141947.57784-1-dlechner@baylibre.com>
@@ -66,60 +66,66 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This modifies the ad2s1210_show_fexcit() function to read the excitation
-frequency from the control register. This way we don't have to keep
-track of the value and don't risk returning a stale value.
+This renames the fexcit attribute to excitation_frequency to be more
+human-readable. Since we are already making many breaking changes to
+the staging driver, this is a good time to do this.
+
+Also make use of IIO_DEVICE_ATTR_RW while we are touching this.
 
 Signed-off-by: David Lechner <dlechner@baylibre.com>
 ---
- drivers/staging/iio/resolver/ad2s1210.c | 19 +++++++++++++++----
- 1 file changed, 15 insertions(+), 4 deletions(-)
+ drivers/staging/iio/resolver/ad2s1210.c | 17 ++++++++---------
+ 1 file changed, 8 insertions(+), 9 deletions(-)
 
 diff --git a/drivers/staging/iio/resolver/ad2s1210.c b/drivers/staging/iio/resolver/ad2s1210.c
-index f1ffee34ebbc..27294eff99ef 100644
+index 27294eff99ef..14bec2b20939 100644
 --- a/drivers/staging/iio/resolver/ad2s1210.c
 +++ b/drivers/staging/iio/resolver/ad2s1210.c
-@@ -78,7 +78,6 @@ struct ad2s1210_state {
- 	struct regmap *regmap;
- 	/** The external oscillator frequency in Hz. */
- 	unsigned long fclkin;
--	unsigned int fexcit;
- 	u8 resolution;
- 	u8 rx[2] __aligned(IIO_DMA_MINALIGN);
- 	u8 tx[2];
-@@ -202,8 +201,6 @@ static int ad2s1210_set_excitation_frequency(struct ad2s1210_state *st,
- 	if (ret < 0)
- 		return ret;
- 
--	st->fexcit = fexcit;
--
- 	/* software reset reinitializes the excitation frequency output */
- 	return regmap_write(st->regmap, AD2S1210_REG_SOFT_RESET, 0);
+@@ -217,9 +217,9 @@ static int ad2s1210_set_resolution_gpios(struct ad2s1210_state *st,
+ 				     bitmap);
  }
-@@ -225,8 +222,22 @@ static ssize_t ad2s1210_show_fexcit(struct device *dev,
- 				    char *buf)
+ 
+-static ssize_t ad2s1210_show_fexcit(struct device *dev,
+-				    struct device_attribute *attr,
+-				    char *buf)
++static ssize_t excitation_frequency_show(struct device *dev,
++					 struct device_attribute *attr,
++					 char *buf)
  {
  	struct ad2s1210_state *st = iio_priv(dev_to_iio_dev(dev));
-+	unsigned int value;
-+	u16 fexcit;
-+	int ret;
- 
--	return sprintf(buf, "%u\n", st->fexcit);
-+	mutex_lock(&st->lock);
-+	ret = regmap_read(st->regmap, AD2S1210_REG_EXCIT_FREQ, &value);
-+	if (ret < 0)
-+		goto error_ret;
-+
-+	fexcit = value * st->fclkin / (1 << 15);
-+
-+	ret = sprintf(buf, "%u\n", fexcit);
-+
-+error_ret:
-+	mutex_unlock(&st->lock);
-+	return ret;
+ 	unsigned int value;
+@@ -240,9 +240,9 @@ static ssize_t ad2s1210_show_fexcit(struct device *dev,
+ 	return ret;
  }
  
- static ssize_t ad2s1210_store_fexcit(struct device *dev,
+-static ssize_t ad2s1210_store_fexcit(struct device *dev,
+-				     struct device_attribute *attr,
+-				     const char *buf, size_t len)
++static ssize_t excitation_frequency_store(struct device *dev,
++					  struct device_attribute *attr,
++					  const char *buf, size_t len)
+ {
+ 	struct ad2s1210_state *st = iio_priv(dev_to_iio_dev(dev));
+ 	u16 fexcit;
+@@ -555,8 +555,7 @@ static int ad2s1210_write_raw(struct iio_dev *indio_dev,
+ 	return ret;
+ }
+ 
+-static IIO_DEVICE_ATTR(fexcit, 0644,
+-		       ad2s1210_show_fexcit,	ad2s1210_store_fexcit, 0);
++static IIO_DEVICE_ATTR_RW(excitation_frequency, 0);
+ static IIO_DEVICE_ATTR(bits, 0644,
+ 		       ad2s1210_show_resolution, ad2s1210_store_resolution, 0);
+ static IIO_DEVICE_ATTR(fault, 0644,
+@@ -604,7 +603,7 @@ static const struct iio_chan_spec ad2s1210_channels[] = {
+ };
+ 
+ static struct attribute *ad2s1210_attributes[] = {
+-	&iio_dev_attr_fexcit.dev_attr.attr,
++	&iio_dev_attr_excitation_frequency.dev_attr.attr,
+ 	&iio_dev_attr_bits.dev_attr.attr,
+ 	&iio_dev_attr_fault.dev_attr.attr,
+ 	&iio_dev_attr_los_thrd.dev_attr.attr,
 -- 
 2.34.1
 
