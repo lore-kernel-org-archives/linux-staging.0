@@ -1,43 +1,43 @@
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52D5C33E9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03B553C3E
 	for <linux-staging@lists.linux.dev>; Thu, 21 Sep 2023 14:44:17 +0000 (UTC)
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-405361bb93bso5983175e9.3
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-403012f27e3so11350635e9.3
         for <linux-staging@lists.linux.dev>; Thu, 21 Sep 2023 07:44:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1695307455; x=1695912255; darn=lists.linux.dev;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1695307456; x=1695912256; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=NWszhBlTWMiwkXqgF1w4h8oNmYkV0xe9wPBMJvnXBgI=;
-        b=GP/k2L7E7DDCjGjEWXRZVhR7SrBh2N8Z2k7UPQfIgB1agfhrw4URhVp/hacmT8oHT6
-         rJTOZZCjymE2GUhzymHDtVZxrX63SCSHa8nbeo8YZ9TPMYpGDTDHjpu33slEQw7NSByz
-         5cAIKG4smnQ8ezwA0e1bPXQIoV9AcmDKFlm3Ok3Z99jOxcDSpkRdy3j4Cfij6biy2/u+
-         LmZ9W1VgW5TrJctGTlAtREA1AfuQU+WbxykjzZr1Uy3EK2qLXcUyWm0T3EIn+pQaVErE
-         KIKFJ88sQIseNTR337mMyBEZOx/cI+DsfJWujbh/KSkll8esu5ElRpCxrLL8u9DxNwHo
-         Bi3Q==
+        bh=x9YCZ78k5Zg5KKitr5PpHsZw/Rz0qYyLXQR2L135bIs=;
+        b=0jBfONkY9u9I1a2L24r+y0U8ygm2FO0F6rw7HVOLMnbOaOJ0ImXJRONPHoslKwffsP
+         kxb9XBIEnbtOaMAtapWzE8xYP8Iogr5QCVVok59DWvZVD1ZLgbJrFSvALxiedB1ErNjd
+         sYPRK6cWdECYprseEqGY7EIqXgtDy9/dUqCbDOCw724GjrYwELCFTYv1JEROELMhMv8W
+         cjtOSkMOro4O2BiXVrLYzLcPm8JaVc41YFno/7fwdk96b6neZf8atkrjWljciDVfwn6V
+         xqi66Qy1kEfIlxOESMqOjcJ6/2re7CDHU0PUUytNW1XxwnNm7etiUAuDAiXssxC4LpPK
+         7dKw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1695307455; x=1695912255;
+        d=1e100.net; s=20230601; t=1695307456; x=1695912256;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=NWszhBlTWMiwkXqgF1w4h8oNmYkV0xe9wPBMJvnXBgI=;
-        b=ADDOeMIprMO5cYfAIr8/NQjqJB3cHl2AHswA3MjjiSDAF0mbo0Qni1kJp284KqW4od
-         7IcmPqBr5temUeYNNFSXP5N2w56sEDAsbbzpnfbMPNAY6nDiB9uGjlQQdJZGXJ/RQMby
-         buuVNeCSPdGrz2m4s07mtHxtaI3Emc+dGx389KPHySIqI6oubHO2ZSdacdGY0MpYgFHn
-         A0t/H8DPUJ0K8FbNz13lwr/fBTYBiEHQ23KYAUIdpfhsspZf5CxllpqWrzs3e/aurHPW
-         i6thxg12dE047wu86Ojik3bwlni3uc3MSjqSXDnMdRRU/T18MnTbGDOx8bk0d5cOb4ED
-         XCjA==
-X-Gm-Message-State: AOJu0Yy+IHYab67GmiWlXvlyLdHAs17YunZsncKmpAxej4ayM1H7XwCn
-	lt7sssxx7aG2hWvCZ/cZ797wxQ==
-X-Google-Smtp-Source: AGHT+IEbn5IMsdjtBHEkcUJjQZ6PeFE6mcT6qeW6zrirIQz8hU6m6170Q4EKzy7+2zTNsR6rNCEY9w==
-X-Received: by 2002:a05:600c:ad4:b0:3f9:b430:199b with SMTP id c20-20020a05600c0ad400b003f9b430199bmr5382212wmr.15.1695307455234;
-        Thu, 21 Sep 2023 07:44:15 -0700 (PDT)
+        bh=x9YCZ78k5Zg5KKitr5PpHsZw/Rz0qYyLXQR2L135bIs=;
+        b=h0WsjiGUYVAeRJPX5Uep29aypJxtDgXM7Cy6ODEBfyGjdQBqN8zjdObZlpdQ8T0+p0
+         cIu3EuojvM2j8+rDUJpnLeqxhBzGdCZ54douBlxzPCq1VaieCL9B5qhfrWwNJXmmRJyf
+         53cv+WdwfuTQAFBTQ5wZ17u9T7jQEIbt7JmCAyjACVPIkHruqyDv9T8MHOXePFroZpBP
+         iXYbthNpg7BY0nnsOEgkl9rVe/j1gAyAgrSd1ilEiNAFABE2FjP7WvZoW+a+EjaEXEOM
+         WvsPfjZxVs8ggaNi3GQcUV2AaizkIRFBbhwPY8twelQK7PDH9GVC+bren8rKKLsTn4Vv
+         MB8Q==
+X-Gm-Message-State: AOJu0YzITb6OOPR66hz8xo/UWAJKo/y3pcnsT9KF8d+3NUeYbIR5J76q
+	h/JNb4cs+7/4IM9goRrKJ7gtRlchh7d63HS6dxXldcmJ
+X-Google-Smtp-Source: AGHT+IEpFrDSoMcGwkX92bs0KANrkQRic6vkb2g8vJmtLIHbFG/3F3REKUYxWKXB+6gaHaSm9uvZwA==
+X-Received: by 2002:a05:600c:ce:b0:401:d2cb:e6f2 with SMTP id u14-20020a05600c00ce00b00401d2cbe6f2mr5107214wmm.32.1695307456325;
+        Thu, 21 Sep 2023 07:44:16 -0700 (PDT)
 Received: from localhost.localdomain (abordeaux-655-1-129-86.w90-5.abo.wanadoo.fr. [90.5.10.86])
-        by smtp.gmail.com with ESMTPSA id s17-20020a1cf211000000b003fe2a40d287sm2125515wmc.1.2023.09.21.07.44.14
+        by smtp.gmail.com with ESMTPSA id s17-20020a1cf211000000b003fe2a40d287sm2125515wmc.1.2023.09.21.07.44.15
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 21 Sep 2023 07:44:14 -0700 (PDT)
+        Thu, 21 Sep 2023 07:44:16 -0700 (PDT)
 From: David Lechner <dlechner@baylibre.com>
 To: linux-iio@vger.kernel.org,
 	devicetree@vger.kernel.org,
@@ -52,9 +52,9 @@ Cc: linux-kernel@vger.kernel.org,
 	Axel Haslam <ahaslam@baylibre.com>,
 	Philip Molloy <pmolloy@baylibre.com>,
 	David Lechner <dlechner@baylibre.com>
-Subject: [PATCH v2 03/19] staging: iio: resolver: ad2s1210: fix ad2s1210_show_fault
-Date: Thu, 21 Sep 2023 09:43:44 -0500
-Message-Id: <20230921144400.62380-4-dlechner@baylibre.com>
+Subject: [PATCH v2 04/19] staging: iio: resolver: ad2s1210: fix not restoring sample gpio in channel read
+Date: Thu, 21 Sep 2023 09:43:45 -0500
+Message-Id: <20230921144400.62380-5-dlechner@baylibre.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230921144400.62380-1-dlechner@baylibre.com>
 References: <20230921144400.62380-1-dlechner@baylibre.com>
@@ -66,32 +66,31 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-When reading the fault attribute, an empty string was printed if the
-fault register value was non-zero.
-
-This is fixed by checking that the return value is less than zero
-instead of not zero.
-
-Also always print two hex digits while we are touching this line.
+In theory, this code path should not be reachable because of the
+previous switch statement. But just in case we should make sure we
+are restoring the SAMPLE gpio to its original state before returning
+in addition to releasing the mutex lock.
 
 Signed-off-by: David Lechner <dlechner@baylibre.com>
 ---
- drivers/staging/iio/resolver/ad2s1210.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/staging/iio/resolver/ad2s1210.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/staging/iio/resolver/ad2s1210.c b/drivers/staging/iio/resolver/ad2s1210.c
-index 06de5823eb8e..84743e31261a 100644
+index 84743e31261a..0bdd5a30d45d 100644
 --- a/drivers/staging/iio/resolver/ad2s1210.c
 +++ b/drivers/staging/iio/resolver/ad2s1210.c
-@@ -393,7 +393,7 @@ static ssize_t ad2s1210_show_fault(struct device *dev,
- 	ret = ad2s1210_config_read(st, AD2S1210_REG_FAULT);
- 	mutex_unlock(&st->lock);
+@@ -510,8 +510,8 @@ static int ad2s1210_read_raw(struct iio_dev *indio_dev,
+ 		ret = IIO_VAL_INT;
+ 		break;
+ 	default:
+-		mutex_unlock(&st->lock);
+-		return -EINVAL;
++		ret = -EINVAL;
++		break;
+ 	}
  
--	return ret ? ret : sprintf(buf, "0x%x\n", ret);
-+	return (ret < 0) ? ret : sprintf(buf, "0x%02x\n", ret);
- }
- 
- static ssize_t ad2s1210_clear_fault(struct device *dev,
+ error_ret:
 -- 
 2.34.1
 
