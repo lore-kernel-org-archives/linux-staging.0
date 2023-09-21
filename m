@@ -1,171 +1,143 @@
-Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99614BA26
-	for <linux-staging@lists.linux.dev>; Thu, 21 Sep 2023 14:27:09 +0000 (UTC)
-Received: by mail-ed1-f43.google.com with SMTP id 4fb4d7f45d1cf-52bd9ddb741so1211671a12.0
-        for <linux-staging@lists.linux.dev>; Thu, 21 Sep 2023 07:27:09 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD85620E7
+	for <linux-staging@lists.linux.dev>; Thu, 21 Sep 2023 14:44:14 +0000 (UTC)
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-405361bb94eso6291145e9.0
+        for <linux-staging@lists.linux.dev>; Thu, 21 Sep 2023 07:44:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1695306428; x=1695911228; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=VtfnLMS48uOMTYFLHrC4VI+xPTOGEubCm+FExSzwlTk=;
-        b=iPVoDMpla3TzbdYb208jBQMPt7Nbr7sah2/juMW0roz7a/m9we2Y8yDp3+Now2ce8b
-         PK3q5fQoD2+0d3dY8XjWe0f3dw9WkcwTqqYRFo+poT7A0ZwPbE+Xlyb4+HtyhjcdKuJG
-         Kj1xlFdw73/zV/ze6O3JOAzsAcT6/zk8PH0+I5gRd7PcD2ERnaB66lKOvcsf7NeVUqpZ
-         CkNHlsOma+K91b08kir/BwleLsARJctcgeRx+oDtu/pIA16+y5yatqG7beZyaJqtiv+y
-         M4Vbev+2DkL4TF6b/qtr2h4kwz0nb5ZZKj6JRlzRIQi3jnMDsIu50/QP7UKYQ8/u91AL
-         DV0Q==
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1695307453; x=1695912253; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=2dbJ671h4+Zrpefl6Lm2RwGWdFjdR10s5YR4gHySBBk=;
+        b=g5scswc5t6FJ9YpSB5zMVlBbBHOvUpb2juCh1KrWi1lWSOUw1FA0wv0i/LdUnVTr/c
+         lE3xoLlvQSy4p81Qugs1JViBpYUMGOsTJk7zkaqAHmKd1mIolspE88VQbMRWwlzTnAqC
+         5CnvMYZlDtIL4A7Iyef2lH/sj9TDZ2HFGU3xcwYhjgk7mOpsvGcMoKPxjbDBqZkks4F0
+         VEmGfMUWq2nH5b1EYfZCOs9JPa8yN/LwRRuyLbYNHwcgNPcTO+cnlGuDQQ/rEawEwIaB
+         AQ0GYbdpPq179YUIPaGb9JphIpURVLu+wNC0H9Dsep3jTi0f+wlV5WyFS7WkrXnYBZc9
+         bkyg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1695306428; x=1695911228;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=VtfnLMS48uOMTYFLHrC4VI+xPTOGEubCm+FExSzwlTk=;
-        b=Yj95e26bIZwhdqMKmRIGVbatnc9W/rTCEV9tr533B2wEbUUWjjg0q14C1VwXyUZUW+
-         mAbgruZO2V3lQNEv+rtW9RRGTAOReq75CBZDHqZxvVdCVKQ/HZSGaUN/btsWp/N5z8jg
-         23p1mY1U0rLoI2RFe4/nA7UtcwOr8OOdo7O8FLMvVCfsFM/VLy0F2jcuJIQfgWR0zHcn
-         L6OX9RVcP8YpSsIN+dpgJoT9ouwRgDuHtMQ3l8ImA3T+itZCB2vmzLrZKCQDyA++IC+D
-         AC2JMa9j2e8/VZbrL5Ze0qxG5sRlsU7oFI9FHjrIf5it9nVIRvKe1Z/PVCCpLUywwwTl
-         58bg==
-X-Gm-Message-State: AOJu0YyOPCepM0RHfhmjIgosY8dma5z6hnC6enrZ1kphN2a1Qne9EuOd
-	au2GiLspuBbcA5PmeRAWXC+g6aWLPap4nox9iqgkrw==
-X-Google-Smtp-Source: AGHT+IHDdCW8l8v6OhDqZiyja7I2+F2x5WsRgSux5VP1tVFRRWSTYBCB9TdkqRkvd27HKrJXY3PRK7lDy+BsjgySXvg=
-X-Received: by 2002:a17:906:d044:b0:9a2:474:4aa0 with SMTP id
- bo4-20020a170906d04400b009a204744aa0mr4171303ejb.48.1695306427980; Thu, 21
- Sep 2023 07:27:07 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1695307453; x=1695912253;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=2dbJ671h4+Zrpefl6Lm2RwGWdFjdR10s5YR4gHySBBk=;
+        b=CmoKXoWVY+ZWQvKWoOKcBOXrUp6y0wtpthNaluuIztWuj+owW0lWzwE2W03N82SJVt
+         ip/ZAxUM+AkeJalnTW1BM996D0fqauFT5ksxCxAY/zKz/wxGfjkKBU+7odCiwg8V7Gkz
+         qjAH7Mka0JQqP1XbMnSnG0WX0vej+xCOwfzk68e9++K02n1iz2d0KPBeIitKXLTX+a1Y
+         cVJS7exnwSDT14P8g3d8xFD4W1zTnBSNbjxt0uAt1NNITKrZxQK1cLL5iJSh7ZKfou95
+         8XHJ3lp/VqYHbT2W/LMrcygJP1nEWJXkOkR8nEidu48jwlcuZcnSTROMtXaRn1CCRlDc
+         lNBQ==
+X-Gm-Message-State: AOJu0YzfypY1jmCYfOPYD/rArGj3wNvsxfktbr6ss1oEpGCw9Qz0EjQF
+	YnS//1oCxD+dUSJhaumusPZLYA==
+X-Google-Smtp-Source: AGHT+IFl1Y1y2zMR1iNlW+1IiVeZ0qyN3wFDv4S8/6ruNMMK2i/+yZoG4piAY0plFw/WCYJXxcy+mQ==
+X-Received: by 2002:a05:600c:152:b0:404:2dbb:8943 with SMTP id w18-20020a05600c015200b004042dbb8943mr5711734wmm.2.1695307452618;
+        Thu, 21 Sep 2023 07:44:12 -0700 (PDT)
+Received: from localhost.localdomain (abordeaux-655-1-129-86.w90-5.abo.wanadoo.fr. [90.5.10.86])
+        by smtp.gmail.com with ESMTPSA id s17-20020a1cf211000000b003fe2a40d287sm2125515wmc.1.2023.09.21.07.44.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 21 Sep 2023 07:44:12 -0700 (PDT)
+From: David Lechner <dlechner@baylibre.com>
+To: linux-iio@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-staging@lists.linux.dev
+Cc: linux-kernel@vger.kernel.org,
+	Jonathan Cameron <jic23@kernel.org>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Michael Hennerich <Michael.Hennerich@analog.com>,
+	=?UTF-8?q?Nuno=20S=C3=A1?= <nuno.sa@analog.com>,
+	Axel Haslam <ahaslam@baylibre.com>,
+	Philip Molloy <pmolloy@baylibre.com>,
+	David Lechner <dlechner@baylibre.com>
+Subject: [PATCH v2 00/19] iio: resolver: move ad2s1210 out of staging
+Date: Thu, 21 Sep 2023 09:43:41 -0500
+Message-Id: <20230921144400.62380-1-dlechner@baylibre.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20230921141947.57784-1-dlechner@baylibre.com> <20230921141947.57784-21-dlechner@baylibre.com>
-In-Reply-To: <20230921141947.57784-21-dlechner@baylibre.com>
-From: David Lechner <dlechner@baylibre.com>
-Date: Thu, 21 Sep 2023 16:26:57 +0200
-Message-ID: <CAMknhBFrQivxmE=3voeYgHAtQBf0FSTep7oHfWOAnBTwBogXGw@mail.gmail.com>
-Subject: Re: [v2 18/19] staging: iio: resolver: ad2s1210: add phase_lock_range attributes
-To: linux-iio@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-staging@lists.linux.dev
-Cc: linux-kernel@vger.kernel.org, Jonathan Cameron <jic23@kernel.org>, 
-	Rob Herring <robh+dt@kernel.org>, 
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Michael Hennerich <Michael.Hennerich@analog.com>, =?UTF-8?B?TnVubyBTw6E=?= <nuno.sa@analog.com>, 
-	Axel Haslam <ahaslam@baylibre.com>, Philip Molloy <pmolloy@baylibre.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-Looks like I got some wrong patches in the get-send-email. These two patche=
-s
-are included in the series "[v2 00/19] iio: resolver: move ad2s1210
-out of staging"
-so please disregard this copy of the two patches.
+Resending v2 with proper `PATCH v2` prefix.
 
-On Thu, Sep 21, 2023 at 4:22=E2=80=AFPM David Lechner <dlechner@baylibre.co=
-m> wrote:
->
-> This adds new phase_lock_range and phase_lock_range_available attributes
-> to the ad2s1210 resolver driver. These attributes allow the user to set
-> the phase lock range bit in the control register to modify the behavior
-> of the resolver to digital converter.
->
-> Signed-off-by: David Lechner <dlechner@baylibre.com>
-> ---
->  drivers/staging/iio/resolver/ad2s1210.c | 58 +++++++++++++++++++++++++
->  1 file changed, 58 insertions(+)
->
-> diff --git a/drivers/staging/iio/resolver/ad2s1210.c b/drivers/staging/ii=
-o/resolver/ad2s1210.c
-> index 71f0913b7e2e..f5b8b290e860 100644
-> --- a/drivers/staging/iio/resolver/ad2s1210.c
-> +++ b/drivers/staging/iio/resolver/ad2s1210.c
-> @@ -259,6 +259,60 @@ static ssize_t excitation_frequency_store(struct dev=
-ice *dev,
->         return ret;
->  }
->
-> +static ssize_t phase_lock_range_show(struct device *dev,
-> +                                    struct device_attribute *attr,
-> +                                    char *buf)
-> +{
-> +       struct ad2s1210_state *st =3D iio_priv(dev_to_iio_dev(dev));
-> +       int ret;
-> +
-> +       mutex_lock(&st->lock);
-> +       ret =3D regmap_test_bits(st->regmap, AD2S1210_REG_CONTROL,
-> +                              AD2S1210_PHASE_LOCK_RANGE_44);
-> +       if (ret < 0)
-> +               goto error_ret;
-> +
-> +       ret =3D sprintf(buf, "%d\n", ret ? 44 : 360);
-> +
-> +error_ret:
-> +       mutex_unlock(&st->lock);
-> +       return ret;
-> +}
-> +
-> +static ssize_t phase_lock_range_store(struct device *dev,
-> +                                     struct device_attribute *attr,
-> +                                     const char *buf, size_t len)
-> +{
-> +       struct ad2s1210_state *st =3D iio_priv(dev_to_iio_dev(dev));
-> +       u16 udata;
-> +       int ret;
-> +
-> +       ret =3D kstrtou16(buf, 10, &udata);
-> +       if (ret < 0 || (udata !=3D 44 && udata !=3D 360))
-> +               return -EINVAL;
-> +
-> +       mutex_lock(&st->lock);
-> +
-> +       ret =3D regmap_update_bits(st->regmap, AD2S1210_REG_CONTROL,
-> +                                AD2S1210_PHASE_LOCK_RANGE_44,
-> +                                udata =3D=3D 44 ? AD2S1210_PHASE_LOCK_RA=
-NGE_44 : 0);
-> +       if (ret < 0)
-> +               goto error_ret;
-> +
-> +       ret =3D len;
-> +
-> +error_ret:
-> +       mutex_unlock(&st->lock);
-> +       return ret;
-> +}
-> +
-> +static ssize_t phase_lock_range_available_show(struct device *dev,
-> +                                              struct device_attribute *a=
-ttr,
-> +                                              char *buf)
-> +{
-> +       return sprintf(buf, "44 360\n");
-> +}
-> +
->  /* read the fault register since last sample */
->  static ssize_t ad2s1210_show_fault(struct device *dev,
->                                    struct device_attribute *attr, char *b=
-uf)
-> @@ -506,6 +560,8 @@ static int ad2s1210_write_raw(struct iio_dev *indio_d=
-ev,
->  }
->
->  static IIO_DEVICE_ATTR_RW(excitation_frequency, 0);
-> +static IIO_DEVICE_ATTR_RW(phase_lock_range, 0);
-> +static IIO_DEVICE_ATTR_RO(phase_lock_range_available, 0);
->  static IIO_DEVICE_ATTR(fault, 0644,
->                        ad2s1210_show_fault, ad2s1210_clear_fault, 0);
->
-> @@ -552,6 +608,8 @@ static const struct iio_chan_spec ad2s1210_channels[]=
- =3D {
->
->  static struct attribute *ad2s1210_attributes[] =3D {
->         &iio_dev_attr_excitation_frequency.dev_attr.attr,
-> +       &iio_dev_attr_phase_lock_range.dev_attr.attr,
-> +       &iio_dev_attr_phase_lock_range_available.dev_attr.attr,
->         &iio_dev_attr_fault.dev_attr.attr,
->         &iio_dev_attr_los_thrd.dev_attr.attr,
->         &iio_dev_attr_dos_ovr_thrd.dev_attr.attr,
-> --
-> 2.34.1
->
+Changes since v1:
+* Address initial device tree patch feedback
+* Drop "iio: sysfs: add IIO_DEVICE_ATTR_NAMED_RW macro" (related cleanups
+  also dropped for now, will address in a future series if needed)
+* Apply improvements as a series as patches to the staging driver. It is not
+  quite ready for the move out of staging patch yet.
+
+This series has been tested on actual hardware using a EVAL-AD2S1210 evaluation
+board. (Note: not all device tree features have been implemented in the driver
+since the eval board doesn't support them out of the box. We plan to add them
+later if needed.)
+
+One thing left over from the staging driver that probably needs more attention
+still is the fault handling (both the fault threshold attributes and how
+userspace gets notified of fault conditions). We considered adding these as
+events, but the fault conditions are related to internal measurements in the
+chip that aren't available as channels.
+
+Since the chip is designed to read the fault register each time we read the
+data registers for one of the two channels it seems like faults should be
+associated with channels one way or another. Would it make sense to add extra
+channels for the internal signals that only have fault events (mostly with
+IIO_EV_TYPE_THRESH)? Or would it make sense to add a new "flags" channel type
+where the "raw" value is bit flags? Or something else?
+
+Here is the table of available faults for context. Sine/cosine inputs are
+internal signals.
+
+| Bit | Description
++-----+------------
+| D7  |  Sine/cosine inputs clipped
+| D6  |  Sine/cosine inputs below LOS threshold
+| D5  |  Sine/cosine inputs exceed DOS overrange threshold
+| D4  |  Sine/cosine inputs exceed DOS mismatch threshold
+| D3  |  Tracking error exceeds LOT threshold
+| D2  |  Velocity exceeds maximum tracking rate
+| D1  |  Phase error exceeds phase lock range
+| D0  |  Configuration parity error
+
+David Lechner (19):
+  dt-bindings: iio: resolver: add devicetree bindings for ad2s1210
+  staging: iio: Documentation: document IIO resolver AD2S1210 sysfs
+    attributes
+  staging: iio: resolver: ad2s1210: fix ad2s1210_show_fault
+  staging: iio: resolver: ad2s1210: fix not restoring sample gpio in
+    channel read
+  staging: iio: resolver: ad2s1210: fix probe
+  staging: iio: resolver: ad2s1210: always use 16-bit value for raw read
+  staging: iio: resolver: ad2s1210: implement IIO_CHAN_INFO_SCALE
+  staging: iio: resolver: ad2s1210: use devicetree to get fclkin
+  staging: iio: resolver: ad2s1210: use regmap for config registers
+  staging: iio: resolver: ad2s1210: add debugfs reg access
+  staging: iio: resolver: ad2s1210: remove config attribute
+  staging: iio: resolver: ad2s1210: rework gpios
+  staging: iio: resolver: ad2s1210: implement hysteresis as channel attr
+  staging: iio: resolver: ad2s1210: refactor setting excitation
+    frequency
+  staging: iio: resolver: ad2s1210: read excitation frequency from
+    control register
+  staging: iio: resolver: ad2s1210: rename fexcit attribute
+  staging: iio: resolver: ad2s1210: convert resolution to devicetree
+    property
+  staging: iio: resolver: ad2s1210: add phase_lock_range attributes
+  staging: iio: resolver: ad2s1210: add triggered buffer support
+
+ .../bindings/iio/resolver/adi,ad2s1210.yaml   | 150 +++
+ .../sysfs-bus-iio-resolver-ad2s1210           | 109 ++
+ drivers/staging/iio/resolver/Kconfig          |   1 +
+ drivers/staging/iio/resolver/ad2s1210.c       | 948 +++++++++++-------
+ 4 files changed, 857 insertions(+), 351 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/iio/resolver/adi,ad2s1210.yaml
+ create mode 100644 drivers/staging/iio/Documentation/sysfs-bus-iio-resolver-ad2s1210
+
+-- 
+2.34.1
+
