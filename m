@@ -1,97 +1,114 @@
-Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60BC0944C
-	for <linux-staging@lists.linux.dev>; Thu, 21 Sep 2023 09:40:44 +0000 (UTC)
-Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-9ad8a822508so86716866b.0
-        for <linux-staging@lists.linux.dev>; Thu, 21 Sep 2023 02:40:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1695289242; x=1695894042; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=KpzQyHHzEyWIms3Xvm/C3MN/zZk6cMQQr8BMD0wmneQ=;
-        b=b/FfMiMB+q/5PeLyD+35c/AwUNDq93TYwAYAldtPjkjYux1fH1nxXCElDIUv7UdiNc
-         JRYS+3XsSbmWUMrO2XeKBvZo892tCr0U926ESPXapdsQQJS4IMAdKjfbu8LBg/ROBd3Q
-         FYxKm/7D0fXiI9b3GdJOUgJkgUxasyWDQcC7We77DzATs/PTNysjAo/0l/G3lhnoFm6G
-         zpj9ahYlXHTCaM4lZWkEeNt3j8TD0CUoDLEId9yDqaB7EU7UKeJgtxACtcxC2qgkd1DN
-         9GCDSUL4RsDB8+Hzfm/jr9nkjJ8DCx3W0/i9ncH7UfamCCyDGU08qQKxkFxc0VEwD2vm
-         7L+A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1695289242; x=1695894042;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=KpzQyHHzEyWIms3Xvm/C3MN/zZk6cMQQr8BMD0wmneQ=;
-        b=IHshqV2VTbicJ79i/0xAig3hAa9PnShSy86DMFyLzaVCW3wABCnTw9s/dj7oOpjLR8
-         25QyeP841zextxjwMtbKuzQ9pXjotYRcgC4MUublNImPwjSBgd1rg7Gqm7EIQHdS+kyn
-         C30o+8QZ2ak4RENw/KtKqfSqjBSfLnf7ODsneG3GeMF0gO00yB/wcAAd9WgRUYDR2gEm
-         /nNM5q++8+jX0dZPsp805L+eoB0xt/+4N8a47uMR+zZhWrbrZK3UJADci2+p4YmaXC1o
-         FuyKG3xSHdAlv7ZgBqeECozUHhuZVDzc1xOw1CjDLLdi6WbP7nkWD5mkNJbvYJMqiqwk
-         Rakg==
-X-Gm-Message-State: AOJu0Yzm5JN9lnosQhE/B/2MjRpSnbz4zZTBClFC5M+eRHw34mAp1ey+
-	JP++071TFNCMy3Hd86lg6U3dY+S3krg/8sxEjYmp0Q==
-X-Google-Smtp-Source: AGHT+IFpyIuxAeI+zJtqVgso5gl/oZPdQPJ8OzyoLwfbQ+BnxcwAYhxcZ6tg7lLrRy8p1y2N9Tuf2kP/Jg+Cn/6HtPI=
-X-Received: by 2002:a17:906:30c6:b0:9ad:e43b:1ef2 with SMTP id
- b6-20020a17090630c600b009ade43b1ef2mr4584204ejb.16.1695289242308; Thu, 21 Sep
- 2023 02:40:42 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B6949461
+	for <linux-staging@lists.linux.dev>; Thu, 21 Sep 2023 10:24:14 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A4979C32794;
+	Thu, 21 Sep 2023 10:24:10 +0000 (UTC)
+Message-ID: <b10a7414-b710-4fb9-a72d-e2d7eff2616d@xs4all.nl>
+Date: Thu, 21 Sep 2023 12:24:08 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20230920170253.203395-1-dlechner@baylibre.com>
- <20230920170253.203395-2-dlechner@baylibre.com> <20230921-b304d3fd05b37a8588e101a2@fedora>
-In-Reply-To: <20230921-b304d3fd05b37a8588e101a2@fedora>
-From: David Lechner <dlechner@baylibre.com>
-Date: Thu, 21 Sep 2023 11:40:31 +0200
-Message-ID: <CAMknhBFfxWy4mWDVYkmaEBx3KkJnRvo1CsNSuab2Rj0TdtozQA@mail.gmail.com>
-Subject: Re: [PATCH 1/4] dt-bindings: iio: resolver: add devicetree bindings
- for ad2s1210
-To: Conor Dooley <conor@kernel.org>
-Cc: linux-iio@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	Jonathan Cameron <jic23@kernel.org>, Rob Herring <robh+dt@kernel.org>, 
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Michael Hennerich <Michael.Hennerich@analog.com>, =?UTF-8?B?TnVubyBTw6E=?= <nuno.sa@analog.com>, 
-	Axel Haslam <ahaslam@baylibre.com>, Philip Molloy <pmolloy@baylibre.com>, 
-	Apelete Seketeli <aseketeli@baylibre.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v7 45/49] media: core: Add bitmap manage bufs array
+ entries
+Content-Language: en-US, nl
+To: Benjamin Gaignard <benjamin.gaignard@collabora.com>, mchehab@kernel.org,
+ tfiga@chromium.org, m.szyprowski@samsung.com, ming.qian@nxp.com,
+ ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de,
+ gregkh@linuxfoundation.org, nicolas.dufresne@collabora.com
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org,
+ linux-arm-msm@vger.kernel.org, linux-rockchip@lists.infradead.org,
+ linux-staging@lists.linux.dev, kernel@collabora.com
+References: <20230914133323.198857-1-benjamin.gaignard@collabora.com>
+ <20230914133323.198857-46-benjamin.gaignard@collabora.com>
+ <1142bbb4-b8f1-44ec-962e-9347a231782f@xs4all.nl>
+ <20b6b93e-eef8-3d7b-a3c2-795f220059d4@collabora.com>
+ <470682b4-c14b-4237-bc46-fddfdd085026@xs4all.nl>
+ <31f298ec-6280-d21b-3d8a-c7bf1c9c0c30@collabora.com>
+From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+In-Reply-To: <31f298ec-6280-d21b-3d8a-c7bf1c9c0c30@collabora.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Thu, Sep 21, 2023 at 11:06=E2=80=AFAM Conor Dooley <conor@kernel.org> wr=
-ote:
->
-> > Signed-off-by: Apelete Seketeli <aseketeli@baylibre.com>
-> > Signed-off-by: David Lechner <dlechner@baylibre.com>
->
-> Missing a From: or co-developed-by?
+On 21/09/2023 11:28, Benjamin Gaignard wrote:
+> 
+> Le 20/09/2023 à 16:56, Hans Verkuil a écrit :
+>> On 20/09/2023 16:30, Benjamin Gaignard wrote:
+>> <snip>
+>>
+>>>>>        num_buffers = min_t(unsigned int, num_buffers,
+>>>>>                    q->max_allowed_buffers - vb2_get_num_buffers(q));
+>>>>>    -    first_index = vb2_get_num_buffers(q);
+>>>>> +    first_index = bitmap_find_next_zero_area(q->bufs_map, q->max_allowed_buffers,
+>>>>> +                         0, num_buffers, 0);
+>>>>>          if (first_index >= q->max_allowed_buffers)
+>>>>>            return 0;
+>>>>> @@ -675,7 +678,13 @@ static void __vb2_queue_free(struct vb2_queue *q, unsigned int buffers)
+>>>>>      struct vb2_buffer *vb2_get_buffer(struct vb2_queue *q, unsigned int index)
+>>>>>    {
+>>>>> -    if (index < q->num_buffers)
+>>>>> +    if (!q->bufs_map || !q->bufs)
+>>>>> +        return NULL;
+>>>> I don't think this can ever happen.
+>>> I got kernel crash without them.
+>>> I will keep them.
+>> What is the backtrace? How can this happen? It feels wrong that this can be
+>> called with a vb2_queue that apparently is not properly initialized.
+> 
+> I have this log when adding dump_stack() in vb2_get_buffer() if !q->bufs_bitmap:
+> 
+> [   18.924627] Call trace:
+> [   18.927090]  dump_backtrace+0x94/0xec
+> [   18.930787]  show_stack+0x18/0x24
+> [   18.934137]  dump_stack_lvl+0x48/0x60
+> [   18.937833]  dump_stack+0x18/0x24
+> [   18.941166]  __vb2_queue_cancel+0x23c/0x2f0
+> [   18.945365]  vb2_core_queue_release+0x24/0x6c
+> [   18.949740]  vb2_queue_release+0x10/0x1c
+> [   18.953677]  v4l2_m2m_ctx_release+0x20/0x40
+> [   18.957892]  hantro_release+0x20/0x54
+> [   18.961584]  v4l2_release+0x74/0xec
+> [   18.965110]  __fput+0xb4/0x274
+> [   18.968205]  __fput_sync+0x50/0x5c
+> [   18.971626]  __arm64_sys_close+0x38/0x7c
+> [   18.975562]  invoke_syscall+0x48/0x114
+> [   18.979329]  el0_svc_common.constprop.0+0xc0/0xe0
+> [   18.984068]  do_el0_svc+0x1c/0x28
+> [   18.987402]  el0_svc+0x40/0xe8
+> [   18.990470]  el0t_64_sync_handler+0x100/0x12c
+> [   18.994842]  el0t_64_sync+0x190/0x194
+> 
+> This happen at boot time when hantro driver is open and close without other actions.
 
-Missing Co-developed-by:. Will fix.
+Ah, now I see the problem. q->bufs and q->bufs_map are allocated in
+vb2_core_create_bufs and vb2_core_reqbufs, but they should be allocated
+in vb2_queue_init: that's the counterpart of vb2_core_queue_release.
 
-> > +maintainers:
-> > +  - Michael Hennerich <michael.hennerich@analog.com>
->
-> Why's this a chap from analog, rather than the authors?
+With that change you shouldn't have to check for q->bufs/bufs_map anymore.
 
-This was written by my codeveloper so not sure about the why. Michael is
-on the CC so he can clarify if this is not correct.
+Regards,
 
-> > +  sample-gpios:
-> > +    description: |
->
-> What do you need the pipe for here? Don't see some formatting requiring
-> preservation. Ditto below.
->
+	Hans
 
-It is just a habit to always do this for multi-line text. Will remove.
+>    
+>>
+>>>>> +
+>>>>> +    return (bitmap_weight(q->bufs_map, q->max_allowed_buffers) > 0);
+>>>> How about:
+>>>>
+>>>>      return vb2_get_num_buffers(q) > 0;
+>>> vb2_get_num_buffers is defined in videobuf2-core.c, I'm not sure that
+>>> an inline function could depend of a module function.
+>> Not a problem. E.g. v4l2-ctrls.h is full of such static inlines.
+>>
+>> Regards,
+>>
+>>     Hans
+>>
 
-> > +
-> > +  assigned-resolution-bits:
->
-> I figure the lack of a vendor prefix here is "inspired" by the same
-> property for stm32?
->
-
-Correct.
