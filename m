@@ -1,215 +1,141 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52E4BB641
-	for <linux-staging@lists.linux.dev>; Thu, 21 Sep 2023 13:48:12 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BEF7DC4E74B;
-	Thu, 21 Sep 2023 13:48:08 +0000 (UTC)
-Message-ID: <13b47528-153d-417d-8fe3-0288aa4d1003@xs4all.nl>
-Date: Thu, 21 Sep 2023 15:48:06 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 080ACB676
+	for <linux-staging@lists.linux.dev>; Thu, 21 Sep 2023 14:22:31 +0000 (UTC)
+Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-401f68602a8so11042255e9.3
+        for <linux-staging@lists.linux.dev>; Thu, 21 Sep 2023 07:22:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1695306150; x=1695910950; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=iwcSCZesHpouCmyM1x03gSJSlBimDoKKMQ92GEpbtM8=;
+        b=asTE7l29zYLvliJiVjb5xM6VLa7pqviAfcszqTyCGs25mgSHAOoRtO4GfC/ovFkUKi
+         INMuiAGHfiapYt0qGBR9ezrAN8KE2HwCaqaULDVSFPOpJlaLEW2bUGKRdiTzWlq32KGC
+         2CoKsksSUSWKq/JypzBjst4sLjmx16B1wx15ybSa13TbHIVUyNAP+EFu4tycT1WdlBt3
+         YLwW7+No+VqQyeXWkaANk4nuGEqJjVGbNEHdGItYFcFkN+VYO5ugeJrZTK6ZkJuHBqSz
+         YU3ZhGK0CnckQCnpv9lOw3cTkDHG6ml86jXWf2XLgMc1GT7KNgY0BYuH8U8BZ6INPDzn
+         4z5A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1695306150; x=1695910950;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=iwcSCZesHpouCmyM1x03gSJSlBimDoKKMQ92GEpbtM8=;
+        b=ev4pl1jak8X5608Y0WxuBOiF0OXNJefI4gogCRwpsNCFMJjQtw+5M2eBw6ePAyf0fR
+         CXTR9YzEsE2BLkpITnfwMWp2jxXL9L1JJuUXx/jYDg/uKlXsfj5AZbRbea+V2ykOB1QQ
+         jCZWkCAbLv0IFrb95Ha1qv5tdvLUSgRNXJYuf0kIJjAq4v5GvvJ9w+WT57EXyjQZQfap
+         TAjD79JKvKtbs1F4D1rxxtI00SxS6Fhs3bG1J3ziduza7UiQGW3efOIV8v+Bbp1Rw0nl
+         NvoDqDM3spYqgnizqtIuFI4OPBX/7mibrTfoYxJEbTizKCsXwdrXg7IqJGGEkEqX3Gfx
+         zaBQ==
+X-Gm-Message-State: AOJu0YxB7WHqMCZ5H+JbmlFSOGwAoseqRxgczHkMyFaIVCow58BW3WFn
+	99VcOrvTA/iDTFy45zksavpr4w==
+X-Google-Smtp-Source: AGHT+IG49g6ISV8XsDHGebX6Lc2cVQ4WY3KL6XVuk0xRssZliSSwVsIESlfd0xSwvTf8N3arBNsQgw==
+X-Received: by 2002:a05:6000:1752:b0:322:4892:17f with SMTP id m18-20020a056000175200b003224892017fmr922723wrf.7.1695306149946;
+        Thu, 21 Sep 2023 07:22:29 -0700 (PDT)
+Received: from localhost.localdomain (abordeaux-655-1-129-86.w90-5.abo.wanadoo.fr. [90.5.10.86])
+        by smtp.gmail.com with ESMTPSA id n11-20020a5d4c4b000000b0031fbbe347ebsm1901426wrt.22.2023.09.21.07.22.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 21 Sep 2023 07:22:29 -0700 (PDT)
+From: David Lechner <dlechner@baylibre.com>
+To: linux-iio@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-staging@lists.linux.dev
+Cc: linux-kernel@vger.kernel.org,
+	Jonathan Cameron <jic23@kernel.org>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Michael Hennerich <Michael.Hennerich@analog.com>,
+	=?UTF-8?q?Nuno=20S=C3=A1?= <nuno.sa@analog.com>,
+	Axel Haslam <ahaslam@baylibre.com>,
+	Philip Molloy <pmolloy@baylibre.com>,
+	David Lechner <dlechner@baylibre.com>
+Subject: [v2 00/19] iio: resolver: move ad2s1210 out of staging
+Date: Thu, 21 Sep 2023 09:19:26 -0500
+Message-Id: <20230921141947.57784-1-dlechner@baylibre.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 45/49] media: core: Add bitmap manage bufs array
- entries
-Content-Language: en-US, nl
-To: Benjamin Gaignard <benjamin.gaignard@collabora.com>, mchehab@kernel.org,
- tfiga@chromium.org, m.szyprowski@samsung.com, ming.qian@nxp.com,
- ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de,
- gregkh@linuxfoundation.org, nicolas.dufresne@collabora.com
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org,
- linux-arm-msm@vger.kernel.org, linux-rockchip@lists.infradead.org,
- linux-staging@lists.linux.dev, kernel@collabora.com
-References: <20230914133323.198857-1-benjamin.gaignard@collabora.com>
- <20230914133323.198857-46-benjamin.gaignard@collabora.com>
- <1142bbb4-b8f1-44ec-962e-9347a231782f@xs4all.nl>
- <20b6b93e-eef8-3d7b-a3c2-795f220059d4@collabora.com>
- <470682b4-c14b-4237-bc46-fddfdd085026@xs4all.nl>
- <31f298ec-6280-d21b-3d8a-c7bf1c9c0c30@collabora.com>
- <b10a7414-b710-4fb9-a72d-e2d7eff2616d@xs4all.nl>
- <aa649adf-8faf-801b-f6bd-d4a4760e040f@collabora.com>
- <a6a6da68-d9f2-44d3-9741-aa2cf83fac6d@xs4all.nl>
- <c8b7db47-3875-a10b-8d81-a0b3dcbc564a@collabora.com>
-From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-In-Reply-To: <c8b7db47-3875-a10b-8d81-a0b3dcbc564a@collabora.com>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-On 21/09/2023 14:46, Benjamin Gaignard wrote:
-> 
-> Le 21/09/2023 à 14:13, Hans Verkuil a écrit :
->> On 21/09/2023 14:05, Benjamin Gaignard wrote:
->>> Le 21/09/2023 à 12:24, Hans Verkuil a écrit :
->>>> On 21/09/2023 11:28, Benjamin Gaignard wrote:
->>>>> Le 20/09/2023 à 16:56, Hans Verkuil a écrit :
->>>>>> On 20/09/2023 16:30, Benjamin Gaignard wrote:
->>>>>> <snip>
->>>>>>
->>>>>>>>>          num_buffers = min_t(unsigned int, num_buffers,
->>>>>>>>>                      q->max_allowed_buffers - vb2_get_num_buffers(q));
->>>>>>>>>      -    first_index = vb2_get_num_buffers(q);
->>>>>>>>> +    first_index = bitmap_find_next_zero_area(q->bufs_map, q->max_allowed_buffers,
->>>>>>>>> +                         0, num_buffers, 0);
->>>>>>>>>            if (first_index >= q->max_allowed_buffers)
->>>>>>>>>              return 0;
->>>>>>>>> @@ -675,7 +678,13 @@ static void __vb2_queue_free(struct vb2_queue *q, unsigned int buffers)
->>>>>>>>>        struct vb2_buffer *vb2_get_buffer(struct vb2_queue *q, unsigned int index)
->>>>>>>>>      {
->>>>>>>>> -    if (index < q->num_buffers)
->>>>>>>>> +    if (!q->bufs_map || !q->bufs)
->>>>>>>>> +        return NULL;
->>>>>>>> I don't think this can ever happen.
->>>>>>> I got kernel crash without them.
->>>>>>> I will keep them.
->>>>>> What is the backtrace? How can this happen? It feels wrong that this can be
->>>>>> called with a vb2_queue that apparently is not properly initialized.
->>>>> I have this log when adding dump_stack() in vb2_get_buffer() if !q->bufs_bitmap:
->>>>>
->>>>> [   18.924627] Call trace:
->>>>> [   18.927090]  dump_backtrace+0x94/0xec
->>>>> [   18.930787]  show_stack+0x18/0x24
->>>>> [   18.934137]  dump_stack_lvl+0x48/0x60
->>>>> [   18.937833]  dump_stack+0x18/0x24
->>>>> [   18.941166]  __vb2_queue_cancel+0x23c/0x2f0
->>>>> [   18.945365]  vb2_core_queue_release+0x24/0x6c
->>>>> [   18.949740]  vb2_queue_release+0x10/0x1c
->>>>> [   18.953677]  v4l2_m2m_ctx_release+0x20/0x40
->>>>> [   18.957892]  hantro_release+0x20/0x54
->>>>> [   18.961584]  v4l2_release+0x74/0xec
->>>>> [   18.965110]  __fput+0xb4/0x274
->>>>> [   18.968205]  __fput_sync+0x50/0x5c
->>>>> [   18.971626]  __arm64_sys_close+0x38/0x7c
->>>>> [   18.975562]  invoke_syscall+0x48/0x114
->>>>> [   18.979329]  el0_svc_common.constprop.0+0xc0/0xe0
->>>>> [   18.984068]  do_el0_svc+0x1c/0x28
->>>>> [   18.987402]  el0_svc+0x40/0xe8
->>>>> [   18.990470]  el0t_64_sync_handler+0x100/0x12c
->>>>> [   18.994842]  el0t_64_sync+0x190/0x194
->>>>>
->>>>> This happen at boot time when hantro driver is open and close without other actions.
->>>> Ah, now I see the problem. q->bufs and q->bufs_map are allocated in
->>>> vb2_core_create_bufs and vb2_core_reqbufs, but they should be allocated
->>>> in vb2_queue_init: that's the counterpart of vb2_core_queue_release.
->>>>
->>>> With that change you shouldn't have to check for q->bufs/bufs_map anymore.
->>> It is a better solution but even like this vb2_core_queue_release() is called
->>> at least 2 times on the same vivid queue and without testing q->bufs_bitmap
->>> makes kernel crash.
->> Do you have a stacktrace for that? Perhaps vb2_core_queue_release should check
->> for q->bufs/q->bufs_map and return if those are NULL. But it could also be a
->> bug that it is called twice, it just was never noticed because it was harmless
->> before.
-> 
-> I have added some printk to log that when running test-media on vivid:
-> 
-> [  130.497426] vb2_core_queue_init queue cap-0000000050d195ab allocate q->bufs 00000000dc2c15ed and q->bufs_bitmap 000000008173fc5a
-> ...
-> [  130.733967] vb2_core_queue_release queue cap-0000000050d195ab release q->bufs and q->bufs_bitmap
-> [  133.866345] vb2_get_buffer queue cap-0000000050d195ab q->bufs_bitmap is NULL
-> [  133.873454] CPU: 1 PID: 321 Comm: v4l2-ctl Not tainted 6.6.0-rc1+ #542
-> [  133.879997] Hardware name: NXP i.MX8MQ EVK (DT)
-> [  133.884536] Call trace:
-> [  133.886988]  dump_backtrace+0x94/0xec
-> [  133.890673]  show_stack+0x18/0x24
-> [  133.894002]  dump_stack_lvl+0x48/0x60
-> [  133.897681]  dump_stack+0x18/0x24
-> [  133.901009]  __vb2_queue_cancel+0x250/0x31c
-> [  133.905209]  vb2_core_queue_release+0x24/0x88
-> [  133.909580]  _vb2_fop_release+0xb0/0xbc
-> [  133.913428]  vb2_fop_release+0x2c/0x58
-> [  133.917187]  vivid_fop_release+0x80/0x388 [vivid]
-> [  133.921948]  v4l2_release+0x74/0xec
-> [  133.925452]  __fput+0xb4/0x274
-> [  133.928520]  __fput_sync+0x50/0x5c
-> [  133.931934]  __arm64_sys_close+0x38/0x7c
-> [  133.935868]  invoke_syscall+0x48/0x114
-> [  133.939630]  el0_svc_common.constprop.0+0x40/0xe0
-> [  133.944349]  do_el0_svc+0x1c/0x28
-> [  133.947677]  el0_svc+0x40/0xe8
-> [  133.950741]  el0t_64_sync_handler+0x100/0x12c
-> [  133.955109]  el0t_64_sync+0x190/0x194
-> 
-> and later I have a call to reqbufs on the same queue without call to vb2_core_queue_init before
-> 
-> [   58.696812] __vb2_queue_alloc queue cap- 0000000050d195abq->bufs_bitmap is NULL
-> [   58.704148] CPU: 1 PID: 319 Comm: v4l2-compliance Not tainted 6.6.0-rc1+ #544
-> [   58.711291] Hardware name: NXP i.MX8MQ EVK (DT)
-> [   58.715826] Call trace:
-> [   58.718274]  dump_backtrace+0x94/0xec
-> [   58.721951]  show_stack+0x18/0x24
-> [   58.725274]  dump_stack_lvl+0x48/0x60
-> [   58.728946]  dump_stack+0x18/0x24
-> [   58.732268]  __vb2_queue_alloc+0x4a8/0x50c
-> [   58.736374]  vb2_core_reqbufs+0x274/0x46c
-> [   58.740391]  vb2_ioctl_reqbufs+0xb0/0xe8
-> [   58.744320]  vidioc_reqbufs+0x50/0x64 [vivid]
-> [   58.748717]  v4l_reqbufs+0x50/0x64
-> [   58.752125]  __video_do_ioctl+0x164/0x3c8
-> [   58.756140]  video_usercopy+0x200/0x668
-> [   58.759982]  video_ioctl2+0x18/0x28
-> [   58.763475]  v4l2_ioctl+0x40/0x60
-> [   58.766798]  __arm64_sys_ioctl+0xac/0xf0
-> [   58.770730]  invoke_syscall+0x48/0x114
-> [   58.774487]  el0_svc_common.constprop.0+0x40/0xe0
-> [   58.779199]  do_el0_svc+0x1c/0x28
-> [   58.782520]  el0_svc+0x40/0xe8
-> [   58.785580]  el0t_64_sync_handler+0x100/0x12c
-> [   58.789942]  el0t_64_sync+0x190/0x194
+Changes since v1:
+* Address initial device tree patch feedback
+* Drop "iio: sysfs: add IIO_DEVICE_ATTR_NAMED_RW macro" (related cleanups
+  also dropped for now, will address in a future series if needed)
+* Apply improvements as a series as patches to the staging driver. It is not
+  quite ready for the move out of staging patch yet.
 
-Argh, I see what is happening. The root cause is that vb2_core_queue_release
-is actually not a true counterpart to vb2_core_queue_init.
+This series has been tested on actual hardware using a EVAL-AD2S1210 evaluation
+board. (Note: not all device tree features have been implemented in the driver
+since the eval board doesn't support them out of the box. We plan to add them
+later if needed.)
 
-The '_release' part refers to when a file handle is released, and not to
-releasing resources allocated in queue_init.
+One thing left over from the staging driver that probably needs more attention
+still is the fault handling (both the fault threshold attributes and how
+userspace gets notified of fault conditions). We considered adding these as
+events, but the fault conditions are related to internal measurements in the
+chip that aren't available as channels.
 
-The queue_init function never actually allocated any resources, so there
-was never a reason to make a counterpart to that, but now that bites us.
+Since the chip is designed to read the fault register each time we read the
+data registers for one of the two channels it seems like faults should be
+associated with channels one way or another. Would it make sense to add extra
+channels for the internal signals that only have fault events (mostly with
+IIO_EV_TYPE_THRESH)? Or would it make sense to add a new "flags" channel type
+where the "raw" value is bit flags? Or something else?
 
-Changing this would be a huge amount of work, and it is not worth the
-effort, IMHO.
+Here is the table of available faults for context. Sine/cosine inputs are
+internal signals.
 
-But at least we shouldn't have to test for both bufs and bufs_map,
-they are either both set or both NULL. Just test one of the two.
+| Bit | Description
++-----+------------
+| D7  |  Sine/cosine inputs clipped
+| D6  |  Sine/cosine inputs below LOS threshold
+| D5  |  Sine/cosine inputs exceed DOS overrange threshold
+| D4  |  Sine/cosine inputs exceed DOS mismatch threshold
+| D3  |  Tracking error exceeds LOT threshold
+| D2  |  Velocity exceeds maximum tracking rate
+| D1  |  Phase error exceeds phase lock range
+| D0  |  Configuration parity error
 
-The vb2_core_queue_init() function documentation in the header
-should perhaps be more clear about the fact that this function
-does not allocate any resources, and that there is no cleanup
-counterpart.
+David Lechner (19):
+  dt-bindings: iio: resolver: add devicetree bindings for ad2s1210
+  staging: iio: Documentation: document IIO resolver AD2S1210 sysfs
+    attributes
+  staging: iio: resolver: ad2s1210: fix ad2s1210_show_fault
+  staging: iio: resolver: ad2s1210: fix not restoring sample gpio in
+    channel read
+  staging: iio: resolver: ad2s1210: fix probe
+  staging: iio: resolver: ad2s1210: always use 16-bit value for raw read
+  staging: iio: resolver: ad2s1210: implement IIO_CHAN_INFO_SCALE
+  staging: iio: resolver: ad2s1210: use devicetree to get fclkin
+  staging: iio: resolver: ad2s1210: use regmap for config registers
+  staging: iio: resolver: ad2s1210: add debugfs reg access
+  staging: iio: resolver: ad2s1210: remove config attribute
+  staging: iio: resolver: ad2s1210: rework gpios
+  staging: iio: resolver: ad2s1210: implement hysteresis as channel attr
+  staging: iio: resolver: ad2s1210: refactor setting excitation
+    frequency
+  staging: iio: resolver: ad2s1210: read excitation frequency from
+    control register
+  staging: iio: resolver: ad2s1210: rename fexcit attribute
+  staging: iio: resolver: ad2s1210: convert resolution to devicetree
+    property
+  staging: iio: resolver: ad2s1210: add phase_lock_range attributes
+  staging: iio: resolver: ad2s1210: add triggered buffer support
 
-It is what got me confused...
+ .../bindings/iio/resolver/adi,ad2s1210.yaml   | 150 +++
+ .../sysfs-bus-iio-resolver-ad2s1210           | 109 ++
+ drivers/staging/iio/resolver/Kconfig          |   1 +
+ drivers/staging/iio/resolver/ad2s1210.c       | 948 +++++++++++-------
+ 4 files changed, 857 insertions(+), 351 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/iio/resolver/adi,ad2s1210.yaml
+ create mode 100644 drivers/staging/iio/Documentation/sysfs-bus-iio-resolver-ad2s1210
 
-Regards,
-
-	Hans
-
-> 
->>
->> Regards,
->>
->>     Hans
->>
->>>> Regards,
->>>>
->>>>      Hans
->>>>
->>>>>    
->>>>>>>>> +
->>>>>>>>> +    return (bitmap_weight(q->bufs_map, q->max_allowed_buffers) > 0);
->>>>>>>> How about:
->>>>>>>>
->>>>>>>>        return vb2_get_num_buffers(q) > 0;
->>>>>>> vb2_get_num_buffers is defined in videobuf2-core.c, I'm not sure that
->>>>>>> an inline function could depend of a module function.
->>>>>> Not a problem. E.g. v4l2-ctrls.h is full of such static inlines.
->>>>>>
->>>>>> Regards,
->>>>>>
->>>>>>       Hans
->>>>>>
->>
+-- 
+2.34.1
 
