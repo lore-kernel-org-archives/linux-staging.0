@@ -1,43 +1,43 @@
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAB48BA27
-	for <linux-staging@lists.linux.dev>; Thu, 21 Sep 2023 14:22:41 +0000 (UTC)
-Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-3215f19a13aso1023791f8f.3
-        for <linux-staging@lists.linux.dev>; Thu, 21 Sep 2023 07:22:41 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E697BA37
+	for <linux-staging@lists.linux.dev>; Thu, 21 Sep 2023 14:22:42 +0000 (UTC)
+Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-3214d4ecd39so959036f8f.1
+        for <linux-staging@lists.linux.dev>; Thu, 21 Sep 2023 07:22:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1695306160; x=1695910960; darn=lists.linux.dev;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1695306161; x=1695910961; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=ms6XtDC2gqm1+y4qBooiAiA+r/YZdcas3vjvFP4dBPU=;
-        b=livJ6+PvYwy648xsvGWaV+1AaWCqA0vWJkB59A6nhgCZExLTx697htddSt+iHChYaE
-         1D9uveo2v+IqN5Y3EDFIPTOiuSXP9NxG5enI6f3a+ZP+6kD+h8JICutCrMyvDCt/RxK8
-         hJc6GPQbC6RluNM2BqK39ouQdA6B1lsfH+6FoPeq4KRsIktpQanwv0NqDJ6N1vrZebhc
-         0+7yKa1+Bray9PnpYZdmP/AAtb/tpHv0EMK/llPJ34HWLyvwMQZtunW9uXNcPh5jb8OF
-         QwbHo9WQbKE5HNTabOzMjtS7D6Q8DBi2+6N3Ie0s8rkF+tN6XhbaCjj5TWvdb7jABGKt
-         YvMA==
+        bh=NDg1sZsypbtmVZl9501Jvjfjp7cqgNO2wWu9eDz+bAo=;
+        b=qTPxdknzZ0eoDHEMqPv+4qLXP1u8r06GKbSbfh9ttrB5dfNdOo606urMGQran+cggk
+         YwKtD8uKT/J8FR5mjIfGcdavWN9tn5smOWf734z4zExcn9Pz5ccjSVT+68e1yaycq08q
+         i7HkStfW1Brs8NlwpLAt7ML8refJbzc9TDlktJYic32k4HBRhpwll08gLkxR7oNhdgKQ
+         jpTIlOFYK14xlkSI+xddAgi8lsxoi3OJyAAXaQJaRKNU88OpartoVFpeaphoQPi8l7sa
+         /FoNrLii4R6e9zILoPYyuONK4jkUQzTqEDjd8VNkDe/SkfLjN7zE+Csj/PERju5Vfmyi
+         sFNw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1695306160; x=1695910960;
+        d=1e100.net; s=20230601; t=1695306161; x=1695910961;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=ms6XtDC2gqm1+y4qBooiAiA+r/YZdcas3vjvFP4dBPU=;
-        b=rWorGsrKaR4Iucc9vT6UM5hhEKnhLZHKZohhFM8yX37GxCjY/tnvlGNMujR6vyQlbX
-         KoQpQ93h/Xjyyz0/W8+8UcmVhRtp1qoMCRbvg61tFB6Ww1E6Lav3SOBrJmjCW0MRzIQU
-         qrmaTmmFlffqF7eGIQsGCLCTnaMkHiRrVqcbkETpdgE5lZaaJrDfwsFPGHmfdA5Y7Llh
-         LdZtQQRiHEgy0kst0CBEz11R6++3Bb6SDKPdIBSm1x5QkYx4Ar5/dmeKnMhvP6u1CETh
-         1cvjXqWRjsqU80GTtz2GpIrI4JONqLZhM8FwH49d7dE4m7nxyliyIiBE7YdE4uH6hI2e
-         fTgA==
-X-Gm-Message-State: AOJu0YyqmJpnmX75F8iufG6obzStFCfidH95qOfj6XQuHX31bYNRF5Sq
-	luzzb6C2ePasXncpzo4tjqS9Ow==
-X-Google-Smtp-Source: AGHT+IGGmEyk1OjFw9m0pn/8yG9jZBYUcbB2fnTx4NWYXyDuPq5yL654tmO33MmRV0H62lUW8r3SXw==
-X-Received: by 2002:adf:ea8b:0:b0:31a:e772:ddf0 with SMTP id s11-20020adfea8b000000b0031ae772ddf0mr5106504wrm.53.1695306160016;
-        Thu, 21 Sep 2023 07:22:40 -0700 (PDT)
+        bh=NDg1sZsypbtmVZl9501Jvjfjp7cqgNO2wWu9eDz+bAo=;
+        b=ZopsOIBAz0BBhZ5JZjOqEAQIHuTYIHLQJSGpFE4dCC07x94IO8z2RtxIlCU1gYDHXe
+         Hs5i7Jxl+ZRylh54hwHIOBeCQ8O0A3rZp+nLGIVH5QA1ZZcQWn3Q9FsawDSrj/LPUyhl
+         j95brfyXytXS/t0rZXxzJRLbW6cqX76koFEVMrqHmMpXzew9nvp904lr5iXtMQfwNmS8
+         nSQxRVgHdXXGNSil0gY45bo3gsohBeXSHsbKjc504wiz8P6VoJbpgPLq0nglDQXqC3kp
+         i2s9MyD6utXBibep+Wnjb++sAebHc8RCHKbka6ifsgpLzWR9KAZz/TvFR3k+2UoukIjw
+         9CaA==
+X-Gm-Message-State: AOJu0YzSj4++7ZxIrvG2UDpRBfpfLZ304GW5HFTmuOx1gvrbVdSb1Of/
+	vWT0ZfFAmrSRQZBqEwHK5XFYvA==
+X-Google-Smtp-Source: AGHT+IGgYCYV4RIyluC952QS15xlxGsYiHuw3JJvkpeLNvHhq4UFPDC/C6dReCQO1m30NxXKsPt5kw==
+X-Received: by 2002:a5d:4c85:0:b0:31f:a259:733 with SMTP id z5-20020a5d4c85000000b0031fa2590733mr5275304wrs.20.1695306161138;
+        Thu, 21 Sep 2023 07:22:41 -0700 (PDT)
 Received: from localhost.localdomain (abordeaux-655-1-129-86.w90-5.abo.wanadoo.fr. [90.5.10.86])
-        by smtp.gmail.com with ESMTPSA id n11-20020a5d4c4b000000b0031fbbe347ebsm1901426wrt.22.2023.09.21.07.22.39
+        by smtp.gmail.com with ESMTPSA id n11-20020a5d4c4b000000b0031fbbe347ebsm1901426wrt.22.2023.09.21.07.22.40
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 21 Sep 2023 07:22:39 -0700 (PDT)
+        Thu, 21 Sep 2023 07:22:40 -0700 (PDT)
 From: David Lechner <dlechner@baylibre.com>
 To: linux-iio@vger.kernel.org,
 	devicetree@vger.kernel.org,
@@ -52,9 +52,9 @@ Cc: linux-kernel@vger.kernel.org,
 	Axel Haslam <ahaslam@baylibre.com>,
 	Philip Molloy <pmolloy@baylibre.com>,
 	David Lechner <dlechner@baylibre.com>
-Subject: [v2 09/19] staging: iio: resolver: ad2s1210: use regmap for config registers
-Date: Thu, 21 Sep 2023 09:19:37 -0500
-Message-Id: <20230921141947.57784-12-dlechner@baylibre.com>
+Subject: [v2 10/19] staging: iio: resolver: ad2s1210: add debugfs reg access
+Date: Thu, 21 Sep 2023 09:19:38 -0500
+Message-Id: <20230921141947.57784-13-dlechner@baylibre.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230921141947.57784-1-dlechner@baylibre.com>
 References: <20230921141947.57784-1-dlechner@baylibre.com>
@@ -66,452 +66,48 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This makes use of the regmap API to read and write the configuration
-registers. This simplifies code quite a bit and makes it safer
-(previously, it was easy to write a bad value to the config registers
-which causes the chip to lock up and need to be reset).
+This add an implementation of debugfs_reg_access for the AD2S1210
+driver.
 
 Signed-off-by: David Lechner <dlechner@baylibre.com>
 ---
- drivers/staging/iio/resolver/ad2s1210.c | 251 ++++++++++++++----------
- 1 file changed, 149 insertions(+), 102 deletions(-)
+ drivers/staging/iio/resolver/ad2s1210.c | 20 ++++++++++++++++++++
+ 1 file changed, 20 insertions(+)
 
 diff --git a/drivers/staging/iio/resolver/ad2s1210.c b/drivers/staging/iio/resolver/ad2s1210.c
-index 153ac7704ad7..3c81ee61b897 100644
+index 3c81ee61b897..b99928394e3f 100644
 --- a/drivers/staging/iio/resolver/ad2s1210.c
 +++ b/drivers/staging/iio/resolver/ad2s1210.c
-@@ -5,6 +5,7 @@
-  * Copyright (c) 2010-2010 Analog Devices Inc.
-  * Copyright (C) 2023 BayLibre, SAS
-  */
-+#include <linux/bits.h>
- #include <linux/clk.h>
- #include <linux/delay.h>
- #include <linux/device.h>
-@@ -12,6 +13,7 @@
- #include <linux/module.h>
- #include <linux/mutex.h>
- #include <linux/of.h>
-+#include <linux/regmap.h>
- #include <linux/slab.h>
- #include <linux/spi/spi.h>
- #include <linux/sysfs.h>
-@@ -22,21 +24,20 @@
- 
- #define DRV_NAME "ad2s1210"
- 
-+/* default value of control register on powerup */
- #define AD2S1210_DEF_CONTROL		0x7E
- 
--#define AD2S1210_MSB_IS_HIGH		0x80
--#define AD2S1210_MSB_IS_LOW		0x7F
--#define AD2S1210_PHASE_LOCK_RANGE_44	0x20
--#define AD2S1210_ENABLE_HYSTERESIS	0x10
--#define AD2S1210_SET_ENRES1		0x08
--#define AD2S1210_SET_ENRES0		0x04
--#define AD2S1210_SET_RES1		0x02
--#define AD2S1210_SET_RES0		0x01
--
--#define AD2S1210_SET_RESOLUTION		(AD2S1210_SET_RES1 | AD2S1210_SET_RES0)
--
--#define AD2S1210_REG_POSITION		0x80
--#define AD2S1210_REG_VELOCITY		0x82
-+/* control register flags */
-+#define AD2S1210_ADDRESS_DATA		BIT(7)
-+#define AD2S1210_PHASE_LOCK_RANGE_44	BIT(5)
-+#define AD2S1210_ENABLE_HYSTERESIS	BIT(4)
-+#define AD2S1210_SET_ENRES		GENMASK(3, 2)
-+#define AD2S1210_SET_RES		GENMASK(1, 0)
-+
-+#define AD2S1210_REG_POSITION_MSB	0x80
-+#define AD2S1210_REG_POSITION_LSB	0x81
-+#define AD2S1210_REG_VELOCITY_MSB	0x82
-+#define AD2S1210_REG_VELOCITY_LSB	0x83
- #define AD2S1210_REG_LOS_THRD		0x88
- #define AD2S1210_REG_DOS_OVR_THRD	0x89
- #define AD2S1210_REG_DOS_MIS_THRD	0x8A
-@@ -92,6 +93,8 @@ struct ad2s1210_state {
- 	struct mutex lock;
- 	struct spi_device *sdev;
- 	struct gpio_desc *gpios[5];
-+	/** Used to access config registers. */
-+	struct regmap *regmap;
- 	/** The external oscillator frequency in Hz. */
- 	unsigned long fclkin;
- 	unsigned int fexcit;
-@@ -116,24 +119,51 @@ static inline void ad2s1210_set_mode(enum ad2s1210_mode mode,
- 	st->mode = mode;
+@@ -606,9 +606,29 @@ static int ad2s1210_initial(struct ad2s1210_state *st)
+ 	return ret;
  }
  
--/* write 1 bytes (address or data) to the chip */
--static int ad2s1210_config_write(struct ad2s1210_state *st, u8 data)
-+/*
-+ * Writes the given data to the given register address.
-+ *
-+ * If the mode is configurable, the device will first be placed in
-+ * configuration mode.
-+ */
-+static int ad2s1210_regmap_reg_write(void *context, unsigned int reg,
-+				     unsigned int val)
- {
--	int ret;
-+	struct ad2s1210_state *st = context;
-+	struct spi_transfer xfers[] = {
-+		{
-+			.len = 1,
-+			.rx_buf = &st->rx[0],
-+			.tx_buf = &st->tx[0],
-+			.cs_change = 1,
-+		}, {
-+			.len = 1,
-+			.rx_buf = &st->rx[1],
-+			.tx_buf = &st->tx[1],
-+		},
-+	};
-+
-+	/* values can only be 7 bits, the MSB indicates an address */
-+	if (val & ~0x7F)
-+		return -EINVAL;
-+
-+	st->tx[0] = reg;
-+	st->tx[1] = val;
- 
- 	ad2s1210_set_mode(MOD_CONFIG, st);
--	st->tx[0] = data;
--	ret = spi_write(st->sdev, st->tx, 1);
--	if (ret < 0)
--		return ret;
- 
--	return 0;
-+	return spi_sync_transfer(st->sdev, xfers, ARRAY_SIZE(xfers));
- }
- 
--/* read value from one of the registers */
--static int ad2s1210_config_read(struct ad2s1210_state *st,
--				unsigned char address)
-+/*
-+ * Reads value from one of the registers.
-+ *
-+ * If the mode is configurable, the device will first be placed in
-+ * configuration mode.
-+ */
-+static int ad2s1210_regmap_reg_read(void *context, unsigned int reg,
-+				    unsigned int *val)
- {
-+	struct ad2s1210_state *st = context;
- 	struct spi_transfer xfers[] = {
- 		{
- 			.len = 1,
-@@ -146,22 +176,34 @@ static int ad2s1210_config_read(struct ad2s1210_state *st,
- 			.tx_buf = &st->tx[1],
- 		},
- 	};
--	int ret = 0;
-+	int ret;
- 
- 	ad2s1210_set_mode(MOD_CONFIG, st);
--	st->tx[0] = address | AD2S1210_MSB_IS_HIGH;
-+	st->tx[0] = reg;
-+	/* Must be valid register address here otherwise this could write data.
-+	 * It doesn't matter which one.
-+	 */
- 	st->tx[1] = AD2S1210_REG_FAULT;
--	ret = spi_sync_transfer(st->sdev, xfers, 2);
-+
-+	ret = spi_sync_transfer(st->sdev, xfers, ARRAY_SIZE(xfers));
- 	if (ret < 0)
- 		return ret;
- 
--	return st->rx[1];
-+	/* If the D7 bit is set on any read/write register, it indicates a
-+	 * parity error. The fault register is read-only and the D7 bit means
-+	 * something else there.
-+	 */
-+	if (reg != AD2S1210_REG_FAULT && st->rx[1] & AD2S1210_ADDRESS_DATA)
-+		return -EBADMSG;
-+
-+	*val = st->rx[1];
-+
-+	return 0;
- }
- 
- static inline
- int ad2s1210_update_frequency_control_word(struct ad2s1210_state *st)
- {
--	int ret;
- 	unsigned char fcw;
- 
- 	fcw = (unsigned char)(st->fexcit * (1 << 15) / st->fclkin);
-@@ -170,11 +212,7 @@ int ad2s1210_update_frequency_control_word(struct ad2s1210_state *st)
- 		return -ERANGE;
- 	}
- 
--	ret = ad2s1210_config_write(st, AD2S1210_REG_EXCIT_FREQ);
--	if (ret < 0)
--		return ret;
--
--	return ad2s1210_config_write(st, fcw);
-+	return regmap_write(st->regmap, AD2S1210_REG_EXCIT_FREQ, fcw);
- }
- 
- static const int ad2s1210_res_pins[4][2] = {
-@@ -191,13 +229,7 @@ static inline void ad2s1210_set_resolution_pin(struct ad2s1210_state *st)
- 
- static inline int ad2s1210_soft_reset(struct ad2s1210_state *st)
- {
--	int ret;
--
--	ret = ad2s1210_config_write(st, AD2S1210_REG_SOFT_RESET);
--	if (ret < 0)
--		return ret;
--
--	return ad2s1210_config_write(st, 0x0);
-+	return regmap_write(st->regmap, AD2S1210_REG_SOFT_RESET, 0);
- }
- 
- static ssize_t ad2s1210_show_fexcit(struct device *dev,
-@@ -242,12 +274,13 @@ static ssize_t ad2s1210_show_control(struct device *dev,
- 				     char *buf)
- {
- 	struct ad2s1210_state *st = iio_priv(dev_to_iio_dev(dev));
-+	unsigned int value;
- 	int ret;
- 
- 	mutex_lock(&st->lock);
--	ret = ad2s1210_config_read(st, AD2S1210_REG_CONTROL);
-+	ret = regmap_read(st->regmap, AD2S1210_REG_CONTROL, &value);
- 	mutex_unlock(&st->lock);
--	return ret < 0 ? ret : sprintf(buf, "0x%x\n", ret);
-+	return ret < 0 ? ret : sprintf(buf, "0x%x\n", value);
- }
- 
- static ssize_t ad2s1210_store_control(struct device *dev,
-@@ -264,25 +297,13 @@ static ssize_t ad2s1210_store_control(struct device *dev,
- 		return -EINVAL;
- 
- 	mutex_lock(&st->lock);
--	ret = ad2s1210_config_write(st, AD2S1210_REG_CONTROL);
--	if (ret < 0)
--		goto error_ret;
--	data = udata & AD2S1210_MSB_IS_LOW;
--	ret = ad2s1210_config_write(st, data);
-+	data = udata & ~AD2S1210_ADDRESS_DATA;
-+	ret = regmap_write(st->regmap, AD2S1210_REG_CONTROL, data);
- 	if (ret < 0)
- 		goto error_ret;
- 
--	ret = ad2s1210_config_read(st, AD2S1210_REG_CONTROL);
--	if (ret < 0)
--		goto error_ret;
--	if (ret & AD2S1210_MSB_IS_HIGH) {
--		ret = -EIO;
--		dev_err(dev,
--			"ad2s1210: write control register fail\n");
--		goto error_ret;
--	}
- 	st->resolution =
--		ad2s1210_resolution_value[data & AD2S1210_SET_RESOLUTION];
-+		ad2s1210_resolution_value[data & AD2S1210_SET_RES];
- 	ad2s1210_set_resolution_pin(st);
- 	ret = len;
- 	st->hysteresis = !!(data & AD2S1210_ENABLE_HYSTERESIS);
-@@ -315,30 +336,17 @@ static ssize_t ad2s1210_store_resolution(struct device *dev,
- 		dev_err(dev, "ad2s1210: resolution out of range\n");
- 		return -EINVAL;
- 	}
-+
-+	data = (udata - 10) >> 1;
-+
- 	mutex_lock(&st->lock);
--	ret = ad2s1210_config_read(st, AD2S1210_REG_CONTROL);
--	if (ret < 0)
--		goto error_ret;
--	data = ret;
--	data &= ~AD2S1210_SET_RESOLUTION;
--	data |= (udata - 10) >> 1;
--	ret = ad2s1210_config_write(st, AD2S1210_REG_CONTROL);
--	if (ret < 0)
--		goto error_ret;
--	ret = ad2s1210_config_write(st, data & AD2S1210_MSB_IS_LOW);
-+	ret = regmap_update_bits(st->regmap, AD2S1210_REG_CONTROL,
-+				 AD2S1210_SET_RES, data);
- 	if (ret < 0)
- 		goto error_ret;
--	ret = ad2s1210_config_read(st, AD2S1210_REG_CONTROL);
--	if (ret < 0)
--		goto error_ret;
--	data = ret;
--	if (data & AD2S1210_MSB_IS_HIGH) {
--		ret = -EIO;
--		dev_err(dev, "ad2s1210: setting resolution fail\n");
--		goto error_ret;
--	}
-+
- 	st->resolution =
--		ad2s1210_resolution_value[data & AD2S1210_SET_RESOLUTION];
-+		ad2s1210_resolution_value[data & AD2S1210_SET_RES];
- 	ad2s1210_set_resolution_pin(st);
- 	ret = len;
- error_ret:
-@@ -351,13 +359,14 @@ static ssize_t ad2s1210_show_fault(struct device *dev,
- 				   struct device_attribute *attr, char *buf)
- {
- 	struct ad2s1210_state *st = iio_priv(dev_to_iio_dev(dev));
-+	unsigned int value;
- 	int ret;
- 
- 	mutex_lock(&st->lock);
--	ret = ad2s1210_config_read(st, AD2S1210_REG_FAULT);
-+	ret = regmap_read(st->regmap, AD2S1210_REG_FAULT, &value);
- 	mutex_unlock(&st->lock);
- 
--	return (ret < 0) ? ret : sprintf(buf, "0x%02x\n", ret);
-+	return ret < 0 ? ret : sprintf(buf, "0x%02x\n", value);
- }
- 
- static ssize_t ad2s1210_clear_fault(struct device *dev,
-@@ -366,6 +375,7 @@ static ssize_t ad2s1210_clear_fault(struct device *dev,
- 				    size_t len)
- {
- 	struct ad2s1210_state *st = iio_priv(dev_to_iio_dev(dev));
-+	unsigned int value;
- 	int ret;
- 
- 	mutex_lock(&st->lock);
-@@ -373,7 +383,7 @@ static ssize_t ad2s1210_clear_fault(struct device *dev,
- 	/* delay (2 * tck + 20) nano seconds */
- 	udelay(1);
- 	gpiod_set_value(st->gpios[AD2S1210_SAMPLE], 1);
--	ret = ad2s1210_config_read(st, AD2S1210_REG_FAULT);
-+	ret = regmap_read(st->regmap, AD2S1210_REG_FAULT, &value);
- 	if (ret < 0)
- 		goto error_ret;
- 	gpiod_set_value(st->gpios[AD2S1210_SAMPLE], 0);
-@@ -390,13 +400,14 @@ static ssize_t ad2s1210_show_reg(struct device *dev,
- {
- 	struct ad2s1210_state *st = iio_priv(dev_to_iio_dev(dev));
- 	struct iio_dev_attr *iattr = to_iio_dev_attr(attr);
-+	unsigned int value;
- 	int ret;
- 
- 	mutex_lock(&st->lock);
--	ret = ad2s1210_config_read(st, iattr->address);
-+	ret = regmap_read(st->regmap, iattr->address, &value);
- 	mutex_unlock(&st->lock);
- 
--	return ret < 0 ? ret : sprintf(buf, "%d\n", ret);
-+	return ret < 0 ? ret : sprintf(buf, "%d\n", value);
- }
- 
- static ssize_t ad2s1210_store_reg(struct device *dev,
-@@ -409,14 +420,11 @@ static ssize_t ad2s1210_store_reg(struct device *dev,
- 	struct iio_dev_attr *iattr = to_iio_dev_attr(attr);
- 
- 	ret = kstrtou8(buf, 10, &data);
--	if (ret)
-+	if (ret < 0)
- 		return -EINVAL;
-+
- 	mutex_lock(&st->lock);
--	ret = ad2s1210_config_write(st, iattr->address);
--	if (ret < 0)
--		goto error_ret;
--	ret = ad2s1210_config_write(st, data & AD2S1210_MSB_IS_LOW);
--error_ret:
-+	ret = regmap_write(st->regmap, iattr->address, data);
- 	mutex_unlock(&st->lock);
- 	return ret < 0 ? ret : len;
- }
-@@ -583,23 +591,12 @@ static int ad2s1210_initial(struct ad2s1210_state *st)
- 	mutex_lock(&st->lock);
- 	ad2s1210_set_resolution_pin(st);
- 
--	ret = ad2s1210_config_write(st, AD2S1210_REG_CONTROL);
--	if (ret < 0)
--		goto error_ret;
--	data = AD2S1210_DEF_CONTROL & ~(AD2S1210_SET_RESOLUTION);
-+	data = AD2S1210_DEF_CONTROL & ~AD2S1210_SET_RES;
- 	data |= (st->resolution - 10) >> 1;
--	ret = ad2s1210_config_write(st, data);
--	if (ret < 0)
--		goto error_ret;
--	ret = ad2s1210_config_read(st, AD2S1210_REG_CONTROL);
-+	ret = regmap_write(st->regmap, AD2S1210_REG_CONTROL, data);
- 	if (ret < 0)
- 		goto error_ret;
- 
--	if (ret & AD2S1210_MSB_IS_HIGH) {
--		ret = -EIO;
--		goto error_ret;
--	}
--
- 	ret = ad2s1210_update_frequency_control_word(st);
- 	if (ret < 0)
- 		goto error_ret;
-@@ -652,6 +649,52 @@ static int ad2s1210_setup_gpios(struct ad2s1210_state *st)
- 	return 0;
- }
- 
-+static const struct regmap_range ad2s1210_regmap_readable_ranges[] = {
-+	regmap_reg_range(AD2S1210_REG_POSITION_MSB, AD2S1210_REG_VELOCITY_LSB),
-+	regmap_reg_range(AD2S1210_REG_LOS_THRD, AD2S1210_REG_LOT_LOW_THRD),
-+	regmap_reg_range(AD2S1210_REG_EXCIT_FREQ, AD2S1210_REG_CONTROL),
-+	regmap_reg_range(AD2S1210_REG_FAULT, AD2S1210_REG_FAULT),
-+};
-+
-+static const struct regmap_access_table ad2s1210_regmap_rd_table = {
-+	.yes_ranges = ad2s1210_regmap_readable_ranges,
-+	.n_yes_ranges = ARRAY_SIZE(ad2s1210_regmap_readable_ranges),
-+};
-+
-+static const struct regmap_range ad2s1210_regmap_writeable_ranges[] = {
-+	regmap_reg_range(AD2S1210_REG_LOS_THRD, AD2S1210_REG_LOT_LOW_THRD),
-+	regmap_reg_range(AD2S1210_REG_EXCIT_FREQ, AD2S1210_REG_CONTROL),
-+	regmap_reg_range(AD2S1210_REG_SOFT_RESET, AD2S1210_REG_SOFT_RESET),
-+	regmap_reg_range(AD2S1210_REG_FAULT, AD2S1210_REG_FAULT),
-+};
-+
-+static const struct regmap_access_table ad2s1210_regmap_wr_table = {
-+	.yes_ranges = ad2s1210_regmap_writeable_ranges,
-+	.n_yes_ranges = ARRAY_SIZE(ad2s1210_regmap_writeable_ranges),
-+};
-+
-+static int ad2s1210_setup_regmap(struct ad2s1210_state *st)
++static int ad2s1210_debugfs_reg_access(struct iio_dev *indio_dev,
++				       unsigned int reg, unsigned int writeval,
++				       unsigned int *readval)
 +{
-+	struct device *dev = &st->sdev->dev;
-+	const struct regmap_config config = {
-+		.reg_bits = 8,
-+		.val_bits = 8,
-+		.disable_locking = true,
-+		.reg_read = ad2s1210_regmap_reg_read,
-+		.reg_write = ad2s1210_regmap_reg_write,
-+		.rd_table = &ad2s1210_regmap_rd_table,
-+		.wr_table = &ad2s1210_regmap_wr_table,
-+		.can_sleep = true,
-+	};
++	struct ad2s1210_state *st = iio_priv(indio_dev);
++	int ret;
 +
-+	st->regmap = devm_regmap_init(dev, NULL, st, &config);
-+	if (IS_ERR(st->regmap))
-+		return dev_err_probe(dev, PTR_ERR(st->regmap),
-+				     "failed to allocate register map\n");
++	mutex_lock(&st->lock);
 +
-+	return 0;
++	if (readval)
++		ret = regmap_read(st->regmap, reg, readval);
++	else
++		ret = regmap_write(st->regmap, reg, writeval);
++
++	mutex_unlock(&st->lock);
++
++	return ret;
 +}
 +
- static int ad2s1210_probe(struct spi_device *spi)
- {
- 	struct iio_dev *indio_dev;
-@@ -679,6 +722,10 @@ static int ad2s1210_probe(struct spi_device *spi)
- 	if (ret < 0)
- 		return ret;
+ static const struct iio_info ad2s1210_info = {
+ 	.read_raw = ad2s1210_read_raw,
+ 	.attrs = &ad2s1210_attribute_group,
++	.debugfs_reg_access = &ad2s1210_debugfs_reg_access,
+ };
  
-+	ret = ad2s1210_setup_regmap(st);
-+	if (ret < 0)
-+		return ret;
-+
- 	ret = ad2s1210_initial(st);
- 	if (ret < 0)
- 		return ret;
+ static int ad2s1210_setup_clocks(struct ad2s1210_state *st)
 -- 
 2.34.1
 
