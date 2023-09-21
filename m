@@ -1,108 +1,273 @@
-Received: from mail-ot1-f52.google.com (mail-ot1-f52.google.com [209.85.210.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D4814411
-	for <linux-staging@lists.linux.dev>; Thu, 21 Sep 2023 03:21:38 +0000 (UTC)
-Received: by mail-ot1-f52.google.com with SMTP id 46e09a7af769-6c0c675cb03so358887a34.1
-        for <linux-staging@lists.linux.dev>; Wed, 20 Sep 2023 20:21:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=darkphysics.net; s=google; t=1695266497; x=1695871297; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=J13TYH53baJjDyxjNG/I7LEG1MMKBZPbFBacTopiq18=;
-        b=EZTvfFmfITr1EO+L9gxNm8CvDDe4pzsmXPJEE1tuYqisP6kgq4mMfOvgcOlOeADghf
-         LGP96Iw2I500TT60P6QfDndA8BOrV7WIA4S4pGXssGqcqs5SBp9iKtSuwkCW49rVmH9J
-         22m75lO6ChzA5v5rqK0GDqQ/AzO9yOf02b9m7by5iX3t0Y1JpbvRVTzLEsB27oyvLby+
-         uJLyCaHYeoFvmdVhI5jqlkb+C4csuEszRcYfwa5sPnj7G5WxNaZTWZJmw3e4YusoRawA
-         R3R45qDwhnKYZXpsyrndiyqCrEA8To4OXFiBiUqqtRoudO40bCaKhwb6EL+shcVl9sG4
-         esNg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1695266497; x=1695871297;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=J13TYH53baJjDyxjNG/I7LEG1MMKBZPbFBacTopiq18=;
-        b=GUv5Zn///V0n5RoTq7tgEtRGjQ8d9q9KY6Aa/8cf412a4MFUXcAGDKksEYEOuPmdgH
-         uvY0CYnP3hqWFVF7rM+U8eihGjnUPJJyo6CEKWotCUF8vUSeMxyx/O1Qgz/o/ilGfD6N
-         xBmB7MNNbx+lWIF2r7cE0Pq+HkbwJLaRjfLttus/tEY0bzKDIRn6z9jo8iC4a4nzoWG+
-         ASvJOHCc0rIMtPMaAUloYztYlSa61XtxdY/1EvsUbO/RHcEpHmvOcNwE0I2tDdisiOYV
-         vC2YmSU/8ngjVhB7bK7ZssP+gmYBmgYkF5yoPbK6tC6tBV+9qE4+UmOeU8ZTF4knVOM4
-         nX/g==
-X-Gm-Message-State: AOJu0Yw87EUhwHyVpGYxLWT+On0xtdK4mqZJN9x1dBytjGWtMwJIFVOv
-	FVcDda0FN+P0+tKY6ZsKBDS93g==
-X-Google-Smtp-Source: AGHT+IE3VuH1+V0xhuaLDWp508K9FGyJ9OfrDdJCBCM4LXhXsSnassgBfeQ3SlC3wqUr+BWa+AefzQ==
-X-Received: by 2002:a05:6830:ed5:b0:6b9:1ad8:18d8 with SMTP id dq21-20020a0568300ed500b006b91ad818d8mr4322857otb.27.1695266497397;
-        Wed, 20 Sep 2023 20:21:37 -0700 (PDT)
-Received: from basil.darkphysics (c-76-146-178-2.hsd1.wa.comcast.net. [76.146.178.2])
-        by smtp.gmail.com with ESMTPSA id p14-20020a62ab0e000000b0068e49cb1692sm237324pff.1.2023.09.20.20.21.36
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 20 Sep 2023 20:21:37 -0700 (PDT)
-From: Tree Davies <tdavies@darkphysics.net>
-To: gregkh@linuxfoundation.org,
-	philipp.g.hortmann@gmail.com,
-	anjan@momi.ca
-Cc: linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Tree Davies <tdavies@darkphysics.net>
-Subject: [PATCH 11/11] Staging: rtl8192e: Rename variable StatusCode
-Date: Wed, 20 Sep 2023 20:25:15 -0700
-Message-ID: <20230921032515.96152-12-tdavies@darkphysics.net>
-X-Mailer: git-send-email 2.41.0
-In-Reply-To: <20230921032515.96152-1-tdavies@darkphysics.net>
-References: <20230921032515.96152-1-tdavies@darkphysics.net>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7AFE8F55;
+	Thu, 21 Sep 2023 09:06:57 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 53E57C197C4;
+	Thu, 21 Sep 2023 09:06:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1695287217;
+	bh=3tcJf+vo1lDEFwmLnpNMKtQhqnHVgNZwgjlJAK1przM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Y1h7QhGsb9DonuypEmBlwXwF+EvayA+OS4NyPwNnd7nQqdplyHkHkra1JyPgvEHW3
+	 YCRSWFhes//Be1zFN2FwO41IjRufTk/U8FaexIThieQIL/2w4Kt4EbJT6mP+B5Ucgt
+	 rYwmMguh0uXYuDK+y90Ao6taseaS2WcFIGi8KuI6QM1GSZRnXz8L/hYxIQNIB9PBE2
+	 k1wXfu1XGiiYy8q99ZKcwfZOzSJQZnGu877VZI0uIPwZ7sc649U6Ur760cWn6SCE9Q
+	 N4ew+jUSRB0e6O/11Bj8LvfeG6bFA18hruOP7gKiW9SGBvVggJIN/Vc/Q2BoJG6692
+	 ArCzwQqJVO1Rw==
+Date: Thu, 21 Sep 2023 10:06:51 +0100
+From: Conor Dooley <conor@kernel.org>
+To: David Lechner <dlechner@baylibre.com>
+Cc: linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Jonathan Cameron <jic23@kernel.org>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Michael Hennerich <Michael.Hennerich@analog.com>,
+	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
+	Axel Haslam <ahaslam@baylibre.com>,
+	Philip Molloy <pmolloy@baylibre.com>,
+	Apelete Seketeli <aseketeli@baylibre.com>
+Subject: Re: [PATCH 1/4] dt-bindings: iio: resolver: add devicetree bindings
+ for ad2s1210
+Message-ID: <20230921-b304d3fd05b37a8588e101a2@fedora>
+References: <20230920170253.203395-1-dlechner@baylibre.com>
+ <20230920170253.203395-2-dlechner@baylibre.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="owrJu3nfxN2zBqaa"
+Content-Disposition: inline
+In-Reply-To: <20230920170253.203395-2-dlechner@baylibre.com>
 
-Rename variable StatusCode to status_code to fix checkpatch warning Avoid
-CamelCase.
 
-Signed-off-by: Tree Davies <tdavies@darkphysics.net>
----
- drivers/staging/rtl8192e/rtl819x_BAProc.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+--owrJu3nfxN2zBqaa
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/drivers/staging/rtl8192e/rtl819x_BAProc.c b/drivers/staging/rtl8192e/rtl819x_BAProc.c
-index b3a8a6959622..820b5ee2ded1 100644
---- a/drivers/staging/rtl8192e/rtl819x_BAProc.c
-+++ b/drivers/staging/rtl8192e/rtl819x_BAProc.c
-@@ -65,7 +65,7 @@ void rtllib_reset_ba_entry(struct ba_record *pBA)
- 
- static struct sk_buff *rtllib_ADDBA(struct rtllib_device *ieee, u8 *dst,
- 				    struct ba_record *pBA,
--				    u16 StatusCode, u8 type)
-+				    u16 status_code, u8 type)
- {
- 	struct sk_buff *skb = NULL;
- 	struct ieee80211_hdr_3addr *BAReq = NULL;
-@@ -101,7 +101,7 @@ static struct sk_buff *rtllib_ADDBA(struct rtllib_device *ieee, u8 *dst,
- 	*tag++ = pBA->dialog_token;
- 
- 	if (type == ACT_ADDBARSP) {
--		put_unaligned_le16(StatusCode, tag);
-+		put_unaligned_le16(status_code, tag);
- 		tag += 2;
- 	}
- 
-@@ -187,11 +187,11 @@ static void rtllib_send_ADDBAReq(struct rtllib_device *ieee, u8 *dst,
- }
- 
- static void rtllib_send_ADDBARsp(struct rtllib_device *ieee, u8 *dst,
--				 struct ba_record *pBA, u16 StatusCode)
-+				 struct ba_record *pBA, u16 status_code)
- {
- 	struct sk_buff *skb;
- 
--	skb = rtllib_ADDBA(ieee, dst, pBA, StatusCode, ACT_ADDBARSP);
-+	skb = rtllib_ADDBA(ieee, dst, pBA, status_code, ACT_ADDBARSP);
- 	if (skb)
- 		softmac_mgmt_xmit(skb, ieee);
- 	else
--- 
-2.39.2
+Yo,
 
+On Wed, Sep 20, 2023 at 12:02:50PM -0500, David Lechner wrote:
+> This adds new DeviceTree bindings for the Analog Devices, Inc. AD2S1210
+> resolver-to-digital converter.
+>=20
+> Signed-off-by: Apelete Seketeli <aseketeli@baylibre.com>
+> Signed-off-by: David Lechner <dlechner@baylibre.com>
+
+Missing a From: or co-developed-by?
+
+> ---
+>  .../bindings/iio/resolver/adi,ad2s1210.yaml   | 150 ++++++++++++++++++
+>  1 file changed, 150 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/iio/resolver/adi,ad=
+2s1210.yaml
+>=20
+> diff --git a/Documentation/devicetree/bindings/iio/resolver/adi,ad2s1210.=
+yaml b/Documentation/devicetree/bindings/iio/resolver/adi,ad2s1210.yaml
+> new file mode 100644
+> index 000000000000..cf6838710e52
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/iio/resolver/adi,ad2s1210.yaml
+> @@ -0,0 +1,150 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/iio/resolver/adi,ad2s1210.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Analog Devices AD2S1210 Resolver-to-Digital Converter
+> +
+> +maintainers:
+> +  - Michael Hennerich <michael.hennerich@analog.com>
+
+Why's this a chap from analog, rather than the authors?
+
+> +description: |
+> +  The AD2S1210 is a complete 10-bit to 16-bit resolution tracking
+> +  resolver-to-digital converter, integrating an on-board programmable
+> +  sinusoidal oscillator that provides sine wave excitation for
+> +  resolvers.
+> +
+> +  The AD2S1210 allows the user to read the angular position or the
+> +  angular velocity data directly from the parallel outputs or through
+> +  the serial interface.
+> +
+> +    A1  A0  Result
+> +     0   0  Normal mode - position output
+> +     0   1  Normal mode - velocity output
+> +     1   0  Reserved
+> +     1   1  Configuration mode
+> +
+> +  In normal mode, the resolution of the digital output is selected using
+> +  the RES0 and RES1 input pins. In configuration mode, the resolution is
+> +  selected by setting the RES0 and RES1 bits in the control register.
+> +
+> +  RES1  RES0  Resolution (Bits)
+> +     0     0  10
+> +     0     1  12
+> +     1     0  14
+> +     1     1  16
+> +
+> +  Note on SPI connections: The CS line on the AD2S1210 should hard-wired=
+ to
+> +  logic low and the WR/FSYNC line on the AD2S1210 should be connected to=
+ the
+> +  SPI CSn output of the SPI controller.
+> +
+> +  Datasheet:
+> +  https://www.analog.com/media/en/technical-documentation/data-sheets/ad=
+2s1210.pdf
+> +
+> +properties:
+> +  compatible:
+> +    const: adi,ad2s1210
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  spi-max-frequency:
+> +    maximum: 25000000
+> +
+> +  spi-cpha: true
+> +
+> +  clocks:
+> +    maxItems: 1
+> +    description: External oscillator clock (CLKIN).
+> +
+> +  reset-gpios:
+> +    description:
+> +      GPIO connected to the /RESET pin. As the line needs to be low for =
+the
+> +      reset to be active, it should be configured as GPIO_ACTIVE_LOW.
+> +    maxItems: 1
+> +
+> +  sample-gpios:
+> +    description: |
+
+What do you need the pipe for here? Don't see some formatting requiring
+preservation. Ditto below.
+
+> +      GPIO connected to the /SAMPLE pin. As the line needs to be low to =
+trigger
+> +      a sample, it should be configured as GPIO_ACTIVE_LOW.
+> +    maxItems: 1
+> +
+> +  mode-gpios:
+> +    description: |
+> +      GPIO lines connected to the A0 and A1 pins. These pins select the =
+data
+> +      transfer mode.
+> +    minItems: 2
+> +    maxItems: 2
+> +
+> +  resolution-gpios:
+> +    description: |
+> +      GPIO lines connected to the RES0 and RES1 pins. These pins select =
+the
+> +      resolution of the digital output. If omitted, it is assumed that t=
+he
+> +      RES0 and RES1 pins are hard-wired to match the assigned-resolution=
+-bits
+> +      property.
+> +    minItems: 2
+> +    maxItems: 2
+> +
+> +  fault-gpios:
+> +    description: |
+> +      GPIO lines connected to the LOT and DOS pins. These pins combined =
+indicate
+> +      the type of fault present, if any. As these pins a pulled low to i=
+ndicate
+> +      a fault condition, they should be configured as GPIO_ACTIVE_LOW.
+> +    minItems: 2
+> +    maxItems: 2
+> +
+> +  adi,fixed-mode:
+> +    description: |
+> +      This is used to indicate the selected mode if A0 and A1 are hard-w=
+ired
+> +      instead of connected to GPIOS (i.e. mode-gpios is omitted).
+> +    $ref: /schemas/types.yaml#/definitions/string
+> +    enum: ["config", "velocity", "position"]
+
+The bot is complaining about these "s not being needed.
+
+> +
+> +  assigned-resolution-bits:
+
+I figure the lack of a vendor prefix here is "inspired" by the same
+property for stm32?
+
+Cheers,
+Conor.
+
+> +    description: |
+> +      Resolution of the digital output required by the application. This
+> +      determines the precision of the angle and/or the maximum speed tha=
+t can
+> +      be measured. If resolution-gpios is omitted, it is assumed that RE=
+S0 and
+> +      RES1 are hard-wired to match this value.
+> +    enum: [10, 12, 14, 16]
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - spi-cpha
+> +  - clocks
+> +  - sample-gpios
+> +  - assigned-resolution-bits
+> +
+> +oneOf:
+> +  - required:
+> +      - mode-gpios
+> +  - required:
+> +      - adi,fixed-mode
+> +
+> +allOf:
+> +  - $ref: /schemas/spi/spi-peripheral-props.yaml#
+> +
+> +unevaluatedProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/gpio/gpio.h>
+> +
+> +    spi {
+> +        #address-cells =3D <1>;
+> +        #size-cells =3D <0>;
+> +
+> +        resolver@0 {
+> +            compatible =3D "adi,ad2s1210";
+> +            reg =3D <0>;
+> +            spi-max-frequency =3D <20000000>;
+> +            spi-cpha;
+> +            clocks =3D <&ext_osc>;
+> +            sample-gpios =3D <&gpio0 90 GPIO_ACTIVE_LOW>;
+> +            mode-gpios =3D <&gpio0 86 0>, <&gpio0 87 0>;
+> +            resolution-gpios =3D <&gpio0 88 0>, <&gpio0 89 0>;
+> +            assigned-resolution-bits =3D <16>;
+> +        };
+> +    };
+> --=20
+> 2.34.1
+>=20
+
+--owrJu3nfxN2zBqaa
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEARYKAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZQwHpwAKCRB4tDGHoIJi
+0v70AP4zQgNZ3lhzq1mZCa5+hgoIiGQ+hdOzpkcM2jR3Z3nQGQD8CT9tbJPTw5AJ
+Wqrs2GhAyKCnRwkokriHEaHCPtVUeAE=
+=T7Wa
+-----END PGP SIGNATURE-----
+
+--owrJu3nfxN2zBqaa--
