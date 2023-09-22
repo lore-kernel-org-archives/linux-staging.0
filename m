@@ -1,49 +1,49 @@
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF2F527707
-	for <linux-staging@lists.linux.dev>; Fri, 22 Sep 2023 13:29:25 +0000 (UTC)
-Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-31f7c87353eso233826f8f.0
-        for <linux-staging@lists.linux.dev>; Fri, 22 Sep 2023 06:29:25 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A44F827707
+	for <linux-staging@lists.linux.dev>; Fri, 22 Sep 2023 13:29:32 +0000 (UTC)
+Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-40471c054f9so6727665e9.0
+        for <linux-staging@lists.linux.dev>; Fri, 22 Sep 2023 06:29:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1695389364; x=1695994164; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1695389371; x=1695994171; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=LBy3wFhLTQf4ZmbkwmQwK7h4Pebz0NJBR2zXKtkevTU=;
-        b=LjiAih6NyPr/sChBAXB07idmzLZV+qZwRP/iTnGjwtHrQqhINS+59lFA8JCRRlwnpS
-         x6L0diNYWm7QeqYNxOTiXFBXd4c9yjMuR0k7n8DWdeBZCUw4FP1L4FgANb7LagVxGQq4
-         cy+tz5739KN3dkVjg2cLOmAEAYMJTvm9TiwEqL46qR+g2Yz7WXdKQ0m0/MTqLoaMJQcP
-         LdH6odVg6iFI9KsPU/NaEicveX3u6YPmygV5MxkxFpRxbwNDj99N4VJAsjqsFyW57M16
-         leQS8TEmJnRsMGNcua6s/jDItToP/UA7ForkJ8SC/z4auLs9Dqz4xdvgYvLabVyspFUV
-         OxaA==
+        bh=HvA1NhHU9wJadRFvynpx4VWVmQWw3BozI/MwraHbSoM=;
+        b=Vq3X3ZZHxs46VHN8VtHJoh7/iVDJGbaPC2z1uXOlwLqz4YC0Kjrg4RRFsgazopRfhJ
+         VHYY9JsyVWTvm6i7riG6/gk/6VIG+GDorCaj1GTpISN/u+9zz23Rys/wJ19nAJdQ+bkN
+         TikM8F0gR/I8kZ+6EW+sofGBplScQULe3oQk0sVMeRGHKupraN4WDX3X19cf8x6UwKuL
+         q5+eyvOm/DGyBAhplwyR4vuSRlmlQ5DHLGaip4qID3bTjisGsBKKePgnhDOGRH7qb3tt
+         4BjI5EXqyTwaNFAbz/OoXvLcOWMhvgjIDeNPfGgANK1GeHbQihYvy+hT181LYaScFEhN
+         XIhw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1695389364; x=1695994164;
+        d=1e100.net; s=20230601; t=1695389371; x=1695994171;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=LBy3wFhLTQf4ZmbkwmQwK7h4Pebz0NJBR2zXKtkevTU=;
-        b=E57g0vs3CyBAc1sbeB7YpD8J/4zl91yKyKcmQcMOheKb0P5PI7Vm8EZFiAubqcQgqZ
-         lQjBsWy3v6BIHQRS5inQDHyZ8Rd8LvKH3Y7Jbhv+nBNE2iB0XvyOg/bphQEa9KASOpY0
-         oPDm9AoA3fIOMVuztoZCjL0/WTS2autSWT+0gB2bmrIZGa9iS9OfmtbWeSmUE7JAHNI2
-         vtKybOhW1YFB6ES0OChDuoWRMLTTrpb19blNnDcjQpGjQcbmi5KXM07yizB41qZxRj0k
-         x9spBrJjvCl/VTK2KU2Uo098ZiszNn2kn/SkUrRonSvOczWzfQyyBODHhqQmR4BJEL4L
-         34XQ==
-X-Gm-Message-State: AOJu0Yy7pLcThYKlQJyyIccH4+0Ahxqod/JW8d3zPBWwwF/iJCLv7dfe
-	dHAkYb7iUluKYa3gOx2VGTtuTqPpubajUg==
-X-Google-Smtp-Source: AGHT+IHz3Jcw4j2xB6knYF2ElgaLojpc6W6Uci1Xiqu9UQfofIxUtJ5pWF/iD3wRoPYB5AeaOZH41A==
-X-Received: by 2002:adf:f2c3:0:b0:320:8f0:b93d with SMTP id d3-20020adff2c3000000b0032008f0b93dmr7530568wrp.3.1695389363548;
-        Fri, 22 Sep 2023 06:29:23 -0700 (PDT)
+        bh=HvA1NhHU9wJadRFvynpx4VWVmQWw3BozI/MwraHbSoM=;
+        b=cAPb7ase40zz+gOElMyKcUav4dCx838ZMw+1izKLeYx8IqDkisuymG29LsqonBJ6a9
+         Uc5dMR0oifm5AqDydSayzS86eGtf78ILHq4B4VcFNY++zI1umoqDRqApbFxzUXAzNzLh
+         FaJkgC57uswQNIskw+wn57Ejr+n4PxZg/W1lM08kHhx6J03DdaJ18FVWdlpTBS4qxwHk
+         tls9gJTjRhJjk4XCYtwXnxESHZBkQ7aA3Grb723xx2YWq1HO/DXr2tmvCQc7xMiHratT
+         kLl/mpXiCTuZ2L98L862DRVGj1Y2mh0h3V9anT6WgPZMJivhHDU0J6UBUOF8JS0Zg3+t
+         Zd7A==
+X-Gm-Message-State: AOJu0Ywb9Fm9sS/wP4PMuCdD2rN2A9UTQ1K2W6h8VB6ebKSQHA6sjCUV
+	lxbYbwoXoAFtB+p3zbvSvs31NE3OIdQmXQ==
+X-Google-Smtp-Source: AGHT+IEniLWtAPga448LSVQoAKXwyP5aeYgyiMzuiODW6HLhdZzfHgDiUZm2Btw7IYjhooFgjvjpRw==
+X-Received: by 2002:a05:600c:cc8:b0:401:c07f:72bd with SMTP id fk8-20020a05600c0cc800b00401c07f72bdmr7905417wmb.4.1695389370547;
+        Fri, 22 Sep 2023 06:29:30 -0700 (PDT)
 Received: from matrix-ESPRIMO-P710 (p579356c7.dip0.t-ipconnect.de. [87.147.86.199])
-        by smtp.gmail.com with ESMTPSA id k17-20020a5d66d1000000b0031759e6b43fsm4467639wrw.39.2023.09.22.06.29.23
+        by smtp.gmail.com with ESMTPSA id ay2-20020a05600c1e0200b003feea62440bsm1161020wmb.43.2023.09.22.06.29.30
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 22 Sep 2023 06:29:23 -0700 (PDT)
-Date: Fri, 22 Sep 2023 15:29:21 +0200
+        Fri, 22 Sep 2023 06:29:30 -0700 (PDT)
+Date: Fri, 22 Sep 2023 15:29:28 +0200
 From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [PATCH 1/7] staging: rtl8192e: Remove mode IW_MODE_ADHOC from
- rtllib_tx.c
-Message-ID: <59564ce06fc0a23fd26304b8ecd585abd5ddd82f.1695387832.git.philipp.g.hortmann@gmail.com>
+Subject: [PATCH 2/7] staging: rtl8192e: Remove mode IW_MODE_ADHOC from
+ rtllib_rx.c
+Message-ID: <5400c68e17b86b1170ac997fae3fe1fb09220af8.1695387832.git.philipp.g.hortmann@gmail.com>
 References: <cover.1695387832.git.philipp.g.hortmann@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -55,188 +55,195 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 In-Reply-To: <cover.1695387832.git.philipp.g.hortmann@gmail.com>
 
-Remove unsupported mode IW_MODE_ADHOC from rtllib_tx.c, rtl819x_TSProc.c,
-rtl819x_HTProc.c, r8192E_dev.c
+Remove unsupported mode IW_MODE_ADHOC from rtllib_rx.c and all related
+functions and structs.
 
 Signed-off-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
 ---
- .../staging/rtl8192e/rtl8192e/r8192E_dev.c    | 20 +-----------
- drivers/staging/rtl8192e/rtl819x_HTProc.c     | 32 +------------------
- drivers/staging/rtl8192e/rtl819x_TSProc.c     | 21 ++++--------
- drivers/staging/rtl8192e/rtllib_tx.c          | 11 +------
- 4 files changed, 10 insertions(+), 74 deletions(-)
+ drivers/staging/rtl8192e/rtllib.h         |  9 ----
+ drivers/staging/rtl8192e/rtllib_rx.c      | 38 -------------
+ drivers/staging/rtl8192e/rtllib_softmac.c | 65 -----------------------
+ 3 files changed, 112 deletions(-)
 
-diff --git a/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c b/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c
-index 95be6fb043dd..fe9f6585266b 100644
---- a/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c
-+++ b/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c
-@@ -55,10 +55,6 @@ static void _rtl92e_update_msr(struct net_device *dev)
- 		if (priv->rtllib->link_state == MAC80211_LINKED)
- 			msr |= MSR_LINK_MANAGED;
- 		break;
+diff --git a/drivers/staging/rtl8192e/rtllib.h b/drivers/staging/rtl8192e/rtllib.h
+index 2a2eec192198..7dde428313c9 100644
+--- a/drivers/staging/rtl8192e/rtllib.h
++++ b/drivers/staging/rtl8192e/rtllib.h
+@@ -466,13 +466,6 @@ enum _REG_PREAMBLE_MODE {
+ 
+ /* this is stolen from ipw2200 driver */
+ #define IEEE_IBSS_MAC_HASH_SIZE 31
+-struct ieee_ibss_seq {
+-	u8 mac[ETH_ALEN];
+-	u16 seq_num[17];
+-	u16 frag_num[17];
+-	unsigned long packet_time[17];
+-	struct list_head list;
+-};
+ 
+ /* NOTE: This data is for statistical purposes; not all hardware provides this
+  *       information for frames received.  Not setting these will not cause
+@@ -1676,8 +1669,6 @@ void rtllib_txb_free(struct rtllib_txb *txb);
+ /* rtllib_rx.c */
+ int rtllib_rx(struct rtllib_device *ieee, struct sk_buff *skb,
+ 	      struct rtllib_rx_stats *rx_stats);
+-void rtllib_rx_probe_rq(struct rtllib_device *ieee,
+-			struct sk_buff *skb);
+ int rtllib_legal_channel(struct rtllib_device *rtllib, u8 channel);
+ 
+ /* rtllib_wx.c */
+diff --git a/drivers/staging/rtl8192e/rtllib_rx.c b/drivers/staging/rtl8192e/rtllib_rx.c
+index cba460c46285..456dd05e291d 100644
+--- a/drivers/staging/rtl8192e/rtllib_rx.c
++++ b/drivers/staging/rtl8192e/rtllib_rx.c
+@@ -375,37 +375,6 @@ static int is_duplicate_packet(struct rtllib_device *ieee,
+ 	}
+ 
+ 	switch (ieee->iw_mode) {
 -	case IW_MODE_ADHOC:
--		if (priv->rtllib->link_state == MAC80211_LINKED)
--			msr |= MSR_LINK_ADHOC;
--		break;
- 	default:
- 		break;
- 	}
-@@ -706,7 +702,6 @@ static void _rtl92e_net_update(struct net_device *dev)
- {
- 	struct r8192_priv *priv = rtllib_priv(dev);
- 	struct rtllib_network *net;
--	u16 BcnTimeCfg = 0, BcnCW = 6, BcnIFS = 0xf;
- 	u16 rate_config = 0;
- 
- 	net = &priv->rtllib->current_network;
-@@ -715,19 +710,6 @@ static void _rtl92e_net_update(struct net_device *dev)
- 	priv->basic_rate = rate_config &= 0x15f;
- 	rtl92e_writew(dev, BSSIDR, *(u16 *)net->bssid);
- 	rtl92e_writel(dev, BSSIDR + 2, *(u32 *)(net->bssid + 2));
+-	{
+-		struct list_head *p;
+-		struct ieee_ibss_seq *entry = NULL;
+-		u8 *mac = header->addr2;
+-		int index = mac[5] % IEEE_IBSS_MAC_HASH_SIZE;
 -
--	if (priv->rtllib->iw_mode == IW_MODE_ADHOC) {
--		rtl92e_writew(dev, ATIMWND, 2);
--		rtl92e_writew(dev, BCN_DMATIME, 256);
--		rtl92e_writew(dev, BCN_INTERVAL, net->beacon_interval);
--		rtl92e_writew(dev, BCN_DRV_EARLY_INT, 10);
--		rtl92e_writeb(dev, BCN_ERR_THRESH, 100);
--
--		BcnTimeCfg |= (BcnCW << BCN_TCFG_CW_SHIFT);
--		BcnTimeCfg |= BcnIFS << BCN_TCFG_IFS;
--
--		rtl92e_writew(dev, BCN_TCFG, BcnTimeCfg);
--	}
- }
- 
- void rtl92e_link_change(struct net_device *dev)
-@@ -749,7 +731,7 @@ void rtl92e_link_change(struct net_device *dev)
- 	}
- 	_rtl92e_update_msr(dev);
- 
--	if (ieee->iw_mode == IW_MODE_INFRA || ieee->iw_mode == IW_MODE_ADHOC) {
-+	if (ieee->iw_mode == IW_MODE_INFRA) {
- 		u32 reg;
- 
- 		reg = rtl92e_readl(dev, RCR);
-diff --git a/drivers/staging/rtl8192e/rtl819x_HTProc.c b/drivers/staging/rtl8192e/rtl819x_HTProc.c
-index f19feea46158..0f14d9eb4fcd 100644
---- a/drivers/staging/rtl8192e/rtl819x_HTProc.c
-+++ b/drivers/staging/rtl8192e/rtl819x_HTProc.c
-@@ -352,7 +352,6 @@ void HTConstructCapabilityElement(struct rtllib_device *ieee, u8 *posHTCap,
- void HTConstructInfoElement(struct rtllib_device *ieee, u8 *posHTInfo,
- 			    u8 *len, u8 IsEncrypt)
- {
--	struct rt_hi_throughput *pHT = ieee->ht_info;
- 	struct ht_info_ele *pHTInfoEle = (struct ht_info_ele *)posHTInfo;
- 
- 	if (!posHTInfo || !pHTInfoEle) {
-@@ -363,32 +362,7 @@ void HTConstructInfoElement(struct rtllib_device *ieee, u8 *posHTInfo,
- 	}
- 
- 	memset(posHTInfo, 0, *len);
--	if (ieee->iw_mode == IW_MODE_ADHOC) {
--		pHTInfoEle->ControlChl	= ieee->current_network.channel;
--		pHTInfoEle->ExtChlOffset = ((!pHT->bRegBW40MHz) ?
--					    HT_EXTCHNL_OFFSET_NO_EXT :
--					    (ieee->current_network.channel <= 6)
--					    ? HT_EXTCHNL_OFFSET_UPPER :
--					    HT_EXTCHNL_OFFSET_LOWER);
--		pHTInfoEle->RecommemdedTxWidth	= pHT->bRegBW40MHz;
--		pHTInfoEle->RIFS			= 0;
--		pHTInfoEle->PSMPAccessOnly		= 0;
--		pHTInfoEle->SrvIntGranularity		= 0;
--		pHTInfoEle->OptMode			= pHT->current_op_mode;
--		pHTInfoEle->NonGFDevPresent		= 0;
--		pHTInfoEle->DualBeacon			= 0;
--		pHTInfoEle->SecondaryBeacon		= 0;
--		pHTInfoEle->LSigTxopProtectFull		= 0;
--		pHTInfoEle->PcoActive			= 0;
--		pHTInfoEle->PcoPhase			= 0;
--
--		memset(pHTInfoEle->BasicMSC, 0, 16);
--
--		*len = 22 + 2;
--
--	} else {
--		*len = 0;
--	}
-+	*len = 0;
- }
- 
- void HTConstructRT2RTAggElement(struct rtllib_device *ieee, u8 *posRT2RTAgg,
-@@ -781,10 +755,6 @@ void HTUseDefaultSetting(struct rtllib_device *ieee)
- 		ht_info->bCurShortGI20MHz = ht_info->bRegShortGI20MHz;
- 
- 		ht_info->bCurShortGI40MHz = ht_info->bRegShortGI40MHz;
--
--		if (ieee->iw_mode == IW_MODE_ADHOC)
--			ieee->current_network.qos_data.active =
--				 ieee->current_network.qos_data.supported;
- 		ht_info->bCurrent_AMSDU_Support = ht_info->bAMSDU_Support;
- 		ht_info->nCurrent_AMSDU_MaxSize = ht_info->nAMSDU_MaxSize;
- 
-diff --git a/drivers/staging/rtl8192e/rtl819x_TSProc.c b/drivers/staging/rtl8192e/rtl819x_TSProc.c
-index 637e22897803..a482acd5ee06 100644
---- a/drivers/staging/rtl8192e/rtl819x_TSProc.c
-+++ b/drivers/staging/rtl8192e/rtl819x_TSProc.c
-@@ -181,21 +181,14 @@ static struct ts_common_info *SearchAdmitTRStream(struct rtllib_device *ieee,
- 	struct list_head *psearch_list;
- 	struct ts_common_info *pRet = NULL;
- 
--	if (ieee->iw_mode == IW_MODE_ADHOC) {
--		if (TxRxSelect == TX_DIR)
--			search_dir[DIR_UP] = true;
--		else
--			search_dir[DIR_DOWN] = true;
-+	if (TxRxSelect == TX_DIR) {
-+		search_dir[DIR_UP] = true;
-+		search_dir[DIR_BI_DIR] = true;
-+		search_dir[DIR_DIRECT] = true;
- 	} else {
--		if (TxRxSelect == TX_DIR) {
--			search_dir[DIR_UP] = true;
--			search_dir[DIR_BI_DIR] = true;
--			search_dir[DIR_DIRECT] = true;
--		} else {
--			search_dir[DIR_DOWN] = true;
--			search_dir[DIR_BI_DIR] = true;
--			search_dir[DIR_DIRECT] = true;
+-		list_for_each(p, &ieee->ibss_mac_hash[index]) {
+-			entry = list_entry(p, struct ieee_ibss_seq, list);
+-			if (!memcmp(entry->mac, mac, ETH_ALEN))
+-				break;
 -		}
-+		search_dir[DIR_DOWN] = true;
-+		search_dir[DIR_BI_DIR] = true;
-+		search_dir[DIR_DIRECT] = true;
+-		if (p == &ieee->ibss_mac_hash[index]) {
+-			entry = kmalloc(sizeof(struct ieee_ibss_seq),
+-					GFP_ATOMIC);
+-			if (!entry)
+-				return 0;
+-
+-			ether_addr_copy(entry->mac, mac);
+-			entry->seq_num[tid] = seq;
+-			entry->frag_num[tid] = frag;
+-			entry->packet_time[tid] = jiffies;
+-			list_add(&entry->list, &ieee->ibss_mac_hash[index]);
+-			return 0;
+-		}
+-		last_seq = &entry->seq_num[tid];
+-		last_frag = &entry->frag_num[tid];
+-		last_time = &entry->packet_time[tid];
+-		break;
+-	}
+-
+ 	case IW_MODE_INFRA:
+ 		last_seq = &ieee->last_rxseq_num[tid];
+ 		last_frag = &ieee->last_rxfrag_num[tid];
+@@ -1487,7 +1456,6 @@ int rtllib_rx(struct rtllib_device *ieee, struct sk_buff *skb,
  	}
  
- 	if (TxRxSelect == TX_DIR)
-diff --git a/drivers/staging/rtl8192e/rtllib_tx.c b/drivers/staging/rtl8192e/rtllib_tx.c
-index 9b77d6fa7954..bad01599033b 100644
---- a/drivers/staging/rtl8192e/rtllib_tx.c
-+++ b/drivers/staging/rtl8192e/rtllib_tx.c
-@@ -482,8 +482,7 @@ static void rtllib_txrate_selectmode(struct rtllib_device *ieee,
- 		tcb_desc->tx_use_drv_assinged_rate = true;
- 	if (!tcb_desc->tx_dis_rate_fallback ||
- 	    !tcb_desc->tx_use_drv_assinged_rate) {
--		if (ieee->iw_mode == IW_MODE_INFRA ||
--		    ieee->iw_mode == IW_MODE_ADHOC)
-+		if (ieee->iw_mode == IW_MODE_INFRA)
- 			tcb_desc->ratr_index = 0;
+ 	switch (ieee->iw_mode) {
+-	case IW_MODE_ADHOC:
+ 	case IW_MODE_INFRA:
+ 		ret = rtllib_rx_InfraAdhoc(ieee, skb, rx_stats);
+ 		break;
+@@ -2654,11 +2622,5 @@ static void rtllib_rx_mgt(struct rtllib_device *ieee,
+ 		netdev_dbg(ieee->dev, "received PROBE RESPONSE\n");
+ 		rtllib_process_probe_response(ieee,
+ 			      (struct rtllib_probe_response *)header, stats);
+-	} else if (ieee80211_is_probe_req(header->frame_control)) {
+-		netdev_dbg(ieee->dev, "received PROBE REQUEST\n");
+-		if ((ieee->softmac_features & IEEE_SOFTMAC_PROBERS) &&
+-		    (ieee->iw_mode == IW_MODE_ADHOC &&
+-		    ieee->link_state == MAC80211_LINKED))
+-			rtllib_rx_probe_rq(ieee, skb);
  	}
  }
-@@ -677,14 +676,6 @@ static int rtllib_xmit_inter(struct sk_buff *skb, struct net_device *dev)
- 						ieee->current_network.bssid);
- 			else
- 				ether_addr_copy(header.addr3, dest);
--		} else if (ieee->iw_mode == IW_MODE_ADHOC) {
--			/* not From/To DS: Addr1 = DA, Addr2 = SA,
--			 * Addr3 = BSSID
--			 */
--			ether_addr_copy(header.addr1, dest);
--			ether_addr_copy(header.addr2, src);
--			ether_addr_copy(header.addr3,
--					ieee->current_network.bssid);
- 		}
+diff --git a/drivers/staging/rtl8192e/rtllib_softmac.c b/drivers/staging/rtl8192e/rtllib_softmac.c
+index 61afce587812..d8d9d59664ed 100644
+--- a/drivers/staging/rtl8192e/rtllib_softmac.c
++++ b/drivers/staging/rtl8192e/rtllib_softmac.c
+@@ -956,14 +956,6 @@ static struct sk_buff *rtllib_pspoll_func(struct rtllib_device *ieee)
+ 	return skb;
+ }
  
- 		bIsMulticast = is_multicast_ether_addr(header.addr1);
+-static void rtllib_resp_to_probe(struct rtllib_device *ieee, u8 *dest)
+-{
+-	struct sk_buff *buf = rtllib_probe_resp(ieee, dest);
+-
+-	if (buf)
+-		softmac_mgmt_xmit(buf, ieee);
+-}
+-
+ static inline int SecIsInPMKIDList(struct rtllib_device *ieee, u8 *bssid)
+ {
+ 	int i = 0;
+@@ -1613,52 +1605,6 @@ static inline int auth_parse(struct net_device *dev, struct sk_buff *skb,
+ 	return 0;
+ }
+ 
+-static short probe_rq_parse(struct rtllib_device *ieee, struct sk_buff *skb,
+-			    u8 *src)
+-{
+-	u8 *tag;
+-	u8 *skbend;
+-	u8 *ssid = NULL;
+-	u8 ssidlen = 0;
+-	struct ieee80211_hdr_3addr   *header =
+-		(struct ieee80211_hdr_3addr   *)skb->data;
+-	bool bssid_match;
+-
+-	if (skb->len < sizeof(struct ieee80211_hdr_3addr))
+-		return -1; /* corrupted */
+-
+-	bssid_match =
+-	  (!ether_addr_equal(header->addr3, ieee->current_network.bssid)) &&
+-	  (!is_broadcast_ether_addr(header->addr3));
+-	if (bssid_match)
+-		return -1;
+-
+-	ether_addr_copy(src, header->addr2);
+-
+-	skbend = (u8 *)skb->data + skb->len;
+-
+-	tag = skb->data + sizeof(struct ieee80211_hdr_3addr);
+-
+-	while (tag + 1 < skbend) {
+-		if (*tag == 0) {
+-			ssid = tag + 2;
+-			ssidlen = *(tag + 1);
+-			break;
+-		}
+-		tag++; /* point to the len field */
+-		tag = tag + *(tag); /* point to the last data byte of the tag */
+-		tag++; /* point to the next tag */
+-	}
+-
+-	if (ssidlen == 0)
+-		return 1;
+-
+-	if (!ssid)
+-		return 1; /* ssid not found in tagged param */
+-
+-	return !strncmp(ssid, ieee->current_network.ssid, ssidlen);
+-}
+-
+ static inline u16 assoc_parse(struct rtllib_device *ieee, struct sk_buff *skb,
+ 			      int *aid)
+ {
+@@ -1688,17 +1634,6 @@ static inline u16 assoc_parse(struct rtllib_device *ieee, struct sk_buff *skb,
+ 	return le16_to_cpu(response_head->status);
+ }
+ 
+-void rtllib_rx_probe_rq(struct rtllib_device *ieee, struct sk_buff *skb)
+-{
+-	u8 dest[ETH_ALEN];
+-
+-	ieee->softmac_stats.rx_probe_rq++;
+-	if (probe_rq_parse(ieee, skb, dest) > 0) {
+-		ieee->softmac_stats.tx_probe_rs++;
+-		rtllib_resp_to_probe(ieee, dest);
+-	}
+-}
+-
+ void rtllib_sta_ps_send_null_frame(struct rtllib_device *ieee, short pwr)
+ {
+ 	struct sk_buff *buf = rtllib_null_func(ieee, pwr);
 -- 
 2.42.0
 
