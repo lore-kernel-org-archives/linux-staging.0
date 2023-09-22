@@ -1,90 +1,87 @@
-Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9F5018C2D
-	for <linux-staging@lists.linux.dev>; Fri, 22 Sep 2023 07:55:10 +0000 (UTC)
-Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-99c1c66876aso223392866b.2
-        for <linux-staging@lists.linux.dev>; Fri, 22 Sep 2023 00:55:10 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4AB6527707
+	for <linux-staging@lists.linux.dev>; Fri, 22 Sep 2023 13:29:19 +0000 (UTC)
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-40471c054f9so6727095e9.0
+        for <linux-staging@lists.linux.dev>; Fri, 22 Sep 2023 06:29:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1695369308; x=1695974108; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=xo0lap6Lgs4aUClULX8HNoJkpzCnX/7Jsbfgdxnl/pY=;
-        b=FUumDn+3U8ajCQd04+hnHEPCXoyokk9vp8cyG0tXyrW0oK+ciPrVvNRCHeCNlJ/cpS
-         uJjVDMGy341mAqzmRWHxND892yW9AEUtP47lA0dnpG98MvbQTjPPKx7knturiqLu3qGp
-         23ki9IPeKZ+RvbVCfd8YfThM1NK2pIjaw/hF2Em3HQz7CoSS2lctEUbH46aLsDOYOAs1
-         SaI6woO8oXqu/VAG+YVKLLsBIaX3oUf9esNp6RMT6NLiHc/9dTfQzOr2oOLK1x4skvw9
-         bGC58BuAm9oSXFJcTLtOLJ2TIKzZPa69s+YGTnJMOP6Xeifgyc24apk6nqCBbX4mtlNo
-         hNSA==
+        d=gmail.com; s=20230601; t=1695389357; x=1695994157; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=TVLvJ+dOPpuR79o+2fomapIC7IP8zBabO9ASUwcyNOw=;
+        b=kMWWexd2UO4hAglVJIBA2ZrCexmKqLpRut3dZOE7Yfq+9dkpQ+pYinZJrdhxbJPc17
+         +MdpEOTqqSzDoUpZIhd/DxWmSaQTFiYszLgb5wG517dPkV9Cu+aBE9zNzHJmKRLU5NzH
+         ULU12/MgM0hh2+AXg5lxAGWW0+Eb5FLzilOFq2hHBnZxwiUpo4AxW566lZxgRLlwv6aM
+         A5R1abPDyQyhNhNZqn2GlAsQkOw0jzMkov+xfijL/0diBYCO2i/+9+uREqTWJkAkJrAp
+         ZkVqO/Awa5nf6p5djQL20L+881CLTuuXLVhDyBna/6cNivIQfzh9XShAyS0K1nBPvyNh
+         p7gA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1695369308; x=1695974108;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=xo0lap6Lgs4aUClULX8HNoJkpzCnX/7Jsbfgdxnl/pY=;
-        b=vOKdQcmYpfjOi8gAX5EE9J/x8q38cm80evvqRSLPCDFBCsO3i2BLZfuPKUwl9ctMZK
-         zGNGZBFy2171nI7gK+gMwBOMSpoU/+fHUhz1t2ZRWDp/5ArCt6ROukixjAM7JJZFC+2B
-         Bd6a3L1amARL/V/KcHnKuf7A4TQJI8SXW3HnnlD2GWQZIaMWHocHYQb56KJn/sseKWGI
-         yFrGjj+GXlvWnl69xWKLHkoyzxFaB7EI4R1uBmqNX80iyJITXSC0r2zTHh9Qmo5oWv+1
-         O9ntjBbaFgf9/akwSMKdz0CWTTqjDRQoVmrRJaGB2fpmMFXMuipWzddNRV4OSP+54mBp
-         vhoQ==
-X-Gm-Message-State: AOJu0Yxw6afw47g8BwIN0Jx20zqLYjGr5PVKGI8PS1wKb0P289LyJb+l
-	2G913sajBC88ohVru2n9WJLKfmW34371YKfjJNxw8A==
-X-Google-Smtp-Source: AGHT+IHSS1vKwEC9knLhqPNk1Y0RB0kqAke1ZsK8aoLkzIhsG+WewxcfwopOZUPCJajquFT5HL9JcQU2cuAIG7Q6jvU=
-X-Received: by 2002:a17:906:2009:b0:9a5:c49e:7145 with SMTP id
- 9-20020a170906200900b009a5c49e7145mr6718209ejo.69.1695369308485; Fri, 22 Sep
- 2023 00:55:08 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1695389357; x=1695994157;
+        h=content-disposition:mime-version:message-id:subject:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=TVLvJ+dOPpuR79o+2fomapIC7IP8zBabO9ASUwcyNOw=;
+        b=FwhA1AqNdVPpqZqruL/9xDkc06YqccazPH05UWMYYv4GAYu/vsYJT2uLyEIGv3H+9Y
+         tMqIgnTcDWXxCbUqlB1zjCF7/HqMufP6lr+pmipakxw+zhl0wAWXQ5bRbcujkoAoJ9RE
+         Sp1sZ/GV45ZpwX8Qm9nFNjSfCgkbQ2wvQ6mRu3pwD7TBn+N+2PsCLivB0yKZFmgV5+5Q
+         2lsrub6H2Fzf5vsl+VRkNSMKGMQYDh5ZDDkcfgsBY29r5LPS9Ly9tb5KLw+6CBpA4wqK
+         kzXAjuYL0G3noVOE3Lxfmbs3PAIHK6km2zoA48jP8E/INOKB4kGfpCmj3dDyFd0dfVBr
+         fNJQ==
+X-Gm-Message-State: AOJu0YytaS92yd4Oj2iuDHl8NJrLYIxu1sJYEa7T1Vjh493FuRYVaVpH
+	fA+e88QDwhPf4HHAQgEaB64=
+X-Google-Smtp-Source: AGHT+IFuUHm0KscA5Acf+Cq9svi9Nx9WdrlevWXm4I2gzt3CA3G5jow7/GUNA2BqyxxfLkYiHF6CEw==
+X-Received: by 2002:a05:600c:1c20:b0:405:358c:ba75 with SMTP id j32-20020a05600c1c2000b00405358cba75mr3962139wms.0.1695389357176;
+        Fri, 22 Sep 2023 06:29:17 -0700 (PDT)
+Received: from matrix-ESPRIMO-P710 (p579356c7.dip0.t-ipconnect.de. [87.147.86.199])
+        by smtp.gmail.com with ESMTPSA id z12-20020a5d654c000000b0032148618cc4sm4464524wrv.29.2023.09.22.06.29.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 22 Sep 2023 06:29:16 -0700 (PDT)
+Date: Fri, 22 Sep 2023 15:29:15 +0200
+From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: [PATCH 0/7] staging: rtl8192e: Remove mode IW_MODE_ADHOC functions
+Message-ID: <cover.1695387832.git.philipp.g.hortmann@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20230920170253.203395-1-dlechner@baylibre.com>
- <20230920170253.203395-5-dlechner@baylibre.com> <20230921154514.GA383967-robh@kernel.org>
-In-Reply-To: <20230921154514.GA383967-robh@kernel.org>
-From: David Lechner <dlechner@baylibre.com>
-Date: Fri, 22 Sep 2023 09:54:57 +0200
-Message-ID: <CAMknhBEVLZYQieKPCCf8QHp7H06Vsdobg_7qGm+MsbL8Kg-VCQ@mail.gmail.com>
-Subject: Re: [PATCH 4/4] iio: resolver: add new driver for AD2S1210
-To: Rob Herring <robh@kernel.org>
-Cc: linux-iio@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	Jonathan Cameron <jic23@kernel.org>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
-	Conor Dooley <conor+dt@kernel.org>, Michael Hennerich <Michael.Hennerich@analog.com>, 
-	=?UTF-8?B?TnVubyBTw6E=?= <nuno.sa@analog.com>, 
-	Axel Haslam <ahaslam@baylibre.com>, Philip Molloy <pmolloy@baylibre.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Thu, Sep 21, 2023 at 5:45=E2=80=AFPM Rob Herring <robh@kernel.org> wrote=
-:
->
-> On Wed, Sep 20, 2023 at 12:02:53PM -0500, David Lechner wrote:
-> > This adds a new driver for Analog Devices, Inc. AD2S1210 resolver to
-> > digital converter. The driver is based on the staging driver with the
-> > following improvements:
-> >
+Remove unsupported mode IW_MODE_ADHOC because this mode is only partially
+coded in the driver. This patch series removes the unused functions.
 
-...
+Tested with rtl8192e (WLL6130-D99) in Mode n (12.5 MB/s)
+Transferred this patch over wlan connection of rtl8192e.
 
-> > - Use devicetree to specify resolution instead of sysfs attribute.
->
-> Why? sysfs allows a user to change at run-time. DT is a firmware
-> change. What/who determines the resolution? Unless it's the hardware
-> design/designer, it probably doesn't belong in DT.
->
+Philipp Hortmann (7):
+  staging: rtl8192e: Remove mode IW_MODE_ADHOC from rtllib_tx.c
+  staging: rtl8192e: Remove mode IW_MODE_ADHOC from rtllib_rx.c
+  staging: rtl8192e: Remove mode IW_MODE_ADHOC from rtl_core.c
+  staging: rtl8192e: Remove mode IW_MODE_ADHOC from rtl_cam.c
+  staging: rtl8192e: Remove mode IW_MODE_ADHOC from rtllib_softmac.c
+  staging: rtl8192e: Remove delayed_work start_ibss_wq
+  staging: rtl8192e: Remove rtllib_stop_send_beacons
 
-This one is a bit of a gray area since it could be either way. The chip
-has two input pins for selecting the resolution. If the hardware
-designer decides to connect these to gpios, then they could be changed
-at runtime. But if the hardware designer decides to hard-wire these pins
-then we need to supply this information via the devicetree.
+ .../staging/rtl8192e/rtl8192e/r8192E_dev.c    |  44 +--
+ .../staging/rtl8192e/rtl8192e/r8192E_dev.h    |   1 -
+ drivers/staging/rtl8192e/rtl8192e/rtl_cam.c   |  61 +---
+ drivers/staging/rtl8192e/rtl8192e/rtl_core.c  |  22 +-
+ drivers/staging/rtl8192e/rtl8192e/rtl_dm.c    |   2 -
+ drivers/staging/rtl8192e/rtl8192e/rtl_ps.c    |   6 +-
+ drivers/staging/rtl8192e/rtl8192e/rtl_wx.c    |   5 +-
+ drivers/staging/rtl8192e/rtl819x_HTProc.c     |  64 +----
+ drivers/staging/rtl8192e/rtl819x_TSProc.c     |  21 +-
+ drivers/staging/rtl8192e/rtllib.h             |  23 --
+ drivers/staging/rtl8192e/rtllib_rx.c          |  38 ---
+ drivers/staging/rtl8192e/rtllib_softmac.c     | 264 +-----------------
+ drivers/staging/rtl8192e/rtllib_softmac_wx.c  |  10 -
+ drivers/staging/rtl8192e/rtllib_tx.c          |  11 +-
+ 14 files changed, 22 insertions(+), 550 deletions(-)
 
-The choice of the resolution is determined by the physical requirements
-of the full system. This device measures rotational position and velocity.
-So the main reason to pick something less than the full 16-bit resolution i=
-s
-if the max rotational speed of whatever is connected is going to be greater
-than 125 revolutions per second (assuming 8.192 MHz clock).
+-- 
+2.42.0
+
