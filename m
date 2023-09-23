@@ -1,60 +1,106 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 709B447366;
-	Fri, 22 Sep 2023 22:44:03 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A5137C433C8;
-	Fri, 22 Sep 2023 22:44:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1695422642;
-	bh=53Onsy+ZW7rqbwjy97PFrpjs6d8nYu1/Bx+wXNJCqaA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=C0qdJ2paJC4V57QqnfkIKfUKqVenLouKnVUTsVUib0hWtbyYjMiRrXD23ghIBS+2v
-	 0X130XtcgWgnkYvH5bzasknC2dgqf4v9yjHbB8+/NWA0n/8A0xaxaYOcfempMvO+Z0
-	 f9JVPBOICU7uFRvfnR2dToF0Ikfphv2+i7vrhjUAJIAnWJvrz42OQYVCEoRAalOIKb
-	 t1hlJCA1k6vwQbmZEZEV858VD1IaL3rtm/PVHxz9dPqYbLISpTMqGYVX38/o/4KviT
-	 X4rNHWcqeaGOnfGQKoUYvgCiiRkRrvA+CEOidOkHfRlPY5RwFtsdmCAumVTMlboZXR
-	 VMd4vzRoC+4DA==
-Received: (nullmailer pid 4068089 invoked by uid 1000);
-	Fri, 22 Sep 2023 22:44:00 -0000
-Date: Fri, 22 Sep 2023 17:44:00 -0500
-From: Rob Herring <robh@kernel.org>
-To: David Lechner <dlechner@baylibre.com>
-Cc: Conor Dooley <conor+dt@kernel.org>, Philip Molloy <pmolloy@baylibre.com>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>, Axel Haslam <ahaslam@baylibre.com>, Jonathan Cameron <jic23@kernel.org>, Michael Hennerich <Michael.Hennerich@analog.com>, Apelete Seketeli <aseketeli@baylibre.com>, linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, linux-staging@lists.linux.dev, linux-iio@vger.kernel.org, Rob Herring <robh+dt@kernel.org>
-Subject: Re: [PATCH v2 01/19] dt-bindings: iio: resolver: add devicetree
- bindings for ad2s1210
-Message-ID: <169542264006.4068010.15737012962684747566.robh@kernel.org>
-References: <20230921144400.62380-1-dlechner@baylibre.com>
- <20230921144400.62380-2-dlechner@baylibre.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3CECD51A
+	for <linux-staging@lists.linux.dev>; Sat, 23 Sep 2023 09:39:46 +0000 (UTC)
+Received: from [IPV6:2001:818:e7d2:8300:2412:6733:7e63:fb46] (unknown [IPv6:2001:818:e7d2:8300:2412:6733:7e63:fb46])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 5EDF1DE2;
+	Sat, 23 Sep 2023 11:37:58 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1695461879;
+	bh=5rwlDgb18LMeY6PGIIJDEvGpiQq5OlIONr+fS/lgUek=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=CAVJ32rItefld/CVJeWF3kknOncqbkl/dVP+UY1mUPtkblGiMPQ7X7k7EmDFeEjeb
+	 wpm7IlcB+e0NQRHZsjp9zdLHdGULQ1VYJKNmp5XLlJdnayesIRnhbind0sH+Bm7uNv
+	 V1XkfDVEafukNtLhIgk1GP5YkReXKQenpDdTdYgM=
+Message-ID: <3f040e44-3bdc-b09c-58b3-ea3b0ac6d5dd@ideasonboard.com>
+Date: Sat, 23 Sep 2023 15:09:33 +0530
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230921144400.62380-2-dlechner@baylibre.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [RFC PATCH v2 0/4] staging: vc04: Drop custom logging
+To: Stefan Wahren <stefan.wahren@i2se.com>,
+ Dan Carpenter <dan.carpenter@linaro.org>
+Cc: linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+ linux-rpi-kernel@lists.infradead.org, linux-media@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>, Florian Fainelli <f.fainelli@gmail.com>,
+ Adrien Thierry <athierry@redhat.com>, Dan Carpenter <error27@gmail.com>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ Kieran Bingham <kieran.bingham@ideasonboard.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Phil Elwell <phil@raspberrypi.com>
+References: <20230913185528.770634-1-umang.jain@ideasonboard.com>
+ <1d54715d-25f9-4937-bdff-de0136c95fe8@kadam.mountain>
+ <d8395455-44eb-6762-d978-e912bf2cfe73@i2se.com>
+Content-Language: en-US
+From: Umang Jain <umang.jain@ideasonboard.com>
+In-Reply-To: <d8395455-44eb-6762-d978-e912bf2cfe73@i2se.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
+Hi Stefan,
 
-On Thu, 21 Sep 2023 09:43:42 -0500, David Lechner wrote:
-> This adds new DeviceTree bindings for the Analog Devices, Inc. AD2S1210
-> resolver-to-digital converter.
-> 
-> Co-developed-by: Apelete Seketeli <aseketeli@baylibre.com>
-> Signed-off-by: Apelete Seketeli <aseketeli@baylibre.com>
-> Signed-off-by: David Lechner <dlechner@baylibre.com>
-> ---
-> 
-> v2 changes:
-> * Add Co-developed-by:
-> * Remove extraneous quotes on strings
-> * Remove extraneous pipe on some multi-line descriptions
-> 
->  .../bindings/iio/resolver/adi,ad2s1210.yaml   | 150 ++++++++++++++++++
->  1 file changed, 150 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/iio/resolver/adi,ad2s1210.yaml
-> 
+On 9/17/23 9:06 PM, Stefan Wahren wrote:
+> Hi,
+>
+> Am 14.09.23 um 08:35 schrieb Dan Carpenter:
+>> On Thu, Sep 14, 2023 at 12:25:24AM +0530, Umang Jain wrote:
+>>> Hello,
+>>>
+>>> This series attempts to restart the discussion on custom logging used
+>>> in VC04. In the last feedback gathered in [1] it seems that the logging
+>>> would rather be moved to use dynamic debug. The series tries to move
+>>> in that direction.
+>>>
+>>> The elephant in the room is the ability of turning on/off log levels,
+>>> which this series just drops. Compensated by a crude strings
+>>> ("error", "warning", "info"... etc) for easier grepping.
+>>>
+>>> The log category are also just strings (which probably can be 
+>>> transformed
+>>> to dynamic debug class names moving forwards?).
+>>>
+>>> To move forwards, I would like feedback on the broader direction.
+>>> There are couple of TODOs in each of the patch (summarised in commit
+>>> messages) which require case-by-case discussion.
+>>>
+>>> Additional high-level questions to move forwards:
+>>> 1. Is loss of log levels by moving to dynamic debug, is actually a
+>>>     concern? Is dynamic debug a valid replacement?
+>>
+>> Dynamic debug is honestly going to be an improvement.  I guess, Greg and
+>> I said this back in Jan.
 
-Reviewed-by: Rob Herring <robh@kernel.org>
++1
+>>
+>>> 2. Whether debugfs should be dropped as well, found vestigial in [2]
+>>
+>> Yes. The "vchiq/log" should be removed.  Ideally as part of this
+>> patchset so it's easier to understand.
+>
+> Yes, but please do not remote vchiq_debugfs entirely. I'm working on a 
+> patch to move the state dump (debug feature) from the character device 
+> /dev/vchiq to debugfs /sys/kernel/debug/vchiq/dump_state.
+
+Can't the state dump be printed to dev_dbg() ? Will it pollute the 
+kernel log?  Having debugfs for a single dump doesn't seem worthwhile if 
+the state dump can be incorporated to dev_dbg() too.
+>
+>>
+>>> 3. whether vchiq_log_trace() should actually be tracing support for 
+>>> VC04
+>>
+>> That can be done later if people want.  No need to discuss it now.
+
+Thanks Dan.
+>>
+>> regards,
+>> dan carpenter
+>>
 
