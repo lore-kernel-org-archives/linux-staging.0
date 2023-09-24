@@ -1,669 +1,171 @@
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2451D28FD
-	for <linux-staging@lists.linux.dev>; Sun, 24 Sep 2023 13:41:33 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 0EDAC128D;
-	Sun, 24 Sep 2023 15:39:44 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1695562785;
-	bh=WOeF0O/AC/6QwjWeO/U/wCEUr/uFaVfeVxpuoGfXuRs=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Zfxt+EfFTM7qC+DxV3nF8oQ8MOlOnYNWt1kotCD+lCrDBzH6t4bdMaYexwZ0rXtEy
-	 woNU6uQM4KJ3qA8iuI+/CSzP0gSOboDWvEadZl9nNm0B8ACy+SbAtPJvwLzvq9lsqQ
-	 IHObY2LMehBFKhjToLMjpGje56rrw83TB9BStl7k=
-Date: Sun, 24 Sep 2023 16:41:36 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Stefan Wahren <wahrenst@gmx.net>
-Cc: Umang Jain <umang.jain@ideasonboard.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Florian Fainelli <florian.fainelli@broadcom.com>,
-	Dan Carpenter <error27@gmail.com>,
-	Phil Elwell <phil@raspberrypi.com>,
-	Dave Stevenson <dave.stevenson@raspberrypi.com>,
-	Kieran Bingham <kieran.bingham@ideasonboard.com>,
-	linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
-	linux-media@vger.kernel.org
-Subject: Re: [PATCH RFC] staging: vchiq_arm: move state dump to debugfs
-Message-ID: <20230924134136.GS19112@pendragon.ideasonboard.com>
-References: <20230923235325.14329-1-wahrenst@gmx.net>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B90E279C5;
+	Sun, 24 Sep 2023 16:51:31 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 15D30C433C8;
+	Sun, 24 Sep 2023 16:51:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1695574291;
+	bh=rKfvvK2fWtROu5dnahrRZoarOaavt6eOxye7CB3KXic=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=HwB/B5ZPJ6jTFkWe3POgACEQRFjxdgbrHbDdAtg6slmTKz5mkHC1YrqTVjSDJ2tx0
+	 LfM6kX1EkOT9wloJ5Jex0Ve+Cx8skibbINQzSJ29aN3SB1sk0fq7f+8DK0Gb7qVQKP
+	 1j7RwZXD1FPnZ/Kbb9w52I5FLPWDZHDBXWXtEpPnlgG1IB4pA89G3ntPzazB4Gx68T
+	 vnxMnVUBvHNImQyiOMpKnB2IgiKIrWsR8Ay2pApC91ifFp/QCRuTIrOwiZCuSDy3Dj
+	 S04JSSTZ5V2guwC1af2wT0zq6dz/sl3rHCeRiMTagTUMSqVw0WXhmR8jVql9iixM3Q
+	 17XGVm2VD9A1A==
+Date: Sun, 24 Sep 2023 17:51:23 +0100
+From: Jonathan Cameron <jic23@kernel.org>
+To: David Lechner <dlechner@baylibre.com>
+Cc: linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, Rob Herring
+ <robh+dt@kernel.org>, Krzysztof Kozlowski
+ <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>,
+ Michael Hennerich <Michael.Hennerich@analog.com>, Nuno =?UTF-8?B?U8Oh?=
+ <nuno.sa@analog.com>, Axel Haslam <ahaslam@baylibre.com>, Philip Molloy
+ <pmolloy@baylibre.com>
+Subject: Re: [PATCH v2 00/19] iio: resolver: move ad2s1210 out of staging
+Message-ID: <20230924175123.268e8de4@jic23-huawei>
+In-Reply-To: <20230921144400.62380-1-dlechner@baylibre.com>
+References: <20230921144400.62380-1-dlechner@baylibre.com>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20230923235325.14329-1-wahrenst@gmx.net>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Hi Stefan,
+On Thu, 21 Sep 2023 09:43:41 -0500
+David Lechner <dlechner@baylibre.com> wrote:
 
-On Sun, Sep 24, 2023 at 01:53:25AM +0200, Stefan Wahren wrote:
-> Besides the IOCTL interface the VCHIQ character device also provides
-> a state dump of the whole VCHIQ driver via read. Moving the state dump
-> function to debugfs has a lot advantages:
+> Resending v2 with proper `PATCH v2` prefix.
 > 
-> - following changes on state dump doesn't break userspace ABI
-> - debug doesn't depend on VCHIQ_CDEV
-> - dump code simplifies a lot and reduce the chance of buffer overflows
+> Changes since v1:
+> * Address initial device tree patch feedback
+> * Drop "iio: sysfs: add IIO_DEVICE_ATTR_NAMED_RW macro" (related cleanups
+>   also dropped for now, will address in a future series if needed)
+> * Apply improvements as a series as patches to the staging driver. It is not
+>   quite ready for the move out of staging patch yet.
 > 
-> Signed-off-by: Stefan Wahren <wahrenst@gmx.net>
-> ---
-> 
-> Hello,
-> 
-> since recent discussion raised the question about the future of debugfs
-> for vchiq [1], i want to submit this cleanup patch as part of the
-> discussion. The patch itself based on the latest series [2] of
-> Umang Jain to convert VCHIQ into a bus. I'm aware of the checkpatch
-> warnings which will be fixed in the next version, but not revelant
-> to the discussion.
+> This series has been tested on actual hardware using a EVAL-AD2S1210 evaluation
+> board. (Note: not all device tree features have been implemented in the driver
+> since the eval board doesn't support them out of the box. We plan to add them
+> later if needed.)
 
-I personally like debugfs for this. Assuming we can switch without
-userspace screaming at us (and I suppose that being in staging helps),
-this patch looks good to me.
-
-> [1] - https://lore.kernel.org/lkml/7ea529c2-3da6-47df-9b09-28d4ab36c4ef@kadam.mountain/T/
-> [2] - https://lore.kernel.org/linux-arm-kernel/dc6d4108-7bb0-ba81-2f6b-0409b848ab0d@ideasonboard.com/T/#t
-> 
->  .../interface/vchiq_arm/vchiq_arm.c           |  94 ++-----
->  .../interface/vchiq_arm/vchiq_arm.h           |   7 -
->  .../interface/vchiq_arm/vchiq_core.c          | 236 ++++++------------
->  .../interface/vchiq_arm/vchiq_core.h          |  17 +-
->  .../interface/vchiq_arm/vchiq_debugfs.c       |  10 +
->  .../interface/vchiq_arm/vchiq_dev.c           |  21 --
->  6 files changed, 116 insertions(+), 269 deletions(-)
-
-I certainly like this too :-)
+Thanks for breaking it up.
 
 > 
-> diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
-> index 5eccf5b277e5..150b85ce29da 100644
-> --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
-> +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
-> @@ -662,13 +662,9 @@ vchiq_complete_bulk(struct vchiq_instance *instance, struct vchiq_bulk *bulk)
->  			      bulk->actual);
->  }
+> One thing left over from the staging driver that probably needs more attention
+> still is the fault handling (both the fault threshold attributes and how
+> userspace gets notified of fault conditions). We considered adding these as
+> events, but the fault conditions are related to internal measurements in the
+> chip that aren't available as channels.
 > 
-> -int vchiq_dump_platform_state(void *dump_context)
-> +void vchiq_dump_platform_state(struct seq_file *f)
->  {
-> -	char buf[80];
-> -	int len;
-> -
-> -	len = snprintf(buf, sizeof(buf), "  Platform: 2835 (VC master)");
-> -	return vchiq_dump(dump_context, buf, len + 1);
-> +	seq_puts(f, "  Platform: 2835 (VC master)\n");
->  }
-> 
->  #define VCHIQ_INIT_RETRIES 10
-> @@ -1177,56 +1173,13 @@ service_callback(struct vchiq_instance *instance, enum vchiq_reason reason,
->  		bulk_userdata);
->  }
-> 
-> -int vchiq_dump(void *dump_context, const char *str, int len)
-> -{
-> -	struct dump_context *context = (struct dump_context *)dump_context;
-> -	int copy_bytes;
-> -
-> -	if (context->actual >= context->space)
-> -		return 0;
-> -
-> -	if (context->offset > 0) {
-> -		int skip_bytes = min_t(int, len, context->offset);
-> -
-> -		str += skip_bytes;
-> -		len -= skip_bytes;
-> -		context->offset -= skip_bytes;
-> -		if (context->offset > 0)
-> -			return 0;
-> -	}
-> -	copy_bytes = min_t(int, len, context->space - context->actual);
-> -	if (copy_bytes == 0)
-> -		return 0;
-> -	if (copy_to_user(context->buf + context->actual, str,
-> -			 copy_bytes))
-> -		return -EFAULT;
-> -	context->actual += copy_bytes;
-> -	len -= copy_bytes;
-> -
-> -	/*
-> -	 * If the terminating NUL is included in the length, then it
-> -	 * marks the end of a line and should be replaced with a
-> -	 * carriage return.
-> -	 */
-> -	if ((len == 0) && (str[copy_bytes - 1] == '\0')) {
-> -		char cr = '\n';
-> -
-> -		if (copy_to_user(context->buf + context->actual - 1,
-> -				 &cr, 1))
-> -			return -EFAULT;
-> -	}
-> -	return 0;
-> -}
-> -
-> -int vchiq_dump_platform_instances(void *dump_context)
-> +void vchiq_dump_platform_instances(struct seq_file *f)
->  {
->  	struct vchiq_state *state = vchiq_get_state();
-> -	char buf[80];
-> -	int len;
->  	int i;
-> 
->  	if (!state)
-> -		return -ENOTCONN;
-> +		return;
-> 
->  	/*
->  	 * There is no list of instances, so instead scan all services,
-> @@ -1251,7 +1204,6 @@ int vchiq_dump_platform_instances(void *dump_context)
->  	for (i = 0; i < state->unused_service; i++) {
->  		struct vchiq_service *service;
->  		struct vchiq_instance *instance;
-> -		int err;
-> 
->  		rcu_read_lock();
->  		service = rcu_dereference(state->services[i]);
-> @@ -1267,43 +1219,35 @@ int vchiq_dump_platform_instances(void *dump_context)
->  		}
->  		rcu_read_unlock();
-> 
-> -		len = snprintf(buf, sizeof(buf),
-> -			       "Instance %pK: pid %d,%s completions %d/%d",
-> -			       instance, instance->pid,
-> -			       instance->connected ? " connected, " :
-> -			       "",
-> -			       instance->completion_insert -
-> -			       instance->completion_remove,
-> -			       MAX_COMPLETIONS);
-> -		err = vchiq_dump(dump_context, buf, len + 1);
-> -		if (err)
-> -			return err;
-> +		seq_printf(f, "Instance %pK: pid %d,%s completions %d/%d\n",
-> +			   instance, instance->pid,
-> +			   instance->connected ? " connected, " :
-> +			   "",
-> +			   instance->completion_insert -
-> +			   instance->completion_remove,
-> +			   MAX_COMPLETIONS);
->  		instance->mark = 1;
->  	}
-> -	return 0;
->  }
-> 
-> -int vchiq_dump_platform_service_state(void *dump_context,
-> -				      struct vchiq_service *service)
-> +void vchiq_dump_platform_service_state(struct seq_file *f,
-> +				       struct vchiq_service *service)
->  {
->  	struct user_service *user_service =
->  			(struct user_service *)service->base.userdata;
-> -	char buf[80];
-> -	int len;
-> 
-> -	len = scnprintf(buf, sizeof(buf), "  instance %pK", service->instance);
-> +	seq_printf(f, "  instance %pK", service->instance);
-> 
->  	if ((service->base.callback == service_callback) && user_service->is_vchi) {
-> -		len += scnprintf(buf + len, sizeof(buf) - len, ", %d/%d messages",
-> -				 user_service->msg_insert - user_service->msg_remove,
-> -				 MSG_QUEUE_SIZE);
-> +		seq_printf(f, ", %d/%d messages",
-> +			   user_service->msg_insert - user_service->msg_remove,
-> +			   MSG_QUEUE_SIZE);
-> 
->  		if (user_service->dequeue_pending)
-> -			len += scnprintf(buf + len, sizeof(buf) - len,
-> -				" (dequeue pending)");
-> +			seq_puts(f, " (dequeue pending)");
->  	}
-> 
-> -	return vchiq_dump(dump_context, buf, len + 1);
-> +	seq_puts(f, "\n");
->  }
-> 
->  struct vchiq_state *
-> diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.h b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.h
-> index 2fb31f9b527f..372f4d06ffbb 100644
-> --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.h
-> +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.h
-> @@ -69,13 +69,6 @@ struct vchiq_instance {
->  	struct vchiq_debugfs_node debugfs_node;
->  };
-> 
-> -struct dump_context {
-> -	char __user *buf;
-> -	size_t actual;
-> -	size_t space;
-> -	loff_t offset;
-> -};
-> -
->  extern int vchiq_arm_log_level;
->  extern int vchiq_susp_log_level;
-> 
-> diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
-> index 596894338cb4..fa234d460401 100644
-> --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
-> +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
-> @@ -3394,8 +3394,8 @@ vchiq_set_service_option(struct vchiq_instance *instance, unsigned int handle,
->  	return ret;
->  }
-> 
-> -static int
-> -vchiq_dump_shared_state(void *dump_context, struct vchiq_state *state,
-> +static void
-> +vchiq_dump_shared_state(struct seq_file *f, struct vchiq_state *state,
->  			struct vchiq_shared_state *shared, const char *label)
->  {
->  	static const char *const debug_names[] = {
-> @@ -3412,139 +3412,83 @@ vchiq_dump_shared_state(void *dump_context, struct vchiq_state *state,
->  		"COMPLETION_QUEUE_FULL_COUNT"
->  	};
->  	int i;
-> -	char buf[80];
-> -	int len;
-> -	int err;
-> -
-> -	len = scnprintf(buf, sizeof(buf), "  %s: slots %d-%d tx_pos=%x recycle=%x",
-> -			label, shared->slot_first, shared->slot_last,
-> -			shared->tx_pos, shared->slot_queue_recycle);
-> -	err = vchiq_dump(dump_context, buf, len + 1);
-> -	if (err)
-> -		return err;
-> -
-> -	len = scnprintf(buf, sizeof(buf), "    Slots claimed:");
-> -	err = vchiq_dump(dump_context, buf, len + 1);
-> -	if (err)
-> -		return err;
-> +
-> +	seq_printf(f, "  %s: slots %d-%d tx_pos=%x recycle=%x\n",
-> +		   label, shared->slot_first, shared->slot_last,
-> +		   shared->tx_pos, shared->slot_queue_recycle);
-> +
-> +	seq_puts(f, "    Slots claimed:\n");
-> 
->  	for (i = shared->slot_first; i <= shared->slot_last; i++) {
->  		struct vchiq_slot_info slot_info =
->  						*SLOT_INFO_FROM_INDEX(state, i);
->  		if (slot_info.use_count != slot_info.release_count) {
-> -			len = scnprintf(buf, sizeof(buf), "      %d: %d/%d", i, slot_info.use_count,
-> -					slot_info.release_count);
-> -			err = vchiq_dump(dump_context, buf, len + 1);
-> -			if (err)
-> -				return err;
-> +			seq_printf(f, "      %d: %d/%d\n", i, slot_info.use_count,
-> +				   slot_info.release_count);
->  		}
->  	}
-> 
->  	for (i = 1; i < shared->debug[DEBUG_ENTRIES]; i++) {
-> -		len = scnprintf(buf, sizeof(buf), "    DEBUG: %s = %d(%x)",
-> -				debug_names[i], shared->debug[i], shared->debug[i]);
-> -		err = vchiq_dump(dump_context, buf, len + 1);
-> -		if (err)
-> -			return err;
-> +		seq_printf(f, "    DEBUG: %s = %d(%x)\n",
-> +			   debug_names[i], shared->debug[i], shared->debug[i]);
->  	}
-> -	return 0;
->  }
-> 
-> -int vchiq_dump_state(void *dump_context, struct vchiq_state *state)
-> +void vchiq_dump_state(struct seq_file *f, struct vchiq_state *state)
->  {
-> -	char buf[80];
-> -	int len;
->  	int i;
-> -	int err;
-> -
-> -	len = scnprintf(buf, sizeof(buf), "State %d: %s", state->id,
-> -			conn_state_names[state->conn_state]);
-> -	err = vchiq_dump(dump_context, buf, len + 1);
-> -	if (err)
-> -		return err;
-> -
-> -	len = scnprintf(buf, sizeof(buf), "  tx_pos=%x(@%pK), rx_pos=%x(@%pK)",
-> -			state->local->tx_pos,
-> -			state->tx_data + (state->local_tx_pos & VCHIQ_SLOT_MASK),
-> -			state->rx_pos,
-> -			state->rx_data + (state->rx_pos & VCHIQ_SLOT_MASK));
-> -	err = vchiq_dump(dump_context, buf, len + 1);
-> -	if (err)
-> -		return err;
-> -
-> -	len = scnprintf(buf, sizeof(buf), "  Version: %d (min %d)",
-> -			VCHIQ_VERSION, VCHIQ_VERSION_MIN);
-> -	err = vchiq_dump(dump_context, buf, len + 1);
-> -	if (err)
-> -		return err;
-> +
-> +	seq_printf(f, "State %d: %s\n", state->id,
-> +		   conn_state_names[state->conn_state]);
-> +
-> +	seq_printf(f, "  tx_pos=%x(@%pK), rx_pos=%x(@%pK)\n",
-> +		   state->local->tx_pos,
-> +		   state->tx_data + (state->local_tx_pos & VCHIQ_SLOT_MASK),
-> +		   state->rx_pos,
-> +		   state->rx_data + (state->rx_pos & VCHIQ_SLOT_MASK));
-> +
-> +	seq_printf(f, "  Version: %d (min %d)\n", VCHIQ_VERSION,
-> +		   VCHIQ_VERSION_MIN);
-> 
->  	if (VCHIQ_ENABLE_STATS) {
-> -		len = scnprintf(buf, sizeof(buf),
-> -				"  Stats: ctrl_tx_count=%d, ctrl_rx_count=%d, error_count=%d",
-> -				state->stats.ctrl_tx_count, state->stats.ctrl_rx_count,
-> -				state->stats.error_count);
-> -		err = vchiq_dump(dump_context, buf, len + 1);
-> -		if (err)
-> -			return err;
-> -	}
-> -
-> -	len = scnprintf(buf, sizeof(buf),
-> -			"  Slots: %d available (%d data), %d recyclable, %d stalls (%d data)",
-> -			((state->slot_queue_available * VCHIQ_SLOT_SIZE) -
-> -			state->local_tx_pos) / VCHIQ_SLOT_SIZE,
-> -			state->data_quota - state->data_use_count,
-> -			state->local->slot_queue_recycle - state->slot_queue_available,
-> -			state->stats.slot_stalls, state->stats.data_stalls);
-> -	err = vchiq_dump(dump_context, buf, len + 1);
-> -	if (err)
-> -		return err;
-> -
-> -	err = vchiq_dump_platform_state(dump_context);
-> -	if (err)
-> -		return err;
-> -
-> -	err = vchiq_dump_shared_state(dump_context,
-> -				      state,
-> -				      state->local,
-> -				      "Local");
-> -	if (err)
-> -		return err;
-> -	err = vchiq_dump_shared_state(dump_context,
-> -				      state,
-> -				      state->remote,
-> -				      "Remote");
-> -	if (err)
-> -		return err;
-> -
-> -	err = vchiq_dump_platform_instances(dump_context);
-> -	if (err)
-> -		return err;
-> +		seq_printf(f, "  Stats: ctrl_tx_count=%d, ctrl_rx_count=%d, error_count=%d\n",
-> +			   state->stats.ctrl_tx_count, state->stats.ctrl_rx_count,
-> +			   state->stats.error_count);
-> +	}
-> +
-> +	seq_printf(f, "  Slots: %d available (%d data), %d recyclable, %d stalls (%d data)\n",
-> +		   ((state->slot_queue_available * VCHIQ_SLOT_SIZE) -
-> +		   state->local_tx_pos) / VCHIQ_SLOT_SIZE,
-> +		   state->data_quota - state->data_use_count,
-> +		   state->local->slot_queue_recycle - state->slot_queue_available,
-> +		   state->stats.slot_stalls, state->stats.data_stalls);
-> +
-> +	vchiq_dump_platform_state(f);
-> +
-> +	vchiq_dump_shared_state(f, state, state->local, "Local");
-> +
-> +	vchiq_dump_shared_state(f, state, state->remote, "Remote");
-> +
-> +	vchiq_dump_platform_instances(f);
-> 
->  	for (i = 0; i < state->unused_service; i++) {
->  		struct vchiq_service *service = find_service_by_port(state, i);
-> 
->  		if (service) {
-> -			err = vchiq_dump_service_state(dump_context, service);
-> +			vchiq_dump_service_state(f, service);
->  			vchiq_service_put(service);
-> -			if (err)
-> -				return err;
->  		}
->  	}
-> -	return 0;
->  }
-> 
-> -int vchiq_dump_service_state(void *dump_context, struct vchiq_service *service)
-> +void vchiq_dump_service_state(struct seq_file *f, struct vchiq_service *service)
->  {
-> -	char buf[80];
-> -	int len;
-> -	int err;
->  	unsigned int ref_count;
-> 
->  	/*Don't include the lock just taken*/
->  	ref_count = kref_read(&service->ref_count) - 1;
-> -	len = scnprintf(buf, sizeof(buf), "Service %u: %s (ref %u)",
-> -			service->localport, srvstate_names[service->srvstate],
-> -			ref_count);
-> +	seq_printf(f, "Service %u: %s (ref %u)", service->localport,
-> +		   srvstate_names[service->srvstate], ref_count);
-> 
->  	if (service->srvstate != VCHIQ_SRVSTATE_FREE) {
->  		char remoteport[30];
-> @@ -3564,15 +3508,10 @@ int vchiq_dump_service_state(void *dump_context, struct vchiq_service *service)
->  			strscpy(remoteport, "n/a", sizeof(remoteport));
->  		}
-> 
-> -		len += scnprintf(buf + len, sizeof(buf) - len,
-> -				 " '%c%c%c%c' remote %s (msg use %d/%d, slot use %d/%d)",
-> -				 VCHIQ_FOURCC_AS_4CHARS(fourcc), remoteport,
-> -				 quota->message_use_count, quota->message_quota,
-> -				 quota->slot_use_count, quota->slot_quota);
-> -
-> -		err = vchiq_dump(dump_context, buf, len + 1);
-> -		if (err)
-> -			return err;
-> +		seq_printf(f, " '%c%c%c%c' remote %s (msg use %d/%d, slot use %d/%d)\n",
-> +			   VCHIQ_FOURCC_AS_4CHARS(fourcc), remoteport,
-> +			   quota->message_use_count, quota->message_quota,
-> +			   quota->slot_use_count, quota->slot_quota);
-> 
->  		tx_pending = service->bulk_tx.local_insert -
->  			service->bulk_tx.remote_insert;
-> @@ -3580,52 +3519,35 @@ int vchiq_dump_service_state(void *dump_context, struct vchiq_service *service)
->  		rx_pending = service->bulk_rx.local_insert -
->  			service->bulk_rx.remote_insert;
-> 
-> -		len = scnprintf(buf, sizeof(buf),
-> -				"  Bulk: tx_pending=%d (size %d), rx_pending=%d (size %d)",
-> -				tx_pending,
-> -				tx_pending ?
-> -				service->bulk_tx.bulks[BULK_INDEX(service->bulk_tx.remove)].size :
-> -				0, rx_pending, rx_pending ?
-> -				service->bulk_rx.bulks[BULK_INDEX(service->bulk_rx.remove)].size :
-> -				0);
-> +		seq_printf(f, "  Bulk: tx_pending=%d (size %d), rx_pending=%d (size %d)\n",
-> +			   tx_pending,
-> +			   tx_pending ? service->bulk_tx.bulks[BULK_INDEX(service->bulk_tx.remove)].size : 0,
-> +			   rx_pending,
-> +			   rx_pending ? service->bulk_rx.bulks[BULK_INDEX(service->bulk_rx.remove)].size : 0);
-> 
->  		if (VCHIQ_ENABLE_STATS) {
-> -			err = vchiq_dump(dump_context, buf, len + 1);
-> -			if (err)
-> -				return err;
-> -
-> -			len = scnprintf(buf, sizeof(buf),
-> -					"  Ctrl: tx_count=%d, tx_bytes=%llu, rx_count=%d, rx_bytes=%llu",
-> -					service->stats.ctrl_tx_count, service->stats.ctrl_tx_bytes,
-> -					service->stats.ctrl_rx_count, service->stats.ctrl_rx_bytes);
-> -			err = vchiq_dump(dump_context, buf, len + 1);
-> -			if (err)
-> -				return err;
-> -
-> -			len = scnprintf(buf, sizeof(buf),
-> -					"  Bulk: tx_count=%d, tx_bytes=%llu, rx_count=%d, rx_bytes=%llu",
-> -					service->stats.bulk_tx_count, service->stats.bulk_tx_bytes,
-> -					service->stats.bulk_rx_count, service->stats.bulk_rx_bytes);
-> -			err = vchiq_dump(dump_context, buf, len + 1);
-> -			if (err)
-> -				return err;
-> -
-> -			len = scnprintf(buf, sizeof(buf),
-> -					"  %d quota stalls, %d slot stalls, %d bulk stalls, %d aborted, %d errors",
-> -					service->stats.quota_stalls, service->stats.slot_stalls,
-> -					service->stats.bulk_stalls,
-> -					service->stats.bulk_aborted_count,
-> -					service->stats.error_count);
-> -		}
-> -	}
-> -
-> -	err = vchiq_dump(dump_context, buf, len + 1);
-> -	if (err)
-> -		return err;
-> -
-> -	if (service->srvstate != VCHIQ_SRVSTATE_FREE)
-> -		err = vchiq_dump_platform_service_state(dump_context, service);
-> -	return err;
-> +			seq_printf(f, "  Ctrl: tx_count=%d, tx_bytes=%llu, rx_count=%d, rx_bytes=%llu\n",
-> +				   service->stats.ctrl_tx_count,
-> +				   service->stats.ctrl_tx_bytes,
-> +				   service->stats.ctrl_rx_count,
-> +				   service->stats.ctrl_rx_bytes);
-> +
-> +			seq_printf(f, "  Bulk: tx_count=%d, tx_bytes=%llu, rx_count=%d, rx_bytes=%llu\n",
-> +				   service->stats.bulk_tx_count,
-> +				   service->stats.bulk_tx_bytes,
-> +				   service->stats.bulk_rx_count,
-> +				   service->stats.bulk_rx_bytes);
-> +
-> +			seq_printf(f, "  %d quota stalls, %d slot stalls, %d bulk stalls, %d aborted, %d errors\n",
-> +				   service->stats.quota_stalls,
-> +				   service->stats.slot_stalls,
-> +				   service->stats.bulk_stalls,
-> +				   service->stats.bulk_aborted_count,
-> +				   service->stats.error_count);
-> +		}
-> +	}
-> +
-> +	vchiq_dump_platform_service_state(f, service);
->  }
-> 
->  void
-> diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.h b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.h
-> index ec1a3caefaea..8568e37f89e0 100644
-> --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.h
-> +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.h
-> @@ -6,6 +6,7 @@
-> 
->  #include <linux/mutex.h>
->  #include <linux/completion.h>
-> +#include <linux/debugfs.h>
->  #include <linux/kthread.h>
->  #include <linux/kref.h>
->  #include <linux/rcupdate.h>
-> @@ -508,11 +509,11 @@ vchiq_bulk_transfer(struct vchiq_instance *instance, unsigned int handle, void *
->  		    void __user *uoffset, int size, void *userdata, enum vchiq_bulk_mode mode,
->  		    enum vchiq_bulk_dir dir);
-> 
-> -extern int
-> -vchiq_dump_state(void *dump_context, struct vchiq_state *state);
-> +extern void
-> +vchiq_dump_state(struct seq_file *f, struct vchiq_state *state);
-> 
-> -extern int
-> -vchiq_dump_service_state(void *dump_context, struct vchiq_service *service);
-> +extern void
-> +vchiq_dump_service_state(struct seq_file *f, struct vchiq_service *service);
+> Since the chip is designed to read the fault register each time we read the
+> data registers for one of the two channels it seems like faults should be
+> associated with channels one way or another. Would it make sense to add extra
+> channels for the internal signals that only have fault events (mostly with
+> IIO_EV_TYPE_THRESH)? Or would it make sense to add a new "flags" channel type
+> where the "raw" value is bit flags? Or something else?
 
-This function is defined and called from vchiq_core.c only, you can drop
-it from here and make it static.
+Fault reporting is a continuing problem across all similar subsystems.
+Every now and then there is a discussion about something 'generic' as
+in most cases you want faults to surface separately from the main datastream.
+Unfortunately no one ever did more than talk about it as far as I know.
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+I'm not keen on the flags channel because it's effectively custom to a particular
+driver.  Describing the various possible bits in a way generic software can
+interpret them is really challenging.  Faults tend to be a lot less 'consistent
+in form' than actual data.  You are correct that at least some of these
+could be mapped to channels though.
 
 > 
->  extern void
->  vchiq_loud_error_header(void);
-> @@ -568,13 +569,11 @@ void vchiq_complete_bulk(struct vchiq_instance *instance, struct vchiq_bulk *bul
-> 
->  void remote_event_signal(struct remote_event *event);
-> 
-> -int vchiq_dump(void *dump_context, const char *str, int len);
-> -
-> -int vchiq_dump_platform_state(void *dump_context);
-> +void vchiq_dump_platform_state(struct seq_file *f);
-> 
-> -int vchiq_dump_platform_instances(void *dump_context);
-> +void vchiq_dump_platform_instances(struct seq_file *f);
-> 
-> -int vchiq_dump_platform_service_state(void *dump_context, struct vchiq_service *service);
-> +void vchiq_dump_platform_service_state(struct seq_file *f, struct vchiq_service *service);
-> 
->  int vchiq_use_service_internal(struct vchiq_service *service);
-> 
-> diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_debugfs.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_debugfs.c
-> index dc667afd1f8c..0333da728011 100644
-> --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_debugfs.c
-> +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_debugfs.c
-> @@ -36,6 +36,13 @@ static struct vchiq_debugfs_log_entry vchiq_debugfs_log_entries[] = {
->  	{ "arm",  &vchiq_arm_log_level },
->  };
-> 
-> +static int vchiq_dump_show(struct seq_file *f, void *offset)
-> +{
-> +	vchiq_dump_state(f, &g_state);
-> +	return 0;
-> +}
-> +DEFINE_SHOW_ATTRIBUTE(vchiq_dump);
-> +
->  static int debugfs_log_show(struct seq_file *f, void *offset)
->  {
->  	int *levp = f->private;
-> @@ -211,6 +218,9 @@ void vchiq_debugfs_init(void)
->  	vchiq_dbg_dir = debugfs_create_dir("vchiq", NULL);
->  	vchiq_dbg_clients = debugfs_create_dir("clients", vchiq_dbg_dir);
-> 
-> +	debugfs_create_file("state", S_IFREG | 0444, vchiq_dbg_dir, NULL,
-> +			    &vchiq_dump_fops);
-> +
->  	/* create an entry under <debugfs>/vchiq/log for each log category */
->  	dir = debugfs_create_dir("log", vchiq_dbg_dir);
-> 
-> diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_dev.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_dev.c
-> index 841e1a535642..ec043e8e60c7 100644
-> --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_dev.c
-> +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_dev.c
-> @@ -1306,26 +1306,6 @@ static int vchiq_release(struct inode *inode, struct file *file)
->  	return ret;
->  }
-> 
-> -static ssize_t
-> -vchiq_read(struct file *file, char __user *buf, size_t count, loff_t *ppos)
-> -{
-> -	struct dump_context context;
-> -	int err;
-> -
-> -	context.buf = buf;
-> -	context.actual = 0;
-> -	context.space = count;
-> -	context.offset = *ppos;
-> -
-> -	err = vchiq_dump_state(&context, &g_state);
-> -	if (err)
-> -		return err;
-> -
-> -	*ppos += context.actual;
-> -
-> -	return context.actual;
-> -}
-> -
->  static const struct file_operations
->  vchiq_fops = {
->  	.owner = THIS_MODULE,
-> @@ -1335,7 +1315,6 @@ vchiq_fops = {
->  #endif
->  	.open = vchiq_open,
->  	.release = vchiq_release,
-> -	.read = vchiq_read
->  };
-> 
->  static struct miscdevice vchiq_miscdev = {
+> Here is the table of available faults for context. Sine/cosine inputs are
+> internal signals.
 
--- 
-Regards,
+Some of these we could consider 'normal' events.
+> 
+> | Bit | Description
+> +-----+------------
+> | D7  |  Sine/cosine inputs clipped
 
-Laurent Pinchart
+Not really related to any channel.  It's pushing the boundaries
+a little but you could add an alternating voltage channel and
+describe this as a threshold being crossed on that.  It's a bit
+of a stretch but it is something existing tooling should handle
+even if it's not easy to interpret the error.
+
+> | D6  |  Sine/cosine inputs below LOS threshold
+Also a threshold on the input alternative voltage channel.
+Problem here is that IIO only supports one threshold. So you
+would need to figure out how to handle this vs the clip detection.
+
+> | D5  |  Sine/cosine inputs exceed DOS overrange threshold
+Not 100% sure I understood this one right, but could it be considered
+an over threshold condition?
+> | D4  |  Sine/cosine inputs exceed DOS mismatch threshold
+My knowledge of resolvers is a little limited, but this could
+be considered an event on a differential channel (between
+sine and cosine inputs.
+
+> | D3  |  Tracking error exceeds LOT threshold
+Not sure if this one is expected to occur except at reset.
+It describes it as result of a step change in rotational position
+which feels like something that doesn't happen other than when
+device is reset... Could be wrong though!
+
+> | D2  |  Velocity exceeds maximum tracking rate
+This one is I think just a threshold on velocity matching what the
+hardware is capable of.
+
+> | D1  |  Phase error exceeds phase lock range
+
+
+> | D0  |  Configuration parity error
+This one has nothing to do with the data. I'd spit a log message
+out if you see it. Chances are device is dead. You 'could' keep
+a cache of what you think should be in the registers and try
+a full reset and re configuration.  Like any other parity error
+though you will want to have something watching for repeats that
+mean the part needs replacing.
+
+> 
+> David Lechner (19):
+>   dt-bindings: iio: resolver: add devicetree bindings for ad2s1210
+>   staging: iio: Documentation: document IIO resolver AD2S1210 sysfs
+>     attributes
+>   staging: iio: resolver: ad2s1210: fix ad2s1210_show_fault
+>   staging: iio: resolver: ad2s1210: fix not restoring sample gpio in
+>     channel read
+>   staging: iio: resolver: ad2s1210: fix probe
+>   staging: iio: resolver: ad2s1210: always use 16-bit value for raw read
+>   staging: iio: resolver: ad2s1210: implement IIO_CHAN_INFO_SCALE
+>   staging: iio: resolver: ad2s1210: use devicetree to get fclkin
+>   staging: iio: resolver: ad2s1210: use regmap for config registers
+>   staging: iio: resolver: ad2s1210: add debugfs reg access
+>   staging: iio: resolver: ad2s1210: remove config attribute
+>   staging: iio: resolver: ad2s1210: rework gpios
+>   staging: iio: resolver: ad2s1210: implement hysteresis as channel attr
+>   staging: iio: resolver: ad2s1210: refactor setting excitation
+>     frequency
+>   staging: iio: resolver: ad2s1210: read excitation frequency from
+>     control register
+>   staging: iio: resolver: ad2s1210: rename fexcit attribute
+>   staging: iio: resolver: ad2s1210: convert resolution to devicetree
+>     property
+>   staging: iio: resolver: ad2s1210: add phase_lock_range attributes
+>   staging: iio: resolver: ad2s1210: add triggered buffer support
+> 
+>  .../bindings/iio/resolver/adi,ad2s1210.yaml   | 150 +++
+>  .../sysfs-bus-iio-resolver-ad2s1210           | 109 ++
+>  drivers/staging/iio/resolver/Kconfig          |   1 +
+>  drivers/staging/iio/resolver/ad2s1210.c       | 948 +++++++++++-------
+>  4 files changed, 857 insertions(+), 351 deletions(-)
+>  create mode 100644 Documentation/devicetree/bindings/iio/resolver/adi,ad2s1210.yaml
+>  create mode 100644 drivers/staging/iio/Documentation/sysfs-bus-iio-resolver-ad2s1210
+> 
+
