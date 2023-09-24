@@ -1,202 +1,72 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D30D19CA5C;
-	Sun, 24 Sep 2023 18:17:20 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1777CC433C7;
-	Sun, 24 Sep 2023 18:17:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1695579440;
-	bh=UB9EHCgTSx/Ae7TVo6Ze4gnE+haUhN6Xn6Ix/hTUP2g=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=sBLsgvTCv9GofGv/degCP1e20cVhtusQ6l7YSH7NQm2qSsuY9EcpCi7Ip0nphjFV8
-	 auoly+qTSPLwfcUOkVs+Dfxle9YdPA9fIjFKGZUAv7DXSWZ5mK4MlSJpJKdOs/KesF
-	 1DgYYdEB9lMSTB2innNEP9vOKaGQiq3OgcEL0jsaN3yyAb56xlp5qp/ijO+ucYuYLJ
-	 g+wnsIzWzSSpm90MWxI4TF5tF2jrhx1S/yuUVN3VTzO9YDEIdJduwD7+v1i44rkpQ7
-	 0mIgCMrqOCehVL1AUTqdF+0C1QtDwD46An6FDFYuOpWEKkcoDwPn8U1fxTNamUobrE
-	 Fl+skn1kXMKEQ==
-Date: Sun, 24 Sep 2023 19:17:11 +0100
-From: Jonathan Cameron <jic23@kernel.org>
-To: David Lechner <dlechner@baylibre.com>
-Cc: linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
- linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, Rob Herring
- <robh+dt@kernel.org>, Krzysztof Kozlowski
- <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>,
- Michael Hennerich <Michael.Hennerich@analog.com>, Nuno =?UTF-8?B?U8Oh?=
- <nuno.sa@analog.com>, Axel Haslam <ahaslam@baylibre.com>, Philip Molloy
- <pmolloy@baylibre.com>
-Subject: Re: [PATCH v2 19/19] staging: iio: resolver: ad2s1210: add
- triggered buffer support
-Message-ID: <20230924191711.244ec842@jic23-huawei>
-In-Reply-To: <20230921144400.62380-20-dlechner@baylibre.com>
-References: <20230921144400.62380-1-dlechner@baylibre.com>
-	<20230921144400.62380-20-dlechner@baylibre.com>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-pc-linux-gnu)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83BDCDDC9
+	for <linux-staging@lists.linux.dev>; Sun, 24 Sep 2023 19:50:47 +0000 (UTC)
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-404800222d2so12729835e9.0
+        for <linux-staging@lists.linux.dev>; Sun, 24 Sep 2023 12:50:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1695585046; x=1696189846; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=STaVRB4lc8G7tgw1+DUtsUKKTjDKDxKdvDBHRRxCOFc=;
+        b=cKJ6NBpSUvGwUkSZB8+G5ObqGXr+3rj4Ay9LwO4UWPP7k2sEjClUGyJ5MP6GPprQ4R
+         2lNn+c/+jq3AM0y1BWVA23CduSFkmiTfmR5atfaa4RcosErD65GY77ITNqWuCoTBqOkc
+         pOWrLQ5/D2PxehZqHWAvdF7Cr0palmonHazQasXF3IbXcaUCI37ZNortRgnc3UYU+aGn
+         vTLJfKy56U9qzBvZ0w9tE40EqFFEa7Eb2D5Z9ozM7k3ANP/kMaXXOW2AT44lb6rlg8a1
+         F9Tvtpx6OE6fiM9RLnTZTf0F1sKdcZGqpWBKEgV6v1lygKHDRmSp1M8jwxmHhasl3pvt
+         NNJQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1695585046; x=1696189846;
+        h=content-disposition:mime-version:message-id:subject:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=STaVRB4lc8G7tgw1+DUtsUKKTjDKDxKdvDBHRRxCOFc=;
+        b=bHUwXSEBniSqOvrGN2uY2pWz+XwLk4rRCuVbbbZyeCbDsjf1lbaCwkXL87Y5crg/h/
+         TK6RBH/xrbhVk5dl8wyLMV7XI2rKfpp6rEjFd8eugHNbPQ4Yq0F4T/IwY2/uOTBH+/YS
+         Gd8DF6alrkxbFJyztll5NO3CeIVg23rzInC3njAaAvwxbNlRTG5UCmdhJesaf2LoGXep
+         ulWzPU2v5vWiJFCpCeK6lnX53weUfz8GkMhJaSiAtlOkl2ABcFTRq676lqK4KmcwfZKN
+         yixKx+57bcdXq36xF3IcXQPCYfiRJGS6XIHHoYWhAz3ADFkYR9JrN7Tn0nYssQIUTBRH
+         bI8w==
+X-Gm-Message-State: AOJu0Yy6pDa8U9Hoe2efrZrb0ddnYqUPKn9PJtgUKSrBRS569s4bT54v
+	tRd8h3slqL5u95rf9Lunf5Q=
+X-Google-Smtp-Source: AGHT+IHRdmk85zhv60MYPeVIo9rWi4BpI30IilpE7ErS0jlbks2+ZQUTEAlWSagW+aW+xBtCseoZVQ==
+X-Received: by 2002:a7b:c456:0:b0:3fe:d637:7b25 with SMTP id l22-20020a7bc456000000b003fed6377b25mr4755937wmi.0.1695585045408;
+        Sun, 24 Sep 2023 12:50:45 -0700 (PDT)
+Received: from matrix-ESPRIMO-P710 (p579356c7.dip0.t-ipconnect.de. [87.147.86.199])
+        by smtp.gmail.com with ESMTPSA id hu23-20020a05600ca29700b003fef5e76f2csm2926177wmb.0.2023.09.24.12.50.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 24 Sep 2023 12:50:45 -0700 (PDT)
+Date: Sun, 24 Sep 2023 21:50:43 +0200
+From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: [PATCH 0/4] staging: rtl8192e: Resolve circular locking with wx_mutex
+Message-ID: <cover.1695582999.git.philipp.g.hortmann@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Thu, 21 Sep 2023 09:44:00 -0500
-David Lechner <dlechner@baylibre.com> wrote:
+Resolve circular locking with wx_mutex, rx_pkt_pending_timer and
+reorder_spinlock.
 
-> This adds support for triggered buffers to the AD2S1210 resolver driver.
-> 
-Looks good. A few trivial comments inline.
+Tested with rtl8192e (WLL6130-D99) in Mode n (12.5 MB/s)
+Transferred this patch over wlan connection of rtl8192e.
 
-Jonathan
+Philipp Hortmann (4):
+  staging: rtl8192e: Put kfree() to end of rtllib_softmac_free()
+  staging: rtl8192e: Remove mutex from rtllib_softmac_free()
+  staging: rtl8192e: Unlock mutex for one line in rtllib_stop_protocol()
+  staging: rtl8192e: Resolve circular locking with rx_pkt_pending_timer
 
-> Signed-off-by: David Lechner <dlechner@baylibre.com>
-> ---
->  drivers/staging/iio/resolver/ad2s1210.c | 84 ++++++++++++++++++++++++-
->  1 file changed, 83 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/staging/iio/resolver/ad2s1210.c b/drivers/staging/iio/resolver/ad2s1210.c
-> index f5b8b290e860..44a2ecaeeeff 100644
-> --- a/drivers/staging/iio/resolver/ad2s1210.c
-> +++ b/drivers/staging/iio/resolver/ad2s1210.c
-> @@ -19,8 +19,11 @@
->  #include <linux/sysfs.h>
->  #include <linux/types.h>
->  
-> +#include <linux/iio/buffer.h>
->  #include <linux/iio/iio.h>
->  #include <linux/iio/sysfs.h>
-> +#include <linux/iio/trigger_consumer.h>
-> +#include <linux/iio/triggered_buffer.h>
->  
->  #define DRV_NAME "ad2s1210"
->  
-> @@ -85,6 +88,12 @@ struct ad2s1210_state {
->  	unsigned long fclkin;
->  	/** The selected resolution */
->  	enum ad2s1210_resolution resolution;
-> +	/** Scan buffer */
-> +	struct {
-> +		__be16 chan[2];
-> +		/* Ensure timestamp is naturally aligned. */
-> +		s64 timestamp __aligned(8);
-> +	} scan;
->  	u8 rx[2] __aligned(IIO_DMA_MINALIGN);
->  	u8 tx[2];
->  };
-> @@ -592,18 +601,35 @@ static const struct iio_chan_spec ad2s1210_channels[] = {
->  		.type = IIO_ANGL,
->  		.indexed = 1,
->  		.channel = 0,
-> +		.scan_index = 0,
-> +		.scan_type = {
-> +			.sign = 'u',
-> +			.realbits = 16,
-> +			.storagebits = 16,
-> +			.endianness = IIO_BE,
-> +		},
->  		.info_mask_separate = BIT(IIO_CHAN_INFO_RAW) |
->  				      BIT(IIO_CHAN_INFO_SCALE) |
->  				      BIT(IIO_CHAN_INFO_HYSTERESIS),
->  		.info_mask_separate_available =
->  					BIT(IIO_CHAN_INFO_HYSTERESIS),
-> +		.datasheet_name = "position",
->  	}, {
->  		.type = IIO_ANGL_VEL,
->  		.indexed = 1,
->  		.channel = 0,
-> +		.scan_index = 1,
-> +		.scan_type = {
-> +			.sign = 's',
-> +			.realbits = 16,
-> +			.storagebits = 16,
-> +			.endianness = IIO_BE,
-> +		},
->  		.info_mask_separate = BIT(IIO_CHAN_INFO_RAW) |
->  				      BIT(IIO_CHAN_INFO_SCALE),
-> -	}
-> +		.datasheet_name = "velocity",
+ drivers/staging/rtl8192e/rtllib_rx.c      | 4 ++++
+ drivers/staging/rtl8192e/rtllib_softmac.c | 9 +++++----
+ 2 files changed, 9 insertions(+), 4 deletions(-)
 
-Not sure adding these is useful at this stage unless you have in kernel
-consumers for this device.
-
-> +	},
-> +	IIO_CHAN_SOFT_TIMESTAMP(2),
->  };
->  
->  static struct attribute *ad2s1210_attributes[] = {
-> @@ -665,6 +691,55 @@ static int ad2s1210_debugfs_reg_access(struct iio_dev *indio_dev,
->  	return ret;
->  }
->  
-> +static irqreturn_t ad2s1210_trigger_handler(int irq, void *p)
-> +{
-> +	struct iio_poll_func *pf = p;
-> +	struct iio_dev *indio_dev = pf->indio_dev;
-> +	struct ad2s1210_state *st = iio_priv(indio_dev);
-> +	size_t chan = 0;
-> +	int ret;
-> +
-> +	mutex_lock(&st->lock);
-> +
-> +	memset(&st->scan, 0, sizeof(st->scan));
-> +	gpiod_set_value(st->sample_gpio, 1);
-> +
-> +	if (test_bit(0, indio_dev->active_scan_mask)) {
-> +		ret = ad2s1210_set_mode(st, MOD_POS);
-> +		if (ret < 0)
-> +			goto error_ret;
-> +
-> +		/* REVIST: we can read 3 bytes here and also get fault flags */
-
-Given we have fault detection outputs, does it make sense to do so?
-Or should we just rely on those triggering an interrupt?
-
-> +		ret = spi_read(st->sdev, st->rx, 2);
-> +		if (ret < 0)
-> +			goto error_ret;
-> +
-> +		memcpy(&st->scan.chan[chan++], st->rx, 2);
-> +	}
-> +
-> +	if (test_bit(1, indio_dev->active_scan_mask)) {
-> +		ret = ad2s1210_set_mode(st, MOD_VEL);
-> +		if (ret < 0)
-> +			goto error_ret;
-> +
-> +		/* REVIST: we can read 3 bytes here and also get fault flags */
-> +		ret = spi_read(st->sdev, st->rx, 2);
-> +		if (ret < 0)
-> +			goto error_ret;
-> +
-> +		memcpy(&st->scan.chan[chan++], st->rx, 2);
-> +	}
-> +
-> +	iio_push_to_buffers_with_timestamp(indio_dev, &st->scan, pf->timestamp);
-> +
-> +error_ret:
-> +	gpiod_set_value(st->sample_gpio, 0);
-> +	mutex_unlock(&st->lock);
-> +	iio_trigger_notify_done(indio_dev->trig);
-> +
-> +	return IRQ_HANDLED;
-> +}
-> +
->  static const struct iio_info ad2s1210_info = {
->  	.read_raw = ad2s1210_read_raw,
->  	.read_avail = ad2s1210_read_avail,
-> @@ -850,6 +925,13 @@ static int ad2s1210_probe(struct spi_device *spi)
->  	indio_dev->num_channels = ARRAY_SIZE(ad2s1210_channels);
->  	indio_dev->name = spi_get_device_id(spi)->name;
->  
-> +	ret = devm_iio_triggered_buffer_setup(&spi->dev, indio_dev,
-> +					      &iio_pollfunc_store_time,
-> +					      &ad2s1210_trigger_handler, NULL);
-> +	if (ret < 0)
-> +		return dev_err_probe(&spi->dev, ret,
-> +				     "iio triggered buffer setup failed\n");
-> +
->  	return devm_iio_device_register(&spi->dev, indio_dev);
->  }
->  
+-- 
+2.42.0
 
