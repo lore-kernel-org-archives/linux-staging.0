@@ -1,53 +1,54 @@
-Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
+Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20B7A613C
-	for <linux-staging@lists.linux.dev>; Mon, 25 Sep 2023 16:37:20 +0000 (UTC)
-Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-9ad810be221so862441566b.2
-        for <linux-staging@lists.linux.dev>; Mon, 25 Sep 2023 09:37:20 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B39C814A83
+	for <linux-staging@lists.linux.dev>; Mon, 25 Sep 2023 16:50:55 +0000 (UTC)
+Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-9aa2c6f0806so841438766b.3
+        for <linux-staging@lists.linux.dev>; Mon, 25 Sep 2023 09:50:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1695659839; x=1696264639; darn=lists.linux.dev;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=XCsL9O31+ub/w4O62oibz3JG1gJ1/+3uXSRPucbY31Q=;
-        b=2TXfuogEa8Tn35wM0vy6SLTVgNfgXgNFISiC7wLkGh8VE/5QM0eQiCAFQ+NTrY5a/d
-         VixedTifm67DLL2PfbrhxB/fB8Q5jRrd47EUIXlSipBfBuVh5Lm6KmirUtud3FUpXMD0
-         zXyUBNI1gULMoAAf/y9Ja7JXQKFiauszPwoTYVC+aQ/088hFXVPXQL8ZSAuyKeEQ51rT
-         TnXngepSmbgwIBN6RIOi/Dtl34jE9C7Y48sGy0ohOcooffATwHxveBfW024UmqfjZcVE
-         0Pz5hP5p5lF28fkvOK62MLmbi56VAMkavyANVA/23b+VYINWbTAlOqT6Vq0hQc9CVlO/
-         VTNQ==
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1695660654; x=1696265454; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ZK0Wa94mxZD4Pin962qT1kXm8aCjboYY+1emX2oQt8o=;
+        b=lrwIuocVhOo3YQiEPA3Qi0utciM5PeNEJQ7AuucsQeDYsGopc9fhlwjiZTNUJrF47y
+         rwEiH4JRZJq+eKaNiMJP6uZnK22BAt3I36JWVBNVtK5qTx9+T2W0jvXFhE8xZNZgsZxv
+         dGmpn54pXr3rHv3JM288KiEEZEsEx8+f8AoNx+27/6TMAnHHHZbo8+2d/HpAQBNji35e
+         aZF44UVw5+MHW9mDUtMt/fJT1YxXR4JCizFVhgRAdZJ2b2LOp2l+InGmVXgjTjjqxM/H
+         tkB7G0s8XBGH/zsIsgrinvVKUIz5n6lVXPxH7LY2dOcGM3HBum447mSC3GAhLFYhepa7
+         Iu9w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1695659839; x=1696264639;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=XCsL9O31+ub/w4O62oibz3JG1gJ1/+3uXSRPucbY31Q=;
-        b=mjL7IywUgjKQ+kk0it5c3cOzozpcncnO+wNLS9AO2r9YkK3sm6xz9XfLdEPj273/Ut
-         puXN7A+MhK9fgIlGTyR0Wl2Wi8gyHhqKqAYEZ6zFJupJEsH5wwhNBm7i/dIAqhJGRNqa
-         iL5YE+C0lSn19UNUZ3U4tZxRdM9nzrPmbE2YHFkBdzttSnw5h7oCs7D4MZc4CLHuSuYR
-         lQP7m1MnR/KjqW/aTghwGPoTttZflTgaSnpvhppHUytpOgn52m+quQ1BmqdohUUQmpll
-         U89qmUKKWeVVLkkLqQf6jjmuRwfbrEx7Gx7J+/7wYqr/Oz4c+pUEscYcG3uk89Q1NJNm
-         Jvvw==
-X-Gm-Message-State: AOJu0YykyF2fJzHu3oQQV8+2qJ91gptQk3nCBC6tz3ajHwdres6zjUtJ
-	dI3MpHq5PSzlJQ5A9PAXGm8x/V/3wMAQ4D0K8EKB9Q==
-X-Google-Smtp-Source: AGHT+IFD7lzXMvCXQOFmekS6RNokyWqG7NHLM0il8mO+/QOBoiAPubZ810+kAeu1PedLTs6VzXhNk88WVq2e3EOI64o=
-X-Received: by 2002:a17:906:c14f:b0:9ad:a4bd:dc67 with SMTP id
- dp15-20020a170906c14f00b009ada4bddc67mr9258502ejc.50.1695659839417; Mon, 25
- Sep 2023 09:37:19 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1695660654; x=1696265454;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=ZK0Wa94mxZD4Pin962qT1kXm8aCjboYY+1emX2oQt8o=;
+        b=CcXD03I0dawqKojYTmDFINt+1V4g+EDXatJfjGYuDc9IGLhSzoRE6mF3+k5QpdVPkZ
+         SXwG3YuYgka7HyZwGPg2VOWwXjxu5airdTMrMMnfi6UBWoWqeCpG3p1xcrhStROPSDUg
+         DmSkw5JCEgjn8nSyCD3NEq5SeBP8v7rzJD6bTOvFRtQWHdStqcUGOirfwS5C5WbVG48U
+         y+9F4ZwNiM4fMYb7C8Vxqz/OUqqWo0g+bPiYftQkoYMHEhN5d8QK31W487UI/2kTrezJ
+         kkh0fx4SUriRV2ChMIBiWhcPUfCVSaB4Hgu1pi7UsGBq9QDXH5dlei4gzXhdl+ez3hyl
+         WzKg==
+X-Gm-Message-State: AOJu0Yyfrd8S1ep79XwvI1c94aqxvHhmpbQPdS6SF3vk3lQeJfdl523J
+	YsyVxWRA3Jj8enhH8XBGgmsvTXWNgO1HH2hH+UO2VQ==
+X-Google-Smtp-Source: AGHT+IGsoV4g2+LteE9K/8LeYzh2EooZgBJOexrqD04mHD3rKyBP8T2APAtV0W+DIdvP1cPsq3xQo6gHIvL+/9I2E1o=
+X-Received: by 2002:a17:906:51c9:b0:9ae:82b4:e309 with SMTP id
+ v9-20020a17090651c900b009ae82b4e309mr6645063ejk.0.1695660653836; Mon, 25 Sep
+ 2023 09:50:53 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20230921144400.62380-1-dlechner@baylibre.com> <20230921144400.62380-10-dlechner@baylibre.com>
- <20230924185902.579a444b@jic23-huawei>
-In-Reply-To: <20230924185902.579a444b@jic23-huawei>
+References: <20230921144400.62380-1-dlechner@baylibre.com> <20230921144400.62380-20-dlechner@baylibre.com>
+ <20230924191711.244ec842@jic23-huawei>
+In-Reply-To: <20230924191711.244ec842@jic23-huawei>
 From: David Lechner <dlechner@baylibre.com>
-Date: Mon, 25 Sep 2023 11:37:08 -0500
-Message-ID: <CAMknhBEsiaSu87Xi1J4BZHrrz4wOovHUVCJz1BgcG00LGJk+gw@mail.gmail.com>
-Subject: Re: [PATCH v2 09/19] staging: iio: resolver: ad2s1210: use regmap for
- config registers
+Date: Mon, 25 Sep 2023 11:50:42 -0500
+Message-ID: <CAMknhBFE49iGkZyP4rdqAmJwY5KnJ0X9UAPC54=BdQFfNuA+kg@mail.gmail.com>
+Subject: Re: [PATCH v2 19/19] staging: iio: resolver: ad2s1210: add triggered
+ buffer support
 To: Jonathan Cameron <jic23@kernel.org>
 Cc: linux-iio@vger.kernel.org, devicetree@vger.kernel.org, 
 	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, 
@@ -56,15 +57,28 @@ Cc: linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
 	Michael Hennerich <Michael.Hennerich@analog.com>, =?UTF-8?B?TnVubyBTw6E=?= <nuno.sa@analog.com>, 
 	Axel Haslam <ahaslam@baylibre.com>, Philip Molloy <pmolloy@baylibre.com>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-> > -     if (ret & AD2S1210_MSB_IS_HIGH) {
-> I guess this was meant to be a sanity check on the chip responding.
+On Sun, Sep 24, 2023 at 1:17=E2=80=AFPM Jonathan Cameron <jic23@kernel.org>=
+ wrote:
 >
-> > -             ret = -EIO;
-> > -             goto error_ret;
-> > -     }
-> > -
+> On Thu, 21 Sep 2023 09:44:00 -0500
+> David Lechner <dlechner@baylibre.com> wrote:
+>
+...
+> > +             /* REVIST: we can read 3 bytes here and also get fault fl=
+ags */
+>
+> Given we have fault detection outputs, does it make sense to do so?
+> Or should we just rely on those triggering an interrupt?
+>
+> > +             ret =3D spi_read(st->sdev, st->rx, 2);
+>
 
-Yes, according to the data sheet, if this bit is set, it means there was a
-configuration parity error. This test has been moved to the
-ad2s1210_regmap_reg_read() function.
+I'm thinking the former would be better, but I have a pending inquiry with =
+ADI
+to get more info on this since the fault pins and/or fault registers
+don't seem to
+be working quite like the datasheet says they should (I am seeing fault bit=
+s set
+in the register without the fault pins being asserted).
