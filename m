@@ -1,67 +1,33 @@
-Received: from wout1-smtp.messagingengine.com (wout1-smtp.messagingengine.com [64.147.123.24])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2E171CAA1
-	for <linux-staging@lists.linux.dev>; Mon, 25 Sep 2023 15:13:03 +0000 (UTC)
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
-	by mailout.west.internal (Postfix) with ESMTP id 7E6EE3200313;
-	Mon, 25 Sep 2023 11:13:02 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute2.internal (MEProxy); Mon, 25 Sep 2023 11:13:02 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fastmail.org; h=
-	cc:cc:content-transfer-encoding:content-type:date:date:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:sender:subject:subject:to:to; s=fm2; t=1695654782; x=
-	1695741182; bh=WNyIeVm6Jnga28R9pgeL04yBUoXDsruhsSMafZb8Qb4=; b=m
-	KbvEmrex9in2SenyD+O3tpVJYJb9ImjLlZ9k1+oNnElSC8mU/s4VgKGJp9jVt9B2
-	onjmvue0R8+ijk3DEjdpsFDxOYlxg59rdN9DRksVztNW1ygghUVFvpArtyZuvfqP
-	XjeVPLEjtoVtEUK8kYUaefrF1zr1MAeeXIJuZXxdQmlpujuqoRfySpRsZxYhDFtU
-	nmqPGY/Rz6lj3a6JxTtPr4WW6lnHbYKxSJOdSYNwqej7G0sS1Q4sruW3iFRDY1O5
-	HhMyCFBTVAk26UNifsB5X6OJ1rfUA+AYtNElcehjM3k6hdmEynDhGdVoGwHkzBx7
-	34EY/3sxX9H2rL2lUcBPA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:date:date:feedback-id:feedback-id:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1695654782; x=
-	1695741182; bh=WNyIeVm6Jnga28R9pgeL04yBUoXDsruhsSMafZb8Qb4=; b=D
-	LisKG2I4/SiQv37IbzKhzRcCBP6kmcB21lfvaqbKP412IkY+ptrii0Y7lVKWpTl3
-	M8bo3jl2ShR6O1dpXyqUiBw9ddKpn71+/N8AtCP7AQkAWeMd/bkPK7ffSJImiEg4
-	Q2FE1QOZG8hzhENqO/wPhTTCd8s5O7nTcen4Ef8PENMTtCEdsmn7zOMz7hNWQPXq
-	kwtTD86E5Qnuzia9gj24G52WcFGdyJGtrKB4tljY/nbfmKPaxZO3obUT+TtpfL6I
-	s6ikMN/fkuEInOcV5WhOFdOjw6GLngq9s7UCULPXVur/I09sTwZR22Xbi2gdtMXl
-	jqJ7EY3rHCsn3RLCBC+Zw==
-X-ME-Sender: <xms:faMRZaZ3ddYqiCsbtVUiOB-9hKRa3xh3IEHEHeLdJcTRgoopt8yn9Q>
-    <xme:faMRZdYxgWKL3V9g3vVVpSz2WBbJXQmhcsTSgaOLxvAMkwzy5txAGgtOcboRGAXT2
-    Bh_FwpyrPTzT8bqRf4>
-X-ME-Received: <xmr:faMRZU_UcIDgOxHOqn8cxkPpNm1glf0fLPHF9zsp724tdEjxSr6R06Bzr70l_cscJhZVuA_VU0QKYE-LMJh03m2Q_UgXsvaXqJ2TSWBWIEY>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedviedrudelgedgkeehucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucenucfjughrpefhvfevufffkffojghfggfgsedtke
-    ertdertddtnecuhfhrohhmpefirghrhicutfhoohhkrghrugcuoehgrghrhihrohhokhgr
-    rhgusehfrghsthhmrghilhdrohhrgheqnecuggftrfgrthhtvghrnhepkeeuvdffueduke
-    egieeuffejhefgkeetfeehueelfeduuefgveellefhfefgjedvnecuvehluhhsthgvrhfu
-    ihiivgepudenucfrrghrrghmpehmrghilhhfrhhomhepghgrrhihrhhoohhkrghrugesfh
-    grshhtmhgrihhlrdhorhhg
-X-ME-Proxy: <xmx:faMRZcrLgI7VKfXc6eAOsvINgwcNXbZIxO5jWIZKoLTg0bdM0vIhfA>
-    <xmx:faMRZVoFaqrkSpezonilyNRYanWBgwmqwj5mXuOquJFkEdrYbmeyWg>
-    <xmx:faMRZaS_0UuXYqaeoMp882g69nPND87FDPBCmPK3GfvFI4G90X5SJg>
-    <xmx:fqMRZc2jyjk-le_B-P4NSz1S4VtXjZ2LdRlbnXxrkKACSElH4S36GQ>
-Feedback-ID: ifd194980:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 25 Sep 2023 11:13:01 -0400 (EDT)
-From: Gary Rookard <garyrookard@fastmail.org>
-To: gregkh@linuxfoundation.org
-Cc: linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Gary Rookard <garyrookard@fastmail.org>
-Subject: [PATCH 3/3] rtl8192e: renamed (1) mixed case variable
-Date: Mon, 25 Sep 2023 11:11:57 -0400
-Message-ID: <20230925151157.3893-4-garyrookard@fastmail.org>
-X-Mailer: git-send-email 2.41.0
-In-Reply-To: <20230925151157.3893-1-garyrookard@fastmail.org>
-References: <20230925151157.3893-1-garyrookard@fastmail.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51CF211C91
+	for <linux-staging@lists.linux.dev>; Mon, 25 Sep 2023 15:54:19 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4D79BC433C7;
+	Mon, 25 Sep 2023 15:54:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1695657259;
+	bh=B4lato5sKbIJfj/DcTxCJi6Fpi7KSgnK6AAG1dAv0WI=;
+	h=From:To:Cc:Subject:Date:From;
+	b=Xz+FlTT0VGq3tgbriqS2EDaNs11wwdg05SylJzWh/+MjuJrj6gv1A33uV0K9z5PZC
+	 uOISJiUJKkEfwop5py2fR6lDz+1iQQ6PHYEaklwFtAntZ98Sjo2CZkjVZQB6/mZ4W1
+	 7E+xM/4XJFyE5im3h2UkBLth88NECJC+iYzwrzAW1r5CdowA+gkpxrOIGwIrt8sjW2
+	 g7J6SLzreVvMH81sYwZlSKjZpAFTQR6r/s+P4suoajmsgKqxGuadxO7oXDBUklo+s+
+	 cPSE8QCwH/QgHLGt4KMavTHbP2MAqnGwY8I+Cq8haydsunntR0FqvgV3tQkU46n1TB
+	 WY+A+7V+baI3w==
+From: Arnd Bergmann <arnd@kernel.org>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Philipp Hortmann <philipp.g.hortmann@gmail.com>
+Cc: Arnd Bergmann <arnd@arndb.de>,
+	Tree Davies <tdavies@darkphysics.net>,
+	Yogesh Hegde <yogi.kernel@gmail.com>,
+	Sumitra Sharma <sumitraartsy@gmail.com>,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH 1/2] staging: rtl8192e: fix structure alignment
+Date: Mon, 25 Sep 2023 17:54:03 +0200
+Message-Id: <20230925155413.471287-1-arnd@kernel.org>
+X-Mailer: git-send-email 2.39.2
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -70,30 +36,99 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Renamed (1) referenced variable that was written in mixed case.
-HTUpdateDefaultSetting -> ht_update_default_setting
+From: Arnd Bergmann <arnd@arndb.de>
 
-Linux kernel coding style "cleanup".
-No change in runtime logic.
+A recent cleanup changed the rtl8192e from using the custom misaligned
+rtllib_hdr_3addr structure to the generic ieee80211_hdr_3addr definition
+that enforces 16-bit structure alignment in memory.
 
-Signed-off-by: Gary Rookard <garyrookard@fastmail.org>
+This causes a gcc warning about conflicting alignment requirements:
+
+drivers/staging/rtl8192e/rtllib.h:645:1: error: alignment 1 of 'struct rtllib_authentication' is less than 2 [-Werror=packed-not-aligned]
+  645 | } __packed;
+      | ^
+rtllib.h:650:1: error: alignment 1 of 'struct rtllib_disauth' is less than 2 [-Werror=packed-not-aligned]
+rtllib.h:655:1: error: alignment 1 of 'struct rtllib_disassoc' is less than 2 [-Werror=packed-not-aligned]
+rtllib.h:661:1: error: alignment 1 of 'struct rtllib_probe_request' is less than 2 [-Werror=packed-not-aligned]
+rtllib.h:672:1: error: alignment 1 of 'struct rtllib_probe_response' is less than 2 [-Werror=packed-not-aligned]
+rtllib.h:683:1: error: alignment 1 of 'struct rtllib_assoc_request_frame' is less than 2 [-Werror=packed-not-aligned]
+rtllib.h:691:1: error: alignment 1 of 'struct rtllib_assoc_response_frame' is less than 2 [-Werror=packed-not-aligned]
+
+Change all of the structure definitions that include this one to also
+use 16-bit alignment. This assumes that the objects are actually aligned
+in memory, but that is normally guaranteed by the slab allocator already.
+
+All members of the structure definitions are already 16-bit aligned,
+so the layouts do not change. As an added benefit, 16-bit accesses are
+generally faster than 8-bit accesses, so architectures without unaligned
+load/store instructions can produce better code now by avoiding byte-wise
+accesses.
+
+Fixes: 71ddc43ed7c71 ("staging: rtl8192e: Replace struct rtllib_hdr_3addr in structs of rtllib.h")
+Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 ---
- drivers/staging/rtl8192e/rtllib_module.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/staging/rtl8192e/rtllib.h | 14 +++++++-------
+ 1 file changed, 7 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/staging/rtl8192e/rtllib_module.c b/drivers/staging/rtl8192e/rtllib_module.c
-index 2416e0c60255..fc0cc4657fee 100644
---- a/drivers/staging/rtl8192e/rtllib_module.c
-+++ b/drivers/staging/rtl8192e/rtllib_module.c
-@@ -126,7 +126,7 @@ struct net_device *alloc_rtllib(int sizeof_priv)
- 	if (!ieee->ht_info)
- 		goto free_softmac;
+diff --git a/drivers/staging/rtl8192e/rtllib.h b/drivers/staging/rtl8192e/rtllib.h
+index 5517b9df65bee..7d26910a0b162 100644
+--- a/drivers/staging/rtl8192e/rtllib.h
++++ b/drivers/staging/rtl8192e/rtllib.h
+@@ -642,23 +642,23 @@ struct rtllib_authentication {
+ 	__le16 status;
+ 	/*challenge*/
+ 	struct rtllib_info_element info_element[];
+-} __packed;
++} __packed __aligned(2);
  
--	HTUpdateDefaultSetting(ieee);
-+	ht_update_default_setting(ieee);
- 	HTInitializeHTInfo(ieee);
- 	TSInitialize(ieee);
- 	for (i = 0; i < IEEE_IBSS_MAC_HASH_SIZE; i++)
+ struct rtllib_disauth {
+ 	struct ieee80211_hdr_3addr header;
+ 	__le16 reason;
+-} __packed;
++} __packed __aligned(2);
+ 
+ struct rtllib_disassoc {
+ 	struct ieee80211_hdr_3addr header;
+ 	__le16 reason;
+-} __packed;
++} __packed __aligned(2);
+ 
+ struct rtllib_probe_request {
+ 	struct ieee80211_hdr_3addr header;
+ 	/* SSID, supported rates */
+ 	struct rtllib_info_element info_element[];
+-} __packed;
++} __packed __aligned(2);
+ 
+ struct rtllib_probe_response {
+ 	struct ieee80211_hdr_3addr header;
+@@ -669,7 +669,7 @@ struct rtllib_probe_response {
+ 	 * CF params, IBSS params, TIM (if beacon), RSN
+ 	 */
+ 	struct rtllib_info_element info_element[];
+-} __packed;
++} __packed __aligned(2);
+ 
+ /* Alias beacon for probe_response */
+ #define rtllib_beacon rtllib_probe_response
+@@ -680,7 +680,7 @@ struct rtllib_assoc_request_frame {
+ 	__le16 listen_interval;
+ 	/* SSID, supported rates, RSN */
+ 	struct rtllib_info_element info_element[];
+-} __packed;
++} __packed __aligned(2);
+ 
+ struct rtllib_assoc_response_frame {
+ 	struct ieee80211_hdr_3addr header;
+@@ -688,7 +688,7 @@ struct rtllib_assoc_response_frame {
+ 	__le16 status;
+ 	__le16 aid;
+ 	struct rtllib_info_element info_element[]; /* supported rates */
+-} __packed;
++} __packed __aligned(2);
+ 
+ struct rtllib_txb {
+ 	u8 nr_frags;
 -- 
-2.41.0
+2.39.2
 
