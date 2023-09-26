@@ -1,169 +1,115 @@
-Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net [217.70.183.197])
+Received: from out5-smtp.messagingengine.com (out5-smtp.messagingengine.com [66.111.4.29])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A940218E1B
-	for <linux-staging@lists.linux.dev>; Tue, 26 Sep 2023 10:04:02 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPA id 944CA1C0007;
-	Tue, 26 Sep 2023 10:03:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1695722640;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=jRVKs6180ifIX9yx3k8bI6+Vilp7tEKq0AX18VzwduA=;
-	b=FFAWjOYe+pVWpCDMEGbgw/Z2TxQy4MycS2ZMziVKj1uoipI2meXU5CnOxGOijwJyWds4NH
-	vdUXPD9QnpkLgjOYZfLTI1p9vA3mgO8xXDnxf1L5cvCi9WOepCjXM5z9z7rrwQvOUripYz
-	9MAROhuEcW3o/sjOyrPp0SEO5aZWNEYimaf+CmS00QAt76G0DCgeF0a2nE4gAdaUZlmPvs
-	Rf53gcjLsYEc/V3pLwS68Yz6WeUiCmbXew5xGyLg5Zhju7jlKXnvOSb7EjaZfE27nt1xnm
-	sqkE2HiwwprgEz1b2hwxXyIhiCOqNpRRyjShpkEOaE4sgHeyAUHp8ORBUy3Iog==
-From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-To: linux-media@vger.kernel.org
-Cc: Luca Ceresoli <luca.ceresoli@bootlin.com>,
-	Thierry Reding <thierry.reding@gmail.com>,
-	Jonathan Hunter <jonathanh@nvidia.com>,
-	Sowjanya Komatineni <skomatineni@nvidia.com>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-tegra@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Subject: [PATCH] staging: media: tegra-video: fix infinite recursion regression
-Date: Tue, 26 Sep 2023 12:03:53 +0200
-Message-Id: <20230926100353.328001-1-luca.ceresoli@bootlin.com>
-X-Mailer: git-send-email 2.34.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C01926FD2
+	for <linux-staging@lists.linux.dev>; Tue, 26 Sep 2023 12:39:44 +0000 (UTC)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+	by mailout.nyi.internal (Postfix) with ESMTP id 866215C2714;
+	Tue, 26 Sep 2023 08:39:43 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute5.internal (MEProxy); Tue, 26 Sep 2023 08:39:43 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fastmail.org; h=
+	cc:cc:content-type:content-type:date:date:from:from:in-reply-to
+	:in-reply-to:message-id:mime-version:references:reply-to:sender
+	:subject:subject:to:to; s=fm2; t=1695731983; x=1695818383; bh=1L
+	tHdVfKG97FAOoSrdn4e1k546KKFsD95Ly4Y2jawY4=; b=dEoERRzgKy8J3KTHES
+	BU0BTWHGaAjP8onGeVhonbCicbN10curcebv3wWIIEyrOWLsrF/p3m1Q8oKyPZmm
+	IXj3beIm9qxuvjBjJIiEIdmqOxa0JIAVZybV2qsrNyJjL0l9FQye1G4qztBoTDsu
+	5sk/Et3HLU8qV+KC9DuaURl7AR84gju3G4/kkhwS3L2ts6aa2q8FHyPJgvA1DqCS
+	IMjHvlgf491uPXPNV0mWmcxvT/EZF0ADH9WhpJEqUKzz9yllY2LjMgV1sksYILsh
+	C+ea44+fmdNOkErehvsdIGsxSSPAYFWTBQjfXbkg98ckkaJ05VBwz3TA4XttsjZ+
+	2tOQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:sender:subject
+	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+	:x-sasl-enc; s=fm2; t=1695731983; x=1695818383; bh=1LtHdVfKG97FA
+	OoSrdn4e1k546KKFsD95Ly4Y2jawY4=; b=npOt+dVGNl7S1G8xudjX71xH8KH1Y
+	KVc4BBjq1cLNCwDI3tvBkO9jdgSlIbkvXyuaSX+RXR7LX+a2dEYRFluXu3nuY7a3
+	LHjwO424KrlDLzMhUihF2MFdODFk8cUBVGIF99THqd8xaS11JvTFWAvPZn9FCcKH
+	ZgJPGHjfrt3zRuS/vZmNNQ5kQVWn/giGmgmHwdVWh5Mmhw7F2gtSvOrZApCqzFV8
+	+q4YUnUVRZ105btPB2pOEeTdAp3KbiqGNwWBFrWyj1bWNVGPScEaLdyDNBv0Z2zY
+	ryX2uI/sQDYSc942kqmsjfr/bTFZ2938xKaN1vM65KzARnVTjBaSYrBjA==
+X-ME-Sender: <xms:D9ESZeRg41GL46zALyLOrWLgToa8W9IR_qtxPBw0Rjxjrhx5hy04-g>
+    <xme:D9ESZTw1A3kMmtPrQuESCZwi96spdwuB7OfRwbC0MW6aYJCYlNI7kriosI1ERd32N
+    fFYwoInJ3Tbt6n7meM>
+X-ME-Received: <xmr:D9ESZb3q4XpHgs-ESsxmoRgfCLbL-mnw3SIqqaEVkqG1vGZQaboA6_PV9RU2MrTFbU9Wqcp0H8nQ9Btjv1KOd1M>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvjedrtddtgddviecutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+    fjughrpehffgfhvfevufffjgfkgggtsehttdertddtredtnecuhfhrohhmpehgrghrhihr
+    ohhokhgrrhgusehfrghsthhmrghilhdrohhrghenucggtffrrghtthgvrhhnpeeiuddvle
+    ektdfhgeetvedvjeegkeeuvddttdejleefvdeuvefhlefgveevieeukeenucevlhhushht
+    vghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehgrghrhihrohhokhgrrh
+    gusehfrghsthhmrghilhdrohhrgh
+X-ME-Proxy: <xmx:D9ESZaAsNtzJqgckwGrYXwW_4m2IgV_1rWUqruvv2uLGDFkXRDglzA>
+    <xmx:D9ESZXiE7I7PQZQFCn107Z-PknQwE21xaVzQNkXhKlSsnN0mdqAfzw>
+    <xmx:D9ESZWrTPgkHezXP_VhcWjy32sJhtcMjtSDo81cwpz6nRi4WhL52nA>
+    <xmx:D9ESZfYrKvenS12KgWU0Kdc3yVPE5EJb5HnZVvGCKiGjIgPpYHQEwQ>
+Feedback-ID: ifd194980:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 26 Sep 2023 08:39:42 -0400 (EDT)
+References: <20230925151157.3893-1-garyrookard@fastmail.org>
+ <20230925151157.3893-2-garyrookard@fastmail.org>
+ <2023092617-skydiver-unsworn-18f8@gregkh>
+User-agent: mu4e 1.10.6; emacs 28.2
+From: garyrookard@fastmail.org
+To: Greg KH <gregkh@linuxfoundation.org>
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/3] rtl8192e: renamed (1) mixed case variable
+Date: Tue, 26 Sep 2023 08:38:28 -0400
+In-reply-to: <2023092617-skydiver-unsworn-18f8@gregkh>
+Message-ID: <87wmwdw1ls.fsf@fastmail.org>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-GND-Sasl: luca.ceresoli@bootlin.com
+Content-Type: text/plain
 
-Since commit 9bf19fbf0c8b ("media: v4l: async: Rework internal lists"), aka
-v6.6-rc1~97^2~198, probing the tegra-video VI driver causes infinite
-recursion due tegra_vi_graph_parse_one() calling itself until:
+Okay, will do.
+Greg KH <gregkh@linuxfoundation.org> writes:
 
-[    1.571168] Insufficient stack space to handle exception!
-...
-[    1.591416] Internal error: kernel stack overflow: 0 [#1] PREEMPT SMP ARM
-...
-[    3.861013]  of_phandle_iterator_init from __of_parse_phandle_with_args+0x40/0xf0
-[    3.868497]  __of_parse_phandle_with_args from of_fwnode_graph_get_remote_endpoint+0x68/0xa8
-[    3.876938]  of_fwnode_graph_get_remote_endpoint from fwnode_graph_get_remote_port_parent+0x30/0x7c
-[    3.885984]  fwnode_graph_get_remote_port_parent from tegra_vi_graph_parse_one+0x7c/0x224
-[    3.894158]  tegra_vi_graph_parse_one from tegra_vi_graph_parse_one+0x144/0x224
-[    3.901459]  tegra_vi_graph_parse_one from tegra_vi_graph_parse_one+0x144/0x224
-[    3.908760]  tegra_vi_graph_parse_one from tegra_vi_graph_parse_one+0x144/0x224
-[    3.916061]  tegra_vi_graph_parse_one from tegra_vi_graph_parse_one+0x144/0x224
-...
-[    4.857892]  tegra_vi_graph_parse_one from tegra_vi_graph_parse_one+0x144/0x224
-[    4.865193]  tegra_vi_graph_parse_one from tegra_vi_graph_parse_one+0x144/0x224
-[    4.872494]  tegra_vi_graph_parse_one from tegra_vi_init+0x574/0x6d4
-[    4.878842]  tegra_vi_init from host1x_device_init+0x84/0x15c
-[    4.884594]  host1x_device_init from host1x_video_probe+0xa0/0x114
-[    4.890770]  host1x_video_probe from really_probe+0xe0/0x400
-
-The reason is the mentioned commit changed tegra_vi_graph_find_entity() to
-search for an entity in the done notifier list:
-
-> @@ -1464,7 +1464,7 @@ tegra_vi_graph_find_entity(struct tegra_vi_channel *chan,
->  	struct tegra_vi_graph_entity *entity;
->  	struct v4l2_async_connection *asd;
+> On Mon, Sep 25, 2023 at 11:11:55AM -0400, Gary Rookard wrote:
+>> Renamed (1) prototype variable that was written in mixed case.
+>> HTUpdateDefaultSetting -> ht_update_default_setting
+>> 
+>> Linux kernel coding style "cleanup".
+>> No change in runtime logic.
+>> 
+>> Signed-off-by: Gary Rookard <garyrookard@fastmail.org>
+>> ---
+>>  drivers/staging/rtl8192e/rtllib.h | 2 +-
+>>  1 file changed, 1 insertion(+), 1 deletion(-)
+>> 
+>> diff --git a/drivers/staging/rtl8192e/rtllib.h b/drivers/staging/rtl8192e/rtllib.h
+>> index 5517b9df65be..1a3dd4dcad81 100644
+>> --- a/drivers/staging/rtl8192e/rtllib.h
+>> +++ b/drivers/staging/rtl8192e/rtllib.h
+>> @@ -1807,7 +1807,7 @@ int rtllib_wx_get_rts(struct rtllib_device *ieee, struct iw_request_info *info,
+>>  void HTSetConnectBwMode(struct rtllib_device *ieee,
+>>  			enum ht_channel_width bandwidth,
+>>  			enum ht_extchnl_offset Offset);
+>> -void HTUpdateDefaultSetting(struct rtllib_device *ieee);
+>> +void ht_update_default_setting(struct rtllib_device *ieee);
+>>  void HTConstructCapabilityElement(struct rtllib_device *ieee,
+>>  				  u8 *posHTCap, u8 *len,
+>>  				  u8 isEncrypt, bool bAssoc);
+>> -- 
+>> 2.41.0
+>> 
+>> 
 >
-> -	list_for_each_entry(asd, &chan->notifier.asc_list, asc_entry) {
-> +	list_for_each_entry(asd, &chan->notifier.done_list, asc_entry) {
->  		entity = to_tegra_vi_graph_entity(asd);
->  		if (entity->asd.match.fwnode == fwnode)
->  			return entity;
-
-This is not always correct, being tegra_vi_graph_find_entity() called in
-three locations, in this order:
-
- 1. tegra_vi_graph_parse_one()    -- called while probing
- 2. tegra_vi_graph_notify_bound() -- the .bound notifier op
- 3. tegra_vi_graph_build()        -- called in the .complete notifier op
-
-Locations 1 and 2 are called before moving the entity from waiting_list to
-done_list, thus they won't find what they are looking for in
-done_list. Location 3 happens afterwards and thus it is not broken, however
-it means tegra_vi_graph_find_entity() should not search in the same list
-every time.
-
-The error appears at step 1: tegra_vi_graph_parse_one() iterates
-recursively until it finds the entity already notified, which now never
-happens.
-
-Fix by passing the specific notifier list pointer to
-tegra_vi_graph_find_entity() instead of the channel, so each caller can
-search in whatever list is correct.
-
-Also improve the tegra_vi_graph_find_entity() comment.
-
-Fixes: 9bf19fbf0c8b ("media: v4l: async: Rework internal lists")
-Cc: Thierry Reding <thierry.reding@gmail.com>
-Cc: Jonathan Hunter <jonathanh@nvidia.com>
-Cc: Sowjanya Komatineni <skomatineni@nvidia.com>
-Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
----
- drivers/staging/media/tegra-video/vi.c | 13 +++++++------
- 1 file changed, 7 insertions(+), 6 deletions(-)
-
-diff --git a/drivers/staging/media/tegra-video/vi.c b/drivers/staging/media/tegra-video/vi.c
-index e98b3010520e..d9a6d5b2aa84 100644
---- a/drivers/staging/media/tegra-video/vi.c
-+++ b/drivers/staging/media/tegra-video/vi.c
-@@ -1455,17 +1455,18 @@ static int __maybe_unused vi_runtime_suspend(struct device *dev)
- }
- 
- /*
-- * Graph Management
-+ * Find the entity matching a given fwnode in an v4l2_async_notifier list
-  */
- static struct tegra_vi_graph_entity *
--tegra_vi_graph_find_entity(struct tegra_vi_channel *chan,
-+tegra_vi_graph_find_entity(struct list_head *list,
- 			   const struct fwnode_handle *fwnode)
- {
- 	struct tegra_vi_graph_entity *entity;
- 	struct v4l2_async_connection *asd;
- 
--	list_for_each_entry(asd, &chan->notifier.done_list, asc_entry) {
-+	list_for_each_entry(asd, list, asc_entry) {
- 		entity = to_tegra_vi_graph_entity(asd);
-+
- 		if (entity->asd.match.fwnode == fwnode)
- 			return entity;
- 	}
-@@ -1532,7 +1533,7 @@ static int tegra_vi_graph_build(struct tegra_vi_channel *chan,
- 		}
- 
- 		/* find the remote entity from notifier list */
--		ent = tegra_vi_graph_find_entity(chan, link.remote_node);
-+		ent = tegra_vi_graph_find_entity(&chan->notifier.done_list, link.remote_node);
- 		if (!ent) {
- 			dev_err(vi->dev, "no entity found for %pOF\n",
- 				to_of_node(link.remote_node));
-@@ -1664,7 +1665,7 @@ static int tegra_vi_graph_notify_bound(struct v4l2_async_notifier *notifier,
- 	 * Locate the entity corresponding to the bound subdev and store the
- 	 * subdev pointer.
- 	 */
--	entity = tegra_vi_graph_find_entity(chan, subdev->fwnode);
-+	entity = tegra_vi_graph_find_entity(&chan->notifier.waiting_list, subdev->fwnode);
- 	if (!entity) {
- 		dev_err(vi->dev, "no entity for subdev %s\n", subdev->name);
- 		return -EINVAL;
-@@ -1713,7 +1714,7 @@ static int tegra_vi_graph_parse_one(struct tegra_vi_channel *chan,
- 
- 		/* skip entities that are already processed */
- 		if (device_match_fwnode(vi->dev, remote) ||
--		    tegra_vi_graph_find_entity(chan, remote)) {
-+		    tegra_vi_graph_find_entity(&chan->notifier.waiting_list, remote)) {
- 			fwnode_handle_put(remote);
- 			continue;
- 		}
--- 
-2.34.1
+> You just broke the build?
+>
+> Also, you sent 3 patches that do different things, yet have identical
+> subject lines, that's obviously not correct.
+>
+> Please fix up and resend a v2 series.
+>
+> thanks,
+>
+> greg k-h
 
