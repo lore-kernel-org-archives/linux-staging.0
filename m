@@ -1,115 +1,93 @@
-Received: from out5-smtp.messagingengine.com (out5-smtp.messagingengine.com [66.111.4.29])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C01926FD2
-	for <linux-staging@lists.linux.dev>; Tue, 26 Sep 2023 12:39:44 +0000 (UTC)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-	by mailout.nyi.internal (Postfix) with ESMTP id 866215C2714;
-	Tue, 26 Sep 2023 08:39:43 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute5.internal (MEProxy); Tue, 26 Sep 2023 08:39:43 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fastmail.org; h=
-	cc:cc:content-type:content-type:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:sender
-	:subject:subject:to:to; s=fm2; t=1695731983; x=1695818383; bh=1L
-	tHdVfKG97FAOoSrdn4e1k546KKFsD95Ly4Y2jawY4=; b=dEoERRzgKy8J3KTHES
-	BU0BTWHGaAjP8onGeVhonbCicbN10curcebv3wWIIEyrOWLsrF/p3m1Q8oKyPZmm
-	IXj3beIm9qxuvjBjJIiEIdmqOxa0JIAVZybV2qsrNyJjL0l9FQye1G4qztBoTDsu
-	5sk/Et3HLU8qV+KC9DuaURl7AR84gju3G4/kkhwS3L2ts6aa2q8FHyPJgvA1DqCS
-	IMjHvlgf491uPXPNV0mWmcxvT/EZF0ADH9WhpJEqUKzz9yllY2LjMgV1sksYILsh
-	C+ea44+fmdNOkErehvsdIGsxSSPAYFWTBQjfXbkg98ckkaJ05VBwz3TA4XttsjZ+
-	2tOQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:sender:subject
-	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-	:x-sasl-enc; s=fm2; t=1695731983; x=1695818383; bh=1LtHdVfKG97FA
-	OoSrdn4e1k546KKFsD95Ly4Y2jawY4=; b=npOt+dVGNl7S1G8xudjX71xH8KH1Y
-	KVc4BBjq1cLNCwDI3tvBkO9jdgSlIbkvXyuaSX+RXR7LX+a2dEYRFluXu3nuY7a3
-	LHjwO424KrlDLzMhUihF2MFdODFk8cUBVGIF99THqd8xaS11JvTFWAvPZn9FCcKH
-	ZgJPGHjfrt3zRuS/vZmNNQ5kQVWn/giGmgmHwdVWh5Mmhw7F2gtSvOrZApCqzFV8
-	+q4YUnUVRZ105btPB2pOEeTdAp3KbiqGNwWBFrWyj1bWNVGPScEaLdyDNBv0Z2zY
-	ryX2uI/sQDYSc942kqmsjfr/bTFZ2938xKaN1vM65KzARnVTjBaSYrBjA==
-X-ME-Sender: <xms:D9ESZeRg41GL46zALyLOrWLgToa8W9IR_qtxPBw0Rjxjrhx5hy04-g>
-    <xme:D9ESZTw1A3kMmtPrQuESCZwi96spdwuB7OfRwbC0MW6aYJCYlNI7kriosI1ERd32N
-    fFYwoInJ3Tbt6n7meM>
-X-ME-Received: <xmr:D9ESZb3q4XpHgs-ESsxmoRgfCLbL-mnw3SIqqaEVkqG1vGZQaboA6_PV9RU2MrTFbU9Wqcp0H8nQ9Btjv1KOd1M>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvjedrtddtgddviecutefuodetggdotefrodftvf
-    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
-    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
-    fjughrpehffgfhvfevufffjgfkgggtsehttdertddtredtnecuhfhrohhmpehgrghrhihr
-    ohhokhgrrhgusehfrghsthhmrghilhdrohhrghenucggtffrrghtthgvrhhnpeeiuddvle
-    ektdfhgeetvedvjeegkeeuvddttdejleefvdeuvefhlefgveevieeukeenucevlhhushht
-    vghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehgrghrhihrohhokhgrrh
-    gusehfrghsthhmrghilhdrohhrgh
-X-ME-Proxy: <xmx:D9ESZaAsNtzJqgckwGrYXwW_4m2IgV_1rWUqruvv2uLGDFkXRDglzA>
-    <xmx:D9ESZXiE7I7PQZQFCn107Z-PknQwE21xaVzQNkXhKlSsnN0mdqAfzw>
-    <xmx:D9ESZWrTPgkHezXP_VhcWjy32sJhtcMjtSDo81cwpz6nRi4WhL52nA>
-    <xmx:D9ESZfYrKvenS12KgWU0Kdc3yVPE5EJb5HnZVvGCKiGjIgPpYHQEwQ>
-Feedback-ID: ifd194980:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 26 Sep 2023 08:39:42 -0400 (EDT)
-References: <20230925151157.3893-1-garyrookard@fastmail.org>
- <20230925151157.3893-2-garyrookard@fastmail.org>
- <2023092617-skydiver-unsworn-18f8@gregkh>
-User-agent: mu4e 1.10.6; emacs 28.2
-From: garyrookard@fastmail.org
-To: Greg KH <gregkh@linuxfoundation.org>
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/3] rtl8192e: renamed (1) mixed case variable
-Date: Tue, 26 Sep 2023 08:38:28 -0400
-In-reply-to: <2023092617-skydiver-unsworn-18f8@gregkh>
-Message-ID: <87wmwdw1ls.fsf@fastmail.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E81330D1C
+	for <linux-staging@lists.linux.dev>; Tue, 26 Sep 2023 16:15:44 +0000 (UTC)
+Received: by mail-pf1-f172.google.com with SMTP id d2e1a72fcca58-690d2e13074so7111392b3a.1
+        for <linux-staging@lists.linux.dev>; Tue, 26 Sep 2023 09:15:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1695744944; x=1696349744; darn=lists.linux.dev;
+        h=message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=GRdqgJyQK3irEtjIY1sArYtpNHn/PRA/0ZX748jQzQY=;
+        b=jtREDjjwsdcM0P7q9C8hxTo2Y+Zy9kw2xTLOMkhZrQEcPdysf8b50AKhubzT1b2Jaf
+         IpdeDiDiO8VzO3qB95uH/DK2Kdk4uiRxmzOs7n1B2VOwEo3MrRe4qaLXoEu+EdSZc6yI
+         LGOMf1MkrszIvKaLulfnra7CpEScSdUbtJhzaQWIFceI9IEW7qUgzZT7MRoWD7SXrV0X
+         G+XW7ghDLfrp23pWZ9e0QkX0sbDEjhS1rp5ujLcVRCzWWofhAMJ5rnHgRW+gSeJSozV0
+         6DMMh+wiAulCqxv0mXyG9Pdn8D4LZSaXULGKBNZixYqpOgI/dVUS0qz4E9Bi//M6w7/8
+         HQOg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1695744944; x=1696349744;
+        h=message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=GRdqgJyQK3irEtjIY1sArYtpNHn/PRA/0ZX748jQzQY=;
+        b=Mu2VzUzSar1KgpaW2MREk9UIrxjEaeoEuVjSj6JHWZexlBtWG9hArBC0+qa5fFWSrJ
+         LLkMod6LvM91RrWeQW+MY0Iypdi1GsdVYDB6Gq42H1M3OO7AVd4zEoZ3UmFsjWIIN//3
+         SqsWLd6RAF/Gy/7inA0lIKLl3O+AK8zD7xfucZuuIspCEJFukZs0aWZdx08wHVVjXYuJ
+         7uSHcvsvbpdUYIilaxYPYhx7HtYZJ0iqfU0wb0xQox/TGbDpK3ueaY5qgRHNcj/0WVs8
+         09nvnKazkgKM26gHnUenQ7WGSyPQ5lK0fdhz3a4WcI6ZrsQylkcJzc8jlhPJtAQYMmmY
+         x4rQ==
+X-Gm-Message-State: AOJu0Yy2N7TYSykpmOAJpTkGPbpbSs0qMPviWlby97MZdiU0NHgzIzx+
+	iSCtrEygf26iZkWVfQc6vus=
+X-Google-Smtp-Source: AGHT+IFXLvCotTkZMZBPmnG02w7NedZk/zhSuvc2WviLKsRzD4FgX7KWHq4bVqvEckO2k6XogENstw==
+X-Received: by 2002:a05:6a20:9383:b0:14b:8023:33c8 with SMTP id x3-20020a056a20938300b0014b802333c8mr8948104pzh.2.1695744943745;
+        Tue, 26 Sep 2023 09:15:43 -0700 (PDT)
+Received: from 377044c6c369.cse.ust.hk (191host097.mobilenet.cse.ust.hk. [143.89.191.97])
+        by smtp.gmail.com with ESMTPSA id i13-20020aa78d8d000000b00689f8dc26c2sm10132400pfr.133.2023.09.26.09.15.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 26 Sep 2023 09:15:42 -0700 (PDT)
+From: Chengfeng Ye <dg573847474@gmail.com>
+To: gregkh@linuxfoundation.org,
+	kamrankhadijadj@gmail.com
+Cc: linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Chengfeng Ye <dg573847474@gmail.com>
+Subject: [PATCH] staging: ks7010: disable bh on tx_dev_lock
+Date: Tue, 26 Sep 2023 16:13:23 +0000
+Message-Id: <20230926161323.41928-1-dg573847474@gmail.com>
+X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain
 
-Okay, will do.
-Greg KH <gregkh@linuxfoundation.org> writes:
+As &priv->tx_dev.tx_dev_lock is also acquired by xmit callback which
+could be call from timer under softirq context, use spin_lock_bh()
+on it to prevent potential deadlock.
 
-> On Mon, Sep 25, 2023 at 11:11:55AM -0400, Gary Rookard wrote:
->> Renamed (1) prototype variable that was written in mixed case.
->> HTUpdateDefaultSetting -> ht_update_default_setting
->> 
->> Linux kernel coding style "cleanup".
->> No change in runtime logic.
->> 
->> Signed-off-by: Gary Rookard <garyrookard@fastmail.org>
->> ---
->>  drivers/staging/rtl8192e/rtllib.h | 2 +-
->>  1 file changed, 1 insertion(+), 1 deletion(-)
->> 
->> diff --git a/drivers/staging/rtl8192e/rtllib.h b/drivers/staging/rtl8192e/rtllib.h
->> index 5517b9df65be..1a3dd4dcad81 100644
->> --- a/drivers/staging/rtl8192e/rtllib.h
->> +++ b/drivers/staging/rtl8192e/rtllib.h
->> @@ -1807,7 +1807,7 @@ int rtllib_wx_get_rts(struct rtllib_device *ieee, struct iw_request_info *info,
->>  void HTSetConnectBwMode(struct rtllib_device *ieee,
->>  			enum ht_channel_width bandwidth,
->>  			enum ht_extchnl_offset Offset);
->> -void HTUpdateDefaultSetting(struct rtllib_device *ieee);
->> +void ht_update_default_setting(struct rtllib_device *ieee);
->>  void HTConstructCapabilityElement(struct rtllib_device *ieee,
->>  				  u8 *posHTCap, u8 *len,
->>  				  u8 isEncrypt, bool bAssoc);
->> -- 
->> 2.41.0
->> 
->> 
->
-> You just broke the build?
->
-> Also, you sent 3 patches that do different things, yet have identical
-> subject lines, that's obviously not correct.
->
-> Please fix up and resend a v2 series.
->
-> thanks,
->
-> greg k-h
+hostif_sme_work()
+--> hostif_sme_set_pmksa()
+--> hostif_mib_set_request()
+--> ks_wlan_hw_tx()
+--> spin_lock(&priv->tx_dev.tx_dev_lock)
+
+ks_wlan_start_xmit()
+--> hostif_data_request()
+--> ks_wlan_hw_tx()
+--> spin_lock(&priv->tx_dev.tx_dev_lock)
+
+Signed-off-by: Chengfeng Ye <dg573847474@gmail.com>
+---
+ drivers/staging/ks7010/ks7010_sdio.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/staging/ks7010/ks7010_sdio.c b/drivers/staging/ks7010/ks7010_sdio.c
+index 9fb118e77a1f..f1d44e4955fc 100644
+--- a/drivers/staging/ks7010/ks7010_sdio.c
++++ b/drivers/staging/ks7010/ks7010_sdio.c
+@@ -395,9 +395,9 @@ int ks_wlan_hw_tx(struct ks_wlan_private *priv, void *p, unsigned long size,
+ 	priv->hostt.buff[priv->hostt.qtail] = le16_to_cpu(hdr->event);
+ 	priv->hostt.qtail = (priv->hostt.qtail + 1) % SME_EVENT_BUFF_SIZE;
+ 
+-	spin_lock(&priv->tx_dev.tx_dev_lock);
++	spin_lock_bh(&priv->tx_dev.tx_dev_lock);
+ 	result = enqueue_txdev(priv, p, size, complete_handler, skb);
+-	spin_unlock(&priv->tx_dev.tx_dev_lock);
++	spin_unlock_bh(&priv->tx_dev.tx_dev_lock);
+ 
+ 	if (txq_has_space(priv))
+ 		queue_delayed_work(priv->wq, &priv->rw_dwork, 0);
+-- 
+2.17.1
 
