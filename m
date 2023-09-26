@@ -1,86 +1,169 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net [217.70.183.197])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 099E212B73
-	for <linux-staging@lists.linux.dev>; Tue, 26 Sep 2023 09:19:58 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AFD47C433C8;
-	Tue, 26 Sep 2023 09:19:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1695719998;
-	bh=HzbEbZtASjTJB3RhDRnx8gM/YjcynxWzT3Xudsg8SzE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Fh1cHwzf9nvtQopCJS14ZitmlFtcO6JBJQ+SjXMsK7rStxkaojY/85hVHUmBCCOpI
-	 nxVNgBBj5Swv9zmMrn5HWJY6TL6h5BOO/FgaEqimaRk5hSVUpNfQ51pD1kU7HyGMJ0
-	 3WgHkA/VnC5z504019Da4BpaA6NH6Hv/QTClY2zU=
-Date: Tue, 26 Sep 2023 11:19:44 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-Cc: Arnd Bergmann <arnd@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
-	Tree Davies <tdavies@darkphysics.net>,
-	Yogesh Hegde <yogi.kernel@gmail.com>,
-	Sumitra Sharma <sumitraartsy@gmail.com>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/2] staging: rtl8192e: fix structure alignment
-Message-ID: <2023092618-finally-dropbox-6bff@gregkh>
-References: <20230925155413.471287-1-arnd@kernel.org>
- <9d96db4f-0b79-0940-ef95-d9bd70dc9a18@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A940218E1B
+	for <linux-staging@lists.linux.dev>; Tue, 26 Sep 2023 10:04:02 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPA id 944CA1C0007;
+	Tue, 26 Sep 2023 10:03:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1695722640;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=jRVKs6180ifIX9yx3k8bI6+Vilp7tEKq0AX18VzwduA=;
+	b=FFAWjOYe+pVWpCDMEGbgw/Z2TxQy4MycS2ZMziVKj1uoipI2meXU5CnOxGOijwJyWds4NH
+	vdUXPD9QnpkLgjOYZfLTI1p9vA3mgO8xXDnxf1L5cvCi9WOepCjXM5z9z7rrwQvOUripYz
+	9MAROhuEcW3o/sjOyrPp0SEO5aZWNEYimaf+CmS00QAt76G0DCgeF0a2nE4gAdaUZlmPvs
+	Rf53gcjLsYEc/V3pLwS68Yz6WeUiCmbXew5xGyLg5Zhju7jlKXnvOSb7EjaZfE27nt1xnm
+	sqkE2HiwwprgEz1b2hwxXyIhiCOqNpRRyjShpkEOaE4sgHeyAUHp8ORBUy3Iog==
+From: Luca Ceresoli <luca.ceresoli@bootlin.com>
+To: linux-media@vger.kernel.org
+Cc: Luca Ceresoli <luca.ceresoli@bootlin.com>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Sowjanya Komatineni <skomatineni@nvidia.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-tegra@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+Subject: [PATCH] staging: media: tegra-video: fix infinite recursion regression
+Date: Tue, 26 Sep 2023 12:03:53 +0200
+Message-Id: <20230926100353.328001-1-luca.ceresoli@bootlin.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <9d96db4f-0b79-0940-ef95-d9bd70dc9a18@gmail.com>
+Content-Transfer-Encoding: 8bit
+X-GND-Sasl: luca.ceresoli@bootlin.com
 
-On Mon, Sep 25, 2023 at 09:11:14PM +0200, Philipp Hortmann wrote:
-> On 9/25/23 17:54, Arnd Bergmann wrote:
-> > From: Arnd Bergmann<arnd@arndb.de>
-> > 
-> > A recent cleanup changed the rtl8192e from using the custom misaligned
-> > rtllib_hdr_3addr structure to the generic ieee80211_hdr_3addr definition
-> > that enforces 16-bit structure alignment in memory.
-> > 
-> > This causes a gcc warning about conflicting alignment requirements:
-> > 
-> > drivers/staging/rtl8192e/rtllib.h:645:1: error: alignment 1 of 'struct rtllib_authentication' is less than 2 [-Werror=packed-not-aligned]
-> >    645 | } __packed;
-> >        | ^
-> > rtllib.h:650:1: error: alignment 1 of 'struct rtllib_disauth' is less than 2 [-Werror=packed-not-aligned]
-> > rtllib.h:655:1: error: alignment 1 of 'struct rtllib_disassoc' is less than 2 [-Werror=packed-not-aligned]
-> > rtllib.h:661:1: error: alignment 1 of 'struct rtllib_probe_request' is less than 2 [-Werror=packed-not-aligned]
-> > rtllib.h:672:1: error: alignment 1 of 'struct rtllib_probe_response' is less than 2 [-Werror=packed-not-aligned]
-> > rtllib.h:683:1: error: alignment 1 of 'struct rtllib_assoc_request_frame' is less than 2 [-Werror=packed-not-aligned]
-> > rtllib.h:691:1: error: alignment 1 of 'struct rtllib_assoc_response_frame' is less than 2 [-Werror=packed-not-aligned]
-> > 
-> > Change all of the structure definitions that include this one to also
-> > use 16-bit alignment. This assumes that the objects are actually aligned
-> > in memory, but that is normally guaranteed by the slab allocator already.
-> > 
-> > All members of the structure definitions are already 16-bit aligned,
-> > so the layouts do not change. As an added benefit, 16-bit accesses are
-> > generally faster than 8-bit accesses, so architectures without unaligned
-> > load/store instructions can produce better code now by avoiding byte-wise
-> > accesses.
-> > 
-> > Fixes: 71ddc43ed7c71 ("staging: rtl8192e: Replace struct rtllib_hdr_3addr in structs of rtllib.h")
-> > Signed-off-by: Arnd Bergmann<arnd@arndb.de>
-> 
-> Hi,
-> 
-> thanks for your support.
-> 
-> your patches cannot be applied on top of the 24 patches which are in the
-> queue. But may be Greg will not accept all of the patches send in.
-> 
-> Will see what happens when Greg sorts them out.
-> 
-> I tried your patches on hardware without the 24 patches send in. All OK
-> 
-> Tested-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+Since commit 9bf19fbf0c8b ("media: v4l: async: Rework internal lists"), aka
+v6.6-rc1~97^2~198, probing the tegra-video VI driver causes infinite
+recursion due tegra_vi_graph_parse_one() calling itself until:
 
-The first one didn't apply as it was already sent by someone else, but
-the second one applied fine, thanks.
+[    1.571168] Insufficient stack space to handle exception!
+...
+[    1.591416] Internal error: kernel stack overflow: 0 [#1] PREEMPT SMP ARM
+...
+[    3.861013]  of_phandle_iterator_init from __of_parse_phandle_with_args+0x40/0xf0
+[    3.868497]  __of_parse_phandle_with_args from of_fwnode_graph_get_remote_endpoint+0x68/0xa8
+[    3.876938]  of_fwnode_graph_get_remote_endpoint from fwnode_graph_get_remote_port_parent+0x30/0x7c
+[    3.885984]  fwnode_graph_get_remote_port_parent from tegra_vi_graph_parse_one+0x7c/0x224
+[    3.894158]  tegra_vi_graph_parse_one from tegra_vi_graph_parse_one+0x144/0x224
+[    3.901459]  tegra_vi_graph_parse_one from tegra_vi_graph_parse_one+0x144/0x224
+[    3.908760]  tegra_vi_graph_parse_one from tegra_vi_graph_parse_one+0x144/0x224
+[    3.916061]  tegra_vi_graph_parse_one from tegra_vi_graph_parse_one+0x144/0x224
+...
+[    4.857892]  tegra_vi_graph_parse_one from tegra_vi_graph_parse_one+0x144/0x224
+[    4.865193]  tegra_vi_graph_parse_one from tegra_vi_graph_parse_one+0x144/0x224
+[    4.872494]  tegra_vi_graph_parse_one from tegra_vi_init+0x574/0x6d4
+[    4.878842]  tegra_vi_init from host1x_device_init+0x84/0x15c
+[    4.884594]  host1x_device_init from host1x_video_probe+0xa0/0x114
+[    4.890770]  host1x_video_probe from really_probe+0xe0/0x400
 
-greg k-h
+The reason is the mentioned commit changed tegra_vi_graph_find_entity() to
+search for an entity in the done notifier list:
+
+> @@ -1464,7 +1464,7 @@ tegra_vi_graph_find_entity(struct tegra_vi_channel *chan,
+>  	struct tegra_vi_graph_entity *entity;
+>  	struct v4l2_async_connection *asd;
+>
+> -	list_for_each_entry(asd, &chan->notifier.asc_list, asc_entry) {
+> +	list_for_each_entry(asd, &chan->notifier.done_list, asc_entry) {
+>  		entity = to_tegra_vi_graph_entity(asd);
+>  		if (entity->asd.match.fwnode == fwnode)
+>  			return entity;
+
+This is not always correct, being tegra_vi_graph_find_entity() called in
+three locations, in this order:
+
+ 1. tegra_vi_graph_parse_one()    -- called while probing
+ 2. tegra_vi_graph_notify_bound() -- the .bound notifier op
+ 3. tegra_vi_graph_build()        -- called in the .complete notifier op
+
+Locations 1 and 2 are called before moving the entity from waiting_list to
+done_list, thus they won't find what they are looking for in
+done_list. Location 3 happens afterwards and thus it is not broken, however
+it means tegra_vi_graph_find_entity() should not search in the same list
+every time.
+
+The error appears at step 1: tegra_vi_graph_parse_one() iterates
+recursively until it finds the entity already notified, which now never
+happens.
+
+Fix by passing the specific notifier list pointer to
+tegra_vi_graph_find_entity() instead of the channel, so each caller can
+search in whatever list is correct.
+
+Also improve the tegra_vi_graph_find_entity() comment.
+
+Fixes: 9bf19fbf0c8b ("media: v4l: async: Rework internal lists")
+Cc: Thierry Reding <thierry.reding@gmail.com>
+Cc: Jonathan Hunter <jonathanh@nvidia.com>
+Cc: Sowjanya Komatineni <skomatineni@nvidia.com>
+Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+---
+ drivers/staging/media/tegra-video/vi.c | 13 +++++++------
+ 1 file changed, 7 insertions(+), 6 deletions(-)
+
+diff --git a/drivers/staging/media/tegra-video/vi.c b/drivers/staging/media/tegra-video/vi.c
+index e98b3010520e..d9a6d5b2aa84 100644
+--- a/drivers/staging/media/tegra-video/vi.c
++++ b/drivers/staging/media/tegra-video/vi.c
+@@ -1455,17 +1455,18 @@ static int __maybe_unused vi_runtime_suspend(struct device *dev)
+ }
+ 
+ /*
+- * Graph Management
++ * Find the entity matching a given fwnode in an v4l2_async_notifier list
+  */
+ static struct tegra_vi_graph_entity *
+-tegra_vi_graph_find_entity(struct tegra_vi_channel *chan,
++tegra_vi_graph_find_entity(struct list_head *list,
+ 			   const struct fwnode_handle *fwnode)
+ {
+ 	struct tegra_vi_graph_entity *entity;
+ 	struct v4l2_async_connection *asd;
+ 
+-	list_for_each_entry(asd, &chan->notifier.done_list, asc_entry) {
++	list_for_each_entry(asd, list, asc_entry) {
+ 		entity = to_tegra_vi_graph_entity(asd);
++
+ 		if (entity->asd.match.fwnode == fwnode)
+ 			return entity;
+ 	}
+@@ -1532,7 +1533,7 @@ static int tegra_vi_graph_build(struct tegra_vi_channel *chan,
+ 		}
+ 
+ 		/* find the remote entity from notifier list */
+-		ent = tegra_vi_graph_find_entity(chan, link.remote_node);
++		ent = tegra_vi_graph_find_entity(&chan->notifier.done_list, link.remote_node);
+ 		if (!ent) {
+ 			dev_err(vi->dev, "no entity found for %pOF\n",
+ 				to_of_node(link.remote_node));
+@@ -1664,7 +1665,7 @@ static int tegra_vi_graph_notify_bound(struct v4l2_async_notifier *notifier,
+ 	 * Locate the entity corresponding to the bound subdev and store the
+ 	 * subdev pointer.
+ 	 */
+-	entity = tegra_vi_graph_find_entity(chan, subdev->fwnode);
++	entity = tegra_vi_graph_find_entity(&chan->notifier.waiting_list, subdev->fwnode);
+ 	if (!entity) {
+ 		dev_err(vi->dev, "no entity for subdev %s\n", subdev->name);
+ 		return -EINVAL;
+@@ -1713,7 +1714,7 @@ static int tegra_vi_graph_parse_one(struct tegra_vi_channel *chan,
+ 
+ 		/* skip entities that are already processed */
+ 		if (device_match_fwnode(vi->dev, remote) ||
+-		    tegra_vi_graph_find_entity(chan, remote)) {
++		    tegra_vi_graph_find_entity(&chan->notifier.waiting_list, remote)) {
+ 			fwnode_handle_put(remote);
+ 			continue;
+ 		}
+-- 
+2.34.1
+
