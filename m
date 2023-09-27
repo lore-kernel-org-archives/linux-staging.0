@@ -1,25 +1,25 @@
 Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6733A4884D
-	for <linux-staging@lists.linux.dev>; Wed, 27 Sep 2023 15:36:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76A9848EA0
+	for <linux-staging@lists.linux.dev>; Wed, 27 Sep 2023 15:36:24 +0000 (UTC)
 Received: from benjamin-XPS-13-9310.. (unknown [IPv6:2a01:e0a:120:3210:672:46bd:3ec7:6cdf])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
 	(Authenticated sender: benjamin.gaignard)
-	by madras.collabora.co.uk (Postfix) with ESMTPSA id 417DB660733A;
-	Wed, 27 Sep 2023 16:36:16 +0100 (BST)
+	by madras.collabora.co.uk (Postfix) with ESMTPSA id F29926607335;
+	Wed, 27 Sep 2023 16:36:21 +0100 (BST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1695828976;
-	bh=WDraZOgWi0izES0K9FdWnGrtWWF6tf7zOBBP/EoWBNg=;
+	s=mail; t=1695828982;
+	bh=r/+dARFgLlqIYPCNsTNg9ylalWpmLzdptnRKI8OWLEk=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=IGQGrbUKbpz/p+8mPTHW6HK3hWEyDAHZxDnAWIiXJd6UAEuNuNwltoXGpqbS8D6RH
-	 NqcyQzyUPkySXm7ZO7iiZL5BcXgn9XYH6lKyY/iLto5A39nXA4qSPiiKHBR7L6Zhii
-	 n04/4YO6B77M1sjg7IUrZZ0aIXymhKDhjJkOI5qmThsDS8CDxqvYpb4obiOpNzQJWy
-	 E3jdgJ9o5N8VrBWYsQXEtXn7Dfc8tmJfIjj1DDGx8A43UdeJqnHfsHVXhi1biYaemW
-	 UkMdAvaDNdM9XYyP758zYWMx6WrardSP5tDT6232C99Aa5L8c7TF7l0IuAIoP+IXi9
-	 aPO1VQxdljQZQ==
+	b=aSOimQXMIW+49l31wI1KQgm0XsBtCBVTU5B8sqwye2iIIC4QZl/wREklsOInZCmf0
+	 xCRFy99PlxcuWJjoa+5G08fmEyWRBZ/B5VoxGT1VPc7y+W7n01POEpuFrXOQPg4Nxf
+	 mq3LpJXbP99W+yT6/qjak2BeVmIbEMfe0NWPAg65YaQthEpXuM0+uu80D2K/EdJ2X6
+	 p+riyyTMIfh7ImGrRkTijyzZbzes8lBvQKvIxp2uuF7f/pN8ofclzmOED4d6ZjAI/k
+	 RDUZCrb0S7veF0oJq9upFuMXy+026Oq01T1dzOnGzMonsiQNDErHKhQ9OeV5aR49oA
+	 LP9nz/52kba+Q==
 From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
 To: mchehab@kernel.org,
 	tfiga@chromium.org,
@@ -39,9 +39,9 @@ Cc: linux-media@vger.kernel.org,
 	linux-staging@lists.linux.dev,
 	kernel@collabora.com,
 	Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Subject: [PATCH v8 19/53] media: verisilicon: vp9: Allow to change resolution while streaming
-Date: Wed, 27 Sep 2023 17:35:24 +0200
-Message-Id: <20230927153558.159278-20-benjamin.gaignard@collabora.com>
+Subject: [PATCH v8 30/53] media: amphion: Stop direct calls to queue num_buffers field
+Date: Wed, 27 Sep 2023 17:35:35 +0200
+Message-Id: <20230927153558.159278-31-benjamin.gaignard@collabora.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230927153558.159278-1-benjamin.gaignard@collabora.com>
 References: <20230927153558.159278-1-benjamin.gaignard@collabora.com>
@@ -53,64 +53,76 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Remove all checks that prohibit to set a new format while streaming.
-This allow to change dynamically the resolution if the pixel format
-remains the same.
+Use vb2_get_num_buffers() to avoid using queue num_buffer field directly.
 
 Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
 ---
- .../media/platform/verisilicon/hantro_v4l2.c  | 24 +++----------------
- 1 file changed, 3 insertions(+), 21 deletions(-)
+ drivers/media/platform/amphion/vpu_dbg.c  | 8 ++++----
+ drivers/media/platform/amphion/vpu_v4l2.c | 4 ++--
+ 2 files changed, 6 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/media/platform/verisilicon/hantro_v4l2.c b/drivers/media/platform/verisilicon/hantro_v4l2.c
-index f0d8b165abcd..27a1e77cca38 100644
---- a/drivers/media/platform/verisilicon/hantro_v4l2.c
-+++ b/drivers/media/platform/verisilicon/hantro_v4l2.c
-@@ -514,25 +514,14 @@ static int hantro_set_fmt_out(struct hantro_ctx *ctx,
- 		return ret;
+diff --git a/drivers/media/platform/amphion/vpu_dbg.c b/drivers/media/platform/amphion/vpu_dbg.c
+index a462d6fe4ea9..61530ef92ff0 100644
+--- a/drivers/media/platform/amphion/vpu_dbg.c
++++ b/drivers/media/platform/amphion/vpu_dbg.c
+@@ -87,7 +87,7 @@ static int vpu_dbg_instance(struct seq_file *s, void *data)
+ 	num = scnprintf(str, sizeof(str),
+ 			"output (%2d, %2d): fmt = %c%c%c%c %d x %d, %d;",
+ 			vb2_is_streaming(vq),
+-			vq->num_buffers,
++			vb2_get_num_buffers(vq),
+ 			inst->out_format.pixfmt,
+ 			inst->out_format.pixfmt >> 8,
+ 			inst->out_format.pixfmt >> 16,
+@@ -111,7 +111,7 @@ static int vpu_dbg_instance(struct seq_file *s, void *data)
+ 	num = scnprintf(str, sizeof(str),
+ 			"capture(%2d, %2d): fmt = %c%c%c%c %d x %d, %d;",
+ 			vb2_is_streaming(vq),
+-			vq->num_buffers,
++			vb2_get_num_buffers(vq),
+ 			inst->cap_format.pixfmt,
+ 			inst->cap_format.pixfmt >> 8,
+ 			inst->cap_format.pixfmt >> 16,
+@@ -139,7 +139,7 @@ static int vpu_dbg_instance(struct seq_file *s, void *data)
+ 		return 0;
  
- 	if (!ctx->is_encoder) {
--		struct vb2_queue *peer_vq;
--
- 		/*
- 		 * In order to support dynamic resolution change,
- 		 * the decoder admits a resolution change, as long
--		 * as the pixelformat remains. Can't be done if streaming.
--		 */
--		if (vb2_is_streaming(vq) || (vb2_is_busy(vq) &&
--		    pix_mp->pixelformat != ctx->src_fmt.pixelformat))
--			return -EBUSY;
--		/*
--		 * Since format change on the OUTPUT queue will reset
--		 * the CAPTURE queue, we can't allow doing so
--		 * when the CAPTURE queue has buffers allocated.
-+		 * as the pixelformat remains.
- 		 */
--		peer_vq = v4l2_m2m_get_vq(ctx->fh.m2m_ctx,
--					  V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE);
--		if (vb2_is_busy(peer_vq))
-+		if (vb2_is_streaming(vq) && pix_mp->pixelformat != ctx->src_fmt.pixelformat) {
- 			return -EBUSY;
-+		}
- 	} else {
- 		/*
- 		 * The encoder doesn't admit a format change if
-@@ -577,15 +566,8 @@ static int hantro_set_fmt_out(struct hantro_ctx *ctx,
- static int hantro_set_fmt_cap(struct hantro_ctx *ctx,
- 			      struct v4l2_pix_format_mplane *pix_mp)
- {
--	struct vb2_queue *vq;
- 	int ret;
+ 	vq = v4l2_m2m_get_src_vq(inst->fh.m2m_ctx);
+-	for (i = 0; i < vq->num_buffers; i++) {
++	for (i = 0; i < vq->max_allowed_buffers; i++) {
+ 		struct vb2_buffer *vb;
+ 		struct vb2_v4l2_buffer *vbuf;
  
--	/* Change not allowed if queue is busy. */
--	vq = v4l2_m2m_get_vq(ctx->fh.m2m_ctx,
--			     V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE);
--	if (vb2_is_busy(vq))
--		return -EBUSY;
--
- 	if (ctx->is_encoder) {
- 		struct vb2_queue *peer_vq;
+@@ -161,7 +161,7 @@ static int vpu_dbg_instance(struct seq_file *s, void *data)
+ 	}
  
+ 	vq = v4l2_m2m_get_dst_vq(inst->fh.m2m_ctx);
+-	for (i = 0; i < vq->num_buffers; i++) {
++	for (i = 0; i < vq->max_allowed_buffers; i++) {
+ 		struct vb2_buffer *vb;
+ 		struct vb2_v4l2_buffer *vbuf;
+ 
+diff --git a/drivers/media/platform/amphion/vpu_v4l2.c b/drivers/media/platform/amphion/vpu_v4l2.c
+index 0f6e4c666440..87afb4a18d5d 100644
+--- a/drivers/media/platform/amphion/vpu_v4l2.c
++++ b/drivers/media/platform/amphion/vpu_v4l2.c
+@@ -439,7 +439,7 @@ int vpu_get_num_buffers(struct vpu_inst *inst, u32 type)
+ 	else
+ 		q = v4l2_m2m_get_dst_vq(inst->fh.m2m_ctx);
+ 
+-	return q->num_buffers;
++	return vb2_get_num_buffers(q);
+ }
+ 
+ static void vpu_m2m_device_run(void *priv)
+@@ -587,7 +587,7 @@ static int vpu_vb2_start_streaming(struct vb2_queue *q, unsigned int count)
+ 		  fmt->sizeimage[0], fmt->bytesperline[0],
+ 		  fmt->sizeimage[1], fmt->bytesperline[1],
+ 		  fmt->sizeimage[2], fmt->bytesperline[2],
+-		  q->num_buffers);
++		  vb2_get_num_buffers(q));
+ 	vb2_clear_last_buffer_dequeued(q);
+ 	ret = call_vop(inst, start, q->type);
+ 	if (ret)
 -- 
 2.39.2
 
