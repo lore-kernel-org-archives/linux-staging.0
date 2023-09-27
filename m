@@ -1,25 +1,25 @@
 Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B566D48EA2
-	for <linux-staging@lists.linux.dev>; Wed, 27 Sep 2023 15:36:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F237B48E98
+	for <linux-staging@lists.linux.dev>; Wed, 27 Sep 2023 15:36:27 +0000 (UTC)
 Received: from benjamin-XPS-13-9310.. (unknown [IPv6:2a01:e0a:120:3210:672:46bd:3ec7:6cdf])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
 	(Authenticated sender: benjamin.gaignard)
-	by madras.collabora.co.uk (Postfix) with ESMTPSA id 78BFD6607333;
-	Wed, 27 Sep 2023 16:36:21 +0100 (BST)
+	by madras.collabora.co.uk (Postfix) with ESMTPSA id 2F458660736F;
+	Wed, 27 Sep 2023 16:36:26 +0100 (BST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1695828981;
-	bh=fLRtME703ZZcICdPkAIYRy+HHmsEI0CB5+N7/vWII0U=;
+	s=mail; t=1695828986;
+	bh=ipUXv7UJIHHhxRMQZmIK4W+snIi8YRwkVW1/aAA+P6g=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=L/oRV5LStiuUvpApTOjadIJ0XawpBOpmIwVozAHay97sIxlaffgztofF2r+/BHvT1
-	 aW9Iz2XU9y4ysXIkIzppTR84m9LqM/jcz+3pJzXCEL+jyI+3p9cpWqJrOWf6M3G9Y1
-	 cPHysLXWSgG0zEjS4O95GvlBqM/zQzxoA9jfDxnVZTQEVDwsDyfGtgJLfPoqijO39s
-	 U4BfxFSryZcm4yz/9T/geTtlNVHNZ84OTmul0gG+E1DKZi/BjfXhnWzrPkuILtr2S/
-	 wLBJRCy1p/lFcFoaQXDgIWMFMApQwn7h59+i5qn5v7mr4aONQ1FfnkF7ceKdXIqbu6
-	 C3YEEJEQTnvNg==
+	b=RNjqkIxLR9AoBM9x7S19uuBBvVaoi88hez3/jJbo2ds014HMM5/coIoRoaiEpBkRZ
+	 lWrVnwDt/TNsKC3oU7qbznGMSfRNgrfJ3gsVQ60pEwbTTiUh1xnLl1J4rt/kztBmLO
+	 QWkIZFCbCqN7cuOs4llMEHZpiMLSQ0CyjQfnh6/X8DVUvTE+/os6QUcKYs6aaqLr3R
+	 qc7Psr5CpnsSLgmlr3bWz70kn+I5h3660o6oCsXm2qDGBQzHQBhzC/b8gNixsrnTpP
+	 My+hUTXzgX8OdV0kWdROV9IjdBBk926ly/PqIgjzX0sLzi8oXEkoKgnHNEXP9eAXGd
+	 kUQnXLCAvsQpw==
 From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
 To: mchehab@kernel.org,
 	tfiga@chromium.org,
@@ -39,9 +39,9 @@ Cc: linux-media@vger.kernel.org,
 	linux-staging@lists.linux.dev,
 	kernel@collabora.com,
 	Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Subject: [PATCH v8 29/53] media: pci: tw686x: Set min_buffers_needed to 3
-Date: Wed, 27 Sep 2023 17:35:34 +0200
-Message-Id: <20230927153558.159278-30-benjamin.gaignard@collabora.com>
+Subject: [PATCH v8 38/53] media: usb: airspy: Set min_buffers_needed to 8
+Date: Wed, 27 Sep 2023 17:35:43 +0200
+Message-Id: <20230927153558.159278-39-benjamin.gaignard@collabora.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230927153558.159278-1-benjamin.gaignard@collabora.com>
 References: <20230927153558.159278-1-benjamin.gaignard@collabora.com>
@@ -54,45 +54,44 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
 vb2 queue_setup checks for a minimum number of buffers so set
-min_buffers_needed to 3 and remove the useless check in
-tw686x_queue_setup().
+min_buffers_needed to 8 and remove the useless check in
+airspy_queue_setup().
 
 Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
 ---
- drivers/media/pci/tw686x/tw686x-video.c | 13 +++++--------
- 1 file changed, 5 insertions(+), 8 deletions(-)
+ drivers/media/usb/airspy/airspy.c | 9 +++------
+ 1 file changed, 3 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/media/pci/tw686x/tw686x-video.c b/drivers/media/pci/tw686x/tw686x-video.c
-index 3ebf7a2c95f0..74cd864365aa 100644
---- a/drivers/media/pci/tw686x/tw686x-video.c
-+++ b/drivers/media/pci/tw686x/tw686x-video.c
-@@ -426,13 +426,6 @@ static int tw686x_queue_setup(struct vb2_queue *vq,
- 	unsigned int szimage =
- 		(vc->width * vc->height * vc->format->depth) >> 3;
+diff --git a/drivers/media/usb/airspy/airspy.c b/drivers/media/usb/airspy/airspy.c
+index 462eb8423506..56bc1b23d39b 100644
+--- a/drivers/media/usb/airspy/airspy.c
++++ b/drivers/media/usb/airspy/airspy.c
+@@ -483,15 +483,10 @@ static int airspy_queue_setup(struct vb2_queue *vq,
+ {
+ 	struct airspy *s = vb2_get_drv_priv(vq);
  
--	/*
--	 * Let's request at least three buffers: two for the
--	 * DMA engine and one for userspace.
--	 */
--	if (vq->num_buffers + *nbuffers < 3)
--		*nbuffers = 3 - vq->num_buffers;
+-	dev_dbg(s->dev, "nbuffers=%d\n", *nbuffers);
 -
- 	if (*nplanes) {
- 		if (*nplanes != 1 || sizes[0] < szimage)
- 			return -EINVAL;
-@@ -1221,7 +1214,11 @@ int tw686x_video_init(struct tw686x_dev *dev)
- 		vc->vidq.ops = &tw686x_video_qops;
- 		vc->vidq.mem_ops = dev->dma_ops->mem_ops;
- 		vc->vidq.timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_MONOTONIC;
--		vc->vidq.min_buffers_needed = 2;
-+		/*
-+		 * Let's request at least three buffers: two for the
-+		 * DMA engine and one for userspace.
-+		 */
-+		vc->vidq.min_buffers_needed = 3;
- 		vc->vidq.lock = &vc->vb_mutex;
- 		vc->vidq.gfp_flags = dev->dma_mode != TW686X_DMA_MODE_MEMCPY ?
- 				     GFP_DMA32 : 0;
+-	/* Need at least 8 buffers */
+-	if (vq->num_buffers + *nbuffers < 8)
+-		*nbuffers = 8 - vq->num_buffers;
+ 	*nplanes = 1;
+ 	sizes[0] = PAGE_ALIGN(s->buffersize);
+ 
+-	dev_dbg(s->dev, "nbuffers=%d sizes[0]=%d\n", *nbuffers, sizes[0]);
++	dev_dbg(s->dev, "nbuffers=%d sizes[0]=%d\n", vb2_get_num_buffers(vq), sizes[0]);
+ 	return 0;
+ }
+ 
+@@ -1011,6 +1006,8 @@ static int airspy_probe(struct usb_interface *intf,
+ 	/* Init videobuf2 queue structure */
+ 	s->vb_queue.type = V4L2_BUF_TYPE_SDR_CAPTURE;
+ 	s->vb_queue.io_modes = VB2_MMAP | VB2_USERPTR | VB2_READ;
++	/* Need at least 8 buffers */
++	s->vb_queue.min_buffers_needed = 8;
+ 	s->vb_queue.drv_priv = s;
+ 	s->vb_queue.buf_struct_size = sizeof(struct airspy_frame_buf);
+ 	s->vb_queue.ops = &airspy_vb2_ops;
 -- 
 2.39.2
 
