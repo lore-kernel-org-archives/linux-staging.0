@@ -1,25 +1,25 @@
 Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F00A4884A
-	for <linux-staging@lists.linux.dev>; Wed, 27 Sep 2023 15:36:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8221748EAA
+	for <linux-staging@lists.linux.dev>; Wed, 27 Sep 2023 15:36:25 +0000 (UTC)
 Received: from benjamin-XPS-13-9310.. (unknown [IPv6:2a01:e0a:120:3210:672:46bd:3ec7:6cdf])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
 	(Authenticated sender: benjamin.gaignard)
-	by madras.collabora.co.uk (Postfix) with ESMTPSA id 2F4926607330;
-	Wed, 27 Sep 2023 16:36:14 +0100 (BST)
+	by madras.collabora.co.uk (Postfix) with ESMTPSA id 87EFA6607361;
+	Wed, 27 Sep 2023 16:36:23 +0100 (BST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1695828974;
-	bh=/rw+5kiG9NH9F1WJEwdp/d4z1jjMgH/1J5yw8ccESj4=;
+	s=mail; t=1695828983;
+	bh=cXivZNqToe41YcZuXIOZnOz7dFiXtOZiRZUwxPYGOCA=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=MHc5XXwbElP/sYWulqSWUB5MkN+oouj22lFu0xGDkcd6IHAAV6uz12XDviwnv5sof
-	 AGXqFzfqHpIFG98OAtRu/pmCdcxinlHaeoqAgQ2Ydd1gp5EY2zcOF0+53+b+APTG6P
-	 9EaBBNF4kWsTHmQB863FnTYy3ySK/dNAlKSgiyQb0kWx1iSsuNN/YJozX1r5Kj+NG6
-	 hrqvkh0xKukJxb1ZimvJiRgXKFOqeq7eyXoIwWFtfBIFagwSXFTxtSZPd9yb6eE1t5
-	 1Sc/drQvX3DnmCvYBjqPcDJ8GUfSefDyvZzLGxAYKgfyqkzdZc7fYfZk4IPusfyfag
-	 nFhmiuQun0DXA==
+	b=oC/kHGv4ZioGmHcfzKWYhBUVtj0cu/V30JOA6y67nZeYqqpNIaZQqDZc30qHerica
+	 G33/7F/SiGVjWm932qPxtDA2Wuj1yJ19ORbDFY8s9mB8vWYU3BM2QoAGaMn6jH28Ns
+	 Zga3k6v2QwduEZLamhf8BLR/miqIi1nsuw1NLCVTdkaiz4qD9r0vWWoQWVQ8h1v8lj
+	 tkoQFEWqsOFQFTMa8egQ7qeM4yigtSNv6VXexm/jX5nVDTOwGlA0xLuoBSo3DdOAOG
+	 pv7QXYVQZAnJiLbDGxCgn64U5X5sFdRpv+Zyg+CQGOwpXcGY9vS2XzXXDDy3H37oTP
+	 pE2CrIyB7DwGw==
 From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
 To: mchehab@kernel.org,
 	tfiga@chromium.org,
@@ -39,9 +39,9 @@ Cc: linux-media@vger.kernel.org,
 	linux-staging@lists.linux.dev,
 	kernel@collabora.com,
 	Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Subject: [PATCH v8 15/53] media: test-drivers: vicodec: Increase max supported capture queue buffers
-Date: Wed, 27 Sep 2023 17:35:20 +0200
-Message-Id: <20230927153558.159278-16-benjamin.gaignard@collabora.com>
+Subject: [PATCH v8 33/53] media: nxp: Stop direct calls to queue num_buffers field
+Date: Wed, 27 Sep 2023 17:35:38 +0200
+Message-Id: <20230927153558.159278-34-benjamin.gaignard@collabora.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230927153558.159278-1-benjamin.gaignard@collabora.com>
 References: <20230927153558.159278-1-benjamin.gaignard@collabora.com>
@@ -53,25 +53,43 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Allow to allocated up to 64 buffers on capture queue.
+Use vb2_get_num_buffers() to avoid using queue num_buffer field directly.
 
 Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
 ---
- drivers/media/test-drivers/vicodec/vicodec-core.c | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/media/platform/nxp/imx7-media-csi.c | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/media/test-drivers/vicodec/vicodec-core.c b/drivers/media/test-drivers/vicodec/vicodec-core.c
-index 6f0e20df74e9..69cbe2c094e1 100644
---- a/drivers/media/test-drivers/vicodec/vicodec-core.c
-+++ b/drivers/media/test-drivers/vicodec/vicodec-core.c
-@@ -1718,6 +1718,7 @@ static int queue_init(void *priv, struct vb2_queue *src_vq,
- 			V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE :
- 			V4L2_BUF_TYPE_VIDEO_CAPTURE);
- 	dst_vq->io_modes = VB2_MMAP | VB2_USERPTR | VB2_DMABUF;
-+	dst_vq->max_num_buffers = 64;
- 	dst_vq->drv_priv = ctx;
- 	dst_vq->buf_struct_size = sizeof(struct v4l2_m2m_buffer);
- 	dst_vq->ops = &vicodec_qops;
+diff --git a/drivers/media/platform/nxp/imx7-media-csi.c b/drivers/media/platform/nxp/imx7-media-csi.c
+index 15049c6aab37..4c467fb82789 100644
+--- a/drivers/media/platform/nxp/imx7-media-csi.c
++++ b/drivers/media/platform/nxp/imx7-media-csi.c
+@@ -1245,6 +1245,7 @@ static int imx7_csi_video_queue_setup(struct vb2_queue *vq,
+ 				      struct device *alloc_devs[])
+ {
+ 	struct imx7_csi *csi = vb2_get_drv_priv(vq);
++	unsigned int q_num_bufs = vb2_get_num_buffers(vq);
+ 	struct v4l2_pix_format *pix = &csi->vdev_fmt;
+ 	unsigned int count = *nbuffers;
+ 
+@@ -1254,14 +1255,14 @@ static int imx7_csi_video_queue_setup(struct vb2_queue *vq,
+ 	if (*nplanes) {
+ 		if (*nplanes != 1 || sizes[0] < pix->sizeimage)
+ 			return -EINVAL;
+-		count += vq->num_buffers;
++		count += q_num_bufs;
+ 	}
+ 
+ 	count = min_t(__u32, IMX7_CSI_VIDEO_MEM_LIMIT / pix->sizeimage, count);
+ 
+ 	if (*nplanes)
+-		*nbuffers = (count < vq->num_buffers) ? 0 :
+-			count - vq->num_buffers;
++		*nbuffers = (count < q_num_bufs) ? 0 :
++			count - q_num_bufs;
+ 	else
+ 		*nbuffers = count;
+ 
 -- 
 2.39.2
 
