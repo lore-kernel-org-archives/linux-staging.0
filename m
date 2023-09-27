@@ -1,25 +1,25 @@
 Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFA4448E8D
-	for <linux-staging@lists.linux.dev>; Wed, 27 Sep 2023 15:36:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F00A4884A
+	for <linux-staging@lists.linux.dev>; Wed, 27 Sep 2023 15:36:21 +0000 (UTC)
 Received: from benjamin-XPS-13-9310.. (unknown [IPv6:2a01:e0a:120:3210:672:46bd:3ec7:6cdf])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
 	(Authenticated sender: benjamin.gaignard)
-	by madras.collabora.co.uk (Postfix) with ESMTPSA id D437E6607353;
-	Wed, 27 Sep 2023 16:36:18 +0100 (BST)
+	by madras.collabora.co.uk (Postfix) with ESMTPSA id 2F4926607330;
+	Wed, 27 Sep 2023 16:36:14 +0100 (BST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1695828979;
-	bh=uLtpgbM1S6TEQd3BheD+tuaw3lVo9oisDECpkyjdDDQ=;
+	s=mail; t=1695828974;
+	bh=/rw+5kiG9NH9F1WJEwdp/d4z1jjMgH/1J5yw8ccESj4=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=S+L84mcHo60rVTDABPpaqi9turpx6HRLsClDamnQGpQrKfTz+xkRtnEbxp/La5GHI
-	 Ljl25UOwbiCeibBWFAKjFVz/TAeZJfA1JARxGSiyrUxI9JrczK5IcWpncpQ3PSH/bi
-	 Se3jPRQNPSBmTLcExTEJe6AcwgkVMxfPLBxoG0+TUhWm2PbJzg9x/cHeJJ+VHvDkKA
-	 Sb920qcy5xUk83izC9jTaNrun3MxL71COaloMEcHwupLV1xnh5W5eN8vCXGUl7uQwu
-	 SiH+oRyBYyvgzzDhaxS+o+837rtORFjoHodqSzZymuWfGlbYOi6rKig+j+n5aMdP9z
-	 uSJUnAeJ4Ir0g==
+	b=MHc5XXwbElP/sYWulqSWUB5MkN+oouj22lFu0xGDkcd6IHAAV6uz12XDviwnv5sof
+	 AGXqFzfqHpIFG98OAtRu/pmCdcxinlHaeoqAgQ2Ydd1gp5EY2zcOF0+53+b+APTG6P
+	 9EaBBNF4kWsTHmQB863FnTYy3ySK/dNAlKSgiyQb0kWx1iSsuNN/YJozX1r5Kj+NG6
+	 hrqvkh0xKukJxb1ZimvJiRgXKFOqeq7eyXoIwWFtfBIFagwSXFTxtSZPd9yb6eE1t5
+	 1Sc/drQvX3DnmCvYBjqPcDJ8GUfSefDyvZzLGxAYKgfyqkzdZc7fYfZk4IPusfyfag
+	 nFhmiuQun0DXA==
 From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
 To: mchehab@kernel.org,
 	tfiga@chromium.org,
@@ -39,9 +39,9 @@ Cc: linux-media@vger.kernel.org,
 	linux-staging@lists.linux.dev,
 	kernel@collabora.com,
 	Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Subject: [PATCH v8 24/53] media: video-i2c: Set min_buffers_needed to 2
-Date: Wed, 27 Sep 2023 17:35:29 +0200
-Message-Id: <20230927153558.159278-25-benjamin.gaignard@collabora.com>
+Subject: [PATCH v8 15/53] media: test-drivers: vicodec: Increase max supported capture queue buffers
+Date: Wed, 27 Sep 2023 17:35:20 +0200
+Message-Id: <20230927153558.159278-16-benjamin.gaignard@collabora.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230927153558.159278-1-benjamin.gaignard@collabora.com>
 References: <20230927153558.159278-1-benjamin.gaignard@collabora.com>
@@ -53,38 +53,25 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-vb2 queue_setup checks for a minimum number of buffers so set
-min_buffers_needed to 2 and remove the useless check in video-i2c
-queue_setup().
+Allow to allocated up to 64 buffers on capture queue.
 
 Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
 ---
- drivers/media/i2c/video-i2c.c | 5 +----
- 1 file changed, 1 insertion(+), 4 deletions(-)
+ drivers/media/test-drivers/vicodec/vicodec-core.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/media/i2c/video-i2c.c b/drivers/media/i2c/video-i2c.c
-index 537ebd9fa8d7..5692d0b529d7 100644
---- a/drivers/media/i2c/video-i2c.c
-+++ b/drivers/media/i2c/video-i2c.c
-@@ -406,9 +406,6 @@ static int queue_setup(struct vb2_queue *vq,
- 	struct video_i2c_data *data = vb2_get_drv_priv(vq);
- 	unsigned int size = data->chip->buffer_size;
- 
--	if (vq->num_buffers + *nbuffers < 2)
--		*nbuffers = 2;
--
- 	if (*nplanes)
- 		return sizes[0] < size ? -EINVAL : 0;
- 
-@@ -798,7 +795,7 @@ static int video_i2c_probe(struct i2c_client *client)
- 	queue->timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_MONOTONIC;
- 	queue->drv_priv = data;
- 	queue->buf_struct_size = sizeof(struct video_i2c_buffer);
--	queue->min_buffers_needed = 1;
-+	queue->min_buffers_needed = 2;
- 	queue->ops = &video_i2c_video_qops;
- 	queue->mem_ops = &vb2_vmalloc_memops;
- 
+diff --git a/drivers/media/test-drivers/vicodec/vicodec-core.c b/drivers/media/test-drivers/vicodec/vicodec-core.c
+index 6f0e20df74e9..69cbe2c094e1 100644
+--- a/drivers/media/test-drivers/vicodec/vicodec-core.c
++++ b/drivers/media/test-drivers/vicodec/vicodec-core.c
+@@ -1718,6 +1718,7 @@ static int queue_init(void *priv, struct vb2_queue *src_vq,
+ 			V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE :
+ 			V4L2_BUF_TYPE_VIDEO_CAPTURE);
+ 	dst_vq->io_modes = VB2_MMAP | VB2_USERPTR | VB2_DMABUF;
++	dst_vq->max_num_buffers = 64;
+ 	dst_vq->drv_priv = ctx;
+ 	dst_vq->buf_struct_size = sizeof(struct v4l2_m2m_buffer);
+ 	dst_vq->ops = &vicodec_qops;
 -- 
 2.39.2
 
