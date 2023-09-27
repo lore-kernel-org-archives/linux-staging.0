@@ -1,25 +1,25 @@
 Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4881847C9E
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 769CF4884A
 	for <linux-staging@lists.linux.dev>; Wed, 27 Sep 2023 15:36:18 +0000 (UTC)
 Received: from benjamin-XPS-13-9310.. (unknown [IPv6:2a01:e0a:120:3210:672:46bd:3ec7:6cdf])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
 	(Authenticated sender: benjamin.gaignard)
-	by madras.collabora.co.uk (Postfix) with ESMTPSA id 25BEB6607322;
-	Wed, 27 Sep 2023 16:36:09 +0100 (BST)
+	by madras.collabora.co.uk (Postfix) with ESMTPSA id A93F86607333;
+	Wed, 27 Sep 2023 16:36:10 +0100 (BST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1695828969;
-	bh=xgQ59ci0u36Sg6Kfk6W/knjQu2QF8jMpnRAVGSPYz3E=;
+	s=mail; t=1695828971;
+	bh=Osy0YWOEVUvzSOYoJm+JBXSigMNkmpw77qpRTwkivks=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=E7Wj/oQ2iUQQFxn9F0q2CcBjc5y2tG5UI3imfV6tnwOAcxy97FEGmLFYp1VEChfwZ
-	 3s3mrO577iANtgLiDYrHmmSCm0CilfZGAQuSGBoS5k82g4fq9iTuscMwXQweSiwmWF
-	 tvzNvxpJNtwh6wDFr9vQ5dg0du4nFmf0/iUYejadyWQqjFw9nUeg4V0XWxPXHLf1zK
-	 KZ5+0nJWyGEtdje7IzM3W6Fi2FULsN6lZmYH31akmmkec4e00tcVG5cPNI59GPU3Zk
-	 2fSsS3EXu4YyoVcrs2bEhI0FJEzPgUg3OLeXOW0A+ny71qZdY5QV0YMr64Rg96EFTp
-	 RK2vQxZCu1HEg==
+	b=PGWaQ2ufXEVKBrTte19CfVxo6Z3XZFO+2YiY4NgHFYYJEMsSXksi50YlVqsSVdNFm
+	 ejcqcCSyaS6mmYX+YVhBRmZ2Dptuj8QggasrsqwmhhOBtpz3S04AXAXV/qPEGO952Q
+	 WYTJsUpsJybCaa2w+m1BYpra2JLsMBcAHv0OCXakBViWFTA0JGhqeUPkGBokZcSjJy
+	 cxyFuM9uCyWuwI7rNZVcpOR8oxUkqKvwyVTAV6auoFLWAUT0dMvP8OueZthTDq8DWk
+	 5gkEXP6i5WmolXDZo+JeBXwwa4AeQMNOIvnlt0O2K1iC4zJ6/sDiEijDQD3G5cEUGl
+	 XwgyqEzoJGowg==
 From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
 To: mchehab@kernel.org,
 	tfiga@chromium.org,
@@ -39,9 +39,9 @@ Cc: linux-media@vger.kernel.org,
 	linux-staging@lists.linux.dev,
 	kernel@collabora.com,
 	Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Subject: [PATCH v8 05/53] media: mediatek: jpeg: Use vb2_get_buffer() instead of directly access to buffers array
-Date: Wed, 27 Sep 2023 17:35:10 +0200
-Message-Id: <20230927153558.159278-6-benjamin.gaignard@collabora.com>
+Subject: [PATCH v8 08/53] media: visl: Use vb2_get_buffer() instead of directly access to buffers array
+Date: Wed, 27 Sep 2023 17:35:13 +0200
+Message-Id: <20230927153558.159278-9-benjamin.gaignard@collabora.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230927153558.159278-1-benjamin.gaignard@collabora.com>
 References: <20230927153558.159278-1-benjamin.gaignard@collabora.com>
@@ -61,29 +61,62 @@ a valid pointer so check the return value of all of them.
 
 Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
 ---
- drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c | 7 +++----
- 1 file changed, 3 insertions(+), 4 deletions(-)
+ drivers/media/test-drivers/visl/visl-dec.c | 28 ++++++++++++++++------
+ 1 file changed, 21 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c b/drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c
-index 7194f88edc0f..73a063b1569b 100644
---- a/drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c
-+++ b/drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c
-@@ -598,12 +598,11 @@ static int mtk_jpeg_qbuf(struct file *file, void *priv, struct v4l2_buffer *buf)
- 		goto end;
+diff --git a/drivers/media/test-drivers/visl/visl-dec.c b/drivers/media/test-drivers/visl/visl-dec.c
+index 318d675e5668..ba20ea998d19 100644
+--- a/drivers/media/test-drivers/visl/visl-dec.c
++++ b/drivers/media/test-drivers/visl/visl-dec.c
+@@ -290,13 +290,20 @@ static void visl_tpg_fill(struct visl_ctx *ctx, struct visl_run *run)
+ 	for (i = 0; i < out_q->num_buffers; i++) {
+ 		char entry[] = "index: %u, state: %s, request_fd: %d, ";
+ 		u32 old_len = len;
+-		char *q_status = visl_get_vb2_state(out_q->bufs[i]->state);
++		struct vb2_buffer *vb2;
++		char *q_status;
++
++		vb2 = vb2_get_buffer(out_q, i);
++		if (!vb2)
++			continue;
++
++		q_status = visl_get_vb2_state(vb2->state);
  
- 	vq = v4l2_m2m_get_vq(fh->m2m_ctx, buf->type);
--	if (buf->index >= vq->num_buffers) {
--		dev_err(ctx->jpeg->dev, "buffer index out of range\n");
-+	vb = vb2_get_buffer(vq, buf->index);
-+	if (!vb) {
-+		dev_err(ctx->jpeg->dev, "buffer not found\n");
- 		return -EINVAL;
- 	}
--
--	vb = vq->bufs[buf->index];
- 	jpeg_src_buf = mtk_jpeg_vb2_to_srcbuf(vb);
- 	jpeg_src_buf->bs_size = buf->m.planes[0].bytesused;
+ 		len += scnprintf(&buf[len], TPG_STR_BUF_SZ - len,
+ 				 entry, i, q_status,
+-				 to_vb2_v4l2_buffer(out_q->bufs[i])->request_fd);
++				 to_vb2_v4l2_buffer(vb2)->request_fd);
  
+-		len += visl_fill_bytesused(to_vb2_v4l2_buffer(out_q->bufs[i]),
++		len += visl_fill_bytesused(to_vb2_v4l2_buffer(vb2),
+ 					   &buf[len],
+ 					   TPG_STR_BUF_SZ - len);
+ 
+@@ -342,13 +349,20 @@ static void visl_tpg_fill(struct visl_ctx *ctx, struct visl_run *run)
+ 	len = 0;
+ 	for (i = 0; i < cap_q->num_buffers; i++) {
+ 		u32 old_len = len;
+-		char *q_status = visl_get_vb2_state(cap_q->bufs[i]->state);
++		struct vb2_buffer *vb2;
++		char *q_status;
++
++		vb2 = vb2_get_buffer(cap_q, i);
++		if (!vb2)
++			continue;
++
++		q_status = visl_get_vb2_state(vb2->state);
+ 
+ 		len += scnprintf(&buf[len], TPG_STR_BUF_SZ - len,
+ 				 "index: %u, status: %s, timestamp: %llu, is_held: %d",
+-				 cap_q->bufs[i]->index, q_status,
+-				 cap_q->bufs[i]->timestamp,
+-				 to_vb2_v4l2_buffer(cap_q->bufs[i])->is_held);
++				 vb2->index, q_status,
++				 vb2->timestamp,
++				 to_vb2_v4l2_buffer(vb2)->is_held);
+ 
+ 		tpg_gen_text(&ctx->tpg, basep, line++ * line_height, 16, &buf[old_len]);
+ 		frame_dprintk(ctx->dev, run->dst->sequence, "%s", &buf[old_len]);
 -- 
 2.39.2
 
