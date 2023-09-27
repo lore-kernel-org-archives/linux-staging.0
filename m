@@ -1,52 +1,83 @@
-Received: from mail.socialglobal.pl (mail.socialglobal.pl [51.195.90.253])
+Received: from out4-smtp.messagingengine.com (out4-smtp.messagingengine.com [66.111.4.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BDEF5225
-	for <linux-staging@lists.linux.dev>; Wed, 27 Sep 2023 08:37:50 +0000 (UTC)
-Received: by mail.socialglobal.pl (Postfix, from userid 1002)
-	id B7C9822A67; Wed, 27 Sep 2023 08:31:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=socialglobal.pl;
-	s=mail; t=1695803505;
-	bh=XwhyqI/moZPDJ7KCfcA6Gip8fA7ZKcg5SWsKuF/26zk=;
-	h=Date:From:To:Subject:From;
-	b=Ibz109dpz2EeHVmG/NsbXUyW3maKYUxULv+bwNAqIsmEYg5ONd/53Fk4Ue6HUPZYK
-	 XJ4hCzILFc9jZunYcsO0QSo+7Ym5NIwYgxsGbhV2NoM4K5yrCTM+L30DHubg5rgg0N
-	 DMm4lcLpR+IBIanzKwJrxXqC/Oi3WrjLY7k8r5RzGQ+hYwGxsfS7Uq5GQt8IO3H2Yq
-	 onz6NZEP5TlsshSHe3Do6hIaVhQ2AkxrhI9XSuZW4wfzicI09PmIPpd0JtkfTAHPL/
-	 BIJVYq/rDZH5a8tXPPRADLbv5WWB3BOA+swpqszLIyqj32B9w5ZVwBR3IHYyPdO6sZ
-	 1ufz7AI5brLCw==
-Received: by mail.socialglobal.pl for <linux-staging@lists.linux.dev>; Wed, 27 Sep 2023 08:30:56 GMT
-Message-ID: <20230927075535-0.1.8p.2ys1a.0.gn4t4mkmdu@socialglobal.pl>
-Date: Wed, 27 Sep 2023 08:30:56 GMT
-From: "Dominik Perkowski" <dominik.perkowski@socialglobal.pl>
-To: <linux-staging@lists.linux.dev>
-Subject: Pozycjonowanie- informacja
-X-Mailer: mail.socialglobal.pl
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF9753D64
+	for <linux-staging@lists.linux.dev>; Wed, 27 Sep 2023 11:27:19 +0000 (UTC)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+	by mailout.nyi.internal (Postfix) with ESMTP id CBD2E5C264A;
+	Wed, 27 Sep 2023 07:27:18 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute5.internal (MEProxy); Wed, 27 Sep 2023 07:27:18 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fastmail.org; h=
+	cc:cc:content-transfer-encoding:content-type:date:date:from:from
+	:in-reply-to:message-id:mime-version:reply-to:sender:subject
+	:subject:to:to; s=fm2; t=1695814038; x=1695900438; bh=4m/PZKVdXY
+	7AT+Z3heMl6Agfv+C6lZ2bso0+fIpmlHQ=; b=sThHNcQyRCqSCMOXATd9uNVzDS
+	k3f4MC+6kNGq91j/enRZpqBP7KuyqztkeyCj5u7CGCx9FFHVv728V3tN6IESD/fy
+	gPc0YNsZsxE+YbL094sy3EuVCnoCjJTgc0IiQmQ8n7G2Nbe2vPbPUREoLKsSvfmZ
+	cGeqw5bULzYwOFyvC20U76ROEXPgtcfIg8sZU5+jYbTUFL/QiScaDvkhcG7RMEof
+	9KsSK44GcZXDUwtLC0kND+5ah8hYhc2wVbTPe7N1rxgWoR8OJ/CkINZ2ffyDWwB7
+	gcyJoRMZD5UUyYWD1RtxasPrRQEWZblYob4pwRmWkLEFoyo90Glu9bcFPWTQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:date:date:feedback-id:feedback-id:from:from
+	:in-reply-to:message-id:mime-version:reply-to:sender:subject
+	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+	:x-sasl-enc; s=fm2; t=1695814038; x=1695900438; bh=4m/PZKVdXY7AT
+	+Z3heMl6Agfv+C6lZ2bso0+fIpmlHQ=; b=Dt60JR8Zn+DuPfQmEq10rin/jEg2N
+	67zvoQQSpDUJU8iu07TZbhEpHz8cJT72FlZ3IeGlHcJiBr72GB9JCKyCTSyZ79tV
+	muXIUinqu3hZ96FA1OQEJrONWubF4M6BERJWJmXEyMtWBZjCWJ+BtNymzflVUOG3
+	03YetpCFPf+fSAhxhXPGk+K71J3fcJg4H0S5X5EPoJoggtkPw1DiFaLR3QK3BKjm
+	w3gI4QWBfVutynmVcCd2bC1oXGLw+7iUaaMCM8uS8FOA/K1xO6yWNtIAWHZENH9H
+	g6pnBr5qtgtAuiaWdS8KouMHF9OwqyWQUjv0j1VmsQsDFLoC9bvCIzRVg==
+X-ME-Sender: <xms:lhEUZYahxF-ehTVrQp_UWBWr61m9xK7JvMoOzdmFfttY0G01NHPaIQ>
+    <xme:lhEUZTZGVdOrZbQmUZChu8SYWzLo6HPz9VoLAqKOTQZWqg9Q57kZnbh9REYeT5td8
+    wq-5M2dH-trpE6PV4c>
+X-ME-Received: <xmr:lhEUZS_Bix3xsLuP51tFQrna6c4FRnJuLYNQJiIJILcZfo3ShFWNOksggRG0e674rNTOaGE_kucBLm9qY391Rx-oYG0tnUlrSC0mdvgPMlk>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvjedrtdefgddufecutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecunecujfgurhephffvvefufffkofgggfestdekredtre
+    dttdenucfhrhhomhepifgrrhihucftohhokhgrrhguuceoghgrrhihrhhoohhkrghruges
+    fhgrshhtmhgrihhlrdhorhhgqeenucggtffrrghtthgvrhhnpeelgefffffghefhjeegje
+    ehiedvgfelfeehueeuteektdffiefhveelhfegvedvveenucevlhhushhtvghrufhiiigv
+    pedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehgrghrhihrohhokhgrrhgusehfrghsth
+    hmrghilhdrohhrgh
+X-ME-Proxy: <xmx:lhEUZSrnSEITyi1iSVwVOZuMv2n1wWiTPeWpq732GbpgebIzJsUYHg>
+    <xmx:lhEUZTrttXtGnQE8zIr1IiteEYMwZgXo9iBl7c0ywTUsSYCGi6crjg>
+    <xmx:lhEUZQS69p1iV2rJeZiKOhTWM2lvYW8662GMHvmUKgwg6SAK5dMh6A>
+    <xmx:lhEUZa2n9_ykiaWi4cQ70e0o45PezxPRwK1ybYdUKN-2n0jYtGMPMA>
+Feedback-ID: ifd194980:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 27 Sep 2023 07:27:18 -0400 (EDT)
+From: Gary Rookard <garyrookard@fastmail.org>
+To: gregkh@linuxfoundation.org
+Cc: linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Gary Rookard <garyrookard@fastmail.org>
+Subject: [PATCH 0/3 v2] staging: rtl8192e: renamed a variable
+Date: Wed, 27 Sep 2023 07:26:32 -0400
+Message-ID: <20230927112635.27637-1-garyrookard@fastmail.org>
+X-Mailer: git-send-email 2.41.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-Dzie=C5=84 dobry,=20
+Hi!,
 
-jaki=C5=9B czas temu zg=C5=82osi=C5=82a si=C4=99 do nas firma, kt=C3=B3re=
-j strona internetowa nie pozycjonowa=C5=82a si=C4=99 wysoko w wyszukiwarc=
-e Google.=20
+This patch series renames the same mixed case variable in (3) different
+files of staging/rtl8192e.
+1) rtllib.h
+2) rtl819x_HTProc.c
+3) rtllib_module.c
 
-Na podstawie wykonanego przez nas audytu SEO zoptymalizowali=C5=9Bmy tre=C5=
-=9Bci na stronie pod k=C4=85tem wcze=C5=9Bniej opracowanych s=C5=82=C3=B3=
-w kluczowych. Nasz wewn=C4=99trzny system codziennie analizuje prawid=C5=82=
-owe dzia=C5=82anie witryny.  Dzi=C4=99ki indywidualnej strategii, firma z=
-dobywa coraz wi=C4=99cej Klient=C3=B3w. =20
-
-Czy chcieliby Pa=C5=84stwo zwi=C4=99kszy=C4=87 liczb=C4=99 os=C3=B3b odwi=
-edzaj=C4=85cych stron=C4=99 internetow=C4=85 firmy? M=C3=B3g=C5=82bym prz=
-edstawi=C4=87 ofert=C4=99?=20
+Regards,
+-Gary Rookard <garyrookard@fastmail.org>
 
 
-Pozdrawiam serdecznie,
-Dominik Perkowski
+-- 
+2.41.0
+
