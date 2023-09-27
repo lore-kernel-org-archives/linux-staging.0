@@ -1,25 +1,25 @@
 Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 319954884C
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD31848854
 	for <linux-staging@lists.linux.dev>; Wed, 27 Sep 2023 15:36:21 +0000 (UTC)
 Received: from benjamin-XPS-13-9310.. (unknown [IPv6:2a01:e0a:120:3210:672:46bd:3ec7:6cdf])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
 	(Authenticated sender: benjamin.gaignard)
-	by madras.collabora.co.uk (Postfix) with ESMTPSA id 2853A6607342;
-	Wed, 27 Sep 2023 16:36:13 +0100 (BST)
+	by madras.collabora.co.uk (Postfix) with ESMTPSA id B33F16607347;
+	Wed, 27 Sep 2023 16:36:14 +0100 (BST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1695828973;
-	bh=D4u1aFiuWEa87r/Mry/zb/RLerFFxMw+/qazzAGGXWs=;
+	s=mail; t=1695828975;
+	bh=lSbtU3AkJxDUbM/ZxQA8YNS5VCUZ0rJf3jo6GcX8A74=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=jJNrXtSHxy2emC4iV/BFzHoO2P8cOhXTRfNkPGLOxLroWdnbFFzoKT4XFhleI1SOD
-	 r0Z339RVMMR6jUS4UoiGS0X2vWHzKG2tFeNeHQN+fQr8ZSt1plsJasUpxgcXyvRmtK
-	 4zqnbK3MCw92Z7ToGs/6xgQRuGfquMuFPgoq0zJFGsD6ipATFalNhde7QaDrWmdIYo
-	 l0RbeLAvejCmh3PKY+WCI/AvrnYubOfPEeWxur2f1peu37W4BNf2Q+n/U4nH3mG1/A
-	 K4Dq/rxVXuwqp670eXcz6YgTvwsqUtjVGDpS4RlRoQ3U69Ge70Wqn/mwV2iDEtogys
-	 RN9FVe+qWjdhQ==
+	b=T+8A5ezyVGId0s63LbmRepFKvAOgU9YLb9P41LOGz23kDlVX5ykWXNOsIvC4iTPkY
+	 BoOUKAwC092hqbZSTiVlP4ZS18bg5/rvG+kQcHrDgk4Q4EzonRR8NU6QBIqDX3lc0I
+	 0YmQBF1QguRD1g/TgujeyKA0tvbw0OlPJVELDL1v7ecFeKuabBxBLwjRuAuDrLvcPs
+	 IGkiFua/9JKbd7good2fmiOD2uIgFEH8O3iAd+r7BBD5OQ/OVvFQHpiHiRaAMjOx/s
+	 bV8PCHYKXFcU/8izk1BEAPLZTb6e2DwiL4ibOlr43zSezKxu9ZUC5rVevYD1tn0o05
+	 TgXUHWfTZj7XQ==
 From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
 To: mchehab@kernel.org,
 	tfiga@chromium.org,
@@ -39,9 +39,9 @@ Cc: linux-media@vger.kernel.org,
 	linux-staging@lists.linux.dev,
 	kernel@collabora.com,
 	Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Subject: [PATCH v8 13/53] media: Report the maximum possible number of buffers for the queue
-Date: Wed, 27 Sep 2023 17:35:18 +0200
-Message-Id: <20230927153558.159278-14-benjamin.gaignard@collabora.com>
+Subject: [PATCH v8 16/53] media: verisilicon: Refactor postprocessor to store more buffers
+Date: Wed, 27 Sep 2023 17:35:21 +0200
+Message-Id: <20230927153558.159278-17-benjamin.gaignard@collabora.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230927153558.159278-1-benjamin.gaignard@collabora.com>
 References: <20230927153558.159278-1-benjamin.gaignard@collabora.com>
@@ -53,128 +53,235 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Use one of the struct v4l2_create_buffers reserved bytes to report
-the maximum possible number of buffers for the queue.
-V4l2 framework set V4L2_BUF_CAP_SUPPORTS_SET_MAX_BUFS flags in queue
-capabilities so userland can know when the field is valid.
+Since vb2 queue can store more than VB2_MAX_FRAME buffers, the
+postprocessor buffer storage must be capable to store more buffers too.
+Change static dec_q array to allocated array to be capable to store
+up to queue 'max_num_buffers'.
+Keep allocating queue 'num_buffers' at queue setup time but also allows
+to allocate postprocessors buffers on the fly.
 
 Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
 ---
- .../userspace-api/media/v4l/vidioc-create-bufs.rst       | 8 ++++++--
- Documentation/userspace-api/media/v4l/vidioc-reqbufs.rst | 1 +
- drivers/media/common/videobuf2/videobuf2-v4l2.c          | 9 +++++++--
- drivers/media/v4l2-core/v4l2-ioctl.c                     | 4 ++--
- include/uapi/linux/videodev2.h                           | 7 ++++++-
- 5 files changed, 22 insertions(+), 7 deletions(-)
+ drivers/media/platform/verisilicon/hantro.h   |  7 +-
+ .../media/platform/verisilicon/hantro_drv.c   |  4 +-
+ .../media/platform/verisilicon/hantro_hw.h    |  4 +-
+ .../platform/verisilicon/hantro_postproc.c    | 93 +++++++++++++++----
+ .../media/platform/verisilicon/hantro_v4l2.c  |  2 +-
+ 5 files changed, 85 insertions(+), 25 deletions(-)
 
-diff --git a/Documentation/userspace-api/media/v4l/vidioc-create-bufs.rst b/Documentation/userspace-api/media/v4l/vidioc-create-bufs.rst
-index a048a9f6b7b6..1a46549e7462 100644
---- a/Documentation/userspace-api/media/v4l/vidioc-create-bufs.rst
-+++ b/Documentation/userspace-api/media/v4l/vidioc-create-bufs.rst
-@@ -116,9 +116,13 @@ than the number requested.
-       - ``flags``
-       - Specifies additional buffer management attributes.
- 	See :ref:`memory-flags`.
--
-     * - __u32
--      - ``reserved``\ [6]
-+      - ``max_buffers``
-+      - If V4L2_BUF_CAP_SUPPORTS_SET_MAX_BUFS capability flag is set
-+        this field indicate the maximum possible number of buffers
-+        for this queue.
-+    * - __u32
-+      - ``reserved``\ [5]
-       - A place holder for future extensions. Drivers and applications
- 	must set the array to zero.
+diff --git a/drivers/media/platform/verisilicon/hantro.h b/drivers/media/platform/verisilicon/hantro.h
+index 77aee9489516..0948b04a9f8d 100644
+--- a/drivers/media/platform/verisilicon/hantro.h
++++ b/drivers/media/platform/verisilicon/hantro.h
+@@ -469,11 +469,14 @@ hantro_get_dst_buf(struct hantro_ctx *ctx)
+ bool hantro_needs_postproc(const struct hantro_ctx *ctx,
+ 			   const struct hantro_fmt *fmt);
  
-diff --git a/Documentation/userspace-api/media/v4l/vidioc-reqbufs.rst b/Documentation/userspace-api/media/v4l/vidioc-reqbufs.rst
-index 099fa6695167..0395187e1a5a 100644
---- a/Documentation/userspace-api/media/v4l/vidioc-reqbufs.rst
-+++ b/Documentation/userspace-api/media/v4l/vidioc-reqbufs.rst
-@@ -120,6 +120,7 @@ aborting or finishing any DMA in progress, an implicit
- .. _V4L2-BUF-CAP-SUPPORTS-ORPHANED-BUFS:
- .. _V4L2-BUF-CAP-SUPPORTS-M2M-HOLD-CAPTURE-BUF:
- .. _V4L2-BUF-CAP-SUPPORTS-MMAP-CACHE-HINTS:
-+.. _V4L2-BUF-CAP-SUPPORTS-SET-MAX-BUFS:
- 
- .. raw:: latex
- 
-diff --git a/drivers/media/common/videobuf2/videobuf2-v4l2.c b/drivers/media/common/videobuf2/videobuf2-v4l2.c
-index 278ea1107b01..655133f1ae2b 100644
---- a/drivers/media/common/videobuf2/videobuf2-v4l2.c
-+++ b/drivers/media/common/videobuf2/videobuf2-v4l2.c
-@@ -686,6 +686,7 @@ EXPORT_SYMBOL(vb2_querybuf);
- static void fill_buf_caps(struct vb2_queue *q, u32 *caps)
- {
- 	*caps = V4L2_BUF_CAP_SUPPORTS_ORPHANED_BUFS;
-+	*caps |= V4L2_BUF_CAP_SUPPORTS_SET_MAX_BUFS;
- 	if (q->io_modes & VB2_MMAP)
- 		*caps |= V4L2_BUF_CAP_SUPPORTS_MMAP;
- 	if (q->io_modes & VB2_USERPTR)
-@@ -767,9 +768,13 @@ int vb2_create_bufs(struct vb2_queue *q, struct v4l2_create_buffers *create)
- 
- 	fill_buf_caps(q, &create->capabilities);
- 	validate_memory_flags(q, create->memory, &create->flags);
--	create->index = q->num_buffers;
--	if (create->count == 0)
++dma_addr_t
++hantro_postproc_get_dec_buf_addr(struct hantro_ctx *ctx, int index);
 +
-+	create->max_buffers = q->max_num_buffers;
-+
-+	if (create->count == 0) {
-+		create->index = vb2_get_num_buffers(q);
- 		return ret != -EBUSY ? ret : 0;
-+	}
- 
- 	switch (f->type) {
- 	case V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE:
-diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
-index f4d9d6279094..700db197e371 100644
---- a/drivers/media/v4l2-core/v4l2-ioctl.c
-+++ b/drivers/media/v4l2-core/v4l2-ioctl.c
-@@ -483,9 +483,9 @@ static void v4l_print_create_buffers(const void *arg, bool write_only)
+ static inline dma_addr_t
+ hantro_get_dec_buf_addr(struct hantro_ctx *ctx, struct vb2_buffer *vb)
  {
- 	const struct v4l2_create_buffers *p = arg;
- 
--	pr_cont("index=%d, count=%d, memory=%s, capabilities=0x%08x, ",
-+	pr_cont("index=%d, count=%d, memory=%s, capabilities=0x%08x, max buffers=%u",
- 		p->index, p->count, prt_names(p->memory, v4l2_memory_names),
--		p->capabilities);
-+		p->capabilities, p->max_buffers);
- 	v4l_print_format(&p->format, write_only);
+ 	if (hantro_needs_postproc(ctx, ctx->vpu_dst_fmt))
+-		return ctx->postproc.dec_q[vb->index].dma;
++		return hantro_postproc_get_dec_buf_addr(ctx, vb->index);
+ 	return vb2_dma_contig_plane_dma_addr(vb, 0);
  }
  
-diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
-index 78260e5d9985..b0dbb1be728c 100644
---- a/include/uapi/linux/videodev2.h
-+++ b/include/uapi/linux/videodev2.h
-@@ -1034,6 +1034,7 @@ struct v4l2_requestbuffers {
- #define V4L2_BUF_CAP_SUPPORTS_ORPHANED_BUFS		(1 << 4)
- #define V4L2_BUF_CAP_SUPPORTS_M2M_HOLD_CAPTURE_BUF	(1 << 5)
- #define V4L2_BUF_CAP_SUPPORTS_MMAP_CACHE_HINTS		(1 << 6)
-+#define V4L2_BUF_CAP_SUPPORTS_SET_MAX_BUFS		(1 << 7)
+@@ -485,8 +488,8 @@ vb2_to_hantro_decoded_buf(struct vb2_buffer *buf)
  
- /**
-  * struct v4l2_plane - plane info for multi-planar buffers
-@@ -2604,6 +2605,9 @@ struct v4l2_dbg_chip_info {
-  * @flags:	additional buffer management attributes (ignored unless the
-  *		queue has V4L2_BUF_CAP_SUPPORTS_MMAP_CACHE_HINTS capability
-  *		and configured for MMAP streaming I/O).
-+ * @max_buffers: if V4L2_BUF_CAP_SUPPORTS_SET_MAX_BUFS capability flag is set
-+ *		 this field indicate the maximum possible number of buffers
-+ *		 for this queue.
-  * @reserved:	future extensions
+ void hantro_postproc_disable(struct hantro_ctx *ctx);
+ void hantro_postproc_enable(struct hantro_ctx *ctx);
++int hantro_postproc_init(struct hantro_ctx *ctx);
+ void hantro_postproc_free(struct hantro_ctx *ctx);
+-int hantro_postproc_alloc(struct hantro_ctx *ctx);
+ int hanto_postproc_enum_framesizes(struct hantro_ctx *ctx,
+ 				   struct v4l2_frmsizeenum *fsize);
+ 
+diff --git a/drivers/media/platform/verisilicon/hantro_drv.c b/drivers/media/platform/verisilicon/hantro_drv.c
+index 423fc85d79ee..ad6b086f0526 100644
+--- a/drivers/media/platform/verisilicon/hantro_drv.c
++++ b/drivers/media/platform/verisilicon/hantro_drv.c
+@@ -234,8 +234,10 @@ queue_init(void *priv, struct vb2_queue *src_vq, struct vb2_queue *dst_vq)
+ 	 * The Kernel needs access to the JPEG destination buffer for the
+ 	 * JPEG encoder to fill in the JPEG headers.
+ 	 */
+-	if (!ctx->is_encoder)
++	if (!ctx->is_encoder) {
+ 		dst_vq->dma_attrs |= DMA_ATTR_NO_KERNEL_MAPPING;
++		dst_vq->max_num_buffers = MAX_POSTPROC_BUFFERS;
++	}
+ 
+ 	dst_vq->type = V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE;
+ 	dst_vq->io_modes = VB2_MMAP | VB2_DMABUF;
+diff --git a/drivers/media/platform/verisilicon/hantro_hw.h b/drivers/media/platform/verisilicon/hantro_hw.h
+index 7f33f7b07ce4..292a76ef643e 100644
+--- a/drivers/media/platform/verisilicon/hantro_hw.h
++++ b/drivers/media/platform/verisilicon/hantro_hw.h
+@@ -40,6 +40,8 @@
+ 
+ #define AV1_MAX_FRAME_BUF_COUNT	(V4L2_AV1_TOTAL_REFS_PER_FRAME + 1)
+ 
++#define MAX_POSTPROC_BUFFERS	64
++
+ struct hantro_dev;
+ struct hantro_ctx;
+ struct hantro_buf;
+@@ -336,7 +338,7 @@ struct hantro_av1_dec_hw_ctx {
+  * @dec_q:		References buffers, in decoder format.
   */
- struct v4l2_create_buffers {
-@@ -2613,7 +2617,8 @@ struct v4l2_create_buffers {
- 	struct v4l2_format	format;
- 	__u32			capabilities;
- 	__u32			flags;
--	__u32			reserved[6];
-+	__u32			max_buffers;
-+	__u32			reserved[5];
+ struct hantro_postproc_ctx {
+-	struct hantro_aux_buf dec_q[VB2_MAX_FRAME];
++	struct hantro_aux_buf dec_q[MAX_POSTPROC_BUFFERS];
  };
  
- /*
+ /**
+diff --git a/drivers/media/platform/verisilicon/hantro_postproc.c b/drivers/media/platform/verisilicon/hantro_postproc.c
+index 0224ff68ab3f..20e8f04a3bef 100644
+--- a/drivers/media/platform/verisilicon/hantro_postproc.c
++++ b/drivers/media/platform/verisilicon/hantro_postproc.c
+@@ -177,9 +177,11 @@ static int hantro_postproc_g2_enum_framesizes(struct hantro_ctx *ctx,
+ void hantro_postproc_free(struct hantro_ctx *ctx)
+ {
+ 	struct hantro_dev *vpu = ctx->dev;
++	struct v4l2_m2m_ctx *m2m_ctx = ctx->fh.m2m_ctx;
++	struct vb2_queue *queue = &m2m_ctx->cap_q_ctx.q;
+ 	unsigned int i;
+ 
+-	for (i = 0; i < VB2_MAX_FRAME; ++i) {
++	for (i = 0; i < queue->max_num_buffers; ++i) {
+ 		struct hantro_aux_buf *priv = &ctx->postproc.dec_q[i];
+ 
+ 		if (priv->cpu) {
+@@ -190,20 +192,17 @@ void hantro_postproc_free(struct hantro_ctx *ctx)
+ 	}
+ }
+ 
+-int hantro_postproc_alloc(struct hantro_ctx *ctx)
++static unsigned int hantro_postproc_buffer_size(struct hantro_ctx *ctx)
+ {
+-	struct hantro_dev *vpu = ctx->dev;
+-	struct v4l2_m2m_ctx *m2m_ctx = ctx->fh.m2m_ctx;
+-	struct vb2_queue *cap_queue = &m2m_ctx->cap_q_ctx.q;
+-	unsigned int num_buffers = cap_queue->num_buffers;
+ 	struct v4l2_pix_format_mplane pix_mp;
+ 	const struct hantro_fmt *fmt;
+-	unsigned int i, buf_size;
++	unsigned int buf_size;
+ 
+ 	/* this should always pick native format */
+ 	fmt = hantro_get_default_fmt(ctx, false, ctx->bit_depth, HANTRO_AUTO_POSTPROC);
+ 	if (!fmt)
+-		return -EINVAL;
++		return 0;
++
+ 	v4l2_fill_pixfmt_mp(&pix_mp, fmt->fourcc, ctx->src_fmt.width,
+ 			    ctx->src_fmt.height);
+ 
+@@ -221,23 +220,77 @@ int hantro_postproc_alloc(struct hantro_ctx *ctx)
+ 		buf_size += hantro_av1_mv_size(pix_mp.width,
+ 					       pix_mp.height);
+ 
+-	for (i = 0; i < num_buffers; ++i) {
+-		struct hantro_aux_buf *priv = &ctx->postproc.dec_q[i];
++	return buf_size;
++}
++
++static int hantro_postproc_alloc(struct hantro_ctx *ctx, int index)
++{
++	struct hantro_dev *vpu = ctx->dev;
++	struct hantro_aux_buf *priv = &ctx->postproc.dec_q[index];
++	unsigned int buf_size = hantro_postproc_buffer_size(ctx);
++
++	if (!buf_size)
++		return -EINVAL;
++
++	/*
++	 * The buffers on this queue are meant as intermediate
++	 * buffers for the decoder, so no mapping is needed.
++	 */
++	priv->attrs = DMA_ATTR_NO_KERNEL_MAPPING;
++	priv->cpu = dma_alloc_attrs(vpu->dev, buf_size, &priv->dma,
++				    GFP_KERNEL, priv->attrs);
++	if (!priv->cpu)
++		return -ENOMEM;
++	priv->size = buf_size;
++
++	return 0;
++}
+ 
+-		/*
+-		 * The buffers on this queue are meant as intermediate
+-		 * buffers for the decoder, so no mapping is needed.
+-		 */
+-		priv->attrs = DMA_ATTR_NO_KERNEL_MAPPING;
+-		priv->cpu = dma_alloc_attrs(vpu->dev, buf_size, &priv->dma,
+-					    GFP_KERNEL, priv->attrs);
+-		if (!priv->cpu)
+-			return -ENOMEM;
+-		priv->size = buf_size;
++int hantro_postproc_init(struct hantro_ctx *ctx)
++{
++	struct v4l2_m2m_ctx *m2m_ctx = ctx->fh.m2m_ctx;
++	struct vb2_queue *cap_queue = &m2m_ctx->cap_q_ctx.q;
++	unsigned int num_buffers = cap_queue->num_buffers;
++	unsigned int i;
++	int ret;
++
++	for (i = 0; i < num_buffers; i++) {
++		ret = hantro_postproc_alloc(ctx, i);
++		if (ret)
++			return ret;
+ 	}
++
+ 	return 0;
+ }
+ 
++dma_addr_t
++hantro_postproc_get_dec_buf_addr(struct hantro_ctx *ctx, int index)
++{
++	struct hantro_aux_buf *priv = &ctx->postproc.dec_q[index];
++	unsigned int buf_size = hantro_postproc_buffer_size(ctx);
++	struct hantro_dev *vpu = ctx->dev;
++	int ret;
++
++	if (priv->size < buf_size && priv->cpu) {
++		/* buffer is too small, release it */
++		dma_free_attrs(vpu->dev, priv->size, priv->cpu,
++			       priv->dma, priv->attrs);
++		priv->cpu = NULL;
++	}
++
++	if (!priv->cpu) {
++		/* buffer not already allocated, try getting a new one */
++		ret = hantro_postproc_alloc(ctx, index);
++		if (ret)
++			return 0;
++	}
++
++	if (!priv->cpu)
++		return 0;
++
++	return priv->dma;
++}
++
+ static void hantro_postproc_g1_disable(struct hantro_ctx *ctx)
+ {
+ 	struct hantro_dev *vpu = ctx->dev;
+diff --git a/drivers/media/platform/verisilicon/hantro_v4l2.c b/drivers/media/platform/verisilicon/hantro_v4l2.c
+index b3ae037a50f6..f0d8b165abcd 100644
+--- a/drivers/media/platform/verisilicon/hantro_v4l2.c
++++ b/drivers/media/platform/verisilicon/hantro_v4l2.c
+@@ -933,7 +933,7 @@ static int hantro_start_streaming(struct vb2_queue *q, unsigned int count)
+ 		}
+ 
+ 		if (hantro_needs_postproc(ctx, ctx->vpu_dst_fmt)) {
+-			ret = hantro_postproc_alloc(ctx);
++			ret = hantro_postproc_init(ctx);
+ 			if (ret)
+ 				goto err_codec_exit;
+ 		}
 -- 
 2.39.2
 
