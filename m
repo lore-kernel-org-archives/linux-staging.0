@@ -1,12 +1,12 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9136037CAB;
-	Thu, 28 Sep 2023 12:05:01 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1A1C5C433C7;
-	Thu, 28 Sep 2023 12:04:57 +0000 (UTC)
-Message-ID: <100ef77c-2343-4e73-8b89-748ae9697496@xs4all.nl>
-Date: Thu, 28 Sep 2023 14:04:56 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 116CB1118
+	for <linux-staging@lists.linux.dev>; Thu, 28 Sep 2023 13:04:42 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 999A4C433C7;
+	Thu, 28 Sep 2023 13:04:39 +0000 (UTC)
+Message-ID: <ce043b11-aea9-4127-ba00-6c351651dc1e@xs4all.nl>
+Date: Thu, 28 Sep 2023 15:04:37 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -14,276 +14,356 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v9 0/8] Add StarFive Camera Subsystem driver
+Subject: Re: [PATCH v8 00/53] Add DELETE_BUF ioctl
 Content-Language: en-US, nl
-To: Jack Zhu <jack.zhu@starfivetech.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Robert Foss <rfoss@kernel.org>,
- Todor Tomov <todor.too@gmail.com>,
- "bryan.odonoghue@linaro.org" <bryan.odonoghue@linaro.org>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Philipp Zabel <p.zabel@pengutronix.de>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- "linux-staging@lists.linux.dev" <linux-staging@lists.linux.dev>,
- Changhuang Liang <changhuang.liang@starfivetech.com>
-References: <20230914031607.34877-1-jack.zhu@starfivetech.com>
- <11735008-1adf-4b84-9023-d295371caed5@xs4all.nl>
- <705f6143-169d-907e-9453-a5b384f921cd@starfivetech.com>
- <c9eb7857-896f-43dd-b8fe-4711ba202c81@xs4all.nl>
- <9ac2d04c-ed0c-9940-53b4-b36d6df22afe@starfivetech.com>
+To: Benjamin Gaignard <benjamin.gaignard@collabora.com>, mchehab@kernel.org,
+ tfiga@chromium.org, m.szyprowski@samsung.com, ming.qian@nxp.com,
+ ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de,
+ gregkh@linuxfoundation.org, nicolas.dufresne@collabora.com
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org,
+ linux-arm-msm@vger.kernel.org, linux-rockchip@lists.infradead.org,
+ linux-staging@lists.linux.dev, kernel@collabora.com
+References: <20230927153558.159278-1-benjamin.gaignard@collabora.com>
 From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-In-Reply-To: <9ac2d04c-ed0c-9940-53b4-b36d6df22afe@starfivetech.com>
+In-Reply-To: <20230927153558.159278-1-benjamin.gaignard@collabora.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-Hi Jack,
+Hi Benjamin,
 
-On 28/09/2023 10:40, Jack Zhu wrote:
+On 27/09/2023 17:35, Benjamin Gaignard wrote:
+> Unlike when resolution change on keyframes, dynamic resolution change
+> on inter frames doesn't allow to do a stream off/on sequence because
+> it is need to keep all previous references alive to decode inter frames.
+> This constraint have two main problems:
+> - more memory consumption.
+> - more buffers in use.
+> To solve these issue this series introduce DELETE_BUFS ioctl and remove
+> the 32 buffers limit per queue.
 > 
+> VP9 conformance tests using fluster give a score of 210/305.
+> The 24 resize inter tests (vp90-2-21-resize_inter_* files) are ok
+> but require to use postprocessor.
 > 
-> On 2023/9/28 16:22, Hans Verkuil wrote:
->> On 28/09/2023 10:12, Jack Zhu wrote:
->>>
->>>
->>> On 2023/9/15 17:26, Hans Verkuil wrote:
->>>> On 14/09/2023 05:15, Jack Zhu wrote:
->>>>> Hi,
->>>>>
->>>>> This series is the v9 series that attempts to support the Camera Subsystem
->>>>> found on StarFive JH7110 SoC.
->>>>>
->>>>> This series is based on top of the master branch of media_stage repository.
->>>>>
->>>>> The following are the media graph for the device and the v4l2-compliance
->>>>> output.
->>>>>
->>>>> ===========================================================================
->>>>> [the media graph]:
->>>>>
->>>>> digraph board {
->>>>> 	rankdir=TB
->>>>> 	n00000001 [label="{{<port0> 0} | stf_isp\n/dev/v4l-subdev0 | {<port1> 1}}", shape=Mrecord, style=filled, fillcolor=green]
->>>>> 	n00000001:port1 -> n00000008 [style=dashed]
->>>>> 	n00000004 [label="capture_raw\n/dev/video0", shape=box, style=filled, fillcolor=yellow]
->>>>> 	n00000008 [label="capture_yuv\n/dev/video1", shape=box, style=filled, fillcolor=yellow]
->>>>> 	n0000000e [label="{{<port0> 0} | cdns_csi2rx.19800000.csi-bridge\n | {<port1> 1 | <port2> 2 | <port3> 3 | <port4> 4}}", shape=Mrecord, style=filled, fillcolor=green]
->>>>> 	n0000000e:port1 -> n00000001:port0 [style=dashed]
->>>>> 	n0000000e:port1 -> n00000004 [style=dashed]
->>>>> 	n00000018 [label="{{} | imx219 6-0010\n/dev/v4l-subdev1 | {<port0> 0}}", shape=Mrecord, style=filled, fillcolor=green]
->>>>> 	n00000018:port0 -> n0000000e:port0 [style=bold]
->>>>> }
->>>>>
->>>>> [the device topology]:
->>>>>
->>>>> Media controller API version 6.5.0
->>>>>
->>>>> Media device information
->>>>> ------------------------
->>>>> driver          starfive-camss
->>>>> model           Starfive Camera Subsystem
->>>>> serial          
->>>>> bus info        platform:19840000.camss
->>>>> hw revision     0x0
->>>>> driver version  6.5.0
->>>>>
->>>>> Device topology
->>>>> - entity 1: stf_isp (2 pads, 2 links)
->>>>>             type V4L2 subdev subtype Unknown flags 0
->>>>>             device node name /dev/v4l-subdev0
->>>>> 	pad0: Sink
->>>>> 		[fmt:SRGGB10_1X10/1920x1080 field:none colorspace:srgb
->>>>> 		 crop.bounds:(0,0)/1920x1080
->>>>> 		 crop:(0,0)/1920x1080]
->>>>> 		<- "cdns_csi2rx.19800000.csi-bridge":1 []
->>>>> 	pad1: Source
->>>>> 		[fmt:YUYV8_1_5X8/1920x1080 field:none colorspace:srgb
->>>>> 		 crop.bounds:(0,0)/1920x1080
->>>>> 		 crop:(0,0)/1920x1080]
->>>>> 		-> "capture_yuv":0 []
->>>>>
->>>>> - entity 4: capture_raw (1 pad, 1 link)
->>>>>             type Node subtype V4L flags 0
->>>>>             device node name /dev/video0
->>>>> 	pad0: Sink
->>>>> 		<- "cdns_csi2rx.19800000.csi-bridge":1 []
->>>>>
->>>>> - entity 8: capture_yuv (1 pad, 1 link)
->>>>>             type Node subtype V4L flags 0
->>>>>             device node name /dev/video1
->>>>> 	pad0: Sink
->>>>> 		<- "stf_isp":1 []
->>>>>
->>>>> - entity 14: cdns_csi2rx.19800000.csi-bridge (5 pads, 3 links)
->>>>>              type V4L2 subdev subtype Unknown flags 0
->>>>> 	pad0: Sink
->>>>> 		<- "imx219 6-0010":0 [ENABLED,IMMUTABLE]
->>>>> 	pad1: Source
->>>>> 		-> "stf_isp":0 []
->>>>> 		-> "capture_raw":0 []
->>>>> 	pad2: Source
->>>>> 	pad3: Source
->>>>> 	pad4: Source
->>>>>
->>>>> - entity 24: imx219 6-0010 (1 pad, 1 link)
->>>>>              type V4L2 subdev subtype Sensor flags 0
->>>>>              device node name /dev/v4l-subdev1
->>>>> 	pad0: Source
->>>>> 		[fmt:SRGGB10_1X10/3280x2464 field:none colorspace:srgb xfer:srgb ycbcr:601 quantization:full-range
->>>>> 		 crop.bounds:(8,8)/3280x2464
->>>>> 		 crop:(8,8)/3280x2464]
->>>>> 		-> "cdns_csi2rx.19800000.csi-bridge":0 [ENABLED,IMMUTABLE]
->>>>>
->>>>> ===========================================================================
->>>>> [the v4l2-compliance output]:
->>>>>
->>>>> v4l2-compliance 1.24.1, 64 bits, 64-bit time_t
->>>>
->>>> This v4l2-compliance version is from a distro. For driver acceptance you
->>>> must test with a v4l2-compliance compiled from the git repo (git://linuxtv.org/v4l-utils.git).
->>>>
->>>> Also, since this driver uses the media controller, you must run v4l2-compliance
->>>> with the -m /dev/mediaX option. This will test the compliance of all devices
->>>> reported by the media controller.
->>>>
->>>>>
->>>>> Compliance test for stf camss device /dev/video1:
->>>>>
->>>>> Driver Info:
->>>>> 	Driver name      : stf camss
->>>>
->>>> The module is called starfive-camss, so shouldn't the driver name reported here
->>>> be the same?
->>>>
->>>>> 	Card type        : Starfive Camera Subsystem
->>>>> 	Bus info         : platform:19840000.camss
->>>>> 	Driver version   : 6.5.0
->>>>> 	Capabilities     : 0x84200001
->>>>> 		Video Capture
->>>>> 		Streaming
->>>>> 		Extended Pix Format
->>>>> 		Device Capabilities
->>>>> 	Device Caps      : 0x04200001
->>>>> 		Video Capture
->>>>> 		Streaming
->>>>> 		Extended Pix Format
->>>>> Media Driver Info:
->>>>> 	Driver name      : starfive-camss
->>>>
->>>> It's correct in the media controller information.
->>>>
->>>>> 	Model            : Starfive Camera Subsystem
->>>>> 	Serial           : 
->>>>> 	Bus info         : platform:19840000.camss
->>>>> 	Media version    : 6.5.0
->>>>> 	Hardware revision: 0x00000000 (0)
->>>>> 	Driver version   : 6.5.0
->>>>> Interface Info:
->>>>> 	ID               : 0x0300000a
->>>>> 	Type             : V4L Video
->>>>> Entity Info:
->>>>> 	ID               : 0x00000008 (8)
->>>>> 	Name             : capture_yuv
->>>>> 	Function         : V4L2 I/O
->>>>> 	Pad 0x01000009   : 0: Sink
->>>>> 	  Link 0x0200000c: from remote pad 0x1000003 of entity 'stf_isp' (Unknown Function (00004009)): Data, Enabled
->>>>
->>>> Hmm, this reports "Unknown Function". I bet that when you run v4l2-compliance
->>>> with the -m option it will fail on this. If not, then that's likely a bug in
->>>> the compliance test, please let me know if that's the case.
->>>>
->>>
->>> Hi Hans,
->>>
->>> The following is the latest test log, which does not report a failure, but
->>> also reports "Unknown Function".
->>>
->>> I make the following settings in the stf-isp.c file:
->>> v4l2_subdev.entity.function = MEDIA_ENT_F_PROC_VIDEO_ISP;
->>>
->>
->> Can you post the output of:
->>
->> v4l2-compliance --verbose -M /dev/media0
->>
+> Kernel branch is available here:
+> https://gitlab.collabora.com/benjamin.gaignard/for-upstream/-/commits/remove_vb2_queue_limit_v8
 > 
-> Output log of the above command:
-> 
-> # 
-> # v4l2-compliance --verbose -M /dev/media0
-> v4l2-compliance 1.25.0, 64 bits, 64-bit time_t
-> 
-> Compliance test for starfive-camss device /dev/media0:
-> 
-> Media Driver Info:
-> 	Driver name      : starfive-camss
-> 	Model            : Starfive Camera Subsystem
-> 	Serial           : 
-> 	Bus info         : platform:19840000.camss
-> 	Media version    : 6.5.0
-> 	Hardware revision: 0x00000000 (0)
-> 	Driver version   : 6.5.0
-> 
-> Required ioctls:
-> 	test MEDIA_IOC_DEVICE_INFO: OK
-> 	test invalid ioctls: OK
-> 
-> Allow for multiple opens:
-> 	test second /dev/media0 open: OK
-> 	test MEDIA_IOC_DEVICE_INFO: OK
-> 	test for unlimited opens: OK
-> 
-> Media Controller ioctls:
-> 		Entity: 0x00000001 (Name: 'stf_isp', Function: Unknown Function (00004009))
-> 		Entity: 0x00000004 (Name: 'capture_raw', Function: V4L2 I/O)
-> 		Entity: 0x00000008 (Name: 'capture_yuv', Function: V4L2 I/O)
-> 		Entity: 0x0000000e (Name: 'cdns_csi2rx.19800000.csi-bridge', Function: Video Interface Bridge)
-> 		Entity: 0x00000018 (Name: 'imx219 6-0010', Function: Camera Sensor)
-> 		Interface: 0x03000006 (Type: V4L Video, DevPath: /dev/video0)
-> 		Interface: 0x0300000a (Type: V4L Video, DevPath: /dev/video1)
-> 		Interface: 0x0300001c (Type: V4L Sub-Device, DevPath: /dev/v4l-subdev0)
-> 		Interface: 0x0300001e (Type: V4L Sub-Device, DevPath: /dev/v4l-subdev1)
-> 		Pad: 0x01000002 (0, stf_isp, Sink)
-> 		Pad: 0x01000003 (1, stf_isp, Source)
-> 		Pad: 0x01000005 (0, capture_raw, Sink)
-> 		Pad: 0x01000009 (0, capture_yuv, Sink)
-> 		Pad: 0x0100000f (0, cdns_csi2rx.19800000.csi-bridge, Sink)
-> 		Pad: 0x01000010 (1, cdns_csi2rx.19800000.csi-bridge, Source)
-> 		Pad: 0x01000011 (2, cdns_csi2rx.19800000.csi-bridge, Source)
-> 		Pad: 0x01000012 (3, cdns_csi2rx.19800000.csi-bridge, Source)
-> 		Pad: 0x01000013 (4, cdns_csi2rx.19800000.csi-bridge, Source)
-> 		Pad: 0x01000019 (0, imx219 6-0010, Source)
-> 		Interface Link: 0x02000007 (capture_raw to /dev/video0)
-> 		Interface Link: 0x0200000b (capture_yuv to /dev/video1)
-> 		Data Link: 0x0200000c (stf_isp:1 -> capture_yuv:0, Data, Enabled)
-> 		Data Link: 0x02000014 (cdns_csi2rx.19800000.csi-bridge:1 -> stf_isp:0, Data, Enabled)
-> 		Data Link: 0x02000016 (cdns_csi2rx.19800000.csi-bridge:1 -> capture_raw:0, Data)
-> 		Data Link: 0x0200001a (imx219 6-0010:0 -> cdns_csi2rx.19800000.csi-bridge:0, Data, Enabled, Immutable)
-> 		Interface Link: 0x0200001d (stf_isp to /dev/v4l-subdev0)
-> 		Interface Link: 0x0200001f (imx219 6-0010 to /dev/v4l-subdev1)
-> 	test MEDIA_IOC_G_TOPOLOGY: OK
-> 	Entities: 5 Interfaces: 4 Pads: 10 Links: 8
-> 		Entity: 0x00000001 (Name: 'stf_isp', Type: Unknown V4L2 Sub-Device, DevPath: /dev/v4l-subdev0)
-> 		Entity: 0x00000004 (Name: 'capture_raw', Type: V4L2 I/O, DevPath: /dev/video0)
-> 		Entity: 0x00000008 (Name: 'capture_yuv', Type: V4L2 I/O, DevPath: /dev/video1)
-> 		Entity: 0x0000000e (Name: 'cdns_csi2rx.19800000.csi-bridge', Type: Unknown V4L2 Sub-Device)
-> 		Entity: 0x00000018 (Name: 'imx219 6-0010', Type: Camera Sensor, DevPath: /dev/v4l-subdev1)
-> 	test MEDIA_IOC_ENUM_ENTITIES/LINKS: OK
-> 	test MEDIA_IOC_SETUP_LINK: OK
-> 
-> Total for starfive-camss device /dev/media0: 8, Succeeded: 8, Failed: 0, Warnings: 0
+> GStreamer branch to use DELETE_BUF ioctl and testing dynamic resolution
+> change is here:
+> https://gitlab.freedesktop.org/benjamin.gaignard1/gstreamer/-/commits/VP9_drc
 
-Much appreciated. I found several logic bugs in v4l-utils that hid this failure.
+I applied patches 1-46 on top of staging and applied patch 1/2 of v4l-utils. I chose
+1-46 since those would be the first batch to be merged.
 
-It is now fixed in the v4l-utils git repo: https://git.linuxtv.org/v4l-utils.git/log/
-This also adds the missing support for MEDIA_ENT_F_PROC_VIDEO_ISP.
+I had to apply a small patch on top, since amphion was still using max_allowed_buffers:
 
-If you compile v4l2-compliance from the git repo, then this should now work fine.
+https://git.linuxtv.org/hverkuil/media_tree.git/commit/?h=delbuf&id=fce79aa0239a3a4e5c7634b9b7ffc356057b70b4
+
+With that change everything compiled cleanly.
+
+But running the regression tests (test-media script) failed with a kernel oops:
+
+Buffer ioctls (Input 0):
+                fail: v4l2-test-buffers.cpp(611): q.reqbufs(node, 1)
+        test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: FAIL
+[   25.309343] general protection fault, probably for non-canonical address 0xdffffc0000000001: 0000 [#1] PREEMPT SMP DEBUG_PAGEALLOC KASAN
+[   25.310067] KASAN: null-ptr-deref in range [0x0000000000000008-0x000000000000000f]
+[   25.310471] CPU: 0 PID: 187 Comm: v4l2-compliance Not tainted 6.6.0-rc3+ #1
+[   25.310837] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.16.2-debian-1.16.2-1 04/01/2014
+[   25.311334] RIP: 0010:__vb2_queue_alloc+0x34c/0xd00 [videobuf2_common]
+[   25.311688] Code: 89 f8 48 c1 e8 03 80 3c 18 00 0f 85 0c 07 00 00 49 8b b7 40 01 00 00 44 89 f0 4c 8d 2c c6 41 39 ce 73 18 4c 89 e8 48 c1 e8 03 <80> 3c 18 00 0f 85 d2 08 00 00 49 83 7d 00 00 74 02
+0f 0b 4c 89 e8
+[   25.312670] RSP: 0018:ffff88810afef930 EFLAGS: 00010212
+[   25.312948] RAX: 0000000000000001 RBX: dffffc0000000000 RCX: 0000000000000040
+[   25.313331] RDX: ffff88810ce08814 RSI: 0000000000000000 RDI: ffff88810cfb72e0
+[   25.313708] RBP: ffff88810ce08800 R08: 0000000000001800 R09: 0000000000000001
+[   25.314097] R10: ffffffff91560b0f R11: ffffffff8f40006a R12: ffff88810afefa74
+[   25.314470] R13: 0000000000000008 R14: 0000000000000001 R15: ffff88810cfb71a0
+[   25.314854] FS:  00007fa524908440(0000) GS:ffff88811aa00000(0000) knlGS:0000000000000000
+[   25.315281] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+[   25.315594] CR2: 0000562855948270 CR3: 0000000109e21000 CR4: 0000000000350ef0
+[   25.315982] Call Trace:
+[   25.316122]  <TASK>
+[   25.316243]  ? die_addr+0x37/0xa0
+[   25.316433]  ? exc_general_protection+0x144/0x210
+[   25.316693]  ? asm_exc_general_protection+0x22/0x30
+[   25.316955]  ? entry_SYSCALL_64_after_hwframe+0x46/0xb0
+[   25.317235]  ? __vb2_queue_alloc+0x34c/0xd00 [videobuf2_common]
+[   25.317555]  vb2_core_create_bufs+0x5a0/0xce0 [videobuf2_common]
+[   25.317879]  ? __vb2_queue_alloc+0xd00/0xd00 [videobuf2_common]
+[   25.318213]  vb2_create_bufs+0x680/0x7f0 [videobuf2_v4l2]
+[   25.318506]  ? __kasan_kmalloc+0x83/0x90
+[   25.318729]  ? __kmalloc+0x5c/0x150
+[   25.318924]  ? __video_do_ioctl+0x3a5/0xc20 [videodev]
+[   25.319223]  ? __copy_timestamp+0x270/0x270 [videobuf2_v4l2]
+[   25.319532]  ? v4l_sanitize_format+0x121/0x340 [videodev]
+[   25.319839]  vb2_ioctl_create_bufs+0x280/0x440 [videobuf2_v4l2]
+[   25.320162]  ? check_fmt+0x15/0x5e0 [videodev]
+[   25.320420]  v4l_create_bufs+0xa8/0x150 [videodev]
+[   25.320693]  __video_do_ioctl+0x8d0/0xc20 [videodev]
+[   25.320975]  ? v4l_prepare_buf+0xa0/0xa0 [videodev]
+[   25.321250]  ? __might_fault+0x112/0x170
+[   25.321463]  ? __might_fault+0x112/0x170
+[   25.321675]  video_usercopy+0x48c/0xd00 [videodev]
+[   25.321949]  ? v4l_prepare_buf+0xa0/0xa0 [videodev]
+[   25.322228]  ? v4l_enumstd+0x60/0x60 [videodev]
+[   25.322497]  ? selinux_bprm_creds_for_exec+0xa90/0xa90
+[   25.322779]  ? rseq_ip_fixup+0x304/0x480
+[   25.322995]  ? __up_read+0x10b/0x750
+[   25.323201]  ? rseq_get_rseq_cs+0x680/0x680
+[   25.323430]  v4l2_ioctl+0x17f/0x1f0 [videodev]
+[   25.323689]  __x64_sys_ioctl+0x127/0x190
+[   25.323905]  do_syscall_64+0x35/0x80
+[   25.324105]  entry_SYSCALL_64_after_hwframe+0x46/0xb0
+[   25.324372] RIP: 0033:0x7fa524bf44eb
+[   25.324564] Code: 00 48 89 44 24 18 31 c0 48 8d 44 24 60 c7 04 24 10 00 00 00 48 89 44 24 08 48 8d 44 24 20 48 89 44 24 10 b8 10 00 00 00 0f 05 <89> c2 3d 00 f0 ff ff 77 1c 48 8b 44 24 18 64 48 2b
+04 25 28 00 00
+[   25.325533] RSP: 002b:00007ffc888efee0 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
+[   25.325933] RAX: ffffffffffffffda RBX: 00007ffc888f0350 RCX: 00007fa524bf44eb
+[   25.326314] RDX: 00007ffc888effb0 RSI: 00000000c100565c RDI: 0000000000000023
+[   25.326702] RBP: 00007ffc888f8550 R08: 0000000000000000 R09: 0000000000000001
+[   25.327081] R10: 0000000000000016 R11: 0000000000000246 R12: 0000000000000000
+[   25.327468] R13: 0000000000000001 R14: 00007ffc888f8010 R15: 00007ffc888f1790
+[   25.327852]  </TASK>
+[   25.327979] Modules linked in: vivid videobuf2_dma_contig v4l2_tpg v4l2_dv_timings cec videobuf2_vmalloc videobuf2_memops videobuf2_v4l2 videodev videobuf2_common mc rc_core
+[   25.328835] ---[ end trace 0000000000000000 ]---
+[   25.329083] RIP: 0010:__vb2_queue_alloc+0x34c/0xd00 [videobuf2_common]
+[   25.329434] Code: 89 f8 48 c1 e8 03 80 3c 18 00 0f 85 0c 07 00 00 49 8b b7 40 01 00 00 44 89 f0 4c 8d 2c c6 41 39 ce 73 18 4c 89 e8 48 c1 e8 03 <80> 3c 18 00 0f 85 d2 08 00 00 49 83 7d 00 00 74 02
+0f 0b 4c 89 e8
+[   25.330417] RSP: 0018:ffff88810afef930 EFLAGS: 00010212
+[   25.330812] RAX: 0000000000000001 RBX: dffffc0000000000 RCX: 0000000000000040
+[   25.331194] RDX: ffff88810ce08814 RSI: 0000000000000000 RDI: ffff88810cfb72e0
+[   25.331594] RBP: ffff88810ce08800 R08: 0000000000001800 R09: 0000000000000001
+[   25.331978] R10: ffffffff91560b0f R11: ffffffff8f40006a R12: ffff88810afefa74
+[   25.332360] R13: 0000000000000008 R14: 0000000000000001 R15: ffff88810cfb71a0
+[   25.332746] FS:  00007fa524908440(0000) GS:ffff88811aa00000(0000) knlGS:0000000000000000
+[   25.333170] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+[   25.333486] CR2: 0000562855948270 CR3: 0000000109e21000 CR4: 0000000000350ef0
+[   25.333861] Kernel panic - not syncing: Fatal exception
+[   25.334179] Kernel Offset: 0xbe00000 from 0xffffffff81000000 (relocation range: 0xffffffff80000000-0xffffffffbfffffff)
+[   25.334748] Rebooting in 30 seconds..
+
+I use the build scripts as described here:
+
+https://lore.kernel.org/linux-media/18989016-6392-a77b-6cf7-1223c9161def@xs4all.nl/
+
+I use this command to run the regression tests:
+
+./build.sh -virtme -virtme-utils-path /usr/local/bin none delbuf
+
+(delbuf is the name of my branch)
+
+I don't really want to spend time reviewing this series until this is fixed...
 
 Regards,
 
 	Hans
+
+> 
+> changes in version 8:
+> - Add V4L2_BUF_CAP_SUPPORTS_SET_MAX_BUFS and new 'max_buffers' field in v4l2_create_buffers
+>   structure to report the maximum number of buffers that a queue could allocate.
+> - Add V4L2_BUF_CAP_SUPPORTS_DELETE_BUFS to indicate that a queue support
+>   DELETE_BUFS ioctl.
+> - Make some test drivers use more than 32 buffers and DELETE_BUFS ioctl.
+> - Fix remarks done by Hans
+> - Move "media: core: Rework how create_buf index returned value is
+>   computed" patch to the top of the serie.
+> 
+> changes in version 7:
+> - Use a bitmap to know which entries are valid in queue bufs array.
+>   The number of buffers in the queue could must calculated from the
+>   bitmap so num_buffers becomes useless. This led to add quite few
+>   patches to remove it from all the drivers.
+>   Note: despiste my attention I may have miss some calls to
+>   num_buffers...
+> - Split patches to make them more readable.
+> - Run v4l2-compliance with additional delete-bufs tests.
+> - Run ./test-media -kmemleak vivid and no more failures.
+>   Note: I had to remove USERPTR streaming test because they to much
+>   frequentely hit get_framevec bug. It is not related to my series
+>   since this happens all the time on master branch.
+> - Fix Hans remarks on v6
+> 
+> changes in version 6:
+> - Get a patch per driver to use vb2_get_buffer() instead of directly access
+>   to queue buffers array.
+> - Add lock in vb2_core_delete_buf()
+> - Use vb2_buffer instead of index
+> - Fix various comments
+> - Change buffer index name to BUFFER_INDEX_MASK
+> - Stop spamming kernel log with unbalanced counters
+> 
+> changes in version 5:
+> - Rework offset cookie encoding pattern is n ow the first patch of the
+>   serie.
+> - Use static array instead of allocated one for postprocessor buffers.
+> 
+> changes in version 4:
+> - Stop using Xarray, instead let queues decide about their own maximum
+>   number of buffer and allocate bufs array given that value.
+> - Rework offset cookie encoding pattern.
+> - Change DELETE_BUF to DELETE_BUFS because it now usable for
+>   range of buffer to be symetrical of CREATE_BUFS.
+> - Add fixes tags on couple of Verisilicon related patches.
+> - Be smarter in Verisilicon postprocessor buffers management.
+> - Rebase on top of v6.4
+> 
+> changes in version 3:
+> - Use Xarray API to store allocated video buffers.
+> - No module parameter to limit the number of buffer per queue.
+> - Use Xarray inside Verisilicon driver to store postprocessor buffers
+>   and remove VB2_MAX_FRAME limit.
+> - Allow Versilicon driver to change of resolution while streaming
+> - Various fixes the Verisilicon VP9 code to improve fluster score.
+>  
+> changes in version 2:
+> - Use a dynamic array and not a list to keep trace of allocated buffers.
+>   Not use IDR interface because it is marked as deprecated in kernel
+>   documentation.
+> - Add a module parameter to limit the number of buffer per queue.
+> - Add DELETE_BUF ioctl and m2m helpers.
+> 
+> Regards,
+> Benjamin
+> 
+> Benjamin Gaignard (53):
+>   media: videobuf2: Rework offset 'cookie' encoding pattern
+>   media: videobuf2: Stop spamming kernel log with all queue counter
+>   media: videobuf2: Use vb2_buffer instead of index
+>   media: amphion: Use vb2_get_buffer() instead of directly access to
+>     buffers array
+>   media: mediatek: jpeg: Use vb2_get_buffer() instead of directly access
+>     to buffers array
+>   media: mediatek: vdec: Remove useless loop
+>   media: sti: hva: Use vb2_get_buffer() instead of directly access to
+>     buffers array
+>   media: visl: Use vb2_get_buffer() instead of directly access to
+>     buffers array
+>   media: atomisp: Use vb2_get_buffer() instead of directly access to
+>     buffers array
+>   media: dvb-core: Use vb2_get_buffer() instead of directly access to
+>     buffers array
+>   media: videobuf2: Access vb2_queue bufs array through helper functions
+>   media: videobuf2: Be more flexible on the number of queue stored
+>     buffers
+>   media: Report the maximum possible number of buffers for the queue
+>   media: test-drivers: vivid: Increase max supported buffers for capture
+>     queues
+>   media: test-drivers: vicodec: Increase max supported capture queue
+>     buffers
+>   media: verisilicon: Refactor postprocessor to store more buffers
+>   media: verisilicon: Store chroma and motion vectors offset
+>   media: verisilicon: g2: Use common helpers to compute chroma and mv
+>     offsets
+>   media: verisilicon: vp9: Allow to change resolution while streaming
+>   media: Remove duplicated index vs q->num_buffers check
+>   media: core: Add helper to get queue number of buffers
+>   media: dvb-core: Do not initialize twice queue num_buffer field
+>   media: dvb-frontends: rtl2832_srd: Use queue min_buffers_needed field
+>   media: video-i2c: Set min_buffers_needed to 2
+>   media: pci: cx18: Set correct value to min_buffers_needed field
+>   media: pci: dt3155: Remove useless check
+>   media: pci: netup_unidvb: Remove useless number of buffers check
+>   media: pci: tw68: Stop direct calls to queue num_buffers field
+>   media: pci: tw686x: Set min_buffers_needed to 3
+>   media: amphion: Stop direct calls to queue num_buffers field
+>   media: coda: Stop direct calls to queue num_buffers field
+>   media: mediatek: vcodec: Stop direct calls to queue num_buffers field
+>   media: nxp: Stop direct calls to queue num_buffers field
+>   media: renesas: Set min_buffers_needed to 16
+>   media: ti: Use queue min_buffers_needed field to set the min number of
+>     buffers
+>   media: verisilicon: Stop direct calls to queue num_buffers field
+>   media: test-drivers: Stop direct calls to queue num_buffers field
+>   media: usb: airspy: Set min_buffers_needed to 8
+>   media: usb: cx231xx: Set min_buffers_needed to CX231XX_MIN_BUF
+>   media: usb: hackrf: Set min_buffers_needed to 8
+>   media: usb: usbtv: Set min_buffers_needed to 2
+>   media: atomisp: Stop direct calls to queue num_buffers field
+>   media: imx: Stop direct calls to queue num_buffers field
+>   media: meson: vdec: Stop direct calls to queue num_buffers field
+>   touchscreen: sur40: Stop direct calls to queue num_buffers field
+>   sample: v4l: Stop direct calls to queue num_buffers field
+>   media: cedrus: Stop direct calls to queue num_buffers field
+>   media: core: Rework how create_buf index returned value is computed
+>   media: core: Add bitmap manage bufs array entries
+>   media: core: Free range of buffers
+>   media: v4l2: Add DELETE_BUFS ioctl
+>   media: v4l2: Add mem2mem helpers for DELETE_BUFS ioctl
+>   media: test-drivers: Use helper for DELETE_BUFS ioctl
+> 
+>  .../userspace-api/media/v4l/user-func.rst     |   1 +
+>  .../media/v4l/vidioc-create-bufs.rst          |   8 +-
+>  .../media/v4l/vidioc-delete-bufs.rst          |  80 +++
+>  .../media/v4l/vidioc-reqbufs.rst              |   2 +
+>  drivers/input/touchscreen/sur40.c             |   5 +-
+>  .../media/common/videobuf2/videobuf2-core.c   | 556 +++++++++++-------
+>  .../media/common/videobuf2/videobuf2-v4l2.c   | 121 +++-
+>  drivers/media/dvb-core/dvb_vb2.c              |  17 +-
+>  drivers/media/dvb-frontends/rtl2832_sdr.c     |   9 +-
+>  drivers/media/i2c/video-i2c.c                 |   5 +-
+>  drivers/media/pci/cx18/cx18-streams.c         |  13 +-
+>  drivers/media/pci/dt3155/dt3155.c             |   2 -
+>  .../pci/netup_unidvb/netup_unidvb_core.c      |   4 +-
+>  drivers/media/pci/tw68/tw68-video.c           |   6 +-
+>  drivers/media/pci/tw686x/tw686x-video.c       |  13 +-
+>  drivers/media/platform/amphion/vpu_dbg.c      |  30 +-
+>  drivers/media/platform/amphion/vpu_v4l2.c     |   4 +-
+>  .../media/platform/chips-media/coda-common.c  |   2 +-
+>  .../platform/mediatek/jpeg/mtk_jpeg_core.c    |   7 +-
+>  .../vcodec/decoder/vdec/vdec_vp9_req_lat_if.c |   9 +-
+>  .../mediatek/vcodec/encoder/mtk_vcodec_enc.c  |   2 +-
+>  drivers/media/platform/nxp/imx7-media-csi.c   |   7 +-
+>  drivers/media/platform/renesas/rcar_drif.c    |   8 +-
+>  drivers/media/platform/st/sti/hva/hva-v4l2.c  |   9 +-
+>  .../media/platform/ti/am437x/am437x-vpfe.c    |   7 +-
+>  drivers/media/platform/ti/cal/cal-video.c     |   5 +-
+>  .../media/platform/ti/davinci/vpif_capture.c  |   5 +-
+>  .../media/platform/ti/davinci/vpif_display.c  |   5 +-
+>  drivers/media/platform/ti/omap/omap_vout.c    |   5 +-
+>  drivers/media/platform/verisilicon/hantro.h   |   9 +-
+>  .../media/platform/verisilicon/hantro_drv.c   |   5 +-
+>  .../media/platform/verisilicon/hantro_g2.c    |  14 +
+>  .../platform/verisilicon/hantro_g2_hevc_dec.c |  18 +-
+>  .../platform/verisilicon/hantro_g2_vp9_dec.c  |  28 +-
+>  .../media/platform/verisilicon/hantro_hw.h    |   7 +-
+>  .../platform/verisilicon/hantro_postproc.c    |  93 ++-
+>  .../media/platform/verisilicon/hantro_v4l2.c  |  27 +-
+>  .../media/test-drivers/vicodec/vicodec-core.c |   3 +
+>  drivers/media/test-drivers/vim2m.c            |   2 +
+>  .../media/test-drivers/vimc/vimc-capture.c    |   2 +
+>  drivers/media/test-drivers/visl/visl-dec.c    |  32 +-
+>  drivers/media/test-drivers/visl/visl-video.c  |   2 +
+>  drivers/media/test-drivers/vivid/vivid-core.c |  14 +
+>  .../media/test-drivers/vivid/vivid-meta-cap.c |   3 -
+>  .../media/test-drivers/vivid/vivid-meta-out.c |   5 +-
+>  .../test-drivers/vivid/vivid-touch-cap.c      |   5 +-
+>  .../media/test-drivers/vivid/vivid-vbi-cap.c  |   5 +-
+>  .../media/test-drivers/vivid/vivid-vbi-out.c  |   5 +-
+>  .../media/test-drivers/vivid/vivid-vid-cap.c  |   5 +-
+>  .../media/test-drivers/vivid/vivid-vid-out.c  |   5 +-
+>  drivers/media/usb/airspy/airspy.c             |   9 +-
+>  drivers/media/usb/cx231xx/cx231xx-417.c       |   4 +-
+>  drivers/media/usb/cx231xx/cx231xx-video.c     |   4 +-
+>  drivers/media/usb/hackrf/hackrf.c             |   9 +-
+>  drivers/media/usb/usbtv/usbtv-video.c         |   3 +-
+>  drivers/media/v4l2-core/v4l2-dev.c            |   1 +
+>  drivers/media/v4l2-core/v4l2-ioctl.c          |  21 +-
+>  drivers/media/v4l2-core/v4l2-mem2mem.c        |  20 +
+>  .../staging/media/atomisp/pci/atomisp_ioctl.c |   4 +-
+>  drivers/staging/media/imx/imx-media-capture.c |   7 +-
+>  drivers/staging/media/meson/vdec/vdec.c       |  13 +-
+>  .../staging/media/sunxi/cedrus/cedrus_h264.c  |   8 +-
+>  .../staging/media/sunxi/cedrus/cedrus_h265.c  |   9 +-
+>  include/media/v4l2-ioctl.h                    |   4 +
+>  include/media/v4l2-mem2mem.h                  |  12 +
+>  include/media/videobuf2-core.h                |  65 +-
+>  include/media/videobuf2-v4l2.h                |  13 +
+>  include/uapi/linux/videodev2.h                |  24 +-
+>  samples/v4l/v4l2-pci-skeleton.c               |   5 +-
+>  69 files changed, 969 insertions(+), 502 deletions(-)
+>  create mode 100644 Documentation/userspace-api/media/v4l/vidioc-delete-bufs.rst
+> 
+
