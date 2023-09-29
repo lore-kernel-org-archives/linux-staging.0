@@ -1,43 +1,43 @@
-Received: from mail-oo1-f45.google.com (mail-oo1-f45.google.com [209.85.161.45])
+Received: from mail-oo1-f51.google.com (mail-oo1-f51.google.com [209.85.161.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3054521D1
-	for <linux-staging@lists.linux.dev>; Fri, 29 Sep 2023 17:25:49 +0000 (UTC)
-Received: by mail-oo1-f45.google.com with SMTP id 006d021491bc7-57b811a6ce8so6252583eaf.3
-        for <linux-staging@lists.linux.dev>; Fri, 29 Sep 2023 10:25:49 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC25F658A9
+	for <linux-staging@lists.linux.dev>; Fri, 29 Sep 2023 17:25:52 +0000 (UTC)
+Received: by mail-oo1-f51.google.com with SMTP id 006d021491bc7-57ba2cd3507so5855923eaf.2
+        for <linux-staging@lists.linux.dev>; Fri, 29 Sep 2023 10:25:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1696008348; x=1696613148; darn=lists.linux.dev;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1696008352; x=1696613152; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=JKHIiAEIE2mVS9nRK2qrqb6L2W/l1AsQzObZva2M/Qk=;
-        b=lp1OmZsrRnozlld3SSc83Kh+Aacr9ZewFRMMHBoWgIAD9+km324EHmwJy5OELb7TMM
-         /ifFS3nguwV3Po6JJi4gM3YUI97z74UPy7yPPbzYndIbjnD9DrmduUvnLPeAsEp+epG3
-         E07/6z88hqnmY0ZAqYRqPZIEK6AEc2axfHV3y/Y8GyrBPbefR2j7PfIeB0IddiRan8MF
-         6YRnrl0jRVkOj0kO1KwK7ZwaNIaoyFI5w4dHuCPNRH5dclsKUQI4WXSkx4Jk4CPwpaRA
-         5eeON2MhIwthRkxg++tYQl3SFGxLXwgNDHm0F7OHDIFmqfchI/gBICLVA4UhxN7T0qbh
-         AG3w==
+        bh=Gkx5P/I+qjqJv4UaL/3S8ec+xgMfUSpu8JHr+ZyL9fM=;
+        b=Lc6ZGGA7EWiQdRsG9ThdAz9d5gkSFofpfcZrdqAPmue/ugQ73aFjsWokOguGBhupU2
+         g7F746RUpiKtZgNp7A3XDmhQWZlG/Syv3LrgSdl4JfTdSV6FdWnkeLkqecbvBVDg1+lB
+         4fh9ICzBvc6drYFcFq40cIQzg0+2kR9rWFnGUZW2WKNkk0lULVgPlUHyaUqEz88rbnJ+
+         Xv4Crmm/yd6WxVkyP/jvkksFe/ztghl5u4s+Zfa894L2amM1tcFPh1B6ugV9oxrgxHZE
+         m8gklNa+6cD+NMx4LKauahmP/dYV7oYkoFYz5q0k2eoo+moEPBs3NymWLhJHNYIRCigV
+         bHzw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696008348; x=1696613148;
+        d=1e100.net; s=20230601; t=1696008352; x=1696613152;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=JKHIiAEIE2mVS9nRK2qrqb6L2W/l1AsQzObZva2M/Qk=;
-        b=qK1U4MCZH7M+mCqxv7o5VvoiJAMHORyluoHDVd8p2l90Dx7eykyVz7jyy96Jp3oYL6
-         XpRzKVNe1RHMaaXv9RrE3jy4oxiigV/RaxhoqukWu7cPzrK6YH+VGRkbKniL2KhXvF8f
-         22rhyorbF+Tc7wvhTC3JxpeVs2umqb0gSgYSQcXy3meiqfb/7f84qNroh5WLc9OzmZfT
-         3JKpfFJEiQCMvT9XdnhvseLVVxZbngFK7DjL5ud+sEqjz0Gojr9TSIY2xg+Rf6bkEl2e
-         shGG7rQ7XxCLlinTYZF6PU4D6ssgN7HiqoGvb6HysLM2UBfEVELtp2dx7dOYGIeqcXmf
-         gfmQ==
-X-Gm-Message-State: AOJu0Yxor3xHGasIxMBgT/YBAjLUfTHgVJqyWuAjGZBDrCLeDfTCgQV7
-	eQEeAwTKxD3HqCe4mkuBGvc71Q==
-X-Google-Smtp-Source: AGHT+IFylFVlQBDPI884Fz3s36mtqtFzBQzs0lhqAdNGptX/DuoiScazX4S3FyYmEUS2TjtVMukB/A==
-X-Received: by 2002:a4a:6f49:0:b0:57b:5e98:f733 with SMTP id i9-20020a4a6f49000000b0057b5e98f733mr4812423oof.3.1696008348476;
-        Fri, 29 Sep 2023 10:25:48 -0700 (PDT)
+        bh=Gkx5P/I+qjqJv4UaL/3S8ec+xgMfUSpu8JHr+ZyL9fM=;
+        b=bS5XzzweaR/T0HSFb0JCHEjgOvenAhAzhys9Jsn4k933o9YqgcDmJ1VjHYZnu+omks
+         Hu62LyeD9HjRB+RoTp/UXs7Bi4yWa/QQCJ4x7qJKH0KgCk9lZPkkwmq2p9MZSdgEqiQH
+         QK2JfG36wuwwVms+8BXxJmMEdyFMJpVjABAHGEwiPfEn0PfQaGoyA3s6s7uENMrHkgER
+         yOgn9osc+KiVBTL5TLkvMhkN4G6NRbhvj1XAETln7BvueCJZeTL82SDFiH11rhHTAZyE
+         jmbwxIhRRpsEVp29zvO+nz6L5rxZnZdb4yCPRnL9iTmMgZ+KYgohZktk+QF2cXBcngnn
+         87IQ==
+X-Gm-Message-State: AOJu0YxDGuur491uRKD/ILhJ5O6MJLXd2aoK8+yUWJP6Lnn+SPxEPCtV
+	zwpRKn+/ctb5shOlLNBtR02lUQ==
+X-Google-Smtp-Source: AGHT+IFxikc/8KvEMGZ+gJBnorvyfx+jDYYgmBwRwAiusDLE/tDFFURBfLomSTduLrTMqWfQBD006Q==
+X-Received: by 2002:a4a:3c07:0:b0:57b:6f5c:c90a with SMTP id d7-20020a4a3c07000000b0057b6f5cc90amr4717791ooa.8.1696008351927;
+        Fri, 29 Sep 2023 10:25:51 -0700 (PDT)
 Received: from freyr.lechnology.com (ip98-183-112-25.ok.ok.cox.net. [98.183.112.25])
-        by smtp.gmail.com with ESMTPSA id f128-20020a4a5886000000b0057bb326cad4sm2272915oob.33.2023.09.29.10.25.47
+        by smtp.gmail.com with ESMTPSA id f128-20020a4a5886000000b0057bb326cad4sm2272915oob.33.2023.09.29.10.25.51
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 29 Sep 2023 10:25:48 -0700 (PDT)
+        Fri, 29 Sep 2023 10:25:51 -0700 (PDT)
 From: David Lechner <dlechner@baylibre.com>
 To: linux-iio@vger.kernel.org,
 	devicetree@vger.kernel.org,
@@ -53,9 +53,9 @@ Cc: David Lechner <david@lechnology.com>,
 	Philip Molloy <pmolloy@baylibre.com>,
 	linux-kernel@vger.kernel.org,
 	David Lechner <dlechner@baylibre.com>
-Subject: [PATCH v3 02/27] staging: iio: resolver: ad2s1210: fix use before initialization
-Date: Fri, 29 Sep 2023 12:23:07 -0500
-Message-ID: <20230929-ad2s1210-mainline-v3-2-fa4364281745@baylibre.com>
+Subject: [PATCH v3 06/27] staging: iio: resolver: ad2s1210: sort imports
+Date: Fri, 29 Sep 2023 12:23:11 -0500
+Message-ID: <20230929-ad2s1210-mainline-v3-6-fa4364281745@baylibre.com>
 X-Mailer: git-send-email 2.42.0
 In-Reply-To: <20230929-ad2s1210-mainline-v3-0-fa4364281745@baylibre.com>
 References: <20230929-ad2s1210-mainline-v3-0-fa4364281745@baylibre.com>
@@ -73,45 +73,46 @@ From: David Lechner <david@lechnology.com>
 
 From: David Lechner <dlechner@baylibre.com>
 
-This fixes a use before initialization in ad2s1210_probe(). The
-ad2s1210_setup_gpios() function uses st->sdev but it was being called
-before this field was initialized.
+There are quite a few imports and we will be adding more so it will
+make it easier to read if they are sorted.
 
 Signed-off-by: David Lechner <dlechner@baylibre.com>
 ---
 
 v3 changes:
 * This is a new patch split out from "staging: iio: resolver: ad2s1210:
- fix probe"
+ use devicetree to get fclkin"
 
- drivers/staging/iio/resolver/ad2s1210.c | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
+ drivers/staging/iio/resolver/ad2s1210.c | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
 diff --git a/drivers/staging/iio/resolver/ad2s1210.c b/drivers/staging/iio/resolver/ad2s1210.c
-index f695ca0547e4..3f08b59f4e19 100644
+index 28015322f562..832f86bf15e5 100644
 --- a/drivers/staging/iio/resolver/ad2s1210.c
 +++ b/drivers/staging/iio/resolver/ad2s1210.c
-@@ -658,9 +658,6 @@ static int ad2s1210_probe(struct spi_device *spi)
- 	if (!indio_dev)
- 		return -ENOMEM;
- 	st = iio_priv(indio_dev);
--	ret = ad2s1210_setup_gpios(st);
--	if (ret < 0)
--		return ret;
+@@ -4,16 +4,16 @@
+  *
+  * Copyright (c) 2010-2010 Analog Devices Inc.
+  */
+-#include <linux/types.h>
+-#include <linux/mutex.h>
++#include <linux/delay.h>
+ #include <linux/device.h>
++#include <linux/gpio/consumer.h>
++#include <linux/module.h>
++#include <linux/mutex.h>
+ #include <linux/of.h>
+-#include <linux/spi/spi.h>
+ #include <linux/slab.h>
++#include <linux/spi/spi.h>
+ #include <linux/sysfs.h>
+-#include <linux/delay.h>
+-#include <linux/gpio/consumer.h>
+-#include <linux/module.h>
++#include <linux/types.h>
  
- 	spi_set_drvdata(spi, indio_dev);
- 
-@@ -671,6 +668,10 @@ static int ad2s1210_probe(struct spi_device *spi)
- 	st->resolution = 12;
- 	st->fexcit = AD2S1210_DEF_EXCIT;
- 
-+	ret = ad2s1210_setup_gpios(st);
-+	if (ret < 0)
-+		return ret;
-+
- 	indio_dev->info = &ad2s1210_info;
- 	indio_dev->modes = INDIO_DIRECT_MODE;
- 	indio_dev->channels = ad2s1210_channels;
+ #include <linux/iio/iio.h>
+ #include <linux/iio/sysfs.h>
 
 -- 
 2.42.0
