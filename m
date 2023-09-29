@@ -1,229 +1,69 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f181.google.com (mail-lj1-f181.google.com [209.85.208.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF7581A58E
-	for <linux-staging@lists.linux.dev>; Fri, 29 Sep 2023 13:17:13 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3ED1BC433C7;
-	Fri, 29 Sep 2023 13:17:10 +0000 (UTC)
-Message-ID: <9c38c002-8452-4fb7-a7ee-cc8e9e1b849e@xs4all.nl>
-Date: Fri, 29 Sep 2023 15:17:08 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D6CE4123C
+	for <linux-staging@lists.linux.dev>; Fri, 29 Sep 2023 14:18:37 +0000 (UTC)
+Received: by mail-lj1-f181.google.com with SMTP id 38308e7fff4ca-2c16757987fso143038511fa.3
+        for <linux-staging@lists.linux.dev>; Fri, 29 Sep 2023 07:18:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1695997115; x=1696601915; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=8j2Dqke+VIw3sY3uBi50vPFlbJnXICNf1WlSdn5wTHY=;
+        b=am1I/XsG4judkIxkIMVF4mRtfNS4pdIlT02btCmsFtaewc31kjgLfSi4un9rS6UDz7
+         8FQwH/YrPltKIT9yES9TpJiCD51qluSNxjS8MSJjqKaqQwhf48Bk8we0CRwMiIdOlINw
+         542RXheEDCLyQ7w4EECXQOMzpHLtxRYo6N/d3+cdQkmnfrkNd2g3KrbSanNHjYSD5hxV
+         LMkmRHmIm1Gw60WFmu0FPxicVaZr8FBma23cnhgc6mexc0pbA69W1nLPKTViBvrN5bEq
+         nXG5xuJLqmAoesHVbwGljxbRBTVGVWo/2dCmbpVW/kMzitI2FxyVx/9V/OzhVL24h8Wk
+         mMew==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1695997115; x=1696601915;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=8j2Dqke+VIw3sY3uBi50vPFlbJnXICNf1WlSdn5wTHY=;
+        b=gvGFmoNYW+G7aD0Ae6Y/aak0ZvTitKupFFIPavB6EhGzKs9X7FXqHovxgQjk6yak8j
+         i6PVhEjEUHM8DfDvtMkGZ8JkgBDQMGxci6dgNfZdw6wBl9k81TR6r5DlkSEXnxp/Cetc
+         wmVI0Sd8mhIv2LnLpn1P34qwrGWli2xKpoH/sidZviqo3D1QGuTmZJQuJDUj96TDPf9W
+         YEJfmZKTQu0UmLA/2dinNOf7+td+AzulXzIblTvEJDNn7eGc9rGsNS6+dR+H7B0CuqjW
+         2mZTiiu9pyz0UFTQoKwRs298KMtAlQozmzkGbDzXDxDp7vJEYNnqnHh0gXvHj4nJqUJS
+         nkCQ==
+X-Gm-Message-State: AOJu0YypS6EZIX+RSsrs0bGyLBwwGUtbCxeikq6n77aNF1/XqyN77pdE
+	kC9Yy/5y3qIraYKr5qsC2uXdCQ==
+X-Google-Smtp-Source: AGHT+IEekDnaCyM1jFkUv5e/jr17//76CHNCjve7vjqB/6LansiKHyMlI0JbtqXT4j1Rne7qfOcrKw==
+X-Received: by 2002:a2e:b0f9:0:b0:2bd:f8:1b6a with SMTP id h25-20020a2eb0f9000000b002bd00f81b6amr3604555ljl.36.1695997115593;
+        Fri, 29 Sep 2023 07:18:35 -0700 (PDT)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id k13-20020a05651c060d00b002b9358f5088sm1481286lje.53.2023.09.29.07.18.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 29 Sep 2023 07:18:35 -0700 (PDT)
+Date: Fri, 29 Sep 2023 17:18:31 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Naresh Kamboju <naresh.kamboju@linaro.org>
+Cc: Linux-Next Mailing List <linux-next@vger.kernel.org>,
+	linux-mips@vger.kernel.org, linux-staging@lists.linux.dev,
+	Oliver Crumrine <ozlinux@hotmail.com>,
+	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>
+Subject: Re: next: mips: cavium_octeon_defconfig failed -
+ drivers/staging/octeon/ethernet.c:204:37: error: storage size of 'rx_status'
+ isn't known
+Message-ID: <ccc85f1b-e932-4aa1-81c2-185df391fe82@kadam.mountain>
+References: <CA+G9fYvVETLEtiZ=MFRrxgXpmgirVHz-tDOxhU=7_9dtmx7o5g@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v8 00/53] Add DELETE_BUF ioctl
-Content-Language: en-US, nl
-To: Benjamin Gaignard <benjamin.gaignard@collabora.com>, mchehab@kernel.org,
- tfiga@chromium.org, m.szyprowski@samsung.com, ming.qian@nxp.com,
- ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de,
- gregkh@linuxfoundation.org, nicolas.dufresne@collabora.com
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org,
- linux-arm-msm@vger.kernel.org, linux-rockchip@lists.infradead.org,
- linux-staging@lists.linux.dev, kernel@collabora.com
-References: <20230927153558.159278-1-benjamin.gaignard@collabora.com>
- <ce043b11-aea9-4127-ba00-6c351651dc1e@xs4all.nl>
- <5cc5a999-e22d-4ef8-c857-ffd77630eeb9@collabora.com>
- <38ec1120-7c92-833b-6e59-35086f4a3c10@collabora.com>
-From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-In-Reply-To: <38ec1120-7c92-833b-6e59-35086f4a3c10@collabora.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CA+G9fYvVETLEtiZ=MFRrxgXpmgirVHz-tDOxhU=7_9dtmx7o5g@mail.gmail.com>
 
-On 29/09/2023 13:44, Benjamin Gaignard wrote:
-> 
-> Le 28/09/2023 à 15:16, Benjamin Gaignard a écrit :
->>
->> Le 28/09/2023 à 15:04, Hans Verkuil a écrit :
->>> Hi Benjamin,
->>>
->>> On 27/09/2023 17:35, Benjamin Gaignard wrote:
->>>> Unlike when resolution change on keyframes, dynamic resolution change
->>>> on inter frames doesn't allow to do a stream off/on sequence because
->>>> it is need to keep all previous references alive to decode inter frames.
->>>> This constraint have two main problems:
->>>> - more memory consumption.
->>>> - more buffers in use.
->>>> To solve these issue this series introduce DELETE_BUFS ioctl and remove
->>>> the 32 buffers limit per queue.
->>>>
->>>> VP9 conformance tests using fluster give a score of 210/305.
->>>> The 24 resize inter tests (vp90-2-21-resize_inter_* files) are ok
->>>> but require to use postprocessor.
->>>>
->>>> Kernel branch is available here:
->>>> https://gitlab.collabora.com/benjamin.gaignard/for-upstream/-/commits/remove_vb2_queue_limit_v8
->>>>
->>>> GStreamer branch to use DELETE_BUF ioctl and testing dynamic resolution
->>>> change is here:
->>>> https://gitlab.freedesktop.org/benjamin.gaignard1/gstreamer/-/commits/VP9_drc
->>> I applied patches 1-46 on top of staging and applied patch 1/2 of v4l-utils. I chose
->>> 1-46 since those would be the first batch to be merged.
->>>
->>> I had to apply a small patch on top, since amphion was still using max_allowed_buffers:
->>>
->>> https://git.linuxtv.org/hverkuil/media_tree.git/commit/?h=delbuf&id=fce79aa0239a3a4e5c7634b9b7ffc356057b70b4
->>>
->>> With that change everything compiled cleanly.
->>>
->>> But running the regression tests (test-media script) failed with a kernel oops:
->>>
->>> Buffer ioctls (Input 0):
->>>                  fail: v4l2-test-buffers.cpp(611): q.reqbufs(node, 1)
->>>          test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: FAIL
->>> [   25.309343] general protection fault, probably for non-canonical address 0xdffffc0000000001: 0000 [#1] PREEMPT SMP DEBUG_PAGEALLOC KASAN
->>> [   25.310067] KASAN: null-ptr-deref in range [0x0000000000000008-0x000000000000000f]
->>> [   25.310471] CPU: 0 PID: 187 Comm: v4l2-compliance Not tainted 6.6.0-rc3+ #1
->>> [   25.310837] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.16.2-debian-1.16.2-1 04/01/2014
->>> [   25.311334] RIP: 0010:__vb2_queue_alloc+0x34c/0xd00 [videobuf2_common]
->>> [   25.311688] Code: 89 f8 48 c1 e8 03 80 3c 18 00 0f 85 0c 07 00 00 49 8b b7 40 01 00 00 44 89 f0 4c 8d 2c c6 41 39 ce 73 18 4c 89 e8 48 c1 e8 03 <80> 3c 18 00 0f 85 d2 08 00 00 49 83 7d 00 00 74 02
->>> 0f 0b 4c 89 e8
->>> [   25.312670] RSP: 0018:ffff88810afef930 EFLAGS: 00010212
->>> [   25.312948] RAX: 0000000000000001 RBX: dffffc0000000000 RCX: 0000000000000040
->>> [   25.313331] RDX: ffff88810ce08814 RSI: 0000000000000000 RDI: ffff88810cfb72e0
->>> [   25.313708] RBP: ffff88810ce08800 R08: 0000000000001800 R09: 0000000000000001
->>> [   25.314097] R10: ffffffff91560b0f R11: ffffffff8f40006a R12: ffff88810afefa74
->>> [   25.314470] R13: 0000000000000008 R14: 0000000000000001 R15: ffff88810cfb71a0
->>> [   25.314854] FS:  00007fa524908440(0000) GS:ffff88811aa00000(0000) knlGS:0000000000000000
->>> [   25.315281] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
->>> [   25.315594] CR2: 0000562855948270 CR3: 0000000109e21000 CR4: 0000000000350ef0
->>> [   25.315982] Call Trace:
->>> [   25.316122]  <TASK>
->>> [   25.316243]  ? die_addr+0x37/0xa0
->>> [   25.316433]  ? exc_general_protection+0x144/0x210
->>> [   25.316693]  ? asm_exc_general_protection+0x22/0x30
->>> [   25.316955]  ? entry_SYSCALL_64_after_hwframe+0x46/0xb0
->>> [   25.317235]  ? __vb2_queue_alloc+0x34c/0xd00 [videobuf2_common]
->>> [   25.317555]  vb2_core_create_bufs+0x5a0/0xce0 [videobuf2_common]
->>> [   25.317879]  ? __vb2_queue_alloc+0xd00/0xd00 [videobuf2_common]
->>> [   25.318213]  vb2_create_bufs+0x680/0x7f0 [videobuf2_v4l2]
->>> [   25.318506]  ? __kasan_kmalloc+0x83/0x90
->>> [   25.318729]  ? __kmalloc+0x5c/0x150
->>> [   25.318924]  ? __video_do_ioctl+0x3a5/0xc20 [videodev]
->>> [   25.319223]  ? __copy_timestamp+0x270/0x270 [videobuf2_v4l2]
->>> [   25.319532]  ? v4l_sanitize_format+0x121/0x340 [videodev]
->>> [   25.319839]  vb2_ioctl_create_bufs+0x280/0x440 [videobuf2_v4l2]
->>> [   25.320162]  ? check_fmt+0x15/0x5e0 [videodev]
->>> [   25.320420]  v4l_create_bufs+0xa8/0x150 [videodev]
->>> [   25.320693]  __video_do_ioctl+0x8d0/0xc20 [videodev]
->>> [   25.320975]  ? v4l_prepare_buf+0xa0/0xa0 [videodev]
->>> [   25.321250]  ? __might_fault+0x112/0x170
->>> [   25.321463]  ? __might_fault+0x112/0x170
->>> [   25.321675]  video_usercopy+0x48c/0xd00 [videodev]
->>> [   25.321949]  ? v4l_prepare_buf+0xa0/0xa0 [videodev]
->>> [   25.322228]  ? v4l_enumstd+0x60/0x60 [videodev]
->>> [   25.322497]  ? selinux_bprm_creds_for_exec+0xa90/0xa90
->>> [   25.322779]  ? rseq_ip_fixup+0x304/0x480
->>> [   25.322995]  ? __up_read+0x10b/0x750
->>> [   25.323201]  ? rseq_get_rseq_cs+0x680/0x680
->>> [   25.323430]  v4l2_ioctl+0x17f/0x1f0 [videodev]
->>> [   25.323689]  __x64_sys_ioctl+0x127/0x190
->>> [   25.323905]  do_syscall_64+0x35/0x80
->>> [   25.324105]  entry_SYSCALL_64_after_hwframe+0x46/0xb0
->>> [   25.324372] RIP: 0033:0x7fa524bf44eb
->>> [   25.324564] Code: 00 48 89 44 24 18 31 c0 48 8d 44 24 60 c7 04 24 10 00 00 00 48 89 44 24 08 48 8d 44 24 20 48 89 44 24 10 b8 10 00 00 00 0f 05 <89> c2 3d 00 f0 ff ff 77 1c 48 8b 44 24 18 64 48 2b
->>> 04 25 28 00 00
->>> [   25.325533] RSP: 002b:00007ffc888efee0 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
->>> [   25.325933] RAX: ffffffffffffffda RBX: 00007ffc888f0350 RCX: 00007fa524bf44eb
->>> [   25.326314] RDX: 00007ffc888effb0 RSI: 00000000c100565c RDI: 0000000000000023
->>> [   25.326702] RBP: 00007ffc888f8550 R08: 0000000000000000 R09: 0000000000000001
->>> [   25.327081] R10: 0000000000000016 R11: 0000000000000246 R12: 0000000000000000
->>> [   25.327468] R13: 0000000000000001 R14: 00007ffc888f8010 R15: 00007ffc888f1790
->>> [   25.327852]  </TASK>
->>> [   25.327979] Modules linked in: vivid videobuf2_dma_contig v4l2_tpg v4l2_dv_timings cec videobuf2_vmalloc videobuf2_memops videobuf2_v4l2 videodev videobuf2_common mc rc_core
->>> [   25.328835] ---[ end trace 0000000000000000 ]---
->>> [   25.329083] RIP: 0010:__vb2_queue_alloc+0x34c/0xd00 [videobuf2_common]
->>> [   25.329434] Code: 89 f8 48 c1 e8 03 80 3c 18 00 0f 85 0c 07 00 00 49 8b b7 40 01 00 00 44 89 f0 4c 8d 2c c6 41 39 ce 73 18 4c 89 e8 48 c1 e8 03 <80> 3c 18 00 0f 85 d2 08 00 00 49 83 7d 00 00 74 02
->>> 0f 0b 4c 89 e8
->>> [   25.330417] RSP: 0018:ffff88810afef930 EFLAGS: 00010212
->>> [   25.330812] RAX: 0000000000000001 RBX: dffffc0000000000 RCX: 0000000000000040
->>> [   25.331194] RDX: ffff88810ce08814 RSI: 0000000000000000 RDI: ffff88810cfb72e0
->>> [   25.331594] RBP: ffff88810ce08800 R08: 0000000000001800 R09: 0000000000000001
->>> [   25.331978] R10: ffffffff91560b0f R11: ffffffff8f40006a R12: ffff88810afefa74
->>> [   25.332360] R13: 0000000000000008 R14: 0000000000000001 R15: ffff88810cfb71a0
->>> [   25.332746] FS:  00007fa524908440(0000) GS:ffff88811aa00000(0000) knlGS:0000000000000000
->>> [   25.333170] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
->>> [   25.333486] CR2: 0000562855948270 CR3: 0000000109e21000 CR4: 0000000000350ef0
->>> [   25.333861] Kernel panic - not syncing: Fatal exception
->>> [   25.334179] Kernel Offset: 0xbe00000 from 0xffffffff81000000 (relocation range: 0xffffffff80000000-0xffffffffbfffffff)
->>> [   25.334748] Rebooting in 30 seconds..
->>>
->>> I use the build scripts as described here:
->>>
->>> https://lore.kernel.org/linux-media/18989016-6392-a77b-6cf7-1223c9161def@xs4all.nl/
->>>
->>> I use this command to run the regression tests:
->>>
->>> ./build.sh -virtme -virtme-utils-path /usr/local/bin none delbuf
->>>
->>> (delbuf is the name of my branch)
->>>
->>> I don't really want to spend time reviewing this series until this is fixed...
->>
->> Yes that make sense.
->> It will work on it and let you now when I had fix it.
->> Regards,
->> Benjamin
-> 
-> This patch fix the problem:
-> 
-> diff --git a/drivers/media/common/videobuf2/videobuf2-core.c b/drivers/media/common/videobuf2/videobuf2-core.c
-> index 320f37e46343..0598c1e4e9b5 100644
-> --- a/drivers/media/common/videobuf2/videobuf2-core.c
-> +++ b/drivers/media/common/videobuf2/videobuf2-core.c
-> @@ -428,6 +428,8 @@ static void vb2_queue_add_buffer(struct vb2_queue *q, struct vb2_buffer *vb, uns
->   */
->  static void vb2_queue_remove_buffer(struct vb2_buffer *vb)
->  {
-> +    if (vb->vb2_queue->num_buffers)
-> +        vb->vb2_queue->num_buffers--;
->      vb->vb2_queue->bufs[vb->index] = NULL;
->      vb->vb2_queue = NULL;
->  }
-> @@ -641,8 +643,8 @@ static void __vb2_queue_free(struct vb2_queue *q, unsigned int buffers)
->  #endif
-> 
->      /* Free vb2 buffers */
-> -    for (i = q->max_num_buffers, buffer = 0; i > 0 && buffer < buffers; i--) {
-> -        struct vb2_buffer *vb = vb2_get_buffer(q, buffer);
-> +    for (i = q->max_num_buffers, buffer = 0; i >= 0 && buffer < buffers; i--) {
-> +        struct vb2_buffer *vb = vb2_get_buffer(q, i);
-> 
->          if (!vb)
->              continue;
-> @@ -2541,6 +2543,7 @@ void vb2_core_queue_release(struct vb2_queue *q)
->      __vb2_queue_free(q, q->max_num_buffers);
->      kfree(q->bufs);
->      q->bufs = NULL;
-> +    q->num_buffers = 0;
->      mutex_unlock(&q->mmap_lock);
->  }
->  EXPORT_SYMBOL_GPL(vb2_core_queue_release);
-> 
-> I'm preparing a v9 with this + your patch for Amphion driver:
-> 
-> https://gitlab.collabora.com/benjamin.gaignard/for-upstream/-/commits/remove_vb2_queue_limit_v9
+This is weird.
 
-Even with this patch I still get errors. Did you just test vivid?
+I managed to reproduce this once but couldn't reproduce it again after
+that.  It seems like an intermittent thing to me.
 
-Run 'test-media mc' to test it for all virtual drivers. I get both compliance
-failures, a WARN_ON in drivers/media/common/videobuf2/videobuf2-core.c:2489,
-and memory leaks. It currently fails and exists completely with the vimc tests,
-but things may already have gone pear-shaped with the vim2m test.
+regards,
+dan carpenter
 
-I'll mail you the full output from a test run with the build scripts
-separately (it's a bit too big to add here).
-
-I don't know if you can run the build script with the -virtme option, instructions
-for that are currently only available for debian 12. If not, then ask Sebastian
-Fricke (he is working on a docker for this), alternatively you can take
-configs/virtme.config from the build scripts git repo and use that as the kernel
-config to test under. This config enables memory leak detection and a whole bunch
-of other debugging stuff.
-
-Regards,
-
-	Hans
