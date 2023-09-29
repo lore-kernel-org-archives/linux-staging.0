@@ -1,43 +1,43 @@
-Received: from mail-oo1-f49.google.com (mail-oo1-f49.google.com [209.85.161.49])
+Received: from mail-ot1-f49.google.com (mail-ot1-f49.google.com [209.85.210.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB25366666
-	for <linux-staging@lists.linux.dev>; Fri, 29 Sep 2023 17:26:04 +0000 (UTC)
-Received: by mail-oo1-f49.google.com with SMTP id 006d021491bc7-57babef76deso5274215eaf.0
-        for <linux-staging@lists.linux.dev>; Fri, 29 Sep 2023 10:26:04 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC0B751B88
+	for <linux-staging@lists.linux.dev>; Fri, 29 Sep 2023 17:26:05 +0000 (UTC)
+Received: by mail-ot1-f49.google.com with SMTP id 46e09a7af769-6c49f781855so8261355a34.3
+        for <linux-staging@lists.linux.dev>; Fri, 29 Sep 2023 10:26:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1696008364; x=1696613164; darn=lists.linux.dev;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1696008365; x=1696613165; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=tS7YI5TT8iCzu0xP6mOTzyE+I46GD7w3qWGpHwQJ6RA=;
-        b=zTK/9q7E+YjoBASRFrrdiJcuF5lIX1zEIJ3Ar8kqUsiQ3CmjxBUvSkQ/yij+LMPjoz
-         ppyHI311upwPf/7tEb3IK2YLD0dgBdeMGkNkcBgWlr5yqMOGxHzdR/V00J1EPioKeWN8
-         liIbSnqulIVVmOUDPvP3C6OCJPSBH07oa0VJNolYHxO9FLT4FQFV6LtrmyI/do1F7NpY
-         CUSNJmvjc2qvvVuBErnSaze6kkOf2UUt+PBAVdS5UsSc/CrqB42yp29GTd2723CWE4FZ
-         YGbzv469pBmDuvcSEeqXxLQgzDrJWTGcNv+4KXenrotm/NRN8ceokqQXyvLFJcna7B7U
-         VGEg==
+        bh=B+I4VRfCfFP72yApzhIwo9Fg0drG4LlaaDXwdDXV7tg=;
+        b=Ix/EvpuV/Ztk3m8JkyxIQUT0V6aRLFs/S8MpIbkCs8qpmtc/FHWrN4x5z6Ub2AkTed
+         x7UEnhidYXtXK1iSrdO6vVC70jCKJaC0Utqi5fR26dRDpMzWG8qs3aC/nZSVFTCyVImD
+         XB0OXF67FCQ2a6XiGungAj7ZOZx3Gb9sUfnHxroDn9t+NgEU3s5xdMxtTbBxnU3SUm+3
+         W+Cloqf1EEBaq07JMNcx/r1v1uZM4dqMDcg0/mb6QbVJgW7203SUNXfGCpwOgkYLHv0J
+         j3IHduvZpqcEi3uqZLWcnLZLNyCAv9TJZ2F/5aHurjQwP96mJTFIpuNJXt4qrSdArA13
+         fAlw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696008364; x=1696613164;
+        d=1e100.net; s=20230601; t=1696008365; x=1696613165;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=tS7YI5TT8iCzu0xP6mOTzyE+I46GD7w3qWGpHwQJ6RA=;
-        b=QM7MBz018MK+XDNvg6YKKpT/0K2zKCmcTHd5t7gyVndikoBwAEE67f49w+4omfQfuM
-         I54lMCjRy+PhO9cOz7Z5w6I0adVObArSlI6Ed2SxjU/1grBYfV0Ozu+Nk9pkxRZ8et4D
-         vf0xqysmvcZTtlza9e8UGVndWPAxhJSOz+DVfPjGpP6kpN27sl6sjBfRcQ+so4SinJF9
-         hC0l0ZBVfjjXN5CcSFUEdeVz2hzxe8ppizlm6dnUTyQxMI7qDKTerV/W1grc0floY3Qe
-         vLKbuAPmVT1J9/45D07nCfEgVHTbT5B2kc1oBUVWr6+QFfSI+FOh1ZOLe7FfTBKtSauS
-         eZ2Q==
-X-Gm-Message-State: AOJu0YxXzuiTOhNMSQE1GS7n3pU5L6RT63qItNzDAy9wgXWV6AGI5woV
-	2COMh+NbuzMkKeVT0FnJPg0wUw==
-X-Google-Smtp-Source: AGHT+IF8yMVQ9f1c2mTbSnFqWqf+fD9+4/2EDkW6CPt/1JR7WinyHfvnNtPwWAbK6Tyixz85c/NRLg==
-X-Received: by 2002:a4a:6c47:0:b0:57b:cbc2:79ff with SMTP id u7-20020a4a6c47000000b0057bcbc279ffmr4437306oof.4.1696008364006;
+        bh=B+I4VRfCfFP72yApzhIwo9Fg0drG4LlaaDXwdDXV7tg=;
+        b=OEklLqsFNcgcC4LYApdEICi8se6ILMM3C4Ris7uOG2Mo3I/rpMXXFXbIRnQ0v/s33G
+         JYuVAOgodj9WugLAeVTsFpccBaW1h0xnKQXO6AiQieE2Z1IZ2HA4iPwVU6xk3thmfBdD
+         lqwJ8smooAxaGY0IpATmdLK5QyDQ0mb5XxFVmEX1NvE43sa9qkVR0IbDgAc4kXTcwZgE
+         BdMsLJPxucHQ58whqcNEpiFoEAk4+29YbeB7mCylLJJwbH9x3lv4yIwNwYg4UX9RS59I
+         P0ZbcwPhLA6Ez4ENxb2maGdnZ9/E17WldxwxMSO5zDeSPKE2JOS+X4zNOn2fSSQafCsj
+         btUw==
+X-Gm-Message-State: AOJu0Yyjl6xVICPT+7MWreSu17+V1GVsICmeZr4+xlAR18BCJcuxqJ2y
+	757uPWLCjbgqm6fNj7EMDpvH2w==
+X-Google-Smtp-Source: AGHT+IEDk3K0gISCTUXG8sbkK43ecAqVNck02OE2zcrr8O7+YohLLZ0CWNYmMufLd09XXF4qj6WujA==
+X-Received: by 2002:a05:6830:16d8:b0:6c4:e6d8:2cdc with SMTP id l24-20020a05683016d800b006c4e6d82cdcmr5028313otr.23.1696008364886;
         Fri, 29 Sep 2023 10:26:04 -0700 (PDT)
 Received: from freyr.lechnology.com (ip98-183-112-25.ok.ok.cox.net. [98.183.112.25])
-        by smtp.gmail.com with ESMTPSA id f128-20020a4a5886000000b0057bb326cad4sm2272915oob.33.2023.09.29.10.26.03
+        by smtp.gmail.com with ESMTPSA id f128-20020a4a5886000000b0057bb326cad4sm2272915oob.33.2023.09.29.10.26.04
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 29 Sep 2023 10:26:03 -0700 (PDT)
+        Fri, 29 Sep 2023 10:26:04 -0700 (PDT)
 From: David Lechner <dlechner@baylibre.com>
 To: linux-iio@vger.kernel.org,
 	devicetree@vger.kernel.org,
@@ -53,9 +53,9 @@ Cc: David Lechner <david@lechnology.com>,
 	Philip Molloy <pmolloy@baylibre.com>,
 	linux-kernel@vger.kernel.org,
 	David Lechner <dlechner@baylibre.com>
-Subject: [PATCH v3 19/27] staging: iio: resolver: ad2s1210: add phase lock range support
-Date: Fri, 29 Sep 2023 12:23:24 -0500
-Message-ID: <20230929-ad2s1210-mainline-v3-19-fa4364281745@baylibre.com>
+Subject: [PATCH v3 20/27] staging: iio: resolver: ad2s1210: add triggered buffer support
+Date: Fri, 29 Sep 2023 12:23:25 -0500
+Message-ID: <20230929-ad2s1210-mainline-v3-20-fa4364281745@baylibre.com>
 X-Mailer: git-send-email 2.42.0
 In-Reply-To: <20230929-ad2s1210-mainline-v3-0-fa4364281745@baylibre.com>
 References: <20230929-ad2s1210-mainline-v3-0-fa4364281745@baylibre.com>
@@ -73,206 +73,149 @@ From: David Lechner <david@lechnology.com>
 
 From: David Lechner <dlechner@baylibre.com>
 
-The AD2S1210 chip has a phase lock range feature that allows selecting
-the allowable phase difference between the excitation output and the
-sine and cosine inputs. This can be set to either 44 degrees (default)
-or 360 degrees.
-
-This patch adds a new phase channel with a threshold event that can be
-used to configure the phase lock range. Actually emitting the event
-will be added in a subsequent patch.
+This adds support for triggered buffers to the AD2S1210 resolver driver.
 
 Signed-off-by: David Lechner <dlechner@baylibre.com>
 ---
 
 v3 changes:
-* This is a new patch to replace "staging: iio: resolver: ad2s1210: add
- phase_lock_range attributes"
+* Dropped setting datasheet_name of channels.
 
- drivers/staging/iio/resolver/ad2s1210.c | 125 ++++++++++++++++++++++++++++++++
- 1 file changed, 125 insertions(+)
+ drivers/staging/iio/resolver/ad2s1210.c | 83 ++++++++++++++++++++++++++++++++-
+ 1 file changed, 82 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/staging/iio/resolver/ad2s1210.c b/drivers/staging/iio/resolver/ad2s1210.c
-index a0a426d0af19..bafc134eed97 100644
+index bafc134eed97..c0bc9eac18e8 100644
 --- a/drivers/staging/iio/resolver/ad2s1210.c
 +++ b/drivers/staging/iio/resolver/ad2s1210.c
-@@ -56,6 +56,13 @@
- #define AD2S1210_MIN_FCW	0x4
- #define AD2S1210_MAX_FCW	0x50
+@@ -20,8 +20,11 @@
+ #include <linux/sysfs.h>
+ #include <linux/types.h>
  
-+/* 44 degrees ~= 0.767945 radians */
-+#define PHASE_44_DEG_TO_RAD_INT 0
-+#define PHASE_44_DEG_TO_RAD_MICRO 767945
-+/* 360 degrees ~= 6.283185 radians */
-+#define PHASE_360_DEG_TO_RAD_INT 6
-+#define PHASE_360_DEG_TO_RAD_MICRO 283185
-+
- enum ad2s1210_mode {
- 	MOD_POS = 0b00,
- 	MOD_VEL = 0b01,
-@@ -376,6 +383,54 @@ static int ad2s1210_set_hysteresis(struct ad2s1210_state *st, int val)
++#include <linux/iio/buffer.h>
+ #include <linux/iio/iio.h>
+ #include <linux/iio/sysfs.h>
++#include <linux/iio/trigger_consumer.h>
++#include <linux/iio/triggered_buffer.h>
+ 
+ #define DRV_NAME "ad2s1210"
+ 
+@@ -92,6 +95,12 @@ struct ad2s1210_state {
+ 	enum ad2s1210_resolution resolution;
+ 	/** For reading raw sample value via SPI. */
+ 	__be16 sample __aligned(IIO_DMA_MINALIGN);
++	/** Scan buffer */
++	struct {
++		__be16 chan[2];
++		/* Ensure timestamp is naturally aligned. */
++		s64 timestamp __aligned(8);
++	} scan;
+ 	/** SPI transmit buffer. */
+ 	u8 rx[2];
+ 	/** SPI receive buffer. */
+@@ -617,6 +626,13 @@ static const struct iio_chan_spec ad2s1210_channels[] = {
+ 		.type = IIO_ANGL,
+ 		.indexed = 1,
+ 		.channel = 0,
++		.scan_index = 0,
++		.scan_type = {
++			.sign = 'u',
++			.realbits = 16,
++			.storagebits = 16,
++			.endianness = IIO_BE,
++		},
+ 		.info_mask_separate = BIT(IIO_CHAN_INFO_RAW) |
+ 				      BIT(IIO_CHAN_INFO_SCALE) |
+ 				      BIT(IIO_CHAN_INFO_HYSTERESIS),
+@@ -626,9 +642,18 @@ static const struct iio_chan_spec ad2s1210_channels[] = {
+ 		.type = IIO_ANGL_VEL,
+ 		.indexed = 1,
+ 		.channel = 0,
++		.scan_index = 1,
++		.scan_type = {
++			.sign = 's',
++			.realbits = 16,
++			.storagebits = 16,
++			.endianness = IIO_BE,
++		},
+ 		.info_mask_separate = BIT(IIO_CHAN_INFO_RAW) |
+ 				      BIT(IIO_CHAN_INFO_SCALE),
+-	}, {
++	},
++	IIO_CHAN_SOFT_TIMESTAMP(2),
++	{
+ 		/* used to configure phase lock range and get phase lock error */
+ 		.type = IIO_PHASE,
+ 		.indexed = 1,
+@@ -756,6 +781,55 @@ static int ad2s1210_debugfs_reg_access(struct iio_dev *indio_dev,
  	return ret;
  }
  
-+static int ad2s1210_get_phase_lock_range(struct ad2s1210_state *st,
-+					 int *val, int *val2)
++static irqreturn_t ad2s1210_trigger_handler(int irq, void *p)
 +{
++	struct iio_poll_func *pf = p;
++	struct iio_dev *indio_dev = pf->indio_dev;
++	struct ad2s1210_state *st = iio_priv(indio_dev);
++	size_t chan = 0;
 +	int ret;
 +
 +	mutex_lock(&st->lock);
-+	ret = regmap_test_bits(st->regmap, AD2S1210_REG_CONTROL,
-+			       AD2S1210_PHASE_LOCK_RANGE_44);
++
++	memset(&st->scan, 0, sizeof(st->scan));
++	gpiod_set_value(st->sample_gpio, 1);
++
++	if (test_bit(0, indio_dev->active_scan_mask)) {
++		ret = ad2s1210_set_mode(st, MOD_POS);
++		if (ret < 0)
++			goto error_ret;
++
++		/* REVIST: we can read 3 bytes here and also get fault flags */
++		ret = spi_read(st->sdev, st->rx, 2);
++		if (ret < 0)
++			goto error_ret;
++
++		memcpy(&st->scan.chan[chan++], st->rx, 2);
++	}
++
++	if (test_bit(1, indio_dev->active_scan_mask)) {
++		ret = ad2s1210_set_mode(st, MOD_VEL);
++		if (ret < 0)
++			goto error_ret;
++
++		/* REVIST: we can read 3 bytes here and also get fault flags */
++		ret = spi_read(st->sdev, st->rx, 2);
++		if (ret < 0)
++			goto error_ret;
++
++		memcpy(&st->scan.chan[chan++], st->rx, 2);
++	}
++
++	iio_push_to_buffers_with_timestamp(indio_dev, &st->scan, pf->timestamp);
++
++error_ret:
++	gpiod_set_value(st->sample_gpio, 0);
 +	mutex_unlock(&st->lock);
++	iio_trigger_notify_done(indio_dev->trig);
 +
-+	if (ret < 0)
-+		return ret;
-+
-+	if (ret) {
-+		/* 44 degrees as radians */
-+		*val = PHASE_44_DEG_TO_RAD_INT;
-+		*val2 = PHASE_44_DEG_TO_RAD_MICRO;
-+	} else {
-+		/* 360 degrees as radians */
-+		*val = PHASE_360_DEG_TO_RAD_INT;
-+		*val2 = PHASE_360_DEG_TO_RAD_MICRO;
-+	}
-+
-+	return IIO_VAL_INT_PLUS_MICRO;
++	return IRQ_HANDLED;
 +}
 +
-+static int ad2s1210_set_phase_lock_range(struct ad2s1210_state *st,
-+					 int val, int val2)
-+{
-+	int deg, ret;
-+
-+	/* convert radians to degrees - only two allowable values */
-+	if (val == PHASE_44_DEG_TO_RAD_INT && val2 == PHASE_44_DEG_TO_RAD_MICRO)
-+		deg = 44;
-+	else if (val == PHASE_360_DEG_TO_RAD_INT &&
-+		 val2 == PHASE_360_DEG_TO_RAD_MICRO)
-+		deg = 360;
-+	else
-+		return -EINVAL;
-+
-+	mutex_lock(&st->lock);
-+	ret = regmap_update_bits(st->regmap, AD2S1210_REG_CONTROL,
-+				 AD2S1210_PHASE_LOCK_RANGE_44,
-+				 deg == 44 ? AD2S1210_PHASE_LOCK_RANGE_44 : 0);
-+	mutex_unlock(&st->lock);
-+	return ret;
-+}
-+
- static int ad2s1210_get_excitation_frequency(struct ad2s1210_state *st, int *val)
- {
- 	unsigned int reg_val;
-@@ -547,6 +602,16 @@ static IIO_DEVICE_ATTR(lot_low_thrd, 0644,
- 		       ad2s1210_show_reg, ad2s1210_store_reg,
- 		       AD2S1210_REG_LOT_LOW_THRD);
- 
-+static const struct iio_event_spec ad2s1210_phase_event_spec[] = {
-+	{
-+		/* Phase error fault. */
-+		.type = IIO_EV_TYPE_MAG,
-+		.dir = IIO_EV_DIR_NONE,
-+		/* Phase lock range. */
-+		.mask_separate = BIT(IIO_EV_INFO_VALUE),
-+	},
-+};
-+
- static const struct iio_chan_spec ad2s1210_channels[] = {
- 	{
- 		.type = IIO_ANGL,
-@@ -563,6 +628,14 @@ static const struct iio_chan_spec ad2s1210_channels[] = {
- 		.channel = 0,
- 		.info_mask_separate = BIT(IIO_CHAN_INFO_RAW) |
- 				      BIT(IIO_CHAN_INFO_SCALE),
-+	}, {
-+		/* used to configure phase lock range and get phase lock error */
-+		.type = IIO_PHASE,
-+		.indexed = 1,
-+		.channel = 0,
-+		.scan_index = -1,
-+		.event_spec = ad2s1210_phase_event_spec,
-+		.num_event_specs = ARRAY_SIZE(ad2s1210_phase_event_spec),
- 	}, {
- 		/* excitation frequency output */
- 		.type = IIO_ALTVOLTAGE,
-@@ -591,6 +664,21 @@ static const struct attribute_group ad2s1210_attribute_group = {
- 	.attrs = ad2s1210_attributes,
- };
- 
-+IIO_CONST_ATTR(in_phase0_mag_value_available,
-+	       __stringify(PHASE_44_DEG_TO_RAD_INT) "."
-+	       __stringify(PHASE_44_DEG_TO_RAD_MICRO) " "
-+	       __stringify(PHASE_360_DEG_TO_RAD_INT) "."
-+	       __stringify(PHASE_360_DEG_TO_RAD_MICRO));
-+
-+static struct attribute *ad2s1210_event_attributes[] = {
-+	&iio_const_attr_in_phase0_mag_value_available.dev_attr.attr,
-+	NULL,
-+};
-+
-+static const struct attribute_group ad2s1210_event_attribute_group = {
-+	.attrs = ad2s1210_event_attributes,
-+};
-+
- static int ad2s1210_initial(struct ad2s1210_state *st)
- {
- 	unsigned char data;
-@@ -615,6 +703,40 @@ static int ad2s1210_initial(struct ad2s1210_state *st)
- 	return ret;
- }
- 
-+static int ad2s1210_read_event_value(struct iio_dev *indio_dev,
-+				     const struct iio_chan_spec *chan,
-+				     enum iio_event_type type,
-+				     enum iio_event_direction dir,
-+				     enum iio_event_info info,
-+				     int *val, int *val2)
-+{
-+	struct ad2s1210_state *st = iio_priv(indio_dev);
-+
-+	switch (chan->type) {
-+	case IIO_PHASE:
-+		return ad2s1210_get_phase_lock_range(st, val, val2);
-+	default:
-+		return -EINVAL;
-+	}
-+}
-+
-+static int ad2s1210_write_event_value(struct iio_dev *indio_dev,
-+				      const struct iio_chan_spec *chan,
-+				      enum iio_event_type type,
-+				      enum iio_event_direction dir,
-+				      enum iio_event_info info,
-+				      int val, int val2)
-+{
-+	struct ad2s1210_state *st = iio_priv(indio_dev);
-+
-+	switch (chan->type) {
-+	case IIO_PHASE:
-+		return ad2s1210_set_phase_lock_range(st, val, val2);
-+	default:
-+		return -EINVAL;
-+	}
-+}
-+
- static int ad2s1210_debugfs_reg_access(struct iio_dev *indio_dev,
- 				       unsigned int reg, unsigned int writeval,
- 				       unsigned int *readval)
-@@ -635,10 +757,13 @@ static int ad2s1210_debugfs_reg_access(struct iio_dev *indio_dev,
- }
- 
  static const struct iio_info ad2s1210_info = {
-+	.event_attrs = &ad2s1210_event_attribute_group,
+ 	.event_attrs = &ad2s1210_event_attribute_group,
  	.read_raw = ad2s1210_read_raw,
- 	.read_avail = ad2s1210_read_avail,
- 	.write_raw = ad2s1210_write_raw,
- 	.attrs = &ad2s1210_attribute_group,
-+	.read_event_value = ad2s1210_read_event_value,
-+	.write_event_value = ad2s1210_write_event_value,
- 	.debugfs_reg_access = &ad2s1210_debugfs_reg_access,
- };
+@@ -944,6 +1018,13 @@ static int ad2s1210_probe(struct spi_device *spi)
+ 	indio_dev->num_channels = ARRAY_SIZE(ad2s1210_channels);
+ 	indio_dev->name = spi_get_device_id(spi)->name;
+ 
++	ret = devm_iio_triggered_buffer_setup(&spi->dev, indio_dev,
++					      &iio_pollfunc_store_time,
++					      &ad2s1210_trigger_handler, NULL);
++	if (ret < 0)
++		return dev_err_probe(&spi->dev, ret,
++				     "iio triggered buffer setup failed\n");
++
+ 	return devm_iio_device_register(&spi->dev, indio_dev);
+ }
  
 
 -- 
