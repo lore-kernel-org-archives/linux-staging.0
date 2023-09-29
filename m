@@ -1,43 +1,43 @@
-Received: from mail-ot1-f54.google.com (mail-ot1-f54.google.com [209.85.210.54])
+Received: from mail-oo1-f51.google.com (mail-oo1-f51.google.com [209.85.161.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A06B1658A5
-	for <linux-staging@lists.linux.dev>; Fri, 29 Sep 2023 17:26:08 +0000 (UTC)
-Received: by mail-ot1-f54.google.com with SMTP id 46e09a7af769-6c49f781855so8261386a34.3
-        for <linux-staging@lists.linux.dev>; Fri, 29 Sep 2023 10:26:08 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82E32658BB
+	for <linux-staging@lists.linux.dev>; Fri, 29 Sep 2023 17:26:09 +0000 (UTC)
+Received: by mail-oo1-f51.google.com with SMTP id 006d021491bc7-57bce354d94so4124600eaf.2
+        for <linux-staging@lists.linux.dev>; Fri, 29 Sep 2023 10:26:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1696008368; x=1696613168; darn=lists.linux.dev;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1696008369; x=1696613169; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=/OIko2VEB5nAyTulOY98c2fJMS8MyLj5LBT+8EJliTE=;
-        b=jhKXVoCA9Y7f8ZyUi4ii2Gei2YUE+HVSizZIBSPQnNErPuL7Sun+i7IjI3W72brzb8
-         5J8zWgfan2BEhBBBo/7+pztaBigqiFEXiyHw8X2OQO+7TvcreBxa41cWp4iTyMkOXCqF
-         YfMy3MhSPm66CR2ksim4BwIlrnzb2cIuzXx04aEy/vr3JSh5tJ3dcv1f+Vf37yjXkwyp
-         LcJ00LtYcWsc9SN/dQ0+2gQni3+5xOtYWQCX5P+nCgfYr80e6BSE7vloZZ4iiNftz5aX
-         u5ZEh6/yu10EsiXGGOShQxof7D3UpwDLkBb0RZaD5QMrw5ifP/YPxZYNgBn8E0AWsIAP
-         XQgA==
+        bh=/pCkF6s/z1t5Ue29EtXGzP9/ybnd8/CP4rJlUtuFjv4=;
+        b=yqc+CGEHpSwwc304ioWh0pb2OqKMt2C2/kf3JqNShjw2Mpp6US0jiAEP50zFt3IT3F
+         NDyJao5qk88pffQuz4JcpuZ96fOiDa8JjQ6EoFxcj+jiF/aMuePKLF+oqmVgzaVDmqAc
+         3IbWQ64Uo+KJ3BmziySeDN3e5ZHZslhv5LnTKpusWPQ+6SGtsGzpN+7TRB8SkAeZ1zUz
+         f0AFF2LhAj5RgBoVsYirEtfrtEVGuBma+/QELjyy2bp9Q73zO/QVyw/UZN3iRFLPp1C+
+         GSZHksxfeNnK036Pwvd7rAmJAZvnfCTgDLIEViSfm/1oWPQrfH4gi5x5kO1s05+Fu2+g
+         uutQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696008368; x=1696613168;
+        d=1e100.net; s=20230601; t=1696008369; x=1696613169;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=/OIko2VEB5nAyTulOY98c2fJMS8MyLj5LBT+8EJliTE=;
-        b=E+BoE4TNLSlLTPM7RDprY+gQbddwO+G2z1ghs9eMD8vMfQzV0f2ge49DIcfdP6gwKx
-         7RVFZHjhT3mgCz5sYwYd0J7OG4vW0pwYjnzczDeIH93ZX+djnYSvHixY+NNvNUfK2C82
-         7ZTcX7clg1xHYeEkheywsB4nMDlLq/u14Hh5etoZ7TDBokuHhuB6H0tPEQtoGemhyxuK
-         wAWgEyDvMS/dsHl7RbIeRd1Vg23ZD3sjK2ssFmHBFloHtwZtko4EA2vfAUcba8hlqJgV
-         MD5Sb/ZKhhdAbAK8V0NdYu7983tuPR8LAyywmWUFTuLH7KhGhWuclDZBCiYIMFl2NiJw
-         o02A==
-X-Gm-Message-State: AOJu0Yx6AN2sD9Sl1McECfSILSMzWkrIM1DqdX9pWR8wyUgO5ba2YJoI
-	uGbchCVGdsQ2uuuXV7Yr6izAAw==
-X-Google-Smtp-Source: AGHT+IHTEaVTYh4HKw2eTk3iwn4k3aJ3xEvVUYXL3bv/BfLYpVM3D+/eYIoo0BxU7JlfwzagPveJGw==
-X-Received: by 2002:a9d:624b:0:b0:6bd:9fa:34ff with SMTP id i11-20020a9d624b000000b006bd09fa34ffmr4760967otk.9.1696008367691;
-        Fri, 29 Sep 2023 10:26:07 -0700 (PDT)
+        bh=/pCkF6s/z1t5Ue29EtXGzP9/ybnd8/CP4rJlUtuFjv4=;
+        b=We9HUhUl297B3jgP/jUW7GEmhYjcgjpWVx2VK8kFugnG550DtBQrkw+I3Ltg0BWsxN
+         0Pe6Hab5s8pIiZCzNlbMJhoN32im+7oZ2yxhM+WkvFrhyYj5laFVW4p6kmqz6LPSSoFU
+         RkCDk9fkjRxHTc2yhvwHNXETVtoYqNbqiUR438wUXY9rZTkY/hQszX4Gf8aHjwHTRbfN
+         pQi3kUNTuHTMt2PMd0xn/z8HYC1q/VYSU+dCvNetUuCwQ2hJyzveTsjL191Bd0r0iDmt
+         WylWIFGdPln9nYl4b9Zyh/TC1oGUQQfYJQY56Q9qguD4uhAEfgXY6guE3Q5vmyiuLZwo
+         doEQ==
+X-Gm-Message-State: AOJu0Yxc3fAhOTV3MxjntEc99BzSqg235dw5X/VHU9FUXZAOcM8y/zeM
+	gClUPjYzWfHIQk6EVIxS21IXsg==
+X-Google-Smtp-Source: AGHT+IHipuREXbkFczmit9VvG4Wc397pdD8A6tTva0q3Sf2PyH3Zb7ZgpWVPbxt6AV9XWMn3CDOYMw==
+X-Received: by 2002:a4a:6219:0:b0:57b:86f5:701c with SMTP id x25-20020a4a6219000000b0057b86f5701cmr4881314ooc.4.1696008368636;
+        Fri, 29 Sep 2023 10:26:08 -0700 (PDT)
 Received: from freyr.lechnology.com (ip98-183-112-25.ok.ok.cox.net. [98.183.112.25])
-        by smtp.gmail.com with ESMTPSA id f128-20020a4a5886000000b0057bb326cad4sm2272915oob.33.2023.09.29.10.26.06
+        by smtp.gmail.com with ESMTPSA id f128-20020a4a5886000000b0057bb326cad4sm2272915oob.33.2023.09.29.10.26.07
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 29 Sep 2023 10:26:07 -0700 (PDT)
+        Fri, 29 Sep 2023 10:26:08 -0700 (PDT)
 From: David Lechner <dlechner@baylibre.com>
 To: linux-iio@vger.kernel.org,
 	devicetree@vger.kernel.org,
@@ -53,9 +53,9 @@ Cc: David Lechner <david@lechnology.com>,
 	Philip Molloy <pmolloy@baylibre.com>,
 	linux-kernel@vger.kernel.org,
 	David Lechner <dlechner@baylibre.com>
-Subject: [PATCH v3 23/27] staging: iio: resolver: ad2s1210: convert DOS overrange threshold to event attr
-Date: Fri, 29 Sep 2023 12:23:28 -0500
-Message-ID: <20230929-ad2s1210-mainline-v3-23-fa4364281745@baylibre.com>
+Subject: [PATCH v3 24/27] staging: iio: resolver: ad2s1210: convert DOS mismatch threshold to event attr
+Date: Fri, 29 Sep 2023 12:23:29 -0500
+Message-ID: <20230929-ad2s1210-mainline-v3-24-fa4364281745@baylibre.com>
 X-Mailer: git-send-email 2.42.0
 In-Reply-To: <20230929-ad2s1210-mainline-v3-0-fa4364281745@baylibre.com>
 References: <20230929-ad2s1210-mainline-v3-0-fa4364281745@baylibre.com>
@@ -74,12 +74,17 @@ From: David Lechner <david@lechnology.com>
 From: David Lechner <dlechner@baylibre.com>
 
 The AD2S1210 has a programmable threshold for the degradation of signal
-(DOS) overrange fault. This fault is triggered when either the sine or
-cosine input rises the threshold voltage.
+(DOS) mismatch fault. This fault is triggered when the difference in
+voltage between the sine and cosine inputs exceeds the threshold. In
+other words, when the magnitude of sine and cosine inputs are equal,
+the AC component of the monitor signal is zero and when the magnitudes
+of the sine and cosine inputs are not equal, the AC component of the
+monitor signal is the difference between the sine and cosine inputs.
+So the fault occurs when the magnitude of the AC component of the
+monitor signal exceeds the DOS mismatch threshold voltage.
 
-This patch converts the custom device DOS overrange threshold attribute
-to an event rising edge threshold attribute on the monitor signal
-channel.
+This patch converts the custom device DOS mismatch threshold attribute
+to an event magnitude attribute on the monitor signal channel.
 
 The attribute now uses millivolts instead of the raw register value in
 accordance with the IIO ABI.
@@ -91,77 +96,77 @@ Signed-off-by: David Lechner <dlechner@baylibre.com>
 
 v3 changes: This is a new patch in v3
 
- drivers/staging/iio/resolver/ad2s1210.c | 19 +++++++++++++++----
- 1 file changed, 15 insertions(+), 4 deletions(-)
+ drivers/staging/iio/resolver/ad2s1210.c | 18 ++++++++++++++----
+ 1 file changed, 14 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/staging/iio/resolver/ad2s1210.c b/drivers/staging/iio/resolver/ad2s1210.c
-index 7abbc184c351..66def9f1dd1b 100644
+index 66def9f1dd1b..aa14edbe8a77 100644
 --- a/drivers/staging/iio/resolver/ad2s1210.c
 +++ b/drivers/staging/iio/resolver/ad2s1210.c
 @@ -743,9 +743,6 @@ static int ad2s1210_write_raw(struct iio_dev *indio_dev,
  static IIO_DEVICE_ATTR(fault, 0644,
  		       ad2s1210_show_fault, ad2s1210_clear_fault, 0);
  
--static IIO_DEVICE_ATTR(dos_ovr_thrd, 0644,
+-static IIO_DEVICE_ATTR(dos_mis_thrd, 0644,
 -		       ad2s1210_show_reg, ad2s1210_store_reg,
--		       AD2S1210_REG_DOS_OVR_THRD);
- static IIO_DEVICE_ATTR(dos_mis_thrd, 0644,
+-		       AD2S1210_REG_DOS_MIS_THRD);
+ static IIO_DEVICE_ATTR(dos_rst_max_thrd, 0644,
  		       ad2s1210_show_reg, ad2s1210_store_reg,
- 		       AD2S1210_REG_DOS_MIS_THRD);
-@@ -787,6 +784,13 @@ static const struct iio_event_spec ad2s1210_monitor_signal_event_spec[] = {
- 		/* Loss of signal threshold. */
+ 		       AD2S1210_REG_DOS_RST_MAX_THRD);
+@@ -791,6 +788,12 @@ static const struct iio_event_spec ad2s1210_monitor_signal_event_spec[] = {
+ 		/* Degredation of signal overrange threshold. */
  		.mask_separate = BIT(IIO_EV_INFO_VALUE),
  	},
 +	{
-+		/* Sine/cosine DOS overrange fault.*/
-+		.type = IIO_EV_TYPE_THRESH,
-+		.dir = IIO_EV_DIR_RISING,
-+		/* Degredation of signal overrange threshold. */
++		/* Sine/cosine DOS mismatch fault.*/
++		.type = IIO_EV_TYPE_MAG,
++		.dir = IIO_EV_DIR_NONE,
 +		.mask_separate = BIT(IIO_EV_INFO_VALUE),
 +	},
  };
  
  static const struct iio_chan_spec ad2s1210_channels[] = {
-@@ -860,7 +864,6 @@ static const struct iio_chan_spec ad2s1210_channels[] = {
+@@ -864,7 +867,6 @@ static const struct iio_chan_spec ad2s1210_channels[] = {
  
  static struct attribute *ad2s1210_attributes[] = {
  	&iio_dev_attr_fault.dev_attr.attr,
--	&iio_dev_attr_dos_ovr_thrd.dev_attr.attr,
- 	&iio_dev_attr_dos_mis_thrd.dev_attr.attr,
+-	&iio_dev_attr_dos_mis_thrd.dev_attr.attr,
  	&iio_dev_attr_dos_rst_max_thrd.dev_attr.attr,
  	&iio_dev_attr_dos_rst_min_thrd.dev_attr.attr,
-@@ -899,12 +902,14 @@ IIO_CONST_ATTR(in_phase0_mag_value_available,
- 	       __stringify(PHASE_360_DEG_TO_RAD_INT) "."
+ 	NULL,
+@@ -903,6 +905,7 @@ IIO_CONST_ATTR(in_phase0_mag_value_available,
  	       __stringify(PHASE_360_DEG_TO_RAD_MICRO));
  IIO_CONST_ATTR(in_altvoltage0_thresh_falling_value_available, THRESHOLD_RANGE_STR);
-+IIO_CONST_ATTR(in_altvoltage0_thresh_rising_value_available, THRESHOLD_RANGE_STR);
+ IIO_CONST_ATTR(in_altvoltage0_thresh_rising_value_available, THRESHOLD_RANGE_STR);
++IIO_CONST_ATTR(in_altvoltage0_mag_value_available, THRESHOLD_RANGE_STR);
  IIO_DEVICE_ATTR_RO(in_angl1_thresh_rising_value_available, 0);
  IIO_DEVICE_ATTR_RO(in_angl1_thresh_rising_hysteresis_available, 0);
  
- static struct attribute *ad2s1210_event_attributes[] = {
+@@ -910,6 +913,7 @@ static struct attribute *ad2s1210_event_attributes[] = {
  	&iio_const_attr_in_phase0_mag_value_available.dev_attr.attr,
  	&iio_const_attr_in_altvoltage0_thresh_falling_value_available.dev_attr.attr,
-+	&iio_const_attr_in_altvoltage0_thresh_rising_value_available.dev_attr.attr,
+ 	&iio_const_attr_in_altvoltage0_thresh_rising_value_available.dev_attr.attr,
++	&iio_const_attr_in_altvoltage0_mag_value_available.dev_attr.attr,
  	&iio_dev_attr_in_angl1_thresh_rising_value_available.dev_attr.attr,
  	&iio_dev_attr_in_angl1_thresh_rising_hysteresis_available.dev_attr.attr,
  	NULL,
-@@ -963,6 +968,9 @@ static int ad2s1210_read_event_value(struct iio_dev *indio_dev,
- 		if (type == IIO_EV_TYPE_THRESH && dir == IIO_EV_DIR_FALLING)
+@@ -971,6 +975,9 @@ static int ad2s1210_read_event_value(struct iio_dev *indio_dev,
+ 		if (type == IIO_EV_TYPE_THRESH && dir == IIO_EV_DIR_RISING)
  			return ad2s1210_get_voltage_threshold(st,
- 						AD2S1210_REG_LOS_THRD, val);
-+		if (type == IIO_EV_TYPE_THRESH && dir == IIO_EV_DIR_RISING)
+ 						AD2S1210_REG_DOS_OVR_THRD, val);
++		if (type == IIO_EV_TYPE_MAG)
 +			return ad2s1210_get_voltage_threshold(st,
-+						AD2S1210_REG_DOS_OVR_THRD, val);
++						AD2S1210_REG_DOS_MIS_THRD, val);
  		return -EINVAL;
  	case IIO_PHASE:
  		return ad2s1210_get_phase_lock_range(st, val, val2);
-@@ -996,6 +1004,9 @@ static int ad2s1210_write_event_value(struct iio_dev *indio_dev,
- 		if (type == IIO_EV_TYPE_THRESH && dir == IIO_EV_DIR_FALLING)
+@@ -1007,6 +1014,9 @@ static int ad2s1210_write_event_value(struct iio_dev *indio_dev,
+ 		if (type == IIO_EV_TYPE_THRESH && dir == IIO_EV_DIR_RISING)
  			return ad2s1210_set_voltage_threshold(st,
- 						AD2S1210_REG_LOS_THRD, val);
-+		if (type == IIO_EV_TYPE_THRESH && dir == IIO_EV_DIR_RISING)
+ 						AD2S1210_REG_DOS_OVR_THRD, val);
++		if (type == IIO_EV_TYPE_MAG)
 +			return ad2s1210_set_voltage_threshold(st,
-+						AD2S1210_REG_DOS_OVR_THRD, val);
++						AD2S1210_REG_DOS_MIS_THRD, val);
  		return -EINVAL;
  	case IIO_PHASE:
  		return ad2s1210_set_phase_lock_range(st, val, val2);
