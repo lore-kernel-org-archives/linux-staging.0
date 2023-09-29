@@ -1,43 +1,43 @@
 Received: from mail-oo1-f51.google.com (mail-oo1-f51.google.com [209.85.161.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FC02658A2
-	for <linux-staging@lists.linux.dev>; Fri, 29 Sep 2023 17:25:50 +0000 (UTC)
-Received: by mail-oo1-f51.google.com with SMTP id 006d021491bc7-57b9231e91dso6636515eaf.2
-        for <linux-staging@lists.linux.dev>; Fri, 29 Sep 2023 10:25:50 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 126A1658A6
+	for <linux-staging@lists.linux.dev>; Fri, 29 Sep 2023 17:25:51 +0000 (UTC)
+Received: by mail-oo1-f51.google.com with SMTP id 006d021491bc7-57bb6b1f764so5820956eaf.2
+        for <linux-staging@lists.linux.dev>; Fri, 29 Sep 2023 10:25:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1696008350; x=1696613150; darn=lists.linux.dev;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1696008351; x=1696613151; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=VZs7RCyHEDyjwo9BM8JVP9aWGPKGhSjAg7KPK55tj0w=;
-        b=xpUXa24VO9O8wp/jm9yqTbeu6dvjey5AdU8SDiPrfJC6jli2PafUvZ//j4sG/RY2IN
-         VaXdQg16DuXhg9OfgemKGAwty3TtnrzKFXtxc/qcEaRrBPVZpRDrxfqNRRJvqHQxL+lt
-         cafxqRZw7LZBJseC4od26vPS98HN6RWy/UTsivIz1Gnd0Py/6tPVV1xUC4y7NZg4/V9F
-         nQItJB1bWvmMQXTGJMqK3etFO++awV/MhsjeMNiJQNMBxZci6Hcj4PD4Ay1Wb3vIBGZ/
-         8WXF+8KiLAyYCKkJdaumkjMYRrAEtbIAIaiq8usm3ipEE1UkKHrnLSFmDFZKXu2Dxr51
-         un9w==
+        bh=b7PDmHSczFeqgAzbimbZilruGj50u/2gIL6ZrFf0Suo=;
+        b=gFon4jYoLrDHPa2feXeenz6skHwf+yyivozTqmMru5IpZXxDTTq10quO2oLAov+2n6
+         Mp6I7PCqS7dk2cGVbbQE2rlCQuoJeyuJo3mOMuKXDbhcoPi6329HIMMYnxBuG/ljljo3
+         DcduDnIXBg4WR/uo+Ifx/hhvoWUqvDLNNsvDBuJgLsOsMasL3HcRA3sTHztDT9NB43qH
+         KTNZMda5Amp7gu344u+zyi9EjUytb9jMMOKJV6wm1ql/4BcrM7igYPlHBl1PMfq5Ruzv
+         FKg69roGCSzrQpnToob13qo9NMnWnsvkUif+FmRbspFhgSvVEyY5sSeJBaZBUiYFlR9G
+         dBwQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696008350; x=1696613150;
+        d=1e100.net; s=20230601; t=1696008351; x=1696613151;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=VZs7RCyHEDyjwo9BM8JVP9aWGPKGhSjAg7KPK55tj0w=;
-        b=vp/fU2xNbJqL6oONz3dY5v6pfpVQ0+Yb+EH65+THhU53yhavt0id7cLoUfAxFZ8v85
-         8vftPyCyMDLqbp+98h0CCQViagQ5hErmkrYHXWz1r+/cLx78ibnhbXEyqfHwvKvaUovz
-         mtKYXmrVD0LqhlsN+dViHiAw91K97BaJvHWAxLsllNtZhe5VFPMn3r8zTL+zh3XNN9Rh
-         3pqTCcsSqixSnQjv3GHPvM2Ku2mgRSm6bvKk6zj9nkFrhWIKn7pFOsUMwD3D2jMHEngG
-         iRvQaJ2E1hCqQ6V8b4MJWGexkgugjJ3CCHUpWbtdvE3ZCXMRsXxss+nHQi/WWnFUckuq
-         DuNg==
-X-Gm-Message-State: AOJu0YzdfeEuyLQd8AmjH2t5d1Q7bdIUO3IwKNyR9fEGUXhOBXY7MYIb
-	CJtpBUcvdrOwp5ICpDEpWpGxtlxfEYj0t3mpQvBhxA==
-X-Google-Smtp-Source: AGHT+IEV4b51ilWN++n/0+rU+iGp7VHyBLZBDmjeuTWYmnl26MZ3t8X5p2iE4s9s18GyLz1K/SQJLg==
-X-Received: by 2002:a4a:9257:0:b0:57b:63a6:306d with SMTP id g23-20020a4a9257000000b0057b63a6306dmr5249640ooh.6.1696008350202;
-        Fri, 29 Sep 2023 10:25:50 -0700 (PDT)
+        bh=b7PDmHSczFeqgAzbimbZilruGj50u/2gIL6ZrFf0Suo=;
+        b=H84SKatD8rzLbt4X7+w8OSzOudCzpExmXteSbbe+D81bUJBGHKuXUTURZ/vuU9pHXV
+         zWp1kVhy37K2WrLAIy/N6yZ+I35L/YDGkGPAc6gNdVwcCmDlPwjAhEguLpA2Slogj4ID
+         csx+/ij1hHaWN2k6n26/XWPBYgpAuWEsKi78jorHIUAxIAFk3h9IgvjLvjexi3nFYp+O
+         00+wkm+/MMOcRvqkEvt3QzRKJotXzlNyzNb35fORoFzOzBOr8e2G8pSu0F9FtfOGx+Fv
+         fnPbihnQeNhQd1g37Z3zLhfnLfhGD2juq8e0xA8sC6R6rUwRJrZVXf2j8Y0GolhTy2hH
+         2rbA==
+X-Gm-Message-State: AOJu0YzsDYpsIgYRKg4eiLh3FELb3nOc4H3wuSwRD7WJkt5V2Lv0fyRF
+	D1CEvkT1kiD+VHoaUzoLZoHhzA==
+X-Google-Smtp-Source: AGHT+IHxogutDZ1XLOIzr9/nOTx5KhbYFs+7hKsrWe7PtJOi6WwkLjfxiyyCL5MSgpTSmN6+IIr3og==
+X-Received: by 2002:a4a:7319:0:b0:57b:3a07:181c with SMTP id s25-20020a4a7319000000b0057b3a07181cmr4656794ooc.9.1696008351082;
+        Fri, 29 Sep 2023 10:25:51 -0700 (PDT)
 Received: from freyr.lechnology.com (ip98-183-112-25.ok.ok.cox.net. [98.183.112.25])
-        by smtp.gmail.com with ESMTPSA id f128-20020a4a5886000000b0057bb326cad4sm2272915oob.33.2023.09.29.10.25.49
+        by smtp.gmail.com with ESMTPSA id f128-20020a4a5886000000b0057bb326cad4sm2272915oob.33.2023.09.29.10.25.50
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 29 Sep 2023 10:25:49 -0700 (PDT)
+        Fri, 29 Sep 2023 10:25:50 -0700 (PDT)
 From: David Lechner <dlechner@baylibre.com>
 To: linux-iio@vger.kernel.org,
 	devicetree@vger.kernel.org,
@@ -53,9 +53,9 @@ Cc: David Lechner <david@lechnology.com>,
 	Philip Molloy <pmolloy@baylibre.com>,
 	linux-kernel@vger.kernel.org,
 	David Lechner <dlechner@baylibre.com>
-Subject: [PATCH v3 04/27] staging: iio: resolver: ad2s1210: check return of ad2s1210_initial()
-Date: Fri, 29 Sep 2023 12:23:09 -0500
-Message-ID: <20230929-ad2s1210-mainline-v3-4-fa4364281745@baylibre.com>
+Subject: [PATCH v3 05/27] staging: iio: resolver: ad2s1210: remove spi_set_drvdata()
+Date: Fri, 29 Sep 2023 12:23:10 -0500
+Message-ID: <20230929-ad2s1210-mainline-v3-5-fa4364281745@baylibre.com>
 X-Mailer: git-send-email 2.42.0
 In-Reply-To: <20230929-ad2s1210-mainline-v3-0-fa4364281745@baylibre.com>
 References: <20230929-ad2s1210-mainline-v3-0-fa4364281745@baylibre.com>
@@ -73,9 +73,7 @@ From: David Lechner <david@lechnology.com>
 
 From: David Lechner <dlechner@baylibre.com>
 
-This adds a check to the return value of ad2s1210_initial() since it
-can fail. The call is also moved before devm_iio_device_register() so
-that we don't have to unregister the device if it fails.
+Since we never call spi_get_drvdata(), we can remove spi_set_drvdata().
 
 Signed-off-by: David Lechner <dlechner@baylibre.com>
 ---
@@ -84,32 +82,22 @@ v3 changes:
 * This is a new patch split out from "staging: iio: resolver: ad2s1210:
  fix probe"
 
- drivers/staging/iio/resolver/ad2s1210.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+ drivers/staging/iio/resolver/ad2s1210.c | 2 --
+ 1 file changed, 2 deletions(-)
 
 diff --git a/drivers/staging/iio/resolver/ad2s1210.c b/drivers/staging/iio/resolver/ad2s1210.c
-index 8fde08887f7f..b5e071d7c5fd 100644
+index b5e071d7c5fd..28015322f562 100644
 --- a/drivers/staging/iio/resolver/ad2s1210.c
 +++ b/drivers/staging/iio/resolver/ad2s1210.c
-@@ -672,6 +672,10 @@ static int ad2s1210_probe(struct spi_device *spi)
- 	if (ret < 0)
- 		return ret;
+@@ -659,8 +659,6 @@ static int ad2s1210_probe(struct spi_device *spi)
+ 		return -ENOMEM;
+ 	st = iio_priv(indio_dev);
  
-+	ret = ad2s1210_initial(st);
-+	if (ret < 0)
-+		return ret;
-+
- 	indio_dev->info = &ad2s1210_info;
- 	indio_dev->modes = INDIO_DIRECT_MODE;
- 	indio_dev->channels = ad2s1210_channels;
-@@ -683,7 +687,6 @@ static int ad2s1210_probe(struct spi_device *spi)
- 		return ret;
- 
- 	st->fclkin = spi->max_speed_hz;
--	ad2s1210_initial(st);
- 
- 	return 0;
- }
+-	spi_set_drvdata(spi, indio_dev);
+-
+ 	mutex_init(&st->lock);
+ 	st->sdev = spi;
+ 	st->hysteresis = true;
 
 -- 
 2.42.0
