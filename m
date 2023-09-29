@@ -1,102 +1,310 @@
-Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
+Received: from mail-oa1-f46.google.com (mail-oa1-f46.google.com [209.85.160.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA8F151BA1
-	for <linux-staging@lists.linux.dev>; Fri, 29 Sep 2023 17:53:13 +0000 (UTC)
-Received: by mail-ed1-f52.google.com with SMTP id 4fb4d7f45d1cf-533c8f8f91dso15299602a12.0
-        for <linux-staging@lists.linux.dev>; Fri, 29 Sep 2023 10:53:13 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79187C2FD
+	for <linux-staging@lists.linux.dev>; Fri, 29 Sep 2023 22:02:31 +0000 (UTC)
+Received: by mail-oa1-f46.google.com with SMTP id 586e51a60fabf-1dcfb2a3282so5838044fac.2
+        for <linux-staging@lists.linux.dev>; Fri, 29 Sep 2023 15:02:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1696009992; x=1696614792; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=MalbAsDSrxzjZfhI3UpJdjmgfxP084DXecPXrcCn5EI=;
-        b=CXRyZssK0l+W3m1BcX5w9WtLarwpTiYCM4Sx8uPGsTZuttAzLUfiKJKBuxz4Sib9tA
-         pCQ4sipaNApKz+PFAdBSfHF9FfkmKTVD3fhlT/oBf+QLBJP21NK2hmdvRSpl+CpqIb/z
-         UcB9tpWUZM5AC4fZG4jXNk0Vi+bwDbHzojav97dsLv7BhSvvseZ/37Cjiy20jQ60bF6I
-         DU6VwZtEGZPKUAakZxbc4Ag41KuFExzAxkZ7/YpKpsKGbYkcu5yMQ5VNHUdxnbBPaeE5
-         U+Gr08BK0S0neE3b/xw2Vk0dPw97FT8Djb248SJYCurEuigkSp8OAU0ex5wmY2wbxo33
-         FaZw==
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1696024951; x=1696629751; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=pFhnBf7J1tBbVfb73eVV1woDtz2+p689Zk2WUgYJB3Y=;
+        b=zSVaW+hGQvHoOwdySanC8cEXZ0fZ9s91cTKhrxN3IUVJBd/0AHHcK9BFoo8tO2IuEB
+         xawokHr3OAbqqzVcjPYrQM1tqy2SLjDmmZJEmKXtQ17ve7lwplzJfaIfDhBGvbjULDIS
+         BNoEq5g46w7xX3lp4j9waqrRC3T2EoFWGinuiO6lstDsGTOMnUMCDMiqUO7sIu6tIaFW
+         O7QnAkCZv4yT8m7ZBPZdBNLZyjVpREW3Je0iJ+nCZBhyNeaZivGtV4/rkxGjvtmODxUy
+         Bics1ulZ+Byia468Llt3r6DTcVqL8rytmKZncypJQCpSzfOkK4GOoC/HfAmOGuiNaTjF
+         QVpg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696009992; x=1696614792;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=MalbAsDSrxzjZfhI3UpJdjmgfxP084DXecPXrcCn5EI=;
-        b=b1sU5S+i0u+uUVCCZVPKu1PLct8pRm68UP4K/0MRmhXe6NUtsot+fS1VpV1kzI7Xj9
-         5VUT9i6wgK2vOFu3qAPNP2niN06jwwQ+udvxcqGy7ZDOpYYxTUR0eWnf3UhRAzD8rhWP
-         P8XYceArB8E8gu0n1g46pbBe2uRQDb+tllJ6Lmm16ZBUEPMV5SHM+o5z0Z6djKVwE8sT
-         E7mm98/WaXSqnRCCa31vcX9LWwf7FCT5dv5bFkiwxqZl0S2aFiJ09ewbHNJURgoJ5mKY
-         HIqQhW9V8vmY2ebhyw/BHyg0OTXtWplcbGFFVY0upeZcrkoqYoY/ZNP73FqC2NXJ7ykV
-         MnkA==
-X-Gm-Message-State: AOJu0Yy73dvu8MOHFdUP5L/5WelcBBGKbkLTeKwhKrigKd5LM7G5ZdxB
-	Wj/udPdg7Un2jJMkTvGrB3qq+v5u33Byrsdf3eEldw==
-X-Google-Smtp-Source: AGHT+IEwVthYBKcUdzG5goS3Tz+AFoCkOi/JKiHPwq7Emnrwxe4IPK/TuAsuGn3/e6k3o6iloUXzLX5MXhaxLm3Wfko=
-X-Received: by 2002:aa7:d607:0:b0:531:28fd:ad10 with SMTP id
- c7-20020aa7d607000000b0053128fdad10mr4564655edr.38.1696009991734; Fri, 29 Sep
- 2023 10:53:11 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1696024951; x=1696629751;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=pFhnBf7J1tBbVfb73eVV1woDtz2+p689Zk2WUgYJB3Y=;
+        b=WjybfpsILQeJ5+kqGIjdm6mQc/KpbrQ9nBy9svsu+UUeVipvzH1rz+NJecrRfp6df2
+         5yqPDg/P0By9MLucdBw9u4cnm0eYcWHN1w1PXQe/3UKR1afKADmfDF8Qkq8551ITtwM3
+         pUji13vx1qklpRiE9pLmQTfwVfSRqJPFgJKPsd4mbDM1NwwmooJhVQTzNrM4wUP0U/q1
+         QOshrUHGZ5lmt07GqOxU4+2IyNASXOdr4HunZ/ILSi2VhPovcyIa7g6TRZgkQwUKMtrp
+         5V1W98xnwUgGEczHO88BISAmL/6IUdxJM6nMim0/7KvMFuSOv/rGR+3Smrkf04XBL8I5
+         laRQ==
+X-Gm-Message-State: AOJu0Yx3BsOKijp6RoTvhZe7hCu9DaY9fhyvHWT66gA9xMMvcNM3sxP5
+	S3cYXVAZg0qydNM+oazU7EMOlw==
+X-Google-Smtp-Source: AGHT+IHEQIrACVZvUoSN4mtaGAxnBzZRZwJJCx+okup5sOevcRx/rulvLcgU9VpVjnvOO1xBKvVfbQ==
+X-Received: by 2002:a05:6870:1589:b0:1d5:f43a:3a5c with SMTP id j9-20020a056870158900b001d5f43a3a5cmr6189182oab.45.1696024951123;
+        Fri, 29 Sep 2023 15:02:31 -0700 (PDT)
+Received: from [192.168.0.142] (ip98-183-112-25.ok.ok.cox.net. [98.183.112.25])
+        by smtp.gmail.com with ESMTPSA id u6-20020a9d4d86000000b006ba864f5b37sm1986642otk.12.2023.09.29.15.02.30
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 29 Sep 2023 15:02:30 -0700 (PDT)
+Message-ID: <905052d7-f6f7-8e1c-4ed3-876b1d736225@baylibre.com>
+Date: Fri, 29 Sep 2023 17:02:29 -0500
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20230929-ad2s1210-mainline-v3-0-fa4364281745@baylibre.com> <20230929-ad2s1210-mainline-v3-14-fa4364281745@baylibre.com>
-In-Reply-To: <20230929-ad2s1210-mainline-v3-14-fa4364281745@baylibre.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.1
+Subject: Re: [PATCH v3 00/27] iio: resolver: move ad2s1210 out of staging
+Content-Language: en-US
+To: linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-staging@lists.linux.dev
+Cc: David Lechner <david@lechnology.com>, Jonathan Cameron
+ <jic23@kernel.org>, Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Michael Hennerich <Michael.Hennerich@analog.com>,
+ =?UTF-8?Q?Nuno_S=c3=a1?= <nuno.sa@analog.com>,
+ Axel Haslam <ahaslam@baylibre.com>, Philip Molloy <pmolloy@baylibre.com>,
+ linux-kernel@vger.kernel.org, Apelete Seketeli <aseketeli@baylibre.com>
+References: <20230929-ad2s1210-mainline-v3-0-fa4364281745@baylibre.com>
 From: David Lechner <dlechner@baylibre.com>
-Date: Fri, 29 Sep 2023 12:53:00 -0500
-Message-ID: <CAMknhBGFBwQQouhsPMgCuMn6+eQfDCcSzJvF-DwJAnoEPvMLAA@mail.gmail.com>
-Subject: Re: [PATCH v3 14/27] staging: iio: resolver: ad2s1210: implement
- hysteresis as channel attr
-To: linux-iio@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-staging@lists.linux.dev
-Cc: David Lechner <david@lechnology.com>, Jonathan Cameron <jic23@kernel.org>, 
-	Rob Herring <robh+dt@kernel.org>, 
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Michael Hennerich <Michael.Hennerich@analog.com>, =?UTF-8?B?TnVubyBTw6E=?= <nuno.sa@analog.com>, 
-	Axel Haslam <ahaslam@baylibre.com>, Philip Molloy <pmolloy@baylibre.com>, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20230929-ad2s1210-mainline-v3-0-fa4364281745@baylibre.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Fri, Sep 29, 2023 at 12:25=E2=80=AFPM David Lechner <dlechner@baylibre.c=
-om> wrote:
->
-> The AD2S1210 resolver has a hysteresis feature that can be used to
-> prevent flicker in the LSB of the position register. This can be either
-> enabled or disabled. Disabling hysteresis is useful for increasing
-> precision by oversampling.
->
-> Signed-off-by: David Lechner <dlechner@baylibre.com>
+On 9/29/23 12:23 PM, David Lechner wrote:
+> From: David Lechner <david@lechnology.com>
+> 
+> v3 changes:
+> 
+> * Added description of A0/A1 lines in DT bindings.
+> * Added power supply regulators to DT bindings.
+> * Dropped "staging: iio: Documentation: document IIO resolver AD2S1210
+>    sysfs attributes" (these attributes are being removed instead).
+> * Dropped applied patches:
+>    * "staging: iio: resolver: ad2s1210: fix ad2s1210_show_fault"
+>    * "iio: adc: MCP3564: fix the static checker warning"
+> * Split "staging: iio: resolver: ad2s1210: fix probe" into multiple patches.
+> * Moved sorting imports to separate patch.
+> * Renamed fclkin to clkin_hz.
+> * Added __be16 sample field to state struct for reading raw samples.
+> * Split out new function ad2s1210_single_conversion() from
+>    ad2s1210_read_raw().
+> * Split out new ad2s1210_get_hysteresis() and ad2s1210_set_hysteresis()
+>    functions.
+> * Fixed multi-line comment style.
+> * Added notes about soft reset not resetting config registers.
+> * Made use of FIELD_PREP() macro.
+> * Added more explanation to regmap commit message.
+> * Removed datasheet names from channel specs.
+> * Replaced "staging: iio: resolver: ad2s1210: rename fexcit attribute"
+>    with "staging: iio: resolver: ad2s1210: convert fexcit to channel
+>    attribute".
+> * Replaced "staging: iio: resolver: ad2s1210: add phase_lock_range
+>    attributes" with "staging: iio: resolver: ad2s1210: add phase lock
+>    range support"
+> * Added additional patches to convert custom device attributes to event
+>    attributes.
+> * Added patch to add channel label attributes.
+> 
+> v2 changes:
+> * Address initial device tree patch feedback
+> * Drop "iio: sysfs: add IIO_DEVICE_ATTR_NAMED_RW macro" (related cleanups
+>    also dropped for now, will address in a future series if needed)
+> * Apply improvements as a series of patches to the staging driver. It is
+>    not quite ready for the move out of staging patch yet.
+> 
+> This series has been tested on actual hardware using a EVAL-AD2S1210 evaluation
+> board. (Note: not all device tree features have been implemented in the driver
+> since the eval board doesn't support them out of the box. We plan to add them
+> later if needed.)
+> 
+> Most of the questions about dealing with faults from the v2 cover letter
+> have been addressed. There is still the question about what to do with
+> the current `fault` attribute (it is the only custom device attribute
+> remaining from the original staging driver). It was suggested to split it
+> out into multiple attributes in a subdirectory. Since we now have events
+> for all of the faults, I'm wondering if this is something that is still needed.
+> In the current implementation, it is possible to start listening to events,
+> clear the faults and then read a sample to trigger events for any current
+> faults so we have a way to get current faults already.
+> 
+> There is also the matter of clearing faults. Writing the excitation
+> frequency has a side-effect of clearing the faults, so we could use
+> that as the reset. Or we could change the current fault attribute to
+> write-only and rename it. Or is there a better way that I have overlooked?
+> 
+> Once this last issue is addressed, I think this driver will be ready
+> for consideration for moving out of staging.
 > ---
+> David Lechner (27):
+>        dt-bindings: iio: resolver: add devicetree bindings for ad2s1210
+>        staging: iio: resolver: ad2s1210: fix use before initialization
+>        staging: iio: resolver: ad2s1210: remove call to spi_setup()
+>        staging: iio: resolver: ad2s1210: check return of ad2s1210_initial()
+>        staging: iio: resolver: ad2s1210: remove spi_set_drvdata()
+>        staging: iio: resolver: ad2s1210: sort imports
+>        staging: iio: resolver: ad2s1210: always use 16-bit value for raw read
+>        staging: iio: resolver: ad2s1210: implement IIO_CHAN_INFO_SCALE
+>        staging: iio: resolver: ad2s1210: use devicetree to get CLKIN rate
+>        staging: iio: resolver: ad2s1210: use regmap for config registers
+>        staging: iio: resolver: ad2s1210: add debugfs reg access
+>        staging: iio: resolver: ad2s1210: remove config attribute
+>        staging: iio: resolver: ad2s1210: rework gpios
+>        staging: iio: resolver: ad2s1210: implement hysteresis as channel attr
+>        staging: iio: resolver: ad2s1210: refactor setting excitation frequency
+>        staging: iio: resolver: ad2s1210: read excitation frequency from control register
+>        staging: iio: resolver: ad2s1210: convert fexcit to channel attribute
+>        staging: iio: resolver: ad2s1210: convert resolution to devicetree property
+>        staging: iio: resolver: ad2s1210: add phase lock range support
+>        staging: iio: resolver: ad2s1210: add triggered buffer support
+>        staging: iio: resolver: ad2s1210: convert LOT threshold attrs to event attrs
+>        staging: iio: resolver: ad2s1210: convert LOS threshold to event attr
+>        staging: iio: resolver: ad2s1210: convert DOS overrange threshold to event attr
+>        staging: iio: resolver: ad2s1210: convert DOS mismatch threshold to event attr
+>        staging: iio: resolver: ad2s1210: rename DOS reset min/max attrs
+>        staging: iio: resolver: ad2s1210: implement fault events
+>        staging: iio: resolver: ad2s1210: add label attribute support
+> 
+>   .../bindings/iio/resolver/adi,ad2s1210.yaml        |  177 +++
+>   .../Documentation/sysfs-bus-iio-resolver-ad2s1210  |   27 +
+>   drivers/staging/iio/resolver/Kconfig               |    1 +
+>   drivers/staging/iio/resolver/ad2s1210.c            | 1583 +++++++++++++++-----
+>   4 files changed, 1391 insertions(+), 397 deletions(-)
+> ---
+> base-commit: 5e99f692d4e32e3250ab18d511894ca797407aec
+> change-id: 20230925-ad2s1210-mainline-2791ef75e386
+> 
 
-...
+In the end, this is what sysfs looks like:
 
-> +static int ad2s1210_read_avail(struct iio_dev *indio_dev,
-> +                              struct iio_chan_spec const *chan,
-> +                              const int **vals, int *type,
-> +                              int *length, long mask)
-> +{
-> +       static const int hysteresis_available[] =3D { 0, 1 };
 
-This is basically an enable/disable. Should the 1 value be changed to the
-appropriate radians value since this is hysteresis on the position
-(angle) channel?
+root@analog:~# tree /sys/bus/iio/devices/iio\:device1/
+/sys/bus/iio/devices/iio:device1/
+├── buffer
+│   ├── data_available
+│   ├── direction
+│   ├── enable
+│   ├── length
+│   └── watermark
+├── buffer0
+│   ├── data_available
+│   ├── direction
+│   ├── enable
+│   ├── in_angl0_en
+│   ├── in_angl0_index
+│   ├── in_angl0_type
+│   ├── in_anglvel0_en
+│   ├── in_anglvel0_index
+│   ├── in_anglvel0_type
+│   ├── in_timestamp_en
+│   ├── in_timestamp_index
+│   ├── in_timestamp_type
+│   ├── length
+│   └── watermark
+├── current_timestamp_clock
+├── dev
+├── events
+│   ├── in_altvoltage0_mag_reset_max
+│   ├── in_altvoltage0_mag_reset_max_available
+│   ├── in_altvoltage0_mag_reset_min
+│   ├── in_altvoltage0_mag_reset_min_available
+│   ├── in_altvoltage0_mag_value
+│   ├── in_altvoltage0_mag_value_available
+│   ├── in_altvoltage0_thresh_falling_value
+│   ├── in_altvoltage0_thresh_falling_value_available
+│   ├── in_altvoltage0_thresh_rising_value
+│   ├── in_altvoltage0_thresh_rising_value_available
+│   ├── in_angl1_thresh_rising_hysteresis
+│   ├── in_angl1_thresh_rising_hysteresis_available
+│   ├── in_angl1_thresh_rising_value
+│   ├── in_angl1_thresh_rising_value_available
+│   ├── in_phase0_mag_value
+│   └── in_phase0_mag_value_available
+├── fault
+├── in_altvoltage0_label
+├── in_altvoltage1_x_label
+├── in_altvoltage1_y_label
+├── in_angl0_hysteresis
+├── in_angl0_hysteresis_available
+├── in_angl0_label
+├── in_angl0_raw
+├── in_angl0_scale
+├── in_angl1_label
+├── in_anglvel0_label
+├── in_anglvel0_raw
+├── in_anglvel0_scale
+├── in_phase0_label
+├── name
+├── of_node -> ../../../../../../../../firmware/devicetree/base/axi/spi@e0006000/ad2s1210@0
+├── out_altvoltage0_frequency
+├── out_altvoltage0_frequency_available
+├── out_altvoltage0_label
+├── power
+│   ├── autosuspend_delay_ms
+│   ├── control
+│   ├── runtime_active_time
+│   ├── runtime_status
+│   └── runtime_suspended_time
+├── scan_elements
+│   ├── in_angl0_en
+│   ├── in_angl0_index
+│   ├── in_angl0_type
+│   ├── in_anglvel0_en
+│   ├── in_anglvel0_index
+│   ├── in_anglvel0_type
+│   ├── in_timestamp_en
+│   ├── in_timestamp_index
+│   └── in_timestamp_type
+├── subsystem -> ../../../../../../../../bus/iio
+├── trigger
+│   └── current_trigger
+├── uevent
+└── waiting_for_supplier
 
-> +
-> +       switch (mask) {
-> +       case IIO_CHAN_INFO_HYSTERESIS:
-> +               switch (chan->type) {
-> +               case IIO_ANGL:
-> +                       *vals =3D hysteresis_available;
-> +                       *type =3D IIO_VAL_INT;
-> +                       *length =3D ARRAY_SIZE(hysteresis_available);
-> +                       return IIO_AVAIL_LIST;
-> +               default:
-> +                       return -EINVAL;
-> +               }
-> +       default:
-> +               return -EINVAL;
-> +       }
-> +}
->
+8 directories, 72 files
+
+And this is what the output of iio_info looks like:
+(note: iio_info does not currently support events so those
+attributes are not visible here)
+
+         iio:device1: ad2s1210 (buffer capable)
+                 9 channels found:
+                         angl0:  (input, index: 0, format: be:U16/16>>0)
+                         5 channel-specific attributes found:
+                                 attr  0: hysteresis value: 1
+                                 attr  1: hysteresis_available value: 0 1
+                                 attr  2: label value: position
+                                 attr  3: raw value: 12578
+                                 attr  4: scale value: 0.000095874
+                         anglvel0:  (input, index: 1, format: be:S16/16>>0)
+                         3 channel-specific attributes found:
+                                 attr  0: label value: velocity
+                                 attr  1: raw value: 5
+                                 attr  2: scale value: 0.023968449
+                         timestamp:  (input, index: 2, format: le:S64/64>>0)
+                         phase0:  (input)
+                         1 channel-specific attributes found:
+                                 attr  0: label value: synthetic reference
+                         altvoltage0:  (output)
+                         3 channel-specific attributes found:
+                                 attr  0: frequency value: 10000
+                                 attr  1: frequency_available value: [2000 250 20000]
+                                 attr  2: label value: excitation
+                         angl1:  (input)
+                         1 channel-specific attributes found:
+                                 attr  0: label value: tracking error
+                         altvoltage1_y:  (input)
+                         1 channel-specific attributes found:
+                                 attr  0: label value: sine
+                         altvoltage0:  (input)
+                         1 channel-specific attributes found:
+                                 attr  0: label value: monitor signal
+                         altvoltage1_x:  (input)
+                         1 channel-specific attributes found:
+                                 attr  0: label value: cosine
+                 3 device-specific attributes found:
+                                 attr  0: current_timestamp_clock value: realtime
+                                 attr  1: fault value: 0x00
+                                 attr  2: waiting_for_supplier value: 0
+                 2 buffer-specific attributes found:
+                                 attr  0: data_available value: 0
+                                 attr  1: direction value: in
+                 1 debug attributes found:
+                                 debug attr  0: direct_reg_access ERROR: Input/output error (5)
+                 Current trigger: trigger0(test)
+
