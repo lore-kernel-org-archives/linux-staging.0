@@ -1,21 +1,21 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97EC5B66D;
-	Sat, 30 Sep 2023 14:38:25 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 76923C433C7;
-	Sat, 30 Sep 2023 14:38:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9EF4FB66D;
+	Sat, 30 Sep 2023 14:39:12 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DB533C433C8;
+	Sat, 30 Sep 2023 14:39:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1696084705;
-	bh=I0KTPUlwzWHVqIbGSTe18Oam3i4/Q2G6ohNiPZBa7GU=;
+	s=k20201202; t=1696084752;
+	bh=aazhK1w8i4OYoWEnWiGKNvPFcp+PLHalOhO8AaFTEJQ=;
 	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=bcMcd9rWSu3b170BQ62dfMfDf4DCOO3GMBc8Kdk8Dn8JYqj2g9T42aM2Rz982NWpB
-	 64giCiQ/nl5Say9/g9Ou+Tx/I4uWinDuoy6a2riZyYWlLIGkvp4MNgIwKGXRLfTQCd
-	 bYEN/pNRYUG4Et1YRGFMrNNQmTEJHBFmdhK9d5I3yHHXcNxxUxY+6Os2QQHiaSdz+A
-	 LSh+KLC2XmmFaGLwixc7ElkHPJyE1MJNURmbGNXIYstRJvaofTR++5WflFtfRuHsYP
-	 Nl1SNfoFMJMkv+/IMFmRXqitBPyG07U07mK5sVhCgkxKO+Qhc9jrnlwbv0e/aCzO+R
-	 Y6ebLBBkomzGw==
-Date: Sat, 30 Sep 2023 15:38:24 +0100
+	b=CXo6P2QNMemW1hTY4HKlp+yDv6uxrCKap8ThqCNjhFcxSlakoaGIG0FE5Qco99V0a
+	 ygddMpQ8Dde04TjD1aq9wD3ZZOOucuFVvBbGPpyxRBKoJZ0semJTdAQwcYc7+iF8Qz
+	 S/EcKYTtt2lRF4kx7nkRXQE9NMm75KJjMtiiuUsM7dHQTNYlTg3mTC6qMtGbNxLbcq
+	 aWaZVkOUnp2l0T8c3/TtBHInBJKIKn0kymaXaAl7EF1SV70SpmAWeWiF7PfZap6Cvj
+	 3KZCVcfFnJsKH+RAaEwHhxVKkGHh4ebVexKTC5dPi7Lk6tfS/Dh8Ld5F+pFCI9gg4I
+	 hGXzx+ULzJRWw==
+Date: Sat, 30 Sep 2023 15:39:11 +0100
 From: Jonathan Cameron <jic23@kernel.org>
 To: David Lechner <dlechner@baylibre.com>
 Cc: linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
@@ -25,12 +25,11 @@ Cc: linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
  Michael Hennerich <Michael.Hennerich@analog.com>, Nuno =?UTF-8?B?U8Oh?=
  <nuno.sa@analog.com>, Axel Haslam <ahaslam@baylibre.com>, Philip Molloy
  <pmolloy@baylibre.com>, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 05/27] staging: iio: resolver: ad2s1210: remove
- spi_set_drvdata()
-Message-ID: <20230930153824.6e2601ca@jic23-huawei>
-In-Reply-To: <20230929-ad2s1210-mainline-v3-5-fa4364281745@baylibre.com>
+Subject: Re: [PATCH v3 06/27] staging: iio: resolver: ad2s1210: sort imports
+Message-ID: <20230930153911.2a687532@jic23-huawei>
+In-Reply-To: <20230929-ad2s1210-mainline-v3-6-fa4364281745@baylibre.com>
 References: <20230929-ad2s1210-mainline-v3-0-fa4364281745@baylibre.com>
-	<20230929-ad2s1210-mainline-v3-5-fa4364281745@baylibre.com>
+	<20230929-ad2s1210-mainline-v3-6-fa4364281745@baylibre.com>
 X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -41,39 +40,54 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-On Fri, 29 Sep 2023 12:23:10 -0500
+On Fri, 29 Sep 2023 12:23:11 -0500
 David Lechner <dlechner@baylibre.com> wrote:
 
 > From: David Lechner <david@lechnology.com>
 > 
 > From: David Lechner <dlechner@baylibre.com>
 > 
-> Since we never call spi_get_drvdata(), we can remove spi_set_drvdata().
+> There are quite a few imports and we will be adding more so it will
+> make it easier to read if they are sorted.
 > 
 > Signed-off-by: David Lechner <dlechner@baylibre.com>
-Applied.
+Applied
 
 > ---
 > 
 > v3 changes:
 > * This is a new patch split out from "staging: iio: resolver: ad2s1210:
->  fix probe"
+>  use devicetree to get fclkin"
 > 
->  drivers/staging/iio/resolver/ad2s1210.c | 2 --
->  1 file changed, 2 deletions(-)
+>  drivers/staging/iio/resolver/ad2s1210.c | 12 ++++++------
+>  1 file changed, 6 insertions(+), 6 deletions(-)
 > 
 > diff --git a/drivers/staging/iio/resolver/ad2s1210.c b/drivers/staging/iio/resolver/ad2s1210.c
-> index b5e071d7c5fd..28015322f562 100644
+> index 28015322f562..832f86bf15e5 100644
 > --- a/drivers/staging/iio/resolver/ad2s1210.c
 > +++ b/drivers/staging/iio/resolver/ad2s1210.c
-> @@ -659,8 +659,6 @@ static int ad2s1210_probe(struct spi_device *spi)
->  		return -ENOMEM;
->  	st = iio_priv(indio_dev);
+> @@ -4,16 +4,16 @@
+>   *
+>   * Copyright (c) 2010-2010 Analog Devices Inc.
+>   */
+> -#include <linux/types.h>
+> -#include <linux/mutex.h>
+> +#include <linux/delay.h>
+>  #include <linux/device.h>
+> +#include <linux/gpio/consumer.h>
+> +#include <linux/module.h>
+> +#include <linux/mutex.h>
+>  #include <linux/of.h>
+> -#include <linux/spi/spi.h>
+>  #include <linux/slab.h>
+> +#include <linux/spi/spi.h>
+>  #include <linux/sysfs.h>
+> -#include <linux/delay.h>
+> -#include <linux/gpio/consumer.h>
+> -#include <linux/module.h>
+> +#include <linux/types.h>
 >  
-> -	spi_set_drvdata(spi, indio_dev);
-> -
->  	mutex_init(&st->lock);
->  	st->sdev = spi;
->  	st->hysteresis = true;
+>  #include <linux/iio/iio.h>
+>  #include <linux/iio/sysfs.h>
 > 
 
