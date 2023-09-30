@@ -1,53 +1,51 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56943EC3;
-	Sat, 30 Sep 2023 03:56:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0AA1A1843;
+	Sat, 30 Sep 2023 05:09:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1696046194; x=1727582194;
+  t=1696050584; x=1727586584;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=hZVCEshJL42nV27/fp4ItNiYdD2yoQb0af/3+hY1wDA=;
-  b=STWRz/gbay4lwP8BtnglaeXxgYXxDU/9qd8cnboVKx2Klu25grpPSR5G
-   ZcnSTvjN+2OXpcYyImsFp6CmLfDlGJVeYTe00piTKBtOFnUXqHFJj6mpk
-   WRXHMC/0qwWNsZAu2bWlu0iW5EdpSoHsaFIj+NJdWehYtu65oGbgZMVpn
-   lQpY1KJuip0V4fRPnmmRlrQMPf2Om5FYydWSUKRgWYe+QOy8ye+kXVpi0
-   +Sutnj5E5ZEOGRBdXRdELhUnmiubin321+pvfkE2RtujJg2ksX5BNsHzW
-   KAcj5+i2YoHDIrb2gcCtbPpZeKLu3HgrU1SMIP5Ot8g8opUXvPe12n8v1
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10848"; a="362677812"
+  bh=qswovL8KxKdf3oMfZOvKErO4KUB0d6/EYbBFUBi2r2Q=;
+  b=GMj/nOVca4nVT38iRXkVb3HoyKO2+pZ7Q+Y1X/uix5yrJVwSunZNclFu
+   EMlDBHCzenhEFQ1BPrR9Aq788vJZjJoaktJRxWiJFU2HgciwijCN1tepF
+   nGd82BxO5Q4bVza1gMdkgRfgQUCgeGyDLjfTePexMZZpe1Diohb1PkOxS
+   2zBYV0RdfBMflCLgqY6ASAKUZPQdDWmzQ2B5cI/sORzCREW2gglaRiZFK
+   hpc14fEK60Riiy/mteZY9T8AbyFeRKsl0TnLKfaY/iTRhTtGTOjGKb8Sd
+   cFzZA93ynjIFGVGtyxXZfN5oaHbcvaQadIcYUOIYgc+M8Q4cua3VR+syE
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10848"; a="386291868"
 X-IronPort-AV: E=Sophos;i="6.03,189,1694761200"; 
-   d="scan'208";a="362677812"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Sep 2023 20:56:33 -0700
+   d="scan'208";a="386291868"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Sep 2023 22:09:43 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10848"; a="820369067"
 X-IronPort-AV: E=Sophos;i="6.03,189,1694761200"; 
-   d="scan'208";a="820369067"
+   d="scan'208";a="1057982"
 Received: from lkp-server02.sh.intel.com (HELO c3b01524d57c) ([10.239.97.151])
-  by fmsmga004.fm.intel.com with ESMTP; 29 Sep 2023 20:56:29 -0700
+  by fmviesa001.fm.intel.com with ESMTP; 29 Sep 2023 22:09:40 -0700
 Received: from kbuild by c3b01524d57c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qmR5f-0003fn-1I;
-	Sat, 30 Sep 2023 03:56:27 +0000
-Date: Sat, 30 Sep 2023 11:55:57 +0800
+	id 1qmSES-0003jB-2R;
+	Sat, 30 Sep 2023 05:09:36 +0000
+Date: Sat, 30 Sep 2023 13:09:34 +0800
 From: kernel test robot <lkp@intel.com>
-To: David Lechner <dlechner@baylibre.com>, linux-iio@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-staging@lists.linux.dev
-Cc: oe-kbuild-all@lists.linux.dev, David Lechner <david@lechnology.com>,
-	Jonathan Cameron <jic23@kernel.org>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Michael Hennerich <Michael.Hennerich@analog.com>,
-	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
-	Axel Haslam <ahaslam@baylibre.com>,
-	Philip Molloy <pmolloy@baylibre.com>, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 26/27] staging: iio: resolver: ad2s1210: implement
- fault events
-Message-ID: <202309301112.XWUnLqJ3-lkp@intel.com>
-References: <20230929-ad2s1210-mainline-v3-26-fa4364281745@baylibre.com>
+To: Benjamin Gaignard <benjamin.gaignard@collabora.com>, mchehab@kernel.org,
+	tfiga@chromium.org, m.szyprowski@samsung.com, ming.qian@nxp.com,
+	ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de,
+	gregkh@linuxfoundation.org, hverkuil-cisco@xs4all.nl,
+	nicolas.dufresne@collabora.com
+Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+	linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
+	kernel@collabora.com,
+	Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Subject: Re: [PATCH v8 50/53] media: core: Free range of buffers
+Message-ID: <202309301247.Y0hH4pjx-lkp@intel.com>
+References: <20230927153558.159278-51-benjamin.gaignard@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -56,96 +54,170 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230929-ad2s1210-mainline-v3-26-fa4364281745@baylibre.com>
+In-Reply-To: <20230927153558.159278-51-benjamin.gaignard@collabora.com>
 
-Hi David,
+Hi Benjamin,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on 5e99f692d4e32e3250ab18d511894ca797407aec]
+[auto build test ERROR on media-tree/master]
+[also build test ERROR on sunxi/sunxi/for-next dtor-input/next linus/master v6.6-rc3]
+[cannot apply to dtor-input/for-linus next-20230929]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/David-Lechner/dt-bindings-iio-resolver-add-devicetree-bindings-for-ad2s1210/20230930-014031
-base:   5e99f692d4e32e3250ab18d511894ca797407aec
-patch link:    https://lore.kernel.org/r/20230929-ad2s1210-mainline-v3-26-fa4364281745%40baylibre.com
-patch subject: [PATCH v3 26/27] staging: iio: resolver: ad2s1210: implement fault events
-config: i386-randconfig-003-20230930 (https://download.01.org/0day-ci/archive/20230930/202309301112.XWUnLqJ3-lkp@intel.com/config)
-compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230930/202309301112.XWUnLqJ3-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Benjamin-Gaignard/media-videobuf2-Rework-offset-cookie-encoding-pattern/20230928-003247
+base:   git://linuxtv.org/media_tree.git master
+patch link:    https://lore.kernel.org/r/20230927153558.159278-51-benjamin.gaignard%40collabora.com
+patch subject: [PATCH v8 50/53] media: core: Free range of buffers
+config: powerpc64-randconfig-001-20230930 (https://download.01.org/0day-ci/archive/20230930/202309301247.Y0hH4pjx-lkp@intel.com/config)
+compiler: powerpc64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230930/202309301247.Y0hH4pjx-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309301112.XWUnLqJ3-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309301247.Y0hH4pjx-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/staging/iio/resolver/ad2s1210.c:1452:34: warning: 'ad2s1210_of_match' defined but not used [-Wunused-const-variable=]
-    1452 | static const struct of_device_id ad2s1210_of_match[] = {
-         |                                  ^~~~~~~~~~~~~~~~~
-   drivers/staging/iio/resolver/ad2s1210.c: In function 'ad2s1210_read_raw':
->> drivers/staging/iio/resolver/ad2s1210.c:436:40: warning: array subscript 2 is above array bounds of 'u8[2]' {aka 'unsigned char[2]'} [-Warray-bounds]
-     436 |  ad2s1210_push_events(indio_dev, st->rx[2], timestamp);
-         |                                  ~~~~~~^~~
+   drivers/media/common/videobuf2/videobuf2-core.c:39:2: error: #error Expected PAGE_SHIFT to be 12
+      39 | #error Expected PAGE_SHIFT to be 12
+         |  ^~~~~
+   drivers/media/common/videobuf2/videobuf2-core.c: In function '__vb2_queue_free':
+>> drivers/media/common/videobuf2/videobuf2-core.c:596:14: error: 'buffer' undeclared (first use in this function)
+     596 |         for (buffer = 0; buffer < q->max_num_buffers; buffer++) {
+         |              ^~~~~~
+   drivers/media/common/videobuf2/videobuf2-core.c:596:14: note: each undeclared identifier is reported only once for each function it appears in
 
 
-vim +436 drivers/staging/iio/resolver/ad2s1210.c
+vim +/buffer +596 drivers/media/common/videobuf2/videobuf2-core.c
 
-   390	
-   391	static int ad2s1210_single_conversion(struct iio_dev *indio_dev,
-   392					      struct iio_chan_spec const *chan,
-   393					      int *val)
-   394	{
-   395		struct ad2s1210_state *st = iio_priv(indio_dev);
-   396		s64 timestamp;
-   397		int ret;
-   398	
-   399		mutex_lock(&st->lock);
-   400		gpiod_set_value(st->sample_gpio, 1);
-   401		timestamp = iio_get_time_ns(indio_dev);
-   402		/* delay (6 * tck + 20) nano seconds */
-   403		udelay(1);
-   404	
-   405		switch (chan->type) {
-   406		case IIO_ANGL:
-   407			ret = ad2s1210_set_mode(st, MOD_POS);
-   408			break;
-   409		case IIO_ANGL_VEL:
-   410			ret = ad2s1210_set_mode(st, MOD_VEL);
-   411			break;
-   412		default:
-   413			ret = -EINVAL;
-   414			break;
-   415		}
-   416		if (ret < 0)
-   417			goto error_ret;
-   418		ret = spi_read(st->sdev, &st->sample, 3);
-   419		if (ret < 0)
-   420			goto error_ret;
-   421	
-   422		switch (chan->type) {
-   423		case IIO_ANGL:
-   424			*val = be16_to_cpu(st->sample.raw);
-   425			ret = IIO_VAL_INT;
-   426			break;
-   427		case IIO_ANGL_VEL:
-   428			*val = (s16)be16_to_cpu(st->sample.raw);
-   429			ret = IIO_VAL_INT;
-   430			break;
-   431		default:
-   432			ret = -EINVAL;
-   433			break;
-   434		}
-   435	
- > 436		ad2s1210_push_events(indio_dev, st->rx[2], timestamp);
-   437	
-   438	error_ret:
-   439		gpiod_set_value(st->sample_gpio, 0);
-   440		/* delay (2 * tck + 20) nano seconds */
-   441		udelay(1);
-   442		mutex_unlock(&st->lock);
-   443		return ret;
-   444	}
-   445	
+e23ccc0ad92586 drivers/media/video/videobuf2-core.c            Pawel Osciak          2010-10-11  540  
+2a87af6ba1b9df drivers/media/v4l2-core/videobuf2-core.c        Mauro Carvalho Chehab 2017-11-27  541  /*
+de4be4166a32b9 drivers/media/common/videobuf2/videobuf2-core.c Benjamin Gaignard     2023-09-27  542   * __vb2_queue_free() - free count buffers from start index of the queue - video memory and
+2d86401c2cbfce drivers/media/video/videobuf2-core.c            Guennadi Liakhovetski 2011-09-28  543   * related information, if no buffers are left return the queue to an
+2d86401c2cbfce drivers/media/video/videobuf2-core.c            Guennadi Liakhovetski 2011-09-28  544   * uninitialized state. Might be called even if the queue has already been freed.
+e23ccc0ad92586 drivers/media/video/videobuf2-core.c            Pawel Osciak          2010-10-11  545   */
+de4be4166a32b9 drivers/media/common/videobuf2/videobuf2-core.c Benjamin Gaignard     2023-09-27  546  static void __vb2_queue_free(struct vb2_queue *q, unsigned int start, unsigned int count)
+e23ccc0ad92586 drivers/media/video/videobuf2-core.c            Pawel Osciak          2010-10-11  547  {
+de4be4166a32b9 drivers/media/common/videobuf2/videobuf2-core.c Benjamin Gaignard     2023-09-27  548  	unsigned int i;
+e23ccc0ad92586 drivers/media/video/videobuf2-core.c            Pawel Osciak          2010-10-11  549  
+01cb370ff6c5ab drivers/media/common/videobuf2/videobuf2-core.c Hans Verkuil          2022-11-30  550  	lockdep_assert_held(&q->mmap_lock);
+63faabfd89f4db drivers/media/v4l2-core/videobuf2-core.c        Hans Verkuil          2013-12-13  551  
+e23ccc0ad92586 drivers/media/video/videobuf2-core.c            Pawel Osciak          2010-10-11  552  	/* Call driver-provided cleanup function for each buffer, if provided */
+de4be4166a32b9 drivers/media/common/videobuf2/videobuf2-core.c Benjamin Gaignard     2023-09-27  553  	for (i = start; i < q->max_num_buffers && i < start + count; i++) {
+6e57b95def5189 drivers/media/common/videobuf2/videobuf2-core.c Benjamin Gaignard     2023-09-27  554  		struct vb2_buffer *vb = vb2_get_buffer(q, i);
+256f3162c17595 drivers/media/v4l2-core/videobuf2-core.c        Hans Verkuil          2014-01-29  555  
+6e57b95def5189 drivers/media/common/videobuf2/videobuf2-core.c Benjamin Gaignard     2023-09-27  556  		if (!vb)
+6e57b95def5189 drivers/media/common/videobuf2/videobuf2-core.c Benjamin Gaignard     2023-09-27  557  			continue;
+de4be4166a32b9 drivers/media/common/videobuf2/videobuf2-core.c Benjamin Gaignard     2023-09-27  558  		if (vb->planes[0].mem_priv)
+a1d36d8c705e10 drivers/media/v4l2-core/videobuf2-core.c        Hans Verkuil          2014-03-17  559  			call_void_vb_qop(vb, buf_cleanup, vb);
+e23ccc0ad92586 drivers/media/video/videobuf2-core.c            Pawel Osciak          2010-10-11  560  	}
+e23ccc0ad92586 drivers/media/video/videobuf2-core.c            Pawel Osciak          2010-10-11  561  
+e23ccc0ad92586 drivers/media/video/videobuf2-core.c            Pawel Osciak          2010-10-11  562  	/* Release video buffer memory */
+de4be4166a32b9 drivers/media/common/videobuf2/videobuf2-core.c Benjamin Gaignard     2023-09-27  563  	__vb2_free_mem(q, start, count);
+e23ccc0ad92586 drivers/media/video/videobuf2-core.c            Pawel Osciak          2010-10-11  564  
+b5b4541eef8eac drivers/media/v4l2-core/videobuf2-core.c        Hans Verkuil          2014-01-29  565  #ifdef CONFIG_VIDEO_ADV_DEBUG
+b5b4541eef8eac drivers/media/v4l2-core/videobuf2-core.c        Hans Verkuil          2014-01-29  566  	/*
+14700b816b3d49 drivers/media/common/videobuf2/videobuf2-core.c Benjamin Gaignard     2023-09-27  567  	 * Check that all the calls were balanced during the life-time of this
+14700b816b3d49 drivers/media/common/videobuf2/videobuf2-core.c Benjamin Gaignard     2023-09-27  568  	 * queue. If not then dump the counters to the kernel log.
+b5b4541eef8eac drivers/media/v4l2-core/videobuf2-core.c        Hans Verkuil          2014-01-29  569  	 */
+6e57b95def5189 drivers/media/common/videobuf2/videobuf2-core.c Benjamin Gaignard     2023-09-27  570  	if (vb2_get_num_buffers(q)) {
+b5b4541eef8eac drivers/media/v4l2-core/videobuf2-core.c        Hans Verkuil          2014-01-29  571  		bool unbalanced = q->cnt_start_streaming != q->cnt_stop_streaming ||
+a10b2153257403 drivers/media/common/videobuf2/videobuf2-core.c Hans Verkuil          2022-06-22  572  				  q->cnt_prepare_streaming != q->cnt_unprepare_streaming ||
+b5b4541eef8eac drivers/media/v4l2-core/videobuf2-core.c        Hans Verkuil          2014-01-29  573  				  q->cnt_wait_prepare != q->cnt_wait_finish;
+b5b4541eef8eac drivers/media/v4l2-core/videobuf2-core.c        Hans Verkuil          2014-01-29  574  
+14700b816b3d49 drivers/media/common/videobuf2/videobuf2-core.c Benjamin Gaignard     2023-09-27  575  		if (unbalanced) {
+14700b816b3d49 drivers/media/common/videobuf2/videobuf2-core.c Benjamin Gaignard     2023-09-27  576  			pr_info("unbalanced counters for queue %p:\n", q);
+14700b816b3d49 drivers/media/common/videobuf2/videobuf2-core.c Benjamin Gaignard     2023-09-27  577  			if (q->cnt_start_streaming != q->cnt_stop_streaming)
+2e33dbb06da407 drivers/media/common/videobuf/videobuf2-core.c  Mauro Carvalho Chehab 2017-12-28  578  				pr_info("     setup: %u start_streaming: %u stop_streaming: %u\n",
+b5b4541eef8eac drivers/media/v4l2-core/videobuf2-core.c        Hans Verkuil          2014-01-29  579  					q->cnt_queue_setup, q->cnt_start_streaming,
+b5b4541eef8eac drivers/media/v4l2-core/videobuf2-core.c        Hans Verkuil          2014-01-29  580  					q->cnt_stop_streaming);
+14700b816b3d49 drivers/media/common/videobuf2/videobuf2-core.c Benjamin Gaignard     2023-09-27  581  			if (q->cnt_prepare_streaming != q->cnt_unprepare_streaming)
+a10b2153257403 drivers/media/common/videobuf2/videobuf2-core.c Hans Verkuil          2022-06-22  582  				pr_info("     prepare_streaming: %u unprepare_streaming: %u\n",
+a10b2153257403 drivers/media/common/videobuf2/videobuf2-core.c Hans Verkuil          2022-06-22  583  					q->cnt_prepare_streaming, q->cnt_unprepare_streaming);
+14700b816b3d49 drivers/media/common/videobuf2/videobuf2-core.c Benjamin Gaignard     2023-09-27  584  			if (q->cnt_wait_prepare != q->cnt_wait_finish)
+2e33dbb06da407 drivers/media/common/videobuf/videobuf2-core.c  Mauro Carvalho Chehab 2017-12-28  585  				pr_info("     wait_prepare: %u wait_finish: %u\n",
+b5b4541eef8eac drivers/media/v4l2-core/videobuf2-core.c        Hans Verkuil          2014-01-29  586  					q->cnt_wait_prepare, q->cnt_wait_finish);
+b5b4541eef8eac drivers/media/v4l2-core/videobuf2-core.c        Hans Verkuil          2014-01-29  587  		}
+b5b4541eef8eac drivers/media/v4l2-core/videobuf2-core.c        Hans Verkuil          2014-01-29  588  		q->cnt_queue_setup = 0;
+b5b4541eef8eac drivers/media/v4l2-core/videobuf2-core.c        Hans Verkuil          2014-01-29  589  		q->cnt_wait_prepare = 0;
+b5b4541eef8eac drivers/media/v4l2-core/videobuf2-core.c        Hans Verkuil          2014-01-29  590  		q->cnt_wait_finish = 0;
+a10b2153257403 drivers/media/common/videobuf2/videobuf2-core.c Hans Verkuil          2022-06-22  591  		q->cnt_prepare_streaming = 0;
+b5b4541eef8eac drivers/media/v4l2-core/videobuf2-core.c        Hans Verkuil          2014-01-29  592  		q->cnt_start_streaming = 0;
+b5b4541eef8eac drivers/media/v4l2-core/videobuf2-core.c        Hans Verkuil          2014-01-29  593  		q->cnt_stop_streaming = 0;
+a10b2153257403 drivers/media/common/videobuf2/videobuf2-core.c Hans Verkuil          2022-06-22  594  		q->cnt_unprepare_streaming = 0;
+b5b4541eef8eac drivers/media/v4l2-core/videobuf2-core.c        Hans Verkuil          2014-01-29  595  	}
+6e57b95def5189 drivers/media/common/videobuf2/videobuf2-core.c Benjamin Gaignard     2023-09-27 @596  	for (buffer = 0; buffer < q->max_num_buffers; buffer++) {
+145085ced318ad drivers/media/common/videobuf2/videobuf2-core.c Benjamin Gaignard     2023-09-27  597  		struct vb2_buffer *vb = vb2_get_buffer(q, buffer);
+145085ced318ad drivers/media/common/videobuf2/videobuf2-core.c Benjamin Gaignard     2023-09-27  598  		bool unbalanced;
+145085ced318ad drivers/media/common/videobuf2/videobuf2-core.c Benjamin Gaignard     2023-09-27  599  
+145085ced318ad drivers/media/common/videobuf2/videobuf2-core.c Benjamin Gaignard     2023-09-27  600  		if (!vb)
+145085ced318ad drivers/media/common/videobuf2/videobuf2-core.c Benjamin Gaignard     2023-09-27  601  			continue;
+145085ced318ad drivers/media/common/videobuf2/videobuf2-core.c Benjamin Gaignard     2023-09-27  602  
+145085ced318ad drivers/media/common/videobuf2/videobuf2-core.c Benjamin Gaignard     2023-09-27  603  		unbalanced = vb->cnt_mem_alloc != vb->cnt_mem_put ||
+b5b4541eef8eac drivers/media/v4l2-core/videobuf2-core.c        Hans Verkuil          2014-01-29  604  			     vb->cnt_mem_prepare != vb->cnt_mem_finish ||
+b5b4541eef8eac drivers/media/v4l2-core/videobuf2-core.c        Hans Verkuil          2014-01-29  605  			     vb->cnt_mem_get_userptr != vb->cnt_mem_put_userptr ||
+b5b4541eef8eac drivers/media/v4l2-core/videobuf2-core.c        Hans Verkuil          2014-01-29  606  			     vb->cnt_mem_attach_dmabuf != vb->cnt_mem_detach_dmabuf ||
+b5b4541eef8eac drivers/media/v4l2-core/videobuf2-core.c        Hans Verkuil          2014-01-29  607  			     vb->cnt_mem_map_dmabuf != vb->cnt_mem_unmap_dmabuf ||
+b5b4541eef8eac drivers/media/v4l2-core/videobuf2-core.c        Hans Verkuil          2014-01-29  608  			     vb->cnt_buf_queue != vb->cnt_buf_done ||
+b5b4541eef8eac drivers/media/v4l2-core/videobuf2-core.c        Hans Verkuil          2014-01-29  609  			     vb->cnt_buf_prepare != vb->cnt_buf_finish ||
+b5b4541eef8eac drivers/media/v4l2-core/videobuf2-core.c        Hans Verkuil          2014-01-29  610  			     vb->cnt_buf_init != vb->cnt_buf_cleanup;
+b5b4541eef8eac drivers/media/v4l2-core/videobuf2-core.c        Hans Verkuil          2014-01-29  611  
+14700b816b3d49 drivers/media/common/videobuf2/videobuf2-core.c Benjamin Gaignard     2023-09-27  612  		if (unbalanced) {
+14700b816b3d49 drivers/media/common/videobuf2/videobuf2-core.c Benjamin Gaignard     2023-09-27  613  			pr_info("unbalanced counters for queue %p, buffer %d:\n",
+14700b816b3d49 drivers/media/common/videobuf2/videobuf2-core.c Benjamin Gaignard     2023-09-27  614  				q, buffer);
+14700b816b3d49 drivers/media/common/videobuf2/videobuf2-core.c Benjamin Gaignard     2023-09-27  615  			if (vb->cnt_buf_init != vb->cnt_buf_cleanup)
+14700b816b3d49 drivers/media/common/videobuf2/videobuf2-core.c Benjamin Gaignard     2023-09-27  616  				pr_info("     buf_init: %u buf_cleanup: %u\n",
+14700b816b3d49 drivers/media/common/videobuf2/videobuf2-core.c Benjamin Gaignard     2023-09-27  617  					vb->cnt_buf_init, vb->cnt_buf_cleanup);
+14700b816b3d49 drivers/media/common/videobuf2/videobuf2-core.c Benjamin Gaignard     2023-09-27  618  			if (vb->cnt_buf_prepare != vb->cnt_buf_finish)
+14700b816b3d49 drivers/media/common/videobuf2/videobuf2-core.c Benjamin Gaignard     2023-09-27  619  				pr_info("     buf_prepare: %u buf_finish: %u\n",
+b5b4541eef8eac drivers/media/v4l2-core/videobuf2-core.c        Hans Verkuil          2014-01-29  620  					vb->cnt_buf_prepare, vb->cnt_buf_finish);
+14700b816b3d49 drivers/media/common/videobuf2/videobuf2-core.c Benjamin Gaignard     2023-09-27  621  			if (vb->cnt_buf_queue != vb->cnt_buf_done)
+28d77c21cbeb2c drivers/media/common/videobuf2/videobuf2-core.c Hans Verkuil          2019-01-16  622  				pr_info("     buf_out_validate: %u buf_queue: %u buf_done: %u buf_request_complete: %u\n",
+28d77c21cbeb2c drivers/media/common/videobuf2/videobuf2-core.c Hans Verkuil          2019-01-16  623  					vb->cnt_buf_out_validate, vb->cnt_buf_queue,
+28d77c21cbeb2c drivers/media/common/videobuf2/videobuf2-core.c Hans Verkuil          2019-01-16  624  					vb->cnt_buf_done, vb->cnt_buf_request_complete);
+14700b816b3d49 drivers/media/common/videobuf2/videobuf2-core.c Benjamin Gaignard     2023-09-27  625  			if (vb->cnt_mem_alloc != vb->cnt_mem_put)
+14700b816b3d49 drivers/media/common/videobuf2/videobuf2-core.c Benjamin Gaignard     2023-09-27  626  				pr_info("     alloc: %u put: %u\n",
+14700b816b3d49 drivers/media/common/videobuf2/videobuf2-core.c Benjamin Gaignard     2023-09-27  627  					vb->cnt_mem_alloc, vb->cnt_mem_put);
+14700b816b3d49 drivers/media/common/videobuf2/videobuf2-core.c Benjamin Gaignard     2023-09-27  628  			if (vb->cnt_mem_prepare != vb->cnt_mem_finish)
+14700b816b3d49 drivers/media/common/videobuf2/videobuf2-core.c Benjamin Gaignard     2023-09-27  629  				pr_info("     prepare: %u finish: %u\n",
+14700b816b3d49 drivers/media/common/videobuf2/videobuf2-core.c Benjamin Gaignard     2023-09-27  630  					vb->cnt_mem_prepare, vb->cnt_mem_finish);
+14700b816b3d49 drivers/media/common/videobuf2/videobuf2-core.c Benjamin Gaignard     2023-09-27  631  			if (vb->cnt_mem_get_userptr != vb->cnt_mem_put_userptr)
+2e33dbb06da407 drivers/media/common/videobuf/videobuf2-core.c  Mauro Carvalho Chehab 2017-12-28  632  				pr_info("     get_userptr: %u put_userptr: %u\n",
+b5b4541eef8eac drivers/media/v4l2-core/videobuf2-core.c        Hans Verkuil          2014-01-29  633  					vb->cnt_mem_get_userptr, vb->cnt_mem_put_userptr);
+14700b816b3d49 drivers/media/common/videobuf2/videobuf2-core.c Benjamin Gaignard     2023-09-27  634  			if (vb->cnt_mem_attach_dmabuf != vb->cnt_mem_detach_dmabuf)
+14700b816b3d49 drivers/media/common/videobuf2/videobuf2-core.c Benjamin Gaignard     2023-09-27  635  				pr_info("     attach_dmabuf: %u detach_dmabuf: %u\n",
+14700b816b3d49 drivers/media/common/videobuf2/videobuf2-core.c Benjamin Gaignard     2023-09-27  636  					vb->cnt_mem_attach_dmabuf, vb->cnt_mem_detach_dmabuf);
+14700b816b3d49 drivers/media/common/videobuf2/videobuf2-core.c Benjamin Gaignard     2023-09-27  637  			if (vb->cnt_mem_map_dmabuf != vb->cnt_mem_unmap_dmabuf)
+14700b816b3d49 drivers/media/common/videobuf2/videobuf2-core.c Benjamin Gaignard     2023-09-27  638  				pr_info("     map_dmabuf: %u unmap_dmabuf: %u\n",
+b5b4541eef8eac drivers/media/v4l2-core/videobuf2-core.c        Hans Verkuil          2014-01-29  639  					vb->cnt_mem_map_dmabuf, vb->cnt_mem_unmap_dmabuf);
+14700b816b3d49 drivers/media/common/videobuf2/videobuf2-core.c Benjamin Gaignard     2023-09-27  640  			pr_info("     get_dmabuf: %u num_users: %u\n",
+b5b4541eef8eac drivers/media/v4l2-core/videobuf2-core.c        Hans Verkuil          2014-01-29  641  				vb->cnt_mem_get_dmabuf,
+14700b816b3d49 drivers/media/common/videobuf2/videobuf2-core.c Benjamin Gaignard     2023-09-27  642  				vb->cnt_mem_num_users);
+b5b4541eef8eac drivers/media/v4l2-core/videobuf2-core.c        Hans Verkuil          2014-01-29  643  		}
+b5b4541eef8eac drivers/media/v4l2-core/videobuf2-core.c        Hans Verkuil          2014-01-29  644  	}
+b5b4541eef8eac drivers/media/v4l2-core/videobuf2-core.c        Hans Verkuil          2014-01-29  645  #endif
+b5b4541eef8eac drivers/media/v4l2-core/videobuf2-core.c        Hans Verkuil          2014-01-29  646  
+3e947c36af524b drivers/media/common/videobuf2/videobuf2-core.c Hans Verkuil          2022-08-10  647  	/* Free vb2 buffers */
+de4be4166a32b9 drivers/media/common/videobuf2/videobuf2-core.c Benjamin Gaignard     2023-09-27  648  	for (i = start; i < q->max_num_buffers && i < start + count; i++) {
+de4be4166a32b9 drivers/media/common/videobuf2/videobuf2-core.c Benjamin Gaignard     2023-09-27  649  		struct vb2_buffer *vb = vb2_get_buffer(q, i);
+145085ced318ad drivers/media/common/videobuf2/videobuf2-core.c Benjamin Gaignard     2023-09-27  650  
+145085ced318ad drivers/media/common/videobuf2/videobuf2-core.c Benjamin Gaignard     2023-09-27  651  		if (!vb)
+145085ced318ad drivers/media/common/videobuf2/videobuf2-core.c Benjamin Gaignard     2023-09-27  652  			continue;
+145085ced318ad drivers/media/common/videobuf2/videobuf2-core.c Benjamin Gaignard     2023-09-27  653  
+145085ced318ad drivers/media/common/videobuf2/videobuf2-core.c Benjamin Gaignard     2023-09-27  654  		vb2_queue_remove_buffer(vb);
+145085ced318ad drivers/media/common/videobuf2/videobuf2-core.c Benjamin Gaignard     2023-09-27  655  		kfree(vb);
+e23ccc0ad92586 drivers/media/video/videobuf2-core.c            Pawel Osciak          2010-10-11  656  	}
+e23ccc0ad92586 drivers/media/video/videobuf2-core.c            Pawel Osciak          2010-10-11  657  
+6e57b95def5189 drivers/media/common/videobuf2/videobuf2-core.c Benjamin Gaignard     2023-09-27  658  	if (!vb2_get_num_buffers(q)) {
+ce4686702f8f56 drivers/media/common/videobuf/videobuf2-core.c  Satendra Singh Thakur 2017-12-28  659  		q->memory = VB2_MEMORY_UNKNOWN;
+bd50d999d4d4f3 drivers/media/video/videobuf2-core.c            Marek Szyprowski      2011-10-25  660  		INIT_LIST_HEAD(&q->queued_list);
+a7afcaccfab2fb drivers/media/v4l2-core/videobuf2-core.c        Hans Verkuil          2014-02-24  661  	}
+e23ccc0ad92586 drivers/media/video/videobuf2-core.c            Pawel Osciak          2010-10-11  662  }
+e23ccc0ad92586 drivers/media/video/videobuf2-core.c            Pawel Osciak          2010-10-11  663  
 
 -- 
 0-DAY CI Kernel Test Service
