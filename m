@@ -1,48 +1,49 @@
-Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
+Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 056428F5A
-	for <linux-staging@lists.linux.dev>; Sun,  1 Oct 2023 13:43:52 +0000 (UTC)
-Received: by mail-ed1-f51.google.com with SMTP id 4fb4d7f45d1cf-5334f8a40e2so4096879a12.1
-        for <linux-staging@lists.linux.dev>; Sun, 01 Oct 2023 06:43:52 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCD9C8F5A
+	for <linux-staging@lists.linux.dev>; Sun,  1 Oct 2023 13:44:02 +0000 (UTC)
+Received: by mail-ed1-f44.google.com with SMTP id 4fb4d7f45d1cf-53142351997so3837427a12.1
+        for <linux-staging@lists.linux.dev>; Sun, 01 Oct 2023 06:44:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1696167831; x=1696772631; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=FWdo0Xen3j1Z5vpJFXzKckOo4KzL4gSS+suSALE7N7s=;
-        b=SOQqwxAG/mtjLzL6jK4iaWKj9NE5b1GjgDA9bPvYMCB6GgK91+e1Jw6pfh9v+VZgNw
-         LRn5fH1Lu2hhGCHzGBlgnOYkpSfkQqI3cn6yczAMhBqKfQ4u1oghu+qVvatEvyQP/y+I
-         TShsg7kRoMbD6zzPSG/3/JWIHs92sHfxeOppaL2l3oZnblivBILIA/v3i5KBPDWq9Z3p
-         A5yhBX30tCUqTJwMgEv9vf//EbRYNDHeUlPmgrAzxE+xVLYDuOibhFWxIZBvGjRjz9ve
-         xaNjn0ok4Zw9F6AmZrI5HXbdi6XKAElfXCGFXqfcKEOYA2JrYInM5eGhIZeA7pOjSduh
-         ef6A==
+        d=gmail.com; s=20230601; t=1696167841; x=1696772641; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=tpJqPIVcZcjgtPzZR6Y1+bljvbB1Yn2y5DRCpOzZBaw=;
+        b=itG5btxOvgguiwXtvTUvPqtEufsjQDI4efbD1YrWZ9viG7NFwnOxH8RpqIKbxWtWsC
+         AYafmjooiRuEwJJm5rYHnOsb8Mcf2gz5F3huxlz8bXbHH472xZong2NjyAE4zJfBAahU
+         6sKIE6ZnWP7U4nBAGGEoVU6AMluT3h4v2dRSzXyC1AHaY5yX4C0Qw//SWxrsMMkdhFBi
+         hZ7tiIIdcjRx/WLh4tuQ9eDWjTmVCHI5NKoJxk+hiPs5YyEwouG9xFGpfSn3WY/W62Wn
+         TpRx1ecAPP8oZL7CSCh6ATfGLrryAzriliv7h01Wanl3ISqntAxwytkEbQBoXlIHK7x2
+         6fhQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696167831; x=1696772631;
-        h=content-disposition:mime-version:message-id:subject:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=FWdo0Xen3j1Z5vpJFXzKckOo4KzL4gSS+suSALE7N7s=;
-        b=QEfuRB68tWk/YCAftFE0Mw0XxdB8llzukovP0a6cLeIqziZ0UmkXfL70Vw5hGQUbh5
-         xUtG0JD+NH4s1QrANxraPpqQtZU+KMtr+cG/XEjrmlbHZt7wmqvZz8lkKjglTRUQ94VP
-         OuYuDkacEmcfDuwzAEFlVfjQe//VVsdVj3LI900ZjJjDDuu4AAj6uionABVRL4t1sOGJ
-         TcEyrrMt/38MTZTInh8Rhu+EYqurwWM1UHF+4zN5eM75pnSytw/aA41PswXtWOA0XFs0
-         K53cvfAimgBNT4ePZTZ5L9bndwS+/sLk+5LNANeWUPsXMgdqISScFsJ4DybQn898w1mY
-         QzyQ==
-X-Gm-Message-State: AOJu0YzDD+v04PiFbF14D7rgBa4+uB7e/p+Yf2Ywt6ib0qQ88viTL30O
-	bEd2PW23ekW4PQ3dAME0F54=
-X-Google-Smtp-Source: AGHT+IGJGDepRSWl8XWYqnjABUG4wibQ/FteSnWEM1qITlmjBWrSE9kTGtNocO5auiwqLEYGWOtfWg==
-X-Received: by 2002:a17:906:2098:b0:9a1:f96c:4bb9 with SMTP id 24-20020a170906209800b009a1f96c4bb9mr8720043ejq.6.1696167830793;
-        Sun, 01 Oct 2023 06:43:50 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1696167841; x=1696772641;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=tpJqPIVcZcjgtPzZR6Y1+bljvbB1Yn2y5DRCpOzZBaw=;
+        b=gHDDf0MeiqaEtyFW5cWuOJQgf6JXevSAkYnBPwmRaFiuWrWNDuFr0HTbGXF48MyMu9
+         A3UWvxUwN8pUEhz2iTQMxJ1vA9GhOEOYJq5ClmUa9pm0gks0oVs0B6RL+C5GhyNA4nAJ
+         8/F/arUbKU04LtFKnIB/CtJ6zMMBK0UwGuywPP9Why7fVOV8pmmJIcUHhpdXsVNz6L74
+         i0qaYY6kj2uwRIT/Xdy2vAPRZEi5OPWCU2NFciuj7/jd+fXUg3L6lUDQhj4Bg9pqQSor
+         uiVuUOI+XEiLCbhj0Ry8Ex8ZQdxzQ9nKWYzEI0ca23C3Huam0wCKRAT/iqOCRxCvopS7
+         /UWg==
+X-Gm-Message-State: AOJu0YzYbLL48dZf38BVug4r/i0d0msh/LL3ZKk0BJ30lVd1I4Enx30m
+	TtNdx1zYC+0Gf3bJRWeq6Eo=
+X-Google-Smtp-Source: AGHT+IF5OXRGF43i9gacuTZV4oRdQf2af9FFA391ivlSZkh5dYNLjj+RmPxYqv/6QsIHztrK8uwkdw==
+X-Received: by 2002:a05:6402:2790:b0:52f:bedf:8ef1 with SMTP id b16-20020a056402279000b0052fbedf8ef1mr8458721ede.3.1696167841055;
+        Sun, 01 Oct 2023 06:44:01 -0700 (PDT)
 Received: from matrix-ESPRIMO-P710 (p579356c7.dip0.t-ipconnect.de. [87.147.86.199])
-        by smtp.gmail.com with ESMTPSA id qk8-20020a170906d9c800b0099bd1ce18fesm15753463ejb.10.2023.10.01.06.43.50
+        by smtp.gmail.com with ESMTPSA id d15-20020aa7d68f000000b005333922efb0sm14083826edr.78.2023.10.01.06.44.00
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 01 Oct 2023 06:43:50 -0700 (PDT)
-Date: Sun, 1 Oct 2023 15:43:48 +0200
+        Sun, 01 Oct 2023 06:44:00 -0700 (PDT)
+Date: Sun, 1 Oct 2023 15:43:59 +0200
 From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [PATCH 00/11] staging: rtl8192e: Remove broken function
- _rtl92e_if_silent_reset()
-Message-ID: <cover.1696165351.git.philipp.g.hortmann@gmail.com>
+Subject: [PATCH 01/11] staging: rtl8192e: Remove ibss_maxjoin_chal
+Message-ID: <7c5d512a69e5832263a0a2e8f4ea3608fe286a09.1696165351.git.philipp.g.hortmann@gmail.com>
+References: <cover.1696165351.git.philipp.g.hortmann@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -51,53 +52,52 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <cover.1696165351.git.philipp.g.hortmann@gmail.com>
 
-When the function _rtl92e_if_silent_reset() is called the variable
-priv->rst_progress is set to RESET_TYPE_SILENT.
-Since priv->up is always true the function is left at "if (priv->up) {"
-without resetting. Now the function _rtl92e_if_silent_reset() is like
-deactivated because the equation at the very beginning is false:
-"if (priv->rst_progress == RESET_TYPE_NORESET) {"
-This leads to a state where the driver hangs in the reset state and
-cannot go forward.
-In 30% of the cases the wlan is disconnected and cannot reconnect. The
-rest of the time it continues working but no reset is done at all.
-Further requests for reset are ignored. Remove broken function that
-has never worked.
-Some related cleanups are included.
+Remove ibss_maxjoin_chal as it is just set and never evaluated.
 
-Tested with rtl8192e (WLL6130-D99) in Mode n (12.5 MB/s)
-Tested r8192_private_handler with:
-	sudo iwpriv wlan0
-	sudo iwpriv wlan0 forcereset 1
-Tested channel switch.
-Transferred this patch over wlan connection of rtl8192e.
+Signed-off-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+---
+ drivers/staging/rtl8192e/dot11d.c | 3 ---
+ drivers/staging/rtl8192e/rtllib.h | 1 -
+ 2 files changed, 4 deletions(-)
 
-Philipp Hortmann (11):
-  staging: rtl8192e: Remove ibss_maxjoin_chal
-  staging: rtl8192e: Remove dead code from _rtl92e_if_check_reset()
-  staging: rtl8192e: Remove RESET_TYPE_NORMAL
-  staging: rtl8192e: Remove broken function _rtl92e_if_silent_reset()
-  staging: rtl8192e: Remove unused variable rst_progress
-  staging: rtl8192e: Remove unused variable reset_in_progress
-  staging: rtl8192e: Remove unused parameter from _rtl92e_sta_up()
-  staging: rtl8192e: Remove unused parameter from _rtl92e_up()
-  staging: rtl8192e: Remove unused variable is_silent_reset
-  staging: rtl8192e: Remove unused variables priv->reset_count and
-    reset_cnt
-  staging: rtl8192e: Remove r8192_private_handler
-    _rtl92e_wx_force_reset()
-
- drivers/staging/rtl8192e/dot11d.c             |   3 -
- .../staging/rtl8192e/rtl8192e/r8192E_dev.c    | 100 ++++++------
- drivers/staging/rtl8192e/rtl8192e/rtl_core.c  | 147 ++----------------
- drivers/staging/rtl8192e/rtl8192e/rtl_core.h  |   5 -
- drivers/staging/rtl8192e/rtl8192e/rtl_dm.c    |  54 +------
- drivers/staging/rtl8192e/rtl8192e/rtl_wx.c    |  18 +--
- drivers/staging/rtl8192e/rtllib.h             |   2 -
- drivers/staging/rtl8192e/rtllib_softmac.c     |  10 +-
- 8 files changed, 66 insertions(+), 273 deletions(-)
-
+diff --git a/drivers/staging/rtl8192e/dot11d.c b/drivers/staging/rtl8192e/dot11d.c
+index 82c11caeee7a..d0b7332645be 100644
+--- a/drivers/staging/rtl8192e/dot11d.c
++++ b/drivers/staging/rtl8192e/dot11d.c
+@@ -73,19 +73,16 @@ void dot11d_channel_map(u8 channel_plan, struct rtllib_device *ieee)
+ 		for (i = 12; i <= 14; i++)
+ 			GET_DOT11D_INFO(ieee)->channel_map[i] = 2;
+ 		ieee->bss_start_channel = 10;
+-		ieee->ibss_maxjoin_chal = 11;
+ 		break;
+ 
+ 	case COUNTRY_CODE_WORLD_WIDE_13:
+ 		for (i = 12; i <= 13; i++)
+ 			GET_DOT11D_INFO(ieee)->channel_map[i] = 2;
+ 		ieee->bss_start_channel = 10;
+-		ieee->ibss_maxjoin_chal = 11;
+ 		break;
+ 
+ 	default:
+ 		ieee->bss_start_channel = 1;
+-		ieee->ibss_maxjoin_chal = 14;
+ 		break;
+ 	}
+ }
+diff --git a/drivers/staging/rtl8192e/rtllib.h b/drivers/staging/rtl8192e/rtllib.h
+index bdbd27e382b9..aa198983cb3c 100644
+--- a/drivers/staging/rtl8192e/rtllib.h
++++ b/drivers/staging/rtl8192e/rtllib.h
+@@ -1339,7 +1339,6 @@ struct rtllib_device {
+ 	u8 active_channel_map[MAX_CHANNEL_NUMBER+1];
+ 
+ 	u8   bss_start_channel;
+-	u8   ibss_maxjoin_chal;
+ 
+ 	int rate;       /* current rate */
+ 	int basic_rate;
 -- 
 2.42.0
 
