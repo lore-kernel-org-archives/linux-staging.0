@@ -1,49 +1,48 @@
-Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
+Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BA6B171DD
-	for <linux-staging@lists.linux.dev>; Sun,  1 Oct 2023 13:44:32 +0000 (UTC)
-Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-9ae3d4c136fso419571066b.1
-        for <linux-staging@lists.linux.dev>; Sun, 01 Oct 2023 06:44:32 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2D6B17724
+	for <linux-staging@lists.linux.dev>; Sun,  1 Oct 2023 13:44:39 +0000 (UTC)
+Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-9b2c5664cb4so144148266b.1
+        for <linux-staging@lists.linux.dev>; Sun, 01 Oct 2023 06:44:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1696167870; x=1696772670; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1696167878; x=1696772678; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=Ym31JZcesETa7AS2f1umn/B+sSEpEuK3mEbxds3x3JU=;
-        b=W6q0IePcqriBKnfW3H6erE1EBp75SuIMHJFz1M58qDtUbMKa7yIQDuKK+Q5ROga4IA
-         qe/ACPY9RJK3Wkq7zMSxn81wugn0DfUzFId0KvGyiXN3kGK21g94h6Im+/lDiE6tL1WM
-         Whsg1PvaCG0XFVLWXuci1E7yemfNjxHR4yhqAIX70ZxuSKRiyXM4cQ2JObI45t0ZLy6e
-         lV1On4/MRI6LoHhSUKHT2objELA9SIj67didY6qMSqsV1JhUFk5ZRWkRRWJLGayuhyng
-         NDBwFtb/CP0n9fHJEflQqugcb0vVI/EaSm6beQpK0hSCQRf+QAvvBaMcYm7KLY9c2Sd3
-         kGBQ==
+        bh=WnFupUzVDS+wn/0FKIaw6slFldhEhqkX6Yuz2KNShag=;
+        b=SeDzdV+EqlRMSUNginNA7ebS7EMsec0iCfvtAA79A8okUcwHVxpdK4tdEXeRVy34pc
+         nKchQ1USKUkEdJt40bshYuTU++ZmgNkE1QPwB1TMkYUEsHXUdx8OJJlHIPALHyD05ouq
+         njBxZ2jnab5kfpoUOSYn7vACdGx1I/iX2nUOgCwCynXQSpXi5fNusx+1VkeUWt2JjJlG
+         s7GGT7KgswJSnO9+WEEZTTV00A3sF0dGzCZ/v2KLfYQXLScMAMc7NsSt/aLCMz4eCrOy
+         BvFAcfNmAhXiAq73TrFjw1N/PFs4Cjdpyi76WCjbpCru2aTED4uVWhj1uvkos6bLgDXI
+         NR5A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696167870; x=1696772670;
+        d=1e100.net; s=20230601; t=1696167878; x=1696772678;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Ym31JZcesETa7AS2f1umn/B+sSEpEuK3mEbxds3x3JU=;
-        b=wzcmSmJHf0fn5+FZuxT2Fw51UpcJ9OIOTMULxsMLOT4+lVeNSFkudWR7ktnkdRwCwe
-         x85otJHo9oumxtNys/irLafi1lsYwggcyv9JH4QFQq5106xS+b6NKZVlfIQ3fNYdWW8J
-         qr3OVEfDTclp6tIzDwVp09M60rJc1Z/xUa4S9g26EqbzYILtusGLqTEcl3w/cSCK0t/m
-         7aEOgStPGYY/lZitbDFX5VqGdL+Cx0G3zEIYge0tZjKuA8QFKncPwzLUeRy2O40ild1p
-         V66wW1Sn6qVtorKblkpbYGc9kDLKpM5eR1nYj9Tw/DR6w+OIDq1PyFoiyAsmP0FWzAMK
-         wSPQ==
-X-Gm-Message-State: AOJu0YypF9jWgvDtQI5PxUgN9QPkm9mygOqMYq3U8EKf8kyx9ru76Hc5
-	Y9ntHOeGS1r4YG/Jz2wrkGzWMGwI3xo=
-X-Google-Smtp-Source: AGHT+IHCNDyM0yg+CQz5dfSM+EKe4Pd0E59Hd3zoNa1XRQq0Z9Lrjh/ux+e26rZ84y08df6ru7jkGQ==
-X-Received: by 2002:a17:906:74d4:b0:9ad:dfe7:b361 with SMTP id z20-20020a17090674d400b009addfe7b361mr6959151ejl.5.1696167870325;
-        Sun, 01 Oct 2023 06:44:30 -0700 (PDT)
+        bh=WnFupUzVDS+wn/0FKIaw6slFldhEhqkX6Yuz2KNShag=;
+        b=AdjD79R3Qeu/PvhoBF0L8hu6pqwCNakypP925osgY5XkzmNw21knjYebmAZdBPZ3Qh
+         C8Ugh/1V/7oRXWfnWTloqU4ZS4stKscltqbCzVMXi2qZz+Xl6ySx1+oC2xHhsBUjm/J3
+         q4WWcxkd+I0gNalLWXUYke0wOIbPN99t30Fx+6X7Q258dZNxYu7V+WSj/BM3xBcWKCG4
+         Ti+H7iJ5IMCi/cRfZDZvojQLXyEsT+ir+H/XW2hHDk+iCBln6vBArPz8ngT40CMs3/yI
+         pjwBP9F6WYJai0qYU7kCOLop9w/Zwj9YaxKNaJdnFAyrpCZCMadYvH5Df3HKPR1Hq5YD
+         pSng==
+X-Gm-Message-State: AOJu0YxLN1XiYdyKng7fVK3RgqEYp98o6NLT3KVpcYaDJzwAbiG9P5yS
+	waRMQwqaKrUeIMxaLwVpqWY=
+X-Google-Smtp-Source: AGHT+IF2Zn4LT8sIx4V5cckExXaMAfCxsOzA/hk5qwE+A6GcFHq5VkMNGt4yIVr18tFuVsBkh84tdw==
+X-Received: by 2002:a17:906:2ce:b0:9ae:3f76:1091 with SMTP id 14-20020a17090602ce00b009ae3f761091mr6843417ejk.0.1696167877810;
+        Sun, 01 Oct 2023 06:44:37 -0700 (PDT)
 Received: from matrix-ESPRIMO-P710 (p579356c7.dip0.t-ipconnect.de. [87.147.86.199])
-        by smtp.gmail.com with ESMTPSA id i22-20020a17090671d600b009a193a5acffsm15232229ejk.121.2023.10.01.06.44.29
+        by smtp.gmail.com with ESMTPSA id bv13-20020a170906b1cd00b00993a37aebc5sm15451246ejb.50.2023.10.01.06.44.37
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 01 Oct 2023 06:44:30 -0700 (PDT)
-Date: Sun, 1 Oct 2023 15:44:28 +0200
+        Sun, 01 Oct 2023 06:44:37 -0700 (PDT)
+Date: Sun, 1 Oct 2023 15:44:35 +0200
 From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [PATCH 04/11] staging: rtl8192e: Remove broken function
- _rtl92e_if_silent_reset()
-Message-ID: <8b1b04b512b5691968a49308fdc052973fbe5032.1696165351.git.philipp.g.hortmann@gmail.com>
+Subject: [PATCH 05/11] staging: rtl8192e: Remove unused variable rst_progress
+Message-ID: <21f4ab4eff53cce0debcd113c2dc1718dc713aeb.1696165351.git.philipp.g.hortmann@gmail.com>
 References: <cover.1696165351.git.philipp.g.hortmann@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -55,175 +54,186 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 In-Reply-To: <cover.1696165351.git.philipp.g.hortmann@gmail.com>
 
-When the function _rtl92e_if_silent_reset() is called the variable
-priv->rst_progress is set to RESET_TYPE_SILENT.
-Since priv->up is always true the function is left at "if (priv->up) {"
-without resetting. Now the function _rtl92e_if_silent_reset() is like
-deactivated because the equation at the very beginning is false:
-"if (priv->rst_progress == RESET_TYPE_NORESET) {"
-This leads to a state where the driver hangs in the reset state and
-cannot go forward.
-In 30% of the cases the wlan is disconnected and cannot reconnect. The
-rest of the time it continues working but no reset is done at all.
-Further requests for reset are ignored. Remove broken function
-_rtl92e_if_silent_reset() and remove return value of
-_rtl92e_if_check_reset() to avoid compiler warnings.
+priv->rst_progress is set to RESET_TYPE_NORESET and never changed. All
+equations are true. Remove dead code.
 
 Signed-off-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
 ---
- drivers/staging/rtl8192e/rtl8192e/rtl_core.c | 113 +------------------
- 1 file changed, 3 insertions(+), 110 deletions(-)
+ .../staging/rtl8192e/rtl8192e/r8192E_dev.c    | 100 ++++++++----------
+ drivers/staging/rtl8192e/rtl8192e/rtl_core.c  |   1 -
+ drivers/staging/rtl8192e/rtl8192e/rtl_core.h  |   1 -
+ 3 files changed, 47 insertions(+), 55 deletions(-)
 
+diff --git a/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c b/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c
+index 9ffa9305ff5e..6cfc2254487b 100644
+--- a/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c
++++ b/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c
+@@ -485,10 +485,10 @@ bool rtl92e_start_adapter(struct net_device *dev)
+ start:
+ 	rtl92e_reset_desc_ring(dev);
+ 	priv->rf_mode = RF_OP_By_SW_3wire;
+-	if (priv->rst_progress == RESET_TYPE_NORESET) {
+-		rtl92e_writeb(dev, ANAPAR, 0x37);
+-		mdelay(500);
+-	}
++
++	rtl92e_writeb(dev, ANAPAR, 0x37);
++	mdelay(500);
++
+ 	priv->fw_info->status = FW_STATUS_0_INIT;
+ 
+ 	ulRegRead = rtl92e_readl(dev, CPU_GEN);
+@@ -518,21 +518,20 @@ bool rtl92e_start_adapter(struct net_device *dev)
+ 	}
+ 
+ 	priv->loopback_mode = RTL819X_NO_LOOPBACK;
+-	if (priv->rst_progress == RESET_TYPE_NORESET) {
+-		ulRegRead = rtl92e_readl(dev, CPU_GEN);
+-		if (priv->loopback_mode == RTL819X_NO_LOOPBACK)
+-			ulRegRead = (ulRegRead & CPU_GEN_NO_LOOPBACK_MSK) |
+-				    CPU_GEN_NO_LOOPBACK_SET;
+-		else if (priv->loopback_mode == RTL819X_MAC_LOOPBACK)
+-			ulRegRead |= CPU_CCK_LOOPBACK;
+-		else
+-			netdev_err(dev, "%s: Invalid loopback mode setting.\n",
+-				   __func__);
++	ulRegRead = rtl92e_readl(dev, CPU_GEN);
++	if (priv->loopback_mode == RTL819X_NO_LOOPBACK)
++		ulRegRead = (ulRegRead & CPU_GEN_NO_LOOPBACK_MSK) |
++			    CPU_GEN_NO_LOOPBACK_SET;
++	else if (priv->loopback_mode == RTL819X_MAC_LOOPBACK)
++		ulRegRead |= CPU_CCK_LOOPBACK;
++	else
++		netdev_err(dev, "%s: Invalid loopback mode setting.\n",
++			   __func__);
+ 
+-		rtl92e_writel(dev, CPU_GEN, ulRegRead);
++	rtl92e_writel(dev, CPU_GEN, ulRegRead);
++
++	udelay(500);
+ 
+-		udelay(500);
+-	}
+ 	_rtl92e_hwconfig(dev);
+ 	rtl92e_writeb(dev, CMDR, CR_RE | CR_TE);
+ 
+@@ -567,8 +566,7 @@ bool rtl92e_start_adapter(struct net_device *dev)
+ 
+ 	rtl92e_writeb(dev, ACK_TIMEOUT, 0x30);
+ 
+-	if (priv->rst_progress == RESET_TYPE_NORESET)
+-		rtl92e_set_wireless_mode(dev, priv->rtllib->mode);
++	rtl92e_set_wireless_mode(dev, priv->rtllib->mode);
+ 	rtl92e_cam_reset(dev);
+ 	{
+ 		u8 SECR_value = 0x0;
+@@ -607,12 +605,10 @@ bool rtl92e_start_adapter(struct net_device *dev)
+ 		}
+ 	}
+ 
+-	if (priv->rst_progress == RESET_TYPE_NORESET) {
+-		rtStatus = rtl92e_config_rf(dev);
+-		if (!rtStatus) {
+-			netdev_info(dev, "RF Config failed\n");
+-			return rtStatus;
+-		}
++	rtStatus = rtl92e_config_rf(dev);
++	if (!rtStatus) {
++		netdev_info(dev, "RF Config failed\n");
++		return rtStatus;
+ 	}
+ 
+ 	rtl92e_set_bb_reg(dev, rFPGA0_RFMOD, bCCKEn, 0x1);
+@@ -634,39 +630,37 @@ bool rtl92e_start_adapter(struct net_device *dev)
+ 	else
+ 		priv->rf_mode = RF_OP_By_SW_3wire;
+ 
+-	if (priv->rst_progress == RESET_TYPE_NORESET) {
+-		rtl92e_dm_init_txpower_tracking(dev);
+-
+-		if (priv->ic_cut >= IC_VersionCut_D) {
+-			tmpRegA = rtl92e_get_bb_reg(dev, rOFDM0_XATxIQImbalance,
+-						    bMaskDWord);
+-			rtl92e_get_bb_reg(dev, rOFDM0_XCTxIQImbalance, bMaskDWord);
+-
+-			for (i = 0; i < TX_BB_GAIN_TABLE_LEN; i++) {
+-				if (tmpRegA == dm_tx_bb_gain[i]) {
+-					priv->rfa_txpowertrackingindex = i;
+-					priv->rfa_txpowertrackingindex_real = i;
+-					priv->rfa_txpowertracking_default =
+-						 priv->rfa_txpowertrackingindex;
+-					break;
+-				}
++	rtl92e_dm_init_txpower_tracking(dev);
++
++	if (priv->ic_cut >= IC_VersionCut_D) {
++		tmpRegA = rtl92e_get_bb_reg(dev, rOFDM0_XATxIQImbalance,
++					    bMaskDWord);
++		rtl92e_get_bb_reg(dev, rOFDM0_XCTxIQImbalance, bMaskDWord);
++
++		for (i = 0; i < TX_BB_GAIN_TABLE_LEN; i++) {
++			if (tmpRegA == dm_tx_bb_gain[i]) {
++				priv->rfa_txpowertrackingindex = i;
++				priv->rfa_txpowertrackingindex_real = i;
++				priv->rfa_txpowertracking_default =
++					 priv->rfa_txpowertrackingindex;
++				break;
+ 			}
++		}
+ 
+-			TempCCk = rtl92e_get_bb_reg(dev, rCCK0_TxFilter1,
+-						    bMaskByte2);
++		TempCCk = rtl92e_get_bb_reg(dev, rCCK0_TxFilter1,
++					    bMaskByte2);
+ 
+-			for (i = 0; i < CCK_TX_BB_GAIN_TABLE_LEN; i++) {
+-				if (TempCCk == dm_cck_tx_bb_gain[i][0]) {
+-					priv->cck_present_attn_20m_def = i;
+-					break;
+-				}
++		for (i = 0; i < CCK_TX_BB_GAIN_TABLE_LEN; i++) {
++			if (TempCCk == dm_cck_tx_bb_gain[i][0]) {
++				priv->cck_present_attn_20m_def = i;
++				break;
+ 			}
+-			priv->cck_present_attn_40m_def = 0;
+-			priv->cck_present_attn_diff = 0;
+-			priv->cck_present_attn =
+-				  priv->cck_present_attn_20m_def;
+-			priv->btxpower_tracking = false;
+ 		}
++		priv->cck_present_attn_40m_def = 0;
++		priv->cck_present_attn_diff = 0;
++		priv->cck_present_attn =
++			  priv->cck_present_attn_20m_def;
++		priv->btxpower_tracking = false;
+ 	}
+ 	rtl92e_irq_enable(dev);
+ end:
 diff --git a/drivers/staging/rtl8192e/rtl8192e/rtl_core.c b/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
-index 11d20fc11a7d..43533410f8d6 100644
+index 43533410f8d6..7ca6a04d034c 100644
 --- a/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
 +++ b/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
-@@ -958,7 +958,7 @@ static enum reset_type _rtl92e_rx_check_stuck(struct net_device *dev)
- 	return RESET_TYPE_NORESET;
- }
- 
--static enum reset_type _rtl92e_if_check_reset(struct net_device *dev)
-+static void _rtl92e_if_check_reset(struct net_device *dev)
- {
- 	struct r8192_priv *priv = rtllib_priv(dev);
- 	enum reset_type TxResetType = RESET_TYPE_NORESET;
-@@ -979,112 +979,8 @@ static enum reset_type _rtl92e_if_check_reset(struct net_device *dev)
- 		   RxResetType == RESET_TYPE_SILENT) {
- 		netdev_info(dev, "%s(): TxResetType is %d, RxResetType is %d\n",
- 			    __func__, TxResetType, RxResetType);
--		return RESET_TYPE_SILENT;
--	} else {
--		return RESET_TYPE_NORESET;
--	}
--}
--
--static void _rtl92e_if_silent_reset(struct net_device *dev)
--{
--	struct r8192_priv *priv = rtllib_priv(dev);
--	u8	reset_times = 0;
--	int reset_status = 0;
--	struct rtllib_device *ieee = priv->rtllib;
--	unsigned long flag;
--
--	if (priv->rst_progress == RESET_TYPE_NORESET) {
--		priv->rst_progress = RESET_TYPE_SILENT;
--
--		spin_lock_irqsave(&priv->rf_ps_lock, flag);
--		if (priv->rf_change_in_progress) {
--			spin_unlock_irqrestore(&priv->rf_ps_lock, flag);
--			goto END;
--		}
--		priv->rf_change_in_progress = true;
--		priv->reset_in_progress = true;
--		spin_unlock_irqrestore(&priv->rf_ps_lock, flag);
--
--RESET_START:
--
--		mutex_lock(&priv->wx_mutex);
--
--		if (priv->rtllib->link_state == MAC80211_LINKED)
--			rtl92e_leisure_ps_leave(dev);
--
--		if (priv->up) {
--			netdev_info(dev, "%s():the driver is not up.\n",
--				    __func__);
--			mutex_unlock(&priv->wx_mutex);
--			return;
--		}
--		priv->up = 0;
--
--		mdelay(1000);
--
--		if (!netif_queue_stopped(dev))
--			netif_stop_queue(dev);
--
--		rtl92e_irq_disable(dev);
--		del_timer_sync(&priv->watch_dog_timer);
--		_rtl92e_cancel_deferred_work(priv);
--		rtl92e_dm_deinit(dev);
--		rtllib_stop_scan_syncro(ieee);
--
--		if (ieee->link_state == MAC80211_LINKED) {
--			mutex_lock(&ieee->wx_mutex);
--			netdev_info(dev, "ieee->link_state is MAC80211_LINKED\n");
--			del_timer_sync(&ieee->associate_timer);
--			cancel_delayed_work(&ieee->associate_retry_wq);
--			rtllib_stop_scan(ieee);
--			netif_carrier_off(dev);
--			mutex_unlock(&ieee->wx_mutex);
--		} else {
--			netdev_info(dev, "ieee->link_state is NOT LINKED\n");
--			rtllib_softmac_stop_protocol(priv->rtllib, 0, true);
--		}
--
--		rtl92e_dm_backup_state(dev);
--
--		mutex_unlock(&priv->wx_mutex);
--		reset_status = _rtl92e_up(dev, true);
--
--		if (reset_status == -1) {
--			if (reset_times < 3) {
--				reset_times++;
--				goto RESET_START;
--			} else {
--				netdev_warn(dev, "%s():	Reset Failed\n",
--					    __func__);
--			}
--		}
--
--		ieee->is_silent_reset = 1;
--
--		spin_lock_irqsave(&priv->rf_ps_lock, flag);
--		priv->rf_change_in_progress = false;
--		spin_unlock_irqrestore(&priv->rf_ps_lock, flag);
--
--		rtl92e_enable_hw_security_config(dev);
--
--		if (ieee->link_state == MAC80211_LINKED && ieee->iw_mode ==
--		    IW_MODE_INFRA) {
--			ieee->set_chan(ieee->dev,
--				       ieee->current_network.channel);
--
--			schedule_work(&ieee->associate_complete_wq);
--
--		}
--
--		rtl92e_cam_restore(dev);
--		rtl92e_dm_restore_state(dev);
--END:
--		priv->rst_progress = RESET_TYPE_NORESET;
--		priv->reset_count++;
--		priv->reset_in_progress = false;
--
--		rtl92e_writeb(dev, UFWP, 1);
- 	}
-+	return;
- }
- 
- static void _rtl92e_update_rxcounts(struct r8192_priv *priv, u32 *TotalRxBcnNum,
-@@ -1114,7 +1010,6 @@ static void _rtl92e_watchdog_wq_cb(void *data)
- 				  struct r8192_priv, watch_dog_wq);
- 	struct net_device *dev = priv->rtllib->dev;
- 	struct rtllib_device *ieee = priv->rtllib;
--	enum reset_type ResetType = RESET_TYPE_NORESET;
- 	static u8 check_reset_cnt;
- 	unsigned long flags;
- 	struct rt_pwr_save_ctrl *psc = (struct rt_pwr_save_ctrl *)
-@@ -1232,13 +1127,11 @@ static void _rtl92e_watchdog_wq_cb(void *data)
- 	spin_lock_irqsave(&priv->tx_lock, flags);
- 	if ((check_reset_cnt++ >= 3) && (!ieee->is_roaming) &&
- 	    (!priv->rf_change_in_progress) && (!psc->bSwRfProcessing)) {
--		ResetType = _rtl92e_if_check_reset(dev);
-+		_rtl92e_if_check_reset(dev);
- 		check_reset_cnt = 3;
- 	}
- 	spin_unlock_irqrestore(&priv->tx_lock, flags);
- 
--	if ((priv->force_reset || ResetType == RESET_TYPE_SILENT))
--		_rtl92e_if_silent_reset(dev);
+@@ -754,7 +754,6 @@ static void _rtl92e_init_priv_variable(struct net_device *dev)
+ 	priv->rfa_txpowertrackingindex = 0;
+ 	priv->rfc_txpowertrackingindex = 0;
+ 	priv->cck_pwr_enl = 6;
+-	priv->rst_progress = RESET_TYPE_NORESET;
  	priv->force_reset = false;
- 	priv->reset_in_progress = false;
- }
+ 	memset(priv->rtllib->swcamtable, 0, sizeof(struct sw_cam_table) * 32);
+ 	priv->rx_ctr = 0;
+diff --git a/drivers/staging/rtl8192e/rtl8192e/rtl_core.h b/drivers/staging/rtl8192e/rtl8192e/rtl_core.h
+index d6e924fc8011..855bee78c674 100644
+--- a/drivers/staging/rtl8192e/rtl8192e/rtl_core.h
++++ b/drivers/staging/rtl8192e/rtl8192e/rtl_core.h
+@@ -370,7 +370,6 @@ struct r8192_priv {
+ 	u8		framesync;
+ 	u32		reset_count;
+ 
+-	enum reset_type rst_progress;
+ 	u16		tx_counter;
+ 	u16		rx_ctr;
+ 	bool		reset_in_progress;
 -- 
 2.42.0
 
