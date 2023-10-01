@@ -1,49 +1,48 @@
-Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
+Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 833508F5A
-	for <linux-staging@lists.linux.dev>; Sun,  1 Oct 2023 13:44:10 +0000 (UTC)
-Received: by mail-ed1-f53.google.com with SMTP id 4fb4d7f45d1cf-533c71c5f37so3313409a12.0
-        for <linux-staging@lists.linux.dev>; Sun, 01 Oct 2023 06:44:10 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 784808F5A
+	for <linux-staging@lists.linux.dev>; Sun,  1 Oct 2023 13:44:24 +0000 (UTC)
+Received: by mail-ed1-f43.google.com with SMTP id 4fb4d7f45d1cf-53636bc91a8so787731a12.1
+        for <linux-staging@lists.linux.dev>; Sun, 01 Oct 2023 06:44:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1696167848; x=1696772648; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1696167863; x=1696772663; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=522MwXZqJUWHyXjMD6+ZKRNyT+zr9qIsF/KHqubKWwA=;
-        b=mCCbFG8socNlgyNio+4NgXdzs9T9TuQwsA4fZBc4Z5KveiEV3NrBZ1WUcXSjo94c9a
-         Ddvfjz43R6bRCUimpRU5i1dBMrk2xPW4EsDsXH0znxCLS0FCy7QceZ2uk9MF70foccDW
-         RWMG31DFEx+YhDLnc9lD676GMh2nKvcE23snLG56GLRHp43k+5WWPoIeV8zB3wpPFlxM
-         zh/TiPVyX0jF2+QM2YRQvzVfKopQe1NZtMpKcITu4YLhbv78acVwI+NOi7CfMFKC5atO
-         5K0NDoFpdJOI6iBkdn0sZ0yNnY01YvqLNyJqFkURSd9qFw09YEDhgRudwmD4NxoExm5S
-         xlqw==
+        bh=LEP+m1gZqUF2dlXF0HPKoDRFFOr5o0irSFxrQKPSymU=;
+        b=ZYbltIVaF/lm8JNpfnpMMUCp/vo4tFknPOTMFc+BTYF+sTwZZZbacwDoSiuDCES/sg
+         Po0hZpCuB/vU3RMW6clQe0KwENS2Y7J8mq6p3KPL/m6ohEQsOi7kMyVIhBhnCVQTGYyR
+         N2jwEYoK+4lBY4/wrwQtnlxiIKcV4tMRdXc3YVO9IS30laljKV5XjAQNaC8Bh+CD6JdV
+         eFeZQLbigfaVzTtMEKNG4wvE1GDuIO9ZjOiHl7CZCS+PYEkbE7DmwdPZ/4CmtzZoWl6e
+         TLmKFokE4NwnItXi5E1LnyfqgfwM050dAedxmO7AK4MtnLRSTl2sBEyOpbQlzSI2ON3o
+         GGBg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696167848; x=1696772648;
+        d=1e100.net; s=20230601; t=1696167863; x=1696772663;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=522MwXZqJUWHyXjMD6+ZKRNyT+zr9qIsF/KHqubKWwA=;
-        b=EIDhmcV9C8bo8Mb9nE6hWC39yV5OClynmIMEw9rLD8DhNuChgC/nVNgnNTY7LTurXe
-         2LxSFruhMkkses+zsseB4gtGt5wT1hAsJj/avIxHF8c+IrBBdUFLiwhMkHz2wMNx7zbo
-         7VsYXkdavJiyrEYkDp9HQgqy92bvHjSG4qPBNIK0Z7CM9sGCW6uLzj0AAGpHDuzqfN5D
-         jF1IHYgLfAQUnwrw19H9fiof+nvM2+zTAewNpSUwvqzV1Yx2EcopW2gbFMjLAADTjNmP
-         ebaSSjEFjyeKzrlzxCapoW9aGUeNITFgBxKmsxIDNhekqF9Z4lPP0OikIbfdE9AHRMtj
-         LIsg==
-X-Gm-Message-State: AOJu0YwC9wRC7XfHreHgnL03XcVHU8sXny845iqPculZTH48MswQugPP
-	GSeKermdAL6+zktOkt/gimQ=
-X-Google-Smtp-Source: AGHT+IH1X/sCWgQUa5MwEqVHyRwzYptm0N4XJUzsCkcGYjg1aLdr7kQqWgTAJMGC/YuZsOPhr/n/MQ==
-X-Received: by 2002:a05:6402:5243:b0:51d:cfeb:fc3b with SMTP id t3-20020a056402524300b0051dcfebfc3bmr6777839edd.1.1696167848673;
-        Sun, 01 Oct 2023 06:44:08 -0700 (PDT)
+        bh=LEP+m1gZqUF2dlXF0HPKoDRFFOr5o0irSFxrQKPSymU=;
+        b=coD3sUvfrbQUwK4D6h4Kh5YQUYdqBXMDwMONAID2GEQ+XQdqwFulU0bxokxyFFa3DJ
+         kCzf0/rrL3K53pbb+VXKYy/fhsQJPrOwnpcybtV3JaTVmylKLr6oYcMrrpbScONoAaq2
+         7n8htgVXfXfnCaBWvmKuhgNjVt0tWTcpdQIbg5XvS/HaQX4sFZiM7Rq3RoB71uEiN4m7
+         JUkU10Vd+t55m0qF80FsVtL9Dd5g2qmo4USPqBXjDJIsjqnbAQDZN7v5b5BqwgRTlUCP
+         IcmF3fkmoyHjHpk7U/TuCdLa+PP61iDN/8HGkdZ1cOQL4n/VU6lPf8YGIgocqFogjRYn
+         0Ktw==
+X-Gm-Message-State: AOJu0YyzrGVluI0H0n3f4HFafq06elcwCZycYDm4gf17l2P3kV3omhpF
+	IWv6G+O84PwVFxNZwvn+7I9t9TCfFtc=
+X-Google-Smtp-Source: AGHT+IGMX9+Dus1EyYTTX1u5SQI+uSD22+wFbNFkFibaq9PlI6vVQ04/mlXa9JGWX/dXmflOSC/hWQ==
+X-Received: by 2002:a05:6402:26c5:b0:523:2e64:122b with SMTP id x5-20020a05640226c500b005232e64122bmr7806299edd.3.1696167862351;
+        Sun, 01 Oct 2023 06:44:22 -0700 (PDT)
 Received: from matrix-ESPRIMO-P710 (p579356c7.dip0.t-ipconnect.de. [87.147.86.199])
-        by smtp.gmail.com with ESMTPSA id k15-20020aa7c38f000000b00537fee52351sm2743509edq.28.2023.10.01.06.44.08
+        by smtp.gmail.com with ESMTPSA id x18-20020aa7d6d2000000b0052febc781bfsm14037773edr.36.2023.10.01.06.44.21
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 01 Oct 2023 06:44:08 -0700 (PDT)
-Date: Sun, 1 Oct 2023 15:44:06 +0200
+        Sun, 01 Oct 2023 06:44:22 -0700 (PDT)
+Date: Sun, 1 Oct 2023 15:44:20 +0200
 From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [PATCH 02/11] staging: rtl8192e: Remove dead code from
- _rtl92e_if_check_reset()
-Message-ID: <5f29332205dd76896e981fa627925d62a6bf7f63.1696165351.git.philipp.g.hortmann@gmail.com>
+Subject: [PATCH 03/11] staging: rtl8192e: Remove RESET_TYPE_NORMAL
+Message-ID: <e951e39f0d75fb6baf8beb37e8c5fed05365078d.1696165351.git.philipp.g.hortmann@gmail.com>
 References: <cover.1696165351.git.philipp.g.hortmann@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -55,34 +54,42 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 In-Reply-To: <cover.1696165351.git.philipp.g.hortmann@gmail.com>
 
-The return value of _rtl92e_tx_check_stuck() and _rtl92e_rx_check_stuck()
-can only be RESET_TYPE_SILENT or RESET_TYPE_NORESET. This functions are
-only used in _rtl92e_if_check_reset(). In _rtl92e_if_check_reset() the
-return values are checked for RESET_TYPE_NORMAL which cannot occur.
+ResetType == RESET_TYPE_NORMAL is always false. Remove dead code.
 
 Signed-off-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
 ---
- drivers/staging/rtl8192e/rtl8192e/rtl_core.c | 7 +------
- 1 file changed, 1 insertion(+), 6 deletions(-)
+ drivers/staging/rtl8192e/rtl8192e/rtl_core.c | 5 -----
+ drivers/staging/rtl8192e/rtl8192e/rtl_core.h | 1 -
+ 2 files changed, 6 deletions(-)
 
 diff --git a/drivers/staging/rtl8192e/rtl8192e/rtl_core.c b/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
-index 87f5441fbb10..f67923ccf790 100644
+index f67923ccf790..11d20fc11a7d 100644
 --- a/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
 +++ b/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
-@@ -975,12 +975,7 @@ static enum reset_type _rtl92e_if_check_reset(struct net_device *dev)
- 	    (priv->rtllib->link_state == MAC80211_LINKED))
- 		RxResetType = _rtl92e_rx_check_stuck(dev);
+@@ -1237,11 +1237,6 @@ static void _rtl92e_watchdog_wq_cb(void *data)
+ 	}
+ 	spin_unlock_irqrestore(&priv->tx_lock, flags);
  
--	if (TxResetType == RESET_TYPE_NORMAL ||
--	    RxResetType == RESET_TYPE_NORMAL) {
--		netdev_info(dev, "%s(): TxResetType is %d, RxResetType is %d\n",
--			    __func__, TxResetType, RxResetType);
--		return RESET_TYPE_NORMAL;
--	} else if (TxResetType == RESET_TYPE_SILENT ||
-+	if (TxResetType == RESET_TYPE_SILENT ||
- 		   RxResetType == RESET_TYPE_SILENT) {
- 		netdev_info(dev, "%s(): TxResetType is %d, RxResetType is %d\n",
- 			    __func__, TxResetType, RxResetType);
+-	if (ResetType == RESET_TYPE_NORMAL) {
+-		priv->rst_progress = RESET_TYPE_NORMAL;
+-		return;
+-	}
+-
+ 	if ((priv->force_reset || ResetType == RESET_TYPE_SILENT))
+ 		_rtl92e_if_silent_reset(dev);
+ 	priv->force_reset = false;
+diff --git a/drivers/staging/rtl8192e/rtl8192e/rtl_core.h b/drivers/staging/rtl8192e/rtl8192e/rtl_core.h
+index fa82a0667813..d6e924fc8011 100644
+--- a/drivers/staging/rtl8192e/rtl8192e/rtl_core.h
++++ b/drivers/staging/rtl8192e/rtl8192e/rtl_core.h
+@@ -132,7 +132,6 @@ enum rt_customer_id {
+ 
+ enum reset_type {
+ 	RESET_TYPE_NORESET = 0x00,
+-	RESET_TYPE_NORMAL = 0x01,
+ 	RESET_TYPE_SILENT = 0x02
+ };
+ 
 -- 
 2.42.0
 
