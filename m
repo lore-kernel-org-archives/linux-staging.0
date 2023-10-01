@@ -1,146 +1,101 @@
-Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
+Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CEF6F17738
-	for <linux-staging@lists.linux.dev>; Sun,  1 Oct 2023 13:45:30 +0000 (UTC)
-Received: by mail-ej1-f42.google.com with SMTP id a640c23a62f3a-9b2c5664cb4so144168966b.1
-        for <linux-staging@lists.linux.dev>; Sun, 01 Oct 2023 06:45:30 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61B3DB657
+	for <linux-staging@lists.linux.dev>; Sun,  1 Oct 2023 13:53:19 +0000 (UTC)
+Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-9ae3d4c136fso419697166b.1
+        for <linux-staging@lists.linux.dev>; Sun, 01 Oct 2023 06:53:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1696167929; x=1696772729; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=F4mpp0HTqoMB98qe9eiYEXks5rNRdwSriBgWOGd0HtU=;
-        b=mgtfgdO/BuPt57cPwWSTtlhaalwGtf80xk9IVGtSzwqZjvB9kd0n02fJLD68Wx4TRn
-         +y4mn+AArrRHriqhD9SwQyiF99Mhxl1SzCe/UQHeQfcHZCAmAONvXN0twR4nhYZGlaoZ
-         BE549XFBWWSXRmHbwKVSpMcXTY5/ZTSJN/9khoCktKW+zz+phK/8ZvXGDCv101rfWec4
-         xRP5oRc1ZuBPn38+QFaFc/SxeO27uQPL06l5l/qPMFpk4YckYQiL9hyD2MK863cm7sTo
-         rs4IARjrUkovw2dSoQ2B3xEjKno0CFC4PwYqCYOdjZsb3HYCI/GnJ+R/0eyVNapLaEfa
-         S37w==
+        d=gmail.com; s=20230601; t=1696168397; x=1696773197; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:to:subject:user-agent:mime-version:date:message-id:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=7WuNs1fTx2E5mS1rvQvEyzQGp3aoI7mPY6rfOs6zQoc=;
+        b=RVKX0vfNHAuEsGKy/G3RvWCs0IebJ1Swp6733MvrT21r4ilkAo0t88jU4LE3yHE6MO
+         Qx+hWlZSwTs2OWOab7t0RHNLeAmEg5zI+tEOTeCfOdzK3C1vHk55X4PR+Gf8KT8kpf1o
+         dWmhRQ6YGHutvI9yPpoX4POiQeU3zNsvX+FhF3lnIYcWnZI1DtvT7DC1AXRQITOBBKwv
+         K+cUYNeGPi+Kg3U7rUK0sKTq1P1km250diu1kOj7oITlQI1qhh7DAQarxEtdCSoHZQAg
+         rluEfLHgsQs6uZQQqXLX4B/bpxG+ngHaUAjJG/oPr1/hoGXQoVTM2JEwHX0PULVynVoV
+         rIVQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696167929; x=1696772729;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=F4mpp0HTqoMB98qe9eiYEXks5rNRdwSriBgWOGd0HtU=;
-        b=eDrpF4L6cReuwM5Ybxe838AI3hZolg9PkDcbn166tuyAAD+P29Yd+8JbEQc6F7ayiP
-         syOcxFpgH0sJwuRfRObhA+O/P1pRYkP+K+41RrkTY6Lmy2masKWGtAdSiEosEErwQure
-         BdDm+j9Gag0TC0PQvCOPwLN3ABC+DfuGFrWq5CG5IFQun5jxkLHeYGOOnCIpgqLQlYgI
-         +17auIMKe7yvfYhvEspOR9iZ3h8F/CxQn1wIGs8+sGn5LWGCNIP6niqwMr1z/gRLk9BU
-         ktlDrCSVadttCz3FG5lmivY1b8cFR5vKxSzXmjlWeQdVLbnHN5pCYGTo9dj5P5/xZoBg
-         ilsA==
-X-Gm-Message-State: AOJu0YyjyzISCPeCYzxB7ELKZnqTvoVSfW3SSGAF/BkxrzvGf50urdPq
-	3N6xSEolmC0QvG3dCj89+II=
-X-Google-Smtp-Source: AGHT+IGNkNqp55500Dar/9Z/ljUObrvuldAHFjlgKHrcz54z7M5xcd0kE8B6BUbPJYEtmdXyb+UF7g==
-X-Received: by 2002:a17:906:2ce:b0:9ae:3f76:1091 with SMTP id 14-20020a17090602ce00b009ae3f761091mr6844214ejk.0.1696167928880;
-        Sun, 01 Oct 2023 06:45:28 -0700 (PDT)
-Received: from matrix-ESPRIMO-P710 (p579356c7.dip0.t-ipconnect.de. [87.147.86.199])
-        by smtp.gmail.com with ESMTPSA id bn23-20020a170906c0d700b0099cd1c0cb21sm15429750ejb.129.2023.10.01.06.45.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 01 Oct 2023 06:45:28 -0700 (PDT)
-Date: Sun, 1 Oct 2023 15:45:27 +0200
-From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [PATCH 11/11] staging: rtl8192e: Remove r8192_private_handler
- _rtl92e_wx_force_reset()
-Message-ID: <8447643122088ff03dab65ac15e5e5199603008d.1696165351.git.philipp.g.hortmann@gmail.com>
-References: <cover.1696165351.git.philipp.g.hortmann@gmail.com>
+        d=1e100.net; s=20230601; t=1696168397; x=1696773197;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=7WuNs1fTx2E5mS1rvQvEyzQGp3aoI7mPY6rfOs6zQoc=;
+        b=RoNO0CP87AowWd4g8ggSr/aQT1qR/3ALXyeviISps0Cni6ybbR7W66GP8052EZPtPo
+         NvDhU5PcPeFg2WlWlr0iqfUcebGOzMB0QyR6HqdXASL5okl8ftRn6fJm0jrB2xkqwu+h
+         WeFoomA2HQoNAU8fu8+gxVzg5s/S6C691KnyAM/67eAu+Fku1rneFjWgl0sEBqMfaVJO
+         aHJmnAB+uCQ2Q1cYKwsh8Q5zbZsqG1S30pKeMr6S4eN/TxiIgGg35oYM1AKAbHmuEjmX
+         vw/LnaDW7gdjzE8TVnszeVbx1DWRKEtDyLkXMyDxTZ4AMBSokLt4CRbXaCVLjVptplTG
+         pSXg==
+X-Gm-Message-State: AOJu0YwxqZRU3oeNFRKzxyHkkk4IYKcT4VE3H+h/9ImLRoljLmul7csc
+	I8mh2RQq1jb9FhdN8A78Hs0=
+X-Google-Smtp-Source: AGHT+IEc5ukey0Xg7SMaP+CP83lphjqcmHf48JoyV6boi6Pijm9hSYazdyW6GLkBoYcB3OvhVxZoaw==
+X-Received: by 2002:a17:906:5185:b0:9ae:50de:1aaf with SMTP id y5-20020a170906518500b009ae50de1aafmr8099784ejk.4.1696168397395;
+        Sun, 01 Oct 2023 06:53:17 -0700 (PDT)
+Received: from [192.168.0.106] (p579356c7.dip0.t-ipconnect.de. [87.147.86.199])
+        by smtp.gmail.com with ESMTPSA id fi3-20020a170906da0300b009a1fef32ce6sm15622065ejb.177.2023.10.01.06.53.16
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 01 Oct 2023 06:53:17 -0700 (PDT)
+Message-ID: <e367844f-7990-0ac9-3898-04cacc863095@gmail.com>
+Date: Sun, 1 Oct 2023 15:53:16 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <cover.1696165351.git.philipp.g.hortmann@gmail.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.1
+Subject: Re: [PATCH 0/3] Type encoding info dropped from arrary name
+ "abyBBVGA" and variable names "byBBVGACurrent", "byBBVGANew"
+To: Pavan Bobba <opensource206@gmail.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+References: <cover.1696141471.git.opensource206@gmail.com>
+Content-Language: en-US
+From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+In-Reply-To: <cover.1696141471.git.opensource206@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Remove r8192_private_handler _rtl92e_wx_force_reset() as driver does not
-reset. Remove dead code.
+On 10/1/23 08:43, Pavan Bobba wrote:
+> This patchset series consist of fixes to issues found by checkpatch
+> 
+> Pavan Bobba (3):
+>    staging: vt6655: Type encoding info dropped from array name "abyBBVGA"
+>    staging: vt6655: Type encoding info dropped from variable name
+>      "byBBVGACurrent"
+>    staging: vt6655: Type encoding info dropped from variable name
+>      "byBBVGANew"
+> 
+>   drivers/staging/vt6655/baseband.c    | 40 ++++++++++++++--------------
+>   drivers/staging/vt6655/channel.c     |  6 ++---
+>   drivers/staging/vt6655/device.h      |  6 ++---
+>   drivers/staging/vt6655/device_main.c | 24 ++++++++---------
+>   4 files changed, 38 insertions(+), 38 deletions(-)
+> 
 
-Signed-off-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
----
- drivers/staging/rtl8192e/rtl8192e/rtl_core.c |  3 ---
- drivers/staging/rtl8192e/rtl8192e/rtl_core.h |  1 -
- drivers/staging/rtl8192e/rtl8192e/rtl_wx.c   | 18 +-----------------
- 3 files changed, 1 insertion(+), 21 deletions(-)
+Hi Pavan,
 
-diff --git a/drivers/staging/rtl8192e/rtl8192e/rtl_core.c b/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
-index 2b91c481df93..c4688c273f4b 100644
---- a/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
-+++ b/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
-@@ -754,7 +754,6 @@ static void _rtl92e_init_priv_variable(struct net_device *dev)
- 	priv->rfa_txpowertrackingindex = 0;
- 	priv->rfc_txpowertrackingindex = 0;
- 	priv->cck_pwr_enl = 6;
--	priv->force_reset = false;
- 	memset(priv->rtllib->swcamtable, 0, sizeof(struct sw_cam_table) * 32);
- 	priv->rx_ctr = 0;
- 	priv->rtllib->wx_set_enc = 0;
-@@ -1130,8 +1129,6 @@ static void _rtl92e_watchdog_wq_cb(void *data)
- 		check_reset_cnt = 3;
- 	}
- 	spin_unlock_irqrestore(&priv->tx_lock, flags);
--
--	priv->force_reset = false;
- }
- 
- static void _rtl92e_watchdog_timer_cb(struct timer_list *t)
-diff --git a/drivers/staging/rtl8192e/rtl8192e/rtl_core.h b/drivers/staging/rtl8192e/rtl8192e/rtl_core.h
-index 0ebebb3c2c35..deb707dfa443 100644
---- a/drivers/staging/rtl8192e/rtl8192e/rtl_core.h
-+++ b/drivers/staging/rtl8192e/rtl8192e/rtl_core.h
-@@ -371,7 +371,6 @@ struct r8192_priv {
- 
- 	u16		tx_counter;
- 	u16		rx_ctr;
--	bool		force_reset;
- 	bool		force_lps;
- };
- 
-diff --git a/drivers/staging/rtl8192e/rtl8192e/rtl_wx.c b/drivers/staging/rtl8192e/rtl8192e/rtl_wx.c
-index 17e7fcc01f70..ec09066f2f32 100644
---- a/drivers/staging/rtl8192e/rtl8192e/rtl_wx.c
-+++ b/drivers/staging/rtl8192e/rtl8192e/rtl_wx.c
-@@ -141,19 +141,6 @@ static int _rtl92e_wx_set_rawtx(struct net_device *dev,
- 	return ret;
- }
- 
--static int _rtl92e_wx_force_reset(struct net_device *dev,
--				  struct iw_request_info *info,
--				  union iwreq_data *wrqu, char *extra)
--{
--	struct r8192_priv *priv = rtllib_priv(dev);
--
--	mutex_lock(&priv->wx_mutex);
--
--	priv->force_reset = *extra;
--	mutex_unlock(&priv->wx_mutex);
--	return 0;
--}
--
- static int _rtl92e_wx_adapter_power_status(struct net_device *dev,
- 					   struct iw_request_info *info,
- 					   union iwreq_data *wrqu, char *extra)
-@@ -1060,9 +1047,6 @@ static const struct iw_priv_args r8192_private_args[] = {
- 	}, {
- 		SIOCIWFIRSTPRIV + 0x2,
- 		IW_PRIV_TYPE_INT | IW_PRIV_SIZE_FIXED | 1, 0, "rawtx"
--	}, {
--		SIOCIWFIRSTPRIV + 0x3,
--		IW_PRIV_TYPE_INT | IW_PRIV_SIZE_FIXED | 1, 0, "forcereset"
- 	}, {
- 		SIOCIWFIRSTPRIV + 0x6,
- 		IW_PRIV_TYPE_INT | IW_PRIV_SIZE_FIXED | 1, IW_PRIV_TYPE_NONE,
-@@ -1089,7 +1073,7 @@ static iw_handler r8192_private_handler[] = {
- 	(iw_handler)_rtl92e_wx_set_debug,   /*SIOCIWSECONDPRIV*/
- 	(iw_handler)_rtl92e_wx_set_scan_type,
- 	(iw_handler)_rtl92e_wx_set_rawtx,
--	(iw_handler)_rtl92e_wx_force_reset,
-+	(iw_handler)NULL,
- 	(iw_handler)NULL,
- 	(iw_handler)NULL,
- 	(iw_handler)_rtl92e_wx_adapter_power_status,
--- 
-2.42.0
+this is not correct. You need to send all patches as an own email.
+
+It is also required that you include a version history in each patch.
+
+Please have a look at the patches send in.
+https://lore.kernel.org/linux-staging/
+
+In the version history your next patch series is V3.
+Please document in each patch what has changed.
+
+A sample command I use for this is:
+git format-patch -o ~/Documents/kernel/patches/ --subject-prefix="PATCH 
+v3" --cover-letter -n --thread=shallow --to="Greg Kroah-Hartman 
+<gregkh@linuxfoundation.org>,linux-staging@lists.linux.dev,linux-kernel@vger.kernel.org" 
+f3c8deddac66d11c41ba720e4048aba37e41e885^..HEAD
+
+Thanks for your support.
+
+Bye Philipp
 
