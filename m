@@ -1,49 +1,49 @@
-Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05C7417724
-	for <linux-staging@lists.linux.dev>; Sun,  1 Oct 2023 13:45:16 +0000 (UTC)
-Received: by mail-ed1-f48.google.com with SMTP id 4fb4d7f45d1cf-533c71c5f37so3313500a12.0
-        for <linux-staging@lists.linux.dev>; Sun, 01 Oct 2023 06:45:16 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92D7717744
+	for <linux-staging@lists.linux.dev>; Sun,  1 Oct 2023 13:45:25 +0000 (UTC)
+Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-3232e96deaaso2092528f8f.0
+        for <linux-staging@lists.linux.dev>; Sun, 01 Oct 2023 06:45:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1696167915; x=1696772715; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1696167924; x=1696772724; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=XJBUFu7bxKPi5/cjKbiiUEWg33kyTMQhk/fPobqwOVM=;
-        b=aOxBHzui/cSx2Q8XJHRleixNp6afsl2zIC0ZVn1xCtEDL+9VvCAEwSNZ//c0Y9dvJG
-         C4sVDJvZRjlpTPsXu69Ba7AjZ/GgU9KSYvSepA6V/TXa7n5KrawZVQm/x7RBkb0v683g
-         nYIkbk7Gh79gNAZrNWyNLSc0bXHTNiGZZFJMhkDpgPoUhJDCMov9YaOBAJ6LRwj2EOXS
-         8czfyRHSnrbCjyPapxm9bb0Owoyh2hZR/NYtxJzoX8jRUlt6As2pcSLUYTdy+oUufblh
-         29rLU3Q5n6nSX6SLaw8gAfP69exLueCKPbFOYTx/cuUduGdI2InduQQYzYld5MjDj/Tx
-         1jmA==
+        bh=PSwRlj34WawnYB96b1PvZ1E7JgfJyhtAvZK5jo+OVcc=;
+        b=T9Sb7uV6KhOvD+3Ptwn015oDbbseFDfB1zXi8Vf4+zXf32KjPZ4TeWX14m4mZ7kjMw
+         FZVpVzoxdbSolBpEeXSf9ATCBt7/aewYn9PjkYX4xeM3yaoQkuA8MawDXGhmYZwrO7SW
+         yz/Psry9mO6PF3lPuqvgBvzhKUNMqjv/lzDi3Ltl6n9Ac18uzohMJEyg5XWTCbEtp79R
+         otaAnmicNaZhcvc4SeUdO/COAxGucz6qZ1MATp2xdk6qn+ZeOIqjS3sfBSz00fEGQgKD
+         Sp1GquCKYJ+a4IXvEsiieZIs6E/ckwkybFd9Q+v5v0VuaPLnwunT6d4QevRrIYxHd7M8
+         S05w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696167915; x=1696772715;
+        d=1e100.net; s=20230601; t=1696167924; x=1696772724;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=XJBUFu7bxKPi5/cjKbiiUEWg33kyTMQhk/fPobqwOVM=;
-        b=F8T+2d4WqpgCgrCP/FVe7OV1GW606ynZhEuNRgTobExJ0Dc3EFSSyJwRtaeKyhPzjX
-         QRDhD4o8P2YklEeHGbAV5BmYOs616NFQDUTohWbMgw/eLH61cu4DCml2aEyspd4YDKkf
-         7ZB217eiUPSm7lPuK0PpSKU9XLKX4U9ASAXfCwAwi84K4RDrceYKLq7WqUW6iJFb1Zhh
-         lQYlMz7QMjPC7O22+cw56iiP6r47rvZpF9GP2FNdR4pqSpha7VSE8rypDkpzrGt/PK3z
-         dx2kWz53OZb0aQV27cxmA16aoEyM7atDVVNT3nVWTl9w4z04HU05HstsUMzr9GyCWocu
-         h/Vw==
-X-Gm-Message-State: AOJu0YzvPb82vUnB7gCyPVC1qWpBjyCPCS+rkAR1xeLii4hckOLo0MgW
-	7oCnJSJG9Yc+Gasczf6Mj+g=
-X-Google-Smtp-Source: AGHT+IFO2Ur+EotY/d0w3fxqHOa31udA1k4+93ugAEuEW89WOrwJhtH9oB7TiA9qwOkFbIN4dz/tEg==
-X-Received: by 2002:a05:6402:4403:b0:523:220e:a6ca with SMTP id y3-20020a056402440300b00523220ea6camr9357263eda.3.1696167915126;
-        Sun, 01 Oct 2023 06:45:15 -0700 (PDT)
+        bh=PSwRlj34WawnYB96b1PvZ1E7JgfJyhtAvZK5jo+OVcc=;
+        b=r3/5/7x4m1AYdZaz2TML7lXHdLAsAUXDojW5XanrwrFhM7NKbx7raY9p1+LG3hAsOl
+         Pdhk1WZvY9UXEIOiyWYmLrj4bFJ8w9dMdJXMwfZ4CHeffqXFc0Gx37RtiBBzz1Uga8u0
+         nFSsTEtKaDs7g1tAIWS/9Vi8rTyPRXh0DOTzAKuq1AaPcbCek3mcPFd7h/2+RAYeH0uM
+         yR0A8Yc1a5y4LGUuCRy4v0gFeuDA/qOUDaEqKaBX6FMuUtSj/ta55Gz+XMA1uP/DJYuv
+         rCBfFTnlhT6Bn/m6MHett4w7vdEbsSVoILgqAB+XeElsr6UgIMhnrM33pOo2Bn9KSym5
+         SNHA==
+X-Gm-Message-State: AOJu0Yxv3W7WA9tWziEDTNf/ght5Q07A4k05UX7vLILKC08pZfbTODY7
+	aJUrPt0k9WWmsFnsUKq9lvI=
+X-Google-Smtp-Source: AGHT+IFnyxfQdSg/E7QYc4x/qfBVxzxQg88geg32+X9f36EEmlbnkk8pvvwlVh6FB1dGxIch6EaUAw==
+X-Received: by 2002:a05:600c:1c9d:b0:405:39bb:38a8 with SMTP id k29-20020a05600c1c9d00b0040539bb38a8mr8229593wms.2.1696167923593;
+        Sun, 01 Oct 2023 06:45:23 -0700 (PDT)
 Received: from matrix-ESPRIMO-P710 (p579356c7.dip0.t-ipconnect.de. [87.147.86.199])
-        by smtp.gmail.com with ESMTPSA id q8-20020a056402032800b00522828d438csm14009728edw.7.2023.10.01.06.45.14
+        by smtp.gmail.com with ESMTPSA id p17-20020aa7d311000000b00532bec5f768sm14061556edq.95.2023.10.01.06.45.23
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 01 Oct 2023 06:45:14 -0700 (PDT)
-Date: Sun, 1 Oct 2023 15:45:13 +0200
+        Sun, 01 Oct 2023 06:45:23 -0700 (PDT)
+Date: Sun, 1 Oct 2023 15:45:21 +0200
 From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [PATCH 09/11] staging: rtl8192e: Remove unused variable
- is_silent_reset
-Message-ID: <124d8f91db347e0e35184b356ba4ec39f52871cb.1696165351.git.philipp.g.hortmann@gmail.com>
+Subject: [PATCH 10/11] staging: rtl8192e: Remove unused variables
+ priv->reset_count and reset_cnt
+Message-ID: <27adae9b824a522280485b3d16f14893bf99da4c.1696165351.git.philipp.g.hortmann@gmail.com>
 References: <cover.1696165351.git.philipp.g.hortmann@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -55,55 +55,199 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 In-Reply-To: <cover.1696165351.git.philipp.g.hortmann@gmail.com>
 
-ieee->is_silent_reset is set to false and never changed. All
-equations result accordingly. Remove dead code.
+Remove unused variables priv->reset_count, reset_cnt and reset_cnt_highpwr
+as those are always 0. All equations result accordingly. Remove dead code.
 
 Signed-off-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
 ---
- drivers/staging/rtl8192e/rtllib.h         |  1 -
- drivers/staging/rtl8192e/rtllib_softmac.c | 10 ++--------
- 2 files changed, 2 insertions(+), 9 deletions(-)
+ drivers/staging/rtl8192e/rtl8192e/rtl_core.h |  1 -
+ drivers/staging/rtl8192e/rtl8192e/rtl_dm.c   | 49 ++------------------
+ 2 files changed, 4 insertions(+), 46 deletions(-)
 
-diff --git a/drivers/staging/rtl8192e/rtllib.h b/drivers/staging/rtl8192e/rtllib.h
-index aa198983cb3c..004818520ea8 100644
---- a/drivers/staging/rtl8192e/rtllib.h
-+++ b/drivers/staging/rtl8192e/rtllib.h
-@@ -1211,7 +1211,6 @@ struct rtllib_device {
- 	bool	bForcedBgMode;
+diff --git a/drivers/staging/rtl8192e/rtl8192e/rtl_core.h b/drivers/staging/rtl8192e/rtl8192e/rtl_core.h
+index fa5d0eec90d3..0ebebb3c2c35 100644
+--- a/drivers/staging/rtl8192e/rtl8192e/rtl_core.h
++++ b/drivers/staging/rtl8192e/rtl8192e/rtl_core.h
+@@ -368,7 +368,6 @@ struct r8192_priv {
+ 	u32		continue_diff_count;
+ 	bool		bswitch_fsync;
+ 	u8		framesync;
+-	u32		reset_count;
  
- 	u8 hwsec_active;
--	bool is_silent_reset;
- 	bool is_roaming;
- 	bool ieee_up;
- 	bool cannot_notify;
-diff --git a/drivers/staging/rtl8192e/rtllib_softmac.c b/drivers/staging/rtl8192e/rtllib_softmac.c
-index 72d0225dfdf1..777338fd2664 100644
---- a/drivers/staging/rtl8192e/rtllib_softmac.c
-+++ b/drivers/staging/rtl8192e/rtllib_softmac.c
-@@ -1298,10 +1298,8 @@ static void rtllib_associate_complete_wq(void *data)
+ 	u16		tx_counter;
+ 	u16		rx_ctr;
+diff --git a/drivers/staging/rtl8192e/rtl8192e/rtl_dm.c b/drivers/staging/rtl8192e/rtl8192e/rtl_dm.c
+index fd5228e7a462..c29bc85f9577 100644
+--- a/drivers/staging/rtl8192e/rtl8192e/rtl_dm.c
++++ b/drivers/staging/rtl8192e/rtl8192e/rtl_dm.c
+@@ -1088,7 +1088,6 @@ static void _rtl92e_dm_ctrl_initgain_byrssi_driver(struct net_device *dev)
+ static void _rtl92e_dm_ctrl_initgain_byrssi_false_alarm(struct net_device *dev)
+ {
+ 	struct r8192_priv *priv = rtllib_priv(dev);
+-	static u32 reset_cnt;
+ 	u8 i;
  
- 	netdev_info(ieee->dev, "Associated successfully with %pM\n",
- 		    ieee->current_network.bssid);
--	if (!ieee->is_silent_reset) {
--		netdev_info(ieee->dev, "normal associate\n");
--		notify_wx_assoc_event(ieee);
+ 	if (!dm_digtable.dig_enable_flag)
+@@ -1108,10 +1107,8 @@ static void _rtl92e_dm_ctrl_initgain_byrssi_false_alarm(struct net_device *dev)
+ 		(priv->undecorated_smoothed_pwdb < dm_digtable.rssi_high_thresh))
+ 		return;
+ 	if (priv->undecorated_smoothed_pwdb <= dm_digtable.rssi_low_thresh) {
+-		if (dm_digtable.dig_state == DM_STA_DIG_OFF &&
+-			(priv->reset_count == reset_cnt))
++		if (dm_digtable.dig_state == DM_STA_DIG_OFF)
+ 			return;
+-		reset_cnt = priv->reset_count;
+ 
+ 		dm_digtable.dig_highpwr_state = DM_STA_DIG_MAX;
+ 		dm_digtable.dig_state = DM_STA_DIG_OFF;
+@@ -1136,15 +1133,10 @@ static void _rtl92e_dm_ctrl_initgain_byrssi_false_alarm(struct net_device *dev)
+ 	if (priv->undecorated_smoothed_pwdb >= dm_digtable.rssi_high_thresh) {
+ 		u8 reset_flag = 0;
+ 
+-		if (dm_digtable.dig_state == DM_STA_DIG_ON &&
+-		    (priv->reset_count == reset_cnt)) {
++		if (dm_digtable.dig_state == DM_STA_DIG_ON) {
+ 			_rtl92e_dm_ctrl_initgain_byrssi_highpwr(dev);
+ 			return;
+ 		}
+-		if (priv->reset_count != reset_cnt)
+-			reset_flag = 1;
+-
+-		reset_cnt = priv->reset_count;
+ 
+ 		dm_digtable.dig_state = DM_STA_DIG_ON;
+ 
+@@ -1175,7 +1167,6 @@ static void _rtl92e_dm_ctrl_initgain_byrssi_false_alarm(struct net_device *dev)
+ static void _rtl92e_dm_ctrl_initgain_byrssi_highpwr(struct net_device *dev)
+ {
+ 	struct r8192_priv *priv = rtllib_priv(dev);
+-	static u32 reset_cnt_highpwr;
+ 
+ 	if ((priv->undecorated_smoothed_pwdb >
+ 	     dm_digtable.rssi_high_power_lowthresh) &&
+@@ -1185,8 +1176,7 @@ static void _rtl92e_dm_ctrl_initgain_byrssi_highpwr(struct net_device *dev)
+ 
+ 	if (priv->undecorated_smoothed_pwdb >=
+ 	    dm_digtable.rssi_high_power_highthresh) {
+-		if (dm_digtable.dig_highpwr_state == DM_STA_DIG_ON &&
+-			(priv->reset_count == reset_cnt_highpwr))
++		if (dm_digtable.dig_highpwr_state == DM_STA_DIG_ON)
+ 			return;
+ 		dm_digtable.dig_highpwr_state = DM_STA_DIG_ON;
+ 
+@@ -1195,8 +1185,7 @@ static void _rtl92e_dm_ctrl_initgain_byrssi_highpwr(struct net_device *dev)
+ 		else
+ 			rtl92e_writeb(dev, rOFDM0_RxDetector1, 0x43);
+ 	} else {
+-		if (dm_digtable.dig_highpwr_state == DM_STA_DIG_OFF &&
+-			(priv->reset_count == reset_cnt_highpwr))
++		if (dm_digtable.dig_highpwr_state == DM_STA_DIG_OFF)
+ 			return;
+ 		dm_digtable.dig_highpwr_state = DM_STA_DIG_OFF;
+ 
+@@ -1210,7 +1199,6 @@ static void _rtl92e_dm_ctrl_initgain_byrssi_highpwr(struct net_device *dev)
+ 				rtl92e_writeb(dev, rOFDM0_RxDetector1, 0x44);
+ 		}
+ 	}
+-	reset_cnt_highpwr = priv->reset_count;
+ }
+ 
+ static void _rtl92e_dm_initial_gain(struct net_device *dev)
+@@ -1218,11 +1206,9 @@ static void _rtl92e_dm_initial_gain(struct net_device *dev)
+ 	struct r8192_priv *priv = rtllib_priv(dev);
+ 	u8 initial_gain = 0;
+ 	static u8 initialized, force_write;
+-	static u32 reset_cnt;
+ 
+ 	if (dm_digtable.dig_algorithm_switch) {
+ 		initialized = 0;
+-		reset_cnt = 0;
+ 	}
+ 
+ 	if (rtllib_act_scanning(priv->rtllib, true)) {
+@@ -1249,11 +1235,6 @@ static void _rtl92e_dm_initial_gain(struct net_device *dev)
+ 		dm_digtable.pre_ig_value = 0;
+ 	}
+ 
+-	if (priv->reset_count != reset_cnt) {
+-		force_write = 1;
+-		reset_cnt = priv->reset_count;
 -	}
-+	netdev_info(ieee->dev, "normal associate\n");
-+	notify_wx_assoc_event(ieee);
+-
+ 	if (dm_digtable.pre_ig_value != rtl92e_readb(dev, rOFDM0_XAAGCCore1))
+ 		force_write = 1;
  
- 	netif_carrier_on(ieee->dev);
- 	ieee->is_roaming = false;
-@@ -1334,10 +1332,6 @@ static void rtllib_associate_complete_wq(void *data)
- 	psc->LpsIdleCount = 0;
- 	ieee->link_change(ieee->dev);
+@@ -1274,11 +1255,9 @@ static void _rtl92e_dm_pd_th(struct net_device *dev)
+ {
+ 	struct r8192_priv *priv = rtllib_priv(dev);
+ 	static u8 initialized, force_write;
+-	static u32 reset_cnt;
  
--	if (ieee->is_silent_reset) {
--		netdev_info(ieee->dev, "silent reset associate\n");
--		ieee->is_silent_reset = false;
+ 	if (dm_digtable.dig_algorithm_switch) {
+ 		initialized = 0;
+-		reset_cnt = 0;
+ 	}
+ 
+ 	if (dm_digtable.pre_sta_connect_state == dm_digtable.cur_sta_connect_state) {
+@@ -1307,11 +1286,6 @@ static void _rtl92e_dm_pd_th(struct net_device *dev)
+ 		dm_digtable.curpd_thstate = DIG_PD_AT_LOW_POWER;
+ 	}
+ 
+-	if (priv->reset_count != reset_cnt) {
+-		force_write = 1;
+-		reset_cnt = priv->reset_count;
+-	}
+-
+ 	if ((dm_digtable.prepd_thstate != dm_digtable.curpd_thstate) ||
+ 	    (initialized <= 3) || force_write) {
+ 		if (dm_digtable.curpd_thstate == DIG_PD_AT_LOW_POWER) {
+@@ -1340,13 +1314,10 @@ static void _rtl92e_dm_pd_th(struct net_device *dev)
+ 
+ static void _rtl92e_dm_cs_ratio(struct net_device *dev)
+ {
+-	struct r8192_priv *priv = rtllib_priv(dev);
+ 	static u8 initialized, force_write;
+-	static u32 reset_cnt;
+ 
+ 	if (dm_digtable.dig_algorithm_switch) {
+ 		initialized = 0;
+-		reset_cnt = 0;
+ 	}
+ 
+ 	if (dm_digtable.pre_sta_connect_state == dm_digtable.cur_sta_connect_state) {
+@@ -1364,11 +1335,6 @@ static void _rtl92e_dm_cs_ratio(struct net_device *dev)
+ 		dm_digtable.curcs_ratio_state = DIG_CS_RATIO_LOWER;
+ 	}
+ 
+-	if (priv->reset_count != reset_cnt) {
+-		force_write = 1;
+-		reset_cnt = priv->reset_count;
+-	}
+-
+ 	if ((dm_digtable.precs_ratio_state != dm_digtable.curcs_ratio_state) ||
+ 	    !initialized || force_write) {
+ 		if (dm_digtable.curcs_ratio_state == DIG_CS_RATIO_LOWER)
+@@ -1982,7 +1948,6 @@ static void _rtl92e_dm_check_fsync(struct net_device *dev)
+ #define	RegC38_Fsync_AP_BCM		2
+ 	struct r8192_priv *priv = rtllib_priv(dev);
+ 	static u8 reg_c38_State = RegC38_Default;
+-	static u32 reset_cnt;
+ 
+ 	if (priv->rtllib->link_state == MAC80211_LINKED &&
+ 	    priv->rtllib->ht_info->IOTPeer == HT_IOT_PEER_BROADCOM) {
+@@ -2066,12 +2031,6 @@ static void _rtl92e_dm_check_fsync(struct net_device *dev)
+ 			}
+ 		}
+ 	}
+-	if (priv->reset_count != reset_cnt) {
+-		rtl92e_writeb(dev, rOFDM0_RxDetector3,
+-			       priv->framesync);
+-		reg_c38_State = RegC38_Default;
+-		reset_cnt = priv->reset_count;
 -	}
  }
  
- static void rtllib_sta_send_associnfo(struct rtllib_device *ieee)
+ /*---------------------------Define function prototype------------------------*/
 -- 
 2.42.0
 
