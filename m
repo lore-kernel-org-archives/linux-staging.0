@@ -1,49 +1,49 @@
-Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
+Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B522517724
-	for <linux-staging@lists.linux.dev>; Sun,  1 Oct 2023 13:44:57 +0000 (UTC)
-Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-9b27f99a356so309061566b.0
-        for <linux-staging@lists.linux.dev>; Sun, 01 Oct 2023 06:44:57 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BCB017724
+	for <linux-staging@lists.linux.dev>; Sun,  1 Oct 2023 13:45:02 +0000 (UTC)
+Received: by mail-ed1-f49.google.com with SMTP id 4fb4d7f45d1cf-52f1ece3a76so4227463a12.0
+        for <linux-staging@lists.linux.dev>; Sun, 01 Oct 2023 06:45:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1696167896; x=1696772696; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1696167901; x=1696772701; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=WHEL4ZALe3kNObgKSEfdRhrWQpcI6CZqiH24RXB1Qgs=;
-        b=m88W7HcX97ZxkZPc7tvleLZy0gBrD9Z0Cvn7ZUjJYQN/KWbPPRKQOevFimcdpVe/+V
-         8POh5mFSrDZRmLnTFUe4UDuF8TVZYPwW59TS1REjksmVT9gQJM5KlggeiwY7kKm2Psec
-         HvCbL7IgT7VWuDfvWo9Fajhlcq/SGES+ZGHPrm2P7O1uT3P6mqIxxFZSvhCoTGd5vIPT
-         63e/ZVLMUmis0KbwNFuRWY41fQSEYbxNE/yWfZtj9qbloKck9Si04DHmd50wyq145+dW
-         +kKJZnbBoQH51TlN9tcNr1WjsMyyFxoj4yikhIDqwjxIGP6XqLAKeVMLacC9DF89JPpf
-         xqWw==
+        bh=ZsEg8H7d6fgrWJRtj3vP63E33mgGkOeEm3YkuheUnaU=;
+        b=FDFOu7m3QOyQvJ0jKD40hONwEHZL/VzYN/ChDDhyK+Wov9jpH74RwFQqnukvH1YlIz
+         vEv5YypqltumZ31yeG7c2Tw/AdoExgHojRbne04CJlKBF6QMl+hz63dLKjnrXNveCpjI
+         JjzDnWYk1/Vi3wnd5ehXc4uwEHkHzvxFvfy6cIqUAZrKb2XvJLIZCUiHbXYJyd04MQIX
+         vVk5mxFcxE+6Pg8Syn+3uu0YaBWwUQu20Liwgz/zy6WAuvB3laeVMWY0mBkgTr99Xkjs
+         ay3AO29xwnpC8o2FZ818tssLLOCmjCqDQKlKa7uiv/LXgdUHKeFs7SzZmNh+hf7cfWZ+
+         Tzig==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696167896; x=1696772696;
+        d=1e100.net; s=20230601; t=1696167901; x=1696772701;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=WHEL4ZALe3kNObgKSEfdRhrWQpcI6CZqiH24RXB1Qgs=;
-        b=myPrQ1pTn+f8ao9ozezwPOEfZTQ8k3+ptfFOnSlzZ1A+Rlrsvw8YKk5fHamEIi/oam
-         wdIdAQ6N1Gp4BpJ6RF/OgnxAVQoQTwwvISIH9FDC/dEC+ZJmVAAhrMp1JaUSWMrQ8MhT
-         T48u4uKwAJ7P6pjXRq+NdTG6ePyDEgSY3ALkwnmndl4QeU6fgyV8/jjINy0i7rILhxB3
-         LmOvb4QZaOecZMuCCxU2ixV+yEcbwa1wbOiBWVDLcXSbeaZDyvZqVzeicce4PsGR8RXH
-         2PDqhPdQf+OSu7mYJ2Hl4CEErddoH7rRA8XtLh8Jfzev8Tm8Q8UdSw6FAQBOWdde87wH
-         hUNQ==
-X-Gm-Message-State: AOJu0YybkVHk/Yqu301Su3EUfT+ThU+06Ihh0ymbAnGtZurlMCBrJttg
-	iUCtYyJqZICZxQkybGaYR38=
-X-Google-Smtp-Source: AGHT+IHJsItI5qF7EHosVw7+KaqcorDCR6RAGP01XLgG4SDc3FBapzAv2L7WbSwVUtQngUO66Byy5Q==
-X-Received: by 2002:a17:906:74d4:b0:9ad:dfe7:b361 with SMTP id z20-20020a17090674d400b009addfe7b361mr6959767ejl.5.1696167895946;
-        Sun, 01 Oct 2023 06:44:55 -0700 (PDT)
+        bh=ZsEg8H7d6fgrWJRtj3vP63E33mgGkOeEm3YkuheUnaU=;
+        b=iX6OKNxmQmyzE4RO4ahZci5siHR5OHfua/NunpgyxQaPme7AZUBpvtE4si1z6sh5M9
+         KUh3aXMlBg33VN14GrzdsHGbEFVRu3EUjmlR1KAaMg0Cgxbbv+mcxiYIMGahs1nJpcbZ
+         wNeh599ybR3g6n6ZnRJLSKeXqjboMfM+kaUlAlYjWjCrvkCjM/G/CVTycxoF4c1YQ3wu
+         ZrywL1tfJZuTB7ErtlxtzygXUJRtUMALwWT5iRDAXVtgY1HlorIM5IJjPHVHVozo959h
+         /iTdkFAq1Q2uphz5GZkq/k2eRDm56jEAX8F7heRvrIWRpKGqt/qA0K4vTUyUo4TWtd7R
+         wNuQ==
+X-Gm-Message-State: AOJu0Yx6Q2uHOrJK6ZzUKSgcZe6PXH1jIXy5LxRrZKKOGWAfqF+FQPn+
+	qh953HjzgpTPfwecnYFk/QI=
+X-Google-Smtp-Source: AGHT+IGxP2K/34ynK04IRN9ZJtAvrHaYasGn81qD0BfShuuharbUUq9C3XyGoopLntj41nhu3xDzJA==
+X-Received: by 2002:a05:6402:2792:b0:51a:4d46:4026 with SMTP id b18-20020a056402279200b0051a4d464026mr7106424ede.0.1696167901402;
+        Sun, 01 Oct 2023 06:45:01 -0700 (PDT)
 Received: from matrix-ESPRIMO-P710 (p579356c7.dip0.t-ipconnect.de. [87.147.86.199])
-        by smtp.gmail.com with ESMTPSA id j8-20020a170906050800b009934855d8f1sm15380208eja.34.2023.10.01.06.44.55
+        by smtp.gmail.com with ESMTPSA id f5-20020aa7d845000000b005364b54a4basm4297223eds.80.2023.10.01.06.45.00
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 01 Oct 2023 06:44:55 -0700 (PDT)
-Date: Sun, 1 Oct 2023 15:44:54 +0200
+        Sun, 01 Oct 2023 06:45:01 -0700 (PDT)
+Date: Sun, 1 Oct 2023 15:44:59 +0200
 From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [PATCH 06/11] staging: rtl8192e: Remove unused variable
- reset_in_progress
-Message-ID: <25259d69b955472a74725f3665238fb6daee76b4.1696165351.git.philipp.g.hortmann@gmail.com>
+Subject: [PATCH 07/11] staging: rtl8192e: Remove unused parameter from
+ _rtl92e_sta_up()
+Message-ID: <105beac3b04bd73267b3e30e6b944b381dcfa8a1.1696165351.git.philipp.g.hortmann@gmail.com>
 References: <cover.1696165351.git.philipp.g.hortmann@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -55,75 +55,35 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 In-Reply-To: <cover.1696165351.git.philipp.g.hortmann@gmail.com>
 
-priv->reset_in_progress is set to false and never changed. All
-equations result accordingly. Remove dead code.
+Remove unused parameter is_silent_reset from _rtl92e_sta_up().
 
 Signed-off-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
 ---
- drivers/staging/rtl8192e/rtl8192e/rtl_core.c | 6 ++----
- drivers/staging/rtl8192e/rtl8192e/rtl_core.h | 1 -
- drivers/staging/rtl8192e/rtl8192e/rtl_dm.c   | 5 -----
- 3 files changed, 2 insertions(+), 10 deletions(-)
+ drivers/staging/rtl8192e/rtl8192e/rtl_core.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/staging/rtl8192e/rtl8192e/rtl_core.c b/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
-index 7ca6a04d034c..9da858510211 100644
+index 9da858510211..94a73f9cf888 100644
 --- a/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
 +++ b/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
-@@ -1132,7 +1132,6 @@ static void _rtl92e_watchdog_wq_cb(void *data)
- 	spin_unlock_irqrestore(&priv->tx_lock, flags);
- 
- 	priv->force_reset = false;
--	priv->reset_in_progress = false;
+@@ -588,7 +588,7 @@ void rtl92e_set_wireless_mode(struct net_device *dev, u8 wireless_mode)
+ 	_rtl92e_refresh_support_rate(priv);
  }
  
- static void _rtl92e_watchdog_timer_cb(struct timer_list *t)
-@@ -1218,8 +1217,7 @@ static void _rtl92e_hard_data_xmit(struct sk_buff *skb, struct net_device *dev,
- 				    MAX_DEV_ADDR_SIZE);
- 	u8 queue_index = tcb_desc->queue_index;
+-static int _rtl92e_sta_up(struct net_device *dev, bool is_silent_reset)
++static int _rtl92e_sta_up(struct net_device *dev)
+ {
+ 	struct r8192_priv *priv = rtllib_priv(dev);
+ 	struct rt_pwr_save_ctrl *psc = (struct rt_pwr_save_ctrl *)
+@@ -1709,7 +1709,7 @@ static void _rtl92e_cancel_deferred_work(struct r8192_priv *priv)
  
--	if ((priv->rtllib->rf_power_state == rf_off) || !priv->up ||
--	     priv->reset_in_progress) {
-+	if ((priv->rtllib->rf_power_state == rf_off) || !priv->up) {
- 		kfree_skb(skb);
- 		return;
- 	}
-@@ -1252,7 +1250,7 @@ static int _rtl92e_hard_start_xmit(struct sk_buff *skb, struct net_device *dev)
- 
- 	if (queue_index != TXCMD_QUEUE) {
- 		if ((priv->rtllib->rf_power_state == rf_off) ||
--		     !priv->up || priv->reset_in_progress) {
-+		     !priv->up) {
- 			kfree_skb(skb);
- 			return 0;
- 		}
-diff --git a/drivers/staging/rtl8192e/rtl8192e/rtl_core.h b/drivers/staging/rtl8192e/rtl8192e/rtl_core.h
-index 855bee78c674..fa5d0eec90d3 100644
---- a/drivers/staging/rtl8192e/rtl8192e/rtl_core.h
-+++ b/drivers/staging/rtl8192e/rtl8192e/rtl_core.h
-@@ -372,7 +372,6 @@ struct r8192_priv {
- 
- 	u16		tx_counter;
- 	u16		rx_ctr;
--	bool		reset_in_progress;
- 	bool		force_reset;
- 	bool		force_lps;
- };
-diff --git a/drivers/staging/rtl8192e/rtl8192e/rtl_dm.c b/drivers/staging/rtl8192e/rtl8192e/rtl_dm.c
-index 561ea68de56a..fd5228e7a462 100644
---- a/drivers/staging/rtl8192e/rtl8192e/rtl_dm.c
-+++ b/drivers/staging/rtl8192e/rtl8192e/rtl_dm.c
-@@ -530,11 +530,6 @@ static void _rtl92e_dm_tx_power_tracking_callback_tssi(struct net_device *dev)
- 			if (Pwr_Flag == 0) {
- 				mdelay(1);
- 
--				if (priv->reset_in_progress) {
--					rtl92e_writeb(dev, Pw_Track_Flag, 0);
--					rtl92e_writeb(dev, FW_Busy_Flag, 0);
--					return;
--				}
- 				if (priv->rtllib->rf_power_state != rf_on) {
- 					rtl92e_writeb(dev, Pw_Track_Flag, 0);
- 					rtl92e_writeb(dev, FW_Busy_Flag, 0);
+ static int _rtl92e_up(struct net_device *dev, bool is_silent_reset)
+ {
+-	if (_rtl92e_sta_up(dev, is_silent_reset) == -1)
++	if (_rtl92e_sta_up(dev) == -1)
+ 		return -1;
+ 	return 0;
+ }
 -- 
 2.42.0
 
