@@ -1,49 +1,49 @@
-Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BCB017724
-	for <linux-staging@lists.linux.dev>; Sun,  1 Oct 2023 13:45:02 +0000 (UTC)
-Received: by mail-ed1-f49.google.com with SMTP id 4fb4d7f45d1cf-52f1ece3a76so4227463a12.0
-        for <linux-staging@lists.linux.dev>; Sun, 01 Oct 2023 06:45:02 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F175D17724
+	for <linux-staging@lists.linux.dev>; Sun,  1 Oct 2023 13:45:10 +0000 (UTC)
+Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-3233799e7b8so1544555f8f.0
+        for <linux-staging@lists.linux.dev>; Sun, 01 Oct 2023 06:45:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1696167901; x=1696772701; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1696167909; x=1696772709; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=ZsEg8H7d6fgrWJRtj3vP63E33mgGkOeEm3YkuheUnaU=;
-        b=FDFOu7m3QOyQvJ0jKD40hONwEHZL/VzYN/ChDDhyK+Wov9jpH74RwFQqnukvH1YlIz
-         vEv5YypqltumZ31yeG7c2Tw/AdoExgHojRbne04CJlKBF6QMl+hz63dLKjnrXNveCpjI
-         JjzDnWYk1/Vi3wnd5ehXc4uwEHkHzvxFvfy6cIqUAZrKb2XvJLIZCUiHbXYJyd04MQIX
-         vVk5mxFcxE+6Pg8Syn+3uu0YaBWwUQu20Liwgz/zy6WAuvB3laeVMWY0mBkgTr99Xkjs
-         ay3AO29xwnpC8o2FZ818tssLLOCmjCqDQKlKa7uiv/LXgdUHKeFs7SzZmNh+hf7cfWZ+
-         Tzig==
+        bh=Z+SB15LjBo6aILGXM+nVMfGuTrZhkGA5r6PNyI0UWDI=;
+        b=SYq55xUW/eKr1pYExhNGJAPj9q9T1mJRWsS2BWTCLe8+dk1UkwlSlTKEqUmHxofqv9
+         XMTfyzLaTj+LvHai+RnkrzTzt9yZ3DpXQ14AOvsoT/JjerCLKbpDGIV0c591HdJO80FR
+         BEeI7VMn+COaLqtmcu2odeboQ1UbyeHMj7kfVm9BPZ4Y5c4E47w9halSe9cIZqYNBMEJ
+         VNwPUcZHAFBNKG/Nvjtz0lA2xX9W+hyzGxXNL94jqUwyES8OLwnKsS/eQEqpXCbRJhuq
+         xY07QyyJF84j7ruBul5+p9P8aktWlvv67YYFXaNm8VfZSqRfhCkEM8LkHuIWujB0P9P7
+         Q0HA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696167901; x=1696772701;
+        d=1e100.net; s=20230601; t=1696167909; x=1696772709;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=ZsEg8H7d6fgrWJRtj3vP63E33mgGkOeEm3YkuheUnaU=;
-        b=iX6OKNxmQmyzE4RO4ahZci5siHR5OHfua/NunpgyxQaPme7AZUBpvtE4si1z6sh5M9
-         KUh3aXMlBg33VN14GrzdsHGbEFVRu3EUjmlR1KAaMg0Cgxbbv+mcxiYIMGahs1nJpcbZ
-         wNeh599ybR3g6n6ZnRJLSKeXqjboMfM+kaUlAlYjWjCrvkCjM/G/CVTycxoF4c1YQ3wu
-         ZrywL1tfJZuTB7ErtlxtzygXUJRtUMALwWT5iRDAXVtgY1HlorIM5IJjPHVHVozo959h
-         /iTdkFAq1Q2uphz5GZkq/k2eRDm56jEAX8F7heRvrIWRpKGqt/qA0K4vTUyUo4TWtd7R
-         wNuQ==
-X-Gm-Message-State: AOJu0Yx6Q2uHOrJK6ZzUKSgcZe6PXH1jIXy5LxRrZKKOGWAfqF+FQPn+
-	qh953HjzgpTPfwecnYFk/QI=
-X-Google-Smtp-Source: AGHT+IGxP2K/34ynK04IRN9ZJtAvrHaYasGn81qD0BfShuuharbUUq9C3XyGoopLntj41nhu3xDzJA==
-X-Received: by 2002:a05:6402:2792:b0:51a:4d46:4026 with SMTP id b18-20020a056402279200b0051a4d464026mr7106424ede.0.1696167901402;
-        Sun, 01 Oct 2023 06:45:01 -0700 (PDT)
+        bh=Z+SB15LjBo6aILGXM+nVMfGuTrZhkGA5r6PNyI0UWDI=;
+        b=F9Ki7jgRDzBHffvyKFsCLW5QSvisPD4vJ2q1LK8Uvn5Yx1v0v7SgmipxPKh7t+p47K
+         kPdiflTlOQSu4SysGyE+lEdNaL6ilZ52F1VMahAXuiq0WRlaDWtPpDaLAqCXLK7vbZmN
+         wdNV3PyhyaTapdOm85JAXPA+dde89WNVdZbo5TxMDKR12Ci/nAy9MDChSuygeX4HFXXi
+         0DkkLqy5+GmOwsqDDJyEaoaDUFEi4lSFV0UO2nAipU150GB+0Em/vY779y4cqokHO8/A
+         mWy1Bnlc8FSmeuRnE8y4xZniRRboklFHuBxOn+NTHAXvCHGmeW9lACqBK9YspdraR6YP
+         iWPw==
+X-Gm-Message-State: AOJu0Yx7/VC3zwCqPqZTqMubFwzM8z2nURcsFPKyuzNN6wkZ1FlWY86a
+	m11uBfj8/g/M51jM1PQ1tjZBs+9POpo=
+X-Google-Smtp-Source: AGHT+IHFqni/ARgFFk2kkfNXSK4L4Jqc3PQeph4iWUAVQ0S82xK5l5NBfqntOWP0BKc6i3q71NwFpA==
+X-Received: by 2002:adf:dd91:0:b0:317:3da0:7606 with SMTP id x17-20020adfdd91000000b003173da07606mr7784635wrl.4.1696167909191;
+        Sun, 01 Oct 2023 06:45:09 -0700 (PDT)
 Received: from matrix-ESPRIMO-P710 (p579356c7.dip0.t-ipconnect.de. [87.147.86.199])
-        by smtp.gmail.com with ESMTPSA id f5-20020aa7d845000000b005364b54a4basm4297223eds.80.2023.10.01.06.45.00
+        by smtp.gmail.com with ESMTPSA id t21-20020a170906179500b00988e953a586sm15516694eje.61.2023.10.01.06.45.08
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 01 Oct 2023 06:45:01 -0700 (PDT)
-Date: Sun, 1 Oct 2023 15:44:59 +0200
+        Sun, 01 Oct 2023 06:45:08 -0700 (PDT)
+Date: Sun, 1 Oct 2023 15:45:07 +0200
 From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [PATCH 07/11] staging: rtl8192e: Remove unused parameter from
- _rtl92e_sta_up()
-Message-ID: <105beac3b04bd73267b3e30e6b944b381dcfa8a1.1696165351.git.philipp.g.hortmann@gmail.com>
+Subject: [PATCH 08/11] staging: rtl8192e: Remove unused parameter from
+ _rtl92e_up()
+Message-ID: <24f221c44beae8e6fbf895f82fe04b082f8679d5.1696165351.git.philipp.g.hortmann@gmail.com>
 References: <cover.1696165351.git.philipp.g.hortmann@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -55,35 +55,53 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 In-Reply-To: <cover.1696165351.git.philipp.g.hortmann@gmail.com>
 
-Remove unused parameter is_silent_reset from _rtl92e_sta_up().
+Remove unused parameter is_silent_reset from _rtl92e_up().
 
 Signed-off-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
 ---
- drivers/staging/rtl8192e/rtl8192e/rtl_core.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/staging/rtl8192e/rtl8192e/rtl_core.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/staging/rtl8192e/rtl8192e/rtl_core.c b/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
-index 9da858510211..94a73f9cf888 100644
+index 94a73f9cf888..2b91c481df93 100644
 --- a/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
 +++ b/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
-@@ -588,7 +588,7 @@ void rtl92e_set_wireless_mode(struct net_device *dev, u8 wireless_mode)
- 	_rtl92e_refresh_support_rate(priv);
+@@ -61,7 +61,7 @@ static short _rtl92e_pci_initdescring(struct net_device *dev);
+ static void _rtl92e_irq_tx_tasklet(struct tasklet_struct *t);
+ static void _rtl92e_irq_rx_tasklet(struct tasklet_struct *t);
+ static void _rtl92e_cancel_deferred_work(struct r8192_priv *priv);
+-static int _rtl92e_up(struct net_device *dev, bool is_silent_reset);
++static int _rtl92e_up(struct net_device *dev);
+ static int _rtl92e_try_up(struct net_device *dev);
+ static int _rtl92e_down(struct net_device *dev, bool shutdownrf);
+ static void _rtl92e_restart(void *data);
+@@ -1707,7 +1707,7 @@ static void _rtl92e_cancel_deferred_work(struct r8192_priv *priv)
+ 	cancel_work_sync(&priv->qos_activate);
  }
  
--static int _rtl92e_sta_up(struct net_device *dev, bool is_silent_reset)
-+static int _rtl92e_sta_up(struct net_device *dev)
+-static int _rtl92e_up(struct net_device *dev, bool is_silent_reset)
++static int _rtl92e_up(struct net_device *dev)
  {
- 	struct r8192_priv *priv = rtllib_priv(dev);
- 	struct rt_pwr_save_ctrl *psc = (struct rt_pwr_save_ctrl *)
-@@ -1709,7 +1709,7 @@ static void _rtl92e_cancel_deferred_work(struct r8192_priv *priv)
- 
- static int _rtl92e_up(struct net_device *dev, bool is_silent_reset)
- {
--	if (_rtl92e_sta_up(dev, is_silent_reset) == -1)
-+	if (_rtl92e_sta_up(dev) == -1)
+ 	if (_rtl92e_sta_up(dev) == -1)
  		return -1;
- 	return 0;
+@@ -1731,7 +1731,7 @@ static int _rtl92e_try_up(struct net_device *dev)
+ 
+ 	if (priv->up == 1)
+ 		return -1;
+-	return _rtl92e_up(dev, false);
++	return _rtl92e_up(dev);
  }
+ 
+ static int _rtl92e_close(struct net_device *dev)
+@@ -1770,7 +1770,7 @@ void rtl92e_commit(struct net_device *dev)
+ 	rtllib_softmac_stop_protocol(priv->rtllib, 0, true);
+ 	rtl92e_irq_disable(dev);
+ 	rtl92e_stop_adapter(dev, true);
+-	_rtl92e_up(dev, false);
++	_rtl92e_up(dev);
+ }
+ 
+ static void _rtl92e_restart(void *data)
 -- 
 2.42.0
 
