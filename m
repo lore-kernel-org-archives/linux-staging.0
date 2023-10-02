@@ -1,274 +1,68 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0E5619BCF
-	for <linux-staging@lists.linux.dev>; Mon,  2 Oct 2023 14:46:29 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D16F8C433C8;
-	Mon,  2 Oct 2023 14:46:25 +0000 (UTC)
-Message-ID: <f7450491-0072-4235-b2f1-3f1c4f2a0a51@xs4all.nl>
-Date: Mon, 2 Oct 2023 16:46:23 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A021B1A725;
+	Mon,  2 Oct 2023 15:18:59 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CA8BBC433C8;
+	Mon,  2 Oct 2023 15:18:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1696259939;
+	bh=lmDK/17Fngc1kg4dfIW5twFn4x3TYjYfw27f9xOXV1U=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=vCqYIcaiElzr8NzJqqWeOZ6uFrUZ4guUWrhzXOHEBrJ83s8Qh+S8YDapmP89FXX3u
+	 an1BWeXkh5f88xSZbwUkpHQRgtF/8vWB0IPHLamfOve3aFziV8Gc2IaXYdRCrTEedZ
+	 a5c602MEKoFhQ7dM141hFfQFPRidntjWvowpxamXzNkG9Q9BCKP+5ToY2l/eWbUn7D
+	 0S3TOnbctyds9RXe/rn/K7Vy9b+SwEJESDaEInLyGIm1XCCj+mFbsGemYDbwvugeTQ
+	 cRxG/pU/lPZeBzAsrsajKnjv54IhI3VTCFaGSF3cjbFnPOMy3bI3t9F65cpPeSeioq
+	 4RyJnIwSZYKcQ==
+Received: (nullmailer pid 1747003 invoked by uid 1000);
+	Mon, 02 Oct 2023 15:18:56 -0000
+Date: Mon, 2 Oct 2023 10:18:56 -0500
+From: Rob Herring <robh@kernel.org>
+To: David Lechner <dlechner@baylibre.com>
+Cc: Philip Molloy <pmolloy@baylibre.com>, linux-staging@lists.linux.dev, Axel Haslam <ahaslam@baylibre.com>, Apelete Seketeli <aseketeli@baylibre.com>, Rob Herring <robh+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, linux-iio@vger.kernel.org, Michael Hennerich <Michael.Hennerich@analog.com>, Jonathan Cameron <jic23@kernel.org>, linux-kernel@vger.kernel.org, Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, devicetree@vger.kernel.org, David Lechner <david@lechnology.com>
+Subject: Re: [PATCH v3 01/27] dt-bindings: iio: resolver: add devicetree
+ bindings for ad2s1210
+Message-ID: <169625993628.1746950.6393858750841663279.robh@kernel.org>
+References: <20230929-ad2s1210-mainline-v3-0-fa4364281745@baylibre.com>
+ <20230929-ad2s1210-mainline-v3-1-fa4364281745@baylibre.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v9 00/53] Add DELETE_BUF ioctl
-Content-Language: en-US, nl
-To: Benjamin Gaignard <benjamin.gaignard@collabora.com>, mchehab@kernel.org,
- tfiga@chromium.org, m.szyprowski@samsung.com, ming.qian@nxp.com,
- ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de,
- gregkh@linuxfoundation.org, nicolas.dufresne@collabora.com
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org,
- linux-arm-msm@vger.kernel.org, linux-rockchip@lists.infradead.org,
- linux-staging@lists.linux.dev, kernel@collabora.com
-References: <20231002120617.119602-1-benjamin.gaignard@collabora.com>
-From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-In-Reply-To: <20231002120617.119602-1-benjamin.gaignard@collabora.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230929-ad2s1210-mainline-v3-1-fa4364281745@baylibre.com>
 
-On 02/10/2023 14:05, Benjamin Gaignard wrote:
-> Unlike when resolution change on keyframes, dynamic resolution change
-> on inter frames doesn't allow to do a stream off/on sequence because
-> it is need to keep all previous references alive to decode inter frames.
-> This constraint have two main problems:
-> - more memory consumption.
-> - more buffers in use.
-> To solve these issue this series introduce DELETE_BUFS ioctl and remove
-> the 32 buffers limit per queue.
-> 
-> VP9 conformance tests using fluster give a score of 210/305.
-> The 24 resize inter tests (vp90-2-21-resize_inter_* files) are ok
-> but require to use postprocessor.
-> 
-> Kernel branch is available here:
-> https://gitlab.collabora.com/benjamin.gaignard/for-upstream/-/commits/remove_vb2_queue_limit_v9
 
-You'll need to rebase on top of staging: the new platform/nuvoton/npcm-video.c
-driver uses num_buffers, so this one needs to be converted as well.
+On Fri, 29 Sep 2023 12:23:06 -0500, David Lechner wrote:
+> From: David Lechner <david@lechnology.com>
+> 
+> From: David Lechner <dlechner@baylibre.com>
+> 
+> This adds new DeviceTree bindings for the Analog Devices, Inc. AD2S1210
+> resolver-to-digital converter.
+> 
+> Co-developed-by: Apelete Seketeli <aseketeli@baylibre.com>
+> Signed-off-by: Apelete Seketeli <aseketeli@baylibre.com>
+> Signed-off-by: David Lechner <dlechner@baylibre.com>
+> ---
+> 
+> v3 changes:
+> * Expanded top-level description of A0/A1 lines.
+> * Added required voltage -supply properties. (I did not pick up Rob's
+>   Reviewed-by since I wasn't sure if this was trivial enough.)
+> 
+> v2 changes:
+> * Add Co-developed-by:
+> * Remove extraneous quotes on strings
+> * Remove extraneous pipe on some multi-line descriptions
+> 
+>  .../bindings/iio/resolver/adi,ad2s1210.yaml        | 177 +++++++++++++++++++++
+>  1 file changed, 177 insertions(+)
+> 
 
-Regards,
-
-	Hans
-
-> 
-> GStreamer branch to use DELETE_BUF ioctl and testing dynamic resolution
-> change is here:
-> https://gitlab.freedesktop.org/benjamin.gaignard1/gstreamer/-/commits/VP9_drc
-> 
-> changes in version 9:
-> - BUFFER_INDEX_MASK now depends on PAGE_SHIFT value to match
->   architectures requirements.
-> - Correctly initialize max_num_buffers in vb2_core_queue_init()
-> - run 'test-media -kmemleak mc' on top of the series and on patches 1 to 47 without failures.
-> - fix compilation issue in patch 50
-> 
-> changes in version 8:
-> - Add V4L2_BUF_CAP_SUPPORTS_SET_MAX_BUFS and new 'max_buffers' field in v4l2_create_buffers
->   structure to report the maximum number of buffers that a queue could allocate.
-> - Add V4L2_BUF_CAP_SUPPORTS_DELETE_BUFS to indicate that a queue support
->   DELETE_BUFS ioctl.
-> - Make some test drivers use more than 32 buffers and DELETE_BUFS ioctl.
-> - Fix remarks done by Hans
-> - Move "media: core: Rework how create_buf index returned value is
->   computed" patch to the top of the serie.
-> 
-> changes in version 7:
-> - Use a bitmap to know which entries are valid in queue bufs array.
->   The number of buffers in the queue could must calculated from the
->   bitmap so num_buffers becomes useless. This led to add quite few
->   patches to remove it from all the drivers.
->   Note: despiste my attention I may have miss some calls to
->   num_buffers...
-> - Split patches to make them more readable.
-> - Run v4l2-compliance with additional delete-bufs tests.
-> - Run ./test-media -kmemleak vivid and no more failures.
->   Note: I had to remove USERPTR streaming test because they to much
->   frequentely hit get_framevec bug. It is not related to my series
->   since this happens all the time on master branch.
-> - Fix Hans remarks on v6
-> 
-> changes in version 6:
-> - Get a patch per driver to use vb2_get_buffer() instead of directly access
->   to queue buffers array.
-> - Add lock in vb2_core_delete_buf()
-> - Use vb2_buffer instead of index
-> - Fix various comments
-> - Change buffer index name to BUFFER_INDEX_MASK
-> - Stop spamming kernel log with unbalanced counters
-> 
-> changes in version 5:
-> - Rework offset cookie encoding pattern is n ow the first patch of the
->   serie.
-> - Use static array instead of allocated one for postprocessor buffers.
-> 
-> changes in version 4:
-> - Stop using Xarray, instead let queues decide about their own maximum
->   number of buffer and allocate bufs array given that value.
-> - Rework offset cookie encoding pattern.
-> - Change DELETE_BUF to DELETE_BUFS because it now usable for
->   range of buffer to be symetrical of CREATE_BUFS.
-> - Add fixes tags on couple of Verisilicon related patches.
-> - Be smarter in Verisilicon postprocessor buffers management.
-> - Rebase on top of v6.4
-> 
-> changes in version 3:
-> - Use Xarray API to store allocated video buffers.
-> - No module parameter to limit the number of buffer per queue.
-> - Use Xarray inside Verisilicon driver to store postprocessor buffers
->   and remove VB2_MAX_FRAME limit.
-> - Allow Versilicon driver to change of resolution while streaming
-> - Various fixes the Verisilicon VP9 code to improve fluster score.
->  
-> changes in version 2:
-> - Use a dynamic array and not a list to keep trace of allocated buffers.
->   Not use IDR interface because it is marked as deprecated in kernel
->   documentation.
-> - Add a module parameter to limit the number of buffer per queue.
-> - Add DELETE_BUF ioctl and m2m helpers.
-> 
-> Regards,
-> Benjamin
-> 
-> Benjamin Gaignard (53):
->   media: videobuf2: Rework offset 'cookie' encoding pattern
->   media: videobuf2: Stop spamming kernel log with all queue counter
->   media: videobuf2: Use vb2_buffer instead of index
->   media: amphion: Use vb2_get_buffer() instead of directly access to
->     buffers array
->   media: mediatek: jpeg: Use vb2_get_buffer() instead of directly access
->     to buffers array
->   media: mediatek: vdec: Remove useless loop
->   media: sti: hva: Use vb2_get_buffer() instead of directly access to
->     buffers array
->   media: visl: Use vb2_get_buffer() instead of directly access to
->     buffers array
->   media: atomisp: Use vb2_get_buffer() instead of directly access to
->     buffers array
->   media: dvb-core: Use vb2_get_buffer() instead of directly access to
->     buffers array
->   media: videobuf2: Access vb2_queue bufs array through helper functions
->   media: videobuf2: Be more flexible on the number of queue stored
->     buffers
->   media: Report the maximum possible number of buffers for the queue
->   media: test-drivers: vivid: Increase max supported buffers for capture
->     queues
->   media: test-drivers: vicodec: Increase max supported capture queue
->     buffers
->   media: verisilicon: Refactor postprocessor to store more buffers
->   media: verisilicon: Store chroma and motion vectors offset
->   media: verisilicon: g2: Use common helpers to compute chroma and mv
->     offsets
->   media: verisilicon: vp9: Allow to change resolution while streaming
->   media: Remove duplicated index vs q->num_buffers check
->   media: core: Add helper to get queue number of buffers
->   media: dvb-core: Do not initialize twice queue num_buffer field
->   media: dvb-frontends: rtl2832_srd: Use queue min_buffers_needed field
->   media: video-i2c: Set min_buffers_needed to 2
->   media: pci: cx18: Set correct value to min_buffers_needed field
->   media: pci: dt3155: Remove useless check
->   media: pci: netup_unidvb: Remove useless number of buffers check
->   media: pci: tw68: Stop direct calls to queue num_buffers field
->   media: pci: tw686x: Set min_buffers_needed to 3
->   media: amphion: Stop direct calls to queue num_buffers field
->   media: coda: Stop direct calls to queue num_buffers field
->   media: mediatek: vcodec: Stop direct calls to queue num_buffers field
->   media: nxp: Stop direct calls to queue num_buffers field
->   media: renesas: Set min_buffers_needed to 16
->   media: ti: Use queue min_buffers_needed field to set the min number of
->     buffers
->   media: verisilicon: Stop direct calls to queue num_buffers field
->   media: test-drivers: Stop direct calls to queue num_buffers field
->   media: usb: airspy: Set min_buffers_needed to 8
->   media: usb: cx231xx: Set min_buffers_needed to CX231XX_MIN_BUF
->   media: usb: hackrf: Set min_buffers_needed to 8
->   media: usb: usbtv: Set min_buffers_needed to 2
->   media: atomisp: Stop direct calls to queue num_buffers field
->   media: imx: Stop direct calls to queue num_buffers field
->   media: meson: vdec: Stop direct calls to queue num_buffers field
->   touchscreen: sur40: Stop direct calls to queue num_buffers field
->   sample: v4l: Stop direct calls to queue num_buffers field
->   media: cedrus: Stop direct calls to queue num_buffers field
->   media: core: Rework how create_buf index returned value is computed
->   media: core: Add bitmap manage bufs array entries
->   media: core: Free range of buffers
->   media: v4l2: Add DELETE_BUFS ioctl
->   media: v4l2: Add mem2mem helpers for DELETE_BUFS ioctl
->   media: test-drivers: Use helper for DELETE_BUFS ioctl
-> 
->  .../userspace-api/media/v4l/user-func.rst     |   1 +
->  .../media/v4l/vidioc-create-bufs.rst          |   8 +-
->  .../media/v4l/vidioc-delete-bufs.rst          |  80 +++
->  .../media/v4l/vidioc-reqbufs.rst              |   2 +
->  drivers/input/touchscreen/sur40.c             |   5 +-
->  .../media/common/videobuf2/videobuf2-core.c   | 553 +++++++++++-------
->  .../media/common/videobuf2/videobuf2-v4l2.c   | 118 +++-
->  drivers/media/dvb-core/dvb_vb2.c              |  17 +-
->  drivers/media/dvb-frontends/rtl2832_sdr.c     |   9 +-
->  drivers/media/i2c/video-i2c.c                 |   5 +-
->  drivers/media/pci/cx18/cx18-streams.c         |  13 +-
->  drivers/media/pci/dt3155/dt3155.c             |   2 -
->  .../pci/netup_unidvb/netup_unidvb_core.c      |   4 +-
->  drivers/media/pci/tw68/tw68-video.c           |   6 +-
->  drivers/media/pci/tw686x/tw686x-video.c       |  13 +-
->  drivers/media/platform/amphion/vpu_dbg.c      |  30 +-
->  drivers/media/platform/amphion/vpu_v4l2.c     |   4 +-
->  .../media/platform/chips-media/coda-common.c  |   2 +-
->  .../platform/mediatek/jpeg/mtk_jpeg_core.c    |   7 +-
->  .../vcodec/decoder/vdec/vdec_vp9_req_lat_if.c |   9 +-
->  .../mediatek/vcodec/encoder/mtk_vcodec_enc.c  |   2 +-
->  drivers/media/platform/nxp/imx7-media-csi.c   |   7 +-
->  drivers/media/platform/renesas/rcar_drif.c    |   8 +-
->  drivers/media/platform/st/sti/hva/hva-v4l2.c  |   9 +-
->  .../media/platform/ti/am437x/am437x-vpfe.c    |   7 +-
->  drivers/media/platform/ti/cal/cal-video.c     |   5 +-
->  .../media/platform/ti/davinci/vpif_capture.c  |   5 +-
->  .../media/platform/ti/davinci/vpif_display.c  |   5 +-
->  drivers/media/platform/ti/omap/omap_vout.c    |   5 +-
->  drivers/media/platform/verisilicon/hantro.h   |   9 +-
->  .../media/platform/verisilicon/hantro_drv.c   |   5 +-
->  .../media/platform/verisilicon/hantro_g2.c    |  14 +
->  .../platform/verisilicon/hantro_g2_hevc_dec.c |  18 +-
->  .../platform/verisilicon/hantro_g2_vp9_dec.c  |  28 +-
->  .../media/platform/verisilicon/hantro_hw.h    |   7 +-
->  .../platform/verisilicon/hantro_postproc.c    |  93 ++-
->  .../media/platform/verisilicon/hantro_v4l2.c  |  27 +-
->  .../media/test-drivers/vicodec/vicodec-core.c |   3 +
->  drivers/media/test-drivers/vim2m.c            |   2 +
->  .../media/test-drivers/vimc/vimc-capture.c    |   2 +
->  drivers/media/test-drivers/visl/visl-dec.c    |  32 +-
->  drivers/media/test-drivers/visl/visl-video.c  |   2 +
->  drivers/media/test-drivers/vivid/vivid-core.c |  14 +
->  .../media/test-drivers/vivid/vivid-meta-cap.c |   3 -
->  .../media/test-drivers/vivid/vivid-meta-out.c |   5 +-
->  .../test-drivers/vivid/vivid-touch-cap.c      |   5 +-
->  .../media/test-drivers/vivid/vivid-vbi-cap.c  |   5 +-
->  .../media/test-drivers/vivid/vivid-vbi-out.c  |   5 +-
->  .../media/test-drivers/vivid/vivid-vid-cap.c  |   5 +-
->  .../media/test-drivers/vivid/vivid-vid-out.c  |   5 +-
->  drivers/media/usb/airspy/airspy.c             |   9 +-
->  drivers/media/usb/cx231xx/cx231xx-417.c       |   4 +-
->  drivers/media/usb/cx231xx/cx231xx-video.c     |   4 +-
->  drivers/media/usb/hackrf/hackrf.c             |   9 +-
->  drivers/media/usb/usbtv/usbtv-video.c         |   3 +-
->  drivers/media/v4l2-core/v4l2-dev.c            |   1 +
->  drivers/media/v4l2-core/v4l2-ioctl.c          |  21 +-
->  drivers/media/v4l2-core/v4l2-mem2mem.c        |  20 +
->  .../staging/media/atomisp/pci/atomisp_ioctl.c |   4 +-
->  drivers/staging/media/imx/imx-media-capture.c |   7 +-
->  drivers/staging/media/meson/vdec/vdec.c       |  13 +-
->  .../staging/media/sunxi/cedrus/cedrus_h264.c  |   8 +-
->  .../staging/media/sunxi/cedrus/cedrus_h265.c  |   9 +-
->  include/media/v4l2-ioctl.h                    |   4 +
->  include/media/v4l2-mem2mem.h                  |  12 +
->  include/media/videobuf2-core.h                |  65 +-
->  include/media/videobuf2-v4l2.h                |  13 +
->  include/uapi/linux/videodev2.h                |  24 +-
->  samples/v4l/v4l2-pci-skeleton.c               |   5 +-
->  69 files changed, 964 insertions(+), 501 deletions(-)
->  create mode 100644 Documentation/userspace-api/media/v4l/vidioc-delete-bufs.rst
-> 
+Reviewed-by: Rob Herring <robh@kernel.org>
 
