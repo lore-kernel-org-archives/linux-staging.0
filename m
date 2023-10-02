@@ -1,25 +1,25 @@
 Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 151A1171B1
-	for <linux-staging@lists.linux.dev>; Mon,  2 Oct 2023 12:06:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05E6416419
+	for <linux-staging@lists.linux.dev>; Mon,  2 Oct 2023 12:06:35 +0000 (UTC)
 Received: from benjamin-XPS-13-9310.. (unknown [IPv6:2a01:e0a:120:3210:9537:67ca:c85e:d0ae])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
 	(Authenticated sender: benjamin.gaignard)
-	by madras.collabora.co.uk (Postfix) with ESMTPSA id DF2FD6607335;
-	Mon,  2 Oct 2023 13:06:31 +0100 (BST)
+	by madras.collabora.co.uk (Postfix) with ESMTPSA id A8ECE660731E;
+	Mon,  2 Oct 2023 13:06:28 +0100 (BST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1696248392;
-	bh=vXuJIhvUaCiRCOnUer8AX7BKf/0It7kvtpm2er6AYGM=;
+	s=mail; t=1696248389;
+	bh=Osy0YWOEVUvzSOYoJm+JBXSigMNkmpw77qpRTwkivks=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=LZc66mgHW0FJDalluTOy98rsHeo6kEMqLFH51flQQyPtO1u9642qnkTUBTKIP3383
-	 LYtUnVIWWkpQu434O9934OZ0bxj1DzwhQ1d7JBQwwvO/H1jozKhYWygeFKFF61D/tx
-	 CUXAbklUoJlsGzRYUURKP8T+m9diTUpBWcUMBqL3MwehqBUriU7tqOwovAa6lui9eh
-	 RCmm9p7lfoVK27GLxcT5WBPLJ9o6mMc1kOWC2CkG93LRiY4vcgiorOa+SNPPvnHyLK
-	 ySXrHhK2Bw3jYTnsYKfkbZa4XPor5BQYv3l+wU5998xbs+k49Jy5fBwMtW+KID4j1p
-	 mLcSNBhuwfUNQ==
+	b=NogZwj8nDLG1OjgXAWYcYVBXvlFevYzFlkL5BiVLUIlAexAoyAZpO6Gey8okj7Aa0
+	 6e8g03i6vAi1Z8ZRTCa3CbHPQRvtuJmEI2/tvqrBwJyefOmgHK22Y0Auk2LVUi/Z0n
+	 G17aMnxjcPxRO6P86fuDSGdBMmSFU5xvvybG44Xg92hhwTtJJYMUl422fLWyarDKvs
+	 ZyIhEO8F3uil4FIVdkxWQ+yHR7T5f1uXdpuGmzj7PVafsjReTBQlyJb28T8Vf5pDbE
+	 Q6YhP/+BleUtnWI3QLpl0alqghVxPMalnF8wOmgTLL/wcI0UfDCJdatKp35H8llcVX
+	 7UbtXWokT0ebA==
 From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
 To: mchehab@kernel.org,
 	tfiga@chromium.org,
@@ -39,9 +39,9 @@ Cc: linux-media@vger.kernel.org,
 	linux-staging@lists.linux.dev,
 	kernel@collabora.com,
 	Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Subject: [PATCH v9 14/53] media: test-drivers: vivid: Increase max supported buffers for capture queues
-Date: Mon,  2 Oct 2023 14:05:38 +0200
-Message-Id: <20231002120617.119602-15-benjamin.gaignard@collabora.com>
+Subject: [PATCH v9 08/53] media: visl: Use vb2_get_buffer() instead of directly access to buffers array
+Date: Mon,  2 Oct 2023 14:05:32 +0200
+Message-Id: <20231002120617.119602-9-benjamin.gaignard@collabora.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20231002120617.119602-1-benjamin.gaignard@collabora.com>
 References: <20231002120617.119602-1-benjamin.gaignard@collabora.com>
@@ -53,37 +53,70 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Change the maximum number of buffers of some capture queues in order
-to test max_num_buffers field.
-
-Allow to allocate up to:
-- 64 buffers for video capture queue.
-- 1024 buffers for sdr capture queue.
-- 32768 buffers for vbi capture queue.
+Use vb2_get_buffer() instead of directly access to vb2_buffer buffer array.
+This could allow to change the type bufs[] field of vb2_buffer structure if
+needed.
+After each call to vb2_get_buffer() we need to be sure that we get
+a valid pointer so check the return value of all of them.
 
 Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
 ---
- drivers/media/test-drivers/vivid/vivid-core.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+ drivers/media/test-drivers/visl/visl-dec.c | 28 ++++++++++++++++------
+ 1 file changed, 21 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/media/test-drivers/vivid/vivid-core.c b/drivers/media/test-drivers/vivid/vivid-core.c
-index e95bdccfc18e..58a059140365 100644
---- a/drivers/media/test-drivers/vivid/vivid-core.c
-+++ b/drivers/media/test-drivers/vivid/vivid-core.c
-@@ -876,6 +876,13 @@ static int vivid_create_queue(struct vivid_dev *dev,
- 	q->type = buf_type;
- 	q->io_modes = VB2_MMAP | VB2_DMABUF;
- 	q->io_modes |= V4L2_TYPE_IS_OUTPUT(buf_type) ?  VB2_WRITE : VB2_READ;
-+	if (buf_type == V4L2_BUF_TYPE_VIDEO_CAPTURE)
-+		q->max_num_buffers = 64;
-+	if (buf_type == V4L2_BUF_TYPE_SDR_CAPTURE)
-+		q->max_num_buffers = 1024;
-+	if (buf_type == V4L2_BUF_TYPE_VBI_CAPTURE)
-+		q->max_num_buffers = 32768;
+diff --git a/drivers/media/test-drivers/visl/visl-dec.c b/drivers/media/test-drivers/visl/visl-dec.c
+index 318d675e5668..ba20ea998d19 100644
+--- a/drivers/media/test-drivers/visl/visl-dec.c
++++ b/drivers/media/test-drivers/visl/visl-dec.c
+@@ -290,13 +290,20 @@ static void visl_tpg_fill(struct visl_ctx *ctx, struct visl_run *run)
+ 	for (i = 0; i < out_q->num_buffers; i++) {
+ 		char entry[] = "index: %u, state: %s, request_fd: %d, ";
+ 		u32 old_len = len;
+-		char *q_status = visl_get_vb2_state(out_q->bufs[i]->state);
++		struct vb2_buffer *vb2;
++		char *q_status;
 +
- 	if (allocators[dev->inst] != 1)
- 		q->io_modes |= VB2_USERPTR;
- 	q->drv_priv = dev;
++		vb2 = vb2_get_buffer(out_q, i);
++		if (!vb2)
++			continue;
++
++		q_status = visl_get_vb2_state(vb2->state);
+ 
+ 		len += scnprintf(&buf[len], TPG_STR_BUF_SZ - len,
+ 				 entry, i, q_status,
+-				 to_vb2_v4l2_buffer(out_q->bufs[i])->request_fd);
++				 to_vb2_v4l2_buffer(vb2)->request_fd);
+ 
+-		len += visl_fill_bytesused(to_vb2_v4l2_buffer(out_q->bufs[i]),
++		len += visl_fill_bytesused(to_vb2_v4l2_buffer(vb2),
+ 					   &buf[len],
+ 					   TPG_STR_BUF_SZ - len);
+ 
+@@ -342,13 +349,20 @@ static void visl_tpg_fill(struct visl_ctx *ctx, struct visl_run *run)
+ 	len = 0;
+ 	for (i = 0; i < cap_q->num_buffers; i++) {
+ 		u32 old_len = len;
+-		char *q_status = visl_get_vb2_state(cap_q->bufs[i]->state);
++		struct vb2_buffer *vb2;
++		char *q_status;
++
++		vb2 = vb2_get_buffer(cap_q, i);
++		if (!vb2)
++			continue;
++
++		q_status = visl_get_vb2_state(vb2->state);
+ 
+ 		len += scnprintf(&buf[len], TPG_STR_BUF_SZ - len,
+ 				 "index: %u, status: %s, timestamp: %llu, is_held: %d",
+-				 cap_q->bufs[i]->index, q_status,
+-				 cap_q->bufs[i]->timestamp,
+-				 to_vb2_v4l2_buffer(cap_q->bufs[i])->is_held);
++				 vb2->index, q_status,
++				 vb2->timestamp,
++				 to_vb2_v4l2_buffer(vb2)->is_held);
+ 
+ 		tpg_gen_text(&ctx->tpg, basep, line++ * line_height, 16, &buf[old_len]);
+ 		frame_dprintk(ctx->dev, run->dst->sequence, "%s", &buf[old_len]);
 -- 
 2.39.2
 
