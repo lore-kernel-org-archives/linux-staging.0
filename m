@@ -1,335 +1,87 @@
-Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
+Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C45E81A73C
-	for <linux-staging@lists.linux.dev>; Mon,  2 Oct 2023 17:06:50 +0000 (UTC)
-Received: by mail-ed1-f51.google.com with SMTP id 4fb4d7f45d1cf-533c8f8f91dso19450457a12.0
-        for <linux-staging@lists.linux.dev>; Mon, 02 Oct 2023 10:06:50 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C51CF1DA38
+	for <linux-staging@lists.linux.dev>; Mon,  2 Oct 2023 17:53:05 +0000 (UTC)
+Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-9ae3d7eb7e0so517711666b.0
+        for <linux-staging@lists.linux.dev>; Mon, 02 Oct 2023 10:53:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1696266409; x=1696871209; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=4zr8XEwAco8V/FzcE18uSIZZEEXK/FcIrQsRSpjgE0M=;
-        b=KfdbaRBE/fojqWcyLL1ezmuNP2aU7cRndWlBEWbLBj/dn2WAGdEtxaaRahi8ZRu+1A
-         dD1UuLkQvtwcEzd7m29saLzZwKpLgo2KQ1x59+5voa60/LRs/UD6ZMHD8oteqN1YlKhl
-         AGA86dASuY6AUTUxr0Tt19NKZAuL9/cbc8JRRQikJrXqi40Z4H4bg+rHBTCuKxabDKYr
-         kJFrpWJVXuSMozVMI9nl6sc7gd0OK0v3H445lDpJkk7uleLGW6MiQr+L6WHogW6V1slb
-         e/dzcvxstIRiU/z55ljQlgvXj6KQZU6O/UxMl3dwhsaPgrFJ7Ni7VZYUu43vXagDu6Ql
-         709A==
+        d=gmail.com; s=20230601; t=1696269184; x=1696873984; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=YMNM0aRdpEfcCNVG8Zt3kh8xBFlOSvcHGJleVt42moA=;
+        b=lbqVNWQ3h+g+hvQBqhd2uDM85l5yTnNhs9LKR+MDAEs/nYXKx4L59eQKa8bsZO0uax
+         BlMjV4h8ugDDamga3bMZNCxCI7vV+0Tn9RjMxBeEee5/vnKo/RxHSd+pr9s3wyM0xUSN
+         hdsvb1RQWr9qIGOq4i6T19+vyP+Uf3SwRXu2GMDhk2dc48gbvRFTr8DkznvYgPMTRpSz
+         ackeGYxjF36xQo+Rc8FdVFoLFf3HerJYgAkgzRvr+FHZG2tI5uS222lRhvmHfy/1HUtx
+         JfIXNh638Y+85RYYOJNrPVplOq9XcSN2n5bj75lFLUdm1GLMB0qn6N69iw14/KiGgLAg
+         a0gw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696266409; x=1696871209;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=4zr8XEwAco8V/FzcE18uSIZZEEXK/FcIrQsRSpjgE0M=;
-        b=jWXEDSvtF441My8IFTiR9Zl3rRFN4vr+WokA7/07dQMY7qnAwQUIfWoQBDAJRzXVce
-         tNoO599PdFfZfuHhmF2SL3K/lgftsX00OkioyCx5GYfBo2IDQoEs2U36xT0IshaYuzIY
-         hI7ffcLP+bjhdvqqQ93GT8XQ/oTvaIEqlvZ3qQTJKYvXVcz9uDuwbum+xLCgLLhNkb0u
-         5udb1rnDF6/zInO8xqtDNdUyU12qiEOQSzJO+nPSDwrgE7CB+K5tS1g2hqkurwRie40d
-         hYVdp9MDgX+RdzwILU4gIPiJBGT+jL7k+rGfwKAd/Qft8vC7qmsrU+siBH/vIhTxLiy5
-         AzWA==
-X-Gm-Message-State: AOJu0Yw+eOggx7UHNfw6fpg4IcnO2qV3Nasc31PlYO360xphf9Vm/s0Z
-	UZpGnv87NupT97tZyqqotFCD7Gx1IzPAOFMuBRdRjg==
-X-Google-Smtp-Source: AGHT+IFDLMKu5H1Hp5Sp9vbOfDYXOD5dBEAO02aty9GSqep9YF17ks5lLn/G5syKVrfjFePGHUPVt+Ksa/QLQ+AksbQ=
-X-Received: by 2002:aa7:c248:0:b0:534:6b51:83a3 with SMTP id
- y8-20020aa7c248000000b005346b5183a3mr11627534edo.1.1696266408762; Mon, 02 Oct
- 2023 10:06:48 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1696269184; x=1696873984;
+        h=content-disposition:mime-version:message-id:subject:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=YMNM0aRdpEfcCNVG8Zt3kh8xBFlOSvcHGJleVt42moA=;
+        b=FbFTwDYvWlhlYfU7omZfx/g0rFQ/dJf3bmYQ9oOnTDoke+1NMgPosjT5zAVPRGg40U
+         LPRsi46Y5DCHmdTTOFm5sRlji6Z2Z5WMX8GR32WxczNolTL5DUnWmpyHLsPSy3UjRsz4
+         iJzrod9cHVoTV6he3Dzm+lg4f6UNrzUwKhx66iuZ5+PwV2aqdSCKrEn9k1EZHLAP5aTH
+         KlTWXQYINNYOMpzC3L1sfM1/0dz0Ug6+JsOoyy5QRXIKfzxaDoxkcTfYWJHUkXSc22WY
+         r5e0ajnh/3eUhTitprJtGjXCr5CrVwu7Rmc0WQMS0hTwzTNIsmDipkyrvRBbuZRXvhz7
+         gU/Q==
+X-Gm-Message-State: AOJu0YzfjeIXSAAVw/MaouqenBZ1khArjFpSxZTkDdGrjZrIDWSJmA6Z
+	+MTnBxSK2nIjtjw15tjSjHk=
+X-Google-Smtp-Source: AGHT+IFWFHOoILjj1gCnBsboKkDjpRRge8iCCyKPGdNXYWEcYyYGtOooNZfCWIUE/yjtLRDDQTbrfw==
+X-Received: by 2002:a17:906:5352:b0:9a1:d79a:4190 with SMTP id j18-20020a170906535200b009a1d79a4190mr10128359ejo.2.1696269183580;
+        Mon, 02 Oct 2023 10:53:03 -0700 (PDT)
+Received: from matrix-ESPRIMO-P710 (p579356c7.dip0.t-ipconnect.de. [87.147.86.199])
+        by smtp.gmail.com with ESMTPSA id e8-20020a170906374800b0099cf840527csm17364467ejc.153.2023.10.02.10.53.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 02 Oct 2023 10:53:03 -0700 (PDT)
+Date: Mon, 2 Oct 2023 19:53:01 +0200
+From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: [PATCH 0/8] staging: rtl8192e: Remove unused functions related to
+ removed reset
+Message-ID: <cover.1696266964.git.philipp.g.hortmann@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20230929-ad2s1210-mainline-v3-0-fa4364281745@baylibre.com>
- <20230929-ad2s1210-mainline-v3-25-fa4364281745@baylibre.com> <20230930164732.34e62b20@jic23-huawei>
-In-Reply-To: <20230930164732.34e62b20@jic23-huawei>
-From: David Lechner <dlechner@baylibre.com>
-Date: Mon, 2 Oct 2023 12:06:36 -0500
-Message-ID: <CAMknhBE0a-nmMEt4XG9YskUdcP0+6yz1mZnvSo3QpimAkQzFsg@mail.gmail.com>
-Subject: Re: [PATCH v3 25/27] staging: iio: resolver: ad2s1210: rename DOS
- reset min/max attrs
-To: Jonathan Cameron <jic23@kernel.org>
-Cc: linux-iio@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-staging@lists.linux.dev, David Lechner <david@lechnology.com>, 
-	Rob Herring <robh+dt@kernel.org>, 
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Michael Hennerich <Michael.Hennerich@analog.com>, =?UTF-8?B?TnVubyBTw6E=?= <nuno.sa@analog.com>, 
-	Axel Haslam <ahaslam@baylibre.com>, Philip Molloy <pmolloy@baylibre.com>, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Sat, Sep 30, 2023 at 10:47=E2=80=AFAM Jonathan Cameron <jic23@kernel.org=
-> wrote:
->
-> On Fri, 29 Sep 2023 12:23:30 -0500
-> David Lechner <dlechner@baylibre.com> wrote:
->
-> > From: David Lechner <david@lechnology.com>
-> >
-> > From: David Lechner <dlechner@baylibre.com>
-> >
-> > The AD2S1210 has a programmable threshold for the degradation of signal
-> > (DOS) mismatch fault. This fault is triggered when the difference in
-> > amplitude between the sine and cosine inputs exceeds the threshold.
-> >
-> > The DOS reset min/max registers on the chip provide initial values
-> > for internal tracking of the min/max of the monitor signal after the
-> > fault register is cleared.
-> >
-> > This patch converts the custom device DOS reset min/max threshold
-> > attributes custom event attributes on the monitor signal channel.
-> >
-> > The attributes now use millivolts instead of the raw register value in
-> > accordance with the IIO ABI.
-> >
-> > Emitting the event will be implemented in a later patch.
-> >
-> > Signed-off-by: David Lechner <dlechner@baylibre.com>
-> > ---
-> >
-> > v3 changes: This is a new patch in v3
-> >
-> >  .../Documentation/sysfs-bus-iio-resolver-ad2s1210  | 27 ++++++
-> >  drivers/staging/iio/resolver/ad2s1210.c            | 99 ++++++++++++--=
---------
-> >  2 files changed, 82 insertions(+), 44 deletions(-)
-> >
-> > diff --git a/drivers/staging/iio/Documentation/sysfs-bus-iio-resolver-a=
-d2s1210 b/drivers/staging/iio/Documentation/sysfs-bus-iio-resolver-ad2s1210
-> > new file mode 100644
-> > index 000000000000..ea75881b0c77
-> > --- /dev/null
-> > +++ b/drivers/staging/iio/Documentation/sysfs-bus-iio-resolver-ad2s1210
-> > @@ -0,0 +1,27 @@
-> > +What:                /sys/bus/iio/devices/iio:deviceX/events/in_altvol=
-tage0-altvoltage1_thresh_rising_reset_max
-> Ah. So these are differential.  But the mismatch channel value isn't?
->
-> I also got the format wrong for differential channels. Oops. Should
-> be the in_altvoltage0-altvoltage1 format for the previous suggestion
-> to change that channel type to differential.
->
-> This looks fine to me as new ABI.
->
-> Jonathan
->
+Remove unused functions rtl92e_dm_backup_state(), 
+rtl92e_dm_restore_state() and rtl92e_cam_restore(). Remove unused
+variables. Most parts are leftover from the previous patch series.
 
-As discussed in
-<https://lore.kernel.org/linux-iio/CAMknhBFKSqXvgOeRjGAOfURzndmxmCffdU6MUir=
-EmfzKqwM_Kg@mail.gmail.com/>,
-technically no they are not differential. I started to implement it
-that way but changed my mind after understanding the datasheet more in
-depth. It looks like I forgot to update the documentation in this
-patch to match the final implementation that was submitted.
+Tested with rtl8192e (WLL6130-D99) in Mode n (12.5 MB/s)
+Transferred this patch over wlan connection of rtl8192e.
 
-In any case, I will update the documentation to match the
-implementation or vice versa depending on what we decide on for which
-channel the events should be associated with.
+Philipp Hortmann (8):
+  staging: rtl8192e: Remove unused function rtl92e_dm_backup_state()
+  staging: rtl8192e: Remove unused function rtl92e_dm_restore_state()
+  staging: rtl8192e: Remove unused function rtl92e_cam_restore()
+  staging: rtl8192e: Remove unused variable last_ratr
+  staging: rtl8192e: Remove unused variable rate_adaptive_disabled
+  staging: rtl8192e: Remove unused variable rfc_txpowertrackingindex
+  staging: rtl8192e: Remove unused/constant parameter mesh_flag and
+    shutdown
+  staging: rtl8192e: Remove constant parameter from
+    rtllib_stop_protocol()
 
->
->
-> > +KernelVersion:  6.7
-> > +Contact:     linux-iio@vger.kernel.org
-> > +Description:
-> > +             Reading returns the current Degradation of Signal Reset M=
-aximum
-> > +             Threshold value in millivolts. Writing sets the value.
-> > +
-> > +What:                /sys/bus/iio/devices/iio:deviceX/events/in_altvol=
-tage0-altvoltage1_thresh_rising_reset_max_available
-> > +KernelVersion:  6.7
-> > +Contact:     linux-iio@vger.kernel.org
-> > +Description:
-> > +             Reading returns the allowable voltage range for
-> > +             in_altvoltage0-altvoltage1_thresh_rising_reset_max.
-> > +
-> > +What:                /sys/bus/iio/devices/iio:deviceX/events/in_altvol=
-tage0-altvoltage1_thresh_rising_reset_min
-> > +KernelVersion:  6.7
-> > +Contact:     linux-iio@vger.kernel.org
-> > +Description:
-> > +             Reading returns the current Degradation of Signal Reset M=
-inimum
-> > +             Threshold value in millivolts. Writing sets the value.
-> > +
-> > +What:                /sys/bus/iio/devices/iio:deviceX/events/in_altvol=
-tage0-altvoltage1_thresh_rising_reset_min_available
-> > +KernelVersion:  6.7
-> > +Contact:     linux-iio@vger.kernel.org
-> > +Description:
-> > +             Reading returns the allowable voltage range for
-> > +             in_altvoltage0-altvoltage1_thresh_rising_reset_min.
-> > diff --git a/drivers/staging/iio/resolver/ad2s1210.c b/drivers/staging/=
-iio/resolver/ad2s1210.c
-> > index aa14edbe8a77..e1c95ec73545 100644
-> > --- a/drivers/staging/iio/resolver/ad2s1210.c
-> > +++ b/drivers/staging/iio/resolver/ad2s1210.c
-> > @@ -283,41 +283,6 @@ static ssize_t ad2s1210_clear_fault(struct device =
-*dev,
-> >       return ret < 0 ? ret : len;
-> >  }
-> >
-> > -static ssize_t ad2s1210_show_reg(struct device *dev,
-> > -                              struct device_attribute *attr,
-> > -                              char *buf)
-> > -{
-> > -     struct ad2s1210_state *st =3D iio_priv(dev_to_iio_dev(dev));
-> > -     struct iio_dev_attr *iattr =3D to_iio_dev_attr(attr);
-> > -     unsigned int value;
-> > -     int ret;
-> > -
-> > -     mutex_lock(&st->lock);
-> > -     ret =3D regmap_read(st->regmap, iattr->address, &value);
-> > -     mutex_unlock(&st->lock);
-> > -
-> > -     return ret < 0 ? ret : sprintf(buf, "%d\n", value);
-> > -}
-> > -
-> > -static ssize_t ad2s1210_store_reg(struct device *dev,
-> > -                               struct device_attribute *attr,
-> > -                               const char *buf, size_t len)
-> > -{
-> > -     struct ad2s1210_state *st =3D iio_priv(dev_to_iio_dev(dev));
-> > -     unsigned char data;
-> > -     int ret;
-> > -     struct iio_dev_attr *iattr =3D to_iio_dev_attr(attr);
-> > -
-> > -     ret =3D kstrtou8(buf, 10, &data);
-> > -     if (ret)
-> > -             return -EINVAL;
-> > -
-> > -     mutex_lock(&st->lock);
-> > -     ret =3D regmap_write(st->regmap, iattr->address, data);
-> > -     mutex_unlock(&st->lock);
-> > -     return ret < 0 ? ret : len;
-> > -}
-> > -
-> >  static int ad2s1210_single_conversion(struct ad2s1210_state *st,
-> >                                     struct iio_chan_spec const *chan,
-> >                                     int *val)
-> > @@ -743,13 +708,6 @@ static int ad2s1210_write_raw(struct iio_dev *indi=
-o_dev,
-> >  static IIO_DEVICE_ATTR(fault, 0644,
-> >                      ad2s1210_show_fault, ad2s1210_clear_fault, 0);
-> >
-> > -static IIO_DEVICE_ATTR(dos_rst_max_thrd, 0644,
-> > -                    ad2s1210_show_reg, ad2s1210_store_reg,
-> > -                    AD2S1210_REG_DOS_RST_MAX_THRD);
-> > -static IIO_DEVICE_ATTR(dos_rst_min_thrd, 0644,
-> > -                    ad2s1210_show_reg, ad2s1210_store_reg,
-> > -                    AD2S1210_REG_DOS_RST_MIN_THRD);
-> > -
-> >  static const struct iio_event_spec ad2s1210_position_event_spec[] =3D =
-{
-> >       {
-> >               /* Tracking error exceeds LOT threshold fault. */
-> > @@ -867,8 +825,6 @@ static const struct iio_chan_spec ad2s1210_channels=
-[] =3D {
-> >
-> >  static struct attribute *ad2s1210_attributes[] =3D {
-> >       &iio_dev_attr_fault.dev_attr.attr,
-> > -     &iio_dev_attr_dos_rst_max_thrd.dev_attr.attr,
-> > -     &iio_dev_attr_dos_rst_min_thrd.dev_attr.attr,
-> >       NULL,
-> >  };
-> >
-> > @@ -876,6 +832,49 @@ static const struct attribute_group ad2s1210_attri=
-bute_group =3D {
-> >       .attrs =3D ad2s1210_attributes,
-> >  };
-> >
-> > +static ssize_t event_attr_voltage_reg_show(struct device *dev,
-> > +                                        struct device_attribute *attr,
-> > +                                        char *buf)
-> > +{
-> > +     struct ad2s1210_state *st =3D iio_priv(dev_to_iio_dev(dev));
-> > +     struct iio_dev_attr *iattr =3D to_iio_dev_attr(attr);
-> > +     unsigned int value;
-> > +     int ret;
-> > +
-> > +     mutex_lock(&st->lock);
-> > +     ret =3D regmap_read(st->regmap, iattr->address, &value);
-> > +     mutex_unlock(&st->lock);
-> > +
-> > +     if (ret < 0)
-> > +             return ret;
-> > +
-> > +     return sprintf(buf, "%d\n", value * THRESHOLD_MILLIVOLT_PER_LSB);
-> > +}
-> > +
-> > +static ssize_t event_attr_voltage_reg_store(struct device *dev,
-> > +                                         struct device_attribute *attr=
-,
-> > +                                         const char *buf, size_t len)
-> > +{
-> > +     struct ad2s1210_state *st =3D iio_priv(dev_to_iio_dev(dev));
-> > +     struct iio_dev_attr *iattr =3D to_iio_dev_attr(attr);
-> > +     u16 data;
-> > +     int ret;
-> > +
-> > +     ret =3D kstrtou16(buf, 10, &data);
-> > +     if (ret)
-> > +             return -EINVAL;
-> > +
-> > +     mutex_lock(&st->lock);
-> > +     ret =3D regmap_write(st->regmap, iattr->address,
-> > +                        data / THRESHOLD_MILLIVOLT_PER_LSB);
-> > +     mutex_unlock(&st->lock);
-> > +
-> > +     if (ret < 0)
-> > +             return ret;
-> > +
-> > +     return len;
-> > +}
-> > +
-> >  static ssize_t
-> >  in_angl1_thresh_rising_value_available_show(struct device *dev,
-> >                                           struct device_attribute *attr=
-,
-> > @@ -906,6 +905,14 @@ IIO_CONST_ATTR(in_phase0_mag_value_available,
-> >  IIO_CONST_ATTR(in_altvoltage0_thresh_falling_value_available, THRESHOL=
-D_RANGE_STR);
-> >  IIO_CONST_ATTR(in_altvoltage0_thresh_rising_value_available, THRESHOLD=
-_RANGE_STR);
-> >  IIO_CONST_ATTR(in_altvoltage0_mag_value_available, THRESHOLD_RANGE_STR=
-);
-> > +IIO_DEVICE_ATTR(in_altvoltage0_mag_reset_max, 0644,
-> > +             event_attr_voltage_reg_show, event_attr_voltage_reg_store=
-,
-> > +             AD2S1210_REG_DOS_RST_MAX_THRD);
-> > +IIO_CONST_ATTR(in_altvoltage0_mag_reset_max_available, THRESHOLD_RANGE=
-_STR);
-> > +IIO_DEVICE_ATTR(in_altvoltage0_mag_reset_min, 0644,
-> > +             event_attr_voltage_reg_show, event_attr_voltage_reg_store=
-,
-> > +             AD2S1210_REG_DOS_RST_MIN_THRD);
-> > +IIO_CONST_ATTR(in_altvoltage0_mag_reset_min_available, THRESHOLD_RANGE=
-_STR);
-> >  IIO_DEVICE_ATTR_RO(in_angl1_thresh_rising_value_available, 0);
-> >  IIO_DEVICE_ATTR_RO(in_angl1_thresh_rising_hysteresis_available, 0);
+ drivers/staging/rtl8192e/rtl8192e/rtl_cam.c  | 63 ---------------
+ drivers/staging/rtl8192e/rtl8192e/rtl_cam.h  |  1 -
+ drivers/staging/rtl8192e/rtl8192e/rtl_core.c |  5 +-
+ drivers/staging/rtl8192e/rtl8192e/rtl_core.h |  1 -
+ drivers/staging/rtl8192e/rtl8192e/rtl_dm.c   | 83 --------------------
+ drivers/staging/rtl8192e/rtl8192e/rtl_dm.h   |  2 -
+ drivers/staging/rtl8192e/rtllib.h            |  7 +-
+ drivers/staging/rtl8192e/rtllib_softmac.c    | 22 +++---
+ drivers/staging/rtl8192e/rtllib_softmac_wx.c |  6 +-
+ 9 files changed, 16 insertions(+), 174 deletions(-)
 
-These attribute names don't match the documentation above. :-/
+-- 
+2.42.0
 
-> >
-> > @@ -914,6 +921,10 @@ static struct attribute *ad2s1210_event_attributes=
-[] =3D {
-> >       &iio_const_attr_in_altvoltage0_thresh_falling_value_available.dev=
-_attr.attr,
-> >       &iio_const_attr_in_altvoltage0_thresh_rising_value_available.dev_=
-attr.attr,
-> >       &iio_const_attr_in_altvoltage0_mag_value_available.dev_attr.attr,
-> > +     &iio_dev_attr_in_altvoltage0_mag_reset_max.dev_attr.attr,
-> > +     &iio_const_attr_in_altvoltage0_mag_reset_max_available.dev_attr.a=
-ttr,
-> > +     &iio_dev_attr_in_altvoltage0_mag_reset_min.dev_attr.attr,
-> > +     &iio_const_attr_in_altvoltage0_mag_reset_min_available.dev_attr.a=
-ttr,
-> >       &iio_dev_attr_in_angl1_thresh_rising_value_available.dev_attr.att=
-r,
-> >       &iio_dev_attr_in_angl1_thresh_rising_hysteresis_available.dev_att=
-r.attr,
-> >       NULL,
-> >
->
