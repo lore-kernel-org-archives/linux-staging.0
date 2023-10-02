@@ -1,25 +1,25 @@
 Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41A441798D
-	for <linux-staging@lists.linux.dev>; Mon,  2 Oct 2023 12:06:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD68917753
+	for <linux-staging@lists.linux.dev>; Mon,  2 Oct 2023 12:06:41 +0000 (UTC)
 Received: from benjamin-XPS-13-9310.. (unknown [IPv6:2a01:e0a:120:3210:9537:67ca:c85e:d0ae])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
 	(Authenticated sender: benjamin.gaignard)
-	by madras.collabora.co.uk (Postfix) with ESMTPSA id 07ED66607365;
-	Mon,  2 Oct 2023 13:06:41 +0100 (BST)
+	by madras.collabora.co.uk (Postfix) with ESMTPSA id 64E21660735D;
+	Mon,  2 Oct 2023 13:06:39 +0100 (BST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1696248401;
-	bh=vej0xyoaRLN25qHgld1P1pTyfPCEtxO7zlLcrG23sig=;
+	s=mail; t=1696248399;
+	bh=ds3q8wqXSU9KVQQlLH/PuQAEX1eguF3zVlgf4I/w/H0=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=Fw9jwe6mE5CMng6H9Uf2U9XYpAuDHCLAU1sWxhAa/o6/BiC+1UOpkHZoy1Jc+3byN
-	 USGMQbIaYODd+zNTk3pBdf1PdEU9xVreP7/94ROrqnIfRcgjsw5tOg1weiHlQ0wTJ+
-	 naAtlt5ncEOGk5XsWsRKo9z9ncOyuZtklz+mW/ZCV21Of/WHveskbSSNOso0mfEA2r
-	 JIhXEZjXkfzJ1QWF6pQuLDy210Yn8fPoRWxIu+0nzX71UItYrYD+NY2I9I4w2Bhqvc
-	 nS5+UYtgpsImrMgjMLzR+Lf7OnjCL1b8MQTXvTkAN9BPWqeoffIkTFfQFkarRyEXVE
-	 6uZ1QTy2NBSgA==
+	b=I5KklOKmAYqfs01UmjuHuRCO2CT7826IiucqUSUtoenKKJClyTm9F+QpyGPT/eHok
+	 kWC/acVlpvrHnHBVFo/0OqGkSsRT5d7GGrSD+xXsWz2VslyZimIiz96aR85j04ve9c
+	 oa2y1aOoApgBDSlj41f5Em214XY/av0kbDHcMWJUQcbw4OCZfbj3txGSFvQFsYL5Zo
+	 jvk/h78eNLT7u7dLBwLMxYUXLH1aHeMueHCcdwfzTa+29yF3XyFEDZybui/SbkOz/u
+	 yOUvaGnJNas+D7QtxU1X/kciRGNcf/CPYhPnr4LLIE30/jb4Mcgm2S5eMqO0HJP6oJ
+	 YX9bjkzffpZUg==
 From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
 To: mchehab@kernel.org,
 	tfiga@chromium.org,
@@ -39,9 +39,9 @@ Cc: linux-media@vger.kernel.org,
 	linux-staging@lists.linux.dev,
 	kernel@collabora.com,
 	Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Subject: [PATCH v9 31/53] media: coda: Stop direct calls to queue num_buffers field
-Date: Mon,  2 Oct 2023 14:05:55 +0200
-Message-Id: <20231002120617.119602-32-benjamin.gaignard@collabora.com>
+Subject: [PATCH v9 28/53] media: pci: tw68: Stop direct calls to queue num_buffers field
+Date: Mon,  2 Oct 2023 14:05:52 +0200
+Message-Id: <20231002120617.119602-29-benjamin.gaignard@collabora.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20231002120617.119602-1-benjamin.gaignard@collabora.com>
 References: <20231002120617.119602-1-benjamin.gaignard@collabora.com>
@@ -54,25 +54,33 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
 Use vb2_get_num_buffers() to avoid using queue num_buffer field directly.
+Remove tot_bufs < 2 test because min_buffers_needed is already set to 2.
 
 Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
 ---
- drivers/media/platform/chips-media/coda-common.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/media/pci/tw68/tw68-video.c | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/media/platform/chips-media/coda-common.c b/drivers/media/platform/chips-media/coda-common.c
-index cc4892129aaf..f1d85758f6dd 100644
---- a/drivers/media/platform/chips-media/coda-common.c
-+++ b/drivers/media/platform/chips-media/coda-common.c
-@@ -794,7 +794,7 @@ static int coda_s_fmt(struct coda_ctx *ctx, struct v4l2_format *f,
+diff --git a/drivers/media/pci/tw68/tw68-video.c b/drivers/media/pci/tw68/tw68-video.c
+index 773a18702d36..c0a8257b02ca 100644
+--- a/drivers/media/pci/tw68/tw68-video.c
++++ b/drivers/media/pci/tw68/tw68-video.c
+@@ -360,13 +360,11 @@ static int tw68_queue_setup(struct vb2_queue *q,
+ 			   unsigned int sizes[], struct device *alloc_devs[])
+ {
+ 	struct tw68_dev *dev = vb2_get_drv_priv(q);
+-	unsigned tot_bufs = q->num_buffers + *num_buffers;
++	unsigned tot_bufs = vb2_get_num_buffers(q) + *num_buffers;
+ 	unsigned size = (dev->fmt->depth * dev->width * dev->height) >> 3;
  
- 	if (vb2_is_busy(vq)) {
- 		v4l2_err(&ctx->dev->v4l2_dev, "%s: %s queue busy: %d\n",
--			 __func__, v4l2_type_names[f->type], vq->num_buffers);
-+			 __func__, v4l2_type_names[f->type], vb2_get_num_buffers(vq));
- 		return -EBUSY;
- 	}
- 
+-	if (tot_bufs < 2)
+-		tot_bufs = 2;
+ 	tot_bufs = tw68_buffer_count(size, tot_bufs);
+-	*num_buffers = tot_bufs - q->num_buffers;
++	*num_buffers = tot_bufs - vb2_get_num_buffers(q);
+ 	/*
+ 	 * We allow create_bufs, but only if the sizeimage is >= as the
+ 	 * current sizeimage. The tw68_buffer_count calculation becomes quite
 -- 
 2.39.2
 
