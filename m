@@ -1,25 +1,25 @@
 Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5DB0171DC
-	for <linux-staging@lists.linux.dev>; Mon,  2 Oct 2023 12:06:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3C03171D2
+	for <linux-staging@lists.linux.dev>; Mon,  2 Oct 2023 12:06:38 +0000 (UTC)
 Received: from benjamin-XPS-13-9310.. (unknown [IPv6:2a01:e0a:120:3210:9537:67ca:c85e:d0ae])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
 	(Authenticated sender: benjamin.gaignard)
-	by madras.collabora.co.uk (Postfix) with ESMTPSA id 2176C66071CC;
-	Mon,  2 Oct 2023 13:06:35 +0100 (BST)
+	by madras.collabora.co.uk (Postfix) with ESMTPSA id 631306607310;
+	Mon,  2 Oct 2023 13:06:32 +0100 (BST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1696248395;
-	bh=1dskbbkJ3zkcIpXG7ctqvahZ8PrAeLCG0dqn3ErBFLM=;
+	s=mail; t=1696248392;
+	bh=/rw+5kiG9NH9F1WJEwdp/d4z1jjMgH/1J5yw8ccESj4=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=GArcyLDYSkfOg/bRKLRtfDV9Evg/+21CqpgAh6HhTBGfXQIGHHUuS/XCWsQnf/7i9
-	 CSaGi7Jt1IK1NGij2mJXYpy281QKk8QUVguf0acAhCQQdzvUpAFbFEpk2qd68oMbI2
-	 BKg3BmMVWXHJXJKRGE6jViuJ1u2Brp+QeeLc4TE5RksfLxqV8c7XBHa4gs/PBsZ2nM
-	 tiE8AbIfCXlnFgAlotVblXispb6RehFvXjviSmLA3Jvfwnu23j74teo2SQPFWqHRg2
-	 rwcQTJJ+et+PYC2ylLZF4sBFrpD0cfGk3RIDo57rRlzVCDm6MM7NmYTzSjufTd2yME
-	 Q8KRX6Sh721yA==
+	b=Te3TlY/tI/yO+/NmjTXoNmmq8+/IsQGyuNljO5gBs2TsE1mcSDmLQ3DO3Wl0ZPxR3
+	 0HMMbAQZr3ysNTYX5hK6tPdsKfp9MQFDJymIKSb/kwu4iJ4s8OHO8apA3r8txGczeS
+	 styjUSeuUX9xOZJnu7eWA/sWA5pobfeAnzQhL9IjvV3pLoJpaDxPS3u5h1BgRGiFBL
+	 JbFFFhFEjOL6rZfRb1Y25lKE48W7RjujgERvS0A0FdtsZq2J9ekb5OwMUhn/fXIdMQ
+	 LfyTfYPcgtc9VGsx48+FgW72w2I12YZhMcPiDSANTqNq88cLp8GC/AgkeByQf5DTqq
+	 Pz/vfeQV8yUbw==
 From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
 To: mchehab@kernel.org,
 	tfiga@chromium.org,
@@ -39,9 +39,9 @@ Cc: linux-media@vger.kernel.org,
 	linux-staging@lists.linux.dev,
 	kernel@collabora.com,
 	Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Subject: [PATCH v9 20/53] media: Remove duplicated index vs q->num_buffers check
-Date: Mon,  2 Oct 2023 14:05:44 +0200
-Message-Id: <20231002120617.119602-21-benjamin.gaignard@collabora.com>
+Subject: [PATCH v9 15/53] media: test-drivers: vicodec: Increase max supported capture queue buffers
+Date: Mon,  2 Oct 2023 14:05:39 +0200
+Message-Id: <20231002120617.119602-16-benjamin.gaignard@collabora.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20231002120617.119602-1-benjamin.gaignard@collabora.com>
 References: <20231002120617.119602-1-benjamin.gaignard@collabora.com>
@@ -53,52 +53,25 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-vb2_get_buffer() already checks if the requested index is valid.
-Stop duplicating this kind of check everywhere.
+Allow to allocated up to 64 buffers on capture queue.
 
 Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
 ---
- drivers/media/common/videobuf2/videobuf2-v4l2.c | 13 -------------
- 1 file changed, 13 deletions(-)
+ drivers/media/test-drivers/vicodec/vicodec-core.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/media/common/videobuf2/videobuf2-v4l2.c b/drivers/media/common/videobuf2/videobuf2-v4l2.c
-index 51b16cd14582..38eef0c5d18c 100644
---- a/drivers/media/common/videobuf2/videobuf2-v4l2.c
-+++ b/drivers/media/common/videobuf2/videobuf2-v4l2.c
-@@ -378,11 +378,6 @@ static int vb2_queue_or_prepare_buf(struct vb2_queue *q, struct media_device *md
- 		return -EINVAL;
- 	}
- 
--	if (b->index >= q->num_buffers) {
--		dprintk(q, 1, "%s: buffer index out of range\n", opname);
--		return -EINVAL;
--	}
--
- 	vb = vb2_get_buffer(q, b->index);
- 	if (!vb) {
- 		dprintk(q, 1, "%s: buffer %u is NULL\n", opname,  b->index);
-@@ -833,10 +828,6 @@ int vb2_qbuf(struct vb2_queue *q, struct media_device *mdev,
- 		return -EBUSY;
- 	}
- 
--	if (b->index >= q->num_buffers) {
--		dprintk(q, 1, "buffer index out of range\n");
--		return -EINVAL;
--	}
- 	vb = vb2_get_buffer(q, b->index);
- 	if (!vb) {
- 		dprintk(q, 1, "can't find the requested buffer %u\n", b->index);
-@@ -908,10 +899,6 @@ int vb2_expbuf(struct vb2_queue *q, struct v4l2_exportbuffer *eb)
- {
- 	struct vb2_buffer *vb;
- 
--	if (eb->index >= q->num_buffers) {
--		dprintk(q, 1, "buffer index out of range\n");
--		return -EINVAL;
--	}
- 	vb = vb2_get_buffer(q, eb->index);
- 	if (!vb) {
- 		dprintk(q, 1, "can't find the requested buffer %u\n", eb->index);
+diff --git a/drivers/media/test-drivers/vicodec/vicodec-core.c b/drivers/media/test-drivers/vicodec/vicodec-core.c
+index 6f0e20df74e9..69cbe2c094e1 100644
+--- a/drivers/media/test-drivers/vicodec/vicodec-core.c
++++ b/drivers/media/test-drivers/vicodec/vicodec-core.c
+@@ -1718,6 +1718,7 @@ static int queue_init(void *priv, struct vb2_queue *src_vq,
+ 			V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE :
+ 			V4L2_BUF_TYPE_VIDEO_CAPTURE);
+ 	dst_vq->io_modes = VB2_MMAP | VB2_USERPTR | VB2_DMABUF;
++	dst_vq->max_num_buffers = 64;
+ 	dst_vq->drv_priv = ctx;
+ 	dst_vq->buf_struct_size = sizeof(struct v4l2_m2m_buffer);
+ 	dst_vq->ops = &vicodec_qops;
 -- 
 2.39.2
 
