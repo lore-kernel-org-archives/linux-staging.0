@@ -1,25 +1,25 @@
 Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6A6A171A5
-	for <linux-staging@lists.linux.dev>; Mon,  2 Oct 2023 12:06:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 151A1171B1
+	for <linux-staging@lists.linux.dev>; Mon,  2 Oct 2023 12:06:38 +0000 (UTC)
 Received: from benjamin-XPS-13-9310.. (unknown [IPv6:2a01:e0a:120:3210:9537:67ca:c85e:d0ae])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
 	(Authenticated sender: benjamin.gaignard)
-	by madras.collabora.co.uk (Postfix) with ESMTPSA id 4057B66072FF;
-	Mon,  2 Oct 2023 13:06:29 +0100 (BST)
+	by madras.collabora.co.uk (Postfix) with ESMTPSA id DF2FD6607335;
+	Mon,  2 Oct 2023 13:06:31 +0100 (BST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1696248389;
-	bh=zXmFfNU0uMtsKoYh9PP3wEGhm6Xs7lwp8Ba27axk8pE=;
+	s=mail; t=1696248392;
+	bh=vXuJIhvUaCiRCOnUer8AX7BKf/0It7kvtpm2er6AYGM=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=aqGNR7ol6yzChR+uCnEriDgYWiToz7rivFjk14HeK9BIqiC+cdLwUCj7Ises9FtEC
-	 9PKSLkvbjY/NBpWASDmp8pOvYhL9KJJfiGHfaGuTgGMKzyoGtg0EK5eAOa7RPtj+qF
-	 MH9h/RUlhCxs5ByyAfqfa75A0RyOVZggduunivyE5o3avTqncPYO23pBT3rXgbbvYN
-	 o1L16weNcQqve97MNQmvtj+qmKksSWman6S6MY5khkvr2kf07g6uN1ZFcS+4jIpp7v
-	 B2s82hDL34IVX6R6ixx+0C41LZnJnmstCMT0x+QHXjYHqgh4QOmb8sYLyfWUKNwtJN
-	 bZHusnOdNXOKQ==
+	b=LZc66mgHW0FJDalluTOy98rsHeo6kEMqLFH51flQQyPtO1u9642qnkTUBTKIP3383
+	 LYtUnVIWWkpQu434O9934OZ0bxj1DzwhQ1d7JBQwwvO/H1jozKhYWygeFKFF61D/tx
+	 CUXAbklUoJlsGzRYUURKP8T+m9diTUpBWcUMBqL3MwehqBUriU7tqOwovAa6lui9eh
+	 RCmm9p7lfoVK27GLxcT5WBPLJ9o6mMc1kOWC2CkG93LRiY4vcgiorOa+SNPPvnHyLK
+	 ySXrHhK2Bw3jYTnsYKfkbZa4XPor5BQYv3l+wU5998xbs+k49Jy5fBwMtW+KID4j1p
+	 mLcSNBhuwfUNQ==
 From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
 To: mchehab@kernel.org,
 	tfiga@chromium.org,
@@ -39,9 +39,9 @@ Cc: linux-media@vger.kernel.org,
 	linux-staging@lists.linux.dev,
 	kernel@collabora.com,
 	Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Subject: [PATCH v9 09/53] media: atomisp: Use vb2_get_buffer() instead of directly access to buffers array
-Date: Mon,  2 Oct 2023 14:05:33 +0200
-Message-Id: <20231002120617.119602-10-benjamin.gaignard@collabora.com>
+Subject: [PATCH v9 14/53] media: test-drivers: vivid: Increase max supported buffers for capture queues
+Date: Mon,  2 Oct 2023 14:05:38 +0200
+Message-Id: <20231002120617.119602-15-benjamin.gaignard@collabora.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20231002120617.119602-1-benjamin.gaignard@collabora.com>
 References: <20231002120617.119602-1-benjamin.gaignard@collabora.com>
@@ -53,30 +53,37 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Use vb2_get_buffer() instead of directly access to vb2_buffer buffer array.
-This could allow to change the type bufs[] field of vb2_buffer structure if
-needed.
-No need to check the result of vb2_get_buffer, vb2_ioctl_dqbuf() already
-checked that it is valid.
+Change the maximum number of buffers of some capture queues in order
+to test max_num_buffers field.
+
+Allow to allocate up to:
+- 64 buffers for video capture queue.
+- 1024 buffers for sdr capture queue.
+- 32768 buffers for vbi capture queue.
 
 Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
 ---
- drivers/staging/media/atomisp/pci/atomisp_ioctl.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/media/test-drivers/vivid/vivid-core.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_ioctl.c b/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
-index d2174156573a..4b65c69fa60d 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
-+++ b/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
-@@ -1061,7 +1061,7 @@ static int atomisp_dqbuf_wrapper(struct file *file, void *fh, struct v4l2_buffer
- 	if (ret)
- 		return ret;
- 
--	vb = pipe->vb_queue.bufs[buf->index];
-+	vb = vb2_get_buffer(&pipe->vb_queue, buf->index);
- 	frame = vb_to_frame(vb);
- 
- 	buf->reserved = asd->frame_status[buf->index];
+diff --git a/drivers/media/test-drivers/vivid/vivid-core.c b/drivers/media/test-drivers/vivid/vivid-core.c
+index e95bdccfc18e..58a059140365 100644
+--- a/drivers/media/test-drivers/vivid/vivid-core.c
++++ b/drivers/media/test-drivers/vivid/vivid-core.c
+@@ -876,6 +876,13 @@ static int vivid_create_queue(struct vivid_dev *dev,
+ 	q->type = buf_type;
+ 	q->io_modes = VB2_MMAP | VB2_DMABUF;
+ 	q->io_modes |= V4L2_TYPE_IS_OUTPUT(buf_type) ?  VB2_WRITE : VB2_READ;
++	if (buf_type == V4L2_BUF_TYPE_VIDEO_CAPTURE)
++		q->max_num_buffers = 64;
++	if (buf_type == V4L2_BUF_TYPE_SDR_CAPTURE)
++		q->max_num_buffers = 1024;
++	if (buf_type == V4L2_BUF_TYPE_VBI_CAPTURE)
++		q->max_num_buffers = 32768;
++
+ 	if (allocators[dev->inst] != 1)
+ 		q->io_modes |= VB2_USERPTR;
+ 	q->drv_priv = dev;
 -- 
 2.39.2
 
