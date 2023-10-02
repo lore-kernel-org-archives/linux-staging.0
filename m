@@ -1,40 +1,40 @@
-Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
+Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0913518E00
-	for <linux-staging@lists.linux.dev>; Mon,  2 Oct 2023 16:43:31 +0000 (UTC)
-Received: by mail-ed1-f41.google.com with SMTP id 4fb4d7f45d1cf-53406799540so17129181a12.1
-        for <linux-staging@lists.linux.dev>; Mon, 02 Oct 2023 09:43:31 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DA951CF83
+	for <linux-staging@lists.linux.dev>; Mon,  2 Oct 2023 16:58:30 +0000 (UTC)
+Received: by mail-ed1-f45.google.com with SMTP id 4fb4d7f45d1cf-533e7d127d4so18346819a12.3
+        for <linux-staging@lists.linux.dev>; Mon, 02 Oct 2023 09:58:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1696265010; x=1696869810; darn=lists.linux.dev;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1696265908; x=1696870708; darn=lists.linux.dev;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=x93iIN0fNUqVoRi/c/6JJ+kFUaB/mOrDLlTEcgIl4+M=;
-        b=mLpQbegwLuJN64M6sSNsOyWGSHl4mMa+mgok9c3MXXAsIDrX9+cYypNVqO4cZuh6zM
-         /pIk4mA5UIqwoNPCBmNwdNUbAxA4UW/qt74n5Pd1AoYLrStKBAt4P45dPsAPgrAz3qxU
-         4LYAhWZYSfGyCPmkTS9DtKrg8xP0i4bxZR/7n8nw9hS+jOYVlK4c/kCGN6ogtoWYiDkb
-         4+xt9USDEigAVyJNgJZYAsATiEc+s6y+If8wtT7VGAI6pO7AKtwVstcrKAj2d2CNVbdP
-         kiiRsCfvODbPwaUQG23/ivlHiRXSTqpCeUA8HcllTTq8fflesT2JEQYUmc7EiADYsIWY
-         yikQ==
+        bh=facSmfJsGsAsq+rykZ/KF/cMYvD2lkq973HpFZImYKI=;
+        b=fh8gK/XdbNl6sfXw5sStN42gm+hqc1wsWoOray8IqdihCROUpxxZnLDiopy1MuPLlI
+         yvtv9DpC2xMf6LDrtfm6ORy7Nx28LQyheMYzQeTTS0HozjDlocThguEkUu+u7BKW7/B/
+         RPaqNBJZFN+Ei74ZK2zeM1SEDeVHzWe1IdTmbxJfQZ5WHnI82Izs0P78e4CAWDCg+/Je
+         qd9wdtc8rz2wtd7XWpTkpNMjKcrcD1N0gDcxRwUvQ4ajdgYLf7eREECLRGZLTBWArsc6
+         o7AJVSrNnuaaXsKYIPNLeMQzz2+aBiEcYPcYyCsVMrLAJNhRUPFivxk6DP0t5ElQivfa
+         JQ3w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696265010; x=1696869810;
+        d=1e100.net; s=20230601; t=1696265908; x=1696870708;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=x93iIN0fNUqVoRi/c/6JJ+kFUaB/mOrDLlTEcgIl4+M=;
-        b=Y6IGrdMzHNypwV5lSAfKe1/jy0nGIjVuKGi+mJgXYACsUKgElq8dU6AYQ8oHR9yo9u
-         qcR8O2t+w+BiEIpN9cmj68k9oc35ux+xs+jr2Qx8qONgija2pQdTxCuEQs+wPcyfmSIB
-         krYCPJZQIkzrTXWpiWPtZumbqeGMiDxWGuNW5aeHP1JkLqL9bNDt+cS2jKyATePl9/0G
-         O90UeS2Sw52vG5BM4iTExBdjYRXBFdZ6s1fzCpKI70AxCzFE5xv/8UCfw6g8udZOh0EN
-         8FV5VIw9RybKuxqlFUZQFHStwhO//ft066xoQtnpAVq0CA+8qK7T84zpzWmaf1G9Qdp6
-         /73g==
-X-Gm-Message-State: AOJu0Yzldj+5BaHgn10x+1dsik3zlFpJF4bXSK8SRK/U+WEMKFBo/GX2
-	4wuQ7UB/D7NUz0RZDg7+ijWb2ajZBEPqh8YIE0eJjQ==
-X-Google-Smtp-Source: AGHT+IHDDMMxoHK1rMkkwfVFldZ+KWxjIjoU9+PtnwHrVewlRhb5UP5vNxEhatM3whdpv4O1/RWIUBsxnkMjfmKqjDE=
-X-Received: by 2002:aa7:c157:0:b0:533:4c67:c911 with SMTP id
- r23-20020aa7c157000000b005334c67c911mr11352514edp.19.1696265010143; Mon, 02
- Oct 2023 09:43:30 -0700 (PDT)
+        bh=facSmfJsGsAsq+rykZ/KF/cMYvD2lkq973HpFZImYKI=;
+        b=m+VkO7H94sL2odwjLgo8fc0vi9GeacUEisFYfzaGD21jAQEsgQBhSJVLxmI5JQK/sx
+         9GziEfS4JjmIDO0a90lMVr90ckITXbuTAXpQMWuzA4F5VAVCHg1I/2ZHHnGQDVVPNy+P
+         VmlkUuKHou4O32TK9mpVpYwXMvOYcidZvvg82nZQWOI2bDcBqhco3FoHAe4pWMVTl8MV
+         6wo2Vqrkzbq0CjZIKb/FmFjLZObLaHL1AW7bKoRdGwqyHOXD9GomUf/ftjRheAM2KaJb
+         OjTd1h8qm9uOhv6w/8Uda4DmcJNvi7mIenj9s69nGJlP/V0hP1Wzf3zHNAmXg++u9OtC
+         Ze2A==
+X-Gm-Message-State: AOJu0Yy+sWEvqLELlX9rbs5vrbdYK/I2NnXPGjC3/D/DmHbTW6Gbx6JK
+	m8XGQUzTfbHnSweThjTNdWlbHicbx4Aln5U42EK82jDlX9Kf3/J+9eoHFw==
+X-Google-Smtp-Source: AGHT+IH4U4UmWWwFkhVQ7XVkg+noGoXE0O3GqEQDJBMnj8iiX0hl1ZLoZEEsrGijkmhrJ48540hsp97CzdT/OLdFAOY=
+X-Received: by 2002:aa7:cf92:0:b0:533:795d:8c48 with SMTP id
+ z18-20020aa7cf92000000b00533795d8c48mr10931884edx.10.1696265908624; Mon, 02
+ Oct 2023 09:58:28 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -45,8 +45,8 @@ References: <20230929-ad2s1210-mainline-v3-0-fa4364281745@baylibre.com>
  <20230929-ad2s1210-mainline-v3-26-fa4364281745@baylibre.com> <20230930170046.36637e9c@jic23-huawei>
 In-Reply-To: <20230930170046.36637e9c@jic23-huawei>
 From: David Lechner <dlechner@baylibre.com>
-Date: Mon, 2 Oct 2023 11:43:19 -0500
-Message-ID: <CAMknhBE0CfASN9Vb0aZWt4Cebik2cF8QVBaXCvyJy9dNF-PjdA@mail.gmail.com>
+Date: Mon, 2 Oct 2023 11:58:17 -0500
+Message-ID: <CAMknhBH4+cUSX_j3-Y0xuTEiZHd3Ke4Zm8FdxLZJwn5gr_d-ug@mail.gmail.com>
 Subject: Re: [PATCH v3 26/27] staging: iio: resolver: ad2s1210: implement
  fault events
 To: Jonathan Cameron <jic23@kernel.org>
@@ -87,13 +87,18 @@ n
 > It seemed like a good idea at the time, but it's not nice to deal with
 > and requires a channel with that modifier to hang the controls off
 > + make sure userspace expects that event code.
->
 
-Yes, I was perhaps getting a bit too creative here (the two inputs
-come from transformers mounted 90 degrees apart so measure X and Y
-component of an angle). The only reason I did this was to take
-advantage of the possibility of an "OR" event to avoid double events
-for a single fault bit. We can just go with the double event on the
-two different input channels as discussed in "[PATCH v3 22/27]
-staging: iio: resolver: ad2s1210: convert LOS threshold to event
-attr".
+
+Regarding the point about "requires a channel with that modifier to
+hang the controls off...". Although that comment was about modifiers,
+does it also apply in general.
+
+There are several fault events that don't have any configurable
+parameters, namely _sine/cosine inputs clipping_ and _velocity exceeds
+max tracking rate_. So there won't be any attributes that contain the
+event specification for those (e.g. no `events/in_angl0_*`
+attributes). It sounds like this would be a problem as well?
+
+Should we consider a IIO_EV_INFO_LABEL so that we can have some sort
+of attribute (namely `events/<dir>_<channel spec>_label`) so that
+userspace can enumerate expected events for non-configurable events?
