@@ -1,40 +1,40 @@
-Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
+Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DA951CF83
-	for <linux-staging@lists.linux.dev>; Mon,  2 Oct 2023 16:58:30 +0000 (UTC)
-Received: by mail-ed1-f45.google.com with SMTP id 4fb4d7f45d1cf-533e7d127d4so18346819a12.3
-        for <linux-staging@lists.linux.dev>; Mon, 02 Oct 2023 09:58:30 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C45E81A73C
+	for <linux-staging@lists.linux.dev>; Mon,  2 Oct 2023 17:06:50 +0000 (UTC)
+Received: by mail-ed1-f51.google.com with SMTP id 4fb4d7f45d1cf-533c8f8f91dso19450457a12.0
+        for <linux-staging@lists.linux.dev>; Mon, 02 Oct 2023 10:06:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1696265908; x=1696870708; darn=lists.linux.dev;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1696266409; x=1696871209; darn=lists.linux.dev;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=facSmfJsGsAsq+rykZ/KF/cMYvD2lkq973HpFZImYKI=;
-        b=fh8gK/XdbNl6sfXw5sStN42gm+hqc1wsWoOray8IqdihCROUpxxZnLDiopy1MuPLlI
-         yvtv9DpC2xMf6LDrtfm6ORy7Nx28LQyheMYzQeTTS0HozjDlocThguEkUu+u7BKW7/B/
-         RPaqNBJZFN+Ei74ZK2zeM1SEDeVHzWe1IdTmbxJfQZ5WHnI82Izs0P78e4CAWDCg+/Je
-         qd9wdtc8rz2wtd7XWpTkpNMjKcrcD1N0gDcxRwUvQ4ajdgYLf7eREECLRGZLTBWArsc6
-         o7AJVSrNnuaaXsKYIPNLeMQzz2+aBiEcYPcYyCsVMrLAJNhRUPFivxk6DP0t5ElQivfa
-         JQ3w==
+        bh=4zr8XEwAco8V/FzcE18uSIZZEEXK/FcIrQsRSpjgE0M=;
+        b=KfdbaRBE/fojqWcyLL1ezmuNP2aU7cRndWlBEWbLBj/dn2WAGdEtxaaRahi8ZRu+1A
+         dD1UuLkQvtwcEzd7m29saLzZwKpLgo2KQ1x59+5voa60/LRs/UD6ZMHD8oteqN1YlKhl
+         AGA86dASuY6AUTUxr0Tt19NKZAuL9/cbc8JRRQikJrXqi40Z4H4bg+rHBTCuKxabDKYr
+         kJFrpWJVXuSMozVMI9nl6sc7gd0OK0v3H445lDpJkk7uleLGW6MiQr+L6WHogW6V1slb
+         e/dzcvxstIRiU/z55ljQlgvXj6KQZU6O/UxMl3dwhsaPgrFJ7Ni7VZYUu43vXagDu6Ql
+         709A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696265908; x=1696870708;
+        d=1e100.net; s=20230601; t=1696266409; x=1696871209;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=facSmfJsGsAsq+rykZ/KF/cMYvD2lkq973HpFZImYKI=;
-        b=m+VkO7H94sL2odwjLgo8fc0vi9GeacUEisFYfzaGD21jAQEsgQBhSJVLxmI5JQK/sx
-         9GziEfS4JjmIDO0a90lMVr90ckITXbuTAXpQMWuzA4F5VAVCHg1I/2ZHHnGQDVVPNy+P
-         VmlkUuKHou4O32TK9mpVpYwXMvOYcidZvvg82nZQWOI2bDcBqhco3FoHAe4pWMVTl8MV
-         6wo2Vqrkzbq0CjZIKb/FmFjLZObLaHL1AW7bKoRdGwqyHOXD9GomUf/ftjRheAM2KaJb
-         OjTd1h8qm9uOhv6w/8Uda4DmcJNvi7mIenj9s69nGJlP/V0hP1Wzf3zHNAmXg++u9OtC
-         Ze2A==
-X-Gm-Message-State: AOJu0Yy+sWEvqLELlX9rbs5vrbdYK/I2NnXPGjC3/D/DmHbTW6Gbx6JK
-	m8XGQUzTfbHnSweThjTNdWlbHicbx4Aln5U42EK82jDlX9Kf3/J+9eoHFw==
-X-Google-Smtp-Source: AGHT+IH4U4UmWWwFkhVQ7XVkg+noGoXE0O3GqEQDJBMnj8iiX0hl1ZLoZEEsrGijkmhrJ48540hsp97CzdT/OLdFAOY=
-X-Received: by 2002:aa7:cf92:0:b0:533:795d:8c48 with SMTP id
- z18-20020aa7cf92000000b00533795d8c48mr10931884edx.10.1696265908624; Mon, 02
- Oct 2023 09:58:28 -0700 (PDT)
+        bh=4zr8XEwAco8V/FzcE18uSIZZEEXK/FcIrQsRSpjgE0M=;
+        b=jWXEDSvtF441My8IFTiR9Zl3rRFN4vr+WokA7/07dQMY7qnAwQUIfWoQBDAJRzXVce
+         tNoO599PdFfZfuHhmF2SL3K/lgftsX00OkioyCx5GYfBo2IDQoEs2U36xT0IshaYuzIY
+         hI7ffcLP+bjhdvqqQ93GT8XQ/oTvaIEqlvZ3qQTJKYvXVcz9uDuwbum+xLCgLLhNkb0u
+         5udb1rnDF6/zInO8xqtDNdUyU12qiEOQSzJO+nPSDwrgE7CB+K5tS1g2hqkurwRie40d
+         hYVdp9MDgX+RdzwILU4gIPiJBGT+jL7k+rGfwKAd/Qft8vC7qmsrU+siBH/vIhTxLiy5
+         AzWA==
+X-Gm-Message-State: AOJu0Yw+eOggx7UHNfw6fpg4IcnO2qV3Nasc31PlYO360xphf9Vm/s0Z
+	UZpGnv87NupT97tZyqqotFCD7Gx1IzPAOFMuBRdRjg==
+X-Google-Smtp-Source: AGHT+IFDLMKu5H1Hp5Sp9vbOfDYXOD5dBEAO02aty9GSqep9YF17ks5lLn/G5syKVrfjFePGHUPVt+Ksa/QLQ+AksbQ=
+X-Received: by 2002:aa7:c248:0:b0:534:6b51:83a3 with SMTP id
+ y8-20020aa7c248000000b005346b5183a3mr11627534edo.1.1696266408762; Mon, 02 Oct
+ 2023 10:06:48 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -42,13 +42,13 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 References: <20230929-ad2s1210-mainline-v3-0-fa4364281745@baylibre.com>
- <20230929-ad2s1210-mainline-v3-26-fa4364281745@baylibre.com> <20230930170046.36637e9c@jic23-huawei>
-In-Reply-To: <20230930170046.36637e9c@jic23-huawei>
+ <20230929-ad2s1210-mainline-v3-25-fa4364281745@baylibre.com> <20230930164732.34e62b20@jic23-huawei>
+In-Reply-To: <20230930164732.34e62b20@jic23-huawei>
 From: David Lechner <dlechner@baylibre.com>
-Date: Mon, 2 Oct 2023 11:58:17 -0500
-Message-ID: <CAMknhBH4+cUSX_j3-Y0xuTEiZHd3Ke4Zm8FdxLZJwn5gr_d-ug@mail.gmail.com>
-Subject: Re: [PATCH v3 26/27] staging: iio: resolver: ad2s1210: implement
- fault events
+Date: Mon, 2 Oct 2023 12:06:36 -0500
+Message-ID: <CAMknhBE0a-nmMEt4XG9YskUdcP0+6yz1mZnvSo3QpimAkQzFsg@mail.gmail.com>
+Subject: Re: [PATCH v3 25/27] staging: iio: resolver: ad2s1210: rename DOS
+ reset min/max attrs
 To: Jonathan Cameron <jic23@kernel.org>
 Cc: linux-iio@vger.kernel.org, devicetree@vger.kernel.org, 
 	linux-staging@lists.linux.dev, David Lechner <david@lechnology.com>, 
@@ -60,45 +60,276 @@ Cc: linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Sat, Sep 30, 2023 at 11:00=E2=80=AFAM Jonathan Cameron <jic23@kernel.org=
+On Sat, Sep 30, 2023 at 10:47=E2=80=AFAM Jonathan Cameron <jic23@kernel.org=
 > wrote:
 >
-> On Fri, 29 Sep 2023 12:23:31 -0500
+> On Fri, 29 Sep 2023 12:23:30 -0500
 > David Lechner <dlechner@baylibre.com> wrote:
 >
 > > From: David Lechner <david@lechnology.com>
 > >
 > > From: David Lechner <dlechner@baylibre.com>
 > >
-> > When reading the position and velocity on the AD2S1210, there is also a
-> > 3rd byte following the two data bytes that contains the fault flag bits=
-.
-> > This patch adds support for reading this byte and generating events whe=
-n
-> > faults occur.
+> > The AD2S1210 has a programmable threshold for the degradation of signal
+> > (DOS) mismatch fault. This fault is triggered when the difference in
+> > amplitude between the sine and cosine inputs exceeds the threshold.
 > >
-> > The faults are mapped to various channels and event types in order to
-> > have a unique event for each fault.
+> > The DOS reset min/max registers on the chip provide initial values
+> > for internal tracking of the min/max of the monitor signal after the
+> > fault register is cleared.
+> >
+> > This patch converts the custom device DOS reset min/max threshold
+> > attributes custom event attributes on the monitor signal channel.
+> >
+> > The attributes now use millivolts instead of the raw register value in
+> > accordance with the IIO ABI.
+> >
+> > Emitting the event will be implemented in a later patch.
 > >
 > > Signed-off-by: David Lechner <dlechner@baylibre.com>
+> > ---
+> >
+> > v3 changes: This is a new patch in v3
+> >
+> >  .../Documentation/sysfs-bus-iio-resolver-ad2s1210  | 27 ++++++
+> >  drivers/staging/iio/resolver/ad2s1210.c            | 99 ++++++++++++--=
+--------
+> >  2 files changed, 82 insertions(+), 44 deletions(-)
+> >
+> > diff --git a/drivers/staging/iio/Documentation/sysfs-bus-iio-resolver-a=
+d2s1210 b/drivers/staging/iio/Documentation/sysfs-bus-iio-resolver-ad2s1210
+> > new file mode 100644
+> > index 000000000000..ea75881b0c77
+> > --- /dev/null
+> > +++ b/drivers/staging/iio/Documentation/sysfs-bus-iio-resolver-ad2s1210
+> > @@ -0,0 +1,27 @@
+> > +What:                /sys/bus/iio/devices/iio:deviceX/events/in_altvol=
+tage0-altvoltage1_thresh_rising_reset_max
+> Ah. So these are differential.  But the mismatch channel value isn't?
 >
-> Use of x and y modifiers is a little odd.  What was your reasoning?
-> Was it just that there was a X_OR_Y modifier?  If so, don't use that!
-> It seemed like a good idea at the time, but it's not nice to deal with
-> and requires a channel with that modifier to hang the controls off
-> + make sure userspace expects that event code.
+> I also got the format wrong for differential channels. Oops. Should
+> be the in_altvoltage0-altvoltage1 format for the previous suggestion
+> to change that channel type to differential.
+>
+> This looks fine to me as new ABI.
+>
+> Jonathan
+>
 
+As discussed in
+<https://lore.kernel.org/linux-iio/CAMknhBFKSqXvgOeRjGAOfURzndmxmCffdU6MUir=
+EmfzKqwM_Kg@mail.gmail.com/>,
+technically no they are not differential. I started to implement it
+that way but changed my mind after understanding the datasheet more in
+depth. It looks like I forgot to update the documentation in this
+patch to match the final implementation that was submitted.
 
-Regarding the point about "requires a channel with that modifier to
-hang the controls off...". Although that comment was about modifiers,
-does it also apply in general.
+In any case, I will update the documentation to match the
+implementation or vice versa depending on what we decide on for which
+channel the events should be associated with.
 
-There are several fault events that don't have any configurable
-parameters, namely _sine/cosine inputs clipping_ and _velocity exceeds
-max tracking rate_. So there won't be any attributes that contain the
-event specification for those (e.g. no `events/in_angl0_*`
-attributes). It sounds like this would be a problem as well?
+>
+>
+> > +KernelVersion:  6.7
+> > +Contact:     linux-iio@vger.kernel.org
+> > +Description:
+> > +             Reading returns the current Degradation of Signal Reset M=
+aximum
+> > +             Threshold value in millivolts. Writing sets the value.
+> > +
+> > +What:                /sys/bus/iio/devices/iio:deviceX/events/in_altvol=
+tage0-altvoltage1_thresh_rising_reset_max_available
+> > +KernelVersion:  6.7
+> > +Contact:     linux-iio@vger.kernel.org
+> > +Description:
+> > +             Reading returns the allowable voltage range for
+> > +             in_altvoltage0-altvoltage1_thresh_rising_reset_max.
+> > +
+> > +What:                /sys/bus/iio/devices/iio:deviceX/events/in_altvol=
+tage0-altvoltage1_thresh_rising_reset_min
+> > +KernelVersion:  6.7
+> > +Contact:     linux-iio@vger.kernel.org
+> > +Description:
+> > +             Reading returns the current Degradation of Signal Reset M=
+inimum
+> > +             Threshold value in millivolts. Writing sets the value.
+> > +
+> > +What:                /sys/bus/iio/devices/iio:deviceX/events/in_altvol=
+tage0-altvoltage1_thresh_rising_reset_min_available
+> > +KernelVersion:  6.7
+> > +Contact:     linux-iio@vger.kernel.org
+> > +Description:
+> > +             Reading returns the allowable voltage range for
+> > +             in_altvoltage0-altvoltage1_thresh_rising_reset_min.
+> > diff --git a/drivers/staging/iio/resolver/ad2s1210.c b/drivers/staging/=
+iio/resolver/ad2s1210.c
+> > index aa14edbe8a77..e1c95ec73545 100644
+> > --- a/drivers/staging/iio/resolver/ad2s1210.c
+> > +++ b/drivers/staging/iio/resolver/ad2s1210.c
+> > @@ -283,41 +283,6 @@ static ssize_t ad2s1210_clear_fault(struct device =
+*dev,
+> >       return ret < 0 ? ret : len;
+> >  }
+> >
+> > -static ssize_t ad2s1210_show_reg(struct device *dev,
+> > -                              struct device_attribute *attr,
+> > -                              char *buf)
+> > -{
+> > -     struct ad2s1210_state *st =3D iio_priv(dev_to_iio_dev(dev));
+> > -     struct iio_dev_attr *iattr =3D to_iio_dev_attr(attr);
+> > -     unsigned int value;
+> > -     int ret;
+> > -
+> > -     mutex_lock(&st->lock);
+> > -     ret =3D regmap_read(st->regmap, iattr->address, &value);
+> > -     mutex_unlock(&st->lock);
+> > -
+> > -     return ret < 0 ? ret : sprintf(buf, "%d\n", value);
+> > -}
+> > -
+> > -static ssize_t ad2s1210_store_reg(struct device *dev,
+> > -                               struct device_attribute *attr,
+> > -                               const char *buf, size_t len)
+> > -{
+> > -     struct ad2s1210_state *st =3D iio_priv(dev_to_iio_dev(dev));
+> > -     unsigned char data;
+> > -     int ret;
+> > -     struct iio_dev_attr *iattr =3D to_iio_dev_attr(attr);
+> > -
+> > -     ret =3D kstrtou8(buf, 10, &data);
+> > -     if (ret)
+> > -             return -EINVAL;
+> > -
+> > -     mutex_lock(&st->lock);
+> > -     ret =3D regmap_write(st->regmap, iattr->address, data);
+> > -     mutex_unlock(&st->lock);
+> > -     return ret < 0 ? ret : len;
+> > -}
+> > -
+> >  static int ad2s1210_single_conversion(struct ad2s1210_state *st,
+> >                                     struct iio_chan_spec const *chan,
+> >                                     int *val)
+> > @@ -743,13 +708,6 @@ static int ad2s1210_write_raw(struct iio_dev *indi=
+o_dev,
+> >  static IIO_DEVICE_ATTR(fault, 0644,
+> >                      ad2s1210_show_fault, ad2s1210_clear_fault, 0);
+> >
+> > -static IIO_DEVICE_ATTR(dos_rst_max_thrd, 0644,
+> > -                    ad2s1210_show_reg, ad2s1210_store_reg,
+> > -                    AD2S1210_REG_DOS_RST_MAX_THRD);
+> > -static IIO_DEVICE_ATTR(dos_rst_min_thrd, 0644,
+> > -                    ad2s1210_show_reg, ad2s1210_store_reg,
+> > -                    AD2S1210_REG_DOS_RST_MIN_THRD);
+> > -
+> >  static const struct iio_event_spec ad2s1210_position_event_spec[] =3D =
+{
+> >       {
+> >               /* Tracking error exceeds LOT threshold fault. */
+> > @@ -867,8 +825,6 @@ static const struct iio_chan_spec ad2s1210_channels=
+[] =3D {
+> >
+> >  static struct attribute *ad2s1210_attributes[] =3D {
+> >       &iio_dev_attr_fault.dev_attr.attr,
+> > -     &iio_dev_attr_dos_rst_max_thrd.dev_attr.attr,
+> > -     &iio_dev_attr_dos_rst_min_thrd.dev_attr.attr,
+> >       NULL,
+> >  };
+> >
+> > @@ -876,6 +832,49 @@ static const struct attribute_group ad2s1210_attri=
+bute_group =3D {
+> >       .attrs =3D ad2s1210_attributes,
+> >  };
+> >
+> > +static ssize_t event_attr_voltage_reg_show(struct device *dev,
+> > +                                        struct device_attribute *attr,
+> > +                                        char *buf)
+> > +{
+> > +     struct ad2s1210_state *st =3D iio_priv(dev_to_iio_dev(dev));
+> > +     struct iio_dev_attr *iattr =3D to_iio_dev_attr(attr);
+> > +     unsigned int value;
+> > +     int ret;
+> > +
+> > +     mutex_lock(&st->lock);
+> > +     ret =3D regmap_read(st->regmap, iattr->address, &value);
+> > +     mutex_unlock(&st->lock);
+> > +
+> > +     if (ret < 0)
+> > +             return ret;
+> > +
+> > +     return sprintf(buf, "%d\n", value * THRESHOLD_MILLIVOLT_PER_LSB);
+> > +}
+> > +
+> > +static ssize_t event_attr_voltage_reg_store(struct device *dev,
+> > +                                         struct device_attribute *attr=
+,
+> > +                                         const char *buf, size_t len)
+> > +{
+> > +     struct ad2s1210_state *st =3D iio_priv(dev_to_iio_dev(dev));
+> > +     struct iio_dev_attr *iattr =3D to_iio_dev_attr(attr);
+> > +     u16 data;
+> > +     int ret;
+> > +
+> > +     ret =3D kstrtou16(buf, 10, &data);
+> > +     if (ret)
+> > +             return -EINVAL;
+> > +
+> > +     mutex_lock(&st->lock);
+> > +     ret =3D regmap_write(st->regmap, iattr->address,
+> > +                        data / THRESHOLD_MILLIVOLT_PER_LSB);
+> > +     mutex_unlock(&st->lock);
+> > +
+> > +     if (ret < 0)
+> > +             return ret;
+> > +
+> > +     return len;
+> > +}
+> > +
+> >  static ssize_t
+> >  in_angl1_thresh_rising_value_available_show(struct device *dev,
+> >                                           struct device_attribute *attr=
+,
+> > @@ -906,6 +905,14 @@ IIO_CONST_ATTR(in_phase0_mag_value_available,
+> >  IIO_CONST_ATTR(in_altvoltage0_thresh_falling_value_available, THRESHOL=
+D_RANGE_STR);
+> >  IIO_CONST_ATTR(in_altvoltage0_thresh_rising_value_available, THRESHOLD=
+_RANGE_STR);
+> >  IIO_CONST_ATTR(in_altvoltage0_mag_value_available, THRESHOLD_RANGE_STR=
+);
+> > +IIO_DEVICE_ATTR(in_altvoltage0_mag_reset_max, 0644,
+> > +             event_attr_voltage_reg_show, event_attr_voltage_reg_store=
+,
+> > +             AD2S1210_REG_DOS_RST_MAX_THRD);
+> > +IIO_CONST_ATTR(in_altvoltage0_mag_reset_max_available, THRESHOLD_RANGE=
+_STR);
+> > +IIO_DEVICE_ATTR(in_altvoltage0_mag_reset_min, 0644,
+> > +             event_attr_voltage_reg_show, event_attr_voltage_reg_store=
+,
+> > +             AD2S1210_REG_DOS_RST_MIN_THRD);
+> > +IIO_CONST_ATTR(in_altvoltage0_mag_reset_min_available, THRESHOLD_RANGE=
+_STR);
+> >  IIO_DEVICE_ATTR_RO(in_angl1_thresh_rising_value_available, 0);
+> >  IIO_DEVICE_ATTR_RO(in_angl1_thresh_rising_hysteresis_available, 0);
 
-Should we consider a IIO_EV_INFO_LABEL so that we can have some sort
-of attribute (namely `events/<dir>_<channel spec>_label`) so that
-userspace can enumerate expected events for non-configurable events?
+These attribute names don't match the documentation above. :-/
+
+> >
+> > @@ -914,6 +921,10 @@ static struct attribute *ad2s1210_event_attributes=
+[] =3D {
+> >       &iio_const_attr_in_altvoltage0_thresh_falling_value_available.dev=
+_attr.attr,
+> >       &iio_const_attr_in_altvoltage0_thresh_rising_value_available.dev_=
+attr.attr,
+> >       &iio_const_attr_in_altvoltage0_mag_value_available.dev_attr.attr,
+> > +     &iio_dev_attr_in_altvoltage0_mag_reset_max.dev_attr.attr,
+> > +     &iio_const_attr_in_altvoltage0_mag_reset_max_available.dev_attr.a=
+ttr,
+> > +     &iio_dev_attr_in_altvoltage0_mag_reset_min.dev_attr.attr,
+> > +     &iio_const_attr_in_altvoltage0_mag_reset_min_available.dev_attr.a=
+ttr,
+> >       &iio_dev_attr_in_angl1_thresh_rising_value_available.dev_attr.att=
+r,
+> >       &iio_dev_attr_in_angl1_thresh_rising_hysteresis_available.dev_att=
+r.attr,
+> >       NULL,
+> >
+>
