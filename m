@@ -1,25 +1,25 @@
 Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1A38171A5
-	for <linux-staging@lists.linux.dev>; Mon,  2 Oct 2023 12:06:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE3C4171DD
+	for <linux-staging@lists.linux.dev>; Mon,  2 Oct 2023 12:06:40 +0000 (UTC)
 Received: from benjamin-XPS-13-9310.. (unknown [IPv6:2a01:e0a:120:3210:9537:67ca:c85e:d0ae])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
 	(Authenticated sender: benjamin.gaignard)
-	by madras.collabora.co.uk (Postfix) with ESMTPSA id 8FA80660734B;
-	Mon,  2 Oct 2023 13:06:34 +0100 (BST)
+	by madras.collabora.co.uk (Postfix) with ESMTPSA id 2C4916607354;
+	Mon,  2 Oct 2023 13:06:36 +0100 (BST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1696248395;
-	bh=WDraZOgWi0izES0K9FdWnGrtWWF6tf7zOBBP/EoWBNg=;
+	s=mail; t=1696248396;
+	bh=o2sVtoPPYvq8hM/qyihWIqN4hasDvFA4zhZmTyTxJEg=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=LQEteHMIkZCtjWFTNIQ0k4H/AachktNnK0S+WLsSD9+PjIZrM/RgvBpZ6pW7D4tKc
-	 ZTZamUAjJtskatClyAhVOJMoQNQnXQE99AheAtzko/rtBf2+66M8/0QYir18Coqgic
-	 KCGGyfjNlujWXsGXIGjIMtLUFg7IbWzfY/B4F7R7tvRrqGVFsNDfUx4w+bZJ3uhK4P
-	 6hnBDIExscVxErpgbDt9xSmdPTiArA/AGe08s6ixS0WFyg36GEQqHW6y3YxlJ8CV6V
-	 Ygj/3c3jQVzwPDYYpmTVUyZf9jYEgVZSBta4t6xmmaHRUVhcH4NijBrnFKIe0pv5i9
-	 vTG4ycsSHBdkg==
+	b=LZoIr6Aa29WK9jtAi4bhWXVU09xGPozLHfM9AWyp2/4it88IbTUdyauEaVoCdH2xM
+	 RA/pNdv9vT5YObLSD9479wMNz5cHkwRu8lAX1hRrkSDyL6kOKoQt7p1Y1TQ+EIpAUY
+	 Zv4SESVakzfakl8yLNOSoJbJ5wxKu5HDHTBJBGfoQZdHWlnlgwgczGbxx2q5I5E3S9
+	 k0y+fgM1doQWIzlEryyyfzoA8+WHBJwUTCzPGV/q6PUAZv1r8JPY8DcLLjF5KnVM+N
+	 2ZykrRg/qi+3/kkpDEbLTCVBpRjmctEbBYrKjc6Xdn083+cjqN2UzOX2PROsjompQd
+	 j9+9eLNMDaOaQ==
 From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
 To: mchehab@kernel.org,
 	tfiga@chromium.org,
@@ -39,9 +39,9 @@ Cc: linux-media@vger.kernel.org,
 	linux-staging@lists.linux.dev,
 	kernel@collabora.com,
 	Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Subject: [PATCH v9 19/53] media: verisilicon: vp9: Allow to change resolution while streaming
-Date: Mon,  2 Oct 2023 14:05:43 +0200
-Message-Id: <20231002120617.119602-20-benjamin.gaignard@collabora.com>
+Subject: [PATCH v9 22/53] media: dvb-core: Do not initialize twice queue num_buffer field
+Date: Mon,  2 Oct 2023 14:05:46 +0200
+Message-Id: <20231002120617.119602-23-benjamin.gaignard@collabora.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20231002120617.119602-1-benjamin.gaignard@collabora.com>
 References: <20231002120617.119602-1-benjamin.gaignard@collabora.com>
@@ -53,64 +53,26 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Remove all checks that prohibit to set a new format while streaming.
-This allow to change dynamically the resolution if the pixel format
-remains the same.
+The above memset already zeroed all the ctx fields, it is useless
+to do it here again.
 
 Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
 ---
- .../media/platform/verisilicon/hantro_v4l2.c  | 24 +++----------------
- 1 file changed, 3 insertions(+), 21 deletions(-)
+ drivers/media/dvb-core/dvb_vb2.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/drivers/media/platform/verisilicon/hantro_v4l2.c b/drivers/media/platform/verisilicon/hantro_v4l2.c
-index f0d8b165abcd..27a1e77cca38 100644
---- a/drivers/media/platform/verisilicon/hantro_v4l2.c
-+++ b/drivers/media/platform/verisilicon/hantro_v4l2.c
-@@ -514,25 +514,14 @@ static int hantro_set_fmt_out(struct hantro_ctx *ctx,
- 		return ret;
- 
- 	if (!ctx->is_encoder) {
--		struct vb2_queue *peer_vq;
--
- 		/*
- 		 * In order to support dynamic resolution change,
- 		 * the decoder admits a resolution change, as long
--		 * as the pixelformat remains. Can't be done if streaming.
--		 */
--		if (vb2_is_streaming(vq) || (vb2_is_busy(vq) &&
--		    pix_mp->pixelformat != ctx->src_fmt.pixelformat))
--			return -EBUSY;
--		/*
--		 * Since format change on the OUTPUT queue will reset
--		 * the CAPTURE queue, we can't allow doing so
--		 * when the CAPTURE queue has buffers allocated.
-+		 * as the pixelformat remains.
- 		 */
--		peer_vq = v4l2_m2m_get_vq(ctx->fh.m2m_ctx,
--					  V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE);
--		if (vb2_is_busy(peer_vq))
-+		if (vb2_is_streaming(vq) && pix_mp->pixelformat != ctx->src_fmt.pixelformat) {
- 			return -EBUSY;
-+		}
- 	} else {
- 		/*
- 		 * The encoder doesn't admit a format change if
-@@ -577,15 +566,8 @@ static int hantro_set_fmt_out(struct hantro_ctx *ctx,
- static int hantro_set_fmt_cap(struct hantro_ctx *ctx,
- 			      struct v4l2_pix_format_mplane *pix_mp)
- {
--	struct vb2_queue *vq;
- 	int ret;
- 
--	/* Change not allowed if queue is busy. */
--	vq = v4l2_m2m_get_vq(ctx->fh.m2m_ctx,
--			     V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE);
--	if (vb2_is_busy(vq))
--		return -EBUSY;
--
- 	if (ctx->is_encoder) {
- 		struct vb2_queue *peer_vq;
- 
+diff --git a/drivers/media/dvb-core/dvb_vb2.c b/drivers/media/dvb-core/dvb_vb2.c
+index 3a966fdf814c..a731b755a0b9 100644
+--- a/drivers/media/dvb-core/dvb_vb2.c
++++ b/drivers/media/dvb-core/dvb_vb2.c
+@@ -177,7 +177,6 @@ int dvb_vb2_init(struct dvb_vb2_ctx *ctx, const char *name, int nonblocking)
+ 	q->ops = &dvb_vb2_qops;
+ 	q->mem_ops = &vb2_vmalloc_memops;
+ 	q->buf_ops = &dvb_vb2_buf_ops;
+-	q->num_buffers = 0;
+ 	ret = vb2_core_queue_init(q);
+ 	if (ret) {
+ 		ctx->state = DVB_VB2_STATE_NONE;
 -- 
 2.39.2
 
