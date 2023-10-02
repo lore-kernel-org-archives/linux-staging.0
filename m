@@ -1,25 +1,25 @@
 Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFC1917986
-	for <linux-staging@lists.linux.dev>; Mon,  2 Oct 2023 12:06:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4968C17987
+	for <linux-staging@lists.linux.dev>; Mon,  2 Oct 2023 12:06:49 +0000 (UTC)
 Received: from benjamin-XPS-13-9310.. (unknown [IPv6:2a01:e0a:120:3210:9537:67ca:c85e:d0ae])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
 	(Authenticated sender: benjamin.gaignard)
-	by madras.collabora.co.uk (Postfix) with ESMTPSA id F1EAA6607381;
-	Mon,  2 Oct 2023 13:06:46 +0100 (BST)
+	by madras.collabora.co.uk (Postfix) with ESMTPSA id 80BB96607386;
+	Mon,  2 Oct 2023 13:06:47 +0100 (BST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
 	s=mail; t=1696248407;
-	bh=g+cKvL+57Ge4BbEO/J6pfXbFnIiiN4vCjyxapf5D6Zg=;
+	bh=1yOSfZ9zOJdZRwLwPAMdW6zHS4PIxiSGQkrNrnzD9t8=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=eQHuKCA3Xp8gjVQseFQD8UEiSrYFCBmOghamozW4V7vqv8PW1+ELxXEyJjrLD7yPM
-	 v4147Dxr1grPRsoWHy8CZ0aOWhsYs4ITpfKs1+c/Je/OfeV/t2bAY8QrodHwjsNS7G
-	 wNAoL9efYHIFzSGRg0FCWD7DuzpBpvktlJhIBnKO21OHWtDaKd1+oXvJXAM+QcoPIv
-	 hq1w9l1ziKj59L84bOKMzs2p+YlkxMgR5f3wXXP3mzl1Qfiovfm8AOD6N42wMTSDY6
-	 oz6r616/uqrT5kF37Z+BZe+i40O9Xffq5pIB33cf+GPWlY+g6oET09/U+cVrE1NmEz
-	 MxkN2ZxnguNdA==
+	b=kOHC9n8pCrXka4B7HnUEmfZqwqMvcLqclYQrBdV4RABTi2dCm9ModFK++aB/dXlvL
+	 0qa/N/4yJToNLR04PQra5BNBgaI4TRXAvLFzmtLI2qGC562N4XRifkICGv9Tk5D7rp
+	 Sldospp3LLfEzZUt1zBq/y56GBmVlaZsnctEmIrZ+5FPGPZygXdbYsefvqXDsBi5Iw
+	 CWK8ebowzRtdfbbCeIeDCgC1Oiu0Ef5MG2nL6Ou4tM3Fp62ihpHTpy0M+OF/4PNpdq
+	 s9+wLCcs6c3jukkrZeeq6ibb4NsnG5mp30X9qIQz/hJvmb+jgp8QgRLclqCFiWV6DA
+	 jD9M0hrkV6J+g==
 From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
 To: mchehab@kernel.org,
 	tfiga@chromium.org,
@@ -39,9 +39,9 @@ Cc: linux-media@vger.kernel.org,
 	linux-staging@lists.linux.dev,
 	kernel@collabora.com,
 	Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Subject: [PATCH v9 42/53] media: atomisp: Stop direct calls to queue num_buffers field
-Date: Mon,  2 Oct 2023 14:06:06 +0200
-Message-Id: <20231002120617.119602-43-benjamin.gaignard@collabora.com>
+Subject: [PATCH v9 43/53] media: imx: Stop direct calls to queue num_buffers field
+Date: Mon,  2 Oct 2023 14:06:07 +0200
+Message-Id: <20231002120617.119602-44-benjamin.gaignard@collabora.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20231002120617.119602-1-benjamin.gaignard@collabora.com>
 References: <20231002120617.119602-1-benjamin.gaignard@collabora.com>
@@ -57,22 +57,39 @@ Use vb2_get_num_buffers() to avoid using queue num_buffer field directly.
 
 Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
 ---
- drivers/staging/media/atomisp/pci/atomisp_ioctl.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/staging/media/imx/imx-media-capture.c | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_ioctl.c b/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
-index 4b65c69fa60d..48f9745421a9 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
-+++ b/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
-@@ -1030,7 +1030,7 @@ static int atomisp_qbuf_wrapper(struct file *file, void *fh, struct v4l2_buffer
- 	struct atomisp_device *isp = video_get_drvdata(vdev);
- 	struct atomisp_video_pipe *pipe = atomisp_to_video_pipe(vdev);
+diff --git a/drivers/staging/media/imx/imx-media-capture.c b/drivers/staging/media/imx/imx-media-capture.c
+index 4846078315ff..ce02199e7b1b 100644
+--- a/drivers/staging/media/imx/imx-media-capture.c
++++ b/drivers/staging/media/imx/imx-media-capture.c
+@@ -605,6 +605,7 @@ static int capture_queue_setup(struct vb2_queue *vq,
+ {
+ 	struct capture_priv *priv = vb2_get_drv_priv(vq);
+ 	struct v4l2_pix_format *pix = &priv->vdev.fmt;
++	unsigned int q_num_bufs = vb2_get_num_buffers(vq);
+ 	unsigned int count = *nbuffers;
  
--	if (buf->index >= vdev->queue->num_buffers)
-+	if (buf->index >= vb2_get_num_buffers(vdev->queue))
- 		return -EINVAL;
+ 	if (vq->type != V4L2_BUF_TYPE_VIDEO_CAPTURE)
+@@ -613,14 +614,14 @@ static int capture_queue_setup(struct vb2_queue *vq,
+ 	if (*nplanes) {
+ 		if (*nplanes != 1 || sizes[0] < pix->sizeimage)
+ 			return -EINVAL;
+-		count += vq->num_buffers;
++		count += q_num_bufs;
+ 	}
  
- 	if (buf->reserved2 & ATOMISP_BUFFER_HAS_PER_FRAME_SETTING) {
+ 	count = min_t(__u32, VID_MEM_LIMIT / pix->sizeimage, count);
+ 
+ 	if (*nplanes)
+-		*nbuffers = (count < vq->num_buffers) ? 0 :
+-			count - vq->num_buffers;
++		*nbuffers = (count < q_num_bufs) ? 0 :
++			count - q_num_bufs;
+ 	else
+ 		*nbuffers = count;
+ 
 -- 
 2.39.2
 
