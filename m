@@ -1,25 +1,25 @@
 Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3974116433
-	for <linux-staging@lists.linux.dev>; Mon,  2 Oct 2023 12:06:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7934F171A0
+	for <linux-staging@lists.linux.dev>; Mon,  2 Oct 2023 12:06:37 +0000 (UTC)
 Received: from benjamin-XPS-13-9310.. (unknown [IPv6:2a01:e0a:120:3210:9537:67ca:c85e:d0ae])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
 	(Authenticated sender: benjamin.gaignard)
-	by madras.collabora.co.uk (Postfix) with ESMTPSA id 298E3660731D;
-	Mon,  2 Oct 2023 13:06:28 +0100 (BST)
+	by madras.collabora.co.uk (Postfix) with ESMTPSA id C3D9C6607325;
+	Mon,  2 Oct 2023 13:06:29 +0100 (BST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1696248388;
-	bh=dORnTzB2rXmsaHgnhN9KRI5xHQJEBU6mRdZelnGjotA=;
+	s=mail; t=1696248390;
+	bh=EMKVWITArl2PHuWHDFd/NcTii9pr6T7GjKNa1Tuop1w=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=ANY/SlcTIS9xvbBO6GqeOWDY1CFXdCUe6YQTXaSqymuiyKsQbnvtUnxPowI1uRjda
-	 k1l09jAB7GDi+SSnP/HTGeAizOnJpxL1zBeo+hTLGz9FoHfv5J8zmBvDELlz0FiMlN
-	 F4159b7AH1vQQTGykRD/waSHkYptPYMxXF4PLhoYw7bvACZEiq9Zc8xbEQhY07bPLP
-	 /nTK7uAQNGktsSKvfEwHA7tMYbawXcFHtREDQVpBzV2Ktu5k1I4U8Xp0VHbmLEZfgk
-	 0KOoKAStThD7La1zhmMr9bofB/TBB8miDQXNnZ/0U4FxXLXK439jhJWzynH+McHp/U
-	 QDrDAyZMRK1ng==
+	b=VgnDE4LcDMcIb3QOGTX80WpnO4h5ZZThD4MlCUz2vh52JAJTkzMUrM1KNh82GuMYi
+	 R6RcXiYKNe4CtTF8L0yIfHrO7Q5aeQVo50f9MddD7qCQHM6e/ahGGT7HiRP7wEkQH+
+	 nRsHZGf+Qugk8MtatnA9TPftEeMwhUSAPU/A6KMlECB//iSUMOjHKE6lWAoyLFDy3U
+	 QmC4ru17IQ1sEMR+kvNvd84iaLljsryg4AYhVyEFLsvNI8J5zB8VvrrGZ9hu1EPos8
+	 4Hs0B0N1hHG6gFO00+zjBwDKn2lPpa8JCmWxUqvyI/2ToIkSu0Sa78tl10YvvMFPRK
+	 75PRoa9kWMjAQ==
 From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
 To: mchehab@kernel.org,
 	tfiga@chromium.org,
@@ -39,9 +39,9 @@ Cc: linux-media@vger.kernel.org,
 	linux-staging@lists.linux.dev,
 	kernel@collabora.com,
 	Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Subject: [PATCH v9 07/53] media: sti: hva: Use vb2_get_buffer() instead of directly access to buffers array
-Date: Mon,  2 Oct 2023 14:05:31 +0200
-Message-Id: <20231002120617.119602-8-benjamin.gaignard@collabora.com>
+Subject: [PATCH v9 10/53] media: dvb-core: Use vb2_get_buffer() instead of directly access to buffers array
+Date: Mon,  2 Oct 2023 14:05:34 +0200
+Message-Id: <20231002120617.119602-11-benjamin.gaignard@collabora.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20231002120617.119602-1-benjamin.gaignard@collabora.com>
 References: <20231002120617.119602-1-benjamin.gaignard@collabora.com>
@@ -54,37 +54,55 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
 Use vb2_get_buffer() instead of directly access to vb2_buffer buffer array.
+This could allow to change the type bufs[] field of vb2_buffer structure if
+needed.
 After each call to vb2_get_buffer() we need to be sure that we get
 a valid pointer so check the return value of all of them.
-Remove index range test since it is done by vb2_get_buffer().
 
 Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
 ---
- drivers/media/platform/st/sti/hva/hva-v4l2.c | 9 +++------
- 1 file changed, 3 insertions(+), 6 deletions(-)
+ drivers/media/dvb-core/dvb_vb2.c | 14 ++++++++------
+ 1 file changed, 8 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/media/platform/st/sti/hva/hva-v4l2.c b/drivers/media/platform/st/sti/hva/hva-v4l2.c
-index 3a848ca32a0e..cfe83e9dc01b 100644
---- a/drivers/media/platform/st/sti/hva/hva-v4l2.c
-+++ b/drivers/media/platform/st/sti/hva/hva-v4l2.c
-@@ -569,14 +569,11 @@ static int hva_qbuf(struct file *file, void *priv, struct v4l2_buffer *buf)
- 		struct vb2_buffer *vb2_buf;
+diff --git a/drivers/media/dvb-core/dvb_vb2.c b/drivers/media/dvb-core/dvb_vb2.c
+index b322ef179f05..3a966fdf814c 100644
+--- a/drivers/media/dvb-core/dvb_vb2.c
++++ b/drivers/media/dvb-core/dvb_vb2.c
+@@ -355,12 +355,13 @@ int dvb_vb2_reqbufs(struct dvb_vb2_ctx *ctx, struct dmx_requestbuffers *req)
+ int dvb_vb2_querybuf(struct dvb_vb2_ctx *ctx, struct dmx_buffer *b)
+ {
+ 	struct vb2_queue *q = &ctx->vb_q;
++	struct vb2_buffer *vb2 = vb2_get_buffer(q, b->index);
  
- 		vq = v4l2_m2m_get_vq(ctx->fh.m2m_ctx, buf->type);
--
--		if (buf->index >= vq->num_buffers) {
--			dev_dbg(dev, "%s buffer index %d out of range (%d)\n",
--				ctx->name, buf->index, vq->num_buffers);
-+		vb2_buf = vb2_get_buffer(vq, buf->index);
-+		if (!vb2_buf) {
-+			dev_dbg(dev, "%s buffer index %d not found\n", ctx->name, buf->index);
- 			return -EINVAL;
- 		}
--
--		vb2_buf = vb2_get_buffer(vq, buf->index);
- 		stream = to_hva_stream(to_vb2_v4l2_buffer(vb2_buf));
- 		stream->bytesused = buf->bytesused;
+-	if (b->index >= q->num_buffers) {
+-		dprintk(1, "[%s] buffer index out of range\n", ctx->name);
++	if (!vb2) {
++		dprintk(1, "[%s] invalid buffer index\n", ctx->name);
+ 		return -EINVAL;
  	}
+-	vb2_core_querybuf(&ctx->vb_q, q->bufs[b->index], b);
++	vb2_core_querybuf(&ctx->vb_q, vb2, b);
+ 	dprintk(3, "[%s] index=%d\n", ctx->name, b->index);
+ 	return 0;
+ }
+@@ -385,13 +386,14 @@ int dvb_vb2_expbuf(struct dvb_vb2_ctx *ctx, struct dmx_exportbuffer *exp)
+ int dvb_vb2_qbuf(struct dvb_vb2_ctx *ctx, struct dmx_buffer *b)
+ {
+ 	struct vb2_queue *q = &ctx->vb_q;
++	struct vb2_buffer *vb2 = vb2_get_buffer(q, b->index);
+ 	int ret;
+ 
+-	if (b->index >= q->num_buffers) {
+-		dprintk(1, "[%s] buffer index out of range\n", ctx->name);
++	if (!vb2) {
++		dprintk(1, "[%s] invalid buffer index\n", ctx->name);
+ 		return -EINVAL;
+ 	}
+-	ret = vb2_core_qbuf(&ctx->vb_q, q->bufs[b->index], b, NULL);
++	ret = vb2_core_qbuf(&ctx->vb_q, vb2, b, NULL);
+ 	if (ret) {
+ 		dprintk(1, "[%s] index=%d errno=%d\n", ctx->name,
+ 			b->index, ret);
 -- 
 2.39.2
 
