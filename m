@@ -1,37 +1,37 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C85EB2E640;
-	Tue,  3 Oct 2023 14:22:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B327C3AC3F;
+	Tue,  3 Oct 2023 17:21:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1696342943; x=1727878943;
+  t=1696353688; x=1727889688;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=cjks6CkF+4bewzoomLbEOwdv2hYLwa0cZHBRPyA2qlk=;
-  b=Cn6+tXrhcr4Rh01hVJM3p6mPXtIiFhDRNG1+0xoHVAqEURBIseoVbjVW
-   E1Iljanns4mz/9S0D9NuZ48FeuVkNBb2ctZXqGRySw5Qpt+mjAc2p60wa
-   U1xRv4m0f06uhjn2czfjl7EeQjdCfgU4STg5ty8AcbTuEIMegDRudpRSN
-   Zs6TYUd8DJJqEerz6UN5gU33a4ttb3FzfIHLJhSW1VXzVxcujdNxB/yIV
-   t5Yx53tBg5tfb1IRE2AtMjK5frcN08h6O/iSW4aC9h+qviWMDIiKoDcHT
-   dIGXsmbl8MhTrspumbdA5Nf4wi1JECV+ka7V3B/OZNgEmavEkIz33fzTz
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10852"; a="382794209"
+  bh=m63g1gNKTI5G9AU4v2NJZq6BCzlj3PUdfIwwcDby6Lw=;
+  b=ck3ZCIV1DatqvkrvnXDkHXq5pr1n55t/SYVaw9RyJ2iiDrCkUKLAwQOb
+   fOlHW6/TywcL2hZ6cpr6Q3TvrXP10xcFKNkYHnSz4WFHYBnUS0q+/RS64
+   ysnlgBqM/w5QZekztE2dVwz8tDraWehKJVc2wGDBKbb+cIpk37my6ECyE
+   KnetZftX/HiCn9IG/i0fodJNjERJKcIaYJTwuOTOK8wrmwDbnb10kfmmk
+   WQ8OxM7bX4nv0S7BIAfHV9RYx4419o3sS7eBC3iZoNJ0ksJvvdPBf9/pk
+   YxF1ens8wRl1C6wkTOARum7LJg1NIWLhUjvWXXoM6spt1jrPaC7aEvxJQ
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10852"; a="469212698"
 X-IronPort-AV: E=Sophos;i="6.03,197,1694761200"; 
-   d="scan'208";a="382794209"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Oct 2023 07:22:22 -0700
+   d="scan'208";a="469212698"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Oct 2023 10:21:27 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10852"; a="816701888"
+X-IronPort-AV: E=McAfee;i="6600,9927,10852"; a="780386287"
 X-IronPort-AV: E=Sophos;i="6.03,197,1694761200"; 
-   d="scan'208";a="816701888"
+   d="scan'208";a="780386287"
 Received: from lkp-server02.sh.intel.com (HELO c3b01524d57c) ([10.239.97.151])
-  by fmsmga008.fm.intel.com with ESMTP; 03 Oct 2023 07:22:18 -0700
+  by orsmga008.jf.intel.com with ESMTP; 03 Oct 2023 10:21:23 -0700
 Received: from kbuild by c3b01524d57c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qngHu-0007B6-1v;
-	Tue, 03 Oct 2023 14:22:15 +0000
-Date: Tue, 3 Oct 2023 22:21:38 +0800
+	id 1qnj5F-0007jp-0c;
+	Tue, 03 Oct 2023 17:21:21 +0000
+Date: Wed, 4 Oct 2023 01:21:03 +0800
 From: kernel test robot <lkp@intel.com>
 To: David Lechner <dlechner@baylibre.com>, linux-iio@vger.kernel.org,
 	devicetree@vger.kernel.org, linux-staging@lists.linux.dev
@@ -44,10 +44,10 @@ Cc: oe-kbuild-all@lists.linux.dev, David Lechner <david@lechnology.com>,
 	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
 	Axel Haslam <ahaslam@baylibre.com>,
 	Philip Molloy <pmolloy@baylibre.com>, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 22/27] staging: iio: resolver: ad2s1210: convert LOS
- threshold to event attr
-Message-ID: <202310032242.jYDq0057-lkp@intel.com>
-References: <20230929-ad2s1210-mainline-v3-22-fa4364281745@baylibre.com>
+Subject: Re: [PATCH v3 23/27] staging: iio: resolver: ad2s1210: convert DOS
+ overrange threshold to event attr
+Message-ID: <202310040023.rI6mfueI-lkp@intel.com>
+References: <20230929-ad2s1210-mainline-v3-23-fa4364281745@baylibre.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -56,7 +56,7 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230929-ad2s1210-mainline-v3-22-fa4364281745@baylibre.com>
+In-Reply-To: <20230929-ad2s1210-mainline-v3-23-fa4364281745@baylibre.com>
 
 Hi David,
 
@@ -66,22 +66,23 @@ kernel test robot noticed the following build warnings:
 
 url:    https://github.com/intel-lab-lkp/linux/commits/David-Lechner/dt-bindings-iio-resolver-add-devicetree-bindings-for-ad2s1210/20230930-014031
 base:   5e99f692d4e32e3250ab18d511894ca797407aec
-patch link:    https://lore.kernel.org/r/20230929-ad2s1210-mainline-v3-22-fa4364281745%40baylibre.com
-patch subject: [PATCH v3 22/27] staging: iio: resolver: ad2s1210: convert LOS threshold to event attr
-config: i386-randconfig-062-20231003 (https://download.01.org/0day-ci/archive/20231003/202310032242.jYDq0057-lkp@intel.com/config)
+patch link:    https://lore.kernel.org/r/20230929-ad2s1210-mainline-v3-23-fa4364281745%40baylibre.com
+patch subject: [PATCH v3 23/27] staging: iio: resolver: ad2s1210: convert DOS overrange threshold to event attr
+config: i386-randconfig-062-20231003 (https://download.01.org/0day-ci/archive/20231004/202310040023.rI6mfueI-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231003/202310032242.jYDq0057-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231004/202310040023.rI6mfueI-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310032242.jYDq0057-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310040023.rI6mfueI-lkp@intel.com/
 
 sparse warnings: (new ones prefixed by >>)
-   drivers/staging/iio/resolver/ad2s1210.c:896:1: sparse: sparse: symbol 'iio_const_attr_in_phase0_mag_value_available' was not declared. Should it be static?
->> drivers/staging/iio/resolver/ad2s1210.c:901:1: sparse: sparse: symbol 'iio_const_attr_in_altvoltage0_thresh_falling_value_available' was not declared. Should it be static?
-   drivers/staging/iio/resolver/ad2s1210.c:902:1: sparse: sparse: symbol 'iio_dev_attr_in_angl1_thresh_rising_value_available' was not declared. Should it be static?
-   drivers/staging/iio/resolver/ad2s1210.c:903:1: sparse: sparse: symbol 'iio_dev_attr_in_angl1_thresh_rising_hysteresis_available' was not declared. Should it be static?
+   drivers/staging/iio/resolver/ad2s1210.c:899:1: sparse: sparse: symbol 'iio_const_attr_in_phase0_mag_value_available' was not declared. Should it be static?
+   drivers/staging/iio/resolver/ad2s1210.c:904:1: sparse: sparse: symbol 'iio_const_attr_in_altvoltage0_thresh_falling_value_available' was not declared. Should it be static?
+>> drivers/staging/iio/resolver/ad2s1210.c:905:1: sparse: sparse: symbol 'iio_const_attr_in_altvoltage0_thresh_rising_value_available' was not declared. Should it be static?
+   drivers/staging/iio/resolver/ad2s1210.c:906:1: sparse: sparse: symbol 'iio_dev_attr_in_angl1_thresh_rising_value_available' was not declared. Should it be static?
+   drivers/staging/iio/resolver/ad2s1210.c:907:1: sparse: sparse: symbol 'iio_dev_attr_in_angl1_thresh_rising_hysteresis_available' was not declared. Should it be static?
 
 -- 
 0-DAY CI Kernel Test Service
