@@ -1,25 +1,25 @@
 Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FAC4D53B
-	for <linux-staging@lists.linux.dev>; Tue,  3 Oct 2023 08:07:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2321D536
+	for <linux-staging@lists.linux.dev>; Tue,  3 Oct 2023 08:07:22 +0000 (UTC)
 Received: from benjamin-XPS-13-9310.. (unknown [IPv6:2a01:e0a:120:3210:b6df:b784:6a0f:8451])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
 	(Authenticated sender: benjamin.gaignard)
-	by madras.collabora.co.uk (Postfix) with ESMTPSA id 7C58E660731D;
-	Tue,  3 Oct 2023 09:07:16 +0100 (BST)
+	by madras.collabora.co.uk (Postfix) with ESMTPSA id 7DD226607315;
+	Tue,  3 Oct 2023 09:07:17 +0100 (BST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1696320436;
-	bh=dORnTzB2rXmsaHgnhN9KRI5xHQJEBU6mRdZelnGjotA=;
+	s=mail; t=1696320437;
+	bh=lxr0Gn1eT8GmzPfVYaERIxRZ/4SLOSpn22Xqwjv89JA=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=BSEfBTA5Hdnv9NBFBNyAyqI/purU07ob4LXwE+mG3TccYJznfRorGX1tFhGAHauhh
-	 1ceA/+57ED7z/Tpm83Q6VvnzFnz/IDGRmKkWfYZhOAoi5pfUtPVUl/afKNe3xuEJO7
-	 EDNcqDGJOqRmCFVEW2O0QH6XefoWgUiNcWmxxqWwtbevvt319kFacWuJiBTzYEC4xV
-	 HxhGLgEqPg/CLdi+wFInEmKJ0hBBkMgI1lnm/l1vf+4aR8G5iK2mwuQ9C7RG9o+ElS
-	 bRg4L061Wr88t0cmGLB6btO7jhhut0ePiKM+uG1vz9P4FQuVNtFC2FkqTD3cl7ea06
-	 lMWQr3OVX3uqA==
+	b=bfMBxNmQOSyZLmJsd2pJhfT0OT5tEOcOGdNYTs+KvVlTm4a1ominUw8ZvAhRkpcEX
+	 R7YxbXFXcyRRBlhZ0eCPID5GkmL9bjPj1KeUKN4F90oohghpnNP76FUtFyPXjkaVGe
+	 DtciHu+AtGSOcfoUfjTlJIpObLwhZ7HHMFpGUm0qPJFM1CKBMA3yWAokiyGApAKOeY
+	 jIglKQ7snsbRMl4STQdAUDkol/nfE14uJBePET84O4B0AO0/jLT0lQE581vIkcoimP
+	 AH6+vUfgf3+j33NNDyOV8uWcBg4yzXVxmxjn0MKFTCz83zED1VZRQZLwPvy43xXqip
+	 UP6lPf7KX112w==
 From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
 To: mchehab@kernel.org,
 	tfiga@chromium.org,
@@ -39,9 +39,9 @@ Cc: linux-media@vger.kernel.org,
 	linux-staging@lists.linux.dev,
 	kernel@collabora.com,
 	Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Subject: [PATCH v10 07/54] media: sti: hva: Use vb2_get_buffer() instead of directly access to buffers array
-Date: Tue,  3 Oct 2023 10:06:16 +0200
-Message-Id: <20231003080704.43911-8-benjamin.gaignard@collabora.com>
+Subject: [PATCH v10 09/54] media: atomisp: Use vb2_get_buffer() instead of directly access to buffers array
+Date: Tue,  3 Oct 2023 10:06:18 +0200
+Message-Id: <20231003080704.43911-10-benjamin.gaignard@collabora.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20231003080704.43911-1-benjamin.gaignard@collabora.com>
 References: <20231003080704.43911-1-benjamin.gaignard@collabora.com>
@@ -54,37 +54,29 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
 Use vb2_get_buffer() instead of directly access to vb2_buffer buffer array.
-After each call to vb2_get_buffer() we need to be sure that we get
-a valid pointer so check the return value of all of them.
-Remove index range test since it is done by vb2_get_buffer().
+This could allow to change the type bufs[] field of vb2_buffer structure if
+needed.
+No need to check the result of vb2_get_buffer, vb2_ioctl_dqbuf() already
+checked that it is valid.
 
 Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
 ---
- drivers/media/platform/st/sti/hva/hva-v4l2.c | 9 +++------
- 1 file changed, 3 insertions(+), 6 deletions(-)
+ drivers/staging/media/atomisp/pci/atomisp_ioctl.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/media/platform/st/sti/hva/hva-v4l2.c b/drivers/media/platform/st/sti/hva/hva-v4l2.c
-index 3a848ca32a0e..cfe83e9dc01b 100644
---- a/drivers/media/platform/st/sti/hva/hva-v4l2.c
-+++ b/drivers/media/platform/st/sti/hva/hva-v4l2.c
-@@ -569,14 +569,11 @@ static int hva_qbuf(struct file *file, void *priv, struct v4l2_buffer *buf)
- 		struct vb2_buffer *vb2_buf;
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_ioctl.c b/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
+index a8e4779d007f..a8a964b2f1a8 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
++++ b/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
+@@ -1059,7 +1059,7 @@ static int atomisp_dqbuf_wrapper(struct file *file, void *fh, struct v4l2_buffer
+ 	if (ret)
+ 		return ret;
  
- 		vq = v4l2_m2m_get_vq(ctx->fh.m2m_ctx, buf->type);
--
--		if (buf->index >= vq->num_buffers) {
--			dev_dbg(dev, "%s buffer index %d out of range (%d)\n",
--				ctx->name, buf->index, vq->num_buffers);
-+		vb2_buf = vb2_get_buffer(vq, buf->index);
-+		if (!vb2_buf) {
-+			dev_dbg(dev, "%s buffer index %d not found\n", ctx->name, buf->index);
- 			return -EINVAL;
- 		}
--
--		vb2_buf = vb2_get_buffer(vq, buf->index);
- 		stream = to_hva_stream(to_vb2_v4l2_buffer(vb2_buf));
- 		stream->bytesused = buf->bytesused;
- 	}
+-	vb = pipe->vb_queue.bufs[buf->index];
++	vb = vb2_get_buffer(&pipe->vb_queue, buf->index);
+ 	frame = vb_to_frame(vb);
+ 
+ 	buf->reserved = asd->frame_status[buf->index];
 -- 
 2.39.2
 
