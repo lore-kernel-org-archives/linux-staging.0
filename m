@@ -1,49 +1,53 @@
-Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA7A83CCF9
-	for <linux-staging@lists.linux.dev>; Tue,  3 Oct 2023 19:34:20 +0000 (UTC)
-Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-9ae65c0e46fso53998466b.0
-        for <linux-staging@lists.linux.dev>; Tue, 03 Oct 2023 12:34:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1696361659; x=1696966459; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=UjGjxI6eGVPYNgs9C+/srpj1zkswroX+k2Y9drOlyqk=;
-        b=gpMCm4+RvE1uHEkkFNY5BczBw8qIZo2GlaZ4KjfLcNKXjTvZ9t4za7/Ot4ZDIycJYL
-         5Qwc+jDOXuuLuL/8Qe9rJ2eBCjlMMb5swtrAYk0Im/JcpNlXocuZzYQfkDkgcdM+g7+k
-         HuRuqWC9G2jY9yCjunck2rm+p/iMQWXrEVNUHDD7N8HoHRCYdH+zLhIxWIZCK91VEKsT
-         nBHV/2FaLlUZixok6Y/kHnX58DhG8cfGQJLy0LZzSbjFrxRf1y7198hY8r5BXNIPGyiF
-         GWPA1ea9lF3OEI2jTFiYWFVsfilklT6gKUYb7ClnUku6WDWJtGuG2pj194zUrUn8zjKO
-         Y3Jw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696361659; x=1696966459;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=UjGjxI6eGVPYNgs9C+/srpj1zkswroX+k2Y9drOlyqk=;
-        b=vJHVSqcz5JiI4G88LNVw6GyIVXpOWvG1SOFZhnS4ABAt76udEl3KnMomVkiCWksBb+
-         U6EhNwFrY8TGuU95Vm4Dx/IpiqBh5m/2a1NvpRQb+TDh13PvFR2eYhE2IssSpJHI7H1w
-         tfKeNjWJaLNa5aYJRNAFJ1JPfX9atrCs6YZC6PPDIhJZhg3oG0Gh3adPHH+BB95KCTuK
-         H850l0NS4IPJ0B1dyCTUmwRSfhfW8VtvX3umQQN0H/pgA8XMsr0GNlMXMb52uSMyHWS/
-         27Z1kWYg1CkqTz1uHR0tQv8qjBRwbdhqyN5ddY4X/JHkvumuz3hOp2jEeeyjMwLLqpFN
-         pR8w==
-X-Gm-Message-State: AOJu0YzyAn8K/y263QMOwhP5QPXLIHdCmlQQ9/WGLGktlKr9y8Xm+X7V
-	b0YhMhI0IwBUcP1VseS9fB0=
-X-Google-Smtp-Source: AGHT+IF5f6V3BxiM+4giXnCOJ083tdoUbEdsneTHhTD5kdVUh7Xh1UVzbHR+pN1wGFW4hfnKvbB6JQ==
-X-Received: by 2002:a17:906:7389:b0:9b2:71f2:bd11 with SMTP id f9-20020a170906738900b009b271f2bd11mr98352ejl.4.1696361659029;
-        Tue, 03 Oct 2023 12:34:19 -0700 (PDT)
-Received: from matrix-ESPRIMO-P710 (p579356c7.dip0.t-ipconnect.de. [87.147.86.199])
-        by smtp.gmail.com with ESMTPSA id v10-20020a1709060b4a00b009ae5e46210asm1528773ejg.99.2023.10.03.12.34.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 03 Oct 2023 12:34:18 -0700 (PDT)
-Date: Tue, 3 Oct 2023 21:34:17 +0200
-From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [PATCH 11/11] staging: rtl8192e: Remove constant variable bToOtherSTA
-Message-ID: <ecfcd8bff80d98a4e9a2797535a274625607c699.1696360404.git.philipp.g.hortmann@gmail.com>
-References: <cover.1696360403.git.philipp.g.hortmann@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0F9C3CD09;
+	Tue,  3 Oct 2023 20:09:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1696363751; x=1727899751;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=m1jzLPKVwohtVS0OdopZyn0iGeijh4uOxRMQpSXsukI=;
+  b=OL4v7ZHnqM2jcCNwXqroGe921w6x+WdJTD4WvPtfY8ZrXdyflfoXFQBQ
+   8HNkE4SMZx2EAMQzIoHYsuYVPeK26H5Pjaw7I/VTfSJXDpP4yIavEkHaF
+   eKcWzQ54Exo+VlSMWD+rn/z9Cibc74X0t1M7LtlXjs8+MJtpAeqfw3xQN
+   zpDkkQK3W2MRZhfGTfWky+GJLf1qNL9H7ck2bFM2u/MViC5a0glYlBcUN
+   a2YRxm9UY+sM0uudWQWQ2rGJvpYoudjRaVerxoB487lFk+9213WFfYLhn
+   Oy2p7/v6StF0SOOcRR8cRtP5KrXGoeO1IoK/jFghupLe4CmQrQ3yIdWin
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10852"; a="386840391"
+X-IronPort-AV: E=Sophos;i="6.03,198,1694761200"; 
+   d="scan'208";a="386840391"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Oct 2023 13:09:10 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10852"; a="841494545"
+X-IronPort-AV: E=Sophos;i="6.03,198,1694761200"; 
+   d="scan'208";a="841494545"
+Received: from lkp-server02.sh.intel.com (HELO c3b01524d57c) ([10.239.97.151])
+  by FMSMGA003.fm.intel.com with ESMTP; 03 Oct 2023 13:09:07 -0700
+Received: from kbuild by c3b01524d57c with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qnlhY-0008t2-0L;
+	Tue, 03 Oct 2023 20:09:04 +0000
+Date: Wed, 4 Oct 2023 04:08:06 +0800
+From: kernel test robot <lkp@intel.com>
+To: David Lechner <dlechner@baylibre.com>, linux-iio@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-staging@lists.linux.dev
+Cc: oe-kbuild-all@lists.linux.dev, David Lechner <david@lechnology.com>,
+	Jonathan Cameron <jic23@kernel.org>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Michael Hennerich <Michael.Hennerich@analog.com>,
+	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
+	Axel Haslam <ahaslam@baylibre.com>,
+	Philip Molloy <pmolloy@baylibre.com>, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 24/27] staging: iio: resolver: ad2s1210: convert DOS
+ mismatch threshold to event attr
+Message-ID: <202310040309.rX4s31l7-lkp@intel.com>
+References: <20230929-ad2s1210-mainline-v3-24-fa4364281745@baylibre.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -52,96 +56,35 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <cover.1696360403.git.philipp.g.hortmann@gmail.com>
+In-Reply-To: <20230929-ad2s1210-mainline-v3-24-fa4364281745@baylibre.com>
 
-Remove variable bToOtherSTA as it is set to 0 and unchanged. The equations
-result accordingly. Remove dead code.
+Hi David,
 
-Signed-off-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
----
- drivers/staging/rtl8192e/rtllib_rx.c | 32 +++++++++++-----------------
- 1 file changed, 12 insertions(+), 20 deletions(-)
+kernel test robot noticed the following build warnings:
 
-diff --git a/drivers/staging/rtl8192e/rtllib_rx.c b/drivers/staging/rtl8192e/rtllib_rx.c
-index 9a5fdf16f6a1..124c1651856b 100644
---- a/drivers/staging/rtl8192e/rtllib_rx.c
-+++ b/drivers/staging/rtl8192e/rtllib_rx.c
-@@ -1244,7 +1244,6 @@ static int rtllib_rx_InfraAdhoc(struct rtllib_device *ieee, struct sk_buff *skb,
- 	u8 bssid[ETH_ALEN] = {0};
- 
- 	size_t hdrlen = 0;
--	bool bToOtherSTA = false;
- 	int ret = 0, i = 0;
- 
- 	fc = le16_to_cpu(hdr->frame_control);
-@@ -1278,8 +1277,6 @@ static int rtllib_rx_InfraAdhoc(struct rtllib_device *ieee, struct sk_buff *skb,
- 
- 	/* Filter MGNT Frame */
- 	if (type == RTLLIB_FTYPE_MGMT) {
--		if (bToOtherSTA)
--			goto rx_dropped;
- 		if (rtllib_rx_frame_mgmt(ieee, skb, rx_stats, type, stype))
- 			goto rx_dropped;
- 		else
-@@ -1289,10 +1286,8 @@ static int rtllib_rx_InfraAdhoc(struct rtllib_device *ieee, struct sk_buff *skb,
- 	/* Filter WAPI DATA Frame */
- 
- 	/* Update statstics for AP roaming */
--	if (!bToOtherSTA) {
--		ieee->link_detect_info.NumRecvDataInPeriod++;
--		ieee->link_detect_info.NumRxOkInPeriod++;
--	}
-+	ieee->link_detect_info.NumRecvDataInPeriod++;
-+	ieee->link_detect_info.NumRxOkInPeriod++;
- 
- 	/* Data frame - extract src/dst addresses */
- 	rtllib_rx_extract_addr(ieee, hdr, dst, src, bssid);
-@@ -1308,7 +1303,7 @@ static int rtllib_rx_InfraAdhoc(struct rtllib_device *ieee, struct sk_buff *skb,
- 	/* Send pspoll based on moredata */
- 	if ((ieee->iw_mode == IW_MODE_INFRA)  &&
- 	    (ieee->sta_sleep == LPS_IS_SLEEP) &&
--	    (ieee->polling) && (!bToOtherSTA)) {
-+	    (ieee->polling)) {
- 		if (WLAN_FC_MORE_DATA(fc)) {
- 			/* more data bit is set, let's request a new frame
- 			 * from the AP
-@@ -1334,8 +1329,7 @@ static int rtllib_rx_InfraAdhoc(struct rtllib_device *ieee, struct sk_buff *skb,
- 	/* Get TS for Rx Reorder  */
- 	hdr = (struct ieee80211_hdr *)skb->data;
- 	if (ieee->current_network.qos_data.active && IsQoSDataFrame(skb->data)
--		&& !is_multicast_ether_addr(hdr->addr1)
--		&& (!bToOtherSTA)) {
-+		&& !is_multicast_ether_addr(hdr->addr1)) {
- 		TID = Frame_QoSTID(skb->data);
- 		SeqNum = WLAN_GET_SEQ_SEQ(sc);
- 		rtllib_get_ts(ieee, (struct ts_common_info **)&ts, hdr->addr2, TID,
-@@ -1366,18 +1360,16 @@ static int rtllib_rx_InfraAdhoc(struct rtllib_device *ieee, struct sk_buff *skb,
- 	/* Update WAPI PN */
- 
- 	/* Check if leave LPS */
--	if (!bToOtherSTA) {
--		if (ieee->bIsAggregateFrame)
--			nr_subframes = rxb->nr_subframes;
--		else
--			nr_subframes = 1;
--		if (unicast)
--			ieee->link_detect_info.NumRxUnicastOkInPeriod += nr_subframes;
--		rtllib_rx_check_leave_lps(ieee, unicast, nr_subframes);
--	}
-+	if (ieee->bIsAggregateFrame)
-+		nr_subframes = rxb->nr_subframes;
-+	else
-+		nr_subframes = 1;
-+	if (unicast)
-+		ieee->link_detect_info.NumRxUnicastOkInPeriod += nr_subframes;
-+	rtllib_rx_check_leave_lps(ieee, unicast, nr_subframes);
- 
- 	/* Indicate packets to upper layer or Rx Reorder */
--	if (!ieee->ht_info->cur_rx_reorder_enable || ts == NULL || bToOtherSTA)
-+	if (!ieee->ht_info->cur_rx_reorder_enable || ts == NULL)
- 		rtllib_rx_indicate_pkt_legacy(ieee, rx_stats, rxb, dst, src);
- 	else
- 		RxReorderIndicatePacket(ieee, rxb, ts, SeqNum);
+[auto build test WARNING on 5e99f692d4e32e3250ab18d511894ca797407aec]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/David-Lechner/dt-bindings-iio-resolver-add-devicetree-bindings-for-ad2s1210/20230930-014031
+base:   5e99f692d4e32e3250ab18d511894ca797407aec
+patch link:    https://lore.kernel.org/r/20230929-ad2s1210-mainline-v3-24-fa4364281745%40baylibre.com
+patch subject: [PATCH v3 24/27] staging: iio: resolver: ad2s1210: convert DOS mismatch threshold to event attr
+config: i386-randconfig-062-20231003 (https://download.01.org/0day-ci/archive/20231004/202310040309.rX4s31l7-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231004/202310040309.rX4s31l7-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310040309.rX4s31l7-lkp@intel.com/
+
+sparse warnings: (new ones prefixed by >>)
+   drivers/staging/iio/resolver/ad2s1210.c:901:1: sparse: sparse: symbol 'iio_const_attr_in_phase0_mag_value_available' was not declared. Should it be static?
+   drivers/staging/iio/resolver/ad2s1210.c:906:1: sparse: sparse: symbol 'iio_const_attr_in_altvoltage0_thresh_falling_value_available' was not declared. Should it be static?
+   drivers/staging/iio/resolver/ad2s1210.c:907:1: sparse: sparse: symbol 'iio_const_attr_in_altvoltage0_thresh_rising_value_available' was not declared. Should it be static?
+>> drivers/staging/iio/resolver/ad2s1210.c:908:1: sparse: sparse: symbol 'iio_const_attr_in_altvoltage0_mag_value_available' was not declared. Should it be static?
+   drivers/staging/iio/resolver/ad2s1210.c:909:1: sparse: sparse: symbol 'iio_dev_attr_in_angl1_thresh_rising_value_available' was not declared. Should it be static?
+   drivers/staging/iio/resolver/ad2s1210.c:910:1: sparse: sparse: symbol 'iio_dev_attr_in_angl1_thresh_rising_hysteresis_available' was not declared. Should it be static?
+
 -- 
-2.42.0
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
