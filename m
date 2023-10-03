@@ -1,88 +1,484 @@
-Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
+Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37B9F2941B
-	for <linux-staging@lists.linux.dev>; Tue,  3 Oct 2023 14:17:40 +0000 (UTC)
-Received: by mail-ej1-f49.google.com with SMTP id a640c23a62f3a-9b2d64c9307so38343266b.1
-        for <linux-staging@lists.linux.dev>; Tue, 03 Oct 2023 07:17:40 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6CC32137C
+	for <linux-staging@lists.linux.dev>; Tue,  3 Oct 2023 14:21:26 +0000 (UTC)
+Received: by mail-pf1-f182.google.com with SMTP id d2e1a72fcca58-690ce3c55f1so747867b3a.0
+        for <linux-staging@lists.linux.dev>; Tue, 03 Oct 2023 07:21:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1696342659; x=1696947459; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
+        d=gmail.com; s=20230601; t=1696342886; x=1696947686; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:to:from:date
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=HI34v6enrzXzY5NrqWLUUaWvQE0QecGPMbWgelnAX9Q=;
-        b=Ilto94PxnOdc2PbA6SGK/Xo8nGQ9XkyteDXeP9Py+osO9oF026iBL4ltsnRZB+sAlk
-         yF0q9+RtCLYVJ3pcSdH6WxNHujKYU4YA+DWr2E0lm3RUPz0sJMyxMLycDCN0/0rqp5l6
-         x1pRGYKPMIEJpVcGKhbwmo7syVLrSs2cJy6M9Udu5uhwuEWM9szK83dn4YsrUfKhW6Nl
-         R2CDt8u8nEeViAHsgsASeu4qgBlTTn8bf9Jwid/pPbBDIKgEaG2FGjLBRg9vhISCHryw
-         YM/9PoVAQfLtnWT1mvCH3nB4tnswCnFeIZdaORcTOZZVxVY4Diie359XrzWwjiByjlYi
-         aEAQ==
+        bh=KCc1BN5IZwIo6NJ+zmLse1l+5oCRdEzdpoksoTT54tk=;
+        b=fTxSJB2ZRuvl2ijR0Y0ZxSpx7whMptp7XtNzffQurIsQRARdJpTizkoKRrzTIsqhQC
+         8vPGGj5ybtlGXdRH3IarutaTyGAsM0Tg4tflExRH+d7m1Ja2x3jR2RmYJqM7ZnTBhb7G
+         Zc9KV2OKss+pGt70uc6cw1TmWLgVxNaRFoEJzLOOKbuLtuO/FRxDsduZ1kCr+bw2uJTl
+         RbpvzPf7hUt5Df0u9rS5F2xjPrZZLlsDZYi+zwJ1XWz+l1FS5869rKpkpczsJPa3a2Vo
+         Qk161TF3mr81+gmM2BMiu2Nzu2PdY3w+LY71RTF75EDjlyUQuuPSDrZ4zpPqWSFd2WEH
+         wj9Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696342659; x=1696947459;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
+        d=1e100.net; s=20230601; t=1696342886; x=1696947686;
+        h=content-disposition:mime-version:message-id:subject:to:from:date
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=HI34v6enrzXzY5NrqWLUUaWvQE0QecGPMbWgelnAX9Q=;
-        b=FMfL2WorCJUNrFbQLS6CElHl92jU1sldu97AXa2gbSXsDdJ7OnmnA6Zbmiyg8S7+yJ
-         TtZm5KXxV5ohL18RHQ1efI5JzficAZhgWsWrD0WT98KLPASBR7F5vP+FtwMyAYpIerUT
-         JyFT6m2vEEEn2PRwJnuaCYo8Nmga34xOonEZoNJTbEBT3BFyIZe5J1XAPZnjOOlDqF5e
-         syay9zHvjdOr9A9QdOkgOfs89g7MuH/IGgwaey2SPHH523SPF3rm8NSGbA6Lu3F/fqEG
-         hSJ0y4+zg7aznVjFrYAHHbJ3B4kBJzXI9B/s2gpICS8F6z6f+lFVDFFTwxAwf2KEFYN3
-         0EGA==
-X-Gm-Message-State: AOJu0YzYHwe3pHmQ3YGsKnUPfpqhJdZxwYPWebxdLcypClB6uCkcFHv6
-	VzsDYnkvqWT/5kvFNu4yK1RoB/GUsKc=
-X-Google-Smtp-Source: AGHT+IEbKVCzw3Lfku0fwJ0ozzk3Sfk1w53bdcdkhYVx3IWl7AZ1y4xaY3AZZt0azRiyV+SzwLsjRA==
-X-Received: by 2002:a17:906:28e:b0:9a1:be9b:c935 with SMTP id 14-20020a170906028e00b009a1be9bc935mr11939852ejf.0.1696342658605;
-        Tue, 03 Oct 2023 07:17:38 -0700 (PDT)
-Received: from [192.168.0.106] (p579356c7.dip0.t-ipconnect.de. [87.147.86.199])
-        by smtp.gmail.com with ESMTPSA id kj6-20020a170907764600b009ad88839665sm1147153ejc.70.2023.10.03.07.17.38
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 03 Oct 2023 07:17:38 -0700 (PDT)
-Message-ID: <f4a30e07-e967-a734-8892-068514c0ea0a@gmail.com>
-Date: Tue, 3 Oct 2023 16:17:37 +0200
+        bh=KCc1BN5IZwIo6NJ+zmLse1l+5oCRdEzdpoksoTT54tk=;
+        b=RvHVleCOf6Co/mELoHRFxXckQrJdCsiZ1TyiT3135+cspWf3CcmXlH8ZGiMJiwbxGt
+         fCCzeyk89h3V4OxCEOW4mjDbUXgwbAREG+JO2yVwKwqufBixD5GD8F0ZPLYNOeLeaXE+
+         gUDUfIQa9EZcRbytS2JvdE264Y9lpbYOEyYM2dCuXkSjvAqSFEhNEeh98G6CKELyeI5H
+         RZ60Zz6YmEXbGT0GxRAbL8aszCrucIRRxpLuDhlSfqn67+P1Uj4paq/GxJCcdlNIbB7m
+         vG4w60i6tQptR75DAAhaZdWDZCt2NQyyVi0dUeUbKyDGc/p9OVfLubZQMTxrbKriky8h
+         e+sQ==
+X-Gm-Message-State: AOJu0YzNy1I/W0c+aJKeMySFFhZ/2ByG/RlyFg7ozE6zPEHfgadS9gku
+	wbmIlCyBVDPmQPwYwnBonaR7vxQm0JY=
+X-Google-Smtp-Source: AGHT+IExX6LkzUpYg5wL2t4bbJK3cKThariNngZyxAg2VA4vp1YMK0vKYLYsUaUOhQp1h+Q8roVQJw==
+X-Received: by 2002:a05:6a20:9191:b0:14d:6309:fc96 with SMTP id v17-20020a056a20919100b0014d6309fc96mr14128431pzd.4.1696342885957;
+        Tue, 03 Oct 2023 07:21:25 -0700 (PDT)
+Received: from ubuntu.myguest.virtualbox.org ([171.61.192.246])
+        by smtp.gmail.com with ESMTPSA id s134-20020a63778c000000b005776aeea638sm1423993pgc.21.2023.10.03.07.21.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 03 Oct 2023 07:21:25 -0700 (PDT)
+Date: Tue, 3 Oct 2023 19:51:22 +0530
+From: Pavan Bobba <opensource206@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: [PATCH v4 0/3] Type encoding info dropped from arrary name
+ "abyBBVGA" and variable names "byBBVGACurrent", "byBBVGANew"
+Message-ID: <cover.1696141471.git.opensource206@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.1
-Subject: Re: [PATCH 0/3] Staging: rtl8192e: Rename variables pBA,
- bCurrentHTSupport, and pTSInfo
-To: Tree Davies <tdavies@darkphysics.net>, gregkh@linuxfoundation.org,
- anjan@momi.ca
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-References: <20231003031849.176743-1-tdavies@darkphysics.net>
-Content-Language: en-US
-From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-In-Reply-To: <20231003031849.176743-1-tdavies@darkphysics.net>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Message-ID: <20231003142122.5Ni7OFy2UqsQbrrGmPOc0xefOy83C-JtfgD2jamtwDA@z>
 
-On 10/3/23 05:18, Tree Davies wrote:
-> This series renames 3 variables to fix checkpatch warning Avoid CamelCase
-> Thank you in advance to the reviewers
-> Tree
-> 
-> 
-> Tree Davies (3):
->    Staging: rtl8192e: Rename variable pTSInfo
->    Staging: rtl8192e: Rename variable bCurrentHTSupport
->    Staging: rtl8192e: Rename variable pBA
-> 
->   drivers/staging/rtl8192e/rtl8192e/rtl_core.c |   2 +-
->   drivers/staging/rtl8192e/rtl8192e/rtl_wx.c   |   2 +-
->   drivers/staging/rtl8192e/rtl819x_BAProc.c    | 112 +++++++++----------
->   drivers/staging/rtl8192e/rtl819x_HT.h        |   2 +-
->   drivers/staging/rtl8192e/rtl819x_HTProc.c    |  12 +-
->   drivers/staging/rtl8192e/rtl819x_TSProc.c    |  20 ++--
->   drivers/staging/rtl8192e/rtllib.h            |   2 +-
->   drivers/staging/rtl8192e/rtllib_softmac.c    |  15 ++-
->   drivers/staging/rtl8192e/rtllib_softmac_wx.c |   2 +-
->   drivers/staging/rtl8192e/rtllib_tx.c         |   8 +-
->   10 files changed, 88 insertions(+), 89 deletions(-)
-> 
+This patchset series consist of fixes to issues found by checkpatch
 
+Pavan Bobba (3):
+  staging: vt6655: Type encoding info dropped from array name "abyBBVGA"
+  staging: vt6655: Type encoding info dropped from variable name
+    "byBBVGACurrent"
+  staging: vt6655: Type encoding info dropped from variable name
+    "byBBVGANew"
 
-Tested-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+ drivers/staging/vt6655/baseband.c    | 40 ++++++++++++++--------------
+ drivers/staging/vt6655/channel.c     |  6 ++---
+ drivers/staging/vt6655/device.h      |  6 ++---
+ drivers/staging/vt6655/device_main.c | 24 ++++++++---------
+ 4 files changed, 38 insertions(+), 38 deletions(-)
+
+-- 
+2.34.1
+
+From 6894dff7cc5a780627e0335e8f5cdc8b353eea53 Mon Sep 17 00:00:00 2001
+Message-Id: <6894dff7cc5a780627e0335e8f5cdc8b353eea53.1696141471.git.opensource206@gmail.com>
+In-Reply-To: <cover.1696141471.git.opensource206@gmail.com>
+References: <cover.1696141471.git.opensource206@gmail.com>
+From: Pavan Bobba <opensource206@gmail.com>
+Date: Thu, 28 Sep 2023 18:27:27 +0530
+Subject: [PATCH v4 1/3] staging: vt6655: Type encoding info dropped
+ from array name "abyBBVGA"
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,linux-staging@lists.linux.dev,linux-kernel@vger.kernel.org
+
+array name "abyBBVGA" updated like below:
+
+a.type encoding info dropped from name
+b.camelcase name replaced by snakecase
+
+Issue found by checkpatch
+
+Signed-off-by: Pavan Bobba <opensource206@gmail.com>
+---
+v1 -> v2 : 1.cover letter added
+           2.patches sent as attachments in a single mail for review
+
+v2 -> v3 : patches sending in a series intead of attachments
+
+v3 -> v4 : version info updated in patchset subject
+
+ drivers/staging/vt6655/baseband.c    | 38 ++++++++++++++--------------
+ drivers/staging/vt6655/channel.c     |  4 +--
+ drivers/staging/vt6655/device.h      |  2 +-
+ drivers/staging/vt6655/device_main.c |  8 +++---
+ 4 files changed, 26 insertions(+), 26 deletions(-)
+
+diff --git a/drivers/staging/vt6655/baseband.c b/drivers/staging/vt6655/baseband.c
+index 0ae2ab3987c6..a19a75f5d761 100644
+--- a/drivers/staging/vt6655/baseband.c
++++ b/drivers/staging/vt6655/baseband.c
+@@ -2016,10 +2016,10 @@ bool bb_vt3253_init(struct vnt_private *priv)
+ 			iowrite32(0x23, iobase + MAC_REG_ITRTMSET);
+ 			vt6655_mac_reg_bits_on(iobase, MAC_REG_PAPEDELAY, BIT(0));
+ 		}
+-		priv->abyBBVGA[0] = 0x18;
+-		priv->abyBBVGA[1] = 0x0A;
+-		priv->abyBBVGA[2] = 0x0;
+-		priv->abyBBVGA[3] = 0x0;
++		priv->bbvga[0] = 0x18;
++		priv->bbvga[1] = 0x0A;
++		priv->bbvga[2] = 0x0;
++		priv->bbvga[3] = 0x0;
+ 		priv->dbm_threshold[0] = -70;
+ 		priv->dbm_threshold[1] = -50;
+ 		priv->dbm_threshold[2] = 0;
+@@ -2034,10 +2034,10 @@ bool bb_vt3253_init(struct vnt_private *priv)
+ 			result &= bb_write_embedded(priv,
+ 				vt3253b0_agc[ii][0], vt3253b0_agc[ii][1]);
+ 
+-		priv->abyBBVGA[0] = 0x1C;
+-		priv->abyBBVGA[1] = 0x10;
+-		priv->abyBBVGA[2] = 0x0;
+-		priv->abyBBVGA[3] = 0x0;
++		priv->bbvga[0] = 0x1C;
++		priv->bbvga[1] = 0x10;
++		priv->bbvga[2] = 0x0;
++		priv->bbvga[3] = 0x0;
+ 		priv->dbm_threshold[0] = -70;
+ 		priv->dbm_threshold[1] = -48;
+ 		priv->dbm_threshold[2] = 0;
+@@ -2056,10 +2056,10 @@ bool bb_vt3253_init(struct vnt_private *priv)
+ 		iowrite8(0x23, iobase + MAC_REG_ITRTMSET);
+ 		vt6655_mac_reg_bits_on(iobase, MAC_REG_PAPEDELAY, BIT(0));
+ 
+-		priv->abyBBVGA[0] = 0x14;
+-		priv->abyBBVGA[1] = 0x0A;
+-		priv->abyBBVGA[2] = 0x0;
+-		priv->abyBBVGA[3] = 0x0;
++		priv->bbvga[0] = 0x14;
++		priv->bbvga[1] = 0x0A;
++		priv->bbvga[2] = 0x0;
++		priv->bbvga[3] = 0x0;
+ 		priv->dbm_threshold[0] = -60;
+ 		priv->dbm_threshold[1] = -50;
+ 		priv->dbm_threshold[2] = 0;
+@@ -2074,10 +2074,10 @@ bool bb_vt3253_init(struct vnt_private *priv)
+ 			result &= bb_write_embedded(priv,
+ 				vt3253b0_agc[ii][0], vt3253b0_agc[ii][1]);
+ 
+-		priv->abyBBVGA[0] = 0x1C;
+-		priv->abyBBVGA[1] = 0x10;
+-		priv->abyBBVGA[2] = 0x0;
+-		priv->abyBBVGA[3] = 0x0;
++		priv->bbvga[0] = 0x1C;
++		priv->bbvga[1] = 0x10;
++		priv->bbvga[2] = 0x0;
++		priv->bbvga[3] = 0x0;
+ 		priv->dbm_threshold[0] = -70;
+ 		priv->dbm_threshold[1] = -48;
+ 		priv->dbm_threshold[2] = 0;
+@@ -2088,7 +2088,7 @@ bool bb_vt3253_init(struct vnt_private *priv)
+ 	} else {
+ 		/* No VGA Table now */
+ 		priv->bUpdateBBVGA = false;
+-		priv->abyBBVGA[0] = 0x1C;
++		priv->bbvga[0] = 0x1C;
+ 	}
+ 
+ 	if (by_local_id > REV_ID_VT3253_A1) {
+@@ -2126,7 +2126,7 @@ bb_set_short_slot_time(struct vnt_private *priv)
+ 
+ 	/* patch for 3253B0 Baseband with Cardbus module */
+ 	bb_read_embedded(priv, 0xE7, &by_bb_vga);
+-	if (by_bb_vga == priv->abyBBVGA[0])
++	if (by_bb_vga == priv->bbvga[0])
+ 		by_bb_rx_conf |= 0x20; /* 0010 0000 */
+ 
+ 	bb_write_embedded(priv, 0x0A, by_bb_rx_conf); /* CR10 */
+@@ -2140,7 +2140,7 @@ void bb_set_vga_gain_offset(struct vnt_private *priv, unsigned char by_data)
+ 
+ 	bb_read_embedded(priv, 0x0A, &by_bb_rx_conf); /* CR10 */
+ 	/* patch for 3253B0 Baseband with Cardbus module */
+-	if (by_data == priv->abyBBVGA[0])
++	if (by_data == priv->bbvga[0])
+ 		by_bb_rx_conf |= 0x20; /* 0010 0000 */
+ 	else if (priv->short_slot_time)
+ 		by_bb_rx_conf &= 0xDF; /* 1101 1111 */
+diff --git a/drivers/staging/vt6655/channel.c b/drivers/staging/vt6655/channel.c
+index e90e0b43505d..e20701815db9 100644
+--- a/drivers/staging/vt6655/channel.c
++++ b/drivers/staging/vt6655/channel.c
+@@ -87,8 +87,8 @@ bool set_channel(struct vnt_private *priv, struct ieee80211_channel *ch)
+ 
+ 	/* Set VGA to max sensitivity */
+ 	if (priv->bUpdateBBVGA &&
+-	    priv->byBBVGACurrent != priv->abyBBVGA[0]) {
+-		priv->byBBVGACurrent = priv->abyBBVGA[0];
++	    priv->byBBVGACurrent != priv->bbvga[0]) {
++		priv->byBBVGACurrent = priv->bbvga[0];
+ 
+ 		bb_set_vga_gain_offset(priv, priv->byBBVGACurrent);
+ 	}
+diff --git a/drivers/staging/vt6655/device.h b/drivers/staging/vt6655/device.h
+index 8c90539cc3d7..b662c74a2dc7 100644
+--- a/drivers/staging/vt6655/device.h
++++ b/drivers/staging/vt6655/device.h
+@@ -250,7 +250,7 @@ struct vnt_private {
+ 	unsigned int	uBBVGADiffCount;
+ 	unsigned char byBBVGANew;
+ 	unsigned char byBBVGACurrent;
+-	unsigned char abyBBVGA[BB_VGA_LEVEL];
++	unsigned char bbvga[BB_VGA_LEVEL];
+ 	long                    dbm_threshold[BB_VGA_LEVEL];
+ 
+ 	unsigned char byBBPreEDRSSI;
+diff --git a/drivers/staging/vt6655/device_main.c b/drivers/staging/vt6655/device_main.c
+index f76f482f4c06..385848df8848 100644
+--- a/drivers/staging/vt6655/device_main.c
++++ b/drivers/staging/vt6655/device_main.c
+@@ -424,9 +424,9 @@ static void device_init_registers(struct vnt_private *priv)
+ 	bb_vt3253_init(priv);
+ 
+ 	if (priv->bUpdateBBVGA) {
+-		priv->byBBVGACurrent = priv->abyBBVGA[0];
++		priv->byBBVGACurrent = priv->bbvga[0];
+ 		priv->byBBVGANew = priv->byBBVGACurrent;
+-		bb_set_vga_gain_offset(priv, priv->abyBBVGA[0]);
++		bb_set_vga_gain_offset(priv, priv->bbvga[0]);
+ 	}
+ 
+ 	bb_set_rx_antenna_mode(priv, priv->byRxAntennaMode);
+@@ -1053,7 +1053,7 @@ static void vnt_check_bb_vga(struct vnt_private *priv)
+ 
+ 	for (i = 0; i < BB_VGA_LEVEL; i++) {
+ 		if (dbm < priv->dbm_threshold[i]) {
+-			priv->byBBVGANew = priv->abyBBVGA[i];
++			priv->byBBVGANew = priv->bbvga[i];
+ 			break;
+ 		}
+ 	}
+@@ -1510,7 +1510,7 @@ static void vnt_bss_info_changed(struct ieee80211_hw *hw,
+ 			priv->short_slot_time = false;
+ 
+ 		CARDbSetPhyParameter(priv, priv->byBBType);
+-		bb_set_vga_gain_offset(priv, priv->abyBBVGA[0]);
++		bb_set_vga_gain_offset(priv, priv->bbvga[0]);
+ 	}
+ 
+ 	if (changed & BSS_CHANGED_TXPOWER)
+-- 
+2.34.1
+
+From d40eb60e6cccf2b5432904abb74bc009fac5e2e1 Mon Sep 17 00:00:00 2001
+Message-Id: <d40eb60e6cccf2b5432904abb74bc009fac5e2e1.1696141471.git.opensource206@gmail.com>
+In-Reply-To: <cover.1696141471.git.opensource206@gmail.com>
+References: <cover.1696141471.git.opensource206@gmail.com>
+From: Pavan Bobba <opensource206@gmail.com>
+Date: Thu, 28 Sep 2023 20:26:02 +0530
+Subject: [PATCH v4 2/3] staging: vt6655: Type encoding info dropped
+ from variable name "byBBVGACurrent"
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,linux-staging@lists.linux.dev,linux-kernel@vger.kernel.org
+
+variable name "byBBVGACurrent" updated like below:
+
+a.type encoding info dropped from name
+b.camelcase name replaced by snakecase
+
+Issue found by checkpatch
+
+Signed-off-by: Pavan Bobba <opensource206@gmail.com>
+---
+v1 -> v2 : 1.cover letter added
+           2.patches sent as attachments in a single mail for review
+
+v2 -> v3 : patches sending in a series intead of attachments
+
+v3 -> v4 : version info updated in patchset subject
+ 
+ drivers/staging/vt6655/baseband.c    |  2 +-
+ drivers/staging/vt6655/channel.c     |  6 +++---
+ drivers/staging/vt6655/device.h      |  2 +-
+ drivers/staging/vt6655/device_main.c | 10 +++++-----
+ 4 files changed, 10 insertions(+), 10 deletions(-)
+
+diff --git a/drivers/staging/vt6655/baseband.c b/drivers/staging/vt6655/baseband.c
+index a19a75f5d761..7d47b266b87e 100644
+--- a/drivers/staging/vt6655/baseband.c
++++ b/drivers/staging/vt6655/baseband.c
+@@ -2146,7 +2146,7 @@ void bb_set_vga_gain_offset(struct vnt_private *priv, unsigned char by_data)
+ 		by_bb_rx_conf &= 0xDF; /* 1101 1111 */
+ 	else
+ 		by_bb_rx_conf |= 0x20; /* 0010 0000 */
+-	priv->byBBVGACurrent = by_data;
++	priv->bbvga_current = by_data;
+ 	bb_write_embedded(priv, 0x0A, by_bb_rx_conf); /* CR10 */
+ }
+ 
+diff --git a/drivers/staging/vt6655/channel.c b/drivers/staging/vt6655/channel.c
+index e20701815db9..6ac7d470c041 100644
+--- a/drivers/staging/vt6655/channel.c
++++ b/drivers/staging/vt6655/channel.c
+@@ -87,10 +87,10 @@ bool set_channel(struct vnt_private *priv, struct ieee80211_channel *ch)
+ 
+ 	/* Set VGA to max sensitivity */
+ 	if (priv->bUpdateBBVGA &&
+-	    priv->byBBVGACurrent != priv->bbvga[0]) {
+-		priv->byBBVGACurrent = priv->bbvga[0];
++	    priv->bbvga_current != priv->bbvga[0]) {
++		priv->bbvga_current = priv->bbvga[0];
+ 
+-		bb_set_vga_gain_offset(priv, priv->byBBVGACurrent);
++		bb_set_vga_gain_offset(priv, priv->bbvga_current);
+ 	}
+ 
+ 	/* clear NAV */
+diff --git a/drivers/staging/vt6655/device.h b/drivers/staging/vt6655/device.h
+index b662c74a2dc7..9ae7171d02ee 100644
+--- a/drivers/staging/vt6655/device.h
++++ b/drivers/staging/vt6655/device.h
+@@ -249,7 +249,7 @@ struct vnt_private {
+ 	bool bUpdateBBVGA;
+ 	unsigned int	uBBVGADiffCount;
+ 	unsigned char byBBVGANew;
+-	unsigned char byBBVGACurrent;
++	unsigned char bbvga_current;
+ 	unsigned char bbvga[BB_VGA_LEVEL];
+ 	long                    dbm_threshold[BB_VGA_LEVEL];
+ 
+diff --git a/drivers/staging/vt6655/device_main.c b/drivers/staging/vt6655/device_main.c
+index 385848df8848..6990129ceb10 100644
+--- a/drivers/staging/vt6655/device_main.c
++++ b/drivers/staging/vt6655/device_main.c
+@@ -424,8 +424,8 @@ static void device_init_registers(struct vnt_private *priv)
+ 	bb_vt3253_init(priv);
+ 
+ 	if (priv->bUpdateBBVGA) {
+-		priv->byBBVGACurrent = priv->bbvga[0];
+-		priv->byBBVGANew = priv->byBBVGACurrent;
++		priv->bbvga_current = priv->bbvga[0];
++		priv->byBBVGANew = priv->bbvga_current;
+ 		bb_set_vga_gain_offset(priv, priv->bbvga[0]);
+ 	}
+ 
+@@ -1058,7 +1058,7 @@ static void vnt_check_bb_vga(struct vnt_private *priv)
+ 		}
+ 	}
+ 
+-	if (priv->byBBVGANew == priv->byBBVGACurrent) {
++	if (priv->byBBVGANew == priv->bbvga_current) {
+ 		priv->uBBVGADiffCount = 1;
+ 		return;
+ 	}
+@@ -1072,7 +1072,7 @@ static void vnt_check_bb_vga(struct vnt_private *priv)
+ 		dev_dbg(&priv->pcid->dev,
+ 			"First RSSI[%d] NewGain[%d] OldGain[%d] Count[%d]\n",
+ 			(int)dbm, priv->byBBVGANew,
+-			priv->byBBVGACurrent,
++			priv->bbvga_current,
+ 			(int)priv->uBBVGADiffCount);
+ 	}
+ 
+@@ -1080,7 +1080,7 @@ static void vnt_check_bb_vga(struct vnt_private *priv)
+ 		dev_dbg(&priv->pcid->dev,
+ 			"RSSI[%d] NewGain[%d] OldGain[%d] Count[%d]\n",
+ 			(int)dbm, priv->byBBVGANew,
+-			priv->byBBVGACurrent,
++			priv->bbvga_current,
+ 			(int)priv->uBBVGADiffCount);
+ 
+ 		bb_set_vga_gain_offset(priv, priv->byBBVGANew);
+-- 
+2.34.1
+
+From e7dc405ffa8050eb8693086204c902a723392a62 Mon Sep 17 00:00:00 2001
+Message-Id: <e7dc405ffa8050eb8693086204c902a723392a62.1696141471.git.opensource206@gmail.com>
+In-Reply-To: <cover.1696141471.git.opensource206@gmail.com>
+References: <cover.1696141471.git.opensource206@gmail.com>
+From: Pavan Bobba <opensource206@gmail.com>
+Date: Thu, 28 Sep 2023 20:30:34 +0530
+Subject: [PATCH v4 3/3] staging: vt6655: Type encoding info dropped
+ from variable name "byBBVGANew"
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,linux-staging@lists.linux.dev,linux-kernel@vger.kernel.org
+
+variable name "byBBVGANew" updated like below:
+
+a.type encoding info dropped from name
+b.camelcase name replaced by snakecase
+
+Issue found by checkpatch
+
+Signed-off-by: Pavan Bobba <opensource206@gmail.com>
+---
+v1 -> v2 : 1.cover letter added
+           2.patches sent as attachments in a single mail for review
+
+v2 -> v3 : patches sending in a series intead of attachments
+
+v3 -> v4 : version info updated in patchset subject
+ 
+ drivers/staging/vt6655/device.h      |  2 +-
+ drivers/staging/vt6655/device_main.c | 14 +++++++-------
+ 2 files changed, 8 insertions(+), 8 deletions(-)
+
+diff --git a/drivers/staging/vt6655/device.h b/drivers/staging/vt6655/device.h
+index 9ae7171d02ee..68bfadacfa7c 100644
+--- a/drivers/staging/vt6655/device.h
++++ b/drivers/staging/vt6655/device.h
+@@ -248,7 +248,7 @@ struct vnt_private {
+ 	/* For Update BaseBand VGA Gain Offset */
+ 	bool bUpdateBBVGA;
+ 	unsigned int	uBBVGADiffCount;
+-	unsigned char byBBVGANew;
++	unsigned char bbvga_new;
+ 	unsigned char bbvga_current;
+ 	unsigned char bbvga[BB_VGA_LEVEL];
+ 	long                    dbm_threshold[BB_VGA_LEVEL];
+diff --git a/drivers/staging/vt6655/device_main.c b/drivers/staging/vt6655/device_main.c
+index 6990129ceb10..b08fcf7e6edc 100644
+--- a/drivers/staging/vt6655/device_main.c
++++ b/drivers/staging/vt6655/device_main.c
+@@ -425,7 +425,7 @@ static void device_init_registers(struct vnt_private *priv)
+ 
+ 	if (priv->bUpdateBBVGA) {
+ 		priv->bbvga_current = priv->bbvga[0];
+-		priv->byBBVGANew = priv->bbvga_current;
++		priv->bbvga_new = priv->bbvga_current;
+ 		bb_set_vga_gain_offset(priv, priv->bbvga[0]);
+ 	}
+ 
+@@ -1053,12 +1053,12 @@ static void vnt_check_bb_vga(struct vnt_private *priv)
+ 
+ 	for (i = 0; i < BB_VGA_LEVEL; i++) {
+ 		if (dbm < priv->dbm_threshold[i]) {
+-			priv->byBBVGANew = priv->bbvga[i];
++			priv->bbvga_new = priv->bbvga[i];
+ 			break;
+ 		}
+ 	}
+ 
+-	if (priv->byBBVGANew == priv->bbvga_current) {
++	if (priv->bbvga_new == priv->bbvga_current) {
+ 		priv->uBBVGADiffCount = 1;
+ 		return;
+ 	}
+@@ -1067,11 +1067,11 @@ static void vnt_check_bb_vga(struct vnt_private *priv)
+ 
+ 	if (priv->uBBVGADiffCount == 1) {
+ 		/* first VGA diff gain */
+-		bb_set_vga_gain_offset(priv, priv->byBBVGANew);
++		bb_set_vga_gain_offset(priv, priv->bbvga_new);
+ 
+ 		dev_dbg(&priv->pcid->dev,
+ 			"First RSSI[%d] NewGain[%d] OldGain[%d] Count[%d]\n",
+-			(int)dbm, priv->byBBVGANew,
++			(int)dbm, priv->bbvga_new,
+ 			priv->bbvga_current,
+ 			(int)priv->uBBVGADiffCount);
+ 	}
+@@ -1079,11 +1079,11 @@ static void vnt_check_bb_vga(struct vnt_private *priv)
+ 	if (priv->uBBVGADiffCount >= BB_VGA_CHANGE_THRESHOLD) {
+ 		dev_dbg(&priv->pcid->dev,
+ 			"RSSI[%d] NewGain[%d] OldGain[%d] Count[%d]\n",
+-			(int)dbm, priv->byBBVGANew,
++			(int)dbm, priv->bbvga_new,
+ 			priv->bbvga_current,
+ 			(int)priv->uBBVGADiffCount);
+ 
+-		bb_set_vga_gain_offset(priv, priv->byBBVGANew);
++		bb_set_vga_gain_offset(priv, priv->bbvga_new);
+ 	}
+ }
+ 
+-- 
+2.34.1
+
