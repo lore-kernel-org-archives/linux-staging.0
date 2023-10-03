@@ -1,49 +1,48 @@
-Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A9DC38DE6
-	for <linux-staging@lists.linux.dev>; Tue,  3 Oct 2023 19:33:50 +0000 (UTC)
-Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-9b2d64c9307so53327766b.1
-        for <linux-staging@lists.linux.dev>; Tue, 03 Oct 2023 12:33:50 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85F353CCF9
+	for <linux-staging@lists.linux.dev>; Tue,  3 Oct 2023 19:33:51 +0000 (UTC)
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-40646537450so3193125e9.0
+        for <linux-staging@lists.linux.dev>; Tue, 03 Oct 2023 12:33:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1696361629; x=1696966429; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1696361630; x=1696966430; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=o0RrMuYVrq3C/m7QhaLpLvy+gp+gXjLQFOpM9VmMeE8=;
-        b=ZhMD50lOS/UoqaW+7u1Km7T/NLyp3NBRYVx22dQ6khFy30lp+z+ZWi8BAPjRMSioSi
-         opGYja01qslD0IJhIip9Ped15TcLInF88Kl1uBg65SWk7HhTMwaPEka8oSq6i/6WYQI+
-         YgGuLUGNvgRi0H3PRRsnqelz8EO4X5DWea9wGcs8DzoWXXIvLyoABxXcKKlq4hTsESn8
-         mEDZ4m+l2CsilgmBW/EjnSRa/fWB6/Podelx5di2EwJKNuGvnDwnkXEJqr6/lYRQD5+r
-         XhRedMfcou6OK7oGJq4lV41sme7by0k1vuRDR1NC4bNlYT3B88/HGnjcDBuf/wHQ1CJX
-         +C5Q==
+        bh=J8N2tOkDAA669roEY7JwJC/ZX0XtgD+W4+RzL+0SA5k=;
+        b=lYszgeHxB2rVMT4gnTkpnaLdxutBi/N6PgztRPkP7OJecd9xC3GUW6ljEL89ioE2Ok
+         4MLaPHv7JotdCWkA5hziJbf3wlgiAaagkRRMv3B8lNyI5EN2QHRejG95joOtx4fIrlAl
+         3NIhcNQYeuVLNYolk+H1im63RCTsTXzYYSGLk9GVVvshU/cR5x0i7oDfFgNTh9qe9KVQ
+         iR4VkPp8V6Up6yzdazEwWvcXGWtkmfhEJLHpToeNWiGwmirZibZZ7m81mal0B6224hQV
+         RhpCdELqSiYA4F9BwFTgMnGqQCk8jklmvHuzZm03rWsBjYWGCT/IuBdDMamayObaArqS
+         LTKQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696361629; x=1696966429;
+        d=1e100.net; s=20230601; t=1696361630; x=1696966430;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=o0RrMuYVrq3C/m7QhaLpLvy+gp+gXjLQFOpM9VmMeE8=;
-        b=VYOO4Fh2NTshdgpK5KVluQ4LC/KyklwQYXNDZ08tcMahUpYJKeGFPLxlN8guR78xl8
-         +GNvNbgoFt/t1uHbNa3ugb8gsCbtWmZrqUCJOWtLWJ97eoRuiRbRgowi7Ce4+CknsW2P
-         A9SM1FetY97PdJFNejfP/8z4VfXKi3G9/T6AmEyKTosSW2vNVztdUBXqU0fcL5NRAXJQ
-         8ZIuf1zdKQN2DtFQW3D/ie1ti/Lva4hOHws556ck6uFaFSFWHChxLweYO61xoTfCUzzt
-         7d3lCptKVchqGqyqLBpn65+48vZzirs5dPzsoWsNN0bzmHQlfxlUxToWyEgnRqlma29f
-         4Z4g==
-X-Gm-Message-State: AOJu0YyvsX3EhNknbKO0nUl6m/UI6kNajDMGDU9QMuF1UMorg81Yf97T
-	5ezV3smnL55yfw7EKaspZqU=
-X-Google-Smtp-Source: AGHT+IHobplVFBd7oTI8JXZLs5UOsJpJEOw3+xuRTqAxwNWNs97e7p5j/GdH4pDpzGTJdRNktyW79g==
-X-Received: by 2002:a17:906:29a:b0:9a6:ae76:d6ae with SMTP id 26-20020a170906029a00b009a6ae76d6aemr101117ejf.3.1696361629349;
-        Tue, 03 Oct 2023 12:33:49 -0700 (PDT)
+        bh=J8N2tOkDAA669roEY7JwJC/ZX0XtgD+W4+RzL+0SA5k=;
+        b=NPESHuWL++krbzciKQZuV81VbMWDwKhsJh0roEvCJtm/DIkO82sW25fllXepRGp91c
+         ublymlS1NpUO1DbHc1OTe5H3wfiZIZWw6kAyrBKwZM9hqzlcIyVtTy6hMehd6kwf8UL/
+         Dc2+s5Z33nm0fMlkvNJV0T19UVKUy4fA1RMXuBfXWhiW+SbrEFZuPs0HIN5KpOweFS/i
+         nGLJhFO0GB2ZEbDuWpLTn0gj8y9gce6QKkQoW+LTtBh/KWm8XyB4CKZ1/n8+SHsBczUi
+         jafmKasOJpR/X12jdCnEK4738Ie5wkIWUW0Sh5tKF5ixVaDkhw4M/Mts8GX7v/3b/oV6
+         bfhw==
+X-Gm-Message-State: AOJu0YwqvHY65x5kViYdiInQs7WxVrb4VhmRD193v6icqNZ2+i5dAKED
+	ADo+63jnM+wbqeIZyRWaPQzQa/qXDJw=
+X-Google-Smtp-Source: AGHT+IE1ExQhIDPmWaPm2sKRCbrelt0383LJTft1aBkzY75A2GfQaAR+G2AMC8lMZajUWLNIrbM4OA==
+X-Received: by 2002:a17:906:530c:b0:9ae:6552:4af6 with SMTP id h12-20020a170906530c00b009ae65524af6mr148050ejo.1.1696361609136;
+        Tue, 03 Oct 2023 12:33:29 -0700 (PDT)
 Received: from matrix-ESPRIMO-P710 (p579356c7.dip0.t-ipconnect.de. [87.147.86.199])
-        by smtp.gmail.com with ESMTPSA id kj6-20020a170907764600b009b2c9476726sm1535909ejc.21.2023.10.03.12.33.48
+        by smtp.gmail.com with ESMTPSA id pk13-20020a170906d7ad00b0099bc08862b6sm1541785ejb.171.2023.10.03.12.33.28
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 03 Oct 2023 12:33:49 -0700 (PDT)
-Date: Tue, 3 Oct 2023 21:33:47 +0200
+        Tue, 03 Oct 2023 12:33:28 -0700 (PDT)
+Date: Tue, 3 Oct 2023 21:33:27 +0200
 From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [PATCH 07/11] staging: rtl8192e: Remove function
- _rtl92e_wx_get_promisc_mode()
-Message-ID: <8b1735a3f249b1cf73189e98a07e134c5cd50974.1696360404.git.philipp.g.hortmann@gmail.com>
+Subject: [PATCH 04/11] staging: rtl8192e: Remove unused variable raw_tx
+Message-ID: <7ab7606ba836746d28afdb72914fb4e05824dac8.1696360403.git.philipp.g.hortmann@gmail.com>
 References: <cover.1696360403.git.philipp.g.hortmann@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -55,73 +54,38 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 In-Reply-To: <cover.1696360403.git.philipp.g.hortmann@gmail.com>
 
-Remove function _rtl92e_wx_get_promisc_mode() as this functionality is
-not commonly used and the tool to access it is deprecated.
+Remove unused variable raw_tx as it is just set to 0 and not used.
 
 Signed-off-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
 ---
- drivers/staging/rtl8192e/rtl8192e/rtl_wx.c | 34 ----------------------
- 1 file changed, 34 deletions(-)
+ drivers/staging/rtl8192e/rtllib.h        | 1 -
+ drivers/staging/rtl8192e/rtllib_module.c | 1 -
+ 2 files changed, 2 deletions(-)
 
-diff --git a/drivers/staging/rtl8192e/rtl8192e/rtl_wx.c b/drivers/staging/rtl8192e/rtl8192e/rtl_wx.c
-index 2f5acdd71339..d0b68b258af7 100644
---- a/drivers/staging/rtl8192e/rtl8192e/rtl_wx.c
-+++ b/drivers/staging/rtl8192e/rtl8192e/rtl_wx.c
-@@ -918,25 +918,6 @@ static int _rtl92e_wx_get_gen_ie(struct net_device *dev,
- 	return ret;
- }
+diff --git a/drivers/staging/rtl8192e/rtllib.h b/drivers/staging/rtl8192e/rtllib.h
+index 98b8b7db027e..41b34331380c 100644
+--- a/drivers/staging/rtl8192e/rtllib.h
++++ b/drivers/staging/rtl8192e/rtllib.h
+@@ -1364,7 +1364,6 @@ struct rtllib_device {
+ 	u64 ps_time;
+ 	bool polling;
  
--static int _rtl92e_wx_get_promisc_mode(struct net_device *dev,
--				       struct iw_request_info *info,
--				       union iwreq_data *wrqu, char *extra)
--{
--	struct r8192_priv *priv = rtllib_priv(dev);
--	struct rtllib_device *ieee = priv->rtllib;
--
--	mutex_lock(&priv->wx_mutex);
--
--	snprintf(extra, 45, "PromiscuousMode:%d, FilterSrcSTAFrame:%d",
--		 ieee->intel_promiscuous_md_info.promiscuous_on,
--		 ieee->intel_promiscuous_md_info.fltr_src_sta_frame);
--	wrqu->data.length = strlen(extra) + 1;
--
--	mutex_unlock(&priv->wx_mutex);
--
--	return 0;
--}
--
- #define IW_IOCTL(x) ((x) - SIOCSIWCOMMIT)
- static iw_handler r8192_wx_handlers[] = {
- 	[IW_IOCTL(SIOCGIWNAME)] = _rtl92e_wx_get_name,
-@@ -995,9 +976,6 @@ static const struct iw_priv_args r8192_private_args[] = {
- 		SIOCIWFIRSTPRIV + 0xb,
- 		IW_PRIV_TYPE_INT | IW_PRIV_SIZE_FIXED | 1, IW_PRIV_TYPE_NONE,
- 		"lps_force"
--	}, {
--		SIOCIWFIRSTPRIV + 0x17,
--		0, IW_PRIV_TYPE_CHAR | IW_PRIV_SIZE_FIXED | 45, "getpromisc"
- 	}
+-	short raw_tx;
+ 	/* used if IEEE_SOFTMAC_TX_QUEUE is set */
+ 	short queue_stop;
+ 	short scanning_continue;
+diff --git a/drivers/staging/rtl8192e/rtllib_module.c b/drivers/staging/rtl8192e/rtllib_module.c
+index abd6bfd4dfa3..195d8aa88138 100644
+--- a/drivers/staging/rtl8192e/rtllib_module.c
++++ b/drivers/staging/rtl8192e/rtllib_module.c
+@@ -114,7 +114,6 @@ struct net_device *alloc_rtllib(int sizeof_priv)
+ 	ieee->drop_unencrypted = 0;
+ 	ieee->privacy_invoked = 0;
+ 	ieee->ieee802_1x = 1;
+-	ieee->raw_tx = 0;
+ 	ieee->hwsec_active = 0;
  
- };
-@@ -1015,18 +993,6 @@ static iw_handler r8192_private_handler[] = {
- 	(iw_handler)NULL,
- 	(iw_handler)_rtl92e_wx_set_lps_awake_interval,
- 	(iw_handler)_rtl92e_wx_set_force_lps,
--	(iw_handler)NULL,
--	(iw_handler)NULL,
--	(iw_handler)NULL,
--	(iw_handler)NULL,
--	(iw_handler)NULL,
--	(iw_handler)NULL,
--	(iw_handler)NULL,
--	(iw_handler)NULL,
--	(iw_handler)NULL,
--	(iw_handler)NULL,
--	(iw_handler)NULL,
--	(iw_handler)_rtl92e_wx_get_promisc_mode,
- };
- 
- static struct iw_statistics *_rtl92e_get_wireless_stats(struct net_device *dev)
+ 	memset(ieee->swcamtable, 0, sizeof(struct sw_cam_table) * 32);
 -- 
 2.42.0
 
