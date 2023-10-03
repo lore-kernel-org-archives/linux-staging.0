@@ -1,25 +1,25 @@
 Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0F2FD532
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62473D313
 	for <linux-staging@lists.linux.dev>; Tue,  3 Oct 2023 08:07:29 +0000 (UTC)
 Received: from benjamin-XPS-13-9310.. (unknown [IPv6:2a01:e0a:120:3210:b6df:b784:6a0f:8451])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
 	(Authenticated sender: benjamin.gaignard)
-	by madras.collabora.co.uk (Postfix) with ESMTPSA id E97B26607365;
+	by madras.collabora.co.uk (Postfix) with ESMTPSA id 6B0F66607362;
 	Tue,  3 Oct 2023 09:07:27 +0100 (BST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1696320448;
-	bh=fLRtME703ZZcICdPkAIYRy+HHmsEI0CB5+N7/vWII0U=;
+	s=mail; t=1696320447;
+	bh=zysh0fIOtYpsYqIRMileMUIIdpZZkRuacJmXooFftR8=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=j7Bq2gtVDBhG9iQjYBJ80RtnofhcA50IlzJC0yCXhO2cOrKNN5UBe9owntP7hRBrI
-	 k0HktMWXpaon0mnJO+nbeTF28WFt5Z2T8r/Vd8fynoJN/5ONlerRvAIgxhQcHurtNn
-	 8c1kAbmaR4PFESyeY7cvgkF0qFaz7GXe5Xrm3HoDGvUb9T89BhAU7/5yvIIUxAfvU7
-	 pMERitgw0waPxTdRigtrOQGAlT5AZCB6YmWWmn9586VeI3S6KNjmIZIiWCvuW8kXRo
-	 3oCgWettXC7D9M4flcyRJEtpJMqVoihVcxBDkhZFm0+DyOIl6EIJYNtNWJH19KKPbh
-	 AWH5LSiEkw/mw==
+	b=STmpSyYyHlwFkpXxLb/WqLEzqf//uE3Kj37tTlrx7Z3xznrZPmZ03hpIwzyIjou4d
+	 uY1gEDUs3oocNkREoyJsbc9kRT4XwppQMvEXqqqC6irLDxFGquTN2TuO113X1zUKwH
+	 2uFYQrNiV7wDFP0Qd+Q0skR0QEQg/FJ/hq27cU9bVYGX8y+TZqLmTcqGpbhckO4SW3
+	 EsoXNfyIH9n4Cfb+koeQdOhNNN3GLCXgKX7vcIf6nPIyU9kzfw18Tjlt9cORjX3QbU
+	 FEzwRxla4tW+52UTKK8eg+YRYkm7yKSov5+yezNgK8jwYKMWDIJEI+d/BH//JTk7FV
+	 mS+eMOb0uBSng==
 From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
 To: mchehab@kernel.org,
 	tfiga@chromium.org,
@@ -39,9 +39,9 @@ Cc: linux-media@vger.kernel.org,
 	linux-staging@lists.linux.dev,
 	kernel@collabora.com,
 	Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Subject: [PATCH v10 29/54] media: pci: tw686x: Set min_buffers_needed to 3
-Date: Tue,  3 Oct 2023 10:06:38 +0200
-Message-Id: <20231003080704.43911-30-benjamin.gaignard@collabora.com>
+Subject: [PATCH v10 28/54] media: pci: tw68: Stop direct calls to queue num_buffers field
+Date: Tue,  3 Oct 2023 10:06:37 +0200
+Message-Id: <20231003080704.43911-29-benjamin.gaignard@collabora.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20231003080704.43911-1-benjamin.gaignard@collabora.com>
 References: <20231003080704.43911-1-benjamin.gaignard@collabora.com>
@@ -53,46 +53,34 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-vb2 queue_setup checks for a minimum number of buffers so set
-min_buffers_needed to 3 and remove the useless check in
-tw686x_queue_setup().
+Use vb2_get_num_buffers() to avoid using queue num_buffers field directly.
+Remove tot_bufs < 2 test because min_buffers_needed is already set to 2.
 
 Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
 ---
- drivers/media/pci/tw686x/tw686x-video.c | 13 +++++--------
- 1 file changed, 5 insertions(+), 8 deletions(-)
+ drivers/media/pci/tw68/tw68-video.c | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/media/pci/tw686x/tw686x-video.c b/drivers/media/pci/tw686x/tw686x-video.c
-index 3ebf7a2c95f0..74cd864365aa 100644
---- a/drivers/media/pci/tw686x/tw686x-video.c
-+++ b/drivers/media/pci/tw686x/tw686x-video.c
-@@ -426,13 +426,6 @@ static int tw686x_queue_setup(struct vb2_queue *vq,
- 	unsigned int szimage =
- 		(vc->width * vc->height * vc->format->depth) >> 3;
+diff --git a/drivers/media/pci/tw68/tw68-video.c b/drivers/media/pci/tw68/tw68-video.c
+index 773a18702d36..c0a8257b02ca 100644
+--- a/drivers/media/pci/tw68/tw68-video.c
++++ b/drivers/media/pci/tw68/tw68-video.c
+@@ -360,13 +360,11 @@ static int tw68_queue_setup(struct vb2_queue *q,
+ 			   unsigned int sizes[], struct device *alloc_devs[])
+ {
+ 	struct tw68_dev *dev = vb2_get_drv_priv(q);
+-	unsigned tot_bufs = q->num_buffers + *num_buffers;
++	unsigned tot_bufs = vb2_get_num_buffers(q) + *num_buffers;
+ 	unsigned size = (dev->fmt->depth * dev->width * dev->height) >> 3;
  
--	/*
--	 * Let's request at least three buffers: two for the
--	 * DMA engine and one for userspace.
--	 */
--	if (vq->num_buffers + *nbuffers < 3)
--		*nbuffers = 3 - vq->num_buffers;
--
- 	if (*nplanes) {
- 		if (*nplanes != 1 || sizes[0] < szimage)
- 			return -EINVAL;
-@@ -1221,7 +1214,11 @@ int tw686x_video_init(struct tw686x_dev *dev)
- 		vc->vidq.ops = &tw686x_video_qops;
- 		vc->vidq.mem_ops = dev->dma_ops->mem_ops;
- 		vc->vidq.timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_MONOTONIC;
--		vc->vidq.min_buffers_needed = 2;
-+		/*
-+		 * Let's request at least three buffers: two for the
-+		 * DMA engine and one for userspace.
-+		 */
-+		vc->vidq.min_buffers_needed = 3;
- 		vc->vidq.lock = &vc->vb_mutex;
- 		vc->vidq.gfp_flags = dev->dma_mode != TW686X_DMA_MODE_MEMCPY ?
- 				     GFP_DMA32 : 0;
+-	if (tot_bufs < 2)
+-		tot_bufs = 2;
+ 	tot_bufs = tw68_buffer_count(size, tot_bufs);
+-	*num_buffers = tot_bufs - q->num_buffers;
++	*num_buffers = tot_bufs - vb2_get_num_buffers(q);
+ 	/*
+ 	 * We allow create_bufs, but only if the sizeimage is >= as the
+ 	 * current sizeimage. The tw68_buffer_count calculation becomes quite
 -- 
 2.39.2
 
