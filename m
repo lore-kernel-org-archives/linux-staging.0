@@ -1,49 +1,49 @@
-Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
+Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 051B838DE6
-	for <linux-staging@lists.linux.dev>; Tue,  3 Oct 2023 19:33:44 +0000 (UTC)
-Received: by mail-ej1-f46.google.com with SMTP id a640c23a62f3a-9ae3d4c136fso43726766b.1
-        for <linux-staging@lists.linux.dev>; Tue, 03 Oct 2023 12:33:44 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A9DC38DE6
+	for <linux-staging@lists.linux.dev>; Tue,  3 Oct 2023 19:33:50 +0000 (UTC)
+Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-9b2d64c9307so53327766b.1
+        for <linux-staging@lists.linux.dev>; Tue, 03 Oct 2023 12:33:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1696361623; x=1696966423; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1696361629; x=1696966429; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=UFQqJ8FnoiDbXQTYRHGl9/H4vusMfHOBvbL9wqGrJ38=;
-        b=azUKc5VktKScWgmAN4of+p55FVs97Yjbrf2WpYbjk+zx9v1Hgjcxkflkn30Nq7UcEd
-         RsuJHoppeD901EQXpH5j87I25XwrF09ShdGNUPQNgsrGFaw9mFjOpr0G2rFSd4/zY2Dc
-         uVD3YjhRhIinBYZ9UkpgoCh3nLOjsHeDDhOQp0JULhmU2AhX0E10oWmbcM7tc4ldaMG8
-         A1SA6cYXl8YAyr7MNtiAokNbJJqmMCm0S7mqC5eaPmPmNb3xry2J2VxcfKAwjBCtAM5V
-         jwFbbE2vf8LrWYuGrFGys85D7oZf88J7SP607fWw5xdgt7HcpHUZcyKRbYsjGucaslcx
-         KFYQ==
+        bh=o0RrMuYVrq3C/m7QhaLpLvy+gp+gXjLQFOpM9VmMeE8=;
+        b=ZhMD50lOS/UoqaW+7u1Km7T/NLyp3NBRYVx22dQ6khFy30lp+z+ZWi8BAPjRMSioSi
+         opGYja01qslD0IJhIip9Ped15TcLInF88Kl1uBg65SWk7HhTMwaPEka8oSq6i/6WYQI+
+         YgGuLUGNvgRi0H3PRRsnqelz8EO4X5DWea9wGcs8DzoWXXIvLyoABxXcKKlq4hTsESn8
+         mEDZ4m+l2CsilgmBW/EjnSRa/fWB6/Podelx5di2EwJKNuGvnDwnkXEJqr6/lYRQD5+r
+         XhRedMfcou6OK7oGJq4lV41sme7by0k1vuRDR1NC4bNlYT3B88/HGnjcDBuf/wHQ1CJX
+         +C5Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696361623; x=1696966423;
+        d=1e100.net; s=20230601; t=1696361629; x=1696966429;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=UFQqJ8FnoiDbXQTYRHGl9/H4vusMfHOBvbL9wqGrJ38=;
-        b=gLk7toviTJwu1T4h7QzzAnbfeES7azGyGz0JaTqrAJgoac5bXXa+VUJU88bIKGcVF4
-         ZHWf0xUTvVmGxDvsvN/NXYuecJETY3rNue4EL+cwwVLUiDIkktTb8TsYMkIwxm12xB+7
-         zB9fom4l2QR8qTQ5WlbD0jZ/WEM+vOIWOvrcKJT3Wn2BYa1qoJd65Ymdqf45nXG7nAuK
-         GD58cdibaRFfht4FwjeHsEJxf4SK5psgDuAWnFSJ10tQvWi+ASzim2X0irjVsDpajQmr
-         xrUZpG/mz7q8BB6tx7iCrB4OD6vJyFh+tiV8+PNijSzJlccfs1EWDaes4JcgmmsLDvM8
-         sw0Q==
-X-Gm-Message-State: AOJu0YwNBPora7nDMlhWls+mphn6Tdgi73me2+wEo8K+5DkcuyhHYuGe
-	tvLzpqaYXVMKkrbi6DibQRs=
-X-Google-Smtp-Source: AGHT+IH4AYER4e688ISlr0WZqOzbOyZdBBQyVL67QhBsYHL/n9LhNaolKHGGmZxBsp2V8wGoFQGcww==
-X-Received: by 2002:a17:906:109e:b0:9a1:f96c:4bb9 with SMTP id u30-20020a170906109e00b009a1f96c4bb9mr77552eju.6.1696361623196;
-        Tue, 03 Oct 2023 12:33:43 -0700 (PDT)
+        bh=o0RrMuYVrq3C/m7QhaLpLvy+gp+gXjLQFOpM9VmMeE8=;
+        b=VYOO4Fh2NTshdgpK5KVluQ4LC/KyklwQYXNDZ08tcMahUpYJKeGFPLxlN8guR78xl8
+         +GNvNbgoFt/t1uHbNa3ugb8gsCbtWmZrqUCJOWtLWJ97eoRuiRbRgowi7Ce4+CknsW2P
+         A9SM1FetY97PdJFNejfP/8z4VfXKi3G9/T6AmEyKTosSW2vNVztdUBXqU0fcL5NRAXJQ
+         8ZIuf1zdKQN2DtFQW3D/ie1ti/Lva4hOHws556ck6uFaFSFWHChxLweYO61xoTfCUzzt
+         7d3lCptKVchqGqyqLBpn65+48vZzirs5dPzsoWsNN0bzmHQlfxlUxToWyEgnRqlma29f
+         4Z4g==
+X-Gm-Message-State: AOJu0YyvsX3EhNknbKO0nUl6m/UI6kNajDMGDU9QMuF1UMorg81Yf97T
+	5ezV3smnL55yfw7EKaspZqU=
+X-Google-Smtp-Source: AGHT+IHobplVFBd7oTI8JXZLs5UOsJpJEOw3+xuRTqAxwNWNs97e7p5j/GdH4pDpzGTJdRNktyW79g==
+X-Received: by 2002:a17:906:29a:b0:9a6:ae76:d6ae with SMTP id 26-20020a170906029a00b009a6ae76d6aemr101117ejf.3.1696361629349;
+        Tue, 03 Oct 2023 12:33:49 -0700 (PDT)
 Received: from matrix-ESPRIMO-P710 (p579356c7.dip0.t-ipconnect.de. [87.147.86.199])
-        by smtp.gmail.com with ESMTPSA id j24-20020a170906411800b009b65a698c16sm1489645ejk.220.2023.10.03.12.33.42
+        by smtp.gmail.com with ESMTPSA id kj6-20020a170907764600b009b2c9476726sm1535909ejc.21.2023.10.03.12.33.48
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 03 Oct 2023 12:33:42 -0700 (PDT)
-Date: Tue, 3 Oct 2023 21:33:41 +0200
+        Tue, 03 Oct 2023 12:33:49 -0700 (PDT)
+Date: Tue, 3 Oct 2023 21:33:47 +0200
 From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [PATCH 06/11] staging: rtl8192e: Remove function
- _rtl92e_wx_set_promisc_mode()
-Message-ID: <d318afeae38f14db36da9f2b229ff61535b815c8.1696360404.git.philipp.g.hortmann@gmail.com>
+Subject: [PATCH 07/11] staging: rtl8192e: Remove function
+ _rtl92e_wx_get_promisc_mode()
+Message-ID: <8b1735a3f249b1cf73189e98a07e134c5cd50974.1696360404.git.philipp.g.hortmann@gmail.com>
 References: <cover.1696360403.git.philipp.g.hortmann@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -55,157 +55,73 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 In-Reply-To: <cover.1696360403.git.philipp.g.hortmann@gmail.com>
 
-Remove function _rtl92e_wx_set_promisc_mode() as this functionality is
+Remove function _rtl92e_wx_get_promisc_mode() as this functionality is
 not commonly used and the tool to access it is deprecated.
 
 Signed-off-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
 ---
- drivers/staging/rtl8192e/rtl8192e/rtl_wx.c | 47 +---------------------
- drivers/staging/rtl8192e/rtllib.h          |  4 +-
- drivers/staging/rtl8192e/rtllib_softmac.c  | 43 --------------------
- 3 files changed, 2 insertions(+), 92 deletions(-)
+ drivers/staging/rtl8192e/rtl8192e/rtl_wx.c | 34 ----------------------
+ 1 file changed, 34 deletions(-)
 
 diff --git a/drivers/staging/rtl8192e/rtl8192e/rtl_wx.c b/drivers/staging/rtl8192e/rtl8192e/rtl_wx.c
-index f28e70a0da4f..2f5acdd71339 100644
+index 2f5acdd71339..d0b68b258af7 100644
 --- a/drivers/staging/rtl8192e/rtl8192e/rtl_wx.c
 +++ b/drivers/staging/rtl8192e/rtl8192e/rtl_wx.c
-@@ -918,48 +918,6 @@ static int _rtl92e_wx_get_gen_ie(struct net_device *dev,
+@@ -918,25 +918,6 @@ static int _rtl92e_wx_get_gen_ie(struct net_device *dev,
  	return ret;
  }
  
--#define OID_RT_INTEL_PROMISCUOUS_MODE	0xFF0101F6
--
--static int _rtl92e_wx_set_promisc_mode(struct net_device *dev,
+-static int _rtl92e_wx_get_promisc_mode(struct net_device *dev,
 -				       struct iw_request_info *info,
 -				       union iwreq_data *wrqu, char *extra)
 -{
 -	struct r8192_priv *priv = rtllib_priv(dev);
 -	struct rtllib_device *ieee = priv->rtllib;
 -
--	u32 info_buf[3];
+-	mutex_lock(&priv->wx_mutex);
 -
--	u32 oid;
--	u32 promiscuous_on;
--	u32 fltr_src_sta_frame;
+-	snprintf(extra, 45, "PromiscuousMode:%d, FilterSrcSTAFrame:%d",
+-		 ieee->intel_promiscuous_md_info.promiscuous_on,
+-		 ieee->intel_promiscuous_md_info.fltr_src_sta_frame);
+-	wrqu->data.length = strlen(extra) + 1;
 -
--	if (copy_from_user(info_buf, wrqu->data.pointer, sizeof(info_buf)))
--		return -EFAULT;
--
--	oid = info_buf[0];
--	promiscuous_on = info_buf[1];
--	fltr_src_sta_frame = info_buf[2];
--
--	if (oid == OID_RT_INTEL_PROMISCUOUS_MODE) {
--		ieee->intel_promiscuous_md_info.promiscuous_on =
--					(promiscuous_on) ? (true) : (false);
--		ieee->intel_promiscuous_md_info.fltr_src_sta_frame =
--			(fltr_src_sta_frame) ? (true) : (false);
--		(promiscuous_on) ?
--		(rtllib_EnableIntelPromiscuousMode(dev, false)) :
--		(rtllib_DisableIntelPromiscuousMode(dev, false));
--
--		netdev_info(dev,
--			    "=======>%s(), on = %d, filter src sta = %d\n",
--			    __func__, promiscuous_on,
--			    fltr_src_sta_frame);
--	} else {
--		return -1;
--	}
+-	mutex_unlock(&priv->wx_mutex);
 -
 -	return 0;
 -}
 -
- static int _rtl92e_wx_get_promisc_mode(struct net_device *dev,
- 				       struct iw_request_info *info,
- 				       union iwreq_data *wrqu, char *extra)
-@@ -1037,9 +995,6 @@ static const struct iw_priv_args r8192_private_args[] = {
+ #define IW_IOCTL(x) ((x) - SIOCSIWCOMMIT)
+ static iw_handler r8192_wx_handlers[] = {
+ 	[IW_IOCTL(SIOCGIWNAME)] = _rtl92e_wx_get_name,
+@@ -995,9 +976,6 @@ static const struct iw_priv_args r8192_private_args[] = {
  		SIOCIWFIRSTPRIV + 0xb,
  		IW_PRIV_TYPE_INT | IW_PRIV_SIZE_FIXED | 1, IW_PRIV_TYPE_NONE,
  		"lps_force"
 -	}, {
--		SIOCIWFIRSTPRIV + 0x16,
--		IW_PRIV_TYPE_INT | IW_PRIV_SIZE_FIXED | 3, 0, "setpromisc"
- 	}, {
- 		SIOCIWFIRSTPRIV + 0x17,
- 		0, IW_PRIV_TYPE_CHAR | IW_PRIV_SIZE_FIXED | 45, "getpromisc"
-@@ -1070,7 +1025,7 @@ static iw_handler r8192_private_handler[] = {
+-		SIOCIWFIRSTPRIV + 0x17,
+-		0, IW_PRIV_TYPE_CHAR | IW_PRIV_SIZE_FIXED | 45, "getpromisc"
+ 	}
+ 
+ };
+@@ -1015,18 +993,6 @@ static iw_handler r8192_private_handler[] = {
  	(iw_handler)NULL,
- 	(iw_handler)NULL,
- 	(iw_handler)NULL,
--	(iw_handler)_rtl92e_wx_set_promisc_mode,
-+	(iw_handler)NULL,
- 	(iw_handler)_rtl92e_wx_get_promisc_mode,
+ 	(iw_handler)_rtl92e_wx_set_lps_awake_interval,
+ 	(iw_handler)_rtl92e_wx_set_force_lps,
+-	(iw_handler)NULL,
+-	(iw_handler)NULL,
+-	(iw_handler)NULL,
+-	(iw_handler)NULL,
+-	(iw_handler)NULL,
+-	(iw_handler)NULL,
+-	(iw_handler)NULL,
+-	(iw_handler)NULL,
+-	(iw_handler)NULL,
+-	(iw_handler)NULL,
+-	(iw_handler)NULL,
+-	(iw_handler)_rtl92e_wx_get_promisc_mode,
  };
  
-diff --git a/drivers/staging/rtl8192e/rtllib.h b/drivers/staging/rtl8192e/rtllib.h
-index 546eedfeb43e..a02e8c976ca0 100644
---- a/drivers/staging/rtl8192e/rtllib.h
-+++ b/drivers/staging/rtl8192e/rtllib.h
-@@ -1701,9 +1701,7 @@ void rtllib_stop_protocol(struct rtllib_device *ieee);
- 
- void rtllib_EnableNetMonitorMode(struct net_device *dev, bool bInitState);
- void rtllib_DisableNetMonitorMode(struct net_device *dev, bool bInitState);
--void rtllib_EnableIntelPromiscuousMode(struct net_device *dev, bool bInitState);
--void rtllib_DisableIntelPromiscuousMode(struct net_device *dev,
--					bool bInitState);
-+
- void rtllib_softmac_stop_protocol(struct rtllib_device *ieee);
- void rtllib_softmac_start_protocol(struct rtllib_device *ieee);
- 
-diff --git a/drivers/staging/rtl8192e/rtllib_softmac.c b/drivers/staging/rtl8192e/rtllib_softmac.c
-index 11395dbc9d4d..206f8e05d5d0 100644
---- a/drivers/staging/rtl8192e/rtllib_softmac.c
-+++ b/drivers/staging/rtl8192e/rtllib_softmac.c
-@@ -406,49 +406,6 @@ void rtllib_DisableNetMonitorMode(struct net_device *dev,
- 	ieee->AllowAllDestAddrHandler(dev, false, !bInitState);
- }
- 
--/* Enables the specialized promiscuous mode required by Intel.
-- * In this mode, Intel intends to hear traffics from/to other STAs in the
-- * same BSS. Therefore we don't have to disable checking BSSID and we only need
-- * to allow all dest. BUT: if we enable checking BSSID then we can't recv
-- * packets from other STA.
-- */
--void rtllib_EnableIntelPromiscuousMode(struct net_device *dev,
--		bool bInitState)
--{
--	bool bFilterOutNonAssociatedBSSID = false;
--
--	struct rtllib_device *ieee = netdev_priv_rsl(dev);
--
--	netdev_info(dev, "========>Enter Intel Promiscuous Mode\n");
--
--	ieee->AllowAllDestAddrHandler(dev, true, !bInitState);
--	ieee->SetHwRegHandler(dev, HW_VAR_CECHK_BSSID,
--			     (u8 *)&bFilterOutNonAssociatedBSSID);
--
--	ieee->net_promiscuous_md = true;
--}
--EXPORT_SYMBOL(rtllib_EnableIntelPromiscuousMode);
--
--/* Disables the specialized promiscuous mode required by Intel.
-- * See MgntEnableIntelPromiscuousMode for detail.
-- */
--void rtllib_DisableIntelPromiscuousMode(struct net_device *dev,
--		bool bInitState)
--{
--	bool bFilterOutNonAssociatedBSSID = true;
--
--	struct rtllib_device *ieee = netdev_priv_rsl(dev);
--
--	netdev_info(dev, "========>Exit Intel Promiscuous Mode\n");
--
--	ieee->AllowAllDestAddrHandler(dev, false, !bInitState);
--	ieee->SetHwRegHandler(dev, HW_VAR_CECHK_BSSID,
--			     (u8 *)&bFilterOutNonAssociatedBSSID);
--
--	ieee->net_promiscuous_md = false;
--}
--EXPORT_SYMBOL(rtllib_DisableIntelPromiscuousMode);
--
- static void rtllib_send_probe(struct rtllib_device *ieee)
- {
- 	struct sk_buff *skb;
+ static struct iw_statistics *_rtl92e_get_wireless_stats(struct net_device *dev)
 -- 
 2.42.0
 
