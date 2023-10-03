@@ -1,181 +1,152 @@
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45B85D533
-	for <linux-staging@lists.linux.dev>; Tue,  3 Oct 2023 08:07:42 +0000 (UTC)
-Received: from benjamin-XPS-13-9310.. (unknown [IPv6:2a01:e0a:120:3210:b6df:b784:6a0f:8451])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: benjamin.gaignard)
-	by madras.collabora.co.uk (Postfix) with ESMTPSA id 8993B6607392;
-	Tue,  3 Oct 2023 09:07:40 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1696320460;
-	bh=LkM/7EVzkzeCersLJmzLfirkGugiivs+DlFzZEGNCYQ=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=DvNdwH+DCR82uJhgZPIOTq6JPG603jOW5tj5nuVwfOoaaWFPiUtnihdSzrWVX2r6T
-	 BAk8TZeGkCUk5jk4fxywmys9a3u1nVsGtpQVz2jvFw00hhSjP+LlbolJ3iwaXAG1WI
-	 JGlll0f8ORVl8ZilGCdGOeVoQPx7AAF1OhEGWYDqbC4hk226i6ZtlsbgoQfWHyhMwc
-	 99t10F5rOa/J5HV6VrBgKXZ26qshstDcHu8Pfm6aypdtRkMS+UfIMRlgBywLsunExq
-	 5wqBqrVxtKIj+GkkvKjNFA9fcgPvfrfagqNFKi/hkUg9jhxmSZwLzwkAtPXLu88yqI
-	 fXKkPbWteNFMA==
-From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-To: mchehab@kernel.org,
-	tfiga@chromium.org,
-	m.szyprowski@samsung.com,
-	ming.qian@nxp.com,
-	ezequiel@vanguardiasur.com.ar,
-	p.zabel@pengutronix.de,
-	gregkh@linuxfoundation.org,
-	hverkuil-cisco@xs4all.nl,
-	nicolas.dufresne@collabora.com
-Cc: linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org,
-	linux-arm-msm@vger.kernel.org,
-	linux-rockchip@lists.infradead.org,
-	linux-staging@lists.linux.dev,
-	kernel@collabora.com,
-	Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Subject: [PATCH v10 53/54] media: v4l2: Add mem2mem helpers for DELETE_BUFS ioctl
-Date: Tue,  3 Oct 2023 10:07:02 +0200
-Message-Id: <20231003080704.43911-54-benjamin.gaignard@collabora.com>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20231003080704.43911-1-benjamin.gaignard@collabora.com>
-References: <20231003080704.43911-1-benjamin.gaignard@collabora.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09B501803F
+	for <linux-staging@lists.linux.dev>; Tue,  3 Oct 2023 10:53:30 +0000 (UTC)
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-40572aeb6d0so7310735e9.1
+        for <linux-staging@lists.linux.dev>; Tue, 03 Oct 2023 03:53:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1696330409; x=1696935209; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=Y1zEdiBl0ExGGXae3livewx7OK91KyMJUhCwm90pFhU=;
+        b=aucSWlPYz5jGsKn8kTUpva+Uct/NEzQB7Yd2mHtyG5M9MFYNxdRL5Nh15Gi+CAXrPZ
+         n5XpEXoSBAQcuLR8TxZR/WSXzi376xT6sylSzr6CYsSU6qZnTZl+FaNJB8zkraW/Ardm
+         O/kh4NHawRVfYEhZLivvjJMMFSegfVGG0m1XIaMdcJ/eFcJMCStZcdK9sqdB26UKjedP
+         wZDwitHGE18xmGQF/rdzN/xlZm+93/UuCgc7OUfS9yB14D98fD6m3ynExj8Mm4V24lPv
+         P0t4DOGpnspJOhiMO4Cz15iQM56tCkj9aepqRo/CV7pQTSyX6Ya+0mTUGxtkytFEWC0X
+         cuKA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1696330409; x=1696935209;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Y1zEdiBl0ExGGXae3livewx7OK91KyMJUhCwm90pFhU=;
+        b=aMBwvFxK18OiG1vMktZaRTwfHnf4GhIp1iLmkr4S+HPZ2wXuafEjoI5+25Mty5ATcJ
+         5mhNaXzurgxr74yK+1WSwJx6KTOcvLYSC2j6PBPYkihrA/AO91lehbjZTWB9VlgsqZ3x
+         P5XBdWsSSUcNBZfrVv5EH0WDAudg7Dz4blTOuO6DsYF+43sGEOqprfh1a4EUELK828Ex
+         CW+YtgBHO5Hz0bLmZ8AkvWHe7rEwwcb8Ly4+gp/1GsvqRSIBCRnQ1R7a7hDvK4syn3ct
+         2t+kPG8Ii56xVrltk4qAFkBJhMspJrV6HVJqlmndV/ixpmnNV4iKd7J+jU0qcWRSn7c3
+         5KfQ==
+X-Gm-Message-State: AOJu0YycVBzT/SljMaGDlwgG5geUW5nam87vZ7+kGerASl2CmrL1d0SG
+	NEvcw8Fy14KJRPat8Jqwvif1JQ==
+X-Google-Smtp-Source: AGHT+IFrlFTbWNC8M7mfAowD4//qf9eH7koPKNnANa5WAno4xaY32Mn62vsE1r4OcW8lmx133LVOGQ==
+X-Received: by 2002:a5d:4951:0:b0:31f:fb02:4dcd with SMTP id r17-20020a5d4951000000b0031ffb024dcdmr12544705wrs.4.1696330408555;
+        Tue, 03 Oct 2023 03:53:28 -0700 (PDT)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id e11-20020a056000194b00b0032320a9b010sm1305878wry.28.2023.10.03.03.53.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 03 Oct 2023 03:53:27 -0700 (PDT)
+Date: Tue, 3 Oct 2023 13:53:25 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, David Lechner <dlechner@baylibre.com>,
+	linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-staging@lists.linux.dev
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	David Lechner <david@lechnology.com>,
+	Jonathan Cameron <jic23@kernel.org>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Michael Hennerich <Michael.Hennerich@analog.com>,
+	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
+	Axel Haslam <ahaslam@baylibre.com>,
+	Philip Molloy <pmolloy@baylibre.com>, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 26/27] staging: iio: resolver: ad2s1210: implement
+ fault events
+Message-ID: <d54a43ad-0044-465c-92f4-2ffd46ccf983@kadam.mountain>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230929-ad2s1210-mainline-v3-26-fa4364281745@baylibre.com>
 
-Create v4l2-mem2mem helpers for VIDIOC_DELETE_BUFS ioctl.
+Hi David,
 
-Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
----
- .../media/platform/verisilicon/hantro_drv.c   |  1 +
- .../media/platform/verisilicon/hantro_v4l2.c  |  1 +
- drivers/media/test-drivers/vim2m.c            |  2 ++
- drivers/media/v4l2-core/v4l2-mem2mem.c        | 20 +++++++++++++++++++
- include/media/v4l2-mem2mem.h                  | 12 +++++++++++
- 5 files changed, 36 insertions(+)
+kernel test robot noticed the following build warnings:
 
-diff --git a/drivers/media/platform/verisilicon/hantro_drv.c b/drivers/media/platform/verisilicon/hantro_drv.c
-index 7f5b82eb6649..c8fed313c36f 100644
---- a/drivers/media/platform/verisilicon/hantro_drv.c
-+++ b/drivers/media/platform/verisilicon/hantro_drv.c
-@@ -248,6 +248,7 @@ queue_init(void *priv, struct vb2_queue *src_vq, struct vb2_queue *dst_vq)
- 	dst_vq->timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_COPY;
- 	dst_vq->lock = &ctx->dev->vpu_mutex;
- 	dst_vq->dev = ctx->dev->v4l2_dev.dev;
-+	src_vq->supports_delete_bufs = true;
- 
- 	return vb2_queue_init(dst_vq);
- }
-diff --git a/drivers/media/platform/verisilicon/hantro_v4l2.c b/drivers/media/platform/verisilicon/hantro_v4l2.c
-index 27a1e77cca38..0fd1c2fc78c8 100644
---- a/drivers/media/platform/verisilicon/hantro_v4l2.c
-+++ b/drivers/media/platform/verisilicon/hantro_v4l2.c
-@@ -756,6 +756,7 @@ const struct v4l2_ioctl_ops hantro_ioctl_ops = {
- 	.vidioc_dqbuf = v4l2_m2m_ioctl_dqbuf,
- 	.vidioc_prepare_buf = v4l2_m2m_ioctl_prepare_buf,
- 	.vidioc_create_bufs = v4l2_m2m_ioctl_create_bufs,
-+	.vidioc_delete_bufs = v4l2_m2m_ioctl_delete_bufs,
- 	.vidioc_expbuf = v4l2_m2m_ioctl_expbuf,
- 
- 	.vidioc_subscribe_event = v4l2_ctrl_subscribe_event,
-diff --git a/drivers/media/test-drivers/vim2m.c b/drivers/media/test-drivers/vim2m.c
-index 3e3b424b4860..17213ce42059 100644
---- a/drivers/media/test-drivers/vim2m.c
-+++ b/drivers/media/test-drivers/vim2m.c
-@@ -960,6 +960,7 @@ static const struct v4l2_ioctl_ops vim2m_ioctl_ops = {
- 	.vidioc_dqbuf		= v4l2_m2m_ioctl_dqbuf,
- 	.vidioc_prepare_buf	= v4l2_m2m_ioctl_prepare_buf,
- 	.vidioc_create_bufs	= v4l2_m2m_ioctl_create_bufs,
-+	.vidioc_delete_bufs	= v4l2_m2m_ioctl_delete_bufs,
- 	.vidioc_expbuf		= v4l2_m2m_ioctl_expbuf,
- 
- 	.vidioc_streamon	= v4l2_m2m_ioctl_streamon,
-@@ -1133,6 +1134,7 @@ static int queue_init(void *priv, struct vb2_queue *src_vq,
- 	dst_vq->mem_ops = &vb2_vmalloc_memops;
- 	dst_vq->timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_COPY;
- 	dst_vq->lock = &ctx->vb_mutex;
-+	dst_vq->supports_delete_bufs = true;
- 
- 	return vb2_queue_init(dst_vq);
- }
-diff --git a/drivers/media/v4l2-core/v4l2-mem2mem.c b/drivers/media/v4l2-core/v4l2-mem2mem.c
-index 0cc30397fbad..d1d59943680f 100644
---- a/drivers/media/v4l2-core/v4l2-mem2mem.c
-+++ b/drivers/media/v4l2-core/v4l2-mem2mem.c
-@@ -831,6 +831,17 @@ int v4l2_m2m_prepare_buf(struct file *file, struct v4l2_m2m_ctx *m2m_ctx,
- }
- EXPORT_SYMBOL_GPL(v4l2_m2m_prepare_buf);
- 
-+int v4l2_m2m_delete_bufs(struct file *file, struct v4l2_m2m_ctx *m2m_ctx,
-+			 struct v4l2_delete_buffers *d)
-+{
-+	struct vb2_queue *vq;
-+
-+	vq = v4l2_m2m_get_vq(m2m_ctx, d->type);
-+
-+	return vb2_delete_bufs(vq, d);
-+}
-+EXPORT_SYMBOL_GPL(v4l2_m2m_delete_bufs);
-+
- int v4l2_m2m_create_bufs(struct file *file, struct v4l2_m2m_ctx *m2m_ctx,
- 			 struct v4l2_create_buffers *create)
- {
-@@ -1377,6 +1388,15 @@ int v4l2_m2m_ioctl_create_bufs(struct file *file, void *priv,
- }
- EXPORT_SYMBOL_GPL(v4l2_m2m_ioctl_create_bufs);
- 
-+int v4l2_m2m_ioctl_delete_bufs(struct file *file, void *priv,
-+			       struct v4l2_delete_buffers *d)
-+{
-+	struct v4l2_fh *fh = file->private_data;
-+
-+	return v4l2_m2m_delete_bufs(file, fh->m2m_ctx, d);
-+}
-+EXPORT_SYMBOL_GPL(v4l2_m2m_ioctl_delete_bufs);
-+
- int v4l2_m2m_ioctl_querybuf(struct file *file, void *priv,
- 				struct v4l2_buffer *buf)
- {
-diff --git a/include/media/v4l2-mem2mem.h b/include/media/v4l2-mem2mem.h
-index d6c8eb2b5201..161f85c42dc8 100644
---- a/include/media/v4l2-mem2mem.h
-+++ b/include/media/v4l2-mem2mem.h
-@@ -381,6 +381,16 @@ int v4l2_m2m_dqbuf(struct file *file, struct v4l2_m2m_ctx *m2m_ctx,
- int v4l2_m2m_prepare_buf(struct file *file, struct v4l2_m2m_ctx *m2m_ctx,
- 			 struct v4l2_buffer *buf);
- 
-+/**
-+ * v4l2_m2m_delete_bufs() - delete buffers from the queue
-+ *
-+ * @file: pointer to struct &file
-+ * @m2m_ctx: m2m context assigned to the instance given by struct &v4l2_m2m_ctx
-+ * @d: pointer to struct &v4l2_delete_buffers
-+ */
-+int v4l2_m2m_delete_bufs(struct file *file, struct v4l2_m2m_ctx *m2m_ctx,
-+			 struct v4l2_delete_buffers *d);
-+
- /**
-  * v4l2_m2m_create_bufs() - create a source or destination buffer, depending
-  * on the type
-@@ -860,6 +870,8 @@ int v4l2_m2m_ioctl_reqbufs(struct file *file, void *priv,
- 				struct v4l2_requestbuffers *rb);
- int v4l2_m2m_ioctl_create_bufs(struct file *file, void *fh,
- 				struct v4l2_create_buffers *create);
-+int v4l2_m2m_ioctl_delete_bufs(struct file *file, void *priv,
-+			       struct v4l2_delete_buffers *d);
- int v4l2_m2m_ioctl_querybuf(struct file *file, void *fh,
- 				struct v4l2_buffer *buf);
- int v4l2_m2m_ioctl_expbuf(struct file *file, void *fh,
+url:    https://github.com/intel-lab-lkp/linux/commits/David-Lechner/dt-bindings-iio-resolver-add-devicetree-bindings-for-ad2s1210/20230930-014031
+base:   5e99f692d4e32e3250ab18d511894ca797407aec
+patch link:    https://lore.kernel.org/r/20230929-ad2s1210-mainline-v3-26-fa4364281745%40baylibre.com
+patch subject: [PATCH v3 26/27] staging: iio: resolver: ad2s1210: implement fault events
+config: x86_64-randconfig-161-20231002 (https://download.01.org/0day-ci/archive/20231003/202310031839.tKR53HoP-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20231003/202310031839.tKR53HoP-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202310031839.tKR53HoP-lkp@intel.com/
+
+smatch warnings:
+drivers/staging/iio/resolver/ad2s1210.c:436 ad2s1210_single_conversion() error: buffer overflow 'st->rx' 2 <= 2
+
+vim +436 drivers/staging/iio/resolver/ad2s1210.c
+
+ecf16f4922f691 David Lechner    2023-09-29  391  static int ad2s1210_single_conversion(struct iio_dev *indio_dev,
+29148543c52146 Jonathan Cameron 2011-10-05  392  				      struct iio_chan_spec const *chan,
+e9336a85ceb885 David Lechner    2023-09-29  393  				      int *val)
+817e5c65c511d4 Graf Yang        2010-10-27  394  {
+ecf16f4922f691 David Lechner    2023-09-29  395  	struct ad2s1210_state *st = iio_priv(indio_dev);
+ecf16f4922f691 David Lechner    2023-09-29  396  	s64 timestamp;
+69cc7fbdcdf2e3 David Lechner    2023-09-29  397  	int ret;
+817e5c65c511d4 Graf Yang        2010-10-27  398  
+817e5c65c511d4 Graf Yang        2010-10-27  399  	mutex_lock(&st->lock);
+69cc7fbdcdf2e3 David Lechner    2023-09-29  400  	gpiod_set_value(st->sample_gpio, 1);
+ecf16f4922f691 David Lechner    2023-09-29  401  	timestamp = iio_get_time_ns(indio_dev);
+817e5c65c511d4 Graf Yang        2010-10-27  402  	/* delay (6 * tck + 20) nano seconds */
+817e5c65c511d4 Graf Yang        2010-10-27  403  	udelay(1);
+817e5c65c511d4 Graf Yang        2010-10-27  404  
+29148543c52146 Jonathan Cameron 2011-10-05  405  	switch (chan->type) {
+29148543c52146 Jonathan Cameron 2011-10-05  406  	case IIO_ANGL:
+69cc7fbdcdf2e3 David Lechner    2023-09-29  407  		ret = ad2s1210_set_mode(st, MOD_POS);
+29148543c52146 Jonathan Cameron 2011-10-05  408  		break;
+29148543c52146 Jonathan Cameron 2011-10-05  409  	case IIO_ANGL_VEL:
+69cc7fbdcdf2e3 David Lechner    2023-09-29  410  		ret = ad2s1210_set_mode(st, MOD_VEL);
+29148543c52146 Jonathan Cameron 2011-10-05  411  		break;
+29148543c52146 Jonathan Cameron 2011-10-05  412  	default:
+29148543c52146 Jonathan Cameron 2011-10-05  413  		ret = -EINVAL;
+29148543c52146 Jonathan Cameron 2011-10-05  414  		break;
+29148543c52146 Jonathan Cameron 2011-10-05  415  	}
+29148543c52146 Jonathan Cameron 2011-10-05  416  	if (ret < 0)
+29148543c52146 Jonathan Cameron 2011-10-05  417  		goto error_ret;
+ecf16f4922f691 David Lechner    2023-09-29  418  	ret = spi_read(st->sdev, &st->sample, 3);
+29148543c52146 Jonathan Cameron 2011-10-05  419  	if (ret < 0)
+817e5c65c511d4 Graf Yang        2010-10-27  420  		goto error_ret;
+29148543c52146 Jonathan Cameron 2011-10-05  421  
+29148543c52146 Jonathan Cameron 2011-10-05  422  	switch (chan->type) {
+29148543c52146 Jonathan Cameron 2011-10-05  423  	case IIO_ANGL:
+ecf16f4922f691 David Lechner    2023-09-29  424  		*val = be16_to_cpu(st->sample.raw);
+29148543c52146 Jonathan Cameron 2011-10-05  425  		ret = IIO_VAL_INT;
+29148543c52146 Jonathan Cameron 2011-10-05  426  		break;
+29148543c52146 Jonathan Cameron 2011-10-05  427  	case IIO_ANGL_VEL:
+ecf16f4922f691 David Lechner    2023-09-29  428  		*val = (s16)be16_to_cpu(st->sample.raw);
+29148543c52146 Jonathan Cameron 2011-10-05  429  		ret = IIO_VAL_INT;
+29148543c52146 Jonathan Cameron 2011-10-05  430  		break;
+29148543c52146 Jonathan Cameron 2011-10-05  431  	default:
+5e99f692d4e32e David Lechner    2023-09-21  432  		ret = -EINVAL;
+5e99f692d4e32e David Lechner    2023-09-21  433  		break;
+29148543c52146 Jonathan Cameron 2011-10-05  434  	}
+29148543c52146 Jonathan Cameron 2011-10-05  435  
+ecf16f4922f691 David Lechner    2023-09-29 @436  	ad2s1210_push_events(indio_dev, st->rx[2], timestamp);
+                                                                                          ^^^^^^
+Apparently ->rx only has 2 elements.
+
+ecf16f4922f691 David Lechner    2023-09-29  437  
+817e5c65c511d4 Graf Yang        2010-10-27  438  error_ret:
+69cc7fbdcdf2e3 David Lechner    2023-09-29  439  	gpiod_set_value(st->sample_gpio, 0);
+817e5c65c511d4 Graf Yang        2010-10-27  440  	/* delay (2 * tck + 20) nano seconds */
+817e5c65c511d4 Graf Yang        2010-10-27  441  	udelay(1);
+817e5c65c511d4 Graf Yang        2010-10-27  442  	mutex_unlock(&st->lock);
+29148543c52146 Jonathan Cameron 2011-10-05  443  	return ret;
+817e5c65c511d4 Graf Yang        2010-10-27  444  }
+
 -- 
-2.39.2
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
