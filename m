@@ -1,91 +1,88 @@
-Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE0352137C
-	for <linux-staging@lists.linux.dev>; Tue,  3 Oct 2023 14:22:22 +0000 (UTC)
-Received: by mail-ed1-f51.google.com with SMTP id 4fb4d7f45d1cf-5221bd8f62eso282244a12.1
-        for <linux-staging@lists.linux.dev>; Tue, 03 Oct 2023 07:22:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1696342941; x=1696947741; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:from:references:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=gZTPVZjw5Q7ID9PafpDtUtk+upIY6bWyOZZUesf6B3U=;
-        b=iIIC9brihy5s2HEBFCbSnfJLyzSNzDMjZ0706yj6cIndi9NXQBkHrURVghoMND5m4L
-         e1sjXx548SwxYYu4TpgNMk9eYQ+T4GtmuqQnyGgNt1nCtxuag5YdymQrJy3yjHyc0QaQ
-         8lPKmRqvJ8ggGuyb9/vpW2Jsz0Ql6Sf0FPEpDrl2EKUUppDtHu+E6+lABNgqV3MGfhAf
-         mize5eD8s8EIcCSQniV91jdCU3+JUZDtlJ9+FhbYfrP1j1zE91EvHJrr7kDPCfRKqQzx
-         3QsjqadtlFh16Rf0h+RBmlxf+HVvNrwdQCYCBGk1GjcwvYvIpLq59GtA2jWkaszgqovG
-         6IOA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696342941; x=1696947741;
-        h=content-transfer-encoding:in-reply-to:from:references:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=gZTPVZjw5Q7ID9PafpDtUtk+upIY6bWyOZZUesf6B3U=;
-        b=GwPnVLx8R5D5JxURayESkjuO+NmcwbHw5WdridLVvQmNCt4LmfOmscYP4K8CKa9HHP
-         LNJQR96UEiApLEuUxEPJGizab3yu/v3zkpygO0+ffiwB6/HWqspI3br1ytpwlzPNsyAG
-         VcLh4sJmDNZn9DhdcGlG7yPSkq2dDcTd0TUhZGBbBGE889l2NYWVtrtezzEGqEQOHOJF
-         8Buwt1OVepyHvvPPZaxDQyATA2rQPCyJWrvo7ZicsWOtLp/EZMLLxM8rs77mZ88+pSh+
-         f0GM64SQHOEJj9bbvDj3P7Dorjg0X1vIm32rudidw+yKSwCk/TaUmAgFXAqH2cN7PvfR
-         Uk2Q==
-X-Gm-Message-State: AOJu0YxlI6exgh6uSEY7Nvc9wk61rCEqAzoKI3YZi3/nMnV92rzMv8ID
-	Acug1/lf1LQ/2P8AxOQeeeQ=
-X-Google-Smtp-Source: AGHT+IEKi6grJ6nrHdtMgB67yD68xZ3JEqIPy/wfgBeOm8Ihw8L+7hmvQPEaDZoWlKlGtpF189MLNA==
-X-Received: by 2002:a05:6402:5243:b0:51d:cfeb:fc3b with SMTP id t3-20020a056402524300b0051dcfebfc3bmr11140823edd.1.1696342940653;
-        Tue, 03 Oct 2023 07:22:20 -0700 (PDT)
-Received: from [192.168.0.106] (p579356c7.dip0.t-ipconnect.de. [87.147.86.199])
-        by smtp.gmail.com with ESMTPSA id s3-20020aa7d783000000b0053404772535sm935532edq.81.2023.10.03.07.22.20
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 03 Oct 2023 07:22:20 -0700 (PDT)
-Message-ID: <7a8e0c9e-4662-ffab-50e8-f0f9e73dbb10@gmail.com>
-Date: Tue, 3 Oct 2023 16:22:19 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C85EB2E640;
+	Tue,  3 Oct 2023 14:22:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1696342943; x=1727878943;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=cjks6CkF+4bewzoomLbEOwdv2hYLwa0cZHBRPyA2qlk=;
+  b=Cn6+tXrhcr4Rh01hVJM3p6mPXtIiFhDRNG1+0xoHVAqEURBIseoVbjVW
+   E1Iljanns4mz/9S0D9NuZ48FeuVkNBb2ctZXqGRySw5Qpt+mjAc2p60wa
+   U1xRv4m0f06uhjn2czfjl7EeQjdCfgU4STg5ty8AcbTuEIMegDRudpRSN
+   Zs6TYUd8DJJqEerz6UN5gU33a4ttb3FzfIHLJhSW1VXzVxcujdNxB/yIV
+   t5Yx53tBg5tfb1IRE2AtMjK5frcN08h6O/iSW4aC9h+qviWMDIiKoDcHT
+   dIGXsmbl8MhTrspumbdA5Nf4wi1JECV+ka7V3B/OZNgEmavEkIz33fzTz
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10852"; a="382794209"
+X-IronPort-AV: E=Sophos;i="6.03,197,1694761200"; 
+   d="scan'208";a="382794209"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Oct 2023 07:22:22 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10852"; a="816701888"
+X-IronPort-AV: E=Sophos;i="6.03,197,1694761200"; 
+   d="scan'208";a="816701888"
+Received: from lkp-server02.sh.intel.com (HELO c3b01524d57c) ([10.239.97.151])
+  by fmsmga008.fm.intel.com with ESMTP; 03 Oct 2023 07:22:18 -0700
+Received: from kbuild by c3b01524d57c with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qngHu-0007B6-1v;
+	Tue, 03 Oct 2023 14:22:15 +0000
+Date: Tue, 3 Oct 2023 22:21:38 +0800
+From: kernel test robot <lkp@intel.com>
+To: David Lechner <dlechner@baylibre.com>, linux-iio@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-staging@lists.linux.dev
+Cc: oe-kbuild-all@lists.linux.dev, David Lechner <david@lechnology.com>,
+	Jonathan Cameron <jic23@kernel.org>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Michael Hennerich <Michael.Hennerich@analog.com>,
+	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
+	Axel Haslam <ahaslam@baylibre.com>,
+	Philip Molloy <pmolloy@baylibre.com>, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 22/27] staging: iio: resolver: ad2s1210: convert LOS
+ threshold to event attr
+Message-ID: <202310032242.jYDq0057-lkp@intel.com>
+References: <20230929-ad2s1210-mainline-v3-22-fa4364281745@baylibre.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.1
-Subject: Re: [PATCH v3 0/3] Type encoding info dropped from arrary name
- "abyBBVGA" and variable names "byBBVGACurrent", "byBBVGANew"
-Content-Language: en-US
-To: Pavan Bobba <opensource206@gmail.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-References: <cover.1696141471.git.opensource206@gmail.com>
-From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-In-Reply-To: <cover.1696141471.git.opensource206@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230929-ad2s1210-mainline-v3-22-fa4364281745@baylibre.com>
 
-On 10/3/23 16:15, Pavan Bobba wrote:
-> This patchset series consist of fixes to issues found by checkpatch
-> 
-> Pavan Bobba (3):
->    staging: vt6655: Type encoding info dropped from array name "abyBBVGA"
->    staging: vt6655: Type encoding info dropped from variable name
->      "byBBVGACurrent"
->    staging: vt6655: Type encoding info dropped from variable name
->      "byBBVGANew"
-> 
->   drivers/staging/vt6655/baseband.c    | 40 ++++++++++++++--------------
->   drivers/staging/vt6655/channel.c     |  6 ++---
->   drivers/staging/vt6655/device.h      |  6 ++---
->   drivers/staging/vt6655/device_main.c | 24 ++++++++---------
->   4 files changed, 38 insertions(+), 38 deletions(-)
-> 
+Hi David,
 
-Hi Pavan,
+kernel test robot noticed the following build warnings:
 
-please do not send your patches in one email.
+[auto build test WARNING on 5e99f692d4e32e3250ab18d511894ca797407aec]
 
-You need to send it in 4 separate emails.
-Have a look at this example:
-https://lore.kernel.org/linux-staging/
-It was just send by Tree Davies.
+url:    https://github.com/intel-lab-lkp/linux/commits/David-Lechner/dt-bindings-iio-resolver-add-devicetree-bindings-for-ad2s1210/20230930-014031
+base:   5e99f692d4e32e3250ab18d511894ca797407aec
+patch link:    https://lore.kernel.org/r/20230929-ad2s1210-mainline-v3-22-fa4364281745%40baylibre.com
+patch subject: [PATCH v3 22/27] staging: iio: resolver: ad2s1210: convert LOS threshold to event attr
+config: i386-randconfig-062-20231003 (https://download.01.org/0day-ci/archive/20231003/202310032242.jYDq0057-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231003/202310032242.jYDq0057-lkp@intel.com/reproduce)
 
-Thanks for your support.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310032242.jYDq0057-lkp@intel.com/
 
-Bye Philipp
+sparse warnings: (new ones prefixed by >>)
+   drivers/staging/iio/resolver/ad2s1210.c:896:1: sparse: sparse: symbol 'iio_const_attr_in_phase0_mag_value_available' was not declared. Should it be static?
+>> drivers/staging/iio/resolver/ad2s1210.c:901:1: sparse: sparse: symbol 'iio_const_attr_in_altvoltage0_thresh_falling_value_available' was not declared. Should it be static?
+   drivers/staging/iio/resolver/ad2s1210.c:902:1: sparse: sparse: symbol 'iio_dev_attr_in_angl1_thresh_rising_value_available' was not declared. Should it be static?
+   drivers/staging/iio/resolver/ad2s1210.c:903:1: sparse: sparse: symbol 'iio_dev_attr_in_angl1_thresh_rising_hysteresis_available' was not declared. Should it be static?
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
