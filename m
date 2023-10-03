@@ -1,53 +1,47 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B327C3AC3F;
-	Tue,  3 Oct 2023 17:21:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1696353688; x=1727889688;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=m63g1gNKTI5G9AU4v2NJZq6BCzlj3PUdfIwwcDby6Lw=;
-  b=ck3ZCIV1DatqvkrvnXDkHXq5pr1n55t/SYVaw9RyJ2iiDrCkUKLAwQOb
-   fOlHW6/TywcL2hZ6cpr6Q3TvrXP10xcFKNkYHnSz4WFHYBnUS0q+/RS64
-   ysnlgBqM/w5QZekztE2dVwz8tDraWehKJVc2wGDBKbb+cIpk37my6ECyE
-   KnetZftX/HiCn9IG/i0fodJNjERJKcIaYJTwuOTOK8wrmwDbnb10kfmmk
-   WQ8OxM7bX4nv0S7BIAfHV9RYx4419o3sS7eBC3iZoNJ0ksJvvdPBf9/pk
-   YxF1ens8wRl1C6wkTOARum7LJg1NIWLhUjvWXXoM6spt1jrPaC7aEvxJQ
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10852"; a="469212698"
-X-IronPort-AV: E=Sophos;i="6.03,197,1694761200"; 
-   d="scan'208";a="469212698"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Oct 2023 10:21:27 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10852"; a="780386287"
-X-IronPort-AV: E=Sophos;i="6.03,197,1694761200"; 
-   d="scan'208";a="780386287"
-Received: from lkp-server02.sh.intel.com (HELO c3b01524d57c) ([10.239.97.151])
-  by orsmga008.jf.intel.com with ESMTP; 03 Oct 2023 10:21:23 -0700
-Received: from kbuild by c3b01524d57c with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qnj5F-0007jp-0c;
-	Tue, 03 Oct 2023 17:21:21 +0000
-Date: Wed, 4 Oct 2023 01:21:03 +0800
-From: kernel test robot <lkp@intel.com>
-To: David Lechner <dlechner@baylibre.com>, linux-iio@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-staging@lists.linux.dev
-Cc: oe-kbuild-all@lists.linux.dev, David Lechner <david@lechnology.com>,
-	Jonathan Cameron <jic23@kernel.org>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Michael Hennerich <Michael.Hennerich@analog.com>,
-	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
-	Axel Haslam <ahaslam@baylibre.com>,
-	Philip Molloy <pmolloy@baylibre.com>, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 23/27] staging: iio: resolver: ad2s1210: convert DOS
- overrange threshold to event attr
-Message-ID: <202310040023.rI6mfueI-lkp@intel.com>
-References: <20230929-ad2s1210-mainline-v3-23-fa4364281745@baylibre.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F4D338DE6
+	for <linux-staging@lists.linux.dev>; Tue,  3 Oct 2023 19:33:02 +0000 (UTC)
+Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-9ae65c0e46fso53935866b.0
+        for <linux-staging@lists.linux.dev>; Tue, 03 Oct 2023 12:33:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1696361581; x=1696966381; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=HTn6J1jkDkGPJuOyaFZiPoWiCLl873wqp1f1gByRkbY=;
+        b=Cl2owEH+U2YsdlsHoDF5sHcpHJ61oIQ0aUcA1BTaQagds3CMUuUouzcIRtN50Fz4YJ
+         ySvU7rfvh/QHsUcaB3ev8ZtKVHl1u04BRGeboBPJj8PlOVuIUdkaxI8gggXxQJdpSNQ/
+         lf1b5vqZAVNE1c0Gv7jFQ/++1HeoHiyi+Ilieaile1Um7CDO/dKwxDCGoY+zEuC0Eb9+
+         bqGGOrWR7fqS5ptbkRzNqolAKSVfkNQ2aoXiT87iAASor2Lr0Q18bFh9GM1dnNJ1PkWS
+         s/aK75rPjonaaSApEVy7itHZ067em2A0PQHPnHwwJlOs87f8WiMPy/cm0ldxT2swOtU6
+         KcUQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1696361581; x=1696966381;
+        h=content-disposition:mime-version:message-id:subject:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=HTn6J1jkDkGPJuOyaFZiPoWiCLl873wqp1f1gByRkbY=;
+        b=ZgMJ2DqEzda5TYpVMmimsCYZgj1IY6w+3CVsG94xNI+1vXa7VBZ4NpyjD5cN8jgkXL
+         JO1/9UUK9QK1Tp5Ek/qXl3uFlAtej6u8vPTFjc2lbr8AAthOrCYXJ9T9BXT/QEVen7w3
+         /lAZ2DvP5+vmR7mLRlBTlk2g7mOg4k7x4Hv6OwztzsITR6gveG4z/8HuGeUIb6M1yw67
+         xqCrVmhEeHxSbglFBxywuQ+Bj5eFgUQkvW2qOqJqxA9xEZ/rd1aqazTynOyPnWF+aAMk
+         5n3PfttU3j/S8RVAyv1yvgwEWOeM6ryy2GQj5kuB/1ZscpSu/gEBDdcC1Fl+YE2UDi2P
+         axdA==
+X-Gm-Message-State: AOJu0YzkiMXIox/CvcrX4V56GzuCv2HNKbOuyT4+P2BaPTClyax1yd8b
+	OwvbfLvgEjnulnF4mJw6Dko1YzcZO5Q=
+X-Google-Smtp-Source: AGHT+IFt1x8zPA9cFLiJgAdBDaNjnJqrerrvSGn7e48IZfzP41wCL4Db+tCT9LVP4IhdZvpkOmoBaA==
+X-Received: by 2002:a17:906:7389:b0:9b2:71f2:bd11 with SMTP id f9-20020a170906738900b009b271f2bd11mr96402ejl.4.1696361580483;
+        Tue, 03 Oct 2023 12:33:00 -0700 (PDT)
+Received: from matrix-ESPRIMO-P710 (p579356c7.dip0.t-ipconnect.de. [87.147.86.199])
+        by smtp.gmail.com with ESMTPSA id y9-20020a17090614c900b009a1a5a7ebacsm1492247ejc.201.2023.10.03.12.32.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 03 Oct 2023 12:33:00 -0700 (PDT)
+Date: Tue, 3 Oct 2023 21:32:58 +0200
+From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: [PATCH 00/11] staging: rtl8192e: Remove functions rawtx and promisc
+Message-ID: <cover.1696360403.git.philipp.g.hortmann@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -56,34 +50,39 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230929-ad2s1210-mainline-v3-23-fa4364281745@baylibre.com>
 
-Hi David,
+The Linux kernel authors consider "wireless tools" package deprecated. The
+"wireless extension" is also deprecated. Start to remove private functions
+of "wireless extensions" that can only be accessed by "wireless tools"
+from driver.
 
-kernel test robot noticed the following build warnings:
+Tested with rtl8192e (WLL6130-D99) in Mode n (12.5 MB/s)
+Transferred this patch over wlan connection of rtl8192e.
 
-[auto build test WARNING on 5e99f692d4e32e3250ab18d511894ca797407aec]
+Philipp Hortmann (11):
+  staging: rtl8192e: Remove function _rtl92e_wx_set_rawtx()
+  staging: rtl8192e: Remove equation in function rtllib_xmit_inter()
+  staging: rtl8192e: Remove function rtllib_start_monitor_mode()
+  staging: rtl8192e: Remove unused variable raw_tx
+  staging: rtl8192e: Remove unused parameter mesh_flag
+  staging: rtl8192e: Remove function _rtl92e_wx_set_promisc_mode()
+  staging: rtl8192e: Remove function _rtl92e_wx_get_promisc_mode()
+  staging: rtl8192e: Remove constant variable fltr_src_sta_frame
+  staging: rtl8192e: Remove constant variable promiscuous_on
+  staging: rtl8192e: Remove constant variable net_promiscuous_md
+  staging: rtl8192e: Remove constant variable bToOtherSTA
 
-url:    https://github.com/intel-lab-lkp/linux/commits/David-Lechner/dt-bindings-iio-resolver-add-devicetree-bindings-for-ad2s1210/20230930-014031
-base:   5e99f692d4e32e3250ab18d511894ca797407aec
-patch link:    https://lore.kernel.org/r/20230929-ad2s1210-mainline-v3-23-fa4364281745%40baylibre.com
-patch subject: [PATCH v3 23/27] staging: iio: resolver: ad2s1210: convert DOS overrange threshold to event attr
-config: i386-randconfig-062-20231003 (https://download.01.org/0day-ci/archive/20231004/202310040023.rI6mfueI-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231004/202310040023.rI6mfueI-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310040023.rI6mfueI-lkp@intel.com/
-
-sparse warnings: (new ones prefixed by >>)
-   drivers/staging/iio/resolver/ad2s1210.c:899:1: sparse: sparse: symbol 'iio_const_attr_in_phase0_mag_value_available' was not declared. Should it be static?
-   drivers/staging/iio/resolver/ad2s1210.c:904:1: sparse: sparse: symbol 'iio_const_attr_in_altvoltage0_thresh_falling_value_available' was not declared. Should it be static?
->> drivers/staging/iio/resolver/ad2s1210.c:905:1: sparse: sparse: symbol 'iio_const_attr_in_altvoltage0_thresh_rising_value_available' was not declared. Should it be static?
-   drivers/staging/iio/resolver/ad2s1210.c:906:1: sparse: sparse: symbol 'iio_dev_attr_in_angl1_thresh_rising_value_available' was not declared. Should it be static?
-   drivers/staging/iio/resolver/ad2s1210.c:907:1: sparse: sparse: symbol 'iio_dev_attr_in_angl1_thresh_rising_hysteresis_available' was not declared. Should it be static?
+ .../staging/rtl8192e/rtl8192e/r8192E_dev.c    |   5 +-
+ drivers/staging/rtl8192e/rtl8192e/rtl_core.c  |  13 +-
+ drivers/staging/rtl8192e/rtl8192e/rtl_wx.c    | 107 +---
+ drivers/staging/rtl8192e/rtllib.h             |  18 +-
+ drivers/staging/rtl8192e/rtllib_module.c      |   1 -
+ drivers/staging/rtl8192e/rtllib_rx.c          |  72 +--
+ drivers/staging/rtl8192e/rtllib_softmac.c     |  55 +-
+ drivers/staging/rtl8192e/rtllib_softmac_wx.c  |  32 --
+ drivers/staging/rtl8192e/rtllib_tx.c          | 476 +++++++++---------
+ 9 files changed, 262 insertions(+), 517 deletions(-)
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.42.0
+
