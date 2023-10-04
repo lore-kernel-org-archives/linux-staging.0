@@ -1,278 +1,458 @@
-Received: from lahtoruutu.iki.fi (lahtoruutu.iki.fi [185.185.170.37])
+Received: from mx0a-00128a01.pphosted.com (mx0a-00128a01.pphosted.com [148.163.135.77])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D199A21
-	for <linux-staging@lists.linux.dev>; Wed,  4 Oct 2023 08:39:51 +0000 (UTC)
-Received: from meesny.iki.fi (meesny.iki.fi [IPv6:2001:67c:2b0:1c1::201])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by lahtoruutu.iki.fi (Postfix) with ESMTPS id 4S0nwY4Bkhz49Q6m
-	for <linux-staging@lists.linux.dev>; Wed,  4 Oct 2023 11:31:41 +0300 (EEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu;
-	t=1696408301;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=JKqxzOZ2qGHHi9gAj4QDW8D+W69O9XKgDH2rcoYp++Q=;
-	b=Xq6h8rp4qhH00GWMVyZ0QH/UfpkbFIzb7gwVpZkkcoub33/YEuYArBiufd+hvwhaR56Acq
-	+l6zAJZRRDBYN7RkOorUQu3WKzmX37tgunndPHvfn7j7ZTjCbuTC9HiTmuequMryBtgK2X
-	qgsqrF9kLRWJF6rDmSMuTbT7un12cGmjtclVUAQYP2KJI9PC8mHLV79lv7JAKwTlczMI3R
-	TKZOmbC5oqPe5Agnoj3IvsXe0vW+ZOxGks/DiYgQ/sJ920ZhxLJW7iS6eBM9UMbph7XE7U
-	D9h+kXIRSRiagAF6nIgiWs7M+gx4ncI5bx9PNWOcsJbWB1pNjwZaE75BNvq8Pg==
-Received: from hillosipuli.retiisi.eu (2a00-1190-d1dd-0-c641-1eff-feae-163d.v6.cust.suomicom.net [IPv6:2a00:1190:d1dd:0:c641:1eff:feae:163d])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: sailus)
-	by meesny.iki.fi (Postfix) with ESMTPSA id 4S0nwH0HHJzybV;
-	Wed,  4 Oct 2023 11:31:26 +0300 (EEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=meesny;
-	t=1696408293;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=JKqxzOZ2qGHHi9gAj4QDW8D+W69O9XKgDH2rcoYp++Q=;
-	b=jjKP9GPPuYNPNjVbWbzKxhtGMkzgxCQPjiea+rmCSgFJrsqjVHQLqf/i7/g60tHSes247Z
-	zFroukg23yHFYFkYnkdak91bh95u8O5mZm4Mp13Lw7ju0ptDNyY9JIZFg9pPwYvZhsyHkH
-	AoK+odFqRbpor22ObYuSY+HJQUlFOAw=
-ARC-Seal: i=1; s=meesny; d=iki.fi; t=1696408293; a=rsa-sha256; cv=none;
-	b=oBwSZIhyYZBJPLRuTIiXSEnw/21bkB5xqV/XPaagFVamkH8QEp1zC49wRg5EHuzGPubNrn
-	zNOoVvPUcrh3AiG3WUFvrDnZ8Ph919Su3hN0OC6hDoMQjAwD0mHRk2OeSsWotS55SPKNLj
-	V1kWmJsar6rJgtbyd/Gw9q2x3NnQD70=
-ARC-Authentication-Results: i=1;
-	ORIGINATING;
-	auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
-	s=meesny; t=1696408293;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=JKqxzOZ2qGHHi9gAj4QDW8D+W69O9XKgDH2rcoYp++Q=;
-	b=pGuoSjaqsBGGVqxwz2ha7qzoPXBIFO5QeGWUsOsGlfRCknQ3zvipKtQz+1V9Dl75a2kbE4
-	yiq0SZrqqt6dEnQoBuCqtcCu5DAZfnIq5rGc8WOe2K00/8NHZBPcOIzVo2AtnNRFq0y22s
-	a6KBPAMIhz3/rzC50ON9Q0l4LcsVgcU=
-Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 91D2C634C93;
-	Wed,  4 Oct 2023 11:31:25 +0300 (EEST)
-Date: Wed, 4 Oct 2023 08:31:25 +0000
-From: Sakari Ailus <sakari.ailus@iki.fi>
-To: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Cc: mchehab@kernel.org, tfiga@chromium.org, m.szyprowski@samsung.com,
-	ming.qian@nxp.com, ezequiel@vanguardiasur.com.ar,
-	p.zabel@pengutronix.de, gregkh@linuxfoundation.org,
-	hverkuil-cisco@xs4all.nl, nicolas.dufresne@collabora.com,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
-	linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
-	kernel@collabora.com
-Subject: Re: [PATCH v10 01/54] media: videobuf2: Rework offset 'cookie'
- encoding pattern
-Message-ID: <ZR0i3Rv58uDOPNTK@valkosipuli.retiisi.eu>
-References: <20231003080704.43911-1-benjamin.gaignard@collabora.com>
- <20231003080704.43911-2-benjamin.gaignard@collabora.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0BC2101FB
+	for <linux-staging@lists.linux.dev>; Wed,  4 Oct 2023 10:42:02 +0000 (UTC)
+Received: from pps.filterd (m0167089.ppops.net [127.0.0.1])
+	by mx0a-00128a01.pphosted.com (8.17.1.22/8.17.1.22) with ESMTP id 3948baLg000457;
+	Wed, 4 Oct 2023 06:41:11 -0400
+Received: from nam04-mw2-obe.outbound.protection.outlook.com (mail-mw2nam04lp2170.outbound.protection.outlook.com [104.47.73.170])
+	by mx0a-00128a01.pphosted.com (PPS) with ESMTPS id 3tgtsjm56t-2
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 04 Oct 2023 06:41:10 -0400 (EDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=DRyAz8HRDIWSeyVrWtP8W8fH4m7DMXUFr469FN/IlS6l5wirVOJ4+9WbXEbeFKz6IUZDpH0p7IgEYraAft/7iuy/8DR92aPZ78h1YDP8k1bZcvtsZUEj0MrZ1dsA1tvFHHDkdUgjA7qdN1k7Uu0eg9lFLywlz21Kj41Fq6YzgU82yIXpaJgkZ3sckX9S68dhhSh/IeM56pDz9NDAet76plGK5T4YqHWMRYtd6C1R0O/pKZ0xqv+XwIl1fZFBS7nH137KIwSiH9d2JPD/iXz3PC6YoPk907yAjlSO2wiFWkO4JbOS3PCyTOdhhNRagxOsDfVUtiRU5XPyCP80RyArGA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=3gt3vyLJiXhPPsZavIzdHhpYBmtV+X03RkxXMpuMlCY=;
+ b=eHmGD1C/zS8Le6Z3du6xO0mMQpqIKvf1S8p3pO2auK2b7jfy2Thd+/2lsuYPlkRU1LQhVwf70c+rEe1Xcy1y35mp0dqCRCs6U1piY06pqN3q+pfVL+rjp+GYgLx3YqBdv+u3UyK8xRbMgaBIbsLd4G8KJmY/j+T3lK3hQ/hzNxrzlKvLmacsvLQvOs0Ge17JXRYFGK/MPPUN1YETEMJmLzLZdZm91odxWZKflPeit6CZUuwUjDRxGiZ96mJZ+f/hkLL2tma7PDVm8MkXATlxQtbjOk4jzvsxukIwvw9nAoCCYV94sOrrrMd18MM8TY9X/wPFzaINoztuU0pYWuSbdw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=analog.com; dmarc=pass action=none header.from=analog.com;
+ dkim=pass header.d=analog.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=analog.onmicrosoft.com; s=selector2-analog-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=3gt3vyLJiXhPPsZavIzdHhpYBmtV+X03RkxXMpuMlCY=;
+ b=7iGNztM3+uevyBb7u/E9tL3EYKiWjFjhe0Zz9/pUqCCgnnaLTwGvBlYU1Lro3avtURx4BEEXiIfrZ+lDZ9Cuh5KaMkwxZjLOPiuRC7JRgNncYPMDe8y4r5Fnrs00aUYwHbSosGbKwGlqUjGA86juSmRro3auKMWgGewNHs4VLuU=
+Received: from SN7PR03MB7132.namprd03.prod.outlook.com (2603:10b6:806:352::6)
+ by BY5PR03MB4967.namprd03.prod.outlook.com (2603:10b6:a03:1e2::22) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6838.34; Wed, 4 Oct
+ 2023 10:41:07 +0000
+Received: from SN7PR03MB7132.namprd03.prod.outlook.com
+ ([fe80::b34d:a248:7b9a:c625]) by SN7PR03MB7132.namprd03.prod.outlook.com
+ ([fe80::b34d:a248:7b9a:c625%5]) with mapi id 15.20.6838.016; Wed, 4 Oct 2023
+ 10:41:07 +0000
+From: "Hennerich, Michael" <Michael.Hennerich@analog.com>
+To: Jonathan Cameron <jic23@kernel.org>, David Lechner <dlechner@baylibre.com>
+CC: "linux-iio@vger.kernel.org" <linux-iio@vger.kernel.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "linux-staging@lists.linux.dev" <linux-staging@lists.linux.dev>,
+        David
+ Lechner <david@lechnology.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof
+ Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley
+	<conor+dt@kernel.org>, "Sa, Nuno" <Nuno.Sa@analog.com>,
+        Axel Haslam
+	<ahaslam@baylibre.com>,
+        Philip Molloy <pmolloy@baylibre.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Apelete
+ Seketeli <aseketeli@baylibre.com>
+Subject: RE: [PATCH v3 01/27] dt-bindings: iio: resolver: add devicetree
+ bindings for ad2s1210
+Thread-Topic: [PATCH v3 01/27] dt-bindings: iio: resolver: add devicetree
+ bindings for ad2s1210
+Thread-Index: AQHZ8voiHr0CPygis0qlB8JK4Lezn7AzcHuAgAYH0hA=
+Date: Wed, 4 Oct 2023 10:41:06 +0000
+Message-ID: 
+ <SN7PR03MB7132D8899A862B7D4D475F848ECBA@SN7PR03MB7132.namprd03.prod.outlook.com>
+References: <20230929-ad2s1210-mainline-v3-0-fa4364281745@baylibre.com>
+        <20230929-ad2s1210-mainline-v3-1-fa4364281745@baylibre.com>
+ <20230930153429.0387ab8c@jic23-huawei>
+In-Reply-To: <20230930153429.0387ab8c@jic23-huawei>
+Accept-Language: de-DE, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-dg-ref: 
+ =?us-ascii?Q?PG1ldGE+PGF0IG5tPSJib2R5LnR4dCIgcD0iYzpcdXNlcnNcbWhlbm5lcmlc?=
+ =?us-ascii?Q?YXBwZGF0YVxyb2FtaW5nXDA5ZDg0OWI2LTMyZDMtNGE0MC04NWVlLTZiODRi?=
+ =?us-ascii?Q?YTI5ZTM1Ylxtc2dzXG1zZy04MmM5YjA3OS02MmEyLTExZWUtYjgxZS1iY2Yx?=
+ =?us-ascii?Q?NzFjNDc2MTZcYW1lLXRlc3RcODJjOWIwN2ItNjJhMi0xMWVlLWI4MWUtYmNm?=
+ =?us-ascii?Q?MTcxYzQ3NjE2Ym9keS50eHQiIHN6PSIxOTAxNCIgdD0iMTMzNDA4ODk2NjQ0?=
+ =?us-ascii?Q?ODM5OTMxIiBoPSJzeVd4bzVqOTJHSUlJZWRpVjNjS2t6MDhkNW89IiBpZD0i?=
+ =?us-ascii?Q?IiBibD0iMCIgYm89IjEiIGNpPSJjQUFBQUVSSFUxUlNSVUZOQ2dVQUFFb0NB?=
+ =?us-ascii?Q?QUQ3ZVdSR3IvYlpBVWNXMDZoYndhV2ZSeGJUcUZ2QnBaOERBQUFBQUFBQUFB?=
+ =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBSEFBQUFEYUFRQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
+ =?us-ascii?Q?QUFBRUFBUUFCQUFBQWxHVEdWZ0FBQUFBQUFBQUFBQUFBQUo0QUFBQmhBR1FB?=
+ =?us-ascii?Q?YVFCZkFITUFaUUJqQUhVQWNnQmxBRjhBY0FCeUFHOEFhZ0JsQUdNQWRBQnpB?=
+ =?us-ascii?Q?RjhBWmdCaEFHd0Fjd0JsQUY4QVpnQnZBSE1BYVFCMEFHa0FkZ0JsQUFBQUFB?=
+ =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
+ =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
+ =?us-ascii?Q?QUFFQUFBQUFBQUFBQWdBQUFBQUFuZ0FBQUdFQVpBQnBBRjhBY3dCbEFHTUFk?=
+ =?us-ascii?Q?UUJ5QUdVQVh3QndBSElBYndCcUFHVUFZd0IwQUhNQVh3QjBBR2tBWlFCeUFE?=
+ =?us-ascii?Q?RUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
+ =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
+ =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBUUFBQUFBQUFBQUNB?=
+ =?us-ascii?Q?QUFBQUFDZUFBQUFZUUJrQUdrQVh3QnpBR1VBWXdCMUFISUFaUUJmQUhBQWNn?=
+ =?us-ascii?Q?QnZBR29BWlFCakFIUUFjd0JmQUhRQWFRQmxBSElBTWdBQUFBQUFBQUFBQUFB?=
+ =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
+ =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
+ =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQkFBQUFBQUFBQUFJQUFBQUFBQT09Ii8+PC9t?=
+ =?us-ascii?Q?ZXRhPg=3D=3D?=
+x-dg-rorf: true
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: SN7PR03MB7132:EE_|BY5PR03MB4967:EE_
+x-ms-office365-filtering-correlation-id: ac7d5923-4d8f-4ecd-1cbe-08dbc4c66a45
+x-ld-processed: eaa689b4-8f87-40e0-9c6f-7228de4d754a,ExtAddr
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 
+ Gm5sE6xFKhg2qRQMPG6XXjO4cULvMqoQc6lHCexrcdD74PVbieMk5oqaLtmd0fAkT9KylobeW3HTcoHdZo0FHZIHY4KXqu5QL3kQhD5DdSI0Fv3OPSWjN6ljVzjQqVANYaRscq1gMap+lNimH/h2bQqBmJHUFxCyDY+MUvwo+5vXDjcnVIusQQxmFtmfZa8r8brooQVsMRZDfWC1Flw0vAipfG6d+qjDSke/t6/2SuxNQ2+gBh8bi7Wesfllyh3eV599TFeddrW70u/K/OGBdM17a+CYgn4aKPke8t6Z9IKrBDjPwNvEeGF2zbRXsqQQG8tWytw9cL4x369E//yst7MOVMNdQtaUysOd3xc/nQQ/pLstbTRPt/7gqJ4MhgHhqrjdV0wS7BfhTWB0fG+wkO+kdQxl+hG7hvW/pANIDWmettqKF9Yi6OI3cq2VKrSj+bRnePhvOcg9UJ7bNupE4xLfOucJx462jLMT1fKIycH5loJtYETM178GxxVTIt3YYKBYLHJdlRDv2yMXUm5mxfSeqovfYrNPTfVEZy+6NIfydPjRxl0O7CkVGkpaQm2Jesmfh1wrDDxeiaI8dIcxRFhcyzJFSC3GFEVo/1Nd32I8xf+ILdPmp8rK0IxY1j1CJfgIh8QQCN6fQc4yXIdkp5YWzZH4ZvX5Q/ZhB4lcfsA=
+x-forefront-antispam-report: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN7PR03MB7132.namprd03.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(366004)(346002)(376002)(39860400002)(136003)(396003)(230922051799003)(186009)(64100799003)(1800799009)(451199024)(2906002)(83380400001)(66899024)(7416002)(38070700005)(86362001)(33656002)(38100700002)(122000001)(55016003)(53546011)(316002)(66476007)(54906003)(76116006)(66446008)(66556008)(64756008)(9686003)(6506007)(7696005)(66946007)(110136005)(41300700001)(966005)(478600001)(52536014)(71200400001)(4326008)(8676002)(5660300002)(26005)(8936002)(138113003);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: 
+ =?us-ascii?Q?7eQtH6knqCGDJ6xoBrNtgOxPock4vzcgaLP2SaB/AMGg8aPKIh29i7SGAmPz?=
+ =?us-ascii?Q?qVUlocJ9jxA3Lc/dQPlYq24NOstGAgVYNd1zLAf82comD2AvvpwcQy1/GCUb?=
+ =?us-ascii?Q?nlFnebgj+5uSaHcyYDY82b7Z4FbVrv60BPLdgPfbqOyjFIVlQIM5hn1uM9O0?=
+ =?us-ascii?Q?dWq+09IcbZe/cUu0p7vkOSn0tGrLUq2kCEdvkWdhqAe3mloKCAPATtKZQJ5r?=
+ =?us-ascii?Q?5p2mdrJV/8qnAEph3PhRk8M7lbDRH+Co7yJIOCXbAE85DdrTtxeill1MT9gE?=
+ =?us-ascii?Q?pHKSrRjJxBoV8k2ADZv1OtrA7ucqlxPgyze0XPIksvLzNvJO/pHMDcjxt/iW?=
+ =?us-ascii?Q?k0Y1G68w00m5DB3Vxorv56womEzkAd9sJFef3FF8xJsMRT1MwrvjD97IASGC?=
+ =?us-ascii?Q?+I2R0D4Qq1pehtzKVZuUcmy0ZGxqgO2Snf+BceiENXbWVXb+MUg4lgoaX8EZ?=
+ =?us-ascii?Q?+LYcnyeDwHWO75enk6k49ijmlxcoMOv0Z8jmy5yVQAl6S/s3+gzcsONJmmTX?=
+ =?us-ascii?Q?QyBjfxYeE/4nyFqfC/2PjR3W/iceji8fnGQNhkWX/PQXOQzv6fhbz1/Nzhzl?=
+ =?us-ascii?Q?rndoR9rgorzXzJBGFD0sSKY5B8oZm0RRXzQ/o/5PM1V2VrbMPuA4EuNsoFSg?=
+ =?us-ascii?Q?SXF6GRLeSTGbjEUFvE+kGNvd+PS809PrQbnJpqgL9EzaYVMogSM1ukVncPWc?=
+ =?us-ascii?Q?UfqhnIZNJOb/CFfEJ4VBydASPMNYfJffOCmGitPMDThcIytWDai7SEmRZNGI?=
+ =?us-ascii?Q?J8Cny9Qu14lt/b2C//eqrIxWKudPYaYAilW2dtEsdSY2iIKy8tTRiSkrl3Yf?=
+ =?us-ascii?Q?uBIdsZwHr0l3a2k+WJDNC3u/iUhf9mLlWrhT7/77iGKyrIPrZytyioXRJ0gp?=
+ =?us-ascii?Q?RxaVim2NsdNeamXhDCGy86vvn9v3IaqrY2jK+B81IVjuD6fESvg8SaOlKhG+?=
+ =?us-ascii?Q?AUE2y6nDmKm1EYY1x2zLBtJNLPmqmMSu0yChxSM6AExXROrCnfzW4ePc+m8Z?=
+ =?us-ascii?Q?iyjH4Y5x9/L2LBw+gOtRDVgTbLRCI+maxy/z6sRL2sEHElP2X2XoWU7/PIVx?=
+ =?us-ascii?Q?wUronu3HgS38glR1VVjdktc9ngtSr0l5w+cKcOoNsgu0gDYQ7hxZanhsMZ/T?=
+ =?us-ascii?Q?9Jz6WZnBd5Z7gWMJebZZE7eTmw1ewNaVz45XO/UEHdjmwGmDHKuAMr5KGLtt?=
+ =?us-ascii?Q?yNloJSROiD5uKcMptvKCp+SJBvvBpHXj39Dp5wCNAZ2KlbttZP2vhfmoLHzX?=
+ =?us-ascii?Q?0Be6C4VfogiwrCqQG2nJ0PmGengKZG6F9ENdZz1i6sANa2MXVmAfdveuhfL+?=
+ =?us-ascii?Q?nwInwTc3CbvWgkUW0ZR6VcfMYjYLpvpqkRAV6LK+TnUOvB3Hhlj9pIxJD8PQ?=
+ =?us-ascii?Q?tHzaj5gvzq6dpGOwFwdiaRyO6ZOmdaRchYqL2nfFYHL7sn3HvyY5QmdnWsfS?=
+ =?us-ascii?Q?EGSIdyjTwNVyEvqlbtZ/6H+qCiOoTLo4F0CEgNmeXRH16Q1h1pe5vzdYUwi/?=
+ =?us-ascii?Q?TH0mjowuB6pECrGtp1ukjM0R1egDPjXQJiyIaeCq+UUnHp1nno9WZyHdKKnB?=
+ =?us-ascii?Q?IBRBlccJaHHxa6oB6frtpA1wOeQmFQXbsr9NKkBcJS5L1qXerIa+pYvDKzUL?=
+ =?us-ascii?Q?GQ=3D=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231003080704.43911-2-benjamin.gaignard@collabora.com>
+X-OriginatorOrg: analog.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: SN7PR03MB7132.namprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: ac7d5923-4d8f-4ecd-1cbe-08dbc4c66a45
+X-MS-Exchange-CrossTenant-originalarrivaltime: 04 Oct 2023 10:41:06.8424
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: eaa689b4-8f87-40e0-9c6f-7228de4d754a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: ddPuBs3XuKzr2+uvBJjUU23JLlaJRFzzY8/ZAwf0mg2lwWhT2GHpfitmklQgOmW8IAFwtWdUdfC2+OCNV7l7KQibjRWm4+djF/J+2tBqaaA=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR03MB4967
+X-Proofpoint-GUID: 71mZCSyTGx9YT4Kf8PWjSsYF1WQF9bAP
+X-Proofpoint-ORIG-GUID: 71mZCSyTGx9YT4Kf8PWjSsYF1WQF9bAP
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.267,Aquarius:18.0.980,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2023-10-04_02,2023-10-02_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1011 adultscore=0
+ impostorscore=0 suspectscore=0 spamscore=0 mlxlogscore=999 bulkscore=0
+ lowpriorityscore=0 priorityscore=1501 malwarescore=0 mlxscore=0
+ phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2309180000 definitions=main-2310040076
 
-Hi Benjamin,
 
-On Tue, Oct 03, 2023 at 10:06:10AM +0200, Benjamin Gaignard wrote:
-> Change how offset 'cookie' field value is computed to make possible
-> to use more buffers.
-> The maximum number of buffers depends of PAGE_SHIFT value and can
-> go up to 0x7fff when PAGE_SHIFT = 12.
-> With this encoding pattern we know the maximum number that a queue
-> could store so we can check it at  queue init time.
-> It also make easier and faster to find buffer and plane from using
-> the offset field.
-> Change __find_plane_by_offset() prototype to return the video buffer
-> itself rather than it index.
-> 
-> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-> ---
-> changes in version 10:
-> - Make BUFFER_INDEX_MASK definition more readable.
-> - Correct typo.
-> 
->  .../media/common/videobuf2/videobuf2-core.c   | 72 +++++++++----------
->  1 file changed, 33 insertions(+), 39 deletions(-)
-> 
-> diff --git a/drivers/media/common/videobuf2/videobuf2-core.c b/drivers/media/common/videobuf2/videobuf2-core.c
-> index 27aee92f3eea..5591ac830668 100644
-> --- a/drivers/media/common/videobuf2/videobuf2-core.c
-> +++ b/drivers/media/common/videobuf2/videobuf2-core.c
-> @@ -31,6 +31,11 @@
->  
->  #include <trace/events/vb2.h>
->  
-> +#define PLANE_INDEX_SHIFT	(PAGE_SHIFT + 3)
-> +#define PLANE_INDEX_MASK	0x7
-> +#define MAX_BUFFER_INDEX	BIT_MASK(30 - PLANE_INDEX_SHIFT)
-> +#define BUFFER_INDEX_MASK	(MAX_BUFFER_INDEX - 1)
-> +
->  static int debug;
->  module_param(debug, int, 0644);
->  
-> @@ -358,21 +363,24 @@ static void __setup_offsets(struct vb2_buffer *vb)
->  	unsigned int plane;
->  	unsigned long off = 0;
->  
-> -	if (vb->index) {
-> -		struct vb2_buffer *prev = q->bufs[vb->index - 1];
-> -		struct vb2_plane *p = &prev->planes[prev->num_planes - 1];
-> -
-> -		off = PAGE_ALIGN(p->m.offset + p->length);
-> -	}
-> +	/*
-> +	 * Offsets cookies value have the following constraints:
-> +	 * - a buffer can have up to 8 planes.
-> +	 * - v4l2 mem2mem uses bit 30 to distinguish between source and destination buffers.
 
-Long line.
+> -----Original Message-----
+> From: Jonathan Cameron <jic23@kernel.org>
+> Sent: Samstag, 30. September 2023 16:34
+> To: David Lechner <dlechner@baylibre.com>
+> Cc: linux-iio@vger.kernel.org; devicetree@vger.kernel.org; linux-
+> staging@lists.linux.dev; David Lechner <david@lechnology.com>; Rob Herrin=
+g
+> <robh+dt@kernel.org>; Krzysztof Kozlowski
+> <krzysztof.kozlowski+dt@linaro.org>; Conor Dooley <conor+dt@kernel.org>;
+> Hennerich, Michael <Michael.Hennerich@analog.com>; Sa, Nuno
+> <Nuno.Sa@analog.com>; Axel Haslam <ahaslam@baylibre.com>; Philip Molloy
+> <pmolloy@baylibre.com>; linux-kernel@vger.kernel.org; Apelete Seketeli
+> <aseketeli@baylibre.com>
+> Subject: Re: [PATCH v3 01/27] dt-bindings: iio: resolver: add devicetree
+> bindings for ad2s1210
+>=20
+>=20
+> On Fri, 29 Sep 2023 12:23:06 -0500
+> David Lechner <dlechner@baylibre.com> wrote:
+>=20
+> > From: David Lechner <david@lechnology.com>
+> >
+> > From: David Lechner <dlechner@baylibre.com>
+> >
+> > This adds new DeviceTree bindings for the Analog Devices, Inc.
+> > AD2S1210 resolver-to-digital converter.
+> >
+> > Co-developed-by: Apelete Seketeli <aseketeli@baylibre.com>
+> > Signed-off-by: Apelete Seketeli <aseketeli@baylibre.com>
+> > Signed-off-by: David Lechner <dlechner@baylibre.com>
+>=20
+> Michael, ideally I'd like your ack on this given it volunteers you as mai=
+ntainer. If
+> I don't hear I'm fine with leaving Michael listed because he's in MAINTAI=
+NERS
+> anyway covering these bindings via a wild card entry:
 
-Shouldn't this be OUTPUT and CAPTURE?
+Acked-by: Michael Hennerich <michael.hennerich@analog.com>
 
-> +	 * - must be page aligned
-> +	 * That led to this bit mapping when PAGE_SHIFT = 12:
-> +	 * |30                |29        15|14       12|11 0|
-> +	 * |DST_QUEUE_OFF_BASE|buffer index|plane index| 0  |
-> +	 * where there are 15 bits to store the buffer index.
-> +	 * Depending on PAGE_SHIFT value we can have fewer bits to store the buffer index.
+>=20
+> ANALOG DEVICES INC IIO DRIVERS
+> M:	Lars-Peter Clausen <lars@metafoo.de>
+> M:	Michael Hennerich <Michael.Hennerich@analog.com>
+> ...
+> F:	Documentation/devicetree/bindings/iio/*/adi,*
+>=20
+> So any queries should hit Michael anyway.
+>=20
+> LGTM but I'll also want the dt binding maintainers input before picking t=
+his up.
+>=20
+> Jonathan
+>=20
+> > ---
+> >
+> > v3 changes:
+> > * Expanded top-level description of A0/A1 lines.
+> > * Added required voltage -supply properties. (I did not pick up Rob's
+> >   Reviewed-by since I wasn't sure if this was trivial enough.)
+> >
+> > v2 changes:
+> > * Add Co-developed-by:
+> > * Remove extraneous quotes on strings
+> > * Remove extraneous pipe on some multi-line descriptions
+> >
+> >  .../bindings/iio/resolver/adi,ad2s1210.yaml        | 177
+> +++++++++++++++++++++
+> >  1 file changed, 177 insertions(+)
+> >
+> > diff --git
+> > a/Documentation/devicetree/bindings/iio/resolver/adi,ad2s1210.yaml
+> > b/Documentation/devicetree/bindings/iio/resolver/adi,ad2s1210.yaml
+> > new file mode 100644
+> > index 000000000000..8980b3cd8337
+> > --- /dev/null
+> > +++ b/Documentation/devicetree/bindings/iio/resolver/adi,ad2s1210.yaml
+> > @@ -0,0 +1,177 @@
+> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause) %YAML 1.2
+> > +---
+> > +$id:
+> > +https://urldefense.com/v3/__http://devicetree.org/schemas/iio/resolve
+> >
+> +r/adi,ad2s1210.yaml*__;Iw!!A3Ni8CS0y2Y!_mSGRdlDHlqAKev0r38paa3K51l2k
+> G
+> > +o8bShqK2TH4nAF_cYu2WixIa62xv0p-A70086DQmj4oN9FWvOlk78$
+> > +$schema:
+> > +https://urldefense.com/v3/__http://devicetree.org/meta-schemas/core.y
+> >
+> +aml*__;Iw!!A3Ni8CS0y2Y!_mSGRdlDHlqAKev0r38paa3K51l2kGo8bShqK2TH4n
+> AF_c
+> > +Yu2WixIa62xv0p-A70086DQmj4oN9FWzdE10U$
+> > +
+> > +title: Analog Devices AD2S1210 Resolver-to-Digital Converter
+> > +
+> > +maintainers:
+> > +  - Michael Hennerich <michael.hennerich@analog.com>
+> > +
+> > +description: |
+> > +  The AD2S1210 is a complete 10-bit to 16-bit resolution tracking
+> > +  resolver-to-digital converter, integrating an on-board programmable
+> > +  sinusoidal oscillator that provides sine wave excitation for
+> > +  resolvers.
+> > +
+> > +  The AD2S1210 allows the user to read the angular position or the
+> > + angular velocity data directly from the parallel outputs or through
+> > + the serial interface.
+> > +
+> > +  The mode of operation of the communication channel (parallel or
+> > + serial) is  selected by the A0 and A1 input pins. In normal mode,
+> > + data is latched by  toggling the SAMPLE line and can then be read
+> > + directly. In configuration mode,  data is read or written using a
+> > + register access scheme (address byte with  read/write flag and data b=
+yte).
+> > +
+> > +    A1  A0  Result
+> > +     0   0  Normal mode - position output
+> > +     0   1  Normal mode - velocity output
+> > +     1   0  Reserved
+> > +     1   1  Configuration mode
+> > +
+> > +  In normal mode, the resolution of the digital output is selected
+> > + using  the RES0 and RES1 input pins. In configuration mode, the
+> > + resolution is  selected by setting the RES0 and RES1 bits in the cont=
+rol
+> register.
+> > +
+> > +  RES1  RES0  Resolution (Bits)
+> > +     0     0  10
+> > +     0     1  12
+> > +     1     0  14
+> > +     1     1  16
+> > +
+> > +  Note on SPI connections: The CS line on the AD2S1210 should
+> > + hard-wired to  logic low and the WR/FSYNC line on the AD2S1210
+> > + should be connected to the  SPI CSn output of the SPI controller.
+> > +
+> > +  Datasheet:
+> > +
+> > + https://www.analog.com/media/en/technical-documentation/data-sheets/
+> > + ad2s1210.pdf
+> > +
+> > +properties:
+> > +  compatible:
+> > +    const: adi,ad2s1210
+> > +
+> > +  reg:
+> > +    maxItems: 1
+> > +
+> > +  spi-max-frequency:
+> > +    maximum: 25000000
+> > +
+> > +  spi-cpha: true
+> > +
+> > +  avdd-supply:
+> > +    description:
+> > +      A 4.75 to 5.25 V regulator that powers the Analog Supply Voltage
+> (AVDD)
+> > +      pin.
+> > +
+> > +  dvdd-supply:
+> > +    description:
+> > +      A 4.75 to 5.25 V regulator that powers the Digital Supply Voltag=
+e (DVDD)
+> > +      pin.
+> > +
+> > +  vdrive-supply:
+> > +    description:
+> > +      A 2.3 to 5.25 V regulator that powers the Logic Power Supply Inp=
+ut
+> > +      (VDrive) pin.
+> > +
+> > +  clocks:
+> > +    maxItems: 1
+> > +    description: External oscillator clock (CLKIN).
+> > +
+> > +  reset-gpios:
+> > +    description:
+> > +      GPIO connected to the /RESET pin. As the line needs to be low fo=
+r the
+> > +      reset to be active, it should be configured as GPIO_ACTIVE_LOW.
+> > +    maxItems: 1
+> > +
+> > +  sample-gpios:
+> > +    description:
+> > +      GPIO connected to the /SAMPLE pin. As the line needs to be low t=
+o
+> trigger
+> > +      a sample, it should be configured as GPIO_ACTIVE_LOW.
+> > +    maxItems: 1
+> > +
+> > +  mode-gpios:
+> > +    description:
+> > +      GPIO lines connected to the A0 and A1 pins. These pins select th=
+e data
+> > +      transfer mode.
+> > +    minItems: 2
+> > +    maxItems: 2
+> > +
+> > +  resolution-gpios:
+> > +    description:
+> > +      GPIO lines connected to the RES0 and RES1 pins. These pins selec=
+t the
+> > +      resolution of the digital output. If omitted, it is assumed that=
+ the
+> > +      RES0 and RES1 pins are hard-wired to match the assigned-resoluti=
+on-bits
+> > +      property.
+> > +    minItems: 2
+> > +    maxItems: 2
+> > +
+> > +  fault-gpios:
+> > +    description:
+> > +      GPIO lines connected to the LOT and DOS pins. These pins combine=
+d
+> indicate
+> > +      the type of fault present, if any. As these pins a pulled low to=
+ indicate
+> > +      a fault condition, they should be configured as GPIO_ACTIVE_LOW.
+> > +    minItems: 2
+> > +    maxItems: 2
+> > +
+> > +  adi,fixed-mode:
+> > +    description:
+> > +      This is used to indicate the selected mode if A0 and A1 are hard=
+-wired
+> > +      instead of connected to GPIOS (i.e. mode-gpios is omitted).
+> > +    $ref: /schemas/types.yaml#/definitions/string
+> > +    enum: [config, velocity, position]
+> > +
+> > +  assigned-resolution-bits:
+> > +    description:
+> > +      Resolution of the digital output required by the application. Th=
+is
+> > +      determines the precision of the angle and/or the maximum speed t=
+hat
+> can
+> > +      be measured. If resolution-gpios is omitted, it is assumed that =
+RES0 and
+> > +      RES1 are hard-wired to match this value.
+> > +    enum: [10, 12, 14, 16]
+> > +
+> > +required:
+> > +  - compatible
+> > +  - reg
+> > +  - spi-cpha
+> > +  - avdd-supply
+> > +  - dvdd-supply
+> > +  - vdrive-supply
+> > +  - clocks
+> > +  - sample-gpios
+> > +  - assigned-resolution-bits
+> > +
+> > +oneOf:
+> > +  - required:
+> > +      - mode-gpios
+> > +  - required:
+> > +      - adi,fixed-mode
+> > +
+> > +allOf:
+> > +  - $ref: /schemas/spi/spi-peripheral-props.yaml#
+> > +
+> > +unevaluatedProperties: false
+> > +
+> > +examples:
+> > +  - |
+> > +    #include <dt-bindings/gpio/gpio.h>
+> > +
+> > +    spi {
+> > +        #address-cells =3D <1>;
+> > +        #size-cells =3D <0>;
+> > +
+> > +        resolver@0 {
+> > +            compatible =3D "adi,ad2s1210";
+> > +            reg =3D <0>;
+> > +            spi-max-frequency =3D <20000000>;
+> > +            spi-cpha;
+> > +            avdd-supply =3D <&avdd_regulator>;
+> > +            dvdd-supply =3D <&dvdd_regulator>;
+> > +            vdrive-supply =3D <&vdrive_regulator>;
+> > +            clocks =3D <&ext_osc>;
+> > +            sample-gpios =3D <&gpio0 90 GPIO_ACTIVE_LOW>;
+> > +            mode-gpios =3D <&gpio0 86 0>, <&gpio0 87 0>;
+> > +            resolution-gpios =3D <&gpio0 88 0>, <&gpio0 89 0>;
+> > +            assigned-resolution-bits =3D <16>;
+> > +        };
+> > +    };
+> >
 
-Here, too...
-
-> +	 */
-> +	off = vb->index << PLANE_INDEX_SHIFT;
->  
->  	for (plane = 0; plane < vb->num_planes; ++plane) {
-> -		vb->planes[plane].m.offset = off;
-> +		vb->planes[plane].m.offset = off + (plane << PAGE_SHIFT);
->  
->  		dprintk(q, 3, "buffer %d, plane %d offset 0x%08lx\n",
->  				vb->index, plane, off);
-> -
-> -		off += vb->planes[plane].length;
-> -		off = PAGE_ALIGN(off);
->  	}
->  }
->  
-> @@ -2185,13 +2193,12 @@ int vb2_core_streamoff(struct vb2_queue *q, unsigned int type)
->  EXPORT_SYMBOL_GPL(vb2_core_streamoff);
->  
->  /*
-> - * __find_plane_by_offset() - find plane associated with the given offset off
-> + * __find_plane_by_offset() - find video buffer and plane associated with the given offset off
->   */
->  static int __find_plane_by_offset(struct vb2_queue *q, unsigned long off,
-> -			unsigned int *_buffer, unsigned int *_plane)
-> +			struct vb2_buffer **vb, unsigned int *plane)
->  {
-> -	struct vb2_buffer *vb;
-> -	unsigned int buffer, plane;
-> +	unsigned int buffer;
->  
->  	/*
->  	 * Sanity checks to ensure the lock is held, MEMORY_MMAP is
-> @@ -2209,24 +2216,15 @@ static int __find_plane_by_offset(struct vb2_queue *q, unsigned long off,
->  		return -EBUSY;
->  	}
->  
-> -	/*
-> -	 * Go over all buffers and their planes, comparing the given offset
-> -	 * with an offset assigned to each plane. If a match is found,
-> -	 * return its buffer and plane numbers.
-> -	 */
-> -	for (buffer = 0; buffer < q->num_buffers; ++buffer) {
-> -		vb = q->bufs[buffer];
-> +	/* Get buffer and plane from the offset */
-> +	buffer = (off >> PLANE_INDEX_SHIFT) & BUFFER_INDEX_MASK;
-> +	*plane = (off >> PAGE_SHIFT) & PLANE_INDEX_MASK;
->  
-> -		for (plane = 0; plane < vb->num_planes; ++plane) {
-> -			if (vb->planes[plane].m.offset == off) {
-> -				*_buffer = buffer;
-> -				*_plane = plane;
-> -				return 0;
-> -			}
-> -		}
-> -	}
-> +	if (buffer >= q->num_buffers || *plane >= q->bufs[buffer]->num_planes)
-> +		return -EINVAL;
->  
-> -	return -EINVAL;
-> +	*vb = q->bufs[buffer];
-> +	return 0;
->  }
->  
->  int vb2_core_expbuf(struct vb2_queue *q, int *fd, unsigned int type,
-> @@ -2306,7 +2304,7 @@ int vb2_mmap(struct vb2_queue *q, struct vm_area_struct *vma)
->  {
->  	unsigned long off = vma->vm_pgoff << PAGE_SHIFT;
->  	struct vb2_buffer *vb;
-> -	unsigned int buffer = 0, plane = 0;
-> +	unsigned int plane = 0;
->  	int ret;
->  	unsigned long length;
->  
-> @@ -2335,12 +2333,10 @@ int vb2_mmap(struct vb2_queue *q, struct vm_area_struct *vma)
->  	 * Find the plane corresponding to the offset passed by userspace. This
->  	 * will return an error if not MEMORY_MMAP or file I/O is in progress.
->  	 */
-> -	ret = __find_plane_by_offset(q, off, &buffer, &plane);
-> +	ret = __find_plane_by_offset(q, off, &vb, &plane);
->  	if (ret)
->  		goto unlock;
->  
-> -	vb = q->bufs[buffer];
-> -
->  	/*
->  	 * MMAP requires page_aligned buffers.
->  	 * The buffer length was page_aligned at __vb2_buf_mem_alloc(),
-> @@ -2368,7 +2364,7 @@ int vb2_mmap(struct vb2_queue *q, struct vm_area_struct *vma)
->  	if (ret)
->  		return ret;
->  
-> -	dprintk(q, 3, "buffer %d, plane %d successfully mapped\n", buffer, plane);
-> +	dprintk(q, 3, "buffer %u, plane %d successfully mapped\n", vb->index, plane);
->  	return 0;
->  }
->  EXPORT_SYMBOL_GPL(vb2_mmap);
-> @@ -2382,7 +2378,7 @@ unsigned long vb2_get_unmapped_area(struct vb2_queue *q,
->  {
->  	unsigned long off = pgoff << PAGE_SHIFT;
->  	struct vb2_buffer *vb;
-> -	unsigned int buffer, plane;
-> +	unsigned int plane;
->  	void *vaddr;
->  	int ret;
->  
-> @@ -2392,12 +2388,10 @@ unsigned long vb2_get_unmapped_area(struct vb2_queue *q,
->  	 * Find the plane corresponding to the offset passed by userspace. This
->  	 * will return an error if not MEMORY_MMAP or file I/O is in progress.
->  	 */
-> -	ret = __find_plane_by_offset(q, off, &buffer, &plane);
-> +	ret = __find_plane_by_offset(q, off, &vb, &plane);
->  	if (ret)
->  		goto unlock;
->  
-> -	vb = q->bufs[buffer];
-> -
->  	vaddr = vb2_plane_vaddr(vb, plane);
->  	mutex_unlock(&q->mmap_lock);
->  	return vaddr ? (unsigned long)vaddr : -EINVAL;
-
--- 
-Regards,
-
-Sakari Ailus
