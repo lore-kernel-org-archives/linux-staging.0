@@ -1,26 +1,26 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F09B61F60C
-	for <linux-staging@lists.linux.dev>; Thu,  5 Oct 2023 13:45:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57EB2219F2
+	for <linux-staging@lists.linux.dev>; Thu,  5 Oct 2023 13:48:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="Qy3fzBkM"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0C289C4AF78;
-	Thu,  5 Oct 2023 13:45:26 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="NZ902NtZ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7A5A9C4AF7D;
+	Thu,  5 Oct 2023 13:48:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1696513527;
-	bh=z9yHryktLQ/UzFBVnJXiqgioqdxuqKYjFXcrXINCIc0=;
+	s=korg; t=1696513695;
+	bh=YNPCSFK5hnyZDO7MvaXjiiobmN82ObhVxMuqrZ9wupw=;
 	h=From:To:Cc:Subject:Date:From;
-	b=Qy3fzBkM3iPcYh+chVdNofwLuWiK3zJ1B4VFbuuvUkSC5goS7nPviXVLFiNwOJp9o
-	 603SufiCXZSyK8Gep4Z/ehXRwdTufgfDvAi0NGxA6eP54s2k9tBxPQOPBtUL1naNyb
-	 hVuiSvqGV/XX1lyWZ9NUNjKV+q+jxccsWQKJRhBM=
+	b=NZ902NtZEofXAiUY+kOfYtSJY3FDmqXdy6GRZTV0s1p4NtutDCwrJoRtPdh/dVnfD
+	 mZ2C48GnS1nJk0bb7eqHIuGHiNAjNkHkwY+TIInXM8RcDfW1w4gzFk4D8Rq7/57cr0
+	 jKNOCneQBNCfwLVKSuSz1RvEPerQy8EQNE5IsxtQ=
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To: linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
 Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Subject: [PATCH] staging: vme_user: make vme_user_sysfs_class constant
-Date: Thu,  5 Oct 2023 15:45:24 +0200
-Message-ID: <2023100523-throwback-oak-a164@gregkh>
+Subject: [PATCH] staging: pi433: make pi433_class constant
+Date: Thu,  5 Oct 2023 15:48:12 +0200
+Message-ID: <2023100512-basically-pedometer-9ed9@gregkh>
 X-Mailer: git-send-email 2.42.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -28,7 +28,7 @@ List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3731; i=gregkh@linuxfoundation.org; h=from:subject:message-id; bh=z9yHryktLQ/UzFBVnJXiqgioqdxuqKYjFXcrXINCIc0=; b=owGbwMvMwCRo6H6F97bub03G02pJDKlyez8Xr5j8uu3XDL4+4cV+x0v7eqRdhaeX9tRL1ehES gQLHJbqiGVhEGRikBVTZPmyjefo/opDil6Gtqdh5rAygQxh4OIUgImkJzEsmLRkwfmKjrfX2JJC bX6fjq0+IL6MmWGe5bd5X37O0BEwvbbp7C378qUnknjOAgA=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2882; i=gregkh@linuxfoundation.org; h=from:subject:message-id; bh=YNPCSFK5hnyZDO7MvaXjiiobmN82ObhVxMuqrZ9wupw=; b=owGbwMvMwCRo6H6F97bub03G02pJDKly++ZceFP1LGLWymkXVksu1+Azjyl7HRBve7HwWKv51 Ykz/fL6O2JZGASZGGTFFFm+bOM5ur/ikKKXoe1pmDmsTCBDGLg4BWAiS8sZ5tn8f/S+LmNBzcHX 1RIbK6QeB7nq3mZYMMGrX9Rmoe+cnnt1WosX7urZM/PHJwA=
 X-Developer-Key: i=gregkh@linuxfoundation.org; a=openpgp; fpr=F4B60CC5BF78C2214A313DCB3147D40DDB2DFB29
 Content-Transfer-Encoding: 8bit
 
@@ -39,100 +39,84 @@ allocated at load time.
 
 Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 ---
- drivers/staging/vme_user/vme_user.c | 26 +++++++++++++-------------
- 1 file changed, 13 insertions(+), 13 deletions(-)
+ drivers/staging/pi433/pi433_if.c | 21 ++++++++++++---------
+ 1 file changed, 12 insertions(+), 9 deletions(-)
 
-diff --git a/drivers/staging/vme_user/vme_user.c b/drivers/staging/vme_user/vme_user.c
-index b9367b575d00..36183f923768 100644
---- a/drivers/staging/vme_user/vme_user.c
-+++ b/drivers/staging/vme_user/vme_user.c
-@@ -37,7 +37,7 @@
- #include "vme.h"
- #include "vme_user.h"
+diff --git a/drivers/staging/pi433/pi433_if.c b/drivers/staging/pi433/pi433_if.c
+index 58887619b83f..11982bf398be 100644
+--- a/drivers/staging/pi433/pi433_if.c
++++ b/drivers/staging/pi433/pi433_if.c
+@@ -56,7 +56,10 @@ static DEFINE_IDR(pi433_idr);
+ static DEFINE_MUTEX(minor_lock); /* Protect idr accesses */
+ static struct dentry *root_dir;	/* debugfs root directory for the driver */
  
--static const char driver_name[] = "vme_user";
-+#define DRIVER_NAME "vme_user"
- 
- static int bus[VME_USER_BUS_MAX];
- static unsigned int bus_num;
-@@ -101,9 +101,11 @@ struct image_desc {
- static struct image_desc image[VME_DEVS];
- 
- static struct cdev *vme_user_cdev;		/* Character device */
--static struct class *vme_user_sysfs_class;	/* Sysfs class */
- static struct vme_dev *vme_user_bridge;		/* Pointer to user device */
- 
-+static const struct class vme_user_sysfs_class = {
-+	.name = DRIVER_NAME,
+-static struct class *pi433_class; /* mainly for udev to create /dev/pi433 */
++/* mainly for udev to create /dev/pi433 */
++static const struct class pi433_class = {
++	.name = "pi433",
 +};
- static const int type[VME_DEVS] = {	MASTER_MINOR,	MASTER_MINOR,
- 					MASTER_MINOR,	MASTER_MINOR,
- 					SLAVE_MINOR,	SLAVE_MINOR,
-@@ -540,8 +542,7 @@ static int vme_user_probe(struct vme_dev *vdev)
+ 
+ /*
+  * tx config is instance specific
+@@ -1259,7 +1262,7 @@ static int pi433_probe(struct spi_device *spi)
+ 
+ 	/* create device */
+ 	device->devt = MKDEV(MAJOR(pi433_dev), device->minor);
+-	device->dev = device_create(pi433_class,
++	device->dev = device_create(&pi433_class,
+ 				    &spi->dev,
+ 				    device->devt,
+ 				    device,
+@@ -1315,7 +1318,7 @@ static int pi433_probe(struct spi_device *spi)
+ cdev_failed:
+ 	kthread_stop(device->tx_task_struct);
+ send_thread_failed:
+-	device_destroy(pi433_class, device->devt);
++	device_destroy(&pi433_class, device->devt);
+ device_create_failed:
+ 	pi433_free_minor(device);
+ minor_failed:
+@@ -1342,7 +1345,7 @@ static void pi433_remove(struct spi_device *spi)
+ 
+ 	kthread_stop(device->tx_task_struct);
+ 
+-	device_destroy(pi433_class, device->devt);
++	device_destroy(&pi433_class, device->devt);
+ 
+ 	cdev_del(device->cdev);
+ 
+@@ -1398,18 +1401,18 @@ static int __init pi433_init(void)
+ 	if (status < 0)
+ 		return status;
+ 
+-	pi433_class = class_create("pi433");
+-	if (IS_ERR(pi433_class)) {
++	status = class_register(&pi433_class);
++	if (status) {
+ 		unregister_chrdev(MAJOR(pi433_dev),
+ 				  pi433_spi_driver.driver.name);
+-		return PTR_ERR(pi433_class);
++		return status;
  	}
  
- 	/* Assign major and minor numbers for the driver */
--	err = register_chrdev_region(MKDEV(VME_MAJOR, 0), VME_DEVS,
--				     driver_name);
-+	err = register_chrdev_region(MKDEV(VME_MAJOR, 0), VME_DEVS, DRIVER_NAME);
- 	if (err) {
- 		dev_warn(&vdev->dev, "Error getting Major Number %d for driver.\n",
- 			 VME_MAJOR);
-@@ -614,10 +615,9 @@ static int vme_user_probe(struct vme_dev *vdev)
+ 	root_dir = debugfs_create_dir(KBUILD_MODNAME, NULL);
+ 
+ 	status = spi_register_driver(&pi433_spi_driver);
+ 	if (status < 0) {
+-		class_destroy(pi433_class);
++		class_unregister(&pi433_class);
+ 		unregister_chrdev(MAJOR(pi433_dev),
+ 				  pi433_spi_driver.driver.name);
  	}
- 
- 	/* Create sysfs entries - on udev systems this creates the dev files */
--	vme_user_sysfs_class = class_create(driver_name);
--	if (IS_ERR(vme_user_sysfs_class)) {
-+	err = class_register(&vme_user_sysfs_class);
-+	if (err) {
- 		dev_err(&vdev->dev, "Error creating vme_user class.\n");
--		err = PTR_ERR(vme_user_sysfs_class);
- 		goto err_master;
- 	}
- 
-@@ -641,7 +641,7 @@ static int vme_user_probe(struct vme_dev *vdev)
- 		}
- 
- 		num = (type[i] == SLAVE_MINOR) ? i - (MASTER_MAX + 1) : i;
--		image[i].device = device_create(vme_user_sysfs_class, NULL,
-+		image[i].device = device_create(&vme_user_sysfs_class, NULL,
- 						MKDEV(VME_MAJOR, i), NULL,
- 						name, num);
- 		if (IS_ERR(image[i].device)) {
-@@ -656,9 +656,9 @@ static int vme_user_probe(struct vme_dev *vdev)
- err_sysfs:
- 	while (i > 0) {
- 		i--;
--		device_destroy(vme_user_sysfs_class, MKDEV(VME_MAJOR, i));
-+		device_destroy(&vme_user_sysfs_class, MKDEV(VME_MAJOR, i));
- 	}
--	class_destroy(vme_user_sysfs_class);
-+	class_unregister(&vme_user_sysfs_class);
- 
- 	/* Ensure counter set correctly to unalloc all master windows */
- 	i = MASTER_MAX + 1;
-@@ -696,9 +696,9 @@ static void vme_user_remove(struct vme_dev *dev)
- 	/* Remove sysfs Entries */
- 	for (i = 0; i < VME_DEVS; i++) {
- 		mutex_destroy(&image[i].mutex);
--		device_destroy(vme_user_sysfs_class, MKDEV(VME_MAJOR, i));
-+		device_destroy(&vme_user_sysfs_class, MKDEV(VME_MAJOR, i));
- 	}
--	class_destroy(vme_user_sysfs_class);
-+	class_unregister(&vme_user_sysfs_class);
- 
- 	for (i = MASTER_MINOR; i < (MASTER_MAX + 1); i++) {
- 		kfree(image[i].kern_buf);
-@@ -720,7 +720,7 @@ static void vme_user_remove(struct vme_dev *dev)
+@@ -1422,7 +1425,7 @@ module_init(pi433_init);
+ static void __exit pi433_exit(void)
+ {
+ 	spi_unregister_driver(&pi433_spi_driver);
+-	class_destroy(pi433_class);
++	class_destroy(&pi433_class);
+ 	unregister_chrdev(MAJOR(pi433_dev), pi433_spi_driver.driver.name);
+ 	debugfs_remove(root_dir);
  }
- 
- static struct vme_driver vme_user_driver = {
--	.name = driver_name,
-+	.name = DRIVER_NAME,
- 	.match = vme_user_match,
- 	.probe = vme_user_probe,
- 	.remove = vme_user_remove,
 -- 
 2.42.0
 
