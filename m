@@ -1,26 +1,26 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57EB2219F2
-	for <linux-staging@lists.linux.dev>; Thu,  5 Oct 2023 13:48:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6993D266BD
+	for <linux-staging@lists.linux.dev>; Thu,  5 Oct 2023 13:55:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="NZ902NtZ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7A5A9C4AF7D;
-	Thu,  5 Oct 2023 13:48:15 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="PgDD5hPk"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 760D8C43215;
+	Thu,  5 Oct 2023 13:55:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1696513695;
-	bh=YNPCSFK5hnyZDO7MvaXjiiobmN82ObhVxMuqrZ9wupw=;
+	s=korg; t=1696514116;
+	bh=FPF7KAEMlwIOVvDpPTd1/Wuts/J4Yv4RkMVq/HLq2eY=;
 	h=From:To:Cc:Subject:Date:From;
-	b=NZ902NtZEofXAiUY+kOfYtSJY3FDmqXdy6GRZTV0s1p4NtutDCwrJoRtPdh/dVnfD
-	 mZ2C48GnS1nJk0bb7eqHIuGHiNAjNkHkwY+TIInXM8RcDfW1w4gzFk4D8Rq7/57cr0
-	 jKNOCneQBNCfwLVKSuSz1RvEPerQy8EQNE5IsxtQ=
+	b=PgDD5hPkbG9WNVHPRTbjh23Grnci0W6b2O4zsqUjNsNTzs+jonusi/zh2/rJtjj4G
+	 KZtZ2wJYNYDn6ED8wyEqrVfRnNuPnl4hxlZF5XX+e+lknot1Hs6wKH/XiLus1tZ3OQ
+	 NOY+Nnx2idcb61kytiF9b84O+0eTCTGKH2m3f3Pc=
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To: linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
 Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Subject: [PATCH] staging: pi433: make pi433_class constant
-Date: Thu,  5 Oct 2023 15:48:12 +0200
-Message-ID: <2023100512-basically-pedometer-9ed9@gregkh>
+Subject: [PATCH v2] staging: pi433: make pi433_class constant
+Date: Thu,  5 Oct 2023 15:55:13 +0200
+Message-ID: <2023100512-sweat-abruptly-2445@gregkh>
 X-Mailer: git-send-email 2.42.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -28,7 +28,7 @@ List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2882; i=gregkh@linuxfoundation.org; h=from:subject:message-id; bh=YNPCSFK5hnyZDO7MvaXjiiobmN82ObhVxMuqrZ9wupw=; b=owGbwMvMwCRo6H6F97bub03G02pJDKly++ZceFP1LGLWymkXVksu1+Azjyl7HRBve7HwWKv51 Ykz/fL6O2JZGASZGGTFFFm+bOM5ur/ikKKXoe1pmDmsTCBDGLg4BWAiS8sZ5tn8f/S+LmNBzcHX 1RIbK6QeB7nq3mZYMMGrX9Rmoe+cnnt1WosX7urZM/PHJwA=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2941; i=gregkh@linuxfoundation.org; h=from:subject:message-id; bh=FPF7KAEMlwIOVvDpPTd1/Wuts/J4Yv4RkMVq/HLq2eY=; b=owGbwMvMwCRo6H6F97bub03G02pJDKlyBxy3zuDL5GhjjokNbUzOT/sie8G4YJ//q1fBup7+h rddnjZ0xLIwCDIxyIopsnzZxnN0f8UhRS9D29Mwc1iZQIYwcHEKwEQeP2GYX1z9ifV6QZbIlzdf jioWnaif9rayjWF+uNhaiW9+wvqP+0KOrlfdfb7C4shhAA==
 X-Developer-Key: i=gregkh@linuxfoundation.org; a=openpgp; fpr=F4B60CC5BF78C2214A313DCB3147D40DDB2DFB29
 Content-Transfer-Encoding: 8bit
 
@@ -39,11 +39,13 @@ allocated at load time.
 
 Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 ---
+v2 : properly call class_unregister() in module exit
+
  drivers/staging/pi433/pi433_if.c | 21 ++++++++++++---------
  1 file changed, 12 insertions(+), 9 deletions(-)
 
 diff --git a/drivers/staging/pi433/pi433_if.c b/drivers/staging/pi433/pi433_if.c
-index 58887619b83f..11982bf398be 100644
+index 58887619b83f..0ec3130225db 100644
 --- a/drivers/staging/pi433/pi433_if.c
 +++ b/drivers/staging/pi433/pi433_if.c
 @@ -56,7 +56,10 @@ static DEFINE_IDR(pi433_idr);
@@ -113,7 +115,7 @@ index 58887619b83f..11982bf398be 100644
  {
  	spi_unregister_driver(&pi433_spi_driver);
 -	class_destroy(pi433_class);
-+	class_destroy(&pi433_class);
++	class_unregister(&pi433_class);
  	unregister_chrdev(MAJOR(pi433_dev), pi433_spi_driver.driver.name);
  	debugfs_remove(root_dir);
  }
