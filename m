@@ -1,46 +1,47 @@
-Received: from mail-oa1-f50.google.com (mail-oa1-f50.google.com [209.85.160.50])
+Received: from mail-oa1-f54.google.com (mail-oa1-f54.google.com [209.85.160.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 412EE629
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12E35A2D
 	for <linux-staging@lists.linux.dev>; Fri,  6 Oct 2023 00:51:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="t7uAYmJb"
-Received: by mail-oa1-f50.google.com with SMTP id 586e51a60fabf-1dc863efb61so972525fac.0
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="Tz3YMvJs"
+Received: by mail-oa1-f54.google.com with SMTP id 586e51a60fabf-1dcbd8a56d6so1005731fac.1
         for <linux-staging@lists.linux.dev>; Thu, 05 Oct 2023 17:51:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1696553465; x=1697158265; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=Dj54Gl1jd+w9QgbJ5IpGgS95Y27Kw5ws4fL1QKoqHoA=;
-        b=t7uAYmJb3EAOv3l0L53o0xL043XiW+xASrfT6OlLWkODcuBSS/Zpj+dnjH4mHKHb2I
-         W+ftO7L3vJSfX23IcJO/kxKdVe7xqpDdVnFirZ5jnWbYjm4mB8fr/v58JqZI4ebyttng
-         iQb4eiJrZ1HsJrWQwZ0HzGcj+j021hUz+5MK8cmOIVTSoioN5D92C5inJrkO4aKD0BUI
-         DCohhAACzhBOP1NCM+xKCE7dpbPy2DNNC2n7xfoCjYRDnzkvs34eXhCbKbQGrGkFtQBy
-         TTtjA/q4PUkzy0rhHurfMowuv7ZsUniDQnrZcO7WCq3eM324ep59WIBxuA2WQRH5JO8q
-         +fUA==
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1696553466; x=1697158266; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=FmnWnKvM60dm/oO+QIaL6SFHQ4EDYTo8nwIRSW4SLrI=;
+        b=Tz3YMvJsSYOTeCClHOmt3adKqbgu5oX8/fUJ7jNLucqHnjjHunXKjiC7ly7k8yruCF
+         d4t6qTYpKPUIXt9zRytiab3LBYmvajrk6xTxvUda/UOxEoTke4gLDAXV1hPYurL1IlgZ
+         po5U60kNpj3t30c+O3spM8Kqho0AGY82bG2ZIU3+tkgMn0CU43bB3ceCjjQONia1Rqv7
+         fxAlWYLMqI9ZoqpXEQYdOlp+rv9fu7HHlKL4X0JhXvwGYxaXLDAjd7NdneL1aPB2e7S9
+         LEv3qTS8/dJCh80b/gcmXi1UPHt9KffwhuXyKcz70dQv4Y/DYZiOeO21gQ8aEWjY6lFP
+         sVZw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696553465; x=1697158265;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Dj54Gl1jd+w9QgbJ5IpGgS95Y27Kw5ws4fL1QKoqHoA=;
-        b=r9eahxeYll7WU5HLCl0Hch5XC7jHvbS4LJOiv0LKWAPuqmuBMCtW8//i1cs1NJT3VV
-         +l78H6XdOapA+m5IRolyId2cyP5DKKZilCnNFMjQOMRrQ0PtR2MXkuXzDpIBW2xLSt9K
-         WaM4iq0Tqbr+rZcv5vr4u9jTox6nE4lTC+O+Ei42pPa/MF5CR8kLbjJh5qnmo90Tg4wV
-         4xWzitHrbA2tujKYWk0NYYdocsogICvtYd+zHUhAMEkLg4xHsyqBfqIfmpPL2zOKATo+
-         tCLcYtuXj5EcFzNFNbdv2NUbIdOzHuO2tqjXBgG9foNDOylPkHeVhMHdbxSkK9a97sef
-         fL6g==
-X-Gm-Message-State: AOJu0YwYmSt02PFjwprsyDIfj8KBS5WDO69+wCeNx6xVID8jSLK0DctN
-	FDwlMqmv7nUqGw00GwtqlHJ2eg==
-X-Google-Smtp-Source: AGHT+IG1hSjqGVvnbK0ZQXLALAHV4h6eK08b8Sg1VE/BxT+UJ3tKdYKuqZ0DT9gCvR470zCjPxGqCw==
-X-Received: by 2002:a05:6870:96a3:b0:1dc:7e71:d471 with SMTP id o35-20020a05687096a300b001dc7e71d471mr7341864oaq.31.1696553465199;
-        Thu, 05 Oct 2023 17:51:05 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1696553466; x=1697158266;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=FmnWnKvM60dm/oO+QIaL6SFHQ4EDYTo8nwIRSW4SLrI=;
+        b=uoEkCfpFmORrqVUcE9FF4OG6dbBmjPn6tdr488tVRgidLruDvepwObMkInoGDJEfb0
+         I4NinEEhf9flkLEtBeBIo3C7HHoh574YFTc3u5f4ffDG/lJIYsLXWtP7A3e0+pFnMWvF
+         DvRRHQQ0ljHf2WkpwkJt2pzNjnlr13Mo7dtQ7qVMUG2EKD/6hMNQl1KZYndaLScC5ldJ
+         02OvnnCXt+nz3oshOeM07dlSca+jurb2sm/wf3U6PPy+Pzw3kP+5NGzN/2R1nwoTk8UH
+         x0Pf33D++EEGUA/mfHmgfl9J0YrF76ZeoVrx3WtEVifef3Q2nKwJ14THdrVmEp0c5nKQ
+         R88w==
+X-Gm-Message-State: AOJu0YxMDjlnNSZQ0kq01/URpo/6i2VZSYXsOczn0neCdcTQ9ONFI1/w
+	ZwJTrmJ6EzBMaPZ7/zpku8tI8g==
+X-Google-Smtp-Source: AGHT+IEv6WtS6qh9/yTfpep5SGFAYpPtAHL09gstutBcqD5TCzldqYdZkPKppJ2qxWVI1cuLcrDWug==
+X-Received: by 2002:a05:6870:9a21:b0:1db:3031:c97c with SMTP id fo33-20020a0568709a2100b001db3031c97cmr8089382oab.26.1696553466001;
+        Thu, 05 Oct 2023 17:51:06 -0700 (PDT)
 Received: from freyr.lechnology.com (ip98-183-112-25.ok.ok.cox.net. [98.183.112.25])
-        by smtp.gmail.com with ESMTPSA id mo9-20020a056871320900b001dd0ff401edsm545072oac.51.2023.10.05.17.51.04
+        by smtp.gmail.com with ESMTPSA id mo9-20020a056871320900b001dd0ff401edsm545072oac.51.2023.10.05.17.51.05
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 05 Oct 2023 17:51:04 -0700 (PDT)
+        Thu, 05 Oct 2023 17:51:05 -0700 (PDT)
 From: David Lechner <dlechner@baylibre.com>
 To: linux-iio@vger.kernel.org,
 	linux-staging@lists.linux.dev
@@ -51,10 +52,12 @@ Cc: David Lechner <dlechner@baylibre.com>,
 	Axel Haslam <ahaslam@baylibre.com>,
 	Philip Molloy <pmolloy@baylibre.com>,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v4 00/17] iio: resolver: move ad2s1210 out of staging
-Date: Thu,  5 Oct 2023 19:50:17 -0500
-Message-ID: <20231005-ad2s1210-mainline-v4-0-ec00746840fc@baylibre.com>
+Subject: [PATCH v4 01/17] staging: iio: resolver: ad2s1210: do not use fault register for dummy read
+Date: Thu,  5 Oct 2023 19:50:18 -0500
+Message-ID: <20231005-ad2s1210-mainline-v4-1-ec00746840fc@baylibre.com>
 X-Mailer: git-send-email 2.42.0
+In-Reply-To: <20231005-ad2s1210-mainline-v4-0-ec00746840fc@baylibre.com>
+References: <20231005-ad2s1210-mainline-v4-0-ec00746840fc@baylibre.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -65,124 +68,43 @@ Content-Type: text/plain; charset="utf-8"
 X-Mailer: b4 0.12.3
 Content-Transfer-Encoding: 8bit
 
-This series is working towards moving the ad2s1210 resolver driver out of
-staging (after 13 years!). It involves a bunch of fixes and improvements
-to make proper device tree bindings and use standard IIO sysfs attributes.
+When reading registers on the AD2S1210 chip, we have to supply a "dummy"
+address for the second SPI tx byte so that we don't accidentally write
+to a register. This register will be read and the value discarded on the
+next regmap read or write call.
 
-This series has been tested on actual hardware using a EVAL-AD2S1210 evaluation
-board. (Note: not all device tree features have been implemented in the driver
-since the eval board doesn't support them out of the box. We plan to add them
-later if needed.)
+Reading the fault register has a side-effect of clearing the faults
+so we should not use this register for the dummy read.
 
+Signed-off-by: David Lechner <dlechner@baylibre.com>
 ---
 
-v4 changes:
-* Dropped applied patches:
-  * "dt-bindings: iio: resolver: add devicetree bindings for ad2s1210"
-  * "staging: iio: resolver: ad2s1210: read excitation frequency from
-    control register"
-  * "staging: iio: resolver: ad2s1210: refactor setting excitation
-    frequency"
-  * "staging: iio: resolver: ad2s1210: rework gpios"
-  * "staging: iio: resolver: ad2s1210: remove config attribute"
-  * "staging: iio: resolver: ad2s1210: add debugfs reg access"
-  * "staging: iio: resolver: ad2s1210: use regmap for config registers"
-  * "staging: iio: resolver: ad2s1210: use devicetree to get CLKIN rate"
-  * "staging: iio: resolver: ad2s1210: implement IIO_CHAN_INFO_SCALE"
-  * "staging: iio: resolver: ad2s1210: always use 16-bit value for raw
-    read"
-  * "staging: iio: resolver: ad2s1210: sort imports"
-  * "staging: iio: resolver: ad2s1210: remove spi_set_drvdata()"
-  * "staging: iio: resolver: ad2s1210: check return of ad2s1210_initial()"
-  * "staging: iio: resolver: ad2s1210: remove call to spi_setup()"
-  * "staging: iio: resolver: ad2s1210: fix use before initialization"
-* Added new patches:
-  * "staging: iio: resolver: ad2s1210: do not use fault register for
-    dummy read"
-  * "iio: event: add optional event label support"
-  * "staging: iio: resolver: ad2s1210: add register/fault support summary"
-  * "staging: iio: resolver: ad2s1210: remove fault attribute"
-  * "staging: iio: resolver: ad2s1210: simplify code with guard(mutex)"
-* Fixed DT property name in commit description of "staging: iio:
-  resolver: ad2s1210: convert resolution to devicetree property"
-* Fixed compile error in "staging: iio: resolver: ad2s1210: implement
-  fault events".
-* Fixed angl0 hysteresis raw values when assigned-resolution-bits != 16.
-* Fixed missing word in "staging: iio: resolver: ad2s1210: convert DOS
-  overrange threshold to event attr" commit description.
-* Fixed missing static qualifier on event attribute definitions.
-* Dropped used of X/Y modifiers on sine/cosine channels.
-* Changed type/direction on some events.
-* Added event *_label attributes.
+v4 changes: New patch
 
-Link to v3: https://lore.kernel.org/r/20230929-ad2s1210-mainline-v3-0-fa4364281745@baylibre.com
+(this probably should have been done before "staging: iio: resolver:
+ad2s1210: use regmap for config registers" but was overlooked until now)
 
-v3 changes:
-* Dropped applied patches:
-  * "staging: iio: resolver: ad2s1210: fix ad2s1210_show_fault"
-  * "iio: adc: MCP3564: fix the static checker warning"
-* Dropped "staging: iio: Documentation: document IIO resolver AD2S1210
-  sysfs attributes". We will attempt to use existing ABI for faults/
-  thresholds in a future series.
-* Added description of A0/A1 lines in DT bindings.
-* Added power supply regulators to DT bindings.
-* Moved sorting imports to separate patch.
-* Renamed fclkin to clkin_hz.
-* Added __be16 sample field to state struct for reading raw samples.
-* Split out new function ad2s1210_single_conversion() from
-  ad2s1210_read_raw().
-* Split out new ad2s1210_get_hysteresis() and ad2s1210_set_hysteresis()
-  functions.
-* Fixed multi-line comment style.
-* Added notes about soft reset not resetting config registers.
-* Made use of FIELD_PREP() macro.
-* Added more explanation to regmap commit message.
-* Removed datasheet names from channel specs.
-* Replaced "staging: iio: resolver: ad2s1210: rename fexcit attribute"
-  with "staging: iio: resolver: ad2s1210: convert fexcit to channel
-  attribute".
-* Replaced "staging: iio: resolver: ad2s1210: add phase_lock_range
-  attributes" with "staging: iio: resolver: ad2s1210: add phase lock
-  range support"
-* Added additional patches to convert custom device attributes to event
-  attributes.
-* Added patch for to add label attributes.
+ drivers/staging/iio/resolver/ad2s1210.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-Link to v2: https://lore.kernel.org/r/20230921144400.62380-1-dlechner@baylibre.com
+diff --git a/drivers/staging/iio/resolver/ad2s1210.c b/drivers/staging/iio/resolver/ad2s1210.c
+index 67d8af0dd7ae..8fbde9517fe9 100644
+--- a/drivers/staging/iio/resolver/ad2s1210.c
++++ b/drivers/staging/iio/resolver/ad2s1210.c
+@@ -166,9 +166,10 @@ static int ad2s1210_regmap_reg_read(void *context, unsigned int reg,
+ 	st->tx[0] = reg;
+ 	/*
+ 	 * Must be valid register address here otherwise this could write data.
+-	 * It doesn't matter which one.
++	 * It doesn't matter which one as long as reading doesn't have side-
++	 * effects.
+ 	 */
+-	st->tx[1] = AD2S1210_REG_FAULT;
++	st->tx[1] = AD2S1210_REG_CONTROL;
+ 
+ 	ret = spi_sync_transfer(st->sdev, xfers, ARRAY_SIZE(xfers));
+ 	if (ret < 0)
 
-v2 changes:
-* Address initial device tree patch feedback
-* Drop "iio: sysfs: add IIO_DEVICE_ATTR_NAMED_RW macro" (related cleanups
-  also dropped for now, will address in a future series if needed)
-* Apply improvements as a series of patches to the staging driver. It is
-  not quite ready for the move out of staging patch yet.
+-- 
+2.42.0
 
----
-David Lechner (17):
-      staging: iio: resolver: ad2s1210: do not use fault register for dummy read
-      staging: iio: resolver: ad2s1210: implement hysteresis as channel attr
-      staging: iio: resolver: ad2s1210: convert fexcit to channel attribute
-      staging: iio: resolver: ad2s1210: convert resolution to devicetree property
-      staging: iio: resolver: ad2s1210: add phase lock range support
-      staging: iio: resolver: ad2s1210: add triggered buffer support
-      staging: iio: resolver: ad2s1210: convert LOT threshold attrs to event attrs
-      staging: iio: resolver: ad2s1210: convert LOS threshold to event attr
-      staging: iio: resolver: ad2s1210: convert DOS overrange threshold to event attr
-      staging: iio: resolver: ad2s1210: convert DOS mismatch threshold to event attr
-      staging: iio: resolver: ad2s1210: rename DOS reset min/max attrs
-      iio: event: add optional event label support
-      staging: iio: resolver: ad2s1210: implement fault events
-      staging: iio: resolver: ad2s1210: add register/fault support summary
-      staging: iio: resolver: ad2s1210: add label attribute support
-      staging: iio: resolver: ad2s1210: remove fault attribute
-      staging: iio: resolver: ad2s1210: simplify code with guard(mutex)
-
- Documentation/ABI/testing/sysfs-bus-iio            |   15 +
- drivers/iio/industrialio-event.c                   |   55 +
- .../Documentation/sysfs-bus-iio-resolver-ad2s1210  |   27 +
- drivers/staging/iio/resolver/ad2s1210.c            | 1194 ++++++++++++++++----
- include/linux/iio/iio.h                            |    8 +
- 5 files changed, 1061 insertions(+), 238 deletions(-)
----
-base-commit: 2d3dff577dd0ea8fe9637a13822f7603c4a881c8
-change-id: 20230925-ad2s1210-mainline-2791ef75e386
