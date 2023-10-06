@@ -1,53 +1,52 @@
-Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
+Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E8E93AC01
-	for <linux-staging@lists.linux.dev>; Fri,  6 Oct 2023 19:05:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67A3638F98
+	for <linux-staging@lists.linux.dev>; Fri,  6 Oct 2023 19:05:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hLm3/UNG"
-Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-9ae65c0e46fso98992066b.0
-        for <linux-staging@lists.linux.dev>; Fri, 06 Oct 2023 12:05:04 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MVI/W3DW"
+Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-9b2d64c9307so97633766b.1
+        for <linux-staging@lists.linux.dev>; Fri, 06 Oct 2023 12:05:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1696619102; x=1697223902; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1696619109; x=1697223909; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=twZki8w+uSIknxeG/1Xm/hRx3jP9PNleQggQAAtzt9M=;
-        b=hLm3/UNGmMIMK5qikSCZhgX02TvD1IRrZT7VZZQbWom0osmcSRrjlRl0vqkdb/uxoZ
-         nR1iNjBKE8grT+F6AhucJ2j8nX+1UdvU8XWk5umQ5AK12eE2bNlhU8Iu/kxwJTOjHMo+
-         +Za1WSEC/h4LLYhw6bSrxCr6V1vIe2bkOhtJYLyKA8/xMCeT+VDd44tBTqeMg4G/ibwb
-         UHDxwYBO6H1K1MLB/2x5yNNzB7dgsJ+MUuTb/guk6rz1xOtNCzutD11c7mi6ytK653YY
-         X/7wN/2pumILZvLoyK/rGjiFAV8FM6J5AnYEFexLg/3jWTcaSuMCELi1hHVq0RX67fvG
-         7qcw==
+        bh=frWFn5a7WskkCNBBns5qHFEWZyzl6mTq0HND4RnFXso=;
+        b=MVI/W3DWVNwjM0oPJjlMSLSCow2Z9920mhf36oyYAVmRvQeYiRXgaue1MvcItdwKyu
+         fJaRagtThqdVszlCIJ6Pwk13dqd1kdqK5ZvZXoV1Aer3lRajz9pBVIvDUTDKLBUdh9x7
+         1a4+tokc5I+vA+oyU4prVu8+pQu2j0qvezGSQM0XbGHADh9l0GkiNMm0nUdas+YvnRGs
+         b3YQ7KWWgJkBiyD/3TPFbFCKldoVc2ZC1CypWqa8OhoSpoQn/H9mmeUjSeoT9j3KtIBi
+         xCLYaWUrm/j9dl5fVO3DbkOoa4SIMfliDUBXaW9pi9sosZb8ToGb5t0HPtsFH6WTLPfM
+         7zYw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696619102; x=1697223902;
+        d=1e100.net; s=20230601; t=1696619109; x=1697223909;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=twZki8w+uSIknxeG/1Xm/hRx3jP9PNleQggQAAtzt9M=;
-        b=BIBp/3En4jRuu4HdqMuypfRnjB8xmX75GXhIzlHCU+wZD3x3f2ZDsGK4DqttOMSov6
-         XgGvEsVqD1XmpHNfvID0C2vrtoWTnvSlCDc4XYkudFwGysdHPKq+P5qzW1YMlwL3qDr+
-         J27bikSb+NkcWSi/Ge+c6qPKTsguFlOT6lJyV2/IvTqEWyUkHHWasXM41HZ8VT6rFtgR
-         MYeZXkaiQUB3gnjAntbBsAf2n5Ia+LmVmO3OU16EHQcr9f6kAvYMLaXXALFeecYos0eM
-         YspgLCgIRsDCYODg9jMjUDpJXhHmOgQ8wq2YItP2HSDjoGoahWQ/Bgh2I5wtO6uRKtw2
-         51rw==
-X-Gm-Message-State: AOJu0YwtYnCR+EmwCF9kpQ4RizedkYdn1DOU9FrArTbU9trhlYtwD1Vy
-	e9J0MEN8ngBRtMu5pRF/upoBgDdT1Ow=
-X-Google-Smtp-Source: AGHT+IERjSYnMDWJyyNYqjqazcemZh6LO2GQiCT7dnPc+/TP9DrQk7KrxJUf/ZeoVvrVks/phO6LeA==
-X-Received: by 2002:a17:906:7389:b0:9b2:71f2:bd11 with SMTP id f9-20020a170906738900b009b271f2bd11mr7155082ejl.4.1696619102334;
-        Fri, 06 Oct 2023 12:05:02 -0700 (PDT)
+        bh=frWFn5a7WskkCNBBns5qHFEWZyzl6mTq0HND4RnFXso=;
+        b=VU7k9zQ2rdc/AeQvDNATt17IgurK83AaJ80qN7JYYDkmE7naX1ITDCWxEICE1KkUJQ
+         QZCTfNRKEjwsXvJyemHRnDG9hPJ72YcfAGdsWVH/COUKf9EyzmMKCnPYmZQH19/CCvo0
+         DEHOpNedJsm5rbdjurFtGmYqoCdwoRQpgMl3UOmE5NlY/2vlWiF+C1G73vpE4m0SSj//
+         ZnKMmAfE5Bx4Q/Nsrgs4jvLIWjnwc+DVeBvv+e6U9+nJLXMTIS0xIgrO5UdmpMHfuDXb
+         /Ef4ZHL0OGXHTvY/ersEJEmv8ymedBAqR4y+ZWxOQYMNzMqO/T1D/YENUt/m759HDfip
+         w5sQ==
+X-Gm-Message-State: AOJu0Yylqy8nUj8JVeD1ef+3cys2CZbW2kwU9yTWfDeUzYq60SytMFQa
+	55bpnps/SbxJ93PgwWaQGvTvu6YiNFg=
+X-Google-Smtp-Source: AGHT+IElU1Lkaos/3KQRc7F70agUsD4OHvfRx5rL1+pRjH3SdB3TUUx/0dLm38nyPZ2EAbQLkb8how==
+X-Received: by 2002:a17:906:2255:b0:9a1:be9b:c935 with SMTP id 21-20020a170906225500b009a1be9bc935mr7672676ejr.0.1696619109546;
+        Fri, 06 Oct 2023 12:05:09 -0700 (PDT)
 Received: from matrix-ESPRIMO-P710 (p579356c7.dip0.t-ipconnect.de. [87.147.86.199])
-        by smtp.gmail.com with ESMTPSA id e12-20020a17090681cc00b009a9fbeb15f2sm3291667ejx.62.2023.10.06.12.05.01
+        by smtp.gmail.com with ESMTPSA id lf8-20020a170906ae4800b00992e14af9c3sm3326901ejb.143.2023.10.06.12.05.09
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 06 Oct 2023 12:05:02 -0700 (PDT)
-Date: Fri, 6 Oct 2023 21:05:00 +0200
+        Fri, 06 Oct 2023 12:05:09 -0700 (PDT)
+Date: Fri, 6 Oct 2023 21:05:07 +0200
 From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [PATCH 04/10] staging: rtl8192e: Remove function
- _rtl92e_wx_adapter_power_status()
-Message-ID: <2fc8f18019c760125ae7c52c765271d2877c52bd.1696548527.git.philipp.g.hortmann@gmail.com>
+Subject: [PATCH 05/10] staging: rtl8192e: Remove constant variable ps_force
+Message-ID: <ecebc90415c202e4e465bfb5b10c54be8b42e684.1696548527.git.philipp.g.hortmann@gmail.com>
 References: <cover.1696548527.git.philipp.g.hortmann@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -59,76 +58,41 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 In-Reply-To: <cover.1696548527.git.philipp.g.hortmann@gmail.com>
 
-Remove function _rtl92e_wx_adapter_power_status() as this functionality
-is not commonly used and the tool to access it is deprecated.
+Remove constant variable ps_force as its value is always 0. The equation
+results accordingly. Remove dead code.
 
 Signed-off-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
 ---
- drivers/staging/rtl8192e/rtl8192e/rtl_wx.c | 37 ----------------------
- 1 file changed, 37 deletions(-)
+ drivers/staging/rtl8192e/rtl8192e/rtl_core.h | 1 -
+ drivers/staging/rtl8192e/rtl8192e/rtl_ps.c   | 3 +--
+ 2 files changed, 1 insertion(+), 3 deletions(-)
 
-diff --git a/drivers/staging/rtl8192e/rtl8192e/rtl_wx.c b/drivers/staging/rtl8192e/rtl8192e/rtl_wx.c
-index 35f25c60dfb9..27309df925ba 100644
---- a/drivers/staging/rtl8192e/rtl8192e/rtl_wx.c
-+++ b/drivers/staging/rtl8192e/rtl8192e/rtl_wx.c
-@@ -122,34 +122,6 @@ static int _rtl92e_wx_get_power(struct net_device *dev,
- 	return rtllib_wx_get_power(priv->rtllib, info, wrqu, extra);
- }
+diff --git a/drivers/staging/rtl8192e/rtl8192e/rtl_core.h b/drivers/staging/rtl8192e/rtl8192e/rtl_core.h
+index 4b2ee1684dac..d4e998cfbefc 100644
+--- a/drivers/staging/rtl8192e/rtl8192e/rtl_core.h
++++ b/drivers/staging/rtl8192e/rtl8192e/rtl_core.h
+@@ -263,7 +263,6 @@ struct r8192_priv {
+ 	short	promisc;
  
--static int _rtl92e_wx_adapter_power_status(struct net_device *dev,
--					   struct iw_request_info *info,
--					   union iwreq_data *wrqu, char *extra)
--{
--	struct r8192_priv *priv = rtllib_priv(dev);
--	struct rt_pwr_save_ctrl *psc = (struct rt_pwr_save_ctrl *)
--					(&priv->rtllib->pwr_save_ctrl);
--	struct rtllib_device *ieee = priv->rtllib;
--
--	mutex_lock(&priv->wx_mutex);
--
--	if (*extra) {
--		priv->ps_force = false;
--		psc->bLeisurePs = true;
--	} else {
--		if (priv->rtllib->link_state == MAC80211_LINKED)
--			rtl92e_leisure_ps_leave(dev);
--
--		priv->ps_force = true;
--		psc->bLeisurePs = false;
--		ieee->ps = *extra;
--	}
--
--	mutex_unlock(&priv->wx_mutex);
--
--	return 0;
--}
--
- static int _rtl92e_wx_set_debug(struct net_device *dev,
- 				struct iw_request_info *info,
- 				union iwreq_data *wrqu, char *extra)
-@@ -927,10 +899,6 @@ static const struct iw_priv_args r8192_private_args[] = {
- 	}, {
- 		SIOCIWFIRSTPRIV + 0x1,
- 		IW_PRIV_TYPE_INT | IW_PRIV_SIZE_FIXED | 1, 0, "activescan"
--	}, {
--		SIOCIWFIRSTPRIV + 0x6,
--		IW_PRIV_TYPE_INT | IW_PRIV_SIZE_FIXED | 1, IW_PRIV_TYPE_NONE,
--		"set_power"
- 	}
+ 	short	chan;
+-	bool ps_force;
  
- };
-@@ -938,11 +906,6 @@ static const struct iw_priv_args r8192_private_args[] = {
- static iw_handler r8192_private_handler[] = {
- 	(iw_handler)_rtl92e_wx_set_debug,   /*SIOCIWSECONDPRIV*/
- 	(iw_handler)_rtl92e_wx_set_scan_type,
--	(iw_handler)NULL,
--	(iw_handler)NULL,
--	(iw_handler)NULL,
--	(iw_handler)NULL,
--	(iw_handler)_rtl92e_wx_adapter_power_status,
- };
+ 	u32 irq_mask[2];
  
- static struct iw_statistics *_rtl92e_get_wireless_stats(struct net_device *dev)
+diff --git a/drivers/staging/rtl8192e/rtl8192e/rtl_ps.c b/drivers/staging/rtl8192e/rtl8192e/rtl_ps.c
+index a4da11627199..44a9fe831849 100644
+--- a/drivers/staging/rtl8192e/rtl8192e/rtl_ps.c
++++ b/drivers/staging/rtl8192e/rtl8192e/rtl_ps.c
+@@ -181,8 +181,7 @@ static bool _rtl92e_ps_set_mode(struct net_device *dev, u8 rtPsMode)
+ {
+ 	struct r8192_priv *priv = rtllib_priv(dev);
+ 
+-	if (!priv->ps_force)
+-		priv->rtllib->ps = rtPsMode;
++	priv->rtllib->ps = rtPsMode;
+ 	if (priv->rtllib->sta_sleep != LPS_IS_WAKE &&
+ 	    rtPsMode == RTLLIB_PS_DISABLED) {
+ 		unsigned long flags;
 -- 
 2.42.0
 
