@@ -1,47 +1,47 @@
-Received: from mail-oa1-f48.google.com (mail-oa1-f48.google.com [209.85.160.48])
+Received: from mail-oa1-f41.google.com (mail-oa1-f41.google.com [209.85.160.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77C9910F9
-	for <linux-staging@lists.linux.dev>; Fri,  6 Oct 2023 00:51:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9377F137B
+	for <linux-staging@lists.linux.dev>; Fri,  6 Oct 2023 00:51:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="dbfUIijK"
-Received: by mail-oa1-f48.google.com with SMTP id 586e51a60fabf-1dc863efb61so972549fac.0
-        for <linux-staging@lists.linux.dev>; Thu, 05 Oct 2023 17:51:08 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="TmvQJJsV"
+Received: by mail-oa1-f41.google.com with SMTP id 586e51a60fabf-1e5602c12e5so800834fac.3
+        for <linux-staging@lists.linux.dev>; Thu, 05 Oct 2023 17:51:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1696553467; x=1697158267; darn=lists.linux.dev;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1696553470; x=1697158270; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=FcuCCN2lfputhsGB+Q9eZZKcfZbyp+G9GeySzJ04DdM=;
-        b=dbfUIijK51xXY7MuRwFs+Yhtc3Dqw8/YNB+4ARtS4+xBsP+ASs7itaSbABFuMuezgH
-         Yf7pJZOBYVQNVAqHESBF+6Ksxo7mQWSSaP8drnEefUa09Kd/LC094Cj83UtfYznMSBD5
-         zDzKfarTB8rcMGtxpwFLX1RKONk9PpZ9z1j8DapK0yZzNvBRBMv2NzpdquimCCsRvrXh
-         rtqb3yAFMnodpXN1tg3MEUNuyZcY3+Kqy9j+g9S68y6VXTot+tZT2Bh7p6ZefUXSG8Gm
-         J6T7FmKyLNQlpvYsK5xN2YdE7+vFXLZ8LkUXxS7WBXoZEvWqeuSVtOVXJ2XeRpdg/924
-         D4wQ==
+        bh=aXPwGX9zI0UWI2DJ0yjP1Yyjk72nF2lCh2sU4lorTt8=;
+        b=TmvQJJsVwGcYIkvhyWFDi21AfBBln4vDm/UOTI9uBe6ABIoCcKLImCel1fPNPsQxcP
+         8iP8ilgbAuR5rwc2DUyt7Rk//XwduU/yfdQVjM/TuFn4knj3Lv3CXVdmzmtFupPNQcfB
+         BQ7iU1SIDZZjHcF9pqTluI5mpLZAfm4v9FkvwAs6GkAAlRsAFHVw0KiEoqL1cz7HNvWx
+         XeJAvBb/mnhMC5vGMAaB3My9ltAcJmWIkjZEd9Wr6N9BakybNqhHGIQuxnLdt8bBbNcA
+         aCoDn3KZ5jcA1P70wIissJKtJQYaEl3Amz9NVlPnvWyAoT/7SipqMyQTihSFFG4yEE4g
+         rM5w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696553467; x=1697158267;
+        d=1e100.net; s=20230601; t=1696553470; x=1697158270;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=FcuCCN2lfputhsGB+Q9eZZKcfZbyp+G9GeySzJ04DdM=;
-        b=k1VkM5EdihgMkilqyF08uwowQ++G2Gj+6xEAjtp9fV1PeNVt6A2gCfsyEQnly4b9i7
-         uNfwqHxa8AnVFJY4NoAjsy2qXJcqwJzO/NWskjq3eCoG5caM9gV+WWUkken5qJjwmi6G
-         MbgMNdFOCpxc9fNHJLFgOd2kayrwuM7ycXaJYFnuqF/YYd4UNJtDPdeEOUqyvvNX+g/1
-         e9y8NzDZfLMSxDDHiGzv76uRoQ5CLDP+wKfgeHJ6wpgg8hZGG4RHKo17qRFieplHjELT
-         LTRX5hPVaNCn1gIWOFU1eh6BoG75s04ZVRdpSV/K5JaQIXIM+iE2FyrytGNuHO+MsBaD
-         d60g==
-X-Gm-Message-State: AOJu0YyoueNlMcBbX/jw+Z/hNTpsWFywOHuspI9ICw58d94lZYp2aYwL
-	+L/9Xe5KzT/4r0xRaeju+PwyguCATNUokcIZWx9EIQ==
-X-Google-Smtp-Source: AGHT+IEsI0o2iLo7j6zjs4i8qHzbW0v6d9TdPnxj1yYFbOlV3qSk7LM9o+UjPFQuvtgdNoN44RmSnw==
-X-Received: by 2002:a05:6871:7a7:b0:1bb:c50d:7437 with SMTP id o39-20020a05687107a700b001bbc50d7437mr7539061oap.53.1696553467487;
-        Thu, 05 Oct 2023 17:51:07 -0700 (PDT)
+        bh=aXPwGX9zI0UWI2DJ0yjP1Yyjk72nF2lCh2sU4lorTt8=;
+        b=SmmpU/v6A18G6QwX9tHTJZlwp4HHN78+j2IOpV2VsMgJOY4WnOfyLs8qrWmAdj3NNH
+         UaceNG6Q7GJvgFLs/u2jzye7uuEasR0F1YK8z2312i4ZwMftDPs92OoHQ46ti69UgV63
+         pqG42XA290w1vTKSFwse5LH8s5ksuru4kJSQKPkSX+NjFR4DjYP/KPLqqN1Ty3jBV9QY
+         1uz9SJDfZn6rlQcJkUHVSFKMprTuIlpbJqwLJapSIEVQxIktfv38/xWrJ8kP1UsQ2c7S
+         Vp/eLkeoUktPqTCfD49PhGCzyB4DFZelvrDH357/OH+1atqR4vOETf7JSaarhoGnSW1W
+         9ZHg==
+X-Gm-Message-State: AOJu0Yy20nfHrrhoXvBQsEF8P/YZMODMO9LgkVm2wNNLPY+m1GzPFuii
+	z6T/DEEpSPFxnHoeGnagZdkMIw==
+X-Google-Smtp-Source: AGHT+IHAnVUP46ALOkARK2Ojzj4VFtRt5SK4wSY28v7FVdU8HRSn/OJxQaYVXPj3FTUz9NSp7xWnPw==
+X-Received: by 2002:a05:6870:5492:b0:1d7:503:1502 with SMTP id f18-20020a056870549200b001d705031502mr7577660oan.59.1696553469775;
+        Thu, 05 Oct 2023 17:51:09 -0700 (PDT)
 Received: from freyr.lechnology.com (ip98-183-112-25.ok.ok.cox.net. [98.183.112.25])
-        by smtp.gmail.com with ESMTPSA id mo9-20020a056871320900b001dd0ff401edsm545072oac.51.2023.10.05.17.51.06
+        by smtp.gmail.com with ESMTPSA id mo9-20020a056871320900b001dd0ff401edsm545072oac.51.2023.10.05.17.51.09
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 05 Oct 2023 17:51:07 -0700 (PDT)
+        Thu, 05 Oct 2023 17:51:09 -0700 (PDT)
 From: David Lechner <dlechner@baylibre.com>
 To: linux-iio@vger.kernel.org,
 	linux-staging@lists.linux.dev
@@ -52,9 +52,9 @@ Cc: David Lechner <dlechner@baylibre.com>,
 	Axel Haslam <ahaslam@baylibre.com>,
 	Philip Molloy <pmolloy@baylibre.com>,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v4 03/17] staging: iio: resolver: ad2s1210: convert fexcit to channel attribute
-Date: Thu,  5 Oct 2023 19:50:20 -0500
-Message-ID: <20231005-ad2s1210-mainline-v4-3-ec00746840fc@baylibre.com>
+Subject: [PATCH v4 06/17] staging: iio: resolver: ad2s1210: add triggered buffer support
+Date: Thu,  5 Oct 2023 19:50:23 -0500
+Message-ID: <20231005-ad2s1210-mainline-v4-6-ec00746840fc@baylibre.com>
 X-Mailer: git-send-email 2.42.0
 In-Reply-To: <20231005-ad2s1210-mainline-v4-0-ec00746840fc@baylibre.com>
 References: <20231005-ad2s1210-mainline-v4-0-ec00746840fc@baylibre.com>
@@ -68,210 +68,152 @@ Content-Type: text/plain; charset="utf-8"
 X-Mailer: b4 0.12.3
 Content-Transfer-Encoding: 8bit
 
-The ad2s1210 driver has a device-specific attribute `fexcit` for setting
-the frequency of the excitation output. This converts it to a channel in
-order to use standard IIO ABI.
-
-The excitation frequency is an analog output that generates a sine wave.
-Only the frequency is configurable. According to the datasheet, the
-specified range of the excitation frequency is from 2 kHz to 20 kHz and
-can be set in increments of 250 Hz.
+This adds support for triggered buffers to the AD2S1210 resolver driver.
 
 Signed-off-by: David Lechner <dlechner@baylibre.com>
 ---
 
-v4 changes: None (rebased)
+v4 changes: None
 
 v3 changes:
-* This is a new patch in v3 instead of "iio: resolver: ad2s1210: rename fexcit
-  attribute"
+* Dropped setting datasheet_name of channels.
 
-
- drivers/staging/iio/resolver/ad2s1210.c | 123 ++++++++++++++++++--------------
- 1 file changed, 71 insertions(+), 52 deletions(-)
+ drivers/staging/iio/resolver/ad2s1210.c | 83 ++++++++++++++++++++++++++++++++-
+ 1 file changed, 82 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/staging/iio/resolver/ad2s1210.c b/drivers/staging/iio/resolver/ad2s1210.c
-index af063eb25e9c..0c7772725330 100644
+index 83f6ac890dbc..4d651a2d0f38 100644
 --- a/drivers/staging/iio/resolver/ad2s1210.c
 +++ b/drivers/staging/iio/resolver/ad2s1210.c
-@@ -227,54 +227,6 @@ static int ad2s1210_set_resolution_gpios(struct ad2s1210_state *st,
- 				     bitmap);
- }
+@@ -20,8 +20,11 @@
+ #include <linux/sysfs.h>
+ #include <linux/types.h>
  
--static ssize_t ad2s1210_show_fexcit(struct device *dev,
--				    struct device_attribute *attr,
--				    char *buf)
--{
--	struct ad2s1210_state *st = iio_priv(dev_to_iio_dev(dev));
--	unsigned int value;
--	u16 fexcit;
--	int ret;
--
--	mutex_lock(&st->lock);
--	ret = regmap_read(st->regmap, AD2S1210_REG_EXCIT_FREQ, &value);
--	if (ret < 0)
--		goto error_ret;
--
--	fexcit = value * st->clkin_hz / (1 << 15);
--
--	ret = sprintf(buf, "%u\n", fexcit);
--
--error_ret:
--	mutex_unlock(&st->lock);
--	return ret;
--}
--
--static ssize_t ad2s1210_store_fexcit(struct device *dev,
--				     struct device_attribute *attr,
--				     const char *buf, size_t len)
--{
--	struct ad2s1210_state *st = iio_priv(dev_to_iio_dev(dev));
--	u16 fexcit;
--	int ret;
--
--	ret = kstrtou16(buf, 10, &fexcit);
--	if (ret < 0 || fexcit < AD2S1210_MIN_EXCIT || fexcit > AD2S1210_MAX_EXCIT)
--		return -EINVAL;
--
--	mutex_lock(&st->lock);
--	ret = ad2s1210_reinit_excitation_frequency(st, fexcit);
--	if (ret < 0)
--		goto error_ret;
--
--	ret = len;
--
--error_ret:
--	mutex_unlock(&st->lock);
--
--	return ret;
--}
--
- static ssize_t ad2s1210_show_resolution(struct device *dev,
- 					struct device_attribute *attr,
- 					char *buf)
-@@ -478,6 +430,38 @@ static int ad2s1210_set_hysteresis(struct ad2s1210_state *st, int val)
++#include <linux/iio/buffer.h>
+ #include <linux/iio/iio.h>
+ #include <linux/iio/sysfs.h>
++#include <linux/iio/trigger_consumer.h>
++#include <linux/iio/triggered_buffer.h>
+ 
+ #define DRV_NAME "ad2s1210"
+ 
+@@ -94,6 +97,12 @@ struct ad2s1210_state {
+ 	enum ad2s1210_resolution resolution;
+ 	/** For reading raw sample value via SPI. */
+ 	__be16 sample __aligned(IIO_DMA_MINALIGN);
++	/** Scan buffer */
++	struct {
++		__be16 chan[2];
++		/* Ensure timestamp is naturally aligned. */
++		s64 timestamp __aligned(8);
++	} scan;
+ 	/** SPI transmit buffer. */
+ 	u8 rx[2];
+ 	/** SPI receive buffer. */
+@@ -621,6 +630,13 @@ static const struct iio_chan_spec ad2s1210_channels[] = {
+ 		.type = IIO_ANGL,
+ 		.indexed = 1,
+ 		.channel = 0,
++		.scan_index = 0,
++		.scan_type = {
++			.sign = 'u',
++			.realbits = 16,
++			.storagebits = 16,
++			.endianness = IIO_BE,
++		},
+ 		.info_mask_separate = BIT(IIO_CHAN_INFO_RAW) |
+ 				      BIT(IIO_CHAN_INFO_SCALE) |
+ 				      BIT(IIO_CHAN_INFO_HYSTERESIS),
+@@ -630,9 +646,18 @@ static const struct iio_chan_spec ad2s1210_channels[] = {
+ 		.type = IIO_ANGL_VEL,
+ 		.indexed = 1,
+ 		.channel = 0,
++		.scan_index = 1,
++		.scan_type = {
++			.sign = 's',
++			.realbits = 16,
++			.storagebits = 16,
++			.endianness = IIO_BE,
++		},
+ 		.info_mask_separate = BIT(IIO_CHAN_INFO_RAW) |
+ 				      BIT(IIO_CHAN_INFO_SCALE),
+-	}, {
++	},
++	IIO_CHAN_SOFT_TIMESTAMP(2),
++	{
+ 		/* used to configure phase lock range and get phase lock error */
+ 		.type = IIO_PHASE,
+ 		.indexed = 1,
+@@ -760,6 +785,55 @@ static int ad2s1210_debugfs_reg_access(struct iio_dev *indio_dev,
  	return ret;
  }
  
-+static int ad2s1210_get_excitation_frequency(struct ad2s1210_state *st, int *val)
++static irqreturn_t ad2s1210_trigger_handler(int irq, void *p)
 +{
-+	unsigned int reg_val;
++	struct iio_poll_func *pf = p;
++	struct iio_dev *indio_dev = pf->indio_dev;
++	struct ad2s1210_state *st = iio_priv(indio_dev);
++	size_t chan = 0;
 +	int ret;
 +
 +	mutex_lock(&st->lock);
-+	ret = regmap_read(st->regmap, AD2S1210_REG_EXCIT_FREQ, &reg_val);
-+	if (ret < 0)
-+		goto error_ret;
 +
-+	*val = reg_val * st->clkin_hz / (1 << 15);
-+	ret = IIO_VAL_INT;
++	memset(&st->scan, 0, sizeof(st->scan));
++	gpiod_set_value(st->sample_gpio, 1);
++
++	if (test_bit(0, indio_dev->active_scan_mask)) {
++		ret = ad2s1210_set_mode(st, MOD_POS);
++		if (ret < 0)
++			goto error_ret;
++
++		/* REVIST: we can read 3 bytes here and also get fault flags */
++		ret = spi_read(st->sdev, st->rx, 2);
++		if (ret < 0)
++			goto error_ret;
++
++		memcpy(&st->scan.chan[chan++], st->rx, 2);
++	}
++
++	if (test_bit(1, indio_dev->active_scan_mask)) {
++		ret = ad2s1210_set_mode(st, MOD_VEL);
++		if (ret < 0)
++			goto error_ret;
++
++		/* REVIST: we can read 3 bytes here and also get fault flags */
++		ret = spi_read(st->sdev, st->rx, 2);
++		if (ret < 0)
++			goto error_ret;
++
++		memcpy(&st->scan.chan[chan++], st->rx, 2);
++	}
++
++	iio_push_to_buffers_with_timestamp(indio_dev, &st->scan, pf->timestamp);
 +
 +error_ret:
++	gpiod_set_value(st->sample_gpio, 0);
 +	mutex_unlock(&st->lock);
-+	return ret;
++	iio_trigger_notify_done(indio_dev->trig);
++
++	return IRQ_HANDLED;
 +}
 +
-+static int ad2s1210_set_excitation_frequency(struct ad2s1210_state *st, int val)
-+{
-+	int ret;
-+
-+	if (val < AD2S1210_MIN_EXCIT || val > AD2S1210_MAX_EXCIT)
-+		return -EINVAL;
-+
-+	mutex_lock(&st->lock);
-+	ret = ad2s1210_reinit_excitation_frequency(st, val);
-+	mutex_unlock(&st->lock);
-+
-+	return ret;
-+}
-+
- static const int ad2s1210_velocity_scale[] = {
- 	17089132, /* 8.192MHz / (2*pi * 2500 / 2^15) */
- 	42722830, /* 8.192MHz / (2*pi * 1000 / 2^15) */
-@@ -510,6 +494,13 @@ static int ad2s1210_read_raw(struct iio_dev *indio_dev,
- 		default:
- 			return -EINVAL;
- 		}
-+	case IIO_CHAN_INFO_FREQUENCY:
-+		switch (chan->type) {
-+		case IIO_ALTVOLTAGE:
-+			return ad2s1210_get_excitation_frequency(st, val);
-+		default:
-+			return -EINVAL;
-+		}
- 	case IIO_CHAN_INFO_HYSTERESIS:
- 		switch (chan->type) {
- 		case IIO_ANGL:
-@@ -527,9 +518,24 @@ static int ad2s1210_read_avail(struct iio_dev *indio_dev,
- 			       const int **vals, int *type,
- 			       int *length, long mask)
- {
-+	static const int excitation_frequency_available[] = {
-+		AD2S1210_MIN_EXCIT,
-+		250, /* step */
-+		AD2S1210_MAX_EXCIT,
-+	};
-+
- 	struct ad2s1210_state *st = iio_priv(indio_dev);
+ static const struct iio_info ad2s1210_info = {
+ 	.event_attrs = &ad2s1210_event_attribute_group,
+ 	.read_raw = ad2s1210_read_raw,
+@@ -957,6 +1031,13 @@ static int ad2s1210_probe(struct spi_device *spi)
+ 	indio_dev->num_channels = ARRAY_SIZE(ad2s1210_channels);
+ 	indio_dev->name = spi_get_device_id(spi)->name;
  
- 	switch (mask) {
-+	case IIO_CHAN_INFO_FREQUENCY:
-+		switch (chan->type) {
-+		case IIO_ALTVOLTAGE:
-+			*type = IIO_VAL_INT;
-+			*vals = excitation_frequency_available;
-+			return IIO_AVAIL_RANGE;
-+		default:
-+			return -EINVAL;
-+		}
- 	case IIO_CHAN_INFO_HYSTERESIS:
- 		switch (chan->type) {
- 		case IIO_ANGL:
-@@ -552,6 +558,13 @@ static int ad2s1210_write_raw(struct iio_dev *indio_dev,
- 	struct ad2s1210_state *st = iio_priv(indio_dev);
- 
- 	switch (mask) {
-+	case IIO_CHAN_INFO_FREQUENCY:
-+		switch (chan->type) {
-+		case IIO_ALTVOLTAGE:
-+			return ad2s1210_set_excitation_frequency(st, val);
-+		default:
-+			return -EINVAL;
-+		}
- 	case IIO_CHAN_INFO_HYSTERESIS:
- 		switch (chan->type) {
- 		case IIO_ANGL:
-@@ -564,8 +577,6 @@ static int ad2s1210_write_raw(struct iio_dev *indio_dev,
- 	}
++	ret = devm_iio_triggered_buffer_setup(&spi->dev, indio_dev,
++					      &iio_pollfunc_store_time,
++					      &ad2s1210_trigger_handler, NULL);
++	if (ret < 0)
++		return dev_err_probe(&spi->dev, ret,
++				     "iio triggered buffer setup failed\n");
++
+ 	return devm_iio_device_register(&spi->dev, indio_dev);
  }
  
--static IIO_DEVICE_ATTR(fexcit, 0644,
--		       ad2s1210_show_fexcit,	ad2s1210_store_fexcit, 0);
- static IIO_DEVICE_ATTR(bits, 0644,
- 		       ad2s1210_show_resolution, ad2s1210_store_resolution, 0);
- static IIO_DEVICE_ATTR(fault, 0644,
-@@ -609,11 +620,19 @@ static const struct iio_chan_spec ad2s1210_channels[] = {
- 		.channel = 0,
- 		.info_mask_separate = BIT(IIO_CHAN_INFO_RAW) |
- 				      BIT(IIO_CHAN_INFO_SCALE),
--	}
-+	}, {
-+		/* excitation frequency output */
-+		.type = IIO_ALTVOLTAGE,
-+		.indexed = 1,
-+		.channel = 0,
-+		.output = 1,
-+		.scan_index = -1,
-+		.info_mask_separate = BIT(IIO_CHAN_INFO_FREQUENCY),
-+		.info_mask_separate_available = BIT(IIO_CHAN_INFO_FREQUENCY),
-+	},
- };
- 
- static struct attribute *ad2s1210_attributes[] = {
--	&iio_dev_attr_fexcit.dev_attr.attr,
- 	&iio_dev_attr_bits.dev_attr.attr,
- 	&iio_dev_attr_fault.dev_attr.attr,
- 	&iio_dev_attr_los_thrd.dev_attr.attr,
 
 -- 
 2.42.0
