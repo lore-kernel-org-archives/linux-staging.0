@@ -1,83 +1,108 @@
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2E5327720
-	for <linux-staging@lists.linux.dev>; Fri,  6 Oct 2023 15:37:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D73326E0D
+	for <linux-staging@lists.linux.dev>; Fri,  6 Oct 2023 16:13:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Op1m3hgg"
-Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-32329d935d4so1985095f8f.2
-        for <linux-staging@lists.linux.dev>; Fri, 06 Oct 2023 08:37:03 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gc8rmRdF"
+Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-313e742a787so1447210f8f.1
+        for <linux-staging@lists.linux.dev>; Fri, 06 Oct 2023 09:13:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1696606622; x=1697211422; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=D/urUhEVDb9b6U6nA5x5SbH6GwCmmMY65Q2l1I2ccds=;
-        b=Op1m3hggWRuc6QSywqfvgrlvXHl8NJiwF20aesQfBwYQK/+AX3EJGgHtQ3jHE4EIaf
-         KiGraxBsH4nhn1XqxgagiYB7ijOqpLl9fO78btb/3MwJboZ5NNYRJ2W64txXZEMiVQGY
-         yt8lYPbL4EqlGP4j9tERuQi01DvRTpZb+eSb6j/uXBWs08v3tYTcoGY7x7dXlcYPe4ld
-         9R+764SgmnyFEcx1nxhYz6wv0m907pOP+nwhv0ABmpq49TEID/HcN+NoLO7Tvg2IPde+
-         opzTSMKRaXW7yKL9UN0cB2uxJUlWGyHym4BLvdheAo83gnkSEZsaivGUOvt+j5vpI1mn
-         0Hqw==
+        d=gmail.com; s=20230601; t=1696608822; x=1697213622; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=42iuHwuqbkZujSXR+0sYzIY5CpxMUDYyAkkaO/7JfyI=;
+        b=gc8rmRdFqU98c4oyNe8pJ8nKKz4qtBI8aFdIBK1s37owBBLHIpim7JUytwulnaIBlq
+         QjspLL5jRXvBXR60IMepnWW4XVq1+lI258wZOyhAKnKyGbZqpOLTMCn0Soz8zeIynuBx
+         zDY1FrFqmkCRLqSgPiaYV8XNPrroypIsOUO0t2xW3cq+3kGTs0oqjJsG5dSZwrcLw00/
+         +SHVixBQ/plaO/YMRm1td0woWMl4sWofPl6dR6AsW1G8Opy4xS6RzxKWJGgVptzoUOPL
+         drtaBna9c1mMNrHglKRpPC6a1Ffg5hbZospIq10u0n76WG3kfApKyqb4oYn5neasKo9h
+         yWlQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696606622; x=1697211422;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=D/urUhEVDb9b6U6nA5x5SbH6GwCmmMY65Q2l1I2ccds=;
-        b=lbyiDt7OmQqHwDlbdyStG3LOj1sxA5epcM6fTHrFsee0p+sFkUrwbAh238bxDkKdrq
-         TifexkopOSfA7emF49n4XN1j5JFlOgcm6MEA6X5zx+R1cP0/0C1SN0cIQCxfbX51SJOw
-         pD/cKoKGcEP+5chupVua/MD1n1KnzIht9q/QqiOOEuIfc12aau6doXPrr5sgtKtqrq/W
-         jNIAnBp7xh7+G1Ubr+pTQWiRNqg+l3ZEVbl/XTysQHelrPL96u9Zcf1TWvhhL7gpNrNg
-         H3ZnWHQ8bXmF0XnCThWnbzISx1dX5oHQT1DJxfuxAm4c7jBkwed87/Mf2xIK0sPFmliL
-         bYtQ==
-X-Gm-Message-State: AOJu0YzKL/gJnhMGdXoAS2EqD+x+XqiGCdSHzJY8Jei9mPNIJCkF22Yn
-	CMKdf7lIh3ADWuNRNMI2aJw4tA==
-X-Google-Smtp-Source: AGHT+IFhUnnVEJUHmy1LCmhtDxaQkbgyka+3XLQF18Cyaq/blQPoPH0cdviXGeLDfUZ6BOOYmD2gUA==
-X-Received: by 2002:a05:6000:12cd:b0:320:976:f942 with SMTP id l13-20020a05600012cd00b003200976f942mr7751664wrx.7.1696606621912;
-        Fri, 06 Oct 2023 08:37:01 -0700 (PDT)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id c6-20020adfed86000000b003279518f51dsm1909859wro.2.2023.10.06.08.37.00
+        d=1e100.net; s=20230601; t=1696608822; x=1697213622;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=42iuHwuqbkZujSXR+0sYzIY5CpxMUDYyAkkaO/7JfyI=;
+        b=PhIV/n8XfJeYm4gffh2WEXOh6FvKbM9MDm/YVccEiwuUMfkXlZ9dd0kJYPAcjrJOab
+         m2VCeHQ6hSkank1iKeT4LqODGEpwaQsFCkQ4deW/yDgvS4+m27srqscjvYbQSHlByvmJ
+         67DKr+B3axvtfwO3//ZSZQ1151S0+IkC1F+XXnyulRq6SziiXfrxoZ1RaWhSjckrrpay
+         r1iA/KP4PLGOiCD/eoeEf5k3FsV1S8MyGG1WalC3SipZzcJAN/gNuu5hjE6ECPLIlIiP
+         tnQf0Wg4t7eatgJ0BRQALwXrZYr/wSp5L6qBgIhM6obTeYqRxGHqhTaF8W5fgbvQbJAs
+         7V6Q==
+X-Gm-Message-State: AOJu0YwOXMELQq77X8wBoxGK7JdxHP/a0q7WqKvnKaFYNuOKNV/rP39e
+	orSMT23/QYKou1Ph9d2DTFs=
+X-Google-Smtp-Source: AGHT+IFWlJEd5lcJuO7NBXcmyzk/NQufpyDojp9c/24EWOp99ni3EczYohi8bG69H5WqdF1FOhglbQ==
+X-Received: by 2002:adf:e641:0:b0:320:a4e:acf5 with SMTP id b1-20020adfe641000000b003200a4eacf5mr5026301wrn.34.1696608822284;
+        Fri, 06 Oct 2023 09:13:42 -0700 (PDT)
+Received: from localhost.localdomain ([2001:818:e906:400:b2bc:40c:b83d:9c16])
+        by smtp.gmail.com with ESMTPSA id s4-20020a5d6a84000000b00327bf4f2f14sm1944289wru.88.2023.10.06.09.13.40
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 06 Oct 2023 08:37:01 -0700 (PDT)
-Date: Fri, 6 Oct 2023 18:36:58 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Ricardo Lopes <ricardoapl.dev@gmail.com>
-Cc: Greg KH <gregkh@linuxfoundation.org>, manishc@marvell.com,
-	GR-Linux-NIC-Dev@marvell.com, coiby.xu@gmail.com,
-	netdev@vger.kernel.org, linux-staging@lists.linux.dev,
+        Fri, 06 Oct 2023 09:13:41 -0700 (PDT)
+From: Ricardo Lopes <ricardoapl.dev@gmail.com>
+To: manishc@marvell.com,
+	GR-Linux-NIC-Dev@marvell.com,
+	coiby.xu@gmail.com,
+	gregkh@linuxfoundation.org
+Cc: netdev@vger.kernel.org,
+	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: qlge: Replace strncpy with strscpy
-Message-ID: <9987d46a-ffbc-4a1c-bddf-084b17d14cf1@kadam.mountain>
-References: <20231005191459.10698-1-ricardoapl.dev@gmail.com>
- <2023100657-purge-wasting-621c@gregkh>
- <ZSAoDYYqgoXXV4s_@babbage>
+Subject: [PATCH v2] staging: qlge: Replace strncpy with strscpy
+Date: Fri,  6 Oct 2023 17:12:24 +0100
+Message-ID: <20231006161240.28048-1-ricardoapl.dev@gmail.com>
+X-Mailer: git-send-email 2.41.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZSAoDYYqgoXXV4s_@babbage>
+Content-Transfer-Encoding: 8bit
 
-On Fri, Oct 06, 2023 at 04:30:21PM +0100, Ricardo Lopes wrote:
-> On Fri, Oct 06, 2023 at 03:32:28PM +0200, Greg KH wrote:
-> > On Thu, Oct 05, 2023 at 08:14:55PM +0100, Ricardo Lopes wrote:
-> > > Avoid read overflows and other misbehavior due to missing termination.
-> > 
-> > As Dan said, this is not possible here.  Can you redo the changelog text
-> > and resend it so that people aren't scared by the text?
-> 
-> Yes, I suppose removing that sentence and keeping the checkpatch.pl
-> warning output would do?
+Reported by checkpatch:
 
-Yes.
+WARNING: Prefer strscpy, strscpy_pad, or __nonstring over strncpy
 
-https://staticthinking.wordpress.com/2022/07/27/how-to-send-a-v2-patch/
+Signed-off-by: Ricardo Lopes <ricardoapl.dev@gmail.com>
+---
+v2: Redo changelog text
 
-regards,
-dan carpenter
+ drivers/staging/qlge/qlge_dbg.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/staging/qlge/qlge_dbg.c b/drivers/staging/qlge/qlge_dbg.c
+index c7e865f51..5f08a8492 100644
+--- a/drivers/staging/qlge/qlge_dbg.c
++++ b/drivers/staging/qlge/qlge_dbg.c
+@@ -696,7 +696,7 @@ static void qlge_build_coredump_seg_header(struct mpi_coredump_segment_header *s
+ 	seg_hdr->cookie = MPI_COREDUMP_COOKIE;
+ 	seg_hdr->seg_num = seg_number;
+ 	seg_hdr->seg_size = seg_size;
+-	strncpy(seg_hdr->description, desc, (sizeof(seg_hdr->description)) - 1);
++	strscpy(seg_hdr->description, desc, sizeof(seg_hdr->description));
+ }
+ 
+ /*
+@@ -737,7 +737,7 @@ int qlge_core_dump(struct qlge_adapter *qdev, struct qlge_mpi_coredump *mpi_core
+ 		sizeof(struct mpi_coredump_global_header);
+ 	mpi_coredump->mpi_global_header.image_size =
+ 		sizeof(struct qlge_mpi_coredump);
+-	strncpy(mpi_coredump->mpi_global_header.id_string, "MPI Coredump",
++	strscpy(mpi_coredump->mpi_global_header.id_string, "MPI Coredump",
+ 		sizeof(mpi_coredump->mpi_global_header.id_string));
+ 
+ 	/* Get generic NIC reg dump */
+@@ -1225,7 +1225,7 @@ static void qlge_gen_reg_dump(struct qlge_adapter *qdev,
+ 		sizeof(struct mpi_coredump_global_header);
+ 	mpi_coredump->mpi_global_header.image_size =
+ 		sizeof(struct qlge_reg_dump);
+-	strncpy(mpi_coredump->mpi_global_header.id_string, "MPI Coredump",
++	strscpy(mpi_coredump->mpi_global_header.id_string, "MPI Coredump",
+ 		sizeof(mpi_coredump->mpi_global_header.id_string));
+ 
+ 	/* segment 16 */
+-- 
+2.41.0
 
