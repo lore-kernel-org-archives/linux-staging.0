@@ -1,47 +1,47 @@
-Received: from mail-oa1-f53.google.com (mail-oa1-f53.google.com [209.85.160.53])
+Received: from mail-ot1-f50.google.com (mail-ot1-f50.google.com [209.85.210.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A641C139B
-	for <linux-staging@lists.linux.dev>; Fri,  6 Oct 2023 00:51:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B19E15AD
+	for <linux-staging@lists.linux.dev>; Fri,  6 Oct 2023 00:51:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="bUF97Q9Z"
-Received: by mail-oa1-f53.google.com with SMTP id 586e51a60fabf-1e113555a47so1001918fac.2
-        for <linux-staging@lists.linux.dev>; Thu, 05 Oct 2023 17:51:09 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="lJDK9Jyx"
+Received: by mail-ot1-f50.google.com with SMTP id 46e09a7af769-6bd04558784so1095512a34.3
+        for <linux-staging@lists.linux.dev>; Thu, 05 Oct 2023 17:51:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1696553469; x=1697158269; darn=lists.linux.dev;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1696553470; x=1697158270; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=0zU4yH9HYeHVvR3l/YZIf0vPVGS/kXPo7bpaiXc8eDI=;
-        b=bUF97Q9Ze9RNDDGqpcyDyebul6m0KjItB2owedD3OWSU0pGp0p21VPG2mIIj+h3uSe
-         /jK/XjTmEMXV7KV/r4nE6kL7Io7qpcFhuOrC+/lD8EaTXUOMMFgdVQ63JixtImMtP0qi
-         w8Ck/qh0FpH8vVB56Byhzql+4xN5AHPjvi0uizMaOfUld2A35kbz1eE+SMMG2kUoP7z5
-         Qf1FiejcklUa3/547nL+kgBdU4z3Cfhd6hXIBSwnrtdmJO0c3iL7SQK4K7joAZMW9x2o
-         Ovy04IW07CcsxoALOWOmJJv1ojhAYPnvj3+bcY25BfTRnI9JxPIftMmPH3mc5uBu4he1
-         rO7Q==
+        bh=gUOSgD5Wnesa4+fjnvBe7ifVAcJB2uD2jmt8gBsN0qI=;
+        b=lJDK9Jyxc/4McfpExMvalbLEWAuOKNPzoumznIMJBX8SLXgV2HFagdjYf0oiGu4ma/
+         g2zjKssKrNsF3lp6kbunWK0Y/cUZFvCUFD3t24yd2Os53t1xsURlhfmCcPaxUx5+nZtv
+         GTAC2dw16GTd0NJV9HXN4WX8fiYVpwDwODpYd9Vg1eDDhE7v/WkgNNoIcbjKHBgktRuq
+         E1Lib7kKBWYXCKKEVnEIASkpl9tLthZAZAl55+n9LU7cW0rklGHbBTKXfEw1KANwt6S/
+         6bCYPJSnWJGpD/9n+XoQdp3NGMEdIcdKf6/m14ygewbBOlQbcA0fxdKbnpzdax4xNJPY
+         LMAQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696553469; x=1697158269;
+        d=1e100.net; s=20230601; t=1696553470; x=1697158270;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=0zU4yH9HYeHVvR3l/YZIf0vPVGS/kXPo7bpaiXc8eDI=;
-        b=MNOqI8TWQE2rOp6lCjV+lTIY/M4ztJGtGRAXi3/0/FOlroR4urHqrmagj+wcwd9c07
-         iuWsI2ihREYlBinUkBbNm1IjxTx3BVWLa4YtPfv/Pf/M0HCDvQfY0iGeaB/1f5rThjKR
-         RniXTmyzrH0qGp1kjp14gi/wHstUEdf5zg5ikH1ijy66bMldNo4l0aLT7gjkBpcx+I53
-         LVqJ6/fZ3hQHzu8UqVNHpZ5sw9hSpJ7ylcs+G5er+tHxZbfI3AvGoQlYbCdCAYukNiHu
-         D2F3iSzJt1iank9i4QLrCF4iucTP8LI1b6ATCUoAkJYkvjEbRWJGp2DM5RgZvs7hF5bF
-         CgXw==
-X-Gm-Message-State: AOJu0YxSmttzCPaKyvt11Ndl8lQ2rtH/72mB+KIldex+bKoqCGPZcPfj
-	YC9XpgWosvDnkVKp1I+JfwCy/Q==
-X-Google-Smtp-Source: AGHT+IH+beqE42NlK15G9DHxDqaAjqRpKJK1/kQq77/aFcqHGvzT97tKtoRH+Mm/r2NUft++fgTZ3w==
-X-Received: by 2002:a05:6870:9593:b0:1dd:7f3a:b703 with SMTP id k19-20020a056870959300b001dd7f3ab703mr7868485oao.0.1696553469000;
-        Thu, 05 Oct 2023 17:51:09 -0700 (PDT)
+        bh=gUOSgD5Wnesa4+fjnvBe7ifVAcJB2uD2jmt8gBsN0qI=;
+        b=p2nff1bAx2GVQX2s37Ayidl6Ygyr+pts0qj27qzmM4/EaphktUBuGMhG1QcPda7B+W
+         IwVy0eLfQGYNwcnIT2j2ZngqhnrJAVQEJ6xToyXmIs/pABzc9jtmwNaEWrWONa5V0ysE
+         d9I134Kw90n5JeuOfRJ+oYQ4h7qU3HCqi6WGcRlFWuvHs8HNQpCNH4wN17GZ6cocALyi
+         WbiRktp+Kk6ce8/Ta3Xqj+dL/hFuU51fzSMKjGVZFMB2vVd9w68jC9X71lPcpa37UTFc
+         OSDFUp/sIB5VFbpnj/jRwMQvbO41vJLBdBsc9cfKEFbahHP8PvFevjplUotCNIUU5TZd
+         +l1A==
+X-Gm-Message-State: AOJu0Yzg+az4VtFJzeFD2gxfwpI4RiM8b8gNizsoLIqCJ9Z2w+myKF8X
+	GY9fUdkEE85T00/4tP4XV/k9CA==
+X-Google-Smtp-Source: AGHT+IEqQxVuz4szBM5r2U8kWRslQosr+UpgndYLxnyVdb0qha7UINJDHbS1oFerR97nEHVwcsbziw==
+X-Received: by 2002:a05:6870:6111:b0:1d0:e0c9:f33d with SMTP id s17-20020a056870611100b001d0e0c9f33dmr7967874oae.46.1696553470486;
+        Thu, 05 Oct 2023 17:51:10 -0700 (PDT)
 Received: from freyr.lechnology.com (ip98-183-112-25.ok.ok.cox.net. [98.183.112.25])
-        by smtp.gmail.com with ESMTPSA id mo9-20020a056871320900b001dd0ff401edsm545072oac.51.2023.10.05.17.51.08
+        by smtp.gmail.com with ESMTPSA id mo9-20020a056871320900b001dd0ff401edsm545072oac.51.2023.10.05.17.51.09
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 05 Oct 2023 17:51:08 -0700 (PDT)
+        Thu, 05 Oct 2023 17:51:10 -0700 (PDT)
 From: David Lechner <dlechner@baylibre.com>
 To: linux-iio@vger.kernel.org,
 	linux-staging@lists.linux.dev
@@ -52,9 +52,9 @@ Cc: David Lechner <dlechner@baylibre.com>,
 	Axel Haslam <ahaslam@baylibre.com>,
 	Philip Molloy <pmolloy@baylibre.com>,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v4 05/17] staging: iio: resolver: ad2s1210: add phase lock range support
-Date: Thu,  5 Oct 2023 19:50:22 -0500
-Message-ID: <20231005-ad2s1210-mainline-v4-5-ec00746840fc@baylibre.com>
+Subject: [PATCH v4 07/17] staging: iio: resolver: ad2s1210: convert LOT threshold attrs to event attrs
+Date: Thu,  5 Oct 2023 19:50:24 -0500
+Message-ID: <20231005-ad2s1210-mainline-v4-7-ec00746840fc@baylibre.com>
 X-Mailer: git-send-email 2.42.0
 In-Reply-To: <20231005-ad2s1210-mainline-v4-0-ec00746840fc@baylibre.com>
 References: <20231005-ad2s1210-mainline-v4-0-ec00746840fc@baylibre.com>
@@ -68,212 +68,288 @@ Content-Type: text/plain; charset="utf-8"
 X-Mailer: b4 0.12.3
 Content-Transfer-Encoding: 8bit
 
-The AD2S1210 chip has a phase lock range feature that allows selecting
-the allowable phase difference between the excitation output and the
-sine and cosine inputs. This can be set to either 44 degrees (default)
-or 360 degrees.
+The AD2S1210 monitors the internal error signal (difference between
+estimated angle and measured angle) to determine a loss of position
+tracking (LOT) condition. When the error value exceeds a threshold, a
+fault is triggered. This threshold is user-configurable.
 
-This patch adds a new phase channel with a phase0_mag_rising event that
-can be used to configure the phase lock range. Actually emitting the
-event will be added in a subsequent patch.
+This patch converts the custom lot_high_thrd and lot_low_thrd attributes
+in the ad2s1210 driver to standard event attributes. This will allow
+tooling to be able to expose these in a generic way.
+
+Since the low threshold determines the hysteresis, it requires some
+special handling to expose the difference between the high and low
+register values as the hysteresis instead of exposing the low register
+value directly.
+
+The attributes also return the values in radians now as required by the
+ABI.
+
+Actually emitting the fault event will be done in a later patch.
 
 Signed-off-by: David Lechner <dlechner@baylibre.com>
 ---
 
 v4 changes:
-* Changed event direction from none to rising.
 * Fixed missing static qualifier on attribute definition.
 
-v3 changes:
-* This is a new patch to replace "staging: iio: resolver: ad2s1210: add
- phase_lock_range attributes"
+v3 changes: This is a new patch in v3
 
-
- drivers/staging/iio/resolver/ad2s1210.c | 125 ++++++++++++++++++++++++++++++++
- 1 file changed, 125 insertions(+)
+ drivers/staging/iio/resolver/ad2s1210.c | 191 ++++++++++++++++++++++++++++++--
+ 1 file changed, 183 insertions(+), 8 deletions(-)
 
 diff --git a/drivers/staging/iio/resolver/ad2s1210.c b/drivers/staging/iio/resolver/ad2s1210.c
-index 66ef35fbb6fe..83f6ac890dbc 100644
+index 4d651a2d0f38..12437f697f79 100644
 --- a/drivers/staging/iio/resolver/ad2s1210.c
 +++ b/drivers/staging/iio/resolver/ad2s1210.c
-@@ -56,6 +56,13 @@
- #define AD2S1210_MIN_FCW	0x4
- #define AD2S1210_MAX_FCW	0x50
- 
-+/* 44 degrees ~= 0.767945 radians */
-+#define PHASE_44_DEG_TO_RAD_INT 0
-+#define PHASE_44_DEG_TO_RAD_MICRO 767945
-+/* 360 degrees ~= 6.283185 radians */
-+#define PHASE_360_DEG_TO_RAD_INT 6
-+#define PHASE_360_DEG_TO_RAD_MICRO 283185
-+
- enum ad2s1210_mode {
- 	MOD_POS = 0b00,
- 	MOD_VEL = 0b01,
-@@ -379,6 +386,54 @@ static int ad2s1210_set_hysteresis(struct ad2s1210_state *st, int val)
+@@ -443,6 +443,123 @@ static int ad2s1210_set_phase_lock_range(struct ad2s1210_state *st,
  	return ret;
  }
  
-+static int ad2s1210_get_phase_lock_range(struct ad2s1210_state *st,
-+					 int *val, int *val2)
++/* map resolution to microradians/LSB for LOT registers */
++static const int ad2s1210_lot_threshold_urad_per_lsb[] = {
++	6184, /* 10-bit: ~0.35 deg/LSB, 45 deg max */
++	2473, /* 12-bit: ~0.14 deg/LSB, 18 deg max */
++	1237, /* 14-bit: ~0.07 deg/LSB, 9 deg max */
++	1237, /* 16-bit: same as 14-bit */
++};
++
++static int ad2s1210_get_lot_high_threshold(struct ad2s1210_state *st,
++					   int *val, int *val2)
 +{
++	unsigned int reg_val;
 +	int ret;
 +
 +	mutex_lock(&st->lock);
-+	ret = regmap_test_bits(st->regmap, AD2S1210_REG_CONTROL,
-+			       AD2S1210_PHASE_LOCK_RANGE_44);
++	ret = regmap_read(st->regmap, AD2S1210_REG_LOT_HIGH_THRD, &reg_val);
 +	mutex_unlock(&st->lock);
 +
 +	if (ret < 0)
 +		return ret;
 +
-+	if (ret) {
-+		/* 44 degrees as radians */
-+		*val = PHASE_44_DEG_TO_RAD_INT;
-+		*val2 = PHASE_44_DEG_TO_RAD_MICRO;
-+	} else {
-+		/* 360 degrees as radians */
-+		*val = PHASE_360_DEG_TO_RAD_INT;
-+		*val2 = PHASE_360_DEG_TO_RAD_MICRO;
-+	}
-+
++	*val = 0;
++	*val2 = reg_val * ad2s1210_lot_threshold_urad_per_lsb[st->resolution];
 +	return IIO_VAL_INT_PLUS_MICRO;
 +}
 +
-+static int ad2s1210_set_phase_lock_range(struct ad2s1210_state *st,
-+					 int val, int val2)
++static int ad2s1210_set_lot_high_threshold(struct ad2s1210_state *st,
++					   int val, int val2)
 +{
-+	int deg, ret;
++	unsigned int high_reg_val, low_reg_val, hysteresis;
++	int ret;
 +
-+	/* convert radians to degrees - only two allowable values */
-+	if (val == PHASE_44_DEG_TO_RAD_INT && val2 == PHASE_44_DEG_TO_RAD_MICRO)
-+		deg = 44;
-+	else if (val == PHASE_360_DEG_TO_RAD_INT &&
-+		 val2 == PHASE_360_DEG_TO_RAD_MICRO)
-+		deg = 360;
-+	else
++	/* all valid values are between 0 and pi/4 radians */
++	if (val != 0)
 +		return -EINVAL;
 +
 +	mutex_lock(&st->lock);
-+	ret = regmap_update_bits(st->regmap, AD2S1210_REG_CONTROL,
-+				 AD2S1210_PHASE_LOCK_RANGE_44,
-+				 deg == 44 ? AD2S1210_PHASE_LOCK_RANGE_44 : 0);
++	/*
++	 * We need to read both high and low registers first so we can preserve
++	 * the hysteresis.
++	 */
++	ret = regmap_read(st->regmap, AD2S1210_REG_LOT_HIGH_THRD, &high_reg_val);
++	if (ret < 0)
++		goto error_ret;
++
++	ret = regmap_read(st->regmap, AD2S1210_REG_LOT_LOW_THRD, &low_reg_val);
++	if (ret < 0)
++		goto error_ret;
++
++	hysteresis = high_reg_val - low_reg_val;
++	high_reg_val = val2 / ad2s1210_lot_threshold_urad_per_lsb[st->resolution];
++	low_reg_val = high_reg_val - hysteresis;
++
++	ret = regmap_write(st->regmap, AD2S1210_REG_LOT_HIGH_THRD, high_reg_val);
++	if (ret < 0)
++		goto error_ret;
++
++	ret = regmap_write(st->regmap, AD2S1210_REG_LOT_LOW_THRD, low_reg_val);
++
++error_ret:
 +	mutex_unlock(&st->lock);
++
++	return ret;
++}
++
++static int ad2s1210_get_lot_low_threshold(struct ad2s1210_state *st,
++					  int *val, int *val2)
++{
++	unsigned int high_reg_val, low_reg_val;
++	int ret;
++
++	mutex_lock(&st->lock);
++	ret = regmap_read(st->regmap, AD2S1210_REG_LOT_HIGH_THRD, &high_reg_val);
++	if (ret < 0)
++		goto error_ret;
++
++	ret = regmap_read(st->regmap, AD2S1210_REG_LOT_LOW_THRD, &low_reg_val);
++
++error_ret:
++	mutex_unlock(&st->lock);
++
++	if (ret < 0)
++		return ret;
++
++	/* sysfs value is hysteresis rather than actual low value */
++	*val = 0;
++	*val2 = (high_reg_val - low_reg_val) *
++		ad2s1210_lot_threshold_urad_per_lsb[st->resolution];
++	return IIO_VAL_INT_PLUS_MICRO;
++}
++
++static int ad2s1210_set_lot_low_threshold(struct ad2s1210_state *st,
++					  int val, int val2)
++{
++	unsigned int reg_val, hysteresis;
++	int ret;
++
++	/* all valid values are between 0 and pi/4 radians */
++	if (val != 0)
++		return -EINVAL;
++
++	hysteresis = val2 / ad2s1210_lot_threshold_urad_per_lsb[st->resolution];
++
++	mutex_lock(&st->lock);
++	ret = regmap_read(st->regmap, AD2S1210_REG_LOT_HIGH_THRD, &reg_val);
++	if (ret < 0)
++		goto error_ret;
++
++	ret = regmap_write(st->regmap, AD2S1210_REG_LOT_LOW_THRD,
++			   reg_val - hysteresis);
++
++error_ret:
++	mutex_unlock(&st->lock);
++
 +	return ret;
 +}
 +
  static int ad2s1210_get_excitation_frequency(struct ad2s1210_state *st, int *val)
  {
  	unsigned int reg_val;
-@@ -551,6 +606,16 @@ static IIO_DEVICE_ATTR(lot_low_thrd, 0644,
+@@ -608,12 +725,19 @@ static IIO_DEVICE_ATTR(dos_rst_max_thrd, 0644,
+ static IIO_DEVICE_ATTR(dos_rst_min_thrd, 0644,
  		       ad2s1210_show_reg, ad2s1210_store_reg,
- 		       AD2S1210_REG_LOT_LOW_THRD);
- 
-+static const struct iio_event_spec ad2s1210_phase_event_spec[] = {
+ 		       AD2S1210_REG_DOS_RST_MIN_THRD);
+-static IIO_DEVICE_ATTR(lot_high_thrd, 0644,
+-		       ad2s1210_show_reg, ad2s1210_store_reg,
+-		       AD2S1210_REG_LOT_HIGH_THRD);
+-static IIO_DEVICE_ATTR(lot_low_thrd, 0644,
+-		       ad2s1210_show_reg, ad2s1210_store_reg,
+-		       AD2S1210_REG_LOT_LOW_THRD);
++
++static const struct iio_event_spec ad2s1210_position_event_spec[] = {
 +	{
-+		/* Phase error fault. */
-+		.type = IIO_EV_TYPE_MAG,
++		/* Tracking error exceeds LOT threshold fault. */
++		.type = IIO_EV_TYPE_THRESH,
 +		.dir = IIO_EV_DIR_RISING,
-+		/* Phase lock range. */
-+		.mask_separate = BIT(IIO_EV_INFO_VALUE),
++		.mask_separate =
++			/* Loss of tracking high threshold. */
++			BIT(IIO_EV_INFO_VALUE) |
++			/* Loss of tracking low threshold. */
++			BIT(IIO_EV_INFO_HYSTERESIS),
 +	},
 +};
-+
- static const struct iio_chan_spec ad2s1210_channels[] = {
+ 
+ static const struct iio_event_spec ad2s1210_phase_event_spec[] = {
  	{
- 		.type = IIO_ANGL,
-@@ -567,6 +632,14 @@ static const struct iio_chan_spec ad2s1210_channels[] = {
- 		.channel = 0,
- 		.info_mask_separate = BIT(IIO_CHAN_INFO_RAW) |
+@@ -657,6 +781,15 @@ static const struct iio_chan_spec ad2s1210_channels[] = {
  				      BIT(IIO_CHAN_INFO_SCALE),
-+	}, {
-+		/* used to configure phase lock range and get phase lock error */
-+		.type = IIO_PHASE,
+ 	},
+ 	IIO_CHAN_SOFT_TIMESTAMP(2),
++	{
++		/* used to configure LOT thresholds and get tracking error */
++		.type = IIO_ANGL,
 +		.indexed = 1,
-+		.channel = 0,
++		.channel = 1,
 +		.scan_index = -1,
-+		.event_spec = ad2s1210_phase_event_spec,
-+		.num_event_specs = ARRAY_SIZE(ad2s1210_phase_event_spec),
- 	}, {
- 		/* excitation frequency output */
- 		.type = IIO_ALTVOLTAGE,
-@@ -595,6 +668,21 @@ static const struct attribute_group ad2s1210_attribute_group = {
++		.event_spec = ad2s1210_position_event_spec,
++		.num_event_specs = ARRAY_SIZE(ad2s1210_position_event_spec),
++	},
+ 	{
+ 		/* used to configure phase lock range and get phase lock error */
+ 		.type = IIO_PHASE,
+@@ -684,8 +817,6 @@ static struct attribute *ad2s1210_attributes[] = {
+ 	&iio_dev_attr_dos_mis_thrd.dev_attr.attr,
+ 	&iio_dev_attr_dos_rst_max_thrd.dev_attr.attr,
+ 	&iio_dev_attr_dos_rst_min_thrd.dev_attr.attr,
+-	&iio_dev_attr_lot_high_thrd.dev_attr.attr,
+-	&iio_dev_attr_lot_low_thrd.dev_attr.attr,
+ 	NULL,
+ };
+ 
+@@ -693,14 +824,40 @@ static const struct attribute_group ad2s1210_attribute_group = {
  	.attrs = ad2s1210_attributes,
  };
  
-+static IIO_CONST_ATTR(in_phase0_mag_rising_value_available,
-+		      __stringify(PHASE_44_DEG_TO_RAD_INT) "."
-+		      __stringify(PHASE_44_DEG_TO_RAD_MICRO) " "
-+		      __stringify(PHASE_360_DEG_TO_RAD_INT) "."
-+		      __stringify(PHASE_360_DEG_TO_RAD_MICRO));
-+
-+static struct attribute *ad2s1210_event_attributes[] = {
-+	&iio_const_attr_in_phase0_mag_rising_value_available.dev_attr.attr,
-+	NULL,
-+};
-+
-+static const struct attribute_group ad2s1210_event_attribute_group = {
-+	.attrs = ad2s1210_event_attributes,
-+};
-+
- static int ad2s1210_initial(struct ad2s1210_state *st)
- {
- 	unsigned char data;
-@@ -619,6 +707,40 @@ static int ad2s1210_initial(struct ad2s1210_state *st)
- 	return ret;
- }
- 
-+static int ad2s1210_read_event_value(struct iio_dev *indio_dev,
-+				     const struct iio_chan_spec *chan,
-+				     enum iio_event_type type,
-+				     enum iio_event_direction dir,
-+				     enum iio_event_info info,
-+				     int *val, int *val2)
++static ssize_t
++in_angl1_thresh_rising_value_available_show(struct device *dev,
++					    struct device_attribute *attr,
++					    char *buf)
 +{
-+	struct ad2s1210_state *st = iio_priv(indio_dev);
++	struct ad2s1210_state *st = iio_priv(dev_to_iio_dev(dev));
++	int step = ad2s1210_lot_threshold_urad_per_lsb[st->resolution];
 +
-+	switch (chan->type) {
-+	case IIO_PHASE:
-+		return ad2s1210_get_phase_lock_range(st, val, val2);
-+	default:
-+		return -EINVAL;
-+	}
++	return sysfs_emit(buf, "[0 0.%06d 0.%06d]\n", step, step * 0x7F);
 +}
 +
-+static int ad2s1210_write_event_value(struct iio_dev *indio_dev,
-+				      const struct iio_chan_spec *chan,
-+				      enum iio_event_type type,
-+				      enum iio_event_direction dir,
-+				      enum iio_event_info info,
-+				      int val, int val2)
++static ssize_t
++in_angl1_thresh_rising_hysteresis_available_show(struct device *dev,
++						 struct device_attribute *attr,
++						 char *buf)
 +{
-+	struct ad2s1210_state *st = iio_priv(indio_dev);
++	struct ad2s1210_state *st = iio_priv(dev_to_iio_dev(dev));
++	int step = ad2s1210_lot_threshold_urad_per_lsb[st->resolution];
 +
-+	switch (chan->type) {
-+	case IIO_PHASE:
-+		return ad2s1210_set_phase_lock_range(st, val, val2);
-+	default:
-+		return -EINVAL;
-+	}
++	return sysfs_emit(buf, "[0 0.%06d 0.%06d]\n", step, step * 0x7F);
 +}
 +
- static int ad2s1210_debugfs_reg_access(struct iio_dev *indio_dev,
- 				       unsigned int reg, unsigned int writeval,
- 				       unsigned int *readval)
-@@ -639,10 +761,13 @@ static int ad2s1210_debugfs_reg_access(struct iio_dev *indio_dev,
- }
+ static IIO_CONST_ATTR(in_phase0_mag_rising_value_available,
+ 		      __stringify(PHASE_44_DEG_TO_RAD_INT) "."
+ 		      __stringify(PHASE_44_DEG_TO_RAD_MICRO) " "
+ 		      __stringify(PHASE_360_DEG_TO_RAD_INT) "."
+ 		      __stringify(PHASE_360_DEG_TO_RAD_MICRO));
++static IIO_DEVICE_ATTR_RO(in_angl1_thresh_rising_value_available, 0);
++static IIO_DEVICE_ATTR_RO(in_angl1_thresh_rising_hysteresis_available, 0);
  
- static const struct iio_info ad2s1210_info = {
-+	.event_attrs = &ad2s1210_event_attribute_group,
- 	.read_raw = ad2s1210_read_raw,
- 	.read_avail = ad2s1210_read_avail,
- 	.write_raw = ad2s1210_write_raw,
- 	.attrs = &ad2s1210_attribute_group,
-+	.read_event_value = ad2s1210_read_event_value,
-+	.write_event_value = ad2s1210_write_event_value,
- 	.debugfs_reg_access = &ad2s1210_debugfs_reg_access,
+ static struct attribute *ad2s1210_event_attributes[] = {
+ 	&iio_const_attr_in_phase0_mag_rising_value_available.dev_attr.attr,
++	&iio_dev_attr_in_angl1_thresh_rising_value_available.dev_attr.attr,
++	&iio_dev_attr_in_angl1_thresh_rising_hysteresis_available.dev_attr.attr,
+ 	NULL,
  };
  
+@@ -742,6 +899,15 @@ static int ad2s1210_read_event_value(struct iio_dev *indio_dev,
+ 	struct ad2s1210_state *st = iio_priv(indio_dev);
+ 
+ 	switch (chan->type) {
++	case IIO_ANGL:
++		switch (info) {
++		case IIO_EV_INFO_VALUE:
++			return ad2s1210_get_lot_high_threshold(st, val, val2);
++		case IIO_EV_INFO_HYSTERESIS:
++			return ad2s1210_get_lot_low_threshold(st, val, val2);
++		default:
++			return -EINVAL;
++		}
+ 	case IIO_PHASE:
+ 		return ad2s1210_get_phase_lock_range(st, val, val2);
+ 	default:
+@@ -759,6 +925,15 @@ static int ad2s1210_write_event_value(struct iio_dev *indio_dev,
+ 	struct ad2s1210_state *st = iio_priv(indio_dev);
+ 
+ 	switch (chan->type) {
++	case IIO_ANGL:
++		switch (info) {
++		case IIO_EV_INFO_VALUE:
++			return ad2s1210_set_lot_high_threshold(st, val, val2);
++		case IIO_EV_INFO_HYSTERESIS:
++			return ad2s1210_set_lot_low_threshold(st, val, val2);
++		default:
++			return -EINVAL;
++		}
+ 	case IIO_PHASE:
+ 		return ad2s1210_set_phase_lock_range(st, val, val2);
+ 	default:
 
 -- 
 2.42.0
