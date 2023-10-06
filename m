@@ -1,206 +1,188 @@
-Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
+Received: from mail-oa1-f50.google.com (mail-oa1-f50.google.com [209.85.160.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F25B266D5
-	for <linux-staging@lists.linux.dev>; Thu,  5 Oct 2023 19:25:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 412EE629
+	for <linux-staging@lists.linux.dev>; Fri,  6 Oct 2023 00:51:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="TU8VbPDq"
-Received: by mail-ed1-f47.google.com with SMTP id 4fb4d7f45d1cf-5362bcc7026so2459213a12.1
-        for <linux-staging@lists.linux.dev>; Thu, 05 Oct 2023 12:25:14 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="t7uAYmJb"
+Received: by mail-oa1-f50.google.com with SMTP id 586e51a60fabf-1dc863efb61so972525fac.0
+        for <linux-staging@lists.linux.dev>; Thu, 05 Oct 2023 17:51:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1696533913; x=1697138713; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=QAIuNzRqeVKL4UBHwUYQTQv/MFOTl6dEpbXD6CCqo5M=;
-        b=TU8VbPDqZFiKYiKY7G60P6CYFmwKLgr4OgSPyIj5EZTaNUbeaLnLmfx6M/fsUHF7bn
-         P8YUh0p0zCb5Figx1eAfkc/uDlUfvdyzBbixpY3/ATpEaAzRFwrKSW5zMaeey/NdDBkT
-         G3JuvVaCTNKPcjEAjGmcO2fcoUTk7Py0GZxLW5SQACoz63H8fXbaujfZuWy+FkoIIxhk
-         4IkKMEZ4jy9xdLgsJ5AQdPKZC3VGZ3NaF2dFbheFR1vikTCkQM/OrwxLJjs0ba5gN1Ow
-         J5/2n/KsXIwYDtt/Oj6my21/p9f3jqD3HgM0Ds8mhLm90OtS6iNd+Lx7fvqE6ZIg1i5+
-         YkMg==
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1696553465; x=1697158265; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Dj54Gl1jd+w9QgbJ5IpGgS95Y27Kw5ws4fL1QKoqHoA=;
+        b=t7uAYmJb3EAOv3l0L53o0xL043XiW+xASrfT6OlLWkODcuBSS/Zpj+dnjH4mHKHb2I
+         W+ftO7L3vJSfX23IcJO/kxKdVe7xqpDdVnFirZ5jnWbYjm4mB8fr/v58JqZI4ebyttng
+         iQb4eiJrZ1HsJrWQwZ0HzGcj+j021hUz+5MK8cmOIVTSoioN5D92C5inJrkO4aKD0BUI
+         DCohhAACzhBOP1NCM+xKCE7dpbPy2DNNC2n7xfoCjYRDnzkvs34eXhCbKbQGrGkFtQBy
+         TTtjA/q4PUkzy0rhHurfMowuv7ZsUniDQnrZcO7WCq3eM324ep59WIBxuA2WQRH5JO8q
+         +fUA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696533913; x=1697138713;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=QAIuNzRqeVKL4UBHwUYQTQv/MFOTl6dEpbXD6CCqo5M=;
-        b=A0zbSTIG9gN/3foS4qTtgxAi9vbbTEc1w6/n3QM8ZOJXXl2rA7ANPzECT3FkH+5Y5w
-         Q79jNSX0jbM74bXHMeEXw7Xlyca+vAnNRbUd7qA5YR6DAvXZ5+MCyi+T5CM9830LjVlp
-         iZegH5V+NtHxU4zUTTKk5cUP2YtEAd0Td2hbI64E4LH/I/+1QHjc4MfXy1L6MqfynqGb
-         AKBC+lgx4K+jSnRJ2h3O80rWNrSSsZvSpGXnsv/+KIJnZUIwu9DySK0lENvvkTaEOSfN
-         uvCvIJLEvuYITAq0ZDw+Yy1LSYMwbdwUkhRMKcu4f18yVj8Cf8BOueZvewwhIk74rDZ8
-         oShg==
-X-Gm-Message-State: AOJu0Yzy5Dugma7x7C2JNJjKlocqR4WNPdUqOmLiRQy9awLF/WF4zlQB
-	HCM+KwekJubGjx/U1NKZnFulsfHrelvP2pDl1Kas9Q==
-X-Google-Smtp-Source: AGHT+IE/lNkGrp8J2WkjY7FP16+AvJpLMZkj9ptYmYvBvpsK946+tDKXzby/+pwCKElpnR04kI+486BfdcMim4oAt3U=
-X-Received: by 2002:a17:906:3048:b0:9ae:37d9:803e with SMTP id
- d8-20020a170906304800b009ae37d9803emr5549553ejd.8.1696533913393; Thu, 05 Oct
- 2023 12:25:13 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1696553465; x=1697158265;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Dj54Gl1jd+w9QgbJ5IpGgS95Y27Kw5ws4fL1QKoqHoA=;
+        b=r9eahxeYll7WU5HLCl0Hch5XC7jHvbS4LJOiv0LKWAPuqmuBMCtW8//i1cs1NJT3VV
+         +l78H6XdOapA+m5IRolyId2cyP5DKKZilCnNFMjQOMRrQ0PtR2MXkuXzDpIBW2xLSt9K
+         WaM4iq0Tqbr+rZcv5vr4u9jTox6nE4lTC+O+Ei42pPa/MF5CR8kLbjJh5qnmo90Tg4wV
+         4xWzitHrbA2tujKYWk0NYYdocsogICvtYd+zHUhAMEkLg4xHsyqBfqIfmpPL2zOKATo+
+         tCLcYtuXj5EcFzNFNbdv2NUbIdOzHuO2tqjXBgG9foNDOylPkHeVhMHdbxSkK9a97sef
+         fL6g==
+X-Gm-Message-State: AOJu0YwYmSt02PFjwprsyDIfj8KBS5WDO69+wCeNx6xVID8jSLK0DctN
+	FDwlMqmv7nUqGw00GwtqlHJ2eg==
+X-Google-Smtp-Source: AGHT+IG1hSjqGVvnbK0ZQXLALAHV4h6eK08b8Sg1VE/BxT+UJ3tKdYKuqZ0DT9gCvR470zCjPxGqCw==
+X-Received: by 2002:a05:6870:96a3:b0:1dc:7e71:d471 with SMTP id o35-20020a05687096a300b001dc7e71d471mr7341864oaq.31.1696553465199;
+        Thu, 05 Oct 2023 17:51:05 -0700 (PDT)
+Received: from freyr.lechnology.com (ip98-183-112-25.ok.ok.cox.net. [98.183.112.25])
+        by smtp.gmail.com with ESMTPSA id mo9-20020a056871320900b001dd0ff401edsm545072oac.51.2023.10.05.17.51.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 05 Oct 2023 17:51:04 -0700 (PDT)
+From: David Lechner <dlechner@baylibre.com>
+To: linux-iio@vger.kernel.org,
+	linux-staging@lists.linux.dev
+Cc: David Lechner <dlechner@baylibre.com>,
+	Jonathan Cameron <jic23@kernel.org>,
+	Michael Hennerich <Michael.Hennerich@analog.com>,
+	=?utf-8?q?Nuno_S=C3=A1?= <nuno.sa@analog.com>,
+	Axel Haslam <ahaslam@baylibre.com>,
+	Philip Molloy <pmolloy@baylibre.com>,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v4 00/17] iio: resolver: move ad2s1210 out of staging
+Date: Thu,  5 Oct 2023 19:50:17 -0500
+Message-ID: <20231005-ad2s1210-mainline-v4-0-ec00746840fc@baylibre.com>
+X-Mailer: git-send-email 2.42.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20230929-ad2s1210-mainline-v3-0-fa4364281745@baylibre.com>
- <20230929-ad2s1210-mainline-v3-22-fa4364281745@baylibre.com>
- <20230930164251.5c07723c@jic23-huawei> <CAMknhBFKSqXvgOeRjGAOfURzndmxmCffdU6MUirEmfzKqwM_Kg@mail.gmail.com>
- <20231005153736.2603dbbf@jic23-huawei>
-In-Reply-To: <20231005153736.2603dbbf@jic23-huawei>
-From: David Lechner <dlechner@baylibre.com>
-Date: Thu, 5 Oct 2023 14:25:02 -0500
-Message-ID: <CAMknhBEuX9sA_eHM2xqjGkDDtq-hDMtmmYyqYbER3B42TqWRmw@mail.gmail.com>
-Subject: Re: [PATCH v3 22/27] staging: iio: resolver: ad2s1210: convert LOS
- threshold to event attr
-To: Jonathan Cameron <jic23@kernel.org>
-Cc: linux-iio@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-staging@lists.linux.dev, David Lechner <david@lechnology.com>, 
-	Rob Herring <robh+dt@kernel.org>, 
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Michael Hennerich <Michael.Hennerich@analog.com>, =?UTF-8?B?TnVubyBTw6E=?= <nuno.sa@analog.com>, 
-	Axel Haslam <ahaslam@baylibre.com>, Philip Molloy <pmolloy@baylibre.com>, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+X-Mailer: b4 0.12.3
+Content-Transfer-Encoding: 8bit
 
-On Thu, Oct 5, 2023 at 9:37=E2=80=AFAM Jonathan Cameron <jic23@kernel.org> =
-wrote:
->
-> On Mon, 2 Oct 2023 11:09:11 -0500
-> David Lechner <dlechner@baylibre.com> wrote:
->
-> > On Sat, Sep 30, 2023 at 10:42=E2=80=AFAM Jonathan Cameron <jic23@kernel=
-.org> wrote:
-> > >
-> > > On Fri, 29 Sep 2023 12:23:27 -0500
-> > > David Lechner <dlechner@baylibre.com> wrote:
-> > >
-> > > > From: David Lechner <david@lechnology.com>
-> > > >
-> > > > From: David Lechner <dlechner@baylibre.com>
-> > > >
-> > > > The AD2S1210 has a programmable threshold for the loss of signal (L=
-OS)
-> > > > fault. This fault is triggered when either the sine or cosine input
-> > > > falls below the threshold voltage.
-> > > >
-> > > > This patch converts the custom device LOS threshold attribute to an
-> > > > event falling edge threshold attribute on a new monitor signal chan=
-nel.
-> > > > The monitor signal is an internal signal that combines the amplitud=
-es
-> > > > of the sine and cosine inputs as well as the current angle and posi=
-tion
-> > > > output. This signal is used to detect faults in the input signals.
-> > >
-> > > Hmm. Looking forwards, I'm less sure that we should be shoving all th=
-ese
-> > > error conditions onto one channel. Fundamentally we have
-> > > sine and cosine inputs. I think we should treat those as separate cha=
-nnels
-> > > and include a third differential channel between them.
-> >
-> > At first, I did consider a differential channel as you suggested in
-> > v2. However, the datasheet is quite clear that the LOS and DOS faults
-> > (and only those faults) come from a signal it calls the "monitor
-> > signal". This signal is defined as:
-> >
-> >     Monitor =3D A1 * sin(theta)  * sin(phi) + A2 * cos(theta) * cos(phi=
-)
-> >
-> > where A1 * sin(theta) is the the sine input, A2 * cos(theta) is the
-> > cosine input and phi is the position output. So mathematically
-> > speaking, there is no signal that is the difference between the two
-> > inputs. (See "Theory of Operation" section in the datasheet.)
->
-> Hmm. That's certainly a bit more complex than I expected.
-> Relying on the brief description led me astray.
->
-> It's related to the differences in the measured and  as if
-> theta =3D=3D phi and A1 =3D=3D A2 (ideal) then it will be A1.
->
-> I can see it's relevant to DOS, but not LOS.  The description of LOS
-> seems to overlap a number of different things unfortunately.
->
+This series is working towards moving the ad2s1210 resolver driver out of
+staging (after 13 years!). It involves a bunch of fixes and improvements
+to make proper device tree bindings and use standard IIO sysfs attributes.
 
-One thing to watch out for in the datasheet is the difference between
-the fault output pins and the fault bits read over the bus. The LOS
-output pin does indicate one or more of multiple faults, but we are
-not currently using that. We are only looking at the fault bits which
-are more granular.
+This series has been tested on actual hardware using a EVAL-AD2S1210 evaluation
+board. (Note: not all device tree features have been implemented in the driver
+since the eval board doesn't support them out of the box. We plan to add them
+later if needed.)
 
->
->
-> >
-> > But if we want to hide these internal details and don't care about a
-> > strict definition of "differential", then what is suggested below
-> > seems fine.
->
-> Probably best to introduce that monitor signal though we'll have
-> to be a bit vague about what it is which has the side effect that
-> anyone trying to understand what on earth these faults are is going
-> to be confused (having read the datasheet section a couple of times
-> I'm not 100% sure...)
->
-> >
-> > >
-> > > So this one becomes a double event (you need to signal it on both
-> > > cosine and sine channels).  The DOS overange is similar.
-> > > The DOS mismatch is a threshold on the differential channel giving
-> > >
-> > > events/in_altvoltage0_thresh_falling_value
-> > > events/in_altvoltage1_thresh_falling_value (these match)
-> > > events/in_altvoltage0_thresh_rising_value
-> > > events/in_altvoltage1_thresh_rising_value (matches previous which is =
-fine)
-> > > events/in_altvoltage1-altvoltage0_mag_rising_value
-> > >
-> > > Does that work here?  Avoids smashing different types of signals toge=
-ther.
-> > > We could even do the LOT as differential between two angle channels
-> > > (tracking one and measured one) but meh that's getting complex.>
-> > > Note this will rely on channel labels to make the above make any sens=
-e at all.
-> >
-> > I think this could be OK - I think what matters most is having some
-> > documentation that maps the faults and registers on the chip to the
-> > iio names. Where would the sine/cosine clipping fault fit in though? I
-> > got a bit too creative and used X_OR_Y to differentiate it (see
-> > discussion in "staging: iio: resolver: ad2s1210: implement fault
-> > events"). Strictly speaking, it should probably be a type: threshold,
-> > direction: either event on both the sine and cosine input channels
-> > (another double event) since it occurs if either of the signal exceeds
-> > the power or ground rail voltage. But we already have threshold rising
-> > and threshold falling on these channels with a different meaning. I
-> > guess it could call it magnitude instead of a threshold?
->
-> Tricky indeed.  Though I guess we only hit the clipping case after
-> LOS or DOS fires or if their thresholds are set too wide (is that
-> even possible?).
+---
 
-I suppose it _could_ be possible on the high side if the AVDD voltage
-supply was selected to be less than the 4.4V max of the threshold
-voltage registers.
+v4 changes:
+* Dropped applied patches:
+  * "dt-bindings: iio: resolver: add devicetree bindings for ad2s1210"
+  * "staging: iio: resolver: ad2s1210: read excitation frequency from
+    control register"
+  * "staging: iio: resolver: ad2s1210: refactor setting excitation
+    frequency"
+  * "staging: iio: resolver: ad2s1210: rework gpios"
+  * "staging: iio: resolver: ad2s1210: remove config attribute"
+  * "staging: iio: resolver: ad2s1210: add debugfs reg access"
+  * "staging: iio: resolver: ad2s1210: use regmap for config registers"
+  * "staging: iio: resolver: ad2s1210: use devicetree to get CLKIN rate"
+  * "staging: iio: resolver: ad2s1210: implement IIO_CHAN_INFO_SCALE"
+  * "staging: iio: resolver: ad2s1210: always use 16-bit value for raw
+    read"
+  * "staging: iio: resolver: ad2s1210: sort imports"
+  * "staging: iio: resolver: ad2s1210: remove spi_set_drvdata()"
+  * "staging: iio: resolver: ad2s1210: check return of ad2s1210_initial()"
+  * "staging: iio: resolver: ad2s1210: remove call to spi_setup()"
+  * "staging: iio: resolver: ad2s1210: fix use before initialization"
+* Added new patches:
+  * "staging: iio: resolver: ad2s1210: do not use fault register for
+    dummy read"
+  * "iio: event: add optional event label support"
+  * "staging: iio: resolver: ad2s1210: add register/fault support summary"
+  * "staging: iio: resolver: ad2s1210: remove fault attribute"
+  * "staging: iio: resolver: ad2s1210: simplify code with guard(mutex)"
+* Fixed DT property name in commit description of "staging: iio:
+  resolver: ad2s1210: convert resolution to devicetree property"
+* Fixed compile error in "staging: iio: resolver: ad2s1210: implement
+  fault events".
+* Fixed angl0 hysteresis raw values when assigned-resolution-bits != 16.
+* Fixed missing word in "staging: iio: resolver: ad2s1210: convert DOS
+  overrange threshold to event attr" commit description.
+* Fixed missing static qualifier on event attribute definitions.
+* Dropped used of X/Y modifiers on sine/cosine channels.
+* Changed type/direction on some events.
+* Added event *_label attributes.
 
-> So it is useful to report it as we are already in
-> error? Or can we combine the cases by treating it as a cap on the
-> threshold controls for LOS and DOS?
+Link to v3: https://lore.kernel.org/r/20230929-ad2s1210-mainline-v3-0-fa4364281745@baylibre.com
 
-I found the clipping error useful while developing this driver since
-it help identify that we had a gain setting wrong on the excitation
-output (on the circuit board) which in turn caused the inputs to be
-overdriven. But, yes when this happened, it also always triggered at
-least one or more of the LOS and DOS faults as well.
+v3 changes:
+* Dropped applied patches:
+  * "staging: iio: resolver: ad2s1210: fix ad2s1210_show_fault"
+  * "iio: adc: MCP3564: fix the static checker warning"
+* Dropped "staging: iio: Documentation: document IIO resolver AD2S1210
+  sysfs attributes". We will attempt to use existing ABI for faults/
+  thresholds in a future series.
+* Added description of A0/A1 lines in DT bindings.
+* Added power supply regulators to DT bindings.
+* Moved sorting imports to separate patch.
+* Renamed fclkin to clkin_hz.
+* Added __be16 sample field to state struct for reading raw samples.
+* Split out new function ad2s1210_single_conversion() from
+  ad2s1210_read_raw().
+* Split out new ad2s1210_get_hysteresis() and ad2s1210_set_hysteresis()
+  functions.
+* Fixed multi-line comment style.
+* Added notes about soft reset not resetting config registers.
+* Made use of FIELD_PREP() macro.
+* Added more explanation to regmap commit message.
+* Removed datasheet names from channel specs.
+* Replaced "staging: iio: resolver: ad2s1210: rename fexcit attribute"
+  with "staging: iio: resolver: ad2s1210: convert fexcit to channel
+  attribute".
+* Replaced "staging: iio: resolver: ad2s1210: add phase_lock_range
+  attributes" with "staging: iio: resolver: ad2s1210: add phase lock
+  range support"
+* Added additional patches to convert custom device attributes to event
+  attributes.
+* Added patch for to add label attributes.
 
->
-> Even when they aren't just there for error reporting, designers
-> seem to always come up with new create signals to use for event
-> detection and sometimes it's a real struggle to map them to
-> something general.
->
-> Jonathan
->
->
+Link to v2: https://lore.kernel.org/r/20230921144400.62380-1-dlechner@baylibre.com
+
+v2 changes:
+* Address initial device tree patch feedback
+* Drop "iio: sysfs: add IIO_DEVICE_ATTR_NAMED_RW macro" (related cleanups
+  also dropped for now, will address in a future series if needed)
+* Apply improvements as a series of patches to the staging driver. It is
+  not quite ready for the move out of staging patch yet.
+
+---
+David Lechner (17):
+      staging: iio: resolver: ad2s1210: do not use fault register for dummy read
+      staging: iio: resolver: ad2s1210: implement hysteresis as channel attr
+      staging: iio: resolver: ad2s1210: convert fexcit to channel attribute
+      staging: iio: resolver: ad2s1210: convert resolution to devicetree property
+      staging: iio: resolver: ad2s1210: add phase lock range support
+      staging: iio: resolver: ad2s1210: add triggered buffer support
+      staging: iio: resolver: ad2s1210: convert LOT threshold attrs to event attrs
+      staging: iio: resolver: ad2s1210: convert LOS threshold to event attr
+      staging: iio: resolver: ad2s1210: convert DOS overrange threshold to event attr
+      staging: iio: resolver: ad2s1210: convert DOS mismatch threshold to event attr
+      staging: iio: resolver: ad2s1210: rename DOS reset min/max attrs
+      iio: event: add optional event label support
+      staging: iio: resolver: ad2s1210: implement fault events
+      staging: iio: resolver: ad2s1210: add register/fault support summary
+      staging: iio: resolver: ad2s1210: add label attribute support
+      staging: iio: resolver: ad2s1210: remove fault attribute
+      staging: iio: resolver: ad2s1210: simplify code with guard(mutex)
+
+ Documentation/ABI/testing/sysfs-bus-iio            |   15 +
+ drivers/iio/industrialio-event.c                   |   55 +
+ .../Documentation/sysfs-bus-iio-resolver-ad2s1210  |   27 +
+ drivers/staging/iio/resolver/ad2s1210.c            | 1194 ++++++++++++++++----
+ include/linux/iio/iio.h                            |    8 +
+ 5 files changed, 1061 insertions(+), 238 deletions(-)
+---
+base-commit: 2d3dff577dd0ea8fe9637a13822f7603c4a881c8
+change-id: 20230925-ad2s1210-mainline-2791ef75e386
