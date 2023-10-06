@@ -1,472 +1,79 @@
-Received: from mail-oa1-f41.google.com (mail-oa1-f41.google.com [209.85.160.41])
+Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com [209.85.167.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5E9A15B4
-	for <linux-staging@lists.linux.dev>; Fri,  6 Oct 2023 00:51:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC46D17F2
+	for <linux-staging@lists.linux.dev>; Fri,  6 Oct 2023 06:42:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="OydD/2Ph"
-Received: by mail-oa1-f41.google.com with SMTP id 586e51a60fabf-1e10ba12fd3so1008048fac.1
-        for <linux-staging@lists.linux.dev>; Thu, 05 Oct 2023 17:51:18 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="F9pfnqL3"
+Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-503056c8195so2342145e87.1
+        for <linux-staging@lists.linux.dev>; Thu, 05 Oct 2023 23:42:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1696553478; x=1697158278; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=bvy2ayD735MSl5ZTX0UlQERY4ZoXQRp7gkWExI7lVYw=;
-        b=OydD/2PhyTFRVD8f8pMoyX5E4cNsv6Vj0uW6EKZgJKZZP+93sSv86sSgBcc4vCTJpP
-         bnNbK/pJsHcujJV2zhTj63Dz3iTSuF6QBoQszvkUg3OJ0zalpSvAYSBieQn1rzTfRklm
-         OPFVBdWtjbz3/aQphf++VWAS9+AHAVpOWCsaRMA1IU+H42ID+VkTuQTUQAUv+cSENywi
-         pGdMC7q8jXRxLMEpsroN0LzYoh22BroWKXMj/4hLtsoAhMSVLMKpXXYWIBSMSUH1zIFz
-         elbruQ5aZBZY81w+WZj/mviIpdNni0fWR7moXlg3YX8zpJi3SHNN0vWLjYdmCa8NKapF
-         xJvg==
+        d=linaro.org; s=google; t=1696574565; x=1697179365; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=W48qcl+qVVYwRgZC9dzFeOYmfNEtgKzD22rI+wL+TnY=;
+        b=F9pfnqL34WcvhYUN5jKnVgEQtamcu8O288CK7RaRjuoAXVYyFGTQVm7lW7mirwcw83
+         dhPitnqWeXhpCThmpgnIN0tzXDgdR69hXStqkbbuACEZSTHhyOB6YW2hvmmZGSICtUKf
+         WJvLXWBDSHIGdUj7r2LOr+MOL1wnCQcqc5ClzmMuxyquF4qNlDQma+kQRXSM4UU2CA2v
+         tGKDbDvzJ9SC6tYFqui5ZDZfH3/YPsP7lrXjAPfglXUmsMmVDkvPVEXeVhuPJq3gNUcr
+         +1s3ToCfX/TRMlhipULJnHYW60OQYHzfg3R3lSweazKKtbeYoMEHUMtYDzeIgm5ZJOUE
+         Bp/A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696553478; x=1697158278;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=bvy2ayD735MSl5ZTX0UlQERY4ZoXQRp7gkWExI7lVYw=;
-        b=dYsVCGOJR2MFjtCB9WsQp7qWgRrCr1VzThVUfYJRCD6dn17NWYMRdT9BwLGo9CA0Z2
-         TccHrpsrx9xKoBLd5TN1vDnka8PcrFc/ZAtADikz9nJi4dhza/Jx0161SWe9JLNeBT+Y
-         so40Day4GyUy3Ygieo4Vp6PxXMmbsg0MY5pArvZeF7/DY9ajYdVFe7imXrkT17Yxtqc9
-         sTm8k+ivGk4FMyFvRdX3vfBhQcgfOPhMF/5Uv3+lL49ccJMMRtvVundBK4FuRFx5M9sy
-         f5D1066RTIE8jD+S95HhLNIDomfuYUzoQNyGgZJcyhEjbMh25sb09tOsf+BL6p4lcca4
-         qnJQ==
-X-Gm-Message-State: AOJu0Yw4b3yH+l3StDkPnVplRCtqFMvfw/Awk1tpezY0LmIPdWrN88/w
-	ffHKHwRcsvW9F/me3E1ADCr4Dg==
-X-Google-Smtp-Source: AGHT+IHETgGeqGZSvktD/tKU7BzXYk2Is2jzn6GMo6B98IovaMoUy/6NXzQov+m+TDvrTga6TxDudg==
-X-Received: by 2002:a05:6870:d188:b0:1d5:3fd3:390a with SMTP id a8-20020a056870d18800b001d53fd3390amr7418497oac.49.1696553477962;
-        Thu, 05 Oct 2023 17:51:17 -0700 (PDT)
-Received: from freyr.lechnology.com (ip98-183-112-25.ok.ok.cox.net. [98.183.112.25])
-        by smtp.gmail.com with ESMTPSA id mo9-20020a056871320900b001dd0ff401edsm545072oac.51.2023.10.05.17.51.17
+        d=1e100.net; s=20230601; t=1696574565; x=1697179365;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=W48qcl+qVVYwRgZC9dzFeOYmfNEtgKzD22rI+wL+TnY=;
+        b=HjjzWhDuNvyqjEZhGJwDODEBRJRyBwy7fLzGZahR4qJ9FbPuRWdbW6n4xFLjkjqpfa
+         ZCTx0WxwWEaGVLzr0fragG7pHH9EnsMuoGsaPBbLJoQYQBXBCQWSfApMwcQNfMNPwcpP
+         g7AwzRE3xzU2qGccFh/o63Hp4DS7jewDP8I/bxjen6g7zOzt7YfFg2hNRSmBAvkFyazB
+         dpwwTq238qstZN2/mJwtIi0HUwj6ZyTmE4wMByuApUJhVIccIMhK+5+QBU2r3rl+YZ2I
+         xfz9rTSZc7q08MniGZwVQruR0B4U2oOAxPoPbJpsU8xaKXQq9VXx3CyJxiItxLiN468p
+         znEg==
+X-Gm-Message-State: AOJu0Yz3NVgmZQ6XOuUaPnNhiXqy393PS/1HdZK4FWSvLHz2vDuOHMlr
+	M3xEGBJLvlObliEQ39d2PtnDjQ==
+X-Google-Smtp-Source: AGHT+IFIWdwm8yYcilcNJBfYGLjSxm5s+ZR2i1auLhHaCiDm+4VaFO3iNGZddB32L6PiCOJ5HAbcYw==
+X-Received: by 2002:ac2:5f5b:0:b0:4fd:cae7:2393 with SMTP id 27-20020ac25f5b000000b004fdcae72393mr5162245lfz.2.1696574564680;
+        Thu, 05 Oct 2023 23:42:44 -0700 (PDT)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id f17-20020a1c6a11000000b004063ea92492sm3019275wmc.22.2023.10.05.23.42.43
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 05 Oct 2023 17:51:17 -0700 (PDT)
-From: David Lechner <dlechner@baylibre.com>
-To: linux-iio@vger.kernel.org,
-	linux-staging@lists.linux.dev
-Cc: David Lechner <dlechner@baylibre.com>,
-	Jonathan Cameron <jic23@kernel.org>,
-	Michael Hennerich <Michael.Hennerich@analog.com>,
-	=?utf-8?q?Nuno_S=C3=A1?= <nuno.sa@analog.com>,
-	Axel Haslam <ahaslam@baylibre.com>,
-	Philip Molloy <pmolloy@baylibre.com>,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v4 17/17] staging: iio: resolver: ad2s1210: simplify code with guard(mutex)
-Date: Thu,  5 Oct 2023 19:50:34 -0500
-Message-ID: <20231005-ad2s1210-mainline-v4-17-ec00746840fc@baylibre.com>
-X-Mailer: git-send-email 2.42.0
-In-Reply-To: <20231005-ad2s1210-mainline-v4-0-ec00746840fc@baylibre.com>
-References: <20231005-ad2s1210-mainline-v4-0-ec00746840fc@baylibre.com>
+        Thu, 05 Oct 2023 23:42:44 -0700 (PDT)
+Date: Fri, 6 Oct 2023 09:42:41 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Ricardo Lopes <ricardoapl.dev@gmail.com>
+Cc: manishc@marvell.com, GR-Linux-NIC-Dev@marvell.com, coiby.xu@gmail.com,
+	gregkh@linuxfoundation.org, netdev@vger.kernel.org,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: qlge: Replace strncpy with strscpy
+Message-ID: <0b78b29f-2a84-487c-a43b-f8d3fa20d935@kadam.mountain>
+References: <20231005191459.10698-1-ricardoapl.dev@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-X-Mailer: b4 0.12.3
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231005191459.10698-1-ricardoapl.dev@gmail.com>
 
-We can simplify the code and get rid of most of the gotos by using
-guard(mutex) from cleanup.h.
+On Thu, Oct 05, 2023 at 08:14:55PM +0100, Ricardo Lopes wrote:
+> Avoid read overflows and other misbehavior due to missing termination.
+> 
 
-Signed-off-by: David Lechner <dlechner@baylibre.com>
----
+There aren't any read overflows in the current code.
 
-v4 changes: New patch in v4.
+> Reported by checkpatch:
+> 
+> WARNING: Prefer strscpy, strscpy_pad, or __nonstring over strncpy
 
- drivers/staging/iio/resolver/ad2s1210.c | 157 ++++++++++----------------------
- 1 file changed, 50 insertions(+), 107 deletions(-)
+But making checkpatch happy is good and the patch is fine.
 
-diff --git a/drivers/staging/iio/resolver/ad2s1210.c b/drivers/staging/iio/resolver/ad2s1210.c
-index c4e1bc22e8b0..c4e0ffa92dc2 100644
---- a/drivers/staging/iio/resolver/ad2s1210.c
-+++ b/drivers/staging/iio/resolver/ad2s1210.c
-@@ -47,6 +47,7 @@
- 
- #include <linux/bitfield.h>
- #include <linux/bits.h>
-+#include <linux/cleanup.h>
- #include <linux/clk.h>
- #include <linux/delay.h>
- #include <linux/device.h>
-@@ -404,11 +405,13 @@ static int ad2s1210_single_conversion(struct iio_dev *indio_dev,
- 	s64 timestamp;
- 	int ret;
- 
--	mutex_lock(&st->lock);
-+	guard(mutex)(&st->lock);
-+
- 	gpiod_set_value(st->sample_gpio, 1);
- 	timestamp = iio_get_time_ns(indio_dev);
- 	/* delay (6 * tck + 20) nano seconds */
- 	udelay(1);
-+	gpiod_set_value(st->sample_gpio, 0);
- 
- 	switch (chan->type) {
- 	case IIO_ANGL:
-@@ -418,14 +421,13 @@ static int ad2s1210_single_conversion(struct iio_dev *indio_dev,
- 		ret = ad2s1210_set_mode(st, MOD_VEL);
- 		break;
- 	default:
--		ret = -EINVAL;
--		break;
-+		return -EINVAL;
- 	}
- 	if (ret < 0)
--		goto error_ret;
-+		return ret;
- 	ret = spi_read(st->sdev, &st->sample, 3);
- 	if (ret < 0)
--		goto error_ret;
-+		return ret;
- 
- 	switch (chan->type) {
- 	case IIO_ANGL:
-@@ -437,17 +439,11 @@ static int ad2s1210_single_conversion(struct iio_dev *indio_dev,
- 		ret = IIO_VAL_INT;
- 		break;
- 	default:
--		ret = -EINVAL;
--		break;
-+		return -EINVAL;
- 	}
- 
- 	ad2s1210_push_events(indio_dev, st->sample.fault, timestamp);
- 
--error_ret:
--	gpiod_set_value(st->sample_gpio, 0);
--	/* delay (2 * tck + 20) nano seconds */
--	udelay(1);
--	mutex_unlock(&st->lock);
- 	return ret;
- }
- 
-@@ -455,11 +451,9 @@ static int ad2s1210_get_hysteresis(struct ad2s1210_state *st, int *val)
- {
- 	int ret;
- 
--	mutex_lock(&st->lock);
-+	guard(mutex)(&st->lock);
- 	ret = regmap_test_bits(st->regmap, AD2S1210_REG_CONTROL,
- 			       AD2S1210_ENABLE_HYSTERESIS);
--	mutex_unlock(&st->lock);
--
- 	if (ret < 0)
- 		return ret;
- 
-@@ -469,15 +463,10 @@ static int ad2s1210_get_hysteresis(struct ad2s1210_state *st, int *val)
- 
- static int ad2s1210_set_hysteresis(struct ad2s1210_state *st, int val)
- {
--	int ret;
--
--	mutex_lock(&st->lock);
--	ret = regmap_update_bits(st->regmap, AD2S1210_REG_CONTROL,
--				 AD2S1210_ENABLE_HYSTERESIS,
--				 val ? AD2S1210_ENABLE_HYSTERESIS : 0);
--	mutex_unlock(&st->lock);
--
--	return ret;
-+	guard(mutex)(&st->lock);
-+	return regmap_update_bits(st->regmap, AD2S1210_REG_CONTROL,
-+				  AD2S1210_ENABLE_HYSTERESIS,
-+				  val ? AD2S1210_ENABLE_HYSTERESIS : 0);
- }
- 
- static int ad2s1210_get_phase_lock_range(struct ad2s1210_state *st,
-@@ -485,11 +474,9 @@ static int ad2s1210_get_phase_lock_range(struct ad2s1210_state *st,
- {
- 	int ret;
- 
--	mutex_lock(&st->lock);
-+	guard(mutex)(&st->lock);
- 	ret = regmap_test_bits(st->regmap, AD2S1210_REG_CONTROL,
- 			       AD2S1210_PHASE_LOCK_RANGE_44);
--	mutex_unlock(&st->lock);
--
- 	if (ret < 0)
- 		return ret;
- 
-@@ -509,7 +496,7 @@ static int ad2s1210_get_phase_lock_range(struct ad2s1210_state *st,
- static int ad2s1210_set_phase_lock_range(struct ad2s1210_state *st,
- 					 int val, int val2)
- {
--	int deg, ret;
-+	int deg;
- 
- 	/* convert radians to degrees - only two allowable values */
- 	if (val == PHASE_44_DEG_TO_RAD_INT && val2 == PHASE_44_DEG_TO_RAD_MICRO)
-@@ -520,12 +507,10 @@ static int ad2s1210_set_phase_lock_range(struct ad2s1210_state *st,
- 	else
- 		return -EINVAL;
- 
--	mutex_lock(&st->lock);
--	ret = regmap_update_bits(st->regmap, AD2S1210_REG_CONTROL,
--				 AD2S1210_PHASE_LOCK_RANGE_44,
--				 deg == 44 ? AD2S1210_PHASE_LOCK_RANGE_44 : 0);
--	mutex_unlock(&st->lock);
--	return ret;
-+	guard(mutex)(&st->lock);
-+	return regmap_update_bits(st->regmap, AD2S1210_REG_CONTROL,
-+				  AD2S1210_PHASE_LOCK_RANGE_44,
-+				  deg == 44 ? AD2S1210_PHASE_LOCK_RANGE_44 : 0);
- }
- 
- /* map resolution to microradians/LSB for LOT registers */
-@@ -542,10 +527,8 @@ static int ad2s1210_get_voltage_threshold(struct ad2s1210_state *st,
- 	unsigned int reg_val;
- 	int ret;
- 
--	mutex_lock(&st->lock);
-+	guard(mutex)(&st->lock);
- 	ret = regmap_read(st->regmap, reg, &reg_val);
--	mutex_unlock(&st->lock);
--
- 	if (ret < 0)
- 		return ret;
- 
-@@ -557,15 +540,11 @@ static int ad2s1210_set_voltage_threshold(struct ad2s1210_state *st,
- 					  unsigned int reg, int val)
- {
- 	unsigned int reg_val;
--	int ret;
- 
- 	reg_val = val / THRESHOLD_MILLIVOLT_PER_LSB;
- 
--	mutex_lock(&st->lock);
--	ret = regmap_write(st->regmap, reg, reg_val);
--	mutex_unlock(&st->lock);
--
--	return ret;
-+	guard(mutex)(&st->lock);
-+	return regmap_write(st->regmap, reg, reg_val);
- }
- 
- static int ad2s1210_get_lot_high_threshold(struct ad2s1210_state *st,
-@@ -574,10 +553,8 @@ static int ad2s1210_get_lot_high_threshold(struct ad2s1210_state *st,
- 	unsigned int reg_val;
- 	int ret;
- 
--	mutex_lock(&st->lock);
-+	guard(mutex)(&st->lock);
- 	ret = regmap_read(st->regmap, AD2S1210_REG_LOT_HIGH_THRD, &reg_val);
--	mutex_unlock(&st->lock);
--
- 	if (ret < 0)
- 		return ret;
- 
-@@ -596,18 +573,18 @@ static int ad2s1210_set_lot_high_threshold(struct ad2s1210_state *st,
- 	if (val != 0)
- 		return -EINVAL;
- 
--	mutex_lock(&st->lock);
-+	guard(mutex)(&st->lock);
- 	/*
- 	 * We need to read both high and low registers first so we can preserve
- 	 * the hysteresis.
- 	 */
- 	ret = regmap_read(st->regmap, AD2S1210_REG_LOT_HIGH_THRD, &high_reg_val);
- 	if (ret < 0)
--		goto error_ret;
-+		return ret;
- 
- 	ret = regmap_read(st->regmap, AD2S1210_REG_LOT_LOW_THRD, &low_reg_val);
- 	if (ret < 0)
--		goto error_ret;
-+		return ret;
- 
- 	hysteresis = high_reg_val - low_reg_val;
- 	high_reg_val = val2 / ad2s1210_lot_threshold_urad_per_lsb[st->resolution];
-@@ -615,14 +592,9 @@ static int ad2s1210_set_lot_high_threshold(struct ad2s1210_state *st,
- 
- 	ret = regmap_write(st->regmap, AD2S1210_REG_LOT_HIGH_THRD, high_reg_val);
- 	if (ret < 0)
--		goto error_ret;
--
--	ret = regmap_write(st->regmap, AD2S1210_REG_LOT_LOW_THRD, low_reg_val);
--
--error_ret:
--	mutex_unlock(&st->lock);
-+		return ret;
- 
--	return ret;
-+	return regmap_write(st->regmap, AD2S1210_REG_LOT_LOW_THRD, low_reg_val);
- }
- 
- static int ad2s1210_get_lot_low_threshold(struct ad2s1210_state *st,
-@@ -631,16 +603,13 @@ static int ad2s1210_get_lot_low_threshold(struct ad2s1210_state *st,
- 	unsigned int high_reg_val, low_reg_val;
- 	int ret;
- 
--	mutex_lock(&st->lock);
-+	guard(mutex)(&st->lock);
-+
- 	ret = regmap_read(st->regmap, AD2S1210_REG_LOT_HIGH_THRD, &high_reg_val);
- 	if (ret < 0)
--		goto error_ret;
-+		return ret;
- 
- 	ret = regmap_read(st->regmap, AD2S1210_REG_LOT_LOW_THRD, &low_reg_val);
--
--error_ret:
--	mutex_unlock(&st->lock);
--
- 	if (ret < 0)
- 		return ret;
- 
-@@ -663,18 +632,14 @@ static int ad2s1210_set_lot_low_threshold(struct ad2s1210_state *st,
- 
- 	hysteresis = val2 / ad2s1210_lot_threshold_urad_per_lsb[st->resolution];
- 
--	mutex_lock(&st->lock);
-+	guard(mutex)(&st->lock);
-+
- 	ret = regmap_read(st->regmap, AD2S1210_REG_LOT_HIGH_THRD, &reg_val);
- 	if (ret < 0)
--		goto error_ret;
-+		return ret;
- 
--	ret = regmap_write(st->regmap, AD2S1210_REG_LOT_LOW_THRD,
-+	return regmap_write(st->regmap, AD2S1210_REG_LOT_LOW_THRD,
- 			   reg_val - hysteresis);
--
--error_ret:
--	mutex_unlock(&st->lock);
--
--	return ret;
- }
- 
- static int ad2s1210_get_excitation_frequency(struct ad2s1210_state *st, int *val)
-@@ -682,31 +647,23 @@ static int ad2s1210_get_excitation_frequency(struct ad2s1210_state *st, int *val
- 	unsigned int reg_val;
- 	int ret;
- 
--	mutex_lock(&st->lock);
-+	guard(mutex)(&st->lock);
-+
- 	ret = regmap_read(st->regmap, AD2S1210_REG_EXCIT_FREQ, &reg_val);
- 	if (ret < 0)
--		goto error_ret;
-+		return ret;
- 
- 	*val = reg_val * st->clkin_hz / (1 << 15);
--	ret = IIO_VAL_INT;
--
--error_ret:
--	mutex_unlock(&st->lock);
--	return ret;
-+	return IIO_VAL_INT;
- }
- 
- static int ad2s1210_set_excitation_frequency(struct ad2s1210_state *st, int val)
- {
--	int ret;
--
- 	if (val < AD2S1210_MIN_EXCIT || val > AD2S1210_MAX_EXCIT)
- 		return -EINVAL;
- 
--	mutex_lock(&st->lock);
--	ret = ad2s1210_reinit_excitation_frequency(st, val);
--	mutex_unlock(&st->lock);
--
--	return ret;
-+	guard(mutex)(&st->lock);
-+	return ad2s1210_reinit_excitation_frequency(st, val);
- }
- 
- static const int ad2s1210_velocity_scale[] = {
-@@ -982,10 +939,8 @@ static ssize_t event_attr_voltage_reg_show(struct device *dev,
- 	unsigned int value;
- 	int ret;
- 
--	mutex_lock(&st->lock);
-+	guard(mutex)(&st->lock);
- 	ret = regmap_read(st->regmap, iattr->address, &value);
--	mutex_unlock(&st->lock);
--
- 	if (ret < 0)
- 		return ret;
- 
-@@ -1005,11 +960,9 @@ static ssize_t event_attr_voltage_reg_store(struct device *dev,
- 	if (ret)
- 		return -EINVAL;
- 
--	mutex_lock(&st->lock);
-+	guard(mutex)(&st->lock);
- 	ret = regmap_write(st->regmap, iattr->address,
- 			   data / THRESHOLD_MILLIVOLT_PER_LSB);
--	mutex_unlock(&st->lock);
--
- 	if (ret < 0)
- 		return ret;
- 
-@@ -1083,7 +1036,7 @@ static int ad2s1210_initial(struct ad2s1210_state *st)
- 	unsigned int data;
- 	int ret;
- 
--	mutex_lock(&st->lock);
-+	guard(mutex)(&st->lock);
- 
- 	/* Use default config register value plus resolution from devicetree. */
- 	data = FIELD_PREP(AD2S1210_PHASE_LOCK_RANGE_44, 1);
-@@ -1093,13 +1046,9 @@ static int ad2s1210_initial(struct ad2s1210_state *st)
- 
- 	ret = regmap_write(st->regmap, AD2S1210_REG_CONTROL, data);
- 	if (ret < 0)
--		goto error_ret;
--
--	ret = ad2s1210_reinit_excitation_frequency(st, AD2S1210_DEF_EXCIT);
-+		return ret;
- 
--error_ret:
--	mutex_unlock(&st->lock);
--	return ret;
-+	return ad2s1210_reinit_excitation_frequency(st, AD2S1210_DEF_EXCIT);
- }
- 
- static int ad2s1210_read_label(struct iio_dev *indio_dev,
-@@ -1243,18 +1192,13 @@ static int ad2s1210_debugfs_reg_access(struct iio_dev *indio_dev,
- 				       unsigned int *readval)
- {
- 	struct ad2s1210_state *st = iio_priv(indio_dev);
--	int ret;
- 
--	mutex_lock(&st->lock);
-+	guard(mutex)(&st->lock);
- 
- 	if (readval)
--		ret = regmap_read(st->regmap, reg, readval);
--	else
--		ret = regmap_write(st->regmap, reg, writeval);
--
--	mutex_unlock(&st->lock);
-+		return regmap_read(st->regmap, reg, readval);
- 
--	return ret;
-+	return regmap_write(st->regmap, reg, writeval);
- }
- 
- static irqreturn_t ad2s1210_trigger_handler(int irq, void *p)
-@@ -1265,7 +1209,7 @@ static irqreturn_t ad2s1210_trigger_handler(int irq, void *p)
- 	size_t chan = 0;
- 	int ret;
- 
--	mutex_lock(&st->lock);
-+	guard(mutex)(&st->lock);
- 
- 	memset(&st->scan, 0, sizeof(st->scan));
- 	gpiod_set_value(st->sample_gpio, 1);
-@@ -1299,7 +1243,6 @@ static irqreturn_t ad2s1210_trigger_handler(int irq, void *p)
- 
- error_ret:
- 	gpiod_set_value(st->sample_gpio, 0);
--	mutex_unlock(&st->lock);
- 	iio_trigger_notify_done(indio_dev->trig);
- 
- 	return IRQ_HANDLED;
+Reviewed-by: Dan Carpenter <dan.carpenter@linaro.org>
 
--- 
-2.42.0
+regards,
+dan carpenter
 
