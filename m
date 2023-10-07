@@ -1,138 +1,130 @@
-Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
+Received: from mail-io1-f44.google.com (mail-io1-f44.google.com [209.85.166.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD42438F98
-	for <linux-staging@lists.linux.dev>; Fri,  6 Oct 2023 19:05:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A00B5235
+	for <linux-staging@lists.linux.dev>; Sat,  7 Oct 2023 20:06:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=marliere.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FZgIyAZP"
-Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-9ae3d7eb7e0so92085166b.0
-        for <linux-staging@lists.linux.dev>; Fri, 06 Oct 2023 12:05:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1696619141; x=1697223941; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=50wAwYPZKotuW/XLuJMHGzTqySgRqtpp7TbieAYYB4c=;
-        b=FZgIyAZPqXhreHKDv1QoQfE5cx7Ngt4FsTeCiYvgwTkVF4TdlAEJFwm2y+WvVP2hZO
-         c0GlOWrbhpxJfv1yc2pwLLjt+xMz5FgYECd+Yi6TI45OKZe7bkYs/V/E3SGd/XsE79M9
-         wrvMAKlJtGHd2OCRAzvgdK5HKmsTTpwSULXbsazfGqXMmt1CnJpoc3pVOfQ35n0GFI9I
-         ddD0hlGr3d7fdfy7Qlo9IZsFBRDFI/PFB+HJ2Ha/Gq0h4YfMn4oF39/SfR8gLVFYIIin
-         fdwMYSaIZlCxKH3EjUwTFLJAV06vBr1ZMXuUZy8iEMH7Lgh6eqIlv8sAAgCKv9X3SenG
-         DMMw==
+	dkim=fail reason="key not found in DNS" (0-bit key) header.d=marliere.net header.i=@marliere.net header.b="nkSQrXCY"
+Received: by mail-io1-f44.google.com with SMTP id ca18e2360f4ac-7a2a3fb0713so128820839f.1
+        for <linux-staging@lists.linux.dev>; Sat, 07 Oct 2023 13:06:08 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696619141; x=1697223941;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:to:from:date:x-gm-message-state:from:to:cc:subject:date
+        d=1e100.net; s=20230601; t=1696709168; x=1697313968;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:dkim-signature:from:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=50wAwYPZKotuW/XLuJMHGzTqySgRqtpp7TbieAYYB4c=;
-        b=DIPPfdRpW/FyOsFgvXtTspcxNe7UqIvpFMS20ERLOULQh3rAmatSNOvYCRWi5/ei/S
-         cBuS4/7D0b0DYbyXD3AKfLhFXA0KILLWiO/EjmS1vmklXnIFm8zxHHStdBbdptg8xO3+
-         UTuEHtuOlQQemdfEUmBXrvSddUNFe7Z8ipfVOaHfuTGjfW3OmURQypl9IKxG8Cmd9ES/
-         YpWgrGHU9iMAvzZGddbhWOm1pgwhCNOtXHgDw959ZUEVjLxax7zaEIYq5WQXyOJmoNJ1
-         Kq9UuRQaLhX1NrJQ9XPee3TarHRFfTPIRr6CoJokGldh5neCAGufcfC9Q2V+m+uQ4KpP
-         JIqg==
-X-Gm-Message-State: AOJu0YyUZaXdLXFZVh8MFfPi+2ZSkZYH0iF8FKb+RAtFRpbrUMlI67t5
-	/pf6wy5PZHwKcFxakOcruCY=
-X-Google-Smtp-Source: AGHT+IEqE6zbj595QGffuxcQqPzMt5FYCve+/vlKmTRiKuQuL1v51WpzYFImS1wF/JMhli3D8sGv+Q==
-X-Received: by 2002:a17:906:24e:b0:9a5:9f3c:961f with SMTP id 14-20020a170906024e00b009a59f3c961fmr7849157ejl.3.1696619140986;
-        Fri, 06 Oct 2023 12:05:40 -0700 (PDT)
-Received: from matrix-ESPRIMO-P710 (p579356c7.dip0.t-ipconnect.de. [87.147.86.199])
-        by smtp.gmail.com with ESMTPSA id cd16-20020a170906b35000b00991faf3810esm3345530ejb.146.2023.10.06.12.05.40
+        bh=zNlD1s/5Qv8LvOzp0cT+qMBzDmfWHxl8/xBRMHgFQGc=;
+        b=ehBDQPtWxCmQXB1i7JO2SlFyp3/aWEz3zKlebaUheK9UFp0S2x6bqIWJTZ/YU6NLZP
+         UsWfQI8abuCXP6GQ8HCFNQ4NfiQoJA0cRaARcVwGfDz3flTgN4Bt2F5zwZb/jWvSx4Jy
+         XKCF5O2BfcD+E/MfgycnGyAlRjn2jzq1t2NRu0GfxoTp2mDXGXGrLjp22xW0+jV8G+nE
+         2eHTkPCogtcu49/V85++LptNztOQ4CioYCzpdoIE0gwbiGU0ZzpuJxgpJDJ7lxe6Dkz6
+         jdWcRAjJmpGkETkz7en/TBODxTlVfY1dsl/2wxd9B12QQsh1M0hYAlUBB1mLJxREAy51
+         u7Mg==
+X-Gm-Message-State: AOJu0YxUyipv9v4ijvXr+MMWv3bTw/HxqCvzxzRDM4uyQ06onGqp1kF1
+	if507QlDOAhj7t4DnTSmkO0=
+X-Google-Smtp-Source: AGHT+IG2wf6mgobZ2IOixaCTrcl3zW9YZbaOfG0cI8m3grNo8XccXE19/FQlBmnU1OO4gAk3FQ/gRg==
+X-Received: by 2002:a05:6602:54:b0:783:4bc6:636e with SMTP id z20-20020a056602005400b007834bc6636emr11401205ioz.21.1696709168170;
+        Sat, 07 Oct 2023 13:06:08 -0700 (PDT)
+Received: from mail.marliere.net ([24.199.118.162])
+        by smtp.gmail.com with ESMTPSA id gj12-20020a0566386a0c00b0043193e32c78sm1106734jab.152.2023.10.07.13.06.07
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 06 Oct 2023 12:05:40 -0700 (PDT)
-Date: Fri, 6 Oct 2023 21:05:39 +0200
-From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [PATCH 10/10] staging: rtl8192e: Remove unused file rtllib_debug.h
-Message-ID: <b7b61bd068e8090b954e3c025bc724d9e85fc568.1696548527.git.philipp.g.hortmann@gmail.com>
-References: <cover.1696548527.git.philipp.g.hortmann@gmail.com>
+        Sat, 07 Oct 2023 13:06:07 -0700 (PDT)
+From: "Ricardo B. Marliere" <ricardo@marliere.net>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=marliere.net;
+	s=2023; t=1696709166;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=zNlD1s/5Qv8LvOzp0cT+qMBzDmfWHxl8/xBRMHgFQGc=;
+	b=nkSQrXCY5vVbqS6btuYu/JipccFgDJ7nsyFtTYPE0Ffxa7OF5HPKZO91zA3DcU6yWTiHPv
+	Nr+KtmGt56HhXXRizuDQxOzfVNGguPFskpIeZzh6ZnpanJZ1twbWz2DQXa6Pl8KwqNtlGA
+	AYsRDqMY7JOvTOm6SQOGF4bmtFGjZFBqtcnxUGZ7ybPcwI/4b2TtCrW8+gDQDlY8WdzNxW
+	30w5/AdtEpNe1wFw9MYy9pGPNb3HM69K2BVXDqXKOvgHSOHkYTQ8PMxyAriBatLtfJxqtd
+	idiCs7KvGnX6GNrMz8eSJ8C8vD9nJ7pJ/idgkOeTGdXWzdSjovyGTxd4XbgwLQ==
+Authentication-Results: ORIGINATING;
+	auth=pass smtp.auth=ricardo@marliere.net smtp.mailfrom=ricardo@marliere.net
+To: Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Bingbu Cao <bingbu.cao@intel.com>,
+	Tianshu Qiu <tian.shu.qiu@intel.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Tomasz Figa <tfiga@chromium.org>,
+	Yong Zhi <yong.zhi@intel.com>
+Cc: linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	linux-kernel-mentees@lists.linuxfoundation.org,
+	"Ricardo B. Marliere" <ricardo@marliere.net>
+Subject: [PATCH] staging: media: ipu3: remove ftrace-like logging
+Date: Sat,  7 Oct 2023 17:05:42 -0300
+Message-Id: <20231007200541.126325-1-ricardo@marliere.net>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <cover.1696548527.git.philipp.g.hortmann@gmail.com>
+Content-Transfer-Encoding: 8bit
 
-Remove #define DRV_NAME "rtllib_92e" as it is already set. Remove enum
-RTL_DEBUG as it is unused. Remove #include <linux/bits.h> as it is unused.
+This patch fixes the following checkpatch.pl warnings in ipu3.c:
 
-Signed-off-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+WARNING: Unnecessary ftrace-like logging - prefer using ftrace
++       dev_dbg(dev, "enter %s\n", __func__);
+
+WARNING: Unnecessary ftrace-like logging - prefer using ftrace
++       dev_dbg(dev, "leave %s\n", __func__);
+
+WARNING: Unnecessary ftrace-like logging - prefer using ftrace
++       dev_dbg(dev, "enter %s\n", __func__);
+
+WARNING: Unnecessary ftrace-like logging - prefer using ftrace
++       dev_dbg(dev, "leave %s\n", __func__);
+
+Fixes: 7fc7af649ca7 ("media: staging/intel-ipu3: Add imgu top level pci device driver")
+Signed-off-by: Ricardo B. Marliere <ricardo@marliere.net>
 ---
- drivers/staging/rtl8192e/rtllib.h       |  1 -
- drivers/staging/rtl8192e/rtllib_debug.h | 47 -------------------------
- 2 files changed, 48 deletions(-)
- delete mode 100644 drivers/staging/rtl8192e/rtllib_debug.h
+ drivers/staging/media/ipu3/ipu3.c | 6 ------
+ 1 file changed, 6 deletions(-)
 
-diff --git a/drivers/staging/rtl8192e/rtllib.h b/drivers/staging/rtl8192e/rtllib.h
-index 2f968c3c0229..b12a39ecdd9d 100644
---- a/drivers/staging/rtl8192e/rtllib.h
-+++ b/drivers/staging/rtl8192e/rtllib.h
-@@ -31,7 +31,6 @@
- #include <linux/delay.h>
- #include <linux/wireless.h>
+diff --git a/drivers/staging/media/ipu3/ipu3.c b/drivers/staging/media/ipu3/ipu3.c
+index 0c453b37f8c4..18ca22c3018a 100644
+--- a/drivers/staging/media/ipu3/ipu3.c
++++ b/drivers/staging/media/ipu3/ipu3.c
+@@ -762,7 +762,6 @@ static int __maybe_unused imgu_suspend(struct device *dev)
+ 	struct pci_dev *pci_dev = to_pci_dev(dev);
+ 	struct imgu_device *imgu = pci_get_drvdata(pci_dev);
  
--#include "rtllib_debug.h"
- #include "rtl819x_HT.h"
- #include "rtl819x_BA.h"
- #include "rtl819x_TS.h"
-diff --git a/drivers/staging/rtl8192e/rtllib_debug.h b/drivers/staging/rtl8192e/rtllib_debug.h
-deleted file mode 100644
-index 06adfebd7c89..000000000000
---- a/drivers/staging/rtl8192e/rtllib_debug.h
-+++ /dev/null
-@@ -1,47 +0,0 @@
--/* SPDX-License-Identifier: GPL-2.0 */
--/*
-- * Copyright(c) 2008 - 2010 Realtek Corporation. All rights reserved.
-- *
-- * Contact Information: wlanfae <wlanfae@realtek.com>
-- */
--#ifndef _RTL_DEBUG_H
--#define _RTL_DEBUG_H
+-	dev_dbg(dev, "enter %s\n", __func__);
+ 	imgu->suspend_in_stream = imgu_css_is_streaming(&imgu->css);
+ 	if (!imgu->suspend_in_stream)
+ 		goto out;
+@@ -783,7 +782,6 @@ static int __maybe_unused imgu_suspend(struct device *dev)
+ 	imgu_powerdown(imgu);
+ 	pm_runtime_force_suspend(dev);
+ out:
+-	dev_dbg(dev, "leave %s\n", __func__);
+ 	return 0;
+ }
+ 
+@@ -793,8 +791,6 @@ static int __maybe_unused imgu_resume(struct device *dev)
+ 	int r = 0;
+ 	unsigned int pipe;
+ 
+-	dev_dbg(dev, "enter %s\n", __func__);
 -
--#include <linux/bits.h>
+ 	if (!imgu->suspend_in_stream)
+ 		goto out;
+ 
+@@ -821,8 +817,6 @@ static int __maybe_unused imgu_resume(struct device *dev)
+ 	}
+ 
+ out:
+-	dev_dbg(dev, "leave %s\n", __func__);
 -
--/* Allow files to override DRV_NAME */
--#ifndef DRV_NAME
--#define DRV_NAME "rtllib_92e"
--#endif
--
--/* These are the defines for rt_global_debug_component */
--enum RTL_DEBUG {
--	COMP_TRACE		= BIT(0),
--	COMP_DBG		= BIT(1),
--	COMP_INIT		= BIT(2),
--	COMP_RECV		= BIT(3),
--	COMP_POWER		= BIT(6),
--	COMP_SWBW		= BIT(8),
--	COMP_SEC		= BIT(9),
--	COMP_LPS		= BIT(10),
--	COMP_QOS		= BIT(11),
--	COMP_RATE		= BIT(12),
--	COMP_RXDESC		= BIT(13),
--	COMP_PHY		= BIT(14),
--	COMP_DIG		= BIT(15),
--	COMP_TXAGC		= BIT(16),
--	COMP_HALDM		= BIT(17),
--	COMP_POWER_TRACKING	= BIT(18),
--	COMP_CH			= BIT(19),
--	COMP_RF			= BIT(20),
--	COMP_FIRMWARE		= BIT(21),
--	COMP_RESET		= BIT(23),
--	COMP_CMDPKT		= BIT(24),
--	COMP_SCAN		= BIT(25),
--	COMP_PS			= BIT(26),
--	COMP_DOWN		= BIT(27),
--	COMP_INTR		= BIT(28),
--	COMP_ERR		= BIT(31)
--};
--
--#endif
+ 	return r;
+ }
+ 
 -- 
-2.42.0
+2.40.1
 
