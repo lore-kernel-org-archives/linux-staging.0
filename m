@@ -1,83 +1,100 @@
-Received: from mail-yw1-f174.google.com (mail-yw1-f174.google.com [209.85.128.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from ex01.ufhost.com (ex01.ufhost.com [61.152.239.75])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B4D515B1
-	for <linux-staging@lists.linux.dev>; Sun,  8 Oct 2023 02:13:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Iwk6KQNh"
-Received: by mail-yw1-f174.google.com with SMTP id 00721157ae682-59f6e6b206fso42638087b3.3
-        for <linux-staging@lists.linux.dev>; Sat, 07 Oct 2023 19:13:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1696731214; x=1697336014; darn=lists.linux.dev;
-        h=content-transfer-encoding:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=1G3HEwMN8wJykQ1F/Gq5CdsdfPgK1Mar6fjfy0CS0bo=;
-        b=Iwk6KQNhHCIY9h0FHieREpxqRTHEGkWF08OJfJghRCS1XF9IDhnbxMNrgkqALWMUFv
-         xhorbPLSP7JocJZilPO2/P1ZQ5cwwenbwpk0/oQzN9p6bYmjkSr+wWxumcc0kNhQWBU8
-         xdbhn8pN9qm4vBSN5boeZW169p2dC6sNnIh7N7faDv4TR+I2cN2XLPy4E+xb4zT+qu14
-         sVWaQ2VciXNP2mr4MZR18SBHR1/6UICeY2AL6ser8QFN/QgxrCfbFoK7TW+oKmVeqjHA
-         q+yP6axgFnpa3+DM5ed0c0upa2KZdrvqnVGAEkxhgLRJVBCp2kL0kj0wnDGEGnjTPHBo
-         bZDQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696731214; x=1697336014;
-        h=content-transfer-encoding:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=1G3HEwMN8wJykQ1F/Gq5CdsdfPgK1Mar6fjfy0CS0bo=;
-        b=c/rzfSeCzeV+g4Lh7SsRRRJcwT5VPmpX63bgyTia+0XKut+Y1e+X2D309mF2Sr8KTZ
-         qEE625RFhOpJXa40o8HEFkbz/wa1jaU9A0aia8E8u7mybF1oWjNkJePpWD+glkTuovqA
-         v+kcuJ+Ky8ZCb5xAr3pRZRMEDzNZudQMTgyGt+kKFtnsba78azEuufztKcXdIRjgCkRE
-         vENLfe6f7UWR2x3yJznKQGWunUSI01+10V5LgCoj6gW/TbKsid08pXBlOMNdRaZrQMt3
-         QAaIZkooEMHFf51a0T138vmufPtAAE7BWXmJdHh6P81OQ1MtyucHrkfJwnNdowii+rJx
-         z/fQ==
-X-Gm-Message-State: AOJu0YzHmA6jtfGCZbwH9uESRXsFTvueFJQ1vQbdz1lMdXKVEX0zZcMe
-	sV0ePtNKRVNcbuDyx/S4NlVrl3sDnKFl0eEb3a4=
-X-Google-Smtp-Source: AGHT+IGfEU0gfelgssEBProloBp/sg8LqhxAolgQa0d+cuONC3lsnnQqBsCbP3I8P8eFY/e8UBkhn+Jn/6SOi5w5YD8=
-X-Received: by 2002:a81:dd0d:0:b0:59b:ec85:54ee with SMTP id
- e13-20020a81dd0d000000b0059bec8554eemr13452442ywn.39.1696731214106; Sat, 07
- Oct 2023 19:13:34 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 200368BE7
+	for <linux-staging@lists.linux.dev>; Sun,  8 Oct 2023 08:52:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=starfivetech.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=starfivetech.com
+Authentication-Results: smtp.subspace.kernel.org; dkim=none
+Received: from EXMBX165.cuchost.com (unknown [175.102.18.54])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(Client CN "EXMBX165", Issuer "EXMBX165" (not verified))
+	by ex01.ufhost.com (Postfix) with ESMTP id 896A824E2C7;
+	Sun,  8 Oct 2023 16:52:03 +0800 (CST)
+Received: from EXMBX073.cuchost.com (172.16.6.83) by EXMBX165.cuchost.com
+ (172.16.6.75) with Microsoft SMTP Server (TLS) id 15.0.1497.42; Sun, 8 Oct
+ 2023 16:52:01 +0800
+Received: from xiaofei.localdomain (180.164.60.184) by EXMBX073.cuchost.com
+ (172.16.6.83) with Microsoft SMTP Server (TLS) id 15.0.1497.42; Sun, 8 Oct
+ 2023 16:52:00 +0800
+From: Jack Zhu <jack.zhu@starfivetech.com>
+To: Mauro Carvalho Chehab <mchehab@kernel.org>, Robert Foss
+	<rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>,
+	<bryan.odonoghue@linaro.org>, Rob Herring <robh+dt@kernel.org>, "Krzysztof
+ Kozlowski" <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley
+	<conor+dt@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Philipp Zabel <p.zabel@pengutronix.de>, Laurent Pinchart
+	<laurent.pinchart@ideasonboard.com>, Hans Verkuil <hverkuil-cisco@xs4all.nl>
+CC: <linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<devicetree@vger.kernel.org>, <linux-staging@lists.linux.dev>,
+	<jack.zhu@starfivetech.com>, <changhuang.liang@starfivetech.com>
+Subject: [PATCH v10 7/8] media: staging: media: starfive: camss: Add interrupt handling
+Date: Sun, 8 Oct 2023 16:51:53 +0800
+Message-ID: <20231008085154.6757-8-jack.zhu@starfivetech.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20231008085154.6757-1-jack.zhu@starfivetech.com>
+References: <20231008085154.6757-1-jack.zhu@starfivetech.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <cover.1696729776.git.opensource206@gmail.com>
-In-Reply-To: <cover.1696729776.git.opensource206@gmail.com>
-From: opensource india <opensource206@gmail.com>
-Date: Sun, 8 Oct 2023 07:43:21 +0530
-Message-ID: <CAKPKb8-rhLt3u2-8utmPLqSkLHQ0mMoP3MaHN6GSYGCsCF4bkQ@mail.gmail.com>
-Subject: Re: [PATCH
-To: Pavan Bobba <pavanbobba206@gmail.com>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-staging@lists.linux.dev, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain
+X-Originating-IP: [180.164.60.184]
+X-ClientProxiedBy: EXCAS062.cuchost.com (172.16.6.22) To EXMBX073.cuchost.com
+ (172.16.6.83)
+X-YovoleRuleAgent: yovoleflag
 Content-Transfer-Encoding: quoted-printable
 
-Please ignore all of the below patches. I will send it again. this is
-a test mail i sent to my own id..but by mistake i sent to all of you
+Parse interrupt resources and register interrupt handlers.
 
-On Sun, Oct 8, 2023 at 7:41=E2=80=AFAM Pavan Bobba <opensource206@gmail.com=
-> wrote:
->
-> *** BLURB HERE ***
->
-> Pavan Bobba (3):
->   staging: vt6655: Type encoding info dropped from array name "abyBBVGA"
->   staging: vt6655: Type encoding info dropped from variable name
->     "byBBVGACurrent"
->   staging: vt6655: Type encoding info dropped from variable name
->     "byBBVGANew"
->
->  drivers/staging/vt6655/baseband.c    | 40 ++++++++++++++--------------
->  drivers/staging/vt6655/channel.c     |  6 ++---
->  drivers/staging/vt6655/device.h      |  6 ++---
->  drivers/staging/vt6655/device_main.c | 24 ++++++++---------
->  4 files changed, 38 insertions(+), 38 deletions(-)
->
-> --
-> 2.34.1
->
+Signed-off-by: Jack Zhu <jack.zhu@starfivetech.com>
+---
+ .../staging/media/starfive/camss/stf-camss.c  | 21 +++++++++++++++++++
+ 1 file changed, 21 insertions(+)
+
+diff --git a/drivers/staging/media/starfive/camss/stf-camss.c b/drivers/s=
+taging/media/starfive/camss/stf-camss.c
+index f083bc0e6e97..373467322885 100644
+--- a/drivers/staging/media/starfive/camss/stf-camss.c
++++ b/drivers/staging/media/starfive/camss/stf-camss.c
+@@ -35,6 +35,12 @@ static const char * const stfcamss_resets[] =3D {
+ 	"rst_isp_top_axi",
+ };
+=20
++static const struct stf_isr_data stf_isrs[] =3D {
++	{"wr_irq", stf_wr_irq_handler},
++	{"isp_irq", stf_isp_irq_handler},
++	{"line_irq", stf_line_irq_handler},
++};
++
+ static int stfcamss_get_mem_res(struct stfcamss *stfcamss)
+ {
+ 	struct platform_device *pdev =3D to_platform_device(stfcamss->dev);
+@@ -160,6 +166,21 @@ static int stfcamss_probe(struct platform_device *pd=
+ev)
+=20
+ 	stfcamss->dev =3D dev;
+=20
++	for (i =3D 0; i < ARRAY_SIZE(stf_isrs); ++i) {
++		int irq;
++
++		irq =3D platform_get_irq(pdev, i);
++		if (irq < 0)
++			return irq;
++
++		ret =3D devm_request_irq(stfcamss->dev, irq, stf_isrs[i].isr, 0,
++				       stf_isrs[i].name, stfcamss);
++		if (ret) {
++			dev_err(dev, "request irq failed: %d\n", ret);
++			return ret;
++		}
++	}
++
+ 	stfcamss->nclks =3D ARRAY_SIZE(stfcamss->sys_clk);
+ 	for (i =3D 0; i < stfcamss->nclks; ++i)
+ 		stfcamss->sys_clk[i].id =3D stfcamss_clocks[i];
+--=20
+2.34.1
+
