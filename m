@@ -1,91 +1,77 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from out162-62-58-216.mail.qq.com (out162-62-58-216.mail.qq.com [162.62.58.216])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 598BD199B1;
-	Mon,  9 Oct 2023 13:17:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5950018043
+	for <linux-staging@lists.linux.dev>; Mon,  9 Oct 2023 14:20:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qq.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IUk7j7g8"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 25774C433C7;
-	Mon,  9 Oct 2023 13:17:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1696857443;
-	bh=fb9+S+IdbqXmmVRZq9TTSPJ4lFpZS+G3qg2LrBeKI90=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=IUk7j7g8cl6hCmae1KMe30hi13L17mfcIS9n6OseiyZ7CxMUtL+E645vsFKUsr8Be
-	 cLyzMwOsvtEIHwZkfLsK2ADlxSNMF8dI0Yi/90po45aTe3Qi1762zcaVmZzLPdg+Cj
-	 IBEQ9zNXeCIQCXJco201EXDXx+L/Y26We6Ch0JYlKfitDaHKZu/RQ/C3AL9XqVr2+8
-	 C6RHCjqVCxyLoDfAP3ZqsjtBXvGgCxLKP0VU0jaT3SgJRDWZ1ppdUJwx+uNrl4dcO2
-	 UJJV5ncECfeKdvVF7PxsJP4gYiefZ3x40jPvDjGWrNJ3u0Jd4WH8/fCwC/eE+xjqiq
-	 PJbnfcKFMKgFQ==
-Date: Mon, 9 Oct 2023 15:17:18 +0200
-From: Simon Horman <horms@kernel.org>
-To: Ricardo Lopes <ricardoapl.dev@gmail.com>
-Cc: manishc@marvell.com, GR-Linux-NIC-Dev@marvell.com, coiby.xu@gmail.com,
-	gregkh@linuxfoundation.org, netdev@vger.kernel.org,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Kees Cook <keescook@chromium.org>
-Subject: Re: [PATCH v2] staging: qlge: Replace strncpy with strscpy
-Message-ID: <ZSP9XspeNznHzlA6@kernel.org>
-References: <20231006161240.28048-1-ricardoapl.dev@gmail.com>
+	dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b="FdcGx4u1"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
+	t=1696861185; bh=1EZti6Xmzz7btzZw1U07lpCENF7oZENG+QoX/D1H/bY=;
+	h=From:To:Cc:Subject:Date;
+	b=FdcGx4u1T4CCiCiPWzEBr3VluvXH2Y6tD5PaalWQbs/gJOcT2cxkDBwQigCTpauBH
+	 N2plnx/0aQ68d1EBtKnbs0pWsHV1cDBh5ByDZq1F3TYipDrsouAZ9b/sqpaV6D9oLk
+	 4JuNGl2zrV0mPkCoqCSKLSJiNqLTa8AZk3DfOUp8=
+Received: from pipishuo-VirtualBox.. ([123.115.145.13])
+	by newxmesmtplogicsvrsza12-0.qq.com (NewEsmtp) with SMTP
+	id 4EB9966C; Mon, 09 Oct 2023 22:19:43 +0800
+X-QQ-mid: xmsmtpt1696861183t659x4pxw
+Message-ID: <tencent_2E8EE168437721028C6DAB5A25532F8E8D08@qq.com>
+X-QQ-XMAILINFO: NkHKfw09D6j8zIJ+4HCIaVfoBSan7nXJg8h3tbzM+NY9/+6ou17V04crVt7C4S
+	 dRrARapBOviEjUvXjfqaHrgsw8QHhvmXvDpiQQcUV8LlAvMDRJ+cR2IfAK4/z6toQkNXB2wetr2a
+	 zjFIPee3u6UapUNMVJOHFmJNokwDnSbFmNMWz7ypGGSg7WSaYENEQHDf9VqdhTxsf2SR2JSkE/gu
+	 Wa1CkwN6Eq9+TkV1oeCAIhb04HimoCS4+iBnhtixp0h271HSfWVEF9+5SRu9djWZM3hjuMs/oOUE
+	 dzONBA8thEMT7E8Yns1pdLVUKUhK/9jDDLohjhMo57/FI1HAEW9OdQskvB0OKv+3W0O/BjuUXqYX
+	 IyhD7z5IphbrOYOUUbcnGQ56SEI6jgZlpDxOYFYe3RXtrV6HYK9pNckvndirlyeJFEpDlG1YTXsm
+	 R3+EOQWkAzp16HaJ4U6NNIB0gpSL3KruTjrzkz6cCP6zeAETE9dvAZ1BzxvQhSRWV6Ve5PryJUbc
+	 voyfFeb3XornU6s30ibVRSOKVToSkK9uKhISM21oVoPUfEn9lstytN4QKOzO0oMpXa630GVcLrQx
+	 pSy561SFZx4pSaLBKuK3iWJHwxb8sUwbaoeFlAhPyQO+qXSTj0Aq+o47kKqgnEXjsi4pZuAqw5HY
+	 iPC0B7AqBZlGMePgIFkaUHYgXkM+jXAwOO21wBVsrFrPxlxoD3WNBL/pq2y+7/2Cscjf/VYgX5x2
+	 99mNPJgLuV4JCqSaBrL2g4kD6ozY4LvBSM86wHNUN/RnI6j+/cVHS/1OuySV/zBwvgLc4OxG1ZqN
+	 Z5WlmXLIcDc0LNfBPz4WNOjOWfWzo57I50ImuAMZASeSh6Pufc7zz+19ml0PgKshnbxF1ouaKuKR
+	 qutCCdNgPICrygAKR9p9jNGkHV2NnrW044blrFcZVNUlB5kwP+xYxf09faD3DOY7M4JcWu2yPCo/
+	 f6JCrq49Btzo7OxyzeZX1NbQBiSyqjXtkc6S8E8swsl70MxSN1RTulaOM7Q6XQtHHzSjaYNevMgt
+	 kr/o2xF78F7q4fnDiwaqlKmWVGz/hWRBytuAJ5tfx7Z/WMqCup
+X-QQ-XMRINFO: MSVp+SPm3vtS1Vd6Y4Mggwc=
+From: pipishuo <1289151713@qq.com>
+To: linux-staging@lists.linux.dev
+Cc: pipishuo <1289151713@qq.com>
+Subject: [PATCH] tty: gdm724x : Add blank line after variable declarations
+Date: Mon,  9 Oct 2023 22:19:44 +0800
+X-OQ-MSGID: <20231009141944.30988-1-1289151713@qq.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231006161240.28048-1-ricardoapl.dev@gmail.com>
+Content-Transfer-Encoding: 8bit
 
-On Fri, Oct 06, 2023 at 05:12:24PM +0100, Ricardo Lopes wrote:
-> Reported by checkpatch:
-> 
-> WARNING: Prefer strscpy, strscpy_pad, or __nonstring over strncpy
-> 
-> Signed-off-by: Ricardo Lopes <ricardoapl.dev@gmail.com>
-> ---
-> v2: Redo changelog text
+Adhere to Linux Kernel coding style.
 
-Kees,
+Reported by checkpatch
 
-could you find a moment to look over this one?
+WARNING: Missing a blank line after declarations
 
-> 
->  drivers/staging/qlge/qlge_dbg.c | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/staging/qlge/qlge_dbg.c b/drivers/staging/qlge/qlge_dbg.c
-> index c7e865f51..5f08a8492 100644
-> --- a/drivers/staging/qlge/qlge_dbg.c
-> +++ b/drivers/staging/qlge/qlge_dbg.c
-> @@ -696,7 +696,7 @@ static void qlge_build_coredump_seg_header(struct mpi_coredump_segment_header *s
->  	seg_hdr->cookie = MPI_COREDUMP_COOKIE;
->  	seg_hdr->seg_num = seg_number;
->  	seg_hdr->seg_size = seg_size;
-> -	strncpy(seg_hdr->description, desc, (sizeof(seg_hdr->description)) - 1);
-> +	strscpy(seg_hdr->description, desc, sizeof(seg_hdr->description));
->  }
->  
->  /*
-> @@ -737,7 +737,7 @@ int qlge_core_dump(struct qlge_adapter *qdev, struct qlge_mpi_coredump *mpi_core
->  		sizeof(struct mpi_coredump_global_header);
->  	mpi_coredump->mpi_global_header.image_size =
->  		sizeof(struct qlge_mpi_coredump);
-> -	strncpy(mpi_coredump->mpi_global_header.id_string, "MPI Coredump",
-> +	strscpy(mpi_coredump->mpi_global_header.id_string, "MPI Coredump",
->  		sizeof(mpi_coredump->mpi_global_header.id_string));
->  
->  	/* Get generic NIC reg dump */
-> @@ -1225,7 +1225,7 @@ static void qlge_gen_reg_dump(struct qlge_adapter *qdev,
->  		sizeof(struct mpi_coredump_global_header);
->  	mpi_coredump->mpi_global_header.image_size =
->  		sizeof(struct qlge_reg_dump);
-> -	strncpy(mpi_coredump->mpi_global_header.id_string, "MPI Coredump",
-> +	strscpy(mpi_coredump->mpi_global_header.id_string, "MPI Coredump",
->  		sizeof(mpi_coredump->mpi_global_header.id_string));
->  
->  	/* segment 16 */
-> -- 
-> 2.41.0
-> 
-> 
+Signed-off-by: pipishuo <1289151713@qq.com>
+---
+ drivers/staging/gdm724x/gdm_tty.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/drivers/staging/gdm724x/gdm_tty.c b/drivers/staging/gdm724x/gdm_tty.c
+index 32b2e817ff04..15c246d3b1a3 100644
+--- a/drivers/staging/gdm724x/gdm_tty.c
++++ b/drivers/staging/gdm724x/gdm_tty.c
+@@ -160,6 +160,7 @@ static ssize_t gdm_tty_write(struct tty_struct *tty, const u8 *buf, size_t len)
+ 
+ 	while (remain) {
+ 		size_t sending_len = min_t(size_t, MUX_TX_MAX_SIZE, remain);
++
+ 		gdm->tty_dev->send_func(gdm->tty_dev->priv_dev,
+ 					(void *)(buf + sent_len),
+ 					sending_len,
+-- 
+2.34.1
+
