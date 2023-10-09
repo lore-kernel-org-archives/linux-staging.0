@@ -1,157 +1,167 @@
-Received: from mail-yb1-f178.google.com (mail-yb1-f178.google.com [209.85.219.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3879DFBF5
-	for <linux-staging@lists.linux.dev>; Sun,  8 Oct 2023 19:02:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A6FEAD4F
+	for <linux-staging@lists.linux.dev>; Mon,  9 Oct 2023 04:26:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IjNlmJdj"
-Received: by mail-yb1-f178.google.com with SMTP id 3f1490d57ef6-d81afd5273eso4025865276.3
-        for <linux-staging@lists.linux.dev>; Sun, 08 Oct 2023 12:02:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1696791732; x=1697396532; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=6YMBpvB4vbL5Efat4/kh1MV0BaPqzgW8QeCF16EFudw=;
-        b=IjNlmJdjZCIRJCC5AlKHvEvD0WlPhzu4vmtij/3kcKk4f6z79ppAOltakO+RB1bMRF
-         z3/8G0hp2iZS8Mnl915pc+ITNowrFyov/rQbywJGIr+uCC0dLQpgOcFypsXrgUDvrQMo
-         iAmNGgibHxxdXpNS/tzoLCFBmiQU5vXylnhIKdQxc36IuOFnKbhg5UGKbXfZAjLijqCG
-         9L2dJA7IyB4T6wkS6OhEKFVJdxOE7DrIxfxGTsQi3Yd9EGklAUNzh2BNXvulwE8oEegn
-         lWVyAxBTYM1IXAP3DRkdTinSxGBxqaNS2b69V4EU3yQQaHreaEyQ/lAdYW2WEZ/jgQW2
-         Oj6g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696791732; x=1697396532;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=6YMBpvB4vbL5Efat4/kh1MV0BaPqzgW8QeCF16EFudw=;
-        b=ZVxdwTkI0HHyu4PDd/Un9WSpv/4KKqMqkL3wI+tLodZpygJPuPJxU4T9Z5V/TtbLgM
-         ot/eUGiEGmOkivjXcvtVd5AJcGVuHWgn5jLGTmOeUCDS7JXte8O7hSYnVD+IQh9xcKxo
-         ylwX40uk166OdLK59Dx5OtebeH4HqDr1hazkiO5bCP15F2EFMQWmJFlsQcF2F2I95QPm
-         GTF/1zGeNtZoIP8McZPnhDEIHFGgfnDnApxGAXtRUKwHzmHbBcHsQkxJwZW3de+zCiZU
-         VtV+45MfW+w/fCk9UgqPmStz1v85rDdF+2ygtKv/mQHK7FZnEpxpGB73TRFaPWL7x8i8
-         KVIg==
-X-Gm-Message-State: AOJu0YzB+tHCHv2t2CONgPsYQ7JFn9xibGeX2HYKrROXWIKe+9O53WKl
-	FEKmDPlsQwAHl6xR+dTHQg4=
-X-Google-Smtp-Source: AGHT+IHE69JZuGq9AhxumHwdA7Dhq3dH9ML6x62VYVOQ2H8HYtcZr1l+VE0dqLjwoxDFfDhibd4q/w==
-X-Received: by 2002:a25:f309:0:b0:d81:5240:679f with SMTP id c9-20020a25f309000000b00d815240679fmr10666287ybs.16.1696791732109;
-        Sun, 08 Oct 2023 12:02:12 -0700 (PDT)
-Received: from ubuntu.. ([223.178.246.252])
-        by smtp.gmail.com with ESMTPSA id g12-20020a63be4c000000b00577e62e13c5sm6018165pgo.32.2023.10.08.12.02.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 08 Oct 2023 12:02:11 -0700 (PDT)
-From: Pavan Bobba <opensource206@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Cc: Pavan Bobba <opensource206@gmail.com>
-Subject: [PATCH v5 3/3] staging: vt6655: Type encoding info dropped from variable name "byBBVGANew"
-Date: Mon,  9 Oct 2023 00:31:50 +0530
-Message-Id: <abb105b822090a82ef081b2e28705bf14b8ce058.1696791459.git.opensource206@gmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <cover.1696791459.git.opensource206@gmail.com>
-References: <cover.1696791459.git.opensource206@gmail.com>
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="p9OxtqUN"
+Received: from [IPV6:2405:201:2033:3002:3848:5d20:59c9:c87c] (unknown [IPv6:2405:201:2033:3002:3848:5d20:59c9:c87c])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 0A0DA7E2;
+	Mon,  9 Oct 2023 06:20:32 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1696825236;
+	bh=URhdcf9Gev8qtsp31WCRgvQgEzVy8RKTsFfQJTfBblg=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=p9OxtqUNtk6NQli6LyOoFyESdOPTBihJcA/g6nYcyuf5AjldlzXNZoKAhtiI9gJ5O
+	 L5YwdGT+SX39SWzfOITTp7nmk/AOhMVNS4HWfzWvy4z6sc781f95RlCwoBGYkyKeAO
+	 z8wjeXKFPVT7qDNhXTm/gle5ij1kQa9CcDnxy7zE=
+Message-ID: <ca3ec33e-4e42-9bce-eb24-99df0e39473e@ideasonboard.com>
+Date: Mon, 9 Oct 2023 09:50:29 +0530
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [PATCH v12 5/6] staging: bcm2835-camera: Register bcm2835-camera
+ with vchiq_bus_type
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+ linux-rpi-kernel@lists.infradead.org, linux-media@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Stefan Wahren <stefan.wahren@i2se.com>,
+ Florian Fainelli <f.fainelli@gmail.com>, Adrien Thierry
+ <athierry@redhat.com>, Dan Carpenter <error27@gmail.com>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ Kieran Bingham <kieran.bingham@ideasonboard.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+References: <20230923143200.268063-1-umang.jain@ideasonboard.com>
+ <20230923143200.268063-6-umang.jain@ideasonboard.com>
+ <2023100542-gluten-rally-5a96@gregkh>
+Content-Language: en-US
+From: Umang Jain <umang.jain@ideasonboard.com>
+In-Reply-To: <2023100542-gluten-rally-5a96@gregkh>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-variable name "byBBVGANew" updated like below:
+Hi Greg,
 
-a.type encoding info dropped from name
-b.camelcase name replaced by snakecase
+Sorry for late reply, as I was traveling and then was on vacation for 
+rest of the week.
 
-Issue found by checkpatch
+On 10/5/23 1:34 PM, Greg Kroah-Hartman wrote:
+> On Sat, Sep 23, 2023 at 08:01:59PM +0530, Umang Jain wrote:
+>> Register the bcm2835-camera with the vchiq_bus_type instead of using
+>> platform driver/device.
+>>
+>> Since we moved away bcm2835-camera from platform driver/device,
+>> we have to set the DMA mask explicitly. Set the DMA mask at probe
+>> time.
+>>
+>> Also the VCHIQ firmware doesn't support device enumeration, hence
+>> one has to maintain a list of devices to be registered in the interface.
+>>
+>> Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
+>> ---
+>>   .../bcm2835-camera/bcm2835-camera.c           | 21 ++++++++++---------
+>>   .../interface/vchiq_arm/vchiq_arm.c           | 11 +++++++---
+>>   2 files changed, 19 insertions(+), 13 deletions(-)
+>>
+>> diff --git a/drivers/staging/vc04_services/bcm2835-camera/bcm2835-camera.c b/drivers/staging/vc04_services/bcm2835-camera/bcm2835-camera.c
+>> index fcad5118f3e8..c873eace1437 100644
+>> --- a/drivers/staging/vc04_services/bcm2835-camera/bcm2835-camera.c
+>> +++ b/drivers/staging/vc04_services/bcm2835-camera/bcm2835-camera.c
+>> @@ -11,6 +11,7 @@
+>>    *          Luke Diamand @ Broadcom
+>>    */
+>>   
+>> +#include <linux/dma-mapping.h>
+>>   #include <linux/errno.h>
+>>   #include <linux/kernel.h>
+>>   #include <linux/module.h>
+>> @@ -24,8 +25,8 @@
+>>   #include <media/v4l2-event.h>
+>>   #include <media/v4l2-common.h>
+>>   #include <linux/delay.h>
+>> -#include <linux/platform_device.h>
+>>   
+>> +#include "../interface/vchiq_arm/vchiq_bus.h"
+>>   #include "../vchiq-mmal/mmal-common.h"
+>>   #include "../vchiq-mmal/mmal-encodings.h"
+>>   #include "../vchiq-mmal/mmal-vchiq.h"
+>> @@ -1841,7 +1842,7 @@ static struct v4l2_format default_v4l2_format = {
+>>   	.fmt.pix.sizeimage = 1024 * 768,
+>>   };
+>>   
+>> -static int bcm2835_mmal_probe(struct platform_device *pdev)
+>> +static int bcm2835_mmal_probe(struct vchiq_device *device)
+>>   {
+>>   	int ret;
+>>   	struct bcm2835_mmal_dev *dev;
+>> @@ -1852,9 +1853,9 @@ static int bcm2835_mmal_probe(struct platform_device *pdev)
+>>   	unsigned int resolutions[MAX_BCM2835_CAMERAS][2];
+>>   	int i;
+>>   
+>> -	ret = dma_set_mask_and_coherent(&pdev->dev, DMA_BIT_MASK(32));
+>> +	ret = dma_set_mask_and_coherent(&device->dev, DMA_BIT_MASK(32));
+>>   	if (ret) {
+>> -		dev_err(&pdev->dev, "dma_set_mask_and_coherent failed: %d\n", ret);
+>> +		dev_err(&device->dev, "dma_set_mask_and_coherent failed: %d\n", ret);
+>>   		return ret;
+>>   	}
+>>   
+>> @@ -1902,7 +1903,7 @@ static int bcm2835_mmal_probe(struct platform_device *pdev)
+>>   						       &camera_instance);
+>>   		ret = v4l2_device_register(NULL, &dev->v4l2_dev);
+>>   		if (ret) {
+>> -			dev_err(&pdev->dev, "%s: could not register V4L2 device: %d\n",
+>> +			dev_err(&device->dev, "%s: could not register V4L2 device: %d\n",
+>>   				__func__, ret);
+>>   			goto free_dev;
+>>   		}
+>> @@ -1982,7 +1983,7 @@ static int bcm2835_mmal_probe(struct platform_device *pdev)
+>>   	return ret;
+>>   }
+>>   
+>> -static void bcm2835_mmal_remove(struct platform_device *pdev)
+>> +static void bcm2835_mmal_remove(struct vchiq_device *device)
+>>   {
+>>   	int camera;
+>>   	struct vchiq_mmal_instance *instance = gdev[0]->instance;
+>> @@ -1994,17 +1995,17 @@ static void bcm2835_mmal_remove(struct platform_device *pdev)
+>>   	vchiq_mmal_finalise(instance);
+>>   }
+>>   
+>> -static struct platform_driver bcm2835_camera_driver = {
+>> +static struct vchiq_driver bcm2835_camera_driver = {
+>>   	.probe		= bcm2835_mmal_probe,
+>> -	.remove_new	= bcm2835_mmal_remove,
+>> +	.remove		= bcm2835_mmal_remove,
+>>   	.driver		= {
+>>   		.name	= "bcm2835-camera",
+>>   	},
+>>   };
+>>   
+>> -module_platform_driver(bcm2835_camera_driver)
+>> +module_vchiq_driver(bcm2835_camera_driver)
+>>   
+>>   MODULE_DESCRIPTION("Broadcom 2835 MMAL video capture");
+>>   MODULE_AUTHOR("Vincent Sanders");
+>>   MODULE_LICENSE("GPL");
+>> -MODULE_ALIAS("platform:bcm2835-camera");
+>> +MODULE_ALIAS("bcm2835-camera");
+> Now that you are on your own bus, why do you need the MODULE_ALIAS()
+> line at all?
 
-Signed-off-by: Pavan Bobba <opensource206@gmail.com>
----
-v1 -> v2 : 1.cover letter added
-           2.patches sent as attachments in a single mail for review
+Because it breaks the module auto-loading support...
 
-v2 -> v3 : patches sending in a single mail intead of attachments
-
-v3 -> v4 : version info updated in patchset subject
-
-v4 -> v5 : sending all patches in a series
-
- drivers/staging/vt6655/device.h      |  2 +-
- drivers/staging/vt6655/device_main.c | 14 +++++++-------
- 2 files changed, 8 insertions(+), 8 deletions(-)
-
-diff --git a/drivers/staging/vt6655/device.h b/drivers/staging/vt6655/device.h
-index 9ae7171d02ee..68bfadacfa7c 100644
---- a/drivers/staging/vt6655/device.h
-+++ b/drivers/staging/vt6655/device.h
-@@ -248,7 +248,7 @@ struct vnt_private {
- 	/* For Update BaseBand VGA Gain Offset */
- 	bool bUpdateBBVGA;
- 	unsigned int	uBBVGADiffCount;
--	unsigned char byBBVGANew;
-+	unsigned char bbvga_new;
- 	unsigned char bbvga_current;
- 	unsigned char bbvga[BB_VGA_LEVEL];
- 	long                    dbm_threshold[BB_VGA_LEVEL];
-diff --git a/drivers/staging/vt6655/device_main.c b/drivers/staging/vt6655/device_main.c
-index 6990129ceb10..b08fcf7e6edc 100644
---- a/drivers/staging/vt6655/device_main.c
-+++ b/drivers/staging/vt6655/device_main.c
-@@ -425,7 +425,7 @@ static void device_init_registers(struct vnt_private *priv)
- 
- 	if (priv->bUpdateBBVGA) {
- 		priv->bbvga_current = priv->bbvga[0];
--		priv->byBBVGANew = priv->bbvga_current;
-+		priv->bbvga_new = priv->bbvga_current;
- 		bb_set_vga_gain_offset(priv, priv->bbvga[0]);
- 	}
- 
-@@ -1053,12 +1053,12 @@ static void vnt_check_bb_vga(struct vnt_private *priv)
- 
- 	for (i = 0; i < BB_VGA_LEVEL; i++) {
- 		if (dbm < priv->dbm_threshold[i]) {
--			priv->byBBVGANew = priv->bbvga[i];
-+			priv->bbvga_new = priv->bbvga[i];
- 			break;
- 		}
- 	}
- 
--	if (priv->byBBVGANew == priv->bbvga_current) {
-+	if (priv->bbvga_new == priv->bbvga_current) {
- 		priv->uBBVGADiffCount = 1;
- 		return;
- 	}
-@@ -1067,11 +1067,11 @@ static void vnt_check_bb_vga(struct vnt_private *priv)
- 
- 	if (priv->uBBVGADiffCount == 1) {
- 		/* first VGA diff gain */
--		bb_set_vga_gain_offset(priv, priv->byBBVGANew);
-+		bb_set_vga_gain_offset(priv, priv->bbvga_new);
- 
- 		dev_dbg(&priv->pcid->dev,
- 			"First RSSI[%d] NewGain[%d] OldGain[%d] Count[%d]\n",
--			(int)dbm, priv->byBBVGANew,
-+			(int)dbm, priv->bbvga_new,
- 			priv->bbvga_current,
- 			(int)priv->uBBVGADiffCount);
- 	}
-@@ -1079,11 +1079,11 @@ static void vnt_check_bb_vga(struct vnt_private *priv)
- 	if (priv->uBBVGADiffCount >= BB_VGA_CHANGE_THRESHOLD) {
- 		dev_dbg(&priv->pcid->dev,
- 			"RSSI[%d] NewGain[%d] OldGain[%d] Count[%d]\n",
--			(int)dbm, priv->byBBVGANew,
-+			(int)dbm, priv->bbvga_new,
- 			priv->bbvga_current,
- 			(int)priv->uBBVGADiffCount);
- 
--		bb_set_vga_gain_offset(priv, priv->byBBVGANew);
-+		bb_set_vga_gain_offset(priv, priv->bbvga_new);
- 	}
- }
- 
--- 
-2.34.1
+If you look at the vchiq_bus patch (3/6) in this series, there is 
+vchiq_bus_uevent() which sends a event that includes the MODALIAS.
+>
+> thanks,
+>
+> greg k-h
 
