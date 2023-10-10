@@ -1,65 +1,68 @@
-Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
+Received: from mail-io1-f42.google.com (mail-io1-f42.google.com [209.85.166.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 746C63FB2B
-	for <linux-staging@lists.linux.dev>; Mon,  9 Oct 2023 23:08:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA4A07F0
+	for <linux-staging@lists.linux.dev>; Tue, 10 Oct 2023 02:01:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ieee.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ieee.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="N11rX6is"
-Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-1c88b467ef8so30090685ad.0
-        for <linux-staging@lists.linux.dev>; Mon, 09 Oct 2023 16:08:57 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=ieee.org header.i=@ieee.org header.b="TQ4GdvRj"
+Received: by mail-io1-f42.google.com with SMTP id ca18e2360f4ac-79faf4210b2so198717439f.2
+        for <linux-staging@lists.linux.dev>; Mon, 09 Oct 2023 19:01:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1696892937; x=1697497737; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=xZEAbTE1jnX14hR8pCQlTibWlz5S6mt8A6dPfKwpsV8=;
-        b=N11rX6issWTASu0Stsrxi7V6bUN462xGqhz3gcYAHM4Edbe/63Tkg3tswF967CaBD5
-         8zINprZIvD+8PFfz2fSZcaDb1P8iTeKGzuwbT6WbRxs2o5LuiG0EbnCboZ/Z1n5HTWp7
-         yaf5+lMnEWP20hNmB/8GpsQElDH/HvDZ/UqbA=
+        d=ieee.org; s=google; t=1696903275; x=1697508075; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=n8W5jicDuFfCto5Rz0a13pdOEWWZtFkes7WHBt5JLjo=;
+        b=TQ4GdvRjfKqSk9fxAyQuX+U/plpUSvAONUp+F65fLP/Ll43P2SoZ5gUbbbirc4exdu
+         Ck2JN7x9ELIyDuJv1lWEnO+aeKCricGV7mQRHdzRs+UHV9eCD2L2etbcQw066RnKdAcI
+         pxyW6QbUSO8KAhn1P1mIJEUum+Fq0FHjxr4hQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696892937; x=1697497737;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=xZEAbTE1jnX14hR8pCQlTibWlz5S6mt8A6dPfKwpsV8=;
-        b=BQzwZUZtHhP4cDckKFlJmvcouIj24VCEljnPVpDPmw134v3tCjhnKhZUPNnmSiUBGl
-         o0dyfvXxtJCrQU5Er/CfDdBtImZ9Ffy4KJSiRnboXxSl4RfeOtHvWYnX4ZU97lVXBhn+
-         B+ekngXh2jMnXj72qhy3AETeFlWtm0G7b9Xufqp39Kg7JO2dMtHgDg0wGxtfRr/QLD4j
-         ikG1+B3IDhAAfHzFMkbIduvcMONXjcvLGkOnAj5rNIGNWn6AkiqYW9BoXOxofDVtPMPu
-         Ekp8grBrwTyYCMbd0rQ1vNSllLN29v6zokqAi/ScR5tz4kyvZe6xIYsiZ2ARCw14TfwP
-         Z8DQ==
-X-Gm-Message-State: AOJu0YwzMLkB/iHxLrMur5tg/wtZD5SlgryPyN1nEwZw16HDFAFruG96
-	2aDaaHa1jXZZEq/nm4E4BiEZNg==
-X-Google-Smtp-Source: AGHT+IE4bNEi4bN0RSOpbI1oO6kddrnbOzEwTunUzAyAEf4FA+FbGaK82D5lHzRVV9vr+ORb3iYMug==
-X-Received: by 2002:a17:902:ec84:b0:1c5:d063:b72a with SMTP id x4-20020a170902ec8400b001c5d063b72amr16810663plg.27.1696892936571;
-        Mon, 09 Oct 2023 16:08:56 -0700 (PDT)
-Received: from www.outflux.net (198-0-35-241-static.hfc.comcastbusiness.net. [198.0.35.241])
-        by smtp.gmail.com with ESMTPSA id bh2-20020a170902a98200b001c43307f87asm10162365plb.91.2023.10.09.16.08.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 09 Oct 2023 16:08:56 -0700 (PDT)
-Date: Mon, 9 Oct 2023 16:08:52 -0700
-From: Kees Cook <keescook@chromium.org>
-To: "Gustavo A. R. Silva" <gustavoars@kernel.org>
-Cc: Johan Hovold <johan@kernel.org>, Alex Elder <elder@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org
-Subject: Re: [PATCH][next] staging: greybus: Add __counted_by for struct
- apr_rx_buf and use struct_size()
-Message-ID: <202310091608.C892CFA@keescook>
-References: <ZSR2O6zGyT/VX6ve@work>
+        d=1e100.net; s=20230601; t=1696903275; x=1697508075;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=n8W5jicDuFfCto5Rz0a13pdOEWWZtFkes7WHBt5JLjo=;
+        b=SqTJ5VmlpXxKKRq6Jx8qRMEJFqtDt57sR9UzLLxTRfpc9qEsE1CcV3KUonJA51YRxO
+         lsk+c6yWlycdBdqJ2qNMa7f/K0Aj59WsoSLJ1VDV5dmG/Bs31qbERn1NXkbiuc5l3V6C
+         7Q5Sova0XRVBdaAyZJPD8/Q5WKmdzL6zNiZbd90nDPv2SWvXYiMh4wOpgIa/0oXyfh2L
+         sOWIiRIIizVyqW9O8pXxmeLySzfsUwmznnwoNPwIDjWXlN/4BtbnQ54hkt2WJuxE24Ev
+         EsEfCNZ9A2if+6SCjh1l+AF+19lmIoanznYcP6gmO/TkBLV1csUPZJYUGUu/9gOgaJsb
+         9Fqw==
+X-Gm-Message-State: AOJu0YxN9slxdNSe2FTfAbkW99XrRDhDR8RiWm50RYRGE5TCR52JpytF
+	/eLQAvw0+IwT6//ZptksKcyRXw==
+X-Google-Smtp-Source: AGHT+IFxEbsxiAkqgad1NR+N5qEc+xJnzBRXuoUOorumGMCjl3dh8xe9qk/x6WqhsQZNVSqcE/TbYw==
+X-Received: by 2002:a05:6e02:1d1a:b0:351:b22:af5c with SMTP id i26-20020a056e021d1a00b003510b22af5cmr19923893ila.32.1696903275665;
+        Mon, 09 Oct 2023 19:01:15 -0700 (PDT)
+Received: from [10.211.55.3] (c-98-61-227-136.hsd1.mn.comcast.net. [98.61.227.136])
+        by smtp.googlemail.com with ESMTPSA id l17-20020a922811000000b003513b7613f3sm3247512ilf.3.2023.10.09.19.01.14
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 09 Oct 2023 19:01:15 -0700 (PDT)
+Message-ID: <42a24a62-8dba-452c-b460-61ee06171d74@ieee.org>
+Date: Mon, 9 Oct 2023 21:01:13 -0500
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH][next] staging: greybus: Add __counted_by for struct
+ apr_rx_buf and use struct_size()
+To: "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+ Johan Hovold <johan@kernel.org>, Alex Elder <elder@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org
+References: <ZSR2O6zGyT/VX6ve@work>
+Content-Language: en-US
+From: Alex Elder <elder@ieee.org>
 In-Reply-To: <ZSR2O6zGyT/VX6ve@work>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Mon, Oct 09, 2023 at 03:52:59PM -0600, Gustavo A. R. Silva wrote:
+On 10/9/23 4:52 PM, Gustavo A. R. Silva wrote:
 > Prepare for the coming implementation by GCC and Clang of the __counted_by
 > attribute. Flexible array members annotated with __counted_by can have
 > their accesses bounds-checked at run-time via CONFIG_UBSAN_BOUNDS (for
@@ -72,12 +75,37 @@ On Mon, Oct 09, 2023 at 03:52:59PM -0600, Gustavo A. R. Silva wrote:
 > 
 > This code was found with the help of Coccinelle, and audited and
 > fixed manually.
+
+Looks good to me, and I like the use of struct_size().
+
+Reviewed-by: Alex Elder <elder@linaro.org>
+
 > 
 > Signed-off-by: Gustavo A. R. Silva <gustavoars@kernel.org>
+> ---
+>   drivers/staging/greybus/raw.c | 4 ++--
+>   1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/staging/greybus/raw.c b/drivers/staging/greybus/raw.c
+> index a00978c8e1d2..b9c6eff7cdc1 100644
+> --- a/drivers/staging/greybus/raw.c
+> +++ b/drivers/staging/greybus/raw.c
+> @@ -29,7 +29,7 @@ struct gb_raw {
+>   struct raw_data {
+>   	struct list_head entry;
+>   	u32 len;
+> -	u8 data[];
+> +	u8 data[] __counted_by(len);
+>   };
+>   
+>   static const struct class raw_class = {
+> @@ -73,7 +73,7 @@ static int receive_data(struct gb_raw *raw, u32 len, u8 *data)
+>   		goto exit;
+>   	}
+>   
+> -	raw_data = kmalloc(sizeof(*raw_data) + len, GFP_KERNEL);
+> +	raw_data = kmalloc(struct_size(raw_data, data, len), GFP_KERNEL);
+>   	if (!raw_data) {
+>   		retval = -ENOMEM;
+>   		goto exit;
 
-Looks right, "len" is updated before accessing "data[]".
-
-Reviewed-by: Kees Cook <keescook@chromium.org>
-
--- 
-Kees Cook
