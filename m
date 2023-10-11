@@ -1,123 +1,170 @@
-Received: from out2-smtp.messagingengine.com (out2-smtp.messagingengine.com [66.111.4.26])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82DCF1A704
-	for <linux-staging@lists.linux.dev>; Wed, 11 Oct 2023 09:01:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=arndb.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="cGAQWZnu";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="mkiW3Emb"
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-	by mailout.nyi.internal (Postfix) with ESMTP id 74E315C0286;
-	Wed, 11 Oct 2023 05:01:47 -0400 (EDT)
-Received: from imap51 ([10.202.2.101])
-  by compute5.internal (MEProxy); Wed, 11 Oct 2023 05:01:47 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
-	:cc:content-type:content-type:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:sender
-	:subject:subject:to:to; s=fm2; t=1697014907; x=1697101307; bh=DE
-	xhJxe6pAvV5eiD/1fwWplvOVteEj7vs73QB2WI/+8=; b=cGAQWZnu0g1DKpMsdQ
-	nwOEGFS/BLPM92HbcGgu7MQ9JHtP6bD0YjbJ+0sKHLKR5nnPPTQMEZFeaJtqSfTT
-	CT6t5BfH67Mk5GjgXaSeJfZUbcqy93H/bgS6uuEiOYd2b1oAKhwI+iRmHvhS0CDa
-	Bpdho81qZDtTuMK8n639b6GK8U1OujeOqf/wLkxj7I9SfWI4D7TgmzzYdil0fxX/
-	je/43bHzgJROy6ZELUx8czqbM0fhpcqhRK2L7n9WXsd5qHs7/K/havp3dfvryYT2
-	fAKctxjk6Fkp6FSLGceZ7mYO94VKDqRGAqlPqcWZ+D4FIxQclNkNNRjbIZ5pYY5j
-	s6jw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:sender:subject
-	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-	:x-sasl-enc; s=fm2; t=1697014907; x=1697101307; bh=DExhJxe6pAvV5
-	eiD/1fwWplvOVteEj7vs73QB2WI/+8=; b=mkiW3Emb3vdKnJhx8bwy1ZihSQQq5
-	weJSue0zdVPKOYp+zbo07jpwpfsgdMXsXTL1G5GiO8FdIYYycdkfVJl6823/uvJL
-	DmGZSrI9W4BxVKbwuWKHcmu6jfbY7VIqvGOOyya5XmkRLL+A3Z+KYer5/4p05hga
-	dTqUXWAfICNO4a2UBjF/UKeGiXOSQMG13/lFoCbjlCdRF6mkpBVe64CIsMAUwJre
-	/NvHX6+RvX5k08u6UD9HuXfqNs2dYU0lpKyI5me4gldF7a9EdjHyLw8nj8shaPkN
-	l4005mZh+rO6o9hr24wTV2rC4VpCLZFZBWwQd8VZ49kKhppmoXKFVmTGQ==
-X-ME-Sender: <xms:emQmZX7arryhpAE7MpSUqgHmfJELkAPTSDSR7EXG7nLaRLcgpIcA8w>
-    <xme:emQmZc5X3mZ1PfyCiipbsxv6oe4ASx9IukAhPSsewSEOC22hhTciit5rOLQBRU9i5
-    Q7l0a8YW5HJ4e5Siz0>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvkedrheekgddtkecutefuodetggdotefrodftvf
-    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
-    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
-    fjughrpefofgggkfgjfhffhffvvefutgesthdtredtreertdenucfhrhhomhepfdetrhhn
-    ugcuuegvrhhgmhgrnhhnfdcuoegrrhhnugesrghrnhgusgdruggvqeenucggtffrrghtth
-    gvrhhnpeejvddvvdduleduheejiedtheehiedvjefgleelffeigfevhffhueduhfegfeef
-    heenucffohhmrghinhepghhithhhuhgsrdgtohhmnecuvehluhhsthgvrhfuihiivgeptd
-    enucfrrghrrghmpehmrghilhhfrhhomheprghrnhgusegrrhhnuggsrdguvg
-X-ME-Proxy: <xmx:emQmZefO1hwrftI7xsKAB1Rej1Kq5sNhezSDoh8HzoAq0qF6gj4HnA>
-    <xmx:emQmZYIOMZnyDA_UM5JV4wdz0g9u2rox0vFXQsDagmTv49e97s2csA>
-    <xmx:emQmZbK9B6Woc8ZHsNwvLTLHRfJEc6E4PYLC5G3xXVIxAlzHUTAMhQ>
-    <xmx:e2QmZYAggTvDdM3nzrT7LybqMgVeindjS90MzkORb3LS2gPJ19C4Vw>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
-	id 1EC58B60089; Wed, 11 Oct 2023 05:01:46 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.9.0-alpha0-1019-ged83ad8595-fm-20231002.001-ged83ad85
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AAA51A27A
+	for <linux-staging@lists.linux.dev>; Wed, 11 Oct 2023 09:25:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dkim=none
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6AE44C433C7;
+	Wed, 11 Oct 2023 09:25:27 +0000 (UTC)
+Message-ID: <69334bb8-c9e5-4387-b3c5-adc66ed9f825@xs4all.nl>
+Date: Wed, 11 Oct 2023 11:25:25 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Message-Id: <f5243ad9-0e7d-4a2f-b944-a45c41330aaf@app.fastmail.com>
-In-Reply-To: <87r0m14khb.fsf@kernel.org>
-References: <20231010155444.858483-1-arnd@kernel.org>
- <2023101051-unmasked-cleaver-79b3@gregkh> <87y1g94szz.fsf@kernel.org>
- <d081871c-977c-43e9-afa3-a3c3e5880fea@app.fastmail.com>
- <87r0m14khb.fsf@kernel.org>
-Date: Wed, 11 Oct 2023 11:01:25 +0200
-From: "Arnd Bergmann" <arnd@arndb.de>
-To: "Kalle Valo" <kvalo@kernel.org>
-Cc: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
- "Arnd Bergmann" <arnd@kernel.org>,
- "Alexandre Belloni" <alexandre.belloni@bootlin.com>,
- linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev,
- linux-wireless@vger.kernel.org, "Claudiu Beznea" <claudiu.beznea@tuxon.dev>,
- "Pavel Machek" <pavel@ucw.cz>, "Jakub Kicinski" <kuba@kernel.org>,
- "David S . Miller" <davem@davemloft.net>,
- linux-arm-kernel@lists.infradead.org,
- "Larry Finger" <Larry.Finger@lwfinger.net>
-Subject: Re: [PATCH] [RFC] wireless: move obsolete drivers to staging
-Content-Type: text/plain
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v10 00/54] Add DELETE_BUF ioctl
+Content-Language: en-US, nl
+To: Benjamin Gaignard <benjamin.gaignard@collabora.com>, mchehab@kernel.org,
+ tfiga@chromium.org, m.szyprowski@samsung.com, ming.qian@nxp.com,
+ ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de,
+ gregkh@linuxfoundation.org, nicolas.dufresne@collabora.com
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org,
+ linux-arm-msm@vger.kernel.org, linux-rockchip@lists.infradead.org,
+ linux-staging@lists.linux.dev, kernel@collabora.com
+References: <20231003080704.43911-1-benjamin.gaignard@collabora.com>
+From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+In-Reply-To: <20231003080704.43911-1-benjamin.gaignard@collabora.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Wed, Oct 11, 2023, at 10:44, Kalle Valo wrote:
-> "Arnd Bergmann" <arnd@arndb.de> writes:
->> On Wed, Oct 11, 2023, at 07:40, Kalle Valo wrote:
->>> Greg Kroah-Hartman <gregkh@linuxfoundation.org> writes:
->>>
->>> We (the wireless folks) have been talking about dropping legacy drivers
->>> on and off for several years now. The problem is that we don't know
->>> which of them work and which not, for example IIRC someone reported
->>> recently that wl3501 still works.
->>>
->>> Personally I would be extremly happy to remove all the ancient drivers
->>> as that reduces the amount of code for us to maintain but is that the
->>> right thing to do for the users? I don't have an answer to that,
->>> comments very welcome.
->>
->> I had a look at what openwrt enables, to see if any of the drivers
->> in my RFC patch are actually enabled, if anything supports legacy
->> embedded devices with these it would be openwrt. The good news here
->> is that openwrt intentionally leaves WEXT disabled, and none of them
->> are still in use.
->
-> I don't think openwrt is a good metric in this case. These drivers are
-> for 20+ years old hardware, most likely running on really old x86
-> laptops. So the chances of them running openwrt on those laptops is low
-> and I would expect them to run more traditional distros like debian or
-> ubuntu. But of course this is just guessing.
+Hi Benjamin,
 
-OpenWRT is clearly not a good metric for laptops, but it's a good
-indicator for embedded systems, in particular those with wireless
-access points, and it does enable a lot of them
-(atheros, broadcom, intel, marvell, ralink, realtek, mt76, wlcore,
-rsi ...) depending on the platform.
+On 03/10/2023 10:06, Benjamin Gaignard wrote:
+> Unlike when resolution change on keyframes, dynamic resolution change
+> on inter frames doesn't allow to do a stream off/on sequence because
+> it is need to keep all previous references alive to decode inter frames.
+> This constraint have two main problems:
+> - more memory consumption.
+> - more buffers in use.
+> To solve these issue this series introduce DELETE_BUFS ioctl and remove
+> the 32 buffers limit per queue.
+> 
+> VP9 conformance tests using fluster give a score of 210/305.
+> The 24 resize inter tests (vp90-2-21-resize_inter_* files) are ok
+> but require to use postprocessor.
+> 
+> Kernel branch is available here:
+> https://gitlab.collabora.com/benjamin.gaignard/for-upstream/-/commits/remove_vb2_queue_limit_v10
+> 
+> GStreamer branch to use DELETE_BUF ioctl and testing dynamic resolution
+> change is here:
+> https://gitlab.freedesktop.org/benjamin.gaignard1/gstreamer/-/commits/VP9_drc
+> 
 
-I can also see that it used to enable airo, p54, hermes, adm8211,
-zd1211, ipw2x00 and libertas but stopped this a year ago, see
-https://github.com/openwrt/openwrt/commit/a06e023b4e12
+<snip>
 
-     Arnd
+I'm a bit unhappy about the order of these patches.
+
+It mixes core and driver patches, making it hard to follow. Also, the
+driver patches are missing CCs to the driver maintainers.
+
+There are two types of driver patches:
+
+1) switch to vb2_get_buffer()
+2) switch to vb2_get_num_buffers(), or stop using num_buffers altogether.
+
+I am not counting the patches for verisilicon and the test drivers that
+add support for max_num_buffers, those are separate.
+
+In order to support more than 32 buffers the first phase is to fix the
+drivers.
+
+I would suggest the following:
+
+1) start with a videobuf2-core.h patch adding vb2_get_num_buffers()
+   (so just the header part of patch 21/54).
+2) then add all driver patches switching to vb2_get_buffer/vb2_get_num_buffers(),
+   grouped by driver (so e.g. the two amphion patches are placed together).
+
+Also add CCs to the driver maintainers for each driver patch, allowing them
+to review the code.
+
+Also include patches 10/54 and 22/54 (dvb-core).
+
+The remaining patches for vb2 etc. and for drivers patches adding support for
+the new features should be posted as a separate series on top of this.
+
+I want to get the driver changes in first. That will greatly simplify the
+remaining work.
+
+What will also be very helpful if this approach is taken is that it should
+be no problem to merge the initial patch adding the new vb2_get_num_buffers
+function for v6.7. That makes it easier to convert drivers in phases, if
+needed. And new upcoming drivers can start to use this function as well.
+
+Regards,
+
+	Hans
+
+> Benjamin Gaignard (54):
+>   media: videobuf2: Rework offset 'cookie' encoding pattern
+>   media: videobuf2: Stop spamming kernel log with all queue counter
+>   media: videobuf2: Use vb2_buffer instead of index
+>   media: amphion: Use vb2_get_buffer() instead of directly access to
+>     buffers array
+>   media: mediatek: jpeg: Use vb2_get_buffer() instead of directly access
+>     to buffers array
+>   media: mediatek: vdec: Remove useless loop
+>   media: sti: hva: Use vb2_get_buffer() instead of directly access to
+>     buffers array
+>   media: visl: Use vb2_get_buffer() instead of directly access to
+>     buffers array
+>   media: atomisp: Use vb2_get_buffer() instead of directly access to
+>     buffers array
+>   media: dvb-core: Use vb2_get_buffer() instead of directly access to
+>     buffers array
+>   media: videobuf2: Access vb2_queue bufs array through helper functions
+>   media: videobuf2: Be more flexible on the number of queue stored
+>     buffers
+>   media: Report the maximum possible number of buffers for the queue
+>   media: test-drivers: vivid: Increase max supported buffers for capture
+>     queues
+>   media: test-drivers: vicodec: Increase max supported capture queue
+>     buffers
+>   media: verisilicon: Refactor postprocessor to store more buffers
+>   media: verisilicon: Store chroma and motion vectors offset
+>   media: verisilicon: g2: Use common helpers to compute chroma and mv
+>     offsets
+>   media: verisilicon: vp9: Allow to change resolution while streaming
+>   media: Remove duplicated index vs q->num_buffers check
+>   media: core: Add helper to get queue number of buffers
+>   media: dvb-core: Do not initialize twice queue num_buffer field
+>   media: dvb-frontends: rtl2832_srd: Use queue min_buffers_needed field
+>   media: video-i2c: Set min_buffers_needed to 2
+>   media: pci: cx18: Set correct value to min_buffers_needed field
+>   media: pci: dt3155: Remove useless check
+>   media: pci: netup_unidvb: Remove useless number of buffers check
+>   media: pci: tw68: Stop direct calls to queue num_buffers field
+>   media: pci: tw686x: Set min_buffers_needed to 3
+>   media: amphion: Stop direct calls to queue num_buffers field
+>   media: coda: Stop direct calls to queue num_buffers field
+>   media: mediatek: vcodec: Stop direct calls to queue num_buffers field
+>   media: nxp: Stop direct calls to queue num_buffers field
+>   media: renesas: Set min_buffers_needed to 16
+>   media: ti: Use queue min_buffers_needed field to set the min number of
+>     buffers
+>   media: verisilicon: Stop direct calls to queue num_buffers field
+>   media: test-drivers: Stop direct calls to queue num_buffers field
+>   media: usb: airspy: Set min_buffers_needed to 8
+>   media: usb: cx231xx: Set min_buffers_needed to CX231XX_MIN_BUF
+>   media: usb: hackrf: Set min_buffers_needed to 8
+>   media: usb: usbtv: Set min_buffers_needed to 2
+>   media: atomisp: Stop direct calls to queue num_buffers field
+>   media: imx: Stop direct calls to queue num_buffers field
+>   media: meson: vdec: Stop direct calls to queue num_buffers field
+>   touchscreen: sur40: Stop direct calls to queue num_buffers field
+>   sample: v4l: Stop direct calls to queue num_buffers field
+>   media: cedrus: Stop direct calls to queue num_buffers field
+>   media: nuvoton: Stop direct calls to queue num_buffers field
+>   media: core: Rework how create_buf index returned value is computed
+>   media: core: Add bitmap manage bufs array entries
+>   media: core: Free range of buffers
+>   media: v4l2: Add DELETE_BUFS ioctl
+>   media: v4l2: Add mem2mem helpers for DELETE_BUFS ioctl
+>   media: test-drivers: Use helper for DELETE_BUFS ioctl
+
+
