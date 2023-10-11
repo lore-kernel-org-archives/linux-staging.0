@@ -1,99 +1,139 @@
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out1-smtp.messagingengine.com (out1-smtp.messagingengine.com [66.111.4.25])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91E193994A
-	for <linux-staging@lists.linux.dev>; Wed, 11 Oct 2023 18:13:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF7213A26E
+	for <linux-staging@lists.linux.dev>; Wed, 11 Oct 2023 20:23:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=arndb.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HZKTAc+0"
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-40651b22977so428835e9.1
-        for <linux-staging@lists.linux.dev>; Wed, 11 Oct 2023 11:13:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1697048007; x=1697652807; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=QjCK+8QWq0gyUTkOiemvLVBkLYH9fn7QPYSepTTFeHY=;
-        b=HZKTAc+0P8Yd5ua4dvhVw1Er4DuGR1Yui+k0JMUqLVzSMlYgsrPhFImz8vksvblMza
-         rJQkSyyg2ioVhcuSPhyxmMBZKVt8nG6v12g01XncxE2TThKOqTm+letOlofuHwaZs8++
-         FMI/UY9Rnyptd8vDIEAhsskRl5obANaYZApgN1KEfg3ySY4XJZICUsSnCzKW6Oml30f2
-         sbvWO4DuJxHeZxyYpm6cPksdao/VdBg24WXdWVAjU95azu30OH2ePtmLFoGXxS1IIN1q
-         gdLuaohFse5+2LPDXxqSgZKyWKoZ+LGyg2HVB2NsAI/P3qdCCDYp17t7eGHvyOb386M8
-         9E+w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697048007; x=1697652807;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=QjCK+8QWq0gyUTkOiemvLVBkLYH9fn7QPYSepTTFeHY=;
-        b=HVtU3PvuyltsQJGhD9JuWcUe2iBFw/yLrcO+wjG1uyeBsXl76x8KKTG5DkVb3k0oCm
-         hFwsi/DtqpymLq+Lj2fLXg6Qk3JxVhFELRBtO9VO3plEZV52ApfnC8lu9y7m3FOWLsxF
-         pa2sCdhecywj/Zg4jeSn3b/rRWZT2WrsEIFtDrwD66KVml7i/dhZkR1ISoxD7wCyL6kx
-         jovDqQWmXyoiFdbu7DOEN2vsSFLhv2jlLPtradO8MXRw4jLzZ7RdKkWFXESRN60vAS2c
-         q/ljoedUS5CnoYYx17mGfxT07CUZWw4U5ffrLSImktQREk3ZP09Mgt0d2hC6SYf7fUv2
-         vE9A==
-X-Gm-Message-State: AOJu0Ywkqp6L/Jc4vpN3WfimyVnQhrkKpNc/lOwURCpSz+3xAzKNtVZR
-	xZzw/x408UXfnSVDqfg9vE8=
-X-Google-Smtp-Source: AGHT+IFK4ka32EySjBz/6awgdfZmmdt1F6crkvar+uu1FGIncSQscSUhhQ50bPLYw87kYR5wveh+5g==
-X-Received: by 2002:a05:600c:5117:b0:407:52f0:b01a with SMTP id o23-20020a05600c511700b0040752f0b01amr5639522wms.2.1697048006483;
-        Wed, 11 Oct 2023 11:13:26 -0700 (PDT)
-Received: from [192.168.0.104] (p579356c7.dip0.t-ipconnect.de. [87.147.86.199])
-        by smtp.gmail.com with ESMTPSA id az17-20020a05600c601100b003fef5e76f2csm1366706wmb.0.2023.10.11.11.13.25
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 11 Oct 2023 11:13:26 -0700 (PDT)
-Message-ID: <da777a72-55d1-4ee3-91c8-30afe7659f54@gmail.com>
-Date: Wed, 11 Oct 2023 20:13:24 +0200
+	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="hRGi7XOV";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="ToQqibCW"
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+	by mailout.nyi.internal (Postfix) with ESMTP id E5CC85C01E9;
+	Wed, 11 Oct 2023 16:23:49 -0400 (EDT)
+Received: from imap51 ([10.202.2.101])
+  by compute5.internal (MEProxy); Wed, 11 Oct 2023 16:23:49 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+	:cc:content-type:content-type:date:date:from:from:in-reply-to
+	:in-reply-to:message-id:mime-version:references:reply-to:sender
+	:subject:subject:to:to; s=fm2; t=1697055829; x=1697142229; bh=V4
+	0Dm0ERM/8BGJO0YKNSpWXn7zZJAk8XtXCkCcVqzY0=; b=hRGi7XOVwKS8e7rsjX
+	NZ6/5yOeiyC76EKt+OkAt5JSsR8lKu0cKPnWEwviGzRpAPg9vz9zjTwo/Aw7F4ad
+	0u2k0+hJcJXv99oh5fHhE7yDXK9r4vuJPz+sl5vfSwM1u+rgjhQ/JfvtmYcmOmaT
+	HAGeRW240ha9dPeYqjSeao8CBZDiHocAgOZfmkOTnkw0M+Ep8Z5iM8fifK2NFSfX
+	f9ZWw964PHSlp1+XfZLYV/n/S89Fv25t0GWjU4WuYB7oikxuQPCoqOVaYd6YyxON
+	hkKilbsWjingOG1O4HZ2BzdUva4896xiuRoOYrHv/wMEWrIPVmJJAZfj+T6vSHYH
+	3hPA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:sender:subject
+	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+	:x-sasl-enc; s=fm2; t=1697055829; x=1697142229; bh=V40Dm0ERM/8BG
+	JO0YKNSpWXn7zZJAk8XtXCkCcVqzY0=; b=ToQqibCWxH2crMF6jSlJoeGHkiwFh
+	5aWhkEs/wTrIa0c+UMlXxmhJTB/DBv+R51hpiTDknZghHzF//SdEQ6Sw+wXbaRQG
+	UzfXIzvwgbwWlq0a7/vKJ+bUPGCkz1arJ6QpfaXrL36hB9kWznLt+kHNU4C88bAr
+	ij1ckQ8ZpbHUrWerSJJnXg64qfAZ8UokaMvXalHD4dQ3C4R7nfoMUh086XF3J91/
+	itkhbQjT7AvuIE7w8It9M8knuO6I7E+c/L/VbBCNT3mAeFverH9InB8YCd9+wQkn
+	1DgWdFY68aLZwkALqM9THAa9R3ayOe5aBCGJrQR4xT1DAPzvrSEeQD1dQ==
+X-ME-Sender: <xms:VAQnZVz-uRX71Rud-fLOB6wYIQ0lEsuThZELWmOfmQM0SkkUJZY9aw>
+    <xme:VAQnZVQRfuexdbc7Zh6RqapMppPiii2ABngpFOZ-BYyUqgJ_4AA6gU3fjhrMehmCi
+    KD0PV5GhS--mPDPC1w>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvkedrheekgddugeehucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepofgfggfkjghffffhvfevufgtsehttdertderredtnecuhfhrohhmpedftehr
+    nhguuceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnuggsrdguvgeqnecuggftrfgrth
+    htvghrnhepffehueegteeihfegtefhjefgtdeugfegjeelheejueethfefgeeghfektdek
+    teffnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomheprg
+    hrnhgusegrrhhnuggsrdguvg
+X-ME-Proxy: <xmx:VQQnZfUwD51L3NCq0ZMTAZcAaGiKGjQQPBq3deOJ8SH9XCYrm0Heeg>
+    <xmx:VQQnZXhiM2KBuOkakp-pI0uI9zq7b2-cTxKjbEcNuMh-pEQ5pOSQtA>
+    <xmx:VQQnZXCBPA3e8nZOW1RUDZ5B2Xed3zWTIf0moJcUQdLM6FvfGFKx6A>
+    <xmx:VQQnZb7bOtyKcfR8jX-Rb83RjdSHleoh8AvL-xr7hpK-066QMqUBzw>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+	id CCF0EB60089; Wed, 11 Oct 2023 16:23:48 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.9.0-alpha0-1019-ged83ad8595-fm-20231002.001-ged83ad85
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] [RFC] wireless: move obsolete drivers to staging
-Content-Language: en-US
-To: Arnd Bergmann <arnd@kernel.org>, Kalle Valo <kvalo@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Arnd Bergmann <arnd@arndb.de>, Nicolas Ferre
- <nicolas.ferre@microchip.com>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Claudiu Beznea <claudiu.beznea@tuxon.dev>, Jakub Kicinski <kuba@kernel.org>,
- Pavel Machek <pavel@ucw.cz>, "David S. Miller" <davem@davemloft.net>,
- Larry Finger <Larry.Finger@lwfinger.net>, linux-kernel@vger.kernel.org,
+Message-Id: <db98d9ac-7650-4a72-8eb9-4def1f17ea0d@app.fastmail.com>
+In-Reply-To: <da777a72-55d1-4ee3-91c8-30afe7659f54@gmail.com>
+References: <20231010155444.858483-1-arnd@kernel.org>
+ <da777a72-55d1-4ee3-91c8-30afe7659f54@gmail.com>
+Date: Wed, 11 Oct 2023 22:22:32 +0200
+From: "Arnd Bergmann" <arnd@arndb.de>
+To: "Philipp Hortmann" <philipp.g.hortmann@gmail.com>,
+ "Arnd Bergmann" <arnd@kernel.org>, "Kalle Valo" <kvalo@kernel.org>,
+ "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
+Cc: "Nicolas Ferre" <nicolas.ferre@microchip.com>,
+ "Alexandre Belloni" <alexandre.belloni@bootlin.com>,
+ "Claudiu Beznea" <claudiu.beznea@tuxon.dev>,
+ "Jakub Kicinski" <kuba@kernel.org>, "Pavel Machek" <pavel@ucw.cz>,
+ "David S . Miller" <davem@davemloft.net>,
+ "Larry Finger" <Larry.Finger@lwfinger.net>, linux-kernel@vger.kernel.org,
  linux-wireless@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
  linux-staging@lists.linux.dev
-References: <20231010155444.858483-1-arnd@kernel.org>
-From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-In-Reply-To: <20231010155444.858483-1-arnd@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Subject: Re: [PATCH] [RFC] wireless: move obsolete drivers to staging
+Content-Type: text/plain
 
-On 10/10/23 17:27, Arnd Bergmann wrote:
-> From: Arnd Bergmann <arnd@arndb.de> While looking at the old drivers 
-> using the obsolete .ndo_do_ioctl() callback, I found a number of network 
-> drivers that are especially obsolete, in particular for 802.11b 
-> (11Mbit/s) or even older wireless networks, using non-busmaster 
-> ISA/PCMCIA style bus interfaces, and using the legacy wireless extension 
-> ioctls rather than the netlink interfaces that were meant to replace 
-> them in 2007. All of these drivers are obsolete or orphaned. We had 
-> previously discussed this topic, but nobody ever moved the files, so I 
-> now went through the list to my best knowledge. These are the drivers 
-> that I would classify as "probably unused" by now:
+On Wed, Oct 11, 2023, at 20:13, Philipp Hortmann wrote:
+> On 10/10/23 17:27, Arnd Bergmann wrote:
+>> From: Arnd Bergmann <arnd@arndb.de> While looking at the old drivers 
+>> using the obsolete .ndo_do_ioctl() callback, I found a number of network 
+>> drivers that are especially obsolete, in particular for 802.11b 
+>> (11Mbit/s) or even older wireless networks, using non-busmaster 
+>> ISA/PCMCIA style bus interfaces, and using the legacy wireless extension 
+>> ioctls rather than the netlink interfaces that were meant to replace 
+>> them in 2007. All of these drivers are obsolete or orphaned. We had 
+>> previously discussed this topic, but nobody ever moved the files, so I 
+>> now went through the list to my best knowledge. These are the drivers 
+>> that I would classify as "probably unused" by now:
+>
+> I found a USB WLAN Stick with a rtl8192u. I got it last Saturday and 
+> found out that the firmware is missing in my ubuntu 20.04. I found it on 
+> the web and fixed it. When I started the driver my computer crashed. The 
+> missing part was: priv->priv_wq = alloc_workqueue("priv_wq", 0, 0); 
+> Fixing this the next error was a network = kzalloc(sizeof(*network), 
+> GFP_KERNEL); in wrong context with leads to a crash of my computer. 
+> Fixing this leads to another issue which lets my computer crash.
+>
+> For me the firmware of rtl8192u was intentionally missing because of the 
+> issues with the driver.
+>
+> What this has to do with your question?
+> Can we check for missing firmware in main distributions to know which 
+> drivers are considered to be old and unused?
 
-I found a USB WLAN Stick with a rtl8192u. I got it last Saturday and 
-found out that the firmware is missing in my ubuntu 20.04. I found it on 
-the web and fixed it. When I started the driver my computer crashed. The 
-missing part was: priv->priv_wq = alloc_workqueue("priv_wq", 0, 0); 
-Fixing this the next error was a network = kzalloc(sizeof(*network), 
-GFP_KERNEL); in wrong context with leads to a crash of my computer. 
-Fixing this leads to another issue which lets my computer crash.
+Nice, thanks so much for testing.
 
-For me the firmware of rtl8192u was intentionally missing because of the 
-issues with the driver.
+I see the two bugs were introduced in 2016 by commit 1761a85c3bed3
+("staging: rtl8192u: Remove create_workqueue()") and in 2021 by
+commit 061e390b7c87f ("staging: rtl8192u: ieee80211_softmac: Move a
+large data struct onto the heap"), so it's been broken for a while.
 
-What this has to do with your question?
-Can we check for missing firmware in main distributions to know which 
-drivers are considered to be old and unused?
+I also checked rtl8192e for the same bugs, but that driver
+managed to avoid this even though it had the same code
+originally.
 
-Bye Philipp
+Regarding the firmware files, I found:
+
+- rtl8192e, rtl7812 and rtl8723bs are all in the linux-firmware
+  package, unlike rtl8192u
+
+- atmel firmware is not in upstream linux-firmware, but Debian
+  has an atmel-firmware package for it
+
+- I could not find a Debian package for ks7010sd.rom
+
+- vt6656/vntwusb.fw is in firmware-misc-nonfree
+
+- orinoco has multiple firmware files, but only agere_sta_fw.bin
+  and agere_ap_fw.bin are in Debian and linux-firmware.
+
+     Arnd
