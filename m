@@ -1,84 +1,65 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7C5A354FE
-	for <linux-staging@lists.linux.dev>; Wed, 11 Oct 2023 09:36:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dkim=none
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 21E86C433CD;
-	Wed, 11 Oct 2023 09:36:47 +0000 (UTC)
-Message-ID: <07237b8b-ecd2-4717-8eda-101e52edf60c@xs4all.nl>
-Date: Wed, 11 Oct 2023 11:36:46 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F69C1D6A7
+	for <linux-staging@lists.linux.dev>; Wed, 11 Oct 2023 15:09:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Xb6qwA4C"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1B52FC433C9;
+	Wed, 11 Oct 2023 15:09:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1697036996;
+	bh=NK7/zcAL72Zfq6YQF/vUxdXthgBdgQPxmKzGhiyQLLU=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=Xb6qwA4CNigU6EZ/vw5T4xI8CNKktxyPfYHFobP8vYN2PS2b1eMTa9KzZKmWYJkoe
+	 pxLr/TfiXbtGtSv4Ny3qNUk0mGT1kUDVTUtoM3aAUACYa8LrGH2Wh9gRXuPsfdyMzu
+	 wdGvEANVijWWQy5xhw0vLEI84yrhOKDgZZbu6yvhb6C+GHmDJDZ+3J+YB5MF+JqQvV
+	 wdVpy4pJU+N6cQUD6oyaWVmu2nSS7rcfV6qSIHvCQZn3s5SPTNwTl2W4zvbZC+DJnc
+	 HPe03ERpdteJ8l7louBWQScthVQJhkzQxtKNd9oPhGB/7XODTLKlchESt+mK7MRLhO
+	 Llduy5PyXKIMA==
+Date: Wed, 11 Oct 2023 08:09:55 -0700
+From: Jakub Kicinski <kuba@kernel.org>
+To: Kalle Valo <kvalo@kernel.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Arnd Bergmann
+ <arnd@kernel.org>, Arnd Bergmann <arnd@arndb.de>, Nicolas Ferre
+ <nicolas.ferre@microchip.com>, Alexandre Belloni
+ <alexandre.belloni@bootlin.com>, Claudiu Beznea <claudiu.beznea@tuxon.dev>,
+ Pavel Machek <pavel@ucw.cz>, "David S. Miller" <davem@davemloft.net>, Larry
+ Finger <Larry.Finger@lwfinger.net>, linux-kernel@vger.kernel.org,
+ linux-wireless@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-staging@lists.linux.dev
+Subject: Re: [PATCH] [RFC] wireless: move obsolete drivers to staging
+Message-ID: <20231011080955.1beeb010@kernel.org>
+In-Reply-To: <87r0m1fwg9.fsf@kernel.org>
+References: <20231010155444.858483-1-arnd@kernel.org>
+	<2023101051-unmasked-cleaver-79b3@gregkh>
+	<87y1g94szz.fsf@kernel.org>
+	<2023101139-pyromania-game-2237@gregkh>
+	<87r0m1fwg9.fsf@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v10 11/54] media: videobuf2: Access vb2_queue bufs array
- through helper functions
-Content-Language: en-US, nl
-To: Benjamin Gaignard <benjamin.gaignard@collabora.com>, mchehab@kernel.org,
- tfiga@chromium.org, m.szyprowski@samsung.com, ming.qian@nxp.com,
- ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de,
- gregkh@linuxfoundation.org, nicolas.dufresne@collabora.com
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org,
- linux-arm-msm@vger.kernel.org, linux-rockchip@lists.infradead.org,
- linux-staging@lists.linux.dev, kernel@collabora.com
-References: <20231003080704.43911-1-benjamin.gaignard@collabora.com>
- <20231003080704.43911-12-benjamin.gaignard@collabora.com>
- <bd0ba3d3-444a-4288-910f-4b8a84b90750@xs4all.nl>
- <954315b8-3e5c-4583-a904-d20fbd21aa3f@collabora.com>
-From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-In-Reply-To: <954315b8-3e5c-4583-a904-d20fbd21aa3f@collabora.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On 11/10/2023 11:32, Benjamin Gaignard wrote:
+On Wed, 11 Oct 2023 10:29:58 +0300 Kalle Valo wrote:
+> > No matter what the time frame is, it's never going to line up with all
+> > distros, or catch everyone properly.  
 > 
-> Le 11/10/2023 à 10:44, Hans Verkuil a écrit :
->> On 03/10/2023 10:06, Benjamin Gaignard wrote:
->>> This patch adds 2 helpers functions to add and remove vb2 buffers
->>> from a queue. With these 2 and vb2_get_buffer(), bufs field of
->>> struct vb2_queue becomes like a private member of the structure.
->>>
->>> After each call to vb2_get_buffer() we need to be sure that we get
->>> a valid pointer so check the return value of all of them.
->> This needs to be extended: checking the returned pointer is a preparation
->> for when buffers can be deleted. As it is right now, checking for a
->> NULL pointer isn't needed.
->>
->> I wonder if it isn't better to drop those checks and instead apply them
->> at the tail end of this series when the actual work on deleting buffers
->> starts (before patch 49, I think).
+> Yeah, that's true.
 > 
-> I think that checking vb2_get_buffer() return value while removing direct
-> call to queue buffers array doesn't hurt here.
-> It is also needed to do that before "media: videobuf2: Add helper to get queue number of buffers" patch.
-
-If we convert the drivers first, then there is (I think) no need to
-split this patch in two parts, since then this patch is part of a much
-shorter series and it is sufficient to just mention in the commit log
-that the pointer checks prepare for deleting buffers.
-
-Regards,
-
-	Hans
-
+> > I recommend, just delete all the ones you feel are not being used, in a
+> > patch that removes them one-by-one, so that it is trivial to revert if
+> > someone shows up and says "hey, my device stopped working!" a few years
+> > in the future.  
 > 
-> Regards,
-> Benjamin
-> 
->>
->> Regards,
->>
->>     Hans
->>
->>> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
->>> ---
->>>   .../media/common/videobuf2/videobuf2-core.c   | 151 +++++++++++++-----
->>>   .../media/common/videobuf2/videobuf2-v4l2.c   |  51 ++++--
->>>   2 files changed, 146 insertions(+), 56 deletions(-)
->>
+> I'm starting to lean towards this as well. We have talked about this for
+> so long now but no practical solution ever found so maybe just bite the
+> bullet finally. What do others think?
 
+FWIW in Ethernet we do what Greg says. Delete it, if someone complains
+we revert back in. The revert did actually happen once, it was pretty
+painless (Greg even took it into stable tree, IIRC).
