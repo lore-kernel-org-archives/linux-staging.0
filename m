@@ -1,139 +1,109 @@
-Received: from out1-smtp.messagingengine.com (out1-smtp.messagingengine.com [66.111.4.25])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF7213A26E
-	for <linux-staging@lists.linux.dev>; Wed, 11 Oct 2023 20:23:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=arndb.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CCDD63B3;
+	Thu, 12 Oct 2023 05:03:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="hRGi7XOV";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="ToQqibCW"
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-	by mailout.nyi.internal (Postfix) with ESMTP id E5CC85C01E9;
-	Wed, 11 Oct 2023 16:23:49 -0400 (EDT)
-Received: from imap51 ([10.202.2.101])
-  by compute5.internal (MEProxy); Wed, 11 Oct 2023 16:23:49 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
-	:cc:content-type:content-type:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:sender
-	:subject:subject:to:to; s=fm2; t=1697055829; x=1697142229; bh=V4
-	0Dm0ERM/8BGJO0YKNSpWXn7zZJAk8XtXCkCcVqzY0=; b=hRGi7XOVwKS8e7rsjX
-	NZ6/5yOeiyC76EKt+OkAt5JSsR8lKu0cKPnWEwviGzRpAPg9vz9zjTwo/Aw7F4ad
-	0u2k0+hJcJXv99oh5fHhE7yDXK9r4vuJPz+sl5vfSwM1u+rgjhQ/JfvtmYcmOmaT
-	HAGeRW240ha9dPeYqjSeao8CBZDiHocAgOZfmkOTnkw0M+Ep8Z5iM8fifK2NFSfX
-	f9ZWw964PHSlp1+XfZLYV/n/S89Fv25t0GWjU4WuYB7oikxuQPCoqOVaYd6YyxON
-	hkKilbsWjingOG1O4HZ2BzdUva4896xiuRoOYrHv/wMEWrIPVmJJAZfj+T6vSHYH
-	3hPA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:sender:subject
-	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-	:x-sasl-enc; s=fm2; t=1697055829; x=1697142229; bh=V40Dm0ERM/8BG
-	JO0YKNSpWXn7zZJAk8XtXCkCcVqzY0=; b=ToQqibCWxH2crMF6jSlJoeGHkiwFh
-	5aWhkEs/wTrIa0c+UMlXxmhJTB/DBv+R51hpiTDknZghHzF//SdEQ6Sw+wXbaRQG
-	UzfXIzvwgbwWlq0a7/vKJ+bUPGCkz1arJ6QpfaXrL36hB9kWznLt+kHNU4C88bAr
-	ij1ckQ8ZpbHUrWerSJJnXg64qfAZ8UokaMvXalHD4dQ3C4R7nfoMUh086XF3J91/
-	itkhbQjT7AvuIE7w8It9M8knuO6I7E+c/L/VbBCNT3mAeFverH9InB8YCd9+wQkn
-	1DgWdFY68aLZwkALqM9THAa9R3ayOe5aBCGJrQR4xT1DAPzvrSEeQD1dQ==
-X-ME-Sender: <xms:VAQnZVz-uRX71Rud-fLOB6wYIQ0lEsuThZELWmOfmQM0SkkUJZY9aw>
-    <xme:VAQnZVQRfuexdbc7Zh6RqapMppPiii2ABngpFOZ-BYyUqgJ_4AA6gU3fjhrMehmCi
-    KD0PV5GhS--mPDPC1w>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvkedrheekgddugeehucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepofgfggfkjghffffhvfevufgtsehttdertderredtnecuhfhrohhmpedftehr
-    nhguuceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnuggsrdguvgeqnecuggftrfgrth
-    htvghrnhepffehueegteeihfegtefhjefgtdeugfegjeelheejueethfefgeeghfektdek
-    teffnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomheprg
-    hrnhgusegrrhhnuggsrdguvg
-X-ME-Proxy: <xmx:VQQnZfUwD51L3NCq0ZMTAZcAaGiKGjQQPBq3deOJ8SH9XCYrm0Heeg>
-    <xmx:VQQnZXhiM2KBuOkakp-pI0uI9zq7b2-cTxKjbEcNuMh-pEQ5pOSQtA>
-    <xmx:VQQnZXCBPA3e8nZOW1RUDZ5B2Xed3zWTIf0moJcUQdLM6FvfGFKx6A>
-    <xmx:VQQnZb7bOtyKcfR8jX-Rb83RjdSHleoh8AvL-xr7hpK-066QMqUBzw>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
-	id CCF0EB60089; Wed, 11 Oct 2023 16:23:48 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.9.0-alpha0-1019-ged83ad8595-fm-20231002.001-ged83ad85
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ezTfOs8o"
+Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-1bf55a81eeaso4775155ad.0;
+        Wed, 11 Oct 2023 22:03:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1697087002; x=1697691802; darn=lists.linux.dev;
+        h=message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=E6/jvxDoKsynF/Hhi+qgRno1n6eO8dybkroD/ZkL/wM=;
+        b=ezTfOs8oRgi/Zi4fIsY+tbQwwVNGanQKamgdq0brP2e4rCv8lrygifwdNbz3gHoLuA
+         TKjgaA/9wLRDgvqYz+cuUf6cQUgortQN93N2ZfVk8YzaIVoMrNX9OwWgdCQE5aDenVJV
+         V45Tzbm3goKPlutDU87UealKwx4ccaZgzQYYf34fhgRcqSZE3h0xAJOpDuuUKC+vuQjx
+         cuGb3zYWf/h4kfm/t6Gc4nxTGpsuwbDP5co3dZIGMi0X0sm5xrt7n9/pJ977F79td5h4
+         KU1cUXQTe9PQc2dcPsSZZNzxFFBIcWIW2slWfxw9Ci4PmoxtyK/sBZjjiN8qfYw6iFln
+         TXRg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1697087002; x=1697691802;
+        h=message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=E6/jvxDoKsynF/Hhi+qgRno1n6eO8dybkroD/ZkL/wM=;
+        b=XpmsxfYczZ3esl/TLxHdzCUcqcOWqIS/wTUpl/HEp5LteVaMaH3xM0YCFTDeTNzupb
+         CqVMPWpNhxPeKaGxsSZ1xsIyb1TyzR/9XRdPwinaVrqkGAalS5bUzBD54yNF4pyq8kMc
+         S+iml2emixM8Ficsf7SaqJX93pQ8QM8ENcg0A4RnCoDv/hhsaEdmh9jv35b0K9Tm6kAC
+         b9a+y5b1uPTMIXHtF5ZwwDFyOxMmprjAblt+Hx7E3Urw4C06YeGPi0sAtdlxbzQbiwvH
+         2yBZIITbCuN0nTVTnogYJeL4D65OpEd3VC2QAunjBfKj7plq2oj9rIebjVSUmJqdjIBJ
+         HogA==
+X-Gm-Message-State: AOJu0YxPguV+leZnLUBm5F8S1kS5allAmhmsAH5UzDEwGYrGeK2FO4HT
+	QdVCEdOXTDolGZvt4KhbP30=
+X-Google-Smtp-Source: AGHT+IEruTfzVk/s5T22BWoCbdl3+aluCxel5xThVpM6incPCOA7p79gSs+jWmo6gvq0PWOP0xzamw==
+X-Received: by 2002:a17:902:c94f:b0:1c3:8464:cabd with SMTP id i15-20020a170902c94f00b001c38464cabdmr25693137pla.12.1697087002535;
+        Wed, 11 Oct 2023 22:03:22 -0700 (PDT)
+Received: from Negi (2603-8000-b93d-20a0-29fa-db66-4c18-1f0a.res6.spectrum.com. [2603:8000:b93d:20a0:29fa:db66:4c18:1f0a])
+        by smtp.gmail.com with ESMTPSA id j9-20020a170902da8900b001c5900c9e8fsm837734plx.81.2023.10.11.22.03.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 11 Oct 2023 22:03:21 -0700 (PDT)
+From: Soumya Negi <soumya.negi97@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Micky Ching <micky_ching@realsil.com.cn>
+Cc: Soumya Negi <soumya.negi97@gmail.com>,
+	outreachy@lists.linux.dev,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] staging: rts5208: Parenthesize macro arguments
+Date: Wed, 11 Oct 2023 22:02:40 -0700
+Message-Id: <20231012050240.20378-1-soumya.negi97@gmail.com>
+X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Message-Id: <db98d9ac-7650-4a72-8eb9-4def1f17ea0d@app.fastmail.com>
-In-Reply-To: <da777a72-55d1-4ee3-91c8-30afe7659f54@gmail.com>
-References: <20231010155444.858483-1-arnd@kernel.org>
- <da777a72-55d1-4ee3-91c8-30afe7659f54@gmail.com>
-Date: Wed, 11 Oct 2023 22:22:32 +0200
-From: "Arnd Bergmann" <arnd@arndb.de>
-To: "Philipp Hortmann" <philipp.g.hortmann@gmail.com>,
- "Arnd Bergmann" <arnd@kernel.org>, "Kalle Valo" <kvalo@kernel.org>,
- "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
-Cc: "Nicolas Ferre" <nicolas.ferre@microchip.com>,
- "Alexandre Belloni" <alexandre.belloni@bootlin.com>,
- "Claudiu Beznea" <claudiu.beznea@tuxon.dev>,
- "Jakub Kicinski" <kuba@kernel.org>, "Pavel Machek" <pavel@ucw.cz>,
- "David S . Miller" <davem@davemloft.net>,
- "Larry Finger" <Larry.Finger@lwfinger.net>, linux-kernel@vger.kernel.org,
- linux-wireless@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-staging@lists.linux.dev
-Subject: Re: [PATCH] [RFC] wireless: move obsolete drivers to staging
-Content-Type: text/plain
 
-On Wed, Oct 11, 2023, at 20:13, Philipp Hortmann wrote:
-> On 10/10/23 17:27, Arnd Bergmann wrote:
->> From: Arnd Bergmann <arnd@arndb.de> While looking at the old drivers 
->> using the obsolete .ndo_do_ioctl() callback, I found a number of network 
->> drivers that are especially obsolete, in particular for 802.11b 
->> (11Mbit/s) or even older wireless networks, using non-busmaster 
->> ISA/PCMCIA style bus interfaces, and using the legacy wireless extension 
->> ioctls rather than the netlink interfaces that were meant to replace 
->> them in 2007. All of these drivers are obsolete or orphaned. We had 
->> previously discussed this topic, but nobody ever moved the files, so I 
->> now went through the list to my best knowledge. These are the drivers 
->> that I would classify as "probably unused" by now:
->
-> I found a USB WLAN Stick with a rtl8192u. I got it last Saturday and 
-> found out that the firmware is missing in my ubuntu 20.04. I found it on 
-> the web and fixed it. When I started the driver my computer crashed. The 
-> missing part was: priv->priv_wq = alloc_workqueue("priv_wq", 0, 0); 
-> Fixing this the next error was a network = kzalloc(sizeof(*network), 
-> GFP_KERNEL); in wrong context with leads to a crash of my computer. 
-> Fixing this leads to another issue which lets my computer crash.
->
-> For me the firmware of rtl8192u was intentionally missing because of the 
-> issues with the driver.
->
-> What this has to do with your question?
-> Can we check for missing firmware in main distributions to know which 
-> drivers are considered to be old and unused?
+Use parenthesis with macro arguments to avoid possible precedence
+issues. Found by checkpatch.pl
 
-Nice, thanks so much for testing.
+Signed-off-by: Soumya Negi <soumya.negi97@gmail.com>
+---
+ drivers/staging/rts5208/rtsx.h | 16 ++++++++--------
+ 1 file changed, 8 insertions(+), 8 deletions(-)
 
-I see the two bugs were introduced in 2016 by commit 1761a85c3bed3
-("staging: rtl8192u: Remove create_workqueue()") and in 2021 by
-commit 061e390b7c87f ("staging: rtl8192u: ieee80211_softmac: Move a
-large data struct onto the heap"), so it's been broken for a while.
+diff --git a/drivers/staging/rts5208/rtsx.h b/drivers/staging/rts5208/rtsx.h
+index 2e101da83220..1cc05956ab6d 100644
+--- a/drivers/staging/rts5208/rtsx.h
++++ b/drivers/staging/rts5208/rtsx.h
+@@ -40,17 +40,17 @@
+  * macros for easy use
+  */
+ #define rtsx_writel(chip, reg, value) \
+-	iowrite32(value, (chip)->rtsx->remap_addr + reg)
++	iowrite32(value, (chip)->rtsx->remap_addr + (reg))
+ #define rtsx_readl(chip, reg) \
+-	ioread32((chip)->rtsx->remap_addr + reg)
++	ioread32((chip)->rtsx->remap_addr + (reg))
+ #define rtsx_writew(chip, reg, value) \
+-	iowrite16(value, (chip)->rtsx->remap_addr + reg)
++	iowrite16(value, (chip)->rtsx->remap_addr + (reg))
+ #define rtsx_readw(chip, reg) \
+-	ioread16((chip)->rtsx->remap_addr + reg)
++	ioread16((chip)->rtsx->remap_addr + (reg))
+ #define rtsx_writeb(chip, reg, value) \
+-	iowrite8(value, (chip)->rtsx->remap_addr + reg)
++	iowrite8(value, (chip)->rtsx->remap_addr + (reg))
+ #define rtsx_readb(chip, reg) \
+-	ioread8((chip)->rtsx->remap_addr + reg)
++	ioread8((chip)->rtsx->remap_addr + (reg))
+ 
+ #define rtsx_read_config_byte(chip, where, val) \
+ 	pci_read_config_byte((chip)->rtsx->pci, where, val)
+@@ -131,8 +131,8 @@ static inline struct rtsx_dev *host_to_rtsx(struct Scsi_Host *host)
+  * The scsi_lock() and scsi_unlock() macros protect the sm_state and the
+  * single queue element srb for write access
+  */
+-#define scsi_unlock(host)	spin_unlock_irq(host->host_lock)
+-#define scsi_lock(host)		spin_lock_irq(host->host_lock)
++#define scsi_unlock(host)	spin_unlock_irq((host)->host_lock)
++#define scsi_lock(host)		spin_lock_irq((host)->host_lock)
+ 
+ #define lock_state(chip)	spin_lock_irq(&((chip)->rtsx->reg_lock))
+ #define unlock_state(chip)	spin_unlock_irq(&((chip)->rtsx->reg_lock))
+-- 
+2.17.1
 
-I also checked rtl8192e for the same bugs, but that driver
-managed to avoid this even though it had the same code
-originally.
-
-Regarding the firmware files, I found:
-
-- rtl8192e, rtl7812 and rtl8723bs are all in the linux-firmware
-  package, unlike rtl8192u
-
-- atmel firmware is not in upstream linux-firmware, but Debian
-  has an atmel-firmware package for it
-
-- I could not find a Debian package for ks7010sd.rom
-
-- vt6656/vntwusb.fw is in firmware-misc-nonfree
-
-- orinoco has multiple firmware files, but only agere_sta_fw.bin
-  and agere_ap_fw.bin are in Debian and linux-firmware.
-
-     Arnd
