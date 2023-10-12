@@ -1,166 +1,130 @@
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+Received: from mail-lj1-f182.google.com (mail-lj1-f182.google.com [209.85.208.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A107F34CEF;
-	Thu, 12 Oct 2023 18:06:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACE4363B4;
+	Thu, 12 Oct 2023 19:06:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="h2F6E9s+"
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-4053e6e8ca7so4056695e9.1;
-        Thu, 12 Oct 2023 11:06:16 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KtIvQDI3"
+Received: by mail-lj1-f182.google.com with SMTP id 38308e7fff4ca-2c1886777d9so15896111fa.0;
+        Thu, 12 Oct 2023 12:06:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1697133975; x=1697738775; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
+        d=gmail.com; s=20230601; t=1697137584; x=1697742384; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=lK5NgA77h0nOOLHZGFVttVlkwT2vE2QqNqIM3cExAc8=;
-        b=h2F6E9s+boPKzyzD0WU2DFiFE3/OBgoG9Hz8Cbg+rLar82z/MAmzL6B0LCOc9tt/SY
-         1mhfDd/nI/+dzVJwsFMFrpKMrFm59s6TXcMUOqOUhU+YsSQGfzZNUDcJtqCr0OBMrqP3
-         x5vH5BAQZY4EOOZoiJf1dcgF4H8spugBdiUmVWM37/PDHrTfP3IuCknzD4WBwkxy9EPx
-         xnZCUqiaBX3DABB2Rw5ZzXyPcyDsnRnG9oR5T8fIwwUVONr+w5zTgFFagHLmex1EGfxQ
-         Rlg9jcunu4LPLlLNnYGQRXplwhTpeaOJSkRKmUsEkdvePKj0DxbgcRDeWn1VESyKmWdS
-         ltog==
+        bh=GRG/Q+khD2cAKTgkqi3DOUxaLzalQQAE2INM+FeGIZY=;
+        b=KtIvQDI3Wf+JvvCBFYdwplZP27OPIIc4F+fIyGbgb/4RuvYe6zAvnpFKUH4nKqxyBu
+         elOZh3S4m3oiBBV7kgZE0V0vCxBD8BmpjgHdjvBf4X0DEYztZV4waQfqmIyem4yVYxaW
+         sIkQwSSKXKv1enJDbfB520h3BTbAdpciRretPl1/5ZCrHhLmbjOeK+UgXcT92S3yenqC
+         wcbswgf/VXVzjBXJgGTZaCFIn5FdXiO9bQxFCFiJquiZc+0by0vyvZiKfSfU78P/LJka
+         4c+7umsIXy1xedvz3sqW+7KQV+mF9gaSrf3uHANgtJhL7d1DGmA23IHA6ZK6n3qiSvOO
+         RMCg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697133975; x=1697738775;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
+        d=1e100.net; s=20230601; t=1697137584; x=1697742384;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=lK5NgA77h0nOOLHZGFVttVlkwT2vE2QqNqIM3cExAc8=;
-        b=sxFoBdyuvNNUMm9n/CGijxJQuQ/oAc3lHOixid9zZvBy2xWnjUWYyWaCIYLY+7p6G9
-         awUwtE3dU5Etuas9In/BFESeId+yVuI6hlKoBgbNZ1sF/xhbVdIMQ03DzC3j2Wv0zFuC
-         rcDCwpOJW44A5HlvGT+JW25WtgM3Qh4wSk4NCsyHXm0X+j9+Yxp3E5aSyIUenD8GO3WG
-         //7AAfDFsZgCx+C/C6AQcFTMNPZbSVRjwHIhk7GBSDn0WXmPXLEP9XfePaRxZ8cTUQmw
-         izpX9+6XTBtjfnBBYz0NdXFIehIFiHpn+fRQJsCo+TDkQwbZoGxrIQlM8ZnKBGBQ8paS
-         GgvQ==
-X-Gm-Message-State: AOJu0YwOAETlubU6YfM/WwxyJq8su3kzWZlZz6L9nNHQD5Ul3q3h+Fjj
-	aVce3Y/Q271kJSHo+adezSw=
-X-Google-Smtp-Source: AGHT+IFJqG9+w9xeiDLVe2R7TC78GlLJe2aOcgx9jc/397+hakApP4whK0onhHZAZVgY1QmiTDq7Aw==
-X-Received: by 2002:a05:600c:450f:b0:405:358c:ba75 with SMTP id t15-20020a05600c450f00b00405358cba75mr22419196wmo.0.1697133974307;
-        Thu, 12 Oct 2023 11:06:14 -0700 (PDT)
-Received: from [192.168.0.104] (p579356c7.dip0.t-ipconnect.de. [87.147.86.199])
-        by smtp.gmail.com with ESMTPSA id x8-20020a05600c2a4800b004065daba6casm434015wme.46.2023.10.12.11.06.13
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 12 Oct 2023 11:06:13 -0700 (PDT)
-Message-ID: <7122db54-438e-4c41-a1b5-c919e47d8679@gmail.com>
-Date: Thu, 12 Oct 2023 20:06:12 +0200
+        bh=GRG/Q+khD2cAKTgkqi3DOUxaLzalQQAE2INM+FeGIZY=;
+        b=E6a/PrkIwAL7Xw8BeJB9sk3r5CvCnJiWuRt+qTYmVtuHNc20+5oNczdvWdsA7IkfZz
+         POH8gLC1buecrF+DjVOL7KjxWhjHEsHCK2vtgVQZK+eTm1WSgjQtyLL4ZXKfx3kX9NMX
+         lJSPKjw7SGu2wjDgYYcNrEjbhQ9XrY36st4ouEJSHqhTsbLB0NgxIPqBRaw34YHOeii0
+         9GaeyhB1pro3QKNIcDgIsPF7Her/Dk9YVE7wfC8a3hTB2BzkfAwgZs9nEwrrEtlYvBJE
+         mCnRDsjkiHGzDO/ArOCxEJepFr+AkRULYIdgHYwLd15RIOCTqMu9x/W8m0boTGqPiXJk
+         G4XQ==
+X-Gm-Message-State: AOJu0YwpBbGT/EKWhWJimNatLusNQsmRQTQGYY3+W41bmC4E9vhNCjVt
+	2hbtK2IbWerbeVfKSvufGG0=
+X-Google-Smtp-Source: AGHT+IHCatDuHoVLOodvZHyWbaPIKuEY1i2ybALWQhnXImPK6VTRXGS0KHVz0W4W3sA03WzDzP18Pg==
+X-Received: by 2002:ac2:560c:0:b0:507:9745:8629 with SMTP id v12-20020ac2560c000000b0050797458629mr873868lfd.55.1697137584259;
+        Thu, 12 Oct 2023 12:06:24 -0700 (PDT)
+Received: from lab-ubuntu ([41.90.69.21])
+        by smtp.gmail.com with ESMTPSA id q15-20020a170906360f00b0099d804da2e9sm11511509ejb.225.2023.10.12.12.06.23
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 12 Oct 2023 12:06:23 -0700 (PDT)
+Date: Thu, 12 Oct 2023 22:06:21 +0300
+From: Calvince Otieno <calvncce@gmail.com>
+To: outreachy@lists.linux.dev, linux-kernel@vger.kernel.org
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Archana <craechal@gmail.com>, Dan Carpenter <error27@gmail.com>,
+	Calvince Otieno <calvncce@gmail.com>,
+	Bagas Sanjaya <bagasdotme@gmail.com>, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v2] staging: wlan-ng: remove strcpy() use in favor of
+ strscpy()
+Message-ID: <ZShDrTH1wTmTxqlu@lab-ubuntu>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] staging/wlan-ng: remove strcpy() use in favor of
- strscpy()
-Content-Language: en-US
-To: Calvince Otieno <calvncce@gmail.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: outreachy@lists.linux.dev, linux-kernel@vger.kernel.org,
- Archana <craechal@gmail.com>, Dan Carpenter <error27@gmail.com>,
- Simon Horman <horms@kernel.org>, Bagas Sanjaya <bagasdotme@gmail.com>,
- linux-staging@lists.linux.dev
-References: <ZSf8VcH8JQ+L+Z/r@lab-ubuntu>
- <2023101234-extenuate-regain-2e36@gregkh>
- <CADFX3OQWXU0bxe17QmCVdASC2oRzMk3A3SBW=5SnO9SSBzR2FA@mail.gmail.com>
-From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-In-Reply-To: <CADFX3OQWXU0bxe17QmCVdASC2oRzMk3A3SBW=5SnO9SSBzR2FA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On 10/12/23 19:47, Calvince Otieno wrote:
-> On Thu, Oct 12, 2023 at 7:42 PM Greg Kroah-Hartman
-> <gregkh@linuxfoundation.org> wrote:
->>
->> On Thu, Oct 12, 2023 at 05:01:57PM +0300, Calvince Otieno wrote:
->>> In response to the suggestion by Dan Carpenter on the initial patch,
->>> this patch provides a correct usage of the strscpy() in place of the
->>> current strcpy() implementation.
->>>
->>> strscpy() copies characters from the source buffer to the destination
->>> buffer until one of the following conditions is met:
->>>        - null-terminator ('\0') is encountered in the source string.
->>>        - specified maximum length of the destination buffer is reached.
->>>        - source buffer is exhausted.
->>> Example:
->>>        char dest[11];
->>>        const char *PRISM2_USB_FWFILE = "prism2_ru.fw";
->>>        strscpy(dest, PRISM2_USB_FWFILE, sizeof(dest));
->>>
->>>        In this case, strscpy copies the first 10 characters of src into dest
->>>        and add a null-terminator. dest will then contain "prism2_ru.f" with
->>>        proper null-termination.
->>>
->>> Since the specified length of the dest buffer is not derived from the
->>> dest buffer itself and rather form plug length (s3plug[i].len),
->>> replacing strcpy() with strscpy() is a better option because it will
->>> ensures that the destination string is always properly terminated.
->>>
->>> Signed-off-by: Calvince Otieno <calvncce@gmail.com>
->>> ---
-Hi,
+In response to the suggestion by Dan Carpenter on the initial patch,
+this patch provides a correct usage of the strscpy() in place of the
+current strcpy() implementation.
 
-Greg wants you to add a changelog here below the "---". Can look like this:
-v2 : description of changes
+strscpy() copies characters from the source buffer to the destination
+buffer until one of the following conditions is met:
+	- null-terminator ('\0') is encountered in the source string.
+	- specified maximum length of the destination buffer is reached.
+	- source buffer is exhausted.
+Example:
+	char dest[11];
+	const char *PRISM2_USB_FWFILE = "prism2_ru.fw";
+	strscpy(dest, PRISM2_USB_FWFILE, sizeof(dest));
 
-Bye Philipp
+	In this case, strscpy copies the first 10 characters of src into dest
+	and add a null-terminator. dest will then contain "prism2_ru.f" with
+	proper null-termination.
 
+Since the specified length of the dest buffer is not derived from the
+dest buffer itself and rather form plug length (s3plug[i].len),
+replacing strcpy() with strscpy() is a better option because it will
+ensures that the destination string is always properly terminated.
 
->>>   drivers/staging/wlan-ng/prism2fw.c | 2 +-
->>>   1 file changed, 1 insertion(+), 1 deletion(-)
->>>
->>> diff --git a/drivers/staging/wlan-ng/prism2fw.c b/drivers/staging/wlan-ng/prism2fw.c
->>> index 5d03b2b9aab4..3ccd11041646 100644
->>> --- a/drivers/staging/wlan-ng/prism2fw.c
->>> +++ b/drivers/staging/wlan-ng/prism2fw.c
->>> @@ -725,7 +725,7 @@ static int plugimage(struct imgchunk *fchunk, unsigned int nfchunks,
->>>
->>>                if (j == -1) {  /* plug the filename */
->>>                        memset(dest, 0, s3plug[i].len);
->>> -                     strncpy(dest, PRISM2_USB_FWFILE, s3plug[i].len - 1);
->>> +                     strscpy(dest, PRISM2_USB_FWFILE, s3plug[i].len);
->>>                } else {        /* plug a PDR */
->>>                        memcpy(dest, &pda->rec[j]->data, s3plug[i].len);
->>>                }
->>> --
->>> 2.34.1
->>>
->>>
->>
->> Hi,
->>
->> This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
->> a patch that has triggered this response.  He used to manually respond
->> to these common problems, but in order to save his sanity (he kept
->> writing the same thing over and over, yet to different people), I was
->> created.  Hopefully you will not take offence and will fix the problem
->> in your patch and resubmit it so that it can be accepted into the Linux
->> kernel tree.
->>
->> You are receiving this message because of the following common error(s)
->> as indicated below:
->>
->> - This looks like a new version of a previously submitted patch, but you
->>    did not list below the --- line any changes from the previous version.
->>    Please read the section entitled "The canonical patch format" in the
->>    kernel file, Documentation/process/submitting-patches.rst for what
->>    needs to be done here to properly describe this.
->>
->> If you wish to discuss this problem further, or you have questions about
->> how to resolve this issue, please feel free to respond to this email and
->> Greg will reply once he has dug out from the pending patches received
->> from other developers.
->>
->> thanks,
->>
->> greg k-h's patch email bot
-> 
-> 
-> 
-> Hello Greg,
-> 
-> I did amend my first commit
-> 
-> I used the command: git commit --amend -v
-> The result of this commit action is what I sent over.
+Signed-off-by: Calvince Otieno <calvncce@gmail.com>
+---
+
+Patch version v2 : 
+	Correct implementation of the strscpy()
+
+drivers/staging/wlan-ng/prism2fw.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/staging/wlan-ng/prism2fw.c b/drivers/staging/wlan-ng/prism2fw.c
+index 5d03b2b9aab4..3ccd11041646 100644
+--- a/drivers/staging/wlan-ng/prism2fw.c
++++ b/drivers/staging/wlan-ng/prism2fw.c
+@@ -725,7 +725,7 @@ static int plugimage(struct imgchunk *fchunk, unsigned int nfchunks,
+ 
+ 		if (j == -1) {	/* plug the filename */
+ 			memset(dest, 0, s3plug[i].len);
+-			strncpy(dest, PRISM2_USB_FWFILE, s3plug[i].len - 1);
++			strscpy(dest, PRISM2_USB_FWFILE, s3plug[i].len);
+ 		} else {	/* plug a PDR */
+ 			memcpy(dest, &pda->rec[j]->data, s3plug[i].len);
+ 		}
+
+Patch version v1: 
+	Replacing strcpy() with strscpy()
+
+ drivers/staging/wlan-ng/prism2fw.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/staging/wlan-ng/prism2fw.c b/drivers/staging/wlan-ng/prism2fw.c
+index 5d03b2b9aab4..57a99dd12143 100644
+--- a/drivers/staging/wlan-ng/prism2fw.c
++++ b/drivers/staging/wlan-ng/prism2fw.c
+@@ -725,7 +725,7 @@ static int plugimage(struct imgchunk *fchunk, unsigned int nfchunks,
+
+                if (j == -1) {  /* plug the filename */
+                        memset(dest, 0, s3plug[i].len);
+-                       strncpy(dest, PRISM2_USB_FWFILE, s3plug[i].len - 1);
++                       strscpy(dest, PRISM2_USB_FWFILE, s3plug[i].len - 1);
+                } else {        /* plug a PDR */
+                        memcpy(dest, &pda->rec[j]->data, s3plug[i].len);
+                }
+-- 
+Calvince Otieno
 
