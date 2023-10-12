@@ -1,29 +1,29 @@
 Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80180249F2
-	for <linux-staging@lists.linux.dev>; Thu, 12 Oct 2023 11:46:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4719224A00
+	for <linux-staging@lists.linux.dev>; Thu, 12 Oct 2023 11:46:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="X7vWa5QW"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="WgyGRT3W"
 Received: from benjamin-XPS-13-9310.. (unknown [IPv6:2a01:e0a:120:3210:7ae7:b86d:c19a:877e])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
 	(Authenticated sender: benjamin.gaignard)
-	by madras.collabora.co.uk (Postfix) with ESMTPSA id 429CA6607342;
-	Thu, 12 Oct 2023 12:46:49 +0100 (BST)
+	by madras.collabora.co.uk (Postfix) with ESMTPSA id 52F226607347;
+	Thu, 12 Oct 2023 12:46:50 +0100 (BST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1697111209;
-	bh=03RAEnToAZlpA5zriZn4iipC55hu5YoQmSi3kkGEoyQ=;
-	h=From:To:Cc:Subject:Date:From;
-	b=X7vWa5QWA83jRsiJbk3zEynX9cZ6KSadwBuOHiRVKdeCuyiaJc8QbEdQ90dvkW3DW
-	 oy1PtCdZM2ztCR0xuYGgnwDOYd9ploOLUB3pOVRPE7Vvgqu7zvF3L1V9UKpFGNGBBa
-	 Pz9fXABDG0jtwbqo4frwA6qAbcgBTSjReeBcgw6TQ3f/NZGp0YlH2l+d5xF5nkuTOa
-	 UFo/yWbLUPWkN8/SXiKxXynDuygCdrXls+JPRgs9UUS1qCpWP8cFj9xUmWik7GFjQu
-	 zJRfcHAdWA2Xa99xk3ldVY92UZf6hXCfqBndF2n4bWATJSHH1B2HiSWAB6VFJ8gQ0r
-	 IfcEhweTxb+zw==
+	s=mail; t=1697111210;
+	bh=7foNNb6amO3+FMMwIl173lEOz6gYhJG/dA79F9jwpAU=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=WgyGRT3Wun6oQTjVb/4d2xo/H9h+Mo51gVh/Qv4FpnOR8cd80YKFO/8Zh4K4zPGas
+	 hjIR2gGYFRJmkUgurilkUADwklRY+OK7p5fTIO6ZkrEvl37tn9PQ5gnAftD0pwJIQa
+	 VLMXBNvUQCw0lQ6KilJH5GQk2JDNxO9Ac6KjjJEJmzmUNASybx9wVA8QEDYLRUaKYe
+	 tPR5blQGz+SdckyNdIm/itHL86EH1uITlplFCeK/mHWi5WWYBEy8f6G0zqysttAFNT
+	 GF5HQrLx0jU8QB7ngsivbga72hPDZ6Qg5jkQN8ezpwVnBC9ICpHxQGDQyRp26XR9H5
+	 kntHkJmG+XW/A==
 From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
 To: mchehab@kernel.org,
 	tfiga@chromium.org,
@@ -43,10 +43,12 @@ Cc: linux-media@vger.kernel.org,
 	linux-staging@lists.linux.dev,
 	kernel@collabora.com,
 	Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Subject: [PATCH v11 00/56] Add DELETE_BUF ioctl
-Date: Thu, 12 Oct 2023 13:45:46 +0200
-Message-Id: <20231012114642.19040-1-benjamin.gaignard@collabora.com>
+Subject: [PATCH v11 02/56] media: videobuf2: Rework offset 'cookie' encoding pattern
+Date: Thu, 12 Oct 2023 13:45:48 +0200
+Message-Id: <20231012114642.19040-3-benjamin.gaignard@collabora.com>
 X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20231012114642.19040-1-benjamin.gaignard@collabora.com>
+References: <20231012114642.19040-1-benjamin.gaignard@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -55,227 +57,176 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Unlike when resolution change on keyframes, dynamic resolution change
-on inter frames doesn't allow to do a stream off/on sequence because
-it is need to keep all previous references alive to decode inter frames.
-This constraint have two main problems:
-- more memory consumption.
-- more buffers in use.
-To solve these issue this series introduce DELETE_BUFS ioctl and remove
-the 32 buffers limit per queue.
+Change how offset 'cookie' field value is computed to make possible
+to use more buffers.
+The maximum number of buffers depends of PAGE_SHIFT value and can
+go up to 0x7fff when PAGE_SHIFT = 12.
+With this encoding pattern we know the maximum number that a queue
+could store so we can check it at  queue init time.
+It also make easier and faster to find buffer and plane from using
+the offset field.
+Change __find_plane_by_offset() prototype to return the video buffer
+itself rather than it index.
 
-VP9 conformance tests using fluster give a score of 210/305.
-The 20 resize inter tests (vp90-2-21-resize_inter_* files) are ok
-but require to use postprocessor.
+Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+---
+ .../media/common/videobuf2/videobuf2-core.c   | 73 +++++++++----------
+ 1 file changed, 35 insertions(+), 38 deletions(-)
 
-Kernel branch is available here:
-https://gitlab.collabora.com/benjamin.gaignard/for-upstream/-/commits/remove_vb2_queue_limit_v11
-
-GStreamer branch to use DELETE_BUF ioctl and testing dynamic resolution
-change is here:
-https://gitlab.freedesktop.org/benjamin.gaignard1/gstreamer/-/commits/VP9_drc
-
-changes in version 11:
-- Patches ordering:
-  1 to 3: clean up
-  3 to 42: use vb2_get_buffer() and vb2_get_num_buffers()
-  43 to 46: allow to use more than 32 buffers per queue
-  47 to 50: allow verisilicon driver to do VP9 dynamic resolution change
-            (which was the main purpose of this work)
-  51 to 56: prepare and introduce delete buffers feature.
-- Add a patch to rename 'off' to offset.
-- Add maintainers CC to drivers patches
-
-changes in version 10:
-- Make BUFFER_INDEX_MASK definition more readable
-- Rebase on media_stage/master branch and add a patch for nuvoton
-  driver.
-- Fix issue on patch 13
-
-changes in version 9:
-- BUFFER_INDEX_MASK now depends on PAGE_SHIFT value to match
-  architectures requirements.
-- Correctly initialize max_num_buffers in vb2_core_queue_init()
-- run 'test-media -kmemleak mc' on top of the series and on patches 1 to 47 without failures.
-- fix compilation issue in patch 50
-
-changes in version 8:
-- Add V4L2_BUF_CAP_SUPPORTS_SET_MAX_BUFS and new 'max_buffers' field in v4l2_create_buffers
-  structure to report the maximum number of buffers that a queue could allocate.
-- Add V4L2_BUF_CAP_SUPPORTS_DELETE_BUFS to indicate that a queue support
-  DELETE_BUFS ioctl.
-- Make some test drivers use more than 32 buffers and DELETE_BUFS ioctl.
-- Fix remarks done by Hans
-- Move "media: core: Rework how create_buf index returned value is
-  computed" patch to the top of the serie.
-
-changes in version 7:
-- Use a bitmap to know which entries are valid in queue bufs array.
-  The number of buffers in the queue could must calculated from the
-  bitmap so num_buffers becomes useless. This led to add quite few
-  patches to remove it from all the drivers.
-  Note: despiste my attention I may have miss some calls to
-  num_buffers...
-- Split patches to make them more readable.
-- Run v4l2-compliance with additional delete-bufs tests.
-- Run ./test-media -kmemleak vivid and no more failures.
-  Note: I had to remove USERPTR streaming test because they to much
-  frequentely hit get_framevec bug. It is not related to my series
-  since this happens all the time on master branch.
-- Fix Hans remarks on v6
-
-changes in version 6:
-- Get a patch per driver to use vb2_get_buffer() instead of directly access
-  to queue buffers array.
-- Add lock in vb2_core_delete_buf()
-- Use vb2_buffer instead of index
-- Fix various comments
-- Change buffer index name to BUFFER_INDEX_MASK
-- Stop spamming kernel log with unbalanced counters
-
-Benjamin Gaignard (56):
-  media: videobuf2: Rename offset parameter
-  media: videobuf2: Rework offset 'cookie' encoding pattern
-  media: videobuf2: Stop spamming kernel log with all queue counter
-  media: videobuf2: Use vb2_buffer instead of index
-  media: videobuf2: Access vb2_queue bufs array through helper functions
-  media: videobuf2: Remove duplicated index vs q->num_buffers check
-  media: videobuf2: Add helper to get queue number of buffers
-  media: videobuf2: Use vb2_get_num_buffers() helper
-  media: amphion: Use vb2_get_buffer() instead of directly access to
-    buffers array
-  media: amphion: Stop direct calls to queue num_buffers field
-  media: mediatek: jpeg: Use vb2_get_buffer() instead of directly access
-    to buffers array
-  media: mediatek: vdec: Remove useless loop
-  media: mediatek: vcodec: Stop direct calls to queue num_buffers field
-  media: sti: hva: Use vb2_get_buffer() instead of directly access to
-    buffers array
-  media: visl: Use vb2_get_buffer() instead of directly access to
-    buffers array
-  media: atomisp: Use vb2_get_buffer() instead of directly access to
-    buffers array
-  media: atomisp: Stop direct calls to queue num_buffers field
-  media: dvb-core: Use vb2_get_buffer() instead of directly access to
-    buffers array
-  media: dvb-core: Do not initialize twice queue num_buffer field
-  media: dvb-frontends: rtl2832_srd: Use queue min_buffers_needed field
-  media: video-i2c: Set min_buffers_needed to 2
-  media: pci: cx18: Set correct value to min_buffers_needed field
-  media: pci: dt3155: Remove useless check
-  media: pci: netup_unidvb: Remove useless number of buffers check
-  media: pci: tw68: Stop direct calls to queue num_buffers field
-  media: pci: tw686x: Set min_buffers_needed to 3
-  media: coda: Stop direct calls to queue num_buffers field
-  media: nxp: Stop direct calls to queue num_buffers field
-  media: renesas: Set min_buffers_needed to 16
-  media: ti: Use queue min_buffers_needed field to set the min number of
-    buffers
-  media: verisilicon: Stop direct calls to queue num_buffers field
-  media: test-drivers: Stop direct calls to queue num_buffers field
-  media: usb: airspy: Set min_buffers_needed to 8
-  media: usb: cx231xx: Set min_buffers_needed to CX231XX_MIN_BUF
-  media: usb: hackrf: Set min_buffers_needed to 8
-  media: usb: usbtv: Set min_buffers_needed to 2
-  media: imx: Stop direct calls to queue num_buffers field
-  media: meson: vdec: Stop direct calls to queue num_buffers field
-  touchscreen: sur40: Stop direct calls to queue num_buffers field
-  sample: v4l: Stop direct calls to queue num_buffers field
-  media: cedrus: Stop direct calls to queue num_buffers field
-  media: nuvoton: Stop direct calls to queue num_buffers field
-  media: videobuf2: Be more flexible on the number of queue stored
-    buffers
-  media: core: Report the maximum possible number of buffers for the
-    queue
-  media: test-drivers: vivid: Increase max supported buffers for capture
-    queues
-  media: test-drivers: vicodec: Increase max supported capture queue
-    buffers
-  media: verisilicon: Refactor postprocessor to store more buffers
-  media: verisilicon: Store chroma and motion vectors offset
-  media: verisilicon: g2: Use common helpers to compute chroma and mv
-    offsets
-  media: verisilicon: vp9: Allow to change resolution while streaming
-  media: core: Rework how create_buf index returned value is computed
-  media: core: Add bitmap manage bufs array entries
-  media: core: Free range of buffers
-  media: v4l2: Add DELETE_BUFS ioctl
-  media: v4l2: Add mem2mem helpers for DELETE_BUFS ioctl
-  media: test-drivers: Use helper for DELETE_BUFS ioctl
-
- .../userspace-api/media/v4l/user-func.rst     |   1 +
- .../media/v4l/vidioc-create-bufs.rst          |   8 +-
- .../media/v4l/vidioc-delete-bufs.rst          |  80 +++
- .../media/v4l/vidioc-reqbufs.rst              |   2 +
- drivers/input/touchscreen/sur40.c             |   5 +-
- .../media/common/videobuf2/videobuf2-core.c   | 567 +++++++++++-------
- .../media/common/videobuf2/videobuf2-v4l2.c   | 116 +++-
- drivers/media/dvb-core/dvb_vb2.c              |  17 +-
- drivers/media/dvb-frontends/rtl2832_sdr.c     |   9 +-
- drivers/media/i2c/video-i2c.c                 |   5 +-
- drivers/media/pci/cx18/cx18-streams.c         |  13 +-
- drivers/media/pci/dt3155/dt3155.c             |   2 -
- .../pci/netup_unidvb/netup_unidvb_core.c      |   4 +-
- drivers/media/pci/tw68/tw68-video.c           |   6 +-
- drivers/media/pci/tw686x/tw686x-video.c       |  13 +-
- drivers/media/platform/amphion/vpu_dbg.c      |  30 +-
- drivers/media/platform/amphion/vpu_v4l2.c     |   4 +-
- .../media/platform/chips-media/coda-common.c  |   2 +-
- .../platform/mediatek/jpeg/mtk_jpeg_core.c    |   7 +-
- .../vcodec/decoder/vdec/vdec_vp9_req_lat_if.c |   9 +-
- .../mediatek/vcodec/encoder/mtk_vcodec_enc.c  |   2 +-
- drivers/media/platform/nuvoton/npcm-video.c   |   2 +-
- drivers/media/platform/nxp/imx7-media-csi.c   |   7 +-
- drivers/media/platform/renesas/rcar_drif.c    |   8 +-
- drivers/media/platform/st/sti/hva/hva-v4l2.c  |   9 +-
- .../media/platform/ti/am437x/am437x-vpfe.c    |   7 +-
- drivers/media/platform/ti/cal/cal-video.c     |   5 +-
- .../media/platform/ti/davinci/vpif_capture.c  |   5 +-
- .../media/platform/ti/davinci/vpif_display.c  |   5 +-
- drivers/media/platform/ti/omap/omap_vout.c    |   5 +-
- drivers/media/platform/verisilicon/hantro.h   |   9 +-
- .../media/platform/verisilicon/hantro_drv.c   |   5 +-
- .../media/platform/verisilicon/hantro_g2.c    |  14 +
- .../platform/verisilicon/hantro_g2_hevc_dec.c |  18 +-
- .../platform/verisilicon/hantro_g2_vp9_dec.c  |  28 +-
- .../media/platform/verisilicon/hantro_hw.h    |   7 +-
- .../platform/verisilicon/hantro_postproc.c    |  93 ++-
- .../media/platform/verisilicon/hantro_v4l2.c  |  27 +-
- .../media/test-drivers/vicodec/vicodec-core.c |   3 +
- drivers/media/test-drivers/vim2m.c            |   2 +
- .../media/test-drivers/vimc/vimc-capture.c    |   2 +
- drivers/media/test-drivers/visl/visl-dec.c    |  32 +-
- drivers/media/test-drivers/visl/visl-video.c  |   2 +
- drivers/media/test-drivers/vivid/vivid-core.c |  14 +
- .../media/test-drivers/vivid/vivid-meta-cap.c |   3 -
- .../media/test-drivers/vivid/vivid-meta-out.c |   5 +-
- .../test-drivers/vivid/vivid-touch-cap.c      |   5 +-
- .../media/test-drivers/vivid/vivid-vbi-cap.c  |   5 +-
- .../media/test-drivers/vivid/vivid-vbi-out.c  |   5 +-
- .../media/test-drivers/vivid/vivid-vid-cap.c  |   5 +-
- .../media/test-drivers/vivid/vivid-vid-out.c  |   5 +-
- drivers/media/usb/airspy/airspy.c             |   9 +-
- drivers/media/usb/cx231xx/cx231xx-417.c       |   4 +-
- drivers/media/usb/cx231xx/cx231xx-video.c     |   4 +-
- drivers/media/usb/hackrf/hackrf.c             |   9 +-
- drivers/media/usb/usbtv/usbtv-video.c         |   3 +-
- drivers/media/v4l2-core/v4l2-dev.c            |   1 +
- drivers/media/v4l2-core/v4l2-ioctl.c          |  21 +-
- drivers/media/v4l2-core/v4l2-mem2mem.c        |  20 +
- .../staging/media/atomisp/pci/atomisp_ioctl.c |   4 +-
- drivers/staging/media/imx/imx-media-capture.c |   7 +-
- drivers/staging/media/meson/vdec/vdec.c       |  13 +-
- .../staging/media/sunxi/cedrus/cedrus_h264.c  |   8 +-
- .../staging/media/sunxi/cedrus/cedrus_h265.c  |   9 +-
- include/media/v4l2-ioctl.h                    |   4 +
- include/media/v4l2-mem2mem.h                  |  12 +
- include/media/videobuf2-core.h                |  65 +-
- include/media/videobuf2-v4l2.h                |  13 +
- include/uapi/linux/videodev2.h                |  24 +-
- samples/v4l/v4l2-pci-skeleton.c               |   5 +-
- 70 files changed, 972 insertions(+), 507 deletions(-)
- create mode 100644 Documentation/userspace-api/media/v4l/vidioc-delete-bufs.rst
-
+diff --git a/drivers/media/common/videobuf2/videobuf2-core.c b/drivers/media/common/videobuf2/videobuf2-core.c
+index a5e57affeb30..09be8e026044 100644
+--- a/drivers/media/common/videobuf2/videobuf2-core.c
++++ b/drivers/media/common/videobuf2/videobuf2-core.c
+@@ -31,6 +31,11 @@
+ 
+ #include <trace/events/vb2.h>
+ 
++#define PLANE_INDEX_SHIFT	(PAGE_SHIFT + 3)
++#define PLANE_INDEX_MASK	0x7
++#define MAX_BUFFER_INDEX	BIT_MASK(30 - PLANE_INDEX_SHIFT)
++#define BUFFER_INDEX_MASK	(MAX_BUFFER_INDEX - 1)
++
+ static int debug;
+ module_param(debug, int, 0644);
+ 
+@@ -358,21 +363,27 @@ static void __setup_offsets(struct vb2_buffer *vb)
+ 	unsigned int plane;
+ 	unsigned long offset = 0;
+ 
+-	if (vb->index) {
+-		struct vb2_buffer *prev = q->bufs[vb->index - 1];
+-		struct vb2_plane *p = &prev->planes[prev->num_planes - 1];
+-
+-		offset = PAGE_ALIGN(p->m.offset + p->length);
+-	}
++	/*
++	 * The offset "cookie" value has the following constraints:
++	 * - a buffer can have up to 8 planes.
++	 * - v4l2 mem2mem uses bit 30 to distinguish between
++	 *   OUTPUT (aka "source", bit 30 is 0) and
++	 *   CAPTURE (aka "destination", bit 30 is 1) buffers.
++	 * - must be page aligned
++	 * That led to this bit mapping when PAGE_SHIFT = 12:
++	 * |30                |29        15|14       12|11 0|
++	 * |DST_QUEUE_OFF_BASE|buffer index|plane index| 0  |
++	 * where there are 15 bits to store the buffer index.
++	 * Depending on PAGE_SHIFT value we can have fewer bits
++	 * to store the buffer index.
++	 */
++	offset = vb->index << PLANE_INDEX_SHIFT;
+ 
+ 	for (plane = 0; plane < vb->num_planes; ++plane) {
+-		vb->planes[plane].m.offset = offset;
++		vb->planes[plane].m.offset = offset + (plane << PAGE_SHIFT);
+ 
+ 		dprintk(q, 3, "buffer %d, plane %d offset 0x%08lx\n",
+ 				vb->index, plane, offset);
+-
+-		offset += vb->planes[plane].length;
+-		offset = PAGE_ALIGN(offset);
+ 	}
+ }
+ 
+@@ -2188,10 +2199,9 @@ EXPORT_SYMBOL_GPL(vb2_core_streamoff);
+  * __find_plane_by_offset() - find plane associated with the given offset
+  */
+ static int __find_plane_by_offset(struct vb2_queue *q, unsigned long offset,
+-			unsigned int *_buffer, unsigned int *_plane)
++			struct vb2_buffer **vb, unsigned int *plane)
+ {
+-	struct vb2_buffer *vb;
+-	unsigned int buffer, plane;
++	unsigned int buffer;
+ 
+ 	/*
+ 	 * Sanity checks to ensure the lock is held, MEMORY_MMAP is
+@@ -2209,24 +2219,15 @@ static int __find_plane_by_offset(struct vb2_queue *q, unsigned long offset,
+ 		return -EBUSY;
+ 	}
+ 
+-	/*
+-	 * Go over all buffers and their planes, comparing the given offset
+-	 * with an offset assigned to each plane. If a match is found,
+-	 * return its buffer and plane numbers.
+-	 */
+-	for (buffer = 0; buffer < q->num_buffers; ++buffer) {
+-		vb = q->bufs[buffer];
++	/* Get buffer and plane from the offset */
++	buffer = (offset >> PLANE_INDEX_SHIFT) & BUFFER_INDEX_MASK;
++	*plane = (offset >> PAGE_SHIFT) & PLANE_INDEX_MASK;
+ 
+-		for (plane = 0; plane < vb->num_planes; ++plane) {
+-			if (vb->planes[plane].m.offset == offset) {
+-				*_buffer = buffer;
+-				*_plane = plane;
+-				return 0;
+-			}
+-		}
+-	}
++	if (buffer >= q->num_buffers || *plane >= q->bufs[buffer]->num_planes)
++		return -EINVAL;
+ 
+-	return -EINVAL;
++	*vb = q->bufs[buffer];
++	return 0;
+ }
+ 
+ int vb2_core_expbuf(struct vb2_queue *q, int *fd, unsigned int type,
+@@ -2306,7 +2307,7 @@ int vb2_mmap(struct vb2_queue *q, struct vm_area_struct *vma)
+ {
+ 	unsigned long offset = vma->vm_pgoff << PAGE_SHIFT;
+ 	struct vb2_buffer *vb;
+-	unsigned int buffer = 0, plane = 0;
++	unsigned int plane = 0;
+ 	int ret;
+ 	unsigned long length;
+ 
+@@ -2335,12 +2336,10 @@ int vb2_mmap(struct vb2_queue *q, struct vm_area_struct *vma)
+ 	 * Find the plane corresponding to the offset passed by userspace. This
+ 	 * will return an error if not MEMORY_MMAP or file I/O is in progress.
+ 	 */
+-	ret = __find_plane_by_offset(q, offset, &buffer, &plane);
++	ret = __find_plane_by_offset(q, offset, &vb, &plane);
+ 	if (ret)
+ 		goto unlock;
+ 
+-	vb = q->bufs[buffer];
+-
+ 	/*
+ 	 * MMAP requires page_aligned buffers.
+ 	 * The buffer length was page_aligned at __vb2_buf_mem_alloc(),
+@@ -2368,7 +2367,7 @@ int vb2_mmap(struct vb2_queue *q, struct vm_area_struct *vma)
+ 	if (ret)
+ 		return ret;
+ 
+-	dprintk(q, 3, "buffer %d, plane %d successfully mapped\n", buffer, plane);
++	dprintk(q, 3, "buffer %u, plane %d successfully mapped\n", vb->index, plane);
+ 	return 0;
+ }
+ EXPORT_SYMBOL_GPL(vb2_mmap);
+@@ -2382,7 +2381,7 @@ unsigned long vb2_get_unmapped_area(struct vb2_queue *q,
+ {
+ 	unsigned long offset = pgoff << PAGE_SHIFT;
+ 	struct vb2_buffer *vb;
+-	unsigned int buffer, plane;
++	unsigned int plane;
+ 	void *vaddr;
+ 	int ret;
+ 
+@@ -2392,12 +2391,10 @@ unsigned long vb2_get_unmapped_area(struct vb2_queue *q,
+ 	 * Find the plane corresponding to the offset passed by userspace. This
+ 	 * will return an error if not MEMORY_MMAP or file I/O is in progress.
+ 	 */
+-	ret = __find_plane_by_offset(q, offset, &buffer, &plane);
++	ret = __find_plane_by_offset(q, offset, &vb, &plane);
+ 	if (ret)
+ 		goto unlock;
+ 
+-	vb = q->bufs[buffer];
+-
+ 	vaddr = vb2_plane_vaddr(vb, plane);
+ 	mutex_unlock(&q->mmap_lock);
+ 	return vaddr ? (unsigned long)vaddr : -EINVAL;
 -- 
 2.39.2
 
