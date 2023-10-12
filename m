@@ -1,80 +1,100 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A80C24A01
-	for <linux-staging@lists.linux.dev>; Thu, 12 Oct 2023 11:47:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8E3525101
+	for <linux-staging@lists.linux.dev>; Thu, 12 Oct 2023 11:47:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fyWT3MLE"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 29692C433C8;
-	Thu, 12 Oct 2023 11:47:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1697111229;
-	bh=Os/rNYAUGPL9imcxx13LMUsomb2BE6SwhLERSQGYHhY=;
-	h=From:To:Cc:Subject:References:Date:In-Reply-To:From;
-	b=fyWT3MLEW1gImBZOebPavwDqi8qE6hF1yUAbAy6IIPxDuxtOBsXzsEYb2jkWWXfgD
-	 TZ/j4YZwEHDQIN3IaI8MRA6IF+gmYEUck2qy7B6+uUVKkU3iACYVdZrCJRkRwW9Ww4
-	 yKGN65dkV5mHmyFWmOYoFo+L16YMw+hdk3RfcvWTbDjBzpx3JTzVX92IjXMLqtEj0i
-	 +R1VOtRwueBgf2L4GcM6VVrsU9ca2DXyzxbbZdix49Aw9ZQpcTwxphQSiFWZ9Z6bou
-	 eyMMmQ4aRjnJTRIEG7XQU4/HIA3zc4rb8uUawk143bDjCCviRZ4zdrwNFhNBeg/OYQ
-	 38QyvtFWyTvXQ==
-From: Kalle Valo <kvalo@kernel.org>
-To: Jakub Kicinski <kuba@kernel.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,  Arnd Bergmann
- <arnd@kernel.org>,  Arnd Bergmann <arnd@arndb.de>,  Nicolas Ferre
- <nicolas.ferre@microchip.com>,  Alexandre Belloni
- <alexandre.belloni@bootlin.com>,  Claudiu Beznea
- <claudiu.beznea@tuxon.dev>,  Pavel Machek <pavel@ucw.cz>,  "David S.
- Miller" <davem@davemloft.net>,  Larry Finger <Larry.Finger@lwfinger.net>,
-  linux-kernel@vger.kernel.org,  linux-wireless@vger.kernel.org,
-  linux-arm-kernel@lists.infradead.org,  linux-staging@lists.linux.dev
-Subject: Re: [PATCH] [RFC] wireless: move obsolete drivers to staging
-References: <20231010155444.858483-1-arnd@kernel.org>
-	<2023101051-unmasked-cleaver-79b3@gregkh> <87y1g94szz.fsf@kernel.org>
-	<2023101139-pyromania-game-2237@gregkh> <87r0m1fwg9.fsf@kernel.org>
-	<20231011080955.1beeb010@kernel.org>
-Date: Thu, 12 Oct 2023 14:47:03 +0300
-In-Reply-To: <20231011080955.1beeb010@kernel.org> (Jakub Kicinski's message of
-	"Wed, 11 Oct 2023 08:09:55 -0700")
-Message-ID: <87sf6g2hc8.fsf@kernel.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="Gt4nc0tx"
+Received: from benjamin-XPS-13-9310.. (unknown [IPv6:2a01:e0a:120:3210:7ae7:b86d:c19a:877e])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: benjamin.gaignard)
+	by madras.collabora.co.uk (Postfix) with ESMTPSA id D47F96607386;
+	Thu, 12 Oct 2023 12:47:04 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1697111225;
+	bh=51uRb95lmgtzN6hPPISI8XHQeJXuX3+AzrSS67M/f6s=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=Gt4nc0txfNVIZ5gk4/sqZ4qB2MaTfQYsWPhxWnma3yviaHOoARF6sXyzRJQqcO8Ou
+	 XTEAtThthuhUpmbSiRuoovR62A4gy/9MJ8/7brNgOXyfIqXGQCUcR/peYoJGA/2lV0
+	 Z9vAeqBAXyTu7CBu6KxUgbS2Q1gHaAfosZtAX6AwGHCqrpP1m1SXj17i8IzP5iDUGh
+	 G3OZaWgQg60lJGtoYrK7Ojy62GGP601fLQ42VL2fzdALe+zUaGUxyPvSFyNtKID3qP
+	 SR7pFSjVWzGBjGtXWYmY8LuPddgpfsOvoev0Wod6oVczcObQtZhTUb4igjZ1ftwAnC
+	 4roVOh35d8nIg==
+From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+To: mchehab@kernel.org,
+	tfiga@chromium.org,
+	m.szyprowski@samsung.com,
+	ming.qian@nxp.com,
+	ezequiel@vanguardiasur.com.ar,
+	p.zabel@pengutronix.de,
+	gregkh@linuxfoundation.org,
+	hverkuil-cisco@xs4all.nl,
+	nicolas.dufresne@collabora.com
+Cc: linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org,
+	linux-arm-msm@vger.kernel.org,
+	linux-rockchip@lists.infradead.org,
+	linux-staging@lists.linux.dev,
+	kernel@collabora.com,
+	Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Subject: [PATCH v11 29/56] media: renesas: Set min_buffers_needed to 16
+Date: Thu, 12 Oct 2023 13:46:15 +0200
+Message-Id: <20231012114642.19040-30-benjamin.gaignard@collabora.com>
+X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20231012114642.19040-1-benjamin.gaignard@collabora.com>
+References: <20231012114642.19040-1-benjamin.gaignard@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
 
-Jakub Kicinski <kuba@kernel.org> writes:
+vb2 queue_setup checks for a minimum number of buffers so set
+min_buffers_needed to 16 and remove the useless check in
+rcar_drif_queue_setup().
 
-> On Wed, 11 Oct 2023 10:29:58 +0300 Kalle Valo wrote:
->> > No matter what the time frame is, it's never going to line up with all
->> > distros, or catch everyone properly.  
->> 
->> Yeah, that's true.
->> 
->> > I recommend, just delete all the ones you feel are not being used, in a
->> > patch that removes them one-by-one, so that it is trivial to revert if
->> > someone shows up and says "hey, my device stopped working!" a few years
->> > in the future.  
->> 
->> I'm starting to lean towards this as well. We have talked about this for
->> so long now but no practical solution ever found so maybe just bite the
->> bullet finally. What do others think?
->
-> FWIW in Ethernet we do what Greg says. Delete it, if someone complains
-> we revert back in. The revert did actually happen once, it was pretty
-> painless (Greg even took it into stable tree, IIRC).
+Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+CC: Philipp Zabel <p.zabel@pengutronix.de>
+---
+ drivers/media/platform/renesas/rcar_drif.c | 8 +++-----
+ 1 file changed, 3 insertions(+), 5 deletions(-)
 
-Thanks, good to know that you have had positive experiences with this
-approach. As I didn't hear any concerns from anyone so I'm convinced we
-should do this. I'm sure it will make my life a lot easier :)
-
-Is anyone willing to submit patches? Use wireless-next as the baseline
-for patches and one driver per commit, please. That way it's easy to
-revert later, if needed (hopefully not).
-
+diff --git a/drivers/media/platform/renesas/rcar_drif.c b/drivers/media/platform/renesas/rcar_drif.c
+index 292c5bf9e50c..bb84fc089d5d 100644
+--- a/drivers/media/platform/renesas/rcar_drif.c
++++ b/drivers/media/platform/renesas/rcar_drif.c
+@@ -425,13 +425,9 @@ static int rcar_drif_queue_setup(struct vb2_queue *vq,
+ {
+ 	struct rcar_drif_sdr *sdr = vb2_get_drv_priv(vq);
+ 
+-	/* Need at least 16 buffers */
+-	if (vq->num_buffers + *num_buffers < 16)
+-		*num_buffers = 16 - vq->num_buffers;
+-
+ 	*num_planes = 1;
+ 	sizes[0] = PAGE_ALIGN(sdr->fmt->buffersize);
+-	rdrif_dbg(sdr, "num_bufs %d sizes[0] %d\n", *num_buffers, sizes[0]);
++	rdrif_dbg(sdr, "num_bufs %u sizes[0] %d\n", vb2_get_num_buffers(vq), sizes[0]);
+ 
+ 	return 0;
+ }
+@@ -1310,6 +1306,8 @@ static int rcar_drif_sdr_probe(struct rcar_drif_sdr *sdr)
+ 	/* Init videobuf2 queue structure */
+ 	sdr->vb_queue.type = V4L2_BUF_TYPE_SDR_CAPTURE;
+ 	sdr->vb_queue.io_modes = VB2_READ | VB2_MMAP | VB2_DMABUF;
++	/* Need at least 16 buffers */
++	sdr->vb_queue.min_buffers_needed = 16;
+ 	sdr->vb_queue.drv_priv = sdr;
+ 	sdr->vb_queue.buf_struct_size = sizeof(struct rcar_drif_frame_buf);
+ 	sdr->vb_queue.ops = &rcar_drif_vb2_ops;
 -- 
-https://patchwork.kernel.org/project/linux-wireless/list/
+2.39.2
 
-https://wireless.wiki.kernel.org/en/developers/documentation/submittingpatches
