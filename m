@@ -1,47 +1,47 @@
-Received: from mail-pg1-f178.google.com (mail-pg1-f178.google.com [209.85.215.178])
+Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BCD02B5CC;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D5A72B5D7;
 	Thu, 12 Oct 2023 23:29:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HrO2eQh+"
-Received: by mail-pg1-f178.google.com with SMTP id 41be03b00d2f7-578b4981526so1144645a12.0;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MRpekHRw"
+Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-1c9d3a21f7aso12828765ad.2;
         Thu, 12 Oct 2023 16:29:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1697153358; x=1697758158; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1697153359; x=1697758159; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=ox7ZzV5ESrBmEIpsae5SvW22xhGmgMakXbrbQy8MZic=;
-        b=HrO2eQh+zQRFK6A1f02dAYbJO7VEX34d8nMCHLFBsEo54ZhfZK/ygUYnshLh2km07t
-         6e3yCDnNAKKpi+zNDV1YnJwXh6PzrfE8QSwxtmgHLfOr6ctENnwxxUH0Uud1O+17TG8z
-         kb/QOKvQthDepO/99nWCajsH/LhgF0TydzrVnAPsnUQVQ5saHE/fxXeSwmiqI8afJG3x
-         GPywoBVimJPS7GSzZDqEeLEY4D6rQmK3hz7qaY9cG1jOSqV+PNSSixvdd7/JYF6pfE/F
-         MN5TgNtlkhRJMvxMyUg+M2ENtA5+6xaQtxsi+aiFMV24d+yUq00kJd2WH2cbU/p/6S+E
-         fGjQ==
+        bh=zlboVPPH070OagvlhKhz0n6waemv7KPXuN+LiDEoXiU=;
+        b=MRpekHRwesLy7IGFtn5wzIim30AOrAnGXmfimoBvLvgIlBOW1fPGiCSROHG00z1HZc
+         xpteBQcDqGew/aeIHi1YMSfm2K72WfleuumHXd3MGKshqxA0nOeISeQ/iXesUa8/w2ug
+         +XOLJMmBam2fET91J9NFHoLXu7b6bmXy3ylqTrOe2gMXpiAjz3mXLpEyyL1zAPqB4OXm
+         DhPQscgPdMoJoipXco8Nxxm6J5e0UfavrEI0+iauppmDOqjp+tV9YAkpcfyqfwSoOKfB
+         U2NFYU+EiYaGD00QVlhW871LLokcyyVQ7AL90U627pIYPwLRH7U/F33p3XTFSf2XkeAU
+         O4Zw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697153358; x=1697758158;
+        d=1e100.net; s=20230601; t=1697153359; x=1697758159;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=ox7ZzV5ESrBmEIpsae5SvW22xhGmgMakXbrbQy8MZic=;
-        b=NzHYDoZnx4A4O+z+3m4feUx/F21htdwpCUT2Iu4A8pFRxvo1LA8mkIa/16JUJWmYNM
-         pa5lnuPbaT58wHFJ+v6r7EG7cw4/pMftpwScaOPQT0as4CRB+yE6o0vpH8KszFdMT1Q2
-         VIMl2DQ3fBCy7EvX8KzgztRLr+GrR4sdbAxkTZvcYi8bPmLodHwmUhhVmLZiX6Ia4Vm9
-         D6mwVBNfOcFZ5xZuiwhf1yb1QSDuDbhyeSntfD8vPecYSMz6a3/lEkPUR3lJDrpsPKyK
-         yq6vP0Ks5wkR04Z3AW66nR8+iWj7swtYM2PNKaUsc1HTZTUdbeFHNbCb3mNgoLHlsG/D
-         3+4A==
-X-Gm-Message-State: AOJu0YzAltr+WOyXhM+doFjoUcUXIeKbWBtBVYbf2SH4dl78RFPTFCig
-	4b7QJ+rRhqVETpRi02VAxmw=
-X-Google-Smtp-Source: AGHT+IH6Fe/H6t0yDaS87yU66xTqEIVg1VfGPCa+mpPs4pHNgVILOzirnJiNqIaMO68eXqsoYWZQrA==
-X-Received: by 2002:a05:6a21:6d9b:b0:158:1387:6a95 with SMTP id wl27-20020a056a216d9b00b0015813876a95mr28303215pzb.19.1697153358401;
-        Thu, 12 Oct 2023 16:29:18 -0700 (PDT)
+        bh=zlboVPPH070OagvlhKhz0n6waemv7KPXuN+LiDEoXiU=;
+        b=PSH5qvA/P0mnrUW1AQOx6d+6d4GQIs71O9M45yoxyvpywFLDhaydUifROh81lQyaN7
+         4gRUZ3in+1KR6fxLBDoTsk6fG621HF+D93crzX4i3KG2PGK4I8/FazKfpWLRaz7pOUi9
+         EdwxJyTuc3K9hPAYY6333iBDh17q9G5t+e/gltWmct64xkkbKLktUzA/GvXNk49bG3Ja
+         P8SQQALpoWVgAiCl/YFskF8i7s3wGjgr8172QDifErBfxGRtDLQVDRG1C+l6py3gKmUp
+         KeS9O6xIsQevg0X4hCZ1EOx+zgnsXuxV9yUd86I9xpRT9H9Z75ZYc45XGq48USZsP75F
+         3VGQ==
+X-Gm-Message-State: AOJu0Yyo3z11qAmbU6kFNegOrGDcbTd2zWaokKFBG1glDg0eyQn9me0w
+	jPuQXbZrOHqypHPX0KngkIo=
+X-Google-Smtp-Source: AGHT+IEikXob9hAVsKvXb/4Fcn/oTZF0vIojmHK4J1oWfygDpBqQhxUXzcC9HJpGB7mG7WXjlfy3RQ==
+X-Received: by 2002:a17:903:11d2:b0:1c7:2697:ec0a with SMTP id q18-20020a17090311d200b001c72697ec0amr29082570plh.30.1697153359510;
+        Thu, 12 Oct 2023 16:29:19 -0700 (PDT)
 Received: from Negi ([68.181.16.134])
-        by smtp.gmail.com with ESMTPSA id cm24-20020a17090afa1800b0026f919ff9a1sm2377359pjb.10.2023.10.12.16.29.18
+        by smtp.gmail.com with ESMTPSA id ju2-20020a170903428200b001c619fbd5fbsm2534402plb.298.2023.10.12.16.29.19
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 12 Oct 2023 16:29:18 -0700 (PDT)
+        Thu, 12 Oct 2023 16:29:19 -0700 (PDT)
 From: Soumya Negi <soumya.negi97@gmail.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Micky Ching <micky_ching@realsil.com.cn>
@@ -51,9 +51,9 @@ Cc: outreachy@lists.linux.dev,
 	Soumya Negi <soumya.negi97@gmail.com>,
 	Dan Carpenter <dan.carpenter@linaro.org>,
 	Julia Lawall <julia.lawall@inria.fr>
-Subject: [PATCH v2 1/2] staging: rts5208: Refactor macros to static inline functions
-Date: Thu, 12 Oct 2023 16:29:05 -0700
-Message-ID: <c7431fe4d7f72138d8dc86269794f87c30d21a38.1697152251.git.soumya.negi97@gmail.com>
+Subject: [PATCH v2 2/2] staging: rts5208: Remove macros scsi_lock(), scsi_unlock()
+Date: Thu, 12 Oct 2023 16:29:06 -0700
+Message-ID: <75a5990190cf7a5d20d1c27237b90b583e68ced8.1697152251.git.soumya.negi97@gmail.com>
 X-Mailer: git-send-email 2.42.0
 In-Reply-To: <cover.1697152251.git.soumya.negi97@gmail.com>
 References: <cover.1697152251.git.soumya.negi97@gmail.com>
@@ -65,96 +65,133 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Driver rts5208 uses macros to read/write data & to perform generic PCI
-functions. Rewrite these macros as static inline functions in the header
-file.
+The scsi_lock() and scsi_unlock() macros protect the sm_state and the
+single queue element srb for write access in the driver. As suggested,
+these names are very generic. Remove the macros from header file and call
+spin_lock_irq() & spin_unlock_irq() directly instead.
 
 Suggested-by: Dan Carpenter <dan.carpenter@linaro.org>
 Suggested-by: Julia Lawall <julia.lawall@inria.fr>
 Signed-off-by: Soumya Negi <soumya.negi97@gmail.com>
 ---
-Note: The macros wait_timeout_x() & wait_timeout() have not been redfined as
-functions because they pass defined hex constants as arguments(hence can't be 
-type-checked).
+ drivers/staging/rts5208/rtsx.c | 24 ++++++++++++------------
+ drivers/staging/rts5208/rtsx.h |  7 -------
+ 2 files changed, 12 insertions(+), 19 deletions(-)
 
- drivers/staging/rts5208/rtsx.h | 59 +++++++++++++++++++++++-----------
- 1 file changed, 40 insertions(+), 19 deletions(-)
-
+diff --git a/drivers/staging/rts5208/rtsx.c b/drivers/staging/rts5208/rtsx.c
+index 08543a3936da..86d32e3b3282 100644
+--- a/drivers/staging/rts5208/rtsx.c
++++ b/drivers/staging/rts5208/rtsx.c
+@@ -117,7 +117,7 @@ static int slave_configure(struct scsi_device *sdev)
+ 	} while (0)
+ 
+ /* queue a command */
+-/* This is always called with scsi_lock(host) held */
++/* This is always called with spin_lock_irq(host->host_lock) held */
+ static int queuecommand_lck(struct scsi_cmnd *srb)
+ {
+ 	void (*done)(struct scsi_cmnd *) = scsi_done;
+@@ -159,18 +159,18 @@ static int command_abort(struct scsi_cmnd *srb)
+ 	struct rtsx_dev *dev = host_to_rtsx(host);
+ 	struct rtsx_chip *chip = dev->chip;
+ 
+-	scsi_lock(host);
++	spin_lock_irq(host->host_lock);
+ 
+ 	/* Is this command still active? */
+ 	if (chip->srb != srb) {
+-		scsi_unlock(host);
++		spin_unlock_irq(host->host_lock);
+ 		dev_info(&dev->pci->dev, "-- nothing to abort\n");
+ 		return FAILED;
+ 	}
+ 
+ 	rtsx_set_stat(chip, RTSX_STAT_ABORT);
+ 
+-	scsi_unlock(host);
++	spin_unlock_irq(host->host_lock);
+ 
+ 	/* Wait for the aborted command to finish */
+ 	wait_for_completion(&dev->notify);
+@@ -366,7 +366,7 @@ static int rtsx_control_thread(void *__dev)
+ 		}
+ 
+ 		/* lock access to the state */
+-		scsi_lock(host);
++		spin_lock_irq(host->host_lock);
+ 
+ 		/* has the command aborted ? */
+ 		if (rtsx_chk_stat(chip, RTSX_STAT_ABORT)) {
+@@ -374,7 +374,7 @@ static int rtsx_control_thread(void *__dev)
+ 			goto skip_for_abort;
+ 		}
+ 
+-		scsi_unlock(host);
++		spin_unlock_irq(host->host_lock);
+ 
+ 		/* reject the command if the direction indicator
+ 		 * is UNKNOWN
+@@ -402,7 +402,7 @@ static int rtsx_control_thread(void *__dev)
+ 		}
+ 
+ 		/* lock access to the state */
+-		scsi_lock(host);
++		spin_lock_irq(host->host_lock);
+ 
+ 		/* did the command already complete because of a disconnect? */
+ 		if (!chip->srb)
+@@ -424,7 +424,7 @@ static int rtsx_control_thread(void *__dev)
+ 
+ 		/* finished working on this command */
+ 		chip->srb = NULL;
+-		scsi_unlock(host);
++		spin_unlock_irq(host->host_lock);
+ 
+ 		/* unlock the device pointers */
+ 		mutex_unlock(&dev->dev_mutex);
+@@ -603,9 +603,9 @@ static void quiesce_and_remove_host(struct rtsx_dev *dev)
+ 	 * interrupt a SCSI-scan or device-reset delay
+ 	 */
+ 	mutex_lock(&dev->dev_mutex);
+-	scsi_lock(host);
++	spin_lock_irq(host->host_lock);
+ 	rtsx_set_stat(chip, RTSX_STAT_DISCONNECT);
+-	scsi_unlock(host);
++	spin_unlock_irq(host->host_lock);
+ 	mutex_unlock(&dev->dev_mutex);
+ 	wake_up(&dev->delay_wait);
+ 	wait_for_completion(&dev->scanning_done);
+@@ -621,10 +621,10 @@ static void quiesce_and_remove_host(struct rtsx_dev *dev)
+ 	mutex_lock(&dev->dev_mutex);
+ 	if (chip->srb) {
+ 		chip->srb->result = DID_NO_CONNECT << 16;
+-		scsi_lock(host);
++		spin_lock_irq(host->host_lock);
+ 		scsi_done(dev->chip->srb);
+ 		chip->srb = NULL;
+-		scsi_unlock(host);
++		spin_unlock_irq(host->host_lock);
+ 	}
+ 	mutex_unlock(&dev->dev_mutex);
+ 
 diff --git a/drivers/staging/rts5208/rtsx.h b/drivers/staging/rts5208/rtsx.h
-index 2e101da83220..ea29646b8c38 100644
+index ea29646b8c38..ec6f5b07390b 100644
 --- a/drivers/staging/rts5208/rtsx.h
 +++ b/drivers/staging/rts5208/rtsx.h
-@@ -39,25 +39,6 @@
- /*
-  * macros for easy use
-  */
--#define rtsx_writel(chip, reg, value) \
--	iowrite32(value, (chip)->rtsx->remap_addr + reg)
--#define rtsx_readl(chip, reg) \
--	ioread32((chip)->rtsx->remap_addr + reg)
--#define rtsx_writew(chip, reg, value) \
--	iowrite16(value, (chip)->rtsx->remap_addr + reg)
--#define rtsx_readw(chip, reg) \
--	ioread16((chip)->rtsx->remap_addr + reg)
--#define rtsx_writeb(chip, reg, value) \
--	iowrite8(value, (chip)->rtsx->remap_addr + reg)
--#define rtsx_readb(chip, reg) \
--	ioread8((chip)->rtsx->remap_addr + reg)
--
--#define rtsx_read_config_byte(chip, where, val) \
--	pci_read_config_byte((chip)->rtsx->pci, where, val)
--
--#define rtsx_write_config_byte(chip, where, val) \
--	pci_write_config_byte((chip)->rtsx->pci, where, val)
--
- #define wait_timeout_x(task_state, msecs)	\
- do {						\
- 	set_current_state((task_state));	\
-@@ -147,4 +128,44 @@ enum xfer_buf_dir	{TO_XFER_BUF, FROM_XFER_BUF};
- #include "rtsx_sys.h"
- #include "general.h"
+@@ -108,13 +108,6 @@ static inline struct rtsx_dev *host_to_rtsx(struct Scsi_Host *host)
+ 	return (struct rtsx_dev *)host->hostdata;
+ }
  
-+static inline void rtsx_writel(struct rtsx_chip *chip, u32 reg, u32 value)
-+{
-+	iowrite32(value, chip->rtsx->remap_addr + reg);
-+}
-+
-+static inline u32 rtsx_readl(struct rtsx_chip *chip, u32 reg)
-+{
-+	return ioread32(chip->rtsx->remap_addr + reg);
-+}
-+
-+static inline void rtsx_writew(struct rtsx_chip *chip, u32 reg, u16 value)
-+{
-+	iowrite16(value, chip->rtsx->remap_addr + reg);
-+}
-+
-+static inline u16 rtsx_readw(struct rtsx_chip *chip, u32 reg)
-+{
-+	return ioread16(chip->rtsx->remap_addr + reg);
-+}
-+
-+static inline void rtsx_writeb(struct rtsx_chip *chip, u32 reg, u8 value)
-+{
-+	iowrite8(value, chip->rtsx->remap_addr + reg);
-+}
-+
-+static inline u8 rtsx_readb(struct rtsx_chip *chip, u32 reg)
-+{
-+	return ioread8((chip)->rtsx->remap_addr + reg);
-+}
-+
-+static inline int rtsx_read_config_byte(struct rtsx_chip *chip, int where, u8 *val)
-+{
-+	return pci_read_config_byte(chip->rtsx->pci, where, val);
-+}
-+
-+static inline int rtsx_write_config_byte(struct rtsx_chip *chip, int where, u8 val)
-+{
-+	return pci_write_config_byte(chip->rtsx->pci, where, val);
-+}
-+
- #endif  /* __REALTEK_RTSX_H */
+-/*
+- * The scsi_lock() and scsi_unlock() macros protect the sm_state and the
+- * single queue element srb for write access
+- */
+-#define scsi_unlock(host)	spin_unlock_irq(host->host_lock)
+-#define scsi_lock(host)		spin_lock_irq(host->host_lock)
+-
+ #define lock_state(chip)	spin_lock_irq(&((chip)->rtsx->reg_lock))
+ #define unlock_state(chip)	spin_unlock_irq(&((chip)->rtsx->reg_lock))
+ 
 -- 
 2.42.0
 
