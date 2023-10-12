@@ -1,29 +1,29 @@
 Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCF2F24A0D
-	for <linux-staging@lists.linux.dev>; Thu, 12 Oct 2023 11:47:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73018249F2
+	for <linux-staging@lists.linux.dev>; Thu, 12 Oct 2023 11:47:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="PE9MjYBP"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="T6c2WzuJ"
 Received: from benjamin-XPS-13-9310.. (unknown [IPv6:2a01:e0a:120:3210:7ae7:b86d:c19a:877e])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
 	(Authenticated sender: benjamin.gaignard)
-	by madras.collabora.co.uk (Postfix) with ESMTPSA id 46CBA6607365;
-	Thu, 12 Oct 2023 12:46:57 +0100 (BST)
+	by madras.collabora.co.uk (Postfix) with ESMTPSA id 75DBE6607358;
+	Thu, 12 Oct 2023 12:46:59 +0100 (BST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1697111217;
-	bh=qwarzGzHP5vh6PEOd7Cabtlc3uVGMjYvMu5ypKhoB8o=;
+	s=mail; t=1697111219;
+	bh=o2sVtoPPYvq8hM/qyihWIqN4hasDvFA4zhZmTyTxJEg=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=PE9MjYBPlqrHDjSsYPQkstb5fvWfBm2zhux6BgbrHOSpcZsMmm8tu5MKzKE65wDpB
-	 bX4uRrpewZIayuCfop/Dcl9qnlCJq7IE4y/3kktoq2m37PLjuaV601NEC58QDWuXFP
-	 MpOC7Q6mzCTp5z4SuSREampVluVgh5oTVujlWEzCnHbEmG7wF3YgKbe8JFV4XMBgb0
-	 Ut34UzvHvwbMMQXHH6E4EVwMNVXAAPJmM6/PdZThL+y1kwyTI+iRiABc4FIPUobRRC
-	 g+OMgB+W5tPs7drp3CMYrzxfBIsEB2+1cSfPnaSVAc8ydDgKRWHnd3t5F0R8SV94C0
-	 zuMhHCT9PFvtg==
+	b=T6c2WzuJOXCb7OrdeYtPepo+zhAeAHO7DQmDBSK27YLwAgt5567H3AuSCWnFDkmDB
+	 TWlA9tD0YKldYAFQ9s8W6zPZjlPYIGGIefPVnQCU1WYI4cR0U1C+FYSx+dxF4YY/Mp
+	 GBOHYgNGmEjgqwSYio7cVGKr6/uTEl6FfjUGEdkALNl+QfKuF3FuUnwJve3mOLXW0a
+	 Cg1dfBPwkLl3sYA3P6BftijFalxP/zcH3HCoxambTKLt+cHpb4NhfpwbBMCYVt4I6X
+	 vSVCksD3GdV3pWJEgjhxSr50uuBcgNLxRRz9/dq2Pa1JvEQrqOlLrEAX4OAdUwAf1n
+	 x+EQ+wHbkG5bw==
 From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
 To: mchehab@kernel.org,
 	tfiga@chromium.org,
@@ -42,11 +42,10 @@ Cc: linux-media@vger.kernel.org,
 	linux-rockchip@lists.infradead.org,
 	linux-staging@lists.linux.dev,
 	kernel@collabora.com,
-	Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-	Daniel Almeida <daniel.almeida@collabora.com>
-Subject: [PATCH v11 15/56] media: visl: Use vb2_get_buffer() instead of directly access to buffers array
-Date: Thu, 12 Oct 2023 13:46:01 +0200
-Message-Id: <20231012114642.19040-16-benjamin.gaignard@collabora.com>
+	Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Subject: [PATCH v11 19/56] media: dvb-core: Do not initialize twice queue num_buffer field
+Date: Thu, 12 Oct 2023 13:46:05 +0200
+Message-Id: <20231012114642.19040-20-benjamin.gaignard@collabora.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20231012114642.19040-1-benjamin.gaignard@collabora.com>
 References: <20231012114642.19040-1-benjamin.gaignard@collabora.com>
@@ -58,72 +57,26 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Use vb2_get_buffer() instead of directly access to vb2_buffer buffer array.
-This could allow to change the type bufs[] field of vb2_buffer structure if
-needed.
-After each call to vb2_get_buffer() we need to be sure that we get
-a valid pointer so check the return value of all of them.
+The above memset already zeroed all the ctx fields, it is useless
+to do it here again.
 
 Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-CC: Daniel Almeida <daniel.almeida@collabora.com>
-CC: Mauro Carvalho Chehab <mchehab@kernel.org>
 ---
- drivers/media/test-drivers/visl/visl-dec.c | 28 ++++++++++++++++------
- 1 file changed, 21 insertions(+), 7 deletions(-)
+ drivers/media/dvb-core/dvb_vb2.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/drivers/media/test-drivers/visl/visl-dec.c b/drivers/media/test-drivers/visl/visl-dec.c
-index 318d675e5668..ba20ea998d19 100644
---- a/drivers/media/test-drivers/visl/visl-dec.c
-+++ b/drivers/media/test-drivers/visl/visl-dec.c
-@@ -290,13 +290,20 @@ static void visl_tpg_fill(struct visl_ctx *ctx, struct visl_run *run)
- 	for (i = 0; i < out_q->num_buffers; i++) {
- 		char entry[] = "index: %u, state: %s, request_fd: %d, ";
- 		u32 old_len = len;
--		char *q_status = visl_get_vb2_state(out_q->bufs[i]->state);
-+		struct vb2_buffer *vb2;
-+		char *q_status;
-+
-+		vb2 = vb2_get_buffer(out_q, i);
-+		if (!vb2)
-+			continue;
-+
-+		q_status = visl_get_vb2_state(vb2->state);
- 
- 		len += scnprintf(&buf[len], TPG_STR_BUF_SZ - len,
- 				 entry, i, q_status,
--				 to_vb2_v4l2_buffer(out_q->bufs[i])->request_fd);
-+				 to_vb2_v4l2_buffer(vb2)->request_fd);
- 
--		len += visl_fill_bytesused(to_vb2_v4l2_buffer(out_q->bufs[i]),
-+		len += visl_fill_bytesused(to_vb2_v4l2_buffer(vb2),
- 					   &buf[len],
- 					   TPG_STR_BUF_SZ - len);
- 
-@@ -342,13 +349,20 @@ static void visl_tpg_fill(struct visl_ctx *ctx, struct visl_run *run)
- 	len = 0;
- 	for (i = 0; i < cap_q->num_buffers; i++) {
- 		u32 old_len = len;
--		char *q_status = visl_get_vb2_state(cap_q->bufs[i]->state);
-+		struct vb2_buffer *vb2;
-+		char *q_status;
-+
-+		vb2 = vb2_get_buffer(cap_q, i);
-+		if (!vb2)
-+			continue;
-+
-+		q_status = visl_get_vb2_state(vb2->state);
- 
- 		len += scnprintf(&buf[len], TPG_STR_BUF_SZ - len,
- 				 "index: %u, status: %s, timestamp: %llu, is_held: %d",
--				 cap_q->bufs[i]->index, q_status,
--				 cap_q->bufs[i]->timestamp,
--				 to_vb2_v4l2_buffer(cap_q->bufs[i])->is_held);
-+				 vb2->index, q_status,
-+				 vb2->timestamp,
-+				 to_vb2_v4l2_buffer(vb2)->is_held);
- 
- 		tpg_gen_text(&ctx->tpg, basep, line++ * line_height, 16, &buf[old_len]);
- 		frame_dprintk(ctx->dev, run->dst->sequence, "%s", &buf[old_len]);
+diff --git a/drivers/media/dvb-core/dvb_vb2.c b/drivers/media/dvb-core/dvb_vb2.c
+index 3a966fdf814c..a731b755a0b9 100644
+--- a/drivers/media/dvb-core/dvb_vb2.c
++++ b/drivers/media/dvb-core/dvb_vb2.c
+@@ -177,7 +177,6 @@ int dvb_vb2_init(struct dvb_vb2_ctx *ctx, const char *name, int nonblocking)
+ 	q->ops = &dvb_vb2_qops;
+ 	q->mem_ops = &vb2_vmalloc_memops;
+ 	q->buf_ops = &dvb_vb2_buf_ops;
+-	q->num_buffers = 0;
+ 	ret = vb2_core_queue_init(q);
+ 	if (ret) {
+ 		ctx->state = DVB_VB2_STATE_NONE;
 -- 
 2.39.2
 
