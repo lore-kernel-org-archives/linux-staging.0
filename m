@@ -1,29 +1,29 @@
 Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C35CA24A0F
-	for <linux-staging@lists.linux.dev>; Thu, 12 Oct 2023 11:47:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C352324A0B
+	for <linux-staging@lists.linux.dev>; Thu, 12 Oct 2023 11:47:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="aCrikTOF"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="LfKNONkE"
 Received: from benjamin-XPS-13-9310.. (unknown [IPv6:2a01:e0a:120:3210:7ae7:b86d:c19a:877e])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
 	(Authenticated sender: benjamin.gaignard)
-	by madras.collabora.co.uk (Postfix) with ESMTPSA id 060206607354;
-	Thu, 12 Oct 2023 12:46:54 +0100 (BST)
+	by madras.collabora.co.uk (Postfix) with ESMTPSA id 3379E6607360;
+	Thu, 12 Oct 2023 12:46:56 +0100 (BST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1697111214;
-	bh=5KfiWYUr0TuNoyvJdKtw2RV1255T2m+jeyJI0vr6Ff0=;
+	s=mail; t=1697111216;
+	bh=Zz1JpVQW0VlREf/hRiNNIL1yZp9YSUV1Bv2nIqpcIz8=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=aCrikTOFQybhK78pRCHx52ATJ9QJM/2nih3qOdvHPt30k7OwFV+0OqwpP1uHh6jeM
-	 IagDd2MgB1FK7117PgJtoRgcv8MI4a9n0rcmnADoF+BEpfnfLgR4zapCwExnMb6BPI
-	 VI/cAmuc+8H4d+dbulHdbcEr7V/ZxswF/fT2F72zvmANmQ/OG+ZE36CNpjgH0AZzjr
-	 oSCFEYVg5BptWYhbs60sJFLVARp8V4YQijlI0e4M3xxWArbN0Gz4GqGwVtWKhPeDtK
-	 EMXdR6l983d1A7vjIZBHoWxSXtOp6+Ra8JMz3Iey/I83Ei1JZ5s2mZO/83RIBK8XKm
-	 mxFPoM8dmj7tg==
+	b=LfKNONkE71F9KwTT+xG4nOO2wifyo0MmJf3Es5F9t6ugm7UeB0dePbu7IXqPUumeC
+	 y1EYiqrSSv9Ly7qT6QmRjwNf86grM9ro93QN30crPCN/wJt8m+xdV7QfgfgEl5VNhU
+	 x639PQKNR370CFkHK11OjZLuyyxeQg13pfLJple8BPzGQuqUwoFZwNeX4Uuae7Vje7
+	 E4/ksubU0JacHGFrAKUJoBtefsVN9+YSWJ6ptHYIRaLkz3vw/MKr0GzeHWCVkx1R0e
+	 S5ugM5y7Bx/gbwrRpy99IlULx00nvDgN1wZ2KIYALO9pE6uUV/TMAXEWJBbM6cifhE
+	 PguiSqz9/JD4g==
 From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
 To: mchehab@kernel.org,
 	tfiga@chromium.org,
@@ -43,10 +43,11 @@ Cc: linux-media@vger.kernel.org,
 	linux-staging@lists.linux.dev,
 	kernel@collabora.com,
 	Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-	Zhou Peng <eagle.zhou@nxp.com>
-Subject: [PATCH v11 09/56] media: amphion: Use vb2_get_buffer() instead of directly access to buffers array
-Date: Thu, 12 Oct 2023 13:45:55 +0200
-Message-Id: <20231012114642.19040-10-benjamin.gaignard@collabora.com>
+	Bin Liu <bin.liu@mediatek.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>
+Subject: [PATCH v11 13/56] media: mediatek: vcodec: Stop direct calls to queue num_buffers field
+Date: Thu, 12 Oct 2023 13:45:59 +0200
+Message-Id: <20231012114642.19040-14-benjamin.gaignard@collabora.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20231012114642.19040-1-benjamin.gaignard@collabora.com>
 References: <20231012114642.19040-1-benjamin.gaignard@collabora.com>
@@ -58,65 +59,28 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Use vb2_get_buffer() instead of directly access to vb2_buffer buffer array.
-This could allow to change the type bufs[] field of vb2_buffer structure if
-needed.
-After each call to vb2_get_buffer() we need to be sure that we get
-a valid pointer so check the return value of all of them.
+se vb2_get_num_buffers() to avoid using queue num_buffers field directly.
 
 Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-CC: Ming Qian <ming.qian@nxp.com>
-CC: Zhou Peng <eagle.zhou@nxp.com>
+CC: Bin Liu <bin.liu@mediatek.com>
+CC: Matthias Brugger <matthias.bgg@gmail.com>
 ---
- drivers/media/platform/amphion/vpu_dbg.c | 22 ++++++++++++++++++----
- 1 file changed, 18 insertions(+), 4 deletions(-)
+ drivers/media/platform/mediatek/vcodec/encoder/mtk_vcodec_enc.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/media/platform/amphion/vpu_dbg.c b/drivers/media/platform/amphion/vpu_dbg.c
-index 982c2c777484..a462d6fe4ea9 100644
---- a/drivers/media/platform/amphion/vpu_dbg.c
-+++ b/drivers/media/platform/amphion/vpu_dbg.c
-@@ -140,11 +140,18 @@ static int vpu_dbg_instance(struct seq_file *s, void *data)
+diff --git a/drivers/media/platform/mediatek/vcodec/encoder/mtk_vcodec_enc.c b/drivers/media/platform/mediatek/vcodec/encoder/mtk_vcodec_enc.c
+index eb381fa6e7d1..181884e798fd 100644
+--- a/drivers/media/platform/mediatek/vcodec/encoder/mtk_vcodec_enc.c
++++ b/drivers/media/platform/mediatek/vcodec/encoder/mtk_vcodec_enc.c
+@@ -912,7 +912,7 @@ static int vb2ops_venc_start_streaming(struct vb2_queue *q, unsigned int count)
+ 	return 0;
  
- 	vq = v4l2_m2m_get_src_vq(inst->fh.m2m_ctx);
- 	for (i = 0; i < vq->num_buffers; i++) {
--		struct vb2_buffer *vb = vq->bufs[i];
--		struct vb2_v4l2_buffer *vbuf = to_vb2_v4l2_buffer(vb);
-+		struct vb2_buffer *vb;
-+		struct vb2_v4l2_buffer *vbuf;
-+
-+		vb = vb2_get_buffer(vq, i);
-+		if (!vb)
-+			continue;
+ err_start_stream:
+-	for (i = 0; i < q->num_buffers; ++i) {
++	for (i = 0; i < vb2_get_num_buffers(q); ++i) {
+ 		struct vb2_buffer *buf = vb2_get_buffer(q, i);
  
- 		if (vb->state == VB2_BUF_STATE_DEQUEUED)
- 			continue;
-+
-+		vbuf = to_vb2_v4l2_buffer(vb);
-+
- 		num = scnprintf(str, sizeof(str),
- 				"output [%2d] state = %10s, %8s\n",
- 				i, vb2_stat_name[vb->state],
-@@ -155,11 +162,18 @@ static int vpu_dbg_instance(struct seq_file *s, void *data)
- 
- 	vq = v4l2_m2m_get_dst_vq(inst->fh.m2m_ctx);
- 	for (i = 0; i < vq->num_buffers; i++) {
--		struct vb2_buffer *vb = vq->bufs[i];
--		struct vb2_v4l2_buffer *vbuf = to_vb2_v4l2_buffer(vb);
-+		struct vb2_buffer *vb;
-+		struct vb2_v4l2_buffer *vbuf;
-+
-+		vb = vb2_get_buffer(vq, i);
-+		if (!vb)
-+			continue;
- 
- 		if (vb->state == VB2_BUF_STATE_DEQUEUED)
- 			continue;
-+
-+		vbuf = to_vb2_v4l2_buffer(vb);
-+
- 		num = scnprintf(str, sizeof(str),
- 				"capture[%2d] state = %10s, %8s\n",
- 				i, vb2_stat_name[vb->state],
+ 		/*
 -- 
 2.39.2
 
