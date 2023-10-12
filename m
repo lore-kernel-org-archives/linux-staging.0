@@ -1,29 +1,29 @@
 Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56ABF24A0D
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBA8824A0E
 	for <linux-staging@lists.linux.dev>; Thu, 12 Oct 2023 11:47:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="mN6W36Wo"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="mdZn7Avt"
 Received: from benjamin-XPS-13-9310.. (unknown [IPv6:2a01:e0a:120:3210:7ae7:b86d:c19a:877e])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
 	(Authenticated sender: benjamin.gaignard)
-	by madras.collabora.co.uk (Postfix) with ESMTPSA id 86A5C660738F;
-	Thu, 12 Oct 2023 12:47:08 +0100 (BST)
+	by madras.collabora.co.uk (Postfix) with ESMTPSA id 133B06607395;
+	Thu, 12 Oct 2023 12:47:09 +0100 (BST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1697111228;
-	bh=nwepyznt8z6pxABzkpFHR6clGV59kYVToyX8aj6cN+w=;
+	s=mail; t=1697111229;
+	bh=mz6L3tQb5oP+x6Uw4FTrcS9pwtcQjO0juMIWxd3jOzM=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=mN6W36WoEkjWrR30vYtboERgKPchBJyh+WD7O8aVg2uy/HCHqIyoh+sOf2TbXXvxV
-	 EoBPi2859Pjn0XZK9IZE6QhBmT6jiRnpsfUnPPEFuZrrwpVXGAotRvmcfW1Gc9SXVJ
-	 oBrU9XziAdJLDsG7AcE2xpmi41nBeHIRxm7r8rbbJTNImrGhs/nzsmO+I7u1j9Mr5r
-	 xj7zcs6k2KrOy1FC0ikpSWXrKnr7+VX2VYmOYxYiHzy2W5/zZNj5C6khlQ2sqz/2Sz
-	 CH1LKyFEVs64Q4oIxigN+qxllG2HtV+qwIeuB4Nm+zguIX8HEgUfe9QL1CHa4tWbE1
-	 ew0PRHfGaxX0w==
+	b=mdZn7AvtFYaWUfkn6a6ksQuZNdZm0VxQYMjyHDOc76jFdH6KIau3URG4gdjOhF/QC
+	 jJHraV2V5P8MQRYx6ka3AujPNE4FgAlqXc5lCdfOMb1MX0U2LwLbZJIU6AwAT09ved
+	 wAQL+3nNkMxAdr8piP4brX+imcIgA2R4lHpkmbuHz9lRb0NOY03N7/Eu0A7+qmsl7s
+	 qxTezDnvuG+fGvuan0sVCDkMwnZBFyLWllL9vRD7/NQT7pn06LArJ+k5Ivgs9nM/vT
+	 3bPrA8fV/mpAQATRhFSBdm3rm2uthCLu36I/ll+hjzcCOQVGFD8fds1aQYZC4iuDkf
+	 p+IlctXtii1Yg==
 From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
 To: mchehab@kernel.org,
 	tfiga@chromium.org,
@@ -42,10 +42,11 @@ Cc: linux-media@vger.kernel.org,
 	linux-rockchip@lists.infradead.org,
 	linux-staging@lists.linux.dev,
 	kernel@collabora.com,
-	Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Subject: [PATCH v11 36/56] media: usb: usbtv: Set min_buffers_needed to 2
-Date: Thu, 12 Oct 2023 13:46:22 +0200
-Message-Id: <20231012114642.19040-37-benjamin.gaignard@collabora.com>
+	Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+	Steve Longerbeam <slongerbeam@gmail.com>
+Subject: [PATCH v11 37/56] media: imx: Stop direct calls to queue num_buffers field
+Date: Thu, 12 Oct 2023 13:46:23 +0200
+Message-Id: <20231012114642.19040-38-benjamin.gaignard@collabora.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20231012114642.19040-1-benjamin.gaignard@collabora.com>
 References: <20231012114642.19040-1-benjamin.gaignard@collabora.com>
@@ -57,36 +58,45 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-vb2 queue_setup checks for a minimum number of buffers so set
-min_buffers_needed to 2 and remove the useless check in
-usbtv_queue_setup().
+Use vb2_get_num_buffers() to avoid using queue num_buffers field directly.
 
 Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+CC: Steve Longerbeam <slongerbeam@gmail.com>
+CC: Philipp Zabel <p.zabel@pengutronix.de>
 ---
- drivers/media/usb/usbtv/usbtv-video.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ drivers/staging/media/imx/imx-media-capture.c | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/media/usb/usbtv/usbtv-video.c b/drivers/media/usb/usbtv/usbtv-video.c
-index 1e30e05953dc..0e9e860be47f 100644
---- a/drivers/media/usb/usbtv/usbtv-video.c
-+++ b/drivers/media/usb/usbtv/usbtv-video.c
-@@ -727,8 +727,6 @@ static int usbtv_queue_setup(struct vb2_queue *vq,
- 	struct usbtv *usbtv = vb2_get_drv_priv(vq);
- 	unsigned size = USBTV_CHUNK * usbtv->n_chunks * 2 * sizeof(u32);
+diff --git a/drivers/staging/media/imx/imx-media-capture.c b/drivers/staging/media/imx/imx-media-capture.c
+index 4846078315ff..ce02199e7b1b 100644
+--- a/drivers/staging/media/imx/imx-media-capture.c
++++ b/drivers/staging/media/imx/imx-media-capture.c
+@@ -605,6 +605,7 @@ static int capture_queue_setup(struct vb2_queue *vq,
+ {
+ 	struct capture_priv *priv = vb2_get_drv_priv(vq);
+ 	struct v4l2_pix_format *pix = &priv->vdev.fmt;
++	unsigned int q_num_bufs = vb2_get_num_buffers(vq);
+ 	unsigned int count = *nbuffers;
  
--	if (vq->num_buffers + *nbuffers < 2)
--		*nbuffers = 2 - vq->num_buffers;
+ 	if (vq->type != V4L2_BUF_TYPE_VIDEO_CAPTURE)
+@@ -613,14 +614,14 @@ static int capture_queue_setup(struct vb2_queue *vq,
+ 	if (*nplanes) {
+ 		if (*nplanes != 1 || sizes[0] < pix->sizeimage)
+ 			return -EINVAL;
+-		count += vq->num_buffers;
++		count += q_num_bufs;
+ 	}
+ 
+ 	count = min_t(__u32, VID_MEM_LIMIT / pix->sizeimage, count);
+ 
  	if (*nplanes)
- 		return sizes[0] < size ? -EINVAL : 0;
- 	*nplanes = 1;
-@@ -892,6 +890,7 @@ int usbtv_video_init(struct usbtv *usbtv)
- 	/* videobuf2 structure */
- 	usbtv->vb2q.type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
- 	usbtv->vb2q.io_modes = VB2_MMAP | VB2_USERPTR | VB2_READ;
-+	usbtv->vb2q.min_buffers_needed = 2;
- 	usbtv->vb2q.drv_priv = usbtv;
- 	usbtv->vb2q.buf_struct_size = sizeof(struct usbtv_buf);
- 	usbtv->vb2q.ops = &usbtv_vb2_ops;
+-		*nbuffers = (count < vq->num_buffers) ? 0 :
+-			count - vq->num_buffers;
++		*nbuffers = (count < q_num_bufs) ? 0 :
++			count - q_num_bufs;
+ 	else
+ 		*nbuffers = count;
+ 
 -- 
 2.39.2
 
