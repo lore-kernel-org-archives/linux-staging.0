@@ -1,29 +1,29 @@
 Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C352324A0B
-	for <linux-staging@lists.linux.dev>; Thu, 12 Oct 2023 11:47:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8BBB24A04
+	for <linux-staging@lists.linux.dev>; Thu, 12 Oct 2023 11:47:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="LfKNONkE"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="Zxz4EYtV"
 Received: from benjamin-XPS-13-9310.. (unknown [IPv6:2a01:e0a:120:3210:7ae7:b86d:c19a:877e])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
 	(Authenticated sender: benjamin.gaignard)
-	by madras.collabora.co.uk (Postfix) with ESMTPSA id 3379E6607360;
-	Thu, 12 Oct 2023 12:46:56 +0100 (BST)
+	by madras.collabora.co.uk (Postfix) with ESMTPSA id C79EB6607367;
+	Thu, 12 Oct 2023 12:46:57 +0100 (BST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1697111216;
-	bh=Zz1JpVQW0VlREf/hRiNNIL1yZp9YSUV1Bv2nIqpcIz8=;
+	s=mail; t=1697111218;
+	bh=7OL5E3CW8F8eZCTu2km16+HY1SvtZLOVfrgm1/VXjy4=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=LfKNONkE71F9KwTT+xG4nOO2wifyo0MmJf3Es5F9t6ugm7UeB0dePbu7IXqPUumeC
-	 y1EYiqrSSv9Ly7qT6QmRjwNf86grM9ro93QN30crPCN/wJt8m+xdV7QfgfgEl5VNhU
-	 x639PQKNR370CFkHK11OjZLuyyxeQg13pfLJple8BPzGQuqUwoFZwNeX4Uuae7Vje7
-	 E4/ksubU0JacHGFrAKUJoBtefsVN9+YSWJ6ptHYIRaLkz3vw/MKr0GzeHWCVkx1R0e
-	 S5ugM5y7Bx/gbwrRpy99IlULx00nvDgN1wZ2KIYALO9pE6uUV/TMAXEWJBbM6cifhE
-	 PguiSqz9/JD4g==
+	b=Zxz4EYtVb8eZSFa5Uwvd882wFWuAYhX2LKeQKSPTPbU4mWMEoKiEiWXHDiyBIQMyD
+	 vuvvnvWLu5IpQp8AwlFYRHQ+Wi6muvQsoSy5Jih1Y9pAWsC7Hvlk3ORXDoYxmwfkKi
+	 gcqO73cFAkkQwww8Uvr66ULYAuxbLJ7x1IimWRPkFx8vRQmX48eESO8YdIEtqNxJRO
+	 2JOIN3GCYW8iRYzERUCZgC7JJhndFqoWai8IbOsvIK9wI3urIN5xxNd8L+59a88/zl
+	 MqvlbV2vdVD8dfpeZrBIDN2AuOqdktfMIjd3wBXfocEyJEjAiraiZytR6p3glVau8q
+	 cv7/ZPt5Lp1CQ==
 From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
 To: mchehab@kernel.org,
 	tfiga@chromium.org,
@@ -43,11 +43,11 @@ Cc: linux-media@vger.kernel.org,
 	linux-staging@lists.linux.dev,
 	kernel@collabora.com,
 	Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-	Bin Liu <bin.liu@mediatek.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>
-Subject: [PATCH v11 13/56] media: mediatek: vcodec: Stop direct calls to queue num_buffers field
-Date: Thu, 12 Oct 2023 13:45:59 +0200
-Message-Id: <20231012114642.19040-14-benjamin.gaignard@collabora.com>
+	Hans de Goede <hdegoede@redhat.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>
+Subject: [PATCH v11 16/56] media: atomisp: Use vb2_get_buffer() instead of directly access to buffers array
+Date: Thu, 12 Oct 2023 13:46:02 +0200
+Message-Id: <20231012114642.19040-17-benjamin.gaignard@collabora.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20231012114642.19040-1-benjamin.gaignard@collabora.com>
 References: <20231012114642.19040-1-benjamin.gaignard@collabora.com>
@@ -59,28 +59,33 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-se vb2_get_num_buffers() to avoid using queue num_buffers field directly.
+Use vb2_get_buffer() instead of directly access to vb2_buffer buffer array.
+This could allow to change the type bufs[] field of vb2_buffer structure if
+needed.
+No need to check the result of vb2_get_buffer, vb2_ioctl_dqbuf() already
+checked that it is valid.
 
 Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-CC: Bin Liu <bin.liu@mediatek.com>
-CC: Matthias Brugger <matthias.bgg@gmail.com>
+CC: Hans de Goede <hdegoede@redhat.com>
+CC: Mauro Carvalho Chehab <mchehab@kernel.org>
+CC: Sakari Ailus <sakari.ailus@linux.intel.com>
 ---
- drivers/media/platform/mediatek/vcodec/encoder/mtk_vcodec_enc.c | 2 +-
+ drivers/staging/media/atomisp/pci/atomisp_ioctl.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/media/platform/mediatek/vcodec/encoder/mtk_vcodec_enc.c b/drivers/media/platform/mediatek/vcodec/encoder/mtk_vcodec_enc.c
-index eb381fa6e7d1..181884e798fd 100644
---- a/drivers/media/platform/mediatek/vcodec/encoder/mtk_vcodec_enc.c
-+++ b/drivers/media/platform/mediatek/vcodec/encoder/mtk_vcodec_enc.c
-@@ -912,7 +912,7 @@ static int vb2ops_venc_start_streaming(struct vb2_queue *q, unsigned int count)
- 	return 0;
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_ioctl.c b/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
+index a8e4779d007f..a8a964b2f1a8 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
++++ b/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
+@@ -1059,7 +1059,7 @@ static int atomisp_dqbuf_wrapper(struct file *file, void *fh, struct v4l2_buffer
+ 	if (ret)
+ 		return ret;
  
- err_start_stream:
--	for (i = 0; i < q->num_buffers; ++i) {
-+	for (i = 0; i < vb2_get_num_buffers(q); ++i) {
- 		struct vb2_buffer *buf = vb2_get_buffer(q, i);
+-	vb = pipe->vb_queue.bufs[buf->index];
++	vb = vb2_get_buffer(&pipe->vb_queue, buf->index);
+ 	frame = vb_to_frame(vb);
  
- 		/*
+ 	buf->reserved = asd->frame_status[buf->index];
 -- 
 2.39.2
 
