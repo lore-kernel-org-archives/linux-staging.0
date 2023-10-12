@@ -1,65 +1,55 @@
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 057F0809
-	for <linux-staging@lists.linux.dev>; Thu, 12 Oct 2023 06:23:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39CBD440C
+	for <linux-staging@lists.linux.dev>; Thu, 12 Oct 2023 06:33:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="PM0mOYch"
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-4075c58ac39so6532645e9.3
-        for <linux-staging@lists.linux.dev>; Wed, 11 Oct 2023 23:23:16 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="FpNsrVqn"
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-40566f89f6eso7522775e9.3
+        for <linux-staging@lists.linux.dev>; Wed, 11 Oct 2023 23:33:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1697091795; x=1697696595; darn=lists.linux.dev;
+        d=linaro.org; s=google; t=1697092390; x=1697697190; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=4HT79hrObqSxBSC97lY+L6cqBvifnDEa24RG2fZwpdY=;
-        b=PM0mOYchLiQNw+BBD28QNLximTW3no9O7ly+6I4BtpUHvyDPl6y7b5wfNerANhkEg4
-         h25xpdZYmapgvZIBTbXbFmh9dki/90SumJjL1TAGAvEgcR8NXRNZxoTNRXk545fmaCcK
-         l/30TOzkI5It0jT7cvVWuGfbkw61Nef4mm81yIPbN+wcSrCCM0a1g3tTQ2kW7cdy5fMB
-         mzT52am9bFsuJy6XmsYzb4dKHSoMZNv6MwM4ZE+I49UjaRa6gjt30KVsMitip5aHXLbR
-         tsIN5GNM0EQeg7RedAMDqIc4qL7YYjIB8x/z48w206HudVut4ai55z+KgJaB8gD1nodN
-         1Ftw==
+        bh=phl5W3+qj5b5s8Bsed+j+WLh4nK22bVVfYDfsSd3Poo=;
+        b=FpNsrVqnetLCg4L1UCgIImaPEe3YTIEG3CPl8sSFnz3g1ZNiZDsJVsvNduvjTR3SXX
+         SmVy3HmIN7/sKaguEFzlfLnnjBp7uBC1uwzcsdHyTy8Npb6sOkcLXEuwfDTsPg3rYV8N
+         CTItuwS8y/b7QotxmYLqL9TUpPNXjd2nIMIq87uKz+85Lo8WA+K5SkLBOrX7tq2jLA8b
+         NcxyzZ+1VI5scR9Klud+UdsqHtWvS9KfU9sd7c4RC1GALrKVYd8JyFhJuWZfEz7V5iAd
+         QtaFjS/FZsR5WnhVzUcqnpo8OXxvADu55uCPQ2VYZAd/L0C+fy72UuTkqGx1qCB6ugII
+         wJyg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697091795; x=1697696595;
+        d=1e100.net; s=20230601; t=1697092390; x=1697697190;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=4HT79hrObqSxBSC97lY+L6cqBvifnDEa24RG2fZwpdY=;
-        b=U5MbZ29gnF2ag6152P8zh+9gt1xfw9wcUXAuqbtItWseTjE6IQXqD+Nrj+nX/uQ9nl
-         p3laX8XvSgKSGf5Q0V7/yPPXHNEylU9C7SlYWvjnpVIZ0/U67OIYDELKU6/KOlOIdbFb
-         zGKAdXJyv7ZiTtcNBfMUvn6Ul4W9lMBSDj0v6c60c08hI8LjsJCjvQ77GS9ehVvFoj5X
-         JNxvylD3xIr96bav7IH3PnGE2q6YmNvGkdXxETdPoYq8C2Zwm1ez/6p90+5bPmTQOcfW
-         zMD6vTjeG6hFd2Wax1qF39DnnoEEA+tYWa596z4nKRISwlse9omSnuvMa6GuhqAfNhiw
-         DSzg==
-X-Gm-Message-State: AOJu0Yx7S+XxiboBDVUcl8AvjPzcktYNbc5tb8ffgSAOkvcC6JV2EDTN
-	ApdLpt3zfXBgYB9QMn03NimZLUo4ZMysK+zH0WU=
-X-Google-Smtp-Source: AGHT+IFKoP5B7w8Y42/s61+wzwot43ZZei6mSsx6r/nkWwL/vfiXecTRrJxnumkImRNM8DZcpqepCw==
-X-Received: by 2002:a05:600c:3652:b0:3fe:d1b9:7ea9 with SMTP id y18-20020a05600c365200b003fed1b97ea9mr19652329wmq.36.1697091795060;
-        Wed, 11 Oct 2023 23:23:15 -0700 (PDT)
+        bh=phl5W3+qj5b5s8Bsed+j+WLh4nK22bVVfYDfsSd3Poo=;
+        b=UlHqW0HRXNpur6BzntifCvXjeHEqJmNu01shxykzquM0DzcwD3m68odNxC5/wea6oT
+         WBOAC133UqHDNWe4OU9BEE3rfK5YZArDSWgTQI8rsew+fVGDWhFVlFO01C9TbP91ktWk
+         JUQ5YHgldLfPYk4UQmlDj4nKRAlL6TzDvkiRe1o6CoLS+H2gOu+gzNdWbGRu32oQ5NK7
+         kkWVTWOIkgy3qeZ6FwotnQPlz6Cl/Ci79m0+bYVN9hNcYsfsdrsTsvgSqsLUD5zl3alS
+         fw5ICFknh2H8eS8PWyYWjYqn+AQ967XweYjfGIxJNotybNAXoxfdFOkmhiDrqhPm6lQr
+         6C6w==
+X-Gm-Message-State: AOJu0YzvFJ+c9+cs1g+agoahqTud1matQerLtJq1PLR/N4wzYk0T9jkV
+	sJ9w9bAxwP9NaWJLQmokwG2cyeeQ6dz0noOrWMY=
+X-Google-Smtp-Source: AGHT+IFQ3UuhcbmL5nDmRzL7RHQDZpDGZlVDtI11m8XgEEIoIDkUDGj/sgKidZxvEZtzRGSsgxOK5w==
+X-Received: by 2002:adf:fb0b:0:b0:31f:c1b5:d4c1 with SMTP id c11-20020adffb0b000000b0031fc1b5d4c1mr18781994wrr.35.1697092390464;
+        Wed, 11 Oct 2023 23:33:10 -0700 (PDT)
 Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id y4-20020a05600c364400b0040472ad9a3dsm18638405wmq.14.2023.10.11.23.23.14
+        by smtp.gmail.com with ESMTPSA id q8-20020a05600000c800b0032415213a6fsm17313023wrx.87.2023.10.11.23.33.09
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 11 Oct 2023 23:23:14 -0700 (PDT)
-Date: Thu, 12 Oct 2023 09:23:12 +0300
+        Wed, 11 Oct 2023 23:33:10 -0700 (PDT)
+Date: Thu, 12 Oct 2023 09:33:07 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Arnd Bergmann <arnd@arndb.de>
-Cc: Philipp Hortmann <philipp.g.hortmann@gmail.com>,
-	Arnd Bergmann <arnd@kernel.org>, Kalle Valo <kvalo@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Nicolas Ferre <nicolas.ferre@microchip.com>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
-	Jakub Kicinski <kuba@kernel.org>, Pavel Machek <pavel@ucw.cz>,
-	"David S . Miller" <davem@davemloft.net>,
-	Larry Finger <Larry.Finger@lwfinger.net>,
-	linux-kernel@vger.kernel.org, linux-wireless@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-staging@lists.linux.dev
-Subject: Re: [PATCH] [RFC] wireless: move obsolete drivers to staging
-Message-ID: <428ef899-a5c4-4d93-beea-afd7ab6f6634@kadam.mountain>
-References: <20231010155444.858483-1-arnd@kernel.org>
- <da777a72-55d1-4ee3-91c8-30afe7659f54@gmail.com>
- <db98d9ac-7650-4a72-8eb9-4def1f17ea0d@app.fastmail.com>
+To: Soumya Negi <soumya.negi97@gmail.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Micky Ching <micky_ching@realsil.com.cn>, outreachy@lists.linux.dev,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: rts5208: Parenthesize macro arguments
+Message-ID: <81d6e283-fd87-4fd6-964f-22cbf420cdaa@kadam.mountain>
+References: <20231012050240.20378-1-soumya.negi97@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -68,53 +58,60 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <db98d9ac-7650-4a72-8eb9-4def1f17ea0d@app.fastmail.com>
+In-Reply-To: <20231012050240.20378-1-soumya.negi97@gmail.com>
 
-On Wed, Oct 11, 2023 at 10:22:32PM +0200, Arnd Bergmann wrote:
-> On Wed, Oct 11, 2023, at 20:13, Philipp Hortmann wrote:
-> > On 10/10/23 17:27, Arnd Bergmann wrote:
-> >> From: Arnd Bergmann <arnd@arndb.de> While looking at the old drivers 
-> >> using the obsolete .ndo_do_ioctl() callback, I found a number of network 
-> >> drivers that are especially obsolete, in particular for 802.11b 
-> >> (11Mbit/s) or even older wireless networks, using non-busmaster 
-> >> ISA/PCMCIA style bus interfaces, and using the legacy wireless extension 
-> >> ioctls rather than the netlink interfaces that were meant to replace 
-> >> them in 2007. All of these drivers are obsolete or orphaned. We had 
-> >> previously discussed this topic, but nobody ever moved the files, so I 
-> >> now went through the list to my best knowledge. These are the drivers 
-> >> that I would classify as "probably unused" by now:
-> >
-> > I found a USB WLAN Stick with a rtl8192u. I got it last Saturday and 
-> > found out that the firmware is missing in my ubuntu 20.04. I found it on 
-> > the web and fixed it. When I started the driver my computer crashed. The 
-> > missing part was: priv->priv_wq = alloc_workqueue("priv_wq", 0, 0); 
-> > Fixing this the next error was a network = kzalloc(sizeof(*network), 
-> > GFP_KERNEL); in wrong context with leads to a crash of my computer. 
-> > Fixing this leads to another issue which lets my computer crash.
-> >
-> > For me the firmware of rtl8192u was intentionally missing because of the 
-> > issues with the driver.
-> >
-> > What this has to do with your question?
-> > Can we check for missing firmware in main distributions to know which 
-> > drivers are considered to be old and unused?
+On Wed, Oct 11, 2023 at 10:02:40PM -0700, Soumya Negi wrote:
+> Use parenthesis with macro arguments to avoid possible precedence
+> issues. Found by checkpatch.pl
 > 
-> Nice, thanks so much for testing.
+> Signed-off-by: Soumya Negi <soumya.negi97@gmail.com>
+> ---
+>  drivers/staging/rts5208/rtsx.h | 16 ++++++++--------
+>  1 file changed, 8 insertions(+), 8 deletions(-)
 > 
-> I see the two bugs were introduced in 2016 by commit 1761a85c3bed3
-> ("staging: rtl8192u: Remove create_workqueue()")
+> diff --git a/drivers/staging/rts5208/rtsx.h b/drivers/staging/rts5208/rtsx.h
+> index 2e101da83220..1cc05956ab6d 100644
+> --- a/drivers/staging/rts5208/rtsx.h
+> +++ b/drivers/staging/rts5208/rtsx.h
+> @@ -40,17 +40,17 @@
+>   * macros for easy use
+>   */
+>  #define rtsx_writel(chip, reg, value) \
+> -	iowrite32(value, (chip)->rtsx->remap_addr + reg)
+> +	iowrite32(value, (chip)->rtsx->remap_addr + (reg))
 
-This one never made it to lore...  I think we wouldn't have merged it
-without a lore review these days.  (There was a lot of moaning and
-complaining at the time).
+These would be better as functions instead of defines.
 
-> and in 2021 by
-> commit 061e390b7c87f ("staging: rtl8192u: ieee80211_softmac: Move a
-> large data struct onto the heap"), so it's been broken for a while.
+>  #define rtsx_readl(chip, reg) \
+> -	ioread32((chip)->rtsx->remap_addr + reg)
+> +	ioread32((chip)->rtsx->remap_addr + (reg))
+>  #define rtsx_writew(chip, reg, value) \
+> -	iowrite16(value, (chip)->rtsx->remap_addr + reg)
+> +	iowrite16(value, (chip)->rtsx->remap_addr + (reg))
+>  #define rtsx_readw(chip, reg) \
+> -	ioread16((chip)->rtsx->remap_addr + reg)
+> +	ioread16((chip)->rtsx->remap_addr + (reg))
+>  #define rtsx_writeb(chip, reg, value) \
+> -	iowrite8(value, (chip)->rtsx->remap_addr + reg)
+> +	iowrite8(value, (chip)->rtsx->remap_addr + (reg))
+>  #define rtsx_readb(chip, reg) \
+> -	ioread8((chip)->rtsx->remap_addr + reg)
+> +	ioread8((chip)->rtsx->remap_addr + (reg))
+>  
+>  #define rtsx_read_config_byte(chip, where, val) \
+>  	pci_read_config_byte((chip)->rtsx->pci, where, val)
+> @@ -131,8 +131,8 @@ static inline struct rtsx_dev *host_to_rtsx(struct Scsi_Host *host)
+>   * The scsi_lock() and scsi_unlock() macros protect the sm_state and the
+>   * single queue element srb for write access
+>   */
+> -#define scsi_unlock(host)	spin_unlock_irq(host->host_lock)
+> -#define scsi_lock(host)		spin_lock_irq(host->host_lock)
+> +#define scsi_unlock(host)	spin_unlock_irq((host)->host_lock)
+> +#define scsi_lock(host)		spin_lock_irq((host)->host_lock)
 
-:/  No way would I have seen this in review.  Smatch is supposed to find
-some of these "sleeping in invalid context" warnings but the sleeping in
-IRQ stuff doesn't work and hasn't been released.
+For these ones, the name is too generic.  probably the right thing is
+to just get rid of them completely and call spin_lock/unlock_irq()
+directly.
 
 regards,
 dan carpenter
