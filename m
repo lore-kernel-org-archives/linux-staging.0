@@ -1,29 +1,29 @@
 Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F008925104
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05CDD24A1C
 	for <linux-staging@lists.linux.dev>; Thu, 12 Oct 2023 11:47:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="GBfEFpri"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="R8PddrSw"
 Received: from benjamin-XPS-13-9310.. (unknown [IPv6:2a01:e0a:120:3210:7ae7:b86d:c19a:877e])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
 	(Authenticated sender: benjamin.gaignard)
-	by madras.collabora.co.uk (Postfix) with ESMTPSA id 5CC6E6607387;
-	Thu, 12 Oct 2023 12:47:05 +0100 (BST)
+	by madras.collabora.co.uk (Postfix) with ESMTPSA id 3FA8A6607382;
+	Thu, 12 Oct 2023 12:47:03 +0100 (BST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1697111225;
-	bh=z1P/3O08IkeE+Et5UD27w3xE7KdKdzhm59GKXS9wTKw=;
+	s=mail; t=1697111223;
+	bh=YCZw7PvG0/vvqRoLk52CD8Z7MDM+1YNzRKdH40h8V+Y=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=GBfEFpriASh4jR02Y1szsu1UfdrTYdCX5K+WBMax3riKRsFRZ1KjEqdKOcJm3hpst
-	 XCkYcDe+3NDvFH1C5l/ukP352uv/2c/8d1DMu8DMwJ9bxtxD2dfGv4yT8hiCvjczP7
-	 cJ362c/PfZcPMJGirgfoGCQ4wFnCTWqB3JkFTaUkVqhQ14MsMTPaV6loOk8fRkb4YR
-	 s2RusMwI2wj0VrSEm0hs8rjb3xog/azFUd70IO3Rmm5fSAROzxwyGr/g++0T0Yu1rX
-	 peL1zDxhtonNox+4AABvY63ch13qFxZbtpKKxDI+WFFxVc5Eby8OdLPr611MxlwFlx
-	 F1QKszrE2jIwA==
+	b=R8PddrSwYrJypqDe18vfuYP8TLYDSYw/idYGlsRcstM2f0sRYMh/DPISe+y0ffJuu
+	 4kt/lfC2uRsFMfkzckVlAIFWIp2JhQb4rb5icnyD8NU3HdBfP+UUakTQzFCowgDnPi
+	 JHHmQ8jHbxn7T91f2FbBAGBPAdi+FmWo6RBneluLVp/CPmxsQl7Pph2msO3HmussbO
+	 WuNnVvFhOBDdtJMm8AAAstTlo+tI1U2BP/QgmQ2bkmktV2CfbHVTvuWscER4ftwdMY
+	 YcbX3JpKccSevXBp2Z+l8xzLIpyyPPfBQbzosLLm/vYs3STa/MARBTjF0Dw+9UOZUd
+	 p3nADtjXcOBzA==
 From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
 To: mchehab@kernel.org,
 	tfiga@chromium.org,
@@ -42,11 +42,10 @@ Cc: linux-media@vger.kernel.org,
 	linux-rockchip@lists.infradead.org,
 	linux-staging@lists.linux.dev,
 	kernel@collabora.com,
-	Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-	"Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Subject: [PATCH v11 30/56] media: ti: Use queue min_buffers_needed field to set the min number of buffers
-Date: Thu, 12 Oct 2023 13:46:16 +0200
-Message-Id: <20231012114642.19040-31-benjamin.gaignard@collabora.com>
+	Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Subject: [PATCH v11 26/56] media: pci: tw686x: Set min_buffers_needed to 3
+Date: Thu, 12 Oct 2023 13:46:12 +0200
+Message-Id: <20231012114642.19040-27-benjamin.gaignard@collabora.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20231012114642.19040-1-benjamin.gaignard@collabora.com>
 References: <20231012114642.19040-1-benjamin.gaignard@collabora.com>
@@ -58,138 +57,47 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-When queue min_buffers_needed field is correctly set vb2 queue_setup()
-does take care of it and we can remove the checks from drivers.
+vb2 queue_setup checks for a minimum number of buffers so set
+min_buffers_needed to 3 and remove the useless check in
+tw686x_queue_setup().
 
 Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-CC: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+CC: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
 ---
- drivers/media/platform/ti/am437x/am437x-vpfe.c   | 7 ++-----
- drivers/media/platform/ti/cal/cal-video.c        | 5 +----
- drivers/media/platform/ti/davinci/vpif_capture.c | 5 +----
- drivers/media/platform/ti/davinci/vpif_display.c | 5 +----
- drivers/media/platform/ti/omap/omap_vout.c       | 5 +++--
- 5 files changed, 8 insertions(+), 19 deletions(-)
+ drivers/media/pci/tw686x/tw686x-video.c | 13 +++++--------
+ 1 file changed, 5 insertions(+), 8 deletions(-)
 
-diff --git a/drivers/media/platform/ti/am437x/am437x-vpfe.c b/drivers/media/platform/ti/am437x/am437x-vpfe.c
-index 5fa2ea9025d9..80a74ee59bb9 100644
---- a/drivers/media/platform/ti/am437x/am437x-vpfe.c
-+++ b/drivers/media/platform/ti/am437x/am437x-vpfe.c
-@@ -1772,9 +1772,6 @@ static int vpfe_queue_setup(struct vb2_queue *vq,
- 	struct vpfe_device *vpfe = vb2_get_drv_priv(vq);
- 	unsigned size = vpfe->fmt.fmt.pix.sizeimage;
+diff --git a/drivers/media/pci/tw686x/tw686x-video.c b/drivers/media/pci/tw686x/tw686x-video.c
+index 3ebf7a2c95f0..74cd864365aa 100644
+--- a/drivers/media/pci/tw686x/tw686x-video.c
++++ b/drivers/media/pci/tw686x/tw686x-video.c
+@@ -426,13 +426,6 @@ static int tw686x_queue_setup(struct vb2_queue *vq,
+ 	unsigned int szimage =
+ 		(vc->width * vc->height * vc->format->depth) >> 3;
  
+-	/*
+-	 * Let's request at least three buffers: two for the
+-	 * DMA engine and one for userspace.
+-	 */
 -	if (vq->num_buffers + *nbuffers < 3)
 -		*nbuffers = 3 - vq->num_buffers;
 -
  	if (*nplanes) {
- 		if (sizes[0] < size)
+ 		if (*nplanes != 1 || sizes[0] < szimage)
  			return -EINVAL;
-@@ -1785,7 +1782,7 @@ static int vpfe_queue_setup(struct vb2_queue *vq,
- 	sizes[0] = size;
- 
- 	vpfe_dbg(1, vpfe,
--		"nbuffers=%d, size=%u\n", *nbuffers, sizes[0]);
-+		"nbuffers=%u, size=%u\n", vb2_get_num_buffers(vq), sizes[0]);
- 
- 	/* Calculate field offset */
- 	vpfe_calculate_offsets(vpfe);
-@@ -2233,7 +2230,7 @@ static int vpfe_probe_complete(struct vpfe_device *vpfe)
- 	q->buf_struct_size = sizeof(struct vpfe_cap_buffer);
- 	q->timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_MONOTONIC;
- 	q->lock = &vpfe->lock;
--	q->min_buffers_needed = 1;
-+	q->min_buffers_needed = 3;
- 	q->dev = vpfe->pdev;
- 
- 	err = vb2_queue_init(q);
-diff --git a/drivers/media/platform/ti/cal/cal-video.c b/drivers/media/platform/ti/cal/cal-video.c
-index a8abcd0fee17..924465b37e5f 100644
---- a/drivers/media/platform/ti/cal/cal-video.c
-+++ b/drivers/media/platform/ti/cal/cal-video.c
-@@ -604,9 +604,6 @@ static int cal_queue_setup(struct vb2_queue *vq,
- 	struct cal_ctx *ctx = vb2_get_drv_priv(vq);
- 	unsigned int size = ctx->v_fmt.fmt.pix.sizeimage;
- 
--	if (vq->num_buffers + *nbuffers < 3)
--		*nbuffers = 3 - vq->num_buffers;
--
- 	if (*nplanes) {
- 		if (sizes[0] < size)
- 			return -EINVAL;
-@@ -616,7 +613,7 @@ static int cal_queue_setup(struct vb2_queue *vq,
- 	*nplanes = 1;
- 	sizes[0] = size;
- 
--	ctx_dbg(3, ctx, "nbuffers=%d, size=%d\n", *nbuffers, sizes[0]);
-+	ctx_dbg(3, ctx, "nbuffers=%d, size=%d\n", vb2_get_num_buffers(vq), sizes[0]);
- 
- 	return 0;
- }
-diff --git a/drivers/media/platform/ti/davinci/vpif_capture.c b/drivers/media/platform/ti/davinci/vpif_capture.c
-index 99fae8830c41..8a4cc62cf562 100644
---- a/drivers/media/platform/ti/davinci/vpif_capture.c
-+++ b/drivers/media/platform/ti/davinci/vpif_capture.c
-@@ -122,9 +122,6 @@ static int vpif_buffer_queue_setup(struct vb2_queue *vq,
- 		size = sizes[0];
- 	}
- 
--	if (vq->num_buffers + *nbuffers < 3)
--		*nbuffers = 3 - vq->num_buffers;
--
- 	*nplanes = 1;
- 	sizes[0] = size;
- 
-@@ -1428,7 +1425,7 @@ static int vpif_probe_complete(void)
- 		q->mem_ops = &vb2_dma_contig_memops;
- 		q->buf_struct_size = sizeof(struct vpif_cap_buffer);
- 		q->timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_MONOTONIC;
--		q->min_buffers_needed = 1;
-+		q->min_buffers_needed = 3;
- 		q->lock = &common->lock;
- 		q->dev = vpif_dev;
- 
-diff --git a/drivers/media/platform/ti/davinci/vpif_display.c b/drivers/media/platform/ti/davinci/vpif_display.c
-index f8ec2991c667..6fc32314cf9c 100644
---- a/drivers/media/platform/ti/davinci/vpif_display.c
-+++ b/drivers/media/platform/ti/davinci/vpif_display.c
-@@ -122,9 +122,6 @@ static int vpif_buffer_queue_setup(struct vb2_queue *vq,
- 		size = sizes[0];
- 	}
- 
--	if (vq->num_buffers + *nbuffers < 3)
--		*nbuffers = 3 - vq->num_buffers;
--
- 	*nplanes = 1;
- 	sizes[0] = size;
- 
-@@ -1168,7 +1165,7 @@ static int vpif_probe_complete(void)
- 		q->mem_ops = &vb2_dma_contig_memops;
- 		q->buf_struct_size = sizeof(struct vpif_disp_buffer);
- 		q->timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_MONOTONIC;
--		q->min_buffers_needed = 1;
-+		q->min_buffers_needed = 3;
- 		q->lock = &common->lock;
- 		q->dev = vpif_dev;
- 		err = vb2_queue_init(q);
-diff --git a/drivers/media/platform/ti/omap/omap_vout.c b/drivers/media/platform/ti/omap/omap_vout.c
-index 4143274089c3..72ce903717d3 100644
---- a/drivers/media/platform/ti/omap/omap_vout.c
-+++ b/drivers/media/platform/ti/omap/omap_vout.c
-@@ -944,10 +944,11 @@ static int omap_vout_vb2_queue_setup(struct vb2_queue *vq,
- 				     struct device *alloc_devs[])
- {
- 	struct omap_vout_device *vout = vb2_get_drv_priv(vq);
-+	unsigned int q_num_bufs = vb2_get_num_buffers(vq);
- 	int size = vout->pix.sizeimage;
- 
--	if (is_rotation_enabled(vout) && vq->num_buffers + *nbufs > VRFB_NUM_BUFS) {
--		*nbufs = VRFB_NUM_BUFS - vq->num_buffers;
-+	if (is_rotation_enabled(vout) && q_num_bufs + *nbufs > VRFB_NUM_BUFS) {
-+		*nbufs = VRFB_NUM_BUFS - q_num_bufs;
- 		if (*nbufs == 0)
- 			return -EINVAL;
- 	}
+@@ -1221,7 +1214,11 @@ int tw686x_video_init(struct tw686x_dev *dev)
+ 		vc->vidq.ops = &tw686x_video_qops;
+ 		vc->vidq.mem_ops = dev->dma_ops->mem_ops;
+ 		vc->vidq.timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_MONOTONIC;
+-		vc->vidq.min_buffers_needed = 2;
++		/*
++		 * Let's request at least three buffers: two for the
++		 * DMA engine and one for userspace.
++		 */
++		vc->vidq.min_buffers_needed = 3;
+ 		vc->vidq.lock = &vc->vb_mutex;
+ 		vc->vidq.gfp_flags = dev->dma_mode != TW686X_DMA_MODE_MEMCPY ?
+ 				     GFP_DMA32 : 0;
 -- 
 2.39.2
 
