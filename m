@@ -1,29 +1,29 @@
 Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8BBB24A04
-	for <linux-staging@lists.linux.dev>; Thu, 12 Oct 2023 11:47:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E19D124A00
+	for <linux-staging@lists.linux.dev>; Thu, 12 Oct 2023 11:47:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="Zxz4EYtV"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="ZjxLpWSv"
 Received: from benjamin-XPS-13-9310.. (unknown [IPv6:2a01:e0a:120:3210:7ae7:b86d:c19a:877e])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
 	(Authenticated sender: benjamin.gaignard)
-	by madras.collabora.co.uk (Postfix) with ESMTPSA id C79EB6607367;
-	Thu, 12 Oct 2023 12:46:57 +0100 (BST)
+	by madras.collabora.co.uk (Postfix) with ESMTPSA id B96386607363;
+	Thu, 12 Oct 2023 12:46:56 +0100 (BST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1697111218;
-	bh=7OL5E3CW8F8eZCTu2km16+HY1SvtZLOVfrgm1/VXjy4=;
+	s=mail; t=1697111217;
+	bh=Hv6K096kuas0tXEWfFOtf8PobL2avYs7g7RnPKhbESI=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=Zxz4EYtVb8eZSFa5Uwvd882wFWuAYhX2LKeQKSPTPbU4mWMEoKiEiWXHDiyBIQMyD
-	 vuvvnvWLu5IpQp8AwlFYRHQ+Wi6muvQsoSy5Jih1Y9pAWsC7Hvlk3ORXDoYxmwfkKi
-	 gcqO73cFAkkQwww8Uvr66ULYAuxbLJ7x1IimWRPkFx8vRQmX48eESO8YdIEtqNxJRO
-	 2JOIN3GCYW8iRYzERUCZgC7JJhndFqoWai8IbOsvIK9wI3urIN5xxNd8L+59a88/zl
-	 MqvlbV2vdVD8dfpeZrBIDN2AuOqdktfMIjd3wBXfocEyJEjAiraiZytR6p3glVau8q
-	 cv7/ZPt5Lp1CQ==
+	b=ZjxLpWSveTl5mI39YW3w3hnP4PhPurR3mMTD6rz5mEIWqdX9O6WD6n+3CP83NfN8y
+	 epDyHS6WEw80cpQwfEfnCl1XUvTLXAHsGwpe10zZ7/7kzfBEbvkuLF8V6r585LLz5w
+	 G7i3jTLIucF3X/OG4OWcenlXnCpI+gxPa/AwfI5KiD6NMEiK8enGegE0t50PmTT1AO
+	 3Nfl+vYuqmUn+dxI3uu2OTZhHM8nIO5sCEn08tN7bxN79PYW+lZck69jHI/9XFpeLl
+	 T2Q/EmJD1HGoi8TXEuWFTiKGDYzD2GgLI+OQcPLVZXjHw1GsaU33jHcdf4tnc7e8/h
+	 qagE1kl/ECLTA==
 From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
 To: mchehab@kernel.org,
 	tfiga@chromium.org,
@@ -43,11 +43,10 @@ Cc: linux-media@vger.kernel.org,
 	linux-staging@lists.linux.dev,
 	kernel@collabora.com,
 	Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-	Hans de Goede <hdegoede@redhat.com>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>
-Subject: [PATCH v11 16/56] media: atomisp: Use vb2_get_buffer() instead of directly access to buffers array
-Date: Thu, 12 Oct 2023 13:46:02 +0200
-Message-Id: <20231012114642.19040-17-benjamin.gaignard@collabora.com>
+	Jean-Christophe Trotin <jean-christophe.trotin@foss.st.com>
+Subject: [PATCH v11 14/56] media: sti: hva: Use vb2_get_buffer() instead of directly access to buffers array
+Date: Thu, 12 Oct 2023 13:46:00 +0200
+Message-Id: <20231012114642.19040-15-benjamin.gaignard@collabora.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20231012114642.19040-1-benjamin.gaignard@collabora.com>
 References: <20231012114642.19040-1-benjamin.gaignard@collabora.com>
@@ -60,32 +59,38 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
 Use vb2_get_buffer() instead of directly access to vb2_buffer buffer array.
-This could allow to change the type bufs[] field of vb2_buffer structure if
-needed.
-No need to check the result of vb2_get_buffer, vb2_ioctl_dqbuf() already
-checked that it is valid.
+After each call to vb2_get_buffer() we need to be sure that we get
+a valid pointer so check the return value of all of them.
+Remove index range test since it is done by vb2_get_buffer().
 
 Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-CC: Hans de Goede <hdegoede@redhat.com>
-CC: Mauro Carvalho Chehab <mchehab@kernel.org>
-CC: Sakari Ailus <sakari.ailus@linux.intel.com>
+CC: Jean-Christophe Trotin <jean-christophe.trotin@foss.st.com>
 ---
- drivers/staging/media/atomisp/pci/atomisp_ioctl.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/media/platform/st/sti/hva/hva-v4l2.c | 9 +++------
+ 1 file changed, 3 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_ioctl.c b/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
-index a8e4779d007f..a8a964b2f1a8 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
-+++ b/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
-@@ -1059,7 +1059,7 @@ static int atomisp_dqbuf_wrapper(struct file *file, void *fh, struct v4l2_buffer
- 	if (ret)
- 		return ret;
+diff --git a/drivers/media/platform/st/sti/hva/hva-v4l2.c b/drivers/media/platform/st/sti/hva/hva-v4l2.c
+index 3a848ca32a0e..cfe83e9dc01b 100644
+--- a/drivers/media/platform/st/sti/hva/hva-v4l2.c
++++ b/drivers/media/platform/st/sti/hva/hva-v4l2.c
+@@ -569,14 +569,11 @@ static int hva_qbuf(struct file *file, void *priv, struct v4l2_buffer *buf)
+ 		struct vb2_buffer *vb2_buf;
  
--	vb = pipe->vb_queue.bufs[buf->index];
-+	vb = vb2_get_buffer(&pipe->vb_queue, buf->index);
- 	frame = vb_to_frame(vb);
- 
- 	buf->reserved = asd->frame_status[buf->index];
+ 		vq = v4l2_m2m_get_vq(ctx->fh.m2m_ctx, buf->type);
+-
+-		if (buf->index >= vq->num_buffers) {
+-			dev_dbg(dev, "%s buffer index %d out of range (%d)\n",
+-				ctx->name, buf->index, vq->num_buffers);
++		vb2_buf = vb2_get_buffer(vq, buf->index);
++		if (!vb2_buf) {
++			dev_dbg(dev, "%s buffer index %d not found\n", ctx->name, buf->index);
+ 			return -EINVAL;
+ 		}
+-
+-		vb2_buf = vb2_get_buffer(vq, buf->index);
+ 		stream = to_hva_stream(to_vb2_v4l2_buffer(vb2_buf));
+ 		stream->bytesused = buf->bytesused;
+ 	}
 -- 
 2.39.2
 
