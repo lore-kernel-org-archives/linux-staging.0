@@ -1,113 +1,90 @@
-Received: from wout5-smtp.messagingengine.com (wout5-smtp.messagingengine.com [64.147.123.21])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4AF381DA3B
-	for <linux-staging@lists.linux.dev>; Thu, 12 Oct 2023 14:36:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=arndb.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D7ED17F5
+	for <linux-staging@lists.linux.dev>; Thu, 12 Oct 2023 14:46:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="Tivic6xG";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="g1Teoq2c"
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-	by mailout.west.internal (Postfix) with ESMTP id 3182B3200977;
-	Thu, 12 Oct 2023 10:36:52 -0400 (EDT)
-Received: from imap51 ([10.202.2.101])
-  by compute5.internal (MEProxy); Thu, 12 Oct 2023 10:36:53 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
-	:cc:content-type:content-type:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:sender
-	:subject:subject:to:to; s=fm2; t=1697121411; x=1697207811; bh=dT
-	K6vB86TTa39cmBteipnbE5ZieH/rRMtOJjJ9SFwYw=; b=Tivic6xGP99PN1FGrn
-	eZ+OO4z9CT92jlXaBKxpci5w57UD1TD2KXotzk9uDohCCnhbeJe/LzTefY4j2SHr
-	90SYJqOZf/KYm+ub73LawRFmrUmbJdHw9L7oHVbz+O7Ahs5FDCHS/IMc/OyfuMbr
-	GjjzO9ALVzlRkSjmwD11zZetCvlZc8fR1xlFcYZHUmFaaQJgMa9hysZ+EnjPdHC1
-	RuJyQZycVAWOfJHN+4LZdjxcjsmcYCtfepHcGYw6TaYWdvP4PLBEih6O+Q/gsWwX
-	eUXOHbgZKgIrUitwVDWrhmYMKNK/MKRDldciix1V4149vGzwLhWSLviwW0xMq0OS
-	0NjA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:sender:subject
-	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-	:x-sasl-enc; s=fm2; t=1697121411; x=1697207811; bh=dTK6vB86TTa39
-	cmBteipnbE5ZieH/rRMtOJjJ9SFwYw=; b=g1Teoq2cG0IIV16g9UqalYOHpKNTX
-	HIkN6/I4aZlyVvxyfmsUtEyoSQExzv+IMiCN3vj3fCcpWmb+m8r97LUbaiHBlxw2
-	TEdHCKjfL/nwBujQGA6Kgl8dhPEqT+PjlVaORvxHLzI8KD573EGeg7xtnItS7PVr
-	Gyj/JEg4g/Uz/eoJIFQkD60RgKcQNXBycHCmC7TYKdA3qkENeFKWhDHYbT5tA0lY
-	wMLDlw5D3QbfJPoSKqDEHSS782Ren2ZqCaF6YOnisF9gDDZQOMClC14Zqx89rNOs
-	oYeVioBmZMLDrjJXvq2z0kGTe5Ec/2ITiqF8pqObJ4cxo2lx80/xC0wNw==
-X-ME-Sender: <xms:gwQoZXtty0NQfKaC3SwT2-HChUmZ3T5-G7hS6T7l6-KjSk-0oVLdwA>
-    <xme:gwQoZYc7VIGN6FhiyWDBzSEr7TdJ-EPzZmlxLPBJOBBS1-xWauqIIdNpAPtLIJsQn
-    _BihDzBuduc8o-9Mjs>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvkedriedtgdeikecutefuodetggdotefrodftvf
-    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
-    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
-    fjughrpefofgggkfgjfhffhffvvefutgesthdtredtreertdenucfhrhhomhepfdetrhhn
-    ugcuuegvrhhgmhgrnhhnfdcuoegrrhhnugesrghrnhgusgdruggvqeenucggtffrrghtth
-    gvrhhnpeffheeugeetiefhgeethfejgfdtuefggeejleehjeeutefhfeeggefhkedtkeet
-    ffenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegrrh
-    hnugesrghrnhgusgdruggv
-X-ME-Proxy: <xmx:gwQoZaz6LKiQWiEoR-kC2R-iQgLHvMUlh9K9q8UqMojCckK4gQtZhA>
-    <xmx:gwQoZWOv0Id1TAPb8pHY66ENEePxYuWiIArJeJmoFfWcJeuaV6-lBw>
-    <xmx:gwQoZX9j9RZ0Gq1FnOzEoIzlswnaE2vi9f1evz8-zLQsx2VZJiZu6w>
-    <xmx:gwQoZWXJ36zrWUNE5v4AY8Ge_1jsj2TljiM2_fMcrqza9AwAReJ0ww>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
-	id 54B9DB60089; Thu, 12 Oct 2023 10:36:51 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.9.0-alpha0-1019-ged83ad8595-fm-20231002.001-ged83ad85
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Q6nL+4M+"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1AB73C433C7;
+	Thu, 12 Oct 2023 14:46:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1697121978;
+	bh=O2x78rOBWTFesFHLGuuhfU/0q39fTXA8lDOZUhM2/mQ=;
+	h=From:To:Cc:Subject:References:Date:In-Reply-To:From;
+	b=Q6nL+4M+7KTg9VgVgqbBhoqWdSfrxRveBtZLy+eErYUxSVUgM4+fg/IUKw9vZ5bnf
+	 IQX9ZsfwvYb3k0iixw4+CYudyE3JD/hMcrvlLuyw2+uRL6DNAR6wkCitcOXK54ozu1
+	 6n+ui8/e/T2z/5wVJHgRau597vQcWIH/Nfb+CBmf6j00OBUCfp1quLgMh7923EKNg1
+	 WhkQ+daxcTe77B8ZZFqhn7A9HkLJNCRsBbz03mwnnBYoRLDWQDquCZY7DtMLFZhGjK
+	 UC2fZf4SjBkwOaYj0XTjKzCgQ5SwoTIYraTnG+EtwC3ZbngUfn1fO2k9c97IysCcHn
+	 j4nDsCl3g+mSQ==
+From: Kalle Valo <kvalo@kernel.org>
+To: "Arnd Bergmann" <arnd@arndb.de>
+Cc: "Jakub Kicinski" <kuba@kernel.org>,  "Greg Kroah-Hartman"
+ <gregkh@linuxfoundation.org>,  "Arnd Bergmann" <arnd@kernel.org>,
+  "Nicolas Ferre" <nicolas.ferre@microchip.com>,  "Alexandre Belloni"
+ <alexandre.belloni@bootlin.com>,  "Claudiu Beznea"
+ <claudiu.beznea@tuxon.dev>,  "Pavel Machek" <pavel@ucw.cz>,  "David S .
+ Miller" <davem@davemloft.net>,  "Larry Finger"
+ <Larry.Finger@lwfinger.net>,  linux-kernel@vger.kernel.org,
+  linux-wireless@vger.kernel.org,  linux-arm-kernel@lists.infradead.org,
+  linux-staging@lists.linux.dev
+Subject: Re: [PATCH] [RFC] wireless: move obsolete drivers to staging
+References: <20231010155444.858483-1-arnd@kernel.org>
+	<2023101051-unmasked-cleaver-79b3@gregkh> <87y1g94szz.fsf@kernel.org>
+	<2023101139-pyromania-game-2237@gregkh> <87r0m1fwg9.fsf@kernel.org>
+	<20231011080955.1beeb010@kernel.org> <87sf6g2hc8.fsf@kernel.org>
+	<63e57ef8-c9f2-489a-8df8-51dcffd437c6@app.fastmail.com>
+Date: Thu, 12 Oct 2023 17:48:47 +0300
+In-Reply-To: <63e57ef8-c9f2-489a-8df8-51dcffd437c6@app.fastmail.com> (Arnd
+	Bergmann's message of "Thu, 12 Oct 2023 16:36:26 +0200")
+Message-ID: <87fs2fgals.fsf@kernel.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Message-Id: <63e57ef8-c9f2-489a-8df8-51dcffd437c6@app.fastmail.com>
-In-Reply-To: <87sf6g2hc8.fsf@kernel.org>
-References: <20231010155444.858483-1-arnd@kernel.org>
- <2023101051-unmasked-cleaver-79b3@gregkh> <87y1g94szz.fsf@kernel.org>
- <2023101139-pyromania-game-2237@gregkh> <87r0m1fwg9.fsf@kernel.org>
- <20231011080955.1beeb010@kernel.org> <87sf6g2hc8.fsf@kernel.org>
-Date: Thu, 12 Oct 2023 16:36:26 +0200
-From: "Arnd Bergmann" <arnd@arndb.de>
-To: "Kalle Valo" <kvalo@kernel.org>, "Jakub Kicinski" <kuba@kernel.org>
-Cc: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
- "Arnd Bergmann" <arnd@kernel.org>,
- "Nicolas Ferre" <nicolas.ferre@microchip.com>,
- "Alexandre Belloni" <alexandre.belloni@bootlin.com>,
- "Claudiu Beznea" <claudiu.beznea@tuxon.dev>, "Pavel Machek" <pavel@ucw.cz>,
- "David S . Miller" <davem@davemloft.net>,
- "Larry Finger" <Larry.Finger@lwfinger.net>, linux-kernel@vger.kernel.org,
- linux-wireless@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-staging@lists.linux.dev
-Subject: Re: [PATCH] [RFC] wireless: move obsolete drivers to staging
 Content-Type: text/plain
 
-On Thu, Oct 12, 2023, at 13:47, Kalle Valo wrote:
+"Arnd Bergmann" <arnd@arndb.de> writes:
+
+> On Thu, Oct 12, 2023, at 13:47, Kalle Valo wrote:
+>>
+>> Is anyone willing to submit patches? Use wireless-next as the baseline
+>> for patches and one driver per commit, please. That way it's easy to
+>> revert later, if needed (hopefully not).
 >
-> Is anyone willing to submit patches? Use wireless-next as the baseline
-> for patches and one driver per commit, please. That way it's easy to
-> revert later, if needed (hopefully not).
+> I can do it, I've already done most of the work for moving the
+> drivers, so I just need to split up my existing patch and leave out
+> the bits that get added to drivers/staging.
 
-I can do it, I've already done most of the work for moving the
-drivers, so I just need to split up my existing patch and leave out
-the bits that get added to drivers/staging.
+Awesome, thank you!
 
-I'll also send Greg a patch to remove rtl8192u now that we know
-that this has been broken for 7 years. Similarly, I'd include
-another patch to remove PCMCIA support for libertas, as that
-would otherwise be the only remaining 16-bit PCMCIA wlan card,
-and I could find no indication of this one ever being popular,
-unlike the USB/SDIO/SPI variants of the same device or the
-other PCMCIA drivers.
+> I'll also send Greg a patch to remove rtl8192u now that we know
+> that this has been broken for 7 years. Similarly, I'd include
+> another patch to remove PCMCIA support for libertas, as that
+> would otherwise be the only remaining 16-bit PCMCIA wlan card,
+> and I could find no indication of this one ever being popular,
+> unlike the USB/SDIO/SPI variants of the same device or the
+> other PCMCIA drivers.
+>
+> This would leave only a handful of wext implementations in the
+> tree: ipw2x00, ps3-gelic-wireless, staging/rtl8712, staging/rtl8192e
+> and staging/ks7010. Since ipw2x00 is apparently still supported
+> in theory and was rather popular on Pentium-M based systems 20
+> years ago, this may still need to be converted to cfg80211
+> before you can remove support for wext style drivers altogether.
+> ps3-gelic-wireless and rtl8712 are also still maintained but have
+> a much smaller user base I assume.
 
-This would leave only a handful of wext implementations in the
-tree: ipw2x00, ps3-gelic-wireless, staging/rtl8712, staging/rtl8192e
-and staging/ks7010. Since ipw2x00 is apparently still supported
-in theory and was rather popular on Pentium-M based systems 20
-years ago, this may still need to be converted to cfg80211
-before you can remove support for wext style drivers altogether.
-ps3-gelic-wireless and rtl8712 are also still maintained but have
-a much smaller user base I assume.
+Actually I would prefer to remove ipw2x00 and ps3-gelic-wireless as
+well. I have not seen any evidence that there would be users for those
+drivers. If we find out that there really are users I can easily add the
+drivers back. The faster we get rid of wext the better, it really needs
+to go away.
 
-      Arnd
+-- 
+https://patchwork.kernel.org/project/linux-wireless/list/
+
+https://wireless.wiki.kernel.org/en/developers/documentation/submittingpatches
