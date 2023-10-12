@@ -1,61 +1,55 @@
-Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
+Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74D0027701;
-	Thu, 12 Oct 2023 13:03:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41B051A72D;
+	Thu, 12 Oct 2023 14:02:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kRoyrJag"
-Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-694f75deb1aso1639937b3a.0;
-        Thu, 12 Oct 2023 06:03:47 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AbfBunjk"
+Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-9b2cee55056so175639866b.3;
+        Thu, 12 Oct 2023 07:02:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1697115827; x=1697720627; darn=lists.linux.dev;
-        h=user-agent:in-reply-to:content-disposition:mime-version:references
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=uIDdHfachdzSYdbMoayfgG9KGaQkVwpYZ7M9Wz17QLI=;
-        b=kRoyrJagZPxbCSQNbajPIXEIgmGqK3uXZvHQODj3LvsItvpP6zTPeA89h1MKBsHkup
-         iI/IdrktpYqj1GEEAZeNsPA98UfMdf9ltFNkiJowebDbYWMuBiWYmO8sW83+nANeAx0g
-         dmeXQZbXWSYDWVrzKXMTrzTefGQ1y0jBKEm7o2Ec3VLl20XvfKduehq6KpU0h1RRic15
-         RrNLYPZxKz0Vk7BvJCH1XWVZqgrwqp7aFI6trf5ZmTcXV26vRcQkvMsjLoS9heZGiruJ
-         /RXExoAFnRu5HpngCSVagPGUzlCxVEC2J/P0cRDWSXcd1JCbc83NJ462Y133fe/0bKiA
-         bksQ==
+        d=gmail.com; s=20230601; t=1697119321; x=1697724121; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=Gsmhs5zysW4svCJevlwUFpRCfVEra9CoPzacdufXDbo=;
+        b=AbfBunjkeKoPv0aRAbKhEcmuYlJtJNamTQjc3DP2luD+sTCTBQ3Bm/h/n/1teOPT7t
+         6fFk5SoWMTuy6L6Vmz2luXXQ1cM14u1jhYACBS0G2zCfUWE6ghR/HoZeuEesWQ76dBdf
+         hqk/1u4AJGki2hOePoXtLrx/3lROnrY/yiJOiqElxIo6omVWZ+xlNLGjWnxGPGoxa/1X
+         UVcyomXTsL3s4ha0ZU7alNBD70K+yWRVRxGhJZJTGpCyAtVDydZa54UMhrMXEGOhF9xu
+         33JSElv9hj8yfxKPbHPobxL0ZHR8Ns/Dx2+AiSkjCndPIn2RUwOOp/rYjWx6T9NnRsDf
+         9EDw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697115827; x=1697720627;
-        h=user-agent:in-reply-to:content-disposition:mime-version:references
-         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=uIDdHfachdzSYdbMoayfgG9KGaQkVwpYZ7M9Wz17QLI=;
-        b=n2mh/6Q7FnIHAIB0soR5S56tbt+viLwBKBe0DJyeM8dkZYXBHqWz5kd7qkdeE7x9+3
-         NSsU4MwaX27Du32qBtIogOPQU/+JiezXRpZnhlD5G1rxApU6gFFBEPnik0lC/cZpd94u
-         gWSJxWPOfb0bhih588atIl4N7KM79YxCJw3DcJZg/k4gYIqdX3MHd5dww6sG+EujcvS7
-         pmiHvisoEB3QtoCPx6EusNL/rOmMGUnj74cgb/02lHjESOkG7kFZ5A2P79+pWgGGaWyq
-         8UByFjqa29BQDj3wxWNgp7yPEMuLgPMAVsuriAqT6qIy2Hc5PP8QlEMpDZNwwtjnFJRa
-         pTtA==
-X-Gm-Message-State: AOJu0Yy00np7F0WBlVEovaEf2l7Zufy9GR5VKG3f6/oDWSqATL77A5Mr
-	1pob7GBi9yUiy1AKC7Myz7s=
-X-Google-Smtp-Source: AGHT+IEUgLYHpBlq28D59kLvKyvlLaVPZA/uM46REBEA+C2L29sl0PSXTZXGTdkya46UNec+FfsCbg==
-X-Received: by 2002:a05:6a20:1456:b0:134:73f6:5832 with SMTP id a22-20020a056a20145600b0013473f65832mr34363741pzi.16.1697115826088;
-        Thu, 12 Oct 2023 06:03:46 -0700 (PDT)
-Received: from Negi (2603-8000-b93d-20a0-2184-6fa4-0d39-1c6b.res6.spectrum.com. [2603:8000:b93d:20a0:2184:6fa4:d39:1c6b])
-        by smtp.gmail.com with ESMTPSA id y18-20020a637d12000000b0059d219cb359sm1606244pgc.9.2023.10.12.06.03.45
+        d=1e100.net; s=20230601; t=1697119321; x=1697724121;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Gsmhs5zysW4svCJevlwUFpRCfVEra9CoPzacdufXDbo=;
+        b=GTi0uw30DRyto46jRpJFU7UE8GwyZND97Xtb/dxBZ9jcLtFjpG95SwZYjmG2zIfcm7
+         nJO/0FiWWFNt29fqLhhOkC5W20bYm7GDIsR560onUv0hDLkbi1zy5y9SBeT7GG2qDvxq
+         9biKvon8mBuYYtgrkOKSu12iRsYVG6uaYxyyWymFCAKEQY8Rau+U7zQVwx6ZWdUg0z48
+         452XFlKhy7NtAM/C1UzyjTa6IyG7DGD61Ev0XinUrJXkWI2KCozBRxSHzifIL4L8h8Gg
+         gteAJnHDbAnLs4EH/m0ZZO+YJHUtKhlY/mcAPhlRHA2WNuHOz68DzwKVDKuzM1WRMvWK
+         kkiw==
+X-Gm-Message-State: AOJu0Ywo+L5Bk+MQhhXILkK/2E7M/8B6j5BWIAgQou0k4P1y4MDWf1nf
+	+0nFewk1ZYDxHA8U8hWVxQE=
+X-Google-Smtp-Source: AGHT+IHPpME55p+kfAxxc2RLQIrajNrNQMENzl2pmL/S1Jp3OZkX4/+u0kauk7Cqpe0RQ7QMyDhSKA==
+X-Received: by 2002:a17:906:cb:b0:9ae:4eb7:ae8b with SMTP id 11-20020a17090600cb00b009ae4eb7ae8bmr24299904eji.7.1697119320347;
+        Thu, 12 Oct 2023 07:02:00 -0700 (PDT)
+Received: from lab-ubuntu ([41.90.69.21])
+        by smtp.gmail.com with ESMTPSA id o12-20020a17090637cc00b0099bc80d5575sm10980233ejc.200.2023.10.12.07.01.58
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 12 Oct 2023 06:03:45 -0700 (PDT)
-Date: Thu, 12 Oct 2023 06:03:44 -0700
-From: Soumya Negi <soumya.negi97@gmail.com>
-To: Julia Lawall <julia.lawall@inria.fr>
-Cc: Dan Carpenter <dan.carpenter@linaro.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Micky Ching <micky_ching@realsil.com.cn>, outreachy@lists.linux.dev,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: rts5208: Parenthesize macro arguments
-Message-ID: <20231012130344.GB7107@Negi>
-References: <20231012050240.20378-1-soumya.negi97@gmail.com>
- <81d6e283-fd87-4fd6-964f-22cbf420cdaa@kadam.mountain>
- <20231012074837.GE16374@Negi>
- <a1556f74-83ef-d32-103d-6b0b0233473@inria.fr>
- <20231012124920.GA7107@Negi>
+        Thu, 12 Oct 2023 07:01:59 -0700 (PDT)
+Date: Thu, 12 Oct 2023 17:01:57 +0300
+From: Calvince Otieno <calvncce@gmail.com>
+To: outreachy@lists.linux.dev, linux-kernel@vger.kernel.org
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Archana <craechal@gmail.com>, Dan Carpenter <error27@gmail.com>,
+	Simon Horman <horms@kernel.org>,
+	Bagas Sanjaya <bagasdotme@gmail.com>, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v2] staging/wlan-ng: remove strcpy() use in favor of strscpy()
+Message-ID: <ZSf8VcH8JQ+L+Z/r@lab-ubuntu>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -64,45 +58,48 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231012124920.GA7107@Negi>
-User-Agent: Mutt/1.9.4 (2018-02-28)
 
-Hi,
+In response to the suggestion by Dan Carpenter on the initial patch,
+this patch provides a correct usage of the strscpy() in place of the
+current strcpy() implementation.
 
-On Thu, Oct 12, 2023 at 05:49:20AM -0700, Soumya Negi wrote:
-> Hi Julia,
-> 
-> On Thu, Oct 12, 2023 at 09:51:27AM +0200, Julia Lawall wrote:
-> > 
-> > 
-> > On Thu, 12 Oct 2023, Soumya Negi wrote:
-> > 
-> > > Hi Dan,
-> > > > For these ones, the name is too generic.  probably the right thing is
-> > > > to just get rid of them completely and call spin_lock/unlock_irq()
-> > > > directly.
-> > >
-> > > I understand that there should be 2 different patches, one for the
-> > > macro-to-function rewrites & one for replacing the scsi lock/unlock macros with
-> > > direct spinlock calls. But, should these be in a patchset(they are vaguely
-> > > related since the patches together would get rid of the checkpatch warnings)?
-> > > I'm not sure.
-> > 
-> > Patch set, since they affect the same file.  Otherwise, Greg doesn't know
-> > in what order to apply them.
-> 
-> Thank you for explaining each point. I'm sending over the patch set for
-> review in a new email thread.
+strscpy() copies characters from the source buffer to the destination
+buffer until one of the following conditions is met:
+	- null-terminator ('\0') is encountered in the source string.
+	- specified maximum length of the destination buffer is reached.
+	- source buffer is exhausted.
+Example:
+	char dest[11];
+	const char *PRISM2_USB_FWFILE = "prism2_ru.fw";
+	strscpy(dest, PRISM2_USB_FWFILE, sizeof(dest));
 
-My last patch in the set didn't go through. THe error message is "multiple In-Reply-To
-headers. To reduce the amount of spam sent to Gmail, this message has
-been blocked." I used the --thread=shallow flag with git format-patch.
+	In this case, strscpy copies the first 10 characters of src into dest
+	and add a null-terminator. dest will then contain "prism2_ru.f" with
+	proper null-termination.
 
-Should I try resend the entire patch set again without the flag? Or is
-there any way to send the remaining patch by itself?
+Since the specified length of the dest buffer is not derived from the
+dest buffer itself and rather form plug length (s3plug[i].len),
+replacing strcpy() with strscpy() is a better option because it will
+ensures that the destination string is always properly terminated.
 
-Thanks,
-Soumya
-> - Soumya
+Signed-off-by: Calvince Otieno <calvncce@gmail.com>
+---
+ drivers/staging/wlan-ng/prism2fw.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
+diff --git a/drivers/staging/wlan-ng/prism2fw.c b/drivers/staging/wlan-ng/prism2fw.c
+index 5d03b2b9aab4..3ccd11041646 100644
+--- a/drivers/staging/wlan-ng/prism2fw.c
++++ b/drivers/staging/wlan-ng/prism2fw.c
+@@ -725,7 +725,7 @@ static int plugimage(struct imgchunk *fchunk, unsigned int nfchunks,
+ 
+ 		if (j == -1) {	/* plug the filename */
+ 			memset(dest, 0, s3plug[i].len);
+-			strncpy(dest, PRISM2_USB_FWFILE, s3plug[i].len - 1);
++			strscpy(dest, PRISM2_USB_FWFILE, s3plug[i].len);
+ 		} else {	/* plug a PDR */
+ 			memcpy(dest, &pda->rec[j]->data, s3plug[i].len);
+ 		}
+-- 
+2.34.1
 
