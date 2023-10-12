@@ -1,29 +1,29 @@
 Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8E3525101
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F414625105
 	for <linux-staging@lists.linux.dev>; Thu, 12 Oct 2023 11:47:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="Gt4nc0tx"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="mYp0GjKa"
 Received: from benjamin-XPS-13-9310.. (unknown [IPv6:2a01:e0a:120:3210:7ae7:b86d:c19a:877e])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
 	(Authenticated sender: benjamin.gaignard)
-	by madras.collabora.co.uk (Postfix) with ESMTPSA id D47F96607386;
-	Thu, 12 Oct 2023 12:47:04 +0100 (BST)
+	by madras.collabora.co.uk (Postfix) with ESMTPSA id E1D406607389;
+	Thu, 12 Oct 2023 12:47:05 +0100 (BST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1697111225;
-	bh=51uRb95lmgtzN6hPPISI8XHQeJXuX3+AzrSS67M/f6s=;
+	s=mail; t=1697111226;
+	bh=cwJWUlnwaw24g7k0RvJm2NeRk0x74b48EFhNNZXgOSU=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=Gt4nc0txfNVIZ5gk4/sqZ4qB2MaTfQYsWPhxWnma3yviaHOoARF6sXyzRJQqcO8Ou
-	 XTEAtThthuhUpmbSiRuoovR62A4gy/9MJ8/7brNgOXyfIqXGQCUcR/peYoJGA/2lV0
-	 Z9vAeqBAXyTu7CBu6KxUgbS2Q1gHaAfosZtAX6AwGHCqrpP1m1SXj17i8IzP5iDUGh
-	 G3OZaWgQg60lJGtoYrK7Ojy62GGP601fLQ42VL2fzdALe+zUaGUxyPvSFyNtKID3qP
-	 SR7pFSjVWzGBjGtXWYmY8LuPddgpfsOvoev0Wod6oVczcObQtZhTUb4igjZ1ftwAnC
-	 4roVOh35d8nIg==
+	b=mYp0GjKa40MKIS0Cll3rPRzwXXaz2vb+gb7JwMQ0tjMs/f2kJZkUlk0LAtFQx6p3b
+	 2vDLV/3iMZoprbcpqoFFGblmdIBsUucWRgFZfxVDKISKNgXKuW4JV7NEGmgbEXznFK
+	 XV0mSjb1YLmp7lRb2y/ZhnQ0RP3p0eLQqcfR4d6yrgq7NsN5OKYLc4oqteuA0iL07v
+	 NF0mtovt+pSWnCxvY9pBNzBtsBAXsX9BSw4Xwin9SxnbWd/koNuGFe9dQt6c9s0Ly2
+	 8H52/ah0wkUxjEc1gmC4TQNYBRBpX97TYnvyLbDhlMS6AwGt4WKTT35Vku0S9/nku7
+	 ae7BtiTB1osaQ==
 From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
 To: mchehab@kernel.org,
 	tfiga@chromium.org,
@@ -43,9 +43,9 @@ Cc: linux-media@vger.kernel.org,
 	linux-staging@lists.linux.dev,
 	kernel@collabora.com,
 	Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Subject: [PATCH v11 29/56] media: renesas: Set min_buffers_needed to 16
-Date: Thu, 12 Oct 2023 13:46:15 +0200
-Message-Id: <20231012114642.19040-30-benjamin.gaignard@collabora.com>
+Subject: [PATCH v11 31/56] media: verisilicon: Stop direct calls to queue num_buffers field
+Date: Thu, 12 Oct 2023 13:46:17 +0200
+Message-Id: <20231012114642.19040-32-benjamin.gaignard@collabora.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20231012114642.19040-1-benjamin.gaignard@collabora.com>
 References: <20231012114642.19040-1-benjamin.gaignard@collabora.com>
@@ -57,44 +57,27 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-vb2 queue_setup checks for a minimum number of buffers so set
-min_buffers_needed to 16 and remove the useless check in
-rcar_drif_queue_setup().
+Use vb2_get_num_buffers() to avoid using queue num_buffers field directly.
 
 Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-CC: Philipp Zabel <p.zabel@pengutronix.de>
+CC: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
 ---
- drivers/media/platform/renesas/rcar_drif.c | 8 +++-----
- 1 file changed, 3 insertions(+), 5 deletions(-)
+ drivers/media/platform/verisilicon/hantro_postproc.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/media/platform/renesas/rcar_drif.c b/drivers/media/platform/renesas/rcar_drif.c
-index 292c5bf9e50c..bb84fc089d5d 100644
---- a/drivers/media/platform/renesas/rcar_drif.c
-+++ b/drivers/media/platform/renesas/rcar_drif.c
-@@ -425,13 +425,9 @@ static int rcar_drif_queue_setup(struct vb2_queue *vq,
- {
- 	struct rcar_drif_sdr *sdr = vb2_get_drv_priv(vq);
- 
--	/* Need at least 16 buffers */
--	if (vq->num_buffers + *num_buffers < 16)
--		*num_buffers = 16 - vq->num_buffers;
--
- 	*num_planes = 1;
- 	sizes[0] = PAGE_ALIGN(sdr->fmt->buffersize);
--	rdrif_dbg(sdr, "num_bufs %d sizes[0] %d\n", *num_buffers, sizes[0]);
-+	rdrif_dbg(sdr, "num_bufs %u sizes[0] %d\n", vb2_get_num_buffers(vq), sizes[0]);
- 
- 	return 0;
- }
-@@ -1310,6 +1306,8 @@ static int rcar_drif_sdr_probe(struct rcar_drif_sdr *sdr)
- 	/* Init videobuf2 queue structure */
- 	sdr->vb_queue.type = V4L2_BUF_TYPE_SDR_CAPTURE;
- 	sdr->vb_queue.io_modes = VB2_READ | VB2_MMAP | VB2_DMABUF;
-+	/* Need at least 16 buffers */
-+	sdr->vb_queue.min_buffers_needed = 16;
- 	sdr->vb_queue.drv_priv = sdr;
- 	sdr->vb_queue.buf_struct_size = sizeof(struct rcar_drif_frame_buf);
- 	sdr->vb_queue.ops = &rcar_drif_vb2_ops;
+diff --git a/drivers/media/platform/verisilicon/hantro_postproc.c b/drivers/media/platform/verisilicon/hantro_postproc.c
+index 64d6fb852ae9..8f8f17e671ce 100644
+--- a/drivers/media/platform/verisilicon/hantro_postproc.c
++++ b/drivers/media/platform/verisilicon/hantro_postproc.c
+@@ -195,7 +195,7 @@ int hantro_postproc_alloc(struct hantro_ctx *ctx)
+ 	struct hantro_dev *vpu = ctx->dev;
+ 	struct v4l2_m2m_ctx *m2m_ctx = ctx->fh.m2m_ctx;
+ 	struct vb2_queue *cap_queue = &m2m_ctx->cap_q_ctx.q;
+-	unsigned int num_buffers = cap_queue->num_buffers;
++	unsigned int num_buffers = vb2_get_num_buffers(cap_queue);
+ 	struct v4l2_pix_format_mplane pix_mp;
+ 	const struct hantro_fmt *fmt;
+ 	unsigned int i, buf_size;
 -- 
 2.39.2
 
