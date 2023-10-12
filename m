@@ -1,54 +1,65 @@
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0EFC8613F
-	for <linux-staging@lists.linux.dev>; Thu, 12 Oct 2023 06:03:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 057F0809
+	for <linux-staging@lists.linux.dev>; Thu, 12 Oct 2023 06:23:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dnlw+Oj1"
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-406553f6976so1867195e9.1
-        for <linux-staging@lists.linux.dev>; Wed, 11 Oct 2023 23:03:18 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="PM0mOYch"
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-4075c58ac39so6532645e9.3
+        for <linux-staging@lists.linux.dev>; Wed, 11 Oct 2023 23:23:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1697090597; x=1697695397; darn=lists.linux.dev;
+        d=linaro.org; s=google; t=1697091795; x=1697696595; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=KukZ0tzE84dJ5AJr1KRIaqdGGLYRgHtX61fFFpt8ADk=;
-        b=dnlw+Oj1iiMjjuUdCUYtraHWrESGOUsqsdgp8aNTcFw8BCir/7vCn3VvYdAR5Nua44
-         s69lWpoPO6YVhacPJQ6UJh56AGVTrleRIsmVTPI1K2vEBLVFskayXyo3yGiRL/pmay8f
-         QYnvb7yyOIsTpDNsYbDtZR1CXrbXuVLl306FjPRfhpYeNjYlrqiNNhCeh1jMpqZqJ7LE
-         73oTgMjtLYrAlDNbfLQfpajMVfMNZdgnw5LoNIEJySnTfPCi70i2dAFbvKZFYs0mpcY1
-         9WvetMoKaTHqpmmROLE8qx4nE6FxA9KT6eWjfuc/tplODbB9b/k9Y3WoBTxQojdKQCo+
-         kDeA==
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=4HT79hrObqSxBSC97lY+L6cqBvifnDEa24RG2fZwpdY=;
+        b=PM0mOYchLiQNw+BBD28QNLximTW3no9O7ly+6I4BtpUHvyDPl6y7b5wfNerANhkEg4
+         h25xpdZYmapgvZIBTbXbFmh9dki/90SumJjL1TAGAvEgcR8NXRNZxoTNRXk545fmaCcK
+         l/30TOzkI5It0jT7cvVWuGfbkw61Nef4mm81yIPbN+wcSrCCM0a1g3tTQ2kW7cdy5fMB
+         mzT52am9bFsuJy6XmsYzb4dKHSoMZNv6MwM4ZE+I49UjaRa6gjt30KVsMitip5aHXLbR
+         tsIN5GNM0EQeg7RedAMDqIc4qL7YYjIB8x/z48w206HudVut4ai55z+KgJaB8gD1nodN
+         1Ftw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697090597; x=1697695397;
+        d=1e100.net; s=20230601; t=1697091795; x=1697696595;
         h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=KukZ0tzE84dJ5AJr1KRIaqdGGLYRgHtX61fFFpt8ADk=;
-        b=kKv28OeGejZ3NpfsN4XCcpyWjeV7OeOnqrODlQzzUNc5aCf4C5PJ3W0hDMCgxjNg+V
-         XL7CC4y2sqT6+EVWsMqdyCOnJph9srG/oy5xLFuS9eM+LCwNvErL2uEuHeIdAmjlYmtL
-         vLedKTKqI7XF6VTxW2VVhKPxi5NJLagVRntDtbj886eOsr1eO0oQVpv4waBx6S4YQMal
-         NPwWh+jIS+iAqCMzDCsfD99Ngtgl94Z06Da28KN9G9oXEBSlYE/cxEysVWqdIR2PAZ8r
-         i3IZ9Ba9RzqT0TvF6Qb10uc0lJ4mJ+W8sOZo3N3W6+nSNhrWhYKn01o84fBrgP1ibBIO
-         a1ag==
-X-Gm-Message-State: AOJu0YwOd16q1Ad956KCfbxRRS41Hgp20tv5wKz/zXSwK4H0zv0eeXpf
-	l8XflEVtuG4EeTUuzywbYKc=
-X-Google-Smtp-Source: AGHT+IFB2oSKIwYOcPSVuc0SCaCm/kBAADGpf7YVFPSak9Ctn5S/X9uqzQq9jYYiYEg0JCubzmoy3A==
-X-Received: by 2002:adf:a457:0:b0:32d:8be3:f3fe with SMTP id e23-20020adfa457000000b0032d8be3f3femr1153754wra.7.1697090597162;
-        Wed, 11 Oct 2023 23:03:17 -0700 (PDT)
-Received: from matrix-ESPRIMO-P710 (p579356c7.dip0.t-ipconnect.de. [87.147.86.199])
-        by smtp.gmail.com with ESMTPSA id j16-20020adff010000000b0032008f99216sm17285530wro.96.2023.10.11.23.03.16
+        bh=4HT79hrObqSxBSC97lY+L6cqBvifnDEa24RG2fZwpdY=;
+        b=U5MbZ29gnF2ag6152P8zh+9gt1xfw9wcUXAuqbtItWseTjE6IQXqD+Nrj+nX/uQ9nl
+         p3laX8XvSgKSGf5Q0V7/yPPXHNEylU9C7SlYWvjnpVIZ0/U67OIYDELKU6/KOlOIdbFb
+         zGKAdXJyv7ZiTtcNBfMUvn6Ul4W9lMBSDj0v6c60c08hI8LjsJCjvQ77GS9ehVvFoj5X
+         JNxvylD3xIr96bav7IH3PnGE2q6YmNvGkdXxETdPoYq8C2Zwm1ez/6p90+5bPmTQOcfW
+         zMD6vTjeG6hFd2Wax1qF39DnnoEEA+tYWa596z4nKRISwlse9omSnuvMa6GuhqAfNhiw
+         DSzg==
+X-Gm-Message-State: AOJu0Yx7S+XxiboBDVUcl8AvjPzcktYNbc5tb8ffgSAOkvcC6JV2EDTN
+	ApdLpt3zfXBgYB9QMn03NimZLUo4ZMysK+zH0WU=
+X-Google-Smtp-Source: AGHT+IFKoP5B7w8Y42/s61+wzwot43ZZei6mSsx6r/nkWwL/vfiXecTRrJxnumkImRNM8DZcpqepCw==
+X-Received: by 2002:a05:600c:3652:b0:3fe:d1b9:7ea9 with SMTP id y18-20020a05600c365200b003fed1b97ea9mr19652329wmq.36.1697091795060;
+        Wed, 11 Oct 2023 23:23:15 -0700 (PDT)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id y4-20020a05600c364400b0040472ad9a3dsm18638405wmq.14.2023.10.11.23.23.14
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 11 Oct 2023 23:03:16 -0700 (PDT)
-Date: Thu, 12 Oct 2023 08:03:15 +0200
-From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [RFC PATCH 2/2] staging: rtl8192u: Fix sleeping kzalloc() called
- from invalid context
-Message-ID: <42f7b8728a5d9ada8c0432e1c11c30d13627fba7.1697089416.git.philipp.g.hortmann@gmail.com>
-References: <cover.1697089416.git.philipp.g.hortmann@gmail.com>
+        Wed, 11 Oct 2023 23:23:14 -0700 (PDT)
+Date: Thu, 12 Oct 2023 09:23:12 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Arnd Bergmann <arnd@arndb.de>
+Cc: Philipp Hortmann <philipp.g.hortmann@gmail.com>,
+	Arnd Bergmann <arnd@kernel.org>, Kalle Valo <kvalo@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Nicolas Ferre <nicolas.ferre@microchip.com>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
+	Jakub Kicinski <kuba@kernel.org>, Pavel Machek <pavel@ucw.cz>,
+	"David S . Miller" <davem@davemloft.net>,
+	Larry Finger <Larry.Finger@lwfinger.net>,
+	linux-kernel@vger.kernel.org, linux-wireless@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-staging@lists.linux.dev
+Subject: Re: [PATCH] [RFC] wireless: move obsolete drivers to staging
+Message-ID: <428ef899-a5c4-4d93-beea-afd7ab6f6634@kadam.mountain>
+References: <20231010155444.858483-1-arnd@kernel.org>
+ <da777a72-55d1-4ee3-91c8-30afe7659f54@gmail.com>
+ <db98d9ac-7650-4a72-8eb9-4def1f17ea0d@app.fastmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -57,247 +68,54 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <cover.1697089416.git.philipp.g.hortmann@gmail.com>
+In-Reply-To: <db98d9ac-7650-4a72-8eb9-4def1f17ea0d@app.fastmail.com>
 
-Sleeping kzalloc() called from invalid context leads to a crash of the
-system.
+On Wed, Oct 11, 2023 at 10:22:32PM +0200, Arnd Bergmann wrote:
+> On Wed, Oct 11, 2023, at 20:13, Philipp Hortmann wrote:
+> > On 10/10/23 17:27, Arnd Bergmann wrote:
+> >> From: Arnd Bergmann <arnd@arndb.de> While looking at the old drivers 
+> >> using the obsolete .ndo_do_ioctl() callback, I found a number of network 
+> >> drivers that are especially obsolete, in particular for 802.11b 
+> >> (11Mbit/s) or even older wireless networks, using non-busmaster 
+> >> ISA/PCMCIA style bus interfaces, and using the legacy wireless extension 
+> >> ioctls rather than the netlink interfaces that were meant to replace 
+> >> them in 2007. All of these drivers are obsolete or orphaned. We had 
+> >> previously discussed this topic, but nobody ever moved the files, so I 
+> >> now went through the list to my best knowledge. These are the drivers 
+> >> that I would classify as "probably unused" by now:
+> >
+> > I found a USB WLAN Stick with a rtl8192u. I got it last Saturday and 
+> > found out that the firmware is missing in my ubuntu 20.04. I found it on 
+> > the web and fixed it. When I started the driver my computer crashed. The 
+> > missing part was: priv->priv_wq = alloc_workqueue("priv_wq", 0, 0); 
+> > Fixing this the next error was a network = kzalloc(sizeof(*network), 
+> > GFP_KERNEL); in wrong context with leads to a crash of my computer. 
+> > Fixing this leads to another issue which lets my computer crash.
+> >
+> > For me the firmware of rtl8192u was intentionally missing because of the 
+> > issues with the driver.
+> >
+> > What this has to do with your question?
+> > Can we check for missing firmware in main distributions to know which 
+> > drivers are considered to be old and unused?
+> 
+> Nice, thanks so much for testing.
+> 
+> I see the two bugs were introduced in 2016 by commit 1761a85c3bed3
+> ("staging: rtl8192u: Remove create_workqueue()")
 
-Fixes: 061e390b7c87f ("staging: rtl8192u: ieee80211_softmac: Move a large data struct onto the heap")
-Signed-off-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
----
-Tested with rtl8192u (Belkin F5D8053) in Mode n (12.5 MB/s)
+This one never made it to lore...  I think we wouldn't have merged it
+without a lore review these days.  (There was a lot of moaning and
+complaining at the time).
 
-Dump of Error:
-[ 2141.025340] ================================
-[ 2141.025341] WARNING: inconsistent lock state
-[ 2141.025343] 6.6.0-rc1+ #15 Tainted: G         C OE
-[ 2141.025345] --------------------------------
-[ 2141.025346] inconsistent {SOFTIRQ-ON-W} -> {IN-SOFTIRQ-W} usage.
-[ 2141.025348] gnome-shell/3018 [HC0[0]:SC1[1]:HE1:SE0] takes:
-[ 2141.025350] ffffffffbbe6b600 (fs_reclaim){+.?.}-{0:0}, at: __kmem_cache_alloc_node+0x48/0x720
-[ 2141.025360] {SOFTIRQ-ON-W} state was registered at:
-[ 2141.025362]   lock_acquire+0xdc/0x2c0
-[ 2141.025368]   fs_reclaim_acquire+0xaa/0xe0
-[ 2141.025371]   __kmem_cache_alloc_node+0x48/0x720
-[ 2141.025374]   __kmalloc_node+0x57/0x1a0
-[ 2141.025376]   alloc_cpumask_var_node+0x1f/0x30
-[ 2141.025380]   smp_prepare_cpus_common+0xce/0x180
-[ 2141.025385]   native_smp_prepare_cpus+0xe/0xd0
-[ 2141.025387]   kernel_init_freeable+0x284/0x560
-[ 2141.025391]   kernel_init+0x1a/0x140
-[ 2141.025395]   ret_from_fork+0x3c/0x60
-[ 2141.025398]   ret_from_fork_asm+0x1b/0x30
-[ 2141.025402] irq event stamp: 53750354
-[ 2141.025404] hardirqs last  enabled at (53750354): [<ffffffffbb1fbd21>] _raw_spin_unlock_irqrestore+0x31/0x70
-[ 2141.025408] hardirqs last disabled at (53750353): [<ffffffffbb1fb9b4>] _raw_spin_lock_irqsave+0x84/0xa0
-[ 2141.025411] softirqs last  enabled at (53750290): [<ffffffffbb1fd6cd>] __do_softirq+0x2cd/0x3b7
-[ 2141.025415] softirqs last disabled at (53750323): [<ffffffffba2d3fb0>] irq_exit_rcu+0xa0/0xe0
-[ 2141.025419]
-               other info that might help us debug this:
-[ 2141.025420]  Possible unsafe locking scenario:
+> and in 2021 by
+> commit 061e390b7c87f ("staging: rtl8192u: ieee80211_softmac: Move a
+> large data struct onto the heap"), so it's been broken for a while.
 
-[ 2141.025422]        CPU0
-[ 2141.025423]        ----
-[ 2141.025424]   lock(fs_reclaim);
-[ 2141.025426]   <Interrupt>
-[ 2141.025427]     lock(fs_reclaim);
-[ 2141.025429]
-                *** DEADLOCK ***
+:/  No way would I have seen this in review.  Smatch is supposed to find
+some of these "sleeping in invalid context" warnings but the sleeping in
+IRQ stuff doesn't work and hasn't been released.
 
-[ 2141.025430] no locks held by gnome-shell/3018.
-[ 2141.025432]
-               stack backtrace:
-[ 2141.025433] CPU: 2 PID: 3018 Comm: gnome-shell Tainted: G         C OE      6.6.0-rc1+ #15
-[ 2141.025436] Hardware name: FUJITSU ESPRIMO P710/D3161-A1, BIOS V4.6.5.3 R1.16.0 for D3161-A1x 10/29/2012
-[ 2141.025438] Call Trace:
-[ 2141.025439]  <TASK>
-[ 2141.025441]  dump_stack_lvl+0x5c/0xa0
-[ 2141.025445]  dump_stack+0x10/0x20
-[ 2141.025447]  print_usage_bug+0x22f/0x2c0
-[ 2141.025452]  mark_lock.part.0+0x6bf/0x8a0
-[ 2141.025456]  ? sched_clock_noinstr+0x9/0x10
-[ 2141.025461]  __lock_acquire+0xb75/0x1de0
-[ 2141.025465]  ? sched_clock_noinstr+0x9/0x10
-[ 2141.025469]  lock_acquire+0xdc/0x2c0
-[ 2141.025473]  ? __kmem_cache_alloc_node+0x48/0x720
-[ 2141.025478]  fs_reclaim_acquire+0xaa/0xe0
-[ 2141.025481]  ? __kmem_cache_alloc_node+0x48/0x720
-[ 2141.025484]  __kmem_cache_alloc_node+0x48/0x720
-[ 2141.025487]  ? ieee80211_rx_frame_softmac+0x2d3/0x1a10 [r8192u_usb]
-[ 2141.025508]  kmalloc_trace+0x2a/0xc0
-[ 2141.025510]  ? kmalloc_trace+0x2a/0xc0
-[ 2141.025513]  ieee80211_rx_frame_softmac+0x2d3/0x1a10 [r8192u_usb]
-[ 2141.025527]  ? ehci_urb_enqueue+0x12a/0x1020
-[ 2141.025534]  ieee80211_rx+0xf44/0x1e60 [r8192u_usb]
-[ 2141.025549]  ? __lock_acquire+0xbf3/0x1de0
-[ 2141.025552]  ? __lock_acquire+0xbf3/0x1de0
-[ 2141.025558]  rtl8192_rx_nomal+0x583/0x1180 [r8192u_usb]
-[ 2141.025570]  ? sched_clock_noinstr+0x9/0x10
-[ 2141.025573]  ? exc_page_fault+0x1b0/0x210
-[ 2141.025580]  rtl8192_irq_rx_tasklet+0x8a/0xc0 [r8192u_usb]
-[ 2141.025593]  tasklet_action_common.isra.0+0x10a/0x290
-[ 2141.025597]  tasklet_action+0x2d/0x40
-[ 2141.025600]  __do_softirq+0xca/0x3b7
-[ 2141.025605]  irq_exit_rcu+0xa0/0xe0
-[ 2141.025608]  common_interrupt+0x68/0xe0
-[ 2141.025611]  asm_common_interrupt+0x27/0x40
-[ 2141.025614] RIP: 0033:0x7f31fcbc5634
-[ 2141.025617] Code: 89 c9 48 c7 c6 3f 00 00 00 48 d3 ef 48 85 ff 0f 84 96 fe ff ff 48 0f bc cf 0f b6 04 08 0f b6 14 0a 29 d0 c3 66 90 38 c8 75 1c <48> 83 c2 01 48 83 fa 40 0f 84 23 fe ff ff 0f b6 04 17 0f b6 0c 16
-[ 2141.025620] RSP: 002b:00007fff36dad668 EFLAGS: 00000246
-[ 2141.025623] RAX: 0000000000000072 RBX: 0000000000000000 RCX: 0000000000000072
-[ 2141.025624] RDX: 0000000000000008 RSI: 0000563837956fc0 RDI: 000056383759c230
-[ 2141.025626] RBP: 0000563837956fc0 R08: 000000000000e000 R09: 0000000000000000
-[ 2141.025628] R10: 0000000000000001 R11: 00007f31fccca2e4 R12: 0000000000000012
-[ 2141.025629] R13: 000056383759c270 R14: 0000563837e1a5a0 R15: 0000563837956fc0
-[ 2141.025634]  </TASK>
-[ 2141.025644] BUG: sleeping function called from invalid context at include/linux/sched/mm.h:306
-[ 2141.025647] in_atomic(): 1, irqs_disabled(): 0, non_block: 0, pid: 3018, name: gnome-shell
-[ 2141.025650] preempt_count: 100, expected: 0
-[ 2141.025651] RCU nest depth: 0, expected: 0
-[ 2141.025653] INFO: lockdep is turned off.
-[ 2141.025654] Preemption disabled at:
-[ 2141.025655] [<ffffffffbb1fd45e>] __do_softirq+0x5e/0x3b7
-[ 2141.025659] CPU: 2 PID: 3018 Comm: gnome-shell Tainted: G         C OE      6.6.0-rc1+ #15
-[ 2141.025662] Hardware name: FUJITSU ESPRIMO P710/D3161-A1, BIOS V4.6.5.3 R1.16.0 for D3161-A1x 10/29/2012
-[ 2141.025663] Call Trace:
-[ 2141.025664]  <TASK>
-[ 2141.025666]  dump_stack_lvl+0x7d/0xa0
-[ 2141.025669]  dump_stack+0x10/0x20
-[ 2141.025672]  __might_resched+0x1be/0x2e0
-[ 2141.025676]  __might_sleep+0x43/0x70
-[ 2141.025679]  __kmem_cache_alloc_node+0x568/0x720
-[ 2141.025682]  ? ieee80211_rx_frame_softmac+0x2d3/0x1a10 [r8192u_usb]
-[ 2141.025698]  kmalloc_trace+0x2a/0xc0
-[ 2141.025700]  ? kmalloc_trace+0x2a/0xc0
-[ 2141.025703]  ieee80211_rx_frame_softmac+0x2d3/0x1a10 [r8192u_usb]
-[ 2141.025716]  ? ehci_urb_enqueue+0x12a/0x1020
-[ 2141.025721]  ieee80211_rx+0xf44/0x1e60 [r8192u_usb]
-[ 2141.025735]  ? __lock_acquire+0xbf3/0x1de0
-[ 2141.025738]  ? __lock_acquire+0xbf3/0x1de0
-[ 2141.025744]  rtl8192_rx_nomal+0x583/0x1180 [r8192u_usb]
-[ 2141.025756]  ? sched_clock_noinstr+0x9/0x10
-[ 2141.025758]  ? exc_page_fault+0x1b0/0x210
-[ 2141.025765]  rtl8192_irq_rx_tasklet+0x8a/0xc0 [r8192u_usb]
-[ 2141.025778]  tasklet_action_common.isra.0+0x10a/0x290
-[ 2141.025782]  tasklet_action+0x2d/0x40
-[ 2141.025785]  __do_softirq+0xca/0x3b7
-[ 2141.025790]  irq_exit_rcu+0xa0/0xe0
-[ 2141.025793]  common_interrupt+0x68/0xe0
-[ 2141.025796]  asm_common_interrupt+0x27/0x40
-[ 2141.025798] RIP: 0033:0x7f31fcbc5634
-[ 2141.025800] Code: 89 c9 48 c7 c6 3f 00 00 00 48 d3 ef 48 85 ff 0f 84 96 fe ff ff 48 0f bc cf 0f b6 04 08 0f b6 14 0a 29 d0 c3 66 90 38 c8 75 1c <48> 83 c2 01 48 83 fa 40 0f 84 23 fe ff ff 0f b6 04 17 0f b6 0c 16
-[ 2141.025802] RSP: 002b:00007fff36dad668 EFLAGS: 00000246
-[ 2141.025804] RAX: 0000000000000072 RBX: 0000000000000000 RCX: 0000000000000072
-[ 2141.025806] RDX: 0000000000000008 RSI: 0000563837956fc0 RDI: 000056383759c230
-[ 2141.025807] RBP: 0000563837956fc0 R08: 000000000000e000 R09: 0000000000000000
-[ 2141.025809] R10: 0000000000000001 R11: 00007f31fccca2e4 R12: 0000000000000012
-[ 2141.025811] R13: 000056383759c270 R14: 0000563837e1a5a0 R15: 0000563837956fc0
-[ 2141.025815]  </TASK>
----
- .../rtl8192u/ieee80211/ieee80211_softmac.c    | 19 ++++++++-----------
- drivers/staging/rtl8192u/r8192U.h             |  1 +
- drivers/staging/rtl8192u/r8192U_core.c        |  6 ++++++
- 3 files changed, 15 insertions(+), 11 deletions(-)
-
-diff --git a/drivers/staging/rtl8192u/ieee80211/ieee80211_softmac.c b/drivers/staging/rtl8192u/ieee80211/ieee80211_softmac.c
-index 92001cb36730..ff5d6f5aeed1 100644
---- a/drivers/staging/rtl8192u/ieee80211/ieee80211_softmac.c
-+++ b/drivers/staging/rtl8192u/ieee80211/ieee80211_softmac.c
-@@ -12,6 +12,7 @@
-  * Copyright who own it's copyright.
-  */
- #include "ieee80211.h"
-+#include "../r8192U.h"
- 
- #include <linux/random.h>
- #include <linux/delay.h>
-@@ -1892,6 +1893,8 @@ ieee80211_rx_frame_softmac(struct ieee80211_device *ieee, struct sk_buff *skb,
- 			   u16 stype)
- {
- 	struct rtl_80211_hdr_3addr *header = (struct rtl_80211_hdr_3addr *)skb->data;
-+	struct net_device *dev = ieee->dev;
-+	struct r8192_priv *priv = ieee80211_priv(dev);
- 	u16 errcode;
- 	int aid;
- 	struct ieee80211_assoc_response_frame *assoc_resp;
-@@ -1917,12 +1920,7 @@ ieee80211_rx_frame_softmac(struct ieee80211_device *ieee, struct sk_buff *skb,
- 		if ((ieee->softmac_features & IEEE_SOFTMAC_ASSOCIATE) &&
- 		    ieee->state == IEEE80211_ASSOCIATING_AUTHENTICATED &&
- 		    ieee->iw_mode == IW_MODE_INFRA) {
--			struct ieee80211_network *network;
--
--			network = kzalloc(sizeof(*network), GFP_KERNEL);
--			if (!network)
--				return -ENOMEM;
--
-+			memset(priv->network, 0, sizeof(struct ieee80211_network));
- 			errcode = assoc_parse(ieee, skb, &aid);
- 			if (!errcode) {
- 				ieee->state = IEEE80211_LINKED;
-@@ -1934,15 +1932,15 @@ ieee80211_rx_frame_softmac(struct ieee80211_device *ieee, struct sk_buff *skb,
- 					assoc_resp = (struct ieee80211_assoc_response_frame *)skb->data;
- 					if (ieee80211_parse_info_param(ieee, assoc_resp->info_element,\
- 								       rx_stats->len - sizeof(*assoc_resp), \
--								       network, rx_stats)) {
-+								       priv->network, rx_stats)) {
- 						return 1;
- 					} else {
- 						//filling the PeerHTCap. //maybe not necessary as we can get its info from current_network.
--						memcpy(ieee->pHTInfo->PeerHTCapBuf, network->bssht.bdHTCapBuf, network->bssht.bdHTCapLen);
--						memcpy(ieee->pHTInfo->PeerHTInfoBuf, network->bssht.bdHTInfoBuf, network->bssht.bdHTInfoLen);
-+						memcpy(ieee->pHTInfo->PeerHTCapBuf, priv->network->bssht.bdHTCapBuf, priv->network->bssht.bdHTCapLen);
-+						memcpy(ieee->pHTInfo->PeerHTInfoBuf, priv->network->bssht.bdHTInfoBuf, priv->network->bssht.bdHTInfoLen);
- 					}
- 					if (ieee->handle_assoc_response)
--						ieee->handle_assoc_response(ieee->dev, (struct ieee80211_assoc_response_frame *)header, network);
-+						ieee->handle_assoc_response(ieee->dev, (struct ieee80211_assoc_response_frame *)header, priv->network);
- 				}
- 				ieee80211_associate_complete(ieee);
- 			} else {
-@@ -1957,7 +1955,6 @@ ieee80211_rx_frame_softmac(struct ieee80211_device *ieee, struct sk_buff *skb,
- 				else
- 					ieee80211_associate_abort(ieee);
- 			}
--			kfree(network);
- 		}
- 		break;
- 
-diff --git a/drivers/staging/rtl8192u/r8192U.h b/drivers/staging/rtl8192u/r8192U.h
-index ff0ada00bf41..672bd19e4db7 100644
---- a/drivers/staging/rtl8192u/r8192U.h
-+++ b/drivers/staging/rtl8192u/r8192U.h
-@@ -908,6 +908,7 @@ typedef struct r8192_priv {
- 
- 	struct	ChnlAccessSetting  ChannelAccessSetting;
- 	struct work_struct reset_wq;
-+	struct ieee80211_network *network;
- 
- /**********************************************************/
- 	/* For rtl819xUsb */
-diff --git a/drivers/staging/rtl8192u/r8192U_core.c b/drivers/staging/rtl8192u/r8192U_core.c
-index bf6d93de7a74..060475017d0d 100644
---- a/drivers/staging/rtl8192u/r8192U_core.c
-+++ b/drivers/staging/rtl8192u/r8192U_core.c
-@@ -1990,6 +1990,10 @@ static int rtl8192_init_priv_variable(struct net_device *dev)
- 	if (!priv->pFirmware)
- 		return -ENOMEM;
- 
-+	priv->network = kzalloc(sizeof(*priv->network), GFP_KERNEL);
-+	if (!priv->network)
-+		return -ENOMEM;
-+
- 	/* rx related queue */
- 	skb_queue_head_init(&priv->rx_queue);
- 	skb_queue_head_init(&priv->skb_queue);
-@@ -4572,6 +4576,8 @@ static int rtl8192_usb_probe(struct usb_interface *intf,
- fail:
- 	kfree(priv->pFirmware);
- 	priv->pFirmware = NULL;
-+	kfree(priv->network);
-+	priv->network = NULL;
- 	rtl8192_usb_deleteendpoints(dev);
- 	msleep(10);
- 	free_ieee80211(dev);
--- 
-2.42.0
+regards,
+dan carpenter
 
