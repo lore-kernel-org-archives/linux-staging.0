@@ -1,29 +1,29 @@
 Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB96224A11
-	for <linux-staging@lists.linux.dev>; Thu, 12 Oct 2023 11:47:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B867D24A14
+	for <linux-staging@lists.linux.dev>; Thu, 12 Oct 2023 11:47:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="khy5hIdL"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="US3th3hf"
 Received: from benjamin-XPS-13-9310.. (unknown [IPv6:2a01:e0a:120:3210:7ae7:b86d:c19a:877e])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
 	(Authenticated sender: benjamin.gaignard)
-	by madras.collabora.co.uk (Postfix) with ESMTPSA id EA8AD660736B;
-	Thu, 12 Oct 2023 12:46:58 +0100 (BST)
+	by madras.collabora.co.uk (Postfix) with ESMTPSA id 0498A6607346;
+	Thu, 12 Oct 2023 12:47:00 +0100 (BST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1697111219;
-	bh=EMKVWITArl2PHuWHDFd/NcTii9pr6T7GjKNa1Tuop1w=;
+	s=mail; t=1697111220;
+	bh=GJfXFDdnhGS92TEmv49OanHL2tR3kTI5Ce9MknjELEo=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=khy5hIdLyuzHv4KJZZ2yr72/PXDrFjCI6XCW/IgkECTXGG0O0HSooxknKod+2r8vE
-	 c6kcJqjIApQNzeXmpVPcx6sqb1BOJCtv/x22TCE3STSG18W0/KU40PS1qNo7VwYtfo
-	 xv6J1UVmI6eGMO5Ggzh1dUNVQTQWYNhjcBUT0S2gBBBzqPkYGtvT8xT3mFgJ1WB/lq
-	 3sYZzTDGiyPPdniFyIyOGBN3ESSxS0u8YxPaFgmWcPlBXz0PRdOh3xifIZ0uth+eKu
-	 r6fZ8vPfNl7/1tSfGK284dxAquGEnIA2/yA7EAtz9v6wBxH3LFmYunWhRedKR3fBw5
-	 Yyf+rN1DuRz8Q==
+	b=US3th3hfJtwGDlltn2tiBSpDfxGx696Sr4C++b8Vp4MPXfcZqMEwbSfaaD3yrDLQn
+	 ufgqhY8RxztnDKdXxSgt1e+ud+vbz5XIulKShZXOJVWfSt+fPETsPr69q6gCInhQhf
+	 dX/yL89aJoMkPkL8lUhUst6kNCj0QPfLcZ1cxYsO8l/Sans2SmFtPXnH3MucvNnv8E
+	 9vdQLAEzA5AXM8l5gOcs23ki6ZcRwA74IaJcscWjaVxYGPuIjxxSDHAcsJylgEooEl
+	 vd0TArlTOjDYzSKUm9vo/1wuMvFUxbuejc44WJGvQh+zP8GiKnn02zLSoadhi0l3lX
+	 nUjMPXE/xlg4Q==
 From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
 To: mchehab@kernel.org,
 	tfiga@chromium.org,
@@ -42,10 +42,11 @@ Cc: linux-media@vger.kernel.org,
 	linux-rockchip@lists.infradead.org,
 	linux-staging@lists.linux.dev,
 	kernel@collabora.com,
-	Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Subject: [PATCH v11 18/56] media: dvb-core: Use vb2_get_buffer() instead of directly access to buffers array
-Date: Thu, 12 Oct 2023 13:46:04 +0200
-Message-Id: <20231012114642.19040-19-benjamin.gaignard@collabora.com>
+	Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+	Antti Palosaari <crope@iki.fi>
+Subject: [PATCH v11 20/56] media: dvb-frontends: rtl2832_srd: Use queue min_buffers_needed field
+Date: Thu, 12 Oct 2023 13:46:06 +0200
+Message-Id: <20231012114642.19040-21-benjamin.gaignard@collabora.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20231012114642.19040-1-benjamin.gaignard@collabora.com>
 References: <20231012114642.19040-1-benjamin.gaignard@collabora.com>
@@ -57,56 +58,45 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Use vb2_get_buffer() instead of directly access to vb2_buffer buffer array.
-This could allow to change the type bufs[] field of vb2_buffer structure if
-needed.
-After each call to vb2_get_buffer() we need to be sure that we get
-a valid pointer so check the return value of all of them.
+queue_setup checks for a minimum number of buffers so use queue
+min_buffers_needed field and remove the check done in
+rtl2832_sdr_queue_setup().
 
 Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+CC: Antti Palosaari <crope@iki.fi>
 ---
- drivers/media/dvb-core/dvb_vb2.c | 14 ++++++++------
- 1 file changed, 8 insertions(+), 6 deletions(-)
+ drivers/media/dvb-frontends/rtl2832_sdr.c | 9 +++------
+ 1 file changed, 3 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/media/dvb-core/dvb_vb2.c b/drivers/media/dvb-core/dvb_vb2.c
-index b322ef179f05..3a966fdf814c 100644
---- a/drivers/media/dvb-core/dvb_vb2.c
-+++ b/drivers/media/dvb-core/dvb_vb2.c
-@@ -355,12 +355,13 @@ int dvb_vb2_reqbufs(struct dvb_vb2_ctx *ctx, struct dmx_requestbuffers *req)
- int dvb_vb2_querybuf(struct dvb_vb2_ctx *ctx, struct dmx_buffer *b)
- {
- 	struct vb2_queue *q = &ctx->vb_q;
-+	struct vb2_buffer *vb2 = vb2_get_buffer(q, b->index);
+diff --git a/drivers/media/dvb-frontends/rtl2832_sdr.c b/drivers/media/dvb-frontends/rtl2832_sdr.c
+index 02c619e51641..597b1548ed8b 100644
+--- a/drivers/media/dvb-frontends/rtl2832_sdr.c
++++ b/drivers/media/dvb-frontends/rtl2832_sdr.c
+@@ -440,14 +440,9 @@ static int rtl2832_sdr_queue_setup(struct vb2_queue *vq,
+ 	struct rtl2832_sdr_dev *dev = vb2_get_drv_priv(vq);
+ 	struct platform_device *pdev = dev->pdev;
  
--	if (b->index >= q->num_buffers) {
--		dprintk(1, "[%s] buffer index out of range\n", ctx->name);
-+	if (!vb2) {
-+		dprintk(1, "[%s] invalid buffer index\n", ctx->name);
- 		return -EINVAL;
- 	}
--	vb2_core_querybuf(&ctx->vb_q, q->bufs[b->index], b);
-+	vb2_core_querybuf(&ctx->vb_q, vb2, b);
- 	dprintk(3, "[%s] index=%d\n", ctx->name, b->index);
+-	dev_dbg(&pdev->dev, "nbuffers=%d\n", *nbuffers);
+-
+-	/* Need at least 8 buffers */
+-	if (vq->num_buffers + *nbuffers < 8)
+-		*nbuffers = 8 - vq->num_buffers;
+ 	*nplanes = 1;
+ 	sizes[0] = PAGE_ALIGN(dev->buffersize);
+-	dev_dbg(&pdev->dev, "nbuffers=%d sizes[0]=%d\n", *nbuffers, sizes[0]);
++	dev_dbg(&pdev->dev, "nbuffers=%d sizes[0]=%d\n", vb2_get_num_buffers(vq), sizes[0]);
  	return 0;
  }
-@@ -385,13 +386,14 @@ int dvb_vb2_expbuf(struct dvb_vb2_ctx *ctx, struct dmx_exportbuffer *exp)
- int dvb_vb2_qbuf(struct dvb_vb2_ctx *ctx, struct dmx_buffer *b)
- {
- 	struct vb2_queue *q = &ctx->vb_q;
-+	struct vb2_buffer *vb2 = vb2_get_buffer(q, b->index);
- 	int ret;
  
--	if (b->index >= q->num_buffers) {
--		dprintk(1, "[%s] buffer index out of range\n", ctx->name);
-+	if (!vb2) {
-+		dprintk(1, "[%s] invalid buffer index\n", ctx->name);
- 		return -EINVAL;
- 	}
--	ret = vb2_core_qbuf(&ctx->vb_q, q->bufs[b->index], b, NULL);
-+	ret = vb2_core_qbuf(&ctx->vb_q, vb2, b, NULL);
+@@ -1364,6 +1359,8 @@ static int rtl2832_sdr_probe(struct platform_device *pdev)
+ 	dev->vb_queue.ops = &rtl2832_sdr_vb2_ops;
+ 	dev->vb_queue.mem_ops = &vb2_vmalloc_memops;
+ 	dev->vb_queue.timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_MONOTONIC;
++	/* Need at least 8 buffers */
++	dev->vb_queue.min_buffers_needed = 8;
+ 	ret = vb2_queue_init(&dev->vb_queue);
  	if (ret) {
- 		dprintk(1, "[%s] index=%d errno=%d\n", ctx->name,
- 			b->index, ret);
+ 		dev_err(&pdev->dev, "Could not initialize vb2 queue\n");
 -- 
 2.39.2
 
