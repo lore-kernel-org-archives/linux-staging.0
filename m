@@ -1,158 +1,78 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f177.google.com (mail-yw1-f177.google.com [209.85.128.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB0031BDF0
-	for <linux-staging@lists.linux.dev>; Thu, 12 Oct 2023 08:25:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65E0520B39;
+	Thu, 12 Oct 2023 09:17:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EIknBPTE"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7425DC433C8;
-	Thu, 12 Oct 2023 08:25:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1697099110;
-	bh=yemEo7k0irT6KnTVPLYInzEHy0ZlJatDXe+f9KzZto8=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=EIknBPTEzh3WzWamy4isXY6N/MfOi1NML+iRhIUaiizbSQAc5TaOdomXMsS46TPwx
-	 XD4OHQsnNG1+DKTsojVetWe9uLFaaAo1WwpVn3XEmrQG+wZvug0MT6dP+TqNkTV8+t
-	 3eTxkdJVddDCiZo63AniNqx4iase9xvjc4lt7wqWgGKTOdz8e33w3Cy9lTXbay5MNv
-	 cwfeQ1cCe8o2b254uzF4hDkuVICCblpkUpOFAIE0ZKX6gHHACrrGHiTWoaEqvGtdmv
-	 LnCI16g9lK5AFWm6eXChaRQrS5OSs0ocBdleO/OvLu5zaj/8IrqQneS+vs0PeTm4hq
-	 bgRxW8QH7JyBA==
-Date: Thu, 12 Oct 2023 09:25:22 +0100
-From: Jonathan Cameron <jic23@kernel.org>
-To: David Lechner <dlechner@baylibre.com>
-Cc: linux-iio@vger.kernel.org, linux-staging@lists.linux.dev, Michael
- Hennerich <Michael.Hennerich@analog.com>, Nuno =?UTF-8?B?U8Oh?=
- <nuno.sa@analog.com>, Axel Haslam <ahaslam@baylibre.com>, Philip Molloy
- <pmolloy@baylibre.com>, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v5 4/4] iio: resolver: ad2s1210: move out of staging
-Message-ID: <20231012092522.27ef48dd@jic23-huawei>
-In-Reply-To: <20231010-ad2s1210-mainline-v5-4-35a0f6ffa04a@baylibre.com>
-References: <20231010-ad2s1210-mainline-v5-0-35a0f6ffa04a@baylibre.com>
-	<20231010-ad2s1210-mainline-v5-4-35a0f6ffa04a@baylibre.com>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FCeYea39"
+Received: by mail-yw1-f177.google.com with SMTP id 00721157ae682-5a7b3d33663so10295627b3.3;
+        Thu, 12 Oct 2023 02:17:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1697102237; x=1697707037; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=v6dAMz+0PBoS2XhVtGEyBlFK0C+DlTpY1GdaToHa8Jc=;
+        b=FCeYea396gCZzRMNaSfw3kLUhXddYZ3GtHoEx+puCuPgObhyGGWhvaXf41WRlqFOzC
+         SWM83Vmtx1EyzXsOd3PyDvYPJua9bPGuJlZOlaSyl7D5VcDxJQxo7yTPlf4WsDPdEtWz
+         0Iol5b+P+aEBHaK8J/F5Mi2u8CZq0Fa/VVZSKrZTyJcXSoHwK9E7fxTkV+KBCUdtB4oC
+         XLUc8f1cuhNRG7k2GM72qyR/yN02sMtCvVsErdSHh4Bq9jifP3VvgLDi34y0vPhrk12a
+         zzrjSEkyLOKn43qldk6cjxrrHOzrmRNgAurdhL+RO3K/mC2O+6ziyNZpzuPDRWJqNGRw
+         S21g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1697102237; x=1697707037;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=v6dAMz+0PBoS2XhVtGEyBlFK0C+DlTpY1GdaToHa8Jc=;
+        b=NJUNnnUmT17LrjXBOefVckDewhN/+iMaMJrq3c/ojdfj2lU5PPrd7HLlefB/2OzKPQ
+         3W/h65qfXbImX025I+c3VjMGZ+6gdLWZRJK3ws1SpOIzRd/+gwfY+Y/aPmYyed4GRKX8
+         jhBdHtvFZq9iCAlYLejugZEDubV/K2ObRzef9bZr/F4hDLmZTUUm1+myR5G89DVnJw2E
+         H4jkiVXZFtZLMB11yoWPRByUTozDhgPc0d54Xym6POcE3+Jo9wOiIOYtjMze1edtTcsz
+         CFjwrMCU5fNtvd3YA5ox9oFo6Ucyk9oTvnQrUEQb0K791MU4NDMb1gjU3uzSlLJKkK5i
+         CE7Q==
+X-Gm-Message-State: AOJu0YzLGRHjhZ6ZnSl1Phu15F8MiHLV0X2kR2EH5ngSSi0js4fEVnyn
+	PEmWuR1wR61svV413hhcCL8=
+X-Google-Smtp-Source: AGHT+IFuQMSMzJzJH2GkD7eihBN8OFvYqFcC1HGLtYAHbbnx3UQ7tSCfZ0ufU5iKSpJBX7SkHxuqpg==
+X-Received: by 2002:a81:6ec2:0:b0:5a1:db6a:6459 with SMTP id j185-20020a816ec2000000b005a1db6a6459mr23340529ywc.40.1697102237316;
+        Thu, 12 Oct 2023 02:17:17 -0700 (PDT)
+Received: from [192.168.0.106] ([103.131.18.64])
+        by smtp.gmail.com with ESMTPSA id i1-20020a17090a2a0100b0027669cbc30asm597246pjd.1.2023.10.12.02.17.14
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 12 Oct 2023 02:17:16 -0700 (PDT)
+Message-ID: <1e2cfefb-c4dd-4611-867a-2b2e9e5f7467@gmail.com>
+Date: Thu, 12 Oct 2023 16:17:11 +0700
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] staging/wlan-ng: remove strcpy() use in favor of
+ strscpy()
+To: Calvince Otieno <calvncce@gmail.com>, outreachy@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Dan Carpenter <error27@gmail.com>, Archana <craechal@gmail.com>,
+ Simon Horman <horms@kernel.org>, linux-staging@lists.linux.dev
+References: <ZSeD1UojAgrsOh16@lab-ubuntu>
+Content-Language: en-US
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+In-Reply-To: <ZSeD1UojAgrsOh16@lab-ubuntu>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On Tue, 10 Oct 2023 16:12:36 -0500
-David Lechner <dlechner@baylibre.com> wrote:
+On 12/10/2023 12:27, Calvince Otieno wrote:
+>  		if (j == -1) {	/* plug the filename */
+>  			memset(dest, 0, s3plug[i].len);
+> -			strncpy(dest, PRISM2_USB_FWFILE, s3plug[i].len - 1);
+> +			strscpy(dest, PRISM2_USB_FWFILE, s3plug[i].len - 1);
 
-> This moves the ad2s1210 resolver driver out of staging. The driver has
-> been fixed up and is ready to graduate.
-> 
-> Signed-off-by: David Lechner <dlechner@baylibre.com>
-> ---
-> 
-> v5 changes: New patch in v5.
-> 
-> Diff was made with file rename detection turned off so we can see the full
-> driver code for one last check through. sysfs-bus-iio-resolver-ad2s1210 and
-> ad2s1210.c are just moved (no changes).
+Is this strscpy() behavior same as previous strncpy()?
 
-Excellent.  Great work btw - this looks really nice now.
+-- 
+An old man doll... just what I always wanted! - Clara
 
-I did a final scan through (most of the code was familiar for some reason :)
-I've called out a few things that I'd like to see tidied up in follow up patches
-but definitely nothing that prevents us making the move out of staging.
-
-If you are happy to do a patch dropping of_match_ptr() then great, if not I'll
-send one out at somepoint soon.  I didn't want to just sneak it in here as an
-edit whilst applying because I like the clean copy of identical code in these
-move patches.
-
-If anyone else wants to review, unless they see anything critical / ABI changing
-I'd like any follow on work that comes up to be done as patches on a normal / non
-staging driver.
-
-Removing another directory in staging/iio is great as well :)
-
-Applied to the togreg branch of iio.git, but pushed out initially as testing to
-let 0-day take a quick look.
-
-Thanks
-
-Jonathan
-
-> 
->  .../testing/sysfs-bus-iio-resolver-ad2s1210   |   27 +
->  drivers/iio/resolver/Kconfig                  |   13 +
->  drivers/iio/resolver/Makefile                 |    1 +
->  drivers/iio/resolver/ad2s1210.c               | 1522 +++++++++++++++++
->  .../sysfs-bus-iio-resolver-ad2s1210           |   27 -
->  drivers/staging/iio/Kconfig                   |    1 -
->  drivers/staging/iio/Makefile                  |    1 -
->  drivers/staging/iio/resolver/Kconfig          |   19 -
->  drivers/staging/iio/resolver/Makefile         |    6 -
->  drivers/staging/iio/resolver/ad2s1210.c       | 1522 -----------------
->  10 files changed, 1563 insertions(+), 1576 deletions(-)
->  create mode 100644 Documentation/ABI/testing/sysfs-bus-iio-resolver-ad2s1210
->  create mode 100644 drivers/iio/resolver/ad2s1210.c
->  delete mode 100644 drivers/staging/iio/Documentation/sysfs-bus-iio-resolver-ad2s1210
->  delete mode 100644 drivers/staging/iio/resolver/Kconfig
->  delete mode 100644 drivers/staging/iio/resolver/Makefile
->  delete mode 100644 drivers/staging/iio/resolver/ad2s1210.c
-> 
-
-> diff --git a/drivers/iio/resolver/ad2s1210.c b/drivers/iio/resolver/ad2s1210.c
-> new file mode 100644
-> index 000000000000..bd4a90c222b5
-> --- /dev/null
-> +++ b/drivers/iio/resolver/ad2s1210.c
-> @@ -0,0 +1,1522 @@
-
-> +
-> +#define DRV_NAME "ad2s1210"
-> +
-Nice to tidy up:
-This is a pet hate of mine.   Why have a define for DRV_NAME that is only
-used in one or two places?  That's where we will go to find out what it is
-called, so define just makes that take one more step!
-
-> +/*
-> + * Toggles the SAMPLE line on the AD2S1210 to latch in the current position,
-> + * velocity, and faults.
-> + *
-> + * Must be called with lock held.
-> + */
-> +static void ad2s1210_toggle_sample_line(struct ad2s1210_state *st)
-> +{
-> +	/*
-> +	 * Datasheet specifies minimum hold time t16 = 2 * tck + 20 ns. So the
-> +	 * longest time needed is when CLKIN is 6.144 MHz, in which case t16
-> +	 * ~= 350 ns. The same delay is also needed before re-asserting the
-Potential issue in long term but wait and see:
-Hmm. The about equal makes me a little nervous long term.  Far too much history of
-parts being produced that don't quite meet the documented timing.  Still can fix
-it if we see any problems.
-
-> +	 * SAMPLE line.
-> +	 */
-> +	gpiod_set_value(st->sample_gpio, 1);
-> +	ndelay(350);
-> +	gpiod_set_value(st->sample_gpio, 0);
-> +	ndelay(350);
-> +}
-
-
-> +
-> +static struct spi_driver ad2s1210_driver = {
-> +	.driver = {
-> +		.name = DRV_NAME,
-> +		.of_match_table = of_match_ptr(ad2s1210_of_match),
-Fix this in a follow up patch:
-
-Don't guard a of_match_table with of_match_ptr().  All that does is prevent
-any chance of using another firmware (ACPI PRP0001 for example) that
-uses this table to match.
-
-
-> +	},
-> +	.probe = ad2s1210_probe,
-> +	.id_table = ad2s1210_id,
-> +};
-> +module_spi_driver(ad2s1210_driver);
