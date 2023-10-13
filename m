@@ -1,76 +1,126 @@
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from wout3-smtp.messagingengine.com (wout3-smtp.messagingengine.com [64.147.123.19])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23F9B11CBC
-	for <linux-staging@lists.linux.dev>; Fri, 13 Oct 2023 15:17:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E413919BB2
+	for <linux-staging@lists.linux.dev>; Fri, 13 Oct 2023 15:37:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=arndb.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="cMYNfd8h"
-Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-3231df054c4so1820536f8f.0
-        for <linux-staging@lists.linux.dev>; Fri, 13 Oct 2023 08:17:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1697210274; x=1697815074; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=4rfoZ5XVzKB5xUSk2Mi8aOy+1livfWwwFoYiv9POKdA=;
-        b=cMYNfd8hyZv9JCKpnLWLG56Kqa9VX6cDzdtw2c8m39NzAtg2EytHr1J5mDpW9gDLp5
-         cpiChHwGFkm7aUxTOg26TxBxOlEoScVAV90cYRDmac3KQKvp7XN28ROpaqZiC7eeLWmU
-         wNWp+PlemJ+ruqzZfKOWYxJE5PXwmNax19TXl7Sw+FnBIkth+MHnaTY+uaNyC4PgAiiA
-         wSkz1nHgA9vp79aquGO23hS8CqrpyioAEKEMRxEc3Pb2jIYAA/PXFLhzvRh42ffxcK/M
-         XODFTdm8jZwtjnrRg9umx6JncAIkBkvPqLe9VpiWZlkhz4f4ALLkZdyraVcyAHFrCoZO
-         qjWA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697210274; x=1697815074;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=4rfoZ5XVzKB5xUSk2Mi8aOy+1livfWwwFoYiv9POKdA=;
-        b=Bckg2+BS4jWzQnYqV63KbvPJAOrpx4glrPiUnYGrvFHw5i4wl3ZXEpzXf9ro03wRy8
-         jcWNVU2crE1D440Kos2OP2kNEyoHJaTPiicekV3wQquHFB05g5jSEeP50g5WUe6kpEnw
-         eWExlxf82lLjccyrTjhAk4g66OGfT16XODXgMKSTGzG7zqDKlLud9DVyODRU2i/DTEvs
-         BuLFtQh5zqMkOySynFoCAjV+8bj2bLU0sNOFZLJPKqL7rnebs7LyP58nRILlEcCgw4RL
-         4DNKLfwXCbzZ0l3ZtiGGoG9on4S28LhilZ8JHE50AC/qBcyQ93/7wz8ZHyZddhEQ0Jis
-         Hziw==
-X-Gm-Message-State: AOJu0Yysf7pXa6J0aoaJiXcfAV4g2GeISXvyE9ofKLlHXUJSErZ3fTNw
-	AoCAuEU5GPag6xh6II3UIkKAaQ==
-X-Google-Smtp-Source: AGHT+IFLj03Y3alNcqYWEIf7+s3KhO7qp+5XajSXh6icVIyX7sXIXB6Rc+8gqDWeOOd8LUu2jpETFQ==
-X-Received: by 2002:a05:6000:888:b0:319:7b66:7800 with SMTP id cs8-20020a056000088800b003197b667800mr21871867wrb.55.1697210274230;
-        Fri, 13 Oct 2023 08:17:54 -0700 (PDT)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id e6-20020a5d65c6000000b0032326908972sm4941696wrw.17.2023.10.13.08.17.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 13 Oct 2023 08:17:53 -0700 (PDT)
-Date: Fri, 13 Oct 2023 18:17:51 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 0/6] staging: rtl8192e: Remove unchanged variable
- dig_enable_flag
-Message-ID: <2ae55a15-0b0e-4423-838c-6abce81d1570@kadam.mountain>
-References: <cover.1697127817.git.philipp.g.hortmann@gmail.com>
+	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="jQ5QdFoH";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="URYipmw6"
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+	by mailout.west.internal (Postfix) with ESMTP id 70768320099A;
+	Fri, 13 Oct 2023 11:37:06 -0400 (EDT)
+Received: from imap51 ([10.202.2.101])
+  by compute5.internal (MEProxy); Fri, 13 Oct 2023 11:37:07 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+	:cc:content-type:content-type:date:date:from:from:in-reply-to
+	:in-reply-to:message-id:mime-version:references:reply-to:sender
+	:subject:subject:to:to; s=fm2; t=1697211425; x=1697297825; bh=26
+	NXCBDrkJj89cZAV32XsTyyy8aUMxOJsXi8lmri3vw=; b=jQ5QdFoHU3oMAZHcCw
+	iVLFaC2Py9bvZc4DnMI3Ds0BSehahzjwf9nTVcVrXzo0wfaUKxB69BYHq8sYnDwg
+	NnfP0WpIfq98c7ymB2i8vIrjP6OxZcq98csXMvdvER5BapZTLFBCYKRa0hxi6Pmm
+	gp1ZVPuHdArKD8e72L9AaZztvs+BN/M+G5negRFH6ucn9d5BCG7HffuizFPCoSF/
+	UzdQPheEEPcsI9O72Qe4/dlZMNk0hy0YeAupNhEwsw5vCNdbyaB9RZuYbj/Aq8Cp
+	EkrDRKE0EfJ54t/3fgeAFjUNFyJWKgv+74K3FEaG/8yA4Jhn4T5tEoBi0QWm0dBD
+	o4Yw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:sender:subject
+	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+	:x-sasl-enc; s=fm2; t=1697211425; x=1697297825; bh=26NXCBDrkJj89
+	cZAV32XsTyyy8aUMxOJsXi8lmri3vw=; b=URYipmw6T2mlurfuhM2NBBDoE56gi
+	Sts4mxphK+gx2ICELCFlWucVLJX+SPdXEBbNZqBHDWw1RDw6Z04baB0ADo4E5+mZ
+	NnjcaYCMf85hXHpHDhQXs6sU1jBvzCx1Uz2kv5FXbdeGQlKM+rXcavV1uW/XFfia
+	Zf0HxCie1HozEFFQhLeGHHLZzlv6FomTCKb2dfp9OPtd55l0Kp3Z9HzliGZBgCqy
+	ClS/63epQga/Sga/Q0qD6+RM1NtdMm/Ft531OBo47Shw8MpRKbLX9H4fcV1f7lqa
+	GCyn6w7kNmN4/Hx9sV6+5EqXW2laYKzvFMG24O2K7IcrtaLsxyLJMd0Xg==
+X-ME-Sender: <xms:IWQpZTyr6UxSO-7ZO_medwMS-S_dBtjymsnUOjkzWHabQqU8cnOkgg>
+    <xme:IWQpZbTsm9p3KPeCX01HcSN0sap2lG0YMErYouyEJumKY6WSnKElCXwUl180ZzH2x
+    _uB_HaqZVZ9cLWYF3c>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvkedrieefgdeikecutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+    fjughrpefofgggkfgjfhffhffvvefutgesthdtredtreertdenucfhrhhomhepfdetrhhn
+    ugcuuegvrhhgmhgrnhhnfdcuoegrrhhnugesrghrnhgusgdruggvqeenucggtffrrghtth
+    gvrhhnpeffheeugeetiefhgeethfejgfdtuefggeejleehjeeutefhfeeggefhkedtkeet
+    ffenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegrrh
+    hnugesrghrnhgusgdruggv
+X-ME-Proxy: <xmx:IWQpZdXYXXDF3_FkvDvCsOoTD0_qDGydEUOYy1E9TCYYMrqJ6LGnyg>
+    <xmx:IWQpZdgcBAgZTwUxxDNQuzoGjzqyG8AXN1bkUixpEOrf_7-VsNisSA>
+    <xmx:IWQpZVAcDj_5hcFhy43cLtpJhGJeqyyR8uns4VG6O38HMuu1aY44Fg>
+    <xmx:IWQpZZ5ZnYSkjVgejXsQ1RJ92MsB1Ojkvl1wci8kOYcbjp-Nz_OOCA>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+	id 2F199B60089; Fri, 13 Oct 2023 11:37:05 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.9.0-alpha0-1019-ged83ad8595-fm-20231002.001-ged83ad85
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <cover.1697127817.git.philipp.g.hortmann@gmail.com>
+Message-Id: <c8f43e1b-aed1-4b45-ba7c-d896ff66dfa7@app.fastmail.com>
+In-Reply-To: <e93e4008-65c5-4f1d-812a-64b48f0513a2@gmail.com>
+References: <20231010155444.858483-1-arnd@kernel.org>
+ <e93e4008-65c5-4f1d-812a-64b48f0513a2@gmail.com>
+Date: Fri, 13 Oct 2023 17:36:41 +0200
+From: "Arnd Bergmann" <arnd@arndb.de>
+To: "Philipp Hortmann" <philipp.g.hortmann@gmail.com>,
+ "Arnd Bergmann" <arnd@kernel.org>, "Kalle Valo" <kvalo@kernel.org>,
+ "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
+Cc: "Nicolas Ferre" <nicolas.ferre@microchip.com>,
+ "Alexandre Belloni" <alexandre.belloni@bootlin.com>,
+ "Claudiu Beznea" <claudiu.beznea@tuxon.dev>,
+ "Jakub Kicinski" <kuba@kernel.org>, "Pavel Machek" <pavel@ucw.cz>,
+ "David S . Miller" <davem@davemloft.net>,
+ "Larry Finger" <Larry.Finger@lwfinger.net>, linux-kernel@vger.kernel.org,
+ linux-wireless@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-staging@lists.linux.dev
+Subject: Re: [PATCH] [RFC] wireless: move obsolete drivers to staging
+Content-Type: text/plain
 
-On Fri, Oct 13, 2023 at 04:43:37PM +0200, Philipp Hortmann wrote:
-> Remove dead code leftover from previous patches.
-> 
-> Tested with rtl8192e (WLL6130-D99) in Mode n (12.5 MB/s)
-> Transferred this patch over wlan connection of rtl8192e.
-> 
+On Fri, Oct 13, 2023, at 08:42, Philipp Hortmann wrote:
+> On 10/10/23 17:27, Arnd Bergmann wrote:
+>> From: Arnd Bergmann <arnd@arndb.de> While looking at the old drivers 
+>> using the obsolete .ndo_do_ioctl() callback, I found a number of network 
+>> drivers that are especially obsolete, in particular for 802.11b 
+>> (11Mbit/s) or even older wireless networks, using non-busmaster 
+>> ISA/PCMCIA style bus interfaces, and using the legacy wireless extension 
+>> ioctls rather than the netlink interfaces that were meant to replace 
+>> them in 2007. All of these drivers are obsolete or orphaned.
+>
+> we should take into account how good the wlan connection is.
+> This of course leads to tests on real hardware. I do have a vt6655. 
+> Please have a look at the test results below. In a nutshell it is a very 
+> bumpy connection you get with vt6655. You can have issues to connect on 
+> every channel and data is coming in waves. So sometimes you will almost 
+> not notice you have a wlan connection and then it takes very long to 
+> load the next site. Ping times up to 80 seconds. Packet losses up to 
+> 40%. So I assume all users have gone away from this module as it is not 
+> comfortable.
+>
+> Do you think this helps you?
+>
+> I do have two vt6656 hardware as well. Are you interested in tests?
+> I can do a patch to remove vt6655. Do you think it makes sense?
+>
+> Thanks for your support.
 
-Your patchsets are always very good, Philipp.
+Hi Philipp,
 
-Reviewed-by: Dan Carpenter <dan.carpenter@linaro.org>
+My vague feeling is that bad performance on its own is not
+enough justification to remove the driver without some other
+reason. From what I can tell in the logs, Malcolm Priestley
+made good progress on cleaning up theses driver, converting it
+to mac80211 and sending improvements until 2020.
 
-regards,
-dan carpenter
+At the moment, I'd suggest focusing on the drivers that
+still use wext (git grep -w iw_handler_def drivers), if we
+can show that rtl8192e, rtl8712 or ks7010 have been broken
+for a while, removing those would help with removing wext
+altogether.
 
+     Arnd
