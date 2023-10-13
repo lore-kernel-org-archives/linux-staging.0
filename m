@@ -1,47 +1,47 @@
-Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C840510945;
-	Fri, 13 Oct 2023 08:26:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D63AB10944;
+	Fri, 13 Oct 2023 08:26:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KXcPtEUy"
-Received: by mail-pf1-f170.google.com with SMTP id d2e1a72fcca58-692ada71d79so1539547b3a.1;
-        Fri, 13 Oct 2023 01:26:44 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UyArlyge"
+Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-1c871a095ceso14887235ad.2;
+        Fri, 13 Oct 2023 01:26:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1697185604; x=1697790404; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1697185605; x=1697790405; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=UZXQ64zI4dZ66y0C+/+YXtcZqO4ReFctnoAjwEvrK3I=;
-        b=KXcPtEUy4Y+ymnYwEi+mAR8o6ZZg5WTOKdBqMWWS319otw5IRu1hlId0Idw9ZnDNxT
-         awGwGudVIbokHzWQmDDs2CKJ1l2mhh20ofxuDu7+g1mxflgTafAscCHHdjE3PO+P69Ew
-         m2YOaJbMfH7qRah7NO9+OUeYQf3c0K16IGlfC4IGVs85UxENacm+ko4hm+8pMLJ/mj10
-         w080XEiatv14v1bXTUyeVjZMurcwgUZqClQne24vhKvZlytD+tKFI1CCB2gUtKvL49ZE
-         6Vk1LHVMRk0oJ4CPJVv3NInGtbOOjf5804lHR2lFniHbw+zGKfTf5zeqYUN+b4snXfH5
-         4anw==
+        bh=rkm4IcvDcpDNyn/dmP3dcHytJ9yQBVbR6NWIK3pDrZM=;
+        b=UyArlygewfQprY6dioKz7o+wQY2x9iOyDdv74AfXszjio0wPUy9v7sMxNO3ghCoZHa
+         NKMo3jNKpowCUmGFSbh4BIunEOn7P08HKVk6pWP24w87PQbHD3HcIF/rRsNvsoni16gl
+         HRnrK12w4PsVXHpYd69jm5XGSbAwQAMGYYnCu/RphYFgtlMA929D+qOM/e3/aApuhpaD
+         ovsMLiUkr27mEy8whYQllyOzMje4OozP+So4erlw/UUXOFAKzasqZzvbJTql28DFMeCE
+         BZxYDtLhquEjHIGsyex/ka2vPhcoscHWUaGvgrmdFgZ2SaRNBFlSzBA4Wi+RreOJioYF
+         5haQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697185604; x=1697790404;
+        d=1e100.net; s=20230601; t=1697185605; x=1697790405;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=UZXQ64zI4dZ66y0C+/+YXtcZqO4ReFctnoAjwEvrK3I=;
-        b=A1FHThVhZfNuKMvR4EuRTTOix5s0Wek2ox4dnmCwa9Mip+GBZY9BugMsYLMJ5dmOL1
-         dOfjkm8jg2B3oRaWIIZcfY+uQ9L2jvZ297Zvuud7tLEXUdtdc9TzntAMh3iFhLhVbRIZ
-         yhVooHwUjIUqaoQXBR6qDuvEdonKev5KR1nLs//fNQlbZTIBFk8d2z3f3VUF1MgmHtCO
-         nY2I+Q8+SrmKlDtVPB0Ti+5GVXcVAG3yJ7ef25v9UPI03Qe4LiyTeCBjFNl1JSJL1a1E
-         fTesRZjcd7Kj+a9kGvwL54+wy3oOutMeoIx7lvSf8aOH7MvIkvZaYdoN6s0v1MQS9Ks8
-         q2DA==
-X-Gm-Message-State: AOJu0Ywo6JsY5+qBaYdyCRdoho2u++4s5RyGOfnIqLydQTiQt7rvr7yl
-	7qwTRv5PWdqUtcHx31LNDhEM3wCUfkNeiw==
-X-Google-Smtp-Source: AGHT+IHIvwAg1pMkW2F212EPWLTWWwNAnZSE/IqGZHZrUWiRCTHsfHFWxJyAHHwAGRKTdwWbO6S8Xg==
-X-Received: by 2002:a05:6a20:734a:b0:15f:16f5:858e with SMTP id v10-20020a056a20734a00b0015f16f5858emr25495617pzc.58.1697185603950;
-        Fri, 13 Oct 2023 01:26:43 -0700 (PDT)
+        bh=rkm4IcvDcpDNyn/dmP3dcHytJ9yQBVbR6NWIK3pDrZM=;
+        b=ogEzE7Ecrb9e3gEU/IE6cEShPRr72vyMTrpaKO8M9HbEDW45SMAUgdOgpCVGTlq8Jq
+         8BXWjoUU56YxSG2idcs1hr2O8iDT6wVhohDCUFt/iQEue2Ps7ZFuM1H8J/ZSjKhYziXX
+         6ki/9yk186xvE9wHDhGKF+9gGm58vTOaXYw9sMBOvKLTa1b8C/tBcJUIrjS7Q3vNx/Cp
+         sUAgep7qsSNG17pKakNvS01KLFuKL7FAMPFjJ/ECas5gMY/zFbPwkkf/O7Xqv9zrDCIH
+         UcLlK5SfhNDs/ocoP/htWfmMxLiH2QE60BBSv60aVOxhMmNJhIYsb3vVkLx14Ms9q32I
+         zSpA==
+X-Gm-Message-State: AOJu0YxRt4UouRLSkEkqSDxWONJX0KSZUk7/LSxfVbAw7x8+H5n5rJbZ
+	GMYnBplPcYAEWqIfl20Zu8w=
+X-Google-Smtp-Source: AGHT+IEnkD3fJTLnpb3gJCiRJN6IeKkhjz9YeEaS+p77uWERLqbdpt8wkEWytRz9aVoL7c4boqudiw==
+X-Received: by 2002:a17:90a:f3cc:b0:27d:3296:b3e with SMTP id ha12-20020a17090af3cc00b0027d32960b3emr1629224pjb.41.1697185605061;
+        Fri, 13 Oct 2023 01:26:45 -0700 (PDT)
 Received: from Negi ([68.181.16.134])
-        by smtp.gmail.com with ESMTPSA id z16-20020a170903019000b001c32fd9e412sm3305524plg.58.2023.10.13.01.26.43
+        by smtp.gmail.com with ESMTPSA id c12-20020a170903234c00b001bc59cd718asm3280524plh.278.2023.10.13.01.26.44
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 13 Oct 2023 01:26:43 -0700 (PDT)
+        Fri, 13 Oct 2023 01:26:44 -0700 (PDT)
 From: Soumya Negi <soumya.negi97@gmail.com>
 To: Jonathan Kim <jonathankim@gctsemi.com>,
 	Dean ahn <deanahn@gctsemi.com>,
@@ -50,9 +50,9 @@ Cc: outreachy@lists.linux.dev,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Soumya Negi <soumya.negi97@gmail.com>
-Subject: [PATCH 1/2] tty: gdm724x: Match alignment with open parenthesis
-Date: Fri, 13 Oct 2023 01:26:34 -0700
-Message-ID: <ff627fcbc9e450c2e8f4aa5810b94e56151efa2a.1697184167.git.soumya.negi97@gmail.com>
+Subject: [PATCH 2/2] tty: gdm724x: Add blank line after declaration
+Date: Fri, 13 Oct 2023 01:26:35 -0700
+Message-ID: <3b24ca9976cf873dbaadb499e09d7b545e9db89c.1697184167.git.soumya.negi97@gmail.com>
 X-Mailer: git-send-email 2.42.0
 In-Reply-To: <cover.1697184167.git.soumya.negi97@gmail.com>
 References: <cover.1697184167.git.soumya.negi97@gmail.com>
@@ -64,29 +64,26 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Fix CHECK: Alignment should match open parenthesis
+Fix WARNING: Missing a blank line after declarations
 Issue found by checkpatch.pl
 
 Signed-off-by: Soumya Negi <soumya.negi97@gmail.com>
 ---
- drivers/staging/gdm724x/gdm_tty.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/staging/gdm724x/gdm_tty.c | 1 +
+ 1 file changed, 1 insertion(+)
 
 diff --git a/drivers/staging/gdm724x/gdm_tty.c b/drivers/staging/gdm724x/gdm_tty.c
-index 32b2e817ff04..4e5cac76db58 100644
+index 4e5cac76db58..0c61eaff6122 100644
 --- a/drivers/staging/gdm724x/gdm_tty.c
 +++ b/drivers/staging/gdm724x/gdm_tty.c
-@@ -271,8 +271,8 @@ int register_lte_tty_driver(void)
- 	int ret;
+@@ -160,6 +160,7 @@ static ssize_t gdm_tty_write(struct tty_struct *tty, const u8 *buf, size_t len)
  
- 	for (i = 0; i < TTY_MAX_COUNT; i++) {
--		tty_driver = tty_alloc_driver(GDM_TTY_MINOR,
--				TTY_DRIVER_REAL_RAW | TTY_DRIVER_DYNAMIC_DEV);
-+		tty_driver = tty_alloc_driver(GDM_TTY_MINOR, TTY_DRIVER_REAL_RAW |
-+					      TTY_DRIVER_DYNAMIC_DEV);
- 		if (IS_ERR(tty_driver))
- 			return PTR_ERR(tty_driver);
- 
+ 	while (remain) {
+ 		size_t sending_len = min_t(size_t, MUX_TX_MAX_SIZE, remain);
++
+ 		gdm->tty_dev->send_func(gdm->tty_dev->priv_dev,
+ 					(void *)(buf + sent_len),
+ 					sending_len,
 -- 
 2.42.0
 
