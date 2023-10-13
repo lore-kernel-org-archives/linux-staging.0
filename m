@@ -1,47 +1,47 @@
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D193914281
-	for <linux-staging@lists.linux.dev>; Fri, 13 Oct 2023 12:12:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44F5E14281
+	for <linux-staging@lists.linux.dev>; Fri, 13 Oct 2023 12:12:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="SEshn9KE"
-Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-3215f19a13aso1900292f8f.3
-        for <linux-staging@lists.linux.dev>; Fri, 13 Oct 2023 05:12:45 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="sWBSU/zz"
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-40572aeb6d0so20877755e9.1
+        for <linux-staging@lists.linux.dev>; Fri, 13 Oct 2023 05:12:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1697199164; x=1697803964; darn=lists.linux.dev;
+        d=linaro.org; s=google; t=1697199167; x=1697803967; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=8LGZJR/y71MrZNroBvIwe7TGxhLAIZsz9Mp4xjRfDNo=;
-        b=SEshn9KEkItm3WDfTn+JA4dfNcJ+yJCDrZqD9NQnBl0RhS381deqpn7bV0DKiyA4/r
-         70bOmZXsImh3xO8ZcbfeUTFXr8uyR0qucbii7QBnpBYXBbMyZfXI2qk/EAR7b0dzqN7a
-         vN+84oCa8kb0L6w1lOWXxuuDuw+//VY4HlJXrbbmDNg236Zq70ysy2Wm/A5Z3PcqY6ME
-         USgWFihpNNZhTLq9om57wxx197Ab7bSXwlpiX3n+L/zp/yDklwmCws29u18Gt8jirB+a
-         LQFROb1XBwb5FvPMzIgZ2SHwABsc300agk7CnexTKkoyJkbmXA4cjuIN9+u7S5VFdUsA
-         A3Yg==
+        bh=ommulkgo6kT/ecNae2/W+LpZutQGK9Ntv8cEwiwSQYM=;
+        b=sWBSU/zzwd2sVIh2FI5bbDUVG7KZcpYfkv6P1u/3IJ4mbLstLgCXtOIbcFZCO/vaWm
+         BhFq0ptxBXhHzrSqTqvsDoSyU2rsJsjD2/Y5rZgXQvcTelZFGKl6mUx/OA6Hq01T0N9M
+         hkbcvkzhBfexLVudpmAoJYLbJlbY8BbZ9oSTOJ3fRzXO4W6ucKGwMVW762H7yoxZPhmk
+         YlBJ9LmZ29KkkVwTIKwZXN6gjFm61naGlmnNpTaJX3H0QZaxtW7inqvXxNmbiL1VJDXq
+         sMTVzXfNq3gPwLgsfR4ZeWJpnubClKcc1vMl4a1BJ5/ty8W5r4DntZiM73mOaK1fi8C2
+         aB9w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697199164; x=1697803964;
+        d=1e100.net; s=20230601; t=1697199167; x=1697803967;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=8LGZJR/y71MrZNroBvIwe7TGxhLAIZsz9Mp4xjRfDNo=;
-        b=SSoWKZZl2x0L2cxqxNVlQIE44K958fLtACdHUucW7Em/yDLpg+acOq3nq2rsQBj6dI
-         baj+Yk8G0WaM48md0RReGHE1KjcWOCT64zo1SfGLC5phRT7SHQephQw9WgsAklhw8Wam
-         SlQUmDbZSRFhAkt8h8g6L/VhVSHcjJY9kbA+kb9UuSH5yLGDZnIndOqzXYycfhIgwGMJ
-         H5tYNCdnrFI86qGr80orHfEDvfb4YgaDAgz18FZARS+UMN2xgH/9BYlHPGEoq5F5GJ0C
-         fZFOoIA2eQD36Ow7pQzPcOSzX+GP5ag9Yx7ih8kbe3odRbsj56B8i/gbTgrPo09z0PAo
-         ycWw==
-X-Gm-Message-State: AOJu0Yy8TNpORE2ANp/wYz3RYus4Utjth8z7z7HjAoD6oYAFlr5raE7i
-	L8+ecH0k3n7yfGDpgVf3lbGp9Q==
-X-Google-Smtp-Source: AGHT+IFrQId3e2I2JlTBoULYCR/H7+bsaYxtMNZ1tZUYf/kvRK/eOFQV33wAqP1yoQmYpPOmpLznjA==
-X-Received: by 2002:adf:e383:0:b0:320:1c4:e213 with SMTP id e3-20020adfe383000000b0032001c4e213mr23211870wrm.1.1697199164056;
-        Fri, 13 Oct 2023 05:12:44 -0700 (PDT)
+        bh=ommulkgo6kT/ecNae2/W+LpZutQGK9Ntv8cEwiwSQYM=;
+        b=LyMlJuC+MgULelyinh9CByVhMFlleAoBNDGR7G7WD7vQvUjii3GUR3QcV/nzAet99R
+         FT00i6MSvDOPTC3XTx1mmG9Qkv8EreyDUuIfu9EEGNska71Z2Bl9J1piAmMO4x2U7LOm
+         HXru0nQxW98bqPATYjp5riYULw/NbYx0dDEKn7HMUQ9gwV8TOlk9mJxqX+6ryQk1Rx2w
+         sLUCX5jZUuTp1JwileETere7XQvgRbEpFxW5UgLuqtG4/l5yrLYgozAEHx/HZIxr8OlU
+         76wKg9B7r0y5duhPztVXpiSwr/1Oxm+4SGgatXGsAxS+ih23Kjlp/TA6AmEao4o8TcJK
+         7rcg==
+X-Gm-Message-State: AOJu0YxuWpI/t5t0AlmV8KMNn30JSlCnJsh+vUNn0YTNx3Sq1FxTFwp6
+	XcZoF5hdlVriW/PRby/6p2UJfA==
+X-Google-Smtp-Source: AGHT+IGGOPZWWwiRVHRk5yzraMQzyDHn0Hvvv7JodPr2iDjHtiNDH11qdqY3ba27geC5ZqN9VJdrGA==
+X-Received: by 2002:a05:600c:2146:b0:401:daf2:2735 with SMTP id v6-20020a05600c214600b00401daf22735mr22563494wml.31.1697199167422;
+        Fri, 13 Oct 2023 05:12:47 -0700 (PDT)
 Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id i17-20020adffdd1000000b00326c952716esm20467669wrs.61.2023.10.13.05.12.42
+        by smtp.gmail.com with ESMTPSA id n8-20020a7bcbc8000000b00405c7591b09sm2399240wmi.35.2023.10.13.05.12.46
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 13 Oct 2023 05:12:43 -0700 (PDT)
-Date: Fri, 13 Oct 2023 15:12:39 +0300
+        Fri, 13 Oct 2023 05:12:47 -0700 (PDT)
+Date: Fri, 13 Oct 2023 14:19:44 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
 To: Calvince Otieno <calvncce@gmail.com>
 Cc: outreachy@lists.linux.dev, linux-kernel@vger.kernel.org,
@@ -49,10 +49,9 @@ Cc: outreachy@lists.linux.dev, linux-kernel@vger.kernel.org,
 	Luke Koch <lu.ale.koch@gmail.com>,
 	Bagas Sanjaya <bagasdotme@gmail.com>,
 	Simon Horman <horms@kernel.org>, linux-staging@lists.linux.dev
-Subject: Re: [PATCH v2] staging: wlan-ng: remove helper function
- prism2sta_inf_handover()
-Message-ID: <67d90726-15b9-4d64-87c6-bfbf662cbe81@kadam.mountain>
-References: <ZSkg7y2Y2T3midXB@lab-ubuntu>
+Subject: Re: [PATCH v6] staging: wlan-ng: replace strncpy() with strscpy()
+Message-ID: <ce6c3d81-d75d-40e7-a6df-7abd4e8250a5@kadam.mountain>
+References: <ZSkm34Sy/n2yxBqi@lab-ubuntu>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -61,23 +60,28 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ZSkg7y2Y2T3midXB@lab-ubuntu>
+In-Reply-To: <ZSkm34Sy/n2yxBqi@lab-ubuntu>
 
-On Fri, Oct 13, 2023 at 01:50:23PM +0300, Calvince Otieno wrote:
-> prism2sta_inf_handover() function basically calls pr_debug() to print
-> a literal string. This can be done by the parent function directly.
+On Fri, Oct 13, 2023 at 02:15:43PM +0300, Calvince Otieno wrote:
+> Checkpatch suggests the use of strscpy() instead of strncpy().
+> The advantages are that it always adds a NUL terminator and it prevents
+> a read overflow if the src string is not properly terminated. One
+> potential disadvantage is that it doesn't zero pad the string like
+> strncpy() does.
+> In this code, strscpy() and strncpy() are equivalent and it does not
+> affect runtime behavior. The string is zeroed on the line before
+> using memset(). The resulting string was always NUL terminated and
+> PRISM2_USB_FWFILE is string literal "prism2_ru.fw" so it's NUL
+> terminated.
+> However, even though using strscpy() does not fix any bugs, it's
+> still nicer and makes checkpatch happy.
 > 
 > Signed-off-by: Calvince Otieno <calvncce@gmail.com>
 > ---
-> Patch version v2:
-> 	- Replace pr_debug() utility function with the module specific netdev_dbg()
 
-This isn't a v2 patch, right?  This patch assumes that we applied the
-v1 patch...
-
-This patch is not white space damaged though so that's good.
+It's still white space damaged and can't apply.  :/  Try save the email
+and do `cat raw_email.txt | patch -p1`.
 
 regards,
 dan carpenter
-
 
