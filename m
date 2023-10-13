@@ -1,46 +1,47 @@
-Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
+Received: from mail-oo1-f54.google.com (mail-oo1-f54.google.com [209.85.161.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BD5B2C876;
-	Fri, 13 Oct 2023 23:47:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 634342C876;
+	Fri, 13 Oct 2023 23:47:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jxD294jW"
-Received: by mail-pj1-f41.google.com with SMTP id 98e67ed59e1d1-27d1373f631so2056805a91.1;
-        Fri, 13 Oct 2023 16:47:24 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BWSnP5SA"
+Received: by mail-oo1-f54.google.com with SMTP id 006d021491bc7-57bca5b9b0aso1406026eaf.3;
+        Fri, 13 Oct 2023 16:47:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1697240843; x=1697845643; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=VsmJKoEfZzH5dGYcow1pJhun4pr6MeJ+V/BA29opGNE=;
-        b=jxD294jWEeaBLNpRli54vCxmQmx1wdBGGWHTt/rZGXyRv7E9Sq7Waef9GMtVJ6jC8b
-         AJz70U58okXA/0rZt7cQcbq6anUdEg37/iI0JRJJR+TA+1dn4hiLUHfKJJPogMXoeVr2
-         8qVjFp4W2LpHc35SVqb+ujCE2lRYmXtIa9vY7Jbx/XuZtL2U/sTOYDaPSJuxJH93HdMa
-         XvZrNfsPQqtSQ7D8fo2T53yA1p661fWD41G2jjfVwy+TCZl+xP/YAAPwPARZbH9ye1hR
-         h3CkktbnrI+8LuP/dgEvzCJSqOMDu0hm7sD6N3dtU2pM8edYKal14+5W35HSi+3GEpAn
-         FZoQ==
+        d=gmail.com; s=20230601; t=1697240848; x=1697845648; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=r89DHYNFueYR4hgHMDPSPQFhhiG/h3pT42UPfUI4Rls=;
+        b=BWSnP5SApSZLVQjDXJeCIQuY2wfkTad0P7RP+LcvwnwKSVP7pfqQPfapo3jdgK5x/g
+         GM01i/C6CHiMBTxx0XT9BMXbo/L4mxd95IOePr9I0QNQ5fE+FtQ8W54pAiIJxj/9UfIx
+         tSHdNUIqRNSvo8aOoFq1mBehgVRy03NlnLgt8K9WjK/eAug3dK2QP89DpZspkJpNoHLA
+         lY8ws7RICX6YyGfBHCFVelG3WbR6m1Fs0uctY0EUUXNTJDygg7wf0GExHimhL/iOYW48
+         tnZRBkDmJdYKWmZpYh6on19rLtCR0ojUUW3xZ4eSjfhNyVGgabv82SGH5QEv+XieTakt
+         9Skg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697240843; x=1697845643;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=VsmJKoEfZzH5dGYcow1pJhun4pr6MeJ+V/BA29opGNE=;
-        b=QTVNNJy8fl3VMreOaMXHdbYvAomGMupGJDSdaBLJgbliQFwwnWRtrj/zsmDFe5eFeQ
-         YH06darFJshjd9at4Afkdtn1Qmzar6CBMOYdKpDbUmkbnsCvKwqlLCZCmWynMXXAPTO5
-         6VyO2tpXXjUlN94ZM8kcl3D2CgQLuWH9xJcA/FzfczgpgU182mcJSqTmsVyA/hHPx83Y
-         m6VYYje5ZES3Y0Vm15hmU8ycaMic6LDt9EiiccuCWiG0ha+++eB0LbQk8XwrP2ExaJ/L
-         Eso75zWe7jvGyM215Diy8JqNz96qsQkvERXIk0CwVwr7SDHkE1HprK5v+1RgB6kGLcFl
-         oXIw==
-X-Gm-Message-State: AOJu0Yy6okgN9YYpBraK3IEtDUO8PnDcSYBiBmMGpsWrFqM3YpYp8EIt
-	ls68+pJhdM7Q7rcgr5czNZU=
-X-Google-Smtp-Source: AGHT+IGiZmINZuvHcm5NXBP1zW2GwN+KlqVDpBtLEE4e25BQLM8VJn2APtskH4zjuBFz7ve0BvcqqA==
-X-Received: by 2002:a17:90b:888:b0:27d:6dd:fb7d with SMTP id bj8-20020a17090b088800b0027d06ddfb7dmr8827933pjb.17.1697240843536;
-        Fri, 13 Oct 2023 16:47:23 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1697240848; x=1697845648;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=r89DHYNFueYR4hgHMDPSPQFhhiG/h3pT42UPfUI4Rls=;
+        b=ZYgKSLqhFp225ci/txNaa59QG6brIjPSZE+3HOeDZ1zpzS9OeY9Cjehv/nXx7PeO1I
+         kNRvm+Ddl6oQJ7YYIHb5/XmPV70Mw116oHLfWrx85nrbzowlURFYv1OD0fXHlE5jH6SG
+         TBcgjRh648wCLmYMdGHKPVd51y1J2B69CqcabzE+IuLpfxS+LhnvdjwaghtKmKf1dMM8
+         QG1F/cXfutSQ7wrlJc23s4jehDTh7GQbaSh4aTzp5hbKAH0sHDrXvZ0MHcqfXsY6t/q7
+         JK9YFLr6kLdTLClK/ten9MNVVhUgDH0RPQkDN6YL5YD3QgB2OSN+h273uan1C11AtVOa
+         65vA==
+X-Gm-Message-State: AOJu0Yxuyr4Lbx7KMvFCU8DiGc66rRC3ksuGgnzId55y3OPcZLBwDTaf
+	nfAtPOlbZ6NzaGhRpaSygT8=
+X-Google-Smtp-Source: AGHT+IHpm9L9w26cR56Xl0+1a/XfcF/QkUYxetvJQ0A+dROfp7mUBHZhBJzlpVkHR1SOBSjca4y1Cw==
+X-Received: by 2002:a05:6358:785:b0:143:82e0:8cbc with SMTP id n5-20020a056358078500b0014382e08cbcmr32934611rwj.1.1697240848301;
+        Fri, 13 Oct 2023 16:47:28 -0700 (PDT)
 Received: from Negi ([68.181.16.134])
-        by smtp.gmail.com with ESMTPSA id ne10-20020a17090b374a00b0027732eb24bbsm657618pjb.4.2023.10.13.16.47.22
+        by smtp.gmail.com with ESMTPSA id f6-20020a637546000000b0057c29fec795sm3909355pgn.37.2023.10.13.16.47.27
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 13 Oct 2023 16:47:22 -0700 (PDT)
+        Fri, 13 Oct 2023 16:47:27 -0700 (PDT)
 From: Soumya Negi <soumya.negi97@gmail.com>
 To: Martyn Welch <martyn@welchs.me.uk>,
 	Manohar Vanga <manohar.vanga@gmail.com>,
@@ -49,10 +50,12 @@ Cc: outreachy@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	linux-staging@lists.linux.dev,
 	Soumya Negi <soumya.negi97@gmail.com>
-Subject: [PATCH 0/4] staging: vme_user: Coding style cleanup patches
-Date: Fri, 13 Oct 2023 16:47:12 -0700
-Message-ID: <cover.1697240381.git.soumya.negi97@gmail.com>
+Subject: [PATCH 1/4] staging: vme_user: Correct spelling mistakes in comments
+Date: Fri, 13 Oct 2023 16:47:13 -0700
+Message-ID: <f41caa8e7c987fdc010942838117fece8151affe.1697240381.git.soumya.negi97@gmail.com>
 X-Mailer: git-send-email 2.42.0
+In-Reply-To: <cover.1697240381.git.soumya.negi97@gmail.com>
+References: <cover.1697240381.git.soumya.negi97@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -61,22 +64,35 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This patchset performs trivial code cleanups on the driver 
-staging/vme_user to improve code readability. All patches address 
-issues reported by checkpatch.pl, and may be applied in any sequence.
+Fix misspelled words in vme.c. Issue found by checkpatch.pl
 
-Soumya Negi (4):
-  staging: vme_user: Correct spelling mistakes in comments
-  staging: vme_user: Fix unbalanced {} in if-else blocks
-  staging: vme_user: Add spaces around '*'
-  staging: vme_user: Add spaces around '<<' operator
+Signed-off-by: Soumya Negi <soumya.negi97@gmail.com>
+---
+ drivers/staging/vme_user/vme.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
- drivers/staging/vme_user/vme.c        |   7 +-
- drivers/staging/vme_user/vme.h        |   2 +-
- drivers/staging/vme_user/vme_tsi148.c |   7 +-
- drivers/staging/vme_user/vme_tsi148.h | 548 +++++++++++++-------------
- 4 files changed, 283 insertions(+), 281 deletions(-)
-
+diff --git a/drivers/staging/vme_user/vme.c b/drivers/staging/vme_user/vme.c
+index 5960562dcd96..80083ea0fb53 100644
+--- a/drivers/staging/vme_user/vme.c
++++ b/drivers/staging/vme_user/vme.c
+@@ -1603,7 +1603,7 @@ EXPORT_SYMBOL(vme_lm_get);
+  * @callback: Pointer to callback function called when triggered.
+  * @data: Generic pointer that will be passed to the callback function.
+  *
+- * Attach a callback to the specificed offset into the location monitors
++ * Attach a callback to the specified offset into the location monitors
+  * monitored addresses. A generic pointer is provided to allow data to be
+  * passed to the callback when called.
+  *
+@@ -1638,7 +1638,7 @@ EXPORT_SYMBOL(vme_lm_attach);
+  * @resource: Pointer to VME location monitor resource.
+  * @monitor: Offset to which callback should be removed.
+  *
+- * Remove the callback associated with the specificed offset into the
++ * Remove the callback associated with the specified offset into the
+  * location monitors monitored addresses.
+  *
+  * Return: Zero on success, -EINVAL when provided with an invalid location
 -- 
 2.42.0
 
