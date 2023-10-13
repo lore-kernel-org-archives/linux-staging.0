@@ -1,38 +1,48 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9203713AC2;
-	Fri, 13 Oct 2023 11:21:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D193914281
+	for <linux-staging@lists.linux.dev>; Fri, 13 Oct 2023 12:12:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Gye196l+"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1697196096; x=1728732096;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=4qcZWCWIBIltuQKs7SwdL1M/OoXqzM5+6D1gYOXf61Q=;
-  b=Gye196l+sHNeBGmmNgyIVc/hVEdqv62VhMywB0+OUBZupTIbDQNVeK43
-   KpEGtf5coJYdT7YT34vG06oNeZXv1PYWJYXCBzC73s6WxQeo7qY7578Qa
-   EmXXOZCHPqy83O4aLWvH2gbcx7hYa6gCpmKJx0gqBA5uPE8zguhHdpvvr
-   qQZFrQfWXvIfa+u8FuEGfF7bsRDMF/QnMW80NCjw/3Yz2ukj/kRSeL/iK
-   L5lw+g1H0YF6VgkE0ehpe/BAfPr/4CLjR7Q+RFUPFI1z4kOP12AD0xc8E
-   dS/6bNagvNBjLDxp4YtfYoMsjER9vxZ2bpz06i747JH7LRtmRF/isLuyt
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10861"; a="388010208"
-X-IronPort-AV: E=Sophos;i="6.03,222,1694761200"; 
-   d="scan'208";a="388010208"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Oct 2023 04:21:35 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10861"; a="825024794"
-X-IronPort-AV: E=Sophos;i="6.03,222,1694761200"; 
-   d="scan'208";a="825024794"
-Received: from kesooi-mobl1.gar.corp.intel.com (HELO intel.com) ([10.215.155.173])
-  by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Oct 2023 04:21:30 -0700
-Date: Fri, 13 Oct 2023 13:21:26 +0200
-From: Andi Shyti <andi.shyti@linux.intel.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="SEshn9KE"
+Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-3215f19a13aso1900292f8f.3
+        for <linux-staging@lists.linux.dev>; Fri, 13 Oct 2023 05:12:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1697199164; x=1697803964; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=8LGZJR/y71MrZNroBvIwe7TGxhLAIZsz9Mp4xjRfDNo=;
+        b=SEshn9KEkItm3WDfTn+JA4dfNcJ+yJCDrZqD9NQnBl0RhS381deqpn7bV0DKiyA4/r
+         70bOmZXsImh3xO8ZcbfeUTFXr8uyR0qucbii7QBnpBYXBbMyZfXI2qk/EAR7b0dzqN7a
+         vN+84oCa8kb0L6w1lOWXxuuDuw+//VY4HlJXrbbmDNg236Zq70ysy2Wm/A5Z3PcqY6ME
+         USgWFihpNNZhTLq9om57wxx197Ab7bSXwlpiX3n+L/zp/yDklwmCws29u18Gt8jirB+a
+         LQFROb1XBwb5FvPMzIgZ2SHwABsc300agk7CnexTKkoyJkbmXA4cjuIN9+u7S5VFdUsA
+         A3Yg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1697199164; x=1697803964;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=8LGZJR/y71MrZNroBvIwe7TGxhLAIZsz9Mp4xjRfDNo=;
+        b=SSoWKZZl2x0L2cxqxNVlQIE44K958fLtACdHUucW7Em/yDLpg+acOq3nq2rsQBj6dI
+         baj+Yk8G0WaM48md0RReGHE1KjcWOCT64zo1SfGLC5phRT7SHQephQw9WgsAklhw8Wam
+         SlQUmDbZSRFhAkt8h8g6L/VhVSHcjJY9kbA+kb9UuSH5yLGDZnIndOqzXYycfhIgwGMJ
+         H5tYNCdnrFI86qGr80orHfEDvfb4YgaDAgz18FZARS+UMN2xgH/9BYlHPGEoq5F5GJ0C
+         fZFOoIA2eQD36Ow7pQzPcOSzX+GP5ag9Yx7ih8kbe3odRbsj56B8i/gbTgrPo09z0PAo
+         ycWw==
+X-Gm-Message-State: AOJu0Yy8TNpORE2ANp/wYz3RYus4Utjth8z7z7HjAoD6oYAFlr5raE7i
+	L8+ecH0k3n7yfGDpgVf3lbGp9Q==
+X-Google-Smtp-Source: AGHT+IFrQId3e2I2JlTBoULYCR/H7+bsaYxtMNZ1tZUYf/kvRK/eOFQV33wAqP1yoQmYpPOmpLznjA==
+X-Received: by 2002:adf:e383:0:b0:320:1c4:e213 with SMTP id e3-20020adfe383000000b0032001c4e213mr23211870wrm.1.1697199164056;
+        Fri, 13 Oct 2023 05:12:44 -0700 (PDT)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id i17-20020adffdd1000000b00326c952716esm20467669wrs.61.2023.10.13.05.12.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 13 Oct 2023 05:12:43 -0700 (PDT)
+Date: Fri, 13 Oct 2023 15:12:39 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
 To: Calvince Otieno <calvncce@gmail.com>
 Cc: outreachy@lists.linux.dev, linux-kernel@vger.kernel.org,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -41,7 +51,7 @@ Cc: outreachy@lists.linux.dev, linux-kernel@vger.kernel.org,
 	Simon Horman <horms@kernel.org>, linux-staging@lists.linux.dev
 Subject: Re: [PATCH v2] staging: wlan-ng: remove helper function
  prism2sta_inf_handover()
-Message-ID: <ZSkoNhWDxntTbGpm@ashyti-mobl2.lan>
+Message-ID: <67d90726-15b9-4d64-87c6-bfbf662cbe81@kadam.mountain>
 References: <ZSkg7y2Y2T3midXB@lab-ubuntu>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -53,35 +63,21 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 In-Reply-To: <ZSkg7y2Y2T3midXB@lab-ubuntu>
 
-Hi Calvince,
+On Fri, Oct 13, 2023 at 01:50:23PM +0300, Calvince Otieno wrote:
+> prism2sta_inf_handover() function basically calls pr_debug() to print
+> a literal string. This can be done by the parent function directly.
+> 
+> Signed-off-by: Calvince Otieno <calvncce@gmail.com>
+> ---
+> Patch version v2:
+> 	- Replace pr_debug() utility function with the module specific netdev_dbg()
 
-...
+This isn't a v2 patch, right?  This patch assumes that we applied the
+v1 patch...
 
-> @@ -1697,7 +1697,8 @@ void prism2sta_ev_info(struct wlandevice *wlandev,
->  	/* Dispatch */
->  	switch (inf->infotype) {
->  	case HFA384x_IT_HANDOVERADDR:
-> -		pr_debug("received infoframe:HANDOVER (unhandled)\n");
-> +		netdev_dbg(wlandev->netdev,
-> +				"received infoframe:HANDOVER (unhandled)\n");
+This patch is not white space damaged though so that's good.
 
-but then you generate this:
+regards,
+dan carpenter
 
-CHECK: Alignment should match open parenthesis
-#240: FILE: drivers/staging/wlan-ng/prism2sta.c:1701:
-+               netdev_dbg(wlandev->netdev,
-+                               "received infoframe:HANDOVER (unhandled)\n");
 
-total: 0 errors, 0 warnings, 1 checks, 9 lines checked
-
-:-)
-
-Make it a habit... before sending a patch check it with
-checkpatch, in order to be sure you are not introducing other
-checkpatch errors.
-
-Don't rush... take your time, check your changes carefully; use
-checkpatch, compile test, run sparse, etc. Give others time to
-see your patch and comment.
-
-Andi
