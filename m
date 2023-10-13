@@ -1,56 +1,56 @@
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 847EF5692;
-	Fri, 13 Oct 2023 06:52:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4BB0101F0;
+	Fri, 13 Oct 2023 07:46:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NDuWSIJW"
-Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-32d849cc152so1691365f8f.1;
-        Thu, 12 Oct 2023 23:52:55 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="f/56h6jT"
+Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-1c9bf22fe05so14235125ad.2;
+        Fri, 13 Oct 2023 00:46:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1697179974; x=1697784774; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=1fwSnEb/oGascEkxYNcgQ1DoI1EHky2CUmiF3z/VGsc=;
-        b=NDuWSIJW0d8Gpbg3Moo6g+FhXiuAC4KoNDPn8ZSIBxZOaVP2TlObJAg1uigfyLuut7
-         GONF5xUY35qhJ0Hk4b2prLParIVuCh05FkxPgVluS/UHreYw6eC4Nn2CQk1zejCPIAYH
-         ajnROmXBq81AjcdN5EL/BkjQhxBDjHHHf3+nuLjFE5vnqJJ2rzMZa00F3TUuDJHPL2x+
-         uGeTPt491fpDFDPlO59U+MJRqQdNcD8/pgqa1a4Sxjeqped/Og6jsuo6662hXBI8F4B8
-         6o0gazstvtYgy4f47lOGuNINLp1WzTYCNNTveEU9LR/YLaVSYNY1Z/jHLWYzF5kL6O/2
-         1j/w==
+        d=gmail.com; s=20230601; t=1697183192; x=1697787992; darn=lists.linux.dev;
+        h=user-agent:in-reply-to:content-disposition:mime-version:references
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ONEtd5adg39vVEfE7cPhn5HoULJU19wWn5zWrGwz3uU=;
+        b=f/56h6jTkixhqGieDhNkRewGppA/y30VGMMMpPDEBmEhVT4pPXOe3zG/LsoEdviRCr
+         IlrU0VTtSFGuu89Pk4ERYukLZVSWOs+t7mgOuzBT1Bj5g3fkiM434GoXbkB3wQoR7Evl
+         KzWqKyMZ+WF9VLv4dMxak+NP8H519/BSuoDViKsegO9oOwEFwnWLGWbKm78ORlDp5o9y
+         zA2mK6HSIEvT1Rz3wAJvHjdg1zofWf3Y06oxJSxT50RW5t4mRV3sKPGP+YAsbLvJxgIR
+         TlcthNv4wnslXKp5RAjhjSkrxYCUIkPDi+5F11vIYZMjI4z8sz1xQFOcXG6Jc3v8P6t6
+         jo0Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697179974; x=1697784774;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=1fwSnEb/oGascEkxYNcgQ1DoI1EHky2CUmiF3z/VGsc=;
-        b=VMKSW3I0FJnS2wL/zPK+l2ctX99hElKRC8D1A21ihLrbAwsz188zE+ur1iABcgvRLY
-         KVodshwqADa2EnKNrO7ISgSJGcFcWI+ZYcq7QjsSzvp3HDsx53Jwhak97jnQ19BMZhpi
-         f0zeVFUZP/vMVv9I8mEQs2EWBhjum3dM7s4n77008RRq3aHncSFbm9zN29JoWpas48JX
-         Ex5FVDRO4mdRceUkyXVkv3PY3E1Ezn4YZ9aSFI2VB1iaAD0zq/tcpRE+gKs7p6paQQda
-         g1s2RJSH2K4oeC/BIUNJ7JImnxKv6f2M56yiipYsrp13ZL+G1tgkRIzjTD9hui/H9/L0
-         lLRw==
-X-Gm-Message-State: AOJu0YxkxKb7kjVVhln5rjQHhtcTc04qAH/K5khHsK0oVHJdDZINTB5/
-	HI25MriaCWC3GF9ksDysVnI=
-X-Google-Smtp-Source: AGHT+IGMvyjlULk/r5LkFCrZSMyEp4or+xvVuLLJOmX7A/O77IAh6ozNhv8iIiCmMKKwFR0y5b4qsQ==
-X-Received: by 2002:adf:f449:0:b0:32d:9daf:3f94 with SMTP id f9-20020adff449000000b0032d9daf3f94mr536713wrp.53.1697179973479;
-        Thu, 12 Oct 2023 23:52:53 -0700 (PDT)
-Received: from lab-ubuntu ([41.90.69.21])
-        by smtp.gmail.com with ESMTPSA id a1-20020a056000100100b0032d9efeccd8sm377463wrx.51.2023.10.12.23.52.52
+        d=1e100.net; s=20230601; t=1697183192; x=1697787992;
+        h=user-agent:in-reply-to:content-disposition:mime-version:references
+         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=ONEtd5adg39vVEfE7cPhn5HoULJU19wWn5zWrGwz3uU=;
+        b=pIg8e5iWDvG2P/qbEiOt67oR5eG6bSvpVsRw6EOQuD+4zyp3R6/g6LvfrzNEqEec60
+         WHnCc3t4CADfusXDq0Nk176guvQpyZX3MAp/8ksjvaXqf99HxWlwQiyzsjxU0Qlq0EkQ
+         GjLfO3ooC4txZ5z3rcpSCsYw8JUTDKdYZCjHQDdxQBe2jbCKNGXd0kjBiIdaeVhRj7u6
+         E8O4nNEcOB7CqaqmOWvXFsVRyGU2mbE8Dv5hbrF6DbtFtjZKQCymjXVGvRvraiLke6gc
+         QCbiyxh24KaK4z2zQkKbYrG0lBvpKLOSHGTPBc5gB6YHcYe3jsNf9WZ7oIPjtYV8tO+5
+         40qQ==
+X-Gm-Message-State: AOJu0YxRir1uun/kJv+FAygqgHzDHhoZ4Ku1R0n9DeLjAdUbIBg7VyeL
+	jnShbRTmnmKmnq1eAqmPKnE=
+X-Google-Smtp-Source: AGHT+IHdj4hWI9QDZoRoom2rrLFcswJC3qktGs2uGiXeoRIN1FIsvldczfAxcufpP2JJo8ppli4oew==
+X-Received: by 2002:a17:903:2441:b0:1c3:61d9:2b32 with SMTP id l1-20020a170903244100b001c361d92b32mr27275201pls.45.1697183192202;
+        Fri, 13 Oct 2023 00:46:32 -0700 (PDT)
+Received: from Negi ([68.181.16.134])
+        by smtp.gmail.com with ESMTPSA id bj3-20020a170902850300b001c61512f2a6sm3175383plb.220.2023.10.13.00.46.31
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 12 Oct 2023 23:52:53 -0700 (PDT)
-Date: Fri, 13 Oct 2023 09:52:50 +0300
-From: Calvince Otieno <calvncce@gmail.com>
-To: outreachy@lists.linux.dev, linux-kernel@vger.kernel.org
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Luke Koch <lu.ale.koch@gmail.com>,
-	Bagas Sanjaya <bagasdotme@gmail.com>,
-	Simon Horman <horms@kernel.org>,
-	Calvince Otieno <calvncce@gmail.com>, linux-staging@lists.linux.dev,
+        Fri, 13 Oct 2023 00:46:31 -0700 (PDT)
+Date: Fri, 13 Oct 2023 00:46:31 -0700
+From: Soumya Negi <soumya.negi97@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Micky Ching <micky_ching@realsil.com.cn>
+Cc: outreachy@lists.linux.dev, linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH] staging: wlan-ng: remove unused functions
-Message-ID: <ZSjpQlUcyOoYv4Yh@lab-ubuntu>
+Subject: Re: [PATCH 0/2] staging: rts5208: Fix checkpatch macro warnings
+Message-ID: <20231013074630.GB13814@Negi>
+References: <cover.1697113047.git.soumya.negi97@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -59,41 +59,28 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <cover.1697113047.git.soumya.negi97@gmail.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 
-The following functions were defined in the prism2mgmt.h file but neither
-declared nor used anywhere. It is recommended that they be removed.
+On Thu, Oct 12, 2023 at 05:50:21AM -0700, Soumya Negi wrote:
+> In the driver staging/rts5208, checkpatch.pl warns of possible precedence 
+> issues in the header rtsx.h because macro arguments are not parenthesized.
+> This patch set handles the respective macros differently(as needed) in 
+> each patch to fix the warnings. Patches can be applied in any order.
+> 
+> Soumya Negi (2):
+>   staging: rts5208: Refactor macros to static inline functions
+>   staging: rts5208: Remove macros scsi_lock(), scsi_unlock()
+> 
+>  drivers/staging/rts5208/rtsx.c | 24 ++++++-------
+>  drivers/staging/rts5208/rtsx.h | 66 ++++++++++++++++++++--------------
+>  2 files changed, 52 insertions(+), 38 deletions(-)
 
-	- void prism2mgmt_get_grpaddr(u32 did, struct p80211pstrd *pstr,
-				      struct hfa384x *priv);
-	- int prism2mgmt_set_grpaddr(u32 did,
-		                   u8 *prism2buf, struct p80211pstrd *pstr,
-	                           struct hfa384x *priv);
-	- int prism2mgmt_get_grpaddr_index(u32 did);
+Please ignore this patch set. Its incomplete & the rest of the patches
+were not sent successfully. I have successfuly resent the complete 
+patchset(unchanged) as v2 with an explanation after --- in the cover patch.
 
-Signed-off-by: Calvince Otieno <calvncce@gmail.com>
----
- drivers/staging/wlan-ng/prism2mgmt.h | 8 --------
- 1 file changed, 8 deletions(-)
 
-diff --git a/drivers/staging/wlan-ng/prism2mgmt.h b/drivers/staging/wlan-ng/prism2mgmt.h
-index 083a055ee986..8c3f1ac35913 100644
---- a/drivers/staging/wlan-ng/prism2mgmt.h
-+++ b/drivers/staging/wlan-ng/prism2mgmt.h
-@@ -78,14 +78,6 @@ void prism2mgmt_pstr2bytestr(struct hfa384x_bytestr *bytestr,
- void prism2mgmt_bytestr2pstr(struct hfa384x_bytestr *bytestr,
- 			     struct p80211pstrd *pstr);
- 
--/* functions to convert Group Addresses */
--void prism2mgmt_get_grpaddr(u32 did, struct p80211pstrd *pstr,
--			    struct hfa384x *priv);
--int prism2mgmt_set_grpaddr(u32 did,
--			   u8 *prism2buf, struct p80211pstrd *pstr,
--			   struct hfa384x *priv);
--int prism2mgmt_get_grpaddr_index(u32 did);
--
- void prism2sta_processing_defer(struct work_struct *data);
- 
- void prism2sta_commsqual_defer(struct work_struct *data);
--- 
-Calvince Otieno
-
+> -- 
+> 2.17.1
+> 
