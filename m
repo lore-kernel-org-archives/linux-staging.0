@@ -1,310 +1,99 @@
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B06263DC;
-	Fri, 13 Oct 2023 10:42:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F26063DC
+	for <linux-staging@lists.linux.dev>; Fri, 13 Oct 2023 10:44:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Z4aMb6cd"
-Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-32003aae100so2048057f8f.0;
-        Fri, 13 Oct 2023 03:42:31 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="wdTqKyhS"
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-4054f790190so22440425e9.2
+        for <linux-staging@lists.linux.dev>; Fri, 13 Oct 2023 03:44:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1697193750; x=1697798550; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=Iqm6kUyRRlnkxoYetnLvUoj6TjUJCq4Ji7eQioxPBIM=;
-        b=Z4aMb6cdjqYRhAuYV900pVIZBPMjM1q1W54Xt264ZTy5m9qbUl4xQir1r2sa3iGFiW
-         FeIBtDN7lm6KmlrX/p2PFvoOlrLUTjMIwvXl8+8LWShdr+nbfWo/GKx/J0AcCnyfY2y3
-         6lVtG5zUgk9A9Z6WU4lX3twiOz1wI+lwZLQTPpV7SMRaUqaN/RFhUpeCSkZZ3m51cEgZ
-         BueFUnxmu4BANF9nYVkcogR2ci9xpoFZcrLf5rnAc35uDqs+tpLtA5JP6p3KWQQAh4DK
-         p2722BH+Br7d3BX0EMvLuLmOrCxo3M1h0rTetY57oiZmdD2qqEBErwYyVF+51YjBGuCS
-         uMkg==
+        d=linaro.org; s=google; t=1697193886; x=1697798686; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=XCTYo1QvPgr9D8OOo/ac1BFS2ndiObZ+hWV0ZomsWcE=;
+        b=wdTqKyhSvCOiVrDL5PCL6VvZQ/2b/NqQGhrFWcM+H7znx13O/COeKKS11m8wvdTZDl
+         LwFZMBOl+4jBLdtEscMhOi0Bc46V61Y4N2LyF5c8IgTS9JyLqYOTxfrsTD1jG6y2mLvw
+         HKqoqrqrlOjvJNzhSbU6H+F9P7AeePEN/2MU4o9Fk1p2BhIz6Vsoqg/i3n0HfRR0hXvx
+         HBOdW4LeMJETE/1ORpuf/+LIPqo2IdCeNdiFf8ApPJ+uAsNLKhJpId8Ciu8Ecj+JNjKs
+         S7lgHSuMKF2oR/TTn2/MzOIOf4uqHmJWBptRWIAy3zMPcZ2xJI3bNeRV/Jh5gh5cqR2A
+         jtBQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697193750; x=1697798550;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Iqm6kUyRRlnkxoYetnLvUoj6TjUJCq4Ji7eQioxPBIM=;
-        b=ugaS8kmzrQD3gnJV7xA6Jo25NVybQo0AI4/Ls0O4EMEPQ2SfK+KNrhCQ05YbcKUL7r
-         xGFZGJn9bvjVxesd8dEEcarDeOCNh9FzqhijTgzXzbbcxWWZZo1cU4Ef562imgHSfAxw
-         U6JY4nyRVUl8wTJ6haBLp0sWlfU0C2LNNCVULowj1tSSqonLxbMgZ//fLI293q9bSOCy
-         rb16EMuO2HI9awiKwSnJdeGvmaZTWBTVdondIj7CKi6umBrebj6Ba7S+2hiQeZIm/zDw
-         yAPbgIDPusUf1BVP7hhpqoypSQa6NNIQezs+oJWwPYfy4r/n+bmyjRlJbbah7/5diZZf
-         B9Dw==
-X-Gm-Message-State: AOJu0YyUbVwdsRJ5oXx47JHXx1mJdudHtMaqO1B/Xh5Treb6ECx+kiIY
-	1m8LrywfiX15fGsuEI3mXA==
-X-Google-Smtp-Source: AGHT+IGtKjDkhX8UTowKlArgTyQIsuNtAthvG1KErb01OkSy12ZviiuvbMU3EBT09Dt3tLyVeShI2Q==
-X-Received: by 2002:adf:ab0f:0:b0:32d:8113:eda3 with SMTP id q15-20020adfab0f000000b0032d8113eda3mr7509783wrc.10.1697193750005;
-        Fri, 13 Oct 2023 03:42:30 -0700 (PDT)
-Received: from dorcaslitunya-virtual-machine.localdomain ([105.163.2.146])
-        by smtp.gmail.com with ESMTPSA id u9-20020a7bc049000000b004063ea92492sm2191882wmc.22.2023.10.13.03.42.27
+        d=1e100.net; s=20230601; t=1697193886; x=1697798686;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=XCTYo1QvPgr9D8OOo/ac1BFS2ndiObZ+hWV0ZomsWcE=;
+        b=REKjZ1Fx4jFbLIyY2W7BbB24ZxJYWqRFT6lbv7MZ6QOo7vMMA+pya27S+o4z2FK4Wb
+         aJghgrDfnV+yHDifH/k0YknMjYhHhB7jkeifmkXIKTXonpK/cxjmOMiJZDpUbp1VvkEd
+         hf7R4fraeLEugYPuWgKeGJ5cyfjsa2HFFUfgRY9K9/BwGa+GbKhc6rqFLAdgA3FYX50j
+         5G5RpOwU/DCcP8+m6+aZIk64wOasBN0LUaNP4FrTxKdh69zL6p1vRBjXDTI5/IVhIhPn
+         4bbR5mC+oOZteNJ3hbpjXppX7MLK2scZ5vybDGjrb+sjFrKT1OJng3MaUoKRp+SOr/Fd
+         3Pmw==
+X-Gm-Message-State: AOJu0YwfGcRE1eC2giAmwqTCfLKcQuyxXEh/6h80bj+aEL88+tjptp9w
+	y38/V5x7E8RjjGlHnk6aDzjdmw==
+X-Google-Smtp-Source: AGHT+IEubGhPXfLRKaMsQ9DF2i292nfBVjTNlhOLd8k2zPnDChgrer6Ha7bPCC/VPK1enKrQ7MnLKQ==
+X-Received: by 2002:adf:eec5:0:b0:319:7134:a3cf with SMTP id a5-20020adfeec5000000b003197134a3cfmr23692272wrp.31.1697193885917;
+        Fri, 13 Oct 2023 03:44:45 -0700 (PDT)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id e2-20020adfe382000000b00327de0173f6sm20515196wrm.115.2023.10.13.03.44.45
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 13 Oct 2023 03:42:29 -0700 (PDT)
-From: Dorcas AnonoLitunya <anonolitunya@gmail.com>
-To: 
-Cc: anonolitunya@gmail.com,
-	outreachy@lists.linux.dev,
-	Sudip Mukherjee <sudipm.mukherjee@gmail.com>,
-	Teddy Wang <teddy.wang@siliconmotion.com>,
+        Fri, 13 Oct 2023 03:44:45 -0700 (PDT)
+Date: Fri, 13 Oct 2023 13:44:42 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Calvince Otieno <calvncce@gmail.com>
+Cc: outreachy@lists.linux.dev, linux-kernel@vger.kernel.org,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-fbdev@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] [PATCH]Staging: sm750fb:Add snakecase naming style
-Date: Fri, 13 Oct 2023 13:42:15 +0300
-Message-ID: <20231013104220.7527-1-anonolitunya@gmail.com>
-X-Mailer: git-send-email 2.42.0.345.gaab89be2eb
+	Luke Koch <lu.ale.koch@gmail.com>,
+	Bagas Sanjaya <bagasdotme@gmail.com>,
+	Simon Horman <horms@kernel.org>, linux-staging@lists.linux.dev
+Subject: Re: [PATCH v5] staging: wlan-ng: replace strncpy() with strscpy()
+Message-ID: <4679268f-63ca-4854-808a-5cb45624167b@kadam.mountain>
+References: <ZSkaIYGqAg5xJakY@lab-ubuntu>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ZSkaIYGqAg5xJakY@lab-ubuntu>
 
-From: Dorcas Anono Litunya <anonolitunya@gmail.com>
+On Fri, Oct 13, 2023 at 01:21:21PM +0300, Calvince Otieno wrote:
+> Checkpatch suggests the use of  strscpy() instead of strncpy().
+> The advantages are that it always adds a NUL terminator and it prevents
+> a read overflow if the src string is not properly terminated.  One
+> potential disadvantage is that it doesn't zero pad the string like
+> strncpy() does.
+> 
+> In this code, strscpy() and strncpy() are equivalent and it does not
+> affect runtime behavior.  The string is zeroed on the line before
+> using memset().  The resulting string was always NUL terminated and
+> PRISM2_USB_FWFILE is string literal "prism2_ru.fw" so it's NUL
+> terminated.
+> 
+> However, even though using strscpy() does not fix any bugs, it's
+> still nicer and makes checkpatch happy.
+> 
+> Signed-off-by: Calvince Otieno <calvncce@gmail.com>
+> ---
+> Patch version v5:
+> 	Removed v1 patch details from the revsion history
 
-Change camelCase variables in file to snake_case for consistent naming
-practices. Issue found by checkpatch.
+This patch doesn't apply correctly.  It has been white space damaged
+for some reason.  Tabs replaced with spaces.  Read
+Documentation/process/email-clients.rst.  Hopefully the first paragraph
+convinces you to just use git to send patchs and you can skip the rest
+of the document.
 
-Signed-off-by: Dorcas Anono Litunya <anonolitunya@gmail.com>
----
- drivers/staging/sm750fb/ddk750_mode.c | 86 +++++++++++++--------------
- drivers/staging/sm750fb/ddk750_mode.h |  2 +-
- drivers/staging/sm750fb/sm750_hw.c    |  2 +-
- 3 files changed, 45 insertions(+), 45 deletions(-)
+I try to catch these sorts of mistakes earlier instead of making you
+send a v6 but I thought the issue was the v1.  Sorry about that.  The
+good news is that now you can delete the extra space character Julia
+mentioned.
 
-diff --git a/drivers/staging/sm750fb/ddk750_mode.c b/drivers/staging/sm750fb/ddk750_mode.c
-index e00a6cb31947..f08dcab29172 100644
---- a/drivers/staging/sm750fb/ddk750_mode.c
-+++ b/drivers/staging/sm750fb/ddk750_mode.c
-@@ -14,13 +14,13 @@
-  * in bit 29:27 of Display Control register.
-  */
- static unsigned long
--displayControlAdjust_SM750LE(struct mode_parameter *pModeParam,
--			     unsigned long dispControl)
-+display_control_adjust_SM750LE(struct mode_parameter *p_mode_param,
-+			       unsigned long disp_control)
- {
- 	unsigned long x, y;
- 
--	x = pModeParam->horizontal_display_end;
--	y = pModeParam->vertical_display_end;
-+	x = p_mode_param->horizontal_display_end;
-+	y = p_mode_param->vertical_display_end;
- 
- 	/*
- 	 * SM750LE has to set up the top-left and bottom-right
-@@ -42,41 +42,41 @@ displayControlAdjust_SM750LE(struct mode_parameter *pModeParam,
- 	 */
- 
- 	/* Clear bit 29:27 of display control register */
--	dispControl &= ~CRT_DISPLAY_CTRL_CLK_MASK;
-+	disp_control &= ~CRT_DISPLAY_CTRL_CLK_MASK;
- 
- 	/* Set bit 29:27 of display control register for the right clock */
- 	/* Note that SM750LE only need to supported 7 resolutions. */
- 	if (x == 800 && y == 600)
--		dispControl |= CRT_DISPLAY_CTRL_CLK_PLL41;
-+		disp_control |= CRT_DISPLAY_CTRL_CLK_PLL41;
- 	else if (x == 1024 && y == 768)
--		dispControl |= CRT_DISPLAY_CTRL_CLK_PLL65;
-+		disp_control |= CRT_DISPLAY_CTRL_CLK_PLL65;
- 	else if (x == 1152 && y == 864)
--		dispControl |= CRT_DISPLAY_CTRL_CLK_PLL80;
-+		disp_control |= CRT_DISPLAY_CTRL_CLK_PLL80;
- 	else if (x == 1280 && y == 768)
--		dispControl |= CRT_DISPLAY_CTRL_CLK_PLL80;
-+		disp_control |= CRT_DISPLAY_CTRL_CLK_PLL80;
- 	else if (x == 1280 && y == 720)
--		dispControl |= CRT_DISPLAY_CTRL_CLK_PLL74;
-+		disp_control |= CRT_DISPLAY_CTRL_CLK_PLL74;
- 	else if (x == 1280 && y == 960)
--		dispControl |= CRT_DISPLAY_CTRL_CLK_PLL108;
-+		disp_control |= CRT_DISPLAY_CTRL_CLK_PLL108;
- 	else if (x == 1280 && y == 1024)
--		dispControl |= CRT_DISPLAY_CTRL_CLK_PLL108;
-+		disp_control |= CRT_DISPLAY_CTRL_CLK_PLL108;
- 	else /* default to VGA clock */
--		dispControl |= CRT_DISPLAY_CTRL_CLK_PLL25;
-+		disp_control |= CRT_DISPLAY_CTRL_CLK_PLL25;
- 
- 	/* Set bit 25:24 of display controller */
--	dispControl |= (CRT_DISPLAY_CTRL_CRTSELECT | CRT_DISPLAY_CTRL_RGBBIT);
-+	disp_control |= (CRT_DISPLAY_CTRL_CRTSELECT | CRT_DISPLAY_CTRL_RGBBIT);
- 
- 	/* Set bit 14 of display controller */
--	dispControl |= DISPLAY_CTRL_CLOCK_PHASE;
-+	disp_control |= DISPLAY_CTRL_CLOCK_PHASE;
- 
--	poke32(CRT_DISPLAY_CTRL, dispControl);
-+	poke32(CRT_DISPLAY_CTRL, disp_control);
- 
--	return dispControl;
-+	return disp_control;
- }
- 
- /* only timing related registers will be  programed */
--static int programModeRegisters(struct mode_parameter *pModeParam,
--				struct pll_value *pll)
-+static int program_mode_registers(struct mode_parameter *p_mode_param,
-+				  struct pll_value *pll)
- {
- 	int ret = 0;
- 	int cnt = 0;
-@@ -86,46 +86,46 @@ static int programModeRegisters(struct mode_parameter *pModeParam,
- 		/* programe secondary pixel clock */
- 		poke32(CRT_PLL_CTRL, sm750_format_pll_reg(pll));
- 
--		tmp = ((pModeParam->horizontal_total - 1) <<
-+		tmp = ((p_mode_param->horizontal_total - 1) <<
- 		       CRT_HORIZONTAL_TOTAL_TOTAL_SHIFT) &
- 		     CRT_HORIZONTAL_TOTAL_TOTAL_MASK;
--		tmp |= (pModeParam->horizontal_display_end - 1) &
-+		tmp |= (p_mode_param->horizontal_display_end - 1) &
- 		      CRT_HORIZONTAL_TOTAL_DISPLAY_END_MASK;
- 
- 		poke32(CRT_HORIZONTAL_TOTAL, tmp);
- 
--		tmp = (pModeParam->horizontal_sync_width <<
-+		tmp = (p_mode_param->horizontal_sync_width <<
- 		       CRT_HORIZONTAL_SYNC_WIDTH_SHIFT) &
- 		     CRT_HORIZONTAL_SYNC_WIDTH_MASK;
--		tmp |= (pModeParam->horizontal_sync_start - 1) &
-+		tmp |= (p_mode_param->horizontal_sync_start - 1) &
- 		      CRT_HORIZONTAL_SYNC_START_MASK;
- 
- 		poke32(CRT_HORIZONTAL_SYNC, tmp);
- 
--		tmp = ((pModeParam->vertical_total - 1) <<
-+		tmp = ((p_mode_param->vertical_total - 1) <<
- 		       CRT_VERTICAL_TOTAL_TOTAL_SHIFT) &
- 		     CRT_VERTICAL_TOTAL_TOTAL_MASK;
--		tmp |= (pModeParam->vertical_display_end - 1) &
-+		tmp |= (p_mode_param->vertical_display_end - 1) &
- 		      CRT_VERTICAL_TOTAL_DISPLAY_END_MASK;
- 
- 		poke32(CRT_VERTICAL_TOTAL, tmp);
- 
--		tmp = ((pModeParam->vertical_sync_height <<
-+		tmp = ((p_mode_param->vertical_sync_height <<
- 		       CRT_VERTICAL_SYNC_HEIGHT_SHIFT)) &
- 		     CRT_VERTICAL_SYNC_HEIGHT_MASK;
--		tmp |= (pModeParam->vertical_sync_start - 1) &
-+		tmp |= (p_mode_param->vertical_sync_start - 1) &
- 		      CRT_VERTICAL_SYNC_START_MASK;
- 
- 		poke32(CRT_VERTICAL_SYNC, tmp);
- 
- 		tmp = DISPLAY_CTRL_TIMING | DISPLAY_CTRL_PLANE;
--		if (pModeParam->vertical_sync_polarity)
-+		if (p_mode_param->vertical_sync_polarity)
- 			tmp |= DISPLAY_CTRL_VSYNC_PHASE;
--		if (pModeParam->horizontal_sync_polarity)
-+		if (p_mode_param->horizontal_sync_polarity)
- 			tmp |= DISPLAY_CTRL_HSYNC_PHASE;
- 
- 		if (sm750_get_chip_type() == SM750LE) {
--			displayControlAdjust_SM750LE(pModeParam, tmp);
-+			display_control_adjust_SM750LE(p_mode_param, tmp);
- 		} else {
- 			reg = peek32(CRT_DISPLAY_CTRL) &
- 				~(DISPLAY_CTRL_VSYNC_PHASE |
-@@ -140,40 +140,40 @@ static int programModeRegisters(struct mode_parameter *pModeParam,
- 
- 		poke32(PANEL_PLL_CTRL, sm750_format_pll_reg(pll));
- 
--		reg = ((pModeParam->horizontal_total - 1) <<
-+		reg = ((p_mode_param->horizontal_total - 1) <<
- 			PANEL_HORIZONTAL_TOTAL_TOTAL_SHIFT) &
- 			PANEL_HORIZONTAL_TOTAL_TOTAL_MASK;
--		reg |= ((pModeParam->horizontal_display_end - 1) &
-+		reg |= ((p_mode_param->horizontal_display_end - 1) &
- 			PANEL_HORIZONTAL_TOTAL_DISPLAY_END_MASK);
- 		poke32(PANEL_HORIZONTAL_TOTAL, reg);
- 
- 		poke32(PANEL_HORIZONTAL_SYNC,
--		       ((pModeParam->horizontal_sync_width <<
-+		       ((p_mode_param->horizontal_sync_width <<
- 			 PANEL_HORIZONTAL_SYNC_WIDTH_SHIFT) &
- 			PANEL_HORIZONTAL_SYNC_WIDTH_MASK) |
--		       ((pModeParam->horizontal_sync_start - 1) &
-+		       ((p_mode_param->horizontal_sync_start - 1) &
- 			PANEL_HORIZONTAL_SYNC_START_MASK));
- 
- 		poke32(PANEL_VERTICAL_TOTAL,
--		       (((pModeParam->vertical_total - 1) <<
-+		       (((p_mode_param->vertical_total - 1) <<
- 			 PANEL_VERTICAL_TOTAL_TOTAL_SHIFT) &
- 			PANEL_VERTICAL_TOTAL_TOTAL_MASK) |
--		       ((pModeParam->vertical_display_end - 1) &
-+		       ((p_mode_param->vertical_display_end - 1) &
- 			PANEL_VERTICAL_TOTAL_DISPLAY_END_MASK));
- 
- 		poke32(PANEL_VERTICAL_SYNC,
--		       ((pModeParam->vertical_sync_height <<
-+		       ((p_mode_param->vertical_sync_height <<
- 			 PANEL_VERTICAL_SYNC_HEIGHT_SHIFT) &
- 			PANEL_VERTICAL_SYNC_HEIGHT_MASK) |
--		       ((pModeParam->vertical_sync_start - 1) &
-+		       ((p_mode_param->vertical_sync_start - 1) &
- 			PANEL_VERTICAL_SYNC_START_MASK));
- 
- 		tmp = DISPLAY_CTRL_TIMING | DISPLAY_CTRL_PLANE;
--		if (pModeParam->vertical_sync_polarity)
-+		if (p_mode_param->vertical_sync_polarity)
- 			tmp |= DISPLAY_CTRL_VSYNC_PHASE;
--		if (pModeParam->horizontal_sync_polarity)
-+		if (p_mode_param->horizontal_sync_polarity)
- 			tmp |= DISPLAY_CTRL_HSYNC_PHASE;
--		if (pModeParam->clock_phase_polarity)
-+		if (p_mode_param->clock_phase_polarity)
- 			tmp |= DISPLAY_CTRL_CLOCK_PHASE;
- 
- 		reserved = PANEL_DISPLAY_CTRL_RESERVED_MASK |
-@@ -207,7 +207,7 @@ static int programModeRegisters(struct mode_parameter *pModeParam,
- 	return ret;
- }
- 
--int ddk750_setModeTiming(struct mode_parameter *parm, enum clock_type clock)
-+int ddk750_set_mode_timing(struct mode_parameter *parm, enum clock_type clock)
- {
- 	struct pll_value pll;
- 
-@@ -220,6 +220,6 @@ int ddk750_setModeTiming(struct mode_parameter *parm, enum clock_type clock)
- 		outb_p(0x88, 0x3d4);
- 		outb_p(0x06, 0x3d5);
- 	}
--	programModeRegisters(parm, &pll);
-+	program_mode_registers(parm, &pll);
- 	return 0;
- }
-diff --git a/drivers/staging/sm750fb/ddk750_mode.h b/drivers/staging/sm750fb/ddk750_mode.h
-index 2df78a0937b2..1b70885f85e5 100644
---- a/drivers/staging/sm750fb/ddk750_mode.h
-+++ b/drivers/staging/sm750fb/ddk750_mode.h
-@@ -33,5 +33,5 @@ struct mode_parameter {
- 	enum spolarity clock_phase_polarity;
- };
- 
--int ddk750_setModeTiming(struct mode_parameter *parm, enum clock_type clock);
-+int ddk750_set_mode_timing(struct mode_parameter *parm, enum clock_type clock);
- #endif
-diff --git a/drivers/staging/sm750fb/sm750_hw.c b/drivers/staging/sm750fb/sm750_hw.c
-index 71247eaf26ee..4bc89218c11c 100644
---- a/drivers/staging/sm750fb/sm750_hw.c
-+++ b/drivers/staging/sm750fb/sm750_hw.c
-@@ -305,7 +305,7 @@ int hw_sm750_crtc_setMode(struct lynxfb_crtc *crtc,
- 		clock = SECONDARY_PLL;
- 
- 	pr_debug("Request pixel clock = %lu\n", modparm.pixel_clock);
--	ret = ddk750_setModeTiming(&modparm, clock);
-+	ret = ddk750_set_mode_timing(&modparm, clock);
- 	if (ret) {
- 		pr_err("Set mode timing failed\n");
- 		goto exit;
--- 
-2.42.0.345.gaab89be2eb
+regards,
+dan carpenter
 
