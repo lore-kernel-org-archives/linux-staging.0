@@ -1,99 +1,80 @@
-Received: from mail-pg1-f178.google.com (mail-pg1-f178.google.com [209.85.215.178])
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED88F15E95;
-	Fri, 13 Oct 2023 13:28:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6FB110952
+	for <linux-staging@lists.linux.dev>; Fri, 13 Oct 2023 14:43:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DE+0a36S"
-Received: by mail-pg1-f178.google.com with SMTP id 41be03b00d2f7-5a9bc2ec556so658081a12.0;
-        Fri, 13 Oct 2023 06:28:40 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ew5IgqwS"
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-405e48d8e72so5560595e9.0
+        for <linux-staging@lists.linux.dev>; Fri, 13 Oct 2023 07:43:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1697203720; x=1697808520; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
+        d=gmail.com; s=20230601; t=1697208220; x=1697813020; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:to:from:date
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=nu1H4LZBKYsS6+OEzpbpZBdBf+RzObohI0qR4WVPoqc=;
-        b=DE+0a36SXKQD3Iy/IHmRK+DDY9lrVAoGQRbIawkaDX+0QQqpbku+ZoBTUmviv6HHw4
-         KyayOqEuyrDS2fjpdI5GNvLXc4YxreSJLQHZkRmopkPKqqxvm0WynNo+rj7EmmtLmJn8
-         VyWOv/Aatc6rM9ukwCmmn+dmhm5XGKwkyGYcpFqEGaum7kKez8RlJDQe326Pn2fUNTf7
-         G8ksuFvT2Ix6xVVs1wQEtaT3xyv7pO5TwXT7UXNKGoHc/X0/72hcCrliOqS4y+Gt0Am3
-         sIWrWNuaanfLsSDJFx9BE1ybIZmVySmqDQHz5pNPeS8kZgtohlipbjbMwh+CDf91bGYS
-         8z2g==
+        bh=aG00PdL+ABV3Jv6f2eYnPmx4jdva3XIyRSs1GmjeDRM=;
+        b=Ew5IgqwSAEGKVPEuT8MtiKI3JiK5EBqyGW4zEWcePDek7qA9nuFQSox3+B1cqqArAl
+         Eaf7W8PlbKoT7bHynexwDBK9rlgaIUzACxx/3v3auP6zjZZ8AQL9fZk89qKaT+DBQQz9
+         yICgdTwQHalgsz+NKERnCoJmkwz2MzKGrJjSXqjVBXvjConmOjpJAdI1+QmX+GMxB68t
+         qbwlqk+/bHQiPf3yzY9C43OJvL7HApfb4kBRirBmHOVgjPG/RkE+hjSxPVAOmwRoHrLN
+         VZWDWHo/CKcqQZZtyym35vBFEr4OiHjxBhZw5S4MEQZ1b2Hz2fvxG5pfS2jxz8xrMOI1
+         Z7Hw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697203720; x=1697808520;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
+        d=1e100.net; s=20230601; t=1697208220; x=1697813020;
+        h=content-disposition:mime-version:message-id:subject:to:from:date
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=nu1H4LZBKYsS6+OEzpbpZBdBf+RzObohI0qR4WVPoqc=;
-        b=PRccDUwI3T9tLUIFnLRqkyFcuKuVnxI6OCE1R53XsbqrgNkCF1TslnD6XzO16d8vOu
-         IAYhqiBks1yQRrnvj6/UA346QCAoc97Uw3flBQGzlmPvV8vxpdVJU1aQctsOkz5HJ1XA
-         XdLTiMHaZbscbLnCcg1dcyWSvSdowRUGA5EccPTFIzdIvBQSgJRWXJM1pGNNJHz0Ik/F
-         p1DqjMkbx1BKx3w2f9y8lrCZqi964mXAI31UnRDoby66T8afVrk1m1B0N6L7yqgVhNsF
-         748rYdc0YiRz9II3Myv00Z1vTKF4QoPPADvASbBRx0fY74R9NkaRPWvSkb3bGbI62/0j
-         HkbA==
-X-Gm-Message-State: AOJu0YyDl3zHGDNfw3ykCixeLxVhAWNu8HXjEJPbTGbVojFyQMIckqeH
-	D+ULIVxdPzTpEU+CK62oqYY=
-X-Google-Smtp-Source: AGHT+IEJYovCWvXgqaaiHkZHtiuMbMUnM92EYMOFfSzfvM9khXLAwSVNGYupln1fYCNkdGfuH3CsIg==
-X-Received: by 2002:a17:90a:b00a:b0:268:3b8b:140d with SMTP id x10-20020a17090ab00a00b002683b8b140dmr21495491pjq.35.1697203719841;
-        Fri, 13 Oct 2023 06:28:39 -0700 (PDT)
-Received: from [192.168.0.106] ([103.131.18.64])
-        by smtp.gmail.com with ESMTPSA id 29-20020a17090a1a5d00b0027d0de51454sm94071pjl.19.2023.10.13.06.28.36
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 13 Oct 2023 06:28:39 -0700 (PDT)
-Message-ID: <05a668db-118c-4568-b2cf-49febb04a6d2@gmail.com>
-Date: Fri, 13 Oct 2023 20:28:30 +0700
+        bh=aG00PdL+ABV3Jv6f2eYnPmx4jdva3XIyRSs1GmjeDRM=;
+        b=MEnB2rt9SuHE22g4GVsYR4P+UWwUbOml5AIKBB9FuMo2Of/pwNHMnP30iHZdhd59WL
+         0xMj7KodexvJZE0uqbNm2uRpE8zY9GflaBM63RUuDJjJyWOS/ClpIXWm7BMugEWSyUiB
+         33BTn04xWfaTCF9TCxNA2TTY/ScaDCrM3DA+8NDzbrnEqMcxQhUUIDfSltKE0OrsG0q3
+         E3B+WPR5yBo7FUDW7MuazGrCcSYCK+SUKVuJTSvsL1H4dTXItFfOsNSboDkYABYVQuC9
+         WSULMio/YX2DhVRnr3NLBZjzuUksTiVZ30B8ooHD6By5zthOQ9uynKJ9heIJz3stUYa2
+         qY1g==
+X-Gm-Message-State: AOJu0Yy5qRSPCusJ5OB02gCoaDsJgdRHWHievfoV3TSwgy58Mq8i/sJR
+	zfKZVRPKl8ahgvYl4hJ5Qt6murkm3Dk=
+X-Google-Smtp-Source: AGHT+IFZHMYoZSSUtr3q6NTzx3Uiw4NKh8ZutBAl4ivgaTx+RZn/TD04HA2nWIBGiwIEO6YIsyBkSQ==
+X-Received: by 2002:a05:600c:1d18:b0:404:72f9:d59a with SMTP id l24-20020a05600c1d1800b0040472f9d59amr24407294wms.0.1697208219797;
+        Fri, 13 Oct 2023 07:43:39 -0700 (PDT)
+Received: from matrix-ESPRIMO-P710 (p579356c7.dip0.t-ipconnect.de. [87.147.86.199])
+        by smtp.gmail.com with ESMTPSA id bg21-20020a05600c3c9500b004053e9276easm317825wmb.32.2023.10.13.07.43.39
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 13 Oct 2023 07:43:39 -0700 (PDT)
+Date: Fri, 13 Oct 2023 16:43:37 +0200
+From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: [PATCH 0/6] staging: rtl8192e: Remove unchanged variable
+ dig_enable_flag
+Message-ID: <cover.1697127817.git.philipp.g.hortmann@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6] staging: wlan-ng: replace strncpy() with strscpy()
-To: Dan Carpenter <dan.carpenter@linaro.org>,
- Calvince Otieno <calvncce@gmail.com>
-Cc: outreachy@lists.linux.dev, linux-kernel@vger.kernel.org,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Luke Koch <lu.ale.koch@gmail.com>, Simon Horman <horms@kernel.org>,
- linux-staging@lists.linux.dev
-References: <ZSkm34Sy/n2yxBqi@lab-ubuntu>
- <ce6c3d81-d75d-40e7-a6df-7abd4e8250a5@kadam.mountain>
-Content-Language: en-US
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-In-Reply-To: <ce6c3d81-d75d-40e7-a6df-7abd4e8250a5@kadam.mountain>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On 13/10/2023 18:19, Dan Carpenter wrote:
-> On Fri, Oct 13, 2023 at 02:15:43PM +0300, Calvince Otieno wrote:
->> Checkpatch suggests the use of strscpy() instead of strncpy().
->> The advantages are that it always adds a NUL terminator and it prevents
->> a read overflow if the src string is not properly terminated. One
->> potential disadvantage is that it doesn't zero pad the string like
->> strncpy() does.
->> In this code, strscpy() and strncpy() are equivalent and it does not
->> affect runtime behavior. The string is zeroed on the line before
->> using memset(). The resulting string was always NUL terminated and
->> PRISM2_USB_FWFILE is string literal "prism2_ru.fw" so it's NUL
->> terminated.
->> However, even though using strscpy() does not fix any bugs, it's
->> still nicer and makes checkpatch happy.
->>
->> Signed-off-by: Calvince Otieno <calvncce@gmail.com>
->> ---
-> 
-> It's still white space damaged and can't apply.  :/  Try save the email
-> and do `cat raw_email.txt | patch -p1`.
-> 
+Remove dead code leftover from previous patches.
 
-And better yet, use git-send-email(1) to send patches. But don't rush,
-as you have sent five versions of this patch today. Please wait for a day
-to a week and then reroll.
+Tested with rtl8192e (WLL6130-D99) in Mode n (12.5 MB/s)
+Transferred this patch over wlan connection of rtl8192e.
 
-Thanks.
+Philipp Hortmann (6):
+  staging: rtl8192e: Remove unchanged variable dig_enable_flag
+  staging: rtl8192e: Remove unchanged variable dig_algorithm
+  staging: rtl8192e: Remove
+    _rtl92e_dm_ctrl_initgain_byrssi_false_alarm()
+  staging: rtl8192e: Remove unchanged variable dig_algorithm_switch
+  staging: rtl8192e: Remove unused variable dig_state
+  staging: rtl8192e: Remove unused enums dm_dig_sta and dm_dig_alg
+
+ .../staging/rtl8192e/rtl8192e/r8192E_phy.c    |  11 --
+ drivers/staging/rtl8192e/rtl8192e/rtl_dm.c    | 156 +-----------------
+ drivers/staging/rtl8192e/rtl8192e/rtl_dm.h    |  25 ---
+ 3 files changed, 1 insertion(+), 191 deletions(-)
 
 -- 
-An old man doll... just what I always wanted! - Clara
+2.42.0
 
