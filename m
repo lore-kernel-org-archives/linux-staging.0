@@ -1,58 +1,58 @@
-Received: from mail-ot1-f54.google.com (mail-ot1-f54.google.com [209.85.210.54])
+Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com [209.85.216.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47A22360
-	for <linux-staging@lists.linux.dev>; Fri, 13 Oct 2023 00:29:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 407765695;
+	Fri, 13 Oct 2023 05:15:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ER0Tw76d"
-Received: by mail-ot1-f54.google.com with SMTP id 46e09a7af769-6c4b9e09528so996901a34.3
-        for <linux-staging@lists.linux.dev>; Thu, 12 Oct 2023 17:29:58 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="K140uhdV"
+Received: by mail-pj1-f46.google.com with SMTP id 98e67ed59e1d1-27d1aee5aa1so1287487a91.0;
+        Thu, 12 Oct 2023 22:15:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1697156997; x=1697761797; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1697174116; x=1697778916; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=lQmNkjrmwzSWWtINLY7udYjqrYfBzZUq+RBDqd2xGCI=;
-        b=ER0Tw76d2W+2YKkLzl2pQkN7AokxpYAyD5bPrsKgdW7HAsL99/QGhktgWenX7V9/+L
-         9q83ivGqUWApjNpXfLw6Ehxk9wWXVfmG7ao7NImJZ5MvpMIMBugdmq2UCz+K03M/6h8N
-         yWqzc3KInil11RzB41KA09NFaLJRy36bwhICg2MEfQDkTFSRLvM+B29mPD5AZm/dEQRG
-         4nyM66A3zZflF2TOZFmvpeIZqvLgz8giXh6zEkAtK734TwxbmsFkpnmBBjm8HpaWdAOx
-         qBU06X9Gy5C3Zzg2fUCtenpFKeVQiHNH16vuHsDCpzXv63YGxgivh1TctFre8IeP8NHn
-         OKsA==
+        bh=iKjEcIigmoEinaPG1JriR5J2v44jnRnKiYDnkmhOFmI=;
+        b=K140uhdViI7v++FLgHyiuMUIe+NmzdDu2dwq1gnii8cKXJH0AmnTM1zcyuTR6gyz+r
+         gGVgY2HddctECFI54dhAjQIz6YIRz/LexQdI7gaodNhmWUHxyNFXpBC3+NUB9f0jkqFD
+         tFNzWHuIn3Np5nIxHQw6zp2a0gX566F2mLUeJZl9ntnPXHgTBQaVEXEavEhM+p54BAPw
+         YXedYnwsro/kYYDQwzfdlgQxD0sTWa/Mswjsffud2FZis9gBzrtoAqD57hdrqqt65YW6
+         vYLbAM4ebjErF9yjDQPgkqtzqK/GcLUBHNqYl/wftI0y+9p0A89Z75u6jvCs9QfjgpOO
+         n1Mg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697156997; x=1697761797;
+        d=1e100.net; s=20230601; t=1697174116; x=1697778916;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=lQmNkjrmwzSWWtINLY7udYjqrYfBzZUq+RBDqd2xGCI=;
-        b=Uo5cyIMlkHqKFXqfGhaMih+7qOgvbfOPzzJTTtWgbKV1DMMX7aIlsqCBz9j0Mx9yTS
-         pO2ZCENkMi8lNL5zVdGa2Z6AmKo+6e+5CmNl6MLXlqo1DJqhn3MuPRYIzGYFGHUzHsLg
-         XezbAP3kDTXbxzG4KYHSuaBCV6YjqKYhdydl9otxybsVPTvT+meH109ico/Ez54xdqCf
-         2Cz9yyz3mlHp7G9AZ7HqipckMpMILYakTNXzdM9lbZXE1CuaN4eBaG/7roun1SXMcRyl
-         YuZQXZCsHUpF4TL/ZZhEJERAa3CnmbAkmm4eW+WUBdyt/TmeDIfBaASYFUO3gqNvs4fD
-         ZQVA==
-X-Gm-Message-State: AOJu0YzhgxV+44BP6eRSri/D7fv8ms2Yhxtdx4UVY9J1Pkknp2sCNGYF
-	nws1Ols3xZ9E1veyfqoyIK0=
-X-Google-Smtp-Source: AGHT+IHs/6Ft6mMQZfzxCiHDp+QEX5s5zVr189dmmR67U2GauD6CP6SPrr3l2DlwamQXKCb6X8eBAw==
-X-Received: by 2002:a05:6830:164a:b0:6bf:12:5189 with SMTP id h10-20020a056830164a00b006bf00125189mr26629234otr.26.1697156997185;
-        Thu, 12 Oct 2023 17:29:57 -0700 (PDT)
-Received: from localhost.localdomain ([2804:1b2:f182:ece3:38de:3ac4:3149:fe7b])
-        by smtp.gmail.com with ESMTPSA id 4-20020aa79104000000b0069305627491sm12229891pfh.159.2023.10.12.17.29.54
+        bh=iKjEcIigmoEinaPG1JriR5J2v44jnRnKiYDnkmhOFmI=;
+        b=hBFv/yGpONZIEsoVitifnyUHBvrkpyYgHlhPFA7GUwROF5MbSK4C9q0Zj15hDtoaag
+         yOGxz7Fc/V23mHALe7ikJNrK7OhvoEjJi1aoyf/k+/0V7mAHB1yWfrE/0RZ4uz578NXK
+         rS53dYp+ETnXOj31gjMRd84WmCf2kzlAcnSmeMEW1ejZCRGHCG6ojOzWbCZ70HwQWx45
+         Pc/1r1SI4R9qr/4szsuugTLuybmXoahUMvGiYM0BJL4SnyDR6GxBifKyc6ksiI/MU3Qh
+         dd2wLSZj9dIfUCeBesx0D40194F47JhD+h1SEOYAnLMPO15v6POlid/nxwwZ8PNrtEoC
+         SCuw==
+X-Gm-Message-State: AOJu0Yynj7Fdev6UL9R3Fgp5LwUHt/Ovu4FwNSfKshp0kOjGW/yrPNEO
+	KX/BAT0g5S5Wl/Hb6vSxgSA=
+X-Google-Smtp-Source: AGHT+IFIHVjDl5w8kCEUBtP2Sx7CTrSrJc97kJKWwdh4nhqH433WOlxPmQnOji0VmPUs6XFnCFSY9w==
+X-Received: by 2002:a17:90b:3758:b0:27d:306d:71cb with SMTP id ne24-20020a17090b375800b0027d306d71cbmr2752325pjb.10.1697174116459;
+        Thu, 12 Oct 2023 22:15:16 -0700 (PDT)
+Received: from Negi ([68.181.16.134])
+        by smtp.gmail.com with ESMTPSA id gp14-20020a17090adf0e00b00276cb03a0e9sm2697459pjb.46.2023.10.12.22.15.15
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 12 Oct 2023 17:29:56 -0700 (PDT)
-From: Edson Juliano Drosdeck <edson.drosdeck@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: hdegoede@redhat.com,
-	Larry.Finger@lwfinger.net,
-	ruanjinjie@huawei.com,
+        Thu, 12 Oct 2023 22:15:15 -0700 (PDT)
+From: Soumya Negi <soumya.negi97@gmail.com>
+To: Jonathan Kim <jonathankim@gctsemi.com>,
+	Dean ahn <deanahn@gctsemi.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Soumya Negi <soumya.negi97@gmail.com>,
+	outreachy@lists.linux.dev,
 	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	edson.drosdeck@gmail.com
-Subject: [PATCH] staging: rtl8723bs: Remove unnecessary bracks
-Date: Thu, 12 Oct 2023 21:29:44 -0300
-Message-Id: <20231013002944.14607-1-edson.drosdeck@gmail.com>
-X-Mailer: git-send-email 2.39.2
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] tty: gdm724x: Fix coding style checkpatch warnings
+Date: Thu, 12 Oct 2023 22:14:58 -0700
+Message-ID: <20231013051502.9578-1-soumya.negi97@gmail.com>
+X-Mailer: git-send-email 2.42.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -61,45 +61,37 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Warning found by checkpatch.pl script.Remove bracks than are not necessary for
-a single statement blocks in hal/odm.c
+Add blank line after declaration & match alignment with open parenthesis.
+Issue found by checkpatch.pl
 
-Signed-off-by: Edson Juliano Drosdeck <edson.drosdeck@gmail.com>
+Signed-off-by: Soumya Negi <soumya.negi97@gmail.com>
 ---
- drivers/staging/rtl8723bs/hal/odm.c | 9 +++------
- 1 file changed, 3 insertions(+), 6 deletions(-)
+ drivers/staging/gdm724x/gdm_tty.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/staging/rtl8723bs/hal/odm.c b/drivers/staging/rtl8723bs/hal/odm.c
-index ea3b4cd32360..b1397990680f 100644
---- a/drivers/staging/rtl8723bs/hal/odm.c
-+++ b/drivers/staging/rtl8723bs/hal/odm.c
-@@ -417,13 +417,11 @@ static void odm_RefreshRateAdaptiveMaskCE(struct dm_odm_t *pDM_Odm)
- 	u8 i;
- 	struct adapter *padapter =  pDM_Odm->Adapter;
+diff --git a/drivers/staging/gdm724x/gdm_tty.c b/drivers/staging/gdm724x/gdm_tty.c
+index 32b2e817ff04..0c61eaff6122 100644
+--- a/drivers/staging/gdm724x/gdm_tty.c
++++ b/drivers/staging/gdm724x/gdm_tty.c
+@@ -160,6 +160,7 @@ static ssize_t gdm_tty_write(struct tty_struct *tty, const u8 *buf, size_t len)
  
--	if (padapter->bDriverStopped) {
-+	if (padapter->bDriverStopped)
- 		return;
--	}
+ 	while (remain) {
+ 		size_t sending_len = min_t(size_t, MUX_TX_MAX_SIZE, remain);
++
+ 		gdm->tty_dev->send_func(gdm->tty_dev->priv_dev,
+ 					(void *)(buf + sent_len),
+ 					sending_len,
+@@ -271,8 +272,8 @@ int register_lte_tty_driver(void)
+ 	int ret;
  
--	if (!pDM_Odm->bUseRAMask) {
-+	if (!pDM_Odm->bUseRAMask)
- 		return;
--	}
- 
- 	for (i = 0; i < ODM_ASSOCIATE_ENTRY_NUM; i++) {
- 		PSTA_INFO_T pstat = pDM_Odm->pODM_StaInfo[i];
-@@ -461,9 +459,8 @@ static void odm_RefreshRateAdaptiveMaskCE(struct dm_odm_t *pDM_Odm)
- static void odm_RefreshRateAdaptiveMask(struct dm_odm_t *pDM_Odm)
- {
- 
--	if (!(pDM_Odm->SupportAbility & ODM_BB_RA_MASK)) {
-+	if (!(pDM_Odm->SupportAbility & ODM_BB_RA_MASK))
- 		return;
--	}
- 	odm_RefreshRateAdaptiveMaskCE(pDM_Odm);
- }
+ 	for (i = 0; i < TTY_MAX_COUNT; i++) {
+-		tty_driver = tty_alloc_driver(GDM_TTY_MINOR,
+-				TTY_DRIVER_REAL_RAW | TTY_DRIVER_DYNAMIC_DEV);
++		tty_driver = tty_alloc_driver(GDM_TTY_MINOR, TTY_DRIVER_REAL_RAW |
++					      TTY_DRIVER_DYNAMIC_DEV);
+ 		if (IS_ERR(tty_driver))
+ 			return PTR_ERR(tty_driver);
  
 -- 
-2.39.2
+2.42.0
 
