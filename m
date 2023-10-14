@@ -1,57 +1,58 @@
-Received: from mail-yw1-f180.google.com (mail-yw1-f180.google.com [209.85.128.180])
+Received: from mail-yb1-f177.google.com (mail-yb1-f177.google.com [209.85.219.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAF931C27;
-	Sat, 14 Oct 2023 07:39:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CCBF5681;
+	Sat, 14 Oct 2023 07:50:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="F7PKl/SB"
-Received: by mail-yw1-f180.google.com with SMTP id 00721157ae682-5a7d532da4bso35722907b3.2;
-        Sat, 14 Oct 2023 00:39:44 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Z1iWzz0U"
+Received: by mail-yb1-f177.google.com with SMTP id 3f1490d57ef6-d8164e661abso3183869276.1;
+        Sat, 14 Oct 2023 00:50:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1697269183; x=1697873983; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1697269832; x=1697874632; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=O3pfyKY5IaoFuTuLVntmNnqtU1SUqO73JEN0YvBTiXE=;
-        b=F7PKl/SBjw98+fFCm/3JrUtLbk50gj5MjAivgGXXkbh5LOZdu+5FKke03rcKoo5V5b
-         CUesKZUrL8BC2jfe0YAByCP6T8z5hwwZjddb6AKNutIMJg5Xaun0PbjLBi2tz/9dsHTy
-         LLIk7yy8PkU9afu1XCqZVJgQ/V4YUTM3nepJjcQ7gQGRyAvU3WsRKC+w2/0wTK/yArcs
-         XpuSk/dgj8RS0l985vhhKC7PxHEaMtdvCS7++tiKbKCuCz2yhSiINdbPIc4b4fB1nTYa
-         kLQglojbjT1fM4In1Y32nyZlTMj6wdhTxF6kvWrAE67COIzkGvGqV7Zkf3jrPhkadUYh
-         n4AA==
+        bh=xPY90v//iOlz4xzjpngsgS9qOCgffU46A47kFOVCgRk=;
+        b=Z1iWzz0U6EPA3CLc3hEgwQCf+RO6i1brY38PnQ15sgvOWVeAxzB2gff9epqqMT/lab
+         nk7fl2tU8QIbquuJf1oDdrrRII1h+Op0YrhRi8N2cV17wPKNfh+b0RLV33Kb7ptxzRk1
+         9m1RDTEcWJ5FshSKpHWb4Zo8GZCo6yBCAwKq1orzhlQD/Z3TFNsbBms8oMXVvzqfdpWj
+         7eMriLuCaKQs148gnP286vZx1bL5W01N531o0UqZ3kgtFLbyI7rTWOyVTiVOGl/+mNH+
+         t3ILKWIt641qOpUctIRtFXCtMbIpnL947GQ2DdOaGKZ3BnzjrMMDqYt0BXsv1mbscPPJ
+         ffPg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697269183; x=1697873983;
+        d=1e100.net; s=20230601; t=1697269832; x=1697874632;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=O3pfyKY5IaoFuTuLVntmNnqtU1SUqO73JEN0YvBTiXE=;
-        b=XunowIjRCBUdw0HJ1kFaNbXr49wzFrlCO+NaM/d6uYMJpDpYJW6YfEpO9JzFXThE1w
-         B2mi9RyNJ6GR7zmQEa/RBzzSBZGBIp2ik3GhBYm1B+lsxYU+JrHJ1i4qOzEYANc3ed/L
-         X0e2SH2EjgOheBihWLoucVjwv4M+EN3PUXVsCWGY5CdrGRnpkS55VbCBVdkd7ynvSUJr
-         jO40lKD+fATDq57UI6y+xAYKavtvhizKOGOcRH53eghCzRvkz5SXLYTgGhwYWJPeHcje
-         dHcSKCwtuOVCrDrTm1R7stcP2F1vSOhBkUP7GWjriLPrGLiNfGaUX7pSROPQvdrmuhDG
-         qrZw==
-X-Gm-Message-State: AOJu0YwmEnRmLPYdrOVAbknkRlIMIynGqsU70FQMHZwY6BFI9QHFreo6
-	SFuhKMYADplE9j9gVihkyTM=
-X-Google-Smtp-Source: AGHT+IFLBBfUUgNr6LViOF1jpi5Iia8QBECN3q2/onj7OgNd1yfaPOAeXkVgoQpt6phF2TPyemePTw==
-X-Received: by 2002:a81:a546:0:b0:592:5def:5c0d with SMTP id v6-20020a81a546000000b005925def5c0dmr31356836ywg.45.1697269183527;
-        Sat, 14 Oct 2023 00:39:43 -0700 (PDT)
+        bh=xPY90v//iOlz4xzjpngsgS9qOCgffU46A47kFOVCgRk=;
+        b=HBi+owNP/V9SWMRihZ+2rDYbuZ1Tf1bAHVIpnvy/la1SNMwwJjaQrzjrzyQmoxZAq+
+         6gJvzl8APWoUxd+dHbz+dShC1xmrl9yniiAie2aXDS34V2W2s3mzk2T38N8gbzFYL/JG
+         6zp+NOUENdYB4l9IlDQKAzk3skyCoEsV/L+LcNquWVX3g2u4g5kAc8175w5LS3BVZXTc
+         LhanexTUcNl9SsXgHVwFIIIWNVpM222uEo8uSLGPzj72zStvT8T5umh//1bg6+IoNWea
+         4Z+owTi88umJP4GqOyn0RAkds2r8uMcjIuZm4gNyXuLCuYwHgTGUud8zoUZ5/tPyTvpa
+         Rkfw==
+X-Gm-Message-State: AOJu0Yxafb4WWbZrDhbhp508JqF9CQ+wP8XzbqURU3lQhUKud8k2+30i
+	J10K1oeYI4VpJSfLS2hnWLs=
+X-Google-Smtp-Source: AGHT+IFht9Pdhs+YTaM4rxnXiM2VmkWzCxyw1wFLf+EfItgEJyZaPCjpLfoN989eNS/y3/xAN71mXw==
+X-Received: by 2002:a25:c702:0:b0:d9a:c946:bb47 with SMTP id w2-20020a25c702000000b00d9ac946bb47mr6793962ybe.5.1697269832173;
+        Sat, 14 Oct 2023 00:50:32 -0700 (PDT)
 Received: from gilbert-PC ([105.112.18.68])
-        by smtp.gmail.com with ESMTPSA id w3-20020a818603000000b0059c8387f673sm394202ywf.51.2023.10.14.00.39.37
+        by smtp.gmail.com with ESMTPSA id 81-20020a250154000000b00d7b8a1074d4sm1042967ybb.57.2023.10.14.00.50.25
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 14 Oct 2023 00:39:41 -0700 (PDT)
-Date: Sat, 14 Oct 2023 08:39:34 +0100
+        Sat, 14 Oct 2023 00:50:30 -0700 (PDT)
+Date: Sat, 14 Oct 2023 08:50:22 +0100
 From: Gilbert Adikankwu <gilbertadikankwu@gmail.com>
-To: Julia Lawall <julia.lawall@inria.fr>
+To: Nam Cao <namcao@linutronix.de>
 Cc: outreachy@lists.linux.dev, manishc@marvell.com,
 	GR-Linux-NIC-Dev@marvell.com, coiby.xu@gmail.com,
 	gregkh@linuxfoundation.org, netdev@vger.kernel.org,
 	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
 Subject: Re: [PATCH] staging: qlge: Add bool type to qlge_idc_wait()
-Message-ID: <ZSpFtrC5xuYzgZhw@gilbert-PC>
+Message-ID: <ZSpIPippZFtMw2aG@gilbert-PC>
 References: <ZSoxLxs45bIuBrHg@gilbert-PC>
- <alpine.DEB.2.22.394.2310140819450.3383@hadrien>
+ <20231014065813.mQvFyjWb@linutronix.de>
+ <20231014071423.UgDor1v0@linutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -60,107 +61,23 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <alpine.DEB.2.22.394.2310140819450.3383@hadrien>
+In-Reply-To: <20231014071423.UgDor1v0@linutronix.de>
 
-On Sat, Oct 14, 2023 at 08:23:13AM +0200, Julia Lawall wrote:
+On Sat, Oct 14, 2023 at 09:14:23AM +0200, Nam Cao wrote:
+> On Sat, Oct 14, 2023 at 08:58:13AM +0200, Nam Cao wrote:
+> > On Sat, Oct 14, 2023 at 07:11:59AM +0100, Gilbert Adikankwu wrote:
+> > > Reported by checkpatch:
+> > > 
+> > > WARNING: else is not generally useful after a break or return
+> > >
+> > 
+> > What checkpatch is telling you here is that the "else" is redundant and
+> > can be removed. Although your patch suppresses the warning, it makes the
+> > code messier :(
 > 
-> 
-> On Sat, 14 Oct 2023, Gilbert Adikankwu wrote:
-> 
-> > Reported by checkpatch:
-> >
-> > WARNING: else is not generally useful after a break or return
-> >
-> > The idea of the break statements in the if/else is so that the loop is
-> > exited immediately the value of status is changed. And returned
-> > immediately. For if/else conditionals, the block to be executed will
-> > always be one of the two. Introduce a bool type variable 's_sig' that
-> > evaluates to true when the value of status is changed within the if/else
-> > block.
-> 
-> The idea of the checkpatch warning is that eg
-> 
-> found = search();
-> if (!found)
->   break;
-> else do_something();
-> 
-> is equvalent to:
-> 
-> found = search();
-> if (!found)
->   break;
-> do_something();
-> 
-> Because now the normal computation is at top level and the if branches are
-> only used for error handling.
-> 
-> But that is not the case in your code.  In your code, it seems that there
-> are two cases where one would like to break out of the loop.  The code
-> would be better left as it is.
-> 
-> julia
+> Ah wait, after reading Julia's comment, I realize that the "else" is not
+> redundant at all. Seems like checkpatch.pl is lying. So ignore what I
+> said.
 
-Thank you for the quick review. I thought about it the you described but
-then realised the else was not redundant that was why I went the route
-of trying to suppress the warning. I will revert the changes as you
-have suggested
+Thanks
 
-Gilbert
-> 
-> >
-> > Signed-off-by: Gilbert Adikankwu <gilbertadikankwu@gmail.com>
-> > ---
-> >  drivers/staging/qlge/qlge.h     | 1 +
-> >  drivers/staging/qlge/qlge_mpi.c | 8 ++++++--
-> >  2 files changed, 7 insertions(+), 2 deletions(-)
-> >
-> > diff --git a/drivers/staging/qlge/qlge.h b/drivers/staging/qlge/qlge.h
-> > index d0dd659834ee..b846bca82571 100644
-> > --- a/drivers/staging/qlge/qlge.h
-> > +++ b/drivers/staging/qlge/qlge.h
-> > @@ -11,6 +11,7 @@
-> >  #include <linux/netdevice.h>
-> >  #include <linux/rtnetlink.h>
-> >  #include <linux/if_vlan.h>
-> > +#include <linux/types.h>
-> >
-> >  /*
-> >   * General definitions...
-> > diff --git a/drivers/staging/qlge/qlge_mpi.c b/drivers/staging/qlge/qlge_mpi.c
-> > index 96a4de6d2b34..44cb879240a0 100644
-> > --- a/drivers/staging/qlge/qlge_mpi.c
-> > +++ b/drivers/staging/qlge/qlge_mpi.c
-> > @@ -909,6 +909,7 @@ int qlge_mb_wol_set_magic(struct qlge_adapter *qdev, u32 enable_wol)
-> >  static int qlge_idc_wait(struct qlge_adapter *qdev)
-> >  {
-> >  	int status = -ETIMEDOUT;
-> > +	bool s_sig = false;
-> >  	struct mbox_params *mbcp = &qdev->idc_mbc;
-> >  	long wait_time;
-> >
-> > @@ -934,14 +935,17 @@ static int qlge_idc_wait(struct qlge_adapter *qdev)
-> >  		} else if (mbcp->mbox_out[0] == AEN_IDC_CMPLT) {
-> >  			netif_err(qdev, drv, qdev->ndev, "IDC Success.\n");
-> >  			status = 0;
-> > -			break;
-> > +			s_sig = true;
-> >  		} else {
-> >  			netif_err(qdev, drv, qdev->ndev,
-> >  				  "IDC: Invalid State 0x%.04x.\n",
-> >  				  mbcp->mbox_out[0]);
-> >  			status = -EIO;
-> > -			break;
-> > +			s_sig = true;
-> >  		}
-> > +
-> > +		if (s_sig)
-> > +			break;
-> >  	}
-> >
-> >  	return status;
-> > --
-> > 2.34.1
-> >
-> >
-> >
