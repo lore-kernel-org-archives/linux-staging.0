@@ -1,92 +1,78 @@
-Received: from mail2-relais-roc.national.inria.fr (mail2-relais-roc.national.inria.fr [192.134.164.83])
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65EB97E;
-	Sat, 14 Oct 2023 06:23:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inria.fr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=inria.fr
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B31F13D74;
+	Sat, 14 Oct 2023 06:58:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=inria.fr header.i=@inria.fr header.b="eXEh3NBJ"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=inria.fr; s=dc;
-  h=date:from:to:cc:subject:in-reply-to:message-id:
-   references:mime-version;
-  bh=yFzlpkyvZPpAIoodnzAqzdRSObdnjJuYo39Mj5FNOmQ=;
-  b=eXEh3NBJLfWVhwyl2lcUoAdjPzfbpjWCfIF9HQW00x8N1GW1u2LyLc2o
-   H0RkghrxGuq/PxCITTFZ0JH2G9fxzFlVX4ZcumAclr9pwm0dE6GgQlIu5
-   e6AFw8IUYBjHIAA6B/zia4er/+EEeBCS7an3UL42DTrhVbebr+9O1mKVh
-   c=;
-Authentication-Results: mail2-relais-roc.national.inria.fr; dkim=none (message not signed) header.i=none; spf=SoftFail smtp.mailfrom=julia.lawall@inria.fr; dmarc=fail (p=none dis=none) d=inria.fr
-X-IronPort-AV: E=Sophos;i="6.03,224,1694728800"; 
-   d="scan'208";a="131207271"
-Received: from 231.85.89.92.rev.sfr.net (HELO hadrien) ([92.89.85.231])
-  by mail2-relais-roc.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Oct 2023 08:23:12 +0200
-Date: Sat, 14 Oct 2023 08:23:13 +0200 (CEST)
-From: Julia Lawall <julia.lawall@inria.fr>
-X-X-Sender: jll@hadrien
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="rZv9zF57";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="zI/SGN9W"
+Date: Sat, 14 Oct 2023 08:58:13 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1697266697;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=sN/M4L6Q9tZIGosWFp/kcGmAa2Y/6EWiUPwyWfd8rKE=;
+	b=rZv9zF571294pKPYQEo+flX23oNTcz7yICfujI8U7SWOjEeeQU2OGHKTocOVg8qTK6qRuE
+	0mn5Ec8Hq/nbnU5rIKwT4ogtLCW0nFDa8cyMkdijXM0yc0Eioe0gPdIowLOGiYSwXokVYq
+	JsJFUPuNvBFy/bm/4YQInOd+cPaMDL5iPBnMOraBIafXrx3KcfFMiT0Xi+RzKI+1Tczx7d
+	8HTp1qamuebvdSiUlwMZBbD/5nQsjnqSHWMK41UodMJXMHkyGTn9rN70xZ8k5NCEnjocBI
+	L64bjgO9iLDM7p0H6zdkODOX5RXAf1OA6pGbMvr1r4DbgU6Ifhftp6df1uyDKA==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1697266697;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=sN/M4L6Q9tZIGosWFp/kcGmAa2Y/6EWiUPwyWfd8rKE=;
+	b=zI/SGN9WX+UWpuGElmwJn8VnnTpxCeZTQAIXKLSxcDwJO/92htVLVxVMct33PGHEzHMWny
+	OIte2F/uIaH8oAAw==
+From: Nam Cao <namcao@linutronix.de>
 To: Gilbert Adikankwu <gilbertadikankwu@gmail.com>
-cc: outreachy@lists.linux.dev, manishc@marvell.com, 
-    GR-Linux-NIC-Dev@marvell.com, coiby.xu@gmail.com, 
-    gregkh@linuxfoundation.org, netdev@vger.kernel.org, 
-    linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Cc: outreachy@lists.linux.dev, manishc@marvell.com,
+	GR-Linux-NIC-Dev@marvell.com, coiby.xu@gmail.com,
+	gregkh@linuxfoundation.org, netdev@vger.kernel.org,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
 Subject: Re: [PATCH] staging: qlge: Add bool type to qlge_idc_wait()
-In-Reply-To: <ZSoxLxs45bIuBrHg@gilbert-PC>
-Message-ID: <alpine.DEB.2.22.394.2310140819450.3383@hadrien>
+Message-ID: <20231014065813.mQvFyjWb@linutronix.de>
 References: <ZSoxLxs45bIuBrHg@gilbert-PC>
-User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ZSoxLxs45bIuBrHg@gilbert-PC>
 
-
-
-On Sat, 14 Oct 2023, Gilbert Adikankwu wrote:
-
+On Sat, Oct 14, 2023 at 07:11:59AM +0100, Gilbert Adikankwu wrote:
 > Reported by checkpatch:
->
+> 
 > WARNING: else is not generally useful after a break or return
 >
+
+What checkpatch is telling you here is that the "else" is redundant and
+can be removed. Although your patch suppresses the warning, it makes the
+code messier :(
+
+Best regards,
+Nam
+
 > The idea of the break statements in the if/else is so that the loop is
 > exited immediately the value of status is changed. And returned
 > immediately. For if/else conditionals, the block to be executed will
 > always be one of the two. Introduce a bool type variable 's_sig' that
 > evaluates to true when the value of status is changed within the if/else
 > block.
-
-The idea of the checkpatch warning is that eg
-
-found = search();
-if (!found)
-  break;
-else do_something();
-
-is equvalent to:
-
-found = search();
-if (!found)
-  break;
-do_something();
-
-Because now the normal computation is at top level and the if branches are
-only used for error handling.
-
-But that is not the case in your code.  In your code, it seems that there
-are two cases where one would like to break out of the loop.  The code
-would be better left as it is.
-
-julia
-
->
+> 
 > Signed-off-by: Gilbert Adikankwu <gilbertadikankwu@gmail.com>
 > ---
 >  drivers/staging/qlge/qlge.h     | 1 +
 >  drivers/staging/qlge/qlge_mpi.c | 8 ++++++--
 >  2 files changed, 7 insertions(+), 2 deletions(-)
->
+> 
 > diff --git a/drivers/staging/qlge/qlge.h b/drivers/staging/qlge/qlge.h
 > index d0dd659834ee..b846bca82571 100644
 > --- a/drivers/staging/qlge/qlge.h
@@ -96,7 +82,7 @@ julia
 >  #include <linux/rtnetlink.h>
 >  #include <linux/if_vlan.h>
 > +#include <linux/types.h>
->
+>  
 >  /*
 >   * General definitions...
 > diff --git a/drivers/staging/qlge/qlge_mpi.c b/drivers/staging/qlge/qlge_mpi.c
@@ -110,7 +96,7 @@ julia
 > +	bool s_sig = false;
 >  	struct mbox_params *mbcp = &qdev->idc_mbc;
 >  	long wait_time;
->
+>  
 > @@ -934,14 +935,17 @@ static int qlge_idc_wait(struct qlge_adapter *qdev)
 >  		} else if (mbcp->mbox_out[0] == AEN_IDC_CMPLT) {
 >  			netif_err(qdev, drv, qdev->ndev, "IDC Success.\n");
@@ -129,10 +115,8 @@ julia
 > +		if (s_sig)
 > +			break;
 >  	}
->
+>  
 >  	return status;
-> --
+> -- 
 > 2.34.1
->
->
->
+> 
