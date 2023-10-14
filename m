@@ -1,76 +1,84 @@
-Received: from mail-oo1-f72.google.com (mail-oo1-f72.google.com [209.85.161.72])
+Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08C892C874
-	for <linux-staging@lists.linux.dev>; Fri, 13 Oct 2023 23:50:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Authentication-Results: smtp.subspace.kernel.org; dkim=none
-Received: by mail-oo1-f72.google.com with SMTP id 006d021491bc7-57b6d19955bso3747220eaf.1
-        for <linux-staging@lists.linux.dev>; Fri, 13 Oct 2023 16:50:31 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69C427E
+	for <linux-staging@lists.linux.dev>; Sat, 14 Oct 2023 04:39:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=darkphysics.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=darkphysics.net
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=darkphysics.net header.i=@darkphysics.net header.b="QY9zjino"
+Received: by mail-pf1-f175.google.com with SMTP id d2e1a72fcca58-690fe10b6a4so2291917b3a.3
+        for <linux-staging@lists.linux.dev>; Fri, 13 Oct 2023 21:39:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=darkphysics.net; s=google; t=1697258393; x=1697863193; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=IO5psIUHOcx6xz4P4p7pIE6VmBT0LrXpXuleTpT22S4=;
+        b=QY9zjino+sPvPXu+zIN3HQWcTijoDA+9emer93JbBIrSPYuFeyzw5fmO+3azQFBqVw
+         DYrbnCNoa3IeiBs9N+RWcXjfIN2+WXbZPKMr9/aKTKkaH6STjHE2u2mGY59xGV8/V/LH
+         +fugMcVYgfCNztfsggZJicXYiGJWd8Bx+d8tzWumt6ctTXpTVqCsw2SjiK5LsaE+eSji
+         3xr4wuS6/eIH/9VPyOZKAregSZwt6V8MQnywtAFoQMwp+gE8uHGJR3UC5E/EfoBGQYCW
+         c9yL/Q9ne9Da+Y6VAqovrAwHOZJrUW4mtcsgyixFIPJr7Y89CYcRoCrw9VUKpVXozSsk
+         Y/Yw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697241031; x=1697845831;
-        h=to:from:subject:message-id:in-reply-to:date:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=mVucjE2yjEUScH3CxBlb1yDLAQs8UXrP8jjUHECcl9E=;
-        b=hPv/C2hmwOUbQ73nZFgDhGTt4m4PskiPTvSV4rAiGtt8hAOOrDErT6pvBo1H/d7KZn
-         DgNyc909K5f/m78ItW0UZgOeeydyHdmrfWhxFcJ7bwi7pGs8ngo0dAk8VvK5ECt6Bp6N
-         dA0R61PsvCE9Nw+mkt4osvtMSTU+CLbyYEyK2iaqFtZrXXeDfBp3oRVAwHk+IxwdLMqJ
-         e1Y1piGQ4ifeb/7kGuP2By+MepzURyWWZl7s5geNkBdaJYwpcFYAibKr4VMAahTaW73R
-         6W41FQoMyUKkfjhcy9vVPEJWiA834BhwWwK8L90aAChFllWLLC+7L2kMZ4jo5NLtf6Be
-         BnXQ==
-X-Gm-Message-State: AOJu0YwLPXWeGex27ijJcMSstUEeKqyz6EgelawJW8xn5nKH5y0SLU7r
-	mIbNmTTRs7MBdy+1Ra5EJqD0vlqnN5gGu6hKy8SmRCWex37G
-X-Google-Smtp-Source: AGHT+IE3mNXgUnbffBl6NSf5U/f6BkF5zcp3zWCtahDMEOqUgDVEwA664Ic/SJhZmaojLteaqQnARfehrtWV0EEV2R2SYULgmyRN
+        d=1e100.net; s=20230601; t=1697258393; x=1697863193;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=IO5psIUHOcx6xz4P4p7pIE6VmBT0LrXpXuleTpT22S4=;
+        b=PHR6rPMTa8A6/RgTOl2DEA+6ji3z86o9FtW1tP66msiTSW7ogXc6g4uI+40g/VqiyR
+         xQR7oqBaNxhnHv7tJsrAFWu04SvJSiV7+lFyE5MmQ1yQ5nLzVBUiDiKA7wNt/4jmxrFM
+         PJc30z3vMXslUkK5Bl2wAenEIxBmCGXRQUPR+YavFVbUSDv6anMVHDgG9M52xyS150Cv
+         TMxJeIkaBBmLES2ahOXL/Pp6KzXPSihUyqVBIE3Wpk/vP9k7I/JajupGiBNMMk+UOspx
+         BnLH5lJH6NlCBfCEXudq9xK8Rx/Fwijzlv7D8o6bbA8x5FJrV3Zy25WxWV4eNMoZb7k5
+         tiHA==
+X-Gm-Message-State: AOJu0YyLFIZp9vEzJkTgjzqBxp/yVLMcHGjnv2kX1NJINoDKq6EEKXU4
+	Yqkx+n0entP8xrVvQ78Lg/OWvA==
+X-Google-Smtp-Source: AGHT+IGRvR1Vx+xE646Iq6UlDT5H7Zwh0/g1kuIgt5ZArE2J5BNx1z/XkRa7LXessGSx3qbjOqGicQ==
+X-Received: by 2002:a05:6a00:1989:b0:68f:e121:b37c with SMTP id d9-20020a056a00198900b0068fe121b37cmr33741447pfl.4.1697258393451;
+        Fri, 13 Oct 2023 21:39:53 -0700 (PDT)
+Received: from basil.darkphysics (c-76-146-178-2.hsd1.wa.comcast.net. [76.146.178.2])
+        by smtp.gmail.com with ESMTPSA id y6-20020aa78046000000b006934350c3absm14271926pfm.109.2023.10.13.21.39.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 13 Oct 2023 21:39:53 -0700 (PDT)
+From: Tree Davies <tdavies@darkphysics.net>
+To: gregkh@linuxfoundation.org,
+	philipp.g.hortmann@gmail.com,
+	anjan@momi.ca
+Cc: linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Tree Davies <tdavies@darkphysics.net>
+Subject: [PATCH 0/4] Staging: rtl8192e: Variable renames to fix checkpatch
+Date: Fri, 13 Oct 2023 21:44:31 -0700
+Message-ID: <20231014044435.11947-1-tdavies@darkphysics.net>
+X-Mailer: git-send-email 2.41.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6870:9881:b0:1dc:e729:66f7 with SMTP id
- eg1-20020a056870988100b001dce72966f7mr9518941oab.8.1697241031086; Fri, 13 Oct
- 2023 16:50:31 -0700 (PDT)
-Date: Fri, 13 Oct 2023 16:50:31 -0700
-In-Reply-To: <0000000000006a3d0d060785f027@google.com>
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <000000000000c19b400607a1b88c@google.com>
-Subject: Re: [syzbot] [net?] [wireless?] WARNING in ieee80211_bss_info_change_notify
- (2)
-From: syzbot <syzbot+dd4779978217b1973180@syzkaller.appspotmail.com>
-To: SHA-cyfmac-dev-list@infineon.com, ajay.kathat@microchip.com, 
-	amitkarwar@gmail.com, aspriel@gmail.com, brcm80211-dev-list.pdl@broadcom.com, 
-	claudiu.beznea@microchip.com, davem@davemloft.net, edumazet@google.com, 
-	franky.lin@broadcom.com, ganapathi017@gmail.com, geomatsi@gmail.com, 
-	gregkh@linuxfoundation.org, hante.meuleman@broadcom.com, 
-	huxinming820@gmail.com, imitsyanko@quantenna.com, johannes.berg@intel.com, 
-	johannes@sipsolutions.net, kuba@kernel.org, kvalo@kernel.org, 
-	libertas-dev@lists.infradead.org, linux-kernel@vger.kernel.org, 
-	linux-staging@lists.linux.dev, linux-wireless@vger.kernel.org, 
-	netdev@vger.kernel.org, pabeni@redhat.com, sharvari.harisangam@nxp.com, 
-	syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-syzbot has bisected this issue to:
+This patch series renames 4 varialbes to fix checkpatch warning Avoid
+CamelCase.
 
-commit 7b0a0e3c3a88260b6fcb017e49f198463aa62ed1
-Author: Johannes Berg <johannes.berg@intel.com>
-Date:   Thu Apr 14 14:50:57 2022 +0000
+Thank you in advance to all reviewers
+~Tree
 
-    wifi: cfg80211: do some rework towards MLO link APIs
+Tree Davies (4):
+  Staging: rtl8192e: Rename variable pBa
+  Staging: rtl8192e: Rename variable TSInfo
+  Staging: rtl8192e: Rename variable ReasonCode
+  Staging: rtl8192e: Rename variable pTS
 
-bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=13fdd89d680000
-start commit:   ce583d5fb9d3 Merge tag 'for-v6.6-rc2' of git://git.kernel...
-git tree:       upstream
-final oops:     https://syzkaller.appspot.com/x/report.txt?x=1003d89d680000
-console output: https://syzkaller.appspot.com/x/log.txt?x=17fdd89d680000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=5d83dadac33c08b7
-dashboard link: https://syzkaller.appspot.com/bug?extid=dd4779978217b1973180
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=157a58e5680000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=170cf875680000
+ drivers/staging/rtl8192e/rtl819x_BAProc.c |  58 ++++++-------
+ drivers/staging/rtl8192e/rtl819x_Qos.h    |   2 +-
+ drivers/staging/rtl8192e/rtl819x_TSProc.c | 100 +++++++++++-----------
+ drivers/staging/rtl8192e/rtllib.h         |   2 +-
+ drivers/staging/rtl8192e/rtllib_tx.c      |   8 +-
+ 5 files changed, 85 insertions(+), 85 deletions(-)
 
-Reported-by: syzbot+dd4779978217b1973180@syzkaller.appspotmail.com
-Fixes: 7b0a0e3c3a88 ("wifi: cfg80211: do some rework towards MLO link APIs")
+-- 
+2.39.2
 
-For information about bisection process see: https://goo.gl/tpsmEJ#bisection
