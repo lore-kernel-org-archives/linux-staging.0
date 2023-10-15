@@ -1,55 +1,53 @@
-Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23553EDB
-	for <linux-staging@lists.linux.dev>; Sun, 15 Oct 2023 13:36:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D0346FDA;
+	Sun, 15 Oct 2023 14:25:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZbovZwBG"
-Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-1c9bf22fe05so22224005ad.2
-        for <linux-staging@lists.linux.dev>; Sun, 15 Oct 2023 06:36:01 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HtgJLkK7"
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-4066692ad35so37589555e9.1;
+        Sun, 15 Oct 2023 07:25:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1697376961; x=1697981761; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1697379901; x=1697984701; darn=lists.linux.dev;
         h=content-disposition:mime-version:message-id:subject:cc:to:from:date
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=jWM7j+OZCwLtm2rLuGsJS/VApTDDC6NKoILtMy2P7BE=;
-        b=ZbovZwBGVvsjGx6H0tBt9gT65uKxWKzvbuOYpftvjLsyfZMmgq9AMWZ7Fy/f+34Zqu
-         O3D9syy9LMSkHtUgYfJCQQmEoFNA61zzU603lZQR3NClw0Fp2R31f+zbVZfjGBSn2UDH
-         mS8rwmU99PqjStdpJHwzahT9MFgl8Eh78d+YE+6IZNR1WIyfTDye3+LU2gH+9iNqd07k
-         IZXntyFaR8XWqIhku5L6QufOmmGQwtq4a9IsvpU9FWWAFZMeU1aGYndecs1I3Sk8wqso
-         mwlJuUQB4B4bgVnTGyn2aeR56oPArSot/D1vDSFefKW74I1wsdxUWW7aX+em4FWIvSEu
-         POtQ==
+        bh=uFgPztQppmCCCzmM2GEubbYdc8VreQZXvcgDjFAmCwY=;
+        b=HtgJLkK7CL2R1VhTDzjnuHG5FTf/VaAB6XN1MRB6lde8rFkuXj9OEM0pKh3DgEq4g0
+         bFAlSvaj1xHYoGbhukjsZYZxa+a5ZLNzlSXJ1i5MjPyiW2EpWeLEFArFQdL35D8AOEgn
+         VdTp7rX8xc9VjWLbw+0TCbnFBfJ10NnbkojFYmtIvUIFK91VD+ZgVAu6k9Va9pvL8QZs
+         yZDikjrIlJuUKYXt4QbCKr1xGyu1nB1lxYJA8itwPB6GMWnBdqKIfyucjh+fa8OhL/av
+         9W4qSmCJ9nypzlGQPzVQX8xQRSl+ogeLlboKfCuhGUgVWxgFakrUfCR/2n5CQHjFFiOo
+         oqIQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697376961; x=1697981761;
+        d=1e100.net; s=20230601; t=1697379901; x=1697984701;
         h=content-disposition:mime-version:message-id:subject:cc:to:from:date
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=jWM7j+OZCwLtm2rLuGsJS/VApTDDC6NKoILtMy2P7BE=;
-        b=Kxrtsu/sqdMaOi3QmxguZlwwm/fs3u+ILQWwclf6r16yJmkmnYJbrR+b/bRDntaxA8
-         8PhD0h0Sdoou+nILH3QQncqEQ2gxCpgb1KRsKshO5ruhKEluILwweRlBXXu7rapcAvAv
-         ZZSFtrf+MEzI3RQ+5g8Bt9r+Vr06cC3blQYotd8Y5zUuKT9UTXx5Uu3c/epEBTP5gzSb
-         aiJ0kk0Qgh2fZ0zafiPNkDHYMmA75zgOxUHIULwjCgt68Rbm0J4UqH+ueBJCnjUr4mME
-         C72LEIGgQxveeF+qETYrjmHc1Fl2dlTForc7ZF4Oh08b7IfM9PK8JBGkQkarB2qKKQPL
-         Y+YA==
-X-Gm-Message-State: AOJu0YyrAsuUx/iJ2lDEAk3ZTvdnW92uQewDCtFqZePf2ByPynWswC8J
-	WGM6D62QRbXabPbm9pr0vEo=
-X-Google-Smtp-Source: AGHT+IG3EY/GYPlQhjDKMrD7ydfH3jXllsSUiuQpVP2X+ZvbgJar2DW/73YFnlgwQl6OJ3GDzD4a6Q==
-X-Received: by 2002:a17:90a:1541:b0:268:1355:b03e with SMTP id y1-20020a17090a154100b002681355b03emr28186055pja.38.1697376961266;
-        Sun, 15 Oct 2023 06:36:01 -0700 (PDT)
-Received: from ubuntu ([122.171.162.0])
-        by smtp.gmail.com with ESMTPSA id e7-20020a17090a804700b00263b9e75aecsm2966806pjw.41.2023.10.15.06.36.00
+        bh=uFgPztQppmCCCzmM2GEubbYdc8VreQZXvcgDjFAmCwY=;
+        b=v1uTfMeveSPrplSPYZ9Cphj6tSiz912XgxOosbjq6pP5alSqMscmxBrbSCqJDTYAtV
+         c4HZhAyxxz3ApVdZ7nw+KD150vmqv9PcI2NyiQXuw02Q0kwEV90KllZtmfUOnAFP/B9q
+         CECEd7FUvQf3ponYvpYEkuwWuzjUf6lo75xNUV6uCGs0kzHN2wAt+NWSC67TF7fLg9wO
+         YVQ3RNfarvXOJBB55PltOFFRmNHazW5T8HOUwt+LEoaDRNibi913QLwVGZC4m7KKmKhl
+         XCnzZCx8vN/15/vjxgeYAOH3ca5fKnk7vLspXsj4UGsBclYCnIW+yfSYDU01VouTSPHR
+         pO9A==
+X-Gm-Message-State: AOJu0YybDQWdmpXXF0S5q4KyAZqP9NhTsgZPEDlwtRGGjEHG+cijUQl3
+	+0PtTeRByO3cjT6gqTFuvdY=
+X-Google-Smtp-Source: AGHT+IG8pluCHBLBeAuWJR3Muz1UtlfXuciY2kmnoEUaLPJIdbX0bCo3ucqK6FD4nZKTCgya+om38Q==
+X-Received: by 2002:a05:600c:2a4e:b0:406:3f62:e591 with SMTP id x14-20020a05600c2a4e00b004063f62e591mr28059955wme.41.1697379900390;
+        Sun, 15 Oct 2023 07:25:00 -0700 (PDT)
+Received: from lab-ubuntu ([41.90.64.203])
+        by smtp.gmail.com with ESMTPSA id p10-20020a05600c1d8a00b003fe23b10fdfsm4624604wms.36.2023.10.15.07.24.59
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 15 Oct 2023 06:36:01 -0700 (PDT)
-Date: Sun, 15 Oct 2023 06:35:58 -0700
-From: Nandha Kumar Singaram <nandhakumar.singaram@gmail.com>
-To: Manish Chopra <manishc@marvell.com>, GR-Linux-NIC-Dev@marvell.com,
-	Coiby Xu <coiby.xu@gmail.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	netdev@vger.kernel.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Cc: kumaran.4353@gmail.com
-Subject: [PATCH] staging: qlge: Replace the occurrences of (1<<x) by BIT(x)
-Message-ID: <20231015133558.GA5489@ubuntu>
+        Sun, 15 Oct 2023 07:24:59 -0700 (PDT)
+Date: Sun, 15 Oct 2023 17:24:57 +0300
+From: Calvince Otieno <calvncce@gmail.com>
+To: gustavo@embeddedor.com, outreachy@lists.linux.dev
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Calvince Otieno <calvncce@gmail.com>
+Subject: [PATCH] staging: wlan-ng: remove unused function prototypes
+Message-ID: <ZSv2ObWLvlbM2hXn@lab-ubuntu>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -59,36 +57,35 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Adhere to linux coding style. Reported by checkpatch.pl:
-CHECK: Prefer using the BIT macro
+These functions are declared but not defined or used anywhere.
+Their definitions were removed 15 years ago in the
+commit cbec30c4c00c ("Staging: wlan-ng: Delete a large pile of
+now-unused code.")
 
-Signed-off-by: Nandha Kumar Singaram <nandhakumar.singaram@gmail.com>
+Signed-off-by: Calvince Otieno <calvncce@gmail.com>
 ---
- drivers/staging/qlge/qlge.h | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/staging/wlan-ng/prism2mgmt.h | 8 --------
+ 1 file changed, 8 deletions(-)
 
-diff --git a/drivers/staging/qlge/qlge.h b/drivers/staging/qlge/qlge.h
-index d0dd659834ee..69c5b332fd7c 100644
---- a/drivers/staging/qlge/qlge.h
-+++ b/drivers/staging/qlge/qlge.h
-@@ -1273,7 +1273,7 @@ struct qlge_net_req_iocb {
-  */
- struct wqicb {
- 	__le16 len;
--#define Q_LEN_V		(1 << 4)
-+#define Q_LEN_V		BIT(4)
- #define Q_LEN_CPP_CONT	0x0000
- #define Q_LEN_CPP_16	0x0001
- #define Q_LEN_CPP_32	0x0002
-@@ -1308,7 +1308,7 @@ struct cqicb {
- #define FLAGS_LI	0x40
- #define FLAGS_LC	0x80
- 	__le16 len;
--#define LEN_V		(1 << 4)
-+#define LEN_V		BIT(4)
- #define LEN_CPP_CONT	0x0000
- #define LEN_CPP_32	0x0001
- #define LEN_CPP_64	0x0002
+diff --git a/drivers/staging/wlan-ng/prism2mgmt.h b/drivers/staging/wlan-ng/prism2mgmt.h
+index 083a055ee986..8c3f1ac35913 100644
+--- a/drivers/staging/wlan-ng/prism2mgmt.h
++++ b/drivers/staging/wlan-ng/prism2mgmt.h
+@@ -78,14 +78,6 @@ void prism2mgmt_pstr2bytestr(struct hfa384x_bytestr *bytestr,
+ void prism2mgmt_bytestr2pstr(struct hfa384x_bytestr *bytestr,
+ 			     struct p80211pstrd *pstr);
+ 
+-/* functions to convert Group Addresses */
+-void prism2mgmt_get_grpaddr(u32 did, struct p80211pstrd *pstr,
+-			    struct hfa384x *priv);
+-int prism2mgmt_set_grpaddr(u32 did,
+-			   u8 *prism2buf, struct p80211pstrd *pstr,
+-			   struct hfa384x *priv);
+-int prism2mgmt_get_grpaddr_index(u32 did);
+-
+ void prism2sta_processing_defer(struct work_struct *data);
+ 
+ void prism2sta_commsqual_defer(struct work_struct *data);
 -- 
-2.25.1
+2.34.1
 
