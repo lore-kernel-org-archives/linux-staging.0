@@ -1,108 +1,84 @@
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55769CA4D;
-	Sun, 15 Oct 2023 20:02:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6002F9CD;
+	Sun, 15 Oct 2023 20:13:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="f0FVcy7G"
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-4064876e8b8so42051125e9.0;
-        Sun, 15 Oct 2023 13:02:23 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="J5MLnnyJ"
+Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-9b2f73e3af3so579152466b.3;
+        Sun, 15 Oct 2023 13:13:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1697400142; x=1698004942; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=FG9AttEioQfqRDZbNIP/22fcyG3rw6EjNALMu0XvLK8=;
-        b=f0FVcy7G6agAFRF8V5U/hrVuTnHJYWFBE7dxjXuxzMcJewFRyk9mrNzU59l+JSxLdg
-         OD4ICSZoRNWVwyf8OdVGHNyJBSG6xmiskwZvpASFhBg7MMK48zvEifcF+Dzf1u/sn9JK
-         2iDn1n2LxgcE+DWvP41Q80C5laT1t6djd7SyFHSJXuIVTgpkCLOH6SGl3tuTknsTT4iV
-         ODZTxmCMhScXSd6CFCXBEZusK3QBVbv4GE1DlnNjD2r147mntDlGR6SUnrfuHDJ1wkVk
-         Yj/5As3BomxAOOMRr5Mpu7ZGNOAMrvhRWTs28UdvP4bg//1h2dQusI+hyOpF01wpI7RP
-         Wt1g==
+        d=gmail.com; s=20230601; t=1697400832; x=1698005632; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=DT1W8gUSuxT3Wwy3qW2e2tPQ4NkLWmb+aTGBrsPTZaY=;
+        b=J5MLnnyJVhHtvW5408vHWsQSDkFrXSQZOQEMgx8ok6maRJaJ9HqsidE7Yn6zoDCysm
+         uJdl4On7ovTqONV8ZVEfr/iP1ELhzxVUlmEm7tWyDbZGTkxLk7SENbQqinjFgowUipEA
+         8tvZzYJonhKW8qTSWGW2uHkGiXtWFfv9kyjjaI5l7XmdZPj7QqYAlwddFV4HpinWtbB+
+         9IM7821OFjhG6uxOqIp5t+9TsSMdMu8ZBpuvTeBVMwd/+BnMor3tLxBL7elaxdKSRsob
+         K+jQzv18e6ZCp82ipDTpR9C1hpT38q/lf5MS8fDS6jQ9wkQsTQak/VDnlVYTIt9vtomI
+         SnRw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697400142; x=1698004942;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=FG9AttEioQfqRDZbNIP/22fcyG3rw6EjNALMu0XvLK8=;
-        b=m4aJa5kUppRqsheq9H2iWfmbehGuSqHjLlY33qekdV37qkJZq6T6hRYCGoRcPsJgVa
-         cvNGuVM7L5DxKCIA9xEhUjeypkVXm+itqZR4hWpjwA4Pjeeb6TJKvrkBgJYc1hcB8e8F
-         L6QmKiGKftMqRQd/40HR9oWv4Ynq+0EzkDs0/oY4eCxXtjzkjip9NtZAHlGZtehc1pkN
-         VguEz0djMxWmscQTsCNs1EIMH3octaDW4w+pNWQZ3XL+WIgdQWI+g3zYDcWA/qxyzC2s
-         ZRkwr9Ht8IbycZf0TovxyRGINHNJn0tG+V7lj7+vcEOzgzlA16hZnhgsDGgiFqikO7CC
-         qYXw==
-X-Gm-Message-State: AOJu0Yy5LDLArqn36MeaETKjNgixo5QND1XnI5aSpVv5drAdiUfuUo3N
-	G7JZe7AnSKVjjR/SP1wnVeg=
-X-Google-Smtp-Source: AGHT+IE4bDbkmn4bZXjxYPES1Y7BM57oxEqu857Y/Z3/gW1gzo7nRe65Gb1fFRiWjp5zXul1UtQoaA==
-X-Received: by 2002:a05:600c:2298:b0:406:4573:81d2 with SMTP id 24-20020a05600c229800b00406457381d2mr26922024wmf.39.1697400142167;
-        Sun, 15 Oct 2023 13:02:22 -0700 (PDT)
-Received: from lab-ubuntu ([41.90.67.11])
-        by smtp.gmail.com with ESMTPSA id o6-20020a05600c4fc600b0040472ad9a3dsm5294765wmq.14.2023.10.15.13.02.21
+        d=1e100.net; s=20230601; t=1697400832; x=1698005632;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=DT1W8gUSuxT3Wwy3qW2e2tPQ4NkLWmb+aTGBrsPTZaY=;
+        b=o2FLsezFKJFHwDNDIQLQA0axDM2dOj31zr8fiwcQCfw7cRlHR2Zr9znqQWT0ImTHPG
+         uCdu1DUeRct5D3zBZnS306jltN//JBKYfvqDO6IiRdXvfEcRm7Zcendjcoc0p5tKarCa
+         jC1CcCV2XHVJrotiVpqkzOTpfG+d2XcbzVGd7jo7ZB6hTRnKP7f6K38ezurHCVikpt+y
+         WLusufx3g1VU26gY6a0B1qhwQaZv1nyxkPOLMudhE33X95ZZ9vtQrbTKq7l0AAM0GUEv
+         tnEvVu+CfmS41Y/aoJPS8xl0naNsITypccboxS9CbUvYn1dc2kIY9S/uoepPPzfBH+7o
+         w6IQ==
+X-Gm-Message-State: AOJu0YzwsijGGuNXmvWRANq1pVaPC95RSJ3dw8snQmhJt5iUWpt0eFQO
+	Xmde0a0dHcMIExsGeFOnFw==
+X-Google-Smtp-Source: AGHT+IEXViXuLbUs9s+KmzkE5bixqlOmue7yjzSoBKZULy7e0QSO4Sw9iKCVoEKX9cfxdOgfcgIHTQ==
+X-Received: by 2002:a17:907:a0d:b0:9c0:99c4:79e8 with SMTP id bb13-20020a1709070a0d00b009c099c479e8mr1751940ejc.6.1697400831619;
+        Sun, 15 Oct 2023 13:13:51 -0700 (PDT)
+Received: from dorcaslitunya-virtual-machine.localdomain ([105.163.157.6])
+        by smtp.gmail.com with ESMTPSA id m10-20020a170906234a00b009ae587ce133sm2721766eja.188.2023.10.15.13.13.48
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 15 Oct 2023 13:02:21 -0700 (PDT)
-Date: Sun, 15 Oct 2023 23:02:19 +0300
-From: Calvince Otieno <calvncce@gmail.com>
-To: gustavo@embeddedor.com, outreachy@lists.linux.dev
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Calvince Otieno <calvncce@gmail.com>,
-	Sergio Paracuellos <sergio.paracuellos@gmail.com>,
-	Solomon Peachy <pizza@shaftnet.org>
-Subject: [PATCH v2] staging: wlan-ng: remove unused function prototypes
-Message-ID: <ZSxFS8EnFr998PqS@lab-ubuntu>
+        Sun, 15 Oct 2023 13:13:50 -0700 (PDT)
+From: Dorcas AnonoLitunya <anonolitunya@gmail.com>
+To: 
+Cc: anonolitunya@gmail.com,
+	outreachy@lists.linux.dev,
+	Sudip Mukherjee <sudipm.mukherjee@gmail.com>,
+	Teddy Wang <teddy.wang@siliconmotion.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-fbdev@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH 0/5] staging: sm750fb: Renaming camelcase to snakecase
+Date: Sun, 15 Oct 2023 23:12:33 +0300
+Message-ID: <cover.1697400022.git.anonolitunya@gmail.com>
+X-Mailer: git-send-email 2.42.0.345.gaab89be2eb
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-These functions are declared but not defined or used anywhere. Their 
-definitions were removed 15 years ago.
+Renames various function names and variable names that were previously
+in camelcase to snakecase to ensure consistent naming styles.This issues
+were highlighted by checkpatch.
 
-prism2mgmt_set_grpaddr() was removed in the
-commit 1e7201836c57 ("Staging: wlan-ng: Delete a pile of unused mibs.
-And fix WEXT SET_TXPOWER.")
-It's signature was changed in the commit 5a2214e2e02f ("staging: 
-wlang-ng: avoid new typedef: hfa384x_t")
+Dorcas AnonoLitunya (5):
+  Staging: sm750fb: Rename displayControlAdjust_SM750E
+  Staging: sm750fb: Rename pModeParam
+  Staging: sm750fb: Rename displayControl
+  Staging: sm750fb: Rename programModeRegisters
+  Staging: sm750fb: Rename ddk750_setModeTiming
 
-prism2mgmt_get_grpaddr() and prism2mgmt_get_grpaddr_index() were
-removed in the commit cbec30c4c00c ("Staging: wlan-ng: Delete a large pile of
-now-unused code.")
+ drivers/staging/sm750fb/ddk750_mode.c | 90 +++++++++++++--------------
+ drivers/staging/sm750fb/ddk750_mode.h |  2 +-
+ drivers/staging/sm750fb/sm750_hw.c    |  2 +-
+ 3 files changed, 47 insertions(+), 47 deletions(-)
 
-Signed-off-by: Calvince Otieno <calvncce@gmail.com>
----
-Patch v2:
-	- Updated the patch description to include the commit history indicating
-	when the function definitions were deleted.
-
-Patch v1:
-	- Removed the function declarations
-
- drivers/staging/wlan-ng/prism2mgmt.h | 8 --------
- 1 file changed, 8 deletions(-)
-
-diff --git a/drivers/staging/wlan-ng/prism2mgmt.h b/drivers/staging/wlan-ng/prism2mgmt.h
-index 083a055ee986..8c3f1ac35913 100644
---- a/drivers/staging/wlan-ng/prism2mgmt.h
-+++ b/drivers/staging/wlan-ng/prism2mgmt.h
-@@ -78,14 +78,6 @@ void prism2mgmt_pstr2bytestr(struct hfa384x_bytestr *bytestr,
- void prism2mgmt_bytestr2pstr(struct hfa384x_bytestr *bytestr,
- 			     struct p80211pstrd *pstr);
- 
--/* functions to convert Group Addresses */
--void prism2mgmt_get_grpaddr(u32 did, struct p80211pstrd *pstr,
--			    struct hfa384x *priv);
--int prism2mgmt_set_grpaddr(u32 did,
--			   u8 *prism2buf, struct p80211pstrd *pstr,
--			   struct hfa384x *priv);
--int prism2mgmt_get_grpaddr_index(u32 did);
--
- void prism2sta_processing_defer(struct work_struct *data);
- 
- void prism2sta_commsqual_defer(struct work_struct *data);
 -- 
-2.34.1
+2.42.0.345.gaab89be2eb
 
