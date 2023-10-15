@@ -1,64 +1,49 @@
-Received: from mail2-relais-roc.national.inria.fr (mail2-relais-roc.national.inria.fr [192.134.164.83])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A30CC749C;
-	Sun, 15 Oct 2023 15:53:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inria.fr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=inria.fr
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF20E79F4;
+	Sun, 15 Oct 2023 16:09:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=inria.fr header.i=@inria.fr header.b="HuUyCqrR"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=inria.fr; s=dc;
-  h=date:from:to:cc:subject:in-reply-to:message-id:
-   references:mime-version;
-  bh=tOrryNW9tEjw75vpDjBXunGzcoTux4+HUtzoowm8cCo=;
-  b=HuUyCqrR7nsILXveJgA0E9l4MUWCW/bpyj39K3C37JozCdCh7UOAGx0q
-   +HmaQatOZAuluDNCjLAQyoL2XE4YAkhaACvTF8PjZQq9BNjqfUj5xCOrL
-   yYwXNqYrd6kefciI1YFwmUU8SzbtEqqt+TymlFbLx/Sm4OnBNMwp0Q/ci
-   4=;
-Authentication-Results: mail2-relais-roc.national.inria.fr; dkim=none (message not signed) header.i=none; spf=SoftFail smtp.mailfrom=julia.lawall@inria.fr; dmarc=fail (p=none dis=none) d=inria.fr
-X-IronPort-AV: E=Sophos;i="6.03,226,1694728800"; 
-   d="scan'208";a="131311740"
-Received: from unknown (HELO hadrien) ([87.129.180.234])
-  by mail2-relais-roc.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Oct 2023 17:53:05 +0200
-Date: Sun, 15 Oct 2023 17:52:57 +0200 (CEST)
-From: Julia Lawall <julia.lawall@inria.fr>
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="TifoANNf"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E2767C433C7;
+	Sun, 15 Oct 2023 16:09:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1697386190;
+	bh=9JuI03ZP/U0XMwAWcNqdQJ5I2Au2PAR4LpQx78SO3NI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=TifoANNffvYUf3VBdZPNEO0sdMjAN9hMkqJgAQzesVprLSTCf85zi24+lSVOGUigX
+	 0UNMJEGO0XN9qtQXLGVod5EeavGnI2fwaDMBQStvbCYWtYu8m933Vgfv1ARaQ87Yn2
+	 7oz7+9VUVP2Swz/2b/5ni9YzVaDG8RYyIlwKu5L0=
+Date: Sun, 15 Oct 2023 18:09:47 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
 To: Gilbert Adikankwu <gilbertadikankwu@gmail.com>
-cc: gregkh@linuxfoundation.org, outreachy@lists.linux.dev, 
-    linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 0/6] staging: rtl8192u: Mute checkpatch error
-In-Reply-To: <cover.1697367161.git.gilbertadikankwu@gmail.com>
-Message-ID: <bfe99c7a-f01f-4ae3-a17d-1e5887a5121f@inria.fr>
-References: <cover.1697367161.git.gilbertadikankwu@gmail.com>
+Cc: outreachy@lists.linux.dev, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: rtl8192u: Align descendant arguments
+Message-ID: <2023101519-cane-backlands-b376@gregkh>
+References: <ZSuYUmX5P5M0Ok/I@gilbert-PC>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ZSuYUmX5P5M0Ok/I@gilbert-PC>
 
-"Mute checkpatch error" is not very informative.
-
-julia
-
-On Sun, 15 Oct 2023, Gilbert Adikankwu wrote:
-
-> Align descendant arguments to the open parenthesis as per the "Linux
-> Kernel coding style" in Documentation/process/coding-style.rst
->
-> Mute the following checkpatch error:
->
+On Sun, Oct 15, 2023 at 08:44:18AM +0100, Gilbert Adikankwu wrote:
+> Adhere to Linux kernel coding style.
+> 
+> "...A very commonly used style is to align descendants to a function
+> open parenthesis" - (Excerpted from Linux kernel coding style (#2))
+> 
+> Reported by checkpatch:
+> 
 > CHECK: Alignment should match open parenthesis
->
-> Gilbert Adikankwu (6):
->   staging: rtl8192u: Align descendant arguments
->   staging: rtl8192u: Align descendant arguments
->   staging: rtl8192u: Align descendant arguments
->   staging: rtl8192u: Align descendant arguments
->   staging: rtl8192u: Align descendant arguments
->   staging: rtl8192u: Align descendant arguments
->
+> 
+> Signed-off-by: Gilbert Adikankwu <gilbertadikankwu@gmail.com>
+> ---
 >  drivers/staging/rtl8192u/r8180_93cx6.c     |  4 ++--
 >  drivers/staging/rtl8192u/r8190_rtl8256.c   | 16 +++++++--------
 >  drivers/staging/rtl8192u/r8192U_core.c     | 20 +++++++++---------
@@ -66,9 +51,42 @@ On Sun, 15 Oct 2023, Gilbert Adikankwu wrote:
 >  drivers/staging/rtl8192u/r819xU_firmware.c |  4 ++--
 >  drivers/staging/rtl8192u/r819xU_phy.c      |  2 +-
 >  6 files changed, 35 insertions(+), 35 deletions(-)
->
-> --
-> 2.34.1
->
->
->
+> 
+> diff --git a/drivers/staging/rtl8192u/r8180_93cx6.c b/drivers/staging/rtl8192u/r8180_93cx6.c
+> index 2527cea60e3e..1453a0307eb4 100644
+> --- a/drivers/staging/rtl8192u/r8180_93cx6.c
+> +++ b/drivers/staging/rtl8192u/r8180_93cx6.c
+> @@ -114,7 +114,7 @@ int eprom_read(struct net_device *dev, u32 addr)
+>  	ret = 0;
+>  	/* enable EPROM programming */
+>  	write_nic_byte_E(dev, EPROM_CMD,
+> -		       (EPROM_CMD_PROGRAM << EPROM_CMD_OPERATING_MODE_SHIFT));
+> +			 (EPROM_CMD_PROGRAM << EPROM_CMD_OPERATING_MODE_SHIFT));
+>  	force_pci_posting(dev);
+>  	udelay(EPROM_DELAY);
+>  
+> @@ -165,6 +165,6 @@ int eprom_read(struct net_device *dev, u32 addr)
+>  
+>  	/* disable EPROM programming */
+>  	write_nic_byte_E(dev, EPROM_CMD,
+> -		       (EPROM_CMD_NORMAL << EPROM_CMD_OPERATING_MODE_SHIFT));
+> +			 (EPROM_CMD_NORMAL << EPROM_CMD_OPERATING_MODE_SHIFT));
+>  	return ret;
+>  }
+> diff --git a/drivers/staging/rtl8192u/r8190_rtl8256.c b/drivers/staging/rtl8192u/r8190_rtl8256.c
+> index 54747fda552f..a81e88894e01 100644
+> --- a/drivers/staging/rtl8192u/r8190_rtl8256.c
+> +++ b/drivers/staging/rtl8192u/r8190_rtl8256.c
+> @@ -46,17 +46,17 @@ void phy_set_rf8256_bandwidth(struct net_device *dev, enum ht_channel_width Band
+>  				    priv->card_8192_version == VERSION_819XU_B) {
+>  					/* 8256 D-cut, E-cut, xiong: consider it later! */
+>  					rtl8192_phy_SetRFReg(dev,
+> -						(enum rf90_radio_path_e)eRFPath,
+> -						0x0b, bMask12Bits, 0x100); /* phy para:1ba */
+> +							     (enum rf90_radio_path_e)eRFPath,
+> +							     0x0b, bMask12Bits, 0x100); /* phy para:1ba */
+
+Now you added a different checkpatch warning, you can't say you fix one
+and then add another, sorry.
+
+greg k-h
