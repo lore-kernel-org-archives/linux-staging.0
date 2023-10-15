@@ -1,51 +1,51 @@
-Received: from mail-yb1-f172.google.com (mail-yb1-f172.google.com [209.85.219.172])
+Received: from mail-yw1-f182.google.com (mail-yw1-f182.google.com [209.85.128.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2091185F;
-	Sun, 15 Oct 2023 07:44:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDA05185F;
+	Sun, 15 Oct 2023 08:23:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ht2/+AF1"
-Received: by mail-yb1-f172.google.com with SMTP id 3f1490d57ef6-d9a4c0d89f7so3973531276.1;
-        Sun, 15 Oct 2023 00:44:28 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PjZOjt8O"
+Received: by mail-yw1-f182.google.com with SMTP id 00721157ae682-579de633419so42330097b3.3;
+        Sun, 15 Oct 2023 01:23:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1697355865; x=1697960665; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1697358184; x=1697962984; darn=lists.linux.dev;
         h=content-disposition:mime-version:message-id:subject:cc:to:from:date
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=v0wqUm86cDZ6XuiugN8Qh4XmEQLH60ID9xk9j+/hyJE=;
-        b=Ht2/+AF1iPS5gsL0S+hC/buRYVFtGuzoWl9ABSXMXZ356H+wo6AcPPhgVzJnEDGjTE
-         F70e6qAufNaH1bAnWqeSfrPZueC5pitgz5hRwqRxMo24lySA06u/ldc1tLFosdKOb7F9
-         hb0m2bt5oVr/Z8p1oQS0r+7xDSs+pcnfLBD5wDHKB9J5zVZRzkGyoG16mKMxpZwQdK8E
-         YQY6XBqSYPyPp+JCPTsBeDCh7/uxWgobuZ1yu6/pTCk9/ezDuy33OXXcsDHWYUGOckPQ
-         D6xcEpbW8V+zrUptBMqkqheWZPiB9zCgpuCk+zqfG9Sn1fZcheNZC3dkStDm6K90IfQe
-         79dg==
+        bh=lPlp3BV0kEhkLkLYlBgqaMjelRMepDFZfGgnfVSi7gs=;
+        b=PjZOjt8OlL8t87cg8MfbTnmNlEN1coDoPjZ4F37L9h2ultwKAiNIZERuZUMCavA05C
+         e8w3QqRNFJ1win4dfrHAC785b7ygUPUkt8edeI1X0/QZXPEGtpdLgt4fzne7es17DPPR
+         +0G9HobBC352jeXvKmk099ubMsvaqnbgAqQDQE5eVNcDWNMeOcTv2SijaV6pZOgTjH+y
+         DLHiE3Ddhfzjn9PjhSJRdxgkWVwTq1K8s4xL5sgOXToWM05pv7pwROWbeZKd9Ixd4w9N
+         1e66z7gowPW8Ml0efezuUkymfPJ4/MyOGLcl8+RA3kXN3lQesvAdkoSVUMrKvJ2fXbmF
+         SEkw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697355865; x=1697960665;
+        d=1e100.net; s=20230601; t=1697358184; x=1697962984;
         h=content-disposition:mime-version:message-id:subject:cc:to:from:date
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=v0wqUm86cDZ6XuiugN8Qh4XmEQLH60ID9xk9j+/hyJE=;
-        b=NxruuJ2XXR4gNILYUbsOhG2MLFP4aElYxAFOwx8fAYjS11xjC0wjXc2CNTYuB4UfhI
-         1QNiu8IS012J7sI5UqBWCk3bzoVkUsF8RArHql0NbVMgWGilxyHpYimPaJdNVT+cJ5+s
-         R2Ts/inH87hlW+5ujO55g6zduZuc2yaEJLDduU45hvzZld/bUt8li/7eg57AXFHXHAXb
-         c/bKd8fQUa4dh9H4kRN7hf1+32ZnRwxxAjWTjIS1oodZ5MSqEm/KP5qm+Eyl4O9gUQFi
-         Gc63DPq8Zmp1y92RNs2meyNhQC6GENE8FmWmj54QD13H1rZ3DkBe00AX7qPjM9a11G/a
-         Q2UQ==
-X-Gm-Message-State: AOJu0Yx76kbdeZbjQiocE+D5mBLYjATgAfp7aCVJFUftOHRO2s0u/MYB
-	Q4YcV67RhM077DtPwfixEOA=
-X-Google-Smtp-Source: AGHT+IGUpnu7+FkN4+R9jYBUPKfDAeCGSKcw9pE2xxCsHas6sTfNRM1E+dDvWE5Kzl9ArkUizEeeEQ==
-X-Received: by 2002:a25:c085:0:b0:c4b:ada8:8b86 with SMTP id c127-20020a25c085000000b00c4bada88b86mr24951799ybf.64.1697355865422;
-        Sun, 15 Oct 2023 00:44:25 -0700 (PDT)
+        bh=lPlp3BV0kEhkLkLYlBgqaMjelRMepDFZfGgnfVSi7gs=;
+        b=kWsHoYM/zMzpQ3h0G83KBUOilLxU+FVvsCrkbkWnAUjfDb6AkzirYOgpKCUg7jkw87
+         2fxljzC0AyXJ8K6D5oNHG5dmj+JVs4MZ4P/AKBUcRLdTT1Exb7yNDr6tl68gRyFROvrx
+         fEVVR9C2o438mQTrltrQ33NzympN0aLvXfeSQwaeqDrabvlfXn/fLWSAYT19t2jUywaK
+         TO4KrqmQxuHxicJhEi5GyWErB3AT0ureHOZQzLHhafddwOcX180bVs0TMLb4jHOh5cWR
+         w/T/pcnFPpfemhzLdn9SGnDasoMO7a8sD5kp4vqh1JtrBNUo/GQLrYD4KU5Ped5H582y
+         fLPQ==
+X-Gm-Message-State: AOJu0Yx19LXgHW6Bcq3qgf5lMV4LLRhUn13bKnVVgcQThgtJqecikWJZ
+	NtIN8WwcIvVyOilpw1TRjHjEKXMOPR+v7AQj
+X-Google-Smtp-Source: AGHT+IE4WbvGtZc7fOiB7o7fn9fNhDA/1a3SGVNwueO5k0ABoks8ZtYQU5cE0wFA6CMX3e7MVID04A==
+X-Received: by 2002:a81:4f04:0:b0:5a7:bbd1:ec21 with SMTP id d4-20020a814f04000000b005a7bbd1ec21mr15206284ywb.0.1697358184450;
+        Sun, 15 Oct 2023 01:23:04 -0700 (PDT)
 Received: from gilbert-PC ([105.112.18.68])
-        by smtp.gmail.com with ESMTPSA id 20-20020a250214000000b00d7f06aa25c5sm1767555ybc.58.2023.10.15.00.44.21
+        by smtp.gmail.com with ESMTPSA id t201-20020a8183d2000000b00582fae92aa7sm1210082ywf.93.2023.10.15.01.23.00
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 15 Oct 2023 00:44:24 -0700 (PDT)
-Date: Sun, 15 Oct 2023 08:44:18 +0100
+        Sun, 15 Oct 2023 01:23:03 -0700 (PDT)
+Date: Sun, 15 Oct 2023 09:22:58 +0100
 From: Gilbert Adikankwu <gilbertadikankwu@gmail.com>
 To: gregkh@linuxfoundation.org, outreachy@lists.linux.dev
 Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [PATCH] staging: rtl8192u: Align descendant arguments
-Message-ID: <ZSuYUmX5P5M0Ok/I@gilbert-PC>
+Subject: [PATCH v2] staging: rtl8192u: Align descendant arguments
+Message-ID: <ZSuhYpyYfZz5EhDB@gilbert-PC>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -66,6 +66,11 @@ CHECK: Alignment should match open parenthesis
 
 Signed-off-by: Gilbert Adikankwu <gilbertadikankwu@gmail.com>
 ---
+v2: In the first patch I changed my commit title in the
+email and sent it before amending it in my git tree which then changed
+its SHA ID. I felt it might cause an issue so that is why I did a v2
+of the patch.
+
  drivers/staging/rtl8192u/r8180_93cx6.c     |  4 ++--
  drivers/staging/rtl8192u/r8190_rtl8256.c   | 16 +++++++--------
  drivers/staging/rtl8192u/r8192U_core.c     | 20 +++++++++---------
