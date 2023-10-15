@@ -1,114 +1,102 @@
-Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
+Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 032B333F7
-	for <linux-staging@lists.linux.dev>; Sun, 15 Oct 2023 18:42:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58755FBE6;
+	Sun, 15 Oct 2023 19:19:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gDDS8dqb"
-Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-9bdf25cfd3dso70316166b.0
-        for <linux-staging@lists.linux.dev>; Sun, 15 Oct 2023 11:42:04 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Es0UZLKa"
+Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-6b5cac99cfdso1416545b3a.2;
+        Sun, 15 Oct 2023 12:19:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1697395323; x=1698000123; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=lqtpH20wflaioGvES9J8NH5ppY7AwDBKbQOe+1udiSg=;
-        b=gDDS8dqbXgjS7b0l+0Vt+QlinGfMA4UmrpuNzVPoBZlGkONI/8uAdByPjQ4ZXMmpMf
-         Wh4Tt46wD3uvKj9ghpxeIW7n7ET0HR8d0KZpHq1Naf0GdJGCVK+XU+Qu/6dITGISn1UA
-         jbwzP0ERrB/DII4mQwETqeMMDMyzRHOV8XaMNx76BSkPCniZZPitS0vFKIbr4ANxss1U
-         6Ws00ope4rxzDgmjgxrD9lwoHwPp7uc+9A7/OZMkt27c3okzSnE/v9GrkEyK7ZQKqfaJ
-         rYCfOK0AX5nQXKlR33xrlQHWUEHe7M+ILGh46vbBIdhRUJp/JLm++B07U+di/rEG6lnb
-         R2kA==
+        d=gmail.com; s=20230601; t=1697397553; x=1698002353; darn=lists.linux.dev;
+        h=user-agent:in-reply-to:content-disposition:mime-version:references
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=6D1FB5LCWe5+pgRGVMl8YGDlVNocRdZi5zO7vTLOp1k=;
+        b=Es0UZLKa0Blp372VFjkB48C+/MZnFq1mz/zuZUiOOuKToCZG7GR9qz0gnqelsPYD8D
+         nZd0/0TWPYDwr8gH/XEA/c6L55RL5RHSALVmj392PEAvlBti4nHOFrhUCDTZJOgvfnvV
+         83Of/fcfaFA69ZoBx5mEf+++JvYasK3l6ouyyHWxJDotWckEvOFZftzQ0yTL/iN6ExPz
+         HqcS69SB8wBb84DyHjzJEVzyPxSsv1k85DhQoRt2QkTtBi2PdNnw6nbaDs7zFpTAj3Zd
+         Jkr9HZCtjr1fR75iK8BPtc7P5B96Gz/NnBLmv8AotHXELQfQClfqBPRB3n560nuiRGVh
+         VdzQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697395323; x=1698000123;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=lqtpH20wflaioGvES9J8NH5ppY7AwDBKbQOe+1udiSg=;
-        b=k3lMiTPosPGxiP5leC3R8dIl3H2MlhKNQhyWaWuoMnFmJos/eONWv4QDg2BYvo7gsj
-         kQnPruiqbxHp9rCidp+qHM+QqaxsJgTTQcS9M52ZrUdwpZXQm++t+27XtX7PEnMPKFg7
-         AdmTyIrPOaUZ1vyh9vQVi7B5AeY8oO5Qm+UJR3summQN4bcQ3pjBDffWY+uwJ6N2iJz6
-         xAm6DP3rOmLw0icvoe7ape+/t/bzT2KE4lWjp/kDUCOFEAeU5jF2uM2YqSXuwrNeSGsN
-         HjUiavsvealnT4aGHZ9fLW7ItpGUqlElLZ7ayerlM8aCU86Hkf4qUwtR1xg+rmjuSx5u
-         Wg1g==
-X-Gm-Message-State: AOJu0YzTFx+YrvlgcvdG/YEv40FQMxjH/ulAJGWj0zubbQD9JOs48K2Q
-	wVMxPRjz8NyqE5eklGZufyU=
-X-Google-Smtp-Source: AGHT+IHNaW6WWeWoA+ixNKPIZiaPZY/LmCPKta4SIuS41L9rhTiHm3rRf9wxlI/K+SAfdEX0xtYFSw==
-X-Received: by 2002:a17:907:6d1a:b0:9be:8de2:a56c with SMTP id sa26-20020a1709076d1a00b009be8de2a56cmr3832751ejc.0.1697395323004;
-        Sun, 15 Oct 2023 11:42:03 -0700 (PDT)
-Received: from [192.168.0.103] (p579356c7.dip0.t-ipconnect.de. [87.147.86.199])
-        by smtp.gmail.com with ESMTPSA id mr8-20020a170907828800b009adc5802d08sm2591566ejc.190.2023.10.15.11.42.02
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 15 Oct 2023 11:42:02 -0700 (PDT)
-Message-ID: <08e266b5-cc6f-4428-bb50-11122a174e94@gmail.com>
-Date: Sun, 15 Oct 2023 20:42:01 +0200
+        d=1e100.net; s=20230601; t=1697397553; x=1698002353;
+        h=user-agent:in-reply-to:content-disposition:mime-version:references
+         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=6D1FB5LCWe5+pgRGVMl8YGDlVNocRdZi5zO7vTLOp1k=;
+        b=MjUj4kW4YI4KSbUEm58x6/QTWMiNMXrvu3km235jHSLfkOJEori1ahNk8bQRXlHzz+
+         PfqxkZ0f0nqgy5PsVEj1Xg9FA3obUQuSsLZ8WcLGuhMJ/QeOR2ZOW6ulRY54LVkdb/F9
+         yhVipbzeh557dvfBB2jFHNmCf+MbH0dD12qWP/iGuQySCV4o2XydJpq0PY2egNmqlFUO
+         xajCxFEF2rrI58zHl2vd5x3mdLMLHYCS7DOHAwf6wU/mal3ginZXCC6q7nw+0PSwtIFw
+         14V7fslEOy9DNIbsm6ayPAahYx3REzOKrxZefZcqSocQ87booTNVd9MdNeNCLccdUShI
+         hHpQ==
+X-Gm-Message-State: AOJu0YzDLNE2T7ybI8ljvIB0icLDPl2bGEGTeC55ZK8Ky8994GguIVy2
+	HwsovsInWmve247O7Aebg+o=
+X-Google-Smtp-Source: AGHT+IGwnPwzd1w/U3V/+aV6xYyt2haECnHpqgVZhtugIsRBR7bQ6rZcoH8alxLhhb2Gh41Crg25Wg==
+X-Received: by 2002:a05:6a20:5490:b0:13d:8876:4c97 with SMTP id i16-20020a056a20549000b0013d88764c97mr34217524pzk.16.1697397553507;
+        Sun, 15 Oct 2023 12:19:13 -0700 (PDT)
+Received: from Negi (2603-8000-b93d-20a0-2184-6fa4-0d39-1c6b.res6.spectrum.com. [2603:8000:b93d:20a0:2184:6fa4:d39:1c6b])
+        by smtp.gmail.com with ESMTPSA id i15-20020a63b30f000000b005891f3af36asm5641490pgf.87.2023.10.15.12.19.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 15 Oct 2023 12:19:12 -0700 (PDT)
+Date: Sun, 15 Oct 2023 12:19:10 -0700
+From: Soumya Negi <soumya.negi97@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Jonathan Kim <jonathankim@gctsemi.com>, Dean ahn <deanahn@gctsemi.com>,
+	outreachy@lists.linux.dev, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 2/2] tty: gdm724x: Add blank line after declaration
+Message-ID: <20231015191910.GA2361@Negi>
+References: <cover.1697184167.git.soumya.negi97@gmail.com>
+ <3b24ca9976cf873dbaadb499e09d7b545e9db89c.1697184167.git.soumya.negi97@gmail.com>
+ <2023101551-placidly-garnish-3ee7@gregkh>
+ <20231015060716.GA31326@Negi>
+ <2023101508-curry-disorder-1b10@gregkh>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] [RFC] wireless: move obsolete drivers to staging
-To: Arnd Bergmann <arnd@arndb.de>, Arnd Bergmann <arnd@kernel.org>,
- Kalle Valo <kvalo@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Nicolas Ferre <nicolas.ferre@microchip.com>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Claudiu Beznea <claudiu.beznea@tuxon.dev>, Jakub Kicinski <kuba@kernel.org>,
- Pavel Machek <pavel@ucw.cz>, "David S . Miller" <davem@davemloft.net>,
- Larry Finger <Larry.Finger@lwfinger.net>, linux-kernel@vger.kernel.org,
- linux-wireless@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-staging@lists.linux.dev
-References: <20231010155444.858483-1-arnd@kernel.org>
- <e93e4008-65c5-4f1d-812a-64b48f0513a2@gmail.com>
- <c8f43e1b-aed1-4b45-ba7c-d896ff66dfa7@app.fastmail.com>
-Content-Language: en-US
-From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-In-Reply-To: <c8f43e1b-aed1-4b45-ba7c-d896ff66dfa7@app.fastmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <2023101508-curry-disorder-1b10@gregkh>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 
-On 10/13/23 17:36, Arnd Bergmann wrote:
-> At the moment, I'd suggest focusing on the drivers that still use wext 
-> (git grep -w iw_handler_def drivers), if we can show that rtl8192e, 
-> rtl8712 or ks7010 have been broken for a while, removing those would 
-> help with removing wext altogether.
+Hi Greg,
 
+On Sun, Oct 15, 2023 at 02:50:44PM +0200, Greg Kroah-Hartman wrote:
+> On Sat, Oct 14, 2023 at 11:07:16PM -0700, Soumya Negi wrote:
+> > On Sun, Oct 15, 2023 at 07:37:30AM +0200, Greg Kroah-Hartman wrote:
+> > > On Fri, Oct 13, 2023 at 01:26:35AM -0700, Soumya Negi wrote:
+> > > > Fix WARNING: Missing a blank line after declarations
+> > > > Issue found by checkpatch.pl
+> > > > 
+> > > > Signed-off-by: Soumya Negi <soumya.negi97@gmail.com>
+> > > > ---
+> > > >  drivers/staging/gdm724x/gdm_tty.c | 1 +
+> > > >  1 file changed, 1 insertion(+)
+> > > 
+> > > Why do you have "tty:" as the prefix for a staging driver?  Shouldn't it
+> > > be "staging: gdm724x: ...."?
+> > 
+> > Hi Greg,
+> > 
+> > Thats what I thought too. But when I looked at the git history for
+> > gdm_tty.c the last few commits had "tty:". So I went with that.
+> 
+> That is because those commits were tty-wide, and they changed things in
+> multiple drivers all at once, not just for the one file.
+>
+> > Should I change it to "staging:"?
+> 
+> Please do.
 
-Hi,
+I'm sending this patch in a new thread since the other patch in the
+patchset(had 2 patches) was reviewed as unneeded.
 
-__rtl8192e__
-this hardware is available on ebay 13 times.
-ping statistics:
-1191 packets transmitted, 1191 received, 0% packet loss, time 1192169ms
-rtt min/avg/max/mdev = 0.633/2.184/74.792/3.157 ms
-maximum download 12,5 MByte/s
-
-__rtl8712__
-stick packard bell AW-NU120
-ping statistics:
-678 packets transmitted, 652 received, 3.83481% packet loss, time 678287ms
-rtt min/avg/max/mdev = 0.943/4.835/231.435/17.900 ms
-maximum download 12,5 MByte/s
-
-I would like to remove the private functions as the "wireless tools" 
-package is deprecated. The following functions are available:
-kernel@matrix-ESPRIMO-P710:~/Documents/git/kernels/staging$ iwpriv wlan0
-wlan0     Available private ioctls :
-           read32           (8BE0) : set   1 int   & get   0
-           write32          (8BE1) : set   1 int   & get   0
-           driver_ext       (8BE2) : set   0       & get   0
-           mp_ioctl         (8BE3) : set   0       & get   0
-           apinfo           (8BE4) : set   1 int   & get   0
-           setpid           (8BE5) : set   1 int   & get   0
-           wps_start        (8BE6) : set   1 int   & get   0
-           chplan           (8BE7) : set   1 int   & get   0
-
-What do you think about this?
-
-Thanks
-
-Bye Philipp
+Regards,
+Soumya
