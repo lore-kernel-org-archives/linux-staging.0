@@ -1,91 +1,110 @@
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail3-relais-sop.national.inria.fr (mail3-relais-sop.national.inria.fr [192.134.164.104])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D0346FDA;
-	Sun, 15 Oct 2023 14:25:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14CE9749C;
+	Sun, 15 Oct 2023 15:38:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inria.fr
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=inria.fr
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HtgJLkK7"
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-4066692ad35so37589555e9.1;
-        Sun, 15 Oct 2023 07:25:02 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=inria.fr header.i=@inria.fr header.b="VtXvNYIf"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1697379901; x=1697984701; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=uFgPztQppmCCCzmM2GEubbYdc8VreQZXvcgDjFAmCwY=;
-        b=HtgJLkK7CL2R1VhTDzjnuHG5FTf/VaAB6XN1MRB6lde8rFkuXj9OEM0pKh3DgEq4g0
-         bFAlSvaj1xHYoGbhukjsZYZxa+a5ZLNzlSXJ1i5MjPyiW2EpWeLEFArFQdL35D8AOEgn
-         VdTp7rX8xc9VjWLbw+0TCbnFBfJ10NnbkojFYmtIvUIFK91VD+ZgVAu6k9Va9pvL8QZs
-         yZDikjrIlJuUKYXt4QbCKr1xGyu1nB1lxYJA8itwPB6GMWnBdqKIfyucjh+fa8OhL/av
-         9W4qSmCJ9nypzlGQPzVQX8xQRSl+ogeLlboKfCuhGUgVWxgFakrUfCR/2n5CQHjFFiOo
-         oqIQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697379901; x=1697984701;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=uFgPztQppmCCCzmM2GEubbYdc8VreQZXvcgDjFAmCwY=;
-        b=v1uTfMeveSPrplSPYZ9Cphj6tSiz912XgxOosbjq6pP5alSqMscmxBrbSCqJDTYAtV
-         c4HZhAyxxz3ApVdZ7nw+KD150vmqv9PcI2NyiQXuw02Q0kwEV90KllZtmfUOnAFP/B9q
-         CECEd7FUvQf3ponYvpYEkuwWuzjUf6lo75xNUV6uCGs0kzHN2wAt+NWSC67TF7fLg9wO
-         YVQ3RNfarvXOJBB55PltOFFRmNHazW5T8HOUwt+LEoaDRNibi913QLwVGZC4m7KKmKhl
-         XCnzZCx8vN/15/vjxgeYAOH3ca5fKnk7vLspXsj4UGsBclYCnIW+yfSYDU01VouTSPHR
-         pO9A==
-X-Gm-Message-State: AOJu0YybDQWdmpXXF0S5q4KyAZqP9NhTsgZPEDlwtRGGjEHG+cijUQl3
-	+0PtTeRByO3cjT6gqTFuvdY=
-X-Google-Smtp-Source: AGHT+IG8pluCHBLBeAuWJR3Muz1UtlfXuciY2kmnoEUaLPJIdbX0bCo3ucqK6FD4nZKTCgya+om38Q==
-X-Received: by 2002:a05:600c:2a4e:b0:406:3f62:e591 with SMTP id x14-20020a05600c2a4e00b004063f62e591mr28059955wme.41.1697379900390;
-        Sun, 15 Oct 2023 07:25:00 -0700 (PDT)
-Received: from lab-ubuntu ([41.90.64.203])
-        by smtp.gmail.com with ESMTPSA id p10-20020a05600c1d8a00b003fe23b10fdfsm4624604wms.36.2023.10.15.07.24.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 15 Oct 2023 07:24:59 -0700 (PDT)
-Date: Sun, 15 Oct 2023 17:24:57 +0300
-From: Calvince Otieno <calvncce@gmail.com>
-To: gustavo@embeddedor.com, outreachy@lists.linux.dev
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Calvince Otieno <calvncce@gmail.com>
-Subject: [PATCH] staging: wlan-ng: remove unused function prototypes
-Message-ID: <ZSv2ObWLvlbM2hXn@lab-ubuntu>
+  d=inria.fr; s=dc;
+  h=date:from:to:cc:subject:in-reply-to:message-id:
+   references:mime-version;
+  bh=LhxJfPnQdDLA1pwf55OjKcjy9RE5WkjM3OkEMcxoyfg=;
+  b=VtXvNYIfchdFqk9ttxMwFA7AHY4rmL3jhvMH9vGZm8gxZeDB5Q57UxYA
+   QBACfbHbW0wWWWXwMS3ErE7TvUtLh8fYw/DH0qrqL4Mu9hbDULUOl5Lli
+   SBTBSxaDAuVWgUVXvlJMF96+xx8HrXG8JkBAFWQVVi/gIQf71QtWydZjo
+   A=;
+Authentication-Results: mail3-relais-sop.national.inria.fr; dkim=none (message not signed) header.i=none; spf=SoftFail smtp.mailfrom=julia.lawall@inria.fr; dmarc=fail (p=none dis=none) d=inria.fr
+X-IronPort-AV: E=Sophos;i="6.03,226,1694728800"; 
+   d="scan'208";a="68757064"
+Received: from unknown (HELO hadrien) ([87.129.180.234])
+  by mail3-relais-sop.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Oct 2023 17:38:35 +0200
+Date: Sun, 15 Oct 2023 17:38:03 +0200 (CEST)
+From: Julia Lawall <julia.lawall@inria.fr>
+To: Andi Shyti <andi.shyti@linux.intel.com>
+cc: Gilbert Adikankwu <gilbertadikankwu@gmail.com>, gregkh@linuxfoundation.org, 
+    outreachy@lists.linux.dev, linux-staging@lists.linux.dev, 
+    linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] staging: rtl8192u: Align descendant arguments
+In-Reply-To: <ZSulKrvrrLyfnzND@ashyti-mobl2.lan>
+Message-ID: <b771397b-30a0-dccd-6f4a-cf16ad2e8de0@inria.fr>
+References: <ZSuhYpyYfZz5EhDB@gilbert-PC> <ZSulKrvrrLyfnzND@ashyti-mobl2.lan>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Type: text/plain; charset=US-ASCII
 
-These functions are declared but not defined or used anywhere.
-Their definitions were removed 15 years ago in the
-commit cbec30c4c00c ("Staging: wlan-ng: Delete a large pile of
-now-unused code.")
 
-Signed-off-by: Calvince Otieno <calvncce@gmail.com>
----
- drivers/staging/wlan-ng/prism2mgmt.h | 8 --------
- 1 file changed, 8 deletions(-)
 
-diff --git a/drivers/staging/wlan-ng/prism2mgmt.h b/drivers/staging/wlan-ng/prism2mgmt.h
-index 083a055ee986..8c3f1ac35913 100644
---- a/drivers/staging/wlan-ng/prism2mgmt.h
-+++ b/drivers/staging/wlan-ng/prism2mgmt.h
-@@ -78,14 +78,6 @@ void prism2mgmt_pstr2bytestr(struct hfa384x_bytestr *bytestr,
- void prism2mgmt_bytestr2pstr(struct hfa384x_bytestr *bytestr,
- 			     struct p80211pstrd *pstr);
- 
--/* functions to convert Group Addresses */
--void prism2mgmt_get_grpaddr(u32 did, struct p80211pstrd *pstr,
--			    struct hfa384x *priv);
--int prism2mgmt_set_grpaddr(u32 did,
--			   u8 *prism2buf, struct p80211pstrd *pstr,
--			   struct hfa384x *priv);
--int prism2mgmt_get_grpaddr_index(u32 did);
--
- void prism2sta_processing_defer(struct work_struct *data);
- 
- void prism2sta_commsqual_defer(struct work_struct *data);
--- 
-2.34.1
+On Sun, 15 Oct 2023, Andi Shyti wrote:
 
+> Hi Gilbert,
+>
+> On Sun, Oct 15, 2023 at 09:22:58AM +0100, Gilbert Adikankwu wrote:
+> > Adhere to Linux kernel coding style.
+> >
+> > "...A very commonly used style is to align descendants to a function
+> > open parenthesis" - (Excerpted from Linux kernel coding style (#2))
+> >
+> > Reported by checkpatch:
+> >
+> > CHECK: Alignment should match open parenthesis
+> >
+> > Signed-off-by: Gilbert Adikankwu <gilbertadikankwu@gmail.com>
+>
+> I don't like this commit message. Although it's correctly
+> written, I think it can be improved in order to be more
+> immediately understandable.
+>
+> Write what you did in imperative form:
+>
+> "Adhere to Linux kernel coding style" doesn't mean much, you can
+> write
+>
+>   Align descendant argument to the open parenthesis as per the
+>   "Linux kernel coding style" in
+>   Documentation/process/coding-style.rst.
+>
+> Yuo tell immediately what you did and where to find the
+> reference. Citing the document in the commit log, in this case,
+> looks to me like an unnecessary information.
+>
+> Copy pasting the output of the error is a very good practice and
+> you can write it as:
+>
+>   Mute the following checkpatch error:
+>
+>     CHECK: Alignment should match open parenthesis
+
+In this case, it seems fine, but some of the checkpatch messages are a bit
+verbose, and anyway the specific fix is a bit different than the
+checkpatch message, so you can use your judgement about this.
+
+julia
+
+>
+> > ---
+> > v2: In the first patch I changed my commit title in the
+> > email and sent it before amending it in my git tree which then changed
+> > its SHA ID. I felt it might cause an issue so that is why I did a v2
+> > of the patch.
+>
+> It's not an issue, you can do that.
+>
+> But I'm going to give you another piece of advice that I already
+> gave in this list. Do not send patches between versions too fast.
+> Reviewers need some time to review... wait some time before
+> sending the v2, so that the v1 gets enough visibility. Sometimes
+> reviewers correct each other, but they need time to read the
+> e-mails.
+>
+> This way you would also avoid unnecessary noise.
+>
+> Andi
+>
+>
