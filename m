@@ -1,28 +1,55 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52F15CA4D;
-	Sun, 15 Oct 2023 19:28:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55769CA4D;
+	Sun, 15 Oct 2023 20:02:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="Y/eyc2CY"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AE29DC433C7;
-	Sun, 15 Oct 2023 19:28:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1697398097;
-	bh=NvvSDT0DdlGAaVq23B5QUDrtCIF+hE6S3uS807DItYk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Y/eyc2CYnBWgrZpCISUQpFR7Qdg4bi3xLWY/PtEClfbRwA042rTK6+aO1k+2QPM15
-	 xwbTpMQl8x7LrWy90VPiEWGpra+7usQ+gUnnUpg/RWgwQColTCeX2nwZW8bJZWasGT
-	 Yf7e1Dtt0HW1o8l00nSJNc+yzkbNreYnbzEownfM=
-Date: Sun, 15 Oct 2023 21:28:14 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Soumya Negi <soumya.negi97@gmail.com>
-Cc: Jonathan Kim <jonathankim@gctsemi.com>, Dean ahn <deanahn@gctsemi.com>,
-	outreachy@lists.linux.dev, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: gdm724x: Add blank line after declaration
-Message-ID: <2023101501-sprung-lance-c017@gregkh>
-References: <20231015192139.3121-1-soumya.negi97@gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="f0FVcy7G"
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-4064876e8b8so42051125e9.0;
+        Sun, 15 Oct 2023 13:02:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1697400142; x=1698004942; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=FG9AttEioQfqRDZbNIP/22fcyG3rw6EjNALMu0XvLK8=;
+        b=f0FVcy7G6agAFRF8V5U/hrVuTnHJYWFBE7dxjXuxzMcJewFRyk9mrNzU59l+JSxLdg
+         OD4ICSZoRNWVwyf8OdVGHNyJBSG6xmiskwZvpASFhBg7MMK48zvEifcF+Dzf1u/sn9JK
+         2iDn1n2LxgcE+DWvP41Q80C5laT1t6djd7SyFHSJXuIVTgpkCLOH6SGl3tuTknsTT4iV
+         ODZTxmCMhScXSd6CFCXBEZusK3QBVbv4GE1DlnNjD2r147mntDlGR6SUnrfuHDJ1wkVk
+         Yj/5As3BomxAOOMRr5Mpu7ZGNOAMrvhRWTs28UdvP4bg//1h2dQusI+hyOpF01wpI7RP
+         Wt1g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1697400142; x=1698004942;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=FG9AttEioQfqRDZbNIP/22fcyG3rw6EjNALMu0XvLK8=;
+        b=m4aJa5kUppRqsheq9H2iWfmbehGuSqHjLlY33qekdV37qkJZq6T6hRYCGoRcPsJgVa
+         cvNGuVM7L5DxKCIA9xEhUjeypkVXm+itqZR4hWpjwA4Pjeeb6TJKvrkBgJYc1hcB8e8F
+         L6QmKiGKftMqRQd/40HR9oWv4Ynq+0EzkDs0/oY4eCxXtjzkjip9NtZAHlGZtehc1pkN
+         VguEz0djMxWmscQTsCNs1EIMH3octaDW4w+pNWQZ3XL+WIgdQWI+g3zYDcWA/qxyzC2s
+         ZRkwr9Ht8IbycZf0TovxyRGINHNJn0tG+V7lj7+vcEOzgzlA16hZnhgsDGgiFqikO7CC
+         qYXw==
+X-Gm-Message-State: AOJu0Yy5LDLArqn36MeaETKjNgixo5QND1XnI5aSpVv5drAdiUfuUo3N
+	G7JZe7AnSKVjjR/SP1wnVeg=
+X-Google-Smtp-Source: AGHT+IE4bDbkmn4bZXjxYPES1Y7BM57oxEqu857Y/Z3/gW1gzo7nRe65Gb1fFRiWjp5zXul1UtQoaA==
+X-Received: by 2002:a05:600c:2298:b0:406:4573:81d2 with SMTP id 24-20020a05600c229800b00406457381d2mr26922024wmf.39.1697400142167;
+        Sun, 15 Oct 2023 13:02:22 -0700 (PDT)
+Received: from lab-ubuntu ([41.90.67.11])
+        by smtp.gmail.com with ESMTPSA id o6-20020a05600c4fc600b0040472ad9a3dsm5294765wmq.14.2023.10.15.13.02.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 15 Oct 2023 13:02:21 -0700 (PDT)
+Date: Sun, 15 Oct 2023 23:02:19 +0300
+From: Calvince Otieno <calvncce@gmail.com>
+To: gustavo@embeddedor.com, outreachy@lists.linux.dev
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Calvince Otieno <calvncce@gmail.com>,
+	Sergio Paracuellos <sergio.paracuellos@gmail.com>,
+	Solomon Peachy <pizza@shaftnet.org>
+Subject: [PATCH v2] staging: wlan-ng: remove unused function prototypes
+Message-ID: <ZSxFS8EnFr998PqS@lab-ubuntu>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -31,58 +58,51 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231015192139.3121-1-soumya.negi97@gmail.com>
 
-On Sun, Oct 15, 2023 at 12:21:37PM -0700, Soumya Negi wrote:
-> Fix WARNING: Missing a blank line after declarations
-> Issue found by checkpatch.pl
-> 
-> Signed-off-by: Soumya Negi <soumya.negi97@gmail.com>
-> ---
->  drivers/staging/gdm724x/gdm_tty.c | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/drivers/staging/gdm724x/gdm_tty.c b/drivers/staging/gdm724x/gdm_tty.c
-> index 4e5cac76db58..0c61eaff6122 100644
-> --- a/drivers/staging/gdm724x/gdm_tty.c
-> +++ b/drivers/staging/gdm724x/gdm_tty.c
-> @@ -160,6 +160,7 @@ static ssize_t gdm_tty_write(struct tty_struct *tty, const u8 *buf, size_t len)
->  
->  	while (remain) {
->  		size_t sending_len = min_t(size_t, MUX_TX_MAX_SIZE, remain);
-> +
->  		gdm->tty_dev->send_func(gdm->tty_dev->priv_dev,
->  					(void *)(buf + sent_len),
->  					sending_len,
-> -- 
-> 2.42.0
-> 
-> 
+These functions are declared but not defined or used anywhere. Their 
+definitions were removed 15 years ago.
 
-Hi,
+prism2mgmt_set_grpaddr() was removed in the
+commit 1e7201836c57 ("Staging: wlan-ng: Delete a pile of unused mibs.
+And fix WEXT SET_TXPOWER.")
+It's signature was changed in the commit 5a2214e2e02f ("staging: 
+wlang-ng: avoid new typedef: hfa384x_t")
 
-This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
-a patch that has triggered this response.  He used to manually respond
-to these common problems, but in order to save his sanity (he kept
-writing the same thing over and over, yet to different people), I was
-created.  Hopefully you will not take offence and will fix the problem
-in your patch and resubmit it so that it can be accepted into the Linux
-kernel tree.
+prism2mgmt_get_grpaddr() and prism2mgmt_get_grpaddr_index() were
+removed in the commit cbec30c4c00c ("Staging: wlan-ng: Delete a large pile of
+now-unused code.")
 
-You are receiving this message because of the following common error(s)
-as indicated below:
+Signed-off-by: Calvince Otieno <calvncce@gmail.com>
+---
+Patch v2:
+	- Updated the patch description to include the commit history indicating
+	when the function definitions were deleted.
 
-- This looks like a new version of a previously submitted patch, but you
-  did not list below the --- line any changes from the previous version.
-  Please read the section entitled "The canonical patch format" in the
-  kernel file, Documentation/process/submitting-patches.rst for what
-  needs to be done here to properly describe this.
+Patch v1:
+	- Removed the function declarations
 
-If you wish to discuss this problem further, or you have questions about
-how to resolve this issue, please feel free to respond to this email and
-Greg will reply once he has dug out from the pending patches received
-from other developers.
+ drivers/staging/wlan-ng/prism2mgmt.h | 8 --------
+ 1 file changed, 8 deletions(-)
 
-thanks,
+diff --git a/drivers/staging/wlan-ng/prism2mgmt.h b/drivers/staging/wlan-ng/prism2mgmt.h
+index 083a055ee986..8c3f1ac35913 100644
+--- a/drivers/staging/wlan-ng/prism2mgmt.h
++++ b/drivers/staging/wlan-ng/prism2mgmt.h
+@@ -78,14 +78,6 @@ void prism2mgmt_pstr2bytestr(struct hfa384x_bytestr *bytestr,
+ void prism2mgmt_bytestr2pstr(struct hfa384x_bytestr *bytestr,
+ 			     struct p80211pstrd *pstr);
+ 
+-/* functions to convert Group Addresses */
+-void prism2mgmt_get_grpaddr(u32 did, struct p80211pstrd *pstr,
+-			    struct hfa384x *priv);
+-int prism2mgmt_set_grpaddr(u32 did,
+-			   u8 *prism2buf, struct p80211pstrd *pstr,
+-			   struct hfa384x *priv);
+-int prism2mgmt_get_grpaddr_index(u32 did);
+-
+ void prism2sta_processing_defer(struct work_struct *data);
+ 
+ void prism2sta_commsqual_defer(struct work_struct *data);
+-- 
+2.34.1
 
-greg k-h's patch email bot
