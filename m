@@ -1,27 +1,29 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C43B8F50;
-	Sun, 15 Oct 2023 16:13:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9CD779F4
+	for <linux-staging@lists.linux.dev>; Sun, 15 Oct 2023 16:17:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="dn8ffKcX"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 82FDFC433C8;
-	Sun, 15 Oct 2023 16:13:48 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="lxPPuJVs"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 02604C433C8;
+	Sun, 15 Oct 2023 16:17:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1697386428;
-	bh=fACR+XJLl9B/jjpthQjGUUKc7ebs03eV424puDrJuis=;
+	s=korg; t=1697386678;
+	bh=JjwR3Iik7yapto6dZBJQNmf0aTKZs2ObMm2rWIEIAv0=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=dn8ffKcXqjz/kcKfeFJ2MowejFrBtDPmb1jSxphGkWhMbMdBF5ft8OclL/SGGclQO
-	 v46UMb6f6nLAdb17eP5E0gcwdkup4qoIQn/YmSXd13rSVoRaAQAQFP2ebWvo5c0nmw
-	 dr5cySAM2THcHcMqajWC6Kxqk/QL3WFeicd6SjxY=
-Date: Sun, 15 Oct 2023 18:13:46 +0200
+	b=lxPPuJVssZgz9N8vnb7K0yqgihdBkeBkf1s4LgrGKPCKla3QnZaPSgydmKC0LHV4/
+	 24KSAA5TUc8AvM4RchPLogC02WW4bbwKc3j+P/mBJzBqsRYt0nyhbMacpFforE9pZx
+	 TkVMSSq61pPUbYU+zIrIFhbvp4HF+M/MHqJDox2k=
+Date: Sun, 15 Oct 2023 18:17:53 +0200
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Calvince Otieno <calvncce@gmail.com>
-Cc: gustavo@embeddedor.com, outreachy@lists.linux.dev,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: wlan-ng: remove unused function prototypes
-Message-ID: <2023101530-estate-strum-cfab@gregkh>
-References: <ZSv2ObWLvlbM2hXn@lab-ubuntu>
+To: Umang Jain <umang.jain@ideasonboard.com>
+Cc: linux-staging@lists.linux.dev, linux-media@vger.kernel.org,
+	linux-rpi-kernel@lists.infradead.org,
+	Stefan Wahren <stefan.wahren@i2se.com>,
+	Dave Stevenson <dave.stevenson@raspberrypi.com>
+Subject: Re: [PATCH v2] staging: vc04_services: vchiq_bus: Do not kfree device
+Message-ID: <2023101540-treason-unbounded-47b6@gregkh>
+References: <20231009104714.142880-1-umang.jain@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -30,40 +32,33 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ZSv2ObWLvlbM2hXn@lab-ubuntu>
+In-Reply-To: <20231009104714.142880-1-umang.jain@ideasonboard.com>
 
-On Sun, Oct 15, 2023 at 05:24:57PM +0300, Calvince Otieno wrote:
-> These functions are declared but not defined or used anywhere.
-> Their definitions were removed 15 years ago in the
-> commit cbec30c4c00c ("Staging: wlan-ng: Delete a large pile of
-> now-unused code.")
+On Mon, Oct 09, 2023 at 04:17:14PM +0530, Umang Jain wrote:
+> As per device_register() documentation, this kfree() on error path will
+> crash. The call to put_device() is all that is needed here to free the
+> memory.
 > 
-> Signed-off-by: Calvince Otieno <calvncce@gmail.com>
+> Fixes: 027e5703de6b ("staging: vc04_services: vchiq_arm: Add new bus type and device type")
+> Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
 > ---
->  drivers/staging/wlan-ng/prism2mgmt.h | 8 --------
->  1 file changed, 8 deletions(-)
+>  drivers/staging/vc04_services/interface/vchiq_arm/vchiq_bus.c | 1 -
+>  1 file changed, 1 deletion(-)
 > 
-> diff --git a/drivers/staging/wlan-ng/prism2mgmt.h b/drivers/staging/wlan-ng/prism2mgmt.h
-> index 083a055ee986..8c3f1ac35913 100644
-> --- a/drivers/staging/wlan-ng/prism2mgmt.h
-> +++ b/drivers/staging/wlan-ng/prism2mgmt.h
-> @@ -78,14 +78,6 @@ void prism2mgmt_pstr2bytestr(struct hfa384x_bytestr *bytestr,
->  void prism2mgmt_bytestr2pstr(struct hfa384x_bytestr *bytestr,
->  			     struct p80211pstrd *pstr);
+> diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_bus.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_bus.c
+> index 4ac3491efe45..0076d091b9b2 100644
+> --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_bus.c
+> +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_bus.c
+> @@ -73,7 +73,6 @@ vchiq_device_register(struct device *parent, const char *name)
+>  	if (ret) {
+>  		dev_err(parent, "Cannot register %s: %d\n", name, ret);
+>  		put_device(&device->dev);
+> -		kfree(device);
+>  		return NULL;
+>  	}
 >  
-> -/* functions to convert Group Addresses */
-> -void prism2mgmt_get_grpaddr(u32 did, struct p80211pstrd *pstr,
-> -			    struct hfa384x *priv);
-> -int prism2mgmt_set_grpaddr(u32 did,
-> -			   u8 *prism2buf, struct p80211pstrd *pstr,
-> -			   struct hfa384x *priv);
-> -int prism2mgmt_get_grpaddr_index(u32 did);
-> -
->  void prism2sta_processing_defer(struct work_struct *data);
->  
->  void prism2sta_commsqual_defer(struct work_struct *data);
 > -- 
-> 2.34.1
+> 2.40.1
 > 
 > 
 
