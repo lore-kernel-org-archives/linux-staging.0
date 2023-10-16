@@ -1,46 +1,47 @@
-Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
+Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2572B34CE3;
-	Mon, 16 Oct 2023 20:15:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9DE534CE3;
+	Mon, 16 Oct 2023 20:15:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mNAGwtju"
-Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-9ada2e6e75fso873104866b.2;
-        Mon, 16 Oct 2023 13:15:05 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JpRPv1kU"
+Received: by mail-ed1-f42.google.com with SMTP id 4fb4d7f45d1cf-53e70b0a218so3895286a12.2;
+        Mon, 16 Oct 2023 13:15:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1697487304; x=1698092104; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=FRniKyUz9iHO7Fz4n7LlSe4JaoEPWk/8N3r3s0S38yc=;
-        b=mNAGwtju6yOqun5eD9HZwS4Ys/PP5Fk1q9PXpjL/XRyfEPGqfQ4LL83G2owM46XBrz
-         zus2YsRvcEoWH44e3CFt5ctIUCy5N9NEgnPTLL8Qzvn1Gv8jh6ldxQG3EPcBPoUIqC0o
-         AXqJU4P66ChG1vgD40PFnCCzyJtbTzSLhz6nHg7bktFMYKSTgtclV0p4PSe3oAzcn8qw
-         FDvA//vjRQFvPv+bgpl0PEx5cAND5j/koweDvJuoJG0IElR6+rwhUMWp+55MwzTDtEFN
-         5EopSNl9XLR+ew0xtAnFJBjZAj5zF5Re6D15LknZjRGIdPRGI8DpWsYtGaeGHFW91B/W
-         OLcQ==
+        d=gmail.com; s=20230601; t=1697487336; x=1698092136; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=JWwYlaRFlBZNOnbwWi1D/5pxIeYnW6pCz+TmV2noCe8=;
+        b=JpRPv1kUbi8yBJxKV5lQkwMde2Z2ndtCahajYSKezi+c6C2J89MQyqlClKgevbIUnu
+         wdBz/ZGczPRSGxsMoM/DM7+9LReSe9rgh7taFc4a9ORh11H3yM+nheCkM0LPvbT5GT+n
+         gYWQrzxzFb0yirmzrZet5F7/ofIxTQM7BrJv5mrZ5cIoQuogPRwcubOZDUh6jAb+4fmh
+         zZ98KMnLh7gG9/jFcHGIqWcyJZ4VOXlOlGRZ/gD/or7Acu4dDTMmD4YDNT52WE7fKuMj
+         T664LsFoz9Q1P2s1v8lbUlsa+DEzCLijktmrj1um4PytbduP/pwZVoWIyaQamsYpJo8G
+         Ey3g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697487304; x=1698092104;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=FRniKyUz9iHO7Fz4n7LlSe4JaoEPWk/8N3r3s0S38yc=;
-        b=tAYm2i5r2yiAa8NYphXjtrWSrD7jxNYa6lxKuN+fJP1g/OyFmHNMFAcvCR3AhwJwki
-         8FjaMrMvNsoTVgEoh3yygv6qFUD+ny48QFd+YjmWJoQBm1CDuBeTNEJBntkpxdDy8BGx
-         JdJCF7bwbWnhsm6WXWw++PDh3xv803d3FtVA4VVWnyCNM/zgX8IvBVYM06wY15EsmepS
-         oOr4AG4xTlke0hyW8GpbSCoNkA65kNd//CVC7eyLH4HlWGcqrSqNfjNosFZOFQs5TvkR
-         +AJfAU/KsZTInKOjBWvYNkP058H1UY2EvMDxiu0hTrilYqKwE0hiTUnVHXgA4ddJgRvy
-         Y6ZA==
-X-Gm-Message-State: AOJu0Yzx/5Pfu4nQAsf1EpxEKuJX1/VUGOQNL2qErgSa6SSp+4AiqsRO
-	zDF4Nxi+MyBg0+F60Y8NXA==
-X-Google-Smtp-Source: AGHT+IFqWbp0v+lRnIYAfoA8RbKDtJE6+FBX4X9Kzec6bIIB2oZpNU94+sLO+oRr4pQMPO6v2uYU3w==
-X-Received: by 2002:a17:907:6d1d:b0:9be:5ab2:73c2 with SMTP id sa29-20020a1709076d1d00b009be5ab273c2mr104647ejc.58.1697487303797;
-        Mon, 16 Oct 2023 13:15:03 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1697487336; x=1698092136;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=JWwYlaRFlBZNOnbwWi1D/5pxIeYnW6pCz+TmV2noCe8=;
+        b=ivdfGO3QV5NoA8vuJfKpGchYN1CAiD3SF1Bz6v1ihZ43cMPxiBtl/yuDK6zIJYboyG
+         Y+r+BZDwmL5ZO+x+6G/Ud/kIf94kQd+umFnSk8gOXa4TyFmRxyW0xiY6zYzy6ZAZS4aC
+         kzsy9QAkEQv9BQfK2vakhX0TBqD8m8hF+xlnL+5t5kYXAp04dcQMNgSMG0u0gTgZVoqi
+         HmcPP2867ohLw2ATqivB9UYWFV0OreppGVmahZXTmMVaQ7fiZbeKw5xL56AvkHLYq3YE
+         dWH4u/hu9y2jtzgfhgCrPvtZNgEiOHY0QXsTs9Ho/VijtNY6oZrrrGCPYbMiS45dGoB/
+         TNkA==
+X-Gm-Message-State: AOJu0Yy6zys7vvhAEbZmtYvDVIVYaPKk2bdaCCSb/ED0HREMdPMnsHCB
+	ZzsRRfZd9V+R3rKTYPLD00ispqq8x+1dsg0=
+X-Google-Smtp-Source: AGHT+IGJSdPocqhPOmarYwovWzPyDfGeS8QtO/7KpgvqKud+6g2Ztpv0Xa9D1qNWuY2xtlBrHYcGGg==
+X-Received: by 2002:a17:907:2d12:b0:9c3:e66e:2006 with SMTP id gs18-20020a1709072d1200b009c3e66e2006mr101565ejc.9.1697487335730;
+        Mon, 16 Oct 2023 13:15:35 -0700 (PDT)
 Received: from dorcaslitunya-virtual-machine.localdomain ([105.163.1.143])
-        by smtp.gmail.com with ESMTPSA id u26-20020a17090657da00b009b97521b58bsm4606055ejr.39.2023.10.16.13.15.00
+        by smtp.gmail.com with ESMTPSA id u26-20020a17090657da00b009b97521b58bsm4606055ejr.39.2023.10.16.13.15.33
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 16 Oct 2023 13:15:03 -0700 (PDT)
+        Mon, 16 Oct 2023 13:15:35 -0700 (PDT)
 From: Dorcas AnonoLitunya <anonolitunya@gmail.com>
 To: 
 Cc: anonolitunya@gmail.com,
@@ -53,10 +54,12 @@ Cc: anonolitunya@gmail.com,
 	linux-fbdev@vger.kernel.org,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v2 0/5] staging: sm750fb: Renaming camelcase to snakecase
-Date: Mon, 16 Oct 2023 23:14:07 +0300
-Message-ID: <20231016201434.7880-1-anonolitunya@gmail.com>
+Subject: [PATCH v2 1/5] Staging: sm750fb: Rename displayControlAdjust_SM750E
+Date: Mon, 16 Oct 2023 23:14:08 +0300
+Message-ID: <20231016201434.7880-2-anonolitunya@gmail.com>
 X-Mailer: git-send-email 2.42.0.345.gaab89be2eb
+In-Reply-To: <20231016201434.7880-1-anonolitunya@gmail.com>
+References: <20231016201434.7880-1-anonolitunya@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -65,26 +68,43 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Renames various function names and variable names that were previously
-in camelcase to snakecase to ensure consistent naming style throughout.
- This issues were highlighted by checkpatch.
+Rename function displayControlAdjust_SM750E to
+display_control_adjust_SM750E. This follows snakecase naming convention
+and ensures a consistent naming style throughout the file. Issue found by
+checkpatch.
 
-Dorcas AnonoLitunya (5):
-  Staging: sm750fb: Rename displayControlAdjust_SM750E
-  Staging: sm750fb: Rename pModeParam
-  Staging: sm750fb: Rename dispControl
-  Staging: sm750fb: Rename programModeRegisters
-  Staging: sm750fb: Rename ddk750_setModeTiming
+Mutes the following error:
+CHECK:Avoid CamelCase: <displayControlAdjust_SM750E>
 
-v2: Ammended wording in commit messages for all files. 
-    Suggested by Julia Lawall <julia.lawall@inria.fr>
+Signed-off-by: Dorcas AnonoLitunya <anonolitunya@gmail.com>
+---
+ drivers/staging/sm750fb/ddk750_mode.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-
- drivers/staging/sm750fb/ddk750_mode.c | 90 +++++++++++++--------------
- drivers/staging/sm750fb/ddk750_mode.h |  2 +-
- drivers/staging/sm750fb/sm750_hw.c    |  2 +-
- 3 files changed, 47 insertions(+), 47 deletions(-)
-
+diff --git a/drivers/staging/sm750fb/ddk750_mode.c b/drivers/staging/sm750fb/ddk750_mode.c
+index e00a6cb31947..8708995f676c 100644
+--- a/drivers/staging/sm750fb/ddk750_mode.c
++++ b/drivers/staging/sm750fb/ddk750_mode.c
+@@ -14,8 +14,8 @@
+  * in bit 29:27 of Display Control register.
+  */
+ static unsigned long
+-displayControlAdjust_SM750LE(struct mode_parameter *pModeParam,
+-			     unsigned long dispControl)
++display_control_adjust_SM750LE(struct mode_parameter *pModeParam,
++			       unsigned long dispControl)
+ {
+ 	unsigned long x, y;
+ 
+@@ -125,7 +125,7 @@ static int programModeRegisters(struct mode_parameter *pModeParam,
+ 			tmp |= DISPLAY_CTRL_HSYNC_PHASE;
+ 
+ 		if (sm750_get_chip_type() == SM750LE) {
+-			displayControlAdjust_SM750LE(pModeParam, tmp);
++			display_control_adjust_SM750LE(pModeParam, tmp);
+ 		} else {
+ 			reg = peek32(CRT_DISPLAY_CTRL) &
+ 				~(DISPLAY_CTRL_VSYNC_PHASE |
 -- 
 2.42.0.345.gaab89be2eb
 
