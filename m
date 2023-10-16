@@ -1,338 +1,178 @@
-Received: from mail2-relais-roc.national.inria.fr (mail2-relais-roc.national.inria.fr [192.134.164.83])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16152E541;
-	Mon, 16 Oct 2023 13:23:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inria.fr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=inria.fr
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5EA6328DB7;
+	Mon, 16 Oct 2023 14:19:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=inria.fr header.i=@inria.fr header.b="RD9biKN9"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=inria.fr; s=dc;
-  h=date:from:to:cc:subject:in-reply-to:message-id:
-   references:mime-version;
-  bh=jYUclKbON4FEl6Fshh956NwYxG/nDlikJfrgRNEy6f8=;
-  b=RD9biKN9cW+MWfwRZngR/+ToWKdy2yXCGdNverclR5K2jeFfCwY1zgtx
-   +1bX4mMZoDSXc/TMyNENBTl5y2msmDDWvBQ3vwBqoVlr9nleXliP8xRcw
-   NL9v2QJ1JeEVpxofYYWwsY9KVTN7WyDZZ79sD321PBQ1hIGWJk/H3zupa
-   4=;
-Authentication-Results: mail2-relais-roc.national.inria.fr; dkim=none (message not signed) header.i=none; spf=SoftFail smtp.mailfrom=julia.lawall@inria.fr; dmarc=fail (p=none dis=none) d=inria.fr
-X-IronPort-AV: E=Sophos;i="6.03,229,1694728800"; 
-   d="scan'208";a="131475603"
-Received: from dhcp-138-246-3-50.dynamic.eduroam.mwn.de (HELO hadrien) ([138.246.3.50])
-  by mail2-relais-roc.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Oct 2023 15:23:57 +0200
-Date: Mon, 16 Oct 2023 15:23:57 +0200 (CEST)
-From: Julia Lawall <julia.lawall@inria.fr>
-To: Gilbert Adikankwu <gilbertadikankwu@gmail.com>
-cc: outreachy@lists.linux.dev, linux-staging@lists.linux.dev, 
-    linux-kernel@vger.kernel.org, gregkh@linuxfoundation.org
-Subject: Re: your mail
-In-Reply-To: <ZS0vwhwxUkI6n8I6@gilbert-PC>
-Message-ID: <e210e0cf-f470-503d-a01a-77f1d7ae4cf@inria.fr>
-References: <ZS0tGLOJxUztxbKj@gilbert-PC> <3c8e9839-78f0-bb72-a195-ee4c54b68c7f@inria.fr> <ZS0vwhwxUkI6n8I6@gilbert-PC>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RZi33rSX"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1697465970; x=1729001970;
+  h=message-id:date:subject:to:cc:references:from:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=qFfOLk5mzu0tbW+dRwdzDEpKQhRiQesSHJJgMnuPdhs=;
+  b=RZi33rSX8haEvfAcA2Pk+Vhu8KJlTR5a5V+IG9blJ9V0TarZAUzqCvCX
+   eJM09ITcjewMbARpj4LIIsx/8eAJJJMsMuEU719t+JJNaoEIJXcPIy7HD
+   7JO5nQKS4vlSUknAF+e82qMgm0+mbHkN6VQgYGp8wbidBFKPEUbyKTqg9
+   mOzShxQmaPDJilMIG/kgaIzslqNjZAnu+oseogyyO5jFqdinsLnJWKSPQ
+   KwTeJhEgsyKHRqNCDNlhTw0ldIx+bkt+JvlOHidfTm/04+Cv7t2ke2nFi
+   MpuB39CWWjBJ7P3p0dhmXeqQuV5PIyz3oqgfulAoE8Cf5G4iu0+BA3oWB
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10863"; a="4148538"
+X-IronPort-AV: E=Sophos;i="6.03,229,1694761200"; 
+   d="scan'208";a="4148538"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Oct 2023 07:19:29 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10863"; a="846408063"
+X-IronPort-AV: E=Sophos;i="6.03,229,1694761200"; 
+   d="scan'208";a="846408063"
+Received: from orsmsx602.amr.corp.intel.com ([10.22.229.15])
+  by FMSMGA003.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 16 Oct 2023 07:19:30 -0700
+Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.32; Mon, 16 Oct 2023 07:19:29 -0700
+Received: from orsmsx603.amr.corp.intel.com (10.22.229.16) by
+ ORSMSX610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.32; Mon, 16 Oct 2023 07:19:29 -0700
+Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
+ orsmsx603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.32 via Frontend Transport; Mon, 16 Oct 2023 07:19:29 -0700
+Received: from NAM04-MW2-obe.outbound.protection.outlook.com (104.47.73.169)
+ by edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.32; Mon, 16 Oct 2023 07:19:28 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=BhiNwIQ5GNHoCkuvhQDUSkTbtmh1BxVNDr+lNbakzT5oZCRyTilXV0KWHPiOyft5k51pGlXc/zaamgEkuoyC1EcH1g8U14MpUHhS4YBwZfG7FsI5tIO/ttdiarWaSbh5DLpbGp315FcvCfnUksRl99eR29d5pWAnG0LeX7Kteh4MmSv7LQxqcnmkbH0FJ10GMqdWA/Nfd3fdDl2HNLgsHKiJt2Z2F3wQ6hfWs7+4ZR9Yk3lVlTtcD/ZdTgwEBiiaCi5Yl28AfVMcF7p3/wTnjH6WVb0UGuyA28kN5lRJ8WimHAfKbGPyQmq5XrvLFpPt3Ek7UccaL4raNyr/WEF13A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=U48qYpdpfWebwq0sl8Y21OdC1pIQv0Hp9KB0/wqJ/JI=;
+ b=cAzHYpv4Hb5BtAvpFh5i/GRXFgsqOTcXcd3hU6dfLqGMFyr2AcMHa9PEe+JzP9x5KhlhPLcV3w7fBDruQvzIPW28ZlI12wbNP6Wh/WxuO1IVsFqRoe2zrAx9HrClx31k/ERIKMPLObgAEQ/uboAMcT8OqDBip5lzlrpQyU6CDYXDpI7fX8xEkE1xos2i3/dnV5snSpFmlBSJHYz2E1DdkjK1VZ6VrY8IKmQfmSl4YFJC6ej30OStJI/tyEdGl9FmnjMTXEeD4+7ZlULqrM6rRZEp9iAOiCxEnA0fYNkcSHh47SsQMSxslFv5VlCmj3leFf4Y2IRUCodCeyfdKYffpA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from BYAPR11MB3672.namprd11.prod.outlook.com (2603:10b6:a03:fa::30)
+ by PH8PR11MB7072.namprd11.prod.outlook.com (2603:10b6:510:214::8) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6886.35; Mon, 16 Oct
+ 2023 14:19:22 +0000
+Received: from BYAPR11MB3672.namprd11.prod.outlook.com
+ ([fe80::7666:c666:e6b6:6e48]) by BYAPR11MB3672.namprd11.prod.outlook.com
+ ([fe80::7666:c666:e6b6:6e48%4]) with mapi id 15.20.6886.034; Mon, 16 Oct 2023
+ 14:19:21 +0000
+Message-ID: <78f321db-bc09-06e8-b4ef-ac56ab91e187@intel.com>
+Date: Mon, 16 Oct 2023 16:19:09 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.1
+Subject: Re: [PATCH] staging: qlge: Add bool type to qlge_idc_wait()
+Content-Language: en-US
+To: Gilbert Adikankwu <gilbertadikankwu@gmail.com>, Nam Cao
+	<namcao@linutronix.de>
+CC: <outreachy@lists.linux.dev>, <manishc@marvell.com>,
+	<GR-Linux-NIC-Dev@marvell.com>, <coiby.xu@gmail.com>,
+	<gregkh@linuxfoundation.org>, <netdev@vger.kernel.org>,
+	<linux-staging@lists.linux.dev>, <linux-kernel@vger.kernel.org>
+References: <ZSoxLxs45bIuBrHg@gilbert-PC>
+ <20231014065813.mQvFyjWb@linutronix.de>
+ <20231014071423.UgDor1v0@linutronix.de> <ZSpIPippZFtMw2aG@gilbert-PC>
+From: Przemek Kitszel <przemyslaw.kitszel@intel.com>
+In-Reply-To: <ZSpIPippZFtMw2aG@gilbert-PC>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: FR4P281CA0070.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:ce::12) To BYAPR11MB3672.namprd11.prod.outlook.com
+ (2603:10b6:a03:fa::30)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BYAPR11MB3672:EE_|PH8PR11MB7072:EE_
+X-MS-Office365-Filtering-Correlation-Id: f823b14b-8004-4c64-0bdf-08dbce52e371
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: jb27g0GFfsgdwSKFSyt83tNaxT6ZiP7w7ByXL2TjAWpqgBOodntMJS3oZKvb9u/hTd0BU+IaVp8XrKkPtFT2jNPnMO4E/Mhr+ymIBtUdX9tMpWRcr2GpHABaWFdoliB5+zyytnfAWKrYLEOnpAhaNIqHjsr7SpTUfiEG2naT/wPgYEBCxrrs7mVrMdYz2/iQy7Ru7NmJDVVjUSOYG9LcO+OdHQts2Z4Vg3blPvB1jDbPcjpXocLSmQiOfIH7S+4emCandaSJTXDH9syDaQfrbxeycYEwXTdNRKf3rgPtjdaYXt50msRxBWWcjfiTQFtE7ekMKlpb9FHbU2Kc06mVgR8rha0cf9sdaLXjgHtsvXd051bnRRP8/tOKSrzVx6C+nBBRR+hsChNpcL8i9xKuQz0GNLLVDSPwOwGpmhuSsd0+mDeFLwA7Suq1Put4aldB3fu10daebgEwdkBCh3vfatWn8z2ecgk/9KFSXIPTjBrJJF1aHFUvKF4Wf18EHPkKADmNYcbbjQeyatq0tMv7zvKDwemiJEYW6bb9jqmhZ75F9uPNf4noASMYgng4GSinq+ewO47CwejdAuBLWzDP/Uz0ZNIxpn2CkHiFhVPnPaeF9Z9QSmQhbgrYAPgaBdotfwSizsoKV+p3DSzpnqalpg==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BYAPR11MB3672.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(376002)(366004)(396003)(136003)(39860400002)(346002)(230922051799003)(451199024)(186009)(1800799009)(64100799003)(82960400001)(26005)(2616005)(8676002)(8936002)(4326008)(5660300002)(38100700002)(83380400001)(31686004)(41300700001)(478600001)(31696002)(86362001)(6486002)(110136005)(4744005)(7416002)(2906002)(316002)(6666004)(6506007)(6512007)(53546011)(66946007)(36756003)(66556008)(66476007)(45980500001)(43740500002);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?bmJkdWNSM3MzRm5IcW9WZnlsWVFXcEFOKzhHckdIYTBPSmJReWNxWTJrK1c1?=
+ =?utf-8?B?QzArZEx5Z09GaEtCZm9MdjdQMHhxOUgwSHhxZHpONVVhU2NFZVQ0MDVzVkNP?=
+ =?utf-8?B?VGtYSzhINWJYeU9NT0liWUFHYm8yMmh0TDNVSWdsL3VWelRmeFg0U0Z6N2VG?=
+ =?utf-8?B?QVkzUlJsVkhudUdGMGQralV2YlA2MlhTd3ovRENVbEFtWUdua2xEbFppYVc5?=
+ =?utf-8?B?SFRKdTA5Ym5YY0ttK3dZK3dRV2lQVEcyZHErdjBNOWRsNFAwMjh1M3NBWXVx?=
+ =?utf-8?B?b2p5Y0FGTzg5R2RRK3cyYmR2REpRTDNrcjdaN1E4bWhtN3JHaEdHVGVqRW5k?=
+ =?utf-8?B?YVNFS1lyL2N5bHVwcnNPb0hUYUJPT3RHWkdaUjdxY2pDdjYvMjBWNFJOb2sw?=
+ =?utf-8?B?cHZYazNMTlB3M1VYcDBmeWxCS2NuSWQ1OXAyUHVldWtkT2ZxQkZLbUNBOG9Q?=
+ =?utf-8?B?R3E4c09ldkZoSmtoWStZNkZCN255cS9PSURxcTh5TGtOaVRlbFFtWldjUHNa?=
+ =?utf-8?B?dnBNbGlndjFkdmtQcHVUODdkcEdOZVZBamsvWjJpN0ZTanhGOWxSSzc0Um1q?=
+ =?utf-8?B?NStWNHhuQ3JGVTZSL2RyTmszU3dNdmV2ZVl0RHk5cVcwb0U1Si8vSDhqTkpF?=
+ =?utf-8?B?RVl4T1FtZUUybW52Ym92c1lqcjl4YUpTZ1dKbWxJd1QzVW12TndBMlMwUEhY?=
+ =?utf-8?B?LzREdk1pa2t0NFcwK1ZJU2hNN05hQ2JnWXAyOUs5ZTdaemNEeXZqalhHNjJT?=
+ =?utf-8?B?eHBJMk80OUtRaVkvZit4RU4yVHluY2hqWHJVYWh2QkRUd0o3eFJ1ZFhqK3Jx?=
+ =?utf-8?B?RmVWS3M5TEVMRHNuc0I5bEkxNmNQRVJraWJBSWVGRUhHa3FON0JuZVhYSDQ4?=
+ =?utf-8?B?Tm9jTDU3ZzhKWHcrSHpYNEZ6QTVzdUpoRCt3WVpvMktEZFl1ZXNBNlBsY0da?=
+ =?utf-8?B?cFU4aWZ6eWZ5Y3dZUzJvbGFKUjVQcUsxMFkvN0xyc2p5VWJmTjZtc2Nzckds?=
+ =?utf-8?B?WVdtcU8vSitUUU1xcm1JV1Z1Q0J3VHlkbUNxL0tkenRNV1doTTNtWHlUTlRE?=
+ =?utf-8?B?MU94Q2Q5VDNnMmxMNnNUbUtKdE1MWjZsSXRhRDRoeE5VVmJuM0Q1Y1NWaDZw?=
+ =?utf-8?B?bVo1djJidTZJNWhzeVdEWEFORXdCSDUzWWxvVVl5L1ErdmRiZVhPSjQ5cGhC?=
+ =?utf-8?B?NTFmaGhibnpTaGVmTGFKYjJkRjVRd0kwenNTR3llT3c3RndncWNad0Zwb2xJ?=
+ =?utf-8?B?RmF4TVpxSkI0andKc0Y3a1V5MEI3bTN2aDhuVVJxSWNlVmI3UFdMOTkyMkdK?=
+ =?utf-8?B?Wk5zdk1hQ2h4M2JYY2JtYjZiL1BPcW5TRW1oUDhkUkkySFZkZXd6bnpKSUk5?=
+ =?utf-8?B?TVBndmhwQ2l2Q1BNUkl5YWt0MktUc2ZtWlZjTE1CTUdyTWlFRWkrYjByUjJ4?=
+ =?utf-8?B?cml3VGFkQVRReUFMVjBqclM5eUxrbndJSEpTZDg3bk1FQkY2MzlHQzg4OVRk?=
+ =?utf-8?B?SnhQaVdzOUdjMGwzMUs1alpsZWN1RmpLZWRlV2ptZGpMd0JhZXByNjZMRkxw?=
+ =?utf-8?B?U0FXSW11Z2MwSmFJWlh5SkkzVDlXeTJ2bUxNRVN1VlVqVzZRUXF0K1A1Uzlx?=
+ =?utf-8?B?dmNHZUV2OWxjcE4xdXcyc3hwamFCdFMvc0pvckdXNE5SRmpnNUZ2K21mTkFr?=
+ =?utf-8?B?Vnd0aGM3K3I5czZkNUFtL1JWd0VDUjlnRHBTU1RmSExNcDIxaGZDb1dpWTdJ?=
+ =?utf-8?B?eFdyNXlCUm9FZmFuU04ycERTMTlCWGJlSmdKUFhmWUNYNTNFY25lelBCU0cv?=
+ =?utf-8?B?ZWU0VDYrVmpnQWM1bGgydXpTVEJYRjZsK2ZzZHp3UGdzTmRZS1ZuOXUzM3g2?=
+ =?utf-8?B?TzFKWjYyNWl4VWs5SEtsUzNOVUN5b1Y0ZlBHem5mbklsNFVFSjVxMEJZQmVp?=
+ =?utf-8?B?RWM3RUoyM3FTMGpBSWV2UkIzbklqT0N4VVJxbDRVMTVvTzZkNTNYbTcwRkdB?=
+ =?utf-8?B?WDI5UUxCcldoYzE3b3ZuVGx5VlZCSVVjT0g5MFY2a1Z1c0ZnMlZjaUZ5ZlQx?=
+ =?utf-8?B?VWtXVWxLOXZuSGpZOXZGRjFRU1JPVTBaUDBYR0pJd2xha3NnN3pXSEFlcE95?=
+ =?utf-8?B?RFdkamRaV1daaDdMK2puVGs5R0NCczRJYmVoN2c1czE1T1JpMjZ0dTZIVnpq?=
+ =?utf-8?B?MEE9PQ==?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: f823b14b-8004-4c64-0bdf-08dbce52e371
+X-MS-Exchange-CrossTenant-AuthSource: BYAPR11MB3672.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Oct 2023 14:19:20.2313
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: +/RdUhL1IwH6ANKrs5mfIrrIMreNl8rc6f+kB3cmxy3ML06St56oWZl+BEyndr2OHHITa+77ccnpxw13HGZTWeFakNV/GHILe/UoVcCsjLA=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR11MB7072
+X-OriginatorOrg: intel.com
 
+On 10/14/23 09:50, Gilbert Adikankwu wrote:
+> On Sat, Oct 14, 2023 at 09:14:23AM +0200, Nam Cao wrote:
+>> On Sat, Oct 14, 2023 at 08:58:13AM +0200, Nam Cao wrote:
+>>> On Sat, Oct 14, 2023 at 07:11:59AM +0100, Gilbert Adikankwu wrote:
+>>>> Reported by checkpatch:
+>>>>
+>>>> WARNING: else is not generally useful after a break or return
+>>>>
+>>>
+>>> What checkpatch is telling you here is that the "else" is redundant and
+>>> can be removed. Although your patch suppresses the warning, it makes the
+>>> code messier :(
+>>
+>> Ah wait, after reading Julia's comment, I realize that the "else" is not
+>> redundant at all. Seems like checkpatch.pl is lying. So ignore what I
+>> said.
+> 
+> Thanks
+> 
+> 
 
-
-On Mon, 16 Oct 2023, Gilbert Adikankwu wrote:
-
-> On Mon, Oct 16, 2023 at 02:34:48PM +0200, Julia Lawall wrote:
-> >
-> >
-> > On Mon, 16 Oct 2023, Gilbert Adikankwu wrote:
-> >
-> > > linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-> > > Bcc:
-> > > Subject: Re: [PATCH] staging: emxx_udc: Remove unnecessary parentheses around
-> > >  condition tests
-> > > Reply-To:
-> > > In-Reply-To: <6b60ed7-9d97-2071-44f8-83b173191ed@inria.fr>
-> > >
-> > > On Mon, Oct 16, 2023 at 02:15:06PM +0200, Julia Lawall wrote:
-> > > >
-> > > >
-> > > > On Mon, 16 Oct 2023, Gilbert Adikankwu wrote:
-> > > >
-> > > > > Fix 47 warnings detected by checkpatch.pl about unnecessary parenthesis
-> > > > > around condition tests.
-> > > >
-> > > > If you need to make any changes to the patch, there is no need to give the
-> > > > count of the changes.  It doesn't matter if it's 47, 46, 35, etc.
-> > > >
-> > > > julia
-> > > >
-> > > Hi Julia,
-> > >
-> > > I added the number because I saw I similar commit on the logs that did
-> > > so. (commit b83970f23f36f0e2968872140e69f68118d82fe3)
-> >
-> > OK, I still think it's pointless...  The person who looks at the commit 5
-> > years from now won't care about this information.  They care about what
-> > you did and why.
-> >
-> > julia
-> >
-> Ok that make sense. I will revise it. Do I send revision patch now or
-> later today?
-
-You can wait, in case there are other comments.
-
-julia
-
-> >
-> > > > >
-> > > > > Signed-off-by: Gilbert Adikankwu <gilbertadikankwu@gmail.com>
-> > > > > ---
-> > > > >  drivers/staging/emxx_udc/emxx_udc.c | 72 ++++++++++++++---------------
-> > > > >  1 file changed, 36 insertions(+), 36 deletions(-)
-> > > > >
-> > > > > diff --git a/drivers/staging/emxx_udc/emxx_udc.c b/drivers/staging/emxx_udc/emxx_udc.c
-> > > > > index eb63daaca702..e8ddd691b788 100644
-> > > > > --- a/drivers/staging/emxx_udc/emxx_udc.c
-> > > > > +++ b/drivers/staging/emxx_udc/emxx_udc.c
-> > > > > @@ -149,8 +149,8 @@ static void _nbu2ss_ep0_complete(struct usb_ep *_ep, struct usb_request *_req)
-> > > > >  			/* SET_FEATURE */
-> > > > >  			recipient = (u8)(p_ctrl->bRequestType & USB_RECIP_MASK);
-> > > > >  			selector  = le16_to_cpu(p_ctrl->wValue);
-> > > > > -			if ((recipient == USB_RECIP_DEVICE) &&
-> > > > > -			    (selector == USB_DEVICE_TEST_MODE)) {
-> > > > > +			if (recipient == USB_RECIP_DEVICE &&
-> > > > > +			    selector == USB_DEVICE_TEST_MODE) {
-> > > > >  				wIndex = le16_to_cpu(p_ctrl->wIndex);
-> > > > >  				test_mode = (u32)(wIndex >> 8);
-> > > > >  				_nbu2ss_set_test_mode(udc, test_mode);
-> > > > > @@ -287,7 +287,7 @@ static int _nbu2ss_epn_exit(struct nbu2ss_udc *udc, struct nbu2ss_ep *ep)
-> > > > >  	u32		num;
-> > > > >  	u32		data;
-> > > > >
-> > > > > -	if ((ep->epnum == 0) || (udc->vbus_active == 0))
-> > > > > +	if (ep->epnum == 0 || udc->vbus_active == 0)
-> > > > >  		return	-EINVAL;
-> > > > >
-> > > > >  	num = ep->epnum - 1;
-> > > > > @@ -336,7 +336,7 @@ static void _nbu2ss_ep_dma_init(struct nbu2ss_udc *udc, struct nbu2ss_ep *ep)
-> > > > >  	u32		data;
-> > > > >
-> > > > >  	data = _nbu2ss_readl(&udc->p_regs->USBSSCONF);
-> > > > > -	if (((ep->epnum == 0) || (data & (1 << ep->epnum)) == 0))
-> > > > > +	if (ep->epnum == 0 || (data & (1 << ep->epnum)) == 0)
-> > > > >  		return;		/* Not Support DMA */
-> > > > >
-> > > > >  	num = ep->epnum - 1;
-> > > > > @@ -380,7 +380,7 @@ static void _nbu2ss_ep_dma_exit(struct nbu2ss_udc *udc, struct nbu2ss_ep *ep)
-> > > > >  		return;		/* VBUS OFF */
-> > > > >
-> > > > >  	data = _nbu2ss_readl(&preg->USBSSCONF);
-> > > > > -	if ((ep->epnum == 0) || ((data & (1 << ep->epnum)) == 0))
-> > > > > +	if (ep->epnum == 0 || (data & (1 << ep->epnum)) == 0)
-> > > > >  		return;		/* Not Support DMA */
-> > > > >
-> > > > >  	num = ep->epnum - 1;
-> > > > > @@ -560,7 +560,7 @@ static int ep0_out_overbytes(struct nbu2ss_udc *udc, u8 *p_buf, u32 length)
-> > > > >  	union usb_reg_access  temp_32;
-> > > > >  	union usb_reg_access  *p_buf_32 = (union usb_reg_access *)p_buf;
-> > > > >
-> > > > > -	if ((length > 0) && (length < sizeof(u32))) {
-> > > > > +	if (length > 0 && length < sizeof(u32)) {
-> > > > >  		temp_32.dw = _nbu2ss_readl(&udc->p_regs->EP0_READ);
-> > > > >  		for (i = 0 ; i < length ; i++)
-> > > > >  			p_buf_32->byte.DATA[i] = temp_32.byte.DATA[i];
-> > > > > @@ -608,7 +608,7 @@ static int ep0_in_overbytes(struct nbu2ss_udc *udc,
-> > > > >  	union usb_reg_access  temp_32;
-> > > > >  	union usb_reg_access  *p_buf_32 = (union usb_reg_access *)p_buf;
-> > > > >
-> > > > > -	if ((i_remain_size > 0) && (i_remain_size < sizeof(u32))) {
-> > > > > +	if (i_remain_size > 0 && i_remain_size < sizeof(u32)) {
-> > > > >  		for (i = 0 ; i < i_remain_size ; i++)
-> > > > >  			temp_32.byte.DATA[i] = p_buf_32->byte.DATA[i];
-> > > > >  		_nbu2ss_ep_in_end(udc, 0, temp_32.dw, i_remain_size);
-> > > > > @@ -701,7 +701,7 @@ static int _nbu2ss_ep0_in_transfer(struct nbu2ss_udc *udc,
-> > > > >  		return result;
-> > > > >  	}
-> > > > >
-> > > > > -	if ((i_remain_size < sizeof(u32)) && (result != EP0_PACKETSIZE)) {
-> > > > > +	if (i_remain_size < sizeof(u32) && result != EP0_PACKETSIZE) {
-> > > > >  		p_buffer += result;
-> > > > >  		result += ep0_in_overbytes(udc, p_buffer, i_remain_size);
-> > > > >  		req->div_len = result;
-> > > > > @@ -738,7 +738,7 @@ static int _nbu2ss_ep0_out_transfer(struct nbu2ss_udc *udc,
-> > > > >  		req->req.actual += result;
-> > > > >  		i_recv_length -= result;
-> > > > >
-> > > > > -		if ((i_recv_length > 0) && (i_recv_length < sizeof(u32))) {
-> > > > > +		if (i_recv_length > 0 && i_recv_length < sizeof(u32)) {
-> > > > >  			p_buffer += result;
-> > > > >  			i_remain_size -= result;
-> > > > >
-> > > > > @@ -891,8 +891,8 @@ static int _nbu2ss_epn_out_pio(struct nbu2ss_udc *udc, struct nbu2ss_ep *ep,
-> > > > >
-> > > > >  	req->req.actual += result;
-> > > > >
-> > > > > -	if ((req->req.actual == req->req.length) ||
-> > > > > -	    ((req->req.actual % ep->ep.maxpacket) != 0)) {
-> > > > > +	if (req->req.actual == req->req.length ||
-> > > > > +	    (req->req.actual % ep->ep.maxpacket) != 0) {
-> > > > >  		result = 0;
-> > > > >  	}
-> > > > >
-> > > > > @@ -914,8 +914,8 @@ static int _nbu2ss_epn_out_data(struct nbu2ss_udc *udc, struct nbu2ss_ep *ep,
-> > > > >
-> > > > >  	i_buf_size = min((req->req.length - req->req.actual), data_size);
-> > > > >
-> > > > > -	if ((ep->ep_type != USB_ENDPOINT_XFER_INT) && (req->req.dma != 0) &&
-> > > > > -	    (i_buf_size  >= sizeof(u32))) {
-> > > > > +	if (ep->ep_type != USB_ENDPOINT_XFER_INT && req->req.dma != 0 &&
-> > > > > +	    i_buf_size  >= sizeof(u32)) {
-> > > > >  		nret = _nbu2ss_out_dma(udc, req, num, i_buf_size);
-> > > > >  	} else {
-> > > > >  		i_buf_size = min_t(u32, i_buf_size, ep->ep.maxpacket);
-> > > > > @@ -954,8 +954,8 @@ static int _nbu2ss_epn_out_transfer(struct nbu2ss_udc *udc,
-> > > > >  			}
-> > > > >  		}
-> > > > >  	} else {
-> > > > > -		if ((req->req.actual == req->req.length) ||
-> > > > > -		    ((req->req.actual % ep->ep.maxpacket) != 0)) {
-> > > > > +		if (req->req.actual == req->req.length ||
-> > > > > +		    (req->req.actual % ep->ep.maxpacket) != 0) {
-> > > > >  			result = 0;
-> > > > >  		}
-> > > > >  	}
-> > > > > @@ -1106,8 +1106,8 @@ static int _nbu2ss_epn_in_data(struct nbu2ss_udc *udc, struct nbu2ss_ep *ep,
-> > > > >
-> > > > >  	num = ep->epnum - 1;
-> > > > >
-> > > > > -	if ((ep->ep_type != USB_ENDPOINT_XFER_INT) && (req->req.dma != 0) &&
-> > > > > -	    (data_size >= sizeof(u32))) {
-> > > > > +	if (ep->ep_type != USB_ENDPOINT_XFER_INT && req->req.dma != 0 &&
-> > > > > +	    data_size >= sizeof(u32)) {
-> > > > >  		nret = _nbu2ss_in_dma(udc, ep, req, num, data_size);
-> > > > >  	} else {
-> > > > >  		data_size = min_t(u32, data_size, ep->ep.maxpacket);
-> > > > > @@ -1238,7 +1238,7 @@ static void _nbu2ss_endpoint_toggle_reset(struct nbu2ss_udc *udc, u8 ep_adrs)
-> > > > >  	u8		num;
-> > > > >  	u32		data;
-> > > > >
-> > > > > -	if ((ep_adrs == 0) || (ep_adrs == 0x80))
-> > > > > +	if (ep_adrs == 0 || ep_adrs == 0x80)
-> > > > >  		return;
-> > > > >
-> > > > >  	num = (ep_adrs & 0x7F) - 1;
-> > > > > @@ -1261,7 +1261,7 @@ static void _nbu2ss_set_endpoint_stall(struct nbu2ss_udc *udc,
-> > > > >  	struct nbu2ss_ep *ep;
-> > > > >  	struct fc_regs __iomem *preg = udc->p_regs;
-> > > > >
-> > > > > -	if ((ep_adrs == 0) || (ep_adrs == 0x80)) {
-> > > > > +	if (ep_adrs == 0 || ep_adrs == 0x80) {
-> > > > >  		if (bstall) {
-> > > > >  			/* Set STALL */
-> > > > >  			_nbu2ss_bitset(&preg->EP0_CONTROL, EP0_STL);
-> > > > > @@ -1392,8 +1392,8 @@ static inline int _nbu2ss_req_feature(struct nbu2ss_udc *udc, bool bset)
-> > > > >  	u8	ep_adrs;
-> > > > >  	int	result = -EOPNOTSUPP;
-> > > > >
-> > > > > -	if ((udc->ctrl.wLength != 0x0000) ||
-> > > > > -	    (direction != USB_DIR_OUT)) {
-> > > > > +	if (udc->ctrl.wLength != 0x0000 ||
-> > > > > +	    direction != USB_DIR_OUT) {
-> > > > >  		return -EINVAL;
-> > > > >  	}
-> > > > >
-> > > > > @@ -1480,7 +1480,7 @@ static int std_req_get_status(struct nbu2ss_udc *udc)
-> > > > >  	u8	ep_adrs;
-> > > > >  	int	result = -EINVAL;
-> > > > >
-> > > > > -	if ((udc->ctrl.wValue != 0x0000) || (direction != USB_DIR_IN))
-> > > > > +	if (udc->ctrl.wValue != 0x0000 || direction != USB_DIR_IN)
-> > > > >  		return result;
-> > > > >
-> > > > >  	length =
-> > > > > @@ -1542,9 +1542,9 @@ static int std_req_set_address(struct nbu2ss_udc *udc)
-> > > > >  	int		result = 0;
-> > > > >  	u32		wValue = le16_to_cpu(udc->ctrl.wValue);
-> > > > >
-> > > > > -	if ((udc->ctrl.bRequestType != 0x00)	||
-> > > > > -	    (udc->ctrl.wIndex != 0x0000)	||
-> > > > > -		(udc->ctrl.wLength != 0x0000)) {
-> > > > > +	if (udc->ctrl.bRequestType != 0x00	||
-> > > > > +	    udc->ctrl.wIndex != 0x0000		||
-> > > > > +		udc->ctrl.wLength != 0x0000) {
-> > > > >  		return -EINVAL;
-> > > > >  	}
-> > > > >
-> > > > > @@ -1564,9 +1564,9 @@ static int std_req_set_configuration(struct nbu2ss_udc *udc)
-> > > > >  {
-> > > > >  	u32 config_value = (u32)(le16_to_cpu(udc->ctrl.wValue) & 0x00ff);
-> > > > >
-> > > > > -	if ((udc->ctrl.wIndex != 0x0000)	||
-> > > > > -	    (udc->ctrl.wLength != 0x0000)	||
-> > > > > -		(udc->ctrl.bRequestType != 0x00)) {
-> > > > > +	if (udc->ctrl.wIndex != 0x0000	||
-> > > > > +	    udc->ctrl.wLength != 0x0000	||
-> > > > > +		udc->ctrl.bRequestType != 0x00) {
-> > > > >  		return -EINVAL;
-> > > > >  	}
-> > > > >
-> > > > > @@ -1838,8 +1838,8 @@ static void _nbu2ss_ep_done(struct nbu2ss_ep *ep,
-> > > > >  	}
-> > > > >
-> > > > >  #ifdef USE_DMA
-> > > > > -	if ((ep->direct == USB_DIR_OUT) && (ep->epnum > 0) &&
-> > > > > -	    (req->req.dma != 0))
-> > > > > +	if (ep->direct == USB_DIR_OUT && ep->epnum > 0 &&
-> > > > > +	    req->req.dma != 0)
-> > > > >  		_nbu2ss_dma_unmap_single(udc, ep, req, USB_DIR_OUT);
-> > > > >  #endif
-> > > > >
-> > > > > @@ -1931,7 +1931,7 @@ static inline void _nbu2ss_epn_in_dma_int(struct nbu2ss_udc *udc,
-> > > > >  		mpkt = ep->ep.maxpacket;
-> > > > >  		size = preq->actual % mpkt;
-> > > > >  		if (size > 0) {
-> > > > > -			if (((preq->actual & 0x03) == 0) && (size < mpkt))
-> > > > > +			if ((preq->actual & 0x03) == 0 && size < mpkt)
-> > > > >  				_nbu2ss_ep_in_end(udc, ep->epnum, 0, 0);
-> > > > >  		} else {
-> > > > >  			_nbu2ss_epn_in_int(udc, ep, req);
-> > > > > @@ -2428,8 +2428,8 @@ static int nbu2ss_ep_enable(struct usb_ep *_ep,
-> > > > >  	}
-> > > > >
-> > > > >  	ep_type = usb_endpoint_type(desc);
-> > > > > -	if ((ep_type == USB_ENDPOINT_XFER_CONTROL) ||
-> > > > > -	    (ep_type == USB_ENDPOINT_XFER_ISOC)) {
-> > > > > +	if (ep_type == USB_ENDPOINT_XFER_CONTROL ||
-> > > > > +	    ep_type == USB_ENDPOINT_XFER_ISOC) {
-> > > > >  		pr_err(" *** %s, bat bmAttributes\n", __func__);
-> > > > >  		return -EINVAL;
-> > > > >  	}
-> > > > > @@ -2438,7 +2438,7 @@ static int nbu2ss_ep_enable(struct usb_ep *_ep,
-> > > > >  	if (udc->vbus_active == 0)
-> > > > >  		return -ESHUTDOWN;
-> > > > >
-> > > > > -	if ((!udc->driver) || (udc->gadget.speed == USB_SPEED_UNKNOWN)) {
-> > > > > +	if (!udc->driver || udc->gadget.speed == USB_SPEED_UNKNOWN) {
-> > > > >  		dev_err(ep->udc->dev, " *** %s, udc !!\n", __func__);
-> > > > >  		return -ESHUTDOWN;
-> > > > >  	}
-> > > > > @@ -2603,8 +2603,8 @@ static int nbu2ss_ep_queue(struct usb_ep *_ep,
-> > > > >  		}
-> > > > >  	}
-> > > > >
-> > > > > -	if ((ep->epnum > 0) && (ep->direct == USB_DIR_OUT) &&
-> > > > > -	    (req->req.dma != 0))
-> > > > > +	if (ep->epnum > 0 && ep->direct == USB_DIR_OUT &&
-> > > > > +	    req->req.dma != 0)
-> > > > >  		_nbu2ss_dma_map_single(udc, ep, req, USB_DIR_OUT);
-> > > > >  #endif
-> > > > >
-> > > > > --
-> > > > > 2.34.1
-> > > > >
-> > > > >
-> > > > >
-> > >
->
+Could you consider fixing checkpatch instead?
