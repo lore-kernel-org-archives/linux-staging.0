@@ -1,90 +1,90 @@
-Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
+Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E158E3C6B5
-	for <linux-staging@lists.linux.dev>; Mon, 16 Oct 2023 20:11:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2572B34CE3;
+	Mon, 16 Oct 2023 20:15:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DVey5pyh"
-Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-1c9b1e3a809so31366795ad.2
-        for <linux-staging@lists.linux.dev>; Mon, 16 Oct 2023 13:11:59 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mNAGwtju"
+Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-9ada2e6e75fso873104866b.2;
+        Mon, 16 Oct 2023 13:15:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1697487119; x=1698091919; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=J6LHOYtLClzaa9kbN2vgbPQDO5kRAfn0VOdVTmmzqbk=;
-        b=DVey5pyhGf7eRxb6CN1S4qg4gQuxGnoxyh94kGHKMXmjnzWalYnnrAKiZ4/lkV+9kf
-         +K7Hg5t5GljPTmvNg4qvR9gJCxupPFeHIgD4zd9/1sIYhkxtgEhqWrk4mr6PffgVWXb9
-         phYB8gSIAyUh+/OQuWDmWGutWc7MiLscVKvH1XL8+3vX8MnZGinSolKpkHqcEDFKtNoy
-         YmyZkSzgpRrKc9uTlqj91zPlmkzqjvcp5+BSw2wmufMaGc9HAvpPYjpkj5oH5lYPx2Ux
-         Z01AOB6Sc9xV3Mnln2wEiToPiboZYl69Q3skkBUhe14Apjrmi4Df65M5fW/xfhMHlSBd
-         8r3w==
+        d=gmail.com; s=20230601; t=1697487304; x=1698092104; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=FRniKyUz9iHO7Fz4n7LlSe4JaoEPWk/8N3r3s0S38yc=;
+        b=mNAGwtju6yOqun5eD9HZwS4Ys/PP5Fk1q9PXpjL/XRyfEPGqfQ4LL83G2owM46XBrz
+         zus2YsRvcEoWH44e3CFt5ctIUCy5N9NEgnPTLL8Qzvn1Gv8jh6ldxQG3EPcBPoUIqC0o
+         AXqJU4P66ChG1vgD40PFnCCzyJtbTzSLhz6nHg7bktFMYKSTgtclV0p4PSe3oAzcn8qw
+         FDvA//vjRQFvPv+bgpl0PEx5cAND5j/koweDvJuoJG0IElR6+rwhUMWp+55MwzTDtEFN
+         5EopSNl9XLR+ew0xtAnFJBjZAj5zF5Re6D15LknZjRGIdPRGI8DpWsYtGaeGHFW91B/W
+         OLcQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697487119; x=1698091919;
-        h=content-disposition:mime-version:message-id:subject:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=J6LHOYtLClzaa9kbN2vgbPQDO5kRAfn0VOdVTmmzqbk=;
-        b=fvtnQqQRJIirFa1A+u0RZLgbHCLV1Mk2cB1qHRf/kbPLKNguHuZEoieCzz9kzsHgPf
-         m0HqdXhNH0pkUGOUlU5SRxI2dBLJOkJLmSNeSwPag6IjJBpd5VqJEkqeQ1+M4iQShgNc
-         l5y7XZsFOKi3Ywlumu9ZwdT1k/SSUjnsT1q5IXwQq72vCQvw8WWzVCZ55VUXyIwdN7Si
-         JtXqcN14WTAOG+P77HeldyPO4UTbJtMRSWBLPZ/tqqN5iQ6HVOlkOfqCbb+p3iEKSZ5S
-         PqsgpPqsQzLm2P2KvixaBNH7SQmvvBVexwU54hdcZBxiLuoOy7X9pIZYp9+tFH+/HWzl
-         5zVw==
-X-Gm-Message-State: AOJu0YyikSfj0pEHP261ZYpr7nm+Vr2YSTliKjYYtuRqJZ3jf3CNS1Md
-	YdxuoMeACFfpJQbG6pZP3Q+iImzTfQ4=
-X-Google-Smtp-Source: AGHT+IEudiALpXVcT8kKa07mFAeKZkNNDuHZZ2axTlVYlbE4sBJLk+OChhPPIDe5+OXr86F5JtemkA==
-X-Received: by 2002:a17:902:d512:b0:1c9:d667:4e4e with SMTP id b18-20020a170902d51200b001c9d6674e4emr410662plg.65.1697487119042;
-        Mon, 16 Oct 2023 13:11:59 -0700 (PDT)
-Received: from ubuntu ([223.226.54.200])
-        by smtp.gmail.com with ESMTPSA id h13-20020a170902eecd00b001bbb7af4963sm27625plb.68.2023.10.16.13.11.57
+        d=1e100.net; s=20230601; t=1697487304; x=1698092104;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=FRniKyUz9iHO7Fz4n7LlSe4JaoEPWk/8N3r3s0S38yc=;
+        b=tAYm2i5r2yiAa8NYphXjtrWSrD7jxNYa6lxKuN+fJP1g/OyFmHNMFAcvCR3AhwJwki
+         8FjaMrMvNsoTVgEoh3yygv6qFUD+ny48QFd+YjmWJoQBm1CDuBeTNEJBntkpxdDy8BGx
+         JdJCF7bwbWnhsm6WXWw++PDh3xv803d3FtVA4VVWnyCNM/zgX8IvBVYM06wY15EsmepS
+         oOr4AG4xTlke0hyW8GpbSCoNkA65kNd//CVC7eyLH4HlWGcqrSqNfjNosFZOFQs5TvkR
+         +AJfAU/KsZTInKOjBWvYNkP058H1UY2EvMDxiu0hTrilYqKwE0hiTUnVHXgA4ddJgRvy
+         Y6ZA==
+X-Gm-Message-State: AOJu0Yzx/5Pfu4nQAsf1EpxEKuJX1/VUGOQNL2qErgSa6SSp+4AiqsRO
+	zDF4Nxi+MyBg0+F60Y8NXA==
+X-Google-Smtp-Source: AGHT+IFqWbp0v+lRnIYAfoA8RbKDtJE6+FBX4X9Kzec6bIIB2oZpNU94+sLO+oRr4pQMPO6v2uYU3w==
+X-Received: by 2002:a17:907:6d1d:b0:9be:5ab2:73c2 with SMTP id sa29-20020a1709076d1d00b009be5ab273c2mr104647ejc.58.1697487303797;
+        Mon, 16 Oct 2023 13:15:03 -0700 (PDT)
+Received: from dorcaslitunya-virtual-machine.localdomain ([105.163.1.143])
+        by smtp.gmail.com with ESMTPSA id u26-20020a17090657da00b009b97521b58bsm4606055ejr.39.2023.10.16.13.15.00
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 16 Oct 2023 13:11:58 -0700 (PDT)
-Date: Mon, 16 Oct 2023 13:11:54 -0700
-From: Nandha Kumar Singaram <nandhakumar.singaram@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [PATCH] staging: rts5208: Replace the occurrences of (1<<x) by BIT(x)
-Message-ID: <20231016201154.GA14625@ubuntu>
+        Mon, 16 Oct 2023 13:15:03 -0700 (PDT)
+From: Dorcas AnonoLitunya <anonolitunya@gmail.com>
+To: 
+Cc: anonolitunya@gmail.com,
+	outreachy@lists.linux.dev,
+	julia.lawall@inria.fr,
+	dan.carpenter@linaro.org,
+	Sudip Mukherjee <sudipm.mukherjee@gmail.com>,
+	Teddy Wang <teddy.wang@siliconmotion.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-fbdev@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v2 0/5] staging: sm750fb: Renaming camelcase to snakecase
+Date: Mon, 16 Oct 2023 23:14:07 +0300
+Message-ID: <20231016201434.7880-1-anonolitunya@gmail.com>
+X-Mailer: git-send-email 2.42.0.345.gaab89be2eb
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-Adhere to linux coding style. Reported by checkpatch.pl:
-CHECK: Prefer using the BIT macro
+Renames various function names and variable names that were previously
+in camelcase to snakecase to ensure consistent naming style throughout.
+ This issues were highlighted by checkpatch.
 
-Signed-off-by: Nandha Kumar Singaram <nandhakumar.singaram@gmail.com>
----
- drivers/staging/rts5208/rtsx_card.h | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Dorcas AnonoLitunya (5):
+  Staging: sm750fb: Rename displayControlAdjust_SM750E
+  Staging: sm750fb: Rename pModeParam
+  Staging: sm750fb: Rename dispControl
+  Staging: sm750fb: Rename programModeRegisters
+  Staging: sm750fb: Rename ddk750_setModeTiming
 
-diff --git a/drivers/staging/rts5208/rtsx_card.h b/drivers/staging/rts5208/rtsx_card.h
-index 39727371cd7a..9d2504fddb13 100644
---- a/drivers/staging/rts5208/rtsx_card.h
-+++ b/drivers/staging/rts5208/rtsx_card.h
-@@ -338,7 +338,7 @@
- #define DMA_DIR_FROM_CARD		0x02
- #define DMA_EN				0x01
- #define DMA_128				(0 << 4)
--#define DMA_256				(1 << 4)
-+#define DMA_256				BIT(4)
- #define DMA_512				(2 << 4)
- #define DMA_1024			(3 << 4)
- #define DMA_PACK_SIZE_MASK		0x30
-@@ -542,7 +542,7 @@
- 
- #define BLINK_EN			0x08
- #define LED_GPIO0			(0 << 4)
--#define LED_GPIO1			(1 << 4)
-+#define LED_GPIO1			BIT(4)
- #define LED_GPIO2			(2 << 4)
- 
- #define SDIO_BUS_CTRL		0x01
+v2: Ammended wording in commit messages for all files. 
+    Suggested by Julia Lawall <julia.lawall@inria.fr>
+
+
+ drivers/staging/sm750fb/ddk750_mode.c | 90 +++++++++++++--------------
+ drivers/staging/sm750fb/ddk750_mode.h |  2 +-
+ drivers/staging/sm750fb/sm750_hw.c    |  2 +-
+ 3 files changed, 47 insertions(+), 47 deletions(-)
+
 -- 
-2.25.1
+2.42.0.345.gaab89be2eb
 
