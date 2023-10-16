@@ -1,103 +1,139 @@
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 209AD1C08
-	for <linux-staging@lists.linux.dev>; Mon, 16 Oct 2023 04:41:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8596079D1;
+	Mon, 16 Oct 2023 05:27:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="RMbAjjD1"
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-40537481094so41797225e9.0
-        for <linux-staging@lists.linux.dev>; Sun, 15 Oct 2023 21:41:02 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OrKlY7Uz"
+Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-405524e6769so24734085e9.1;
+        Sun, 15 Oct 2023 22:27:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1697431261; x=1698036061; darn=lists.linux.dev;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=+OOjXanV6ifmADtLDN2bjdEAHMH7dAxhg1yhRTNpb/Q=;
-        b=RMbAjjD1IsbuyL+yQ77UtIWldSCZenQVq3qZegZRrJWvsbmYgiKXa2RK0bdRJm1MCW
-         gkD160HHXlkLMBFDTwOZUf8jmaHr/yxPDgAlUh0N1Jy5S1p8ISixcsNb1mm2S5joIRHE
-         0+iFDFCPiyC6A/8w5awu3BchRKTBtTjbXnDM0InQ1IQhQuWOwoQiKO6U7/b+qrCfLNEw
-         2SFyo1PUP1pa2bzPvDN3ZSJ/CgL+lRP78uBA48DWKbACWA4gopYqPUHgNBHad+zTIyQt
-         i2HQ0IWuVnrnZyFWD97YQwcV5JtMXWX8GXK7LwgCkZ0AvfUmn/sN3dfChdk6sydJz9Ja
-         ZfqA==
+        d=gmail.com; s=20230601; t=1697434047; x=1698038847; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=DdZ+m+g68ipyNyjyLKt02+pfvg0U+piWymGF1uR9+lc=;
+        b=OrKlY7UzMbBh4jKK8ho5EOuWlQBSShZHt6kOgI2fKa1C1nKbaS74J9M+zasfQNA+85
+         9fUflQ5nPFb2uG+Zgfp43/LRWiKRc+8nlIUUvuhx8pzxfR/WLDpZYdP/liHvosgsW8ZX
+         9DsiPmz/2nToSIiokVBFUUMDbnrKqFRG8xbMhWV4KrTE+9IeluG7Rp81llLhRZODrzkS
+         FuG2P+utrZ4QDqDfYdHZaDWgFy4u+3aNGcjcOqv9ECXzg8wy0qfgkcwCn4kWr2nd4sBR
+         9gZAfnaeYlXDbDd37pq9enfhnsnyOSow39WLX44QQOxyi51r1Fl+e6KH/F34EsnxBD4f
+         couA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697431261; x=1698036061;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
+        d=1e100.net; s=20230601; t=1697434047; x=1698038847;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=+OOjXanV6ifmADtLDN2bjdEAHMH7dAxhg1yhRTNpb/Q=;
-        b=H6d5GHKXtW1duHDAEPDh1JPG2jTEBww0eonMY/+Xg7xjJJThekB1Srl6AkLjzzbqs0
-         2s/dipeFMAvk/Shg3kOJVjl9zDksl1+IHItRagE7FbnddJAK1CsYaydMvfsoKdRg1BOW
-         LODLArZxJSwv2dNXIAFbt4UESb0yGoGYeBeQKTQTRhU2sKoPSI/qGySGwkT3qT5fsHP+
-         bvHFexEuboJKaxeV4mCXzOojl3GQn9a7NA1th+HMPZ0bkjHkKEUWJ3zeiW4/fqlRT7bm
-         Lh7RBN4zQkFLaEVegpb/njnRuj4qbBQjjr6dzcPjVWNOuTv9KKslfF7Bk/g/Yq7Ah3G5
-         LB0A==
-X-Gm-Message-State: AOJu0Yw1cuJ+SYv26ki5mkZ4tMKGX4tkHEP/8bQC0BezB9y400DrbPiX
-	Q5c15LjkVEL6t7xgSv1Wa2bw+Q==
-X-Google-Smtp-Source: AGHT+IEm5GricQB6syD6gMHQyZ6a2BD8XGv+Epu5n10M8kZHUL3BWaF8I0nx3BvzJLt/93ztsJFwng==
-X-Received: by 2002:a7b:c851:0:b0:405:3252:fe2 with SMTP id c17-20020a7bc851000000b0040532520fe2mr28195556wml.14.1697431260924;
-        Sun, 15 Oct 2023 21:41:00 -0700 (PDT)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id p18-20020a05600c431200b0040642a1df1csm6020508wme.25.2023.10.15.21.40.59
+        bh=DdZ+m+g68ipyNyjyLKt02+pfvg0U+piWymGF1uR9+lc=;
+        b=OGKseSvcmEdeMwGx3vIKs70x6ZIpgagQOBnrCjgFIH1xO1TYGlvRWKE9WqkYRFDGHx
+         xhJLjQ69JbNQ5akVbtjRlP7XFhyeuFWe65rgyIQNloXUDOcPHFnTnXWyZvcP/bYpl6Z7
+         2gReNq6s6Rg5HWygXtbwCKhWZp1BNbRePHKTZnVgfOQ8iAhu9z6JMTiLJm7xshKg403Y
+         DvDsZwUIBo0EihwgK8OagfzrbqJnrv0UOlVEqxUty4f2vAfMn4I4BqTBG5168JQ+9O6g
+         RwXtYWie4A2sobdczIWyuuJ85X1Zn+RvQin2eVQuAnAE6nxwzeV36pPZUKgmjHDreGnc
+         pXzg==
+X-Gm-Message-State: AOJu0Yy5NjX+2RiBp+UBZuKrqtAwJFotvvgk9WnYYc2uAPkhRLfRLAtd
+	coZhlmb8wlJQeoqW+54v2oA=
+X-Google-Smtp-Source: AGHT+IHDufePDYgd7tgKPVnuknM7a0SfeuT6CjHzJNcLHbxk5TipFuuxkgIKUdn82Jf0yMBr3No0ww==
+X-Received: by 2002:a05:600c:1d1a:b0:405:358c:ba74 with SMTP id l26-20020a05600c1d1a00b00405358cba74mr4723146wms.0.1697434046440;
+        Sun, 15 Oct 2023 22:27:26 -0700 (PDT)
+Received: from lab-ubuntu ([41.90.67.11])
+        by smtp.gmail.com with ESMTPSA id p9-20020a5d4e09000000b0032196c508e3sm5550508wrt.53.2023.10.15.22.27.25
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 15 Oct 2023 21:41:00 -0700 (PDT)
-Date: Mon, 16 Oct 2023 07:40:57 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Calvince Otieno <calvncce@gmail.com>
-Cc: outreachy@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Luke Koch <lu.ale.koch@gmail.com>,
-	Bagas Sanjaya <bagasdotme@gmail.com>,
-	Simon Horman <horms@kernel.org>, linux-staging@lists.linux.dev
-Subject: Re: [PATCH v2] staging: wlan-ng: remove helper function
- prism2sta_inf_handover()
-Message-ID: <4c29cb7a-3b24-4682-9211-09aff1e01360@kadam.mountain>
-References: <ZSkg7y2Y2T3midXB@lab-ubuntu>
- <67d90726-15b9-4d64-87c6-bfbf662cbe81@kadam.mountain>
- <CADFX3ORVXcEBzovdbPawW2SLxcMoraKBmmLuOFkMpnHj=T48qQ@mail.gmail.com>
+        Sun, 15 Oct 2023 22:27:25 -0700 (PDT)
+Date: Mon, 16 Oct 2023 08:27:23 +0300
+From: Calvince Otieno <calvncce@gmail.com>
+To: gustavo@embeddedor.com, outreachy@lists.linux.dev
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Calvince Otieno <calvncce@gmail.com>,
+	Thomas =?iso-8859-1?Q?Wei=DFschuh?= <thomas@t-8ch.de>,
+	Dan Carpenter <dan.carpenter@linaro.org>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: [PATCH v2] staging: wlan-ng: remove unnecessary helper function
+Message-ID: <ZSzJuwlEKPBj9kLN@lab-ubuntu>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CADFX3ORVXcEBzovdbPawW2SLxcMoraKBmmLuOFkMpnHj=T48qQ@mail.gmail.com>
 
-On Fri, Oct 13, 2023 at 07:04:56PM +0300, Calvince Otieno wrote:
-> On Fri, Oct 13, 2023 at 3:12 PM Dan Carpenter <dan.carpenter@linaro.org> wrote:
-> >
-> > On Fri, Oct 13, 2023 at 01:50:23PM +0300, Calvince Otieno wrote:
-> > > prism2sta_inf_handover() function basically calls pr_debug() to print
-> > > a literal string. This can be done by the parent function directly.
-> > >
-> > > Signed-off-by: Calvince Otieno <calvncce@gmail.com>
-> > > ---
-> > > Patch version v2:
-> > >       - Replace pr_debug() utility function with the module specific netdev_dbg()
-> >
-> > This isn't a v2 patch, right?  This patch assumes that we applied the
-> > v1 patch...
-> >
-> > This patch is not white space damaged though so that's good.
-> >
-> > regards,
-> > dan carpenter
-> >
-> >
-> 
-> Hello Dan,
-> Does this response mean that the patch was accepted?
+The function prism2sta_inf_handover() is called by the parent
+function prism2sta_ev_info() to print a literal debug information
+string using pr_debug(). The debugging utility function can be called
+directly within prism2sta_ev_info().
 
-Ugh...  No, sorry.  I suck at emails.  White space damaged is not good.
-I left out the word not...  :/
+Furthermore, to make the debugging more module-specific, the netdev_dbg()
+function is preferred over the generic pr_debug() utility function.
 
-You need to figure out what's going on there.  Some of your patches are
-not white space damaged so sometimes you're doing it right but here the
-spaces were replaced with tabs so it doesn't apply.
+Signed-off-by: Calvince Otieno <calvncce@gmail.com>
+---
+Changes since v2:
+ - Added the patch change log
 
-regards,
-dan carpenter
+Changes since v1:
+ - Remove the unnecessary helper function prism2sta_inf_handover()
+ - Replace pr_debug() with netdev_dbg()
+---
+ drivers/staging/wlan-ng/prism2sta.c | 30 ++---------------------------
+ 1 file changed, 2 insertions(+), 28 deletions(-)
+
+diff --git a/drivers/staging/wlan-ng/prism2sta.c b/drivers/staging/wlan-ng/prism2sta.c
+index 57180bb71699..b5e95a3207fe 100644
+--- a/drivers/staging/wlan-ng/prism2sta.c
++++ b/drivers/staging/wlan-ng/prism2sta.c
+@@ -90,9 +90,6 @@ static int prism2sta_getcardinfo(struct wlandevice *wlandev);
+ static int prism2sta_globalsetup(struct wlandevice *wlandev);
+ static int prism2sta_setmulticast(struct wlandevice *wlandev,
+ 				  struct net_device *dev);
+-
+-static void prism2sta_inf_handover(struct wlandevice *wlandev,
+-				   struct hfa384x_inf_frame *inf);
+ static void prism2sta_inf_tallies(struct wlandevice *wlandev,
+ 				  struct hfa384x_inf_frame *inf);
+ static void prism2sta_inf_hostscanresults(struct wlandevice *wlandev,
+@@ -922,30 +919,6 @@ static int prism2sta_setmulticast(struct wlandevice *wlandev,
+ 	return result;
+ }
+ 
+-/*
+- * prism2sta_inf_handover
+- *
+- * Handles the receipt of a Handover info frame. Should only be present
+- * in APs only.
+- *
+- * Arguments:
+- *	wlandev		wlan device structure
+- *	inf		ptr to info frame (contents in hfa384x order)
+- *
+- * Returns:
+- *	nothing
+- *
+- * Side effects:
+- *
+- * Call context:
+- *	interrupt
+- */
+-static void prism2sta_inf_handover(struct wlandevice *wlandev,
+-				   struct hfa384x_inf_frame *inf)
+-{
+-	pr_debug("received infoframe:HANDOVER (unhandled)\n");
+-}
+-
+ /*
+  * prism2sta_inf_tallies
+  *
+@@ -1724,7 +1697,8 @@ void prism2sta_ev_info(struct wlandevice *wlandev,
+ 	/* Dispatch */
+ 	switch (inf->infotype) {
+ 	case HFA384x_IT_HANDOVERADDR:
+-		prism2sta_inf_handover(wlandev, inf);
++		netdev_dbg(wlandev->netdev,
++			   "received infoframe:HANDOVER (unhandled)\n");
+ 		break;
+ 	case HFA384x_IT_COMMTALLIES:
+ 		prism2sta_inf_tallies(wlandev, inf);
+-- 
+2.34.1
+
