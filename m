@@ -1,54 +1,54 @@
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BCBE882F
-	for <linux-staging@lists.linux.dev>; Mon, 16 Oct 2023 05:39:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E773114F63;
+	Mon, 16 Oct 2023 06:39:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="oeZ6pc+N"
-Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-32d9b507b00so2461049f8f.1
-        for <linux-staging@lists.linux.dev>; Sun, 15 Oct 2023 22:39:23 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aZh0IdQO"
+Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-32d9cb5e0fcso2401968f8f.0;
+        Sun, 15 Oct 2023 23:39:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1697434760; x=1698039560; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=SAhyhyywQsJApEGes0Z+kLzxA9BFQIkO86pnB4KjlYM=;
-        b=oeZ6pc+NJOMI1dvlQeT3AJothZHlO2sIsgN0cfIyIUBb5q/OxYSupSUjjzwG0/c6jg
-         RsIq4zb3H4L4qH8qLo8L0+tWyj3kGsEfBG0m+rcOExVpVZcirDMhdNbG0c8TCJTIWGAr
-         rlMidn4HTzDo80L9JbHzytp7mMyl01GSkomHyt7SDAMwQS3gnyg/xIPN0WIJL2AoyfEw
-         2xCBoc1t3ALTmRbZq/GFxgprWotC812B+zzYtYNNHGcR9m00n6mKLJdvkutISJwzZ+UD
-         0rJhcYPSTiesXdFOs0Bgmww3BCeKu+oxeGav/TTZe59vhvA9ZGrnOyb5DPG8m7FJIt1J
-         3Myw==
+        d=gmail.com; s=20230601; t=1697438377; x=1698043177; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=Iiy71Ki/o2LF//sd0XBr3ccMYvSR+gE4EltrkOccHOo=;
+        b=aZh0IdQO1D94IzicVJzTX7HKb68W7n6RdrIOepaDrnmzD+4VeDtdvS/tUzxME6nXbF
+         i6N9x9zVhCWh9e1yUnRnpDA+Jiz13Yl37CmLAcScL5/2XehyhrOHEfcJQmbuEYDnpPFU
+         aOo4vHr8VswJgeqU+jbuS65myJWEytONbAyhbOSXPmOry/DqiFh9nrzReQrZcYXZOpx9
+         w5LmgimIFEGZxv1BuS/WDC5OSXF6Y76DT/wx96LLrFtIIppy3Nm8N6yBonb2dCJGecZW
+         3mgPbO5xTiw+80l8yJrXkAo+R6qjhOcvXnGEt5RyKA1qLE+7XoQLR17+claeaNDTiSoN
+         puIg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697434760; x=1698039560;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=SAhyhyywQsJApEGes0Z+kLzxA9BFQIkO86pnB4KjlYM=;
-        b=NwWibhaCJjC71RFbnRdlrtjCtCc3a96s2iYNto5fHw+tvycbUdZiRwwj/r7lsPKJb0
-         l0JKr6R39gqEhyKFPWoQFC/M8jjkR3k35X729xf9pgz2QYCTnezFUGYJWV9mcVqfcdcK
-         P74gJZ5zdTgEpNzLfxOgFdKnIPEhkBad60USGmDeXKb4R0fTvn7fculCwuEPngUgcS/+
-         3DDmHwCikUlMvuYhIR8CZUCnJRuNs5LTvnJWg4gcmK5IcdIKpO5ch0gDWwiyG3Qofg4Q
-         KgVJIBSWPBuhm+u+PQUT/pDV6MJgBRxNqWabj3hRRwS4XNdJSJbaykc/6jJYHYer7+r7
-         nOQA==
-X-Gm-Message-State: AOJu0YxVp3xRN7F+qv71Ec6KNz6RHqKq5xEbwyLLk1lNAAz9E/YP4XuM
-	2chZsfrHXZ56qT5m/Y2mzr0rrA==
-X-Google-Smtp-Source: AGHT+IHHH39CYBAqvsSK1af/YmT2zspK8LPta7U0tTel7SK8+/JS/p2F4kC53nRhcqFg6aa5y5joRg==
-X-Received: by 2002:adf:ea42:0:b0:32d:a57b:8c8e with SMTP id j2-20020adfea42000000b0032da57b8c8emr4192772wrn.53.1697434760301;
-        Sun, 15 Oct 2023 22:39:20 -0700 (PDT)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id e28-20020adfa45c000000b0032d892e70b4sm12196991wra.37.2023.10.15.22.39.19
+        d=1e100.net; s=20230601; t=1697438377; x=1698043177;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Iiy71Ki/o2LF//sd0XBr3ccMYvSR+gE4EltrkOccHOo=;
+        b=gNm4495SoJzk3Gu5wcF5GleSFxNqQPXl7bOu5N3f7vDCB9gJSBc3yIe3kwPSdpmKPJ
+         49IwqBmHohtqyEX4ivZH1AsFQVzOxkEgcQiPnhC2Na6MdyeDUi3qN+p1Y9KBsCvfEJiv
+         tvDYfqjO6gYQFVPabCru2qDTg6JICG+zRjvUJSvDUBUuKfln3+nk81DC+UaLg1X+CaLM
+         DAlYMSkGz1MUMaEo8M+0Uj4itPu+6IUucbhJGOf3gcbDxOFaeXXX4A3x+3SNIQ3eZpGw
+         87SUOBZxBzT80UtPiN2AnYif2noUtdgYOpDqWRY7QU7utNhYZvQW/MJ2vHjIYbc0Sj8h
+         BDkg==
+X-Gm-Message-State: AOJu0YxUy3U2/c4obd4NUbKai64wJF07rc6V3p4zZmF28UAT4qnuY3dn
+	xNsIjIKvhwdyzOQdbAQCp2U=
+X-Google-Smtp-Source: AGHT+IGCEsbCWSUVGoDB/k1LuP3lsGqIkCWTYbQ+M/DXl+xwMSZfyOm4NmQNkTpaeB9GknAAmygOcA==
+X-Received: by 2002:a05:6000:4e1:b0:31f:ea18:6f6b with SMTP id cr1-20020a05600004e100b0031fea186f6bmr27051651wrb.19.1697438376943;
+        Sun, 15 Oct 2023 23:39:36 -0700 (PDT)
+Received: from lab-ubuntu ([41.90.67.11])
+        by smtp.gmail.com with ESMTPSA id n18-20020a5d4c52000000b003197869bcd7sm2410920wrt.13.2023.10.15.23.39.35
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 15 Oct 2023 22:39:19 -0700 (PDT)
-Date: Mon, 16 Oct 2023 08:39:16 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Gilbert Adikankwu <gilbertadikankwu@gmail.com>
-Cc: gregkh@linuxfoundation.org, outreachy@lists.linux.dev,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: rtl8192u: Align descendant arguments
-Message-ID: <3620a5eb-34d8-49ae-a925-66f85a62e09c@kadam.mountain>
-References: <ZSuYUmX5P5M0Ok/I@gilbert-PC>
+        Sun, 15 Oct 2023 23:39:36 -0700 (PDT)
+Date: Mon, 16 Oct 2023 09:39:33 +0300
+From: Calvince Otieno <calvncce@gmail.com>
+To: gustavo@embeddedor.com, outreachy@lists.linux.dev
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Calvince Otieno <calvncce@gmail.com>,
+	Dan Carpenter <dan.carpenter@linaro.org>
+Subject: [PATCH] staging: wlan-ng: replace strncpy() with strscpy()
+Message-ID: <ZSzapU+eKWvHVwxi@lab-ubuntu>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -57,44 +57,45 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ZSuYUmX5P5M0Ok/I@gilbert-PC>
 
-On Sun, Oct 15, 2023 at 08:44:18AM +0100, Gilbert Adikankwu wrote:
-> diff --git a/drivers/staging/rtl8192u/r8190_rtl8256.c b/drivers/staging/rtl8192u/r8190_rtl8256.c
-> index 54747fda552f..a81e88894e01 100644
-> --- a/drivers/staging/rtl8192u/r8190_rtl8256.c
-> +++ b/drivers/staging/rtl8192u/r8190_rtl8256.c
-> @@ -46,17 +46,17 @@ void phy_set_rf8256_bandwidth(struct net_device *dev, enum ht_channel_width Band
->  				    priv->card_8192_version == VERSION_819XU_B) {
->  					/* 8256 D-cut, E-cut, xiong: consider it later! */
->  					rtl8192_phy_SetRFReg(dev,
-> -						(enum rf90_radio_path_e)eRFPath,
-> -						0x0b, bMask12Bits, 0x100); /* phy para:1ba */
-> +							     (enum rf90_radio_path_e)eRFPath,
-> +							     0x0b, bMask12Bits, 0x100); /* phy para:1ba */
+Checkpatch suggests the use of strscpy() instead of strncpy().
+The advantages are that it always adds a NUL terminator and it prevents
+a read overflow if the src string is not properly terminated. One
+potential disadvantage is that it doesn't zero pad the string like
+strncpy() does.
+In this code, strscpy() and strncpy() are equivalent and it does not
+affect runtime behavior. The string is zeroed on the line before
+using memset(). The resulting string was always NUL terminated and
+PRISM2_USB_FWFILE is string literal "prism2_ru.fw" so it's NUL
+terminated.
+However, even though using strscpy() does not fix any bugs, it's
+still nicer and makes checkpatch happy.
 
-These ones go too long indented like this.  The other sections are fine
-but just leave leave this file as it was.
+Signed-off-by: Calvince Otieno <calvncce@gmail.com>
+---
+Previous Patch Versions:
+ - Earlier patch versions had issues with whitespace, preventing correct
+ application. This is a reroll of those previous versions.
 
-regards,
-dan carpenter
+ - Versions v2 through v6 focused on improving the clarity of the commit
+ message. There were no code changes in these patch versions.
 
->  					rtl8192_phy_SetRFReg(dev,
-> -						(enum rf90_radio_path_e)eRFPath,
-> -						0x2c, bMask12Bits, 0x3d7);
-> +							     (enum rf90_radio_path_e)eRFPath,
-> +							     0x2c, bMask12Bits, 0x3d7);
->  					rtl8192_phy_SetRFReg(dev,
-> -						(enum rf90_radio_path_e)eRFPath,
-> -						0x0e, bMask12Bits, 0x021);
-> +							     (enum rf90_radio_path_e)eRFPath,
-> +							     0x0e, bMask12Bits, 0x021);
->  					rtl8192_phy_SetRFReg(dev,
-> -						(enum rf90_radio_path_e)eRFPath,
-> -						0x14, bMask12Bits, 0x5ab);
-> +							     (enum rf90_radio_path_e)eRFPath,
-> +							     0x14, bMask12Bits, 0x5ab);
->  				} else {
->  					RT_TRACE(COMP_ERR, "%s(): unknown hardware version\n", __func__);
->  					}
+ drivers/staging/wlan-ng/prism2fw.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/staging/wlan-ng/prism2fw.c b/drivers/staging/wlan-ng/prism2fw.c
+index 5d03b2b9aab4..3ccd11041646 100644
+--- a/drivers/staging/wlan-ng/prism2fw.c
++++ b/drivers/staging/wlan-ng/prism2fw.c
+@@ -725,7 +725,7 @@ static int plugimage(struct imgchunk *fchunk, unsigned int nfchunks,
+ 
+ 		if (j == -1) {	/* plug the filename */
+ 			memset(dest, 0, s3plug[i].len);
+-			strncpy(dest, PRISM2_USB_FWFILE, s3plug[i].len - 1);
++			strscpy(dest, PRISM2_USB_FWFILE, s3plug[i].len);
+ 		} else {	/* plug a PDR */
+ 			memcpy(dest, &pda->rec[j]->data, s3plug[i].len);
+ 		}
+-- 
+2.34.1
 
