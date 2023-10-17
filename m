@@ -1,56 +1,59 @@
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C6EC1FD5
-	for <linux-staging@lists.linux.dev>; Tue, 17 Oct 2023 04:06:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 508878BF9
+	for <linux-staging@lists.linux.dev>; Tue, 17 Oct 2023 04:14:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="AKRIKQ9o"
-Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-323168869daso4921258f8f.2
-        for <linux-staging@lists.linux.dev>; Mon, 16 Oct 2023 21:06:08 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="xWIRk/cQ"
+Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-325e9cd483eso5027770f8f.2
+        for <linux-staging@lists.linux.dev>; Mon, 16 Oct 2023 21:14:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1697515566; x=1698120366; darn=lists.linux.dev;
+        d=linaro.org; s=google; t=1697516090; x=1698120890; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=MRNV9tUzQ0HGiFop7vZJJZrVqaqb06rzYLzB4ERo+tI=;
-        b=AKRIKQ9o5UG+ugVcnMFlLxUwZg6FgBGOYSJWxst8T/+URmmfL27nHKPh+gAp9pvKXg
-         E/p7Mabv7380JpEsMa5PNT0aIzF/JRIpTn6HPKw7/rjzZ0glTKpytRjJ54aMIlfAbWP7
-         hCgM9Y0xEy8r9DLv//D0d1nwa88splANOxhEgLGcbp6sAZA2e55htq7PkfjcsRYxO/Q+
-         8kf80nUsmkvR3qTisCBftnrFHGYxn3/DfVbKcTa9J0ea5+TmgVQ77Y65l2b+VLDoGUDp
-         4Y5+KWyktpC1T20HPgr2jAC7obir4zCHOMFBo8uzQ5nOZEptI7w1G6zX/eW2nKAktrmu
-         3Rnw==
+        bh=q2dZBUmwthCKe42eGQqfFVlklrGhflMnlew3Rp0hoTg=;
+        b=xWIRk/cQ+uK8uULeQSEq0tPW7WiErL7onorSYVjrsRG1nG/KoS79CTSFuatF2DLRED
+         DKoAKp4tOZFJCBwbzAf/F7IYRl/GgFdRfAc+NcpCBdJIPYlBuMC448+mXxisSvpZ/BPs
+         S7HBJl64h69G0xmmQsaMqhheCeYb5qBi5ioYFPdFxVMB9J/2z7wp1Ess0AVwzh6tqMq1
+         3tRJXBn+iLgoNptXWK1iYjfYivSbxwKAZfEHLOZIfWpYOwWWM2+SoW3oeXK6dTf5Nz92
+         kf9AB/Xoj+BIMZeelVrMXmwCLFVCyi5GbUscUcz0OmNSTHtZzGmAjtszRcDcmveWzo/L
+         4exw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697515566; x=1698120366;
+        d=1e100.net; s=20230601; t=1697516090; x=1698120890;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=MRNV9tUzQ0HGiFop7vZJJZrVqaqb06rzYLzB4ERo+tI=;
-        b=LfosatzlFBQ8HiJ6Aj0fw5sVRgouXmoT/IAGQDrbF4bioH/BkxXa3qH7czcVqGD9Ta
-         Od3R/I68FbVSi5h+p0gdavGXW5HN8j/03QiPIkspLM28RzxE8jjBAwPApYPdv8VeKUza
-         VECvBLpmMqOQl2KCeXRL+LwbYOxbsCK9JxEGli/7WDyk6qIsX85yUXP8uCA8R+Y2LUGY
-         3iwJOLyV1tZdQ5TEbgz7p8X8g/gWt/qBgjF/zvO/EzkkiWxFN/Kj87BXeXYa62sut0yf
-         QYMkyCeyujKb4sAAgY8HotCxquGndlQeFlY5K3acHU+N/OIg1X67zKyh3rOc0AtI0hc2
-         1FwQ==
-X-Gm-Message-State: AOJu0YzhPeNmB3NYYuilc7zRgaB+RTV+TvmqjdReiZc42AVAcfySX5gq
-	1N3CbK+gTm5QJc/8jjS/lfn/BA==
-X-Google-Smtp-Source: AGHT+IEN+tXVbYc7cnEt64cF8i0CMSVyQvciua7ZKHOFgq241fD+U9PdkOH8UFnAr9bcdaxoxzzF+A==
-X-Received: by 2002:adf:db0e:0:b0:32d:9b30:9a76 with SMTP id s14-20020adfdb0e000000b0032d9b309a76mr876829wri.47.1697515566203;
-        Mon, 16 Oct 2023 21:06:06 -0700 (PDT)
+        bh=q2dZBUmwthCKe42eGQqfFVlklrGhflMnlew3Rp0hoTg=;
+        b=e2u4e/vaUrSBqHeya4YBaSEqsGziwEoCRgB9gLQ0hIcA3oRuRC6lVzi/gqMm3+06G9
+         MCMLrWxOr7NjA7Gz/bFGxrh1SDMLHy+RLraIotRxg9HWlF5YEO8CTCTgUtHy+FtPCtfS
+         QxcOaLyXZNJzm11byNmqQrGinHxtBKQvbgqu9SiBaRk4TLkBKN2PEGLn1WC9is6jLeXC
+         Kz8v50Jo1YUJc0Ys4q2KPPc9K/DAKTNc5o2wgjGyN3hBFcnyaqhih9oRVHqqA+pTpQQ+
+         WDKEe0X791mzKkhIQuh5V+ZYi3GzVvGRtO4/Jks5Mu6A8iYFydcU2A1erZ6eq6+s//C7
+         qKFg==
+X-Gm-Message-State: AOJu0YzWe3fp00wVjKNUUrKHVMTFQR+t8waC21kC6ktrcz9Dzbm+AQSi
+	BXtMSUiXBO+mdV1AM5WCWJXcIyTFs04jHWw7nDI=
+X-Google-Smtp-Source: AGHT+IHL9edRjCBjUElxLPuvZjX09mIVD7SQA1z7VlWAEUiuE41FNpxgzfuMp4mLH2kzKjjH4uH/0Q==
+X-Received: by 2002:a5d:6186:0:b0:32d:9d3d:8b98 with SMTP id j6-20020a5d6186000000b0032d9d3d8b98mr1034563wru.71.1697516090540;
+        Mon, 16 Oct 2023 21:14:50 -0700 (PDT)
 Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id m19-20020a056000175300b0032da319a27asm692255wrf.9.2023.10.16.21.06.05
+        by smtp.gmail.com with ESMTPSA id e13-20020adfef0d000000b0032d9caeab0fsm686370wro.77.2023.10.16.21.14.49
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 16 Oct 2023 21:06:05 -0700 (PDT)
-Date: Tue, 17 Oct 2023 07:06:02 +0300
+        Mon, 16 Oct 2023 21:14:50 -0700 (PDT)
+Date: Tue, 17 Oct 2023 07:14:47 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Nandha Kumar Singaram <nandhakumar.singaram@gmail.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: rts5208: Replace the occurrences of (1<<x) by
- BIT(x)
-Message-ID: <a45368a0-6f7c-4401-804d-1ff3cb8803b7@kadam.mountain>
-References: <20231016201154.GA14625@ubuntu>
- <433b9d45-bb21-49eb-8062-c03bcffa90ff@kadam.mountain>
+To: Andi Shyti <andi.shyti@linux.intel.com>
+Cc: Greg KH <gregkh@linuxfoundation.org>,
+	Gilbert Adikankwu <gilbertadikankwu@gmail.com>,
+	outreachy@lists.linux.dev, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: emxx_udc: Remove unnecessary parentheses around
+ condition tests
+Message-ID: <8de0c0ea-d81c-402a-a5c4-7779a190c306@kadam.mountain>
+References: <ZS0f+xaaLmLpKv2a@gilbert-PC>
+ <2023101658-unmoral-survival-25cf@gregkh>
+ <ZS2qpwnfCxsbvOld@ashyti-mobl2.lan>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -59,14 +62,32 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <433b9d45-bb21-49eb-8062-c03bcffa90ff@kadam.mountain>
+In-Reply-To: <ZS2qpwnfCxsbvOld@ashyti-mobl2.lan>
 
-Btw, eventually if we fix enough checkpatch warnings, then eventually we
-get to a point where all the remaining warnings are wrong.  Like we've
-fixed everything checkpatch gets correct and only wrong things are left.
-So just be aware of that, that sometimes everything checkpatch suggests
-is wrong.
+On Mon, Oct 16, 2023 at 11:27:03PM +0200, Andi Shyti wrote:
+> > > Fix 47 warnings detected by checkpatch.pl about unnecessary parenthesis
+> > > around condition tests.
+> > 
+> > And as I have stated numerous times in the past, they are not
+> > "unnecessary" at all, and provide a valuable hint to the developer as to
+> > what is the ordering involved.
+> > 
+> > So you can ignore this checkpatch warning please, it's not valid as far
+> > as I'm concerned for the subsystems that I maintain in the kernel.
+> 
+> I find this very confusing, though:
+> 
+>    if (((ep->epnum == 0) || (data & (1 << ep->epnum)) == 0))
+
+Yeah.  Too many parens.  It could hide an == vs = bug.  (That happened
+once 10 years ago but I still remember it as if it were a useful and
+dangerous anti-pattern to remember instead of a getting hit by a meteor
+type thing that will never happen again).
+
+Also == 0 should only be used for the number zero (used as a number and
+not as a logical no or absence) and for strcmp() functions.
+
+	if ((ep->epnum == 0) || !(data & (1 << ep->epnum)))
 
 regards,
 dan carpenter
-
