@@ -1,89 +1,160 @@
-Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8583E43A84
-	for <linux-staging@lists.linux.dev>; Tue, 17 Oct 2023 14:23:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD892436AF
+	for <linux-staging@lists.linux.dev>; Tue, 17 Oct 2023 14:48:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ANa2DXWs"
-Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-1c9b95943beso47999775ad.1
-        for <linux-staging@lists.linux.dev>; Tue, 17 Oct 2023 07:23:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1697552599; x=1698157399; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=o8x4u3Tgqxm/wT15hbhSA2dGVONGLw0lsKJBjy2cxi4=;
-        b=ANa2DXWsez0Ptvrfa+G5pWxY9nCjlxm2Z7t+4d88yxSF7haXCaO6ZMRVUioYbBSMHA
-         F+LJg4Q05E3C+ZVvzWKy4NddaHSYyGI1mIQBdgXSBw3bS85wwzVgDovHYzkufXgSlZSU
-         J5zmGHuih2eF8jIB4koxrtK6fv20rfKhpG/UVLvVqTFX+NY2b5Ctlarmmfb5x2ARytWS
-         alQV4A3Pi9Fv9EgapzhtxHM+NItzqk9I1vXDXq+xtXavb+AAvQ/ewnpkBWcC0cFocrQO
-         51VCuQONPllkwOoPGzZNKoMzi7FdSu5iF4BVTPXzuxnlo2I09PON1Dop/4xR9Nxd8eoQ
-         kioQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697552599; x=1698157399;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=o8x4u3Tgqxm/wT15hbhSA2dGVONGLw0lsKJBjy2cxi4=;
-        b=GLj1a2fR+iSkDWfz74wBZtR02hSdCFKdb6xq5HUNnaTWJ2xLrKQm0UPUT2IWNUeKue
-         WwTnESKZAXgbVNzxGiezzwDs9w7mMX4uKEhjyVI3X/0jgcJsgSJDgsQbqgukTmtP/OmJ
-         hsRHLLgnWkI/21V4Fc+J9kIR61A+mgpTAxX71bWNTaI4JwNAcpnnKEFt1mcwb+WLyPbd
-         j9103MOLySryyvQvWGoeTnk6KuJPf/pXkZsbbJZ6chn6u1tL7sM9SahTE2cpQDsPnTun
-         36WQTRR0yqgRMzLWr2AtlGIF6q/Hbr2SsutkzWDiiPTgAnkHICDOhxvTIOAC0h3ao67Y
-         2+xg==
-X-Gm-Message-State: AOJu0YxshL4/XR2XejsSu8abV5jrzlHWL5Hbnf4o65gJxErqB2eWVOTC
-	j7WIMplNQuJ7s8rz+Rh1uMQ=
-X-Google-Smtp-Source: AGHT+IGQ9rbPOMmVl+v2/m2m1wjMd3AyNTDDOmysGd0xpq/VkIt4k5dwSI61dpmOkHe71FK+0u4lpw==
-X-Received: by 2002:a17:903:1cf:b0:1c9:d46e:d52d with SMTP id e15-20020a17090301cf00b001c9d46ed52dmr2487529plh.64.1697552598729;
-        Tue, 17 Oct 2023 07:23:18 -0700 (PDT)
-Received: from ubuntu ([223.226.54.200])
-        by smtp.gmail.com with ESMTPSA id kx14-20020a170902f94e00b001c1f4edfb9csm1606814plb.173.2023.10.17.07.23.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 17 Oct 2023 07:23:18 -0700 (PDT)
-Date: Tue, 17 Oct 2023 07:23:13 -0700
-From: Nandha Kumar Singaram <nandhakumar.singaram@gmail.com>
-To: Simon Horman <horms@kernel.org>
-Cc: Manish Chopra <manishc@marvell.com>, GR-Linux-NIC-Dev@marvell.com,
-	Coiby Xu <coiby.xu@gmail.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	netdev@vger.kernel.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org, kumaran.4353@gmail.com
-Subject: Re: [PATCH] staging: qlge: Replace the occurrences of (1<<x) by
- BIT(x)
-Message-ID: <20231017142313.GC3156@ubuntu>
-References: <20231015133558.GA5489@ubuntu>
- <20231017091814.GS1751252@kernel.org>
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="XrGI6n38"
+Received: from benjamin-XPS-13-9310.. (unknown [IPv6:2a01:e0a:120:3210:7205:da49:a7e8:59f8])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: benjamin.gaignard)
+	by madras.collabora.co.uk (Postfix) with ESMTPSA id B879C66072F4;
+	Tue, 17 Oct 2023 15:48:03 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1697554084;
+	bh=cMzVFA9/TUVo9VWr/5JcyqG4OOKgwWqTUUieq9IONwI=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=XrGI6n38ElM1sagzjAvlEFoFUAILsXCAW2Yfr1v8qdtlh1wjEJVLJs33bknwHfNsx
+	 S8gMVrtR149KRLgRdQnZQ4lojxQJLrtAjsEz3/UmDqgLMfhMajPZbfR0FgJRP2IpfL
+	 3KzXLqfOQ8nP9C3bIt8ew9C/OF0iLStewmCu7MI0vGkEBXpIgZ2E7Ut5D+b5DztbwV
+	 rkDWXi60I/PzQql5yVtzM0wT4ajTESeD1NvybT/A0sjrYcNnTk/1qtpzicNVNuCUxB
+	 QGXFveJ/4z74xckcmzXszWfnk8lpjiW5qu2ferVLJWean+GP8kaejQWI9v+B4H+8tT
+	 ycVQ/2c4f+GsQ==
+From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+To: mchehab@kernel.org,
+	tfiga@chromium.org,
+	m.szyprowski@samsung.com,
+	ming.qian@nxp.com,
+	ezequiel@vanguardiasur.com.ar,
+	p.zabel@pengutronix.de,
+	gregkh@linuxfoundation.org,
+	hverkuil-cisco@xs4all.nl,
+	nicolas.dufresne@collabora.com
+Cc: linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org,
+	linux-arm-msm@vger.kernel.org,
+	linux-rockchip@lists.infradead.org,
+	linux-staging@lists.linux.dev,
+	kernel@collabora.com,
+	Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Subject: [PATCH v12 01/56] media: videobuf2: Rename offset parameter
+Date: Tue, 17 Oct 2023 16:47:01 +0200
+Message-Id: <20231017144756.34719-2-benjamin.gaignard@collabora.com>
+X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20231017144756.34719-1-benjamin.gaignard@collabora.com>
+References: <20231017144756.34719-1-benjamin.gaignard@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231017091814.GS1751252@kernel.org>
+Content-Transfer-Encoding: 8bit
 
-On Tue, Oct 17, 2023 at 11:18:14AM +0200, Simon Horman wrote:
-> On Sun, Oct 15, 2023 at 06:35:58AM -0700, Nandha Kumar Singaram wrote:
-> > Adhere to linux coding style. Reported by checkpatch.pl:
-> > CHECK: Prefer using the BIT macro
-> > 
-> > Signed-off-by: Nandha Kumar Singaram <nandhakumar.singaram@gmail.com>
-> 
-> Hi Nandha,
-> 
-> I am assuming that checkpatch clean ups are acceptable, perhaps
-> even desired, in staging. So this patch seems appropriate to me.
-> 
-> I do, however, see a lot more potential uses of BIT() in qlge.h.
-> Could you take a second look?
-> 
-> ...
+Rename 'off' parameter to 'offset' to clarify the code.
 
-Hi Simon,
+Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+---
+ .../media/common/videobuf2/videobuf2-core.c   | 26 +++++++++----------
+ 1 file changed, 13 insertions(+), 13 deletions(-)
 
-I will look into it and update the patch
+diff --git a/drivers/media/common/videobuf2/videobuf2-core.c b/drivers/media/common/videobuf2/videobuf2-core.c
+index 27aee92f3eea..a5e57affeb30 100644
+--- a/drivers/media/common/videobuf2/videobuf2-core.c
++++ b/drivers/media/common/videobuf2/videobuf2-core.c
+@@ -356,23 +356,23 @@ static void __setup_offsets(struct vb2_buffer *vb)
+ {
+ 	struct vb2_queue *q = vb->vb2_queue;
+ 	unsigned int plane;
+-	unsigned long off = 0;
++	unsigned long offset = 0;
+ 
+ 	if (vb->index) {
+ 		struct vb2_buffer *prev = q->bufs[vb->index - 1];
+ 		struct vb2_plane *p = &prev->planes[prev->num_planes - 1];
+ 
+-		off = PAGE_ALIGN(p->m.offset + p->length);
++		offset = PAGE_ALIGN(p->m.offset + p->length);
+ 	}
+ 
+ 	for (plane = 0; plane < vb->num_planes; ++plane) {
+-		vb->planes[plane].m.offset = off;
++		vb->planes[plane].m.offset = offset;
+ 
+ 		dprintk(q, 3, "buffer %d, plane %d offset 0x%08lx\n",
+-				vb->index, plane, off);
++				vb->index, plane, offset);
+ 
+-		off += vb->planes[plane].length;
+-		off = PAGE_ALIGN(off);
++		offset += vb->planes[plane].length;
++		offset = PAGE_ALIGN(offset);
+ 	}
+ }
+ 
+@@ -2185,9 +2185,9 @@ int vb2_core_streamoff(struct vb2_queue *q, unsigned int type)
+ EXPORT_SYMBOL_GPL(vb2_core_streamoff);
+ 
+ /*
+- * __find_plane_by_offset() - find plane associated with the given offset off
++ * __find_plane_by_offset() - find plane associated with the given offset
+  */
+-static int __find_plane_by_offset(struct vb2_queue *q, unsigned long off,
++static int __find_plane_by_offset(struct vb2_queue *q, unsigned long offset,
+ 			unsigned int *_buffer, unsigned int *_plane)
+ {
+ 	struct vb2_buffer *vb;
+@@ -2218,7 +2218,7 @@ static int __find_plane_by_offset(struct vb2_queue *q, unsigned long off,
+ 		vb = q->bufs[buffer];
+ 
+ 		for (plane = 0; plane < vb->num_planes; ++plane) {
+-			if (vb->planes[plane].m.offset == off) {
++			if (vb->planes[plane].m.offset == offset) {
+ 				*_buffer = buffer;
+ 				*_plane = plane;
+ 				return 0;
+@@ -2304,7 +2304,7 @@ EXPORT_SYMBOL_GPL(vb2_core_expbuf);
+ 
+ int vb2_mmap(struct vb2_queue *q, struct vm_area_struct *vma)
+ {
+-	unsigned long off = vma->vm_pgoff << PAGE_SHIFT;
++	unsigned long offset = vma->vm_pgoff << PAGE_SHIFT;
+ 	struct vb2_buffer *vb;
+ 	unsigned int buffer = 0, plane = 0;
+ 	int ret;
+@@ -2335,7 +2335,7 @@ int vb2_mmap(struct vb2_queue *q, struct vm_area_struct *vma)
+ 	 * Find the plane corresponding to the offset passed by userspace. This
+ 	 * will return an error if not MEMORY_MMAP or file I/O is in progress.
+ 	 */
+-	ret = __find_plane_by_offset(q, off, &buffer, &plane);
++	ret = __find_plane_by_offset(q, offset, &buffer, &plane);
+ 	if (ret)
+ 		goto unlock;
+ 
+@@ -2380,7 +2380,7 @@ unsigned long vb2_get_unmapped_area(struct vb2_queue *q,
+ 				    unsigned long pgoff,
+ 				    unsigned long flags)
+ {
+-	unsigned long off = pgoff << PAGE_SHIFT;
++	unsigned long offset = pgoff << PAGE_SHIFT;
+ 	struct vb2_buffer *vb;
+ 	unsigned int buffer, plane;
+ 	void *vaddr;
+@@ -2392,7 +2392,7 @@ unsigned long vb2_get_unmapped_area(struct vb2_queue *q,
+ 	 * Find the plane corresponding to the offset passed by userspace. This
+ 	 * will return an error if not MEMORY_MMAP or file I/O is in progress.
+ 	 */
+-	ret = __find_plane_by_offset(q, off, &buffer, &plane);
++	ret = __find_plane_by_offset(q, offset, &buffer, &plane);
+ 	if (ret)
+ 		goto unlock;
+ 
+-- 
+2.39.2
 
-Thanks,
-Nandha Kumar Singaram
