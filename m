@@ -1,134 +1,152 @@
-Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net [217.70.183.195])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95A15381BD;
-	Tue, 17 Oct 2023 08:44:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A60813CCF5
+	for <linux-staging@lists.linux.dev>; Tue, 17 Oct 2023 08:55:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ctdo8nU1"
-Received: by mail-ed1-f50.google.com with SMTP id 4fb4d7f45d1cf-53d82bea507so9385905a12.2;
-        Tue, 17 Oct 2023 01:44:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1697532288; x=1698137088; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=HmsMFOzw6DDo4sGJW291xAQW+LN+HB2lb3S1lOiqLbM=;
-        b=ctdo8nU1J//TfEV2XdVnhiDQJPbzpg4GTZWO5Drxb2z1BduRbZIGgDsAWMksPg3V6z
-         fovQ8PCstXnIa9I00grDr4LbUw0jijBn5gg5x2VWLq8RB03SfUeFyxwBAdsT4HhRwG4s
-         v0TkuazJLsRuvrVIWxXqCPEa1mWaKqJIgJn0uElHUHnnB4wCgR5QFN9LcbW0cCwnQbdN
-         XEZrcsspNJe7OFp08i9cVDC0MdbDw+BF86YLNmOZEGU5yvbK8y9lZqzcL+1jRUUvz6+H
-         /GKd7Xb+nqWvBaU21HQXFE+sOcsItdGpOAmBY2bJvIR+lGXvPV/V7WmiRaVva6ZfBtlU
-         l75A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697532288; x=1698137088;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=HmsMFOzw6DDo4sGJW291xAQW+LN+HB2lb3S1lOiqLbM=;
-        b=pAJkgGUjD8swAxfpq4FZzh1L6xHDuR5J1XXRkENBHlNSQ4EAUSFEWjibZq+PottOYR
-         fOkDPLZlQ+lfTnapq+BFJjZOfioIyBaZspfhkapHVJL3fnBvMe4ypQqVFW37jskgvy7X
-         LH6OaidmSmWGmmyie92yfzhKyNwMpE3gyuQ8IChfs54tTTFRD1Dhrjvf5D//XCQvWvAM
-         YRPsAgQRi3c7/lX3jkYoPsxPEVPNl2CaSUV000kQ4wDotxNklkq5NpbRVkmz/BLynn5I
-         2EWnr3/IavgHAbhO6rfpLGEqQIRU7/wsd8Lh3tPLDV8b1lJcevXSWNQeKotS2s0eykjH
-         29WQ==
-X-Gm-Message-State: AOJu0YxUWAOIo/HtWQ/M9U1EQ/VTcH6I5dTjnBhwMmC87alu0S4FdVDw
-	X6ZwCpfKsmzJr7ofVh2UPg==
-X-Google-Smtp-Source: AGHT+IH2TV8UJJYGPgu8FKx2WW718cPP7gAnkKjdnAT4ZmDMZY3hyupZUlDoPIAfIaxXivSpi3Hzjg==
-X-Received: by 2002:a05:6402:40d0:b0:53e:2af1:e966 with SMTP id z16-20020a05640240d000b0053e2af1e966mr1533871edb.1.1697532287453;
-        Tue, 17 Oct 2023 01:44:47 -0700 (PDT)
-Received: from dorcaslitunya-virtual-machine ([105.163.1.143])
-        by smtp.gmail.com with ESMTPSA id m23-20020a509317000000b0053e408aec8bsm813926eda.6.2023.10.17.01.44.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 17 Oct 2023 01:44:47 -0700 (PDT)
-Date: Tue, 17 Oct 2023 11:44:43 +0300
-From: Dorcas Litunya <anonolitunya@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: anonolitunya@gmail.com, outreachy@lists.linux.dev,
-	julia.lawall@inria.fr, dan.carpenter@linaro.org,
-	Sudip Mukherjee <sudipm.mukherjee@gmail.com>,
-	Teddy Wang <teddy.wang@siliconmotion.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 1/5] Staging: sm750fb: Rename
- displayControlAdjust_SM750E
-Message-ID: <ZS5JexVUSKZUuOd4@dorcaslitunya-virtual-machine>
-References: <20231016201434.7880-1-anonolitunya@gmail.com>
- <20231016201434.7880-2-anonolitunya@gmail.com>
- <2023101724-diagram-legwork-0e53@gregkh>
- <ZS5FlsCPETnr8T5D@dorcaslitunya-virtual-machine>
- <2023101712-grudge-overtime-1f43@gregkh>
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="YLPmSv2B"
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 59F8C60012;
+	Tue, 17 Oct 2023 08:54:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1697532905;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=7iqwM5opDjnD+ixELUSySOVNyUQv89SINtLl3/UxmFE=;
+	b=YLPmSv2BCtXDB0ajUoTbluwBFmwofXadtU+GsY+4Sr2bStC/+57qJWEqHQxugCysJoJknP
+	/xES24Lgh/2iCrJ6gc7yDMdmhyFcxsPClA+nGs1zBJbYjmdnMazWn/GFZ5Ij1hd1/iYEOE
+	rnGM6Lou0DwZIc0pn6ZJD1neN06P0aE0s9hFnJ2NWCTv4jEGZeXwQLDI8oLcKrCQmu51Es
+	7Jaiw6FtcmzGD+tpz84+I5MJUp7c7og8dHm3VZNJP0PnF+sH4k76GF8Z+2YN+Oz/ROwvGD
+	z2Tzp5Q1gVXIAkN0JI1fQPn1a/bIY4ituL/pt69IiaEMm5cR9NQcbCEJEEXjLA==
+Date: Tue, 17 Oct 2023 10:54:58 +0200
+From: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+To: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Cc: mchehab@kernel.org, tfiga@chromium.org, m.szyprowski@samsung.com,
+	ming.qian@nxp.com, ezequiel@vanguardiasur.com.ar,
+	p.zabel@pengutronix.de, gregkh@linuxfoundation.org,
+	hverkuil-cisco@xs4all.nl, nicolas.dufresne@collabora.com,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+	linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
+	kernel@collabora.com, Maxime Ripard <mripard@kernel.org>
+Subject: Re: [PATCH v11 41/56] media: cedrus: Stop direct calls to queue
+ num_buffers field
+Message-ID: <ZS5L4l2PzQgpJXua@aptenodytes>
+References: <20231012114642.19040-1-benjamin.gaignard@collabora.com>
+ <20231012114642.19040-42-benjamin.gaignard@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="5XMse7FBKsXwfxlj"
 Content-Disposition: inline
-In-Reply-To: <2023101712-grudge-overtime-1f43@gregkh>
+In-Reply-To: <20231012114642.19040-42-benjamin.gaignard@collabora.com>
+X-GND-Sasl: paul.kocialkowski@bootlin.com
 
-On Tue, Oct 17, 2023 at 10:34:43AM +0200, Greg Kroah-Hartman wrote:
-> On Tue, Oct 17, 2023 at 11:28:06AM +0300, Dorcas Litunya wrote:
-> > On Tue, Oct 17, 2023 at 09:50:50AM +0200, Greg Kroah-Hartman wrote:
-> > > On Mon, Oct 16, 2023 at 11:14:08PM +0300, Dorcas AnonoLitunya wrote:
-> > > > Rename function displayControlAdjust_SM750E to
-> > > > display_control_adjust_SM750E. This follows snakecase naming convention
-> > > > and ensures a consistent naming style throughout the file. Issue found by
-> > > > checkpatch.
-> > > > 
-> > > > Mutes the following error:
-> > > > CHECK:Avoid CamelCase: <displayControlAdjust_SM750E>
-> > > > 
-> > > > Signed-off-by: Dorcas AnonoLitunya <anonolitunya@gmail.com>
-> > > > ---
-> > > >  drivers/staging/sm750fb/ddk750_mode.c | 6 +++---
-> > > >  1 file changed, 3 insertions(+), 3 deletions(-)
-> > > > 
-> > > > diff --git a/drivers/staging/sm750fb/ddk750_mode.c b/drivers/staging/sm750fb/ddk750_mode.c
-> > > > index e00a6cb31947..8708995f676c 100644
-> > > > --- a/drivers/staging/sm750fb/ddk750_mode.c
-> > > > +++ b/drivers/staging/sm750fb/ddk750_mode.c
-> > > > @@ -14,8 +14,8 @@
-> > > >   * in bit 29:27 of Display Control register.
-> > > >   */
-> > > >  static unsigned long
-> > > > -displayControlAdjust_SM750LE(struct mode_parameter *pModeParam,
-> > > > -			     unsigned long dispControl)
-> > > > +display_control_adjust_SM750LE(struct mode_parameter *pModeParam,
-> > > > +			       unsigned long dispControl)
-> > > >  {
-> > > >  	unsigned long x, y;
-> > > >  
-> > > > @@ -125,7 +125,7 @@ static int programModeRegisters(struct mode_parameter *pModeParam,
-> > > >  			tmp |= DISPLAY_CTRL_HSYNC_PHASE;
-> > > >  
-> > > >  		if (sm750_get_chip_type() == SM750LE) {
-> > > > -			displayControlAdjust_SM750LE(pModeParam, tmp);
-> > > > +			display_control_adjust_SM750LE(pModeParam, tmp);
-> > > 
-> > > Why is this function returning a value if it is just being ignored?
-> > > 
-> > > It's not the issue here in the patch, but for future changes.
-> > >
-> > Hi Greg,
-> > 
-> > I will do the correction in the next patchset to correct both functions
-> > return value as this patchset was not focused on that. Does this mean
-> > that this patchset has been accepted? Or should I submit another
-> > patchset that includes the two changes suggested on function return
-> > values?
-> 
-> You'll get an email from my system when it is accepted, wait a day or so
-> before worrying about that.  And then send new patches on top of them
-> then.
-> 
-Thanks for the clarification Greg. I will wait for the confirmation
-email from your system then send the new patches shortly afterwards.
 
-thanks,
-Dorcas
-> thanks,
-> 
-> greg k-h
+--5XMse7FBKsXwfxlj
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+Hi Benjamin,
+
+On Thu 12 Oct 23, 13:46, Benjamin Gaignard wrote:
+> Use vb2_get_num_buffers() and queue max_num_buffers field
+> to avoid using queue num_buffer field directly.
+
+Thanks for the patch, this is indeed a nice cleanup and safer usage.
+Maybe the commit message needs to reflect why this change is welcome,
+not just what is being changed.
+
+> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+> CC: Maxime Ripard <mripard@kernel.org>
+> CC: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+> ---
+>  drivers/staging/media/sunxi/cedrus/cedrus_h264.c | 8 ++++++--
+>  drivers/staging/media/sunxi/cedrus/cedrus_h265.c | 9 +++++++--
+>  2 files changed, 13 insertions(+), 4 deletions(-)
+>=20
+> diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_h264.c b/drivers/s=
+taging/media/sunxi/cedrus/cedrus_h264.c
+> index dfb401df138a..95e490532a87 100644
+> --- a/drivers/staging/media/sunxi/cedrus/cedrus_h264.c
+> +++ b/drivers/staging/media/sunxi/cedrus/cedrus_h264.c
+> @@ -653,8 +653,12 @@ static void cedrus_h264_stop(struct cedrus_ctx *ctx)
+> =20
+>  	vq =3D v4l2_m2m_get_vq(ctx->fh.m2m_ctx, V4L2_BUF_TYPE_VIDEO_CAPTURE);
+> =20
+> -	for (i =3D 0; i < vq->num_buffers; i++) {
+> -		buf =3D vb2_to_cedrus_buffer(vb2_get_buffer(vq, i));
+> +	for (i =3D 0; i < vb2_get_num_buffers(vq); i++) {
+> +		struct vb2_buffer *vb =3D vb2_get_buffer(vq, i);
+> +
+> +		if (!vb)
+> +			continue;
+
+Please add a newline here to be consistent with the other block being chang=
+ed.
+
+With this change and the commit log reworked, you can consider this:
+Acked-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+
+Thanks!
+
+Paul
+
+> +		buf =3D vb2_to_cedrus_buffer(vb);
+> =20
+>  		if (buf->codec.h264.mv_col_buf_size > 0) {
+>  			dma_free_attrs(dev->dev,
+> diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_h265.c b/drivers/s=
+taging/media/sunxi/cedrus/cedrus_h265.c
+> index fc9297232456..52e94c8f2f01 100644
+> --- a/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
+> +++ b/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
+> @@ -869,8 +869,13 @@ static void cedrus_h265_stop(struct cedrus_ctx *ctx)
+> =20
+>  	vq =3D v4l2_m2m_get_vq(ctx->fh.m2m_ctx, V4L2_BUF_TYPE_VIDEO_CAPTURE);
+> =20
+> -	for (i =3D 0; i < vq->num_buffers; i++) {
+> -		buf =3D vb2_to_cedrus_buffer(vb2_get_buffer(vq, i));
+> +	for (i =3D 0; i < vb2_get_num_buffers(vq); i++) {
+> +		struct vb2_buffer *vb =3D vb2_get_buffer(vq, i);
+> +
+> +		if (!vb)
+> +			continue;
+> +
+> +		buf =3D vb2_to_cedrus_buffer(vb);
+> =20
+>  		if (buf->codec.h265.mv_col_buf_size > 0) {
+>  			dma_free_attrs(dev->dev,
+> --=20
+> 2.39.2
+>=20
+
+--=20
+Paul Kocialkowski, Bootlin
+Embedded Linux and kernel engineering
+https://bootlin.com
+
+--5XMse7FBKsXwfxlj
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAmUuS+IACgkQ3cLmz3+f
+v9GV5wf/TYcN6gfAAjC5SFlkLJBI/nxR5YwIXXCHBgPuQD+SDdeQNLb/OK6/EjCw
+N8zdNrQdsMqz+Hm6oO5qJqU/MLD8+HLPgnFNSA/+tK7uynPhFwNaJ29bDaONj9KA
+kPiJruAS/e5SXFfEdhWnHxSz+OQWvqrOBAZj/WV/OVvm/Azl9oXg67oLddms1HV7
+5Gv7y0H2u60hmsjfTptTA1MwOKjZfKDpyuSr2iENNAiJTP1H6zjnY3f7aB5JjlP5
+kWrZG+P/x6WrrX62qyWdHVq366vg9bNyLrkDyxMxz/tcjShPcfyQQ7cU/15IKpGi
+uLOnI40+m0H1qMX4rElL2jp59ZfMLQ==
+=Xf+i
+-----END PGP SIGNATURE-----
+
+--5XMse7FBKsXwfxlj--
