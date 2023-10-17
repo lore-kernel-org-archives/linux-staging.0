@@ -1,152 +1,81 @@
-Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net [217.70.183.195])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A60813CCF5
-	for <linux-staging@lists.linux.dev>; Tue, 17 Oct 2023 08:55:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 834FE1C28C;
+	Tue, 17 Oct 2023 09:04:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="YLPmSv2B"
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 59F8C60012;
-	Tue, 17 Oct 2023 08:54:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1697532905;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=7iqwM5opDjnD+ixELUSySOVNyUQv89SINtLl3/UxmFE=;
-	b=YLPmSv2BCtXDB0ajUoTbluwBFmwofXadtU+GsY+4Sr2bStC/+57qJWEqHQxugCysJoJknP
-	/xES24Lgh/2iCrJ6gc7yDMdmhyFcxsPClA+nGs1zBJbYjmdnMazWn/GFZ5Ij1hd1/iYEOE
-	rnGM6Lou0DwZIc0pn6ZJD1neN06P0aE0s9hFnJ2NWCTv4jEGZeXwQLDI8oLcKrCQmu51Es
-	7Jaiw6FtcmzGD+tpz84+I5MJUp7c7og8dHm3VZNJP0PnF+sH4k76GF8Z+2YN+Oz/ROwvGD
-	z2Tzp5Q1gVXIAkN0JI1fQPn1a/bIY4ituL/pt69IiaEMm5cR9NQcbCEJEEXjLA==
-Date: Tue, 17 Oct 2023 10:54:58 +0200
-From: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-To: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Cc: mchehab@kernel.org, tfiga@chromium.org, m.szyprowski@samsung.com,
-	ming.qian@nxp.com, ezequiel@vanguardiasur.com.ar,
-	p.zabel@pengutronix.de, gregkh@linuxfoundation.org,
-	hverkuil-cisco@xs4all.nl, nicolas.dufresne@collabora.com,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
-	linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
-	kernel@collabora.com, Maxime Ripard <mripard@kernel.org>
-Subject: Re: [PATCH v11 41/56] media: cedrus: Stop direct calls to queue
- num_buffers field
-Message-ID: <ZS5L4l2PzQgpJXua@aptenodytes>
-References: <20231012114642.19040-1-benjamin.gaignard@collabora.com>
- <20231012114642.19040-42-benjamin.gaignard@collabora.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UjcvlJeO"
+Received: by mail-ed1-f52.google.com with SMTP id 4fb4d7f45d1cf-53e07db272cso8383793a12.3;
+        Tue, 17 Oct 2023 02:04:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1697533487; x=1698138287; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=B/Hk67Q+giYTh6qT9YmC2zwxxSpcK1axa1hb87I3ZOM=;
+        b=UjcvlJeOlPYbQYXpPggpMzhpZCkvX71EA38frbOjYmB8SFwUHslBTu5NRSVZl5Zmkc
+         1OSxAO+ng4P+DJW7tjJjqiFiFHINkVe3h6vohIm27z80XFOoT5xzPL08vHlyePWEsx+C
+         Cny4uHOG8VtM+XOSnkecu/rtBXfShUIcttCYhZqMgVjmq9Qrk2z4iD/jbl10tcj5Rvid
+         CdtqNCaLwVgcc97ngC0/0Z0CR0jeipuml2YHOgzORqMxrY74PoNcMIyFaP5JQmBnS7fG
+         p/rlrzrKSe37vKnq/UlMHQk8HZrCSbPuzktU7qcXqtJBWkr4gGPYLp0GLaMDHbZQPMsw
+         /vxw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1697533487; x=1698138287;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=B/Hk67Q+giYTh6qT9YmC2zwxxSpcK1axa1hb87I3ZOM=;
+        b=QyfExvTW4oyaVa9mlRdEJU/3af3rZm/bjAd8vgbcodTQHmORUBG2Na3LXvGfShBhAQ
+         DVThPDGgTSEu87F042pEul4HkilgAePg1+EbsAXhZVqThGk7y86uRbZ7xjTiCnt/+1Na
+         Km339yWkD6+/TGDqvLOVFgDxY1e/GWeEPHioJ8eqnd0RZQPp5crWExBEkb3JoHLihsdl
+         PGK6PBuccuBDPgZOQS3ITldOeGiTVQ6tR6h3U86//UkCDJ8lKjGe7GOKWvbIJxfk7lic
+         mvP/LV3+rbU0LanaF5+pgO7c4Re7RPnrW+3CbpMQMoLPlqTvGAC/2CRarc9BXYPgIW9R
+         n8qw==
+X-Gm-Message-State: AOJu0YzU3O6Fo2QyD961JX1F/J68itqWDLEUG1O0Ehu0NpSX0wVmYPB7
+	wVQMBA3XWzU5frJgyDj1ZA==
+X-Google-Smtp-Source: AGHT+IE556fO87GyMGId4qv9PrxSAzYqqPSIlNZ9KTKHH19u1KQ7UVQmLIXEouDr2rZadRDRs7/wDA==
+X-Received: by 2002:a17:907:98e:b0:9b3:308:d045 with SMTP id bf14-20020a170907098e00b009b30308d045mr1205146ejc.46.1697533486465;
+        Tue, 17 Oct 2023 02:04:46 -0700 (PDT)
+Received: from dorcaslitunya-virtual-machine ([105.163.1.143])
+        by smtp.gmail.com with ESMTPSA id eh15-20020a0564020f8f00b0053e775e428csm798353edb.83.2023.10.17.02.04.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 17 Oct 2023 02:04:46 -0700 (PDT)
+Date: Tue, 17 Oct 2023 12:04:40 +0300
+From: Dorcas Litunya <anonolitunya@gmail.com>
+To: Andi Shyti <andi.shyti@linux.intel.com>
+Cc: anonolitunya@gmail.com, outreachy@lists.linux.dev,
+	julia.lawall@inria.fr, dan.carpenter@linaro.org,
+	Sudip Mukherjee <sudipm.mukherjee@gmail.com>,
+	Teddy Wang <teddy.wang@siliconmotion.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 1/5] Staging: sm750fb: Rename
+ displayControlAdjust_SM750E
+Message-ID: <ZS5OKMTY4BDX015/@dorcaslitunya-virtual-machine>
+References: <20231016201434.7880-1-anonolitunya@gmail.com>
+ <20231016201434.7880-2-anonolitunya@gmail.com>
+ <ZS2sCEF/LsO8Fzk1@ashyti-mobl2.lan>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="5XMse7FBKsXwfxlj"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231012114642.19040-42-benjamin.gaignard@collabora.com>
-X-GND-Sasl: paul.kocialkowski@bootlin.com
+In-Reply-To: <ZS2sCEF/LsO8Fzk1@ashyti-mobl2.lan>
 
+On Mon, Oct 16, 2023 at 11:32:56PM +0200, Andi Shyti wrote:
+> On Mon, Oct 16, 2023 at 11:14:08PM +0300, Dorcas AnonoLitunya wrote:
+> > Rename function displayControlAdjust_SM750E to
+> > display_control_adjust_SM750E. This follows snakecase naming convention
+> 
+> I'd go one step further and call it display_control_adjust_sm750e.
+> 
+Hi Andi,
+Thanks for this, I will include this in the next patch I submit.
 
---5XMse7FBKsXwfxlj
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-Hi Benjamin,
-
-On Thu 12 Oct 23, 13:46, Benjamin Gaignard wrote:
-> Use vb2_get_num_buffers() and queue max_num_buffers field
-> to avoid using queue num_buffer field directly.
-
-Thanks for the patch, this is indeed a nice cleanup and safer usage.
-Maybe the commit message needs to reflect why this change is welcome,
-not just what is being changed.
-
-> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-> CC: Maxime Ripard <mripard@kernel.org>
-> CC: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-> ---
->  drivers/staging/media/sunxi/cedrus/cedrus_h264.c | 8 ++++++--
->  drivers/staging/media/sunxi/cedrus/cedrus_h265.c | 9 +++++++--
->  2 files changed, 13 insertions(+), 4 deletions(-)
->=20
-> diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_h264.c b/drivers/s=
-taging/media/sunxi/cedrus/cedrus_h264.c
-> index dfb401df138a..95e490532a87 100644
-> --- a/drivers/staging/media/sunxi/cedrus/cedrus_h264.c
-> +++ b/drivers/staging/media/sunxi/cedrus/cedrus_h264.c
-> @@ -653,8 +653,12 @@ static void cedrus_h264_stop(struct cedrus_ctx *ctx)
-> =20
->  	vq =3D v4l2_m2m_get_vq(ctx->fh.m2m_ctx, V4L2_BUF_TYPE_VIDEO_CAPTURE);
-> =20
-> -	for (i =3D 0; i < vq->num_buffers; i++) {
-> -		buf =3D vb2_to_cedrus_buffer(vb2_get_buffer(vq, i));
-> +	for (i =3D 0; i < vb2_get_num_buffers(vq); i++) {
-> +		struct vb2_buffer *vb =3D vb2_get_buffer(vq, i);
-> +
-> +		if (!vb)
-> +			continue;
-
-Please add a newline here to be consistent with the other block being chang=
-ed.
-
-With this change and the commit log reworked, you can consider this:
-Acked-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-
-Thanks!
-
-Paul
-
-> +		buf =3D vb2_to_cedrus_buffer(vb);
-> =20
->  		if (buf->codec.h264.mv_col_buf_size > 0) {
->  			dma_free_attrs(dev->dev,
-> diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_h265.c b/drivers/s=
-taging/media/sunxi/cedrus/cedrus_h265.c
-> index fc9297232456..52e94c8f2f01 100644
-> --- a/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
-> +++ b/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
-> @@ -869,8 +869,13 @@ static void cedrus_h265_stop(struct cedrus_ctx *ctx)
-> =20
->  	vq =3D v4l2_m2m_get_vq(ctx->fh.m2m_ctx, V4L2_BUF_TYPE_VIDEO_CAPTURE);
-> =20
-> -	for (i =3D 0; i < vq->num_buffers; i++) {
-> -		buf =3D vb2_to_cedrus_buffer(vb2_get_buffer(vq, i));
-> +	for (i =3D 0; i < vb2_get_num_buffers(vq); i++) {
-> +		struct vb2_buffer *vb =3D vb2_get_buffer(vq, i);
-> +
-> +		if (!vb)
-> +			continue;
-> +
-> +		buf =3D vb2_to_cedrus_buffer(vb);
-> =20
->  		if (buf->codec.h265.mv_col_buf_size > 0) {
->  			dma_free_attrs(dev->dev,
-> --=20
-> 2.39.2
->=20
-
---=20
-Paul Kocialkowski, Bootlin
-Embedded Linux and kernel engineering
-https://bootlin.com
-
---5XMse7FBKsXwfxlj
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAmUuS+IACgkQ3cLmz3+f
-v9GV5wf/TYcN6gfAAjC5SFlkLJBI/nxR5YwIXXCHBgPuQD+SDdeQNLb/OK6/EjCw
-N8zdNrQdsMqz+Hm6oO5qJqU/MLD8+HLPgnFNSA/+tK7uynPhFwNaJ29bDaONj9KA
-kPiJruAS/e5SXFfEdhWnHxSz+OQWvqrOBAZj/WV/OVvm/Azl9oXg67oLddms1HV7
-5Gv7y0H2u60hmsjfTptTA1MwOKjZfKDpyuSr2iENNAiJTP1H6zjnY3f7aB5JjlP5
-kWrZG+P/x6WrrX62qyWdHVq366vg9bNyLrkDyxMxz/tcjShPcfyQQ7cU/15IKpGi
-uLOnI40+m0H1qMX4rElL2jp59ZfMLQ==
-=Xf+i
------END PGP SIGNATURE-----
-
---5XMse7FBKsXwfxlj--
+Dorcas
+> Andi
