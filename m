@@ -1,141 +1,98 @@
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [80.237.130.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC7B43FB24;
-	Tue, 17 Oct 2023 10:13:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="grRivgXp"
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-4079ed65471so3436055e9.1;
-        Tue, 17 Oct 2023 03:13:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1697537580; x=1698142380; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=E8E7YoxZ2av3orSrcaFfg8f95nyYUaTpAzrG7yxUAnU=;
-        b=grRivgXpladx9PwYIYVNv//h2pg9A/Ozbd51Dcqx+S2aFk+tz7eXtOK1d9/cHKN8lf
-         qJYmLAu1RPlrEqQNBAy9kSzgclmyjtd0RSmohhErFDBn/u66kkYUozabW5ftPe2TXTUF
-         ecx0nJZ/PUzwjsR8Yv3teUawxZFlq8KOhokK/oBfvKCgTHNMeV3uRgNMh/0tDHuyQSeA
-         MsbhE5J/F0MCFbx8tn/SSzX7TJ/3NDc/ewec4c+H8vleaMe695sKL2inXpDBGeljHkLd
-         BOydrh+NlcF28iRkuYqqFycppmAFu64S2RKDnnb4avcx9Fon6j+iaA50NwhGfvBB++Pk
-         KOpw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697537580; x=1698142380;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=E8E7YoxZ2av3orSrcaFfg8f95nyYUaTpAzrG7yxUAnU=;
-        b=nKWKdEj1Svlgt9n8lQlC6yAztSjx2NnHryj3MQhqZP6p67AeRH/ree4WPs7lNeMPyl
-         YMs0k9GLmogjVOBNpsKnZMgeviKoHiIaCWIiK4vRAKNIpCy0mzKHkXsnJSmq1eaCVk3T
-         3a2aIOdhGyxvR/R8v4k9Vx4Shy0gUPj3mCbGg0Y19KWZK9I94u6v6qAnfaigeW0ADjEo
-         PVh5GmjvWjd3G1QlCXT/I6JWx2JamGTI3PvUK+DiEtGgc8pMzZ3UVfVk2hP/oViqIKvV
-         swRysiiCI79LENdNzdoaOTezfxHscwcH+qQnRnkflTKtU4V7w9MKjcoNVy+vwgv6R3tV
-         +j1w==
-X-Gm-Message-State: AOJu0Yznnm13mlhWvGjoevMLo1z5uq4u3NJczoVMdozEY3rXIBQ9+xtT
-	KgWRpu4NJRGDu1KSZWd34bM=
-X-Google-Smtp-Source: AGHT+IGC29aSwArOWKsG/fAbXePFt9Io7X0exKliBc79JW4dCiH8sjHjUReO3UOWvvCrFfLau9VPWw==
-X-Received: by 2002:adf:e504:0:b0:32d:b7d4:b90 with SMTP id j4-20020adfe504000000b0032db7d40b90mr1560360wrm.39.1697537579751;
-        Tue, 17 Oct 2023 03:12:59 -0700 (PDT)
-Received: from lab-ubuntu ([41.90.67.11])
-        by smtp.gmail.com with ESMTPSA id y7-20020adffa47000000b0031aef72a021sm1323918wrr.86.2023.10.17.03.12.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 17 Oct 2023 03:12:59 -0700 (PDT)
-Date: Tue, 17 Oct 2023 13:12:56 +0300
-From: Calvince Otieno <calvncce@gmail.com>
-To: gustavo@embeddedor.com, outreachy@lists.linux.dev
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Calvince Otieno <calvncce@gmail.com>,
-	Bagas Sanjaya <bagasdotme@gmail.com>,
-	Deepak R Varma <drv@mailo.com>, Simon Horman <horms@kernel.org>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [PATCH] staging: wlan-ng: remove function prism2sta_ev_txexc
-Message-ID: <ZS5eKFCfu7sGOCHL@lab-ubuntu>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43CBF3D983
+	for <linux-staging@lists.linux.dev>; Tue, 17 Oct 2023 10:35:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=leemhuis.info
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=leemhuis.info
+Authentication-Results: smtp.subspace.kernel.org; dkim=none
+Received: from [2a02:8108:8980:2478:8cde:aa2c:f324:937e]; authenticated
+	by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+	id 1qshQb-0004RH-Kx; Tue, 17 Oct 2023 12:35:57 +0200
+Message-ID: <51fcd05c-cb8e-420f-be62-0c9ade82fbfb@leemhuis.info>
+Date: Tue, 17 Oct 2023 12:35:57 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] staging: rtl8192u: remove entry from Makefile
+Content-Language: en-US, de-DE
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ linux-staging@lists.linux.dev
+Cc: linux-kernel@vger.kernel.org,
+ Philipp Hortmann <philipp.g.hortmann@gmail.com>,
+ Arnd Bergmann <arnd@arndb.de>
+References: <2023101709-amuck-upward-46f1@gregkh>
+From: Thorsten Leemhuis <linux@leemhuis.info>
+Autocrypt: addr=linux@leemhuis.info; keydata=
+ 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 n7RI
+In-Reply-To: <2023101709-amuck-upward-46f1@gregkh>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-bounce-key: webpack.hosteurope.de;linux@leemhuis.info;1697538960;0f5708e1;
+X-HE-SMSGID: 1qshQb-0004RH-Kx
 
-The function prism2sta_ev_txexc() is called by the function
-hfa384x_usbin_txcompl() to print the transmit exception event - a debug
-information using netdev_dbg().
+On 17.10.23 10:13, Greg Kroah-Hartman wrote:
+> In commit 697455ce4110 ("staging: rtl8192u: Remove broken driver"), the
+> driver was removed, along with the Kconfig entry, but the Makefile line
+> in drivers/staging/Makefile was not updated, so things like 'make clean'
+> fail to work properly as they will decend into all subdirectories to try
+> to clean things up.
+> 
+> Resolve this by removing the entry in the main staging Makefile.
+> 
+> Reported-by: Thorsten Leemhuis <linux@leemhuis.info>
+> Cc: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+> Cc: Arnd Bergmann <arnd@arndb.de>
+> Fixes: 697455ce4110 ("staging: rtl8192u: Remove broken driver")
+> Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
-The debugging utility function can be called directly by
-hfa384x_usbin_txcompl().
+Thx Greg, that fixed things for my case. In case anyone cares:
 
-Signed-off-by: Calvince Otieno <calvncce@gmail.com>
----
- drivers/staging/wlan-ng/hfa384x_usb.c |  2 +-
- drivers/staging/wlan-ng/prism2mgmt.h  |  4 +---
- drivers/staging/wlan-ng/prism2sta.c   | 24 ------------------------
- 3 files changed, 2 insertions(+), 28 deletions(-)
+Tested-by: Thorsten Leemhuis <linux@leemhuis.info>
 
-diff --git a/drivers/staging/wlan-ng/hfa384x_usb.c b/drivers/staging/wlan-ng/hfa384x_usb.c
-index 3e8c92675c82..35650f911ebc 100644
---- a/drivers/staging/wlan-ng/hfa384x_usb.c
-+++ b/drivers/staging/wlan-ng/hfa384x_usb.c
-@@ -3194,7 +3194,7 @@ static void hfa384x_usbin_txcompl(struct wlandevice *wlandev,
- 
- 	/* Was there an error? */
- 	if (HFA384x_TXSTATUS_ISERROR(status))
--		prism2sta_ev_txexc(wlandev, status);
-+		netdev_dbg(wlandev->netdev, "TxExc status=0x%x.\n", status);
- 	else
- 		prism2sta_ev_tx(wlandev, status);
- }
-diff --git a/drivers/staging/wlan-ng/prism2mgmt.h b/drivers/staging/wlan-ng/prism2mgmt.h
-index 8c3f1ac35913..17222516e85e 100644
---- a/drivers/staging/wlan-ng/prism2mgmt.h
-+++ b/drivers/staging/wlan-ng/prism2mgmt.h
-@@ -45,9 +45,7 @@ extern int prism2_reset_settletime;
- 
- u32 prism2sta_ifstate(struct wlandevice *wlandev, u32 ifstate);
- 
--void prism2sta_ev_info(struct wlandevice *wlandev,
--		       struct hfa384x_inf_frame *inf);
--void prism2sta_ev_txexc(struct wlandevice *wlandev, u16 status);
-+void prism2sta_ev_info(struct wlandevice *wlandev, struct hfa384x_inf_frame *inf);
- void prism2sta_ev_tx(struct wlandevice *wlandev, u16 status);
- void prism2sta_ev_alloc(struct wlandevice *wlandev);
- 
-diff --git a/drivers/staging/wlan-ng/prism2sta.c b/drivers/staging/wlan-ng/prism2sta.c
-index 964164bb4165..cb6c7a9fb8f3 100644
---- a/drivers/staging/wlan-ng/prism2sta.c
-+++ b/drivers/staging/wlan-ng/prism2sta.c
-@@ -1748,30 +1748,6 @@ void prism2sta_ev_info(struct wlandevice *wlandev,
- 	}
- }
- 
--/*
-- * prism2sta_ev_txexc
-- *
-- * Handles the TxExc event.  A Transmit Exception event indicates
-- * that the MAC's TX process was unsuccessful - so the packet did
-- * not get transmitted.
-- *
-- * Arguments:
-- *	wlandev		wlan device structure
-- *	status		tx frame status word
-- *
-- * Returns:
-- *	nothing
-- *
-- * Side effects:
-- *
-- * Call context:
-- *	interrupt
-- */
--void prism2sta_ev_txexc(struct wlandevice *wlandev, u16 status)
--{
--	netdev_dbg(wlandev->netdev, "TxExc status=0x%x.\n", status);
--}
--
- /*
-  * prism2sta_ev_tx
-  *
--- 
-2.34.1
-
+Ciao, Thorsten
