@@ -1,80 +1,81 @@
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from pb-smtp1.pobox.com (pb-smtp1.pobox.com [64.147.108.70])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D17C430E6
-	for <linux-staging@lists.linux.dev>; Tue, 17 Oct 2023 20:05:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80827430E3
+	for <linux-staging@lists.linux.dev>; Tue, 17 Oct 2023 20:08:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foobox.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=foobox.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="JYm8Xo90"
-Received: from umang.jainideasonboard.com (unknown [103.251.226.39])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 96A26896;
-	Tue, 17 Oct 2023 22:05:24 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1697573126;
-	bh=nd7rHyBKUfldOwcG/wXZdy58DTZYnnBemMWna4eYMUU=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=JYm8Xo90ibGFok6hP+jW8+PRHKU9pPiZwYXhW56pCAgVyGRGM9J5Ql6ak1lFYXajr
-	 6ZFCfoBUyUDApFT5VprrMstRaxEdKJRil3NOTzbrAyNAt5c/D0ba1etcsK9iK287A2
-	 e1JyB5brKSMiW3MAy+k5d972sSw14HL16VpNDm1U=
-From: Umang Jain <umang.jain@ideasonboard.com>
-To: linux-staging@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	linux-rpi-kernel@lists.infradead.org,
-	linux-media@vger.kernel.org
-Cc: Stefan Wahren <stefan.wahren@i2se.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Dan Carpenter <error27@gmail.com>,
-	Kieran Bingham <kieran.bingham@ideasonboard.com>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Umang Jain <umang.jain@ideasonboard.com>
-Subject: [PATCH 3/3] staging: vc04_services: bcm2835-camera: Drop MODULE_ALIAS
-Date: Wed, 18 Oct 2023 01:35:11 +0530
-Message-Id: <20231017200511.678223-4-umang.jain@ideasonboard.com>
-X-Mailer: git-send-email 2.40.1
-In-Reply-To: <20231017200511.678223-1-umang.jain@ideasonboard.com>
-References: <20231017200511.678223-1-umang.jain@ideasonboard.com>
+	dkim=pass (1024-bit key) header.d=pobox.com header.i=@pobox.com header.b="stXLzBvu"
+Received: from pb-smtp1.pobox.com (unknown [127.0.0.1])
+	by pb-smtp1.pobox.com (Postfix) with ESMTP id 31BAA1B836D;
+	Tue, 17 Oct 2023 16:02:46 -0400 (EDT)
+	(envelope-from ihor.matushchak@foobox.net)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed; d=pobox.com; h=from:to:cc
+	:subject:date:message-id:in-reply-to:references:mime-version
+	:content-type:content-transfer-encoding; s=sasl; bh=6GcGXTgpZ+yE
+	9Awpf0mhf0gPRO2d2AKCVMIkXY0Dv40=; b=stXLzBvumJLPKOoNUvnIrYXUVrG1
+	p2+KfsiZHotkwolQHtzVp1HLPCmDAful07VB+Ie0gEcbmVkU4HDmeb+S2uSwcNX4
+	8hSweQDNKIsaZ8kAnpUheL1PgdVfifGn/xmfsah62luJ+YrXrK2v+2p4IAZNQTn4
+	4/1y8lrg1T1bKKc=
+Received: from pb-smtp1.nyi.icgroup.com (unknown [127.0.0.1])
+	by pb-smtp1.pobox.com (Postfix) with ESMTP id 28F1E1B836C;
+	Tue, 17 Oct 2023 16:02:46 -0400 (EDT)
+	(envelope-from ihor.matushchak@foobox.net)
+Received: from raspberrypi.telekom.ip (unknown [84.115.221.168])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by pb-smtp1.pobox.com (Postfix) with ESMTPSA id 9EACD1B836B;
+	Tue, 17 Oct 2023 16:02:44 -0400 (EDT)
+	(envelope-from ihor.matushchak@foobox.net)
+From: ihor.matushchak@foobox.net
+To: niklas.soderlund@ragnatech.se
+Cc: mchehab@kernel.org,
+	gregkh@linuxfoundation.org,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	ihor.matushchak@foobox.net
+Subject: [PATCH] media: staging: max96712: Fix device name in description
+Date: Tue, 17 Oct 2023 21:02:39 +0100
+Message-Id: <11a00300c76df12c13adabfc71111607619a49f9.1697572799.git.ihor.matushchak@foobox.net>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <ZS7doO43ijXhBqkm@oden.dyn.berto.se>
+References: <ZS7doO43ijXhBqkm@oden.dyn.berto.se>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=UTF-8
+X-Pobox-Relay-ID:
+ 23644576-6D28-11EE-A7EF-78DCEB2EC81B-19565117!pb-smtp1.pobox.com
+Content-Transfer-Encoding: quoted-printable
 
-Drop MODULE_ALIAS in favour of MODULE_DEVICE_TABLE as the module
-alias should be picked from there.
+From: Ihor Matushchak <ihor.matushchak@foobox.net>
 
-Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
+Fix the device model name in driver description,
+which appears to be a copy-paste error.
+
+Signed-off-by: Ihor Matushchak <ihor.matushchak@foobox.net>
 ---
- .../staging/vc04_services/bcm2835-camera/bcm2835-camera.c  | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
+ drivers/staging/media/max96712/max96712.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/staging/vc04_services/bcm2835-camera/bcm2835-camera.c b/drivers/staging/vc04_services/bcm2835-camera/bcm2835-camera.c
-index c873eace1437..3c18376003ff 100644
---- a/drivers/staging/vc04_services/bcm2835-camera/bcm2835-camera.c
-+++ b/drivers/staging/vc04_services/bcm2835-camera/bcm2835-camera.c
-@@ -1995,9 +1995,15 @@ static void bcm2835_mmal_remove(struct vchiq_device *device)
- 	vchiq_mmal_finalise(instance);
- }
- 
-+static const struct vchiq_bus_device_id id_table[] = {
-+	{ .name = "bcm2835-camera" }
-+};
-+MODULE_DEVICE_TABLE(vchiq_bus, id_table);
-+
- static struct vchiq_driver bcm2835_camera_driver = {
- 	.probe		= bcm2835_mmal_probe,
- 	.remove		= bcm2835_mmal_remove,
-+	.id_table	= id_table,
- 	.driver		= {
- 		.name	= "bcm2835-camera",
- 	},
-@@ -2008,4 +2014,3 @@ module_vchiq_driver(bcm2835_camera_driver)
- MODULE_DESCRIPTION("Broadcom 2835 MMAL video capture");
- MODULE_AUTHOR("Vincent Sanders");
- MODULE_LICENSE("GPL");
--MODULE_ALIAS("bcm2835-camera");
--- 
-2.40.1
+diff --git a/drivers/staging/media/max96712/max96712.c b/drivers/staging/=
+media/max96712/max96712.c
+index c44145284aa1..ea67bcf69c9d 100644
+--- a/drivers/staging/media/max96712/max96712.c
++++ b/drivers/staging/media/max96712/max96712.c
+@@ -1,6 +1,6 @@
+ // SPDX-License-Identifier: GPL-2.0
+ /*
+- * Maxim MAX9286 Quad GMSL2 Deserializer Driver
++ * Maxim MAX96712 Quad GMSL2 Deserializer Driver
+  *
+  * Copyright (C) 2021 Renesas Electronics Corporation
+  * Copyright (C) 2021 Niklas S=C3=B6derlund
+--=20
+2.30.2
 
