@@ -1,29 +1,29 @@
 Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6917844467
-	for <linux-staging@lists.linux.dev>; Tue, 17 Oct 2023 14:48:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71B1244469
+	for <linux-staging@lists.linux.dev>; Tue, 17 Oct 2023 14:48:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="Y8zewQ++"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="FN6buOGC"
 Received: from benjamin-XPS-13-9310.. (unknown [IPv6:2a01:e0a:120:3210:7205:da49:a7e8:59f8])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
 	(Authenticated sender: benjamin.gaignard)
-	by madras.collabora.co.uk (Postfix) with ESMTPSA id 07BAF66072FB;
-	Tue, 17 Oct 2023 15:48:18 +0100 (BST)
+	by madras.collabora.co.uk (Postfix) with ESMTPSA id 9B9CC660738A;
+	Tue, 17 Oct 2023 15:48:19 +0100 (BST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1697554098;
-	bh=tZ6YL5Kag5Wmq0rewNbqrl8NQzJoo9tTn4Lybls4JrU=;
+	s=mail; t=1697554100;
+	bh=ze9f+cre4KJ3jK+K5LOLyXDpAuzmOF8maDRtpzPpmEM=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=Y8zewQ++AjPy1+hJgoGWfX7PsNxICesqtzaKe/s0PKZD+SDWJQPa2sz7KqQ8jTc9n
-	 q5gZ3TQuTjkUcKi+DW8rPQer/jAu6TsnLEC3/0Ircj1/csJxg1Rj2SN/ohgSeW0Y5f
-	 wp33/Pc75r3sdhqIaA2UKXJ01tNOaNNF5rsOAxDXDxTTaVmaXAKT1Rr858oOeMpJ18
-	 +y3MEqoBNkzlMxu1wzaHUY77HD87CJmW2pBH7jT0VYRN5XJdARbPKTgW3n8mKDJTjm
-	 SF5NGWS2shqEleLCjX2J3T+FhZfneji+v2H/qslHPDADCB1/+JAFI/vIqxslgQD1kO
-	 eeTBgMtfwLRHg==
+	b=FN6buOGCmPgo7C1/uY3KX+cjipls4tcrv3RocJG6vj3PFHrFt7eOHa0PLN82jRAZE
+	 QeJ0Pv+f+jo3tANFU/JcnAqrzfli0MFQV65woJfDxqiORs1JpW8t5DgKZ/1Eku32zn
+	 Af4PPVqhaDIe9h3Qrmcy9yP8ILKg5BFvXX1BXugh1huxZgVr1TMCxO9dvqJXe2j+8Y
+	 y+PYcb6wDaPSA+N9J+p2S28foEl4JJcpXQ0bD7uZwxDpi/f3ytiFNbVDzGEXTvDLlo
+	 KSkljeZ15XU8V37YVFfUeLfWWWj4MXRxMOBIgQVO7Y0ivVg6vOYWVo1SsSx9jBykdu
+	 mNSTlytwxEfBw==
 From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
 To: mchehab@kernel.org,
 	tfiga@chromium.org,
@@ -43,12 +43,10 @@ Cc: linux-media@vger.kernel.org,
 	linux-staging@lists.linux.dev,
 	kernel@collabora.com,
 	Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-	Rui Miguel Silva <rmfrfs@gmail.com>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Martin Kepplinger <martink@posteo.de>
-Subject: [PATCH v12 28/56] media: nxp: Stop direct calls to queue num_buffers field
-Date: Tue, 17 Oct 2023 16:47:28 +0200
-Message-Id: <20231017144756.34719-29-benjamin.gaignard@collabora.com>
+	Steve Longerbeam <slongerbeam@gmail.com>
+Subject: [PATCH v12 31/56] media: imx: Stop direct calls to queue num_buffers field
+Date: Tue, 17 Oct 2023 16:47:31 +0200
+Message-Id: <20231017144756.34719-32-benjamin.gaignard@collabora.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20231017144756.34719-1-benjamin.gaignard@collabora.com>
 References: <20231017144756.34719-1-benjamin.gaignard@collabora.com>
@@ -65,26 +63,25 @@ This allows us to change how the number of buffers is computed in the
 futur.
 
 Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-CC: Rui Miguel Silva <rmfrfs@gmail.com>
-CC: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-CC: Martin Kepplinger <martink@posteo.de>
+CC: Steve Longerbeam <slongerbeam@gmail.com>
+CC: Philipp Zabel <p.zabel@pengutronix.de>
 ---
- drivers/media/platform/nxp/imx7-media-csi.c | 7 ++++---
+ drivers/staging/media/imx/imx-media-capture.c | 7 ++++---
  1 file changed, 4 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/media/platform/nxp/imx7-media-csi.c b/drivers/media/platform/nxp/imx7-media-csi.c
-index 15049c6aab37..4c467fb82789 100644
---- a/drivers/media/platform/nxp/imx7-media-csi.c
-+++ b/drivers/media/platform/nxp/imx7-media-csi.c
-@@ -1245,6 +1245,7 @@ static int imx7_csi_video_queue_setup(struct vb2_queue *vq,
- 				      struct device *alloc_devs[])
+diff --git a/drivers/staging/media/imx/imx-media-capture.c b/drivers/staging/media/imx/imx-media-capture.c
+index 4846078315ff..ce02199e7b1b 100644
+--- a/drivers/staging/media/imx/imx-media-capture.c
++++ b/drivers/staging/media/imx/imx-media-capture.c
+@@ -605,6 +605,7 @@ static int capture_queue_setup(struct vb2_queue *vq,
  {
- 	struct imx7_csi *csi = vb2_get_drv_priv(vq);
+ 	struct capture_priv *priv = vb2_get_drv_priv(vq);
+ 	struct v4l2_pix_format *pix = &priv->vdev.fmt;
 +	unsigned int q_num_bufs = vb2_get_num_buffers(vq);
- 	struct v4l2_pix_format *pix = &csi->vdev_fmt;
  	unsigned int count = *nbuffers;
  
-@@ -1254,14 +1255,14 @@ static int imx7_csi_video_queue_setup(struct vb2_queue *vq,
+ 	if (vq->type != V4L2_BUF_TYPE_VIDEO_CAPTURE)
+@@ -613,14 +614,14 @@ static int capture_queue_setup(struct vb2_queue *vq,
  	if (*nplanes) {
  		if (*nplanes != 1 || sizes[0] < pix->sizeimage)
  			return -EINVAL;
@@ -92,7 +89,7 @@ index 15049c6aab37..4c467fb82789 100644
 +		count += q_num_bufs;
  	}
  
- 	count = min_t(__u32, IMX7_CSI_VIDEO_MEM_LIMIT / pix->sizeimage, count);
+ 	count = min_t(__u32, VID_MEM_LIMIT / pix->sizeimage, count);
  
  	if (*nplanes)
 -		*nbuffers = (count < vq->num_buffers) ? 0 :
