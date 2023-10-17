@@ -1,56 +1,136 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64B9838FB3;
-	Tue, 17 Oct 2023 09:18:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E25AD405D8
+	for <linux-staging@lists.linux.dev>; Tue, 17 Oct 2023 09:59:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nsU6RJai"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 02222C433C8;
-	Tue, 17 Oct 2023 09:18:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1697534298;
-	bh=qpijEw30yO3I2i4Uh+AxUics0aVeq+2voohpeVVfsx0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=nsU6RJai9l9r7EFx/ChKj/t66QnpD+1dy54G4HcVFW82W+w/XQz6Wxid4JblCIvn6
-	 W8PdyT2DOmlVHTCnx6+irc9SIUuVn5MD08vbq9FspQXJQ6zy4qZiDieAYNQTpjQL/y
-	 W1J6d3JGLUqmR+hwojyvnlZY5a0lrpILlr+st0jet7OCi8XU5FEuEI48Jedw5vXYOg
-	 enRIxZPxktpgBGJgZTTY3a7wdwDo7wXs9uD1j3x6/hsexQ4TPmpACkWaVQ5/8/Av1P
-	 PPV67ivkYVaitTao93HKq1EbE8f+twnBKBtNQ6WctaJNQDJ7dxBJxnLMHOrwAe1FG0
-	 RZWNSBQVBYkGw==
-Date: Tue, 17 Oct 2023 11:18:14 +0200
-From: Simon Horman <horms@kernel.org>
-To: Nandha Kumar Singaram <nandhakumar.singaram@gmail.com>
-Cc: Manish Chopra <manishc@marvell.com>, GR-Linux-NIC-Dev@marvell.com,
-	Coiby Xu <coiby.xu@gmail.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	netdev@vger.kernel.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org, kumaran.4353@gmail.com
-Subject: Re: [PATCH] staging: qlge: Replace the occurrences of (1<<x) by
- BIT(x)
-Message-ID: <20231017091814.GS1751252@kernel.org>
-References: <20231015133558.GA5489@ubuntu>
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="Px3k7uZz"
+Received: from [IPV6:2a01:e0a:120:3210:7205:da49:a7e8:59f8] (unknown [IPv6:2a01:e0a:120:3210:7205:da49:a7e8:59f8])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: benjamin.gaignard)
+	by madras.collabora.co.uk (Postfix) with ESMTPSA id 8DF1B66072C1;
+	Tue, 17 Oct 2023 10:59:23 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1697536764;
+	bh=a5Sv7ioncBaZOFxcfAjDRAD0foGoDHh+LBV8taa+Qz4=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=Px3k7uZzN9kGzG9Xg2iO78mVd9HTmp+Z9chGKVONZxXA2n1f/p79WJkuf8d11/1Qm
+	 PmbASDogOpGc2FRB8Uin7AgX9vy++S8VdiM0dqsLsIrn0L8kfK+8BOncmkJvgm+A0p
+	 CsOjq1EAZn7FiOMLMtGqbScXi4YDAhvqmymF1xr15tPQa5El6/lU27chyxptRg9fkq
+	 JHpiyJNMHP2UVTUcITlsu3vY/rNhVQmF9FK7Ik8ROYGAInsT91EOpxUAJT6X+GFQjN
+	 3Hez6TtPgGLWvVE8zhGjm4Z9LoYoi/uiqguK6z/ENPB/ez6ixJ65jUzN35w4deqE6R
+	 1Whj2tf7ZABOw==
+Message-ID: <e13a2d7b-3288-4899-9469-bf9ea821e35d@collabora.com>
+Date: Tue, 17 Oct 2023 11:59:20 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231015133558.GA5489@ubuntu>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v11 41/56] media: cedrus: Stop direct calls to queue
+ num_buffers field
+To: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+Cc: mchehab@kernel.org, tfiga@chromium.org, m.szyprowski@samsung.com,
+ ming.qian@nxp.com, ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de,
+ gregkh@linuxfoundation.org, hverkuil-cisco@xs4all.nl,
+ nicolas.dufresne@collabora.com, linux-media@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+ linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
+ kernel@collabora.com, Maxime Ripard <mripard@kernel.org>
+References: <20231012114642.19040-1-benjamin.gaignard@collabora.com>
+ <20231012114642.19040-42-benjamin.gaignard@collabora.com>
+ <ZS5L4l2PzQgpJXua@aptenodytes>
+Content-Language: en-US
+From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+In-Reply-To: <ZS5L4l2PzQgpJXua@aptenodytes>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Sun, Oct 15, 2023 at 06:35:58AM -0700, Nandha Kumar Singaram wrote:
-> Adhere to linux coding style. Reported by checkpatch.pl:
-> CHECK: Prefer using the BIT macro
-> 
-> Signed-off-by: Nandha Kumar Singaram <nandhakumar.singaram@gmail.com>
 
-Hi Nandha,
+Le 17/10/2023 à 10:54, Paul Kocialkowski a écrit :
+> Hi Benjamin,
+>
+> On Thu 12 Oct 23, 13:46, Benjamin Gaignard wrote:
+>> Use vb2_get_num_buffers() and queue max_num_buffers field
+>> to avoid using queue num_buffer field directly.
+> Thanks for the patch, this is indeed a nice cleanup and safer usage.
+> Maybe the commit message needs to reflect why this change is welcome,
+> not just what is being changed.
 
-I am assuming that checkpatch clean ups are acceptable, perhaps
-even desired, in staging. So this patch seems appropriate to me.
+I will add this comment in the commit message:
+This allows us to change how the number of buffers is computed in the futur.
 
-I do, however, see a lot more potential uses of BIT() in qlge.h.
-Could you take a second look?
+>
+>> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+>> CC: Maxime Ripard <mripard@kernel.org>
+>> CC: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+>> ---
+>>   drivers/staging/media/sunxi/cedrus/cedrus_h264.c | 8 ++++++--
+>>   drivers/staging/media/sunxi/cedrus/cedrus_h265.c | 9 +++++++--
+>>   2 files changed, 13 insertions(+), 4 deletions(-)
+>>
+>> diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_h264.c b/drivers/staging/media/sunxi/cedrus/cedrus_h264.c
+>> index dfb401df138a..95e490532a87 100644
+>> --- a/drivers/staging/media/sunxi/cedrus/cedrus_h264.c
+>> +++ b/drivers/staging/media/sunxi/cedrus/cedrus_h264.c
+>> @@ -653,8 +653,12 @@ static void cedrus_h264_stop(struct cedrus_ctx *ctx)
+>>   
+>>   	vq = v4l2_m2m_get_vq(ctx->fh.m2m_ctx, V4L2_BUF_TYPE_VIDEO_CAPTURE);
+>>   
+>> -	for (i = 0; i < vq->num_buffers; i++) {
+>> -		buf = vb2_to_cedrus_buffer(vb2_get_buffer(vq, i));
+>> +	for (i = 0; i < vb2_get_num_buffers(vq); i++) {
+>> +		struct vb2_buffer *vb = vb2_get_buffer(vq, i);
+>> +
+>> +		if (!vb)
+>> +			continue;
+> Please add a newline here to be consistent with the other block being changed.
+>
+> With this change and the commit log reworked, you can consider this:
+> Acked-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
 
-...
+That will be done for the next version.
+
+Thanks,
+
+Benjamin
+
+>
+> Thanks!
+>
+> Paul
+>
+>> +		buf = vb2_to_cedrus_buffer(vb);
+>>   
+>>   		if (buf->codec.h264.mv_col_buf_size > 0) {
+>>   			dma_free_attrs(dev->dev,
+>> diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_h265.c b/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
+>> index fc9297232456..52e94c8f2f01 100644
+>> --- a/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
+>> +++ b/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
+>> @@ -869,8 +869,13 @@ static void cedrus_h265_stop(struct cedrus_ctx *ctx)
+>>   
+>>   	vq = v4l2_m2m_get_vq(ctx->fh.m2m_ctx, V4L2_BUF_TYPE_VIDEO_CAPTURE);
+>>   
+>> -	for (i = 0; i < vq->num_buffers; i++) {
+>> -		buf = vb2_to_cedrus_buffer(vb2_get_buffer(vq, i));
+>> +	for (i = 0; i < vb2_get_num_buffers(vq); i++) {
+>> +		struct vb2_buffer *vb = vb2_get_buffer(vq, i);
+>> +
+>> +		if (!vb)
+>> +			continue;
+>> +
+>> +		buf = vb2_to_cedrus_buffer(vb);
+>>   
+>>   		if (buf->codec.h265.mv_col_buf_size > 0) {
+>>   			dma_free_attrs(dev->dev,
+>> -- 
+>> 2.39.2
+>>
