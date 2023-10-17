@@ -1,29 +1,29 @@
 Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D328E43ABD
-	for <linux-staging@lists.linux.dev>; Tue, 17 Oct 2023 14:48:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29D3B4446A
+	for <linux-staging@lists.linux.dev>; Tue, 17 Oct 2023 14:48:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="CqZ9Xsqi"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="Z9F2JI/W"
 Received: from benjamin-XPS-13-9310.. (unknown [IPv6:2a01:e0a:120:3210:7205:da49:a7e8:59f8])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
 	(Authenticated sender: benjamin.gaignard)
-	by madras.collabora.co.uk (Postfix) with ESMTPSA id CCE4D6607332;
-	Tue, 17 Oct 2023 15:48:08 +0100 (BST)
+	by madras.collabora.co.uk (Postfix) with ESMTPSA id A10F46607331;
+	Tue, 17 Oct 2023 15:48:12 +0100 (BST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1697554089;
-	bh=U25RUhgn4wrEJgYWeqq/JM19FcBBlklJam1nCiVEFHQ=;
+	s=mail; t=1697554093;
+	bh=/R1pnW8jfIuOE9V1pOiXWbvwVFtKNqZCCdQZpnNVq6E=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=CqZ9XsqiSxFieCoTOSfrwoM6jWbx6X6LXQX4J/a/Na6cA6rdj43RjZog9jDAy0uSJ
-	 YG3ePuhpjpKJ7SLzh4H5DkASJ8/evWIK0XBIyVWk1rgu9wV7abpAPl0QzviTnACro8
-	 iUL9HfBAbb8zPzTHlV+2CTDKbc9LGlCPJajN4gFFK0JAdbzk3U6WIkEKXlnxs5KwVt
-	 QT3Uxj4iaEvr46nalQQnTerHqnyICHRCoQRIi9CW0aFUK+nmn9TOMHLUMn8qZ+4CZ1
-	 o3UYTe1h/zA5PTutDYwyydSqdxWVQArnYj0O3ypesRNrFK58lFQPAvyFtOJnO+Ro7o
-	 l1NzedljNDEtA==
+	b=Z9F2JI/WXF7yHwpusSAVWfFe1ysa+W/k/r6V08+hBvV+pEz4464hDx49g7nMWvf7r
+	 y68ewAR6BYPcHLfhM6VSDCN7t/zruLDYsq67Rp7SEJaHYdQBONG9KxiJlcFTJYDcag
+	 e0jeIdWRNI6w5fj9MKRZaOAfEV6IGC8FAF5tny4eOqoFitJcomd2ox7Z2aXRWEhbCY
+	 okkLJiVpYOlIuxmvMg4gaEgm+RRCWi6CYQaCUrUbjB8A5Hd0WwguHg322DuSsIZ62u
+	 mmJxtOkl8zj2WDuJWp6jBVUFTcroudLt9vAoOymAAtGx7lx9Iw2XrpUR/3y9OVxswP
+	 QYeeyIRLpyaWA==
 From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
 To: mchehab@kernel.org,
 	tfiga@chromium.org,
@@ -42,12 +42,10 @@ Cc: linux-media@vger.kernel.org,
 	linux-rockchip@lists.infradead.org,
 	linux-staging@lists.linux.dev,
 	kernel@collabora.com,
-	Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-	Bin Liu <bin.liu@mediatek.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>
-Subject: [PATCH v12 11/56] media: mediatek: jpeg: Use vb2_get_buffer() instead of directly access to buffers array
-Date: Tue, 17 Oct 2023 16:47:11 +0200
-Message-Id: <20231017144756.34719-12-benjamin.gaignard@collabora.com>
+	Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Subject: [PATCH v12 18/56] media: dvb-core: Use vb2_get_buffer() instead of directly access to buffers array
+Date: Tue, 17 Oct 2023 16:47:18 +0200
+Message-Id: <20231017144756.34719-19-benjamin.gaignard@collabora.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20231017144756.34719-1-benjamin.gaignard@collabora.com>
 References: <20231017144756.34719-1-benjamin.gaignard@collabora.com>
@@ -65,32 +63,49 @@ After each call to vb2_get_buffer() we need to be sure that we get
 a valid pointer so check the return value of all of them.
 
 Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-CC: Bin Liu <bin.liu@mediatek.com>
-CC: Matthias Brugger <matthias.bgg@gmail.com>
 ---
- drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c | 7 +++----
- 1 file changed, 3 insertions(+), 4 deletions(-)
+ drivers/media/dvb-core/dvb_vb2.c | 14 ++++++++------
+ 1 file changed, 8 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c b/drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c
-index 7194f88edc0f..73a063b1569b 100644
---- a/drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c
-+++ b/drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c
-@@ -598,12 +598,11 @@ static int mtk_jpeg_qbuf(struct file *file, void *priv, struct v4l2_buffer *buf)
- 		goto end;
+diff --git a/drivers/media/dvb-core/dvb_vb2.c b/drivers/media/dvb-core/dvb_vb2.c
+index b322ef179f05..3a966fdf814c 100644
+--- a/drivers/media/dvb-core/dvb_vb2.c
++++ b/drivers/media/dvb-core/dvb_vb2.c
+@@ -355,12 +355,13 @@ int dvb_vb2_reqbufs(struct dvb_vb2_ctx *ctx, struct dmx_requestbuffers *req)
+ int dvb_vb2_querybuf(struct dvb_vb2_ctx *ctx, struct dmx_buffer *b)
+ {
+ 	struct vb2_queue *q = &ctx->vb_q;
++	struct vb2_buffer *vb2 = vb2_get_buffer(q, b->index);
  
- 	vq = v4l2_m2m_get_vq(fh->m2m_ctx, buf->type);
--	if (buf->index >= vq->num_buffers) {
--		dev_err(ctx->jpeg->dev, "buffer index out of range\n");
-+	vb = vb2_get_buffer(vq, buf->index);
-+	if (!vb) {
-+		dev_err(ctx->jpeg->dev, "buffer not found\n");
+-	if (b->index >= q->num_buffers) {
+-		dprintk(1, "[%s] buffer index out of range\n", ctx->name);
++	if (!vb2) {
++		dprintk(1, "[%s] invalid buffer index\n", ctx->name);
  		return -EINVAL;
  	}
--
--	vb = vq->bufs[buf->index];
- 	jpeg_src_buf = mtk_jpeg_vb2_to_srcbuf(vb);
- 	jpeg_src_buf->bs_size = buf->m.planes[0].bytesused;
+-	vb2_core_querybuf(&ctx->vb_q, q->bufs[b->index], b);
++	vb2_core_querybuf(&ctx->vb_q, vb2, b);
+ 	dprintk(3, "[%s] index=%d\n", ctx->name, b->index);
+ 	return 0;
+ }
+@@ -385,13 +386,14 @@ int dvb_vb2_expbuf(struct dvb_vb2_ctx *ctx, struct dmx_exportbuffer *exp)
+ int dvb_vb2_qbuf(struct dvb_vb2_ctx *ctx, struct dmx_buffer *b)
+ {
+ 	struct vb2_queue *q = &ctx->vb_q;
++	struct vb2_buffer *vb2 = vb2_get_buffer(q, b->index);
+ 	int ret;
  
+-	if (b->index >= q->num_buffers) {
+-		dprintk(1, "[%s] buffer index out of range\n", ctx->name);
++	if (!vb2) {
++		dprintk(1, "[%s] invalid buffer index\n", ctx->name);
+ 		return -EINVAL;
+ 	}
+-	ret = vb2_core_qbuf(&ctx->vb_q, q->bufs[b->index], b, NULL);
++	ret = vb2_core_qbuf(&ctx->vb_q, vb2, b, NULL);
+ 	if (ret) {
+ 		dprintk(1, "[%s] index=%d errno=%d\n", ctx->name,
+ 			b->index, ret);
 -- 
 2.39.2
 
