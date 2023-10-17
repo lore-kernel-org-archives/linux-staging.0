@@ -1,29 +1,29 @@
 Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D870D44460
-	for <linux-staging@lists.linux.dev>; Tue, 17 Oct 2023 14:48:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E76B44473
+	for <linux-staging@lists.linux.dev>; Tue, 17 Oct 2023 14:48:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="OmzphVl3"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="CbZ4BxZy"
 Received: from benjamin-XPS-13-9310.. (unknown [IPv6:2a01:e0a:120:3210:7205:da49:a7e8:59f8])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
 	(Authenticated sender: benjamin.gaignard)
-	by madras.collabora.co.uk (Postfix) with ESMTPSA id 72CD86607348;
-	Tue, 17 Oct 2023 15:48:10 +0100 (BST)
+	by madras.collabora.co.uk (Postfix) with ESMTPSA id DB73D6607378;
+	Tue, 17 Oct 2023 15:48:15 +0100 (BST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1697554090;
-	bh=6OByUfiYmown+37pp4jYIRU8BDesYsod95qP0wK3edE=;
+	s=mail; t=1697554096;
+	bh=OzWNoh3dVGH1f8/6CPeX6RasP+WQ7RCZ45t3ra50rec=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=OmzphVl3bt5nyIgREflOGALqjd8pI5dA7oiUI33s7NwG+gVcvIyBMnlAewQOHU+LI
-	 QOU0FQUOeBwTLq+gOSVFVcOHSLTKtasQLYzWgxK3CgI0d0C3Z5YcFkE5wm+yRVWyNJ
-	 pez1ouj/sAUjaTLO4Bdo6p8jkxpTNeJKz3BdnGBEmYZ0O7sIAayfNbYY/nrJNxUMVG
-	 oUA4W0+ANdrDn/MW0T+9CZbWU4EF9YQLyAvidAGjrorLoT1VMLXu3uMJorD/y7BJRe
-	 2cBLFPlyR8V6adLnMtOYIsME2TkyS3yT85xYjiyFq/yTx1EGMEd9J7FzXuhZRWREyH
-	 JXL2mnojmHPVQ==
+	b=CbZ4BxZyJPWCt/KTG9tG1OzCWe7n1bOCwR9S8+MGfNP8QJ0rnyNRtQDDgiwQfMhN6
+	 enug84zFwMuguWWj/VUzqtW7XN1e7sXIyUxW9x5rj9Bh7RG4xcK39EZhQ4Dq9OKsLY
+	 Pf/snQeWHL91jp3A38vZM9CTmZ+FnSDEx92QjxJcs259okcQDzzWt49oLi+i3ZTRaV
+	 Wy8KGOplX6y1GBFPAR3yRn/PyifHu7mAYpmEnfNTWY33cvNNKXoSUrrYATLKONWE4J
+	 SlW6ST86oDUmNpkcksi7cKl+wS2TvKpnbl6HIAjmY89DB3YjQ+wRoVk6t6b3bNgQ17
+	 rP0/Fruk1msHQ==
 From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
 To: mchehab@kernel.org,
 	tfiga@chromium.org,
@@ -43,10 +43,11 @@ Cc: linux-media@vger.kernel.org,
 	linux-staging@lists.linux.dev,
 	kernel@collabora.com,
 	Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-	Jean-Christophe Trotin <jean-christophe.trotin@foss.st.com>
-Subject: [PATCH v12 14/56] media: sti: hva: Use vb2_get_buffer() instead of directly access to buffers array
-Date: Tue, 17 Oct 2023 16:47:14 +0200
-Message-Id: <20231017144756.34719-15-benjamin.gaignard@collabora.com>
+	Sergey Kozlov <serjk@netup.ru>,
+	Abylay Ospan <aospan@netup.ru>
+Subject: [PATCH v12 24/56] media: pci: netup_unidvb: Stop direct calls to queue num_buffers field
+Date: Tue, 17 Oct 2023 16:47:24 +0200
+Message-Id: <20231017144756.34719-25-benjamin.gaignard@collabora.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20231017144756.34719-1-benjamin.gaignard@collabora.com>
 References: <20231017144756.34719-1-benjamin.gaignard@collabora.com>
@@ -58,40 +59,37 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Use vb2_get_buffer() instead of direct access to the vb2_queue bufs array.
-This allows us to change the type of the bufs in the future.
-After each call to vb2_get_buffer() we need to be sure that we get
-a valid pointer so check the return value of all of them.
-Remove index range test since it is done by vb2_get_buffer().
+Use vb2_get_num_buffers() to avoid using queue num_buffers field directly.
+This allows us to change how the number of buffers is computed in the
+futur.
 
 Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-CC: Jean-Christophe Trotin <jean-christophe.trotin@foss.st.com>
+CC: Sergey Kozlov <serjk@netup.ru>
+CC: Abylay Ospan <aospan@netup.ru>
 ---
- drivers/media/platform/st/sti/hva/hva-v4l2.c | 9 +++------
- 1 file changed, 3 insertions(+), 6 deletions(-)
+ drivers/media/pci/netup_unidvb/netup_unidvb_core.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/media/platform/st/sti/hva/hva-v4l2.c b/drivers/media/platform/st/sti/hva/hva-v4l2.c
-index 3a848ca32a0e..cfe83e9dc01b 100644
---- a/drivers/media/platform/st/sti/hva/hva-v4l2.c
-+++ b/drivers/media/platform/st/sti/hva/hva-v4l2.c
-@@ -569,14 +569,11 @@ static int hva_qbuf(struct file *file, void *priv, struct v4l2_buffer *buf)
- 		struct vb2_buffer *vb2_buf;
+diff --git a/drivers/media/pci/netup_unidvb/netup_unidvb_core.c b/drivers/media/pci/netup_unidvb/netup_unidvb_core.c
+index d85bfbb77a25..557985ba25db 100644
+--- a/drivers/media/pci/netup_unidvb/netup_unidvb_core.c
++++ b/drivers/media/pci/netup_unidvb/netup_unidvb_core.c
+@@ -293,12 +293,13 @@ static int netup_unidvb_queue_setup(struct vb2_queue *vq,
+ 				    struct device *alloc_devs[])
+ {
+ 	struct netup_dma *dma = vb2_get_drv_priv(vq);
++	unsigned int q_num_bufs = vb2_get_num_buffers(vq);
  
- 		vq = v4l2_m2m_get_vq(ctx->fh.m2m_ctx, buf->type);
--
--		if (buf->index >= vq->num_buffers) {
--			dev_dbg(dev, "%s buffer index %d out of range (%d)\n",
--				ctx->name, buf->index, vq->num_buffers);
-+		vb2_buf = vb2_get_buffer(vq, buf->index);
-+		if (!vb2_buf) {
-+			dev_dbg(dev, "%s buffer index %d not found\n", ctx->name, buf->index);
- 			return -EINVAL;
- 		}
--
--		vb2_buf = vb2_get_buffer(vq, buf->index);
- 		stream = to_hva_stream(to_vb2_v4l2_buffer(vb2_buf));
- 		stream->bytesused = buf->bytesused;
- 	}
+ 	dev_dbg(&dma->ndev->pci_dev->dev, "%s()\n", __func__);
+ 
+ 	*nplanes = 1;
+-	if (vq->num_buffers + *nbuffers < VIDEO_MAX_FRAME)
+-		*nbuffers = VIDEO_MAX_FRAME - vq->num_buffers;
++	if (q_num_bufs + *nbuffers < VIDEO_MAX_FRAME)
++		*nbuffers = VIDEO_MAX_FRAME - q_num_bufs;
+ 	sizes[0] = PAGE_ALIGN(NETUP_DMA_PACKETS_COUNT * 188);
+ 	dev_dbg(&dma->ndev->pci_dev->dev, "%s() nbuffers=%d sizes[0]=%d\n",
+ 		__func__, *nbuffers, sizes[0]);
 -- 
 2.39.2
 
