@@ -1,29 +1,29 @@
 Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36ECF44472
-	for <linux-staging@lists.linux.dev>; Tue, 17 Oct 2023 14:48:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D870D44460
+	for <linux-staging@lists.linux.dev>; Tue, 17 Oct 2023 14:48:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="DUSq5BfK"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="OmzphVl3"
 Received: from benjamin-XPS-13-9310.. (unknown [IPv6:2a01:e0a:120:3210:7205:da49:a7e8:59f8])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
 	(Authenticated sender: benjamin.gaignard)
-	by madras.collabora.co.uk (Postfix) with ESMTPSA id CC0376607370;
-	Tue, 17 Oct 2023 15:48:14 +0100 (BST)
+	by madras.collabora.co.uk (Postfix) with ESMTPSA id 72CD86607348;
+	Tue, 17 Oct 2023 15:48:10 +0100 (BST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1697554095;
-	bh=YCZw7PvG0/vvqRoLk52CD8Z7MDM+1YNzRKdH40h8V+Y=;
+	s=mail; t=1697554090;
+	bh=6OByUfiYmown+37pp4jYIRU8BDesYsod95qP0wK3edE=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=DUSq5BfKZyYnBeq717o58rGsqLPCI3q/4TQNCYgZkwmbtNZUSOuDSuMqbnpuM3358
-	 hOHflD8jGQ9hwQIBD6zkrBav56RjX4i3Sley/VOyHFQqdPbUP3SO85KKkgME7oOvWv
-	 667uk23Zbe9qI4aBu2uYnHi82b83q8gRKxvzdhqKF7uLVKIq4sVVlc4N0Ikk50O1IC
-	 OAzRK6xQOGv66i9HUFvN5Qhc1a2mY1FmyhV3Yaezrj2Pus6jBDKgy6BLka9tvOQyRI
-	 eIw9eFnqe99DkBZfR3NXWjETJxITT6o9R58Kmp77EpUF8HOVXSqHHzozs0fS0nFXp9
-	 sHPEnpmvSqo7A==
+	b=OmzphVl3bt5nyIgREflOGALqjd8pI5dA7oiUI33s7NwG+gVcvIyBMnlAewQOHU+LI
+	 QOU0FQUOeBwTLq+gOSVFVcOHSLTKtasQLYzWgxK3CgI0d0C3Z5YcFkE5wm+yRVWyNJ
+	 pez1ouj/sAUjaTLO4Bdo6p8jkxpTNeJKz3BdnGBEmYZ0O7sIAayfNbYY/nrJNxUMVG
+	 oUA4W0+ANdrDn/MW0T+9CZbWU4EF9YQLyAvidAGjrorLoT1VMLXu3uMJorD/y7BJRe
+	 2cBLFPlyR8V6adLnMtOYIsME2TkyS3yT85xYjiyFq/yTx1EGMEd9J7FzXuhZRWREyH
+	 JXL2mnojmHPVQ==
 From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
 To: mchehab@kernel.org,
 	tfiga@chromium.org,
@@ -42,10 +42,11 @@ Cc: linux-media@vger.kernel.org,
 	linux-rockchip@lists.infradead.org,
 	linux-staging@lists.linux.dev,
 	kernel@collabora.com,
-	Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Subject: [PATCH v12 22/56] media: pci: tw686x: Set min_buffers_needed to 3
-Date: Tue, 17 Oct 2023 16:47:22 +0200
-Message-Id: <20231017144756.34719-23-benjamin.gaignard@collabora.com>
+	Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+	Jean-Christophe Trotin <jean-christophe.trotin@foss.st.com>
+Subject: [PATCH v12 14/56] media: sti: hva: Use vb2_get_buffer() instead of directly access to buffers array
+Date: Tue, 17 Oct 2023 16:47:14 +0200
+Message-Id: <20231017144756.34719-15-benjamin.gaignard@collabora.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20231017144756.34719-1-benjamin.gaignard@collabora.com>
 References: <20231017144756.34719-1-benjamin.gaignard@collabora.com>
@@ -57,47 +58,40 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-vb2 queue_setup checks for a minimum number of buffers so set
-min_buffers_needed to 3 and remove the useless check in
-tw686x_queue_setup().
+Use vb2_get_buffer() instead of direct access to the vb2_queue bufs array.
+This allows us to change the type of the bufs in the future.
+After each call to vb2_get_buffer() we need to be sure that we get
+a valid pointer so check the return value of all of them.
+Remove index range test since it is done by vb2_get_buffer().
 
 Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-CC: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+CC: Jean-Christophe Trotin <jean-christophe.trotin@foss.st.com>
 ---
- drivers/media/pci/tw686x/tw686x-video.c | 13 +++++--------
- 1 file changed, 5 insertions(+), 8 deletions(-)
+ drivers/media/platform/st/sti/hva/hva-v4l2.c | 9 +++------
+ 1 file changed, 3 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/media/pci/tw686x/tw686x-video.c b/drivers/media/pci/tw686x/tw686x-video.c
-index 3ebf7a2c95f0..74cd864365aa 100644
---- a/drivers/media/pci/tw686x/tw686x-video.c
-+++ b/drivers/media/pci/tw686x/tw686x-video.c
-@@ -426,13 +426,6 @@ static int tw686x_queue_setup(struct vb2_queue *vq,
- 	unsigned int szimage =
- 		(vc->width * vc->height * vc->format->depth) >> 3;
+diff --git a/drivers/media/platform/st/sti/hva/hva-v4l2.c b/drivers/media/platform/st/sti/hva/hva-v4l2.c
+index 3a848ca32a0e..cfe83e9dc01b 100644
+--- a/drivers/media/platform/st/sti/hva/hva-v4l2.c
++++ b/drivers/media/platform/st/sti/hva/hva-v4l2.c
+@@ -569,14 +569,11 @@ static int hva_qbuf(struct file *file, void *priv, struct v4l2_buffer *buf)
+ 		struct vb2_buffer *vb2_buf;
  
--	/*
--	 * Let's request at least three buffers: two for the
--	 * DMA engine and one for userspace.
--	 */
--	if (vq->num_buffers + *nbuffers < 3)
--		*nbuffers = 3 - vq->num_buffers;
+ 		vq = v4l2_m2m_get_vq(ctx->fh.m2m_ctx, buf->type);
 -
- 	if (*nplanes) {
- 		if (*nplanes != 1 || sizes[0] < szimage)
+-		if (buf->index >= vq->num_buffers) {
+-			dev_dbg(dev, "%s buffer index %d out of range (%d)\n",
+-				ctx->name, buf->index, vq->num_buffers);
++		vb2_buf = vb2_get_buffer(vq, buf->index);
++		if (!vb2_buf) {
++			dev_dbg(dev, "%s buffer index %d not found\n", ctx->name, buf->index);
  			return -EINVAL;
-@@ -1221,7 +1214,11 @@ int tw686x_video_init(struct tw686x_dev *dev)
- 		vc->vidq.ops = &tw686x_video_qops;
- 		vc->vidq.mem_ops = dev->dma_ops->mem_ops;
- 		vc->vidq.timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_MONOTONIC;
--		vc->vidq.min_buffers_needed = 2;
-+		/*
-+		 * Let's request at least three buffers: two for the
-+		 * DMA engine and one for userspace.
-+		 */
-+		vc->vidq.min_buffers_needed = 3;
- 		vc->vidq.lock = &vc->vb_mutex;
- 		vc->vidq.gfp_flags = dev->dma_mode != TW686X_DMA_MODE_MEMCPY ?
- 				     GFP_DMA32 : 0;
+ 		}
+-
+-		vb2_buf = vb2_get_buffer(vq, buf->index);
+ 		stream = to_hva_stream(to_vb2_v4l2_buffer(vb2_buf));
+ 		stream->bytesused = buf->bytesused;
+ 	}
 -- 
 2.39.2
 
