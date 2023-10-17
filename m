@@ -1,66 +1,81 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from pb-smtp21.pobox.com (pb-smtp21.pobox.com [173.228.157.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 414B92D798
-	for <linux-staging@lists.linux.dev>; Tue, 17 Oct 2023 18:29:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4703347B1
+	for <linux-staging@lists.linux.dev>; Tue, 17 Oct 2023 18:47:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foobox.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=foobox.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="z7Uxdl/r"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 565B1C433C8;
-	Tue, 17 Oct 2023 18:29:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1697567377;
-	bh=RWaaTJsHFTAPyIb8PliZf2YUP4BF7u+rPqF1xmAY/BE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=z7Uxdl/rBzaEX6CQGfyEztx9f2I5Mcdzgn7TUeSZsNKMXt88j2rhDnD5dbToZK5Yg
-	 Lj62cECUhmi69fnHRTfPxLjjDRtBL9OwItvrBTJrw92XVxk+nFoIVKSyOMGGtnBCje
-	 iXzCbmuu2gHvda0jX1/WBpO4RpbmRmCzv7wtPwUs=
-Date: Tue, 17 Oct 2023 20:29:33 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-Cc: Thorsten Leemhuis <linux@leemhuis.info>, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>
-Subject: Re: [PATCH] staging: rtl8192u: remove entry from Makefile
-Message-ID: <2023101705-undertone-sloppily-ce90@gregkh>
-References: <2023101709-amuck-upward-46f1@gregkh>
- <51fcd05c-cb8e-420f-be62-0c9ade82fbfb@leemhuis.info>
- <2023101757-defy-spiny-4faa@gregkh>
- <337b7086-98fd-469d-a9ce-36b2d8a20559@gmail.com>
+	dkim=pass (1024-bit key) header.d=pobox.com header.i=@pobox.com header.b="V+WD44O2"
+Received: from pb-smtp21.pobox.com (unknown [127.0.0.1])
+	by pb-smtp21.pobox.com (Postfix) with ESMTP id D2C2D2D623;
+	Tue, 17 Oct 2023 14:47:07 -0400 (EDT)
+	(envelope-from ihor.matushchak@foobox.net)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed; d=pobox.com; h=from:to:cc
+	:subject:date:message-id:in-reply-to:references:mime-version
+	:content-type:content-transfer-encoding; s=sasl; bh=zxZFNkoqFPmt
+	cYG6pQidM4iVr9IPmIm/N7mspSROcBk=; b=V+WD44O2vCmZf6sB7Bdn8k01hxW3
+	61H9AfPlSbGa02aHElmoetNFshm8iYWs0/KdoffWlSsGc2ivw/VVvuKL7XWfYqze
+	b7H+X/lghe5SxsS5HmJdCG5SHA0PzpLm9q/Ab0gyaRG0mvUoQrqsXpJF9SXjJFSd
+	OyuIUrnLoMUblQ8=
+Received: from pb-smtp21.sea.icgroup.com (unknown [127.0.0.1])
+	by pb-smtp21.pobox.com (Postfix) with ESMTP id CB6412D622;
+	Tue, 17 Oct 2023 14:47:07 -0400 (EDT)
+	(envelope-from ihor.matushchak@foobox.net)
+Received: from raspberrypi.telekom.ip (unknown [84.115.221.168])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by pb-smtp21.pobox.com (Postfix) with ESMTPSA id 0A0B22D61F;
+	Tue, 17 Oct 2023 14:47:02 -0400 (EDT)
+	(envelope-from ihor.matushchak@foobox.net)
+From: ihor.matushchak@foobox.net
+To: niklas.soderlund@ragnatech.se
+Cc: mchehab@kernel.org,
+	gregkh@linuxfoundation.org,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	ihor.matushchak@foobox.net
+Subject: [PATCH] media: staging: max96712: Fix device name in description
+Date: Tue, 17 Oct 2023 19:46:54 +0100
+Message-Id: <942346374212972ef938ecac7c892558a48bfe75.1697568186.git.ihor.matushchak@foobox.net>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <ZS0wxi7SUhJcVh5Y@oden.dyn.berto.se>
+References: <ZS0wxi7SUhJcVh5Y@oden.dyn.berto.se>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <337b7086-98fd-469d-a9ce-36b2d8a20559@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+X-Pobox-Relay-ID:
+ 90AAAF4A-6D1D-11EE-B193-A19503B9AAD1-19565117!pb-smtp21.pobox.com
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, Oct 17, 2023 at 08:07:33PM +0200, Philipp Hortmann wrote:
-> On 10/17/23 15:35, Greg Kroah-Hartman wrote:
-> > On Tue, Oct 17, 2023 at 12:35:57PM +0200, Thorsten Leemhuis wrote:
-> > > On 17.10.23 10:13, Greg Kroah-Hartman wrote:
-> > > > In commit 697455ce4110 ("staging: rtl8192u: Remove broken driver"), the
-> > > > driver was removed, along with the Kconfig entry, but the Makefile line
-> > > > in drivers/staging/Makefile was not updated, so things like 'make clean'
-> > > > fail to work properly as they will decend into all subdirectories to try
-> > > > to clean things up.
-> > > > 
-> > > > Resolve this by removing the entry in the main staging Makefile.
-> > > > 
-> > > > Reported-by: Thorsten Leemhuis <linux@leemhuis.info>
-> > > > Cc: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-> > > > Cc: Arnd Bergmann <arnd@arndb.de>
-> > > > Fixes: 697455ce4110 ("staging: rtl8192u: Remove broken driver")
-> > > > Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> > > 
-> > > Thx Greg, that fixed things for my case. In case anyone cares:
-> > 
-> > I care, thanks!
-> 
-> 
-> Sorry for messing up. I did a compile test of the entire kernel but I was
-> not aware that I also need to test 'make clean'
+From: Ihor Matushchak <ihor.matushchak@foobox.net>
 
-Not a problem, I didn't either, and neither did the 0-day bot.
+Fix the device model name in driver description,
+which appears to be a copy-paste error
 
-greg k-h
+Signed-off-by: Ihor Matushchak <ihor.matushchak@foobox.net>
+---
+ drivers/staging/media/max96712/max96712.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/staging/media/max96712/max96712.c b/drivers/staging/=
+media/max96712/max96712.c
+index c44145284aa1..ea67bcf69c9d 100644
+--- a/drivers/staging/media/max96712/max96712.c
++++ b/drivers/staging/media/max96712/max96712.c
+@@ -1,6 +1,6 @@
+ // SPDX-License-Identifier: GPL-2.0
+ /*
+- * Maxim MAX9286 Quad GMSL2 Deserializer Driver
++ * Maxim MAX96712 Quad GMSL2 Deserializer Driver
+  *
+  * Copyright (C) 2021 Renesas Electronics Corporation
+  * Copyright (C) 2021 Niklas S=C3=B6derlund
+--=20
+2.30.2
+
