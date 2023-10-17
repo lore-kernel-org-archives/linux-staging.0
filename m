@@ -1,29 +1,29 @@
 Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E76B44473
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83B5544474
 	for <linux-staging@lists.linux.dev>; Tue, 17 Oct 2023 14:48:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="CbZ4BxZy"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="SX47BSZB"
 Received: from benjamin-XPS-13-9310.. (unknown [IPv6:2a01:e0a:120:3210:7205:da49:a7e8:59f8])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
 	(Authenticated sender: benjamin.gaignard)
-	by madras.collabora.co.uk (Postfix) with ESMTPSA id DB73D6607378;
-	Tue, 17 Oct 2023 15:48:15 +0100 (BST)
+	by madras.collabora.co.uk (Postfix) with ESMTPSA id 43F12660736E;
+	Tue, 17 Oct 2023 15:48:14 +0100 (BST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1697554096;
-	bh=OzWNoh3dVGH1f8/6CPeX6RasP+WQ7RCZ45t3ra50rec=;
+	s=mail; t=1697554094;
+	bh=7OP/lnsbD5MzPZ4L/gceSmxIzda3Ng9eLtu0phjni7k=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=CbZ4BxZyJPWCt/KTG9tG1OzCWe7n1bOCwR9S8+MGfNP8QJ0rnyNRtQDDgiwQfMhN6
-	 enug84zFwMuguWWj/VUzqtW7XN1e7sXIyUxW9x5rj9Bh7RG4xcK39EZhQ4Dq9OKsLY
-	 Pf/snQeWHL91jp3A38vZM9CTmZ+FnSDEx92QjxJcs259okcQDzzWt49oLi+i3ZTRaV
-	 Wy8KGOplX6y1GBFPAR3yRn/PyifHu7mAYpmEnfNTWY33cvNNKXoSUrrYATLKONWE4J
-	 SlW6ST86oDUmNpkcksi7cKl+wS2TvKpnbl6HIAjmY89DB3YjQ+wRoVk6t6b3bNgQ17
-	 rP0/Fruk1msHQ==
+	b=SX47BSZBGXDJAl+hd+M3Pjc34xRzLFy24YoR5AdRaP6yg3ezZrcdlLcdlKlW7ZueX
+	 5KM0nBjHjUwKlaRInLkoKlfLZ7HIu8y4v/5SmimgLG8oB9QY5fXmvwevRQ5VSxt5Z2
+	 8C1qBMwSis4zQRO7d7zdP2BX77w7QnJXrpUHmV0KNX7Yy3y2zTpjtxVKWHpZyYww5Y
+	 9Q+8ROdCCxDYMgH44oBco8lBR+P7B4xWxfT5J52Pnbetd+M0QhgLH7anVprhPs/hN7
+	 5nwtiog0gPHw8FKkIqjY5TUY3XIFsJE5E5T1Ds+FqVUkOvy+AEtuLvJL9t+swy5M9N
+	 5PXq5ywZ/XTNA==
 From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
 To: mchehab@kernel.org,
 	tfiga@chromium.org,
@@ -42,12 +42,10 @@ Cc: linux-media@vger.kernel.org,
 	linux-rockchip@lists.infradead.org,
 	linux-staging@lists.linux.dev,
 	kernel@collabora.com,
-	Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-	Sergey Kozlov <serjk@netup.ru>,
-	Abylay Ospan <aospan@netup.ru>
-Subject: [PATCH v12 24/56] media: pci: netup_unidvb: Stop direct calls to queue num_buffers field
-Date: Tue, 17 Oct 2023 16:47:24 +0200
-Message-Id: <20231017144756.34719-25-benjamin.gaignard@collabora.com>
+	Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Subject: [PATCH v12 21/56] media: pci: dt3155: Remove useless check
+Date: Tue, 17 Oct 2023 16:47:21 +0200
+Message-Id: <20231017144756.34719-22-benjamin.gaignard@collabora.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20231017144756.34719-1-benjamin.gaignard@collabora.com>
 References: <20231017144756.34719-1-benjamin.gaignard@collabora.com>
@@ -59,37 +57,27 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Use vb2_get_num_buffers() to avoid using queue num_buffers field directly.
-This allows us to change how the number of buffers is computed in the
-futur.
+min_buffers_needed is already set to 2 so remove this useless
+check.
 
 Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-CC: Sergey Kozlov <serjk@netup.ru>
-CC: Abylay Ospan <aospan@netup.ru>
 ---
- drivers/media/pci/netup_unidvb/netup_unidvb_core.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ drivers/media/pci/dt3155/dt3155.c | 2 --
+ 1 file changed, 2 deletions(-)
 
-diff --git a/drivers/media/pci/netup_unidvb/netup_unidvb_core.c b/drivers/media/pci/netup_unidvb/netup_unidvb_core.c
-index d85bfbb77a25..557985ba25db 100644
---- a/drivers/media/pci/netup_unidvb/netup_unidvb_core.c
-+++ b/drivers/media/pci/netup_unidvb/netup_unidvb_core.c
-@@ -293,12 +293,13 @@ static int netup_unidvb_queue_setup(struct vb2_queue *vq,
- 				    struct device *alloc_devs[])
- {
- 	struct netup_dma *dma = vb2_get_drv_priv(vq);
-+	unsigned int q_num_bufs = vb2_get_num_buffers(vq);
+diff --git a/drivers/media/pci/dt3155/dt3155.c b/drivers/media/pci/dt3155/dt3155.c
+index 548156b199cc..d09cde2f6ee4 100644
+--- a/drivers/media/pci/dt3155/dt3155.c
++++ b/drivers/media/pci/dt3155/dt3155.c
+@@ -128,8 +128,6 @@ dt3155_queue_setup(struct vb2_queue *vq,
+ 	struct dt3155_priv *pd = vb2_get_drv_priv(vq);
+ 	unsigned size = pd->width * pd->height;
  
- 	dev_dbg(&dma->ndev->pci_dev->dev, "%s()\n", __func__);
- 
- 	*nplanes = 1;
--	if (vq->num_buffers + *nbuffers < VIDEO_MAX_FRAME)
--		*nbuffers = VIDEO_MAX_FRAME - vq->num_buffers;
-+	if (q_num_bufs + *nbuffers < VIDEO_MAX_FRAME)
-+		*nbuffers = VIDEO_MAX_FRAME - q_num_bufs;
- 	sizes[0] = PAGE_ALIGN(NETUP_DMA_PACKETS_COUNT * 188);
- 	dev_dbg(&dma->ndev->pci_dev->dev, "%s() nbuffers=%d sizes[0]=%d\n",
- 		__func__, *nbuffers, sizes[0]);
+-	if (vq->num_buffers + *nbuffers < 2)
+-		*nbuffers = 2 - vq->num_buffers;
+ 	if (*num_planes)
+ 		return sizes[0] < size ? -EINVAL : 0;
+ 	*num_planes = 1;
 -- 
 2.39.2
 
