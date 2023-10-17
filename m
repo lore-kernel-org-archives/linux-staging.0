@@ -1,55 +1,55 @@
-Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
+Received: from mail-lj1-f173.google.com (mail-lj1-f173.google.com [209.85.208.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2613853BD
-	for <linux-staging@lists.linux.dev>; Tue, 17 Oct 2023 02:35:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 315001FD5
+	for <linux-staging@lists.linux.dev>; Tue, 17 Oct 2023 04:02:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="F7ueL3bx"
-Received: by mail-pf1-f178.google.com with SMTP id d2e1a72fcca58-6b201a93c9cso2986509b3a.0
-        for <linux-staging@lists.linux.dev>; Mon, 16 Oct 2023 19:35:49 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ILL5R+1f"
+Received: by mail-lj1-f173.google.com with SMTP id 38308e7fff4ca-2c503dbe50dso56164351fa.1
+        for <linux-staging@lists.linux.dev>; Mon, 16 Oct 2023 21:02:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1697510149; x=1698114949; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=adVf8A3/crcNLY+ksyRtmx34jr6J2QTaDzuwLDhSC/s=;
-        b=F7ueL3bxtaLhbHUsC0j2wPSMVB4Wje70HSs1m12Rys73eBPJC4G289e3TyfPl9VYfc
-         3qQT0Q0o9p7dVNzIR9Gv7rIa4JUxHSVymrf6ZkrksUFFAHWvp9o4ajMcKk3RlRkQt+oX
-         t5qcxqrIA0hJlUqL+WaY4pax/a5mxBGjbnVRfATjLYuRQob7+h9k8o3wo2jnV5WxYJf6
-         hmtxB4114nvQ5GuGoI3pLwplzpVFpANEgOJfTsDCUVlzM0f4yWf1qnfS9DsKivnvAEj5
-         BexJFiW40flc+g6520MBOHlftufXeWTRH5HDXOoB2B527SUbm/JszIqjrGZ7zYKytUyr
-         y/mQ==
+        d=linaro.org; s=google; t=1697515357; x=1698120157; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=RAFbn1MEbdJCwOyS7whJdaEX4i1Mt1tWVCyQLpsQFN4=;
+        b=ILL5R+1f9lAOX3SDCpLE+IsBXNyM/Ok2YxtvteDm0sKMPdQYUs1LwPMnG6lzKy7klx
+         sDOK9wV/RCqsJ5wysJt9lVQHu+aYMz2yTiD5rJP40jIfbjBf91AsVYNfoA30KqG9Dfqn
+         Y4yoaM/ufHcCf9hLlyLtGy2n5N0dRW02lWZc1BJ7gjjS+crBVYJdeOZfNqF/6F+sbJmQ
+         kha0gcjBgGMuChIZqYNXytY0n/lfMALrWHDpadFSPyqXGVYRSGf/68nBql3hQU7ppkoy
+         kKy7xW6VCkbtk2OkGEwuO08zc8GWhu6mSWcCqJzfItIkd3UnK4EZmXsCeUmtO98WmiCh
+         JU1Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697510149; x=1698114949;
-        h=content-disposition:mime-version:message-id:subject:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=adVf8A3/crcNLY+ksyRtmx34jr6J2QTaDzuwLDhSC/s=;
-        b=uNKlOKYmQoqFbJ5Gi5bKzbP55C2DNK12cNNh3K+cWTLLjYyJ7froMNnRP7xytHfoz4
-         hcj7TMsCO/q8qMHGQDTCElCehpc38bWTymTze8XRlkKoLOC3sVhXnU3VNRLqMnjLzYsA
-         yrBG/zFWycTBeA8xSFPvbbDDMT8u3NHLOE3KB9L8DCxmC45iAb6TpjdUGQNTcPz3HQ+w
-         UPHe683eqCSwoWUyMqNrn8aNeaJYApfCiZ8Vg2LnacgJZdWbjmdXb1o1oelJl8QVix3u
-         8oo+O7Xta4aXXSl0FjAjKrPfZWdbMtIZLte1q86LgtLD8HXRmEtTnzhrlw44hEEkM33K
-         Bthw==
-X-Gm-Message-State: AOJu0YzaC+9Ev1cetdoO5m3Amqnx2HQ6/FsROugnBo4QZBmpnfz6FTd1
-	3VCsCY2BXNBKTlgY08T81KA=
-X-Google-Smtp-Source: AGHT+IGsxCdNX8EsBwdlLG99DRr/sy9DKnvwetQovuD3b+34tn5DtoIYTWI4DKjHRYl0JJQ2+vjVbQ==
-X-Received: by 2002:a05:6a00:158f:b0:691:2d4:23b2 with SMTP id u15-20020a056a00158f00b0069102d423b2mr1185579pfk.15.1697510149277;
-        Mon, 16 Oct 2023 19:35:49 -0700 (PDT)
-Received: from ubuntu ([223.226.54.200])
-        by smtp.gmail.com with ESMTPSA id x28-20020aa79a5c000000b0068fb9f98467sm248234pfj.107.2023.10.16.19.35.46
+        d=1e100.net; s=20230601; t=1697515357; x=1698120157;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=RAFbn1MEbdJCwOyS7whJdaEX4i1Mt1tWVCyQLpsQFN4=;
+        b=CW3NlwIJKphGZstWURDQq/RHxHVl2l9ekygscogYznLuLgZfEihfq//9XP7FtJPw4T
+         XELITdk0iCp12I58Tgw8JiMt6G22E9ZCeeHlxWG2nra2cVPp4dA33+8Tb5pNjSvIy0s4
+         gYKRxVc+/udOyuOUipoHo3rPdCMeLKFy/lgu6fOjGhblxxvu+VOidu1crG/AMFzX9S74
+         gArl8MLxFBhSPT73msRbjzi6XlQuV0ijykCFPpapXjFFJ+OnB5nWI8SzkFY+2BF8dw2g
+         Up4M33VusRjYAd3WAUG8XGHcCUPTkGSqhLdAaHz+gD0L6ReI3iJo6bKjbqPsftc/tVR/
+         K1hQ==
+X-Gm-Message-State: AOJu0YyzBFL88gPr1sc8pc1H6ZP+Ve5nSKYX7fwVPxjvDfUcCt5KZQb6
+	548nnkFqtf4zW6UAmnXnYKVvKQ==
+X-Google-Smtp-Source: AGHT+IFGKM4MqZPIl2yECM5ZvuixRBZJXyNJZUkfeDkxxPNrLk7s3L0yLs96bcpjTkiONIitq5f+3A==
+X-Received: by 2002:a2e:390f:0:b0:2b5:7f93:b3b0 with SMTP id g15-20020a2e390f000000b002b57f93b3b0mr688315lja.17.1697515356953;
+        Mon, 16 Oct 2023 21:02:36 -0700 (PDT)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id c26-20020a05600c0ada00b003fc06169ab3sm8531314wmr.20.2023.10.16.21.02.35
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 16 Oct 2023 19:35:48 -0700 (PDT)
-Date: Mon, 16 Oct 2023 19:35:44 -0700
-From: Nandha Kumar Singaram <nandhakumar.singaram@gmail.com>
-To: Vaibhav Agarwal <vaibhav.sr@gmail.com>,
-	Mark Greer <mgreer@animalcreek.com>,
-	Johan Hovold <johan@kernel.org>, Alex Elder <elder@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] staging: greybus: Modify lines end with a '('
-Message-ID: <20231017023544.GA6684@ubuntu>
+        Mon, 16 Oct 2023 21:02:36 -0700 (PDT)
+Date: Tue, 17 Oct 2023 07:02:33 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Nandha Kumar Singaram <nandhakumar.singaram@gmail.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: rts5208: Replace the occurrences of (1<<x) by
+ BIT(x)
+Message-ID: <433b9d45-bb21-49eb-8062-c03bcffa90ff@kadam.mountain>
+References: <20231016201154.GA14625@ubuntu>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -58,33 +58,44 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20231016201154.GA14625@ubuntu>
 
-Adhere to linux coding style. Reported by checkpatch.pl:
-CHECK: Lines should not end with a '('
+On Mon, Oct 16, 2023 at 01:11:54PM -0700, Nandha Kumar Singaram wrote:
+> Adhere to linux coding style. Reported by checkpatch.pl:
+> CHECK: Prefer using the BIT macro
+> 
+> Signed-off-by: Nandha Kumar Singaram <nandhakumar.singaram@gmail.com>
+> ---
+>  drivers/staging/rts5208/rtsx_card.h | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/staging/rts5208/rtsx_card.h b/drivers/staging/rts5208/rtsx_card.h
+> index 39727371cd7a..9d2504fddb13 100644
+> --- a/drivers/staging/rts5208/rtsx_card.h
+> +++ b/drivers/staging/rts5208/rtsx_card.h
+> @@ -338,7 +338,7 @@
+>  #define DMA_DIR_FROM_CARD		0x02
+>  #define DMA_EN				0x01
+>  #define DMA_128				(0 << 4)
+> -#define DMA_256				(1 << 4)
+> +#define DMA_256				BIT(4)
+>  #define DMA_512				(2 << 4)
 
-Signed-off-by: Nandha Kumar Singaram <nandhakumar.singaram@gmail.com>
----
- drivers/staging/greybus/audio_manager_private.h | 7 +++----
- 1 file changed, 3 insertions(+), 4 deletions(-)
+No.  :P.  Look at the lines around it.  Now it's the odd duckling.
 
-diff --git a/drivers/staging/greybus/audio_manager_private.h b/drivers/staging/greybus/audio_manager_private.h
-index 2b3a766c7de7..daca5b48b986 100644
---- a/drivers/staging/greybus/audio_manager_private.h
-+++ b/drivers/staging/greybus/audio_manager_private.h
-@@ -12,10 +12,9 @@
- 
- #include "audio_manager.h"
- 
--int gb_audio_manager_module_create(
--	struct gb_audio_manager_module **module,
--	struct kset *manager_kset,
--	int id, struct gb_audio_manager_module_descriptor *desc);
-+int gb_audio_manager_module_create(struct gb_audio_manager_module **module,
-+				   struct kset *manager_kset, int id,
-+				   struct gb_audio_manager_module_descriptor *desc);
- 
- /* module destroyed via kobject_put */
- 
--- 
-2.25.1
+>  #define DMA_1024			(3 << 4)
+>  #define DMA_PACK_SIZE_MASK		0x30
+> @@ -542,7 +542,7 @@
+>  
+>  #define BLINK_EN			0x08
+>  #define LED_GPIO0			(0 << 4)
+> -#define LED_GPIO1			(1 << 4)
+> +#define LED_GPIO1			BIT(4)
+>  #define LED_GPIO2			(2 << 4)
+> 
+
+Same.
+
+regards,
+dan carpenter
 
