@@ -1,76 +1,69 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64761179A1;
-	Tue, 17 Oct 2023 07:51:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02B56C2CD
+	for <linux-staging@lists.linux.dev>; Tue, 17 Oct 2023 08:13:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="P2uO+BeT"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 04648C433C8;
-	Tue, 17 Oct 2023 07:51:18 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="PbwrsftL"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1225AC433C8;
+	Tue, 17 Oct 2023 08:13:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1697529078;
-	bh=LQXEF5e62dr/R/72d1cA39kSwjDHnzyBdz56YeqjIIw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=P2uO+BeTR1vz4vtCd906zybVFo4Cpdvk0eRP9uAUlRgTYfwv3RnsNQS3DJEQggmyo
-	 u0W4eIOMDesc1NpZERkXHP3H81fbKN9sNlWuhnnnYtiw8qQ+OPbh3EXbTDIBISH/Vj
-	 dRCeA0i4iKMRZxQYe/AzW47LmdPQEY0KTl1aN+RU=
-Date: Tue, 17 Oct 2023 09:51:14 +0200
+	s=korg; t=1697530406;
+	bh=46LFzxJ8kVX8In6gN8/8l3XSFq9NXQixEzzsEgPJrZI=;
+	h=From:To:Cc:Subject:Date:From;
+	b=PbwrsftLLcm9eKRbpFoh1Xo1EVbsmerWJ7QUrWDhUzstBQtj4BXm8dscZkc9KbtS7
+	 p+6wmy534ZJEdBP4PsSK5Qf1zm4rYF8eDbM358IwHNGD1yRTyA0CKMjUKYjlfKEhpF
+	 ZUhBub3R+RYdT3YKlIBHeC5vHThTHtdKj9wtLN/g=
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Dorcas AnonoLitunya <anonolitunya@gmail.com>
-Cc: outreachy@lists.linux.dev, julia.lawall@inria.fr,
-	dan.carpenter@linaro.org,
-	Sudip Mukherjee <sudipm.mukherjee@gmail.com>,
-	Teddy Wang <teddy.wang@siliconmotion.com>,
-	linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 4/5] Staging: sm750fb: Rename programModeRegisters
-Message-ID: <2023101705-baffling-able-d86a@gregkh>
-References: <20231016201434.7880-1-anonolitunya@gmail.com>
- <20231016201434.7880-5-anonolitunya@gmail.com>
+To: linux-staging@lists.linux.dev
+Cc: linux-kernel@vger.kernel.org,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Thorsten Leemhuis <linux@leemhuis.info>,
+	Philipp Hortmann <philipp.g.hortmann@gmail.com>,
+	Arnd Bergmann <arnd@arndb.de>
+Subject: [PATCH] staging: rtl8192u: remove entry from Makefile
+Date: Tue, 17 Oct 2023 10:13:10 +0200
+Message-ID: <2023101709-amuck-upward-46f1@gregkh>
+X-Mailer: git-send-email 2.42.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231016201434.7880-5-anonolitunya@gmail.com>
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1187; i=gregkh@linuxfoundation.org; h=from:subject:message-id; bh=46LFzxJ8kVX8In6gN8/8l3XSFq9NXQixEzzsEgPJrZI=; b=owGbwMvMwCRo6H6F97bub03G02pJDKl6TqJebl+2HHpdV39+YSRnb33SqT8u+sdnx/Avt0nIy tvwXKOnI5aFQZCJQVZMkeXLNp6j+ysOKXoZ2p6GmcPKBDKEgYtTACaSxsYwz0hY4Pa6qMf71d7U aJRvet/EFX5/NsOCGbfEZp23bXOaNaX9JefSreYzNeXUAQ==
+X-Developer-Key: i=gregkh@linuxfoundation.org; a=openpgp; fpr=F4B60CC5BF78C2214A313DCB3147D40DDB2DFB29
+Content-Transfer-Encoding: 8bit
 
-On Mon, Oct 16, 2023 at 11:14:11PM +0300, Dorcas AnonoLitunya wrote:
-> Rename function programModeRegisters to program_mode_registers. This
-> follows snakecase naming convention and ensures a consistent naming style
-> throughout the file. Issue found by checkpatch.
-> 
-> Mutes the following checkpatch error:
-> CHECK: Avoid CamelCase: <programModeRegisters>
-> 
-> Signed-off-by: Dorcas AnonoLitunya <anonolitunya@gmail.com>
-> ---
->  drivers/staging/sm750fb/ddk750_mode.c | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/staging/sm750fb/ddk750_mode.c b/drivers/staging/sm750fb/ddk750_mode.c
-> index fc3db09de9ae..e901855fa9b6 100644
-> --- a/drivers/staging/sm750fb/ddk750_mode.c
-> +++ b/drivers/staging/sm750fb/ddk750_mode.c
-> @@ -75,8 +75,8 @@ display_control_adjust_SM750LE(struct mode_parameter *mode_param,
->  }
->  
->  /* only timing related registers will be  programed */
-> -static int programModeRegisters(struct mode_parameter *mode_param,
-> -				struct pll_value *pll)
-> +static int program_mode_registers(struct mode_parameter *mode_param,
-> +				  struct pll_value *pll)
->  {
->  	int ret = 0;
->  	int cnt = 0;
-> @@ -220,6 +220,6 @@ int ddk750_setModeTiming(struct mode_parameter *parm, enum clock_type clock)
->  		outb_p(0x88, 0x3d4);
->  		outb_p(0x06, 0x3d5);
->  	}
-> -	programModeRegisters(parm, &pll);
-> +	program_mode_registers(parm, &pll);
+In commit 697455ce4110 ("staging: rtl8192u: Remove broken driver"), the
+driver was removed, along with the Kconfig entry, but the Makefile line
+in drivers/staging/Makefile was not updated, so things like 'make clean'
+fail to work properly as they will decend into all subdirectories to try
+to clean things up.
 
-Again, the return value is ignored?
+Resolve this by removing the entry in the main staging Makefile.
+
+Reported-by: Thorsten Leemhuis <linux@leemhuis.info>
+Cc: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+Cc: Arnd Bergmann <arnd@arndb.de>
+Fixes: 697455ce4110 ("staging: rtl8192u: Remove broken driver")
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+---
+ drivers/staging/Makefile | 1 -
+ 1 file changed, 1 deletion(-)
+
+diff --git a/drivers/staging/Makefile b/drivers/staging/Makefile
+index ffa70dda481d..0f6379436443 100644
+--- a/drivers/staging/Makefile
++++ b/drivers/staging/Makefile
+@@ -4,7 +4,6 @@
+ obj-y				+= media/
+ obj-$(CONFIG_PRISM2_USB)	+= wlan-ng/
+ obj-$(CONFIG_FB_OLPC_DCON)	+= olpc_dcon/
+-obj-$(CONFIG_RTL8192U)		+= rtl8192u/
+ obj-$(CONFIG_RTL8192E)		+= rtl8192e/
+ obj-$(CONFIG_RTL8723BS)		+= rtl8723bs/
+ obj-$(CONFIG_R8712U)		+= rtl8712/
+-- 
+2.42.0
 
