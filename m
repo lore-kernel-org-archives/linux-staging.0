@@ -1,29 +1,29 @@
 Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE2C043AB3
-	for <linux-staging@lists.linux.dev>; Tue, 17 Oct 2023 14:48:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F04DC43AB7
+	for <linux-staging@lists.linux.dev>; Tue, 17 Oct 2023 14:48:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="k7hNvZBO"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="DVBKAU0q"
 Received: from benjamin-XPS-13-9310.. (unknown [IPv6:2a01:e0a:120:3210:7205:da49:a7e8:59f8])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
 	(Authenticated sender: benjamin.gaignard)
-	by madras.collabora.co.uk (Postfix) with ESMTPSA id C0FBF66072F7;
-	Tue, 17 Oct 2023 15:48:04 +0100 (BST)
+	by madras.collabora.co.uk (Postfix) with ESMTPSA id 537C16607314;
+	Tue, 17 Oct 2023 15:48:06 +0100 (BST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1697554085;
-	bh=xMJ8tMojfr13gTY+PpecndOGeS4i3P9Tk9kRrGKcBSQ=;
+	s=mail; t=1697554086;
+	bh=u0/tUxGMIK/59pYU6cqm9FB8VhmlcNZDctLEaz6jcAE=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=k7hNvZBOdqIIQScNEKEZXEKqQpHphKIKO1gDvnZGzzbxFUXsbcOiUXbF2gnZtUxdb
-	 gX9euiKi1jBkCihzJnvcbKdfsucw8WdYtWl7vmdF7Pu5Dxp+kX/Pc4+nTu6LUVo9G6
-	 DjT8tDZRBz4Tmd6fSPCNnMCQu7t8gFVqpV17zKEp3C4IBh8Aoi0Ym9YOPjh2vb1N6h
-	 QaYBIYZ0/R0R+MVk0bYO868d2oR9wRKblgYWpNAj3WvNCIP8yz7HBO0/1f3r9epupB
-	 mF/lG1Cdyz6GV0b0PBX8bM3iGIoZcjw42ql6xDz6KWTnMJwiR/ZO6BBrITmJGDjJJC
-	 EjchhilvatxqQ==
+	b=DVBKAU0qyLGnm0hA1g9vDJuFAS8upw97fIvqg/STLHPX+UHeqfVhp0/IVoljsNowL
+	 Rnjh2Ty7MvGJzJHYRfpAskb3PhnWmPWuuGCkuZ0vwx+MItZsdHa5HhSWDJF6RSF/eg
+	 ctStQKpRk0hlSm/Xhiq9TqVp1D+G08jbqd3tsa+XRwkwrjfmbsoQs/UAjmdT6M9cY1
+	 +9Ol7nxVxjYXKbidQ4AdOsZdtPgeng7c8cNE0J/X4V4NqAlJEIR+DJoS+woVhzQ7cF
+	 6yxXedJ1B0wt1Lc1U7dQQOGCPlSZoF/GXz8/6G+k9chs4LpO+HTsa9iDHvUz7dUIn6
+	 pCR9+hxq3AljA==
 From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
 To: mchehab@kernel.org,
 	tfiga@chromium.org,
@@ -43,9 +43,9 @@ Cc: linux-media@vger.kernel.org,
 	linux-staging@lists.linux.dev,
 	kernel@collabora.com,
 	Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Subject: [PATCH v12 03/56] media: videobuf2: Stop spamming kernel log with all queue counter
-Date: Tue, 17 Oct 2023 16:47:03 +0200
-Message-Id: <20231017144756.34719-4-benjamin.gaignard@collabora.com>
+Subject: [PATCH v12 06/56] media: videobuf2: Remove duplicated index vs q->num_buffers check
+Date: Tue, 17 Oct 2023 16:47:06 +0200
+Message-Id: <20231017144756.34719-7-benjamin.gaignard@collabora.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20231017144756.34719-1-benjamin.gaignard@collabora.com>
 References: <20231017144756.34719-1-benjamin.gaignard@collabora.com>
@@ -57,118 +57,40 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Only report unbalanced queue counters do avoid spamming kernel log
-with useless information.
+vb2_get_buffer() already checks if the requested index is valid.
+Stop duplicating this kind of check everywhere.
 
 Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
 ---
- .../media/common/videobuf2/videobuf2-core.c   | 79 +++++++++++--------
- 1 file changed, 44 insertions(+), 35 deletions(-)
+ drivers/media/common/videobuf2/videobuf2-v4l2.c | 8 --------
+ 1 file changed, 8 deletions(-)
 
-diff --git a/drivers/media/common/videobuf2/videobuf2-core.c b/drivers/media/common/videobuf2/videobuf2-core.c
-index 09be8e026044..47dba2a20d73 100644
---- a/drivers/media/common/videobuf2/videobuf2-core.c
-+++ b/drivers/media/common/videobuf2/videobuf2-core.c
-@@ -533,25 +533,26 @@ static void __vb2_queue_free(struct vb2_queue *q, unsigned int buffers)
- 
- #ifdef CONFIG_VIDEO_ADV_DEBUG
- 	/*
--	 * Check that all the calls were balances during the life-time of this
--	 * queue. If not (or if the debug level is 1 or up), then dump the
--	 * counters to the kernel log.
-+	 * Check that all the calls were balanced during the life-time of this
-+	 * queue. If not then dump the counters to the kernel log.
- 	 */
- 	if (q->num_buffers) {
- 		bool unbalanced = q->cnt_start_streaming != q->cnt_stop_streaming ||
- 				  q->cnt_prepare_streaming != q->cnt_unprepare_streaming ||
- 				  q->cnt_wait_prepare != q->cnt_wait_finish;
- 
--		if (unbalanced || debug) {
--			pr_info("counters for queue %p:%s\n", q,
--				unbalanced ? " UNBALANCED!" : "");
--			pr_info("     setup: %u start_streaming: %u stop_streaming: %u\n",
--				q->cnt_queue_setup, q->cnt_start_streaming,
--				q->cnt_stop_streaming);
--			pr_info("     prepare_streaming: %u unprepare_streaming: %u\n",
--				q->cnt_prepare_streaming, q->cnt_unprepare_streaming);
--			pr_info("     wait_prepare: %u wait_finish: %u\n",
--				q->cnt_wait_prepare, q->cnt_wait_finish);
-+		if (unbalanced) {
-+			pr_info("unbalanced counters for queue %p:\n", q);
-+			if (q->cnt_start_streaming != q->cnt_stop_streaming)
-+				pr_info("     setup: %u start_streaming: %u stop_streaming: %u\n",
-+					q->cnt_queue_setup, q->cnt_start_streaming,
-+					q->cnt_stop_streaming);
-+			if (q->cnt_prepare_streaming != q->cnt_unprepare_streaming)
-+				pr_info("     prepare_streaming: %u unprepare_streaming: %u\n",
-+					q->cnt_prepare_streaming, q->cnt_unprepare_streaming);
-+			if (q->cnt_wait_prepare != q->cnt_wait_finish)
-+				pr_info("     wait_prepare: %u wait_finish: %u\n",
-+					q->cnt_wait_prepare, q->cnt_wait_finish);
- 		}
- 		q->cnt_queue_setup = 0;
- 		q->cnt_wait_prepare = 0;
-@@ -572,29 +573,37 @@ static void __vb2_queue_free(struct vb2_queue *q, unsigned int buffers)
- 				  vb->cnt_buf_prepare != vb->cnt_buf_finish ||
- 				  vb->cnt_buf_init != vb->cnt_buf_cleanup;
- 
--		if (unbalanced || debug) {
--			pr_info("   counters for queue %p, buffer %d:%s\n",
--				q, buffer, unbalanced ? " UNBALANCED!" : "");
--			pr_info("     buf_init: %u buf_cleanup: %u buf_prepare: %u buf_finish: %u\n",
--				vb->cnt_buf_init, vb->cnt_buf_cleanup,
--				vb->cnt_buf_prepare, vb->cnt_buf_finish);
--			pr_info("     buf_out_validate: %u buf_queue: %u buf_done: %u buf_request_complete: %u\n",
--				vb->cnt_buf_out_validate, vb->cnt_buf_queue,
--				vb->cnt_buf_done, vb->cnt_buf_request_complete);
--			pr_info("     alloc: %u put: %u prepare: %u finish: %u mmap: %u\n",
--				vb->cnt_mem_alloc, vb->cnt_mem_put,
--				vb->cnt_mem_prepare, vb->cnt_mem_finish,
--				vb->cnt_mem_mmap);
--			pr_info("     get_userptr: %u put_userptr: %u\n",
--				vb->cnt_mem_get_userptr, vb->cnt_mem_put_userptr);
--			pr_info("     attach_dmabuf: %u detach_dmabuf: %u map_dmabuf: %u unmap_dmabuf: %u\n",
--				vb->cnt_mem_attach_dmabuf, vb->cnt_mem_detach_dmabuf,
--				vb->cnt_mem_map_dmabuf, vb->cnt_mem_unmap_dmabuf);
--			pr_info("     get_dmabuf: %u num_users: %u vaddr: %u cookie: %u\n",
-+		if (unbalanced) {
-+			pr_info("unbalanced counters for queue %p, buffer %d:\n",
-+				q, buffer);
-+			if (vb->cnt_buf_init != vb->cnt_buf_cleanup)
-+				pr_info("     buf_init: %u buf_cleanup: %u\n",
-+					vb->cnt_buf_init, vb->cnt_buf_cleanup);
-+			if (vb->cnt_buf_prepare != vb->cnt_buf_finish)
-+				pr_info("     buf_prepare: %u buf_finish: %u\n",
-+					vb->cnt_buf_prepare, vb->cnt_buf_finish);
-+			if (vb->cnt_buf_queue != vb->cnt_buf_done)
-+				pr_info("     buf_out_validate: %u buf_queue: %u buf_done: %u buf_request_complete: %u\n",
-+					vb->cnt_buf_out_validate, vb->cnt_buf_queue,
-+					vb->cnt_buf_done, vb->cnt_buf_request_complete);
-+			if (vb->cnt_mem_alloc != vb->cnt_mem_put)
-+				pr_info("     alloc: %u put: %u\n",
-+					vb->cnt_mem_alloc, vb->cnt_mem_put);
-+			if (vb->cnt_mem_prepare != vb->cnt_mem_finish)
-+				pr_info("     prepare: %u finish: %u\n",
-+					vb->cnt_mem_prepare, vb->cnt_mem_finish);
-+			if (vb->cnt_mem_get_userptr != vb->cnt_mem_put_userptr)
-+				pr_info("     get_userptr: %u put_userptr: %u\n",
-+					vb->cnt_mem_get_userptr, vb->cnt_mem_put_userptr);
-+			if (vb->cnt_mem_attach_dmabuf != vb->cnt_mem_detach_dmabuf)
-+				pr_info("     attach_dmabuf: %u detach_dmabuf: %u\n",
-+					vb->cnt_mem_attach_dmabuf, vb->cnt_mem_detach_dmabuf);
-+			if (vb->cnt_mem_map_dmabuf != vb->cnt_mem_unmap_dmabuf)
-+				pr_info("     map_dmabuf: %u unmap_dmabuf: %u\n",
-+					vb->cnt_mem_map_dmabuf, vb->cnt_mem_unmap_dmabuf);
-+			pr_info("     get_dmabuf: %u num_users: %u\n",
- 				vb->cnt_mem_get_dmabuf,
--				vb->cnt_mem_num_users,
--				vb->cnt_mem_vaddr,
--				vb->cnt_mem_cookie);
-+				vb->cnt_mem_num_users);
- 		}
+diff --git a/drivers/media/common/videobuf2/videobuf2-v4l2.c b/drivers/media/common/videobuf2/videobuf2-v4l2.c
+index 2ffb097bf00a..c6ebc8d2c537 100644
+--- a/drivers/media/common/videobuf2/videobuf2-v4l2.c
++++ b/drivers/media/common/videobuf2/videobuf2-v4l2.c
+@@ -823,10 +823,6 @@ int vb2_qbuf(struct vb2_queue *q, struct media_device *mdev,
+ 		return -EBUSY;
  	}
- #endif
+ 
+-	if (b->index >= q->num_buffers) {
+-		dprintk(q, 1, "buffer index out of range\n");
+-		return -EINVAL;
+-	}
+ 	vb = vb2_get_buffer(q, b->index);
+ 	if (!vb) {
+ 		dprintk(q, 1, "can't find the requested buffer %u\n", b->index);
+@@ -898,10 +894,6 @@ int vb2_expbuf(struct vb2_queue *q, struct v4l2_exportbuffer *eb)
+ {
+ 	struct vb2_buffer *vb;
+ 
+-	if (eb->index >= q->num_buffers) {
+-		dprintk(q, 1, "buffer index out of range\n");
+-		return -EINVAL;
+-	}
+ 	vb = vb2_get_buffer(q, eb->index);
+ 	if (!vb) {
+ 		dprintk(q, 1, "can't find the requested buffer %u\n", eb->index);
 -- 
 2.39.2
 
