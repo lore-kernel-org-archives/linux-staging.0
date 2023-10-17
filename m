@@ -1,29 +1,29 @@
 Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D45644447B
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1EBE444479
 	for <linux-staging@lists.linux.dev>; Tue, 17 Oct 2023 14:48:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="OaIFjyLr"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="N+CeSGxV"
 Received: from benjamin-XPS-13-9310.. (unknown [IPv6:2a01:e0a:120:3210:7205:da49:a7e8:59f8])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
 	(Authenticated sender: benjamin.gaignard)
-	by madras.collabora.co.uk (Postfix) with ESMTPSA id 925756607386;
-	Tue, 17 Oct 2023 15:48:18 +0100 (BST)
+	by madras.collabora.co.uk (Postfix) with ESMTPSA id 79C136607322;
+	Tue, 17 Oct 2023 15:48:17 +0100 (BST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1697554099;
-	bh=PQluilUkTzJ5XN4aSJbX9XFKUEuAkcxeq4tDfnsahqk=;
+	s=mail; t=1697554097;
+	bh=/dEmIdIJBXPR3lp68L0eO8Ks+TlFFI9ywnMWFSnMh5w=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=OaIFjyLrzgMX2Ng8NvgRFZVGhiJbo5zfRlic5VmGLzhUwwXgjC0TCRxuQnP34J/6d
-	 oF9f6g7aLZZIpFCkWDoQNlpsIH07iHkWsxeQ7I76xvaBIAjBhEw03rU/ZljKFBARPX
-	 kmtaOiUS2It47MQpi41HsU4b6SRdIEMQDa/6F5uYRCrYgQF7+RGqgYSCZXt98ISOyM
-	 jK38QhCfJzNxziYjeSfP1VY15jgETdNM7ld6WMP3i7i/HD15GqzrnRgG7FBkqSsVOI
-	 grNKqANQtwjfdk/wPVQb8bbvhswA4ifXrwuBOj7IcWtbB96N+Lr98hzIhhptc/2kis
-	 EBM1ONtC0Kl7g==
+	b=N+CeSGxVGpilyS+eYAD3rNm3nqwbVoBc+iuKh+sCyXkkQK3W+dOC8G1mJ/qtF9AOd
+	 sPu9Jc9gHHpVW5IcYiomB1lLQEDCqU+Mo7IK1uYN/tBXXr5aXiFdCbh04rde8gbqWg
+	 rOIm0K3O4/Xh4Bd6snBfxXs6aLlfRIumD1HSbsxy20RTjTbx74fQu22Yq0TwS2MZaM
+	 ezz5C2dezU6iIL6wobIlSmLs5diDGy124WjJ/wLguhIoS2GKOtHdU/LO2NvKdVV99x
+	 zuheO+ACvn6U07LZlsdTVm5+CN82ScwojLxX2kA0wmbjP9zy+OZbPBxLcACv0Nxfy4
+	 4iLb9jbV1mUbw==
 From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
 To: mchehab@kernel.org,
 	tfiga@chromium.org,
@@ -43,9 +43,9 @@ Cc: linux-media@vger.kernel.org,
 	linux-staging@lists.linux.dev,
 	kernel@collabora.com,
 	Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Subject: [PATCH v12 29/56] media: verisilicon: Stop direct calls to queue num_buffers field
-Date: Tue, 17 Oct 2023 16:47:29 +0200
-Message-Id: <20231017144756.34719-30-benjamin.gaignard@collabora.com>
+Subject: [PATCH v12 27/56] media: coda: Stop direct calls to queue num_buffers field
+Date: Tue, 17 Oct 2023 16:47:27 +0200
+Message-Id: <20231017144756.34719-28-benjamin.gaignard@collabora.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20231017144756.34719-1-benjamin.gaignard@collabora.com>
 References: <20231017144756.34719-1-benjamin.gaignard@collabora.com>
@@ -62,24 +62,24 @@ This allows us to change how the number of buffers is computed in the
 futur.
 
 Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-CC: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+CC: Philipp Zabel <p.zabel@pengutronix.de>
 ---
- drivers/media/platform/verisilicon/hantro_postproc.c | 2 +-
+ drivers/media/platform/chips-media/coda-common.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/media/platform/verisilicon/hantro_postproc.c b/drivers/media/platform/verisilicon/hantro_postproc.c
-index 64d6fb852ae9..8f8f17e671ce 100644
---- a/drivers/media/platform/verisilicon/hantro_postproc.c
-+++ b/drivers/media/platform/verisilicon/hantro_postproc.c
-@@ -195,7 +195,7 @@ int hantro_postproc_alloc(struct hantro_ctx *ctx)
- 	struct hantro_dev *vpu = ctx->dev;
- 	struct v4l2_m2m_ctx *m2m_ctx = ctx->fh.m2m_ctx;
- 	struct vb2_queue *cap_queue = &m2m_ctx->cap_q_ctx.q;
--	unsigned int num_buffers = cap_queue->num_buffers;
-+	unsigned int num_buffers = vb2_get_num_buffers(cap_queue);
- 	struct v4l2_pix_format_mplane pix_mp;
- 	const struct hantro_fmt *fmt;
- 	unsigned int i, buf_size;
+diff --git a/drivers/media/platform/chips-media/coda-common.c b/drivers/media/platform/chips-media/coda-common.c
+index cc4892129aaf..f1d85758f6dd 100644
+--- a/drivers/media/platform/chips-media/coda-common.c
++++ b/drivers/media/platform/chips-media/coda-common.c
+@@ -794,7 +794,7 @@ static int coda_s_fmt(struct coda_ctx *ctx, struct v4l2_format *f,
+ 
+ 	if (vb2_is_busy(vq)) {
+ 		v4l2_err(&ctx->dev->v4l2_dev, "%s: %s queue busy: %d\n",
+-			 __func__, v4l2_type_names[f->type], vq->num_buffers);
++			 __func__, v4l2_type_names[f->type], vb2_get_num_buffers(vq));
+ 		return -EBUSY;
+ 	}
+ 
 -- 
 2.39.2
 
