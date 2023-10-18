@@ -1,92 +1,125 @@
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61D963588E
-	for <linux-staging@lists.linux.dev>; Wed, 18 Oct 2023 12:42:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B46F0347AB;
+	Wed, 18 Oct 2023 12:59:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="ptXqlN5y"
-Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id AAD0E5AA;
-	Wed, 18 Oct 2023 14:42:14 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1697632934;
-	bh=E8xmvWGnV2lLRkEznHcs8rfnSSlzFrPMlF1rhf7ju6s=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ptXqlN5y+tKSGnr9pESprs48pV+FbLMNKlVlF9lf9l3uh7VDoJYCoUKpWx+u5iGY/
-	 Gs3pU7fSwBMfM29qqHBBGtXvsALj7WhA5+0xnmJ1qw2w6hrPQWpe/B1Zp41oqymnbK
-	 oVQ/3CQpkLSqe8VLC271yxtPOy7bVzTDkxE2WENM=
-Date: Wed, 18 Oct 2023 15:42:29 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Umang Jain <umang.jain@ideasonboard.com>
-Cc: linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
-	linux-rpi-kernel@lists.infradead.org, linux-media@vger.kernel.org,
-	Stefan Wahren <stefan.wahren@i2se.com>,
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="A7zcPzeY"
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-40836ea8cbaso11734605e9.0;
+        Wed, 18 Oct 2023 05:59:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1697633973; x=1698238773; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=3l7KU10yNphdl5Vv+iDYUL4LqhI9vTGfAIrzdvNXoIs=;
+        b=A7zcPzeYSLzDHmlx26MecOuIGtzNXjYc/r3sDMFzGx+FqleK6ZNrboquVnjmJrm7Hy
+         dY9BnJH0+ARC1fQdrDCAqBbG/ODoYOH7kSn/L5F99wAT0n4kOdiNX2t2KfBqHzpMKYwg
+         50BzVhnz4rl7/i082jF+s8qs6C2t0lDWzJZ9dB5CVJZUJUtanVwJxRiKZf6lFgfXhM53
+         NQBfGrEaZFi7Glci+OMM6Ivw0Y8+gZNXF0BcCYLFSzBOX0m82vWH8+awYeoLAm7bSdmX
+         xJ4IbDgN79tqiHh3lAyen4AOPts90p2GHihd3QAuKO6vRR7sAIx9M6dC5avE4bqz2+o8
+         DE4w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1697633973; x=1698238773;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=3l7KU10yNphdl5Vv+iDYUL4LqhI9vTGfAIrzdvNXoIs=;
+        b=c4PJvWjruAF+SMf0V7cfnb7YFZzBHr0D96O5VM6/laIvk22qYODb3228Z6aCPCaVRE
+         7WuD5ZPSY0KmT8O2RuBatiusLHmeJDPVvmwpLe9i/7m/Bz1WoFsFTNis/hOcQdRXXCax
+         dTKS7aLEZD5+fxOhiapKfhGv0FbBNo+sfSUDs3ZHoEAyfnEGKrxhLNPOT3fNs14kdLoh
+         +6qSaAhjtfMLRXD6WQIr7xgkVu7AMZGYzvPFKjOJNLs5Qzm2LB7D7BjmLKhyT7dCk1K1
+         J6vIBghUdNoMkGMhzidrhdK6r3rgdinRbg1yGHXiCcNIH8DSyTifY++iQqjpSIB+PUO4
+         ceIg==
+X-Gm-Message-State: AOJu0YxNjSpoyg1wHBFCD+mmvuwdkoH/TyfW6/dhAn4koF7DjPv+KZCV
+	9pj1FiqR1dN/rmRCV0B+rA==
+X-Google-Smtp-Source: AGHT+IGorfdQKSOrVoY8L4UO3dsA6xUqICePH8OqA+pJtZnZPwhyw7zG0ELzN/8lhptrPKgSqkTmrg==
+X-Received: by 2002:a05:600c:1d22:b0:408:41b4:7fe0 with SMTP id l34-20020a05600c1d2200b0040841b47fe0mr134123wms.6.1697633972472;
+        Wed, 18 Oct 2023 05:59:32 -0700 (PDT)
+Received: from dorcaslitunya-virtual-machine ([105.163.0.137])
+        by smtp.gmail.com with ESMTPSA id t13-20020a05600c450d00b0040651505684sm1640297wmo.29.2023.10.18.05.59.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 18 Oct 2023 05:59:32 -0700 (PDT)
+Date: Wed, 18 Oct 2023 15:59:27 +0300
+From: Dorcas Litunya <anonolitunya@gmail.com>
+To: Julia Lawall <julia.lawall@inria.fr>
+Cc: outreachy@lists.linux.dev, dan.carpenter@linaro.org,
+	andi.shyti@linux.intel.com,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Dan Carpenter <error27@gmail.com>,
-	Kieran Bingham <kieran.bingham@ideasonboard.com>
-Subject: Re: [PATCH v2 3/3] staging: vc04_services: bcm2835-camera: Drop
- MODULE_ALIAS
-Message-ID: <20231018124229.GI11118@pendragon.ideasonboard.com>
-References: <20231018054214.824296-1-umang.jain@ideasonboard.com>
- <20231018054214.824296-4-umang.jain@ideasonboard.com>
+	Sudip Mukherjee <sudipm.mukherjee@gmail.com>,
+	Teddy Wang <teddy.wang@siliconmotion.com>,
+	linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 2/2] staging: sm750fb: Remove unused return value in
+ program_mode_registers()
+Message-ID: <ZS/Wr9ShnEe3umeY@dorcaslitunya-virtual-machine>
+References: <cover.1697619623.git.anonolitunya@gmail.com>
+ <492e63bbc58147fb534930ef9e1fb5d844ae8769.1697619623.git.anonolitunya@gmail.com>
+ <4b7129ae-27f9-7ff4-845-9c327aff488c@inria.fr>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231018054214.824296-4-umang.jain@ideasonboard.com>
+In-Reply-To: <4b7129ae-27f9-7ff4-845-9c327aff488c@inria.fr>
 
-Hi Umang,
-
-Thank you for the patch.
-
-On Wed, Oct 18, 2023 at 11:12:14AM +0530, Umang Jain wrote:
-> Drop MODULE_ALIAS in favour of MODULE_DEVICE_TABLE as the module
-> alias should be picked from there.
+On Wed, Oct 18, 2023 at 02:06:41PM +0200, Julia Lawall wrote:
 > 
-> Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
-> ---
->  .../staging/vc04_services/bcm2835-camera/bcm2835-camera.c | 8 +++++++-
->  1 file changed, 7 insertions(+), 1 deletion(-)
 > 
-> diff --git a/drivers/staging/vc04_services/bcm2835-camera/bcm2835-camera.c b/drivers/staging/vc04_services/bcm2835-camera/bcm2835-camera.c
-> index c873eace1437..44901aab637b 100644
-> --- a/drivers/staging/vc04_services/bcm2835-camera/bcm2835-camera.c
-> +++ b/drivers/staging/vc04_services/bcm2835-camera/bcm2835-camera.c
-> @@ -1995,9 +1995,16 @@ static void bcm2835_mmal_remove(struct vchiq_device *device)
->  	vchiq_mmal_finalise(instance);
->  }
->  
-> +static const struct vchiq_bus_device_id id_table[] = {
-> +	{ .name = "bcm2835-camera" },
-> +	{}
-> +};
-> +MODULE_DEVICE_TABLE(vchiq_bus, id_table);
+> On Wed, 18 Oct 2023, Dorcas AnonoLitunya wrote:
+> 
+> > Modifies the return type of program_mode_registers()
+> > to void from int as the return value is being ignored in
+> > all subsequent function calls.
+> >
+> > This improves code readability and maintainability.
+> >
+> > Suggested-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> > Signed-off-by: Dorcas AnonoLitunya <anonolitunya@gmail.com>
+> > ---
+> >  drivers/staging/sm750fb/ddk750_mode.c | 5 ++---
+> >  1 file changed, 2 insertions(+), 3 deletions(-)
+> >
+> > diff --git a/drivers/staging/sm750fb/ddk750_mode.c b/drivers/staging/sm750fb/ddk750_mode.c
+> > index 83ace6cc9583..e15039238232 100644
+> > --- a/drivers/staging/sm750fb/ddk750_mode.c
+> > +++ b/drivers/staging/sm750fb/ddk750_mode.c
+> > @@ -73,8 +73,8 @@ display_control_adjust_sm750le(struct mode_parameter *mode_param,
+> >  }
+> >
+> >  /* only timing related registers will be  programed */
+> > -static int program_mode_registers(struct mode_parameter *mode_param,
+> > -				  struct pll_value *pll)
+> > +static void program_mode_registers(struct mode_parameter *mode_param,
+> > +				   struct pll_value *pll)
+> >  {
+> >  	int ret = 0;
+> >  	int cnt = 0;
+> > @@ -202,7 +202,6 @@ static int program_mode_registers(struct mode_parameter *mode_param,
+> >  	} else {
+> >  		ret = -1;
+> 
+> Is it still useful to have ret = -1?  Maybe the ret variable is not useful
+> at all any more, but one would have to check the parts of the function
+> that aren't shown.
+>
+I agree Julia. I will remove the setting part for ret = -1 but keep the
+ret variable just in case it is being used by parts of the function not
+shown. Thanks for the feedback.
 
-With the "_bus" suffix dropped (see review of 1/3),
-
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-
-> +
->  static struct vchiq_driver bcm2835_camera_driver = {
->  	.probe		= bcm2835_mmal_probe,
->  	.remove		= bcm2835_mmal_remove,
-> +	.id_table	= id_table,
->  	.driver		= {
->  		.name	= "bcm2835-camera",
->  	},
-> @@ -2008,4 +2015,3 @@ module_vchiq_driver(bcm2835_camera_driver)
->  MODULE_DESCRIPTION("Broadcom 2835 MMAL video capture");
->  MODULE_AUTHOR("Vincent Sanders");
->  MODULE_LICENSE("GPL");
-> -MODULE_ALIAS("bcm2835-camera");
-
--- 
-Regards,
-
-Laurent Pinchart
+Dorcas
+> julia
+> 
+> >  	}
+> > -	return ret;
+> >  }
+> >
+> >  int ddk750_set_mode_timing(struct mode_parameter *parm, enum clock_type clock)
+> > --
+> > 2.42.0.345.gaab89be2eb
+> >
+> >
