@@ -1,125 +1,105 @@
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B46F0347AB;
-	Wed, 18 Oct 2023 12:59:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8111D15ACE
+	for <linux-staging@lists.linux.dev>; Wed, 18 Oct 2023 13:07:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="A7zcPzeY"
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-40836ea8cbaso11734605e9.0;
-        Wed, 18 Oct 2023 05:59:34 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=ragnatech-se.20230601.gappssmtp.com header.i=@ragnatech-se.20230601.gappssmtp.com header.b="D94jxtNm"
+Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-507bd19eac8so2801413e87.0
+        for <linux-staging@lists.linux.dev>; Wed, 18 Oct 2023 06:07:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1697633973; x=1698238773; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=3l7KU10yNphdl5Vv+iDYUL4LqhI9vTGfAIrzdvNXoIs=;
-        b=A7zcPzeYSLzDHmlx26MecOuIGtzNXjYc/r3sDMFzGx+FqleK6ZNrboquVnjmJrm7Hy
-         dY9BnJH0+ARC1fQdrDCAqBbG/ODoYOH7kSn/L5F99wAT0n4kOdiNX2t2KfBqHzpMKYwg
-         50BzVhnz4rl7/i082jF+s8qs6C2t0lDWzJZ9dB5CVJZUJUtanVwJxRiKZf6lFgfXhM53
-         NQBfGrEaZFi7Glci+OMM6Ivw0Y8+gZNXF0BcCYLFSzBOX0m82vWH8+awYeoLAm7bSdmX
-         xJ4IbDgN79tqiHh3lAyen4AOPts90p2GHihd3QAuKO6vRR7sAIx9M6dC5avE4bqz2+o8
-         DE4w==
+        d=ragnatech-se.20230601.gappssmtp.com; s=20230601; t=1697634441; x=1698239241; darn=lists.linux.dev;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=56lqzAcgtdJPl7JHirL9fzd0FCjYyOYyIARceuj/CkY=;
+        b=D94jxtNmM7T1RUl2UtdyC2jfUHGmDgnVH9MpL0c51AFg0aNSKtktGetZVsUwjgWi9E
+         vhVIrTY1k+guz8m/4AUGwo4cf6QZaMBInAiCfdvZUssA5YOzWibTZj76N8Mco8VqmZFV
+         vcvyVjTSWSq2BcR2R1KN2NHZ+soU9CMAYjwQ/29RluOP9QQ88GErJw8Aghr1z1Z8dBXO
+         4yhF4r60CErMXqydCIIYs1ObCfLfoHA7nl/Qp7k5oMQnx1yoFevWqyoMd9fd+S8DrOri
+         2b1IEg56pOYeuu8gEE0kga64qH6byLItGyh9zwgmXt5C8zJbc748ZbEtCyEhslvWoKDj
+         zGWg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697633973; x=1698238773;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=3l7KU10yNphdl5Vv+iDYUL4LqhI9vTGfAIrzdvNXoIs=;
-        b=c4PJvWjruAF+SMf0V7cfnb7YFZzBHr0D96O5VM6/laIvk22qYODb3228Z6aCPCaVRE
-         7WuD5ZPSY0KmT8O2RuBatiusLHmeJDPVvmwpLe9i/7m/Bz1WoFsFTNis/hOcQdRXXCax
-         dTKS7aLEZD5+fxOhiapKfhGv0FbBNo+sfSUDs3ZHoEAyfnEGKrxhLNPOT3fNs14kdLoh
-         +6qSaAhjtfMLRXD6WQIr7xgkVu7AMZGYzvPFKjOJNLs5Qzm2LB7D7BjmLKhyT7dCk1K1
-         J6vIBghUdNoMkGMhzidrhdK6r3rgdinRbg1yGHXiCcNIH8DSyTifY++iQqjpSIB+PUO4
-         ceIg==
-X-Gm-Message-State: AOJu0YxNjSpoyg1wHBFCD+mmvuwdkoH/TyfW6/dhAn4koF7DjPv+KZCV
-	9pj1FiqR1dN/rmRCV0B+rA==
-X-Google-Smtp-Source: AGHT+IGorfdQKSOrVoY8L4UO3dsA6xUqICePH8OqA+pJtZnZPwhyw7zG0ELzN/8lhptrPKgSqkTmrg==
-X-Received: by 2002:a05:600c:1d22:b0:408:41b4:7fe0 with SMTP id l34-20020a05600c1d2200b0040841b47fe0mr134123wms.6.1697633972472;
-        Wed, 18 Oct 2023 05:59:32 -0700 (PDT)
-Received: from dorcaslitunya-virtual-machine ([105.163.0.137])
-        by smtp.gmail.com with ESMTPSA id t13-20020a05600c450d00b0040651505684sm1640297wmo.29.2023.10.18.05.59.29
+        d=1e100.net; s=20230601; t=1697634441; x=1698239241;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=56lqzAcgtdJPl7JHirL9fzd0FCjYyOYyIARceuj/CkY=;
+        b=QcU8K7KaVepXlCRnXhPEZ5gz5ulWeGjlYsobVJSB0X8KMzMZJca0uH/MinHnh/P81Z
+         Emrgl+ZF2pdtvkPpgaByG01qMYxCk5BKokD98EtJlOqpiIpGHl7BUA0VF9c15D4dbeCq
+         i4VpKqSqGJXjxw/xzG3ciq0O0GFnMPdisuLFcZZS//jl2jks+IyiOGas0ozpykZgk+q8
+         DoPZ1IyPWtZqX6Giz45C9VtrPP9ZPOrN8QofqAh6emj3GzL2qXIqg1WCxEH1P0OiP5RQ
+         7hL1f3peCWyRF24M35hrmfFCz1FZjJUYtYgakwh4tEz8hqt7lNKypvS5dq+a9kMWMfBj
+         VMvg==
+X-Gm-Message-State: AOJu0Yy6VzWd1tO3uIhDulCgYfModq1kS9uQCmMeWAr8HwOABQuYRpj6
+	6suwfySxEkEEuVw9rSZuiUx78Q==
+X-Google-Smtp-Source: AGHT+IED5LOQF4gPuytjBt6ZHSRvZ7g8+GSXt9ldsLC1rJ70oCBHJbItwMZL7pVuGVt2d2SPRx1wrg==
+X-Received: by 2002:a2e:3c08:0:b0:2c5:1900:47a4 with SMTP id j8-20020a2e3c08000000b002c5190047a4mr3750816lja.0.1697634441016;
+        Wed, 18 Oct 2023 06:07:21 -0700 (PDT)
+Received: from localhost (h-46-59-36-206.A463.priv.bahnhof.se. [46.59.36.206])
+        by smtp.gmail.com with ESMTPSA id d2-20020a2e8902000000b002c5056bcbb2sm699184lji.16.2023.10.18.06.07.20
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 18 Oct 2023 05:59:32 -0700 (PDT)
-Date: Wed, 18 Oct 2023 15:59:27 +0300
-From: Dorcas Litunya <anonolitunya@gmail.com>
-To: Julia Lawall <julia.lawall@inria.fr>
-Cc: outreachy@lists.linux.dev, dan.carpenter@linaro.org,
-	andi.shyti@linux.intel.com,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Sudip Mukherjee <sudipm.mukherjee@gmail.com>,
-	Teddy Wang <teddy.wang@siliconmotion.com>,
-	linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev,
+        Wed, 18 Oct 2023 06:07:20 -0700 (PDT)
+Date: Wed, 18 Oct 2023 15:07:19 +0200
+From: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>
+To: ihor.matushchak@foobox.net
+Cc: mchehab@kernel.org, gregkh@linuxfoundation.org,
+	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/2] staging: sm750fb: Remove unused return value in
- program_mode_registers()
-Message-ID: <ZS/Wr9ShnEe3umeY@dorcaslitunya-virtual-machine>
-References: <cover.1697619623.git.anonolitunya@gmail.com>
- <492e63bbc58147fb534930ef9e1fb5d844ae8769.1697619623.git.anonolitunya@gmail.com>
- <4b7129ae-27f9-7ff4-845-9c327aff488c@inria.fr>
+Subject: Re: [PATCH] media: staging: max96712: Fix device name in description
+Message-ID: <ZS_YhwYJnS5ZC6EF@oden.dyn.berto.se>
+References: <ZS7doO43ijXhBqkm@oden.dyn.berto.se>
+ <11a00300c76df12c13adabfc71111607619a49f9.1697572799.git.ihor.matushchak@foobox.net>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <4b7129ae-27f9-7ff4-845-9c327aff488c@inria.fr>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <11a00300c76df12c13adabfc71111607619a49f9.1697572799.git.ihor.matushchak@foobox.net>
 
-On Wed, Oct 18, 2023 at 02:06:41PM +0200, Julia Lawall wrote:
-> 
-> 
-> On Wed, 18 Oct 2023, Dorcas AnonoLitunya wrote:
-> 
-> > Modifies the return type of program_mode_registers()
-> > to void from int as the return value is being ignored in
-> > all subsequent function calls.
-> >
-> > This improves code readability and maintainability.
-> >
-> > Suggested-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> > Signed-off-by: Dorcas AnonoLitunya <anonolitunya@gmail.com>
-> > ---
-> >  drivers/staging/sm750fb/ddk750_mode.c | 5 ++---
-> >  1 file changed, 2 insertions(+), 3 deletions(-)
-> >
-> > diff --git a/drivers/staging/sm750fb/ddk750_mode.c b/drivers/staging/sm750fb/ddk750_mode.c
-> > index 83ace6cc9583..e15039238232 100644
-> > --- a/drivers/staging/sm750fb/ddk750_mode.c
-> > +++ b/drivers/staging/sm750fb/ddk750_mode.c
-> > @@ -73,8 +73,8 @@ display_control_adjust_sm750le(struct mode_parameter *mode_param,
-> >  }
-> >
-> >  /* only timing related registers will be  programed */
-> > -static int program_mode_registers(struct mode_parameter *mode_param,
-> > -				  struct pll_value *pll)
-> > +static void program_mode_registers(struct mode_parameter *mode_param,
-> > +				   struct pll_value *pll)
-> >  {
-> >  	int ret = 0;
-> >  	int cnt = 0;
-> > @@ -202,7 +202,6 @@ static int program_mode_registers(struct mode_parameter *mode_param,
-> >  	} else {
-> >  		ret = -1;
-> 
-> Is it still useful to have ret = -1?  Maybe the ret variable is not useful
-> at all any more, but one would have to check the parts of the function
-> that aren't shown.
->
-I agree Julia. I will remove the setting part for ret = -1 but keep the
-ret variable just in case it is being used by parts of the function not
-shown. Thanks for the feedback.
+Hi Ihor,
 
-Dorcas
-> julia
+Thanks for your work and taking the time to work thru the review.
+
+On 2023-10-17 21:02:39 +0100, ihor.matushchak@foobox.net wrote:
+> From: Ihor Matushchak <ihor.matushchak@foobox.net>
 > 
-> >  	}
-> > -	return ret;
-> >  }
-> >
-> >  int ddk750_set_mode_timing(struct mode_parameter *parm, enum clock_type clock)
-> > --
-> > 2.42.0.345.gaab89be2eb
-> >
-> >
+> Fix the device model name in driver description,
+> which appears to be a copy-paste error.
+> 
+> Signed-off-by: Ihor Matushchak <ihor.matushchak@foobox.net>
+
+Reviewed-by: Niklas Söderlund <niklas.soderlund@ragnatech.se>
+
+Small note, in future remember to increase the patch version for each 
+new posting. You did this correctly between v1 and v2.
+
+> ---
+>  drivers/staging/media/max96712/max96712.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/staging/media/max96712/max96712.c b/drivers/staging/media/max96712/max96712.c
+> index c44145284aa1..ea67bcf69c9d 100644
+> --- a/drivers/staging/media/max96712/max96712.c
+> +++ b/drivers/staging/media/max96712/max96712.c
+> @@ -1,6 +1,6 @@
+>  // SPDX-License-Identifier: GPL-2.0
+>  /*
+> - * Maxim MAX9286 Quad GMSL2 Deserializer Driver
+> + * Maxim MAX96712 Quad GMSL2 Deserializer Driver
+>   *
+>   * Copyright (C) 2021 Renesas Electronics Corporation
+>   * Copyright (C) 2021 Niklas Söderlund
+> -- 
+> 2.30.2
+> 
+
+-- 
+Kind Regards,
+Niklas Söderlund
