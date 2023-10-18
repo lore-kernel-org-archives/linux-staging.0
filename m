@@ -1,80 +1,68 @@
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2AE43171AE
-	for <linux-staging@lists.linux.dev>; Wed, 18 Oct 2023 13:16:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B4F11A733
+	for <linux-staging@lists.linux.dev>; Wed, 18 Oct 2023 13:22:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="rUQXP4GW"
-Received: from [192.168.1.110] (unknown [103.251.226.39])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 7D3A72B3
-	for <linux-staging@lists.linux.dev>; Wed, 18 Oct 2023 15:16:01 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1697634962;
-	bh=6JeTNNvwu1IWeOOfz3lMQWEA26IiYf3D8Fz3QJ2dT0c=;
-	h=Date:Subject:To:References:From:In-Reply-To:From;
-	b=rUQXP4GW/LRhenZp6JPtBb902RnwHR9tArWlSF4IYx8rg9S4TmXxoVUCHDgq+RI7e
-	 6ASuliR5v3+mc5QEUMqPnkbLhVINZwMRz17y+R2YzTLVc8uiON7hBqrZdV7S7qCz9L
-	 Z351+3PcKYJQmFn2llrK2DySaOMbCqzXpHYCZ83o=
-Message-ID: <b0571752-1cef-dbc9-47d7-1d9b4ae2baed@ideasonboard.com>
-Date: Wed, 18 Oct 2023 18:46:03 +0530
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="P++VYR7r"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 61BEBC433C8;
+	Wed, 18 Oct 2023 13:22:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1697635342;
+	bh=8+Um29cxdKQH99k0YCMYU1lmGY+TvNwv0ssEVKJ1ujQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=P++VYR7rtIcMPQDptRNHO/xcDdDJAAqe9fNh9/3YUa3XS1cOFIkiYMREZ+KQSwTsy
+	 YZzEW3UAUmfiohQGH7U3R8vyRYCHoKhih46E2htgtnoaVuCHoZT8LuVPOjklOHnzsB
+	 VwoVeBN9581zsUuL6fwRSHYUy5yfKqzCEKPKZiTk=
+Date: Wed, 18 Oct 2023 15:22:18 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Umang Jain <umang.jain@ideasonboard.com>, linux-staging@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	linux-rpi-kernel@lists.infradead.org, linux-media@vger.kernel.org,
+	Stefan Wahren <stefan.wahren@i2se.com>,
+	Dan Carpenter <error27@gmail.com>,
+	Kieran Bingham <kieran.bingham@ideasonboard.com>
+Subject: Re: [PATCH v2 1/3] staging: vc04_services: Support module
+ autoloading using MODULE_DEVICE_TABLE
+Message-ID: <2023101803-blank-relative-aa47@gregkh>
+References: <20231018054214.824296-1-umang.jain@ideasonboard.com>
+ <20231018054214.824296-2-umang.jain@ideasonboard.com>
+ <20231018123856.GG11118@pendragon.ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH] media: css: Write LINE_LENGTH_PCK correctly
-To: linux-staging@lists.linux.dev
-References: <20231018131325.1022113-1-umang.jain@ideasonboard.com>
-Content-Language: en-US
-From: Umang Jain <umang.jain@ideasonboard.com>
-In-Reply-To: <20231018131325.1022113-1-umang.jain@ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231018123856.GG11118@pendragon.ideasonboard.com>
 
-Hi
+On Wed, Oct 18, 2023 at 03:38:56PM +0300, Laurent Pinchart wrote:
+> On Wed, Oct 18, 2023 at 11:12:12AM +0530, Umang Jain wrote:
+> > VC04 has now a independent bus vchiq_bus to register its devices.
+> > However, the module auto-loading for bcm2835-audio and bcm2835-camera
+> > currently happens through MODULE_ALIAS() macro specified explicitly.
+> > 
+> > The correct way to auto-load a module, is when the alias is picked
+> > out from MODULE_DEVICE_TABLE(). In order to get there, we need to
+> > introduce  vchiq_device_id and add relevant entries in file2alias.c
+> > infrastructure so that aliases can be generated. This patch targets
+> > adding vchiq_bus_device_id and do_vchiq_bus_entry, in order to
+> > generate those alias using the /script/mod/file2alias.c.
+> > 
+> > Going forward the MODULE_ALIAS() from bcm2835-camera and bcm2835-audio
+> > will be dropped, in favour of MODULE_DEVICE_TABLE being used there.
+> > 
+> > The alias format for vchiq_bus devices will be "vchiq_bus:<dev_name>".
+> > Adjust the vchiq_bus_uevent() to reflect that.
+> 
+> None of the other buses have a "_bus" suffix in the alias or in the
+> *_device_id structure name. Is there a reason to make an exception here?
 
-On 10/18/23 6:43 PM, Umang Jain wrote:
-> According to MIPI CCS v1.1 specification, the LINE_LENGTH_PCK
-> units is in VT pixel clocks (Section 8.2.6).
->
-> To compute how many pixel clocks it takes, simply divide the
-> VT pixel clock frequency by the number of pixels in a single line.
->
-> Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
+No, it should be dropped, good catch.
 
-Wrong list, apologies!
-> ---
-> Testing:
->
-> The patch is tested using IMX519 with CCS.
-> This patch makes the frame buffer being filled to the fullest
-> (instead of getting 1/3rd only previously) - without any workarounds.
-> ---
->   drivers/media/i2c/ccs/ccs-core.c | 8 +++++---
->   1 file changed, 5 insertions(+), 3 deletions(-)
->
-> diff --git a/drivers/media/i2c/ccs/ccs-core.c b/drivers/media/i2c/ccs/ccs-core.c
-> index 16de66a37fad..12c75a843dfe 100644
-> --- a/drivers/media/i2c/ccs/ccs-core.c
-> +++ b/drivers/media/i2c/ccs/ccs-core.c
-> @@ -734,9 +734,11 @@ static int ccs_set_ctrl(struct v4l2_ctrl *ctrl)
->   
->   		break;
->   	case V4L2_CID_HBLANK:
-> -		rval = ccs_write(sensor, LINE_LENGTH_PCK,
-> -				 sensor->pixel_array->crop[CCS_PA_PAD_SRC].width
-> -				 + ctrl->val);
-> +		/* LINE_LENGTH_PCK units are in VT pixel clocks. */
-> +		u16 line_length_pck =
-> +			sensor->pll.vt_bk.pix_clk_freq_hz /
-> +			(sensor->pixel_array->crop[CCS_PA_PAD_SRC].width + ctrl->val);
-> +		rval = ccs_write(sensor, LINE_LENGTH_PCK, line_length_pck);
->   
->   		break;
->   	case V4L2_CID_TEST_PATTERN:
+thanks,
 
+greg k-h
