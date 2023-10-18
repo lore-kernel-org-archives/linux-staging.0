@@ -1,150 +1,138 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC74418043;
-	Wed, 18 Oct 2023 09:31:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dkim=none
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 83C51C433C8;
-	Wed, 18 Oct 2023 09:31:34 +0000 (UTC)
-Message-ID: <56a09e21-5f43-4d0d-b603-777bbfd1885f@xs4all.nl>
-Date: Wed, 18 Oct 2023 11:31:32 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3711118038;
+	Wed, 18 Oct 2023 09:34:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kFtPETYT"
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-4056ce55e7eso61838205e9.2;
+        Wed, 18 Oct 2023 02:34:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1697621671; x=1698226471; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=sd04U5ztHM5BN91zVsx9G6ZDnJ4iPY9R76fpuMvI0tU=;
+        b=kFtPETYTjM41JdVLhDLyUKkv6nKlTp4hVUpAWtyXDtY7JZrvtQwihkSRYCPG/7KWsI
+         dtSqbEWyzxZvybE4AOj1FIZXYJjZ5YjFovnFyUrDhDvGxB8SVOkfo342t69E+VaUFNB7
+         dlydqoPHx/z+yj67RZiN81TtsbCCp9Oc54wYU+0vTytahjsq7tijWjE8eOo8bvcu0wun
+         Av+HNPOJwj95x6kpgwYBwWFUme1R27a1JdJMFZYozjUYe5GcTG4nOhztm9EyIv+NWfUX
+         TCNbrEIuaB711z1XUoB8o70kz5VreamjCFD7bs9/wplk9VY5rdiG4G+EaTPpEo7nVHlJ
+         Ghiw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1697621671; x=1698226471;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=sd04U5ztHM5BN91zVsx9G6ZDnJ4iPY9R76fpuMvI0tU=;
+        b=XsPdxJex5UDfcJz0V+NJ1cRlb3ZXxwhmVtssb1CoTEcLG1M/1TuX+1L9o3IE5TzB/k
+         ZMXcxV0KtbI79Mp0/8vYluRJ6Q8lZTXsrhR8ob9qEG7UFSWmSpHo+DnrI3SsOdAb4g4o
+         WQZkUUpzHIHlqVFoMTKk+82EOUkMxgqgwwv+WZAXlxPVlYFocy6IRpywHtyzHwC/Q+NH
+         F/aozpxcja/JXfDLGSb6PjUgXaE7rfp5jo4Tuqbst2ejaDjQdxHRjrjbWiigRCUeWujd
+         4Uuo0Y+KgYqdu9mcwhjV8nARb3FsPdymOxZ9GEUyqhy4Ggp4rbNwdXylYyZTUXHrrG+U
+         f5pA==
+X-Gm-Message-State: AOJu0Yy4qEH7PYWa0ZVt46MOs7akpbke0bQ9KQxnAaDHK+WmZw6dd8KB
+	LGkAc44+95iorx8W+xAX6Q==
+X-Google-Smtp-Source: AGHT+IHmDIpRPzXCLPQAZ3IxJiiTrLvL6xTrGXiKrnqsbiCJwNUaHu+nlvHbGSpKR4lJJDeUTV+Qjg==
+X-Received: by 2002:a05:600c:5487:b0:408:3ab3:a050 with SMTP id iv7-20020a05600c548700b004083ab3a050mr1172995wmb.16.1697621670844;
+        Wed, 18 Oct 2023 02:34:30 -0700 (PDT)
+Received: from dorcaslitunya-virtual-machine ([105.163.0.227])
+        by smtp.gmail.com with ESMTPSA id k1-20020a5d66c1000000b0032dbf99bf4fsm1680829wrw.89.2023.10.18.02.34.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 18 Oct 2023 02:34:30 -0700 (PDT)
+Date: Wed, 18 Oct 2023 12:34:26 +0300
+From: Dorcas Litunya <anonolitunya@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: outreachy@lists.linux.dev, julia.lawall@inria.fr,
+	dan.carpenter@linaro.org, andi.shyti@linux.intel.com,
+	Sudip Mukherjee <sudipm.mukherjee@gmail.com>,
+	Teddy Wang <teddy.wang@siliconmotion.com>,
+	linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 2/2] staging: sm750fb: Remove unused return value in
+ program_mode_registers()
+Message-ID: <ZS+moqE585lPBN3m@dorcaslitunya-virtual-machine>
+References: <cover.1697619623.git.anonolitunya@gmail.com>
+ <492e63bbc58147fb534930ef9e1fb5d844ae8769.1697619623.git.anonolitunya@gmail.com>
+ <2023101846-synopses-paralyses-d1ee@gregkh>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v10 0/8] Add StarFive Camera Subsystem driver
-Content-Language: en-US, nl
-To: Jack Zhu <jack.zhu@starfivetech.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Robert Foss <rfoss@kernel.org>,
- Todor Tomov <todor.too@gmail.com>, bryan.odonoghue@linaro.org,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Philipp Zabel <p.zabel@pengutronix.de>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
- devicetree@vger.kernel.org, linux-staging@lists.linux.dev,
- changhuang.liang@starfivetech.com
-References: <20231008085154.6757-1-jack.zhu@starfivetech.com>
- <98297bfc-ab81-4bb5-acc3-619fdf879276@xs4all.nl>
- <bb5b776c-f1dd-f53e-079c-8048af2e73f1@starfivetech.com>
- <4a74a40c-ee3c-4563-87d1-27e859eb6982@xs4all.nl>
- <687a4c58-3666-1c7b-fcfd-d586c28dea35@starfivetech.com>
-From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-In-Reply-To: <687a4c58-3666-1c7b-fcfd-d586c28dea35@starfivetech.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <2023101846-synopses-paralyses-d1ee@gregkh>
 
-On 18/10/2023 11:25, Jack Zhu wrote:
+On Wed, Oct 18, 2023 at 11:26:33AM +0200, Greg Kroah-Hartman wrote:
+> On Wed, Oct 18, 2023 at 12:07:38PM +0300, Dorcas AnonoLitunya wrote:
+> > Modifies the return type of program_mode_registers()
+> > to void from int as the return value is being ignored in
+> > all subsequent function calls.
+> > 
+> > This improves code readability and maintainability.
+> > 
+> > Suggested-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> > Signed-off-by: Dorcas AnonoLitunya <anonolitunya@gmail.com>
+> > ---
+> >  drivers/staging/sm750fb/ddk750_mode.c | 5 ++---
+> >  1 file changed, 2 insertions(+), 3 deletions(-)
+> > 
+> > diff --git a/drivers/staging/sm750fb/ddk750_mode.c b/drivers/staging/sm750fb/ddk750_mode.c
+> > index 83ace6cc9583..e15039238232 100644
+> > --- a/drivers/staging/sm750fb/ddk750_mode.c
+> > +++ b/drivers/staging/sm750fb/ddk750_mode.c
+> > @@ -73,8 +73,8 @@ display_control_adjust_sm750le(struct mode_parameter *mode_param,
+> >  }
+> >  
+> >  /* only timing related registers will be  programed */
+> > -static int program_mode_registers(struct mode_parameter *mode_param,
+> > -				  struct pll_value *pll)
+> > +static void program_mode_registers(struct mode_parameter *mode_param,
+> > +				   struct pll_value *pll)
+> >  {
+> >  	int ret = 0;
+> >  	int cnt = 0;
+> > @@ -202,7 +202,6 @@ static int program_mode_registers(struct mode_parameter *mode_param,
+> >  	} else {
+> >  		ret = -1;
 > 
+> Why are you still setting the 'ret' variable if you are not doing
+> anything with it anymore?
 > 
-> On 2023/10/18 16:50, Hans Verkuil wrote:
->> Hi Jack,
->>
->> On 18/10/2023 04:37, Jack Zhu wrote:
->>
->> <snip>
->>
->>>>> --------------------------------------------------------------------------------
->>>>> Compliance test for device /dev/v4l-subdev1:
->>>>>
->>>>> Driver Info:
->>>>> 	Driver version   : 6.6.0
->>>>> 	Capabilities     : 0x00000000
->>>>
->>>> But this does not appear for v4l-subdev1.
->>>>
->>>> I can't really tell why it doesn't show that. Can you debug a little bit?
->>>> The code is in v4l2-compliance.cpp, line 1086:
->>>>
->>>> ent_id = mi_media_info_for_fd(media_fd, node.g_fd(), &is_invalid, &node.function);
->>>>
->>>> The mi_media_info_for_fd() function calls ioctl(media_fd, MEDIA_IOC_DEVICE_INFO, &mdinfo),
->>>> and that fails for some reason. It could be that media_fd is invalid (would be weird).
->>>>
->>>> This could well be a v4l2-compliance bug that you hit with this driver.
->>>>
->>>
->>> On the test board, /dev/v4l-subdev1 is imx219, and the corresponding directory is
->>> /sys/dev/char/81:3/device. Media0 does not exist in this directory. Therefore, the media_fd
->>> obtained through mi_get_media_fd(node.g_fd(), node.bus_info) is invalid.
->>>
->>> I don't know why media0 does not exist in /sys/dev/char/81:3/device?
->>>
->>
->> Can you try again with this v4l2-compliance patch?
->>
->> I need to dig a bit deeper as to why media0 is missing, but for now try this.
->>
->> Regards,
->>
->> 	Hans
->>
->> diff --git a/utils/v4l2-compliance/v4l2-compliance.cpp b/utils/v4l2-compliance/v4l2-compliance.cpp
->> index 7169eefe..29475d6b 100644
->> --- a/utils/v4l2-compliance/v4l2-compliance.cpp
->> +++ b/utils/v4l2-compliance/v4l2-compliance.cpp
->> @@ -968,7 +968,7 @@ err:
->>  }
->>
->>  void testNode(struct node &node, struct node &node_m2m_cap, struct node &expbuf_node, media_type type,
->> -	      unsigned frame_count, unsigned all_fmt_frame_count)
->> +	      unsigned frame_count, unsigned all_fmt_frame_count, int parent_media_fd)
->>  {
->>  	struct node node2;
->>  	struct v4l2_capability vcap = {};
->> @@ -997,8 +997,12 @@ void testNode(struct node &node, struct node &node_m2m_cap, struct node &expbuf_
->>  		memset(&vcap, 0, sizeof(vcap));
->>  	}
->>
->> -	if (!node.is_media())
->> -		media_fd = mi_get_media_fd(node.g_fd(), node.bus_info);
->> +	if (!node.is_media()) {
->> +		if (parent_media_fd >= 0)
->> +			media_fd = parent_media_fd;
->> +		else
->> +			media_fd = mi_get_media_fd(node.g_fd(), node.bus_info);
->> +	}
->>
->>  	int fd = node.is_media() ? node.g_fd() : media_fd;
->>  	if (fd >= 0) {
->> diff --git a/utils/v4l2-compliance/v4l2-compliance.h b/utils/v4l2-compliance/v4l2-compliance.h
->> index 7caf254b..c47f25f5 100644
->> --- a/utils/v4l2-compliance/v4l2-compliance.h
->> +++ b/utils/v4l2-compliance/v4l2-compliance.h
->> @@ -308,7 +308,7 @@ int check_ustring(const __u8 *s, int len);
->>  int check_0(const void *p, int len);
->>  int restoreFormat(struct node *node);
->>  void testNode(struct node &node, struct node &node_m2m_cap, struct node &expbuf_node, media_type type,
->> -	      unsigned frame_count, unsigned all_fmt_frame_count);
->> +	      unsigned frame_count, unsigned all_fmt_frame_count, int parent_media_fd = -1);
->>  std::string stream_from(const std::string &pixelformat, bool &use_hdr);
->>
->>  // Media Controller ioctl tests
->>
+> >  	}
+> > -	return ret;
 > 
-> From the log, there is no change.
+> Are you sure that the caller shouldn't be checking for errors instead of
+> dropping the return value?  If so, document that in the changelog too.
+>
+Seems like the caller doesn't use the function to check for errors as in
+the code below:
 
-Oops, my mistake. Also apply this change:
+int ddk750_set_mode_timing(struct mode_parameter *parm, enum clock_type clock)
+{
+        struct pll_value pll;
 
-diff --git a/utils/v4l2-compliance/v4l2-test-media.cpp b/utils/v4l2-compliance/v4l2-test-media.cpp
-index 0195ac58..52ab7fb8 100644
---- a/utils/v4l2-compliance/v4l2-test-media.cpp
-+++ b/utils/v4l2-compliance/v4l2-test-media.cpp
-@@ -612,7 +612,7 @@ void walkTopology(struct node &node, struct node &expbuf_node,
- 		}
+        pll.input_freq = DEFAULT_INPUT_CLOCK;
+        pll.clock_type = clock;
 
- 		testNode(test_node, test_node, expbuf_node, type,
--			 frame_count, all_fmt_frame_count);
-+			 frame_count, all_fmt_frame_count, node.g_fd());
- 		test_node.close();
- 	}
- }
+        sm750_calc_pll_value(parm->pixel_clock, &pll);
+        if (sm750_get_chip_type() == SM750LE) {
+                /* set graphic mode via IO method */
+                outb_p(0x88, 0x3d4);
+                outb_p(0x06, 0x3d5);
+        }
+        program_mode_registers(parm, &pll);
+        return 0;
 
-Regards,
+It will still return 0 regardless of whether there is an error or not.
+Since I am not sure how the two functions relate to one another, is
+there need to check error in the caller function?
 
-	Hans
+thanks,
+Dorcas
+> thanks,
+> 
+> greg k-h
