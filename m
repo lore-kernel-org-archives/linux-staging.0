@@ -1,127 +1,170 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CEC271CAA4
-	for <linux-staging@lists.linux.dev>; Wed, 18 Oct 2023 20:38:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74A0D134BF;
+	Wed, 18 Oct 2023 22:13:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="ROagZD8L"
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 39IKTOAG022689;
-	Wed, 18 Oct 2023 20:37:46 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=e2EOl1tPILygjSh/0CYYTdKsXdjPmmVF/tri/fxozYM=;
- b=ROagZD8LnpTkHqP3kQT6vKcBml8ZoysU4p06A/YSExAhOnCMZYGQntaRhqfQe2yP1TT/
- uZdwyCiWEPcRJRlmB6nGwEpZTvB5Gfn2rredS6sR2IgZsGplB0I3A8ZRc6X9p6JJ3RHU
- buOk3aCbWiV1cM9Wfi6UGLMxg2lv8NNn5exEtaOB2o7UOt6lB3yDR7tdoK/r3lorp4Ew
- XbqwL1MPtIFicBZiKYdUVosCjX5AcMc/YLB/RuDV17GbcyUDfyeGQ53zLSaeHsJAfI+d
- ML5BzD/fGXHK5UhjUoyNMfFd5KifypxZzIqkiXdorCWTQQ4VDMnjFVh3h0G/4CO+mfiF 8w== 
-Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3tt905a35e-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 18 Oct 2023 20:37:46 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-	by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 39IKbjG7003326
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 18 Oct 2023 20:37:45 GMT
-Received: from [10.227.110.203] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.39; Wed, 18 Oct
- 2023 13:37:44 -0700
-Message-ID: <7e18fb84-b9ff-4f95-b94a-7459ab6154e1@quicinc.com>
-Date: Wed, 18 Oct 2023 13:37:43 -0700
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZuVr/Lv4"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1697667212; x=1729203212;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=J9MSXc9livi9wY04KjUidMwQUars9CGlH7kYAxX/wVI=;
+  b=ZuVr/Lv4fOg5ZkNeoSqHUf1zujScH0fVI6s1crQiIRriYzCcHwojnJWZ
+   HSaNmbcXtaT6q9MQdzSN7LLr5rXH8We8xmfEe4fVMcFzIFJHwCX1cSsiu
+   dqvjZDSttguz4w8iqoGTI6O+4WbYAnJLYiGiWh6OFh+zCUOFZkcjWs0ug
+   CnGhEBAWk/AS49taTV16MCMcMdSRnkE7rhUgx51lHYUezA6qTAxvQoVIK
+   exhW5mcLKazjyUEKxCZJUbcOl0y2lB+8MtwewE3ZBEDFz6TRnfeZGFHUs
+   5ZZazFWjrQqR9V2nukdkR2FvwK8gJimlQdFaWnjXnXJdEy+Zx393R0Qz3
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10867"; a="376497666"
+X-IronPort-AV: E=Sophos;i="6.03,236,1694761200"; 
+   d="scan'208";a="376497666"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Oct 2023 15:13:31 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.03,236,1694761200"; 
+   d="scan'208";a="4713319"
+Received: from nurfahan-mobl3.gar.corp.intel.com (HELO intel.com) ([10.213.159.217])
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Oct 2023 15:13:29 -0700
+Date: Thu, 19 Oct 2023 00:13:17 +0200
+From: Andi Shyti <andi.shyti@linux.intel.com>
+To: Soumya Negi <soumya.negi97@gmail.com>
+Cc: Andi Shyti <andi.shyti@linux.intel.com>,
+	Martyn Welch <martyn@welchs.me.uk>,
+	Manohar Vanga <manohar.vanga@gmail.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	outreachy@lists.linux.dev, linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev
+Subject: Re: [PATCH 2/2] staging: vme_user: Use __func__ instead of function
+ name
+Message-ID: <ZTBYfbQy9SoUHyAI@ashyti-mobl2.lan>
+References: <cover.1697601942.git.soumya.negi97@gmail.com>
+ <c553e5901f16b78681e74b2d77796f8fc102b602.1697601942.git.soumya.negi97@gmail.com>
+ <ZS+6sTNNZ5KUzpd4@ashyti-mobl2.lan>
+ <20231018203020.GB32553@Negi>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] [RFC] wireless: move obsolete drivers to staging
-Content-Language: en-US
-To: Johannes Berg <johannes@sipsolutions.net>, Arnd Bergmann <arnd@arndb.de>,
-        Geoff Levand <geoff@infradead.org>,
-        Geert Uytterhoeven <geert@linux-m68k.org>
-CC: Kalle Valo <kvalo@kernel.org>, Jakub Kicinski <kuba@kernel.org>,
-        Greg
- Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Arnd Bergmann <arnd@kernel.org>,
-        Nicolas Ferre <nicolas.ferre@microchip.com>,
-        Alexandre Belloni
-	<alexandre.belloni@bootlin.com>,
-        Claudiu Beznea <claudiu.beznea@tuxon.dev>, Pavel Machek <pavel@ucw.cz>,
-        "David S . Miller" <davem@davemloft.net>,
-        Larry
- Finger <Larry.Finger@lwfinger.net>,
-        <linux-kernel@vger.kernel.org>, <linux-wireless@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-staging@lists.linux.dev>,
-        linuxppc-dev <linuxppc-dev@lists.ozlabs.org>
-References: <20231010155444.858483-1-arnd@kernel.org>
- <2023101051-unmasked-cleaver-79b3@gregkh> <87y1g94szz.fsf@kernel.org>
- <2023101139-pyromania-game-2237@gregkh> <87r0m1fwg9.fsf@kernel.org>
- <20231011080955.1beeb010@kernel.org> <87sf6g2hc8.fsf@kernel.org>
- <63e57ef8-c9f2-489a-8df8-51dcffd437c6@app.fastmail.com>
- <b1c87f71abef5aba6b39893a417466bf9f65c2d5.camel@sipsolutions.net>
- <CAMuHMdX3F9rvD3Fzbc1dwm7Vm73VW1x5ETbxkk-jJm3Bpr5i+A@mail.gmail.com>
- <d336126d58e12e8e67078c8142a524c667cc5639.camel@sipsolutions.net>
- <39719eae-f166-4059-a70d-c6b74ecd46e2@infradead.org>
- <2fb4f151-9146-4cce-a3e6-ca80a95cf590@app.fastmail.com>
- <789449f63ff6175ff46951507c03753f4430aa85.camel@sipsolutions.net>
-From: Jeff Johnson <quic_jjohnson@quicinc.com>
-In-Reply-To: <789449f63ff6175ff46951507c03753f4430aa85.camel@sipsolutions.net>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: fiO2b6PTY8GstS0iygVw6A7oxrwtgyNF
-X-Proofpoint-ORIG-GUID: fiO2b6PTY8GstS0iygVw6A7oxrwtgyNF
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.980,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2023-10-18_18,2023-10-18_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 spamscore=0 mlxscore=0
- phishscore=0 mlxlogscore=972 lowpriorityscore=0 suspectscore=0
- clxscore=1011 priorityscore=1501 impostorscore=0 adultscore=0
- malwarescore=0 bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2309180000 definitions=main-2310180169
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231018203020.GB32553@Negi>
 
-On 10/13/2023 11:02 AM, Johannes Berg wrote:
-> On Fri, 2023-10-13 at 17:44 +0200, Arnd Bergmann wrote:
->> On Thu, Oct 12, 2023, at 18:36, Geoff Levand wrote:
->>> On 10/12/23 17:41, Johannes Berg wrote:
->>>> But seriously - is it worth to try to keep a wireless driver for it if
->>>> we don't even know anyone using a PS3 at all?
->>>
->>> There is still a considerable user base for the PS3, so we
->>> must keep the ps3-gelic-wireless driver.
->>
->> Do you know if anyone has tried changing this driver over to the
->> cfg80211 interface from the wireless extensions?
-> 
-> I looked at that yesterday, and sadly I _think_ it's not even possible,
-> there are some corner cases in it like "no WPA2" that don't seem to be
-> fully covered in cfg80211/nl80211, at least not with the APIs today and
-> with current versions of wpa_supplicant.
-> 
-> It might still be doable because things like
-> WPA_DRIVER_CAPA_KEY_MGMT_WPA2_PSK don't really seem to be used much in
-> wpa_supplicant, but we'd have to carefully test that I guess.
-> 
-> Also, it depends on the PS3 firmware version whether or not that's
-> supported.
-> 
-> Then again, arguably wifi without WPA2 is pretty much useless these
-> days?
+Hi Soumya,
 
-This is a good point. It doesn't matter if the clients work if there are 
-no Access Points to connect to. And if you do have an old one you can 
-connect to, it will be an insecure connection. Wardriving, anyone?
+> > On Tue, Oct 17, 2023 at 09:36:33PM -0700, Soumya Negi wrote:
+> > > Replace function names in message strings with __func__ to fix
+> > > all checkpatch warnings like:
+> > > 
+> > >     WARNING: Prefer using '"%s...", __func__' to using 'vme_lm_get',
+> > >              this function's name, in a string
+> > > 
+> > > Signed-off-by: Soumya Negi <soumya.negi97@gmail.com>
+> > > ---
+> > >  drivers/staging/vme_user/vme.c | 14 +++++++-------
+> > >  1 file changed, 7 insertions(+), 7 deletions(-)
+> > > 
+> > > diff --git a/drivers/staging/vme_user/vme.c b/drivers/staging/vme_user/vme.c
+> > > index e8c2c1e77b7d..11c1df12b657 100644
+> > > --- a/drivers/staging/vme_user/vme.c
+> > > +++ b/drivers/staging/vme_user/vme.c
+> > > @@ -422,7 +422,7 @@ int vme_slave_get(struct vme_resource *resource, int *enabled,
+> > >  	image = list_entry(resource->entry, struct vme_slave_resource, list);
+> > >  
+> > >  	if (!bridge->slave_get) {
+> > > -		dev_err(bridge->parent, "vme_slave_get not supported\n");
+> > > +		dev_err(bridge->parent, "%s not supported\n", __func__);
+> > >  		return -EINVAL;
+> > >  	}
+> > >  
+> > > @@ -572,7 +572,7 @@ int vme_master_set(struct vme_resource *resource, int enabled,
+> > >  	image = list_entry(resource->entry, struct vme_master_resource, list);
+> > >  
+> > >  	if (!bridge->master_set) {
+> > > -		dev_warn(bridge->parent, "vme_master_set not supported\n");
+> > > +		dev_warn(bridge->parent, "%s not supported\n", __func__);
+> > 
+> > I wouldn't disagree if you made this dev_err() instead of
+> > dev_warn(). The reasoning behind is that if it's a warning you
+> > should not fail. But beacuse you are returning -EINVAL it means
+> > that you are failing, therefore you should use dev_err().
+> > 
+> > Others might object that the change I'm suggesting sohuld go in a
+> > different patch, which is also OK.
+> > 
+> > >  		return -EINVAL;
+> > 
+> > ... or, if you want to keep the dev_warn(), whou can consider
+> > removing the "return -EINVAL;". But this is an evaluation you
+> > should make in a different patch and mainly evaluate if it's
+> > OK to remove the error here.
+> 
+> I think it should be dev_err() too. The driver has inconsistently used
+> warn and err log levels in similar functions as well. But I was planning
+> to tackle those in a standalone patch after the printk's are gone. Or do
+> you think it should be part of this patchset?
 
-/jeff
+OK... if you already noticed this and you are saying there are
+more cases, then it's better if you send a different patch.
 
+> > >  	if (!bridge->slot_get) {
+> > > -		dev_warn(bridge->parent, "vme_slot_num not supported\n");
+> > > +		dev_warn(bridge->parent, "%s not supported\n", __func__);
+> > >  		return -EINVAL;
+> > >  	}
+> > 
+> > Nothing wrong with the patch itself. But imagine if we end up in
+> > one of those printouts and, as a user, you read something like:
+> > 
+> >    ... vme_slot_num not supported
+> > 
+> > The message itself doesn't say much to the user. The perfect fix
+> > would be to re-write all these error messages with a proper
+> > meaningful sentence, like, e.g.:
+> > 
+> >    Can't retrieve the CS/CSR slot id
+> >
+> > (don't even know if it's fully correct). Anyway, I understand
+> > you don't have much time for such fine changes, so whatever you
+> > decide to do:
+> 
+> Got it. Thanks for the patch suggestion. Although yes, since I still have project
+> starter tasks pending for my outreachy application(will have to prioritize                           
+> them) I'm not sure if I will be able to get this done right away. Will try to
+> though.
+
+yeah... nevermind.
+
+> > Acked-by: Andi Shyti <andi.shyti@linux.intel.com> 
+> > 
+> > Andi
+> 
+> Thanks for the ack. Since I'll have to revise and resend this patch as v2, 
+> should I not add your ack tag as the patch will be reviewed again? Just 
+> wondering what the etiquette is.
+
+You can keep my tag, unless you are making drastic changes.
+
+Nevertheless, the patch might be reviewed again.
+
+> Though normally are patches supposed to be resent as new versions when adding
+> ack tags?
+
+If someones acks or reviews the patches you don't need to resend
+just for adding the tags. There are tools doing it and
+maintainers take care of that.
+
+But, on the other hand, if you are going to resend anyway, for
+other reasons a new version, then you should add the tags
+yourself, otherwise they might be lost.
+
+If the new version changes considerably, then you might consider
+not adding any tags.
+
+Andi
