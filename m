@@ -1,58 +1,51 @@
-Received: from mail2-relais-roc.national.inria.fr (mail2-relais-roc.national.inria.fr [192.134.164.83])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3EB8414A8E;
-	Wed, 18 Oct 2023 08:13:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inria.fr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=inria.fr
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F1B1125AC;
+	Wed, 18 Oct 2023 08:26:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=inria.fr header.i=@inria.fr header.b="ocVAA5tU"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=inria.fr; s=dc;
-  h=date:from:to:cc:subject:in-reply-to:message-id:
-   references:mime-version;
-  bh=GpetY+lN0kNSU4kScIjhhgCa5RGP7XMD9CtalAfPG4Q=;
-  b=ocVAA5tUSH9a/yZ5RdQNI6jlCZofdNcSgxu2dgyGH6cWFWdfNoM24QdC
-   o8p2RnuOK3AJRzsqhh9Efd5ehBMqHulh/z/OXt3I8qcNG3gR/5cg4MCSU
-   K8h2C2pBFa5C8l+jsqFym/Sj+XuBSV3AX3XPbs/mbkQXJlXgowLSIN45o
-   4=;
-Authentication-Results: mail2-relais-roc.national.inria.fr; dkim=none (message not signed) header.i=none; spf=SoftFail smtp.mailfrom=julia.lawall@inria.fr; dmarc=fail (p=none dis=none) d=inria.fr
-X-IronPort-AV: E=Sophos;i="6.03,234,1694728800"; 
-   d="scan'208";a="131832249"
-Received: from dhcp-138-246-3-50.dynamic.eduroam.mwn.de (HELO hadrien) ([138.246.3.50])
-  by mail2-relais-roc.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Oct 2023 10:13:28 +0200
-Date: Wed, 18 Oct 2023 10:13:28 +0200 (CEST)
-From: Julia Lawall <julia.lawall@inria.fr>
-To: Calvince Otieno <calvncce@gmail.com>
-cc: gustavo@embeddedor.com, outreachy@lists.linux.dev, 
-    Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-    Martyn Welch <martyn@welchs.me.uk>, 
-    Manohar Vanga <manohar.vanga@gmail.com>, linux-kernel@vger.kernel.org, 
-    linux-staging@lists.linux.dev
-Subject: Re: [PATCH] staging: vme_user: fix coding style - remove
- CamelCasing
-In-Reply-To: <CADFX3OQbXXaa1z+4-tOhidb2w_XH9sYB0x1_yLZ69yDy_1Nwpw@mail.gmail.com>
-Message-ID: <baa4e15-6c4c-a2ae-259a-f6cae6de837f@inria.fr>
-References: <ZS+HyqwvyVyfzGXs@lab-ubuntu> <cb55a015-4c2b-b72-dcd-af7f8c7380@inria.fr> <CADFX3OQbXXaa1z+4-tOhidb2w_XH9sYB0x1_yLZ69yDy_1Nwpw@mail.gmail.com>
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="K8ihN9k4"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5B330C433C8;
+	Wed, 18 Oct 2023 08:26:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1697617602;
+	bh=FYY5Pw0Y+SetLQv/94Izx/Ga9lYCUK/a+v2DG8+qr3U=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=K8ihN9k42Q+zy47NN7jjfBSBCf75PLtqJUOxonlKVPQ7Uc2VVf9w/cCYWm8Idmpye
+	 j1pMGnF15msUWEOw1DstX5nhc7LJc34NrUSGx2TGp84nCRjMmICfmtM9HRNk4tKoLK
+	 EpUawOspUieZOKkL8SZdod8Hi1pvuJ6V9ri3vdd0=
+Date: Wed, 18 Oct 2023 10:26:33 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Dorcas AnonoLitunya <anonolitunya@gmail.com>
+Cc: outreachy@lists.linux.dev, julia.lawall@inria.fr,
+	dan.carpenter@linaro.org, andi.shyti@linux.intel.com,
+	Sudip Mukherjee <sudipm.mukherjee@gmail.com>,
+	Teddy Wang <teddy.wang@siliconmotion.com>,
+	linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] Staging: sm750fb: Rename
+ display_control_adjust_sm750LE
+Message-ID: <2023101817-cleat-attendee-8884@gregkh>
+References: <20231018080416.25931-2-anonolitunya@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231018080416.25931-2-anonolitunya@gmail.com>
 
-> As description states, checkpatch recommendation
+On Wed, Oct 18, 2023 at 11:04:08AM +0300, Dorcas AnonoLitunya wrote:
+> Rename function display_control_adjust_sm750LE to
+> display_control_adjust_sm750le. This further enforces snakecase naming
+> convention for consistent naming style throughout entire file.
+> 
+> This change was suggested by Andi Shyti <andi.shyti@linux.intel.com>
 
-This comment should be just under my text, that you are responding to, not
-at the end of the patch.
+Please use the "Suggested-by:" tag for this.
 
-CamelCase is not just the mixture of uppercase and lowercase letters.  It
-means that the things with upper and lowercase letters are real words,
-LikeThis.  In the case of this driver, the lowercase letter was not part
-of an English word, so one can be suspicious that it has some other
-meaning.  Checkpatch doesn't know what are real English words, so it makes
-the suggestions whenever there is a mixture of uppercase and lowercase
-letters.
+thanks,
 
-julia
+greg k-h
