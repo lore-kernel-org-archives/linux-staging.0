@@ -1,72 +1,165 @@
-Received: from mail3-relais-sop.national.inria.fr (mail3-relais-sop.national.inria.fr [192.134.164.104])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87129335AC;
-	Wed, 18 Oct 2023 12:07:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inria.fr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=inria.fr
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9E6134CC7
+	for <linux-staging@lists.linux.dev>; Wed, 18 Oct 2023 12:38:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=inria.fr header.i=@inria.fr header.b="Gn4JWz+/"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=inria.fr; s=dc;
-  h=date:from:to:cc:subject:in-reply-to:message-id:
-   references:mime-version;
-  bh=KhDy2uyh5BxLdB3QaglsiHAG0J7EpS+E3ZDPw2nSfPk=;
-  b=Gn4JWz+/N8lQ1Em4gBQwaUbdOCp9AqZtorQwM7xfR/TvGiF5UrCboKgx
-   B1gym28C59uvXeAg4ne3KBsjtoSmXvW4z3OMdDTASp4WAZSE+CbdRUvcB
-   9wp1iUmzip38X+8ukGquaMpt5vuetGen+v5ZYMvjmrnT8c5baQy6H8Ke5
-   A=;
-Authentication-Results: mail3-relais-sop.national.inria.fr; dkim=none (message not signed) header.i=none; spf=SoftFail smtp.mailfrom=julia.lawall@inria.fr; dmarc=fail (p=none dis=none) d=inria.fr
-X-IronPort-AV: E=Sophos;i="6.03,235,1694728800"; 
-   d="scan'208";a="69068973"
-Received: from dhcp-138-246-3-50.dynamic.eduroam.mwn.de (HELO hadrien) ([138.246.3.50])
-  by mail3-relais-sop.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Oct 2023 14:07:19 +0200
-Date: Wed, 18 Oct 2023 14:07:17 +0200 (CEST)
-From: Julia Lawall <julia.lawall@inria.fr>
-To: Dorcas AnonoLitunya <anonolitunya@gmail.com>
-cc: outreachy@lists.linux.dev, julia.lawall@inria.fr, dan.carpenter@linaro.org, 
-    andi.shyti@linux.intel.com, Sudip Mukherjee <sudipm.mukherjee@gmail.com>, 
-    Teddy Wang <teddy.wang@siliconmotion.com>, 
-    Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-    linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev, 
-    linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 0/2] Remove unused return values from functions
-In-Reply-To: <cover.1697619623.git.anonolitunya@gmail.com>
-Message-ID: <cb74515c-951c-f024-be3b-96e7e9bde068@inria.fr>
-References: <cover.1697619623.git.anonolitunya@gmail.com>
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="Wi+kiVap"
+Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id F2D205AA;
+	Wed, 18 Oct 2023 14:38:41 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1697632722;
+	bh=WTvtkU5x/pJEWKBtyBpDEHO3PvUVu/0Ja/EmjLTukhM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Wi+kiVapoFtpX+pi94rF0nU7Ft/NJS9i3jrXW+bMkb7q7gh6zeBPBA2CxSK8WGlDN
+	 IEQHQ09M0sWQOfUyMGyrFu3rwTiX9kRbrD+6VoZtL1oqON3svNl5+fPKNDigHB7bBz
+	 1/M4/hR7F34dTMFnAbbSJG7MdBCm1BYMR4xdWMCE=
+Date: Wed, 18 Oct 2023 15:38:56 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Umang Jain <umang.jain@ideasonboard.com>
+Cc: linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+	linux-rpi-kernel@lists.infradead.org, linux-media@vger.kernel.org,
+	Stefan Wahren <stefan.wahren@i2se.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Dan Carpenter <error27@gmail.com>,
+	Kieran Bingham <kieran.bingham@ideasonboard.com>
+Subject: Re: [PATCH v2 1/3] staging: vc04_services: Support module
+ autoloading using MODULE_DEVICE_TABLE
+Message-ID: <20231018123856.GG11118@pendragon.ideasonboard.com>
+References: <20231018054214.824296-1-umang.jain@ideasonboard.com>
+ <20231018054214.824296-2-umang.jain@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20231018054214.824296-2-umang.jain@ideasonboard.com>
 
+On Wed, Oct 18, 2023 at 11:12:12AM +0530, Umang Jain wrote:
+> VC04 has now a independent bus vchiq_bus to register its devices.
+> However, the module auto-loading for bcm2835-audio and bcm2835-camera
+> currently happens through MODULE_ALIAS() macro specified explicitly.
+> 
+> The correct way to auto-load a module, is when the alias is picked
+> out from MODULE_DEVICE_TABLE(). In order to get there, we need to
+> introduce  vchiq_device_id and add relevant entries in file2alias.c
+> infrastructure so that aliases can be generated. This patch targets
+> adding vchiq_bus_device_id and do_vchiq_bus_entry, in order to
+> generate those alias using the /script/mod/file2alias.c.
+> 
+> Going forward the MODULE_ALIAS() from bcm2835-camera and bcm2835-audio
+> will be dropped, in favour of MODULE_DEVICE_TABLE being used there.
+> 
+> The alias format for vchiq_bus devices will be "vchiq_bus:<dev_name>".
+> Adjust the vchiq_bus_uevent() to reflect that.
 
+None of the other buses have a "_bus" suffix in the alias or in the
+*_device_id structure name. Is there a reason to make an exception here?
 
-On Wed, 18 Oct 2023, Dorcas AnonoLitunya wrote:
+> Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
+> ---
+>  .../vc04_services/interface/vchiq_arm/vchiq_bus.c        | 2 +-
+>  .../vc04_services/interface/vchiq_arm/vchiq_bus.h        | 3 +++
+>  include/linux/mod_devicetable.h                          | 4 ++++
+>  scripts/mod/devicetable-offsets.c                        | 3 +++
+>  scripts/mod/file2alias.c                                 | 9 +++++++++
+>  5 files changed, 20 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_bus.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_bus.c
+> index 4ac3491efe45..b4915bd76387 100644
+> --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_bus.c
+> +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_bus.c
+> @@ -26,7 +26,7 @@ static int vchiq_bus_uevent(const struct device *dev, struct kobj_uevent_env *en
+>  {
+>  	const struct vchiq_device *device = container_of_const(dev, struct vchiq_device, dev);
+>  
+> -	return add_uevent_var(env, "MODALIAS=%s", dev_name(&device->dev));
+> +	return add_uevent_var(env, "MODALIAS=vchiq_bus:%s", dev_name(&device->dev));
+>  }
+>  
+>  static int vchiq_bus_probe(struct device *dev)
+> diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_bus.h b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_bus.h
+> index 7eaaf9a91cda..6e1fbee4b078 100644
+> --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_bus.h
+> +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_bus.h
+> @@ -7,6 +7,7 @@
+>  #define _VCHIQ_DEVICE_H
+>  
+>  #include <linux/device.h>
+> +#include <linux/mod_devicetable.h>
+>  
+>  struct vchiq_device {
+>  	struct device dev;
+> @@ -18,6 +19,8 @@ struct vchiq_driver {
+>  	int		(*resume)(struct vchiq_device *device);
+>  	int		(*suspend)(struct vchiq_device *device,
+>  				   pm_message_t state);
+> +
+> +	const struct vchiq_bus_device_id *id_table;
+>  	struct device_driver driver;
+>  };
+>  
+> diff --git a/include/linux/mod_devicetable.h b/include/linux/mod_devicetable.h
+> index b0678b093cb2..f01e175f7f3d 100644
+> --- a/include/linux/mod_devicetable.h
+> +++ b/include/linux/mod_devicetable.h
+> @@ -946,4 +946,8 @@ struct cdx_device_id {
+>  	__u32 override_only;
+>  };
+>  
+> +struct vchiq_bus_device_id {
+> +	char name[32];
+> +};
+> +
+>  #endif /* LINUX_MOD_DEVICETABLE_H */
+> diff --git a/scripts/mod/devicetable-offsets.c b/scripts/mod/devicetable-offsets.c
+> index abe65f8968dd..c9a02d2c4f9e 100644
+> --- a/scripts/mod/devicetable-offsets.c
+> +++ b/scripts/mod/devicetable-offsets.c
+> @@ -267,5 +267,8 @@ int main(void)
+>  	DEVID_FIELD(cdx_device_id, device);
+>  	DEVID_FIELD(cdx_device_id, override_only);
+>  
+> +	DEVID(vchiq_bus_device_id);
+> +	DEVID_FIELD(vchiq_bus_device_id, name);
+> +
+>  	return 0;
+>  }
+> diff --git a/scripts/mod/file2alias.c b/scripts/mod/file2alias.c
+> index 38120f932b0d..6908dc70b649 100644
+> --- a/scripts/mod/file2alias.c
+> +++ b/scripts/mod/file2alias.c
+> @@ -1478,6 +1478,14 @@ static int do_cdx_entry(const char *filename, void *symval,
+>  	return 1;
+>  }
+>  
+> +static int do_vchiq_bus_entry(const char *filename, void *symval, char *alias)
+> +{
+> +	DEF_FIELD_ADDR(symval, vchiq_bus_device_id, name);
+> +	sprintf(alias, "vchiq_bus:%s", *name);
+> +
+> +	return 1;
+> +}
+> +
+>  /* Does namelen bytes of name exactly match the symbol? */
+>  static bool sym_is(const char *name, unsigned namelen, const char *symbol)
+>  {
+> @@ -1558,6 +1566,7 @@ static const struct devtable devtable[] = {
+>  	{"dfl", SIZE_dfl_device_id, do_dfl_entry},
+>  	{"ishtp", SIZE_ishtp_device_id, do_ishtp_entry},
+>  	{"cdx", SIZE_cdx_device_id, do_cdx_entry},
+> +	{"vchiq_bus", SIZE_vchiq_bus_device_id, do_vchiq_bus_entry},
+>  };
+>  
+>  /* Create MODULE_ALIAS() statements.
 
-> Modifies the return type of different static functions to void as the return value is being ignored
-> in all funtion calls thus not useful to have a return type.This improves
-> code readability and maintainability.
+-- 
+Regards,
 
-Remember to put a space between a period and the start of the next
-sentence.
-
-julia
-
->
-> Dorcas AnonoLitunya (2):
->   staging: sm750fb: Remove unused return value in
->     display_control_adjust_sm750le()
->   staging: sm750fb: Remove unused return value in
->     program_mode_registers()
->
->  drivers/staging/sm750fb/ddk750_mode.c | 9 +++------
->  1 file changed, 3 insertions(+), 6 deletions(-)
->
-> --
-> 2.42.0.345.gaab89be2eb
->
->
->
+Laurent Pinchart
