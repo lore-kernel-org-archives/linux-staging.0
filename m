@@ -1,134 +1,86 @@
-Received: from out2-smtp.messagingengine.com (out2-smtp.messagingengine.com [66.111.4.26])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oo1-f47.google.com (mail-oo1-f47.google.com [209.85.161.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43A923C061
-	for <linux-staging@lists.linux.dev>; Wed, 18 Oct 2023 16:05:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=arndb.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BC7D3C091
+	for <linux-staging@lists.linux.dev>; Wed, 18 Oct 2023 17:01:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="eWNED2WA";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="MEbXOTB7"
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-	by mailout.nyi.internal (Postfix) with ESMTP id 206AA5C01A0;
-	Wed, 18 Oct 2023 12:05:26 -0400 (EDT)
-Received: from imap51 ([10.202.2.101])
-  by compute5.internal (MEProxy); Wed, 18 Oct 2023 12:05:26 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
-	:cc:content-type:content-type:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:sender
-	:subject:subject:to:to; s=fm2; t=1697645126; x=1697731526; bh=z6
-	3sUaFiPJx8x8hQuW48hDSHTo+vjWa2wUbwxAV1Kkc=; b=eWNED2WAGEPEdZc2a1
-	Xb0pgjGoOWeuTpJIbej4F0e7HyPNaOrVCE8Ll+N3mO7CHGriyqPdCP98BaNd2aon
-	E6J6qWX/COGYqqr4dr4EQBaTp1V3fbwWQTyvOTJjenxmOVFOa9uWdGiAyFXASB5M
-	Qna7gjMO3/voztf0Vp7y8HwV8Xnb4f+OVkm3W6FLNH7QkuuZyeerc46VHSz/wH4N
-	ACXmH5Rt806BKXsOcNjRW9MGhJCwjzHtHmbyMAh8/Liu9nEFaSHNS44X/ppSTfLP
-	ITJvsA5YQd3TZIj1+M9qGeAY487LV+9y4CHNjFxcNFG+qThcdfIqLf5Q8TLIGeQy
-	/wpg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:sender:subject
-	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-	:x-sasl-enc; s=fm3; t=1697645126; x=1697731526; bh=z63sUaFiPJx8x
-	8hQuW48hDSHTo+vjWa2wUbwxAV1Kkc=; b=MEbXOTB7m4ZJCU4mLVXauS9kxRLhP
-	aLW8kckPt8xBEmVQ0BZynuwtA9M+mHNJE3auM4A2thBDTLFApPGBrdlOPJl7r9J5
-	CxZYBJXEQy/uEmWZh+i//OJ87affFTDvNBYN93Tp++8QqYTiXR3kxoTQ5j9a0kl8
-	I3Z4+Iz8iVyiHmpySezxjdW/hO1yK0vRKNlW3NMjuGghGdIV8n4ZzZvDQx89ujYl
-	oMbKqKJY5TW4Vd+7fKsb+A8B3Okc3VIdfS1YnZ1DyJFdfsp98kmCkgAntfIgYsOH
-	KTYGjYtOt2Be6g36DXRWiQsU3qeR3LJ7zKO8sXyUj8hB0eExjsCW0702w==
-X-ME-Sender: <xms:RAIwZTiCBFOrbwQWAEhuCKuZXQaPWfUgl8h625zZSJN6gUX0FXM1BQ>
-    <xme:RAIwZQDef0nDiotJi-70BiZSl_GPGyegjR_sc3jZzokVaxzKArRw5ldgrx_m8UF8c
-    sot729YTTz_ito-heU>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvkedrjeeggdelgecutefuodetggdotefrodftvf
-    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
-    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
-    fjughrpefofgggkfgjfhffhffvvefutgesthdtredtreertdenucfhrhhomhepfdetrhhn
-    ugcuuegvrhhgmhgrnhhnfdcuoegrrhhnugesrghrnhgusgdruggvqeenucggtffrrghtth
-    gvrhhnpeffheeugeetiefhgeethfejgfdtuefggeejleehjeeutefhfeeggefhkedtkeet
-    ffenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegrrh
-    hnugesrghrnhgusgdruggv
-X-ME-Proxy: <xmx:RAIwZTHeRcyvL4H54X9qmx3CBfjEKJr4HdpX2ftBUjJSwxemdrlj8Q>
-    <xmx:RAIwZQQNb1fPW5BH7ilV-1MX0J9jHusF2SAlia1CVQXvV3OqLcH63A>
-    <xmx:RAIwZQzn7bMTIASpLfLEfpuK9syToxRGYJRPjaIR6HhXMtwl24ZlkQ>
-    <xmx:RgIwZbrX4PlxbGIybgU6JeFOJSxPwEuGm1HIiCmPWa5Qju8RLpi7tQ>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
-	id 30C8DB6008D; Wed, 18 Oct 2023 12:05:24 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.9.0-alpha0-1019-ged83ad8595-fm-20231002.001-ged83ad85
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="i2xYdt7f"
+Received: by mail-oo1-f47.google.com with SMTP id 006d021491bc7-57f02eeabcaso4320051eaf.0
+        for <linux-staging@lists.linux.dev>; Wed, 18 Oct 2023 10:01:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1697648477; x=1698253277; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=hr0ycA5aHb6vFQVTChWOwllkgCks7I3a7aaUZga0s58=;
+        b=i2xYdt7f37Eb+SUGHajdC/WVwpmNMpdmLmyITlb/bWlSrNGYjwPUa+hwSoGLM3rhQw
+         Y6FGjsoDdPyHJMJnXOhBafdFrClAdwOEzlqvhbHTdHC7e7UKcb3ImsMk/7qmHzKBL4zc
+         ub+WxKRIp1bQ50ZIEO90pXtiVb1yaJjV9/KYs1Ez6y/k41ET4DeyXeZl5QXsBlMAh+pG
+         kBaDfdOyPsd9WJudj0O1Lc0RghFfu4NgUPvpWaCZ8Sq3nrM+eT1veKVS+KSaX3OwxopA
+         0LONS4UUOjoo+WFtSybjGPV47DkMG1QuQPyesK3ZzhDbF+fWqqbhN7Izm9jZLabajdET
+         h6Vg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1697648477; x=1698253277;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=hr0ycA5aHb6vFQVTChWOwllkgCks7I3a7aaUZga0s58=;
+        b=sw8ExKTAFqU+G+OQghQwTOtO05cHcrYhcLbP2pRuZAdcUGs1X4707rd/BSrduUnOJf
+         8dYmBw/YSSrouo67Ll1XS6pTJO0KNoi/s1E9pKpSbkBmKXMSug1Iv3BejfIlcD5IU7vI
+         0PIrW6mK5V/uVFdlSB368AL/9XlIJA7RxhK9DtuE9F6txMFRGkcRlK2cEZQaNsg5mTfi
+         OUoyJEDwg7y/SoisafmXMyOzRbDhktvgLPYD4GrLPCrwpIuX+z9IdGxg92Q89w9PzdHr
+         XqvDprLXNuLmW7Cwu9MOLUb/HiWv5keN8AzTGqEoLMuTrMh9O41nPmbTBOQBfKJqsj1n
+         90/w==
+X-Gm-Message-State: AOJu0YxQymjASl4kO+y+mbfL56wjbmGgwFAwyx4kQ0ixIlmNGl3QIzo+
+	5mrEpn4Sy9Fcwdu0DCPQdQg=
+X-Google-Smtp-Source: AGHT+IGAR9FT9S+HPbNUPuOZJAwG3+pwoP70aGYbDGxtB3QICfIgpn1ejznN/Qqo1qW4b5zRSrP3bg==
+X-Received: by 2002:a05:6358:ed7:b0:166:94b8:da17 with SMTP id 23-20020a0563580ed700b0016694b8da17mr6604656rwh.16.1697648476989;
+        Wed, 18 Oct 2023 10:01:16 -0700 (PDT)
+Received: from ubuntu ([223.226.54.200])
+        by smtp.gmail.com with ESMTPSA id v14-20020aa799ce000000b006bd6a0a4678sm3574595pfi.80.2023.10.18.10.01.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 18 Oct 2023 10:01:15 -0700 (PDT)
+Date: Wed, 18 Oct 2023 10:01:11 -0700
+From: Nandha Kumar Singaram <nandhakumar.singaram@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Manish Chopra <manishc@marvell.com>, GR-Linux-NIC-Dev@marvell.com,
+	Coiby Xu <coiby.xu@gmail.com>, netdev@vger.kernel.org,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	kumaran.4353@gmail.com
+Subject: Re: [PATCH 0/2] staging: qlge: Replace the occurrences of (1<<x) by
+ BIT(x)
+Message-ID: <20231018170111.GA3452@ubuntu>
+References: <cover.1697568757.git.nandhakumar.singaram@gmail.com>
+ <2023101856-visa-unlimited-a365@gregkh>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Message-Id: <97e45bae-2489-4f04-b324-8359cfa15f4a@app.fastmail.com>
-In-Reply-To: <08e266b5-cc6f-4428-bb50-11122a174e94@gmail.com>
-References: <20231010155444.858483-1-arnd@kernel.org>
- <e93e4008-65c5-4f1d-812a-64b48f0513a2@gmail.com>
- <c8f43e1b-aed1-4b45-ba7c-d896ff66dfa7@app.fastmail.com>
- <08e266b5-cc6f-4428-bb50-11122a174e94@gmail.com>
-Date: Wed, 18 Oct 2023 18:05:03 +0200
-From: "Arnd Bergmann" <arnd@arndb.de>
-To: "Philipp Hortmann" <philipp.g.hortmann@gmail.com>,
- "Arnd Bergmann" <arnd@kernel.org>, "Kalle Valo" <kvalo@kernel.org>,
- "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
-Cc: "Nicolas Ferre" <nicolas.ferre@microchip.com>,
- "Alexandre Belloni" <alexandre.belloni@bootlin.com>,
- "Claudiu Beznea" <claudiu.beznea@tuxon.dev>,
- "Jakub Kicinski" <kuba@kernel.org>, "Pavel Machek" <pavel@ucw.cz>,
- "David S . Miller" <davem@davemloft.net>,
- "Larry Finger" <Larry.Finger@lwfinger.net>, linux-kernel@vger.kernel.org,
- linux-wireless@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-staging@lists.linux.dev
-Subject: Re: [PATCH] [RFC] wireless: move obsolete drivers to staging
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <2023101856-visa-unlimited-a365@gregkh>
 
-On Sun, Oct 15, 2023, at 20:42, Philipp Hortmann wrote:
-> On 10/13/23 17:36, Arnd Bergmann wrote:
->> At the moment, I'd suggest focusing on the drivers that still use wext 
->> (git grep -w iw_handler_def drivers), if we can show that rtl8192e, 
->> rtl8712 or ks7010 have been broken for a while, removing those would 
->> help with removing wext altogether.
->
->
-> Hi,
->
-> __rtl8192e__
-> this hardware is available on ebay 13 times.
-> ping statistics:
-> 1191 packets transmitted, 1191 received, 0% packet loss, time 1192169ms
-> rtt min/avg/max/mdev = 0.633/2.184/74.792/3.157 ms
-> maximum download 12,5 MByte/s
->
-> __rtl8712__
-> stick packard bell AW-NU120
-> ping statistics:
-> 678 packets transmitted, 652 received, 3.83481% packet loss, time 678287ms
-> rtt min/avg/max/mdev = 0.943/4.835/231.435/17.900 ms
-> maximum download 12,5 MByte/s
->
-> I would like to remove the private functions as the "wireless tools" 
-> package is deprecated. The following functions are available:
-> kernel@matrix-ESPRIMO-P710:~/Documents/git/kernels/staging$ iwpriv wlan0
-> wlan0     Available private ioctls :
->            read32           (8BE0) : set   1 int   & get   0
->            write32          (8BE1) : set   1 int   & get   0
->            driver_ext       (8BE2) : set   0       & get   0
->            mp_ioctl         (8BE3) : set   0       & get   0
->            apinfo           (8BE4) : set   1 int   & get   0
->            setpid           (8BE5) : set   1 int   & get   0
->            wps_start        (8BE6) : set   1 int   & get   0
->            chplan           (8BE7) : set   1 int   & get   0
->
-> What do you think about this?
+On Wed, Oct 18, 2023 at 03:28:30PM +0200, Greg Kroah-Hartman wrote:
+> On Tue, Oct 17, 2023 at 12:03:57PM -0700, Nandha Kumar Singaram wrote:
+> > This patchset performs code cleanup in qlge driver as per
+> > linux coding style and may be applied in any sequence.
+> > 
+> > Nandha Kumar Singaram (2):
+> >   staging: qlge: Replace the occurrences of (1<<x) by BIT(x)
+> >   staging: qlge: Replace the occurrences of (1<<x) by BIT(x)
+> 
+> You have two different patches doing different things yet they have the
+> same identical subject lines.  That's not ok, sorry, please make unique
+> subject lines as obviously you are doing different things.
+> 
+> thanks,
+> 
+> greg k-h
 
-Larry is the maintainer for rtl8712, so he'd be the one to answer
-this. Out of the four drivers that are left using wext after
-my current draft removal series, only ks7010 and rtl8712
-use the private handlers, so in theory we could remove
-the CONFIG_WEXT_PRIV first, but I'm not sure that makes
-any difference if the plan is to convert all wext drivers
-to cfg80211 anyway.
+Sorry greg, thanks for your feedback. Will update the patch
 
-     Arnd
+Regards,
+Nandha Kumar Singaram
