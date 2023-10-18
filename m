@@ -1,120 +1,144 @@
-Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fd01.gateway.ufhost.com (fd01.gateway.ufhost.com [61.152.239.71])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F55017C4;
-	Wed, 18 Oct 2023 01:03:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RNUl7w1B"
-Received: by mail-ed1-f46.google.com with SMTP id 4fb4d7f45d1cf-538e8eca9c1so10785374a12.3;
-        Tue, 17 Oct 2023 18:03:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1697590989; x=1698195789; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=kiAH34C/kctaaX3077HYkei7HPlkFJr20QXBxwSI6Qc=;
-        b=RNUl7w1BlzFg0olILlqTQWVve25eEo8DvhnGfvQMAEpava2Ds5bTln/nDMwo2YgD6b
-         JzqU3xPmJa/OwT7OodjGxqqBzng4Y61bKKo5QOFuFJ6JG9Pz/2wdkag55998bjZZwOAO
-         foe/hfQohWtU5qnoTnrHtvmjr27gOiqTAUvVVnx5ErRSE+u+Y+QCP7bx/VlOjY8G3YCK
-         kKjWp34T74lBiPYZUSOxInjYxviUiCvPKKboCQJQWznZ4Wiix44NLV+kOoAYGyZ+0wtr
-         aE653ZPY1W8zmU1rOEZaWv0AGSw6TeeC/fs8A1GoquHpnBKhfNdhwrWiYKi50uFIxAB9
-         KBIw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697590989; x=1698195789;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=kiAH34C/kctaaX3077HYkei7HPlkFJr20QXBxwSI6Qc=;
-        b=l6aMPX4sgUgJI6Rh7S0yGDBNPLBrmh8F+EyaRgdn4rBDMu4s6XzkEWnfcmClRXWOpv
-         glNl7i+k6MCyRM6C+sxLDmkxmDdxGq5JDH6tm2+kUmyP+IB2U+EOot1Nd8vM/AiUEPJT
-         6qvaQrtxX0EEdEpqJcoTXTBAV4OdRGT2ATEnDT5aEGCRfeOE8TmVdSEpmEkabFLR4Kca
-         qaHND9LrnXV1wEaq8dAe5dEUvEUR9/TsZSDcgozgWusjfxH7FkrA5rGiPat5Djblrlsr
-         PQaBc/QmG5FLTH05VXIs5JACFXPvPmRJFJNC27VxsJD3MXYCo449Eb80+FiedfJP1+2r
-         zQSQ==
-X-Gm-Message-State: AOJu0YxPIav1+IRaecD7dGWQm3c5ViKjtn8am16RViNzPzFdE8iVUFmW
-	Y9fuqI8Vaqx9f4sEM/CUG3M=
-X-Google-Smtp-Source: AGHT+IEOToHY+FjeZ1+QFC3prDpL+/1h01J16kJ+hEmruNGEAZNL8D/NLPUO3ox3BEM032g/UpDm5Q==
-X-Received: by 2002:a17:907:36c3:b0:9bd:9507:ed1c with SMTP id bj3-20020a17090736c300b009bd9507ed1cmr3154408ejc.18.1697590989156;
-        Tue, 17 Oct 2023 18:03:09 -0700 (PDT)
-Received: from ubuntu ([129.205.113.163])
-        by smtp.gmail.com with ESMTPSA id n17-20020a17090673d100b009930c80b87csm616449ejl.142.2023.10.17.18.03.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 17 Oct 2023 18:03:08 -0700 (PDT)
-Date: Tue, 17 Oct 2023 18:03:05 -0700
-From: kenechukwu maduechesi <maduechesik@gmail.com>
-To: outreachy@lists.linux.dev, shreeya.patel23498@gmail.com
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [PATCH] staging: rts5208: Replace delay function.
-Message-ID: <20231018004300.GA3189@ubuntu>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36A238BEB
+	for <linux-staging@lists.linux.dev>; Wed, 18 Oct 2023 02:39:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=starfivetech.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=starfivetech.com
+Authentication-Results: smtp.subspace.kernel.org; dkim=none
+Received: from EXMBX165.cuchost.com (unknown [175.102.18.54])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(Client CN "EXMBX165", Issuer "EXMBX165" (not verified))
+	by fd01.gateway.ufhost.com (Postfix) with ESMTP id 6AC1724E025;
+	Wed, 18 Oct 2023 10:37:30 +0800 (CST)
+Received: from EXMBX073.cuchost.com (172.16.6.83) by EXMBX165.cuchost.com
+ (172.16.6.75) with Microsoft SMTP Server (TLS) id 15.0.1497.42; Wed, 18 Oct
+ 2023 10:37:30 +0800
+Received: from [192.168.1.218] (180.164.60.184) by EXMBX073.cuchost.com
+ (172.16.6.83) with Microsoft SMTP Server (TLS) id 15.0.1497.42; Wed, 18 Oct
+ 2023 10:37:29 +0800
+Message-ID: <bb5b776c-f1dd-f53e-079c-8048af2e73f1@starfivetech.com>
+Date: Wed, 18 Oct 2023 10:37:29 +0800
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.1
+Subject: Re: [PATCH v10 0/8] Add StarFive Camera Subsystem driver
+Content-Language: en-US
+To: Hans Verkuil <hverkuil-cisco@xs4all.nl>, Mauro Carvalho Chehab
+	<mchehab@kernel.org>, Robert Foss <rfoss@kernel.org>, Todor Tomov
+	<todor.too@gmail.com>, <bryan.odonoghue@linaro.org>, Rob Herring
+	<robh+dt@kernel.org>, Krzysztof Kozlowski
+	<krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>,
+	"Greg Kroah-Hartman" <gregkh@linuxfoundation.org>, Philipp Zabel
+	<p.zabel@pengutronix.de>, Laurent Pinchart
+	<laurent.pinchart@ideasonboard.com>
+CC: <linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<devicetree@vger.kernel.org>, <linux-staging@lists.linux.dev>,
+	<changhuang.liang@starfivetech.com>
+References: <20231008085154.6757-1-jack.zhu@starfivetech.com>
+ <98297bfc-ab81-4bb5-acc3-619fdf879276@xs4all.nl>
+From: Jack Zhu <jack.zhu@starfivetech.com>
+In-Reply-To: <98297bfc-ab81-4bb5-acc3-619fdf879276@xs4all.nl>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [180.164.60.184]
+X-ClientProxiedBy: EXCAS064.cuchost.com (172.16.6.24) To EXMBX073.cuchost.com
+ (172.16.6.83)
+X-YovoleRuleAgent: yovoleflag
 
-Replace udelay() with usleep_range() for more precise delay handling.
+Hi Hans,
 
-Reported by checkpatch:
+Thank you for your comments.
 
-CHECK: usleep_range is preferred over udelay
+On 2023/10/16 19:40, Hans Verkuil wrote:
+> Hi Jack,
+> 
+> On 08/10/2023 10:51, Jack Zhu wrote:
+>> Hi,
+>> 
+>> This series is the v10 series that attempts to support the Camera Subsystem
+>> found on StarFive JH7110 SoC.
+>> 
+>> This series is based on top of the master branch of media_stage repository,
+>> which is tested with a v4l2-compliance compiled from the git repo
+>> (git://linuxtv.org/v4l-utils.git).
+> 
+> I get one smatch warning:
+> 
+> drivers/staging/media/starfive/camss/stf-isp.c:122 isp_enum_mbus_code() warn: unsigned 'code->index' is never less than zero.
+> 
+> And I also notice that there is no TODO file: staging drivers should have a
+> TODO file explaining what needs to be done to get them out of staging.
+> 
+> I'm curious to know that as well :-)
+> 
+> It looks like there is a lot of additional development that can be done, since
+> most of the ISP parameters appear to be hardcoded.
+> 
+> I also notice something weird in the compliance test output for v4l-subdev0 vs
+> v4l-subdev1:
+> 
+>> Compliance test for starfive-camss device /dev/v4l-subdev0:
+>> 
+>> Driver Info:
+>> 	Driver version   : 6.6.0
+>> 	Capabilities     : 0x00000000
+>> Media Driver Info:
+>> 	Driver name      : starfive-camss
+>> 	Model            : Starfive Camera Subsystem
+>> 	Serial           : 
+>> 	Bus info         : platform:19840000.camss
+>> 	Media version    : 6.6.0
+>> 	Hardware revision: 0x00000000 (0)
+>> 	Driver version   : 6.6.0
+>> Interface Info:
+>> 	ID               : 0x0300001c
+>> 	Type             : V4L Sub-Device
+>> Entity Info:
+>> 	ID               : 0x00000001 (1)
+>> 	Name             : stf_isp
+>> 	Function         : Image Signal Processor
+>> 	Pad 0x01000002   : 0: Sink
+>> 	  Link 0x02000014: from remote pad 0x1000010 of entity 'cdns_csi2rx.19800000.csi-bridge' (Video Interface Bridge): Data, Enabled
+>> 	Pad 0x01000003   : 1: Source
+>> 	  Link 0x0200000c: to remote pad 0x1000009 of entity 'capture_yuv' (V4L2 I/O): Data, Enabled
+> 
+> Here it shows the Media Driver Info for v4l-subdev0.
+> 
+> <snip>
+> 
+>> --------------------------------------------------------------------------------
+>> Compliance test for device /dev/v4l-subdev1:
+>> 
+>> Driver Info:
+>> 	Driver version   : 6.6.0
+>> 	Capabilities     : 0x00000000
+> 
+> But this does not appear for v4l-subdev1.
+> 
+> I can't really tell why it doesn't show that. Can you debug a little bit?
+> The code is in v4l2-compliance.cpp, line 1086:
+> 
+> ent_id = mi_media_info_for_fd(media_fd, node.g_fd(), &is_invalid, &node.function);
+> 
+> The mi_media_info_for_fd() function calls ioctl(media_fd, MEDIA_IOC_DEVICE_INFO, &mdinfo),
+> and that fails for some reason. It could be that media_fd is invalid (would be weird).
+> 
+> This could well be a v4l2-compliance bug that you hit with this driver.
+> 
 
-Signed-off-by: kenechukwu maduechesi <maduechesik@gmail.com>
----
- drivers/staging/rts5208/sd.c | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+On the test board, /dev/v4l-subdev1 is imx219, and the corresponding directory is
+/sys/dev/char/81:3/device. Media0 does not exist in this directory. Therefore, the media_fd
+obtained through mi_get_media_fd(node.g_fd(), node.bus_info) is invalid.
 
-diff --git a/drivers/staging/rts5208/sd.c b/drivers/staging/rts5208/sd.c
-index 74c4f476b3a4..059f99b0a727 100644
---- a/drivers/staging/rts5208/sd.c
-+++ b/drivers/staging/rts5208/sd.c
-@@ -865,7 +865,7 @@ static int sd_change_phase(struct rtsx_chip *chip, u8 sample_point, u8 tune_dir)
- 						     PHASE_CHANGE);
- 			if (retval)
- 				return retval;
--			udelay(50);
-+			usleep_range(50);
- 			retval = rtsx_write_register(chip, SD_VP_CTL, 0xFF,
- 						     PHASE_CHANGE |
- 						     PHASE_NOT_RESET |
-@@ -877,14 +877,14 @@ static int sd_change_phase(struct rtsx_chip *chip, u8 sample_point, u8 tune_dir)
- 						     CHANGE_CLK, CHANGE_CLK);
- 			if (retval)
- 				return retval;
--			udelay(50);
-+			usleep_range(50);
- 			retval = rtsx_write_register(chip, SD_VP_CTL, 0xFF,
- 						     PHASE_NOT_RESET |
- 						     sample_point);
- 			if (retval)
- 				return retval;
- 		}
--		udelay(100);
-+		usleep_range(100);
- 
- 		rtsx_init_cmd(chip);
- 		rtsx_add_cmd(chip, WRITE_REG_CMD, SD_DCMPS_CTL, DCMPS_CHANGE,
-@@ -918,7 +918,7 @@ static int sd_change_phase(struct rtsx_chip *chip, u8 sample_point, u8 tune_dir)
- 				return retval;
- 		}
- 
--		udelay(50);
-+		usleep_range(50);
- 	}
- 
- 	retval = rtsx_write_register(chip, SD_CFG1, SD_ASYNC_FIFO_NOT_RST, 0);
-@@ -1416,7 +1416,7 @@ static int sd_wait_data_idle(struct rtsx_chip *chip)
- 			retval = STATUS_SUCCESS;
- 			break;
- 		}
--		udelay(100);
-+		usleep_range(100);
- 	}
- 	dev_dbg(rtsx_dev(chip), "SD_DATA_STATE: 0x%02x\n", val);
- 
+I don't know why media0 does not exist in /sys/dev/char/81:3/device?
+
 -- 
-2.25.1
+Regards,
 
+Jack Zhu
