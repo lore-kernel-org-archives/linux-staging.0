@@ -1,23 +1,23 @@
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9E6134CC7
-	for <linux-staging@lists.linux.dev>; Wed, 18 Oct 2023 12:38:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C72A335C7
+	for <linux-staging@lists.linux.dev>; Wed, 18 Oct 2023 12:41:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="Wi+kiVap"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="mjDEledR"
 Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id F2D205AA;
-	Wed, 18 Oct 2023 14:38:41 +0200 (CEST)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 8F6545AA;
+	Wed, 18 Oct 2023 14:40:59 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1697632722;
-	bh=WTvtkU5x/pJEWKBtyBpDEHO3PvUVu/0Ja/EmjLTukhM=;
+	s=mail; t=1697632859;
+	bh=Abg4cWW/qvbpQ3j6SQ/yO305OVSh2VH6ub81c6y154c=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Wi+kiVapoFtpX+pi94rF0nU7Ft/NJS9i3jrXW+bMkb7q7gh6zeBPBA2CxSK8WGlDN
-	 IEQHQ09M0sWQOfUyMGyrFu3rwTiX9kRbrD+6VoZtL1oqON3svNl5+fPKNDigHB7bBz
-	 1/M4/hR7F34dTMFnAbbSJG7MdBCm1BYMR4xdWMCE=
-Date: Wed, 18 Oct 2023 15:38:56 +0300
+	b=mjDEledRj0dUARTZxnGhZTpLLu6KeBBUbkhMx+uiEXP8kKEgRqHUFdz0fk0rbOMD5
+	 en0c90IKeYR1FJt5prJnPq/2UM81Mxn7Az8GvNz8F6dG5PQLebZWI/Ta0h/mZzQY3x
+	 wnahfPB6datT0LfDyYHZvgzHGG0A5jWSygI4NTyE=
+Date: Wed, 18 Oct 2023 15:41:13 +0300
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: Umang Jain <umang.jain@ideasonboard.com>
 Cc: linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
@@ -26,11 +26,11 @@ Cc: linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Dan Carpenter <error27@gmail.com>,
 	Kieran Bingham <kieran.bingham@ideasonboard.com>
-Subject: Re: [PATCH v2 1/3] staging: vc04_services: Support module
- autoloading using MODULE_DEVICE_TABLE
-Message-ID: <20231018123856.GG11118@pendragon.ideasonboard.com>
+Subject: Re: [PATCH v2 2/3] staging: vc04_services: bcm2835-audio: Drop
+ MODULE_ALIAS
+Message-ID: <20231018124113.GH11118@pendragon.ideasonboard.com>
 References: <20231018054214.824296-1-umang.jain@ideasonboard.com>
- <20231018054214.824296-2-umang.jain@ideasonboard.com>
+ <20231018054214.824296-3-umang.jain@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -39,125 +39,55 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20231018054214.824296-2-umang.jain@ideasonboard.com>
+In-Reply-To: <20231018054214.824296-3-umang.jain@ideasonboard.com>
 
-On Wed, Oct 18, 2023 at 11:12:12AM +0530, Umang Jain wrote:
-> VC04 has now a independent bus vchiq_bus to register its devices.
-> However, the module auto-loading for bcm2835-audio and bcm2835-camera
-> currently happens through MODULE_ALIAS() macro specified explicitly.
-> 
-> The correct way to auto-load a module, is when the alias is picked
-> out from MODULE_DEVICE_TABLE(). In order to get there, we need to
-> introduce  vchiq_device_id and add relevant entries in file2alias.c
-> infrastructure so that aliases can be generated. This patch targets
-> adding vchiq_bus_device_id and do_vchiq_bus_entry, in order to
-> generate those alias using the /script/mod/file2alias.c.
-> 
-> Going forward the MODULE_ALIAS() from bcm2835-camera and bcm2835-audio
-> will be dropped, in favour of MODULE_DEVICE_TABLE being used there.
-> 
-> The alias format for vchiq_bus devices will be "vchiq_bus:<dev_name>".
-> Adjust the vchiq_bus_uevent() to reflect that.
+Hi Umang,
 
-None of the other buses have a "_bus" suffix in the alias or in the
-*_device_id structure name. Is there a reason to make an exception here?
+Thank you for the patch.
 
+On Wed, Oct 18, 2023 at 11:12:13AM +0530, Umang Jain wrote:
+> Drop MODULE_ALIAS in favour of MODULE_DEVICE_TABLE as the module
+> alias should be dropped from there.
+> 
 > Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
 > ---
->  .../vc04_services/interface/vchiq_arm/vchiq_bus.c        | 2 +-
->  .../vc04_services/interface/vchiq_arm/vchiq_bus.h        | 3 +++
->  include/linux/mod_devicetable.h                          | 4 ++++
->  scripts/mod/devicetable-offsets.c                        | 3 +++
->  scripts/mod/file2alias.c                                 | 9 +++++++++
->  5 files changed, 20 insertions(+), 1 deletion(-)
+>  drivers/staging/vc04_services/bcm2835-audio/bcm2835.c | 8 +++++++-
+>  1 file changed, 7 insertions(+), 1 deletion(-)
 > 
-> diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_bus.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_bus.c
-> index 4ac3491efe45..b4915bd76387 100644
-> --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_bus.c
-> +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_bus.c
-> @@ -26,7 +26,7 @@ static int vchiq_bus_uevent(const struct device *dev, struct kobj_uevent_env *en
->  {
->  	const struct vchiq_device *device = container_of_const(dev, struct vchiq_device, dev);
+> diff --git a/drivers/staging/vc04_services/bcm2835-audio/bcm2835.c b/drivers/staging/vc04_services/bcm2835-audio/bcm2835.c
+> index 06bdc7673d4b..d5bd8a36a010 100644
+> --- a/drivers/staging/vc04_services/bcm2835-audio/bcm2835.c
+> +++ b/drivers/staging/vc04_services/bcm2835-audio/bcm2835.c
+> @@ -311,12 +311,19 @@ static int snd_bcm2835_alsa_resume(struct vchiq_device *device)
 >  
-> -	return add_uevent_var(env, "MODALIAS=%s", dev_name(&device->dev));
-> +	return add_uevent_var(env, "MODALIAS=vchiq_bus:%s", dev_name(&device->dev));
->  }
+>  #endif
 >  
->  static int vchiq_bus_probe(struct device *dev)
-> diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_bus.h b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_bus.h
-> index 7eaaf9a91cda..6e1fbee4b078 100644
-> --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_bus.h
-> +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_bus.h
-> @@ -7,6 +7,7 @@
->  #define _VCHIQ_DEVICE_H
->  
->  #include <linux/device.h>
-> +#include <linux/mod_devicetable.h>
->  
->  struct vchiq_device {
->  	struct device dev;
-> @@ -18,6 +19,8 @@ struct vchiq_driver {
->  	int		(*resume)(struct vchiq_device *device);
->  	int		(*suspend)(struct vchiq_device *device,
->  				   pm_message_t state);
-> +
-> +	const struct vchiq_bus_device_id *id_table;
->  	struct device_driver driver;
->  };
->  
-> diff --git a/include/linux/mod_devicetable.h b/include/linux/mod_devicetable.h
-> index b0678b093cb2..f01e175f7f3d 100644
-> --- a/include/linux/mod_devicetable.h
-> +++ b/include/linux/mod_devicetable.h
-> @@ -946,4 +946,8 @@ struct cdx_device_id {
->  	__u32 override_only;
->  };
->  
-> +struct vchiq_bus_device_id {
-> +	char name[32];
+> +static struct vchiq_bus_device_id device_id_table[] = {
+> +	{ .name = "bcm2835-audio" },
+> +	{}
 > +};
+> +MODULE_DEVICE_TABLE(vchiq_bus, device_id_table);
+
+With the "_bus" suffix dropped (see review of 1/3),
+
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
 > +
->  #endif /* LINUX_MOD_DEVICETABLE_H */
-> diff --git a/scripts/mod/devicetable-offsets.c b/scripts/mod/devicetable-offsets.c
-> index abe65f8968dd..c9a02d2c4f9e 100644
-> --- a/scripts/mod/devicetable-offsets.c
-> +++ b/scripts/mod/devicetable-offsets.c
-> @@ -267,5 +267,8 @@ int main(void)
->  	DEVID_FIELD(cdx_device_id, device);
->  	DEVID_FIELD(cdx_device_id, override_only);
->  
-> +	DEVID(vchiq_bus_device_id);
-> +	DEVID_FIELD(vchiq_bus_device_id, name);
-> +
->  	return 0;
->  }
-> diff --git a/scripts/mod/file2alias.c b/scripts/mod/file2alias.c
-> index 38120f932b0d..6908dc70b649 100644
-> --- a/scripts/mod/file2alias.c
-> +++ b/scripts/mod/file2alias.c
-> @@ -1478,6 +1478,14 @@ static int do_cdx_entry(const char *filename, void *symval,
->  	return 1;
->  }
->  
-> +static int do_vchiq_bus_entry(const char *filename, void *symval, char *alias)
-> +{
-> +	DEF_FIELD_ADDR(symval, vchiq_bus_device_id, name);
-> +	sprintf(alias, "vchiq_bus:%s", *name);
-> +
-> +	return 1;
-> +}
-> +
->  /* Does namelen bytes of name exactly match the symbol? */
->  static bool sym_is(const char *name, unsigned namelen, const char *symbol)
->  {
-> @@ -1558,6 +1566,7 @@ static const struct devtable devtable[] = {
->  	{"dfl", SIZE_dfl_device_id, do_dfl_entry},
->  	{"ishtp", SIZE_ishtp_device_id, do_ishtp_entry},
->  	{"cdx", SIZE_cdx_device_id, do_cdx_entry},
-> +	{"vchiq_bus", SIZE_vchiq_bus_device_id, do_vchiq_bus_entry},
->  };
->  
->  /* Create MODULE_ALIAS() statements.
+>  static struct vchiq_driver bcm2835_alsa_driver = {
+>  	.probe = snd_bcm2835_alsa_probe,
+>  #ifdef CONFIG_PM
+>  	.suspend = snd_bcm2835_alsa_suspend,
+>  	.resume = snd_bcm2835_alsa_resume,
+>  #endif
+> +	.id_table = device_id_table,
+>  	.driver = {
+>  		.name = "bcm2835-audio",
+>  	},
+> @@ -326,4 +333,3 @@ module_vchiq_driver(bcm2835_alsa_driver);
+>  MODULE_AUTHOR("Dom Cobley");
+>  MODULE_DESCRIPTION("Alsa driver for BCM2835 chip");
+>  MODULE_LICENSE("GPL");
+> -MODULE_ALIAS("bcm2835-audio");
 
 -- 
 Regards,
