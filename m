@@ -1,96 +1,85 @@
-Received: from ex01.ufhost.com (ex01.ufhost.com [61.152.239.75])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 469044424
-	for <linux-staging@lists.linux.dev>; Wed, 18 Oct 2023 03:11:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=starfivetech.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=starfivetech.com
-Authentication-Results: smtp.subspace.kernel.org; dkim=none
-Received: from EXMBX165.cuchost.com (unknown [175.102.18.54])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(Client CN "EXMBX165", Issuer "EXMBX165" (not verified))
-	by ex01.ufhost.com (Postfix) with ESMTP id 68D3A24E277;
-	Wed, 18 Oct 2023 11:11:41 +0800 (CST)
-Received: from EXMBX073.cuchost.com (172.16.6.83) by EXMBX165.cuchost.com
- (172.16.6.75) with Microsoft SMTP Server (TLS) id 15.0.1497.42; Wed, 18 Oct
- 2023 11:11:41 +0800
-Received: from [192.168.1.218] (180.164.60.184) by EXMBX073.cuchost.com
- (172.16.6.83) with Microsoft SMTP Server (TLS) id 15.0.1497.42; Wed, 18 Oct
- 2023 11:11:40 +0800
-Message-ID: <c255e215-b1ed-7397-0534-8d6ebda86350@starfivetech.com>
-Date: Wed, 18 Oct 2023 11:11:40 +0800
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C8C663BD;
+	Wed, 18 Oct 2023 03:38:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jjtOKsvk"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1697600300; x=1729136300;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=L2XI+NRTEILxjtpiFc792xwJDDhVanL35F3Cd6yts6U=;
+  b=jjtOKsvkHDtWn1ynjq/14tfElth4Lyn96H6yaahtdgAyrrGGjZwrtYPj
+   dSRUT+nJaP4QwJrtaS2qTqL8qtBoeT2V+aSZr/yXOL24Cs7NbnU+YwZlY
+   Tpjw7OvcwUCog0L4WtsH9ox6EgcYdHmsuC5RI6YHXFVkEiKqdCDzUAcVv
+   66+iVjeCQg0XJ/tOovqnvo3/HhsRp/aILkhI+HVa5bV+CDFM6jgVbUvXF
+   HSh4+wkvj0DMawEXpqrP/6J+36S+GJSm2iYmn2xtd4rEBJvYhkZzuJ+Bb
+   fncRycnZF0wQx5dxyE/cO1RhWCtjkLudj11/4dt0yVHDGVPtIZrzhQ08K
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10866"; a="388792709"
+X-IronPort-AV: E=Sophos;i="6.03,234,1694761200"; 
+   d="scan'208";a="388792709"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Oct 2023 20:38:18 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.03,234,1694761200"; 
+   d="scan'208";a="4175430"
+Received: from kchua1-mobl1.gar.corp.intel.com (HELO intel.com) ([10.215.248.174])
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Oct 2023 20:37:09 -0700
+Date: Wed, 18 Oct 2023 05:38:07 +0200
+From: Andi Shyti <andi.shyti@linux.intel.com>
+To: kenechukwu maduechesi <maduechesik@gmail.com>
+Cc: outreachy@lists.linux.dev, shreeya.patel23498@gmail.com,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: rts5208: Replace delay function.
+Message-ID: <ZS9THxlJhHfv4gU9@ashyti-mobl2.lan>
+References: <20231018004300.GA3189@ubuntu>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.1
-Subject: Re: [PATCH v10 0/8] Add StarFive Camera Subsystem driver
-Content-Language: en-US
-To: Hans Verkuil <hverkuil-cisco@xs4all.nl>, Mauro Carvalho Chehab
-	<mchehab@kernel.org>, Robert Foss <rfoss@kernel.org>, Todor Tomov
-	<todor.too@gmail.com>, <bryan.odonoghue@linaro.org>, Rob Herring
-	<robh+dt@kernel.org>, Krzysztof Kozlowski
-	<krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>,
-	"Greg Kroah-Hartman" <gregkh@linuxfoundation.org>, Philipp Zabel
-	<p.zabel@pengutronix.de>, Laurent Pinchart
-	<laurent.pinchart@ideasonboard.com>
-CC: <linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<devicetree@vger.kernel.org>, <linux-staging@lists.linux.dev>,
-	<changhuang.liang@starfivetech.com>
-References: <20231008085154.6757-1-jack.zhu@starfivetech.com>
- <98297bfc-ab81-4bb5-acc3-619fdf879276@xs4all.nl>
-From: Jack Zhu <jack.zhu@starfivetech.com>
-In-Reply-To: <98297bfc-ab81-4bb5-acc3-619fdf879276@xs4all.nl>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [180.164.60.184]
-X-ClientProxiedBy: EXCAS064.cuchost.com (172.16.6.24) To EXMBX073.cuchost.com
- (172.16.6.83)
-X-YovoleRuleAgent: yovoleflag
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231018004300.GA3189@ubuntu>
 
+Hi Kenechukwu,
 
+On Tue, Oct 17, 2023 at 06:03:05PM -0700, kenechukwu maduechesi wrote:
+> Replace udelay() with usleep_range() for more precise delay handling.
 
-On 2023/10/16 19:40, Hans Verkuil wrote:
-> Hi Jack,
+The reason is not the precise handling, quite the opposite.
+
+> Reported by checkpatch:
 > 
-> On 08/10/2023 10:51, Jack Zhu wrote:
->> Hi,
->> 
->> This series is the v10 series that attempts to support the Camera Subsystem
->> found on StarFive JH7110 SoC.
->> 
->> This series is based on top of the master branch of media_stage repository,
->> which is tested with a v4l2-compliance compiled from the git repo
->> (git://linuxtv.org/v4l-utils.git).
+> CHECK: usleep_range is preferred over udelay
+
+Can you tell why?[*]
+
+> Signed-off-by: kenechukwu maduechesi <maduechesik@gmail.com>
+> ---
+>  drivers/staging/rts5208/sd.c | 10 +++++-----
+>  1 file changed, 5 insertions(+), 5 deletions(-)
 > 
-> I get one smatch warning:
-> 
-> drivers/staging/media/starfive/camss/stf-isp.c:122 isp_enum_mbus_code() warn: unsigned 'code->index' is never less than zero.
-> 
+> diff --git a/drivers/staging/rts5208/sd.c b/drivers/staging/rts5208/sd.c
+> index 74c4f476b3a4..059f99b0a727 100644
+> --- a/drivers/staging/rts5208/sd.c
+> +++ b/drivers/staging/rts5208/sd.c
+> @@ -865,7 +865,7 @@ static int sd_change_phase(struct rtsx_chip *chip, u8 sample_point, u8 tune_dir)
+>  						     PHASE_CHANGE);
+>  			if (retval)
+>  				return retval;
+> -			udelay(50);
+> +			usleep_range(50);
 
-Could you please tell me the code check command? This way I can use it to check
-my next commit.
+What is the range you will be sleeping, now?
 
-> And I also notice that there is no TODO file: staging drivers should have a
-> TODO file explaining what needs to be done to get them out of staging.
-> 
+Andi
 
-OK, I'll add it to my next commit. I previously misunderstood that it was submitted
-when moving out of staging.
-
-> I'm curious to know that as well :-)
-> 
-> It looks like there is a lot of additional development that can be done, since
-> most of the ISP parameters appear to be hardcoded.
-> 
-
-Part is the module initialization configuration. In the next stage, we will use
-incremental development to implement 3A functions.
-
--- 
-Regards,
-
-Jack Zhu
+[*] Documentation/timers/timers-howto.rst
