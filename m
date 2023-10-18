@@ -1,24 +1,24 @@
-Received: from fd01.gateway.ufhost.com (fd01.gateway.ufhost.com [61.152.239.71])
+Received: from ex01.ufhost.com (ex01.ufhost.com [61.152.239.75])
 	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36A238BEB
-	for <linux-staging@lists.linux.dev>; Wed, 18 Oct 2023 02:39:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 469044424
+	for <linux-staging@lists.linux.dev>; Wed, 18 Oct 2023 03:11:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=starfivetech.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=starfivetech.com
 Authentication-Results: smtp.subspace.kernel.org; dkim=none
 Received: from EXMBX165.cuchost.com (unknown [175.102.18.54])
 	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
 	(Client CN "EXMBX165", Issuer "EXMBX165" (not verified))
-	by fd01.gateway.ufhost.com (Postfix) with ESMTP id 6AC1724E025;
-	Wed, 18 Oct 2023 10:37:30 +0800 (CST)
+	by ex01.ufhost.com (Postfix) with ESMTP id 68D3A24E277;
+	Wed, 18 Oct 2023 11:11:41 +0800 (CST)
 Received: from EXMBX073.cuchost.com (172.16.6.83) by EXMBX165.cuchost.com
  (172.16.6.75) with Microsoft SMTP Server (TLS) id 15.0.1497.42; Wed, 18 Oct
- 2023 10:37:30 +0800
+ 2023 11:11:41 +0800
 Received: from [192.168.1.218] (180.164.60.184) by EXMBX073.cuchost.com
  (172.16.6.83) with Microsoft SMTP Server (TLS) id 15.0.1497.42; Wed, 18 Oct
- 2023 10:37:29 +0800
-Message-ID: <bb5b776c-f1dd-f53e-079c-8048af2e73f1@starfivetech.com>
-Date: Wed, 18 Oct 2023 10:37:29 +0800
+ 2023 11:11:40 +0800
+Message-ID: <c255e215-b1ed-7397-0534-8d6ebda86350@starfivetech.com>
+Date: Wed, 18 Oct 2023 11:11:40 +0800
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -51,9 +51,7 @@ X-ClientProxiedBy: EXCAS064.cuchost.com (172.16.6.24) To EXMBX073.cuchost.com
  (172.16.6.83)
 X-YovoleRuleAgent: yovoleflag
 
-Hi Hans,
 
-Thank you for your comments.
 
 On 2023/10/16 19:40, Hans Verkuil wrote:
 > Hi Jack,
@@ -72,71 +70,25 @@ On 2023/10/16 19:40, Hans Verkuil wrote:
 > 
 > drivers/staging/media/starfive/camss/stf-isp.c:122 isp_enum_mbus_code() warn: unsigned 'code->index' is never less than zero.
 > 
+
+Could you please tell me the code check command? This way I can use it to check
+my next commit.
+
 > And I also notice that there is no TODO file: staging drivers should have a
 > TODO file explaining what needs to be done to get them out of staging.
 > 
+
+OK, I'll add it to my next commit. I previously misunderstood that it was submitted
+when moving out of staging.
+
 > I'm curious to know that as well :-)
 > 
 > It looks like there is a lot of additional development that can be done, since
 > most of the ISP parameters appear to be hardcoded.
 > 
-> I also notice something weird in the compliance test output for v4l-subdev0 vs
-> v4l-subdev1:
-> 
->> Compliance test for starfive-camss device /dev/v4l-subdev0:
->> 
->> Driver Info:
->> 	Driver version   : 6.6.0
->> 	Capabilities     : 0x00000000
->> Media Driver Info:
->> 	Driver name      : starfive-camss
->> 	Model            : Starfive Camera Subsystem
->> 	Serial           : 
->> 	Bus info         : platform:19840000.camss
->> 	Media version    : 6.6.0
->> 	Hardware revision: 0x00000000 (0)
->> 	Driver version   : 6.6.0
->> Interface Info:
->> 	ID               : 0x0300001c
->> 	Type             : V4L Sub-Device
->> Entity Info:
->> 	ID               : 0x00000001 (1)
->> 	Name             : stf_isp
->> 	Function         : Image Signal Processor
->> 	Pad 0x01000002   : 0: Sink
->> 	  Link 0x02000014: from remote pad 0x1000010 of entity 'cdns_csi2rx.19800000.csi-bridge' (Video Interface Bridge): Data, Enabled
->> 	Pad 0x01000003   : 1: Source
->> 	  Link 0x0200000c: to remote pad 0x1000009 of entity 'capture_yuv' (V4L2 I/O): Data, Enabled
-> 
-> Here it shows the Media Driver Info for v4l-subdev0.
-> 
-> <snip>
-> 
->> --------------------------------------------------------------------------------
->> Compliance test for device /dev/v4l-subdev1:
->> 
->> Driver Info:
->> 	Driver version   : 6.6.0
->> 	Capabilities     : 0x00000000
-> 
-> But this does not appear for v4l-subdev1.
-> 
-> I can't really tell why it doesn't show that. Can you debug a little bit?
-> The code is in v4l2-compliance.cpp, line 1086:
-> 
-> ent_id = mi_media_info_for_fd(media_fd, node.g_fd(), &is_invalid, &node.function);
-> 
-> The mi_media_info_for_fd() function calls ioctl(media_fd, MEDIA_IOC_DEVICE_INFO, &mdinfo),
-> and that fails for some reason. It could be that media_fd is invalid (would be weird).
-> 
-> This could well be a v4l2-compliance bug that you hit with this driver.
-> 
 
-On the test board, /dev/v4l-subdev1 is imx219, and the corresponding directory is
-/sys/dev/char/81:3/device. Media0 does not exist in this directory. Therefore, the media_fd
-obtained through mi_get_media_fd(node.g_fd(), node.bus_info) is invalid.
-
-I don't know why media0 does not exist in /sys/dev/char/81:3/device?
+Part is the module initialization configuration. In the next stage, we will use
+incremental development to implement 3A functions.
 
 -- 
 Regards,
