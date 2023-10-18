@@ -1,38 +1,30 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0FBF1A582;
-	Wed, 18 Oct 2023 13:27:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04B8318636;
+	Wed, 18 Oct 2023 13:28:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="cgi7WPeI"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 902D3C433C8;
-	Wed, 18 Oct 2023 13:27:45 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="zgW50rre"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 36355C433C8;
+	Wed, 18 Oct 2023 13:28:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1697635666;
-	bh=jCgth0ZM5NS8POYLQWWncAMyPeJN/zdTVz+jC6/ir9s=;
+	s=korg; t=1697635712;
+	bh=jgCv0a1mlOuqJCd6p2vD9dhvth5LauxDgfbxCVtY3fQ=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=cgi7WPeIR22Maw7vQXg4kBgzinMLtQgFbpnFy9pUgqlKbc4AtGgTaOEBdVkMrWKCz
-	 ptQNibWB+rUMv/fArQrHll9RBq9B+8lWECJTao2WD01tRUvFWQ5Y4toqTEAntZVBIc
-	 bWUQRuYQgzQK4JKeyxxQqHPfjuKodQC/lS5z+kow=
-Date: Wed, 18 Oct 2023 15:27:41 +0200
+	b=zgW50rreyLuaykwNNcQrZpzkgzR7rqaEEwlKWHgfNT5bEf0pvw49DWbOzAGCdKcOD
+	 rryTMIvdMc7iKjIZCMtxozz71x2WzzbVG8rUJODaSCQYXpcu2AQCUa4kHRKah7foAx
+	 l8scmNu4hXL3QD29Hqcg+j0eJdO53+9foM506PtM=
+Date: Wed, 18 Oct 2023 15:28:30 +0200
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Dorcas Litunya <anonolitunya@gmail.com>
-Cc: outreachy@lists.linux.dev, julia.lawall@inria.fr,
-	dan.carpenter@linaro.org,
-	Sudip Mukherjee <sudipm.mukherjee@gmail.com>,
-	Teddy Wang <teddy.wang@siliconmotion.com>,
-	linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 1/5] Staging: sm750fb: Rename
- displayControlAdjust_SM750E
-Message-ID: <2023101844-sadness-payee-0923@gregkh>
-References: <20231016201434.7880-1-anonolitunya@gmail.com>
- <20231016201434.7880-2-anonolitunya@gmail.com>
- <2023101724-diagram-legwork-0e53@gregkh>
- <ZS5FlsCPETnr8T5D@dorcaslitunya-virtual-machine>
- <2023101712-grudge-overtime-1f43@gregkh>
- <ZS5JexVUSKZUuOd4@dorcaslitunya-virtual-machine>
- <ZS7WvaM65awtILqk@dorcaslitunya-virtual-machine>
+To: Nandha Kumar Singaram <nandhakumar.singaram@gmail.com>
+Cc: Manish Chopra <manishc@marvell.com>, GR-Linux-NIC-Dev@marvell.com,
+	Coiby Xu <coiby.xu@gmail.com>, netdev@vger.kernel.org,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	kumaran.4353@gmail.com
+Subject: Re: [PATCH 0/2] staging: qlge: Replace the occurrences of (1<<x) by
+ BIT(x)
+Message-ID: <2023101856-visa-unlimited-a365@gregkh>
+References: <cover.1697568757.git.nandhakumar.singaram@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -41,82 +33,19 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ZS7WvaM65awtILqk@dorcaslitunya-virtual-machine>
+In-Reply-To: <cover.1697568757.git.nandhakumar.singaram@gmail.com>
 
-On Tue, Oct 17, 2023 at 09:47:25PM +0300, Dorcas Litunya wrote:
-> On Tue, Oct 17, 2023 at 11:44:43AM +0300, Dorcas Litunya wrote:
-> > On Tue, Oct 17, 2023 at 10:34:43AM +0200, Greg Kroah-Hartman wrote:
-> > > On Tue, Oct 17, 2023 at 11:28:06AM +0300, Dorcas Litunya wrote:
-> > > > On Tue, Oct 17, 2023 at 09:50:50AM +0200, Greg Kroah-Hartman wrote:
-> > > > > On Mon, Oct 16, 2023 at 11:14:08PM +0300, Dorcas AnonoLitunya wrote:
-> > > > > > Rename function displayControlAdjust_SM750E to
-> > > > > > display_control_adjust_SM750E. This follows snakecase naming convention
-> > > > > > and ensures a consistent naming style throughout the file. Issue found by
-> > > > > > checkpatch.
-> > > > > > 
-> > > > > > Mutes the following error:
-> > > > > > CHECK:Avoid CamelCase: <displayControlAdjust_SM750E>
-> > > > > > 
-> > > > > > Signed-off-by: Dorcas AnonoLitunya <anonolitunya@gmail.com>
-> > > > > > ---
-> > > > > >  drivers/staging/sm750fb/ddk750_mode.c | 6 +++---
-> > > > > >  1 file changed, 3 insertions(+), 3 deletions(-)
-> > > > > > 
-> > > > > > diff --git a/drivers/staging/sm750fb/ddk750_mode.c b/drivers/staging/sm750fb/ddk750_mode.c
-> > > > > > index e00a6cb31947..8708995f676c 100644
-> > > > > > --- a/drivers/staging/sm750fb/ddk750_mode.c
-> > > > > > +++ b/drivers/staging/sm750fb/ddk750_mode.c
-> > > > > > @@ -14,8 +14,8 @@
-> > > > > >   * in bit 29:27 of Display Control register.
-> > > > > >   */
-> > > > > >  static unsigned long
-> > > > > > -displayControlAdjust_SM750LE(struct mode_parameter *pModeParam,
-> > > > > > -			     unsigned long dispControl)
-> > > > > > +display_control_adjust_SM750LE(struct mode_parameter *pModeParam,
-> > > > > > +			       unsigned long dispControl)
-> > > > > >  {
-> > > > > >  	unsigned long x, y;
-> > > > > >  
-> > > > > > @@ -125,7 +125,7 @@ static int programModeRegisters(struct mode_parameter *pModeParam,
-> > > > > >  			tmp |= DISPLAY_CTRL_HSYNC_PHASE;
-> > > > > >  
-> > > > > >  		if (sm750_get_chip_type() == SM750LE) {
-> > > > > > -			displayControlAdjust_SM750LE(pModeParam, tmp);
-> > > > > > +			display_control_adjust_SM750LE(pModeParam, tmp);
-> > > > > 
-> > > > > Why is this function returning a value if it is just being ignored?
-> > > > > 
-> > > > > It's not the issue here in the patch, but for future changes.
-> > > > >
-> > > > Hi Greg,
-> > > > 
-> > > > I will do the correction in the next patchset to correct both functions
-> > > > return value as this patchset was not focused on that. Does this mean
-> > > > that this patchset has been accepted? Or should I submit another
-> > > > patchset that includes the two changes suggested on function return
-> > > > values?
-> > > 
-> > > You'll get an email from my system when it is accepted, wait a day or so
-> > > before worrying about that.  And then send new patches on top of them
-> > > then.
-> > > 
-> > Thanks for the clarification Greg. I will wait for the confirmation
-> > email from your system then send the new patches shortly afterwards.
-> > 
-> > thanks,
-> > Dorcas
-> > > thanks,
-> > > 
-> > > greg k-h
-> Hello,
->  I have realised there was an error in the commit message subject and body for this patch. I had put "Staging: sm750fb: Rename displayControlAdjust_SM750E" instead of "Staging: sm750fb: Rename displayControlAdjust_SM750LE".I had forgotten the L in SM750LE. I have modified the commit message using git commit --amend to correct the mistake. I have seen the patch has been accepted, however, I am not sure whether the change in the commit message will reflect once the patch is merged. Please guide on what to do next. I am really sorry for the inconvenience.
+On Tue, Oct 17, 2023 at 12:03:57PM -0700, Nandha Kumar Singaram wrote:
+> This patchset performs code cleanup in qlge driver as per
+> linux coding style and may be applied in any sequence.
+> 
+> Nandha Kumar Singaram (2):
+>   staging: qlge: Replace the occurrences of (1<<x) by BIT(x)
+>   staging: qlge: Replace the occurrences of (1<<x) by BIT(x)
 
-There is no connection between the change you made on your machine, and
-the ones on mine which get pushed to kernel.org.  So if you need a
-change, you need to send a new patch.
-
-For a typo fix like this, don't worry about it, it's already in my tree
-and is not worth dropping it, so it's all ok.
+You have two different patches doing different things yet they have the
+same identical subject lines.  That's not ok, sorry, please make unique
+subject lines as obviously you are doing different things.
 
 thanks,
 
