@@ -1,51 +1,53 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74A0D134BF;
-	Wed, 18 Oct 2023 22:13:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 844C942BFF;
+	Wed, 18 Oct 2023 22:17:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZuVr/Lv4"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VnKBOTMf"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1697667212; x=1729203212;
+  t=1697667433; x=1729203433;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=J9MSXc9livi9wY04KjUidMwQUars9CGlH7kYAxX/wVI=;
-  b=ZuVr/Lv4fOg5ZkNeoSqHUf1zujScH0fVI6s1crQiIRriYzCcHwojnJWZ
-   HSaNmbcXtaT6q9MQdzSN7LLr5rXH8We8xmfEe4fVMcFzIFJHwCX1cSsiu
-   dqvjZDSttguz4w8iqoGTI6O+4WbYAnJLYiGiWh6OFh+zCUOFZkcjWs0ug
-   CnGhEBAWk/AS49taTV16MCMcMdSRnkE7rhUgx51lHYUezA6qTAxvQoVIK
-   exhW5mcLKazjyUEKxCZJUbcOl0y2lB+8MtwewE3ZBEDFz6TRnfeZGFHUs
-   5ZZazFWjrQqR9V2nukdkR2FvwK8gJimlQdFaWnjXnXJdEy+Zx393R0Qz3
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10867"; a="376497666"
+  bh=uYBVBXbi85koNDPpvMhT/9afV4TOrNCWEn+UPSqZ71o=;
+  b=VnKBOTMf74ngIQGTLukRhPp8hY3JRQl9+jKS8wx7J3QqihZ/HMyqkR/T
+   eKwzIonjB1betlUiHb0DKVL0uCAYXhhUeOX+lfCGjdeJN2e4eDoNYLsXw
+   B5BZxejLFBqt/uSb8lb2rty89cZ+8d1cWZZb9a1ChecMKu5cbd1JX2RFr
+   x9okIQNm7OdewxjcsSYqnx0ExWLK5otIJ0JC1PrTVKC1ppHD7wPwnMcZ5
+   3nPV7Pu898haQkRsbxfdDdMmrFrG41suavPxm/88lMm9eYzC2wMO42Vqa
+   akU6wEjRBXUTdUmuEBu1wh/nWsJto9PxawDe0OPt/L2MMFWQiuWhcoCaZ
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10867"; a="385005526"
 X-IronPort-AV: E=Sophos;i="6.03,236,1694761200"; 
-   d="scan'208";a="376497666"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Oct 2023 15:13:31 -0700
+   d="scan'208";a="385005526"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Oct 2023 15:17:12 -0700
 X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10867"; a="733331062"
 X-IronPort-AV: E=Sophos;i="6.03,236,1694761200"; 
-   d="scan'208";a="4713319"
-Received: from nurfahan-mobl3.gar.corp.intel.com (HELO intel.com) ([10.213.159.217])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Oct 2023 15:13:29 -0700
-Date: Thu, 19 Oct 2023 00:13:17 +0200
-From: Andi Shyti <andi.shyti@linux.intel.com>
-To: Soumya Negi <soumya.negi97@gmail.com>
-Cc: Andi Shyti <andi.shyti@linux.intel.com>,
-	Martyn Welch <martyn@welchs.me.uk>,
-	Manohar Vanga <manohar.vanga@gmail.com>,
+   d="scan'208";a="733331062"
+Received: from aschofie-mobl2.amr.corp.intel.com (HELO aschofie-mobl2) ([10.212.171.196])
+  by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Oct 2023 15:17:12 -0700
+Date: Wed, 18 Oct 2023 15:17:10 -0700
+From: Alison Schofield <alison.schofield@intel.com>
+To: Karolina Stolarek <karolina.stolarek@intel.com>
+Cc: Julia Lawall <julia.lawall@inria.fr>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	outreachy@lists.linux.dev, linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev
-Subject: Re: [PATCH 2/2] staging: vme_user: Use __func__ instead of function
- name
-Message-ID: <ZTBYfbQy9SoUHyAI@ashyti-mobl2.lan>
-References: <cover.1697601942.git.soumya.negi97@gmail.com>
- <c553e5901f16b78681e74b2d77796f8fc102b602.1697601942.git.soumya.negi97@gmail.com>
- <ZS+6sTNNZ5KUzpd4@ashyti-mobl2.lan>
- <20231018203020.GB32553@Negi>
+	kenechukwu maduechesi <maduechesik@gmail.com>,
+	outreachy@lists.linux.dev, shreeya.patel23498@gmail.com,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: rts5208: Replace delay function.
+Message-ID: <ZTBZZvE/oYqCYNPp@aschofie-mobl2>
+References: <20231018004300.GA3189@ubuntu>
+ <7bc719c4-459f-3d8-7ed-b1e1adf158@inria.fr>
+ <1118ec6d-e1e7-79f3-08e4-9a79c996eed1@intel.com>
+ <2023101853-axis-stylist-f1b9@gregkh>
+ <7dde176b-1059-e9a4-a023-0243cce61d01@intel.com>
+ <12b375b1-acd3-476e-17bc-b4db22efba69@inria.fr>
+ <cf483cb5-7d94-9514-2213-46778b5ac9f4@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -54,117 +56,85 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231018203020.GB32553@Negi>
+In-Reply-To: <cf483cb5-7d94-9514-2213-46778b5ac9f4@intel.com>
 
-Hi Soumya,
-
-> > On Tue, Oct 17, 2023 at 09:36:33PM -0700, Soumya Negi wrote:
-> > > Replace function names in message strings with __func__ to fix
-> > > all checkpatch warnings like:
+On Wed, Oct 18, 2023 at 12:40:33PM +0200, Karolina Stolarek wrote:
+> On 18.10.2023 12:28, Julia Lawall wrote:
+> > 
+> > 
+> > On Wed, 18 Oct 2023, Karolina Stolarek wrote:
+> > 
+> > > On 18.10.2023 09:45, Greg Kroah-Hartman wrote:
+> > > > On Wed, Oct 18, 2023 at 09:32:46AM +0200, Karolina Stolarek wrote:
+> > > > > On 18.10.2023 09:03, Julia Lawall wrote:
+> > > > > > 
+> > > > > > 
+> > > > > > On Tue, 17 Oct 2023, kenechukwu maduechesi wrote:
+> > > > > > 
+> > > > > > > Replace udelay() with usleep_range() for more precise delay handling.
+> > > > > > > 
+> > > > > > > Reported by checkpatch:
+> > > > > > > 
+> > > > > > > CHECK: usleep_range is preferred over udelay
+> > > > > > 
+> > > > > > This message is typically not a good candidate for outreachy patches,
+> > > > > > because you need access to the device to be sure that any change is
+> > > > > > correct.
+> > > > > 
+> > > > > Could we add a paragraph on how to pick good checkpatch.pl error to fix to
+> > > > > the Outreachyfirstpatch docs? This could go to "Find a driver to clean up"
+> > > > > section, for example.
+> > > > 
+> > > > The ability to find a "good" error changes over time, so this might be
+> > > > hard to do.
 > > > 
-> > >     WARNING: Prefer using '"%s...", __func__' to using 'vme_lm_get',
-> > >              this function's name, in a string
+> > > I agree, but we can all agree that experimenting with udelay during Outreachy
+> > > is not a good idea, and people should know about it
+> > 
+> > In general, I think that it is better in the contribution period to do the
+> > wrong thing and then learn about why it is wrong, but this case comes up
+> > over and over, and it is always not the right thing to do, so I added an
+> > appropriate explanation.  Thanks for the suggestion.
+> 
+> Absolutely. Thanks for the docs update. Still, one thing -- is empty section
+> after "Some drivers that are on their way out of the kernel are:"
+> intentional?
+> 
+> All the best,
+> Karolina
+
+Perhaps an applicant can expand on that "Find a driver to clean up..."
+section with a overview of how to use the Outreachy Mailing list,
+or any Mailing list to search for patches that cleaned up up the
+checkpatch error/warning/check that they are examining.
+
+Here's the query for the udelay one:
+https://lore.kernel.org/outreachy/?q=%22CHECK%3A+usleep_range+is+preferred+over+udelay%22
+
+When submitters include the actual checkpatch string in their commit log 
+it very easy to find and reference.
+
+For the first patch tutorial, I'll suggest something as simple as:
+1) goto https://lore.kernel.org/outreachy/
+2) enter the checkpatch string in the 'search' box
+3) boom - go see what others have done with this checkpatch error
+
+Or, if someone wants to get fancy they can add screenshots :)
+
+Note, that we really like to keep the language similar on these
+cleanups. Find a few references, and do as they did.
+
+> 
+> > 
+> > julia
+> > 
 > > > 
-> > > Signed-off-by: Soumya Negi <soumya.negi97@gmail.com>
-> > > ---
-> > >  drivers/staging/vme_user/vme.c | 14 +++++++-------
-> > >  1 file changed, 7 insertions(+), 7 deletions(-)
+> > > All the best,
+> > > Karolina
 > > > 
-> > > diff --git a/drivers/staging/vme_user/vme.c b/drivers/staging/vme_user/vme.c
-> > > index e8c2c1e77b7d..11c1df12b657 100644
-> > > --- a/drivers/staging/vme_user/vme.c
-> > > +++ b/drivers/staging/vme_user/vme.c
-> > > @@ -422,7 +422,7 @@ int vme_slave_get(struct vme_resource *resource, int *enabled,
-> > >  	image = list_entry(resource->entry, struct vme_slave_resource, list);
-> > >  
-> > >  	if (!bridge->slave_get) {
-> > > -		dev_err(bridge->parent, "vme_slave_get not supported\n");
-> > > +		dev_err(bridge->parent, "%s not supported\n", __func__);
-> > >  		return -EINVAL;
-> > >  	}
-> > >  
-> > > @@ -572,7 +572,7 @@ int vme_master_set(struct vme_resource *resource, int enabled,
-> > >  	image = list_entry(resource->entry, struct vme_master_resource, list);
-> > >  
-> > >  	if (!bridge->master_set) {
-> > > -		dev_warn(bridge->parent, "vme_master_set not supported\n");
-> > > +		dev_warn(bridge->parent, "%s not supported\n", __func__);
-> > 
-> > I wouldn't disagree if you made this dev_err() instead of
-> > dev_warn(). The reasoning behind is that if it's a warning you
-> > should not fail. But beacuse you are returning -EINVAL it means
-> > that you are failing, therefore you should use dev_err().
-> > 
-> > Others might object that the change I'm suggesting sohuld go in a
-> > different patch, which is also OK.
-> > 
-> > >  		return -EINVAL;
-> > 
-> > ... or, if you want to keep the dev_warn(), whou can consider
-> > removing the "return -EINVAL;". But this is an evaluation you
-> > should make in a different patch and mainly evaluate if it's
-> > OK to remove the error here.
+> > > > 
+> > > > good luck!
+> > > > 
+> > > > greg k-h
+> > > 
 > 
-> I think it should be dev_err() too. The driver has inconsistently used
-> warn and err log levels in similar functions as well. But I was planning
-> to tackle those in a standalone patch after the printk's are gone. Or do
-> you think it should be part of this patchset?
-
-OK... if you already noticed this and you are saying there are
-more cases, then it's better if you send a different patch.
-
-> > >  	if (!bridge->slot_get) {
-> > > -		dev_warn(bridge->parent, "vme_slot_num not supported\n");
-> > > +		dev_warn(bridge->parent, "%s not supported\n", __func__);
-> > >  		return -EINVAL;
-> > >  	}
-> > 
-> > Nothing wrong with the patch itself. But imagine if we end up in
-> > one of those printouts and, as a user, you read something like:
-> > 
-> >    ... vme_slot_num not supported
-> > 
-> > The message itself doesn't say much to the user. The perfect fix
-> > would be to re-write all these error messages with a proper
-> > meaningful sentence, like, e.g.:
-> > 
-> >    Can't retrieve the CS/CSR slot id
-> >
-> > (don't even know if it's fully correct). Anyway, I understand
-> > you don't have much time for such fine changes, so whatever you
-> > decide to do:
-> 
-> Got it. Thanks for the patch suggestion. Although yes, since I still have project
-> starter tasks pending for my outreachy application(will have to prioritize                           
-> them) I'm not sure if I will be able to get this done right away. Will try to
-> though.
-
-yeah... nevermind.
-
-> > Acked-by: Andi Shyti <andi.shyti@linux.intel.com> 
-> > 
-> > Andi
-> 
-> Thanks for the ack. Since I'll have to revise and resend this patch as v2, 
-> should I not add your ack tag as the patch will be reviewed again? Just 
-> wondering what the etiquette is.
-
-You can keep my tag, unless you are making drastic changes.
-
-Nevertheless, the patch might be reviewed again.
-
-> Though normally are patches supposed to be resent as new versions when adding
-> ack tags?
-
-If someones acks or reviews the patches you don't need to resend
-just for adding the tags. There are tools doing it and
-maintainers take care of that.
-
-But, on the other hand, if you are going to resend anyway, for
-other reasons a new version, then you should add the tags
-yourself, otherwise they might be lost.
-
-If the new version changes considerably, then you might consider
-not adding any tags.
-
-Andi
