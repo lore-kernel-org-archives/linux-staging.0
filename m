@@ -1,165 +1,93 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9F0F182C6;
-	Wed, 18 Oct 2023 09:56:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dkim=none
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4BB26C433C7;
-	Wed, 18 Oct 2023 09:56:10 +0000 (UTC)
-Message-ID: <ed3e726e-4a33-4597-9617-5c380d767fbe@xs4all.nl>
-Date: Wed, 18 Oct 2023 11:56:08 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A25FA1803E
+	for <linux-staging@lists.linux.dev>; Wed, 18 Oct 2023 10:17:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="udXI3c8K"
+Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-507adc3381cso4653427e87.3
+        for <linux-staging@lists.linux.dev>; Wed, 18 Oct 2023 03:17:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1697624250; x=1698229050; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=uMF9+XVbotmwlZkgFVQV7OtJV2XJqMd/UdMT31C9cZA=;
+        b=udXI3c8K/pWZoNZNcDNGITomdovn/hvkPpmt3b2HGGmvDyOupw4ukGJ7EnBYpwKQE+
+         IJXkcN9iHuVuZoYS1hqjJ4wl7nCUZzG9dXvytHN9oQO9jFmAuiQ/nxnrqTXgYXEd/EHc
+         /Z5W1ySPL6xBvWRs6r3G6awyhcLVTBZN69D5OZoWvi3HZ/rKl0VkbgujD1BG4zaWDH3z
+         MyTG1RgVJliV6SJd1Vs52/BpS0JU+A3DG6bQXoNv6bsbIZlsK3mxAcpQZgP0hPtkSTvz
+         vq82CJIwSu8txFlejc7QOJpx5S95KUUgnvYJyGFj9WIXvzT4Yluhruxd7+s6rBDb/3B0
+         A6PQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1697624250; x=1698229050;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=uMF9+XVbotmwlZkgFVQV7OtJV2XJqMd/UdMT31C9cZA=;
+        b=c9Q9eRHZi94FYTVefcSFKCVlGr3Mi19kQb5jtJlaRzKB71udKE+sMgw8vYWMzHlS1L
+         3IYEPRQdX3YDaFvPezRSIzl1u3ART5NNuX0qghoSfBDyuRtELOkgZDSX+BtKeRZIVTZs
+         hNjYnvWtunS/b+VbkOtQwovA6bmAB1pvGPM+8p8KZ9KkKTFdu2CsMVOgtCXaHfmIdyA+
+         DcALzKLPwabTR7xx6lcy7y04uM70khTHdXjWCcyutmJgGVPs4HMTJlei8IMIoshc9fNu
+         oOARq9SllafpsLmpDIRaEovg24pMgrVhqn7ftG1RgSkv0FN6bD4GmZVM6/ghXu8G7tog
+         TIhQ==
+X-Gm-Message-State: AOJu0YxQWVIm0bL7hqDuRQYu2p6XCsbysicZz+53JZ/UALFqVWpBoUuN
+	OOrBjSxJmEFwTAVG1RdoCy+QYQ==
+X-Google-Smtp-Source: AGHT+IHuHf/vAVlD/nYzbbKTFIUa4gHdOV6nXgpEc3kC6Vu1Tngn0aHuloTkDC1Ihtka7WkYH8MafA==
+X-Received: by 2002:a05:6512:3b89:b0:507:96fd:d3ee with SMTP id g9-20020a0565123b8900b0050796fdd3eemr4498644lfv.32.1697624249706;
+        Wed, 18 Oct 2023 03:17:29 -0700 (PDT)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id l6-20020a5d4806000000b0032da75af3easm1786409wrq.80.2023.10.18.03.17.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 18 Oct 2023 03:17:28 -0700 (PDT)
+Date: Wed, 18 Oct 2023 13:17:25 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Calvince Otieno <calvncce@gmail.com>
+Cc: gustavo@embeddedor.com, outreachy@lists.linux.dev,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Martyn Welch <martyn@welchs.me.uk>,
+	Manohar Vanga <manohar.vanga@gmail.com>,
+	Julia Lawall <julia.lawall@inria.fr>, linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev
+Subject: Re: [PATCH] staging: vme_user: replace strcpy with strscpy
+Message-ID: <e6c2d522-8770-4e94-81cd-5dedf91f5f32@kadam.mountain>
+References: <ZS+Jb2rQWbOIIQ42@lab-ubuntu>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v10 0/8] Add StarFive Camera Subsystem driver
-Content-Language: en-US, nl
-To: Jack Zhu <jack.zhu@starfivetech.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Robert Foss <rfoss@kernel.org>,
- Todor Tomov <todor.too@gmail.com>, bryan.odonoghue@linaro.org,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Philipp Zabel <p.zabel@pengutronix.de>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
- devicetree@vger.kernel.org, linux-staging@lists.linux.dev,
- changhuang.liang@starfivetech.com
-References: <20231008085154.6757-1-jack.zhu@starfivetech.com>
- <98297bfc-ab81-4bb5-acc3-619fdf879276@xs4all.nl>
- <bb5b776c-f1dd-f53e-079c-8048af2e73f1@starfivetech.com>
- <4a74a40c-ee3c-4563-87d1-27e859eb6982@xs4all.nl>
- <687a4c58-3666-1c7b-fcfd-d586c28dea35@starfivetech.com>
- <56a09e21-5f43-4d0d-b603-777bbfd1885f@xs4all.nl>
- <6f5da0fa-9c01-dab2-647e-2a3c0a50b316@starfivetech.com>
-From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-In-Reply-To: <6f5da0fa-9c01-dab2-647e-2a3c0a50b316@starfivetech.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ZS+Jb2rQWbOIIQ42@lab-ubuntu>
 
-On 18/10/2023 11:52, Jack Zhu wrote:
+On Wed, Oct 18, 2023 at 10:29:51AM +0300, Calvince Otieno wrote:
+> Checkpatch suggests using strscpy() instead of strncpy().
 > 
+> The advantages of strscpy() are that it always adds a NUL terminator
+> and prevents read overflows if the source string is not properly
+> terminated. One potential disadvantage is that it doesn't zero pad the
+> string like strncpy() does.
+
+You're not replacing strncpy(), you're replacing strcpy().  There is
+never a downside to replacing strcpy() with strspy() beyond that the
+secure function is probably slightly slower.
+
 > 
-> On 2023/10/18 17:31, Hans Verkuil wrote:
->> On 18/10/2023 11:25, Jack Zhu wrote:
->>>
->>>
->>> On 2023/10/18 16:50, Hans Verkuil wrote:
->>>> Hi Jack,
->>>>
->>>> On 18/10/2023 04:37, Jack Zhu wrote:
->>>>
->>>> <snip>
->>>>
->>>>>>> --------------------------------------------------------------------------------
->>>>>>> Compliance test for device /dev/v4l-subdev1:
->>>>>>>
->>>>>>> Driver Info:
->>>>>>> 	Driver version   : 6.6.0
->>>>>>> 	Capabilities     : 0x00000000
->>>>>>
->>>>>> But this does not appear for v4l-subdev1.
->>>>>>
->>>>>> I can't really tell why it doesn't show that. Can you debug a little bit?
->>>>>> The code is in v4l2-compliance.cpp, line 1086:
->>>>>>
->>>>>> ent_id = mi_media_info_for_fd(media_fd, node.g_fd(), &is_invalid, &node.function);
->>>>>>
->>>>>> The mi_media_info_for_fd() function calls ioctl(media_fd, MEDIA_IOC_DEVICE_INFO, &mdinfo),
->>>>>> and that fails for some reason. It could be that media_fd is invalid (would be weird).
->>>>>>
->>>>>> This could well be a v4l2-compliance bug that you hit with this driver.
->>>>>>
->>>>>
->>>>> On the test board, /dev/v4l-subdev1 is imx219, and the corresponding directory is
->>>>> /sys/dev/char/81:3/device. Media0 does not exist in this directory. Therefore, the media_fd
->>>>> obtained through mi_get_media_fd(node.g_fd(), node.bus_info) is invalid.
->>>>>
->>>>> I don't know why media0 does not exist in /sys/dev/char/81:3/device?
->>>>>
->>>>
->>>> Can you try again with this v4l2-compliance patch?
->>>>
->>>> I need to dig a bit deeper as to why media0 is missing, but for now try this.
->>>>
->>>> Regards,
->>>>
->>>> 	Hans
->>>>
->>>> diff --git a/utils/v4l2-compliance/v4l2-compliance.cpp b/utils/v4l2-compliance/v4l2-compliance.cpp
->>>> index 7169eefe..29475d6b 100644
->>>> --- a/utils/v4l2-compliance/v4l2-compliance.cpp
->>>> +++ b/utils/v4l2-compliance/v4l2-compliance.cpp
->>>> @@ -968,7 +968,7 @@ err:
->>>>  }
->>>>
->>>>  void testNode(struct node &node, struct node &node_m2m_cap, struct node &expbuf_node, media_type type,
->>>> -	      unsigned frame_count, unsigned all_fmt_frame_count)
->>>> +	      unsigned frame_count, unsigned all_fmt_frame_count, int parent_media_fd)
->>>>  {
->>>>  	struct node node2;
->>>>  	struct v4l2_capability vcap = {};
->>>> @@ -997,8 +997,12 @@ void testNode(struct node &node, struct node &node_m2m_cap, struct node &expbuf_
->>>>  		memset(&vcap, 0, sizeof(vcap));
->>>>  	}
->>>>
->>>> -	if (!node.is_media())
->>>> -		media_fd = mi_get_media_fd(node.g_fd(), node.bus_info);
->>>> +	if (!node.is_media()) {
->>>> +		if (parent_media_fd >= 0)
->>>> +			media_fd = parent_media_fd;
->>>> +		else
->>>> +			media_fd = mi_get_media_fd(node.g_fd(), node.bus_info);
->>>> +	}
->>>>
->>>>  	int fd = node.is_media() ? node.g_fd() : media_fd;
->>>>  	if (fd >= 0) {
->>>> diff --git a/utils/v4l2-compliance/v4l2-compliance.h b/utils/v4l2-compliance/v4l2-compliance.h
->>>> index 7caf254b..c47f25f5 100644
->>>> --- a/utils/v4l2-compliance/v4l2-compliance.h
->>>> +++ b/utils/v4l2-compliance/v4l2-compliance.h
->>>> @@ -308,7 +308,7 @@ int check_ustring(const __u8 *s, int len);
->>>>  int check_0(const void *p, int len);
->>>>  int restoreFormat(struct node *node);
->>>>  void testNode(struct node &node, struct node &node_m2m_cap, struct node &expbuf_node, media_type type,
->>>> -	      unsigned frame_count, unsigned all_fmt_frame_count);
->>>> +	      unsigned frame_count, unsigned all_fmt_frame_count, int parent_media_fd = -1);
->>>>  std::string stream_from(const std::string &pixelformat, bool &use_hdr);
->>>>
->>>>  // Media Controller ioctl tests
->>>>
->>>
->>> From the log, there is no change.
->>
->> Oops, my mistake. Also apply this change:
->>
->> diff --git a/utils/v4l2-compliance/v4l2-test-media.cpp b/utils/v4l2-compliance/v4l2-test-media.cpp
->> index 0195ac58..52ab7fb8 100644
->> --- a/utils/v4l2-compliance/v4l2-test-media.cpp
->> +++ b/utils/v4l2-compliance/v4l2-test-media.cpp
->> @@ -612,7 +612,7 @@ void walkTopology(struct node &node, struct node &expbuf_node,
->>  		}
->>
->>  		testNode(test_node, test_node, expbuf_node, type,
->> -			 frame_count, all_fmt_frame_count);
->> +			 frame_count, all_fmt_frame_count, node.g_fd());
->>  		test_node.close();
->>  	}
->>  }
->>
+> In this code, strscpy() and strncpy() are equivalent and do not affect
+> runtime behavior. strscpy() simply copies the known string value of the
+> variable driver_name into the fake_bridge->name variable, which also
+> has a fixed size.
 > 
-> Can see relevant Info in the log.
+> While using strscpy() does not address any bugs, it is considered a better
+> practice and aligns with checkpatch recommendations.
 
-Great! Can you do one more thing? Please run 'v4l2-compliance -m /dev/media0 --verbose'
-and mail the output to me. It's pretty big, so just email it to me, without CCs.
+This analysis does not say where driver_name is set, or how big it is,
+or what the size of the fake_bridge->name buffer is.  I would like to
+see that sort of analysis in the commit message.
 
-I want to take a closer look at the output to see why this patch is needed.
-
-Regards,
-
-	Hans
+regards,
+dan carpenter
 
