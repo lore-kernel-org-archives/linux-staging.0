@@ -1,93 +1,84 @@
-Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A25FA1803E
-	for <linux-staging@lists.linux.dev>; Wed, 18 Oct 2023 10:17:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="udXI3c8K"
-Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-507adc3381cso4653427e87.3
-        for <linux-staging@lists.linux.dev>; Wed, 18 Oct 2023 03:17:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1697624250; x=1698229050; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=uMF9+XVbotmwlZkgFVQV7OtJV2XJqMd/UdMT31C9cZA=;
-        b=udXI3c8K/pWZoNZNcDNGITomdovn/hvkPpmt3b2HGGmvDyOupw4ukGJ7EnBYpwKQE+
-         IJXkcN9iHuVuZoYS1hqjJ4wl7nCUZzG9dXvytHN9oQO9jFmAuiQ/nxnrqTXgYXEd/EHc
-         /Z5W1ySPL6xBvWRs6r3G6awyhcLVTBZN69D5OZoWvi3HZ/rKl0VkbgujD1BG4zaWDH3z
-         MyTG1RgVJliV6SJd1Vs52/BpS0JU+A3DG6bQXoNv6bsbIZlsK3mxAcpQZgP0hPtkSTvz
-         vq82CJIwSu8txFlejc7QOJpx5S95KUUgnvYJyGFj9WIXvzT4Yluhruxd7+s6rBDb/3B0
-         A6PQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697624250; x=1698229050;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=uMF9+XVbotmwlZkgFVQV7OtJV2XJqMd/UdMT31C9cZA=;
-        b=c9Q9eRHZi94FYTVefcSFKCVlGr3Mi19kQb5jtJlaRzKB71udKE+sMgw8vYWMzHlS1L
-         3IYEPRQdX3YDaFvPezRSIzl1u3ART5NNuX0qghoSfBDyuRtELOkgZDSX+BtKeRZIVTZs
-         hNjYnvWtunS/b+VbkOtQwovA6bmAB1pvGPM+8p8KZ9KkKTFdu2CsMVOgtCXaHfmIdyA+
-         DcALzKLPwabTR7xx6lcy7y04uM70khTHdXjWCcyutmJgGVPs4HMTJlei8IMIoshc9fNu
-         oOARq9SllafpsLmpDIRaEovg24pMgrVhqn7ftG1RgSkv0FN6bD4GmZVM6/ghXu8G7tog
-         TIhQ==
-X-Gm-Message-State: AOJu0YxQWVIm0bL7hqDuRQYu2p6XCsbysicZz+53JZ/UALFqVWpBoUuN
-	OOrBjSxJmEFwTAVG1RdoCy+QYQ==
-X-Google-Smtp-Source: AGHT+IHuHf/vAVlD/nYzbbKTFIUa4gHdOV6nXgpEc3kC6Vu1Tngn0aHuloTkDC1Ihtka7WkYH8MafA==
-X-Received: by 2002:a05:6512:3b89:b0:507:96fd:d3ee with SMTP id g9-20020a0565123b8900b0050796fdd3eemr4498644lfv.32.1697624249706;
-        Wed, 18 Oct 2023 03:17:29 -0700 (PDT)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id l6-20020a5d4806000000b0032da75af3easm1786409wrq.80.2023.10.18.03.17.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 18 Oct 2023 03:17:28 -0700 (PDT)
-Date: Wed, 18 Oct 2023 13:17:25 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Calvince Otieno <calvncce@gmail.com>
-Cc: gustavo@embeddedor.com, outreachy@lists.linux.dev,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Martyn Welch <martyn@welchs.me.uk>,
-	Manohar Vanga <manohar.vanga@gmail.com>,
-	Julia Lawall <julia.lawall@inria.fr>, linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev
-Subject: Re: [PATCH] staging: vme_user: replace strcpy with strscpy
-Message-ID: <e6c2d522-8770-4e94-81cd-5dedf91f5f32@kadam.mountain>
-References: <ZS+Jb2rQWbOIIQ42@lab-ubuntu>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4404D15E8B
+	for <linux-staging@lists.linux.dev>; Wed, 18 Oct 2023 10:19:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dkim=none
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C089EC433C8;
+	Wed, 18 Oct 2023 10:19:17 +0000 (UTC)
+Message-ID: <0fb31f73-2743-44c0-af1b-ac30c582e45a@xs4all.nl>
+Date: Wed, 18 Oct 2023 12:19:16 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZS+Jb2rQWbOIIQ42@lab-ubuntu>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v12 22/56] media: pci: tw686x: Set min_buffers_needed to 3
+Content-Language: en-US, nl
+To: Benjamin Gaignard <benjamin.gaignard@collabora.com>, mchehab@kernel.org,
+ tfiga@chromium.org, m.szyprowski@samsung.com, ming.qian@nxp.com,
+ ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de,
+ gregkh@linuxfoundation.org, nicolas.dufresne@collabora.com
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org,
+ linux-arm-msm@vger.kernel.org, linux-rockchip@lists.infradead.org,
+ linux-staging@lists.linux.dev, kernel@collabora.com
+References: <20231017144756.34719-1-benjamin.gaignard@collabora.com>
+ <20231017144756.34719-23-benjamin.gaignard@collabora.com>
+From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+In-Reply-To: <20231017144756.34719-23-benjamin.gaignard@collabora.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Wed, Oct 18, 2023 at 10:29:51AM +0300, Calvince Otieno wrote:
-> Checkpatch suggests using strscpy() instead of strncpy().
+On 17/10/2023 16:47, Benjamin Gaignard wrote:
+> vb2 queue_setup checks for a minimum number of buffers so set
+> min_buffers_needed to 3 and remove the useless check in
+> tw686x_queue_setup().
 > 
-> The advantages of strscpy() are that it always adds a NUL terminator
-> and prevents read overflows if the source string is not properly
-> terminated. One potential disadvantage is that it doesn't zero pad the
-> string like strncpy() does.
-
-You're not replacing strncpy(), you're replacing strcpy().  There is
-never a downside to replacing strcpy() with strspy() beyond that the
-secure function is probably slightly slower.
-
+> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+> CC: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+> ---
+>  drivers/media/pci/tw686x/tw686x-video.c | 13 +++++--------
+>  1 file changed, 5 insertions(+), 8 deletions(-)
 > 
-> In this code, strscpy() and strncpy() are equivalent and do not affect
-> runtime behavior. strscpy() simply copies the known string value of the
-> variable driver_name into the fake_bridge->name variable, which also
-> has a fixed size.
-> 
-> While using strscpy() does not address any bugs, it is considered a better
-> practice and aligns with checkpatch recommendations.
+> diff --git a/drivers/media/pci/tw686x/tw686x-video.c b/drivers/media/pci/tw686x/tw686x-video.c
+> index 3ebf7a2c95f0..74cd864365aa 100644
+> --- a/drivers/media/pci/tw686x/tw686x-video.c
+> +++ b/drivers/media/pci/tw686x/tw686x-video.c
+> @@ -426,13 +426,6 @@ static int tw686x_queue_setup(struct vb2_queue *vq,
+>  	unsigned int szimage =
+>  		(vc->width * vc->height * vc->format->depth) >> 3;
+>  
+> -	/*
+> -	 * Let's request at least three buffers: two for the
+> -	 * DMA engine and one for userspace.
+> -	 */
+> -	if (vq->num_buffers + *nbuffers < 3)
+> -		*nbuffers = 3 - vq->num_buffers;
+> -
+>  	if (*nplanes) {
+>  		if (*nplanes != 1 || sizes[0] < szimage)
+>  			return -EINVAL;
+> @@ -1221,7 +1214,11 @@ int tw686x_video_init(struct tw686x_dev *dev)
+>  		vc->vidq.ops = &tw686x_video_qops;
+>  		vc->vidq.mem_ops = dev->dma_ops->mem_ops;
+>  		vc->vidq.timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_MONOTONIC;
+> -		vc->vidq.min_buffers_needed = 2;
+> +		/*
+> +		 * Let's request at least three buffers: two for the
+> +		 * DMA engine and one for userspace.
+> +		 */
+> +		vc->vidq.min_buffers_needed = 3;
 
-This analysis does not say where driver_name is set, or how big it is,
-or what the size of the fake_bridge->name buffer is.  I would like to
-see that sort of analysis in the commit message.
+Don't touch min_buffers_needed, just keep the current check in queue_setup.
 
-regards,
-dan carpenter
+Regards,
+
+	Hans
+
+>  		vc->vidq.lock = &vc->vb_mutex;
+>  		vc->vidq.gfp_flags = dev->dma_mode != TW686X_DMA_MODE_MEMCPY ?
+>  				     GFP_DMA32 : 0;
 
