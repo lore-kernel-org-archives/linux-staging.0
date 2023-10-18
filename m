@@ -1,197 +1,86 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7991A11C8C
-	for <linux-staging@lists.linux.dev>; Wed, 18 Oct 2023 11:17:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dkim=none
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5EA9FC433C8;
-	Wed, 18 Oct 2023 11:17:23 +0000 (UTC)
-Message-ID: <ffb32ac3-67ce-4401-9750-6c97ba28d051@xs4all.nl>
-Date: Wed, 18 Oct 2023 13:17:21 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 239FD14F8F
+	for <linux-staging@lists.linux.dev>; Wed, 18 Oct 2023 11:49:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="UzLRwX0R"
+Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id D0E752B3;
+	Wed, 18 Oct 2023 13:49:04 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1697629745;
+	bh=fJTg0p90iZsCaFDhrtNZ4cK233vjH3fuyCAW+LUdm6c=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=UzLRwX0Rx1eEQZdYIHxP15ldj265YRAQkCj9YC4BjMMQ7zG9GDcL+I8DtaWz6txg8
+	 e5VqL9YFaYvJRReJMXoFhLnvS3t0BJowR6bPJJmsfjO8L4o+96IyqLOrxshd2gVzZj
+	 OHVr7E8qn3q/dwyP6+aqftLRjmqYHuyWNKyibtwM=
+Date: Wed, 18 Oct 2023 14:49:19 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Jack Zhu <jack.zhu@starfivetech.com>
+Cc: Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Robert Foss <rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>,
+	bryan.odonoghue@linaro.org, Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Philipp Zabel <p.zabel@pengutronix.de>, linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-staging@lists.linux.dev, changhuang.liang@starfivetech.com
+Subject: Re: [PATCH v10 0/8] Add StarFive Camera Subsystem driver
+Message-ID: <20231018114919.GF11118@pendragon.ideasonboard.com>
+References: <20231008085154.6757-1-jack.zhu@starfivetech.com>
+ <98297bfc-ab81-4bb5-acc3-619fdf879276@xs4all.nl>
+ <c255e215-b1ed-7397-0534-8d6ebda86350@starfivetech.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v12 44/56] media: core: Report the maximum possible number
- of buffers for the queue
-Content-Language: en-US, nl
-To: Benjamin Gaignard <benjamin.gaignard@collabora.com>, mchehab@kernel.org,
- tfiga@chromium.org, m.szyprowski@samsung.com, ming.qian@nxp.com,
- ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de,
- gregkh@linuxfoundation.org, nicolas.dufresne@collabora.com
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org,
- linux-arm-msm@vger.kernel.org, linux-rockchip@lists.infradead.org,
- linux-staging@lists.linux.dev, kernel@collabora.com
-References: <20231017144756.34719-1-benjamin.gaignard@collabora.com>
- <20231017144756.34719-45-benjamin.gaignard@collabora.com>
-From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-In-Reply-To: <20231017144756.34719-45-benjamin.gaignard@collabora.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <c255e215-b1ed-7397-0534-8d6ebda86350@starfivetech.com>
 
-On 17/10/2023 16:47, Benjamin Gaignard wrote:
-> Use one of the struct v4l2_create_buffers reserved bytes to report
-> the maximum possible number of buffers for the queue.
-> V4l2 framework set V4L2_BUF_CAP_SUPPORTS_SET_MAX_BUFS flags in queue
-> capabilities so userland can know when the field is valid.
+On Wed, Oct 18, 2023 at 11:11:40AM +0800, Jack Zhu wrote:
+> On 2023/10/16 19:40, Hans Verkuil wrote:
+> > On 08/10/2023 10:51, Jack Zhu wrote:
+> >> Hi,
+> >> 
+> >> This series is the v10 series that attempts to support the Camera Subsystem
+> >> found on StarFive JH7110 SoC.
+> >> 
+> >> This series is based on top of the master branch of media_stage repository,
+> >> which is tested with a v4l2-compliance compiled from the git repo
+> >> (git://linuxtv.org/v4l-utils.git).
+> > 
+> > I get one smatch warning:
+> > 
+> > drivers/staging/media/starfive/camss/stf-isp.c:122 isp_enum_mbus_code() warn: unsigned 'code->index' is never less than zero.
 > 
-> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-> ---
->  .../userspace-api/media/v4l/vidioc-create-bufs.rst        | 8 ++++++--
->  Documentation/userspace-api/media/v4l/vidioc-reqbufs.rst  | 1 +
->  drivers/media/common/videobuf2/videobuf2-v4l2.c           | 2 ++
->  drivers/media/v4l2-core/v4l2-ioctl.c                      | 4 ++--
->  include/uapi/linux/videodev2.h                            | 7 ++++++-
->  5 files changed, 17 insertions(+), 5 deletions(-)
+> Could you please tell me the code check command? This way I can use it to check
+> my next commit.
 > 
-> diff --git a/Documentation/userspace-api/media/v4l/vidioc-create-bufs.rst b/Documentation/userspace-api/media/v4l/vidioc-create-bufs.rst
-> index a048a9f6b7b6..380195c2a00a 100644
-> --- a/Documentation/userspace-api/media/v4l/vidioc-create-bufs.rst
-> +++ b/Documentation/userspace-api/media/v4l/vidioc-create-bufs.rst
-> @@ -116,9 +116,13 @@ than the number requested.
->        - ``flags``
->        - Specifies additional buffer management attributes.
->  	See :ref:`memory-flags`.
-> -
->      * - __u32
-> -      - ``reserved``\ [6]
-> +      - ``max_num_buffers``
-> +      - If V4L2_BUF_CAP_SUPPORTS_MAX_NUM_BUFFERS capability flag is set
+> > And I also notice that there is no TODO file: staging drivers should have a
+> > TODO file explaining what needs to be done to get them out of staging.
+> 
+> OK, I'll add it to my next commit. I previously misunderstood that it was submitted
+> when moving out of staging.
+> 
+> > I'm curious to know that as well :-)
+> > 
+> > It looks like there is a lot of additional development that can be done, since
+> > most of the ISP parameters appear to be hardcoded.
+> 
+> Part is the module initialization configuration. In the next stage, we will use
+> incremental development to implement 3A functions.
 
-If -> If the
+I'm really looking forward to that part :-)
 
-> +        this field indicate the maximum possible number of buffers
-
-indicate -> indicates
-
-> +        for this queue.
-> +    * - __u32
-> +      - ``reserved``\ [5]
->        - A place holder for future extensions. Drivers and applications
->  	must set the array to zero.
->  
-> diff --git a/Documentation/userspace-api/media/v4l/vidioc-reqbufs.rst b/Documentation/userspace-api/media/v4l/vidioc-reqbufs.rst
-> index 099fa6695167..0b3a41a45d05 100644
-> --- a/Documentation/userspace-api/media/v4l/vidioc-reqbufs.rst
-> +++ b/Documentation/userspace-api/media/v4l/vidioc-reqbufs.rst
-> @@ -120,6 +120,7 @@ aborting or finishing any DMA in progress, an implicit
->  .. _V4L2-BUF-CAP-SUPPORTS-ORPHANED-BUFS:
->  .. _V4L2-BUF-CAP-SUPPORTS-M2M-HOLD-CAPTURE-BUF:
->  .. _V4L2-BUF-CAP-SUPPORTS-MMAP-CACHE-HINTS:
-> +.. _V4L2-BUF-CAP-SUPPORTS-MAX-NUM-BUFFERS:
->  
->  .. raw:: latex
->  
-> diff --git a/drivers/media/common/videobuf2/videobuf2-v4l2.c b/drivers/media/common/videobuf2/videobuf2-v4l2.c
-> index f3cf4b235c1f..201438ffd13f 100644
-> --- a/drivers/media/common/videobuf2/videobuf2-v4l2.c
-> +++ b/drivers/media/common/videobuf2/videobuf2-v4l2.c
-> @@ -680,6 +680,7 @@ EXPORT_SYMBOL(vb2_querybuf);
->  static void fill_buf_caps(struct vb2_queue *q, u32 *caps)
->  {
->  	*caps = V4L2_BUF_CAP_SUPPORTS_ORPHANED_BUFS;
-> +	*caps |= V4L2_BUF_CAP_SUPPORTS_MAX_NUM_BUFFERS;
-
-Hmm. This flag is set for both VIDIOC_REQBUFS and _CREATE_BUFS, but the
-max_num_buffers field is only reported through VIDIOC_CREATE_BUFS.
-
-I think this flag should be set in vb2_create_bufs() only.
-
-Alternatively, we add a max_num_buffers field to struct v4l2_requestbuffers
-as well:
-
-struct v4l2_requestbuffers {
-        __u32                   count;
-        __u32                   type;           /* enum v4l2_buf_type */
-        __u32                   memory;         /* enum v4l2_memory */
-        __u32                   capabilities;
-        __u8                    flags;
-        __u8                    reserved[1];
-	__u16			max_num_buffers;
-};
-
-Since 32768 is the max for max_num_buffers, this will fit in a u16.
-
-I'm not sure it is worth the effort, though. How likely is it that there
-is a driver supporting more than 32 buffers, yet does not support CREATE_BUFS?
-
-So for now, I think it is best to just set this BUF_CAP flag in vb2_create_bufs()
-only. But if you have better suggestions, then let me know!
-
+-- 
 Regards,
 
-	Hans
-
->  	if (q->io_modes & VB2_MMAP)
->  		*caps |= V4L2_BUF_CAP_SUPPORTS_MMAP;
->  	if (q->io_modes & VB2_USERPTR)
-> @@ -762,6 +763,7 @@ int vb2_create_bufs(struct vb2_queue *q, struct v4l2_create_buffers *create)
->  	fill_buf_caps(q, &create->capabilities);
->  	validate_memory_flags(q, create->memory, &create->flags);
->  	create->index = vb2_get_num_buffers(q);
-> +	create->max_num_buffers = q->max_num_buffers;
->  	if (create->count == 0)
->  		return ret != -EBUSY ? ret : 0;
->  
-> diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
-> index 9b1de54ce379..628b013ca0c4 100644
-> --- a/drivers/media/v4l2-core/v4l2-ioctl.c
-> +++ b/drivers/media/v4l2-core/v4l2-ioctl.c
-> @@ -483,9 +483,9 @@ static void v4l_print_create_buffers(const void *arg, bool write_only)
->  {
->  	const struct v4l2_create_buffers *p = arg;
->  
-> -	pr_cont("index=%d, count=%d, memory=%s, capabilities=0x%08x, ",
-> +	pr_cont("index=%d, count=%d, memory=%s, capabilities=0x%08x, max buffers=%u",
->  		p->index, p->count, prt_names(p->memory, v4l2_memory_names),
-> -		p->capabilities);
-> +		p->capabilities, p->max_num_buffers);
->  	v4l_print_format(&p->format, write_only);
->  }
->  
-> diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
-> index c3d4e490ce7c..13ddb5abf584 100644
-> --- a/include/uapi/linux/videodev2.h
-> +++ b/include/uapi/linux/videodev2.h
-> @@ -1035,6 +1035,7 @@ struct v4l2_requestbuffers {
->  #define V4L2_BUF_CAP_SUPPORTS_ORPHANED_BUFS		(1 << 4)
->  #define V4L2_BUF_CAP_SUPPORTS_M2M_HOLD_CAPTURE_BUF	(1 << 5)
->  #define V4L2_BUF_CAP_SUPPORTS_MMAP_CACHE_HINTS		(1 << 6)
-> +#define V4L2_BUF_CAP_SUPPORTS_MAX_NUM_BUFFERS		(1 << 7)
->  
->  /**
->   * struct v4l2_plane - plane info for multi-planar buffers
-> @@ -2605,6 +2606,9 @@ struct v4l2_dbg_chip_info {
->   * @flags:	additional buffer management attributes (ignored unless the
->   *		queue has V4L2_BUF_CAP_SUPPORTS_MMAP_CACHE_HINTS capability
->   *		and configured for MMAP streaming I/O).
-> + * @max_num_buffers: if V4L2_BUF_CAP_SUPPORTS_MAX_NUM_BUFFERS capability flag is set
-
-if -> if the
-
-> + *		this field indicate the maximum possible number of buffers
-
-indicate -> indicates
-
-> + *		for this queue.
->   * @reserved:	future extensions
->   */
->  struct v4l2_create_buffers {
-> @@ -2614,7 +2618,8 @@ struct v4l2_create_buffers {
->  	struct v4l2_format	format;
->  	__u32			capabilities;
->  	__u32			flags;
-> -	__u32			reserved[6];
-> +	__u32			max_num_buffers;
-> +	__u32			reserved[5];
->  };
->  
->  /*
-
-Regards,
-
-	Hans
+Laurent Pinchart
