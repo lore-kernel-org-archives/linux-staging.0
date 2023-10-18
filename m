@@ -1,158 +1,134 @@
-Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out2-smtp.messagingengine.com (out2-smtp.messagingengine.com [66.111.4.26])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64DC338BDB;
-	Wed, 18 Oct 2023 15:34:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43A923C061
+	for <linux-staging@lists.linux.dev>; Wed, 18 Oct 2023 16:05:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=arndb.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Q/eHUrQq"
-Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-98377c5d53eso1077962866b.0;
-        Wed, 18 Oct 2023 08:34:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1697643278; x=1698248078; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=ub5Yg0CJelx4oGv8fp3eRsfPV6T6acMrYQkLBrGUmtg=;
-        b=Q/eHUrQqk++u/221zQJSlkasrIhbq48os4aG4DuNmDl54iDLOtQwqQaJk3/ygCOucd
-         lq04Fgx0vs9TslbJSoZx777kj+XZBvt7PLTJ8IE2dXo4k39Kek36zwbP6tPDR9EW+0HK
-         dkZU6x6ZgaZ1sa2LRChtvRcpYq4zKwAFTc1GQLmcg9H+9trl0Z8V9ThnbNKvD715IpwH
-         JPmDcDBOv+UXKuXpcuoGk27H+zTLbK7sHdA7CKGAFwokiKFneDF7faH+c7MPyQrvuOAQ
-         lJj2+2ZD9IDQ8UkJTDVkOGEpHIBO3Bv2+uQx1N7hfa0flYnJQho7n5uXVgBlGGL6Hqjb
-         Kt0Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697643278; x=1698248078;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ub5Yg0CJelx4oGv8fp3eRsfPV6T6acMrYQkLBrGUmtg=;
-        b=bhRE89wbdq4xOdiIIHZUw81y0jlGn2VnPOsIT/Tks9FILby9qvGEXMdk39hLp1+WKk
-         Bcbwj5RCO1A6O6JLnTvA7w0LppN7tc2k8obmgqalA5Euc3wGHnr/uFg6CqHQMw8cf9QS
-         m7nXSdZMHODBhWWRfPjiLLQUqKMeVWOuLfnclvr+3xta2HsIkMXi02Yzbz4YL09fZKi6
-         99dn9hTsxm6Hn52ke/FXZaasVgzf67B1EIVQlq1p0atgIvKXUv/dzshK8ckRWFlh3fzt
-         6U9Bs+0lGmquGUnqth6nlNfZLb+DDvQ5rGcVQUpByoZrd4wv5vLaj1nt2BKZfaYa6fBK
-         HmHw==
-X-Gm-Message-State: AOJu0YzaBp/0zKwLkEA0mU+1o8N+10Xr/XBhcJm3IqazLIipYXXeOy5t
-	cNATlpWTUOqpSxk34oodoA==
-X-Google-Smtp-Source: AGHT+IFuXpYMxlADLEsXxy5I5GqphwtTebkI3aaksBzLRVwqwh4y5mNKLrJxrinpzTR4oIfD9PVrvw==
-X-Received: by 2002:a17:907:78b:b0:9be:7de2:927c with SMTP id xd11-20020a170907078b00b009be7de2927cmr4110575ejb.70.1697643278205;
-        Wed, 18 Oct 2023 08:34:38 -0700 (PDT)
-Received: from dorcaslitunya-virtual-machine ([105.163.156.111])
-        by smtp.gmail.com with ESMTPSA id hb6-20020a170906b88600b009b8dbdd5203sm1880717ejb.107.2023.10.18.08.34.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 18 Oct 2023 08:34:37 -0700 (PDT)
-Date: Wed, 18 Oct 2023 16:24:55 +0300
-From: Dorcas Litunya <anonolitunya@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Julia Lawall <julia.lawall@inria.fr>, outreachy@lists.linux.dev,
-	dan.carpenter@linaro.org, andi.shyti@linux.intel.com,
-	Sudip Mukherjee <sudipm.mukherjee@gmail.com>,
-	Teddy Wang <teddy.wang@siliconmotion.com>,
-	linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/2] staging: sm750fb: Remove unused return value in
- program_mode_registers()
-Message-ID: <ZS/cp8IZyCjujmDQ@dorcaslitunya-virtual-machine>
-References: <cover.1697619623.git.anonolitunya@gmail.com>
- <492e63bbc58147fb534930ef9e1fb5d844ae8769.1697619623.git.anonolitunya@gmail.com>
- <2023101846-synopses-paralyses-d1ee@gregkh>
- <ZS+moqE585lPBN3m@dorcaslitunya-virtual-machine>
- <2023101830-janitor-trapezoid-bb48@gregkh>
+	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="eWNED2WA";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="MEbXOTB7"
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+	by mailout.nyi.internal (Postfix) with ESMTP id 206AA5C01A0;
+	Wed, 18 Oct 2023 12:05:26 -0400 (EDT)
+Received: from imap51 ([10.202.2.101])
+  by compute5.internal (MEProxy); Wed, 18 Oct 2023 12:05:26 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+	:cc:content-type:content-type:date:date:from:from:in-reply-to
+	:in-reply-to:message-id:mime-version:references:reply-to:sender
+	:subject:subject:to:to; s=fm2; t=1697645126; x=1697731526; bh=z6
+	3sUaFiPJx8x8hQuW48hDSHTo+vjWa2wUbwxAV1Kkc=; b=eWNED2WAGEPEdZc2a1
+	Xb0pgjGoOWeuTpJIbej4F0e7HyPNaOrVCE8Ll+N3mO7CHGriyqPdCP98BaNd2aon
+	E6J6qWX/COGYqqr4dr4EQBaTp1V3fbwWQTyvOTJjenxmOVFOa9uWdGiAyFXASB5M
+	Qna7gjMO3/voztf0Vp7y8HwV8Xnb4f+OVkm3W6FLNH7QkuuZyeerc46VHSz/wH4N
+	ACXmH5Rt806BKXsOcNjRW9MGhJCwjzHtHmbyMAh8/Liu9nEFaSHNS44X/ppSTfLP
+	ITJvsA5YQd3TZIj1+M9qGeAY487LV+9y4CHNjFxcNFG+qThcdfIqLf5Q8TLIGeQy
+	/wpg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:sender:subject
+	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+	:x-sasl-enc; s=fm3; t=1697645126; x=1697731526; bh=z63sUaFiPJx8x
+	8hQuW48hDSHTo+vjWa2wUbwxAV1Kkc=; b=MEbXOTB7m4ZJCU4mLVXauS9kxRLhP
+	aLW8kckPt8xBEmVQ0BZynuwtA9M+mHNJE3auM4A2thBDTLFApPGBrdlOPJl7r9J5
+	CxZYBJXEQy/uEmWZh+i//OJ87affFTDvNBYN93Tp++8QqYTiXR3kxoTQ5j9a0kl8
+	I3Z4+Iz8iVyiHmpySezxjdW/hO1yK0vRKNlW3NMjuGghGdIV8n4ZzZvDQx89ujYl
+	oMbKqKJY5TW4Vd+7fKsb+A8B3Okc3VIdfS1YnZ1DyJFdfsp98kmCkgAntfIgYsOH
+	KTYGjYtOt2Be6g36DXRWiQsU3qeR3LJ7zKO8sXyUj8hB0eExjsCW0702w==
+X-ME-Sender: <xms:RAIwZTiCBFOrbwQWAEhuCKuZXQaPWfUgl8h625zZSJN6gUX0FXM1BQ>
+    <xme:RAIwZQDef0nDiotJi-70BiZSl_GPGyegjR_sc3jZzokVaxzKArRw5ldgrx_m8UF8c
+    sot729YTTz_ito-heU>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvkedrjeeggdelgecutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+    fjughrpefofgggkfgjfhffhffvvefutgesthdtredtreertdenucfhrhhomhepfdetrhhn
+    ugcuuegvrhhgmhgrnhhnfdcuoegrrhhnugesrghrnhgusgdruggvqeenucggtffrrghtth
+    gvrhhnpeffheeugeetiefhgeethfejgfdtuefggeejleehjeeutefhfeeggefhkedtkeet
+    ffenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegrrh
+    hnugesrghrnhgusgdruggv
+X-ME-Proxy: <xmx:RAIwZTHeRcyvL4H54X9qmx3CBfjEKJr4HdpX2ftBUjJSwxemdrlj8Q>
+    <xmx:RAIwZQQNb1fPW5BH7ilV-1MX0J9jHusF2SAlia1CVQXvV3OqLcH63A>
+    <xmx:RAIwZQzn7bMTIASpLfLEfpuK9syToxRGYJRPjaIR6HhXMtwl24ZlkQ>
+    <xmx:RgIwZbrX4PlxbGIybgU6JeFOJSxPwEuGm1HIiCmPWa5Qju8RLpi7tQ>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+	id 30C8DB6008D; Wed, 18 Oct 2023 12:05:24 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.9.0-alpha0-1019-ged83ad8595-fm-20231002.001-ged83ad85
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <2023101830-janitor-trapezoid-bb48@gregkh>
+Message-Id: <97e45bae-2489-4f04-b324-8359cfa15f4a@app.fastmail.com>
+In-Reply-To: <08e266b5-cc6f-4428-bb50-11122a174e94@gmail.com>
+References: <20231010155444.858483-1-arnd@kernel.org>
+ <e93e4008-65c5-4f1d-812a-64b48f0513a2@gmail.com>
+ <c8f43e1b-aed1-4b45-ba7c-d896ff66dfa7@app.fastmail.com>
+ <08e266b5-cc6f-4428-bb50-11122a174e94@gmail.com>
+Date: Wed, 18 Oct 2023 18:05:03 +0200
+From: "Arnd Bergmann" <arnd@arndb.de>
+To: "Philipp Hortmann" <philipp.g.hortmann@gmail.com>,
+ "Arnd Bergmann" <arnd@kernel.org>, "Kalle Valo" <kvalo@kernel.org>,
+ "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
+Cc: "Nicolas Ferre" <nicolas.ferre@microchip.com>,
+ "Alexandre Belloni" <alexandre.belloni@bootlin.com>,
+ "Claudiu Beznea" <claudiu.beznea@tuxon.dev>,
+ "Jakub Kicinski" <kuba@kernel.org>, "Pavel Machek" <pavel@ucw.cz>,
+ "David S . Miller" <davem@davemloft.net>,
+ "Larry Finger" <Larry.Finger@lwfinger.net>, linux-kernel@vger.kernel.org,
+ linux-wireless@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-staging@lists.linux.dev
+Subject: Re: [PATCH] [RFC] wireless: move obsolete drivers to staging
+Content-Type: text/plain
 
-On Wed, Oct 18, 2023 at 03:25:05PM +0200, Greg Kroah-Hartman wrote:
-> On Wed, Oct 18, 2023 at 12:34:26PM +0300, Dorcas Litunya wrote:
-> > On Wed, Oct 18, 2023 at 11:26:33AM +0200, Greg Kroah-Hartman wrote:
-> > > On Wed, Oct 18, 2023 at 12:07:38PM +0300, Dorcas AnonoLitunya wrote:
-> > > > Modifies the return type of program_mode_registers()
-> > > > to void from int as the return value is being ignored in
-> > > > all subsequent function calls.
-> > > > 
-> > > > This improves code readability and maintainability.
-> > > > 
-> > > > Suggested-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> > > > Signed-off-by: Dorcas AnonoLitunya <anonolitunya@gmail.com>
-> > > > ---
-> > > >  drivers/staging/sm750fb/ddk750_mode.c | 5 ++---
-> > > >  1 file changed, 2 insertions(+), 3 deletions(-)
-> > > > 
-> > > > diff --git a/drivers/staging/sm750fb/ddk750_mode.c b/drivers/staging/sm750fb/ddk750_mode.c
-> > > > index 83ace6cc9583..e15039238232 100644
-> > > > --- a/drivers/staging/sm750fb/ddk750_mode.c
-> > > > +++ b/drivers/staging/sm750fb/ddk750_mode.c
-> > > > @@ -73,8 +73,8 @@ display_control_adjust_sm750le(struct mode_parameter *mode_param,
-> > > >  }
-> > > >  
-> > > >  /* only timing related registers will be  programed */
-> > > > -static int program_mode_registers(struct mode_parameter *mode_param,
-> > > > -				  struct pll_value *pll)
-> > > > +static void program_mode_registers(struct mode_parameter *mode_param,
-> > > > +				   struct pll_value *pll)
-> > > >  {
-> > > >  	int ret = 0;
-> > > >  	int cnt = 0;
-> > > > @@ -202,7 +202,6 @@ static int program_mode_registers(struct mode_parameter *mode_param,
-> > > >  	} else {
-> > > >  		ret = -1;
-> > > 
-> > > Why are you still setting the 'ret' variable if you are not doing
-> > > anything with it anymore?
-> > > 
-> > > >  	}
-> > > > -	return ret;
-> > > 
-> > > Are you sure that the caller shouldn't be checking for errors instead of
-> > > dropping the return value?  If so, document that in the changelog too.
-> > >
-> > Seems like the caller doesn't use the function to check for errors as in
-> > the code below:
-> > 
-> > int ddk750_set_mode_timing(struct mode_parameter *parm, enum clock_type clock)
-> > {
-> >         struct pll_value pll;
-> > 
-> >         pll.input_freq = DEFAULT_INPUT_CLOCK;
-> >         pll.clock_type = clock;
-> > 
-> >         sm750_calc_pll_value(parm->pixel_clock, &pll);
-> >         if (sm750_get_chip_type() == SM750LE) {
-> >                 /* set graphic mode via IO method */
-> >                 outb_p(0x88, 0x3d4);
-> >                 outb_p(0x06, 0x3d5);
-> >         }
-> >         program_mode_registers(parm, &pll);
-> >         return 0;
-> > 
-> > It will still return 0 regardless of whether there is an error or not.
-> > Since I am not sure how the two functions relate to one another, is
-> > there need to check error in the caller function?
-> 
-> That is correct, it is not checking for errors, but shouldn't it?  If
-> the function can fail, then it should have proper error handling so
-> return the correct error (hint -1 is not a valid error), and then
-> propagate it up the call chain correctly as well.
-> 
-> For doing this type of work, either the function can not fail so there
-> can not be an error return value, or it can, and then the error should
-> be propagated correctly.  Sorry for not spelling that out earlier.
-> 
-> thanks,
-> 
-> greg k-h
-Makes sense. I am not sure whether there exists a function that cannot
-fail. But for this patch I will start by assuming that it cannot fail and
-remove the error return variable altogether. Then after submission of the patch, I
-will look at whether the function can fail and see how to propagate the
-error. I think this should work?
+On Sun, Oct 15, 2023, at 20:42, Philipp Hortmann wrote:
+> On 10/13/23 17:36, Arnd Bergmann wrote:
+>> At the moment, I'd suggest focusing on the drivers that still use wext 
+>> (git grep -w iw_handler_def drivers), if we can show that rtl8192e, 
+>> rtl8712 or ks7010 have been broken for a while, removing those would 
+>> help with removing wext altogether.
+>
+>
+> Hi,
+>
+> __rtl8192e__
+> this hardware is available on ebay 13 times.
+> ping statistics:
+> 1191 packets transmitted, 1191 received, 0% packet loss, time 1192169ms
+> rtt min/avg/max/mdev = 0.633/2.184/74.792/3.157 ms
+> maximum download 12,5 MByte/s
+>
+> __rtl8712__
+> stick packard bell AW-NU120
+> ping statistics:
+> 678 packets transmitted, 652 received, 3.83481% packet loss, time 678287ms
+> rtt min/avg/max/mdev = 0.943/4.835/231.435/17.900 ms
+> maximum download 12,5 MByte/s
+>
+> I would like to remove the private functions as the "wireless tools" 
+> package is deprecated. The following functions are available:
+> kernel@matrix-ESPRIMO-P710:~/Documents/git/kernels/staging$ iwpriv wlan0
+> wlan0     Available private ioctls :
+>            read32           (8BE0) : set   1 int   & get   0
+>            write32          (8BE1) : set   1 int   & get   0
+>            driver_ext       (8BE2) : set   0       & get   0
+>            mp_ioctl         (8BE3) : set   0       & get   0
+>            apinfo           (8BE4) : set   1 int   & get   0
+>            setpid           (8BE5) : set   1 int   & get   0
+>            wps_start        (8BE6) : set   1 int   & get   0
+>            chplan           (8BE7) : set   1 int   & get   0
+>
+> What do you think about this?
 
-thanks,
-Dorcas
+Larry is the maintainer for rtl8712, so he'd be the one to answer
+this. Out of the four drivers that are left using wext after
+my current draft removal series, only ks7010 and rtl8712
+use the private handlers, so in theory we could remove
+the CONFIG_WEXT_PRIV first, but I'm not sure that makes
+any difference if the plan is to convert all wext drivers
+to cfg80211 anyway.
 
+     Arnd
