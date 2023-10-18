@@ -1,109 +1,227 @@
-Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from ex01.ufhost.com (ex01.ufhost.com [61.152.239.75])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E316A1642B;
-	Wed, 18 Oct 2023 09:09:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XLLLhHy5"
-Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-507c50b7c36so1432692e87.3;
-        Wed, 18 Oct 2023 02:09:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1697620147; x=1698224947; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=cpBTf7lcPPrlh5uO65BHtYFE8Nvp9es/xrzqlK/axIY=;
-        b=XLLLhHy5HiJxUJQcmjUAMfyCEjzR1WTdcX6SRM98ptxfoI7mHymtQL5pMoVld17a7I
-         VVvmO9lcHy2Gt2oqyj2+6HfdvEPmtWnfa/tSPYvzOQ3N9gv4LX+0oSMQQv2Kns5BFLoQ
-         9+8brABK/7MZ/eT+ftQR1bxbHhTcZRJeOguBB8UOjXGnBxkPmUAZZ2wyg0STiN527PKE
-         L6schvf+hkFadLWlyd/6GhFMy4qMoTZayRXCuJBpOG6jtfMBWkeOjq+2IsTefW2ImN9K
-         sP3usYrW7Tl1b4bVTDjjV+DaoOjUdQHuM5jioK07cYIelufA+pL3CzqpJM0zoQlYXb4M
-         hbzg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697620147; x=1698224947;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=cpBTf7lcPPrlh5uO65BHtYFE8Nvp9es/xrzqlK/axIY=;
-        b=pOGEQ3Vvq4oMF+B69zWjF0E05YIjNzoRit5dMZ3EZpgS9AMEKABCdGDEqZQtmnCvHp
-         JjedmzZALbjV2LWsbo2U7UM60BsZ9B+6fjKa3CTTkZWMWNW6fViLidHZO96HsTl9SOUw
-         3WooAQVFrkjOqEuJSB5qRmODjxNw9r4J/SHgMkUEwIZLSWs0TR9Oc5q802Q4xFjNv9xQ
-         Gro6BX9oUKK0quRTlqSq8W9hg+d3A7O4sKFhPjlGifEhmjF6jXPfTPxdldpkmH+Nxz4X
-         +JjvAU9CYYHfqBI8VUBrHl0HiikirhSJw64DGH9C7I1udaUWIKOY98GRfQBiAkvFJlao
-         xHDQ==
-X-Gm-Message-State: AOJu0YyOlg/ISxNGys9oYmGMN+l/sU1/vdam/ZaCik+FnF5vD5/PgZTS
-	qS2dNShrL+RcGllS8Kn2Hg==
-X-Google-Smtp-Source: AGHT+IHexUEVIYWZg4NVhT/6ayuobviO0J5bcJdeY/hfx49NbfI55SMtkLr/hRDsat5UuOjQuWlF5w==
-X-Received: by 2002:ac2:5939:0:b0:500:9dd4:2969 with SMTP id v25-20020ac25939000000b005009dd42969mr3415814lfi.59.1697620146853;
-        Wed, 18 Oct 2023 02:09:06 -0700 (PDT)
-Received: from dorcaslitunya-virtual-machine.localdomain ([105.163.0.227])
-        by smtp.gmail.com with ESMTPSA id l16-20020a7bc450000000b003fee6e170f9sm1107397wmi.45.2023.10.18.02.09.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 18 Oct 2023 02:09:06 -0700 (PDT)
-From: Dorcas AnonoLitunya <anonolitunya@gmail.com>
-To: 
-Cc: anonolitunya@gmail.com,
-	outreachy@lists.linux.dev,
-	julia.lawall@inria.fr,
-	dan.carpenter@linaro.org,
-	andi.shyti@linux.intel.com,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Sudip Mukherjee <sudipm.mukherjee@gmail.com>,
-	Teddy Wang <teddy.wang@siliconmotion.com>,
-	linux-fbdev@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH 2/2] staging: sm750fb: Remove unused return value in program_mode_registers()
-Date: Wed, 18 Oct 2023 12:07:38 +0300
-Message-ID: <492e63bbc58147fb534930ef9e1fb5d844ae8769.1697619623.git.anonolitunya@gmail.com>
-X-Mailer: git-send-email 2.42.0.345.gaab89be2eb
-In-Reply-To: <cover.1697619623.git.anonolitunya@gmail.com>
-References: <cover.1697619623.git.anonolitunya@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DE0C17989
+	for <linux-staging@lists.linux.dev>; Wed, 18 Oct 2023 09:25:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=starfivetech.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=starfivetech.com
+Authentication-Results: smtp.subspace.kernel.org; dkim=none
+Received: from EXMBX166.cuchost.com (unknown [175.102.18.54])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(Client CN "EXMBX166", Issuer "EXMBX166" (not verified))
+	by ex01.ufhost.com (Postfix) with ESMTP id 8A3F024E314;
+	Wed, 18 Oct 2023 17:25:40 +0800 (CST)
+Received: from EXMBX073.cuchost.com (172.16.6.83) by EXMBX166.cuchost.com
+ (172.16.6.76) with Microsoft SMTP Server (TLS) id 15.0.1497.42; Wed, 18 Oct
+ 2023 17:25:40 +0800
+Received: from [192.168.1.218] (180.164.60.184) by EXMBX073.cuchost.com
+ (172.16.6.83) with Microsoft SMTP Server (TLS) id 15.0.1497.42; Wed, 18 Oct
+ 2023 17:25:39 +0800
+Message-ID: <687a4c58-3666-1c7b-fcfd-d586c28dea35@starfivetech.com>
+Date: Wed, 18 Oct 2023 17:25:39 +0800
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.1
+Subject: Re: [PATCH v10 0/8] Add StarFive Camera Subsystem driver
+Content-Language: en-US
+To: Hans Verkuil <hverkuil-cisco@xs4all.nl>, Mauro Carvalho Chehab
+	<mchehab@kernel.org>, Robert Foss <rfoss@kernel.org>, Todor Tomov
+	<todor.too@gmail.com>, <bryan.odonoghue@linaro.org>, Rob Herring
+	<robh+dt@kernel.org>, Krzysztof Kozlowski
+	<krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>,
+	"Greg Kroah-Hartman" <gregkh@linuxfoundation.org>, Philipp Zabel
+	<p.zabel@pengutronix.de>, Laurent Pinchart
+	<laurent.pinchart@ideasonboard.com>
+CC: <linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<devicetree@vger.kernel.org>, <linux-staging@lists.linux.dev>,
+	<changhuang.liang@starfivetech.com>
+References: <20231008085154.6757-1-jack.zhu@starfivetech.com>
+ <98297bfc-ab81-4bb5-acc3-619fdf879276@xs4all.nl>
+ <bb5b776c-f1dd-f53e-079c-8048af2e73f1@starfivetech.com>
+ <4a74a40c-ee3c-4563-87d1-27e859eb6982@xs4all.nl>
+From: Jack Zhu <jack.zhu@starfivetech.com>
+In-Reply-To: <4a74a40c-ee3c-4563-87d1-27e859eb6982@xs4all.nl>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [180.164.60.184]
+X-ClientProxiedBy: EXCAS061.cuchost.com (172.16.6.21) To EXMBX073.cuchost.com
+ (172.16.6.83)
+X-YovoleRuleAgent: yovoleflag
 
-Modifies the return type of program_mode_registers()
-to void from int as the return value is being ignored in
-all subsequent function calls.
 
-This improves code readability and maintainability.
 
-Suggested-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Signed-off-by: Dorcas AnonoLitunya <anonolitunya@gmail.com>
----
- drivers/staging/sm750fb/ddk750_mode.c | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+On 2023/10/18 16:50, Hans Verkuil wrote:
+> Hi Jack,
+> 
+> On 18/10/2023 04:37, Jack Zhu wrote:
+> 
+> <snip>
+> 
+>>>> --------------------------------------------------------------------------------
+>>>> Compliance test for device /dev/v4l-subdev1:
+>>>>
+>>>> Driver Info:
+>>>> 	Driver version   : 6.6.0
+>>>> 	Capabilities     : 0x00000000
+>>>
+>>> But this does not appear for v4l-subdev1.
+>>>
+>>> I can't really tell why it doesn't show that. Can you debug a little bit?
+>>> The code is in v4l2-compliance.cpp, line 1086:
+>>>
+>>> ent_id = mi_media_info_for_fd(media_fd, node.g_fd(), &is_invalid, &node.function);
+>>>
+>>> The mi_media_info_for_fd() function calls ioctl(media_fd, MEDIA_IOC_DEVICE_INFO, &mdinfo),
+>>> and that fails for some reason. It could be that media_fd is invalid (would be weird).
+>>>
+>>> This could well be a v4l2-compliance bug that you hit with this driver.
+>>>
+>> 
+>> On the test board, /dev/v4l-subdev1 is imx219, and the corresponding directory is
+>> /sys/dev/char/81:3/device. Media0 does not exist in this directory. Therefore, the media_fd
+>> obtained through mi_get_media_fd(node.g_fd(), node.bus_info) is invalid.
+>> 
+>> I don't know why media0 does not exist in /sys/dev/char/81:3/device?
+>> 
+> 
+> Can you try again with this v4l2-compliance patch?
+> 
+> I need to dig a bit deeper as to why media0 is missing, but for now try this.
+> 
+> Regards,
+> 
+> 	Hans
+> 
+> diff --git a/utils/v4l2-compliance/v4l2-compliance.cpp b/utils/v4l2-compliance/v4l2-compliance.cpp
+> index 7169eefe..29475d6b 100644
+> --- a/utils/v4l2-compliance/v4l2-compliance.cpp
+> +++ b/utils/v4l2-compliance/v4l2-compliance.cpp
+> @@ -968,7 +968,7 @@ err:
+>  }
+> 
+>  void testNode(struct node &node, struct node &node_m2m_cap, struct node &expbuf_node, media_type type,
+> -	      unsigned frame_count, unsigned all_fmt_frame_count)
+> +	      unsigned frame_count, unsigned all_fmt_frame_count, int parent_media_fd)
+>  {
+>  	struct node node2;
+>  	struct v4l2_capability vcap = {};
+> @@ -997,8 +997,12 @@ void testNode(struct node &node, struct node &node_m2m_cap, struct node &expbuf_
+>  		memset(&vcap, 0, sizeof(vcap));
+>  	}
+> 
+> -	if (!node.is_media())
+> -		media_fd = mi_get_media_fd(node.g_fd(), node.bus_info);
+> +	if (!node.is_media()) {
+> +		if (parent_media_fd >= 0)
+> +			media_fd = parent_media_fd;
+> +		else
+> +			media_fd = mi_get_media_fd(node.g_fd(), node.bus_info);
+> +	}
+> 
+>  	int fd = node.is_media() ? node.g_fd() : media_fd;
+>  	if (fd >= 0) {
+> diff --git a/utils/v4l2-compliance/v4l2-compliance.h b/utils/v4l2-compliance/v4l2-compliance.h
+> index 7caf254b..c47f25f5 100644
+> --- a/utils/v4l2-compliance/v4l2-compliance.h
+> +++ b/utils/v4l2-compliance/v4l2-compliance.h
+> @@ -308,7 +308,7 @@ int check_ustring(const __u8 *s, int len);
+>  int check_0(const void *p, int len);
+>  int restoreFormat(struct node *node);
+>  void testNode(struct node &node, struct node &node_m2m_cap, struct node &expbuf_node, media_type type,
+> -	      unsigned frame_count, unsigned all_fmt_frame_count);
+> +	      unsigned frame_count, unsigned all_fmt_frame_count, int parent_media_fd = -1);
+>  std::string stream_from(const std::string &pixelformat, bool &use_hdr);
+> 
+>  // Media Controller ioctl tests
+> 
 
-diff --git a/drivers/staging/sm750fb/ddk750_mode.c b/drivers/staging/sm750fb/ddk750_mode.c
-index 83ace6cc9583..e15039238232 100644
---- a/drivers/staging/sm750fb/ddk750_mode.c
-+++ b/drivers/staging/sm750fb/ddk750_mode.c
-@@ -73,8 +73,8 @@ display_control_adjust_sm750le(struct mode_parameter *mode_param,
- }
- 
- /* only timing related registers will be  programed */
--static int program_mode_registers(struct mode_parameter *mode_param,
--				  struct pll_value *pll)
-+static void program_mode_registers(struct mode_parameter *mode_param,
-+				   struct pll_value *pll)
- {
- 	int ret = 0;
- 	int cnt = 0;
-@@ -202,7 +202,6 @@ static int program_mode_registers(struct mode_parameter *mode_param,
- 	} else {
- 		ret = -1;
- 	}
--	return ret;
- }
- 
- int ddk750_set_mode_timing(struct mode_parameter *parm, enum clock_type clock)
+From the log, there is no change.
+
+test log:
+--------------------------------------------------------------------------------
+Compliance test for device /dev/v4l-subdev1:
+
+Driver Info:
+	Driver version   : 6.6.0
+	Capabilities     : 0x00000000
+
+Required ioctls:
+	test VIDIOC_SUDBEV_QUERYCAP: OK
+	test invalid ioctls: OK
+
+Allow for multiple opens:
+	test second /dev/v4l-subdev1 open: OK
+	test VIDIOC_SUBDEV_QUERYCAP: OK
+	test for unlimited opens: OK
+
+Debug ioctls:
+	test VIDIOC_LOG_STATUS: OK (Not Supported)
+
+Input ioctls:
+	test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
+	test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+	test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
+	test VIDIOC_ENUMAUDIO: OK (Not Supported)
+	test VIDIOC_G/S/ENUMINPUT: OK (Not Supported)
+	test VIDIOC_G/S_AUDIO: OK (Not Supported)
+	Inputs: 0 Audio Inputs: 0 Tuners: 0
+
+Output ioctls:
+	test VIDIOC_G/S_MODULATOR: OK (Not Supported)
+	test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+	test VIDIOC_ENUMAUDOUT: OK (Not Supported)
+	test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
+	test VIDIOC_G/S_AUDOUT: OK (Not Supported)
+	Outputs: 0 Audio Outputs: 0 Modulators: 0
+
+Input/Output configuration ioctls:
+	test VIDIOC_ENUM/G/S/QUERY_STD: OK (Not Supported)
+	test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK (Not Supported)
+	test VIDIOC_DV_TIMINGS_CAP: OK (Not Supported)
+	test VIDIOC_G/S_EDID: OK (Not Supported)
+
+Control ioctls:
+	test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK
+	test VIDIOC_QUERYCTRL: OK
+	test VIDIOC_G/S_CTRL: OK
+	test VIDIOC_G/S/TRY_EXT_CTRLS: OK
+	test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK
+	test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
+	Standard Controls: 20 Private Controls: 0
+
+Format ioctls:
+	test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK (Not Supported)
+	test VIDIOC_G/S_PARM: OK (Not Supported)
+	test VIDIOC_G_FBUF: OK (Not Supported)
+	test VIDIOC_G_FMT: OK (Not Supported)
+	test VIDIOC_TRY_FMT: OK (Not Supported)
+	test VIDIOC_S_FMT: OK (Not Supported)
+	test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
+	test Cropping: OK (Not Supported)
+	test Composing: OK (Not Supported)
+	test Scaling: OK (Not Supported)
+
+Codec ioctls:
+	test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Supported)
+	test VIDIOC_G_ENC_INDEX: OK (Not Supported)
+	test VIDIOC_(TRY_)DECODER_CMD: OK (Not Supported)
+
+Buffer ioctls:
+	test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK (Not Supported)
+	test VIDIOC_EXPBUF: OK (Not Supported)
+	test Requests: OK (Not Supported)
+
+Total for device /dev/v4l-subdev1: 43, Succeeded: 43, Failed: 0, Warnings: 0
+
+Grand Total for starfive-camss device /dev/media0: 201, Succeeded: 201, Failed: 0, Warnings: 0
+# 
+
 -- 
-2.42.0.345.gaab89be2eb
+Regards,
 
+Jack Zhu
