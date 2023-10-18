@@ -1,116 +1,94 @@
-Received: from mail2-relais-roc.national.inria.fr (mail2-relais-roc.national.inria.fr [192.134.164.83])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D327A8F77;
-	Wed, 18 Oct 2023 07:03:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inria.fr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=inria.fr
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=inria.fr header.i=@inria.fr header.b="lJ8eLjOk"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=inria.fr; s=dc;
-  h=date:from:to:cc:subject:in-reply-to:message-id:
-   references:mime-version;
-  bh=NWad4ezdKyh7fVlIm7RYq8OCRyT0bSyjdlIaCm1giqw=;
-  b=lJ8eLjOkyt075eOOu6aYmoWK+MuD+PtkhmyoeGHj9+66MZqeja+DE+B+
-   qiBWWogZQqMePb+86D6gsGbyuUWJKuag3pqa3L6pxZm5iCrHusiAlu7Jo
-   KgQLv9R4LOxp6538N0D7oFaMTPxG7oUI90DYqqihSq0dspxzP2XgfA22+
-   0=;
-Authentication-Results: mail2-relais-roc.national.inria.fr; dkim=none (message not signed) header.i=none; spf=SoftFail smtp.mailfrom=julia.lawall@inria.fr; dmarc=fail (p=none dis=none) d=inria.fr
-X-IronPort-AV: E=Sophos;i="6.03,234,1694728800"; 
-   d="scan'208";a="131810198"
-Received: from dhcp-138-246-3-50.dynamic.eduroam.mwn.de (HELO hadrien) ([138.246.3.50])
-  by mail2-relais-roc.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Oct 2023 09:03:39 +0200
-Date: Wed, 18 Oct 2023 09:03:39 +0200 (CEST)
-From: Julia Lawall <julia.lawall@inria.fr>
-To: kenechukwu maduechesi <maduechesik@gmail.com>
-cc: outreachy@lists.linux.dev, shreeya.patel23498@gmail.com, 
-    Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-    linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: rts5208: Replace delay function.
-In-Reply-To: <20231018004300.GA3189@ubuntu>
-Message-ID: <7bc719c4-459f-3d8-7ed-b1e1adf158@inria.fr>
-References: <20231018004300.GA3189@ubuntu>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F0D98C1A;
+	Wed, 18 Oct 2023 07:12:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dkim=none
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 09F33C433C8;
+	Wed, 18 Oct 2023 07:12:16 +0000 (UTC)
+Message-ID: <61617735-c196-43e1-a4c6-539f348978e0@xs4all.nl>
+Date: Wed, 18 Oct 2023 09:12:15 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v10 0/8] Add StarFive Camera Subsystem driver
+Content-Language: en-US, nl
+To: Jack Zhu <jack.zhu@starfivetech.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Robert Foss <rfoss@kernel.org>,
+ Todor Tomov <todor.too@gmail.com>, bryan.odonoghue@linaro.org,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Philipp Zabel <p.zabel@pengutronix.de>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-staging@lists.linux.dev,
+ changhuang.liang@starfivetech.com
+References: <20231008085154.6757-1-jack.zhu@starfivetech.com>
+ <98297bfc-ab81-4bb5-acc3-619fdf879276@xs4all.nl>
+ <c255e215-b1ed-7397-0534-8d6ebda86350@starfivetech.com>
+From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+In-Reply-To: <c255e215-b1ed-7397-0534-8d6ebda86350@starfivetech.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
+On 18/10/2023 05:11, Jack Zhu wrote:
+> 
+> 
+> On 2023/10/16 19:40, Hans Verkuil wrote:
+>> Hi Jack,
+>>
+>> On 08/10/2023 10:51, Jack Zhu wrote:
+>>> Hi,
+>>>
+>>> This series is the v10 series that attempts to support the Camera Subsystem
+>>> found on StarFive JH7110 SoC.
+>>>
+>>> This series is based on top of the master branch of media_stage repository,
+>>> which is tested with a v4l2-compliance compiled from the git repo
+>>> (git://linuxtv.org/v4l-utils.git).
+>>
+>> I get one smatch warning:
+>>
+>> drivers/staging/media/starfive/camss/stf-isp.c:122 isp_enum_mbus_code() warn: unsigned 'code->index' is never less than zero.
+>>
+> 
+> Could you please tell me the code check command? This way I can use it to check
+> my next commit.
 
+See https://repo.or.cz/smatch.git/blob/HEAD:/Documentation/smatch.txt
 
-On Tue, 17 Oct 2023, kenechukwu maduechesi wrote:
+FYI: you can use the same build scripts that I use to verify patches. It is
+described here:
 
-> Replace udelay() with usleep_range() for more precise delay handling.
->
-> Reported by checkpatch:
->
-> CHECK: usleep_range is preferred over udelay
+https://lore.kernel.org/linux-media/18989016-6392-a77b-6cf7-1223c9161def@xs4all.nl/
 
-This message is typically not a good candidate for outreachy patches,
-because you need access to the device to be sure that any change is
-correct.
+See the README for detailed instructions.
 
-julia
+Regards,
 
->
-> Signed-off-by: kenechukwu maduechesi <maduechesik@gmail.com>
-> ---
->  drivers/staging/rts5208/sd.c | 10 +++++-----
->  1 file changed, 5 insertions(+), 5 deletions(-)
->
-> diff --git a/drivers/staging/rts5208/sd.c b/drivers/staging/rts5208/sd.c
-> index 74c4f476b3a4..059f99b0a727 100644
-> --- a/drivers/staging/rts5208/sd.c
-> +++ b/drivers/staging/rts5208/sd.c
-> @@ -865,7 +865,7 @@ static int sd_change_phase(struct rtsx_chip *chip, u8 sample_point, u8 tune_dir)
->  						     PHASE_CHANGE);
->  			if (retval)
->  				return retval;
-> -			udelay(50);
-> +			usleep_range(50);
->  			retval = rtsx_write_register(chip, SD_VP_CTL, 0xFF,
->  						     PHASE_CHANGE |
->  						     PHASE_NOT_RESET |
-> @@ -877,14 +877,14 @@ static int sd_change_phase(struct rtsx_chip *chip, u8 sample_point, u8 tune_dir)
->  						     CHANGE_CLK, CHANGE_CLK);
->  			if (retval)
->  				return retval;
-> -			udelay(50);
-> +			usleep_range(50);
->  			retval = rtsx_write_register(chip, SD_VP_CTL, 0xFF,
->  						     PHASE_NOT_RESET |
->  						     sample_point);
->  			if (retval)
->  				return retval;
->  		}
-> -		udelay(100);
-> +		usleep_range(100);
->
->  		rtsx_init_cmd(chip);
->  		rtsx_add_cmd(chip, WRITE_REG_CMD, SD_DCMPS_CTL, DCMPS_CHANGE,
-> @@ -918,7 +918,7 @@ static int sd_change_phase(struct rtsx_chip *chip, u8 sample_point, u8 tune_dir)
->  				return retval;
->  		}
->
-> -		udelay(50);
-> +		usleep_range(50);
->  	}
->
->  	retval = rtsx_write_register(chip, SD_CFG1, SD_ASYNC_FIFO_NOT_RST, 0);
-> @@ -1416,7 +1416,7 @@ static int sd_wait_data_idle(struct rtsx_chip *chip)
->  			retval = STATUS_SUCCESS;
->  			break;
->  		}
-> -		udelay(100);
-> +		usleep_range(100);
->  	}
->  	dev_dbg(rtsx_dev(chip), "SD_DATA_STATE: 0x%02x\n", val);
->
-> --
-> 2.25.1
->
->
->
+	Hans
+
+> 
+>> And I also notice that there is no TODO file: staging drivers should have a
+>> TODO file explaining what needs to be done to get them out of staging.
+>>
+> 
+> OK, I'll add it to my next commit. I previously misunderstood that it was submitted
+> when moving out of staging.
+> 
+>> I'm curious to know that as well :-)
+>>
+>> It looks like there is a lot of additional development that can be done, since
+>> most of the ISP parameters appear to be hardcoded.
+>>
+> 
+> Part is the module initialization configuration. In the next stage, we will use
+> incremental development to implement 3A functions.
+> 
+
