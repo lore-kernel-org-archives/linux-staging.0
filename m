@@ -1,170 +1,197 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7C4018E30;
-	Wed, 18 Oct 2023 11:00:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="a+V3TpR6"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1697626814; x=1729162814;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=COxJInCL0jGxY7ESovjNwogq2qyUcFkuDBB6vSCiReM=;
-  b=a+V3TpR6aDTHbUB2XvyddMXyXkjawi9hYEOOHM/pC3UBIi8Q9CUOaof4
-   Bt/k+XEwrJuxhd/G2LtrukdukT7Q8I8D+1xtnAiPEIQRJZ82WIs4FU2/Q
-   1UwuQ7OfZIUeVtX4sbBGRU5UbTNW2bC3HWUQmYxpoybMYbwai+flQW/pu
-   BPteXlwrKur2TCttvmXxN3EnqjeSWACPhX8LFfQvL3YADDPiqLFifJ0iu
-   BAiIsZNwn2Aq+BkTxKCpq5Isf64fMkbvXQwTIy2BehIuXl7U0NXn077E2
-   rgrMYolFP+HBR7AxC7sL+coeuowFnH8uSa2UfsGLuhW/IaqcZT1Ttm2Vl
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10866"; a="365338343"
-X-IronPort-AV: E=Sophos;i="6.03,234,1694761200"; 
-   d="scan'208";a="365338343"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Oct 2023 04:00:13 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10866"; a="900303900"
-X-IronPort-AV: E=Sophos;i="6.03,234,1694761200"; 
-   d="scan'208";a="900303900"
-Received: from nurfahan-mobl3.gar.corp.intel.com (HELO intel.com) ([10.213.159.217])
-  by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Oct 2023 03:58:05 -0700
-Date: Wed, 18 Oct 2023 13:00:01 +0200
-From: Andi Shyti <andi.shyti@linux.intel.com>
-To: Soumya Negi <soumya.negi97@gmail.com>
-Cc: Martyn Welch <martyn@welchs.me.uk>,
-	Manohar Vanga <manohar.vanga@gmail.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	outreachy@lists.linux.dev, linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev
-Subject: Re: [PATCH 2/2] staging: vme_user: Use __func__ instead of function
- name
-Message-ID: <ZS+6sTNNZ5KUzpd4@ashyti-mobl2.lan>
-References: <cover.1697601942.git.soumya.negi97@gmail.com>
- <c553e5901f16b78681e74b2d77796f8fc102b602.1697601942.git.soumya.negi97@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7991A11C8C
+	for <linux-staging@lists.linux.dev>; Wed, 18 Oct 2023 11:17:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dkim=none
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5EA9FC433C8;
+	Wed, 18 Oct 2023 11:17:23 +0000 (UTC)
+Message-ID: <ffb32ac3-67ce-4401-9750-6c97ba28d051@xs4all.nl>
+Date: Wed, 18 Oct 2023 13:17:21 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <c553e5901f16b78681e74b2d77796f8fc102b602.1697601942.git.soumya.negi97@gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v12 44/56] media: core: Report the maximum possible number
+ of buffers for the queue
+Content-Language: en-US, nl
+To: Benjamin Gaignard <benjamin.gaignard@collabora.com>, mchehab@kernel.org,
+ tfiga@chromium.org, m.szyprowski@samsung.com, ming.qian@nxp.com,
+ ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de,
+ gregkh@linuxfoundation.org, nicolas.dufresne@collabora.com
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org,
+ linux-arm-msm@vger.kernel.org, linux-rockchip@lists.infradead.org,
+ linux-staging@lists.linux.dev, kernel@collabora.com
+References: <20231017144756.34719-1-benjamin.gaignard@collabora.com>
+ <20231017144756.34719-45-benjamin.gaignard@collabora.com>
+From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+In-Reply-To: <20231017144756.34719-45-benjamin.gaignard@collabora.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hi Soumya,
-
-On Tue, Oct 17, 2023 at 09:36:33PM -0700, Soumya Negi wrote:
-> Replace function names in message strings with __func__ to fix
-> all checkpatch warnings like:
+On 17/10/2023 16:47, Benjamin Gaignard wrote:
+> Use one of the struct v4l2_create_buffers reserved bytes to report
+> the maximum possible number of buffers for the queue.
+> V4l2 framework set V4L2_BUF_CAP_SUPPORTS_SET_MAX_BUFS flags in queue
+> capabilities so userland can know when the field is valid.
 > 
->     WARNING: Prefer using '"%s...", __func__' to using 'vme_lm_get',
->              this function's name, in a string
-> 
-> Signed-off-by: Soumya Negi <soumya.negi97@gmail.com>
+> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
 > ---
->  drivers/staging/vme_user/vme.c | 14 +++++++-------
->  1 file changed, 7 insertions(+), 7 deletions(-)
+>  .../userspace-api/media/v4l/vidioc-create-bufs.rst        | 8 ++++++--
+>  Documentation/userspace-api/media/v4l/vidioc-reqbufs.rst  | 1 +
+>  drivers/media/common/videobuf2/videobuf2-v4l2.c           | 2 ++
+>  drivers/media/v4l2-core/v4l2-ioctl.c                      | 4 ++--
+>  include/uapi/linux/videodev2.h                            | 7 ++++++-
+>  5 files changed, 17 insertions(+), 5 deletions(-)
 > 
-> diff --git a/drivers/staging/vme_user/vme.c b/drivers/staging/vme_user/vme.c
-> index e8c2c1e77b7d..11c1df12b657 100644
-> --- a/drivers/staging/vme_user/vme.c
-> +++ b/drivers/staging/vme_user/vme.c
-> @@ -422,7 +422,7 @@ int vme_slave_get(struct vme_resource *resource, int *enabled,
->  	image = list_entry(resource->entry, struct vme_slave_resource, list);
->  
->  	if (!bridge->slave_get) {
-> -		dev_err(bridge->parent, "vme_slave_get not supported\n");
-> +		dev_err(bridge->parent, "%s not supported\n", __func__);
->  		return -EINVAL;
->  	}
->  
-> @@ -572,7 +572,7 @@ int vme_master_set(struct vme_resource *resource, int enabled,
->  	image = list_entry(resource->entry, struct vme_master_resource, list);
->  
->  	if (!bridge->master_set) {
-> -		dev_warn(bridge->parent, "vme_master_set not supported\n");
-> +		dev_warn(bridge->parent, "%s not supported\n", __func__);
+> diff --git a/Documentation/userspace-api/media/v4l/vidioc-create-bufs.rst b/Documentation/userspace-api/media/v4l/vidioc-create-bufs.rst
+> index a048a9f6b7b6..380195c2a00a 100644
+> --- a/Documentation/userspace-api/media/v4l/vidioc-create-bufs.rst
+> +++ b/Documentation/userspace-api/media/v4l/vidioc-create-bufs.rst
+> @@ -116,9 +116,13 @@ than the number requested.
+>        - ``flags``
+>        - Specifies additional buffer management attributes.
+>  	See :ref:`memory-flags`.
+> -
+>      * - __u32
+> -      - ``reserved``\ [6]
+> +      - ``max_num_buffers``
+> +      - If V4L2_BUF_CAP_SUPPORTS_MAX_NUM_BUFFERS capability flag is set
 
-I wouldn't disagree if you made this dev_err() instead of
-dev_warn(). The reasoning behind is that if it's a warning you
-should not fail. But beacuse you are returning -EINVAL it means
-that you are failing, therefore you should use dev_err().
+If -> If the
 
-Others might object that the change I'm suggesting sohuld go in a
-different patch, which is also OK.
+> +        this field indicate the maximum possible number of buffers
 
->  		return -EINVAL;
+indicate -> indicates
 
-... or, if you want to keep the dev_warn(), whou can consider
-removing the "return -EINVAL;". But this is an evaluation you
-should make in a different patch and mainly evaluate if it's
-OK to remove the error here.
-
->  	}
+> +        for this queue.
+> +    * - __u32
+> +      - ``reserved``\ [5]
+>        - A place holder for future extensions. Drivers and applications
+>  	must set the array to zero.
 >  
-> @@ -1565,7 +1565,7 @@ int vme_lm_set(struct vme_resource *resource, unsigned long long lm_base,
->  	lm = list_entry(resource->entry, struct vme_lm_resource, list);
+> diff --git a/Documentation/userspace-api/media/v4l/vidioc-reqbufs.rst b/Documentation/userspace-api/media/v4l/vidioc-reqbufs.rst
+> index 099fa6695167..0b3a41a45d05 100644
+> --- a/Documentation/userspace-api/media/v4l/vidioc-reqbufs.rst
+> +++ b/Documentation/userspace-api/media/v4l/vidioc-reqbufs.rst
+> @@ -120,6 +120,7 @@ aborting or finishing any DMA in progress, an implicit
+>  .. _V4L2-BUF-CAP-SUPPORTS-ORPHANED-BUFS:
+>  .. _V4L2-BUF-CAP-SUPPORTS-M2M-HOLD-CAPTURE-BUF:
+>  .. _V4L2-BUF-CAP-SUPPORTS-MMAP-CACHE-HINTS:
+> +.. _V4L2-BUF-CAP-SUPPORTS-MAX-NUM-BUFFERS:
 >  
->  	if (!bridge->lm_set) {
-> -		dev_err(bridge->parent, "vme_lm_set not supported\n");
-> +		dev_err(bridge->parent, "%s not supported\n", __func__);
->  		return -EINVAL;
->  	}
+>  .. raw:: latex
 >  
-> @@ -1601,7 +1601,7 @@ int vme_lm_get(struct vme_resource *resource, unsigned long long *lm_base,
->  	lm = list_entry(resource->entry, struct vme_lm_resource, list);
->  
->  	if (!bridge->lm_get) {
-> -		dev_err(bridge->parent, "vme_lm_get not supported\n");
-> +		dev_err(bridge->parent, "%s not supported\n", __func__);
->  		return -EINVAL;
->  	}
->  
-> @@ -1638,7 +1638,7 @@ int vme_lm_attach(struct vme_resource *resource, int monitor,
->  	lm = list_entry(resource->entry, struct vme_lm_resource, list);
->  
->  	if (!bridge->lm_attach) {
-> -		dev_err(bridge->parent, "vme_lm_attach not supported\n");
-> +		dev_err(bridge->parent, "%s not supported\n", __func__);
->  		return -EINVAL;
->  	}
->  
-> @@ -1671,7 +1671,7 @@ int vme_lm_detach(struct vme_resource *resource, int monitor)
->  	lm = list_entry(resource->entry, struct vme_lm_resource, list);
->  
->  	if (!bridge->lm_detach) {
-> -		dev_err(bridge->parent, "vme_lm_detach not supported\n");
-> +		dev_err(bridge->parent, "%s not supported\n", __func__);
->  		return -EINVAL;
->  	}
->  
-> @@ -1738,7 +1738,7 @@ int vme_slot_num(struct vme_dev *vdev)
->  	}
->  
->  	if (!bridge->slot_get) {
-> -		dev_warn(bridge->parent, "vme_slot_num not supported\n");
-> +		dev_warn(bridge->parent, "%s not supported\n", __func__);
->  		return -EINVAL;
->  	}
+> diff --git a/drivers/media/common/videobuf2/videobuf2-v4l2.c b/drivers/media/common/videobuf2/videobuf2-v4l2.c
+> index f3cf4b235c1f..201438ffd13f 100644
+> --- a/drivers/media/common/videobuf2/videobuf2-v4l2.c
+> +++ b/drivers/media/common/videobuf2/videobuf2-v4l2.c
+> @@ -680,6 +680,7 @@ EXPORT_SYMBOL(vb2_querybuf);
+>  static void fill_buf_caps(struct vb2_queue *q, u32 *caps)
+>  {
+>  	*caps = V4L2_BUF_CAP_SUPPORTS_ORPHANED_BUFS;
+> +	*caps |= V4L2_BUF_CAP_SUPPORTS_MAX_NUM_BUFFERS;
 
-Nothing wrong with the patch itself. But imagine if we end up in
-one of those printouts and, as a user, you read something like:
+Hmm. This flag is set for both VIDIOC_REQBUFS and _CREATE_BUFS, but the
+max_num_buffers field is only reported through VIDIOC_CREATE_BUFS.
 
-   ... vme_slot_num not supported
+I think this flag should be set in vb2_create_bufs() only.
 
-The message itself doesn't say much to the user. The perfect fix
-would be to re-write all these error messages with a proper
-meaningful sentence, like, e.g.:
+Alternatively, we add a max_num_buffers field to struct v4l2_requestbuffers
+as well:
 
-   Can't retrieve the CS/CSR slot id
+struct v4l2_requestbuffers {
+        __u32                   count;
+        __u32                   type;           /* enum v4l2_buf_type */
+        __u32                   memory;         /* enum v4l2_memory */
+        __u32                   capabilities;
+        __u8                    flags;
+        __u8                    reserved[1];
+	__u16			max_num_buffers;
+};
 
-(don't even know if it's fully correct). Anyway, I understand
-you don't have much time for such fine changes, so whatever you
-decide to do:
+Since 32768 is the max for max_num_buffers, this will fit in a u16.
 
-Acked-by: Andi Shyti <andi.shyti@linux.intel.com> 
+I'm not sure it is worth the effort, though. How likely is it that there
+is a driver supporting more than 32 buffers, yet does not support CREATE_BUFS?
 
-Andi
+So for now, I think it is best to just set this BUF_CAP flag in vb2_create_bufs()
+only. But if you have better suggestions, then let me know!
+
+Regards,
+
+	Hans
+
+>  	if (q->io_modes & VB2_MMAP)
+>  		*caps |= V4L2_BUF_CAP_SUPPORTS_MMAP;
+>  	if (q->io_modes & VB2_USERPTR)
+> @@ -762,6 +763,7 @@ int vb2_create_bufs(struct vb2_queue *q, struct v4l2_create_buffers *create)
+>  	fill_buf_caps(q, &create->capabilities);
+>  	validate_memory_flags(q, create->memory, &create->flags);
+>  	create->index = vb2_get_num_buffers(q);
+> +	create->max_num_buffers = q->max_num_buffers;
+>  	if (create->count == 0)
+>  		return ret != -EBUSY ? ret : 0;
+>  
+> diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
+> index 9b1de54ce379..628b013ca0c4 100644
+> --- a/drivers/media/v4l2-core/v4l2-ioctl.c
+> +++ b/drivers/media/v4l2-core/v4l2-ioctl.c
+> @@ -483,9 +483,9 @@ static void v4l_print_create_buffers(const void *arg, bool write_only)
+>  {
+>  	const struct v4l2_create_buffers *p = arg;
+>  
+> -	pr_cont("index=%d, count=%d, memory=%s, capabilities=0x%08x, ",
+> +	pr_cont("index=%d, count=%d, memory=%s, capabilities=0x%08x, max buffers=%u",
+>  		p->index, p->count, prt_names(p->memory, v4l2_memory_names),
+> -		p->capabilities);
+> +		p->capabilities, p->max_num_buffers);
+>  	v4l_print_format(&p->format, write_only);
+>  }
+>  
+> diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
+> index c3d4e490ce7c..13ddb5abf584 100644
+> --- a/include/uapi/linux/videodev2.h
+> +++ b/include/uapi/linux/videodev2.h
+> @@ -1035,6 +1035,7 @@ struct v4l2_requestbuffers {
+>  #define V4L2_BUF_CAP_SUPPORTS_ORPHANED_BUFS		(1 << 4)
+>  #define V4L2_BUF_CAP_SUPPORTS_M2M_HOLD_CAPTURE_BUF	(1 << 5)
+>  #define V4L2_BUF_CAP_SUPPORTS_MMAP_CACHE_HINTS		(1 << 6)
+> +#define V4L2_BUF_CAP_SUPPORTS_MAX_NUM_BUFFERS		(1 << 7)
+>  
+>  /**
+>   * struct v4l2_plane - plane info for multi-planar buffers
+> @@ -2605,6 +2606,9 @@ struct v4l2_dbg_chip_info {
+>   * @flags:	additional buffer management attributes (ignored unless the
+>   *		queue has V4L2_BUF_CAP_SUPPORTS_MMAP_CACHE_HINTS capability
+>   *		and configured for MMAP streaming I/O).
+> + * @max_num_buffers: if V4L2_BUF_CAP_SUPPORTS_MAX_NUM_BUFFERS capability flag is set
+
+if -> if the
+
+> + *		this field indicate the maximum possible number of buffers
+
+indicate -> indicates
+
+> + *		for this queue.
+>   * @reserved:	future extensions
+>   */
+>  struct v4l2_create_buffers {
+> @@ -2614,7 +2618,8 @@ struct v4l2_create_buffers {
+>  	struct v4l2_format	format;
+>  	__u32			capabilities;
+>  	__u32			flags;
+> -	__u32			reserved[6];
+> +	__u32			max_num_buffers;
+> +	__u32			reserved[5];
+>  };
+>  
+>  /*
+
+Regards,
+
+	Hans
