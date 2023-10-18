@@ -1,59 +1,56 @@
-Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
+Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4166D34CED;
-	Wed, 18 Oct 2023 19:38:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C99B45F55
+	for <linux-staging@lists.linux.dev>; Wed, 18 Oct 2023 19:45:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="eTBj8QKX"
-Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-1ca6809fb8aso26648165ad.1;
-        Wed, 18 Oct 2023 12:38:58 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XQ5vNFtK"
+Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-1c9b95943beso61206655ad.1
+        for <linux-staging@lists.linux.dev>; Wed, 18 Oct 2023 12:45:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1697657937; x=1698262737; darn=lists.linux.dev;
-        h=user-agent:in-reply-to:content-disposition:mime-version:references
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=SbWpIm78ki4Fx1nMnnk18t9z2vykmSJma0XrCQOyKmQ=;
-        b=eTBj8QKX9rc9YCa8mUkVZjzioXtwx9IjsujP2guyPdT/q1bfgbfGw34pwwPJBym4tV
-         PIGvjzsuxy/DRxcKdz11V6e8q1sqM+u6xHaHnPEN87v+n3YxN9Y9XcJKy3DNIVybPIPc
-         Eqsbsz8qAxheDb4gc8LzbNSuR+FVcZIJjmb+ERgPk0i80eE/OqqmxBkkyQOCvN+FAqCI
-         x7n1wYS3RY3PaTOmSrhYKM6DdH+jTWy1jUxIxBFWd0hGf6PyaKdsZU2jT/VK1/KpSQWn
-         dFJ2hukh1s9FDKsmYmp6WCvaYh30UhLTsJykbOoefqdnjsZ6RN+dsQ1uQX+CN17+Mk+a
-         K7pg==
+        d=gmail.com; s=20230601; t=1697658307; x=1698263107; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=mJVlIUOl8W19bUYlGTLgzwgWuuHldRueu5Ig9o95wVc=;
+        b=XQ5vNFtKkOc9/mSXzKc7WCw9NFXf1Mji7qkYDXJ+nuGojumGG8vllMiCAu3kq914qM
+         0WhuM0o/8qYgFT3wPMEUN8U0Yd2WGo87snPngCmzDaA8aGRof3CNMIKfqteOYl2qDn6S
+         /R39HgI3medMEhu/9UK8yjyMvx2523UpFafCT4kUss2GcCz/RcM3dae0shjaPoGliKmo
+         9X0GvtFFc0nPwkoeSdj0bfry4xIwfI/Cq8Y9h3Q9EwolyfOp8yjHi2F8nrbnSsfOv6UN
+         qNYFF6rBo9hwj8SWtGSUKN9J2+e7OklJltr0dYe9fYO76kdTiYXmpH+nS0yshpx43HzR
+         nAnA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697657937; x=1698262737;
-        h=user-agent:in-reply-to:content-disposition:mime-version:references
-         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=SbWpIm78ki4Fx1nMnnk18t9z2vykmSJma0XrCQOyKmQ=;
-        b=s7ABES1bn4y8BvmgPe5HxEmR77w+FNK9Boidt+OuOFiX0jU7L6qN/N5nqIqi/Gpxbj
-         d15lu+R9cb0LOJvG2pe2fgHdYXOy6dupq/LWwqA6ShmqtYw2ZF49f3pAUg+PBdSZSdEb
-         JnDAV/u7vsca+MLCV5NO+k2yCLYPcr1Ngy6smD/UjI9CsY5Tlr4oWtFnJ0v0lW+ThP+8
-         f9wAG2nMBMGZuH2zGY+6AibZ9fyb3VradX9KgHVTqUTwkhDQRk4U2GxB2M7J+qKOexOh
-         HD+qNx1KLtHQTjJLV1gCNuhre65pIjQcpjMi4NBoDLTE12KoDACcP8+lM0J2qHkyIRWE
-         Sv+w==
-X-Gm-Message-State: AOJu0YzOLm6w9edHh4yyJPzSaw2szrjq7YVFb0eAsji3rf/f9yvdLtk3
-	j7Yrp1Z2e0wrJfC/NaFrZjaFg8Vibd4PkQ==
-X-Google-Smtp-Source: AGHT+IGgVp5pZFDv7wfoIE5v7AmWPBT6HKlAlspyxnuNXWtvyCdJ3FtLj6kP9CH2Gk3zoAYZAe58Qw==
-X-Received: by 2002:a17:903:2305:b0:1c8:9d32:3396 with SMTP id d5-20020a170903230500b001c89d323396mr332383plh.60.1697657937180;
-        Wed, 18 Oct 2023 12:38:57 -0700 (PDT)
-Received: from Negi ([68.181.16.134])
-        by smtp.gmail.com with ESMTPSA id u8-20020a17090282c800b001b896d0eb3dsm311044plz.8.2023.10.18.12.38.56
+        d=1e100.net; s=20230601; t=1697658307; x=1698263107;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=mJVlIUOl8W19bUYlGTLgzwgWuuHldRueu5Ig9o95wVc=;
+        b=eVoPZoM42UAc/FlRSaj3SNCfDdBS8FW6lJVhTMsoOoDYaZuueyvV3/GAwRNRN7T8Oi
+         on0m5ZuhPxK2Qd/aZ5IeErSwgFY5tGJeWs0jBPs7z744jqtcWfQO9OYq6+xYyRYmT7E+
+         DCDQAaCb+2IDEI2OkSFN+49cJ4oRaGzOaLtBQ2vRIrQM3VXTX47bMWxuYu+D4wb8Ex+l
+         EKATdsnsKBXvNSMrID2kMCKwEQZipkRrbBRI1JTASGHdnX8rUfIRyu9Nd1fIw6eP+ygQ
+         Qd9UL39eLXUBnet3/9qunBkIklo/vZvmW2h+3a5Uc+P7AKDiKHZA8D5Fc1AvTTjIKk4n
+         Egkg==
+X-Gm-Message-State: AOJu0Yy/fi+twgSNrZFGZWXLCOkFgHl/GYoxVqkyym7Z+YYYVfyiwprf
+	DNMcTnvOp4dszwlfIsrzd5g=
+X-Google-Smtp-Source: AGHT+IEnw2GODP2TQr19/yPsWRkrHfroOFGXjYru419Vfac6A+miAjMgQVaT1L7BpSorND7kMv9b5w==
+X-Received: by 2002:a17:902:7590:b0:1bf:4a1f:2b57 with SMTP id j16-20020a170902759000b001bf4a1f2b57mr366891pll.13.1697658307146;
+        Wed, 18 Oct 2023 12:45:07 -0700 (PDT)
+Received: from ubuntu ([223.226.54.200])
+        by smtp.gmail.com with ESMTPSA id f18-20020a170902ce9200b001bc18e579aesm305786plg.101.2023.10.18.12.45.04
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 18 Oct 2023 12:38:56 -0700 (PDT)
-Date: Wed, 18 Oct 2023 12:38:56 -0700
-From: Soumya Negi <soumya.negi97@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Martyn Welch <martyn@welchs.me.uk>,
-	Manohar Vanga <manohar.vanga@gmail.com>, outreachy@lists.linux.dev,
-	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
-Subject: Re: [PATCH 1/2] staging: vme_user: Replace printk() with
- pr_*(),dev_*()
-Message-ID: <20231018193855.GA32553@Negi>
-References: <cover.1697601942.git.soumya.negi97@gmail.com>
- <a0579eeda5ce70f69b6bfdcbe534b9d37138096c.1697601942.git.soumya.negi97@gmail.com>
- <2023101823-unhidden-draw-d68c@gregkh>
+        Wed, 18 Oct 2023 12:45:06 -0700 (PDT)
+Date: Wed, 18 Oct 2023 12:45:01 -0700
+From: Nandha Kumar Singaram <nandhakumar.singaram@gmail.com>
+To: Manish Chopra <manishc@marvell.com>, GR-Linux-NIC-Dev@marvell.com,
+	Coiby Xu <coiby.xu@gmail.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	netdev@vger.kernel.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Cc: kumaran.4353@gmail.com
+Subject: [PATCH v2 0/2] staging: qlge: Replace the occurrences of (1<<x) by
+ BIT(x)
+Message-ID: <cover.1697657604.git.nandhakumar.singaram@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -62,55 +59,22 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <2023101823-unhidden-draw-d68c@gregkh>
-User-Agent: Mutt/1.9.4 (2018-02-28)
 
-Hi Greg,
+This patchset performs code cleanup in qlge driver as per
+linux coding style and may be applied in any sequence.
 
-On Wed, Oct 18, 2023 at 03:26:07PM +0200, Greg Kroah-Hartman wrote:
-> On Tue, Oct 17, 2023 at 09:36:32PM -0700, Soumya Negi wrote:
-> > vme.c uses printk() to log messages. To improve and standardize message
-> > formatting, use logging mechanisms pr_err()/pr_warn() and
-> > dev_err()/dev_warn() instead. Retain the printk log levels of the
-> > messages during replacement.
-> > 
-> > Issue found by checkpatch.pl
-> > 
-> > Signed-off-by: Soumya Negi <soumya.negi97@gmail.com>
-> > ---
-> >  drivers/staging/vme_user/vme.c | 175 ++++++++++++++++++---------------
-> >  1 file changed, 94 insertions(+), 81 deletions(-)
-> > 
-> > diff --git a/drivers/staging/vme_user/vme.c b/drivers/staging/vme_user/vme.c
-> > index 6519a7c994a0..e8c2c1e77b7d 100644
-> > --- a/drivers/staging/vme_user/vme.c
-> > +++ b/drivers/staging/vme_user/vme.c
-> > @@ -9,6 +9,8 @@
-> >   * Copyright 2004 Motorola Inc.
-> >   */
-> >  
-> > +#define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
-> 
-> No, this is a driver, as others have pointed out, always use dev_*()
-> calls instead.
+v2: Ammended wording in subject line for all the patches
+    Suggested by Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
-Some of the pr_ fns can be dev_, but I don't think all can.
-e.g. device NULL-check error messages
+Nandha Kumar Singaram (2):
+  staging: qlge: Fix coding style in qlge.h
+  staging: qlge: Prefer using the BIT macro
 
-Also, there are portions of the driver where we have no access to
-any 'struct device' to feed into dev_.
+ drivers/staging/qlge/qlge.h      | 388 +++++++++++++++----------------
+ drivers/staging/qlge/qlge_main.c |   8 +-
+ drivers/staging/qlge/qlge_mpi.c  |   2 +-
+ 3 files changed, 199 insertions(+), 199 deletions(-)
 
-> Yes, that means that sometimes you do need to propagate the proper
-> device to the function, but that's ok, it's the correct solution here.
-
-Got it. In v2, I'll make pr_*() to dev_*() wherever possible. In most cases, 
-the VME bridge device is accessible or if not we can get it using find_bridge().
-
-Thanks,
-Soumya
-> thanks,
-> 
-> greg k-h
-
-
+-- 
+2.25.1
 
