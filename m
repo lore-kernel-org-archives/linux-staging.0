@@ -1,112 +1,80 @@
-Received: from mail2-relais-roc.national.inria.fr (mail2-relais-roc.national.inria.fr [192.134.164.83])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D696171AE;
-	Wed, 18 Oct 2023 13:15:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inria.fr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=inria.fr
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2AE43171AE
+	for <linux-staging@lists.linux.dev>; Wed, 18 Oct 2023 13:16:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=inria.fr header.i=@inria.fr header.b="JLloD9Ih"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=inria.fr; s=dc;
-  h=date:from:to:cc:subject:in-reply-to:message-id:
-   references:mime-version;
-  bh=DaQ6cGTv6XMBNUYEJLOizIHbSt4Dr0Tm0u2P2jx7WHQ=;
-  b=JLloD9Ih8tfGPpU3niVRQTWFIgN2YFaBBQsmgj9eN6wDzmrsQXxAaakb
-   nrkm7m+flApLfrB7N7W2soYGtAlwr2kj2KntxviLP61GWckjinkpV0fcs
-   kBDfcu/9YF/E5V9825npk1EIJQwaroiDlPwAFF25IrrUCYaiO/NFjlo/A
-   0=;
-Authentication-Results: mail2-relais-roc.national.inria.fr; dkim=none (message not signed) header.i=none; spf=SoftFail smtp.mailfrom=julia.lawall@inria.fr; dmarc=fail (p=none dis=none) d=inria.fr
-X-IronPort-AV: E=Sophos;i="6.03,235,1694728800"; 
-   d="scan'208";a="131910169"
-Received: from dhcp-138-246-3-50.dynamic.eduroam.mwn.de (HELO hadrien) ([138.246.3.50])
-  by mail2-relais-roc.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Oct 2023 15:15:28 +0200
-Date: Wed, 18 Oct 2023 15:15:28 +0200 (CEST)
-From: Julia Lawall <julia.lawall@inria.fr>
-To: Dorcas Litunya <anonolitunya@gmail.com>
-cc: Julia Lawall <julia.lawall@inria.fr>, outreachy@lists.linux.dev, 
-    dan.carpenter@linaro.org, andi.shyti@linux.intel.com, 
-    Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-    Sudip Mukherjee <sudipm.mukherjee@gmail.com>, 
-    Teddy Wang <teddy.wang@siliconmotion.com>, linux-fbdev@vger.kernel.org, 
-    linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/2] staging: sm750fb: Remove unused return value in
- program_mode_registers()
-In-Reply-To: <ZS/Wr9ShnEe3umeY@dorcaslitunya-virtual-machine>
-Message-ID: <254c6d21-3f44-4e6c-156-67fb3b56b426@inria.fr>
-References: <cover.1697619623.git.anonolitunya@gmail.com> <492e63bbc58147fb534930ef9e1fb5d844ae8769.1697619623.git.anonolitunya@gmail.com> <4b7129ae-27f9-7ff4-845-9c327aff488c@inria.fr> <ZS/Wr9ShnEe3umeY@dorcaslitunya-virtual-machine>
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="rUQXP4GW"
+Received: from [192.168.1.110] (unknown [103.251.226.39])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 7D3A72B3
+	for <linux-staging@lists.linux.dev>; Wed, 18 Oct 2023 15:16:01 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1697634962;
+	bh=6JeTNNvwu1IWeOOfz3lMQWEA26IiYf3D8Fz3QJ2dT0c=;
+	h=Date:Subject:To:References:From:In-Reply-To:From;
+	b=rUQXP4GW/LRhenZp6JPtBb902RnwHR9tArWlSF4IYx8rg9S4TmXxoVUCHDgq+RI7e
+	 6ASuliR5v3+mc5QEUMqPnkbLhVINZwMRz17y+R2YzTLVc8uiON7hBqrZdV7S7qCz9L
+	 Z351+3PcKYJQmFn2llrK2DySaOMbCqzXpHYCZ83o=
+Message-ID: <b0571752-1cef-dbc9-47d7-1d9b4ae2baed@ideasonboard.com>
+Date: Wed, 18 Oct 2023 18:46:03 +0530
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [PATCH] media: css: Write LINE_LENGTH_PCK correctly
+To: linux-staging@lists.linux.dev
+References: <20231018131325.1022113-1-umang.jain@ideasonboard.com>
+Content-Language: en-US
+From: Umang Jain <umang.jain@ideasonboard.com>
+In-Reply-To: <20231018131325.1022113-1-umang.jain@ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
+Hi
 
-
-On Wed, 18 Oct 2023, Dorcas Litunya wrote:
-
-> On Wed, Oct 18, 2023 at 02:06:41PM +0200, Julia Lawall wrote:
-> >
-> >
-> > On Wed, 18 Oct 2023, Dorcas AnonoLitunya wrote:
-> >
-> > > Modifies the return type of program_mode_registers()
-> > > to void from int as the return value is being ignored in
-> > > all subsequent function calls.
-> > >
-> > > This improves code readability and maintainability.
-> > >
-> > > Suggested-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> > > Signed-off-by: Dorcas AnonoLitunya <anonolitunya@gmail.com>
-> > > ---
-> > >  drivers/staging/sm750fb/ddk750_mode.c | 5 ++---
-> > >  1 file changed, 2 insertions(+), 3 deletions(-)
-> > >
-> > > diff --git a/drivers/staging/sm750fb/ddk750_mode.c b/drivers/staging/sm750fb/ddk750_mode.c
-> > > index 83ace6cc9583..e15039238232 100644
-> > > --- a/drivers/staging/sm750fb/ddk750_mode.c
-> > > +++ b/drivers/staging/sm750fb/ddk750_mode.c
-> > > @@ -73,8 +73,8 @@ display_control_adjust_sm750le(struct mode_parameter *mode_param,
-> > >  }
-> > >
-> > >  /* only timing related registers will be  programed */
-> > > -static int program_mode_registers(struct mode_parameter *mode_param,
-> > > -				  struct pll_value *pll)
-> > > +static void program_mode_registers(struct mode_parameter *mode_param,
-> > > +				   struct pll_value *pll)
-> > >  {
-> > >  	int ret = 0;
-> > >  	int cnt = 0;
-> > > @@ -202,7 +202,6 @@ static int program_mode_registers(struct mode_parameter *mode_param,
-> > >  	} else {
-> > >  		ret = -1;
-> >
-> > Is it still useful to have ret = -1?  Maybe the ret variable is not useful
-> > at all any more, but one would have to check the parts of the function
-> > that aren't shown.
-> >
-> I agree Julia. I will remove the setting part for ret = -1 but keep the
-> ret variable just in case it is being used by parts of the function not
-> shown. Thanks for the feedback.
-
-You can check the rest of the function code and see if ret is still
-useful.
-
-julia
-
+On 10/18/23 6:43 PM, Umang Jain wrote:
+> According to MIPI CCS v1.1 specification, the LINE_LENGTH_PCK
+> units is in VT pixel clocks (Section 8.2.6).
 >
-> Dorcas
-> > julia
-> >
-> > >  	}
-> > > -	return ret;
-> > >  }
-> > >
-> > >  int ddk750_set_mode_timing(struct mode_parameter *parm, enum clock_type clock)
-> > > --
-> > > 2.42.0.345.gaab89be2eb
-> > >
-> > >
+> To compute how many pixel clocks it takes, simply divide the
+> VT pixel clock frequency by the number of pixels in a single line.
 >
+> Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
+
+Wrong list, apologies!
+> ---
+> Testing:
+>
+> The patch is tested using IMX519 with CCS.
+> This patch makes the frame buffer being filled to the fullest
+> (instead of getting 1/3rd only previously) - without any workarounds.
+> ---
+>   drivers/media/i2c/ccs/ccs-core.c | 8 +++++---
+>   1 file changed, 5 insertions(+), 3 deletions(-)
+>
+> diff --git a/drivers/media/i2c/ccs/ccs-core.c b/drivers/media/i2c/ccs/ccs-core.c
+> index 16de66a37fad..12c75a843dfe 100644
+> --- a/drivers/media/i2c/ccs/ccs-core.c
+> +++ b/drivers/media/i2c/ccs/ccs-core.c
+> @@ -734,9 +734,11 @@ static int ccs_set_ctrl(struct v4l2_ctrl *ctrl)
+>   
+>   		break;
+>   	case V4L2_CID_HBLANK:
+> -		rval = ccs_write(sensor, LINE_LENGTH_PCK,
+> -				 sensor->pixel_array->crop[CCS_PA_PAD_SRC].width
+> -				 + ctrl->val);
+> +		/* LINE_LENGTH_PCK units are in VT pixel clocks. */
+> +		u16 line_length_pck =
+> +			sensor->pll.vt_bk.pix_clk_freq_hz /
+> +			(sensor->pixel_array->crop[CCS_PA_PAD_SRC].width + ctrl->val);
+> +		rval = ccs_write(sensor, LINE_LENGTH_PCK, line_length_pck);
+>   
+>   		break;
+>   	case V4L2_CID_TEST_PATTERN:
+
