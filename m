@@ -1,85 +1,91 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f178.google.com (mail-pg1-f178.google.com [209.85.215.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C8C663BD;
-	Wed, 18 Oct 2023 03:38:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB95063E;
+	Wed, 18 Oct 2023 04:36:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jjtOKsvk"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1697600300; x=1729136300;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=L2XI+NRTEILxjtpiFc792xwJDDhVanL35F3Cd6yts6U=;
-  b=jjtOKsvkHDtWn1ynjq/14tfElth4Lyn96H6yaahtdgAyrrGGjZwrtYPj
-   dSRUT+nJaP4QwJrtaS2qTqL8qtBoeT2V+aSZr/yXOL24Cs7NbnU+YwZlY
-   Tpjw7OvcwUCog0L4WtsH9ox6EgcYdHmsuC5RI6YHXFVkEiKqdCDzUAcVv
-   66+iVjeCQg0XJ/tOovqnvo3/HhsRp/aILkhI+HVa5bV+CDFM6jgVbUvXF
-   HSh4+wkvj0DMawEXpqrP/6J+36S+GJSm2iYmn2xtd4rEBJvYhkZzuJ+Bb
-   fncRycnZF0wQx5dxyE/cO1RhWCtjkLudj11/4dt0yVHDGVPtIZrzhQ08K
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10866"; a="388792709"
-X-IronPort-AV: E=Sophos;i="6.03,234,1694761200"; 
-   d="scan'208";a="388792709"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Oct 2023 20:38:18 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.03,234,1694761200"; 
-   d="scan'208";a="4175430"
-Received: from kchua1-mobl1.gar.corp.intel.com (HELO intel.com) ([10.215.248.174])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Oct 2023 20:37:09 -0700
-Date: Wed, 18 Oct 2023 05:38:07 +0200
-From: Andi Shyti <andi.shyti@linux.intel.com>
-To: kenechukwu maduechesi <maduechesik@gmail.com>
-Cc: outreachy@lists.linux.dev, shreeya.patel23498@gmail.com,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: rts5208: Replace delay function.
-Message-ID: <ZS9THxlJhHfv4gU9@ashyti-mobl2.lan>
-References: <20231018004300.GA3189@ubuntu>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZthgtDL4"
+Received: by mail-pg1-f178.google.com with SMTP id 41be03b00d2f7-577e62e2adfso4139570a12.2;
+        Tue, 17 Oct 2023 21:36:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1697603797; x=1698208597; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=czJuvzpZ9+G+JcIdKCv4XoL9kYRQrLLnwV3w5sOQ/X0=;
+        b=ZthgtDL4EHG4PkKCDMpnBo6bhX6uq2llZ7ylgisLGWVQK6TyTKD4Cl8t2kO+MxEslx
+         O7kwW1CofqFJfEOVgFxYMQGCH+AUzwYKPYUf8FrBCexAIm6fOdKDir6RheGJiM8TrZwL
+         w8uLeEKYHuooXj2oDBQKpbz2YGhVyWgU7I446K0qdLHYTQgmr5d396LVFSqt+GrKRyLU
+         uVFJcRJ72CCWYVeurevPm/YuPk4IAEpOabULmpWEaDPjxtNOJoOrXYGlkvtMW7y9X7k3
+         gewMVs8M4phOUdXfKScj2uryyHuR+pyzt5Tpp2QeUpWrlxS3idErIoA7H3ejuhyoL+MH
+         Uodg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1697603797; x=1698208597;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=czJuvzpZ9+G+JcIdKCv4XoL9kYRQrLLnwV3w5sOQ/X0=;
+        b=NPGWmNy0kWKGBYo64TJQAerEko752+GOLFNk8Qp2a4Et7eK8tjcVmmowEREDbbzQUs
+         aaOwStfEjzHmjFrIrA2oOLRroyyoep9u+/wSv7qpqiuo62Rtnv4wm19bWOMoniySkDLH
+         jipOwiRZvMp6KCKDN07T/dWCfn5uK/jT9Es9yOzDmDA+xSLg0IO4lj7g+5t0gT6IJ+PB
+         /QlyLEPPpo1XydEGF+UUuEpbMbRYBW3VPr5K5ZqdQfqmXDvt4jgZUkn3yPISHoh9zdt5
+         jwCK67qS0HdFApJ1N+l/fokLfc7IsANorQLFhNKiCzsK7qdXS7keiqLvOABmlbKvWZKD
+         Lghg==
+X-Gm-Message-State: AOJu0Yz2Q2jmMQN6RHnHo6h4Br2FtWS8zs91WpKCT+C5jKtZ8oAW8cie
+	hUyTlYUqwexUCj2HQ1d3u6k=
+X-Google-Smtp-Source: AGHT+IF4N/l3CnVfI7YkZfd8KnsjTquzB4kK5ve45u34ccR1+T1p22QjOLzpfwSQWYj+liHH2P/uEA==
+X-Received: by 2002:a05:6a20:8628:b0:14c:4dfc:9766 with SMTP id l40-20020a056a20862800b0014c4dfc9766mr3194642pze.46.1697603796723;
+        Tue, 17 Oct 2023 21:36:36 -0700 (PDT)
+Received: from Negi ([68.181.16.134])
+        by smtp.gmail.com with ESMTPSA id ja9-20020a170902efc900b001c3267ae317sm2450863plb.165.2023.10.17.21.36.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 17 Oct 2023 21:36:36 -0700 (PDT)
+From: Soumya Negi <soumya.negi97@gmail.com>
+To: Martyn Welch <martyn@welchs.me.uk>,
+	Manohar Vanga <manohar.vanga@gmail.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: outreachy@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	Soumya Negi <soumya.negi97@gmail.com>
+Subject: [PATCH 0/2] staging: vme_user: Replace printk's & cleanup log messages
+Date: Tue, 17 Oct 2023 21:36:31 -0700
+Message-ID: <cover.1697601942.git.soumya.negi97@gmail.com>
+X-Mailer: git-send-email 2.42.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231018004300.GA3189@ubuntu>
+Content-Transfer-Encoding: 8bit
 
-Hi Kenechukwu,
+Staging driver vme_user has a bunch of printk() calls in vme.c which
+triggers checkpatch warnings. Remove all printk's and change them to
+the appropriate logging mechanism i.e pr_err()/pr_warn(), or 
+dev_err()/dev_warn().
 
-On Tue, Oct 17, 2023 at 06:03:05PM -0700, kenechukwu maduechesi wrote:
-> Replace udelay() with usleep_range() for more precise delay handling.
+Also, cleanup the messages further by using __func__ in the string 
+instead of function names.
 
-The reason is not the precise handling, quite the opposite.
+This patchset fixes all checkpatch warnings like:
+ 
+    WARNING: Prefer [subsystem eg: netdev]_err([subsystem]dev, ... then
+             dev_err(dev, ... then pr_err(...  to printk(KERN_ERR ...
+&
+    WARNING: Prefer using '"%s...", __func__' to using 'vme_lm_get',
+             this function's name, in a string
 
-> Reported by checkpatch:
-> 
-> CHECK: usleep_range is preferred over udelay
+Patches must be applied in order.
 
-Can you tell why?[*]
+Soumya Negi (2):
+  staging: vme_user: Replace printk() with pr_*(),dev_*()
+  staging: vme_user: Use __func__ instead of function name
 
-> Signed-off-by: kenechukwu maduechesi <maduechesik@gmail.com>
-> ---
->  drivers/staging/rts5208/sd.c | 10 +++++-----
->  1 file changed, 5 insertions(+), 5 deletions(-)
-> 
-> diff --git a/drivers/staging/rts5208/sd.c b/drivers/staging/rts5208/sd.c
-> index 74c4f476b3a4..059f99b0a727 100644
-> --- a/drivers/staging/rts5208/sd.c
-> +++ b/drivers/staging/rts5208/sd.c
-> @@ -865,7 +865,7 @@ static int sd_change_phase(struct rtsx_chip *chip, u8 sample_point, u8 tune_dir)
->  						     PHASE_CHANGE);
->  			if (retval)
->  				return retval;
-> -			udelay(50);
-> +			usleep_range(50);
+ drivers/staging/vme_user/vme.c | 175 ++++++++++++++++++---------------
+ 1 file changed, 94 insertions(+), 81 deletions(-)
 
-What is the range you will be sleeping, now?
+-- 
+2.42.0
 
-Andi
-
-[*] Documentation/timers/timers-howto.rst
