@@ -1,38 +1,36 @@
 Received: from mail2-relais-roc.national.inria.fr (mail2-relais-roc.national.inria.fr [192.134.164.83])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2386C1FC5;
-	Wed, 18 Oct 2023 07:00:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D327A8F77;
+	Wed, 18 Oct 2023 07:03:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inria.fr
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=inria.fr
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=inria.fr header.i=@inria.fr header.b="j9jiww5b"
+	dkim=pass (1024-bit key) header.d=inria.fr header.i=@inria.fr header.b="lJ8eLjOk"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
   d=inria.fr; s=dc;
   h=date:from:to:cc:subject:in-reply-to:message-id:
    references:mime-version;
-  bh=TbkZi1aV2qkvgFIIp74fucItTC7Ec1qzreVXXTLwOvA=;
-  b=j9jiww5bvubw9jqoHooV23bPWKXw9s3ddslRE4jgupAJGj4hUnWvemeP
-   U0byhM/z4qnLiwM/4lvFd1Qtb9ZBdznsrwvlQ50sbf0fWTwgHQUh5QpII
-   iJs+PRC2zzrBRMkD4d0KJKJ/rNSwJbRaV4PrKUcX7As3wE+sy20dj1A03
-   Q=;
+  bh=NWad4ezdKyh7fVlIm7RYq8OCRyT0bSyjdlIaCm1giqw=;
+  b=lJ8eLjOkyt075eOOu6aYmoWK+MuD+PtkhmyoeGHj9+66MZqeja+DE+B+
+   qiBWWogZQqMePb+86D6gsGbyuUWJKuag3pqa3L6pxZm5iCrHusiAlu7Jo
+   KgQLv9R4LOxp6538N0D7oFaMTPxG7oUI90DYqqihSq0dspxzP2XgfA22+
+   0=;
 Authentication-Results: mail2-relais-roc.national.inria.fr; dkim=none (message not signed) header.i=none; spf=SoftFail smtp.mailfrom=julia.lawall@inria.fr; dmarc=fail (p=none dis=none) d=inria.fr
 X-IronPort-AV: E=Sophos;i="6.03,234,1694728800"; 
-   d="scan'208";a="131809070"
+   d="scan'208";a="131810198"
 Received: from dhcp-138-246-3-50.dynamic.eduroam.mwn.de (HELO hadrien) ([138.246.3.50])
-  by mail2-relais-roc.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Oct 2023 09:00:57 +0200
-Date: Wed, 18 Oct 2023 09:00:57 +0200 (CEST)
+  by mail2-relais-roc.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Oct 2023 09:03:39 +0200
+Date: Wed, 18 Oct 2023 09:03:39 +0200 (CEST)
 From: Julia Lawall <julia.lawall@inria.fr>
-To: Soumya Negi <soumya.negi97@gmail.com>
-cc: Martyn Welch <martyn@welchs.me.uk>, 
-    Manohar Vanga <manohar.vanga@gmail.com>, 
-    Greg Kroah-Hartman <gregkh@linuxfoundation.org>, outreachy@lists.linux.dev, 
-    linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
-Subject: Re: [PATCH 1/2] staging: vme_user: Replace printk() with
- pr_*(),dev_*()
-In-Reply-To: <20231018063038.GB1868@Negi>
-Message-ID: <82dc1055-521d-e4d-9d91-b4cc7d8d9d3e@inria.fr>
-References: <cover.1697601942.git.soumya.negi97@gmail.com> <a0579eeda5ce70f69b6bfdcbe534b9d37138096c.1697601942.git.soumya.negi97@gmail.com> <19637f96-40bc-a46b-8e7a-fa59e5e9e16@inria.fr> <20231018063038.GB1868@Negi>
+To: kenechukwu maduechesi <maduechesik@gmail.com>
+cc: outreachy@lists.linux.dev, shreeya.patel23498@gmail.com, 
+    Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+    linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: rts5208: Replace delay function.
+In-Reply-To: <20231018004300.GA3189@ubuntu>
+Message-ID: <7bc719c4-459f-3d8-7ed-b1e1adf158@inria.fr>
+References: <20231018004300.GA3189@ubuntu>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -43,42 +41,76 @@ Content-Type: text/plain; charset=US-ASCII
 
 
 
-On Tue, 17 Oct 2023, Soumya Negi wrote:
+On Tue, 17 Oct 2023, kenechukwu maduechesi wrote:
 
-> Hi Julia,
+> Replace udelay() with usleep_range() for more precise delay handling.
 >
-> On Wed, Oct 18, 2023 at 07:47:29AM +0200, Julia Lawall wrote:
-> >
-> >
-> > On Tue, 17 Oct 2023, Soumya Negi wrote:
-> >
-> > > vme.c uses printk() to log messages. To improve and standardize message
-> > > formatting, use logging mechanisms pr_err()/pr_warn() and
-> > > dev_err()/dev_warn() instead. Retain the printk log levels of the
-> > > messages during replacement.
-> >
-> > It's not possible to use the dev_ functions more often?  The pr_functions
-> > don't give context information, and the message don't seem to give much
-> > context information either.
-> >
-> > julia
-> >
+> Reported by checkpatch:
 >
-> Yes, I think there can be more dev_*() functions.
->
-> Most of the dev_ that can be added are error/warning messages where the bridge's
-> 'struct device' instance is accessible & can be fed to dev_ fns. Although I went
-> through the VME subsystem docs, I wasn't sure if the bridge's context made sense
-> to be printed with those messages. So I wrote them as pr_ functions.
->
-> Should I add them and send a v2 for review?
+> CHECK: usleep_range is preferred over udelay
 
-Maybe wait a bit and see if someone else has a comment on this issue.
+This message is typically not a good candidate for outreachy patches,
+because you need access to the device to be sure that any change is
+correct.
 
 julia
 
 >
-> Regards,
-> Soumya
+> Signed-off-by: kenechukwu maduechesi <maduechesik@gmail.com>
+> ---
+>  drivers/staging/rts5208/sd.c | 10 +++++-----
+>  1 file changed, 5 insertions(+), 5 deletions(-)
+>
+> diff --git a/drivers/staging/rts5208/sd.c b/drivers/staging/rts5208/sd.c
+> index 74c4f476b3a4..059f99b0a727 100644
+> --- a/drivers/staging/rts5208/sd.c
+> +++ b/drivers/staging/rts5208/sd.c
+> @@ -865,7 +865,7 @@ static int sd_change_phase(struct rtsx_chip *chip, u8 sample_point, u8 tune_dir)
+>  						     PHASE_CHANGE);
+>  			if (retval)
+>  				return retval;
+> -			udelay(50);
+> +			usleep_range(50);
+>  			retval = rtsx_write_register(chip, SD_VP_CTL, 0xFF,
+>  						     PHASE_CHANGE |
+>  						     PHASE_NOT_RESET |
+> @@ -877,14 +877,14 @@ static int sd_change_phase(struct rtsx_chip *chip, u8 sample_point, u8 tune_dir)
+>  						     CHANGE_CLK, CHANGE_CLK);
+>  			if (retval)
+>  				return retval;
+> -			udelay(50);
+> +			usleep_range(50);
+>  			retval = rtsx_write_register(chip, SD_VP_CTL, 0xFF,
+>  						     PHASE_NOT_RESET |
+>  						     sample_point);
+>  			if (retval)
+>  				return retval;
+>  		}
+> -		udelay(100);
+> +		usleep_range(100);
+>
+>  		rtsx_init_cmd(chip);
+>  		rtsx_add_cmd(chip, WRITE_REG_CMD, SD_DCMPS_CTL, DCMPS_CHANGE,
+> @@ -918,7 +918,7 @@ static int sd_change_phase(struct rtsx_chip *chip, u8 sample_point, u8 tune_dir)
+>  				return retval;
+>  		}
+>
+> -		udelay(50);
+> +		usleep_range(50);
+>  	}
+>
+>  	retval = rtsx_write_register(chip, SD_CFG1, SD_ASYNC_FIFO_NOT_RST, 0);
+> @@ -1416,7 +1416,7 @@ static int sd_wait_data_idle(struct rtsx_chip *chip)
+>  			retval = STATUS_SUCCESS;
+>  			break;
+>  		}
+> -		udelay(100);
+> +		usleep_range(100);
+>  	}
+>  	dev_dbg(rtsx_dev(chip), "SD_DATA_STATE: 0x%02x\n", val);
+>
+> --
+> 2.25.1
+>
 >
 >
