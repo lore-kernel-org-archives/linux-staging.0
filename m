@@ -1,122 +1,109 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D080A11723;
-	Wed, 18 Oct 2023 08:50:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dkim=none
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A00BEC433C8;
-	Wed, 18 Oct 2023 08:50:33 +0000 (UTC)
-Message-ID: <4a74a40c-ee3c-4563-87d1-27e859eb6982@xs4all.nl>
-Date: Wed, 18 Oct 2023 10:50:31 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 625EA14F8F;
+	Wed, 18 Oct 2023 08:53:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="etRn1hJn"
+Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-307d58b3efbso5176944f8f.0;
+        Wed, 18 Oct 2023 01:53:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1697619183; x=1698223983; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=geUEpwvi3+e4pwlZJkv1VdkNb71jcT4N9IHDjoo0hiw=;
+        b=etRn1hJngernmMN6VosyG8vCZpRD4sA6BoxHNFoJd1AtK9QZbTuurL6U71g8tpoKtP
+         DP8Hbo65zuZq9NwxYSTlv5qcMgEPCS5UH78v6n73AjFMWyjoDomqnoX67JsawHZCJ1zy
+         RuhJ9pfJ1tLKHzfzAM8GJ1CL2oEP487rx6/1pFzndiuBUMghGUj/nFHeFN3//Qm96c8A
+         k+cLTlAtFFdFkt/upTbOvQdqwuXK+w6qOwwVFjRTDqyVeYDxx1vbSaJtWk3OumrvWpbW
+         F4MFw7e8EkDCXXfkUmcLa5928p7b1bJHNnP2hqkIlYMUYs7zbOHfcn6tRRxz15hA/+Bv
+         yD8Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1697619183; x=1698223983;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=geUEpwvi3+e4pwlZJkv1VdkNb71jcT4N9IHDjoo0hiw=;
+        b=dVKqSVYLyMMDwzZoRa4xx5U70hRPXC09NEfEoHjLPwxKnAbg4I0zJJ2a5p/CO0oxDO
+         LarU3DNjrgHIGieit1VKyAitYScSqXwYsIMzniubeIif/4L1jm0K8VfcbFZg3kf0zJZ9
+         WiVX6KGpDcyGCxN4fA1h1dHcBnXOgxy3wQy/4qhO2qeDd4iM4NtjsKXGjeCv6B7FkfNX
+         Ty26pWfc5IkGESTd/LGgxbKAYqVQcPF6SPl5plwVVNyKQwv/VeCd2QYaiL/4DVX0zmrD
+         +3GzFskuJY7GC8EOlC8D/Rvi/8PTPmxHYI9h4SZ4sId0ndCiNLlu4hzLQojD7tLhs2WW
+         9oeg==
+X-Gm-Message-State: AOJu0YxIFUKDNtYuqPpa+Loa/nXNo7HaEX/Ub0WD/bKu+Gz76y39VFJ5
+	dfY/P7h5wGZGW3HwDSMFcMM=
+X-Google-Smtp-Source: AGHT+IFe7N0r16SpcIn2ppSF9YwaBfMXR5p9HHAUkW/Z5SFuEG/gq5GT5k5JsnJNXPESx8hwfICsIA==
+X-Received: by 2002:a5d:540d:0:b0:32d:9d99:d0a5 with SMTP id g13-20020a5d540d000000b0032d9d99d0a5mr3493755wrv.5.1697619183280;
+        Wed, 18 Oct 2023 01:53:03 -0700 (PDT)
+Received: from lab-ubuntu ([41.90.71.30])
+        by smtp.gmail.com with ESMTPSA id r12-20020adfce8c000000b0032d9caeab0fsm1612082wrn.77.2023.10.18.01.53.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 18 Oct 2023 01:53:02 -0700 (PDT)
+Date: Wed, 18 Oct 2023 11:53:00 +0300
+From: Calvince Otieno <calvncce@gmail.com>
+To: gustavo@embeddedor.com, outreachy@lists.linux.dev
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Martyn Welch <martyn@welchs.me.uk>,
+	Manohar Vanga <manohar.vanga@gmail.com>,
+	Calvince Otieno <calvncce@gmail.com>, linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev, Julia Lawall <julia.lawall@inria.fr>
+Subject: [PATCH V2] staging: vme_user: replace strcpy with strscpy
+Message-ID: <ZS+c7NtfEw5ne2Oj@lab-ubuntu>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v10 0/8] Add StarFive Camera Subsystem driver
-Content-Language: en-US, nl
-To: Jack Zhu <jack.zhu@starfivetech.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Robert Foss <rfoss@kernel.org>,
- Todor Tomov <todor.too@gmail.com>, bryan.odonoghue@linaro.org,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Philipp Zabel <p.zabel@pengutronix.de>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
- devicetree@vger.kernel.org, linux-staging@lists.linux.dev,
- changhuang.liang@starfivetech.com
-References: <20231008085154.6757-1-jack.zhu@starfivetech.com>
- <98297bfc-ab81-4bb5-acc3-619fdf879276@xs4all.nl>
- <bb5b776c-f1dd-f53e-079c-8048af2e73f1@starfivetech.com>
-From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-In-Reply-To: <bb5b776c-f1dd-f53e-079c-8048af2e73f1@starfivetech.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Hi Jack,
+Checkpatch suggests using strscpy() instead of strcpy().
 
-On 18/10/2023 04:37, Jack Zhu wrote:
+The advantages of strscpy() are that it always adds a NUL terminator
+and prevents read overflows if the source string is not properly
+terminated. One potential disadvantage is that it doesn't zero pad the
+string like strcpy() does.
 
-<snip>
+In this specific context, both strscpy and strcpy performs the same
+operation without any functional difference.
 
->>> --------------------------------------------------------------------------------
->>> Compliance test for device /dev/v4l-subdev1:
->>>
->>> Driver Info:
->>> 	Driver version   : 6.6.0
->>> 	Capabilities     : 0x00000000
->>
->> But this does not appear for v4l-subdev1.
->>
->> I can't really tell why it doesn't show that. Can you debug a little bit?
->> The code is in v4l2-compliance.cpp, line 1086:
->>
->> ent_id = mi_media_info_for_fd(media_fd, node.g_fd(), &is_invalid, &node.function);
->>
->> The mi_media_info_for_fd() function calls ioctl(media_fd, MEDIA_IOC_DEVICE_INFO, &mdinfo),
->> and that fails for some reason. It could be that media_fd is invalid (would be weird).
->>
->> This could well be a v4l2-compliance bug that you hit with this driver.
->>
-> 
-> On the test board, /dev/v4l-subdev1 is imx219, and the corresponding directory is
-> /sys/dev/char/81:3/device. Media0 does not exist in this directory. Therefore, the media_fd
-> obtained through mi_get_media_fd(node.g_fd(), node.bus_info) is invalid.
-> 
-> I don't know why media0 does not exist in /sys/dev/char/81:3/device?
-> 
+The reason for this equivalence is that the driver_name string "vme_fake"
+is shorter than the size of the fake_bridge->name array which is defined
+as 16 characters (struct vme_bridge {char name[VMENAMSIZ];...}). Thus,
+there is no risk of buffer overflow in either case. VMENAMSIZ variable
+holds a constant value of 16 (#define VMENAMSIZ 16)
 
-Can you try again with this v4l2-compliance patch?
+The null-terminated "vme_fake" string
+(static const char driver_name[] = "vme_fake";) can be safely copied into
+fake_bridge->name using either strscpy or strcpy.
 
-I need to dig a bit deeper as to why media0 is missing, but for now try this.
+While using strscpy() does not address any bugs, it is considered a better
+practice and aligns with checkpatch recommendations.
 
-Regards,
+Signed-off-by: Calvince Otieno <calvncce@gmail.com>
+---
+Changes in V2:
+ - Make the commit message more clearer.
+ - Remove the incident extra line change.
 
-	Hans
+ drivers/staging/vme_user/vme_fake.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/utils/v4l2-compliance/v4l2-compliance.cpp b/utils/v4l2-compliance/v4l2-compliance.cpp
-index 7169eefe..29475d6b 100644
---- a/utils/v4l2-compliance/v4l2-compliance.cpp
-+++ b/utils/v4l2-compliance/v4l2-compliance.cpp
-@@ -968,7 +968,7 @@ err:
- }
-
- void testNode(struct node &node, struct node &node_m2m_cap, struct node &expbuf_node, media_type type,
--	      unsigned frame_count, unsigned all_fmt_frame_count)
-+	      unsigned frame_count, unsigned all_fmt_frame_count, int parent_media_fd)
- {
- 	struct node node2;
- 	struct v4l2_capability vcap = {};
-@@ -997,8 +997,12 @@ void testNode(struct node &node, struct node &node_m2m_cap, struct node &expbuf_
- 		memset(&vcap, 0, sizeof(vcap));
- 	}
-
--	if (!node.is_media())
--		media_fd = mi_get_media_fd(node.g_fd(), node.bus_info);
-+	if (!node.is_media()) {
-+		if (parent_media_fd >= 0)
-+			media_fd = parent_media_fd;
-+		else
-+			media_fd = mi_get_media_fd(node.g_fd(), node.bus_info);
-+	}
-
- 	int fd = node.is_media() ? node.g_fd() : media_fd;
- 	if (fd >= 0) {
-diff --git a/utils/v4l2-compliance/v4l2-compliance.h b/utils/v4l2-compliance/v4l2-compliance.h
-index 7caf254b..c47f25f5 100644
---- a/utils/v4l2-compliance/v4l2-compliance.h
-+++ b/utils/v4l2-compliance/v4l2-compliance.h
-@@ -308,7 +308,7 @@ int check_ustring(const __u8 *s, int len);
- int check_0(const void *p, int len);
- int restoreFormat(struct node *node);
- void testNode(struct node &node, struct node &node_m2m_cap, struct node &expbuf_node, media_type type,
--	      unsigned frame_count, unsigned all_fmt_frame_count);
-+	      unsigned frame_count, unsigned all_fmt_frame_count, int parent_media_fd = -1);
- std::string stream_from(const std::string &pixelformat, bool &use_hdr);
-
- // Media Controller ioctl tests
+diff --git a/drivers/staging/vme_user/vme_fake.c b/drivers/staging/vme_user/vme_fake.c
+index 0e02c194298d..8ab5b43c70a6 100644
+--- a/drivers/staging/vme_user/vme_fake.c
++++ b/drivers/staging/vme_user/vme_fake.c
+@@ -1091,7 +1091,7 @@ static int __init fake_init(void)
+ 	tasklet_init(&fake_device->int_tasklet, fake_VIRQ_tasklet,
+ 		     (unsigned long)fake_bridge);
+ 
+-	strcpy(fake_bridge->name, driver_name);
++	strscpy(fake_bridge->name, driver_name, sizeof(fake_bridge->name))
+ 
+ 	/* Add master windows to list */
+ 	INIT_LIST_HEAD(&fake_bridge->master_resources);
+-- 
+2.34.1
 
