@@ -1,29 +1,29 @@
 Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D92D225B6
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AAAD7225B5
 	for <linux-staging@lists.linux.dev>; Thu, 19 Oct 2023 12:52:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="SQa5Y/Zd"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="AHBDaI5B"
 Received: from benjamin-XPS-13-9310.. (unknown [IPv6:2a01:e0a:120:3210:ccea:1fb5:34eb:239b])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
 	(Authenticated sender: benjamin.gaignard)
-	by madras.collabora.co.uk (Postfix) with ESMTPSA id 250866607331;
-	Thu, 19 Oct 2023 13:52:43 +0100 (BST)
+	by madras.collabora.co.uk (Postfix) with ESMTPSA id AE8B2660736D;
+	Thu, 19 Oct 2023 13:52:44 +0100 (BST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1697719963;
-	bh=i3ojvf+oJl6EVNen5vztp4m8lCDNcxv0WJBCUcNAQzI=;
+	s=mail; t=1697719965;
+	bh=+To6mEq3JeR7oNn+VfFQcxDH9wOCwdTHlvSi0qsAVuk=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=SQa5Y/Zdj/YGAb1jNO1cGYUkbreddzS949qWHwJVdMlcCMQxrMDKPnq+FFuX2vMhp
-	 EWqyQ3/pEoLJf4qG0tr/RIYMLgV5Pn93uOL4U84OxD0Tplp9Mu2ik0Qp4Mbeiu4LR/
-	 4Dtafv54fYMmUt0GTMHWcE7i7pSsdYWBsxQWVZii5tn2yl0d5uBCZ7+yMoeybB5JvO
-	 U76gb/9bAbUga8bMTUfOXgYd6FMShahw+pxbx/nW2ifRpLCYgVxuwV92IVy2TznTkn
-	 Pp2jkLuSHyWrWGLM5NzQ5fTzx2tMS8eFH5557PzOdlsyVABqFyE9pIcmdKZZ3Y9HHe
-	 +i6CtlmQg6Jzw==
+	b=AHBDaI5BM8oK3di/U+Y7WiExMD7eXnrE2S3OEKUs2oFkYTdi8wURGr5eK+L4Azq0W
+	 aKfJCwJL4mrFCYzxtBn+ZlfSWLiNYvPXNALXLQajp2uQnFBCV+Hj61/+Sr9QNRp40u
+	 X2nNsEAPREP3maPP2FCjIdIeguaL376dJda2Wibxhww8mm0rYieYPySolnrav9aI/+
+	 lnXZl1OeDKp73ge0Cf1UHCSdEWUI6xyo8YASxF9klDDGaZ4/EFQ3CxCdOBzapCSBF5
+	 3kMwoHZ6/f7MOlY3vc9RnUdX+Cm+BnLbQNzzAl4IxWIDuq2M3ukF9VIFVHuUtpWd/j
+	 F7mfH6C5AfpUA==
 From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
 To: mchehab@kernel.org,
 	tfiga@chromium.org,
@@ -42,12 +42,10 @@ Cc: linux-media@vger.kernel.org,
 	linux-rockchip@lists.infradead.org,
 	linux-staging@lists.linux.dev,
 	kernel@collabora.com,
-	Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-	Sergey Kozlov <serjk@netup.ru>,
-	Abylay Ospan <aospan@netup.ru>
-Subject: [PATCH v13 24/56] media: pci: netup_unidvb: Stop direct calls to queue num_buffers field
-Date: Thu, 19 Oct 2023 14:51:50 +0200
-Message-Id: <20231019125222.21370-25-benjamin.gaignard@collabora.com>
+	Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Subject: [PATCH v13 27/56] media: coda: Stop direct calls to queue num_buffers field
+Date: Thu, 19 Oct 2023 14:51:53 +0200
+Message-Id: <20231019125222.21370-28-benjamin.gaignard@collabora.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20231019125222.21370-1-benjamin.gaignard@collabora.com>
 References: <20231019125222.21370-1-benjamin.gaignard@collabora.com>
@@ -64,32 +62,24 @@ This allows us to change how the number of buffers is computed in the
 future.
 
 Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-CC: Sergey Kozlov <serjk@netup.ru>
-CC: Abylay Ospan <aospan@netup.ru>
+CC: Philipp Zabel <p.zabel@pengutronix.de>
 ---
- drivers/media/pci/netup_unidvb/netup_unidvb_core.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ drivers/media/platform/chips-media/coda-common.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/media/pci/netup_unidvb/netup_unidvb_core.c b/drivers/media/pci/netup_unidvb/netup_unidvb_core.c
-index d85bfbb77a25..557985ba25db 100644
---- a/drivers/media/pci/netup_unidvb/netup_unidvb_core.c
-+++ b/drivers/media/pci/netup_unidvb/netup_unidvb_core.c
-@@ -293,12 +293,13 @@ static int netup_unidvb_queue_setup(struct vb2_queue *vq,
- 				    struct device *alloc_devs[])
- {
- 	struct netup_dma *dma = vb2_get_drv_priv(vq);
-+	unsigned int q_num_bufs = vb2_get_num_buffers(vq);
+diff --git a/drivers/media/platform/chips-media/coda-common.c b/drivers/media/platform/chips-media/coda-common.c
+index cc4892129aaf..f1d85758f6dd 100644
+--- a/drivers/media/platform/chips-media/coda-common.c
++++ b/drivers/media/platform/chips-media/coda-common.c
+@@ -794,7 +794,7 @@ static int coda_s_fmt(struct coda_ctx *ctx, struct v4l2_format *f,
  
- 	dev_dbg(&dma->ndev->pci_dev->dev, "%s()\n", __func__);
+ 	if (vb2_is_busy(vq)) {
+ 		v4l2_err(&ctx->dev->v4l2_dev, "%s: %s queue busy: %d\n",
+-			 __func__, v4l2_type_names[f->type], vq->num_buffers);
++			 __func__, v4l2_type_names[f->type], vb2_get_num_buffers(vq));
+ 		return -EBUSY;
+ 	}
  
- 	*nplanes = 1;
--	if (vq->num_buffers + *nbuffers < VIDEO_MAX_FRAME)
--		*nbuffers = VIDEO_MAX_FRAME - vq->num_buffers;
-+	if (q_num_bufs + *nbuffers < VIDEO_MAX_FRAME)
-+		*nbuffers = VIDEO_MAX_FRAME - q_num_bufs;
- 	sizes[0] = PAGE_ALIGN(NETUP_DMA_PACKETS_COUNT * 188);
- 	dev_dbg(&dma->ndev->pci_dev->dev, "%s() nbuffers=%d sizes[0]=%d\n",
- 		__func__, *nbuffers, sizes[0]);
 -- 
 2.39.2
 
