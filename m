@@ -1,152 +1,86 @@
-Received: from mail-ot1-f43.google.com (mail-ot1-f43.google.com [209.85.210.43])
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56661D262;
-	Thu, 19 Oct 2023 07:20:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 149C78F64;
+	Thu, 19 Oct 2023 07:28:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="m35e7QLa"
-Received: by mail-ot1-f43.google.com with SMTP id 46e09a7af769-6ce291b5df9so222939a34.2;
-        Thu, 19 Oct 2023 00:20:31 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="H56BGkc/"
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-40839652b97so15492545e9.3;
+        Thu, 19 Oct 2023 00:28:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1697700030; x=1698304830; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=WFWmc4leeJU0JvtOUCdlOewkD9kkUgR6yLJHBt3j+jY=;
-        b=m35e7QLa5g7nv/JXXsIu1JS46n426dTbQDWarXJHWaO+N4iicpVXdUqyrLgmvAfk7s
-         wYSRQKW8Q5lxzHFFXw6AMVKOVLXRVVEPJWbP2fy08oGJnR+fqxpIWkw/35FtK52YqTYv
-         4M+6XVWRsr9cmBPkqz4XWvN1/DyYDEqIBFsG0XQblbohdI3fRElraXxMVdDXueEJsDdY
-         +AtDqg1NHjoH2naw0SoxpAe+wonpNmHzQJEGKuvZ8gI+lqkGPnGGmnywAEmi1hWnISfx
-         xt90TVdKHNofUiXYC5WCpSsjAv388mhWbYoKYOtU8MJxmNyz7hO+Ws/7LykFxM7VFGYC
-         rY6g==
+        d=gmail.com; s=20230601; t=1697700522; x=1698305322; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=dfpvGhYQuCUgDBCdMtII7TE0gbJjpgbukJNGIRocW0E=;
+        b=H56BGkc/rgPmU49S5JYaQ7ocGgVs6Xhv60EeAweAlFGYrJU8BkwvLDBChWJWiJFL0j
+         7FsViAAbTZgq5EKz/1o7Vt90co05lHgKZPqqhFRcgdWUZax7fw+6T8P+kOaf6Xl9vdZ8
+         KobqlE9zTMSY4OJdg9QEWuezcOyOQkbxRnUcFM3b9bdDElf37sD3K1bXOjhR4VvYbb++
+         c/TFPrs2Z22g0gskEXssbz0a6ew9+R+PC366n4V3PELjtB6SV8kNM/MQ15/Eaf/JfTjz
+         80mYB4gzvtZ2ZrlFQf5guF8JqshlLb6xjJiuYR4iXFcIY2k0QFc9OM1VxqCwe/I7jaKC
+         DzyA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697700030; x=1698304830;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=WFWmc4leeJU0JvtOUCdlOewkD9kkUgR6yLJHBt3j+jY=;
-        b=bkVRyTPmYTzE6T/1/pT0Ykulr+6MyE2Js8rhNiQFqhEbpkWVRzU1CEQPbjRxTZHXgR
-         3O1EXlPfgyeRQWefTODjiNCUGW6+phy5EZVgjEofl1sLUIFVnJkNvvIoX6+HhOsAK7Ei
-         rDCwaaIgsd1d5ELmwljCTtzo09w/+BSIoxCMgGqKnYuO7xESSDJo7AgbkgAMk3ac2E2m
-         33uazuuTMzVoc2y9NQXbXGwQYNJvawkQhUdaTj9A0fDqRbVdUKp1ipKo2b+xGqjLVevI
-         SlWJlpds3ATNLSfpvnznqImrGLlxRA6/dogHbd3RQ2v7c3jop20xyvP9KE8R/210p5I9
-         YxLw==
-X-Gm-Message-State: AOJu0Yzq0C4nAQuK3pCYH1TmAbHUZYI3XfqGzHeuJ815rN0mXDPnh/T4
-	/B6GaPWJJxVB/VUX61FpVw4=
-X-Google-Smtp-Source: AGHT+IFhfqS+9PkzSgvH/94GRdjTN4G4Ebor8Y3l7RWGbuV8foAtwJqJoXeoSgt0dumdo5kfN502Tw==
-X-Received: by 2002:a05:6830:410b:b0:6b9:146a:f1c9 with SMTP id w11-20020a056830410b00b006b9146af1c9mr1674172ott.0.1697700030357;
-        Thu, 19 Oct 2023 00:20:30 -0700 (PDT)
-Received: from Negi ([68.181.16.134])
-        by smtp.gmail.com with ESMTPSA id t6-20020a625f06000000b0068fe7c4148fsm4613445pfb.57.2023.10.19.00.20.29
+        d=1e100.net; s=20230601; t=1697700522; x=1698305322;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=dfpvGhYQuCUgDBCdMtII7TE0gbJjpgbukJNGIRocW0E=;
+        b=gpTLo+DlXZvO4fwL6MUbHxcMpFpPyJVr1aotTp0s1A+6OhHJMiXqgxBXWijghi5CTk
+         Vx+4+Yu28BuS5CnmBExSgGVNxZ3CtpHzvx4Do/xkt/DgepA8MWbDWQskPluv1DKZeT+l
+         rwPPOR6/WZZ+4FhjH0UP+SEMK2T6kiFzDSnZOFqMDHsb9uI2gxVT8Ei0GGYzVGNuUF8I
+         Bc3J3ySfH+dhva8yO5F60q/0IOmmVA7rQAh+7xSpP7lb41ix9DG0JQMdqGJo7pev1D+Y
+         WeOVRGZwXJQlLXQn5hFYUzOBD59GeTfwWxHKEcwmvEffjcXd9TI0k1goHbOOd7PsxRNk
+         eK/A==
+X-Gm-Message-State: AOJu0YxBZ61AoYF3wq4faeOcacV1FdMO941PyG5aaN5T2MXVJ8Cx8Tfk
+	tynGLh/z3Vy9s5dOgopbEoo=
+X-Google-Smtp-Source: AGHT+IH3+XAG17HLDSZDB9xXIyIIBmyU0RlTB5VpKQAnu9lOhOrJKHCktQ4ZC336u/3uyL4Nzz30jA==
+X-Received: by 2002:a05:600c:1c98:b0:402:ff8d:609b with SMTP id k24-20020a05600c1c9800b00402ff8d609bmr1076454wms.33.1697700521873;
+        Thu, 19 Oct 2023 00:28:41 -0700 (PDT)
+Received: from lab-ubuntu ([41.90.66.104])
+        by smtp.gmail.com with ESMTPSA id m5-20020a056000180500b0031c6581d55esm3811228wrh.91.2023.10.19.00.28.40
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 19 Oct 2023 00:20:30 -0700 (PDT)
-From: Soumya Negi <soumya.negi97@gmail.com>
-To: Martyn Welch <martyn@welchs.me.uk>,
-	Manohar Vanga <manohar.vanga@gmail.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Andi Shyti <andi.shyti@linux.intel.com>,
-	Julia Lawall <julia.lawall@inria.fr>
-Cc: outreachy@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	Soumya Negi <soumya.negi97@gmail.com>
-Subject: [PATCH v2 2/2] staging: vme_user: Use __func__ instead of function name
-Date: Thu, 19 Oct 2023 00:20:10 -0700
-Message-ID: <996c9f92e7fd288f67c02dfb0ba524ab7c5fe421.1697696951.git.soumya.negi97@gmail.com>
-X-Mailer: git-send-email 2.42.0
-In-Reply-To: <cover.1697696951.git.soumya.negi97@gmail.com>
-References: <cover.1697696951.git.soumya.negi97@gmail.com>
+        Thu, 19 Oct 2023 00:28:41 -0700 (PDT)
+Date: Thu, 19 Oct 2023 10:28:39 +0300
+From: Calvince Otieno <calvncce@gmail.com>
+To: gustavo@embeddedor.com, outreachy@lists.linux.dev
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Florian Fainelli <florian.fainelli@broadcom.com>,
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+	Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>,
+	linux-staging@lists.linux.dev, linux-rpi-kernel@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] staging: bcm2835-audio: remove function snd_bcm2835_new_ctl()
+Message-ID: <ZTDap2d5X7eXXPo2@lab-ubuntu>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Replace function names in message strings with __func__ to fix
-all checkpatch warnings like:
+The function snd_bcm2835_new_ctl() is declared but not defined.
+Its definition was removed 1 year ago in the
+commit 143b67f19ba1 ("staging: bcm2835-audio: remove compat ALSA card")
 
-    WARNING: Prefer using '"%s...", __func__' to using 'vme_lm_get',
-             this function's name, in a string
-
-Signed-off-by: Soumya Negi <soumya.negi97@gmail.com>
+Signed-off-by: Calvince Otieno <calvncce@gmail.com>
 ---
-Changes in v2:
-* None
+ drivers/staging/vc04_services/bcm2835-audio/bcm2835.h | 1 -
+ 1 file changed, 1 deletion(-)
 
- drivers/staging/vme_user/vme.c | 14 +++++++-------
- 1 file changed, 7 insertions(+), 7 deletions(-)
-
-diff --git a/drivers/staging/vme_user/vme.c b/drivers/staging/vme_user/vme.c
-index 640b2dda3ac6..e533cce8e54e 100644
---- a/drivers/staging/vme_user/vme.c
-+++ b/drivers/staging/vme_user/vme.c
-@@ -424,7 +424,7 @@ int vme_slave_get(struct vme_resource *resource, int *enabled,
- 	image = list_entry(resource->entry, struct vme_slave_resource, list);
+diff --git a/drivers/staging/vc04_services/bcm2835-audio/bcm2835.h b/drivers/staging/vc04_services/bcm2835-audio/bcm2835.h
+index 0a81383c475a..49ec5b496edb 100644
+--- a/drivers/staging/vc04_services/bcm2835-audio/bcm2835.h
++++ b/drivers/staging/vc04_services/bcm2835-audio/bcm2835.h
+@@ -84,7 +84,6 @@ struct bcm2835_alsa_stream {
+ 	int idx;
+ };
  
- 	if (!bridge->slave_get) {
--		dev_err(bridge->parent, "vme_slave_get not supported\n");
-+		dev_err(bridge->parent, "%s not supported\n", __func__);
- 		return -EINVAL;
- 	}
- 
-@@ -576,7 +576,7 @@ int vme_master_set(struct vme_resource *resource, int enabled,
- 	image = list_entry(resource->entry, struct vme_master_resource, list);
- 
- 	if (!bridge->master_set) {
--		dev_warn(bridge->parent, "vme_master_set not supported\n");
-+		dev_warn(bridge->parent, "%s not supported\n", __func__);
- 		return -EINVAL;
- 	}
- 
-@@ -1576,7 +1576,7 @@ int vme_lm_set(struct vme_resource *resource, unsigned long long lm_base,
- 	lm = list_entry(resource->entry, struct vme_lm_resource, list);
- 
- 	if (!bridge->lm_set) {
--		dev_err(bridge->parent, "vme_lm_set not supported\n");
-+		dev_err(bridge->parent, "%s not supported\n", __func__);
- 		return -EINVAL;
- 	}
- 
-@@ -1612,7 +1612,7 @@ int vme_lm_get(struct vme_resource *resource, unsigned long long *lm_base,
- 	lm = list_entry(resource->entry, struct vme_lm_resource, list);
- 
- 	if (!bridge->lm_get) {
--		dev_err(bridge->parent, "vme_lm_get not supported\n");
-+		dev_err(bridge->parent, "%s not supported\n", __func__);
- 		return -EINVAL;
- 	}
- 
-@@ -1649,7 +1649,7 @@ int vme_lm_attach(struct vme_resource *resource, int monitor,
- 	lm = list_entry(resource->entry, struct vme_lm_resource, list);
- 
- 	if (!bridge->lm_attach) {
--		dev_err(bridge->parent, "vme_lm_attach not supported\n");
-+		dev_err(bridge->parent, "%s not supported\n", __func__);
- 		return -EINVAL;
- 	}
- 
-@@ -1682,7 +1682,7 @@ int vme_lm_detach(struct vme_resource *resource, int monitor)
- 	lm = list_entry(resource->entry, struct vme_lm_resource, list);
- 
- 	if (!bridge->lm_detach) {
--		dev_err(bridge->parent, "vme_lm_detach not supported\n");
-+		dev_err(bridge->parent, "%s not supported\n", __func__);
- 		return -EINVAL;
- 	}
- 
-@@ -1750,7 +1750,7 @@ int vme_slot_num(struct vme_dev *vdev)
- 	}
- 
- 	if (!bridge->slot_get) {
--		dev_warn(bridge->parent, "vme_slot_num not supported\n");
-+		dev_warn(bridge->parent, "%s not supported\n", __func__);
- 		return -EINVAL;
- 	}
- 
+-int snd_bcm2835_new_ctl(struct bcm2835_chip *chip);
+ int snd_bcm2835_new_pcm(struct bcm2835_chip *chip, const char *name,
+ 			int idx, enum snd_bcm2835_route route,
+ 			u32 numchannels, bool spdif);
 -- 
-2.42.0
+2.34.1
 
