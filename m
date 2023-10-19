@@ -1,61 +1,61 @@
-Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
+Received: from mail-pg1-f173.google.com (mail-pg1-f173.google.com [209.85.215.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17DE82FE0F;
-	Thu, 19 Oct 2023 19:06:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4673632C64;
+	Thu, 19 Oct 2023 19:14:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="frpNivDh"
-Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-6be0277c05bso75640b3a.0;
-        Thu, 19 Oct 2023 12:06:20 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ItrlLLfl"
+Received: by mail-pg1-f173.google.com with SMTP id 41be03b00d2f7-5b837dc2855so60563a12.0;
+        Thu, 19 Oct 2023 12:14:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1697742380; x=1698347180; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1697742869; x=1698347669; darn=lists.linux.dev;
         h=user-agent:in-reply-to:content-disposition:mime-version:references
          :message-id:subject:cc:to:from:date:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=zWJpu48XDgOzWODf3Ip57EpXlsaglYJphkrHkfSodW0=;
-        b=frpNivDhfDYBd2gSL54Vn1RAHB1K2a2W2aZrdqXbJ6RUPqCm/GrrovC6c+zVPFHVyU
-         zXYav+nZokE+8MfGqV7lC1ATfmH65UWaCa/RoVvNv++gEoUjnvVVGyCS+SQFyQZtx7Oq
-         uJus6Qpd+hLZVYNRLnmGpAmATSRRsTi5A3m7s6QNApCibNzyB1tgIlf+fYY7F4Lta9tM
-         vOOEROKMOU9VrP17Tv3nN+2I00RnbRhNE0kTOI0oHdYPpUwXJPyRjW+jXEFq7lzfVxjf
-         tJsALsdoSqEfwprk7+g7g7Zdcco6mqG3o4oPXr6mpK/At6QK4/Lon6TFkNZh6KHLfYwa
-         xHaw==
+        bh=s0c2Ykg+NSYzL507uf61vrkxf/qCgVQVxVY+6Rum2lE=;
+        b=ItrlLLflEHp83Dn1WjWkGpdhXqyC31UA9mRN5Z3mUwfot97osqeq7NFG/jxU9Qo9KF
+         15f0rPYSPS9gw6PIa0ejhcdx9dOQ6YwEESskiVde4CfmKz/906/5sNOCJB67i5WgbbS7
+         Gb32Oi2ACe4GhF1ifF3YebdhDLuwW2agp4oFVTpu07dV/QqwqqWKi0cY8bM6I5h2VHq9
+         WKR4FWWIudziASzvzW3N5Pz8aIUWKiCKZ7HU3OL2v++WV5OpFGhUZLRseD0Btf55FCWp
+         EQIbtBn2hIrnGnKTlBTkS+3B8ZOCbQcS59Y95I/OCTg+Cuk038s5qR9eddsRrpLsF705
+         71TA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697742380; x=1698347180;
+        d=1e100.net; s=20230601; t=1697742869; x=1698347669;
         h=user-agent:in-reply-to:content-disposition:mime-version:references
          :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=zWJpu48XDgOzWODf3Ip57EpXlsaglYJphkrHkfSodW0=;
-        b=qRPmwB6uP5dQJ5zGzPhEA4nNG6x8K8bJtoyXfumJQg8Gc8DB1WVNCrarZfdOh+NQEG
-         CiE99R8OmLt10kLEtHz0kghHEI9sZalFRU+TSn3oN40yKFk9BjFyuzJmazlFWLJqzqIJ
-         R4Wo7Tz+FAKeD3p6YAAhNoFXBDf89MTWFVZZnIkz90I+cBJh5lAKBXY1oXivY3/9jXdo
-         JtlYjaI7ZR4XzCn21KGH4p1E31MGd4B59tkFi70zGAJZW60EvALoWIVxU8OackJ48BUu
-         YnbJN7lMmrP1E0SsTrPGeP3XMOpGFgHdrT3JOHM4JCM/PknnbiEbUE97DcQ5sZcuJz/A
-         bZhQ==
-X-Gm-Message-State: AOJu0Yzx4d+7hI60DE0zxScQzJMcgzDutrajS/5V2KJTe79jCWE6N4x8
-	gaAn3SSyqz/QuTS+cvcooqk2KB72grc9jg==
-X-Google-Smtp-Source: AGHT+IHmT5wyc2UxYytBTeiu8da70APrWxnUEwtgWi0O8N35e6RkncPLic7Sry7GP7BjZMhVR2nX3A==
-X-Received: by 2002:a05:6a00:1895:b0:6be:2bfa:6290 with SMTP id x21-20020a056a00189500b006be2bfa6290mr3054593pfh.8.1697742379976;
-        Thu, 19 Oct 2023 12:06:19 -0700 (PDT)
+        bh=s0c2Ykg+NSYzL507uf61vrkxf/qCgVQVxVY+6Rum2lE=;
+        b=HPn30SvvFrXJ6uQ2sSueQOhaKmoN+1GfWEiOY/QHTFNGswmRIebdVLHruEDaqsoLTg
+         WWh5OfOzBicprWKtllWyU/LpK+gizHHn/CMbPboh1zTrxeAbJKhsQrlaE2D+dunEg03s
+         Rbgz03sWu/fbUd2Rwrmemz1Ewc7M88U04GmD9R6ulln2RvWuLi9OmU7Nc+fiVWZedF2S
+         662LcNAR6sE+QrHVQJLwEzWP09W+2nk6dWmB9RXB55XKCvl6nmimmq119ptNviubmN8m
+         YEvGNXgGBwpSbEVPNjV62/EPitDoz2d3eEkkEGHbmbBGWB8O16fpGElgP9Y7AyK4y1Z9
+         +A0A==
+X-Gm-Message-State: AOJu0Yye77YZc2fz+BYXDYJA64au0p0MccrONn0L0BcrZpGxs8EIiXkj
+	gH9wQ75mlGFgh/mL+Ue7CiEzsUOR/DUelA==
+X-Google-Smtp-Source: AGHT+IEAg0sopFfjPaXNffNo+Co1dZ3z90JYHckrKJv95HTWg1k/kLDXOPsZU++MoPY7CSEZUgh6mA==
+X-Received: by 2002:a17:90b:23d6:b0:277:3565:30cf with SMTP id md22-20020a17090b23d600b00277356530cfmr4267350pjb.6.1697742869255;
+        Thu, 19 Oct 2023 12:14:29 -0700 (PDT)
 Received: from Negi ([68.181.16.134])
-        by smtp.gmail.com with ESMTPSA id c4-20020a056a00008400b006be22fde07dsm133346pfj.106.2023.10.19.12.06.19
+        by smtp.gmail.com with ESMTPSA id m8-20020a17090a4d8800b002791491f811sm124789pjh.8.2023.10.19.12.14.28
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 19 Oct 2023 12:06:19 -0700 (PDT)
-Date: Thu, 19 Oct 2023 12:06:18 -0700
+        Thu, 19 Oct 2023 12:14:28 -0700 (PDT)
+Date: Thu, 19 Oct 2023 12:14:28 -0700
 From: Soumya Negi <soumya.negi97@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Andi Shyti <andi.shyti@linux.intel.com>
 Cc: Martyn Welch <martyn@welchs.me.uk>,
-	Manohar Vanga <manohar.vanga@gmail.com>, outreachy@lists.linux.dev,
+	Manohar Vanga <manohar.vanga@gmail.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Julia Lawall <julia.lawall@inria.fr>, outreachy@lists.linux.dev,
 	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
-Subject: Re: [PATCH 1/2] staging: vme_user: Replace printk() with
- pr_*(),dev_*()
-Message-ID: <20231019190618.GA29750@Negi>
-References: <cover.1697601942.git.soumya.negi97@gmail.com>
- <a0579eeda5ce70f69b6bfdcbe534b9d37138096c.1697601942.git.soumya.negi97@gmail.com>
- <2023101823-unhidden-draw-d68c@gregkh>
- <20231018193855.GA32553@Negi>
- <2023101925-kudos-playful-7c5a@gregkh>
+Subject: Re: [PATCH v2 2/2] staging: vme_user: Use __func__ instead of
+ function name
+Message-ID: <20231019191428.GA32717@Negi>
+References: <cover.1697696951.git.soumya.negi97@gmail.com>
+ <996c9f92e7fd288f67c02dfb0ba524ab7c5fe421.1697696951.git.soumya.negi97@gmail.com>
+ <ZTFOGIu5U+ZUodXW@ashyti-mobl2.lan>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -64,63 +64,107 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <2023101925-kudos-playful-7c5a@gregkh>
+In-Reply-To: <ZTFOGIu5U+ZUodXW@ashyti-mobl2.lan>
 User-Agent: Mutt/1.9.4 (2018-02-28)
 
-On Thu, Oct 19, 2023 at 05:34:01PM +0200, Greg Kroah-Hartman wrote:
-> On Wed, Oct 18, 2023 at 12:38:56PM -0700, Soumya Negi wrote:
-> > Hi Greg,
-> > 
-> > On Wed, Oct 18, 2023 at 03:26:07PM +0200, Greg Kroah-Hartman wrote:
-> > > On Tue, Oct 17, 2023 at 09:36:32PM -0700, Soumya Negi wrote:
-> > > > vme.c uses printk() to log messages. To improve and standardize message
-> > > > formatting, use logging mechanisms pr_err()/pr_warn() and
-> > > > dev_err()/dev_warn() instead. Retain the printk log levels of the
-> > > > messages during replacement.
-> > > > 
-> > > > Issue found by checkpatch.pl
-> > > > 
-> > > > Signed-off-by: Soumya Negi <soumya.negi97@gmail.com>
-> > > > ---
-> > > >  drivers/staging/vme_user/vme.c | 175 ++++++++++++++++++---------------
-> > > >  1 file changed, 94 insertions(+), 81 deletions(-)
-> > > > 
-> > > > diff --git a/drivers/staging/vme_user/vme.c b/drivers/staging/vme_user/vme.c
-> > > > index 6519a7c994a0..e8c2c1e77b7d 100644
-> > > > --- a/drivers/staging/vme_user/vme.c
-> > > > +++ b/drivers/staging/vme_user/vme.c
-> > > > @@ -9,6 +9,8 @@
-> > > >   * Copyright 2004 Motorola Inc.
-> > > >   */
-> > > >  
-> > > > +#define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
-> > > 
-> > > No, this is a driver, as others have pointed out, always use dev_*()
-> > > calls instead.
-> > 
-> > Some of the pr_ fns can be dev_, but I don't think all can.
-> > e.g. device NULL-check error messages
+On Thu, Oct 19, 2023 at 05:41:12PM +0200, Andi Shyti wrote:
+> Hi Soumya,
 > 
-> I would argue that those are pointless and can be removed and also the
-> check is probably not needed either.
-
-Got it. The pr_() in find_bridge() can't be converted to dev_ so I'll remove 
-the message entirely in another patch.
-
-I understand that the device-NULL checks should be done on the caller's side. 
-Since empty devices would mean something went wrong, would it be better to
-put in an assertion(..WARN_ON) when removing the check? 
-
-> > Also, there are portions of the driver where we have no access to
-> > any 'struct device' to feed into dev_.
+> On Thu, Oct 19, 2023 at 12:20:10AM -0700, Soumya Negi wrote:
+> > Replace function names in message strings with __func__ to fix
+> > all checkpatch warnings like:
+> > 
+> >     WARNING: Prefer using '"%s...", __func__' to using 'vme_lm_get',
+> >              this function's name, in a string
+> > 
+> > Signed-off-by: Soumya Negi <soumya.negi97@gmail.com>
 > 
-> Then you can fix that :)
+> you forgot my ack here:
+> 
+> Acked-by: Andi Shyti <andi.shyti@linux.intel.com> 
+> 
+> Andi
 
-Will do this. 
+Sorry I forgot the tag Andi. I'll add the tags in v3(Greg has suggested
+more changes). There will be some new patches, so I'll leave the tags out in 
+those as you may want to review them first.
 
 Regards,
 Soumya
-
-> thanks,
 > 
-> greg k-h
+> > ---
+> > Changes in v2:
+> > * None
+> > 
+> >  drivers/staging/vme_user/vme.c | 14 +++++++-------
+> >  1 file changed, 7 insertions(+), 7 deletions(-)
+> > 
+> > diff --git a/drivers/staging/vme_user/vme.c b/drivers/staging/vme_user/vme.c
+> > index 640b2dda3ac6..e533cce8e54e 100644
+> > --- a/drivers/staging/vme_user/vme.c
+> > +++ b/drivers/staging/vme_user/vme.c
+> > @@ -424,7 +424,7 @@ int vme_slave_get(struct vme_resource *resource, int *enabled,
+> >  	image = list_entry(resource->entry, struct vme_slave_resource, list);
+> >  
+> >  	if (!bridge->slave_get) {
+> > -		dev_err(bridge->parent, "vme_slave_get not supported\n");
+> > +		dev_err(bridge->parent, "%s not supported\n", __func__);
+> >  		return -EINVAL;
+> >  	}
+> >  
+> > @@ -576,7 +576,7 @@ int vme_master_set(struct vme_resource *resource, int enabled,
+> >  	image = list_entry(resource->entry, struct vme_master_resource, list);
+> >  
+> >  	if (!bridge->master_set) {
+> > -		dev_warn(bridge->parent, "vme_master_set not supported\n");
+> > +		dev_warn(bridge->parent, "%s not supported\n", __func__);
+> >  		return -EINVAL;
+> >  	}
+> >  
+> > @@ -1576,7 +1576,7 @@ int vme_lm_set(struct vme_resource *resource, unsigned long long lm_base,
+> >  	lm = list_entry(resource->entry, struct vme_lm_resource, list);
+> >  
+> >  	if (!bridge->lm_set) {
+> > -		dev_err(bridge->parent, "vme_lm_set not supported\n");
+> > +		dev_err(bridge->parent, "%s not supported\n", __func__);
+> >  		return -EINVAL;
+> >  	}
+> >  
+> > @@ -1612,7 +1612,7 @@ int vme_lm_get(struct vme_resource *resource, unsigned long long *lm_base,
+> >  	lm = list_entry(resource->entry, struct vme_lm_resource, list);
+> >  
+> >  	if (!bridge->lm_get) {
+> > -		dev_err(bridge->parent, "vme_lm_get not supported\n");
+> > +		dev_err(bridge->parent, "%s not supported\n", __func__);
+> >  		return -EINVAL;
+> >  	}
+> >  
+> > @@ -1649,7 +1649,7 @@ int vme_lm_attach(struct vme_resource *resource, int monitor,
+> >  	lm = list_entry(resource->entry, struct vme_lm_resource, list);
+> >  
+> >  	if (!bridge->lm_attach) {
+> > -		dev_err(bridge->parent, "vme_lm_attach not supported\n");
+> > +		dev_err(bridge->parent, "%s not supported\n", __func__);
+> >  		return -EINVAL;
+> >  	}
+> >  
+> > @@ -1682,7 +1682,7 @@ int vme_lm_detach(struct vme_resource *resource, int monitor)
+> >  	lm = list_entry(resource->entry, struct vme_lm_resource, list);
+> >  
+> >  	if (!bridge->lm_detach) {
+> > -		dev_err(bridge->parent, "vme_lm_detach not supported\n");
+> > +		dev_err(bridge->parent, "%s not supported\n", __func__);
+> >  		return -EINVAL;
+> >  	}
+> >  
+> > @@ -1750,7 +1750,7 @@ int vme_slot_num(struct vme_dev *vdev)
+> >  	}
+> >  
+> >  	if (!bridge->slot_get) {
+> > -		dev_warn(bridge->parent, "vme_slot_num not supported\n");
+> > +		dev_warn(bridge->parent, "%s not supported\n", __func__);
+> >  		return -EINVAL;
+> >  	}
+> >  
+> > -- 
+> > 2.42.0
