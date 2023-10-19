@@ -1,22 +1,22 @@
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E53BA156EE
-	for <linux-staging@lists.linux.dev>; Thu, 19 Oct 2023 08:22:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D691F156F8
+	for <linux-staging@lists.linux.dev>; Thu, 19 Oct 2023 08:22:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="ZoPm3K6M"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="SI0hd6My"
 Received: from umang.jainideasonboard.com (unknown [103.251.226.1])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 016D625A;
-	Thu, 19 Oct 2023 10:21:50 +0200 (CEST)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id A0CDA10FF;
+	Thu, 19 Oct 2023 10:21:57 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1697703713;
-	bh=LzjQ3czQq/jljPSeb2fPZh9bsWvb3v3VA3S4TgVmnlE=;
-	h=From:To:Cc:Subject:Date:From;
-	b=ZoPm3K6MYry9ic6T6mlw9gXX07pOXBLn9wH3bn1TwQq1gDbLisQBmx7olqh7ujyKT
-	 fpo0CVUXg7mhQJs01ysai4/oIfDt1AC32PDvjNHZhc4bB+7XyFShUyh11HnOjm60Pl
-	 1CpF4MHL69ZCOnOTSVnOWCw77s5UYm3IRyL/YKls=
+	s=mail; t=1697703720;
+	bh=SrlHtWHnfGRcdHe45S7JL/Ai9MaT3ufKb9ELlwaPiZs=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=SI0hd6MybBn6SIFh8GlPhSFPjerxaAAiGf00EjXnVkOldWsjQsm2bHH7Ia/efSYQx
+	 VOLcZX0uCvOXTKjJsrv/Lahtr22uDM/zbXcwlwXo6BMD+tg3rOso0qBoea3AYXt7sm
+	 sVlrOCe3DlUW8BIoszBC9NFJVwM3lSvSMx13Mokg=
 From: Umang Jain <umang.jain@ideasonboard.com>
 To: linux-staging@lists.linux.dev,
 	linux-rpi-kernel@lists.infradead.org,
@@ -29,10 +29,12 @@ Cc: Stefan Wahren <stefan.wahren@i2se.com>,
 	Kieran Bingham <kieran.bingham@ideasonboard.com>,
 	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
 	Umang Jain <umang.jain@ideasonboard.com>
-Subject: [PATCH v1 0/4] staging: vc04: Drop custom logging based on printk
-Date: Thu, 19 Oct 2023 13:51:43 +0530
-Message-Id: <20231019082147.384723-1-umang.jain@ideasonboard.com>
+Subject: [PATCH v1 2/4] staging: vc04: Convert vchiq_log_warning() to use dynamic debug
+Date: Thu, 19 Oct 2023 13:51:45 +0530
+Message-Id: <20231019082147.384723-3-umang.jain@ideasonboard.com>
 X-Mailer: git-send-email 2.40.1
+In-Reply-To: <20231019082147.384723-1-umang.jain@ideasonboard.com>
+References: <20231019082147.384723-1-umang.jain@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -41,40 +43,135 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Hello,
+Move vchiq_log_warning() custom logging wrapper based on printk to use
+dynamic debug. The log category is dictated by vchiq_log_category
+which will become the part of the warning string format that will be
+logged to dynamic debug (for grep).
 
-This series address the discussion on [1], i.e. removing the printk
-based logging mechanism and migrate it use dynamic debug.
+All the vchiq_log_warning() calls are adjusted to use the
+modified wrapper.
 
-Patch 1/4 targets migration of vchiq_log_error().
-Patch 2/4 targets migration of vchiq_log_warning().
-... and so on.
+While at that, remove the extraneous "----" from few of the
+warning string text.
 
-This series does not touch debugfs entries which are:
-DEBUG_INITIALISE, DEBUG_TRACE, DEBUG_VALUE and DEBUG_COUNT. As far as I
-understand from the previous discussions, those  too should be moved
-to use dynamic debug as well (but is not part of this series yet), as
-I found there are more moving parts involved. I will build a series on
-top of this one, to move the debugfs entries to dynamic debug and remove
-all custom logging remanants (like VCHIQ_LOG_* macros, *_log_levels externs)
-because they do still tie into vchiq_debugfs.c.
+Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
+---
+ .../interface/vchiq_arm/vchiq_arm.c              | 16 +++++++++-------
+ .../interface/vchiq_arm/vchiq_core.c             |  8 ++++----
+ .../interface/vchiq_arm/vchiq_core.h             |  5 ++---
+ 3 files changed, 15 insertions(+), 14 deletions(-)
 
-[1] https://lore.kernel.org/linux-media/20230913185528.770634-1-umang.jain@ideasonboard.com/
-
-Umang Jain (4):
-  staging: vc04: Convert vchiq_log_error() to use dynamic debug
-  staging: vc04: Convert vchiq_log_warning() to use dynamic debug
-  staging: vc04: Convert(and rename) vchiq_log_info() to use dynamic
-    debug
-  staging: vc04: Convert vchiq_log_trace() to use dynamic debug
-
- .../interface/vchiq_arm/vchiq_arm.c           | 143 ++++----
- .../interface/vchiq_arm/vchiq_connected.c     |   2 +-
- .../interface/vchiq_arm/vchiq_core.c          | 329 +++++++++---------
- .../interface/vchiq_arm/vchiq_core.h          |  53 ++-
- .../interface/vchiq_arm/vchiq_dev.c           |  59 ++--
- 5 files changed, 307 insertions(+), 279 deletions(-)
-
+diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
+index fa4463bfc117..cfc06ca2e228 100644
+--- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
++++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
+@@ -695,7 +695,7 @@ int vchiq_initialise(struct vchiq_instance **instance_out)
+ 		ret = -ENOTCONN;
+ 		goto failed;
+ 	} else if (i > 0) {
+-		vchiq_log_warning(vchiq_core_log_level,
++		vchiq_log_warning(state->dev, VCHIQ_CORE,
+ 				  "%s: videocore initialized after %d retries\n", __func__, i);
+ 	}
+ 
+@@ -1696,17 +1696,19 @@ vchiq_dump_service_use_state(struct vchiq_state *state)
+ 	read_unlock_bh(&arm_state->susp_res_lock);
+ 
+ 	if (only_nonzero)
+-		vchiq_log_warning(vchiq_susp_log_level, "Too many active services (%d). Only dumping up to first %d services with non-zero use-count",
++		vchiq_log_warning(state->dev, VCHIQ_SUSPEND,
++				  "Too many active services (%d). Only dumping up to first %d services with non-zero use-count",
+ 				  active_services, found);
+ 
+ 	for (i = 0; i < found; i++) {
+-		vchiq_log_warning(vchiq_susp_log_level, "----- %c%c%c%c:%d service count %d %s",
++		vchiq_log_warning(state->dev, VCHIQ_SUSPEND,
++				  "%c%c%c%c:%d service count %d %s",
+ 				  VCHIQ_FOURCC_AS_4CHARS(service_data[i].fourcc),
+ 				  service_data[i].clientid, service_data[i].use_count,
+ 				  service_data[i].use_count ? nz : "");
+ 	}
+-	vchiq_log_warning(vchiq_susp_log_level, "----- VCHIQ use count %d", peer_count);
+-	vchiq_log_warning(vchiq_susp_log_level, "--- Overall vchiq instance use count %d",
++	vchiq_log_warning(state->dev, VCHIQ_SUSPEND, "VCHIQ use count %d", peer_count);
++	vchiq_log_warning(state->dev, VCHIQ_SUSPEND, "Overall vchiq instance use count %d",
+ 			  vc_use_count);
+ 
+ 	kfree(service_data);
+@@ -1822,7 +1824,7 @@ static int vchiq_probe(struct platform_device *pdev)
+ 	 */
+ 	err = vchiq_register_chrdev(&pdev->dev);
+ 	if (err) {
+-		vchiq_log_warning(vchiq_arm_log_level,
++		vchiq_log_warning(&pdev->dev, VCHIQ_ARM,
+ 				  "Failed to initialize vchiq cdev");
+ 		goto error_exit;
+ 	}
+@@ -1833,7 +1835,7 @@ static int vchiq_probe(struct platform_device *pdev)
+ 	return 0;
+ 
+ failed_platform_init:
+-	vchiq_log_warning(vchiq_arm_log_level, "could not initialize vchiq platform");
++	vchiq_log_warning(&pdev->dev, VCHIQ_ARM, "could not initialize vchiq platform");
+ error_exit:
+ 	return err;
+ }
+diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
+index f6032c6022cb..43e292512491 100644
+--- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
++++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
+@@ -475,7 +475,7 @@ make_service_callback(struct vchiq_service *service, enum vchiq_reason reason,
+ 	status = service->base.callback(service->instance, reason, header, service->handle,
+ 					bulk_userdata);
+ 	if (status && (status != -EAGAIN)) {
+-		vchiq_log_warning(vchiq_core_log_level,
++		vchiq_log_warning(service->state->dev, VCHIQ_CORE,
+ 				  "%d: ignoring ERROR from callback to service %x",
+ 				  service->state->id, service->handle);
+ 		status = 0;
+@@ -1622,7 +1622,7 @@ parse_message(struct vchiq_state *state, struct vchiq_header *header)
+ 				vchiq_service_put(service);
+ 			service = get_connected_service(state, remoteport);
+ 			if (service)
+-				vchiq_log_warning(vchiq_core_log_level,
++				vchiq_log_warning(state->dev, VCHIQ_CORE,
+ 						  "%d: prs %s@%pK (%d->%d) - found connected service %d",
+ 						  state->id, msg_type_str(type), header,
+ 						  remoteport, localport, service->localport);
+@@ -2921,7 +2921,7 @@ vchiq_close_service(struct vchiq_instance *instance, unsigned int handle)
+ 		    (service->srvstate == VCHIQ_SRVSTATE_OPEN))
+ 			break;
+ 
+-		vchiq_log_warning(vchiq_core_log_level,
++		vchiq_log_warning(service->state->dev, VCHIQ_CORE,
+ 				  "%d: close_service:%d - waiting in state %s",
+ 				  service->state->id, service->localport,
+ 				  srvstate_names[service->srvstate]);
+@@ -2982,7 +2982,7 @@ vchiq_remove_service(struct vchiq_instance *instance, unsigned int handle)
+ 		    (service->srvstate == VCHIQ_SRVSTATE_OPEN))
+ 			break;
+ 
+-		vchiq_log_warning(vchiq_core_log_level,
++		vchiq_log_warning(service->state->dev, VCHIQ_CORE,
+ 				  "%d: remove_service:%d - waiting in state %s",
+ 				  service->state->id, service->localport,
+ 				  srvstate_names[service->srvstate]);
+diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.h b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.h
+index c74c3647ef60..3dbb1964839b 100644
+--- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.h
++++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.h
+@@ -69,9 +69,8 @@ static inline const char *log_category_str(enum vchiq_log_category c)
+ 		pr_debug("%s error: " fmt, log_category_str(cat), ##__VA_ARGS__); } while (0)
+ #endif
+ #ifndef vchiq_log_warning
+-#define vchiq_log_warning(cat, fmt, ...) \
+-	do { if (cat >= VCHIQ_LOG_WARNING) \
+-		 printk(VCHIQ_LOG_PREFIX fmt "\n", ##__VA_ARGS__); } while (0)
++#define vchiq_log_warning(dev, cat, fmt, ...) \
++	do { dev_dbg(dev, "%s warning: " fmt, log_category_str(cat), ##__VA_ARGS__); } while (0)
+ #endif
+ #ifndef vchiq_log_info
+ #define vchiq_log_info(cat, fmt, ...) \
 -- 
 2.40.1
 
