@@ -1,29 +1,29 @@
 Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39AE0225A4
-	for <linux-staging@lists.linux.dev>; Thu, 19 Oct 2023 12:52:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4540A225B7
+	for <linux-staging@lists.linux.dev>; Thu, 19 Oct 2023 12:52:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="LwMxv261"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="JwjJEHaF"
 Received: from benjamin-XPS-13-9310.. (unknown [IPv6:2a01:e0a:120:3210:ccea:1fb5:34eb:239b])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
 	(Authenticated sender: benjamin.gaignard)
-	by madras.collabora.co.uk (Postfix) with ESMTPSA id 9264E6607395;
-	Thu, 19 Oct 2023 13:52:56 +0100 (BST)
+	by madras.collabora.co.uk (Postfix) with ESMTPSA id 83682660734C;
+	Thu, 19 Oct 2023 13:52:57 +0100 (BST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1697719976;
-	bh=dg5TyqcXTbK8D5lR679m2t1zA3rG8sR+3z3V0ZimwSc=;
+	s=mail; t=1697719977;
+	bh=oj1c3lOtNZD9WKVM3HjUaAmnUw1gzcNQvZo6oWpLItQ=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=LwMxv261skuXKGrk46mty6jtYAGdVkkK9qNt6P7OqH45eUQKmmO2uk5Wjc73Pgui0
-	 KtMOBHfcif1Wf6IKijuaYLVrhnvRLAnbljr3pUJtg9seYdGMFzFOMEME+pyeMPAZPB
-	 fyRIrWH8qV1bfM/GjDsSAJn+RDhqQms7eAjW8jMki1vPoZ4kVqPAQchFiROYLvqClF
-	 aNsO+4qZOPgVUzK/VIW5DUzq/ehn4LFCgdJSLXPJshuD+xD+qvxF5gK1Sr9ov7pKUH
-	 t4/CUVniy1r2fz7tb76mIXV1fLO86kEl5X+OrzV+eznw51/JNAZy+axPxZ6+y8d7Fd
-	 ZS7AzeDiX1ujg==
+	b=JwjJEHaFNfJc/duuRMWLXRRpnE2GkJfXSQ9eil+u4RAXzEIxKvoWmRQdG8PlMitNQ
+	 iSpxTIFR0S6Ukte5GbL5I+DBGqarWLwyOSX6458syafJelfrACidSoTQkGgdQXdFvv
+	 PYgSGkxTS1fmc4MHss7XOTTPDwrUVIJWhPPw7EP3C/5RDQJXto+7bnawE3ELheMeF+
+	 jaUVB8pOyHaKQwyOeD3h6kp3xGjkVYB0SPGzOL0WhDJuNWw7DLa/aEuQJMQT7FDklW
+	 8POLfoKI4RDQmqokIfcqT+ZpdCrs4llEeExL5wH5NSKQteMnocICerEP/CKXkz9KhB
+	 AwepGPJlAOmoQ==
 From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
 To: mchehab@kernel.org,
 	tfiga@chromium.org,
@@ -43,9 +43,9 @@ Cc: linux-media@vger.kernel.org,
 	linux-staging@lists.linux.dev,
 	kernel@collabora.com,
 	Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Subject: [PATCH v13 50/56] media: verisilicon: vp9: Allow to change resolution while streaming
-Date: Thu, 19 Oct 2023 14:52:16 +0200
-Message-Id: <20231019125222.21370-51-benjamin.gaignard@collabora.com>
+Subject: [PATCH v13 52/56] media: core: Add bitmap manage bufs array entries
+Date: Thu, 19 Oct 2023 14:52:18 +0200
+Message-Id: <20231019125222.21370-53-benjamin.gaignard@collabora.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20231019125222.21370-1-benjamin.gaignard@collabora.com>
 References: <20231019125222.21370-1-benjamin.gaignard@collabora.com>
@@ -57,66 +57,209 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Remove all checks that prohibit to set a new format while streaming.
-This allow to change dynamically the resolution if the pixel format
-remains the same.
+Add a bitmap field to know which of bufs array entries are
+used or not.
+Remove no more used num_buffers field from queue structure.
+Use bitmap_find_next_zero_area() to find the first possible
+range when creating new buffers to fill the gaps.
 
 Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-CC: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
-CC: Philipp Zabel <p.zabel@pengutronix.de>
 ---
- .../media/platform/verisilicon/hantro_v4l2.c  | 24 +++----------------
- 1 file changed, 3 insertions(+), 21 deletions(-)
+ .../media/common/videobuf2/videobuf2-core.c   | 42 +++++++++++++++----
+ include/media/videobuf2-core.h                | 15 ++++---
+ 2 files changed, 42 insertions(+), 15 deletions(-)
 
-diff --git a/drivers/media/platform/verisilicon/hantro_v4l2.c b/drivers/media/platform/verisilicon/hantro_v4l2.c
-index f0d8b165abcd..27a1e77cca38 100644
---- a/drivers/media/platform/verisilicon/hantro_v4l2.c
-+++ b/drivers/media/platform/verisilicon/hantro_v4l2.c
-@@ -514,25 +514,14 @@ static int hantro_set_fmt_out(struct hantro_ctx *ctx,
- 		return ret;
- 
- 	if (!ctx->is_encoder) {
--		struct vb2_queue *peer_vq;
--
- 		/*
- 		 * In order to support dynamic resolution change,
- 		 * the decoder admits a resolution change, as long
--		 * as the pixelformat remains. Can't be done if streaming.
--		 */
--		if (vb2_is_streaming(vq) || (vb2_is_busy(vq) &&
--		    pix_mp->pixelformat != ctx->src_fmt.pixelformat))
--			return -EBUSY;
--		/*
--		 * Since format change on the OUTPUT queue will reset
--		 * the CAPTURE queue, we can't allow doing so
--		 * when the CAPTURE queue has buffers allocated.
-+		 * as the pixelformat remains.
- 		 */
--		peer_vq = v4l2_m2m_get_vq(ctx->fh.m2m_ctx,
--					  V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE);
--		if (vb2_is_busy(peer_vq))
-+		if (vb2_is_streaming(vq) && pix_mp->pixelformat != ctx->src_fmt.pixelformat) {
- 			return -EBUSY;
-+		}
- 	} else {
- 		/*
- 		 * The encoder doesn't admit a format change if
-@@ -577,15 +566,8 @@ static int hantro_set_fmt_out(struct hantro_ctx *ctx,
- static int hantro_set_fmt_cap(struct hantro_ctx *ctx,
- 			      struct v4l2_pix_format_mplane *pix_mp)
+diff --git a/drivers/media/common/videobuf2/videobuf2-core.c b/drivers/media/common/videobuf2/videobuf2-core.c
+index 2c8cf479a962..6e88406fcae9 100644
+--- a/drivers/media/common/videobuf2/videobuf2-core.c
++++ b/drivers/media/common/videobuf2/videobuf2-core.c
+@@ -416,11 +416,12 @@ static void init_buffer_cache_hints(struct vb2_queue *q, struct vb2_buffer *vb)
+  */
+ static void vb2_queue_add_buffer(struct vb2_queue *q, struct vb2_buffer *vb, unsigned int index)
  {
--	struct vb2_queue *vq;
+-	WARN_ON(index >= q->max_num_buffers || q->bufs[index]);
++	WARN_ON(index >= q->max_num_buffers || test_bit(index, q->bufs_bitmap));
+ 
+ 	q->bufs[index] = vb;
+ 	vb->index = index;
+ 	vb->vb2_queue = q;
++	set_bit(index, q->bufs_bitmap);
+ }
+ 
+ /**
+@@ -429,6 +430,7 @@ static void vb2_queue_add_buffer(struct vb2_queue *q, struct vb2_buffer *vb, uns
+  */
+ static void vb2_queue_remove_buffer(struct vb2_buffer *vb)
+ {
++	clear_bit(vb->index, vb->vb2_queue->bufs_bitmap);
+ 	vb->vb2_queue->bufs[vb->index] = NULL;
+ 	vb->vb2_queue = NULL;
+ }
+@@ -450,11 +452,12 @@ static int __vb2_queue_alloc(struct vb2_queue *q, enum vb2_memory memory,
+ 	unsigned long index;
  	int ret;
  
--	/* Change not allowed if queue is busy. */
--	vq = v4l2_m2m_get_vq(ctx->fh.m2m_ctx,
--			     V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE);
--	if (vb2_is_busy(vq))
--		return -EBUSY;
--
- 	if (ctx->is_encoder) {
- 		struct vb2_queue *peer_vq;
+-	/* Ensure that the number of already queue + num_buffers is below q->max_num_buffers */
++	/* Ensure that vb2_get_num_buffers(q) + num_buffers is no more than q->max_num_buffers */
+ 	num_buffers = min_t(unsigned int, num_buffers,
+ 			    q->max_num_buffers - vb2_get_num_buffers(q));
  
+-	index = vb2_get_num_buffers(q);
++	index = bitmap_find_next_zero_area(q->bufs_bitmap, q->max_num_buffers,
++					   0, num_buffers, 0);
+ 
+ 	*first_index = index;
+ 
+@@ -656,7 +659,6 @@ static void __vb2_queue_free(struct vb2_queue *q, unsigned int buffers)
+ 		kfree(vb);
+ 	}
+ 
+-	q->num_buffers -= buffers;
+ 	if (!vb2_get_num_buffers(q)) {
+ 		q->memory = VB2_MEMORY_UNKNOWN;
+ 		INIT_LIST_HEAD(&q->queued_list);
+@@ -874,6 +876,14 @@ int vb2_core_reqbufs(struct vb2_queue *q, enum vb2_memory memory,
+ 		q->bufs = kcalloc(q->max_num_buffers, sizeof(*q->bufs), GFP_KERNEL);
+ 	if (!q->bufs)
+ 		ret = -ENOMEM;
++
++	if (!q->bufs_bitmap)
++		q->bufs_bitmap = bitmap_zalloc(q->max_num_buffers, GFP_KERNEL);
++	if (!q->bufs_bitmap) {
++		ret = -ENOMEM;
++		kfree(q->bufs);
++		q->bufs = NULL;
++	}
+ 	q->memory = memory;
+ 	mutex_unlock(&q->mmap_lock);
+ 	if (ret)
+@@ -943,7 +953,6 @@ int vb2_core_reqbufs(struct vb2_queue *q, enum vb2_memory memory,
+ 	}
+ 
+ 	mutex_lock(&q->mmap_lock);
+-	q->num_buffers = allocated_buffers;
+ 
+ 	if (ret < 0) {
+ 		/*
+@@ -970,6 +979,10 @@ int vb2_core_reqbufs(struct vb2_queue *q, enum vb2_memory memory,
+ 	mutex_lock(&q->mmap_lock);
+ 	q->memory = VB2_MEMORY_UNKNOWN;
+ 	mutex_unlock(&q->mmap_lock);
++	kfree(q->bufs);
++	q->bufs = NULL;
++	bitmap_free(q->bufs_bitmap);
++	q->bufs_bitmap = NULL;
+ 	return ret;
+ }
+ EXPORT_SYMBOL_GPL(vb2_core_reqbufs);
+@@ -1006,9 +1019,19 @@ int vb2_core_create_bufs(struct vb2_queue *q, enum vb2_memory memory,
+ 		q->memory = memory;
+ 		if (!q->bufs)
+ 			q->bufs = kcalloc(q->max_num_buffers, sizeof(*q->bufs), GFP_KERNEL);
+-		if (!q->bufs)
++		if (!q->bufs) {
+ 			ret = -ENOMEM;
++			goto unlock;
++		}
++		if (!q->bufs_bitmap)
++			q->bufs_bitmap = bitmap_zalloc(q->max_num_buffers, GFP_KERNEL);
++		if (!q->bufs_bitmap) {
++			ret = -ENOMEM;
++			kfree(q->bufs);
++			q->bufs = NULL;
++		}
+ 		mutex_unlock(&q->mmap_lock);
++unlock:
+ 		if (ret)
+ 			return ret;
+ 		q->waiting_for_buffers = !q->is_output;
+@@ -1070,7 +1093,6 @@ int vb2_core_create_bufs(struct vb2_queue *q, enum vb2_memory memory,
+ 	}
+ 
+ 	mutex_lock(&q->mmap_lock);
+-	q->num_buffers += allocated_buffers;
+ 
+ 	if (ret < 0) {
+ 		/*
+@@ -2549,7 +2571,9 @@ void vb2_core_queue_release(struct vb2_queue *q)
+ 	__vb2_queue_free(q, q->max_num_buffers);
+ 	kfree(q->bufs);
+ 	q->bufs = NULL;
+-	q->num_buffers = 0;
++	bitmap_free(q->bufs_bitmap);
++	q->bufs_bitmap = NULL;
++
+ 	mutex_unlock(&q->mmap_lock);
+ }
+ EXPORT_SYMBOL_GPL(vb2_core_queue_release);
+@@ -2904,7 +2928,7 @@ static size_t __vb2_perform_fileio(struct vb2_queue *q, char __user *data, size_
+ 	 * Check if we need to dequeue the buffer.
+ 	 */
+ 	index = fileio->cur_index;
+-	if (index >= q->num_buffers) {
++	if (!test_bit(index, q->bufs_bitmap)) {
+ 		struct vb2_buffer *b;
+ 
+ 		/*
+diff --git a/include/media/videobuf2-core.h b/include/media/videobuf2-core.h
+index 6986ff4b77cd..288477075a0e 100644
+--- a/include/media/videobuf2-core.h
++++ b/include/media/videobuf2-core.h
+@@ -346,7 +346,7 @@ struct vb2_buffer {
+  *			describes the requested number of planes and sizes\[\]
+  *			contains the requested plane sizes. In this case
+  *			\*num_buffers are being allocated additionally to
+- *			q->num_buffers. If either \*num_planes or the requested
++ *			queue buffers. If either \*num_planes or the requested
+  *			sizes are invalid callback must return %-EINVAL.
+  * @wait_prepare:	release any locks taken while calling vb2 functions;
+  *			it is called before an ioctl needs to wait for a new
+@@ -557,7 +557,7 @@ struct vb2_buf_ops {
+  * @memory:	current memory type used
+  * @dma_dir:	DMA mapping direction.
+  * @bufs:	videobuf2 buffer structures
+- * @num_buffers: number of allocated/used buffers
++ * @bufs_bitmap: bitmap to manage bufs entries.
+  * @max_num_buffers: upper limit of number of allocated/used buffers
+  * @queued_list: list of buffers currently queued from userspace
+  * @queued_count: number of buffers queued and ready for streaming.
+@@ -621,7 +621,7 @@ struct vb2_queue {
+ 	unsigned int			memory;
+ 	enum dma_data_direction		dma_dir;
+ 	struct vb2_buffer		**bufs;
+-	unsigned int			num_buffers;
++	unsigned long			*bufs_bitmap;
+ 	unsigned int			max_num_buffers;
+ 
+ 	struct list_head		queued_list;
+@@ -1150,7 +1150,10 @@ static inline bool vb2_fileio_is_active(struct vb2_queue *q)
+  */
+ static inline unsigned int vb2_get_num_buffers(struct vb2_queue *q)
+ {
+-	return q->num_buffers;
++	if (!q->bufs_bitmap)
++		return 0;
++
++	return bitmap_weight(q->bufs_bitmap, q->max_num_buffers);
+ }
+ 
+ /**
+@@ -1253,13 +1256,13 @@ static inline void vb2_clear_last_buffer_dequeued(struct vb2_queue *q)
+ static inline struct vb2_buffer *vb2_get_buffer(struct vb2_queue *q,
+ 						unsigned int index)
+ {
+-	if (!q->bufs)
++	if (!q->bufs_bitmap)
+ 		return NULL;
+ 
+ 	if (index >= q->max_num_buffers)
+ 		return NULL;
+ 
+-	if (index < q->num_buffers)
++	if (test_bit(index, q->bufs_bitmap))
+ 		return q->bufs[index];
+ 	return NULL;
+ }
 -- 
 2.39.2
 
