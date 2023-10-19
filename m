@@ -1,74 +1,160 @@
-Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C17831DFE4;
-	Thu, 19 Oct 2023 12:50:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=marliere.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CA1915AFB
+	for <linux-staging@lists.linux.dev>; Thu, 19 Oct 2023 12:52:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="key not found in DNS" (0-bit key) header.d=marliere.net header.i=@marliere.net header.b="QJEQ0mHM"
-Received: by mail-pf1-f172.google.com with SMTP id d2e1a72fcca58-6bf03b98b9bso226522b3a.1;
-        Thu, 19 Oct 2023 05:50:15 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697719815; x=1698324615;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:dkim-signature:date:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=uk0/b8RCb9t8YizAgnysUB+RfVSGoPGfH28jBwJsP5Y=;
-        b=boVeSUTl0X0YQNdhysBhb2s6uWe4mY53kB7jy2WM9OojUbiGjy6lQ7cxHEmyGGaD4+
-         oNQOhGda0/oVOSWK0Jl9F3eWz+IXhnqYgvn8SMd3nvXcuJveGe0HC13+vfdV7exOulAT
-         aw8y8G3C61jiQsp2ZwUeNCmL7A6tnBq9mpveTiWBV0vdwj2+2WEd8mVbNcZuRzMMMicj
-         0YKqxQfIT/ZY3EbPZUCPhgNJ2AxwmExt/Ry/q2OmRrcUM6w6aOgS6HCOviLmAhqZ/Eyk
-         I3bYpfe6iU9OXGGfCuvrWCwPJ8n0hLW91C0+lkkN8Fg2m9gGGSgudgABWPYKnrYsllOa
-         rwfw==
-X-Gm-Message-State: AOJu0Yxe8RgEb7bhNKX9Zj7Sob0nsSdPH9IgLjcV1qOg+GzXmkpHrIoL
-	mHAZgRWGy3hfXZ+DROEBLYw=
-X-Google-Smtp-Source: AGHT+IHkw2FRDzftzIk2H/6P8awG+DX3axjSPibulNSbuum11AybLo+/c3WoYwr+lMiaeGA7fWiw6w==
-X-Received: by 2002:a05:6a00:80f7:b0:68a:48e7:9deb with SMTP id ei55-20020a056a0080f700b0068a48e79debmr2549696pfb.2.1697719814935;
-        Thu, 19 Oct 2023 05:50:14 -0700 (PDT)
-Received: from mail.marliere.net ([24.199.118.162])
-        by smtp.gmail.com with ESMTPSA id s4-20020aa78bc4000000b006bddd1ee5f0sm5052125pfd.5.2023.10.19.05.50.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 19 Oct 2023 05:50:14 -0700 (PDT)
-Date: Thu, 19 Oct 2023 09:50:07 -0300
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=marliere.net;
-	s=2023; t=1697719809;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=uk0/b8RCb9t8YizAgnysUB+RfVSGoPGfH28jBwJsP5Y=;
-	b=QJEQ0mHMTeEEnWqg/DgQRUFkVw94gIa7EeioSfPXhTULC/sgfH2jeYlCpqGc+NqBuPSsnM
-	hEpYISv4c+lwEsTxM9LHVrZ3JO7xLudnfqVXqwEqOXZLIt7XzQNk8Vn2Bz0Z/j7enXwgeX
-	vHjSs2/O3HXLYO4FHMYANN0tREs9iBUzc/oln12DH+r3CbI8Ogz4uAF7KT95YGBRrxMKRW
-	2EUrAQTqdZHJ2tYgSF6LvNo1ooMZvwKVwQ3B07LHIdXR7z4jgYgJNP+2iwx9CewR/aL7MT
-	b+mq3O/wsJIdRgX9Nb1joQ0dVrbZWoJifatQwwemhJiNuvpO0j2rdhDx0XHyOA==
-Authentication-Results: ORIGINATING;
-	auth=pass smtp.auth=ricardo@marliere.net smtp.mailfrom=ricardo@marliere.net
-From: "Ricardo B. Marliere" <ricardo@marliere.net>
-To: Calvince Otieno <calvncce@gmail.com>
-Cc: gustavo@embeddedor.com, outreachy@lists.linux.dev, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Florian Fainelli <florian.fainelli@broadcom.com>, 
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: vc04_services: remove empty functions
-Message-ID: <qqvbqinun7wbhaz47i6sk2awplknwbrfutrwfpvj6wq4wgdie6@smhzxank6val>
-References: <ZTD677iqMkRPxT27@lab-ubuntu>
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="Ox5lQuLL"
+Received: from benjamin-XPS-13-9310.. (unknown [IPv6:2a01:e0a:120:3210:ccea:1fb5:34eb:239b])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: benjamin.gaignard)
+	by madras.collabora.co.uk (Postfix) with ESMTPSA id 248FF660732E;
+	Thu, 19 Oct 2023 13:52:31 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1697719951;
+	bh=cMzVFA9/TUVo9VWr/5JcyqG4OOKgwWqTUUieq9IONwI=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=Ox5lQuLLysKewwxPRZbQsn/epHlYzy4PIi+wApDlBwGmeMRMjVO0DCzBRKwT/pNTE
+	 dFUyZHj7QVU51rzcfgGPYEoSDv7xxD7cHMpzOAZNEccLgG7aERRCR7XjG/XAMZEx5t
+	 x8EKEXHiINd46X0O66ExvFmciPDrGMydvwrx7/GD0E8folAbE3Sa/kLqqLhUwG1Sxg
+	 +4chB4EZf1OpBGwmcqhDuuZINPxaPIq/55KsLNVP72l5g/Nhz9rJoRCFNXvKQtaJSc
+	 xiW+Bt69y+XufPHlVlc1G2IlEu2V828w2OQVWqabEnYk758n8jSqMtTQDmOXilI2B9
+	 fEPHA9VEaP6BQ==
+From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+To: mchehab@kernel.org,
+	tfiga@chromium.org,
+	m.szyprowski@samsung.com,
+	ming.qian@nxp.com,
+	ezequiel@vanguardiasur.com.ar,
+	p.zabel@pengutronix.de,
+	gregkh@linuxfoundation.org,
+	hverkuil-cisco@xs4all.nl,
+	nicolas.dufresne@collabora.com
+Cc: linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org,
+	linux-arm-msm@vger.kernel.org,
+	linux-rockchip@lists.infradead.org,
+	linux-staging@lists.linux.dev,
+	kernel@collabora.com,
+	Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Subject: [PATCH v13 01/56] media: videobuf2: Rename offset parameter
+Date: Thu, 19 Oct 2023 14:51:27 +0200
+Message-Id: <20231019125222.21370-2-benjamin.gaignard@collabora.com>
+X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20231019125222.21370-1-benjamin.gaignard@collabora.com>
+References: <20231019125222.21370-1-benjamin.gaignard@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZTD677iqMkRPxT27@lab-ubuntu>
+Content-Transfer-Encoding: 8bit
 
-Hey there,
+Rename 'off' parameter to 'offset' to clarify the code.
 
-just as a heads up, the vc04_services staging drivers seem to be
-actively developed elsewhere [1]. I'm not sure how they plan to upstream
-their code later.
-
-            Ricardo
-
+Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
 ---
-[1]: https://github.com/raspberrypi/linux/tree/rpi-6.1.y/drivers/staging/vc04_services
+ .../media/common/videobuf2/videobuf2-core.c   | 26 +++++++++----------
+ 1 file changed, 13 insertions(+), 13 deletions(-)
+
+diff --git a/drivers/media/common/videobuf2/videobuf2-core.c b/drivers/media/common/videobuf2/videobuf2-core.c
+index 27aee92f3eea..a5e57affeb30 100644
+--- a/drivers/media/common/videobuf2/videobuf2-core.c
++++ b/drivers/media/common/videobuf2/videobuf2-core.c
+@@ -356,23 +356,23 @@ static void __setup_offsets(struct vb2_buffer *vb)
+ {
+ 	struct vb2_queue *q = vb->vb2_queue;
+ 	unsigned int plane;
+-	unsigned long off = 0;
++	unsigned long offset = 0;
+ 
+ 	if (vb->index) {
+ 		struct vb2_buffer *prev = q->bufs[vb->index - 1];
+ 		struct vb2_plane *p = &prev->planes[prev->num_planes - 1];
+ 
+-		off = PAGE_ALIGN(p->m.offset + p->length);
++		offset = PAGE_ALIGN(p->m.offset + p->length);
+ 	}
+ 
+ 	for (plane = 0; plane < vb->num_planes; ++plane) {
+-		vb->planes[plane].m.offset = off;
++		vb->planes[plane].m.offset = offset;
+ 
+ 		dprintk(q, 3, "buffer %d, plane %d offset 0x%08lx\n",
+-				vb->index, plane, off);
++				vb->index, plane, offset);
+ 
+-		off += vb->planes[plane].length;
+-		off = PAGE_ALIGN(off);
++		offset += vb->planes[plane].length;
++		offset = PAGE_ALIGN(offset);
+ 	}
+ }
+ 
+@@ -2185,9 +2185,9 @@ int vb2_core_streamoff(struct vb2_queue *q, unsigned int type)
+ EXPORT_SYMBOL_GPL(vb2_core_streamoff);
+ 
+ /*
+- * __find_plane_by_offset() - find plane associated with the given offset off
++ * __find_plane_by_offset() - find plane associated with the given offset
+  */
+-static int __find_plane_by_offset(struct vb2_queue *q, unsigned long off,
++static int __find_plane_by_offset(struct vb2_queue *q, unsigned long offset,
+ 			unsigned int *_buffer, unsigned int *_plane)
+ {
+ 	struct vb2_buffer *vb;
+@@ -2218,7 +2218,7 @@ static int __find_plane_by_offset(struct vb2_queue *q, unsigned long off,
+ 		vb = q->bufs[buffer];
+ 
+ 		for (plane = 0; plane < vb->num_planes; ++plane) {
+-			if (vb->planes[plane].m.offset == off) {
++			if (vb->planes[plane].m.offset == offset) {
+ 				*_buffer = buffer;
+ 				*_plane = plane;
+ 				return 0;
+@@ -2304,7 +2304,7 @@ EXPORT_SYMBOL_GPL(vb2_core_expbuf);
+ 
+ int vb2_mmap(struct vb2_queue *q, struct vm_area_struct *vma)
+ {
+-	unsigned long off = vma->vm_pgoff << PAGE_SHIFT;
++	unsigned long offset = vma->vm_pgoff << PAGE_SHIFT;
+ 	struct vb2_buffer *vb;
+ 	unsigned int buffer = 0, plane = 0;
+ 	int ret;
+@@ -2335,7 +2335,7 @@ int vb2_mmap(struct vb2_queue *q, struct vm_area_struct *vma)
+ 	 * Find the plane corresponding to the offset passed by userspace. This
+ 	 * will return an error if not MEMORY_MMAP or file I/O is in progress.
+ 	 */
+-	ret = __find_plane_by_offset(q, off, &buffer, &plane);
++	ret = __find_plane_by_offset(q, offset, &buffer, &plane);
+ 	if (ret)
+ 		goto unlock;
+ 
+@@ -2380,7 +2380,7 @@ unsigned long vb2_get_unmapped_area(struct vb2_queue *q,
+ 				    unsigned long pgoff,
+ 				    unsigned long flags)
+ {
+-	unsigned long off = pgoff << PAGE_SHIFT;
++	unsigned long offset = pgoff << PAGE_SHIFT;
+ 	struct vb2_buffer *vb;
+ 	unsigned int buffer, plane;
+ 	void *vaddr;
+@@ -2392,7 +2392,7 @@ unsigned long vb2_get_unmapped_area(struct vb2_queue *q,
+ 	 * Find the plane corresponding to the offset passed by userspace. This
+ 	 * will return an error if not MEMORY_MMAP or file I/O is in progress.
+ 	 */
+-	ret = __find_plane_by_offset(q, off, &buffer, &plane);
++	ret = __find_plane_by_offset(q, offset, &buffer, &plane);
+ 	if (ret)
+ 		goto unlock;
+ 
+-- 
+2.39.2
+
