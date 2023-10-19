@@ -1,86 +1,222 @@
-Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2521227472
-	for <linux-staging@lists.linux.dev>; Thu, 19 Oct 2023 13:48:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D17B27479
+	for <linux-staging@lists.linux.dev>; Thu, 19 Oct 2023 13:50:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jjXcwFby"
-Received: by mail-pf1-f182.google.com with SMTP id d2e1a72fcca58-6b87c1edfd5so4684861b3a.1
-        for <linux-staging@lists.linux.dev>; Thu, 19 Oct 2023 06:48:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1697723280; x=1698328080; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=BliccIy+de7xYxoFZodWYzkchyJ1PaiIyTfG2nYkRFE=;
-        b=jjXcwFbyZ7Hc8brr44Wb0F6g0WQzoG/XLpNbMQlAXPIjPdzKJtG3m0z83pJ0yiIT8D
-         e8YHLSjFjDknT8HlhMI8ciGFqC2dwGJ0rx1N5ZUwUojiRB5SZ11XjxrTx/v8i3jYmC3y
-         VaCkZT8pQ630zH9tj9fRDML4pKhwoX6wIovPc//nJHF4X9kGU/k5GqGbDNkVDlnA79W5
-         aYTZSymaXMl9Nrqk/kOTDc/gxY+tE6HP0mel+3CJLV3tMpSMgzD18BAJKKepBWD5KZW9
-         cMmWueBImR/+9VMYoaiNkHPLUAfvxju9mCZDJ5SYeTlNiV+9EDCzLCgslODx3xB5BBCF
-         MmIg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697723280; x=1698328080;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=BliccIy+de7xYxoFZodWYzkchyJ1PaiIyTfG2nYkRFE=;
-        b=gpAzGHWOfrNW83cSX5b+LSau0TyMsZQg7Q3Hm0+lQ5IN32JaX8n3ZFEaPD5iTG2nRE
-         jChR3mFMko35tOCBJbH92bJzFGzJTSIyAR9h+b/HIjlswxlXRL8AW09vzCp3EvPqTmA0
-         5d2Qnab6gdX880gSoAf0qZVMFj6OWKUmxtgxHVxuDfIxm1OLh9bl6iTFj9b9HzAO+D64
-         m4SJkAkZk6hGEU2ssmkdS4yGc7yRQ0soAu2unJMlPQHuLWzSdphyNwA+9Of/21JGonf7
-         l00Az61Qwi//OjRaWgLRrjBLyBSBDkHIUqhdTpRlz4JWAwEACv27ihiULFFAu7p53eCr
-         zTlg==
-X-Gm-Message-State: AOJu0Yxpkx+n+QK9TX6myaBHzppuS2/csH1BCn05WlxicXTnj9edHZqR
-	HxKKlqks/STu8lCHfxtyH1Y=
-X-Google-Smtp-Source: AGHT+IFls3pZjV2ctOYZBjQmps7xxPwUMRdJUFsqmphuiHlQtlyJ71NSndQuEO/mqkcOewM5dQq+Fw==
-X-Received: by 2002:a05:6a00:1408:b0:68f:fa05:b77a with SMTP id l8-20020a056a00140800b0068ffa05b77amr2241339pfu.31.1697723280325;
-        Thu, 19 Oct 2023 06:48:00 -0700 (PDT)
-Received: from ubuntu ([122.167.60.51])
-        by smtp.gmail.com with ESMTPSA id w28-20020aa7955c000000b0068fe76cdc62sm5252528pfq.93.2023.10.19.06.47.57
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 19 Oct 2023 06:48:00 -0700 (PDT)
-Date: Thu, 19 Oct 2023 06:47:55 -0700
-From: Nandha Kumar Singaram <nandhakumar.singaram@gmail.com>
-To: Simon Horman <horms@kernel.org>
-Cc: Manish Chopra <manishc@marvell.com>, GR-Linux-NIC-Dev@marvell.com,
-	Coiby Xu <coiby.xu@gmail.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	netdev@vger.kernel.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org, kumaran.4353@gmail.com
-Subject: Re: [PATCH v2 1/2] staging: qlge: Fix coding style in qlge.h
-Message-ID: <20231019134755.GB3373@ubuntu>
-References: <cover.1697657604.git.nandhakumar.singaram@gmail.com>
- <cec5ab120f3c110a4699757c8b364f4be1575ad7.1697657604.git.nandhakumar.singaram@gmail.com>
- <20231019122740.GG2100445@kernel.org>
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="SxuDKNTY"
+Received: from pendragon.ideasonboard.com (aztw-30-b2-v4wan-166917-cust845.vm26.cable.virginm.net [82.37.23.78])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 8E14125A;
+	Thu, 19 Oct 2023 15:50:29 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1697723429;
+	bh=MkbgYDn1a68rXfA6v691NVavnePywJNwg0SBWcT0eQ8=;
+	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+	b=SxuDKNTYfItL+/DRdN9zkLh8hoX85PZt13RSnc/B7Ot/T7F6s0E/UXouegwnHQHWX
+	 uWs+bXIAkjsZs3mw1R5j5Nih699DYYiV9QvsG/a6DSsN0efw9gJ5FjErqKSQ5IrDCf
+	 LSyo1s5kTAzJgO8wf0funUm25RO0g06oXh4a3fYs=
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231019122740.GG2100445@kernel.org>
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20231019082147.384723-3-umang.jain@ideasonboard.com>
+References: <20231019082147.384723-1-umang.jain@ideasonboard.com> <20231019082147.384723-3-umang.jain@ideasonboard.com>
+Subject: Re: [PATCH v1 2/4] staging: vc04: Convert vchiq_log_warning() to use dynamic debug
+From: Kieran Bingham <kieran.bingham@ideasonboard.com>
+Cc: Stefan Wahren <stefan.wahren@i2se.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Dave Stevenson <dave.stevenson@raspberrypi.com>, Dan Carpenter <error27@gmail.com>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Umang Jain <umang.jain@ideasonboard.com>, Phil Elwell <phil@raspberrypi.com>
+To: Umang Jain <umang.jain@ideasonboard.com>, linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org, linux-rpi-kernel@lists.infradead.org, linux-staging@lists.linux.dev
+Date: Thu, 19 Oct 2023 14:50:34 +0100
+Message-ID: <169772343491.630990.5915300826397445052@ping.linuxembedded.co.uk>
+User-Agent: alot/0.10
 
-On Thu, Oct 19, 2023 at 02:27:40PM +0200, Simon Horman wrote:
-> On Wed, Oct 18, 2023 at 12:46:00PM -0700, Nandha Kumar Singaram wrote:
-> > Replace all occurrnces of (1<<x) by BIT(x) to get rid of checkpatch.pl
-> > "CHECK" output "Prefer using the BIT macro"
-> > 
-> > Signed-off-by: Nandha Kumar Singaram <nandhakumar.singaram@gmail.com>
-> 
-> Thanks Nandha,
-> 
-> these changes look good to me.
-> But I would like to ask if not updating
-> Q_LEN_V and LEN_V is intentional.
+Quoting Umang Jain (2023-10-19 09:21:45)
+> Move vchiq_log_warning() custom logging wrapper based on printk to use
+> dynamic debug. The log category is dictated by vchiq_log_category
+> which will become the part of the warning string format that will be
+> logged to dynamic debug (for grep).
+>=20
+> All the vchiq_log_warning() calls are adjusted to use the
+> modified wrapper.
+>=20
+> While at that, remove the extraneous "----" from few of the
+> warning string text.
+>=20
+> Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
+> ---
+>  .../interface/vchiq_arm/vchiq_arm.c              | 16 +++++++++-------
+>  .../interface/vchiq_arm/vchiq_core.c             |  8 ++++----
+>  .../interface/vchiq_arm/vchiq_core.h             |  5 ++---
+>  3 files changed, 15 insertions(+), 14 deletions(-)
+>=20
+> diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.=
+c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
+> index fa4463bfc117..cfc06ca2e228 100644
+> --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
+> +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
+> @@ -695,7 +695,7 @@ int vchiq_initialise(struct vchiq_instance **instance=
+_out)
+>                 ret =3D -ENOTCONN;
+>                 goto failed;
+>         } else if (i > 0) {
+> -               vchiq_log_warning(vchiq_core_log_level,
+> +               vchiq_log_warning(state->dev, VCHIQ_CORE,
+>                                   "%s: videocore initialized after %d ret=
+ries\n", __func__, i);
+>         }
+> =20
+> @@ -1696,17 +1696,19 @@ vchiq_dump_service_use_state(struct vchiq_state *=
+state)
+>         read_unlock_bh(&arm_state->susp_res_lock);
+> =20
+>         if (only_nonzero)
+> -               vchiq_log_warning(vchiq_susp_log_level, "Too many active =
+services (%d). Only dumping up to first %d services with non-zero use-count=
+",
+> +               vchiq_log_warning(state->dev, VCHIQ_SUSPEND,
+> +                                 "Too many active services (%d). Only du=
+mping up to first %d services with non-zero use-count",
+>                                   active_services, found);
+> =20
+>         for (i =3D 0; i < found; i++) {
+> -               vchiq_log_warning(vchiq_susp_log_level, "----- %c%c%c%c:%=
+d service count %d %s",
+> +               vchiq_log_warning(state->dev, VCHIQ_SUSPEND,
+> +                                 "%c%c%c%c:%d service count %d %s",
+>                                   VCHIQ_FOURCC_AS_4CHARS(service_data[i].=
+fourcc),
 
-Thanks for the review Simon.
+I suspect VCHIQ_FOURCC_AS_4CHARS can now be replaced by "%p4cc"
 
-I have already sent a patch for Q_LEN_V and LEN_V and it is accepted
-by greg k-h, so didn't updated here.
+vchiq_log_warning(state->dev, VCHIQ_SUSPEND, "%p4cc:%d service count %d %s",
+		  service_data[i].fourcc, service_data[i].clientid, ...
 
-regards,
-Nandha Kumar Singaram
+But that can be a patch on top of this I think (including the removal of
+VCHIQ_FOURCC_AS_4CHARS).
+
+
+Otherwise, this is following the same pattern as before and looks ok to
+me. I suspect an ack from Phil Elwell on the approach here would be
+welcome, as looking back at the RFC that's where the concerns were on
+the categories.
+
+Reviewed-by: Kieran Bingham <kieran.bingham@ideasonboard.com>
+
+
+>                                   service_data[i].clientid, service_data[=
+i].use_count,
+>                                   service_data[i].use_count ? nz : "");
+>         }
+> -       vchiq_log_warning(vchiq_susp_log_level, "----- VCHIQ use count %d=
+", peer_count);
+> -       vchiq_log_warning(vchiq_susp_log_level, "--- Overall vchiq instan=
+ce use count %d",
+> +       vchiq_log_warning(state->dev, VCHIQ_SUSPEND, "VCHIQ use count %d"=
+, peer_count);
+> +       vchiq_log_warning(state->dev, VCHIQ_SUSPEND, "Overall vchiq insta=
+nce use count %d",
+>                           vc_use_count);
+> =20
+>         kfree(service_data);
+> @@ -1822,7 +1824,7 @@ static int vchiq_probe(struct platform_device *pdev)
+>          */
+>         err =3D vchiq_register_chrdev(&pdev->dev);
+>         if (err) {
+> -               vchiq_log_warning(vchiq_arm_log_level,
+> +               vchiq_log_warning(&pdev->dev, VCHIQ_ARM,
+>                                   "Failed to initialize vchiq cdev");
+>                 goto error_exit;
+>         }
+> @@ -1833,7 +1835,7 @@ static int vchiq_probe(struct platform_device *pdev)
+>         return 0;
+> =20
+>  failed_platform_init:
+> -       vchiq_log_warning(vchiq_arm_log_level, "could not initialize vchi=
+q platform");
+> +       vchiq_log_warning(&pdev->dev, VCHIQ_ARM, "could not initialize vc=
+hiq platform");
+>  error_exit:
+>         return err;
+>  }
+> diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core=
+.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
+> index f6032c6022cb..43e292512491 100644
+> --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
+> +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
+> @@ -475,7 +475,7 @@ make_service_callback(struct vchiq_service *service, =
+enum vchiq_reason reason,
+>         status =3D service->base.callback(service->instance, reason, head=
+er, service->handle,
+>                                         bulk_userdata);
+>         if (status && (status !=3D -EAGAIN)) {
+> -               vchiq_log_warning(vchiq_core_log_level,
+> +               vchiq_log_warning(service->state->dev, VCHIQ_CORE,
+>                                   "%d: ignoring ERROR from callback to se=
+rvice %x",
+>                                   service->state->id, service->handle);
+>                 status =3D 0;
+> @@ -1622,7 +1622,7 @@ parse_message(struct vchiq_state *state, struct vch=
+iq_header *header)
+>                                 vchiq_service_put(service);
+>                         service =3D get_connected_service(state, remotepo=
+rt);
+>                         if (service)
+> -                               vchiq_log_warning(vchiq_core_log_level,
+> +                               vchiq_log_warning(state->dev, VCHIQ_CORE,
+>                                                   "%d: prs %s@%pK (%d->%d=
+) - found connected service %d",
+>                                                   state->id, msg_type_str=
+(type), header,
+>                                                   remoteport, localport, =
+service->localport);
+> @@ -2921,7 +2921,7 @@ vchiq_close_service(struct vchiq_instance *instance=
+, unsigned int handle)
+>                     (service->srvstate =3D=3D VCHIQ_SRVSTATE_OPEN))
+>                         break;
+> =20
+> -               vchiq_log_warning(vchiq_core_log_level,
+> +               vchiq_log_warning(service->state->dev, VCHIQ_CORE,
+>                                   "%d: close_service:%d - waiting in stat=
+e %s",
+>                                   service->state->id, service->localport,
+>                                   srvstate_names[service->srvstate]);
+> @@ -2982,7 +2982,7 @@ vchiq_remove_service(struct vchiq_instance *instanc=
+e, unsigned int handle)
+>                     (service->srvstate =3D=3D VCHIQ_SRVSTATE_OPEN))
+>                         break;
+> =20
+> -               vchiq_log_warning(vchiq_core_log_level,
+> +               vchiq_log_warning(service->state->dev, VCHIQ_CORE,
+>                                   "%d: remove_service:%d - waiting in sta=
+te %s",
+>                                   service->state->id, service->localport,
+>                                   srvstate_names[service->srvstate]);
+> diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core=
+.h b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.h
+> index c74c3647ef60..3dbb1964839b 100644
+> --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.h
+> +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.h
+> @@ -69,9 +69,8 @@ static inline const char *log_category_str(enum vchiq_l=
+og_category c)
+>                 pr_debug("%s error: " fmt, log_category_str(cat), ##__VA_=
+ARGS__); } while (0)
+>  #endif
+>  #ifndef vchiq_log_warning
+> -#define vchiq_log_warning(cat, fmt, ...) \
+> -       do { if (cat >=3D VCHIQ_LOG_WARNING) \
+> -                printk(VCHIQ_LOG_PREFIX fmt "\n", ##__VA_ARGS__); } whil=
+e (0)
+> +#define vchiq_log_warning(dev, cat, fmt, ...) \
+> +       do { dev_dbg(dev, "%s warning: " fmt, log_category_str(cat), ##__=
+VA_ARGS__); } while (0)
+>  #endif
+>  #ifndef vchiq_log_info
+>  #define vchiq_log_info(cat, fmt, ...) \
+> --=20
+> 2.40.1
+>
