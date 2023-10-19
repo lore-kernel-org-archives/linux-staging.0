@@ -1,50 +1,36 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2EC23158B;
-	Thu, 19 Oct 2023 15:42:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A42B230FB0;
+	Thu, 19 Oct 2023 15:56:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hqqWujFS"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1697730147; x=1729266147;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=2oh5pmAgDCd2gtHRN+bxNVTY3NzlD1CeuvsiPYhNrM0=;
-  b=hqqWujFSduTGjgJXijW2ZfsBtiVW1i/EtkQ4dzsTUHC9hAPXL2z/VdGs
-   560Z642d5pKXEwEaCI2z4lp5m/jTSDiHX/dMzqmG4JSh6sjWFcD9kAymN
-   7cn8FD9u2nhEGqpghdMkLnOBGjp6nue+Fo3AkkFEm0Sy1dVfMnvz0QHTX
-   0vOwSA7PfxZQHgBAJKEE5srvsl3Qu0UkisK0s8EDgoywuZbCBqzmEE7ss
-   UyRq8jvn0ePAdP3R8a39sEUCZq7E05DLWRwJjIqwU0c3wPlwapfSCv6lV
-   Ta71+dKY68yvwF/NBbDgB/2J43S5cs8lsgWMkLlbXj1r/UiwIToM3MHRx
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10868"; a="386110787"
-X-IronPort-AV: E=Sophos;i="6.03,237,1694761200"; 
-   d="scan'208";a="386110787"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Oct 2023 08:42:27 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10868"; a="930648762"
-X-IronPort-AV: E=Sophos;i="6.03,237,1694761200"; 
-   d="scan'208";a="930648762"
-Received: from jiaminka-mobl1.gar.corp.intel.com (HELO intel.com) ([10.215.251.143])
-  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Oct 2023 08:42:20 -0700
-Date: Thu, 19 Oct 2023 17:42:09 +0200
-From: Andi Shyti <andi.shyti@linux.intel.com>
-To: Soumya Negi <soumya.negi97@gmail.com>
-Cc: Martyn Welch <martyn@welchs.me.uk>,
-	Manohar Vanga <manohar.vanga@gmail.com>,
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DRxuOZvp"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 67A34C433C7;
+	Thu, 19 Oct 2023 15:55:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1697730961;
+	bh=haRCOkN73wLvU3HdzEVJZt/eh6HF70wED8hxlg8ZNA0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=DRxuOZvpSnyUST7JnSiju4ZRgp2YLiIAJvpQcdHFTbsAWctHD74BQGZWiRC0qY+a5
+	 K7IgBpxU7IzMogz5eGkTTeu/EXsf3TIANvg0r65NaS3/HjvbBIfDX7EZsb/UIOF6n2
+	 C1i5inQu59XewjcLdeZfT5oex/n2t4ajVdiIA1jKrTOZLffJHg56BK/dOieR39b8KI
+	 T+0eMAvopRzVzGvCTYaTpFMqDPGBJdcvR+uoZy/wvIGLk/q4ifpAFY7AlJOX2EjeCD
+	 UeZ5M3jT7/6w9Pv3vMPVze9jvuZ+y8y64yv/eY/lspRxiZriuNn9TLvTbh3CkiP1rN
+	 3Yx8OeCdE9TSA==
+Date: Thu, 19 Oct 2023 17:55:56 +0200
+From: Simon Horman <horms@kernel.org>
+To: Nandha Kumar Singaram <nandhakumar.singaram@gmail.com>
+Cc: Manish Chopra <manishc@marvell.com>, GR-Linux-NIC-Dev@marvell.com,
+	Coiby Xu <coiby.xu@gmail.com>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Andi Shyti <andi.shyti@linux.intel.com>,
-	Julia Lawall <julia.lawall@inria.fr>, outreachy@lists.linux.dev,
-	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
-Subject: Re: [PATCH v2 1/2] staging: vme_user: Replace printk() with
- pr_*(),dev_*()
-Message-ID: <ZTFOUdMrDUylwa6F@ashyti-mobl2.lan>
-References: <cover.1697696951.git.soumya.negi97@gmail.com>
- <cad6da28b5f772957ced5b561b21b5d8c8204bc9.1697696951.git.soumya.negi97@gmail.com>
+	netdev@vger.kernel.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org, kumaran.4353@gmail.com
+Subject: Re: [PATCH v2 1/2] staging: qlge: Fix coding style in qlge.h
+Message-ID: <20231019155556.GJ2100445@kernel.org>
+References: <cover.1697657604.git.nandhakumar.singaram@gmail.com>
+ <cec5ab120f3c110a4699757c8b364f4be1575ad7.1697657604.git.nandhakumar.singaram@gmail.com>
+ <20231019122740.GG2100445@kernel.org>
+ <20231019134755.GB3373@ubuntu>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -53,20 +39,28 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <cad6da28b5f772957ced5b561b21b5d8c8204bc9.1697696951.git.soumya.negi97@gmail.com>
+In-Reply-To: <20231019134755.GB3373@ubuntu>
 
-Hi,
-
-On Thu, Oct 19, 2023 at 12:20:09AM -0700, Soumya Negi wrote:
-> vme.c uses printk() to log messages. To improve and standardize message
-> formatting, use logging mechanisms pr_err()/pr_warn() and
-> dev_err()/dev_warn() instead. Retain the printk log levels of the
-> messages during replacement.
+On Thu, Oct 19, 2023 at 06:47:55AM -0700, Nandha Kumar Singaram wrote:
+> On Thu, Oct 19, 2023 at 02:27:40PM +0200, Simon Horman wrote:
+> > On Wed, Oct 18, 2023 at 12:46:00PM -0700, Nandha Kumar Singaram wrote:
+> > > Replace all occurrnces of (1<<x) by BIT(x) to get rid of checkpatch.pl
+> > > "CHECK" output "Prefer using the BIT macro"
+> > > 
+> > > Signed-off-by: Nandha Kumar Singaram <nandhakumar.singaram@gmail.com>
+> > 
+> > Thanks Nandha,
+> > 
+> > these changes look good to me.
+> > But I would like to ask if not updating
+> > Q_LEN_V and LEN_V is intentional.
 > 
-> Issue found by checkpatch.pl
+> Thanks for the review Simon.
 > 
-> Signed-off-by: Soumya Negi <soumya.negi97@gmail.com>
+> I have already sent a patch for Q_LEN_V and LEN_V and it is accepted
+> by greg k-h, so didn't updated here.
 
-Acked-by: Andi Shyti <andi.shyti@linux.intel.com> 
+Understood, in that case this patch looks good to me.
 
-Andi
+Reviewed-by: Simon Horman <horms@kernel.org>
+
