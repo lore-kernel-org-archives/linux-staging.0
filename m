@@ -1,62 +1,65 @@
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C0B2182A7;
-	Thu, 19 Oct 2023 10:14:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D5AE182A7;
+	Thu, 19 Oct 2023 10:15:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RGGrVQkE"
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-406609df1a6so71488135e9.3;
-        Thu, 19 Oct 2023 03:14:09 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WkKkjlVg"
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-4064867903cso81054745e9.2;
+        Thu, 19 Oct 2023 03:15:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1697710448; x=1698315248; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=IGUCtaetBy4DTIj7ObfcLLLAyE9bn8S8QtM2xGRSe0M=;
-        b=RGGrVQkETvRoVIp4HOxbFHhKhcqQLnt0ZnGxtNYZ4hKtFg4x9ae1sUJZcPOTUD6bIH
-         v9hKdAfXjplGZWHQQDiy94Vh3VmJQS3HAhx9JN3FWwq1RkSbBaY6T9OggwiiiF3aOWnk
-         svTkyzwIGWz1vPhhUeIx/4DZxtmropAwbzjyUsf5f9LhCo/1qiwqO1UbrEhISwIGpuK/
-         Djb5DTToYglg+IyRAh8Qlnp9COA8Yw82/TDRFUJygKgCe1Oikn57XAE1qg3lNfiEjLsU
-         XJ9n/6ZvbxS90WfiXtjJ38/eo8KkwHYcQ3HotOU6teNyE+HcoSOPf4bEVDOsD8bgkBPB
-         jKeA==
+        d=gmail.com; s=20230601; t=1697710501; x=1698315301; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=FzwyhcJNZa6arJQKPZmLNcj0YJDSwAR/dJyY9R0VHn8=;
+        b=WkKkjlVgknuRnXXZByES/12uFZNzXwXPQTEm6mj4lzaiQWVy2njFpGfkzu3Fg6kmKT
+         oPsmwhY1j4pZRZKL7EHplrKZYbv+6Sj7UoDrOu7dTAJWYueDBWI6IYwgIYG+kPiA8xCB
+         QPD0+ZbXrAPn26mkeQmyQeEa75MMZNlif5ppRVoafdsFtv2BT5zp45i2Hmea54GWZ9nU
+         RkThb/YWloC9qohjdgdrPnFtAVearoW6h3BkBEY2bKfaWUQ3rd92iKJdMKpVLCBUMOXC
+         iGFO9owMSecPxmc8RKYGJjCk1qzVosDCaqtakzgo5SmtywO+buyWFDlCH5lECnPwfiiJ
+         a2Vw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697710448; x=1698315248;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=IGUCtaetBy4DTIj7ObfcLLLAyE9bn8S8QtM2xGRSe0M=;
-        b=XC6mCNitNijc4Uuv+psESEAFgo900TlQHQi/RBkp5sF2nUM9wYD6glyvLUW9OT3dqZ
-         fLGdlDvhhsts7L/t33RDWDe5TFyIOiLqfn9Sp/X4ZCKOis6VMQfczwXJ1HjD85Vilxzu
-         1n/9NOa5ephZ5a6GMRs/0jFptYY4Rknt18cwFxHFr83neHw1Oi+55NZmmejHWqE9VVbZ
-         nGjO9eYsjU8XNHBggLRPHNckP8CfSIyz9hnWJEgaYkWKMVHHpMFgYTDOe8X4eD0x96OV
-         LDIRl9Fs5DkRpNSUysLAvraBVyheRYSI4l0lYuSzctIRgXL2AT5axl7+8+7fiJTITmUK
-         W/dw==
-X-Gm-Message-State: AOJu0YwNs/tsKwpylqVNHJBfLq8fOwaZGO7xPA2kVGzqMkrwR9mVMk7e
-	1+EQkko7tS6gqvHTkG+1Lg==
-X-Google-Smtp-Source: AGHT+IHzEjL2ZofK/ahM41KnEDz2FgNb9Vtr//9lYhRkMtUZitajDwzkRFkzi1Y0FLbZVt3K6x+4uw==
-X-Received: by 2002:a05:600c:a07:b0:408:3f64:6553 with SMTP id z7-20020a05600c0a0700b004083f646553mr1397018wmp.16.1697710447394;
-        Thu, 19 Oct 2023 03:14:07 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1697710501; x=1698315301;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=FzwyhcJNZa6arJQKPZmLNcj0YJDSwAR/dJyY9R0VHn8=;
+        b=hxqcYfdu0lZFsw2hcGzkhFGUb6kwjYZdMGqiwW+szf7pD3PNDCaI/Om5jmvHIyU7p3
+         4IJYq6Odc5/9c9XhMV5zPjsD810imQxtWQaQGfmuFBGQ0QDWyevPU1a3x30XcF0s93rX
+         AgVEicC8Lb1Iy1zFkexMBXjj2+vBNMZggz4qLJaZPutGqPVuq+EE9nBbGMTww9QTBbsl
+         CyHKfsYm+U3l+Ei4bVL4VZSae5l1pV4Ij8cImRouqUd7PwlDT/nhnEYYujt5rKTF6ZsM
+         kZdqqZoIQszKu/2FiiKmYONEdfxH3EaVXZxekgNZORK7DOHd3/EOrQsNlPhr85oKQ2LE
+         mpGg==
+X-Gm-Message-State: AOJu0YzyQgIMdRsE+4L2NjKfHlBEPHBmLntWMs+zVuimbkGjQ9rXhHxh
+	MB6XD3B6TQ5OD6ofzDGngg==
+X-Google-Smtp-Source: AGHT+IGY5Xbs39tKxYBmkdFpZ2jA/z2asMgDIq62w/t6lDhh17EFeuuxE3jZ86dk2BbT0yS3/BtY0g==
+X-Received: by 2002:a05:600c:1c25:b0:404:4b6f:d70d with SMTP id j37-20020a05600c1c2500b004044b6fd70dmr1509198wms.17.1697710500407;
+        Thu, 19 Oct 2023 03:15:00 -0700 (PDT)
 Received: from dorcaslitunya-virtual-machine.localdomain ([105.163.1.8])
-        by smtp.gmail.com with ESMTPSA id l32-20020a05600c1d2000b00402f713c56esm4109300wms.2.2023.10.19.03.14.03
+        by smtp.gmail.com with ESMTPSA id l32-20020a05600c1d2000b00402f713c56esm4109300wms.2.2023.10.19.03.14.56
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 19 Oct 2023 03:14:07 -0700 (PDT)
+        Thu, 19 Oct 2023 03:15:00 -0700 (PDT)
 From: Dorcas AnonoLitunya <anonolitunya@gmail.com>
 To: 
 Cc: anonolitunya@gmail.com,
 	outreachy@lists.linux.dev,
 	julia.lawall@inria.fr,
 	dan.carpenter@linaro.org,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Sudip Mukherjee <sudipm.mukherjee@gmail.com>,
 	Teddy Wang <teddy.wang@siliconmotion.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-fbdev@vger.kernel.org,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v2 0/2] staging: sm750fb: Remove unused return values from functions
-Date: Thu, 19 Oct 2023 13:13:35 +0300
-Message-ID: <20231019101348.22076-1-anonolitunya@gmail.com>
+Subject: [PATCH v2 1/2] staging: sm750fb: Remove unused return value in display_control_adjust_sm750le()
+Date: Thu, 19 Oct 2023 13:13:36 +0300
+Message-ID: <20231019101348.22076-2-anonolitunya@gmail.com>
 X-Mailer: git-send-email 2.42.0.345.gaab89be2eb
+In-Reply-To: <20231019101348.22076-1-anonolitunya@gmail.com>
+References: <20231019101348.22076-1-anonolitunya@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -65,28 +68,40 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Modifies the return type of different static functions to void and
-deletes unused return variables as the return value is being ignored 
-in all subsequent function calls thus not useful to have a return type.
+Modifies the return type of display_control_adjust_sm750le()
+to void from unsigned long as the return value is being ignored in
+all subsequent function calls.
 
 This improves code readability and maintainability.
 
-Changes in v2:
-- Ammend wording in cover letter.
-Suggested-by: Julia Lawall <julia.lawall@inria.fr>
-- Drop variable 'ret' entirely as it is unused.
-Suggested-by: Julia Lawall <julia.lawall@inria.fr>, Greg Kroah-Hartman
-<gregkh@linuxfoundation.org>, Dan Carpenter <dan.carpenter@linaro.org> 
+Suggested-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Signed-off-by: Dorcas AnonoLitunya <anonolitunya@gmail.com>
+---
+ drivers/staging/sm750fb/ddk750_mode.c | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
-Dorcas AnonoLitunya (2):
-  staging: sm750fb: Remove unused return value in
-    display_control_adjust_sm750le()
-  staging: sm750fb: Remove unused return variable in
-    program_mode_registers()
-
- drivers/staging/sm750fb/ddk750_mode.c | 12 +++---------
- 1 file changed, 3 insertions(+), 9 deletions(-)
-
+diff --git a/drivers/staging/sm750fb/ddk750_mode.c b/drivers/staging/sm750fb/ddk750_mode.c
+index bcdd291d25c9..83ace6cc9583 100644
+--- a/drivers/staging/sm750fb/ddk750_mode.c
++++ b/drivers/staging/sm750fb/ddk750_mode.c
+@@ -13,7 +13,7 @@
+  * HW only supports 7 predefined pixel clocks, and clock select is
+  * in bit 29:27 of Display Control register.
+  */
+-static unsigned long
++static void
+ display_control_adjust_sm750le(struct mode_parameter *mode_param,
+ 			       unsigned long disp_control)
+ {
+@@ -70,8 +70,6 @@ display_control_adjust_sm750le(struct mode_parameter *mode_param,
+ 	disp_control |= DISPLAY_CTRL_CLOCK_PHASE;
+ 
+ 	poke32(CRT_DISPLAY_CTRL, disp_control);
+-
+-	return disp_control;
+ }
+ 
+ /* only timing related registers will be  programed */
 -- 
 2.42.0.345.gaab89be2eb
 
