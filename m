@@ -1,121 +1,101 @@
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 680D463DF;
-	Thu, 19 Oct 2023 06:55:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FE5746684;
+	Thu, 19 Oct 2023 07:20:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iz+5zMS0"
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-4081ccf69dcso2211295e9.0;
-        Wed, 18 Oct 2023 23:55:25 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cakrfTGc"
+Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-1c434c33ec0so53012695ad.3;
+        Thu, 19 Oct 2023 00:20:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1697698523; x=1698303323; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=Sxkw9J6vbuDa33oyWmJKA2N6BRhlaSDTP/vmMSE0zJw=;
-        b=iz+5zMS0b7ZLhbtRh1ivueFFIV3uI1NPdZKknAnZi/6mKWOoSuLslINIcpkiHvkiX6
-         KmzcP+WQsyXHiGKIwduqKnEReKQmKBgGKqN/8o/EkngWUszC50qaHLMY1XBI9J8cQX38
-         utTLmu6JP9mIoAgxFJoqixgTmIJdhqEp+Te+7j5lNBH5KWqxOgEwca2+gi55rpbXjphe
-         4p2X91s2l7m94PX64uQBIEB+YfjIeL3fDd3BTIVOoZowoNu3N9mawBVJT2XYA9lvubJL
-         TDFMs3Yub1VUBHwD2iqbtnjIb/eRbUPf6sjgnRJLq8vnuIsVWsi54IPSaKDCn56w9gHM
-         m7rg==
+        d=gmail.com; s=20230601; t=1697700020; x=1698304820; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=VJ8K0FN0Qpyz/8G/jYt1sKfnOsJUIjYOYEd3rSEKCTI=;
+        b=cakrfTGcDHqJpxQamRfGVRGFE55sDkCBtej4OjQcfHWZdrUPcWJCvqdqecDA/6S0n/
+         JCW8YDDu0oi8jYwLe2D+6KyEUo9C4lv8eXFmKDNtyg1ZrwqRF3QMWCUty7FH9/Ck4hkA
+         xpWc5izAJxX8QYb+V1MwG5RIDK90N39v8R/n4K3yVCk9YFsWyRZZCU2p8NDEDeBjrIbe
+         DIU3d0cwdOPa8L5nnR2bJj9L0FhXHkhJ4NerCLNX2WAvmjikPOjbe9hASojKDgTMbp5d
+         R02OwC40krE2tiedbq1U18r4XO43VkAMlDYQBIksWCbZc/OPoDDfprWzOg2OUK2e6W/n
+         WrtA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697698523; x=1698303323;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Sxkw9J6vbuDa33oyWmJKA2N6BRhlaSDTP/vmMSE0zJw=;
-        b=AOY50QzofmByn2CouoIMGvXIM98rMQrIiuZPR7LyyZzktlZeedzIHIAEl+VhW4bW1c
-         zpAdScEG8RHo1DQxLdWQ9reemcKAtZ1lRGaJhnHgvdphwCV4v3X4hm/p7nsAFep/u8tE
-         5XnqcCzSH4uuOqyFG0w6m0oIzev4H8LiLCNACDlihs7vjFEopXy1uOx25rHMyrGBkp3a
-         Wje768vmRlZRd6RWq0T302jKrwjGTj9EgoZuDjEAFCsjpUk+il+DxDoq21vSnd+gQHQ0
-         GzPzPxOz8DnkKgBEvA9q0YhXv0CvtEwfwmNxUUNS8JIVIw6Q3BPkISnNb86lNN91dPpL
-         312A==
-X-Gm-Message-State: AOJu0YzRlCe7HdYF9Q6/0SyLkqn6WcWzPAKFdM49S2C+rleqBscHvSqg
-	CcjsNEBbNb0COzJDFkU8g1U=
-X-Google-Smtp-Source: AGHT+IGtUrfvTZXm57cB6L9weG+na/8FnIH2RYJGQDTaTpfTbY8L4FAKYCDw9+cTc2AXH/zOWgGATw==
-X-Received: by 2002:a05:600c:1ca8:b0:405:784a:d53e with SMTP id k40-20020a05600c1ca800b00405784ad53emr740376wms.20.1697698523166;
-        Wed, 18 Oct 2023 23:55:23 -0700 (PDT)
-Received: from lab-ubuntu ([41.90.66.104])
-        by smtp.gmail.com with ESMTPSA id x3-20020adff0c3000000b0032dc74c093dsm3713492wro.103.2023.10.18.23.55.22
+        d=1e100.net; s=20230601; t=1697700020; x=1698304820;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=VJ8K0FN0Qpyz/8G/jYt1sKfnOsJUIjYOYEd3rSEKCTI=;
+        b=EgytaNO9ZSyCD/wvwfJpvj5OEj/vhO1wJhMC7Ym9s3OFfVUHNqRWoQw6SbqpSQgqv7
+         c92dFL2a5ldXXJheGqmESVjHm7bIYiyQHddsQRxNIZ8KTPVgcqmJZ/OK3SecgnOG/H+p
+         0YDUBs4ri8ltOUTR2cawiVpIPMiMo1u7jiC5Tp8GOn7EKNIlYrOkl0QJjzphA/aFOzg8
+         DTx/CFHziE6ykXXdEZxgvGiNdqjfZZVjwnCQgl7kDxa/85DdShPvojxKd1FT/2ta72EK
+         SuWmwABcy1pviwkx6VXfuQypT2MVmYWhJUfVbbS9RXqGuQtDpwoG3ht47Onym6nVkZCq
+         uIKw==
+X-Gm-Message-State: AOJu0Yx9V1fIkP+RaMjpAXVBWdsRKlMOYaYjTI4tFDWmNwLsXSzQntoq
+	mpKYKx3k6W34wQcb5+IFtwA=
+X-Google-Smtp-Source: AGHT+IE6mU6qXpkdMqXl3bSFTtKXy50t1qwvAy5M+NVCJV0u99P1HxZPkhpYT80egprsqK6qkol5sw==
+X-Received: by 2002:a17:902:da8d:b0:1c7:495c:87df with SMTP id j13-20020a170902da8d00b001c7495c87dfmr1971350plx.53.1697700020238;
+        Thu, 19 Oct 2023 00:20:20 -0700 (PDT)
+Received: from Negi ([68.181.16.134])
+        by smtp.gmail.com with ESMTPSA id u17-20020a17090341d100b001c1f4edfb9csm1141686ple.173.2023.10.19.00.20.19
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 18 Oct 2023 23:55:22 -0700 (PDT)
-Date: Thu, 19 Oct 2023 09:55:20 +0300
-From: Calvince Otieno <calvncce@gmail.com>
-To: gustavo@embeddedor.com, outreachy@lists.linux.dev
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Dan Carpenter <dan.carpenter@linaro.org>
-Subject: [PATCH v4] staging: vme_user: replace strcpy with strscpy
-Message-ID: <ZTDS2H48JBUTiwZi@lab-ubuntu>
+        Thu, 19 Oct 2023 00:20:19 -0700 (PDT)
+From: Soumya Negi <soumya.negi97@gmail.com>
+To: Martyn Welch <martyn@welchs.me.uk>,
+	Manohar Vanga <manohar.vanga@gmail.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Andi Shyti <andi.shyti@linux.intel.com>,
+	Julia Lawall <julia.lawall@inria.fr>
+Cc: outreachy@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	Soumya Negi <soumya.negi97@gmail.com>
+Subject: [PATCH v2 0/2] staging: vme_user: Replace printk's & clean up log messages
+Date: Thu, 19 Oct 2023 00:20:08 -0700
+Message-ID: <cover.1697696951.git.soumya.negi97@gmail.com>
+X-Mailer: git-send-email 2.42.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-Checkpatch suggests using strscpy() instead of strcpy().
+Staging driver vme_user has a bunch of printk() calls in vme.c which
+triggers checkpatch warnings. Remove all printk's and change them to
+the appropriate logging mechanism i.e pr_err()/pr_warn(), or
+dev_err()/dev_warn().
 
-The advantages of strscpy() are that it always adds a NUL terminator
-and prevents read/write overflows if the source string is not properly
-terminated.
+Also, clean up the messages further by using __func__ in the string
+instead of function names.
 
-strcpy() lacks built-in bounds checking for the destination buffer,
-making it susceptible to buffer overflows. These overflows can lead
-to various unpredictable behaviors.
+This patchset fixes all checkpatch warnings like:
 
-In this specific context, both strscpy and strcpy performs the same
-operation without any functional difference.
+    WARNING: Prefer [subsystem eg: netdev]_err([subsystem]dev, ... then
+             dev_err(dev, ... then pr_err(...  to printk(KERN_ERR ...
+&
+    WARNING: Prefer using '"%s...", __func__' to using 'vme_lm_get',
+             this function's name, in a string
 
-The reason for this equivalence is that the driver_name string "vme_fake"
-is shorter than the size of the fake_bridge->name array which is defined
-as 16 characters (struct vme_bridge {char name[VMENAMSIZ];...}). Thus,
-there is no risk of buffer overflow in either case. VMENAMSIZ variable
-holds a constant value of 16 (#define VMENAMSIZ 16)
+Patches must be applied in order.
 
-The null-terminated "vme_fake" string
-(static const char driver_name[] = "vme_fake";) can be safely copied into
-fake_bridge->name using either strscpy or strcpy.
-
-While using strscpy() does not address any bugs, it is considered a better
-practice and aligns with checkpatch recommendations.
-
-Reviewed-by: Dan Carpenter <dan.carpenter@linaro.org>
-Signed-off-by: Calvince Otieno <calvncce@gmail.com>
----
-Changes in v4:
- - Added a semicolon to mark the end of the strscpy() implementation.
- The semicolon got deleted accidentally while mailing the previous patch
- versions.
- - Added the patch reviewer.
----
-Changes in v3:
- - Rewrote the commit message
----
 Changes in v2:
- - Make the commit message more clearer.
- - Remove the incident extra line change.
+ 1. Correct "cleanup" to "clean up" in cover letter.   (as per feedback
+    from julia.lawall@inria.fr)
+ 2. Patch 1: Change the pr_*() calls used to replace printk's in v1 to 
+    dev_*() wherever possible, as it adds more context to the messages.
+    (as per feedback from julia.lawall@inria.fr & 
+    gregkh@linuxfoundation.org)
 
----
- drivers/staging/vme_user/vme_fake.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Soumya Negi (2):
+  staging: vme_user: Replace printk() with pr_*(),dev_*()
+  staging: vme_user: Use __func__ instead of function name
 
-diff --git a/drivers/staging/vme_user/vme_fake.c b/drivers/staging/vme_user/vme_fake.c
-index 0e02c194298d..8ab5b43c70a6 100644
---- a/drivers/staging/vme_user/vme_fake.c
-+++ b/drivers/staging/vme_user/vme_fake.c
-@@ -1091,7 +1091,7 @@ static int __init fake_init(void)
- 	tasklet_init(&fake_device->int_tasklet, fake_VIRQ_tasklet,
- 		     (unsigned long)fake_bridge);
- 
--	strcpy(fake_bridge->name, driver_name);
-+	strscpy(fake_bridge->name, driver_name, sizeof(fake_bridge->name));
- 
- 	/* Add master windows to list */
- 	INIT_LIST_HEAD(&fake_bridge->master_resources);
+ drivers/staging/vme_user/vme.c | 193 +++++++++++++++++++--------------
+ 1 file changed, 109 insertions(+), 84 deletions(-)
+
 -- 
-2.34.1
+2.42.0
 
