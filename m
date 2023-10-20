@@ -1,47 +1,47 @@
-Received: from mail-pg1-f181.google.com (mail-pg1-f181.google.com [209.85.215.181])
+Received: from mail-pg1-f169.google.com (mail-pg1-f169.google.com [209.85.215.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36AB6801;
-	Fri, 20 Oct 2023 01:55:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 872EC801;
+	Fri, 20 Oct 2023 01:55:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bhtDqCjH"
-Received: by mail-pg1-f181.google.com with SMTP id 41be03b00d2f7-5ac88d2cfaaso243447a12.2;
-        Thu, 19 Oct 2023 18:55:41 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Q00hCDx1"
+Received: by mail-pg1-f169.google.com with SMTP id 41be03b00d2f7-5ae99bb5ccdso203743a12.1;
+        Thu, 19 Oct 2023 18:55:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1697766940; x=1698371740; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1697766946; x=1698371746; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=rZBEMc6vewNRb3lJ4/ORiz3INshzShkDhkjWu9W5RKw=;
-        b=bhtDqCjHY53m7/1H3hdYbZ8/TilI4DX5v8oMnQfbpYD7kcJRd4rrjj0rugXS8xFkuA
-         7cPnkpjGcRcuhq6BqBvgFbIpCjFsMUeE190vZruENGtm+VlEAL7NeRihOGMSEN8/s9Ag
-         ovVaJtmTOT8W13SP8EK8yGIZ8gqYj2Nvjnx1pmOMh12F4jStVaHVytqgxFetwW4vdVUF
-         jmrQ3eI5TPOhrRBLmrdjY0EeQsbx+K+XbpivCGOjuVoSpf0FMD9bIQ8fUNu39zrHSXUq
-         0vmuAuLvkz31Zt5Dov4zkKEnQPyhHu7ZcCYWRJUEaHYxb++xaJn9ZGhaHKCXLK1UUkAk
-         UZIQ==
+        bh=z0ry+kzvCHTJ148NbwYm7VhiEmbwaTHh/+gmqtzaSLw=;
+        b=Q00hCDx1iuQniP4ZInbjsa1GL/1Nd7209JU+CdOAyySRN109YijT0BPJ4TwkhX0HL2
+         SPTOgCUJcLd2ZMWKjJMkRTj+ewWL+Ox5W6oSCBvEJtHsbBnmyFq/JFHFctQYUyhtZmtb
+         RePqcgRa33+NEJbi4y7FzVM2OqC3XF0Osq550qNF/QM556aajbowgG1+vggTDN2hIZ5U
+         cJNvUc9NOBHb5f/fxJSqLYXsqkDyDF5p139x+ERRku634viJ0ZOZkjAxlMn6wbdJmNYt
+         WMmOlEgVwqGfDF8Z/qWlW8kBingZWmGY7HJpU2sq0W6nbHikcGrw4TtGs/JbNF71+Ymx
+         0CYQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697766940; x=1698371740;
+        d=1e100.net; s=20230601; t=1697766946; x=1698371746;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=rZBEMc6vewNRb3lJ4/ORiz3INshzShkDhkjWu9W5RKw=;
-        b=lJGe+Doaxjcz7rb6kmbOltRb7gwaMsLWILPpsqmUMnj2MOfX/dxHXZjbBQgpK25vvx
-         FTpz2cpaNmnf0dMwH03aPErfT9z/PNC+U+Z+U+UoveImg5pYrqCwjVTx8x51uTI8oCex
-         LmfPMmNLW4WZ/4ESEhjb/3M5WvR+5JFS3CoN+rm1GDIJKwxqCM82ZnbgDVstk6c86cj4
-         Ir2kQJdcGU9oaAB1SlFHvaRQg7y6ouNwcjxQcoQm/wjPhK4+e2D6dubhWFhxxHCgXYuZ
-         50K5+xXHGpCP5IZs7cuPlD4Xo4q1qxR1O/9Yx3YWZq6DZsabC+rF7ULxpOVdCdC1v3ML
-         lbmQ==
-X-Gm-Message-State: AOJu0YyIphkao/u0Z5TFW9DZs5XsuA6OHAy9VMde/xYbQLjKceHyAFPC
-	Y25ZwCDLQtywT+R08ZWzMHhwjPoHyIHE/w==
-X-Google-Smtp-Source: AGHT+IEYSJGWt6ZmOSffMWsFL4MdYYC22lCR3Rl4+UKSXa76894eTvl4+jjkWSLXO3+2NTeNLBS9rQ==
-X-Received: by 2002:a17:90a:f30d:b0:27d:427f:1bf4 with SMTP id ca13-20020a17090af30d00b0027d427f1bf4mr581029pjb.19.1697766940506;
-        Thu, 19 Oct 2023 18:55:40 -0700 (PDT)
+        bh=z0ry+kzvCHTJ148NbwYm7VhiEmbwaTHh/+gmqtzaSLw=;
+        b=gkvlyig/fi9dyo7qMAkPbbG39QA81IBVFXzBwr5avJqdlQ9f9nzA7DnqH710x67vcw
+         H3dkbkVCSVC9RuZDpqFF/fL2O3ErG2LkzCpQMnBKastGGwoQy3/KGC9dX2GqRXjsi+t2
+         +y4hxSym4Ca8AdAlCq3Rj1e9EqsDaM2ku4vCy4pzu7Ecddpf4iqdeUrgmbGj3SLtUqFE
+         4d/ELN0x+i42o2Epo/oRpaa9+txt2eFETnNBXArkMQshtBkgCnokp7SWq/z4qZXmUf/T
+         SpNuyJk+cuCYg/XgtGkimVF1Y/O4qqhI+/8zYaje/2IHkq1tMlNd9PYwEdK/zd9LHSXG
+         Hu+Q==
+X-Gm-Message-State: AOJu0YzioQQUHicEf3+GO+EKbVccFwQihwhYWmg4IN45CcgT1Nhao0B/
+	HODtuufgwD7pR587Wi6SSIs=
+X-Google-Smtp-Source: AGHT+IFn/zp+aYLsgb+V9ijWqr1uVXfLKPrE/FA7ILL1PTDKhjIgWawptYIWT2W+n4WuMOmuC1nhzQ==
+X-Received: by 2002:a05:6a21:7903:b0:16b:8488:babf with SMTP id bg3-20020a056a21790300b0016b8488babfmr485267pzc.35.1697766945798;
+        Thu, 19 Oct 2023 18:55:45 -0700 (PDT)
 Received: from Negi ([68.181.16.134])
-        by smtp.gmail.com with ESMTPSA id ha8-20020a17090af3c800b0026f919ff9a1sm2232789pjb.10.2023.10.19.18.55.40
+        by smtp.gmail.com with ESMTPSA id bj11-20020a170902850b00b001b9d335223csm364784plb.26.2023.10.19.18.55.45
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 19 Oct 2023 18:55:40 -0700 (PDT)
+        Thu, 19 Oct 2023 18:55:45 -0700 (PDT)
 From: Soumya Negi <soumya.negi97@gmail.com>
 To: Martyn Welch <martyn@welchs.me.uk>,
 	Manohar Vanga <manohar.vanga@gmail.com>,
@@ -52,9 +52,9 @@ Cc: outreachy@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	linux-staging@lists.linux.dev,
 	Soumya Negi <soumya.negi97@gmail.com>
-Subject: [PATCH v3 4/5] staging: vme_user: Remove NULL-checks
-Date: Thu, 19 Oct 2023 18:55:22 -0700
-Message-ID: <049bbedf458e8ac40f3dfff9c9b25dce89f5b642.1697763267.git.soumya.negi97@gmail.com>
+Subject: [PATCH v3 5/5] staging: vme_user: Use dev_err() in vme_check_window()
+Date: Thu, 19 Oct 2023 18:55:23 -0700
+Message-ID: <221344ede933b1d9e6c31310b0f4dbb8be809c86.1697763267.git.soumya.negi97@gmail.com>
 X-Mailer: git-send-email 2.42.0
 In-Reply-To: <cover.1697763267.git.soumya.negi97@gmail.com>
 References: <cover.1697763267.git.soumya.negi97@gmail.com>
@@ -66,71 +66,78 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Don't check for empty bridge device & resource in vme_alloc_consistent()
-& vme_free_consistent() since they can not be NULL. Both the VME bridge
-device and the VME resource that are used in these functions are set at
-probe time.
+vme_check_window() uses printk() for logging error message. This
+leads to the following checkpatch warning:
+   WARNING: Prefer [subsystem eg: netdev]_err([subsystem]dev, ... then
+            dev_err(dev, ... then pr_err(...  to printk(KERN_ERR ...
+
+Use dev_err() instead. Pass VME bridge device to vme_check_window() so
+that the error message can be logged with the bridge device context.
 
 Signed-off-by: Soumya Negi <soumya.negi97@gmail.com>
 Suggested-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 ---
- drivers/staging/vme_user/vme.c | 36 ++--------------------------------
- 1 file changed, 2 insertions(+), 34 deletions(-)
+ drivers/staging/vme_user/vme.c | 10 +++++-----
+ drivers/staging/vme_user/vme.h |  4 ++--
+ 2 files changed, 7 insertions(+), 7 deletions(-)
 
 diff --git a/drivers/staging/vme_user/vme.c b/drivers/staging/vme_user/vme.c
-index 5efcdf15a068..661d1edfa26a 100644
+index 661d1edfa26a..5c416c31ec57 100644
 --- a/drivers/staging/vme_user/vme.c
 +++ b/drivers/staging/vme_user/vme.c
-@@ -80,23 +80,7 @@ static struct vme_bridge *find_bridge(struct vme_resource *resource)
- void *vme_alloc_consistent(struct vme_resource *resource, size_t size,
- 			   dma_addr_t *dma)
- {
--	struct vme_bridge *bridge;
--
--	if (!resource) {
--		printk(KERN_ERR "No resource\n");
--		return NULL;
--	}
--
--	bridge = find_bridge(resource);
--	if (!bridge) {
--		printk(KERN_ERR "Can't find bridge\n");
--		return NULL;
--	}
--
--	if (!bridge->parent) {
--		printk(KERN_ERR "Dev entry NULL for bridge %s\n", bridge->name);
--		return NULL;
--	}
-+	struct vme_bridge *bridge = find_bridge(resource);
+@@ -160,8 +160,8 @@ size_t vme_get_size(struct vme_resource *resource)
+ }
+ EXPORT_SYMBOL(vme_get_size);
  
- 	if (!bridge->alloc_consistent) {
- 		dev_err(bridge->parent,
-@@ -121,23 +105,7 @@ EXPORT_SYMBOL(vme_alloc_consistent);
- void vme_free_consistent(struct vme_resource *resource, size_t size,
- 			 void *vaddr, dma_addr_t dma)
+-int vme_check_window(u32 aspace, unsigned long long vme_base,
+-		     unsigned long long size)
++int vme_check_window(struct vme_bridge *bridge, u32 aspace,
++		     unsigned long long vme_base, unsigned long long size)
  {
--	struct vme_bridge *bridge;
--
--	if (!resource) {
--		printk(KERN_ERR "No resource\n");
--		return;
--	}
--
--	bridge = find_bridge(resource);
--	if (!bridge) {
--		printk(KERN_ERR "Can't find bridge\n");
--		return;
--	}
--
--	if (!bridge->parent) {
--		printk(KERN_ERR "Dev entry NULL for bridge %s\n", bridge->name);
--		return;
--	}
-+	struct vme_bridge *bridge = find_bridge(resource);
+ 	int retval = 0;
  
- 	if (!bridge->free_consistent) {
- 		dev_err(bridge->parent,
+@@ -195,7 +195,7 @@ int vme_check_window(u32 aspace, unsigned long long vme_base,
+ 		/* User Defined */
+ 		break;
+ 	default:
+-		printk(KERN_ERR "Invalid address space\n");
++		dev_err(bridge->parent, "Invalid address space\n");
+ 		retval = -EINVAL;
+ 		break;
+ 	}
+@@ -350,7 +350,7 @@ int vme_slave_set(struct vme_resource *resource, int enabled,
+ 		return -EINVAL;
+ 	}
+ 
+-	retval = vme_check_window(aspace, vme_base, size);
++	retval = vme_check_window(bridge, aspace, vme_base, size);
+ 	if (retval)
+ 		return retval;
+ 
+@@ -552,7 +552,7 @@ int vme_master_set(struct vme_resource *resource, int enabled,
+ 		return -EINVAL;
+ 	}
+ 
+-	retval = vme_check_window(aspace, vme_base, size);
++	retval = vme_check_window(bridge, aspace, vme_base, size);
+ 	if (retval)
+ 		return retval;
+ 
+diff --git a/drivers/staging/vme_user/vme.h b/drivers/staging/vme_user/vme.h
+index fbcbd0204453..06504dccd5ff 100644
+--- a/drivers/staging/vme_user/vme.h
++++ b/drivers/staging/vme_user/vme.h
+@@ -133,8 +133,8 @@ void vme_free_consistent(struct vme_resource *, size_t,  void *,
+ 	dma_addr_t);
+ 
+ size_t vme_get_size(struct vme_resource *);
+-int vme_check_window(u32 aspace, unsigned long long vme_base,
+-		     unsigned long long size);
++int vme_check_window(struct vme_bridge *bridge, u32 aspace,
++		     unsigned long long vme_base, unsigned long long size);
+ 
+ struct vme_resource *vme_slave_request(struct vme_dev *, u32, u32);
+ int vme_slave_set(struct vme_resource *, int, unsigned long long,
 -- 
 2.42.0
 
