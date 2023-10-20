@@ -1,61 +1,52 @@
-Received: from mail-ot1-f49.google.com (mail-ot1-f49.google.com [209.85.210.49])
+Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3897801;
-	Fri, 20 Oct 2023 02:14:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BAE1ECA46;
+	Fri, 20 Oct 2023 06:54:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RIXnR4ap"
-Received: by mail-ot1-f49.google.com with SMTP id 46e09a7af769-6c4a25f6390so239536a34.2;
-        Thu, 19 Oct 2023 19:14:09 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NdV72lfg"
+Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-9ba1eb73c27so72974166b.3;
+        Thu, 19 Oct 2023 23:54:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1697768049; x=1698372849; darn=lists.linux.dev;
-        h=user-agent:in-reply-to:content-disposition:mime-version:references
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=qvDKp7hGETEWZJw5WAV27rym9fjaXJFJb3QCgDpE28Q=;
-        b=RIXnR4aptpQRDebRXJfNERzmz1F71+MZYSkTvIYex4gfUrg6ZApRWTnuskvJ2BjOys
-         abwru5vR8iGcl64T73o8V/+U0vkCgTA1LJh1CZl2Tz8vsrwSsO6XPo1yqiAzXAkl2P6O
-         meRTdqpHsDLSevmTY9G/RjJPd4eLYXRlrbirXDUPt9FsYc26koztNXnaJ3N9fZlw9LIM
-         7ijUjhbN6Ct6O0tJRTp/CG6f81tc+e+DRfju/yConoPyqLQr8APR0b1zVSC69kxUxsDG
-         ec8NeSNRG2fP8Kl35/NaQEKfnMI7LQkIpbaks6ujQ/VGqFcIarPkRLjoexf0FzuPbUrp
-         EIHw==
+        d=gmail.com; s=20230601; t=1697784884; x=1698389684; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=UA4TXMxziCYtofjWSa2Xmk+Pq1TJM/vE1qIJ4LDb2G0=;
+        b=NdV72lfgzOKJpRCpnPzlZTX8bStbiST6v837QxKR+R/SxY74xM/w3S/7T9O9OoGxfJ
+         gtG7d4REQ+Uk/aKlddE9TivJF20p2zFhKUT4oVryv3rI7ZS/P9L9aIcbqe4sDk54j18n
+         JppkVZeYl9it7XTf7Tp2y9605D9dxyQBwapZNhv39i4UATlDAKpE95ZK26ZEqgdo2GIm
+         wYpyqR/XARAh7fDQHR4oncNlGL8kGL2xXwJ7AYjHlcWqLGOE4M2lFpTuQ+vtpu+hl5Cf
+         jOpCJX2xCb2SrHnayK7Ye60F+PJFBP/QX3NU5fB7fg6F9R0WhSVIFLx5fY7GUpADC9E0
+         Q4Yg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697768049; x=1698372849;
-        h=user-agent:in-reply-to:content-disposition:mime-version:references
-         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=qvDKp7hGETEWZJw5WAV27rym9fjaXJFJb3QCgDpE28Q=;
-        b=svkTLz0AFsPtahicui6kJg1Js0gN9pYYNnG5jWYwbY+l8GPCsn+r1Ac7v0zRSLrvuz
-         t3mc6BQlsQT4SApPUHc+e467chz5zM/Adv2BWiLKlpxCvcb0e0y2DF6TnIsPzUtUVww4
-         c7Z+nNQKTW4HFBL+WS+xIWApnDQJKjQ0lrBGVS9xuuC+BVMJL3yAlmlxPUyrJtM6mOwL
-         0sBQz25K1Dz8xCG5yvR7woj9tI8Issw4jGV9oHlteVo+aJg8KTF8/ELmHMCoyNDZVAbH
-         +Xb9jG/493a3iK6AwoobaX/WpDxCauMAGEAFTdgyYdSE6GpU9XG7FTco920j+bSKR1mF
-         3DsQ==
-X-Gm-Message-State: AOJu0YwsCtm0ITufWkj790SjIMaY35OLR7TOUoiGewYTsOgDaI9jEL6j
-	gMa4o91zMYgB3fP6tGNDshI=
-X-Google-Smtp-Source: AGHT+IHHzT5cCsgqilYJXtUJWoq7MAjWGJO46hlMyo5MGSER1NeY0qkGafr/DU6FSi9cbq93rty10g==
-X-Received: by 2002:a05:6830:60f:b0:6c4:fc6d:88fb with SMTP id w15-20020a056830060f00b006c4fc6d88fbmr579599oti.33.1697768048866;
-        Thu, 19 Oct 2023 19:14:08 -0700 (PDT)
-Received: from Negi ([68.181.16.134])
-        by smtp.gmail.com with ESMTPSA id k12-20020a62840c000000b0068fb8080939sm467275pfd.65.2023.10.19.19.14.08
+        d=1e100.net; s=20230601; t=1697784884; x=1698389684;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=UA4TXMxziCYtofjWSa2Xmk+Pq1TJM/vE1qIJ4LDb2G0=;
+        b=ZzZpxd5GLa2VS4do0eA41fqLKgM1FRu3kQ6du3a88spC/BTcMMwrLNrCYMlZZWHrVD
+         6F0H8L3ZeHRoy19jSGzstMf+BcWP4l5LAbg9Vyba9WtLAc2xMQFhAkH0bJTjo4Jm0u0X
+         7HUGIEj+Agh8UcLGIT0qXDsGTGJBKFlI5GTGo8IZCfffchQ0YkHQzfUtwzFwhtbLFWM9
+         qf6GOYt5IUjCAU/Zl/ox+FsixRMnr7RUN+PdQVa2vKefNe1wLOpwvYRYN2F3hmLKn1BS
+         Ck5Bdy9Xxqbl2t2WYj2lVQ6ZqEb35iXHGIPjTlUrYaPLq0yWrcjBMa/uPzxz3AEYd6sJ
+         C4Kg==
+X-Gm-Message-State: AOJu0YzlnpKTNzvBkuzHsf9QnEonC6XGmfpUDCSL05YaaUtzxr5U9rpf
+	uMqkJJaFb81iM5inxzm722M=
+X-Google-Smtp-Source: AGHT+IEibmeX2HW5sBb7ytALTs5d+SjR88/vHSu9Xd9Z5Tt3Sw9hZSX3p1gCOAmfXHwmUHpekYE9zw==
+X-Received: by 2002:a17:907:9302:b0:9b2:babd:cd44 with SMTP id bu2-20020a170907930200b009b2babdcd44mr592920ejc.44.1697784883554;
+        Thu, 19 Oct 2023 23:54:43 -0700 (PDT)
+Received: from ubuntu ([129.205.113.155])
+        by smtp.gmail.com with ESMTPSA id m11-20020a170906234b00b00988e953a586sm885257eja.61.2023.10.19.23.54.42
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 19 Oct 2023 19:14:08 -0700 (PDT)
-Date: Thu, 19 Oct 2023 19:14:07 -0700
-From: Soumya Negi <soumya.negi97@gmail.com>
-To: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: Jonathan Kim <jonathankim@gctsemi.com>, Dean ahn <deanahn@gctsemi.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	outreachy@lists.linux.dev, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/2] tty: gdm724x: Match alignment with open parenthesis
-Message-ID: <20231020021407.GE3017@Negi>
-References: <cover.1697184167.git.soumya.negi97@gmail.com>
- <ff627fcbc9e450c2e8f4aa5810b94e56151efa2a.1697184167.git.soumya.negi97@gmail.com>
- <a0a7274f-eba6-4f72-9569-ec4c4fff3a1a@kadam.mountain>
- <20231013211326.GB25352@Negi>
- <52732a88-7f40-4ce4-b75b-dded9827c1f0@kadam.mountain>
+        Thu, 19 Oct 2023 23:54:43 -0700 (PDT)
+Date: Thu, 19 Oct 2023 23:54:39 -0700
+From: kenechukwu maduechesi <maduechesik@gmail.com>
+To: shreeya.patel23498@gmail.com, outreachy@lists.linux.dev
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: [PATCH] staging: rts5208: Add parenthesis to macro arguments
+Message-ID: <20231020065439.GA3579@ubuntu>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -64,55 +55,59 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <52732a88-7f40-4ce4-b75b-dded9827c1f0@kadam.mountain>
-User-Agent: Mutt/1.9.4 (2018-02-28)
 
-On Sat, Oct 14, 2023 at 10:38:22AM +0300, Dan Carpenter wrote:
-> On Fri, Oct 13, 2023 at 02:13:26PM -0700, Soumya Negi wrote:
-> > On Fri, Oct 13, 2023 at 11:57:40AM +0300, Dan Carpenter wrote:
-> > > On Fri, Oct 13, 2023 at 01:26:34AM -0700, Soumya Negi wrote:
-> > > > Fix CHECK: Alignment should match open parenthesis
-> > > > Issue found by checkpatch.pl
-> > > > 
-> > > > Signed-off-by: Soumya Negi <soumya.negi97@gmail.com>
-> > > > ---
-> > > >  drivers/staging/gdm724x/gdm_tty.c | 4 ++--
-> > > >  1 file changed, 2 insertions(+), 2 deletions(-)
-> > > > 
-> > > > diff --git a/drivers/staging/gdm724x/gdm_tty.c b/drivers/staging/gdm724x/gdm_tty.c
-> > > > index 32b2e817ff04..4e5cac76db58 100644
-> > > > --- a/drivers/staging/gdm724x/gdm_tty.c
-> > > > +++ b/drivers/staging/gdm724x/gdm_tty.c
-> > > > @@ -271,8 +271,8 @@ int register_lte_tty_driver(void)
-> > > >  	int ret;
-> > > >  
-> > > >  	for (i = 0; i < TTY_MAX_COUNT; i++) {
-> > > > -		tty_driver = tty_alloc_driver(GDM_TTY_MINOR,
-> > > > -				TTY_DRIVER_REAL_RAW | TTY_DRIVER_DYNAMIC_DEV);
-> > > > +		tty_driver = tty_alloc_driver(GDM_TTY_MINOR, TTY_DRIVER_REAL_RAW |
-> > > > +					      TTY_DRIVER_DYNAMIC_DEV);
-> > > 
-> > > I prefered the original code.  It was more readable.
-> > > 
-> > > regards,
-> > > dan carpenter
-> > Hi Dan,
-> > 
-> > Noted. I'm curious what happens when some of the patches in a patchset
-> > are acceptable and some are not. Is everything disregarded by
-> > maintainers or are the good patches cherry-picked from the set?
-> 
-> Most of the time, you should just resend the series.  Sometimes a
-> maintainer will take the first few patches and then when they hit one
-> that can't be merged they'll stop.  So you should try to organize your
-> patchsets from fixes first, then cleanups and then least controversial
-> to most controversial.  Except people might be annoyed if it looks like
-> you're hiding a really controversial one at the end of a long series.
-> 
-> regards,
-> dan carpenter
+Checkpatch suggests using (reg) and (host) instead of reg and host
 
-Thank you!
+The use of parenthesis in the macro argument '(reg)' ensures proper
+precedence and resolves potential issues that may arise due to the
+surrounding code context. This modification adheres to the recommended
+coding style and improves the readability or maintainability of the
+code.
 
-- Soumya
+Signed-off-by: kenechukwu maduechesi <maduechesik@gmail.com>
+---
+ drivers/staging/rts5208/rtsx.h | 16 ++++++++--------
+ 1 file changed, 8 insertions(+), 8 deletions(-)
+
+diff --git a/drivers/staging/rts5208/rtsx.h b/drivers/staging/rts5208/rtsx.h
+index 2e101da83220..7d3373797eb4 100644
+--- a/drivers/staging/rts5208/rtsx.h
++++ b/drivers/staging/rts5208/rtsx.h
+@@ -39,17 +39,17 @@
+ /*
+  * macros for easy use
+  */
+-#define rtsx_writel(chip, reg, value) \
++#define rtsx_writel(chip, (reg), value) \
+ 	iowrite32(value, (chip)->rtsx->remap_addr + reg)
+-#define rtsx_readl(chip, reg) \
++#define rtsx_readl(chip, (reg) \
+ 	ioread32((chip)->rtsx->remap_addr + reg)
+-#define rtsx_writew(chip, reg, value) \
++#define rtsx_writew(chip, (reg), value) \
+ 	iowrite16(value, (chip)->rtsx->remap_addr + reg)
+-#define rtsx_readw(chip, reg) \
++#define rtsx_readw(chip, (reg)) \
+ 	ioread16((chip)->rtsx->remap_addr + reg)
+-#define rtsx_writeb(chip, reg, value) \
++#define rtsx_writeb(chip, (reg), value) \
+ 	iowrite8(value, (chip)->rtsx->remap_addr + reg)
+-#define rtsx_readb(chip, reg) \
++#define rtsx_readb(chip, (reg)) \
+ 	ioread8((chip)->rtsx->remap_addr + reg)
+ 
+ #define rtsx_read_config_byte(chip, where, val) \
+@@ -131,8 +131,8 @@ static inline struct rtsx_dev *host_to_rtsx(struct Scsi_Host *host)
+  * The scsi_lock() and scsi_unlock() macros protect the sm_state and the
+  * single queue element srb for write access
+  */
+-#define scsi_unlock(host)	spin_unlock_irq(host->host_lock)
+-#define scsi_lock(host)		spin_lock_irq(host->host_lock)
++#define scsi_unlock(host)	spin_unlock_irq((host)->host_lock)
++#define scsi_lock(host)		spin_lock_irq((host)->host_lock)
+ 
+ #define lock_state(chip)	spin_lock_irq(&((chip)->rtsx->reg_lock))
+ #define unlock_state(chip)	spin_unlock_irq(&((chip)->rtsx->reg_lock))
+-- 
+2.25.1
 
