@@ -1,108 +1,148 @@
-Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
+Received: from mail-il1-f172.google.com (mail-il1-f172.google.com [209.85.166.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBCD642909;
-	Thu, 19 Oct 2023 22:13:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60587369
+	for <linux-staging@lists.linux.dev>; Fri, 20 Oct 2023 00:15:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ieee.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ieee.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Z/oH8t3+"
-Received: by mail-pf1-f182.google.com with SMTP id d2e1a72fcca58-6b6f4c118b7so232622b3a.0;
-        Thu, 19 Oct 2023 15:13:57 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=ieee.org header.i=@ieee.org header.b="ai+92Zem"
+Received: by mail-il1-f172.google.com with SMTP id e9e14a558f8ab-35748b32d73so998855ab.0
+        for <linux-staging@lists.linux.dev>; Thu, 19 Oct 2023 17:15:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1697753637; x=1698358437; darn=lists.linux.dev;
-        h=user-agent:in-reply-to:content-disposition:mime-version:references
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=XxO9CeupjJm1VNV2qD42mx1Z0tO6w55cG3DvFE0akJU=;
-        b=Z/oH8t3+xeomvJLuan+CSh0SYVhBbg/6kWgL3bas12DmC8Xey68kG8Grat/ZLaBxhR
-         lTRgsS6IOMQkTrvAqIb+sYJRlDYtgiPFEt0G9JBjHJxQrre5nc13PjDjYoeMJknIsbP8
-         hOBqyxxIrAnPtIQ3VqGfYsTrzHP3L8/8Q53NgYSPnl12RZKoBe3pXK8Kb4NI4aypCoGE
-         Zbto3JBlQp1aTH9CDik4vM7ADlibpMsUzojlcqboIP8aiu2DTRZ/CdWPyjXbkf598vi5
-         wFGPQetR8E5fhYM16g2KiQuuYZyfsxucpwjK6EwwA5fIY/kT2f9gLgY0wYS081e2HWPy
-         6zjg==
+        d=ieee.org; s=google; t=1697760939; x=1698365739; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:from:references:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=mavY78H1YWmzBveT0yeZCxcrcnmsQliTa1UnMt+0QL8=;
+        b=ai+92Zembs+2JHsGr4750EDBY6rcagO2wdU2nYt5cFTEYJHVrdqCXTGmg6OZne7wCW
+         qRULfBc0A2R0jMOqii6VY44+/T/BZDUd3FJXqWoOPNO/BTniWaQlUhPG2rMmrUlgu3au
+         x7cxuLof20KszFLG8LsszCqcl3R4pR0lxaWO4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697753637; x=1698358437;
-        h=user-agent:in-reply-to:content-disposition:mime-version:references
-         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=XxO9CeupjJm1VNV2qD42mx1Z0tO6w55cG3DvFE0akJU=;
-        b=k/nzHTIMv4LhLml2MYNuJULN/EV3ipiN/vG1DXJJALYTzrOOGbp+15f57XRiVPxA4r
-         9NnLUzqEarJNxd7F+EvclViTL7G+qzLdC9x6ZcUzJ4sAGdUM65dGED3Md3nc68/JUrA8
-         CYRrwMtSPQQ6uLIniaTJLNedEB7C1ffeeytPornFwZeV86wUSYQvbxgEbPbf/6LZf/Sn
-         mQhd5rrBeH1UK8CAvLVH5OAgT9l87lQxsPKXhYtl9WKOqJebsNpiCjo4VJgjHBMOLylw
-         6A5qWZbeKjgpiQTSKlzFN55KOc9j/dIJt118spc/H1w0zZsq6hwzUGi4LPP0Nb4aaW28
-         OEYA==
-X-Gm-Message-State: AOJu0YxQCG5PlOEocBC4RU1I/io6BGkW/+l596llu5cEJKUedxQvDP3c
-	2wpwP/DD9Uwl1XZwBJ+NlqYPO+yBuKzycw==
-X-Google-Smtp-Source: AGHT+IFwQRmhtvP0fKkwRfeNWZwTshKFTJ7DO2jhksHpulTKIEY5JBnAse72r6NqTA1XdtG76bRWuw==
-X-Received: by 2002:a05:6a00:138f:b0:68f:dd50:aef8 with SMTP id t15-20020a056a00138f00b0068fdd50aef8mr60518pfg.4.1697753636739;
-        Thu, 19 Oct 2023 15:13:56 -0700 (PDT)
-Received: from Negi ([68.181.16.134])
-        by smtp.gmail.com with ESMTPSA id n11-20020aa7984b000000b00690d4464b95sm276425pfq.16.2023.10.19.15.13.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 19 Oct 2023 15:13:56 -0700 (PDT)
-Date: Thu, 19 Oct 2023 15:13:55 -0700
-From: Soumya Negi <soumya.negi97@gmail.com>
-To: Andi Shyti <andi.shyti@linux.intel.com>
-Cc: Martyn Welch <martyn@welchs.me.uk>,
-	Manohar Vanga <manohar.vanga@gmail.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Julia Lawall <julia.lawall@inria.fr>, outreachy@lists.linux.dev,
-	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
-Subject: Re: [PATCH v2 2/2] staging: vme_user: Use __func__ instead of
- function name
-Message-ID: <20231019221355.GC3017@Negi>
-References: <cover.1697696951.git.soumya.negi97@gmail.com>
- <996c9f92e7fd288f67c02dfb0ba524ab7c5fe421.1697696951.git.soumya.negi97@gmail.com>
- <ZTFOGIu5U+ZUodXW@ashyti-mobl2.lan>
- <20231019191428.GA32717@Negi>
- <ZTGgVNBoxOtWOuE8@ashyti-mobl2.lan>
+        d=1e100.net; s=20230601; t=1697760939; x=1698365739;
+        h=content-transfer-encoding:in-reply-to:from:references:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=mavY78H1YWmzBveT0yeZCxcrcnmsQliTa1UnMt+0QL8=;
+        b=NKToTCwGPiTqMGEji7XxGmmw1x+FLfJcMHjuMYxC8nZiw0PDh+40nrVHerAqE4Woar
+         kmutJKhu9MhP/CGaM4y6ElOth6JLgikldwShTf9GtDYpWTcTlfXSc7VUVm/YhnyB4v8v
+         2jwQMkRkua1Qx5+qO4NAxBCyEyFkxpjqVcQRhcBqJ0Tj2Pln5FLortecHxXUU5MjO6Y1
+         Zgp9AVHxd5natULbWLq+h7t2tfdO3ojeiu89psXe1Sfi2Pl4KbHLMi87SGP7VlrKVN6+
+         gA0z97i+xmKKFyaDM8FRtKmelMQ81k/GlPsc1Tttct/GIRaUNeNA0nG8G14sBi38E0/S
+         fp7Q==
+X-Gm-Message-State: AOJu0YxkMQWR+i++STrDnuWmpwC9z3fBojgxu66ONnfjwKiBPTOxpNgq
+	GyyaRF0HD5Ks24o3I6LtND4EGw==
+X-Google-Smtp-Source: AGHT+IFTT8bntjPNn9KbYkuJLNM8Jou66TfYltHPkHiegMie47QbNKhG+fplwP3pmZrXUi1Ab1wcZw==
+X-Received: by 2002:a92:c262:0:b0:351:19a4:8e67 with SMTP id h2-20020a92c262000000b0035119a48e67mr608835ild.28.1697760939322;
+        Thu, 19 Oct 2023 17:15:39 -0700 (PDT)
+Received: from [10.211.55.3] (c-98-61-227-136.hsd1.mn.comcast.net. [98.61.227.136])
+        by smtp.googlemail.com with ESMTPSA id 2-20020a056e0220c200b003512c3e8809sm226274ilq.71.2023.10.19.17.15.38
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 19 Oct 2023 17:15:38 -0700 (PDT)
+Message-ID: <e24e41be-b2c4-4bda-8a34-a628c55c4061@ieee.org>
+Date: Thu, 19 Oct 2023 19:15:37 -0500
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZTGgVNBoxOtWOuE8@ashyti-mobl2.lan>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] staging: greybus: Alignment should match open parenthesis
+Content-Language: en-US
+To: Nandha Kumar Singaram <nandhakumar.singaram@gmail.com>,
+ Johan Hovold <johan@kernel.org>, Alex Elder <elder@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+References: <20231019213949.GA2922@ubuntu>
+From: Alex Elder <elder@ieee.org>
+In-Reply-To: <20231019213949.GA2922@ubuntu>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Thu, Oct 19, 2023 at 11:32:04PM +0200, Andi Shyti wrote:
-> Hi Soumya,
-> 
-> > > On Thu, Oct 19, 2023 at 12:20:10AM -0700, Soumya Negi wrote:
-> > > > Replace function names in message strings with __func__ to fix
-> > > > all checkpatch warnings like:
-> > > > 
-> > > >     WARNING: Prefer using '"%s...", __func__' to using 'vme_lm_get',
-> > > >              this function's name, in a string
-> > > > 
-> > > > Signed-off-by: Soumya Negi <soumya.negi97@gmail.com>
-> > > 
-> > > you forgot my ack here:
-> > > 
-> > > Acked-by: Andi Shyti <andi.shyti@linux.intel.com> 
-> > > 
-> > > Andi
-> > 
-> > Sorry I forgot the tag Andi. I'll add the tags in v3(Greg has suggested
-> > more changes). There will be some new patches, so I'll leave the tags out in 
-> > those as you may want to review them first.
-> 
-> no problem.
-> 
-> I don't see reviews from Greg in this v2 series. If you are
-> referring to the changelog, then you don't need to resend.
-> 
-> Andi
+On 10/19/23 4:39 PM, Nandha Kumar Singaram wrote:
+> Adhere to linux coding style. Reported by checkpatch.pl:
+> CHECK: Alignment should match open parenthesis
 
-Hi Andi,
+Sometimes checkpatch.pl warns about things that are not
+really that important.  One class of this type of issue
+is white space errors.
 
-I had sent in v2 after suggestions from Julia and Greg. Got some more
-feedback from Greg in the v1 email thread though. Will have to send a v3 due 
-to that.
+Yes, consistency is good, but the kernel simply doesn't
+have universally consistent conventions, and I doubt
+it ever will.  There might be times where a source file
+consistently follows a white space convention that
+differs from what checkpatch wants.  Suggesting a
+wholesale change to that file to "fix" that typically
+wouldn't be welcome.
 
-Regards,
-Soumya
+Unfortunately without some experience it's hard to know
+which checkpatch warnings can be safely ignored.  I would
+place white space warnings at a lower priority for fixing
+than some others.  For example, this is also a pretty
+trivial warning:
+   CHECK: Macro argument 'gcam' may be better as '(gcam)' to avoid 
+precedence issues
+And it is most likely not a problem in this case, but fixing
+this type of warning is probably more constructive than
+just adjusting white space.
+
+I have no objection to your patch, and it's a fine way to
+get some experience with the patch process, but I don't
+think this particular change is necessary.
+
+					-Alex
+
+> Signed-off-by: Nandha Kumar Singaram <nandhakumar.singaram@gmail.com>
+> ---
+>   drivers/staging/greybus/camera.c | 14 +++++++-------
+>   1 file changed, 7 insertions(+), 7 deletions(-)
+> 
+> diff --git a/drivers/staging/greybus/camera.c b/drivers/staging/greybus/camera.c
+> index cdbb42cd413b..405c8e78aa72 100644
+> --- a/drivers/staging/greybus/camera.c
+> +++ b/drivers/staging/greybus/camera.c
+> @@ -220,7 +220,7 @@ static int gb_camera_operation_sync_flags(struct gb_connection *connection,
+>   }
+>   
+>   static int gb_camera_get_max_pkt_size(struct gb_camera *gcam,
+> -		struct gb_camera_configure_streams_response *resp)
+> +				      struct gb_camera_configure_streams_response *resp)
+>   {
+>   	unsigned int max_pkt_size = 0;
+>   	unsigned int i;
+> @@ -267,8 +267,7 @@ static int gb_camera_get_max_pkt_size(struct gb_camera *gcam,
+>    * Validate the stream configuration response verifying padding is correctly
+>    * set and the returned number of streams is supported
+>    */
+> -static const int gb_camera_configure_streams_validate_response(
+> -		struct gb_camera *gcam,
+> +static const int gb_camera_configure_streams_validate_response(struct gb_camera *gcam,
+>   		struct gb_camera_configure_streams_response *resp,
+>   		unsigned int nstreams)
+>   {
+> @@ -378,8 +377,8 @@ struct ap_csi_config_request {
+>   #define GB_CAMERA_CSI_CLK_FREQ_MARGIN		150000000U
+>   
+>   static int gb_camera_setup_data_connection(struct gb_camera *gcam,
+> -		struct gb_camera_configure_streams_response *resp,
+> -		struct gb_camera_csi_params *csi_params)
+> +					   struct gb_camera_configure_streams_response *resp,
+> +					   struct gb_camera_csi_params *csi_params)
+>   {
+>   	struct ap_csi_config_request csi_cfg;
+>   	struct gb_connection *conn;
+> @@ -783,8 +782,9 @@ static ssize_t gb_camera_op_capabilities(void *priv, char *data, size_t len)
+>   }
+>   
+>   static int gb_camera_op_configure_streams(void *priv, unsigned int *nstreams,
+> -		unsigned int *flags, struct gb_camera_stream *streams,
+> -		struct gb_camera_csi_params *csi_params)
+> +					  unsigned int *flags,
+> +					  struct gb_camera_stream *streams,
+> +					  struct gb_camera_csi_params *csi_params)
+>   {
+>   	struct gb_camera *gcam = priv;
+>   	struct gb_camera_stream_config *gb_streams;
+
