@@ -1,143 +1,706 @@
-Received: from mail-pg1-f169.google.com (mail-pg1-f169.google.com [209.85.215.169])
+Received: from mail-pg1-f174.google.com (mail-pg1-f174.google.com [209.85.215.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 872EC801;
-	Fri, 20 Oct 2023 01:55:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06391801;
+	Fri, 20 Oct 2023 02:06:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Q00hCDx1"
-Received: by mail-pg1-f169.google.com with SMTP id 41be03b00d2f7-5ae99bb5ccdso203743a12.1;
-        Thu, 19 Oct 2023 18:55:46 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="e5ozDxuk"
+Received: by mail-pg1-f174.google.com with SMTP id 41be03b00d2f7-5859d13f73dso241826a12.1;
+        Thu, 19 Oct 2023 19:06:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1697766946; x=1698371746; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1697767572; x=1698372372; darn=lists.linux.dev;
+        h=user-agent:in-reply-to:content-disposition:mime-version:references
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=z0ry+kzvCHTJ148NbwYm7VhiEmbwaTHh/+gmqtzaSLw=;
-        b=Q00hCDx1iuQniP4ZInbjsa1GL/1Nd7209JU+CdOAyySRN109YijT0BPJ4TwkhX0HL2
-         SPTOgCUJcLd2ZMWKjJMkRTj+ewWL+Ox5W6oSCBvEJtHsbBnmyFq/JFHFctQYUyhtZmtb
-         RePqcgRa33+NEJbi4y7FzVM2OqC3XF0Osq550qNF/QM556aajbowgG1+vggTDN2hIZ5U
-         cJNvUc9NOBHb5f/fxJSqLYXsqkDyDF5p139x+ERRku634viJ0ZOZkjAxlMn6wbdJmNYt
-         WMmOlEgVwqGfDF8Z/qWlW8kBingZWmGY7HJpU2sq0W6nbHikcGrw4TtGs/JbNF71+Ymx
-         0CYQ==
+        bh=ZDfTtj7INZzdGZKUofLV2+is3iZzoLMo3a50XfA4bnc=;
+        b=e5ozDxukPNoTBKwNJCgV3wXOA7XByZrIKQKLht9fhqLewSlbpjlJ8KVtnslASwueC2
+         6XhqIePRl/oCsxrdIZg7JF3OrAqXNj8eGZ0yMQDIMqV9z8/0MxoHOwcCc+qanILMrJxO
+         Ds1D67WjlgpZbnviIQn1epVrvRYkLYT2ckRsOfCOOv5/xpwJYzQrqodz7r2PkSgf19+t
+         XoFT0gCai+9TbIk7Pw73WdohJHPyb5loVBecaMG56kEV89K1i9Li3c0DDIBVjV4+JV2c
+         EaZqRS6wtl83EhBL0BZWmr7V7HXL8iNL5Y7YnumntzT+CIkpSRsM68QkC1wwVCrWVvDw
+         IqaA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697766946; x=1698371746;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20230601; t=1697767572; x=1698372372;
+        h=user-agent:in-reply-to:content-disposition:mime-version:references
+         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=z0ry+kzvCHTJ148NbwYm7VhiEmbwaTHh/+gmqtzaSLw=;
-        b=gkvlyig/fi9dyo7qMAkPbbG39QA81IBVFXzBwr5avJqdlQ9f9nzA7DnqH710x67vcw
-         H3dkbkVCSVC9RuZDpqFF/fL2O3ErG2LkzCpQMnBKastGGwoQy3/KGC9dX2GqRXjsi+t2
-         +y4hxSym4Ca8AdAlCq3Rj1e9EqsDaM2ku4vCy4pzu7Ecddpf4iqdeUrgmbGj3SLtUqFE
-         4d/ELN0x+i42o2Epo/oRpaa9+txt2eFETnNBXArkMQshtBkgCnokp7SWq/z4qZXmUf/T
-         SpNuyJk+cuCYg/XgtGkimVF1Y/O4qqhI+/8zYaje/2IHkq1tMlNd9PYwEdK/zd9LHSXG
-         Hu+Q==
-X-Gm-Message-State: AOJu0YzioQQUHicEf3+GO+EKbVccFwQihwhYWmg4IN45CcgT1Nhao0B/
-	HODtuufgwD7pR587Wi6SSIs=
-X-Google-Smtp-Source: AGHT+IFn/zp+aYLsgb+V9ijWqr1uVXfLKPrE/FA7ILL1PTDKhjIgWawptYIWT2W+n4WuMOmuC1nhzQ==
-X-Received: by 2002:a05:6a21:7903:b0:16b:8488:babf with SMTP id bg3-20020a056a21790300b0016b8488babfmr485267pzc.35.1697766945798;
-        Thu, 19 Oct 2023 18:55:45 -0700 (PDT)
+        bh=ZDfTtj7INZzdGZKUofLV2+is3iZzoLMo3a50XfA4bnc=;
+        b=njttezPXBe/Izs0vvi41gozzeRZ9KA25bQq9eGbuOohnF7L6IZ4IpIgJJq2JkFJxh4
+         nQJSxXOeu/+Kmqyz7EJH2hNKNvqeKDTpkZSWOXNJ4ZQ2uH9YkFD153j9a8srQ3OMAojg
+         kQACKpafnzLujsNnhWagw8FX5eDlYAPowe6TgrlASFgydRIyjYIBKYFBV7e+Be7gaGZ/
+         wVupGhy/h9lJq8ISqi8IJsQ0aVJYxcnf4YwlRzOARi+jd8U6yqOm1qj+jWUx+hRP2A1L
+         ybtai2A47hvUoiI81QvMJY3oFX4MDT9+xIFiPuq3tsEJreZ5ot8JbTak3YcCd1YHCVE6
+         +d5g==
+X-Gm-Message-State: AOJu0YzFOe3wjYOQXiIk+i53r5fzMDEFDErnT4Jp7+ikL8M08bDqrH4m
+	yipvPmVo3fJmehxbzBA4jCUUv9Shg8F1Aw==
+X-Google-Smtp-Source: AGHT+IGk83N6pdmePLnAeIcObM+D2YD+X0mntz7YfAC2fBNanGwVS4YCiRoSk6fp5Tus6d+Jf9wy0g==
+X-Received: by 2002:a05:6a20:3c8b:b0:15d:9ee7:180a with SMTP id b11-20020a056a203c8b00b0015d9ee7180amr520116pzj.4.1697767571666;
+        Thu, 19 Oct 2023 19:06:11 -0700 (PDT)
 Received: from Negi ([68.181.16.134])
-        by smtp.gmail.com with ESMTPSA id bj11-20020a170902850b00b001b9d335223csm364784plb.26.2023.10.19.18.55.45
+        by smtp.gmail.com with ESMTPSA id 2-20020a170902c14200b001c1f0b3e900sm360557plj.229.2023.10.19.19.06.10
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 19 Oct 2023 18:55:45 -0700 (PDT)
+        Thu, 19 Oct 2023 19:06:11 -0700 (PDT)
+Date: Thu, 19 Oct 2023 19:06:10 -0700
 From: Soumya Negi <soumya.negi97@gmail.com>
-To: Martyn Welch <martyn@welchs.me.uk>,
+To: Karolina Stolarek <karolina.stolarek@intel.com>
+Cc: Martyn Welch <martyn@welchs.me.uk>,
 	Manohar Vanga <manohar.vanga@gmail.com>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	julia.lawall@inria.fr,
-	Andi Shyti <andi.shyti@kernel.org>
-Cc: outreachy@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	Soumya Negi <soumya.negi97@gmail.com>
-Subject: [PATCH v3 5/5] staging: vme_user: Use dev_err() in vme_check_window()
-Date: Thu, 19 Oct 2023 18:55:23 -0700
-Message-ID: <221344ede933b1d9e6c31310b0f4dbb8be809c86.1697763267.git.soumya.negi97@gmail.com>
-X-Mailer: git-send-email 2.42.0
-In-Reply-To: <cover.1697763267.git.soumya.negi97@gmail.com>
-References: <cover.1697763267.git.soumya.negi97@gmail.com>
+	Andi Shyti <andi.shyti@linux.intel.com>,
+	Julia Lawall <julia.lawall@inria.fr>, outreachy@lists.linux.dev,
+	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
+Subject: Re: [PATCH v2 1/2] staging: vme_user: Replace printk() with
+ pr_*(),dev_*()
+Message-ID: <20231020020610.GD3017@Negi>
+References: <cover.1697696951.git.soumya.negi97@gmail.com>
+ <cad6da28b5f772957ced5b561b21b5d8c8204bc9.1697696951.git.soumya.negi97@gmail.com>
+ <cbe2092b-e36b-899a-cccd-1e166534b5e0@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <cbe2092b-e36b-899a-cccd-1e166534b5e0@intel.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 
-vme_check_window() uses printk() for logging error message. This
-leads to the following checkpatch warning:
-   WARNING: Prefer [subsystem eg: netdev]_err([subsystem]dev, ... then
-            dev_err(dev, ... then pr_err(...  to printk(KERN_ERR ...
+On Thu, Oct 19, 2023 at 12:45:30PM +0200, Karolina Stolarek wrote:
+> On 19.10.2023 09:20, Soumya Negi wrote:
+> > vme.c uses printk() to log messages. To improve and standardize message
+> > formatting, use logging mechanisms pr_err()/pr_warn() and
+> > dev_err()/dev_warn() instead. Retain the printk log levels of the
+> > messages during replacement.
+> > 
+> > Issue found by checkpatch.pl
+> > 
+> > Signed-off-by: Soumya Negi <soumya.negi97@gmail.com>
+> > ---
+> > Changes in v2:
+> > * Change the pr_*() calls used to replace printk's in v1 to dev_*()
+> >    wherever possible, as it adds more context to the message.
+> >    (as per feedback from julia.lawall@inria.fr &
+> >    gregkh@linuxfoundation.org)
+> 
+> You don't have to include the change log here, as it's already in the cover
+> letter. This space is usually used when a patch is not sent as a part of the
+> series.
+> 
+> All the best,
+> Karolina
 
-Use dev_err() instead. Pass VME bridge device to vme_check_window() so
-that the error message can be logged with the bridge device context.
+Hi Karolina,
 
-Signed-off-by: Soumya Negi <soumya.negi97@gmail.com>
-Suggested-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
----
- drivers/staging/vme_user/vme.c | 10 +++++-----
- drivers/staging/vme_user/vme.h |  4 ++--
- 2 files changed, 7 insertions(+), 7 deletions(-)
+Thanks for letting me know. In v3, I have kept the changelog changes 
+just in the cover letter. Definitely made things easier for me.
 
-diff --git a/drivers/staging/vme_user/vme.c b/drivers/staging/vme_user/vme.c
-index 661d1edfa26a..5c416c31ec57 100644
---- a/drivers/staging/vme_user/vme.c
-+++ b/drivers/staging/vme_user/vme.c
-@@ -160,8 +160,8 @@ size_t vme_get_size(struct vme_resource *resource)
- }
- EXPORT_SYMBOL(vme_get_size);
- 
--int vme_check_window(u32 aspace, unsigned long long vme_base,
--		     unsigned long long size)
-+int vme_check_window(struct vme_bridge *bridge, u32 aspace,
-+		     unsigned long long vme_base, unsigned long long size)
- {
- 	int retval = 0;
- 
-@@ -195,7 +195,7 @@ int vme_check_window(u32 aspace, unsigned long long vme_base,
- 		/* User Defined */
- 		break;
- 	default:
--		printk(KERN_ERR "Invalid address space\n");
-+		dev_err(bridge->parent, "Invalid address space\n");
- 		retval = -EINVAL;
- 		break;
- 	}
-@@ -350,7 +350,7 @@ int vme_slave_set(struct vme_resource *resource, int enabled,
- 		return -EINVAL;
- 	}
- 
--	retval = vme_check_window(aspace, vme_base, size);
-+	retval = vme_check_window(bridge, aspace, vme_base, size);
- 	if (retval)
- 		return retval;
- 
-@@ -552,7 +552,7 @@ int vme_master_set(struct vme_resource *resource, int enabled,
- 		return -EINVAL;
- 	}
- 
--	retval = vme_check_window(aspace, vme_base, size);
-+	retval = vme_check_window(bridge, aspace, vme_base, size);
- 	if (retval)
- 		return retval;
- 
-diff --git a/drivers/staging/vme_user/vme.h b/drivers/staging/vme_user/vme.h
-index fbcbd0204453..06504dccd5ff 100644
---- a/drivers/staging/vme_user/vme.h
-+++ b/drivers/staging/vme_user/vme.h
-@@ -133,8 +133,8 @@ void vme_free_consistent(struct vme_resource *, size_t,  void *,
- 	dma_addr_t);
- 
- size_t vme_get_size(struct vme_resource *);
--int vme_check_window(u32 aspace, unsigned long long vme_base,
--		     unsigned long long size);
-+int vme_check_window(struct vme_bridge *bridge, u32 aspace,
-+		     unsigned long long vme_base, unsigned long long size);
- 
- struct vme_resource *vme_slave_request(struct vme_dev *, u32, u32);
- int vme_slave_set(struct vme_resource *, int, unsigned long long,
--- 
-2.42.0
+Regards,
+Soumya
 
+> 
+> > 
+> >   drivers/staging/vme_user/vme.c | 193 +++++++++++++++++++--------------
+> >   1 file changed, 109 insertions(+), 84 deletions(-)
+> > 
+> > diff --git a/drivers/staging/vme_user/vme.c b/drivers/staging/vme_user/vme.c
+> > index 6519a7c994a0..640b2dda3ac6 100644
+> > --- a/drivers/staging/vme_user/vme.c
+> > +++ b/drivers/staging/vme_user/vme.c
+> > @@ -9,6 +9,8 @@
+> >    * Copyright 2004 Motorola Inc.
+> >    */
+> > +#define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
+> > +
+> >   #include <linux/init.h>
+> >   #include <linux/export.h>
+> >   #include <linux/mm.h>
+> > @@ -62,7 +64,7 @@ static struct vme_bridge *find_bridge(struct vme_resource *resource)
+> >   		return list_entry(resource->entry, struct vme_lm_resource,
+> >   			list)->parent;
+> >   	default:
+> > -		printk(KERN_ERR "Unknown resource type\n");
+> > +		pr_err("Unknown resource type\n");
+> >   		return NULL;
+> >   	}
+> >   }
+> > @@ -84,24 +86,25 @@ void *vme_alloc_consistent(struct vme_resource *resource, size_t size,
+> >   	struct vme_bridge *bridge;
+> >   	if (!resource) {
+> > -		printk(KERN_ERR "No resource\n");
+> > +		pr_err("No resource\n");
+> >   		return NULL;
+> >   	}
+> >   	bridge = find_bridge(resource);
+> >   	if (!bridge) {
+> > -		printk(KERN_ERR "Can't find bridge\n");
+> > +		pr_err("Can't find bridge\n");
+> >   		return NULL;
+> >   	}
+> >   	if (!bridge->parent) {
+> > -		printk(KERN_ERR "Dev entry NULL for bridge %s\n", bridge->name);
+> > +		pr_err("Dev entry NULL for bridge %s\n", bridge->name);
+> >   		return NULL;
+> >   	}
+> >   	if (!bridge->alloc_consistent) {
+> > -		printk(KERN_ERR "alloc_consistent not supported by bridge %s\n",
+> > -		       bridge->name);
+> > +		dev_err(bridge->parent,
+> > +			"alloc_consistent not supported by bridge %s\n",
+> > +			bridge->name);
+> >   		return NULL;
+> >   	}
+> > @@ -124,24 +127,25 @@ void vme_free_consistent(struct vme_resource *resource, size_t size,
+> >   	struct vme_bridge *bridge;
+> >   	if (!resource) {
+> > -		printk(KERN_ERR "No resource\n");
+> > +		pr_err("No resource\n");
+> >   		return;
+> >   	}
+> >   	bridge = find_bridge(resource);
+> >   	if (!bridge) {
+> > -		printk(KERN_ERR "Can't find bridge\n");
+> > +		pr_err("Can't find bridge\n");
+> >   		return;
+> >   	}
+> >   	if (!bridge->parent) {
+> > -		printk(KERN_ERR "Dev entry NULL for bridge %s\n", bridge->name);
+> > +		pr_err("Dev entry NULL for bridge %s\n", bridge->name);
+> >   		return;
+> >   	}
+> >   	if (!bridge->free_consistent) {
+> > -		printk(KERN_ERR "free_consistent not supported by bridge %s\n",
+> > -		       bridge->name);
+> > +		dev_err(bridge->parent,
+> > +			"free_consistent not supported by bridge %s\n",
+> > +			bridge->name);
+> >   		return;
+> >   	}
+> > @@ -161,6 +165,7 @@ EXPORT_SYMBOL(vme_free_consistent);
+> >    */
+> >   size_t vme_get_size(struct vme_resource *resource)
+> >   {
+> > +	struct vme_bridge *bridge = find_bridge(resource);
+> >   	int enabled, retval;
+> >   	unsigned long long base, size;
+> >   	dma_addr_t buf_base;
+> > @@ -184,7 +189,7 @@ size_t vme_get_size(struct vme_resource *resource)
+> >   	case VME_DMA:
+> >   		return 0;
+> >   	default:
+> > -		printk(KERN_ERR "Unknown resource type\n");
+> > +		dev_err(bridge->parent, "Unknown resource type\n");
+> >   		return 0;
+> >   	}
+> >   }
+> > @@ -225,7 +230,7 @@ int vme_check_window(u32 aspace, unsigned long long vme_base,
+> >   		/* User Defined */
+> >   		break;
+> >   	default:
+> > -		printk(KERN_ERR "Invalid address space\n");
+> > +		pr_err("Invalid address space\n");
+> >   		retval = -EINVAL;
+> >   		break;
+> >   	}
+> > @@ -288,14 +293,15 @@ struct vme_resource *vme_slave_request(struct vme_dev *vdev, u32 address,
+> >   	bridge = vdev->bridge;
+> >   	if (!bridge) {
+> > -		printk(KERN_ERR "Can't find VME bus\n");
+> > +		dev_err(&vdev->dev, "Can't find VME bus\n");
+> >   		goto err_bus;
+> >   	}
+> >   	/* Loop through slave resources */
+> >   	list_for_each_entry(slave_image, &bridge->slave_resources, list) {
+> >   		if (!slave_image) {
+> > -			printk(KERN_ERR "Registered NULL Slave resource\n");
+> > +			dev_err(bridge->parent,
+> > +				"Registered NULL Slave resource\n");
+> >   			continue;
+> >   		}
+> > @@ -362,20 +368,20 @@ int vme_slave_set(struct vme_resource *resource, int enabled,
+> >   	int retval;
+> >   	if (resource->type != VME_SLAVE) {
+> > -		printk(KERN_ERR "Not a slave resource\n");
+> > +		dev_err(bridge->parent, "Not a slave resource\n");
+> >   		return -EINVAL;
+> >   	}
+> >   	image = list_entry(resource->entry, struct vme_slave_resource, list);
+> >   	if (!bridge->slave_set) {
+> > -		printk(KERN_ERR "Function not supported\n");
+> > +		dev_err(bridge->parent, "Function not supported\n");
+> >   		return -ENOSYS;
+> >   	}
+> >   	if (!(((image->address_attr & aspace) == aspace) &&
+> >   	      ((image->cycle_attr & cycle) == cycle))) {
+> > -		printk(KERN_ERR "Invalid attributes\n");
+> > +		dev_err(bridge->parent, "Invalid attributes\n");
+> >   		return -EINVAL;
+> >   	}
+> > @@ -411,14 +417,14 @@ int vme_slave_get(struct vme_resource *resource, int *enabled,
+> >   	struct vme_slave_resource *image;
+> >   	if (resource->type != VME_SLAVE) {
+> > -		printk(KERN_ERR "Not a slave resource\n");
+> > +		dev_err(bridge->parent, "Not a slave resource\n");
+> >   		return -EINVAL;
+> >   	}
+> >   	image = list_entry(resource->entry, struct vme_slave_resource, list);
+> >   	if (!bridge->slave_get) {
+> > -		printk(KERN_ERR "vme_slave_get not supported\n");
+> > +		dev_err(bridge->parent, "vme_slave_get not supported\n");
+> >   		return -EINVAL;
+> >   	}
+> > @@ -435,24 +441,25 @@ EXPORT_SYMBOL(vme_slave_get);
+> >    */
+> >   void vme_slave_free(struct vme_resource *resource)
+> >   {
+> > +	struct vme_bridge *bridge = find_bridge(resource);
+> >   	struct vme_slave_resource *slave_image;
+> >   	if (resource->type != VME_SLAVE) {
+> > -		printk(KERN_ERR "Not a slave resource\n");
+> > +		dev_err(bridge->parent, "Not a slave resource\n");
+> >   		return;
+> >   	}
+> >   	slave_image = list_entry(resource->entry, struct vme_slave_resource,
+> >   				 list);
+> >   	if (!slave_image) {
+> > -		printk(KERN_ERR "Can't find slave resource\n");
+> > +		dev_err(bridge->parent, "Can't find slave resource\n");
+> >   		return;
+> >   	}
+> >   	/* Unlock image */
+> >   	mutex_lock(&slave_image->mtx);
+> >   	if (slave_image->locked == 0)
+> > -		printk(KERN_ERR "Image is already free\n");
+> > +		dev_err(bridge->parent, "Image is already free\n");
+> >   	slave_image->locked = 0;
+> >   	mutex_unlock(&slave_image->mtx);
+> > @@ -484,14 +491,15 @@ struct vme_resource *vme_master_request(struct vme_dev *vdev, u32 address,
+> >   	bridge = vdev->bridge;
+> >   	if (!bridge) {
+> > -		printk(KERN_ERR "Can't find VME bus\n");
+> > +		dev_err(&vdev->dev, "Can't find VME bus\n");
+> >   		goto err_bus;
+> >   	}
+> >   	/* Loop through master resources */
+> >   	list_for_each_entry(master_image, &bridge->master_resources, list) {
+> >   		if (!master_image) {
+> > -			printk(KERN_WARNING "Registered NULL master resource\n");
+> > +			dev_warn(bridge->parent,
+> > +				 "Registered NULL master resource\n");
+> >   			continue;
+> >   		}
+> > @@ -511,7 +519,7 @@ struct vme_resource *vme_master_request(struct vme_dev *vdev, u32 address,
+> >   	/* Check to see if we found a resource */
+> >   	if (!allocated_image) {
+> > -		printk(KERN_ERR "Can't find a suitable resource\n");
+> > +		dev_err(&vdev->dev, "Can't find a suitable resource\n");
+> >   		goto err_image;
+> >   	}
+> > @@ -561,21 +569,21 @@ int vme_master_set(struct vme_resource *resource, int enabled,
+> >   	int retval;
+> >   	if (resource->type != VME_MASTER) {
+> > -		printk(KERN_ERR "Not a master resource\n");
+> > +		dev_err(bridge->parent, "Not a master resource\n");
+> >   		return -EINVAL;
+> >   	}
+> >   	image = list_entry(resource->entry, struct vme_master_resource, list);
+> >   	if (!bridge->master_set) {
+> > -		printk(KERN_WARNING "vme_master_set not supported\n");
+> > +		dev_warn(bridge->parent, "vme_master_set not supported\n");
+> >   		return -EINVAL;
+> >   	}
+> >   	if (!(((image->address_attr & aspace) == aspace) &&
+> >   	      ((image->cycle_attr & cycle) == cycle) &&
+> >   	      ((image->width_attr & dwidth) == dwidth))) {
+> > -		printk(KERN_WARNING "Invalid attributes\n");
+> > +		dev_warn(bridge->parent, "Invalid attributes\n");
+> >   		return -EINVAL;
+> >   	}
+> > @@ -611,14 +619,14 @@ int vme_master_get(struct vme_resource *resource, int *enabled,
+> >   	struct vme_master_resource *image;
+> >   	if (resource->type != VME_MASTER) {
+> > -		printk(KERN_ERR "Not a master resource\n");
+> > +		dev_err(bridge->parent, "Not a master resource\n");
+> >   		return -EINVAL;
+> >   	}
+> >   	image = list_entry(resource->entry, struct vme_master_resource, list);
+> >   	if (!bridge->master_get) {
+> > -		printk(KERN_WARNING "%s not supported\n", __func__);
+> > +		dev_warn(bridge->parent, "%s not supported\n", __func__);
+> >   		return -EINVAL;
+> >   	}
+> > @@ -650,12 +658,13 @@ ssize_t vme_master_read(struct vme_resource *resource, void *buf, size_t count,
+> >   	size_t length;
+> >   	if (!bridge->master_read) {
+> > -		printk(KERN_WARNING "Reading from resource not supported\n");
+> > +		dev_warn(bridge->parent,
+> > +			 "Reading from resource not supported\n");
+> >   		return -EINVAL;
+> >   	}
+> >   	if (resource->type != VME_MASTER) {
+> > -		printk(KERN_ERR "Not a master resource\n");
+> > +		dev_err(bridge->parent, "Not a master resource\n");
+> >   		return -EINVAL;
+> >   	}
+> > @@ -664,7 +673,7 @@ ssize_t vme_master_read(struct vme_resource *resource, void *buf, size_t count,
+> >   	length = vme_get_size(resource);
+> >   	if (offset > length) {
+> > -		printk(KERN_WARNING "Invalid Offset\n");
+> > +		dev_warn(bridge->parent, "Invalid Offset\n");
+> >   		return -EFAULT;
+> >   	}
+> > @@ -698,12 +707,12 @@ ssize_t vme_master_write(struct vme_resource *resource, void *buf,
+> >   	size_t length;
+> >   	if (!bridge->master_write) {
+> > -		printk(KERN_WARNING "Writing to resource not supported\n");
+> > +		dev_warn(bridge->parent, "Writing to resource not supported\n");
+> >   		return -EINVAL;
+> >   	}
+> >   	if (resource->type != VME_MASTER) {
+> > -		printk(KERN_ERR "Not a master resource\n");
+> > +		dev_err(bridge->parent, "Not a master resource\n");
+> >   		return -EINVAL;
+> >   	}
+> > @@ -712,7 +721,7 @@ ssize_t vme_master_write(struct vme_resource *resource, void *buf,
+> >   	length = vme_get_size(resource);
+> >   	if (offset > length) {
+> > -		printk(KERN_WARNING "Invalid Offset\n");
+> > +		dev_warn(bridge->parent, "Invalid Offset\n");
+> >   		return -EFAULT;
+> >   	}
+> > @@ -749,12 +758,12 @@ unsigned int vme_master_rmw(struct vme_resource *resource, unsigned int mask,
+> >   	struct vme_master_resource *image;
+> >   	if (!bridge->master_rmw) {
+> > -		printk(KERN_WARNING "Writing to resource not supported\n");
+> > +		dev_warn(bridge->parent, "Writing to resource not supported\n");
+> >   		return -EINVAL;
+> >   	}
+> >   	if (resource->type != VME_MASTER) {
+> > -		printk(KERN_ERR "Not a master resource\n");
+> > +		dev_err(bridge->parent, "Not a master resource\n");
+> >   		return -EINVAL;
+> >   	}
+> > @@ -777,12 +786,13 @@ EXPORT_SYMBOL(vme_master_rmw);
+> >    */
+> >   int vme_master_mmap(struct vme_resource *resource, struct vm_area_struct *vma)
+> >   {
+> > +	struct vme_bridge *bridge = find_bridge(resource);
+> >   	struct vme_master_resource *image;
+> >   	phys_addr_t phys_addr;
+> >   	unsigned long vma_size;
+> >   	if (resource->type != VME_MASTER) {
+> > -		pr_err("Not a master resource\n");
+> > +		dev_err(bridge->parent, "Not a master resource\n");
+> >   		return -EINVAL;
+> >   	}
+> > @@ -791,7 +801,7 @@ int vme_master_mmap(struct vme_resource *resource, struct vm_area_struct *vma)
+> >   	vma_size = vma->vm_end - vma->vm_start;
+> >   	if (phys_addr + vma_size > image->bus_resource.end + 1) {
+> > -		pr_err("Map size cannot exceed the window size\n");
+> > +		dev_err(bridge->parent, "Map size cannot exceed the window size\n");
+> >   		return -EFAULT;
+> >   	}
+> > @@ -809,24 +819,25 @@ EXPORT_SYMBOL(vme_master_mmap);
+> >    */
+> >   void vme_master_free(struct vme_resource *resource)
+> >   {
+> > +	struct vme_bridge *bridge = find_bridge(resource);
+> >   	struct vme_master_resource *master_image;
+> >   	if (resource->type != VME_MASTER) {
+> > -		printk(KERN_ERR "Not a master resource\n");
+> > +		dev_err(bridge->parent, "Not a master resource\n");
+> >   		return;
+> >   	}
+> >   	master_image = list_entry(resource->entry, struct vme_master_resource,
+> >   				  list);
+> >   	if (!master_image) {
+> > -		printk(KERN_ERR "Can't find master resource\n");
+> > +		dev_err(bridge->parent, "Can't find master resource\n");
+> >   		return;
+> >   	}
+> >   	/* Unlock image */
+> >   	spin_lock(&master_image->lock);
+> >   	if (master_image->locked == 0)
+> > -		printk(KERN_ERR "Image is already free\n");
+> > +		dev_err(bridge->parent, "Image is already free\n");
+> >   	master_image->locked = 0;
+> >   	spin_unlock(&master_image->lock);
+> > @@ -854,18 +865,19 @@ struct vme_resource *vme_dma_request(struct vme_dev *vdev, u32 route)
+> >   	struct vme_resource *resource = NULL;
+> >   	/* XXX Not checking resource attributes */
+> > -	printk(KERN_ERR "No VME resource Attribute tests done\n");
+> > +	dev_err(&vdev->dev, "No VME resource Attribute tests done\n");
+> >   	bridge = vdev->bridge;
+> >   	if (!bridge) {
+> > -		printk(KERN_ERR "Can't find VME bus\n");
+> > +		dev_err(&vdev->dev, "Can't find VME bus\n");
+> >   		goto err_bus;
+> >   	}
+> >   	/* Loop through DMA resources */
+> >   	list_for_each_entry(dma_ctrlr, &bridge->dma_resources, list) {
+> >   		if (!dma_ctrlr) {
+> > -			printk(KERN_ERR "Registered NULL DMA resource\n");
+> > +			dev_err(bridge->parent,
+> > +				"Registered NULL DMA resource\n");
+> >   			continue;
+> >   		}
+> > @@ -917,10 +929,11 @@ EXPORT_SYMBOL(vme_dma_request);
+> >    */
+> >   struct vme_dma_list *vme_new_dma_list(struct vme_resource *resource)
+> >   {
+> > +	struct vme_bridge *bridge = find_bridge(resource);
+> >   	struct vme_dma_list *dma_list;
+> >   	if (resource->type != VME_DMA) {
+> > -		printk(KERN_ERR "Not a DMA resource\n");
+> > +		dev_err(bridge->parent, "Not a DMA resource\n");
+> >   		return NULL;
+> >   	}
+> > @@ -1098,12 +1111,13 @@ int vme_dma_list_add(struct vme_dma_list *list, struct vme_dma_attr *src,
+> >   	int retval;
+> >   	if (!bridge->dma_list_add) {
+> > -		printk(KERN_WARNING "Link List DMA generation not supported\n");
+> > +		dev_warn(bridge->parent,
+> > +			 "Link List DMA generation not supported\n");
+> >   		return -EINVAL;
+> >   	}
+> >   	if (!mutex_trylock(&list->mtx)) {
+> > -		printk(KERN_ERR "Link List already submitted\n");
+> > +		dev_err(bridge->parent, "Link List already submitted\n");
+> >   		return -EINVAL;
+> >   	}
+> > @@ -1131,7 +1145,8 @@ int vme_dma_list_exec(struct vme_dma_list *list)
+> >   	int retval;
+> >   	if (!bridge->dma_list_exec) {
+> > -		printk(KERN_ERR "Link List DMA execution not supported\n");
+> > +		dev_err(bridge->parent,
+> > +			"Link List DMA execution not supported\n");
+> >   		return -EINVAL;
+> >   	}
+> > @@ -1160,12 +1175,13 @@ int vme_dma_list_free(struct vme_dma_list *list)
+> >   	int retval;
+> >   	if (!bridge->dma_list_empty) {
+> > -		printk(KERN_WARNING "Emptying of Link Lists not supported\n");
+> > +		dev_warn(bridge->parent,
+> > +			 "Emptying of Link Lists not supported\n");
+> >   		return -EINVAL;
+> >   	}
+> >   	if (!mutex_trylock(&list->mtx)) {
+> > -		printk(KERN_ERR "Link List in use\n");
+> > +		dev_err(bridge->parent, "Link List in use\n");
+> >   		return -EBUSY;
+> >   	}
+> > @@ -1175,7 +1191,7 @@ int vme_dma_list_free(struct vme_dma_list *list)
+> >   	 */
+> >   	retval = bridge->dma_list_empty(list);
+> >   	if (retval) {
+> > -		printk(KERN_ERR "Unable to empty link-list entries\n");
+> > +		dev_err(bridge->parent, "Unable to empty link-list entries\n");
+> >   		mutex_unlock(&list->mtx);
+> >   		return retval;
+> >   	}
+> > @@ -1197,22 +1213,24 @@ EXPORT_SYMBOL(vme_dma_list_free);
+> >    */
+> >   int vme_dma_free(struct vme_resource *resource)
+> >   {
+> > +	struct vme_bridge *bridge = find_bridge(resource);
+> >   	struct vme_dma_resource *ctrlr;
+> >   	if (resource->type != VME_DMA) {
+> > -		printk(KERN_ERR "Not a DMA resource\n");
+> > +		dev_err(bridge->parent, "Not a DMA resource\n");
+> >   		return -EINVAL;
+> >   	}
+> >   	ctrlr = list_entry(resource->entry, struct vme_dma_resource, list);
+> >   	if (!mutex_trylock(&ctrlr->mtx)) {
+> > -		printk(KERN_ERR "Resource busy, can't free\n");
+> > +		dev_err(bridge->parent, "Resource busy, can't free\n");
+> >   		return -EBUSY;
+> >   	}
+> >   	if (!(list_empty(&ctrlr->pending) && list_empty(&ctrlr->running))) {
+> > -		printk(KERN_WARNING "Resource still processing transfers\n");
+> > +		dev_warn(bridge->parent,
+> > +			 "Resource still processing transfers\n");
+> >   		mutex_unlock(&ctrlr->mtx);
+> >   		return -EBUSY;
+> >   	}
+> > @@ -1290,8 +1308,9 @@ void vme_irq_handler(struct vme_bridge *bridge, int level, int statid)
+> >   	if (call)
+> >   		call(level, statid, priv_data);
+> >   	else
+> > -		printk(KERN_WARNING "Spurious VME interrupt, level:%x, vector:%x\n",
+> > -		       level, statid);
+> > +		dev_warn(bridge->parent,
+> > +			 "Spurious VME interrupt, level:%x, vector:%x\n", level,
+> > +			 statid);
+> >   }
+> >   EXPORT_SYMBOL(vme_irq_handler);
+> > @@ -1319,17 +1338,18 @@ int vme_irq_request(struct vme_dev *vdev, int level, int statid,
+> >   	bridge = vdev->bridge;
+> >   	if (!bridge) {
+> > -		printk(KERN_ERR "Can't find VME bus\n");
+> > +		dev_err(&vdev->dev, "Can't find VME bus\n");
+> >   		return -EINVAL;
+> >   	}
+> >   	if ((level < 1) || (level > 7)) {
+> > -		printk(KERN_ERR "Invalid interrupt level\n");
+> > +		dev_err(bridge->parent, "Invalid interrupt level\n");
+> >   		return -EINVAL;
+> >   	}
+> >   	if (!bridge->irq_set) {
+> > -		printk(KERN_ERR "Configuring interrupts not supported\n");
+> > +		dev_err(bridge->parent,
+> > +			"Configuring interrupts not supported\n");
+> >   		return -EINVAL;
+> >   	}
+> > @@ -1337,7 +1357,7 @@ int vme_irq_request(struct vme_dev *vdev, int level, int statid,
+> >   	if (bridge->irq[level - 1].callback[statid].func) {
+> >   		mutex_unlock(&bridge->irq_mtx);
+> > -		printk(KERN_WARNING "VME Interrupt already taken\n");
+> > +		dev_warn(bridge->parent, "VME Interrupt already taken\n");
+> >   		return -EBUSY;
+> >   	}
+> > @@ -1368,17 +1388,18 @@ void vme_irq_free(struct vme_dev *vdev, int level, int statid)
+> >   	bridge = vdev->bridge;
+> >   	if (!bridge) {
+> > -		printk(KERN_ERR "Can't find VME bus\n");
+> > +		dev_err(&vdev->dev, "Can't find VME bus\n");
+> >   		return;
+> >   	}
+> >   	if ((level < 1) || (level > 7)) {
+> > -		printk(KERN_ERR "Invalid interrupt level\n");
+> > +		dev_err(bridge->parent, "Invalid interrupt level\n");
+> >   		return;
+> >   	}
+> >   	if (!bridge->irq_set) {
+> > -		printk(KERN_ERR "Configuring interrupts not supported\n");
+> > +		dev_err(bridge->parent,
+> > +			"Configuring interrupts not supported\n");
+> >   		return;
+> >   	}
+> > @@ -1415,17 +1436,18 @@ int vme_irq_generate(struct vme_dev *vdev, int level, int statid)
+> >   	bridge = vdev->bridge;
+> >   	if (!bridge) {
+> > -		printk(KERN_ERR "Can't find VME bus\n");
+> > +		dev_err(&vdev->dev, "Can't find VME bus\n");
+> >   		return -EINVAL;
+> >   	}
+> >   	if ((level < 1) || (level > 7)) {
+> > -		printk(KERN_WARNING "Invalid interrupt level\n");
+> > +		dev_warn(bridge->parent, "Invalid interrupt level\n");
+> >   		return -EINVAL;
+> >   	}
+> >   	if (!bridge->irq_generate) {
+> > -		printk(KERN_WARNING "Interrupt generation not supported\n");
+> > +		dev_warn(bridge->parent,
+> > +			 "Interrupt generation not supported\n");
+> >   		return -EINVAL;
+> >   	}
+> > @@ -1452,14 +1474,15 @@ struct vme_resource *vme_lm_request(struct vme_dev *vdev)
+> >   	bridge = vdev->bridge;
+> >   	if (!bridge) {
+> > -		printk(KERN_ERR "Can't find VME bus\n");
+> > +		dev_err(&vdev->dev, "Can't find VME bus\n");
+> >   		goto err_bus;
+> >   	}
+> >   	/* Loop through LM resources */
+> >   	list_for_each_entry(lm, &bridge->lm_resources, list) {
+> >   		if (!lm) {
+> > -			printk(KERN_ERR "Registered NULL Location Monitor resource\n");
+> > +			dev_err(bridge->parent,
+> > +				"Registered NULL Location Monitor resource\n");
+> >   			continue;
+> >   		}
+> > @@ -1511,10 +1534,11 @@ EXPORT_SYMBOL(vme_lm_request);
+> >    */
+> >   int vme_lm_count(struct vme_resource *resource)
+> >   {
+> > +	struct vme_bridge *bridge = find_bridge(resource);
+> >   	struct vme_lm_resource *lm;
+> >   	if (resource->type != VME_LM) {
+> > -		printk(KERN_ERR "Not a Location Monitor resource\n");
+> > +		dev_err(bridge->parent, "Not a Location Monitor resource\n");
+> >   		return -EINVAL;
+> >   	}
+> > @@ -1545,14 +1569,14 @@ int vme_lm_set(struct vme_resource *resource, unsigned long long lm_base,
+> >   	struct vme_lm_resource *lm;
+> >   	if (resource->type != VME_LM) {
+> > -		printk(KERN_ERR "Not a Location Monitor resource\n");
+> > +		dev_err(bridge->parent, "Not a Location Monitor resource\n");
+> >   		return -EINVAL;
+> >   	}
+> >   	lm = list_entry(resource->entry, struct vme_lm_resource, list);
+> >   	if (!bridge->lm_set) {
+> > -		printk(KERN_ERR "vme_lm_set not supported\n");
+> > +		dev_err(bridge->parent, "vme_lm_set not supported\n");
+> >   		return -EINVAL;
+> >   	}
+> > @@ -1581,14 +1605,14 @@ int vme_lm_get(struct vme_resource *resource, unsigned long long *lm_base,
+> >   	struct vme_lm_resource *lm;
+> >   	if (resource->type != VME_LM) {
+> > -		printk(KERN_ERR "Not a Location Monitor resource\n");
+> > +		dev_err(bridge->parent, "Not a Location Monitor resource\n");
+> >   		return -EINVAL;
+> >   	}
+> >   	lm = list_entry(resource->entry, struct vme_lm_resource, list);
+> >   	if (!bridge->lm_get) {
+> > -		printk(KERN_ERR "vme_lm_get not supported\n");
+> > +		dev_err(bridge->parent, "vme_lm_get not supported\n");
+> >   		return -EINVAL;
+> >   	}
+> > @@ -1618,14 +1642,14 @@ int vme_lm_attach(struct vme_resource *resource, int monitor,
+> >   	struct vme_lm_resource *lm;
+> >   	if (resource->type != VME_LM) {
+> > -		printk(KERN_ERR "Not a Location Monitor resource\n");
+> > +		dev_err(bridge->parent, "Not a Location Monitor resource\n");
+> >   		return -EINVAL;
+> >   	}
+> >   	lm = list_entry(resource->entry, struct vme_lm_resource, list);
+> >   	if (!bridge->lm_attach) {
+> > -		printk(KERN_ERR "vme_lm_attach not supported\n");
+> > +		dev_err(bridge->parent, "vme_lm_attach not supported\n");
+> >   		return -EINVAL;
+> >   	}
+> > @@ -1651,14 +1675,14 @@ int vme_lm_detach(struct vme_resource *resource, int monitor)
+> >   	struct vme_lm_resource *lm;
+> >   	if (resource->type != VME_LM) {
+> > -		printk(KERN_ERR "Not a Location Monitor resource\n");
+> > +		dev_err(bridge->parent, "Not a Location Monitor resource\n");
+> >   		return -EINVAL;
+> >   	}
+> >   	lm = list_entry(resource->entry, struct vme_lm_resource, list);
+> >   	if (!bridge->lm_detach) {
+> > -		printk(KERN_ERR "vme_lm_detach not supported\n");
+> > +		dev_err(bridge->parent, "vme_lm_detach not supported\n");
+> >   		return -EINVAL;
+> >   	}
+> > @@ -1680,10 +1704,11 @@ EXPORT_SYMBOL(vme_lm_detach);
+> >    */
+> >   void vme_lm_free(struct vme_resource *resource)
+> >   {
+> > +	struct vme_bridge *bridge = find_bridge(resource);
+> >   	struct vme_lm_resource *lm;
+> >   	if (resource->type != VME_LM) {
+> > -		printk(KERN_ERR "Not a Location Monitor resource\n");
+> > +		dev_err(bridge->parent, "Not a Location Monitor resource\n");
+> >   		return;
+> >   	}
+> > @@ -1720,12 +1745,12 @@ int vme_slot_num(struct vme_dev *vdev)
+> >   	bridge = vdev->bridge;
+> >   	if (!bridge) {
+> > -		printk(KERN_ERR "Can't find VME bus\n");
+> > +		dev_err(&vdev->dev, "Can't find VME bus\n");
+> >   		return -EINVAL;
+> >   	}
+> >   	if (!bridge->slot_get) {
+> > -		printk(KERN_WARNING "vme_slot_num not supported\n");
+> > +		dev_warn(bridge->parent, "vme_slot_num not supported\n");
+> >   		return -EINVAL;
+> >   	}
+> > @@ -1748,7 +1773,7 @@ int vme_bus_num(struct vme_dev *vdev)
+> >   	bridge = vdev->bridge;
+> >   	if (!bridge) {
+> > -		pr_err("Can't find VME bus\n");
+> > +		dev_err(&vdev->dev, "Can't find VME bus\n");
+> >   		return -EINVAL;
+> >   	}
