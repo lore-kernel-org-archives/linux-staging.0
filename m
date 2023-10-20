@@ -1,122 +1,118 @@
-Received: from mail2-relais-roc.national.inria.fr (mail2-relais-roc.national.inria.fr [192.134.164.83])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk1-f182.google.com (mail-qk1-f182.google.com [209.85.222.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 020FCDDA2;
-	Fri, 20 Oct 2023 07:48:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inria.fr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=inria.fr
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2DE18F5A
+	for <linux-staging@lists.linux.dev>; Fri, 20 Oct 2023 12:45:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=inria.fr header.i=@inria.fr header.b="hpx2qlYp"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="b+yuiqKB"
+Received: by mail-qk1-f182.google.com with SMTP id af79cd13be357-777719639adso42389685a.3
+        for <linux-staging@lists.linux.dev>; Fri, 20 Oct 2023 05:45:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=inria.fr; s=dc;
-  h=date:from:to:cc:subject:in-reply-to:message-id:
-   references:mime-version;
-  bh=IaUvHvf8Dgzxm7NYbMB7ToEmLLG4rPc01nfYboIRTVM=;
-  b=hpx2qlYp2mxSWdOkDwoENgxhYKBtvWsc/CHLQzj3bi3a+lsqERaUr7QO
-   9nu4FRCWcwcs8jvyPTdDFGCgkoh10r3M2xFlv/ZxT/SCcxNvB9MGBqYkK
-   pirRrb8n4dzthvnF9N6xio06F2PQSUrD7SlXnJ0iuVZj2osq6A5K8jwMH
-   Q=;
-Authentication-Results: mail2-relais-roc.national.inria.fr; dkim=none (message not signed) header.i=none; spf=SoftFail smtp.mailfrom=julia.lawall@inria.fr; dmarc=fail (p=none dis=none) d=inria.fr
-X-IronPort-AV: E=Sophos;i="6.03,238,1694728800"; 
-   d="scan'208";a="132264898"
-Received: from dhcp-138-246-3-50.dynamic.eduroam.mwn.de (HELO hadrien) ([138.246.3.50])
-  by mail2-relais-roc.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Oct 2023 09:48:36 +0200
-Date: Fri, 20 Oct 2023 09:48:35 +0200 (CEST)
-From: Julia Lawall <julia.lawall@inria.fr>
-To: kenechukwu maduechesi <maduechesik@gmail.com>
-cc: shreeya.patel23498@gmail.com, outreachy@lists.linux.dev, 
-    Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-    linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: rts5208: Add parenthesis to macro arguments
-In-Reply-To: <20231020065439.GA3579@ubuntu>
-Message-ID: <d22ddf2b-39ab-c47-a0e1-d051ddc1aed5@inria.fr>
-References: <20231020065439.GA3579@ubuntu>
+        d=gmail.com; s=20230601; t=1697805930; x=1698410730; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=D1iwvLTq2T841qY10LF8GOUyS20mcZ4CoMQTfhMBIOU=;
+        b=b+yuiqKB0tv95JishoAt2JD6UC0HuWVwiuFdOmi+McWeHjalE75kOk+lixdYv9UAqY
+         cecXmiExNsBKFeluKGK4UQ7YFrdqpF/YLf/Pe5WO5GJ+ZbuMRI9JmSnvwGmY7sROI8Xu
+         99I5wieWyBRfgKq6kMU15re6tse+L8gCWISHDcVjs3ewRjCQre+9YQ9FVeSRJzu+rqAP
+         HVhNolADML2BtLJEB6BzGa/hRxgiwfkrfeoWsPp/U+GxMGkIayYo+dHX3O/9HAyNCSrF
+         v1h8m1acyHSkjMjyRrp1ug9OIcNog8A0RDjgSiy13C+x8vsUt/t9AErQBXufdnc1BIYo
+         ZyUA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1697805930; x=1698410730;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=D1iwvLTq2T841qY10LF8GOUyS20mcZ4CoMQTfhMBIOU=;
+        b=d8VPtEHtst5nxXakq9s9JIhpR0+CS57+hGRYEmLG0X3ru4r6GNmyUA1Z8wH5aeUovn
+         RtuoRw7vhdcev9mGYNJJkAvPNJfNtdRuYi6ntT7OR46Bt9ZYJUSI8MLrIFgQB0Nx2bmM
+         bW97J4oSHQnBFuA4mYPPCZhJQ0u+Vj32yzVOHIZNboffH1Rhr1ucl/sAyg9kOgiSXZwy
+         UaARy31ZP25PHLPsSKexV0mV1wCOL9qKisTHojJZ5e/goSMKSiKAkbdr3DGRVZ9i1rYB
+         F6jhuspZbr881af4KScm/F5mHKaH9gIN+Hi5Kjw4xMxO/oOjlvqfrQY4+z3iVYoG1bGs
+         KsWA==
+X-Gm-Message-State: AOJu0Yz9HK8fxvWs5pROObXPZnkuZHspT3Gd+cI1na+yCzYXGBjD3Ytb
+	tGmCbve2D7nGszRasByFzLo=
+X-Google-Smtp-Source: AGHT+IEJkzCDPpptDXF5Wq66CNuBmxbL9vD1ANrVpxErbMdo6XBa9bwUqjstTvGGeqJ7Hbco+Mgvlg==
+X-Received: by 2002:a05:620a:1097:b0:774:1795:4a89 with SMTP id g23-20020a05620a109700b0077417954a89mr1471961qkk.71.1697805929638;
+        Fri, 20 Oct 2023 05:45:29 -0700 (PDT)
+Received: from localhost (modemcable065.128-200-24.mc.videotron.ca. [24.200.128.65])
+        by smtp.gmail.com with ESMTPSA id c3-20020a05620a0ce300b00770f3e5618esm573928qkj.101.2023.10.20.05.45.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 20 Oct 2023 05:45:29 -0700 (PDT)
+From: Benjamin Poirier <benjamin.poirier@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: "David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	"James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
+	Helge Deller <deller@gmx.de>,
+	Ian Kent <raven@themaw.net>,
+	Sven Joachim <svenjoac@gmx.de>,
+	Nandha Kumar Singaram <nandhakumar.singaram@gmail.com>,
+	Sumitra Sharma <sumitraartsy@gmail.com>,
+	Ricardo Lopes <ricardoapl.dev@gmail.com>,
+	Dan Carpenter <error27@gmail.com>,
+	netdev@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-parisc@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	Manish Chopra <manishc@marvell.com>,
+	Coiby Xu <coiby.xu@gmail.com>
+Subject: [PATCH 0/2] staging: qlge: Remove qlge
+Date: Fri, 20 Oct 2023 08:44:55 -0400
+Message-ID: <20231020124457.312449-1-benjamin.poirier@gmail.com>
+X-Mailer: git-send-email 2.42.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 8bit
 
+Remove the qlge driver from staging. The TODO file is first updated to
+reflect the current status, in case the removal is later reverted.
 
+Benjamin Poirier (2):
+  staging: qlge: Update TODO
+  staging: qlge: Retire the driver
 
-On Thu, 19 Oct 2023, kenechukwu maduechesi wrote:
+ .../networking/device_drivers/index.rst       |    1 -
+ .../device_drivers/qlogic/index.rst           |   18 -
+ .../networking/device_drivers/qlogic/qlge.rst |  118 -
+ MAINTAINERS                                   |    9 -
+ arch/parisc/configs/generic-64bit_defconfig   |    1 -
+ drivers/staging/Kconfig                       |    2 -
+ drivers/staging/Makefile                      |    1 -
+ drivers/staging/qlge/Kconfig                  |   11 -
+ drivers/staging/qlge/Makefile                 |    8 -
+ drivers/staging/qlge/TODO                     |   33 -
+ drivers/staging/qlge/qlge.h                   | 2293 --------
+ drivers/staging/qlge/qlge_dbg.c               | 1311 -----
+ drivers/staging/qlge/qlge_devlink.c           |  167 -
+ drivers/staging/qlge/qlge_devlink.h           |    9 -
+ drivers/staging/qlge/qlge_ethtool.c           |  746 ---
+ drivers/staging/qlge/qlge_main.c              | 4845 -----------------
+ drivers/staging/qlge/qlge_mpi.c               | 1273 -----
+ 17 files changed, 10846 deletions(-)
+ delete mode 100644 Documentation/networking/device_drivers/qlogic/index.rst
+ delete mode 100644 Documentation/networking/device_drivers/qlogic/qlge.rst
+ delete mode 100644 drivers/staging/qlge/Kconfig
+ delete mode 100644 drivers/staging/qlge/Makefile
+ delete mode 100644 drivers/staging/qlge/TODO
+ delete mode 100644 drivers/staging/qlge/qlge.h
+ delete mode 100644 drivers/staging/qlge/qlge_dbg.c
+ delete mode 100644 drivers/staging/qlge/qlge_devlink.c
+ delete mode 100644 drivers/staging/qlge/qlge_devlink.h
+ delete mode 100644 drivers/staging/qlge/qlge_ethtool.c
+ delete mode 100644 drivers/staging/qlge/qlge_main.c
+ delete mode 100644 drivers/staging/qlge/qlge_mpi.c
 
-> Checkpatch suggests using (reg) and (host) instead of reg and host
->
-> The use of parenthesis in the macro argument '(reg)' ensures proper
-> precedence and resolves potential issues that may arise due to the
-> surrounding code context. This modification adheres to the recommended
-> coding style and improves the readability or maintainability of the
-> code.
->
-> Signed-off-by: kenechukwu maduechesi <maduechesik@gmail.com>
-> ---
->  drivers/staging/rts5208/rtsx.h | 16 ++++++++--------
->  1 file changed, 8 insertions(+), 8 deletions(-)
->
-> diff --git a/drivers/staging/rts5208/rtsx.h b/drivers/staging/rts5208/rtsx.h
-> index 2e101da83220..7d3373797eb4 100644
-> --- a/drivers/staging/rts5208/rtsx.h
-> +++ b/drivers/staging/rts5208/rtsx.h
-> @@ -39,17 +39,17 @@
->  /*
->   * macros for easy use
->   */
-> -#define rtsx_writel(chip, reg, value) \
-> +#define rtsx_writel(chip, (reg), value) \
->  	iowrite32(value, (chip)->rtsx->remap_addr + reg)
+-- 
+2.42.0
 
-I don't think this code has been subjected to the compiler.  Note that you
-can't comiple a .h file directly; you have to find some other file that
-includes it.  It may be useful to run make path/to/cfile.i (for some
-cfile.c) to see if the specific code you changed it included in the
-configuration or is discarded by the preprocessor.
-
-In any case, you have put () in the argument list of a macro, for reg,
-which is not correct.  The parentheses for chip are ok.
-
-> -#define rtsx_readl(chip, reg) \
-> +#define rtsx_readl(chip, (reg) \
-
-Here you have broken the argument list of the macro completely, because
-the parentheses are not balanced.
-
->  	ioread32((chip)->rtsx->remap_addr + reg)
-> -#define rtsx_writew(chip, reg, value) \
-> +#define rtsx_writew(chip, (reg), value) \
->  	iowrite16(value, (chip)->rtsx->remap_addr + reg)
-> -#define rtsx_readw(chip, reg) \
-> +#define rtsx_readw(chip, (reg)) \
->  	ioread16((chip)->rtsx->remap_addr + reg)
-> -#define rtsx_writeb(chip, reg, value) \
-> +#define rtsx_writeb(chip, (reg), value) \
->  	iowrite8(value, (chip)->rtsx->remap_addr + reg)
-> -#define rtsx_readb(chip, reg) \
-> +#define rtsx_readb(chip, (reg)) \
->  	ioread8((chip)->rtsx->remap_addr + reg)
->
->  #define rtsx_read_config_byte(chip, where, val) \
-> @@ -131,8 +131,8 @@ static inline struct rtsx_dev *host_to_rtsx(struct Scsi_Host *host)
->   * The scsi_lock() and scsi_unlock() macros protect the sm_state and the
->   * single queue element srb for write access
->   */
-> -#define scsi_unlock(host)	spin_unlock_irq(host->host_lock)
-> -#define scsi_lock(host)		spin_lock_irq(host->host_lock)
-> +#define scsi_unlock(host)	spin_unlock_irq((host)->host_lock)
-> +#define scsi_lock(host)		spin_lock_irq((host)->host_lock)
-
-I also wonder if someone has worked on this code already?  There was
-a suggestion to just drop these macros and use the standard kernel
-functions.  Maybe your kernel tree is not up to date.
-
-julia
-
->  #define lock_state(chip)	spin_lock_irq(&((chip)->rtsx->reg_lock))
->  #define unlock_state(chip)	spin_unlock_irq(&((chip)->rtsx->reg_lock))
-> --
-> 2.25.1
->
->
->
