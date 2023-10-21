@@ -1,95 +1,266 @@
-Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com [209.85.167.46])
+Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D10A2109
-	for <linux-staging@lists.linux.dev>; Sat, 21 Oct 2023 12:14:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D46672109
+	for <linux-staging@lists.linux.dev>; Sat, 21 Oct 2023 12:20:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="A5r6e2ya"
-Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-507b18cf2e1so2224098e87.3
-        for <linux-staging@lists.linux.dev>; Sat, 21 Oct 2023 05:14:13 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Pz99nFep"
+Received: by mail-ed1-f53.google.com with SMTP id 4fb4d7f45d1cf-53d8320f0easo2532294a12.3
+        for <linux-staging@lists.linux.dev>; Sat, 21 Oct 2023 05:20:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1697890451; x=1698495251; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=z1hgO9nuruEPiuqumF8sjkjB66g/Fe7TKQqbXRKwxJw=;
-        b=A5r6e2yaCGYRJGlo4Ocaec4W2fXXctIkrPctQQ80vLgCDRaOzTJe2AiiLVmp8pzTLN
-         S+bWw/6ruWPmsztEEwOLmE4gUd6IpbToTzAmGYEDPuyGDXs/LIPrk6esuMJDGEvaPtbr
-         NYp2qOuutWmuIq7lcwl/GPvc2sCTJKdB2TWOPSbqHy65arfQHPfqmYdW+5wpcMJiLYqG
-         HPtxG4M1IRE16gY49U2A9nkCz4ua2FFEo1RNVMPm4u7FyfwI4afTHY18hBaMWh2m2WZF
-         mqekZ1vnSZJ45IVsyWWcfWoKiQXjBPILSNFpsUPY5TmDKWYDNTVukh6MDYJO9bnzZTYc
-         2rfw==
+        d=gmail.com; s=20230601; t=1697890820; x=1698495620; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=jztvdmnKoOtDyJYeFAxJUdIntr9a0/M0DmdO1ZKQ78A=;
+        b=Pz99nFepKxMBgfp1ztydy7eldKAmDkHdiEk71TRraDACtZZHiPEANhjSftqBJNR12E
+         O8SMRTtj0Xo1/3G6dQ4mMOEUVPcu1Pwrm0T9didTt38TLALz4CzFgP/WyDwhk/NNMXKg
+         i/F74w6FVSySdtnwSUEa3kzCfl2rjV6vy9TMZdgHzMG3me0AAZu87QDQjFXPJDvstuQE
+         Ba8nrhzAVQqy9V7b/Jmf4bRQtGTUAhR156xahNZIW9hAXQEcp/5cEBkTr788+S2+Q/0/
+         zkHTsdPEzWeAUsJp+fWpla0wrYkdsYa/kEBwS4Nbm661yr3FU+DvSILZOtIr7pvZBiYw
+         3TfA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697890451; x=1698495251;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=z1hgO9nuruEPiuqumF8sjkjB66g/Fe7TKQqbXRKwxJw=;
-        b=nlrm+d8GSzeZdaiaga7STV/3a07RABruD0pSBG4WTfp0QJvtl1uqZ4OS/QRxK7C3lZ
-         0gq/ah03r8YoxcXgQBexvuKRVR529JmmRmK6QlwBj9D3L7Kh/SfRwpt3p8QB5waORm4/
-         O1znYE4B/GPp57+i5gsB/cumP9vbqwGaED2JY8uPJfFH/ovyBX6ScDbfC6tkJMpF62fc
-         XKgNLjRLEm4bfJq+qLEP5l9i1AbrloyVM3c9Am/bxaAWRfywK1Dia7HTbNRS3Qu+QEeu
-         hofOKtuiuJLkNpXw72FsFh4D35kfrMVsC12chHOUyU4IwGHpjcNF6CBF6wL1tC1Q0d3u
-         Mtww==
-X-Gm-Message-State: AOJu0Yx0EmUXM2q+Bgg543cX2qiIu+D2PxvZ3Zs6zbHeNcfFGQL5P2xy
-	Qn1qwLC2sHbn7O0+FKPhNq6YshmEPKw=
-X-Google-Smtp-Source: AGHT+IHcaUBqaa9y/JY77Ly0qeRzu7cZNMMZA9tzpGfIS2zW6AE8M/fagm+xE+mBNmWtazC5eFoAsA==
-X-Received: by 2002:a05:6512:2808:b0:507:aad2:96af with SMTP id cf8-20020a056512280800b00507aad296afmr3567348lfb.21.1697890451104;
-        Sat, 21 Oct 2023 05:14:11 -0700 (PDT)
-Received: from HP-ENVY-Notebook (81-229-94-10-no68.tbcn.telia.com. [81.229.94.10])
-        by smtp.gmail.com with ESMTPSA id s5-20020a197705000000b00504358a9423sm857780lfc.280.2023.10.21.05.14.10
+        d=1e100.net; s=20230601; t=1697890820; x=1698495620;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=jztvdmnKoOtDyJYeFAxJUdIntr9a0/M0DmdO1ZKQ78A=;
+        b=IIh2r8Ty+Phw9cetZYSoQpV70BccffJ3mhYZRFxmIOE1EYoAJHzFnTeGS7Xnzqe5Jf
+         muVeKlA+JKt9qIEdqmQ0JmYGmBzHe/xflApF4nhwUNbVTVhgyzYis//tiUPp8aqZok7L
+         LkFfNNq1ZK/JZ87Ndu4bL1P9PznQNJwo2UCzpkaPXoCj38Ywe08xRoqNxtuVsClTe6JO
+         qYeDFs1eAvmaDeU7TudRr/u7xejz62qt/7iOujUuqDqdd76hCkDMh5fd1vUHAdqGKXQW
+         Srs9hA4jNXMYBa2IMnKUb2VrBw2OfojZxdHABW6Q6nQRyR/Yaqh/NMJ4MA61/TDA24Mu
+         lh5Q==
+X-Gm-Message-State: AOJu0YxlnfUBqaCTby5zd+csD0ttMXt9XMHDJiXTy0SxHN2czHXEodxT
+	Kx/nG3Wu1lMT0IRrhORuVHc=
+X-Google-Smtp-Source: AGHT+IEC/lG+OEjTX4Vx47WpGn3R4YbPATipUADElGWndBe7ClSTRN3E4GjKuH9Ft0Svnff5EVQq/A==
+X-Received: by 2002:a05:6402:5243:b0:530:e2e3:28af with SMTP id t3-20020a056402524300b00530e2e328afmr3784577edd.31.1697890819904;
+        Sat, 21 Oct 2023 05:20:19 -0700 (PDT)
+Received: from localhost.localdomain (ip-77-25-34-72.web.vodafone.de. [77.25.34.72])
+        by smtp.gmail.com with ESMTPSA id c21-20020a50d655000000b00537963f692esm3450568edj.0.2023.10.21.05.20.19
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 21 Oct 2023 05:14:10 -0700 (PDT)
-Date: Sat, 21 Oct 2023 14:14:08 +0200
-From: Jonathan Bergh <bergh.jonathan@gmail.com>
-To: Hans de Goede <hdegoede@redhat.com>
-Cc: gregkh@linuxfoundation.org, linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH RESEND] staging: media: atomisp: Removed duplicate
- comment and fixed comment format
-Message-ID: <ZTPAkFCIjgWNBY2u@HP-ENVY-Notebook>
-References: <20231021110058.85013-1-bergh.jonathan@gmail.com>
- <acf1fade-7693-9332-03b1-626f4949f9ff@redhat.com>
+        Sat, 21 Oct 2023 05:20:19 -0700 (PDT)
+From: Michael Straube <straube.linux@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: philipp.g.hortmann@gmail.com,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Michael Straube <straube.linux@gmail.com>
+Subject: [PATCH] staging: rtl8192e: clean up comparisons to NULL
+Date: Sat, 21 Oct 2023 14:19:47 +0200
+Message-ID: <20231021121947.14516-1-straube.linux@gmail.com>
+X-Mailer: git-send-email 2.42.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <acf1fade-7693-9332-03b1-626f4949f9ff@redhat.com>
+Content-Transfer-Encoding: 8bit
 
-On Sat, Oct 21, 2023 at 01:57:05PM +0200, Hans de Goede wrote:
-> Hi Jonathan,
-> 
-> On 10/21/23 13:00, Jonathan Bergh wrote:
-> > Fixed the following issues:
-> >  * Removed a duplicate comment
-> >  * Fixed up minor comment format issue
-> > 
-> > Signed-off-by: Jonathan Bergh <bergh.jonathan@gmail.com>
+Clean up comparisons to NULL to improve readability.
+Reported by checkpatch.
 
-Hi Hans, thanks for the msg. 
+if (x == NULL) -> if (!x)
+if (x != NULL) -> if (x)
 
-> 
-> Thank you for your patch, but please don't resend
-> it every week.
+Signed-off-by: Michael Straube <straube.linux@gmail.com>
+---
+Compile tested only, due to missing hardware.
 
-Apologies. I dont remember when i sent the original but I was cleaning 
-up today and thought i would resend it. (I dont recall resending prior to 
-today (?) but if so, apologies). 
+ .../staging/rtl8192e/rtl8192e/r8192E_phy.c    |  2 +-
+ drivers/staging/rtl8192e/rtl8192e/rtl_cam.c   |  2 +-
+ drivers/staging/rtl8192e/rtl8192e/rtl_wx.c    |  2 +-
+ drivers/staging/rtl8192e/rtllib_crypt_ccmp.c  |  2 +-
+ drivers/staging/rtl8192e/rtllib_crypt_wep.c   |  2 +-
+ drivers/staging/rtl8192e/rtllib_rx.c          | 24 +++++++++----------
+ drivers/staging/rtl8192e/rtllib_softmac.c     |  2 +-
+ 7 files changed, 17 insertions(+), 19 deletions(-)
+
+diff --git a/drivers/staging/rtl8192e/rtl8192e/r8192E_phy.c b/drivers/staging/rtl8192e/rtl8192e/r8192E_phy.c
+index bc06c2cab35d..a5e16bf99cd6 100644
+--- a/drivers/staging/rtl8192e/rtl8192e/r8192E_phy.c
++++ b/drivers/staging/rtl8192e/rtl8192e/r8192E_phy.c
+@@ -513,7 +513,7 @@ static u8 _rtl92e_phy_set_sw_chnl_cmd_array(struct net_device *dev,
+ {
+ 	struct sw_chnl_cmd *pCmd;
  
-> I did see the original patch and it looks fine but
-> I have not had any time to work in atomisp support
-> recently and this does not seem like something
-> which needs to get merged urgently.
-> 
-> I'll pick this up next time I have time to do
-> a bunch of atomisp work.
+-	if (CmdTable == NULL) {
++	if (!CmdTable) {
+ 		netdev_err(dev, "%s(): CmdTable cannot be NULL.\n", __func__);
+ 		return false;
+ 	}
+diff --git a/drivers/staging/rtl8192e/rtl8192e/rtl_cam.c b/drivers/staging/rtl8192e/rtl8192e/rtl_cam.c
+index 9b280cee0ac1..76ec4ed967c4 100644
+--- a/drivers/staging/rtl8192e/rtl8192e/rtl_cam.c
++++ b/drivers/staging/rtl8192e/rtl8192e/rtl_cam.c
+@@ -112,7 +112,7 @@ void rtl92e_set_key(struct net_device *dev, u8 EntryNo, u8 KeyIndex,
+ 			rtl92e_writel(dev, WCAMI, TargetContent);
+ 			rtl92e_writel(dev, RWCAM, TargetCommand);
+ 		} else {
+-			if (KeyContent != NULL) {
++			if (KeyContent) {
+ 				rtl92e_writel(dev, WCAMI,
+ 					      (u32)(*(KeyContent + i - 2)));
+ 				rtl92e_writel(dev, RWCAM, TargetCommand);
+diff --git a/drivers/staging/rtl8192e/rtl8192e/rtl_wx.c b/drivers/staging/rtl8192e/rtl8192e/rtl_wx.c
+index ec8e7d5fe634..4371ab1239ee 100644
+--- a/drivers/staging/rtl8192e/rtl8192e/rtl_wx.c
++++ b/drivers/staging/rtl8192e/rtl8192e/rtl_wx.c
+@@ -805,7 +805,7 @@ static int _rtl92e_wx_get_gen_ie(struct net_device *dev,
+ 	struct r8192_priv *priv = rtllib_priv(dev);
+ 	struct rtllib_device *ieee = priv->rtllib;
+ 
+-	if (ieee->wpa_ie_len == 0 || ieee->wpa_ie == NULL) {
++	if (ieee->wpa_ie_len == 0 || !ieee->wpa_ie) {
+ 		data->data.length = 0;
+ 		return 0;
+ 	}
+diff --git a/drivers/staging/rtl8192e/rtllib_crypt_ccmp.c b/drivers/staging/rtl8192e/rtllib_crypt_ccmp.c
+index 5621261d66b9..cbb8c8dbe9b0 100644
+--- a/drivers/staging/rtl8192e/rtllib_crypt_ccmp.c
++++ b/drivers/staging/rtl8192e/rtllib_crypt_ccmp.c
+@@ -52,7 +52,7 @@ static void *rtllib_ccmp_init(int key_idx)
+ 	struct rtllib_ccmp_data *priv;
+ 
+ 	priv = kzalloc(sizeof(*priv), GFP_ATOMIC);
+-	if (priv == NULL)
++	if (!priv)
+ 		goto fail;
+ 	priv->key_idx = key_idx;
+ 
+diff --git a/drivers/staging/rtl8192e/rtllib_crypt_wep.c b/drivers/staging/rtl8192e/rtllib_crypt_wep.c
+index 062285e4d939..21c2b7666d6f 100644
+--- a/drivers/staging/rtl8192e/rtllib_crypt_wep.c
++++ b/drivers/staging/rtl8192e/rtllib_crypt_wep.c
+@@ -35,7 +35,7 @@ static void *prism2_wep_init(int keyidx)
+ 		return NULL;
+ 
+ 	priv = kzalloc(sizeof(*priv), GFP_ATOMIC);
+-	if (priv == NULL)
++	if (!priv)
+ 		return NULL;
+ 	priv->key_idx = keyidx;
+ 
+diff --git a/drivers/staging/rtl8192e/rtllib_rx.c b/drivers/staging/rtl8192e/rtllib_rx.c
+index 124c1651856b..ecaa4dec3f94 100644
+--- a/drivers/staging/rtl8192e/rtllib_rx.c
++++ b/drivers/staging/rtl8192e/rtllib_rx.c
+@@ -63,7 +63,7 @@ rtllib_frag_cache_find(struct rtllib_device *ieee, unsigned int seq,
+ 
+ 	for (i = 0; i < RTLLIB_FRAG_CACHE_LEN; i++) {
+ 		entry = &ieee->frag_cache[tid][i];
+-		if (entry->skb != NULL &&
++		if (entry->skb &&
+ 		    time_after(jiffies, entry->first_frag_time + 2 * HZ)) {
+ 			netdev_dbg(ieee->dev,
+ 				   "expiring fragment cache entry seq=%u last_frag=%u\n",
+@@ -72,7 +72,7 @@ rtllib_frag_cache_find(struct rtllib_device *ieee, unsigned int seq,
+ 			entry->skb = NULL;
+ 		}
+ 
+-		if (entry->skb != NULL && entry->seq == seq &&
++		if (entry->skb && entry->seq == seq &&
+ 		    (entry->last_frag + 1 == frag || frag == -1) &&
+ 		    memcmp(entry->src_addr, src, ETH_ALEN) == 0 &&
+ 		    memcmp(entry->dst_addr, dst, ETH_ALEN) == 0)
+@@ -130,7 +130,7 @@ rtllib_frag_cache_get(struct rtllib_device *ieee,
+ 		if (ieee->frag_next_idx[tid] >= RTLLIB_FRAG_CACHE_LEN)
+ 			ieee->frag_next_idx[tid] = 0;
+ 
+-		if (entry->skb != NULL)
++		if (entry->skb)
+ 			dev_kfree_skb_any(entry->skb);
+ 
+ 		entry->first_frag_time = jiffies;
+@@ -145,7 +145,7 @@ rtllib_frag_cache_get(struct rtllib_device *ieee,
+ 		 */
+ 		entry = rtllib_frag_cache_find(ieee, seq, frag, tid, hdr->addr2,
+ 						  hdr->addr1);
+-		if (entry != NULL) {
++		if (entry) {
+ 			entry->last_frag = frag;
+ 			skb = entry->skb;
+ 		}
+@@ -184,7 +184,7 @@ static int rtllib_frag_cache_invalidate(struct rtllib_device *ieee,
+ 	entry = rtllib_frag_cache_find(ieee, seq, -1, tid, hdr->addr2,
+ 					  hdr->addr1);
+ 
+-	if (entry == NULL) {
++	if (!entry) {
+ 		netdev_dbg(ieee->dev,
+ 			   "Couldn't invalidate fragment cache entry (seq=%u)\n",
+ 			   seq);
+@@ -276,7 +276,7 @@ rtllib_rx_frame_decrypt(struct rtllib_device *ieee, struct sk_buff *skb,
+ 	struct ieee80211_hdr *hdr;
+ 	int res, hdrlen;
+ 
+-	if (crypt == NULL || crypt->ops->decrypt_mpdu == NULL)
++	if (!crypt || !crypt->ops->decrypt_mpdu)
+ 		return 0;
+ 
+ 	if (ieee->hwsec_active) {
+@@ -316,7 +316,7 @@ rtllib_rx_frame_decrypt_msdu(struct rtllib_device *ieee, struct sk_buff *skb,
+ 	struct ieee80211_hdr *hdr;
+ 	int res, hdrlen;
+ 
+-	if (crypt == NULL || crypt->ops->decrypt_msdu == NULL)
++	if (!crypt || !crypt->ops->decrypt_msdu)
+ 		return 0;
+ 	if (ieee->hwsec_active) {
+ 		struct cb_desc *tcb_desc = (struct cb_desc *)
+@@ -998,8 +998,7 @@ static int rtllib_rx_get_crypt(struct rtllib_device *ieee, struct sk_buff *skb,
+ 	/* allow NULL decrypt to indicate an station specific override
+ 	 * for default encryption
+ 	 */
+-	if (*crypt && ((*crypt)->ops == NULL ||
+-		      (*crypt)->ops->decrypt_mpdu == NULL))
++	if (*crypt && (!(*crypt)->ops || !(*crypt)->ops->decrypt_mpdu))
+ 		*crypt = NULL;
+ 
+ 	if (!*crypt && (fc & IEEE80211_FCTL_PROTECTED)) {
+@@ -1171,7 +1170,7 @@ static void rtllib_rx_indicate_pkt_legacy(struct rtllib_device *ieee,
+ 	u16 ethertype;
+ 	int i = 0;
+ 
+-	if (rxb == NULL) {
++	if (!rxb) {
+ 		netdev_info(dev, "%s: rxb is NULL!!\n", __func__);
+ 		return;
+ 	}
+@@ -1369,7 +1368,7 @@ static int rtllib_rx_InfraAdhoc(struct rtllib_device *ieee, struct sk_buff *skb,
+ 	rtllib_rx_check_leave_lps(ieee, unicast, nr_subframes);
+ 
+ 	/* Indicate packets to upper layer or Rx Reorder */
+-	if (!ieee->ht_info->cur_rx_reorder_enable || ts == NULL)
++	if (!ieee->ht_info->cur_rx_reorder_enable || !ts)
+ 		rtllib_rx_indicate_pkt_legacy(ieee, rx_stats, rxb, dst, src);
+ 	else
+ 		RxReorderIndicatePacket(ieee, rxb, ts, SeqNum);
+@@ -2510,8 +2509,7 @@ static inline void rtllib_process_probe_response(
+ 		if (is_same_network(target, network,
+ 		   (target->ssid_len ? 1 : 0)))
+ 			break;
+-		if ((oldest == NULL) ||
+-		    (target->last_scanned < oldest->last_scanned))
++		if (!oldest || (target->last_scanned < oldest->last_scanned))
+ 			oldest = target;
+ 	}
+ 
+diff --git a/drivers/staging/rtl8192e/rtllib_softmac.c b/drivers/staging/rtl8192e/rtllib_softmac.c
+index ff98b41c94e0..42d652fe8601 100644
+--- a/drivers/staging/rtl8192e/rtllib_softmac.c
++++ b/drivers/staging/rtl8192e/rtllib_softmac.c
+@@ -918,7 +918,7 @@ rtllib_association_req(struct rtllib_network *beacon,
+ 	int len = 0;
+ 
+ 	crypt = ieee->crypt_info.crypt[ieee->crypt_info.tx_keyidx];
+-	if (crypt != NULL)
++	if (crypt)
+ 		encrypt = crypt && crypt->ops &&
+ 			  ((strcmp(crypt->ops->name, "R-WEP") == 0 ||
+ 			  wpa_ie_len));
+-- 
+2.42.0
 
-Yes, for sure, it was just a small thing.
-Thanks Hans
-br
-Jonathan
