@@ -1,69 +1,56 @@
-Received: from out5-smtp.messagingengine.com (out5-smtp.messagingengine.com [66.111.4.29])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com [209.85.208.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E01B7D517
-	for <linux-staging@lists.linux.dev>; Sat, 21 Oct 2023 23:06:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=fastmail.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fastmail.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64481D517;
+	Sat, 21 Oct 2023 23:12:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=fastmail.org header.i=@fastmail.org header.b="WYoBu7Ag";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="mrK9B+Xs"
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
-	by mailout.nyi.internal (Postfix) with ESMTP id D38375C009C;
-	Sat, 21 Oct 2023 19:06:48 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute4.internal (MEProxy); Sat, 21 Oct 2023 19:06:48 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fastmail.org; h=
-	cc:cc:content-transfer-encoding:content-type:date:date:from:from
-	:in-reply-to:message-id:mime-version:reply-to:sender:subject
-	:subject:to:to; s=fm3; t=1697929608; x=1698016008; bh=mKoeEncD58
-	UuMyMXPFqT+Ps3JfDvCVyfvtYlalXYITQ=; b=WYoBu7AgV5CrY6cOtE+tfY2/yP
-	e6lS4edotRyhsDSBr+nggWLKgoX+79ORarzM62Ghl1JURsE0fpZlT83XU/TsXO/+
-	LdRLCeuR18BY4Pol6CxZs3a19H8t2VTQJnJluP0agpacXJp43IlvrQ9sstuRf0YS
-	WVHUl/5EbMYnwfFqVF/b2cwqMoAXeGrd5Fvw+8idTBwhE+8KkgeCBiuN5L2vwdDl
-	1YKj17nO8GIoyXrbQzzmMUttSRztyk+u5wXsVHQhgiIvkLn7c3kv5UsA0qcx+BhC
-	x4uZ9QjAtXzt71I8wP50a0kdgxMdpjqalvBShCc+LpmgLgJ7hOoj6pgsA+wg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:date:date:feedback-id:feedback-id:from:from
-	:in-reply-to:message-id:mime-version:reply-to:sender:subject
-	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-	:x-sasl-enc; s=fm3; t=1697929608; x=1698016008; bh=mKoeEncD58UuM
-	yMXPFqT+Ps3JfDvCVyfvtYlalXYITQ=; b=mrK9B+XsjrHq0s84vtZqfIs3HzikE
-	sElYEQvvTTSpWso4NK7BW0r4QmFLQTQfNHYUwzYR2LD7QhR/xVLITjSiY7l4zDhE
-	OKvPFjlq9Odvp2jYbnU4dvszXjQZdpxrBK2c4Zmq6cbbHoIqQvpHrcx6aESgB5fK
-	UN++O/ua7CRzMfbQ/p48O1s7mUwTrS/FYLpEuTWxLAPV88aMsXvgghGwN3dP/T6q
-	cGePVRGqyer08CUrFHITjbmc3ZEHC0jPcdDDSJS8+qqekHFQUW3yEf9wHC37eks2
-	xNmjzwd7FLjsc7aF4n+gDTghQC+kvhzZhbGoPMpi2NizXYvjgm8MfaRbA==
-X-ME-Sender: <xms:iFk0ZbuHABDwjtytgDmuG5UcLkD8TvRuCFXNbsqD_Gds86seYyy7kg>
-    <xme:iFk0ZcfohdybhL5sXjwstzqa-GWePP-SLVYVfoq7fLLs_hxNGCQawt1lP8B47Jxg0
-    qYtKyRJCi__QDpD2nA>
-X-ME-Received: <xmr:iFk0Zew--1QHgQE-UuhiFxfBNG4jmzISr2Nz6i25V5ru2ZARr4jRblQevL0RSfyU_hMoIeU-2rYEQY416PAmZf83QTXK-Kx3dAdXgstAZkg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvkedrkedugddukecutefuodetggdotefrodftvf
-    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
-    uegrihhlohhuthemuceftddtnecunecujfgurhephffvvefufffkofgggfestdekredtre
-    dttdenucfhrhhomhepifgrrhihucftohhokhgrrhguuceoghgrrhihrhhoohhkrghruges
-    fhgrshhtmhgrihhlrdhorhhgqeenucggtffrrghtthgvrhhnpeelgefffffghefhjeegje
-    ehiedvgfelfeehueeuteektdffiefhveelhfegvedvveenucevlhhushhtvghrufhiiigv
-    pedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehgrghrhihrohhokhgrrhgusehfrghsth
-    hmrghilhdrohhrgh
-X-ME-Proxy: <xmx:iFk0ZaM-9ddvQno6r07cv0rYRsFDVxirU7C314c8dFGOz2uewdaGPw>
-    <xmx:iFk0Zb_hOZ6JxNhYFps-oCmI6TIrXp-Tw9frdxvh9OxobfAzbvQRdA>
-    <xmx:iFk0ZaVUcZ4sM2dbC-Mc9mhtZair0ngDFL_0kb_B8HlCK7TQbgIApA>
-    <xmx:iFk0ZebJr2xY8Bcu1-yBtW0wB7UUuqXafXIyVcjXS_zGBGriofyJqQ>
-Feedback-ID: ifd194980:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
- 21 Oct 2023 19:06:47 -0400 (EDT)
-From: Gary Rookard <garyrookard@fastmail.org>
-To: gregkh@linuxfoundation.org
-Cc: philipp.g.hortmann@gmail.com,
-	linux-staging@lists.linux.dev,
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fSng1i1s"
+Received: by mail-lj1-f171.google.com with SMTP id 38308e7fff4ca-2c4fe37f166so29286231fa.1;
+        Sat, 21 Oct 2023 16:12:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1697929960; x=1698534760; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=58Eo+qEtvIjLh9UY6FY88GQO7Bn+aYS8BK4MYosjEHM=;
+        b=fSng1i1sXxQ3xekx/gUZrHBRESwvz5uuVIceFXOW4adbPpxCQuULOpzGDCEyMwrVNt
+         DZDdJrNJpvh5Yrpq4HXl2s+qpSgjxtsCb5L8lbSj0+J3TosrKSqIMIBA5AvHTup8lqT5
+         IvzwqaGUTqAX3hAnKWxk8YRibCHqr284o/0cUk6sIF/Rjkpmrn4+PsKWGOsVDnD3UMXK
+         TwW1fhgUi/U2S61WhAkkEnMk8uXW1C4cDvU/QInHpKg4gvPJM5GuhN6rF9TrD4Zy84XA
+         B1IOnS6g+xRFoAMdhp0yZa/RCk4LbRZgcS9NFD6MqEa1xqQzEC4cA4oX0Uf566joPRj6
+         5sxA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1697929960; x=1698534760;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=58Eo+qEtvIjLh9UY6FY88GQO7Bn+aYS8BK4MYosjEHM=;
+        b=BccWRs9yeAiGC1gVILZtpKgcbu/LQDQTO7WPZZNsaBkrOEKhmtQyvKNjmHAitQ37rC
+         2SKecSdvlYM227JfK2IF+yn6kR1I3NFlkUnJD2dKdBPT+eEV4XTHauj4WhjwQN9NSvhp
+         OzJ1e2kiAWSh7cAbSWUi7Ce9Hg/B8kfrMXA7Wvy7qjIJnm1fLm4+vi/wqfPVis1wUVPa
+         wnbuMsZASLMGiM/Gu7e2icCuTqFJ/Tfjv1FC4vRwvWTXZnQfUQ1m/nVP7C1qWz6QSe6u
+         5ja7MPQB9/+QpTKMEnGbWEQEkUWO28pZABf2Gg0WlT8JuycQx3h0zePQ2P05go4Bb8sI
+         IEzw==
+X-Gm-Message-State: AOJu0Yzv6z3hrY6Ca3lGAiLvCit/kKNkdGwD3c0sLBhoz/EclOAvvTmg
+	N5nlaGPnkFABut50k3y72Ks=
+X-Google-Smtp-Source: AGHT+IH22DnBv5tZD7jH7UBvDltokJlxy/V9phy9m0A1YU0bNsyZdfWEg/MZ1/OXJEAOhtD+UlDl8g==
+X-Received: by 2002:a2e:2c09:0:b0:2c5:578:f998 with SMTP id s9-20020a2e2c09000000b002c50578f998mr3515600ljs.26.1697929959985;
+        Sat, 21 Oct 2023 16:12:39 -0700 (PDT)
+Received: from gilbert-PC ([105.113.89.119])
+        by smtp.gmail.com with ESMTPSA id j6-20020a05600c190600b0040641a9d49bsm5573827wmq.17.2023.10.21.16.12.39
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 21 Oct 2023 16:12:39 -0700 (PDT)
+From: Gilbert Adikankwu <gilbertadikankwu@gmail.com>
+To: gregkh@linuxfoundation.org,
+	outreachy@lists.linux.dev
+Cc: linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
-	Gary Rookard <garyrookard@fastmail.org>
-Subject: [PATCH] staging: rtl8192e: renamed variable HTIOTPeerDetermine
-Date: Sat, 21 Oct 2023 19:06:03 -0400
-Message-ID: <20231021230603.8819-1-garyrookard@fastmail.org>
-X-Mailer: git-send-email 2.41.0
+	Gilbert Adikankwu <gilbertadikankwu@gmail.com>
+Subject: [PATCH 0/5] staging: vt6655: Rename variables byCWMaxMin, bySlot, bySIFS, byDIFS and byEIFS
+Date: Sun, 22 Oct 2023 00:12:26 +0100
+Message-Id: <cover.1697927812.git.gilbertadikankwu@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -72,39 +59,20 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Renamed from Pascal/CamelCase to Snake case the variable
-HTIOTPeerDetermine, HTIOTPeerDetermine -> ht_iot_peer_determine.
+Make the variable names adhere to Linux kernel coding style and fix
+checkpatch.pl errors.
 
-Linux kernel coding style (cleanup) checkpatch Avoid CamelCase.
-Driver rtl8129e compiles.
+Gilbert Adikankwu (5):
+  staging: vt6655: Rename variable byCWMaxMin
+  staging: vt6655: Rename variable bySlot
+  staging: vt6655: Rename variable bySIFS
+  staging: vt6655: Rename variable byDIFS
+  staging: vt6655: Rename variable byEIFS
 
-Signed-off-by: Gary Rookard <garyrookard@fastmail.org>
----
- drivers/staging/rtl8192e/rtl819x_HTProc.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/staging/vt6655/card.c   | 72 ++++++++++++++++-----------------
+ drivers/staging/vt6655/device.h | 10 ++---
+ 2 files changed, 41 insertions(+), 41 deletions(-)
 
-diff --git a/drivers/staging/rtl8192e/rtl819x_HTProc.c b/drivers/staging/rtl8192e/rtl819x_HTProc.c
-index f564474fab52..8522a3594848 100644
---- a/drivers/staging/rtl8192e/rtl819x_HTProc.c
-+++ b/drivers/staging/rtl8192e/rtl819x_HTProc.c
-@@ -164,7 +164,7 @@ bool is_ht_half_nmode_aps(struct rtllib_device *ieee)
- 	return retValue;
- }
- 
--static void HTIOTPeerDetermine(struct rtllib_device *ieee)
-+static void ht_iot_peer_determine(struct rtllib_device *ieee)
- {
- 	struct rt_hi_throughput *ht_info = ieee->ht_info;
- 	struct rtllib_network *net = &ieee->current_network;
-@@ -693,7 +693,7 @@ void HTResetSelfAndSavePeerSetting(struct rtllib_device *ieee,
- 			ht_info->RT2RT_HT_Mode = (enum rt_ht_capability)0;
- 		}
- 
--		HTIOTPeerDetermine(ieee);
-+		ht_iot_peer_determine(ieee);
- 
- 		ht_info->iot_action = 0;
- 		bIOTAction = HTIOTActIsDisableMCS14(ieee, pNetwork->bssid);
 -- 
-2.41.0
+2.34.1
 
