@@ -1,56 +1,56 @@
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A210712B7C;
-	Sat, 21 Oct 2023 23:12:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E431D517;
+	Sat, 21 Oct 2023 23:12:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LbQRL1GP"
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-4084de32db5so17519365e9.0;
-        Sat, 21 Oct 2023 16:12:51 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UniW4O1R"
+Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-408002b5b9fso16819105e9.3;
+        Sat, 21 Oct 2023 16:12:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1697929970; x=1698534770; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1697929973; x=1698534773; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=pgihYbweOv461mq7krCIfGB4Er0uLAixEkR4tcljzVg=;
-        b=LbQRL1GP7X2Dcm8jHL+YrgDMbSgPE+0UnQ7DIeT/rRkJKVQ8FIHm6yudzy4EzTCWNk
-         8TZCl2NsPWYnjJzVhk+GcSaa3g9ZRL5WR8HF1ySM870YZmYtozu4CutQMSQrCnk82Vy1
-         1WqY3fxwDgOC2JoSqmTaUJysppgzySKKcisr7a1WQGwd4TjiHHYYrkWB9PtSpQhNECau
-         Mn2WUyYBaSkuTZURwKuYSOW0+D7m6zOrF2kc5+iz+I1tLrUJ0PMJ5Etu4wECFR3Y0z66
-         s/z7MFf7em/4vqI6BA1yJPh66ZBgZ3m7dqcmylaHnfl++KRHjBzgqW/HIgg6ptdLr+qI
-         CV8A==
+        bh=NaXhciQDtI63AcB9SDgDuqcYaairo+slB91oIneRn5o=;
+        b=UniW4O1Rk2IBFnr3fhx3k8uQmQqsm7+wqtT13gjInSWyDyn+fKh6A227Fhe31gYygk
+         GLX8GwTNGdvgIA7w43J4J5wZSz9w4yjwqTktr2avRVyRDRCQbP5LV4k3p2akUckQTWeK
+         Cbi8OzoMZxXD9h03vt0/rFhlMuuUKRD0MlFdmoJMq8z1LRQ6RdlBn8y3l6llPuko00E2
+         rgnSQ9nWFOW2c100I8eEmBXa4idjqn4C35lsMEVq7FkNXTs64cVfCIE9ADM6r7BOQHKT
+         Hejdgxd3sdyhaNx6FH24J7m2DmpeBeaG1JVod5JIJV0L/1/PEE5UTGD46mER9NzL6ZHA
+         w/pg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697929970; x=1698534770;
+        d=1e100.net; s=20230601; t=1697929973; x=1698534773;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=pgihYbweOv461mq7krCIfGB4Er0uLAixEkR4tcljzVg=;
-        b=LVPsbjDnZ3zxm5kFdunEapOCO8ariIR1+hBoIARm5U4qD8ufykXUV6256os7/skOt5
-         0KJQM4t3o9iIMWfrzW49M/7p1PrL86hEtyp25YGi3gbjdaS9GqjZ6y8z4ZJ2QDYQHKdq
-         jnjbvVGFUOb1e5T7jfLdYd1YLPAogGHCHglKnNJ5FwhJosj6ZZ/xQAVgqre8WJ3EptHC
-         TBNAav4a8ts5PbEszcshT+aOQ9Orn/BIpYa7vYkmz1r/EVnkm5VNXlLKVKjc8zSKQ0NW
-         fDOtYa1U6EOURrmnQF+6KiqPoh/47C6Jos8UEVBLtCGDSPuE/IBcGKfJ2V6OTYd0H5gd
-         UI4A==
-X-Gm-Message-State: AOJu0YxYlPhGSUUKfVslOsMeSzE8O9djvpbZ852Esnfws/NW8CIJ0DJe
-	KovHwMBAZm1HzRErt1n3pDs=
-X-Google-Smtp-Source: AGHT+IF4yQPxDHy4u8fqqIQ6nGdZZ81GvcnTqBDt2CrhddFLnIFOB5WS+xWsqX4tsoiJEyQmEmgW5g==
-X-Received: by 2002:a05:600c:1396:b0:404:7659:ba39 with SMTP id u22-20020a05600c139600b004047659ba39mr4016012wmf.16.1697929969850;
-        Sat, 21 Oct 2023 16:12:49 -0700 (PDT)
+        bh=NaXhciQDtI63AcB9SDgDuqcYaairo+slB91oIneRn5o=;
+        b=Z1jCmRdcIxBjoOd5UFW9f/kxPDb778596JxrQGMOwHpdqvMcEt5AQ5L5ydLEWxmqTB
+         mYwwnvwzPI10NXdlt46weL9Y8BQUZxLrsNsKVTjX+K8XruyIii0tsAuJQ59warGlqyGD
+         wbFQlTgs+lJEBwciacylGsaGu/nGLIWdabkK9iT1W9U5DKhiNP/YmDHcl7MCyue2BL4C
+         PTM1555ZZKMDxxRTtthSdR6+IhNlFzNbVPt+hOBzR2puKyGCK277n+HJLlTAJJnCkg4O
+         mD18Ek0r2xdoBiYLPPDuTmtJIO0h5jYtLRdD2mlfa3bPB3J03e8/Bga++LZnuCppM333
+         3vdA==
+X-Gm-Message-State: AOJu0YzCSgCr2ngnziVoF6vd5lSaz29AKphFKjRceVwuVNZgG7MIuu34
+	fmrwGIw6dTKwIOw4exjBKB8=
+X-Google-Smtp-Source: AGHT+IE/j4x916pVyFkELwANRSWr6IFipb3aUbvMqTQ6Ci/25Qe3Yqq8DqkvkPJcBIyJrzdpu7dRMQ==
+X-Received: by 2002:a05:600c:4fcb:b0:405:34e4:14e3 with SMTP id o11-20020a05600c4fcb00b0040534e414e3mr4167364wmq.3.1697929973438;
+        Sat, 21 Oct 2023 16:12:53 -0700 (PDT)
 Received: from gilbert-PC ([105.113.89.119])
-        by smtp.gmail.com with ESMTPSA id g7-20020a5d6987000000b003232380ffd7sm4511073wru.102.2023.10.21.16.12.48
+        by smtp.gmail.com with ESMTPSA id ay10-20020a05600c1e0a00b00405442edc69sm7758919wmb.14.2023.10.21.16.12.52
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 21 Oct 2023 16:12:49 -0700 (PDT)
+        Sat, 21 Oct 2023 16:12:53 -0700 (PDT)
 From: Gilbert Adikankwu <gilbertadikankwu@gmail.com>
 To: gregkh@linuxfoundation.org,
 	outreachy@lists.linux.dev
 Cc: linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Gilbert Adikankwu <gilbertadikankwu@gmail.com>
-Subject: [PATCH 3/5] staging: vt6655: Rename variable bySIFS
-Date: Sun, 22 Oct 2023 00:12:29 +0100
-Message-Id: <f75f308f187fa9a9e14bf25db006131e2dcda43b.1697927812.git.gilbertadikankwu@gmail.com>
+Subject: [PATCH 4/5] staging: vt6655: Rename variable byDIFS
+Date: Sun, 22 Oct 2023 00:12:30 +0100
+Message-Id: <f10775da0decdbbec33d38236cdf89bcd8ab591e.1697927812.git.gilbertadikankwu@gmail.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1697927812.git.gilbertadikankwu@gmail.com>
 References: <cover.1697927812.git.gilbertadikankwu@gmail.com>
@@ -66,86 +66,92 @@ Remove byte Type encoding "by" from variable name and replace camelcase
 with snakecase
 
 Fix checkpatch.pl error:
-	CHECK: Avoid CamelCase: <bySIFS>
+	CHECK: Avoid CamelCase: <byDIFS>
 
 Signed-off-by: Gilbert Adikankwu <gilbertadikankwu@gmail.com>
 ---
- drivers/staging/vt6655/card.c   | 16 ++++++++--------
+ drivers/staging/vt6655/card.c   | 18 +++++++++---------
  drivers/staging/vt6655/device.h |  2 +-
- 2 files changed, 9 insertions(+), 9 deletions(-)
+ 2 files changed, 10 insertions(+), 10 deletions(-)
 
 diff --git a/drivers/staging/vt6655/card.c b/drivers/staging/vt6655/card.c
-index b5a87837995f..48e571badfb1 100644
+index 48e571badfb1..9c8648ea96be 100644
 --- a/drivers/staging/vt6655/card.c
 +++ b/drivers/staging/vt6655/card.c
-@@ -186,7 +186,7 @@ bool CARDbSetPhyParameter(struct vnt_private *priv, u8 bb_type)
- {
+@@ -187,7 +187,7 @@ bool CARDbSetPhyParameter(struct vnt_private *priv, u8 bb_type)
  	unsigned char cw_max_min = 0;
  	unsigned char slot = 0;
--	unsigned char bySIFS = 0;
-+	unsigned char sifs = 0;
- 	unsigned char byDIFS = 0;
+ 	unsigned char sifs = 0;
+-	unsigned char byDIFS = 0;
++	unsigned char difs = 0;
  	int i;
  
-@@ -195,20 +195,20 @@ bool CARDbSetPhyParameter(struct vnt_private *priv, u8 bb_type)
- 		vt6655_mac_set_bb_type(priv->port_offset, BB_TYPE_11A);
+ 	/* Set SIFS, DIFS, EIFS, SlotTime, CwMin */
+@@ -196,14 +196,14 @@ bool CARDbSetPhyParameter(struct vnt_private *priv, u8 bb_type)
  		bb_write_embedded(priv, 0x88, 0x03);
  		slot = C_SLOT_SHORT;
--		bySIFS = C_SIFS_A;
-+		sifs = C_SIFS_A;
- 		byDIFS = C_SIFS_A + 2 * C_SLOT_SHORT;
+ 		sifs = C_SIFS_A;
+-		byDIFS = C_SIFS_A + 2 * C_SLOT_SHORT;
++		difs = C_SIFS_A + 2 * C_SLOT_SHORT;
  		cw_max_min = 0xA4;
  	} else if (bb_type == BB_TYPE_11B) {
  		vt6655_mac_set_bb_type(priv->port_offset, BB_TYPE_11B);
  		bb_write_embedded(priv, 0x88, 0x02);
  		slot = C_SLOT_LONG;
--		bySIFS = C_SIFS_BG;
-+		sifs = C_SIFS_BG;
- 		byDIFS = C_SIFS_BG + 2 * C_SLOT_LONG;
+ 		sifs = C_SIFS_BG;
+-		byDIFS = C_SIFS_BG + 2 * C_SLOT_LONG;
++		difs = C_SIFS_BG + 2 * C_SLOT_LONG;
  		cw_max_min = 0xA5;
  	} else { /* PK_TYPE_11GA & PK_TYPE_11GB */
  		vt6655_mac_set_bb_type(priv->port_offset, BB_TYPE_11G);
- 		bb_write_embedded(priv, 0x88, 0x08);
--		bySIFS = C_SIFS_BG;
-+		sifs = C_SIFS_BG;
+@@ -212,10 +212,10 @@ bool CARDbSetPhyParameter(struct vnt_private *priv, u8 bb_type)
  
  		if (priv->short_slot_time) {
  			slot = C_SLOT_SHORT;
-@@ -233,7 +233,7 @@ bool CARDbSetPhyParameter(struct vnt_private *priv, u8 bb_type)
- 		 * bcs TX_PE will reserve 3 us hardware's processing
+-			byDIFS = C_SIFS_BG + 2 * C_SLOT_SHORT;
++			difs = C_SIFS_BG + 2 * C_SLOT_SHORT;
+ 		} else {
+ 			slot = C_SLOT_LONG;
+-			byDIFS = C_SIFS_BG + 2 * C_SLOT_LONG;
++			difs = C_SIFS_BG + 2 * C_SLOT_LONG;
+ 		}
+ 
+ 		cw_max_min = 0xa4;
+@@ -234,7 +234,7 @@ bool CARDbSetPhyParameter(struct vnt_private *priv, u8 bb_type)
  		 * time here is 2 us.
  		 */
--		bySIFS -= 3;
-+		sifs -= 3;
- 		byDIFS -= 3;
+ 		sifs -= 3;
+-		byDIFS -= 3;
++		difs -= 3;
  		/*
  		 * TX_PE will reserve 3 us for MAX2829 A mode only, it is for
-@@ -242,9 +242,9 @@ bool CARDbSetPhyParameter(struct vnt_private *priv, u8 bb_type)
- 		 */
+ 		 * better TX throughput; MAC will need 2 us to process, so the
+@@ -246,9 +246,9 @@ bool CARDbSetPhyParameter(struct vnt_private *priv, u8 bb_type)
+ 		priv->sifs = sifs;
+ 		iowrite8(priv->sifs, priv->port_offset + MAC_REG_SIFS);
  	}
- 
--	if (priv->bySIFS != bySIFS) {
--		priv->bySIFS = bySIFS;
--		iowrite8(priv->bySIFS, priv->port_offset + MAC_REG_SIFS);
-+	if (priv->sifs != sifs) {
-+		priv->sifs = sifs;
-+		iowrite8(priv->sifs, priv->port_offset + MAC_REG_SIFS);
+-	if (priv->byDIFS != byDIFS) {
+-		priv->byDIFS = byDIFS;
+-		iowrite8(priv->byDIFS, priv->port_offset + MAC_REG_DIFS);
++	if (priv->difs != difs) {
++		priv->difs = difs;
++		iowrite8(priv->difs, priv->port_offset + MAC_REG_DIFS);
  	}
- 	if (priv->byDIFS != byDIFS) {
- 		priv->byDIFS = byDIFS;
+ 	if (priv->byEIFS != C_EIFS) {
+ 		priv->byEIFS = C_EIFS;
 diff --git a/drivers/staging/vt6655/device.h b/drivers/staging/vt6655/device.h
-index a63a8ddb7ff1..e6669c5f0b8b 100644
+index e6669c5f0b8b..264bb056c80c 100644
 --- a/drivers/staging/vt6655/device.h
 +++ b/drivers/staging/vt6655/device.h
-@@ -181,7 +181,7 @@ struct vnt_private {
- 	unsigned int	uCwMin;   /* Current CwMin */
+@@ -182,7 +182,7 @@ struct vnt_private {
  	unsigned int	uCwMax;   /* CwMax is fixed on 1023. */
  	/* PHY parameter */
--	unsigned char bySIFS;
-+	unsigned char sifs;
- 	unsigned char byDIFS;
+ 	unsigned char sifs;
+-	unsigned char byDIFS;
++	unsigned char difs;
  	unsigned char byEIFS;
  	unsigned char slot;
+ 	unsigned char cw_max_min;
 -- 
 2.34.1
 
