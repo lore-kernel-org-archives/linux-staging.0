@@ -1,266 +1,152 @@
-Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
+Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D46672109
-	for <linux-staging@lists.linux.dev>; Sat, 21 Oct 2023 12:20:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6056910F4
+	for <linux-staging@lists.linux.dev>; Sat, 21 Oct 2023 13:05:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Pz99nFep"
-Received: by mail-ed1-f53.google.com with SMTP id 4fb4d7f45d1cf-53d8320f0easo2532294a12.3
-        for <linux-staging@lists.linux.dev>; Sat, 21 Oct 2023 05:20:21 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HTOZbSY3"
+Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-1c0ecb9a075so12052375ad.2
+        for <linux-staging@lists.linux.dev>; Sat, 21 Oct 2023 06:05:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1697890820; x=1698495620; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=jztvdmnKoOtDyJYeFAxJUdIntr9a0/M0DmdO1ZKQ78A=;
-        b=Pz99nFepKxMBgfp1ztydy7eldKAmDkHdiEk71TRraDACtZZHiPEANhjSftqBJNR12E
-         O8SMRTtj0Xo1/3G6dQ4mMOEUVPcu1Pwrm0T9didTt38TLALz4CzFgP/WyDwhk/NNMXKg
-         i/F74w6FVSySdtnwSUEa3kzCfl2rjV6vy9TMZdgHzMG3me0AAZu87QDQjFXPJDvstuQE
-         Ba8nrhzAVQqy9V7b/Jmf4bRQtGTUAhR156xahNZIW9hAXQEcp/5cEBkTr788+S2+Q/0/
-         zkHTsdPEzWeAUsJp+fWpla0wrYkdsYa/kEBwS4Nbm661yr3FU+DvSILZOtIr7pvZBiYw
-         3TfA==
+        d=gmail.com; s=20230601; t=1697893540; x=1698498340; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=G5f1f0vQfSjdVi/REtt5j0YQgF8soTdJTFMLk1PEhnc=;
+        b=HTOZbSY3gjrXScvmSeJ7iy9jtPvj98t0gOUnwl90SB7fzOeyU6dLJUqz8lU1ZF01D7
+         ZYfWNHTRQ5qZvrJEx1G/W/3yIPtIh5MDGN8753mOK8/DAo9RW5197TlVMsMvB/DnBcYg
+         aQCH1S2Ml3gr3Fns819c4XqQ5+9ZzIbUTsiCN5Gdkmka/YaiAG3dtru2Q6Pz1/10UdOi
+         26Dezn6wxKM7mj05Iotc+WNik09ZQQJ+EvyJOPt/kxhvEl8qvpfn6Qu00SsCfI8nmgVm
+         wN4koL2zdtD25n6Gf8hGvC0cfyDc82VxvzvS174c37AZzGBjuyn8pxv7kHG/QSt/4E2Z
+         5ZhQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697890820; x=1698495620;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=jztvdmnKoOtDyJYeFAxJUdIntr9a0/M0DmdO1ZKQ78A=;
-        b=IIh2r8Ty+Phw9cetZYSoQpV70BccffJ3mhYZRFxmIOE1EYoAJHzFnTeGS7Xnzqe5Jf
-         muVeKlA+JKt9qIEdqmQ0JmYGmBzHe/xflApF4nhwUNbVTVhgyzYis//tiUPp8aqZok7L
-         LkFfNNq1ZK/JZ87Ndu4bL1P9PznQNJwo2UCzpkaPXoCj38Ywe08xRoqNxtuVsClTe6JO
-         qYeDFs1eAvmaDeU7TudRr/u7xejz62qt/7iOujUuqDqdd76hCkDMh5fd1vUHAdqGKXQW
-         Srs9hA4jNXMYBa2IMnKUb2VrBw2OfojZxdHABW6Q6nQRyR/Yaqh/NMJ4MA61/TDA24Mu
-         lh5Q==
-X-Gm-Message-State: AOJu0YxlnfUBqaCTby5zd+csD0ttMXt9XMHDJiXTy0SxHN2czHXEodxT
-	Kx/nG3Wu1lMT0IRrhORuVHc=
-X-Google-Smtp-Source: AGHT+IEC/lG+OEjTX4Vx47WpGn3R4YbPATipUADElGWndBe7ClSTRN3E4GjKuH9Ft0Svnff5EVQq/A==
-X-Received: by 2002:a05:6402:5243:b0:530:e2e3:28af with SMTP id t3-20020a056402524300b00530e2e328afmr3784577edd.31.1697890819904;
-        Sat, 21 Oct 2023 05:20:19 -0700 (PDT)
-Received: from localhost.localdomain (ip-77-25-34-72.web.vodafone.de. [77.25.34.72])
-        by smtp.gmail.com with ESMTPSA id c21-20020a50d655000000b00537963f692esm3450568edj.0.2023.10.21.05.20.19
+        d=1e100.net; s=20230601; t=1697893540; x=1698498340;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=G5f1f0vQfSjdVi/REtt5j0YQgF8soTdJTFMLk1PEhnc=;
+        b=nByNgL+qzYa3KAe5Fb/MiipTjx2y/0IfHgyw1+ltXqYoiIynYMuBtR3kG1SBoSGAmf
+         7/zdcxBNYpOTcr3DcBSmqpbvrjDjgeEtSaGxHSlrITAj8jn9OpSH4+mFJNg2F+Tj/hbf
+         q2i/anjrkU154kW3m+zD9TrcVu19nR64pFSGMVZOFcWIaTNtgmCs7LbAPlkV6VbNSC+0
+         aCU43KcTD3fCDIgJvvt+2Dep4StDW0iEehgNs83yP/zSYEoXmbUI/gPtV/pZCZWyD16A
+         EcP7J6Ai9HTddy0XrRtCLiZJg5N86DYyCIPEIDPtSZiCrqUXaX5c2Fp4sZvkpxCUSz+Z
+         eyyw==
+X-Gm-Message-State: AOJu0YznT91bpOSc1LQ7KrjNIDRY3soqEPPXLC+77p1SFPrxVaNMwH8w
+	T+S5RHjfbYA5qV0kZ4PyfmaDrs5HNuYR3Q==
+X-Google-Smtp-Source: AGHT+IFHYGt3bF0G2tCnQmvxBHxEud8YIBJqmnRa57y5tilld1MEtDW8BNCG6blbLAEA1bLsnbhCeQ==
+X-Received: by 2002:a17:903:2012:b0:1c5:bea4:8537 with SMTP id s18-20020a170903201200b001c5bea48537mr2867431pla.15.1697893540382;
+        Sat, 21 Oct 2023 06:05:40 -0700 (PDT)
+Received: from ubuntu ([122.167.9.184])
+        by smtp.gmail.com with ESMTPSA id j6-20020a170902da8600b001c9c8d761a3sm3130187plx.131.2023.10.21.06.05.38
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 21 Oct 2023 05:20:19 -0700 (PDT)
-From: Michael Straube <straube.linux@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: philipp.g.hortmann@gmail.com,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Michael Straube <straube.linux@gmail.com>
-Subject: [PATCH] staging: rtl8192e: clean up comparisons to NULL
-Date: Sat, 21 Oct 2023 14:19:47 +0200
-Message-ID: <20231021121947.14516-1-straube.linux@gmail.com>
-X-Mailer: git-send-email 2.42.0
+        Sat, 21 Oct 2023 06:05:40 -0700 (PDT)
+Date: Sat, 21 Oct 2023 06:05:35 -0700
+From: Nandha Kumar Singaram <nandhakumar.singaram@gmail.com>
+To: Alex Elder <elder@ieee.org>
+Cc: Johan Hovold <johan@kernel.org>, Alex Elder <elder@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: greybus: Alignment should match open parenthesis
+Message-ID: <20231021130535.GA12776@ubuntu>
+References: <20231019213949.GA2922@ubuntu>
+ <e24e41be-b2c4-4bda-8a34-a628c55c4061@ieee.org>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <e24e41be-b2c4-4bda-8a34-a628c55c4061@ieee.org>
 
-Clean up comparisons to NULL to improve readability.
-Reported by checkpatch.
+On Thu, Oct 19, 2023 at 07:15:37PM -0500, Alex Elder wrote:
+> On 10/19/23 4:39 PM, Nandha Kumar Singaram wrote:
+> > Adhere to linux coding style. Reported by checkpatch.pl:
+> > CHECK: Alignment should match open parenthesis
+> 
+> Sometimes checkpatch.pl warns about things that are not
+> really that important.  One class of this type of issue
+> is white space errors.
+> 
+> Yes, consistency is good, but the kernel simply doesn't
+> have universally consistent conventions, and I doubt
+> it ever will.  There might be times where a source file
+> consistently follows a white space convention that
+> differs from what checkpatch wants.  Suggesting a
+> wholesale change to that file to "fix" that typically
+> wouldn't be welcome.
+> 
+> Unfortunately without some experience it's hard to know
+> which checkpatch warnings can be safely ignored.  I would
+> place white space warnings at a lower priority for fixing
+> than some others.  For example, this is also a pretty
+> trivial warning:
+>   CHECK: Macro argument 'gcam' may be better as '(gcam)' to avoid precedence
+> issues
+> And it is most likely not a problem in this case, but fixing
+> this type of warning is probably more constructive than
+> just adjusting white space.
+> 
+> I have no objection to your patch, and it's a fine way to
+> get some experience with the patch process, but I don't
+> think this particular change is necessary.
+> 
+> 					-Alex
+> 
+> > Signed-off-by: Nandha Kumar Singaram <nandhakumar.singaram@gmail.com>
+> > ---
+> >   drivers/staging/greybus/camera.c | 14 +++++++-------
+> >   1 file changed, 7 insertions(+), 7 deletions(-)
+> > 
+> > diff --git a/drivers/staging/greybus/camera.c b/drivers/staging/greybus/camera.c
+> > index cdbb42cd413b..405c8e78aa72 100644
+> > --- a/drivers/staging/greybus/camera.c
+> > +++ b/drivers/staging/greybus/camera.c
+> > @@ -220,7 +220,7 @@ static int gb_camera_operation_sync_flags(struct gb_connection *connection,
+> >   }
+> >   static int gb_camera_get_max_pkt_size(struct gb_camera *gcam,
+> > -		struct gb_camera_configure_streams_response *resp)
+> > +				      struct gb_camera_configure_streams_response *resp)
+> >   {
+> >   	unsigned int max_pkt_size = 0;
+> >   	unsigned int i;
+> > @@ -267,8 +267,7 @@ static int gb_camera_get_max_pkt_size(struct gb_camera *gcam,
+> >    * Validate the stream configuration response verifying padding is correctly
+> >    * set and the returned number of streams is supported
+> >    */
+> > -static const int gb_camera_configure_streams_validate_response(
+> > -		struct gb_camera *gcam,
+> > +static const int gb_camera_configure_streams_validate_response(struct gb_camera *gcam,
+> >   		struct gb_camera_configure_streams_response *resp,
+> >   		unsigned int nstreams)
+> >   {
+> > @@ -378,8 +377,8 @@ struct ap_csi_config_request {
+> >   #define GB_CAMERA_CSI_CLK_FREQ_MARGIN		150000000U
+> >   static int gb_camera_setup_data_connection(struct gb_camera *gcam,
+> > -		struct gb_camera_configure_streams_response *resp,
+> > -		struct gb_camera_csi_params *csi_params)
+> > +					   struct gb_camera_configure_streams_response *resp,
+> > +					   struct gb_camera_csi_params *csi_params)
+> >   {
+> >   	struct ap_csi_config_request csi_cfg;
+> >   	struct gb_connection *conn;
+> > @@ -783,8 +782,9 @@ static ssize_t gb_camera_op_capabilities(void *priv, char *data, size_t len)
+> >   }
+> >   static int gb_camera_op_configure_streams(void *priv, unsigned int *nstreams,
+> > -		unsigned int *flags, struct gb_camera_stream *streams,
+> > -		struct gb_camera_csi_params *csi_params)
+> > +					  unsigned int *flags,
+> > +					  struct gb_camera_stream *streams,
+> > +					  struct gb_camera_csi_params *csi_params)
+> >   {
+> >   	struct gb_camera *gcam = priv;
+> >   	struct gb_camera_stream_config *gb_streams;
+> 
 
-if (x == NULL) -> if (!x)
-if (x != NULL) -> if (x)
+Thanks Alex for the review and feedback.
 
-Signed-off-by: Michael Straube <straube.linux@gmail.com>
----
-Compile tested only, due to missing hardware.
-
- .../staging/rtl8192e/rtl8192e/r8192E_phy.c    |  2 +-
- drivers/staging/rtl8192e/rtl8192e/rtl_cam.c   |  2 +-
- drivers/staging/rtl8192e/rtl8192e/rtl_wx.c    |  2 +-
- drivers/staging/rtl8192e/rtllib_crypt_ccmp.c  |  2 +-
- drivers/staging/rtl8192e/rtllib_crypt_wep.c   |  2 +-
- drivers/staging/rtl8192e/rtllib_rx.c          | 24 +++++++++----------
- drivers/staging/rtl8192e/rtllib_softmac.c     |  2 +-
- 7 files changed, 17 insertions(+), 19 deletions(-)
-
-diff --git a/drivers/staging/rtl8192e/rtl8192e/r8192E_phy.c b/drivers/staging/rtl8192e/rtl8192e/r8192E_phy.c
-index bc06c2cab35d..a5e16bf99cd6 100644
---- a/drivers/staging/rtl8192e/rtl8192e/r8192E_phy.c
-+++ b/drivers/staging/rtl8192e/rtl8192e/r8192E_phy.c
-@@ -513,7 +513,7 @@ static u8 _rtl92e_phy_set_sw_chnl_cmd_array(struct net_device *dev,
- {
- 	struct sw_chnl_cmd *pCmd;
- 
--	if (CmdTable == NULL) {
-+	if (!CmdTable) {
- 		netdev_err(dev, "%s(): CmdTable cannot be NULL.\n", __func__);
- 		return false;
- 	}
-diff --git a/drivers/staging/rtl8192e/rtl8192e/rtl_cam.c b/drivers/staging/rtl8192e/rtl8192e/rtl_cam.c
-index 9b280cee0ac1..76ec4ed967c4 100644
---- a/drivers/staging/rtl8192e/rtl8192e/rtl_cam.c
-+++ b/drivers/staging/rtl8192e/rtl8192e/rtl_cam.c
-@@ -112,7 +112,7 @@ void rtl92e_set_key(struct net_device *dev, u8 EntryNo, u8 KeyIndex,
- 			rtl92e_writel(dev, WCAMI, TargetContent);
- 			rtl92e_writel(dev, RWCAM, TargetCommand);
- 		} else {
--			if (KeyContent != NULL) {
-+			if (KeyContent) {
- 				rtl92e_writel(dev, WCAMI,
- 					      (u32)(*(KeyContent + i - 2)));
- 				rtl92e_writel(dev, RWCAM, TargetCommand);
-diff --git a/drivers/staging/rtl8192e/rtl8192e/rtl_wx.c b/drivers/staging/rtl8192e/rtl8192e/rtl_wx.c
-index ec8e7d5fe634..4371ab1239ee 100644
---- a/drivers/staging/rtl8192e/rtl8192e/rtl_wx.c
-+++ b/drivers/staging/rtl8192e/rtl8192e/rtl_wx.c
-@@ -805,7 +805,7 @@ static int _rtl92e_wx_get_gen_ie(struct net_device *dev,
- 	struct r8192_priv *priv = rtllib_priv(dev);
- 	struct rtllib_device *ieee = priv->rtllib;
- 
--	if (ieee->wpa_ie_len == 0 || ieee->wpa_ie == NULL) {
-+	if (ieee->wpa_ie_len == 0 || !ieee->wpa_ie) {
- 		data->data.length = 0;
- 		return 0;
- 	}
-diff --git a/drivers/staging/rtl8192e/rtllib_crypt_ccmp.c b/drivers/staging/rtl8192e/rtllib_crypt_ccmp.c
-index 5621261d66b9..cbb8c8dbe9b0 100644
---- a/drivers/staging/rtl8192e/rtllib_crypt_ccmp.c
-+++ b/drivers/staging/rtl8192e/rtllib_crypt_ccmp.c
-@@ -52,7 +52,7 @@ static void *rtllib_ccmp_init(int key_idx)
- 	struct rtllib_ccmp_data *priv;
- 
- 	priv = kzalloc(sizeof(*priv), GFP_ATOMIC);
--	if (priv == NULL)
-+	if (!priv)
- 		goto fail;
- 	priv->key_idx = key_idx;
- 
-diff --git a/drivers/staging/rtl8192e/rtllib_crypt_wep.c b/drivers/staging/rtl8192e/rtllib_crypt_wep.c
-index 062285e4d939..21c2b7666d6f 100644
---- a/drivers/staging/rtl8192e/rtllib_crypt_wep.c
-+++ b/drivers/staging/rtl8192e/rtllib_crypt_wep.c
-@@ -35,7 +35,7 @@ static void *prism2_wep_init(int keyidx)
- 		return NULL;
- 
- 	priv = kzalloc(sizeof(*priv), GFP_ATOMIC);
--	if (priv == NULL)
-+	if (!priv)
- 		return NULL;
- 	priv->key_idx = keyidx;
- 
-diff --git a/drivers/staging/rtl8192e/rtllib_rx.c b/drivers/staging/rtl8192e/rtllib_rx.c
-index 124c1651856b..ecaa4dec3f94 100644
---- a/drivers/staging/rtl8192e/rtllib_rx.c
-+++ b/drivers/staging/rtl8192e/rtllib_rx.c
-@@ -63,7 +63,7 @@ rtllib_frag_cache_find(struct rtllib_device *ieee, unsigned int seq,
- 
- 	for (i = 0; i < RTLLIB_FRAG_CACHE_LEN; i++) {
- 		entry = &ieee->frag_cache[tid][i];
--		if (entry->skb != NULL &&
-+		if (entry->skb &&
- 		    time_after(jiffies, entry->first_frag_time + 2 * HZ)) {
- 			netdev_dbg(ieee->dev,
- 				   "expiring fragment cache entry seq=%u last_frag=%u\n",
-@@ -72,7 +72,7 @@ rtllib_frag_cache_find(struct rtllib_device *ieee, unsigned int seq,
- 			entry->skb = NULL;
- 		}
- 
--		if (entry->skb != NULL && entry->seq == seq &&
-+		if (entry->skb && entry->seq == seq &&
- 		    (entry->last_frag + 1 == frag || frag == -1) &&
- 		    memcmp(entry->src_addr, src, ETH_ALEN) == 0 &&
- 		    memcmp(entry->dst_addr, dst, ETH_ALEN) == 0)
-@@ -130,7 +130,7 @@ rtllib_frag_cache_get(struct rtllib_device *ieee,
- 		if (ieee->frag_next_idx[tid] >= RTLLIB_FRAG_CACHE_LEN)
- 			ieee->frag_next_idx[tid] = 0;
- 
--		if (entry->skb != NULL)
-+		if (entry->skb)
- 			dev_kfree_skb_any(entry->skb);
- 
- 		entry->first_frag_time = jiffies;
-@@ -145,7 +145,7 @@ rtllib_frag_cache_get(struct rtllib_device *ieee,
- 		 */
- 		entry = rtllib_frag_cache_find(ieee, seq, frag, tid, hdr->addr2,
- 						  hdr->addr1);
--		if (entry != NULL) {
-+		if (entry) {
- 			entry->last_frag = frag;
- 			skb = entry->skb;
- 		}
-@@ -184,7 +184,7 @@ static int rtllib_frag_cache_invalidate(struct rtllib_device *ieee,
- 	entry = rtllib_frag_cache_find(ieee, seq, -1, tid, hdr->addr2,
- 					  hdr->addr1);
- 
--	if (entry == NULL) {
-+	if (!entry) {
- 		netdev_dbg(ieee->dev,
- 			   "Couldn't invalidate fragment cache entry (seq=%u)\n",
- 			   seq);
-@@ -276,7 +276,7 @@ rtllib_rx_frame_decrypt(struct rtllib_device *ieee, struct sk_buff *skb,
- 	struct ieee80211_hdr *hdr;
- 	int res, hdrlen;
- 
--	if (crypt == NULL || crypt->ops->decrypt_mpdu == NULL)
-+	if (!crypt || !crypt->ops->decrypt_mpdu)
- 		return 0;
- 
- 	if (ieee->hwsec_active) {
-@@ -316,7 +316,7 @@ rtllib_rx_frame_decrypt_msdu(struct rtllib_device *ieee, struct sk_buff *skb,
- 	struct ieee80211_hdr *hdr;
- 	int res, hdrlen;
- 
--	if (crypt == NULL || crypt->ops->decrypt_msdu == NULL)
-+	if (!crypt || !crypt->ops->decrypt_msdu)
- 		return 0;
- 	if (ieee->hwsec_active) {
- 		struct cb_desc *tcb_desc = (struct cb_desc *)
-@@ -998,8 +998,7 @@ static int rtllib_rx_get_crypt(struct rtllib_device *ieee, struct sk_buff *skb,
- 	/* allow NULL decrypt to indicate an station specific override
- 	 * for default encryption
- 	 */
--	if (*crypt && ((*crypt)->ops == NULL ||
--		      (*crypt)->ops->decrypt_mpdu == NULL))
-+	if (*crypt && (!(*crypt)->ops || !(*crypt)->ops->decrypt_mpdu))
- 		*crypt = NULL;
- 
- 	if (!*crypt && (fc & IEEE80211_FCTL_PROTECTED)) {
-@@ -1171,7 +1170,7 @@ static void rtllib_rx_indicate_pkt_legacy(struct rtllib_device *ieee,
- 	u16 ethertype;
- 	int i = 0;
- 
--	if (rxb == NULL) {
-+	if (!rxb) {
- 		netdev_info(dev, "%s: rxb is NULL!!\n", __func__);
- 		return;
- 	}
-@@ -1369,7 +1368,7 @@ static int rtllib_rx_InfraAdhoc(struct rtllib_device *ieee, struct sk_buff *skb,
- 	rtllib_rx_check_leave_lps(ieee, unicast, nr_subframes);
- 
- 	/* Indicate packets to upper layer or Rx Reorder */
--	if (!ieee->ht_info->cur_rx_reorder_enable || ts == NULL)
-+	if (!ieee->ht_info->cur_rx_reorder_enable || !ts)
- 		rtllib_rx_indicate_pkt_legacy(ieee, rx_stats, rxb, dst, src);
- 	else
- 		RxReorderIndicatePacket(ieee, rxb, ts, SeqNum);
-@@ -2510,8 +2509,7 @@ static inline void rtllib_process_probe_response(
- 		if (is_same_network(target, network,
- 		   (target->ssid_len ? 1 : 0)))
- 			break;
--		if ((oldest == NULL) ||
--		    (target->last_scanned < oldest->last_scanned))
-+		if (!oldest || (target->last_scanned < oldest->last_scanned))
- 			oldest = target;
- 	}
- 
-diff --git a/drivers/staging/rtl8192e/rtllib_softmac.c b/drivers/staging/rtl8192e/rtllib_softmac.c
-index ff98b41c94e0..42d652fe8601 100644
---- a/drivers/staging/rtl8192e/rtllib_softmac.c
-+++ b/drivers/staging/rtl8192e/rtllib_softmac.c
-@@ -918,7 +918,7 @@ rtllib_association_req(struct rtllib_network *beacon,
- 	int len = 0;
- 
- 	crypt = ieee->crypt_info.crypt[ieee->crypt_info.tx_keyidx];
--	if (crypt != NULL)
-+	if (crypt)
- 		encrypt = crypt && crypt->ops &&
- 			  ((strcmp(crypt->ops->name, "R-WEP") == 0 ||
- 			  wpa_ie_len));
--- 
-2.42.0
-
+Regards,
+Nandha Kumar
