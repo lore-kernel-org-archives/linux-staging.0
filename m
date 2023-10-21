@@ -1,132 +1,110 @@
-Received: from out2-smtp.messagingengine.com (out2-smtp.messagingengine.com [66.111.4.26])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 192AF12E41
-	for <linux-staging@lists.linux.dev>; Sat, 21 Oct 2023 21:55:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=fastmail.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fastmail.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90A4BA2C;
+	Sat, 21 Oct 2023 22:41:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=fastmail.org header.i=@fastmail.org header.b="Td2DwNMh";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="oSjz+kSM"
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
-	by mailout.nyi.internal (Postfix) with ESMTP id 183965C024A;
-	Sat, 21 Oct 2023 17:55:28 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute3.internal (MEProxy); Sat, 21 Oct 2023 17:55:28 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fastmail.org; h=
-	cc:cc:content-transfer-encoding:content-type:date:date:from:from
-	:in-reply-to:message-id:mime-version:reply-to:sender:subject
-	:subject:to:to; s=fm3; t=1697925328; x=1698011728; bh=DVK74q2dXS
-	TQuNao7RVDtKlw88z9AdWp2sI4Ekawc3Y=; b=Td2DwNMhq/mCqC5Qr4VjyDMMhx
-	iAyBBB+wnNRFt4m8chnpoG2CMl02fUvdiUKoBWsiL6WqigLAfTgDxgCvhDDJTwxj
-	eS6FmI0mcQxumAnwhmzC430zuxh1eAaiDNHSe6J6PqCympONt1Q9t7/ZCRjC1Dqr
-	3OA1RIeHV4HPanJ2NI9Blq1CiabD+WQiTdsF0+fM0cxCga4c5BpRUkP76uMoyEg6
-	rkL1M6LGibhFlyd+OXQ+S/jUwyUjcNU3p1wxvAJqmXVkDYJR9BKo1eqxm768p/uQ
-	T0nDBHsrMv2c52TXxmOZO26oqpKFyugPw6Shs2/Xbu6oh5DbxBFx4JExoZmg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:date:date:feedback-id:feedback-id:from:from
-	:in-reply-to:message-id:mime-version:reply-to:sender:subject
-	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-	:x-sasl-enc; s=fm3; t=1697925328; x=1698011728; bh=DVK74q2dXSTQu
-	Nao7RVDtKlw88z9AdWp2sI4Ekawc3Y=; b=oSjz+kSM9Sn2tEAd6BpXwEuL5PHPQ
-	t08Ktr8myTeArkxk0xTSEs/TT9dvKxgI++68IyGYP+Exchl9XbT054cIWwq++jpm
-	8UmC001jjfyFWDM9dIquZuXiKvUBB+ss3kZMT5sA5NswRjzNb2K0xZ1rJvMUIf4u
-	HC8BDySTlal7yo7wmGBJKlhJWFocVUTRo8yfbNb+S0cu5ELeXzTJNvxn5wiUMh1L
-	VwYA9m6ZXZmDAcKcsE4GSWIljBvwxuSl1bTAQf/qOfuse9eIafXp4BwDtRsinRUl
-	b+tpKx0fR5wf/Pa17liKjqxfpVtQeerF4bjNMVZY0FG3C1J6Ii4Z7wz+Q==
-X-ME-Sender: <xms:z0g0Zf-uRPcYgeB8jqFKE4_nc5cjLtfnA1-ML0IwEIS_47WIfcR3lA>
-    <xme:z0g0Zbu4gboqsZlTEFpRMgnU0MXjVFOHScMOI_a7c5FX3J7TG9ITGs6EEL2nNZxsj
-    9s058dCYRNW3GXEDaQ>
-X-ME-Received: <xmr:z0g0ZdAB-GLwQqSQH-tOPnNOWvi41LTMRuy9NnCwzuF8djK0MjKM7M8hxrBI_UL-uzPdi_yXn3Fo8dxlnTwCmdpqlhYu_jnaMqAadL2hgbU>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvkedrkedugddtfecutefuodetggdotefrodftvf
-    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
-    uegrihhlohhuthemuceftddtnecunecujfgurhephffvvefufffkofgggfestdekredtre
-    dttdenucfhrhhomhepifgrrhihucftohhokhgrrhguuceoghgrrhihrhhoohhkrghruges
-    fhgrshhtmhgrihhlrdhorhhgqeenucggtffrrghtthgvrhhnpeelgefffffghefhjeegje
-    ehiedvgfelfeehueeuteektdffiefhveelhfegvedvveenucevlhhushhtvghrufhiiigv
-    pedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehgrghrhihrohhokhgrrhgusehfrghsth
-    hmrghilhdrohhrgh
-X-ME-Proxy: <xmx:z0g0ZbcR3UWJ0Y1KzlwRFESGVtkOZgDzGriVO8y4GjDuu_-hjlwdxQ>
-    <xmx:z0g0ZUO5AqBO7P4UO4gqe6FWrEoMb6N0yoZH2FGdAyFb3c_lLePOqQ>
-    <xmx:z0g0ZdmvRfggGCv-tdmOGc06hwz23ZeYjL8w7dI5GYEmrp7qlfoC3g>
-    <xmx:0Eg0ZZrXOGB_M5LrhrZ-xhqA-iqs4zYM2kmloc1xZ3uf8wtdvvQz7g>
-Feedback-ID: ifd194980:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
- 21 Oct 2023 17:55:27 -0400 (EDT)
-From: Gary Rookard <garyrookard@fastmail.org>
-To: gregkh@linuxfoundation.org
-Cc: philipp.g.hortmann@gmail.com,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cUrXvT9n"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1697928089; x=1729464089;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=QTNy210PlMgi9Xz7qHUpyj2N+7s0EoG6ehIJFJZwxkY=;
+  b=cUrXvT9n4LYwJ+zRYtOcAO7mJn4ua/n+qJQSJ6IdW4Km02Nfx86lxeu5
+   I2i63zdjyUh7atT7yfQ6HJfGliWsB6SGqsBy26je1W0T3GqAfHF2JVXaX
+   cOnS9P71qf9l7yXb9CtuWsAuUgZgQlmx3SV1UyOm/1Hj34upCF/EgB5dR
+   6yJneYVtxjS3p3Tta6rr1ZRQOa4AI4RW+y+acWAacxwi1VWvLboEtq8XP
+   eTwVBMeePJ4HpkhkHkht3nD6S7H96aZzId7MqrNjKrgQ/mihb6e8dk6Vp
+   TPOPQf1+bz5V60aGnqNBg9wghDMVaEX0PPrys2DPpB0o26IINrW6Ck/QH
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10870"; a="383867174"
+X-IronPort-AV: E=Sophos;i="6.03,242,1694761200"; 
+   d="scan'208";a="383867174"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Oct 2023 15:41:28 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10870"; a="1004922657"
+X-IronPort-AV: E=Sophos;i="6.03,242,1694761200"; 
+   d="scan'208";a="1004922657"
+Received: from lkp-server01.sh.intel.com (HELO 8917679a5d3e) ([10.239.97.150])
+  by fmsmga006.fm.intel.com with ESMTP; 21 Oct 2023 15:41:26 -0700
+Received: from kbuild by 8917679a5d3e with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1quKeq-0005Il-2e;
+	Sat, 21 Oct 2023 22:41:24 +0000
+Date: Sun, 22 Oct 2023 06:41:16 +0800
+From: kernel test robot <lkp@intel.com>
+To: Gary Rookard <garyrookard@fastmail.org>, gregkh@linuxfoundation.org
+Cc: oe-kbuild-all@lists.linux.dev, philipp.g.hortmann@gmail.com,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
 	Gary Rookard <garyrookard@fastmail.org>
-Subject: [PATCH v3] staging: rtl8192e: renamed variable TxCountToDataRate
-Date: Sat, 21 Oct 2023 17:54:40 -0400
-Message-ID: <20231021215440.6584-1-garyrookard@fastmail.org>
-X-Mailer: git-send-email 2.41.0
+Subject: Re: [PATCH v2] staging: rtl8192e: renamed variable TxCountToDataRate
+Message-ID: <202310220613.ecHUnU2j-lkp@intel.com>
+References: <20231021213202.6244-1-garyrookard@fastmail.org>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231021213202.6244-1-garyrookard@fastmail.org>
 
-Renamed from Pascal/CamelCase to Snake case the variable
-TxCountDataRate, TxCountDataRate -> tx_count_data_rate.
+Hi Gary,
 
-Linux kernel coding style (cleanup), checkpatch Avoid CamelCase.
-Driver rtl8192e compiles.
+kernel test robot noticed the following build errors:
 
-Signed-off-by: Gary Rookard <garyrookard@fastmail.org>
----
-Removed parenthesis alignment, and removed corrected spacing from
-this patch. Only contains renaming variable.
+[auto build test ERROR on staging/staging-testing]
 
- drivers/staging/rtl8192e/rtl819x_HTProc.c    | 2 +-
- drivers/staging/rtl8192e/rtllib.h            | 2 +-
- drivers/staging/rtl8192e/rtllib_softmac_wx.c | 2 +-
- 3 files changed, 3 insertions(+), 3 deletions(-)
+url:    https://github.com/intel-lab-lkp/linux/commits/Gary-Rookard/staging-rtl8192e-renamed-variable-TxCountToDataRate/20231022-053516
+base:   staging/staging-testing
+patch link:    https://lore.kernel.org/r/20231021213202.6244-1-garyrookard%40fastmail.org
+patch subject: [PATCH v2] staging: rtl8192e: renamed variable TxCountToDataRate
+config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20231022/202310220613.ecHUnU2j-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231022/202310220613.ecHUnU2j-lkp@intel.com/reproduce)
 
-diff --git a/drivers/staging/rtl8192e/rtl819x_HTProc.c b/drivers/staging/rtl8192e/rtl819x_HTProc.c
-index 00b21542ddc3..8070a152712e 100644
---- a/drivers/staging/rtl8192e/rtl819x_HTProc.c
-+++ b/drivers/staging/rtl8192e/rtl819x_HTProc.c
-@@ -114,7 +114,7 @@ static u16 HTMcsToDataRate(struct rtllib_device *ieee, u8 nMcsRate)
- 	return MCS_DATA_RATE[is40MHz][isShortGI][(nMcsRate & 0x7f)];
- }
- 
--u16  TxCountToDataRate(struct rtllib_device *ieee, u8 nDataRate)
-+u16  tx_count_to_data_rate(struct rtllib_device *ieee, u8 nDataRate)
- {
- 	u16	CCKOFDMRate[12] = {0x02, 0x04, 0x0b, 0x16, 0x0c, 0x12, 0x18,
- 				   0x24, 0x30, 0x48, 0x60, 0x6c};
-diff --git a/drivers/staging/rtl8192e/rtllib.h b/drivers/staging/rtl8192e/rtllib.h
-index 9d141aad8cd5..6a9550eaf148 100644
---- a/drivers/staging/rtl8192e/rtllib.h
-+++ b/drivers/staging/rtl8192e/rtllib.h
-@@ -1784,7 +1784,7 @@ extern u16 MCS_DATA_RATE[2][2][77];
- u8 HTCCheck(struct rtllib_device *ieee, u8 *pFrame);
- void HTResetIOTSetting(struct rt_hi_throughput *ht_info);
- bool IsHTHalfNmodeAPs(struct rtllib_device *ieee);
--u16  TxCountToDataRate(struct rtllib_device *ieee, u8 nDataRate);
-+u16  tx_count_data_rate(struct rtllib_device *ieee, u8 nDataRate);
- int rtllib_rx_ADDBAReq(struct rtllib_device *ieee, struct sk_buff *skb);
- int rtllib_rx_ADDBARsp(struct rtllib_device *ieee, struct sk_buff *skb);
- int rtllib_rx_DELBA(struct rtllib_device *ieee, struct sk_buff *skb);
-diff --git a/drivers/staging/rtl8192e/rtllib_softmac_wx.c b/drivers/staging/rtl8192e/rtllib_softmac_wx.c
-index f32584291704..28aba1d610f7 100644
---- a/drivers/staging/rtl8192e/rtllib_softmac_wx.c
-+++ b/drivers/staging/rtl8192e/rtllib_softmac_wx.c
-@@ -208,7 +208,7 @@ int rtllib_wx_get_rate(struct rtllib_device *ieee,
- {
- 	u32 tmp_rate;
- 
--	tmp_rate = TxCountToDataRate(ieee,
-+	tmp_rate = tx_count_to_data_rate(ieee,
- 				     ieee->softmac_stats.CurrentShowTxate);
- 	wrqu->bitrate.value = tmp_rate * 500000;
- 
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310220613.ecHUnU2j-lkp@intel.com/
+
+All error/warnings (new ones prefixed by >>):
+
+   drivers/staging/rtl8192e/rtllib_softmac_wx.c: In function 'rtllib_wx_get_rate':
+>> drivers/staging/rtl8192e/rtllib_softmac_wx.c:211:20: error: implicit declaration of function 'tx_count_to_data_rate'; did you mean 'tx_count_data_rate'? [-Werror=implicit-function-declaration]
+     211 |         tmp_rate = tx_count_to_data_rate(ieee,
+         |                    ^~~~~~~~~~~~~~~~~~~~~
+         |                    tx_count_data_rate
+   cc1: some warnings being treated as errors
+--
+>> drivers/staging/rtl8192e/rtl819x_HTProc.c:117:6: warning: no previous prototype for 'tx_count_to_data_rate' [-Wmissing-prototypes]
+     117 | u16  tx_count_to_data_rate(struct rtllib_device *ieee, u8 nDataRate)
+         |      ^~~~~~~~~~~~~~~~~~~~~
+
+
+vim +211 drivers/staging/rtl8192e/rtllib_softmac_wx.c
+
+   204	
+   205	int rtllib_wx_get_rate(struct rtllib_device *ieee,
+   206				     struct iw_request_info *info,
+   207				     union iwreq_data *wrqu, char *extra)
+   208	{
+   209		u32 tmp_rate;
+   210	
+ > 211		tmp_rate = tx_count_to_data_rate(ieee,
+   212					     ieee->softmac_stats.CurrentShowTxate);
+   213		wrqu->bitrate.value = tmp_rate * 500000;
+   214	
+   215		return 0;
+   216	}
+   217	EXPORT_SYMBOL(rtllib_wx_get_rate);
+   218	
+
 -- 
-2.41.0
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
