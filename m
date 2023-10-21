@@ -1,54 +1,46 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78A4C626;
-	Sat, 21 Oct 2023 00:07:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13505D269
+	for <linux-staging@lists.linux.dev>; Sat, 21 Oct 2023 07:31:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="vGVGdz8e"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 32AAFC433C8;
-	Sat, 21 Oct 2023 00:07:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1697846858;
-	bh=jTrk/Gafm+KJRKpyzTt3v8OHqLErcuKfqpcSbk76V8I=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=vGVGdz8e43uV7R9ReOWlRBWvZ/wKZjDH63CXscVta7XkrF0cna+6PgPR+mZcn/oNY
-	 ISmxMTVY7NZAKrVavmowWG+SR/QPdYimd9mOJHWjSSY1a74gyH0OHk9Wo8URVj2wtI
-	 c1NT5jB0wbw64oGkfogxhXRP6XGe0YENctYcY6tg4IOvOTYyybpwTe7Fj4gsi2om/p
-	 wt7bflk0KrCKMrMkc14Dn04MG4M7irw7SFebvdk2s0h8+iqwntxGkfSriV8eqrxsqj
-	 atbY/Yd3ph/ab4y03YrU+8QILz8J1mRrQUH7LzsWFXNwDUh2sXHHImeSW4WBaHvQi8
-	 WeDLscDffY8Ig==
-Date: Fri, 20 Oct 2023 17:07:37 -0700
-From: Jakub Kicinski <kuba@kernel.org>
-To: Benjamin Poirier <benjamin.poirier@gmail.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "David S. Miller"
- <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Paolo Abeni
- <pabeni@redhat.com>, Jonathan Corbet <corbet@lwn.net>, "James E.J.
- Bottomley" <James.Bottomley@HansenPartnership.com>, Helge Deller
- <deller@gmx.de>, Ian Kent <raven@themaw.net>, Sven Joachim
- <svenjoac@gmx.de>, Nandha Kumar Singaram <nandhakumar.singaram@gmail.com>,
- Sumitra Sharma <sumitraartsy@gmail.com>, Ricardo Lopes
- <ricardoapl.dev@gmail.com>, Dan Carpenter <error27@gmail.com>,
- netdev@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-parisc@vger.kernel.org,
- linux-staging@lists.linux.dev, Manish Chopra <manishc@marvell.com>, Coiby
- Xu <coiby.xu@gmail.com>
-Subject: Re: [PATCH 0/2] staging: qlge: Remove qlge
-Message-ID: <20231020170737.1036eae9@kernel.org>
-In-Reply-To: <20231020124457.312449-1-benjamin.poirier@gmail.com>
-References: <20231020124457.312449-1-benjamin.poirier@gmail.com>
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="SRAKAYNQ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3664EC433C8;
+	Sat, 21 Oct 2023 07:31:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1697873502;
+	bh=4aCY97D7gtFSBIsEYv9Z4lDXkkXAFhhDXDhjPDd2rDQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=SRAKAYNQFm06+a9XsQMxjCug6MRGysuYpzMk/7+FSh3OwvODg72Nn5XuregA9+cSW
+	 SyRERx7RqllOuJwOmuPOcglhFLl60zfHtEcAP90MAYeYfVlD1BaRDeD+Nd7lhn/5Pc
+	 Mec1kd3YySmkNBVx/leNYWKGipZVzrIlF6MLJpjg=
+Date: Sat, 21 Oct 2023 09:31:39 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Jonathan Bergh <bergh.jonathan@gmail.com>
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 2/2] staging: octeon: Fix remaining instances affected by
+ removal of typedefs
+Message-ID: <2023102105-islamist-nursery-9ebd@gregkh>
+References: <20231021000340.56889-1-bergh.jonathan@gmail.com>
+ <20231021000340.56889-3-bergh.jonathan@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231021000340.56889-3-bergh.jonathan@gmail.com>
 
-On Fri, 20 Oct 2023 08:44:55 -0400 Benjamin Poirier wrote:
-> Remove the qlge driver from staging. The TODO file is first updated to
-> reflect the current status, in case the removal is later reverted.
+On Sat, Oct 21, 2023 at 02:03:40AM +0200, Jonathan Bergh wrote:
+> Update the remaining instances in ethernet.c file affected by removal 
+> of the typedefs from octeon-stubs.h
 
-Acked-by: Jakub Kicinski <kuba@kernel.org>
+You can not break the build in one patch, and then fix it up in a second
+one, sorry, that's not how kernel development works.  Each patch needs
+to work properly on its own.
 
-Thanks!
+thanks,
+
+greg k-h
