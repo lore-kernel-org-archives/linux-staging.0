@@ -1,90 +1,132 @@
-Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com [209.85.216.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out2-smtp.messagingengine.com (out2-smtp.messagingengine.com [66.111.4.26])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F04C212E41
-	for <linux-staging@lists.linux.dev>; Sat, 21 Oct 2023 21:48:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 192AF12E41
+	for <linux-staging@lists.linux.dev>; Sat, 21 Oct 2023 21:55:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=fastmail.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fastmail.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gxa5YV7j"
-Received: by mail-pj1-f54.google.com with SMTP id 98e67ed59e1d1-27d113508bfso1728862a91.3
-        for <linux-staging@lists.linux.dev>; Sat, 21 Oct 2023 14:48:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1697924927; x=1698529727; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=lUY/6aiz/kuqBCZnsp6ZXSxXydVcwFjt2+x9XvheJnQ=;
-        b=gxa5YV7jsAPq6F5LYl9qpKC+FuAZ84Ehg3+3LpPte9Qs0xnFoEP3RClENRoNl128s+
-         H4KhGYozMqXzd5H1rNjDly7DLILZlOaQMhesryd/e4ZIcNJKJrKJ4+VgCcsRHjgJxIOD
-         dyfhTrkel03XtP692NVZqvvZL/CuIEMjMY2BwbLAAdBDB4wR0kTP9xITqJZzIxGcBMWX
-         eNBvT2SlP+cm4ng1KOBc+BBZEekKF/pBneH9aPGb16t3Yro6a2vxgklsI9wTm3uupk6h
-         ByptKvsuffIgiWcVZtJW2+29rUfE0kW3KuIZsHLWcG3EKt5AXo6GzmCfz13dAi9ol2oj
-         Pj/g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697924927; x=1698529727;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=lUY/6aiz/kuqBCZnsp6ZXSxXydVcwFjt2+x9XvheJnQ=;
-        b=rrLEVh0XE5g/pNRkbBbxhHh7/f4F2eMXjD5jigSEHbEi4ssIcZGHnkYo6E8ZemhUOo
-         /omx3bsxxONVq2F11InYaRsGywfQhaiMJByhP7OtPXgkvXiCUmmqvzPV/M1fkAqPDcP/
-         flRxNQ8gm0p1ssPdKoDszUB6QFPCWsZp/MRbXFX/F1rySyXtrGdi8mAw/ZlKMi0JXEFT
-         DatOCSiVT+eiuM8D43XxffFl+4OmYJizQ8TKq+o80SS2STwAPrwidHG2qywYaSnsqjES
-         KfMatQ93fTm2zTVrmyAth/ffHws0f1r2hwB2RmVdrf6nKvXd6JdCNzSsB4FsjAZRNdj8
-         0jUQ==
-X-Gm-Message-State: AOJu0YxjR/w6cPa4QgbfR7Y8BUuOShD1ef7RU1+dC10KFC+j9odzBa1G
-	atsS1AJ+Bi6otvLf00FV6Tw=
-X-Google-Smtp-Source: AGHT+IEZd9SN83EFFxrJuxljhGwxuZ4exyWb83Q2VVJHLmEQIDMjLqdOV1BIKqIgpjkUfG9ZCE44sg==
-X-Received: by 2002:a17:902:cec4:b0:1ca:2caa:aca6 with SMTP id d4-20020a170902cec400b001ca2caaaca6mr6514621plg.68.1697924927110;
-        Sat, 21 Oct 2023 14:48:47 -0700 (PDT)
-Received: from ubuntu ([122.167.9.184])
-        by smtp.gmail.com with ESMTPSA id c15-20020a170902d48f00b001c5eb2c4d8csm3542882plg.160.2023.10.21.14.48.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 21 Oct 2023 14:48:46 -0700 (PDT)
-Date: Sat, 21 Oct 2023 14:48:40 -0700
-From: Nandha Kumar Singaram <nandhakumar.singaram@gmail.com>
-To: Johan Hovold <johan@kernel.org>, Alex Elder <elder@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Cc: kumaran.4353@gmail.com
-Subject: [PATCH] staging: greybus: avoid macro argument precedence issues
-Message-ID: <20231021214840.GA6557@ubuntu>
+	dkim=pass (2048-bit key) header.d=fastmail.org header.i=@fastmail.org header.b="Td2DwNMh";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="oSjz+kSM"
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+	by mailout.nyi.internal (Postfix) with ESMTP id 183965C024A;
+	Sat, 21 Oct 2023 17:55:28 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute3.internal (MEProxy); Sat, 21 Oct 2023 17:55:28 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fastmail.org; h=
+	cc:cc:content-transfer-encoding:content-type:date:date:from:from
+	:in-reply-to:message-id:mime-version:reply-to:sender:subject
+	:subject:to:to; s=fm3; t=1697925328; x=1698011728; bh=DVK74q2dXS
+	TQuNao7RVDtKlw88z9AdWp2sI4Ekawc3Y=; b=Td2DwNMhq/mCqC5Qr4VjyDMMhx
+	iAyBBB+wnNRFt4m8chnpoG2CMl02fUvdiUKoBWsiL6WqigLAfTgDxgCvhDDJTwxj
+	eS6FmI0mcQxumAnwhmzC430zuxh1eAaiDNHSe6J6PqCympONt1Q9t7/ZCRjC1Dqr
+	3OA1RIeHV4HPanJ2NI9Blq1CiabD+WQiTdsF0+fM0cxCga4c5BpRUkP76uMoyEg6
+	rkL1M6LGibhFlyd+OXQ+S/jUwyUjcNU3p1wxvAJqmXVkDYJR9BKo1eqxm768p/uQ
+	T0nDBHsrMv2c52TXxmOZO26oqpKFyugPw6Shs2/Xbu6oh5DbxBFx4JExoZmg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:date:date:feedback-id:feedback-id:from:from
+	:in-reply-to:message-id:mime-version:reply-to:sender:subject
+	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+	:x-sasl-enc; s=fm3; t=1697925328; x=1698011728; bh=DVK74q2dXSTQu
+	Nao7RVDtKlw88z9AdWp2sI4Ekawc3Y=; b=oSjz+kSM9Sn2tEAd6BpXwEuL5PHPQ
+	t08Ktr8myTeArkxk0xTSEs/TT9dvKxgI++68IyGYP+Exchl9XbT054cIWwq++jpm
+	8UmC001jjfyFWDM9dIquZuXiKvUBB+ss3kZMT5sA5NswRjzNb2K0xZ1rJvMUIf4u
+	HC8BDySTlal7yo7wmGBJKlhJWFocVUTRo8yfbNb+S0cu5ELeXzTJNvxn5wiUMh1L
+	VwYA9m6ZXZmDAcKcsE4GSWIljBvwxuSl1bTAQf/qOfuse9eIafXp4BwDtRsinRUl
+	b+tpKx0fR5wf/Pa17liKjqxfpVtQeerF4bjNMVZY0FG3C1J6Ii4Z7wz+Q==
+X-ME-Sender: <xms:z0g0Zf-uRPcYgeB8jqFKE4_nc5cjLtfnA1-ML0IwEIS_47WIfcR3lA>
+    <xme:z0g0Zbu4gboqsZlTEFpRMgnU0MXjVFOHScMOI_a7c5FX3J7TG9ITGs6EEL2nNZxsj
+    9s058dCYRNW3GXEDaQ>
+X-ME-Received: <xmr:z0g0ZdAB-GLwQqSQH-tOPnNOWvi41LTMRuy9NnCwzuF8djK0MjKM7M8hxrBI_UL-uzPdi_yXn3Fo8dxlnTwCmdpqlhYu_jnaMqAadL2hgbU>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvkedrkedugddtfecutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecunecujfgurhephffvvefufffkofgggfestdekredtre
+    dttdenucfhrhhomhepifgrrhihucftohhokhgrrhguuceoghgrrhihrhhoohhkrghruges
+    fhgrshhtmhgrihhlrdhorhhgqeenucggtffrrghtthgvrhhnpeelgefffffghefhjeegje
+    ehiedvgfelfeehueeuteektdffiefhveelhfegvedvveenucevlhhushhtvghrufhiiigv
+    pedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehgrghrhihrohhokhgrrhgusehfrghsth
+    hmrghilhdrohhrgh
+X-ME-Proxy: <xmx:z0g0ZbcR3UWJ0Y1KzlwRFESGVtkOZgDzGriVO8y4GjDuu_-hjlwdxQ>
+    <xmx:z0g0ZUO5AqBO7P4UO4gqe6FWrEoMb6N0yoZH2FGdAyFb3c_lLePOqQ>
+    <xmx:z0g0ZdmvRfggGCv-tdmOGc06hwz23ZeYjL8w7dI5GYEmrp7qlfoC3g>
+    <xmx:0Eg0ZZrXOGB_M5LrhrZ-xhqA-iqs4zYM2kmloc1xZ3uf8wtdvvQz7g>
+Feedback-ID: ifd194980:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
+ 21 Oct 2023 17:55:27 -0400 (EDT)
+From: Gary Rookard <garyrookard@fastmail.org>
+To: gregkh@linuxfoundation.org
+Cc: philipp.g.hortmann@gmail.com,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Gary Rookard <garyrookard@fastmail.org>
+Subject: [PATCH v3] staging: rtl8192e: renamed variable TxCountToDataRate
+Date: Sat, 21 Oct 2023 17:54:40 -0400
+Message-ID: <20231021215440.6584-1-garyrookard@fastmail.org>
+X-Mailer: git-send-email 2.41.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-Adhere to linux coding style, added parentheses around
-macro argument 'gcam'.
-CHECK: Macro argument 'gcam' may be better as '(gcam)' to
-avoid precedence issues
+Renamed from Pascal/CamelCase to Snake case the variable
+TxCountDataRate, TxCountDataRate -> tx_count_data_rate.
 
-Signed-off-by: Nandha Kumar Singaram <nandhakumar.singaram@gmail.com>
+Linux kernel coding style (cleanup), checkpatch Avoid CamelCase.
+Driver rtl8192e compiles.
+
+Signed-off-by: Gary Rookard <garyrookard@fastmail.org>
 ---
- drivers/staging/greybus/camera.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+Removed parenthesis alignment, and removed corrected spacing from
+this patch. Only contains renaming variable.
 
-diff --git a/drivers/staging/greybus/camera.c b/drivers/staging/greybus/camera.c
-index cdbb42cd413b..ae49e37a87e9 100644
---- a/drivers/staging/greybus/camera.c
-+++ b/drivers/staging/greybus/camera.c
-@@ -180,9 +180,9 @@ static const struct gb_camera_fmt_info *gb_camera_get_format_info(u16 gb_fmt)
+ drivers/staging/rtl8192e/rtl819x_HTProc.c    | 2 +-
+ drivers/staging/rtl8192e/rtllib.h            | 2 +-
+ drivers/staging/rtl8192e/rtllib_softmac_wx.c | 2 +-
+ 3 files changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/staging/rtl8192e/rtl819x_HTProc.c b/drivers/staging/rtl8192e/rtl819x_HTProc.c
+index 00b21542ddc3..8070a152712e 100644
+--- a/drivers/staging/rtl8192e/rtl819x_HTProc.c
++++ b/drivers/staging/rtl8192e/rtl819x_HTProc.c
+@@ -114,7 +114,7 @@ static u16 HTMcsToDataRate(struct rtllib_device *ieee, u8 nMcsRate)
+ 	return MCS_DATA_RATE[is40MHz][isShortGI][(nMcsRate & 0x7f)];
+ }
  
- #define GB_CAMERA_MAX_SETTINGS_SIZE	8192
+-u16  TxCountToDataRate(struct rtllib_device *ieee, u8 nDataRate)
++u16  tx_count_to_data_rate(struct rtllib_device *ieee, u8 nDataRate)
+ {
+ 	u16	CCKOFDMRate[12] = {0x02, 0x04, 0x0b, 0x16, 0x0c, 0x12, 0x18,
+ 				   0x24, 0x30, 0x48, 0x60, 0x6c};
+diff --git a/drivers/staging/rtl8192e/rtllib.h b/drivers/staging/rtl8192e/rtllib.h
+index 9d141aad8cd5..6a9550eaf148 100644
+--- a/drivers/staging/rtl8192e/rtllib.h
++++ b/drivers/staging/rtl8192e/rtllib.h
+@@ -1784,7 +1784,7 @@ extern u16 MCS_DATA_RATE[2][2][77];
+ u8 HTCCheck(struct rtllib_device *ieee, u8 *pFrame);
+ void HTResetIOTSetting(struct rt_hi_throughput *ht_info);
+ bool IsHTHalfNmodeAPs(struct rtllib_device *ieee);
+-u16  TxCountToDataRate(struct rtllib_device *ieee, u8 nDataRate);
++u16  tx_count_data_rate(struct rtllib_device *ieee, u8 nDataRate);
+ int rtllib_rx_ADDBAReq(struct rtllib_device *ieee, struct sk_buff *skb);
+ int rtllib_rx_ADDBARsp(struct rtllib_device *ieee, struct sk_buff *skb);
+ int rtllib_rx_DELBA(struct rtllib_device *ieee, struct sk_buff *skb);
+diff --git a/drivers/staging/rtl8192e/rtllib_softmac_wx.c b/drivers/staging/rtl8192e/rtllib_softmac_wx.c
+index f32584291704..28aba1d610f7 100644
+--- a/drivers/staging/rtl8192e/rtllib_softmac_wx.c
++++ b/drivers/staging/rtl8192e/rtllib_softmac_wx.c
+@@ -208,7 +208,7 @@ int rtllib_wx_get_rate(struct rtllib_device *ieee,
+ {
+ 	u32 tmp_rate;
  
--#define gcam_dbg(gcam, format...)	dev_dbg(&gcam->bundle->dev, format)
--#define gcam_info(gcam, format...)	dev_info(&gcam->bundle->dev, format)
--#define gcam_err(gcam, format...)	dev_err(&gcam->bundle->dev, format)
-+#define gcam_dbg(gcam, format...)	dev_dbg(&(gcam)->bundle->dev, format)
-+#define gcam_info(gcam, format...)	dev_info(&(gcam)->bundle->dev, format)
-+#define gcam_err(gcam, format...)	dev_err(&(gcam)->bundle->dev, format)
+-	tmp_rate = TxCountToDataRate(ieee,
++	tmp_rate = tx_count_to_data_rate(ieee,
+ 				     ieee->softmac_stats.CurrentShowTxate);
+ 	wrqu->bitrate.value = tmp_rate * 500000;
  
- static int gb_camera_operation_sync_flags(struct gb_connection *connection,
- 					  int type, unsigned int flags,
 -- 
-2.25.1
+2.41.0
 
