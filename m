@@ -1,45 +1,45 @@
-Received: from out2-smtp.messagingengine.com (out2-smtp.messagingengine.com [66.111.4.26])
+Received: from out5-smtp.messagingengine.com (out5-smtp.messagingengine.com [66.111.4.29])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 188B9A2C
-	for <linux-staging@lists.linux.dev>; Sat, 21 Oct 2023 22:41:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E01B7D517
+	for <linux-staging@lists.linux.dev>; Sat, 21 Oct 2023 23:06:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=fastmail.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fastmail.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=fastmail.org header.i=@fastmail.org header.b="toprMpb+";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="gxVA53ip"
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
-	by mailout.nyi.internal (Postfix) with ESMTP id 0773F5C0185;
-	Sat, 21 Oct 2023 18:41:38 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute1.internal (MEProxy); Sat, 21 Oct 2023 18:41:38 -0400
+	dkim=pass (2048-bit key) header.d=fastmail.org header.i=@fastmail.org header.b="WYoBu7Ag";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="mrK9B+Xs"
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+	by mailout.nyi.internal (Postfix) with ESMTP id D38375C009C;
+	Sat, 21 Oct 2023 19:06:48 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute4.internal (MEProxy); Sat, 21 Oct 2023 19:06:48 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fastmail.org; h=
 	cc:cc:content-transfer-encoding:content-type:date:date:from:from
 	:in-reply-to:message-id:mime-version:reply-to:sender:subject
-	:subject:to:to; s=fm3; t=1697928098; x=1698014498; bh=BszvcR3tf2
-	Jhc+fpKLNeSEqkteDfp1YlgKmf0KxGLWE=; b=toprMpb+PNqjggicnuA0OGv7JI
-	0xmgkQSl6b7srE2OxxSV5pCv5GEA9Q2jo0+hahueYoZpmepkABHFONgByHVg9UEf
-	nkm2ZrxLSqw1y9LYt/vykoazwDC3CLBbXorL9jdEHx0hgzTEs6T/bm7JXPnAI/5R
-	uUTjxyybTFOmMcm6Ap8mo72qkjkZaD6x3IbMex7NdXswC5UIW6i720a+5m4QLDMj
-	f2w2UWPUv0wiXfA+orMJUyUpyZubmp/9SWNv+5q7lwutnPiLim2Bq8w3NlpqMXu/
-	xNHC+HzK7ank4APDNYFdfKcGAFvd97Sr61W3WppOa/7SvoOQWv1L26Hfotgg==
+	:subject:to:to; s=fm3; t=1697929608; x=1698016008; bh=mKoeEncD58
+	UuMyMXPFqT+Ps3JfDvCVyfvtYlalXYITQ=; b=WYoBu7AgV5CrY6cOtE+tfY2/yP
+	e6lS4edotRyhsDSBr+nggWLKgoX+79ORarzM62Ghl1JURsE0fpZlT83XU/TsXO/+
+	LdRLCeuR18BY4Pol6CxZs3a19H8t2VTQJnJluP0agpacXJp43IlvrQ9sstuRf0YS
+	WVHUl/5EbMYnwfFqVF/b2cwqMoAXeGrd5Fvw+8idTBwhE+8KkgeCBiuN5L2vwdDl
+	1YKj17nO8GIoyXrbQzzmMUttSRztyk+u5wXsVHQhgiIvkLn7c3kv5UsA0qcx+BhC
+	x4uZ9QjAtXzt71I8wP50a0kdgxMdpjqalvBShCc+LpmgLgJ7hOoj6pgsA+wg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-transfer-encoding
 	:content-type:date:date:feedback-id:feedback-id:from:from
 	:in-reply-to:message-id:mime-version:reply-to:sender:subject
 	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-	:x-sasl-enc; s=fm3; t=1697928098; x=1698014498; bh=BszvcR3tf2Jhc
-	+fpKLNeSEqkteDfp1YlgKmf0KxGLWE=; b=gxVA53ipnTA/BZS/fB2ERMLgLJzJp
-	31FVe8oWaa19SXcWQ2fztFZ3eC+ULAEPCciTKDCt1EcVemeKiCc2ev//VktfoEFb
-	p9KjbUiuweRGJWPg4ZjjwxGD/JR09ruEwA9yGUnnfc9YBNgpOlzmBuwdRf5D1On9
-	VAEGMj8rhK2l/9f6lTlOID8HYXcpwLuCZcscmmrIeVkv2D3PV0hQkUXGIdnq1opq
-	M4jNClzyMg0r+WTGvDoWRQb3AJmf/9I0gy8uZT77eOOZndHNXntUVJICWN61cBW5
-	SVEBrfy3QU1MAZZFF6BifQ8Wk50h80eiyF/uW3k87Bx/00x1DZcarYdqw==
-X-ME-Sender: <xms:oVM0ZVm-zsaAp_4XJwPI0PlJr_wCfTM0WFo7TaYPLK17wLlSeWisXw>
-    <xme:oVM0ZQ0eDVX0mKOI2E29M6blse1252LsLU4jXhJgeA_JrpWHGnkkuuE7Aw8pEAkWP
-    hNb9A4QjJdmbwPV2yM>
-X-ME-Received: <xmr:oVM0ZbrR8fAGlZkwfStx5x0qDfT85dbTf19jksD46xCzEoVed4X9It3xXoc0xg1YGJUl0U0j7bMbr3IQwQirBnV1gbNsDaEo0S6x8PmEHj4>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvkedrkedugddufecutefuodetggdotefrodftvf
+	:x-sasl-enc; s=fm3; t=1697929608; x=1698016008; bh=mKoeEncD58UuM
+	yMXPFqT+Ps3JfDvCVyfvtYlalXYITQ=; b=mrK9B+XsjrHq0s84vtZqfIs3HzikE
+	sElYEQvvTTSpWso4NK7BW0r4QmFLQTQfNHYUwzYR2LD7QhR/xVLITjSiY7l4zDhE
+	OKvPFjlq9Odvp2jYbnU4dvszXjQZdpxrBK2c4Zmq6cbbHoIqQvpHrcx6aESgB5fK
+	UN++O/ua7CRzMfbQ/p48O1s7mUwTrS/FYLpEuTWxLAPV88aMsXvgghGwN3dP/T6q
+	cGePVRGqyer08CUrFHITjbmc3ZEHC0jPcdDDSJS8+qqekHFQUW3yEf9wHC37eks2
+	xNmjzwd7FLjsc7aF4n+gDTghQC+kvhzZhbGoPMpi2NizXYvjgm8MfaRbA==
+X-ME-Sender: <xms:iFk0ZbuHABDwjtytgDmuG5UcLkD8TvRuCFXNbsqD_Gds86seYyy7kg>
+    <xme:iFk0ZcfohdybhL5sXjwstzqa-GWePP-SLVYVfoq7fLLs_hxNGCQawt1lP8B47Jxg0
+    qYtKyRJCi__QDpD2nA>
+X-ME-Received: <xmr:iFk0Zew--1QHgQE-UuhiFxfBNG4jmzISr2Nz6i25V5ru2ZARr4jRblQevL0RSfyU_hMoIeU-2rYEQY416PAmZf83QTXK-Kx3dAdXgstAZkg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvkedrkedugddukecutefuodetggdotefrodftvf
     curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
     uegrihhlohhuthemuceftddtnecunecujfgurhephffvvefufffkofgggfestdekredtre
     dttdenucfhrhhomhepifgrrhihucftohhokhgrrhguuceoghgrrhihrhhoohhkrghruges
@@ -47,22 +47,22 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvkedrkedugddufecutefuodetggdote
     ehiedvgfelfeehueeuteektdffiefhveelhfegvedvveenucevlhhushhtvghrufhiiigv
     pedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehgrghrhihrohhokhgrrhgusehfrghsth
     hmrghilhdrohhrgh
-X-ME-Proxy: <xmx:oVM0ZVnUvsGtYCv-3mYNfkFBW1vjBl8DoOIR0gW8ChuuQlxm5LIB1Q>
-    <xmx:oVM0ZT0kWB07fjhZHNIdJcOs0sdMahrsGyc42ui638MdB8oYH6JjLQ>
-    <xmx:oVM0ZUvYOH7TPfwhfee7p7jl4kBNJTgfBCDTElOTJfCq9h8k7Q9cOg>
-    <xmx:olM0ZUzcKVEXaisGqH1xUTz583rnj_jmUk6d91RzEktPINTkfvl0rg>
+X-ME-Proxy: <xmx:iFk0ZaM-9ddvQno6r07cv0rYRsFDVxirU7C314c8dFGOz2uewdaGPw>
+    <xmx:iFk0Zb_hOZ6JxNhYFps-oCmI6TIrXp-Tw9frdxvh9OxobfAzbvQRdA>
+    <xmx:iFk0ZaVUcZ4sM2dbC-Mc9mhtZair0ngDFL_0kb_B8HlCK7TQbgIApA>
+    <xmx:iFk0ZebJr2xY8Bcu1-yBtW0wB7UUuqXafXIyVcjXS_zGBGriofyJqQ>
 Feedback-ID: ifd194980:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
- 21 Oct 2023 18:41:37 -0400 (EDT)
+ 21 Oct 2023 19:06:47 -0400 (EDT)
 From: Gary Rookard <garyrookard@fastmail.org>
 To: gregkh@linuxfoundation.org
 Cc: philipp.g.hortmann@gmail.com,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Gary Rookard <garyrookard@fastmail.org>
-Subject: [PATCH] staging: rtl8192e: renamed variable IsHTHalfNmodeAPs
-Date: Sat, 21 Oct 2023 18:40:51 -0400
-Message-ID: <20231021224051.7443-1-garyrookard@fastmail.org>
+Subject: [PATCH] staging: rtl8192e: renamed variable HTIOTPeerDetermine
+Date: Sat, 21 Oct 2023 19:06:03 -0400
+Message-ID: <20231021230603.8819-1-garyrookard@fastmail.org>
 X-Mailer: git-send-email 2.41.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -73,57 +73,38 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
 Renamed from Pascal/CamelCase to Snake case the variable
-IsHTHalfNmodeAPs, IsHTHalfNmodeAPs -> is_ht_half_nmode_aps.
+HTIOTPeerDetermine, HTIOTPeerDetermine -> ht_iot_peer_determine.
 
 Linux kernel coding style (cleanup) checkpatch Avoid CamelCase.
-Driver rtl8192e compiles.
+Driver rtl8129e compiles.
 
 Signed-off-by: Gary Rookard <garyrookard@fastmail.org>
 ---
- drivers/staging/rtl8192e/rtl819x_HTProc.c | 2 +-
- drivers/staging/rtl8192e/rtllib.h         | 2 +-
- drivers/staging/rtl8192e/rtllib_softmac.c | 2 +-
- 3 files changed, 3 insertions(+), 3 deletions(-)
+ drivers/staging/rtl8192e/rtl819x_HTProc.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/staging/rtl8192e/rtl819x_HTProc.c b/drivers/staging/rtl8192e/rtl819x_HTProc.c
-index 8070a152712e..f564474fab52 100644
+index f564474fab52..8522a3594848 100644
 --- a/drivers/staging/rtl8192e/rtl819x_HTProc.c
 +++ b/drivers/staging/rtl8192e/rtl819x_HTProc.c
-@@ -139,7 +139,7 @@ u16  tx_count_to_data_rate(struct rtllib_device *ieee, u8 nDataRate)
- 	return MCS_DATA_RATE[is40MHz][isShortGI][nDataRate & 0xf];
+@@ -164,7 +164,7 @@ bool is_ht_half_nmode_aps(struct rtllib_device *ieee)
+ 	return retValue;
  }
  
--bool IsHTHalfNmodeAPs(struct rtllib_device *ieee)
-+bool is_ht_half_nmode_aps(struct rtllib_device *ieee)
+-static void HTIOTPeerDetermine(struct rtllib_device *ieee)
++static void ht_iot_peer_determine(struct rtllib_device *ieee)
  {
- 	bool			retValue = false;
+ 	struct rt_hi_throughput *ht_info = ieee->ht_info;
  	struct rtllib_network *net = &ieee->current_network;
-diff --git a/drivers/staging/rtl8192e/rtllib.h b/drivers/staging/rtl8192e/rtllib.h
-index 6a9550eaf148..5cae02883a59 100644
---- a/drivers/staging/rtl8192e/rtllib.h
-+++ b/drivers/staging/rtl8192e/rtllib.h
-@@ -1783,7 +1783,7 @@ extern u8 MCS_FILTER_ALL[];
- extern u16 MCS_DATA_RATE[2][2][77];
- u8 HTCCheck(struct rtllib_device *ieee, u8 *pFrame);
- void HTResetIOTSetting(struct rt_hi_throughput *ht_info);
--bool IsHTHalfNmodeAPs(struct rtllib_device *ieee);
-+bool is_ht_half_nmode_aps(struct rtllib_device *ieee);
- u16  tx_count_data_rate(struct rtllib_device *ieee, u8 nDataRate);
- int rtllib_rx_ADDBAReq(struct rtllib_device *ieee, struct sk_buff *skb);
- int rtllib_rx_ADDBARsp(struct rtllib_device *ieee, struct sk_buff *skb);
-diff --git a/drivers/staging/rtl8192e/rtllib_softmac.c b/drivers/staging/rtl8192e/rtllib_softmac.c
-index ff98b41c94e0..501295f5b75e 100644
---- a/drivers/staging/rtl8192e/rtllib_softmac.c
-+++ b/drivers/staging/rtl8192e/rtllib_softmac.c
-@@ -1872,7 +1872,7 @@ static void rtllib_rx_auth_resp(struct rtllib_device *ieee, struct sk_buff *skb)
- 		ieee->softmac_stats.rx_auth_rs_ok++;
- 		if (!(ieee->ht_info->iot_action & HT_IOT_ACT_PURE_N_MODE)) {
- 			if (!ieee->GetNmodeSupportBySecCfg(ieee->dev)) {
--				if (IsHTHalfNmodeAPs(ieee)) {
-+				if (is_ht_half_nmode_aps(ieee)) {
- 					bSupportNmode = true;
- 					bHalfSupportNmode = true;
- 				} else {
+@@ -693,7 +693,7 @@ void HTResetSelfAndSavePeerSetting(struct rtllib_device *ieee,
+ 			ht_info->RT2RT_HT_Mode = (enum rt_ht_capability)0;
+ 		}
+ 
+-		HTIOTPeerDetermine(ieee);
++		ht_iot_peer_determine(ieee);
+ 
+ 		ht_info->iot_action = 0;
+ 		bIOTAction = HTIOTActIsDisableMCS14(ieee, pNetwork->bssid);
 -- 
 2.41.0
 
