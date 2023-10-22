@@ -1,57 +1,30 @@
-Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F16CD291E
-	for <linux-staging@lists.linux.dev>; Sun, 22 Oct 2023 10:42:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C8CE17E6
+	for <linux-staging@lists.linux.dev>; Sun, 22 Oct 2023 11:18:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="d1cQ57+k"
-Received: by mail-pj1-f52.google.com with SMTP id 98e67ed59e1d1-27d17f5457fso2511579a91.0
-        for <linux-staging@lists.linux.dev>; Sun, 22 Oct 2023 03:42:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1697971352; x=1698576152; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=Ytqp4yNQw6UYpoau4Yu6tPgcTfKhaPGEv4GOXMbKcHo=;
-        b=d1cQ57+ksIgepObe3mYCK8/HlIT46IFFC0QRmCMbBxQMv2YochrPEUrI63JwI41kGO
-         pzL281yDAyrVVV9L8xibop4/DUqNF3erZL4C6vhC8lpXgLRiezCzf9v6dWWvij2abY50
-         WO0OrRfZ7rzUHOEutTcWRiwAIFZPMidI+JO3uvj0t2W9V6Q8W4IoR5dNOg7ZW5VglDa8
-         2aZQXtsNBECIzXJirIhGyMB9PjivrnCZi1ENv1aObekx1QKxxFuqvSn06EoFuwSAIshZ
-         6ZKca5vlTkCbIlUl5GsZPxcd39oliogNy4XuPv1irF5FIO+wqoLgGTQfiFd/fIyJ6A0s
-         08MQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697971352; x=1698576152;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Ytqp4yNQw6UYpoau4Yu6tPgcTfKhaPGEv4GOXMbKcHo=;
-        b=ClLPmi2SY5rehPR6txvVVQbjgF/nfbGRLwjdMxrNOMmb3VeCjI3ZHGzFNoogO26ga9
-         tuHz5dIsxGyvoEm4eTt89XlKVqvh34Y3Ug33Rqt17dBHvWp/yOe6gyP32DN0jf3fdPkG
-         Nc45Fy8TITc6NddEHd0wtCrjPvG+pMumLHdIAVDgC8th6rhQzVkk85YyG9HJY34Ox/ED
-         JEiFSDkTIMJItsXRsiGqx5y+G625KhyxgkOjlxrbQGMwR5iRbLeLC/Hibrd7CS2GjHOv
-         kxTf7NRESfO/6H5L2mUs+iW7Yz1SiTPsNwgqscaqW328gAgU4dg+UQMF9Ks0E3ST4ClN
-         sIKQ==
-X-Gm-Message-State: AOJu0YxcyB0RWpSCavxQu0nSkiagMeEYuBnQF0wn9orYKnEn0/rPoAQZ
-	sTy8pD/8TRsZRw5L8zKUHbI=
-X-Google-Smtp-Source: AGHT+IHrw4gIaCM3FljDQJo9ciCCj4OiFXfzKFtUS0ANYKs8SoGdtBOJTU/EcVAiD+emNOG7IHMhMg==
-X-Received: by 2002:a17:90a:ab82:b0:27d:886:e2d2 with SMTP id n2-20020a17090aab8200b0027d0886e2d2mr14005323pjq.7.1697971352250;
-        Sun, 22 Oct 2023 03:42:32 -0700 (PDT)
-Received: from ubuntu ([122.171.143.200])
-        by smtp.gmail.com with ESMTPSA id g10-20020a1709026b4a00b001a80ad9c599sm4269872plt.294.2023.10.22.03.42.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 22 Oct 2023 03:42:32 -0700 (PDT)
-Date: Sun, 22 Oct 2023 03:42:26 -0700
-From: Nandha Kumar Singaram <nandhakumar.singaram@gmail.com>
-To: Viresh Kumar <vireshk@kernel.org>, Johan Hovold <johan@kernel.org>,
-	Alex Elder <elder@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Cc: kumaran.4353@gmail.com
-Subject: [PATCH 3/3] staging: greybus: fixed prefer using ftrace warning
-Message-ID: <cade10d4b94127900a015e0b2ab94da5dd8c2c63.1697969950.git.nandhakumar.singaram@gmail.com>
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="afBYMa61"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2082FC433C8;
+	Sun, 22 Oct 2023 11:18:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1697973521;
+	bh=7HLrsmOIb/DsMFPqh3P97aAYxVWou/9n9huI2vTErUc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=afBYMa61PkdIdJQViO3od6LRZ597VUgJM5vacKWgQ8WKaLcu/TMmQRIecWLsg7uo3
+	 yjMkTKg+c3aIPME85+ZxaMfsDQD/difEl/lB/H1Y4tj7gAYwmo/nDkaWx+cBMwzwyY
+	 XYUBp21Y1Y7AxPg65QRciAxCDYrgZCWM82npfLUE=
+Date: Sun, 22 Oct 2023 13:18:38 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Nandha Kumar Singaram <nandhakumar.singaram@gmail.com>
+Cc: Viresh Kumar <vireshk@kernel.org>, Johan Hovold <johan@kernel.org>,
+	Alex Elder <elder@kernel.org>, greybus-dev@lists.linaro.org,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	kumaran.4353@gmail.com
+Subject: Re: [PATCH 1/3] staging: greybus: Modify lines end with a '('
+Message-ID: <2023102217-irregular-accurate-a84a@gregkh>
 References: <cover.1697969950.git.nandhakumar.singaram@gmail.com>
+ <827f8417afa3943e8b71910a7ba88ea35614dd2c.1697969950.git.nandhakumar.singaram@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -60,29 +33,21 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <cover.1697969950.git.nandhakumar.singaram@gmail.com>
+In-Reply-To: <827f8417afa3943e8b71910a7ba88ea35614dd2c.1697969950.git.nandhakumar.singaram@gmail.com>
 
-Adhere to linux coding style. Reported by checkpatch.pl:
-WARNING: Unnecessary ftrace-like logging - prefer using ftrace
+On Sun, Oct 22, 2023 at 03:39:28AM -0700, Nandha Kumar Singaram wrote:
+> Adhere to linux coding style. Reported by checkpatch.pl:
+> CHECK: Lines should not end with a '('
+> 
+> Signed-off-by: Nandha Kumar Singaram <nandhakumar.singaram@gmail.com>
+> ---
+>  drivers/staging/greybus/camera.c | 3 +--
+>  1 file changed, 1 insertion(+), 2 deletions(-)
 
-Signed-off-by: Nandha Kumar Singaram <nandhakumar.singaram@gmail.com>
----
- drivers/staging/greybus/bootrom.c | 2 --
- 1 file changed, 2 deletions(-)
+Subject line should be:
+	"staging: greybus: camera: Modify..."
+right?
 
-diff --git a/drivers/staging/greybus/bootrom.c b/drivers/staging/greybus/bootrom.c
-index a8efb86de140..79581457c4af 100644
---- a/drivers/staging/greybus/bootrom.c
-+++ b/drivers/staging/greybus/bootrom.c
-@@ -491,8 +491,6 @@ static void gb_bootrom_disconnect(struct gb_bundle *bundle)
- {
- 	struct gb_bootrom *bootrom = greybus_get_drvdata(bundle);
- 
--	dev_dbg(&bundle->dev, "%s\n", __func__);
--
- 	gb_connection_disable(bootrom->connection);
- 
- 	/* Disable timeouts */
--- 
-2.25.1
+thanks,
 
+greg k-h
