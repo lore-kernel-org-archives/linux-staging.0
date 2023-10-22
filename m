@@ -1,55 +1,56 @@
-Received: from mail-oa1-f46.google.com (mail-oa1-f46.google.com [209.85.160.46])
+Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6ADA17DB
-	for <linux-staging@lists.linux.dev>; Sun, 22 Oct 2023 10:41:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F16CD291E
+	for <linux-staging@lists.linux.dev>; Sun, 22 Oct 2023 10:42:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="h3OQzQ9D"
-Received: by mail-oa1-f46.google.com with SMTP id 586e51a60fabf-1e9d3cc6e7aso1699312fac.2
-        for <linux-staging@lists.linux.dev>; Sun, 22 Oct 2023 03:41:03 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="d1cQ57+k"
+Received: by mail-pj1-f52.google.com with SMTP id 98e67ed59e1d1-27d17f5457fso2511579a91.0
+        for <linux-staging@lists.linux.dev>; Sun, 22 Oct 2023 03:42:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1697971262; x=1698576062; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1697971352; x=1698576152; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=ULEzVLtQ2S1zar/fvv2bvXuBMfVambqe7uOvKdP1z6k=;
-        b=h3OQzQ9DxrEqk2ViBgqs+5dInwqx5P9NSg6+i3ZahaQVbKDpRfdiyJPj35GW+gwUSs
-         yP41cVsh3vZisfpDr+WEdYlJTNNN4MBIYW4LceQZPfFIitGZcz+wMueNcI5psfmB0QOo
-         WiDgozQIcKMi0iwt8kIwTeAw0u7XaVo94kL89qGyG89sAwenliLQqWoRL7k6YhI8wfC0
-         9GpFtErNenBrtokIgkqag5vP8TRejL7/ANlsXfOf0fCDez1xgm0mvmKaUXKPuvfG3tTE
-         re06XYIGGvsbNpHcQ+8k2TKzPXz++PfIgdCmCP8K0JXOBmQJSzkjzWvnVusnImSkpkxd
-         p3QQ==
+        bh=Ytqp4yNQw6UYpoau4Yu6tPgcTfKhaPGEv4GOXMbKcHo=;
+        b=d1cQ57+ksIgepObe3mYCK8/HlIT46IFFC0QRmCMbBxQMv2YochrPEUrI63JwI41kGO
+         pzL281yDAyrVVV9L8xibop4/DUqNF3erZL4C6vhC8lpXgLRiezCzf9v6dWWvij2abY50
+         WO0OrRfZ7rzUHOEutTcWRiwAIFZPMidI+JO3uvj0t2W9V6Q8W4IoR5dNOg7ZW5VglDa8
+         2aZQXtsNBECIzXJirIhGyMB9PjivrnCZi1ENv1aObekx1QKxxFuqvSn06EoFuwSAIshZ
+         6ZKca5vlTkCbIlUl5GsZPxcd39oliogNy4XuPv1irF5FIO+wqoLgGTQfiFd/fIyJ6A0s
+         08MQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697971262; x=1698576062;
+        d=1e100.net; s=20230601; t=1697971352; x=1698576152;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=ULEzVLtQ2S1zar/fvv2bvXuBMfVambqe7uOvKdP1z6k=;
-        b=gjxobdm5uO3AePC4iwBc3apND1TycZ6kS10O5R72WjB0FzrXpBAM5thRqYoWQjvZrV
-         RhGWP19p0+M5ZO87B2kQ9wNmAbJCgud0b5B2DzwuO7XcYt420vEvMGZa0K9N2bHoRW2K
-         /bgReJUuqlD80hR0+eMrNwbHn3Wn4wLSx3pNxGLR0ECQmm2HxNT08O+oj8WuNFOEqO69
-         dSgW2JLtsGwwXE2UGZ1xizT1L2fjLViqS1b+8aQL3zJwcptd1J5EQWCSWAGmXZ4/Wgy8
-         EQyuRzaq1AFRmz2QLzFn7/kzPMbeawAjiYCUSbZbgUhILQObvNA21WtwYWhs7CgrtxLA
-         h0VA==
-X-Gm-Message-State: AOJu0YyS2IM7zE53zXM46I4EWQiUeKiwC78VwCH1gANe2gSPzmbIhWip
-	LrA6ljfMS7A3RwqFIDSccSM=
-X-Google-Smtp-Source: AGHT+IFgN6/PaswmdUmoqw2OMJKkJCHNeJYp4Hh9ngYJEtLETOtJL7TF5JNX82LpM4SpUYilirG8Tw==
-X-Received: by 2002:a05:6871:800a:b0:1e9:f69a:1302 with SMTP id sk10-20020a056871800a00b001e9f69a1302mr6764712oab.48.1697971262607;
-        Sun, 22 Oct 2023 03:41:02 -0700 (PDT)
+        bh=Ytqp4yNQw6UYpoau4Yu6tPgcTfKhaPGEv4GOXMbKcHo=;
+        b=ClLPmi2SY5rehPR6txvVVQbjgF/nfbGRLwjdMxrNOMmb3VeCjI3ZHGzFNoogO26ga9
+         tuHz5dIsxGyvoEm4eTt89XlKVqvh34Y3Ug33Rqt17dBHvWp/yOe6gyP32DN0jf3fdPkG
+         Nc45Fy8TITc6NddEHd0wtCrjPvG+pMumLHdIAVDgC8th6rhQzVkk85YyG9HJY34Ox/ED
+         JEiFSDkTIMJItsXRsiGqx5y+G625KhyxgkOjlxrbQGMwR5iRbLeLC/Hibrd7CS2GjHOv
+         kxTf7NRESfO/6H5L2mUs+iW7Yz1SiTPsNwgqscaqW328gAgU4dg+UQMF9Ks0E3ST4ClN
+         sIKQ==
+X-Gm-Message-State: AOJu0YxcyB0RWpSCavxQu0nSkiagMeEYuBnQF0wn9orYKnEn0/rPoAQZ
+	sTy8pD/8TRsZRw5L8zKUHbI=
+X-Google-Smtp-Source: AGHT+IHrw4gIaCM3FljDQJo9ciCCj4OiFXfzKFtUS0ANYKs8SoGdtBOJTU/EcVAiD+emNOG7IHMhMg==
+X-Received: by 2002:a17:90a:ab82:b0:27d:886:e2d2 with SMTP id n2-20020a17090aab8200b0027d0886e2d2mr14005323pjq.7.1697971352250;
+        Sun, 22 Oct 2023 03:42:32 -0700 (PDT)
 Received: from ubuntu ([122.171.143.200])
-        by smtp.gmail.com with ESMTPSA id o21-20020a17090aac1500b00277246e857esm5781338pjq.23.2023.10.22.03.41.00
+        by smtp.gmail.com with ESMTPSA id g10-20020a1709026b4a00b001a80ad9c599sm4269872plt.294.2023.10.22.03.42.29
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 22 Oct 2023 03:41:02 -0700 (PDT)
-Date: Sun, 22 Oct 2023 03:40:57 -0700
+        Sun, 22 Oct 2023 03:42:32 -0700 (PDT)
+Date: Sun, 22 Oct 2023 03:42:26 -0700
 From: Nandha Kumar Singaram <nandhakumar.singaram@gmail.com>
-To: Johan Hovold <johan@kernel.org>, Alex Elder <elder@kernel.org>,
+To: Viresh Kumar <vireshk@kernel.org>, Johan Hovold <johan@kernel.org>,
+	Alex Elder <elder@kernel.org>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
 Cc: kumaran.4353@gmail.com
-Subject: [PATCH 2/3] staging: greybus: Alignment should match open parenthesis
-Message-ID: <57d7aa177d58384bcc178f6722a8f7f6af78a536.1697969950.git.nandhakumar.singaram@gmail.com>
+Subject: [PATCH 3/3] staging: greybus: fixed prefer using ftrace warning
+Message-ID: <cade10d4b94127900a015e0b2ab94da5dd8c2c63.1697969950.git.nandhakumar.singaram@gmail.com>
 References: <cover.1697969950.git.nandhakumar.singaram@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -62,48 +63,26 @@ Content-Disposition: inline
 In-Reply-To: <cover.1697969950.git.nandhakumar.singaram@gmail.com>
 
 Adhere to linux coding style. Reported by checkpatch.pl:
-CHECK: Alignment should match open parenthesis
+WARNING: Unnecessary ftrace-like logging - prefer using ftrace
 
 Signed-off-by: Nandha Kumar Singaram <nandhakumar.singaram@gmail.com>
 ---
- drivers/staging/greybus/camera.c | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+ drivers/staging/greybus/bootrom.c | 2 --
+ 1 file changed, 2 deletions(-)
 
-diff --git a/drivers/staging/greybus/camera.c b/drivers/staging/greybus/camera.c
-index feddceddffbb..40d3b8aca8f0 100644
---- a/drivers/staging/greybus/camera.c
-+++ b/drivers/staging/greybus/camera.c
-@@ -220,7 +220,7 @@ static int gb_camera_operation_sync_flags(struct gb_connection *connection,
- }
- 
- static int gb_camera_get_max_pkt_size(struct gb_camera *gcam,
--		struct gb_camera_configure_streams_response *resp)
-+				      struct gb_camera_configure_streams_response *resp)
+diff --git a/drivers/staging/greybus/bootrom.c b/drivers/staging/greybus/bootrom.c
+index a8efb86de140..79581457c4af 100644
+--- a/drivers/staging/greybus/bootrom.c
++++ b/drivers/staging/greybus/bootrom.c
+@@ -491,8 +491,6 @@ static void gb_bootrom_disconnect(struct gb_bundle *bundle)
  {
- 	unsigned int max_pkt_size = 0;
- 	unsigned int i;
-@@ -377,8 +377,8 @@ struct ap_csi_config_request {
- #define GB_CAMERA_CSI_CLK_FREQ_MARGIN		150000000U
+ 	struct gb_bootrom *bootrom = greybus_get_drvdata(bundle);
  
- static int gb_camera_setup_data_connection(struct gb_camera *gcam,
--		struct gb_camera_configure_streams_response *resp,
--		struct gb_camera_csi_params *csi_params)
-+					   struct gb_camera_configure_streams_response *resp,
-+					   struct gb_camera_csi_params *csi_params)
- {
- 	struct ap_csi_config_request csi_cfg;
- 	struct gb_connection *conn;
-@@ -782,8 +782,8 @@ static ssize_t gb_camera_op_capabilities(void *priv, char *data, size_t len)
- }
+-	dev_dbg(&bundle->dev, "%s\n", __func__);
+-
+ 	gb_connection_disable(bootrom->connection);
  
- static int gb_camera_op_configure_streams(void *priv, unsigned int *nstreams,
--		unsigned int *flags, struct gb_camera_stream *streams,
--		struct gb_camera_csi_params *csi_params)
-+					  unsigned int *flags, struct gb_camera_stream *streams,
-+					  struct gb_camera_csi_params *csi_params)
- {
- 	struct gb_camera *gcam = priv;
- 	struct gb_camera_stream_config *gb_streams;
+ 	/* Disable timeouts */
 -- 
 2.25.1
 
