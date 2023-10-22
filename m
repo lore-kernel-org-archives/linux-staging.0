@@ -1,28 +1,28 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E7D32594
-	for <linux-staging@lists.linux.dev>; Sun, 22 Oct 2023 10:22:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 495C733D7
+	for <linux-staging@lists.linux.dev>; Sun, 22 Oct 2023 10:24:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="Y5LvDy/n"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A86FBC433C7;
-	Sun, 22 Oct 2023 10:22:48 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="U+vuhcxP"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0A8D9C433C7;
+	Sun, 22 Oct 2023 10:24:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1697970169;
-	bh=u3mZD3M0BbAp4t/Q6xqF3Flpj6qCoSuxiadREdf57LU=;
+	s=korg; t=1697970291;
+	bh=rocEYGXI/G9okpJsJE4vyG5wyCbThbR7bpXwTaR8FhM=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Y5LvDy/nVVt4KYd7rDwJ7JARcEVQxghB88LFjnOL0or7rn47Sd5mgA8ppRQAuK/h4
-	 bWLzUfFqHYFq68YTp6N9iwOp3LcLHgOncViPOG16J/XF6iptfeLrRG1kvR6MZzw4Zw
-	 v/Oe0eihr/rQkT62MSCWp5TKzhk+EoQ+WR1v5ZrU=
-Date: Sun, 22 Oct 2023 12:22:46 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Gary Rookard <garyrookard@fastmail.org>
-Cc: philipp.g.hortmann@gmail.com, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: rtl8192e: renamed variable IsHTHalfNmodeAPs
-Message-ID: <2023102258-trillion-pandemic-1b85@gregkh>
-References: <20231021224051.7443-1-garyrookard@fastmail.org>
- <2023102221-abreast-refold-d300@gregkh>
+	b=U+vuhcxP3ETlx3q42gJfPFqDUbIFHHddIqCkL3O1kk8C1lB66NWtIiVKORS2ny9WU
+	 MVa2Vg09sUBLZgqyOwGTW/v+yCXd0FRlX2mjoudtIsg/7N2EmUAGOYCNdzWLezSRin
+	 p0D2WJuvQCHq1nB6hdZe946Fu0o2lK9zoaV0xyrc=
+Date: Sun, 22 Oct 2023 12:24:48 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Nandha Kumar Singaram <nandhakumar.singaram@gmail.com>
+Cc: Johan Hovold <johan@kernel.org>, Alex Elder <elder@kernel.org>,
+	greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org, kumaran.4353@gmail.com
+Subject: Re: [PATCH] staging: greybus: avoid macro argument precedence issues
+Message-ID: <2023102210-undead-pucker-a1f2@gregkh>
+References: <20231021214840.GA6557@ubuntu>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -31,103 +31,37 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <2023102221-abreast-refold-d300@gregkh>
+In-Reply-To: <20231021214840.GA6557@ubuntu>
 
-On Sun, Oct 22, 2023 at 12:21:40PM +0200, Greg KH wrote:
-> On Sat, Oct 21, 2023 at 06:40:51PM -0400, Gary Rookard wrote:
-> > Renamed from Pascal/CamelCase to Snake case the variable
-> > IsHTHalfNmodeAPs, IsHTHalfNmodeAPs -> is_ht_half_nmode_aps.
-> > 
-> > Linux kernel coding style (cleanup) checkpatch Avoid CamelCase.
-> > Driver rtl8192e compiles.
-> > 
-> > Signed-off-by: Gary Rookard <garyrookard@fastmail.org>
-> > ---
-> >  drivers/staging/rtl8192e/rtl819x_HTProc.c | 2 +-
-> >  drivers/staging/rtl8192e/rtllib.h         | 2 +-
-> >  drivers/staging/rtl8192e/rtllib_softmac.c | 2 +-
-> >  3 files changed, 3 insertions(+), 3 deletions(-)
-> > 
-> > diff --git a/drivers/staging/rtl8192e/rtl819x_HTProc.c b/drivers/staging/rtl8192e/rtl819x_HTProc.c
-> > index 8070a152712e..f564474fab52 100644
-> > --- a/drivers/staging/rtl8192e/rtl819x_HTProc.c
-> > +++ b/drivers/staging/rtl8192e/rtl819x_HTProc.c
-> > @@ -139,7 +139,7 @@ u16  tx_count_to_data_rate(struct rtllib_device *ieee, u8 nDataRate)
-> >  	return MCS_DATA_RATE[is40MHz][isShortGI][nDataRate & 0xf];
-> >  }
-> >  
-> > -bool IsHTHalfNmodeAPs(struct rtllib_device *ieee)
-> > +bool is_ht_half_nmode_aps(struct rtllib_device *ieee)
-> >  {
-> >  	bool			retValue = false;
-> >  	struct rtllib_network *net = &ieee->current_network;
-> > diff --git a/drivers/staging/rtl8192e/rtllib.h b/drivers/staging/rtl8192e/rtllib.h
-> > index 6a9550eaf148..5cae02883a59 100644
-> > --- a/drivers/staging/rtl8192e/rtllib.h
-> > +++ b/drivers/staging/rtl8192e/rtllib.h
-> > @@ -1783,7 +1783,7 @@ extern u8 MCS_FILTER_ALL[];
-> >  extern u16 MCS_DATA_RATE[2][2][77];
-> >  u8 HTCCheck(struct rtllib_device *ieee, u8 *pFrame);
-> >  void HTResetIOTSetting(struct rt_hi_throughput *ht_info);
-> > -bool IsHTHalfNmodeAPs(struct rtllib_device *ieee);
-> > +bool is_ht_half_nmode_aps(struct rtllib_device *ieee);
-> >  u16  tx_count_data_rate(struct rtllib_device *ieee, u8 nDataRate);
-> >  int rtllib_rx_ADDBAReq(struct rtllib_device *ieee, struct sk_buff *skb);
-> >  int rtllib_rx_ADDBARsp(struct rtllib_device *ieee, struct sk_buff *skb);
-> > diff --git a/drivers/staging/rtl8192e/rtllib_softmac.c b/drivers/staging/rtl8192e/rtllib_softmac.c
-> > index ff98b41c94e0..501295f5b75e 100644
-> > --- a/drivers/staging/rtl8192e/rtllib_softmac.c
-> > +++ b/drivers/staging/rtl8192e/rtllib_softmac.c
-> > @@ -1872,7 +1872,7 @@ static void rtllib_rx_auth_resp(struct rtllib_device *ieee, struct sk_buff *skb)
-> >  		ieee->softmac_stats.rx_auth_rs_ok++;
-> >  		if (!(ieee->ht_info->iot_action & HT_IOT_ACT_PURE_N_MODE)) {
-> >  			if (!ieee->GetNmodeSupportBySecCfg(ieee->dev)) {
-> > -				if (IsHTHalfNmodeAPs(ieee)) {
-> > +				if (is_ht_half_nmode_aps(ieee)) {
-> >  					bSupportNmode = true;
-> >  					bHalfSupportNmode = true;
-> >  				} else {
-> > -- 
-> > 2.41.0
-> > 
-> > 
+On Sat, Oct 21, 2023 at 02:48:40PM -0700, Nandha Kumar Singaram wrote:
+> Adhere to linux coding style, added parentheses around
+> macro argument 'gcam'.
+> CHECK: Macro argument 'gcam' may be better as '(gcam)' to
+> avoid precedence issues
 > 
-> Hi,
+> Signed-off-by: Nandha Kumar Singaram <nandhakumar.singaram@gmail.com>
+> ---
+>  drivers/staging/greybus/camera.c | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
 > 
-> This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
-> a patch that has triggered this response.  He used to manually respond
-> to these common problems, but in order to save his sanity (he kept
-> writing the same thing over and over, yet to different people), I was
-> created.  Hopefully you will not take offence and will fix the problem
-> in your patch and resubmit it so that it can be accepted into the Linux
-> kernel tree.
-> 
-> You are receiving this message because of the following common error(s)
-> as indicated below:
-> 
-> - You sent multiple patches, yet no indication of which ones should be
->   applied in which order.  Greg could just guess, but if you are
->   receiving this email, he guessed wrong and the patches didn't apply.
->   Please read the section entitled "The canonical patch format" in the
->   kernel file, Documentation/process/submitting-patches.rst for a
->   description of how to do this so that Greg has a chance to apply these
->   correctly.
-> 
-> If you wish to discuss this problem further, or you have questions about
-> how to resolve this issue, please feel free to respond to this email and
-> Greg will reply once he has dug out from the pending patches received
-> from other developers.
-> 
-> thanks,
-> 
-> greg k-h's patch email bot
+> diff --git a/drivers/staging/greybus/camera.c b/drivers/staging/greybus/camera.c
+> index cdbb42cd413b..ae49e37a87e9 100644
+> --- a/drivers/staging/greybus/camera.c
+> +++ b/drivers/staging/greybus/camera.c
+> @@ -180,9 +180,9 @@ static const struct gb_camera_fmt_info *gb_camera_get_format_info(u16 gb_fmt)
+>  
+>  #define GB_CAMERA_MAX_SETTINGS_SIZE	8192
+>  
+> -#define gcam_dbg(gcam, format...)	dev_dbg(&gcam->bundle->dev, format)
+> -#define gcam_info(gcam, format...)	dev_info(&gcam->bundle->dev, format)
+> -#define gcam_err(gcam, format...)	dev_err(&gcam->bundle->dev, format)
+> +#define gcam_dbg(gcam, format...)	dev_dbg(&(gcam)->bundle->dev, format)
+> +#define gcam_info(gcam, format...)	dev_info(&(gcam)->bundle->dev, format)
+> +#define gcam_err(gcam, format...)	dev_err(&(gcam)->bundle->dev, format)
 
-Note that I have dropped all of your rtl8192e patches you sent, please
-fix them all up, properly test them, and send them as a patch series so
-we know what order to apply them in, otherwise it's impossible to guess.
-
-Think about what you would want to see if you were on our side reviewing
-them.
+Sorry, but checkpatch is wrong here, this is not a problem at all.  Look
+at what you changed and think about if the macro argument could actually
+be anything other than a pointer.
 
 thanks,
 
