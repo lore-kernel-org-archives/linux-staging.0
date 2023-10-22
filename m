@@ -1,49 +1,49 @@
-Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
+Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com [209.85.167.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B64D10E1;
-	Sun, 22 Oct 2023 07:09:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85E1217E6
+	for <linux-staging@lists.linux.dev>; Sun, 22 Oct 2023 07:47:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NupiNPsA"
-Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-9bf941607d4so68373766b.1;
-        Sun, 22 Oct 2023 00:09:38 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hZuaoHUX"
+Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-507f63fcbf6so131903e87.1
+        for <linux-staging@lists.linux.dev>; Sun, 22 Oct 2023 00:47:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1697958577; x=1698563377; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
+        d=gmail.com; s=20230601; t=1697960857; x=1698565657; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=7VuUrAT1/Th4+3DgWgdpcxcj5Og5do5ih7a6V+PS/SU=;
-        b=NupiNPsARCQVgIqlEThdPFelGyzd0LPPDeS1sQNRNLG8n7msmapyNWtsPs/uYy/dNc
-         xMhpXpfI73ZD0vzKlt66QYs6ZypWQOheVZQDgB8dUCN40RPZelPjjRYOpkmWATm9tQyf
-         JcNMEaF/vNBe+jNeDiPkXyAm0iD7z0gcDTJpPdKleFaqQ6ZfNKqXjd8SOmRJZFEo0cH6
-         UGP3itEKGNgXmw4wnfguddbO9uBBI51PEFQJJ30bfCBUUsvNwTz0mKggX2Y7CYrP/pm8
-         CbLfKSV0YUhdlyRRrhyC7OeYgt33qE4Csy/7yZ/4H1/b97Mj+sF2ggyg181Jv0yAVzUz
-         Dn9Q==
+        bh=8EMvpJh0VDsbsM5SOLOEYs5sCE72VwDjjpNXErS0zPo=;
+        b=hZuaoHUXeGutjEC8q9YjjQllCJ/IWTamkWhgyadO5E5VivOobcu5BJBgHtZ8m4st81
+         fOUezf/uRQkpzIR8dhETf1LMPBZwP09FB9+dB862dXozcHTsPbobPqFP6PF+T9zNHx3u
+         FXZNWOs6llog+clu+xdA6gH3J5f/H0Hfwyd11oV0CVn5ffLj/JNBFvPpYjtenVixVtCh
+         660bObyiWI1t/DR+H5dFrpSN4aOCB4K4Ofj/Ne2KtEsrXWAhRhiPzbonrYD+ussn6iQj
+         E/ztDdC8uDWwvVEc054A2xPp07cR8m/fIa0JdRkzIA2kwJNI3UREroG6Frj2rNNBPZ3w
+         /z8g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697958577; x=1698563377;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
+        d=1e100.net; s=20230601; t=1697960857; x=1698565657;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=7VuUrAT1/Th4+3DgWgdpcxcj5Og5do5ih7a6V+PS/SU=;
-        b=uVz9lvUGylsekY/XL2yXyYeePVQJm4eJ8/0WtcFPO39HShx3CDPHiQu6LKbosjcwck
-         w6AYKew5sUUKAGYadDl7jXbOnBQfPJW6lfMrb7Nki1NDVisbATr8vYeEu9XIjNPVg+/t
-         Y3XUlbjg0w6gaDGXtCFUrMGRFefkh5FlKcZNd2myQZsuqaubzs1idV+u978WhTlpS/DT
-         os1NXQVSawwd5YrX4KNp6bmZhsPzT67xUHeaxITsuzOS9rTLzi3IbiJQJKM4H4aBe+Ai
-         xJLwprO97p0Fm7zyOkSX6sB/GNTTnMZ1Ac3Wk0GcCfYErY84nMVuF18GlOd7WdulRH5u
-         0XxA==
-X-Gm-Message-State: AOJu0Yy5Sd4RGIQd8TY+Dy7YI0qGTGQz6+N3/Kn7eolTswZLgSUoQWYs
-	uuCXg5oGkwRLlKzYEnee/gQ=
-X-Google-Smtp-Source: AGHT+IHpWFSh0xuBo4Si/FGcG50HBVDR+UsxBieOFg/xsNfweEU4hj1dct+CudLFa0Mr8Hp+MLQ2Yw==
-X-Received: by 2002:a50:d4d4:0:b0:53f:9242:d24f with SMTP id e20-20020a50d4d4000000b0053f9242d24fmr3897922edj.0.1697958576575;
-        Sun, 22 Oct 2023 00:09:36 -0700 (PDT)
-Received: from [192.168.0.103] (p579356c7.dip0.t-ipconnect.de. [87.147.86.199])
-        by smtp.gmail.com with ESMTPSA id w21-20020a50d795000000b0053e4d1cbc6esm4540607edi.55.2023.10.22.00.09.36
+        bh=8EMvpJh0VDsbsM5SOLOEYs5sCE72VwDjjpNXErS0zPo=;
+        b=RYJD8VywtgacYtB7Obm9OrNydwP+9Y29f8l0MnYed2pcXL+3vssBULJGW2Bzfvzogq
+         /NsSi1V9ZMkaDIt5T6bOPNDcs4k0/riGf/G3vBO2sxrqLsssnROfG6KYI3mT5ZqbEjMB
+         2loOYLYpkmUevwyOW/BPlmQx/D2SyyFEiMbu1txPpP/pnEVcQtpGymLT0ALHAbjJcmCs
+         LqsCOpG6HFAyG5INW3kmNWB/I/7s55JtFX1yfq7SgEKiN5HDZVai0CJcb+ni/7c9ae3o
+         2EhoypCFRKRhetIRJMRKxN5ONWH9T1JZWcftpNnvKcjIWOStBU5XHERedVu2+QT1rlrl
+         g4kQ==
+X-Gm-Message-State: AOJu0YxqvGiFmW6ZMeN5tYbNHUowx+qHs59788I/ELf0imSRcHZn1HPf
+	F47pKE/P9Rqz2PWDbT9+Fp4=
+X-Google-Smtp-Source: AGHT+IEKqrm0VQMSa6yXVdiNx6SW44iEegXrbLulsxSuaW+bxQVebWyuLQ23+ToKszH4iEOuXuMKXQ==
+X-Received: by 2002:a05:6512:e95:b0:503:2dcd:30ed with SMTP id bi21-20020a0565120e9500b005032dcd30edmr4258900lfb.0.1697960857142;
+        Sun, 22 Oct 2023 00:47:37 -0700 (PDT)
+Received: from [192.168.0.104] (p579356c7.dip0.t-ipconnect.de. [87.147.86.199])
+        by smtp.gmail.com with ESMTPSA id s16-20020a170906bc5000b009b95b46bbd1sm4680320ejv.133.2023.10.22.00.47.36
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 22 Oct 2023 00:09:36 -0700 (PDT)
-Message-ID: <58cb8d84-b4ee-4d61-baa3-04d2bcdc9c43@gmail.com>
-Date: Sun, 22 Oct 2023 09:09:34 +0200
+        Sun, 22 Oct 2023 00:47:36 -0700 (PDT)
+Message-ID: <070529f5-b0ff-4cbb-af3e-28984616a821@gmail.com>
+Date: Sun, 22 Oct 2023 09:47:36 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -51,31 +51,68 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/5] staging: vt6655: Rename variables byCWMaxMin, bySlot,
- bySIFS, byDIFS and byEIFS
-Content-Language: en-US
-To: Gilbert Adikankwu <gilbertadikankwu@gmail.com>,
- gregkh@linuxfoundation.org, outreachy@lists.linux.dev
+Subject: Re: [PATCH] staging: rtl8192e: renamed variable IsHTHalfNmodeAPs
+To: Gary Rookard <garyrookard@fastmail.org>, gregkh@linuxfoundation.org
 Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-References: <cover.1697927812.git.gilbertadikankwu@gmail.com>
+References: <20231021224051.7443-1-garyrookard@fastmail.org>
+ <1f47714b-4362-47cc-a83c-190b666f748f@gmail.com>
+ <aa578599-cd87-4c3a-8040-03ab065d8482@app.fastmail.com>
+Content-Language: en-US
 From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-In-Reply-To: <cover.1697927812.git.gilbertadikankwu@gmail.com>
+In-Reply-To: <aa578599-cd87-4c3a-8040-03ab065d8482@app.fastmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 10/22/23 01:12, Gilbert Adikankwu wrote:
-> Make the variable names adhere to Linux kernel coding style and fix
-> checkpatch.pl errors.
+On 10/22/23 09:32, Gary Rookard wrote:
+> Sorry, but I do both compile and checkpatch, but they seem to be 
+> failing, don't
+> know why yet. I've been using make M=drivers/staging/rtl8192e after a 
+> complete
+> kernel build at make -j3, I'm changing it to Make drivers/staging as a 
+> matter of recourse.
+> gcc version 13.2.1 20230826 (Gentoo 13.2.1_p20230826 p7)
 > 
-> Gilbert Adikankwu (5):
->    staging: vt6655: Rename variable byCWMaxMin
->    staging: vt6655: Rename variable bySlot
->    staging: vt6655: Rename variable bySIFS
->    staging: vt6655: Rename variable byDIFS
->    staging: vt6655: Rename variable byEIFS
+> I use checkpatch unflaged on the patch, never a problem before...
 > 
->   drivers/staging/vt6655/card.c   | 72 ++++++++++++++++-----------------
->   drivers/staging/vt6655/device.h | 10 ++---
->   2 files changed, 41 insertions(+), 41 deletions(-)
+> On Sun, Oct 22, 2023, at 2:48 AM, Philipp Hortmann wrote:
+>> On 10/22/23 00:40, Gary Rookard wrote:
+>> > Renamed from Pascal/CamelCase to Snake case the variable
+>> > IsHTHalfNmodeAPs, IsHTHalfNmodeAPs -> is_ht_half_nmode_aps. Linux 
+>> kernel
+>> > coding style (cleanup) checkpatch Avoid CamelCase. Driver rtl8192e
+>> > compiles. Signed-off-by: Gary Rookard <garyrookard@fastmail.org 
+>> <mailto:garyrookard@fastmail.org>> ---
+>> > drivers/staging/rtl8192e/rtl819x_HTProc.c | 2 +-
+>> > drivers/staging/rtl8192e/rtllib.h | 2 +-
+>> > drivers/staging/rtl8192e/rtllib_softmac.c | 2 +- 3 files changed, 3
+>> > insertions(+), 3 deletions(-)
+>>
+>> Hi,
+>>
+>> I assume that now I cannot apply this patch anymore because the previous
+>> one is missing.
+>>
+>> I propose to make a patch series out of the send in patches.
+>> Please do a compile test and and use checkpatch.
+>>
+>> Please include in the version change at which version what changed.
+>>
+>> Thanks for your support.
+>>
+>> Bye Philipp
+>>
 > 
-Tested-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+
+Hi Gary,
+
+please use:
+make -C . M=drivers/staging/rtl8192e
+
+I am using checkpatch as described here:
+https://kernelnewbies.org/FirstKernelPatch
+"Git post-commit hooks"
+
+Please always reply with Bottom Posting. You used top posting which is 
+not liked by the community and maintainer.
+
+Bye Philipp
