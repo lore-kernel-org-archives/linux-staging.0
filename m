@@ -1,119 +1,104 @@
-Received: from new3-smtp.messagingengine.com (new3-smtp.messagingengine.com [66.111.4.229])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76A591B26F
-	for <linux-staging@lists.linux.dev>; Mon, 23 Oct 2023 14:10:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=arndb.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4173C637
+	for <linux-staging@lists.linux.dev>; Mon, 23 Oct 2023 14:26:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="qXXUQDlq";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="hwUXLudl"
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-	by mailnew.nyi.internal (Postfix) with ESMTP id 63CC4581579;
-	Mon, 23 Oct 2023 10:10:39 -0400 (EDT)
-Received: from imap51 ([10.202.2.101])
-  by compute5.internal (MEProxy); Mon, 23 Oct 2023 10:10:39 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
-	:cc:content-type:content-type:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:sender
-	:subject:subject:to:to; s=fm2; t=1698070239; x=1698077439; bh=Cd
-	D00F6lo71GUCVAQ5trDcf1jHXe2aUX3dC/0CHjbQ4=; b=qXXUQDlq0gAM5PfthE
-	tj0+25tcD8B0dHKH53Y8/RBXX924Jv6+TCHgZ2DmBOPjpvDgoA6vfpQG4R5hBMmt
-	yHtfzcx94RUzYA4BDrAoin2MGZ9kXM/rf7x82Q//kq1W0KkIWXdbljW91rPjUY10
-	iRUXdIVSZOXRcMy+b0MSGV4mTsBo28657zFxjy3PRri+A74kVikmvO6Xd/Sb8C1A
-	oMniFTNPeg0h1+dV/VIixGCsQ9XQZL88wvFFNQCjTxIPUd7T5AlibIF/mb+73/mn
-	rD6df1qJCAMghE6/MeI4S6hQKhruJM8DpbU8wOeo3F8pqdD07HqekPFue6fcWKC2
-	Nfyw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:sender:subject
-	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-	:x-sasl-enc; s=fm3; t=1698070239; x=1698077439; bh=CdD00F6lo71GU
-	CVAQ5trDcf1jHXe2aUX3dC/0CHjbQ4=; b=hwUXLudllnoVroI4li0WSBuEKuS0m
-	x5JRGf4/rrt20gTiLKboQBd6YiuI3HjGNfNnZ9Qt/2j90IzlMAv0YnNIbqMbmY55
-	jVswrzfOKf8HCvbXFn/kXKL9/sGSehUbUCFycV0fu7SSdmzd2sLmz31QFbgIxbd0
-	EhrKOBsPWx2hBCzFogyLfVylT3+4xDBLCoPQKZtY7fPCOnYGrDFcS9nep+3kBW4I
-	jQet8pbe+BVl0IMhMejxkIqBU0Qd47FVWAuQTSGij7McKriKYUY8QW6/R4Fbk+2C
-	Z6myKGW5RtMaGCBgn86OL+EXsFoa64U8ph445g0QiK8ba1orns8o2vIHg==
-X-ME-Sender: <xms:3X42ZQ_ItFV-GbRI3mbqY1F_ZfsutV9aIgWdaivjEnFtaDWXrbZDOg>
-    <xme:3X42ZYvEgKFXGNttA0kthbKP0HLq0YI2X_Hj9IO3rnRWR05AcK2f_hmbe7Xk4pECK
-    UIWY5T0CA5vr3FM3nw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvkedrkeeigdejudcutefuodetggdotefrodftvf
-    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
-    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
-    fjughrpefofgggkfgjfhffhffvvefutgesthdtredtreertdenucfhrhhomhepfdetrhhn
-    ugcuuegvrhhgmhgrnhhnfdcuoegrrhhnugesrghrnhgusgdruggvqeenucggtffrrghtth
-    gvrhhnpeffheeugeetiefhgeethfejgfdtuefggeejleehjeeutefhfeeggefhkedtkeet
-    ffenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegrrh
-    hnugesrghrnhgusgdruggv
-X-ME-Proxy: <xmx:3X42ZWDp7CUTlUyBhid-28tQffehzvNNNvbBz8kQ2uCuoFOyovsmgw>
-    <xmx:3X42ZQcK76hDhVVMBr3tH9vKd0PzjWN6deGqeG4iQ0StSHA-h6qjSA>
-    <xmx:3X42ZVNTgT22xJcQiBBH_8M8IxNt2AOYjo-XZR2bJW2uGJGy0lLQtQ>
-    <xmx:3342ZQGdEQ1YnY6VFN2tafTbr289GUD9MriSoShSnfxIvV8srUdX-g>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
-	id 1EB20B60089; Mon, 23 Oct 2023 10:10:37 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.9.0-alpha0-1048-g9229b632c5-fm-20231019.001-g9229b632
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="OvLmOAYM"
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-408002b5b9fso27782485e9.3
+        for <linux-staging@lists.linux.dev>; Mon, 23 Oct 2023 07:26:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1698071175; x=1698675975; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=Ibdm669iv9OJcE/KkdIFiBrAQ0+k5qbSY1Q4FYfsL4s=;
+        b=OvLmOAYMBQjo5HeW+5ShSBGhN/F7fDDrWd6TTuHuZesTIoa8a8E5cqjpx7q0PbLCLd
+         68i8GCP3iGfg2hNwHMuFIVwfRaP8We6Ia7wkXOouEP+kx33+72RRkkpuJSleFEeigMH4
+         JXx1WEvgexxlxbK3ualPZJcwc/eU+XZk+1RZ+T5PEm3mKxzcgCUX69GK0OjzH/5COkTp
+         +nyoJaSHEbAAl8eduEbT2w+Vw0m0LsiG254dCOxfiZ0Cr1VtUJnvK9Rd9ePPnDafeXkt
+         +OY52Ht8hRnT0+X6LiKk7YyYCMJRNp1bFOO8fZJyBdiDx/bfzcCGJXrk5cH4nYJd+rnB
+         d/Qw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1698071175; x=1698675975;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Ibdm669iv9OJcE/KkdIFiBrAQ0+k5qbSY1Q4FYfsL4s=;
+        b=FZQYbi5OLI7iWf6ylRnCSMYZy+XpC8o6BP9RHM/jxJBLRzcem+0V/qxqa9Si6lRxLl
+         KmqVpsUPfjJ/AHsw4o5+Ez2JoHU0bjDlAX9ohVHe1TgAhgG29xtFCVP6o3isZPP5LRGU
+         cd8yNPYWx+wWRpAfMbDb6yXcjeevsCmrkqLDLvqY6LtObIX9sPklF08lq6y/u1HY0OJC
+         v1Y0HjHMQe73YmgkC6nx9mLwxC/X+dxyphpC/QeVeJ5331m6R7SeBm5dpOhJVd/HU+3+
+         V1kinkuDVa1vkUpj+b2dryDCrEpWPz+oKayPsQdair2zDo4T29dvqVH78aADAfGh372u
+         AdKg==
+X-Gm-Message-State: AOJu0YyDGozkozzPxXMNfVTqS90epMxSFWlv5//KB64DXCF/oyphCC4g
+	YCxgn2bZkxQJZsigNQKnQ0d7MA==
+X-Google-Smtp-Source: AGHT+IETpcAooUqMOCjkLve2ojvd0kVcymHo1QQx78Fc+2Tm7dO7RE2+Z3X3F4g6UdNhGVSJC4hmDQ==
+X-Received: by 2002:a05:600c:5493:b0:406:5463:3f51 with SMTP id iv19-20020a05600c549300b0040654633f51mr7197630wmb.25.1698071175401;
+        Mon, 23 Oct 2023 07:26:15 -0700 (PDT)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id 1-20020a05600c228100b0040596352951sm14091003wmf.5.2023.10.23.07.26.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 23 Oct 2023 07:26:15 -0700 (PDT)
+Date: Mon, 23 Oct 2023 17:26:11 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Jonathan Bergh <bergh.jonathan@gmail.com>
+Cc: mchehab@kernel.org, gregkh@linuxfoundation.org, error27@gmail.com,
+	linux-staging@lists.linux.dev, linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 2/5] staging: media: av7110: Fix various whitespace
+ checkpatch errors
+Message-ID: <b301c9a1-7536-46c5-878e-7cd79e3a4742@kadam.mountain>
+References: <20231020232332.55024-1-bergh.jonathan@gmail.com>
+ <20231020232332.55024-3-bergh.jonathan@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Message-Id: <50eafe40-9c50-48e2-8d48-6a113c8fd87d@app.fastmail.com>
-In-Reply-To: <87v8axzc46.fsf@kernel.org>
-References: <20231023131953.2876682-1-arnd@kernel.org>
- <87v8axzc46.fsf@kernel.org>
-Date: Mon, 23 Oct 2023 16:10:16 +0200
-From: "Arnd Bergmann" <arnd@arndb.de>
-To: "Kalle Valo" <kvalo@kernel.org>, "Arnd Bergmann" <arnd@kernel.org>
-Cc: "David S . Miller" <davem@davemloft.net>,
- "Alexandre Belloni" <alexandre.belloni@bootlin.com>,
- "Claudiu Beznea" <claudiu.beznea@tuxon.dev>,
- "Geert Uytterhoeven" <geert@linux-m68k.org>,
- "Geoff Levand" <geoff@infradead.org>,
- "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
- "Jakub Kicinski" <kuba@kernel.org>,
- "Jeff Johnson" <quic_jjohnson@quicinc.com>,
- "Johannes Berg" <johannes@sipsolutions.net>,
- "Larry Finger" <Larry.Finger@lwfinger.net>,
- "Nicolas Ferre" <nicolas.ferre@microchip.com>, "Pavel Machek" <pavel@ucw.cz>,
- "Stanislaw Gruszka" <stf_xl@wp.pl>,
- "Gregory Greenman" <gregory.greenman@intel.com>,
- linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- linux-staging@lists.linux.dev, linux-wireless@vger.kernel.org
-Subject: Re: [PATCH 00/10] Remove obsolete and orphaned wifi drivers
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231020232332.55024-3-bergh.jonathan@gmail.com>
 
-On Mon, Oct 23, 2023, at 15:45, Kalle Valo wrote:
-> Arnd Bergmann <arnd@kernel.org> writes:
->
->> From: Arnd Bergmann <arnd@arndb.de>
->>
->> As discussed previously, a lot of the older wifi drivers are likely
->> entirely unused, Though we can't know for sure.
->>
->> As suggested by both Greg and Jakub, let's remove the ones that look
->> are most likely to have no users left and also get in the way of the
->> wext cleanup. If anyone is still using any of these, we can revert the
->> driver removal individually.
->>
->> I would suggest merging these for net-next after 6.7-rc1 is out
->
-> Why net-next? I want to take these to wireless-next to avoid any
-> conflicts with other wireless patches.
+On Sat, Oct 21, 2023 at 01:23:29AM +0200, Jonathan Bergh wrote:
+> Fixed the following checkpatch errors relating to whitespaces:
+>  * extra whitespace after '~' symbol
+>  * remove whitespace before/after parentheses for switch statement and
+>    function parameters as well as after switch keyword
+>  * ensure whitespace before '{' braces
+>  * remove whitespace between function name and '(' parentheses
+>  * ensure whitespace after ',' commas in parameter lists
+> 
+> Signed-off-by: Jonathan Bergh <bergh.jonathan@gmail.com>
+> ---
+>  drivers/staging/media/av7110/av7110_av.c | 28 ++++++++++++------------
+>  1 file changed, 14 insertions(+), 14 deletions(-)
+> 
+> diff --git a/drivers/staging/media/av7110/av7110_av.c b/drivers/staging/media/av7110/av7110_av.c
+> index af3845406626..482dfc548b16 100644
+> --- a/drivers/staging/media/av7110/av7110_av.c
+> +++ b/drivers/staging/media/av7110/av7110_av.c
+> @@ -241,8 +241,8 @@ int av7110_pes_play(void *dest, struct dvb_ringbuffer *buf, int dlen)
+>  		sync |= DVB_RINGBUFFER_PEEK(buf, 2) << 8;
+>  		sync |= DVB_RINGBUFFER_PEEK(buf, 3);
+>  
+> -		if (((sync &~ 0x0f) == 0x000001e0) ||
+> -		    ((sync &~ 0x1f) == 0x000001c0) ||
+> +		if (((sync &~0x0f) == 0x000001e0) ||
+> +		    ((sync &~0x1f) == 0x000001c0) ||
 
-My mistake, I actually rebased them on top of wireless-next before
-sending out the patches, I just forgot update the text I had
-already written a week earlier.
+These should be:
 
-> We could take these to wireless-next after we submit the last new
-> features (-next) pull request to v6.7, so most likely already next week.
-> So if anyone has any problems with these speak up now.
+	if (((sync & ~0x0f) == 0x000001e0) ||
+	    ((sync & ~0x1f) == 0x000001c0) ||
 
-Sounds good to me, thanks!
 
-    Arnd
+>  		    (sync == 0x000001bd))
+>  			break;
+>  		printk("resync\n");
+
+regards,
+dan carpenter
+
