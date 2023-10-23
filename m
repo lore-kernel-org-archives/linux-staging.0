@@ -1,53 +1,53 @@
-Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
+Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 198E6186B
-	for <linux-staging@lists.linux.dev>; Mon, 23 Oct 2023 06:39:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CAA963C0
+	for <linux-staging@lists.linux.dev>; Mon, 23 Oct 2023 06:39:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IyucEk0l"
-Received: by mail-ed1-f43.google.com with SMTP id 4fb4d7f45d1cf-52f1ece3a76so759081a12.0
-        for <linux-staging@lists.linux.dev>; Sun, 22 Oct 2023 23:39:36 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hj3PAgpk"
+Received: by mail-ej1-f42.google.com with SMTP id a640c23a62f3a-9bfbc393dfaso78092266b.1
+        for <linux-staging@lists.linux.dev>; Sun, 22 Oct 2023 23:39:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1698043175; x=1698647975; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1698043184; x=1698647984; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=CbuDFZ6Q4bsAALBcS9+CuBZ65o4x+vujhw43QWbD5pU=;
-        b=IyucEk0loojIfA3phnJgWVL/FW4xJ7PvZsgBsetdMUhqX9J4H2kSByeI9QTt/DuQuN
-         QmRtfU5JE2JlelGZKoagQrMntj+Zkopx7JkM78pyTwhPbxp+tt9/d+ZxcyMIDaoTY/UY
-         q0XJXKYvUhLMJN+oSy7TyOGklH8pqponFCNmD0VQ3NccFEGkfIJ6CeesvmfOiAdt+pgK
-         fBuKQHcl90YDJhN16xOQlCJVphhmQWYCg8BK8Cc8Fl+V5qvfQ5yODVMOlkarPW5uE2M0
-         2YgjooocqddtMv+/l8WBpUZuCEK//Q+S1ta0NLWYXKK0iG5CFSJ5eVd5bF0bKlhAHHLC
-         VqiA==
+        bh=qLFo6mN1dQpFM3u9PDdaEolPvTWL8Fd9rcZrlk3kJ7c=;
+        b=hj3PAgpkcwMdnhsyyOLhqW5mfH54LIzSOA+CirzOqPKS880nyWkvGomLW4RCI8StMJ
+         g/m/c7HJY9/i07poC7nb7VRIR4hPJeLptgTtefXub1OOl60nHvfDW8kMOxLOIpSVVie0
+         WNq4k9XD2wrAHelYvqvuv3/Tn1k3RLIlR8Ixei77RZGWwLReEORlMm0hyXDUEH79j9U4
+         qlnOKS08ayNSoMTXIXaf7bbNF4Bds+LJB4ARKsvLq5thBvjSWvCOXzhq8oXmPt5FoDLp
+         En+7/IucuhUfTtrX1hesF/JqzthTZ9Ts8r4EDQ5csl0gSlYg0LCl9WQS26E9hspAD7Q8
+         0JOA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1698043175; x=1698647975;
+        d=1e100.net; s=20230601; t=1698043184; x=1698647984;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=CbuDFZ6Q4bsAALBcS9+CuBZ65o4x+vujhw43QWbD5pU=;
-        b=dEcaszpgHBxeAmJoH/1GEklBbPwyCQvxvQIeixT8EoL8n1f4ZstHfR3UQbdJmcPXQ4
-         5WG8P+ym+NHjpdOjHmaAilF9f08I2OMsvapiDAsTbHqFJMO22HJ2ZcpEP5qKUSG/OH4M
-         owZcigbXtS/lIpLpAhcnSasvFIKDfOVLGqtuKGNtdfPFydpkIqQJO/f1hiYe3NpnbXDJ
-         RMBVfLkwn9QjhSdovpG7HPj1nGAAvdDsW8saEbYqh1IjKrmWo/ob8V/SjQuZ1OvY4+hU
-         4Az2CVxvdXOcpJ85aTmnoPsmJlGfJjYTBDYm6DW3a4/qbYoGVpj0wNto6MO289yFUvi1
-         hadQ==
-X-Gm-Message-State: AOJu0Ywy2iAXE9zbNyy8ePCHLihjfurQBPxTp41MpoxCtA+88xGWNsri
-	dRPasDqb0Dv3ovqmT6iWg/w=
-X-Google-Smtp-Source: AGHT+IGQJysNoQEMkO2u3/ZXpnv0wpqq45SJiRHGHiC+CFyg6AAisShWHQu1CgoJ/50kDF84t19phg==
-X-Received: by 2002:a17:906:74d9:b0:9c3:9577:5638 with SMTP id z25-20020a17090674d900b009c395775638mr5137379ejl.0.1698043175023;
-        Sun, 22 Oct 2023 23:39:35 -0700 (PDT)
+        bh=qLFo6mN1dQpFM3u9PDdaEolPvTWL8Fd9rcZrlk3kJ7c=;
+        b=dcmPpAc7FmFZGT9zVaKYj/2y/3yhzjG9ynXIJBkssWn5zgiXv3pJulFEizQ1ywCWSO
+         /yGWjn0GnyIH0JUgTDmqAtX6+1g7xrrdUttHSWuVai+WhXZRQndvMpCEEnBlgpIk+jqj
+         k2U0K05Ssbek5yO4+21YLwgFQ2UQlzqyvjJP6XMcFJHzBRwmMKYb0rluOuXRQUxqW9HF
+         XzXRm5GOQMnpvS2Nv4tD16GfXerwZnYy2bPOrTTkZ+a7A9XEkTTtKhN07fvQz3MM7mvH
+         +rCBrVO+AdsgUSa/gntsV9r5O/Lej+A1ZggG8idE1bXGzvU2UzgWlZmN7j9RxHpoFJja
+         mRfQ==
+X-Gm-Message-State: AOJu0YzCBqmfP7TfoWwSEnxoeOXrXpoHRdpgXP0+JIcl+7XuVzwP+IUv
+	KrYLij6ib6Ff995/iNSqMm82Tz43U24=
+X-Google-Smtp-Source: AGHT+IHCwhcP9Y/oXdcdOq/TKc2HmWfozMB/+qFnQlIuonoREuH8aT1eRtLCr3Y3Hbiymgh3rkVYwA==
+X-Received: by 2002:a17:906:7394:b0:9b2:bf2d:6b65 with SMTP id f20-20020a170906739400b009b2bf2d6b65mr5838149ejl.4.1698043183605;
+        Sun, 22 Oct 2023 23:39:43 -0700 (PDT)
 Received: from matrix-ESPRIMO-P710 (p579356c7.dip0.t-ipconnect.de. [87.147.86.199])
-        by smtp.gmail.com with ESMTPSA id bm11-20020a170906c04b00b009a193a5acffsm6061090ejb.121.2023.10.22.23.39.34
+        by smtp.gmail.com with ESMTPSA id ss17-20020a170907039100b0099cb349d570sm6131450ejb.185.2023.10.22.23.39.43
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 22 Oct 2023 23:39:34 -0700 (PDT)
-Date: Mon, 23 Oct 2023 08:39:33 +0200
+        Sun, 22 Oct 2023 23:39:43 -0700 (PDT)
+Date: Mon, 23 Oct 2023 08:39:41 +0200
 From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [PATCH 01/11] staging: rtl8192e: Replace BIT0 to BIT9 with BIT(0) to
- BIT(9)
-Message-ID: <07e7de26d364d0781e41892d5738e1b6b93faf53.1698042685.git.philipp.g.hortmann@gmail.com>
+Subject: [PATCH 02/11] staging: rtl8192e: Replace BIT10 to BIT31 with BIT(10)
+ to BIT(31)
+Message-ID: <294ff1d0b92a474a9ae0d48a54a9f99f14008053.1698042685.git.philipp.g.hortmann@gmail.com>
 References: <cover.1698042685.git.philipp.g.hortmann@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -59,235 +59,200 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 In-Reply-To: <cover.1698042685.git.philipp.g.hortmann@gmail.com>
 
-Replace custom macros BIT0 to BIT9 with standard kernel macros BIT(0) to
-BIT(9) to shorten code.
+Replace custom macros BIT10 to BIT31 with standard kernel macros BIT(10) to
+BIT(31) to shorten code.
 
 Signed-off-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
 ---
- drivers/staging/rtl8192e/rtl8192e/r8192E_hw.h | 70 +++++++++----------
- .../staging/rtl8192e/rtl8192e/r8192E_phy.c    |  4 +-
- drivers/staging/rtl8192e/rtl8192e/rtl_dm.c    |  2 +-
- drivers/staging/rtl8192e/rtl8192e/rtl_pci.c   |  2 +-
- drivers/staging/rtl8192e/rtl819x_Qos.h        | 10 ---
- drivers/staging/rtl8192e/rtllib.h             |  4 +-
- 6 files changed, 41 insertions(+), 51 deletions(-)
+ drivers/staging/rtl8192e/rtl8192e/r8192E_hw.h | 34 +++++++++----------
+ drivers/staging/rtl8192e/rtl8192e/rtl_cam.c   |  8 ++---
+ drivers/staging/rtl8192e/rtl8192e/rtl_dm.c    | 20 +++++------
+ drivers/staging/rtl8192e/rtl819x_Qos.h        | 23 -------------
+ drivers/staging/rtl8192e/rtllib.h             |  8 ++---
+ 5 files changed, 35 insertions(+), 58 deletions(-)
 
 diff --git a/drivers/staging/rtl8192e/rtl8192e/r8192E_hw.h b/drivers/staging/rtl8192e/rtl8192e/r8192E_hw.h
-index 09f8c76b7e65..80f44ffe00e6 100644
+index 80f44ffe00e6..1b444529b59c 100644
 --- a/drivers/staging/rtl8192e/rtl8192e/r8192E_hw.h
 +++ b/drivers/staging/rtl8192e/rtl8192e/r8192E_hw.h
-@@ -43,7 +43,7 @@ enum _RTL8192PCI_HW {
- 	PMR			= 0x00c,
- 	EPROM_CMD		= 0x00e,
- 
--#define EPROM_CMD_9356SEL	BIT4
-+#define EPROM_CMD_9356SEL	BIT(4)
- #define EPROM_CMD_OPERATING_MODE_SHIFT 6
- #define EPROM_CMD_NORMAL 0
- #define EPROM_CMD_PROGRAM 2
-@@ -67,10 +67,10 @@ enum _RTL8192PCI_HW {
- #define RCR_AMF			BIT20
- #define RCR_ADF			BIT18
- #define RCR_AICV		BIT12
--#define	RCR_AB			BIT3
--#define	RCR_AM			BIT2
--#define	RCR_APM			BIT1
--#define	RCR_AAP			BIT0
-+#define	RCR_AB			BIT(3)
-+#define	RCR_AM			BIT(2)
-+#define	RCR_APM			BIT(1)
-+#define	RCR_AAP			BIT(0)
- #define RCR_MXDMA_OFFSET	8
- #define RCR_FIFO_OFFSET		13
- 	SLOT_TIME		= 0x049,
-@@ -95,11 +95,11 @@ enum _RTL8192PCI_HW {
- #define   TOTAL_CAM_ENTRY				32
- 	WCAMI			= 0x0A4,
- 	SECR			= 0x0B0,
--#define	SCR_TxUseDK			BIT0
--#define   SCR_RxUseDK			BIT1
--#define   SCR_TxEncEnable		BIT2
--#define   SCR_RxDecEnable		BIT3
--#define   SCR_NoSKMC				BIT5
-+#define	SCR_TxUseDK			BIT(0)
-+#define   SCR_RxUseDK			BIT(1)
-+#define   SCR_TxEncEnable		BIT(2)
-+#define   SCR_RxDecEnable		BIT(3)
-+#define   SCR_NoSKMC				BIT(5)
+@@ -61,12 +61,12 @@ enum _RTL8192PCI_HW {
+ #define		CR_TE					0x04
+ 	SIFS		= 0x03E,
+ 	RCR			= 0x044,
+-#define RCR_ONLYERLPKT		BIT31
+-#define RCR_CBSSID		BIT23
+-#define	RCR_ADD3		BIT21
+-#define RCR_AMF			BIT20
+-#define RCR_ADF			BIT18
+-#define RCR_AICV		BIT12
++#define RCR_ONLYERLPKT		BIT(31)
++#define RCR_CBSSID		BIT(23)
++#define	RCR_ADD3		BIT(21)
++#define RCR_AMF			BIT(20)
++#define RCR_ADF			BIT(18)
++#define RCR_AICV		BIT(12)
+ #define	RCR_AB			BIT(3)
+ #define	RCR_AM			BIT(2)
+ #define	RCR_APM			BIT(1)
+@@ -102,14 +102,14 @@ enum _RTL8192PCI_HW {
+ #define   SCR_NoSKMC				BIT(5)
  	SWREGULATOR	= 0x0BD,
  	INTA_MASK		= 0x0f4,
- #define IMR_TBDOK			BIT27
-@@ -110,19 +110,19 @@ enum _RTL8192PCI_HW {
- #define	IMR_RXFOVW			BIT12
- #define IMR_RDU				BIT11
- #define IMR_RXCMDOK			BIT10
--#define IMR_BDOK			BIT9
--#define IMR_HIGHDOK			BIT8
--#define	IMR_COMDOK			BIT7
--#define IMR_MGNTDOK			BIT6
--#define IMR_HCCADOK			BIT5
--#define	IMR_BKDOK			BIT4
--#define	IMR_BEDOK			BIT3
--#define	IMR_VIDOK			BIT2
--#define	IMR_VODOK			BIT1
--#define	IMR_ROK				BIT0
-+#define IMR_BDOK			BIT(9)
-+#define IMR_HIGHDOK			BIT(8)
-+#define	IMR_COMDOK			BIT(7)
-+#define IMR_MGNTDOK			BIT(6)
-+#define IMR_HCCADOK			BIT(5)
-+#define	IMR_BKDOK			BIT(4)
-+#define	IMR_BEDOK			BIT(3)
-+#define	IMR_VIDOK			BIT(2)
-+#define	IMR_VODOK			BIT(1)
-+#define	IMR_ROK				BIT(0)
- 	ISR			= 0x0f8,
- 	TP_POLL			= 0x0fd,
--#define TP_POLL_CQ		BIT5
-+#define TP_POLL_CQ		BIT(5)
- 	PSR			= 0x0ff,
- 	CPU_GEN			= 0x100,
- #define	CPU_CCK_LOOPBACK	0x00030000
-@@ -136,9 +136,9 @@ enum _RTL8192PCI_HW {
- #define CPU_GEN_NO_LOOPBACK_MSK	0xFFF8FFFF
- #define CPU_GEN_NO_LOOPBACK_SET	0x00080000
- 	ACM_HW_CTRL		= 0x171,
--#define	ACM_HW_BEQ_EN		BIT1
--#define	ACM_HW_VIQ_EN		BIT2
--#define	ACM_HW_VOQ_EN		BIT3
-+#define	ACM_HW_BEQ_EN		BIT(1)
-+#define	ACM_HW_VIQ_EN		BIT(2)
-+#define	ACM_HW_VOQ_EN		BIT(3)
- 	RQPN1			= 0x180,
- 	RQPN2			= 0x184,
- 	RQPN3			= 0x188,
-@@ -159,7 +159,7 @@ enum _RTL8192PCI_HW {
- 	WFCRC2		  = 0x2f8,
- 
- 	BW_OPMODE		= 0x300,
--#define	BW_OPMODE_20MHZ			BIT2
-+#define	BW_OPMODE_20MHZ			BIT(2)
- 	IC_VERRSION		= 0x301,
- 	MSR			= 0x303,
- #define MSR_LINK_MASK		(BIT(1) | BIT(0))
-@@ -178,16 +178,16 @@ enum _RTL8192PCI_HW {
- 	TSFR			= 0x308,
- 	RRSR			= 0x310,
- #define RRSR_SHORT_OFFSET			23
--#define RRSR_1M					BIT0
--#define RRSR_2M					BIT1
--#define RRSR_5_5M				BIT2
--#define RRSR_11M				BIT3
--#define RRSR_6M					BIT4
--#define RRSR_9M					BIT5
--#define RRSR_12M				BIT6
--#define RRSR_18M				BIT7
--#define RRSR_24M				BIT8
--#define RRSR_36M				BIT9
-+#define RRSR_1M					BIT(0)
-+#define RRSR_2M					BIT(1)
-+#define RRSR_5_5M				BIT(2)
-+#define RRSR_11M				BIT(3)
-+#define RRSR_6M					BIT(4)
-+#define RRSR_9M					BIT(5)
-+#define RRSR_12M				BIT(6)
-+#define RRSR_18M				BIT(7)
-+#define RRSR_24M				BIT(8)
-+#define RRSR_36M				BIT(9)
- #define RRSR_48M				BIT10
- #define RRSR_54M				BIT11
- #define BRSR_AckShortPmb			BIT23
-diff --git a/drivers/staging/rtl8192e/rtl8192e/r8192E_phy.c b/drivers/staging/rtl8192e/rtl8192e/r8192E_phy.c
-index a5e16bf99cd6..4d12d7385041 100644
---- a/drivers/staging/rtl8192e/rtl8192e/r8192E_phy.c
-+++ b/drivers/staging/rtl8192e/rtl8192e/r8192E_phy.c
-@@ -965,7 +965,7 @@ void rtl92e_init_gain(struct net_device *dev, u8 Operation)
- 
- void rtl92e_set_rf_off(struct net_device *dev)
+-#define IMR_TBDOK			BIT27
+-#define IMR_TBDER			BIT26
+-#define IMR_TXFOVW			BIT15
+-#define IMR_TIMEOUT0			BIT14
+-#define IMR_BcnInt			BIT13
+-#define	IMR_RXFOVW			BIT12
+-#define IMR_RDU				BIT11
+-#define IMR_RXCMDOK			BIT10
++#define IMR_TBDOK			BIT(27)
++#define IMR_TBDER			BIT(26)
++#define IMR_TXFOVW			BIT(15)
++#define IMR_TIMEOUT0			BIT(14)
++#define IMR_BcnInt			BIT(13)
++#define	IMR_RXFOVW			BIT(12)
++#define IMR_RDU				BIT(11)
++#define IMR_RXCMDOK			BIT(10)
+ #define IMR_BDOK			BIT(9)
+ #define IMR_HIGHDOK			BIT(8)
+ #define	IMR_COMDOK			BIT(7)
+@@ -188,9 +188,9 @@ enum _RTL8192PCI_HW {
+ #define RRSR_18M				BIT(7)
+ #define RRSR_24M				BIT(8)
+ #define RRSR_36M				BIT(9)
+-#define RRSR_48M				BIT10
+-#define RRSR_54M				BIT11
+-#define BRSR_AckShortPmb			BIT23
++#define RRSR_48M				BIT(10)
++#define RRSR_54M				BIT(11)
++#define BRSR_AckShortPmb			BIT(23)
+ 	UFWP			= 0x318,
+ 	RATR0			= 0x320,
+ #define	RATR_1M			0x00000001
+diff --git a/drivers/staging/rtl8192e/rtl8192e/rtl_cam.c b/drivers/staging/rtl8192e/rtl8192e/rtl_cam.c
+index 76ec4ed967c4..69298c7c129a 100644
+--- a/drivers/staging/rtl8192e/rtl8192e/rtl_cam.c
++++ b/drivers/staging/rtl8192e/rtl8192e/rtl_cam.c
+@@ -17,7 +17,7 @@ void rtl92e_cam_reset(struct net_device *dev)
  {
--	rtl92e_set_bb_reg(dev, rFPGA0_XA_RFInterfaceOE, BIT4, 0x0);
-+	rtl92e_set_bb_reg(dev, rFPGA0_XA_RFInterfaceOE, BIT(4), 0x0);
- 	rtl92e_set_bb_reg(dev, rFPGA0_AnalogParameter4, 0x300, 0x0);
- 	rtl92e_set_bb_reg(dev, rFPGA0_AnalogParameter1, 0x18, 0x0);
- 	rtl92e_set_bb_reg(dev, rOFDM0_TRxPathEnable, 0xf, 0x0);
-@@ -1016,7 +1016,7 @@ static bool _rtl92e_set_rf_power_state(struct net_device *dev,
- 					 0x4, 0x1);
- 			priv->hw_rf_off_action = 0;
- 			rtl92e_set_bb_reg(dev, rFPGA0_XA_RFInterfaceOE,
--					  BIT4, 0x1);
-+					  BIT(4), 0x1);
- 			rtl92e_set_bb_reg(dev, rFPGA0_AnalogParameter4,
- 					  0x300, 0x3);
- 			rtl92e_set_bb_reg(dev, rFPGA0_AnalogParameter1,
+ 	u32 ulcommand = 0;
+ 
+-	ulcommand |= BIT31 | BIT30;
++	ulcommand |= BIT(31) | BIT(30);
+ 	rtl92e_writel(dev, RWCAM, ulcommand);
+ }
+ 
+@@ -89,13 +89,13 @@ void rtl92e_set_key(struct net_device *dev, u8 EntryNo, u8 KeyIndex,
+ 	}
+ 
+ 	if (DefaultKey)
+-		usConfig |= BIT15 | (KeyType << 2);
++		usConfig |= BIT(15) | (KeyType << 2);
+ 	else
+-		usConfig |= BIT15 | (KeyType << 2) | KeyIndex;
++		usConfig |= BIT(15) | (KeyType << 2) | KeyIndex;
+ 
+ 	for (i = 0; i < CAM_CONTENT_COUNT; i++) {
+ 		TargetCommand  = i + CAM_CONTENT_COUNT * EntryNo;
+-		TargetCommand |= BIT31 | BIT16;
++		TargetCommand |= BIT(31) | BIT(16);
+ 
+ 		if (i == 0) {
+ 			TargetContent = (u32)(*(MacAddr + 0)) << 16 |
 diff --git a/drivers/staging/rtl8192e/rtl8192e/rtl_dm.c b/drivers/staging/rtl8192e/rtl8192e/rtl_dm.c
-index 97de404840df..e88963a4b1f1 100644
+index e88963a4b1f1..330dafd62656 100644
 --- a/drivers/staging/rtl8192e/rtl8192e/rtl_dm.c
 +++ b/drivers/staging/rtl8192e/rtl8192e/rtl_dm.c
-@@ -1247,7 +1247,7 @@ static void _rtl92e_dm_check_rf_ctrl_gpio(void *data)
+@@ -292,25 +292,25 @@ static void _rtl92e_dm_check_rate_adaptive(struct net_device *dev)
+ 				     ht_info->bCurShortGI20MHz);
  
- 	tmp1byte = rtl92e_readb(dev, GPI);
+ 		pra->upper_rssi_threshold_ratr =
+-				(pra->upper_rssi_threshold_ratr & (~BIT31)) |
+-				((bshort_gi_enabled) ? BIT31 : 0);
++				(pra->upper_rssi_threshold_ratr & (~BIT(31))) |
++				((bshort_gi_enabled) ? BIT(31) : 0);
  
--	rf_power_state_to_set = (tmp1byte & BIT1) ?  rf_on : rf_off;
-+	rf_power_state_to_set = (tmp1byte & BIT(1)) ?  rf_on : rf_off;
+ 		pra->middle_rssi_threshold_ratr =
+-				(pra->middle_rssi_threshold_ratr & (~BIT31)) |
+-				((bshort_gi_enabled) ? BIT31 : 0);
++				(pra->middle_rssi_threshold_ratr & (~BIT(31))) |
++				((bshort_gi_enabled) ? BIT(31) : 0);
  
- 	if (priv->hw_radio_off && (rf_power_state_to_set == rf_on)) {
- 		netdev_info(dev, "gpiochangeRF  - HW Radio ON\n");
-diff --git a/drivers/staging/rtl8192e/rtl8192e/rtl_pci.c b/drivers/staging/rtl8192e/rtl8192e/rtl_pci.c
-index 0bc3e013001e..1aa73561581b 100644
---- a/drivers/staging/rtl8192e/rtl8192e/rtl_pci.c
-+++ b/drivers/staging/rtl8192e/rtl8192e/rtl_pci.c
-@@ -21,7 +21,7 @@ static void _rtl92e_parse_pci_configuration(struct pci_dev *pdev,
- 	pcie_capability_read_word(priv->pdev, PCI_EXP_LNKCTL, &link_ctrl_reg);
+ 		if (priv->current_chnl_bw != HT_CHANNEL_WIDTH_20) {
+ 			pra->low_rssi_threshold_ratr =
+-				(pra->low_rssi_threshold_ratr_40M & (~BIT31)) |
+-				((bshort_gi_enabled) ? BIT31 : 0);
++				(pra->low_rssi_threshold_ratr_40M & (~BIT(31))) |
++				((bshort_gi_enabled) ? BIT(31) : 0);
+ 		} else {
+ 			pra->low_rssi_threshold_ratr =
+-				(pra->low_rssi_threshold_ratr_20M & (~BIT31)) |
+-				((bshort_gi_enabled) ? BIT31 : 0);
++				(pra->low_rssi_threshold_ratr_20M & (~BIT(31))) |
++				((bshort_gi_enabled) ? BIT(31) : 0);
+ 		}
+ 		pra->ping_rssi_ratr =
+-				(pra->ping_rssi_ratr & (~BIT31)) |
+-				((bshort_gi_enabled) ? BIT31 : 0);
++				(pra->ping_rssi_ratr & (~BIT(31))) |
++				((bshort_gi_enabled) ? BIT(31) : 0);
  
- 	pci_read_config_byte(pdev, 0x98, &tmp);
--	tmp |= BIT4;
-+	tmp |= BIT(4);
- 	pci_write_config_byte(pdev, 0x98, tmp);
- 
- 	tmp = 0x17;
+ 		if (pra->ratr_state == DM_RATR_STA_HIGH) {
+ 			high_rssi_thresh_for_ra = pra->high2low_rssi_thresh_for_ra;
 diff --git a/drivers/staging/rtl8192e/rtl819x_Qos.h b/drivers/staging/rtl8192e/rtl819x_Qos.h
-index 37677366c397..519a3160933b 100644
+index 519a3160933b..a43a5142e96f 100644
 --- a/drivers/staging/rtl8192e/rtl819x_Qos.h
 +++ b/drivers/staging/rtl8192e/rtl819x_Qos.h
-@@ -7,16 +7,6 @@
+@@ -7,29 +7,6 @@
  #ifndef __INC_QOS_TYPE_H
  #define __INC_QOS_TYPE_H
  
--#define BIT0		    0x00000001
--#define BIT1		    0x00000002
--#define BIT2		    0x00000004
--#define BIT3		    0x00000008
--#define BIT4		    0x00000010
--#define BIT5		    0x00000020
--#define BIT6		    0x00000040
--#define BIT7		    0x00000080
--#define BIT8		    0x00000100
--#define BIT9		    0x00000200
- #define BIT10		   0x00000400
- #define BIT11		   0x00000800
- #define BIT12		   0x00001000
+-#define BIT10		   0x00000400
+-#define BIT11		   0x00000800
+-#define BIT12		   0x00001000
+-#define BIT13		   0x00002000
+-#define BIT14		   0x00004000
+-#define BIT15		   0x00008000
+-#define BIT16		   0x00010000
+-#define BIT17		   0x00020000
+-#define BIT18		   0x00040000
+-#define BIT19		   0x00080000
+-#define BIT20		   0x00100000
+-#define BIT21		   0x00200000
+-#define BIT22		   0x00400000
+-#define BIT23		   0x00800000
+-#define BIT24		   0x01000000
+-#define BIT25		   0x02000000
+-#define BIT26		   0x04000000
+-#define BIT27		   0x08000000
+-#define BIT28		   0x10000000
+-#define BIT29		   0x20000000
+-#define BIT30		   0x40000000
+-#define BIT31		   0x80000000
+-
+ union qos_tsinfo {
+ 	u8		charData[3];
+ 	struct {
 diff --git a/drivers/staging/rtl8192e/rtllib.h b/drivers/staging/rtl8192e/rtllib.h
-index 9d141aad8cd5..7f0aa0779c78 100644
+index 7f0aa0779c78..dc3488d9693f 100644
 --- a/drivers/staging/rtl8192e/rtllib.h
 +++ b/drivers/staging/rtl8192e/rtllib.h
-@@ -91,7 +91,7 @@ static inline void *netdev_priv_rsl(struct net_device *dev)
- #define IE_CISCO_FLAG_POSITION		0x08
- #define SUPPORT_CKIP_MIC			0x08
- #define SUPPORT_CKIP_PK			0x10
--#define	RT_RF_OFF_LEVL_HALT_NIC		BIT3
-+#define	RT_RF_OFF_LEVL_HALT_NIC		BIT(3)
- #define	RT_IN_PS_LEVEL(psc, _PS_FLAG)		\
- 	((psc->CurPsLevel & _PS_FLAG) ? true : false)
- #define	RT_CLEAR_PS_LEVEL(psc, _PS_FLAG)	\
-@@ -341,7 +341,7 @@ enum rt_op_mode {
- /* QOS control */
- #define RTLLIB_QCTL_TID	      0x000F
+@@ -1085,10 +1085,10 @@ struct rt_pwr_save_ctrl {
  
--#define	FC_QOS_BIT					BIT7
-+#define	FC_QOS_BIT					BIT(7)
- #define IsDataFrame(pdu)	(((pdu[0] & 0x0C) == 0x08) ? true : false)
- #define	IsLegacyDataFrame(pdu)	(IsDataFrame(pdu) && (!(pdu[0]&FC_QOS_BIT)))
- #define IsQoSDataFrame(pframe)			\
+ #define RT_RF_CHANGE_SOURCE u32
+ 
+-#define RF_CHANGE_BY_SW BIT31
+-#define RF_CHANGE_BY_HW BIT30
+-#define RF_CHANGE_BY_PS BIT29
+-#define RF_CHANGE_BY_IPS BIT28
++#define RF_CHANGE_BY_SW BIT(31)
++#define RF_CHANGE_BY_HW BIT(30)
++#define RF_CHANGE_BY_PS BIT(29)
++#define RF_CHANGE_BY_IPS BIT(28)
+ #define RF_CHANGE_BY_INIT	0
+ 
+ enum country_code_type {
 -- 
 2.42.0
 
