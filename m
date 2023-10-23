@@ -1,72 +1,249 @@
-Received: from relay.hostedemail.com (smtprelay0010.hostedemail.com [216.40.44.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 349D01C28A
-	for <linux-staging@lists.linux.dev>; Mon, 23 Oct 2023 16:04:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=perches.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=perches.com
-Authentication-Results: smtp.subspace.kernel.org; dkim=none
-Received: from omf06.hostedemail.com (a10.router.float.18 [10.200.18.1])
-	by unirelay08.hostedemail.com (Postfix) with ESMTP id 4292C14017E;
-	Mon, 23 Oct 2023 15:25:03 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: joe@perches.com) by omf06.hostedemail.com (Postfix) with ESMTPA id 76D6220016;
-	Mon, 23 Oct 2023 15:25:00 +0000 (UTC)
-Message-ID: <15f45bbde3f4289b012db7adb8166cf0d45e4fec.camel@perches.com>
-Subject: Re: [PATCH 2/5] staging: media: av7110: Fix various whitespace
- checkpatch errors
-From: Joe Perches <joe@perches.com>
-To: Dan Carpenter <dan.carpenter@linaro.org>, Jonathan Bergh
-	 <bergh.jonathan@gmail.com>
-Cc: mchehab@kernel.org, gregkh@linuxfoundation.org, error27@gmail.com, 
-	linux-staging@lists.linux.dev, linux-media@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Date: Mon, 23 Oct 2023 08:24:58 -0700
-In-Reply-To: <b301c9a1-7536-46c5-878e-7cd79e3a4742@kadam.mountain>
-References: <20231020232332.55024-1-bergh.jonathan@gmail.com>
-	 <20231020232332.55024-3-bergh.jonathan@gmail.com>
-	 <b301c9a1-7536-46c5-878e-7cd79e3a4742@kadam.mountain>
-Content-Type: text/plain; charset="ISO-8859-1"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.48.4 (3.48.4-1.fc38) 
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 967FB1A722;
+	Mon, 23 Oct 2023 23:10:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lw1QlTkC"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1698102626; x=1729638626;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=2DTHrKNA7mweT0JgMxWkZFN/aHE3omR2fa0y4eM3/gs=;
+  b=lw1QlTkCUwKDa21+U4ujx24+xiFiUjn8/vEXJzoXaeY2JYRHTnpRpyCP
+   sypkODoPZtdbW2sRABeGqejOgUcm53j6GNewHWTYbXkDVTHkPL/mLcS2V
+   APBKpMCUImPVDR3fNaeCrPrWyTntcfqFJMH9hLC/Fw7zD9Ye7JQ/yrmXG
+   AIveI2OmYaLw1H51pH7l3UBWHmY9u3sxAqJfVeS3PHdN/2jpHPfnwUowr
+   N1YxsdAMxpdlbecqZ4sEqlC4LVaiSn4NNC6vsqYfm0ATfHVgAWLyC5dFr
+   HNQN9lK1h+aQ0dui3OJvV8IZlRcOa9VNvjqeWYHFUEiEzYgrrB3gYc1Sz
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10872"; a="385841762"
+X-IronPort-AV: E=Sophos;i="6.03,246,1694761200"; 
+   d="scan'208";a="385841762"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Oct 2023 16:10:25 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10872"; a="881924053"
+X-IronPort-AV: E=Sophos;i="6.03,246,1694761200"; 
+   d="scan'208";a="881924053"
+Received: from lkp-server01.sh.intel.com (HELO 8917679a5d3e) ([10.239.97.150])
+  by orsmga004.jf.intel.com with ESMTP; 23 Oct 2023 16:10:23 -0700
+Received: from kbuild by 8917679a5d3e with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qv43x-0007MH-0m;
+	Mon, 23 Oct 2023 23:10:21 +0000
+Date: Tue, 24 Oct 2023 07:09:36 +0800
+From: kernel test robot <lkp@intel.com>
+To: kenechukwu maduechesi <maduechesik@gmail.com>,
+	outreachy@lists.linux.dev, shreeya.patel23498@gmail.com
+Cc: oe-kbuild-all@lists.linux.dev,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: rts5208: Replace delay function.
+Message-ID: <202310240604.OZnfTcMT-lkp@intel.com>
+References: <20231018004300.GA3189@ubuntu>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Rspamd-Server: rspamout03
-X-Rspamd-Queue-Id: 76D6220016
-X-Stat-Signature: uso4t8asunecfddpd7xeyg65ftr14cyg
-X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-Session-ID: U2FsdGVkX1+VkWPLyvgXZZWw+/cT5gjzEt416nU2p+8=
-X-HE-Tag: 1698074700-308232
-X-HE-Meta: U2FsdGVkX19fOFgBMW+1i6LvtS8bVOiijCHMn6WgWz8Hz2LBWy2SGm/KH4KlWZY5Tjj9fn5jVr9T7rjtmAXNl0J+d4kYioCx7/gyh/4mJ3+vUGI6Z/3y4W/7bFnTs3LRuhJvaYLvefim2tJalYxzyUSf1mg+Qgn1lGyGQOOlOiMuXDXC17h9ZHbB5/C1Kz0vysWKzUPnbpbbzlyYQdYbaXYZ/SJsyqjQi6ZCbx0b6+NMxUTeBuKL+RBdYdGRhYNAW9a6+v6i+6Ju2Mi4Od0m7Jsc6VIW/PKE8v/yEXmtTqY3p0eVBunu7/Ty6sGwxNLQ2MoCpl1eP+JZT7UkWD9gv4rAKocc6Y6M
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231018004300.GA3189@ubuntu>
 
-On Mon, 2023-10-23 at 17:26 +0300, Dan Carpenter wrote:
-> On Sat, Oct 21, 2023 at 01:23:29AM +0200, Jonathan Bergh wrote:
-[]
-> > diff --git a/drivers/staging/media/av7110/av7110_av.c b/drivers/staging=
-/media/av7110/av7110_av.c
-[]
-> > @@ -241,8 +241,8 @@ int av7110_pes_play(void *dest, struct dvb_ringbuff=
-er *buf, int dlen)
-> >  		sync |=3D DVB_RINGBUFFER_PEEK(buf, 2) << 8;
-> >  		sync |=3D DVB_RINGBUFFER_PEEK(buf, 3);
-> > =20
-> > -		if (((sync &~ 0x0f) =3D=3D 0x000001e0) ||
-> > -		    ((sync &~ 0x1f) =3D=3D 0x000001c0) ||
-> > +		if (((sync &~0x0f) =3D=3D 0x000001e0) ||
-> > +		    ((sync &~0x1f) =3D=3D 0x000001c0) ||
->=20
-> These should be:
->=20
-> 	if (((sync & ~0x0f) =3D=3D 0x000001e0) ||
-> 	    ((sync & ~0x1f) =3D=3D 0x000001c0) ||
+Hi kenechukwu,
 
-Generally, I believe it would be better to avoid '& ~constant'
-and use the positive form instead
+kernel test robot noticed the following build errors:
 
-	if ((sync & 0xfffffff0) =3D=3D 0x000001e0) ||
-	    (sync & 0xffffffe0) =3D=3D 0x000001c0)
+[auto build test ERROR on staging/staging-testing]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/kenechukwu-maduechesi/staging-rts5208-Replace-delay-function/20231018-090457
+base:   staging/staging-testing
+patch link:    https://lore.kernel.org/r/20231018004300.GA3189%40ubuntu
+patch subject: [PATCH] staging: rts5208: Replace delay function.
+config: microblaze-allyesconfig (https://download.01.org/0day-ci/archive/20231024/202310240604.OZnfTcMT-lkp@intel.com/config)
+compiler: microblaze-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231024/202310240604.OZnfTcMT-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310240604.OZnfTcMT-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   drivers/staging/rts5208/sd.c: In function 'sd_change_phase':
+>> drivers/staging/rts5208/sd.c:868:25: error: too few arguments to function 'usleep_range'
+     868 |                         usleep_range(50);
+         |                         ^~~~~~~~~~~~
+   In file included from drivers/staging/rts5208/rtsx.h:17,
+                    from drivers/staging/rts5208/sd.c:16:
+   include/linux/delay.h:66:20: note: declared here
+      66 | static inline void usleep_range(unsigned long min, unsigned long max)
+         |                    ^~~~~~~~~~~~
+   drivers/staging/rts5208/sd.c:880:25: error: too few arguments to function 'usleep_range'
+     880 |                         usleep_range(50);
+         |                         ^~~~~~~~~~~~
+   include/linux/delay.h:66:20: note: declared here
+      66 | static inline void usleep_range(unsigned long min, unsigned long max)
+         |                    ^~~~~~~~~~~~
+   drivers/staging/rts5208/sd.c:887:17: error: too few arguments to function 'usleep_range'
+     887 |                 usleep_range(100);
+         |                 ^~~~~~~~~~~~
+   include/linux/delay.h:66:20: note: declared here
+      66 | static inline void usleep_range(unsigned long min, unsigned long max)
+         |                    ^~~~~~~~~~~~
+   drivers/staging/rts5208/sd.c:921:17: error: too few arguments to function 'usleep_range'
+     921 |                 usleep_range(50);
+         |                 ^~~~~~~~~~~~
+   include/linux/delay.h:66:20: note: declared here
+      66 | static inline void usleep_range(unsigned long min, unsigned long max)
+         |                    ^~~~~~~~~~~~
+   drivers/staging/rts5208/sd.c: In function 'sd_wait_data_idle':
+   drivers/staging/rts5208/sd.c:1419:17: error: too few arguments to function 'usleep_range'
+    1419 |                 usleep_range(100);
+         |                 ^~~~~~~~~~~~
+   include/linux/delay.h:66:20: note: declared here
+      66 | static inline void usleep_range(unsigned long min, unsigned long max)
+         |                    ^~~~~~~~~~~~
 
 
+vim +/usleep_range +868 drivers/staging/rts5208/sd.c
+
+   814	
+   815	static int sd_change_phase(struct rtsx_chip *chip, u8 sample_point, u8 tune_dir)
+   816	{
+   817		struct sd_info *sd_card = &chip->sd_card;
+   818		u16 SD_VP_CTL, SD_DCMPS_CTL;
+   819		u8 val;
+   820		int retval;
+   821		bool ddr_rx = false;
+   822	
+   823		dev_dbg(rtsx_dev(chip), "%s (sample_point = %d, tune_dir = %d)\n",
+   824			__func__, sample_point, tune_dir);
+   825	
+   826		if (tune_dir == TUNE_RX) {
+   827			SD_VP_CTL = SD_VPRX_CTL;
+   828			SD_DCMPS_CTL = SD_DCMPS_RX_CTL;
+   829			if (CHK_SD_DDR50(sd_card))
+   830				ddr_rx = true;
+   831		} else {
+   832			SD_VP_CTL = SD_VPTX_CTL;
+   833			SD_DCMPS_CTL = SD_DCMPS_TX_CTL;
+   834		}
+   835	
+   836		if (chip->asic_code) {
+   837			retval = rtsx_write_register(chip, CLK_CTL, CHANGE_CLK,
+   838						     CHANGE_CLK);
+   839			if (retval)
+   840				return retval;
+   841			retval = rtsx_write_register(chip, SD_VP_CTL, 0x1F,
+   842						     sample_point);
+   843			if (retval)
+   844				return retval;
+   845			retval = rtsx_write_register(chip, SD_VPCLK0_CTL,
+   846						     PHASE_NOT_RESET, 0);
+   847			if (retval)
+   848				return retval;
+   849			retval = rtsx_write_register(chip, SD_VPCLK0_CTL,
+   850						     PHASE_NOT_RESET, PHASE_NOT_RESET);
+   851			if (retval)
+   852				return retval;
+   853			retval = rtsx_write_register(chip, CLK_CTL, CHANGE_CLK, 0);
+   854			if (retval)
+   855				return retval;
+   856		} else {
+   857			rtsx_read_register(chip, SD_VP_CTL, &val);
+   858			dev_dbg(rtsx_dev(chip), "SD_VP_CTL: 0x%x\n", val);
+   859			rtsx_read_register(chip, SD_DCMPS_CTL, &val);
+   860			dev_dbg(rtsx_dev(chip), "SD_DCMPS_CTL: 0x%x\n", val);
+   861	
+   862			if (ddr_rx) {
+   863				retval = rtsx_write_register(chip, SD_VP_CTL,
+   864							     PHASE_CHANGE,
+   865							     PHASE_CHANGE);
+   866				if (retval)
+   867					return retval;
+ > 868				usleep_range(50);
+   869				retval = rtsx_write_register(chip, SD_VP_CTL, 0xFF,
+   870							     PHASE_CHANGE |
+   871							     PHASE_NOT_RESET |
+   872							     sample_point);
+   873				if (retval)
+   874					return retval;
+   875			} else {
+   876				retval = rtsx_write_register(chip, CLK_CTL,
+   877							     CHANGE_CLK, CHANGE_CLK);
+   878				if (retval)
+   879					return retval;
+   880				usleep_range(50);
+   881				retval = rtsx_write_register(chip, SD_VP_CTL, 0xFF,
+   882							     PHASE_NOT_RESET |
+   883							     sample_point);
+   884				if (retval)
+   885					return retval;
+   886			}
+   887			usleep_range(100);
+   888	
+   889			rtsx_init_cmd(chip);
+   890			rtsx_add_cmd(chip, WRITE_REG_CMD, SD_DCMPS_CTL, DCMPS_CHANGE,
+   891				     DCMPS_CHANGE);
+   892			rtsx_add_cmd(chip, CHECK_REG_CMD, SD_DCMPS_CTL,
+   893				     DCMPS_CHANGE_DONE, DCMPS_CHANGE_DONE);
+   894			retval = rtsx_send_cmd(chip, SD_CARD, 100);
+   895			if (retval != STATUS_SUCCESS)
+   896				goto fail;
+   897	
+   898			val = *rtsx_get_cmd_data(chip);
+   899			if (val & DCMPS_ERROR)
+   900				goto fail;
+   901	
+   902			if ((val & DCMPS_CURRENT_PHASE) != sample_point)
+   903				goto fail;
+   904	
+   905			retval = rtsx_write_register(chip, SD_DCMPS_CTL,
+   906						     DCMPS_CHANGE, 0);
+   907			if (retval)
+   908				return retval;
+   909			if (ddr_rx) {
+   910				retval = rtsx_write_register(chip, SD_VP_CTL,
+   911							     PHASE_CHANGE, 0);
+   912				if (retval)
+   913					return retval;
+   914			} else {
+   915				retval = rtsx_write_register(chip, CLK_CTL,
+   916							     CHANGE_CLK, 0);
+   917				if (retval)
+   918					return retval;
+   919			}
+   920	
+   921			usleep_range(50);
+   922		}
+   923	
+   924		retval = rtsx_write_register(chip, SD_CFG1, SD_ASYNC_FIFO_NOT_RST, 0);
+   925		if (retval)
+   926			return retval;
+   927	
+   928		return STATUS_SUCCESS;
+   929	
+   930	fail:
+   931		rtsx_read_register(chip, SD_VP_CTL, &val);
+   932		dev_dbg(rtsx_dev(chip), "SD_VP_CTL: 0x%x\n", val);
+   933		rtsx_read_register(chip, SD_DCMPS_CTL, &val);
+   934		dev_dbg(rtsx_dev(chip), "SD_DCMPS_CTL: 0x%x\n", val);
+   935	
+   936		rtsx_write_register(chip, SD_DCMPS_CTL, DCMPS_CHANGE, 0);
+   937		rtsx_write_register(chip, SD_VP_CTL, PHASE_CHANGE, 0);
+   938		mdelay(10);
+   939		sd_reset_dcm(chip, tune_dir);
+   940		return STATUS_FAIL;
+   941	}
+   942	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
