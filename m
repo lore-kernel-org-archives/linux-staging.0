@@ -1,94 +1,97 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F7AC15E8A
-	for <linux-staging@lists.linux.dev>; Mon, 23 Oct 2023 14:41:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B129818032
+	for <linux-staging@lists.linux.dev>; Mon, 23 Oct 2023 14:41:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qD+ozjaj"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AF551C433C8;
-	Mon, 23 Oct 2023 14:41:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1698072091;
-	bh=N4If+wgwsD8dFTdUHEouchVNBSUFE+9hWZEa6Th40ts=;
-	h=From:To:Cc:Subject:References:Date:In-Reply-To:From;
-	b=qD+ozjajwsL/rFVAaZsugmIyEH3vwd5drmhXUIXfjLh1gKwHJWIN1dobJ88kx4Egh
-	 RHA4m/cy5OiAXs+dPr2hUVPCKRKLzCsK4ipHu/V3SBzjatw9ibogQb9E3+cQVZZSnW
-	 bhogHTKie9F8J4xFYhhGmRkymJ2uqsEoy6vRAmBgpTjNE6DooXvbMnRHTmt80js1v6
-	 fUJE2AEkblMuFSj6kajAKMdP8frLSty/xG8TbjwDC7PenDxpsGKxWxCWhf0BxcJUWQ
-	 N2wZvRaECSlzwYO5tL4q7HJCK+XVhR8pNAV7KKU/ZGN5RO8kx5lGbXFRPOluU7RHcB
-	 A9gJHTEZj/aqA==
-From: Kalle Valo <kvalo@kernel.org>
-To: "Arnd Bergmann" <arnd@arndb.de>
-Cc: "Arnd Bergmann" <arnd@kernel.org>,  "David S . Miller"
- <davem@davemloft.net>,  "Alexandre Belloni"
- <alexandre.belloni@bootlin.com>,  "Claudiu Beznea"
- <claudiu.beznea@tuxon.dev>,  "Geert Uytterhoeven" <geert@linux-m68k.org>,
-  "Geoff Levand" <geoff@infradead.org>,  "Greg Kroah-Hartman"
- <gregkh@linuxfoundation.org>,  "Jakub Kicinski" <kuba@kernel.org>,  "Jeff
- Johnson" <quic_jjohnson@quicinc.com>,  "Johannes Berg"
- <johannes@sipsolutions.net>,  "Larry Finger" <Larry.Finger@lwfinger.net>,
-  "Nicolas Ferre" <nicolas.ferre@microchip.com>,  "Pavel Machek"
- <pavel@ucw.cz>,  "Stanislaw Gruszka" <stf_xl@wp.pl>,  "Gregory Greenman"
- <gregory.greenman@intel.com>,  linuxppc-dev
- <linuxppc-dev@lists.ozlabs.org>,  linux-arm-kernel@lists.infradead.org,
-  linux-kernel@vger.kernel.org,  linux-staging@lists.linux.dev,
-  linux-wireless@vger.kernel.org
-Subject: Re: [PATCH 00/10] Remove obsolete and orphaned wifi drivers
-References: <20231023131953.2876682-1-arnd@kernel.org>
-	<87v8axzc46.fsf@kernel.org>
-	<50eafe40-9c50-48e2-8d48-6a113c8fd87d@app.fastmail.com>
-Date: Mon, 23 Oct 2023 17:41:24 +0300
-In-Reply-To: <50eafe40-9c50-48e2-8d48-6a113c8fd87d@app.fastmail.com> (Arnd
-	Bergmann's message of "Mon, 23 Oct 2023 16:10:16 +0200")
-Message-ID: <87edhlz9ij.fsf@kernel.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="FqiiqYSm"
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-4084b0223ccso26334105e9.2
+        for <linux-staging@lists.linux.dev>; Mon, 23 Oct 2023 07:41:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1698072102; x=1698676902; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=u0+KyYoYHk/UMVzb9ufT5X/yFDuVJYSaudNnGVYxEZs=;
+        b=FqiiqYSmM4vqyGavx8d9Js7nFJYUm3LOYTrStTpHRFZk4ill/mM98wOB+MLaSDbpXN
+         LksiJ3wMVqoX3p5ehDa6bXnIWg0iMbY4oVR0cK61s5/bw4EYb7ekjGapK6pxO+XEmZYx
+         0P4nFYZ7cGeAaGj28pYW3RNd0WdO5uPXqdjCm/MlSO7kKWQEDOAGL6CBdaCkhV2eXMzJ
+         fkOOuNU/T2FMZkoyNxmqAvAhvn5PqaMTh/gad4jSQ/yB6vEDcxa37Sv0n+2Go/NsZ4FZ
+         pXOMPbaKCE9iQxWryacv4/kv31Y8j52t6UiU0yCz8o/UQKlqK4kE+Q4tPJfQGfIsVANE
+         MG9w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1698072102; x=1698676902;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=u0+KyYoYHk/UMVzb9ufT5X/yFDuVJYSaudNnGVYxEZs=;
+        b=YeroyGGWw+ArH+rFqEdpg9BfXazvvF3RhlhKnMn1x7JTjsNmA2vkTtqrb0HaXdxbP5
+         8Dry7abw+osMwergoFyCKMhuaejiCBXCGSbqf8Ecc2IKZ2FqYGWnRFBn8Oz8++LA88er
+         IoKIrTfheUx4kDN9DRKDambfmm0ykbu3XYWK2AAHo7MacV9K62W+d5hwl90Wg+tR8F3K
+         MP8C0F5rfjYnZ5QfuGtAUmZJe9K4nA6pUJvbHcqx4kDzxeXVEbeCUxyJmZspHi54wdaX
+         UyeK88eTNImt/5DgbP+OQuklP4WH+dhUb2mgi8fYUNFDEYXXcVDzPzMdm472RCC06NeG
+         Y/tA==
+X-Gm-Message-State: AOJu0Yw6QRTyNH7gf02XN22AcMC7lkigLg3/lHD4cGY9anElk2Za+ZYR
+	vEjgSedSrBHVojcmf9yDvXjJRQ==
+X-Google-Smtp-Source: AGHT+IGxEIbZFmB4AraQ9pR4q3k4h9U2rvbNCkh34AC3yOH97A4Jl2sj3Io4ZVIo8/QLVKu9SbeaIQ==
+X-Received: by 2002:a05:600c:4f81:b0:408:55f8:7de with SMTP id n1-20020a05600c4f8100b0040855f807demr5528052wmq.28.1698072101799;
+        Mon, 23 Oct 2023 07:41:41 -0700 (PDT)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id p12-20020a05600c418c00b0040773c69fc0sm14127963wmh.11.2023.10.23.07.41.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 23 Oct 2023 07:41:41 -0700 (PDT)
+Date: Mon, 23 Oct 2023 17:41:38 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Jonathan Bergh <bergh.jonathan@gmail.com>
+Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 0/7] staging: octeon: Fix warnings due to introduction
+ of new typedefs
+Message-ID: <7e866f48-840a-4b9e-a28d-2016075abb4b@kadam.mountain>
+References: <20231021101238.81466-1-bergh.jonathan@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231021101238.81466-1-bergh.jonathan@gmail.com>
 
-"Arnd Bergmann" <arnd@arndb.de> writes:
+On Sat, Oct 21, 2023 at 12:12:31PM +0200, Jonathan Bergh wrote:
+> This patch series fixes (removes) the introduction of several new typedefs
+> for enums and structs in the octeon driver. First the declarations are
+> fixed and then implementations are updated to remove references to the 
+> old typedefs.
+> 
+> Changelog:
+>  * v1 -> v2: Fix breaking change spread across multiple patches
+>  * v2 -> v3: Break changes up into individual patches for each removed
+>    typedef
+> 
+> Jonathan Bergh (7):
+>   staging: octeon: Fix introduction of new enum typedef cvmx_spi_mode_t
+>     in octeon
+>   staging: octeon: Fix up introduction of new typedef
+>     cvmx_helper_interface_mode_t  in octeon
+>   staging: octeon: Fix introduction of following new typedef
+>     cvmx_pow_wait_t in octeon
+>   staging: octeon: Fix up introduction of new typedef cvmx_pko_lock_t in
+>     octeon
+>   staging: octeon: Fix introduction of new typedef cvmx_pko_status_t in
+>     octeon
+>   staging: octeon: Fix introduction of new typedef
+>     cvmx_pip_port_status_t in octeon
+>   staging: octeon: Fix introduction of new typedef
+>     cvmx_pko_port_status_t in octeon driver
+> 
+>  drivers/staging/octeon/ethernet.c     |  6 ++--
+>  drivers/staging/octeon/octeon-stubs.h | 48 +++++++++++++--------------
 
-> On Mon, Oct 23, 2023, at 15:45, Kalle Valo wrote:
->> Arnd Bergmann <arnd@kernel.org> writes:
->>
->>> From: Arnd Bergmann <arnd@arndb.de>
->>>
->>> As discussed previously, a lot of the older wifi drivers are likely
->>> entirely unused, Though we can't know for sure.
->>>
->>> As suggested by both Greg and Jakub, let's remove the ones that look
->>> are most likely to have no users left and also get in the way of the
->>> wext cleanup. If anyone is still using any of these, we can revert the
->>> driver removal individually.
->>>
->>> I would suggest merging these for net-next after 6.7-rc1 is out
->>
->> Why net-next? I want to take these to wireless-next to avoid any
->> conflicts with other wireless patches.
->
-> My mistake, I actually rebased them on top of wireless-next before
-> sending out the patches, I just forgot update the text I had
-> already written a week earlier.
+Please don't change the stubs without change the arch/ code.
 
-Ah, good that we are on the same page then :)
+regards,
+dan carpenter
 
->> We could take these to wireless-next after we submit the last new
->> features (-next) pull request to v6.7, so most likely already next week.
->> So if anyone has any problems with these speak up now.
->
-> Sounds good to me, thanks!
-
-Thanks for the patches! I applied them to our pending branch for some
-build testing, there were few conflicts I guess due to recent cleanup
-patches but obviously easy to fix :)
-
-https://git.kernel.org/pub/scm/linux/kernel/git/wireless/wireless-next.git/log/?h=pending
-
--- 
-https://patchwork.kernel.org/project/linux-wireless/list/
-
-https://wireless.wiki.kernel.org/en/developers/documentation/submittingpatches
