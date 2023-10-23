@@ -1,98 +1,89 @@
-Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
+Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A208D6FAA
-	for <linux-staging@lists.linux.dev>; Mon, 23 Oct 2023 06:40:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4534520F3
+	for <linux-staging@lists.linux.dev>; Mon, 23 Oct 2023 09:01:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="m7yJAEeL"
-Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-9c96a82e93bso33743566b.0
-        for <linux-staging@lists.linux.dev>; Sun, 22 Oct 2023 23:40:46 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="T6rvJarw"
+Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-9c2a0725825so444404266b.2
+        for <linux-staging@lists.linux.dev>; Mon, 23 Oct 2023 02:01:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1698043245; x=1698648045; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=usb14TKnR5nGARmhYK6QjpDq5f+Ywoldfs7WPWSHtjk=;
-        b=m7yJAEeLy3K3ORMEXHFwErP3CNcUjWnMT9DPyuW5C5kCUZBOXUS7VG52sv8gL4KGFF
-         r7nVrRwgr59Mm/OFfsJYX2qLXCQqc4jXDaPDxBG3x/dUTLwhxFtr3UTItEPd6Shvc76n
-         x3oA86G4NGU1a4pRbCib5f6/HVguCKEaBiuGZZKvIsGxlBkmW7mdFFwXeBbJ7v6cHnsQ
-         yX3NpMUKKTaE4HlOcX3qO5KGUriJPk5EQkiLL4PT++Ie37htN2Hz0offjtmgfGaf3pZ7
-         5s/TZ+yb6tlpXwkDMDu6Q8BOetlrQawj0zdJd6aC5Y8MDmjDdx4DSfm3zCVX3C/1yTlf
-         ZMDA==
+        d=gmail.com; s=20230601; t=1698051675; x=1698656475; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=8+GHphwBFjGwN9m3MPCMJRC4fLS4F2GugdfMMYNHe6o=;
+        b=T6rvJarwLt7HRLpwbJCnWcmsSHCmVqcFgAqj/qwwayewR4LMBgQTQ5JeTUt4NSlS96
+         aTS0jrJTgQ2vsYe6rsfSawW82M9BP1JcK3Kdcx4HTfGrlpFwVcIAsXVGxOf1TbRLhW3P
+         /dOHBau21t3S4pTGA6OKbVEowXT7UnvRbACOT/NVLr6YMm7Nshh0LXF9av2rU3EAq8jn
+         8ehc/n1MNDwPnaQsF72fwq2415p9Fx1DnHH7QsGnboZrf/jqR7kAXuz9B3X6qkdPYDuP
+         Fa8tfhvzPe33ZFJFmD8ZzoRAjaKsmYWj9QTqPZUWjEyR9qeuQZrJOLuQ6dFJRkAHrjLx
+         0WyQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1698043245; x=1698648045;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=usb14TKnR5nGARmhYK6QjpDq5f+Ywoldfs7WPWSHtjk=;
-        b=eKIAxojDlnJZgJRUCPfodVgkwz2M/oh9wsXRt92kiaVliDjoLwZUecZVUyYOg86Xyy
-         2aLK447BWOdVDiL/iM8AXKLHHGH3SHuvQ31vm5B59lR7u3sIJ7XxE8Q0SseSpPy3HG/+
-         7KPo/UiZlWyYgJSNEsERaYdDHHQjzNtswI88NvFFLj3QP88iVIQT06sRP5ZMSNVAH4+M
-         rjcljnBSSWUuMp/yPu7aSsH+fmVaWwsB5OE5H1h7fjIfcMVKSRbNEUP8h+x4csHu7MMx
-         FlNkDwTgxyiQH4gs10SiQ/4dNTwBH1AHLAYvGHjQTLz8LFnD00novAjGIlOi6MaEuCZR
-         vMTA==
-X-Gm-Message-State: AOJu0YxbMcxDWX278cYad5cz0f8JrjkPHBjF4n7yiDwOFauDaD0h5VPe
-	hQfOlPAu/KSRihFxCN4lb9I=
-X-Google-Smtp-Source: AGHT+IF6ARxAGq5faUU73LlSjuP8qajtw7vveJvgBijeRWRJh4wcE9migJuJqgAIXuIuDBYnm/cfvA==
-X-Received: by 2002:a17:906:109:b0:9bf:b83c:5efd with SMTP id 9-20020a170906010900b009bfb83c5efdmr5050754eje.3.1698043244873;
-        Sun, 22 Oct 2023 23:40:44 -0700 (PDT)
-Received: from matrix-ESPRIMO-P710 (p579356c7.dip0.t-ipconnect.de. [87.147.86.199])
-        by smtp.gmail.com with ESMTPSA id h13-20020a1709062dcd00b009ae54585aebsm6097878eji.89.2023.10.22.23.40.44
+        d=1e100.net; s=20230601; t=1698051675; x=1698656475;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=8+GHphwBFjGwN9m3MPCMJRC4fLS4F2GugdfMMYNHe6o=;
+        b=JfeoV1eT1k8aYpVxmPjxLUeOVJtn3zqdCfMKsK+JWqw1u//xoEBatgqNaRRsO7A0pe
+         ikR5IiurYFBRirmtgiimzzg+dHYnvVRg2bsT/T4zDIl0ax7tKI/YsnXfP/aC1sOhhrGC
+         HwBwW0sL81NKvVUFnZ5Ay/+Q3WOm+ovR9VNmDrcGVTNXm9sfEOR8+CLYEYmwUaBj8lYd
+         oCcN/Jot7xsOHIzEwJwV7AyD6dZ835/5U5xbXvLPIkqgbioFIroSy5UBYrMo6GQiVgPD
+         PYVkXh/f3R3Mr4QbB0gq1fyFKD/P0GocEbLjJfu/MvarASPRvq7shHQF2ekK+xYD/72/
+         /p6A==
+X-Gm-Message-State: AOJu0YxuuyzKk0XKWIufI85Bxe8mlUOB0U0Rt2ePqKa/B9XWXmHuaISl
+	/27mxVpeC/yRmO8r2TmbladQoNo8JFc=
+X-Google-Smtp-Source: AGHT+IEqAz26HimNQ0FJAquMpXm+lDyH9VtZbDRI4fY6/4cfklAi6HTNaT0OTzrC6c2Xoah+c+9svw==
+X-Received: by 2002:a17:907:318c:b0:9c3:97d7:2c5f with SMTP id xe12-20020a170907318c00b009c397d72c5fmr6998447ejb.44.1698051675265;
+        Mon, 23 Oct 2023 02:01:15 -0700 (PDT)
+Received: from localhost.localdomain ([95.90.186.21])
+        by smtp.gmail.com with ESMTPSA id y22-20020a170906449600b009a1dbf55665sm6186426ejo.161.2023.10.23.02.01.14
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 22 Oct 2023 23:40:44 -0700 (PDT)
-Date: Mon, 23 Oct 2023 08:40:43 +0200
-From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [PATCH 11/11] staging: rtl8192e: Remove unused variables TClasProc
- and TClasNum
-Message-ID: <04ce3eaaaf3897a22dcb95ce2f449658199770d8.1698042685.git.philipp.g.hortmann@gmail.com>
-References: <cover.1698042685.git.philipp.g.hortmann@gmail.com>
+        Mon, 23 Oct 2023 02:01:14 -0700 (PDT)
+From: Michael Straube <straube.linux@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: martyn@welchs.me.uk,
+	manohar.vanga@gmail.com,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Michael Straube <straube.linux@gmail.com>
+Subject: [PATCH] staging: vme_user: prefer strscpy over strcpy
+Date: Mon, 23 Oct 2023 11:00:01 +0200
+Message-ID: <20231023090001.7273-1-straube.linux@gmail.com>
+X-Mailer: git-send-email 2.42.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <cover.1698042685.git.philipp.g.hortmann@gmail.com>
+Content-Transfer-Encoding: 8bit
 
-Remove unused variables to shorten code.
+Using strcpy has potential for buffer overflows. It should be replaced
+with strscpy where possible. In this case the return value of strcpy is
+not used, so we can safely replace it with strscpy.
 
-Signed-off-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+Signed-off-by: Michael Straube <straube.linux@gmail.com>
 ---
- drivers/staging/rtl8192e/rtl819x_TS.h     | 2 --
- drivers/staging/rtl8192e/rtl819x_TSProc.c | 2 --
- 2 files changed, 4 deletions(-)
+Compile tested only.
 
-diff --git a/drivers/staging/rtl8192e/rtl819x_TS.h b/drivers/staging/rtl8192e/rtl819x_TS.h
-index 240e808fc4b2..ab737428d4a7 100644
---- a/drivers/staging/rtl8192e/rtl819x_TS.h
-+++ b/drivers/staging/rtl8192e/rtl819x_TS.h
-@@ -21,8 +21,6 @@ struct ts_common_info {
- 	struct list_head		List;
- 	u8				addr[ETH_ALEN];
- 	struct qos_tsinfo TSpec;
--	u8				TClasProc;
--	u8				TClasNum;
- };
+ drivers/staging/vme_user/vme_tsi148.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/staging/vme_user/vme_tsi148.c b/drivers/staging/vme_user/vme_tsi148.c
+index d549c22da534..2ec9c2904404 100644
+--- a/drivers/staging/vme_user/vme_tsi148.c
++++ b/drivers/staging/vme_user/vme_tsi148.c
+@@ -2310,7 +2310,7 @@ static int tsi148_probe(struct pci_dev *pdev, const struct pci_device_id *id)
+ 	mutex_init(&tsi148_device->vme_rmw);
  
- struct tx_ts_record {
-diff --git a/drivers/staging/rtl8192e/rtl819x_TSProc.c b/drivers/staging/rtl8192e/rtl819x_TSProc.c
-index 7151827408b9..3206fdb3e65a 100644
---- a/drivers/staging/rtl8192e/rtl819x_TSProc.c
-+++ b/drivers/staging/rtl8192e/rtl819x_TSProc.c
-@@ -95,8 +95,6 @@ static void ResetTsCommonInfo(struct ts_common_info *pTsCommonInfo)
- {
- 	eth_zero_addr(pTsCommonInfo->addr);
- 	memset(&pTsCommonInfo->TSpec, 0, sizeof(struct qos_tsinfo));
--	pTsCommonInfo->TClasProc = 0;
--	pTsCommonInfo->TClasNum = 0;
- }
+ 	tsi148_bridge->parent = &pdev->dev;
+-	strcpy(tsi148_bridge->name, driver_name);
++	strscpy(tsi148_bridge->name, driver_name, VMENAMSIZ);
  
- static void ResetTxTsEntry(struct tx_ts_record *ts)
+ 	/* Setup IRQ */
+ 	retval = tsi148_irq_init(tsi148_bridge);
 -- 
 2.42.0
 
