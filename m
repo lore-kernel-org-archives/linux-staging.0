@@ -1,74 +1,119 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from new3-smtp.messagingengine.com (new3-smtp.messagingengine.com [66.111.4.229])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C4AE1FD9
-	for <linux-staging@lists.linux.dev>; Mon, 23 Oct 2023 13:45:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76A591B26F
+	for <linux-staging@lists.linux.dev>; Mon, 23 Oct 2023 14:10:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=arndb.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gOiJyFf5"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CEAA1C433C8;
-	Mon, 23 Oct 2023 13:45:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1698068720;
-	bh=n95Zh41JGelr3O3p08QGkpOeR0lKk99ScJmZPITwFqg=;
-	h=From:To:Cc:Subject:References:Date:In-Reply-To:From;
-	b=gOiJyFf58KDoI1EC+uvC5TLms/dSNPrL8X/ENM0gtmJt8gSaRROYUg8eoYeYA8MmI
-	 cgHFl/ELTh3IVs2GHzBmW9CAy0eIjLZr3qgVOFqA9Cripw3UMpcZTeZODLYhC75OrI
-	 YJewTnFvm5/SF3SkC9pl3Mcz3sCSy6eO4Q2gJP2eb7sdHNP3F6x0zEAgp/ooPf3eyr
-	 b3AoITkafQvIhj4iN7rQutmE1lo1YjZJG1t8l9rZGvnXv1PWwGHgNYCzM1nwspVaiV
-	 6RHuPi/t7XVs9Sem5+IEBnIg28qFeR2VGsqdU+1bKNQ/Pn5mGgLd1Rnr1DlDg4zxJe
-	 VR6udzdAzs38w==
-From: Kalle Valo <kvalo@kernel.org>
-To: Arnd Bergmann <arnd@kernel.org>
-Cc: Arnd Bergmann <arnd@arndb.de>,  "David S . Miller"
- <davem@davemloft.net>,  Alexandre Belloni <alexandre.belloni@bootlin.com>,
-  Claudiu Beznea <claudiu.beznea@tuxon.dev>,  Geert Uytterhoeven
- <geert@linux-m68k.org>,  Geoff Levand <geoff@infradead.org>,  Greg
- Kroah-Hartman <gregkh@linuxfoundation.org>,  Jakub Kicinski
- <kuba@kernel.org>,  Jeff Johnson <quic_jjohnson@quicinc.com>,  Johannes
- Berg <johannes@sipsolutions.net>,  Larry Finger
- <Larry.Finger@lwfinger.net>,  Nicolas Ferre <nicolas.ferre@microchip.com>,
-  Pavel Machek <pavel@ucw.cz>,  Stanislaw Gruszka <stf_xl@wp.pl>,  Gregory
- Greenman <gregory.greenman@intel.com>,  linuxppc-dev
- <linuxppc-dev@lists.ozlabs.org>,  linux-arm-kernel@lists.infradead.org,
-  linux-kernel@vger.kernel.org,  linux-staging@lists.linux.dev,
-  linux-wireless@vger.kernel.org
-Subject: Re: [PATCH 00/10] Remove obsolete and orphaned wifi drivers
-References: <20231023131953.2876682-1-arnd@kernel.org>
-Date: Mon, 23 Oct 2023 16:45:13 +0300
-In-Reply-To: <20231023131953.2876682-1-arnd@kernel.org> (Arnd Bergmann's
-	message of "Mon, 23 Oct 2023 15:19:42 +0200")
-Message-ID: <87v8axzc46.fsf@kernel.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
+	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="qXXUQDlq";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="hwUXLudl"
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+	by mailnew.nyi.internal (Postfix) with ESMTP id 63CC4581579;
+	Mon, 23 Oct 2023 10:10:39 -0400 (EDT)
+Received: from imap51 ([10.202.2.101])
+  by compute5.internal (MEProxy); Mon, 23 Oct 2023 10:10:39 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+	:cc:content-type:content-type:date:date:from:from:in-reply-to
+	:in-reply-to:message-id:mime-version:references:reply-to:sender
+	:subject:subject:to:to; s=fm2; t=1698070239; x=1698077439; bh=Cd
+	D00F6lo71GUCVAQ5trDcf1jHXe2aUX3dC/0CHjbQ4=; b=qXXUQDlq0gAM5PfthE
+	tj0+25tcD8B0dHKH53Y8/RBXX924Jv6+TCHgZ2DmBOPjpvDgoA6vfpQG4R5hBMmt
+	yHtfzcx94RUzYA4BDrAoin2MGZ9kXM/rf7x82Q//kq1W0KkIWXdbljW91rPjUY10
+	iRUXdIVSZOXRcMy+b0MSGV4mTsBo28657zFxjy3PRri+A74kVikmvO6Xd/Sb8C1A
+	oMniFTNPeg0h1+dV/VIixGCsQ9XQZL88wvFFNQCjTxIPUd7T5AlibIF/mb+73/mn
+	rD6df1qJCAMghE6/MeI4S6hQKhruJM8DpbU8wOeo3F8pqdD07HqekPFue6fcWKC2
+	Nfyw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:sender:subject
+	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+	:x-sasl-enc; s=fm3; t=1698070239; x=1698077439; bh=CdD00F6lo71GU
+	CVAQ5trDcf1jHXe2aUX3dC/0CHjbQ4=; b=hwUXLudllnoVroI4li0WSBuEKuS0m
+	x5JRGf4/rrt20gTiLKboQBd6YiuI3HjGNfNnZ9Qt/2j90IzlMAv0YnNIbqMbmY55
+	jVswrzfOKf8HCvbXFn/kXKL9/sGSehUbUCFycV0fu7SSdmzd2sLmz31QFbgIxbd0
+	EhrKOBsPWx2hBCzFogyLfVylT3+4xDBLCoPQKZtY7fPCOnYGrDFcS9nep+3kBW4I
+	jQet8pbe+BVl0IMhMejxkIqBU0Qd47FVWAuQTSGij7McKriKYUY8QW6/R4Fbk+2C
+	Z6myKGW5RtMaGCBgn86OL+EXsFoa64U8ph445g0QiK8ba1orns8o2vIHg==
+X-ME-Sender: <xms:3X42ZQ_ItFV-GbRI3mbqY1F_ZfsutV9aIgWdaivjEnFtaDWXrbZDOg>
+    <xme:3X42ZYvEgKFXGNttA0kthbKP0HLq0YI2X_Hj9IO3rnRWR05AcK2f_hmbe7Xk4pECK
+    UIWY5T0CA5vr3FM3nw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvkedrkeeigdejudcutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+    fjughrpefofgggkfgjfhffhffvvefutgesthdtredtreertdenucfhrhhomhepfdetrhhn
+    ugcuuegvrhhgmhgrnhhnfdcuoegrrhhnugesrghrnhgusgdruggvqeenucggtffrrghtth
+    gvrhhnpeffheeugeetiefhgeethfejgfdtuefggeejleehjeeutefhfeeggefhkedtkeet
+    ffenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegrrh
+    hnugesrghrnhgusgdruggv
+X-ME-Proxy: <xmx:3X42ZWDp7CUTlUyBhid-28tQffehzvNNNvbBz8kQ2uCuoFOyovsmgw>
+    <xmx:3X42ZQcK76hDhVVMBr3tH9vKd0PzjWN6deGqeG4iQ0StSHA-h6qjSA>
+    <xmx:3X42ZVNTgT22xJcQiBBH_8M8IxNt2AOYjo-XZR2bJW2uGJGy0lLQtQ>
+    <xmx:3342ZQGdEQ1YnY6VFN2tafTbr289GUD9MriSoShSnfxIvV8srUdX-g>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+	id 1EB20B60089; Mon, 23 Oct 2023 10:10:37 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.9.0-alpha0-1048-g9229b632c5-fm-20231019.001-g9229b632
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Message-Id: <50eafe40-9c50-48e2-8d48-6a113c8fd87d@app.fastmail.com>
+In-Reply-To: <87v8axzc46.fsf@kernel.org>
+References: <20231023131953.2876682-1-arnd@kernel.org>
+ <87v8axzc46.fsf@kernel.org>
+Date: Mon, 23 Oct 2023 16:10:16 +0200
+From: "Arnd Bergmann" <arnd@arndb.de>
+To: "Kalle Valo" <kvalo@kernel.org>, "Arnd Bergmann" <arnd@kernel.org>
+Cc: "David S . Miller" <davem@davemloft.net>,
+ "Alexandre Belloni" <alexandre.belloni@bootlin.com>,
+ "Claudiu Beznea" <claudiu.beznea@tuxon.dev>,
+ "Geert Uytterhoeven" <geert@linux-m68k.org>,
+ "Geoff Levand" <geoff@infradead.org>,
+ "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
+ "Jakub Kicinski" <kuba@kernel.org>,
+ "Jeff Johnson" <quic_jjohnson@quicinc.com>,
+ "Johannes Berg" <johannes@sipsolutions.net>,
+ "Larry Finger" <Larry.Finger@lwfinger.net>,
+ "Nicolas Ferre" <nicolas.ferre@microchip.com>, "Pavel Machek" <pavel@ucw.cz>,
+ "Stanislaw Gruszka" <stf_xl@wp.pl>,
+ "Gregory Greenman" <gregory.greenman@intel.com>,
+ linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ linux-staging@lists.linux.dev, linux-wireless@vger.kernel.org
+Subject: Re: [PATCH 00/10] Remove obsolete and orphaned wifi drivers
 Content-Type: text/plain
 
-Arnd Bergmann <arnd@kernel.org> writes:
-
-> From: Arnd Bergmann <arnd@arndb.de>
+On Mon, Oct 23, 2023, at 15:45, Kalle Valo wrote:
+> Arnd Bergmann <arnd@kernel.org> writes:
 >
-> As discussed previously, a lot of the older wifi drivers are likely
-> entirely unused, Though we can't know for sure.
+>> From: Arnd Bergmann <arnd@arndb.de>
+>>
+>> As discussed previously, a lot of the older wifi drivers are likely
+>> entirely unused, Though we can't know for sure.
+>>
+>> As suggested by both Greg and Jakub, let's remove the ones that look
+>> are most likely to have no users left and also get in the way of the
+>> wext cleanup. If anyone is still using any of these, we can revert the
+>> driver removal individually.
+>>
+>> I would suggest merging these for net-next after 6.7-rc1 is out
 >
-> As suggested by both Greg and Jakub, let's remove the ones that look
-> are most likely to have no users left and also get in the way of the
-> wext cleanup. If anyone is still using any of these, we can revert the
-> driver removal individually.
->
-> I would suggest merging these for net-next after 6.7-rc1 is out
+> Why net-next? I want to take these to wireless-next to avoid any
+> conflicts with other wireless patches.
 
-Why net-next? I want to take these to wireless-next to avoid any
-conflicts with other wireless patches.
+My mistake, I actually rebased them on top of wireless-next before
+sending out the patches, I just forgot update the text I had
+already written a week earlier.
 
-We could take these to wireless-next after we submit the last new
-features (-next) pull request to v6.7, so most likely already next week.
-So if anyone has any problems with these speak up now.
+> We could take these to wireless-next after we submit the last new
+> features (-next) pull request to v6.7, so most likely already next week.
+> So if anyone has any problems with these speak up now.
 
--- 
-https://patchwork.kernel.org/project/linux-wireless/list/
+Sounds good to me, thanks!
 
-https://wireless.wiki.kernel.org/en/developers/documentation/submittingpatches
+    Arnd
