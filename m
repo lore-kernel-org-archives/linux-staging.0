@@ -1,249 +1,266 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 967FB1A722;
-	Mon, 23 Oct 2023 23:10:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CF15219F5
+	for <linux-staging@lists.linux.dev>; Mon, 23 Oct 2023 23:44:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmx.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lw1QlTkC"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1698102626; x=1729638626;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=2DTHrKNA7mweT0JgMxWkZFN/aHE3omR2fa0y4eM3/gs=;
-  b=lw1QlTkCUwKDa21+U4ujx24+xiFiUjn8/vEXJzoXaeY2JYRHTnpRpyCP
-   sypkODoPZtdbW2sRABeGqejOgUcm53j6GNewHWTYbXkDVTHkPL/mLcS2V
-   APBKpMCUImPVDR3fNaeCrPrWyTntcfqFJMH9hLC/Fw7zD9Ye7JQ/yrmXG
-   AIveI2OmYaLw1H51pH7l3UBWHmY9u3sxAqJfVeS3PHdN/2jpHPfnwUowr
-   N1YxsdAMxpdlbecqZ4sEqlC4LVaiSn4NNC6vsqYfm0ATfHVgAWLyC5dFr
-   HNQN9lK1h+aQ0dui3OJvV8IZlRcOa9VNvjqeWYHFUEiEzYgrrB3gYc1Sz
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10872"; a="385841762"
-X-IronPort-AV: E=Sophos;i="6.03,246,1694761200"; 
-   d="scan'208";a="385841762"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Oct 2023 16:10:25 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10872"; a="881924053"
-X-IronPort-AV: E=Sophos;i="6.03,246,1694761200"; 
-   d="scan'208";a="881924053"
-Received: from lkp-server01.sh.intel.com (HELO 8917679a5d3e) ([10.239.97.150])
-  by orsmga004.jf.intel.com with ESMTP; 23 Oct 2023 16:10:23 -0700
-Received: from kbuild by 8917679a5d3e with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qv43x-0007MH-0m;
-	Mon, 23 Oct 2023 23:10:21 +0000
-Date: Tue, 24 Oct 2023 07:09:36 +0800
-From: kernel test robot <lkp@intel.com>
-To: kenechukwu maduechesi <maduechesik@gmail.com>,
-	outreachy@lists.linux.dev, shreeya.patel23498@gmail.com
-Cc: oe-kbuild-all@lists.linux.dev,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: rts5208: Replace delay function.
-Message-ID: <202310240604.OZnfTcMT-lkp@intel.com>
-References: <20231018004300.GA3189@ubuntu>
+	dkim=pass (2048-bit key) header.d=gmx.de header.i=s.l-h@gmx.de header.b="Uodw9Cqc"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.de; s=s31663417;
+	t=1698104589; x=1698709389; i=s.l-h@gmx.de;
+	bh=c12zjGhXuILXy6c+VS+yOhq4DSmbOBdAvoj+0IeHUlQ=;
+	h=X-UI-Sender-Class:Date:From:To:Cc:Subject:In-Reply-To:
+	 References;
+	b=Uodw9CqcsXTaliZfm/92Z2xFBXYAK6IwOiSpfxl5KnqgPO9zffsF/iOpW5aelJ1k
+	 yhWRM264lMa/fA71okHLoSy8GgzcKYOIcRu6m8D+AzXproq/LKPRA+4r/6U6VotwI
+	 mI2GQzLg9nycZehhqu+w2y8AjaSW/svvI2hiXGr9YGLsY0s7LgqAoUj0UvPmMAwAu
+	 ZsLVePvXFK7qzEpZ+Iz2g3XwukOadO6Fs8td7rhgoarLW7KJmZjQsZLjy/69hddvj
+	 aNKUhKVP5TpxCB2Lzy0G/PML85S89U8BN0HQ2T7OTCc7NdrPCUb7Di3N8wySmf7SF
+	 Q1vyI5syus+wyQ4vhw==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from mir ([94.31.85.155]) by mail.gmx.net (mrgmx005
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1MYNNo-1qz2sh2Fog-00VT6g; Tue, 24
+ Oct 2023 01:43:09 +0200
+Date: Tue, 24 Oct 2023 01:43:02 +0200
+From: Stefan Lippers-Hollmann <s.l-h@gmx.de>
+To: Arnd Bergmann <arnd@kernel.org>
+Cc: Kalle Valo <kvalo@kernel.org>, Arnd Bergmann <arnd@arndb.de>, "David S .
+ Miller" <davem@davemloft.net>, Alexandre Belloni
+ <alexandre.belloni@bootlin.com>, Claudiu Beznea <claudiu.beznea@tuxon.dev>,
+ Geert Uytterhoeven <geert@linux-m68k.org>, Geoff Levand
+ <geoff@infradead.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Jakub Kicinski <kuba@kernel.org>, Jeff Johnson <quic_jjohnson@quicinc.com>,
+ Johannes Berg <johannes@sipsolutions.net>, Larry Finger
+ <Larry.Finger@lwfinger.net>, Nicolas Ferre <nicolas.ferre@microchip.com>,
+ Pavel Machek <pavel@ucw.cz>, Stanislaw Gruszka <stf_xl@wp.pl>, Gregory
+ Greenman <gregory.greenman@intel.com>, linuxppc-dev
+ <linuxppc-dev@lists.ozlabs.org>, linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev,
+ linux-wireless@vger.kernel.org, Stanislav Yakovlev
+ <stas.yakovlev@gmail.com>, Linux Wireless <ilw@linux.intel.com>
+Subject: Re: [PATCH 10/10] [RFC] wifi: remove ipw2100/ipw2200 drivers
+Message-ID: <20231024014302.0a0b79b0@mir>
+In-Reply-To: <20231023131953.2876682-11-arnd@kernel.org>
+References: <20231023131953.2876682-1-arnd@kernel.org>
+	<20231023131953.2876682-11-arnd@kernel.org>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231018004300.GA3189@ubuntu>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:NpIw+SX94egfOhweBUAICPZH64XIjR12TC41Cr5kyAe3nCj2nJU
+ W/jSlk3O9a/mEjYbsalglT8krptSsQttKV/p+nmGou04gTFwqgwY68JcCtrWE7Ewn+Q3yEk
+ ixE9ud6+7BJVpxWJj+mqc751GtNMzj+UL9EbknOtywXW2D2SwmvVPgKQ7UPPg+khuD1jnvB
+ joodVtXZ0hBJst/+AwO2Q==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:xeUZYqMe2kU=;VSobLSjvxv4e9KvKoWW3WapMQOz
+ SvjhgYdRICj+oTFhwSCh31kra8F6DiJwdjPVsnQ/xjdYtA9TcXr9P/J1lLYc1dWloNCjLaQkZ
+ N9mFuZUfdL6kUDoUPNrOFpcu0u+aVhYsEr75Z7QndpJRZMUDe19snVpb+j91cA4X7B9Dts2CR
+ BQurgXV4F0o+EQbdCLJlSZBVgSLHws2xxRjAp+trAx6Xv3vw6adc3W0rz+geymeHMFR+bHXOf
+ KChzfNUcWauwnRHTGdCXJgj3Q0n6Pod1y8SgfMuvvUTzVIjIvc+0/OFcuC0OzSALXlSbAIQwE
+ t2pjiqQlQ96vrVpgb7b5mbMM6jAtLdLVDBGo6Bu7iCC0aEnnAzrLtwVDkA6c7EAKbBdulxEEs
+ U1FkxKsNyMqszruBbV/n7mKjDzBKmVx7XAMq5Xd1DN3WX15ccUR7V5pEYpsfhL1V7Jsn5NfCQ
+ HE3djfPPO67UnTeCn+eFTNSF//qvDpiWPc8WMEr0+yvMD5S4dcraEXLSi8gzQ/4Kpjb02XcaC
+ MriGmTYE1HuFuKQ/47RkL73LyzBV1SezL5CSoweyAniRJH0nsDNAL5LsoE4ivdhkKhdIvj9mf
+ okqS04G4KzNA19BBXIsHQix5cI4T90/x7Lqg+ArpszXIqdVKYfh9IG5LhXXBH+GwqctbeHJWR
+ 2AB1SsQ3L2KafT7Rdfx6oPgRNN1yMlY1Ci2ShPRAbzxT6fhee277CLYEPc9FvA5aeMJnjzTha
+ /IcPh/Ob/o3mpHe//Rigfkfz1i8c0mhXZPOVKzVuU9vaI9aplolQso8qEFfbiCAzpWGJbnIFf
+ s89jxCnwjLoEd8gkK8L/FfKRR44p4tNN6f83Vq+Xo4J4CvBH8oXbW1BrRX8EsWuD7QqNsRrZX
+ I7At23qs2nCZnQW8vJh1KH6kJvZk50R3n515g07ALKD13OMfeKafnwfVrdi7kRzX9jr9jpWVB
+ Uiqmfw==
 
-Hi kenechukwu,
+Hi
 
-kernel test robot noticed the following build errors:
+On 2023-10-23, Arnd Bergmann wrote:
+> From: Arnd Bergmann <arnd@arndb.de>
+>
+> These two drivers were used for the earliest "Centrino" branded Intel
+> laptops during the late 32-bit Pentium-M era, roughly 2003 to 2005, whic=
+h
+> probably makes it the most modern platform that still uses the wireless
+> extension interface instead of cfg80211. Unlike the other drivers that
+> are suggested for removal, this one is still officially maintained.
+>
+> According to Johannes Berg, there was an effort to finish the move away
+> from wext in the past, but the last evidence of this that I could find
+> is from commit a3caa99e6c68f ("libipw: initiate cfg80211 API conversion
+> (v2)") in 2009.
+>
+> Link: https://lore.kernel.org/all/87fs2fgals.fsf@kernel.org/
+> Cc: Stanislav Yakovlev <stas.yakovlev@gmail.com>
+> Cc: Linux Wireless <ilw@linux.intel.com>
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+> ---
+> I'm not convinced this should be in the same set of drivers as the
+> rest, since this is clearly less obsolete than the other hardware
+> that I would remove support for.
 
-[auto build test ERROR on staging/staging-testing]
+These have indeed been very common back in the day, I'm still using
+a 2003-vintage 1.5 GHz Pentium-M 'Banias' Acer Travelmate 292LMi
+notebook using ipw2200 (and have two spare ipw2200 mini-PCI cards).
+Works still fine using v6.5.8-rc1 and WPA2PSK/ CCMP (sadly it does
+not do WPA3) and I do use it semi-regularly (running the latest
+stable- or stable-rc kernel of the day).
 
-url:    https://github.com/intel-lab-lkp/linux/commits/kenechukwu-maduechesi/staging-rts5208-Replace-delay-function/20231018-090457
-base:   staging/staging-testing
-patch link:    https://lore.kernel.org/r/20231018004300.GA3189%40ubuntu
-patch subject: [PATCH] staging: rts5208: Replace delay function.
-config: microblaze-allyesconfig (https://download.01.org/0day-ci/archive/20231024/202310240604.OZnfTcMT-lkp@intel.com/config)
-compiler: microblaze-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231024/202310240604.OZnfTcMT-lkp@intel.com/reproduce)
+While it would be nice to replace it with an ath5k based card (to
+get WPA3 support), the card isn't that easy to reach in the notebook,
+so it would be sad to see this go.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310240604.OZnfTcMT-lkp@intel.com/
+Host/Kernel/OS  "acer-292lmi" running Linux 6.5.8-rc1 i686 [ Debian GNU/Li=
+nux trixie/sid ]
+System          Acer TravelMate 290
+CPU Info        Intel Pentium M 1024 KB cache flags( sse2 ) clocked at [ 1=
+400.000 MHz ]
+Videocard       Advanced Micro Devices, [AMD/ATI] RV350/M10 / RV360/M11 [M=
+obility Radeon 9600 (PRO) / 9700]  X.Org 1.23.2.1  [ 1024x768@60.00hz ]
+Network cards   Realtek RTL-8100/8101L/8139 PCI Fast Ethernet Adapter, at =
+port: a000
+                Intel PRO/Wireless 2200BG [Calexico2] Network Connection
+Processes 131 | Uptime 3:16 | Memory 125.2/493.1MB | HDD IC25N060ATMR04-0 =
+Size 60GB (67%used) | GLX Renderer llvmpipe (LLVM 16.0.6, 128 bits) | GLX =
+Version Yes
 
-All errors (new ones prefixed by >>):
+Yes, this is an old and slow system, but it's there, functional and
+I rarely need a mobile notebook (my desktops are more current and
+64 bit capable).
 
-   drivers/staging/rts5208/sd.c: In function 'sd_change_phase':
->> drivers/staging/rts5208/sd.c:868:25: error: too few arguments to function 'usleep_range'
-     868 |                         usleep_range(50);
-         |                         ^~~~~~~~~~~~
-   In file included from drivers/staging/rts5208/rtsx.h:17,
-                    from drivers/staging/rts5208/sd.c:16:
-   include/linux/delay.h:66:20: note: declared here
-      66 | static inline void usleep_range(unsigned long min, unsigned long max)
-         |                    ^~~~~~~~~~~~
-   drivers/staging/rts5208/sd.c:880:25: error: too few arguments to function 'usleep_range'
-     880 |                         usleep_range(50);
-         |                         ^~~~~~~~~~~~
-   include/linux/delay.h:66:20: note: declared here
-      66 | static inline void usleep_range(unsigned long min, unsigned long max)
-         |                    ^~~~~~~~~~~~
-   drivers/staging/rts5208/sd.c:887:17: error: too few arguments to function 'usleep_range'
-     887 |                 usleep_range(100);
-         |                 ^~~~~~~~~~~~
-   include/linux/delay.h:66:20: note: declared here
-      66 | static inline void usleep_range(unsigned long min, unsigned long max)
-         |                    ^~~~~~~~~~~~
-   drivers/staging/rts5208/sd.c:921:17: error: too few arguments to function 'usleep_range'
-     921 |                 usleep_range(50);
-         |                 ^~~~~~~~~~~~
-   include/linux/delay.h:66:20: note: declared here
-      66 | static inline void usleep_range(unsigned long min, unsigned long max)
-         |                    ^~~~~~~~~~~~
-   drivers/staging/rts5208/sd.c: In function 'sd_wait_data_idle':
-   drivers/staging/rts5208/sd.c:1419:17: error: too few arguments to function 'usleep_range'
-    1419 |                 usleep_range(100);
-         |                 ^~~~~~~~~~~~
-   include/linux/delay.h:66:20: note: declared here
-      66 | static inline void usleep_range(unsigned long min, unsigned long max)
-         |                    ^~~~~~~~~~~~
+02:02.0 Network controller [0280]: Intel Corporation PRO/Wireless 2200BG [=
+Calexico2] Network Connection [8086:4220] (rev 05)
+        Subsystem: Intel Corporation WM3B2200BG Mini-PCI Card [8086:2701]
+        Control: I/O- Mem+ BusMaster+ SpecCycle- MemWINV- VGASnoop- ParErr=
+- Stepping- SERR- FastB2B- DisINTx-
+        Status: Cap+ 66MHz- UDF- FastB2B+ ParErr- DEVSEL=3Dmedium >TAbort-=
+ <TAbort- <MAbort- >SERR- <PERR- INTx-
+        Latency: 128 (750ns min, 6000ns max)
+        Interrupt: pin A routed to IRQ 10
+        Region 0: Memory at d0000000 (32-bit, non-prefetchable) [size=3D4K=
+]
+        Capabilities: [dc] Power Management version 2
+                Flags: PMEClk- DSI+ D1- D2- AuxCurrent=3D0mA PME(D0+,D1-,D=
+2-,D3hot+,D3cold+)
+                Status: D0 NoSoftRst- PME-Enable- DSel=3D0 DScale=3D1 PME-
+        Kernel driver in use: ipw2200
+        Kernel modules: ipw2200
 
+[    0.000000] Linux version 6.5.8-rc1 (s.l-h@gmx.de) (gcc-13 (Debian 13.2=
+.0-5) 13.2.0, GNU ld (GNU Binutils for Debian) 2.41) #1 SMP PREEMPT_DYNAMI=
+C 6.5-13 (2023-10-17)
+...
+[   23.886128] lib80211: common routines for IEEE802.11 drivers
+[   23.886133] lib80211_crypt: registered algorithm 'NULL'
+[   24.051575] libipw: 802.11 data/management/control stack, git-1.1.13
+[   24.051586] libipw: Copyright (C) 2004-2005 Intel Corporation <jketreno=
+@linux.intel.com>
+...
+[   24.735203] ipw2200: Intel(R) PRO/Wireless 2200/2915 Network Driver, 1.=
+2.2kmprq
+[   24.735221] ipw2200: Copyright(c) 2003-2006 Intel Corporation
+[   24.735825] ipw2200: Detected Intel PRO/Wireless 2200BG Network Connect=
+ion
+...
+[   25.007359] ipw2200: Detected geography ZZE (13 802.11bg channels, 19 8=
+02.11a channels)
+...
+[   27.027578] ipw2200 0000:02:02.0 wlp2s2: renamed from eth0
+...
+[   29.571384] NET: Registered PF_PACKET protocol family
+...
+[   42.603676] warning: `wpa_supplicant' uses wireless extensions which wi=
+ll stop working for Wi-Fi 7 hardware; use nl80211
+[   44.196736] lib80211_crypt: registered algorithm 'CCMP'
 
-vim +/usleep_range +868 drivers/staging/rts5208/sd.c
+# iwconfig wlp2s2
+wlp2s2    IEEE 802.11  ESSID:"xxx"
+          Mode:Managed  Frequency:2.412 GHz  Access Point: xx:xx:xx:xx:xx:=
+xx
+          Bit Rate:54 Mb/s   Tx-Power=3D20 dBm   Sensitivity=3D8/0
+          Retry limit:7   RTS thr:off   Fragment thr:off
+          Encryption key:xxxx-xxxx-xxxx-xxxx-xxxx-xxxx-xxxx-xxxx   Securit=
+y mode:open
+          Power Management:off
+          Link Quality=3D0/100  Signal level=3D-28 dBm  Noise level=3D-89 =
+dBm
+          Rx invalid nwid:0  Rx invalid crypt:6  Rx invalid frag:0
+          Tx excessive retries:0  Invalid misc:0   Missed beacon:100
 
-   814	
-   815	static int sd_change_phase(struct rtsx_chip *chip, u8 sample_point, u8 tune_dir)
-   816	{
-   817		struct sd_info *sd_card = &chip->sd_card;
-   818		u16 SD_VP_CTL, SD_DCMPS_CTL;
-   819		u8 val;
-   820		int retval;
-   821		bool ddr_rx = false;
-   822	
-   823		dev_dbg(rtsx_dev(chip), "%s (sample_point = %d, tune_dir = %d)\n",
-   824			__func__, sample_point, tune_dir);
-   825	
-   826		if (tune_dir == TUNE_RX) {
-   827			SD_VP_CTL = SD_VPRX_CTL;
-   828			SD_DCMPS_CTL = SD_DCMPS_RX_CTL;
-   829			if (CHK_SD_DDR50(sd_card))
-   830				ddr_rx = true;
-   831		} else {
-   832			SD_VP_CTL = SD_VPTX_CTL;
-   833			SD_DCMPS_CTL = SD_DCMPS_TX_CTL;
-   834		}
-   835	
-   836		if (chip->asic_code) {
-   837			retval = rtsx_write_register(chip, CLK_CTL, CHANGE_CLK,
-   838						     CHANGE_CLK);
-   839			if (retval)
-   840				return retval;
-   841			retval = rtsx_write_register(chip, SD_VP_CTL, 0x1F,
-   842						     sample_point);
-   843			if (retval)
-   844				return retval;
-   845			retval = rtsx_write_register(chip, SD_VPCLK0_CTL,
-   846						     PHASE_NOT_RESET, 0);
-   847			if (retval)
-   848				return retval;
-   849			retval = rtsx_write_register(chip, SD_VPCLK0_CTL,
-   850						     PHASE_NOT_RESET, PHASE_NOT_RESET);
-   851			if (retval)
-   852				return retval;
-   853			retval = rtsx_write_register(chip, CLK_CTL, CHANGE_CLK, 0);
-   854			if (retval)
-   855				return retval;
-   856		} else {
-   857			rtsx_read_register(chip, SD_VP_CTL, &val);
-   858			dev_dbg(rtsx_dev(chip), "SD_VP_CTL: 0x%x\n", val);
-   859			rtsx_read_register(chip, SD_DCMPS_CTL, &val);
-   860			dev_dbg(rtsx_dev(chip), "SD_DCMPS_CTL: 0x%x\n", val);
-   861	
-   862			if (ddr_rx) {
-   863				retval = rtsx_write_register(chip, SD_VP_CTL,
-   864							     PHASE_CHANGE,
-   865							     PHASE_CHANGE);
-   866				if (retval)
-   867					return retval;
- > 868				usleep_range(50);
-   869				retval = rtsx_write_register(chip, SD_VP_CTL, 0xFF,
-   870							     PHASE_CHANGE |
-   871							     PHASE_NOT_RESET |
-   872							     sample_point);
-   873				if (retval)
-   874					return retval;
-   875			} else {
-   876				retval = rtsx_write_register(chip, CLK_CTL,
-   877							     CHANGE_CLK, CHANGE_CLK);
-   878				if (retval)
-   879					return retval;
-   880				usleep_range(50);
-   881				retval = rtsx_write_register(chip, SD_VP_CTL, 0xFF,
-   882							     PHASE_NOT_RESET |
-   883							     sample_point);
-   884				if (retval)
-   885					return retval;
-   886			}
-   887			usleep_range(100);
-   888	
-   889			rtsx_init_cmd(chip);
-   890			rtsx_add_cmd(chip, WRITE_REG_CMD, SD_DCMPS_CTL, DCMPS_CHANGE,
-   891				     DCMPS_CHANGE);
-   892			rtsx_add_cmd(chip, CHECK_REG_CMD, SD_DCMPS_CTL,
-   893				     DCMPS_CHANGE_DONE, DCMPS_CHANGE_DONE);
-   894			retval = rtsx_send_cmd(chip, SD_CARD, 100);
-   895			if (retval != STATUS_SUCCESS)
-   896				goto fail;
-   897	
-   898			val = *rtsx_get_cmd_data(chip);
-   899			if (val & DCMPS_ERROR)
-   900				goto fail;
-   901	
-   902			if ((val & DCMPS_CURRENT_PHASE) != sample_point)
-   903				goto fail;
-   904	
-   905			retval = rtsx_write_register(chip, SD_DCMPS_CTL,
-   906						     DCMPS_CHANGE, 0);
-   907			if (retval)
-   908				return retval;
-   909			if (ddr_rx) {
-   910				retval = rtsx_write_register(chip, SD_VP_CTL,
-   911							     PHASE_CHANGE, 0);
-   912				if (retval)
-   913					return retval;
-   914			} else {
-   915				retval = rtsx_write_register(chip, CLK_CTL,
-   916							     CHANGE_CLK, 0);
-   917				if (retval)
-   918					return retval;
-   919			}
-   920	
-   921			usleep_range(50);
-   922		}
-   923	
-   924		retval = rtsx_write_register(chip, SD_CFG1, SD_ASYNC_FIFO_NOT_RST, 0);
-   925		if (retval)
-   926			return retval;
-   927	
-   928		return STATUS_SUCCESS;
-   929	
-   930	fail:
-   931		rtsx_read_register(chip, SD_VP_CTL, &val);
-   932		dev_dbg(rtsx_dev(chip), "SD_VP_CTL: 0x%x\n", val);
-   933		rtsx_read_register(chip, SD_DCMPS_CTL, &val);
-   934		dev_dbg(rtsx_dev(chip), "SD_DCMPS_CTL: 0x%x\n", val);
-   935	
-   936		rtsx_write_register(chip, SD_DCMPS_CTL, DCMPS_CHANGE, 0);
-   937		rtsx_write_register(chip, SD_VP_CTL, PHASE_CHANGE, 0);
-   938		mdelay(10);
-   939		sd_reset_dcm(chip, tune_dir);
-   940		return STATUS_FAIL;
-   941	}
-   942	
+# wpa_cli status
+Selected interface 'wlp2s2'
+bssid=3Dxx:xx:xx:xx:xx:xx
+freq=3D0
+ssid=3Dxxx
+id=3D1
+id_str=3Dxxx
+mode=3Dstation
+pairwise_cipher=3DCCMP
+group_cipher=3DCCMP
+key_mgmt=3DWPA2-PSK
+wpa_state=3DCOMPLETED
+ip_address=3D172.22.2.1
+address=3Dxx:xx:xx:xx:xx:xx
+uuid=3Dxxx
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+(performance against a wifi6 (ipq8071a AP isn't that great, but it works)
+
+$ iperf3 -c 172.21.4.1
+Connecting to host 172.21.4.1, port 5201
+[  5] local 172.22.2.1 port 45288 connected to 172.21.4.1 port 5201
+[ ID] Interval           Transfer     Bitrate         Retr  Cwnd
+[  5]   0.00-1.00   sec  1.97 MBytes  16.6 Mbits/sec    0    110 KBytes
+[  5]   1.00-2.00   sec  1.74 MBytes  14.6 Mbits/sec    0    163 KBytes
+[  5]   2.00-3.00   sec  1.68 MBytes  14.1 Mbits/sec    0    163 KBytes
+[  5]   3.00-4.00   sec  1.68 MBytes  14.1 Mbits/sec    0    163 KBytes
+[  5]   4.00-5.00   sec  1.86 MBytes  15.6 Mbits/sec    0    163 KBytes
+[  5]   5.00-6.00   sec  1.49 MBytes  12.5 Mbits/sec    0    163 KBytes
+[  5]   6.00-7.00   sec  1.86 MBytes  15.6 Mbits/sec    0    163 KBytes
+[  5]   7.00-8.00   sec  1.93 MBytes  16.2 Mbits/sec    0    228 KBytes
+[  5]   8.00-9.00   sec  1.49 MBytes  12.5 Mbits/sec    0    228 KBytes
+[  5]   9.00-10.00  sec  1.99 MBytes  16.7 Mbits/sec    0    228 KBytes
+- - - - - - - - - - - - - - - - - - - - - - - - -
+[ ID] Interval           Transfer     Bitrate         Retr
+[  5]   0.00-10.00  sec  17.7 MBytes  14.8 Mbits/sec    0             send=
+er
+[  5]   0.00-10.13  sec  17.2 MBytes  14.3 Mbits/sec                  rece=
+iver
+
+iperf Done.
+
+$ iperf3 -c 172.21.4.1 --reverse
+Connecting to host 172.21.4.1, port 5201
+Reverse mode, remote host 172.21.4.1 is sending
+[  5] local 172.22.2.1 port 52246 connected to 172.21.4.1 port 5201
+[ ID] Interval           Transfer     Bitrate
+[  5]   0.00-1.04   sec  1.88 MBytes  15.1 Mbits/sec
+[  5]   1.04-2.04   sec  1.75 MBytes  14.8 Mbits/sec
+[  5]   2.04-3.03   sec  1.62 MBytes  13.7 Mbits/sec
+[  5]   3.03-4.05   sec  1.75 MBytes  14.5 Mbits/sec
+[  5]   4.05-5.03   sec  1.75 MBytes  14.9 Mbits/sec
+[  5]   5.03-6.06   sec  1.88 MBytes  15.3 Mbits/sec
+[  5]   6.06-7.05   sec  1.75 MBytes  14.8 Mbits/sec
+[  5]   7.05-8.01   sec  1.75 MBytes  15.3 Mbits/sec
+[  5]   8.01-9.03   sec  1.88 MBytes  15.4 Mbits/sec
+[  5]   9.03-10.02  sec  1.75 MBytes  14.8 Mbits/sec
+- - - - - - - - - - - - - - - - - - - - - - - - -
+[ ID] Interval           Transfer     Bitrate         Retr
+[  5]   0.00-10.46  sec  21.4 MBytes  17.1 Mbits/sec    0             send=
+er
+[  5]   0.00-10.02  sec  17.8 MBytes  14.9 Mbits/sec                  rece=
+iver
+
+iperf Done.
+
+While I'll cope if ipw2200 goes away (giving me the impetus to replace
+the ipw2200 card with ath5k - or at least to use an ar5212/ar2414 ath5k
+or bcm4306/2 b43 32 bit PCMCIA/ cardbus card (inconvenient, with the
+antenna sticking out) until then), these have been so ubiquitous in
+their days that there will be quite a few surviving specimens around
+(and this one is actually still in semi-regular use with current
+kernels/ userland, not daily, but 2-3+ times a month, mostly for
+isolated firstboot configuration of various networking gear).
+
+Regards
+	Stefan Lippers-Hollmann
