@@ -1,97 +1,72 @@
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from relay.hostedemail.com (smtprelay0010.hostedemail.com [216.40.44.10])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B129818032
-	for <linux-staging@lists.linux.dev>; Mon, 23 Oct 2023 14:41:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="FqiiqYSm"
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-4084b0223ccso26334105e9.2
-        for <linux-staging@lists.linux.dev>; Mon, 23 Oct 2023 07:41:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1698072102; x=1698676902; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=u0+KyYoYHk/UMVzb9ufT5X/yFDuVJYSaudNnGVYxEZs=;
-        b=FqiiqYSmM4vqyGavx8d9Js7nFJYUm3LOYTrStTpHRFZk4ill/mM98wOB+MLaSDbpXN
-         LksiJ3wMVqoX3p5ehDa6bXnIWg0iMbY4oVR0cK61s5/bw4EYb7ekjGapK6pxO+XEmZYx
-         0P4nFYZ7cGeAaGj28pYW3RNd0WdO5uPXqdjCm/MlSO7kKWQEDOAGL6CBdaCkhV2eXMzJ
-         fkOOuNU/T2FMZkoyNxmqAvAhvn5PqaMTh/gad4jSQ/yB6vEDcxa37Sv0n+2Go/NsZ4FZ
-         pXOMPbaKCE9iQxWryacv4/kv31Y8j52t6UiU0yCz8o/UQKlqK4kE+Q4tPJfQGfIsVANE
-         MG9w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1698072102; x=1698676902;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=u0+KyYoYHk/UMVzb9ufT5X/yFDuVJYSaudNnGVYxEZs=;
-        b=YeroyGGWw+ArH+rFqEdpg9BfXazvvF3RhlhKnMn1x7JTjsNmA2vkTtqrb0HaXdxbP5
-         8Dry7abw+osMwergoFyCKMhuaejiCBXCGSbqf8Ecc2IKZ2FqYGWnRFBn8Oz8++LA88er
-         IoKIrTfheUx4kDN9DRKDambfmm0ykbu3XYWK2AAHo7MacV9K62W+d5hwl90Wg+tR8F3K
-         MP8C0F5rfjYnZ5QfuGtAUmZJe9K4nA6pUJvbHcqx4kDzxeXVEbeCUxyJmZspHi54wdaX
-         UyeK88eTNImt/5DgbP+OQuklP4WH+dhUb2mgi8fYUNFDEYXXcVDzPzMdm472RCC06NeG
-         Y/tA==
-X-Gm-Message-State: AOJu0Yw6QRTyNH7gf02XN22AcMC7lkigLg3/lHD4cGY9anElk2Za+ZYR
-	vEjgSedSrBHVojcmf9yDvXjJRQ==
-X-Google-Smtp-Source: AGHT+IGxEIbZFmB4AraQ9pR4q3k4h9U2rvbNCkh34AC3yOH97A4Jl2sj3Io4ZVIo8/QLVKu9SbeaIQ==
-X-Received: by 2002:a05:600c:4f81:b0:408:55f8:7de with SMTP id n1-20020a05600c4f8100b0040855f807demr5528052wmq.28.1698072101799;
-        Mon, 23 Oct 2023 07:41:41 -0700 (PDT)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id p12-20020a05600c418c00b0040773c69fc0sm14127963wmh.11.2023.10.23.07.41.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 23 Oct 2023 07:41:41 -0700 (PDT)
-Date: Mon, 23 Oct 2023 17:41:38 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Jonathan Bergh <bergh.jonathan@gmail.com>
-Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 349D01C28A
+	for <linux-staging@lists.linux.dev>; Mon, 23 Oct 2023 16:04:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=perches.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=perches.com
+Authentication-Results: smtp.subspace.kernel.org; dkim=none
+Received: from omf06.hostedemail.com (a10.router.float.18 [10.200.18.1])
+	by unirelay08.hostedemail.com (Postfix) with ESMTP id 4292C14017E;
+	Mon, 23 Oct 2023 15:25:03 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: joe@perches.com) by omf06.hostedemail.com (Postfix) with ESMTPA id 76D6220016;
+	Mon, 23 Oct 2023 15:25:00 +0000 (UTC)
+Message-ID: <15f45bbde3f4289b012db7adb8166cf0d45e4fec.camel@perches.com>
+Subject: Re: [PATCH 2/5] staging: media: av7110: Fix various whitespace
+ checkpatch errors
+From: Joe Perches <joe@perches.com>
+To: Dan Carpenter <dan.carpenter@linaro.org>, Jonathan Bergh
+	 <bergh.jonathan@gmail.com>
+Cc: mchehab@kernel.org, gregkh@linuxfoundation.org, error27@gmail.com, 
+	linux-staging@lists.linux.dev, linux-media@vger.kernel.org, 
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 0/7] staging: octeon: Fix warnings due to introduction
- of new typedefs
-Message-ID: <7e866f48-840a-4b9e-a28d-2016075abb4b@kadam.mountain>
-References: <20231021101238.81466-1-bergh.jonathan@gmail.com>
+Date: Mon, 23 Oct 2023 08:24:58 -0700
+In-Reply-To: <b301c9a1-7536-46c5-878e-7cd79e3a4742@kadam.mountain>
+References: <20231020232332.55024-1-bergh.jonathan@gmail.com>
+	 <20231020232332.55024-3-bergh.jonathan@gmail.com>
+	 <b301c9a1-7536-46c5-878e-7cd79e3a4742@kadam.mountain>
+Content-Type: text/plain; charset="ISO-8859-1"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.48.4 (3.48.4-1.fc38) 
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231021101238.81466-1-bergh.jonathan@gmail.com>
+X-Rspamd-Server: rspamout03
+X-Rspamd-Queue-Id: 76D6220016
+X-Stat-Signature: uso4t8asunecfddpd7xeyg65ftr14cyg
+X-Session-Marker: 6A6F6540706572636865732E636F6D
+X-Session-ID: U2FsdGVkX1+VkWPLyvgXZZWw+/cT5gjzEt416nU2p+8=
+X-HE-Tag: 1698074700-308232
+X-HE-Meta: U2FsdGVkX19fOFgBMW+1i6LvtS8bVOiijCHMn6WgWz8Hz2LBWy2SGm/KH4KlWZY5Tjj9fn5jVr9T7rjtmAXNl0J+d4kYioCx7/gyh/4mJ3+vUGI6Z/3y4W/7bFnTs3LRuhJvaYLvefim2tJalYxzyUSf1mg+Qgn1lGyGQOOlOiMuXDXC17h9ZHbB5/C1Kz0vysWKzUPnbpbbzlyYQdYbaXYZ/SJsyqjQi6ZCbx0b6+NMxUTeBuKL+RBdYdGRhYNAW9a6+v6i+6Ju2Mi4Od0m7Jsc6VIW/PKE8v/yEXmtTqY3p0eVBunu7/Ty6sGwxNLQ2MoCpl1eP+JZT7UkWD9gv4rAKocc6Y6M
 
-On Sat, Oct 21, 2023 at 12:12:31PM +0200, Jonathan Bergh wrote:
-> This patch series fixes (removes) the introduction of several new typedefs
-> for enums and structs in the octeon driver. First the declarations are
-> fixed and then implementations are updated to remove references to the 
-> old typedefs.
-> 
-> Changelog:
->  * v1 -> v2: Fix breaking change spread across multiple patches
->  * v2 -> v3: Break changes up into individual patches for each removed
->    typedef
-> 
-> Jonathan Bergh (7):
->   staging: octeon: Fix introduction of new enum typedef cvmx_spi_mode_t
->     in octeon
->   staging: octeon: Fix up introduction of new typedef
->     cvmx_helper_interface_mode_t  in octeon
->   staging: octeon: Fix introduction of following new typedef
->     cvmx_pow_wait_t in octeon
->   staging: octeon: Fix up introduction of new typedef cvmx_pko_lock_t in
->     octeon
->   staging: octeon: Fix introduction of new typedef cvmx_pko_status_t in
->     octeon
->   staging: octeon: Fix introduction of new typedef
->     cvmx_pip_port_status_t in octeon
->   staging: octeon: Fix introduction of new typedef
->     cvmx_pko_port_status_t in octeon driver
-> 
->  drivers/staging/octeon/ethernet.c     |  6 ++--
->  drivers/staging/octeon/octeon-stubs.h | 48 +++++++++++++--------------
+On Mon, 2023-10-23 at 17:26 +0300, Dan Carpenter wrote:
+> On Sat, Oct 21, 2023 at 01:23:29AM +0200, Jonathan Bergh wrote:
+[]
+> > diff --git a/drivers/staging/media/av7110/av7110_av.c b/drivers/staging=
+/media/av7110/av7110_av.c
+[]
+> > @@ -241,8 +241,8 @@ int av7110_pes_play(void *dest, struct dvb_ringbuff=
+er *buf, int dlen)
+> >  		sync |=3D DVB_RINGBUFFER_PEEK(buf, 2) << 8;
+> >  		sync |=3D DVB_RINGBUFFER_PEEK(buf, 3);
+> > =20
+> > -		if (((sync &~ 0x0f) =3D=3D 0x000001e0) ||
+> > -		    ((sync &~ 0x1f) =3D=3D 0x000001c0) ||
+> > +		if (((sync &~0x0f) =3D=3D 0x000001e0) ||
+> > +		    ((sync &~0x1f) =3D=3D 0x000001c0) ||
+>=20
+> These should be:
+>=20
+> 	if (((sync & ~0x0f) =3D=3D 0x000001e0) ||
+> 	    ((sync & ~0x1f) =3D=3D 0x000001c0) ||
 
-Please don't change the stubs without change the arch/ code.
+Generally, I believe it would be better to avoid '& ~constant'
+and use the positive form instead
 
-regards,
-dan carpenter
+	if ((sync & 0xfffffff0) =3D=3D 0x000001e0) ||
+	    (sync & 0xffffffe0) =3D=3D 0x000001c0)
+
 
