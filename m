@@ -1,97 +1,101 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90AE2241E4
-	for <linux-staging@lists.linux.dev>; Tue, 24 Oct 2023 09:30:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E5F28817
+	for <linux-staging@lists.linux.dev>; Tue, 24 Oct 2023 11:44:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Dby9AI0p"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3EABCC433C8;
-	Tue, 24 Oct 2023 09:30:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1698139836;
-	bh=CB0uZasGotH3WSQ2XD6CQGludeAGY3f8w17TrzekeQU=;
-	h=From:To:Cc:Subject:References:Date:In-Reply-To:From;
-	b=Dby9AI0p83lKR7U5CCjg2W7DpqRQqyb59zNfumlkY8ts8VHFwcff/XFzqbRKMY55Q
-	 RPEGb17YmlSQo+XND8ZEqC7yXRo+6kDE9s3zllgDm+XX6xUwEB5Z4wXMl+4sx4O02e
-	 HlDNnlnAG9UftAcKGoZHxSGp4zKOqPsYGiLTNoVQbiaXrsshmAYMv0FyYHYIOOaS0K
-	 FNXQGox4XxUgAWUtTfAGwv5zHAnOri9VwXtnN3WXrk66gXQ6NM2RfYSYo+eyHFUIRd
-	 CbCvNJqEy1WbUgxeM336II3ysCBIN6XpQjlNUkpd2/EQUjF31mxQmi6Kk7gjMRduMv
-	 TE0I45NGqEfNA==
-From: Kalle Valo <kvalo@kernel.org>
-To: Stefan Lippers-Hollmann <s.l-h@gmx.de>
-Cc: Arnd Bergmann <arnd@kernel.org>,  Arnd Bergmann <arnd@arndb.de>,  "David
- S . Miller" <davem@davemloft.net>,  Alexandre Belloni
- <alexandre.belloni@bootlin.com>,  Claudiu Beznea
- <claudiu.beznea@tuxon.dev>,  Geert Uytterhoeven <geert@linux-m68k.org>,
-  Geoff Levand <geoff@infradead.org>,  Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>,  Jakub Kicinski <kuba@kernel.org>,  Jeff
- Johnson <quic_jjohnson@quicinc.com>,  Johannes Berg
- <johannes@sipsolutions.net>,  Larry Finger <Larry.Finger@lwfinger.net>,
-  Nicolas Ferre <nicolas.ferre@microchip.com>,  Pavel Machek
- <pavel@ucw.cz>,  Stanislaw Gruszka <stf_xl@wp.pl>,  Gregory Greenman
- <gregory.greenman@intel.com>,  linuxppc-dev
- <linuxppc-dev@lists.ozlabs.org>,  linux-arm-kernel@lists.infradead.org,
-  linux-kernel@vger.kernel.org,  linux-staging@lists.linux.dev,
-  linux-wireless@vger.kernel.org,  Stanislav Yakovlev
- <stas.yakovlev@gmail.com>,  Linux Wireless <ilw@linux.intel.com>
-Subject: Re: [PATCH 10/10] [RFC] wifi: remove ipw2100/ipw2200 drivers
-References: <20231023131953.2876682-1-arnd@kernel.org>
-	<20231023131953.2876682-11-arnd@kernel.org>
-	<20231024014302.0a0b79b0@mir>
-Date: Tue, 24 Oct 2023 12:30:29 +0300
-In-Reply-To: <20231024014302.0a0b79b0@mir> (Stefan Lippers-Hollmann's message
-	of "Tue, 24 Oct 2023 01:43:02 +0200")
-Message-ID: <875y2wz7t6.fsf@kernel.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="IUDSbSJC"
+Received: from umang.jain (unknown [103.86.18.159])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 8DCE89CC;
+	Tue, 24 Oct 2023 13:44:22 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1698147864;
+	bh=d/TBDkN7fp48rTk5REeNd656c8xRSfl6ruoVymyN7vk=;
+	h=From:To:Cc:Subject:Date:From;
+	b=IUDSbSJCJenITLZRrB+mJCAAoF4xnz5oKaRiL3njAI1TOHQXrnecL6NkEZZtFA4ap
+	 eWbDxLSnW2vkUObfFLyXdPM7v6LEVkEI2uTh/Bk4KHzarc/EnHMNyOfOgfNymeiA/U
+	 IIaTwTCM53t3obNp6nf0ERDFNg66+TKg0MAdwqx0=
+From: Umang Jain <umang.jain@ideasonboard.com>
+To: linux-staging@lists.linux.dev,
+	linux-rpi-kernel@lists.infradead.org,
+	linux-media@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org
+Cc: Stefan Wahren <stefan.wahren@i2se.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Dan Carpenter <error27@gmail.com>,
+	Kieran Bingham <kieran.bingham@ideasonboard.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Phil Elwell <phil@raspberrypi.com>,
+	Umang Jain <umang.jain@ideasonboard.com>
+Subject: [PATCH v2 0/8] staging: vc04: Drop custom logging based on printk
+Date: Tue, 24 Oct 2023 07:44:20 -0400
+Message-ID: <20231024114428.443528-1-umang.jain@ideasonboard.com>
+X-Mailer: git-send-email 2.41.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
 
-Stefan Lippers-Hollmann <s.l-h@gmx.de> writes:
+Hello,
 
-> On 2023-10-23, Arnd Bergmann wrote:
->> From: Arnd Bergmann <arnd@arndb.de>
->>
->> These two drivers were used for the earliest "Centrino" branded Intel
->> laptops during the late 32-bit Pentium-M era, roughly 2003 to 2005, which
->> probably makes it the most modern platform that still uses the wireless
->> extension interface instead of cfg80211. Unlike the other drivers that
->> are suggested for removal, this one is still officially maintained.
->>
->> According to Johannes Berg, there was an effort to finish the move away
->> from wext in the past, but the last evidence of this that I could find
->> is from commit a3caa99e6c68f ("libipw: initiate cfg80211 API conversion
->> (v2)") in 2009.
->>
->> Link: https://lore.kernel.org/all/87fs2fgals.fsf@kernel.org/
->> Cc: Stanislav Yakovlev <stas.yakovlev@gmail.com>
->> Cc: Linux Wireless <ilw@linux.intel.com>
->> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
->> ---
->> I'm not convinced this should be in the same set of drivers as the
->> rest, since this is clearly less obsolete than the other hardware
->> that I would remove support for.
->
-> These have indeed been very common back in the day, I'm still using
-> a 2003-vintage 1.5 GHz Pentium-M 'Banias' Acer Travelmate 292LMi
-> notebook using ipw2200 (and have two spare ipw2200 mini-PCI cards).
-> Works still fine using v6.5.8-rc1 and WPA2PSK/ CCMP (sadly it does
-> not do WPA3) and I do use it semi-regularly (running the latest
-> stable- or stable-rc kernel of the day).
->
-> While it would be nice to replace it with an ath5k based card (to
-> get WPA3 support), the card isn't that easy to reach in the notebook,
-> so it would be sad to see this go.
+This series address the discussion on [1], i.e. removing the printk
+based logging mechanism and migrate it use dynamic debug.
 
-Wow, I'm very surprised that ipw2200 still works after 20 years. Thanks
-for the report, I think it's best that we still keep the ipw2x00 driver
-in the kernel.
+Patch 1/8 and 2/8 are prep-up patch to pass struct device pointers
+so that we can use dev_dbg() in those functions. 
+
+Patch 3/8 targets migration of vchiq_log_error() to use dynamic debug
+Patch 4/8 targets migration of vchiq_log_warning() to use dynamic debug
+Patch 5/8 targets rename of vchiq_log_info() to vchiq_log_debug() and
+migration to use dynamic debug.
+Patch 6/8 targets mirgration of vchiq_log_trace to use dynamic debug.
+
+Patch 7/8 drops a unused macro.
+Patch 8/8 is log levels remnants cleanup along with debugfs entries.
+
+Changes in v2:
+- Address feedback from v1, added 1/8, 2/8 as new patches
+  Hence, Remove pr_*() based logging in few cases
+- Cleanup debugfs log entries (8/8) and update TODO list
+- Fixed bugs where NULL deference was happening due to unitialised
+  pointers.
+
+Testing:
+Booted RPi 3-b with:
+`dyndbg="file *vchiq_arm* +p" dyndbg="file *vchiq_core* +p"`
+on cmdline.txt (kernel args)
+
+And run drivers/staging/vc04_services/interface/TESTING and verify
+dynamic debug logs with `dmesg -WH`.
+
+[1] https://lore.kernel.org/linux-media/20230913185528.770634-1-umang.jain@ideasonboard.com/
+
+Umang Jain (8):
+  staging: vc04_services: Pass struct device to vchiq_log_dump_mem()
+  staging: vc04_services: Pass struct device to vchiq_init_slots()
+  staging: vc04: Convert vchiq_log_error() to use dynamic debug
+  staging: vc04: Convert vchiq_log_warning() to use dynamic debug
+  staging: vc04: Convert(and rename) vchiq_log_info() to use dynamic
+    debug
+  staging: vc04: Convert vchiq_log_trace() to use dynamic debug
+  staging: vc04_services: Drop VCHIQ_LOG_PREFIX macro
+  staging: vc04_services: Drop log level mechanisms
+
+ drivers/staging/vc04_services/interface/TODO  |   5 -
+ .../interface/vchiq_arm/vchiq_arm.c           | 149 ++++---
+ .../interface/vchiq_arm/vchiq_arm.h           |   3 -
+ .../interface/vchiq_arm/vchiq_connected.c     |   2 +-
+ .../interface/vchiq_arm/vchiq_core.c          | 403 ++++++++----------
+ .../interface/vchiq_arm/vchiq_core.h          |  61 +--
+ .../interface/vchiq_arm/vchiq_debugfs.c       | 103 -----
+ .../interface/vchiq_arm/vchiq_dev.c           |  59 +--
+ 8 files changed, 327 insertions(+), 458 deletions(-)
 
 -- 
-https://patchwork.kernel.org/project/linux-wireless/list/
+2.41.0
 
-https://wireless.wiki.kernel.org/en/developers/documentation/submittingpatches
