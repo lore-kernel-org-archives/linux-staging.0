@@ -1,124 +1,119 @@
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from mout.gmx.net (mout.gmx.net [212.227.17.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96DDCEEBC
-	for <linux-staging@lists.linux.dev>; Wed, 25 Oct 2023 12:50:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D4FF18B08
+	for <linux-staging@lists.linux.dev>; Wed, 25 Oct 2023 16:46:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmx.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="iC5fz81z"
-Received: from [192.168.1.110] (unknown [103.251.226.9])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 43D8F669;
-	Wed, 25 Oct 2023 14:50:05 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1698238208;
-	bh=oYH78xkq3rGNll3M+52mpCZCqakXLm41mfL1RQ7j0So=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=iC5fz81zlp9L+pLFAUdNzs5GFrC8xQoLwHWFLKiEOkoU6qwk/wm8lXydDhNdCm0lZ
-	 KUHdjuLi46L2jyZTwFwBerKMZSgrq+oB7U3PWWQ8Wq0tC9Hv5aRwgbqUoDqkjrcGmB
-	 vcn3J2nACWElO97WmwkDyhOQfk9GjzKArdDp1EG0=
-Message-ID: <92b54548-6276-29c3-01af-80136c28da0c@ideasonboard.com>
-Date: Wed, 25 Oct 2023 18:20:12 +0530
+	dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.b="hQdV3l86"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+	s=s31663417; t=1698252386; x=1698857186; i=wahrenst@gmx.net;
+	bh=QIk2Wk5P8HUmEZz2O5TMtOA19zJ7N6B55JkuDRlrXbQ=;
+	h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:
+	 In-Reply-To;
+	b=hQdV3l864H0dD3ygiVsj6/Ep2QvH2DXr9FxVhSaeQviavBmNqKuQ7oIy0fNa9QzZ
+	 mNa4zbsze10p1oLmKDbzZSp0CP2NTkibMHLYwhhYCxhzMiRmL3nkVs5ouPwFhG4A/
+	 n/N9DfeCWPFCIvEcCKGJTFYFuGizM1h1NGTFG5BHLkVDYUz0qyrAdFWkM4zCqKN46
+	 OkU7oIhogWh1ORtuqG2y/qC2oSQaN7NMxrzcwbb7G5p+gwt3dupUMCTQ31G1m/QLm
+	 06v1msFzpAdsR5SabuOvXkMXuSaWY3M+1V0sX0tPe+yEXq50eku6Pj8OLufL+HzIM
+	 nPklyZLifLqV3BzQSg==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from [192.168.1.129] ([37.4.248.43]) by mail.gmx.net (mrgmx104
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1MacOQ-1rTNwu3D5u-00c7Yr; Wed, 25
+ Oct 2023 18:46:26 +0200
+Message-ID: <8355043f-36fc-45f5-a868-2e96e6427e28@gmx.net>
+Date: Wed, 25 Oct 2023 18:46:25 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH] staging: vc04_services: use snprintf instead of sprintf
-Content-Language: en-US
-To: "Ricardo B. Marliere" <ricardo@marliere.net>,
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/2] staging: vc04_services: Drop completed TODO item
+To: Umang Jain <umang.jain@ideasonboard.com>, linux-staging@lists.linux.dev,
+ linux-rpi-kernel@lists.infradead.org, linux-media@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org
+Cc: Stefan Wahren <stefan.wahren@i2se.com>,
  Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Florian Fainelli <florian.fainelli@broadcom.com>, Ray Jui
- <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>,
  Kieran Bingham <kieran.bingham@ideasonboard.com>,
  Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>,
- Stefan Wahren <stefan.wahren@i2se.com>, Peter Zijlstra
- <peterz@infradead.org>, Arnd Bergmann <arnd@arndb.de>
-Cc: bcm-kernel-feedback-list@broadcom.com, linux-staging@lists.linux.dev,
- linux-rpi-kernel@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- linux-kernel@vger.kernel.org,
- linux-kernel-mentees@lists.linuxfoundation.org,
  Dan Carpenter <dan.carpenter@linaro.org>
-References: <20231025122632.307385-4-ricardo@marliere.net>
-From: Umang Jain <umang.jain@ideasonboard.com>
-In-Reply-To: <20231025122632.307385-4-ricardo@marliere.net>
+References: <20231025103300.340572-1-umang.jain@ideasonboard.com>
+ <20231025103300.340572-2-umang.jain@ideasonboard.com>
+Content-Language: en-US
+From: Stefan Wahren <wahrenst@gmx.net>
+In-Reply-To: <20231025103300.340572-2-umang.jain@ideasonboard.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:97ymlUBpnVN+PDVH3VpWdhG9cWTq1BednJDXzOgogJLeuLhcz0j
+ PTQdMxDJ1U0Tz4EUr4fKdE2NrWumFqqcQx4s2QwBK8u1Psb8SIw9RzN/AuXK0GmQYdaPzxI
+ vi8WAhHc/l0pDVMjqn3RTrlqt2jp0WLRmodEpFYX44rPJaPiMoZWhU7bhHX14gLIbrncrUU
+ UvLLVr2Tmiydw80nZ7a1A==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:o6P+oZgq39Q=;H8i8n+XmKGhPGl4GJgDdIpGDplw
+ Ntk8cHKqSjyN8ruzRcvqyvJt9pSwetI5n62PyuE026rv8BTdTPg7kRBEoH01FB9LTmf5/wvm8
+ rMt5yp8ipGpJgNu3ZyxkONv8JnrvLewAFZfBxQgTNtyvh1spas1qlvLNpNK370N8kteEQplEK
+ 3CwvERuc2MP7eTV9kyep9KyUciSqiic/22YW6HE1sTBFPS/La5I41gQQBFjeAl39EU2JJkK9Q
+ 02GwREPUfXnR4X5bpewKa3fYRB8FUWYK7cAphsUOlbE9i7OUrdn5Zr2+l1aBXoQgdtPMCJkqT
+ EQAsuWr1JmqvSb0YhStp7wf/uKrOLXMrgIg/edCP1PNvlTGGnYrf7xP0oDAPuaUJj30+xz5YR
+ J4YkPa3n/1lG5CnjHe1o7Eom65pGOsHW1nmhAFqE7ouRlUP6FqakLgXZTBCDRxm9K+be8sEBC
+ kOCBGCSgNhh87OH5KWhopJic6NsQ8MB09Sa0108X9On0dFpfGN5Yx4IsMPEl3KNbhYrbaM4zN
+ jEvoTeh4cR56muLPt9fWFC8z0qQ/sfzjnzSJVX/XRpinUDWnmzxbfzcI4CbnCgY/kaz5oy88I
+ tMe6AdB1zM62pmMFEZRw/GzVrp7JXUmFYF9Td+4/VdUIkQ4WmP1kG6jFzIztlvsN2oH5VI3eC
+ j2uMHpzb+qoCw0w4dJZH9o1eWYLRK3PPqS/ihMYBzT7cXmWOuaX2fRfFjM+7QuNw2VWFNRXS+
+ Pmu3pqZnTH6lzkXLX2sKwj6IQbc2Wr8P+6CzLy8E6RUii3hNJbEAzF/N5Qz4v+j4qzL1SoCNu
+ SrypARmcHP+mevqZn11A6qSXJ2KQYN+dT7J3qXIuXknkOmtnpsg5ItDSh4kYdH0eh6PbLX9IO
+ ofTiwpEZT4NQq/GUxgaFjRhnuAspkja5bv8sLap1uwEod+OM3hvGtiZWxQ0hMmbWIwBrg6a5F
+ qP6USk3if5DC2JfPC2i2Fiz8wFA=
 
-Hi Ricardo,
+Hi Umang,
 
-Thank you for the patch
-
-On 10/25/23 5:56 PM, Ricardo B. Marliere wrote:
-> All the occurrences of sprintf usage under vc04_services can be safely
-> replaced by snprintf, so as to avoid any possible overflow.
+Am 25.10.23 um 12:32 schrieb Umang Jain:
+> Drop the TODO item which deals with non-essential global
+> structures and per-device structure. All this has been
+> handled now through vchiq-bus and struct vchiq_device.
 >
-> Suggested-by: Dan Carpenter <dan.carpenter@linaro.org>
-> Suggested-by: Umang Jain <umang.jain@ideasonboard.com>
-> Signed-off-by: Ricardo B. Marliere <ricardo@marliere.net>
-
-LGTM,
-
-Reviewed-by: Umang Jain <umang.jain@ideasonboard.com>
-
+> Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
 > ---
->   .../bcm2835-camera/bcm2835-camera.c              |  2 +-
->   .../interface/vchiq_arm/vchiq_arm.c              | 16 ++++++++--------
->   2 files changed, 9 insertions(+), 9 deletions(-)
+>   drivers/staging/vc04_services/interface/TODO | 8 --------
+>   1 file changed, 8 deletions(-)
 >
-> diff --git a/drivers/staging/vc04_services/bcm2835-camera/bcm2835-camera.c b/drivers/staging/vc04_services/bcm2835-camera/bcm2835-camera.c
-> index e860fb89d42e..e6e89784d84b 100644
-> --- a/drivers/staging/vc04_services/bcm2835-camera/bcm2835-camera.c
-> +++ b/drivers/staging/vc04_services/bcm2835-camera/bcm2835-camera.c
-> @@ -855,7 +855,7 @@ static int vidioc_enum_input(struct file *file, void *priv,
->   		return -EINVAL;
->   
->   	inp->type = V4L2_INPUT_TYPE_CAMERA;
-> -	sprintf((char *)inp->name, "Camera %u", inp->index);
-> +	snprintf((char *)inp->name, sizeof(inp->name), "Camera %u", inp->index);
->   	return 0;
->   }
->   
-> diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
-> index de6a24304a4d..9fb8f657cc78 100644
-> --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
-> +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
-> @@ -1451,12 +1451,12 @@ vchiq_use_internal(struct vchiq_state *state, struct vchiq_service *service,
->   	}
->   
->   	if (use_type == USE_TYPE_VCHIQ) {
-> -		sprintf(entity, "VCHIQ:   ");
-> +		snprintf(entity, sizeof(entity), "VCHIQ:   ");
->   		entity_uc = &arm_state->peer_use_count;
->   	} else if (service) {
-> -		sprintf(entity, "%p4cc:%03d",
-> -			&service->base.fourcc,
-> -			service->client_id);
-> +		snprintf(entity, sizeof(entity), "%p4cc:%03d",
-> +			 &service->base.fourcc,
-> +			 service->client_id);
->   		entity_uc = &service->service_use_count;
->   	} else {
->   		vchiq_log_error(state->dev, VCHIQ_SUSPEND, "%s null service ptr", __func__);
-> @@ -1506,12 +1506,12 @@ vchiq_release_internal(struct vchiq_state *state, struct vchiq_service *service)
->   	}
->   
->   	if (service) {
-> -		sprintf(entity, "%p4cc:%03d",
-> -			&service->base.fourcc,
-> -			service->client_id);
-> +		snprintf(entity, sizeof(entity), "%p4cc:%03d",
-> +			 &service->base.fourcc,
-> +			 service->client_id);
->   		entity_uc = &service->service_use_count;
->   	} else {
-> -		sprintf(entity, "PEER:   ");
-> +		snprintf(entity, sizeof(entity), "PEER:   ");
->   		entity_uc = &arm_state->peer_use_count;
->   	}
->   
+> diff --git a/drivers/staging/vc04_services/interface/TODO b/drivers/stag=
+ing/vc04_services/interface/TODO
+> index 6d9d4a800aa7..9c79ed549831 100644
+> --- a/drivers/staging/vc04_services/interface/TODO
+> +++ b/drivers/staging/vc04_services/interface/TODO
+> @@ -46,14 +46,6 @@ The code follows the 80 characters limitation yet ten=
+ds to go 3 or 4 levels of
+>   indentation deep making it very unpleasant to read. This is specially =
+relevant
+>   in the character driver ioctl code and in the core thread functions.
+>
+> -* Get rid of all non essential global structures and create a proper pe=
+r
+> -device structure
+at first thank for all the great work. Currently i don't have much time
+to give a feedback for everything :-(
+
+Tbh this TODO is not finished yet. There are still global structures.
+Please look at variables starting with g_* in vchiq_arm.c and
+vchiq_connected.c
+
+Unfortunately i cannot tell which of them are easy to move into the
+device structure.
+> -
+> -The first thing one generally sees in a probe function is a memory allo=
+cation
+> -for all the device specific data. This structure is then passed all ove=
+r the
+> -driver. This is good practice since it makes the driver work regardless=
+ of the
+> -number of devices probed.
+> -
+>   * Clean up Sparse warnings from __user annotations. See
+>   vchiq_irq_queue_bulk_tx_rx(). Ensure that the address of "&waiter->bul=
+k_waiter"
+>   is never disclosed to userspace.
 
