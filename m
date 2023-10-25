@@ -1,115 +1,104 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB74C210EB
-	for <linux-staging@lists.linux.dev>; Wed, 25 Oct 2023 09:28:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7502A17EE
+	for <linux-staging@lists.linux.dev>; Wed, 25 Oct 2023 09:34:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dBQ7otdV"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1698226136; x=1729762136;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=5m1fR6bdGcwzZ15VRMIAnlflUe0s7FJIRx4yGGjAZIE=;
-  b=dBQ7otdVyuP2ePfwSgAWWsKWMe4w/xvYuGaRMjldbxuTGKX+z3xqdrSJ
-   VyiPzB6F5lD381a5SZxnVacN8ptkwp9w8F+RAEqNeVxqFxnpUe9LZ+zws
-   WLyWoJVWH5h7ZLeeDIHGrwh0k33+nxTiEJ0LFKbgQINsrQ4IxtpzrnVTP
-   YNp0KyJJYM7cYPs3v8m78t8e0rxpxjWhoZWPcH+cTVxbVa0X624etNY5k
-   QJCsHsjZJAvl2rM20TgBPuO6wBW2GoH8Zp0sv/IkG99V9oCod6m8Vi0Qi
-   Sew3DcOVFhuhDGV/2dOuFKZEvjaVhoBMZ684tVQ/NZSibYNjHU+fz4W8k
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10873"; a="473508804"
-X-IronPort-AV: E=Sophos;i="6.03,250,1694761200"; 
-   d="scan'208";a="473508804"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Oct 2023 02:28:55 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10873"; a="1005946638"
-X-IronPort-AV: E=Sophos;i="6.03,250,1694761200"; 
-   d="scan'208";a="1005946638"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Oct 2023 02:28:52 -0700
-Received: from kekkonen.localdomain (localhost [127.0.0.1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id E569611F89D;
-	Wed, 25 Oct 2023 12:28:49 +0300 (EEST)
-Date: Wed, 25 Oct 2023 09:28:49 +0000
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Dan Carpenter <dan.carpenter@linaro.org>,
-	Umang Jain <umang.jain@ideasonboard.com>,
-	linux-staging@lists.linux.dev
-Cc: linux-rpi-kernel@lists.infradead.org, linux-media@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	Stefan Wahren <stefan.wahren@i2se.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Dan Carpenter <error27@gmail.com>,
-	Kieran Bingham <kieran.bingham@ideasonboard.com>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	"Ricardo B . Marliere" <ricardo@marliere.net>
-Subject: Re: [PATCH 1/1] staging: vc04_services: Use %p4cc format modifier to
- print FourCC codes
-Message-ID: <ZTjf0fT0yl2cwGWJ@kekkonen.localdomain>
-References: <20231025060717.71895-1-umang.jain@ideasonboard.com>
- <20231025060717.71895-2-umang.jain@ideasonboard.com>
- <bd7f3a75-598a-428e-85c3-8dd867043c1f@kadam.mountain>
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="KXE5rCcS"
+Received: from [192.168.1.110] (unknown [103.251.226.9])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 061EABD1;
+	Wed, 25 Oct 2023 11:33:56 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1698226440;
+	bh=AQIUyN3q2B19i/osyY/zQtS+ykAVpqCGPNXTKZY8Ce0=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=KXE5rCcS0N7b+qh+5PMe1bSMIiUHzdFHvb8PBSFOE2NmMsp9FQFdwchCzZwhmAxTG
+	 Qv/B2D0JQQtRUg4edKfCKmzmzL7BhGp8N4eqi4tHWw6pOWYybrfkgavG8AqOlf6Sqy
+	 1vs0DA9gIq7P1i42i8n7ns9FAB6njxfbcwfjUnTk=
+Message-ID: <fe0b6ed1-61ba-5373-1525-adb040f68184@ideasonboard.com>
+Date: Wed, 25 Oct 2023 15:04:04 +0530
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <bd7f3a75-598a-428e-85c3-8dd867043c1f@kadam.mountain>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [PATCH 1/1] staging: vc04_services: Use %p4cc format modifier to
+ print FourCC codes
+Content-Language: en-US
+To: Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Dan Carpenter <dan.carpenter@linaro.org>, linux-staging@lists.linux.dev,
+ "Ricardo B . Marliere" <ricardo@marliere.net>
+Cc: linux-rpi-kernel@lists.infradead.org, linux-media@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, Stefan Wahren
+ <stefan.wahren@i2se.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Dan Carpenter <error27@gmail.com>,
+ Kieran Bingham <kieran.bingham@ideasonboard.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+References: <20231025060717.71895-1-umang.jain@ideasonboard.com>
+ <20231025060717.71895-2-umang.jain@ideasonboard.com>
+ <bd7f3a75-598a-428e-85c3-8dd867043c1f@kadam.mountain>
+ <ZTjf0fT0yl2cwGWJ@kekkonen.localdomain>
+From: Umang Jain <umang.jain@ideasonboard.com>
+In-Reply-To: <ZTjf0fT0yl2cwGWJ@kekkonen.localdomain>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Wed, Oct 25, 2023 at 10:10:08AM +0300, Dan Carpenter wrote:
-> On Wed, Oct 25, 2023 at 02:07:17AM -0400, Umang Jain wrote:
-> > Drop VCHIQ_FOURCC_AS_4CHARS macro in favour of %p4cc format
-> > modifier to print FourCC codes in the logs.
-> > 
-> > vchiq_use_internal() and vchiq_release_internal() uses entity
-> > character-array to store a transient string that contains
-> > a FourCC code. Increase the length of entity array(to 64 bytes)
-> > since %p4cc requires more bytes to hold the output characters.
-> > 
-> > Suggested-by: Kieran Bingham <kieran.bingham@ideasonboard.com>
-> > Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
-> > ---
-> >  .../interface/vchiq_arm/vchiq_arm.c           | 20 +++++-----
-> >  .../interface/vchiq_arm/vchiq_core.c          | 40 +++++++++----------
-> >  .../interface/vchiq_arm/vchiq_core.h          |  6 ---
-> >  .../interface/vchiq_arm/vchiq_dev.c           |  7 ++--
-> >  4 files changed, 33 insertions(+), 40 deletions(-)
-> > 
-> > diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
-> > index fc6d33ec5e95..de6a24304a4d 100644
-> > --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
-> > +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
-> > @@ -1441,7 +1441,7 @@ vchiq_use_internal(struct vchiq_state *state, struct vchiq_service *service,
-> >  {
-> >  	struct vchiq_arm_state *arm_state = vchiq_platform_get_arm_state(state);
-> >  	int ret = 0;
-> > -	char entity[16];
-> > +	char entity[64];
-> >  	int *entity_uc;
-> >  	int local_uc;
-> >  
-> > @@ -1454,8 +1454,8 @@ vchiq_use_internal(struct vchiq_state *state, struct vchiq_service *service,
-> >  		sprintf(entity, "VCHIQ:   ");
-> >  		entity_uc = &arm_state->peer_use_count;
-> >  	} else if (service) {
-> > -		sprintf(entity, "%c%c%c%c:%03d",
-> > -			VCHIQ_FOURCC_AS_4CHARS(service->base.fourcc),
-> > +		sprintf(entity, "%p4cc:%03d",
-> 
-> Not related to your patch but these sprintfs() make me very
-> uncomfortable.
-> 
-> KTODO: change sprintf() to snprintf() in staging/vc04_services/
 
-Umang: how about one patch on top of this? :-) There are just five
-instances of it.
 
--- 
-Sakari Ailus
+On 10/25/23 2:58 PM, Sakari Ailus wrote:
+> On Wed, Oct 25, 2023 at 10:10:08AM +0300, Dan Carpenter wrote:
+>> On Wed, Oct 25, 2023 at 02:07:17AM -0400, Umang Jain wrote:
+>>> Drop VCHIQ_FOURCC_AS_4CHARS macro in favour of %p4cc format
+>>> modifier to print FourCC codes in the logs.
+>>>
+>>> vchiq_use_internal() and vchiq_release_internal() uses entity
+>>> character-array to store a transient string that contains
+>>> a FourCC code. Increase the length of entity array(to 64 bytes)
+>>> since %p4cc requires more bytes to hold the output characters.
+>>>
+>>> Suggested-by: Kieran Bingham <kieran.bingham@ideasonboard.com>
+>>> Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
+>>> ---
+>>>   .../interface/vchiq_arm/vchiq_arm.c           | 20 +++++-----
+>>>   .../interface/vchiq_arm/vchiq_core.c          | 40 +++++++++----------
+>>>   .../interface/vchiq_arm/vchiq_core.h          |  6 ---
+>>>   .../interface/vchiq_arm/vchiq_dev.c           |  7 ++--
+>>>   4 files changed, 33 insertions(+), 40 deletions(-)
+>>>
+>>> diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
+>>> index fc6d33ec5e95..de6a24304a4d 100644
+>>> --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
+>>> +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
+>>> @@ -1441,7 +1441,7 @@ vchiq_use_internal(struct vchiq_state *state, struct vchiq_service *service,
+>>>   {
+>>>   	struct vchiq_arm_state *arm_state = vchiq_platform_get_arm_state(state);
+>>>   	int ret = 0;
+>>> -	char entity[16];
+>>> +	char entity[64];
+>>>   	int *entity_uc;
+>>>   	int local_uc;
+>>>   
+>>> @@ -1454,8 +1454,8 @@ vchiq_use_internal(struct vchiq_state *state, struct vchiq_service *service,
+>>>   		sprintf(entity, "VCHIQ:   ");
+>>>   		entity_uc = &arm_state->peer_use_count;
+>>>   	} else if (service) {
+>>> -		sprintf(entity, "%c%c%c%c:%03d",
+>>> -			VCHIQ_FOURCC_AS_4CHARS(service->base.fourcc),
+>>> +		sprintf(entity, "%p4cc:%03d",
+>> Not related to your patch but these sprintfs() make me very
+>> uncomfortable.
+>>
+>> KTODO: change sprintf() to snprintf() in staging/vc04_services/
+> Umang: how about one patch on top of this? :-) There are just five
+> instances of it.
+
+Ricardo, how about this? Do you want to take a swing at this ? :-)
+
+And send a v2. ?
+>
+
