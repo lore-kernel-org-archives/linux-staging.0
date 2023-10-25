@@ -1,94 +1,114 @@
-Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com [209.85.167.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mout.gmx.net (mout.gmx.net [212.227.17.22])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94CFF2D623
-	for <linux-staging@lists.linux.dev>; Wed, 25 Oct 2023 11:13:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02EE226E34
+	for <linux-staging@lists.linux.dev>; Wed, 25 Oct 2023 11:27:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmx.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="pWqIlxsR"
-Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-507b18cf2e1so7538992e87.3
-        for <linux-staging@lists.linux.dev>; Wed, 25 Oct 2023 04:13:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1698232385; x=1698837185; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=8+D+BeZsEPMEv5rNbntpopdiMR8fAehJzR7Avs9K/vA=;
-        b=pWqIlxsRrBIgdLwO/UQ1YiaqUyjuW1SYKv+yjXwDaSGBd1k/tl1EI1I5q+0a8zFBU1
-         Y4B1ofmtS5/lRzwQJpjWk/H66HjcaqIKSEPu6XicqfYAVv4f8vK697NPIW6XpYNuwZRd
-         6xeeta1+6D5tg0WiKl4tJf2a7KAn84/YEnkGUFbZOsFY77FGljS/NpsmhMt5U2kQvIoT
-         Wj6x7/RAk7NjAaDA3ZYLeDhLNm5ApbmIn1WdUzOHDoy2xamKsMGTaMwQhXraUlizB/dC
-         tq1bF2Pois/0aZ+fDBkL9ekmNK+YUATiASHzOnBemNkfwaG3QUmdxBLsrY3EyYyQZok1
-         N/EA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1698232385; x=1698837185;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=8+D+BeZsEPMEv5rNbntpopdiMR8fAehJzR7Avs9K/vA=;
-        b=BHhNIckwye237bIJZsLnoJjKcxPBuegAlOO+sue3Umtk6JLAsiTe+RTlmOIfOcF4WR
-         aBAP4ts3QvOqpzm+iAFF+bKY0TNEeIYgHCdHSWrP5SwrIUjSz3hv1J0tiwF6ULFUtbNE
-         0yYQfxoLXi8zZ+vZ2F8pJhvLgGhjhopciVQOunL26zHesDy1m6Wr2LkV/k3hXG7QB6+J
-         ZqDq6rsBva/YlPSqP3TI60hNofEt9qSdBtIbYjO8Set4bSOhNgzWitp+sQBKP0Xi2hRs
-         nZ6Tnq+8tJt2L03HvTyfVCDJpC5cm/NUOjdemytvKmYb/hwbkTQDYVQWF3H6eKP67GNe
-         0W7A==
-X-Gm-Message-State: AOJu0YyK9ky5wKMZ4ncGxhLwvDhD82G4DE+s+i8d3+PrvuGSUcbQN2f3
-	L4AJm22XXM3laItxHvPcg2coIg==
-X-Google-Smtp-Source: AGHT+IF6szpxVxi80L5DU+dz954HXLZrnokCw6BZ1SAPk+8FOozdTZyH6sWiSPC2QHqTXJPyIrNuqw==
-X-Received: by 2002:a19:9115:0:b0:503:1722:bf3a with SMTP id t21-20020a199115000000b005031722bf3amr10959254lfd.1.1698232385526;
-        Wed, 25 Oct 2023 04:13:05 -0700 (PDT)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id l7-20020a5d6687000000b00327bf4f2f14sm11754326wru.88.2023.10.25.04.13.04
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 25 Oct 2023 04:13:05 -0700 (PDT)
-Date: Wed, 25 Oct 2023 14:13:01 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Wiktor Grzywacz <wiktor.grzywacz@3mdeb.com>
-Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] Signed-off-by: Wiktor Grzywacz
- <wiktor.grzywacz@3mdeb.com>
-Message-ID: <793abd56-abaa-4780-a6ae-a5ea2cc2b7bd@kadam.mountain>
-References: <20231025102614.125291-1-wiktor.grzywacz@3mdeb.com>
+	dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.b="cLhu3mC9"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+	s=s31663417; t=1698233209; x=1698838009; i=wahrenst@gmx.net;
+	bh=MgAJIP/UDMbDxFfmZqV25xqbbm+/RhMgGyvZIltdY8g=;
+	h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:
+	 In-Reply-To;
+	b=cLhu3mC9pCSsH1b+ZDdKfHC37CtBxOEQUpgV1s3WnQ/w5MGbDRjv32h/YfCZMxxB
+	 yOu+L6NvekWEMs1wV6WxI41dLf9DlJusTZB0u6Vm832iwBsDtyB7m0vVukWh37e+L
+	 AQig7UUfOfXiCTkzlXn1Uk/9X3KwxzN21NH0O56gbKjA5Se6N7GqrusAWCq7d0TlL
+	 9C5Cc5eY43vZ2CZQPW3YC0lA7bNZzyDqlV3F7VPuUfLu64YAlDoqh2CVjuQVsVPWQ
+	 /rdnwReoqwqau5smChJKB0pcG+PK7qtvR6CeZw17FVBTTJwZRkNXUqWFoNS0wc1+9
+	 ECrOmdzPaPQNTKsagA==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from [192.168.1.129] ([37.4.248.43]) by mail.gmx.net (mrgmx104
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1MDysm-1qnsnF12wO-009uER; Wed, 25
+ Oct 2023 13:26:49 +0200
+Message-ID: <d2de83ea-2c6c-4852-a7cb-e385defc6954@gmx.net>
+Date: Wed, 25 Oct 2023 13:26:45 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231025102614.125291-1-wiktor.grzywacz@3mdeb.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/2] staging: vc04_services: Drop completed TODO item
+Content-Language: en-US
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Umang Jain <umang.jain@ideasonboard.com>, Phil Elwell
+ <phil@raspberrypi.com>, Dave Stevenson <dave.stevenson@raspberrypi.com>
+Cc: linux-staging@lists.linux.dev, linux-rpi-kernel@lists.infradead.org,
+ linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ Stefan Wahren <stefan.wahren@i2se.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Kieran Bingham <kieran.bingham@ideasonboard.com>,
+ Dan Carpenter <dan.carpenter@linaro.org>
+References: <20231025103300.340572-1-umang.jain@ideasonboard.com>
+ <20231025103300.340572-3-umang.jain@ideasonboard.com>
+ <20231025104630.GB481@pendragon.ideasonboard.com>
+From: Stefan Wahren <wahrenst@gmx.net>
+In-Reply-To: <20231025104630.GB481@pendragon.ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:CL54em2qZcNnh48/XB3ciQBwNNQhCT1+4klV+JOWQk8prFLu6fH
+ GfU9oUOYhYqgkbjpwUX3bJAuLDkJ8Tvri5YXqNUVVH2Scz8Qq4ZCoB+hqwdmm5z4Mzxq+pU
+ jhikkskrLs280plgitaehj+9OElHTDhb7C+TURn+3kxaMZpvWBGCqhsuIvNtRB4w0VlN6lS
+ gt+uxVNdyD/+R57/Ju6jw==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:9gkLOqFKsXQ=;y1Kn4kguwIjRmw2SgTIcz/p/uf8
+ zbGfeIwNhMXlwCgS2eMYtgMRn00jt/lkL2eYOt7WfpQ12B5P/PW9zOYXh9M2qifxayMoVr+Fw
+ sXW5JeazLR5NBn0iiwY8l2uUAerXIWgife1I/+BarOmkMrmYOCnRFO+CctAHIbr68ztae/Dx5
+ bgbctvXMM3QwoAEqSC2604x3OXUyZglYFJiTBOkwjL2KJ0FUm17aQUmaOzIUWqimoM/CjtniX
+ 7qCwTrr0fzald3yn78IzmNn2y81rMaOQb5H6j/vbjNo2Mqz16itLK7qFlGuvqrmoaOlmLvPSQ
+ E0X4krnltSi3g2Hog2YYXM6/lhYnf64ydbquBcXTpkifQgn4IqHPzmn4coCfRZSZgW+ffNhbW
+ lNCisJk217JeRZl9JkuB7367PzgqmZwJLp5eEkxgEjBoWqS9sZ0dEmo+xnfH//kXPR2sKQ/tw
+ 6jNiFkZ0GoBspJOM3cKhhWDgPBjbZM1e28SfZBt0Jv8uPRUuTu9aN9/4RCgrwkEd/jXO5xKGy
+ sOdORkow+9tKkuPQMg1QtjgoJptkIEtBE7iYpQndL/n9aW4J9i9yf8OFsHxIOQNrpVq/3vDeD
+ 3G5wiEWPzQY/yN9lTRk8QcdXjMDFvvywV6/gTjW8atcO/oId+SDGSMfyDijcFOjTPT0ndlqDk
+ HMJOF0xuobQadSD++vw6Bh2AvBftlg7Z46NM+ngoV6NXSmYpi2u1ucTKTUjk9EWi1H8xI7N0A
+ Plz/AvC6wH3tnTMgL2R1/8Ir4RYWqOGmBrnW3aI1kKm+UdMSJdVHGbX6ZHsqYl/WeHLkg3mf4
+ X5
 
-On Wed, Oct 25, 2023 at 12:24:20PM +0200, Wiktor Grzywacz wrote:
-> staging: rtl8723bs: fix checkpatch space before tab warning
-> ---
->  drivers/staging/rtl8723bs/hal/rtl8723b_dm.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/staging/rtl8723bs/hal/rtl8723b_dm.c b/drivers/staging/rtl8723bs/hal/rtl8723b_dm.c
-> index 2028791988e7..8bdb685c10e7 100644
-> --- a/drivers/staging/rtl8723bs/hal/rtl8723b_dm.c
-> +++ b/drivers/staging/rtl8723bs/hal/rtl8723b_dm.c
-> @@ -46,7 +46,7 @@ static void Init_ODM_ComInfo_8723b(struct adapter *Adapter)
->  	ODM_CmnInfoInit(pDM_Odm, ODM_CMNINFO_CUT_VER, cut_ver);
->  
->  	ODM_CmnInfoInit(pDM_Odm, ODM_CMNINFO_PATCH_ID, pHalData->CustomerID);
-> -	/* 	ODM_CMNINFO_BINHCT_TEST only for MP Team */
-> +	/*  ODM_CMNINFO_BINHCT_TEST only for MP Team */
->  	ODM_CmnInfoInit(pDM_Odm, ODM_CMNINFO_BWIFI_TEST, Adapter->registrypriv.wifi_spec);
->  
->  	pdmpriv->InitODMFlag = ODM_RF_CALIBRATION|ODM_RF_TX_PWR_TRACK;
-> @@ -84,7 +84,7 @@ static void Update_ODM_ComInfo_8723b(struct adapter *Adapter)
->  	/*  Pointer reference */
->  	/*  */
->  	/* ODM_CMNINFO_MAC_PHY_MODE pHalData->MacPhyMode92D */
-> -	/* 	ODM_CmnInfoHook(pDM_Odm, ODM_CMNINFO_MAC_PHY_MODE,&(pDM_Odm->u8_temp)); */
-> +	/*  ODM_CmnInfoHook(pDM_Odm, ODM_CMNINFO_MAC_PHY_MODE,&(pDM_Odm->u8_temp)); */
+Hi,
 
-This looks weird now because of the extra space.  Also it's dead,
-commented out code.  Just delete it.
+[add the Raspberry Pi guys]
 
-regards,
-dan carpenter
+Am 25.10.23 um 12:46 schrieb Laurent Pinchart:
+> On Wed, Oct 25, 2023 at 06:33:00AM -0400, Umang Jain wrote:
+>> Memory barries and remote_event_*() are documented.
+>> Drop the TODO item related to them.
+>>
+>> Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
+>> ---
+>>   drivers/staging/vc04_services/interface/TODO | 7 -------
+>>   1 file changed, 7 deletions(-)
+>>
+>> diff --git a/drivers/staging/vc04_services/interface/TODO b/drivers/sta=
+ging/vc04_services/interface/TODO
+>> index 9c79ed549831..2d51f6928e0f 100644
+>> --- a/drivers/staging/vc04_services/interface/TODO
+>> +++ b/drivers/staging/vc04_services/interface/TODO
+>> @@ -33,13 +33,6 @@ such as dev_info, dev_dbg, and friends.
+>>   A short top-down description of this driver's architecture (function =
+of
+>>   kthreads, userspace, limitations) could be very helpful for reviewers=
+.
+>>
+>> -* Review and comment memory barriers
+>> -
+>> -There is a heavy use of memory barriers in this driver, it would be ve=
+ry
+>> -beneficial to go over all of them and, if correct, comment on their me=
+rits.
+>> -Extra points to whomever confidently reviews the remote_event_*() fami=
+ly of
+>> -functions.
+>> -
+from my point of view this part is done.
+> Is vchiq so timing sensitive that it can't afford spinlocks ?
+Sorry, i cannot answer this question. Maybe Phil or Dave?
+>
+>>   * Reformat core code with more sane indentations
+>>
+>>   The code follows the 80 characters limitation yet tends to go 3 or 4 =
+levels of
 
