@@ -1,171 +1,115 @@
-Received: from mail-oa1-f54.google.com (mail-oa1-f54.google.com [209.85.160.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C095B2D60E;
-	Wed, 25 Oct 2023 09:21:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB74C210EB
+	for <linux-staging@lists.linux.dev>; Wed, 25 Oct 2023 09:28:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CfHlYB2o"
-Received: by mail-oa1-f54.google.com with SMTP id 586e51a60fabf-1eb39505ba4so2815774fac.0;
-        Wed, 25 Oct 2023 02:21:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1698225677; x=1698830477; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=+7YTjhq7LQ6Y3merZ3N1iis6dMDgnT68aVt/7VjLWEQ=;
-        b=CfHlYB2o6qNrelxyHXhmZt3pyzhxcQUsxA+vIR9/OZo5TVFvqYXuYNpIA0LW2OhUYF
-         MZGAyGiENG65+yvqdkHi1w+FhLoMOHuNe2cerQJmXz2uszLmfZ/NBPPzXQ9JYa+gKAZ9
-         jlf5iMNWv7HLOMrT5sxUXRdq3oMzvuACtGXJRGFv1Hpj78KfWFD335omxkdq+8SABUgH
-         6z0vvcvl/V79PKVlsxP+scSQJUOIDf7UM4/JSnQkxTRBipn6TBDgrzaINacWVPX6u2Ox
-         +BvBV6r8zZGQdhcEDRgyRKzhNd767tM3bahbRf/DA99+TKZ0xsr/bLE3eStxKP6AZGiF
-         OStg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1698225677; x=1698830477;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=+7YTjhq7LQ6Y3merZ3N1iis6dMDgnT68aVt/7VjLWEQ=;
-        b=JT6wczxzESbxFNglvzT82/qiwmvDnLIK8HkOLpS5MUqkcmAL+aghonkEW3G/CBrajq
-         FnyNhpFm2khwCOswkBTBHI/1CDOVcYeJnZMp/+rc03vWqg6FOGAfjb5Trk2CYNu50VEP
-         lrUa4agjgE2KLNCm3uDqoX5wi9iKYQ6elsTBEDQ3di9aJjLK5H0I+viLxNmvpwvX7JYl
-         DL4LnE9fBTdIb4ipjV6xIIdZEhr264idq8UzeWiOVp1b3Dp0oQT45dQ13/H9MlYPtTqo
-         urjPwIZluXeQxSW8+N8TxD96P0ThXveuklexaRl+U3QQCQQF/ituCDIj1reY/svU3jpY
-         cv9A==
-X-Gm-Message-State: AOJu0YxNiEkNHYtr6Z2kM6+Zdmm7kHyJHmqPAvuavjak9F6eARLsiZ9Z
-	9QUs2F9OT5ah6YiuYHoKJCe5WrD80k4IUL6jax0=
-X-Google-Smtp-Source: AGHT+IERc9Q4B1Iyatie8Cmnqb3DqPhVz6ynfPK50hCJl61luZ+dN9IjZP2C9sejCUiZTcSokVjThOn+FVDmJKa7fRU=
-X-Received: by 2002:a05:6870:831e:b0:1d0:e372:6b06 with SMTP id
- p30-20020a056870831e00b001d0e3726b06mr17388536oae.25.1698225676729; Wed, 25
- Oct 2023 02:21:16 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dBQ7otdV"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1698226136; x=1729762136;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=5m1fR6bdGcwzZ15VRMIAnlflUe0s7FJIRx4yGGjAZIE=;
+  b=dBQ7otdVyuP2ePfwSgAWWsKWMe4w/xvYuGaRMjldbxuTGKX+z3xqdrSJ
+   VyiPzB6F5lD381a5SZxnVacN8ptkwp9w8F+RAEqNeVxqFxnpUe9LZ+zws
+   WLyWoJVWH5h7ZLeeDIHGrwh0k33+nxTiEJ0LFKbgQINsrQ4IxtpzrnVTP
+   YNp0KyJJYM7cYPs3v8m78t8e0rxpxjWhoZWPcH+cTVxbVa0X624etNY5k
+   QJCsHsjZJAvl2rM20TgBPuO6wBW2GoH8Zp0sv/IkG99V9oCod6m8Vi0Qi
+   Sew3DcOVFhuhDGV/2dOuFKZEvjaVhoBMZ684tVQ/NZSibYNjHU+fz4W8k
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10873"; a="473508804"
+X-IronPort-AV: E=Sophos;i="6.03,250,1694761200"; 
+   d="scan'208";a="473508804"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Oct 2023 02:28:55 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10873"; a="1005946638"
+X-IronPort-AV: E=Sophos;i="6.03,250,1694761200"; 
+   d="scan'208";a="1005946638"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Oct 2023 02:28:52 -0700
+Received: from kekkonen.localdomain (localhost [127.0.0.1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id E569611F89D;
+	Wed, 25 Oct 2023 12:28:49 +0300 (EEST)
+Date: Wed, 25 Oct 2023 09:28:49 +0000
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Dan Carpenter <dan.carpenter@linaro.org>,
+	Umang Jain <umang.jain@ideasonboard.com>,
+	linux-staging@lists.linux.dev
+Cc: linux-rpi-kernel@lists.infradead.org, linux-media@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	Stefan Wahren <stefan.wahren@i2se.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Dan Carpenter <error27@gmail.com>,
+	Kieran Bingham <kieran.bingham@ideasonboard.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	"Ricardo B . Marliere" <ricardo@marliere.net>
+Subject: Re: [PATCH 1/1] staging: vc04_services: Use %p4cc format modifier to
+ print FourCC codes
+Message-ID: <ZTjf0fT0yl2cwGWJ@kekkonen.localdomain>
+References: <20231025060717.71895-1-umang.jain@ideasonboard.com>
+ <20231025060717.71895-2-umang.jain@ideasonboard.com>
+ <bd7f3a75-598a-428e-85c3-8dd867043c1f@kadam.mountain>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <ZTjRWkqXeoS74E52@lab-ubuntu> <2023102502-decipher-startle-5115@gregkh>
- <CADFX3OTfJQzqeHOLZBJ=6e6YOxkS4xcoeeQR=UnrUU6d1gN8Dw@mail.gmail.com> <2023102543-country-tissue-96df@gregkh>
-In-Reply-To: <2023102543-country-tissue-96df@gregkh>
-From: Calvince Otieno <calvncce@gmail.com>
-Date: Wed, 25 Oct 2023 12:21:05 +0300
-Message-ID: <CADFX3OTw=6mhEwiM9nA5VZ472J3W+BJQexujr88zEeJDAbPe6A@mail.gmail.com>
-Subject: Re: [PATCH] staging: wlan-ng: prism2mgmt.c: rewrite flexible array member
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: gustavo@embeddedor.com, outreachy@lists.linux.dev, 
-	linux-staging@lists.linux.dev, Julia Lawall <julia.lawall@inria.fr>, 
-	Deepak <dvarma04@hotmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <bd7f3a75-598a-428e-85c3-8dd867043c1f@kadam.mountain>
 
-On Wed, Oct 25, 2023 at 12:05=E2=80=AFPM Greg Kroah-Hartman
-<gregkh@linuxfoundation.org> wrote:
->
-> On Wed, Oct 25, 2023 at 11:58:56AM +0300, Calvince Otieno wrote:
-> > On Wed, Oct 25, 2023 at 11:36=E2=80=AFAM Greg Kroah-Hartman
-> > <gregkh@linuxfoundation.org> wrote:
-> > >
-> > > On Wed, Oct 25, 2023 at 11:27:06AM +0300, Calvince Otieno wrote:
-> > > > Declaring zero-length arrays is allowed in GNU C as an extension.
-> > > > Although the size of a zero-length array is zero, an array member o=
-f
-> > > > this kind may increase the size of the enclosing type as a result o=
-f
-> > > > tail padding. The offset of a zero-length array member from the beg=
-inning
-> > > > of the enclosing structure is the same as the offset of an array wi=
-th one
-> > > > or more elements of the same type. The alignment of a zero-length a=
-rray is
-> > > > the same as the alignment of its elements.
-> > > >
-> > > > Declaring zero-length arrays in other contexts, including as interi=
-or
-> > > > members of structure objects or as non-member objects, is discourag=
-ed.
-> > > > Accessing elements of zero-length arrays declared in such contexts =
-is
-> > > > undefined and may be diagnosed.
-> > > >
-> > > > There are some instances of code in which the sizeof operator is be=
-ing
-> > > > incorrectly/erroneously applied to zero-length arrays and the resul=
-t
-> > > > is zero. Such instances may be hiding some bugs.
-> > > >
-> > > > This issue was found with the help of Coccinelle.
-> > > >
-> > > > [1] https://gcc.gnu.org/onlinedocs/gcc/Zero-Length.html
-> > > >
-> > > > Signed-off-by: Calvince Otieno <calvncce@gmail.com>
-> > > > ---
-> > > >  drivers/staging/wlan-ng/p80211metastruct.h | 2 +-
-> > > >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > > >
-> > > > diff --git a/drivers/staging/wlan-ng/p80211metastruct.h b/drivers/s=
-taging/wlan-ng/p80211metastruct.h
-> > > > index a52217c9b953..c8b73c867391 100644
-> > > > --- a/drivers/staging/wlan-ng/p80211metastruct.h
-> > > > +++ b/drivers/staging/wlan-ng/p80211metastruct.h
-> > > > @@ -71,7 +71,6 @@ struct p80211msg_dot11req_scan_results {
-> > > >       struct p80211item_uint32 signal;
-> > > >       struct p80211item_uint32 noise;
-> > > >       struct p80211item_pstr6 bssid;
-> > > > -     u8 pad_3C[1];
-> > >
-> > > But this is not a flexible or 0 length array at all.  Why change this=
-?
-> > >
-> > > And are you sure you are allowed to change this?  Did you verify wher=
-e
-> > > this structure is being used and how it is being used and why this
-> > > padding field is in here?
-> > >
-> > > And how was this tested?
-> > >
-> > > thanks,
-> > >
-> > > greg k-h
-> > I have looked through the code to see where the pad_3C member variable
-> > is referenced or used, but I didn't find any instances.
->
-> I think that is because it is being used to map a structure on top of a
-> data blob read from the device.  Dig in and I think you will find where
-> it is mapped somewhere.
->
-> > I have to admit that my search might not have covered all the possible =
-patterns
-> > and usage scenarios. It appears that the member variable is only declar=
-ed
-> > within the  struct p80211msg_dot11req_scan_results.
-> >
-> > Dan outlines that the pad_3C member variable is used for padding. So,
-> > I stand corrected.
->
-> I'm interested in what tool told you that this was a variable length
-> array that should be modified?  It is a 1 element array, in the middle
-> of a structure, which is not what a variable length array looks like at
-> all, so perhaps some tool needs to be fixed as to not trigger on valid
-> code like this?
->
-> thanks,
->
-> greg k-h
+On Wed, Oct 25, 2023 at 10:10:08AM +0300, Dan Carpenter wrote:
+> On Wed, Oct 25, 2023 at 02:07:17AM -0400, Umang Jain wrote:
+> > Drop VCHIQ_FOURCC_AS_4CHARS macro in favour of %p4cc format
+> > modifier to print FourCC codes in the logs.
+> > 
+> > vchiq_use_internal() and vchiq_release_internal() uses entity
+> > character-array to store a transient string that contains
+> > a FourCC code. Increase the length of entity array(to 64 bytes)
+> > since %p4cc requires more bytes to hold the output characters.
+> > 
+> > Suggested-by: Kieran Bingham <kieran.bingham@ideasonboard.com>
+> > Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
+> > ---
+> >  .../interface/vchiq_arm/vchiq_arm.c           | 20 +++++-----
+> >  .../interface/vchiq_arm/vchiq_core.c          | 40 +++++++++----------
+> >  .../interface/vchiq_arm/vchiq_core.h          |  6 ---
+> >  .../interface/vchiq_arm/vchiq_dev.c           |  7 ++--
+> >  4 files changed, 33 insertions(+), 40 deletions(-)
+> > 
+> > diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
+> > index fc6d33ec5e95..de6a24304a4d 100644
+> > --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
+> > +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
+> > @@ -1441,7 +1441,7 @@ vchiq_use_internal(struct vchiq_state *state, struct vchiq_service *service,
+> >  {
+> >  	struct vchiq_arm_state *arm_state = vchiq_platform_get_arm_state(state);
+> >  	int ret = 0;
+> > -	char entity[16];
+> > +	char entity[64];
+> >  	int *entity_uc;
+> >  	int local_uc;
+> >  
+> > @@ -1454,8 +1454,8 @@ vchiq_use_internal(struct vchiq_state *state, struct vchiq_service *service,
+> >  		sprintf(entity, "VCHIQ:   ");
+> >  		entity_uc = &arm_state->peer_use_count;
+> >  	} else if (service) {
+> > -		sprintf(entity, "%c%c%c%c:%03d",
+> > -			VCHIQ_FOURCC_AS_4CHARS(service->base.fourcc),
+> > +		sprintf(entity, "%p4cc:%03d",
+> 
+> Not related to your patch but these sprintfs() make me very
+> uncomfortable.
+> 
+> KTODO: change sprintf() to snprintf() in staging/vc04_services/
 
-Actually, it is a simple coccinelle semantic script of my own making.
-I executed the script against the drivers/staging/wlan-ng
+Umang: how about one patch on top of this? :-) There are just five
+instances of it.
 
-I was trying to match scenarios like the following:
-struct a {
- some var[1]
-}
-struct b{
- some var[0]
-}
-I was reading through the variable length array suggestions and I came
-up with that.
-
---=20
-Kind regards,
-Calvince Otieno
+-- 
+Sakari Ailus
