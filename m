@@ -1,79 +1,72 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from 2.mo575.mail-out.ovh.net (2.mo575.mail-out.ovh.net [46.105.52.162])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E55B15B4
-	for <linux-staging@lists.linux.dev>; Wed, 25 Oct 2023 10:41:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="bsSAxL/K"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 455BAC433C9;
-	Wed, 25 Oct 2023 10:41:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1698230512;
-	bh=uSZTmaMWwi3YxyWUS0SaODVfbUXi/a6n+qV3uVp/UT4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=bsSAxL/KrkdfgK4H21T6hH24Ip+jxFjDmYFmqii8/hJpJAbu4FlK9y2c2ndwcBTAQ
-	 1UFLZ6NOvVB7q90/HEB5ld26QERouPMYxAlpXSZvDMulhu84ViiiwmK4SauAIf06h7
-	 2wj/mpv+CF7uPO/OfFhqCjDL0A/Hz1xYMc5f9osE=
-Date: Wed, 25 Oct 2023 12:41:50 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Wiktor Grzywacz <wiktor.grzywacz@3mdeb.com>
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] Signed-off-by: Wiktor Grzywacz
- <wiktor.grzywacz@3mdeb.com>
-Message-ID: <2023102522-eggplant-elm-fabd@gregkh>
-References: <20231025102614.125291-1-wiktor.grzywacz@3mdeb.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4EBD266D3
+	for <linux-staging@lists.linux.dev>; Wed, 25 Oct 2023 10:43:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=3mdeb.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=3mdeb.com
+Authentication-Results: smtp.subspace.kernel.org; dkim=none
+Received: from director1.ghost.mail-out.ovh.net (unknown [10.108.1.161])
+	by mo575.mail-out.ovh.net (Postfix) with ESMTP id EAC4428702
+	for <linux-staging@lists.linux.dev>; Wed, 25 Oct 2023 10:26:31 +0000 (UTC)
+Received: from ghost-submission-6684bf9d7b-26h4r (unknown [10.110.115.240])
+	by director1.ghost.mail-out.ovh.net (Postfix) with ESMTPS id 23FD11FE5F;
+	Wed, 25 Oct 2023 10:26:31 +0000 (UTC)
+Received: from 3mdeb.com ([37.59.142.99])
+	by ghost-submission-6684bf9d7b-26h4r with ESMTPSA
+	id um1WBFftOGV4gwAARm6H6g
+	(envelope-from <wiktor.grzywacz@3mdeb.com>); Wed, 25 Oct 2023 10:26:31 +0000
+Authentication-Results:garm.ovh; auth=pass (GARM-99G003f3ccc1a6-09ce-433e-8256-0378fa1aff91,
+                    14A0AEEFCB3B0BFA38FE34D53745A0BBD0B19B92) smtp.auth=wiktor.grzywacz@3mdeb.com
+X-OVh-ClientIp:213.192.77.249
+From: Wiktor Grzywacz <wiktor.grzywacz@3mdeb.com>
+To: gregkh@linuxfoundation.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Cc: Wiktor Grzywacz <wiktor.grzywacz@3mdeb.com>
+Subject: [PATCH] Signed-off-by: Wiktor Grzywacz <wiktor.grzywacz@3mdeb.com>
+Date: Wed, 25 Oct 2023 12:24:20 +0200
+Message-ID: <20231025102614.125291-1-wiktor.grzywacz@3mdeb.com>
+X-Mailer: git-send-email 2.41.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231025102614.125291-1-wiktor.grzywacz@3mdeb.com>
+Content-Transfer-Encoding: 8bit
+X-Ovh-Tracer-Id: 17102138111644632453
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: 0
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvkedrledtgddvkecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecunecujfgurhephffvvefufffkofgggfestdekredtredttdenucfhrhhomhephghikhhtohhrucfirhiihiifrggtiicuoeifihhkthhorhdrghhriiihfigrtgiiseefmhguvggsrdgtohhmqeenucggtffrrghtthgvrhhnpeffgfetheeftdehveeiveehfeeljeeijeekudeiieeifedvheekteevteetgfekheenucfkphepuddvjedrtddrtddruddpvddufedrudelvddrjeejrddvgeelpdefjedrheelrddugedvrdelleenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeduvdejrddtrddtrddupdhmrghilhhfrhhomhepoeifihhkthhorhdrghhriiihfigrtgiiseefmhguvggsrdgtohhmqedpnhgspghrtghpthhtohepuddprhgtphhtthhopehlihhnuhigqdhsthgrghhinhhgsehlihhsthhsrdhlihhnuhigrdguvghvpdfovfetjfhoshhtpehmohehjeehpdhmohguvgepshhmthhpohhuth
 
-On Wed, Oct 25, 2023 at 12:24:20PM +0200, Wiktor Grzywacz wrote:
-> staging: rtl8723bs: fix checkpatch space before tab warning
-> ---
->  drivers/staging/rtl8723bs/hal/rtl8723b_dm.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+staging: rtl8723bs: fix checkpatch space before tab warning
+---
+ drivers/staging/rtl8723bs/hal/rtl8723b_dm.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Hi,
+diff --git a/drivers/staging/rtl8723bs/hal/rtl8723b_dm.c b/drivers/staging/rtl8723bs/hal/rtl8723b_dm.c
+index 2028791988e7..8bdb685c10e7 100644
+--- a/drivers/staging/rtl8723bs/hal/rtl8723b_dm.c
++++ b/drivers/staging/rtl8723bs/hal/rtl8723b_dm.c
+@@ -46,7 +46,7 @@ static void Init_ODM_ComInfo_8723b(struct adapter *Adapter)
+ 	ODM_CmnInfoInit(pDM_Odm, ODM_CMNINFO_CUT_VER, cut_ver);
+ 
+ 	ODM_CmnInfoInit(pDM_Odm, ODM_CMNINFO_PATCH_ID, pHalData->CustomerID);
+-	/* 	ODM_CMNINFO_BINHCT_TEST only for MP Team */
++	/*  ODM_CMNINFO_BINHCT_TEST only for MP Team */
+ 	ODM_CmnInfoInit(pDM_Odm, ODM_CMNINFO_BWIFI_TEST, Adapter->registrypriv.wifi_spec);
+ 
+ 	pdmpriv->InitODMFlag = ODM_RF_CALIBRATION|ODM_RF_TX_PWR_TRACK;
+@@ -84,7 +84,7 @@ static void Update_ODM_ComInfo_8723b(struct adapter *Adapter)
+ 	/*  Pointer reference */
+ 	/*  */
+ 	/* ODM_CMNINFO_MAC_PHY_MODE pHalData->MacPhyMode92D */
+-	/* 	ODM_CmnInfoHook(pDM_Odm, ODM_CMNINFO_MAC_PHY_MODE,&(pDM_Odm->u8_temp)); */
++	/*  ODM_CmnInfoHook(pDM_Odm, ODM_CMNINFO_MAC_PHY_MODE,&(pDM_Odm->u8_temp)); */
+ 
+ 	ODM_CmnInfoUpdate(pDM_Odm, ODM_CMNINFO_ABILITY, pdmpriv->InitODMFlag);
+ 
+-- 
+2.41.0
 
-This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
-a patch that has triggered this response.  He used to manually respond
-to these common problems, but in order to save his sanity (he kept
-writing the same thing over and over, yet to different people), I was
-created.  Hopefully you will not take offence and will fix the problem
-in your patch and resubmit it so that it can be accepted into the Linux
-kernel tree.
-
-You are receiving this message because of the following common error(s)
-as indicated below:
-
-- Your patch does not have a Signed-off-by: line.  Please read the
-  kernel file, Documentation/process/submitting-patches.rst and resend
-  it after adding that line.  Note, the line needs to be in the body of
-  the email, before the patch, not at the bottom of the patch or in the
-  email signature.
-
-- You did not specify a description of why the patch is needed, or
-  possibly, any description at all, in the email body.  Please read the
-  section entitled "The canonical patch format" in the kernel file,
-  Documentation/process/submitting-patches.rst for what is needed in
-  order to properly describe the change.
-
-- You did not write a descriptive Subject: for the patch, allowing Greg,
-  and everyone else, to know what this patch is all about.  Please read
-  the section entitled "The canonical patch format" in the kernel file,
-  Documentation/process/submitting-patches.rst for what a proper
-  Subject: line should look like.
-
-If you wish to discuss this problem further, or you have questions about
-how to resolve this issue, please feel free to respond to this email and
-Greg will reply once he has dug out from the pending patches received
-from other developers.
-
-thanks,
-
-greg k-h's patch email bot
