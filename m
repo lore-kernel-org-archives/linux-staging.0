@@ -1,87 +1,134 @@
-Received: from sipsolutions.net (s3.sipsolutions.net [168.119.38.16])
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE31C2D78E
-	for <linux-staging@lists.linux.dev>; Thu, 26 Oct 2023 10:34:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sipsolutions.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sipsolutions.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D81D2DF96
+	for <linux-staging@lists.linux.dev>; Thu, 26 Oct 2023 13:45:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmx.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sipsolutions.net header.i=@sipsolutions.net header.b="KIcOGNmZ"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=sipsolutions.net; s=mail; h=MIME-Version:Content-Transfer-Encoding:
-	Content-Type:References:In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender
-	:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-To:
-	Resent-Cc:Resent-Message-ID; bh=JE/wzep2Kl9fulvu7hozBAZLnaAXZolsk/A0oBuPFR0=;
-	t=1698316495; x=1699526095; b=KIcOGNmZnV8r35k6pS4gkjb277YlW6FCqA7bJfjPPu7pfa2
-	EcVwdZohF7wDQ0NQpUaPYS2me1neshbV6C+NAOvn0NEck1Zqz6XezYptTvbnkoJzKaZmLte61s58F
-	46D+SOA8cQ0h2aCzr/nl+ngX6jCku99PtuOK3AMG6/ZsyMM4a5Okc3jMxzDCdaSOhwVSKAMu6+Fz7
-	YzNMUl3fItQb3X6vLIj2Wb8R1tG8JdOy9g2nZCHQiOqIJ/3DzpV90kuY4K8LxMUiRo4fdrs9ETRm+
-	P54Epz4YHfyMKtbO4IiemIlezUDhuRwRhKfclkYTPmwJ3u7z602rTGqnlISBLMNg==;
-Received: by sipsolutions.net with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
-	(Exim 4.97-RC1)
-	(envelope-from <johannes@sipsolutions.net>)
-	id 1qvx1A-00000003a91-3X6O;
-	Thu, 26 Oct 2023 11:51:09 +0200
-Message-ID: <14bd2e39338dd755f7bfde23a93563865580ee83.camel@sipsolutions.net>
-Subject: Re: [PATCH 10/10] [RFC] wifi: remove ipw2100/ipw2200 drivers
-From: Johannes Berg <johannes@sipsolutions.net>
-To: Kalle Valo <kvalo@kernel.org>, Philipp Hortmann
-	 <philipp.g.hortmann@gmail.com>
-Cc: Witold Baryluk <witold.baryluk@gmail.com>, arnd@kernel.org, 
- Larry.Finger@lwfinger.net, alexandre.belloni@bootlin.com, arnd@arndb.de, 
- claudiu.beznea@tuxon.dev, davem@davemloft.net, geert@linux-m68k.org, 
- geoff@infradead.org, gregkh@linuxfoundation.org,
- gregory.greenman@intel.com,  ilw@linux.intel.com, kuba@kernel.org,
- linux-arm-kernel@lists.infradead.org,  linux-kernel@vger.kernel.org,
- linux-staging@lists.linux.dev,  linux-wireless@vger.kernel.org,
- linuxppc-dev@lists.ozlabs.org,  nicolas.ferre@microchip.com, pavel@ucw.cz,
- quic_jjohnson@quicinc.com,  stas.yakovlev@gmail.com, stf_xl@wp.pl
-Date: Thu, 26 Oct 2023 11:51:07 +0200
-In-Reply-To: <87jzr9d883.fsf@kernel.org>
-References: 
-	<CAEGMnwo6RFqADPO5FRkRUNL=GfV6DY8UuwgsypEYOD3LTnXdJg@mail.gmail.com>
-	 <c608f328-387e-431b-b3c2-4b8fa0c4f11f@gmail.com>
-	 <87jzr9d883.fsf@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.48.4 (3.48.4-1.fc38) 
+	dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.b="Jy8T0xyx"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+	s=s31663417; t=1698327897; x=1698932697; i=wahrenst@gmx.net;
+	bh=8N0BAQRXOaiBUnXS9AVWhXbFxOndfSaUK0M6YqDPpN8=;
+	h=X-UI-Sender-Class:Date:Subject:To:References:Cc:From:
+	 In-Reply-To;
+	b=Jy8T0xyxWQNaeOmPjEdSFMZ0bi8FJJmoixoJdQPr+9KbCdwnZCeEeuBMo9hFea+2
+	 0TUdZ2iNGUKqQzV3KJ3SKhtowmuN6xBe6xinIBdk/EdRhadlUZU7q2yIAdfO+W9cs
+	 FKJYK+Dwttj9Z+DjK2R6Mp4GYN5CxIdu77QxS1c/m8LUjwdt8O7x2MfcH/yu4Q4xc
+	 5q/YXpUleLEwREREWXW0cOpwUHwkmczZBbenfQ0fbigPwabJyJR9QfJjUG9jcE2o7
+	 t9MeBiSXbD/B4vJYiyavsDkU8lZ9ZT9HukhJVoh8bqhw6ZVpF+k6fHQyc5l7QxBQd
+	 im63BpBTrQx/oSp44g==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from [192.168.1.129] ([37.4.248.43]) by mail.gmx.net (mrgmx005
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1MLiCo-1rDXWC3oAa-00Hclc; Thu, 26
+ Oct 2023 15:44:56 +0200
+Message-ID: <2ebd5dea-e7a8-4021-9f37-c062b0ad77b9@gmx.net>
+Date: Thu, 26 Oct 2023 15:44:56 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-malware-bazaar: not-scanned
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/2] staging: vc04_services: Drop completed TODO item
+To: Umang Jain <umang.jain@ideasonboard.com>
+References: <20231025103300.340572-1-umang.jain@ideasonboard.com>
+ <20231025103300.340572-2-umang.jain@ideasonboard.com>
+ <8355043f-36fc-45f5-a868-2e96e6427e28@gmx.net>
+ <019c778c-4bf2-5d1c-769a-2b0fc5eb2a2e@ideasonboard.com>
+Content-Language: en-US
+Cc: linux-staging@lists.linux.dev,
+ Kieran Bingham <kieran.bingham@ideasonboard.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Dan Carpenter <dan.carpenter@linaro.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+From: Stefan Wahren <wahrenst@gmx.net>
+In-Reply-To: <019c778c-4bf2-5d1c-769a-2b0fc5eb2a2e@ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:68lkocvW0LafqvxJSC86VO9BaCXlsMSatSXovV00iZXnJ1Yltcw
+ 74l4y5wNWfM5rjw8ZD6dRnFzwu8Qiic6kQOyE1zgOHbLWHcHrm1k9AdPxyhogqyNqaSfvEF
+ xQxH2LBxPOAwJ2DBwnI9EFzG1KFaaqSbyvXjEnSrU63Hb3xwOrNArRPidmn1iEjSgbbbYRV
+ T9Mda8b0Q1GGO4xW8qveA==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:8HYBAfWEhbU=;wAUx8iOtFvFf9sgw7uA9YqHt8+s
+ s56143hWVZIi4+0l4CYSxSiFxvaMR9koqHYXASIwOa/ydr9KiZORAd8zDHmiI61qAbD3tzK9y
+ WvdIiDMLc6dIvaCGB2/erPEk1MMeCXC1S2gq9xdTpN1b6IeZa9oRhe38SnMxIF9L4zAGW7OJ9
+ wshn6m9U3d9zaNHYDc3eA2vzJi8Ey5yaaue0n7yufHBmMqaaSLcDWJhMm/j7bwCBdxGavowd3
+ XuC4tJRKHWBHLXtz2ylTQU5HzxwD+rghMP9S8JHThrIOSp5vHgEOutBCy25950HP5rdUzajAL
+ Xds9c2UUp2grdredGApGDwSY1T57t6IQaSBJbBCKkAe3Ck2EPiRN1uZBlsCh4y2lm5kVcBriG
+ R5CBxPclRLUoduPtAt89Vxeu/L/ODCaZVH/ODf0+LbfeVfQvF3ADMucDEn0WYqqj8ggqjaqWZ
+ LQdOtGDVRLQhkXWPvf0QRmt4LkfX/Ud36VtUSrvoHNL0xnQGr737Wd7e3ERUlCQbSOt1MrJp1
+ QYUesNr8thm+9uY2GvK0mexq4gnj7HHRMIMgshEMNL035iy2/ff0HVfByhQoA4tqxoW4AmCh+
+ q3qzHEjpL+tKjy4GNEkNy9wkGfRH8BWZYn/OFGXDRl/y6BqcXmTC1S+q628ufRM1DSCrNNeYm
+ s+UCWtaMhsz//Z2JLnm9WCDtf/uvp2CNWvam1sd9Hhs/09kRV5Z0VJICRMhICVjPP3AyerwWF
+ 0yGr7Zord+A1FLdPMvK8UTf1dMYs3vqMXAnwNBBMpCdCbHQ8Bs086KrRW4SCPOQFVw0O43Zfu
+ le
 
-On Thu, 2023-10-26 at 12:49 +0300, Kalle Valo wrote:
-> Philipp Hortmann <philipp.g.hortmann@gmail.com> writes:
->=20
-> > On 10/26/23 00:27, Witold Baryluk wrote:
-> > > I might be interested in modernizing the driver, but I have no idea
-> > > how much effort it would be (in terms of changed fraction of code).
-> > > 20k LOC is neither small or big, and not obvious (a lot of it would
-> > > be unchanged), if it is a week of work, or months of work.
-> >=20
-> > Hi Witold,
-> >=20
-> > I am trying to do this with rtl8192e.
-> > One possibility is to take the following patch series as a starting poi=
-nt:
-> > https://yhbt.net/lore/all/1414604649-9105-1-git-send-email-tvboxspy@gma=
-il.com/
-> >=20
-> > For me as a beginner and hobbyist this is a huge task. I am happy when
-> > I can finish it until next summer.
->=20
-> We also have some docs available:
->=20
-> https://docs.kernel.org/driver-api/80211/
->=20
-> And I also recommend looking at our hwsim driver as that gives a good
-> idea how a simple mac80211 driver works:
->=20
+Hi Umang,
 
-FWIW, I don't think this can be ported to mac80211 - only cfg80211. It's
-a fullMAC device.
+i hope it's okay to add the most of the recipients again.
 
-johannes
+Am 26.10.23 um 14:42 schrieb Umang Jain:
+> Hi Stefan
+>
+> On 10/25/23 10:16 PM, Stefan Wahren wrote:
+>> Hi Umang,
+>>
+>> Am 25.10.23 um 12:32 schrieb Umang Jain:
+>>> Drop the TODO item which deals with non-essential global
+>>> structures and per-device structure. All this has been
+>>> handled now through vchiq-bus and struct vchiq_device.
+>>>
+>>> Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
+>>> ---
+>>> =C2=A0 drivers/staging/vc04_services/interface/TODO | 8 --------
+>>> =C2=A0 1 file changed, 8 deletions(-)
+>>>
+>>> diff --git a/drivers/staging/vc04_services/interface/TODO
+>>> b/drivers/staging/vc04_services/interface/TODO
+>>> index 6d9d4a800aa7..9c79ed549831 100644
+>>> --- a/drivers/staging/vc04_services/interface/TODO
+>>> +++ b/drivers/staging/vc04_services/interface/TODO
+>>> @@ -46,14 +46,6 @@ The code follows the 80 characters limitation yet
+>>> tends to go 3 or 4 levels of
+>>> =C2=A0 indentation deep making it very unpleasant to read. This is
+>>> specially relevant
+>>> =C2=A0 in the character driver ioctl code and in the core thread funct=
+ions.
+>>>
+>>> -* Get rid of all non essential global structures and create a
+>>> proper per
+>>> -device structure
+>> at first thank for all the great work. Currently i don't have much time
+>> to give a feedback for everything :-(
+>
+> No worries. As long as things are progressing, I don't mind.
+>>
+>> Tbh this TODO is not finished yet. There are still global structures.
+>> Please look at variables starting with g_* in vchiq_arm.c and
+>> vchiq_connected.c
+>>
+>
+> Ah just saw them now. Oh god, these are a pain.
+>> Unfortunately i cannot tell which of them are easy to move into the
+>> device structure.
+>
+> Indeed. I don't have much time left this week, so probably I'll start
+> developing something over next week. :-/
+>
+> Also do you know where I can find some overview documentation of the
+> driver itself? I don't think I understand the details of "how this
+> driver is supposed to function" in the first place.
+unfortunately this is the reason for point 4 in the TODO list.
+
+In the past i started a request in the Raspberry Pi github [1], but i
+didn't get a fully satisfying response. Maybe this kind of documentation
+is under NDA.
+
+I vaguely remember of a little bit documentation on Github, but it
+wasn't specific to the Linux driver.
+
+[1] - https://github.com/raspberrypi/linux/issues/2730
+
