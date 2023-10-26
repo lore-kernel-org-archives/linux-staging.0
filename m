@@ -1,53 +1,53 @@
-Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
+Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 771B9FBE1
-	for <linux-staging@lists.linux.dev>; Thu, 26 Oct 2023 05:44:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A688C134
+	for <linux-staging@lists.linux.dev>; Thu, 26 Oct 2023 05:44:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YaYOEGsK"
-Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-9bfbc393dfaso12050366b.1
-        for <linux-staging@lists.linux.dev>; Wed, 25 Oct 2023 22:44:28 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WVDxYxPu"
+Received: by mail-ed1-f45.google.com with SMTP id 4fb4d7f45d1cf-53e2308198dso162814a12.1
+        for <linux-staging@lists.linux.dev>; Wed, 25 Oct 2023 22:44:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1698299067; x=1698903867; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1698299072; x=1698903872; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=I7zJ5qciR0a1yJaFSt2HKre85R/60luQy84wqPr6HdY=;
-        b=YaYOEGsKsjtk80gogj+x0xWG+dYeKfFgf4BQ8JKQ9gG8PlXR4yd8osmVCYT1fYWuEi
-         xlcKmC9f7URBv2leqvLOWApTm4Xcpw9DQsuKMdzYbip6tCsRGDMMVm/NRuSdq9aX+bft
-         vsvV6SyZNJgkY2mP7DeYnoudIVPhxlfU0m5lcV/7L7A4wg0pHzzmxg3IEnyC5iDCHjwn
-         54XXCq+OUVXwRHrqNRSaPf7BcsQHXU06B4wYtqv9FBrlLO1cyJw+vPLSGei4CveDyC1B
-         pBxwowdORbIN7K5lHpYihYc8Af+BAKe76t/iLtINXHgX6N0O/aUjBTQpbNUdMyZxNgdd
-         rFFQ==
+        bh=pj8Q7YsY/vYkJDue8+dvhserphxMSxUdnrU/yK6lzXQ=;
+        b=WVDxYxPuNBm4+c5Uh+p4+jx2nUB/fziubcf1wPrqLN4+n37MB8m21cSznUnHb6K5tw
+         BcnuZO0ilKsW9w1xNhzMaQ8S7nP9PxUVani/TLCPesJ1U3cUlRXARxhNuQR9gAtIQUd5
+         vHEtiecg/XZOuaK3jZIygu8eyBVpqs8vzkhz2V0JO6MCQWvfCfq7EMOMzMa9ijPrMGBg
+         eNMtzkVYlyzDJp6cBLIOETAtkjVpRIiWsCQb706lCDjIhVZQJY5r2eYHM8kOASGL8r4d
+         7OU3NbrKVdI+G0kfwFhV0fFCzMR9g6Xz2pmLGFSShCMxi2MJ0JOa4Nng2aIT+qqLM6Xx
+         5zHA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1698299067; x=1698903867;
+        d=1e100.net; s=20230601; t=1698299072; x=1698903872;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=I7zJ5qciR0a1yJaFSt2HKre85R/60luQy84wqPr6HdY=;
-        b=pkf72M5k9/fyx4qK+bFi2zw2Ufb5NnDKNQ+FExpLS/54EXge7QSDVTEBpxJCSKDOsa
-         nqy3k8FK0l6weJ9XuHtXI4YvNr/N9Se01HhVtWRAJIf567J8dlzbzkh91mw1hbRMV3LK
-         8qRncFhGHPvIkE+AvR8bNnW621IseOey1pxaW+GpM+gC6Sc5V1omigkeSYoGmDgB+ziK
-         065ZMycr1vYb9mb/uZOX7qaja8lZqUIXcoP09IAmTb3f4rXkq8VyWLE18zkLQYeCufRP
-         Jgb9Lq7dCYEbQFfkzUVvxhfwDh7upSS069/6vtN/CKjvZ+w/FFKzexyj52KB1JwSccoT
-         IZnA==
-X-Gm-Message-State: AOJu0YwHRGWf5d97NqZNcEwq9intRbHI6cb2GBS30rYDXInak3GD0aOm
-	poUi4pWijsHu9Vb2qUl2EQs=
-X-Google-Smtp-Source: AGHT+IHV6G3U8Ei6EOu/OCLtkRiBF8d/MORMapHftlJzMU92/7VuVDsYg8oqia1NozyCxV+whorzvw==
-X-Received: by 2002:a17:906:74d1:b0:9bf:5696:9154 with SMTP id z17-20020a17090674d100b009bf56969154mr11621970ejl.2.1698299066717;
-        Wed, 25 Oct 2023 22:44:26 -0700 (PDT)
+        bh=pj8Q7YsY/vYkJDue8+dvhserphxMSxUdnrU/yK6lzXQ=;
+        b=frOu6szi1+z6ZHWQdsg6S+PlDdgyBB0IUuDgq94j5jC4J/BWXFlAapNf9V4B+ARKol
+         y00bhDvIszfT5ncB72/jtHOT9iKf1wEW2cP6A2oUuiOBu8//aDeAMItf1splHVdVIJ/2
+         F91kzrZtTln27y/a6J6w7Whqu+Zb4N9a6R29jDheIJUXx1ZFxGwGTH4aTtSsROq0aHXh
+         iyZG2vZ6dK/6mf4IRKiq62hqZAoUOhqIcylOHwUPyEbvwka3KVLHHvhSUZqBGVnvjKqH
+         SNuCVW8HWA9hWCqEGdX2wCLA0SMr+ELnP/G/zbvJomgHMg2fmkeqDmUEA6fC2U3Gp+Wx
+         d0tA==
+X-Gm-Message-State: AOJu0YynciEzKA03SCYdrdUHhZbZiAXmbGKftHpFNyfrgdbHWGW1GfNJ
+	jFhGrtyFeUlX0H6J7pakMF8=
+X-Google-Smtp-Source: AGHT+IEUTXYnXCN5fDsGVzGmmv4KTEHOhjaAmgsj9i0QbvMs5CJl71PZMyfWOQuPuEV+Aw8f+oyVHQ==
+X-Received: by 2002:a17:906:2250:b0:9bd:cab6:a34b with SMTP id 16-20020a170906225000b009bdcab6a34bmr13813147ejr.0.1698299072414;
+        Wed, 25 Oct 2023 22:44:32 -0700 (PDT)
 Received: from matrix-ESPRIMO-P710 (p579356c7.dip0.t-ipconnect.de. [87.147.86.199])
-        by smtp.gmail.com with ESMTPSA id gs26-20020a170906f19a00b0099ddc81903asm11076722ejb.221.2023.10.25.22.44.26
+        by smtp.gmail.com with ESMTPSA id x9-20020a170906b08900b0099ce188be7fsm10953361ejy.3.2023.10.25.22.44.31
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 25 Oct 2023 22:44:26 -0700 (PDT)
-Date: Thu, 26 Oct 2023 07:44:24 +0200
+        Wed, 25 Oct 2023 22:44:32 -0700 (PDT)
+Date: Thu, 26 Oct 2023 07:44:30 +0200
 From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [PATCH 09/10] staging: rtl8192e: Convert array rx_idx[] to variable
- rx_idx
-Message-ID: <f9e3ee95cdc2de810687a9c71f1a9f8d8fdbeac1.1698295861.git.philipp.g.hortmann@gmail.com>
+Subject: [PATCH 10/10] staging: rtl8192e: Remove unused constants starting
+ with MAX_RX_QUEUE
+Message-ID: <0809e3380ce76354d689edd80b82adada5a18d4e.1698295861.git.philipp.g.hortmann@gmail.com>
 References: <cover.1698295861.git.philipp.g.hortmann@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -59,115 +59,161 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 In-Reply-To: <cover.1698295861.git.philipp.g.hortmann@gmail.com>
 
-Convert array rx_idx[] to variable rx_idx as index is always 0. Remove
-unused rx_queue_idx as well. This increases readability.
+Remove unused constants.
 
 Signed-off-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
 ---
- drivers/staging/rtl8192e/rtl8192e/rtl_core.c | 18 +++++++-----------
- drivers/staging/rtl8192e/rtl8192e/rtl_core.h |  2 +-
- 2 files changed, 8 insertions(+), 12 deletions(-)
+ .../staging/rtl8192e/rtl8192e/r8190P_def.h    |  2 -
+ .../staging/rtl8192e/rtl8192e/r8192E_phyreg.h | 62 +------------------
+ drivers/staging/rtl8192e/rtl8192e/rtl_core.h  |  2 -
+ drivers/staging/rtl8192e/rtl819x_Qos.h        |  1 -
+ drivers/staging/rtl8192e/rtl819x_TS.h         |  1 -
+ drivers/staging/rtl8192e/rtllib.h             |  1 -
+ 6 files changed, 1 insertion(+), 68 deletions(-)
 
-diff --git a/drivers/staging/rtl8192e/rtl8192e/rtl_core.c b/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
-index 8af732870ddf..d2a8a9543579 100644
---- a/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
-+++ b/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
-@@ -1142,7 +1142,6 @@ static void _rtl92e_free_rx_ring(struct net_device *dev)
- {
- 	struct r8192_priv *priv = rtllib_priv(dev);
- 	int i;
--	int rx_queue_idx = 0;
+diff --git a/drivers/staging/rtl8192e/rtl8192e/r8190P_def.h b/drivers/staging/rtl8192e/rtl8192e/r8190P_def.h
+index c229fd244a48..8c85f1c866d3 100644
+--- a/drivers/staging/rtl8192e/rtl8192e/r8190P_def.h
++++ b/drivers/staging/rtl8192e/rtl8192e/r8190P_def.h
+@@ -11,8 +11,6 @@
  
- 	for (i = 0; i < priv->rxringcount; i++) {
- 		struct sk_buff *skb = priv->rx_buf[i];
-@@ -1352,7 +1351,6 @@ static short _rtl92e_alloc_rx_ring(struct net_device *dev)
- 	struct r8192_priv *priv = rtllib_priv(dev);
- 	struct rx_desc *entry = NULL;
- 	int i;
--	int rx_queue_idx = 0;
+ #define		MAX_SILENT_RESET_RX_SLOT_NUM	10
  
- 	priv->rx_ring = dma_alloc_coherent(&priv->pdev->dev,
- 					   sizeof(*priv->rx_ring) * priv->rxringcount,
-@@ -1363,7 +1361,7 @@ static short _rtl92e_alloc_rx_ring(struct net_device *dev)
- 		return -ENOMEM;
- 	}
- 
--	priv->rx_idx[rx_queue_idx] = 0;
-+	priv->rx_idx = 0;
- 
- 	for (i = 0; i < priv->rxringcount; i++) {
- 		struct sk_buff *skb = dev_alloc_skb(priv->rxbuffersize);
-@@ -1452,7 +1450,6 @@ void rtl92e_reset_desc_ring(struct net_device *dev)
- {
- 	struct r8192_priv *priv = rtllib_priv(dev);
- 	int i;
--	int rx_queue_idx = 0;
- 	unsigned long flags = 0;
- 
- 	if (priv->rx_ring) {
-@@ -1462,7 +1459,7 @@ void rtl92e_reset_desc_ring(struct net_device *dev)
- 			entry = &priv->rx_ring[i];
- 			entry->OWN = 1;
- 		}
--		priv->rx_idx[rx_queue_idx] = 0;
-+		priv->rx_idx = 0;
- 	}
- 
- 	spin_lock_irqsave(&priv->irq_th_lock, flags);
-@@ -1561,7 +1558,6 @@ static void _rtl92e_rx_normal(struct net_device *dev)
- 	struct ieee80211_hdr *rtllib_hdr = NULL;
- 	bool unicast_packet = false;
- 	u32 skb_len = 0;
--	int rx_queue_idx = RX_MPDU_QUEUE;
- 
- 	struct rtllib_rx_stats stats = {
- 		.signal = 0,
-@@ -1574,9 +1570,9 @@ static void _rtl92e_rx_normal(struct net_device *dev)
- 
- 	while (count--) {
- 		struct rx_desc *pdesc = &priv->rx_ring
--					[priv->rx_idx[rx_queue_idx]];
-+					[priv->rx_idx];
- 		struct sk_buff *skb = priv->rx_buf
--				      [priv->rx_idx[rx_queue_idx]];
-+				      [priv->rx_idx];
- 		struct sk_buff *new_skb;
- 
- 		if (pdesc->OWN)
-@@ -1614,7 +1610,7 @@ static void _rtl92e_rx_normal(struct net_device *dev)
- 		skb = new_skb;
- 		skb->dev = dev;
- 
--		priv->rx_buf[priv->rx_idx[rx_queue_idx]] =
-+		priv->rx_buf[priv->rx_idx] =
- 								 skb;
- 		*((dma_addr_t *)skb->cb) = dma_map_single(&priv->pdev->dev,
- 							  skb_tail_pointer(skb),
-@@ -1627,9 +1623,9 @@ static void _rtl92e_rx_normal(struct net_device *dev)
- 		pdesc->BufferAddress = *((dma_addr_t *)skb->cb);
- 		pdesc->OWN = 1;
- 		pdesc->Length = priv->rxbuffersize;
--		if (priv->rx_idx[rx_queue_idx] == priv->rxringcount - 1)
-+		if (priv->rx_idx == priv->rxringcount - 1)
- 			pdesc->EOR = 1;
--		priv->rx_idx[rx_queue_idx] = (priv->rx_idx[rx_queue_idx] + 1) %
-+		priv->rx_idx = (priv->rx_idx + 1) %
- 					      priv->rxringcount;
- 	}
- }
+-#define RX_MPDU_QUEUE				0
+-
+ enum rtl819x_loopback {
+ 	RTL819X_NO_LOOPBACK = 0,
+ 	RTL819X_MAC_LOOPBACK = 1,
+diff --git a/drivers/staging/rtl8192e/rtl8192e/r8192E_phyreg.h b/drivers/staging/rtl8192e/rtl8192e/r8192E_phyreg.h
+index 24fb0ca539ea..c48c56869c19 100644
+--- a/drivers/staging/rtl8192e/rtl8192e/r8192E_phyreg.h
++++ b/drivers/staging/rtl8192e/rtl8192e/r8192E_phyreg.h
+@@ -248,75 +248,15 @@
+ #define bPAEnd				0xf
+ #define bTREnd				0x0f000000
+ #define bRFEnd				0x000f0000
+-/* T2R */
+-#define bCCAMask			0x000000f0
+-#define bR2RCCAMask			0x00000f00
+-#define bHSSI_R2TDelay			0xf8000000
+-#define bHSSI_T2RDelay			0xf80000
+ /* Channel gain at continue TX. */
+-#define bContTxHSSI			0x400
+-#define bIGFromCCK			0x200
+-#define bAGCAddress			0x3f
+-#define bRxHPTx				0x7000
+-#define bRxHPT2R			0x38000
+-#define bRxHPCCKIni			0xc0000
+-#define bAGCTxCode			0xc00000
+-#define bAGCRxCode			0x300000
+ #define b3WireDataLength		0x800
+ #define b3WireAddressLength		0x400
+-#define b3WireRFPowerDown		0x1
+-/*#define bHWSISelect			0x8 */
+-#define b2GPAPEPolarity			0x80000000
+-#define bRFSW_TxDefaultAnt		0x3
+-#define bRFSW_TxOptionAnt		0x30
+-#define bRFSW_RxDefaultAnt		0x300
+-#define bRFSW_RxOptionAnt		0x3000
+-#define bRFSI_3WireData			0x1
+-#define bRFSI_3WireClock		0x2
+-#define bRFSI_3WireLoad			0x4
+-#define bRFSI_3WireRW			0x8
+ /* 3-wire total control */
+-#define bRFSI_3Wire			0xf
+ #define bRFSI_RFENV			0x10
+-#define bRFSI_TRSW			0x20
+-#define bRFSI_TRSWB			0x40
+-#define bRFSI_ANTSW			0x100
+-#define bRFSI_ANTSWB			0x200
+-#define bRFSI_PAPE			0x400
+-#define bBandSelect			0x1
+-#define bHTSIG2_GI			0x80
+-#define bHTSIG2_Smoothing		0x01
+-#define bHTSIG2_Sounding		0x02
+-#define bHTSIG2_Aggreaton		0x08
+-#define bHTSIG2_STBC			0x30
+-#define bHTSIG2_AdvCoding		0x40
+-#define bHTSIG2_NumOfHTLTF		0x300
+-#define bHTSIG2_CRC8			0x3fc
+-#define bHTSIG1_MCS			0x7f
+-#define bHTSIG1_BandWidth		0x80
+-#define bHTSIG1_HTLength		0xffff
+-#define bLSIG_Rate			0xf
+-#define bLSIG_Reserved			0x10
+-#define bLSIG_Length			0x1fffe
+-#define bLSIG_Parity			0x20
+-#define bCCKRxPhase			0x4
+ #define bLSSIReadAddress		0x3f000000 /* LSSI "read" address */
+ #define bLSSIReadEdge			0x80000000 /* LSSI "read" edge signal */
+ #define bLSSIReadBackData		0xfff
+-#define bLSSIReadOKFlag			0x1000
+-#define bCCKSampleRate			0x8 /* 0: 44 MHz, 1: 88MHz */
+-
+-#define bRegulator0Standby		0x1
+-#define bRegulatorPLLStandby		0x2
+-#define bRegulator1Standby		0x4
+-#define bPLLPowerUp			0x8
+-#define bDPLLPowerUp			0x10
+-#define bDA10PowerUp			0x20
+-#define bAD7PowerUp			0x200
+-#define bDA6PowerUp			0x2000
+-#define bXtalPowerUp			0x4000
+-#define b40MDClkPowerUP			0x8000
+-#define bDA6DebugMode			0x20000
++
+ #define bDA6Swing			0x380000
+ #define bADClkPhase			0x4000000
+ #define b80MClkDelay			0x18000000
 diff --git a/drivers/staging/rtl8192e/rtl8192e/rtl_core.h b/drivers/staging/rtl8192e/rtl8192e/rtl_core.h
-index b3ebff2df62a..a6c47388d72c 100644
+index a6c47388d72c..a4afbf3e934d 100644
 --- a/drivers/staging/rtl8192e/rtl8192e/rtl_core.h
 +++ b/drivers/staging/rtl8192e/rtl8192e/rtl_core.h
-@@ -235,7 +235,7 @@ struct r8192_priv {
- 	struct rx_desc *rx_ring;
- 	struct sk_buff	*rx_buf[MAX_RX_COUNT];
- 	dma_addr_t	rx_ring_dma;
--	unsigned int	rx_idx[MAX_RX_QUEUE];
-+	unsigned int	rx_idx;
- 	int		rxringcount;
- 	u16		rxbuffersize;
+@@ -91,8 +91,6 @@
  
+ #define MAX_TX_QUEUE				9
+ 
+-#define MAX_RX_QUEUE				1
+-
+ #define MAX_RX_COUNT				64
+ #define MAX_TX_QUEUE_COUNT			9
+ 
+diff --git a/drivers/staging/rtl8192e/rtl819x_Qos.h b/drivers/staging/rtl8192e/rtl819x_Qos.h
+index f547de4c1da3..1c00092ea3a5 100644
+--- a/drivers/staging/rtl8192e/rtl819x_Qos.h
++++ b/drivers/staging/rtl8192e/rtl819x_Qos.h
+@@ -21,7 +21,6 @@ struct octet_string {
+ #define AC1_BK	1
+ #define AC2_VI	2
+ #define AC3_VO	3
+-#define AC_MAX	4
+ 
+ enum direction_value {
+ 	DIR_UP			= 0,
+diff --git a/drivers/staging/rtl8192e/rtl819x_TS.h b/drivers/staging/rtl8192e/rtl819x_TS.h
+index ab737428d4a7..fff36315f174 100644
+--- a/drivers/staging/rtl8192e/rtl819x_TS.h
++++ b/drivers/staging/rtl8192e/rtl819x_TS.h
+@@ -10,7 +10,6 @@
+ #define TS_ADDBA_DELAY		60
+ 
+ #define TOTAL_TS_NUM		16
+-#define TCLAS_NUM		4
+ 
+ enum tr_select {
+ 	TX_DIR = 0,
+diff --git a/drivers/staging/rtl8192e/rtllib.h b/drivers/staging/rtl8192e/rtllib.h
+index dc3488d9693f..d2cf3cfaaaba 100644
+--- a/drivers/staging/rtl8192e/rtllib.h
++++ b/drivers/staging/rtl8192e/rtllib.h
+@@ -911,7 +911,6 @@ enum {WMM_all_frame, WMM_two_frame, WMM_four_frame, WMM_six_frame};
+ 	((up) < 6) ? WME_AC_VI : \
+ 	WME_AC_VO)
+ 
+-#define	ETHER_ADDR_LEN		6	/* length of an Ethernet address */
+ #define ETHERNET_HEADER_SIZE    14      /* length of two Ethernet address
+ 					 * plus ether type
+ 					 */
 -- 
 2.42.0
 
