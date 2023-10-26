@@ -1,90 +1,114 @@
-Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E23BF27EFF
-	for <linux-staging@lists.linux.dev>; Wed, 25 Oct 2023 22:48:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21CDA944F;
+	Thu, 26 Oct 2023 05:09:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="b5wDpNTb"
-Received: by mail-ed1-f44.google.com with SMTP id 4fb4d7f45d1cf-52f1ece3a76so75655a12.0
-        for <linux-staging@lists.linux.dev>; Wed, 25 Oct 2023 15:48:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1698274101; x=1698878901; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=h1Wtmp4jaolI15oZgo//tqFOl12QGRnI6l3LLvFOdIo=;
-        b=b5wDpNTb2rGdsIALUfqa/roiPweera78POE7LBZIigOkCCttYncfPSg0lojf8qa+GZ
-         65ANqnsTO5lSVTDkrHapEQltGECYZvmHYRukqirbisTqEXbPQKaUIeU/FFA2F26D5uUJ
-         2CDoywOlNsib33RrCid6OVj73u5GfHuE/JemarkDKN1OdzUzowzARB0do2syKBuJBhy7
-         ivzUmH8dlVsKoLwYPNfeKw3U3rnQnHWk4bJFTjWmFcPbyiFSEmTRySrrQWQ/kjvQLZr0
-         p8Ts2A0Bsqgw4l2ch6vCrlFYz/jNUVTXb7jN7E5EoHJe37av6VY25VNs6Z8pkXueG56Z
-         9CYA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1698274101; x=1698878901;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=h1Wtmp4jaolI15oZgo//tqFOl12QGRnI6l3LLvFOdIo=;
-        b=cVsnzg1RQzRABxemklE5k30z+wQdiLMCFYEy9Dce+5uXIgHwqdAspwBaQdm1R/gafG
-         TV3BtoWR2IW9B18X+N/9MHqkHHiMAPBjSunJPwjoLZ0FHE8Md3Tr1A4HTemluHJbsdwE
-         cxbrnJNmhSDsGjgptqFJHWQCa7hwiaideGu8liM9GKhstCA8hdTd+0txbggtOQ2wjVcJ
-         2Aw0/lhJzp0e5tCnuqsVjsCT3gmqfI1XspK0EiW08GK2YnsSHcBWlVOKmVSSZ0iWvUtF
-         qerYdvalIREK3veMum+TfmDsN5dNjp2RXiL39ivlCwipC3ei9h7YWSWst7E+W7BcV3Tc
-         18+A==
-X-Gm-Message-State: AOJu0YzRilrJEsWAgNR5cd1+js6LLT/e+/YsYIq6tEfIh8Spd8IxwYTQ
-	9vIVExAoAOn7XD7UgJ9iXd0=
-X-Google-Smtp-Source: AGHT+IGZysA7t84XKVRzSA8XE25oFrQWSh3/UAeHsseDmefuOjgMHv8S1Go5CrpHtdDA4m4jNf1AlA==
-X-Received: by 2002:a17:906:21b:b0:9ce:c4f4:5f97 with SMTP id 27-20020a170906021b00b009cec4f45f97mr243735ejd.1.1698274100762;
-        Wed, 25 Oct 2023 15:48:20 -0700 (PDT)
-Received: from [192.168.0.103] (p579356c7.dip0.t-ipconnect.de. [87.147.86.199])
-        by smtp.gmail.com with ESMTPSA id 26-20020a170906011a00b009ae69c303aasm10545728eje.137.2023.10.25.15.48.19
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 25 Oct 2023 15:48:20 -0700 (PDT)
-Message-ID: <c608f328-387e-431b-b3c2-4b8fa0c4f11f@gmail.com>
-Date: Thu, 26 Oct 2023 00:48:18 +0200
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XnBOoXhm"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1698296946; x=1729832946;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=xB8r1iCDvaAf81vie1lsCwaJjJd1upJo9dCecMfNqvI=;
+  b=XnBOoXhm/3jjTOoCqbVdY151Th0UW9JqSlLh+wGDZuhdeBKg4Ymcc9nG
+   c4VJz4tJlvk9YTp4ks/BDaVnUCTU1+LS/5rvHD82xl6OpNtPi2XF5T1kZ
+   +Pb7zzfo/4raWFNUVBIYjY85yEmUO2n8DiMIWHlLYxOd2dnljKppgsDQX
+   VKVgoC4MG74p1leHeGpr4n4wwnwGo2ZEuIH2fJ9jxciXmWX+rIMW6lvUe
+   Pmcj1HIk6dAhlQzvOfAk6/Yvb2TdISVc0UVe59Jf+CbtyoFav68i3JLna
+   Ednm7Uvol8itOkO3QA8k3TNaTxYWdHccmbgRH/DX0l5Tp+squtgrM3GpX
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10874"; a="265626"
+X-IronPort-AV: E=Sophos;i="6.03,253,1694761200"; 
+   d="scan'208";a="265626"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Oct 2023 22:09:04 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10874"; a="829487672"
+X-IronPort-AV: E=Sophos;i="6.03,253,1694761200"; 
+   d="scan'208";a="829487672"
+Received: from lkp-server01.sh.intel.com (HELO 8917679a5d3e) ([10.239.97.150])
+  by fmsmga004.fm.intel.com with ESMTP; 25 Oct 2023 22:09:01 -0700
+Received: from kbuild by 8917679a5d3e with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qvsc6-0009U5-0R;
+	Thu, 26 Oct 2023 05:08:58 +0000
+Date: Thu, 26 Oct 2023 13:08:17 +0800
+From: kernel test robot <lkp@intel.com>
+To: Gary Rookard <garyrookard@fastmail.org>, gregkh@linuxfoundation.org
+Cc: oe-kbuild-all@lists.linux.dev, philipp.g.hortmann@gmail.com,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Gary Rookard <garyrookard@fastmail.org>
+Subject: Re: [PATCH v3] staging: rtl8192e: renamed variable TxCountToDataRate
+Message-ID: <202310261254.JYIf89K5-lkp@intel.com>
+References: <20231021215440.6584-1-garyrookard@fastmail.org>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 10/10] [RFC] wifi: remove ipw2100/ipw2200 drivers
-Content-Language: en-US
-To: Witold Baryluk <witold.baryluk@gmail.com>, arnd@kernel.org
-Cc: Larry.Finger@lwfinger.net, alexandre.belloni@bootlin.com, arnd@arndb.de,
- claudiu.beznea@tuxon.dev, davem@davemloft.net, geert@linux-m68k.org,
- geoff@infradead.org, gregkh@linuxfoundation.org, gregory.greenman@intel.com,
- ilw@linux.intel.com, johannes@sipsolutions.net, kuba@kernel.org,
- kvalo@kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev,
- linux-wireless@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
- nicolas.ferre@microchip.com, pavel@ucw.cz, quic_jjohnson@quicinc.com,
- stas.yakovlev@gmail.com, stf_xl@wp.pl
-References: <CAEGMnwo6RFqADPO5FRkRUNL=GfV6DY8UuwgsypEYOD3LTnXdJg@mail.gmail.com>
-From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-In-Reply-To: <CAEGMnwo6RFqADPO5FRkRUNL=GfV6DY8UuwgsypEYOD3LTnXdJg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231021215440.6584-1-garyrookard@fastmail.org>
 
-On 10/26/23 00:27, Witold Baryluk wrote:
-> I might be interested in modernizing the driver, but I have no idea how 
-> much effort it would be (in terms of changed fraction of code). 20k LOC 
-> is neither small or big, and not obvious (a lot of it would be 
-> unchanged), if it is a week of work, or months of work.
+Hi Gary,
 
-Hi Witold,
+kernel test robot noticed the following build warnings:
 
-I am trying to do this with rtl8192e.
-One possibility is to take the following patch series as a starting point:
-https://yhbt.net/lore/all/1414604649-9105-1-git-send-email-tvboxspy@gmail.com/
+[auto build test WARNING on staging/staging-testing]
 
-For me as a beginner and hobbyist this is a huge task. I am happy when I 
-can finish it until next summer.
+url:    https://github.com/intel-lab-lkp/linux/commits/Gary-Rookard/staging-rtl8192e-renamed-variable-TxCountToDataRate/20231022-061649
+base:   staging/staging-testing
+patch link:    https://lore.kernel.org/r/20231021215440.6584-1-garyrookard%40fastmail.org
+patch subject: [PATCH v3] staging: rtl8192e: renamed variable TxCountToDataRate
+config: i386-buildonly-randconfig-002-20231026 (https://download.01.org/0day-ci/archive/20231026/202310261254.JYIf89K5-lkp@intel.com/config)
+compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231026/202310261254.JYIf89K5-lkp@intel.com/reproduce)
 
-In case of questions feel free to ask.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310261254.JYIf89K5-lkp@intel.com/
 
-Bye Philipp
+All warnings (new ones prefixed by >>):
 
+>> drivers/staging/rtl8192e/rtl819x_HTProc.c:117:6: warning: no previous declaration for 'tx_count_to_data_rate' [-Wmissing-declarations]
+    u16  tx_count_to_data_rate(struct rtllib_device *ieee, u8 nDataRate)
+         ^~~~~~~~~~~~~~~~~~~~~
+
+
+vim +/tx_count_to_data_rate +117 drivers/staging/rtl8192e/rtl819x_HTProc.c
+
+   116	
+ > 117	u16  tx_count_to_data_rate(struct rtllib_device *ieee, u8 nDataRate)
+   118	{
+   119		u16	CCKOFDMRate[12] = {0x02, 0x04, 0x0b, 0x16, 0x0c, 0x12, 0x18,
+   120					   0x24, 0x30, 0x48, 0x60, 0x6c};
+   121		u8	is40MHz = 0;
+   122		u8	isShortGI = 0;
+   123	
+   124		if (nDataRate < 12)
+   125			return CCKOFDMRate[nDataRate];
+   126		if (nDataRate >= 0x10 && nDataRate <= 0x1f) {
+   127			is40MHz = 0;
+   128			isShortGI = 0;
+   129		} else if (nDataRate >= 0x20  && nDataRate <= 0x2f) {
+   130			is40MHz = 1;
+   131			isShortGI = 0;
+   132		} else if (nDataRate >= 0x30  && nDataRate <= 0x3f) {
+   133			is40MHz = 0;
+   134			isShortGI = 1;
+   135		} else if (nDataRate >= 0x40  && nDataRate <= 0x4f) {
+   136			is40MHz = 1;
+   137			isShortGI = 1;
+   138		}
+   139		return MCS_DATA_RATE[is40MHz][isShortGI][nDataRate & 0xf];
+   140	}
+   141	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
