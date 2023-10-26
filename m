@@ -1,90 +1,121 @@
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4852E54E
-	for <linux-staging@lists.linux.dev>; Thu, 26 Oct 2023 07:10:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B72A27728
+	for <linux-staging@lists.linux.dev>; Thu, 26 Oct 2023 09:41:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ME/6j2np"
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-4083f613275so4228245e9.2
-        for <linux-staging@lists.linux.dev>; Thu, 26 Oct 2023 00:10:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1698304201; x=1698909001; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=c7fEK5aXyqEKNX44SGAggLq1zICRl4jXqY0Tzaon+wY=;
-        b=ME/6j2npCckvEUqIdqZcKvYiZyXEN4g3DfS72hVTzjI3WzNDpwdbANbtN/IOqsBm1n
-         FOSOBCL4o5A685u6Xcw4SSswX163yXLRwHHDWvMNdcXbpq6JHiZmER5aV09elA/HSiJs
-         BaNvEjYCzIPbnI8eTl0foLbq9faJ/xgzLmY/W0kMxhdKNdN1k5qj+AZc4ZLCzCtl12Hk
-         GLMF54BpDfmfsuETot7xVHCI+krKO+FBI4Ma7inVDZqRIQx31aWxZteXFOkvePPm+dXO
-         4DJS6I9TP0+ywi7LVaIcyZFp8VM9JzzcvBEzCIC6JunnW+ZjG9NZjYsZBjhCT1Fj/a64
-         L0Ig==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1698304201; x=1698909001;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=c7fEK5aXyqEKNX44SGAggLq1zICRl4jXqY0Tzaon+wY=;
-        b=Qzs99V4OVBSBdpKqxisrU2y/ouz5lsz7nUc3vlQOdlAsQcpApV3Zl+oivMYTuMFNxU
-         I39ruEHPpPHrDp5GpDy3G8/N7p4TS3BHElMx0AqypwXClwtp6YsyK/nfBIbF7Feit8fD
-         EwwUPQfNn47iWZWQ7owigHQJ/xUiGQ6u9xZttTYKsR10GqEIOuithGcBxQmB0f2w9lIt
-         ILWYz7A96xJ9B4vu0QfAVD8FSLNByYE6p84Gm0XcTKzebVsmfsqnEE+bsew8SYRXM8Nm
-         9d9ht1mW5KTMAi0+YWHF1Qk0a+i5feYcbvGlSN3iVjZ3IGF47ZEHdYexh4r9BTN78UtL
-         G+PQ==
-X-Gm-Message-State: AOJu0YwrehsH3RiGAGGS3WqkLdnoFRrgiHiISja3jt2wrEvLeqxpyEe+
-	vNjvr3riLcgEDlSJBN7SKL3DHw==
-X-Google-Smtp-Source: AGHT+IGaxyNX9QK9vfCs3UP2UmC2UTrq44i+jptffy+/gtg0PWTyu6iNg8pwtl+f/kkIMVqoQMPalw==
-X-Received: by 2002:a05:600c:5493:b0:406:5463:3f51 with SMTP id iv19-20020a05600c549300b0040654633f51mr13710896wmb.25.1698304200933;
-        Thu, 26 Oct 2023 00:10:00 -0700 (PDT)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id 20-20020a05600c029400b003fe23b10fdfsm1678918wmk.36.2023.10.26.00.09.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 26 Oct 2023 00:10:00 -0700 (PDT)
-Date: Thu, 26 Oct 2023 10:09:52 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 00/10] staging: rtl8192e: Convert array rx_ring[] to
- rx_ring
-Message-ID: <e9bcae14-4667-48af-b7f0-1e4fd9bd9560@kadam.mountain>
-References: <cover.1698295861.git.philipp.g.hortmann@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="D8Qcd0yw"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 76F74C433C9;
+	Thu, 26 Oct 2023 09:41:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1698313293;
+	bh=QxFYe5c/XElEhgs94iEddJdQGcgkPEwi4At0UDjpW3s=;
+	h=From:To:Cc:Subject:References:Date:In-Reply-To:From;
+	b=D8Qcd0yw0e1bKprF3WY9/beM4PynUZcxc7qiLy+kDXAU5l3hcsS4Mim+vfWdBMmcg
+	 evRtytNOqMHSiWa86KjruNGFbTypqfGfc+JfNGBGoNhFKQvjmRDY4AzLwRT9MN/GwT
+	 MwQDD6YhBGEWONQP1eD2V9cCPxApJbE9GovocKzlG2NMZhal6BTZUxu+2rOYaRvdQy
+	 gE3f6cCidYwxkdLUiMEN1FQhTnvj+rVnE2d8mkEW913UcUFccA4uK7VWOW4XVYOhMz
+	 AqoKItcYNTa6KEU2tohytxe7qzEzklXKV6lMbvS/RCSr7plb6zYL9x2ZjNsk+hKiYL
+	 tNstCpZgMxf8Q==
+From: Kalle Valo <kvalo@kernel.org>
+To: Witold Baryluk <witold.baryluk@gmail.com>
+Cc: arnd@kernel.org,  Larry.Finger@lwfinger.net,
+  alexandre.belloni@bootlin.com,  arnd@arndb.de,  claudiu.beznea@tuxon.dev,
+  davem@davemloft.net,  geert@linux-m68k.org,  geoff@infradead.org,
+  gregkh@linuxfoundation.org,  gregory.greenman@intel.com,
+  ilw@linux.intel.com,  johannes@sipsolutions.net,  kuba@kernel.org,
+  linux-arm-kernel@lists.infradead.org,  linux-kernel@vger.kernel.org,
+  linux-staging@lists.linux.dev,  linux-wireless@vger.kernel.org,
+  linuxppc-dev@lists.ozlabs.org,  nicolas.ferre@microchip.com,
+  pavel@ucw.cz,  quic_jjohnson@quicinc.com,  stas.yakovlev@gmail.com,
+  stf_xl@wp.pl
+Subject: Re: [PATCH 10/10] [RFC] wifi: remove ipw2100/ipw2200 drivers
+References: <CAEGMnwo6RFqADPO5FRkRUNL=GfV6DY8UuwgsypEYOD3LTnXdJg@mail.gmail.com>
+Date: Thu, 26 Oct 2023 12:41:27 +0300
+In-Reply-To: <CAEGMnwo6RFqADPO5FRkRUNL=GfV6DY8UuwgsypEYOD3LTnXdJg@mail.gmail.com>
+	(Witold Baryluk's message of "Wed, 25 Oct 2023 22:27:20 +0000")
+Message-ID: <87o7gld8l4.fsf@kernel.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <cover.1698295861.git.philipp.g.hortmann@gmail.com>
+Content-Type: text/plain
 
-On Thu, Oct 26, 2023 at 07:43:26AM +0200, Philipp Hortmann wrote:
-> Remove some functions that always return false or zero.
-> Remove a loop that is always executed one time and convert arrays to variables.
-> Remove some unused constants.
-> 
-> Tested with rtl8192e (WLL6130-D99) in Mode n (12.5 MB/s)
-> Transferred this patch over wlan connection of rtl8192e.
-> 
-> Philipp Hortmann (10):
->   staging: rtl8192e: Remove HTIOTActIsDisableMCS14()
->   staging: rtl8192e: Remove HTIOTActIsDisableMCS15()
->   staging: rtl8192e: Remove HTIOTActIsDisableMCSTwoSpatialStream()
->   staging: rtl8192e: Remove HTIOTActIsDisableEDCATurbo()
->   staging: rtl8192e: Remove loops with constant MAX_RX_QUEUE
->   staging: rtl8192e: Convert array rx_ring[] to variable rx_ring
->   staging: rtl8192e: Convert array rx_buf[][] to array rx_buf[]
->   staging: rtl8192e: Convert array rx_ring_dma[] to variable rx_ring_dma
->   staging: rtl8192e: Convert array rx_idx[] to variable rx_idx
->   staging: rtl8192e: Remove unused constants starting with MAX_RX_QUEUE
-> 
+Witold Baryluk <witold.baryluk@gmail.com> writes:
 
-Looks good to me.
+>> From: Arnd Bergmann <arnd@arndb.de>
+>>
+>> These two drivers were used for the earliest "Centrino" branded Intel
+>> laptops during the late 32-bit Pentium-M era, roughly 2003 to 2005, which
+>> probably makes it the most modern platform that still uses the wireless
+>> extension interface instead of cfg80211. Unlike the other drivers that
+>> are suggested for removal, this one is still officially maintained.
+>>
+>> According to Johannes Berg, there was an effort to finish the move away
+>> from wext in the past, but the last evidence of this that I could find
+>> is from commit a3caa99e6c68f ("libipw: initiate cfg80211 API conversion
+>> (v2)") in 2009.
+>>
+>> Link: https://lore.kernel.org/all/87fs2fgals.fsf@kernel.org/
+>> Cc: Stanislav Yakovlev <stas.yakovlev@gmail.com>
+>> Cc: Linux Wireless <ilw@linux.intel.com>
+>> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+>> ---
+>> I'm not convinced this should be in the same set of drivers as the
+>> rest, since this is clearly less obsolete than the other hardware
+>> that I would remove support for.
+>
+> I still use ipw2200 on Intel PRO/Wireless 2915ABG [Calexico2] Network
+> Connection card, in my IBM Thinkpad X41 (Pentium-M 1.73GHz, Centrino
+> platform). The laptop is rock solid, and I use it as a backup for my
+> other Thinkpad. In fact is sometimes preferable to more modern machines
+> (IMHO X41 itself is the best laptop ever made in terms of a design).
+>
+> Never had really issues with WiFi on it. In terms of speed it is neither
+> far or slow, but does the job anyway.
+>
+> Now, I do not use this laptop frequently, maybe once or twice a month.
+> But that is more because in I use laptops less in general these days. Not
+> because the machine is not usable. I have modern SSD in it, second hard
+> drive, two USB 3.0 ports via ExpressCard, high res 4:3 (1440x1050)
+> display, full disk encryption, etc.
+>
+> I would really like for this driver to stay in the mainline for another 5-10
+> years.
 
-Reviewed-by: Dan Carpenter <dan.carpenter@linaro.org>
+Thanks for the thorough report. By my calculations that's the third user
+report about ipw2x00 so clearly there are users still and we shouldn't
+remove the driver. I'm dropping this patch 10 from my queue now.
 
-regards,
-dan carpenter
+> I might be interested in modernizing the driver, but I have no idea how
+> much effort it would be (in terms of changed fraction of code). 20k LOC is
+> neither small or big, and not obvious (a lot of it would be unchanged),
+> if it is a week of work, or months of work.
+>
+> I would not have an issue with removing it, and readding back if somebody
+> (or me) ports it, if not for re-review from scratch concerns. If I port
+> it, I would not be able to do re-review, 1) out of date coding standards,
+> 2) different reviewers, 3) I would only port needed parts, and keep rest
+> of the driver intact, so I would not be able to really provide much
+> insight. So, readding after porting might be harder than keeping and
+> porting.
 
+It would be great if you could cleanup the driver and convert it to use
+mac80211. In the wiki link below there is more info how to contribute
+patches to the wireless subsystem. I always recommend starting with
+something small and going towards more complex patches with baby steps.
+Avoid patchbombing as much as possible!
+
+For example, I see lots of dead code under '#ifdef NOT_YET' and '#if 0',
+removing those is a good a start. Also converting the ugly debug_level
+procfs file to something more modern would be nice, maybe using just
+dev_dbg() throught the driver is a good option? Or maybe use a module
+parameter instead?
+
+-- 
+https://patchwork.kernel.org/project/linux-wireless/list/
+
+https://wireless.wiki.kernel.org/en/developers/documentation/submittingpatches
