@@ -1,146 +1,120 @@
-Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 728A6156C8
-	for <linux-staging@lists.linux.dev>; Fri, 27 Oct 2023 08:52:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C3BD15AEB
+	for <linux-staging@lists.linux.dev>; Sat, 28 Oct 2023 12:30:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jQk+FCXP"
-Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-6ba172c5f3dso1754516b3a.0
-        for <linux-staging@lists.linux.dev>; Fri, 27 Oct 2023 01:52:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1698396758; x=1699001558; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=dtKdN8gUg9+lMym9YqfmjhQ5Z4QidptzAJvqHwUlM7g=;
-        b=jQk+FCXPotmUV6YVMm0zA6lutRcoq9UUXhjIDOX3Pmnvevi2uBrhd0gWslJfqqm/fa
-         UqfN6T6OPCp31DTq7PGeytHWiEmGQ9g1/HHMOa76xzhov5pz41sjYXRXRLr07d2laqYz
-         fMkzP6896i7D/tiaFAwfY53G5ixJdX4q8ho3RkjcLQ2GPSjcckGg07ifQpz9BQXR9/xR
-         UBeS/bySY6rZ351oO3FolTF5cdGYmy+oTNSP8sSPSNQOLw00SkZP1gdRGIVuCNpwFJRY
-         hQvcosQoc4TnurfWCVAiuA4ca3M4ZZ6hpV3RAwqUxQo+mT6h0EmreXBBfuuiQnR2aE4y
-         2wMA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1698396758; x=1699001558;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=dtKdN8gUg9+lMym9YqfmjhQ5Z4QidptzAJvqHwUlM7g=;
-        b=MSgEcHwnD5HZUTPZUVmU/HmPhz9cdgSihwmL0gW0QXSzjrOSTIGnoO6RjoQnO8MEJd
-         Jd2EQdXaLXGbWX0YdQx99UTkw+0IM6Skl38YSxATAcd3BmX7TsikoeJrzpKL7B4GAiqz
-         jV2vjvUfDNHitgc6N84WweDqjdZJ9fLKPdNFi54h5U+eLike9nQxofbP3YBerDeVE497
-         eSwUwo/poppqESVC6TPrQn+cd4neD/2Mdpc6r+4MthxxBcZfc3FBxTGq8RPI9sNHtaN1
-         nX+d7907nJRfs8zEVU3lOO5dz1zxo9YldkJkeqC0/aochDeVBcd8PcHE+V0mpjxc0DqV
-         A5uA==
-X-Gm-Message-State: AOJu0Yx7CZ818fxhSgFsx1ROqUqcisfjWTm+emuvOSlr3EXyUG9iSLh/
-	DGR/AQ7PIovWCtIOEnAD4KU=
-X-Google-Smtp-Source: AGHT+IHBCLzZpU6n8om3D/dn92DIeV8MgVjACdnbzcVk1bkmBb9Gh079jTRRKZd4w9ssolNOPTQvrg==
-X-Received: by 2002:a05:6a20:c19a:b0:16b:ff2c:c42c with SMTP id bg26-20020a056a20c19a00b0016bff2cc42cmr2092003pzb.62.1698396757804;
-        Fri, 27 Oct 2023 01:52:37 -0700 (PDT)
-Received: from ubuntu.. ([122.174.106.169])
-        by smtp.gmail.com with ESMTPSA id h12-20020a63b00c000000b0055c178a8df1sm698825pgf.94.2023.10.27.01.52.36
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 27 Oct 2023 01:52:37 -0700 (PDT)
-From: Pavan Bobba <opensource206@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="a2q2niv4"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7F26CC433C8;
+	Sat, 28 Oct 2023 12:30:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1698496252;
+	bh=2/eoE6Q2osE4BqkgLyz9yToEKTaTSe5PEsFGwZiLfbM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=a2q2niv4RD3IWJ7AmdiMk2S/BpW2Q8wJYjTgps9d+ixpOcoYK969G6ylsRGwmKCUK
+	 5xUJV/Ix7pnkRocJZv4Y9Sfj5s0XAOPP9kR3tU/UhXjFtWjrYqVe8NhwhsqgGgRK4n
+	 4IoQ7uwIQhn+UUYy0cil4J58XThwmA3Bdvsi3tFePRKoofCOl0Q2YyagB7hNBZmtB0
+	 pKugVvek923hUHO3cIwe8vrZSL7B4b5S/Fm9lm7bbf8+ZXYNDD0GkvDDg6YSFByYgY
+	 C2VGEnapW5ymQWsxq1srINLOFpQfkfa9HouWRG4bsjUVvJG0MY6F2unWgmArrbJBaR
+	 95+0OiGgb8cBw==
+Date: Sat, 28 Oct 2023 14:30:48 +0200
+From: Wolfram Sang <wsa@kernel.org>
+To: Heiner Kallweit <hkallweit1@gmail.com>
+Cc: Jens Frederich <jfrederich@gmail.com>,
+	Jon Nettleton <jon.nettleton@gmail.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Cc: Pavan Bobba <opensource206@gmail.com>
-Subject: [PATCH 10/10] staging: vt6655: Type encoding info dropped from variable name "byRxRate"
-Date: Fri, 27 Oct 2023 14:21:59 +0530
-Message-Id: <16d6e4f4fbf643b45a9e2e5b4c48c93450543ecc.1698396278.git.opensource206@gmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <cover.1698396278.git.opensource206@gmail.com>
-References: <cover.1698396278.git.opensource206@gmail.com>
+	"linux-i2c@vger.kernel.org" <linux-i2c@vger.kernel.org>
+Subject: Re: [PATCH] staging: olpc_dcon: Remove I2C_CLASS_DDC support
+Message-ID: <ZTz++FupTVs/vOxX@shikoro>
+Mail-Followup-To: Wolfram Sang <wsa@kernel.org>,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	Jens Frederich <jfrederich@gmail.com>,
+	Jon Nettleton <jon.nettleton@gmail.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-staging@lists.linux.dev,
+	"linux-i2c@vger.kernel.org" <linux-i2c@vger.kernel.org>
+References: <da3070d9-e016-4167-843f-a08d5b2dc1fe@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="Zh2MsnwIhr/b4zsP"
+Content-Disposition: inline
+In-Reply-To: <da3070d9-e016-4167-843f-a08d5b2dc1fe@gmail.com>
 
-variable name "byRxRate" updated like below:
 
-a.type encoding info dropped from name
-b.camelcase name replaced by snakecase
+--Zh2MsnwIhr/b4zsP
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Issue found by checkpatch
+On Thu, Oct 26, 2023 at 10:49:21PM +0200, Heiner Kallweit wrote:
+> olpc_dcon is the only remaining i2c client device driver declaring
+> I2C_CLASS_DDC support after the legacy eeprom driver has been removed.
+>=20
+> olpc_dcon is only used on olpc devices, connected to an i2c adapter
+> driven by scx200_acb. This adapter driver declares support for
+> I2C_CLASS_HWMON and I2C_CLASS_SPD. Therefore we can safely drop
+> I2C_CLASS_DDC support in olpc_dcon.
+>=20
+> That's the last step before I2C_CLASS_DDC can be removed in general.
+>=20
+> This patch is solely based on documentation, and I don't have an olpc
+> device for testing. Therefore some testing would be appreciated before
+> patch is applied.
 
-Signed-off-by: Pavan Bobba <opensource206@gmail.com>
----
- drivers/staging/vt6655/card.c | 12 ++++++------
- drivers/staging/vt6655/card.h |  4 ++--
- 2 files changed, 8 insertions(+), 8 deletions(-)
+Yes, testing would be good, for sure. Still, I think we can apply it
+even without. Because we are not dealing with HW features here, but only
+with the Linux internal handling of i2c adapter classes. So:
 
-diff --git a/drivers/staging/vt6655/card.c b/drivers/staging/vt6655/card.c
-index ebb96b4c9406..350ab8f3778a 100644
---- a/drivers/staging/vt6655/card.c
-+++ b/drivers/staging/vt6655/card.c
-@@ -278,8 +278,8 @@ bool card_set_phy_parameter(struct vnt_private *priv, u8 bb_type)
-  *
-  * Parameters:
-  *  In:
-- *      priv         - The adapter to be sync.
-- *      byRxRate        - data rate of receive beacon
-+ *      priv            - The adapter to be sync.
-+ *      rx_rate         - data rate of receive beacon
-  *      qwBSSTimestamp  - Rx BCN's TSF
-  *      qwLocalTSF      - Local TSF
-  *  Out:
-@@ -287,7 +287,7 @@ bool card_set_phy_parameter(struct vnt_private *priv, u8 bb_type)
-  *
-  * Return Value: none
-  */
--bool card_update_tsf(struct vnt_private *priv, unsigned char byRxRate,
-+bool card_update_tsf(struct vnt_private *priv, unsigned char rx_rate,
- 		    u64 qwBSSTimestamp)
- {
- 	u64 local_tsf;
-@@ -296,7 +296,7 @@ bool card_update_tsf(struct vnt_private *priv, unsigned char byRxRate,
- 	local_tsf = vt6655_get_current_tsf(priv);
- 
- 	if (qwBSSTimestamp != local_tsf) {
--		qwTSFOffset = CARDqGetTSFOffset(byRxRate, qwBSSTimestamp,
-+		qwTSFOffset = CARDqGetTSFOffset(rx_rate, qwBSSTimestamp,
- 						local_tsf);
- 		/* adjust TSF, HW's TSF add TSF Offset reg */
- 		qwTSFOffset =  le64_to_cpu(qwTSFOffset);
-@@ -708,11 +708,11 @@ unsigned char card_get_pkt_type(struct vnt_private *priv)
-  *
-  * Return Value: TSF Offset value
-  */
--u64 CARDqGetTSFOffset(unsigned char byRxRate, u64 qwTSF1, u64 qwTSF2)
-+u64 CARDqGetTSFOffset(unsigned char rx_rate, u64 qwTSF1, u64 qwTSF2)
- {
- 	unsigned short wRxBcnTSFOffst;
- 
--	wRxBcnTSFOffst = rx_bcn_tsf_off[byRxRate % MAX_RATE];
-+	wRxBcnTSFOffst = rx_bcn_tsf_off[rx_rate % MAX_RATE];
- 
- 	qwTSF2 += (u64)wRxBcnTSFOffst;
- 
-diff --git a/drivers/staging/vt6655/card.h b/drivers/staging/vt6655/card.h
-index caf72892c1cd..19689a291f5b 100644
---- a/drivers/staging/vt6655/card.h
-+++ b/drivers/staging/vt6655/card.h
-@@ -48,13 +48,13 @@ void CARDvUpdateNextTBTT(struct vnt_private *priv, u64 qwTSF,
- 			 unsigned short wBeaconInterval);
- u64 vt6655_get_current_tsf(struct vnt_private *priv);
- u64 CARDqGetNextTBTT(u64 qwTSF, unsigned short wBeaconInterval);
--u64 CARDqGetTSFOffset(unsigned char byRxRate, u64 qwTSF1, u64 qwTSF2);
-+u64 CARDqGetTSFOffset(unsigned char rx_rate, u64 qwTSF1, u64 qwTSF2);
- unsigned char card_get_pkt_type(struct vnt_private *priv);
- void CARDvSafeResetTx(struct vnt_private *priv);
- void CARDvSafeResetRx(struct vnt_private *priv);
- void CARDbRadioPowerOff(struct vnt_private *priv);
- bool card_set_phy_parameter(struct vnt_private *priv, u8 bb_type);
--bool card_update_tsf(struct vnt_private *priv, unsigned char byRxRate,
-+bool card_update_tsf(struct vnt_private *priv, unsigned char rx_rate,
- 		    u64 qwBSSTimestamp);
- bool CARDbSetBeaconPeriod(struct vnt_private *priv,
- 			  unsigned short wBeaconInterval);
--- 
-2.34.1
+Reviewed-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 
+>=20
+> Signed-off-by: Heiner Kallweit <hkallweit1@gmail.com>
+> ---
+>  drivers/staging/olpc_dcon/olpc_dcon.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> diff --git a/drivers/staging/olpc_dcon/olpc_dcon.c b/drivers/staging/olpc=
+_dcon/olpc_dcon.c
+> index d5271eac1..08ec3aae9 100644
+> --- a/drivers/staging/olpc_dcon/olpc_dcon.c
+> +++ b/drivers/staging/olpc_dcon/olpc_dcon.c
+> @@ -777,7 +777,7 @@ static struct i2c_driver dcon_driver =3D {
+>  		.name	=3D "olpc_dcon",
+>  		.pm =3D &dcon_pm_ops,
+>  	},
+> -	.class =3D I2C_CLASS_DDC | I2C_CLASS_HWMON,
+> +	.class =3D I2C_CLASS_HWMON,
+>  	.id_table =3D dcon_idtable,
+>  	.probe =3D dcon_probe,
+>  	.remove =3D dcon_remove,
+> --=20
+> 2.42.0
+>=20
+
+--Zh2MsnwIhr/b4zsP
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmU8/u4ACgkQFA3kzBSg
+KbZnug//eaVavJ8tyw/GmYXQgpJc73lK/2saRybvlXJcu4Pl0tbRBmRzWZ7uruJg
+Ofu0vB7I2fB00TndRIXcYLjLpkI2rR4+ff5Si+o0Q9Uz5Dof+W+TaULbt0/swES6
+1FXDKwLpJHfQ/sRkvSzNUz/bBzHkQgVImbbq16mQT8o0nV1+UuRmn8qTu0VuEzWJ
+5llwMP6JiFtJMb423MTuxDlMpQJm9LRLN1js3ROwShgRXfoxGStZyp/V5YeRompp
+uanT+UWY17PXLQaf6xmlrYabXaWn/mxu/veygRfXNVlCkeYWlMc00zWIfj5iKcVH
+u4uz2n8ZBvBcJflOkI97s8wIsJxyPFJTuy3MILZfVDfua2W5i1D8WSA66ju5sTyz
+eiWBMNCN4raadGg3AdFoozGREQMrC03AY39KD3m+oq0ep/0Vs7InvgCdIMpFpI91
+uTNj+/fXhDUoSHTWdrFzakL99W4Ied8261yPAMh/glF2jZ0Z2wIxVPiqsSPUp77a
+NwAxmK9hl3vvJvX5K9goxDGJiDejzeIl3Vavo69F6aIuJgsVMtQmyeFuuzbgOl2p
+X/+goLW+jYDWk/cfjhOFR4aryZPmJyq3UAHFhUdHPWARyeCgQSewv7CaDNNaMUoM
+mtLN9qlTVHBSX/mtIUNPQjJjZZHijEhkNM2ETtKa/Wgh0t36tzY=
+=FtFj
+-----END PGP SIGNATURE-----
+
+--Zh2MsnwIhr/b4zsP--
