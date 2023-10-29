@@ -1,21 +1,21 @@
 Received: from smtp.forwardemail.net (smtp.forwardemail.net [149.28.215.223])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 377181371
-	for <linux-staging@lists.linux.dev>; Sun, 29 Oct 2023 18:34:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00F6D9456
+	for <linux-staging@lists.linux.dev>; Sun, 29 Oct 2023 18:35:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kwiboo.se
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fe-bounces.kwiboo.se
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kwiboo.se header.i=@kwiboo.se header.b="HXHKZtHu"
+	dkim=pass (2048-bit key) header.d=kwiboo.se header.i=@kwiboo.se header.b="FictpPKC"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kwiboo.se;
  h=Content-Transfer-Encoding: MIME-Version: References: In-Reply-To:
  Message-ID: Date: Subject: Cc: To: From; q=dns/txt; s=fe-e1b5cab7be;
- t=1698604493; bh=UMyPdcE6zeOq+5y1/omox7ixHdl35HYxXzyXW/wl23I=;
- b=HXHKZtHuw2U39iDoIzCJa8IGTW0iQJKWmHlXt7LSGItWcBUbHJjykSnbdhz8j6nUvsHUSpkey
- X8X8NbG8oSgOdpAYQLBAC6AKS6b7yo5rUBli2YtrwcodnQeVeznObJLrY3XYs0V6BMFeyQFm2aB
- fqUbeef0I5aEgk2FGkMUxwAYpPdqPAO/SEgfx1v8OCP9GktclnKcHifu4LLPfu9xF/0ceUzlqG2
- mvCfP/nrxSvnfh+c2drz9vBknknF7Q5bgB5GyfF9zhFznoTisBFH57d4D2/nWHJDe/5zubphBMS
- 2AWYS0ZYMYHkQgZzBxUc8bhOTUxgZcAEi9i6Sci+8tyg==
+ t=1698604496; bh=oUZXSd3mNA7U3mwNKfQV7xxJvG8Airy7VIo0pNLNDPc=;
+ b=FictpPKCGIm1yZeoL9lbU1tlIN4Fhpmynh04CQgXvipctzYXrMLjbvhRafJwGK8t/XFrZy0mV
+ 6/+buZFmCe1N3rXexpvOCCGTOl9XjuamISC0k4cYXhDlxvyZA7l9v49q+5SIoxCCNVVLQsTVJTO
+ jKdkhkg6lhYACixiGc6iOPfQ1yZYanTaQXXOmIn2Wr9lqjA6v6OLk45+D418FXnHl3pqk8EAgUl
+ QItrmKWGl+lSCQkPXneRRPdS4skZPJY6Qs2SftsxQnxrnGAoCTWzLEUgy/2fkdR5VKrT4SkErUv
+ 94sWNt49vUknJp1+WxYB2/FJ7G5owYZYHaLrIjj9GnlQ==
 From: Jonas Karlman <jonas@kwiboo.se>
 To: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>, Mauro Carvalho Chehab
  <mchehab@kernel.org>, "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
@@ -26,9 +26,9 @@ Cc: Alex Bee <knaerzche@gmail.com>, Nicolas Dufresne
  <chris.obbard@collabora.com>, linux-media@vger.kernel.org,
  linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
  linux-kernel@vger.kernel.org, Jonas Karlman <jonas@kwiboo.se>
-Subject: [PATCH v3 05/10] media: rkvdec: h264: Remove SPS validation at streaming start
-Date: Sun, 29 Oct 2023 18:34:12 +0000
-Message-ID: <20231029183427.1781554-6-jonas@kwiboo.se>
+Subject: [PATCH v3 06/10] media: rkvdec: Extract rkvdec_fill_decoded_pixfmt helper method
+Date: Sun, 29 Oct 2023 18:34:13 +0000
+Message-ID: <20231029183427.1781554-7-jonas@kwiboo.se>
 X-Mailer: git-send-email 2.42.0
 In-Reply-To: <20231029183427.1781554-1-jonas@kwiboo.se>
 References: <20231029183427.1781554-1-jonas@kwiboo.se>
@@ -45,66 +45,73 @@ X-Complaints-To: abuse@forwardemail.net
 X-ForwardEmail-Version: 0.4.40
 X-ForwardEmail-Sender: rfc822; jonas@kwiboo.se, smtp.forwardemail.net,
  149.28.215.223
-X-ForwardEmail-ID: 653ea5cc8fe0ffca230b0f49
+X-ForwardEmail-ID: 653ea5d08fe0ffca230b0f56
 
-SPS parameters is validated in try_ctrl() ops so there is no need to
-re-validate when streaming starts.
+This extract setting decoded pixfmt into a helper method, current code
+is replaced with a call to the new helper method.
 
-Remove the unnecessary call to validate sps at streaming start.
-
-Suggested-by: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
 Signed-off-by: Jonas Karlman <jonas@kwiboo.se>
 ---
 v3:
-- New patch
+- No changes
 
- drivers/staging/media/rkvdec/rkvdec-h264.c | 19 ++-----------------
- 1 file changed, 2 insertions(+), 17 deletions(-)
+ drivers/staging/media/rkvdec/rkvdec.c | 29 ++++++++++++++-------------
+ 1 file changed, 15 insertions(+), 14 deletions(-)
 
-diff --git a/drivers/staging/media/rkvdec/rkvdec-h264.c b/drivers/staging/media/rkvdec/rkvdec-h264.c
-index 8bce8902b8dd..815d5359ddd5 100644
---- a/drivers/staging/media/rkvdec/rkvdec-h264.c
-+++ b/drivers/staging/media/rkvdec/rkvdec-h264.c
-@@ -1070,17 +1070,6 @@ static int rkvdec_h264_start(struct rkvdec_ctx *ctx)
- 	struct rkvdec_dev *rkvdec = ctx->dev;
- 	struct rkvdec_h264_priv_tbl *priv_tbl;
- 	struct rkvdec_h264_ctx *h264_ctx;
--	struct v4l2_ctrl *ctrl;
--	int ret;
--
--	ctrl = v4l2_ctrl_find(&ctx->ctrl_hdl,
--			      V4L2_CID_STATELESS_H264_SPS);
--	if (!ctrl)
--		return -EINVAL;
--
--	ret = rkvdec_h264_validate_sps(ctx, ctrl->p_new.p_h264_sps);
--	if (ret)
--		return ret;
+diff --git a/drivers/staging/media/rkvdec/rkvdec.c b/drivers/staging/media/rkvdec/rkvdec.c
+index 84a41792cb4b..8d8ab529537c 100644
+--- a/drivers/staging/media/rkvdec/rkvdec.c
++++ b/drivers/staging/media/rkvdec/rkvdec.c
+@@ -27,6 +27,17 @@
+ #include "rkvdec.h"
+ #include "rkvdec-regs.h"
  
- 	h264_ctx = kzalloc(sizeof(*h264_ctx), GFP_KERNEL);
- 	if (!h264_ctx)
-@@ -1089,8 +1078,8 @@ static int rkvdec_h264_start(struct rkvdec_ctx *ctx)
- 	priv_tbl = dma_alloc_coherent(rkvdec->dev, sizeof(*priv_tbl),
- 				      &h264_ctx->priv_tbl.dma, GFP_KERNEL);
- 	if (!priv_tbl) {
--		ret = -ENOMEM;
--		goto err_free_ctx;
-+		kfree(h264_ctx);
-+		return -ENOMEM;
- 	}
++static void rkvdec_fill_decoded_pixfmt(struct rkvdec_ctx *ctx,
++				       struct v4l2_pix_format_mplane *pix_mp)
++{
++	v4l2_fill_pixfmt_mp(pix_mp, pix_mp->pixelformat,
++			    pix_mp->width, pix_mp->height);
++	pix_mp->plane_fmt[0].sizeimage += 128 *
++		DIV_ROUND_UP(pix_mp->width, 16) *
++		DIV_ROUND_UP(pix_mp->height, 16);
++	pix_mp->field = V4L2_FIELD_NONE;
++}
++
+ static int rkvdec_try_ctrl(struct v4l2_ctrl *ctrl)
+ {
+ 	struct rkvdec_ctx *ctx = container_of(ctrl->handler, struct rkvdec_ctx, ctrl_hdl);
+@@ -192,13 +203,9 @@ static void rkvdec_reset_decoded_fmt(struct rkvdec_ctx *ctx)
  
- 	h264_ctx->priv_tbl.size = sizeof(*priv_tbl);
-@@ -1100,10 +1089,6 @@ static int rkvdec_h264_start(struct rkvdec_ctx *ctx)
- 
- 	ctx->priv = h264_ctx;
- 	return 0;
--
--err_free_ctx:
--	kfree(h264_ctx);
--	return ret;
+ 	rkvdec_reset_fmt(ctx, f, ctx->coded_fmt_desc->decoded_fmts[0]);
+ 	f->type = V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE;
+-	v4l2_fill_pixfmt_mp(&f->fmt.pix_mp,
+-			    ctx->coded_fmt_desc->decoded_fmts[0],
+-			    ctx->coded_fmt.fmt.pix_mp.width,
+-			    ctx->coded_fmt.fmt.pix_mp.height);
+-	f->fmt.pix_mp.plane_fmt[0].sizeimage += 128 *
+-		DIV_ROUND_UP(f->fmt.pix_mp.width, 16) *
+-		DIV_ROUND_UP(f->fmt.pix_mp.height, 16);
++	f->fmt.pix_mp.width = ctx->coded_fmt.fmt.pix_mp.width;
++	f->fmt.pix_mp.height = ctx->coded_fmt.fmt.pix_mp.height;
++	rkvdec_fill_decoded_pixfmt(ctx, &f->fmt.pix_mp);
  }
  
- static void rkvdec_h264_stop(struct rkvdec_ctx *ctx)
+ static int rkvdec_enum_framesizes(struct file *file, void *priv,
+@@ -264,13 +271,7 @@ static int rkvdec_try_capture_fmt(struct file *file, void *priv,
+ 				       &pix_mp->height,
+ 				       &coded_desc->frmsize);
+ 
+-	v4l2_fill_pixfmt_mp(pix_mp, pix_mp->pixelformat,
+-			    pix_mp->width, pix_mp->height);
+-	pix_mp->plane_fmt[0].sizeimage +=
+-		128 *
+-		DIV_ROUND_UP(pix_mp->width, 16) *
+-		DIV_ROUND_UP(pix_mp->height, 16);
+-	pix_mp->field = V4L2_FIELD_NONE;
++	rkvdec_fill_decoded_pixfmt(ctx, pix_mp);
+ 
+ 	return 0;
+ }
 -- 
 2.42.0
 
