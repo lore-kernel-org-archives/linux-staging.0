@@ -1,24 +1,24 @@
 Received: from smtp.forwardemail.net (smtp.forwardemail.net [149.28.215.223])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C3B2D306
-	for <linux-staging@lists.linux.dev>; Sun, 29 Oct 2023 18:35:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5009429B2
+	for <linux-staging@lists.linux.dev>; Sun, 29 Oct 2023 18:44:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kwiboo.se
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fe-bounces.kwiboo.se
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kwiboo.se header.i=@kwiboo.se header.b="ucn+Ob+A"
+	dkim=pass (2048-bit key) header.d=kwiboo.se header.i=@kwiboo.se header.b="eZjJcwec"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kwiboo.se;
- h=Content-Transfer-Encoding: MIME-Version: References: In-Reply-To:
- Message-ID: Date: Subject: Cc: To: From; q=dns/txt; s=fe-e1b5cab7be;
- t=1698604512; bh=CDI7CU66wEs270/rnVxpiW23n/7qKyJzphHa0D78l20=;
- b=ucn+Ob+AwvH+/w7YlsL4bBW+eJ3oue3QIbJnB2GeleH/x/s/N7p2pgQrDTx2ZRQsEYUaNk15s
- NbObabypeNTt4ZgWfpmspUawA3tYRWiQ9XJloCKNVl5HDUvFv7NZxP0/Drc5ZSF+fJphmQcmKkc
- iDo5DvlGSGGWccgTi35phen1SCRoFZFpnE3K9X+aauBf2ec9uS9hQVpkFvDHl2ABROIlCdr5KLI
- mvmjDISxaRatkm2fp/UOMc7zLWj4mo2InYp8RtKDZbu8ac4+HJCNXYNdnZ2gpQyv45DC1foILCd
- R1uR4boTzVDYOua2nuEu87RTYQv6yChnBZMcsF/Za54w==
+ h=Content-Transfer-Encoding: MIME-Version: Message-ID: Date: Subject: Cc:
+ To: From; q=dns/txt; s=fe-e1b5cab7be; t=1698605077;
+ bh=gogipZf0R0iOWdYyr1sBKjhOfpGlLqwJaMpBSjca5Mk=;
+ b=eZjJcwec7ptknl/8pfUQrGoejCwWCyRsIFKsCp/NqoNYqAJzWzB58D/9YO3PYCj4zYH9JOdY8
+ Stn0vPWMvgfCMQcaY6am/CC957fBY7OaE9o7wwAmfVOBwRoUr0mXZy1+l9wlobC+p8otmWeYDo2
+ hj5dXxg238cR1IsjkObiLR8Ts2FDbfoj15Ev2t+BeAEfWcE0WgLqLGoaj17NVbECUrVmUM4gFHx
+ N6i6Y0K/4K2xsZ7qfQXdmqMOo90BGjzG6Jtq11QBot4Eh3IdkHi9z8+TL10KGmxwEIWvAGwO+KR
+ s6M/HMgfuur8hKx5ZwAsfxuAQLgUDDglCaEuirp7WUNA==
 From: Jonas Karlman <jonas@kwiboo.se>
 To: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>, Mauro Carvalho Chehab
- <mchehab@kernel.org>, "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
+ <mchehab@kernel.org>
 Cc: Alex Bee <knaerzche@gmail.com>, Nicolas Dufresne
  <nicolas.dufresne@collabora.com>, Benjamin Gaignard
  <benjamin.gaignard@collabora.com>, Sebastian Fricke
@@ -26,12 +26,10 @@ Cc: Alex Bee <knaerzche@gmail.com>, Nicolas Dufresne
  <chris.obbard@collabora.com>, linux-media@vger.kernel.org,
  linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
  linux-kernel@vger.kernel.org, Jonas Karlman <jonas@kwiboo.se>
-Subject: [PATCH v3 10/10] media: rkvdec: h264: Support High 10 and 4:2:2 profiles
-Date: Sun, 29 Oct 2023 18:34:17 +0000
-Message-ID: <20231029183427.1781554-11-jonas@kwiboo.se>
+Subject: [PATCH v3 00/10] media: rkvdec: Add H.264 High 10 and 4:2:2 profile support
+Date: Sun, 29 Oct 2023 18:34:07 +0000
+Message-ID: <20231029183427.1781554-1-jonas@kwiboo.se>
 X-Mailer: git-send-email 2.42.0
-In-Reply-To: <20231029183427.1781554-1-jonas@kwiboo.se>
-References: <20231029183427.1781554-1-jonas@kwiboo.se>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -45,167 +43,78 @@ X-Complaints-To: abuse@forwardemail.net
 X-ForwardEmail-Version: 0.4.40
 X-ForwardEmail-Sender: rfc822; jonas@kwiboo.se, smtp.forwardemail.net,
  149.28.215.223
-X-ForwardEmail-ID: 653ea5df8fe0ffca230b0f8a
+X-ForwardEmail-ID: 653ea5b98fe0ffca230b0f08
 
-Add support and enable decoding of H264 High 10 and 4:2:2 profiles.
+This is a revival of a 3 year old series [1] now that NV15/NV20/NV30 support
+for display driver have landed in drm-misc tree.
 
-Decoded CAPTURE buffer width is aligned to 64 pixels to accommodate HW
-requirement of 10-bit format buffers.
+This series adds H.264 High 10 and 4:2:2 profile support to the Rockchip
+Video Decoder driver.
 
-The get_fmt_opaque and valid_fmt ops is implemented to select a CAPTURE
-format suited for the provided SPS control.
+Patch 1 adds helpers for calculating plane bytesperline and sizeimage.
+Patch 2 adds two new pixelformats for semi-planer 10-bit 4:2:0/4:2:2 YUV.
 
-Signed-off-by: Jonas Karlman <jonas@kwiboo.se>
----
-v3:
-- Add get_fmt_opaque ops, the expected pixelformat is used as opaque
-- Add new valid_fmt ops that validate pixelformat matches opaque
-- Update H264_PROFILE control max value
+Patch 3 change to use bytesperline and buffer height to configure strides.
+Patch 4 change to use values from SPS/PPS control to configure the HW.
+Patch 5 remove an unnecessary call to validate sps at streaming start.
 
- drivers/staging/media/rkvdec/rkvdec-h264.c | 45 +++++++++++++++++-----
- drivers/staging/media/rkvdec/rkvdec.c      | 21 ++++++----
- 2 files changed, 50 insertions(+), 16 deletions(-)
+Patch 6-9 refactor code to support validation and filtering of CAPUTRE
+formats based on codec ops.
 
-diff --git a/drivers/staging/media/rkvdec/rkvdec-h264.c b/drivers/staging/media/rkvdec/rkvdec-h264.c
-index 815d5359ddd5..f773a3f5ecb7 100644
---- a/drivers/staging/media/rkvdec/rkvdec-h264.c
-+++ b/drivers/staging/media/rkvdec/rkvdec-h264.c
-@@ -1027,24 +1027,49 @@ static int rkvdec_h264_adjust_fmt(struct rkvdec_ctx *ctx,
- 	return 0;
- }
- 
-+static u32 rkvdec_h264_get_fmt_opaque(struct rkvdec_ctx *ctx, struct v4l2_ctrl *ctrl)
-+{
-+	const struct v4l2_ctrl_h264_sps *sps = ctrl->p_new.p_h264_sps;
-+
-+	if (ctrl->id != V4L2_CID_STATELESS_H264_SPS)
-+		return 0;
-+
-+	if (sps->bit_depth_luma_minus8 == 0) {
-+		if (sps->chroma_format_idc == 2)
-+			return V4L2_PIX_FMT_NV16;
-+		else
-+			return V4L2_PIX_FMT_NV12;
-+	} else if (sps->bit_depth_luma_minus8 == 2) {
-+		if (sps->chroma_format_idc == 2)
-+			return V4L2_PIX_FMT_NV20;
-+		else
-+			return V4L2_PIX_FMT_NV15;
-+	}
-+
-+	return 0;
-+}
-+
-+static bool rkvdec_h264_valid_fmt(struct rkvdec_ctx *ctx, u32 fourcc, u32 opaque)
-+{
-+	if (!opaque)
-+		return true;
-+
-+	return fourcc == opaque;
-+}
-+
- static int rkvdec_h264_validate_sps(struct rkvdec_ctx *ctx,
- 				    const struct v4l2_ctrl_h264_sps *sps)
- {
- 	unsigned int width, height;
- 
--	/*
--	 * TODO: The hardware supports 10-bit and 4:2:2 profiles,
--	 * but it's currently broken in the driver.
--	 * Reject them for now, until it's fixed.
--	 */
--	if (sps->chroma_format_idc > 1)
--		/* Only 4:0:0 and 4:2:0 are supported */
-+	if (sps->chroma_format_idc > 2)
-+		/* Only 4:0:0, 4:2:0 and 4:2:2 are supported */
- 		return -EINVAL;
- 	if (sps->bit_depth_luma_minus8 != sps->bit_depth_chroma_minus8)
- 		/* Luma and chroma bit depth mismatch */
- 		return -EINVAL;
--	if (sps->bit_depth_luma_minus8 != 0)
--		/* Only 8-bit is supported */
-+	if (sps->bit_depth_luma_minus8 != 0 && sps->bit_depth_luma_minus8 != 2)
-+		/* Only 8-bit and 10-bit is supported */
- 		return -EINVAL;
- 
- 	width = (sps->pic_width_in_mbs_minus1 + 1) * 16;
-@@ -1171,6 +1196,8 @@ static int rkvdec_h264_try_ctrl(struct rkvdec_ctx *ctx, struct v4l2_ctrl *ctrl)
- 
- const struct rkvdec_coded_fmt_ops rkvdec_h264_fmt_ops = {
- 	.adjust_fmt = rkvdec_h264_adjust_fmt,
-+	.get_fmt_opaque = rkvdec_h264_get_fmt_opaque,
-+	.valid_fmt = rkvdec_h264_valid_fmt,
- 	.start = rkvdec_h264_start,
- 	.stop = rkvdec_h264_stop,
- 	.run = rkvdec_h264_run,
-diff --git a/drivers/staging/media/rkvdec/rkvdec.c b/drivers/staging/media/rkvdec/rkvdec.c
-index 5c7e1b91e908..fce5cba343a3 100644
---- a/drivers/staging/media/rkvdec/rkvdec.c
-+++ b/drivers/staging/media/rkvdec/rkvdec.c
-@@ -50,7 +50,7 @@ static void rkvdec_fill_decoded_pixfmt(struct rkvdec_ctx *ctx,
- 				       struct v4l2_pix_format_mplane *pix_mp)
- {
- 	v4l2_fill_pixfmt_mp(pix_mp, pix_mp->pixelformat,
--			    pix_mp->width, pix_mp->height);
-+			    ALIGN(pix_mp->width, 64), pix_mp->height);
- 	pix_mp->plane_fmt[0].sizeimage += 128 *
- 		DIV_ROUND_UP(pix_mp->width, 16) *
- 		DIV_ROUND_UP(pix_mp->height, 16);
-@@ -169,7 +169,7 @@ static const struct rkvdec_ctrl_desc rkvdec_h264_ctrl_descs[] = {
- 	{
- 		.cfg.id = V4L2_CID_MPEG_VIDEO_H264_PROFILE,
- 		.cfg.min = V4L2_MPEG_VIDEO_H264_PROFILE_BASELINE,
--		.cfg.max = V4L2_MPEG_VIDEO_H264_PROFILE_HIGH,
-+		.cfg.max = V4L2_MPEG_VIDEO_H264_PROFILE_HIGH_422,
- 		.cfg.menu_skip_mask =
- 			BIT(V4L2_MPEG_VIDEO_H264_PROFILE_EXTENDED),
- 		.cfg.def = V4L2_MPEG_VIDEO_H264_PROFILE_MAIN,
-@@ -186,8 +186,11 @@ static const struct rkvdec_ctrls rkvdec_h264_ctrls = {
- 	.num_ctrls = ARRAY_SIZE(rkvdec_h264_ctrl_descs),
- };
- 
--static const u32 rkvdec_h264_vp9_decoded_fmts[] = {
-+static const u32 rkvdec_h264_decoded_fmts[] = {
- 	V4L2_PIX_FMT_NV12,
-+	V4L2_PIX_FMT_NV15,
-+	V4L2_PIX_FMT_NV16,
-+	V4L2_PIX_FMT_NV20,
- };
- 
- static const struct rkvdec_ctrl_desc rkvdec_vp9_ctrl_descs[] = {
-@@ -210,6 +213,10 @@ static const struct rkvdec_ctrls rkvdec_vp9_ctrls = {
- 	.num_ctrls = ARRAY_SIZE(rkvdec_vp9_ctrl_descs),
- };
- 
-+static const u32 rkvdec_vp9_decoded_fmts[] = {
-+	V4L2_PIX_FMT_NV12,
-+};
-+
- static const struct rkvdec_coded_fmt_desc rkvdec_coded_fmts[] = {
- 	{
- 		.fourcc = V4L2_PIX_FMT_H264_SLICE,
-@@ -223,8 +230,8 @@ static const struct rkvdec_coded_fmt_desc rkvdec_coded_fmts[] = {
- 		},
- 		.ctrls = &rkvdec_h264_ctrls,
- 		.ops = &rkvdec_h264_fmt_ops,
--		.num_decoded_fmts = ARRAY_SIZE(rkvdec_h264_vp9_decoded_fmts),
--		.decoded_fmts = rkvdec_h264_vp9_decoded_fmts,
-+		.num_decoded_fmts = ARRAY_SIZE(rkvdec_h264_decoded_fmts),
-+		.decoded_fmts = rkvdec_h264_decoded_fmts,
- 		.subsystem_flags = VB2_V4L2_FL_SUPPORTS_M2M_HOLD_CAPTURE_BUF,
- 	},
- 	{
-@@ -239,8 +246,8 @@ static const struct rkvdec_coded_fmt_desc rkvdec_coded_fmts[] = {
- 		},
- 		.ctrls = &rkvdec_vp9_ctrls,
- 		.ops = &rkvdec_vp9_fmt_ops,
--		.num_decoded_fmts = ARRAY_SIZE(rkvdec_h264_vp9_decoded_fmts),
--		.decoded_fmts = rkvdec_h264_vp9_decoded_fmts,
-+		.num_decoded_fmts = ARRAY_SIZE(rkvdec_vp9_decoded_fmts),
-+		.decoded_fmts = rkvdec_vp9_decoded_fmts,
- 	}
- };
- 
--- 
+Patch 10 adds final bits to support H.264 High 10 and 4:2:2 profiles.
+
+Changes in v3:
+- Drop merged patches
+- Use bpp and bpp_div instead of prior misuse of block_w/block_h
+- New patch to use values from SPS/PPS control to configure the HW
+- New patch to remove an unnecessary call to validate sps at streaming start
+- Reworked pixel format validation
+
+Changes in v2:
+- Collect r-b tags
+- SPS pic width and height in mbs validation moved to rkvdec_try_ctrl
+- New patch to not override output buffer sizeimage
+- Reworked pixel format validation
+- Only align decoded buffer instead of changing frmsize step_width
+
+Following drm-misc commits adds support for NV15/NV20/NV30 to VOP driver:
+728c15b4b5f3 ("drm/fourcc: Add NV20 and NV30 YUV formats")
+d4b384228562 ("drm/rockchip: vop: Add NV15, NV20 and NV30 support")
+
+To fully runtime test this series you may need above drm commits and ffmpeg
+patches from [2], this series and drm patches is also available at [3].
+
+[1] https://lore.kernel.org/linux-media/20200706215430.22859-1-jonas@kwiboo.se/
+[2] https://github.com/jernejsk/FFmpeg/commits/v4l2-request-n6.0/
+[3] https://github.com/Kwiboo/linux-rockchip/commits/linuxtv-rkvdec-high-10-v3/
+
+Regards,
+Jonas
+
+Alex Bee (1):
+  media: rkvdec: h264: Don't hardcode SPS/PPS parameters
+
+Jonas Karlman (9):
+  media: v4l2-common: Add helpers to calculate bytesperline and
+    sizeimage
+  media: v4l2: Add NV15 and NV20 pixel formats
+  media: rkvdec: h264: Use bytesperline and buffer height as virstride
+  media: rkvdec: h264: Remove SPS validation at streaming start
+  media: rkvdec: Extract rkvdec_fill_decoded_pixfmt helper method
+  media: rkvdec: Move rkvdec_reset_decoded_fmt() function
+  media: rkvdec: Prepare for adding format validation ops
+  media: rkvdec: Add get_fmt_opaque and valid_fmt ops
+  media: rkvdec: h264: Support High 10 and 4:2:2 profiles
+
+ .../media/v4l/pixfmt-yuv-planar.rst           | 128 ++++++++++++
+ drivers/media/v4l2-core/v4l2-common.c         |  80 ++++----
+ drivers/media/v4l2-core/v4l2-ioctl.c          |   2 +
+ drivers/staging/media/rkvdec/rkvdec-h264.c    |  91 ++++----
+ drivers/staging/media/rkvdec/rkvdec.c         | 194 +++++++++++++-----
+ drivers/staging/media/rkvdec/rkvdec.h         |   3 +
+ include/uapi/linux/videodev2.h                |   2 +
+ 7 files changed, 367 insertions(+), 133 deletions(-)
+
+--
 2.42.0
 
