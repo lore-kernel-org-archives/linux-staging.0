@@ -1,37 +1,58 @@
-Received: from smtp.forwardemail.net (smtp.forwardemail.net [149.28.215.223])
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71D401095B
-	for <linux-staging@lists.linux.dev>; Sun, 29 Oct 2023 18:45:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kwiboo.se
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fe-bounces.kwiboo.se
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0E59D2F6;
+	Sun, 29 Oct 2023 19:17:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kwiboo.se header.i=@kwiboo.se header.b="pT/eJvvu"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kwiboo.se;
- h=Content-Transfer-Encoding: MIME-Version: References: In-Reply-To:
- Message-ID: Date: Subject: Cc: To: From; q=dns/txt; s=fe-e1b5cab7be;
- t=1698605142; bh=91P/9m4HKX2FnWBtteRHoyQs6bdEapVxts8s+Azicp0=;
- b=pT/eJvvu16H69EObxGfGqPVgsJmlly4tUv+D9bpParbMMeOYT/69c84c1v5kNM67Mzjkr0kRY
- TzNtxjo/183l3shgJCS99KvDzPJmBGc67uixKwG7Fmttl49SBwVIDjVDYFNRD+NO/NXFyWBPiUh
- YKlYN2ruDdEkh/sZvyj3CgGrpFHv9q63oTCAQrecuIWn1kCKb4eVRpYHMAoBmPDVVjeHXlSvF0M
- Li4NhGLHl9UkLfa7VNkLp1y0AefBaMdDCEikKTNQzYsUSa2V0S5r8c6bbMh3xOQrye8Ai40Kogy
- didVEccASrSut1EIvSITAs3M7xBk3MgGT0Fv9ImPRJLg==
-From: Jonas Karlman <jonas@kwiboo.se>
-To: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>, Mauro Carvalho Chehab
- <mchehab@kernel.org>
-Cc: Alex Bee <knaerzche@gmail.com>, Nicolas Dufresne
- <nicolas.dufresne@collabora.com>, Benjamin Gaignard
- <benjamin.gaignard@collabora.com>, Sebastian Fricke
- <sebastian.fricke@collabora.com>, Christopher Obbard
- <chris.obbard@collabora.com>, linux-media@vger.kernel.org,
- linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org, Jonas Karlman <jonas@kwiboo.se>
-Subject: [PATCH v3 01/10] media: v4l2-common: Add helpers to calculate bytesperline and sizeimage
-Date: Sun, 29 Oct 2023 18:34:08 +0000
-Message-ID: <20231029183427.1781554-2-jonas@kwiboo.se>
-X-Mailer: git-send-email 2.42.0
-In-Reply-To: <20231029183427.1781554-1-jonas@kwiboo.se>
-References: <20231029183427.1781554-1-jonas@kwiboo.se>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="deG5Lmgq"
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-40850b244beso29787915e9.2;
+        Sun, 29 Oct 2023 12:17:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1698607029; x=1699211829; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=ITSqca1evCzkzhn7N4VS98YhVKLbCaQ6LkheIXfd40c=;
+        b=deG5LmgqOKX/N1J+a+Bi7Efp3Y5TJlhmpOrILTxsgvbQUJkrEUfks9hgnN0asYcJDx
+         2ogMAYeMJ9/jEiJRj0ViRpoT94l87kMKuqZl4O6mIaEGUGJUx7FiK0CQFR4ZLfHz2lLQ
+         7AcUhXLAIZurNZnT7zUWwJV7S/ktt+vxblOOJMkjviX9gRCfofTkXAZdchyXw3E7dCt+
+         TYMwoG5tgqm6dXT7mL0o+44306MuATW3Gyn6NX8BOJpkh51aAkhLsPNfCIaaTtsM2Zrv
+         /fdy6L/aB7rnApe2fzk4/c5G/ZgPEI3O1s/DuPg6lF9MvFD5/J9yrszdZx7lyjPG4zvU
+         /RaQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1698607029; x=1699211829;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=ITSqca1evCzkzhn7N4VS98YhVKLbCaQ6LkheIXfd40c=;
+        b=DCQuA0m+uwYTrYK8eLJ56/lMxTZIYXsd0AP25L/sa0mj9W82gRY2DhGJvBowUbKCzg
+         vjXoIIXV8GOW78L3FcLxf9wb0u6WuGObC1mTQ71F0JdqpCX2fq7sbN3/JhG9IFu213kZ
+         S+O/u1vyniju61W08JVmBv4vble3UsfshxsUnIO7idJdfPAjpwgygKHceZoAkPN+N6d2
+         KGRt5sEFXmEsuFDjG9X507R8oYzPi9LhV4wObstX7dwbgRcOPZaYDZpYI33BlJqPQJwo
+         3XaaadSWm06rtIvI9I8TdcHjFxUUr0gb3W++lHKx0b0kIYsk8IHTGFJFldkb8eAFEQUv
+         IZNQ==
+X-Gm-Message-State: AOJu0YxIbkHYoRhVWbR5K25hZAlJhFlP9yyWs7qb0ElieqcvZyIeapOr
+	20IYcr1yzH/PJDJA2BA2UQA=
+X-Google-Smtp-Source: AGHT+IHXE2bjhwJPibipKZXXVYDAVNLrcQqlZkEYTJRNgF/vz2gBUtTk5/EHvKpgfBfIDriqLRKsMw==
+X-Received: by 2002:a05:6000:1865:b0:32f:74ee:fcd4 with SMTP id d5-20020a056000186500b0032f74eefcd4mr7064455wri.2.1698607028509;
+        Sun, 29 Oct 2023 12:17:08 -0700 (PDT)
+Received: from nancy-1-2.. ([105.163.156.232])
+        by smtp.googlemail.com with ESMTPSA id p1-20020a5d68c1000000b0032db8f7f378sm6483343wrw.71.2023.10.29.12.17.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 29 Oct 2023 12:17:08 -0700 (PDT)
+From: Nancy Nyambura <nicymimz@gmail.com>
+To: 
+Cc: nicydaniels@gmail.com,
+	outreachy@lists.linux.dev,
+	Nancy Nyambura <nicymimz@gmail.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] staging: rts5208: Replace strncpy() with strscpy() for appropriate string copying in rtsx_scsi line 524 warning: found by checkpatch.pl script
+Date: Sun, 29 Oct 2023 22:16:42 +0300
+Message-Id: <20231029191647.44127-1-nicymimz@gmail.com>
+X-Mailer: git-send-email 2.40.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -39,137 +60,25 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Report-Abuse-To: abuse@forwardemail.net
-X-Report-Abuse: abuse@forwardemail.net
-X-Complaints-To: abuse@forwardemail.net
-X-ForwardEmail-Version: 0.4.40
-X-ForwardEmail-Sender: rfc822; jonas@kwiboo.se, smtp.forwardemail.net,
- 149.28.215.223
-X-ForwardEmail-ID: 653ea5bd8fe0ffca230b0f15
 
-Add helper functions to calculate plane bytesperline and sizeimage,
-these new helpers consider bpp div, block width and height when
-calculating plane bytesperline and sizeimage.
-
-Signed-off-by: Jonas Karlman <jonas@kwiboo.se>
+Signed-off-by: Nancy Nyambura <nicymimz@gmail.com>
 ---
-v3:
-- Consider bpp_div in calculation
+ drivers/staging/rts5208/rtsx_scsi.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
- drivers/media/v4l2-core/v4l2-common.c | 78 +++++++++++++--------------
- 1 file changed, 39 insertions(+), 39 deletions(-)
-
-diff --git a/drivers/media/v4l2-core/v4l2-common.c b/drivers/media/v4l2-core/v4l2-common.c
-index 3a4b15a98e02..834b426da8b1 100644
---- a/drivers/media/v4l2-core/v4l2-common.c
-+++ b/drivers/media/v4l2-core/v4l2-common.c
-@@ -350,6 +350,34 @@ static inline unsigned int v4l2_format_block_height(const struct v4l2_format_inf
- 	return info->block_h[plane];
- }
+diff --git a/drivers/staging/rts5208/rtsx_scsi.c b/drivers/staging/rts5208/rtsx_scsi.c
+index 08bd768ad34d..52324b8ebbc7 100644
+--- a/drivers/staging/rts5208/rtsx_scsi.c
++++ b/drivers/staging/rts5208/rtsx_scsi.c
+@@ -523,7 +523,7 @@ static int inquiry(struct scsi_cmnd *srb, struct rtsx_chip *chip)
  
-+static inline unsigned int v4l2_format_plane_width(const struct v4l2_format_info *info, int plane,
-+						   unsigned int width)
-+{
-+	unsigned int hdiv = plane ? info->hdiv : 1;
-+	unsigned int aligned_width =
-+		ALIGN(width, v4l2_format_block_width(info, plane));
-+
-+	return DIV_ROUND_UP(aligned_width, hdiv) *
-+	       info->bpp[plane] / info->bpp_div[plane];
-+}
-+
-+static inline unsigned int v4l2_format_plane_height(const struct v4l2_format_info *info, int plane,
-+						    unsigned int height)
-+{
-+	unsigned int vdiv = plane ? info->vdiv : 1;
-+	unsigned int aligned_height =
-+		ALIGN(height, v4l2_format_block_height(info, plane));
-+
-+	return DIV_ROUND_UP(aligned_height, vdiv);
-+}
-+
-+static inline unsigned int v4l2_format_plane_size(const struct v4l2_format_info *info, int plane,
-+						  unsigned int width, unsigned int height)
-+{
-+	return v4l2_format_plane_width(info, plane, width) *
-+	       v4l2_format_plane_height(info, plane, height);
-+}
-+
- void v4l2_apply_frmsize_constraints(u32 *width, u32 *height,
- 				    const struct v4l2_frmsize_stepwise *frmsize)
- {
-@@ -385,37 +413,19 @@ int v4l2_fill_pixfmt_mp(struct v4l2_pix_format_mplane *pixfmt,
- 
- 	if (info->mem_planes == 1) {
- 		plane = &pixfmt->plane_fmt[0];
--		plane->bytesperline = ALIGN(width, v4l2_format_block_width(info, 0)) * info->bpp[0] / info->bpp_div[0];
-+		plane->bytesperline = v4l2_format_plane_width(info, 0, width);
- 		plane->sizeimage = 0;
- 
--		for (i = 0; i < info->comp_planes; i++) {
--			unsigned int hdiv = (i == 0) ? 1 : info->hdiv;
--			unsigned int vdiv = (i == 0) ? 1 : info->vdiv;
--			unsigned int aligned_width;
--			unsigned int aligned_height;
--
--			aligned_width = ALIGN(width, v4l2_format_block_width(info, i));
--			aligned_height = ALIGN(height, v4l2_format_block_height(info, i));
--
--			plane->sizeimage += info->bpp[i] *
--				DIV_ROUND_UP(aligned_width, hdiv) *
--				DIV_ROUND_UP(aligned_height, vdiv) / info->bpp_div[i];
--		}
-+		for (i = 0; i < info->comp_planes; i++)
-+			plane->sizeimage +=
-+				v4l2_format_plane_size(info, i, width, height);
- 	} else {
- 		for (i = 0; i < info->comp_planes; i++) {
--			unsigned int hdiv = (i == 0) ? 1 : info->hdiv;
--			unsigned int vdiv = (i == 0) ? 1 : info->vdiv;
--			unsigned int aligned_width;
--			unsigned int aligned_height;
--
--			aligned_width = ALIGN(width, v4l2_format_block_width(info, i));
--			aligned_height = ALIGN(height, v4l2_format_block_height(info, i));
--
- 			plane = &pixfmt->plane_fmt[i];
- 			plane->bytesperline =
--				info->bpp[i] * DIV_ROUND_UP(aligned_width, hdiv) / info->bpp_div[i];
--			plane->sizeimage =
--				plane->bytesperline * DIV_ROUND_UP(aligned_height, vdiv);
-+				v4l2_format_plane_width(info, i, width);
-+			plane->sizeimage = plane->bytesperline *
-+				v4l2_format_plane_height(info, i, height);
- 		}
- 	}
- 	return 0;
-@@ -439,22 +449,12 @@ int v4l2_fill_pixfmt(struct v4l2_pix_format *pixfmt, u32 pixelformat,
- 	pixfmt->width = width;
- 	pixfmt->height = height;
- 	pixfmt->pixelformat = pixelformat;
--	pixfmt->bytesperline = ALIGN(width, v4l2_format_block_width(info, 0)) * info->bpp[0] / info->bpp_div[0];
-+	pixfmt->bytesperline = v4l2_format_plane_width(info, 0, width);
- 	pixfmt->sizeimage = 0;
- 
--	for (i = 0; i < info->comp_planes; i++) {
--		unsigned int hdiv = (i == 0) ? 1 : info->hdiv;
--		unsigned int vdiv = (i == 0) ? 1 : info->vdiv;
--		unsigned int aligned_width;
--		unsigned int aligned_height;
--
--		aligned_width = ALIGN(width, v4l2_format_block_width(info, i));
--		aligned_height = ALIGN(height, v4l2_format_block_height(info, i));
--
--		pixfmt->sizeimage += info->bpp[i] *
--			DIV_ROUND_UP(aligned_width, hdiv) *
--			DIV_ROUND_UP(aligned_height, vdiv) / info->bpp_div[i];
--	}
-+	for (i = 0; i < info->comp_planes; i++)
-+		pixfmt->sizeimage +=
-+			v4l2_format_plane_size(info, i, width, height);
- 	return 0;
- }
- EXPORT_SYMBOL_GPL(v4l2_fill_pixfmt);
+ 	if (sendbytes > 8) {
+ 		memcpy(buf, inquiry_buf, 8);
+-		strncpy(buf + 8, inquiry_string, sendbytes - 8);
++		strscpy(buf + 8, inquiry_string, sendbytes - 8);
+ 		if (pro_formatter_flag) {
+ 			/* Additional Length */
+ 			buf[4] = 0x33;
 -- 
-2.42.0
+2.40.1
 
