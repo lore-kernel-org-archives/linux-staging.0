@@ -1,87 +1,130 @@
-Received: from mail-qt1-f176.google.com (mail-qt1-f176.google.com [209.85.160.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mout.gmx.net (mout.gmx.net [212.227.17.22])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2600BA21
-	for <linux-staging@lists.linux.dev>; Sun, 29 Oct 2023 02:29:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63B1D81E
+	for <linux-staging@lists.linux.dev>; Sun, 29 Oct 2023 12:49:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmx.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FtPkLHzX"
-Received: by mail-qt1-f176.google.com with SMTP id d75a77b69052e-41cb9419975so21575771cf.2
-        for <linux-staging@lists.linux.dev>; Sat, 28 Oct 2023 19:29:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1698546573; x=1699151373; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=8gWNO3l8fpnpIPgxgpu5uSSqh1fHCKLMt8L2nodlFyk=;
-        b=FtPkLHzXkuCurJbofNFYWW62ea5vQfElKy/W/zrRCv1YKj+Usdk7Fx8lPRgdkUga51
-         03x+qjjEdEQb8tTdju8oiE7uZ4+Nz2z59Gxtqr0Zf2qBbxDInKfZ05LghvQ1GjqmsNYD
-         Ve4ifEaf93Pt+WQYyr12z0fD0/Tz8W2P5lT+5J94o4tqbyO6Z+FpqC2lyplGrkQAnXz6
-         BZIjmGOhlT1/Nlh2kUdapFTORZr7VlebYzJgmnKSf/9wgOJ57UV/P8MZWw7C9HF3MEFU
-         Ok3SJbBSvwhWJXpejyyRl4PFXSJepATH8jZvhCSrGWg1dr3YDiApAF+XJTNUL/IlMVxK
-         3Wuw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1698546573; x=1699151373;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=8gWNO3l8fpnpIPgxgpu5uSSqh1fHCKLMt8L2nodlFyk=;
-        b=rpaq1sb/fGeyLqe3sh0Pz7Xw/pyApZd3CJyWfFvzOix2eAHyXfVLL2qmHNJyu91DqH
-         DvuZTYCxffJpY7nkh74shEX4h8Munp6N8yMmS4jwa5HF3KxML1K9aM+mxNtZtXy1xwiF
-         dp26zbqkGprux0f6N+SD1CD0ldp9fpyRJRYrd874iNmjEbHYH4nJcghMSM+HCM8lAAhG
-         GjRacg3ICH9ahSnFV06tHI8zMV0PfcGHUq+XuwPHqgCMxlMEEo2igkJoxL8ECmCy/DE8
-         pTpa2klqrEnosH4oS6KV2Dv2RDnPUWuYIx5edrmAt+TS6yYCAloGdrdhw9YZFxa8572J
-         O4NQ==
-X-Gm-Message-State: AOJu0YxJLz92ChOQUcTSI9vQmiSzqX3zlmJ82AcwFJ7dgPZPN9s7i6vV
-	u9cG6u3B5xZHL1C4QbIvFuM=
-X-Google-Smtp-Source: AGHT+IErpMIDGlNs7xe4F7SkYsIWBgQIXur/8MlOHteENWqs1PiDVQ5rzCKOA9AAhWycHof+33p9rA==
-X-Received: by 2002:ac8:5c96:0:b0:41b:806e:81c7 with SMTP id r22-20020ac85c96000000b0041b806e81c7mr7553608qta.32.1698546572867;
-        Sat, 28 Oct 2023 19:29:32 -0700 (PDT)
-Received: from google.com ([205.220.129.30])
-        by smtp.gmail.com with ESMTPSA id d5-20020a056a0010c500b006bfb903599esm3549848pfu.139.2023.10.28.19.29.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 28 Oct 2023 19:29:31 -0700 (PDT)
-Date: Sun, 29 Oct 2023 02:29:02 +0000
-From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Cc: mchehab@kernel.org, tfiga@chromium.org, m.szyprowski@samsung.com,
-	ming.qian@nxp.com, ezequiel@vanguardiasur.com.ar,
-	p.zabel@pengutronix.de, gregkh@linuxfoundation.org,
-	hverkuil-cisco@xs4all.nl, nicolas.dufresne@collabora.com,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+	dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.b="quRCaAux"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+	s=s31663417; t=1698583738; x=1699188538; i=wahrenst@gmx.net;
+	bh=lb1OtERw+AGwlwx7wh86H5dO1K1o6Yr1Q3BtzK1SjYA=;
+	h=X-UI-Sender-Class:From:To:Cc:Subject:Date:In-Reply-To:
+	 References;
+	b=quRCaAux/teG2h9PIkiC6DlvwNUhmHQGuFG/EY4hEkVmESzL1HZwyI5ABEunIGhG
+	 yyQ5Emk1TryAwNCbak0nJVHOVo20H3TlXVBa52qy/mvzy6TCH5hgJsVmecKFBrDvG
+	 ucDhCszVIZ+nwxS/LaBLzXEvp0tdS+rwaJDP1lHLDoNLYK3oDIcfx1/wW/8xXgz21
+	 QD2eIa6zN9f8W4VmTYloJyY8fIFsURQWYK3fE2jM58PR6h9Ggli3cSpqdG390nYPC
+	 lywBjzoh28GK9g8ZsZMim2Lhekeix0iW0t7bREq/omrFTHa83keo2kLwTd3fohrjF
+	 9nt4R79tZn2g+gYg+A==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from stefanw-SCHENKER ([37.4.248.43]) by mail.gmx.net (mrgmx105
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1MzQkK-1rjX0T3w8G-00vRTr; Sun, 29
+ Oct 2023 13:48:58 +0100
+From: Stefan Wahren <wahrenst@gmx.net>
+To: Umang Jain <umang.jain@ideasonboard.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Florian Fainelli <florian.fainelli@broadcom.com>,
+	Dan Carpenter <dan.carpenter@linaro.org>,
+	Phil Elwell <phil@raspberrypi.com>,
+	Dave Stevenson <dave.stevenson@raspberrypi.com>,
+	Kieran Bingham <kieran.bingham@ideasonboard.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	linux-staging@lists.linux.dev,
 	linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
-	linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
-	kernel@collabora.com, Henrik Rydberg <rydberg@bitmath.org>
-Subject: Re: [PATCH v13 33/56] touchscreen: sur40: Stop direct calls to queue
- num_buffers field
-Message-ID: <ZT3DbkmurIzBp7_p@google.com>
-References: <20231019125222.21370-1-benjamin.gaignard@collabora.com>
- <20231019125222.21370-34-benjamin.gaignard@collabora.com>
+	linux-media@vger.kernel.org,
+	Stefan Wahren <wahrenst@gmx.net>
+Subject: [PATCH V2 2/3] staging: vchiq_core: Shorten bulk TX/RX pending dump
+Date: Sun, 29 Oct 2023 13:48:36 +0100
+Message-Id: <20231029124837.119832-3-wahrenst@gmx.net>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20231029124837.119832-1-wahrenst@gmx.net>
+References: <20231029124837.119832-1-wahrenst@gmx.net>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231019125222.21370-34-benjamin.gaignard@collabora.com>
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:sfOpDu0Vm9zeCyrISDNRl3qwamKKktE9YklDU+o8o0uWp7XJUtN
+ 9cBHveRTGEbrmjXluEtc0YdA+IZ4GXwurQyMCSCo9NeXETMqdMB4qc1eNX7SWaGz0usN2TB
+ X1xVfS/Zz61A00hVsvY121Mbs68ezwSaAjuIfMASj2zqAEwFkYjtCH6Pm0/W5Ny/wDN/IsA
+ HVsIdSi5QPM13P3upXaOQ==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:ukpQllaRuds=;YCk7Z0kGW8eP24jKoxzAzkeSMdu
+ srQ7Cl4zB90xC21kUr1hsMT7bZRT9RMEHDXUvXWFzEtwTqQVJYah6KuOpmj3uLhqPcP6fBKyw
+ 4EVDFwg6XbWfWBTZ14jtptsam/aETVAVcVZAcia6cpTUfsc2kPkLGbfcEUWdfpnJcGCpbcbn0
+ or75iMo/Jn2NWDRXVJ6nPxyewoW+WeALugZdCuK9eQSwuJSx/TlOTVvrsrnNhLlrnsi5424z5
+ I+/91NpEJA5reEAw7XlcLoYRQ/6b5mHN8g5ZcXPUNcNNEw49CPzKVXqS80Rm4POWyr2ELqI5D
+ DDirZZdKn8/hokpBjRoYcYt6G4VPHmiDp/t94P4nc3hJOETyXnB2v1Uy3Zrso9FQWnXkdtXLA
+ M/C1o66QX/AMqdHPGoEf27DcbdvRoPrmbekyPWoZwffVhKZTEgnXS6lhlmj5/pli5GaVvsDXJ
+ I1a3X+n7s9hC+2PVE0RB3uqclPmRXalO/EWHCSEHzWym6ejqGzwnO00I76fSejYJOw9ISN8Sa
+ /QLjg0HwOE5FDIAp7BuIMdtzOxt0khlMbs1I4OCHxav+bSpyiPqBTtpv503k32PcCDJZsXsyR
+ DCSqoOVDVL31EAyeh9U+W2Z+VCCptfAYf8Hyda/dlrvERHLDaQdZBH+Ob8ZdcZKd2O9LYK1Fu
+ eY/zn463UXpHAg8kJEvXLVEFIBaXldWLpBXKzQIgwXcI9FH1+oR+QFO3POZpqHnhCd/nhwRBm
+ u8fgbIXa6/g7xyZN2yTN9fmEdfGbH1LncGAyNeDG9Lfz3sHLMG13Cz4YWOu+OB7J/gcitDtJ7
+ GB7xScB/fHTW/M7HVOZnOCHKlG+VUcgDSCQegoU3O9ZbvX9kqoGEHM0nOkj3TX2TwXz4/z5Wn
+ iEuxk4brKjetSnvqS2TiHH2WqMfBeb3dYx6BXajsPqCbYHbwfjWmI+mcQ99BZpS6SCPuLP2UH
+ K3l8Gfj6XxgmYtsWb9aNVMwgRxg=
 
-On Thu, Oct 19, 2023 at 02:51:59PM +0200, Benjamin Gaignard wrote:
-> Use vb2_get_num_buffers() to avoid using queue num_buffers field directly.
-> This allows us to change how the number of buffers is computed in the
-> future.
-> 
-> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-> CC: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-> CC: Henrik Rydberg <rydberg@bitmath.org>
+The calculation for the bulk TX/RX pending is complex and
+reaches 99 chars per line. So move the size determination
+below the pending calculation and get the rid of the
+ternary operator.
 
-Acked-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Signed-off-by: Stefan Wahren <wahrenst@gmx.net>
+=2D--
+ .../interface/vchiq_arm/vchiq_core.c          | 19 ++++++++++++-------
+ 1 file changed, 12 insertions(+), 7 deletions(-)
 
-Feel free to merge with the rest of the series.
+diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.=
+c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
+index 94073f92651a..36c742a2f3b2 100644
+=2D-- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
++++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
+@@ -3447,7 +3447,7 @@ vchiq_dump_service_state(void *dump_context, struct =
+vchiq_service *service)
+ 		struct vchiq_service_quota *quota =3D
+ 			&service->state->service_quotas[service->localport];
+ 		int fourcc =3D service->base.fourcc;
+-		int tx_pending, rx_pending;
++		int tx_pending, rx_pending, tx_size =3D 0, rx_size =3D 0;
 
-Thanks.
+ 		if (service->remoteport !=3D VCHIQ_PORT_FREE) {
+ 			int len2 =3D scnprintf(remoteport, sizeof(remoteport),
+@@ -3472,18 +3472,23 @@ vchiq_dump_service_state(void *dump_context, struc=
+t vchiq_service *service)
 
--- 
-Dmitry
+ 		tx_pending =3D service->bulk_tx.local_insert -
+ 			service->bulk_tx.remote_insert;
++		if (tx_pending) {
++			unsigned int i =3D BULK_INDEX(service->bulk_tx.remove);
++
++			tx_size =3D service->bulk_tx.bulks[i].size;
++		}
+
+ 		rx_pending =3D service->bulk_rx.local_insert -
+ 			service->bulk_rx.remote_insert;
++		if (rx_pending) {
++			unsigned int i =3D BULK_INDEX(service->bulk_rx.remove);
++
++			rx_size =3D service->bulk_rx.bulks[i].size;
++		}
+
+ 		len =3D scnprintf(buf, sizeof(buf),
+ 				"  Bulk: tx_pending=3D%d (size %d), rx_pending=3D%d (size %d)",
+-				tx_pending,
+-				tx_pending ?
+-				service->bulk_tx.bulks[BULK_INDEX(service->bulk_tx.remove)].size :
+-				0, rx_pending, rx_pending ?
+-				service->bulk_rx.bulks[BULK_INDEX(service->bulk_rx.remove)].size :
+-				0);
++				tx_pending, tx_size, rx_pending, rx_size);
+
+ 		if (VCHIQ_ENABLE_STATS) {
+ 			err =3D vchiq_dump(dump_context, buf, len + 1);
+=2D-
+2.34.1
+
