@@ -1,58 +1,63 @@
-Received: from mail-oi1-f180.google.com (mail-oi1-f180.google.com [209.85.167.180])
+Received: from mail-qt1-f176.google.com (mail-qt1-f176.google.com [209.85.160.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68B8BD295
-	for <linux-staging@lists.linux.dev>; Sat, 28 Oct 2023 20:25:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2600BA21
+	for <linux-staging@lists.linux.dev>; Sun, 29 Oct 2023 02:29:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QsTaJD6R"
-Received: by mail-oi1-f180.google.com with SMTP id 5614622812f47-3b3ec45d6e9so1924287b6e.0
-        for <linux-staging@lists.linux.dev>; Sat, 28 Oct 2023 13:25:38 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FtPkLHzX"
+Received: by mail-qt1-f176.google.com with SMTP id d75a77b69052e-41cb9419975so21575771cf.2
+        for <linux-staging@lists.linux.dev>; Sat, 28 Oct 2023 19:29:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1698524737; x=1699129537; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1698546573; x=1699151373; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=Q6s/dbIiHsKw5qILIs0FnO/CHdVCCm522luSBKh8UXM=;
-        b=QsTaJD6RXtw7byJs0X4Ch8/gMckhFKmpMDDNkU0hkttvGAT28UalxsGEla7dRFakFw
-         or0bWVSCvL+ebwo44a7mUzBt4eMyxn1IDYbpKPpn3APu8WS7XaWBgBabWW9CR7WcBSjK
-         FlSvBh5fmmvy+gNFNkhdAJCHN2CO+UlmH7nN52A+HDpbQPBlOz63ZXseZG8kDuIdUoPf
-         euXadjMmBlTYFmsBD/7Yltxm++bVzKV+vaVJrq35nYuO5Nr95NvTX4F34fG8FlcLREPw
-         sTD8KFnq+MBMDdESnd94iy4KtyfCuRl9A+Cp8rF1l9kX+kbvuR+LRIb9ebbeVAiLNmU0
-         PqFQ==
+        bh=8gWNO3l8fpnpIPgxgpu5uSSqh1fHCKLMt8L2nodlFyk=;
+        b=FtPkLHzXkuCurJbofNFYWW62ea5vQfElKy/W/zrRCv1YKj+Usdk7Fx8lPRgdkUga51
+         03x+qjjEdEQb8tTdju8oiE7uZ4+Nz2z59Gxtqr0Zf2qBbxDInKfZ05LghvQ1GjqmsNYD
+         Ve4ifEaf93Pt+WQYyr12z0fD0/Tz8W2P5lT+5J94o4tqbyO6Z+FpqC2lyplGrkQAnXz6
+         BZIjmGOhlT1/Nlh2kUdapFTORZr7VlebYzJgmnKSf/9wgOJ57UV/P8MZWw7C9HF3MEFU
+         Ok3SJbBSvwhWJXpejyyRl4PFXSJepATH8jZvhCSrGWg1dr3YDiApAF+XJTNUL/IlMVxK
+         3Wuw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1698524737; x=1699129537;
+        d=1e100.net; s=20230601; t=1698546573; x=1699151373;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Q6s/dbIiHsKw5qILIs0FnO/CHdVCCm522luSBKh8UXM=;
-        b=xAZkArcTZ5cOrHkY4UcSRC0Tz4gs2y0bDmq9WGt26kZdnMaFRupQuI7kc//Tu3rRRM
-         bPtWynW8MSfF68DZD2ZUHpYU1w2zKuySZT9/WQidZ+5F6fxcQy8Rcn6YhNsZ1+GQ48H5
-         iyECUrdpfCRkF7SqGJsO+lyHbXRa5NLEvaC1Tuxw2ppNsym1H7BPMcU/Cshvd/HzHWm+
-         1Z8Q2ng5xNRmcQs/86zdl92+jVTWi1q4s2ZGnDwBxrlUtjUbwe8aLL56B7ASuEGGujpq
-         fwr+iwS2fixTguLQZf5RnVKG570t0FCy1PecDGffh0lpzBYS3brTPNyiI/NpGD7h27IU
-         vbaA==
-X-Gm-Message-State: AOJu0Yz5Y+wxXsTeDFoRa42XrYz/EVZNc85sNVfoqWgV3UjyxFvrOotg
-	2TIpPW+W8yuPz5bsDbn3FeA=
-X-Google-Smtp-Source: AGHT+IHgdcrSFcttPGdKfN9SFlEHz8t+uTkvmaSR08wn5o7z7JDWzEKSLWaWmcv5gBShAZhWs2kn5A==
-X-Received: by 2002:a05:6808:2a87:b0:3ad:f536:2f26 with SMTP id fc7-20020a0568082a8700b003adf5362f26mr6254410oib.18.1698524737423;
-        Sat, 28 Oct 2023 13:25:37 -0700 (PDT)
-Received: from ubuntu ([122.171.167.85])
-        by smtp.gmail.com with ESMTPSA id a18-20020aa780d2000000b006c06804cd39sm3288830pfn.153.2023.10.28.13.25.35
+        bh=8gWNO3l8fpnpIPgxgpu5uSSqh1fHCKLMt8L2nodlFyk=;
+        b=rpaq1sb/fGeyLqe3sh0Pz7Xw/pyApZd3CJyWfFvzOix2eAHyXfVLL2qmHNJyu91DqH
+         DvuZTYCxffJpY7nkh74shEX4h8Munp6N8yMmS4jwa5HF3KxML1K9aM+mxNtZtXy1xwiF
+         dp26zbqkGprux0f6N+SD1CD0ldp9fpyRJRYrd874iNmjEbHYH4nJcghMSM+HCM8lAAhG
+         GjRacg3ICH9ahSnFV06tHI8zMV0PfcGHUq+XuwPHqgCMxlMEEo2igkJoxL8ECmCy/DE8
+         pTpa2klqrEnosH4oS6KV2Dv2RDnPUWuYIx5edrmAt+TS6yYCAloGdrdhw9YZFxa8572J
+         O4NQ==
+X-Gm-Message-State: AOJu0YxJLz92ChOQUcTSI9vQmiSzqX3zlmJ82AcwFJ7dgPZPN9s7i6vV
+	u9cG6u3B5xZHL1C4QbIvFuM=
+X-Google-Smtp-Source: AGHT+IErpMIDGlNs7xe4F7SkYsIWBgQIXur/8MlOHteENWqs1PiDVQ5rzCKOA9AAhWycHof+33p9rA==
+X-Received: by 2002:ac8:5c96:0:b0:41b:806e:81c7 with SMTP id r22-20020ac85c96000000b0041b806e81c7mr7553608qta.32.1698546572867;
+        Sat, 28 Oct 2023 19:29:32 -0700 (PDT)
+Received: from google.com ([205.220.129.30])
+        by smtp.gmail.com with ESMTPSA id d5-20020a056a0010c500b006bfb903599esm3549848pfu.139.2023.10.28.19.29.14
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 28 Oct 2023 13:25:37 -0700 (PDT)
-Date: Sat, 28 Oct 2023 13:25:31 -0700
-From: Nandha Kumar Singaram <nandhakumar.singaram@gmail.com>
-To: Alex Elder <elder@ieee.org>
-Cc: Viresh Kumar <vireshk@kernel.org>, Johan Hovold <johan@kernel.org>,
-	greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org, kumaran.4353@gmail.com
-Subject: Re: [PATCH v2 3/3] staging: greybus: bootrom: fixed prefer using
- ftrace warning
-Message-ID: <20231028202531.GB2432@ubuntu>
-References: <cover.1697976302.git.nandhakumar.singaram@gmail.com>
- <39be7bb04ce1362b00aa31a638ebe2e88dd81fec.1697976302.git.nandhakumar.singaram@gmail.com>
- <5d457162-d20a-43a5-989e-ef263fbd91b2@ieee.org>
+        Sat, 28 Oct 2023 19:29:31 -0700 (PDT)
+Date: Sun, 29 Oct 2023 02:29:02 +0000
+From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Cc: mchehab@kernel.org, tfiga@chromium.org, m.szyprowski@samsung.com,
+	ming.qian@nxp.com, ezequiel@vanguardiasur.com.ar,
+	p.zabel@pengutronix.de, gregkh@linuxfoundation.org,
+	hverkuil-cisco@xs4all.nl, nicolas.dufresne@collabora.com,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+	linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
+	kernel@collabora.com, Henrik Rydberg <rydberg@bitmath.org>
+Subject: Re: [PATCH v13 33/56] touchscreen: sur40: Stop direct calls to queue
+ num_buffers field
+Message-ID: <ZT3DbkmurIzBp7_p@google.com>
+References: <20231019125222.21370-1-benjamin.gaignard@collabora.com>
+ <20231019125222.21370-34-benjamin.gaignard@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -61,38 +66,22 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <5d457162-d20a-43a5-989e-ef263fbd91b2@ieee.org>
+In-Reply-To: <20231019125222.21370-34-benjamin.gaignard@collabora.com>
 
-On Thu, Oct 26, 2023 at 01:20:47PM -0500, Alex Elder wrote:
-> On 10/22/23 7:22 AM, Nandha Kumar Singaram wrote:
-> > Adhere to linux coding style. Reported by checkpatch.pl:
-> > WARNING: Unnecessary ftrace-like logging - prefer using ftrace
-> > 
-> > Signed-off-by: Nandha Kumar Singaram <nandhakumar.singaram@gmail.com>
+On Thu, Oct 19, 2023 at 02:51:59PM +0200, Benjamin Gaignard wrote:
+> Use vb2_get_num_buffers() to avoid using queue num_buffers field directly.
+> This allows us to change how the number of buffers is computed in the
+> future.
 > 
-> This change looks reasonable to me, though I don't think
-> ftrace provides device information.
-> 
-> Acked-by: Alex Elder <elder@linaro.org>
-> 
-> > ---
-> >   drivers/staging/greybus/bootrom.c | 2 --
-> >   1 file changed, 2 deletions(-)
-> > 
-> > diff --git a/drivers/staging/greybus/bootrom.c b/drivers/staging/greybus/bootrom.c
-> > index a8efb86de140..79581457c4af 100644
-> > --- a/drivers/staging/greybus/bootrom.c
-> > +++ b/drivers/staging/greybus/bootrom.c
-> > @@ -491,8 +491,6 @@ static void gb_bootrom_disconnect(struct gb_bundle *bundle)
-> >   {
-> >   	struct gb_bootrom *bootrom = greybus_get_drvdata(bundle);
-> > -	dev_dbg(&bundle->dev, "%s\n", __func__);
-> > -
-> >   	gb_connection_disable(bootrom->connection);
-> >   	/* Disable timeouts */
->
+> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+> CC: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+> CC: Henrik Rydberg <rydberg@bitmath.org>
 
-Thanks Alex for the review and feedback.
+Acked-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 
-Regards,
-Nandha Kumar
+Feel free to merge with the rest of the series.
+
+Thanks.
+
+-- 
+Dmitry
