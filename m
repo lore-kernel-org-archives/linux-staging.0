@@ -1,84 +1,137 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mail2-relais-roc.national.inria.fr (mail2-relais-roc.national.inria.fr [192.134.164.83])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C8AA1C32
-	for <linux-staging@lists.linux.dev>; Mon, 30 Oct 2023 06:24:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0AD5D6107;
+	Mon, 30 Oct 2023 06:31:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inria.fr
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=inria.fr
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="dwiRR/bQ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 366D2C433C9;
-	Mon, 30 Oct 2023 06:24:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1698647080;
-	bh=2tB1guhBfYrZu5adq6I0lYKpY3+d8eVRbal6gHyEA0I=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=dwiRR/bQ0LdbjutMPX+kumE3h0Jj3Y8Q4xAaoyUVtiMbr8zqWeNHOX4JO/8hAIia6
-	 fXC/ut8HuCd+NpKNYqfqQREujU9ulkcIhwYRwSQizLHbgDWXdkScOaO3a9WVhaLmrr
-	 tEBNhurAB0ksSllDicC3fGlWKQoV5ApztyuJQNbM=
-Date: Mon, 30 Oct 2023 07:24:37 +0100
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Guenter Roeck <linux@roeck-us.net>
-Cc: Oliver Crumrine <ozlinux@hotmail.com>, colin.i.king@gmail.com,
-	sumitraartsy@gmail.com, u.kleine-koenig@pengutronix.de,
-	geert@linux-m68k.org, linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev
-Subject: Re: [PATCH v5 2/6] staging: octeon: remove typedef in enum
- cvmx_helper_interface_mode_t
-Message-ID: <2023103049-daybed-abstain-bad9@gregkh>
-References: <cover.1693236450.git.ozlinux@hotmail.com>
- <PH7PR11MB7643DEB4401AA83A0578087CBCE0A@PH7PR11MB7643.namprd11.prod.outlook.com>
- <32e9ad3c-191e-4dd1-b1cc-07f7b93c3f28@roeck-us.net>
+	dkim=pass (1024-bit key) header.d=inria.fr header.i=@inria.fr header.b="N0UCLpBG"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=inria.fr; s=dc;
+  h=date:from:to:cc:subject:in-reply-to:message-id:
+   references:mime-version;
+  bh=UpRT4osgu/w1c0pk9YIMsIv1/UH/MkmAUIraL9fcJ3E=;
+  b=N0UCLpBG4yBdHx6p/bTJTBiyPD5+iZzFNeMi2jqhtoFvhKM8oSc390k9
+   KpkQdLuiy50QLs10ZWEUQlvEJcENuIDnFrNBxaBn+yq15va0X4m8gLdcQ
+   Zcsv8cMgajkEG56q8MPig/bSYePLLP+RyKOHDGvvhKVltDZY54qLc94Y1
+   o=;
+Authentication-Results: mail2-relais-roc.national.inria.fr; dkim=none (message not signed) header.i=none; spf=SoftFail smtp.mailfrom=julia.lawall@inria.fr; dmarc=fail (p=none dis=none) d=inria.fr
+X-IronPort-AV: E=Sophos;i="6.03,262,1694728800"; 
+   d="scan'208";a="133818454"
+Received: from 231.85.89.92.rev.sfr.net (HELO hadrien) ([92.89.85.231])
+  by mail2-relais-roc.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Oct 2023 07:31:21 +0100
+Date: Mon, 30 Oct 2023 07:31:21 +0100 (CET)
+From: Julia Lawall <julia.lawall@inria.fr>
+X-X-Sender: jll@hadrien
+To: Nancy Nyambura <nicymimz@gmail.com>
+cc: gagallo7+outreachy@gmail.com, nicydaniels@gmail.com, 
+    outreachy@lists.linux.dev, 
+    Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+    Mauro Carvalho Chehab <mchehab@kernel.org>, 
+    Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+    linux-media@vger.kernel.org, linux-staging@lists.linux.dev, 
+    linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] Media: omap4iss: Enable RSZB and update resizer
+ control
+In-Reply-To: <20231029220710.47063-1-nicymimz@gmail.com>
+Message-ID: <alpine.DEB.2.22.394.2310300729480.3533@hadrien>
+References: <20231029220710.47063-1-nicymimz@gmail.com>
+User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <32e9ad3c-191e-4dd1-b1cc-07f7b93c3f28@roeck-us.net>
+Content-Type: text/plain; charset=US-ASCII
 
-On Sun, Oct 29, 2023 at 10:17:21AM -0700, Guenter Roeck wrote:
-> On Mon, Aug 28, 2023 at 11:39:07AM -0400, Oliver Crumrine wrote:
-> > Remove typedef in enum cvmx_helper_interface_mode_t, and rename all instances
-> > to cvmx_helper_interface_mode
-> > 
-> > Signed-off-by: Oliver Crumrine <ozlinux@hotmail.com>
-> 
-> In linux-next:
-> 
-> Building mips:cavium_octeon_defconfig ... failed
-> --------------
-> Error log:
-> drivers/staging/octeon/ethernet.c: In function 'cvm_oct_common_get_stats':
-> drivers/staging/octeon/ethernet.c:204:37: error: storage size of 'rx_status' isn't known
->   204 |         struct cvmx_pip_port_status rx_status;
->       |                                     ^~~~~~~~~
-> drivers/staging/octeon/ethernet.c:205:37: error: storage size of 'tx_status' isn't known
->   205 |         struct cvmx_pko_port_status tx_status;
->       |                                     ^~~~~~~~~
-> drivers/staging/octeon/ethernet.c:205:37: warning: unused variable 'tx_status' [-Wunused-variable]
-> drivers/staging/octeon/ethernet.c:204:37: warning: unused variable 'rx_status' [-Wunused-variable]
->   204 |         struct cvmx_pip_port_status rx_status;
->       |                                     ^~~~~~~~~
-> drivers/staging/octeon/ethernet.c: In function 'cvm_oct_probe':
-> drivers/staging/octeon/ethernet.c:801:22: error: variable 'imode' has initializer but incomplete type
->   801 |                 enum cvmx_helper_interface_mode imode =
->       |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~
-> drivers/staging/octeon/ethernet.c:801:49: error: storage size of 'imode' isn't known
->   801 |                 enum cvmx_helper_interface_mode imode =
->       |                                                 ^~~~~
-> drivers/staging/octeon/ethernet.c:801:49: warning: unused variable 'imode' [-Wunused-variable]
-> 
-> Bisect points to this patch. Bisect log attached.
-> 
-> As usual, my apologies for the noise if this has already been reported
-> and/or fixed.
 
-It has not been reported, thanks for it, I'll go revert the offending
-commits.  And I need to figure out how to build this driver better, I
-get no build-failures from anyone for it when stuff like this happens,
-odd...
 
-thanks,
+On Mon, 30 Oct 2023, Nancy Nyambura wrote:
 
-greg k-h
+> Enable RSZB functionality in the OMAP4 ISS driver. This change sets the RSZB system configuration register to enable the RSZB module. Additionally, it updates the resizer control by setting the RSZ_EN_EN flag as required. This change enhances the driver's capabilities and prepares it for future developments.
+
+Could you explain more about your changes?  What information led you to
+make these changes.  The current messages says what is done, but not so
+much about why.
+
+Also, the log message should be limited to around 70 characters per line,
+so that it looks nice in the git history after it has been indented.
+
+julia
+
+
+>
+> Signed-off-by: Nancy Nyambura <nicymimz@gmail.com>
+> ---
+>  drivers/staging/media/omap4iss/iss_resizer.c | 34 +++++++++++---------
+>  1 file changed, 19 insertions(+), 15 deletions(-)
+>
+> diff --git a/drivers/staging/media/omap4iss/iss_resizer.c b/drivers/staging/media/omap4iss/iss_resizer.c
+> index a5f8f9f1ab16..23089eeaf448 100644
+> --- a/drivers/staging/media/omap4iss/iss_resizer.c
+> +++ b/drivers/staging/media/omap4iss/iss_resizer.c
+> @@ -7,17 +7,17 @@
+>   * Author: Sergio Aguirre <sergio.a.aguirre@gmail.com>
+>   */
+>
+> -#include <linux/module.h>
+> -#include <linux/uaccess.h>
+> -#include <linux/delay.h>
+> -#include <linux/device.h>
+> -#include <linux/dma-mapping.h>
+> -#include <linux/mm.h>
+> -#include <linux/sched.h>
+> -
+> -#include "iss.h"
+> -#include "iss_regs.h"
+> -#include "iss_resizer.h"
+> + #include <linux/module.h>
+> + #include <linux/uaccess.h>
+> + #include <linux/delay.h>
+> + #include <linux/device.h>
+> + #include <linux/dma-mapping.h>
+> + #include <linux/mm.h>
+> + #include <linux/sched.h>
+> +
+> + #include "iss.h"
+> + #include "iss_regs.h"
+> + #include "iss_resizer.h"
+>
+>  static const unsigned int resizer_fmts[] = {
+>  	MEDIA_BUS_FMT_UYVY8_1X16,
+> @@ -30,11 +30,11 @@ static const unsigned int resizer_fmts[] = {
+>   *
+>   * Also prints other debug information stored in the RESIZER module.
+>   */
+> -#define RSZ_PRINT_REGISTER(iss, name)\
+> + #define RSZ_PRINT_REGISTER(iss, name)\
+>  	dev_dbg(iss->dev, "###RSZ " #name "=0x%08x\n", \
+>  		iss_reg_read(iss, OMAP4_ISS_MEM_ISP_RESIZER, RSZ_##name))
+>
+> -#define RZA_PRINT_REGISTER(iss, name)\
+> + #define RZA_PRINT_REGISTER(iss, name)\
+>  	dev_dbg(iss->dev, "###RZA " #name "=0x%08x\n", \
+>  		iss_reg_read(iss, OMAP4_ISS_MEM_ISP_RESIZER, RZA_##name))
+>
+> @@ -116,8 +116,12 @@ static void resizer_enable(struct iss_resizer_device *resizer, u8 enable)
+>  		       RSZ_SRC_EN_SRC_EN, enable ? RSZ_SRC_EN_SRC_EN : 0);
+>
+>  	/* TODO: Enable RSZB */
+> -	iss_reg_update(iss, OMAP4_ISS_MEM_ISP_RESIZER, RZA_EN, RSZ_EN_EN,
+> -		       enable ? RSZ_EN_EN : 0);
+> +	u32 reg_value = ioread32(iss->base_addr + OMAP4_ISS_MEM_ISP_RESIZER,
+> +		       	+ RZ_SYSCONFIG);
+> +	reg_value |= RSZ_SYSCONFIG_RSZB_CLK_EN;
+> +	iowrite32(reg_value, iss->base_addr + OMAP4_ISS_MEM_ISP_RESIZER,
+> +			+ RSZ_SYSCONFIG);
+> +
+>  }
+>
+>  /* -----------------------------------------------------------------------------
+> --
+> 2.40.1
+>
+>
+>
