@@ -1,133 +1,110 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
+Received: from wnew4-smtp.messagingengine.com (wnew4-smtp.messagingengine.com [64.147.123.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5ADC6610D;
-	Mon, 30 Oct 2023 07:33:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E84A2CA8
+	for <linux-staging@lists.linux.dev>; Mon, 30 Oct 2023 10:07:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=arndb.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="d+l9Eoja"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1698651201; x=1730187201;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=GJM2oPVyPnoA1shVpThD9ETGZjSJkdjngtuEdnq8wx8=;
-  b=d+l9Eoja9RfmjMvh1RY7S2iVuLynWKJzksB13sRSHSjbMpCjza70MkAH
-   rKaYv9Fh/hfkA1PgEf2p8De06BgTzYYJJIhgDdvSKrj1LXrdwCie1klKQ
-   TpvucP69FrwVJZHnQn43JvYe36oVviWXwsGrsdXucsC55amOvXU7QRXEa
-   GRbhjfYUkK4LnzY2LySLIc+yvDQ0hKZeYYx25Kiwc0RZAewGUou6PKb4e
-   yna/B+5LO3rV718RulrOA3ptgZ8R3a6fMHGH6jjEZR/Y9G3svK7h/fJlu
-   GEuFiyRZn6iiEtjJE8WSqdLUvtLudRnL97/ghr8/Vcqhi5lU9BoUIJr9k
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10878"; a="454492784"
-X-IronPort-AV: E=Sophos;i="6.03,262,1694761200"; 
-   d="scan'208";a="454492784"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Oct 2023 00:33:20 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10878"; a="877043537"
-X-IronPort-AV: E=Sophos;i="6.03,262,1694761200"; 
-   d="scan'208";a="877043537"
-Received: from lkp-server01.sh.intel.com (HELO 8917679a5d3e) ([10.239.97.150])
-  by fmsmga002.fm.intel.com with ESMTP; 30 Oct 2023 00:33:17 -0700
-Received: from kbuild by 8917679a5d3e with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qxMlu-000D6h-2r;
-	Mon, 30 Oct 2023 07:33:14 +0000
-Date: Mon, 30 Oct 2023 15:32:32 +0800
-From: kernel test robot <lkp@intel.com>
-To: Nancy Nyambura <nicymimz@gmail.com>, gagallo7+outreachy@gmail.com
-Cc: oe-kbuild-all@lists.linux.dev, nicydaniels@gmail.com,
-	outreachy@lists.linux.dev, Nancy Nyambura <nicymimz@gmail.com>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	linux-media@vger.kernel.org,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] Media: omap4iss: Enable RSZB and update resizer control
-Message-ID: <202310301558.abL6OUgF-lkp@intel.com>
-References: <20231029220710.47063-1-nicymimz@gmail.com>
+	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="RKBHp/8H";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="B3MRq1ue"
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+	by mailnew.west.internal (Postfix) with ESMTP id 3E9DC2B00124;
+	Mon, 30 Oct 2023 06:07:19 -0400 (EDT)
+Received: from imap51 ([10.202.2.101])
+  by compute5.internal (MEProxy); Mon, 30 Oct 2023 06:07:21 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+	:cc:content-type:content-type:date:date:from:from:in-reply-to
+	:in-reply-to:message-id:mime-version:references:reply-to:sender
+	:subject:subject:to:to; s=fm2; t=1698660438; x=1698667638; bh=C0
+	spIghu26RS2wSePnhlO3VNbIZSADnovwnCABmc7C4=; b=RKBHp/8HXI5MdxTLUG
+	sjTD10H5ter+kClY+aYdpwooyGy5f8IwRe3HkozWNFbKQ6hY0uC4rY/abuASM/Ts
+	gbxcuEWLVJU0uf4lk6xr0VuixzVQHiexvztu4A/nIOEY7f4jWFJIWkxl31POeGkW
+	+b4/QuqzYnQvJRXlfpfYfRvAte9fGj6yL5rLJnb1TY6Hk+j1Z60oCeb3eAAMmJCC
+	RRGII1IK5P5SHtegyPe7hfhOsVmHQQPPVLkeTJ26zDJXakEJdWAei1+IL5dELo36
+	BDIOG+oy4YmZoYViF/yWWBbcfz70oqDx7b2hgBh55rf5/zbusVe7BBo4vx5Cup8/
+	GpAA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:sender:subject
+	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+	:x-sasl-enc; s=fm3; t=1698660438; x=1698667638; bh=C0spIghu26RS2
+	wSePnhlO3VNbIZSADnovwnCABmc7C4=; b=B3MRq1ue/dMlkLetdRiRUouN8zJPR
+	L3B1Jb4D9iwtRemN46QOwk1kBy8Tpz6C3dJ2008xf578SsD/i4540hST/jBxDNBq
+	waEkDOnmtLvV2RFDcL2g8xNC2tnVHMR18cltuM1DTDrCyo6hDDoZNx54N/fO8Eo3
+	/imKNfNbQEFHzD6iZQ431tL7Xwa81EJdOdogA37vkQBUwmTnvFB4n3W/wVJfv90Y
+	TEBXlxhlPDqJ3+Kz6myadXrYb3QOrEIy6XT+5kJrlP46M4kiyeCZDlZHihs2b5Ui
+	772WvO6QsJ9ImSUKbcWcWu6tQrC/1xDDOAw7Sy0OZhCvd/22ACkgAoUOw==
+X-ME-Sender: <xms:VYA_ZdLUSl_zQ27EJdpf---UOQdzZS7hrufqr4yiNwC0WPvANVGHyQ>
+    <xme:VYA_ZZJln2PErRZpqhTdikK2ex6pB2UCBIVJWLotFavPrt3wcPJa24uR9PWWFZLpy
+    vyW1i7p4ohWwK7AKG8>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvkedruddttddguddtucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepofgfggfkjghffffhvfevufgtsehttdertderredtnecuhfhrohhmpedftehr
+    nhguuceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnuggsrdguvgeqnecuggftrfgrth
+    htvghrnhepffehueegteeihfegtefhjefgtdeugfegjeelheejueethfefgeeghfektdek
+    teffnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomheprg
+    hrnhgusegrrhhnuggsrdguvg
+X-ME-Proxy: <xmx:VYA_ZVvDF9ZPLgxZ4RQWSEeEbbISJbhSluKsCJVlXC36i5EI3QSj0Q>
+    <xmx:VYA_ZeZbaci_WsO4NVcQR2LUZqoQMrCwbRHao8dkMSV7tGqCPle4Tg>
+    <xmx:VYA_ZUaJuGU4ElrPPnwQfbIuiLPWd2QvhcqomOoIuTaaSGBTItwvkQ>
+    <xmx:VoA_ZRR556ZzlQwwmRgvxHGug2eDFRSR_DbcAJMx9k6Z8L4HV2vi88gFrtc>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+	id B405FB6008D; Mon, 30 Oct 2023 06:07:17 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.9.0-alpha0-1048-g9229b632c5-fm-20231019.001-g9229b632
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231029220710.47063-1-nicymimz@gmail.com>
+Message-Id: <052ea479-9965-45d0-b1a5-3e8079ffb0ab@app.fastmail.com>
+In-Reply-To: <20231030071922.233080-1-glaubitz@physik.fu-berlin.de>
+References: <20231023131953.2876682-1-arnd@kernel.org>
+ <20231030071922.233080-1-glaubitz@physik.fu-berlin.de>
+Date: Mon, 30 Oct 2023 11:06:55 +0100
+From: "Arnd Bergmann" <arnd@arndb.de>
+To: "John Paul Adrian Glaubitz" <glaubitz@physik.fu-berlin.de>,
+ "Arnd Bergmann" <arnd@kernel.org>
+Cc: "Stanislaw Gruszka" <stf_xl@wp.pl>,
+ "Alexandre Belloni" <alexandre.belloni@bootlin.com>,
+ "Jeff Johnson" <quic_jjohnson@quicinc.com>,
+ "Geoff Levand" <geoff@infradead.org>,
+ "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
+ "Kalle Valo" <kvalo@kernel.org>, linux-staging@lists.linux.dev,
+ linux-wireless@vger.kernel.org, "Claudiu Beznea" <claudiu.beznea@tuxon.dev>,
+ linux-kernel@vger.kernel.org, "Geert Uytterhoeven" <geert@linux-m68k.org>,
+ "Pavel Machek" <pavel@ucw.cz>, "Jakub Kicinski" <kuba@kernel.org>,
+ "Gregory Greenman" <gregory.greenman@intel.com>,
+ "Johannes Berg" <johannes@sipsolutions.net>, linuxppc-dev@lists.ozlabs.org,
+ "David S . Miller" <davem@davemloft.net>,
+ linux-arm-kernel@lists.infradead.org,
+ "Larry Finger" <Larry.Finger@lwfinger.net>
+Subject: Re: [PATCH 00/10] Remove obsolete and orphaned wifi drivers
+Content-Type: text/plain
 
-Hi Nancy,
+On Mon, Oct 30, 2023, at 08:19, John Paul Adrian Glaubitz wrote:
+> Hi Arnd!
+>
+> There is some non-x86 hardware like the Amiga that still uses 
+> PCMCIA-style networking
+> cards on machines like the A600 and A1200. So, unless these drivers are 
+> actually causing
+> problems, I would rather not see them go yet.
 
-kernel test robot noticed the following build errors:
+Do you know of any systems other than the Amiga that are still
+in use with new kernels and that rely on PCMCIA networking?
 
-[auto build test ERROR on media-tree/master]
-[also build test ERROR on linus/master v6.6-rc7 next-20231027]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+I know that Amiga has its own simple CONFIG_AMIGA_PCMCIA
+implementation that is incompatible with CONFIG_PCMCIA device
+drivers, so it is not affected by this.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Nancy-Nyambura/Media-omap4iss-Enable-RSZB-and-update-resizer-control/20231030-060944
-base:   git://linuxtv.org/media_tree.git master
-patch link:    https://lore.kernel.org/r/20231029220710.47063-1-nicymimz%40gmail.com
-patch subject: [PATCH] Media: omap4iss: Enable RSZB and update resizer control
-config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20231030/202310301558.abL6OUgF-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231030/202310301558.abL6OUgF-lkp@intel.com/reproduce)
+For the few ARM systems that still support a CF card slot,
+these tend to be used for IDE type storage cards because their
+internal flash is too limited otherwise.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310301558.abL6OUgF-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   drivers/staging/media/omap4iss/iss_resizer.c: In function 'resizer_enable':
-   drivers/staging/media/omap4iss/iss_resizer.c:119:37: error: 'struct iss_device' has no member named 'base_addr'
-     119 |         u32 reg_value = ioread32(iss->base_addr + OMAP4_ISS_MEM_ISP_RESIZER,
-         |                                     ^~
-   drivers/staging/media/omap4iss/iss_resizer.c:120:27: error: 'RZ_SYSCONFIG' undeclared (first use in this function); did you mean 'RSZ_SYSCONFIG'?
-     120 |                         + RZ_SYSCONFIG);
-         |                           ^~~~~~~~~~~~
-         |                           RSZ_SYSCONFIG
-   drivers/staging/media/omap4iss/iss_resizer.c:120:27: note: each undeclared identifier is reported only once for each function it appears in
-   In file included from include/linux/scatterlist.h:9,
-                    from include/linux/dma-mapping.h:11,
-                    from drivers/staging/media/omap4iss/iss_resizer.c:14:
->> arch/alpha/include/asm/io.h:433:18: error: too many arguments to function 'ioread32'
-     433 | #define ioread32 ioread32
-         |                  ^~~~~~~~
-   drivers/staging/media/omap4iss/iss_resizer.c:119:25: note: in expansion of macro 'ioread32'
-     119 |         u32 reg_value = ioread32(iss->base_addr + OMAP4_ISS_MEM_ISP_RESIZER,
-         |                         ^~~~~~~~
-   In file included from arch/alpha/include/asm/io.h:15:
-   include/asm-generic/iomap.h:32:21: note: declared here
-      32 | extern unsigned int ioread32(const void __iomem *);
-         |                     ^~~~~~~~
-   drivers/staging/media/omap4iss/iss_resizer.c:122:33: error: 'struct iss_device' has no member named 'base_addr'
-     122 |         iowrite32(reg_value, iss->base_addr + OMAP4_ISS_MEM_ISP_RESIZER,
-         |                                 ^~
->> arch/alpha/include/asm/io.h:435:19: error: too many arguments to function 'iowrite32'
-     435 | #define iowrite32 iowrite32
-         |                   ^~~~~~~~~
-   drivers/staging/media/omap4iss/iss_resizer.c:122:9: note: in expansion of macro 'iowrite32'
-     122 |         iowrite32(reg_value, iss->base_addr + OMAP4_ISS_MEM_ISP_RESIZER,
-         |         ^~~~~~~~~
-   include/asm-generic/iomap.h:53:13: note: declared here
-      53 | extern void iowrite32(u32, void __iomem *);
-         |             ^~~~~~~~~
-
-
-vim +/ioread32 +433 arch/alpha/include/asm/io.h
-
-^1da177e4c3f41 include/asm-alpha/io.h      Linus Torvalds 2005-04-16  432  
-7e772dad991399 arch/alpha/include/asm/io.h Linus Walleij  2022-09-06 @433  #define ioread32 ioread32
-e19d4ebc536dad arch/alpha/include/asm/io.h Arnd Bergmann  2022-10-03  434  #define ioread64 ioread64
-7e772dad991399 arch/alpha/include/asm/io.h Linus Walleij  2022-09-06 @435  #define iowrite32 iowrite32
-e19d4ebc536dad arch/alpha/include/asm/io.h Arnd Bergmann  2022-10-03  436  #define iowrite64 iowrite64
-7e772dad991399 arch/alpha/include/asm/io.h Linus Walleij  2022-09-06  437  
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+       Arnd
