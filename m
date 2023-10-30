@@ -1,85 +1,87 @@
-Received: from mail3-relais-sop.national.inria.fr (mail3-relais-sop.national.inria.fr [192.134.164.104])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F25C15487;
-	Mon, 30 Oct 2023 12:18:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inria.fr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=inria.fr
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E95715487
+	for <linux-staging@lists.linux.dev>; Mon, 30 Oct 2023 12:20:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=inria.fr header.i=@inria.fr header.b="tdD0mbyO"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gVwWyoPS"
+Received: by mail-ej1-f42.google.com with SMTP id a640c23a62f3a-9d224dca585so252157466b.1
+        for <linux-staging@lists.linux.dev>; Mon, 30 Oct 2023 05:20:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=inria.fr; s=dc;
-  h=date:from:to:cc:subject:in-reply-to:message-id:
-   references:mime-version;
-  bh=hsbAezSzyBm53JGNRgJ84VRvXKjNQAxnaTLPoA+ep88=;
-  b=tdD0mbyOlqMTUlPXFIWb/ZrZqHHX1TKohOX2NAgORsQb+qCQlG8sEhJe
-   NNds9aiSaUx5Pky/rL5/ciPwFu3ilYYPX4w+SNhKPUa98dkXSztdAXxuq
-   R86hRUi1AwzScpztUfg+1Cj1NsPnl6fmchjLoPSP5di34MeOt4BzkSf3w
-   A=;
-Authentication-Results: mail3-relais-sop.national.inria.fr; dkim=none (message not signed) header.i=none; spf=SoftFail smtp.mailfrom=julia.lawall@inria.fr; dmarc=fail (p=none dis=none) d=inria.fr
-X-IronPort-AV: E=Sophos;i="6.03,263,1694728800"; 
-   d="scan'208";a="70115333"
-Received: from unknown (HELO hadrien) ([163.173.89.160])
-  by mail3-relais-sop.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Oct 2023 13:17:58 +0100
-Date: Mon, 30 Oct 2023 13:17:56 +0100 (CET)
-From: Julia Lawall <julia.lawall@inria.fr>
-To: Nancy Nyambura <nicymimz@gmail.com>
-cc: nicydaniels@gmail.com, outreachy@lists.linux.dev, 
-    Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-    linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 1/2] Staging: rts5208: Replace strncpy() with
- strscpy()
-In-Reply-To: <20231030115939.48985-1-nicymimz@gmail.com>
-Message-ID: <8c2e19c5-bb32-3a78-f6fa-33bf4c97802e@inria.fr>
-References: <20231030115939.48985-1-nicymimz@gmail.com>
+        d=gmail.com; s=20230601; t=1698668439; x=1699273239; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:content-language:subject
+         :references:cc:to:user-agent:mime-version:date:message-id:from:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=tRAvOgi6qogXEjImiUor+DkPqw1Ot9Ogtre0wvi5M6k=;
+        b=gVwWyoPSOBfpmN9q4vcxt1imCeYRnQVfWKWvuWDClxSopPV7vD81gRmlNtwuS8xcKd
+         VzXkdaQHkfrk4V/d2YkmnRXKVRp3BDJ/lMq/sdY+DudPoYp82KyO4Fun73Pbo8IyswHx
+         H/6Wgr44LKaOXfwshvcDW6PY6XW5IzR086E9zpIpfZ5pwlLn8796hfnRXVOPrd6BG5kB
+         O2lgDeNxtfVHRUXgK/PM4fuqQr/cDFCikBdxoNQ5fAu4MQwg6jQfGnEBwrkI7LdB0q4I
+         /BwIFFdBvhg45Z3xz25qXYElA3+rYgBa2jxm9d02TSd3YpBaPVPLw3QefsDqq/9dt8mY
+         EiQg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1698668439; x=1699273239;
+        h=content-transfer-encoding:in-reply-to:content-language:subject
+         :references:cc:to:user-agent:mime-version:date:message-id:from
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=tRAvOgi6qogXEjImiUor+DkPqw1Ot9Ogtre0wvi5M6k=;
+        b=KdpfcznVj3EuzN1pgHOJgE/9nNgrRDCiQLgdSaqF8fD8nM66SHL5kE9EA5qCkq1Qvv
+         P5NWBKCDD2PQSf4Fy9bgmVFSbjlpSbHuWsWkyVUFSGiMZ/+uB5SRYu+H2yeXg384kl1R
+         TjcNPoueVQXWnMwid9n7T+ekMbtzgqzTAq6h22PRcoDJVBgyZr4nljmtHv6bcpelU3pm
+         qUhFVoZLtVYEf7fCgH3c0kGQuc4QwixnV/GM78nB84ZGnrLKwjZyVMfWoCXPVuDEjyFh
+         ouRowUrXAxeELOECgM94sPkHr7m7u5+b0dUcUqiFKFx8Kh3BHV9nvscaKazgk7KNkg9f
+         POIA==
+X-Gm-Message-State: AOJu0Yyl2JntLGMkLFh6JzNcfAF3bkij/GeBZPY6mX2JiQE3Yw329HRI
+	CRYLVTp6dm7NtycUQsrVlfY=
+X-Google-Smtp-Source: AGHT+IEA4HEagqHQDt4CQKteRzlCff1bThN0D10TLJ2IhOR2hdu91b9A3yPlJ/I94joRwFOXZlnzxA==
+X-Received: by 2002:a17:907:72c5:b0:9b2:f941:6916 with SMTP id du5-20020a17090772c500b009b2f9416916mr8109533ejc.17.1698668439086;
+        Mon, 30 Oct 2023 05:20:39 -0700 (PDT)
+Received: from [192.168.0.105] (5401D598.dsl.pool.telekom.hu. [84.1.213.152])
+        by smtp.gmail.com with ESMTPSA id ci6-20020a170906c34600b009a1dbf55665sm5802219ejb.161.2023.10.30.05.20.38
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 30 Oct 2023 05:20:38 -0700 (PDT)
+From: Kira <nyakov13@gmail.com>
+X-Google-Original-From: Kira <Nyakov13@gmail.com>
+Message-ID: <566c0155-4f80-43ec-be2c-2d1ad631bf25@gmail.com>
+Date: Mon, 30 Oct 2023 13:20:36 +0100
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+User-Agent: Mozilla Thunderbird
+To: benjamin.poirier@gmail.com
+Cc: James.Bottomley@HansenPartnership.com, coiby.xu@gmail.com,
+ corbet@lwn.net, davem@davemloft.net, deller@gmx.de, edumazet@google.com,
+ error27@gmail.com, gregkh@linuxfoundation.org, kuba@kernel.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-parisc@vger.kernel.org, linux-staging@lists.linux.dev,
+ manishc@marvell.com, nandhakumar.singaram@gmail.com, netdev@vger.kernel.org,
+ pabeni@redhat.com, raven@themaw.net, ricardoapl.dev@gmail.com,
+ sumitraartsy@gmail.com, svenjoac@gmx.de
+References: <20231020124457.312449-3-benjamin.poirier@gmail.com>
+Subject: Re: [PATCH 2/2] staging: qlge: Retire the driver
+Content-Language: en-US, ru-RU
+In-Reply-To: <20231020124457.312449-3-benjamin.poirier@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+
+I have a couple of QLogic QLE8142 10GbE Converged Network adapters.
+
+They are pretty old yes, but also working well and energy efficient. 
+They still can be considered as modern hardware because they was so 
+advance back in the days.
+
+And I think there is a lots of them out there, maybe not in 
+production(but somewhere still is), but in used market.
+
+So it will be really nice if drivers were still in kernel.
 
 
+With best regards
 
-On Mon, 30 Oct 2023, Nancy Nyambura wrote:
+Kira.
 
-> warning found by checkpatch.pl script.I replaced the usage of strncpy()
-> with strscpy() in the code(line 524) for the buf buffer to improve
-> string copying.This is appropriate since strscpy() is used when you want
-> to copy a NUL-terminated string and the destination buffer requires
-> trailing NUL-padding.
-
-Are you sure that the original string is null terminated?
-
-Please put a space after each . in your message, for better readability.
-
-julia
-
->
-> Signed-off-by: Nancy Nyambura <nicymimz@gmail.com>
-> ---
-> Changes in v2:
->   - Make the commit message more clearer.
->
-> drivers/staging/rts5208/rtsx_scsi.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/staging/rts5208/rtsx_scsi.c b/drivers/staging/rts5208/rtsx_scsi.c
-> index 08bd768ad34d..52324b8ebbc7 100644
-> --- a/drivers/staging/rts5208/rtsx_scsi.c
-> +++ b/drivers/staging/rts5208/rtsx_scsi.c
-> @@ -523,7 +523,7 @@ static int inquiry(struct scsi_cmnd *srb, struct rtsx_chip *chip)
->
->  	if (sendbytes > 8) {
->  		memcpy(buf, inquiry_buf, 8);
-> -		strncpy(buf + 8, inquiry_string, sendbytes - 8);
-> +		strscpy(buf + 8, inquiry_string, sendbytes - 8);
->  		if (pro_formatter_flag) {
->  			/* Additional Length */
->  			buf[4] = 0x33;
-> --
-> 2.40.1
->
->
->
