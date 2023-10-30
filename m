@@ -1,165 +1,90 @@
-Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C3492574
-	for <linux-staging@lists.linux.dev>; Mon, 30 Oct 2023 14:10:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0D2E179A9;
+	Mon, 30 Oct 2023 14:28:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NHbnWYQB"
-Received: by mail-pf1-f169.google.com with SMTP id d2e1a72fcca58-6c10f098a27so728851b3a.2
-        for <linux-staging@lists.linux.dev>; Mon, 30 Oct 2023 07:10:46 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WYvN9d8K"
+Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-32daeed7771so2855011f8f.3;
+        Mon, 30 Oct 2023 07:28:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1698675046; x=1699279846; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=Enm+nI8vfFGiUthTB80mGNT7rimsxWeKkqRRBI7bSko=;
-        b=NHbnWYQBF++20sxEeQMFhNM4IoywOy+9CYp0wIkmeY4YOew5sN5je8USDd0BitdsR3
-         797hr6Kp/YBPtrz+l4JMdZ06HzFkAtrkM216ljcygPsBIuVaspzkpQlu9OR/03xuI3vG
-         8/2LHNTLtC28SjNNb5rsU1bmgMl3TchHzU7a6T8CGYr6FJk29qJneZ5L5zBCsl3mRIqm
-         XTtEY3eCN58scTLUMLG2ydomDjoxix1UhsCvyuJHJrgBu1Ks+TRts8Gj9HtO7VJvHAfM
-         Yjlz7zDN9VVjc6gH1rBqshwrMi9atLzUYYg5Coc+qr54I3l0GGPrEG1FqVJkLQ13198l
-         OoDA==
+        d=gmail.com; s=20230601; t=1698676079; x=1699280879; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=8bh30D821O7pisqZqTkIBA0xZHpQPYVy9p5w5SCB02E=;
+        b=WYvN9d8KZsl9gMZsNF0uszwnlbCjKfGOnsnQYLv+BYZAP/6PHPLtFb7VmWXgAQJ1Yt
+         fAKAW1LSxbsyD2IfcZZflg8F88L8CK6i5pJ3PydguBbGD8m6m/dgkKW6kDdlZ+qsyzsj
+         3DFUzLZ9/DvRd/FebdGhXsApivIlW2eufLrpk0XUBUPTa3bLLOlioOeeg3TEaWOWN/US
+         tiPAygp3HsTkN3YdLVBR9RYGEMvRaLa40FR97CFYpC7OTlT8M/ZBJfxm9rhXYxnHuN8R
+         7XqrUDY6cwQFAbP/LYi13E+1zCEeboAmG/FduC5am1ER1tWV/8SRq+sko0S2NVhXnZP1
+         zltg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1698675046; x=1699279846;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :sender:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20230601; t=1698676079; x=1699280879;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=Enm+nI8vfFGiUthTB80mGNT7rimsxWeKkqRRBI7bSko=;
-        b=gQt8tAPlaHMJvfpcGOPpX7d8/DTsmBW0CgTDdtO39yGapAxWBb9lH1J43Ck7nfF/yL
-         QkzO56QlGVkvuHlxEOrbJPR6djQWr3rayfxMwRXCiHIpq1xgNklkLzPMDCPCwrJjXuOl
-         OCE+yZCiyEJl2IQz5IaeWgNFz3WYWhfIlNTixsGm5QB+5GXMZ9yPwIWbl/tWaVQI5+9U
-         U9uNPbNo/EdnyKBlE9VEGwDsQZ6k7/znrjWGw0GXefLiKSKLsM7yXq1wjlHBaVwdzA1g
-         Q37HaZAyaDU7eAWVduDQFD+VcnIiZAxVVk8sbxRijg8gSM+zADRb30sMF4IoRi2y+KH7
-         U8pg==
-X-Gm-Message-State: AOJu0YxKEmQ27/XRnaHdhEHXze4lQ8O14CDgSXYGGVw5kl2aYJyWH6gm
-	c4Fq6v8IRp6dG3B58puPASs=
-X-Google-Smtp-Source: AGHT+IGQlArupjZC+r3H8N3aevLYQL83XIEvWWZyh9gykT9xdv3T+xUJV/U2Xt5Ux60qL9WQ7pTLPw==
-X-Received: by 2002:a05:6a00:248d:b0:6bd:b7c5:f776 with SMTP id c13-20020a056a00248d00b006bdb7c5f776mr8536444pfv.8.1698675045592;
-        Mon, 30 Oct 2023 07:10:45 -0700 (PDT)
-Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c? ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id s24-20020a62e718000000b00694ebe2b0d4sm5925479pfh.191.2023.10.30.07.10.43
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 30 Oct 2023 07:10:44 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Message-ID: <28f8b88b-4709-4254-a184-5fbbc1f7273f@roeck-us.net>
-Date: Mon, 30 Oct 2023 07:10:42 -0700
+        bh=8bh30D821O7pisqZqTkIBA0xZHpQPYVy9p5w5SCB02E=;
+        b=D4oG1BziL70bHD+tcyRDtiCM/ltWaPQo1hQUVMdj+aC56krTRPMnlQPgd8b85K5L09
+         mSF/rvScW8MzyM0xrWsa+hTYcwuDFdJSJzFuLoMuIdiWaH8TriZBpeFGoCD3hnulAfDX
+         Tfw57UNrkuNlLNcMfarh9XXF7k/tNuUisA0HSs1fV3PwR9HrHga1G46XAORVRejiztb6
+         lIF56snddTXHOZXWrrSIvoWz/uCMLI3pTtUaJYcAaE6PP6ZdOzSkCQnwWWPk3hjA90VV
+         S+J7U/mLl331XWTa+doJztA3EDN13vAIhzor1fcIdIPjpuSBkkgsncWnHvUZSn3CkQ58
+         Plww==
+X-Gm-Message-State: AOJu0Yxaa2RKfgz1V0oTkfu8Szgxpy/cwlhz4l6G9bKar+noI8F84sGy
+	a/MJWPZalMCZHUhKgSc+5ws=
+X-Google-Smtp-Source: AGHT+IE3SQg91TEitYFJnQaQAgiOXMoUSTQs8i2qySEtTVeVUoQXBmjsnkqttxIyG/Sf9l0B1dk1Iw==
+X-Received: by 2002:a5d:64eb:0:b0:32f:79e5:5ea9 with SMTP id g11-20020a5d64eb000000b0032f79e55ea9mr4382841wri.10.1698676078663;
+        Mon, 30 Oct 2023 07:27:58 -0700 (PDT)
+Received: from nancy-1-2.. ([105.163.156.232])
+        by smtp.googlemail.com with ESMTPSA id d14-20020a5d4f8e000000b0032d96dd703bsm8276569wru.70.2023.10.30.07.27.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 30 Oct 2023 07:27:58 -0700 (PDT)
+From: Nancy Nyambura <nicymimz@gmail.com>
+To: 
+Cc: nicydaniels@gmail.com,
+	outreachy@lists.linux.dev,
+	Nancy Nyambura <nicymimz@gmail.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v3 1/2] Staging: rts5208: Replace strncpy() with strscpy()
+Date: Mon, 30 Oct 2023 17:27:47 +0300
+Message-Id: <20231030142751.49913-1-nicymimz@gmail.com>
+X-Mailer: git-send-email 2.40.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 2/6] staging: octeon: remove typedef in enum
- cvmx_helper_interface_mode_t
-Content-Language: en-US
-To: Greg KH <gregkh@linuxfoundation.org>
-Cc: Oliver Crumrine <ozlinux@hotmail.com>, colin.i.king@gmail.com,
- sumitraartsy@gmail.com, u.kleine-koenig@pengutronix.de,
- geert@linux-m68k.org, linux-kernel@vger.kernel.org,
- linux-staging@lists.linux.dev
-References: <cover.1693236450.git.ozlinux@hotmail.com>
- <PH7PR11MB7643DEB4401AA83A0578087CBCE0A@PH7PR11MB7643.namprd11.prod.outlook.com>
- <32e9ad3c-191e-4dd1-b1cc-07f7b93c3f28@roeck-us.net>
- <2023103049-daybed-abstain-bad9@gregkh>
-From: Guenter Roeck <linux@roeck-us.net>
-Autocrypt: addr=linux@roeck-us.net; keydata=
- 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
- mDW4+i+XlNFUPUYMrIKi9joBhu18ssf5i5Q=
-In-Reply-To: <2023103049-daybed-abstain-bad9@gregkh>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 10/29/23 23:24, Greg KH wrote:
-> On Sun, Oct 29, 2023 at 10:17:21AM -0700, Guenter Roeck wrote:
->> On Mon, Aug 28, 2023 at 11:39:07AM -0400, Oliver Crumrine wrote:
->>> Remove typedef in enum cvmx_helper_interface_mode_t, and rename all instances
->>> to cvmx_helper_interface_mode
->>>
->>> Signed-off-by: Oliver Crumrine <ozlinux@hotmail.com>
->>
->> In linux-next:
->>
->> Building mips:cavium_octeon_defconfig ... failed
->> --------------
->> Error log:
->> drivers/staging/octeon/ethernet.c: In function 'cvm_oct_common_get_stats':
->> drivers/staging/octeon/ethernet.c:204:37: error: storage size of 'rx_status' isn't known
->>    204 |         struct cvmx_pip_port_status rx_status;
->>        |                                     ^~~~~~~~~
->> drivers/staging/octeon/ethernet.c:205:37: error: storage size of 'tx_status' isn't known
->>    205 |         struct cvmx_pko_port_status tx_status;
->>        |                                     ^~~~~~~~~
->> drivers/staging/octeon/ethernet.c:205:37: warning: unused variable 'tx_status' [-Wunused-variable]
->> drivers/staging/octeon/ethernet.c:204:37: warning: unused variable 'rx_status' [-Wunused-variable]
->>    204 |         struct cvmx_pip_port_status rx_status;
->>        |                                     ^~~~~~~~~
->> drivers/staging/octeon/ethernet.c: In function 'cvm_oct_probe':
->> drivers/staging/octeon/ethernet.c:801:22: error: variable 'imode' has initializer but incomplete type
->>    801 |                 enum cvmx_helper_interface_mode imode =
->>        |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/staging/octeon/ethernet.c:801:49: error: storage size of 'imode' isn't known
->>    801 |                 enum cvmx_helper_interface_mode imode =
->>        |                                                 ^~~~~
->> drivers/staging/octeon/ethernet.c:801:49: warning: unused variable 'imode' [-Wunused-variable]
->>
->> Bisect points to this patch. Bisect log attached.
->>
->> As usual, my apologies for the noise if this has already been reported
->> and/or fixed.
-> 
-> It has not been reported, thanks for it, I'll go revert the offending
-> commits.  And I need to figure out how to build this driver better, I
-> get no build-failures from anyone for it when stuff like this happens,
-> odd...
-> 
+Warning found by checkpath.pl
+I replaced strncpy with strscpy because strscpy is suitable when the destination buffer is NUL-terminated, which is often the case when copying strings. Strscpy ensures that the destination buffer is properly NUL-terminated without padding. In the code, the objective is to copy a string (inquiry_string) to the buf buffer, and it's likely that the buf buffer is NUL-terminated since it is handling a string. Strscpy_pad is used when you have afixed-size buffer, and you want to copy a string into it while ensuring the remaining space is padded with a specific character (like '\0') hence not appropriate for this context.
 
-This is kind of chronic. One really has to build mips:cavium_octeon_defconfig
-to find Octeon related problems. The all{mod,yes}_defconfig builds don't build
-that code.
+Signed-off-by: Nancy Nyambura <nicymimz@gmail.com>
+---
+Changes in v2:
+  - Explain why strscpy and not strscpy_pad
 
-Guenter
+ drivers/staging/rts5208/rtsx_scsi.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/staging/rts5208/rtsx_scsi.c b/drivers/staging/rts5208/rtsx_scsi.c
+index 08bd768ad34d..52324b8ebbc7 100644
+--- a/drivers/staging/rts5208/rtsx_scsi.c
++++ b/drivers/staging/rts5208/rtsx_scsi.c
+@@ -523,7 +523,7 @@ static int inquiry(struct scsi_cmnd *srb, struct rtsx_chip *chip)
+ 
+ 	if (sendbytes > 8) {
+ 		memcpy(buf, inquiry_buf, 8);
+-		strncpy(buf + 8, inquiry_string, sendbytes - 8);
++		strscpy(buf + 8, inquiry_string, sendbytes - 8);
+ 		if (pro_formatter_flag) {
+ 			/* Additional Length */
+ 			buf[4] = 0x33;
+-- 
+2.40.1
 
