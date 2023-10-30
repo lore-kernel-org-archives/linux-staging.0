@@ -1,53 +1,29 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F7AEEA3;
-	Mon, 30 Oct 2023 03:19:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 216CF17F5;
+	Mon, 30 Oct 2023 06:13:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AgqYj5FW"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1698636000; x=1730172000;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=yRaMyJdeEKY3i1iGnqG12Lko57gYZ93LAzlgj2NDC6U=;
-  b=AgqYj5FW71suE1DMLV+scjzgZHvm3ZUPfMg20vPlCXsf3W3dLCrqoSdp
-   uohfjV6+HPu9ruEEVFALFSYV+hpGJMavqG1yW5YtLYmpqi/WXWw4hJVGt
-   +zETF0M+HmXMzc1i4cH1deTEZlg3azOb/qeABxjxbg8Vy6Zgf6GPEbli7
-   y4HIb1qvMIjyefgqCM2vT9wdyMiH06iIeftNLoWw+GHNTxSIqqvmAO5Tc
-   Ad5x8OHVHAbW/Q4qBm2mI+WVNRpatoIWQKnns6nyDVh5dSvheh6x0ndEr
-   eXmWR8AkXuTF9JwP80QQDP8W3ahimbERo53w+5FrXwJDpxrUvKyAuETNr
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10878"; a="454471270"
-X-IronPort-AV: E=Sophos;i="6.03,262,1694761200"; 
-   d="scan'208";a="454471270"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Oct 2023 20:19:59 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10878"; a="933655577"
-X-IronPort-AV: E=Sophos;i="6.03,262,1694761200"; 
-   d="scan'208";a="933655577"
-Received: from lkp-server01.sh.intel.com (HELO 8917679a5d3e) ([10.239.97.150])
-  by orsmga005.jf.intel.com with ESMTP; 29 Oct 2023 20:19:54 -0700
-Received: from kbuild by 8917679a5d3e with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qxIoh-000D0t-1N;
-	Mon, 30 Oct 2023 03:19:51 +0000
-Date: Mon, 30 Oct 2023 11:19:06 +0800
-From: kernel test robot <lkp@intel.com>
-To: Nancy Nyambura <nicymimz@gmail.com>, gagallo7+outreachy@gmail.com
-Cc: oe-kbuild-all@lists.linux.dev, nicydaniels@gmail.com,
-	outreachy@lists.linux.dev, Nancy Nyambura <nicymimz@gmail.com>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	linux-media@vger.kernel.org,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="TQRT3hhW"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 20596C433C8;
+	Mon, 30 Oct 2023 06:13:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1698646400;
+	bh=6qx7gkadhjjPFR2FBT459d6MskGyskl2wBormk0qgU0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=TQRT3hhWe3ySUJPZU6t5QFh0Ah5G7FADdt82bPl4Ox3CPkwTdLoALxmWMl8u6tXUx
+	 R9RuQuWvypFSJhWSrvXo2kWUYFh22EgKSJQO9tmCiF79PpZaQFU3vFEXQOoEEFhSja
+	 05uM4iakw3PJa72dh5R58issdP3bw9z3rEeBftZQ=
+Date: Mon, 30 Oct 2023 07:13:17 +0100
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Nancy Nyambura <nicymimz@gmail.com>
+Cc: nicydaniels@gmail.com, outreachy@lists.linux.dev,
 	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] Media: omap4iss: Enable RSZB and update resizer control
-Message-ID: <202310301031.IZuhUjMc-lkp@intel.com>
-References: <20231029220710.47063-1-nicymimz@gmail.com>
+Subject: Re: [PATCH] staging: rts5208: Replace strncpy() with strscpy() for
+ appropriate string copying in rtsx_scsi line 524 warning: found by
+ checkpatch.pl script
+Message-ID: <2023103052-musky-defacing-ca25@gregkh>
+References: <20231029191647.44127-1-nicymimz@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -56,85 +32,62 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231029220710.47063-1-nicymimz@gmail.com>
+In-Reply-To: <20231029191647.44127-1-nicymimz@gmail.com>
 
-Hi Nancy,
+On Sun, Oct 29, 2023 at 10:16:42PM +0300, Nancy Nyambura wrote:
+> Signed-off-by: Nancy Nyambura <nicymimz@gmail.com>
+> ---
+>  drivers/staging/rts5208/rtsx_scsi.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/staging/rts5208/rtsx_scsi.c b/drivers/staging/rts5208/rtsx_scsi.c
+> index 08bd768ad34d..52324b8ebbc7 100644
+> --- a/drivers/staging/rts5208/rtsx_scsi.c
+> +++ b/drivers/staging/rts5208/rtsx_scsi.c
+> @@ -523,7 +523,7 @@ static int inquiry(struct scsi_cmnd *srb, struct rtsx_chip *chip)
+>  
+>  	if (sendbytes > 8) {
+>  		memcpy(buf, inquiry_buf, 8);
+> -		strncpy(buf + 8, inquiry_string, sendbytes - 8);
+> +		strscpy(buf + 8, inquiry_string, sendbytes - 8);
+>  		if (pro_formatter_flag) {
+>  			/* Additional Length */
+>  			buf[4] = 0x33;
+> -- 
+> 2.40.1
+> 
+> 
 
-kernel test robot noticed the following build errors:
+Hi,
 
-[auto build test ERROR on media-tree/master]
-[also build test ERROR on linus/master v6.6-rc7 next-20231027]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
+a patch that has triggered this response.  He used to manually respond
+to these common problems, but in order to save his sanity (he kept
+writing the same thing over and over, yet to different people), I was
+created.  Hopefully you will not take offence and will fix the problem
+in your patch and resubmit it so that it can be accepted into the Linux
+kernel tree.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Nancy-Nyambura/Media-omap4iss-Enable-RSZB-and-update-resizer-control/20231030-060944
-base:   git://linuxtv.org/media_tree.git master
-patch link:    https://lore.kernel.org/r/20231029220710.47063-1-nicymimz%40gmail.com
-patch subject: [PATCH] Media: omap4iss: Enable RSZB and update resizer control
-config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20231030/202310301031.IZuhUjMc-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231030/202310301031.IZuhUjMc-lkp@intel.com/reproduce)
+You are receiving this message because of the following common error(s)
+as indicated below:
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310301031.IZuhUjMc-lkp@intel.com/
+- You did not specify a description of why the patch is needed, or
+  possibly, any description at all, in the email body.  Please read the
+  section entitled "The canonical patch format" in the kernel file,
+  Documentation/process/submitting-patches.rst for what is needed in
+  order to properly describe the change.
 
-All errors (new ones prefixed by >>):
+- You did not write a descriptive Subject: for the patch, allowing Greg,
+  and everyone else, to know what this patch is all about.  Please read
+  the section entitled "The canonical patch format" in the kernel file,
+  Documentation/process/submitting-patches.rst for what a proper
+  Subject: line should look like.
 
-   drivers/staging/media/omap4iss/iss_resizer.c: In function 'resizer_enable':
-   drivers/staging/media/omap4iss/iss_resizer.c:119:37: error: 'struct iss_device' has no member named 'base_addr'
-     119 |         u32 reg_value = ioread32(iss->base_addr + OMAP4_ISS_MEM_ISP_RESIZER,
-         |                                     ^~
-   drivers/staging/media/omap4iss/iss_resizer.c:120:27: error: 'RZ_SYSCONFIG' undeclared (first use in this function); did you mean 'RSZ_SYSCONFIG'?
-     120 |                         + RZ_SYSCONFIG);
-         |                           ^~~~~~~~~~~~
-         |                           RSZ_SYSCONFIG
-   drivers/staging/media/omap4iss/iss_resizer.c:120:27: note: each undeclared identifier is reported only once for each function it appears in
-   In file included from include/linux/scatterlist.h:9,
-                    from include/linux/dma-mapping.h:11,
-                    from drivers/staging/media/omap4iss/iss_resizer.c:14:
->> arch/sh/include/asm/io.h:129:18: error: too many arguments to function 'ioread32'
-     129 | #define ioread32 ioread32
-         |                  ^~~~~~~~
-   drivers/staging/media/omap4iss/iss_resizer.c:119:25: note: in expansion of macro 'ioread32'
-     119 |         u32 reg_value = ioread32(iss->base_addr + OMAP4_ISS_MEM_ISP_RESIZER,
-         |                         ^~~~~~~~
-   In file included from arch/sh/include/asm/io.h:22:
-   include/asm-generic/iomap.h:32:21: note: declared here
-      32 | extern unsigned int ioread32(const void __iomem *);
-         |                     ^~~~~~~~
-   drivers/staging/media/omap4iss/iss_resizer.c:122:33: error: 'struct iss_device' has no member named 'base_addr'
-     122 |         iowrite32(reg_value, iss->base_addr + OMAP4_ISS_MEM_ISP_RESIZER,
-         |                                 ^~
->> arch/sh/include/asm/io.h:135:19: error: too many arguments to function 'iowrite32'
-     135 | #define iowrite32 iowrite32
-         |                   ^~~~~~~~~
-   drivers/staging/media/omap4iss/iss_resizer.c:122:9: note: in expansion of macro 'iowrite32'
-     122 |         iowrite32(reg_value, iss->base_addr + OMAP4_ISS_MEM_ISP_RESIZER,
-         |         ^~~~~~~~~
-   include/asm-generic/iomap.h:53:13: note: declared here
-      53 | extern void iowrite32(u32, void __iomem *);
-         |             ^~~~~~~~~
+If you wish to discuss this problem further, or you have questions about
+how to resolve this issue, please feel free to respond to this email and
+Greg will reply once he has dug out from the pending patches received
+from other developers.
 
+thanks,
 
-vim +/ioread32 +129 arch/sh/include/asm/io.h
-
-b94692e84dccf1 Baoquan He 2023-07-06  125  
-b94692e84dccf1 Baoquan He 2023-07-06  126  #define ioread8 ioread8
-b94692e84dccf1 Baoquan He 2023-07-06  127  #define ioread16 ioread16
-b94692e84dccf1 Baoquan He 2023-07-06  128  #define ioread16be ioread16be
-b94692e84dccf1 Baoquan He 2023-07-06 @129  #define ioread32 ioread32
-b94692e84dccf1 Baoquan He 2023-07-06  130  #define ioread32be ioread32be
-b94692e84dccf1 Baoquan He 2023-07-06  131  
-b94692e84dccf1 Baoquan He 2023-07-06  132  #define iowrite8 iowrite8
-b94692e84dccf1 Baoquan He 2023-07-06  133  #define iowrite16 iowrite16
-b94692e84dccf1 Baoquan He 2023-07-06  134  #define iowrite16be iowrite16be
-b94692e84dccf1 Baoquan He 2023-07-06 @135  #define iowrite32 iowrite32
-b94692e84dccf1 Baoquan He 2023-07-06  136  #define iowrite32be iowrite32be
-b94692e84dccf1 Baoquan He 2023-07-06  137  
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+greg k-h's patch email bot
