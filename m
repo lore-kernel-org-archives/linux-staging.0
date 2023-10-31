@@ -1,29 +1,29 @@
 Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE0BD20322
-	for <linux-staging@lists.linux.dev>; Tue, 31 Oct 2023 16:32:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A62672030F
+	for <linux-staging@lists.linux.dev>; Tue, 31 Oct 2023 16:32:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="lFCmLpRi"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="AP4OBUFv"
 Received: from benjamin-XPS-13-9310.. (unknown [IPv6:2a01:e0a:120:3210:c562:2ef4:80c0:92f])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
 	(Authenticated sender: benjamin.gaignard)
-	by madras.collabora.co.uk (Postfix) with ESMTPSA id 3AE7166073AE;
-	Tue, 31 Oct 2023 16:32:20 +0000 (GMT)
+	by madras.collabora.co.uk (Postfix) with ESMTPSA id E364466073B1;
+	Tue, 31 Oct 2023 16:32:21 +0000 (GMT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1698769940;
-	bh=fYtTvMYEVMZXzGkL+XEutCpKu5WEAYjMxFbMl5P4bZM=;
+	s=mail; t=1698769942;
+	bh=I24/t0ZqSyeKvdZtsSJpVc7QnzmONAbV5k9WYLKmpuU=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=lFCmLpRiYgMpZ/lUQDMwGOBd21H0FaPLf+SEBHkOYd55YsUF1dWoOt1enQIUb+0dr
-	 eNnRq490N88kZO9gehP9aKeGb6BkUdwPf9iqNH8CVy2HIsiwM4gC1mWuPwo5pBVB5M
-	 dwU93ns+54i7p6Onn8KHNEw6D4gtolbF7eB+TUVGccp90EQwgWvsw27XdRUSdQtSJ+
-	 CWcEY0z6fZxxSNQQdLpXjuzz6/bhtgczXNlRw/zra1LfnGhjlsyW1jU8DKzaJ9NJQT
-	 rggc12NPKQ+zMG3hRfeIU0P54j8kDjRUXS+pG9PuxqtRLtJfTqldNJFyRMlYqWVJJk
-	 qQkL3u9T3B11g==
+	b=AP4OBUFvnP886Z6HaoFYtgB0CHHMDFL/TLsU3QaEg9ADHUWMN526rTnUSD4ToZPOv
+	 Wx18D/gHbJMVRXMfnA2cRU/Qp8bwGVejYrflKSfkj8xoHN88vzq1OsTf0pRwmww81s
+	 3aqBTrBM6jVkcKL2Fmpi98AWuwgQnSzwu6UqZ/ra/A6GoUzM7cylEi+NwzkgtrUkV6
+	 hhqbTr3sKml6e0CeA2ZyfRpbgWAKP4QU7IWrOpUfiN2GjG0e6DuIP+lEGY0s6rlxpa
+	 vDZAhsh0zQKrKmBU/AD7QoTMn7oq5STRYM8/J2s6fQxbE9IcAJZvANgAWtKHCKi97b
+	 MxZYQcMh7fm9g==
 From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
 To: mchehab@kernel.org,
 	tfiga@chromium.org,
@@ -43,11 +43,10 @@ Cc: linux-media@vger.kernel.org,
 	linux-staging@lists.linux.dev,
 	kernel@collabora.com,
 	Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-	Joseph Liu <kwliu@nuvoton.com>,
-	Marvin Lin <kflin@nuvoton.com>
-Subject: [PATCH v14 36/56] media: nuvoton: Stop direct calls to queue num_buffers field
-Date: Tue, 31 Oct 2023 17:30:44 +0100
-Message-Id: <20231031163104.112469-37-benjamin.gaignard@collabora.com>
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>
+Subject: [PATCH v14 37/56] media: renesas: Stop direct calls to queue num_buffers field
+Date: Tue, 31 Oct 2023 17:30:45 +0100
+Message-Id: <20231031163104.112469-38-benjamin.gaignard@collabora.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20231031163104.112469-1-benjamin.gaignard@collabora.com>
 References: <20231031163104.112469-1-benjamin.gaignard@collabora.com>
@@ -64,25 +63,29 @@ This allows us to change how the number of buffers is computed in the
 future.
 
 Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-CC: Joseph Liu <kwliu@nuvoton.com>
-CC: Marvin Lin <kflin@nuvoton.com>
+CC: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
 ---
- drivers/media/platform/nuvoton/npcm-video.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/media/platform/renesas/rcar_drif.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/media/platform/nuvoton/npcm-video.c b/drivers/media/platform/nuvoton/npcm-video.c
-index b9e6782f59b4..f9b4e36a5175 100644
---- a/drivers/media/platform/nuvoton/npcm-video.c
-+++ b/drivers/media/platform/nuvoton/npcm-video.c
-@@ -393,7 +393,7 @@ static void npcm_video_free_diff_table(struct npcm_video *video)
- 	struct rect_list *tmp;
- 	unsigned int i;
+diff --git a/drivers/media/platform/renesas/rcar_drif.c b/drivers/media/platform/renesas/rcar_drif.c
+index 292c5bf9e50c..f21d05054341 100644
+--- a/drivers/media/platform/renesas/rcar_drif.c
++++ b/drivers/media/platform/renesas/rcar_drif.c
+@@ -424,10 +424,11 @@ static int rcar_drif_queue_setup(struct vb2_queue *vq,
+ 			unsigned int sizes[], struct device *alloc_devs[])
+ {
+ 	struct rcar_drif_sdr *sdr = vb2_get_drv_priv(vq);
++	unsigned int q_num_bufs = vb2_get_num_buffers(vq);
  
--	for (i = 0; i < video->queue.num_buffers; i++) {
-+	for (i = 0; i < vb2_get_num_buffers(&video->queue); i++) {
- 		head = &video->list[i];
- 		list_for_each_safe(pos, nx, head) {
- 			tmp = list_entry(pos, struct rect_list, list);
+ 	/* Need at least 16 buffers */
+-	if (vq->num_buffers + *num_buffers < 16)
+-		*num_buffers = 16 - vq->num_buffers;
++	if (q_num_bufs + *num_buffers < 16)
++		*num_buffers = 16 - q_num_bufs;
+ 
+ 	*num_planes = 1;
+ 	sizes[0] = PAGE_ALIGN(sdr->fmt->buffersize);
 -- 
 2.39.2
 
