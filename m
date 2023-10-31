@@ -1,75 +1,241 @@
-Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com [209.85.208.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FE17199A0
-	for <linux-staging@lists.linux.dev>; Tue, 31 Oct 2023 10:28:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D76D82031B
+	for <linux-staging@lists.linux.dev>; Tue, 31 Oct 2023 16:31:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ELpBC4w0"
-Received: by mail-lj1-f177.google.com with SMTP id 38308e7fff4ca-2c59a4dcdacso77956081fa.1
-        for <linux-staging@lists.linux.dev>; Tue, 31 Oct 2023 03:28:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1698748082; x=1699352882; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=QaagOn8jPXjQl6PIIuGW+mOnt3BUe6CBcTW08fMQBa0=;
-        b=ELpBC4w0byIjD76x9HBs8yhqTwAXZnBkhJEOOq4ca+eGW8lELWTbKyQsArD9oFCw6H
-         YYxn5KqrynkS24sTzDM1lNhIBRhH7mTdvuSTVPXvAxxbw8E/G9jWzYMTaEKmus9ieE+V
-         Chp3XsbTimfi1jQvFTqDsF+KTeZhGhCV7jAupnPKs8+1lpssSbGgXOT4b0BmWAAtExAQ
-         hj5jyoCSclG0oglwid5IG/74D+28QluYq3NnmDdzAeJsXTI3bvrZRSM2EIZw2d264ToO
-         /U+vx1qHIRFnRKWRQwGMc9o9TaIwaTh5sxvex8BoWub0t9Y/cu6Ad3Xp/ydtchB6ALAX
-         CEzA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1698748082; x=1699352882;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=QaagOn8jPXjQl6PIIuGW+mOnt3BUe6CBcTW08fMQBa0=;
-        b=c9O4vbQ60UGRXve0kZA1jNRHPQjYdBjczuyOxlXrDazS6C7QJRvD5lugyGFFucNGYQ
-         1xRXX3qHsNLl0QlKm90o4X4mt/Y3eJR5Hb79mjQAHXCYUV2dYEGINpmYNaH8rkHJOowb
-         E2zk9r5v1HWoAu/TEIacJW+FkKJqYwbOoKoqfFpkQyI64OhsqcqUpQgofDiIgBiwIEAo
-         5zI2wmsaAYo0TEofVC1V6U366C0WzQLvtTPGkD5ZdK+0EwRq+dfKnA1OM6neeCP1neoX
-         7nDLOu7gKZl/ojtYlUBmi/OK5KbxOdW1rOsclRehG8U4b699aq2lgoggW4rg0m18uoII
-         lhHg==
-X-Gm-Message-State: AOJu0YzARthIqEx3BKUrP6/vQTBYqpbo7rlDoDcK5qM59CUZRzMqk+8b
-	HSSYxUBFVz+kOoyEu6lRVpIHUw==
-X-Google-Smtp-Source: AGHT+IFMWkwmSW5SOzELVmhfggUt0jYW3qNZpAyrcPZw7EFRT9Ua080roa8h6HCZMYw5HqzBC4vqBg==
-X-Received: by 2002:a2e:494a:0:b0:2c5:1a89:41c0 with SMTP id b10-20020a2e494a000000b002c51a8941c0mr8374240ljd.23.1698748082529;
-        Tue, 31 Oct 2023 03:28:02 -0700 (PDT)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id j20-20020a05600c485400b004063cd8105csm1323646wmo.22.2023.10.31.03.28.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 31 Oct 2023 03:28:02 -0700 (PDT)
-Date: Tue, 31 Oct 2023 13:27:59 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Rohit Chavan <roheetchavan@gmail.com>
-Cc: Martyn Welch <martyn@welchs.me.uk>,
-	Manohar Vanga <manohar.vanga@gmail.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
-Subject: Re: [PATCH] staging: vme_user: Added blank line after declarations
-Message-ID: <d94519dc-8e2e-427b-9828-4f714d0561a1@kadam.mountain>
-References: <20231031100610.5394-1-roheetchavan@gmail.com>
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="LZ+1Q2zP"
+Received: from benjamin-XPS-13-9310.. (unknown [IPv6:2a01:e0a:120:3210:c562:2ef4:80c0:92f])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: benjamin.gaignard)
+	by madras.collabora.co.uk (Postfix) with ESMTPSA id 473C66607326;
+	Tue, 31 Oct 2023 16:31:12 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1698769872;
+	bh=kP9uwiPo3RfpuFdvtUM95GSE9NX5OYIkBs61eXFwbS4=;
+	h=From:To:Cc:Subject:Date:From;
+	b=LZ+1Q2zP6PrbdGx2PFDNSvHIHj4ui6I11PX0RVtBwIIIvC5x/gz1c2Tk29d9UlDJX
+	 IaLSnvO67dEHUyjWpQFkDvawlmI4H7VZ8Zigge4yU9W14F0aBBUS/dQMM6E3l4PG7U
+	 XWXRAWlU8PFzkzIwY+r3+hnJC3v9kgnZPbQZKjjXqrxUvkEvXkjzwq9zgSI3/s+jKF
+	 tok6w97B8GTKDNgLyCg1+0GeyTAcqu9xlvrWlbft+CtPHuBdy778ceMYGl14oWBKnd
+	 bB1LRAcTP6qDNXt2BFpyHNi/xIWhU0pZ9Ax1t2NZrfiyf/COnM26ldTCBuWhvHJg+H
+	 SVT6/nTHzzzgA==
+From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+To: mchehab@kernel.org,
+	tfiga@chromium.org,
+	m.szyprowski@samsung.com,
+	ming.qian@nxp.com,
+	ezequiel@vanguardiasur.com.ar,
+	p.zabel@pengutronix.de,
+	gregkh@linuxfoundation.org,
+	hverkuil-cisco@xs4all.nl,
+	nicolas.dufresne@collabora.com
+Cc: linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org,
+	linux-arm-msm@vger.kernel.org,
+	linux-rockchip@lists.infradead.org,
+	linux-staging@lists.linux.dev,
+	kernel@collabora.com,
+	Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Subject: [PATCH v14 00/56] Add DELETE_BUF ioctl
+Date: Tue, 31 Oct 2023 17:30:08 +0100
+Message-Id: <20231031163104.112469-1-benjamin.gaignard@collabora.com>
+X-Mailer: git-send-email 2.39.2
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231031100610.5394-1-roheetchavan@gmail.com>
+Content-Transfer-Encoding: 8bit
 
-On Tue, Oct 31, 2023 at 10:06:10AM +0000, Rohit Chavan wrote:
-> Fixes below warning reported by checkpatch.
-> WARNING: Missing a blank line after declarations
-> 
-> Signed-off-by: Rohit Chavan <roheetchavan@gmail.com>
+Unlike when resolution change on keyframes, dynamic resolution change
+on inter frames doesn't allow to do a stream off/on sequence because
+it is need to keep all previous references alive to decode inter frames.
+This constraint have two main problems:
+- more memory consumption.
+- more buffers in use.
+To solve these issue this series introduce DELETE_BUFS ioctl and remove
+the 32 buffers limit per queue.
 
-This is a checkpatch false positive.  (It's not "after declarations").
-Just ignore it.
+VP9 conformance tests using fluster give a score of 210/305.
+The 20 resize inter tests (vp90-2-21-resize_inter_* files) are ok
+but require to use postprocessor.
 
-regards,
-dan carpenter
+Kernel branch is available here:
+https://gitlab.collabora.com/benjamin.gaignard/for-upstream/-/commits/remove_vb2_queue_limit_v14
+
+GStreamer branch to use DELETE_BUF ioctl and testing dynamic resolution
+change is here:
+https://gitlab.freedesktop.org/benjamin.gaignard1/gstreamer/-/commits/VP9_drc
+
+changes in version 14:
+- Add max_num_buffers fields in v4l2_create_buffers32 structure and copy
+  it from/to user data.
+- Fix patch 44 commit header.
+- Fix v4l_print_create_buffers() log.
+
+changes in version 13:
+- Fix typo and wording in commits messages.
+- Only apply V4L2_BUF_CAP_SUPPORTS_SET_MAX_BUFS on createbufs ioctl
+- Fix queue setup test in test-drivers
+
+changes in version 12:
+- Change flag name to V4L2_BUF_CAP_SUPPORTS_SET_MAX_BUFS.
+- Rework some commits message.
+- Change vb2_queue_or_prepare_buf() prototype.
+- Rework patches where 'min_buffers_needed' was badly used.
+
+Benjamin Gaignard (56):
+  media: videobuf2: Rename offset parameter
+  media: videobuf2: Rework offset 'cookie' encoding pattern
+  media: videobuf2: Stop spamming kernel log with all queue counter
+  media: videobuf2: Use vb2_buffer instead of index
+  media: videobuf2: Access vb2_queue bufs array through helper functions
+  media: videobuf2: Remove duplicated index vs q->num_buffers check
+  media: videobuf2: Add helper to get queue number of buffers
+  media: videobuf2: Use vb2_get_num_buffers() helper
+  media: amphion: Use vb2_get_buffer() instead of directly access to
+    buffers array
+  media: amphion: Stop direct calls to queue num_buffers field
+  media: mediatek: jpeg: Use vb2_get_buffer() instead of directly access
+    to buffers array
+  media: mediatek: vdec: Remove useless loop
+  media: mediatek: vcodec: Stop direct calls to queue num_buffers field
+  media: sti: hva: Use vb2_get_buffer() instead of directly access to
+    buffers array
+  media: visl: Use vb2_get_buffer() instead of directly access to
+    buffers array
+  media: atomisp: Use vb2_get_buffer() instead of directly access to
+    buffers array
+  media: atomisp: Stop direct calls to queue num_buffers field
+  media: dvb-core: Use vb2_get_buffer() instead of directly access to
+    buffers array
+  media: dvb-core: Do not initialize twice queue num_buffer field
+  media: dvb-frontends: rtl2832: Stop direct calls to queue num_buffers
+    field
+  media: pci: dt3155: Remove useless check
+  media: pci: tw686x: Stop direct calls to queue num_buffers field
+  media: pci: cx18: Stop direct calls to queue num_buffers field
+  media: pci: netup_unidvb: Stop direct calls to queue num_buffers field
+  media: pci: tw68: Stop direct calls to queue num_buffers field
+  media: i2c: video-i2c: Stop direct calls to queue num_buffers field
+  media: coda: Stop direct calls to queue num_buffers field
+  media: nxp: Stop direct calls to queue num_buffers field
+  media: verisilicon: Stop direct calls to queue num_buffers field
+  media: test-drivers: Stop direct calls to queue num_buffers field
+  media: imx: Stop direct calls to queue num_buffers field
+  media: meson: vdec: Stop direct calls to queue num_buffers field
+  touchscreen: sur40: Stop direct calls to queue num_buffers field
+  sample: v4l: Stop direct calls to queue num_buffers field
+  media: cedrus: Stop direct calls to queue num_buffers field
+  media: nuvoton: Stop direct calls to queue num_buffers field
+  media: renesas: Stop direct calls to queue num_buffers field
+  media: ti: Stop direct calls to queue num_buffers field
+  media: usb: airspy: Stop direct calls to queue num_buffers field
+  media: usb: cx231xx: Stop direct calls to queue num_buffers field
+  media: usb: hackrf: Stop direct calls to queue num_buffers field
+  media: usb: usbtv: Stop direct calls to queue num_buffers field
+  media: videobuf2: Be more flexible on the number of queue stored
+    buffers
+  media: core: Report the maximum possible number of buffers for the
+    queue
+  media: test-drivers: vivid: Increase max supported buffers for capture
+    queues
+  media: test-drivers: vicodec: Increase max supported capture queue
+    buffers
+  media: verisilicon: Refactor postprocessor to store more buffers
+  media: verisilicon: Store chroma and motion vectors offset
+  media: verisilicon: g2: Use common helpers to compute chroma and mv
+    offsets
+  media: verisilicon: vp9: Allow to change resolution while streaming
+  media: core: Rework how create_buf index returned value is computed
+  media: core: Add bitmap manage bufs array entries
+  media: core: Free range of buffers
+  media: v4l2: Add DELETE_BUFS ioctl
+  media: v4l2: Add mem2mem helpers for DELETE_BUFS ioctl
+  media: test-drivers: Use helper for DELETE_BUFS ioctl
+
+ .../userspace-api/media/v4l/user-func.rst     |   1 +
+ .../media/v4l/vidioc-create-bufs.rst          |   8 +-
+ .../media/v4l/vidioc-delete-bufs.rst          |  80 +++
+ .../media/v4l/vidioc-reqbufs.rst              |   2 +
+ drivers/input/touchscreen/sur40.c             |   5 +-
+ .../media/common/videobuf2/videobuf2-core.c   | 569 +++++++++++-------
+ .../media/common/videobuf2/videobuf2-v4l2.c   | 125 ++--
+ drivers/media/dvb-core/dvb_vb2.c              |  17 +-
+ drivers/media/dvb-frontends/rtl2832_sdr.c     |   5 +-
+ drivers/media/i2c/video-i2c.c                 |   5 +-
+ drivers/media/pci/cx18/cx18-streams.c         |   5 +-
+ drivers/media/pci/dt3155/dt3155.c             |   2 -
+ .../pci/netup_unidvb/netup_unidvb_core.c      |   5 +-
+ drivers/media/pci/tw68/tw68-video.c           |   4 +-
+ drivers/media/pci/tw686x/tw686x-video.c       |   5 +-
+ drivers/media/platform/amphion/vpu_dbg.c      |  30 +-
+ drivers/media/platform/amphion/vpu_v4l2.c     |   4 +-
+ .../media/platform/chips-media/coda-common.c  |   2 +-
+ .../platform/mediatek/jpeg/mtk_jpeg_core.c    |   7 +-
+ .../vcodec/decoder/vdec/vdec_vp9_req_lat_if.c |   9 +-
+ .../mediatek/vcodec/encoder/mtk_vcodec_enc.c  |   2 +-
+ drivers/media/platform/nuvoton/npcm-video.c   |   2 +-
+ drivers/media/platform/nxp/imx7-media-csi.c   |   7 +-
+ drivers/media/platform/renesas/rcar_drif.c    |   5 +-
+ drivers/media/platform/st/sti/hva/hva-v4l2.c  |   9 +-
+ .../media/platform/ti/am437x/am437x-vpfe.c    |   5 +-
+ drivers/media/platform/ti/cal/cal-video.c     |   5 +-
+ .../media/platform/ti/davinci/vpif_capture.c  |   5 +-
+ .../media/platform/ti/davinci/vpif_display.c  |   5 +-
+ drivers/media/platform/ti/omap/omap_vout.c    |   5 +-
+ drivers/media/platform/verisilicon/hantro.h   |   9 +-
+ .../media/platform/verisilicon/hantro_drv.c   |   5 +-
+ .../media/platform/verisilicon/hantro_g2.c    |  14 +
+ .../platform/verisilicon/hantro_g2_hevc_dec.c |  18 +-
+ .../platform/verisilicon/hantro_g2_vp9_dec.c  |  28 +-
+ .../media/platform/verisilicon/hantro_hw.h    |   7 +-
+ .../platform/verisilicon/hantro_postproc.c    |  93 ++-
+ .../media/platform/verisilicon/hantro_v4l2.c  |  27 +-
+ .../media/test-drivers/vicodec/vicodec-core.c |   3 +
+ drivers/media/test-drivers/vim2m.c            |   2 +
+ .../media/test-drivers/vimc/vimc-capture.c    |   2 +
+ drivers/media/test-drivers/visl/visl-dec.c    |  32 +-
+ drivers/media/test-drivers/visl/visl-video.c  |   2 +
+ drivers/media/test-drivers/vivid/vivid-core.c |  21 +
+ .../media/test-drivers/vivid/vivid-meta-cap.c |   3 -
+ .../media/test-drivers/vivid/vivid-meta-out.c |   5 +-
+ .../test-drivers/vivid/vivid-touch-cap.c      |   5 +-
+ .../media/test-drivers/vivid/vivid-vbi-cap.c  |   3 -
+ .../media/test-drivers/vivid/vivid-vbi-out.c  |   3 -
+ .../media/test-drivers/vivid/vivid-vid-cap.c  |   3 -
+ .../media/test-drivers/vivid/vivid-vid-out.c  |   5 +-
+ drivers/media/usb/airspy/airspy.c             |   5 +-
+ drivers/media/usb/cx231xx/cx231xx-417.c       |   5 +-
+ drivers/media/usb/cx231xx/cx231xx-video.c     |   5 +-
+ drivers/media/usb/hackrf/hackrf.c             |   5 +-
+ drivers/media/usb/usbtv/usbtv-video.c         |   5 +-
+ drivers/media/v4l2-core/v4l2-compat-ioctl32.c |   9 +-
+ drivers/media/v4l2-core/v4l2-dev.c            |   1 +
+ drivers/media/v4l2-core/v4l2-ioctl.c          |  21 +-
+ drivers/media/v4l2-core/v4l2-mem2mem.c        |  20 +
+ .../staging/media/atomisp/pci/atomisp_ioctl.c |   4 +-
+ drivers/staging/media/imx/imx-media-capture.c |   7 +-
+ drivers/staging/media/meson/vdec/vdec.c       |  13 +-
+ .../staging/media/sunxi/cedrus/cedrus_h264.c  |   9 +-
+ .../staging/media/sunxi/cedrus/cedrus_h265.c  |   9 +-
+ include/media/v4l2-ioctl.h                    |   4 +
+ include/media/v4l2-mem2mem.h                  |  12 +
+ include/media/videobuf2-core.h                |  65 +-
+ include/media/videobuf2-v4l2.h                |  13 +
+ include/uapi/linux/videodev2.h                |  24 +-
+ samples/v4l/v4l2-pci-skeleton.c               |   5 +-
+ 71 files changed, 998 insertions(+), 473 deletions(-)
+ create mode 100644 Documentation/userspace-api/media/v4l/vidioc-delete-bufs.rst
+
+-- 
+2.39.2
 
