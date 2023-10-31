@@ -1,55 +1,55 @@
-Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
+Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B860FD511
-	for <linux-staging@lists.linux.dev>; Tue, 31 Oct 2023 05:34:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F47FD511
+	for <linux-staging@lists.linux.dev>; Tue, 31 Oct 2023 05:35:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iYbfs1AJ"
-Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-1c9e072472bso37356185ad.2
-        for <linux-staging@lists.linux.dev>; Mon, 30 Oct 2023 22:34:59 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ewCbH4K5"
+Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-1cc5b6d6228so10224625ad.2
+        for <linux-staging@lists.linux.dev>; Mon, 30 Oct 2023 22:35:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1698730499; x=1699335299; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1698730501; x=1699335301; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=chNs6Qc+1FG5MNRfJZOW4RScvr4v+fqdqp2PEyYmdAc=;
-        b=iYbfs1AJbUjB5gi02hu/uFpHiTVGIIagVmhfYbAEBdv15STmNc2B8JuMghGyOSxhCp
-         af8BG109nlfQbMYCwXpG9HH7NtH2x/1mosaDnPTvdH5iKhxRLqMMSub0AxVBN8+A87Wq
-         t7X/VO+t5P6Plzx6EeoP6uzaisYn8FhdpvYIqs948yFR0TtERONNNcqz9QtiZmc49Acr
-         lZdf2ko5zvWGaRjCUb9xpaXWg2/JvKbGBx7QCeQSwp7QQFDhfMvqmHzGtAlkZXcA6ZsP
-         PQf+IZ18H+3FipGcDvqW52vr4Yy2UQ8dZ/G/ysfhqZJzzOLaSn+aV3cdtKHyVAsy1BVd
-         J3jA==
+        bh=rl870JnZ4hTIQ++KxGAzU1faBppIdJahzCd4lGE08z0=;
+        b=ewCbH4K5NtB3FgkZ1FmRVvGAVWTkDD4fvwtlvwT1ink8j3DaXEdGXAEt68/s20Y3NJ
+         yZKtRBO8iqwsANdAMssfbkz+k4U53soTxL8x+cGaHI87qOj/+70c/VONXVOsBUHkPF4r
+         SbC/MBFTpz1j9s5e5y2bvsGfspcZsyi9/f5wSDLv2F4drq8kZdVVqtRDPbsSI+TzEon3
+         d/tpebOIltFrJdVQ9QodXq0Mi46h6AVIXvsS8+Kp5jWIA0//lY5xlrS6gyJAxkLmCSEO
+         tezqwJ0+p4HqOsTz8ucYBLBPhdwJFcV4x2z33CXJPyN4NjXSf5HYj19oe8HOx0NgNm3w
+         Zhog==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1698730499; x=1699335299;
+        d=1e100.net; s=20230601; t=1698730501; x=1699335301;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=chNs6Qc+1FG5MNRfJZOW4RScvr4v+fqdqp2PEyYmdAc=;
-        b=ojPFqR1F5jIFcXnvW7hIKaf+zk3wIQR9yJlOxtN+lxZ2Tz6q2e3n/svkACN/0Nuzzm
-         HaYdYdoTOCNDseT62CF7PXrFuMX5bv9DklTOP8mBg8SwGouhDnK5T0xhpG5iiAy1dQ0s
-         lAgZbzC+zZ1tFtVwVKriC+pr7ECaayMj2G5zLXYAbjidJjbYgoZb93hXPVHXtzt84XbC
-         wTee31yMkx9Rax+olMAW08utelEPxjRvf4/ucsc7zi0oM5BvvmOEf5ChFHZXE2gfe1QW
-         39YAP/Vs8NsINgKoNFWX3T5rwu5LFMLknP5iYi1ITV5OSwVkT8bXkdywmTALp9iRfgYH
-         Vf1w==
-X-Gm-Message-State: AOJu0YxG4oeVoOShIHvidNpqLWQogdn3+J2OCeCHaN2arDbNqZapkiNv
-	GhEFJT+Zs7Bn2o2h6WYktd4=
-X-Google-Smtp-Source: AGHT+IFNGQ3+AMxG0ca79zSTJ/KrvclsNhqovQ/kVJHj73tDoYlvRBDp51qa+I4nnGMByS1WEcfAng==
-X-Received: by 2002:a17:902:a510:b0:1bb:b855:db3c with SMTP id s16-20020a170902a51000b001bbb855db3cmr7369388plq.41.1698730499022;
-        Mon, 30 Oct 2023 22:34:59 -0700 (PDT)
+        bh=rl870JnZ4hTIQ++KxGAzU1faBppIdJahzCd4lGE08z0=;
+        b=kxBvKinaarFcKWajipohQMsTb1hFfkiVu/ikHA7nd7+wxp6i9kQCV6RaL82ZD6DgGF
+         ubxV24F1aW2XgFj1ZWBRq7PGW6UEiZ0H79vOAYm6rsalYrI/DdP3Gz0pypXyJBQMqC2f
+         SVdvvzgjKeeJE4jQbEuWVxvso5OiS6YnL1pUPjW+2Y42xhJwaHu//WaIXQ6OC35MHYFj
+         Ktb70xNq+w5EW0IqFrsnT3FzztCt++GiVYqBXW4NCJ86xu7kV4wYzSTfUD6yHRIKIX3n
+         2CIQFWHfPwfc3b9gshXS4xROFAmYgpGcGC34PAT3x6TYuD7u3xaO13z2oenrZ1Vuc4WQ
+         J14Q==
+X-Gm-Message-State: AOJu0Yx8WU0djzmC4MSjhAI/pUSZ4hFLhw61SNRhlzcKfwbpZQjuySEH
+	w8siNSJP6/JG9Jkg//xToKA=
+X-Google-Smtp-Source: AGHT+IFwj8WKebJrOXAshRQFxkCACrIGsFphLy02voEXYOEigu4AoA50dyzKuuS9gmqJ565lGbrxPA==
+X-Received: by 2002:a17:902:d491:b0:1cc:50f6:7fcc with SMTP id c17-20020a170902d49100b001cc50f67fccmr4334968plg.55.1698730500952;
+        Mon, 30 Oct 2023 22:35:00 -0700 (PDT)
 Received: from ubuntu.. ([122.182.231.82])
-        by smtp.gmail.com with ESMTPSA id b17-20020a170902ed1100b001c0a414695bsm422211pld.43.2023.10.30.22.34.57
+        by smtp.gmail.com with ESMTPSA id b17-20020a170902ed1100b001c0a414695bsm422211pld.43.2023.10.30.22.34.59
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 30 Oct 2023 22:34:58 -0700 (PDT)
+        Mon, 30 Oct 2023 22:35:00 -0700 (PDT)
 From: Pavan Bobba <opensource206@gmail.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
 Cc: Pavan Bobba <opensource206@gmail.com>
-Subject: [PATCH 09/11] staging: vt6655: Type encoding info dropped from function name "CARDvSafeResetTx"
-Date: Tue, 31 Oct 2023 11:04:32 +0530
-Message-Id: <785a163ab01555bd0a7ed87484d727560d22cd95.1698730318.git.opensource206@gmail.com>
+Subject: [PATCH 10/11] staging: vt6655: Type encoding info dropped from variable name "pCurrTD"
+Date: Tue, 31 Oct 2023 11:04:33 +0530
+Message-Id: <06dc61ae807dcaa1dd8fdbf18686f0f4c20be634.1698730318.git.opensource206@gmail.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1698730318.git.opensource206@gmail.com>
 References: <cover.1698730318.git.opensource206@gmail.com>
@@ -61,7 +61,7 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-function name "CARDvSafeResetTx" updated like below:
+variable name "pCurrTD" updated like below:
 
 a.type encoding info dropped from name
 b.camelcase name replaced by snakecase
@@ -70,50 +70,40 @@ Issue found by checkpatch
 
 Signed-off-by: Pavan Bobba <opensource206@gmail.com>
 ---
- drivers/staging/vt6655/card.c        | 2 +-
- drivers/staging/vt6655/card.h        | 2 +-
- drivers/staging/vt6655/device_main.c | 2 +-
- 3 files changed, 3 insertions(+), 3 deletions(-)
+ drivers/staging/vt6655/card.c | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
 diff --git a/drivers/staging/vt6655/card.c b/drivers/staging/vt6655/card.c
-index 7980b93d2b1e..b249f22246b0 100644
+index b249f22246b0..d20afbc1072f 100644
 --- a/drivers/staging/vt6655/card.c
 +++ b/drivers/staging/vt6655/card.c
-@@ -382,7 +382,7 @@ void card_radio_power_off(struct vnt_private *priv)
- 	vt6655_mac_reg_bits_on(priv->port_offset, MAC_REG_GPIOCTL0, LED_ACTSET);  /* LED issue */
- }
- 
--void CARDvSafeResetTx(struct vnt_private *priv)
-+void card_safe_reset_tx(struct vnt_private *priv)
+@@ -385,7 +385,7 @@ void card_radio_power_off(struct vnt_private *priv)
+ void card_safe_reset_tx(struct vnt_private *priv)
  {
  	unsigned int uu;
- 	struct vnt_tx_desc *pCurrTD;
-diff --git a/drivers/staging/vt6655/card.h b/drivers/staging/vt6655/card.h
-index 5ca715b415e8..f52e42564e81 100644
---- a/drivers/staging/vt6655/card.h
-+++ b/drivers/staging/vt6655/card.h
-@@ -50,7 +50,7 @@ u64 vt6655_get_current_tsf(struct vnt_private *priv);
- u64 card_get_next_tbtt(u64 qwTSF, unsigned short beacon_interval);
- u64 card_get_tsf_offset(unsigned char rx_rate, u64 qwTSF1, u64 qwTSF2);
- unsigned char card_get_pkt_type(struct vnt_private *priv);
--void CARDvSafeResetTx(struct vnt_private *priv);
-+void card_safe_reset_tx(struct vnt_private *priv);
- void CARDvSafeResetRx(struct vnt_private *priv);
- void card_radio_power_off(struct vnt_private *priv);
- bool card_set_phy_parameter(struct vnt_private *priv, u8 bb_type);
-diff --git a/drivers/staging/vt6655/device_main.c b/drivers/staging/vt6655/device_main.c
-index 210c94312310..a1f3dc25ad0e 100644
---- a/drivers/staging/vt6655/device_main.c
-+++ b/drivers/staging/vt6655/device_main.c
-@@ -463,7 +463,7 @@ static void device_init_registers(struct vnt_private *priv)
- 	/* reset Tx pointer */
- 	CARDvSafeResetRx(priv);
- 	/* reset Rx pointer */
--	CARDvSafeResetTx(priv);
-+	card_safe_reset_tx(priv);
+-	struct vnt_tx_desc *pCurrTD;
++	struct vnt_tx_desc *curr_td;
  
- 	if (priv->local_id <= REV_ID_VT3253_A1)
- 		vt6655_mac_reg_bits_on(priv->port_offset, MAC_REG_RCR, RCR_WPAERR);
+ 	/* initialize TD index */
+ 	priv->apTailTD[0] = &priv->apTD0Rings[0];
+@@ -398,13 +398,13 @@ void card_safe_reset_tx(struct vnt_private *priv)
+ 		priv->iTDUsed[uu] = 0;
+ 
+ 	for (uu = 0; uu < priv->opts.tx_descs[0]; uu++) {
+-		pCurrTD = &priv->apTD0Rings[uu];
+-		pCurrTD->td0.owner = OWNED_BY_HOST;
++		curr_td = &priv->apTD0Rings[uu];
++		curr_td->td0.owner = OWNED_BY_HOST;
+ 		/* init all Tx Packet pointer to NULL */
+ 	}
+ 	for (uu = 0; uu < priv->opts.tx_descs[1]; uu++) {
+-		pCurrTD = &priv->apTD1Rings[uu];
+-		pCurrTD->td0.owner = OWNED_BY_HOST;
++		curr_td = &priv->apTD1Rings[uu];
++		curr_td->td0.owner = OWNED_BY_HOST;
+ 		/* init all Tx Packet pointer to NULL */
+ 	}
+ 
 -- 
 2.34.1
 
