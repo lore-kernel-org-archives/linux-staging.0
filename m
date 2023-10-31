@@ -1,55 +1,55 @@
-Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
+Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47E13D511
-	for <linux-staging@lists.linux.dev>; Tue, 31 Oct 2023 05:34:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20D03D507
+	for <linux-staging@lists.linux.dev>; Tue, 31 Oct 2023 05:34:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nMVaLx/j"
-Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-1cc0e78ec92so32328005ad.3
-        for <linux-staging@lists.linux.dev>; Mon, 30 Oct 2023 22:34:46 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Iot/QAi6"
+Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-1cc3542e328so16041985ad.1
+        for <linux-staging@lists.linux.dev>; Mon, 30 Oct 2023 22:34:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1698730485; x=1699335285; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1698730487; x=1699335287; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=mN/MvU9MLPHLAEGw0iR4UGx3aKzLloZYmaIYA+TmX30=;
-        b=nMVaLx/jYXnpNP+GWGBKDtXRtGesBiYEI2rEiBvvdlGK3gyOIDewzpDyCtWT+MnK9i
-         Czk+33zFp2bW10uZBno6IR6Pysfn3aHBrRF0eHdEB3WjqFBdmPWSofTyxXciwPsE82+U
-         LgYV9h0LStyVvgOqsi1UVRAcQCUA87l49GeKM514RC0Q41G8B38jqSuKkbCVlr/qWnEG
-         vTTrnqhPJKh4VXuEb7kHkGlbSJoT+bRp/5R2TPd12KN7C8/4iN69/7swbgp3WDaKM8Re
-         QcYXCyg4O9/bDXnokLCdP1gjiEjkdmGl6nCJ9AEEOnn89gXvDtIcmjNEtLdvEWfy8sH9
-         ry8g==
+        bh=Z/fqNuzQYQazb2cxHMITyfFuFwOyOR7YqTCdq7dtzbk=;
+        b=Iot/QAi69uV5AgQLr7iiuqv8TDVjjSN0vGzGZHUdDjgA5twn94EUz6T46aJry9i+Wb
+         6btr2TH8aRoOUBPfrdjLKjtA2x5BSaaQcXxU+3IKZ+GCI/HKqkc7DT1NE4iCKuZLn+nc
+         eJS/wp9QkPlI6WcaHzhlr+rQPpkhdnYondapswnL7MXt1zak992Q8mR2gvZYdY/DtZpD
+         vxFPmHFqtEXc/qtHtTW4K1ofPwFKpOTHkeTf94J0WIYk6EJCUqqo8x6xEQkvl4y2rBYp
+         JDpLAcDyLfS09hZNWoH3GO0Rxe3+37Nv1XXYNwCN5hnWOjzHI8bsYoQyjfPv2/6n6mqp
+         1hPQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1698730485; x=1699335285;
+        d=1e100.net; s=20230601; t=1698730487; x=1699335287;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=mN/MvU9MLPHLAEGw0iR4UGx3aKzLloZYmaIYA+TmX30=;
-        b=SFIOld6V41qW+zbplMMh/L3lynaAUjv9eMR0nDAtzi/gL24iEk5AV2EKE9fyjQdAto
-         QLsqQmkY7IEaRQMRjBMMibtbRmvFTMQUwbXip9ACt9syVGxEg0ek+e4zatJM6BV8AhZj
-         XT7EP1RlUBHHlqJLk26xMYqk6A+gyCBVnEJKxfG1h3HiHBnWEXUkbKJX2G5OnjTbLmBm
-         3IUG/7/2onmxo/yvFT7MFWNm9LJ7bNkMHzEH83EJJjpUxSx4zzHnbpCA2SwvX/rUeOqk
-         4ZyT1ZAVFcYSk4Vf8U7tqMgqXmKWweEm9foLHkRSf3Gq5FfZd+AkBEF/kB+NVJ0uGxI4
-         spbw==
-X-Gm-Message-State: AOJu0YycsbKGNt6vgJmcVYXbVdbGX9KXDJc2YCBpkdEQYhgFdWtQhj0K
-	OhY/Fn8LO4Rj1t+lkMDxldk=
-X-Google-Smtp-Source: AGHT+IGNYXvbnfinJUxW935i20mLBwO0UkAc3VIb1kvnGtS6KkaPW5o/jjGhhna8rM+wwtwAzFiGqA==
-X-Received: by 2002:a17:902:d491:b0:1cc:50f6:7fcc with SMTP id c17-20020a170902d49100b001cc50f67fccmr4334454plg.55.1698730485502;
-        Mon, 30 Oct 2023 22:34:45 -0700 (PDT)
+        bh=Z/fqNuzQYQazb2cxHMITyfFuFwOyOR7YqTCdq7dtzbk=;
+        b=ZfkewcpO2Z7tRLGhCahP+lVb7Jy/DBz9JMp2vjri2uZZTG8SlaGAsnujzBV63tLgNn
+         TebMoO3prIc4njXMGjZWIA21owDXJVF1MsjrpRZKWR5RBKw6G6MslWouStRl2U+DyFcS
+         q4R7dhXaIWrnhzRkdsZg8TPmMPSINBYSUZ37nGJU0r/Gn3mf447+BmvZVdhEHiUShH72
+         k2tMGRs35N0D7LXzbOz7GHJRL5D/u3y6oHwk1CShosd0PSJkp6lJqGPdgn0BXi0e0i5c
+         63JNhTOYXQOyv4xc2yle+sYU4Gx7bosXgMjI4eJSLoHABycbZt8jW9IoiDHTah3UbqNP
+         Pk+g==
+X-Gm-Message-State: AOJu0YyCivExSteCEmAXJdMErpvsnVFWHpNqW+VQbqKEADv1wWiPThuQ
+	gE3r4/GLc6So+2n/pwlshtM=
+X-Google-Smtp-Source: AGHT+IHDsDazw2uQJ+MBPbaAvd5OLst4nxkyeJrht3pxyxUHOxto0rV3E/BaeQ8ahh1dFBG3cuyNaQ==
+X-Received: by 2002:a17:903:2341:b0:1cc:449b:41e3 with SMTP id c1-20020a170903234100b001cc449b41e3mr4936574plh.59.1698730487444;
+        Mon, 30 Oct 2023 22:34:47 -0700 (PDT)
 Received: from ubuntu.. ([122.182.231.82])
-        by smtp.gmail.com with ESMTPSA id b17-20020a170902ed1100b001c0a414695bsm422211pld.43.2023.10.30.22.34.43
+        by smtp.gmail.com with ESMTPSA id b17-20020a170902ed1100b001c0a414695bsm422211pld.43.2023.10.30.22.34.45
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 30 Oct 2023 22:34:45 -0700 (PDT)
+        Mon, 30 Oct 2023 22:34:47 -0700 (PDT)
 From: Pavan Bobba <opensource206@gmail.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
 Cc: Pavan Bobba <opensource206@gmail.com>
-Subject: [PATCH 02/11] staging: vt6655: Type encoding info dropped from variable name "qwTSFOffset"
-Date: Tue, 31 Oct 2023 11:04:25 +0530
-Message-Id: <035b910c92233a7252a4b312e0cfe5adbcbbae79.1698730318.git.opensource206@gmail.com>
+Subject: [PATCH 03/11] staging: vt6655: Type encoding info dropped from function name "CARDqGetTSFOffset"
+Date: Tue, 31 Oct 2023 11:04:26 +0530
+Message-Id: <b6b86bd65669cae59ca10171ecee8aa4a13c4a26.1698730318.git.opensource206@gmail.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1698730318.git.opensource206@gmail.com>
 References: <cover.1698730318.git.opensource206@gmail.com>
@@ -61,7 +61,7 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-variable name "qwTSFOffset" updated like below:
+function name "CARDqGetTSFOffset" updated like below:
 
 a.type encoding info dropped from name
 b.camelcase name replaced by snakecase
@@ -70,36 +70,54 @@ Issue found by checkpatch
 
 Signed-off-by: Pavan Bobba <opensource206@gmail.com>
 ---
- drivers/staging/vt6655/card.c | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+ drivers/staging/vt6655/card.c | 6 +++---
+ drivers/staging/vt6655/card.h | 2 +-
+ 2 files changed, 4 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/staging/vt6655/card.c b/drivers/staging/vt6655/card.c
-index 59a788b7e268..e0af14eb7cd4 100644
+index e0af14eb7cd4..1edf65e2adcf 100644
 --- a/drivers/staging/vt6655/card.c
 +++ b/drivers/staging/vt6655/card.c
-@@ -291,17 +291,17 @@ bool card_update_tsf(struct vnt_private *priv, unsigned char rx_rate,
- 		    u64 bss_timestamp)
- {
- 	u64 local_tsf;
--	u64 qwTSFOffset = 0;
-+	u64 tsf_offset = 0;
- 
+@@ -10,7 +10,7 @@
+  *      CARDvUpdateBasicTopRate - Update BasicTopRate
+  *      CARDbAddBasicRate - Add to BasicRateSet
+  *      CARDbIsOFDMinBasicRate - Check if any OFDM rate is in BasicRateSet
+- *      CARDqGetTSFOffset - Calculate TSFOffset
++ *      card_get_tsf_offset - Calculate TSFOffset
+  *      vt6655_get_current_tsf - Read Current NIC TSF counter
+  *      CARDqGetNextTBTT - Calculate Next Beacon TSF counter
+  *      CARDvSetFirstNextTBTT - Set NIC Beacon time
+@@ -296,7 +296,7 @@ bool card_update_tsf(struct vnt_private *priv, unsigned char rx_rate,
  	local_tsf = vt6655_get_current_tsf(priv);
  
  	if (bss_timestamp != local_tsf) {
--		qwTSFOffset = CARDqGetTSFOffset(rx_rate, bss_timestamp,
-+		tsf_offset = CARDqGetTSFOffset(rx_rate, bss_timestamp,
+-		tsf_offset = CARDqGetTSFOffset(rx_rate, bss_timestamp,
++		tsf_offset = card_get_tsf_offset(rx_rate, bss_timestamp,
  						local_tsf);
  		/* adjust TSF, HW's TSF add TSF Offset reg */
--		qwTSFOffset =  le64_to_cpu(qwTSFOffset);
--		iowrite32((u32)qwTSFOffset, priv->port_offset + MAC_REG_TSFOFST);
--		iowrite32((u32)(qwTSFOffset >> 32), priv->port_offset + MAC_REG_TSFOFST + 4);
-+		tsf_offset =  le64_to_cpu(tsf_offset);
-+		iowrite32((u32)tsf_offset, priv->port_offset + MAC_REG_TSFOFST);
-+		iowrite32((u32)(tsf_offset >> 32), priv->port_offset + MAC_REG_TSFOFST + 4);
- 		vt6655_mac_reg_bits_on(priv->port_offset, MAC_REG_TFTCTL, TFTCTL_TSFSYNCEN);
- 	}
- 	return true;
+ 		tsf_offset =  le64_to_cpu(tsf_offset);
+@@ -708,7 +708,7 @@ unsigned char card_get_pkt_type(struct vnt_private *priv)
+  *
+  * Return Value: TSF Offset value
+  */
+-u64 CARDqGetTSFOffset(unsigned char rx_rate, u64 qwTSF1, u64 qwTSF2)
++u64 card_get_tsf_offset(unsigned char rx_rate, u64 qwTSF1, u64 qwTSF2)
+ {
+ 	unsigned short wRxBcnTSFOffst;
+ 
+diff --git a/drivers/staging/vt6655/card.h b/drivers/staging/vt6655/card.h
+index cda969b06fce..df1b9a7c1f21 100644
+--- a/drivers/staging/vt6655/card.h
++++ b/drivers/staging/vt6655/card.h
+@@ -48,7 +48,7 @@ void CARDvUpdateNextTBTT(struct vnt_private *priv, u64 qwTSF,
+ 			 unsigned short wBeaconInterval);
+ u64 vt6655_get_current_tsf(struct vnt_private *priv);
+ u64 CARDqGetNextTBTT(u64 qwTSF, unsigned short wBeaconInterval);
+-u64 CARDqGetTSFOffset(unsigned char rx_rate, u64 qwTSF1, u64 qwTSF2);
++u64 card_get_tsf_offset(unsigned char rx_rate, u64 qwTSF1, u64 qwTSF2);
+ unsigned char card_get_pkt_type(struct vnt_private *priv);
+ void CARDvSafeResetTx(struct vnt_private *priv);
+ void CARDvSafeResetRx(struct vnt_private *priv);
 -- 
 2.34.1
 
