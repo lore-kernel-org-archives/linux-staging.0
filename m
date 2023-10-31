@@ -1,55 +1,55 @@
-Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
+Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E65BDD507
-	for <linux-staging@lists.linux.dev>; Tue, 31 Oct 2023 05:34:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C41F4D507
+	for <linux-staging@lists.linux.dev>; Tue, 31 Oct 2023 05:34:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VLesaeqD"
-Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-1cc0e78ec92so32328845ad.3
-        for <linux-staging@lists.linux.dev>; Mon, 30 Oct 2023 22:34:55 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dhkfmjBa"
+Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-1cc2575dfc7so25711505ad.1
+        for <linux-staging@lists.linux.dev>; Mon, 30 Oct 2023 22:34:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1698730495; x=1699335295; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1698730497; x=1699335297; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=G104GsQN9SGsp6hJmguf5vfKPskMi7nlpROtr8cSfdI=;
-        b=VLesaeqDoFnXz1qYYBFuv1kq8BCwRTa3aVXtxsdIf6EcDvvBTy3X9U4LGj3vODfztY
-         gIO2qPDIEI/rVvHCqrqIKrulmVpjbFZGoAQwy3Pmxx5zw9/aLj0ega/+ldsFmIUYdxAU
-         jFn3YwGUOXcpQpUv2FncG6Xjnfu+epl1mr5XmTCCZZqdFmjP2ETLDfENEfXw4RkxUgRI
-         Bg2Ok6OuiLmRq6hgz3T0RGYtq3hABc+QStHTlMpTP9wJUDxyMrveLKP9yD5DtvZSVhS1
-         f/auxgpfp7SClFT2Cqfzr+qXsEAkuP6uLkEnNyQ6vFzA6MuW6nJSfWzjni0pNQoD+GM3
-         5L/g==
+        bh=9uQtO8M5ioqZ7+MOOU298ue9J+3vWCy5YR1WIv7HeCg=;
+        b=dhkfmjBakRZT9kMdDXzilrVcQoXZZRnzW7RZ8kWZgvmPotzqZeT7w6atxDS37qqOuB
+         n9dkdAidNOhWmNicmqd3A6ZyqFnUCojpCK8GMPFCFF+GFqy2LIMZmFKzxdFRDhKddZZv
+         lalADIQAqCSIymbCPDNRAnk8AlMcpqNZnM+PGvEpQufVyhOFge0sqgxY+PFQKp34SrUP
+         k2s19fRwWTtcgEugaWJ4me2TmEpZB34KnnPP/6OeqAOL+gkFhtfwyzKrmmtKlbfEJRFm
+         F5HkCzhmxpFyYt0+HKrI0/KX1IjmMrdSx/iUomBu/tKA9pYAzT/uWaC7de5HS09HLzRA
+         l2qA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1698730495; x=1699335295;
+        d=1e100.net; s=20230601; t=1698730497; x=1699335297;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=G104GsQN9SGsp6hJmguf5vfKPskMi7nlpROtr8cSfdI=;
-        b=fdJO4b2HNnmtfX88Zpca6w9QVsxiyuiMm42txbLJBf8nBP9HOzCiUDoE+b40dRgBqn
-         4Ony+u8MPtOFl7F32tMdAptoDfcui4V1Z5q/lvzLGOZ/yp9g6ou79cDdXpanbfB+aj4Q
-         txD/WGrGPTMwOHWwR8Lj3bbupVPDhiiL/LHldAF0eTMvmfgcfP7Rc+qi+oOmDClzxCUs
-         ImXAq37uM0/66/5nmK9DOGM2fPakc2ZSI/d9fg0+9yWSbbBWwLalFpTbZ+ulKoXmLmNR
-         QVpO30IOH+6KjQnXvvF7AlDV3iHnfQ0ipjnzH+NQcQWnk5rujVDeYZVn61Vw4Uqru1Ny
-         GjTQ==
-X-Gm-Message-State: AOJu0YwTjTPx4XBpH7TnvhPZB/87JeaHpudPMtZm+1bQrVHisVc6rfut
-	8E05Mxl+mmBL3lNtS6e0At4=
-X-Google-Smtp-Source: AGHT+IH9/yJcBmPwdhclpwrea7KIAb6q18lJkHULMiD5VW3kVUkEYsUTqaEDl1tidEC9v0Xi0mL48Q==
-X-Received: by 2002:a17:902:f213:b0:1c9:da1a:8b14 with SMTP id m19-20020a170902f21300b001c9da1a8b14mr8310243plc.1.1698730495171;
-        Mon, 30 Oct 2023 22:34:55 -0700 (PDT)
+        bh=9uQtO8M5ioqZ7+MOOU298ue9J+3vWCy5YR1WIv7HeCg=;
+        b=X9OmXYevVMp62lW9avwoWwdMmzUEz+5g4xOTo+W62UAaCCFKu4jDkXcCJ1GmTaLE+K
+         +6c5QDbhrLoPKxV61gJ+u61vRIZii8rEXh2y+9mbfc18eJHfIikNSv8KLosDrYx4anpk
+         gLJ63eyH9NMU9ohq9hcwr6XRret/dPjzhGmsDYq8nxWFo1UFixFs++8CJqZfG8niby6i
+         EX4KLsAgtXXUEa5uBqxhrN9xVuDFsgRVdHkSaXX3xUD8oWpJlYOz9sSpd35/qQOOLgxH
+         1got5Xi7qPJcvXlKRm7rdxcF0HDRA6ZvHbcHVWFnvsowbdCoCubgHbjfhrRtBfTMouHk
+         FcyQ==
+X-Gm-Message-State: AOJu0YxughENuTELRkBudQQK+RcyCU0Iuw5Hm32UHBzKPAgbeziPOl/t
+	MQD58d9kJJCZFV7I4u8gXwE=
+X-Google-Smtp-Source: AGHT+IGH+Q37s6NRSzSU3WWulvYqXR8L3ot4ArUROzWVEfOM8q/0W2cVvok7wY6SJR2VFqvxXXALzg==
+X-Received: by 2002:a17:903:246:b0:1ca:5d1a:e77f with SMTP id j6-20020a170903024600b001ca5d1ae77fmr11216386plh.43.1698730497107;
+        Mon, 30 Oct 2023 22:34:57 -0700 (PDT)
 Received: from ubuntu.. ([122.182.231.82])
-        by smtp.gmail.com with ESMTPSA id b17-20020a170902ed1100b001c0a414695bsm422211pld.43.2023.10.30.22.34.53
+        by smtp.gmail.com with ESMTPSA id b17-20020a170902ed1100b001c0a414695bsm422211pld.43.2023.10.30.22.34.55
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 30 Oct 2023 22:34:54 -0700 (PDT)
+        Mon, 30 Oct 2023 22:34:56 -0700 (PDT)
 From: Pavan Bobba <opensource206@gmail.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
 Cc: Pavan Bobba <opensource206@gmail.com>
-Subject: [PATCH 07/11] staging: vt6655: Type encoding info dropped from function name "CARDqGetNextTBTT"
-Date: Tue, 31 Oct 2023 11:04:30 +0530
-Message-Id: <8e142b33245e6933fb178080b0b14371939a84e6.1698730318.git.opensource206@gmail.com>
+Subject: [PATCH 08/11] staging: vt6655: Type encoding info dropped from function name "CARDbRadioPowerOff"
+Date: Tue, 31 Oct 2023 11:04:31 +0530
+Message-Id: <5b264db5a6d5ac936e02f0a7f465e648504a049e.1698730318.git.opensource206@gmail.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1698730318.git.opensource206@gmail.com>
 References: <cover.1698730318.git.opensource206@gmail.com>
@@ -61,7 +61,7 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-function name "CARDqGetNextTBTT" updated like below:
+function name "CARDbRadioPowerOff" updated like below:
 
 a.type encoding info dropped from name
 b.camelcase name replaced by snakecase
@@ -70,72 +70,77 @@ Issue found by checkpatch
 
 Signed-off-by: Pavan Bobba <opensource206@gmail.com>
 ---
- drivers/staging/vt6655/card.c | 10 +++++-----
- drivers/staging/vt6655/card.h |  2 +-
- 2 files changed, 6 insertions(+), 6 deletions(-)
+ drivers/staging/vt6655/card.c        | 4 ++--
+ drivers/staging/vt6655/card.h        | 2 +-
+ drivers/staging/vt6655/device_main.c | 6 +++---
+ 3 files changed, 6 insertions(+), 6 deletions(-)
 
 diff --git a/drivers/staging/vt6655/card.c b/drivers/staging/vt6655/card.c
-index e4b40125b094..716fd3632508 100644
+index 716fd3632508..7980b93d2b1e 100644
 --- a/drivers/staging/vt6655/card.c
 +++ b/drivers/staging/vt6655/card.c
-@@ -12,7 +12,7 @@
-  *      CARDbIsOFDMinBasicRate - Check if any OFDM rate is in BasicRateSet
-  *      card_get_tsf_offset - Calculate TSFOffset
-  *      vt6655_get_current_tsf - Read Current NIC TSF counter
-- *      CARDqGetNextTBTT - Calculate Next Beacon TSF counter
-+ *      card_get_next_tbtt - Calculate Next Beacon TSF counter
+@@ -15,7 +15,7 @@
+  *      card_get_next_tbtt - Calculate Next Beacon TSF counter
   *      CARDvSetFirstNextTBTT - Set NIC Beacon time
   *      CARDvUpdateNextTBTT - Sync. NIC Beacon time
-  *      CARDbRadioPowerOff - Turn Off NIC Radio Power
-@@ -327,7 +327,7 @@ bool card_set_beacon_period(struct vnt_private *priv,
- 
- 	next_tbtt = vt6655_get_current_tsf(priv); /* Get Local TSF counter */
- 
--	next_tbtt = CARDqGetNextTBTT(next_tbtt, beacon_interval);
-+	next_tbtt = card_get_next_tbtt(next_tbtt, beacon_interval);
- 
- 	/* set HW beacon interval */
- 	iowrite16(beacon_interval, priv->port_offset + MAC_REG_BI);
-@@ -764,7 +764,7 @@ u64 vt6655_get_current_tsf(struct vnt_private *priv)
+- *      CARDbRadioPowerOff - Turn Off NIC Radio Power
++ *      card_radio_power_off - Turn Off NIC Radio Power
   *
-  * Return Value: TSF value of next Beacon
+  * Revision History:
+  *      06-10-2003 Bryan YC Fan:  Re-write codes to support VT3253 spec.
+@@ -351,7 +351,7 @@ bool card_set_beacon_period(struct vnt_private *priv,
+  *      none
+  *
   */
--u64 CARDqGetNextTBTT(u64 qwTSF, unsigned short beacon_interval)
-+u64 card_get_next_tbtt(u64 qwTSF, unsigned short beacon_interval)
+-void CARDbRadioPowerOff(struct vnt_private *priv)
++void card_radio_power_off(struct vnt_private *priv)
  {
- 	u32 beacon_int;
- 
-@@ -799,7 +799,7 @@ void CARDvSetFirstNextTBTT(struct vnt_private *priv,
- 
- 	next_tbtt = vt6655_get_current_tsf(priv); /* Get Local TSF counter */
- 
--	next_tbtt = CARDqGetNextTBTT(next_tbtt, beacon_interval);
-+	next_tbtt = card_get_next_tbtt(next_tbtt, beacon_interval);
- 	/* Set NextTBTT */
- 	next_tbtt =  le64_to_cpu(next_tbtt);
- 	iowrite32((u32)next_tbtt, iobase + MAC_REG_NEXTTBTT);
-@@ -826,7 +826,7 @@ void CARDvUpdateNextTBTT(struct vnt_private *priv, u64 qwTSF,
- {
- 	void __iomem *iobase = priv->port_offset;
- 
--	qwTSF = CARDqGetNextTBTT(qwTSF, beacon_interval);
-+	qwTSF = card_get_next_tbtt(qwTSF, beacon_interval);
- 	/* Set NextTBTT */
- 	qwTSF =  le64_to_cpu(qwTSF);
- 	iowrite32((u32)qwTSF, iobase + MAC_REG_NEXTTBTT);
+ 	if (priv->radio_off)
+ 		return;
 diff --git a/drivers/staging/vt6655/card.h b/drivers/staging/vt6655/card.h
-index 1758a95f3ab0..ab1193799239 100644
+index ab1193799239..5ca715b415e8 100644
 --- a/drivers/staging/vt6655/card.h
 +++ b/drivers/staging/vt6655/card.h
-@@ -47,7 +47,7 @@ void CARDvSetFirstNextTBTT(struct vnt_private *priv,
- void CARDvUpdateNextTBTT(struct vnt_private *priv, u64 qwTSF,
- 			 unsigned short beacon_interval);
- u64 vt6655_get_current_tsf(struct vnt_private *priv);
--u64 CARDqGetNextTBTT(u64 qwTSF, unsigned short beacon_interval);
-+u64 card_get_next_tbtt(u64 qwTSF, unsigned short beacon_interval);
- u64 card_get_tsf_offset(unsigned char rx_rate, u64 qwTSF1, u64 qwTSF2);
+@@ -52,7 +52,7 @@ u64 card_get_tsf_offset(unsigned char rx_rate, u64 qwTSF1, u64 qwTSF2);
  unsigned char card_get_pkt_type(struct vnt_private *priv);
  void CARDvSafeResetTx(struct vnt_private *priv);
+ void CARDvSafeResetRx(struct vnt_private *priv);
+-void CARDbRadioPowerOff(struct vnt_private *priv);
++void card_radio_power_off(struct vnt_private *priv);
+ bool card_set_phy_parameter(struct vnt_private *priv, u8 bb_type);
+ bool card_update_tsf(struct vnt_private *priv, unsigned char rx_rate,
+ 		    u64 bss_timestamp);
+diff --git a/drivers/staging/vt6655/device_main.c b/drivers/staging/vt6655/device_main.c
+index 2e2a8da571ab..210c94312310 100644
+--- a/drivers/staging/vt6655/device_main.c
++++ b/drivers/staging/vt6655/device_main.c
+@@ -454,7 +454,7 @@ static void device_init_registers(struct vnt_private *priv)
+ 	}
+ 
+ 	if (priv->hw_radio_off || priv->bRadioControlOff)
+-		CARDbRadioPowerOff(priv);
++		card_radio_power_off(priv);
+ 
+ 	/* get Permanent network address */
+ 	SROMvReadEtherAddress(priv->port_offset, priv->abyCurrentNetAddr);
+@@ -1349,7 +1349,7 @@ static void vnt_stop(struct ieee80211_hw *hw)
+ 
+ 	MACbShutdown(priv);
+ 	MACbSoftwareReset(priv);
+-	CARDbRadioPowerOff(priv);
++	card_radio_power_off(priv);
+ 
+ 	device_free_td0_ring(priv);
+ 	device_free_td1_ring(priv);
+@@ -1712,7 +1712,7 @@ static int vnt_init(struct vnt_private *priv)
+ 
+ 	priv->mac_hw = true;
+ 
+-	CARDbRadioPowerOff(priv);
++	card_radio_power_off(priv);
+ 
+ 	return 0;
+ }
 -- 
 2.34.1
 
