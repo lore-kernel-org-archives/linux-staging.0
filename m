@@ -1,114 +1,116 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56035A29
-	for <linux-staging@lists.linux.dev>; Tue, 31 Oct 2023 09:08:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07F23A29
+	for <linux-staging@lists.linux.dev>; Tue, 31 Oct 2023 09:08:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VblEe006"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 84EEBC433C8;
-	Tue, 31 Oct 2023 09:08:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1698743286;
-	bh=feIBOznLOh65axwYyiiYpq9McN8nBddJCuTkou94EY8=;
-	h=From:To:Cc:Subject:References:Date:In-Reply-To:From;
-	b=VblEe006dkOhHKFV8lXYkjBoV+/BKggu8KsI5kMIAb2Q1426nw4dRAAVoYwb69UEw
-	 G4GLrarHQQVvZuXCYCZpQm3MzyKeWeBmJjvlgQ6PMCq7xr4I4hB0HHfGshV2oZUG15
-	 X6DMTAU3M/qqtSGFor+HnXWdZfMMByBst6bHmnUyfk/boW/rAygCoryItoD82ouGdQ
-	 F5rgczw5G1IKtPxgez4yKfn8OvhBZ5q4umOXcv+za1DnTK33HU98GoVwOWr045jrBq
-	 m/rH+Oca3fkh8qYaRN6iMziupF3suM3KgYmJZfX4wsLpF+TVmwMsBaFclHecefyoKM
-	 WMmuIxn5gT6Nw==
-From: Kalle Valo <kvalo@kernel.org>
-To: Arnd Bergmann <arnd@kernel.org>
-Cc: Arnd Bergmann <arnd@arndb.de>,  "David S . Miller"
- <davem@davemloft.net>,  Alexandre Belloni <alexandre.belloni@bootlin.com>,
-  Claudiu Beznea <claudiu.beznea@tuxon.dev>,  Geert Uytterhoeven
- <geert@linux-m68k.org>,  Geoff Levand <geoff@infradead.org>,  Greg
- Kroah-Hartman <gregkh@linuxfoundation.org>,  Jakub Kicinski
- <kuba@kernel.org>,  Jeff Johnson <quic_jjohnson@quicinc.com>,  Johannes
- Berg <johannes@sipsolutions.net>,  Larry Finger
- <Larry.Finger@lwfinger.net>,  Nicolas Ferre <nicolas.ferre@microchip.com>,
-  Pavel Machek <pavel@ucw.cz>,  Stanislaw Gruszka <stf_xl@wp.pl>,  Gregory
- Greenman <gregory.greenman@intel.com>,  linuxppc-dev
- <linuxppc-dev@lists.ozlabs.org>,  linux-arm-kernel@lists.infradead.org,
-  linux-kernel@vger.kernel.org,  linux-staging@lists.linux.dev,
-  linux-wireless@vger.kernel.org
-Subject: Re: [PATCH 00/10] Remove obsolete and orphaned wifi drivers
-References: <20231023131953.2876682-1-arnd@kernel.org>
-Date: Tue, 31 Oct 2023 11:08:00 +0200
-In-Reply-To: <20231023131953.2876682-1-arnd@kernel.org> (Arnd Bergmann's
-	message of "Mon, 23 Oct 2023 15:19:42 +0200")
-Message-ID: <874ji7w45r.fsf@kernel.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="XXvaEh5a"
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-40806e40fccso35688825e9.2
+        for <linux-staging@lists.linux.dev>; Tue, 31 Oct 2023 02:08:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1698743300; x=1699348100; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=xpXKFnUDplvUDItzvFUTE0LsBMMlzWgnaSD939CoMz8=;
+        b=XXvaEh5aP1tLR4WZrBOyh9ZjZGfR3do57PAlV+HCuuh2RlFLFn8jW9Fpd4FpSpDhwR
+         AQ3tc4AsrRd0jdNH/nakc8Q5d9cx5C0WZQd+JBQBTSVE+IGGESb4zC/1uNk96P7fo5+J
+         cVk4sJKpd8HN8tmEFoDXn7mEliehNep/n1kSdZ3DxviSLhGyAoyOnuFWjoX06a9m38eY
+         bIHz+7Enp7zqfbmWSCAgJr/4Oc18zpx8WASSb6cK7/jNNrPfVzlVopZl84o0T9abWtgu
+         ZE5FZWML2IdLTJdQwA2zTUAHdq3f6XNkY9G2GCr06Bu8RoK4H72e8soeMcGyx5C+dX8p
+         WSxw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1698743300; x=1699348100;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=xpXKFnUDplvUDItzvFUTE0LsBMMlzWgnaSD939CoMz8=;
+        b=QqQxk3lp13FcZVMj3b87PQ+ZFhes4YZBb9DTdJMD5VFkQnVWFGwcX9mginzsjdePFu
+         r3VqVnVV2eayJT3ZwDLTxIVcYlpZxSffcDeQRCRnsX0NCHvzWbPDClvu/ZA+vwBpoogI
+         8lUWoTWbF/5bt655zqpH6+5bJJ7YXLZsRVdZ2G1nQHnIfepCFJS2GFSjTynUSbWh1k3O
+         DJA6NYKYsxX9Klm5yZTt8tXpF/vxQsC11qR0tIt9vE+Ks8WjMa5wFuc7Y4EGt+BxfDl9
+         8HbpwEpm8mWAnDQlo4NRb6ZD3xOQPl4JSX0ARpSSwFpjhsYTNBTCizxhMXCwPe/ZvJZh
+         eD4A==
+X-Gm-Message-State: AOJu0YyIslW8dL7imJl8E0l127KQvVJbP3LUQmcvRaV6yj3PLQdQXKAT
+	NCXdYY0GCKioUSSZvpAqowLCzQ==
+X-Google-Smtp-Source: AGHT+IFAMBbn14jVtSVp5g9b9X78C9y3LG4Ea5uCZePaIKmJ6AjUQsvyXNbTpqYkFJo7utIeEN7jEg==
+X-Received: by 2002:a05:600c:35c2:b0:408:37d4:b5ba with SMTP id r2-20020a05600c35c200b0040837d4b5bamr10978625wmq.12.1698743300257;
+        Tue, 31 Oct 2023 02:08:20 -0700 (PDT)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id m7-20020a05600c4f4700b0040651505684sm1145362wmq.29.2023.10.31.02.08.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 31 Oct 2023 02:08:19 -0700 (PDT)
+Date: Tue, 31 Oct 2023 12:08:15 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: umang.jain@ideasonboard.com
+Cc: linux-staging@lists.linux.dev
+Subject: [bug report] staging: vc04: Convert(and rename) vchiq_log_info() to
+ use dynamic debug
+Message-ID: <be68424a-ce70-4a91-8b63-13fa4cce22cd@moroto.mountain>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Arnd Bergmann <arnd@kernel.org> writes:
+Hello Umang Jain,
 
-> From: Arnd Bergmann <arnd@arndb.de>
->
-> As discussed previously, a lot of the older wifi drivers are likely
-> entirely unused, Though we can't know for sure.
->
-> As suggested by both Greg and Jakub, let's remove the ones that look
-> are most likely to have no users left and also get in the way of the
-> wext cleanup. If anyone is still using any of these, we can revert the
-> driver removal individually.
->
-> I would suggest merging these for net-next after 6.7-rc1 is out, to give
-> them the maximum amount of time for users to speak up before a release
-> comes out.
->
-> This kills off all pcmcia wifi drivers, and all wext users in
-> drivers/net/wireless, but not the ps3-gelic-wireless driver in
-> drivers/net/ethernet, or the staging drivers.
->
-> In staging, rtl8192u was already removed in the meantime, while rtl8712
-> and rtl8192e are apparently still used.  I have not been able to find
-> out whether ks7010 is still in use.
->
-> 	Arnd
->
-> Link: https://lore.kernel.org/lkml/20231011080955.1beeb010@kernel.org/
->
->
-> Arnd Bergmann (10):
->   wifi: libertas: drop 16-bit PCMCIA support
->   wifi: atmel: remove wext style at76c50x drivers
->   wifi: remove orphaned cisco/aironet driver
->   wifi: remove obsolete hostap driver
->   wifi: remove orphaned zd1201 driver
->   wifi: remove orphaned orinoco driver
->   wifi: remove orphaned ray_cs driver
->   wifi: remove orphaned wl3501 driver
->   wifi: remove orphaned rndis_wlan driver
->   [RFC] wifi: remove ipw2100/ipw2200 drivers
+The patch f67af5940d6d: "staging: vc04: Convert(and rename)
+vchiq_log_info() to use dynamic debug" from Oct 24, 2023
+(linux-next), leads to the following Smatch static checker warning:
 
-I manually applied these 9 to wireless-next:
+drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c:248
+	find_service_by_handle() error: we previously assumed 'service'
+	could be null (see line 240)
 
-4b478bf6bdd8 wifi: libertas: drop 16-bit PCMCIA support
-77e49bec6414 wifi: atmel: remove wext style at76c50x drivers
-6853c70ba5ed wifi: remove orphaned cisco/aironet driver
-d0172d5f7576 wifi: remove obsolete hostap driver
-757a46c2a7a9 wifi: remove orphaned zd1201 driver
-1535d5962d79 wifi: remove orphaned orinoco driver
-6b9dbaff83d6 wifi: remove orphaned ray_cs driver
-238349207cd3 wifi: remove orphaned wl3501 driver
-bec95598b24a wifi: remove orphaned rndis_wlan driver
+drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c:290
+	find_service_for_instance() error: we previously assumed 'service'
+	could be null (see line 281)
 
-I dropped this patch as we got several reports about people using the
-driver:
+drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c:313
+	find_closed_service_for_instance() error: we previously assumed 'service'
+	could be null (see line 302)
 
-[RFC] wifi: remove ipw2100/ipw2200 drivers
+drivers/staging/vc04_services/interface/vchiq_arm/vchiq_dev.c:1176
+	vchiq_open() error: we previously assumed 'state' could be null
+	(see line 1175)
 
-The patches are queued for v6.8. Arnd, thanks a lot for cleaning this
-up!
+Also I see in vchiq_release() we dereference "state" before the NULL
+check.  This warning only triggers when the variable has definitely
+been dereferenced before but if debugging is turned off then maybe the
+variable wasn't dereferenced.  I'm going to change that rule to complain
+when a variable is possibly dereferenced and see how the output looks
+like tonight.
 
--- 
-https://patchwork.kernel.org/project/linux-wireless/list/
+drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
+    233 struct vchiq_service *
+    234 find_service_by_handle(struct vchiq_instance *instance, unsigned int handle)
+    235 {
+    236         struct vchiq_service *service;
+    237 
+    238         rcu_read_lock();
+    239         service = handle_to_service(instance, handle);
+    240         if (service && service->srvstate != VCHIQ_SRVSTATE_FREE &&
+                    ^^^^^^^
+Check for NULL
 
-https://wireless.wiki.kernel.org/en/developers/documentation/submittingpatches
+    241             service->handle == handle &&
+    242             kref_get_unless_zero(&service->ref_count)) {
+    243                 service = rcu_pointer_handoff(service);
+    244                 rcu_read_unlock();
+    245                 return service;
+    246         }
+    247         rcu_read_unlock();
+--> 248         vchiq_log_debug(service->state->dev, VCHIQ_CORE,
+                                ^^^^^^^
+Unchecked dereference
+
+    249                         "Invalid service handle 0x%x", handle);
+    250         return NULL;
+    251 }
+
+regards,
+dan carpenter
