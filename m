@@ -1,261 +1,114 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B61E16408
-	for <linux-staging@lists.linux.dev>; Tue, 31 Oct 2023 09:04:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dkim=none
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B2102C433C7;
-	Tue, 31 Oct 2023 09:04:55 +0000 (UTC)
-Message-ID: <ab9fa763-2329-4696-8903-2dd28bcbea0e@xs4all.nl>
-Date: Tue, 31 Oct 2023 10:04:53 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56035A29
+	for <linux-staging@lists.linux.dev>; Tue, 31 Oct 2023 09:08:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VblEe006"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 84EEBC433C8;
+	Tue, 31 Oct 2023 09:08:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1698743286;
+	bh=feIBOznLOh65axwYyiiYpq9McN8nBddJCuTkou94EY8=;
+	h=From:To:Cc:Subject:References:Date:In-Reply-To:From;
+	b=VblEe006dkOhHKFV8lXYkjBoV+/BKggu8KsI5kMIAb2Q1426nw4dRAAVoYwb69UEw
+	 G4GLrarHQQVvZuXCYCZpQm3MzyKeWeBmJjvlgQ6PMCq7xr4I4hB0HHfGshV2oZUG15
+	 X6DMTAU3M/qqtSGFor+HnXWdZfMMByBst6bHmnUyfk/boW/rAygCoryItoD82ouGdQ
+	 F5rgczw5G1IKtPxgez4yKfn8OvhBZ5q4umOXcv+za1DnTK33HU98GoVwOWr045jrBq
+	 m/rH+Oca3fkh8qYaRN6iMziupF3suM3KgYmJZfX4wsLpF+TVmwMsBaFclHecefyoKM
+	 WMmuIxn5gT6Nw==
+From: Kalle Valo <kvalo@kernel.org>
+To: Arnd Bergmann <arnd@kernel.org>
+Cc: Arnd Bergmann <arnd@arndb.de>,  "David S . Miller"
+ <davem@davemloft.net>,  Alexandre Belloni <alexandre.belloni@bootlin.com>,
+  Claudiu Beznea <claudiu.beznea@tuxon.dev>,  Geert Uytterhoeven
+ <geert@linux-m68k.org>,  Geoff Levand <geoff@infradead.org>,  Greg
+ Kroah-Hartman <gregkh@linuxfoundation.org>,  Jakub Kicinski
+ <kuba@kernel.org>,  Jeff Johnson <quic_jjohnson@quicinc.com>,  Johannes
+ Berg <johannes@sipsolutions.net>,  Larry Finger
+ <Larry.Finger@lwfinger.net>,  Nicolas Ferre <nicolas.ferre@microchip.com>,
+  Pavel Machek <pavel@ucw.cz>,  Stanislaw Gruszka <stf_xl@wp.pl>,  Gregory
+ Greenman <gregory.greenman@intel.com>,  linuxppc-dev
+ <linuxppc-dev@lists.ozlabs.org>,  linux-arm-kernel@lists.infradead.org,
+  linux-kernel@vger.kernel.org,  linux-staging@lists.linux.dev,
+  linux-wireless@vger.kernel.org
+Subject: Re: [PATCH 00/10] Remove obsolete and orphaned wifi drivers
+References: <20231023131953.2876682-1-arnd@kernel.org>
+Date: Tue, 31 Oct 2023 11:08:00 +0200
+In-Reply-To: <20231023131953.2876682-1-arnd@kernel.org> (Arnd Bergmann's
+	message of "Mon, 23 Oct 2023 15:19:42 +0200")
+Message-ID: <874ji7w45r.fsf@kernel.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v13 00/56] Add DELETE_BUF ioctl
-Content-Language: en-US, nl
-To: Benjamin Gaignard <benjamin.gaignard@collabora.com>, mchehab@kernel.org,
- tfiga@chromium.org, m.szyprowski@samsung.com, ming.qian@nxp.com,
- ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de,
- gregkh@linuxfoundation.org, nicolas.dufresne@collabora.com
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org,
- linux-arm-msm@vger.kernel.org, linux-rockchip@lists.infradead.org,
- linux-staging@lists.linux.dev, kernel@collabora.com
-References: <20231019125222.21370-1-benjamin.gaignard@collabora.com>
-From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-In-Reply-To: <20231019125222.21370-1-benjamin.gaignard@collabora.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
 
-Hi Benjamin,
+Arnd Bergmann <arnd@kernel.org> writes:
 
-On 19/10/2023 14:51, Benjamin Gaignard wrote:
-> Unlike when resolution change on keyframes, dynamic resolution change
-> on inter frames doesn't allow to do a stream off/on sequence because
-> it is need to keep all previous references alive to decode inter frames.
-> This constraint have two main problems:
-> - more memory consumption.
-> - more buffers in use.
-> To solve these issue this series introduce DELETE_BUFS ioctl and remove
-> the 32 buffers limit per queue.
-> 
-> VP9 conformance tests using fluster give a score of 210/305.
-> The 20 resize inter tests (vp90-2-21-resize_inter_* files) are ok
-> but require to use postprocessor.
-> 
-> Kernel branch is available here:
-> https://gitlab.collabora.com/benjamin.gaignard/for-upstream/-/commits/remove_vb2_queue_limit_v13
-> 
-> GStreamer branch to use DELETE_BUF ioctl and testing dynamic resolution
-> change is here:
-> https://gitlab.freedesktop.org/benjamin.gaignard1/gstreamer/-/commits/VP9_drc
-> 
+> From: Arnd Bergmann <arnd@arndb.de>
+>
+> As discussed previously, a lot of the older wifi drivers are likely
+> entirely unused, Though we can't know for sure.
+>
+> As suggested by both Greg and Jakub, let's remove the ones that look
+> are most likely to have no users left and also get in the way of the
+> wext cleanup. If anyone is still using any of these, we can revert the
+> driver removal individually.
+>
+> I would suggest merging these for net-next after 6.7-rc1 is out, to give
+> them the maximum amount of time for users to speak up before a release
+> comes out.
+>
+> This kills off all pcmcia wifi drivers, and all wext users in
+> drivers/net/wireless, but not the ps3-gelic-wireless driver in
+> drivers/net/ethernet, or the staging drivers.
+>
+> In staging, rtl8192u was already removed in the meantime, while rtl8712
+> and rtl8192e are apparently still used.  I have not been able to find
+> out whether ks7010 is still in use.
+>
+> 	Arnd
+>
+> Link: https://lore.kernel.org/lkml/20231011080955.1beeb010@kernel.org/
+>
+>
+> Arnd Bergmann (10):
+>   wifi: libertas: drop 16-bit PCMCIA support
+>   wifi: atmel: remove wext style at76c50x drivers
+>   wifi: remove orphaned cisco/aironet driver
+>   wifi: remove obsolete hostap driver
+>   wifi: remove orphaned zd1201 driver
+>   wifi: remove orphaned orinoco driver
+>   wifi: remove orphaned ray_cs driver
+>   wifi: remove orphaned wl3501 driver
+>   wifi: remove orphaned rndis_wlan driver
+>   [RFC] wifi: remove ipw2100/ipw2200 drivers
 
-I'll just write the comments here since I never received patch 44 in my mailbox.
-The messages are sent too quickly and my provider just throws some away if that
-happens for a long series like this, very annoying. You can configure git to
-slow down sending emails, if you can look into that, then that would be great.
-It seems to happen whenever more than approx. 30-35 patches are sent off very
-quickly.
+I manually applied these 9 to wireless-next:
 
-In any case, a v14 is needed: when testing with -virtme and the patched v4l2-compliance
-it fails the 32 bit test. You need to add max_num_buffers support to
-drivers/media/v4l2-core/v4l2-compat-ioctl32.c.
+4b478bf6bdd8 wifi: libertas: drop 16-bit PCMCIA support
+77e49bec6414 wifi: atmel: remove wext style at76c50x drivers
+6853c70ba5ed wifi: remove orphaned cisco/aironet driver
+d0172d5f7576 wifi: remove obsolete hostap driver
+757a46c2a7a9 wifi: remove orphaned zd1201 driver
+1535d5962d79 wifi: remove orphaned orinoco driver
+6b9dbaff83d6 wifi: remove orphaned ray_cs driver
+238349207cd3 wifi: remove orphaned wl3501 driver
+bec95598b24a wifi: remove orphaned rndis_wlan driver
 
-And since a v14 is needed because of that it would be nice if you can also
-make two small changes to patch 44/56:
+I dropped this patch as we got several reports about people using the
+driver:
 
-The commit log still refers to V4L2_BUF_CAP_SUPPORTS_SET_MAX_BUFS (the old
-name). And in v4l_print_create_buffers() you log the value as "max buffers",
-just make that "max num buffers" for consistency.
+[RFC] wifi: remove ipw2100/ipw2200 drivers
 
-Regards,
+The patches are queued for v6.8. Arnd, thanks a lot for cleaning this
+up!
 
-	Hans
+-- 
+https://patchwork.kernel.org/project/linux-wireless/list/
 
-> changes in version 13:
-> - Fix typo and wording in commits messages.
-> - Only apply V4L2_BUF_CAP_SUPPORTS_SET_MAX_BUFS on createbufs ioctl
-> - Fix queue setup test in test-drivers
-> 
-> changes in version 12:
-> - Change flag name to V4L2_BUF_CAP_SUPPORTS_SET_MAX_BUFS.
-> - Rework some commits message.
-> - Change vb2_queue_or_prepare_buf() prototype.
-> - Rework patches where 'min_buffers_needed' was badly used.
-> 
-> changes in version 11:
-> - Patches ordering:
->   1 to 3: clean up
->   3 to 42: use vb2_get_buffer() and vb2_get_num_buffers()
->   43 to 46: allow to use more than 32 buffers per queue
->   47 to 50: allow verisilicon driver to do VP9 dynamic resolution change
->             (which was the main purpose of this work)
->   51 to 56: prepare and introduce delete buffers feature.
-> - Add a patch to rename 'off' to offset.
-> - Add maintainers CC to drivers patches
-> 
-> changes in version 10:
-> - Make BUFFER_INDEX_MASK definition more readable
-> - Rebase on media_stage/master branch and add a patch for nuvoton
->   driver.
-> - Fix issue on patch 13
-> 
-> changes in version 9:
-> - BUFFER_INDEX_MASK now depends on PAGE_SHIFT value to match
->   architectures requirements.
-> - Correctly initialize max_num_buffers in vb2_core_queue_init()
-> - run 'test-media -kmemleak mc' on top of the series and on patches 1 to 47 without failures.
-> - fix compilation issue in patch 50
-> 
-> 
-> 
->  
-> Benjamin Gaignard (56):
->   media: videobuf2: Rename offset parameter
->   media: videobuf2: Rework offset 'cookie' encoding pattern
->   media: videobuf2: Stop spamming kernel log with all queue counter
->   media: videobuf2: Use vb2_buffer instead of index
->   media: videobuf2: Access vb2_queue bufs array through helper functions
->   media: videobuf2: Remove duplicated index vs q->num_buffers check
->   media: videobuf2: Add helper to get queue number of buffers
->   media: videobuf2: Use vb2_get_num_buffers() helper
->   media: amphion: Use vb2_get_buffer() instead of directly access to
->     buffers array
->   media: amphion: Stop direct calls to queue num_buffers field
->   media: mediatek: jpeg: Use vb2_get_buffer() instead of directly access
->     to buffers array
->   media: mediatek: vdec: Remove useless loop
->   media: mediatek: vcodec: Stop direct calls to queue num_buffers field
->   media: sti: hva: Use vb2_get_buffer() instead of directly access to
->     buffers array
->   media: visl: Use vb2_get_buffer() instead of directly access to
->     buffers array
->   media: atomisp: Use vb2_get_buffer() instead of directly access to
->     buffers array
->   media: atomisp: Stop direct calls to queue num_buffers field
->   media: dvb-core: Use vb2_get_buffer() instead of directly access to
->     buffers array
->   media: dvb-core: Do not initialize twice queue num_buffer field
->   media: dvb-frontends: rtl2832: Stop direct calls to queue num_buffers
->     field
->   media: pci: dt3155: Remove useless check
->   media: pci: tw686x: Stop direct calls to queue num_buffers field
->   media: pci: cx18: Stop direct calls to queue num_buffers field
->   media: pci: netup_unidvb: Stop direct calls to queue num_buffers field
->   media: pci: tw68: Stop direct calls to queue num_buffers field
->   media: i2c: video-i2c: Stop direct calls to queue num_buffers field
->   media: coda: Stop direct calls to queue num_buffers field
->   media: nxp: Stop direct calls to queue num_buffers field
->   media: verisilicon: Stop direct calls to queue num_buffers field
->   media: test-drivers: Stop direct calls to queue num_buffers field
->   media: imx: Stop direct calls to queue num_buffers field
->   media: meson: vdec: Stop direct calls to queue num_buffers field
->   touchscreen: sur40: Stop direct calls to queue num_buffers field
->   sample: v4l: Stop direct calls to queue num_buffers field
->   media: cedrus: Stop direct calls to queue num_buffers field
->   media: nuvoton: Stop direct calls to queue num_buffers field
->   media: renesas: Stop direct calls to queue num_buffers field
->   media: ti: Stop direct calls to queue num_buffers field
->   media: usb: airspy: Stop direct calls to queue num_buffers field
->   media: usb: cx231xx: Stop direct calls to queue num_buffers field
->   media: usb: hackrf: Stop direct calls to queue num_buffers field
->   media: usb: usbtv: Stop direct calls to queue num_buffers field
->   media: videobuf2: Be more flexible on the number of queue stored
->     buffers
->   media: core: Report the maximum possible number of buffers for the
->     queue
->   media: test-drivers: vivid: Increase max supported buffers for capture
->     queues
->   media: test-drivers: vicodec: Increase max supported capture queue
->     buffers
->   media: verisilicon: Refactor postprocessor to store more buffers
->   media: verisilicon: Store chroma and motion vectors offset
->   media: verisilicon: g2: Use common helpers to compute chroma and mv
->     offsets
->   media: verisilicon: vp9: Allow to change resolution while streaming
->   media: core: Rework how create_buf index returned value is computed
->   media: core: Add bitmap manage bufs array entries
->   media: core: Free range of buffers
->   media: v4l2: Add DELETE_BUFS ioctl
->   media: v4l2: Add mem2mem helpers for DELETE_BUFS ioctl
->   media: test-drivers: Use helper for DELETE_BUFS ioctl
-> 
->  .../userspace-api/media/v4l/user-func.rst     |   1 +
->  .../media/v4l/vidioc-create-bufs.rst          |   8 +-
->  .../media/v4l/vidioc-delete-bufs.rst          |  80 +++
->  .../media/v4l/vidioc-reqbufs.rst              |   2 +
->  drivers/input/touchscreen/sur40.c             |   5 +-
->  .../media/common/videobuf2/videobuf2-core.c   | 569 +++++++++++-------
->  .../media/common/videobuf2/videobuf2-v4l2.c   | 125 ++--
->  drivers/media/dvb-core/dvb_vb2.c              |  17 +-
->  drivers/media/dvb-frontends/rtl2832_sdr.c     |   5 +-
->  drivers/media/i2c/video-i2c.c                 |   5 +-
->  drivers/media/pci/cx18/cx18-streams.c         |   5 +-
->  drivers/media/pci/dt3155/dt3155.c             |   2 -
->  .../pci/netup_unidvb/netup_unidvb_core.c      |   5 +-
->  drivers/media/pci/tw68/tw68-video.c           |   4 +-
->  drivers/media/pci/tw686x/tw686x-video.c       |   5 +-
->  drivers/media/platform/amphion/vpu_dbg.c      |  30 +-
->  drivers/media/platform/amphion/vpu_v4l2.c     |   4 +-
->  .../media/platform/chips-media/coda-common.c  |   2 +-
->  .../platform/mediatek/jpeg/mtk_jpeg_core.c    |   7 +-
->  .../vcodec/decoder/vdec/vdec_vp9_req_lat_if.c |   9 +-
->  .../mediatek/vcodec/encoder/mtk_vcodec_enc.c  |   2 +-
->  drivers/media/platform/nuvoton/npcm-video.c   |   2 +-
->  drivers/media/platform/nxp/imx7-media-csi.c   |   7 +-
->  drivers/media/platform/renesas/rcar_drif.c    |   5 +-
->  drivers/media/platform/st/sti/hva/hva-v4l2.c  |   9 +-
->  .../media/platform/ti/am437x/am437x-vpfe.c    |   5 +-
->  drivers/media/platform/ti/cal/cal-video.c     |   5 +-
->  .../media/platform/ti/davinci/vpif_capture.c  |   5 +-
->  .../media/platform/ti/davinci/vpif_display.c  |   5 +-
->  drivers/media/platform/ti/omap/omap_vout.c    |   5 +-
->  drivers/media/platform/verisilicon/hantro.h   |   9 +-
->  .../media/platform/verisilicon/hantro_drv.c   |   5 +-
->  .../media/platform/verisilicon/hantro_g2.c    |  14 +
->  .../platform/verisilicon/hantro_g2_hevc_dec.c |  18 +-
->  .../platform/verisilicon/hantro_g2_vp9_dec.c  |  28 +-
->  .../media/platform/verisilicon/hantro_hw.h    |   7 +-
->  .../platform/verisilicon/hantro_postproc.c    |  93 ++-
->  .../media/platform/verisilicon/hantro_v4l2.c  |  27 +-
->  .../media/test-drivers/vicodec/vicodec-core.c |   3 +
->  drivers/media/test-drivers/vim2m.c            |   2 +
->  .../media/test-drivers/vimc/vimc-capture.c    |   2 +
->  drivers/media/test-drivers/visl/visl-dec.c    |  32 +-
->  drivers/media/test-drivers/visl/visl-video.c  |   2 +
->  drivers/media/test-drivers/vivid/vivid-core.c |  21 +
->  .../media/test-drivers/vivid/vivid-meta-cap.c |   3 -
->  .../media/test-drivers/vivid/vivid-meta-out.c |   5 +-
->  .../test-drivers/vivid/vivid-touch-cap.c      |   5 +-
->  .../media/test-drivers/vivid/vivid-vbi-cap.c  |   3 -
->  .../media/test-drivers/vivid/vivid-vbi-out.c  |   3 -
->  .../media/test-drivers/vivid/vivid-vid-cap.c  |   3 -
->  .../media/test-drivers/vivid/vivid-vid-out.c  |   5 +-
->  drivers/media/usb/airspy/airspy.c             |   5 +-
->  drivers/media/usb/cx231xx/cx231xx-417.c       |   5 +-
->  drivers/media/usb/cx231xx/cx231xx-video.c     |   5 +-
->  drivers/media/usb/hackrf/hackrf.c             |   5 +-
->  drivers/media/usb/usbtv/usbtv-video.c         |   5 +-
->  drivers/media/v4l2-core/v4l2-dev.c            |   1 +
->  drivers/media/v4l2-core/v4l2-ioctl.c          |  21 +-
->  drivers/media/v4l2-core/v4l2-mem2mem.c        |  20 +
->  .../staging/media/atomisp/pci/atomisp_ioctl.c |   4 +-
->  drivers/staging/media/imx/imx-media-capture.c |   7 +-
->  drivers/staging/media/meson/vdec/vdec.c       |  13 +-
->  .../staging/media/sunxi/cedrus/cedrus_h264.c  |   9 +-
->  .../staging/media/sunxi/cedrus/cedrus_h265.c  |   9 +-
->  include/media/v4l2-ioctl.h                    |   4 +
->  include/media/v4l2-mem2mem.h                  |  12 +
->  include/media/videobuf2-core.h                |  65 +-
->  include/media/videobuf2-v4l2.h                |  13 +
->  include/uapi/linux/videodev2.h                |  24 +-
->  samples/v4l/v4l2-pci-skeleton.c               |   5 +-
->  70 files changed, 990 insertions(+), 472 deletions(-)
->  create mode 100644 Documentation/userspace-api/media/v4l/vidioc-delete-bufs.rst
-> 
-
+https://wireless.wiki.kernel.org/en/developers/documentation/submittingpatches
