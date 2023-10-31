@@ -1,29 +1,29 @@
 Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED1201DFFE
-	for <linux-staging@lists.linux.dev>; Tue, 31 Oct 2023 16:31:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6C751E506
+	for <linux-staging@lists.linux.dev>; Tue, 31 Oct 2023 16:31:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="ULa4xApz"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="EIu4lKY6"
 Received: from benjamin-XPS-13-9310.. (unknown [IPv6:2a01:e0a:120:3210:c562:2ef4:80c0:92f])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
 	(Authenticated sender: benjamin.gaignard)
-	by madras.collabora.co.uk (Postfix) with ESMTPSA id 0E8E06607326;
-	Tue, 31 Oct 2023 16:31:27 +0000 (GMT)
+	by madras.collabora.co.uk (Postfix) with ESMTPSA id B22BE66073AF;
+	Tue, 31 Oct 2023 16:31:28 +0000 (GMT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1698769887;
-	bh=FY7GH0xZdlXO2pRrzaejblo22FLeSWf56n9mo0hrqhY=;
+	s=mail; t=1698769889;
+	bh=PuFoOUa6JL13sN6HuBrtSIThFlotKKJZbkNL+kdatwI=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=ULa4xApz5pyQAl9SC4HRpUfcwNOboPsl2tpDCL1cXcsGPGjOVgIOTu82fs46q96pQ
-	 s8F6ATJeS/Uk5vLDiKqXTAp1Gv9HdyOkkEekiPo4w8p1arI7LB26QzcT7T8GDW49RK
-	 o7oUIZQaByGluKhEAHraBwNLtWgb23p0kCKph7eHP5GrR8Od+pv4Tinq+aez/75WRq
-	 fZbQonnmQQwxI6P+uVAXVobC7sOQ0YMB1xOhGW85+RWeY+0gQ7XLr1hSP9owz7zU0q
-	 jItBKgd29lmm/Pz/qcVyD4JqIMfdXVcz4A9fFLrXnpq19JrK6LwV4xXJzRGyk1Ptw1
-	 pBTLSXEe7Oy1w==
+	b=EIu4lKY6cxWJ3SPRMCG3vM6K80vk+j+1gdvuFwXG9i9NiXHcZgN6o3GyB8w0qGKj+
+	 AWwqYFDKAtSQsOuo9dVWjwwy34l1q2nR1fwGyKeR0GrURjCM2JTRYhr/DucjyGWCKf
+	 SimgVD7hD01NTZ4b/IBDb5I/W5AaA+ii+mXVqZcHDbvyMFfe5EPCqDy1yhn0a50pC3
+	 CvkekJPy5UOp0S4e69PbC0qSsttTRAzat8ogPWMMt0HLUBMmA6txzeq5HLzamGpQ5s
+	 xYum7i4USs9PTDDTbQoy9iK3BU1O/nRfqsUqx8d/z1ujaXWXw8ZozuyQfkboPzwAua
+	 Xd5jdG5i/M/AQ==
 From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
 To: mchehab@kernel.org,
 	tfiga@chromium.org,
@@ -44,9 +44,9 @@ Cc: linux-media@vger.kernel.org,
 	kernel@collabora.com,
 	Benjamin Gaignard <benjamin.gaignard@collabora.com>,
 	Zhou Peng <eagle.zhou@nxp.com>
-Subject: [PATCH v14 09/56] media: amphion: Use vb2_get_buffer() instead of directly access to buffers array
-Date: Tue, 31 Oct 2023 17:30:17 +0100
-Message-Id: <20231031163104.112469-10-benjamin.gaignard@collabora.com>
+Subject: [PATCH v14 10/56] media: amphion: Stop direct calls to queue num_buffers field
+Date: Tue, 31 Oct 2023 17:30:18 +0100
+Message-Id: <20231031163104.112469-11-benjamin.gaignard@collabora.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20231031163104.112469-1-benjamin.gaignard@collabora.com>
 References: <20231031163104.112469-1-benjamin.gaignard@collabora.com>
@@ -58,64 +58,80 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Use vb2_get_buffer() instead of direct access to the vb2_queue bufs array.
-This allows us to change the type of the bufs in the future.
-After each call to vb2_get_buffer() we need to be sure that we get
-a valid pointer so check the return value of all of them.
+Use vb2_get_num_buffers() to avoid using queue num_buffers field directly.
+This allows us to change how the number of buffers is computed in the
+future.
 
 Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
 CC: Ming Qian <ming.qian@nxp.com>
 CC: Zhou Peng <eagle.zhou@nxp.com>
 ---
- drivers/media/platform/amphion/vpu_dbg.c | 22 ++++++++++++++++++----
- 1 file changed, 18 insertions(+), 4 deletions(-)
+ drivers/media/platform/amphion/vpu_dbg.c  | 8 ++++----
+ drivers/media/platform/amphion/vpu_v4l2.c | 4 ++--
+ 2 files changed, 6 insertions(+), 6 deletions(-)
 
 diff --git a/drivers/media/platform/amphion/vpu_dbg.c b/drivers/media/platform/amphion/vpu_dbg.c
-index 982c2c777484..a462d6fe4ea9 100644
+index a462d6fe4ea9..940e5bda5fa3 100644
 --- a/drivers/media/platform/amphion/vpu_dbg.c
 +++ b/drivers/media/platform/amphion/vpu_dbg.c
-@@ -140,11 +140,18 @@ static int vpu_dbg_instance(struct seq_file *s, void *data)
+@@ -87,7 +87,7 @@ static int vpu_dbg_instance(struct seq_file *s, void *data)
+ 	num = scnprintf(str, sizeof(str),
+ 			"output (%2d, %2d): fmt = %c%c%c%c %d x %d, %d;",
+ 			vb2_is_streaming(vq),
+-			vq->num_buffers,
++			vb2_get_num_buffers(vq),
+ 			inst->out_format.pixfmt,
+ 			inst->out_format.pixfmt >> 8,
+ 			inst->out_format.pixfmt >> 16,
+@@ -111,7 +111,7 @@ static int vpu_dbg_instance(struct seq_file *s, void *data)
+ 	num = scnprintf(str, sizeof(str),
+ 			"capture(%2d, %2d): fmt = %c%c%c%c %d x %d, %d;",
+ 			vb2_is_streaming(vq),
+-			vq->num_buffers,
++			vb2_get_num_buffers(vq),
+ 			inst->cap_format.pixfmt,
+ 			inst->cap_format.pixfmt >> 8,
+ 			inst->cap_format.pixfmt >> 16,
+@@ -139,7 +139,7 @@ static int vpu_dbg_instance(struct seq_file *s, void *data)
+ 		return 0;
  
  	vq = v4l2_m2m_get_src_vq(inst->fh.m2m_ctx);
- 	for (i = 0; i < vq->num_buffers; i++) {
--		struct vb2_buffer *vb = vq->bufs[i];
--		struct vb2_v4l2_buffer *vbuf = to_vb2_v4l2_buffer(vb);
-+		struct vb2_buffer *vb;
-+		struct vb2_v4l2_buffer *vbuf;
-+
-+		vb = vb2_get_buffer(vq, i);
-+		if (!vb)
-+			continue;
+-	for (i = 0; i < vq->num_buffers; i++) {
++	for (i = 0; i < vb2_get_num_buffers(vq); i++) {
+ 		struct vb2_buffer *vb;
+ 		struct vb2_v4l2_buffer *vbuf;
  
- 		if (vb->state == VB2_BUF_STATE_DEQUEUED)
- 			continue;
-+
-+		vbuf = to_vb2_v4l2_buffer(vb);
-+
- 		num = scnprintf(str, sizeof(str),
- 				"output [%2d] state = %10s, %8s\n",
- 				i, vb2_stat_name[vb->state],
-@@ -155,11 +162,18 @@ static int vpu_dbg_instance(struct seq_file *s, void *data)
+@@ -161,7 +161,7 @@ static int vpu_dbg_instance(struct seq_file *s, void *data)
+ 	}
  
  	vq = v4l2_m2m_get_dst_vq(inst->fh.m2m_ctx);
- 	for (i = 0; i < vq->num_buffers; i++) {
--		struct vb2_buffer *vb = vq->bufs[i];
--		struct vb2_v4l2_buffer *vbuf = to_vb2_v4l2_buffer(vb);
-+		struct vb2_buffer *vb;
-+		struct vb2_v4l2_buffer *vbuf;
-+
-+		vb = vb2_get_buffer(vq, i);
-+		if (!vb)
-+			continue;
+-	for (i = 0; i < vq->num_buffers; i++) {
++	for (i = 0; i < vb2_get_num_buffers(vq); i++) {
+ 		struct vb2_buffer *vb;
+ 		struct vb2_v4l2_buffer *vbuf;
  
- 		if (vb->state == VB2_BUF_STATE_DEQUEUED)
- 			continue;
-+
-+		vbuf = to_vb2_v4l2_buffer(vb);
-+
- 		num = scnprintf(str, sizeof(str),
- 				"capture[%2d] state = %10s, %8s\n",
- 				i, vb2_stat_name[vb->state],
+diff --git a/drivers/media/platform/amphion/vpu_v4l2.c b/drivers/media/platform/amphion/vpu_v4l2.c
+index 0f6e4c666440..87afb4a18d5d 100644
+--- a/drivers/media/platform/amphion/vpu_v4l2.c
++++ b/drivers/media/platform/amphion/vpu_v4l2.c
+@@ -439,7 +439,7 @@ int vpu_get_num_buffers(struct vpu_inst *inst, u32 type)
+ 	else
+ 		q = v4l2_m2m_get_dst_vq(inst->fh.m2m_ctx);
+ 
+-	return q->num_buffers;
++	return vb2_get_num_buffers(q);
+ }
+ 
+ static void vpu_m2m_device_run(void *priv)
+@@ -587,7 +587,7 @@ static int vpu_vb2_start_streaming(struct vb2_queue *q, unsigned int count)
+ 		  fmt->sizeimage[0], fmt->bytesperline[0],
+ 		  fmt->sizeimage[1], fmt->bytesperline[1],
+ 		  fmt->sizeimage[2], fmt->bytesperline[2],
+-		  q->num_buffers);
++		  vb2_get_num_buffers(q));
+ 	vb2_clear_last_buffer_dequeued(q);
+ 	ret = call_vop(inst, start, q->type);
+ 	if (ret)
 -- 
 2.39.2
 
