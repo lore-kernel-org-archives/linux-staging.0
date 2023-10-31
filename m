@@ -1,52 +1,34 @@
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07F23A29
-	for <linux-staging@lists.linux.dev>; Tue, 31 Oct 2023 09:08:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF4E320EE
+	for <linux-staging@lists.linux.dev>; Tue, 31 Oct 2023 10:01:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="XXvaEh5a"
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-40806e40fccso35688825e9.2
-        for <linux-staging@lists.linux.dev>; Tue, 31 Oct 2023 02:08:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1698743300; x=1699348100; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=xpXKFnUDplvUDItzvFUTE0LsBMMlzWgnaSD939CoMz8=;
-        b=XXvaEh5aP1tLR4WZrBOyh9ZjZGfR3do57PAlV+HCuuh2RlFLFn8jW9Fpd4FpSpDhwR
-         AQ3tc4AsrRd0jdNH/nakc8Q5d9cx5C0WZQd+JBQBTSVE+IGGESb4zC/1uNk96P7fo5+J
-         cVk4sJKpd8HN8tmEFoDXn7mEliehNep/n1kSdZ3DxviSLhGyAoyOnuFWjoX06a9m38eY
-         bIHz+7Enp7zqfbmWSCAgJr/4Oc18zpx8WASSb6cK7/jNNrPfVzlVopZl84o0T9abWtgu
-         ZE5FZWML2IdLTJdQwA2zTUAHdq3f6XNkY9G2GCr06Bu8RoK4H72e8soeMcGyx5C+dX8p
-         WSxw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1698743300; x=1699348100;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=xpXKFnUDplvUDItzvFUTE0LsBMMlzWgnaSD939CoMz8=;
-        b=QqQxk3lp13FcZVMj3b87PQ+ZFhes4YZBb9DTdJMD5VFkQnVWFGwcX9mginzsjdePFu
-         r3VqVnVV2eayJT3ZwDLTxIVcYlpZxSffcDeQRCRnsX0NCHvzWbPDClvu/ZA+vwBpoogI
-         8lUWoTWbF/5bt655zqpH6+5bJJ7YXLZsRVdZ2G1nQHnIfepCFJS2GFSjTynUSbWh1k3O
-         DJA6NYKYsxX9Klm5yZTt8tXpF/vxQsC11qR0tIt9vE+Ks8WjMa5wFuc7Y4EGt+BxfDl9
-         8HbpwEpm8mWAnDQlo4NRb6ZD3xOQPl4JSX0ARpSSwFpjhsYTNBTCizxhMXCwPe/ZvJZh
-         eD4A==
-X-Gm-Message-State: AOJu0YyIslW8dL7imJl8E0l127KQvVJbP3LUQmcvRaV6yj3PLQdQXKAT
-	NCXdYY0GCKioUSSZvpAqowLCzQ==
-X-Google-Smtp-Source: AGHT+IFAMBbn14jVtSVp5g9b9X78C9y3LG4Ea5uCZePaIKmJ6AjUQsvyXNbTpqYkFJo7utIeEN7jEg==
-X-Received: by 2002:a05:600c:35c2:b0:408:37d4:b5ba with SMTP id r2-20020a05600c35c200b0040837d4b5bamr10978625wmq.12.1698743300257;
-        Tue, 31 Oct 2023 02:08:20 -0700 (PDT)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id m7-20020a05600c4f4700b0040651505684sm1145362wmq.29.2023.10.31.02.08.19
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 31 Oct 2023 02:08:19 -0700 (PDT)
-Date: Tue, 31 Oct 2023 12:08:15 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: umang.jain@ideasonboard.com
-Cc: linux-staging@lists.linux.dev
-Subject: [bug report] staging: vc04: Convert(and rename) vchiq_log_info() to
- use dynamic debug
-Message-ID: <be68424a-ce70-4a91-8b63-13fa4cce22cd@moroto.mountain>
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="mObP8r+B"
+Received: from umang.jainideasonboard.com (unknown [103.86.18.252])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 9F1683D6;
+	Tue, 31 Oct 2023 11:01:21 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1698746484;
+	bh=Jl+xsisgGaEGcRycAbLfuH+GR5oIKMeZIutbGi45Jio=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=mObP8r+Bj16HOBypfv+h8OpHY2GSQr9PdprT/4uCHMoEb+3flzfrcrgb43yBHDPm1
+	 p35eJcn924dFAaPfJcqX+rVY1UzNLsRjq4Xime6MQnTWTNM153BKXXKowxYx6MzYKD
+	 uGj9y+cPMozszty+ECAKkEBMDmv4il6hOd0SIKOQ=
+Date: Tue, 31 Oct 2023 15:31:30 +0530
+From: Umang Jain <umang.jain@ideasonboard.com>
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Cc: Florian Fainelli <florian.fainelli@broadcom.com>, 
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Stefan Wahren <stefan.wahren@i2se.com>, Kieran Bingham <kieran.bingham@ideasonboard.com>, 
+	Phil Elwell <phil@raspberrypi.com>, linux-rpi-kernel@lists.infradead.org, 
+	linux-arm-kernel@lists.infradead.org, linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	kernel-janitors@vger.kernel.org
+Subject: Re: [PATCH] staging: vc04_services: remove unnecessary NULL check
+Message-ID: <4hbwnpv3qw6sxbtgqjraalzh55cg7los6mtddksitcikm4xjgx@wpqa3eqsw7xn>
+References: <1dff4d9b-d067-4525-95e0-ffdc1185cccd@moroto.mountain>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -55,62 +37,39 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <1dff4d9b-d067-4525-95e0-ffdc1185cccd@moroto.mountain>
 
-Hello Umang Jain,
+Hi Dan,
 
-The patch f67af5940d6d: "staging: vc04: Convert(and rename)
-vchiq_log_info() to use dynamic debug" from Oct 24, 2023
-(linux-next), leads to the following Smatch static checker warning:
+Thank you for the patch.
 
-drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c:248
-	find_service_by_handle() error: we previously assumed 'service'
-	could be null (see line 240)
+On Tue, Oct 31, 2023 at 11:59:34AM +0300, Dan Carpenter wrote:
+> We ensured that "service" as non-NULL in the previous if statement so
+> there is no need to check again here.
+> 
+> Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
 
-drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c:290
-	find_service_for_instance() error: we previously assumed 'service'
-	could be null (see line 281)
+LGTM,
 
-drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c:313
-	find_closed_service_for_instance() error: we previously assumed 'service'
-	could be null (see line 302)
-
-drivers/staging/vc04_services/interface/vchiq_arm/vchiq_dev.c:1176
-	vchiq_open() error: we previously assumed 'state' could be null
-	(see line 1175)
-
-Also I see in vchiq_release() we dereference "state" before the NULL
-check.  This warning only triggers when the variable has definitely
-been dereferenced before but if debugging is turned off then maybe the
-variable wasn't dereferenced.  I'm going to change that rule to complain
-when a variable is possibly dereferenced and see how the output looks
-like tonight.
-
-drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
-    233 struct vchiq_service *
-    234 find_service_by_handle(struct vchiq_instance *instance, unsigned int handle)
-    235 {
-    236         struct vchiq_service *service;
-    237 
-    238         rcu_read_lock();
-    239         service = handle_to_service(instance, handle);
-    240         if (service && service->srvstate != VCHIQ_SRVSTATE_FREE &&
-                    ^^^^^^^
-Check for NULL
-
-    241             service->handle == handle &&
-    242             kref_get_unless_zero(&service->ref_count)) {
-    243                 service = rcu_pointer_handoff(service);
-    244                 rcu_read_unlock();
-    245                 return service;
-    246         }
-    247         rcu_read_unlock();
---> 248         vchiq_log_debug(service->state->dev, VCHIQ_CORE,
-                                ^^^^^^^
-Unchecked dereference
-
-    249                         "Invalid service handle 0x%x", handle);
-    250         return NULL;
-    251 }
-
-regards,
-dan carpenter
+Reviewed-by: Umang Jain <umang.jain@ideasonboard.com>
+> ---
+>  drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c | 3 +--
+>  1 file changed, 1 insertion(+), 2 deletions(-)
+> 
+> diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
+> index 39b857da2d42..a0117efa2991 100644
+> --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
+> +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
+> @@ -2040,8 +2040,7 @@ sync_func(void *v)
+>  			continue;
+>  		}
+>  
+> -		svc_fourcc = service ? service->base.fourcc
+> -				     : VCHIQ_MAKE_FOURCC('?', '?', '?', '?');
+> +		svc_fourcc = service->base.fourcc;
+>  
+>  		vchiq_log_trace(state->dev, VCHIQ_SYNC,
+>  				"Rcvd Msg %s from %p4cc s:%d d:%d len:%d",
+> -- 
+> 2.42.0
+> 
