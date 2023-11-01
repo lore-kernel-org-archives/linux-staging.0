@@ -1,71 +1,76 @@
-Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
+Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0205315B9
-	for <linux-staging@lists.linux.dev>; Wed,  1 Nov 2023 11:49:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9FCD3D74
+	for <linux-staging@lists.linux.dev>; Wed,  1 Nov 2023 12:10:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="D9njrRvm"
-Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-9d242846194so544915166b.1
-        for <linux-staging@lists.linux.dev>; Wed, 01 Nov 2023 04:49:04 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="UxdKljQN"
+Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-9be02fcf268so981016166b.3
+        for <linux-staging@lists.linux.dev>; Wed, 01 Nov 2023 05:10:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1698839343; x=1699444143; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=xCyg1gCGVdfkuxm0mzbaCOgP6fP9l7HjSGJkW4c6pNg=;
-        b=D9njrRvmgSlmy9b7yIcQ9/PDOcGc9dYGyVxWi41uisCc4Aw2yTfJ+M5LjGo/zCsbyF
-         80XgDj8edgB+lwHrYBdy+lavrA8stoTua3p5ZYdBnc1dlnt+clPY0iUEbJzFEpzOZcyA
-         oZhplVyhrmglvYQNA7B6Tv8/itD9H7hxamlz8bi/T/5vUCBrO3vZi+UbP7lhUVo5bq2a
-         mlbig/EI1XsYoSjIiui1lRLnGQABWepmaVJVY97DMHy05lKCwQH7KTGar5Vo7OLDO6JR
-         J85NIUWpo7KRIQMtJBXvcIlvTs22AGCYIFii/bVPwZS86S80gV/5SGy005l79g3uRLPO
-         75GA==
+        d=linaro.org; s=google; t=1698840612; x=1699445412; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=oyFDIcQz4Ayb0YFR5ah1QzeXQO+HRuea1JiIg/q8N5I=;
+        b=UxdKljQNXj/RBmCrNxqXlHGOlNJhQUkoiNRKmdKp5REZfO3ntGGST3oYNGeA8LZgk2
+         ctDVRqjaqZTcsxAqjKWTHky0S0F8vJvnlZuAFg8pSHp0lfUkUanoI+pJSyzlr/xkLERv
+         pPaj2m0NaKkf6gPovdsYntrwAw4yjrLQOSnIPG3KKJV4361cLCV3Swp/NCBC+2S8+nS8
+         QSzT6sbDdLj5JjRFD6/dXXWNb6B9DYOdtDRud3ERU1SF3USyGAHVqSE9/A9NADS3vHNi
+         wxJMkGEfFCYpMdmKg2RvRSp5/XAYEi1bz/U2hZNAIUyWbwRLcQ04Lzz06TYJ3PmWl8Xx
+         MaVg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1698839343; x=1699444143;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=xCyg1gCGVdfkuxm0mzbaCOgP6fP9l7HjSGJkW4c6pNg=;
-        b=atlj7G4Aj1a3Onl0J09+sTMFd3+c6HmbK2rr6SAFU/uARx7431w+StMdH5vbNhcFQM
-         0gGNPe8GdWMXlk1cmHU3PIaRnFi8Fqe7oxVqH1WbwqBuk+9uBY01HhdJ6iCP5NKi+86X
-         1HWZ1b+GIS033wTKYyFLIjerIP5IQGPxNf6QcCLs6SmeAOKh0ntyBBAIIv9OTJvTgqFm
-         8kEYFjC88DEvAh7Ykg8o8Jci7e0Eh/X2UrN4jr9u9w9Y7w/h+j8oRD/58ZUMQoCza+OU
-         mmJnTjP2elyAM/p3VtJfqfABNK4UyfsJmp1D0VHJdwclI4OO3yCjoRLR6c5ndNEJZF0c
-         goXg==
-X-Gm-Message-State: AOJu0YxAObLQoL6AogxkS5WtwiOc4a81Ini30GFI4DXCv8yHnzlqJahH
-	3GavfYu7MtBqFq6YanTYcbHmd3Aa0h4OLA==
-X-Google-Smtp-Source: AGHT+IHJMdfOwDj4qjqy6ef3jgBPCP9zZIPzeIYCZg4nGhQjnX9FUX3vtcsWvZrC9WV1dkukr3xVXg==
-X-Received: by 2002:a17:907:3e91:b0:9a2:185b:5375 with SMTP id hs17-20020a1709073e9100b009a2185b5375mr1534026ejc.18.1698839342385;
-        Wed, 01 Nov 2023 04:49:02 -0700 (PDT)
-Received: from ubuntu-focal.zuku.co.ke ([197.237.50.252])
-        by smtp.gmail.com with ESMTPSA id g17-20020a170906395100b009c657110cf2sm2333889eje.99.2023.11.01.04.49.00
+        d=1e100.net; s=20230601; t=1698840612; x=1699445412;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=oyFDIcQz4Ayb0YFR5ah1QzeXQO+HRuea1JiIg/q8N5I=;
+        b=tUMICslHAnFBufzUxVP1EToa/HAsdzfgx7C8J68ueQeqrYgNfXw4BTPYLquV2xcfoM
+         ybYtrB8ogIgqmvj/pCUO54bjbYunxiwlV6NNTkShjWtjRXg6hpi0GptK2rEFRZHIRmd5
+         mTBMq+QJpaOIXBkK8AXtFMEp7OlGeprI0vJCne37tN55N3wTPd0izoHkj7SBjU++1lAT
+         VCdbIWMLb4OUnfFizjVfxjMJZsDuZwkgusKiwU13o/Q3JF8l8Em0/99WmlEglOAiHD27
+         BG7jOvqEONK8cCle62Qg5JOfWsGcG6C8FX2+/RuCmi0NGduQbrK0aDEJfkzm/yKbp+Zg
+         C3Yg==
+X-Gm-Message-State: AOJu0YyP6R8JpckM5bhuA+8wycvka47/+Rj6h+dtPB6RXzrpbvqoTZZ/
+	A/BCRtaKBn9oc/K6dwFz7q1aTA==
+X-Google-Smtp-Source: AGHT+IFuf0gFji8DS5I6wGncn+R2QTXTkAX+przL9DJXGk+at70W0GVrrEvIRRn4IDxLhuEBZSQN9A==
+X-Received: by 2002:a17:907:1b02:b0:9ae:82b4:e309 with SMTP id mp2-20020a1709071b0200b009ae82b4e309mr1859935ejc.0.1698840612034;
+        Wed, 01 Nov 2023 05:10:12 -0700 (PDT)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id gr18-20020a170906e2d200b009d3148fb9f6sm2307176ejb.22.2023.11.01.05.10.10
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 01 Nov 2023 04:49:02 -0700 (PDT)
-From: Dorine Tipo <dorine.a.tipo@gmail.com>
-To: linux-staging@lists.linux.dev,
-	martyn@welchs.me.uk,
-	lukas.bulwahn@gmail.com,
-	manohar.vanga@gmail.com
-Subject: [PATCH] staging: vme: enhance the help paragraphs for clarity
-Date: Wed,  1 Nov 2023 11:48:38 +0000
-Message-Id: <20231101114838.1557-1-dorine.a.tipo@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <ZUIAyQGSfIKqK7AE@debian.me>
-References: <ZUIAyQGSfIKqK7AE@debian.me>
+        Wed, 01 Nov 2023 05:10:11 -0700 (PDT)
+Date: Wed, 1 Nov 2023 15:10:08 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: umang.jain@ideasonboard.com
+Cc: linux-staging@lists.linux.dev
+Subject: Re: [bug report] staging: vc04: Convert(and rename) vchiq_log_info()
+ to use dynamic debug
+Message-ID: <1467fa2c-024d-4878-ae1c-5422779d33d8@kadam.mountain>
+References: <be68424a-ce70-4a91-8b63-13fa4cce22cd@moroto.mountain>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <be68424a-ce70-4a91-8b63-13fa4cce22cd@moroto.mountain>
 
->
-Please do not, that's the responsibility of the outreachy applicant to
-do, as it is documented very well what needs to happen here.
->
+On Tue, Oct 31, 2023 at 12:08:15PM +0300, Dan Carpenter wrote:
+> Also I see in vchiq_release() we dereference "state" before the NULL
+> check.  This warning only triggers when the variable has definitely
+> been dereferenced before but if debugging is turned off then maybe the
+> variable wasn't dereferenced.  I'm going to change that rule to complain
+> when a variable is possibly dereferenced and see how the output looks
+> like tonight.
 
-Hello, 
+Yeah...  This didn't work at all.  600+ false positives.
 
-I have CC'd all the driver contributors for this driver.
+There are potentially ways to make this work but it's not really simple.
+
+regards,
+dan carpenter
+
