@@ -1,76 +1,106 @@
-Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
+Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9FCD3D74
-	for <linux-staging@lists.linux.dev>; Wed,  1 Nov 2023 12:10:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B416E7480;
+	Wed,  1 Nov 2023 15:24:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="UxdKljQN"
-Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-9be02fcf268so981016166b.3
-        for <linux-staging@lists.linux.dev>; Wed, 01 Nov 2023 05:10:13 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="l8E/6pkr"
+Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-98377c5d53eso1030249466b.0;
+        Wed, 01 Nov 2023 08:24:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1698840612; x=1699445412; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=oyFDIcQz4Ayb0YFR5ah1QzeXQO+HRuea1JiIg/q8N5I=;
-        b=UxdKljQNXj/RBmCrNxqXlHGOlNJhQUkoiNRKmdKp5REZfO3ntGGST3oYNGeA8LZgk2
-         ctDVRqjaqZTcsxAqjKWTHky0S0F8vJvnlZuAFg8pSHp0lfUkUanoI+pJSyzlr/xkLERv
-         pPaj2m0NaKkf6gPovdsYntrwAw4yjrLQOSnIPG3KKJV4361cLCV3Swp/NCBC+2S8+nS8
-         QSzT6sbDdLj5JjRFD6/dXXWNb6B9DYOdtDRud3ERU1SF3USyGAHVqSE9/A9NADS3vHNi
-         wxJMkGEfFCYpMdmKg2RvRSp5/XAYEi1bz/U2hZNAIUyWbwRLcQ04Lzz06TYJ3PmWl8Xx
-         MaVg==
+        d=gmail.com; s=20230601; t=1698852266; x=1699457066; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=MR56JFaTSz3HojkL2pFJM5gDNujw4Oiu7ruy5pujofg=;
+        b=l8E/6pkrMit845S3Qj2HeZaWbFOyuX5lFiAlTdXqSHak6qAUXNOTQuoRvIAKbxizNE
+         AJQTunT23ETGdRRKhMgAl1ncuj5l0cuOUzQ6609cxCxGuPg8wjOrCqRIvD8TUIg+47Pf
+         /+wqoSmRmVF2kJc0mp3hNGMXlmUJnTrDZbV3R7VU6TudXHRr27A/e7QM0UP9sWn2uLFU
+         LeFHC4XOUNIhLk9V/dijw+3gjodXVgGQS7z6uspP5WkygvpI6qGt6R8RL59Fo4wHqxEA
+         zrAwjnBmdRVgP95O1PtDKAoagmJCqHVlUCvKQTB2p7dA1H0Hl8BgXJi0iJy3bhEXXqr1
+         Hw9A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1698840612; x=1699445412;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=oyFDIcQz4Ayb0YFR5ah1QzeXQO+HRuea1JiIg/q8N5I=;
-        b=tUMICslHAnFBufzUxVP1EToa/HAsdzfgx7C8J68ueQeqrYgNfXw4BTPYLquV2xcfoM
-         ybYtrB8ogIgqmvj/pCUO54bjbYunxiwlV6NNTkShjWtjRXg6hpi0GptK2rEFRZHIRmd5
-         mTBMq+QJpaOIXBkK8AXtFMEp7OlGeprI0vJCne37tN55N3wTPd0izoHkj7SBjU++1lAT
-         VCdbIWMLb4OUnfFizjVfxjMJZsDuZwkgusKiwU13o/Q3JF8l8Em0/99WmlEglOAiHD27
-         BG7jOvqEONK8cCle62Qg5JOfWsGcG6C8FX2+/RuCmi0NGduQbrK0aDEJfkzm/yKbp+Zg
-         C3Yg==
-X-Gm-Message-State: AOJu0YyP6R8JpckM5bhuA+8wycvka47/+Rj6h+dtPB6RXzrpbvqoTZZ/
-	A/BCRtaKBn9oc/K6dwFz7q1aTA==
-X-Google-Smtp-Source: AGHT+IFuf0gFji8DS5I6wGncn+R2QTXTkAX+przL9DJXGk+at70W0GVrrEvIRRn4IDxLhuEBZSQN9A==
-X-Received: by 2002:a17:907:1b02:b0:9ae:82b4:e309 with SMTP id mp2-20020a1709071b0200b009ae82b4e309mr1859935ejc.0.1698840612034;
-        Wed, 01 Nov 2023 05:10:12 -0700 (PDT)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id gr18-20020a170906e2d200b009d3148fb9f6sm2307176ejb.22.2023.11.01.05.10.10
+        d=1e100.net; s=20230601; t=1698852266; x=1699457066;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=MR56JFaTSz3HojkL2pFJM5gDNujw4Oiu7ruy5pujofg=;
+        b=LGSKBi4s69GY+dlcQ3HJODuda3P5w0QQoyTz8q1ZD9TpVIoAEB+D7dMHJUntsrxWtb
+         WH/cAk7856kuxH4XOe9moCHVI9yYb7BTtNLT/wawdv2SMT5XnCZuzdZBTD2iwxb4NKbD
+         J6lFUbrIxG1BKuX9rjMdTh9Yuq7cFutCvR+62tonwR9Bqw4UGFHwlJpbRzwi5244gGCv
+         aRTttnGx0bjQRb0p0bSnDDXG0PpdRPC9ZkHjiJny7bgq4d4vmpP+vqRaCpkfZuP7dMPP
+         Mj7llLRWWhGbSvBGqDbI5/HlYpeuJr2dUinfK8urqq3lsQMDUYGIwHnafqsr2PiVH8Jp
+         5JZA==
+X-Gm-Message-State: AOJu0YwLDlOOYMI4cbvhqMMnngVuiMR5Q8ubEu+rtMVkguGMbYyHEjyJ
+	q3z36w2E9OUoYcnSk5LUGw==
+X-Google-Smtp-Source: AGHT+IG06McQz3xQ9bs3PqKtzLwtYLm29nY/TyIOplo37JTu3OFaOpw5cUcGk9s6YXB+xPAlRY6zUQ==
+X-Received: by 2002:a17:906:4fc8:b0:9a6:4f54:1da6 with SMTP id i8-20020a1709064fc800b009a64f541da6mr2108484ejw.57.1698852265584;
+        Wed, 01 Nov 2023 08:24:25 -0700 (PDT)
+Received: from localhost.localdomain ([105.163.156.68])
+        by smtp.gmail.com with ESMTPSA id lu13-20020a170906facd00b009ad8796a6aesm50855ejb.56.2023.11.01.08.24.23
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 01 Nov 2023 05:10:11 -0700 (PDT)
-Date: Wed, 1 Nov 2023 15:10:08 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: umang.jain@ideasonboard.com
-Cc: linux-staging@lists.linux.dev
-Subject: Re: [bug report] staging: vc04: Convert(and rename) vchiq_log_info()
- to use dynamic debug
-Message-ID: <1467fa2c-024d-4878-ae1c-5422779d33d8@kadam.mountain>
-References: <be68424a-ce70-4a91-8b63-13fa4cce22cd@moroto.mountain>
+        Wed, 01 Nov 2023 08:24:25 -0700 (PDT)
+From: Dorcas AnonoLitunya <anonolitunya@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: anonolitunya@gmail.com,
+	outreachy@lists.linux.dev,
+	julia.lawall@inria.fr,
+	Sudip Mukherjee <sudipm.mukherjee@gmail.com>,
+	Teddy Wang <teddy.wang@siliconmotion.com>,
+	linux-fbdev@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v3] staging: sm750fb: Remove unused return value in display_control_adjust_sm750le()
+Date: Wed,  1 Nov 2023 18:21:34 +0300
+Message-ID: <20231101152137.10664-2-anonolitunya@gmail.com>
+X-Mailer: git-send-email 2.42.0.345.gaab89be2eb
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <be68424a-ce70-4a91-8b63-13fa4cce22cd@moroto.mountain>
+Content-Transfer-Encoding: 8bit
 
-On Tue, Oct 31, 2023 at 12:08:15PM +0300, Dan Carpenter wrote:
-> Also I see in vchiq_release() we dereference "state" before the NULL
-> check.  This warning only triggers when the variable has definitely
-> been dereferenced before but if debugging is turned off then maybe the
-> variable wasn't dereferenced.  I'm going to change that rule to complain
-> when a variable is possibly dereferenced and see how the output looks
-> like tonight.
+Modifies the return type of display_control_adjust_sm750le()
+to void from unsigned long as the return value is being ignored in
+all subsequent function calls.
 
-Yeah...  This didn't work at all.  600+ false positives.
+This improves code readability and maintainability.
 
-There are potentially ways to make this work but it's not really simple.
+Suggested-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Signed-off-by: Dorcas AnonoLitunya <anonolitunya@gmail.com>
+---
 
-regards,
-dan carpenter
+Changes in v3:
+- Rebase patch to apply against latest branch
+
+ drivers/staging/sm750fb/ddk750_mode.c | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
+
+diff --git a/drivers/staging/sm750fb/ddk750_mode.c b/drivers/staging/sm750fb/ddk750_mode.c
+index e1f20379431c..4278f9a826ab 100644
+--- a/drivers/staging/sm750fb/ddk750_mode.c
++++ b/drivers/staging/sm750fb/ddk750_mode.c
+@@ -13,7 +13,7 @@
+  * HW only supports 7 predefined pixel clocks, and clock select is
+  * in bit 29:27 of Display Control register.
+  */
+-static unsigned long
++static void
+ display_control_adjust_sm750le(struct mode_parameter *mode_param,
+ 			       unsigned long disp_control)
+ {
+@@ -70,8 +70,6 @@ display_control_adjust_sm750le(struct mode_parameter *mode_param,
+ 	disp_control |= DISPLAY_CTRL_CLOCK_PHASE;
+ 
+ 	poke32(CRT_DISPLAY_CTRL, disp_control);
+-
+-	return disp_control;
+ }
+ 
+ /* only timing related registers will be  programed */
+-- 
+2.42.0.345.gaab89be2eb
 
