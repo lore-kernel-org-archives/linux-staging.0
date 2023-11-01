@@ -1,83 +1,71 @@
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
+Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D9745679;
-	Wed,  1 Nov 2023 08:14:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0205315B9
+	for <linux-staging@lists.linux.dev>; Wed,  1 Nov 2023 11:49:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GPT9B8/C"
-Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-1cc3bb4c307so24517055ad.0;
-        Wed, 01 Nov 2023 01:14:43 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="D9njrRvm"
+Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-9d242846194so544915166b.1
+        for <linux-staging@lists.linux.dev>; Wed, 01 Nov 2023 04:49:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1698826483; x=1699431283; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=yteGal8bfi28CjXQ5f/6gEYfH3Je8xJWZgC19fKPZpw=;
-        b=GPT9B8/CVtJ23y8Ow9CPinv92OhqQ0ekAEX0/Su+1d2j0YsczNBlcNW+aKCx5AuIhE
-         ET/BV0cUcQn/5QPZnhluKm80YP0XaqI45k7kPKJldaV7EjmNjGykuT8PrWUqZGwAgLLV
-         DT9WxOQIwxjim20oxouyPpeAlQveUPKk1NfO0FSg5FBAMUX+5ff/kQq3Ss9YpF6Suoa9
-         bXDJ7QFV/h21h3yu8cSIGEAhuqt5QrW2w+MbhHP8/tOZqzhOtJytqbRuUQZrOU+z71qp
-         MIXvv5JF657Lyz5s7kzjyznrOAL4EE6QXgTwr/OvP9akwJQGqdCfXBlGI3VQF6NDUpLi
-         iMQQ==
+        d=gmail.com; s=20230601; t=1698839343; x=1699444143; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=xCyg1gCGVdfkuxm0mzbaCOgP6fP9l7HjSGJkW4c6pNg=;
+        b=D9njrRvmgSlmy9b7yIcQ9/PDOcGc9dYGyVxWi41uisCc4Aw2yTfJ+M5LjGo/zCsbyF
+         80XgDj8edgB+lwHrYBdy+lavrA8stoTua3p5ZYdBnc1dlnt+clPY0iUEbJzFEpzOZcyA
+         oZhplVyhrmglvYQNA7B6Tv8/itD9H7hxamlz8bi/T/5vUCBrO3vZi+UbP7lhUVo5bq2a
+         mlbig/EI1XsYoSjIiui1lRLnGQABWepmaVJVY97DMHy05lKCwQH7KTGar5Vo7OLDO6JR
+         J85NIUWpo7KRIQMtJBXvcIlvTs22AGCYIFii/bVPwZS86S80gV/5SGy005l79g3uRLPO
+         75GA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1698826483; x=1699431283;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=yteGal8bfi28CjXQ5f/6gEYfH3Je8xJWZgC19fKPZpw=;
-        b=TrSWRY8YW16sIevIf6xC+eo6R2GIxiNoS03NSaxpBlFlj/9+McYH4OuDXyUy3HqVPf
-         YlK6htAR6rTlxYSX/e4N77vToyx54W7eZ66TUkckZwlAXz6VbhLi3ckp1y5/TCpK4xt1
-         bWoRrcS8NY9l2Dz4Uy9/TkRI4Or+T14dQ94xtB2LoZATRGa1zYoRX1XhtG1O3DKYpaKB
-         JFgI+5nyEZEfyLiSrVk/tqOPoAF3c8O5sAgvmdRl1HSjWj4YQE9CO2A9PdChsRK2WQs2
-         V/gdeIJi80VAizkuMRdDltom242Qcgl89sf2uLgLwwir6XUfk11hMYFRFc90OC+NeQ3z
-         MieQ==
-X-Gm-Message-State: AOJu0Yw0VdlAK9uFU+lM3raNdXc4IilLvqsaHX7YjTxnewbpZjez0jR+
-	KqjNPeoHNKveVbxKGZQMmHg=
-X-Google-Smtp-Source: AGHT+IEvDkDlJewlEieY2zSy9jhj4YYYdNBvwZXNulDhgLueNtBCUcYWG/kgUcekigFT/lm+sJXHPw==
-X-Received: by 2002:a17:903:905:b0:1c8:90bf:4239 with SMTP id ll5-20020a170903090500b001c890bf4239mr10564511plb.42.1698826483425;
-        Wed, 01 Nov 2023 01:14:43 -0700 (PDT)
-Received: from [192.168.0.106] ([103.131.18.64])
-        by smtp.gmail.com with ESMTPSA id o11-20020a170902bccb00b001c0a414695bsm821596pls.43.2023.11.01.01.14.41
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 01 Nov 2023 01:14:43 -0700 (PDT)
-Message-ID: <ae8cc9af-b73c-435e-b2fe-8930c49e88bd@gmail.com>
-Date: Wed, 1 Nov 2023 15:14:38 +0700
+        d=1e100.net; s=20230601; t=1698839343; x=1699444143;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=xCyg1gCGVdfkuxm0mzbaCOgP6fP9l7HjSGJkW4c6pNg=;
+        b=atlj7G4Aj1a3Onl0J09+sTMFd3+c6HmbK2rr6SAFU/uARx7431w+StMdH5vbNhcFQM
+         0gGNPe8GdWMXlk1cmHU3PIaRnFi8Fqe7oxVqH1WbwqBuk+9uBY01HhdJ6iCP5NKi+86X
+         1HWZ1b+GIS033wTKYyFLIjerIP5IQGPxNf6QcCLs6SmeAOKh0ntyBBAIIv9OTJvTgqFm
+         8kEYFjC88DEvAh7Ykg8o8Jci7e0Eh/X2UrN4jr9u9w9Y7w/h+j8oRD/58ZUMQoCza+OU
+         mmJnTjP2elyAM/p3VtJfqfABNK4UyfsJmp1D0VHJdwclI4OO3yCjoRLR6c5ndNEJZF0c
+         goXg==
+X-Gm-Message-State: AOJu0YxAObLQoL6AogxkS5WtwiOc4a81Ini30GFI4DXCv8yHnzlqJahH
+	3GavfYu7MtBqFq6YanTYcbHmd3Aa0h4OLA==
+X-Google-Smtp-Source: AGHT+IHJMdfOwDj4qjqy6ef3jgBPCP9zZIPzeIYCZg4nGhQjnX9FUX3vtcsWvZrC9WV1dkukr3xVXg==
+X-Received: by 2002:a17:907:3e91:b0:9a2:185b:5375 with SMTP id hs17-20020a1709073e9100b009a2185b5375mr1534026ejc.18.1698839342385;
+        Wed, 01 Nov 2023 04:49:02 -0700 (PDT)
+Received: from ubuntu-focal.zuku.co.ke ([197.237.50.252])
+        by smtp.gmail.com with ESMTPSA id g17-20020a170906395100b009c657110cf2sm2333889eje.99.2023.11.01.04.49.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 01 Nov 2023 04:49:02 -0700 (PDT)
+From: Dorine Tipo <dorine.a.tipo@gmail.com>
+To: linux-staging@lists.linux.dev,
+	martyn@welchs.me.uk,
+	lukas.bulwahn@gmail.com,
+	manohar.vanga@gmail.com
+Subject: [PATCH] staging: vme: enhance the help paragraphs for clarity
+Date: Wed,  1 Nov 2023 11:48:38 +0000
+Message-Id: <20231101114838.1557-1-dorine.a.tipo@gmail.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <ZUIAyQGSfIKqK7AE@debian.me>
+References: <ZUIAyQGSfIKqK7AE@debian.me>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] staging: vme: enhance the help paragraphs for clarity
-Content-Language: en-US
-To: Greg KH <gregkh@linuxfoundation.org>
-Cc: Dorine Tipo <dorine.a.tipo@gmail.com>,
- Linux Outreachy <outreachy@lists.linux.dev>,
- Linux Staging Drivers <linux-staging@lists.linux.dev>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Martyn Welch <martyn@welchs.me.uk>, Manohar Vanga <manohar.vanga@gmail.com>,
- Lukas Bulwahn <lukas.bulwahn@gmail.com>, Charles Han <hanchunchao@inspur.com>
-References: <20231029180346.8570-1-dorine.a.tipo@gmail.com>
- <ZUIAyQGSfIKqK7AE@debian.me> <2023110152-snack-circle-3bf9@gregkh>
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-In-Reply-To: <2023110152-snack-circle-3bf9@gregkh>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 01/11/2023 15:09, Greg KH wrote:
-> On Wed, Nov 01, 2023 at 02:39:53PM +0700, Bagas Sanjaya wrote:
->> [Cc'ing driver contributors found via get_maintainer.pl. Also Cc: Charles from
->> linux-doc mailing list as wording patches like this one most likely suit him.]
-> 
-> Please do not, that's the responsibility of the outreachy applicant to
-> do, as it is documented very well what needs to happen here.
-> 
+>
+Please do not, that's the responsibility of the outreachy applicant to
+do, as it is documented very well what needs to happen here.
+>
 
-OK, thanks!
+Hello, 
 
--- 
-An old man doll... just what I always wanted! - Clara
-
+I have CC'd all the driver contributors for this driver.
