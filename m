@@ -1,99 +1,85 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED18E5227
-	for <linux-staging@lists.linux.dev>; Thu,  2 Nov 2023 15:10:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1DF379F0
+	for <linux-staging@lists.linux.dev>; Thu,  2 Nov 2023 15:37:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hvKZm6mt"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1698937803; x=1730473803;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=OHXfFQUZrtxpJ0p07bl7b5tBSPqCYpJ5LYV/rngT7UA=;
-  b=hvKZm6mt3DN+zYBxwJziRQUKN9iDCQcIiBdjuLrQjJLup1zgpp0/jvFD
-   mtYY8t4d1WGrD6i+zYCtzsUa37yFdMj2ecWR47sLiVuM44AlbKzaaVEEp
-   qoRYr/jTjUt2n2xgrT1fpKDiWb/MU+Tm9qPX/0NsnKdTwvCCXEAstRhdc
-   ocM2oS6y6z0oT4+vrjc+7xuBfqYkeZoLmcuLyu4KcpXcYFTGIqSh/ywuu
-   QdIDcNIjkSSMoWds4cGwmc9BTqTqN7xWdigml/R7ol5F04FTawIuHdhMG
-   cl6AQbPtjQcChAgtQkBVYSacAQXpO07+o0yk/1BM/XxnF2tDg6eyipzH1
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10882"; a="474975214"
-X-IronPort-AV: E=Sophos;i="6.03,271,1694761200"; 
-   d="scan'208";a="474975214"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Nov 2023 08:10:02 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10882"; a="851939601"
-X-IronPort-AV: E=Sophos;i="6.03,271,1694761200"; 
-   d="scan'208";a="851939601"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Nov 2023 08:10:00 -0700
-Received: from kekkonen.localdomain (localhost [127.0.0.1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id B775711F929;
-	Thu,  2 Nov 2023 17:09:57 +0200 (EET)
-Date: Thu, 2 Nov 2023 15:09:57 +0000
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Hans de Goede <hdegoede@redhat.com>
-Cc: Alexandra Diupina <adiupina@astralinux.ru>,
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="qYDmT76N"
+Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id EC7CA8C2;
+	Thu,  2 Nov 2023 16:37:39 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1698939460;
+	bh=DT6KLFROME6gQwGlCCzP0AGObJaawrMfnQVmIvWpWNA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=qYDmT76NHBPJgjme5FiNiLXeOAQot69NwrxIEc26GkBDLZkpjpCWqAPLVoBPV5kGx
+	 EHB58asAICMbrWB0pzaoMtfgEjGuyLAwi9OQhNFJlLdrKqTouq3D8OLkvbut4Jbyp+
+	 2Qex6Zc4DIF485SjXLJcjU6ZGWcEFzMc8fKr2F40=
+Date: Thu, 2 Nov 2023 17:38:04 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Alexandra Diupina <adiupina@astralinux.ru>
+Cc: Jacopo Mondi <jacopo+renesas@jmondi.org>,
+	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+	Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Hans de Goede <hdegoede@redhat.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Andy Shevchenko <andy@kernel.org>,
-	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
-	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org, lvc-project@linuxtesting.org
-Subject: Re: [PATCH 1/4] Remove redundant return value check
-Message-ID: <ZUO7xUuZmIVp06sw@kekkonen.localdomain>
+	Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
+	Rob Herring <robh@kernel.org>, linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev,
+	lvc-project@linuxtesting.org
+Subject: Re: [PATCH 2/4] Remove redundant return value check
+Message-ID: <20231102153804.GA7129@pendragon.ideasonboard.com>
 References: <20231102141135.369-1-adiupina@astralinux.ru>
- <b2aa6ccb-0a9a-449f-1341-fd71d5c545fd@redhat.com>
+ <20231102141135.369-2-adiupina@astralinux.ru>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <b2aa6ccb-0a9a-449f-1341-fd71d5c545fd@redhat.com>
+In-Reply-To: <20231102141135.369-2-adiupina@astralinux.ru>
 
-Hi Hans, Alexandra,
+On Thu, Nov 02, 2023 at 05:11:33PM +0300, Alexandra Diupina wrote:
+> media_entity_pads_init() will not return 0 only if the
+> 2nd parameter >= MEDIA_ENTITY_MAX_PADS (512), but 1 is
+> passed, so checking the return value is redundant
 
-On Thu, Nov 02, 2023 at 03:21:04PM +0100, Hans de Goede wrote:
-> Hi Alexandra,
-> 
-> On 11/2/23 15:11, Alexandra Diupina wrote:
-> > media_entity_pads_init() will not return 0 only if the
-> > 2nd parameter >= MEDIA_ENTITY_MAX_PADS (512), but 1 is
-> > passed, so checking the return value is redundant
-> 
-> Generally speaking functions which can fail should always be
-> error-checked even if their invocation today happen to be
-> such that they will not fail.
-> 
-> Either the invocation or the function itself my change
-> causing it to fail in the future. Which is why we want
-> to keep the error checks.
-> 
-> But maybe media_entity_pads_init() is special and
-> does not need to be error checked.
-> 
-> Sakari, Laurent do you have any opinion on this ?
-> 
-> > Found by Linux Verification Center (linuxtesting.org) with SVACE.
-> 
-> This feels like a false positive of the tool to me,
-> but lets wait and see what Sakari or Laurent have
-> to say.
+That may be the case today, but may not be true tomorrow if the function
+is extended to perform extra checks. I don't think dropping the error
+check in drivers is a good idea.
 
-I agree with Hans: this function today may not fail with the parameters
-passed to it but it may happen in the future. In general it's good to check
-a return value of a function that returns one: if that function is changed,
-no-one will go through the callers as long as the arguments and the return
-value remain the same.
+> Found by Linux Verification Center (linuxtesting.org) with SVACE.
+> 
+> Fixes: 34009bffc1c6 ("media: i2c: Add RDACM20 driver")
+> Signed-off-by: Alexandra Diupina <adiupina@astralinux.ru>
+> ---
+>  drivers/media/i2c/rdacm20.c | 4 +---
+>  1 file changed, 1 insertion(+), 3 deletions(-)
+> 
+> diff --git a/drivers/media/i2c/rdacm20.c b/drivers/media/i2c/rdacm20.c
+> index f4e2e2f3972a..ed249ade54e0 100644
+> --- a/drivers/media/i2c/rdacm20.c
+> +++ b/drivers/media/i2c/rdacm20.c
+> @@ -611,9 +611,7 @@ static int rdacm20_probe(struct i2c_client *client)
+>  
+>  	dev->pad.flags = MEDIA_PAD_FL_SOURCE;
+>  	dev->sd.entity.function = MEDIA_ENT_F_CAM_SENSOR;
+> -	ret = media_entity_pads_init(&dev->sd.entity, 1, &dev->pad);
+> -	if (ret < 0)
+> -		goto error_free_ctrls;
+> +	media_entity_pads_init(&dev->sd.entity, 1, &dev->pad);
+>  
+>  	ret = v4l2_async_register_subdev(&dev->sd);
+>  	if (ret)
 
 -- 
 Regards,
 
-Sakari Ailus
+Laurent Pinchart
