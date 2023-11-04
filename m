@@ -1,93 +1,55 @@
-Received: from mail-yw1-f177.google.com (mail-yw1-f177.google.com [209.85.128.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51915184C
-	for <linux-staging@lists.linux.dev>; Fri,  3 Nov 2023 15:11:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=marliere.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB51815B2
+	for <linux-staging@lists.linux.dev>; Sat,  4 Nov 2023 02:10:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="key not found in DNS" (0-bit key) header.d=marliere.net header.i=@marliere.net header.b="YTdPRB/Z"
-Received: by mail-yw1-f177.google.com with SMTP id 00721157ae682-5b31c5143a0so25961807b3.3
-        for <linux-staging@lists.linux.dev>; Fri, 03 Nov 2023 08:11:17 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1699024276; x=1699629076;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:dkim-signature:date:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=S26xEcJ6RrMKogkKju8z/wS2kOlw+fpVzbtyMFDLFD4=;
-        b=oZWAelNKBhIeYJm+rv7Gx+xc9kbdsqvYVyYuakoAUT/irz5CmT9neDUXGunjg2AY2v
-         iBG6Z0zrq4ZNP/hTF3dTL62ddVmgC2GVZrqryl9tcLlBYO2HqQl7JwplPiu405tOxB65
-         nocC02pKumPQmRjl/CX/2LdQQfVKfsdu923X+cogYW2Cyv640K8jwqxqcuKakGB6pkSI
-         Jy5VF+EShjUdrBPxRy9Zvio9zyz7QHat/YD4++g6UpXeNCzFvb6k5RtJYgXUXYz7Phgt
-         zPocC39BAWzAAjC1AtxigcJhglkwIiixy+FrzePp2ktvumcIWRk+mcBGr1Z52xyHRO8v
-         zuFQ==
-X-Gm-Message-State: AOJu0Yz5FflnD48pywog/9R0weEg8giibBQuFYei1LZNb9Dms1rDDUAp
-	5WzMDgsdgStRhU5k0q9+CcU=
-X-Google-Smtp-Source: AGHT+IFwCzatobvRkKNdFA9jKAK4k+sIFWNUrVKL+Cjyljt6nHhkBR4eUG7dY1eDoZTEORiete9MAA==
-X-Received: by 2002:a81:6582:0:b0:5a8:960d:e538 with SMTP id z124-20020a816582000000b005a8960de538mr3208928ywb.47.1699024275155;
-        Fri, 03 Nov 2023 08:11:15 -0700 (PDT)
-Received: from mail.marliere.net ([24.199.118.162])
-        by smtp.gmail.com with ESMTPSA id dy17-20020a05690c271100b0059b20231f1dsm1000248ywb.121.2023.11.03.08.11.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 03 Nov 2023 08:11:14 -0700 (PDT)
-Date: Fri, 3 Nov 2023 12:11:08 -0300
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=marliere.net;
-	s=2023; t=1699024272;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=S26xEcJ6RrMKogkKju8z/wS2kOlw+fpVzbtyMFDLFD4=;
-	b=YTdPRB/ZsJrakkluV5VoWO/Bj+7Far6XFikWeoRrpacnT3K9lzKEZANZbkpOSuaIRbThnn
-	X3Yso2cw7++DrqGV3jAcka3POwVmnoSY143rtkZXJarRfTwAPWhH8GuV57BRFruEJIAsZL
-	MmbsDe13Lw/g2bO24Eq8yihGYoNSWFJLsv/OVSNwAIHKpHEyxAMton35qeNsYC7Xfgf2QO
-	GBUS1dtBrP6JDP4spWH9MVNeeGoedADnNqq5LIzpqw90npi2DugmdYLvw+PgEmtXQnY+m5
-	QgroGgn8f/EoUUGun2E8SjIXDuao+hWOWSRU7xsxCruHIonPZ5bC9wwkASSjzA==
-Authentication-Results: ORIGINATING;
-	auth=pass smtp.auth=ricardo@marliere.net smtp.mailfrom=ricardo@marliere.net
-From: "Ricardo B. Marliere" <ricardo@marliere.net>
-To: Umang Jain <umang.jain@ideasonboard.com>
-Cc: linux-staging@lists.linux.dev, linux-rpi-kernel@lists.infradead.org, 
-	linux-arm-kernel@lists.infradead.org, Stefan Wahren <stefan.wahren@i2se.com>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Kieran Bingham <kieran.bingham@ideasonboard.com>, 
-	Dan Carpenter <dan.carpenter@linaro.org>, Phil Elwell <phil@raspberrypi.com>, 
-	Dave Stevenson <dave.stevenson@raspberrypi.com>
-Subject: Re: [PATCH 0/3] staging: vc04: Smatch analysis fixes
-Message-ID: <ag464m3uji63g7y2ycdh64vrr5geufq6g7spjk7x2lj4blsnhj@6h4spnjmvnso>
-References: <20231102210603.1201311-1-umang.jain@ideasonboard.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rhj4lHOZ"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 5BF82C43391;
+	Sat,  4 Nov 2023 02:10:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1699063826;
+	bh=Ds+SV2iGNavCSdCZwv1k3Ou8fZ2Dzxb9V25vnu0I6JU=;
+	h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
+	b=rhj4lHOZYit/ofkgRRAWKkco8KFNb7MYAFbO2vQVhMDQKFw030HGJAQVESWvviqKo
+	 Zm4LFU+FAMAx8GkN9vQbA+Wp9KCWLpjqE1EOFCiMrWQ0W1sjBqkkowVSowE0P2g9b4
+	 LEDlTgPLanAUZzSa5Idh1CCTlebacMXdsNf8w6t0iiw2fBAzFyGIXns7yRhxFq7haq
+	 YkjD8DfV17baKSbMk4OBosFmiintxXZ84mL0ACumF8bXwp1B6w5sgeIHUSs5RiMRhA
+	 i45GpLAoZPhxOdGOf9BpJVHYzkvhA6EVF24YEJ+6MHTUJRtBl6S6c5uLgOxYoNZ0my
+	 gtJch5+5ek/Fw==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 474C6C04DD9;
+	Sat,  4 Nov 2023 02:10:26 +0000 (UTC)
+Subject: Re: [GIT PULL] Staging driver updates for 6.7-rc1
+From: pr-tracker-bot@kernel.org
+In-Reply-To: <ZUTiKqLbWEPTVZCf@kroah.com>
+References: <ZUTiKqLbWEPTVZCf@kroah.com>
+X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
+X-PR-Tracked-Message-Id: <ZUTiKqLbWEPTVZCf@kroah.com>
+X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git tags/staging-6.7-rc1
+X-PR-Tracked-Commit-Id: a4000df5300fdbe10d84e3b70e2d6a98686310a9
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: 4c7a0c95adc3ed8cc5e4c2187521aea3e40ba1aa
+Message-Id: <169906382628.26291.3454184896525324299.pr-tracker-bot@kernel.org>
+Date: Sat, 04 Nov 2023 02:10:26 +0000
+To: Greg KH <gregkh@linuxfoundation.org>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>, Andrew Morton <akpm@linux-foundation.org>, Stephen Rothwell <sfr@canb.auug.org.au>, linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231102210603.1201311-1-umang.jain@ideasonboard.com>
 
-On 23/11/02 05:06PM, Umang Jain wrote:
-> low-hanging fruits series that solve a few of the warnings exposed by
-> smatch analysis. See individual patch for details.
-> 
-> Umang Jain (3):
->   staging: vc04_services: vchiq_core: Log through struct vchiq_instance
->   staging: vc04_services: Log using pr_err() when vchiq_state is unset
->   staging: vc04_services: bcm2835-camera: Remove redundant null check
-> 
->  .../staging/vc04_services/bcm2835-camera/bcm2835-camera.c  | 7 ++-----
->  .../staging/vc04_services/interface/vchiq_arm/vchiq_arm.c  | 6 ++----
->  .../staging/vc04_services/interface/vchiq_arm/vchiq_core.c | 6 +++---
->  .../staging/vc04_services/interface/vchiq_arm/vchiq_dev.c  | 7 +++----
->  4 files changed, 10 insertions(+), 16 deletions(-)
-> 
-> 
-> base-commit: a4000df5300fdbe10d84e3b70e2d6a98686310a9
-> -- 
-> 2.41.0
-> 
+The pull request you sent on Fri, 3 Nov 2023 13:06:02 +0100:
 
-Whole series is
+> git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git tags/staging-6.7-rc1
 
-Reviewed-by: Ricardo B. Marliere <ricardo@marliere.net>
+has been merged into torvalds/linux.git:
+https://git.kernel.org/torvalds/c/4c7a0c95adc3ed8cc5e4c2187521aea3e40ba1aa
 
-Thank you,
--	Ricardo
+Thank you!
+
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/prtracker.html
