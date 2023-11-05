@@ -1,246 +1,151 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp.forwardemail.net (smtp.forwardemail.net [149.28.215.223])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 987011864F;
-	Sun,  5 Nov 2023 20:59:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96EBB6AD6
+	for <linux-staging@lists.linux.dev>; Sun,  5 Nov 2023 23:36:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kwiboo.se
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fe-bounces.kwiboo.se
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="A2JmpBQt"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1699217961; x=1730753961;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=bpggp+jfEBeZBE1fxRDYA37/V6b3KkZ7Tyn+qf8LJIY=;
-  b=A2JmpBQtebgjUUiTsoFt4VXvyrjafYW6sqwCEmGI+25zdkcP5PRs6jfZ
-   3PU8GG0oOO17BGGbW9d4rF0tWeNFO4F8MGK5MovHaGj2TDSS0KYkfTRPa
-   JEsfEsCcmpYohqPGRhnszvowDAA4g3Z0BVFFFqZodaL9X2g/vVU946ZOj
-   RkOW0PXjSK4Gm1NK/E+hj4Paw3EmersjMU5dILT82cNQZCuWV6deL8S7t
-   yL2d/Cu5l4PSgsSTEbedHFgRksDjE9FRuLCKnAineNEE+4iXSc+qvY/XH
-   Rd/po+5fLu6bpH4e8Bv1opYwVdEVOVOB1QktqzTcgph0yuOoSjTFMtix4
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10885"; a="10712393"
-X-IronPort-AV: E=Sophos;i="6.03,279,1694761200"; 
-   d="scan'208";a="10712393"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2023 12:59:20 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10885"; a="1009340930"
-X-IronPort-AV: E=Sophos;i="6.03,279,1694761200"; 
-   d="scan'208";a="1009340930"
-Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
-  by fmsmga006.fm.intel.com with ESMTP; 05 Nov 2023 12:59:18 -0800
-Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qzkDE-0005n6-0Z;
-	Sun, 05 Nov 2023 20:59:16 +0000
-Date: Mon, 6 Nov 2023 04:58:51 +0800
-From: kernel test robot <lkp@intel.com>
-To: kenechukwu maduechesi <maduechesik@gmail.com>,
-	outreachy@lists.linux.dev, shreeya.patel23498@gmail.com
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: rts5208: Replace delay function.
-Message-ID: <202311060455.MQsyG6kq-lkp@intel.com>
-References: <20231018004300.GA3189@ubuntu>
+	dkim=pass (2048-bit key) header.d=kwiboo.se header.i=@kwiboo.se header.b="l4EeyDHk"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kwiboo.se;
+ h=Content-Transfer-Encoding: MIME-Version: Message-ID: Date: Subject: Cc:
+ To: From; q=dns/txt; s=fe-e1b5cab7be; t=1699227398;
+ bh=KYZWsqQ58F74SNXGzCDG6oHgc2JUvYanuGDg+aUTAPk=;
+ b=l4EeyDHkSIbDTQ/c3MhDVHW9FJW09jN18RSqBKkGQ22H/zasMBzLBhSBLz4zkqMxdvo2oorO2
+ FvfnV5yFsY2GM5jPKBYftbtNAhGkHsLJsHVwyqdlL5cXPr5uvsZ1wVpMe90Y9D3khZax3dHjaG0
+ 0AAdGQvPJPS14M/YzWOyiRNempp5EIKC8q9JlroOfJ304QDkwAQBKQO3yxEaPsxIfnV0Zu7DbH4
+ QHdNMt09HW2C8PEBB9cYJvOPNItW+glHzw14fxje5fYatpyPYM3fOWVgYr2LU1HUjIYwFMFX29N
+ 38IqhWa4IHHGZzI0raV/bfWXMWUF8EW/TtJjRxK9SmDw==
+From: Jonas Karlman <jonas@kwiboo.se>
+To: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>, Mauro Carvalho Chehab
+ <mchehab@kernel.org>, Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc: Alex Bee <knaerzche@gmail.com>, Nicolas Dufresne
+ <nicolas.dufresne@collabora.com>, Sebastian Fricke
+ <sebastian.fricke@collabora.com>, Benjamin Gaignard
+ <benjamin.gaignard@collabora.com>, Christopher Obbard
+ <chris.obbard@collabora.com>, linux-media@vger.kernel.org,
+ linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org, Jonas Karlman <jonas@kwiboo.se>
+Subject: [PATCH 0/9] media: rkvdec: Add HEVC backend
+Date: Sun,  5 Nov 2023 23:36:07 +0000
+Message-ID: <20231105233630.3927502-1-jonas@kwiboo.se>
+X-Mailer: git-send-email 2.42.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231018004300.GA3189@ubuntu>
+Content-Transfer-Encoding: 8bit
+X-Report-Abuse-To: abuse@forwardemail.net
+X-Report-Abuse: abuse@forwardemail.net
+X-Complaints-To: abuse@forwardemail.net
+X-ForwardEmail-Version: 0.4.40
+X-ForwardEmail-Sender: rfc822; jonas@kwiboo.se, smtp.forwardemail.net,
+ 149.28.215.223
+X-ForwardEmail-ID: 654827061b004d4cddbe0c4c
 
-Hi kenechukwu,
+This series add a HEVC backend to the Rockchip Video Decoder driver.
 
-kernel test robot noticed the following build errors:
+A version of this HEVC backend has been in use by the LibreELEC distro
+for the past 3+ years [1]. It was initially created based on a copy of
+the H264 backend, unstable HEVC uAPI controls and a cabac table + scaling
+matrix functions shamelessly copied 1:1 from the Rockchip mpp library.
 
-[auto build test ERROR on staging/staging-testing]
+It has since then been extended to use the stable HEVC uAPI controls and
+improved opon e.g. to include support for rk3288 and fix decoding issues
+by Alex Bee and Nicolas Dufresne.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/kenechukwu-maduechesi/staging-rts5208-Replace-delay-function/20231018-090457
-base:   staging/staging-testing
-patch link:    https://lore.kernel.org/r/20231018004300.GA3189%40ubuntu
-patch subject: [PATCH] staging: rts5208: Replace delay function.
-config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20231106/202311060455.MQsyG6kq-lkp@intel.com/config)
-compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231106/202311060455.MQsyG6kq-lkp@intel.com/reproduce)
+The version submitted in this series is based on the code currently used
+by the LibreELEC distro, excluding hard/soft reset, and with cabac table
+and scaling matrix functions picked from Sebastian Fricke prior series
+to add a HEVC backend [2].
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311060455.MQsyG6kq-lkp@intel.com/
+Big thanks to Alex Bee, Nicolas Dufresne and Sebastian Fricke for making
+this series possible!
 
-All errors (new ones prefixed by >>):
+Patch 1 add the new HEVC backend.
+Patch 2-3 add variants support to the driver.
+Patch 4 add support for a rk3288 variant.
+Patch 5 add a rk3328 variant to work around hw quirks.
+Patch 6-7 add device tree node for rk3288.
+Patch 8-9 extend vdec node reg size to include cache/perf registers.
 
->> drivers/staging/rts5208/sd.c:868:19: error: too few arguments to function call, expected 2, have 1
-                           usleep_range(50);
-                           ~~~~~~~~~~~~   ^
-   include/linux/delay.h:66:20: note: 'usleep_range' declared here
-   static inline void usleep_range(unsigned long min, unsigned long max)
-                      ^
-   drivers/staging/rts5208/sd.c:880:19: error: too few arguments to function call, expected 2, have 1
-                           usleep_range(50);
-                           ~~~~~~~~~~~~   ^
-   include/linux/delay.h:66:20: note: 'usleep_range' declared here
-   static inline void usleep_range(unsigned long min, unsigned long max)
-                      ^
-   drivers/staging/rts5208/sd.c:887:19: error: too few arguments to function call, expected 2, have 1
-                   usleep_range(100);
-                   ~~~~~~~~~~~~    ^
-   include/linux/delay.h:66:20: note: 'usleep_range' declared here
-   static inline void usleep_range(unsigned long min, unsigned long max)
-                      ^
-   drivers/staging/rts5208/sd.c:921:18: error: too few arguments to function call, expected 2, have 1
-                   usleep_range(50);
-                   ~~~~~~~~~~~~   ^
-   include/linux/delay.h:66:20: note: 'usleep_range' declared here
-   static inline void usleep_range(unsigned long min, unsigned long max)
-                      ^
-   drivers/staging/rts5208/sd.c:1419:19: error: too few arguments to function call, expected 2, have 1
-                   usleep_range(100);
-                   ~~~~~~~~~~~~    ^
-   include/linux/delay.h:66:20: note: 'usleep_range' declared here
-   static inline void usleep_range(unsigned long min, unsigned long max)
-                      ^
-   5 errors generated.
+This was tested on a ROCK Pi 4 (RK3399) and Rock64 (RK3328):
 
+  v4l2-compliance 1.24.1, 64 bits, 64-bit time_t
+  ...
+  Total for rkvdec device /dev/video1: 46, Succeeded: 46, Failed: 0, Warnings: 0
 
-vim +868 drivers/staging/rts5208/sd.c
+  Running test suite JCT-VC-HEVC_V1 with decoder FFmpeg-H.265-V4L2-request
+  ...
+  Ran 135/147 tests successfully
 
-   814	
-   815	static int sd_change_phase(struct rtsx_chip *chip, u8 sample_point, u8 tune_dir)
-   816	{
-   817		struct sd_info *sd_card = &chip->sd_card;
-   818		u16 SD_VP_CTL, SD_DCMPS_CTL;
-   819		u8 val;
-   820		int retval;
-   821		bool ddr_rx = false;
-   822	
-   823		dev_dbg(rtsx_dev(chip), "%s (sample_point = %d, tune_dir = %d)\n",
-   824			__func__, sample_point, tune_dir);
-   825	
-   826		if (tune_dir == TUNE_RX) {
-   827			SD_VP_CTL = SD_VPRX_CTL;
-   828			SD_DCMPS_CTL = SD_DCMPS_RX_CTL;
-   829			if (CHK_SD_DDR50(sd_card))
-   830				ddr_rx = true;
-   831		} else {
-   832			SD_VP_CTL = SD_VPTX_CTL;
-   833			SD_DCMPS_CTL = SD_DCMPS_TX_CTL;
-   834		}
-   835	
-   836		if (chip->asic_code) {
-   837			retval = rtsx_write_register(chip, CLK_CTL, CHANGE_CLK,
-   838						     CHANGE_CLK);
-   839			if (retval)
-   840				return retval;
-   841			retval = rtsx_write_register(chip, SD_VP_CTL, 0x1F,
-   842						     sample_point);
-   843			if (retval)
-   844				return retval;
-   845			retval = rtsx_write_register(chip, SD_VPCLK0_CTL,
-   846						     PHASE_NOT_RESET, 0);
-   847			if (retval)
-   848				return retval;
-   849			retval = rtsx_write_register(chip, SD_VPCLK0_CTL,
-   850						     PHASE_NOT_RESET, PHASE_NOT_RESET);
-   851			if (retval)
-   852				return retval;
-   853			retval = rtsx_write_register(chip, CLK_CTL, CHANGE_CLK, 0);
-   854			if (retval)
-   855				return retval;
-   856		} else {
-   857			rtsx_read_register(chip, SD_VP_CTL, &val);
-   858			dev_dbg(rtsx_dev(chip), "SD_VP_CTL: 0x%x\n", val);
-   859			rtsx_read_register(chip, SD_DCMPS_CTL, &val);
-   860			dev_dbg(rtsx_dev(chip), "SD_DCMPS_CTL: 0x%x\n", val);
-   861	
-   862			if (ddr_rx) {
-   863				retval = rtsx_write_register(chip, SD_VP_CTL,
-   864							     PHASE_CHANGE,
-   865							     PHASE_CHANGE);
-   866				if (retval)
-   867					return retval;
- > 868				usleep_range(50);
-   869				retval = rtsx_write_register(chip, SD_VP_CTL, 0xFF,
-   870							     PHASE_CHANGE |
-   871							     PHASE_NOT_RESET |
-   872							     sample_point);
-   873				if (retval)
-   874					return retval;
-   875			} else {
-   876				retval = rtsx_write_register(chip, CLK_CTL,
-   877							     CHANGE_CLK, CHANGE_CLK);
-   878				if (retval)
-   879					return retval;
-   880				usleep_range(50);
-   881				retval = rtsx_write_register(chip, SD_VP_CTL, 0xFF,
-   882							     PHASE_NOT_RESET |
-   883							     sample_point);
-   884				if (retval)
-   885					return retval;
-   886			}
-   887			usleep_range(100);
-   888	
-   889			rtsx_init_cmd(chip);
-   890			rtsx_add_cmd(chip, WRITE_REG_CMD, SD_DCMPS_CTL, DCMPS_CHANGE,
-   891				     DCMPS_CHANGE);
-   892			rtsx_add_cmd(chip, CHECK_REG_CMD, SD_DCMPS_CTL,
-   893				     DCMPS_CHANGE_DONE, DCMPS_CHANGE_DONE);
-   894			retval = rtsx_send_cmd(chip, SD_CARD, 100);
-   895			if (retval != STATUS_SUCCESS)
-   896				goto fail;
-   897	
-   898			val = *rtsx_get_cmd_data(chip);
-   899			if (val & DCMPS_ERROR)
-   900				goto fail;
-   901	
-   902			if ((val & DCMPS_CURRENT_PHASE) != sample_point)
-   903				goto fail;
-   904	
-   905			retval = rtsx_write_register(chip, SD_DCMPS_CTL,
-   906						     DCMPS_CHANGE, 0);
-   907			if (retval)
-   908				return retval;
-   909			if (ddr_rx) {
-   910				retval = rtsx_write_register(chip, SD_VP_CTL,
-   911							     PHASE_CHANGE, 0);
-   912				if (retval)
-   913					return retval;
-   914			} else {
-   915				retval = rtsx_write_register(chip, CLK_CTL,
-   916							     CHANGE_CLK, 0);
-   917				if (retval)
-   918					return retval;
-   919			}
-   920	
-   921			usleep_range(50);
-   922		}
-   923	
-   924		retval = rtsx_write_register(chip, SD_CFG1, SD_ASYNC_FIFO_NOT_RST, 0);
-   925		if (retval)
-   926			return retval;
-   927	
-   928		return STATUS_SUCCESS;
-   929	
-   930	fail:
-   931		rtsx_read_register(chip, SD_VP_CTL, &val);
-   932		dev_dbg(rtsx_dev(chip), "SD_VP_CTL: 0x%x\n", val);
-   933		rtsx_read_register(chip, SD_DCMPS_CTL, &val);
-   934		dev_dbg(rtsx_dev(chip), "SD_DCMPS_CTL: 0x%x\n", val);
-   935	
-   936		rtsx_write_register(chip, SD_DCMPS_CTL, DCMPS_CHANGE, 0);
-   937		rtsx_write_register(chip, SD_VP_CTL, PHASE_CHANGE, 0);
-   938		mdelay(10);
-   939		sd_reset_dcm(chip, tune_dir);
-   940		return STATUS_FAIL;
-   941	}
-   942	
+  Running test suite JCT-VC-MV-HEVC with decoder FFmpeg-H.265-V4L2-request
+  ...
+  Ran 9/9 tests successfully
+
+And on a TinkerBoard (RK3288):
+
+  v4l2-compliance 1.24.1, 32 bits, 32-bit time_t
+  ...
+  Total for rkvdec device /dev/video3: 47, Succeeded: 47, Failed: 0, Warnings: 0
+
+  Running test suite JCT-VC-HEVC_V1 with decoder FFmpeg-H.265-V4L2-request
+  ...
+  Ran 137/147 tests successfully
+
+  Running test suite JCT-VC-MV-HEVC with decoder FFmpeg-H.265-V4L2-request
+  ...
+  Ran 9/9 tests successfully
+
+This series depend on the following series:
+- media: rkvdec: Add H.264 High 10 and 4:2:2 profile support [3]
+
+To fully runtime test this series you need above series and ffmpeg
+patches from [4], this series and its depends is also available at [5].
+
+Full summary of fluster run can be found at [6].
+
+[1] https://github.com/LibreELEC/LibreELEC.tv/blob/master/projects/Rockchip/patches/linux/default/linux-2000-v4l2-wip-rkvdec-hevc.patch
+[2] https://lore.kernel.org/linux-media/20230101-patch-series-v2-6-2-rc1-v2-0-fa1897efac14@collabora.com/
+[3] https://lore.kernel.org/linux-media/20231105165521.3592037-1-jonas@kwiboo.se/
+[4] https://github.com/Kwiboo/FFmpeg/commits/v4l2-request-n6.1-dev/
+[5] https://github.com/Kwiboo/linux-rockchip/commits/linuxtv-rkvdec-hevc-v1/
+[6] https://gist.github.com/Kwiboo/4c0ed87774dede44ce6838451a1ec93d
+
+Regards,
+Jonas
+
+Alex Bee (5):
+  media: rkvdec: Add variants support
+  media: rkvdec: Add RK3288 variant
+  media: rkvdec: Disable QoS for HEVC and VP9 on RK3328
+  ARM: dts: rockchip: Add vdec node for RK3288
+  arm64: dts: rockchip: Expand reg size of vdec node for RK3399
+
+Jonas Karlman (4):
+  media: rkvdec: Add HEVC backend
+  media: rkvdec: Implement capability filtering
+  media: dt-bindings: rockchip,vdec: Add RK3288 compatible
+  arm64: dts: rockchip: Expand reg size of vdec node for RK3328
+
+ .../bindings/media/rockchip,vdec.yaml         |    4 +-
+ arch/arm/boot/dts/rockchip/rk3288.dtsi        |   17 +-
+ arch/arm64/boot/dts/rockchip/rk3328.dtsi      |    2 +-
+ arch/arm64/boot/dts/rockchip/rk3399.dtsi      |    6 +-
+ drivers/staging/media/rkvdec/Makefile         |    2 +-
+ drivers/staging/media/rkvdec/TODO             |    7 -
+ .../staging/media/rkvdec/rkvdec-hevc-data.c   | 1848 +++++++++++++++++
+ drivers/staging/media/rkvdec/rkvdec-hevc.c    |  823 ++++++++
+ drivers/staging/media/rkvdec/rkvdec-regs.h    |    3 +
+ drivers/staging/media/rkvdec/rkvdec-vp9.c     |   10 +
+ drivers/staging/media/rkvdec/rkvdec.c         |  180 +-
+ drivers/staging/media/rkvdec/rkvdec.h         |   15 +
+ 12 files changed, 2886 insertions(+), 31 deletions(-)
+ create mode 100644 drivers/staging/media/rkvdec/rkvdec-hevc-data.c
+ create mode 100644 drivers/staging/media/rkvdec/rkvdec-hevc.c
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.42.0
+
