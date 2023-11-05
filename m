@@ -1,21 +1,21 @@
 Received: from smtp.forwardemail.net (smtp.forwardemail.net [149.28.215.223])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D29C199C6
-	for <linux-staging@lists.linux.dev>; Sun,  5 Nov 2023 23:37:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D4D5199C6
+	for <linux-staging@lists.linux.dev>; Sun,  5 Nov 2023 23:37:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kwiboo.se
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fe-bounces.kwiboo.se
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kwiboo.se header.i=@kwiboo.se header.b="vpl/H/Tf"
+	dkim=pass (2048-bit key) header.d=kwiboo.se header.i=@kwiboo.se header.b="z/mmZFSH"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kwiboo.se;
  h=Content-Transfer-Encoding: MIME-Version: References: In-Reply-To:
  Message-ID: Date: Subject: Cc: To: From; q=dns/txt; s=fe-e1b5cab7be;
- t=1699227419; bh=Vh7xRkatPe36vScGEBJ3DJCsjTy4cqzyIECw5yN0YeU=;
- b=vpl/H/TfrCfzPiO9QbCFtpjQQfxFwxTdLciqSHWbrOZlRxeXXryn4aZpLiuBlyfl8YP63l5RH
- SeviPXuaUjPzmyIVn9RyX2uqaulgnjEHkkH/d0sNB+cuHBdOh90dzrzIwAgP1x+GS7PQSS/dNIs
- jmdA1jrTqHE78cB3xxxKo/LTbmdHqy03KGZKjjCnon6MUscgcuBiq60NeG4JBkRhZUbjY30KdK0
- Qq/pzotlDrgOQZIiAQLdBQurwxX1FS2qxN+vbfPtesYjpZ7VU6OopdplOaPwrFHFyhzzwW18gMQ
- yyzrIkUIv0H8gbsLU0CXngDSLj5JvH/n3Da2IKtS8RGw==
+ t=1699227424; bh=PZRfhinseChkZdvnVlfw1Kg5f1pXC9wZ1TqHW9bYJCc=;
+ b=z/mmZFSHSlFsC8tZvEYxgHLBKqBAPy1xIojsmStwMhdMflElHfZDsP4+/qivL+iXExuO7xWW5
+ Ld87eZqJYNajVG+dVxz/htzPB9HNH9mt/oKhEvtbPIh/58S5bPLItHMTxVdMBvw6DfSTnQMnVwf
+ 7rqokk95vv2aDay5kQA8OOZw0W4WRlAY7fTEYAJKrFzzy78S6EgDvNoRI9d9pK55HpTOlavX27+
+ aLB4AiGE1gtfEUj/KTz0gpyEIEWrHdWhv3I0Fgz8n+epkSELyXqePoiA4ho0GXOK3snPdSa78yY
+ 6EDzP9Se6bLzfn7i2MpB9dVBpNuNIqOA8N58YzzZ+uig==
 From: Jonas Karlman <jonas@kwiboo.se>
 To: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>, Mauro Carvalho Chehab
  <mchehab@kernel.org>, Hans Verkuil <hverkuil-cisco@xs4all.nl>, "Greg
@@ -27,9 +27,9 @@ Cc: Alex Bee <knaerzche@gmail.com>, Nicolas Dufresne
  <chris.obbard@collabora.com>, linux-media@vger.kernel.org,
  linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
  linux-kernel@vger.kernel.org, Jonas Karlman <jonas@kwiboo.se>
-Subject: [PATCH 4/9] media: rkvdec: Add RK3288 variant
-Date: Sun,  5 Nov 2023 23:36:11 +0000
-Message-ID: <20231105233630.3927502-5-jonas@kwiboo.se>
+Subject: [PATCH 5/9] media: rkvdec: Disable QoS for HEVC and VP9 on RK3328
+Date: Sun,  5 Nov 2023 23:36:12 +0000
+Message-ID: <20231105233630.3927502-6-jonas@kwiboo.se>
 X-Mailer: git-send-email 2.42.0
 In-Reply-To: <20231105233630.3927502-1-jonas@kwiboo.se>
 References: <20231105233630.3927502-1-jonas@kwiboo.se>
@@ -46,45 +46,146 @@ X-Complaints-To: abuse@forwardemail.net
 X-ForwardEmail-Version: 0.4.40
 X-ForwardEmail-Sender: rfc822; jonas@kwiboo.se, smtp.forwardemail.net,
  149.28.215.223
-X-ForwardEmail-ID: 6548271a1b004d4cddbe0c80
+X-ForwardEmail-ID: 6548271f1b004d4cddbe0c8d
 
 From: Alex Bee <knaerzche@gmail.com>
 
-Add a RK3288 variant, a version of the Rockchip VDEC IP that only
-support HEVC decoding.
+The RK3328 VDEC has a HW quirk that require QoS to be disabled when HEVC
+or VP9 is decoded, otherwise the decoded picture may become corrupted.
+
+Add a RK3328 variant with a quirk flag to disable QoS when before
+decoding is started.
 
 Signed-off-by: Alex Bee <knaerzche@gmail.com>
 Signed-off-by: Jonas Karlman <jonas@kwiboo.se>
 ---
- drivers/staging/media/rkvdec/rkvdec.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
+ drivers/staging/media/rkvdec/rkvdec-hevc.c |  9 +++++++++
+ drivers/staging/media/rkvdec/rkvdec-regs.h |  2 ++
+ drivers/staging/media/rkvdec/rkvdec-vp9.c  | 10 ++++++++++
+ drivers/staging/media/rkvdec/rkvdec.c      | 12 ++++++++++++
+ drivers/staging/media/rkvdec/rkvdec.h      |  4 ++++
+ 5 files changed, 37 insertions(+)
 
+diff --git a/drivers/staging/media/rkvdec/rkvdec-hevc.c b/drivers/staging/media/rkvdec/rkvdec-hevc.c
+index 0c4ddc073a6c..d0a1859d54c1 100644
+--- a/drivers/staging/media/rkvdec/rkvdec-hevc.c
++++ b/drivers/staging/media/rkvdec/rkvdec-hevc.c
+@@ -788,6 +788,15 @@ static int rkvdec_hevc_run(struct rkvdec_ctx *ctx)
+ 	writel(1, rkvdec->regs + RKVDEC_REG_PREF_LUMA_CACHE_COMMAND);
+ 	writel(1, rkvdec->regs + RKVDEC_REG_PREF_CHR_CACHE_COMMAND);
+ 
++	if (rkvdec->quirks & RKVDEC_QUIRK_DISABLE_QOS) {
++		u32 reg;
++
++		reg = readl(rkvdec->regs + RKVDEC_REG_QOS_CTRL);
++		reg |= 0xFFFF;
++		reg &= ~BIT(12);
++		writel(reg, rkvdec->regs + RKVDEC_REG_QOS_CTRL);
++	}
++
+ 	/* Start decoding! */
+ 	writel(RKVDEC_INTERRUPT_DEC_E | RKVDEC_CONFIG_DEC_CLK_GATE_E |
+ 	       RKVDEC_TIMEOUT_E | RKVDEC_BUF_EMPTY_E,
+diff --git a/drivers/staging/media/rkvdec/rkvdec-regs.h b/drivers/staging/media/rkvdec/rkvdec-regs.h
+index 83bf790ed9b7..740bdb498634 100644
+--- a/drivers/staging/media/rkvdec/rkvdec-regs.h
++++ b/drivers/staging/media/rkvdec/rkvdec-regs.h
+@@ -218,6 +218,8 @@
+ #define RKVDEC_REG_H264_ERR_E				0x134
+ #define RKVDEC_H264_ERR_EN_HIGHBITS(x)			((x) & 0x3fffffff)
+ 
++#define RKVDEC_REG_QOS_CTRL				0x18C
++
+ #define RKVDEC_REG_PREF_LUMA_CACHE_COMMAND		0x410
+ #define RKVDEC_REG_PREF_CHR_CACHE_COMMAND		0x450
+ 
+diff --git a/drivers/staging/media/rkvdec/rkvdec-vp9.c b/drivers/staging/media/rkvdec/rkvdec-vp9.c
+index 0e7e16f20eeb..cadb9d592308 100644
+--- a/drivers/staging/media/rkvdec/rkvdec-vp9.c
++++ b/drivers/staging/media/rkvdec/rkvdec-vp9.c
+@@ -824,6 +824,16 @@ static int rkvdec_vp9_run(struct rkvdec_ctx *ctx)
+ 	writel(1, rkvdec->regs + RKVDEC_REG_PREF_CHR_CACHE_COMMAND);
+ 
+ 	writel(0xe, rkvdec->regs + RKVDEC_REG_STRMD_ERR_EN);
++
++	if (rkvdec->quirks & RKVDEC_QUIRK_DISABLE_QOS) {
++		u32 reg;
++
++		reg = readl(rkvdec->regs + RKVDEC_REG_QOS_CTRL);
++		reg |= 0xFFFF;
++		reg &= ~BIT(12);
++		writel(reg, rkvdec->regs + RKVDEC_REG_QOS_CTRL);
++	}
++
+ 	/* Start decoding! */
+ 	writel(RKVDEC_INTERRUPT_DEC_E | RKVDEC_CONFIG_DEC_CLK_GATE_E |
+ 	       RKVDEC_TIMEOUT_E | RKVDEC_BUF_EMPTY_E,
 diff --git a/drivers/staging/media/rkvdec/rkvdec.c b/drivers/staging/media/rkvdec/rkvdec.c
-index 9cf7b63c1371..aa017ad40270 100644
+index aa017ad40270..03b6899e6637 100644
 --- a/drivers/staging/media/rkvdec/rkvdec.c
 +++ b/drivers/staging/media/rkvdec/rkvdec.c
-@@ -1200,6 +1200,10 @@ static void rkvdec_watchdog_func(struct work_struct *work)
- 	}
- }
+@@ -1204,6 +1204,13 @@ static const struct rkvdec_variant rk3288_rkvdec_variant = {
+ 	.capabilities = RKVDEC_CAPABILITY_HEVC,
+ };
  
-+static const struct rkvdec_variant rk3288_rkvdec_variant = {
-+	.capabilities = RKVDEC_CAPABILITY_HEVC,
++static const struct rkvdec_variant rk3328_rkvdec_variant = {
++	.capabilities = RKVDEC_CAPABILITY_HEVC |
++			RKVDEC_CAPABILITY_H264 |
++			RKVDEC_CAPABILITY_VP9,
++	.quirks = RKVDEC_QUIRK_DISABLE_QOS,
 +};
 +
  static const struct rkvdec_variant rk3399_rkvdec_variant = {
  	.capabilities = RKVDEC_CAPABILITY_HEVC |
  			RKVDEC_CAPABILITY_H264 |
-@@ -1207,6 +1211,10 @@ static const struct rkvdec_variant rk3399_rkvdec_variant = {
- };
- 
- static const struct of_device_id of_rkvdec_match[] = {
+@@ -1215,6 +1222,10 @@ static const struct of_device_id of_rkvdec_match[] = {
+ 		.compatible = "rockchip,rk3288-vdec",
+ 		.data = &rk3288_rkvdec_variant,
+ 	},
 +	{
-+		.compatible = "rockchip,rk3288-vdec",
-+		.data = &rk3288_rkvdec_variant,
++		.compatible = "rockchip,rk3328-vdec",
++		.data = &rk3328_rkvdec_variant,
 +	},
  	{
  		.compatible = "rockchip,rk3399-vdec",
  		.data = &rk3399_rkvdec_variant,
+@@ -1245,6 +1256,7 @@ static int rkvdec_probe(struct platform_device *pdev)
+ 	platform_set_drvdata(pdev, rkvdec);
+ 	rkvdec->dev = &pdev->dev;
+ 	rkvdec->capabilities = variant->capabilities;
++	rkvdec->quirks = variant->quirks;
+ 	mutex_init(&rkvdec->vdev_lock);
+ 	INIT_DELAYED_WORK(&rkvdec->watchdog_work, rkvdec_watchdog_func);
+ 
+diff --git a/drivers/staging/media/rkvdec/rkvdec.h b/drivers/staging/media/rkvdec/rkvdec.h
+index 14ce26a6c618..1d5d405da56c 100644
+--- a/drivers/staging/media/rkvdec/rkvdec.h
++++ b/drivers/staging/media/rkvdec/rkvdec.h
+@@ -26,6 +26,8 @@
+ #define RKVDEC_CAPABILITY_H264		BIT(1)
+ #define RKVDEC_CAPABILITY_VP9		BIT(2)
+ 
++#define RKVDEC_QUIRK_DISABLE_QOS	BIT(0)
++
+ struct rkvdec_ctx;
+ 
+ struct rkvdec_ctrl_desc {
+@@ -69,6 +71,7 @@ vb2_to_rkvdec_decoded_buf(struct vb2_buffer *buf)
+ 
+ struct rkvdec_variant {
+ 	unsigned int capabilities;
++	unsigned int quirks;
+ };
+ 
+ struct rkvdec_coded_fmt_ops {
+@@ -120,6 +123,7 @@ struct rkvdec_dev {
+ 	struct mutex vdev_lock; /* serializes ioctls */
+ 	struct delayed_work watchdog_work;
+ 	unsigned int capabilities;
++	unsigned int quirks;
+ };
+ 
+ struct rkvdec_ctx {
 -- 
 2.42.0
 
