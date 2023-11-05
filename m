@@ -1,178 +1,115 @@
-Received: from smtp.forwardemail.net (smtp.forwardemail.net [149.28.215.223])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADE542D61C
-	for <linux-staging@lists.linux.dev>; Sun,  5 Nov 2023 17:05:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kwiboo.se
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fe-bounces.kwiboo.se
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83E49BE6D
+	for <linux-staging@lists.linux.dev>; Sun,  5 Nov 2023 20:14:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmx.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kwiboo.se header.i=@kwiboo.se header.b="c6ljQ0zc"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kwiboo.se;
- h=Content-Transfer-Encoding: MIME-Version: References: In-Reply-To:
- Message-ID: Date: Subject: Cc: To: From; q=dns/txt; s=fe-e1b5cab7be;
- t=1699203938; bh=7TvJ7hJu85Rv+IB9dyvciIwrrP9mf2NII64BLyqL6pI=;
- b=c6ljQ0zc5Ummv/9BSWkxu9BtNA/+DCE2lXoUKtp9N4iUnWtyAwwNjkL2Bir0OIk0oyAfDbVaO
- DydCMQZT7Xw9thbnRaxqGjl9JxlsfsM1MFfeiApOYBFCYpWvEFdZ4LCAo4KuhyYKaAjXPajcxa1
- AsKteI80bM0J+jDIkZ7JW3WhVsayK8EFvvkRzG0/p/ioaVcDJH00SNkaTSgGVra9Qlb7VK43LKJ
- Z2R+RvTtBArmGOPuOJqasDeCAWCp2U+FQW2KsF0hP4s1QWjBTWvMK5kOCuJ/mJ8TiS1Fj0VP/DY
- 7T4m6ZNaWP0ja3sMROTPADMdc+dBmfooxn74yBsZw0xQ==
-From: Jonas Karlman <jonas@kwiboo.se>
-To: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>, Mauro Carvalho Chehab
- <mchehab@kernel.org>, Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc: Alex Bee <knaerzche@gmail.com>, Nicolas Dufresne
- <nicolas.dufresne@collabora.com>, Benjamin Gaignard
- <benjamin.gaignard@collabora.com>, Sebastian Fricke
- <sebastian.fricke@collabora.com>, Christopher Obbard
- <chris.obbard@collabora.com>, linux-media@vger.kernel.org,
- linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org, Jonas Karlman <jonas@kwiboo.se>
-Subject: [PATCH v4 01/11] media: v4l2-common: Add helpers to calculate bytesperline and sizeimage
-Date: Sun,  5 Nov 2023 16:55:00 +0000
-Message-ID: <20231105165521.3592037-2-jonas@kwiboo.se>
-X-Mailer: git-send-email 2.42.0
-In-Reply-To: <20231105165521.3592037-1-jonas@kwiboo.se>
-References: <20231105165521.3592037-1-jonas@kwiboo.se>
+	dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.b="ddqRSNea"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+	s=s31663417; t=1699215212; x=1699820012; i=wahrenst@gmx.net;
+	bh=caRh6iGshs8JM98y+UJVWdyammKqZobAjUhdcJnYC/c=;
+	h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:
+	 In-Reply-To;
+	b=ddqRSNeaaZ50Pyb8opDmTteY0drD60UvtKhx/zxQvNqYW8+S+A0Wz25AjZ7PuBNe
+	 PSDCJR1xLKqXGKJE5BqVN9n+g25LS3Ac8pvRaLqV1+KBsjX9PhRbyIAJxogySHv93
+	 1OpnS2KVi1eKY7KiCOVKF6sjzKw6PnMbq7hhAehiTLtmZbRx/z6huqpJ4ktHxEIEf
+	 rR91xc4az9Ecg6Qy14krikK4Dh3c2mvK0eXSNuWhSnLfEtaYtBvgWdLUsT9AyoPOW
+	 2virXLxiwrqCkf/XwTW0afaGVvyxXaawLrBU0xrDh6jBszEeelNf++yyxVl9BT9lr
+	 xbqeUovgZDDriQi8mQ==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from [192.168.1.129] ([37.4.248.43]) by mail.gmx.net (mrgmx005
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1Mn2W5-1rfcst1S59-00kBCp; Sun, 05
+ Nov 2023 21:13:32 +0100
+Message-ID: <cbe1fdf0-513a-42d0-9daf-7d1855cec8c9@gmx.net>
+Date: Sun, 5 Nov 2023 21:13:31 +0100
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Report-Abuse-To: abuse@forwardemail.net
-X-Report-Abuse: abuse@forwardemail.net
-X-Complaints-To: abuse@forwardemail.net
-X-ForwardEmail-Version: 0.4.40
-X-ForwardEmail-Sender: rfc822; jonas@kwiboo.se, smtp.forwardemail.net,
- 149.28.215.223
-X-ForwardEmail-ID: 6547c90342ad2f8d152468e7
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/3] staging: vc04_services: vchiq_core: Log through
+ struct vchiq_instance
+To: Umang Jain <umang.jain@ideasonboard.com>, linux-staging@lists.linux.dev,
+ linux-rpi-kernel@lists.infradead.org, linux-arm-kernel@lists.infradead.org
+Cc: Stefan Wahren <stefan.wahren@i2se.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Kieran Bingham <kieran.bingham@ideasonboard.com>,
+ Dan Carpenter <dan.carpenter@linaro.org>, Phil Elwell
+ <phil@raspberrypi.com>, Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ "Ricardo B . Marliere" <ricardo@marliere.net>
+References: <20231102210603.1201311-1-umang.jain@ideasonboard.com>
+ <20231102210603.1201311-2-umang.jain@ideasonboard.com>
+Content-Language: en-US
+From: Stefan Wahren <wahrenst@gmx.net>
+In-Reply-To: <20231102210603.1201311-2-umang.jain@ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Provags-ID: V03:K1:V/nk+9suORzxP+mPaU48ps0u6HTl9cCo7ilj63KMPgLuiZ06Chk
+ MAzTUFJ8VgEu/6saqEwzr3GiUlF9Ox1Kmgu8WFWNI0Bsy3zt2SEBE0bpyyOoFJqOiA2wQo6
+ 9e7ml/eFjFE9NNDclBcCmThVJ9fV1JioQ1CI2ly2bY3gRCLjbOp2CLjX4S6WyURRnRBOYyS
+ HNM+7cRN0Mb0DYN33d+jQ==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:4othP36TDTE=;n3fdNRyG8+W2pY8ouOxFGbkWj6J
+ xWWv37jvJWEWeLSaBUwMQ7SDwFwFTCKAYcJkhLuj7UnKDtvYuA3td9Hybq2gJ8HrkvB50PhLj
+ vL+gDkK4re8WmDmIKz8whnqPPVOa6kRL6WbOFK+YdeWyFymMB8KL/nYC0Y8bDhB2eU2GVDgzr
+ 2ctECuJoVgNYvCmfpVG+K0P/AhUWFQuYXQ76A6lto8+olqALGSHfwU8djlIL6sQEq+gODKYjF
+ sXyPpZyBGZSX5p9Qg4UQ4hAkRqjv62YNDO/gDuagbTG2nqIb+enZ9ErQm/QNZCR7Q5279iP/Q
+ EA/I35mZRf2qpwto6CaW0aOu7ROicTPtCQdIumvb/f/U5iO1SRJM3dumnyyhmQT4e5AmZpoCz
+ 6xWSsGeD7m3hxj2AkfuMtfimJ1aoI1bED6NP2Rr579X1Rea772X9p0cr3eklQHRi5qVCq0WDm
+ 6ocStOSu/LUubav6s92KdXWOjDW2feqhYIbi9BvxWpu1PIa4TYx9wWnKk4Cf+xQ8di4NXw4J4
+ cqrGOm8UYBUKkoqeIbvuARPEzqqwUb+2q28bG/hXlhUdzNouxTfXU9W2RUI2GMf2dphpyiN0u
+ 4PJVhIg8tLr6cHGt3i/tx0YrLx6gVeO2pCSDcm0jhfCpP8o6qe1oQudp658WJGp4fIwakPBIh
+ JZTBPXvSWkIVGg6Z2vNAKKLVod44yFHAM0viQTaMK1+n5SiDRTpc8T/9/3U3Sh0ICdC+c0iXE
+ fcrqzXEOs2MSXI7x3YOqFlkrCTxO8N0NbsyYztV1+mffjAMhqH7kZzQ7JbBLInaXHQXJ5iAo4
+ aQxJVJCjesfZqJgAuFo2IJDBcO2nlh+qNo3lvHCfHXUFgylqVDJBe+yq1VNfMPYpv6eyK327f
+ LoInztTW3smGBoopCDJBr3/XNd72tinFWa/5uwInrLlNUV2V0VjoBQCRl1f9livYWmKC55Yri
+ eFhEerv2kEpygDQPHxZIJYgjzZc=
 
-Add helper functions to calculate plane bytesperline and sizeimage,
-these new helpers consider bpp div, block width and height when
-calculating plane bytesperline and sizeimage.
-
-Signed-off-by: Jonas Karlman <jonas@kwiboo.se>
----
-v4:
-- No change
-
-v3:
-- Consider bpp_div in calculation
-
- drivers/media/v4l2-core/v4l2-common.c | 78 +++++++++++++--------------
- 1 file changed, 39 insertions(+), 39 deletions(-)
-
-diff --git a/drivers/media/v4l2-core/v4l2-common.c b/drivers/media/v4l2-core/v4l2-common.c
-index 3a4b15a98e02..834b426da8b1 100644
---- a/drivers/media/v4l2-core/v4l2-common.c
-+++ b/drivers/media/v4l2-core/v4l2-common.c
-@@ -350,6 +350,34 @@ static inline unsigned int v4l2_format_block_height(const struct v4l2_format_inf
- 	return info->block_h[plane];
- }
- 
-+static inline unsigned int v4l2_format_plane_width(const struct v4l2_format_info *info, int plane,
-+						   unsigned int width)
-+{
-+	unsigned int hdiv = plane ? info->hdiv : 1;
-+	unsigned int aligned_width =
-+		ALIGN(width, v4l2_format_block_width(info, plane));
-+
-+	return DIV_ROUND_UP(aligned_width, hdiv) *
-+	       info->bpp[plane] / info->bpp_div[plane];
-+}
-+
-+static inline unsigned int v4l2_format_plane_height(const struct v4l2_format_info *info, int plane,
-+						    unsigned int height)
-+{
-+	unsigned int vdiv = plane ? info->vdiv : 1;
-+	unsigned int aligned_height =
-+		ALIGN(height, v4l2_format_block_height(info, plane));
-+
-+	return DIV_ROUND_UP(aligned_height, vdiv);
-+}
-+
-+static inline unsigned int v4l2_format_plane_size(const struct v4l2_format_info *info, int plane,
-+						  unsigned int width, unsigned int height)
-+{
-+	return v4l2_format_plane_width(info, plane, width) *
-+	       v4l2_format_plane_height(info, plane, height);
-+}
-+
- void v4l2_apply_frmsize_constraints(u32 *width, u32 *height,
- 				    const struct v4l2_frmsize_stepwise *frmsize)
- {
-@@ -385,37 +413,19 @@ int v4l2_fill_pixfmt_mp(struct v4l2_pix_format_mplane *pixfmt,
- 
- 	if (info->mem_planes == 1) {
- 		plane = &pixfmt->plane_fmt[0];
--		plane->bytesperline = ALIGN(width, v4l2_format_block_width(info, 0)) * info->bpp[0] / info->bpp_div[0];
-+		plane->bytesperline = v4l2_format_plane_width(info, 0, width);
- 		plane->sizeimage = 0;
- 
--		for (i = 0; i < info->comp_planes; i++) {
--			unsigned int hdiv = (i == 0) ? 1 : info->hdiv;
--			unsigned int vdiv = (i == 0) ? 1 : info->vdiv;
--			unsigned int aligned_width;
--			unsigned int aligned_height;
--
--			aligned_width = ALIGN(width, v4l2_format_block_width(info, i));
--			aligned_height = ALIGN(height, v4l2_format_block_height(info, i));
--
--			plane->sizeimage += info->bpp[i] *
--				DIV_ROUND_UP(aligned_width, hdiv) *
--				DIV_ROUND_UP(aligned_height, vdiv) / info->bpp_div[i];
--		}
-+		for (i = 0; i < info->comp_planes; i++)
-+			plane->sizeimage +=
-+				v4l2_format_plane_size(info, i, width, height);
- 	} else {
- 		for (i = 0; i < info->comp_planes; i++) {
--			unsigned int hdiv = (i == 0) ? 1 : info->hdiv;
--			unsigned int vdiv = (i == 0) ? 1 : info->vdiv;
--			unsigned int aligned_width;
--			unsigned int aligned_height;
--
--			aligned_width = ALIGN(width, v4l2_format_block_width(info, i));
--			aligned_height = ALIGN(height, v4l2_format_block_height(info, i));
--
- 			plane = &pixfmt->plane_fmt[i];
- 			plane->bytesperline =
--				info->bpp[i] * DIV_ROUND_UP(aligned_width, hdiv) / info->bpp_div[i];
--			plane->sizeimage =
--				plane->bytesperline * DIV_ROUND_UP(aligned_height, vdiv);
-+				v4l2_format_plane_width(info, i, width);
-+			plane->sizeimage = plane->bytesperline *
-+				v4l2_format_plane_height(info, i, height);
- 		}
- 	}
- 	return 0;
-@@ -439,22 +449,12 @@ int v4l2_fill_pixfmt(struct v4l2_pix_format *pixfmt, u32 pixelformat,
- 	pixfmt->width = width;
- 	pixfmt->height = height;
- 	pixfmt->pixelformat = pixelformat;
--	pixfmt->bytesperline = ALIGN(width, v4l2_format_block_width(info, 0)) * info->bpp[0] / info->bpp_div[0];
-+	pixfmt->bytesperline = v4l2_format_plane_width(info, 0, width);
- 	pixfmt->sizeimage = 0;
- 
--	for (i = 0; i < info->comp_planes; i++) {
--		unsigned int hdiv = (i == 0) ? 1 : info->hdiv;
--		unsigned int vdiv = (i == 0) ? 1 : info->vdiv;
--		unsigned int aligned_width;
--		unsigned int aligned_height;
--
--		aligned_width = ALIGN(width, v4l2_format_block_width(info, i));
--		aligned_height = ALIGN(height, v4l2_format_block_height(info, i));
--
--		pixfmt->sizeimage += info->bpp[i] *
--			DIV_ROUND_UP(aligned_width, hdiv) *
--			DIV_ROUND_UP(aligned_height, vdiv) / info->bpp_div[i];
--	}
-+	for (i = 0; i < info->comp_planes; i++)
-+		pixfmt->sizeimage +=
-+			v4l2_format_plane_size(info, i, width, height);
- 	return 0;
- }
- EXPORT_SYMBOL_GPL(v4l2_fill_pixfmt);
--- 
-2.42.0
+Am 02.11.23 um 22:06 schrieb Umang Jain:
+> The handle_to_service() helper can return NULL, so service pointer
+> can indeed be set to NULL. Hence, do not log through service pointer,
+> use the vchiq_instance function argument to get access to the
+> struct device.
+I'm not sure but the change looks like fix, which deserve a Fixes tag to me.
+>
+> Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
+> ---
+>   .../staging/vc04_services/interface/vchiq_arm/vchiq_core.c  | 6 +++---
+>   1 file changed, 3 insertions(+), 3 deletions(-)
+>
+> diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
+> index 39b857da2d42..8a9eb0101c2e 100644
+> --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
+> +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
+> @@ -245,7 +245,7 @@ find_service_by_handle(struct vchiq_instance *instance, unsigned int handle)
+>   		return service;
+>   	}
+>   	rcu_read_unlock();
+> -	vchiq_log_debug(service->state->dev, VCHIQ_CORE,
+> +	vchiq_log_debug(instance->state->dev, VCHIQ_CORE,
+>   			"Invalid service handle 0x%x", handle);
+>   	return NULL;
+>   }
+> @@ -287,7 +287,7 @@ find_service_for_instance(struct vchiq_instance *instance, unsigned int handle)
+>   		return service;
+>   	}
+>   	rcu_read_unlock();
+> -	vchiq_log_debug(service->state->dev, VCHIQ_CORE,
+> +	vchiq_log_debug(instance->state->dev, VCHIQ_CORE,
+>   			"Invalid service handle 0x%x", handle);
+>   	return NULL;
+>   }
+> @@ -310,7 +310,7 @@ find_closed_service_for_instance(struct vchiq_instance *instance, unsigned int h
+>   		return service;
+>   	}
+>   	rcu_read_unlock();
+> -	vchiq_log_debug(service->state->dev, VCHIQ_CORE,
+> +	vchiq_log_debug(instance->state->dev, VCHIQ_CORE,
+>   			"Invalid service handle 0x%x", handle);
+>   	return service;
+>   }
 
