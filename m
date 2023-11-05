@@ -1,102 +1,151 @@
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+Received: from smtp.forwardemail.net (smtp.forwardemail.net [149.28.215.223])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 842A33D6C
-	for <linux-staging@lists.linux.dev>; Sat,  4 Nov 2023 11:39:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1700923C0
+	for <linux-staging@lists.linux.dev>; Sun,  5 Nov 2023 16:55:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kwiboo.se
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fe-bounces.kwiboo.se
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DPZlxDvS"
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-408fd07bb78so4245365e9.1
-        for <linux-staging@lists.linux.dev>; Sat, 04 Nov 2023 04:39:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1699097979; x=1699702779; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:to:subject:user-agent:mime-version:date:message-id:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=VC+Vc18HpjDuM9zWgO0MZbqut4q/1GieWVs47SxImQ4=;
-        b=DPZlxDvSeent4izKRG6n5ltFcLXw30VVUMkk9uFastZa/7BQv/3AFC4Wxxn+IySYej
-         upXBz1RFHFEwwM1uIwQ5/hU9QIt+PLiFatYwfJoL0sJbGJO2mIdoYdJVZ3L2I7I7uYdK
-         s3vVMFl/Moeqt6sWftji48u3hKvaHDt9OYb5evFd0K4EiTnWKB60+kp/NP+xZwXKtOQb
-         o3ssmMhD1/QWuSReg9Uh0cuDENPpIBaNs5FXrylV1YZ2+fFvlXcY3g3XmN+tOMO2Mfl4
-         qlM4r9yowKgWDuzoNQBPnoX9R6M2XI/8eECRou67eAsBDchTiocaHKwnPjjo4/3PklGi
-         s67w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1699097979; x=1699702779;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=VC+Vc18HpjDuM9zWgO0MZbqut4q/1GieWVs47SxImQ4=;
-        b=tG1yxnaWQ78DqaTo1ROgXTYxPOGrjGST68QRPDPeWpEAFwEYkKhiRSbCZE1xtW1Dt5
-         Og2qVcKR3PcbiHLy4nxkwrLryWjsgX1K01tcKTan5gUpL9UKynOtj+s+To/k9kUTu4hJ
-         2n867d4Dk/tFv0NUPtASOKbWpf/nHopVYGa2oFjxAvTk7pQ5fbI4sGh0spahqMxGQ7RH
-         8mNcjijfJw1/ztxfV9bk1iHR7uCfpuewFaxiZc5K4pXLFPlzG3zPXtbQvlBQjuK5Mewi
-         j0+LdcwlY4WiB4/PTAuR9S1fl29broVvok77nYE4NQ7WGxq2y+nsmLFSpNN6FgmIMvBP
-         HGjQ==
-X-Gm-Message-State: AOJu0YxwvkR2apS0E+BsZNQqhM9pv/8607JvPMGkgAdShrGRmDt3J7B3
-	nPVjFdM5rNKNS1tpiG5kr68=
-X-Google-Smtp-Source: AGHT+IHX5f1HLte02nzyZNKgs/kxN9IuJMQRjXsXHwsrJreD9jq6XeILbmbew3HV57LWCb07veaayw==
-X-Received: by 2002:a05:600c:1c1b:b0:403:334:fb0d with SMTP id j27-20020a05600c1c1b00b004030334fb0dmr19559329wms.4.1699097979324;
-        Sat, 04 Nov 2023 04:39:39 -0700 (PDT)
-Received: from [192.168.0.101] (p579356c7.dip0.t-ipconnect.de. [87.147.86.199])
-        by smtp.gmail.com with ESMTPSA id a1-20020a05600c348100b003fe1fe56202sm5610361wmq.33.2023.11.04.04.39.38
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 04 Nov 2023 04:39:38 -0700 (PDT)
-Message-ID: <0056c9ec-6e05-44b2-a7c5-e3c743454e22@gmail.com>
-Date: Sat, 4 Nov 2023 12:39:32 +0100
+	dkim=pass (2048-bit key) header.d=kwiboo.se header.i=@kwiboo.se header.b="K0OH+eJx"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kwiboo.se;
+ h=Content-Transfer-Encoding: MIME-Version: Message-ID: Date: Subject: Cc:
+ To: From; q=dns/txt; s=fe-e1b5cab7be; t=1699203327;
+ bh=gpEWyFLpFVQA/Y7FAcamWOkPAGDRoHusQHT6WoMBcvI=;
+ b=K0OH+eJxuk0CnFzeiViuoctJ7h50ZC066xjRckTpJRZnM/oC/4dvBdhNAWZI7fjkfQDHnPvuz
+ sugfkZzS1jJgb9iFSYJgJvRzqFTw/UDEmvH9Xaa+vg8/YtjuZNoQeeBr5KNdIGfXEMa2GFKFdyH
+ 5UNc0EM8JL/HAEG0Abjj7JudHNAqAYOViJrxPFGiJpMpjCdzukShWBLzhORwN0pqU7u2AP9PbLN
+ 9wMy86L2PDL71vlFLOMaTUvoat8S8lCrmZ8s/3r0NnTsSvvkIoIW7CpqigEIq+Tus8059ev81AE
+ Cv72ZOB6ZYNsv/1lqQwD3ZbyyDQWTixsefj76wGEr07g==
+From: Jonas Karlman <jonas@kwiboo.se>
+To: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>, Mauro Carvalho Chehab
+ <mchehab@kernel.org>, Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc: Alex Bee <knaerzche@gmail.com>, Nicolas Dufresne
+ <nicolas.dufresne@collabora.com>, Benjamin Gaignard
+ <benjamin.gaignard@collabora.com>, Sebastian Fricke
+ <sebastian.fricke@collabora.com>, Christopher Obbard
+ <chris.obbard@collabora.com>, linux-media@vger.kernel.org,
+ linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org, Jonas Karlman <jonas@kwiboo.se>
+Subject: [PATCH v4 00/11] media: rkvdec: Add H.264 High 10 and 4:2:2 profile support
+Date: Sun,  5 Nov 2023 16:54:59 +0000
+Message-ID: <20231105165521.3592037-1-jonas@kwiboo.se>
+X-Mailer: git-send-email 2.42.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 00/11] Type encoding info dropped from variable and
- function names in NIC driver part2
-To: Pavan Bobba <opensource206@gmail.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-References: <cover.1698730318.git.opensource206@gmail.com>
-Content-Language: en-US
-From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-In-Reply-To: <cover.1698730318.git.opensource206@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-Report-Abuse-To: abuse@forwardemail.net
+X-Report-Abuse: abuse@forwardemail.net
+X-Complaints-To: abuse@forwardemail.net
+X-ForwardEmail-Version: 0.4.40
+X-ForwardEmail-Sender: rfc822; jonas@kwiboo.se, smtp.forwardemail.net,
+ 149.28.215.223
+X-ForwardEmail-ID: 6547c8ff42ad2f8d152468da
 
-On 10/31/23 06:34, Pavan Bobba wrote:
-> This patchset series consist of fixes to issues found by checkpatch
-> 
-> Pavan Bobba (11):
->    staging: vt6655: Type encoding info dropped from variable name
->      "qwBSSTimestamp"
->    staging: vt6655: Type encoding info dropped from variable name
->      "qwTSFOffset"
->    staging: vt6655: Type encoding info dropped from function name
->      "CARDqGetTSFOffset"
->    staging: vt6655: Type encoding info dropped from function name
->      "CARDbSetBeaconPeriod"
->    staging: vt6655: Type encoding info dropped from variable name
->      "wBeaconInterval"
->    staging: vt6655: Type encoding info dropped from variable name
->      "qwNextTBTT"
->    staging: vt6655: Type encoding info dropped from function name
->      "CARDqGetNextTBTT"
->    staging: vt6655: Type encoding info dropped from function name
->      "CARDbRadioPowerOff"
->    staging: vt6655: Type encoding info dropped from function name
->      "CARDvSafeResetTx"
->    staging: vt6655: Type encoding info dropped from variable name
->      "pCurrTD"
->    staging: vt6655: Type encoding info dropped from variable name
->      "apTailTD"
-> 
->   drivers/staging/vt6655/card.c        | 90 ++++++++++++++--------------
->   drivers/staging/vt6655/card.h        | 18 +++---
->   drivers/staging/vt6655/device.h      |  4 +-
->   drivers/staging/vt6655/device_main.c | 18 +++---
->   drivers/staging/vt6655/rxtx.c        |  2 +-
->   5 files changed, 66 insertions(+), 66 deletions(-)
-> 
+This is a revival of a 3 year old series [1] now that NV15/NV20/NV30 support
+for display driver have landed in mainline tree.
 
-Tested-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+This series adds H.264 High 10 and 4:2:2 profile support to the Rockchip
+Video Decoder driver.
+
+Patch 1 adds helpers for calculating plane bytesperline and sizeimage.
+Patch 2 adds two new pixelformats for semi-planer 10-bit 4:2:0/4:2:2 YUV.
+
+Patch 3 change to use bytesperline and buffer height to configure strides.
+Patch 4 change to use values from SPS/PPS control to configure the HW.
+Patch 5 remove an unnecessary call to validate sps at streaming start.
+
+Patch 6-10 refactor code to support filtering of CAPUTRE formats based
+on the image format returned from a get_image_fmt ops.
+
+Patch 11 adds final bits to support H.264 High 10 and 4:2:2 profiles.
+
+Tested on a ROCK Pi 4 (RK3399) and Rock64 (RK3328):
+
+  v4l2-compliance 1.24.1, 64 bits, 64-bit time_t
+  ...
+  Total for rkvdec device /dev/video1: 46, Succeeded: 46, Failed: 0, Warnings: 0
+
+  Running test suite JVT-FR-EXT with decoder FFmpeg-H.264-V4L2-request
+  ...
+  Ran 65/69 tests successfully
+
+  Running test suite JVT-AVC_V1 with decoder FFmpeg-H.264-V4L2-request
+  ...
+  Ran 127/135 tests successfully
+
+Before this series:
+
+  Running test suite JVT-FR-EXT with decoder FFmpeg-H.264-V4L2-request
+  ...
+  Ran 44/69 tests successfully
+
+Changes in v4:
+- Fix failed v4l2-compliance tests related to CAPTURE queue
+- Rework CAPTURE format filter anv validate to use an image format
+- Run fluster test suite JVT-FR-EXT [4] and JVT-AVC_V1 [5]
+Link to v3: https://lore.kernel.org/linux-media/20231029183427.1781554-1-jonas@kwiboo.se/
+
+Changes in v3:
+- Drop merged patches
+- Use bpp and bpp_div instead of prior misuse of block_w/block_h
+- New patch to use values from SPS/PPS control to configure the HW
+- New patch to remove an unnecessary call to validate sps at streaming start
+- Reworked pixel format validation
+Link to v2: https://lore.kernel.org/linux-media/20200706215430.22859-1-jonas@kwiboo.se/
+
+Changes in v2:
+- Collect r-b tags
+- SPS pic width and height in mbs validation moved to rkvdec_try_ctrl
+- New patch to not override output buffer sizeimage
+- Reworked pixel format validation
+- Only align decoded buffer instead of changing frmsize step_width
+Link to v1: https://lore.kernel.org/linux-media/20200701215616.30874-1-jonas@kwiboo.se/
+
+Following commits adds support for NV15/NV20/NV30 to VOP driver:
+728c15b4b5f3 ("drm/fourcc: Add NV20 and NV30 YUV formats")
+d4b384228562 ("drm/rockchip: vop: Add NV15, NV20 and NV30 support")
+
+To fully runtime test this series you may need above drm commits and ffmpeg
+patches from [2], this series and drm patches is also available at [3].
+
+[1] https://lore.kernel.org/linux-media/20200706215430.22859-1-jonas@kwiboo.se/
+[2] https://github.com/Kwiboo/FFmpeg/commits/v4l2-request-n6.1-dev/
+[3] https://github.com/Kwiboo/linux-rockchip/commits/linuxtv-rkvdec-high-10-v4/
+[4] https://gist.github.com/Kwiboo/f4ac15576b2c72887ae2bc5d58b5c865
+[5] https://gist.github.com/Kwiboo/459a1c8f1dcb56e45dc7a7a29cc28adf
+
+Regards,
+Jonas
+
+Alex Bee (1):
+  media: rkvdec: h264: Don't hardcode SPS/PPS parameters
+
+Jonas Karlman (10):
+  media: v4l2-common: Add helpers to calculate bytesperline and
+    sizeimage
+  media: v4l2: Add NV15 and NV20 pixel formats
+  media: rkvdec: h264: Use bytesperline and buffer height as virstride
+  media: rkvdec: h264: Remove SPS validation at streaming start
+  media: rkvdec: Extract rkvdec_fill_decoded_pixfmt into helper
+  media: rkvdec: Move rkvdec_reset_decoded_fmt helper
+  media: rkvdec: Extract decoded format enumeration into helper
+  media: rkvdec: Add image format concept
+  media: rkvdec: Add get_image_fmt ops
+  media: rkvdec: h264: Support High 10 and 4:2:2 profiles
+
+ .../media/v4l/pixfmt-yuv-planar.rst           | 128 +++++++++++
+ drivers/media/v4l2-core/v4l2-common.c         |  80 +++----
+ drivers/media/v4l2-core/v4l2-ioctl.c          |   2 +
+ drivers/staging/media/rkvdec/rkvdec-h264.c    |  83 +++----
+ drivers/staging/media/rkvdec/rkvdec.c         | 217 +++++++++++++-----
+ drivers/staging/media/rkvdec/rkvdec.h         |  18 +-
+ include/uapi/linux/videodev2.h                |   2 +
+ 7 files changed, 396 insertions(+), 134 deletions(-)
+
+-- 
+2.42.0
 
