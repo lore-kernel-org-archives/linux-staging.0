@@ -1,21 +1,21 @@
-Received: from smtp.forwardemail.net (smtp.forwardemail.net [167.172.40.54])
+Received: from smtp.forwardemail.net (smtp.forwardemail.net [149.28.215.223])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C9852D61C
-	for <linux-staging@lists.linux.dev>; Sun,  5 Nov 2023 16:56:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12515F9CF
+	for <linux-staging@lists.linux.dev>; Sun,  5 Nov 2023 16:56:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kwiboo.se
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fe-bounces.kwiboo.se
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kwiboo.se header.i=@kwiboo.se header.b="T5LzRYhA"
+	dkim=pass (2048-bit key) header.d=kwiboo.se header.i=@kwiboo.se header.b="VM49k8el"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kwiboo.se;
  h=Content-Transfer-Encoding: MIME-Version: References: In-Reply-To:
  Message-ID: Date: Subject: Cc: To: From; q=dns/txt; s=fe-e1b5cab7be;
- t=1699203355; bh=DHrB2MDEvgLvMGiiGW4ysBRF9ISWcTsdFhQXpZT8qmk=;
- b=T5LzRYhA2bBThfe3HrUK9sc4SOk3PGuOvJt2ZjUwX0FdFPRqqohnBHhZOyCdzVrd0QTxU9qDM
- Khx9I7Cf9WBmGtidydYOhbv9dTsxQIikpP+yQSkIyryH0rYpAxMEFY8HI8CGCFL6orQfmy50UNW
- lVHQfUBla370I0OgeK+33FRqRu1B3+6Q5BHKJVKEJs2ihHHicCdYiKxK03MKaBTYP47Mhp58Aji
- xkBdERKf82jB38egPALpdTXwrZ+Sy6ahzKOq1hbo3Zrn6ULDvl/HfVefQClyxFE9Pn2MO5laoCg
- 9rIrownKdYzwDvH/Hpi5dRi9L34BnnC+DCpGv/ULUMGQ==
+ t=1699203367; bh=lpnBJaNiSOXF2fbVkARa+33opskrlpRAhdbPZ7vR6lI=;
+ b=VM49k8elFZ6RRgB1nf7LwO33PFuV3oU0yPReic/VjHWVuJIWjF1BAAqQeJ/kSNr4WviBYt7wc
+ yoAzmSrMaXchniGD9+P+AClnI10zGhD6Ms5PVd5D3+60btZDafhrPK3z58o1orIkwbQorItpCN7
+ C9SwGc78iqWSqt00jt/1LXXtxIPZmJidD6Hl8dszXb/mSxHFCy02zpZeMCQSZ1t0WPI2jokH9c8
+ SI4a8ajRdYOEWjyKSv9R54v8NGjE99w9sBKIJDgTSNbokoEgRzO2xFaBXHTHmM3jEMIvJDFRn04
+ LvpAtA46NwI+N4+6y/C2XtBij8WOvmhPWH3EmiP1bMHQ==
 From: Jonas Karlman <jonas@kwiboo.se>
 To: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>, Mauro Carvalho Chehab
  <mchehab@kernel.org>, Hans Verkuil <hverkuil-cisco@xs4all.nl>, "Greg
@@ -27,9 +27,9 @@ Cc: Alex Bee <knaerzche@gmail.com>, Nicolas Dufresne
  <chris.obbard@collabora.com>, linux-media@vger.kernel.org,
  linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
  linux-kernel@vger.kernel.org, Jonas Karlman <jonas@kwiboo.se>
-Subject: [PATCH v4 07/11] media: rkvdec: Move rkvdec_reset_decoded_fmt helper
-Date: Sun,  5 Nov 2023 16:55:06 +0000
-Message-ID: <20231105165521.3592037-8-jonas@kwiboo.se>
+Subject: [PATCH v4 10/11] media: rkvdec: Add get_image_fmt ops
+Date: Sun,  5 Nov 2023 16:55:09 +0000
+Message-ID: <20231105165521.3592037-11-jonas@kwiboo.se>
 X-Mailer: git-send-email 2.42.0
 In-Reply-To: <20231105165521.3592037-1-jonas@kwiboo.se>
 References: <20231105165521.3592037-1-jonas@kwiboo.se>
@@ -45,94 +45,108 @@ X-Report-Abuse: abuse@forwardemail.net
 X-Complaints-To: abuse@forwardemail.net
 X-ForwardEmail-Version: 0.4.40
 X-ForwardEmail-Sender: rfc822; jonas@kwiboo.se, smtp.forwardemail.net,
- 167.172.40.54
-X-ForwardEmail-ID: 6547c91a42ad2f8d15246935
+ 149.28.215.223
+X-ForwardEmail-ID: 6547c92642ad2f8d1524695c
 
-Move rkvdec_reset_decoded_fmt() and the called rkvdec_reset_fmt() helper
-functions in preparation for adding a new caller in an upcoming patch.
+Add support for a get_image_fmt() ops that return the required image
+format.
+
+The CAPTURE format is reset when required image format changes and the
+buffer queue is not busy.
 
 Signed-off-by: Jonas Karlman <jonas@kwiboo.se>
 ---
 v4:
-- No change
+- Change fmt_opaque into an image format
+- Split patch into two
 
 v3:
 - New patch
 
- drivers/staging/media/rkvdec/rkvdec.c | 46 +++++++++++++--------------
- 1 file changed, 23 insertions(+), 23 deletions(-)
+ drivers/staging/media/rkvdec/rkvdec.c | 49 +++++++++++++++++++++++++--
+ drivers/staging/media/rkvdec/rkvdec.h |  2 ++
+ 2 files changed, 49 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/staging/media/rkvdec/rkvdec.c b/drivers/staging/media/rkvdec/rkvdec.c
-index 0570c790ad08..7a79840470e1 100644
+index 5949d59d4cf9..225aa1f0ac48 100644
 --- a/drivers/staging/media/rkvdec/rkvdec.c
 +++ b/drivers/staging/media/rkvdec/rkvdec.c
-@@ -37,6 +37,29 @@ static void rkvdec_fill_decoded_pixfmt(struct rkvdec_ctx *ctx,
- 		DIV_ROUND_UP(pix_mp->height, 16);
- }
- 
-+static void rkvdec_reset_fmt(struct rkvdec_ctx *ctx, struct v4l2_format *f,
-+			     u32 fourcc)
-+{
-+	memset(f, 0, sizeof(*f));
-+	f->fmt.pix_mp.pixelformat = fourcc;
-+	f->fmt.pix_mp.field = V4L2_FIELD_NONE;
-+	f->fmt.pix_mp.colorspace = V4L2_COLORSPACE_REC709;
-+	f->fmt.pix_mp.ycbcr_enc = V4L2_YCBCR_ENC_DEFAULT;
-+	f->fmt.pix_mp.quantization = V4L2_QUANTIZATION_DEFAULT;
-+	f->fmt.pix_mp.xfer_func = V4L2_XFER_FUNC_DEFAULT;
-+}
-+
-+static void rkvdec_reset_decoded_fmt(struct rkvdec_ctx *ctx)
-+{
-+	struct v4l2_format *f = &ctx->decoded_fmt;
-+
-+	rkvdec_reset_fmt(ctx, f, ctx->coded_fmt_desc->decoded_fmts[0]);
-+	f->type = V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE;
-+	f->fmt.pix_mp.width = ctx->coded_fmt.fmt.pix_mp.width;
-+	f->fmt.pix_mp.height = ctx->coded_fmt.fmt.pix_mp.height;
-+	rkvdec_fill_decoded_pixfmt(ctx, &f->fmt.pix_mp);
-+}
-+
- static int rkvdec_try_ctrl(struct v4l2_ctrl *ctrl)
+@@ -108,15 +108,60 @@ static int rkvdec_try_ctrl(struct v4l2_ctrl *ctrl)
  {
  	struct rkvdec_ctx *ctx = container_of(ctrl->handler, struct rkvdec_ctx, ctrl_hdl);
-@@ -169,18 +192,6 @@ rkvdec_find_coded_fmt_desc(u32 fourcc)
- 	return NULL;
+ 	const struct rkvdec_coded_fmt_desc *desc = ctx->coded_fmt_desc;
++	struct v4l2_pix_format_mplane *pix_mp = &ctx->decoded_fmt.fmt.pix_mp;
++	enum rkvdec_image_fmt image_fmt;
++	struct vb2_queue *vq;
++	int ret;
++
++	if (desc->ops->try_ctrl) {
++		ret = desc->ops->try_ctrl(ctx, ctrl);
++		if (ret)
++			return ret;
++	}
++
++	if (!desc->ops->get_image_fmt)
++		return 0;
+ 
+-	if (desc->ops->try_ctrl)
+-		return desc->ops->try_ctrl(ctx, ctrl);
++	image_fmt = desc->ops->get_image_fmt(ctx, ctrl);
++	if (ctx->image_fmt == image_fmt)
++		return 0;
++
++	if (rkvdec_is_valid_fmt(ctx, pix_mp->pixelformat, image_fmt))
++		return 0;
++
++	/* format change not allowed when queue is busy */
++	vq = v4l2_m2m_get_vq(ctx->fh.m2m_ctx,
++			     V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE);
++	if (vb2_is_busy(vq))
++		return -EINVAL;
++
++	return 0;
++}
++
++static int rkvdec_s_ctrl(struct v4l2_ctrl *ctrl)
++{
++	struct rkvdec_ctx *ctx = container_of(ctrl->handler, struct rkvdec_ctx, ctrl_hdl);
++	const struct rkvdec_coded_fmt_desc *desc = ctx->coded_fmt_desc;
++	struct v4l2_pix_format_mplane *pix_mp = &ctx->decoded_fmt.fmt.pix_mp;
++	enum rkvdec_image_fmt image_fmt;
++
++	if (!desc->ops->get_image_fmt)
++		return 0;
++
++	image_fmt = desc->ops->get_image_fmt(ctx, ctrl);
++	if (ctx->image_fmt == image_fmt)
++		return 0;
++
++	ctx->image_fmt = image_fmt;
++	if (!rkvdec_is_valid_fmt(ctx, pix_mp->pixelformat, ctx->image_fmt))
++		rkvdec_reset_decoded_fmt(ctx);
+ 
+ 	return 0;
  }
  
--static void rkvdec_reset_fmt(struct rkvdec_ctx *ctx, struct v4l2_format *f,
--			     u32 fourcc)
--{
--	memset(f, 0, sizeof(*f));
--	f->fmt.pix_mp.pixelformat = fourcc;
--	f->fmt.pix_mp.field = V4L2_FIELD_NONE;
--	f->fmt.pix_mp.colorspace = V4L2_COLORSPACE_REC709;
--	f->fmt.pix_mp.ycbcr_enc = V4L2_YCBCR_ENC_DEFAULT;
--	f->fmt.pix_mp.quantization = V4L2_QUANTIZATION_DEFAULT;
--	f->fmt.pix_mp.xfer_func = V4L2_XFER_FUNC_DEFAULT;
--}
--
- static void rkvdec_reset_coded_fmt(struct rkvdec_ctx *ctx)
- {
- 	struct v4l2_format *f = &ctx->coded_fmt;
-@@ -196,17 +207,6 @@ static void rkvdec_reset_coded_fmt(struct rkvdec_ctx *ctx)
- 		ctx->coded_fmt_desc->ops->adjust_fmt(ctx, f);
- }
+ static const struct v4l2_ctrl_ops rkvdec_ctrl_ops = {
+ 	.try_ctrl = rkvdec_try_ctrl,
++	.s_ctrl = rkvdec_s_ctrl,
+ };
  
--static void rkvdec_reset_decoded_fmt(struct rkvdec_ctx *ctx)
--{
--	struct v4l2_format *f = &ctx->decoded_fmt;
--
--	rkvdec_reset_fmt(ctx, f, ctx->coded_fmt_desc->decoded_fmts[0]);
--	f->type = V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE;
--	f->fmt.pix_mp.width = ctx->coded_fmt.fmt.pix_mp.width;
--	f->fmt.pix_mp.height = ctx->coded_fmt.fmt.pix_mp.height;
--	rkvdec_fill_decoded_pixfmt(ctx, &f->fmt.pix_mp);
--}
--
- static int rkvdec_enum_framesizes(struct file *file, void *priv,
- 				  struct v4l2_frmsizeenum *fsize)
- {
+ static const struct rkvdec_ctrl_desc rkvdec_h264_ctrl_descs[] = {
+diff --git a/drivers/staging/media/rkvdec/rkvdec.h b/drivers/staging/media/rkvdec/rkvdec.h
+index 6f8cf50c5d99..e466a2753ccf 100644
+--- a/drivers/staging/media/rkvdec/rkvdec.h
++++ b/drivers/staging/media/rkvdec/rkvdec.h
+@@ -73,6 +73,8 @@ struct rkvdec_coded_fmt_ops {
+ 		     struct vb2_v4l2_buffer *dst_buf,
+ 		     enum vb2_buffer_state result);
+ 	int (*try_ctrl)(struct rkvdec_ctx *ctx, struct v4l2_ctrl *ctrl);
++	enum rkvdec_image_fmt (*get_image_fmt)(struct rkvdec_ctx *ctx,
++					       struct v4l2_ctrl *ctrl);
+ };
+ 
+ enum rkvdec_image_fmt {
 -- 
 2.42.0
 
