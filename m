@@ -1,24 +1,25 @@
 Received: from smtp.forwardemail.net (smtp.forwardemail.net [149.28.215.223])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1700923C0
-	for <linux-staging@lists.linux.dev>; Sun,  5 Nov 2023 16:55:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 173A0156DC
+	for <linux-staging@lists.linux.dev>; Sun,  5 Nov 2023 16:55:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kwiboo.se
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fe-bounces.kwiboo.se
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kwiboo.se header.i=@kwiboo.se header.b="K0OH+eJx"
+	dkim=pass (2048-bit key) header.d=kwiboo.se header.i=@kwiboo.se header.b="StlZA6da"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kwiboo.se;
- h=Content-Transfer-Encoding: MIME-Version: Message-ID: Date: Subject: Cc:
- To: From; q=dns/txt; s=fe-e1b5cab7be; t=1699203327;
- bh=gpEWyFLpFVQA/Y7FAcamWOkPAGDRoHusQHT6WoMBcvI=;
- b=K0OH+eJxuk0CnFzeiViuoctJ7h50ZC066xjRckTpJRZnM/oC/4dvBdhNAWZI7fjkfQDHnPvuz
- sugfkZzS1jJgb9iFSYJgJvRzqFTw/UDEmvH9Xaa+vg8/YtjuZNoQeeBr5KNdIGfXEMa2GFKFdyH
- 5UNc0EM8JL/HAEG0Abjj7JudHNAqAYOViJrxPFGiJpMpjCdzukShWBLzhORwN0pqU7u2AP9PbLN
- 9wMy86L2PDL71vlFLOMaTUvoat8S8lCrmZ8s/3r0NnTsSvvkIoIW7CpqigEIq+Tus8059ev81AE
- Cv72ZOB6ZYNsv/1lqQwD3ZbyyDQWTixsefj76wGEr07g==
+ h=Content-Transfer-Encoding: MIME-Version: References: In-Reply-To:
+ Message-ID: Date: Subject: Cc: To: From; q=dns/txt; s=fe-e1b5cab7be;
+ t=1699203340; bh=+OFG4YG5FDD0E7pqkDYNn/y86VqErWzPoJTEkQmn5bo=;
+ b=StlZA6dajX8qKmnknsBdHP3Zb/+n/5VM9fvjRarx8NdJAOE9c0/LroE7FCRJMTpAd2QeYPqEk
+ GlBJF8Tkoce8+on3TMDoVVVcDVoe64X9F3I8sky3f3QMVM0hRMfESCloGAfBmgJMQOlFbiYJoF8
+ jyas+Ej+T3Hdf7GpbMvKscpxZWPdkAR/L0TcjRZ1ecrJCV3tjQb3B0AgNn16RUNk8xal98zksRH
+ 8AZIkScpnmidofdFs4XzySMSGmQZ8Xm9d2rtbdBZJBhV0izwzGuXM74kGbD1Sfn/PSJvoc1NwTP
+ YspiFhJeP4kTyJBikzZ2FU7MJpZRGMnjGYIWOf8kdEQA==
 From: Jonas Karlman <jonas@kwiboo.se>
 To: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>, Mauro Carvalho Chehab
- <mchehab@kernel.org>, Hans Verkuil <hverkuil-cisco@xs4all.nl>
+ <mchehab@kernel.org>, Hans Verkuil <hverkuil-cisco@xs4all.nl>, "Greg
+ Kroah-Hartman" <gregkh@linuxfoundation.org>
 Cc: Alex Bee <knaerzche@gmail.com>, Nicolas Dufresne
  <nicolas.dufresne@collabora.com>, Benjamin Gaignard
  <benjamin.gaignard@collabora.com>, Sebastian Fricke
@@ -26,10 +27,12 @@ Cc: Alex Bee <knaerzche@gmail.com>, Nicolas Dufresne
  <chris.obbard@collabora.com>, linux-media@vger.kernel.org,
  linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
  linux-kernel@vger.kernel.org, Jonas Karlman <jonas@kwiboo.se>
-Subject: [PATCH v4 00/11] media: rkvdec: Add H.264 High 10 and 4:2:2 profile support
-Date: Sun,  5 Nov 2023 16:54:59 +0000
-Message-ID: <20231105165521.3592037-1-jonas@kwiboo.se>
+Subject: [PATCH v4 03/11] media: rkvdec: h264: Use bytesperline and buffer height as virstride
+Date: Sun,  5 Nov 2023 16:55:02 +0000
+Message-ID: <20231105165521.3592037-4-jonas@kwiboo.se>
 X-Mailer: git-send-email 2.42.0
+In-Reply-To: <20231105165521.3592037-1-jonas@kwiboo.se>
+References: <20231105165521.3592037-1-jonas@kwiboo.se>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -43,109 +46,63 @@ X-Complaints-To: abuse@forwardemail.net
 X-ForwardEmail-Version: 0.4.40
 X-ForwardEmail-Sender: rfc822; jonas@kwiboo.se, smtp.forwardemail.net,
  149.28.215.223
-X-ForwardEmail-ID: 6547c8ff42ad2f8d152468da
+X-ForwardEmail-ID: 6547c90b42ad2f8d15246901
 
-This is a revival of a 3 year old series [1] now that NV15/NV20/NV30 support
-for display driver have landed in mainline tree.
+Use bytesperline and buffer height to calculate the strides configured.
 
-This series adds H.264 High 10 and 4:2:2 profile support to the Rockchip
-Video Decoder driver.
+This does not really change anything other than ensuring the
+bytesperline that is signaled to userspace matches what is configured
+in HW.
 
-Patch 1 adds helpers for calculating plane bytesperline and sizeimage.
-Patch 2 adds two new pixelformats for semi-planer 10-bit 4:2:0/4:2:2 YUV.
+Signed-off-by: Jonas Karlman <jonas@kwiboo.se>
+---
+v4:
+- No change
 
-Patch 3 change to use bytesperline and buffer height to configure strides.
-Patch 4 change to use values from SPS/PPS control to configure the HW.
-Patch 5 remove an unnecessary call to validate sps at streaming start.
+v3:
+- Remove unnecessary yuv_virstride +=
 
-Patch 6-10 refactor code to support filtering of CAPUTRE formats based
-on the image format returned from a get_image_fmt ops.
+ drivers/staging/media/rkvdec/rkvdec-h264.c | 14 +++++++-------
+ 1 file changed, 7 insertions(+), 7 deletions(-)
 
-Patch 11 adds final bits to support H.264 High 10 and 4:2:2 profiles.
-
-Tested on a ROCK Pi 4 (RK3399) and Rock64 (RK3328):
-
-  v4l2-compliance 1.24.1, 64 bits, 64-bit time_t
-  ...
-  Total for rkvdec device /dev/video1: 46, Succeeded: 46, Failed: 0, Warnings: 0
-
-  Running test suite JVT-FR-EXT with decoder FFmpeg-H.264-V4L2-request
-  ...
-  Ran 65/69 tests successfully
-
-  Running test suite JVT-AVC_V1 with decoder FFmpeg-H.264-V4L2-request
-  ...
-  Ran 127/135 tests successfully
-
-Before this series:
-
-  Running test suite JVT-FR-EXT with decoder FFmpeg-H.264-V4L2-request
-  ...
-  Ran 44/69 tests successfully
-
-Changes in v4:
-- Fix failed v4l2-compliance tests related to CAPTURE queue
-- Rework CAPTURE format filter anv validate to use an image format
-- Run fluster test suite JVT-FR-EXT [4] and JVT-AVC_V1 [5]
-Link to v3: https://lore.kernel.org/linux-media/20231029183427.1781554-1-jonas@kwiboo.se/
-
-Changes in v3:
-- Drop merged patches
-- Use bpp and bpp_div instead of prior misuse of block_w/block_h
-- New patch to use values from SPS/PPS control to configure the HW
-- New patch to remove an unnecessary call to validate sps at streaming start
-- Reworked pixel format validation
-Link to v2: https://lore.kernel.org/linux-media/20200706215430.22859-1-jonas@kwiboo.se/
-
-Changes in v2:
-- Collect r-b tags
-- SPS pic width and height in mbs validation moved to rkvdec_try_ctrl
-- New patch to not override output buffer sizeimage
-- Reworked pixel format validation
-- Only align decoded buffer instead of changing frmsize step_width
-Link to v1: https://lore.kernel.org/linux-media/20200701215616.30874-1-jonas@kwiboo.se/
-
-Following commits adds support for NV15/NV20/NV30 to VOP driver:
-728c15b4b5f3 ("drm/fourcc: Add NV20 and NV30 YUV formats")
-d4b384228562 ("drm/rockchip: vop: Add NV15, NV20 and NV30 support")
-
-To fully runtime test this series you may need above drm commits and ffmpeg
-patches from [2], this series and drm patches is also available at [3].
-
-[1] https://lore.kernel.org/linux-media/20200706215430.22859-1-jonas@kwiboo.se/
-[2] https://github.com/Kwiboo/FFmpeg/commits/v4l2-request-n6.1-dev/
-[3] https://github.com/Kwiboo/linux-rockchip/commits/linuxtv-rkvdec-high-10-v4/
-[4] https://gist.github.com/Kwiboo/f4ac15576b2c72887ae2bc5d58b5c865
-[5] https://gist.github.com/Kwiboo/459a1c8f1dcb56e45dc7a7a29cc28adf
-
-Regards,
-Jonas
-
-Alex Bee (1):
-  media: rkvdec: h264: Don't hardcode SPS/PPS parameters
-
-Jonas Karlman (10):
-  media: v4l2-common: Add helpers to calculate bytesperline and
-    sizeimage
-  media: v4l2: Add NV15 and NV20 pixel formats
-  media: rkvdec: h264: Use bytesperline and buffer height as virstride
-  media: rkvdec: h264: Remove SPS validation at streaming start
-  media: rkvdec: Extract rkvdec_fill_decoded_pixfmt into helper
-  media: rkvdec: Move rkvdec_reset_decoded_fmt helper
-  media: rkvdec: Extract decoded format enumeration into helper
-  media: rkvdec: Add image format concept
-  media: rkvdec: Add get_image_fmt ops
-  media: rkvdec: h264: Support High 10 and 4:2:2 profiles
-
- .../media/v4l/pixfmt-yuv-planar.rst           | 128 +++++++++++
- drivers/media/v4l2-core/v4l2-common.c         |  80 +++----
- drivers/media/v4l2-core/v4l2-ioctl.c          |   2 +
- drivers/staging/media/rkvdec/rkvdec-h264.c    |  83 +++----
- drivers/staging/media/rkvdec/rkvdec.c         | 217 +++++++++++++-----
- drivers/staging/media/rkvdec/rkvdec.h         |  18 +-
- include/uapi/linux/videodev2.h                |   2 +
- 7 files changed, 396 insertions(+), 134 deletions(-)
-
+diff --git a/drivers/staging/media/rkvdec/rkvdec-h264.c b/drivers/staging/media/rkvdec/rkvdec-h264.c
+index 4fc167b42cf0..7a1e76d423df 100644
+--- a/drivers/staging/media/rkvdec/rkvdec-h264.c
++++ b/drivers/staging/media/rkvdec/rkvdec-h264.c
+@@ -896,9 +896,9 @@ static void config_registers(struct rkvdec_ctx *ctx,
+ 	dma_addr_t rlc_addr;
+ 	dma_addr_t refer_addr;
+ 	u32 rlc_len;
+-	u32 hor_virstride = 0;
+-	u32 ver_virstride = 0;
+-	u32 y_virstride = 0;
++	u32 hor_virstride;
++	u32 ver_virstride;
++	u32 y_virstride;
+ 	u32 yuv_virstride = 0;
+ 	u32 offset;
+ 	dma_addr_t dst_addr;
+@@ -909,16 +909,16 @@ static void config_registers(struct rkvdec_ctx *ctx,
+ 
+ 	f = &ctx->decoded_fmt;
+ 	dst_fmt = &f->fmt.pix_mp;
+-	hor_virstride = (sps->bit_depth_luma_minus8 + 8) * dst_fmt->width / 8;
+-	ver_virstride = round_up(dst_fmt->height, 16);
++	hor_virstride = dst_fmt->plane_fmt[0].bytesperline;
++	ver_virstride = dst_fmt->height;
+ 	y_virstride = hor_virstride * ver_virstride;
+ 
+ 	if (sps->chroma_format_idc == 0)
+ 		yuv_virstride = y_virstride;
+ 	else if (sps->chroma_format_idc == 1)
+-		yuv_virstride += y_virstride + y_virstride / 2;
++		yuv_virstride = y_virstride + y_virstride / 2;
+ 	else if (sps->chroma_format_idc == 2)
+-		yuv_virstride += 2 * y_virstride;
++		yuv_virstride = 2 * y_virstride;
+ 
+ 	reg = RKVDEC_Y_HOR_VIRSTRIDE(hor_virstride / 16) |
+ 	      RKVDEC_UV_HOR_VIRSTRIDE(hor_virstride / 16) |
 -- 
 2.42.0
 
