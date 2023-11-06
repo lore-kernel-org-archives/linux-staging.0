@@ -1,268 +1,105 @@
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D36ADAD21
-	for <linux-staging@lists.linux.dev>; Mon,  6 Nov 2023 14:41:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0D4D2F38;
+	Mon,  6 Nov 2023 17:11:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="l3dMLdqJ"
-Received: from benjamin-XPS-13-9310.. (cola.collaboradmins.com [195.201.22.229])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: benjamin.gaignard)
-	by madras.collabora.co.uk (Postfix) with ESMTPSA id 2945B660746B;
-	Mon,  6 Nov 2023 14:41:54 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1699281715;
-	bh=3MJuKgnFwDc4oyDCfIOoqn6QQ2rR7zTCGPA6lb7rbJg=;
-	h=From:To:Cc:Subject:Date:From;
-	b=l3dMLdqJcV7oUOWO9gCIQTEJM850BwSHLm37ou4Gz51ART/UuIxsn1fwYEHEf5FMB
-	 Yva70Kxxg7gJEVSsXnJt6mEXwwS+lqZXmh40lM5PVvdc50UOttHtJlc2DMOk28eUbN
-	 t13z2geRwI/E92XI0X7sIlnrFDslo3oWr46yvGegZCoVmZZgFinGIV1m8o8BEi+4lG
-	 JCoohrotvXpVOyOy+f71kjxgA3QVKj7Cm2S+TFxpHEa/Uvz/NCzMvJ/O67tOrFRDil
-	 gQtBlD/ZMzvu45PRStqg90bMuFqsgdoXSuFR2c1gSaw1A/K3qevgN9ap4+1acmy6zS
-	 9n7Up2Kt+x9Zw==
-From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-To: mchehab@kernel.org,
-	tfiga@chromium.org,
-	m.szyprowski@samsung.com,
-	ming.qian@nxp.com,
-	ezequiel@vanguardiasur.com.ar,
-	p.zabel@pengutronix.de,
-	gregkh@linuxfoundation.org,
-	hverkuil-cisco@xs4all.nl,
-	nicolas.dufresne@collabora.com
-Cc: linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org,
-	linux-arm-msm@vger.kernel.org,
-	linux-rockchip@lists.infradead.org,
-	linux-staging@lists.linux.dev,
-	kernel@collabora.com,
-	Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Subject: [PATCH v14.1] media: videobuf2: Be more flexible on the number of queue stored buffers
-Date: Mon,  6 Nov 2023 15:39:40 +0100
-Message-Id: <20231106143940.324020-1-benjamin.gaignard@collabora.com>
-X-Mailer: git-send-email 2.39.2
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XkcaW3mI"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 92D5BC433C9;
+	Mon,  6 Nov 2023 17:11:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1699290689;
+	bh=xusVlf2bPpkS2PxlobjXC4orjcybspLeRLkKRoSVFco=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=XkcaW3mII+LuoahYljzVUZljrlfW8ZwFt1ANIK8NuKpTpwDUtoX4iRDX+zmGVIezt
+	 XRs7E9nZ+CotROXaDkDdhcu7nUMlz2IM7bM4mN0msXffkcfww2ucyJa3BKoHmO+Frh
+	 2son5iW99BOQlRDFeutmx17PlhIaHBmWvP5laTUwdFA1fMvQyeQ0MdENn8/tjAYq3v
+	 CMlMJb7WR9D5suuhbTTGt8OA9528NvRhw4vxaweo7Z/kOtFrotXzTYNp3qp9H6mtZt
+	 YE8Jt9odyDVsoGGr2/tOSA28ECCP/0FILClEyCSSXBTs66KGE0Cro849SD4gBehocH
+	 liQRx1l0hf+qg==
+Date: Mon, 6 Nov 2023 17:11:23 +0000
+From: Conor Dooley <conor@kernel.org>
+To: Jonas Karlman <jonas@kwiboo.se>
+Cc: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Heiko Stuebner <heiko@sntech.de>, Alex Bee <knaerzche@gmail.com>,
+	Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+	Sebastian Fricke <sebastian.fricke@collabora.com>,
+	Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+	Christopher Obbard <chris.obbard@collabora.com>,
+	linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH 6/9] media: dt-bindings: rockchip,vdec: Add RK3288
+ compatible
+Message-ID: <20231106-mongrel-aground-bd559a461ed0@spud>
+References: <20231105233630.3927502-1-jonas@kwiboo.se>
+ <20231105233630.3927502-7-jonas@kwiboo.se>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="fGrMI8XIaRiy8S6e"
+Content-Disposition: inline
+In-Reply-To: <20231105233630.3927502-7-jonas@kwiboo.se>
 
-Add 'max_num_buffers' field in vb2_queue struct to let drivers decide
-how many buffers could be stored in a queue.
-This require 'bufs' array to be allocated at queue init time and freed
-when releasing the queue.
-By default VB2_MAX_FRAME remains the limit.
 
-Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
----
-version 14.1:
-- Do not change the number of freed buffers in vb2_core_queue_release().
+--fGrMI8XIaRiy8S6e
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
- .../media/common/videobuf2/videobuf2-core.c   | 39 +++++++++++++++----
- .../media/common/videobuf2/videobuf2-v4l2.c   |  6 +--
- include/media/videobuf2-core.h                | 10 ++++-
- 3 files changed, 43 insertions(+), 12 deletions(-)
+On Sun, Nov 05, 2023 at 11:36:13PM +0000, Jonas Karlman wrote:
+> Add a RK3288 compatible for a version of the Rockchip VDEC IP that only
+> support HEVC decoding.
+>=20
+> Signed-off-by: Jonas Karlman <jonas@kwiboo.se>
 
-diff --git a/drivers/media/common/videobuf2/videobuf2-core.c b/drivers/media/common/videobuf2/videobuf2-core.c
-index c5c5ae4d213d..5711c6a130fd 100644
---- a/drivers/media/common/videobuf2/videobuf2-core.c
-+++ b/drivers/media/common/videobuf2/videobuf2-core.c
-@@ -416,7 +416,7 @@ static void init_buffer_cache_hints(struct vb2_queue *q, struct vb2_buffer *vb)
-  */
- static void vb2_queue_add_buffer(struct vb2_queue *q, struct vb2_buffer *vb, unsigned int index)
- {
--	WARN_ON(index >= VB2_MAX_FRAME || q->bufs[index]);
-+	WARN_ON(index >= q->max_num_buffers || q->bufs[index]);
- 
- 	q->bufs[index] = vb;
- 	vb->index = index;
-@@ -449,9 +449,9 @@ static int __vb2_queue_alloc(struct vb2_queue *q, enum vb2_memory memory,
- 	struct vb2_buffer *vb;
- 	int ret;
- 
--	/* Ensure that q->num_buffers+num_buffers is below VB2_MAX_FRAME */
-+	/* Ensure that the number of already queue + num_buffers is below q->max_num_buffers */
- 	num_buffers = min_t(unsigned int, num_buffers,
--			    VB2_MAX_FRAME - q_num_buffers);
-+			    q->max_num_buffers - q_num_buffers);
- 
- 	for (buffer = 0; buffer < num_buffers; ++buffer) {
- 		/* Allocate vb2 buffer structures */
-@@ -813,7 +813,7 @@ int vb2_core_reqbufs(struct vb2_queue *q, enum vb2_memory memory,
- 	unsigned plane_sizes[VB2_MAX_PLANES] = { };
- 	bool non_coherent_mem = flags & V4L2_MEMORY_FLAG_NON_COHERENT;
- 	unsigned int i;
--	int ret;
-+	int ret = 0;
- 
- 	if (q->streaming) {
- 		dprintk(q, 1, "streaming active\n");
-@@ -857,17 +857,22 @@ int vb2_core_reqbufs(struct vb2_queue *q, enum vb2_memory memory,
- 	/*
- 	 * Make sure the requested values and current defaults are sane.
- 	 */
--	WARN_ON(q->min_buffers_needed > VB2_MAX_FRAME);
- 	num_buffers = max_t(unsigned int, *count, q->min_buffers_needed);
--	num_buffers = min_t(unsigned int, num_buffers, VB2_MAX_FRAME);
-+	num_buffers = min_t(unsigned int, num_buffers, q->max_num_buffers);
- 	memset(q->alloc_devs, 0, sizeof(q->alloc_devs));
- 	/*
- 	 * Set this now to ensure that drivers see the correct q->memory value
- 	 * in the queue_setup op.
- 	 */
- 	mutex_lock(&q->mmap_lock);
-+	if (!q->bufs)
-+		q->bufs = kcalloc(q->max_num_buffers, sizeof(*q->bufs), GFP_KERNEL);
-+	if (!q->bufs)
-+		ret = -ENOMEM;
- 	q->memory = memory;
- 	mutex_unlock(&q->mmap_lock);
-+	if (ret)
-+		return ret;
- 	set_queue_coherency(q, non_coherent_mem);
- 
- 	/*
-@@ -976,7 +981,7 @@ int vb2_core_create_bufs(struct vb2_queue *q, enum vb2_memory memory,
- 	bool no_previous_buffers = !q_num_bufs;
- 	int ret = 0;
- 
--	if (q_num_bufs == VB2_MAX_FRAME) {
-+	if (q->num_buffers == q->max_num_buffers) {
- 		dprintk(q, 1, "maximum number of buffers already allocated\n");
- 		return -ENOBUFS;
- 	}
-@@ -993,7 +998,13 @@ int vb2_core_create_bufs(struct vb2_queue *q, enum vb2_memory memory,
- 		 */
- 		mutex_lock(&q->mmap_lock);
- 		q->memory = memory;
-+		if (!q->bufs)
-+			q->bufs = kcalloc(q->max_num_buffers, sizeof(*q->bufs), GFP_KERNEL);
-+		if (!q->bufs)
-+			ret = -ENOMEM;
- 		mutex_unlock(&q->mmap_lock);
-+		if (ret)
-+			return ret;
- 		q->waiting_for_buffers = !q->is_output;
- 		set_queue_coherency(q, non_coherent_mem);
- 	} else {
-@@ -1005,7 +1016,7 @@ int vb2_core_create_bufs(struct vb2_queue *q, enum vb2_memory memory,
- 			return -EINVAL;
- 	}
- 
--	num_buffers = min(*count, VB2_MAX_FRAME - q_num_bufs);
-+	num_buffers = min(*count, q->max_num_buffers - q_num_bufs);
- 
- 	if (requested_planes && requested_sizes) {
- 		num_planes = requested_planes;
-@@ -2465,6 +2476,12 @@ int vb2_core_queue_init(struct vb2_queue *q)
- 	/*
- 	 * Sanity check
- 	 */
-+	if (!q->max_num_buffers)
-+		q->max_num_buffers = VB2_MAX_FRAME;
-+
-+	/* The maximum is limited by offset cookie encoding pattern */
-+	q->max_num_buffers = min_t(unsigned int, q->max_num_buffers, MAX_BUFFER_INDEX);
-+
- 	if (WARN_ON(!q)			  ||
- 	    WARN_ON(!q->ops)		  ||
- 	    WARN_ON(!q->mem_ops)	  ||
-@@ -2474,6 +2491,10 @@ int vb2_core_queue_init(struct vb2_queue *q)
- 	    WARN_ON(!q->ops->buf_queue))
- 		return -EINVAL;
- 
-+	if (WARN_ON(q->max_num_buffers > MAX_BUFFER_INDEX) ||
-+	    WARN_ON(q->min_buffers_needed > q->max_num_buffers))
-+		return -EINVAL;
-+
- 	if (WARN_ON(q->requires_requests && !q->supports_requests))
- 		return -EINVAL;
- 
-@@ -2520,6 +2541,8 @@ void vb2_core_queue_release(struct vb2_queue *q)
- 	__vb2_queue_cancel(q);
- 	mutex_lock(&q->mmap_lock);
- 	__vb2_queue_free(q, vb2_get_num_buffers(q));
-+	kfree(q->bufs);
-+	q->bufs = NULL;
- 	q->num_buffers = 0;
- 	mutex_unlock(&q->mmap_lock);
- }
-diff --git a/drivers/media/common/videobuf2/videobuf2-v4l2.c b/drivers/media/common/videobuf2/videobuf2-v4l2.c
-index 7d798fb15c0b..f3cf4b235c1f 100644
---- a/drivers/media/common/videobuf2/videobuf2-v4l2.c
-+++ b/drivers/media/common/videobuf2/videobuf2-v4l2.c
-@@ -627,7 +627,7 @@ struct vb2_buffer *vb2_find_buffer(struct vb2_queue *q, u64 timestamp)
- 	 * This loop doesn't scale if there is a really large number of buffers.
- 	 * Maybe something more efficient will be needed in this case.
- 	 */
--	for (i = 0; i < vb2_get_num_buffers(q); i++) {
-+	for (i = 0; i < q->max_num_buffers; i++) {
- 		vb2 = vb2_get_buffer(q, i);
- 
- 		if (!vb2)
-@@ -1142,7 +1142,7 @@ int _vb2_fop_release(struct file *file, struct mutex *lock)
- 
- 	if (lock)
- 		mutex_lock(lock);
--	if (file->private_data == vdev->queue->owner) {
-+	if (!vdev->queue->owner || file->private_data == vdev->queue->owner) {
- 		vb2_queue_release(vdev->queue);
- 		vdev->queue->owner = NULL;
- 	}
-@@ -1270,7 +1270,7 @@ void vb2_video_unregister_device(struct video_device *vdev)
- 	 */
- 	get_device(&vdev->dev);
- 	video_unregister_device(vdev);
--	if (vdev->queue && vdev->queue->owner) {
-+	if (vdev->queue) {
- 		struct mutex *lock = vdev->queue->lock ?
- 			vdev->queue->lock : vdev->lock;
- 
-diff --git a/include/media/videobuf2-core.h b/include/media/videobuf2-core.h
-index 8f9d9e4af5b1..e77a397195f2 100644
---- a/include/media/videobuf2-core.h
-+++ b/include/media/videobuf2-core.h
-@@ -558,6 +558,7 @@ struct vb2_buf_ops {
-  * @dma_dir:	DMA mapping direction.
-  * @bufs:	videobuf2 buffer structures
-  * @num_buffers: number of allocated/used buffers
-+ * @max_num_buffers: upper limit of number of allocated/used buffers
-  * @queued_list: list of buffers currently queued from userspace
-  * @queued_count: number of buffers queued and ready for streaming.
-  * @owned_by_drv_count: number of buffers owned by the driver
-@@ -619,8 +620,9 @@ struct vb2_queue {
- 	struct mutex			mmap_lock;
- 	unsigned int			memory;
- 	enum dma_data_direction		dma_dir;
--	struct vb2_buffer		*bufs[VB2_MAX_FRAME];
-+	struct vb2_buffer		**bufs;
- 	unsigned int			num_buffers;
-+	unsigned int			max_num_buffers;
- 
- 	struct list_head		queued_list;
- 	unsigned int			queued_count;
-@@ -1248,6 +1250,12 @@ static inline void vb2_clear_last_buffer_dequeued(struct vb2_queue *q)
- static inline struct vb2_buffer *vb2_get_buffer(struct vb2_queue *q,
- 						unsigned int index)
- {
-+	if (!q->bufs)
-+		return NULL;
-+
-+	if (index >= q->max_num_buffers)
-+		return NULL;
-+
- 	if (index < q->num_buffers)
- 		return q->bufs[index];
- 	return NULL;
--- 
-2.39.2
+Acked-by: Conor Dooley <conor.dooley@microchip.com>
 
+Thanks,
+Conor.
+
+> ---
+>  Documentation/devicetree/bindings/media/rockchip,vdec.yaml | 4 +++-
+>  1 file changed, 3 insertions(+), 1 deletion(-)
+>=20
+> diff --git a/Documentation/devicetree/bindings/media/rockchip,vdec.yaml b=
+/Documentation/devicetree/bindings/media/rockchip,vdec.yaml
+> index 08b02ec16755..0f00e9c86737 100644
+> --- a/Documentation/devicetree/bindings/media/rockchip,vdec.yaml
+> +++ b/Documentation/devicetree/bindings/media/rockchip,vdec.yaml
+> @@ -16,7 +16,9 @@ description: |-
+>  properties:
+>    compatible:
+>      oneOf:
+> -      - const: rockchip,rk3399-vdec
+> +      - enum:
+> +          - rockchip,rk3288-vdec
+> +          - rockchip,rk3399-vdec
+>        - items:
+>            - enum:
+>                - rockchip,rk3228-vdec
+> --=20
+> 2.42.0
+>=20
+
+--fGrMI8XIaRiy8S6e
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZUkeOwAKCRB4tDGHoIJi
+0lr4AP9aW5NhxtpSLd4D73zYMC0XsxpeB3bwz7XcktPhtsuHKwEAjOIaEXKcLSUJ
+5fdyRess2G11op/gkXF5bLmu2Kde8AQ=
+=9q4o
+-----END PGP SIGNATURE-----
+
+--fGrMI8XIaRiy8S6e--
