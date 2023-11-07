@@ -1,20 +1,20 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1E559470;
-	Tue,  7 Nov 2023 06:15:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4A376AA0;
+	Tue,  7 Nov 2023 06:16:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="RN61/wE/"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 75FE1C433C7;
-	Tue,  7 Nov 2023 06:15:13 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="L/NMHSLs"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D5F54C433C7;
+	Tue,  7 Nov 2023 06:16:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1699337714;
-	bh=w5+ZkUz67F+5dGuiLEvmF9AeKTHXzmhfIbFm4urkvks=;
+	s=korg; t=1699337785;
+	bh=1DUHo7iF0MscewlRLmsCnEFojb1hLmgMueDa31SA3HI=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=RN61/wE/Lzv8JyRARpOQddGs9GQfDJg7sK5FwUxB7Q3SsuMTiyHcs+ywGXtMhXOUF
-	 rJg1i0CWlOlR0WolURz1RZHbdBoX5BN7gZaLLm5HMfC3oEC+2I/cLxUAlb4PnjojZP
-	 /Ep5bkAQ3Zt9c3z8JAfOO+fb/eG8YPG5uY01ylmg=
-Date: Tue, 7 Nov 2023 07:15:10 +0100
+	b=L/NMHSLsuVo6pPDoLri5kcaBoy85g2/eKu5UTOkbwYpm3i/KD+gH+WauQ+9KVfFpQ
+	 iFO3C7yR0oGwnu4yyPmPBiLNXv1UdiG0TrvMMJpwm9jKP5xzAFZqcS0EgCTAUrA/so
+	 YRm2fx7FJ3Q4Rx1jIE27S5elCI4svAQUVk1dSYPs=
+Date: Tue, 7 Nov 2023 07:16:19 +0100
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To: Jack Zhu <jack.zhu@starfivetech.com>
 Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
@@ -29,10 +29,11 @@ Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
 	devicetree@vger.kernel.org, linux-staging@lists.linux.dev,
 	changhuang.liang@starfivetech.com
 Subject: Re: [PATCH v11 0/9] Add StarFive Camera Subsystem driver
-Message-ID: <2023110745-tableful-trapezoid-4206@gregkh>
+Message-ID: <2023110730-thousand-skyrocket-d6ba@gregkh>
 References: <20231025031422.3695-1-jack.zhu@starfivetech.com>
  <15ef0a70-734e-280a-f014-41914a55d8cf@starfivetech.com>
  <a3a2c179-2cbe-5a55-a21e-b45abfb6d494@starfivetech.com>
+ <2023110745-tableful-trapezoid-4206@gregkh>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -41,38 +42,45 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <a3a2c179-2cbe-5a55-a21e-b45abfb6d494@starfivetech.com>
+In-Reply-To: <2023110745-tableful-trapezoid-4206@gregkh>
 
-On Tue, Nov 07, 2023 at 11:27:27AM +0800, Jack Zhu wrote:
+On Tue, Nov 07, 2023 at 07:15:10AM +0100, Greg Kroah-Hartman wrote:
+> On Tue, Nov 07, 2023 at 11:27:27AM +0800, Jack Zhu wrote:
+> > 
+> > 
+> > On 2023/10/31 9:09, Jack Zhu wrote:
+> > > 
+> > > 
+> > > On 2023/10/25 11:14, Jack Zhu wrote:
+> > >> Hi,
+> > >> 
+> > >> This series is the v11 series that attempts to support the Camera Subsystem
+> > >> found on StarFive JH7110 SoC.
+> > > 
+> > > Hi Hans and Laurent,
+> > > 
+> > > Could you please help review the code?
+> > > Thank you for your time!
+> > > 
+> > 
+> > Hi,
+> > 
+> > Could you please take some time to help review the code? Thank you so much!
 > 
+> It is the middle of the merge window, no new code can be added to any
+> maintainers tree at this point in time, please relax there is no rush or
+> deadline at all here.
 > 
-> On 2023/10/31 9:09, Jack Zhu wrote:
-> > 
-> > 
-> > On 2023/10/25 11:14, Jack Zhu wrote:
-> >> Hi,
-> >> 
-> >> This series is the v11 series that attempts to support the Camera Subsystem
-> >> found on StarFive JH7110 SoC.
-> > 
-> > Hi Hans and Laurent,
-> > 
-> > Could you please help review the code?
-> > Thank you for your time!
-> > 
-> 
-> Hi,
-> 
-> Could you please take some time to help review the code? Thank you so much!
+> While you wait, why not help out and review other patch submissions from
+> other developers, which will help your changes get to the top of the
+> queue?  That way everyone's load is reduced and you are not just asking
+> for others to do work for you with nothing in return.
 
-It is the middle of the merge window, no new code can be added to any
-maintainers tree at this point in time, please relax there is no rush or
-deadline at all here.
-
-While you wait, why not help out and review other patch submissions from
-other developers, which will help your changes get to the top of the
-queue?  That way everyone's load is reduced and you are not just asking
-for others to do work for you with nothing in return.
+Also, while you wait, why not just finish off the last 3 items on the
+TODO list which would make your code not be required to go into the
+staging portion of the tree at all?  You've had a few weeks now, what is
+preventing that from happening, and when will that work actually be
+done?
 
 thanks,
 
