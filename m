@@ -1,88 +1,93 @@
-Received: from fd01.gateway.ufhost.com (fd01.gateway.ufhost.com [61.152.239.71])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB36C12E40
-	for <linux-staging@lists.linux.dev>; Tue,  7 Nov 2023 09:29:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=starfivetech.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=starfivetech.com
-Authentication-Results: smtp.subspace.kernel.org; dkim=none
-Received: from EXMBX166.cuchost.com (unknown [175.102.18.54])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(Client CN "EXMBX166", Issuer "EXMBX166" (not verified))
-	by fd01.gateway.ufhost.com (Postfix) with ESMTP id E61BA80D3;
-	Tue,  7 Nov 2023 17:29:08 +0800 (CST)
-Received: from EXMBX073.cuchost.com (172.16.6.83) by EXMBX166.cuchost.com
- (172.16.6.76) with Microsoft SMTP Server (TLS) id 15.0.1497.42; Tue, 7 Nov
- 2023 17:29:08 +0800
-Received: from [192.168.1.218] (180.164.60.184) by EXMBX073.cuchost.com
- (172.16.6.83) with Microsoft SMTP Server (TLS) id 15.0.1497.42; Tue, 7 Nov
- 2023 17:29:08 +0800
-Message-ID: <48b93e44-6cd3-03a5-0eb2-4123b3790877@starfivetech.com>
-Date: Tue, 7 Nov 2023 17:29:08 +0800
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8711C12E40
+	for <linux-staging@lists.linux.dev>; Tue,  7 Nov 2023 09:52:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="aviGoKyF"
+Received: from umang.jain (unknown [103.251.226.110])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id B477F468;
+	Tue,  7 Nov 2023 10:51:42 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1699350705;
+	bh=992nyrW3qUC6fzmLZft4VuCTg3PrVta5dBlOJYrS35k=;
+	h=From:To:Cc:Subject:Date:From;
+	b=aviGoKyF5NftuZmyd/Nb3WLsScbCXI2DuSnLk+A7qwghnMoQP0LlPrlvGKtgH2dkR
+	 VMAoU3XFex629xKg3DDH21wy1WYmKQ+2xBFpNaHfKFEch+H/k7Ucdaw3soEWse2GTg
+	 uV0ELuXZZhHwUch5MCgbJuFW8eBgOFi48VUM2j0M=
+From: Umang Jain <umang.jain@ideasonboard.com>
+To: linux-staging@lists.linux.dev,
+	linux-rpi-kernel@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-media@vger.kernel.org
+Cc: Stefan Wahren <stefan.wahren@i2se.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Dan Carpenter <error27@gmail.com>,
+	Kieran Bingham <kieran.bingham@ideasonboard.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Phil Elwell <phil@raspberrypi.com>,
+	Dave Stevenson <dave.stevenson@raspberrypi.com>,
+	Umang Jain <umang.jain@ideasonboard.com>
+Subject: [PATCH 0/9] staging: vc04_services: Smatch fixes and remove custom logging
+Date: Tue,  7 Nov 2023 04:51:47 -0500
+Message-ID: <20231107095156.365492-1-umang.jain@ideasonboard.com>
+X-Mailer: git-send-email 2.41.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.1
-Subject: Re: [PATCH v11 0/9] Add StarFive Camera Subsystem driver
-Content-Language: en-US
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-CC: Mauro Carvalho Chehab <mchehab@kernel.org>, Robert Foss
-	<rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>,
-	<bryan.odonoghue@linaro.org>, Rob Herring <robh+dt@kernel.org>, "Krzysztof
- Kozlowski" <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley
-	<conor+dt@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>, "Laurent
- Pinchart" <laurent.pinchart@ideasonboard.com>, Hans Verkuil
-	<hverkuil-cisco@xs4all.nl>, <linux-media@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
-	<linux-staging@lists.linux.dev>, <changhuang.liang@starfivetech.com>
-References: <20231025031422.3695-1-jack.zhu@starfivetech.com>
- <15ef0a70-734e-280a-f014-41914a55d8cf@starfivetech.com>
- <a3a2c179-2cbe-5a55-a21e-b45abfb6d494@starfivetech.com>
- <2023110745-tableful-trapezoid-4206@gregkh>
- <2023110730-thousand-skyrocket-d6ba@gregkh>
- <a2dbb182-2573-4c86-7e18-319d26a6593c@starfivetech.com>
- <2023110756-alto-stream-eb92@gregkh>
-From: Jack Zhu <jack.zhu@starfivetech.com>
-In-Reply-To: <2023110756-alto-stream-eb92@gregkh>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [180.164.60.184]
-X-ClientProxiedBy: EXCAS062.cuchost.com (172.16.6.22) To EXMBX073.cuchost.com
- (172.16.6.83)
-X-YovoleRuleAgent: yovoleflag
+Content-Transfer-Encoding: 8bit
+
+Patch 1/9 to 3/9 targets the warnings exposed by Smatch analysis.
+Smatch fixes was sent earlier under "staging: vc04: Smatch analysis
+fixes", but now I have patches on top of them, I have tied
+these fixes in this series (so could be merged all at once).
+
+This series also removes the vchiq_log_* macro and makes use of dev_dbg()
+directly.
+
+4/9 is just a drive-by patch to shorten function helper.
+5/9 is bug fixup where NULL was passed instead of a struct device
+pointer
+
+6/9 to 7/9 removes each of the vchiq_log_* respectively.
+
+This completes the following TODO item:
+
+```
+* Cleanup logging mechanism
+
+The driver should probably be using the standard kernel logging mechanisms
+such as dev_info, dev_dbg, and friends.
+```
+
+Umang Jain (9):
+  staging: vc04_services: vchiq_core: Log through struct vchiq_instance
+  staging: vc04_services: Log using pr_err() when vchiq_state is unset
+  staging: vc04_services: bcm2835-camera: Remove redundant null check
+  staging: vc04_services: Shorten helper function name
+  staging: vc04_services: Do not pass NULL to vchiq_log_error()
+  staging: vc04_services: Drop vchiq_log_error() in favour of dev_dbg
+  staging: vc04_services: Drop vchiq_log_warning() in favour of dev_dbg
+  staging: vc04_services: Drop vchiq_log_trace() in favour of dev_dbg
+  staging: vc04_services: Drop vchiq_log_debug() in favour of dev_dbg
+
+ .../bcm2835-camera/bcm2835-camera.c           |   7 +-
+ drivers/staging/vc04_services/interface/TODO  |   5 -
+ .../interface/vchiq_arm/vchiq_arm.c           | 223 +++++----
+ .../interface/vchiq_arm/vchiq_connected.c     |   8 +-
+ .../interface/vchiq_arm/vchiq_connected.h     |   4 +-
+ .../interface/vchiq_arm/vchiq_core.c          | 463 ++++++++++--------
+ .../interface/vchiq_arm/vchiq_core.h          |  36 +-
+ .../interface/vchiq_arm/vchiq_dev.c           | 112 +++--
+ 8 files changed, 461 insertions(+), 397 deletions(-)
 
 
-
-On 2023/11/7 16:27, Greg Kroah-Hartman wrote:
-> On Tue, Nov 07, 2023 at 04:05:11PM +0800, Jack Zhu wrote:
->> > Also, while you wait, why not just finish off the last 3 items on the
->> > TODO list which would make your code not be required to go into the
->> > staging portion of the tree at all?  You've had a few weeks now, what is
->> > preventing that from happening, and when will that work actually be
->> > done?
->> > 
->> 
->> One of my colleagues is doing related development, but he also has other
->> projects at the same time, so he cannot devote all his efforts to this
->> development. And we expect to use libcamera, which may take some time.
-> 
-> So that means there is no real plan at all to get this out of the
-> staging directory?  If so, why should we take it at all as obviously
-> this means that the code is now abandoned?
-> 
-
-Hi Greg,
-
-It's not like that, we won't give up on this code. We just want to make
-development easier using incremental development. Our developers are already
-working on development, but I can't give you an accurate time. There should
-be a preliminary version in about 3 months.
-
+base-commit: d2f51b3516dade79269ff45eae2a7668ae711b25
 -- 
-Regards,
+2.41.0
 
-Jack Zhu
