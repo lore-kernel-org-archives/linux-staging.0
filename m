@@ -1,304 +1,262 @@
-Received: from mail-pg1-f180.google.com (mail-pg1-f180.google.com [209.85.215.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16C3513FE2
-	for <linux-staging@lists.linux.dev>; Wed,  8 Nov 2023 10:44:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B687419441
+	for <linux-staging@lists.linux.dev>; Wed,  8 Nov 2023 13:22:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="M7jVa0Fi"
-Received: by mail-pg1-f180.google.com with SMTP id 41be03b00d2f7-517ab9a4a13so5188184a12.1
-        for <linux-staging@lists.linux.dev>; Wed, 08 Nov 2023 02:44:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1699440284; x=1700045084; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=gKTyWokpX5cgue49QDtZFQPjUpwVAu8TbIboU5lRKS0=;
-        b=M7jVa0Fit1hjPFdRWff192qu/7upABZ/czI3+E51Gyhys1wH9cxT9SR18hV/1A9FDh
-         /8EUBr4XMxCdOuxH7BhJRXBWBmHTm2OOgOSPgj9aCw0yPCtwTzfSYW5J9HHU0fmnABvu
-         j+dYElfX/bN3e/d6SQ4Ob4dGMgt3ArOSvIi1U=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1699440284; x=1700045084;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=gKTyWokpX5cgue49QDtZFQPjUpwVAu8TbIboU5lRKS0=;
-        b=KWXe7gi06IPBraq1k2rlSXJga9/XWQ0CIs6DMJiDXAN1g73uWBJKC/VB9Oc4T32aCv
-         hBMpew4o4Rq45HGKv2TIrHLz2lsgZjky5srO+BCPchH/slHcFAB4BLVroiPlCXsQc/XC
-         slPbTj4Yqp452r0Z+FeEf/39ltCKRr3b5RETwUU7BGWRndjygVmg4sNSPA2SSypjTqOr
-         9tt4I9i8VxgqckduQra1yLTTxsyjmnskmca0X/wpjoYspLzCavz4xJaJnx2IhztZhqq+
-         zHwu5dkmG2OrxdDmEzsh80l81Dltj19EescXZ/mUEH93U9K/z5J/3LuW5zZE2vDE47+j
-         YMFA==
-X-Gm-Message-State: AOJu0YzfJzlYXQQ8GuylbbsgcPMAsxBFJbx+nKeqm8sjum2W76EdelAR
-	LWvur/RU5IGHkaeTrKytdgOUBg==
-X-Google-Smtp-Source: AGHT+IEzqy1BibD2RC0l4kCSPsKsVPKvQCQxco2ue8t7SCmmOXz1P0lkP95g4IaHmCfbUqjrwn7xKw==
-X-Received: by 2002:a05:6a20:7f97:b0:14c:daa9:5e22 with SMTP id d23-20020a056a207f9700b0014cdaa95e22mr1989536pzj.45.1699440283822;
-        Wed, 08 Nov 2023 02:44:43 -0800 (PST)
-Received: from chromium.org (0.223.81.34.bc.googleusercontent.com. [34.81.223.0])
-        by smtp.gmail.com with ESMTPSA id w12-20020a170902e88c00b001bb3beb2bc6sm1450272plg.65.2023.11.08.02.44.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 08 Nov 2023 02:44:43 -0800 (PST)
-Date: Wed, 8 Nov 2023 10:44:39 +0000
-From: Tomasz Figa <tfiga@chromium.org>
-To: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Cc: mchehab@kernel.org, m.szyprowski@samsung.com, ming.qian@nxp.com,
-	ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de,
-	gregkh@linuxfoundation.org, hverkuil-cisco@xs4all.nl,
-	nicolas.dufresne@collabora.com, linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
-	linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
-	kernel@collabora.com
-Subject: Re: [PATCH v14 52/56] media: core: Add bitmap manage bufs array
- entries
-Message-ID: <20231108104439.oxpbbd2yro7u57t4@chromium.org>
-References: <20231031163104.112469-1-benjamin.gaignard@collabora.com>
- <20231031163104.112469-53-benjamin.gaignard@collabora.com>
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="MwnTr5tc"
+Received: from [100.98.136.55] (cola.collaboradmins.com [195.201.22.229])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: benjamin.gaignard)
+	by madras.collabora.co.uk (Postfix) with ESMTPSA id E32426607688;
+	Wed,  8 Nov 2023 13:22:25 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1699449746;
+	bh=keD3VyqIJlhYmPuf+KK0sz1/ewEuRUY/RM4hVjgaOp8=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=MwnTr5tcEQ07rPmnL49bOTZBbbQXEUauQoH2hUWxYbWcILkRRUHUGI+Kfwl8ujTxZ
+	 X4NCiUOcZm6WGTwyNOEhNKmlPDSdYiQa33CK8x1nkxlIiBch3d4/XzOlWPFnLa5NLf
+	 DU3wE9CeONVPiXLY8WlLrse6MTAfW5H133jRPkgl8BpVQQbAOJQ7n5DHZQxRj9f2+l
+	 l0FyE14pIAevipTGcZMCmgHgo8AVIHH/u3b1yP/NE7MtKeXc6GG7BC0byfzYgDhaID
+	 9GFhzt8Utp/MjoIgT7L9sXnqyM13OUMoRyelQZNp9OyqInMCoEE0OyK4s/pjimKzzR
+	 zlas5P2+2Irxw==
+Message-ID: <adc94476-8188-4569-8a39-2a1fb6b2f9dc@collabora.com>
+Date: Wed, 8 Nov 2023 14:22:23 +0100
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231031163104.112469-53-benjamin.gaignard@collabora.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v14 08/56] media: videobuf2: Use vb2_get_num_buffers()
+ helper
+Content-Language: en-US
+To: Tomasz Figa <tfiga@chromium.org>
+Cc: mchehab@kernel.org, m.szyprowski@samsung.com, ming.qian@nxp.com,
+ ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de,
+ gregkh@linuxfoundation.org, hverkuil-cisco@xs4all.nl,
+ nicolas.dufresne@collabora.com, linux-media@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+ linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
+ kernel@collabora.com
+References: <20231031163104.112469-1-benjamin.gaignard@collabora.com>
+ <20231031163104.112469-9-benjamin.gaignard@collabora.com>
+ <20231108094223.rprskkeee47vaezy@chromium.org>
+From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+In-Reply-To: <20231108094223.rprskkeee47vaezy@chromium.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Tue, Oct 31, 2023 at 05:31:00PM +0100, Benjamin Gaignard wrote:
-> Add a bitmap field to know which of bufs array entries are
-> used or not.
-> Remove no more used num_buffers field from queue structure.
-> Use bitmap_find_next_zero_area() to find the first possible
-> range when creating new buffers to fill the gaps.
-> 
-> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-> ---
->  .../media/common/videobuf2/videobuf2-core.c   | 42 +++++++++++++++----
->  include/media/videobuf2-core.h                | 15 ++++---
->  2 files changed, 42 insertions(+), 15 deletions(-)
-> 
-> diff --git a/drivers/media/common/videobuf2/videobuf2-core.c b/drivers/media/common/videobuf2/videobuf2-core.c
-> index 2c8cf479a962..6e88406fcae9 100644
-> --- a/drivers/media/common/videobuf2/videobuf2-core.c
-> +++ b/drivers/media/common/videobuf2/videobuf2-core.c
-> @@ -416,11 +416,12 @@ static void init_buffer_cache_hints(struct vb2_queue *q, struct vb2_buffer *vb)
->   */
->  static void vb2_queue_add_buffer(struct vb2_queue *q, struct vb2_buffer *vb, unsigned int index)
->  {
-> -	WARN_ON(index >= q->max_num_buffers || q->bufs[index]);
-> +	WARN_ON(index >= q->max_num_buffers || test_bit(index, q->bufs_bitmap));
->  
->  	q->bufs[index] = vb;
->  	vb->index = index;
->  	vb->vb2_queue = q;
-> +	set_bit(index, q->bufs_bitmap);
->  }
->  
->  /**
-> @@ -429,6 +430,7 @@ static void vb2_queue_add_buffer(struct vb2_queue *q, struct vb2_buffer *vb, uns
->   */
->  static void vb2_queue_remove_buffer(struct vb2_buffer *vb)
->  {
-> +	clear_bit(vb->index, vb->vb2_queue->bufs_bitmap);
->  	vb->vb2_queue->bufs[vb->index] = NULL;
->  	vb->vb2_queue = NULL;
->  }
-> @@ -450,11 +452,12 @@ static int __vb2_queue_alloc(struct vb2_queue *q, enum vb2_memory memory,
->  	unsigned long index;
->  	int ret;
->  
-> -	/* Ensure that the number of already queue + num_buffers is below q->max_num_buffers */
-> +	/* Ensure that vb2_get_num_buffers(q) + num_buffers is no more than q->max_num_buffers */
->  	num_buffers = min_t(unsigned int, num_buffers,
->  			    q->max_num_buffers - vb2_get_num_buffers(q));
->  
-> -	index = vb2_get_num_buffers(q);
-> +	index = bitmap_find_next_zero_area(q->bufs_bitmap, q->max_num_buffers,
-> +					   0, num_buffers, 0);
->  
->  	*first_index = index;
->  
-> @@ -656,7 +659,6 @@ static void __vb2_queue_free(struct vb2_queue *q, unsigned int buffers)
->  		kfree(vb);
->  	}
->  
-> -	q->num_buffers -= buffers;
->  	if (!vb2_get_num_buffers(q)) {
->  		q->memory = VB2_MEMORY_UNKNOWN;
->  		INIT_LIST_HEAD(&q->queued_list);
-> @@ -874,6 +876,14 @@ int vb2_core_reqbufs(struct vb2_queue *q, enum vb2_memory memory,
->  		q->bufs = kcalloc(q->max_num_buffers, sizeof(*q->bufs), GFP_KERNEL);
->  	if (!q->bufs)
->  		ret = -ENOMEM;
-> +
-> +	if (!q->bufs_bitmap)
-> +		q->bufs_bitmap = bitmap_zalloc(q->max_num_buffers, GFP_KERNEL);
-> +	if (!q->bufs_bitmap) {
-> +		ret = -ENOMEM;
-> +		kfree(q->bufs);
-> +		q->bufs = NULL;
-> +	}
->  	q->memory = memory;
->  	mutex_unlock(&q->mmap_lock);
->  	if (ret)
-> @@ -943,7 +953,6 @@ int vb2_core_reqbufs(struct vb2_queue *q, enum vb2_memory memory,
->  	}
->  
->  	mutex_lock(&q->mmap_lock);
-> -	q->num_buffers = allocated_buffers;
->  
->  	if (ret < 0) {
->  		/*
-> @@ -970,6 +979,10 @@ int vb2_core_reqbufs(struct vb2_queue *q, enum vb2_memory memory,
->  	mutex_lock(&q->mmap_lock);
->  	q->memory = VB2_MEMORY_UNKNOWN;
->  	mutex_unlock(&q->mmap_lock);
-> +	kfree(q->bufs);
-> +	q->bufs = NULL;
-> +	bitmap_free(q->bufs_bitmap);
-> +	q->bufs_bitmap = NULL;
->  	return ret;
->  }
->  EXPORT_SYMBOL_GPL(vb2_core_reqbufs);
-> @@ -1006,9 +1019,19 @@ int vb2_core_create_bufs(struct vb2_queue *q, enum vb2_memory memory,
->  		q->memory = memory;
->  		if (!q->bufs)
->  			q->bufs = kcalloc(q->max_num_buffers, sizeof(*q->bufs), GFP_KERNEL);
-> -		if (!q->bufs)
-> +		if (!q->bufs) {
->  			ret = -ENOMEM;
-> +			goto unlock;
-> +		}
-> +		if (!q->bufs_bitmap)
-> +			q->bufs_bitmap = bitmap_zalloc(q->max_num_buffers, GFP_KERNEL);
 
-Same as with the kcalloc(). Why not just allocate this in the core code,
-e.g. vb2_core_queue_init()?
+Le 08/11/2023 à 10:42, Tomasz Figa a écrit :
+> On Tue, Oct 31, 2023 at 05:30:16PM +0100, Benjamin Gaignard wrote:
+>> Stop using queue num_buffers field directly, instead use
+>> vb2_get_num_buffers().
+>> This prepares for the future 'delete buffers' feature where there are
+>> holes in the buffer indices.
+>>
+>> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+>> ---
+>>   .../media/common/videobuf2/videobuf2-core.c   | 92 +++++++++++--------
+>>   .../media/common/videobuf2/videobuf2-v4l2.c   |  4 +-
+>>   2 files changed, 54 insertions(+), 42 deletions(-)
+>>
+>> diff --git a/drivers/media/common/videobuf2/videobuf2-core.c b/drivers/media/common/videobuf2/videobuf2-core.c
+>> index b406a30a9b35..c5c5ae4d213d 100644
+>> --- a/drivers/media/common/videobuf2/videobuf2-core.c
+>> +++ b/drivers/media/common/videobuf2/videobuf2-core.c
+>> @@ -444,13 +444,14 @@ static int __vb2_queue_alloc(struct vb2_queue *q, enum vb2_memory memory,
+>>   			     unsigned int num_buffers, unsigned int num_planes,
+>>   			     const unsigned plane_sizes[VB2_MAX_PLANES])
+>>   {
+>> +	unsigned int q_num_buffers = vb2_get_num_buffers(q);
+>>   	unsigned int buffer, plane;
+>>   	struct vb2_buffer *vb;
+>>   	int ret;
+>>   
+>>   	/* Ensure that q->num_buffers+num_buffers is below VB2_MAX_FRAME */
+>>   	num_buffers = min_t(unsigned int, num_buffers,
+>> -			    VB2_MAX_FRAME - q->num_buffers);
+>> +			    VB2_MAX_FRAME - q_num_buffers);
+> I guess it's safe in this specific situation, but was there any reason
+> behind not just calling vb2_get_num_buffers() directly here?
+>
+>>   
+>>   	for (buffer = 0; buffer < num_buffers; ++buffer) {
+>>   		/* Allocate vb2 buffer structures */
+>> @@ -470,7 +471,7 @@ static int __vb2_queue_alloc(struct vb2_queue *q, enum vb2_memory memory,
+>>   			vb->planes[plane].min_length = plane_sizes[plane];
+>>   		}
+>>   
+>> -		vb2_queue_add_buffer(q, vb, q->num_buffers + buffer);
+>> +		vb2_queue_add_buffer(q, vb, q_num_buffers + buffer);
+> In this case it should also be fine, but actually now this is a loop and if
+> somone doesn't know what the other code in the loop does, one could be
+> concerned that the num buffers actually could have changed, but we still
+> use the cached one that we got at the beginning of the function.
+>
+> (Ideally I'd imagine vb2_queue_add_buffer() to append the buffer
+> at the end of the queue and increment the num_buffers internally, but it
+> doesn't have to happen now, as this series is already quite complex...)
 
-Actually, is it because we want to avoid allocating
-resources early, before the need to actually use the vb2 queue?
-If so, could this go to some other core function that runs later, e.g. __vb2_queue_alloc()?
+That will be the case later in the series when I replace num_buffers field
+by a bitmap. Until that I prefer to limit the changes in this loop.
 
-> +		if (!q->bufs_bitmap) {
-> +			ret = -ENOMEM;
-> +			kfree(q->bufs);
-> +			q->bufs = NULL;
-> +		}
->  		mutex_unlock(&q->mmap_lock);
-> +unlock:
->  		if (ret)
->  			return ret;
->  		q->waiting_for_buffers = !q->is_output;
-> @@ -1070,7 +1093,6 @@ int vb2_core_create_bufs(struct vb2_queue *q, enum vb2_memory memory,
->  	}
->  
->  	mutex_lock(&q->mmap_lock);
-> -	q->num_buffers += allocated_buffers;
->  
->  	if (ret < 0) {
->  		/*
-> @@ -2549,7 +2571,9 @@ void vb2_core_queue_release(struct vb2_queue *q)
->  	__vb2_queue_free(q, q->max_num_buffers);
->  	kfree(q->bufs);
->  	q->bufs = NULL;
-> -	q->num_buffers = 0;
-> +	bitmap_free(q->bufs_bitmap);
-> +	q->bufs_bitmap = NULL;
-> +
->  	mutex_unlock(&q->mmap_lock);
->  }
->  EXPORT_SYMBOL_GPL(vb2_core_queue_release);
-> @@ -2904,7 +2928,7 @@ static size_t __vb2_perform_fileio(struct vb2_queue *q, char __user *data, size_
->  	 * Check if we need to dequeue the buffer.
->  	 */
->  	index = fileio->cur_index;
-> -	if (index >= q->num_buffers) {
-> +	if (!test_bit(index, q->bufs_bitmap)) {
+>
+>>   		call_void_bufop(q, init_buffer, vb);
+>>   
+>>   		/* Allocate video buffer memory for the MMAP type */
+> [snip]
+>> @@ -2513,7 +2519,8 @@ void vb2_core_queue_release(struct vb2_queue *q)
+>>   	__vb2_cleanup_fileio(q);
+>>   	__vb2_queue_cancel(q);
+>>   	mutex_lock(&q->mmap_lock);
+>> -	__vb2_queue_free(q, q->num_buffers);
+>> +	__vb2_queue_free(q, vb2_get_num_buffers(q));
+>> +	q->num_buffers = 0;
+> Unrelated change?
 
-I don't like this low level manipulation of queue internals here (after all
-the work other patches did to use helpers). Why not just keep
-vb2_get_num_buffers() here?
+No because I found a case where q->num_buffers wasn't correctly reset while testing.
 
->  		struct vb2_buffer *b;
->  
->  		/*
-> diff --git a/include/media/videobuf2-core.h b/include/media/videobuf2-core.h
-> index 6986ff4b77cd..288477075a0e 100644
-> --- a/include/media/videobuf2-core.h
-> +++ b/include/media/videobuf2-core.h
-> @@ -346,7 +346,7 @@ struct vb2_buffer {
->   *			describes the requested number of planes and sizes\[\]
->   *			contains the requested plane sizes. In this case
->   *			\*num_buffers are being allocated additionally to
-> - *			q->num_buffers. If either \*num_planes or the requested
-> + *			queue buffers. If either \*num_planes or the requested
+>
+>>   	mutex_unlock(&q->mmap_lock);
+>>   }
+>>   EXPORT_SYMBOL_GPL(vb2_core_queue_release);
+>> @@ -2542,7 +2549,7 @@ __poll_t vb2_core_poll(struct vb2_queue *q, struct file *file,
+>>   	/*
+>>   	 * Start file I/O emulator only if streaming API has not been used yet.
+>>   	 */
+>> -	if (q->num_buffers == 0 && !vb2_fileio_is_active(q)) {
+>> +	if (vb2_get_num_buffers(q) == 0 && !vb2_fileio_is_active(q)) {
+>>   		if (!q->is_output && (q->io_modes & VB2_READ) &&
+>>   				(req_events & (EPOLLIN | EPOLLRDNORM))) {
+>>   			if (__vb2_init_fileio(q, 1))
+>> @@ -2580,7 +2587,7 @@ __poll_t vb2_core_poll(struct vb2_queue *q, struct file *file,
+>>   	 * For output streams you can call write() as long as there are fewer
+>>   	 * buffers queued than there are buffers available.
+>>   	 */
+>> -	if (q->is_output && q->fileio && q->queued_count < q->num_buffers)
+>> +	if (q->is_output && q->fileio && q->queued_count < vb2_get_num_buffers(q))
+>>   		return EPOLLOUT | EPOLLWRNORM;
+>>   
+>>   	if (list_empty(&q->done_list)) {
+>> @@ -2629,8 +2636,8 @@ struct vb2_fileio_buf {
+>>    * struct vb2_fileio_data - queue context used by file io emulator
+>>    *
+>>    * @cur_index:	the index of the buffer currently being read from or
+>> - *		written to. If equal to q->num_buffers then a new buffer
+>> - *		must be dequeued.
+>> + *		written to. If equal to number of already queued buffers
+>> + *		then a new buffer must be dequeued.
+> Hmm, that's a significant meaning change compared to the original text. Is
+> it indended?
 
-Perhaps "the buffers already in the queue"?
+Does "If equal to number of buffers in the vb2_queue then a new buffer must be dequeued."
+sound better for you ?
 
->   *			sizes are invalid callback must return %-EINVAL.
->   * @wait_prepare:	release any locks taken while calling vb2 functions;
->   *			it is called before an ioctl needs to wait for a new
-> @@ -557,7 +557,7 @@ struct vb2_buf_ops {
->   * @memory:	current memory type used
->   * @dma_dir:	DMA mapping direction.
->   * @bufs:	videobuf2 buffer structures
-> - * @num_buffers: number of allocated/used buffers
-> + * @bufs_bitmap: bitmap to manage bufs entries.
+>
+>>    * @initial_index: in the read() case all buffers are queued up immediately
+>>    *		in __vb2_init_fileio() and __vb2_perform_fileio() just cycles
+>>    *		buffers. However, in the write() case no buffers are initially
+>> @@ -2640,7 +2647,7 @@ struct vb2_fileio_buf {
+>>    *		buffers. This means that initially __vb2_perform_fileio()
+>>    *		needs to know what buffer index to use when it is queuing up
+>>    *		the buffers for the first time. That initial index is stored
+>> - *		in this field. Once it is equal to q->num_buffers all
+>> + *		in this field. Once it is equal to num_buffers all
+> It's not clear what num_buffers means here. Would it make sense to instead
+> say "number of buffers in the vb2_queue"?
 
-Perhaps "bitmap tracking whether each bufs[] entry is used"?
+Yes I will change that
 
->   * @max_num_buffers: upper limit of number of allocated/used buffers
->   * @queued_list: list of buffers currently queued from userspace
->   * @queued_count: number of buffers queued and ready for streaming.
-> @@ -621,7 +621,7 @@ struct vb2_queue {
->  	unsigned int			memory;
->  	enum dma_data_direction		dma_dir;
->  	struct vb2_buffer		**bufs;
-> -	unsigned int			num_buffers;
-> +	unsigned long			*bufs_bitmap;
->  	unsigned int			max_num_buffers;
->  
->  	struct list_head		queued_list;
-> @@ -1150,7 +1150,10 @@ static inline bool vb2_fileio_is_active(struct vb2_queue *q)
->   */
->  static inline unsigned int vb2_get_num_buffers(struct vb2_queue *q)
->  {
-> -	return q->num_buffers;
-> +	if (!q->bufs_bitmap)
-> +		return 0;
-> +
-> +	return bitmap_weight(q->bufs_bitmap, q->max_num_buffers);
+>
+>>    *		available buffers have been queued and __vb2_perform_fileio()
+>>    *		should start the normal dequeue/queue cycle.
+>>    *
+>> @@ -2690,7 +2697,7 @@ static int __vb2_init_fileio(struct vb2_queue *q, int read)
+>>   	/*
+>>   	 * Check if streaming api has not been already activated.
+>>   	 */
+>> -	if (q->streaming || q->num_buffers > 0)
+>> +	if (q->streaming || vb2_get_num_buffers(q) > 0)
+>>   		return -EBUSY;
+>>   
+>>   	/*
+>> @@ -2740,7 +2747,7 @@ static int __vb2_init_fileio(struct vb2_queue *q, int read)
+>>   	/*
+>>   	 * Get kernel address of each buffer.
+>>   	 */
+>> -	for (i = 0; i < q->num_buffers; i++) {
+>> +	for (i = 0; i < vb2_get_num_buffers(q); i++) {
+>>   		/* vb can never be NULL when using fileio. */
+>>   		vb = vb2_get_buffer(q, i);
+>>   
+>> @@ -2759,18 +2766,23 @@ static int __vb2_init_fileio(struct vb2_queue *q, int read)
+>>   		/*
+>>   		 * Queue all buffers.
+>>   		 */
+>> -		for (i = 0; i < q->num_buffers; i++) {
+>> -			ret = vb2_core_qbuf(q, q->bufs[i], NULL, NULL);
+>> +		for (i = 0; i < vb2_get_num_buffers(q); i++) {
+>> +			struct vb2_buffer *vb2 = vb2_get_buffer(q, i);
+>> +
+>> +			if (!vb2)
+>> +				continue;
+>> +
+>> +			ret = vb2_core_qbuf(q, vb2, NULL, NULL);
+>>   			if (ret)
+>>   				goto err_reqbufs;
+>>   			fileio->bufs[i].queued = 1;
+>>   		}
+> Doesn't this part belong to the previous patch that changes q->bufs[x] to
+> vb2_get_buffer()?
 
-Hmm, could we just cache the number of buffers we have, so that we don't
-have to go over the entire bitmap every time? (Basically just keep the
-code that we had for handling q->num_buffers before this patch.)
+Yes I will change that too.
 
->  }
->  
->  /**
-> @@ -1253,13 +1256,13 @@ static inline void vb2_clear_last_buffer_dequeued(struct vb2_queue *q)
->  static inline struct vb2_buffer *vb2_get_buffer(struct vb2_queue *q,
->  						unsigned int index)
->  {
-> -	if (!q->bufs)
-> +	if (!q->bufs_bitmap)
->  		return NULL;
->  
->  	if (index >= q->max_num_buffers)
->  		return NULL;
->  
-> -	if (index < q->num_buffers)
-> +	if (test_bit(index, q->bufs_bitmap))
+>
+>>   		/*
+>>   		 * All buffers have been queued, so mark that by setting
+>> -		 * initial_index to q->num_buffers
+>> +		 * initial_index to num_buffers
+> What num_buffers?
 
-Aha, I see why we need the extra condition above now. Perhaps it should've
-been added in this patch instead?
+I will use your wording: "the number of buffers in the vb2_queue"
 
->  		return q->bufs[index];
->  	return NULL;
->  }
-> -- 
-> 2.39.2
-> 
+>
+>>   		 */
+>> -		fileio->initial_index = q->num_buffers;
+>> -		fileio->cur_index = q->num_buffers;
+>> +		fileio->initial_index = vb2_get_num_buffers(q);
+>> +		fileio->cur_index = fileio->initial_index;
+>>   	}
+>>   
+>>   	/*
+>> @@ -2964,12 +2976,12 @@ static size_t __vb2_perform_fileio(struct vb2_queue *q, char __user *data, size_
+>>   		 * If we are queuing up buffers for the first time, then
+>>   		 * increase initial_index by one.
+>>   		 */
+>> -		if (fileio->initial_index < q->num_buffers)
+>> +		if (fileio->initial_index < vb2_get_num_buffers(q))
+>>   			fileio->initial_index++;
+>>   		/*
+>>   		 * The next buffer to use is either a buffer that's going to be
+>> -		 * queued for the first time (initial_index < q->num_buffers)
+>> -		 * or it is equal to q->num_buffers, meaning that the next
+>> +		 * queued for the first time (initial_index < num_buffers)
+>> +		 * or it is equal to num_buffers, meaning that the next
+> What num_buffers?
 
-Best regards,
-Tomasz
+Same here
+
+>
+> Best regards,
+> Tomasz
+> _______________________________________________
+> Kernel mailing list -- kernel@mailman.collabora.com
+> To unsubscribe send an email to kernel-leave@mailman.collabora.com
