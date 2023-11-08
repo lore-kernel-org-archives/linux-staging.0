@@ -1,163 +1,151 @@
-Received: from smtp.forwardemail.net (smtp.forwardemail.net [149.28.215.223])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17A4430643
-	for <linux-staging@lists.linux.dev>; Tue,  7 Nov 2023 22:57:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kwiboo.se
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fe-bounces.kwiboo.se
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F31EEA3
+	for <linux-staging@lists.linux.dev>; Wed,  8 Nov 2023 01:43:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kwiboo.se header.i=@kwiboo.se header.b="bIDMRN/V"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kwiboo.se;
- h=Content-Transfer-Encoding: Content-Type: In-Reply-To: From: References:
- Cc: To: Subject: MIME-Version: Date: Message-ID; q=dns/txt;
- s=fe-e1b5cab7be; t=1699397823;
- bh=63OQgizHEU87zRiwSvu33mfZCT/ztnxnRkDGWR/1lLU=;
- b=bIDMRN/VYHY1n0fc2dDmI+neX3bp6WW8KAO8Ay7WzNULVEbC6DG52D8ez1vm9JUl6QF7v83U7
- p9EIYWOptKN7GLbNxAJRsa4exZT6zEbUID1FdFrWa8izpMNq6oIuNvqYr/MJvQDsDBF/vcrFGIE
- KNB0FyOH+9qfhqdqREejPRIAfkmsa90OfRcRMg9QbdRIE7d1iy3daTk3SuHatusuLireZe6aX6V
- /gTuAn6ciEjGbNn3kOThRAzaX0zqqd9GIkoI+LhnEYTb1xjl7yX5EYRvZiyfmrzjEXPkey3seAU
- tXtIvvAtyN+kVQkmkPi82FgAqgpp1WwP92K/E0tK1W7g==
-Message-ID: <bfabc182-4113-46fb-85e9-8550c97d132b@kwiboo.se>
-Date: Tue, 7 Nov 2023 23:56:57 +0100
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="gPvdItBk"
+Received: from [100.84.166.245] (cola.collaboradmins.com [195.201.22.229])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: nicolas)
+	by madras.collabora.co.uk (Postfix) with ESMTPSA id 8BE6B66074D9;
+	Wed,  8 Nov 2023 01:42:59 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1699407781;
+	bh=J8F5Q7ucdMDs/e825oZPhe28Q01sYQtT6UezG1I9+Zk=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+	b=gPvdItBkqnp1eFGQfq7ZAnizTv5HNNT2uUN0dWG3KHtRuXZOS61TXHufhP+L1bnw7
+	 RpoTmfGbd7jiSHeR8IIIJllJBdj3RDpGN8ktvtcTO4YgFEqxuokLWqxPpYMNYbUVDj
+	 vjKrxgb/PFvX1DaMdz2twer8S8FnY9kG8buVVa9hcUbR5rN8nQUuu9qX2oz4F+XMJ5
+	 //YIacAyIKhCnoRHJgWCb/YLBbv+Bg41MlJKmMaOILI9qAygqf+zxR0jz6GXwF6Lx8
+	 8JbxmytCy3taORa7JOqnKvlIHgGCsqk9qBFVXoKo57/Rx4lqpvwTA6MtaoAyA627lQ
+	 CppVPfx7TA4FQ==
+Message-ID: <7461e7b7cc9abc4cee027a950550192fea8ff972.camel@collabora.com>
+Subject: Re: [PATCH v4 07/11] media: rkvdec: Move rkvdec_reset_decoded_fmt
+ helper
+From: Nicolas  Dufresne <nicolas.dufresne@collabora.com>
+To: Jonas Karlman <jonas@kwiboo.se>, Ezequiel Garcia
+ <ezequiel@vanguardiasur.com.ar>, Mauro Carvalho Chehab
+ <mchehab@kernel.org>,  Hans Verkuil <hverkuil-cisco@xs4all.nl>, Greg
+ Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Alex Bee <knaerzche@gmail.com>, Benjamin Gaignard
+	 <benjamin.gaignard@collabora.com>, Sebastian Fricke
+	 <sebastian.fricke@collabora.com>, Christopher Obbard
+	 <chris.obbard@collabora.com>, linux-media@vger.kernel.org, 
+	linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev, 
+	linux-kernel@vger.kernel.org
+Date: Tue, 07 Nov 2023 20:42:49 -0500
+In-Reply-To: <20231105165521.3592037-8-jonas@kwiboo.se>
+References: <20231105165521.3592037-1-jonas@kwiboo.se>
+	 <20231105165521.3592037-8-jonas@kwiboo.se>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.48.4 (3.48.4-1.fc38) 
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 05/11] media: rkvdec: h264: Remove SPS validation at
- streaming start
-Content-Language: en-US
-To: Nicolas Dufresne <nicolas.dufresne@collabora.com>, Ezequiel Garcia
- <ezequiel@vanguardiasur.com.ar>, Mauro Carvalho Chehab
- <mchehab@kernel.org>, Hans Verkuil <hverkuil-cisco@xs4all.nl>, "Greg
- Kroah-Hartman" <gregkh@linuxfoundation.org>
-Cc: Alex Bee <knaerzche@gmail.com>, Benjamin Gaignard
- <benjamin.gaignard@collabora.com>, Sebastian Fricke
- <sebastian.fricke@collabora.com>, Christopher Obbard
- <chris.obbard@collabora.com>, linux-media@vger.kernel.org,
- linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org
-References: <20231105165521.3592037-1-jonas@kwiboo.se>
- <20231105165521.3592037-6-jonas@kwiboo.se>
- <c75c894a09292775773ad338121ee81924337cf0.camel@collabora.com>
-From: Jonas Karlman <jonas@kwiboo.se>
-In-Reply-To: <c75c894a09292775773ad338121ee81924337cf0.camel@collabora.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Report-Abuse-To: abuse@forwardemail.net
-X-Report-Abuse: abuse@forwardemail.net
-X-Complaints-To: abuse@forwardemail.net
-X-ForwardEmail-Version: 0.4.40
-X-ForwardEmail-Sender: rfc822; jonas@kwiboo.se, smtp.forwardemail.net,
- 149.28.215.223
-X-ForwardEmail-ID: 654ac0bea95f640b16f9fb5f
 
-On 2023-11-07 23:01, Nicolas Dufresne wrote:
-> Le dimanche 05 novembre 2023 à 16:55 +0000, Jonas Karlman a écrit :
->> SPS parameters is validated in try_ctrl() ops so there is no need to
-> 
->                  are
-> 
->> re-validate when streaming starts.
->>
->> Remove the unnecessary call to validate sps at streaming start.
-> 
-> This patch is not working since user may change the format after the
-> control have been set. The proper fix should actually reset the SPS
-> (well all header controls) to match the the newly set format. Then this
-> validation won't be needed anymore.
-> 
-> The sequence that is problematic after this patch is:
-> 
-> S_FMT (OUTPUT, width, height);
-> S_CTRL (SPS) // valid
-> S_FMT(OUTPUT, width', height'); // SPS is no longer valid
-> 
-> One suggestion I may make is to add a ops so that each codec
-> implementation can reset their header controls to make it valid against
-> the new resolution. With that in place you'll be able drop the check.
+Le dimanche 05 novembre 2023 =C3=A0 16:55 +0000, Jonas Karlman a =C3=A9crit=
+=C2=A0:
+> Move rkvdec_reset_decoded_fmt() and the called rkvdec_reset_fmt() helper
+> functions in preparation for adding a new caller in an upcoming patch.
+>=20
+> Signed-off-by: Jonas Karlman <jonas@kwiboo.se>
 
-According to the Initialization section of the V4L2 stateless
-documentation a client is supposed to S_CTRL(SPS) after S_FMT(OUTPUT).
+Reviewed-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
 
-https://docs.kernel.org/userspace-api/media/v4l/dev-stateless-decoder.html#initialization
-
-I guess that all stateless decoders probably should reset all ctrls to
-default value on S_FMT(OUTPUT) or decoders may end up in an unexpected
-state?
-
-Is resetting a ctrl value back to default something that is supported by
-v4l2 ctrl core? Did not find any obvious way to reset a ctrl value.
-
-Will probably just drop this patch in v5.
-
-Regards,
-Jonas
-
-> 
-> Nicolas
-> 
-> p.s. you can also just drop this patch from the series and revisit it
-> later, though I think its worth fixing.
-> 
->>
->> Suggested-by: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
->> Signed-off-by: Jonas Karlman <jonas@kwiboo.se>
->> ---
->> v4:
->> - No change
->>
->> v3:
->> - New patch
->>
->>  drivers/staging/media/rkvdec/rkvdec-h264.c | 19 ++-----------------
->>  1 file changed, 2 insertions(+), 17 deletions(-)
->>
->> diff --git a/drivers/staging/media/rkvdec/rkvdec-h264.c b/drivers/staging/media/rkvdec/rkvdec-h264.c
->> index 8bce8902b8dd..815d5359ddd5 100644
->> --- a/drivers/staging/media/rkvdec/rkvdec-h264.c
->> +++ b/drivers/staging/media/rkvdec/rkvdec-h264.c
->> @@ -1070,17 +1070,6 @@ static int rkvdec_h264_start(struct rkvdec_ctx *ctx)
->>  	struct rkvdec_dev *rkvdec = ctx->dev;
->>  	struct rkvdec_h264_priv_tbl *priv_tbl;
->>  	struct rkvdec_h264_ctx *h264_ctx;
->> -	struct v4l2_ctrl *ctrl;
->> -	int ret;
->> -
->> -	ctrl = v4l2_ctrl_find(&ctx->ctrl_hdl,
->> -			      V4L2_CID_STATELESS_H264_SPS);
->> -	if (!ctrl)
->> -		return -EINVAL;
->> -
->> -	ret = rkvdec_h264_validate_sps(ctx, ctrl->p_new.p_h264_sps);
->> -	if (ret)
->> -		return ret;
->>  
->>  	h264_ctx = kzalloc(sizeof(*h264_ctx), GFP_KERNEL);
->>  	if (!h264_ctx)
->> @@ -1089,8 +1078,8 @@ static int rkvdec_h264_start(struct rkvdec_ctx *ctx)
->>  	priv_tbl = dma_alloc_coherent(rkvdec->dev, sizeof(*priv_tbl),
->>  				      &h264_ctx->priv_tbl.dma, GFP_KERNEL);
->>  	if (!priv_tbl) {
->> -		ret = -ENOMEM;
->> -		goto err_free_ctx;
->> +		kfree(h264_ctx);
->> +		return -ENOMEM;
->>  	}
->>  
->>  	h264_ctx->priv_tbl.size = sizeof(*priv_tbl);
->> @@ -1100,10 +1089,6 @@ static int rkvdec_h264_start(struct rkvdec_ctx *ctx)
->>  
->>  	ctx->priv = h264_ctx;
->>  	return 0;
->> -
->> -err_free_ctx:
->> -	kfree(h264_ctx);
->> -	return ret;
->>  }
->>  
->>  static void rkvdec_h264_stop(struct rkvdec_ctx *ctx)
-> 
+> ---
+> v4:
+> - No change
+>=20
+> v3:
+> - New patch
+>=20
+>  drivers/staging/media/rkvdec/rkvdec.c | 46 +++++++++++++--------------
+>  1 file changed, 23 insertions(+), 23 deletions(-)
+>=20
+> diff --git a/drivers/staging/media/rkvdec/rkvdec.c b/drivers/staging/medi=
+a/rkvdec/rkvdec.c
+> index 0570c790ad08..7a79840470e1 100644
+> --- a/drivers/staging/media/rkvdec/rkvdec.c
+> +++ b/drivers/staging/media/rkvdec/rkvdec.c
+> @@ -37,6 +37,29 @@ static void rkvdec_fill_decoded_pixfmt(struct rkvdec_c=
+tx *ctx,
+>  		DIV_ROUND_UP(pix_mp->height, 16);
+>  }
+> =20
+> +static void rkvdec_reset_fmt(struct rkvdec_ctx *ctx, struct v4l2_format =
+*f,
+> +			     u32 fourcc)
+> +{
+> +	memset(f, 0, sizeof(*f));
+> +	f->fmt.pix_mp.pixelformat =3D fourcc;
+> +	f->fmt.pix_mp.field =3D V4L2_FIELD_NONE;
+> +	f->fmt.pix_mp.colorspace =3D V4L2_COLORSPACE_REC709;
+> +	f->fmt.pix_mp.ycbcr_enc =3D V4L2_YCBCR_ENC_DEFAULT;
+> +	f->fmt.pix_mp.quantization =3D V4L2_QUANTIZATION_DEFAULT;
+> +	f->fmt.pix_mp.xfer_func =3D V4L2_XFER_FUNC_DEFAULT;
+> +}
+> +
+> +static void rkvdec_reset_decoded_fmt(struct rkvdec_ctx *ctx)
+> +{
+> +	struct v4l2_format *f =3D &ctx->decoded_fmt;
+> +
+> +	rkvdec_reset_fmt(ctx, f, ctx->coded_fmt_desc->decoded_fmts[0]);
+> +	f->type =3D V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE;
+> +	f->fmt.pix_mp.width =3D ctx->coded_fmt.fmt.pix_mp.width;
+> +	f->fmt.pix_mp.height =3D ctx->coded_fmt.fmt.pix_mp.height;
+> +	rkvdec_fill_decoded_pixfmt(ctx, &f->fmt.pix_mp);
+> +}
+> +
+>  static int rkvdec_try_ctrl(struct v4l2_ctrl *ctrl)
+>  {
+>  	struct rkvdec_ctx *ctx =3D container_of(ctrl->handler, struct rkvdec_ct=
+x, ctrl_hdl);
+> @@ -169,18 +192,6 @@ rkvdec_find_coded_fmt_desc(u32 fourcc)
+>  	return NULL;
+>  }
+> =20
+> -static void rkvdec_reset_fmt(struct rkvdec_ctx *ctx, struct v4l2_format =
+*f,
+> -			     u32 fourcc)
+> -{
+> -	memset(f, 0, sizeof(*f));
+> -	f->fmt.pix_mp.pixelformat =3D fourcc;
+> -	f->fmt.pix_mp.field =3D V4L2_FIELD_NONE;
+> -	f->fmt.pix_mp.colorspace =3D V4L2_COLORSPACE_REC709;
+> -	f->fmt.pix_mp.ycbcr_enc =3D V4L2_YCBCR_ENC_DEFAULT;
+> -	f->fmt.pix_mp.quantization =3D V4L2_QUANTIZATION_DEFAULT;
+> -	f->fmt.pix_mp.xfer_func =3D V4L2_XFER_FUNC_DEFAULT;
+> -}
+> -
+>  static void rkvdec_reset_coded_fmt(struct rkvdec_ctx *ctx)
+>  {
+>  	struct v4l2_format *f =3D &ctx->coded_fmt;
+> @@ -196,17 +207,6 @@ static void rkvdec_reset_coded_fmt(struct rkvdec_ctx=
+ *ctx)
+>  		ctx->coded_fmt_desc->ops->adjust_fmt(ctx, f);
+>  }
+> =20
+> -static void rkvdec_reset_decoded_fmt(struct rkvdec_ctx *ctx)
+> -{
+> -	struct v4l2_format *f =3D &ctx->decoded_fmt;
+> -
+> -	rkvdec_reset_fmt(ctx, f, ctx->coded_fmt_desc->decoded_fmts[0]);
+> -	f->type =3D V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE;
+> -	f->fmt.pix_mp.width =3D ctx->coded_fmt.fmt.pix_mp.width;
+> -	f->fmt.pix_mp.height =3D ctx->coded_fmt.fmt.pix_mp.height;
+> -	rkvdec_fill_decoded_pixfmt(ctx, &f->fmt.pix_mp);
+> -}
+> -
+>  static int rkvdec_enum_framesizes(struct file *file, void *priv,
+>  				  struct v4l2_frmsizeenum *fsize)
+>  {
 
