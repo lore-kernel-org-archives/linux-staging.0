@@ -1,148 +1,161 @@
-Received: from mail.astralinux.ru (mail.astralinux.ru [217.74.38.119])
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99A3D1D522
-	for <linux-staging@lists.linux.dev>; Thu,  9 Nov 2023 15:00:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=astralinux.ru
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=astralinux.ru
-Authentication-Results: smtp.subspace.kernel.org; dkim=none
-Received: from localhost (localhost.localdomain [127.0.0.1])
-	by mail.astralinux.ru (Postfix) with ESMTP id 5E9311868B41;
-	Thu,  9 Nov 2023 18:00:44 +0300 (MSK)
-Received: from mail.astralinux.ru ([127.0.0.1])
-	by localhost (rbta-msk-vsrv-mail01.astralinux.ru [127.0.0.1]) (amavisd-new, port 10032)
-	with ESMTP id Twr-pb2i9k6j; Thu,  9 Nov 2023 18:00:44 +0300 (MSK)
-Received: from localhost (localhost.localdomain [127.0.0.1])
-	by mail.astralinux.ru (Postfix) with ESMTP id EA2C7186505E;
-	Thu,  9 Nov 2023 18:00:43 +0300 (MSK)
-X-Virus-Scanned: amavisd-new at astralinux.ru
-Received: from mail.astralinux.ru ([127.0.0.1])
-	by localhost (rbta-msk-vsrv-mail01.astralinux.ru [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id 6HsWk-nAyshQ; Thu,  9 Nov 2023 18:00:43 +0300 (MSK)
-Received: from rbta-msk-lt-106062.astralinux.ru (unknown [10.177.14.192])
-	by mail.astralinux.ru (Postfix) with ESMTPSA id 6F18D18633F8;
-	Thu,  9 Nov 2023 18:00:42 +0300 (MSK)
-From: Anastasia Belova <abelova@astralinux.ru>
-To: stable@vger.kernel.org,
-	"Greg Kroah-Hartman ." <gregkh@linuxfoundation.org>
-Cc: Anastasia Belova <abelova@astralinux.ru>,
-	lvc-project@linuxtesting.org,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Hans de Goede <hdegoede@redhat.com>,
-	Andy Shevchenko <andy.shevchenko@gmail.com>,
-	Tsuchiya Yuto <kitakar@gmail.com>,
-	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH 5.10/5.15 1/1] media: atomisp: add error checking to atomisp_create_pipes_stream()
-Date: Thu,  9 Nov 2023 18:00:01 +0300
-Message-Id: <20231109150001.22891-2-abelova@astralinux.ru>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20231109150001.22891-1-abelova@astralinux.ru>
-References: <20231109150001.22891-1-abelova@astralinux.ru>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F2AA200C4
+	for <linux-staging@lists.linux.dev>; Thu,  9 Nov 2023 15:48:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="FqsNW12F"
+Received: from [100.116.125.19] (cola.collaboradmins.com [195.201.22.229])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: andrzej.p)
+	by madras.collabora.co.uk (Postfix) with ESMTPSA id E8CB466074E4;
+	Thu,  9 Nov 2023 15:48:35 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1699544917;
+	bh=H8fQMzAQclovte9fUhQqhR9RME7QzrA5CMSsHFHHe48=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=FqsNW12FTrHddxbUZNTRJLwmHkbFwMt8sMH09J9IDgjXIBafoaSVFK+DV9F+1zmpS
+	 ADOv0ySxbRuwvJn5hgOuv4VweR6twzFBj6j5BmK/LCCIHi16xnOCC2ovhEz4IaYnSG
+	 SbFhF2+BXYzUqBMHc/GEoDq7NQIrouybDhD4Ldq7EQhSPwfRNr+3+zdqe4npLthK+f
+	 0NOXDROw1NV7xabxBFOHtH6Lrns24/CuAUFmsHrwECFRP4ZEFBca4dmCDuonhD4cBB
+	 hvc9vs6nB2oz/aXnbUlUPr1nQ/mVBWn/Bb0yOEn6vge+cIpEEwoIOrmim/RkTWTGCo
+	 8mC9cfVI2Qplw==
+Message-ID: <618d5b67-ba46-4c33-ae7f-990f4b522ba8@collabora.com>
+Date: Thu, 9 Nov 2023 16:48:33 +0100
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v14 35/56] media: cedrus: Stop direct calls to queue
+ num_buffers field
+Content-Language: en-US
+To: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+Cc: Benjamin Gaignard <benjamin.gaignard@collabora.com>, mchehab@kernel.org,
+ tfiga@chromium.org, m.szyprowski@samsung.com, ming.qian@nxp.com,
+ ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de,
+ gregkh@linuxfoundation.org, hverkuil-cisco@xs4all.nl,
+ nicolas.dufresne@collabora.com, linux-media@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+ linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
+ kernel@collabora.com, Maxime Ripard <mripard@kernel.org>
+References: <20231031163104.112469-1-benjamin.gaignard@collabora.com>
+ <20231031163104.112469-36-benjamin.gaignard@collabora.com>
+ <083e43d9-452a-4b11-b7f1-f75992bc795e@collabora.com>
+ <ZUzpSXDbO60uGr0t@aptenodytes>
+From: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
+In-Reply-To: <ZUzpSXDbO60uGr0t@aptenodytes>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-From: Hans de Goede <hdegoede@redhat.com>
+Hi Paul,
 
-commit 798d2ad739da5343122eff386578f259278f2594 upstream.
+W dniu 9.11.2023 o 15:14, Paul Kocialkowski pisze:
+> Hi Andrzej,
+> 
+> On Thu 09 Nov 23, 12:27, Andrzej Pietrasiewicz wrote:
+>> Hi Paul,
+>>
+>> W dniu 31.10.2023 o 17:30, Benjamin Gaignard pisze:
+>>> Use vb2_get_num_buffers() to avoid using queue num_buffers field directly.
+>>> This allows us to change how the number of buffers is computed in the
+>>> future.
+>>>
+>>> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+>>> Acked-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+>>
+>> Given you've alaredy A-b, would you be ok with adding this sentence:
+>>
+>> "While at it, check the return value of vb2_get_buffer()."
+>>
+>> to the commit message body?
+> 
+> Not only do I agree, but because this is done in a function returning void,
+> you could even:
+> 
+> if (WARN_ON(!vb))
+> 	continue;
+> 
+> so that it doesn't go completely unnoticed.
+> 
+> What do you think?
+> 
 
-The functions called by atomisp_create_pipes_stream() can fail,
-add error checking for them.
+I'd ask Benjamin.
 
-Link: https://lore.kernel.org/linux-media/20220615205037.16549-35-hdegoed=
-e@redhat.com
-Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
-Signed-off-by: Hans de Goede <hdegoede@redhat.com>
-Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
-Signed-off-by: Anastasia Belova <abelova@astralinux.ru>
----
- .../media/atomisp/pci/atomisp_compat.h        |  2 +-
- .../media/atomisp/pci/atomisp_compat_css20.c  | 20 ++++++++++++++++---
- .../staging/media/atomisp/pci/atomisp_ioctl.c | 13 ++++++++++--
- 3 files changed, 29 insertions(+), 6 deletions(-)
+But my take on the direction of changes is that ultimately
+there will be "holes" in the array of allocated buffers (hence the
+bitmap to track which slots are used and which are not). In other words,
+getting a NULL sometimes will be an expected situation, and a WARN() will
+not be appropriate for an expected situation.
 
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_compat.h b/drivers=
-/staging/media/atomisp/pci/atomisp_compat.h
-index c16eaf3d126f..75c978c4e6f3 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_compat.h
-+++ b/drivers/staging/media/atomisp/pci/atomisp_compat.h
-@@ -242,7 +242,7 @@ int atomisp_css_input_configure_port(struct atomisp_s=
-ub_device *asd,
- 				     unsigned int metadata_width,
- 				     unsigned int metadata_height);
-=20
--void atomisp_create_pipes_stream(struct atomisp_sub_device *asd);
-+int atomisp_create_pipes_stream(struct atomisp_sub_device *asd);
- void atomisp_destroy_pipes_stream_force(struct atomisp_sub_device *asd);
-=20
- void atomisp_css_stop(struct atomisp_sub_device *asd,
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c b/d=
-rivers/staging/media/atomisp/pci/atomisp_compat_css20.c
-index 99a632f33d2d..f64d73b4c4b7 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c
-+++ b/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c
-@@ -795,10 +795,24 @@ static int __create_pipes(struct atomisp_sub_device=
- *asd)
- 	return -EINVAL;
- }
-=20
--void atomisp_create_pipes_stream(struct atomisp_sub_device *asd)
-+int atomisp_create_pipes_stream(struct atomisp_sub_device *asd)
- {
--	__create_pipes(asd);
--	__create_streams(asd);
-+	int ret;
-+
-+	ret =3D __create_pipes(asd);
-+	if (ret) {
-+		dev_err(asd->isp->dev, "create pipe failed %d.\n", ret);
-+		return ret;
-+	}
-+
-+	ret =3D __create_streams(asd);
-+	if (ret) {
-+		dev_warn(asd->isp->dev, "create stream failed %d.\n", ret);
-+		__destroy_pipes(asd, true);
-+		return ret;
-+	}
-+
-+	return 0;
- }
-=20
- int atomisp_css_update_stream(struct atomisp_sub_device *asd)
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_ioctl.c b/drivers/=
-staging/media/atomisp/pci/atomisp_ioctl.c
-index b7dda4b96d49..06bb1c87c814 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
-+++ b/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
-@@ -2243,8 +2243,17 @@ int __atomisp_streamoff(struct file *file, void *f=
-h, enum v4l2_buf_type type)
- 		dev_err(isp->dev, "atomisp_reset");
- 		atomisp_reset(isp);
- 		for (i =3D 0; i < isp->num_of_streams; i++) {
--			if (recreate_streams[i])
--				atomisp_create_pipes_stream(&isp->asd[i]);
-+			if (recreate_streams[i]) {
-+				int ret2;
-+
-+				ret2 =3D atomisp_create_pipes_stream(&isp->asd[i]);
-+				if (ret2) {
-+					dev_err(isp->dev, "%s error re-creating streams: %d\n",
-+						__func__, ret2);
-+					if (!ret)
-+						ret =3D ret2;
-+				}
-+			}
- 		}
- 		isp->isp_timeout =3D false;
- 	}
---=20
-2.30.2
+@Benjamin?
+
+Regards,
+
+Andrzej
+
+> Cheers,
+> 
+> Paul
+> 
+>> @Benjamin:
+>>
+>> With this change, you can add my
+>>
+>> Reviewed-by: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
+>>
+>>> CC: Maxime Ripard <mripard@kernel.org>
+>>> ---
+>>>    drivers/staging/media/sunxi/cedrus/cedrus_h264.c | 9 +++++++--
+>>>    drivers/staging/media/sunxi/cedrus/cedrus_h265.c | 9 +++++++--
+>>>    2 files changed, 14 insertions(+), 4 deletions(-)
+>>>
+>>> diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_h264.c b/drivers/staging/media/sunxi/cedrus/cedrus_h264.c
+>>> index dfb401df138a..3e2843ef6cce 100644
+>>> --- a/drivers/staging/media/sunxi/cedrus/cedrus_h264.c
+>>> +++ b/drivers/staging/media/sunxi/cedrus/cedrus_h264.c
+>>> @@ -653,8 +653,13 @@ static void cedrus_h264_stop(struct cedrus_ctx *ctx)
+>>>    	vq = v4l2_m2m_get_vq(ctx->fh.m2m_ctx, V4L2_BUF_TYPE_VIDEO_CAPTURE);
+>>> -	for (i = 0; i < vq->num_buffers; i++) {
+>>> -		buf = vb2_to_cedrus_buffer(vb2_get_buffer(vq, i));
+>>> +	for (i = 0; i < vb2_get_num_buffers(vq); i++) {
+>>> +		struct vb2_buffer *vb = vb2_get_buffer(vq, i);
+>>> +
+>>> +		if (!vb)
+>>> +			continue;
+>>> +
+>>> +		buf = vb2_to_cedrus_buffer(vb);
+>>>    		if (buf->codec.h264.mv_col_buf_size > 0) {
+>>>    			dma_free_attrs(dev->dev,
+>>> diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_h265.c b/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
+>>> index fc9297232456..52e94c8f2f01 100644
+>>> --- a/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
+>>> +++ b/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
+>>> @@ -869,8 +869,13 @@ static void cedrus_h265_stop(struct cedrus_ctx *ctx)
+>>>    	vq = v4l2_m2m_get_vq(ctx->fh.m2m_ctx, V4L2_BUF_TYPE_VIDEO_CAPTURE);
+>>> -	for (i = 0; i < vq->num_buffers; i++) {
+>>> -		buf = vb2_to_cedrus_buffer(vb2_get_buffer(vq, i));
+>>> +	for (i = 0; i < vb2_get_num_buffers(vq); i++) {
+>>> +		struct vb2_buffer *vb = vb2_get_buffer(vq, i);
+>>> +
+>>> +		if (!vb)
+>>> +			continue;
+>>> +
+>>> +		buf = vb2_to_cedrus_buffer(vb);
+>>>    		if (buf->codec.h265.mv_col_buf_size > 0) {
+>>>    			dma_free_attrs(dev->dev,
+>>
+> 
+> 
+> _______________________________________________
+> Kernel mailing list -- kernel@mailman.collabora.com
+> To unsubscribe send an email to kernel-leave@mailman.collabora.com
 
