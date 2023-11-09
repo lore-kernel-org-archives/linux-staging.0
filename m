@@ -1,31 +1,31 @@
 Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D819211C8D
-	for <linux-staging@lists.linux.dev>; Thu,  9 Nov 2023 09:23:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D8D2125BB
+	for <linux-staging@lists.linux.dev>; Thu,  9 Nov 2023 09:30:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="d7i3viPT"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="S4rtDO/y"
 Received: from [100.116.125.19] (cola.collaboradmins.com [195.201.22.229])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
 	(Authenticated sender: andrzej.p)
-	by madras.collabora.co.uk (Postfix) with ESMTPSA id CA8AD6607410;
-	Thu,  9 Nov 2023 09:23:04 +0000 (GMT)
+	by madras.collabora.co.uk (Postfix) with ESMTPSA id 0D57B6607410;
+	Thu,  9 Nov 2023 09:30:01 +0000 (GMT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1699521786;
-	bh=79QW7iQquBnwYm14N3AIvehKWVXP1fEi05nVMlo3R2M=;
+	s=mail; t=1699522203;
+	bh=9DyG7QadW/ZB77/AoaK7eHY4Fj3oy5z9XOUorXxwg9M=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=d7i3viPTau1TXKkUDV057Kz7FIJc20TwGqpUXPN+RkCqA1YQ3Tm6xQQbJTKXbrGk7
-	 vDybVoh3QyJP++z4JQrE7N5ofEZhnFMCP4NPewB8oI6+6QvA2gEWidVxXZh0YackUg
-	 d3SkTIWIUe3tGLxgwnFadAiSuq0bRQVUQ6OjhZz/JbKfsaUuA4aRa7fhSu4PkrAdP9
-	 uMZsnimIy3G6B/BMeub95Bk+EN7LtM8m6Q/iKTrnobb2jkAeue+VYticlFOdZlx3Sk
-	 EGMRuhtS2jn2RN2fJRVWJcyHl7TTombrj3pnJKbUtEHRzuJHDRwWbUW2o+jefxNNVw
-	 wjGXQQbgfVWrg==
-Message-ID: <aca318c9-8d6d-4c04-afdf-8eacb80f79d8@collabora.com>
-Date: Thu, 9 Nov 2023 10:23:04 +0100
+	b=S4rtDO/y59Vlxzgq+9apsVQ+c0wLEonjrqKtts9FP/zBEeFqFUQ3t/yUeGkMA1NBl
+	 mMGxINOPTbW55hhfHMMdk04M7yfVHd8dBtvbF+ExamdW7pYgsqohm+OyICXc7e1qRN
+	 F75S7r/aXl7CECgk2bH2+sOPnQ+ik3eZdmKzxTAQtoYr7ZV81MSVYPfPunWB4jBEvS
+	 MyNgISo6khl5tK1iS4f4Q4sIQqynZJKFH0YTq2CZTmlU1jyrfI6EvzHgcAqeinL8kI
+	 xjxbqc3pGRoLPg3AhuajlyvcQmTmhO2CZjKcc+koKP1JXPV9v8OYqOPHAHgZ2ZSvDc
+	 bKujPujjg4Gjw==
+Message-ID: <1d9c20f8-9735-4957-b718-7e0835ba7096@collabora.com>
+Date: Thu, 9 Nov 2023 10:29:59 +0100
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -33,8 +33,8 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v14 13/56] media: mediatek: vcodec: Stop direct calls to
- queue num_buffers field
+Subject: Re: [PATCH v14 14/56] media: sti: hva: Use vb2_get_buffer() instead
+ of directly access to buffers array
 Content-Language: en-US
 To: Benjamin Gaignard <benjamin.gaignard@collabora.com>, mchehab@kernel.org,
  tfiga@chromium.org, m.szyprowski@samsung.com, ming.qian@nxp.com,
@@ -45,42 +45,61 @@ Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org,
  linux-arm-msm@vger.kernel.org, linux-rockchip@lists.infradead.org,
  linux-staging@lists.linux.dev, kernel@collabora.com,
- Bin Liu <bin.liu@mediatek.com>, Matthias Brugger <matthias.bgg@gmail.com>
+ Jean-Christophe Trotin <jean-christophe.trotin@foss.st.com>
 References: <20231031163104.112469-1-benjamin.gaignard@collabora.com>
- <20231031163104.112469-14-benjamin.gaignard@collabora.com>
+ <20231031163104.112469-15-benjamin.gaignard@collabora.com>
 From: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
-In-Reply-To: <20231031163104.112469-14-benjamin.gaignard@collabora.com>
+In-Reply-To: <20231031163104.112469-15-benjamin.gaignard@collabora.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-Sorry for the noise, I made a typo in my email address. Resending with a proper one.
+Hi Benjamin,
 
 W dniu 31.10.2023 o 17:30, Benjamin Gaignard pisze:
-> Use vb2_get_num_buffers() to avoid using queue num_buffers field directly.
-> This allows us to change how the number of buffers is computed in the
-> future.
+> Use vb2_get_buffer() instead of direct access to the vb2_queue bufs array.
+> This allows us to change the type of the bufs in the future.
+> After each call to vb2_get_buffer() we need to be sure that we get
+> a valid pointer so check the return value of all of them.
+> Remove index range test since it is done by vb2_get_buffer().
+
+Actually, the patch uses vb2_get_buffer() instead of using vb2_get_buffer().
+IOW vb2_get_buffer() continues to be used before and after this patch is applied.
+
+I'd rather reformulate the commit message body to say that we remove
+index check because it is already performed by vb2_get_buffer(), but
+introduce a check for a NULL result.
+
+Regards,
+
+Andrzej
+
 > 
 > Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-
-Reviewed-by: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
-
-> CC: Bin Liu <bin.liu@mediatek.com>
-> CC: Matthias Brugger <matthias.bgg@gmail.com>
+> CC: Jean-Christophe Trotin <jean-christophe.trotin@foss.st.com>
 > ---
->   drivers/media/platform/mediatek/vcodec/encoder/mtk_vcodec_enc.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
+>   drivers/media/platform/st/sti/hva/hva-v4l2.c | 9 +++------
+>   1 file changed, 3 insertions(+), 6 deletions(-)
 > 
-> diff --git a/drivers/media/platform/mediatek/vcodec/encoder/mtk_vcodec_enc.c b/drivers/media/platform/mediatek/vcodec/encoder/mtk_vcodec_enc.c
-> index eb381fa6e7d1..181884e798fd 100644
-> --- a/drivers/media/platform/mediatek/vcodec/encoder/mtk_vcodec_enc.c
-> +++ b/drivers/media/platform/mediatek/vcodec/encoder/mtk_vcodec_enc.c
-> @@ -912,7 +912,7 @@ static int vb2ops_venc_start_streaming(struct vb2_queue *q, unsigned int count)
->   	return 0;
+> diff --git a/drivers/media/platform/st/sti/hva/hva-v4l2.c b/drivers/media/platform/st/sti/hva/hva-v4l2.c
+> index 3a848ca32a0e..cfe83e9dc01b 100644
+> --- a/drivers/media/platform/st/sti/hva/hva-v4l2.c
+> +++ b/drivers/media/platform/st/sti/hva/hva-v4l2.c
+> @@ -569,14 +569,11 @@ static int hva_qbuf(struct file *file, void *priv, struct v4l2_buffer *buf)
+>   		struct vb2_buffer *vb2_buf;
 >   
->   err_start_stream:
-> -	for (i = 0; i < q->num_buffers; ++i) {
-> +	for (i = 0; i < vb2_get_num_buffers(q); ++i) {
->   		struct vb2_buffer *buf = vb2_get_buffer(q, i);
->   
->   		/*
+>   		vq = v4l2_m2m_get_vq(ctx->fh.m2m_ctx, buf->type);
+> -
+> -		if (buf->index >= vq->num_buffers) {
+> -			dev_dbg(dev, "%s buffer index %d out of range (%d)\n",
+> -				ctx->name, buf->index, vq->num_buffers);
+> +		vb2_buf = vb2_get_buffer(vq, buf->index);
+> +		if (!vb2_buf) {
+> +			dev_dbg(dev, "%s buffer index %d not found\n", ctx->name, buf->index);
+>   			return -EINVAL;
+>   		}
+> -
+> -		vb2_buf = vb2_get_buffer(vq, buf->index);
+>   		stream = to_hva_stream(to_vb2_v4l2_buffer(vb2_buf));
+>   		stream->bytesused = buf->bytesused;
+>   	}
 
