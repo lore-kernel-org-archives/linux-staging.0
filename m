@@ -1,29 +1,29 @@
 Received: from mslow1.mail.gandi.net (mslow1.mail.gandi.net [217.70.178.240])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBF4D374C0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F051B374C2
 	for <linux-staging@lists.linux.dev>; Thu,  9 Nov 2023 20:20:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="K7iX93iQ"
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="j4y3CJax"
 Received: from relay5-d.mail.gandi.net (unknown [IPv6:2001:4b98:dc4:8::225])
-	by mslow1.mail.gandi.net (Postfix) with ESMTP id 8E4FFCD038
+	by mslow1.mail.gandi.net (Postfix) with ESMTP id 7FD9ECCE80
 	for <linux-staging@lists.linux.dev>; Thu,  9 Nov 2023 20:16:59 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 64E131C0007;
-	Thu,  9 Nov 2023 20:16:51 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 21C8F1C0008;
+	Thu,  9 Nov 2023 20:16:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
 	t=1699561012;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=vohYVUqiHx/VJkZ5ChoIsoqSMZl/JxxjgWPaTNjl7Z8=;
-	b=K7iX93iQAYkSIAOK6uA/pCnI4bQvim9546Ov6EY6ycp/Ugotz1C9pJiADg+nP+DZ+zL0Z9
-	s7JvFag+jbUW2nxf8PiNVoFOqDCTkS1DUxHlVb7t5t3fmEXdVjmppAsqVOg5GtmWLar7yJ
-	xXWBknp3TIkNEiTJ2IchXqb2TBZMA0bdWYC4r6NiwcPl4+wh2KotAuBhAtaas//kS6Y5S4
-	TxyoKg/RRj/38UgVerobG/RJe7zrCKqCQlHFTRlY7J3WNwEHlrcqLQmCOv5abPnHb0m09D
-	V9ndFOSboXhVpZXo+GUB7QukkF96TVlgciWbtUJe5lr7jF/1Tf/0PVWVITXK/A==
+	bh=g44nGM0ulGdPmsKjAGuOOVpTRwfyVkwDcA7l+uwsI6Y=;
+	b=j4y3CJaxX8sR0enPCYnGV1fGz8oN1sM4XbJlVX4NqPWbVT5itq0mQqJKJ3qb65iombJ0Qg
+	U0SBXeRsB0rdLBHMCcibN7qfOGH751/DVhyjiNW1uMYec8gaOW+PHWN30NQqUEGGd59Im4
+	GeIuTsJVRL0xDEslefgltpHiis5nVxQAzQxWTYou9/IZQ2rww6Q2RLiSMBO8lgPjBSwEhT
+	VxdQVRGUwuEcHjVwiAQBpKLAozY0L5Ehu0XshlsF11RN0z3Kvfm8dsILxjzK+E406YFmK4
+	FI2GZEBO3R5WjEbx+CY0g3d6avWTlHAK2U63zjw6u81ikBCoAxHzX8unGdhzvQ==
 From: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
 To: linux-media@vger.kernel.org,
 	linux-rockchip@lists.infradead.org,
@@ -39,9 +39,9 @@ Cc: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
 	Sebastian Fricke <sebastian.fricke@collabora.com>,
 	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
 	Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-Subject: [PATCH 3/4] media: verisilicon: Hook the (TRY_)DECODER_CMD stateless ioctls
-Date: Thu,  9 Nov 2023 21:16:39 +0100
-Message-ID: <20231109201640.340556-3-paul.kocialkowski@bootlin.com>
+Subject: [PATCH 4/4] media: rkvdec: Hook the (TRY_)DECODER_CMD stateless ioctls
+Date: Thu,  9 Nov 2023 21:16:40 +0100
+Message-ID: <20231109201640.340556-4-paul.kocialkowski@bootlin.com>
 X-Mailer: git-send-email 2.42.1
 In-Reply-To: <20231109201640.340556-1-paul.kocialkowski@bootlin.com>
 References: <20231109201640.340556-1-paul.kocialkowski@bootlin.com>
@@ -60,40 +60,26 @@ hooked to the ioctl ops.
 
 Add them to correctly support flushing.
 
-Fixes: 340ce50f75a6 ("media: hantro: Enable HOLD_CAPTURE_BUF for H.264")
+Fixes: ed7bb87d3d03 ("media: rkvdec: Enable capture buffer holding for H264")
 Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
 ---
- drivers/media/platform/verisilicon/hantro_drv.c  | 2 ++
- drivers/media/platform/verisilicon/hantro_v4l2.c | 3 +++
- 2 files changed, 5 insertions(+)
+ drivers/staging/media/rkvdec/rkvdec.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/drivers/media/platform/verisilicon/hantro_drv.c b/drivers/media/platform/verisilicon/hantro_drv.c
-index a9fa05ac56a9..3a2a0f28cbfe 100644
---- a/drivers/media/platform/verisilicon/hantro_drv.c
-+++ b/drivers/media/platform/verisilicon/hantro_drv.c
-@@ -905,6 +905,8 @@ static int hantro_add_func(struct hantro_dev *vpu, unsigned int funcid)
+diff --git a/drivers/staging/media/rkvdec/rkvdec.c b/drivers/staging/media/rkvdec/rkvdec.c
+index 84a41792cb4b..ac398b5a9736 100644
+--- a/drivers/staging/media/rkvdec/rkvdec.c
++++ b/drivers/staging/media/rkvdec/rkvdec.c
+@@ -461,6 +461,9 @@ static const struct v4l2_ioctl_ops rkvdec_ioctl_ops = {
  
- 	if (funcid == MEDIA_ENT_F_PROC_VIDEO_ENCODER) {
- 		vpu->encoder = func;
-+		v4l2_disable_ioctl(vfd, VIDIOC_TRY_DECODER_CMD);
-+		v4l2_disable_ioctl(vfd, VIDIOC_DECODER_CMD);
- 	} else {
- 		vpu->decoder = func;
- 		v4l2_disable_ioctl(vfd, VIDIOC_TRY_ENCODER_CMD);
-diff --git a/drivers/media/platform/verisilicon/hantro_v4l2.c b/drivers/media/platform/verisilicon/hantro_v4l2.c
-index b3ae037a50f6..db145519fc5d 100644
---- a/drivers/media/platform/verisilicon/hantro_v4l2.c
-+++ b/drivers/media/platform/verisilicon/hantro_v4l2.c
-@@ -785,6 +785,9 @@ const struct v4l2_ioctl_ops hantro_ioctl_ops = {
- 	.vidioc_g_selection = vidioc_g_selection,
- 	.vidioc_s_selection = vidioc_s_selection,
- 
+ 	.vidioc_streamon = v4l2_m2m_ioctl_streamon,
+ 	.vidioc_streamoff = v4l2_m2m_ioctl_streamoff,
++
 +	.vidioc_decoder_cmd = v4l2_m2m_ioctl_stateless_decoder_cmd,
 +	.vidioc_try_decoder_cmd = v4l2_m2m_ioctl_stateless_try_decoder_cmd,
-+
- 	.vidioc_try_encoder_cmd = v4l2_m2m_ioctl_try_encoder_cmd,
- 	.vidioc_encoder_cmd = vidioc_encoder_cmd,
  };
+ 
+ static int rkvdec_queue_setup(struct vb2_queue *vq, unsigned int *num_buffers,
 -- 
 2.42.1
 
