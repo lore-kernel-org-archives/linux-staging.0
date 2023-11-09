@@ -1,29 +1,29 @@
 Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86115225D3
-	for <linux-staging@lists.linux.dev>; Thu,  9 Nov 2023 16:38:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2A98225D2
+	for <linux-staging@lists.linux.dev>; Thu,  9 Nov 2023 16:38:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="OBKs9u4b"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="oW6Lr0o2"
 Received: from benjamin-XPS-13-9310.. (cola.collaboradmins.com [195.201.22.229])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
 	(Authenticated sender: benjamin.gaignard)
-	by madras.collabora.co.uk (Postfix) with ESMTPSA id D952366076AC;
-	Thu,  9 Nov 2023 16:38:22 +0000 (GMT)
+	by madras.collabora.co.uk (Postfix) with ESMTPSA id 401AD66076BF;
+	Thu,  9 Nov 2023 16:38:19 +0000 (GMT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1699547903;
-	bh=erTwggNtL1fF4WX3Qq/WC0lVUOpK1yc8/4MWqZppdB8=;
+	s=mail; t=1699547900;
+	bh=B9/TxQu67i5OUs2XFrxigqj4gKM3accNnzrVxeIEiTM=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=OBKs9u4b1fxRKsrcAIC3488DWZjLLAYhQQNiv7sk7hhAf8aaGywMWrK8W2P9N0Zhk
-	 2WxHrpAAoI01qmRHt2S6s+KeqM31hynBhdQLRzzdZvfYTaNfImjyY9Uo0ViNyvsDMJ
-	 bafeUD+8SVOyyeyeL+L/2zEiKDbyeFMge8sD2ky33i0nsx4jwNMehb6NlZ079fhE/S
-	 zoNY1OTtg3cWWa6FgyDNS0ayzoqzybMgsKBUScrF+QR9F1n1ZWIdimBWTc1HzGbUSX
-	 eIlqdYk7sQnpY0siWJllFQINNbNCvayxZdJXoeGesfcYxgZYXuLdmtvqJzKQisMPkT
-	 h659vfnHtHpaQ==
+	b=oW6Lr0o226QIo1W9LdS8FR7c3JMJm0ddcz3LvLYVBHQO6eI3nd1iolBOXH4rMB6yc
+	 tRffp2Ykw9puuECxH8//oWqGIF8xTElJTvvVbVlZ83i7ibBOQ0jlks8WytjhccJ4Ri
+	 mUc67TgPdHqx5aA0Kq5dQwJidqbKnwzT4cORaIpoBN+90yEsgEdolOuDTeAiFSfKrp
+	 oGVF5gq5q2NFkJqBu6Nj18r9+1QtDB+0Y99OYNSimmhlfXxtLMjgA7pfEWypBxrB/X
+	 2ry2V3oAg3giZdq080HxlZ1S/203fQveAhBedrC1su+BYPY3iI1S0fDFxGDJ0/a22/
+	 frWo1ugH0MPsA==
 From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
 To: mchehab@kernel.org,
 	tfiga@chromium.org,
@@ -43,10 +43,11 @@ Cc: linux-media@vger.kernel.org,
 	linux-staging@lists.linux.dev,
 	kernel@collabora.com,
 	Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-	Andrzej Pietrasiewicz <andrzej.p@collabora.com>
-Subject: [PATCH v15 39/56] media: usb: airspy: Stop direct calls to queue num_buffers field
-Date: Thu,  9 Nov 2023 17:34:55 +0100
-Message-Id: <20231109163512.179524-40-benjamin.gaignard@collabora.com>
+	Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>
+Subject: [PATCH v15 37/56] media: renesas: Stop direct calls to queue num_buffers field
+Date: Thu,  9 Nov 2023 17:34:53 +0100
+Message-Id: <20231109163512.179524-38-benjamin.gaignard@collabora.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20231109163512.179524-14-benjamin.gaignard@collabora.com>
 References: <20231109163512.179524-14-benjamin.gaignard@collabora.com>
@@ -64,30 +65,29 @@ future.
 
 Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
 Reviewed-by: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
+CC: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
 ---
- drivers/media/usb/airspy/airspy.c | 5 +++--
+ drivers/media/platform/renesas/rcar_drif.c | 5 +++--
  1 file changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/media/usb/airspy/airspy.c b/drivers/media/usb/airspy/airspy.c
-index 462eb8423506..e24e655fb1db 100644
---- a/drivers/media/usb/airspy/airspy.c
-+++ b/drivers/media/usb/airspy/airspy.c
-@@ -482,12 +482,13 @@ static int airspy_queue_setup(struct vb2_queue *vq,
- 		unsigned int *nplanes, unsigned int sizes[], struct device *alloc_devs[])
+diff --git a/drivers/media/platform/renesas/rcar_drif.c b/drivers/media/platform/renesas/rcar_drif.c
+index 292c5bf9e50c..f21d05054341 100644
+--- a/drivers/media/platform/renesas/rcar_drif.c
++++ b/drivers/media/platform/renesas/rcar_drif.c
+@@ -424,10 +424,11 @@ static int rcar_drif_queue_setup(struct vb2_queue *vq,
+ 			unsigned int sizes[], struct device *alloc_devs[])
  {
- 	struct airspy *s = vb2_get_drv_priv(vq);
+ 	struct rcar_drif_sdr *sdr = vb2_get_drv_priv(vq);
 +	unsigned int q_num_bufs = vb2_get_num_buffers(vq);
  
- 	dev_dbg(s->dev, "nbuffers=%d\n", *nbuffers);
+ 	/* Need at least 16 buffers */
+-	if (vq->num_buffers + *num_buffers < 16)
+-		*num_buffers = 16 - vq->num_buffers;
++	if (q_num_bufs + *num_buffers < 16)
++		*num_buffers = 16 - q_num_bufs;
  
- 	/* Need at least 8 buffers */
--	if (vq->num_buffers + *nbuffers < 8)
--		*nbuffers = 8 - vq->num_buffers;
-+	if (q_num_bufs + *nbuffers < 8)
-+		*nbuffers = 8 - q_num_bufs;
- 	*nplanes = 1;
- 	sizes[0] = PAGE_ALIGN(s->buffersize);
- 
+ 	*num_planes = 1;
+ 	sizes[0] = PAGE_ALIGN(sdr->fmt->buffersize);
 -- 
 2.39.2
 
