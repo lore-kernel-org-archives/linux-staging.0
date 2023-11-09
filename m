@@ -1,125 +1,102 @@
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com [209.85.216.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2048712E75
-	for <linux-staging@lists.linux.dev>; Thu,  9 Nov 2023 09:38:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F4E7134AA
+	for <linux-staging@lists.linux.dev>; Thu,  9 Nov 2023 09:43:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="h4x0LuYO"
-Received: from [100.116.125.19] (cola.collaboradmins.com [195.201.22.229])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: andrzej.p)
-	by madras.collabora.co.uk (Postfix) with ESMTPSA id BC86F6607412;
-	Thu,  9 Nov 2023 09:38:25 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1699522707;
-	bh=F5eCvJZp5ZHGYJ0Dg13WChawV85jAIVEdBjM+7DBShE=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=h4x0LuYOIAo1skdu7fwYrmP1EsAl9jR5pHuC5CcWQpO+v/63t7EkfqoA2gudh/Yjj
-	 S4tR4kKJFm7JRr7UHiuvBE87TNfl2fRXQunZrLnuQr37bLIRn4MZziVHGYQ6Ku1tzc
-	 gPGykHkUX2YwpeDjllD73G6KszY5cOMwgmtOMKKItNacwHlljXwzspmnOOnL45nu3/
-	 zTCSab62P7WQD6F687rgUKZCmo4HdOOonhCr/GRtefEBgsZ7VBvOJnzYi2xVWsrq7k
-	 Y0d46UD2AWp+hNaPQtsBkjOcuthgIcEgj0MhBf1cy9+earEuxW4fIJnjL3aGlxI8PB
-	 GydHiHn8gkRAg==
-Message-ID: <b812aae8-a600-433e-81ba-d330f40dce21@collabora.com>
-Date: Thu, 9 Nov 2023 10:38:22 +0100
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="nFmtRhet"
+Received: by mail-pj1-f54.google.com with SMTP id 98e67ed59e1d1-28003daaaa6so611493a91.0
+        for <linux-staging@lists.linux.dev>; Thu, 09 Nov 2023 01:43:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1699522996; x=1700127796; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=jCWyDTFOKGrYpot7V/hX2yRpK+Z5vWvoNFrsFbdVsv0=;
+        b=nFmtRhetF4AezvzlAEVMp0/HlI00Mwqyh3IS+5tUOGe5NEElrMxRYr8xRxrE9K6q+W
+         8DQyfz4FS5Il8ibjDl/96prOUQaj+kmOcUJJqkeWKlLoXRXLVu7ff1Axfc73jphtmCSr
+         +xRd9H+nADFEyaV6SRbOlBH6NMTpasqYhduXE=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1699522996; x=1700127796;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=jCWyDTFOKGrYpot7V/hX2yRpK+Z5vWvoNFrsFbdVsv0=;
+        b=D8SYM5TywVWhapnNmuVzjvV/6zSFtFOg8AQEMBUa7EMlVSYQx99HIbQ9LX2GryhcYS
+         MEhCEBNemgskpAwHfa/sTwV8BFnn78nx6bIMY6/hndzuNhp9Ummv9wgbk9xwmU/nUuYe
+         GicMVF+q0TFE2Pkh2ZyDROQnPJmri6/O+PygyreNnhkVXMkHD9WEgRP4xBW4/ra3GS44
+         42SzJoz40TzHy4cX1PD02YPFFQwUeVq7LejxfOF/LRe28+vO9tkgbdLVTI69RGVp4nsF
+         vEAfyaAo4jaUNmDVcXUFESk3zRx2gT7AtyX6Dpi6qGSFVBkz0H8LFYR5D3NjNm+bt/fG
+         BvQA==
+X-Gm-Message-State: AOJu0Yx3ypqeHrSuOgcXIqdV0CnUpQjmALAqLkZZwSHp05r3OaGqrWBA
+	Ige70uKX5OuB6WIm5NZCGlHjWw==
+X-Google-Smtp-Source: AGHT+IHYEn5vCWOVKWVvobQ08zsd30PXF4KGgrclxpMN4A+BTWHHxdRtGwc4VhxQDlQqRAmCiOe3vQ==
+X-Received: by 2002:a17:90b:4b4f:b0:280:a27d:e897 with SMTP id mi15-20020a17090b4b4f00b00280a27de897mr1185437pjb.8.1699522995680;
+        Thu, 09 Nov 2023 01:43:15 -0800 (PST)
+Received: from chromium.org (0.223.81.34.bc.googleusercontent.com. [34.81.223.0])
+        by smtp.gmail.com with ESMTPSA id 21-20020a17090a01d500b0027d0adf653bsm986244pjd.7.2023.11.09.01.43.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 09 Nov 2023 01:43:15 -0800 (PST)
+Date: Thu, 9 Nov 2023 09:43:11 +0000
+From: Tomasz Figa <tfiga@chromium.org>
+To: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Cc: mchehab@kernel.org, m.szyprowski@samsung.com, ming.qian@nxp.com,
+	ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de,
+	gregkh@linuxfoundation.org, hverkuil-cisco@xs4all.nl,
+	nicolas.dufresne@collabora.com, linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+	linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
+	kernel@collabora.com
+Subject: Re: [PATCH v14 56/56] media: test-drivers: Use helper for
+ DELETE_BUFS ioctl
+Message-ID: <20231109094311.yzmmn4vvskmrk4tk@chromium.org>
+References: <20231031163104.112469-1-benjamin.gaignard@collabora.com>
+ <20231031163104.112469-57-benjamin.gaignard@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v14 15/56] media: visl: Use vb2_get_buffer() instead of
- directly access to buffers array
-Content-Language: en-US
-To: Benjamin Gaignard <benjamin.gaignard@collabora.com>, mchehab@kernel.org,
- tfiga@chromium.org, m.szyprowski@samsung.com, ming.qian@nxp.com,
- ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de,
- gregkh@linuxfoundation.org, hverkuil-cisco@xs4all.nl,
- nicolas.dufresne@collabora.com
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org,
- linux-arm-msm@vger.kernel.org, linux-rockchip@lists.infradead.org,
- linux-staging@lists.linux.dev, kernel@collabora.com,
- Daniel Almeida <daniel.almeida@collabora.com>
-References: <20231031163104.112469-1-benjamin.gaignard@collabora.com>
- <20231031163104.112469-16-benjamin.gaignard@collabora.com>
-From: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
-In-Reply-To: <20231031163104.112469-16-benjamin.gaignard@collabora.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231031163104.112469-57-benjamin.gaignard@collabora.com>
 
-W dniu 31.10.2023 o 17:30, Benjamin Gaignard pisze:
-> Use vb2_get_buffer() instead of direct access to the vb2_queue bufs array.
-> This allows us to change the type of the bufs in the future.
-> After each call to vb2_get_buffer() we need to be sure that we get
-> a valid pointer so check the return value of all of them.
+On Tue, Oct 31, 2023 at 05:31:04PM +0100, Benjamin Gaignard wrote:
+> Allow test drivers to use DELETE_BUFS by adding vb2_ioctl_delete_bufs() helper.
 > 
 > Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-
-Reviewed-by: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
-
-> CC: Daniel Almeida <daniel.almeida@collabora.com>
-> CC: Mauro Carvalho Chehab <mchehab@kernel.org>
 > ---
->   drivers/media/test-drivers/visl/visl-dec.c | 28 ++++++++++++++++------
->   1 file changed, 21 insertions(+), 7 deletions(-)
+>  drivers/media/test-drivers/vicodec/vicodec-core.c |  2 ++
+>  drivers/media/test-drivers/vimc/vimc-capture.c    |  2 ++
+>  drivers/media/test-drivers/visl/visl-video.c      |  2 ++
+>  drivers/media/test-drivers/vivid/vivid-core.c     | 13 ++++++++++---
+>  4 files changed, 16 insertions(+), 3 deletions(-)
 > 
-> diff --git a/drivers/media/test-drivers/visl/visl-dec.c b/drivers/media/test-drivers/visl/visl-dec.c
-> index 318d675e5668..ba20ea998d19 100644
-> --- a/drivers/media/test-drivers/visl/visl-dec.c
-> +++ b/drivers/media/test-drivers/visl/visl-dec.c
-> @@ -290,13 +290,20 @@ static void visl_tpg_fill(struct visl_ctx *ctx, struct visl_run *run)
->   	for (i = 0; i < out_q->num_buffers; i++) {
->   		char entry[] = "index: %u, state: %s, request_fd: %d, ";
->   		u32 old_len = len;
-> -		char *q_status = visl_get_vb2_state(out_q->bufs[i]->state);
-> +		struct vb2_buffer *vb2;
-> +		char *q_status;
-> +
-> +		vb2 = vb2_get_buffer(out_q, i);
-> +		if (!vb2)
-> +			continue;
-> +
-> +		q_status = visl_get_vb2_state(vb2->state);
->   
->   		len += scnprintf(&buf[len], TPG_STR_BUF_SZ - len,
->   				 entry, i, q_status,
-> -				 to_vb2_v4l2_buffer(out_q->bufs[i])->request_fd);
-> +				 to_vb2_v4l2_buffer(vb2)->request_fd);
->   
-> -		len += visl_fill_bytesused(to_vb2_v4l2_buffer(out_q->bufs[i]),
-> +		len += visl_fill_bytesused(to_vb2_v4l2_buffer(vb2),
->   					   &buf[len],
->   					   TPG_STR_BUF_SZ - len);
->   
-> @@ -342,13 +349,20 @@ static void visl_tpg_fill(struct visl_ctx *ctx, struct visl_run *run)
->   	len = 0;
->   	for (i = 0; i < cap_q->num_buffers; i++) {
->   		u32 old_len = len;
-> -		char *q_status = visl_get_vb2_state(cap_q->bufs[i]->state);
-> +		struct vb2_buffer *vb2;
-> +		char *q_status;
-> +
-> +		vb2 = vb2_get_buffer(cap_q, i);
-> +		if (!vb2)
-> +			continue;
-> +
-> +		q_status = visl_get_vb2_state(vb2->state);
->   
->   		len += scnprintf(&buf[len], TPG_STR_BUF_SZ - len,
->   				 "index: %u, status: %s, timestamp: %llu, is_held: %d",
-> -				 cap_q->bufs[i]->index, q_status,
-> -				 cap_q->bufs[i]->timestamp,
-> -				 to_vb2_v4l2_buffer(cap_q->bufs[i])->is_held);
-> +				 vb2->index, q_status,
-> +				 vb2->timestamp,
-> +				 to_vb2_v4l2_buffer(vb2)->is_held);
->   
->   		tpg_gen_text(&ctx->tpg, basep, line++ * line_height, 16, &buf[old_len]);
->   		frame_dprintk(ctx->dev, run->dst->sequence, "%s", &buf[old_len]);
+> diff --git a/drivers/media/test-drivers/vicodec/vicodec-core.c b/drivers/media/test-drivers/vicodec/vicodec-core.c
+> index 69cbe2c094e1..f14a8fd506d0 100644
+> --- a/drivers/media/test-drivers/vicodec/vicodec-core.c
+> +++ b/drivers/media/test-drivers/vicodec/vicodec-core.c
+> @@ -1339,6 +1339,7 @@ static const struct v4l2_ioctl_ops vicodec_ioctl_ops = {
+>  	.vidioc_prepare_buf	= v4l2_m2m_ioctl_prepare_buf,
+>  	.vidioc_create_bufs	= v4l2_m2m_ioctl_create_bufs,
+>  	.vidioc_expbuf		= v4l2_m2m_ioctl_expbuf,
+> +	.vidioc_delete_bufs	= v4l2_m2m_ioctl_delete_bufs,
+>  
+>  	.vidioc_streamon	= v4l2_m2m_ioctl_streamon,
+>  	.vidioc_streamoff	= v4l2_m2m_ioctl_streamoff,
+> @@ -1725,6 +1726,7 @@ static int queue_init(void *priv, struct vb2_queue *src_vq,
+>  	dst_vq->mem_ops = &vb2_vmalloc_memops;
+>  	dst_vq->timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_COPY;
+>  	dst_vq->lock = src_vq->lock;
+> +	dst_vq->supports_delete_bufs = true;
 
+Since we have to explicitly provide the vidioc_delete_bufs callback anyway,
+is there any value in having a separate supports_delete_bufs flag? Or we
+envision that some drivers would support deleting buffers only for some
+queues?
+
+Best regards,
+Tomasz
