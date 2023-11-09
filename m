@@ -1,29 +1,29 @@
 Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8F3B38DDE
-	for <linux-staging@lists.linux.dev>; Thu,  9 Nov 2023 16:38:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B963C38DF6
+	for <linux-staging@lists.linux.dev>; Thu,  9 Nov 2023 16:38:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="ZtTtaQuY"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="RrtVh9X8"
 Received: from benjamin-XPS-13-9310.. (cola.collaboradmins.com [195.201.22.229])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
 	(Authenticated sender: benjamin.gaignard)
-	by madras.collabora.co.uk (Postfix) with ESMTPSA id 4D31266076B3;
-	Thu,  9 Nov 2023 16:38:10 +0000 (GMT)
+	by madras.collabora.co.uk (Postfix) with ESMTPSA id F3CD566076AA;
+	Thu,  9 Nov 2023 16:38:04 +0000 (GMT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1699547891;
-	bh=roMZqY02Ppm/ZZDxSWLBYnwC9qWY5WYlcRmRF4LgVfc=;
+	s=mail; t=1699547886;
+	bh=GT8so2nlXz6sVTC6/LVEeyeT6LyqCEc+V+4zR/u/SPw=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=ZtTtaQuYMg7f8j8Goycl1oCr0SsWzOhJcrfUWHhg4oCX8CzMSAE6r/w4Ee76yPefo
-	 QZxRjxp4taRfSUVLq+K/6nYBrteXOO1sztNV/YiGewELHy+ZCWKOuY9dIwLBYbRyrv
-	 niB062ESQMiuRZRQuEyosTGUvpoIvvmG9gRNTfVa0tVzdLUdRYxgJiOvXhfSETL/Qr
-	 pgMb+9+VwFAcVXvhT3Ys4bcObFg+abaLIAeKmZGrBgCWaIH5p+NmgUFJZ0TjFt0QH9
-	 gIs8KxF/Kf2/rJBGckMIHbg8sDA5tJqs2cFbjMibtp7zbD9MQrb3Q+OIQxl+qPyA6X
-	 6sbKjd9+zqnaQ==
+	b=RrtVh9X8Qs3g6cf1NjAny0QHSCivxPRqThyYB+1UeW3i1R3txI7Jyuoyosie0jI4Y
+	 Sobrtwrl9LWhxHkeucSN/nz/SaKMmS25oL/JykL+45iXaI+hXD65e2d9/d0KPTGhA7
+	 4uR0A1VnzatKW+VvZFE30uarEAq7sBjvsUGAhdVDjxKQTQ/XTnG+KqRe7++7zxMAPo
+	 flk+iywS8HYIuCVUyuvGb7Gp5bz00HmhdeDWzxaStHOMZx/gks9MKl7aFliJNMDgJW
+	 G+lORtotlbUF4dWneogGispfaIhp837GUci0YW3ji015RqhSjGIDub+9myfBfLrrZ0
+	 uH/fmoUfRR9BQ==
 From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
 To: mchehab@kernel.org,
 	tfiga@chromium.org,
@@ -43,11 +43,10 @@ Cc: linux-media@vger.kernel.org,
 	linux-staging@lists.linux.dev,
 	kernel@collabora.com,
 	Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-	Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
-	Neil Armstrong <neil.armstrong@linaro.org>
-Subject: [PATCH v15 32/56] media: meson: vdec: Stop direct calls to queue num_buffers field
-Date: Thu,  9 Nov 2023 17:34:48 +0100
-Message-Id: <20231109163512.179524-33-benjamin.gaignard@collabora.com>
+	Andrzej Pietrasiewicz <andrzej.p@collabora.com>
+Subject: [PATCH v15 29/56] media: verisilicon: Stop direct calls to queue num_buffers field
+Date: Thu,  9 Nov 2023 17:34:45 +0100
+Message-Id: <20231109163512.179524-30-benjamin.gaignard@collabora.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20231109163512.179524-14-benjamin.gaignard@collabora.com>
 References: <20231109163512.179524-14-benjamin.gaignard@collabora.com>
@@ -65,45 +64,24 @@ future.
 
 Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
 Reviewed-by: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
-CC: Neil Armstrong <neil.armstrong@linaro.org>
+CC: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
 ---
- drivers/staging/media/meson/vdec/vdec.c | 13 +++++++------
- 1 file changed, 7 insertions(+), 6 deletions(-)
+ drivers/media/platform/verisilicon/hantro_postproc.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/staging/media/meson/vdec/vdec.c b/drivers/staging/media/meson/vdec/vdec.c
-index 219185aaa588..1e2369f104c8 100644
---- a/drivers/staging/media/meson/vdec/vdec.c
-+++ b/drivers/staging/media/meson/vdec/vdec.c
-@@ -167,22 +167,23 @@ static void process_num_buffers(struct vb2_queue *q,
- 				bool is_reqbufs)
- {
- 	const struct amvdec_format *fmt_out = sess->fmt_out;
--	unsigned int buffers_total = q->num_buffers + *num_buffers;
-+	unsigned int q_num_bufs = vb2_get_num_buffers(q);
-+	unsigned int buffers_total = q_num_bufs + *num_buffers;
- 	u32 min_buf_capture = v4l2_ctrl_g_ctrl(sess->ctrl_min_buf_capture);
- 
--	if (q->num_buffers + *num_buffers < min_buf_capture)
--		*num_buffers = min_buf_capture - q->num_buffers;
-+	if (q_num_bufs + *num_buffers < min_buf_capture)
-+		*num_buffers = min_buf_capture - q_num_bufs;
- 	if (is_reqbufs && buffers_total < fmt_out->min_buffers)
--		*num_buffers = fmt_out->min_buffers - q->num_buffers;
-+		*num_buffers = fmt_out->min_buffers - q_num_bufs;
- 	if (buffers_total > fmt_out->max_buffers)
--		*num_buffers = fmt_out->max_buffers - q->num_buffers;
-+		*num_buffers = fmt_out->max_buffers - q_num_bufs;
- 
- 	/* We need to program the complete CAPTURE buffer list
- 	 * in registers during start_streaming, and the firmwares
- 	 * are free to choose any of them to write frames to. As such,
- 	 * we need all of them to be queued into the driver
- 	 */
--	sess->num_dst_bufs = q->num_buffers + *num_buffers;
-+	sess->num_dst_bufs = q_num_bufs + *num_buffers;
- 	q->min_buffers_needed = max(fmt_out->min_buffers, sess->num_dst_bufs);
- }
- 
+diff --git a/drivers/media/platform/verisilicon/hantro_postproc.c b/drivers/media/platform/verisilicon/hantro_postproc.c
+index 64d6fb852ae9..8f8f17e671ce 100644
+--- a/drivers/media/platform/verisilicon/hantro_postproc.c
++++ b/drivers/media/platform/verisilicon/hantro_postproc.c
+@@ -195,7 +195,7 @@ int hantro_postproc_alloc(struct hantro_ctx *ctx)
+ 	struct hantro_dev *vpu = ctx->dev;
+ 	struct v4l2_m2m_ctx *m2m_ctx = ctx->fh.m2m_ctx;
+ 	struct vb2_queue *cap_queue = &m2m_ctx->cap_q_ctx.q;
+-	unsigned int num_buffers = cap_queue->num_buffers;
++	unsigned int num_buffers = vb2_get_num_buffers(cap_queue);
+ 	struct v4l2_pix_format_mplane pix_mp;
+ 	const struct hantro_fmt *fmt;
+ 	unsigned int i, buf_size;
 -- 
 2.39.2
 
