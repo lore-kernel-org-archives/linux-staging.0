@@ -1,29 +1,29 @@
 Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B963C38DF6
-	for <linux-staging@lists.linux.dev>; Thu,  9 Nov 2023 16:38:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F67038DD1
+	for <linux-staging@lists.linux.dev>; Thu,  9 Nov 2023 16:38:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="RrtVh9X8"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="Dll9Owb3"
 Received: from benjamin-XPS-13-9310.. (cola.collaboradmins.com [195.201.22.229])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
 	(Authenticated sender: benjamin.gaignard)
-	by madras.collabora.co.uk (Postfix) with ESMTPSA id F3CD566076AA;
-	Thu,  9 Nov 2023 16:38:04 +0000 (GMT)
+	by madras.collabora.co.uk (Postfix) with ESMTPSA id C3D5966076BA;
+	Thu,  9 Nov 2023 16:38:13 +0000 (GMT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1699547886;
-	bh=GT8so2nlXz6sVTC6/LVEeyeT6LyqCEc+V+4zR/u/SPw=;
+	s=mail; t=1699547894;
+	bh=VwZU4+ckcXzSAwnWbSC53r966DVTmWsb2+Sz1f2VGIc=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=RrtVh9X8Qs3g6cf1NjAny0QHSCivxPRqThyYB+1UeW3i1R3txI7Jyuoyosie0jI4Y
-	 Sobrtwrl9LWhxHkeucSN/nz/SaKMmS25oL/JykL+45iXaI+hXD65e2d9/d0KPTGhA7
-	 4uR0A1VnzatKW+VvZFE30uarEAq7sBjvsUGAhdVDjxKQTQ/XTnG+KqRe7++7zxMAPo
-	 flk+iywS8HYIuCVUyuvGb7Gp5bz00HmhdeDWzxaStHOMZx/gks9MKl7aFliJNMDgJW
-	 G+lORtotlbUF4dWneogGispfaIhp837GUci0YW3ji015RqhSjGIDub+9myfBfLrrZ0
-	 uH/fmoUfRR9BQ==
+	b=Dll9Owb3ybwYnDK8Q7X0yrqAA1cXb582B4OcCJoiE+pSC1HOjwsi9CO2kTjWfnHom
+	 uT0rJ4Z/kXSD43XhiJ4hHQHjJ+gykyx7tC17X/qiCT8/M3Knfaqt1T7sPijJaonJzN
+	 x9r7QJMgYi5I8wf40bQJEwEvp+Q+Ei5wkOETxRa2JEi99zC3uIN7D9XiDHkvT3sUbZ
+	 NcxyM3l1WAvmwodoCbgjZ7YslUwgJZgyI19uy+fyP2Cfx87GKoqJ+ZJLlWMs18F2Y4
+	 dO7nSMKy+hEc2aJxgswqPq+rPQdKI2ge+RHZ9dsHvmVsrDxYdj4OgsbQf3iLwNdUPN
+	 lMxe+DWioTspg==
 From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
 To: mchehab@kernel.org,
 	tfiga@chromium.org,
@@ -44,9 +44,9 @@ Cc: linux-media@vger.kernel.org,
 	kernel@collabora.com,
 	Benjamin Gaignard <benjamin.gaignard@collabora.com>,
 	Andrzej Pietrasiewicz <andrzej.p@collabora.com>
-Subject: [PATCH v15 29/56] media: verisilicon: Stop direct calls to queue num_buffers field
-Date: Thu,  9 Nov 2023 17:34:45 +0100
-Message-Id: <20231109163512.179524-30-benjamin.gaignard@collabora.com>
+Subject: [PATCH v15 34/56] sample: v4l: Stop direct calls to queue num_buffers field
+Date: Thu,  9 Nov 2023 17:34:50 +0100
+Message-Id: <20231109163512.179524-35-benjamin.gaignard@collabora.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20231109163512.179524-14-benjamin.gaignard@collabora.com>
 References: <20231109163512.179524-14-benjamin.gaignard@collabora.com>
@@ -64,24 +64,33 @@ future.
 
 Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
 Reviewed-by: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
-CC: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
 ---
- drivers/media/platform/verisilicon/hantro_postproc.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ samples/v4l/v4l2-pci-skeleton.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/media/platform/verisilicon/hantro_postproc.c b/drivers/media/platform/verisilicon/hantro_postproc.c
-index 64d6fb852ae9..8f8f17e671ce 100644
---- a/drivers/media/platform/verisilicon/hantro_postproc.c
-+++ b/drivers/media/platform/verisilicon/hantro_postproc.c
-@@ -195,7 +195,7 @@ int hantro_postproc_alloc(struct hantro_ctx *ctx)
- 	struct hantro_dev *vpu = ctx->dev;
- 	struct v4l2_m2m_ctx *m2m_ctx = ctx->fh.m2m_ctx;
- 	struct vb2_queue *cap_queue = &m2m_ctx->cap_q_ctx.q;
--	unsigned int num_buffers = cap_queue->num_buffers;
-+	unsigned int num_buffers = vb2_get_num_buffers(cap_queue);
- 	struct v4l2_pix_format_mplane pix_mp;
- 	const struct hantro_fmt *fmt;
- 	unsigned int i, buf_size;
+diff --git a/samples/v4l/v4l2-pci-skeleton.c b/samples/v4l/v4l2-pci-skeleton.c
+index a61f94db18d9..a65aa9d1e9da 100644
+--- a/samples/v4l/v4l2-pci-skeleton.c
++++ b/samples/v4l/v4l2-pci-skeleton.c
+@@ -155,6 +155,7 @@ static int queue_setup(struct vb2_queue *vq,
+ 		       unsigned int sizes[], struct device *alloc_devs[])
+ {
+ 	struct skeleton *skel = vb2_get_drv_priv(vq);
++	unsigned int q_num_bufs = vb2_get_num_buffers(vq);
+ 
+ 	skel->field = skel->format.field;
+ 	if (skel->field == V4L2_FIELD_ALTERNATE) {
+@@ -167,8 +168,8 @@ static int queue_setup(struct vb2_queue *vq,
+ 		skel->field = V4L2_FIELD_TOP;
+ 	}
+ 
+-	if (vq->num_buffers + *nbuffers < 3)
+-		*nbuffers = 3 - vq->num_buffers;
++	if (q_num_bufs + *nbuffers < 3)
++		*nbuffers = 3 - q_num_bufs;
+ 
+ 	if (*nplanes)
+ 		return sizes[0] < skel->format.sizeimage ? -EINVAL : 0;
 -- 
 2.39.2
 
