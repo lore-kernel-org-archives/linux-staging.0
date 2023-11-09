@@ -1,65 +1,65 @@
-Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
+Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E36DFD287
-	for <linux-staging@lists.linux.dev>; Thu,  9 Nov 2023 06:06:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BA6ED535
+	for <linux-staging@lists.linux.dev>; Thu,  9 Nov 2023 07:28:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="j2UPofqt"
-Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-9c603e2354fso103810466b.1
-        for <linux-staging@lists.linux.dev>; Wed, 08 Nov 2023 22:06:10 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="cc5mUl6w"
+Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-9d2e7726d5bso84762466b.0
+        for <linux-staging@lists.linux.dev>; Wed, 08 Nov 2023 23:28:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1699509968; x=1700114768; darn=lists.linux.dev;
+        d=chromium.org; s=google; t=1699514922; x=1700119722; darn=lists.linux.dev;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=mhQRJ2tsdSmsbr+tWtWTDDJ49tF/bwf8rgyCxeQj0go=;
-        b=j2UPofqtyfLRpY1bgl7JTMNWz/7KH9zwoSRlFe1scWvKKBiJrtCRXZfVyENW3Fzn6H
-         9G7pHsJHQI3hYIRQrPtOSndMJXDyN6vHz2nS7yNYjjpEeV6PptO0pkNUg6aGpOd5ZzvL
-         dtYA+gvDpBbvtLQZ5X5IqyJyxX8bh3TzkxdFo=
+        bh=1ZGyCYYTcq3tfAOSXtV2/dw7L3jydVZ3P+lrWN5MQ7s=;
+        b=cc5mUl6w62Mtwc0R7tVMq24cg7ebByXpydY91kVPVU9dXdqMXYh1+/c8nIA28jj3eC
+         V0RJI/2bTIlVotvMrRT/22+h47yay0qaGwJ1Ukp6ZvKE+r8NNejrccAhC6oyD+19Wvjw
+         TOQhBXQivS9NZNodwZoGFbZOLBd7eI36IMw2s=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1699509968; x=1700114768;
+        d=1e100.net; s=20230601; t=1699514922; x=1700119722;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=mhQRJ2tsdSmsbr+tWtWTDDJ49tF/bwf8rgyCxeQj0go=;
-        b=e5zrv3CEdF4Y/8aPIZhsokkmPavRpiuxYWEMSRgSQyeZXR4wPqTkE3riAVkyJkCS0+
-         TCwYYGIQbDgyGbXSSNiZ83svpsbqTdFBPTiodoo+6CBengmHSTj5GvVvx6uL1oXooVjO
-         +yRi3yBh9gyYEU04Y5k6LChiOnwYFpVVuOO/VWnYOtODMkWAf831W9mPDzxczLxqVeJ9
-         8BnnaZA4FSfftFcfUNY9yP6Q3+MkOB3R5aHP3mITorbYUWCj8dJz4neZTPzfRSZpWWOO
-         6rUzTnuR911NDmyPFxVcTOnGBhd+BGbp1doF7ycCLafbR+enbybO40zD7BgEdcmMXRFN
-         TW/Q==
-X-Gm-Message-State: AOJu0Yx09Vz9s/n01KVL6OWzYspzC3XB6eFPROHfSthj2XJsHxl6GCVr
-	l23x8mAjtGgHl3ok3wBo7t49TWc2/UmtUU/JVOn5csug
-X-Google-Smtp-Source: AGHT+IFhAx0CtMw3Z0eoRZ9DTPLM798YQgC4MrAv44ID9oDZO5tYLWs9lhBwJ7Oi5HTM9yq39kwD6A==
-X-Received: by 2002:a17:906:4ad2:b0:9da:d979:31f4 with SMTP id u18-20020a1709064ad200b009dad97931f4mr7369002ejt.22.1699509968662;
-        Wed, 08 Nov 2023 22:06:08 -0800 (PST)
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com. [209.85.128.52])
-        by smtp.gmail.com with ESMTPSA id o14-20020a1709062e8e00b00997cce73cc7sm2075162eji.29.2023.11.08.22.06.08
+        bh=1ZGyCYYTcq3tfAOSXtV2/dw7L3jydVZ3P+lrWN5MQ7s=;
+        b=Ds9dR5URkjctzbdIgNM7oa8RwmDOl1QHCYh9ZuXN2tmt1X305mYJqSld5Qr1jTAY98
+         h9euuE11rMdxlXpQAWJRvQFymHYlkvXsZGUjX986anYkFDMtdLBqm7aiiRJH+39yK071
+         nolLl+ohJiscyWTrRGgVN7Qcja1xQ9gpnfShHH5FUtQJUnNDNbnbneFmDNBEjQIqUWGR
+         r6L1GULTQ7NwCx46jmko+XsZoYh6pxjQ7JHVjQldFGnJh7T/MbK0UBYXJmE/BCquSAQc
+         VVQtfjo7UZYz9ImT7ZRlHYwt4Yargvobi9NxYzbmvBanmH460VC3cd56owVAw8X3t3n8
+         ju4w==
+X-Gm-Message-State: AOJu0Yz4T0m/H+3OG5xGS/Oa+SDcLFVQ1PC3ehg6PkVvI9NqWePx7BLm
+	uXcanJiK2uiBTeKXSXDAtmF/zk3B6gQOAC15UoMSJJji
+X-Google-Smtp-Source: AGHT+IFi5m4KY8jW5Zv/X4GxjpmeFZtiGk97hKfYzsz+9PaQUmsPq03fKU01rCtACMHuDw7qVvm1TQ==
+X-Received: by 2002:a17:907:3e1c:b0:9b2:c583:cd71 with SMTP id hp28-20020a1709073e1c00b009b2c583cd71mr3740474ejc.50.1699514921748;
+        Wed, 08 Nov 2023 23:28:41 -0800 (PST)
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com. [209.85.221.44])
+        by smtp.gmail.com with ESMTPSA id k2-20020a1709061c0200b009dda94509casm2165338ejg.102.2023.11.08.23.28.40
         for <linux-staging@lists.linux.dev>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 08 Nov 2023 22:06:08 -0800 (PST)
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-40907b82ab9so9409145e9.1
-        for <linux-staging@lists.linux.dev>; Wed, 08 Nov 2023 22:06:08 -0800 (PST)
-X-Received: by 2002:a5d:648c:0:b0:32f:86e7:9bef with SMTP id
- o12-20020a5d648c000000b0032f86e79befmr5265032wri.8.1699509967695; Wed, 08 Nov
- 2023 22:06:07 -0800 (PST)
+        Wed, 08 Nov 2023 23:28:41 -0800 (PST)
+Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-32d9effe314so306689f8f.3
+        for <linux-staging@lists.linux.dev>; Wed, 08 Nov 2023 23:28:40 -0800 (PST)
+X-Received: by 2002:adf:e311:0:b0:32c:ea14:89e5 with SMTP id
+ b17-20020adfe311000000b0032cea1489e5mr3220105wrj.39.1699514920620; Wed, 08
+ Nov 2023 23:28:40 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20231106143940.324020-1-benjamin.gaignard@collabora.com>
- <20231108102444.4yp7y7mgsociy725@chromium.org> <1da380ce-aef9-4ed2-9581-21301833d556@collabora.com>
-In-Reply-To: <1da380ce-aef9-4ed2-9581-21301833d556@collabora.com>
+References: <20231031163104.112469-1-benjamin.gaignard@collabora.com>
+ <20231031163104.112469-53-benjamin.gaignard@collabora.com>
+ <20231108104439.oxpbbd2yro7u57t4@chromium.org> <e9eeac63-b4d5-4710-bb85-b0997dce55cc@collabora.com>
+In-Reply-To: <e9eeac63-b4d5-4710-bb85-b0997dce55cc@collabora.com>
 From: Tomasz Figa <tfiga@chromium.org>
-Date: Thu, 9 Nov 2023 15:05:48 +0900
-X-Gmail-Original-Message-ID: <CAAFQd5DDpqZc41qKF_6mzOF3YAR_c6swisVDNSjapRFxHz2s9Q@mail.gmail.com>
-Message-ID: <CAAFQd5DDpqZc41qKF_6mzOF3YAR_c6swisVDNSjapRFxHz2s9Q@mail.gmail.com>
-Subject: Re: [PATCH v14.1] media: videobuf2: Be more flexible on the number of
- queue stored buffers
+Date: Thu, 9 Nov 2023 16:28:20 +0900
+X-Gmail-Original-Message-ID: <CAAFQd5AH6x461-a2=2JmzUhW2pWacgwj1w3SZH1kfMBbsmaZ3A@mail.gmail.com>
+Message-ID: <CAAFQd5AH6x461-a2=2JmzUhW2pWacgwj1w3SZH1kfMBbsmaZ3A@mail.gmail.com>
+Subject: Re: [PATCH v14 52/56] media: core: Add bitmap manage bufs array entries
 To: Benjamin Gaignard <benjamin.gaignard@collabora.com>
 Cc: mchehab@kernel.org, m.szyprowski@samsung.com, ming.qian@nxp.com, 
 	ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de, 
@@ -72,312 +72,66 @@ Cc: mchehab@kernel.org, m.szyprowski@samsung.com, ming.qian@nxp.com,
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Nov 8, 2023 at 10:56=E2=80=AFPM Benjamin Gaignard
+On Thu, Nov 9, 2023 at 12:30=E2=80=AFAM Benjamin Gaignard
 <benjamin.gaignard@collabora.com> wrote:
 >
 >
-> Le 08/11/2023 =C3=A0 11:24, Tomasz Figa a =C3=A9crit :
-> > On Mon, Nov 06, 2023 at 03:39:40PM +0100, Benjamin Gaignard wrote:
-> >> Add 'max_num_buffers' field in vb2_queue struct to let drivers decide
-> >> how many buffers could be stored in a queue.
-> >> This require 'bufs' array to be allocated at queue init time and freed
-> >> when releasing the queue.
-> >> By default VB2_MAX_FRAME remains the limit.
-> >>
-> >> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-> >> Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-> >> ---
-> >> version 14.1:
-> >> - Do not change the number of freed buffers in vb2_core_queue_release(=
-).
-> >>
-> >>   .../media/common/videobuf2/videobuf2-core.c   | 39 +++++++++++++++--=
---
-> >>   .../media/common/videobuf2/videobuf2-v4l2.c   |  6 +--
-> >>   include/media/videobuf2-core.h                | 10 ++++-
-> >>   3 files changed, 43 insertions(+), 12 deletions(-)
-> >>
-> >> diff --git a/drivers/media/common/videobuf2/videobuf2-core.c b/drivers=
-/media/common/videobuf2/videobuf2-core.c
-> >> index c5c5ae4d213d..5711c6a130fd 100644
-> >> --- a/drivers/media/common/videobuf2/videobuf2-core.c
-> >> +++ b/drivers/media/common/videobuf2/videobuf2-core.c
-> >> @@ -416,7 +416,7 @@ static void init_buffer_cache_hints(struct vb2_que=
-ue *q, struct vb2_buffer *vb)
+> Le 08/11/2023 =C3=A0 11:44, Tomasz Figa a =C3=A9crit :
+> > On Tue, Oct 31, 2023 at 05:31:00PM +0100, Benjamin Gaignard wrote:
+[snip]
+> >> @@ -1150,7 +1150,10 @@ static inline bool vb2_fileio_is_active(struct =
+vb2_queue *q)
 > >>    */
-> >>   static void vb2_queue_add_buffer(struct vb2_queue *q, struct vb2_buf=
-fer *vb, unsigned int index)
+> >>   static inline unsigned int vb2_get_num_buffers(struct vb2_queue *q)
 > >>   {
-> >> -    WARN_ON(index >=3D VB2_MAX_FRAME || q->bufs[index]);
-> >> +    WARN_ON(index >=3D q->max_num_buffers || q->bufs[index]);
-> >>
-> >>      q->bufs[index] =3D vb;
-> >>      vb->index =3D index;
-> >> @@ -449,9 +449,9 @@ static int __vb2_queue_alloc(struct vb2_queue *q, =
-enum vb2_memory memory,
-> >>      struct vb2_buffer *vb;
-> >>      int ret;
-> >>
-> >> -    /* Ensure that q->num_buffers+num_buffers is below VB2_MAX_FRAME =
-*/
-> >> +    /* Ensure that the number of already queue + num_buffers is below=
- q->max_num_buffers */
-> > Perhaps "the number of buffers already in the queue"?
->
-> I will do that in the next version.
->
-> >
-> >>      num_buffers =3D min_t(unsigned int, num_buffers,
-> >> -                        VB2_MAX_FRAME - q_num_buffers);
-> >> +                        q->max_num_buffers - q_num_buffers);
-> >>
-> >>      for (buffer =3D 0; buffer < num_buffers; ++buffer) {
-> >>              /* Allocate vb2 buffer structures */
-> >> @@ -813,7 +813,7 @@ int vb2_core_reqbufs(struct vb2_queue *q, enum vb2=
-_memory memory,
-> >>      unsigned plane_sizes[VB2_MAX_PLANES] =3D { };
-> >>      bool non_coherent_mem =3D flags & V4L2_MEMORY_FLAG_NON_COHERENT;
-> >>      unsigned int i;
-> >> -    int ret;
-> >> +    int ret =3D 0;
-> >>
-> >>      if (q->streaming) {
-> >>              dprintk(q, 1, "streaming active\n");
-> >> @@ -857,17 +857,22 @@ int vb2_core_reqbufs(struct vb2_queue *q, enum v=
-b2_memory memory,
-> >>      /*
-> >>       * Make sure the requested values and current defaults are sane.
-> >>       */
-> >> -    WARN_ON(q->min_buffers_needed > VB2_MAX_FRAME);
-> > Do we really want to remove this warning completely?
->
-> Yes because VB2_MAX_FRAME is no more relevant.
-
-Hmm, but we still have q->max_num_buffers. Although given your reply
-to my other comment below, we may be able to just ensure the value is
-valid in vb2_core_queue_init().
-
->
-> >
-> >>      num_buffers =3D max_t(unsigned int, *count, q->min_buffers_needed=
-);
-> >> -    num_buffers =3D min_t(unsigned int, num_buffers, VB2_MAX_FRAME);
-> >> +    num_buffers =3D min_t(unsigned int, num_buffers, q->max_num_buffe=
-rs);
-> >>      memset(q->alloc_devs, 0, sizeof(q->alloc_devs));
-> >>      /*
-> >>       * Set this now to ensure that drivers see the correct q->memory =
-value
-> >>       * in the queue_setup op.
-> >>       */
-> >>      mutex_lock(&q->mmap_lock);
-> >> +    if (!q->bufs)
-> >> +            q->bufs =3D kcalloc(q->max_num_buffers, sizeof(*q->bufs),=
- GFP_KERNEL);
-> > Shouldn't this happen in core code rather than the v4l2-specific ioctl
-> > helper? Since we just allocate the maximum possible size, then maybe
-> > vb2_core_queue_init()?
->
-> Hans had already suggest that in a previous version but it appear that
-> vb2_core_queue_init() and vb2_core_queue_release() aren't balanced so
-> we got cases where queue aren't initialized before reqbufs or create_bufs
-> that why I had to put this allocation here.
-
-How about __vb2_queue_alloc()?
-
->
-> >
-> >> +    if (!q->bufs)
-> >> +            ret =3D -ENOMEM;
-> >>      q->memory =3D memory;
-> >>      mutex_unlock(&q->mmap_lock);
-> >> +    if (ret)
-> >> +            return ret;
-> >>      set_queue_coherency(q, non_coherent_mem);
-> >>
-> >>      /*
-> >> @@ -976,7 +981,7 @@ int vb2_core_create_bufs(struct vb2_queue *q, enum=
- vb2_memory memory,
-> >>      bool no_previous_buffers =3D !q_num_bufs;
-> >>      int ret =3D 0;
-> >>
-> >> -    if (q_num_bufs =3D=3D VB2_MAX_FRAME) {
-> >> +    if (q->num_buffers =3D=3D q->max_num_buffers) {
-> >>              dprintk(q, 1, "maximum number of buffers already allocate=
-d\n");
-> >>              return -ENOBUFS;
-> >>      }
-> >> @@ -993,7 +998,13 @@ int vb2_core_create_bufs(struct vb2_queue *q, enu=
-m vb2_memory memory,
-> >>               */
-> >>              mutex_lock(&q->mmap_lock);
-> >>              q->memory =3D memory;
-> >> +            if (!q->bufs)
-> >> +                    q->bufs =3D kcalloc(q->max_num_buffers, sizeof(*q=
-->bufs), GFP_KERNEL);
-> > Ditto.
-> >
-> >> +            if (!q->bufs)
-> >> +                    ret =3D -ENOMEM;
-> >>              mutex_unlock(&q->mmap_lock);
-> >> +            if (ret)
-> >> +                    return ret;
-> >>              q->waiting_for_buffers =3D !q->is_output;
-> >>              set_queue_coherency(q, non_coherent_mem);
-> >>      } else {
-> >> @@ -1005,7 +1016,7 @@ int vb2_core_create_bufs(struct vb2_queue *q, en=
-um vb2_memory memory,
-> >>                      return -EINVAL;
-> >>      }
-> >>
-> >> -    num_buffers =3D min(*count, VB2_MAX_FRAME - q_num_bufs);
-> >> +    num_buffers =3D min(*count, q->max_num_buffers - q_num_bufs);
-> >>
-> >>      if (requested_planes && requested_sizes) {
-> >>              num_planes =3D requested_planes;
-> >> @@ -2465,6 +2476,12 @@ int vb2_core_queue_init(struct vb2_queue *q)
-> >>      /*
-> >>       * Sanity check
-> >>       */
-> >> +    if (!q->max_num_buffers)
-> >> +            q->max_num_buffers =3D VB2_MAX_FRAME;
-> > Can we add a comment here to explain that this is for backwards
-> > compatibility with drivers which don't support more buffers?
-> >
-> > Actually, we should probably document in kerneldoc for vb2_queue that 0=
- is
-> > an allowed and special value.
->
-> I will do that.
->
-> >
+> >> -    return q->num_buffers;
+> >> +    if (!q->bufs_bitmap)
+> >> +            return 0;
 > >> +
-> >> +    /* The maximum is limited by offset cookie encoding pattern */
-> >> +    q->max_num_buffers =3D min_t(unsigned int, q->max_num_buffers, MA=
-X_BUFFER_INDEX);
-> >> +
-> >>      if (WARN_ON(!q)                   ||
-> >>          WARN_ON(!q->ops)              ||
-> >>          WARN_ON(!q->mem_ops)          ||
-> >> @@ -2474,6 +2491,10 @@ int vb2_core_queue_init(struct vb2_queue *q)
-> >>          WARN_ON(!q->ops->buf_queue))
-> >>              return -EINVAL;
-> >>
-> >> +    if (WARN_ON(q->max_num_buffers > MAX_BUFFER_INDEX) ||
-> > Hmm, how is this possible?
+> >> +    return bitmap_weight(q->bufs_bitmap, q->max_num_buffers);
+> > Hmm, could we just cache the number of buffers we have, so that we don'=
+t
+> > have to go over the entire bitmap every time? (Basically just keep the
+> > code that we had for handling q->num_buffers before this patch.)
 >
-> MAX_BUFFER_INDEX depends on PAGE_SHIFT and, on some architectures,
-> it can goes up to 15. In this MAX_BUFFER_INDEX is only equal to 512,
-> that why this check in needed.
->
-> >
-> >> +        WARN_ON(q->min_buffers_needed > q->max_num_buffers))
-> >> +            return -EINVAL;
-> > I have a loose recollection that it's allowed for a driver to change th=
-is
-> > value depending on the configuration. You may want to double check if a=
-ny
-> > driver doesn't do so already if we want to disallow that. (and also
-> > document that it's not allowed)
->
-> I don't think any driver change is value given the configuration but Hans=
- wants
-> to clarify the usage of this field on another series.
+> I would prefer no duplicate how the number of buffers in a queue is compu=
+ted
+> and bitmap offer helpers for that. Why not use it ?
 >
 
-Okay, thanks.
+bitmap_weight() can become costly when the number of buffers grows.
+Since it's easy to track how many buffers we add and remove, we could
+just cache that number and then any code could call
+vb2_get_num_buffers() whenever it needs the buffer count without
+caring how costly it is.
 
 > >
-> >> +
-> >>      if (WARN_ON(q->requires_requests && !q->supports_requests))
-> >>              return -EINVAL;
-> >>
-> >> @@ -2520,6 +2541,8 @@ void vb2_core_queue_release(struct vb2_queue *q)
-> >>      __vb2_queue_cancel(q);
-> >>      mutex_lock(&q->mmap_lock);
-> >>      __vb2_queue_free(q, vb2_get_num_buffers(q));
-> >> +    kfree(q->bufs);
-> >> +    q->bufs =3D NULL;
-> >>      q->num_buffers =3D 0;
-> >>      mutex_unlock(&q->mmap_lock);
 > >>   }
-> >> diff --git a/drivers/media/common/videobuf2/videobuf2-v4l2.c b/drivers=
-/media/common/videobuf2/videobuf2-v4l2.c
-> >> index 7d798fb15c0b..f3cf4b235c1f 100644
-> >> --- a/drivers/media/common/videobuf2/videobuf2-v4l2.c
-> >> +++ b/drivers/media/common/videobuf2/videobuf2-v4l2.c
-> >> @@ -627,7 +627,7 @@ struct vb2_buffer *vb2_find_buffer(struct vb2_queu=
-e *q, u64 timestamp)
-> >>       * This loop doesn't scale if there is a really large number of b=
-uffers.
-> >>       * Maybe something more efficient will be needed in this case.
-> >>       */
-> >> -    for (i =3D 0; i < vb2_get_num_buffers(q); i++) {
-> >> +    for (i =3D 0; i < q->max_num_buffers; i++) {
-> >>              vb2 =3D vb2_get_buffer(q, i);
 > >>
-> >>              if (!vb2)
-> >> @@ -1142,7 +1142,7 @@ int _vb2_fop_release(struct file *file, struct m=
-utex *lock)
-> >>
-> >>      if (lock)
-> >>              mutex_lock(lock);
-> >> -    if (file->private_data =3D=3D vdev->queue->owner) {
-> >> +    if (!vdev->queue->owner || file->private_data =3D=3D vdev->queue-=
->owner) {
-> >>              vb2_queue_release(vdev->queue);
-> >>              vdev->queue->owner =3D NULL;
-> >>      }
-> >> @@ -1270,7 +1270,7 @@ void vb2_video_unregister_device(struct video_de=
-vice *vdev)
-> >>       */
-> >>      get_device(&vdev->dev);
-> >>      video_unregister_device(vdev);
-> >> -    if (vdev->queue && vdev->queue->owner) {
-> >> +    if (vdev->queue) {
-> >>              struct mutex *lock =3D vdev->queue->lock ?
-> >>                      vdev->queue->lock : vdev->lock;
-> >>
-> >> diff --git a/include/media/videobuf2-core.h b/include/media/videobuf2-=
-core.h
-> >> index 8f9d9e4af5b1..e77a397195f2 100644
-> >> --- a/include/media/videobuf2-core.h
-> >> +++ b/include/media/videobuf2-core.h
-> >> @@ -558,6 +558,7 @@ struct vb2_buf_ops {
-> >>    * @dma_dir:       DMA mapping direction.
-> >>    * @bufs:  videobuf2 buffer structures
-> >>    * @num_buffers: number of allocated/used buffers
-> >> + * @max_num_buffers: upper limit of number of allocated/used buffers
-> >>    * @queued_list: list of buffers currently queued from userspace
-> >>    * @queued_count: number of buffers queued and ready for streaming.
-> >>    * @owned_by_drv_count: number of buffers owned by the driver
-> >> @@ -619,8 +620,9 @@ struct vb2_queue {
-> >>      struct mutex                    mmap_lock;
-> >>      unsigned int                    memory;
-> >>      enum dma_data_direction         dma_dir;
-> >> -    struct vb2_buffer               *bufs[VB2_MAX_FRAME];
-> >> +    struct vb2_buffer               **bufs;
-> >>      unsigned int                    num_buffers;
-> >> +    unsigned int                    max_num_buffers;
-> >>
-> >>      struct list_head                queued_list;
-> >>      unsigned int                    queued_count;
-> >> @@ -1248,6 +1250,12 @@ static inline void vb2_clear_last_buffer_dequeu=
-ed(struct vb2_queue *q)
+> >>   /**
+> >> @@ -1253,13 +1256,13 @@ static inline void vb2_clear_last_buffer_deque=
+ued(struct vb2_queue *q)
 > >>   static inline struct vb2_buffer *vb2_get_buffer(struct vb2_queue *q,
 > >>                                              unsigned int index)
 > >>   {
-> >> +    if (!q->bufs)
-> >> +            return NULL;
-> >> +
-> >> +    if (index >=3D q->max_num_buffers)
-> > Wouldn't this be already prevented by the condition below?
+> >> -    if (!q->bufs)
+> >> +    if (!q->bufs_bitmap)
+> >>              return NULL;
+> >>
+> >>      if (index >=3D q->max_num_buffers)
+> >>              return NULL;
+> >>
+> >> -    if (index < q->num_buffers)
+> >> +    if (test_bit(index, q->bufs_bitmap))
+> > Aha, I see why we need the extra condition above now. Perhaps it should=
+'ve
+> > been added in this patch instead?
 >
-> yes but the series will remove q->num_buffers after this patch
-> so for me it make sense to introduce this check now.
->
+> For me it was more explicit do introduce it at the same time that
+> max_num_buffers field.
 
-Yeah, I realized it later. Thanks.
+Okay. I don't have a strong opinion, especially since it was just an
+intermediate patch.
 
 Best regards,
 Tomasz
