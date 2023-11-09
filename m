@@ -1,24 +1,24 @@
 Received: from smtp.forwardemail.net (smtp.forwardemail.net [149.28.215.223])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0818F31A63
-	for <linux-staging@lists.linux.dev>; Thu,  9 Nov 2023 17:52:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E18732C82
+	for <linux-staging@lists.linux.dev>; Thu,  9 Nov 2023 18:07:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kwiboo.se
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fe-bounces.kwiboo.se
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kwiboo.se header.i=@kwiboo.se header.b="aCL+f1l3"
+	dkim=pass (2048-bit key) header.d=kwiboo.se header.i=@kwiboo.se header.b="iy46jHcy"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kwiboo.se;
  h=Content-Transfer-Encoding: Content-Type: In-Reply-To: From: References:
  Cc: To: Subject: MIME-Version: Date: Message-ID; q=dns/txt;
- s=fe-e1b5cab7be; t=1699552317;
- bh=erw3AGuB8ubO0tUACDJoBZw5alNFB6YDgPN2mZ8q69A=;
- b=aCL+f1l37bwcGuOWKmTkfCMpdpntUdgmvvqSipw4kM7qmStPBYq4khry7TnDBSpvb3fetETL5
- tDWgWER16mtOrHF3Q/xDU33qTbV4hLpfDqDz7wsQ1yUktAZzjBl90ymR1L+ILPIWG/Gbw8EOnur
- V4fpTkRfEIZtQIMpV1bYSz+NDQ5SQxqWuyNiEUUuwuQ0iFxJ2oaWUDUlUk5WaWEEFJs1DZJbVp0
- OgsFwphnhLjl29LE4zX6gS3iWZLSliN1TEMCvJqbl/ohAAkzEtRCr6iuM7TEQCLbxoK2ZIzKQZ1
- sH20lkDe4QgLqS1/boLO2Df69lvgOmVQxAWRxs0ZWD6Q==
-Message-ID: <33a24dca-b523-4015-bea6-cbdd92b9e6b7@kwiboo.se>
-Date: Thu, 9 Nov 2023 18:51:52 +0100
+ s=fe-e1b5cab7be; t=1699553236;
+ bh=jCYEkVdywqRHlC8mhoNYhztpj7Nj5FYnQmn1ZQwqhys=;
+ b=iy46jHcyxm+my/KYZwLlm8suZ3fQbnc8/pYkS+x+t3D3l6YiNzOSeCci/SNgUCORqeL6C++95
+ gxOJRIFNwsLIJ5emcBexngpe251MP9bTNTR6eXqXMiiUgTUOICIsfXqfpquHTMpHCCS24Mkc2Ul
+ govupZCw4YTQMSqlbMUX6DqpUwbKiXfAw5IfBJ6Butu940dwaN0KwjqkcdF3VYXWrexSz4n0mAf
+ WYMVYI9JkyFnQOrcfCUnqCkLoPFHCP/hHry8U3YbKpGVF5qqWD2rhzjwzCAzsyfXvG8YyA79rv7
+ IEtaD8hl6Pl7Ni/lL3emQCNkxbaJChkpI/MDEOA9rc3g==
+Message-ID: <39b740b1-4d00-4afa-8b4f-58b0776b65c8@kwiboo.se>
+Date: Thu, 9 Nov 2023 19:07:11 +0100
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -26,12 +26,13 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 00/11] media: rkvdec: Add H.264 High 10 and 4:2:2
- profile support
+Subject: Re: [PATCH v4 05/11] media: rkvdec: h264: Remove SPS validation at
+ streaming start
 Content-Language: en-US
 To: Nicolas Dufresne <nicolas.dufresne@collabora.com>, Ezequiel Garcia
  <ezequiel@vanguardiasur.com.ar>, Mauro Carvalho Chehab
- <mchehab@kernel.org>, Hans Verkuil <hverkuil-cisco@xs4all.nl>
+ <mchehab@kernel.org>, Hans Verkuil <hverkuil-cisco@xs4all.nl>, "Greg
+ Kroah-Hartman" <gregkh@linuxfoundation.org>
 Cc: Alex Bee <knaerzche@gmail.com>, Benjamin Gaignard
  <benjamin.gaignard@collabora.com>, Sebastian Fricke
  <sebastian.fricke@collabora.com>, Christopher Obbard
@@ -39,9 +40,12 @@ Cc: Alex Bee <knaerzche@gmail.com>, Benjamin Gaignard
  linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
  linux-kernel@vger.kernel.org
 References: <20231105165521.3592037-1-jonas@kwiboo.se>
- <874b6ea3309ff302dcdd9ff92f9098130b979c27.camel@collabora.com>
+ <20231105165521.3592037-6-jonas@kwiboo.se>
+ <c75c894a09292775773ad338121ee81924337cf0.camel@collabora.com>
+ <bfabc182-4113-46fb-85e9-8550c97d132b@kwiboo.se>
+ <f69345217c21af63cf873bfb4a16ae1363b05875.camel@collabora.com>
 From: Jonas Karlman <jonas@kwiboo.se>
-In-Reply-To: <874b6ea3309ff302dcdd9ff92f9098130b979c27.camel@collabora.com>
+In-Reply-To: <f69345217c21af63cf873bfb4a16ae1363b05875.camel@collabora.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Report-Abuse-To: abuse@forwardemail.net
@@ -50,149 +54,150 @@ X-Complaints-To: abuse@forwardemail.net
 X-ForwardEmail-Version: 0.4.40
 X-ForwardEmail-Sender: rfc822; jonas@kwiboo.se, smtp.forwardemail.net,
  149.28.215.223
-X-ForwardEmail-ID: 654d1c3da16ddfebde306cb5
+X-ForwardEmail-ID: 654d1fd4a16ddfebde306cfd
 
-Hi Nicolas,
+On 2023-11-08 03:39, Nicolas Dufresne wrote:
+> Le mardi 07 novembre 2023 à 23:56 +0100, Jonas Karlman a écrit :
+>> On 2023-11-07 23:01, Nicolas Dufresne wrote:
+>>> Le dimanche 05 novembre 2023 à 16:55 +0000, Jonas Karlman a écrit :
+>>>> SPS parameters is validated in try_ctrl() ops so there is no need to
+>>>
+>>>                  are
+>>>
+>>>> re-validate when streaming starts.
+>>>>
+>>>> Remove the unnecessary call to validate sps at streaming start.
+>>>
+>>> This patch is not working since user may change the format after the
+>>> control have been set. The proper fix should actually reset the SPS
+>>> (well all header controls) to match the the newly set format. Then this
+>>> validation won't be needed anymore.
+>>>
+>>> The sequence that is problematic after this patch is:
+>>>
+>>> S_FMT (OUTPUT, width, height);
+>>> S_CTRL (SPS) // valid
+>>> S_FMT(OUTPUT, width', height'); // SPS is no longer valid
+>>>
+>>> One suggestion I may make is to add a ops so that each codec
+>>> implementation can reset their header controls to make it valid against
+>>> the new resolution. With that in place you'll be able drop the check.
+>>
+>> According to the Initialization section of the V4L2 stateless
+>> documentation a client is supposed to S_CTRL(SPS) after S_FMT(OUTPUT).
+> 
+> Yes, but other part of the spec prevents us from failing if the
+> userspace restart in the middle of the process.
+> 
+>>
+>> https://docs.kernel.org/userspace-api/media/v4l/dev-stateless-decoder.html#initialization
+>>
+>> I guess that all stateless decoders probably should reset all ctrls to
+>> default value on S_FMT(OUTPUT) or decoders may end up in an unexpected
+>> state?
+>>
+>> Is resetting a ctrl value back to default something that is supported by
+>> v4l2 ctrl core? Did not find any obvious way to reset a ctrl value.
+> 
+> In order to avoid having to do this, Hantro driver just ignores these
+> values from SPS control and do the following:
+> 
+> 	reg = G1_REG_DEC_CTRL1_PIC_MB_WIDTH(MB_WIDTH(ctx->src_fmt.width)) |
+> 	      G1_REG_DEC_CTRL1_PIC_MB_HEIGHT_P(MB_HEIGHT(ctx->src_fmt.height)) |
+> 	      G1_REG_DEC_CTRL1_REF_FRAMES(sps->max_num_ref_frames);
+> 
+> Then all they do is reset the CAPTURE format whenever needed, matching
+> the bit depth that was previously set. The SPS is unfortunatly not
+> guarantied to be valid, but at first sight its safe in regard to
+> picture dimensions.
 
-On 2023-11-07 22:43, Nicolas Dufresne wrote:
-> Hi Jonas,
-> 
-> thanks for this work.
-> 
-> Le dimanche 05 novembre 2023 à 16:54 +0000, Jonas Karlman a écrit :
->> This is a revival of a 3 year old series [1] now that NV15/NV20/NV30 support
->> for display driver have landed in mainline tree.
->>
->> This series adds H.264 High 10 and 4:2:2 profile support to the Rockchip
->> Video Decoder driver.
->>
->> Patch 1 adds helpers for calculating plane bytesperline and sizeimage.
->> Patch 2 adds two new pixelformats for semi-planer 10-bit 4:2:0/4:2:2 YUV.
->>
->> Patch 3 change to use bytesperline and buffer height to configure strides.
->> Patch 4 change to use values from SPS/PPS control to configure the HW.
->> Patch 5 remove an unnecessary call to validate sps at streaming start.
->>
->> Patch 6-10 refactor code to support filtering of CAPUTRE formats based
->> on the image format returned from a get_image_fmt ops.
->>
->> Patch 11 adds final bits to support H.264 High 10 and 4:2:2 profiles.
->>
->> Tested on a ROCK Pi 4 (RK3399) and Rock64 (RK3328):
->>
->>   v4l2-compliance 1.24.1, 64 bits, 64-bit time_t
->>   ...
->>   Total for rkvdec device /dev/video1: 46, Succeeded: 46, Failed: 0, Warnings: 0
->>
->>   Running test suite JVT-FR-EXT with decoder FFmpeg-H.264-V4L2-request
->>   ...
->>   Ran 65/69 tests successfully
-> 
-> I added GStreamer support for these formats and could confirm this
-> results with GStreamer too.
-> 
-> https://gitlab.freedesktop.org/gstreamer/gstreamer/-/merge_requests/5612
+The commit 77e74be83083 ("media: rkvdec: h264: Validate and use pic
+width and height in mbs") changed to use the SPS values to help fix
+decoding of field encoded content, it also added this check.
 
-Nice!
-
-> 
-> 
-> For the set:
-> Tested-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-> 
->>
->>   Running test suite JVT-AVC_V1 with decoder FFmpeg-H.264-V4L2-request
->>   ...
->>   Ran 127/135 tests successfully
-> 
-> I'm getting 129 with GStreamer, which matches also with FFMpeg software
-> decoder.
-
-Great, I was able to track down a long term ref idx issue in the ffmpeg
-v4l2-request implementation and can now also get to 129 :-)
-
-> 
->>
->> Before this series:
->>
->>   Running test suite JVT-FR-EXT with decoder FFmpeg-H.264-V4L2-request
->>   ...
->>   Ran 44/69 tests successfully
-> 
-> I had 43 with GStreamer, but then I notice you fixed something in
-> fluster. The good news this is now upstream, thanks for spotting.
-> 
-> https://github.com/fluendo/fluster/pull/148
-
-Thanks for sending the PR!
+Will drop this patch in v5, and should also re-add similar validation in
+the HEVC series.
 
 Regards,
 Jonas
 
 > 
 >>
->> Changes in v4:
->> - Fix failed v4l2-compliance tests related to CAPTURE queue
->> - Rework CAPTURE format filter anv validate to use an image format
->> - Run fluster test suite JVT-FR-EXT [4] and JVT-AVC_V1 [5]
->> Link to v3: https://lore.kernel.org/linux-media/20231029183427.1781554-1-jonas@kwiboo.se/
->>
->> Changes in v3:
->> - Drop merged patches
->> - Use bpp and bpp_div instead of prior misuse of block_w/block_h
->> - New patch to use values from SPS/PPS control to configure the HW
->> - New patch to remove an unnecessary call to validate sps at streaming start
->> - Reworked pixel format validation
->> Link to v2: https://lore.kernel.org/linux-media/20200706215430.22859-1-jonas@kwiboo.se/
->>
->> Changes in v2:
->> - Collect r-b tags
->> - SPS pic width and height in mbs validation moved to rkvdec_try_ctrl
->> - New patch to not override output buffer sizeimage
->> - Reworked pixel format validation
->> - Only align decoded buffer instead of changing frmsize step_width
->> Link to v1: https://lore.kernel.org/linux-media/20200701215616.30874-1-jonas@kwiboo.se/
->>
->> Following commits adds support for NV15/NV20/NV30 to VOP driver:
->> 728c15b4b5f3 ("drm/fourcc: Add NV20 and NV30 YUV formats")
->> d4b384228562 ("drm/rockchip: vop: Add NV15, NV20 and NV30 support")
->>
->> To fully runtime test this series you may need above drm commits and ffmpeg
->> patches from [2], this series and drm patches is also available at [3].
->>
->> [1] https://lore.kernel.org/linux-media/20200706215430.22859-1-jonas@kwiboo.se/
->> [2] https://github.com/Kwiboo/FFmpeg/commits/v4l2-request-n6.1-dev/
->> [3] https://github.com/Kwiboo/linux-rockchip/commits/linuxtv-rkvdec-high-10-v4/
->> [4] https://gist.github.com/Kwiboo/f4ac15576b2c72887ae2bc5d58b5c865
->> [5] https://gist.github.com/Kwiboo/459a1c8f1dcb56e45dc7a7a29cc28adf
+>> Will probably just drop this patch in v5.
+> 
+> That or do like in Hantro driver. What is scary though is that some of
+> the feature enabled by SPS may requires an auxiliary chunk of memory to
+> be allocated, and then this method falls appart. I think it would be
+> nice to fix that properly in all drivers in a future patchset.
+> 
 >>
 >> Regards,
 >> Jonas
 >>
->> Alex Bee (1):
->>   media: rkvdec: h264: Don't hardcode SPS/PPS parameters
->>
->> Jonas Karlman (10):
->>   media: v4l2-common: Add helpers to calculate bytesperline and
->>     sizeimage
->>   media: v4l2: Add NV15 and NV20 pixel formats
->>   media: rkvdec: h264: Use bytesperline and buffer height as virstride
->>   media: rkvdec: h264: Remove SPS validation at streaming start
->>   media: rkvdec: Extract rkvdec_fill_decoded_pixfmt into helper
->>   media: rkvdec: Move rkvdec_reset_decoded_fmt helper
->>   media: rkvdec: Extract decoded format enumeration into helper
->>   media: rkvdec: Add image format concept
->>   media: rkvdec: Add get_image_fmt ops
->>   media: rkvdec: h264: Support High 10 and 4:2:2 profiles
->>
->>  .../media/v4l/pixfmt-yuv-planar.rst           | 128 +++++++++++
->>  drivers/media/v4l2-core/v4l2-common.c         |  80 +++----
->>  drivers/media/v4l2-core/v4l2-ioctl.c          |   2 +
->>  drivers/staging/media/rkvdec/rkvdec-h264.c    |  83 +++----
->>  drivers/staging/media/rkvdec/rkvdec.c         | 217 +++++++++++++-----
->>  drivers/staging/media/rkvdec/rkvdec.h         |  18 +-
->>  include/uapi/linux/videodev2.h                |   2 +
->>  7 files changed, 396 insertions(+), 134 deletions(-)
+>>>
+>>> Nicolas
+>>>
+>>> p.s. you can also just drop this patch from the series and revisit it
+>>> later, though I think its worth fixing.
+>>>
+>>>>
+>>>> Suggested-by: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+>>>> Signed-off-by: Jonas Karlman <jonas@kwiboo.se>
+>>>> ---
+>>>> v4:
+>>>> - No change
+>>>>
+>>>> v3:
+>>>> - New patch
+>>>>
+>>>>  drivers/staging/media/rkvdec/rkvdec-h264.c | 19 ++-----------------
+>>>>  1 file changed, 2 insertions(+), 17 deletions(-)
+>>>>
+>>>> diff --git a/drivers/staging/media/rkvdec/rkvdec-h264.c b/drivers/staging/media/rkvdec/rkvdec-h264.c
+>>>> index 8bce8902b8dd..815d5359ddd5 100644
+>>>> --- a/drivers/staging/media/rkvdec/rkvdec-h264.c
+>>>> +++ b/drivers/staging/media/rkvdec/rkvdec-h264.c
+>>>> @@ -1070,17 +1070,6 @@ static int rkvdec_h264_start(struct rkvdec_ctx *ctx)
+>>>>  	struct rkvdec_dev *rkvdec = ctx->dev;
+>>>>  	struct rkvdec_h264_priv_tbl *priv_tbl;
+>>>>  	struct rkvdec_h264_ctx *h264_ctx;
+>>>> -	struct v4l2_ctrl *ctrl;
+>>>> -	int ret;
+>>>> -
+>>>> -	ctrl = v4l2_ctrl_find(&ctx->ctrl_hdl,
+>>>> -			      V4L2_CID_STATELESS_H264_SPS);
+>>>> -	if (!ctrl)
+>>>> -		return -EINVAL;
+>>>> -
+>>>> -	ret = rkvdec_h264_validate_sps(ctx, ctrl->p_new.p_h264_sps);
+>>>> -	if (ret)
+>>>> -		return ret;
+>>>>  
+>>>>  	h264_ctx = kzalloc(sizeof(*h264_ctx), GFP_KERNEL);
+>>>>  	if (!h264_ctx)
+>>>> @@ -1089,8 +1078,8 @@ static int rkvdec_h264_start(struct rkvdec_ctx *ctx)
+>>>>  	priv_tbl = dma_alloc_coherent(rkvdec->dev, sizeof(*priv_tbl),
+>>>>  				      &h264_ctx->priv_tbl.dma, GFP_KERNEL);
+>>>>  	if (!priv_tbl) {
+>>>> -		ret = -ENOMEM;
+>>>> -		goto err_free_ctx;
+>>>> +		kfree(h264_ctx);
+>>>> +		return -ENOMEM;
+>>>>  	}
+>>>>  
+>>>>  	h264_ctx->priv_tbl.size = sizeof(*priv_tbl);
+>>>> @@ -1100,10 +1089,6 @@ static int rkvdec_h264_start(struct rkvdec_ctx *ctx)
+>>>>  
+>>>>  	ctx->priv = h264_ctx;
+>>>>  	return 0;
+>>>> -
+>>>> -err_free_ctx:
+>>>> -	kfree(h264_ctx);
+>>>> -	return ret;
+>>>>  }
+>>>>  
+>>>>  static void rkvdec_h264_stop(struct rkvdec_ctx *ctx)
+>>>
 >>
 > 
 
