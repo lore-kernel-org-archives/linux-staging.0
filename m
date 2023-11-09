@@ -1,25 +1,25 @@
-Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net [217.70.183.199])
+Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net [217.70.183.194])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A733DA29
-	for <linux-staging@lists.linux.dev>; Thu,  9 Nov 2023 20:25:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC6C6374C9
+	for <linux-staging@lists.linux.dev>; Thu,  9 Nov 2023 20:28:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="GztfFeM7"
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 2776FFF803;
-	Thu,  9 Nov 2023 20:25:28 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="PwruFa8f"
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 1F72540006;
+	Thu,  9 Nov 2023 20:28:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1699561528;
+	t=1699561699;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding;
-	bh=Q5JlwMJpMIt/MHhbVPYmlbPUzRqUQBvdijuUa1ufz/g=;
-	b=GztfFeM7qmVKMjv9o6GV5qzc4uqlkgxE+fJdHnlcscUrLo1enusWvlUCbdrB0lf0Wso8Gd
-	uGFGiW6VGim8H5FQiyqjssJgT3AKahZKR0sEaRvUCnZncfb6tO/VtuyqkI4X+hhue6wysz
-	3EkcQVIbB2lGeJH+YZmHxAnK87in69yna6JPSGVBbjQ6U9Pntw5lbd8CpFmfEQ32AtS+6k
-	tgzALHd4yPlGjMrLUOo9f5MKAYn0fW8RCRoG/EciSxpXvTdkrQFL4nvARzP6bwWB3iApqY
-	RGzkxt6Dl3lOxqMXiiJmVaq8LR1iuq4rEi4a7HDm+N2zmx8Gf+m0hqqXFrL/bQ==
+	bh=BCdREV7hhUnDrr+yI8gw4JbnC8dXnl9JKc58LcOSwr0=;
+	b=PwruFa8fVSgyiIarj3H6EQU64tpDQie/xcK2dqWt70wkY8ZN3LsW2NVubHaBuev6yIS9sQ
+	If8+O7Z/fIRFU4QaY4MuLM+AZZ0pH2s4fzj59usOFC72NYELd3SYHKFLBjrRona/jNd7z8
+	OiiYZszFLDtzr7np0YcAAlCUlc4M3dLvzSL07oGg2flwjdVM/0xgVRzdMXOi9f2cpJ/Mr8
+	I42dZE+zsGvG9L+5iRAQLt17mT7mef/X834bT/TwK4a+md9+jd460Q4YFNHBDOvu/QqZyH
+	/e5R/cyB1sSjg/ZtYBHh20WCi9pBuhVtRym8M6KtEDUPVCLYdKYA7hI2EbyJsg==
 From: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
 To: linux-media@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
@@ -29,9 +29,9 @@ Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Nicolas Dufresne <nicolas.dufresne@collabora.com>,
 	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
 	Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-Subject: [PATCH] v4l2-compliance: codecs: Add stateless (TRY_)DECODER_CMD tests
-Date: Thu,  9 Nov 2023 21:25:17 +0100
-Message-ID: <20231109202517.341923-1-paul.kocialkowski@bootlin.com>
+Subject: [PATCH v2] v4l2-compliance: codecs: Add stateless (TRY_)DECODER_CMD tests
+Date: Thu,  9 Nov 2023 21:27:45 +0100
+Message-ID: <20231109202745.342387-1-paul.kocialkowski@bootlin.com>
 X-Mailer: git-send-email 2.42.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -43,15 +43,15 @@ Content-Transfer-Encoding: 8bit
 X-GND-Sasl: paul.kocialkowski@bootlin.com
 
 Stateless codecs that support holding the capture buffer should implement the
-(TRY_)DECODER_CMD ioctls for the flushing command (and only this command).
+(TRY_)DECODER_CMD ioctls for the flush command (and only this command).
 
 Add a conditional to separate the stateless case from stateful one and move
 the existing tests there.
 
 Add new tests for the stateless case which ensure that the flush command is
-supported and that the other stateful commands are note.
+supported and that the other stateful commands are not.
 
-And existing check will already return early (without error) when the ioctls
+An existing check will already return early (without error) when the ioctls
 are not implemented at all. Note that there is no easy way to check for the
 capture buffer holding buffer flag since it requires setting up a coded format
 in particular to be visible, which is far from trivial to implement here.
@@ -59,6 +59,10 @@ As a result we just carry out the tests when the ioctls are available.
 
 Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
 ---
+
+Changes since v1:
+- Fixed typos.
+
  utils/v4l2-compliance/v4l2-test-codecs.cpp | 111 ++++++++++++++-------
  1 file changed, 75 insertions(+), 36 deletions(-)
 
