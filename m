@@ -1,185 +1,184 @@
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp.forwardemail.net (smtp.forwardemail.net [149.28.215.223])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5128C38DDE
-	for <linux-staging@lists.linux.dev>; Thu,  9 Nov 2023 16:38:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91AC43C3C
+	for <linux-staging@lists.linux.dev>; Thu,  9 Nov 2023 16:55:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kwiboo.se
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fe-bounces.kwiboo.se
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="PkTAScZs"
-Received: from benjamin-XPS-13-9310.. (cola.collaboradmins.com [195.201.22.229])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: benjamin.gaignard)
-	by madras.collabora.co.uk (Postfix) with ESMTPSA id F39A266076D1;
-	Thu,  9 Nov 2023 16:38:48 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1699547929;
-	bh=LkM/7EVzkzeCersLJmzLfirkGugiivs+DlFzZEGNCYQ=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=PkTAScZs3rPNDo8MF3ixleICipRvMHCdLb54ZlLXQhfB2SNeWM0LhlwENVgaRGwTX
-	 TFv0U9Xyl2c8W77vYl8InMh5XlyD4qNlivyUxts3DD7q+k784FU1UBH0mPv/F4iCnI
-	 6hCchFfX8dxegpSYViYukBgV5ls7KL8KxRQ/4fXU+ix3j3g7TScfWVScEjrbrPbRez
-	 5ZXv9FWwLhFeLatf0VtIUXYFS7DmMA1sDGIvz9dhYDWEupFI9ClP4gZIwpHrOJZKKS
-	 ivHkAMgOr2K8WAW/ctA+D7yqJuOv9YrCkvwtoO2x+Tg4nvoCfouk2SP30oKlMVYkBR
-	 tDZspFl9yTstw==
-From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-To: mchehab@kernel.org,
-	tfiga@chromium.org,
-	m.szyprowski@samsung.com,
-	ming.qian@nxp.com,
-	ezequiel@vanguardiasur.com.ar,
-	p.zabel@pengutronix.de,
-	gregkh@linuxfoundation.org,
-	hverkuil-cisco@xs4all.nl,
-	nicolas.dufresne@collabora.com
-Cc: linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org,
-	linux-arm-msm@vger.kernel.org,
-	linux-rockchip@lists.infradead.org,
-	linux-staging@lists.linux.dev,
-	kernel@collabora.com,
-	Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Subject: [PATCH v15 55/56] media: v4l2: Add mem2mem helpers for DELETE_BUFS ioctl
-Date: Thu,  9 Nov 2023 17:35:11 +0100
-Message-Id: <20231109163512.179524-56-benjamin.gaignard@collabora.com>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20231109163512.179524-14-benjamin.gaignard@collabora.com>
-References: <20231109163512.179524-14-benjamin.gaignard@collabora.com>
+	dkim=pass (2048-bit key) header.d=kwiboo.se header.i=@kwiboo.se header.b="gxuByy2L"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kwiboo.se;
+ h=Content-Transfer-Encoding: Content-Type: In-Reply-To: From: References:
+ Cc: To: Subject: MIME-Version: Date: Message-ID; q=dns/txt;
+ s=fe-e1b5cab7be; t=1699548920;
+ bh=oiGpLQFfupX4dQTf/iHqDMCKO+1QmogvFTKLT/9VDbU=;
+ b=gxuByy2LJVUxrjyvbPXS1dDoZu/RcUyj2V9+6cq9e3mbjhYdk4fKJFsn5fO3t2CqVj7LE3y6R
+ QifTXKPrdGofdaCZun4RLXTqmTQWeIw10Kaie4ss3aFz6/jpWpTwlbUjpRsHn7a1oFQmsvA0cPM
+ ekuTI0U/wxY6POytiJBIG5SSUgyAcVmtJ4v9HDfl1hLAOrAsqq3df02ZymlB8UcD9yLGB5DxbQ+
+ LZLy0YHPUhylhiKDotRLHoVSRyuchYveLMhDvuAwV6tafzABOR13l/mnDjzanq0AOkgBPtC+WNv
+ yRXg8IyVmrSIgxngZGAWRSNbddJdSOzaHQ/oz3aFyOeg==
+Message-ID: <b4cc5a65-ccae-41c0-af9c-04001116938a@kwiboo.se>
+Date: Thu, 9 Nov 2023 17:55:14 +0100
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 0/9] media: rkvdec: Add HEVC backend
+Content-Language: en-US
+To: "=?UTF-8?Q?Heiko_St=C3=BCbner?=" <heiko@sntech.de>, Ezequiel Garcia
+ <ezequiel@vanguardiasur.com.ar>, Mauro Carvalho Chehab
+ <mchehab@kernel.org>, Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+ linux-rockchip@lists.infradead.org
+Cc: Alex Bee <knaerzche@gmail.com>, Nicolas Dufresne
+ <nicolas.dufresne@collabora.com>, Sebastian Fricke
+ <sebastian.fricke@collabora.com>, Benjamin Gaignard
+ <benjamin.gaignard@collabora.com>, Christopher Obbard
+ <chris.obbard@collabora.com>, linux-media@vger.kernel.org,
+ linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+References: <20231105233630.3927502-1-jonas@kwiboo.se>
+ <5347734.aeNJFYEL58@diego>
+From: Jonas Karlman <jonas@kwiboo.se>
+In-Reply-To: <5347734.aeNJFYEL58@diego>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+X-Report-Abuse-To: abuse@forwardemail.net
+X-Report-Abuse: abuse@forwardemail.net
+X-Complaints-To: abuse@forwardemail.net
+X-ForwardEmail-Version: 0.4.40
+X-ForwardEmail-Sender: rfc822; jonas@kwiboo.se, smtp.forwardemail.net,
+ 149.28.215.223
+X-ForwardEmail-ID: 654d0ef8a16ddfebde306c21
 
-Create v4l2-mem2mem helpers for VIDIOC_DELETE_BUFS ioctl.
+Hi Heiko,
 
-Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
----
- .../media/platform/verisilicon/hantro_drv.c   |  1 +
- .../media/platform/verisilicon/hantro_v4l2.c  |  1 +
- drivers/media/test-drivers/vim2m.c            |  2 ++
- drivers/media/v4l2-core/v4l2-mem2mem.c        | 20 +++++++++++++++++++
- include/media/v4l2-mem2mem.h                  | 12 +++++++++++
- 5 files changed, 36 insertions(+)
+On 2023-11-06 10:22, Heiko Stübner wrote:
+> Hi Jonas,
+> 
+> Am Montag, 6. November 2023, 00:36:07 CET schrieb Jonas Karlman:
+>> This series add a HEVC backend to the Rockchip Video Decoder driver.
+>>
+>> A version of this HEVC backend has been in use by the LibreELEC distro
+>> for the past 3+ years [1]. It was initially created based on a copy of
+>> the H264 backend, unstable HEVC uAPI controls and a cabac table + scaling
+>> matrix functions shamelessly copied 1:1 from the Rockchip mpp library.
+>>
+>> It has since then been extended to use the stable HEVC uAPI controls and
+>> improved opon e.g. to include support for rk3288 and fix decoding issues
+>> by Alex Bee and Nicolas Dufresne.
+>>
+>> The version submitted in this series is based on the code currently used
+>> by the LibreELEC distro, excluding hard/soft reset, and with cabac table
+>> and scaling matrix functions picked from Sebastian Fricke prior series
+>> to add a HEVC backend [2].
+>>
+>> Big thanks to Alex Bee, Nicolas Dufresne and Sebastian Fricke for making
+>> this series possible!
+>>
+>> Patch 1 add the new HEVC backend.
+>> Patch 2-3 add variants support to the driver.
+>> Patch 4 add support for a rk3288 variant.
+>> Patch 5 add a rk3328 variant to work around hw quirks.
+>> Patch 6-7 add device tree node for rk3288.
+>> Patch 8-9 extend vdec node reg size to include cache/perf registers.
+> 
+> thanks a lot for working on this.
+> 
+> Looking at the rkvdec TODO file, isn't the hvec support the only thing
+> keeping the driver in staging? So with this support using stable hevc
+> uapi, shouldn't the driver then also move out of staging after this
+> series is applied?
 
-diff --git a/drivers/media/platform/verisilicon/hantro_drv.c b/drivers/media/platform/verisilicon/hantro_drv.c
-index 7f5b82eb6649..c8fed313c36f 100644
---- a/drivers/media/platform/verisilicon/hantro_drv.c
-+++ b/drivers/media/platform/verisilicon/hantro_drv.c
-@@ -248,6 +248,7 @@ queue_init(void *priv, struct vb2_queue *src_vq, struct vb2_queue *dst_vq)
- 	dst_vq->timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_COPY;
- 	dst_vq->lock = &ctx->dev->vpu_mutex;
- 	dst_vq->dev = ctx->dev->v4l2_dev.dev;
-+	src_vq->supports_delete_bufs = true;
- 
- 	return vb2_queue_init(dst_vq);
- }
-diff --git a/drivers/media/platform/verisilicon/hantro_v4l2.c b/drivers/media/platform/verisilicon/hantro_v4l2.c
-index 27a1e77cca38..0fd1c2fc78c8 100644
---- a/drivers/media/platform/verisilicon/hantro_v4l2.c
-+++ b/drivers/media/platform/verisilicon/hantro_v4l2.c
-@@ -756,6 +756,7 @@ const struct v4l2_ioctl_ops hantro_ioctl_ops = {
- 	.vidioc_dqbuf = v4l2_m2m_ioctl_dqbuf,
- 	.vidioc_prepare_buf = v4l2_m2m_ioctl_prepare_buf,
- 	.vidioc_create_bufs = v4l2_m2m_ioctl_create_bufs,
-+	.vidioc_delete_bufs = v4l2_m2m_ioctl_delete_bufs,
- 	.vidioc_expbuf = v4l2_m2m_ioctl_expbuf,
- 
- 	.vidioc_subscribe_event = v4l2_ctrl_subscribe_event,
-diff --git a/drivers/media/test-drivers/vim2m.c b/drivers/media/test-drivers/vim2m.c
-index 3e3b424b4860..17213ce42059 100644
---- a/drivers/media/test-drivers/vim2m.c
-+++ b/drivers/media/test-drivers/vim2m.c
-@@ -960,6 +960,7 @@ static const struct v4l2_ioctl_ops vim2m_ioctl_ops = {
- 	.vidioc_dqbuf		= v4l2_m2m_ioctl_dqbuf,
- 	.vidioc_prepare_buf	= v4l2_m2m_ioctl_prepare_buf,
- 	.vidioc_create_bufs	= v4l2_m2m_ioctl_create_bufs,
-+	.vidioc_delete_bufs	= v4l2_m2m_ioctl_delete_bufs,
- 	.vidioc_expbuf		= v4l2_m2m_ioctl_expbuf,
- 
- 	.vidioc_streamon	= v4l2_m2m_ioctl_streamon,
-@@ -1133,6 +1134,7 @@ static int queue_init(void *priv, struct vb2_queue *src_vq,
- 	dst_vq->mem_ops = &vb2_vmalloc_memops;
- 	dst_vq->timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_COPY;
- 	dst_vq->lock = &ctx->vb_mutex;
-+	dst_vq->supports_delete_bufs = true;
- 
- 	return vb2_queue_init(dst_vq);
- }
-diff --git a/drivers/media/v4l2-core/v4l2-mem2mem.c b/drivers/media/v4l2-core/v4l2-mem2mem.c
-index 0cc30397fbad..d1d59943680f 100644
---- a/drivers/media/v4l2-core/v4l2-mem2mem.c
-+++ b/drivers/media/v4l2-core/v4l2-mem2mem.c
-@@ -831,6 +831,17 @@ int v4l2_m2m_prepare_buf(struct file *file, struct v4l2_m2m_ctx *m2m_ctx,
- }
- EXPORT_SYMBOL_GPL(v4l2_m2m_prepare_buf);
- 
-+int v4l2_m2m_delete_bufs(struct file *file, struct v4l2_m2m_ctx *m2m_ctx,
-+			 struct v4l2_delete_buffers *d)
-+{
-+	struct vb2_queue *vq;
-+
-+	vq = v4l2_m2m_get_vq(m2m_ctx, d->type);
-+
-+	return vb2_delete_bufs(vq, d);
-+}
-+EXPORT_SYMBOL_GPL(v4l2_m2m_delete_bufs);
-+
- int v4l2_m2m_create_bufs(struct file *file, struct v4l2_m2m_ctx *m2m_ctx,
- 			 struct v4l2_create_buffers *create)
- {
-@@ -1377,6 +1388,15 @@ int v4l2_m2m_ioctl_create_bufs(struct file *file, void *priv,
- }
- EXPORT_SYMBOL_GPL(v4l2_m2m_ioctl_create_bufs);
- 
-+int v4l2_m2m_ioctl_delete_bufs(struct file *file, void *priv,
-+			       struct v4l2_delete_buffers *d)
-+{
-+	struct v4l2_fh *fh = file->private_data;
-+
-+	return v4l2_m2m_delete_bufs(file, fh->m2m_ctx, d);
-+}
-+EXPORT_SYMBOL_GPL(v4l2_m2m_ioctl_delete_bufs);
-+
- int v4l2_m2m_ioctl_querybuf(struct file *file, void *priv,
- 				struct v4l2_buffer *buf)
- {
-diff --git a/include/media/v4l2-mem2mem.h b/include/media/v4l2-mem2mem.h
-index d6c8eb2b5201..161f85c42dc8 100644
---- a/include/media/v4l2-mem2mem.h
-+++ b/include/media/v4l2-mem2mem.h
-@@ -381,6 +381,16 @@ int v4l2_m2m_dqbuf(struct file *file, struct v4l2_m2m_ctx *m2m_ctx,
- int v4l2_m2m_prepare_buf(struct file *file, struct v4l2_m2m_ctx *m2m_ctx,
- 			 struct v4l2_buffer *buf);
- 
-+/**
-+ * v4l2_m2m_delete_bufs() - delete buffers from the queue
-+ *
-+ * @file: pointer to struct &file
-+ * @m2m_ctx: m2m context assigned to the instance given by struct &v4l2_m2m_ctx
-+ * @d: pointer to struct &v4l2_delete_buffers
-+ */
-+int v4l2_m2m_delete_bufs(struct file *file, struct v4l2_m2m_ctx *m2m_ctx,
-+			 struct v4l2_delete_buffers *d);
-+
- /**
-  * v4l2_m2m_create_bufs() - create a source or destination buffer, depending
-  * on the type
-@@ -860,6 +870,8 @@ int v4l2_m2m_ioctl_reqbufs(struct file *file, void *priv,
- 				struct v4l2_requestbuffers *rb);
- int v4l2_m2m_ioctl_create_bufs(struct file *file, void *fh,
- 				struct v4l2_create_buffers *create);
-+int v4l2_m2m_ioctl_delete_bufs(struct file *file, void *priv,
-+			       struct v4l2_delete_buffers *d);
- int v4l2_m2m_ioctl_querybuf(struct file *file, void *fh,
- 				struct v4l2_buffer *buf);
- int v4l2_m2m_ioctl_expbuf(struct file *file, void *fh,
--- 
-2.39.2
+Yes, I agree, this driver should be moved out of staging now that uapi
+is stable. Something for a follow-up series :-)
+
+Regards,
+Jonas
+
+> 
+> Heiko
+> 
+> 
+>> This was tested on a ROCK Pi 4 (RK3399) and Rock64 (RK3328):
+>>
+>>   v4l2-compliance 1.24.1, 64 bits, 64-bit time_t
+>>   ...
+>>   Total for rkvdec device /dev/video1: 46, Succeeded: 46, Failed: 0, Warnings: 0
+>>
+>>   Running test suite JCT-VC-HEVC_V1 with decoder FFmpeg-H.265-V4L2-request
+>>   ...
+>>   Ran 135/147 tests successfully
+>>
+>>   Running test suite JCT-VC-MV-HEVC with decoder FFmpeg-H.265-V4L2-request
+>>   ...
+>>   Ran 9/9 tests successfully
+>>
+>> And on a TinkerBoard (RK3288):
+>>
+>>   v4l2-compliance 1.24.1, 32 bits, 32-bit time_t
+>>   ...
+>>   Total for rkvdec device /dev/video3: 47, Succeeded: 47, Failed: 0, Warnings: 0
+>>
+>>   Running test suite JCT-VC-HEVC_V1 with decoder FFmpeg-H.265-V4L2-request
+>>   ...
+>>   Ran 137/147 tests successfully
+>>
+>>   Running test suite JCT-VC-MV-HEVC with decoder FFmpeg-H.265-V4L2-request
+>>   ...
+>>   Ran 9/9 tests successfully
+>>
+>> This series depend on the following series:
+>> - media: rkvdec: Add H.264 High 10 and 4:2:2 profile support [3]
+>>
+>> To fully runtime test this series you need above series and ffmpeg
+>> patches from [4], this series and its depends is also available at [5].
+>>
+>> Full summary of fluster run can be found at [6].
+>>
+>> [1] https://github.com/LibreELEC/LibreELEC.tv/blob/master/projects/Rockchip/patches/linux/default/linux-2000-v4l2-wip-rkvdec-hevc.patch
+>> [2] https://lore.kernel.org/linux-media/20230101-patch-series-v2-6-2-rc1-v2-0-fa1897efac14@collabora.com/
+>> [3] https://lore.kernel.org/linux-media/20231105165521.3592037-1-jonas@kwiboo.se/
+>> [4] https://github.com/Kwiboo/FFmpeg/commits/v4l2-request-n6.1-dev/
+>> [5] https://github.com/Kwiboo/linux-rockchip/commits/linuxtv-rkvdec-hevc-v1/
+>> [6] https://gist.github.com/Kwiboo/4c0ed87774dede44ce6838451a1ec93d
+>>
+>> Regards,
+>> Jonas
+>>
+>> Alex Bee (5):
+>>   media: rkvdec: Add variants support
+>>   media: rkvdec: Add RK3288 variant
+>>   media: rkvdec: Disable QoS for HEVC and VP9 on RK3328
+>>   ARM: dts: rockchip: Add vdec node for RK3288
+>>   arm64: dts: rockchip: Expand reg size of vdec node for RK3399
+>>
+>> Jonas Karlman (4):
+>>   media: rkvdec: Add HEVC backend
+>>   media: rkvdec: Implement capability filtering
+>>   media: dt-bindings: rockchip,vdec: Add RK3288 compatible
+>>   arm64: dts: rockchip: Expand reg size of vdec node for RK3328
+>>
+>>  .../bindings/media/rockchip,vdec.yaml         |    4 +-
+>>  arch/arm/boot/dts/rockchip/rk3288.dtsi        |   17 +-
+>>  arch/arm64/boot/dts/rockchip/rk3328.dtsi      |    2 +-
+>>  arch/arm64/boot/dts/rockchip/rk3399.dtsi      |    6 +-
+>>  drivers/staging/media/rkvdec/Makefile         |    2 +-
+>>  drivers/staging/media/rkvdec/TODO             |    7 -
+>>  .../staging/media/rkvdec/rkvdec-hevc-data.c   | 1848 +++++++++++++++++
+>>  drivers/staging/media/rkvdec/rkvdec-hevc.c    |  823 ++++++++
+>>  drivers/staging/media/rkvdec/rkvdec-regs.h    |    3 +
+>>  drivers/staging/media/rkvdec/rkvdec-vp9.c     |   10 +
+>>  drivers/staging/media/rkvdec/rkvdec.c         |  180 +-
+>>  drivers/staging/media/rkvdec/rkvdec.h         |   15 +
+>>  12 files changed, 2886 insertions(+), 31 deletions(-)
+>>  create mode 100644 drivers/staging/media/rkvdec/rkvdec-hevc-data.c
+>>  create mode 100644 drivers/staging/media/rkvdec/rkvdec-hevc.c
+>>
+>>
+> 
+> 
+> 
+> 
 
