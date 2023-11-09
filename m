@@ -1,152 +1,88 @@
-Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94C851118A
-	for <linux-staging@lists.linux.dev>; Thu,  9 Nov 2023 09:10:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E71811195
+	for <linux-staging@lists.linux.dev>; Thu,  9 Nov 2023 09:15:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="RyuZGOxR"
-Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-6b89ab5ddb7so662221b3a.0
-        for <linux-staging@lists.linux.dev>; Thu, 09 Nov 2023 01:10:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1699521023; x=1700125823; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=trb4MuQ6XLLHp9cbrU7Qhxh5OD3/4hryMzvH31htzlg=;
-        b=RyuZGOxRaqTocnPzEHzczWnaQqnXsackLM0I2qGE4sW+JDBvS+0/G5rrSOvXRBxQD4
-         2VkRT34ZZSdCjiB+SYZyDRQhCp7BYFHY/ccRuW3yL6ScfJcl4LQOz8kyGyai6ezf1F+P
-         H7/yyvqZj5HIpybjYGQixLVtmYkzRI4TXK8aM=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1699521023; x=1700125823;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=trb4MuQ6XLLHp9cbrU7Qhxh5OD3/4hryMzvH31htzlg=;
-        b=VLJ8nJc3BZ4PdUHVJUZCqXLqMmnkJ7Tz1t0UzBiBLeb9YRyIGJurNS3PfOsn4nI2y7
-         LivgoBhQXyZQt9RvoL5AhuDPd3CqfhbjtOz9iUckwn2XZanvXZURGLOl67HFWdGqAud2
-         3vhtQOr+1s9u7g+ZLJ5QfYb25sy0kvhh24RBheyx7S3GgtwWTtywiD4hsnbVySAo18EQ
-         T6/DpV4EoS8phPbdzivuf6UXGJLq+r6SyETIQ4ECFAUgXNrtLzedfO2i630ABd44RG+7
-         jLb8zhc3dpW4XBckiq1+UfntlVbyMClAJOprYd2U4taUooq8IbFsl0myUIV7Yiha3+Im
-         uZyg==
-X-Gm-Message-State: AOJu0Yxb6lrL09cWLHj6xMSUfuRVyO22GFOz4zUY5LMVAxLx+K7QrK+W
-	f8QTQK+ag8FUUwVoi5/MAcXvaQ==
-X-Google-Smtp-Source: AGHT+IHeH9bwSDaqUzS/5j97Pi2uukXE85TheRG3ama6+WbfBb0l8z3y1v7unvrgCAzIC5YVZM0pcw==
-X-Received: by 2002:a05:6a20:7493:b0:15d:e68d:a850 with SMTP id p19-20020a056a20749300b0015de68da850mr4661238pzd.29.1699521022894;
-        Thu, 09 Nov 2023 01:10:22 -0800 (PST)
-Received: from chromium.org (0.223.81.34.bc.googleusercontent.com. [34.81.223.0])
-        by smtp.gmail.com with ESMTPSA id i4-20020a17090332c400b001c9d968563csm3041205plr.79.2023.11.09.01.10.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 09 Nov 2023 01:10:22 -0800 (PST)
-Date: Thu, 9 Nov 2023 09:10:18 +0000
-From: Tomasz Figa <tfiga@chromium.org>
-To: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Cc: mchehab@kernel.org, m.szyprowski@samsung.com, ming.qian@nxp.com,
-	ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de,
-	gregkh@linuxfoundation.org, hverkuil-cisco@xs4all.nl,
-	nicolas.dufresne@collabora.com, linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
-	linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
-	kernel@collabora.com
-Subject: Re: [PATCH v14 53/56] media: core: Free range of buffers
-Message-ID: <20231109091018.tzodchqp44tmwq3k@chromium.org>
-References: <20231031163104.112469-1-benjamin.gaignard@collabora.com>
- <20231031163104.112469-54-benjamin.gaignard@collabora.com>
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="JwQPjKXg"
+Received: from [100.116.125.19] (cola.collaboradmins.com [195.201.22.229])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: andrzej.p)
+	by madras.collabora.co.uk (Postfix) with ESMTPSA id 5C94E6607410;
+	Thu,  9 Nov 2023 09:15:03 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1699521304;
+	bh=v6qhMPzD3AxhVLNdjEZEwQC9jr/N3DTQuFfeuL9ykAQ=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=JwQPjKXgXSae+rmdVkYXy9Jb9REL0PVt245rWOXj5AX6uhQegs1Ie+oT+0O3N7XLU
+	 tr/iuuM+Ecv/lA+ir8EK0wLUEmjKOYNYo1GEXeY2p3OAN4Z2aM2ME4oWRPvYvbiPGS
+	 rCmzMlyyV9Klms6we5pFJ9nAv6DCMj2UblhLOoMoSTWNXX8DVJxOAnFipvhPbjSXEZ
+	 Qry09Y3zgauyBMD7vOGN7qTQoTqNbvkD+WjOoxMI8Pct+GC6MyF+ulwXODKU4Y7f4d
+	 QNTcn/K1B79HY3vjJMc66wF8TGtsToEYhhksphBidYaf5s43tHWWz3HYky0KjFtpsT
+	 3YhoHVPhzQbBg==
+Message-ID: <63fcdcfb-83a1-4ca9-af35-be643c02b455@collabora.com>
+Date: Thu, 9 Nov 2023 10:15:00 +0100
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231031163104.112469-54-benjamin.gaignard@collabora.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v14 12/56] media: mediatek: vdec: Remove useless loop
+To: Benjamin Gaignard <benjamin.gaignard@collabora.com>, mchehab@kernel.org,
+ tfiga@chromium.org, m.szyprowski@samsung.com, ming.qian@nxp.com,
+ ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de,
+ gregkh@linuxfoundation.org, hverkuil-cisco@xs4all.nl,
+ nicolas.dufresne@collabora.com
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org,
+ linux-arm-msm@vger.kernel.org, linux-rockchip@lists.infradead.org,
+ linux-staging@lists.linux.dev, kernel@collabora.com,
+ Bin Liu <bin.liu@mediatek.com>, Matthias Brugger <matthias.bgg@gmail.com>
+References: <20231031163104.112469-1-benjamin.gaignard@collabora.com>
+ <20231031163104.112469-13-benjamin.gaignard@collabora.com>
+Content-Language: en-US
+From: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
+In-Reply-To: <20231031163104.112469-13-benjamin.gaignard@collabora.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Tue, Oct 31, 2023 at 05:31:01PM +0100, Benjamin Gaignard wrote:
-> Improve __vb2_queue_free() and __vb2_free_mem() to free
-> range of buffers and not only the last few buffers.
-> Intoduce starting index to be flexible on range and change the loops
-> according to this parameters.
+W dniu 31.10.2023 o 17:30, Benjamin Gaignard pisze:
+> Simplify code by removing useless loop by using video buffer index.
 > 
 > Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+
+Reviewed-by: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
+
+> CC: Bin Liu <bin.liu@mediatek.com>
+> CC: Matthias Brugger <matthias.bgg@gmail.com>
 > ---
->  .../media/common/videobuf2/videobuf2-core.c   | 59 +++++++++----------
->  1 file changed, 28 insertions(+), 31 deletions(-)
+>   .../mediatek/vcodec/decoder/vdec/vdec_vp9_req_lat_if.c   | 9 ++-------
+>   1 file changed, 2 insertions(+), 7 deletions(-)
 > 
-> diff --git a/drivers/media/common/videobuf2/videobuf2-core.c b/drivers/media/common/videobuf2/videobuf2-core.c
-> index 6e88406fcae9..010a8bca0240 100644
-> --- a/drivers/media/common/videobuf2/videobuf2-core.c
-> +++ b/drivers/media/common/videobuf2/videobuf2-core.c
-> @@ -519,15 +519,13 @@ static int __vb2_queue_alloc(struct vb2_queue *q, enum vb2_memory memory,
->  /*
->   * __vb2_free_mem() - release all video buffer memory for a given queue
+> diff --git a/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_vp9_req_lat_if.c b/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_vp9_req_lat_if.c
+> index e393e3e668f8..69d37b93bd35 100644
+> --- a/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_vp9_req_lat_if.c
+> +++ b/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_vp9_req_lat_if.c
+> @@ -1695,13 +1695,8 @@ static int vdec_vp9_slice_setup_core_buffer(struct vdec_vp9_slice_instance *inst
+>   		return -EINVAL;
+>   
+>   	/* update internal buffer's width/height */
+> -	for (i = 0; i < vq->num_buffers; i++) {
+> -		if (vb == vq->bufs[i]) {
+> -			instance->dpb[i].width = w;
+> -			instance->dpb[i].height = h;
+> -			break;
+> -		}
+> -	}
+> +	instance->dpb[vb->index].width = w;
+> +	instance->dpb[vb->index].height = h;
+>   
+>   	/*
+>   	 * get buffer's width/height from instance
 
-This comment is kind of outdated. Maybe we should replace it with
-
-	release video buffer memory for a given range of buffers in a given
-	queue
-
-?
-
->   */
-> -static void __vb2_free_mem(struct vb2_queue *q, unsigned int buffers)
-> +static void __vb2_free_mem(struct vb2_queue *q, unsigned int start, unsigned int count)
->  {
-> -	unsigned int buffer;
-> +	unsigned int i;
->  	struct vb2_buffer *vb;
-> -	unsigned int q_num_buffers = vb2_get_num_buffers(q);
->  
-> -	for (buffer = q_num_buffers - buffers; buffer < q_num_buffers;
-> -	     ++buffer) {
-> -		vb = vb2_get_buffer(q, buffer);
-> +	for (i = start; i < q->max_num_buffers && i < start + count; i++) {
-
-We could make this (and all those numerous simialr iterations) more
-efficient by using bitmap helpers (probably wrapped in some vb2 helpers),
-e.g. for_each_set_bit_from() (vb2_for_each_buffer_from()?). It can be done
-in a follow up patch separately from this series though.
-
-> +		vb = vb2_get_buffer(q, i);
->  		if (!vb)
->  			continue;
->  
-> @@ -542,35 +540,35 @@ static void __vb2_free_mem(struct vb2_queue *q, unsigned int buffers)
->  }
->  
->  /*
-> - * __vb2_queue_free() - free buffers at the end of the queue - video memory and
-> + * __vb2_queue_free() - free count buffers from start index of the queue - video memory and
-
-nit: How about using the @count and @start notation to refer the argument
-names? (Can be done with a follow up patch outside of this series later.)
-
->   * related information, if no buffers are left return the queue to an
->   * uninitialized state. Might be called even if the queue has already been freed.
->   */
-> -static void __vb2_queue_free(struct vb2_queue *q, unsigned int buffers)
-> +static void __vb2_queue_free(struct vb2_queue *q, unsigned int start, unsigned int count)
->  {
-> -	unsigned int buffer;
-> -	unsigned int q_num_buffers = vb2_get_num_buffers(q);
-> +	unsigned int i;
->  
->  	lockdep_assert_held(&q->mmap_lock);
->  
->  	/* Call driver-provided cleanup function for each buffer, if provided */
-> -	for (buffer = q_num_buffers - buffers; buffer < q_num_buffers;
-> -	     ++buffer) {
-> -		struct vb2_buffer *vb = vb2_get_buffer(q, buffer);
-> +	for (i = start; i < q->max_num_buffers && i < start + count; i++) {
-> +		struct vb2_buffer *vb = vb2_get_buffer(q, i);
->  
-> -		if (vb && vb->planes[0].mem_priv)
-> +		if (!vb)
-> +			continue;
-> +		if (vb->planes[0].mem_priv)
-
-nit: Not sure if we really had to change this, but I'm fine with either.
-
-Best regards,
-Tomasz
