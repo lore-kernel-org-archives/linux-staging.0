@@ -1,29 +1,29 @@
 Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C81BB36B0E
-	for <linux-staging@lists.linux.dev>; Thu,  9 Nov 2023 16:38:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36F7F374DD
+	for <linux-staging@lists.linux.dev>; Thu,  9 Nov 2023 16:38:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="Uf9NAFBv"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="aYIMsT41"
 Received: from benjamin-XPS-13-9310.. (cola.collaboradmins.com [195.201.22.229])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
 	(Authenticated sender: benjamin.gaignard)
-	by madras.collabora.co.uk (Postfix) with ESMTPSA id 654F066076BD;
-	Thu,  9 Nov 2023 16:38:37 +0000 (GMT)
+	by madras.collabora.co.uk (Postfix) with ESMTPSA id B464F66076BA;
+	Thu,  9 Nov 2023 16:38:40 +0000 (GMT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1699547918;
-	bh=m/XObuCEI44KUz2Fob5jtqtX4M2WT3NJzN6g2AM2068=;
+	s=mail; t=1699547921;
+	bh=fFBdGWyde3CLXG2tW0S3Zg0kPe5c8iT7wqUE7Ab5G1M=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=Uf9NAFBvFesWqJNhhvAxL1OAGuG69LqEH2/oNf7sRVpaGHx+Jt54uN4K42Mji6yNZ
-	 lwLB8PM6JCh/6DeImiU/npEgmsATsH+YpdCuwzbKVWp0OGyDuJkfDuthlqY1aH4Gh7
-	 4t1jmv0RuINz8+E24urKM+jSusVYz7qm3UfM0TgNmOja/k7DqagplUElaQHk6CeRNE
-	 eLpHATlaGYmQUbo9Fj+CUIZKH6zFgLCYH+BAKEcaSpbJNF1I7Vsz6YvlOcAcd2/xHL
-	 zQ0ENfNHlCcS1GKhRn3McHlsPcRn13cXEPh3b1JCd0lLsiUY9m1MrSNjvM7DtmrVUq
-	 wVVMnrWidOGaA==
+	b=aYIMsT410bTadg3ob1hz9duxvKFPPXD+nnCnqKTsKrNi+Cku036TDvnIrtVtcgOXS
+	 EEMFrIg1LRl9RXoSqODRgVV/moiIkSEJinoHAmFak/0gnG0h2zLgXeUOx3qSitVFc+
+	 fRPVEyBg+6CsDfUL2MeqiohaDyn00ev0LxLCiXTqzqPbHV50hJ4WGeiWcIrpeXBkiC
+	 DBC/9+fV35MjavmXGWO/dBCxoDtMhqyud/uR54NcEPZTyf+GwqmooyNFKjAIPuF/50
+	 5CG4dClHC+rpUIeq3Ms454mE0HVTpHkugnkNkzWSqCtYui6hgGVtK7evPMu235fTH0
+	 1jH+1kDqLlsNQ==
 From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
 To: mchehab@kernel.org,
 	tfiga@chromium.org,
@@ -44,9 +44,9 @@ Cc: linux-media@vger.kernel.org,
 	kernel@collabora.com,
 	Benjamin Gaignard <benjamin.gaignard@collabora.com>,
 	Andrzej Pietrasiewicz <andrzej.p@collabora.com>
-Subject: [PATCH v15 48/56] media: verisilicon: Store chroma and motion vectors offset
-Date: Thu,  9 Nov 2023 17:35:04 +0100
-Message-Id: <20231109163512.179524-49-benjamin.gaignard@collabora.com>
+Subject: [PATCH v15 50/56] media: verisilicon: vp9: Allow to change resolution while streaming
+Date: Thu,  9 Nov 2023 17:35:06 +0100
+Message-Id: <20231109163512.179524-51-benjamin.gaignard@collabora.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20231109163512.179524-14-benjamin.gaignard@collabora.com>
 References: <20231109163512.179524-14-benjamin.gaignard@collabora.com>
@@ -58,66 +58,67 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Store computed values of chroma and motion vectors offset because
-they depends on width and height values which change if the resolution
-change.
+Remove all checks that prohibit to set a new format while streaming.
+This allow to change dynamically the resolution if the pixel format
+remains the same.
 
 Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
 Reviewed-by: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
 CC: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
 CC: Philipp Zabel <p.zabel@pengutronix.de>
 ---
- drivers/media/platform/verisilicon/hantro.h            | 2 ++
- drivers/media/platform/verisilicon/hantro_g2_vp9_dec.c | 6 ++++--
- 2 files changed, 6 insertions(+), 2 deletions(-)
+ .../media/platform/verisilicon/hantro_v4l2.c  | 24 +++----------------
+ 1 file changed, 3 insertions(+), 21 deletions(-)
 
-diff --git a/drivers/media/platform/verisilicon/hantro.h b/drivers/media/platform/verisilicon/hantro.h
-index 0948b04a9f8d..6f5eb975d0e3 100644
---- a/drivers/media/platform/verisilicon/hantro.h
-+++ b/drivers/media/platform/verisilicon/hantro.h
-@@ -328,6 +328,8 @@ struct hantro_vp9_decoded_buffer_info {
- 	/* Info needed when the decoded frame serves as a reference frame. */
- 	unsigned short width;
- 	unsigned short height;
-+	size_t chroma_offset;
-+	size_t mv_offset;
- 	u32 bit_depth : 4;
- };
+diff --git a/drivers/media/platform/verisilicon/hantro_v4l2.c b/drivers/media/platform/verisilicon/hantro_v4l2.c
+index f0d8b165abcd..27a1e77cca38 100644
+--- a/drivers/media/platform/verisilicon/hantro_v4l2.c
++++ b/drivers/media/platform/verisilicon/hantro_v4l2.c
+@@ -514,25 +514,14 @@ static int hantro_set_fmt_out(struct hantro_ctx *ctx,
+ 		return ret;
  
-diff --git a/drivers/media/platform/verisilicon/hantro_g2_vp9_dec.c b/drivers/media/platform/verisilicon/hantro_g2_vp9_dec.c
-index 6fc4b555517f..6db1c32fce4d 100644
---- a/drivers/media/platform/verisilicon/hantro_g2_vp9_dec.c
-+++ b/drivers/media/platform/verisilicon/hantro_g2_vp9_dec.c
-@@ -158,9 +158,11 @@ static void config_output(struct hantro_ctx *ctx,
+ 	if (!ctx->is_encoder) {
+-		struct vb2_queue *peer_vq;
+-
+ 		/*
+ 		 * In order to support dynamic resolution change,
+ 		 * the decoder admits a resolution change, as long
+-		 * as the pixelformat remains. Can't be done if streaming.
+-		 */
+-		if (vb2_is_streaming(vq) || (vb2_is_busy(vq) &&
+-		    pix_mp->pixelformat != ctx->src_fmt.pixelformat))
+-			return -EBUSY;
+-		/*
+-		 * Since format change on the OUTPUT queue will reset
+-		 * the CAPTURE queue, we can't allow doing so
+-		 * when the CAPTURE queue has buffers allocated.
++		 * as the pixelformat remains.
+ 		 */
+-		peer_vq = v4l2_m2m_get_vq(ctx->fh.m2m_ctx,
+-					  V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE);
+-		if (vb2_is_busy(peer_vq))
++		if (vb2_is_streaming(vq) && pix_mp->pixelformat != ctx->src_fmt.pixelformat) {
+ 			return -EBUSY;
++		}
+ 	} else {
+ 		/*
+ 		 * The encoder doesn't admit a format change if
+@@ -577,15 +566,8 @@ static int hantro_set_fmt_out(struct hantro_ctx *ctx,
+ static int hantro_set_fmt_cap(struct hantro_ctx *ctx,
+ 			      struct v4l2_pix_format_mplane *pix_mp)
+ {
+-	struct vb2_queue *vq;
+ 	int ret;
  
- 	chroma_addr = luma_addr + chroma_offset(ctx, dec_params);
- 	hantro_write_addr(ctx->dev, G2_OUT_CHROMA_ADDR, chroma_addr);
-+	dst->vp9.chroma_offset = chroma_offset(ctx, dec_params);
+-	/* Change not allowed if queue is busy. */
+-	vq = v4l2_m2m_get_vq(ctx->fh.m2m_ctx,
+-			     V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE);
+-	if (vb2_is_busy(vq))
+-		return -EBUSY;
+-
+ 	if (ctx->is_encoder) {
+ 		struct vb2_queue *peer_vq;
  
- 	mv_addr = luma_addr + mv_offset(ctx, dec_params);
- 	hantro_write_addr(ctx->dev, G2_OUT_MV_ADDR, mv_addr);
-+	dst->vp9.mv_offset = mv_offset(ctx, dec_params);
- }
- 
- struct hantro_vp9_ref_reg {
-@@ -195,7 +197,7 @@ static void config_ref(struct hantro_ctx *ctx,
- 	luma_addr = hantro_get_dec_buf_addr(ctx, &buf->base.vb.vb2_buf);
- 	hantro_write_addr(ctx->dev, ref_reg->y_base, luma_addr);
- 
--	chroma_addr = luma_addr + chroma_offset(ctx, dec_params);
-+	chroma_addr = luma_addr + buf->vp9.chroma_offset;
- 	hantro_write_addr(ctx->dev, ref_reg->c_base, chroma_addr);
- }
- 
-@@ -238,7 +240,7 @@ static void config_ref_registers(struct hantro_ctx *ctx,
- 	config_ref(ctx, dst, &ref_regs[2], dec_params, dec_params->alt_frame_ts);
- 
- 	mv_addr = hantro_get_dec_buf_addr(ctx, &mv_ref->base.vb.vb2_buf) +
--		  mv_offset(ctx, dec_params);
-+		  mv_ref->vp9.mv_offset;
- 	hantro_write_addr(ctx->dev, G2_REF_MV_ADDR(0), mv_addr);
- 
- 	hantro_reg_write(ctx->dev, &vp9_last_sign_bias,
 -- 
 2.39.2
 
