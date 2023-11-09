@@ -1,184 +1,243 @@
-Received: from smtp.forwardemail.net (smtp.forwardemail.net [149.28.215.223])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mslow1.mail.gandi.net (mslow1.mail.gandi.net [217.70.178.240])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91AC43C3C
-	for <linux-staging@lists.linux.dev>; Thu,  9 Nov 2023 16:55:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kwiboo.se
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fe-bounces.kwiboo.se
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB43A1DDCB
+	for <linux-staging@lists.linux.dev>; Thu,  9 Nov 2023 16:56:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kwiboo.se header.i=@kwiboo.se header.b="gxuByy2L"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kwiboo.se;
- h=Content-Transfer-Encoding: Content-Type: In-Reply-To: From: References:
- Cc: To: Subject: MIME-Version: Date: Message-ID; q=dns/txt;
- s=fe-e1b5cab7be; t=1699548920;
- bh=oiGpLQFfupX4dQTf/iHqDMCKO+1QmogvFTKLT/9VDbU=;
- b=gxuByy2LJVUxrjyvbPXS1dDoZu/RcUyj2V9+6cq9e3mbjhYdk4fKJFsn5fO3t2CqVj7LE3y6R
- QifTXKPrdGofdaCZun4RLXTqmTQWeIw10Kaie4ss3aFz6/jpWpTwlbUjpRsHn7a1oFQmsvA0cPM
- ekuTI0U/wxY6POytiJBIG5SSUgyAcVmtJ4v9HDfl1hLAOrAsqq3df02ZymlB8UcD9yLGB5DxbQ+
- LZLy0YHPUhylhiKDotRLHoVSRyuchYveLMhDvuAwV6tafzABOR13l/mnDjzanq0AOkgBPtC+WNv
- yRXg8IyVmrSIgxngZGAWRSNbddJdSOzaHQ/oz3aFyOeg==
-Message-ID: <b4cc5a65-ccae-41c0-af9c-04001116938a@kwiboo.se>
-Date: Thu, 9 Nov 2023 17:55:14 +0100
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="bjE0gXRq"
+Received: from relay2-d.mail.gandi.net (unknown [IPv6:2001:4b98:dc4:8::222])
+	by mslow1.mail.gandi.net (Postfix) with ESMTP id C15AECA0B1
+	for <linux-staging@lists.linux.dev>; Thu,  9 Nov 2023 16:29:55 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 7ED0940007;
+	Thu,  9 Nov 2023 16:29:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1699547388;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=tm0cylrAcXnm7eKQqx0GuLW4XzLpyFuEodiMDdb36zQ=;
+	b=bjE0gXRqPUI+3iKxTnJ/SrbxJ3XAuLErHSXzEMhr63ULaCQmtsa856MdkklxROQZiTCx/A
+	lGm25zja9uZE7Tb2grdBfeSHULqztzES3qLih4oNCyqcYzwRunOY+dV1ek5nG2ftobLMSM
+	NV00MPsAgqAuXWz+IlL3Vig+kmE3JmJ49GVhNK8WJqiBjmIy2y6DztgLnqifmgFqc444lf
+	pcPVt/DKFNDEys+KEZ/4gIMJ0Y7wyMLuBLLytTIN3YABD00xpg3ywuk8PbWWSexmi3Vbg5
+	qnQxqm1kH7hFYOV0ICVUE+G7xFGmh2jxxk4H8Vrtih0LIW/vfGwQ4icnknGW0w==
+Date: Thu, 9 Nov 2023 17:29:44 +0100
+From: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+To: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Cc: Andrzej Pietrasiewicz <andrzej.p@collabora.com>, mchehab@kernel.org,
+	tfiga@chromium.org, m.szyprowski@samsung.com, ming.qian@nxp.com,
+	ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de,
+	gregkh@linuxfoundation.org, hverkuil-cisco@xs4all.nl,
+	nicolas.dufresne@collabora.com, linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+	linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
+	kernel@collabora.com, Maxime Ripard <mripard@kernel.org>
+Subject: Re: [PATCH v14 35/56] media: cedrus: Stop direct calls to queue
+ num_buffers field
+Message-ID: <ZU0I-C32UFjnUKH3@aptenodytes>
+References: <20231031163104.112469-1-benjamin.gaignard@collabora.com>
+ <20231031163104.112469-36-benjamin.gaignard@collabora.com>
+ <083e43d9-452a-4b11-b7f1-f75992bc795e@collabora.com>
+ <ZUzpSXDbO60uGr0t@aptenodytes>
+ <618d5b67-ba46-4c33-ae7f-990f4b522ba8@collabora.com>
+ <22f2aee0-aea7-465d-b7f3-b1add1bf7bd7@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/9] media: rkvdec: Add HEVC backend
-Content-Language: en-US
-To: "=?UTF-8?Q?Heiko_St=C3=BCbner?=" <heiko@sntech.de>, Ezequiel Garcia
- <ezequiel@vanguardiasur.com.ar>, Mauro Carvalho Chehab
- <mchehab@kernel.org>, Hans Verkuil <hverkuil-cisco@xs4all.nl>,
- linux-rockchip@lists.infradead.org
-Cc: Alex Bee <knaerzche@gmail.com>, Nicolas Dufresne
- <nicolas.dufresne@collabora.com>, Sebastian Fricke
- <sebastian.fricke@collabora.com>, Benjamin Gaignard
- <benjamin.gaignard@collabora.com>, Christopher Obbard
- <chris.obbard@collabora.com>, linux-media@vger.kernel.org,
- linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-References: <20231105233630.3927502-1-jonas@kwiboo.se>
- <5347734.aeNJFYEL58@diego>
-From: Jonas Karlman <jonas@kwiboo.se>
-In-Reply-To: <5347734.aeNJFYEL58@diego>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Report-Abuse-To: abuse@forwardemail.net
-X-Report-Abuse: abuse@forwardemail.net
-X-Complaints-To: abuse@forwardemail.net
-X-ForwardEmail-Version: 0.4.40
-X-ForwardEmail-Sender: rfc822; jonas@kwiboo.se, smtp.forwardemail.net,
- 149.28.215.223
-X-ForwardEmail-ID: 654d0ef8a16ddfebde306c21
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="VMLU1zaFnAru3tBV"
+Content-Disposition: inline
+In-Reply-To: <22f2aee0-aea7-465d-b7f3-b1add1bf7bd7@collabora.com>
+X-GND-Sasl: paul.kocialkowski@bootlin.com
 
-Hi Heiko,
 
-On 2023-11-06 10:22, Heiko Stübner wrote:
-> Hi Jonas,
-> 
-> Am Montag, 6. November 2023, 00:36:07 CET schrieb Jonas Karlman:
->> This series add a HEVC backend to the Rockchip Video Decoder driver.
->>
->> A version of this HEVC backend has been in use by the LibreELEC distro
->> for the past 3+ years [1]. It was initially created based on a copy of
->> the H264 backend, unstable HEVC uAPI controls and a cabac table + scaling
->> matrix functions shamelessly copied 1:1 from the Rockchip mpp library.
->>
->> It has since then been extended to use the stable HEVC uAPI controls and
->> improved opon e.g. to include support for rk3288 and fix decoding issues
->> by Alex Bee and Nicolas Dufresne.
->>
->> The version submitted in this series is based on the code currently used
->> by the LibreELEC distro, excluding hard/soft reset, and with cabac table
->> and scaling matrix functions picked from Sebastian Fricke prior series
->> to add a HEVC backend [2].
->>
->> Big thanks to Alex Bee, Nicolas Dufresne and Sebastian Fricke for making
->> this series possible!
->>
->> Patch 1 add the new HEVC backend.
->> Patch 2-3 add variants support to the driver.
->> Patch 4 add support for a rk3288 variant.
->> Patch 5 add a rk3328 variant to work around hw quirks.
->> Patch 6-7 add device tree node for rk3288.
->> Patch 8-9 extend vdec node reg size to include cache/perf registers.
-> 
-> thanks a lot for working on this.
-> 
-> Looking at the rkvdec TODO file, isn't the hvec support the only thing
-> keeping the driver in staging? So with this support using stable hevc
-> uapi, shouldn't the driver then also move out of staging after this
-> series is applied?
+--VMLU1zaFnAru3tBV
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Yes, I agree, this driver should be moved out of staging now that uapi
-is stable. Something for a follow-up series :-)
+Hi,
 
-Regards,
-Jonas
+On Thu 09 Nov 23, 16:54, Benjamin Gaignard wrote:
+>=20
+> Le 09/11/2023 =C3=A0 16:48, Andrzej Pietrasiewicz a =C3=A9crit=C2=A0:
+> > Hi Paul,
+> >=20
+> > W dniu 9.11.2023 o=C2=A015:14, Paul Kocialkowski pisze:
+> > > Hi Andrzej,
+> > >=20
+> > > On Thu 09 Nov 23, 12:27, Andrzej Pietrasiewicz wrote:
+> > > > Hi Paul,
+> > > >=20
+> > > > W dniu 31.10.2023 o=C2=A017:30, Benjamin Gaignard pisze:
+> > > > > Use vb2_get_num_buffers() to avoid using queue num_buffers
+> > > > > field directly.
+> > > > > This allows us to change how the number of buffers is computed in=
+ the
+> > > > > future.
+> > > > >=20
+> > > > > Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+> > > > > Acked-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+> > > >=20
+> > > > Given you've alaredy A-b, would you be ok with adding this sentence:
+> > > >=20
+> > > > "While at it, check the return value of vb2_get_buffer()."
+> > > >=20
+> > > > to the commit message body?
+> > >=20
+> > > Not only do I agree, but because this is done in a function
+> > > returning void,
+> > > you could even:
+> > >=20
+> > > if (WARN_ON(!vb))
+> > > =C2=A0=C2=A0=C2=A0=C2=A0continue;
+> > >=20
+> > > so that it doesn't go completely unnoticed.
+> > >=20
+> > > What do you think?
+> > >=20
+> >=20
+> > I'd ask Benjamin.
+> >=20
+> > But my take on the direction of changes is that ultimately
+> > there will be "holes" in the array of allocated buffers (hence the
+> > bitmap to track which slots are used and which are not). In other words,
+> > getting a NULL sometimes will be an expected situation, and a WARN() wi=
+ll
+> > not be appropriate for an expected situation.
+> >=20
+> > @Benjamin?
+>=20
+> That should never happens unless you add delete buffers capability to the=
+ driver
+> and in this case it is normal to have holes.
+> Other drivers do not use WARN_ON() so I will not do it for this one.
 
-> 
-> Heiko
-> 
-> 
->> This was tested on a ROCK Pi 4 (RK3399) and Rock64 (RK3328):
->>
->>   v4l2-compliance 1.24.1, 64 bits, 64-bit time_t
->>   ...
->>   Total for rkvdec device /dev/video1: 46, Succeeded: 46, Failed: 0, Warnings: 0
->>
->>   Running test suite JCT-VC-HEVC_V1 with decoder FFmpeg-H.265-V4L2-request
->>   ...
->>   Ran 135/147 tests successfully
->>
->>   Running test suite JCT-VC-MV-HEVC with decoder FFmpeg-H.265-V4L2-request
->>   ...
->>   Ran 9/9 tests successfully
->>
->> And on a TinkerBoard (RK3288):
->>
->>   v4l2-compliance 1.24.1, 32 bits, 32-bit time_t
->>   ...
->>   Total for rkvdec device /dev/video3: 47, Succeeded: 47, Failed: 0, Warnings: 0
->>
->>   Running test suite JCT-VC-HEVC_V1 with decoder FFmpeg-H.265-V4L2-request
->>   ...
->>   Ran 137/147 tests successfully
->>
->>   Running test suite JCT-VC-MV-HEVC with decoder FFmpeg-H.265-V4L2-request
->>   ...
->>   Ran 9/9 tests successfully
->>
->> This series depend on the following series:
->> - media: rkvdec: Add H.264 High 10 and 4:2:2 profile support [3]
->>
->> To fully runtime test this series you need above series and ffmpeg
->> patches from [4], this series and its depends is also available at [5].
->>
->> Full summary of fluster run can be found at [6].
->>
->> [1] https://github.com/LibreELEC/LibreELEC.tv/blob/master/projects/Rockchip/patches/linux/default/linux-2000-v4l2-wip-rkvdec-hevc.patch
->> [2] https://lore.kernel.org/linux-media/20230101-patch-series-v2-6-2-rc1-v2-0-fa1897efac14@collabora.com/
->> [3] https://lore.kernel.org/linux-media/20231105165521.3592037-1-jonas@kwiboo.se/
->> [4] https://github.com/Kwiboo/FFmpeg/commits/v4l2-request-n6.1-dev/
->> [5] https://github.com/Kwiboo/linux-rockchip/commits/linuxtv-rkvdec-hevc-v1/
->> [6] https://gist.github.com/Kwiboo/4c0ed87774dede44ce6838451a1ec93d
->>
->> Regards,
->> Jonas
->>
->> Alex Bee (5):
->>   media: rkvdec: Add variants support
->>   media: rkvdec: Add RK3288 variant
->>   media: rkvdec: Disable QoS for HEVC and VP9 on RK3328
->>   ARM: dts: rockchip: Add vdec node for RK3288
->>   arm64: dts: rockchip: Expand reg size of vdec node for RK3399
->>
->> Jonas Karlman (4):
->>   media: rkvdec: Add HEVC backend
->>   media: rkvdec: Implement capability filtering
->>   media: dt-bindings: rockchip,vdec: Add RK3288 compatible
->>   arm64: dts: rockchip: Expand reg size of vdec node for RK3328
->>
->>  .../bindings/media/rockchip,vdec.yaml         |    4 +-
->>  arch/arm/boot/dts/rockchip/rk3288.dtsi        |   17 +-
->>  arch/arm64/boot/dts/rockchip/rk3328.dtsi      |    2 +-
->>  arch/arm64/boot/dts/rockchip/rk3399.dtsi      |    6 +-
->>  drivers/staging/media/rkvdec/Makefile         |    2 +-
->>  drivers/staging/media/rkvdec/TODO             |    7 -
->>  .../staging/media/rkvdec/rkvdec-hevc-data.c   | 1848 +++++++++++++++++
->>  drivers/staging/media/rkvdec/rkvdec-hevc.c    |  823 ++++++++
->>  drivers/staging/media/rkvdec/rkvdec-regs.h    |    3 +
->>  drivers/staging/media/rkvdec/rkvdec-vp9.c     |   10 +
->>  drivers/staging/media/rkvdec/rkvdec.c         |  180 +-
->>  drivers/staging/media/rkvdec/rkvdec.h         |   15 +
->>  12 files changed, 2886 insertions(+), 31 deletions(-)
->>  create mode 100644 drivers/staging/media/rkvdec/rkvdec-hevc-data.c
->>  create mode 100644 drivers/staging/media/rkvdec/rkvdec-hevc.c
->>
->>
-> 
-> 
-> 
-> 
+Yeah I also don't expect that buffers can just disappear on us before
+introducing the delete buffers capability.
 
+But okay it's fine with me to not use WARN_ON.
+
+Cheers,
+
+Paul
+
+> Regards,
+> Benjamin
+>=20
+> >=20
+> > Regards,
+> >=20
+> > Andrzej
+> >=20
+> > > Cheers,
+> > >=20
+> > > Paul
+> > >=20
+> > > > @Benjamin:
+> > > >=20
+> > > > With this change, you can add my
+> > > >=20
+> > > > Reviewed-by: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
+> > > >=20
+> > > > > CC: Maxime Ripard <mripard@kernel.org>
+> > > > > ---
+> > > > > =C2=A0=C2=A0 drivers/staging/media/sunxi/cedrus/cedrus_h264.c | 9=
+ +++++++--
+> > > > > =C2=A0=C2=A0 drivers/staging/media/sunxi/cedrus/cedrus_h265.c | 9=
+ +++++++--
+> > > > > =C2=A0=C2=A0 2 files changed, 14 insertions(+), 4 deletions(-)
+> > > > >=20
+> > > > > diff --git
+> > > > > a/drivers/staging/media/sunxi/cedrus/cedrus_h264.c
+> > > > > b/drivers/staging/media/sunxi/cedrus/cedrus_h264.c
+> > > > > index dfb401df138a..3e2843ef6cce 100644
+> > > > > --- a/drivers/staging/media/sunxi/cedrus/cedrus_h264.c
+> > > > > +++ b/drivers/staging/media/sunxi/cedrus/cedrus_h264.c
+> > > > > @@ -653,8 +653,13 @@ static void cedrus_h264_stop(struct
+> > > > > cedrus_ctx *ctx)
+> > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 vq =3D v4l2_m2m_get_vq(ctx->=
+fh.m2m_ctx,
+> > > > > V4L2_BUF_TYPE_VIDEO_CAPTURE);
+> > > > > -=C2=A0=C2=A0=C2=A0 for (i =3D 0; i < vq->num_buffers; i++) {
+> > > > > -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 buf =3D vb2_to_cedrus=
+_buffer(vb2_get_buffer(vq, i));
+> > > > > +=C2=A0=C2=A0=C2=A0 for (i =3D 0; i < vb2_get_num_buffers(vq); i+=
++) {
+> > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct vb2_buffer *vb=
+ =3D vb2_get_buffer(vq, i);
+> > > > > +
+> > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (!vb)
+> > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0 continue;
+> > > > > +
+> > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 buf =3D vb2_to_cedrus=
+_buffer(vb);
+> > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (=
+buf->codec.h264.mv_col_buf_size > 0) {
+> > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0 dma_free_attrs(dev->dev,
+> > > > > diff --git
+> > > > > a/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
+> > > > > b/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
+> > > > > index fc9297232456..52e94c8f2f01 100644
+> > > > > --- a/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
+> > > > > +++ b/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
+> > > > > @@ -869,8 +869,13 @@ static void cedrus_h265_stop(struct
+> > > > > cedrus_ctx *ctx)
+> > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 vq =3D v4l2_m2m_get_vq(ctx->=
+fh.m2m_ctx,
+> > > > > V4L2_BUF_TYPE_VIDEO_CAPTURE);
+> > > > > -=C2=A0=C2=A0=C2=A0 for (i =3D 0; i < vq->num_buffers; i++) {
+> > > > > -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 buf =3D vb2_to_cedrus=
+_buffer(vb2_get_buffer(vq, i));
+> > > > > +=C2=A0=C2=A0=C2=A0 for (i =3D 0; i < vb2_get_num_buffers(vq); i+=
++) {
+> > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct vb2_buffer *vb=
+ =3D vb2_get_buffer(vq, i);
+> > > > > +
+> > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (!vb)
+> > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0 continue;
+> > > > > +
+> > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 buf =3D vb2_to_cedrus=
+_buffer(vb);
+> > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (=
+buf->codec.h265.mv_col_buf_size > 0) {
+> > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0 dma_free_attrs(dev->dev,
+> > > >=20
+> > >=20
+> > >=20
+> > > _______________________________________________
+> > > Kernel mailing list -- kernel@mailman.collabora.com
+> > > To unsubscribe send an email to kernel-leave@mailman.collabora.com
+> >=20
+
+--=20
+Paul Kocialkowski, Bootlin
+Embedded Linux and kernel engineering
+https://bootlin.com
+
+--VMLU1zaFnAru3tBV
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAmVNCPgACgkQ3cLmz3+f
+v9G2FAf+JwNjULMzQx6CKeSkePWWPspnd6zwQv1uSrppPM2oi2YoXgd7uMsJyImP
+OOfrkPpY4m0jOp7e2t4oKOvKrDcc9tXTv7UbzPQ3S/RvCQ3pJ9MIRNAFOrM/x4kL
+uG2rhiHl/wdw+czGOSb4tip1HXjn04nfyZb6U9YCXNNbvRyJQ4ocwcfyCTvmELja
++bJMussPvxY8c9GhxzodzFow8BoauqdutKO89bJs1DH9iKWTTe7IClz2Ypp5yY5m
+c1C4SQomlS8sa92uwYG1S/v5174Ufs3hqwr5I0CPMm3rlaGyO+ykwKu3TnnR7Fif
+05epwjlNlSg1Mg+HmVYihbArAlJ0UQ==
+=dkuV
+-----END PGP SIGNATURE-----
+
+--VMLU1zaFnAru3tBV--
