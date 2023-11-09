@@ -1,112 +1,207 @@
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp.forwardemail.net (smtp.forwardemail.net [149.28.215.223])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5996238DE6
-	for <linux-staging@lists.linux.dev>; Thu,  9 Nov 2023 21:38:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C8936AA1
+	for <linux-staging@lists.linux.dev>; Thu,  9 Nov 2023 22:42:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kwiboo.se
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fe-bounces.kwiboo.se
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="HruUzFIZ"
-Received: from [100.84.166.245] (cola.collaboradmins.com [195.201.22.229])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: nicolas)
-	by madras.collabora.co.uk (Postfix) with ESMTPSA id 52CF66607413;
-	Thu,  9 Nov 2023 21:38:45 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1699565927;
-	bh=iOlbhHLosbanbJteZZRBksDsgyI0sGawtDPHWA7bX8g=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-	b=HruUzFIZsc9c/Sc91mVwLrxyAlcFzwo9DMLwfv1x5JUxYqBgykIXC5uptr/pe7KI6
-	 vIfketUq1GCs3LzHUuvzAcQq+sO22ahvAH1cX30bt7u7bY2THBnB22IX9nE7jvBtWc
-	 /iDKOnahxhXJV/xWD31a9a/Q2/DIHmPaiUnKQjLMReEUJqweLFvFilS2evsKOBTAPV
-	 7hAWaxjdGmDKuaRSiJWpvNEAiWez9btLOb+ST4O4KmAk3h/zEWAf+/TC0LUJEZMZjm
-	 d+HDm6SyFdFJU2FtJWjaoxz13EJfHyUclg/HcF3sdal9JB/m2/QPUTGFjJwr85+c/P
-	 Cs8eDpqqrKFDw==
-Message-ID: <fd9ca918dcbc892169b9f0dae7d0de537f4035ed.camel@collabora.com>
-Subject: Re: [PATCH 3/4] media: verisilicon: Hook the (TRY_)DECODER_CMD
- stateless ioctls
-From: Nicolas  Dufresne <nicolas.dufresne@collabora.com>
-To: Paul Kocialkowski <paul.kocialkowski@bootlin.com>, 
-	linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org, 
-	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
-Cc: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>, Philipp Zabel
- <p.zabel@pengutronix.de>, Mauro Carvalho Chehab <mchehab@kernel.org>, Hans
- Verkuil <hverkuil-cisco@xs4all.nl>, Daniel Almeida
- <daniel.almeida@collabora.com>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, Sebastian Fricke
- <sebastian.fricke@collabora.com>, Thomas Petazzoni
- <thomas.petazzoni@bootlin.com>
-Date: Thu, 09 Nov 2023 16:38:36 -0500
-In-Reply-To: <20231109201640.340556-3-paul.kocialkowski@bootlin.com>
-References: <20231109201640.340556-1-paul.kocialkowski@bootlin.com>
-	 <20231109201640.340556-3-paul.kocialkowski@bootlin.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.48.4 (3.48.4-1.fc38) 
+	dkim=pass (2048-bit key) header.d=kwiboo.se header.i=@kwiboo.se header.b="Ig8kUrKX"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kwiboo.se;
+ h=Content-Transfer-Encoding: Content-Type: In-Reply-To: From: References:
+ Cc: To: Subject: MIME-Version: Date: Message-ID; q=dns/txt;
+ s=fe-e1b5cab7be; t=1699569755;
+ bh=9D+oEQSTWhWnU6UndmIOjXvEnXHuT6xplme631Iu7g0=;
+ b=Ig8kUrKXOKdLSZU8fKvDPhy0XsJYu1zoA9e8zQawtGTXzVLku5Hkh8WRx0wVSPipptVTqdUlR
+ P4VNYejWExU+noa7L9W8JLin+drrsvZbl46LxgG0OJKJzDW6zg7D+B1cRUCG2eUkUFOMFJ8vdia
+ PD1tWpswtZ9kYADq3zi/cUOe2M0u6cshfKo8Jp9ZgNXYleelsxXLuuSWmnxLV85LHu6piUonaqd
+ 8uOOQ5Tb4l9CoAnd9kWdq77QNak9vZKJKQaUD5eZqqhfKMeiSY/drpDdkUQFaixCKSZ1G/h/9lD
+ pAyI88ig7/NUAovWGLLRrErSERjdzFH6c8NrQBnCP8zg==
+Message-ID: <ff5f5d65-10b6-4d8b-8d80-69acc92f3920@kwiboo.se>
+Date: Thu, 9 Nov 2023 23:42:29 +0100
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 01/11] media: v4l2-common: Add helpers to calculate
+ bytesperline and sizeimage
+Content-Language: en-US
+To: Nicolas Dufresne <nicolas.dufresne@collabora.com>, Ezequiel Garcia
+ <ezequiel@vanguardiasur.com.ar>, Mauro Carvalho Chehab
+ <mchehab@kernel.org>, Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc: Alex Bee <knaerzche@gmail.com>, Benjamin Gaignard
+ <benjamin.gaignard@collabora.com>, Sebastian Fricke
+ <sebastian.fricke@collabora.com>, Christopher Obbard
+ <chris.obbard@collabora.com>, linux-media@vger.kernel.org,
+ linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+References: <20231105165521.3592037-1-jonas@kwiboo.se>
+ <20231105165521.3592037-2-jonas@kwiboo.se>
+ <02c819bbbaa34342be39cfaed707ddf9a33a9087.camel@collabora.com>
+From: Jonas Karlman <jonas@kwiboo.se>
+In-Reply-To: <02c819bbbaa34342be39cfaed707ddf9a33a9087.camel@collabora.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Report-Abuse-To: abuse@forwardemail.net
+X-Report-Abuse: abuse@forwardemail.net
+X-Complaints-To: abuse@forwardemail.net
+X-ForwardEmail-Version: 0.4.40
+X-ForwardEmail-Sender: rfc822; jonas@kwiboo.se, smtp.forwardemail.net,
+ 149.28.215.223
+X-ForwardEmail-ID: 654d605bd8155d71a27da9f4
 
-Hi Paul,
+On 2023-11-08 03:45, Nicolas Dufresne wrote:
+> Le dimanche 05 novembre 2023 à 16:55 +0000, Jonas Karlman a écrit :
+>> Add helper functions to calculate plane bytesperline and sizeimage,
+>> these new helpers consider bpp div, block width and height when
+>> calculating plane bytesperline and sizeimage.
+> 
+> Is this only refactoring to reduce duplicated code ? I haven't seen
+> what is new in there yet, maybe the commit message could clarify.
 
+Yes, this is just some refactoring and is not really required.
 
-Le jeudi 09 novembre 2023 =C3=A0 21:16 +0100, Paul Kocialkowski a =C3=A9cri=
-t=C2=A0:
-> The (TRY_)DECODER_CMD ioctls are used to support flushing when holding ca=
-pture
-> buffers is supported. This is the case of this driver but the ioctls were=
- never
-> hooked to the ioctl ops.
->=20
-> Add them to correctly support flushing.
+Cannot remember exactly why I though this was needed back in v1/v2. I
+probably had an issue with wrong bytesperline/sizeimage due to the
+fractal bytes per pixel nature of the NV15/NV20 pixel formats. Hacked
+the calculation and forgot to update in one of the 3 places they get
+calculated, then decided to refactor after that failed.
 
-While this CMD looks useful on paper, we have had no use for it in any
-open source user space. So with this in mind, shall we really enable it
-? How can we be sure that its actually working as intended ?
+Will update commit message to clarify that this is only refactoring and
+has no real impact for this series in v5.
 
-Nicolas
+Regards,
+Jonas
 
->=20
-> Fixes: 340ce50f75a6 ("media: hantro: Enable HOLD_CAPTURE_BUF for H.264")
-> Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-> ---
->  drivers/media/platform/verisilicon/hantro_drv.c  | 2 ++
->  drivers/media/platform/verisilicon/hantro_v4l2.c | 3 +++
->  2 files changed, 5 insertions(+)
->=20
-> diff --git a/drivers/media/platform/verisilicon/hantro_drv.c b/drivers/me=
-dia/platform/verisilicon/hantro_drv.c
-> index a9fa05ac56a9..3a2a0f28cbfe 100644
-> --- a/drivers/media/platform/verisilicon/hantro_drv.c
-> +++ b/drivers/media/platform/verisilicon/hantro_drv.c
-> @@ -905,6 +905,8 @@ static int hantro_add_func(struct hantro_dev *vpu, un=
-signed int funcid)
-> =20
->  	if (funcid =3D=3D MEDIA_ENT_F_PROC_VIDEO_ENCODER) {
->  		vpu->encoder =3D func;
-> +		v4l2_disable_ioctl(vfd, VIDIOC_TRY_DECODER_CMD);
-> +		v4l2_disable_ioctl(vfd, VIDIOC_DECODER_CMD);
->  	} else {
->  		vpu->decoder =3D func;
->  		v4l2_disable_ioctl(vfd, VIDIOC_TRY_ENCODER_CMD);
-> diff --git a/drivers/media/platform/verisilicon/hantro_v4l2.c b/drivers/m=
-edia/platform/verisilicon/hantro_v4l2.c
-> index b3ae037a50f6..db145519fc5d 100644
-> --- a/drivers/media/platform/verisilicon/hantro_v4l2.c
-> +++ b/drivers/media/platform/verisilicon/hantro_v4l2.c
-> @@ -785,6 +785,9 @@ const struct v4l2_ioctl_ops hantro_ioctl_ops =3D {
->  	.vidioc_g_selection =3D vidioc_g_selection,
->  	.vidioc_s_selection =3D vidioc_s_selection,
-> =20
-> +	.vidioc_decoder_cmd =3D v4l2_m2m_ioctl_stateless_decoder_cmd,
-> +	.vidioc_try_decoder_cmd =3D v4l2_m2m_ioctl_stateless_try_decoder_cmd,
-> +
->  	.vidioc_try_encoder_cmd =3D v4l2_m2m_ioctl_try_encoder_cmd,
->  	.vidioc_encoder_cmd =3D vidioc_encoder_cmd,
->  };
+> 
+> regards,
+> Nicolas
+> 
+>>
+>> Signed-off-by: Jonas Karlman <jonas@kwiboo.se>
+>> ---
+>> v4:
+>> - No change
+>>
+>> v3:
+>> - Consider bpp_div in calculation
+>>
+>>  drivers/media/v4l2-core/v4l2-common.c | 78 +++++++++++++--------------
+>>  1 file changed, 39 insertions(+), 39 deletions(-)
+>>
+>> diff --git a/drivers/media/v4l2-core/v4l2-common.c b/drivers/media/v4l2-core/v4l2-common.c
+>> index 3a4b15a98e02..834b426da8b1 100644
+>> --- a/drivers/media/v4l2-core/v4l2-common.c
+>> +++ b/drivers/media/v4l2-core/v4l2-common.c
+>> @@ -350,6 +350,34 @@ static inline unsigned int v4l2_format_block_height(const struct v4l2_format_inf
+>>  	return info->block_h[plane];
+>>  }
+>>  
+>> +static inline unsigned int v4l2_format_plane_width(const struct v4l2_format_info *info, int plane,
+>> +						   unsigned int width)
+>> +{
+>> +	unsigned int hdiv = plane ? info->hdiv : 1;
+>> +	unsigned int aligned_width =
+>> +		ALIGN(width, v4l2_format_block_width(info, plane));
+>> +
+>> +	return DIV_ROUND_UP(aligned_width, hdiv) *
+>> +	       info->bpp[plane] / info->bpp_div[plane];
+>> +}
+>> +
+>> +static inline unsigned int v4l2_format_plane_height(const struct v4l2_format_info *info, int plane,
+>> +						    unsigned int height)
+>> +{
+>> +	unsigned int vdiv = plane ? info->vdiv : 1;
+>> +	unsigned int aligned_height =
+>> +		ALIGN(height, v4l2_format_block_height(info, plane));
+>> +
+>> +	return DIV_ROUND_UP(aligned_height, vdiv);
+>> +}
+>> +
+>> +static inline unsigned int v4l2_format_plane_size(const struct v4l2_format_info *info, int plane,
+>> +						  unsigned int width, unsigned int height)
+>> +{
+>> +	return v4l2_format_plane_width(info, plane, width) *
+>> +	       v4l2_format_plane_height(info, plane, height);
+>> +}
+>> +
+>>  void v4l2_apply_frmsize_constraints(u32 *width, u32 *height,
+>>  				    const struct v4l2_frmsize_stepwise *frmsize)
+>>  {
+>> @@ -385,37 +413,19 @@ int v4l2_fill_pixfmt_mp(struct v4l2_pix_format_mplane *pixfmt,
+>>  
+>>  	if (info->mem_planes == 1) {
+>>  		plane = &pixfmt->plane_fmt[0];
+>> -		plane->bytesperline = ALIGN(width, v4l2_format_block_width(info, 0)) * info->bpp[0] / info->bpp_div[0];
+>> +		plane->bytesperline = v4l2_format_plane_width(info, 0, width);
+>>  		plane->sizeimage = 0;
+>>  
+>> -		for (i = 0; i < info->comp_planes; i++) {
+>> -			unsigned int hdiv = (i == 0) ? 1 : info->hdiv;
+>> -			unsigned int vdiv = (i == 0) ? 1 : info->vdiv;
+>> -			unsigned int aligned_width;
+>> -			unsigned int aligned_height;
+>> -
+>> -			aligned_width = ALIGN(width, v4l2_format_block_width(info, i));
+>> -			aligned_height = ALIGN(height, v4l2_format_block_height(info, i));
+>> -
+>> -			plane->sizeimage += info->bpp[i] *
+>> -				DIV_ROUND_UP(aligned_width, hdiv) *
+>> -				DIV_ROUND_UP(aligned_height, vdiv) / info->bpp_div[i];
+>> -		}
+>> +		for (i = 0; i < info->comp_planes; i++)
+>> +			plane->sizeimage +=
+>> +				v4l2_format_plane_size(info, i, width, height);
+>>  	} else {
+>>  		for (i = 0; i < info->comp_planes; i++) {
+>> -			unsigned int hdiv = (i == 0) ? 1 : info->hdiv;
+>> -			unsigned int vdiv = (i == 0) ? 1 : info->vdiv;
+>> -			unsigned int aligned_width;
+>> -			unsigned int aligned_height;
+>> -
+>> -			aligned_width = ALIGN(width, v4l2_format_block_width(info, i));
+>> -			aligned_height = ALIGN(height, v4l2_format_block_height(info, i));
+>> -
+>>  			plane = &pixfmt->plane_fmt[i];
+>>  			plane->bytesperline =
+>> -				info->bpp[i] * DIV_ROUND_UP(aligned_width, hdiv) / info->bpp_div[i];
+>> -			plane->sizeimage =
+>> -				plane->bytesperline * DIV_ROUND_UP(aligned_height, vdiv);
+>> +				v4l2_format_plane_width(info, i, width);
+>> +			plane->sizeimage = plane->bytesperline *
+>> +				v4l2_format_plane_height(info, i, height);
+>>  		}
+>>  	}
+>>  	return 0;
+>> @@ -439,22 +449,12 @@ int v4l2_fill_pixfmt(struct v4l2_pix_format *pixfmt, u32 pixelformat,
+>>  	pixfmt->width = width;
+>>  	pixfmt->height = height;
+>>  	pixfmt->pixelformat = pixelformat;
+>> -	pixfmt->bytesperline = ALIGN(width, v4l2_format_block_width(info, 0)) * info->bpp[0] / info->bpp_div[0];
+>> +	pixfmt->bytesperline = v4l2_format_plane_width(info, 0, width);
+>>  	pixfmt->sizeimage = 0;
+>>  
+>> -	for (i = 0; i < info->comp_planes; i++) {
+>> -		unsigned int hdiv = (i == 0) ? 1 : info->hdiv;
+>> -		unsigned int vdiv = (i == 0) ? 1 : info->vdiv;
+>> -		unsigned int aligned_width;
+>> -		unsigned int aligned_height;
+>> -
+>> -		aligned_width = ALIGN(width, v4l2_format_block_width(info, i));
+>> -		aligned_height = ALIGN(height, v4l2_format_block_height(info, i));
+>> -
+>> -		pixfmt->sizeimage += info->bpp[i] *
+>> -			DIV_ROUND_UP(aligned_width, hdiv) *
+>> -			DIV_ROUND_UP(aligned_height, vdiv) / info->bpp_div[i];
+>> -	}
+>> +	for (i = 0; i < info->comp_planes; i++)
+>> +		pixfmt->sizeimage +=
+>> +			v4l2_format_plane_size(info, i, width, height);
+>>  	return 0;
+>>  }
+>>  EXPORT_SYMBOL_GPL(v4l2_fill_pixfmt);
+> 
 
