@@ -1,29 +1,29 @@
 Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3DBF38DE1
-	for <linux-staging@lists.linux.dev>; Thu,  9 Nov 2023 16:38:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F69A38DFA
+	for <linux-staging@lists.linux.dev>; Thu,  9 Nov 2023 16:38:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="ohor7riN"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="jhPFyxwN"
 Received: from benjamin-XPS-13-9310.. (cola.collaboradmins.com [195.201.22.229])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
 	(Authenticated sender: benjamin.gaignard)
-	by madras.collabora.co.uk (Postfix) with ESMTPSA id 8577566076A8;
-	Thu,  9 Nov 2023 16:38:08 +0000 (GMT)
+	by madras.collabora.co.uk (Postfix) with ESMTPSA id 0CB6666076B7;
+	Thu,  9 Nov 2023 16:38:12 +0000 (GMT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1699547889;
-	bh=NAD1Tg9V4Lk9LHSgDODg7rCyFDgRGStknZMuyq9WdTM=;
+	s=mail; t=1699547893;
+	bh=BbzxyrDVfMPZZmyN110w8Pfww9FXyNV/OBFjuHEvLQs=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=ohor7riNt8UFwWBNJE387utTfyykBXgclwnYnsDEqCTA961Rkjf8Fj8zRgF7/5LH1
-	 29Ylo/K9GxPlBxgIjFm6pXG7atsNz2pavF2tPsuZz42Hc75qnc8aOTvvW7HvtCnfLX
-	 ezf5fvl91U8j8Sd/ZSKSfA+5Hg0lCSsfxFLjJ08fcTDNh1m4ZdZfCRSyNeEINdd3Xe
-	 giuiZX8P/tLpVM492KUW0akcryKRY3CjVCBV2FZgTKVXMJ7BsFumDrlzWU3t6f8mNP
-	 pAf0ZhdF2HO5ZAEWD8sifo5Y8a6JL2yiuZJV06uvTcLL+6g6935GyvYTQeH1CLWE9f
-	 gBEWUoDbkhogQ==
+	b=jhPFyxwN8fMgIiJNlbpby/PoAyWLPS2Ol44wtSXwpt9m6RLgve2oPqSBRqMbdIFWp
+	 SRjklkUYdVeFLUq89ug3kmpUGFiBBvkcSwy2OJS6DAkg5blIqVAcCiOW/053bhJRkf
+	 BnNiJhyqza9FxnLK5ltKV/vKENmA/RRjBo0yA7gaUBpDgQE5H4yHh34Vt354QTSYIy
+	 QFY50HzH66loqVM1nEPRdT4X4WED8CeNBSg7b5yYhHZVuLO+yBBkzqWuH2hUoZ4Xx4
+	 Mrd5eHB5kQlnsG5kVj/ouJEhRNC1TIcIs6ZU8YVrbBNJnY5y/WOlddwdKGTuSW9A3H
+	 uc/F36qbXFYPA==
 From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
 To: mchehab@kernel.org,
 	tfiga@chromium.org,
@@ -44,10 +44,10 @@ Cc: linux-media@vger.kernel.org,
 	kernel@collabora.com,
 	Benjamin Gaignard <benjamin.gaignard@collabora.com>,
 	Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
-	Steve Longerbeam <slongerbeam@gmail.com>
-Subject: [PATCH v15 31/56] media: imx: Stop direct calls to queue num_buffers field
-Date: Thu,  9 Nov 2023 17:34:47 +0100
-Message-Id: <20231109163512.179524-32-benjamin.gaignard@collabora.com>
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Subject: [PATCH v15 33/56] touchscreen: sur40: Stop direct calls to queue num_buffers field
+Date: Thu,  9 Nov 2023 17:34:49 +0100
+Message-Id: <20231109163512.179524-34-benjamin.gaignard@collabora.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20231109163512.179524-14-benjamin.gaignard@collabora.com>
 References: <20231109163512.179524-14-benjamin.gaignard@collabora.com>
@@ -65,42 +65,28 @@ future.
 
 Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
 Reviewed-by: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
-CC: Steve Longerbeam <slongerbeam@gmail.com>
-CC: Philipp Zabel <p.zabel@pengutronix.de>
+Acked-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 ---
- drivers/staging/media/imx/imx-media-capture.c | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
+ drivers/input/touchscreen/sur40.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/staging/media/imx/imx-media-capture.c b/drivers/staging/media/imx/imx-media-capture.c
-index 4846078315ff..ce02199e7b1b 100644
---- a/drivers/staging/media/imx/imx-media-capture.c
-+++ b/drivers/staging/media/imx/imx-media-capture.c
-@@ -605,6 +605,7 @@ static int capture_queue_setup(struct vb2_queue *vq,
+diff --git a/drivers/input/touchscreen/sur40.c b/drivers/input/touchscreen/sur40.c
+index 8ddb3f7d307a..e7d2a52169a0 100644
+--- a/drivers/input/touchscreen/sur40.c
++++ b/drivers/input/touchscreen/sur40.c
+@@ -847,9 +847,10 @@ static int sur40_queue_setup(struct vb2_queue *q,
+ 		       unsigned int sizes[], struct device *alloc_devs[])
  {
- 	struct capture_priv *priv = vb2_get_drv_priv(vq);
- 	struct v4l2_pix_format *pix = &priv->vdev.fmt;
-+	unsigned int q_num_bufs = vb2_get_num_buffers(vq);
- 	unsigned int count = *nbuffers;
+ 	struct sur40_state *sur40 = vb2_get_drv_priv(q);
++	unsigned int q_num_bufs = vb2_get_num_buffers(q);
  
- 	if (vq->type != V4L2_BUF_TYPE_VIDEO_CAPTURE)
-@@ -613,14 +614,14 @@ static int capture_queue_setup(struct vb2_queue *vq,
- 	if (*nplanes) {
- 		if (*nplanes != 1 || sizes[0] < pix->sizeimage)
- 			return -EINVAL;
--		count += vq->num_buffers;
-+		count += q_num_bufs;
- 	}
- 
- 	count = min_t(__u32, VID_MEM_LIMIT / pix->sizeimage, count);
+-	if (q->num_buffers + *nbuffers < 3)
+-		*nbuffers = 3 - q->num_buffers;
++	if (q_num_bufs + *nbuffers < 3)
++		*nbuffers = 3 - q_num_bufs;
  
  	if (*nplanes)
--		*nbuffers = (count < vq->num_buffers) ? 0 :
--			count - vq->num_buffers;
-+		*nbuffers = (count < q_num_bufs) ? 0 :
-+			count - q_num_bufs;
- 	else
- 		*nbuffers = count;
- 
+ 		return sizes[0] < sur40->pix_fmt.sizeimage ? -EINVAL : 0;
 -- 
 2.39.2
 
