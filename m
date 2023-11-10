@@ -1,29 +1,31 @@
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.22])
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 068381DFDF
-	for <linux-staging@lists.linux.dev>; Fri, 10 Nov 2023 10:32:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmx.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DAE713ADD
+	for <linux-staging@lists.linux.dev>; Fri, 10 Nov 2023 11:03:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.b="fyqg58Eo"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
-	s=s31663417; t=1699612349; x=1700217149; i=wahrenst@gmx.net;
-	bh=VYUzFbtyLV0OMmDyZppluwpgFsQNDPwwwtizFu1yQGo=;
-	h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:
-	 In-Reply-To;
-	b=fyqg58EofYlVvDHn84ZHH/jKJUR5U3PBJpB0a4V1rMEbYquFoswA+JWyFS7LnUHv
-	 mzc0RkN+0wdJ2EI+DCCzmYiUwRR7tzIbeQJcCTd9DcRJo8kfrMReOmYTa6sE5U5wv
-	 jp5A6n0rnpw4sfB+K94bIRTbVWyRkrFFXtB3qfqkMAio/j4NgvW44oQ8sgl9STpwC
-	 6HSVxhrbdsftwsTxNd/PkvlHzaGiWZ3CwTzhk8mc/5DRFtzkslOikPzje7YOsVdDO
-	 B3/Nnu1mCtCjxnQ8OpRZZPW9mRhEYZmYnh1VaXLU2n6sVT5usbIFV3Z4rG/0YqGSt
-	 2nAUNYYNLc6P2lPSzA==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from [192.168.1.129] ([37.4.248.43]) by mail.gmx.net (mrgmx105
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1MfpOT-1rdEf741BB-00gDAP; Fri, 10
- Nov 2023 11:32:29 +0100
-Message-ID: <aec3897e-3ff6-4256-aaef-0cc1d5e7822a@gmx.net>
-Date: Fri, 10 Nov 2023 11:32:27 +0100
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="O5qOOfkb"
+Received: from [100.116.125.19] (cola.collaboradmins.com [195.201.22.229])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: andrzej.p)
+	by madras.collabora.co.uk (Postfix) with ESMTPSA id EC78B66073EB;
+	Fri, 10 Nov 2023 11:03:53 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1699614235;
+	bh=IlFF4hLVYQMy+8z6m7boQ1emEGxM3/fBp3D4sqFY4lo=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=O5qOOfkbHwk1EQ79MoiHJUqkRlyLWF59KLiv1aw0WWhGJJ1igR1uGZtohHN0HL8fB
+	 EniGr8zsuLvPLB61+ZBiWTyoufc/iPdUzGCivPmO0wJQg2zbOSaWOxrH/gW78Rk3Zj
+	 e5xDfDQlYjYjwv7HFdNkzibpmDNwpytUEdRm0k2SaoeqmkgwSU0yg3rGvD7Z7YRoVT
+	 hWUmU1Q4jRrs0nZPeKgVlvBEXYF5XmUJIGWz1icdoLxp0zWngiwA/cASOsdqWlEdY7
+	 ZSCVe2KuerHlMq1X7IDv2CHnyq5W5Nqwb/9Br4x6doJqrNs0OlXEyJ54IQSUf2hOqh
+	 3rGPJxP7piJMg==
+Message-ID: <ca386f5c-34b2-4515-99ea-975b009b6628@collabora.com>
+Date: Fri, 10 Nov 2023 12:03:50 +0100
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -31,171 +33,226 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 00/15] staging: vc04_services: bcm2835-isp support
+Subject: Re: [PATCH v15 30/56] media: test-drivers: Stop direct calls to queue
+ num_buffers field
+To: Benjamin Gaignard <benjamin.gaignard@collabora.com>, mchehab@kernel.org,
+ tfiga@chromium.org, m.szyprowski@samsung.com, ming.qian@nxp.com,
+ ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de,
+ gregkh@linuxfoundation.org, hverkuil-cisco@xs4all.nl,
+ nicolas.dufresne@collabora.com
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org,
+ linux-arm-msm@vger.kernel.org, linux-rockchip@lists.infradead.org,
+ linux-staging@lists.linux.dev, kernel@collabora.com,
+ Daniel Almeida <daniel.almeida@collabora.com>
+References: <20231109163512.179524-14-benjamin.gaignard@collabora.com>
+ <20231109163512.179524-31-benjamin.gaignard@collabora.com>
+ <0b79bb25-2e44-4a6d-b306-76477a2c8a08@collabora.com>
+ <84f22803-bd25-4985-a17c-b38bd738b487@collabora.com>
 Content-Language: en-US
-To: Umang Jain <umang.jain@ideasonboard.com>, linux-media@vger.kernel.org,
- kernel-list@raspberrypi.com, linux-kernel@vger.kernel.org,
- linux-rpi-kernel@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- linux-staging@lists.linux.dev
-Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>,
- Kieran Bingham <kieran.bingham@ideasonboard.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- "Ricardo B . Marliere" <ricardo@marliere.net>,
- Dan Carpenter <error27@gmail.com>
-References: <20231109210309.638594-1-umang.jain@ideasonboard.com>
-From: Stefan Wahren <wahrenst@gmx.net>
-In-Reply-To: <20231109210309.638594-1-umang.jain@ideasonboard.com>
+From: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
+In-Reply-To: <84f22803-bd25-4985-a17c-b38bd738b487@collabora.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:IzaixV3E2I0i5t1/yCRO/F7ZOx4f22jelDHFErmexGp2So76fLm
- qGchW9n6Y7n4VcfVnzYZ9Q76G0it4uyBXRiskwszPHlafupQec5SaTifLZ6JM53IqXtUcm0
- mlvsfupldha0QGm1xUGTlXvyY1jADADgDEhorj2kJAbsRe4fNDEuk15Z0zyZS6dZdnjxgNr
- QMOsoDKCibG7m8582HQJg==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:KPsVdoqBSyc=;OYScNlUkAb5HvB19yahEro5NCPV
- KB4eXrPpk4Z6dou+rwTFoRLcU2ADdro155R9RjTQBfPGTIrQ2kpGdX0tHWU/h3VSrUox/VAnD
- 82jg4CDk/ayNCc6gFyrcFATqn1eZc6nzVqlBX0ZfAXyXf3+x7pCzSUU7Kzm+wnKVXg9AG7Oeo
- T7DMjZDilgPdJZ2jm6IZ302jyddUM99iyGGE2JO1XsLYzKai1OHXl8LKOgWaNFpurUJL1OUXu
- qKXfmz+3guGevKD5Vu+6AM6s92j9CVA58qLEnd/lwU57JZ4DRLMTwG9T60f/XVaJsb+ew2JeY
- 5w0ru73KJD8G7Q3zZ/kaLeLWb7t5Eftej3g0VY7hsyGmRfWELi5QZKxCExGAuI/QFcdrek/q7
- Em1pG5mZQQC8Cgn7Yv/EUe82cWyqAZ1e23cG3YVvW/KnWMhZbUbqTSKEdznAtAKDuO+XKmlYH
- Y+uWQ4B6txSNY97EGJ0ssLII92NV+ajVM+PdIBQuwxKuHMtshD0hsRXd3SblIjwCqEfJA2e1I
- +MjBE7xhBAZClh3P+s+grJXjXO5vL12a3PUMQr7CvY5ob6dt4Y2mdWviB9Cxd3WkAFByBwxIv
- Y0ANgej9laXnoE/bF0y0/3NgzTzmgLvkjyI7ccdnRNH8U1EsI/YRdN2UD3wQnRAMZ/UIzweUJ
- 0bCm9APHG9JxhN8J4IQJIzOh1A3juTUQ0CA9HxtvyJCPe/6yAdWa7fliQq+d9kKzpZLO6qVrN
- 5cNl9dEwr6HUVqVsYNIIivkDUKN9lrJ1jyDK87NXps86/1H3LWR6eC2IhcNkjo4TbjtInQUC6
- VBr7XStA3fe4qWAi/SwMg2FUfAztUdE4Ri8GIC8vmZd+3yZjvIJlT0YYAm2IYDlU9XMvTlSPH
- wiBh5r3aSaLe19C39tgUxEY/DmJmIeJ8mUD6IdbOcfCe7fZpZDXozFsnmM2axkKKREunLSNJv
- QHpTEA==
+Content-Transfer-Encoding: 8bit
 
-Hi Umang,
+Hi Benjamin,
 
-Am 09.11.23 um 22:02 schrieb Umang Jain:
-> This series aims to upport bcm2835-isp from the RPi kernel.
-> It is developed on top of staging-next which comprises many
-> VC04 changes for it's de-staging. Hence, the merge of this
-> driver is targeted when VC04 is de-staged completely (which I
-> have been pushing), but it can be helped getting reviewed meanwhile.
-> Hence, the reason for posting the series.
->
-> Patch (01-02)/15  adds a new driver named vc-sm-cma to handle memory sha=
-ring
-> with the VC4 VPU.
->
-> Patch 03/15 adds a small extension to videobuf2 to allow exporting as a
-> dma_buf instead of a file-descriptor.
->
-> Patch (04-05)/15 adds a couple of improvements/support for
-> bcm2835-isp(event callback and zero-copy) to vchiq-mmal.
->
-> Patch (06-10)/15 adds the core bcm2835-isp driver along with headers
-> and format defintions. 09/15 is a standalone patch which can be merged
-> independently I believe.
->
-> Patch (11-12)/15 deals with the colorspace support.
->
-> Patch 13/15 allows multiple instances of the ISP.
->
-> Patch 14/15 adds a admin-guide document on bcm2835-isp.
->
-> Patch 15/15 deals with driver registeration.
+W dniu 10.11.2023 o 10:55, Benjamin Gaignard pisze:
+> 
+> Le 10/11/2023 à 10:35, Andrzej Pietrasiewicz a écrit :
+>> Hi Benjamin,
+>>
+>> W dniu 9.11.2023 o 17:34, Benjamin Gaignard pisze:
+>>> Use vb2_get_num_buffers() to avoid using queue num_buffers field directly.
+>>> This allows us to change how the number of buffers is computed in the
+>>> future.
+>>> If 'min_buffers_needed' is set remove useless checks in queue setup
+>>> functions.
+>>>
+>>> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+>>> CC: Daniel Almeida <daniel.almeida@collabora.com>
+>>> ---
+>>>   drivers/media/test-drivers/visl/visl-dec.c         | 4 ++--
+>>>   drivers/media/test-drivers/vivid/vivid-meta-cap.c  | 3 ---
+>>>   drivers/media/test-drivers/vivid/vivid-meta-out.c  | 5 +++--
+>>>   drivers/media/test-drivers/vivid/vivid-touch-cap.c | 5 +++--
+>>>   drivers/media/test-drivers/vivid/vivid-vbi-cap.c   | 3 ---
+>>>   drivers/media/test-drivers/vivid/vivid-vbi-out.c   | 3 ---
+>>>   drivers/media/test-drivers/vivid/vivid-vid-cap.c   | 3 ---
+>>>   drivers/media/test-drivers/vivid/vivid-vid-out.c   | 5 +----
+>>>   8 files changed, 9 insertions(+), 22 deletions(-)
+>>>
+>>> diff --git a/drivers/media/test-drivers/visl/visl-dec.c 
+>>> b/drivers/media/test-drivers/visl/visl-dec.c
+>>> index ba20ea998d19..4672dc5e52bb 100644
+>>> --- a/drivers/media/test-drivers/visl/visl-dec.c
+>>> +++ b/drivers/media/test-drivers/visl/visl-dec.c
+>>> @@ -287,7 +287,7 @@ static void visl_tpg_fill(struct visl_ctx *ctx, struct 
+>>> visl_run *run)
+>>>       frame_dprintk(ctx->dev, run->dst->sequence, "%s\n", buf);
+>>>         len = 0;
+>>> -    for (i = 0; i < out_q->num_buffers; i++) {
+>>> +    for (i = 0; i < vb2_get_num_buffers(out_q); i++) {
+>>>           char entry[] = "index: %u, state: %s, request_fd: %d, ";
+>>>           u32 old_len = len;
+>>>           struct vb2_buffer *vb2;
+>>> @@ -347,7 +347,7 @@ static void visl_tpg_fill(struct visl_ctx *ctx, struct 
+>>> visl_run *run)
+>>>       frame_dprintk(ctx->dev, run->dst->sequence, "%s\n", buf);
+>>>         len = 0;
+>>> -    for (i = 0; i < cap_q->num_buffers; i++) {
+>>> +    for (i = 0; i < vb2_get_num_buffers(cap_q); i++) {
+>>>           u32 old_len = len;
+>>>           struct vb2_buffer *vb2;
+>>>           char *q_status;
+>>> diff --git a/drivers/media/test-drivers/vivid/vivid-meta-cap.c 
+>>> b/drivers/media/test-drivers/vivid/vivid-meta-cap.c
+>>> index 780f96860a6d..0a718d037e59 100644
+>>> --- a/drivers/media/test-drivers/vivid/vivid-meta-cap.c
+>>> +++ b/drivers/media/test-drivers/vivid/vivid-meta-cap.c
+>>> @@ -30,9 +30,6 @@ static int meta_cap_queue_setup(struct vb2_queue *vq, 
+>>> unsigned int *nbuffers,
+>>>           sizes[0] = size;
+>>>       }
+>>>   -    if (vq->num_buffers + *nbuffers < 2)
+>>> -        *nbuffers = 2 - vq->num_buffers;
+>>> -
+>>>       *nplanes = 1;
+>>>       return 0;
+>>>   }
+>>> diff --git a/drivers/media/test-drivers/vivid/vivid-meta-out.c 
+>>> b/drivers/media/test-drivers/vivid/vivid-meta-out.c
+>>> index 95835b52b58f..4a569a6e58be 100644
+>>> --- a/drivers/media/test-drivers/vivid/vivid-meta-out.c
+>>> +++ b/drivers/media/test-drivers/vivid/vivid-meta-out.c
+>>> @@ -18,6 +18,7 @@ static int meta_out_queue_setup(struct vb2_queue *vq, 
+>>> unsigned int *nbuffers,
+>>>                   struct device *alloc_devs[])
+>>>   {
+>>>       struct vivid_dev *dev = vb2_get_drv_priv(vq);
+>>> +    unsigned int q_num_bufs = vb2_get_num_buffers(vq);
+>>>       unsigned int size =  sizeof(struct vivid_meta_out_buf);
+>>>         if (!vivid_is_webcam(dev))
+>>> @@ -30,8 +31,8 @@ static int meta_out_queue_setup(struct vb2_queue *vq, 
+>>> unsigned int *nbuffers,
+>>>           sizes[0] = size;
+>>>       }
+>>>   -    if (vq->num_buffers + *nbuffers < 2)
+>>> -        *nbuffers = 2 - vq->num_buffers;
+>>> +    if (q_num_bufs + *nbuffers < 2)
+>>> +        *nbuffers = 2 - q_num_bufs;
+>>>         *nplanes = 1;
+>>>       return 0;
+>>> diff --git a/drivers/media/test-drivers/vivid/vivid-touch-cap.c 
+>>> b/drivers/media/test-drivers/vivid/vivid-touch-cap.c
+>>> index c7f6e23df51e..4b3c6ea0afde 100644
+>>> --- a/drivers/media/test-drivers/vivid/vivid-touch-cap.c
+>>> +++ b/drivers/media/test-drivers/vivid/vivid-touch-cap.c
+>>> @@ -13,6 +13,7 @@ static int touch_cap_queue_setup(struct vb2_queue *vq, 
+>>> unsigned int *nbuffers,
+>>>                    struct device *alloc_devs[])
+>>>   {
+>>>       struct vivid_dev *dev = vb2_get_drv_priv(vq);
+>>> +    unsigned int q_num_bufs = vb2_get_num_buffers(vq);
+>>>       struct v4l2_pix_format *f = &dev->tch_format;
+>>>       unsigned int size = f->sizeimage;
+>>>   @@ -23,8 +24,8 @@ static int touch_cap_queue_setup(struct vb2_queue *vq, 
+>>> unsigned int *nbuffers,
+>>>           sizes[0] = size;
+>>>       }
+>>>   -    if (vq->num_buffers + *nbuffers < 2)
+>>> -        *nbuffers = 2 - vq->num_buffers;
+>>> +    if (q_num_bufs + *nbuffers < 2)
+>>> +        *nbuffers = 2 - q_num_bufs;
+>>>         *nplanes = 1;
+>>>       return 0;
+>>> diff --git a/drivers/media/test-drivers/vivid/vivid-vbi-cap.c 
+>>> b/drivers/media/test-drivers/vivid/vivid-vbi-cap.c
+>>> index b65b02eeeb97..3840b3a664ac 100644
+>>> --- a/drivers/media/test-drivers/vivid/vivid-vbi-cap.c
+>>> +++ b/drivers/media/test-drivers/vivid/vivid-vbi-cap.c
+>>> @@ -134,9 +134,6 @@ static int vbi_cap_queue_setup(struct vb2_queue *vq,
+>>>         sizes[0] = size;
+>>>   -    if (vq->num_buffers + *nbuffers < 2)
+>>> -        *nbuffers = 2 - vq->num_buffers;
+>>> -
+>>>       *nplanes = 1;
+>>>       return 0;
+>>>   }
+>>> diff --git a/drivers/media/test-drivers/vivid/vivid-vbi-out.c 
+>>> b/drivers/media/test-drivers/vivid/vivid-vbi-out.c
+>>> index cd56476902a2..434a10676417 100644
+>>> --- a/drivers/media/test-drivers/vivid/vivid-vbi-out.c
+>>> +++ b/drivers/media/test-drivers/vivid/vivid-vbi-out.c
+>>> @@ -30,9 +30,6 @@ static int vbi_out_queue_setup(struct vb2_queue *vq,
+>>>         sizes[0] = size;
+>>>   -    if (vq->num_buffers + *nbuffers < 2)
+>>> -        *nbuffers = 2 - vq->num_buffers;
+>>> -
+>>>       *nplanes = 1;
+>>>       return 0;
+>>>   }
+>>> diff --git a/drivers/media/test-drivers/vivid/vivid-vid-cap.c 
+>>> b/drivers/media/test-drivers/vivid/vivid-vid-cap.c
+>>> index 3a06df35a2d7..2804975fe278 100644
+>>> --- a/drivers/media/test-drivers/vivid/vivid-vid-cap.c
+>>> +++ b/drivers/media/test-drivers/vivid/vivid-vid-cap.c
+>>> @@ -117,9 +117,6 @@ static int vid_cap_queue_setup(struct vb2_queue *vq,
+>>>                       dev->fmt_cap->data_offset[p];
+>>>       }
+>>>   -    if (vq->num_buffers + *nbuffers < 2)
+>>> -        *nbuffers = 2 - vq->num_buffers;
+>>> -
+>>>       *nplanes = buffers;
+>>>         dprintk(dev, 1, "%s: count=%d\n", __func__, *nbuffers);
+>>
+>> here the format specifier for "*nbuffers" is "%d"...
+>>
+>>> diff --git a/drivers/media/test-drivers/vivid/vivid-vid-out.c 
+>>> b/drivers/media/test-drivers/vivid/vivid-vid-out.c
+>>> index 184a6df2c29f..1653b2988f7e 100644
+>>> --- a/drivers/media/test-drivers/vivid/vivid-vid-out.c
+>>> +++ b/drivers/media/test-drivers/vivid/vivid-vid-out.c
+>>> @@ -73,12 +73,9 @@ static int vid_out_queue_setup(struct vb2_queue *vq,
+>>>                          vfmt->data_offset[p] : size;
+>>>       }
+>>>   -    if (vq->num_buffers + *nbuffers < 2)
+>>> -        *nbuffers = 2 - vq->num_buffers;
+>>> -
+>>>       *nplanes = planes;
+>>>   -    dprintk(dev, 1, "%s: count=%d\n", __func__, *nbuffers);
+>>> +    dprintk(dev, 1, "%s: count=%u\n", __func__, *nbuffers);
+>>
+>> ... but here you change it to "%u". Is there a reason for these two to be
+>> different? I didn't notice it in the previous version but now it stands out
+>> clearly. Probably you changed to %u because of the type returned by
+>> vb2_get_num_buffers(). And, actually, *nbuffers _is_ unsigned, too.
+> 
+> Like you said *nbuffers is unsigned so %u sound for me.
+> The goal of this patch was to avoid vq->num_buffers usage not to clean up all the
+> file.
+> That could be done in other patch since there is lot to do here.
+> 
 
-since this is V2, i couldn't find a changelog? The first one was one
-year ago, so it's very hard to remember. In such a case a link to the
-last version is also helpful.
+Arguably, if the purpose of this patch is to avoid using vq->num_buffers,
+the line we're discussing could be left unpatched, which minimizes the diffstat.
 
-Recently i saw you have a Github account. For such a complex series it's
-also very helpful to provide a link to a working test branch with this
-series applied. It's not a must, but appreciated.
+Otherwise, you _are_ changing vid_cap_queue_setup() anyway.
 
-Best regards
+Regards,
 
->
-> Dave Stevenson (6):
->    staging: vc04_services: Add new vc-sm-cma driver
->    media: videobuf2: Allow exporting of a struct dmabuf
->    staging: mmal-vchiq: Add support for event callbacks
->    staging: mmal-vchiq: Use vc-sm-cma to support zero copy
->    staging: mmal_vchiq: Add image formats to be used by bcm2835-isp
->    uapi: bcm2835-isp: Add bcm2835-isp uapi header file
->
-> David Plowman (2):
->    vc04_services: bcm2835-isp: Allow formats with different colour space=
-s
->    vc04_services: bcm2835-isp: Permit all sRGB colour spaces on ISP
->      outputs
->
-> Naushir Patuck (4):
->    media: uapi: v4l2-core: Add ISP statistics output V4L2 fourcc type
->    staging: vc04_services: bcm2835-isp: Add a more complex ISP processin=
-g
->      component
->    staging: vc04_services: bcm2835_isp: Allow multiple users
->    docs: admin-guide: media: bcm2835-isp: Add documentation for
->      bcm2835-isp
->
-> Umang Jain (3):
->    staging: vc04_services: vchiq_arm: Register vcsm-cma driver
->    staging: vc04_services: Add helpers for vchiq driver data
->    staging: vc04_services: vchiq: Register bcm2835-isp
->
->   .../admin-guide/media/bcm2835-isp.rst         |  127 ++
->   .../userspace-api/media/drivers/index.rst     |    1 +
->   .../userspace-api/media/v4l/meta-formats.rst  |    1 +
->   .../v4l/pixfmt-meta-bcm2835-isp-stats.rst     |   32 +
->   MAINTAINERS                                   |    9 +
->   .../media/common/videobuf2/videobuf2-core.c   |   36 +-
->   drivers/media/v4l2-core/v4l2-ioctl.c          |    1 +
->   drivers/staging/vc04_services/Kconfig         |    4 +
->   drivers/staging/vc04_services/Makefile        |    3 +-
->   .../staging/vc04_services/bcm2835-isp/Kconfig |   14 +
->   .../vc04_services/bcm2835-isp/Makefile        |    4 +
->   .../bcm2835-isp/bcm2835-isp-ctrls.h           |   72 +
->   .../bcm2835-isp/bcm2835-isp-fmts.h            |  559 +++++
->   .../bcm2835-isp/bcm2835-v4l2-isp.c            | 1822 +++++++++++++++++
->   .../interface/vchiq_arm/vchiq_arm.c           |    6 +
->   .../interface/vchiq_arm/vchiq_bus.h           |   10 +
->   .../staging/vc04_services/vc-sm-cma/Kconfig   |   10 +
->   .../staging/vc04_services/vc-sm-cma/Makefile  |    4 +
->   .../staging/vc04_services/vc-sm-cma/vc_sm.c   |  817 ++++++++
->   .../staging/vc04_services/vc-sm-cma/vc_sm.h   |   54 +
->   .../vc04_services/vc-sm-cma/vc_sm_cma_vchi.c  |  507 +++++
->   .../vc04_services/vc-sm-cma/vc_sm_cma_vchi.h  |   63 +
->   .../vc04_services/vc-sm-cma/vc_sm_defs.h      |  187 ++
->   .../vc04_services/vc-sm-cma/vc_sm_knl.h       |   28 +
->   .../staging/vc04_services/vchiq-mmal/Kconfig  |    1 +
->   .../vc04_services/vchiq-mmal/mmal-common.h    |    5 +
->   .../vc04_services/vchiq-mmal/mmal-encodings.h |   66 +
->   .../vc04_services/vchiq-mmal/mmal-msg.h       |   35 +
->   .../vchiq-mmal/mmal-parameters.h              |  165 +-
->   .../vc04_services/vchiq-mmal/mmal-vchiq.c     |  253 ++-
->   .../vc04_services/vchiq-mmal/mmal-vchiq.h     |    5 +
->   include/media/videobuf2-core.h                |   15 +
->   include/uapi/linux/bcm2835-isp.h              |  347 ++++
->   include/uapi/linux/v4l2-controls.h            |    5 +
->   include/uapi/linux/videodev2.h                |    1 +
->   35 files changed, 5235 insertions(+), 34 deletions(-)
->   create mode 100644 Documentation/admin-guide/media/bcm2835-isp.rst
->   create mode 100644 Documentation/userspace-api/media/v4l/pixfmt-meta-b=
-cm2835-isp-stats.rst
->   create mode 100644 drivers/staging/vc04_services/bcm2835-isp/Kconfig
->   create mode 100644 drivers/staging/vc04_services/bcm2835-isp/Makefile
->   create mode 100644 drivers/staging/vc04_services/bcm2835-isp/bcm2835-i=
-sp-ctrls.h
->   create mode 100644 drivers/staging/vc04_services/bcm2835-isp/bcm2835-i=
-sp-fmts.h
->   create mode 100644 drivers/staging/vc04_services/bcm2835-isp/bcm2835-v=
-4l2-isp.c
->   create mode 100644 drivers/staging/vc04_services/vc-sm-cma/Kconfig
->   create mode 100644 drivers/staging/vc04_services/vc-sm-cma/Makefile
->   create mode 100644 drivers/staging/vc04_services/vc-sm-cma/vc_sm.c
->   create mode 100644 drivers/staging/vc04_services/vc-sm-cma/vc_sm.h
->   create mode 100644 drivers/staging/vc04_services/vc-sm-cma/vc_sm_cma_v=
-chi.c
->   create mode 100644 drivers/staging/vc04_services/vc-sm-cma/vc_sm_cma_v=
-chi.h
->   create mode 100644 drivers/staging/vc04_services/vc-sm-cma/vc_sm_defs.=
-h
->   create mode 100644 drivers/staging/vc04_services/vc-sm-cma/vc_sm_knl.h
->   create mode 100644 include/uapi/linux/bcm2835-isp.h
->
+Andrzej
+
+> Regards,
+> Benjamin
+> 
+>>
+>> Regards,
+>>
+>> Andrzej
+>>
+>>>       for (p = 0; p < planes; p++)
+>>>           dprintk(dev, 1, "%s: size[%u]=%u\n", __func__, p, sizes[p]);
+>>>       return 0;
+>>
+
