@@ -1,31 +1,29 @@
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+Received: from mout.gmx.net (mout.gmx.net [212.227.17.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07AC3134A0
-	for <linux-staging@lists.linux.dev>; Fri, 10 Nov 2023 09:58:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5FF813FEE
+	for <linux-staging@lists.linux.dev>; Fri, 10 Nov 2023 10:21:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmx.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="DuwFQG1h"
-Received: from [100.98.136.55] (cola.collaboradmins.com [195.201.22.229])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: benjamin.gaignard)
-	by madras.collabora.co.uk (Postfix) with ESMTPSA id 5A78066073F0;
-	Fri, 10 Nov 2023 09:58:07 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1699610288;
-	bh=vrNV2GhNqWh/xBpCPEe9AvJUCx3NTwSzBq79fFKMFXo=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=DuwFQG1hrwVOUMfTm66Nt2HFOMGrdy1qL6Zk0SfpSUTLwAhBTDxoHQXQo9fSpSXNv
-	 C3PGjIBNZtWJjF94AybOCJ7wGcEqjIym5tECcXQXxJv+z4OLU/T5hmo7PCD2XrTJfi
-	 2vTl0MeCnZc0uKvhjPEnYkPSSZZoK2somzeSEw2vbBPe1zcXadd7Jl0jL4DC2gbOUl
-	 2IMstZ2CAG4KqEj1mxvsKPqnQUrsicfrKe5k9QhiQ8N6Hca2og3S5lNFCtqF1aQ/0d
-	 cyuXjTNgWG6CG+SSO+M+Wyk0r+1TD0SAPfe9pFtqLlVItHQc9eVe7XpSVnTgAbDl+O
-	 6JbUN+7roVQyg==
-Message-ID: <84f22803-bd25-4985-a17c-b38bd738b487@collabora.com>
-Date: Fri, 10 Nov 2023 10:55:55 +0100
+	dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.b="tiqoqms4"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+	s=s31663417; t=1699611702; x=1700216502; i=wahrenst@gmx.net;
+	bh=pDxBNkCtCkZS6G8VVFGb2hFThM0VDkxh3OXp+guyeQE=;
+	h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:
+	 In-Reply-To;
+	b=tiqoqms45cjSluer2tQFyKyGah+gnuoEPmDjvpd063Wyg6etaqmsZAIftb4MrujM
+	 QMFslV7rIqGV26EzDrQmfYk1OSiNHOM8tQvNjjAt0Qd4ny0rWgM6FwGmpNGTn+es6
+	 PE2Vm71ac3ZmP4UTou8HI1OebkNiybmQBFeOInOXT3EAeWi6KDZ6X3nIVFoUKDdqT
+	 nxc4xbhkHTWrO50NAqH3xTekoYJLETEd1iA39SKNaiyWCb3KEvU91q2YzFKMIIl3V
+	 /jKNBz9m1kHAgl1AcswqRMZnML/ByOrPoA8Y6bajNXUIQ6B5xvisYZ+bd+6llRR0+
+	 g/8PSvGnxScf/FSsXw==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from [192.168.1.129] ([37.4.248.43]) by mail.gmx.net (mrgmx104
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1MryXN-1rn9e71rzZ-00nxZL; Fri, 10
+ Nov 2023 11:21:42 +0100
+Message-ID: <a122dc9a-724d-4f57-b0c2-0b6676a4ea83@gmx.net>
+Date: Fri, 10 Nov 2023 11:21:41 +0100
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -33,213 +31,145 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v15 30/56] media: test-drivers: Stop direct calls to queue
- num_buffers field
-To: Andrzej Pietrasiewicz <andrzej.p@collabora.com>, mchehab@kernel.org,
- tfiga@chromium.org, m.szyprowski@samsung.com, ming.qian@nxp.com,
- ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de,
- gregkh@linuxfoundation.org, hverkuil-cisco@xs4all.nl,
- nicolas.dufresne@collabora.com
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org,
- linux-arm-msm@vger.kernel.org, linux-rockchip@lists.infradead.org,
- linux-staging@lists.linux.dev, kernel@collabora.com,
- Daniel Almeida <daniel.almeida@collabora.com>
-References: <20231109163512.179524-14-benjamin.gaignard@collabora.com>
- <20231109163512.179524-31-benjamin.gaignard@collabora.com>
- <0b79bb25-2e44-4a6d-b306-76477a2c8a08@collabora.com>
+Subject: Re: [PATCH 5/9] staging: vc04_services: Do not pass NULL to
+ vchiq_log_error()
+To: Umang Jain <umang.jain@ideasonboard.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: linux-staging@lists.linux.dev, linux-rpi-kernel@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Dan Carpenter <error27@gmail.com>,
+ Kieran Bingham <kieran.bingham@ideasonboard.com>,
+ Phil Elwell <phil@raspberrypi.com>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>
+References: <20231107095156.365492-1-umang.jain@ideasonboard.com>
+ <20231107095156.365492-6-umang.jain@ideasonboard.com>
+ <20231107122551.GA3051@pendragon.ideasonboard.com>
+ <20231107123627.GB3051@pendragon.ideasonboard.com>
 Content-Language: en-US
-From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-In-Reply-To: <0b79bb25-2e44-4a6d-b306-76477a2c8a08@collabora.com>
+From: Stefan Wahren <wahrenst@gmx.net>
+In-Reply-To: <20231107123627.GB3051@pendragon.ideasonboard.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:yeYVJSxIyCHzHks/8URM3J2LlpTNzRU1rKdr9itN57hIV5jnkfb
+ tRHeL1geL+ZByl9Q5dvug6Lcf6IcCzFGX/odVAy5VdXhlnUoNh6iOtbAwg2HKSwpvXJ92WV
+ 8FEO8AOeGekSXEuqSJ06Eux6LQsEIYZtAmb2jwz+y1mtimbSEfqropPDv+EuFAPaCK3f24V
+ OpeUb7JHPj4HarQ/C0mSg==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:YYWisDYw8xM=;hpFPDn/U9t8bI9F/lSJsdl6yvku
+ +flBFMDOajNqb0nd8swkU9rFelaywO5q+o1NMxfgjrUlzfobLBKbVW9dBDS4IYZ6G3kHKKRfI
+ bIwwwSajMn5L39yW8N51rhz5J76tzdEif/luJsA5xtqwyTY079YNawaHQPs9D80Nify95uAPo
+ 6niYudsKSpCxvHqYKNO22dbZqMPzj0lNXEqt1YSMFe9AtLlDn5M07OfjMphpP6PeXfx9hVMXU
+ P40i5DO9aZitN65PcdkI7yqtfSiwZ9V0UiZvPZuvwU0U2u+oDndarAD/cAzGmqcY2PYn7G/bW
+ wMeC7WgrYr14Zs/prv5PUMqTPz+hH1hF8mCIgry4Px3D4ucAX2NeuCkoy0/RmLs2ij1SAtIfQ
+ 9BMUlgkKWRkGSiQkg4K3ozEVsIhpTEzSZq9zhRWwIYinIFnkDReaeFD3BsN7KqjY34U+Y0yW9
+ 6iT50KeTIxJY+AweQbUKJEktHpygNtKJ2N6zRFLhC+MgwkjNgNgASLA8tro9dwCW5ReGFHbTT
+ ANm40bO3sQXSMTf3JYMeP/Foez85PT8pW6FzS2vdIGGvUzKuJ3qBycbxF2bat4lqbfrS2A9c9
+ sS4Ho8sbnyXs2R05OepZRZZxMoYmTcWhbWnZaRKvRkTAgd+nIBs9IJ6V7uuPpnTrClZufw3UU
+ 2N9JLtqMIDFqzWMV8OmBa9TftcT4yxekQR8EyTDRutnZY56MFVUVJ6qPvXU0juWfK+dwxUmFN
+ bOJyeQt1PDECthW67xUCVJs1IGK+Dv8vusJxlS4S2D7kSwnq+WPNk+fCcIMF6UvLDZov4ifGl
+ 6oQxPoqeweOcYgPHBA4nOV3xKujptcWbMTt/Xn++RBiM1VfXnzqWt93gCzZfZrZpFEWyjwgOJ
+ hZmRYyNQa1iH6Or4+x+D5CDxZvJfIIh9uMVYdwiGP/mWjmZLtMxdiATzJw/o0XvusYQ9wrxTw
+ zbtIHQ==
 
+Hi Umang,
 
-Le 10/11/2023 à 10:35, Andrzej Pietrasiewicz a écrit :
-> Hi Benjamin,
->
-> W dniu 9.11.2023 o 17:34, Benjamin Gaignard pisze:
->> Use vb2_get_num_buffers() to avoid using queue num_buffers field 
->> directly.
->> This allows us to change how the number of buffers is computed in the
->> future.
->> If 'min_buffers_needed' is set remove useless checks in queue setup
->> functions.
+Am 07.11.23 um 13:36 schrieb Laurent Pinchart:
+> On Tue, Nov 07, 2023 at 02:25:52PM +0200, Laurent Pinchart wrote:
+>> On Tue, Nov 07, 2023 at 04:51:52AM -0500, Umang Jain wrote:
+>>> vchiq_add_connected_callback() logs using vchiq_log_error() macro,
+>>> but passes NULL instead of a struct device pointer. Fix it.
+>>>
+>>> vchiq_add_connected_callback() is not used anywhere in the vc04_servic=
+es
+>>> as of now. It will be used when we add new drivers(VC shared memory an=
+d
+>>> bcm2835-isp), hence it kept as it is for now.
+>>>
+>>> Fixes: 1d8915cf8899 ("staging: vc04: Convert vchiq_log_error() to use =
+dynamic debug")
+>>> Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
+>>> ---
+>>>   .../vc04_services/interface/vchiq_arm/vchiq_connected.c       | 4 ++=
+=2D-
+>>>   .../vc04_services/interface/vchiq_arm/vchiq_connected.h       | 4 ++=
++-
+>>>   2 files changed, 5 insertions(+), 3 deletions(-)
+>>>
+>>> diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_c=
+onnected.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_conne=
+cted.c
+>>> index b3928bd8c9c6..21f9fa1a1713 100644
+>>> --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_connecte=
+d.c
+>>> +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_connecte=
+d.c
+>>> @@ -27,7 +27,7 @@ static void connected_init(void)
+>>>    * be made immediately, otherwise it will be deferred until
+>>>    * vchiq_call_connected_callbacks is called.
+>>>    */
+>>> -void vchiq_add_connected_callback(void (*callback)(void))
+>>> +void vchiq_add_connected_callback(struct vchiq_device *device, void (=
+*callback)(void))
 >>
->> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
->> CC: Daniel Almeida <daniel.almeida@collabora.com>
->> ---
->>   drivers/media/test-drivers/visl/visl-dec.c         | 4 ++--
->>   drivers/media/test-drivers/vivid/vivid-meta-cap.c  | 3 ---
->>   drivers/media/test-drivers/vivid/vivid-meta-out.c  | 5 +++--
->>   drivers/media/test-drivers/vivid/vivid-touch-cap.c | 5 +++--
->>   drivers/media/test-drivers/vivid/vivid-vbi-cap.c   | 3 ---
->>   drivers/media/test-drivers/vivid/vivid-vbi-out.c   | 3 ---
->>   drivers/media/test-drivers/vivid/vivid-vid-cap.c   | 3 ---
->>   drivers/media/test-drivers/vivid/vivid-vid-out.c   | 5 +----
->>   8 files changed, 9 insertions(+), 22 deletions(-)
->>
->> diff --git a/drivers/media/test-drivers/visl/visl-dec.c 
->> b/drivers/media/test-drivers/visl/visl-dec.c
->> index ba20ea998d19..4672dc5e52bb 100644
->> --- a/drivers/media/test-drivers/visl/visl-dec.c
->> +++ b/drivers/media/test-drivers/visl/visl-dec.c
->> @@ -287,7 +287,7 @@ static void visl_tpg_fill(struct visl_ctx *ctx, 
->> struct visl_run *run)
->>       frame_dprintk(ctx->dev, run->dst->sequence, "%s\n", buf);
->>         len = 0;
->> -    for (i = 0; i < out_q->num_buffers; i++) {
->> +    for (i = 0; i < vb2_get_num_buffers(out_q); i++) {
->>           char entry[] = "index: %u, state: %s, request_fd: %d, ";
->>           u32 old_len = len;
->>           struct vb2_buffer *vb2;
->> @@ -347,7 +347,7 @@ static void visl_tpg_fill(struct visl_ctx *ctx, 
->> struct visl_run *run)
->>       frame_dprintk(ctx->dev, run->dst->sequence, "%s\n", buf);
->>         len = 0;
->> -    for (i = 0; i < cap_q->num_buffers; i++) {
->> +    for (i = 0; i < vb2_get_num_buffers(cap_q); i++) {
->>           u32 old_len = len;
->>           struct vb2_buffer *vb2;
->>           char *q_status;
->> diff --git a/drivers/media/test-drivers/vivid/vivid-meta-cap.c 
->> b/drivers/media/test-drivers/vivid/vivid-meta-cap.c
->> index 780f96860a6d..0a718d037e59 100644
->> --- a/drivers/media/test-drivers/vivid/vivid-meta-cap.c
->> +++ b/drivers/media/test-drivers/vivid/vivid-meta-cap.c
->> @@ -30,9 +30,6 @@ static int meta_cap_queue_setup(struct vb2_queue 
->> *vq, unsigned int *nbuffers,
->>           sizes[0] = size;
->>       }
->>   -    if (vq->num_buffers + *nbuffers < 2)
->> -        *nbuffers = 2 - vq->num_buffers;
->> -
->>       *nplanes = 1;
->>       return 0;
->>   }
->> diff --git a/drivers/media/test-drivers/vivid/vivid-meta-out.c 
->> b/drivers/media/test-drivers/vivid/vivid-meta-out.c
->> index 95835b52b58f..4a569a6e58be 100644
->> --- a/drivers/media/test-drivers/vivid/vivid-meta-out.c
->> +++ b/drivers/media/test-drivers/vivid/vivid-meta-out.c
->> @@ -18,6 +18,7 @@ static int meta_out_queue_setup(struct vb2_queue 
->> *vq, unsigned int *nbuffers,
->>                   struct device *alloc_devs[])
->>   {
->>       struct vivid_dev *dev = vb2_get_drv_priv(vq);
->> +    unsigned int q_num_bufs = vb2_get_num_buffers(vq);
->>       unsigned int size =  sizeof(struct vivid_meta_out_buf);
->>         if (!vivid_is_webcam(dev))
->> @@ -30,8 +31,8 @@ static int meta_out_queue_setup(struct vb2_queue 
->> *vq, unsigned int *nbuffers,
->>           sizes[0] = size;
->>       }
->>   -    if (vq->num_buffers + *nbuffers < 2)
->> -        *nbuffers = 2 - vq->num_buffers;
->> +    if (q_num_bufs + *nbuffers < 2)
->> +        *nbuffers = 2 - q_num_bufs;
->>         *nplanes = 1;
->>       return 0;
->> diff --git a/drivers/media/test-drivers/vivid/vivid-touch-cap.c 
->> b/drivers/media/test-drivers/vivid/vivid-touch-cap.c
->> index c7f6e23df51e..4b3c6ea0afde 100644
->> --- a/drivers/media/test-drivers/vivid/vivid-touch-cap.c
->> +++ b/drivers/media/test-drivers/vivid/vivid-touch-cap.c
->> @@ -13,6 +13,7 @@ static int touch_cap_queue_setup(struct vb2_queue 
->> *vq, unsigned int *nbuffers,
->>                    struct device *alloc_devs[])
->>   {
->>       struct vivid_dev *dev = vb2_get_drv_priv(vq);
->> +    unsigned int q_num_bufs = vb2_get_num_buffers(vq);
->>       struct v4l2_pix_format *f = &dev->tch_format;
->>       unsigned int size = f->sizeimage;
->>   @@ -23,8 +24,8 @@ static int touch_cap_queue_setup(struct vb2_queue 
->> *vq, unsigned int *nbuffers,
->>           sizes[0] = size;
->>       }
->>   -    if (vq->num_buffers + *nbuffers < 2)
->> -        *nbuffers = 2 - vq->num_buffers;
->> +    if (q_num_bufs + *nbuffers < 2)
->> +        *nbuffers = 2 - q_num_bufs;
->>         *nplanes = 1;
->>       return 0;
->> diff --git a/drivers/media/test-drivers/vivid/vivid-vbi-cap.c 
->> b/drivers/media/test-drivers/vivid/vivid-vbi-cap.c
->> index b65b02eeeb97..3840b3a664ac 100644
->> --- a/drivers/media/test-drivers/vivid/vivid-vbi-cap.c
->> +++ b/drivers/media/test-drivers/vivid/vivid-vbi-cap.c
->> @@ -134,9 +134,6 @@ static int vbi_cap_queue_setup(struct vb2_queue *vq,
->>         sizes[0] = size;
->>   -    if (vq->num_buffers + *nbuffers < 2)
->> -        *nbuffers = 2 - vq->num_buffers;
->> -
->>       *nplanes = 1;
->>       return 0;
->>   }
->> diff --git a/drivers/media/test-drivers/vivid/vivid-vbi-out.c 
->> b/drivers/media/test-drivers/vivid/vivid-vbi-out.c
->> index cd56476902a2..434a10676417 100644
->> --- a/drivers/media/test-drivers/vivid/vivid-vbi-out.c
->> +++ b/drivers/media/test-drivers/vivid/vivid-vbi-out.c
->> @@ -30,9 +30,6 @@ static int vbi_out_queue_setup(struct vb2_queue *vq,
->>         sizes[0] = size;
->>   -    if (vq->num_buffers + *nbuffers < 2)
->> -        *nbuffers = 2 - vq->num_buffers;
->> -
->>       *nplanes = 1;
->>       return 0;
->>   }
->> diff --git a/drivers/media/test-drivers/vivid/vivid-vid-cap.c 
->> b/drivers/media/test-drivers/vivid/vivid-vid-cap.c
->> index 3a06df35a2d7..2804975fe278 100644
->> --- a/drivers/media/test-drivers/vivid/vivid-vid-cap.c
->> +++ b/drivers/media/test-drivers/vivid/vivid-vid-cap.c
->> @@ -117,9 +117,6 @@ static int vid_cap_queue_setup(struct vb2_queue *vq,
->>                       dev->fmt_cap->data_offset[p];
->>       }
->>   -    if (vq->num_buffers + *nbuffers < 2)
->> -        *nbuffers = 2 - vq->num_buffers;
->> -
->>       *nplanes = buffers;
->>         dprintk(dev, 1, "%s: count=%d\n", __func__, *nbuffers);
+>> You're changing the prototype of the function, but the patch doesn't
+>> update any user. If the function is unused, it looks like you can drop
+>> it instead. Looking at the rest of the vchiq_connected.c file, I think
+>> you can actually drop the whole file.
 >
-> here the format specifier for "*nbuffers" is "%d"...
->
->> diff --git a/drivers/media/test-drivers/vivid/vivid-vid-out.c 
->> b/drivers/media/test-drivers/vivid/vivid-vid-out.c
->> index 184a6df2c29f..1653b2988f7e 100644
->> --- a/drivers/media/test-drivers/vivid/vivid-vid-out.c
->> +++ b/drivers/media/test-drivers/vivid/vivid-vid-out.c
->> @@ -73,12 +73,9 @@ static int vid_out_queue_setup(struct vb2_queue *vq,
->>                          vfmt->data_offset[p] : size;
->>       }
->>   -    if (vq->num_buffers + *nbuffers < 2)
->> -        *nbuffers = 2 - vq->num_buffers;
->> -
->>       *nplanes = planes;
->>   -    dprintk(dev, 1, "%s: count=%d\n", __func__, *nbuffers);
->> +    dprintk(dev, 1, "%s: count=%u\n", __func__, *nbuffers);
->
-> ... but here you change it to "%u". Is there a reason for these two to be
-> different? I didn't notice it in the previous version but now it 
-> stands out
-> clearly. Probably you changed to %u because of the type returned by
-> vb2_get_num_buffers(). And, actually, *nbuffers _is_ unsigned, too.
+> Except that the vc-sm-cma driver will use it. I'm curious though, that
+> driver will have no way to acquire a pointer to a vchiq_device, so I
+> don't see how this will be usable. pr_err() may be a better pick here.
 
-Like you said *nbuffers is unsigned so %u sound for me.
-The goal of this patch was to avoid vq->num_buffers usage not to clean up all the
-file.
-That could be done in other patch since there is lot to do here.
+in case there is currently no user, but vc-sm-cma will be then i'm
+convinced that moving this driver into staging before vchiq is out is a
+good idea.
 
-Regards,
-Benjamin
+AFAIK your main goal is to get bcm2835-isp into mainline, so it would be
+faster to have it in staging, so everyone could fix the style issues.
+
+My initial concern about importing new drivers was that after moving it
+into staging nobody wants to finish the job. But currently i've a good
+feeling that vchiq is on a good way.
+
+Best regards
 
 >
-> Regards,
->
-> Andrzej
->
->>       for (p = 0; p < planes; p++)
->>           dprintk(dev, 1, "%s: size[%u]=%u\n", __func__, p, sizes[p]);
->>       return 0;
+>>>   {
+>>>   	connected_init();
+>>>
+>>> @@ -39,7 +39,7 @@ void vchiq_add_connected_callback(void (*callback)(v=
+oid))
+>>>   		callback();
+>>>   	} else {
+>>>   		if (g_num_deferred_callbacks >=3D MAX_CALLBACKS) {
+>>> -			vchiq_log_error(NULL, VCHIQ_CORE,
+>>> +			vchiq_log_error(&device->dev, VCHIQ_CORE,
+>>>   					"There already %d callback registered - please increase MAX_CAL=
+LBACKS",
+>>>   					g_num_deferred_callbacks);
+>>>   		} else {
+>>> diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_c=
+onnected.h b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_conne=
+cted.h
+>>> index 4caf5e30099d..e4ed56446f8a 100644
+>>> --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_connecte=
+d.h
+>>> +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_connecte=
+d.h
+>>> @@ -1,10 +1,12 @@
+>>>   /* SPDX-License-Identifier: GPL-2.0 OR BSD-3-Clause */
+>>>   /* Copyright (c) 2010-2012 Broadcom. All rights reserved. */
+>>>
+>>> +#include "vchiq_bus.h"
+>>> +
+>>>   #ifndef VCHIQ_CONNECTED_H
+>>>   #define VCHIQ_CONNECTED_H
+>>>
+>>> -void vchiq_add_connected_callback(void (*callback)(void));
+>>> +void vchiq_add_connected_callback(struct vchiq_device *device, void (=
+*callback)(void));
+>>>   void vchiq_call_connected_callbacks(void);
+>>>
+>>>   #endif /* VCHIQ_CONNECTED_H */
 >
