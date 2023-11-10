@@ -1,29 +1,29 @@
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.21])
+Received: from mout.gmx.net (mout.gmx.net [212.227.17.22])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5FF813FEE
-	for <linux-staging@lists.linux.dev>; Fri, 10 Nov 2023 10:21:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 068381DFDF
+	for <linux-staging@lists.linux.dev>; Fri, 10 Nov 2023 10:32:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmx.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.b="tiqoqms4"
+	dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.b="fyqg58Eo"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
-	s=s31663417; t=1699611702; x=1700216502; i=wahrenst@gmx.net;
-	bh=pDxBNkCtCkZS6G8VVFGb2hFThM0VDkxh3OXp+guyeQE=;
+	s=s31663417; t=1699612349; x=1700217149; i=wahrenst@gmx.net;
+	bh=VYUzFbtyLV0OMmDyZppluwpgFsQNDPwwwtizFu1yQGo=;
 	h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:
 	 In-Reply-To;
-	b=tiqoqms45cjSluer2tQFyKyGah+gnuoEPmDjvpd063Wyg6etaqmsZAIftb4MrujM
-	 QMFslV7rIqGV26EzDrQmfYk1OSiNHOM8tQvNjjAt0Qd4ny0rWgM6FwGmpNGTn+es6
-	 PE2Vm71ac3ZmP4UTou8HI1OebkNiybmQBFeOInOXT3EAeWi6KDZ6X3nIVFoUKDdqT
-	 nxc4xbhkHTWrO50NAqH3xTekoYJLETEd1iA39SKNaiyWCb3KEvU91q2YzFKMIIl3V
-	 /jKNBz9m1kHAgl1AcswqRMZnML/ByOrPoA8Y6bajNXUIQ6B5xvisYZ+bd+6llRR0+
-	 g/8PSvGnxScf/FSsXw==
+	b=fyqg58EofYlVvDHn84ZHH/jKJUR5U3PBJpB0a4V1rMEbYquFoswA+JWyFS7LnUHv
+	 mzc0RkN+0wdJ2EI+DCCzmYiUwRR7tzIbeQJcCTd9DcRJo8kfrMReOmYTa6sE5U5wv
+	 jp5A6n0rnpw4sfB+K94bIRTbVWyRkrFFXtB3qfqkMAio/j4NgvW44oQ8sgl9STpwC
+	 6HSVxhrbdsftwsTxNd/PkvlHzaGiWZ3CwTzhk8mc/5DRFtzkslOikPzje7YOsVdDO
+	 B3/Nnu1mCtCjxnQ8OpRZZPW9mRhEYZmYnh1VaXLU2n6sVT5usbIFV3Z4rG/0YqGSt
+	 2nAUNYYNLc6P2lPSzA==
 X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from [192.168.1.129] ([37.4.248.43]) by mail.gmx.net (mrgmx104
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1MryXN-1rn9e71rzZ-00nxZL; Fri, 10
- Nov 2023 11:21:42 +0100
-Message-ID: <a122dc9a-724d-4f57-b0c2-0b6676a4ea83@gmx.net>
-Date: Fri, 10 Nov 2023 11:21:41 +0100
+Received: from [192.168.1.129] ([37.4.248.43]) by mail.gmx.net (mrgmx105
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1MfpOT-1rdEf741BB-00gDAP; Fri, 10
+ Nov 2023 11:32:29 +0100
+Message-ID: <aec3897e-3ff6-4256-aaef-0cc1d5e7822a@gmx.net>
+Date: Fri, 10 Nov 2023 11:32:27 +0100
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -31,145 +31,171 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 5/9] staging: vc04_services: Do not pass NULL to
- vchiq_log_error()
-To: Umang Jain <umang.jain@ideasonboard.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: linux-staging@lists.linux.dev, linux-rpi-kernel@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Dan Carpenter <error27@gmail.com>,
- Kieran Bingham <kieran.bingham@ideasonboard.com>,
- Phil Elwell <phil@raspberrypi.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>
-References: <20231107095156.365492-1-umang.jain@ideasonboard.com>
- <20231107095156.365492-6-umang.jain@ideasonboard.com>
- <20231107122551.GA3051@pendragon.ideasonboard.com>
- <20231107123627.GB3051@pendragon.ideasonboard.com>
+Subject: Re: [PATCH v2 00/15] staging: vc04_services: bcm2835-isp support
 Content-Language: en-US
+To: Umang Jain <umang.jain@ideasonboard.com>, linux-media@vger.kernel.org,
+ kernel-list@raspberrypi.com, linux-kernel@vger.kernel.org,
+ linux-rpi-kernel@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
+ linux-staging@lists.linux.dev
+Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ Kieran Bingham <kieran.bingham@ideasonboard.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ "Ricardo B . Marliere" <ricardo@marliere.net>,
+ Dan Carpenter <error27@gmail.com>
+References: <20231109210309.638594-1-umang.jain@ideasonboard.com>
 From: Stefan Wahren <wahrenst@gmx.net>
-In-Reply-To: <20231107123627.GB3051@pendragon.ideasonboard.com>
+In-Reply-To: <20231109210309.638594-1-umang.jain@ideasonboard.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:yeYVJSxIyCHzHks/8URM3J2LlpTNzRU1rKdr9itN57hIV5jnkfb
- tRHeL1geL+ZByl9Q5dvug6Lcf6IcCzFGX/odVAy5VdXhlnUoNh6iOtbAwg2HKSwpvXJ92WV
- 8FEO8AOeGekSXEuqSJ06Eux6LQsEIYZtAmb2jwz+y1mtimbSEfqropPDv+EuFAPaCK3f24V
- OpeUb7JHPj4HarQ/C0mSg==
+X-Provags-ID: V03:K1:IzaixV3E2I0i5t1/yCRO/F7ZOx4f22jelDHFErmexGp2So76fLm
+ qGchW9n6Y7n4VcfVnzYZ9Q76G0it4uyBXRiskwszPHlafupQec5SaTifLZ6JM53IqXtUcm0
+ mlvsfupldha0QGm1xUGTlXvyY1jADADgDEhorj2kJAbsRe4fNDEuk15Z0zyZS6dZdnjxgNr
+ QMOsoDKCibG7m8582HQJg==
 X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:YYWisDYw8xM=;hpFPDn/U9t8bI9F/lSJsdl6yvku
- +flBFMDOajNqb0nd8swkU9rFelaywO5q+o1NMxfgjrUlzfobLBKbVW9dBDS4IYZ6G3kHKKRfI
- bIwwwSajMn5L39yW8N51rhz5J76tzdEif/luJsA5xtqwyTY079YNawaHQPs9D80Nify95uAPo
- 6niYudsKSpCxvHqYKNO22dbZqMPzj0lNXEqt1YSMFe9AtLlDn5M07OfjMphpP6PeXfx9hVMXU
- P40i5DO9aZitN65PcdkI7yqtfSiwZ9V0UiZvPZuvwU0U2u+oDndarAD/cAzGmqcY2PYn7G/bW
- wMeC7WgrYr14Zs/prv5PUMqTPz+hH1hF8mCIgry4Px3D4ucAX2NeuCkoy0/RmLs2ij1SAtIfQ
- 9BMUlgkKWRkGSiQkg4K3ozEVsIhpTEzSZq9zhRWwIYinIFnkDReaeFD3BsN7KqjY34U+Y0yW9
- 6iT50KeTIxJY+AweQbUKJEktHpygNtKJ2N6zRFLhC+MgwkjNgNgASLA8tro9dwCW5ReGFHbTT
- ANm40bO3sQXSMTf3JYMeP/Foez85PT8pW6FzS2vdIGGvUzKuJ3qBycbxF2bat4lqbfrS2A9c9
- sS4Ho8sbnyXs2R05OepZRZZxMoYmTcWhbWnZaRKvRkTAgd+nIBs9IJ6V7uuPpnTrClZufw3UU
- 2N9JLtqMIDFqzWMV8OmBa9TftcT4yxekQR8EyTDRutnZY56MFVUVJ6qPvXU0juWfK+dwxUmFN
- bOJyeQt1PDECthW67xUCVJs1IGK+Dv8vusJxlS4S2D7kSwnq+WPNk+fCcIMF6UvLDZov4ifGl
- 6oQxPoqeweOcYgPHBA4nOV3xKujptcWbMTt/Xn++RBiM1VfXnzqWt93gCzZfZrZpFEWyjwgOJ
- hZmRYyNQa1iH6Or4+x+D5CDxZvJfIIh9uMVYdwiGP/mWjmZLtMxdiATzJw/o0XvusYQ9wrxTw
- zbtIHQ==
+UI-OutboundReport: notjunk:1;M01:P0:KPsVdoqBSyc=;OYScNlUkAb5HvB19yahEro5NCPV
+ KB4eXrPpk4Z6dou+rwTFoRLcU2ADdro155R9RjTQBfPGTIrQ2kpGdX0tHWU/h3VSrUox/VAnD
+ 82jg4CDk/ayNCc6gFyrcFATqn1eZc6nzVqlBX0ZfAXyXf3+x7pCzSUU7Kzm+wnKVXg9AG7Oeo
+ T7DMjZDilgPdJZ2jm6IZ302jyddUM99iyGGE2JO1XsLYzKai1OHXl8LKOgWaNFpurUJL1OUXu
+ qKXfmz+3guGevKD5Vu+6AM6s92j9CVA58qLEnd/lwU57JZ4DRLMTwG9T60f/XVaJsb+ew2JeY
+ 5w0ru73KJD8G7Q3zZ/kaLeLWb7t5Eftej3g0VY7hsyGmRfWELi5QZKxCExGAuI/QFcdrek/q7
+ Em1pG5mZQQC8Cgn7Yv/EUe82cWyqAZ1e23cG3YVvW/KnWMhZbUbqTSKEdznAtAKDuO+XKmlYH
+ Y+uWQ4B6txSNY97EGJ0ssLII92NV+ajVM+PdIBQuwxKuHMtshD0hsRXd3SblIjwCqEfJA2e1I
+ +MjBE7xhBAZClh3P+s+grJXjXO5vL12a3PUMQr7CvY5ob6dt4Y2mdWviB9Cxd3WkAFByBwxIv
+ Y0ANgej9laXnoE/bF0y0/3NgzTzmgLvkjyI7ccdnRNH8U1EsI/YRdN2UD3wQnRAMZ/UIzweUJ
+ 0bCm9APHG9JxhN8J4IQJIzOh1A3juTUQ0CA9HxtvyJCPe/6yAdWa7fliQq+d9kKzpZLO6qVrN
+ 5cNl9dEwr6HUVqVsYNIIivkDUKN9lrJ1jyDK87NXps86/1H3LWR6eC2IhcNkjo4TbjtInQUC6
+ VBr7XStA3fe4qWAi/SwMg2FUfAztUdE4Ri8GIC8vmZd+3yZjvIJlT0YYAm2IYDlU9XMvTlSPH
+ wiBh5r3aSaLe19C39tgUxEY/DmJmIeJ8mUD6IdbOcfCe7fZpZDXozFsnmM2axkKKREunLSNJv
+ QHpTEA==
 
 Hi Umang,
 
-Am 07.11.23 um 13:36 schrieb Laurent Pinchart:
-> On Tue, Nov 07, 2023 at 02:25:52PM +0200, Laurent Pinchart wrote:
->> On Tue, Nov 07, 2023 at 04:51:52AM -0500, Umang Jain wrote:
->>> vchiq_add_connected_callback() logs using vchiq_log_error() macro,
->>> but passes NULL instead of a struct device pointer. Fix it.
->>>
->>> vchiq_add_connected_callback() is not used anywhere in the vc04_servic=
-es
->>> as of now. It will be used when we add new drivers(VC shared memory an=
-d
->>> bcm2835-isp), hence it kept as it is for now.
->>>
->>> Fixes: 1d8915cf8899 ("staging: vc04: Convert vchiq_log_error() to use =
-dynamic debug")
->>> Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
->>> ---
->>>   .../vc04_services/interface/vchiq_arm/vchiq_connected.c       | 4 ++=
-=2D-
->>>   .../vc04_services/interface/vchiq_arm/vchiq_connected.h       | 4 ++=
-+-
->>>   2 files changed, 5 insertions(+), 3 deletions(-)
->>>
->>> diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_c=
-onnected.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_conne=
-cted.c
->>> index b3928bd8c9c6..21f9fa1a1713 100644
->>> --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_connecte=
-d.c
->>> +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_connecte=
-d.c
->>> @@ -27,7 +27,7 @@ static void connected_init(void)
->>>    * be made immediately, otherwise it will be deferred until
->>>    * vchiq_call_connected_callbacks is called.
->>>    */
->>> -void vchiq_add_connected_callback(void (*callback)(void))
->>> +void vchiq_add_connected_callback(struct vchiq_device *device, void (=
-*callback)(void))
->>
->> You're changing the prototype of the function, but the patch doesn't
->> update any user. If the function is unused, it looks like you can drop
->> it instead. Looking at the rest of the vchiq_connected.c file, I think
->> you can actually drop the whole file.
+Am 09.11.23 um 22:02 schrieb Umang Jain:
+> This series aims to upport bcm2835-isp from the RPi kernel.
+> It is developed on top of staging-next which comprises many
+> VC04 changes for it's de-staging. Hence, the merge of this
+> driver is targeted when VC04 is de-staged completely (which I
+> have been pushing), but it can be helped getting reviewed meanwhile.
+> Hence, the reason for posting the series.
 >
-> Except that the vc-sm-cma driver will use it. I'm curious though, that
-> driver will have no way to acquire a pointer to a vchiq_device, so I
-> don't see how this will be usable. pr_err() may be a better pick here.
+> Patch (01-02)/15  adds a new driver named vc-sm-cma to handle memory sha=
+ring
+> with the VC4 VPU.
+>
+> Patch 03/15 adds a small extension to videobuf2 to allow exporting as a
+> dma_buf instead of a file-descriptor.
+>
+> Patch (04-05)/15 adds a couple of improvements/support for
+> bcm2835-isp(event callback and zero-copy) to vchiq-mmal.
+>
+> Patch (06-10)/15 adds the core bcm2835-isp driver along with headers
+> and format defintions. 09/15 is a standalone patch which can be merged
+> independently I believe.
+>
+> Patch (11-12)/15 deals with the colorspace support.
+>
+> Patch 13/15 allows multiple instances of the ISP.
+>
+> Patch 14/15 adds a admin-guide document on bcm2835-isp.
+>
+> Patch 15/15 deals with driver registeration.
 
-in case there is currently no user, but vc-sm-cma will be then i'm
-convinced that moving this driver into staging before vchiq is out is a
-good idea.
+since this is V2, i couldn't find a changelog? The first one was one
+year ago, so it's very hard to remember. In such a case a link to the
+last version is also helpful.
 
-AFAIK your main goal is to get bcm2835-isp into mainline, so it would be
-faster to have it in staging, so everyone could fix the style issues.
-
-My initial concern about importing new drivers was that after moving it
-into staging nobody wants to finish the job. But currently i've a good
-feeling that vchiq is on a good way.
+Recently i saw you have a Github account. For such a complex series it's
+also very helpful to provide a link to a working test branch with this
+series applied. It's not a must, but appreciated.
 
 Best regards
 
 >
->>>   {
->>>   	connected_init();
->>>
->>> @@ -39,7 +39,7 @@ void vchiq_add_connected_callback(void (*callback)(v=
-oid))
->>>   		callback();
->>>   	} else {
->>>   		if (g_num_deferred_callbacks >=3D MAX_CALLBACKS) {
->>> -			vchiq_log_error(NULL, VCHIQ_CORE,
->>> +			vchiq_log_error(&device->dev, VCHIQ_CORE,
->>>   					"There already %d callback registered - please increase MAX_CAL=
-LBACKS",
->>>   					g_num_deferred_callbacks);
->>>   		} else {
->>> diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_c=
-onnected.h b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_conne=
-cted.h
->>> index 4caf5e30099d..e4ed56446f8a 100644
->>> --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_connecte=
-d.h
->>> +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_connecte=
-d.h
->>> @@ -1,10 +1,12 @@
->>>   /* SPDX-License-Identifier: GPL-2.0 OR BSD-3-Clause */
->>>   /* Copyright (c) 2010-2012 Broadcom. All rights reserved. */
->>>
->>> +#include "vchiq_bus.h"
->>> +
->>>   #ifndef VCHIQ_CONNECTED_H
->>>   #define VCHIQ_CONNECTED_H
->>>
->>> -void vchiq_add_connected_callback(void (*callback)(void));
->>> +void vchiq_add_connected_callback(struct vchiq_device *device, void (=
-*callback)(void));
->>>   void vchiq_call_connected_callbacks(void);
->>>
->>>   #endif /* VCHIQ_CONNECTED_H */
+> Dave Stevenson (6):
+>    staging: vc04_services: Add new vc-sm-cma driver
+>    media: videobuf2: Allow exporting of a struct dmabuf
+>    staging: mmal-vchiq: Add support for event callbacks
+>    staging: mmal-vchiq: Use vc-sm-cma to support zero copy
+>    staging: mmal_vchiq: Add image formats to be used by bcm2835-isp
+>    uapi: bcm2835-isp: Add bcm2835-isp uapi header file
+>
+> David Plowman (2):
+>    vc04_services: bcm2835-isp: Allow formats with different colour space=
+s
+>    vc04_services: bcm2835-isp: Permit all sRGB colour spaces on ISP
+>      outputs
+>
+> Naushir Patuck (4):
+>    media: uapi: v4l2-core: Add ISP statistics output V4L2 fourcc type
+>    staging: vc04_services: bcm2835-isp: Add a more complex ISP processin=
+g
+>      component
+>    staging: vc04_services: bcm2835_isp: Allow multiple users
+>    docs: admin-guide: media: bcm2835-isp: Add documentation for
+>      bcm2835-isp
+>
+> Umang Jain (3):
+>    staging: vc04_services: vchiq_arm: Register vcsm-cma driver
+>    staging: vc04_services: Add helpers for vchiq driver data
+>    staging: vc04_services: vchiq: Register bcm2835-isp
+>
+>   .../admin-guide/media/bcm2835-isp.rst         |  127 ++
+>   .../userspace-api/media/drivers/index.rst     |    1 +
+>   .../userspace-api/media/v4l/meta-formats.rst  |    1 +
+>   .../v4l/pixfmt-meta-bcm2835-isp-stats.rst     |   32 +
+>   MAINTAINERS                                   |    9 +
+>   .../media/common/videobuf2/videobuf2-core.c   |   36 +-
+>   drivers/media/v4l2-core/v4l2-ioctl.c          |    1 +
+>   drivers/staging/vc04_services/Kconfig         |    4 +
+>   drivers/staging/vc04_services/Makefile        |    3 +-
+>   .../staging/vc04_services/bcm2835-isp/Kconfig |   14 +
+>   .../vc04_services/bcm2835-isp/Makefile        |    4 +
+>   .../bcm2835-isp/bcm2835-isp-ctrls.h           |   72 +
+>   .../bcm2835-isp/bcm2835-isp-fmts.h            |  559 +++++
+>   .../bcm2835-isp/bcm2835-v4l2-isp.c            | 1822 +++++++++++++++++
+>   .../interface/vchiq_arm/vchiq_arm.c           |    6 +
+>   .../interface/vchiq_arm/vchiq_bus.h           |   10 +
+>   .../staging/vc04_services/vc-sm-cma/Kconfig   |   10 +
+>   .../staging/vc04_services/vc-sm-cma/Makefile  |    4 +
+>   .../staging/vc04_services/vc-sm-cma/vc_sm.c   |  817 ++++++++
+>   .../staging/vc04_services/vc-sm-cma/vc_sm.h   |   54 +
+>   .../vc04_services/vc-sm-cma/vc_sm_cma_vchi.c  |  507 +++++
+>   .../vc04_services/vc-sm-cma/vc_sm_cma_vchi.h  |   63 +
+>   .../vc04_services/vc-sm-cma/vc_sm_defs.h      |  187 ++
+>   .../vc04_services/vc-sm-cma/vc_sm_knl.h       |   28 +
+>   .../staging/vc04_services/vchiq-mmal/Kconfig  |    1 +
+>   .../vc04_services/vchiq-mmal/mmal-common.h    |    5 +
+>   .../vc04_services/vchiq-mmal/mmal-encodings.h |   66 +
+>   .../vc04_services/vchiq-mmal/mmal-msg.h       |   35 +
+>   .../vchiq-mmal/mmal-parameters.h              |  165 +-
+>   .../vc04_services/vchiq-mmal/mmal-vchiq.c     |  253 ++-
+>   .../vc04_services/vchiq-mmal/mmal-vchiq.h     |    5 +
+>   include/media/videobuf2-core.h                |   15 +
+>   include/uapi/linux/bcm2835-isp.h              |  347 ++++
+>   include/uapi/linux/v4l2-controls.h            |    5 +
+>   include/uapi/linux/videodev2.h                |    1 +
+>   35 files changed, 5235 insertions(+), 34 deletions(-)
+>   create mode 100644 Documentation/admin-guide/media/bcm2835-isp.rst
+>   create mode 100644 Documentation/userspace-api/media/v4l/pixfmt-meta-b=
+cm2835-isp-stats.rst
+>   create mode 100644 drivers/staging/vc04_services/bcm2835-isp/Kconfig
+>   create mode 100644 drivers/staging/vc04_services/bcm2835-isp/Makefile
+>   create mode 100644 drivers/staging/vc04_services/bcm2835-isp/bcm2835-i=
+sp-ctrls.h
+>   create mode 100644 drivers/staging/vc04_services/bcm2835-isp/bcm2835-i=
+sp-fmts.h
+>   create mode 100644 drivers/staging/vc04_services/bcm2835-isp/bcm2835-v=
+4l2-isp.c
+>   create mode 100644 drivers/staging/vc04_services/vc-sm-cma/Kconfig
+>   create mode 100644 drivers/staging/vc04_services/vc-sm-cma/Makefile
+>   create mode 100644 drivers/staging/vc04_services/vc-sm-cma/vc_sm.c
+>   create mode 100644 drivers/staging/vc04_services/vc-sm-cma/vc_sm.h
+>   create mode 100644 drivers/staging/vc04_services/vc-sm-cma/vc_sm_cma_v=
+chi.c
+>   create mode 100644 drivers/staging/vc04_services/vc-sm-cma/vc_sm_cma_v=
+chi.h
+>   create mode 100644 drivers/staging/vc04_services/vc-sm-cma/vc_sm_defs.=
+h
+>   create mode 100644 drivers/staging/vc04_services/vc-sm-cma/vc_sm_knl.h
+>   create mode 100644 include/uapi/linux/bcm2835-isp.h
 >
