@@ -1,28 +1,28 @@
 Received: from mout02.posteo.de (mout02.posteo.de [185.67.36.66])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 725F62136C
-	for <linux-staging@lists.linux.dev>; Mon, 13 Nov 2023 15:06:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 149772137D
+	for <linux-staging@lists.linux.dev>; Mon, 13 Nov 2023 15:06:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=posteo.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=posteo.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=posteo.net header.i=@posteo.net header.b="cZTlFL/0"
+	dkim=pass (2048-bit key) header.d=posteo.net header.i=@posteo.net header.b="mTunSV70"
 Received: from submission (posteo.de [185.67.36.169]) 
-	by mout02.posteo.de (Postfix) with ESMTPS id 4D0DC240103
-	for <linux-staging@lists.linux.dev>; Mon, 13 Nov 2023 16:06:09 +0100 (CET)
+	by mout02.posteo.de (Postfix) with ESMTPS id 6F912240108
+	for <linux-staging@lists.linux.dev>; Mon, 13 Nov 2023 16:06:11 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=posteo.net; s=2017;
-	t=1699887969; bh=+0firMEs8jGDnwurQSwdedi7SuSTkZP4QKZILe7SstQ=;
+	t=1699887971; bh=4NebyzUyVtbmcvuHG+8RjZVCYeuNv+9wPzrDKVbjtKw=;
 	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:
 	 Content-Transfer-Encoding:From;
-	b=cZTlFL/0STVCQhNkdzXzcVbpju767yxMPdu7HsF4yEc4ysIMfmUitmsJFX/tdF9Vh
-	 4+h5nfS6C5se+tccwzgDiWeTlLJ8yX5TDQOADpFdFaW40RzODxSKc6MwJl287PF66e
-	 nOcVcQg9o44pkgkGIt5qcxLfYTDn1/6vi8c6R8+EkUkSUpg6iN8+HYrEUm3JmU+/6K
-	 RPyU4RZ62rgqg3OpGwYA3q/yk4kQqAS6v1sGH4eQchsuEZmXLrBE+YXBs4wk7XZM6h
-	 flBgGZcTU2SJ5ElmOZHkIJuHOsgAiPfpP2+KOFTKFISl9p/TcioQ7WS+PEr68qqdMI
-	 0arY8pS97rkVQ==
+	b=mTunSV70FDdYw/piyL63FrxU1EQod/a74D/bqgD//gv6hwvkid0pnIUpkkRNgPhJ9
+	 ignk4/d4G4ca1wJexrAmcs/vZMSYOTe/R+t7g61wWaeZUL7PYHj6Xcukf8j04pencJ
+	 rHU3nIG/6Ul75N7ayigL08zApHuB/zYaXdfLTusyhcBu/aE357elGa6cvStsLZb2qn
+	 v1xdRfsX8MPlXaUj4bPV0Q5BMKO/Z6dvXHhPZpfDsNN9SjCmpDdOPvD3htVSlbUHmo
+	 G+XCCYD5s7IIs3WAfW321UMRRDU22t6UHh0peiekJQOmU0eYurlWMAdmv+vHnXDCGh
+	 UUQB/7ACuAb5g==
 Received: from customer (localhost [127.0.0.1])
-	by submission (posteo.de) with ESMTPSA id 4STXnC3t5Fz9rxS;
-	Mon, 13 Nov 2023 16:06:07 +0100 (CET)
+	by submission (posteo.de) with ESMTPSA id 4STXnG0PHPz9rxh;
+	Mon, 13 Nov 2023 16:06:09 +0100 (CET)
 From: Charalampos Mitrodimas <charmitro@posteo.net>
 To: 
 Cc: sudipm.mukherjee@gmail.com,
@@ -33,9 +33,9 @@ Cc: sudipm.mukherjee@gmail.com,
 	linux-kernel@vger.kernel.org,
 	outreachy@lists.linux.dev,
 	Charalampos Mitrodimas <charmitro@posteo.net>
-Subject: [PATCH 6/8] staging: sm750fb: Rename sii164IsConnected to sii164_is_connected
-Date: Mon, 13 Nov 2023 15:05:11 +0000
-Message-Id: <20231113150512.1210869-7-charmitro@posteo.net>
+Subject: [PATCH 8/8] staging: sm750fb: Rename sii164ClearInterrupt to sii164_clear_interrupt
+Date: Mon, 13 Nov 2023 15:05:13 +0000
+Message-Id: <20231113150512.1210869-9-charmitro@posteo.net>
 In-Reply-To: <20231113150512.1210869-1-charmitro@posteo.net>
 References: <20231113150512.1210869-1-charmitro@posteo.net>
 Precedence: bulk
@@ -54,52 +54,48 @@ Signed-off-by: Charalampos Mitrodimas <charmitro@posteo.net>
  3 files changed, 4 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/staging/sm750fb/ddk750_dvi.c b/drivers/staging/sm750fb/ddk750_dvi.c
-index 1ce44c50617a..ac1aab77da28 100644
+index 1def02be4cce..6fef1ab484c1 100644
 --- a/drivers/staging/sm750fb/ddk750_dvi.c
 +++ b/drivers/staging/sm750fb/ddk750_dvi.c
-@@ -22,7 +22,7 @@ static struct dvi_ctrl_device dcft_supported_dvi_controller[] = {
- 		.get_chip_string = sii164_get_chip_string,
- 		.set_power = sii164_set_power,
+@@ -24,7 +24,7 @@ static struct dvi_ctrl_device dcft_supported_dvi_controller[] = {
  		.enable_hot_plug_detection = sii164_enable_hot_plug_detection,
--		.is_connected = sii164IsConnected,
-+		.is_connected = sii164_is_connected,
- 		.check_interrupt = sii164CheckInterrupt,
- 		.clear_interrupt = sii164ClearInterrupt,
+ 		.is_connected = sii164_is_connected,
+ 		.check_interrupt = sii164_check_interrupt,
+-		.clear_interrupt = sii164ClearInterrupt,
++		.clear_interrupt = sii164_clear_interrupt,
+ #endif
+ 	},
  #endif
 diff --git a/drivers/staging/sm750fb/ddk750_sii164.c b/drivers/staging/sm750fb/ddk750_sii164.c
-index 430acc4c2a80..24f40db0dfcf 100644
+index b156a727bebf..d6bfd7c4eaba 100644
 --- a/drivers/staging/sm750fb/ddk750_sii164.c
 +++ b/drivers/staging/sm750fb/ddk750_sii164.c
-@@ -350,14 +350,14 @@ void sii164_enable_hot_plug_detection(unsigned char enableHotPlug)
+@@ -390,10 +390,10 @@ unsigned char sii164_check_interrupt(void)
  }
  
  /*
-- *  sii164IsConnected
-+ *  sii164_is_connected
-  *      Check if the DVI Monitor is connected.
-  *
-  *  Output:
-  *      0   - Not Connected
-  *      1   - Connected
+- *  sii164ClearInterrupt
++ *  sii164_clear_interrupt
+  *      Clear the hot plug interrupt.
   */
--unsigned char sii164IsConnected(void)
-+unsigned char sii164_is_connected(void)
+-void sii164ClearInterrupt(void)
++void sii164_clear_interrupt(void)
  {
- 	unsigned char hotPlugValue;
+ 	unsigned char detectReg;
  
 diff --git a/drivers/staging/sm750fb/ddk750_sii164.h b/drivers/staging/sm750fb/ddk750_sii164.h
-index ea3859a5a430..f8689bb3e1d5 100644
+index 33351f6d7f11..005473ca20cd 100644
 --- a/drivers/staging/sm750fb/ddk750_sii164.h
 +++ b/drivers/staging/sm750fb/ddk750_sii164.h
-@@ -35,7 +35,7 @@ void sii164_reset_chip(void);
- char *sii164_get_chip_string(void);
- void sii164_set_power(unsigned char powerUp);
+@@ -37,7 +37,7 @@ void sii164_set_power(unsigned char powerUp);
  void sii164_enable_hot_plug_detection(unsigned char enableHotPlug);
--unsigned char sii164IsConnected(void);
-+unsigned char sii164_is_connected(void);
- unsigned char sii164CheckInterrupt(void);
- void sii164ClearInterrupt(void);
+ unsigned char sii164_is_connected(void);
+ unsigned char sii164_check_interrupt(void);
+-void sii164ClearInterrupt(void);
++void sii164_clear_interrupt(void);
  #endif
+ /*
+  * below register definition is used for
 -- 
 2.39.2
 
