@@ -1,328 +1,115 @@
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.21])
+Received: from mout02.posteo.de (mout02.posteo.de [185.67.36.66])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81D2C2111C
-	for <linux-staging@lists.linux.dev>; Mon, 13 Nov 2023 15:10:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmx.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52B2E20B0B
+	for <linux-staging@lists.linux.dev>; Mon, 13 Nov 2023 15:11:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=posteo.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=posteo.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.b="lQ72t7bF"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
-	s=s31663417; t=1699888199; x=1700492999; i=wahrenst@gmx.net;
-	bh=FwjxaZrgxOoTaK9kKWvFnGEJ/pUoIhUMNnNjFbYMrVg=;
-	h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:
-	 In-Reply-To;
-	b=lQ72t7bF854+qE0YEAOWd5hcXXf+0CcX3ibYvu51YUzF8c4gkacPL1n2o0jfKbBy
-	 k38+ppYTxAG4BwxBQf5pyCB3MB/ZKnuB1ErfNUkz1KbkIK73rRB8+Y6cxYXQthFZe
-	 qi9sFHn/GlN5jZgrbQE55vcm2OsK8ZGU9ij0rAecF/udCmCw3ALBWCAxfUCxtbaOt
-	 KX806J1u17xbe1KjwfvfvqCV6J9ELERvqnW+ICnSiLwb8zyO9OmiVHjvRXI6GX1zL
-	 S6oALpd6ZL11EMdMqpJ60SShCvoDBB0iJGsbEjiOSI6yfg0XcMcAQG0k7E8a59wl7
-	 yRUsE3AIZbWQkBGPqQ==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from [192.168.1.129] ([37.4.248.43]) by mail.gmx.net (mrgmx105
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1M72oB-1r19fU2Rup-008Wgs; Mon, 13
- Nov 2023 16:09:59 +0100
-Message-ID: <db3ec8ed-35d3-495c-b701-370fe614693d@gmx.net>
-Date: Mon, 13 Nov 2023 16:09:58 +0100
+	dkim=pass (2048-bit key) header.d=posteo.net header.i=@posteo.net header.b="ME3jk71F"
+Received: from submission (posteo.de [185.67.36.169]) 
+	by mout02.posteo.de (Postfix) with ESMTPS id 78C97240107
+	for <linux-staging@lists.linux.dev>; Mon, 13 Nov 2023 16:06:06 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=posteo.net; s=2017;
+	t=1699887966; bh=cKoUTgqnqm13vv5MG10qVvupT4f2fR5l912U63mc1Jw=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:
+	 Content-Transfer-Encoding:From;
+	b=ME3jk71FlNDwdoz29NDXmzhntLvKVMRYDJ14Ni+MMSEoslo/nAtvgTOXUHugN9htP
+	 U8gkJJeHseXN5P31ERyUUELSVtvElTqRu8ZXir2gyxmTvi4YI+p65KGYlAC4PTcpSm
+	 I5J0kMF1RqXqThcOTegkw6rnxV1sRkGYIu7fzb0dz6+M+6h+8XEw1D7TwqhOZ0nMVp
+	 7NBgW6ngkwBHzoQ0N4FnYtAdzEO9p6OlaAqS5XTuCLHIcpSaUjqisJPhPwplsj8+eH
+	 3WsiOCb6AXnbcj6uJ8JIqFzOD+/vZJVXOZeqSvsopkUyo6zihtvoZMe1AYjEThbZ2W
+	 Hec2LpdIXxqjQ==
+Received: from customer (localhost [127.0.0.1])
+	by submission (posteo.de) with ESMTPSA id 4STXn90hFNz9rxY;
+	Mon, 13 Nov 2023 16:06:05 +0100 (CET)
+From: Charalampos Mitrodimas <charmitro@posteo.net>
+To: 
+Cc: sudipm.mukherjee@gmail.com,
+	teddy.wang@siliconmotion.com,
+	gregkh@linuxfoundation.org,
+	linux-fbdev@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	outreachy@lists.linux.dev,
+	Charalampos Mitrodimas <charmitro@posteo.net>
+Subject: [PATCH 4/8] staging: sm750fb: Rename sii164SetPower to sii164_set_power
+Date: Mon, 13 Nov 2023 15:05:09 +0000
+Message-Id: <20231113150512.1210869-5-charmitro@posteo.net>
+In-Reply-To: <20231113150512.1210869-1-charmitro@posteo.net>
+References: <20231113150512.1210869-1-charmitro@posteo.net>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 00/15] staging: vc04_services: bcm2835-isp support
-Content-Language: en-US
-To: Umang Jain <umang.jain@ideasonboard.com>, linux-media@vger.kernel.org,
- kernel-list@raspberrypi.com, linux-kernel@vger.kernel.org,
- linux-rpi-kernel@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- linux-staging@lists.linux.dev
-Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>,
- Kieran Bingham <kieran.bingham@ideasonboard.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- "Ricardo B . Marliere" <ricardo@marliere.net>,
- Dan Carpenter <error27@gmail.com>
-References: <20231109210309.638594-1-umang.jain@ideasonboard.com>
- <aec3897e-3ff6-4256-aaef-0cc1d5e7822a@gmx.net>
- <f93c6c32-1dea-95e8-aafc-0893c66f6b03@ideasonboard.com>
-From: Stefan Wahren <wahrenst@gmx.net>
-In-Reply-To: <f93c6c32-1dea-95e8-aafc-0893c66f6b03@ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:3DrL9EyfJ0Gu+8iYStwzIF5+IwPmHlHSOPxpALWF2crMNV8hMNY
- FPQ8sdkrnkMGKiOk/pkbkqtOSy5W8yyNPQAXdJjB/sUz7aywHJN44DbUh/Vngg5XfVRAQgM
- ErMtOy10i0D7nJciD5hQ5YpBvFw6Mdfg/7sPGRGGlFItn+WULUJ2l03EKarABygnVYa4Wd/
- FFUfUduFY1IekmUtUkUgA==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:1GkoQ+G5DKw=;2rMGYeIEXcz4JdB2AlN5j311eC2
- Tkiz21PrVW336AVbKuuZEbEWtFuS3G5k+nYQV1MFQ74wKliyVni5JB79xwJfT+tTXdlo4TyPW
- 6eJ6CXveOX/pOpKFg4lH+4U9z+DoEftq+EoJcUEjAwIrO0w2H0C0Rlh5Ufm4THyNyT4hi5SCK
- 4Nq2v4LWQDeSWwO6lHp8ALzFlpNiv7Tdkra8EQxooP5M3CnOH9ugU0WNwifFreVKtzKj69S+2
- 6IzBYi2X8fMjBbqy9sG8t6Jojnqd/xGYzISGvV+5NPSayDbA1h/FRfZCwfG2CvvGwDJbUXFqm
- WiNbWHpZ0g3mBMN4SxAGSV5B8oqYk4chq/BkddVyuTApZJBp9sFb+qBH2sV/WkgjJwSaUMOtJ
- P2A1zfuNWuvNdv/Od9JWXPkIsq4Jzu5b/Eznm4GCXN9kJWNe+/kmgV9Qm9gUhqnph0s0vxHMs
- UB/gzkwrk4h2LrCw4WintXuloWq/EFEjxNsU179XxodkN1kM1ca+s4rh0CStpf3aQlWpIUX3N
- 0mjiD0heKpmppzEH4ptJWlRR76KP9OBOX5wcwB2Q/JIH+Mzpv5jXz4zzUaiDiMJuKlv7HSHdb
- Zc2kSU5PiWT7VZNUuCL3vAgXKZfZl2YMfPFNwO/PgtKaCRFsppvVxBtn8w6LL5qIaqB0WU/aP
- KPdhvknw1zC+8mWs/gHeSORYzOkC4cDbXVWjDV56vxLgCAWPOEQkSXlGbxVdGD/3S7ZHyhmrH
- Im2szUbgK3Exr89KR0PsXeyPLWNYd+x8kwn/nU84LU8XV2D5FoLOqSFMn64dJ68o1Zm+5cIMH
- n2vfYmcDzRtCEGvxf9s9ytKxYezVp/dmPioTYF2mF+MiiGzR8igo0R8v0v0fkAFXSxNurdfFG
- fPOIRTbChYVcDD+7q+MdpsiuHDBMQV1yY8nDU5/92jZz2TMBchlp+OF5LR+r3yYgASmRN5SDB
- J7cdl0+Hm0NnB6B1BbBvrL6pknQ=
+Content-Transfer-Encoding: 8bit
 
-Hi Umang,
+Signed-off-by: Charalampos Mitrodimas <charmitro@posteo.net>
+---
+ drivers/staging/sm750fb/ddk750_dvi.c    | 2 +-
+ drivers/staging/sm750fb/ddk750_sii164.c | 8 ++++----
+ drivers/staging/sm750fb/ddk750_sii164.h | 2 +-
+ 3 files changed, 6 insertions(+), 6 deletions(-)
 
-Am 13.11.23 um 14:38 schrieb Umang Jain:
-> Hi Stefan,
->
-> On 11/10/23 4:02 PM, Stefan Wahren wrote:
->> Hi Umang,
->>
->> Am 09.11.23 um 22:02 schrieb Umang Jain:
->>> This series aims to upport bcm2835-isp from the RPi kernel.
->>> It is developed on top of staging-next which comprises many
->>> VC04 changes for it's de-staging. Hence, the merge of this
->>> driver is targeted when VC04 is de-staged completely (which I
->>> have been pushing), but it can be helped getting reviewed meanwhile.
->>> Hence, the reason for posting the series.
->>>
->>> Patch (01-02)/15=C2=A0 adds a new driver named vc-sm-cma to handle mem=
-ory
->>> sharing
->>> with the VC4 VPU.
->>>
->>> Patch 03/15 adds a small extension to videobuf2 to allow exporting as =
-a
->>> dma_buf instead of a file-descriptor.
->>>
->>> Patch (04-05)/15 adds a couple of improvements/support for
->>> bcm2835-isp(event callback and zero-copy) to vchiq-mmal.
->>>
->>> Patch (06-10)/15 adds the core bcm2835-isp driver along with headers
->>> and format defintions. 09/15 is a standalone patch which can be merged
->>> independently I believe.
->>>
->>> Patch (11-12)/15 deals with the colorspace support.
->>>
->>> Patch 13/15 allows multiple instances of the ISP.
->>>
->>> Patch 14/15 adds a admin-guide document on bcm2835-isp.
->>>
->>> Patch 15/15 deals with driver registeration.
->>
->> since this is V2, i couldn't find a changelog? The first one was one
->> year ago, so it's very hard to remember. In such a case a link to the
->> last version is also helpful.
->
-> I am in your same situation. The changelog won't help here since the I
-> have too have lost count of the iterations.
->
-> In brief, I would say, the patches have further cleaned up and
-> aligned, rebased over the latest staging-next branch.
-> That majorly includes work I did for VC04 in general for de-staging.
-since this version
-https://lore.kernel.org/lkml/910dbd8f-85f2-4979-49ee-6d760e89af84@ideasonb=
-oard.com/T/#mca165d5dcb1ba9f3ff3bf91ca2bc6ec2d3ae1c29
-
-there were some feedback from other people like Laurent. I think it's
-necessary to know if all the comments has been addressed or not. I think
-there is no need to list every single change.
-
->
->>
->> Recently i saw you have a Github account. For such a complex series it'=
-s
->> also very helpful to provide a link to a working test branch with this
->> series applied. It's not a must, but appreciated.
->
-> I actually was going to send test branch but at the last minute I
-> screwed up my .git repo because of a failed branch checkout.
->
-> I had to recreate the branches over the weekend and here they are:
->
-> I have tested these branches:
->
-> On RPi-3-b 32-bit:
-> Git branch:
-> https://git.uk.ideasonboard.com/uajain/linux/commits/branch/uajain/rpi3/=
-staging-next/isp
->
-> On RPi-4-b 64-bit:
-> Git branch:
-> https://git.uk.ideasonboard.com/uajain/linux/commits/branch/uajain/rpi4/=
-staging-next/isp
->
-> Both these branches have been tested with IMX219 sensor (there is a DT
-> overlay included) and libcamera. These branches have bcm2835-unicam
-> with streams support (which is handled by Laurent Pinchart as I
-> believe) and on top sits bcm2835-isp (this series).
-> You'll find DT and kernel configs I have tested with, in the
-> respective branches.
->
-> As far as libcamera branch goes (it requires a special branch due to
-> streams support):
-> https://git.uk.ideasonboard.com/uajain/libcamera/commits/branch/pinchart=
-l/rpi/streams
->
->
-> Let me know how you get on if you are testing. I am happy to
-> answer/help if you decide to test this.
-This is great, i don't know when i've the time to test, but it also give
-others the chance to do tests.
-
-Regards
->>
->> Best regards
->>
->>>
->>> Dave Stevenson (6):
->>> =C2=A0=C2=A0 staging: vc04_services: Add new vc-sm-cma driver
->>> =C2=A0=C2=A0 media: videobuf2: Allow exporting of a struct dmabuf
->>> =C2=A0=C2=A0 staging: mmal-vchiq: Add support for event callbacks
->>> =C2=A0=C2=A0 staging: mmal-vchiq: Use vc-sm-cma to support zero copy
->>> =C2=A0=C2=A0 staging: mmal_vchiq: Add image formats to be used by bcm2=
-835-isp
->>> =C2=A0=C2=A0 uapi: bcm2835-isp: Add bcm2835-isp uapi header file
->>>
->>> David Plowman (2):
->>> =C2=A0=C2=A0 vc04_services: bcm2835-isp: Allow formats with different =
-colour
->>> spaces
->>> =C2=A0=C2=A0 vc04_services: bcm2835-isp: Permit all sRGB colour spaces=
- on ISP
->>> =C2=A0=C2=A0=C2=A0=C2=A0 outputs
->>>
->>> Naushir Patuck (4):
->>> =C2=A0=C2=A0 media: uapi: v4l2-core: Add ISP statistics output V4L2 fo=
-urcc type
->>> =C2=A0=C2=A0 staging: vc04_services: bcm2835-isp: Add a more complex I=
-SP
->>> processing
->>> =C2=A0=C2=A0=C2=A0=C2=A0 component
->>> =C2=A0=C2=A0 staging: vc04_services: bcm2835_isp: Allow multiple users
->>> =C2=A0=C2=A0 docs: admin-guide: media: bcm2835-isp: Add documentation =
-for
->>> =C2=A0=C2=A0=C2=A0=C2=A0 bcm2835-isp
->>>
->>> Umang Jain (3):
->>> =C2=A0=C2=A0 staging: vc04_services: vchiq_arm: Register vcsm-cma driv=
-er
->>> =C2=A0=C2=A0 staging: vc04_services: Add helpers for vchiq driver data
->>> =C2=A0=C2=A0 staging: vc04_services: vchiq: Register bcm2835-isp
->>>
->>> =C2=A0 .../admin-guide/media/bcm2835-isp.rst=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 127 ++
->>> =C2=A0 .../userspace-api/media/drivers/index.rst=C2=A0=C2=A0=C2=A0=C2=
-=A0 |=C2=A0=C2=A0=C2=A0 1 +
->>> =C2=A0 .../userspace-api/media/v4l/meta-formats.rst=C2=A0 |=C2=A0=C2=
-=A0=C2=A0 1 +
->>> =C2=A0 .../v4l/pixfmt-meta-bcm2835-isp-stats.rst=C2=A0=C2=A0=C2=A0=C2=
-=A0 |=C2=A0=C2=A0 32 +
->>> =C2=A0 MAINTAINERS=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0 |=C2=A0=C2=A0=C2=A0 9 +
->>> =C2=A0 .../media/common/videobuf2/videobuf2-core.c=C2=A0=C2=A0 |=C2=A0=
-=C2=A0 36 +-
->>> =C2=A0 drivers/media/v4l2-core/v4l2-ioctl.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0=C2=A0 1 +
->>> =C2=A0 drivers/staging/vc04_services/Kconfig=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0=C2=A0 4 +
->>> =C2=A0 drivers/staging/vc04_services/Makefile=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0=C2=A0 3 +-
->>> =C2=A0 .../staging/vc04_services/bcm2835-isp/Kconfig |=C2=A0=C2=A0 14 =
-+
->>> =C2=A0 .../vc04_services/bcm2835-isp/Makefile=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0=C2=A0 4 +
->>> =C2=A0 .../bcm2835-isp/bcm2835-isp-ctrls.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 72 +
->>> =C2=A0 .../bcm2835-isp/bcm2835-isp-fmts.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 559 +++++
->>> =C2=A0 .../bcm2835-isp/bcm2835-v4l2-isp.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 1822
->>> +++++++++++++++++
->>> =C2=A0 .../interface/vchiq_arm/vchiq_arm.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0=C2=A0 6 +
->>> =C2=A0 .../interface/vchiq_arm/vchiq_bus.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 10 +
->>> =C2=A0 .../staging/vc04_services/vc-sm-cma/Kconfig=C2=A0=C2=A0 |=C2=A0=
-=C2=A0 10 +
->>> =C2=A0 .../staging/vc04_services/vc-sm-cma/Makefile=C2=A0 |=C2=A0=C2=
-=A0=C2=A0 4 +
->>> =C2=A0 .../staging/vc04_services/vc-sm-cma/vc_sm.c=C2=A0=C2=A0 |=C2=A0=
- 817 ++++++++
->>> =C2=A0 .../staging/vc04_services/vc-sm-cma/vc_sm.h=C2=A0=C2=A0 |=C2=A0=
-=C2=A0 54 +
->>> =C2=A0 .../vc04_services/vc-sm-cma/vc_sm_cma_vchi.c=C2=A0 |=C2=A0 507 =
-+++++
->>> =C2=A0 .../vc04_services/vc-sm-cma/vc_sm_cma_vchi.h=C2=A0 |=C2=A0=C2=
-=A0 63 +
->>> =C2=A0 .../vc04_services/vc-sm-cma/vc_sm_defs.h=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0 |=C2=A0 187 ++
->>> =C2=A0 .../vc04_services/vc-sm-cma/vc_sm_knl.h=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0 |=C2=A0=C2=A0 28 +
->>> =C2=A0 .../staging/vc04_services/vchiq-mmal/Kconfig=C2=A0 |=C2=A0=C2=
-=A0=C2=A0 1 +
->>> =C2=A0 .../vc04_services/vchiq-mmal/mmal-common.h=C2=A0=C2=A0=C2=A0 |=
-=C2=A0=C2=A0=C2=A0 5 +
->>> =C2=A0 .../vc04_services/vchiq-mmal/mmal-encodings.h |=C2=A0=C2=A0 66 =
-+
->>> =C2=A0 .../vc04_services/vchiq-mmal/mmal-msg.h=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0 |=C2=A0=C2=A0 35 +
->>> =C2=A0 .../vchiq-mmal/mmal-parameters.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 165 +-
->>> =C2=A0 .../vc04_services/vchiq-mmal/mmal-vchiq.c=C2=A0=C2=A0=C2=A0=C2=
-=A0 |=C2=A0 253 ++-
->>> =C2=A0 .../vc04_services/vchiq-mmal/mmal-vchiq.h=C2=A0=C2=A0=C2=A0=C2=
-=A0 |=C2=A0=C2=A0=C2=A0 5 +
->>> =C2=A0 include/media/videobuf2-core.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 15=
- +
->>> =C2=A0 include/uapi/linux/bcm2835-isp.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 347 ++++
->>> =C2=A0 include/uapi/linux/v4l2-controls.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0=C2=A0 5 +
->>> =C2=A0 include/uapi/linux/videodev2.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0=C2=
-=A0 1 +
->>> =C2=A0 35 files changed, 5235 insertions(+), 34 deletions(-)
->>> =C2=A0 create mode 100644 Documentation/admin-guide/media/bcm2835-isp.=
-rst
->>> =C2=A0 create mode 100644
->>> Documentation/userspace-api/media/v4l/pixfmt-meta-bcm2835-isp-stats.rs=
-t
->>> =C2=A0 create mode 100644 drivers/staging/vc04_services/bcm2835-isp/Kc=
-onfig
->>> =C2=A0 create mode 100644 drivers/staging/vc04_services/bcm2835-isp/Ma=
-kefile
->>> =C2=A0 create mode 100644
->>> drivers/staging/vc04_services/bcm2835-isp/bcm2835-isp-ctrls.h
->>> =C2=A0 create mode 100644
->>> drivers/staging/vc04_services/bcm2835-isp/bcm2835-isp-fmts.h
->>> =C2=A0 create mode 100644
->>> drivers/staging/vc04_services/bcm2835-isp/bcm2835-v4l2-isp.c
->>> =C2=A0 create mode 100644 drivers/staging/vc04_services/vc-sm-cma/Kcon=
-fig
->>> =C2=A0 create mode 100644 drivers/staging/vc04_services/vc-sm-cma/Make=
-file
->>> =C2=A0 create mode 100644 drivers/staging/vc04_services/vc-sm-cma/vc_s=
-m.c
->>> =C2=A0 create mode 100644 drivers/staging/vc04_services/vc-sm-cma/vc_s=
-m.h
->>> =C2=A0 create mode 100644
->>> drivers/staging/vc04_services/vc-sm-cma/vc_sm_cma_vchi.c
->>> =C2=A0 create mode 100644
->>> drivers/staging/vc04_services/vc-sm-cma/vc_sm_cma_vchi.h
->>> =C2=A0 create mode 100644
->>> drivers/staging/vc04_services/vc-sm-cma/vc_sm_defs.h
->>> =C2=A0 create mode 100644
->>> drivers/staging/vc04_services/vc-sm-cma/vc_sm_knl.h
->>> =C2=A0 create mode 100644 include/uapi/linux/bcm2835-isp.h
->>>
->
->
-> _______________________________________________
-> linux-arm-kernel mailing list
-> linux-arm-kernel@lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-arm-kernel
+diff --git a/drivers/staging/sm750fb/ddk750_dvi.c b/drivers/staging/sm750fb/ddk750_dvi.c
+index e568c210e2bd..c12df1f9fb00 100644
+--- a/drivers/staging/sm750fb/ddk750_dvi.c
++++ b/drivers/staging/sm750fb/ddk750_dvi.c
+@@ -20,7 +20,7 @@ static struct dvi_ctrl_device dcft_supported_dvi_controller[] = {
+ #ifdef SII164_FULL_FUNCTIONS
+ 		.reset_chip = sii164_reset_chip,
+ 		.get_chip_string = sii164_get_chip_string,
+-		.set_power = sii164SetPower,
++		.set_power = sii164_set_power,
+ 		.enable_hot_plug_detection = sii164EnableHotPlugDetection,
+ 		.is_connected = sii164IsConnected,
+ 		.check_interrupt = sii164CheckInterrupt,
+diff --git a/drivers/staging/sm750fb/ddk750_sii164.c b/drivers/staging/sm750fb/ddk750_sii164.c
+index f0a255da1b36..d0b80b86a4d7 100644
+--- a/drivers/staging/sm750fb/ddk750_sii164.c
++++ b/drivers/staging/sm750fb/ddk750_sii164.c
+@@ -256,8 +256,8 @@ long sii164_init_chip(unsigned char edge_select,
+ void sii164_reset_chip(void)
+ {
+ 	/* Power down */
+-	sii164SetPower(0);
+-	sii164SetPower(1);
++	sii164_set_power(0);
++	sii164_set_power(1);
+ }
+ 
+ /*
+@@ -273,13 +273,13 @@ char *sii164_get_chip_string(void)
+ }
+ 
+ /*
+- *  sii164SetPower
++ *  sii164_set_power
+  *      This function sets the power configuration of the DVI Controller Chip.
+  *
+  *  Input:
+  *      powerUp - Flag to set the power down or up
+  */
+-void sii164SetPower(unsigned char powerUp)
++void sii164_set_power(unsigned char powerUp)
+ {
+ 	unsigned char config;
+ 
+diff --git a/drivers/staging/sm750fb/ddk750_sii164.h b/drivers/staging/sm750fb/ddk750_sii164.h
+index 7c5cc81f38d4..c15cd6a5d53b 100644
+--- a/drivers/staging/sm750fb/ddk750_sii164.h
++++ b/drivers/staging/sm750fb/ddk750_sii164.h
+@@ -33,7 +33,7 @@ unsigned short sii164_get_device_id(void);
+ #ifdef SII164_FULL_FUNCTIONS
+ void sii164_reset_chip(void);
+ char *sii164_get_chip_string(void);
+-void sii164SetPower(unsigned char powerUp);
++void sii164_set_power(unsigned char powerUp);
+ void sii164EnableHotPlugDetection(unsigned char enableHotPlug);
+ unsigned char sii164IsConnected(void);
+ unsigned char sii164CheckInterrupt(void);
+-- 
+2.39.2
 
