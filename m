@@ -1,163 +1,78 @@
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED169208AF
-	for <linux-staging@lists.linux.dev>; Mon, 13 Nov 2023 13:45:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5186208A2
+	for <linux-staging@lists.linux.dev>; Mon, 13 Nov 2023 14:08:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="FItN93Hb"
-Received: from [192.168.1.112] (unknown [103.86.18.179])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 7C3EF10A;
-	Mon, 13 Nov 2023 14:44:30 +0100 (CET)
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="vw8320/h"
+Received: from umang.jain (unknown [103.86.18.179])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 615B429A;
+	Mon, 13 Nov 2023 15:07:38 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1699883073;
-	bh=ch6zJbBqN1DdUu9MhTHHKxPQCBRUc3S7zD6M5xb59I8=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=FItN93Hblc2ZJxVX/Ewx5KBpuq1ZJRCgrzeAU9yi36ID0vAMJ2OfIgS2HssjFBfdy
-	 gTzWErTIZ03Kni2RhJgMjfAVrtr3XwFk4AFpM0bPXP61JyuwxBQIEg8pu9yaWdfkYt
-	 yKgdqgcajzSRdjbTMvMpJKLlKSpVgYyND/CM7p5Y=
-Message-ID: <0ebd8679-279f-f4a4-f3bf-c7015c6f41d5@ideasonboard.com>
-Date: Mon, 13 Nov 2023 19:14:50 +0530
+	s=mail; t=1699884462;
+	bh=0lpguXFbz+BKP5/xOg3wKVbLHMvejhbyqPq3tWfOpfo=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=vw8320/h6jsPmLMJaAydytdZvVXuYaR/TGM5BFP5aAcaHF2GVxAPsBNFBwSk65OoD
+	 H2c6K3n7ZzcJ9HgTa30mR4JrkQB9cCHtl+HGCLtVMSdLosVIBXglhXXHlXM6ZkQz7c
+	 E8um6fIzYKEZNvgfksMTt8Wxl6LNxiVkBZalm7/g=
+From: Umang Jain <umang.jain@ideasonboard.com>
+To: linux-media@vger.kernel.org,
+	kernel-list@raspberrypi.com,
+	linux-kernel@vger.kernel.org,
+	linux-rpi-kernel@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-staging@lists.linux.dev
+Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	"Ricardo B . Marliere" <ricardo@marliere.net>,
+	Dan Carpenter <error27@gmail.com>,
+	Stefan Wahren <stefan.wahren@i2se.com>,
+	Umang Jain <umang.jain@ideasonboard.com>
+Subject: [PATCH] fixup! staging: vc04_services: bcm2835-isp: Add a more complex ISP processing component
+Date: Mon, 13 Nov 2023 09:07:55 -0500
+Message-ID: <20231113140755.425365-1-umang.jain@ideasonboard.com>
+X-Mailer: git-send-email 2.41.0
+In-Reply-To: <20231109210309.638594-11-umang.jain@ideasonboard.com>
+References: <20231109210309.638594-11-umang.jain@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH 5/9] staging: vc04_services: Do not pass NULL to
- vchiq_log_error()
-Content-Language: en-US
-To: Stefan Wahren <wahrenst@gmx.net>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: linux-staging@lists.linux.dev, linux-rpi-kernel@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Dan Carpenter <error27@gmail.com>,
- Kieran Bingham <kieran.bingham@ideasonboard.com>,
- Phil Elwell <phil@raspberrypi.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>
-References: <20231107095156.365492-1-umang.jain@ideasonboard.com>
- <20231107095156.365492-6-umang.jain@ideasonboard.com>
- <20231107122551.GA3051@pendragon.ideasonboard.com>
- <20231107123627.GB3051@pendragon.ideasonboard.com>
- <a122dc9a-724d-4f57-b0c2-0b6676a4ea83@gmx.net>
-From: Umang Jain <umang.jain@ideasonboard.com>
-In-Reply-To: <a122dc9a-724d-4f57-b0c2-0b6676a4ea83@gmx.net>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-Hi Stefan
+Setup DMA Mask
+---
+I realised while (re)creating the test branches (sent in reply to the cover
+letter), I missed to squash this hunk in
+"staging: vc04_services: bcm2835-isp: Add a more complex ISP processing component"
+before sending out the series.
 
-On 11/10/23 3:51 PM, Stefan Wahren wrote:
-> Hi Umang,
->
-> Am 07.11.23 um 13:36 schrieb Laurent Pinchart:
->> On Tue, Nov 07, 2023 at 02:25:52PM +0200, Laurent Pinchart wrote:
->>> On Tue, Nov 07, 2023 at 04:51:52AM -0500, Umang Jain wrote:
->>>> vchiq_add_connected_callback() logs using vchiq_log_error() macro,
->>>> but passes NULL instead of a struct device pointer. Fix it.
->>>>
->>>> vchiq_add_connected_callback() is not used anywhere in the 
->>>> vc04_services
->>>> as of now. It will be used when we add new drivers(VC shared memory 
->>>> and
->>>> bcm2835-isp), hence it kept as it is for now.
->>>>
->>>> Fixes: 1d8915cf8899 ("staging: vc04: Convert vchiq_log_error() to 
->>>> use dynamic debug")
->>>> Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
->>>> ---
->>>> .../vc04_services/interface/vchiq_arm/vchiq_connected.c | 4 ++--
->>>> .../vc04_services/interface/vchiq_arm/vchiq_connected.h | 4 +++-
->>>>   2 files changed, 5 insertions(+), 3 deletions(-)
->>>>
->>>> diff --git 
->>>> a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_connected.c 
->>>> b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_connected.c
->>>> index b3928bd8c9c6..21f9fa1a1713 100644
->>>> --- 
->>>> a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_connected.c
->>>> +++ 
->>>> b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_connected.c
->>>> @@ -27,7 +27,7 @@ static void connected_init(void)
->>>>    * be made immediately, otherwise it will be deferred until
->>>>    * vchiq_call_connected_callbacks is called.
->>>>    */
->>>> -void vchiq_add_connected_callback(void (*callback)(void))
->>>> +void vchiq_add_connected_callback(struct vchiq_device *device, 
->>>> void (*callback)(void))
->>>
->>> You're changing the prototype of the function, but the patch doesn't
->>> update any user. If the function is unused, it looks like you can drop
->>> it instead. Looking at the rest of the vchiq_connected.c file, I think
->>> you can actually drop the whole file.
->>
->> Except that the vc-sm-cma driver will use it. I'm curious though, that
->> driver will have no way to acquire a pointer to a vchiq_device, so I
->> don't see how this will be usable. pr_err() may be a better pick here.
->
-> in case there is currently no user, but vc-sm-cma will be then i'm
-> convinced that moving this driver into staging before vchiq is out is a
-> good idea.
->
-> AFAIK your main goal is to get bcm2835-isp into mainline, so it would be
-> faster to have it in staging, so everyone could fix the style issues.
+Sending it as a fixup! for now. 
+---
+ .../staging/vc04_services/bcm2835-isp/bcm2835-v4l2-isp.c    | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-This would really *really* help me. In the sense that, once the 
-bcm2835-isp is in staging, I wouldn't need to keep the bcm2835-isp 
-patches rebased on my local computer and keep re-sending the series 
-again on the list.
-
-If the bcm2835-isp series looks in good shape, I prefer getting them in 
-staging and my focus will solely be on continuing working the de-staging 
-part, so that the churn is minimized on my end.
->
-> My initial concern about importing new drivers was that after moving it
-> into staging nobody wants to finish the job. But currently i've a good
-> feeling that vchiq is on a good way.
->
-> Best regards
->
->>
->>>>   {
->>>>       connected_init();
->>>>
->>>> @@ -39,7 +39,7 @@ void vchiq_add_connected_callback(void 
->>>> (*callback)(void))
->>>>           callback();
->>>>       } else {
->>>>           if (g_num_deferred_callbacks >= MAX_CALLBACKS) {
->>>> -            vchiq_log_error(NULL, VCHIQ_CORE,
->>>> +            vchiq_log_error(&device->dev, VCHIQ_CORE,
->>>>                       "There already %d callback registered - 
->>>> please increase MAX_CALLBACKS",
->>>>                       g_num_deferred_callbacks);
->>>>           } else {
->>>> diff --git 
->>>> a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_connected.h 
->>>> b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_connected.h
->>>> index 4caf5e30099d..e4ed56446f8a 100644
->>>> --- 
->>>> a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_connected.h
->>>> +++ 
->>>> b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_connected.h
->>>> @@ -1,10 +1,12 @@
->>>>   /* SPDX-License-Identifier: GPL-2.0 OR BSD-3-Clause */
->>>>   /* Copyright (c) 2010-2012 Broadcom. All rights reserved. */
->>>>
->>>> +#include "vchiq_bus.h"
->>>> +
->>>>   #ifndef VCHIQ_CONNECTED_H
->>>>   #define VCHIQ_CONNECTED_H
->>>>
->>>> -void vchiq_add_connected_callback(void (*callback)(void));
->>>> +void vchiq_add_connected_callback(struct vchiq_device *device, 
->>>> void (*callback)(void));
->>>>   void vchiq_call_connected_callbacks(void);
->>>>
->>>>   #endif /* VCHIQ_CONNECTED_H */
->>
+diff --git a/drivers/staging/vc04_services/bcm2835-isp/bcm2835-v4l2-isp.c b/drivers/staging/vc04_services/bcm2835-isp/bcm2835-v4l2-isp.c
+index 316d35d5f19d..4a23f9feb6e4 100644
+--- a/drivers/staging/vc04_services/bcm2835-isp/bcm2835-v4l2-isp.c
++++ b/drivers/staging/vc04_services/bcm2835-isp/bcm2835-v4l2-isp.c
+@@ -1774,6 +1774,12 @@ static int bcm2835_isp_probe(struct vchiq_device *device)
+ 	unsigned int i;
+ 	int ret;
+ 
++	ret = dma_set_mask_and_coherent(&device->dev, DMA_BIT_MASK(32));
++	if (ret) {
++		dev_err(&device->dev, "dma_set_mask_and_coherent failed: %d\n", ret);
++		return ret;
++	}
++
+ 	bcm2835_isp_instances = devm_kzalloc(&device->dev,
+ 					     sizeof(bcm2835_isp_instances) *
+ 						      BCM2835_ISP_NUM_INSTANCES,
+-- 
+2.41.0
 
