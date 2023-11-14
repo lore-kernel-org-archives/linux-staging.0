@@ -1,131 +1,117 @@
-Received: from mail-pg1-f176.google.com (mail-pg1-f176.google.com [209.85.215.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECFFA23779
-	for <linux-staging@lists.linux.dev>; Mon, 13 Nov 2023 19:52:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=darkphysics.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=darkphysics.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8F7E26AC5
+	for <linux-staging@lists.linux.dev>; Tue, 14 Nov 2023 19:33:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmx.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=darkphysics.net header.i=@darkphysics.net header.b="FA2CHrkC"
-Received: by mail-pg1-f176.google.com with SMTP id 41be03b00d2f7-565334377d0so3766287a12.2
-        for <linux-staging@lists.linux.dev>; Mon, 13 Nov 2023 11:52:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=darkphysics.net; s=google; t=1699905176; x=1700509976; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ENLdxhSBNg8SuBVApZdY1dC55L+cF5EgmlEgQ0l3pHA=;
-        b=FA2CHrkC6R+fn95F2FxXpgkFPhlR2BR7N3QQPKI5jJwKT/pJK4GK3HkYorkQnTQTLj
-         nh0IMDexdO5f05twM0XBGG4Y2LWBCYwpSWELF5mNaMp2xFVPRigl54YwwihlRfA7N3wc
-         VoEFmPm72j5vT6AYuIM42GBjBcziH16MmN75L8XeMQq+ey354thfD6cjy6J9slABlg8/
-         89L/f5IXFNLSUCUgDnty3L+U5dEWr+IjKGvd9aoK5XSIuu6aEPKhW/l/o8dKjj3OmKub
-         xu3k0tNpPHcgn6WLdDg3zcZW2ep61hDwgfosrU1naOP94P748SEjB+vIW1hKPwRhVuQk
-         a66A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1699905176; x=1700509976;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ENLdxhSBNg8SuBVApZdY1dC55L+cF5EgmlEgQ0l3pHA=;
-        b=Jd2IN50LFZ8ZvnELWXyJHXtWKGRJIPxLxI06gkZQAHiLfatbIlmH4YWX6KV1+n9Gtp
-         LfKY0x08ml3L2+pKrgdw4nJ0iok508XuhS8uV8cVkGzCFC99CjszLay3/EeXcjbZfOhN
-         Mm4hawIoclZsSR/JbtaJufmC53LQvlp9gvrrGQTAUzRDaI59lr76pFo6mjqYJAxDy3di
-         Bl5ba2HkU5UiGTIt3SWAiN+fcS8n40PRUN5GuJ4M2EI0tJxBQAG6yDtFVlBdeC0QD85L
-         ZdFys+N+nUiS0Ng6Pf0nSMRQ+kWLC3QEXh5img1AS6lj8JInwG0NnyJ74Q9cucmQUClq
-         jw0w==
-X-Gm-Message-State: AOJu0YxYlDrLSoGwucmwAxcR2TxuTUY/Ri1yirhE21zveoO19UAuI3hS
-	smvxBWcEuDMi6LnBb0WGmWbtug==
-X-Google-Smtp-Source: AGHT+IE3RbDYuZkrueUm6r3KpdLcuEAtVYjitEdyMsjoi2L+H/t40Z2To2M7tJtBGaYaGMDqlQGuZA==
-X-Received: by 2002:a17:903:2448:b0:1cc:be6b:80fa with SMTP id l8-20020a170903244800b001ccbe6b80famr315322pls.12.1699905176423;
-        Mon, 13 Nov 2023 11:52:56 -0800 (PST)
-Received: from basil.darkphysics (c-76-146-178-2.hsd1.wa.comcast.net. [76.146.178.2])
-        by smtp.gmail.com with ESMTPSA id t7-20020a170902bc4700b001c9d968563csm4395815plz.79.2023.11.13.11.52.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 13 Nov 2023 11:52:56 -0800 (PST)
-From: Tree Davies <tdavies@darkphysics.net>
-To: gregkh@linuxfoundation.org,
-	philipp.g.hortmann@gmail.com,
-	anjan@momi.ca
-Cc: linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Tree Davies <tdavies@darkphysics.net>
-Subject: [PATCH 7/7] Staging: rtl8192e: Rename variable bDisable_AddBa
-Date: Mon, 13 Nov 2023 11:59:10 -0800
-Message-ID: <20231113195910.8423-8-tdavies@darkphysics.net>
-X-Mailer: git-send-email 2.41.0
-In-Reply-To: <20231113195910.8423-1-tdavies@darkphysics.net>
-References: <20231113195910.8423-1-tdavies@darkphysics.net>
+	dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.b="uiDtIorL"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+	s=s31663417; t=1699990367; x=1700595167; i=wahrenst@gmx.net;
+	bh=0l/qJoqBf6nReycMlif7uqnkpKDrwiJccsu4IcAzFIg=;
+	h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:
+	 In-Reply-To;
+	b=uiDtIorLWt9MeDK9i9FBqPtdEr9rpszNS1jcd8TUfMLZjPjZ6DXZjlZYhboPzZ5Y
+	 klANs8AUmTqd7H5qGz7bdP307sW8LmtHyRAwVgnfVEcas2NYCbI4gpdjOczEfVzas
+	 VKiAU14rFEnDb/5LlBk/d1LSb+MGrXSlx6YCNL9T/S8h+WKE75u4q6H54ogXgFxa3
+	 vdFMisORqnD8QYN6wHYxpl7agbEyRd/GoaAOOkcZV2x/cLEep4Ei7nwv1C7BPQDDh
+	 NJKJAStAMRUDtPFOkt0MexHLjrGBfdFJw/mknG+lProOtcR+GmraN+BiSR4IJJ+h2
+	 xEWzqkzcamjht3imIw==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from [192.168.1.129] ([37.4.248.43]) by mail.gmx.net (mrgmx004
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1MKsnP-1qoKwd3iyj-00LE1x; Tue, 14
+ Nov 2023 20:32:46 +0100
+Message-ID: <856622a5-c636-4677-a218-12070afe960a@gmx.net>
+Date: Tue, 14 Nov 2023 20:32:45 +0100
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 02/15] staging: vc04_services: vchiq_arm: Register
+ vcsm-cma driver
+Content-Language: en-US
+To: Umang Jain <umang.jain@ideasonboard.com>, linux-media@vger.kernel.org,
+ kernel-list@raspberrypi.com, linux-kernel@vger.kernel.org,
+ linux-rpi-kernel@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
+ linux-staging@lists.linux.dev
+Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ Kieran Bingham <kieran.bingham@ideasonboard.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ "Ricardo B . Marliere" <ricardo@marliere.net>,
+ Dan Carpenter <error27@gmail.com>
+References: <20231109210309.638594-1-umang.jain@ideasonboard.com>
+ <20231109210309.638594-3-umang.jain@ideasonboard.com>
+From: Stefan Wahren <wahrenst@gmx.net>
+In-Reply-To: <20231109210309.638594-3-umang.jain@ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:tol0ZL1AgesNjpcIresGp3hLMBAjqiB9APiylxirondgLz/H3GA
+ Ox2cspkyQZqx8xZSqYZVo1daKJRABXg12GI91ngnobscpztKeq9VTigmxx5g8HIgnPKBe9Y
+ reHbcO8Y2mt3bucJLHMh3+TKVAGjmIMgoHf6O+pgo9imZi+JE2dDOFd40mhNJfSnMl1dFy+
+ nsz+kSI/VS+HZAXfFkC2g==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:OgCA92FrxV0=;i6D1chp3+1ZPO9W8hP8BWP3elFY
+ N3qXALD7LCzrTTHwInWhnPi23WzOVokqpc9XiLScMZQK9ZCgDwHTvDG7pgrzV0wfTeDOM8ERz
+ 7D87mLaJqMlmHgkgTWZTmbhAxsi056I93skw+y6/HM/QC+hqHPLXrwy5PsmlwRpDAMouAEG8j
+ mQppNizNU/8Dut9jRXI84ZznOF7OMaav0H83CwWWljj/AD4j9MTx5uEj9nUUqkp6n2NvVjiIO
+ Suav64mS14z1QposPi03TgAO+cSFLShoxd0EY9YbsSxp/eEZXRdA06bj6QqLCmfo/TQXKvw5D
+ UuCbV7J5Cu6lbb3nSt/N7NZEGKtCw0uvxJPGvOq6FUKTRS0+6ukMAh98wzDKji7W8WibQIpSR
+ B1EVCHWq6F1LHoMRbscRIkCseA6lGAdP+F3xIaCMPeX6ffZz0YMtSyjoxD10ytYantoAgA72b
+ w812u6hf3SpJTUSY7DwUbHoH7q8KDB02cyF/0LVgKzLnS3wd7jbJMr9bWJmRwhLk4Kw1KTml3
+ e6eGYCTL81jpJ6Yv/UTbnlAy+BQprw4+74FOYWn1dK8v9xMW7C/j5eum3I5600iQ1b3y9Yrmi
+ le+BhjZzy7/PqUiyyFCJVbwGi6P52NROa58dtzjN2wDyPAIpXBrnF8h3lo/h7PjmasHNUT3ex
+ YtlTvXeNa4E2oSpZi5z1iaQr34EDRswEU8S2f5mH1x1W7BtbQcYTxMPWCIdzBuwalg3p/tegJ
+ XYlXm7iSTWH6Nxm9ipqe6OftPdWbFsFDbX5xCTEGMpTK9zvbyr0trFzh5AQ7b75Kg24IU6cSG
+ MhXrI8L6Yo/3mgiQiBIV2tq8OKVNtauffeqXlibMXvHi/fir7wvUQGgaGYQodcifeq8oq23Eu
+ 1rYx47VpuRj3Y46iqKyIqACcJ4ZpsuSWwgRcaDBi6viGlIHooiNPghTtvWHXmCw7DUPbAjRCe
+ nprlxDExZy/zHIwgnsul7ubJc6o=
 
-Rename variable bDisable_AddBa to disable_add_ba to fix
-checkpatch warning Avoid CamelCase.
+Hi Umang,
 
-Signed-off-by: Tree Davies <tdavies@darkphysics.net>
----
- drivers/staging/rtl8192e/rtl819x_BAProc.c | 2 +-
- drivers/staging/rtl8192e/rtl819x_TS.h     | 2 +-
- drivers/staging/rtl8192e/rtl819x_TSProc.c | 2 +-
- drivers/staging/rtl8192e/rtllib_tx.c      | 2 +-
- 4 files changed, 4 insertions(+), 4 deletions(-)
+Am 09.11.23 um 22:02 schrieb Umang Jain:
+> Register the vcsm-cma driver with the vchiq_bus_type.
 
-diff --git a/drivers/staging/rtl8192e/rtl819x_BAProc.c b/drivers/staging/rtl8192e/rtl819x_BAProc.c
-index 3502f27342e3..b52b42ac0fc4 100644
---- a/drivers/staging/rtl8192e/rtl819x_BAProc.c
-+++ b/drivers/staging/rtl8192e/rtl819x_BAProc.c
-@@ -382,7 +382,7 @@ int rtllib_rx_ADDBARsp(struct rtllib_device *ieee, struct sk_buff *skb)
- 		activate_ba_entry(pAdmittedBA, *pBaTimeoutVal);
- 	} else {
- 		ts->add_ba_req_delayed = true;
--		ts->bDisable_AddBa = true;
-+		ts->disable_add_ba = true;
- 		reason_code = DELBA_REASON_END_BA;
- 		goto OnADDBARsp_Reject;
- 	}
-diff --git a/drivers/staging/rtl8192e/rtl819x_TS.h b/drivers/staging/rtl8192e/rtl819x_TS.h
-index 289314de1193..742f575ea637 100644
---- a/drivers/staging/rtl8192e/rtl819x_TS.h
-+++ b/drivers/staging/rtl8192e/rtl819x_TS.h
-@@ -30,7 +30,7 @@ struct tx_ts_record {
- 	u8				add_ba_req_in_progress;
- 	u8				add_ba_req_delayed;
- 	u8				using_ba;
--	u8				bDisable_AddBa;
-+	u8				disable_add_ba;
- 	struct timer_list		TsAddBaTimer;
- 	u8				num;
- };
-diff --git a/drivers/staging/rtl8192e/rtl819x_TSProc.c b/drivers/staging/rtl8192e/rtl819x_TSProc.c
-index 867889dc4fb6..41c1e768348a 100644
---- a/drivers/staging/rtl8192e/rtl819x_TSProc.c
-+++ b/drivers/staging/rtl8192e/rtl819x_TSProc.c
-@@ -104,7 +104,7 @@ static void ResetTxTsEntry(struct tx_ts_record *ts)
- 	ts->add_ba_req_in_progress = false;
- 	ts->add_ba_req_delayed = false;
- 	ts->using_ba = false;
--	ts->bDisable_AddBa = false;
-+	ts->disable_add_ba = false;
- 	rtllib_reset_ba_entry(&ts->TxAdmittedBARecord);
- 	rtllib_reset_ba_entry(&ts->TxPendingBARecord);
- }
-diff --git a/drivers/staging/rtl8192e/rtllib_tx.c b/drivers/staging/rtl8192e/rtllib_tx.c
-index cee3b8855c0e..1da098f5b84c 100644
---- a/drivers/staging/rtl8192e/rtllib_tx.c
-+++ b/drivers/staging/rtl8192e/rtllib_tx.c
-@@ -300,7 +300,7 @@ static void rtllib_tx_query_agg_cap(struct rtllib_device *ieee,
- 				;
- 			} else if (tcb_desc->bdhcp == 1) {
- 				;
--			} else if (!pTxTs->bDisable_AddBa) {
-+			} else if (!pTxTs->disable_add_ba) {
- 				TsStartAddBaProcess(ieee, pTxTs);
- 			}
- 			goto FORCED_AGG_SETTING;
--- 
-2.39.2
+please squash into patch #1
 
+>
+> Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
+> ---
+>   drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c | 3 +++
+>   1 file changed, 3 insertions(+)
+>
+> diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm=
+.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
+> index 9fb8f657cc78..5a9073480dd3 100644
+> --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
+> +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
+> @@ -70,6 +70,7 @@ struct vchiq_state g_state;
+>    */
+>   static struct vchiq_device *bcm2835_audio;
+>   static struct vchiq_device *bcm2835_camera;
+> +static struct vchiq_device *vcsm_cma;
+>
+>   struct vchiq_drvdata {
+>   	const unsigned int cache_line_size;
+> @@ -1840,6 +1841,7 @@ static int vchiq_probe(struct platform_device *pde=
+v)
+>   		goto error_exit;
+>   	}
+>
+> +	vcsm_cma =3D vchiq_device_register(&pdev->dev, "vcsm-cma");
+>   	bcm2835_audio =3D vchiq_device_register(&pdev->dev, "bcm2835-audio");
+>   	bcm2835_camera =3D vchiq_device_register(&pdev->dev, "bcm2835-camera"=
+);
+>
+> @@ -1855,6 +1857,7 @@ static void vchiq_remove(struct platform_device *p=
+dev)
+>   {
+>   	vchiq_device_unregister(bcm2835_audio);
+>   	vchiq_device_unregister(bcm2835_camera);
+> +	vchiq_device_unregister(vcsm_cma);
+>   	vchiq_debugfs_deinit();
+>   	vchiq_deregister_chrdev();
+>   }
