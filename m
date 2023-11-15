@@ -1,183 +1,95 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mout.kundenserver.de (mout.kundenserver.de [217.72.192.73])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A88CF9FA
-	for <linux-staging@lists.linux.dev>; Wed, 15 Nov 2023 10:30:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="fEaCXax+";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="FOjZDU+a"
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id F02D32291C;
-	Wed, 15 Nov 2023 10:30:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1700044200; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=vFNE6b8+vl7BKCZsdI0YbeSXc1u5X8/vlrUKevu+KGM=;
-	b=fEaCXax+/M3fszhy4yB1zX0r2XIJMoIN+dovgCSZn4Jyq4aSKEC56MTrS3N/rkiY+WIX4X
-	a7/YQ86qN7qQ+oaQxEKeadrpftHTORKUmWyO0hSBU6uX4XDN86pN4h2mGDbGFZb1dz33jy
-	H7Wr2Ye675I60MWCwUg/47oba5ZvUEE=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1700044200;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=vFNE6b8+vl7BKCZsdI0YbeSXc1u5X8/vlrUKevu+KGM=;
-	b=FOjZDU+aiouMshR/ugyDGGJb5ji+XsYi1WvcPEw+BEtsrgbuepzb0EmO8BaX1ZATnFFJHm
-	v9w0Pn7lCO5RwGDA==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id BEF3C13A6F;
-	Wed, 15 Nov 2023 10:30:00 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-	by imap2.suse-dmz.suse.de with ESMTPSA
-	id YJm1LaidVGV+UAAAMHmgww
-	(envelope-from <tzimmermann@suse.de>); Wed, 15 Nov 2023 10:30:00 +0000
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: deller@gmx.de,
-	javierm@redhat.com
-Cc: linux-fbdev@vger.kernel.org,
-	dri-devel@lists.freedesktop.org,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Sudip Mukherjee <sudipm.mukherjee@gmail.com>,
-	Teddy Wang <teddy.wang@siliconmotion.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-staging@lists.linux.dev
-Subject: [PATCH 26/32] staging/sm750fb: Initialize fb_ops with fbdev macros
-Date: Wed, 15 Nov 2023 11:19:31 +0100
-Message-ID: <20231115102954.7102-27-tzimmermann@suse.de>
-X-Mailer: git-send-email 2.42.0
-In-Reply-To: <20231115102954.7102-1-tzimmermann@suse.de>
-References: <20231115102954.7102-1-tzimmermann@suse.de>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A6CC3BB2C
+	for <linux-staging@lists.linux.dev>; Wed, 15 Nov 2023 19:17:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=i2se.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=i2se.com
+Authentication-Results: smtp.subspace.kernel.org; dkim=none
+Received: from [192.168.1.129] ([37.4.248.43]) by mrelayeu.kundenserver.de
+ (mreue107 [212.227.15.183]) with ESMTPSA (Nemesis) id
+ 1MMWcT-1qkyqR1Jzz-00JbZM; Wed, 15 Nov 2023 20:03:48 +0100
+Message-ID: <3b9ec650-8a99-4bac-9ac9-d2cd87efced5@i2se.com>
+Date: Wed, 15 Nov 2023 20:03:47 +0100
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Authentication-Results: smtp-out1.suse.de;
-	none
-X-Spam-Level: 
-X-Spam-Score: -4.60
-X-Spamd-Result: default: False [-4.60 / 50.00];
-	 ARC_NA(0.00)[];
-	 RCVD_VIA_SMTP_AUTH(0.00)[];
-	 RCVD_TLS_ALL(0.00)[];
-	 FROM_HAS_DN(0.00)[];
-	 TO_DN_SOME(0.00)[];
-	 FREEMAIL_ENVRCPT(0.00)[gmail.com,gmx.de];
-	 TO_MATCH_ENVRCPT_ALL(0.00)[];
-	 TAGGED_RCPT(0.00)[];
-	 MIME_GOOD(-0.10)[text/plain];
-	 REPLY(-4.00)[];
-	 BROKEN_CONTENT_TYPE(1.50)[];
-	 R_MISSING_CHARSET(2.50)[];
-	 NEURAL_HAM_LONG(-3.00)[-1.000];
-	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	 NEURAL_HAM_SHORT(-1.00)[-1.000];
-	 BAYES_HAM(-3.00)[100.00%];
-	 RCPT_COUNT_SEVEN(0.00)[9];
-	 MID_CONTAINS_FROM(1.00)[];
-	 FREEMAIL_TO(0.00)[gmx.de,redhat.com];
-	 FUZZY_BLOCKED(0.00)[rspamd.com];
-	 FROM_EQ_ENVFROM(0.00)[];
-	 MIME_TRACE(0.00)[0:+];
-	 FREEMAIL_CC(0.00)[vger.kernel.org,lists.freedesktop.org,suse.de,gmail.com,siliconmotion.com,linuxfoundation.org,lists.linux.dev];
-	 RCVD_COUNT_TWO(0.00)[2];
-	 SUSPICIOUS_RECIPS(1.50)[]
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 05/15] staging: mmal-vchiq: Use vc-sm-cma to support
+ zero copy
+Content-Language: en-US
+To: Umang Jain <umang.jain@ideasonboard.com>, linux-media@vger.kernel.org,
+ kernel-list@raspberrypi.com, linux-kernel@vger.kernel.org,
+ linux-rpi-kernel@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
+ linux-staging@lists.linux.dev
+Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ Kieran Bingham <kieran.bingham@ideasonboard.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ "Ricardo B . Marliere" <ricardo@marliere.net>,
+ Dan Carpenter <error27@gmail.com>
+References: <20231109210309.638594-1-umang.jain@ideasonboard.com>
+ <20231109210309.638594-6-umang.jain@ideasonboard.com>
+From: Stefan Wahren <stefan.wahren@i2se.com>
+In-Reply-To: <20231109210309.638594-6-umang.jain@ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Provags-ID: V03:K1:hRUgUPLJ7rFTcdE7NnVcI/4HzsqA4QYhQf3aFo9afPhySVvhACg
+ ///NpGH8Kc41l0Xucn7dDL/L68PirBZ42PrNbUYgYG7D3G2W3tYshi8mtRw3lfS+XnAmCM0
+ rQo082W3D2O9M9Nl8qzao9eoEA9zyeQKotc0xhQmXhA4zIyxpFBCw0WAreIMUPosdf23Y9l
+ 9ZXAY34760qzi05XY8MZQ==
 X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:40eYUtB9v8Y=;GM/DBigz38EMGzOSldIKUo4hQCK
+ krZIW0m/vQ9ugAw0KuDe7oy0c0sGv+uAbhj6gPUGLOyOidJGREb70z1OEfUr54S/0t1dO4xrk
+ pce1aFNZuPi+4ise5WFJ3QaIyVJBFEZ1yEodpJZex5zakETXEbNOZeCYmk2Wy7DaL14lSh0Wx
+ 7T5QxN+qJiGBDEk1HR/Cxgk1QLDGKIXwK/IAo7jlWLwYiKtQZD0GAqZgi64/GunFBlFDuxfCU
+ 09PK1QcrXycEG2Vph+xPfvvNKAdHMBWR3JCwzlE/+jz6pvH1iUGQkSZeLOazLYm6x28Nwj6Os
+ Pe1kIE+wX8nPQ6JiFs/0kAt/wx9ZLX7iew2dV77ZVTaP2kE/f6v0Rxe25TjwT37vzfGuuPU0D
+ hraAXzisjUClkxfZFr3+KhD2aJLRroaUI8xE0H43bJL8ASjgWSWrnM+vJwmaUchzlvXTf0Qsx
+ KpIAXXlEm0RVrcP9+vAuGOHDS+tuMWr6mV/7Pa4tcCUus8V9atlguokmmVOooW3eiuOOQt238
+ CKArQYIFNTGpJiRDSEKGDi1zHa6CxqrqSTcLrBCOKALFQCVx35jA1ZGwxz5mL+56OmZhGponL
+ zkbQCy77yycWaw8B+6K+/FJwyJ0K5HqlA+wmnM+H6tAFTsqII3SzGqMXwi2iHQCfPKf0rT9uc
+ 65RIQFOhJAp6zwMSoraUveGH7retJU0AL72fKBQyA6BLR1oE7voIdKPMBKNalimVaXeZdJnmg
+ rl/w/EOMUJOHN+Lvc36ujJc+8ZpxGgq2rPIkV3om3e6vBFx7GVlrOcGSiA1KMYEcFkjRv3OjL
+ Mndztezr7dtzyMeMqHAZYW85C4Nga4oOIgEyiweU/e0xY/wd+7hsBZp6H03LbpGp1zdHIUSGn
+ OGKSDnScklqtpCg==
 
-Initialize all instances of struct fb_ops with fbdev initializer
-macros for framebuffers in I/O address space. Set the read/write,
-draw and mmap callbacks to the correct implementation and avoid
-implicit defaults. Also select the necessary helpers in Kconfig.
+Hi Umang,
 
-Fbdev drivers sometimes rely on the callbacks being NULL for a
-default I/O-memory-based implementation to be invoked; hence
-requiring the I/O helpers to be built in any case. Setting all
-callbacks in all drivers explicitly will allow to make the I/O
-helpers optional. This benefits systems that do not use these
-functions.
+Am 09.11.23 um 22:02 schrieb Umang Jain:
+> From: Dave Stevenson <dave.stevenson@raspberrypi.com>
+> 
+> With the vc-sm-cma driver we can support zero copy of buffers between
+> the kernel and VPU. Add this support to mmal-vchiq.
+> 
+> Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
+> Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
+> ---
+>   .../staging/vc04_services/vchiq-mmal/Kconfig  |  1 +
+>   .../vc04_services/vchiq-mmal/mmal-common.h    |  4 +
+>   .../vc04_services/vchiq-mmal/mmal-vchiq.c     | 84 +++++++++++++++++--
+>   .../vc04_services/vchiq-mmal/mmal-vchiq.h     |  1 +
+>   4 files changed, 83 insertions(+), 7 deletions(-)
+> 
+> diff --git a/drivers/staging/vc04_services/vchiq-mmal/Kconfig b/drivers/staging/vc04_services/vchiq-mmal/Kconfig
+> index c99525a0bb45..a7c1a7bf516e 100644
+> --- a/drivers/staging/vc04_services/vchiq-mmal/Kconfig
+> +++ b/drivers/staging/vc04_services/vchiq-mmal/Kconfig
+> @@ -1,6 +1,7 @@
+>   config BCM2835_VCHIQ_MMAL
+>   	tristate "BCM2835 MMAL VCHIQ service"
+>   	depends on BCM2835_VCHIQ
+> +	select BCM_VC_SM_CMA
 
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: Sudip Mukherjee <sudipm.mukherjee@gmail.com>
-Cc: Teddy Wang <teddy.wang@siliconmotion.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-staging@lists.linux.dev
----
- drivers/staging/sm750fb/sm750.c | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+i think we need more explanation in the commit message of the relation 
+between these both modules.
 
-diff --git a/drivers/staging/sm750fb/sm750.c b/drivers/staging/sm750fb/sm750.c
-index 35098516f53c9..04c1b32a22c5e 100644
---- a/drivers/staging/sm750fb/sm750.c
-+++ b/drivers/staging/sm750fb/sm750.c
-@@ -665,31 +665,28 @@ static int sm750fb_set_drv(struct lynxfb_par *par)
- 
- static const struct fb_ops lynxfb_ops = {
- 	.owner = THIS_MODULE,
-+	FB_DEFAULT_IOMEM_OPS,
- 	.fb_check_var =  lynxfb_ops_check_var,
- 	.fb_set_par = lynxfb_ops_set_par,
- 	.fb_setcolreg = lynxfb_ops_setcolreg,
- 	.fb_blank = lynxfb_ops_blank,
- 	.fb_pan_display = lynxfb_ops_pan_display,
--	.fb_fillrect = cfb_fillrect,
--	.fb_imageblit = cfb_imageblit,
--	.fb_copyarea = cfb_copyarea,
- };
- 
- static const struct fb_ops lynxfb_ops_with_cursor = {
- 	.owner = THIS_MODULE,
-+	FB_DEFAULT_IOMEM_OPS,
- 	.fb_check_var =  lynxfb_ops_check_var,
- 	.fb_set_par = lynxfb_ops_set_par,
- 	.fb_setcolreg = lynxfb_ops_setcolreg,
- 	.fb_blank = lynxfb_ops_blank,
- 	.fb_pan_display = lynxfb_ops_pan_display,
--	.fb_fillrect = cfb_fillrect,
--	.fb_copyarea = cfb_copyarea,
--	.fb_imageblit = cfb_imageblit,
- 	.fb_cursor = lynxfb_ops_cursor,
- };
- 
- static const struct fb_ops lynxfb_ops_accel = {
- 	.owner = THIS_MODULE,
-+	__FB_DEFAULT_IOMEM_OPS_RDWR,
- 	.fb_check_var =  lynxfb_ops_check_var,
- 	.fb_set_par = lynxfb_ops_set_par,
- 	.fb_setcolreg = lynxfb_ops_setcolreg,
-@@ -698,10 +695,12 @@ static const struct fb_ops lynxfb_ops_accel = {
- 	.fb_fillrect = lynxfb_ops_fillrect,
- 	.fb_copyarea = lynxfb_ops_copyarea,
- 	.fb_imageblit = lynxfb_ops_imageblit,
-+	__FB_DEFAULT_IOMEM_OPS_MMAP,
- };
- 
- static const struct fb_ops lynxfb_ops_accel_with_cursor = {
- 	.owner = THIS_MODULE,
-+	__FB_DEFAULT_IOMEM_OPS_RDWR,
- 	.fb_check_var =  lynxfb_ops_check_var,
- 	.fb_set_par = lynxfb_ops_set_par,
- 	.fb_setcolreg = lynxfb_ops_setcolreg,
-@@ -711,6 +710,7 @@ static const struct fb_ops lynxfb_ops_accel_with_cursor = {
- 	.fb_copyarea = lynxfb_ops_copyarea,
- 	.fb_imageblit = lynxfb_ops_imageblit,
- 	.fb_cursor = lynxfb_ops_cursor,
-+	__FB_DEFAULT_IOMEM_OPS_MMAP,
- };
- 
- static int lynxfb_set_fbinfo(struct fb_info *info, int index)
--- 
-2.42.0
+On the one side BCM_VC_SM_CMA should be a driver, but it's not a driver 
+for a specific hardware. It looks like more an extension of VCHIQ MMAL 
+or does other (maybe not yet imported) vc04 driver make also use of this.
 
+My question is: is BCM_VC_SM_CMA a real member on the VCHIQ bus and why?
+
+Best regards
