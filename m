@@ -1,103 +1,100 @@
-Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 756CF2D786
-	for <linux-staging@lists.linux.dev>; Thu, 16 Nov 2023 10:57:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3814A2EAF9
+	for <linux-staging@lists.linux.dev>; Thu, 16 Nov 2023 11:44:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="C3yFw0Yb"
-Received: by mail-ed1-f43.google.com with SMTP id 4fb4d7f45d1cf-53e2308198eso1005446a12.1
-        for <linux-staging@lists.linux.dev>; Thu, 16 Nov 2023 02:57:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1700132264; x=1700737064; darn=lists.linux.dev;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=c0Alq2NnZvkG1wKEvu5ji7SOJ948PkV/pj0sqQJJs20=;
-        b=C3yFw0YbHBjxJ/0j2i/c0jcU2XnKBb8Pmxd0l9S6LUHv9bVTmLexgTh+ZaDbaUiFQl
-         SQyTzNOQgejUMVrf6bQrZvttOv7SimADoUuNaSQ6o2b2oVIJl1oI/5bWzsKhB8zSUTvC
-         ek3ApizPScLm0zE1YG324Ay/cqV7SyQK1UAvZA2VAyCrAKVtQP1XjgkZCWxLVMT+0saD
-         s62nKTLoaJEdd5xMSD5WVIQ1ZdFbesiO4vp6FMV8jto8ZLYhlT39SvN/XONXc8zpwZZG
-         jgC9ooANcxwAtVhrJ2kpXDEC2UfVQF5JbUvNWTb483vc94m1KPJCCrOlTCPnzFMoX6Uy
-         69pQ==
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="DPeXZBy3"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1700135085;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=RWBdAfvMBvXM91oAEjKzolXCmdPgAd5lIYD+DF4PVIY=;
+	b=DPeXZBy3jdy7y/Nbqrfy7iqnsMF4pXs8R0MH+L9RjtqxZgWr/8bW8owUBxqx6BHRG2q4CY
+	bXUWZ58XshFTds/WP0n3+yLl2mkikXa7y6Vqe+3tnaOUiCMc5EnJazJwpUd4gqqKvXn7Jh
+	JNsfiXuMEYP4t01UPVQ3H/GJbT8qhH8=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-260-emXPfiVaMu2rXcSgqehB4g-1; Thu, 16 Nov 2023 06:44:44 -0500
+X-MC-Unique: emXPfiVaMu2rXcSgqehB4g-1
+Received: by mail-wm1-f71.google.com with SMTP id 5b1f17b1804b1-40a48806258so3934365e9.3
+        for <linux-staging@lists.linux.dev>; Thu, 16 Nov 2023 03:44:44 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700132264; x=1700737064;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=c0Alq2NnZvkG1wKEvu5ji7SOJ948PkV/pj0sqQJJs20=;
-        b=hXFkK9wiUw9Z0/9SH/Wk0oI6zOXmR7Z9Na9E0kTbUjJ+Q0DYmyfCOh809I5UuHfF3c
-         1kZqgCnC8bt77EZMC012rSvzsBBppcJ6D3udS6zhDVsTKIYAZAQNd5Ag4Zqu6WceDwkQ
-         /ZPc9c94Y8lSYOUEJAGe33AzQkmnvwKxWXJ8BcKQrbvcJvBJ+V/i6gaQyXdWRymm+ZeZ
-         /cC26y/5yeeYt2rf/MR+91VMQ6G8X6e0DNM9xIjq+RAiBQ9jWvsgq3tAoTypIK7fVwn2
-         75Et1VJfaJdqxsJmuFJtwS1pZxi0XAktpqOGgSXHUpL6nb4hvmGbRV5yTzAnP6dGAzdY
-         odSw==
-X-Gm-Message-State: AOJu0YydweM7V5518fMInyLFkPSvZkRa89VjI3ek4nCcu89bvZGpNpFQ
-	96RlamKvwR4Mng1dlots88lNE2LQra4jKNx24+s=
-X-Google-Smtp-Source: AGHT+IEMyccX384cGXsYncIxNvNPWdps8uNibi1oGYh6tKgDwE4EswQCIBmJhnNXhS3SZ/wXaYBunJmToyOvaJ1n0O4=
-X-Received: by 2002:aa7:dd56:0:b0:53e:7781:2279 with SMTP id
- o22-20020aa7dd56000000b0053e77812279mr11735675edw.36.1700132264420; Thu, 16
- Nov 2023 02:57:44 -0800 (PST)
+        d=1e100.net; s=20230601; t=1700135083; x=1700739883;
+        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=RWBdAfvMBvXM91oAEjKzolXCmdPgAd5lIYD+DF4PVIY=;
+        b=ka264kzOpy/Ti9uzs52x3ZXf0Ahw7RDQOnT3yLlow2OQItoMxxW8AEoach0oYdRWNi
+         x7Wv0cGvpTADCa0CEGwISqN4YIo9zoZYl+hdO/eWrYl7uDySnpJWNuUpHmsLUaqoeFXY
+         C1IdtG65g8KJFxqzG08IWqwixqidtv98kn1mRTPEA3r1YD6dsDO9DmVm7TrRdrOgA9q0
+         IBQSyuxr9V4T3uPU6vdndU+6Wr9mXFPR5Ldl28MwhnepryYrTjBo1zUonQlXUa5Oz9bx
+         iIYZcbFuyrFdXCaQ40H+xL5ntBwS4h3xtfTwtwL2wLF5Br+HEwPEtS0W6kqWDrZo3W8S
+         Vhhw==
+X-Gm-Message-State: AOJu0YywGAUXmE0M3HlDoIqzLqZmrT2COVImFvD6nIHgTQrGdILX8JMs
+	62kdwADM5IpgYms2ypdTROp8DPbkMh/i2iFpn4uIqKxuYTYv3M0ii9V8wDF9wkc/jCwL3D5abmR
+	K7JjibFAmHieBmeNPdU9lcsAVFQ==
+X-Received: by 2002:a05:600c:350a:b0:405:359a:c950 with SMTP id h10-20020a05600c350a00b00405359ac950mr13330097wmq.19.1700135083501;
+        Thu, 16 Nov 2023 03:44:43 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IHAB7R6TX3y7IW/ozo4VrNr9YJdex4yJeaGhFiIclSVMpfZrs4uKUq3O6rvSXhk8OPjiKhQqQ==
+X-Received: by 2002:a05:600c:350a:b0:405:359a:c950 with SMTP id h10-20020a05600c350a00b00405359ac950mr13330084wmq.19.1700135083231;
+        Thu, 16 Nov 2023 03:44:43 -0800 (PST)
+Received: from localhost (205.pool92-176-231.dynamic.orange.es. [92.176.231.205])
+        by smtp.gmail.com with ESMTPSA id y14-20020a05600c2b0e00b0040644e699a0sm3203052wme.45.2023.11.16.03.44.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 16 Nov 2023 03:44:43 -0800 (PST)
+From: Javier Martinez Canillas <javierm@redhat.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>, deller@gmx.de
+Cc: linux-fbdev@vger.kernel.org, Teddy Wang <teddy.wang@siliconmotion.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ linux-staging@lists.linux.dev, dri-devel@lists.freedesktop.org, Thomas
+ Zimmermann <tzimmermann@suse.de>, Sudip Mukherjee
+ <sudipm.mukherjee@gmail.com>
+Subject: Re: [PATCH 25/32] staging/sm750fb: Declare fb_ops as constant
+In-Reply-To: <20231115102954.7102-26-tzimmermann@suse.de>
+References: <20231115102954.7102-1-tzimmermann@suse.de>
+ <20231115102954.7102-26-tzimmermann@suse.de>
+Date: Thu, 16 Nov 2023 12:44:42 +0100
+Message-ID: <87jzqh3ot1.fsf@minerva.mail-host-address-is-not-set>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20231109210309.638594-1-umang.jain@ideasonboard.com>
- <20231115195947.GD29486@pendragon.ideasonboard.com> <58fe01b9-5fb6-451c-a759-c6a5afd695e3@gmx.net>
- <20231116005030.GA21041@pendragon.ideasonboard.com> <45c0e7bbb2ed91ec559cdbf2d19ad80e@suse.de>
-In-Reply-To: <45c0e7bbb2ed91ec559cdbf2d19ad80e@suse.de>
-From: Peter Robinson <pbrobinson@gmail.com>
-Date: Thu, 16 Nov 2023 10:57:32 +0000
-Message-ID: <CALeDE9PuquwZs3ou_RksH41LCYgVtMmQt6KbK7CnBq5S8_yp6g@mail.gmail.com>
-Subject: Re: [PATCH v2 00/15] staging: vc04_services: bcm2835-isp support
-To: "Ivan T. Ivanov" <iivanov@suse.de>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Stefan Wahren <wahrenst@gmx.net>, 
-	Umang Jain <umang.jain@ideasonboard.com>, linux-media@vger.kernel.org, 
-	kernel-list@raspberrypi.com, linux-kernel@vger.kernel.org, 
-	linux-rpi-kernel@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
-	linux-staging@lists.linux.dev, 
-	Dave Stevenson <dave.stevenson@raspberrypi.com>, 
-	Kieran Bingham <kieran.bingham@ideasonboard.com>, 
-	"Ricardo B . Marliere" <ricardo@marliere.net>, Dan Carpenter <error27@gmail.com>, 
-	Guillaume GARDET <guillaume.gardet@opensuse.org>
-Content-Type: text/plain; charset="UTF-8"
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
 
-> >> > On Thu, Nov 09, 2023 at 04:02:52PM -0500, Umang Jain wrote:
-> >> >> This series aims to upport bcm2835-isp from the RPi kernel.
-> >> >> It is developed on top of staging-next which comprises many
-> >> >> VC04 changes for it's de-staging. Hence, the merge of this
-> >> >> driver is targeted when VC04 is de-staged completely (which I
-> >> >> have been pushing), but it can be helped getting reviewed meanwhile.
-> >> >> Hence, the reason for posting the series.
-> >> >
-> >> > Related question, what do people think about dropping the legacy
-> >> > firmware-based bcm2385-camera driver once this gets merged ?
-> >> > firmware-based camera operation is deprecated by Raspberry Pi, and
-> >> > doesn't work on the Pi 5
-> >>
-> >> i don't remember exactly, but wasn't the bcm2835-camera required for
-> >> Pi
-> >> Camera V1.3?
-> >
-> > If I'm not mistaken (Dave can correct me), the legacy camera stack
-> > works
-> > only with the Raspberry Pi official camera v1, v2 and HQ modules.
-> > Raspberry Pi has switched to a new camera stack based on libcamera,
-> > which works on the Pi Zero 2, Pi 3, Pi 4 and Pi 5. This new stack
-> > supports the same camera modules as the legacy stack, and many more.
-> > The
-> > legacy stack doesn't work on Pi 5 at all.
-> >
-> >> At the end cannot speak for the users. AFAIK OpenSuSE and Fedora use
-> >> the
-> >> driver.
+Thomas Zimmermann <tzimmermann@suse.de> writes:
+
+> Split up lynxfb_ops and declare each as constant. The fb_ops
+> instance used to be modified while initializing the driver. It is
+> now constant and the driver picks the correct instance, depending
+> on the settings for acceleration and cursor support.
 >
-> Guillaume (in CC) is more authoritative about this topic, but as long we
-> have
-> smooth migration plan I am more than happy to switch to proper camera
-> driver.
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> Cc: Sudip Mukherjee <sudipm.mukherjee@gmail.com>
+> Cc: Teddy Wang <teddy.wang@siliconmotion.com>
+> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> Cc: linux-staging@lists.linux.dev
+> ---
+>  drivers/staging/sm750fb/sm750.c | 59 +++++++++++++++++++++++++++------
+>  1 file changed, 49 insertions(+), 10 deletions(-)
+>
 
-From a Fedora PoV I am more than happy to move to the new libcamera
-based stack for the RPi camera, IMO sooner the better :)
+Same than patch patch #6, the change is less trivial and would be great if
+someone with the hardware can test/review. But the patch looks good to me:
+
+Acked-by: Javier Martinez Canillas <javierm@redhat.com>
+
+-- 
+Best regards,
+
+Javier Martinez Canillas
+Core Platforms
+Red Hat
+
