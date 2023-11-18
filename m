@@ -1,53 +1,53 @@
-Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
+Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DBCE101C3
-	for <linux-staging@lists.linux.dev>; Sat, 18 Nov 2023 08:51:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6EFA5101C7
+	for <linux-staging@lists.linux.dev>; Sat, 18 Nov 2023 08:51:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="m2+UEo4E"
-Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-9c40c3814a8so83380166b.0
-        for <linux-staging@lists.linux.dev>; Sat, 18 Nov 2023 00:51:14 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ak1ZUKDe"
+Received: by mail-ej1-f46.google.com with SMTP id a640c23a62f3a-9dd576116e3so82305666b.1
+        for <linux-staging@lists.linux.dev>; Sat, 18 Nov 2023 00:51:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1700297473; x=1700902273; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1700297480; x=1700902280; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=4IeNlXsmBMHoH7xFQOzT7zMDYmFmso5R2YU54hCqJXw=;
-        b=m2+UEo4EqkCRLFLhIVGN99Z/3c05zP5DKM/nJkudWAQ/+NtZW9F1kakt2VAdevOnsU
-         9p3yzAxZlfGcNnb5r4YLH8NsR6Hlh5XjX7qmgx7HvmZ5hZPVKI9Z6bYv+Qyd3eiYm/hi
-         t4+t/3afo5mryl1dPv3kNEcFlLGjM6oQ9TGE4ZRFu9PQlENG1apUUm6EgcOTe4t9R8+v
-         WzAav/bC93ww1o6ySJriGeJ1MCnfqA/T2BsjnImeFXd8kB49YxS0spwsa5kUTHkFHXRk
-         sO9IDcUZnqopeJQPv99ECd0S6Q9lqpZFHzveoQ4h/VymRel3liAAwLgeVqCYQdcg/3wA
-         ndbA==
+        bh=VjN035WLtuadTMm7LXZaDKsk+/K6gPiiTmDAIdpngNw=;
+        b=ak1ZUKDevRN88v2e6YbnbpGrk8BvoXkR4DYGc9HJgzMFb6cUAWm+USvbTpL+ysLqU3
+         DWG89ziDq7DJ6pO4I+Ctji2t82emPoQU/QXK7ipaaaJExOm11sdcoiZDHVKnd3zSDCHE
+         tCCRUpvnFWJtMfwHm5TBxf5a+/OYaCtjVfCJFEnJgq1c9W5ScC3HK9VjZW2mdMPwQB+o
+         9+698WLnU9hi2Kor5qY/ZwVwNjg1FdxAjBZl59W6Iwf++d8eY/Mp53ZimaqHBrY8Ffd2
+         pbwq/8/EA3INKC1rdAjfVXVAjpHErSoiFLIxBmOXbSvPYLqFjdRux3gg9hwBoGHzOebh
+         u71Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700297473; x=1700902273;
+        d=1e100.net; s=20230601; t=1700297480; x=1700902280;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=4IeNlXsmBMHoH7xFQOzT7zMDYmFmso5R2YU54hCqJXw=;
-        b=jcjP2YLwbne0xP+NdTgiWRRipL5Fx7RaOA/pN7TZIG/w8HcPmibGtT7R18aTwFSNj5
-         GExqn3CoU7hqgB2NXkAM857xszgbdFi8t//HT0fLZETRTZ5u85YIMN2S1MUS7Puxd12y
-         GFg/OgARA63hxTUibuH253ztEY7Cizzw9AZoJMIpirTnmB8dRLfmx4doWlXAVKGyQZZ1
-         IaPxzb8BiqfFonS3IvLltuTZwzdk+GoFjf0FtHAe8fxBRN9/Lp7KZahXEpj83ZSGDcAU
-         nniGSX7iQkobSdmsbgS/idey4XQewsWUpCb4kOza6uFzZX47u9TErtLeHaxxjzHFqamv
-         BTjw==
-X-Gm-Message-State: AOJu0YwO00M0Ewl2WK5Tt1xshwM7qN5S2rNb26rlTmGakT1z8GetoSBx
-	PosdM/hjfT574iGjBLDQW8o=
-X-Google-Smtp-Source: AGHT+IFHwZXi9hQx6GDo7DcH7fcX+4pp9aXtpSY0qesFiSTN77Cf3nH1Vx3COwZRLLVvFj66eHvjOg==
-X-Received: by 2002:a17:906:108f:b0:9dd:5609:55b9 with SMTP id u15-20020a170906108f00b009dd560955b9mr1172060eju.2.1700297473260;
-        Sat, 18 Nov 2023 00:51:13 -0800 (PST)
+        bh=VjN035WLtuadTMm7LXZaDKsk+/K6gPiiTmDAIdpngNw=;
+        b=hi6rCO68iqRREgNYzrC9Yn5jXnqzMiW8mKdDcGphed0pYLFKkgTkkxlBJg6B4bD+cg
+         p/aRWMB/wFNmJaOD90uD8PvRfoFUmSqhgqSDqigDu0VF2sITqRnmF4Q9cG1g/6xfxz1k
+         FG7BO9zXQDdpRzGgo1YBr8RrU5R2gPUIlPm3j8i382+12NtUUK1U5W3kh7gD568Voewq
+         twzr1T+jfO8982n6Ox6a6ELTyoxtKGVDLYHNi6bYTBlmQ44ZY4cw2SlxED4UcH1S5Nul
+         pWo4cTzHyELlx/wYoixoe8kR5mYY/sLJC4CcQMY0oam+yZSJ8Ab8C7Vv4FtoBL42lU33
+         59ZA==
+X-Gm-Message-State: AOJu0YwPLdovJrH3s+0AfEMh8iau0B11jmTU2NsYy7l35Al0KV7uEwwL
+	KiQPmCvilLoG2LDsczOPdtQ=
+X-Google-Smtp-Source: AGHT+IG5F9h8BVeuct8xQu0rHUtQYbzO8SW40R9kkuWIu8+iTl1P1FWgTc52bIv6c7lFf8JP4z03Zw==
+X-Received: by 2002:a17:906:74c1:b0:9f2:3e76:5d39 with SMTP id z1-20020a17090674c100b009f23e765d39mr1325758ejl.0.1700297480379;
+        Sat, 18 Nov 2023 00:51:20 -0800 (PST)
 Received: from matrix-ESPRIMO-P710 (p57ba2f20.dip0.t-ipconnect.de. [87.186.47.32])
-        by smtp.gmail.com with ESMTPSA id s27-20020a170906169b00b009b29553b648sm1643314ejd.206.2023.11.18.00.51.12
+        by smtp.gmail.com with ESMTPSA id e6-20020a170906844600b009cd1fca4d68sm1658948ejy.5.2023.11.18.00.51.19
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 18 Nov 2023 00:51:13 -0800 (PST)
-Date: Sat, 18 Nov 2023 09:51:11 +0100
+        Sat, 18 Nov 2023 00:51:20 -0800 (PST)
+Date: Sat, 18 Nov 2023 09:51:18 +0100
 From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [PATCH 02/10] staging: rtl8192e: Change parameter "ch" of set_chan()
- to u8
-Message-ID: <4a76c0e2384d67410d383fdf860d0e0859555d1e.1700296319.git.philipp.g.hortmann@gmail.com>
+Subject: [PATCH 03/10] staging: rtl8192e: Unwind pointer to pointer to
+ rtl92e_set_channel()
+Message-ID: <a96bac1f34e669a3b2fc4940a0a2d850564a5975.1700296319.git.philipp.g.hortmann@gmail.com>
 References: <cover.1700296319.git.philipp.g.hortmann@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -59,41 +59,66 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 In-Reply-To: <cover.1700296319.git.philipp.g.hortmann@gmail.com>
 
-Change parameter "ch" of set_chan() to u8 to combine functions in the
-following patch.
+Replace pointer to function to pointer to rtl92e_set_channel() with
+pointer to rtl92e_set_channel(). This increases readability of the code.
 
 Signed-off-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
 ---
- drivers/staging/rtl8192e/rtl8192e/rtl_core.c | 2 +-
- drivers/staging/rtl8192e/rtllib.h            | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ drivers/staging/rtl8192e/rtl8192e/rtl_core.c | 13 +------------
+ drivers/staging/rtl8192e/rtl8192e/rtl_core.h |  2 --
+ 2 files changed, 1 insertion(+), 14 deletions(-)
 
 diff --git a/drivers/staging/rtl8192e/rtl8192e/rtl_core.c b/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
-index 995daab906c9..98b25768f614 100644
+index 98b25768f614..2789f428e4f9 100644
 --- a/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
 +++ b/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
-@@ -226,7 +226,7 @@ static void _rtl92e_tx_timeout(struct net_device *dev, unsigned int txqueue)
+@@ -226,16 +226,6 @@ static void _rtl92e_tx_timeout(struct net_device *dev, unsigned int txqueue)
  	netdev_info(dev, "TXTIMEOUT");
  }
  
--static void _rtl92e_set_chan(struct net_device *dev, short ch)
-+static void _rtl92e_set_chan(struct net_device *dev, u8 ch)
+-static void _rtl92e_set_chan(struct net_device *dev, u8 ch)
+-{
+-	struct r8192_priv *priv = rtllib_priv(dev);
+-
+-	priv->chan = ch;
+-
+-	if (priv->rf_set_chan)
+-		priv->rf_set_chan(dev, priv->chan);
+-}
+-
+ static void _rtl92e_update_cap(struct net_device *dev, u16 cap)
  {
  	struct r8192_priv *priv = rtllib_priv(dev);
+@@ -685,7 +675,7 @@ static void _rtl92e_init_priv_handler(struct net_device *dev)
+ 	struct r8192_priv *priv = rtllib_priv(dev);
  
-diff --git a/drivers/staging/rtl8192e/rtllib.h b/drivers/staging/rtl8192e/rtllib.h
-index adaab56a9fb1..1d0878d1f696 100644
---- a/drivers/staging/rtl8192e/rtllib.h
-+++ b/drivers/staging/rtl8192e/rtllib.h
-@@ -1469,7 +1469,7 @@ struct rtllib_device {
- 	 * This function can sleep. the driver should ensure
- 	 * the radio has been switched before return.
- 	 */
--	void (*set_chan)(struct net_device *dev, short ch);
-+	void (*set_chan)(struct net_device *dev, u8 ch);
+ 	priv->rtllib->softmac_hard_start_xmit	= _rtl92e_hard_start_xmit;
+-	priv->rtllib->set_chan			= _rtl92e_set_chan;
++	priv->rtllib->set_chan			= rtl92e_set_channel;
+ 	priv->rtllib->link_change		= rtl92e_link_change;
+ 	priv->rtllib->softmac_data_hard_start_xmit = _rtl92e_hard_data_xmit;
+ 	priv->rtllib->check_nic_enough_desc	= _rtl92e_check_nic_enough_desc;
+@@ -694,7 +684,6 @@ static void _rtl92e_init_priv_handler(struct net_device *dev)
+ 	priv->rtllib->set_wireless_mode		= rtl92e_set_wireless_mode;
+ 	priv->rtllib->leisure_ps_leave		= rtl92e_leisure_ps_leave;
+ 	priv->rtllib->set_bw_mode_handler	= rtl92e_set_bw_mode;
+-	priv->rf_set_chan			= rtl92e_set_channel;
  
- 	/* indicate the driver that the link state is changed
- 	 * for example it may indicate the card is associated now.
+ 	priv->rtllib->sta_wake_up = rtl92e_hw_wakeup;
+ 	priv->rtllib->enter_sleep_state = rtl92e_enter_sleep;
+diff --git a/drivers/staging/rtl8192e/rtl8192e/rtl_core.h b/drivers/staging/rtl8192e/rtl8192e/rtl_core.h
+index 9b0be6dff627..348df71e122e 100644
+--- a/drivers/staging/rtl8192e/rtl8192e/rtl_core.h
++++ b/drivers/staging/rtl8192e/rtl8192e/rtl_core.h
+@@ -228,8 +228,6 @@ struct r8192_priv {
+ 	struct rt_stats stats;
+ 	struct iw_statistics			wstats;
+ 
+-	void (*rf_set_chan)(struct net_device *dev, u8 ch);
+-
+ 	struct rx_desc *rx_ring;
+ 	struct sk_buff	*rx_buf[MAX_RX_COUNT];
+ 	dma_addr_t	rx_ring_dma;
 -- 
 2.42.0
 
