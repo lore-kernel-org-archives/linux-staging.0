@@ -1,53 +1,53 @@
-Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
+Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66506FBF1
-	for <linux-staging@lists.linux.dev>; Sat, 18 Nov 2023 08:51:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DBCE101C3
+	for <linux-staging@lists.linux.dev>; Sat, 18 Nov 2023 08:51:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="f6AzF71w"
-Received: by mail-ej1-f42.google.com with SMTP id a640c23a62f3a-9dd9808c308so84040866b.0
-        for <linux-staging@lists.linux.dev>; Sat, 18 Nov 2023 00:51:09 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="m2+UEo4E"
+Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-9c40c3814a8so83380166b.0
+        for <linux-staging@lists.linux.dev>; Sat, 18 Nov 2023 00:51:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1700297467; x=1700902267; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1700297473; x=1700902273; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=paSTu0WaDDknunnGESBB1JuMqk8D4OMu6cj43zrhMCg=;
-        b=f6AzF71wk1uCmRrUZjik/6mjvoDwfVNM94zdL8x/IMrtvnBwiXDbb4Jo9zbqSA15ml
-         6CypNRFy8+DDvTVumqR+dnkXAvJebWODGAYAeMIva3w4iVQPXPDHnqJ+Xj6FHBayHlO8
-         E2002nZCmtkpW3yHq0Pl6YGGGhwT8Hb8hHm90wg32pWsUoGijfNXcxVyeI+qKCvA+RTN
-         61jc2Xk/E4jqUKy6SaZLZ6aezLDEBzvrdURs/+FZs5HfUdFv1ILOnVKhC0IZAihoyZud
-         92y+hRgqmgmVl9ZD1iok8WLhHbirymHC4DX03ZpIb1cF3Et2t2wFh2mEhi7rwsX6ph1W
-         k/Rw==
+        bh=4IeNlXsmBMHoH7xFQOzT7zMDYmFmso5R2YU54hCqJXw=;
+        b=m2+UEo4EqkCRLFLhIVGN99Z/3c05zP5DKM/nJkudWAQ/+NtZW9F1kakt2VAdevOnsU
+         9p3yzAxZlfGcNnb5r4YLH8NsR6Hlh5XjX7qmgx7HvmZ5hZPVKI9Z6bYv+Qyd3eiYm/hi
+         t4+t/3afo5mryl1dPv3kNEcFlLGjM6oQ9TGE4ZRFu9PQlENG1apUUm6EgcOTe4t9R8+v
+         WzAav/bC93ww1o6ySJriGeJ1MCnfqA/T2BsjnImeFXd8kB49YxS0spwsa5kUTHkFHXRk
+         sO9IDcUZnqopeJQPv99ECd0S6Q9lqpZFHzveoQ4h/VymRel3liAAwLgeVqCYQdcg/3wA
+         ndbA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700297467; x=1700902267;
+        d=1e100.net; s=20230601; t=1700297473; x=1700902273;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=paSTu0WaDDknunnGESBB1JuMqk8D4OMu6cj43zrhMCg=;
-        b=FRiQXDJLOK5ZJHCQLiCm1NNU2MgW+T/C39r+WZPVeN7yHYRMv7uGxN71k6e2L7Q5KJ
-         3Nmc/VeMeflUXu1Lk/s+I8gIMrM5Rb/5qb/rG+0SUm58bNp0Cxgv6+P6e4pnpzyG9Sde
-         klKQzyonEtDLBM2SC2gJtC8igV6j7O0JhnrsvVcPymiWfqbC5GZXg8YOY+W8zkMbqMaN
-         4d5MOEjznHWUd0No1FN9WngnjRgQ/5Bqbh4uv4VNR9PBe0Gs1+x9I+EAokCWNyczKac6
-         SHM5Brs/bPSaWUDF1ezG7DoaKr0HRqCorhDs2e6/2ja/5LiSZ1Y0VSNttoI7YIPSZLiC
-         cruA==
-X-Gm-Message-State: AOJu0YzGmWraY/JxQdqCOLUs2GIhISTL4XQN/0pvD/1W6m6XxSwTMNLa
-	BgN/Lgi74aPVf6GqEvIkZ8s=
-X-Google-Smtp-Source: AGHT+IEWpkgxkoy1xOUSJLtY2Vdy5FLz88TbjdaC1hbBUqnyKhSWmglq4dEfcaubqhyNZsM203tWFw==
-X-Received: by 2002:a05:6402:22a2:b0:548:15d1:4ac with SMTP id cx2-20020a05640222a200b0054815d104acmr1154348edb.4.1700297467345;
-        Sat, 18 Nov 2023 00:51:07 -0800 (PST)
+        bh=4IeNlXsmBMHoH7xFQOzT7zMDYmFmso5R2YU54hCqJXw=;
+        b=jcjP2YLwbne0xP+NdTgiWRRipL5Fx7RaOA/pN7TZIG/w8HcPmibGtT7R18aTwFSNj5
+         GExqn3CoU7hqgB2NXkAM857xszgbdFi8t//HT0fLZETRTZ5u85YIMN2S1MUS7Puxd12y
+         GFg/OgARA63hxTUibuH253ztEY7Cizzw9AZoJMIpirTnmB8dRLfmx4doWlXAVKGyQZZ1
+         IaPxzb8BiqfFonS3IvLltuTZwzdk+GoFjf0FtHAe8fxBRN9/Lp7KZahXEpj83ZSGDcAU
+         nniGSX7iQkobSdmsbgS/idey4XQewsWUpCb4kOza6uFzZX47u9TErtLeHaxxjzHFqamv
+         BTjw==
+X-Gm-Message-State: AOJu0YwO00M0Ewl2WK5Tt1xshwM7qN5S2rNb26rlTmGakT1z8GetoSBx
+	PosdM/hjfT574iGjBLDQW8o=
+X-Google-Smtp-Source: AGHT+IFHwZXi9hQx6GDo7DcH7fcX+4pp9aXtpSY0qesFiSTN77Cf3nH1Vx3COwZRLLVvFj66eHvjOg==
+X-Received: by 2002:a17:906:108f:b0:9dd:5609:55b9 with SMTP id u15-20020a170906108f00b009dd560955b9mr1172060eju.2.1700297473260;
+        Sat, 18 Nov 2023 00:51:13 -0800 (PST)
 Received: from matrix-ESPRIMO-P710 (p57ba2f20.dip0.t-ipconnect.de. [87.186.47.32])
-        by smtp.gmail.com with ESMTPSA id n6-20020aa7c786000000b005434095b179sm1493207eds.92.2023.11.18.00.51.06
+        by smtp.gmail.com with ESMTPSA id s27-20020a170906169b00b009b29553b648sm1643314ejd.206.2023.11.18.00.51.12
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 18 Nov 2023 00:51:07 -0800 (PST)
-Date: Sat, 18 Nov 2023 09:51:05 +0100
+        Sat, 18 Nov 2023 00:51:13 -0800 (PST)
+Date: Sat, 18 Nov 2023 09:51:11 +0100
 From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [PATCH 01/10] staging: rtl8192e: Remove unused return value of
- rtl92e_set_channel()
-Message-ID: <0c0e7c72a10731ae7ed49c8161136b0f0b63d7a0.1700296319.git.philipp.g.hortmann@gmail.com>
+Subject: [PATCH 02/10] staging: rtl8192e: Change parameter "ch" of set_chan()
+ to u8
+Message-ID: <4a76c0e2384d67410d383fdf860d0e0859555d1e.1700296319.git.philipp.g.hortmann@gmail.com>
 References: <cover.1700296319.git.philipp.g.hortmann@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -59,92 +59,41 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 In-Reply-To: <cover.1700296319.git.philipp.g.hortmann@gmail.com>
 
-Remove unused return value of rtl92e_set_channel().
+Change parameter "ch" of set_chan() to u8 to combine functions in the
+following patch.
 
 Signed-off-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
 ---
- drivers/staging/rtl8192e/rtl8192e/r8192E_phy.c | 12 ++++++------
- drivers/staging/rtl8192e/rtl8192e/r8192E_phy.h |  2 +-
- drivers/staging/rtl8192e/rtl8192e/rtl_core.h   |  2 +-
- 3 files changed, 8 insertions(+), 8 deletions(-)
+ drivers/staging/rtl8192e/rtl8192e/rtl_core.c | 2 +-
+ drivers/staging/rtl8192e/rtllib.h            | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/staging/rtl8192e/rtl8192e/r8192E_phy.c b/drivers/staging/rtl8192e/rtl8192e/r8192E_phy.c
-index 4d12d7385041..e1bd4d67e862 100644
---- a/drivers/staging/rtl8192e/rtl8192e/r8192E_phy.c
-+++ b/drivers/staging/rtl8192e/rtl8192e/r8192E_phy.c
-@@ -671,16 +671,16 @@ static void _rtl92e_phy_switch_channel_work_item(struct net_device *dev)
- 	_rtl92e_phy_switch_channel(dev, priv->chan);
+diff --git a/drivers/staging/rtl8192e/rtl8192e/rtl_core.c b/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
+index 995daab906c9..98b25768f614 100644
+--- a/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
++++ b/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
+@@ -226,7 +226,7 @@ static void _rtl92e_tx_timeout(struct net_device *dev, unsigned int txqueue)
+ 	netdev_info(dev, "TXTIMEOUT");
  }
  
--u8 rtl92e_set_channel(struct net_device *dev, u8 channel)
-+void rtl92e_set_channel(struct net_device *dev, u8 channel)
+-static void _rtl92e_set_chan(struct net_device *dev, short ch)
++static void _rtl92e_set_chan(struct net_device *dev, u8 ch)
  {
  	struct r8192_priv *priv = rtllib_priv(dev);
  
- 	if (!priv->up) {
- 		netdev_err(dev, "%s(): Driver is not initialized\n", __func__);
--		return false;
-+		return;
- 	}
- 	if (priv->sw_chnl_in_progress)
--		return false;
-+		return;
+diff --git a/drivers/staging/rtl8192e/rtllib.h b/drivers/staging/rtl8192e/rtllib.h
+index adaab56a9fb1..1d0878d1f696 100644
+--- a/drivers/staging/rtl8192e/rtllib.h
++++ b/drivers/staging/rtl8192e/rtllib.h
+@@ -1469,7 +1469,7 @@ struct rtllib_device {
+ 	 * This function can sleep. the driver should ensure
+ 	 * the radio has been switched before return.
+ 	 */
+-	void (*set_chan)(struct net_device *dev, short ch);
++	void (*set_chan)(struct net_device *dev, u8 ch);
  
- 	switch (priv->rtllib->mode) {
- 	case WIRELESS_MODE_B:
-@@ -688,7 +688,7 @@ u8 rtl92e_set_channel(struct net_device *dev, u8 channel)
- 			netdev_warn(dev,
- 				    "Channel %d not available in 802.11b.\n",
- 				    channel);
--			return false;
-+			return;
- 		}
- 		break;
- 	case WIRELESS_MODE_G:
-@@ -697,7 +697,7 @@ u8 rtl92e_set_channel(struct net_device *dev, u8 channel)
- 			netdev_warn(dev,
- 				    "Channel %d not available in 802.11g.\n",
- 				    channel);
--			return false;
-+			return;
- 		}
- 		break;
- 	}
-@@ -714,7 +714,7 @@ u8 rtl92e_set_channel(struct net_device *dev, u8 channel)
- 	if (priv->up)
- 		_rtl92e_phy_switch_channel_work_item(dev);
- 	priv->sw_chnl_in_progress = false;
--	return true;
-+	return;
- }
- 
- static void _rtl92e_cck_tx_power_track_bw_switch_tssi(struct net_device *dev)
-diff --git a/drivers/staging/rtl8192e/rtl8192e/r8192E_phy.h b/drivers/staging/rtl8192e/rtl8192e/r8192E_phy.h
-index 6c4c33ded6a9..ff4b4004b0d0 100644
---- a/drivers/staging/rtl8192e/rtl8192e/r8192E_phy.h
-+++ b/drivers/staging/rtl8192e/rtl8192e/r8192E_phy.h
-@@ -41,7 +41,7 @@ void rtl92e_get_tx_power(struct net_device *dev);
- void rtl92e_set_tx_power(struct net_device *dev, u8 channel);
- u8 rtl92e_config_rf_path(struct net_device *dev, enum rf90_radio_path eRFPath);
- 
--u8 rtl92e_set_channel(struct net_device *dev, u8 channel);
-+void rtl92e_set_channel(struct net_device *dev, u8 channel);
- void rtl92e_set_bw_mode(struct net_device *dev,
- 			enum ht_channel_width bandwidth,
- 			enum ht_extchnl_offset Offset);
-diff --git a/drivers/staging/rtl8192e/rtl8192e/rtl_core.h b/drivers/staging/rtl8192e/rtl8192e/rtl_core.h
-index a4afbf3e934d..9b0be6dff627 100644
---- a/drivers/staging/rtl8192e/rtl8192e/rtl_core.h
-+++ b/drivers/staging/rtl8192e/rtl8192e/rtl_core.h
-@@ -228,7 +228,7 @@ struct r8192_priv {
- 	struct rt_stats stats;
- 	struct iw_statistics			wstats;
- 
--	u8 (*rf_set_chan)(struct net_device *dev, u8 ch);
-+	void (*rf_set_chan)(struct net_device *dev, u8 ch);
- 
- 	struct rx_desc *rx_ring;
- 	struct sk_buff	*rx_buf[MAX_RX_COUNT];
+ 	/* indicate the driver that the link state is changed
+ 	 * for example it may indicate the card is associated now.
 -- 
 2.42.0
 
