@@ -1,187 +1,106 @@
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.20])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f179.google.com (mail-lj1-f179.google.com [209.85.208.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED10210A21
-	for <linux-staging@lists.linux.dev>; Sat, 18 Nov 2023 14:54:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmx.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56AE31944B
+	for <linux-staging@lists.linux.dev>; Sat, 18 Nov 2023 18:05:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.b="EyJQH5MB"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
-	s=s31663417; t=1700319222; x=1700924022; i=wahrenst@gmx.net;
-	bh=vrX+/zAoYBDvwn793PvAorGO1HvG2Y9PGd3B39cEv2c=;
-	h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:
-	 In-Reply-To;
-	b=EyJQH5MBu6m9r0TcbjFTL9bTbryaKcq4Yr1UJfpVhu503q90hjjGTjanQbCMhCTl
-	 YpdBRKZ6iOK2+17UBbI0cv+EXCFzuv9gtCrm5WreM6S6aPf0j/s7BC4t8VggYZnXE
-	 0KvPN4eoCEUWBcY964F/iE7fAVEMt6U2R02eNrh4FXPYi9DLgtRVpONUv1oJL5qbK
-	 YBNIdjVxUFpE4AqK1R2iCrgEn2NxbmfhVT2nPfdEeghOxZGqVAnXNk8/I0vJqCDt0
-	 vj4wd0+rQ+yaFxnwmhNY0u9JNf1j5S84npQ4CFoigRP84BRr1Wnk6ni4RfvQoJlIb
-	 7mscZ4s6oJwwHpT86A==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from [192.168.1.129] ([37.4.248.43]) by mail.gmx.net (mrgmx104
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1MN5if-1qo4Ch06k9-00J4dN; Sat, 18
- Nov 2023 15:53:42 +0100
-Message-ID: <414ba478-3a96-48e6-a3a7-88c920a20960@gmx.net>
-Date: Sat, 18 Nov 2023 15:53:41 +0100
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Mb2hNrC7"
+Received: by mail-lj1-f179.google.com with SMTP id 38308e7fff4ca-2c87acba73bso1553421fa.1
+        for <linux-staging@lists.linux.dev>; Sat, 18 Nov 2023 10:05:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1700330709; x=1700935509; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=mu6uKqetedFX6br/8gaH2MKtwUbnJweRqllZD/aw3RQ=;
+        b=Mb2hNrC7LEqblvodf5vJCvuFJv7QX++pGy6V0UWHeXDyyI9rDLmmDmLtzmT1mwAhkW
+         M6IaITP5Vms4/QFWHgUazJIrjsRYPatFz+BzMM4k0qqDLnuUP8Oc4VRH4lRFoLcmcx9+
+         cX+kSxCCqrceKT+Ao1g9Y2UK6nvTcB3Lyg5PX1gL3fqqjo8L20n8ddJTZYhXKx3BX66p
+         G6Dx/tumdAtWsAAQbJUgfU4TbDJDTXum8n7eI5646EqPA7m8Se6Na+jAAi58LVOqZ/9T
+         VSVQ3D32SeLkMoBxzLxWCldhl8r2Zf3n0QsSgIRhW3lHMInvHlt5rEFtPhO4gq1cqCqd
+         szqA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1700330709; x=1700935509;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=mu6uKqetedFX6br/8gaH2MKtwUbnJweRqllZD/aw3RQ=;
+        b=Kq7XK9pkxHRMjsREuhN6O/3DEWqKQKpFXtdefFh00iffLMS6hSdfs+FphGHnPro4OV
+         iohyVR4YQHoJlDWnvxjqxiUBjvMVMGphegR9rdrmMTIZNHfvPuj9o+V5onTO/iX2YLJj
+         RsEvBN7OoPMfNL1bkNUwRwj7yL+EYVm8IUlH7vP0kIiK2QLme29s7Sfk1IiPSljyPTHS
+         MJDHhBt92kqe7WH1xPTZ5OMCiIm36rtYZvTddgT+crWnWMIy+ub/2+bYSEwQKy8zNaGN
+         5X+jFCR1Cs5S0WL7sox2HzTCXK62WORb1rkKXeLFkVkuDPpHd/ohl0gtsLIVsnu+zm9J
+         yoQg==
+X-Gm-Message-State: AOJu0YyRxxk4Gg99Mscom+iShbEzsfpHxsWu/4pU8EbAX3aHnZFaqAkJ
+	he3YHMtss1q4flfkJgJ8d6Q=
+X-Google-Smtp-Source: AGHT+IHyeiAuLwBQ6RhMnfmUjm6ZpWN6lhi+Qcl6w/VI4MWj6Kf1RrN8easfjONwVJiPd/NUafO3dQ==
+X-Received: by 2002:a2e:9c84:0:b0:2c5:1ea4:4e99 with SMTP id x4-20020a2e9c84000000b002c51ea44e99mr2049253lji.48.1700330708944;
+        Sat, 18 Nov 2023 10:05:08 -0800 (PST)
+Received: from zotac.lan. (dynamic-2a01-0c22-77bf-8300-2223-08ff-fe18-0310.c22.pool.telefonica.de. [2a01:c22:77bf:8300:2223:8ff:fe18:310])
+        by smtp.gmail.com with ESMTPSA id m20-20020a1709062b9400b009f2c769b4ebsm2079456ejg.151.2023.11.18.10.05.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 18 Nov 2023 10:05:08 -0800 (PST)
+From: Heiner Kallweit <hkallweit1@gmail.com>
+To: Wolfram Sang <wsa@kernel.org>,
+	linuxppc-dev@lists.ozlabs.org
+Cc: linux-i2c@vger.kernel.org,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	Christophe Leroy <christophe.leroy@csgroup.eu>,
+	Nicholas Piggin <npiggin@gmail.com>,
+	linux-kernel@vger.kernel.org,
+	greybus-dev@lists.linaro.org,
+	linux-staging@lists.linux.dev,
+	linux-media@vger.kernel.org
+Subject: [PATCH 00/10] Don't let i2c adapters declare I2C_CLASS_SPD support if they support I2C_CLASS_HWMON
+Date: Sat, 18 Nov 2023 19:04:54 +0100
+Message-ID: <20231118180504.1785-1-hkallweit1@gmail.com>
+X-Mailer: git-send-email 2.42.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 10/15] staging: vc04_services: bcm2835-isp: Add a more
- complex ISP processing component
-Content-Language: en-US
-To: Umang Jain <umang.jain@ideasonboard.com>, linux-media@vger.kernel.org,
- kernel-list@raspberrypi.com, linux-kernel@vger.kernel.org,
- linux-rpi-kernel@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- linux-staging@lists.linux.dev
-Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>,
- Kieran Bingham <kieran.bingham@ideasonboard.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- "Ricardo B . Marliere" <ricardo@marliere.net>,
- Dan Carpenter <error27@gmail.com>, Naushir Patuck <naush@raspberrypi.com>
-References: <20231109210309.638594-1-umang.jain@ideasonboard.com>
- <20231109210309.638594-11-umang.jain@ideasonboard.com>
-From: Stefan Wahren <wahrenst@gmx.net>
-In-Reply-To: <20231109210309.638594-11-umang.jain@ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:bYX/bXT9lHSSeS0sGD/JPIs0v6N8KWrXYQ+qvxKfjHr8DcNo0yG
- py5C66TqLhYI3HLHjWcad917V/IF1XYF6JA5uSqFYTP9rG88ykNlIAdc78QwZFw4/y7BFK/
- teDgHYp23LPkjvPaKpNAnO0HRLrDFz8jZYpCNfMyZ87W64aGs+baCg/vuZMnjp6Qchw9C2R
- BVJRTPWMElu8zryuQqKaA==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:jyppdFM0iw4=;0kO2VBOg/giUwUGsswlFWFqvyHO
- iCdqACN5hLtvYQmRMI9IpSEDuilI0KVgwES+CfmgnJ5XYsg72fzU3+1OK99NMIWwhGAjJi966
- T+T2KjSrqmFlnlIm6JpMRHmnyfa+gd5nJGvNjuzh4QdntphywWkxZ72bNNsua7pYPkgOAuZgd
- oc3TmilvbResm46EdvWN/SIcOMhdT5BXazaEHumY6JHz88cmbhBqST37qH5u5Vf85qlJICS1c
- 7MdfIxvl90cabkMfqzyWX9duTREonzuMNjk3B/E8juzLw5XgoeFzZTOlGJsIH4ZBMWWCBJkBc
- kyhDnRac14lzcVomkzKQLPVDiOQtH33vNOxATDEQ3u0vluKXS02mEYP3Plov7d0wxpeFnlyZD
- PZGngWB+1xDWc1JE3oH3yYIMB9T+jbx1DuPXMgPuVRrUZMDnxPb/X2Qxgw0C6MQcnUssTtj4Z
- omrjQpGGYJoPxs140tHLuVuPPQaaK0DyGE9okuxD1Bxu+qcj7MUMCzd+HeG4J8HxCUaHYkMdx
- l8oOnvyT5ggJM5rCH0EQEfSgTd2GcBJ8hJZQ+07mTF9v+ZBiOY6uKb9+Ez/rZkNlBqnnUQBeU
- cKJq/VY0dgB3xMT+P8QmJqjd0kPL4pcr3uIxovooYKYBdmTvIS9FlRQaHUrsvb2K2sMrFtwWv
- XtGAgljzu5wLvD42bYXrJZvGHGb8PB8OSMEJEoy/193V/G4GerAnYbVdU4JDsdkS97kwoPYfA
- 3UGAH+RKQPUqPeA6gIeGwP/BXkil+2bep90hCfQnG8LyKUvUEtihp9x04O00WO2XaFY/WbbRJ
- gkCCNKtxc3VbUx0s84Okg36HxOzhvQrKy8ZDUtBEqqT0SZISNfZmFa+motzLFICMe9tm+CsAQ
- TzqY8QfIbW87lNwtD3gjakw6FYOoEVL4y+6rhFdjCvBZK4owRD9Q6YmSfeu3C5/RcE0Kxbc+e
- Hs9p5/BRj6foreJnVN+q03UxhBQ=
+Content-Transfer-Encoding: 8bit
 
-Hi Umang,
+After removal of the legacy eeprom driver the only remaining I2C
+client device driver supporting I2C_CLASS_SPD is jc42. Because this
+driver also supports I2C_CLASS_HWMON, adapters don't have to
+declare support for I2C_CLASS_SPD if they support I2C_CLASS_HWMON.
+It's one step towards getting rid of I2C_CLASS_SPD mid-term.
 
-Am 09.11.23 um 22:03 schrieb Umang Jain:
-> From: Naushir Patuck <naush@raspberrypi.com>
->
-> Driver for the BCM2835 ISP hardware block.  This driver uses the MMAL
-> component to program the ISP hardware through the VC firmware.
->
-> The ISP component can produce two video stream outputs, and Bayer
-> image statistics. This can't be encompassed in a simple V4L2
-> M2M device, so create a new device that registers 4 video nodes.
+Series was created supported by Coccinelle and its splitpatch.
 
-sorry, i don't have much knowledge about V4L2, so someone else should
-review this in depth.
+Signed-off-by: Heiner Kallweit <hkallweit1@gmail.com>
 
-But from my PoV, patch 11, 12, 13 and 15 should be squash into this one.
+---
 
->
-> Signed-off-by: Naushir Patuck <naush@raspberrypi.com>
-> Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
-> ---
->   MAINTAINERS                                   |    9 +
->   drivers/staging/vc04_services/Kconfig         |    2 +
->   drivers/staging/vc04_services/Makefile        |    1 +
->   .../staging/vc04_services/bcm2835-isp/Kconfig |   14 +
->   .../vc04_services/bcm2835-isp/Makefile        |    4 +
->   .../bcm2835-isp/bcm2835-isp-ctrls.h           |   72 +
->   .../bcm2835-isp/bcm2835-isp-fmts.h            |  482 +++++
->   .../bcm2835-isp/bcm2835-v4l2-isp.c            | 1712 +++++++++++++++++
->   .../vc04_services/vchiq-mmal/mmal-encodings.h |    4 +
->   .../vchiq-mmal/mmal-parameters.h              |  165 +-
->   include/uapi/linux/bcm2835-isp.h              |   27 +
->   11 files changed, 2491 insertions(+), 1 deletion(-)
->   create mode 100644 drivers/staging/vc04_services/bcm2835-isp/Kconfig
->   create mode 100644 drivers/staging/vc04_services/bcm2835-isp/Makefile
->   create mode 100644 drivers/staging/vc04_services/bcm2835-isp/bcm2835-i=
-sp-ctrls.h
->   create mode 100644 drivers/staging/vc04_services/bcm2835-isp/bcm2835-i=
-sp-fmts.h
->   create mode 100644 drivers/staging/vc04_services/bcm2835-isp/bcm2835-v=
-4l2-isp.c
->
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 0748cc15588c..8670a8d95400 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -3976,6 +3976,15 @@ F:	Documentation/devicetree/bindings/mips/brcm/
->   F:	arch/mips/bcm47xx/*
->   F:	arch/mips/include/asm/mach-bcm47xx/*
->
-> +BROADCOM BCM2835 ISP DRIVER
-> +M:	Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>
-> +L:	linux-media@vger.kernel.org
-> +S:	Maintained
-> +F:	Documentation/media/uapi/v4l/pixfmt-meta-bcm2835-isp-stats.rst
-> +F:	Documentation/media/v4l-drivers/bcm2835-isp.rst
-> +F:	drivers/staging/vc04_services/bcm2835-isp
-> +F:	include/uapi/linux/bcm2835-isp.h
-> +
->   BROADCOM BCM4908 ETHERNET DRIVER
->   M:	Rafa=C5=82 Mi=C5=82ecki <rafal@milecki.pl>
->   R:	Broadcom internal kernel review list <bcm-kernel-feedback-list@broa=
-dcom.com>
-> diff --git a/drivers/staging/vc04_services/Kconfig b/drivers/staging/vc0=
-4_services/Kconfig
-> index 6c0e77d64376..e71e5a8b820a 100644
-> --- a/drivers/staging/vc04_services/Kconfig
-> +++ b/drivers/staging/vc04_services/Kconfig
-> @@ -44,6 +44,8 @@ source "drivers/staging/vc04_services/bcm2835-audio/Kc=
-onfig"
->
->   source "drivers/staging/vc04_services/bcm2835-camera/Kconfig"
->
-> +source "drivers/staging/vc04_services/bcm2835-isp/Kconfig"
-> +
->   source "drivers/staging/vc04_services/vchiq-mmal/Kconfig"
->
->   source "drivers/staging/vc04_services/vc-sm-cma/Kconfig"
-> diff --git a/drivers/staging/vc04_services/Makefile b/drivers/staging/vc=
-04_services/Makefile
-> index 1f61a263f22d..2cebf92525a0 100644
-> --- a/drivers/staging/vc04_services/Makefile
-> +++ b/drivers/staging/vc04_services/Makefile
-> @@ -16,3 +16,4 @@ obj-$(CONFIG_SND_BCM2835)		+=3D bcm2835-audio/
->   obj-$(CONFIG_VIDEO_BCM2835)		+=3D bcm2835-camera/
->   obj-$(CONFIG_BCM2835_VCHIQ_MMAL)	+=3D vchiq-mmal/
->   obj-$(CONFIG_BCM_VC_SM_CMA)		+=3D vc-sm-cma/
-> +obj-$(CONFIG_VIDEO_ISP_BCM2835) 	+=3D bcm2835-isp/
-> diff --git a/drivers/staging/vc04_services/bcm2835-isp/Kconfig b/drivers=
-/staging/vc04_services/bcm2835-isp/Kconfig
-> new file mode 100644
-> index 000000000000..6222799ebe16
-> --- /dev/null
-> +++ b/drivers/staging/vc04_services/bcm2835-isp/Kconfig
-> @@ -0,0 +1,14 @@
-> +config VIDEO_ISP_BCM2835
-> +	tristate "BCM2835 ISP support"
-> +	depends on MEDIA_SUPPORT
-> +	depends on VIDEO_DEV && (ARCH_BCM2835 || COMPILE_TEST)
-> +	depends on MEDIA_CONTROLLER
-> +	select BCM2835_VCHIQ_MMAL
-> +	select VIDEOBUF2_DMA_CONTIG
-> +	help
-> +	  This is the V4L2 driver for the Broadcom BCM2835 ISP hardware.
-
-I think the description is not helpful for all users. Not everybody
-knows what ISP is for. Please describe it more for an end user.
-
-Best regards
-
-> +	  This operates over the VCHIQ interface to a service running on
-> +	  VideoCore.
-> +
-> +	  To compile this driver as a module, choose M here: the module
-> +	  will be called bcm2835-isp.
+ drivers/i2c/busses/i2c-ali1535.c                  |    2 +-
+ drivers/i2c/busses/i2c-ali1563.c                  |    2 +-
+ drivers/i2c/busses/i2c-ali15x3.c                  |    2 +-
+ drivers/i2c/busses/i2c-amd756.c                   |    2 +-
+ drivers/i2c/busses/i2c-amd8111.c                  |    2 +-
+ drivers/i2c/busses/i2c-elektor.c                  |    2 +-
+ drivers/i2c/busses/i2c-gpio.c                     |    2 +-
+ drivers/i2c/busses/i2c-ibm_iic.c                  |    2 +-
+ drivers/i2c/busses/i2c-iop3xx.c                   |    2 +-
+ drivers/i2c/busses/i2c-isch.c                     |    2 +-
+ drivers/i2c/busses/i2c-kempld.c                   |    4 ++--
+ drivers/i2c/busses/i2c-mlxcpld.c                  |    2 +-
+ drivers/i2c/busses/i2c-nforce2.c                  |    2 +-
+ drivers/i2c/busses/i2c-pasemi-pci.c               |    2 +-
+ drivers/i2c/busses/i2c-piix4.c                    |    2 +-
+ drivers/i2c/busses/i2c-scmi.c                     |    2 +-
+ drivers/i2c/busses/i2c-sh7760.c                   |    2 +-
+ drivers/i2c/busses/i2c-sibyte.c                   |    4 ++--
+ drivers/i2c/busses/i2c-sis5595.c                  |    2 +-
+ drivers/i2c/busses/i2c-sis630.c                   |    2 +-
+ drivers/i2c/busses/i2c-sis96x.c                   |    2 +-
+ drivers/i2c/busses/i2c-via.c                      |    2 +-
+ drivers/i2c/busses/i2c-viapro.c                   |    2 +-
+ drivers/i2c/busses/scx200_acb.c                   |    2 +-
+ drivers/i2c/i2c-stub.c                            |    2 +-
+ drivers/media/pci/netup_unidvb/netup_unidvb_i2c.c |    2 +-
+ drivers/staging/greybus/i2c.c                     |    2 +-
+ 27 files changed, 29 insertions(+), 29 deletions(-)
