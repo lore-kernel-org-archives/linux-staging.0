@@ -1,157 +1,194 @@
-Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mout.gmx.net (mout.gmx.net [212.227.17.22])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94A16101C7
-	for <linux-staging@lists.linux.dev>; Sat, 18 Nov 2023 08:52:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79F8E12E4E
+	for <linux-staging@lists.linux.dev>; Sat, 18 Nov 2023 13:11:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmx.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZmgdnxPj"
-Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-9c6f0530929so74972666b.1
-        for <linux-staging@lists.linux.dev>; Sat, 18 Nov 2023 00:52:11 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1700297530; x=1700902330; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=gFd2CKAAw+CngGdGEaZh2Jv1ZJmAu581+YDJTtGJesA=;
-        b=ZmgdnxPjBZiYO1iVoIHeP3bXN1k4dh++WDfdqLsI1i72nchW+/HE4lAZuXtFV89F5i
-         y4MvwB3jDDFBKbm8Q3X85VyvpE9IbfgNlftNML8JlsLcTLg4C7F/mvBxXaPwHVPGCM8R
-         WE7vWcHcsmr2CocBzyjksMDAOAiAHpgBDOl+O02tTOjlOMtLGlq7QqCw7ULzvxwcZc8M
-         woaw4qan4GBaLpHPtAK9jLi0dDFEKpC63s1iDge49SyvKL71MXE3Dj2FMgx1c+BNgp69
-         7/LvOSHQSCBoOW8qhNqAOU7bgPGvHrquxIDBnrzDZXBYR6rERRQeP5siQ7ezINjhc+tt
-         bZrA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700297530; x=1700902330;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=gFd2CKAAw+CngGdGEaZh2Jv1ZJmAu581+YDJTtGJesA=;
-        b=vd7bSLEs0urPitO8n+35LTgrNhv2kY7Ti0PKL/iZFWEM/9yQPSVoB7Ud9WC9sOdCef
-         EXiwRWAQ5Gir0v6Xqy6YH8iGDOQ6BiOncNx9VlsKD/kXE41fFlY0vpxVlYGOrIN5/OB9
-         aceN2P+mL3evWqbkuXRIrWRPZH+i9y3V6BSBNyeZVt3fgLt+IfGzLY+HJNubHm6hqvjb
-         Xo+4XBMl/Rc83WG2sOFTd419BH082tK4ii7aRqxtBNmXaXontlMIKowdwkq4giLW+VJK
-         3FRwIqkqENmEnevrpfultFicVmpKXaRa9po/nMBO0beLT0bXOfb+WIy0WVNTCoa8pbSl
-         EtWg==
-X-Gm-Message-State: AOJu0YzwOHj/z44haJz9v7Iw+0lndhv904DtVZ7pC2iypofdTtztwvN+
-	6vX7psBKgD9jDAxEvOpCbB4gGFH4Thw=
-X-Google-Smtp-Source: AGHT+IGnryVDS7JHAkUlNiTu8DrhaiLJgOXSO9KK2u45C9vEI5TrtF4vuz+BwNel21wX6+3v7eGyCQ==
-X-Received: by 2002:a17:906:10cf:b0:9cb:b737:e469 with SMTP id v15-20020a17090610cf00b009cbb737e469mr1213341ejv.4.1700297529807;
-        Sat, 18 Nov 2023 00:52:09 -0800 (PST)
-Received: from matrix-ESPRIMO-P710 (p57ba2f20.dip0.t-ipconnect.de. [87.186.47.32])
-        by smtp.gmail.com with ESMTPSA id r15-20020a1709067fcf00b00985ed2f1584sm1668337ejs.187.2023.11.18.00.52.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 18 Nov 2023 00:52:09 -0800 (PST)
-Date: Sat, 18 Nov 2023 09:52:08 +0100
-From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [PATCH 10/10] staging: rtl8192e: Remove constant index from
- channel_array[]
-Message-ID: <379293f2b48d176aaafb023d36aac9bb057f67c7.1700296319.git.philipp.g.hortmann@gmail.com>
-References: <cover.1700296319.git.philipp.g.hortmann@gmail.com>
+	dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.b="nmrhzHE2"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+	s=s31663417; t=1700313067; x=1700917867; i=wahrenst@gmx.net;
+	bh=4GHN1I2o8mfnCqibdGh38n79/fp2eZe21rBwxEeuUcM=;
+	h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:
+	 In-Reply-To;
+	b=nmrhzHE25VsoOqF67ebHXzcV4lJFtO0CAB4pez+TgcEfUkDcyrudHmTTOCWC7op0
+	 X7hOdpgU4QElx8d0KTQzBmmQyWxZhsdp1q5kG0NA241sHnigDvUkdrHmz5ZsaZj0R
+	 cC6pMTIxXJjAGZzY4a9yy8AWkJdxYXYXNYZ/wNEv+vYDQeJOZTBsSMHQtR1Sf+mam
+	 E9kv1iH+w3D3FLRqmOq8YxtUK1+g8SbmRfZAY8L78vbJD+tEVnqiuvq1A/9uslWh2
+	 CnLyx4sTq0lZ5iR/W0HTCpLitbgjQ5j8OK/9NEjeTFf4gYvxf4LLwnH3mT1itHOT2
+	 d4BrdveGYgtJhYmTFg==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from [192.168.1.129] ([37.4.248.43]) by mail.gmx.net (mrgmx104
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1MeU0q-1reUjX1MLU-00aSfu; Sat, 18
+ Nov 2023 14:11:07 +0100
+Message-ID: <6e06ee01-4ccb-4e34-bb6c-1d5fb8ab9e3c@gmx.net>
+Date: Sat, 18 Nov 2023 14:11:06 +0100
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <cover.1700296319.git.philipp.g.hortmann@gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 07/15] media: uapi: v4l2-core: Add ISP statistics
+ output V4L2 fourcc type
+Content-Language: en-US
+To: Umang Jain <umang.jain@ideasonboard.com>, linux-media@vger.kernel.org,
+ kernel-list@raspberrypi.com, linux-kernel@vger.kernel.org,
+ linux-rpi-kernel@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
+ linux-staging@lists.linux.dev
+Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ Kieran Bingham <kieran.bingham@ideasonboard.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ "Ricardo B . Marliere" <ricardo@marliere.net>,
+ Dan Carpenter <error27@gmail.com>, Naushir Patuck <naush@raspberrypi.com>
+References: <20231109210309.638594-1-umang.jain@ideasonboard.com>
+ <20231109210309.638594-8-umang.jain@ideasonboard.com>
+From: Stefan Wahren <wahrenst@gmx.net>
+In-Reply-To: <20231109210309.638594-8-umang.jain@ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:mok/l9H4EgXzDMAqsEorwz3K0kHDKvDb/+AnL3QpGrYz/nY00hc
+ 4aCZwPmkXHdl76/Z1rnjIqjrbckT9Rmh2h7dk5j0Peee9TJ2Rj586ed6MB2PV7am6I9R63w
+ R1q9p3hmJjeaRNB/d4tQa9vPpWPdo7aNsO92rLfx8DYr+xSfbGBUB794XfKYna3lqZVN2z4
+ lg+IG3QDUdR0B5gr7OHcA==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:j6sNYU9OcmM=;DfliXwKQeoFkn8/f/qSPj3kZOox
+ BMy9OSdKXVRRE7EzKOeXkQpm4ePwEbeGqp7sj+t7DtGR44GaK7mYcJ/JYwGtTY4ZTSLKUZL0o
+ rjx0kd2igRU9SzjJyhLQ+/TxeM/Bkyv4OhtnvEXjk40lucvxxKRuVZMi01KQ1KdIx7xwDdx2x
+ TKGhKrYppQ5OlCXh1eHOsWFFVYPzcAxQAaufZ7GS6u8nvnx6TD5PrqI53NDl1E/mg70VJ4FsV
+ B3I5sev1UrEf+Xx1yy9wwODSxPDmvOR6xJj7DYR6YAA8usvjRQ731VN8zTirT8Wxk4ZQC3eke
+ 7YChuNeLYmKry/GUmxePiAzk3yqPKB2PUVEVgyfwZetGtwnu8yr6baUBgckuwXyTWYvuTOGrL
+ Ffda/Bd/4cRp4c+UtlZOjjoN2QCKv8WLiupv2I15z1gbuXXuyfgAtCcBJC1afCrDUuTn6ASL8
+ L8qDeZLzwUylcX6pcAPrFRt0U4pS58djjM2Yhn2S5Zdn0YAf+uFimjl4w8JkQVYvha+0iwLwM
+ MJ0Cs1Dul52mRmySmkQm0aT7LPznQBOXYPWsGEWZ+KN9IIMJQaUPObCd1w7n3eQtqZyhmIrKF
+ GyghlHQgPfNtFTbaJzSmIFF+zxBIBg6ThS2j1wvvOUv/Prx2pBYvYyz1ZP3L2pMqSLUTQ3HXj
+ GzrPngqlz1WHZCEK6FkxWSSo+TivyXEHqPBzA3VLauxRUm4iYtlIdYBcOETyIV8k3CuzmXZvc
+ qpCQr6/aPxWTGH1WAuCrKpJ3GZQEVXu6CV80CeXxsqO7/Y4EESlIFWC4zd6ZAisO01227tCQh
+ p+1lpp+AYXKQeiXWRBtJ/JK7ciU0yn6emrvGZJNezh+MnkrQowlQCPOodSE+QEc8/TwjNOUHR
+ GmSZi2Ogdm2Gk08Efoub3kbwALqBfxBUPVcszE1gtggLSVx0/fV7QCWWGDpw7QqRmYvRu+gVJ
+ 82N9Ag==
 
-Used index of channel_array[] is always COUNTRY_CODE_WORLD_WIDE_13. Remove
-index and store only used entry in channel_array. This shortens the code
-and increases readability.
+Hi Umang,
 
-Signed-off-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
----
- drivers/staging/rtl8192e/dot11d.c            | 31 +++-----------------
- drivers/staging/rtl8192e/dot11d.h            |  2 +-
- drivers/staging/rtl8192e/rtl8192e/rtl_core.c |  2 +-
- 3 files changed, 6 insertions(+), 29 deletions(-)
+Am 09.11.23 um 22:02 schrieb Umang Jain:
+> From: Naushir Patuck <naush@raspberrypi.com>
+>
+> Add V4L2_META_FMT_BCM2835_ISP_STATS V4L2 format type.
+>
+> This new format will be used by the bcm2835-isp device to return
+> out ISP statistics for 3A.
+>
+> Signed-off-by: Naushir Patuck <naush@raspberrypi.com>
+> Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
+> ---
+>   .../userspace-api/media/v4l/meta-formats.rst  |  1 +
+>   .../v4l/pixfmt-meta-bcm2835-isp-stats.rst     | 32 +++++++++++++++++++
+>   drivers/media/v4l2-core/v4l2-ioctl.c          |  1 +
+>   include/uapi/linux/videodev2.h                |  1 +
+>   4 files changed, 35 insertions(+)
+>   create mode 100644 Documentation/userspace-api/media/v4l/pixfmt-meta-b=
+cm2835-isp-stats.rst
+>
+> diff --git a/Documentation/userspace-api/media/v4l/meta-formats.rst b/Do=
+cumentation/userspace-api/media/v4l/meta-formats.rst
+> index 919f595576b9..534542f235bc 100644
+> --- a/Documentation/userspace-api/media/v4l/meta-formats.rst
+> +++ b/Documentation/userspace-api/media/v4l/meta-formats.rst
+> @@ -12,6 +12,7 @@ These formats are used for the :ref:`metadata` interfa=
+ce only.
+>   .. toctree::
+>       :maxdepth: 1
+>
+> +    pixfmt-meta-bcm2835-isp-stats
+>       metafmt-d4xx
+>       metafmt-intel-ipu3
+>       metafmt-rkisp1
+> diff --git a/Documentation/userspace-api/media/v4l/pixfmt-meta-bcm2835-i=
+sp-stats.rst b/Documentation/userspace-api/media/v4l/pixfmt-meta-bcm2835-i=
+sp-stats.rst
+> new file mode 100644
+> index 000000000000..2219235e0ecb
+> --- /dev/null
+> +++ b/Documentation/userspace-api/media/v4l/pixfmt-meta-bcm2835-isp-stat=
+s.rst
+> @@ -0,0 +1,32 @@
+> +.. SPDX-License-Identifier: GFDL-1.1-no-invariants-or-later
+> +.. _v4l2-meta-fmt-bcm2835-isp-stats:
+> +
+> ++*****************************************
+> +V4L2_META_FMT_BCM2835_ISP_STATS  ('BSTA')
+> +*****************************************
+> +
+> +BCM2835 ISP Statistics
+> +
+> +Description
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +
+> +The BCM2835 ISP hardware calculate image statistics for an input Bayer =
+frame.
+> +These statistics are obtained from the "bcm2835-isp0-capture3" device n=
+ode
+> +using the :c:type:`v4l2_meta_format` interface. They are formatted as d=
+escribed
+> +by the :c:type:`bcm2835_isp_stats` structure below.
+> +
+> +.. code-block:: c
+> +
+> +       #define DEFAULT_AWB_REGIONS_X 16
+> +       #define DEFAULT_AWB_REGIONS_Y 12
+> +
+> +       #define NUM_HISTOGRAMS 2
+> +       #define NUM_HISTOGRAM_BINS 128
+> +       #define AWB_REGIONS (DEFAULT_AWB_REGIONS_X * DEFAULT_AWB_REGIONS=
+_Y)
+> +       #define FLOATING_REGIONS 16
+> +       #define AGC_REGIONS 16
+> +       #define FOCUS_REGIONS 12
+> +
+> +.. kernel-doc:: include/uapi/linux/bcm2835-isp.h
+> +   :functions: bcm2835_isp_stats_hist bcm2835_isp_stats_region
+> +                    bcm2835_isp_stats_focus bcm2835_isp_stats
+> diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-c=
+ore/v4l2-ioctl.c
+> index 7f29886568b8..6f0f0f6526c9 100644
+> --- a/drivers/media/v4l2-core/v4l2-ioctl.c
+> +++ b/drivers/media/v4l2-core/v4l2-ioctl.c
+> @@ -1463,6 +1463,7 @@ static void v4l_fill_fmtdesc(struct v4l2_fmtdesc *=
+fmt)
+>   	case V4L2_META_FMT_GENERIC_CSI2_20:	descr =3D "8b Generic Meta, 20b C=
+SI-2"; break;
+>   	case V4L2_META_FMT_GENERIC_CSI2_24:	descr =3D "8b Generic Meta, 24b C=
+SI-2"; break;
+>   	case V4L2_META_FMT_GENERIC_CSI2_2_24:	descr =3D "2x8b Generic Meta, 2=
+4b CSI-2"; break;
+> +	case V4L2_META_FMT_BCM2835_ISP_STATS: descr =3D "BCM2835 ISP Image Sta=
+tistics"; break;
 
-diff --git a/drivers/staging/rtl8192e/dot11d.c b/drivers/staging/rtl8192e/dot11d.c
-index 37106fd54f00..fdc39e6e7abb 100644
---- a/drivers/staging/rtl8192e/dot11d.c
-+++ b/drivers/staging/rtl8192e/dot11d.c
-@@ -12,28 +12,7 @@ struct channel_list {
- 	u8      len;
- };
- 
--static struct channel_list channel_array[] = {
--	{{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 36, 40, 44, 48, 52, 56, 60, 64,
--	  149, 153, 157, 161, 165}, 24},
--	{{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11}, 11},
--	{{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 36, 40, 44, 48, 52, 56,
--	  60, 64}, 21},
--	{{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13}, 13},
--	{{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13}, 13},
--	{{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 36, 40, 44, 48, 52,
--	  56, 60, 64}, 22},
--	{{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 36, 40, 44, 48, 52,
--	  56, 60, 64}, 22},
--	{{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13}, 13},
--	{{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 36, 40, 44, 48, 52,
--	  56, 60, 64}, 22},
--	{{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 36, 40, 44, 48, 52,
--	 56, 60, 64}, 22},
--	{{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14}, 14},
--	{{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13}, 13},
--	{{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 36, 40, 44, 48, 52,
--	  56, 60, 64}, 21}
--};
-+static struct channel_list channel_array = {{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13}, 13};
- 
- void dot11d_init(struct rtllib_device *ieee)
- {
-@@ -49,7 +28,7 @@ void dot11d_init(struct rtllib_device *ieee)
- }
- EXPORT_SYMBOL(dot11d_init);
- 
--void dot11d_channel_map(u8 channel_plan, struct rtllib_device *ieee)
-+void dot11d_channel_map(struct rtllib_device *ieee)
- {
- 	int i;
- 
-@@ -57,10 +36,8 @@ void dot11d_channel_map(u8 channel_plan, struct rtllib_device *ieee)
- 
- 	memset(GET_DOT11D_INFO(ieee)->channel_map, 0,
- 	       sizeof(GET_DOT11D_INFO(ieee)->channel_map));
--	for (i = 0; i < channel_array[channel_plan].len; i++) {
--		GET_DOT11D_INFO(ieee)->channel_map[channel_array
--				[channel_plan].channel[i]] = 1;
--	}
-+	for (i = 0; i < channel_array.len; i++)
-+		GET_DOT11D_INFO(ieee)->channel_map[channel_array.channel[i]] = 1;
- 
- 	for (i = 12; i <= 13; i++)
- 		GET_DOT11D_INFO(ieee)->channel_map[i] = 2;
-diff --git a/drivers/staging/rtl8192e/dot11d.h b/drivers/staging/rtl8192e/dot11d.h
-index 6d2b93acfa43..78d1ca1e7743 100644
---- a/drivers/staging/rtl8192e/dot11d.h
-+++ b/drivers/staging/rtl8192e/dot11d.h
-@@ -75,7 +75,7 @@ static inline void RESET_CIE_WATCHDOG(struct rtllib_device *__ieee_dev)
- #define UPDATE_CIE_WATCHDOG(__ieee_dev) (++GET_CIE_WATCHDOG(__ieee_dev))
- 
- void dot11d_init(struct rtllib_device *dev);
--void dot11d_channel_map(u8 channel_plan, struct rtllib_device *ieee);
-+void dot11d_channel_map(struct rtllib_device *ieee);
- void dot11d_reset(struct rtllib_device *dev);
- void dot11d_update_country(struct rtllib_device *dev, u8 *address,
- 			   u16 country_len, u8 *country);
-diff --git a/drivers/staging/rtl8192e/rtl8192e/rtl_core.c b/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
-index 68bd03500267..4b842a1789c2 100644
---- a/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
-+++ b/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
-@@ -796,7 +796,7 @@ static short _rtl92e_get_channel_map(struct net_device *dev)
- 	struct r8192_priv *priv = rtllib_priv(dev);
- 
- 	dot11d_init(priv->rtllib);
--	dot11d_channel_map(COUNTRY_CODE_WORLD_WIDE_13, priv->rtllib);
-+	dot11d_channel_map(priv->rtllib);
- 	for (i = 1; i <= 11; i++)
- 		(priv->rtllib->active_channel_map)[i] = 1;
- 	(priv->rtllib->active_channel_map)[12] = 2;
--- 
-2.42.0
+tab instead of space?
 
+>
+>   	default:
+>   		/* Compressed formats */
+> diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videode=
+v2.h
+> index 85b60199c618..eddaea8598db 100644
+> --- a/include/uapi/linux/videodev2.h
+> +++ b/include/uapi/linux/videodev2.h
+> @@ -836,6 +836,7 @@ struct v4l2_pix_format {
+>   #define V4L2_META_FMT_UVC         v4l2_fourcc('U', 'V', 'C', 'H') /* U=
+VC Payload Header metadata */
+>   #define V4L2_META_FMT_D4XX        v4l2_fourcc('D', '4', 'X', 'X') /* D=
+4XX Payload Header metadata */
+>   #define V4L2_META_FMT_VIVID	  v4l2_fourcc('V', 'I', 'V', 'D') /* Vivid=
+ Metadata */
+> +#define V4L2_META_FMT_BCM2835_ISP_STATS v4l2_fourcc('B', 'S', 'T', 'A')=
+ /* BCM2835 ISP image statistics output */
+
+Shouldn't this go to the vendor specific ones?
+
+>
+>   /* Vendor specific - used for RK_ISP1 camera sub-system */
+>   #define V4L2_META_FMT_RK_ISP1_PARAMS	v4l2_fourcc('R', 'K', '1', 'P') /=
+* Rockchip ISP1 3A Parameters */
