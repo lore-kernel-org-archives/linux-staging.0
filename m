@@ -1,52 +1,53 @@
-Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
+Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76C54101C3
-	for <linux-staging@lists.linux.dev>; Sat, 18 Nov 2023 08:51:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9274A569C
+	for <linux-staging@lists.linux.dev>; Sat, 18 Nov 2023 08:51:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JYbhSH+H"
-Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-9bf0bee9f2fso76474466b.1
-        for <linux-staging@lists.linux.dev>; Sat, 18 Nov 2023 00:51:37 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Hk/hUIPa"
+Received: by mail-ed1-f54.google.com with SMTP id 4fb4d7f45d1cf-523029050d0so745530a12.0
+        for <linux-staging@lists.linux.dev>; Sat, 18 Nov 2023 00:51:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1700297496; x=1700902296; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1700297504; x=1700902304; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=fFLHsxGK7k/8eykGJrZMJGzqZ9wJ0aqJSpq01GUYpM8=;
-        b=JYbhSH+HoFsdKhxxOuqJbDIpAIEIjq/qIdQ04MQfYzNZZmNH4TbNdfqyDHyLuwvLmy
-         EwfmsSQRQ6ZluClaU9JYts5hwA2TA0kNzPedcLhaVqt6Kb6ClBSkIItmQLSq9MI4rnCR
-         duTc1Vv2WjnN7mGpWyFDYHNBGHqfimQW1ZXiTgdGLsIumk2Db7ohhOqij6vEaLkhLY6A
-         qyaOZGg9cMTValH3wdmRumg2HGgNJk0CSWofajRAmFxtFxng/cDoakTIT6XX5THjKK41
-         h6Qks7j3dIK+evYVaEehHLhZU9oCyTqc9jrAnKiPkVFPAaIy8W207wQxPf7Vj+EyAO/Z
-         n99w==
+        bh=60TEIsDbZcJztid9/FBNOOfGZ+ibynkio00841tSlME=;
+        b=Hk/hUIPatVVKLTE1Nvm1RhlcxfS/jKki1E5thYo9sjB88kwM6pmN3MTWVDx1aKsP0k
+         mcHqMB/2cjvef+LyYkAOskiSp2Ch3Ns1Ho7ExfO9yuk7XdSFHMiUjjJ2crDLEVQaDZxn
+         HXZv7Xh2/UJE+XiXsE5sMzYwDiKwvLbXuSySSyUN4Bko5xC5nQLnlfV2KjIvoi0FrcnP
+         M2d+kgLlB+DdnIn+SKxy+d3BVIAD/9wGJPbFT/JCtl0uANYeBOcVQjDnNS9UkimbMQwH
+         I5oe8Y9Vj+WRgvAch2+Vse8cSDSSS4ThbAJI6Xpr43q5UTU8X/uSMUtPYBbIxaCeURbL
+         FfJQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700297496; x=1700902296;
+        d=1e100.net; s=20230601; t=1700297504; x=1700902304;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=fFLHsxGK7k/8eykGJrZMJGzqZ9wJ0aqJSpq01GUYpM8=;
-        b=exuyfu9NJ2WItV4ZwBYJBWC7H/Y/o6Rw9gNtQIv5R3baZ68oIXPyaoPNP+Y7b0jl0A
-         fcmRmPwQ9LCDRE5UQOaOKIrvhRtmb4hGfmWfWGHDvzS5DwUpVk6UPpaxd3nRu4ncLcJ1
-         RRg9Abys37PepXnDLmivEvSAyj1GPkoKf15dEbyqcK2sO9brpxRHtVfzIKhhQoe+hQ4m
-         7z9uspkcPqBtfIRUZE7852y62U4RbnoVB8vtMAWmrN1Ele/HYgMm4vrZwnl9XaGYTjAs
-         +F1TqDg99SDbJWBdLqgfknhGwb2TMVYYkuQJpzQz9UvcJcvhlo4tMJV5HFc9Qr40F4YM
-         2qtQ==
-X-Gm-Message-State: AOJu0YyTyruy9tkj048hI4m/MRKtjPHdawPwM+id3P7pAYC6KM4/Sykt
-	ZO/lBRFWIxRkuUEABCThujFeJYF7/DQ=
-X-Google-Smtp-Source: AGHT+IGRibVfC9vsxr71T3msML2jvfXftKU6rYG8jk8iYmowTNsklN78jaPALqMcQoG9VhQlI2kNFA==
-X-Received: by 2002:a17:906:1da:b0:9cf:7d6e:2c3e with SMTP id 26-20020a17090601da00b009cf7d6e2c3emr1133601ejj.7.1700297495823;
-        Sat, 18 Nov 2023 00:51:35 -0800 (PST)
+        bh=60TEIsDbZcJztid9/FBNOOfGZ+ibynkio00841tSlME=;
+        b=SY4GIsNqvAWu8iWFPns4I0lS7QJtXsyEYoNrx/z+KREnHxbMN525EK2/4pKW/zBcIl
+         7oRykRO+2sCz9cVOQuDfa6kQAxPUz2CVTdQIIST0rEZqDeOkxbUJUnQ/QJymA2aAJlJp
+         DHIDDOz44O9Q7VTyfKrnVLFab1FKldRJbepRJ2A40O9m/iIn2gL6cWEP6tvEyRAT6bYp
+         /+kX1bCF0NdPbpysoU+0IvZFmLU3yle/Zq9F8Ls2n1tNX5m4qn9xZJTZqFoN6PA0VXNQ
+         uhBz6kiIgqeY7Ku/iqvkKG0iZWqoEhoy2ukHds2sH0Repi1OM9i9g62kmvKXsDVfor1K
+         BF1w==
+X-Gm-Message-State: AOJu0YzITkQpCiG+Xd+fncl6z+vmrskJspRlivxR2d1HJIUGiRQ1P+PW
+	lB/29HFo/rQN4RxstY+ScW0=
+X-Google-Smtp-Source: AGHT+IHpDvqR83tfTWq7GrzTx5Ftu0W4/DcSCPG8Olvrsf3Se+/xJDhPTqZHJf/14sHUGjSXHeNG/w==
+X-Received: by 2002:aa7:ca50:0:b0:548:5671:8330 with SMTP id j16-20020aa7ca50000000b0054856718330mr1236640edt.3.1700297503703;
+        Sat, 18 Nov 2023 00:51:43 -0800 (PST)
 Received: from matrix-ESPRIMO-P710 (p57ba2f20.dip0.t-ipconnect.de. [87.186.47.32])
-        by smtp.gmail.com with ESMTPSA id l2-20020a170906230200b009fb1fc8c405sm214001eja.179.2023.11.18.00.51.35
+        by smtp.gmail.com with ESMTPSA id u10-20020aa7d88a000000b0052febc781bfsm1504123edq.36.2023.11.18.00.51.43
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 18 Nov 2023 00:51:35 -0800 (PST)
-Date: Sat, 18 Nov 2023 09:51:34 +0100
+        Sat, 18 Nov 2023 00:51:43 -0800 (PST)
+Date: Sat, 18 Nov 2023 09:51:42 +0100
 From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [PATCH 05/10] staging: rtl8192e: Remove constant variable chnl_plan
-Message-ID: <e46f16227877fe9853c9d15992e7fd27a0ceeae6.1700296319.git.philipp.g.hortmann@gmail.com>
+Subject: [PATCH 06/10] staging: rtl8192e: Remove unused variable
+ eeprom_chnl_plan
+Message-ID: <ffc592edd61332d2d8f9b0da68fc956d76e68fe0.1700296319.git.philipp.g.hortmann@gmail.com>
 References: <cover.1700296319.git.philipp.g.hortmann@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -58,61 +59,46 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 In-Reply-To: <cover.1700296319.git.philipp.g.hortmann@gmail.com>
 
-Remove constant variable chnl_plan and replace it with its constant.
-Remove equation that limits maximum value of chnl_plan as it is always
-false.
+Remove unused variable eeprom_chnl_plan.
 
 Signed-off-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
 ---
  drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c | 2 --
- drivers/staging/rtl8192e/rtl8192e/rtl_core.c   | 7 +------
  drivers/staging/rtl8192e/rtl8192e/rtl_core.h   | 1 -
- 3 files changed, 1 insertion(+), 9 deletions(-)
+ 2 files changed, 3 deletions(-)
 
 diff --git a/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c b/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c
-index 44898e0be21c..9b51deba149b 100644
+index 9b51deba149b..8fe4c03b19c1 100644
 --- a/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c
 +++ b/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c
-@@ -396,8 +396,6 @@ static void _rtl92e_read_eeprom_info(struct net_device *dev)
- 		break;
+@@ -261,7 +261,6 @@ static void _rtl92e_read_eeprom_info(struct net_device *dev)
+ 		priv->eeprom_customer_id = usValue & 0xff;
+ 		usValue = rtl92e_eeprom_read(dev,
+ 					     EEPROM_ICVersion_ChannelPlan >> 1);
+-		priv->eeprom_chnl_plan = usValue & 0xff;
+ 		IC_Version = (usValue & 0xff00) >> 8;
+ 
+ 		ICVer8192 = IC_Version & 0xf;
+@@ -283,7 +282,6 @@ static void _rtl92e_read_eeprom_info(struct net_device *dev)
+ 		priv->eeprom_vid = 0;
+ 		priv->eeprom_did = 0;
+ 		priv->eeprom_customer_id = 0;
+-		priv->eeprom_chnl_plan = 0;
  	}
  
--	priv->chnl_plan = COUNTRY_CODE_WORLD_WIDE_13;
--
- 	if (priv->eeprom_vid == 0x1186 &&  priv->eeprom_did == 0x3304)
- 		priv->rtllib->bSupportRemoteWakeUp = true;
- 	else
-diff --git a/drivers/staging/rtl8192e/rtl8192e/rtl_core.c b/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
-index 2789f428e4f9..68bd03500267 100644
---- a/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
-+++ b/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
-@@ -795,13 +795,8 @@ static short _rtl92e_get_channel_map(struct net_device *dev)
- 
- 	struct r8192_priv *priv = rtllib_priv(dev);
- 
--	if (priv->chnl_plan >= COUNTRY_CODE_MAX) {
--		netdev_info(dev,
--			    "rtl819x_init:Error channel plan! Set to default.\n");
--		priv->chnl_plan = COUNTRY_CODE_FCC;
--	}
- 	dot11d_init(priv->rtllib);
--	dot11d_channel_map(priv->chnl_plan, priv->rtllib);
-+	dot11d_channel_map(COUNTRY_CODE_WORLD_WIDE_13, priv->rtllib);
- 	for (i = 1; i <= 11; i++)
- 		(priv->rtllib->active_channel_map)[i] = 1;
- 	(priv->rtllib->active_channel_map)[12] = 2;
+ 	if (!priv->autoload_fail_flag) {
 diff --git a/drivers/staging/rtl8192e/rtl8192e/rtl_core.h b/drivers/staging/rtl8192e/rtl8192e/rtl_core.h
-index 348df71e122e..addaa1eb39ee 100644
+index addaa1eb39ee..e7b331c4661c 100644
 --- a/drivers/staging/rtl8192e/rtl8192e/rtl_core.h
 +++ b/drivers/staging/rtl8192e/rtl8192e/rtl_core.h
-@@ -310,7 +310,6 @@ struct r8192_priv {
+@@ -284,7 +284,6 @@ struct r8192_priv {
+ 	u16 eeprom_vid;
+ 	u16 eeprom_did;
+ 	u8 eeprom_customer_id;
+-	u16 eeprom_chnl_plan;
  
- 	bool tx_pwr_data_read_from_eeprom;
- 
--	u16 chnl_plan;
- 	u8 hw_rf_off_action;
- 
- 	bool rf_change_in_progress;
+ 	u8 eeprom_tx_pwr_level_cck[14];
+ 	u8 eeprom_tx_pwr_level_ofdm24g[14];
 -- 
 2.42.0
 
