@@ -1,53 +1,53 @@
-Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
+Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44D5A11CB7
-	for <linux-staging@lists.linux.dev>; Sun, 19 Nov 2023 22:15:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7331411CB2
+	for <linux-staging@lists.linux.dev>; Sun, 19 Nov 2023 22:15:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RNwU9tox"
-Received: by mail-ej1-f49.google.com with SMTP id a640c23a62f3a-9c6f0530929so95634866b.1
-        for <linux-staging@lists.linux.dev>; Sun, 19 Nov 2023 14:15:24 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AzcUCwcp"
+Received: by mail-ed1-f49.google.com with SMTP id 4fb4d7f45d1cf-5451faa3aa7so923216a12.0
+        for <linux-staging@lists.linux.dev>; Sun, 19 Nov 2023 14:15:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1700432123; x=1701036923; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1700432129; x=1701036929; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=h3E7eDhKdrSTOA+gUQqkBTD8PxWTKFR6HSert4WMZEI=;
-        b=RNwU9toxRoaoSdDgApLuHXBOjjE64I5MJbtaW8iZanjuOIl3fmRHQ8smX0fJoyQvfe
-         drcjBDKUaydD7ZOkleOml9/FbH+0VC/3B9Lo163IMQj468ze9MxOw/IWUP6D0fzsjpe9
-         Z2q/3sULh5U/gQvgEDTj+0v0WVAsdPXNsCMDA/Dzzhph1q7+5dTFhDYt2t8owWSPGdHL
-         lI4qQqhrQNaZOer9O8dcTq5KGeieY/pfH1cBhbb569HXsPEA7YUI0Old4gEs9qoe6SMr
-         s2YTMMt23lgZhRemke78v7p1wgIlvsz/HFZNnQOyqkLT3lYoZVDxKlZUu0VXgEyINPUg
-         xn3g==
+        bh=M96xGnsTaxvh/GugqakyW3PVEINvxqNUDY6nmJN518w=;
+        b=AzcUCwcpSUzFLP99pBydF7m8jkzKslRTJFO76NwS/xZfrSUejWwBYJ8WKemvnpIgO/
+         WpeSM4WxOT0zUo0JEkUpiILstRMmhCobI6txdBndsTiVnF+Ta81CoLa9g5nrJNbWK8oi
+         r85nJ3D/k+Lw1jtzD4mgd2I8sYjnOMhAffjLe40433gvbSw7hR2qBvBEIHZav+eolaEi
+         r/k/9yNWjQnkFcVLqMy0u9k1zwSHdLTLhIenMHbxG012JtjeSmVxeEZfMkAR7bPxhVFr
+         qk075kWg4YNsViiZ+l0ZvdMBO4PVRQeMSyjNC3fHVEtRbOFQHXI08NtJebteSbDNAc8v
+         v8eQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700432123; x=1701036923;
+        d=1e100.net; s=20230601; t=1700432129; x=1701036929;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=h3E7eDhKdrSTOA+gUQqkBTD8PxWTKFR6HSert4WMZEI=;
-        b=qDDk8kYrTSf+i/34yyytrJ6RBm4lAvqWLIOiCBCrdDDPP3kWc9kHtATjrcQfO6LE29
-         +gH7ignLOCSGbSVnYfd9RGJyE6qdgQ8kG1Oyuaqf5UkagfT5+Ni76KgE5Gu6CbHsqWa2
-         ERECJIsnRsBO9ZgHLTyQ2pSw52+Q8nysEJdNfGZCxxeRdF9LVTtKAXNFlVSwb5cE4NUK
-         gGo799N2A6KS+yZJ9nD3UmN0B0RJU6eUgzyJ6eQMaXoiAv7jiTOg/aEWTeKu9e9uQhqV
-         Mu3oj0FIxWPCVcuW3OSoiW7pFAlZpzsS9ZlDN/tbJoQlJ8cLtiLJWGRTDPZoNUlX1cdf
-         XCpA==
-X-Gm-Message-State: AOJu0YyPZbsNbOy53yBDIWLaoSxUNofk9CA508f1sUe6yZsGFx0TKp0m
-	UhplRGQKwqQOUsjCsqRt5Wsc7L06erE=
-X-Google-Smtp-Source: AGHT+IF8WM/tjO7bGMlVgk4LjdiUb2HDfQgKkQzIG/MIlrpTrVsN6ZgqZqzhMEzDCcBfh8JzZwjtSw==
-X-Received: by 2002:a17:906:10cf:b0:9cb:b737:e469 with SMTP id v15-20020a17090610cf00b009cbb737e469mr3933899ejv.4.1700432123425;
-        Sun, 19 Nov 2023 14:15:23 -0800 (PST)
+        bh=M96xGnsTaxvh/GugqakyW3PVEINvxqNUDY6nmJN518w=;
+        b=Rz/KbAzJ2hLt3f0QA7a0OI/oMPS+yBN3q8NAm5NfI2I4PaVQqqQ27KHucUCMQu+zxQ
+         ij0rpkiL4Bq3OHKk9y1PuuPFarvlptOwz2ywMNNBSm+2gOg0C2eCxHzhTnHmQR+YOhMq
+         67R9n0OpsbElKyzoPSCMNbfJ47Z7Hho8oWOsUZm6PyGuDmPwtVlIQeey8mSRPsTKvV2L
+         kBxCtjtg6czSLra2Y1O9HI8teZBIcyTa+Q7zQ8sG6ByWYrEnFbWeyJbpWzT+DLgjE8Zq
+         IUl3AFydQUGxD/cNPZflPtXMS42U82vbbydKltP6yGm5WX+wPyzA8M2l2BvgJKmjOgv6
+         Xlew==
+X-Gm-Message-State: AOJu0YxV8WKdJSrdWn0x245aJrW/uxcwVIXUb/rqtQD1ifuiCCB3qEEh
+	TWzxYmQYXXZCWVug7pHRj6A=
+X-Google-Smtp-Source: AGHT+IGCqcpoqkPHVkbsl8wRZnw2336e7c4mDnffCQE0+l/HiMGDj1l+o6w5qI1dchl2sooI+rbIWA==
+X-Received: by 2002:a17:906:5191:b0:9e6:69d:46aa with SMTP id y17-20020a170906519100b009e6069d46aamr4332001ejk.6.1700432128727;
+        Sun, 19 Nov 2023 14:15:28 -0800 (PST)
 Received: from matrix-ESPRIMO-P710 (p54a07fa0.dip0.t-ipconnect.de. [84.160.127.160])
-        by smtp.gmail.com with ESMTPSA id s8-20020a170906354800b0099ddc81903asm3251330eja.221.2023.11.19.14.15.23
+        by smtp.gmail.com with ESMTPSA id xa1-20020a170907b9c100b009fe3e9dee25sm523882ejc.61.2023.11.19.14.15.28
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 19 Nov 2023 14:15:23 -0800 (PST)
-Date: Sun, 19 Nov 2023 23:15:21 +0100
+        Sun, 19 Nov 2023 14:15:28 -0800 (PST)
+Date: Sun, 19 Nov 2023 23:15:26 +0100
 From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [PATCH 08/14] staging: rtl8192e: Remove unused variable
- dot11d_info->state
-Message-ID: <2f1d4851a7a370c5ef367568c2b098bb9fbf0ce7.1700431464.git.philipp.g.hortmann@gmail.com>
+Subject: [PATCH 09/14] staging: rtl8192e: Remove unused variables from struct
+ rt_dot11d_info
+Message-ID: <eeb9915d68c353554973e1056893371d15381f88.1700431464.git.philipp.g.hortmann@gmail.com>
 References: <cover.1700431464.git.philipp.g.hortmann@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -59,50 +59,55 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 In-Reply-To: <cover.1700431464.git.philipp.g.hortmann@gmail.com>
 
-Remove unused variable dot11d_info->state. Remove unused enum
-dot11d_state as well.
+Remove unused variables country_len, country_buffer, country_src_addr and
+max_tx_power_list. Remove comments about usage as well.
 
 Signed-off-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
 ---
- drivers/staging/rtl8192e/dot11d.c | 1 -
- drivers/staging/rtl8192e/dot11d.h | 8 --------
- 2 files changed, 9 deletions(-)
+ drivers/staging/rtl8192e/dot11d.c | 2 --
+ drivers/staging/rtl8192e/dot11d.h | 9 +--------
+ 2 files changed, 1 insertion(+), 10 deletions(-)
 
 diff --git a/drivers/staging/rtl8192e/dot11d.c b/drivers/staging/rtl8192e/dot11d.c
-index f0241982c7a8..08cf95d26911 100644
+index 08cf95d26911..b524ebe31869 100644
 --- a/drivers/staging/rtl8192e/dot11d.c
 +++ b/drivers/staging/rtl8192e/dot11d.c
-@@ -18,7 +18,6 @@ void dot11d_init(struct rtllib_device *ieee)
+@@ -18,9 +18,7 @@ void dot11d_init(struct rtllib_device *ieee)
  {
  	struct rt_dot11d_info *dot11d_info = GET_DOT11D_INFO(ieee);
  
--	dot11d_info->state = DOT11D_STATE_NONE;
- 	dot11d_info->country_len = 0;
+-	dot11d_info->country_len = 0;
  	memset(dot11d_info->channel_map, 0, MAX_CHANNEL_NUMBER + 1);
- 	memset(dot11d_info->max_tx_power_list, 0xFF, MAX_CHANNEL_NUMBER + 1);
+-	memset(dot11d_info->max_tx_power_list, 0xFF, MAX_CHANNEL_NUMBER + 1);
+ 	RESET_CIE_WATCHDOG(ieee);
+ }
+ EXPORT_SYMBOL(dot11d_init);
 diff --git a/drivers/staging/rtl8192e/dot11d.h b/drivers/staging/rtl8192e/dot11d.h
-index d3da4af4a16b..c7d35ec86aae 100644
+index c7d35ec86aae..64fd39cddc22 100644
 --- a/drivers/staging/rtl8192e/dot11d.h
 +++ b/drivers/staging/rtl8192e/dot11d.h
-@@ -16,12 +16,6 @@ struct chnl_txpow_triple {
- 	u8  max_tx_power;
+@@ -17,23 +17,16 @@ struct chnl_txpow_triple {
  };
  
--enum dot11d_state {
--	DOT11D_STATE_NONE = 0,
--	DOT11D_STATE_LEARNED,
--	DOT11D_STATE_DONE,
--};
--
  /**
-  * struct rt_dot11d_info * @country_len: value greater than 0 if
-  *		  @country_buffer contains valid country information element.
-@@ -40,8 +34,6 @@ struct rt_dot11d_info {
+- * struct rt_dot11d_info * @country_len: value greater than 0 if
+- *		  @country_buffer contains valid country information element.
++ * struct rt_dot11d_info
+  * @channel_map: holds channel values
+  *		0 - invalid,
+  *		1 - valid (active scan),
+  *		2 - valid (passive scan)
+- * @country_src_addr - Source AP of the country IE
+  */
  
- 	u8  channel_map[MAX_CHANNEL_NUMBER + 1];
- 	u8  max_tx_power_list[MAX_CHANNEL_NUMBER + 1];
+ struct rt_dot11d_info {
+-	u16 country_len;
+-	u8  country_buffer[MAX_IE_LEN];
+-	u8  country_src_addr[6];
+ 	u8  country_watchdog;
 -
--	enum dot11d_state state;
+ 	u8  channel_map[MAX_CHANNEL_NUMBER + 1];
+-	u8  max_tx_power_list[MAX_CHANNEL_NUMBER + 1];
  };
  
  #define GET_DOT11D_INFO(__ieee_dev)			\
