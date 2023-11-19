@@ -1,200 +1,90 @@
-Received: from mout.gmx.net (mout.gmx.net [212.227.15.19])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 123F9E540
-	for <linux-staging@lists.linux.dev>; Sun, 19 Nov 2023 12:03:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmx.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FF8119BD6
+	for <linux-staging@lists.linux.dev>; Sun, 19 Nov 2023 22:14:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.b="lfTakmJw"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
-	s=s31663417; t=1700395373; x=1701000173; i=wahrenst@gmx.net;
-	bh=i+DVUJCspBrn4tDz11etcfalDTdenr3Ez2EXD/Jj8uk=;
-	h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:
-	 In-Reply-To;
-	b=lfTakmJw6JhNrb876zXqXlcuvkUZO0yJC/DU0AzZNyO7UXnDpSzhFE4R13S/awcr
-	 WBrIPPj/PNpYaGy1sOiCBRSjsMeRP8I3x/XtPoyqW1R88ftGQt36weel/L5Wb48nP
-	 12x/ZISaMeHagQFKZPNo6yffwLt39ktTeC8of1NvEPW/cCsjBZ5dUBktksRktghOn
-	 4h/xipFOlyGNUq7/JUDzeYvpRmrsajUGaoZ4jk7A3P0zhgLABUOCwsqT/lrSN9AXt
-	 RDwH6MgM1Gkdyevv3XB1sToVgUHLRkLir08c/QMbJFN/eLsTa/Y8K5RXZIA71CCdP
-	 bF1GgzE9tto2a8DKTg==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from [192.168.1.129] ([37.4.248.43]) by mail.gmx.net (mrgmx004
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1MlNtP-1rl87t4BJ7-00lnUv; Sun, 19
- Nov 2023 13:02:53 +0100
-Message-ID: <d9e1c435-3de4-407f-bdc7-d8b2b66042ca@gmx.net>
-Date: Sun, 19 Nov 2023 13:02:50 +0100
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fKp51Jma"
+Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-3316db2c5c0so501724f8f.1
+        for <linux-staging@lists.linux.dev>; Sun, 19 Nov 2023 14:14:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1700432069; x=1701036869; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=6SgJuOVjQrC/WMtPUl/tqm5BE2EEMD5VGhqPFuJyEFI=;
+        b=fKp51JmatWv+2KU9E2/4NrKFm1t9dFjASzXd1tgiEMk+8VNDWT0VAcTm6Wjz1dfl0W
+         Tm0H6KeB7meKck5BH/Pd5Zjavt4oSou+MtlRM+bI4Iez3ZwDWc/BZwLP5WFBoxPz797B
+         czEDhz+X5zoJELCJ8OcfY0O2Fgrid/TacVaysmahmIHMwIzXxMOf5Oz0dkwlmhtDStMP
+         EWxElfdm0ofRZGtikiBjoMTY/WNWoAfx2oWogFbxYLCdrhsXMb4lm4yw9cFy3suwg/bb
+         JR4KhUjdAZQeO5oWn7p4deoPLUt2Wiur0ynulAWDtym5X5B8VuemRaz0WQT9Y4RriEPv
+         P3SA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1700432069; x=1701036869;
+        h=content-disposition:mime-version:message-id:subject:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=6SgJuOVjQrC/WMtPUl/tqm5BE2EEMD5VGhqPFuJyEFI=;
+        b=jH4RoxWoxI5jEoWvMyJFEgQc1eeMtKCDWSVHXpIIrsyc+2KX6ldqoXdL5LHIfwxvyn
+         79HhSIGSY61qkHY4pUWunidn/5n9RqF7d+wIhdQ0Z8hYW4EdvnJeRv2PkDGhfAUsEmW6
+         19d9hRTDBVb08r7W4yK6DDwmGeK7H88qq2m2tnhC61rCvAoDopZ0RPsC/dzT3G915rjm
+         h0tVGhSUsX0izSl21CuQBVB8Xnf3ckpIjf72cPCcOY1DCfJv+d8wV+7Le2WjCKkOKreo
+         hCRkxldKGADbwTGR2q2ScSWalwEKowMZ1y6TyjH/5yzwRHXaFZIiBKy5vvSnwpKtvhyG
+         ETZQ==
+X-Gm-Message-State: AOJu0Yxqj6O10IZoDGsoB0U0NzRDHt7Suf83rbKOUMg5KGPCtfK3q7CI
+	qHk1Z6JJMDpzT2uVDVHhYl4=
+X-Google-Smtp-Source: AGHT+IEyegCqaIrQIV6GnRAnVqg7b6ZHfV2HjHZUb4aEI8rW0ETQoTaYTyV9TW16Izy2dNLaWkJfUQ==
+X-Received: by 2002:a05:600c:468f:b0:408:3a29:d7e8 with SMTP id p15-20020a05600c468f00b004083a29d7e8mr5056535wmo.3.1700432069001;
+        Sun, 19 Nov 2023 14:14:29 -0800 (PST)
+Received: from matrix-ESPRIMO-P710 (p54a07fa0.dip0.t-ipconnect.de. [84.160.127.160])
+        by smtp.gmail.com with ESMTPSA id f26-20020a7bcc1a000000b003fee8793911sm10923341wmh.44.2023.11.19.14.14.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 19 Nov 2023 14:14:28 -0800 (PST)
+Date: Sun, 19 Nov 2023 23:14:27 +0100
+From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: [PATCH 00/14] staging: rtl8192e: IS_DOT11D_ENABLE() returns always
+ false
+Message-ID: <cover.1700431464.git.philipp.g.hortmann@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 10/15] staging: vc04_services: bcm2835-isp: Add a more
- complex ISP processing component
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Umang Jain <umang.jain@ideasonboard.com>, linux-media@vger.kernel.org,
- kernel-list@raspberrypi.com, linux-kernel@vger.kernel.org,
- linux-rpi-kernel@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- linux-staging@lists.linux.dev,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- Kieran Bingham <kieran.bingham@ideasonboard.com>,
- "Ricardo B . Marliere" <ricardo@marliere.net>,
- Dan Carpenter <error27@gmail.com>, Naushir Patuck <naush@raspberrypi.com>
-References: <20231109210309.638594-1-umang.jain@ideasonboard.com>
- <20231109210309.638594-11-umang.jain@ideasonboard.com>
- <414ba478-3a96-48e6-a3a7-88c920a20960@gmx.net>
- <20231118185638.GJ20846@pendragon.ideasonboard.com>
-Content-Language: en-US
-From: Stefan Wahren <wahrenst@gmx.net>
-In-Reply-To: <20231118185638.GJ20846@pendragon.ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:Senyw37i4muptiZg26W5eyxJmmzhLTcnCpqutjgx95/ox5WZg/i
- cBhWemBWCSBkDCcBjMnHj/3rEtvdhJTZbpsqpprQ4GH7lNGedyRsZSxB1VBunM3ZvjDn3ln
- 5YQALbjrVKSsZwdpagrRtguaX79+yMZLjW0oAv22b8ic39pj3HLnF1VySFUWNlhISxQ/FSG
- gvm5Dg+zpHfWmAW8l/i8A==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:cyVyPz9+kTk=;s1Uomy8IC3+VDOblEDHYCOwXaUj
- VJlVkECT0gEQvfbraR0SCt11r0uHxj5oKXrrBHhNtB4qeQ1yyLDzgmRh6CusOTSIftAT66PG3
- GH8vVYaS01z9GT/5GXLNvmUOVaMla374yHryc25OKvRWpexeF1sp+Aoy8u4rVB30YfT9BCNhu
- HpSEPllJSQ5bciFrIkSNNlkN8kiADDsuSByo7DaSZMl2YgDp8JJOwoHAuxLlcWtg9Ypmgv8eF
- AKE0XqA6tQvsACe+jkNTJ3mqFiXcejJ5OKUmnB62Ex37rn8F6GBw/b9GJ2tnj1HIg3KKxRGPo
- wvrZAYrihSPPSxQAWB+ZCQn93zIq0igXnJPq3YC+6lFOJp/6NKisiwHnDP3ycouhL6+/IFlZx
- +sgwQl42vu23sX3gJx6P59SNL7jmxkcBl2aEFz/QL1ySIEwN24jgKMrPoMBz+m7L5Cd8hu0Ms
- LX+NO/CMxNFftaZhKp/dq6Oh0qGvpwhi+2cJFqTuFOJaCtqag3GclEoFa6r3Qg+oXhPH03AsP
- UaWOP+ZU/2bgQD5mK2MDwBvF2EBu96ChDsHE0dUr3tifBxp8kt0N8qnuhWxjyd5bYdFln4Qh7
- zQpctvBwPyCab/MzNRRYGrmo5kkyAGuik3qI+HTuFgkgLGX8S3Ib8jFbj+Ze+KHv8EMuTItoA
- LFVRYctyXYsujdTva/mbl7PFhBUjqCA5NnG+JySqQj3/cxRrqGOmzKTqV1V8G9Ae8wBFHoIey
- oXe3ihJSdszkgJaOh+aq7iMOmde2ztpzl3K24lGlIDV12uhIWZZB69slJVxCP3UqW9lQtGOK7
- guO97RKWhNEwjfTdV9GkNvcnhPJ/3nnnSZ76vee7Hf0YZcM65ZAjz/i5BPad1jYnEsLfYeotX
- CVCLwjQL+r55a7N64N1KHc1rpynZKG1UOmKTWd36ld8Kej7oZOTLPH/MsLo/s7njMkS7rtEf3
- 0eqegd0n49cD1wJyGXx8YFIkm9s=
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Am 18.11.23 um 19:56 schrieb Laurent Pinchart:
-> Hi Stefan,
->
-> On Sat, Nov 18, 2023 at 03:53:41PM +0100, Stefan Wahren wrote:
->> Am 09.11.23 um 22:03 schrieb Umang Jain:
->>> From: Naushir Patuck <naush@raspberrypi.com>
->>>
->>> Driver for the BCM2835 ISP hardware block.  This driver uses the MMAL
->>> component to program the ISP hardware through the VC firmware.
->>>
->>> The ISP component can produce two video stream outputs, and Bayer
->>> image statistics. This can't be encompassed in a simple V4L2
->>> M2M device, so create a new device that registers 4 video nodes.
->> sorry, i don't have much knowledge about V4L2, so someone else should
->> review this in depth.
->>
->> But from my PoV, patch 11, 12, 13 and 15 should be squash into this one=
-.
-> For 11 and 12, I agree. 13 is a bit of a workaround for a missing
-> feature in V4L2, and while it's acceptable today, having it as a
-> separate commit may make it easier to revert it in the future when the
-> V4L2 API will be extended (that may or may not happen, and I wouldn't
-> count on it happening quickly in any case). I would keep patch 15
-> separate as it's not part of this driver.
+IS_DOT11D_ENABLE() returns always false. Remove dead code accordingly.
 
-Okay, accepted
+Tested with rtl8192e (WLL6130-D99) in Mode n (12.5 MB/s)
+Transferred this patch over wlan connection of rtl8192e.
 
->
->>> Signed-off-by: Naushir Patuck <naush@raspberrypi.com>
->>> Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
->>> ---
->>>    MAINTAINERS                                   |    9 +
->>>    drivers/staging/vc04_services/Kconfig         |    2 +
->>>    drivers/staging/vc04_services/Makefile        |    1 +
->>>    .../staging/vc04_services/bcm2835-isp/Kconfig |   14 +
->>>    .../vc04_services/bcm2835-isp/Makefile        |    4 +
->>>    .../bcm2835-isp/bcm2835-isp-ctrls.h           |   72 +
->>>    .../bcm2835-isp/bcm2835-isp-fmts.h            |  482 +++++
->>>    .../bcm2835-isp/bcm2835-v4l2-isp.c            | 1712 ++++++++++++++=
-+++
->>>    .../vc04_services/vchiq-mmal/mmal-encodings.h |    4 +
->>>    .../vchiq-mmal/mmal-parameters.h              |  165 +-
->>>    include/uapi/linux/bcm2835-isp.h              |   27 +
->>>    11 files changed, 2491 insertions(+), 1 deletion(-)
->>>    create mode 100644 drivers/staging/vc04_services/bcm2835-isp/Kconfi=
-g
->>>    create mode 100644 drivers/staging/vc04_services/bcm2835-isp/Makefi=
-le
->>>    create mode 100644 drivers/staging/vc04_services/bcm2835-isp/bcm283=
-5-isp-ctrls.h
->>>    create mode 100644 drivers/staging/vc04_services/bcm2835-isp/bcm283=
-5-isp-fmts.h
->>>    create mode 100644 drivers/staging/vc04_services/bcm2835-isp/bcm283=
-5-v4l2-isp.c
->>>
->>> diff --git a/MAINTAINERS b/MAINTAINERS
->>> index 0748cc15588c..8670a8d95400 100644
->>> --- a/MAINTAINERS
->>> +++ b/MAINTAINERS
->>> @@ -3976,6 +3976,15 @@ F:	Documentation/devicetree/bindings/mips/brcm/
->>>    F:	arch/mips/bcm47xx/*
->>>    F:	arch/mips/include/asm/mach-bcm47xx/*
->>>
->>> +BROADCOM BCM2835 ISP DRIVER
->>> +M:	Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>
->>> +L:	linux-media@vger.kernel.org
->>> +S:	Maintained
->>> +F:	Documentation/media/uapi/v4l/pixfmt-meta-bcm2835-isp-stats.rst
->>> +F:	Documentation/media/v4l-drivers/bcm2835-isp.rst
->>> +F:	drivers/staging/vc04_services/bcm2835-isp
->>> +F:	include/uapi/linux/bcm2835-isp.h
->>> +
->>>    BROADCOM BCM4908 ETHERNET DRIVER
->>>    M:	Rafa=C5=82 Mi=C5=82ecki <rafal@milecki.pl>
->>>    R:	Broadcom internal kernel review list <bcm-kernel-feedback-list@b=
-roadcom.com>
->>> diff --git a/drivers/staging/vc04_services/Kconfig b/drivers/staging/v=
-c04_services/Kconfig
->>> index 6c0e77d64376..e71e5a8b820a 100644
->>> --- a/drivers/staging/vc04_services/Kconfig
->>> +++ b/drivers/staging/vc04_services/Kconfig
->>> @@ -44,6 +44,8 @@ source "drivers/staging/vc04_services/bcm2835-audio/=
-Kconfig"
->>>
->>>    source "drivers/staging/vc04_services/bcm2835-camera/Kconfig"
->>>
->>> +source "drivers/staging/vc04_services/bcm2835-isp/Kconfig"
->>> +
->>>    source "drivers/staging/vc04_services/vchiq-mmal/Kconfig"
->>>
->>>    source "drivers/staging/vc04_services/vc-sm-cma/Kconfig"
->>> diff --git a/drivers/staging/vc04_services/Makefile b/drivers/staging/=
-vc04_services/Makefile
->>> index 1f61a263f22d..2cebf92525a0 100644
->>> --- a/drivers/staging/vc04_services/Makefile
->>> +++ b/drivers/staging/vc04_services/Makefile
->>> @@ -16,3 +16,4 @@ obj-$(CONFIG_SND_BCM2835)		+=3D bcm2835-audio/
->>>    obj-$(CONFIG_VIDEO_BCM2835)		+=3D bcm2835-camera/
->>>    obj-$(CONFIG_BCM2835_VCHIQ_MMAL)	+=3D vchiq-mmal/
->>>    obj-$(CONFIG_BCM_VC_SM_CMA)		+=3D vc-sm-cma/
->>> +obj-$(CONFIG_VIDEO_ISP_BCM2835) 	+=3D bcm2835-isp/
->>> diff --git a/drivers/staging/vc04_services/bcm2835-isp/Kconfig b/drive=
-rs/staging/vc04_services/bcm2835-isp/Kconfig
->>> new file mode 100644
->>> index 000000000000..6222799ebe16
->>> --- /dev/null
->>> +++ b/drivers/staging/vc04_services/bcm2835-isp/Kconfig
->>> @@ -0,0 +1,14 @@
->>> +config VIDEO_ISP_BCM2835
->>> +	tristate "BCM2835 ISP support"
->>> +	depends on MEDIA_SUPPORT
->>> +	depends on VIDEO_DEV && (ARCH_BCM2835 || COMPILE_TEST)
->>> +	depends on MEDIA_CONTROLLER
->>> +	select BCM2835_VCHIQ_MMAL
->>> +	select VIDEOBUF2_DMA_CONTIG
->>> +	help
->>> +	  This is the V4L2 driver for the Broadcom BCM2835 ISP hardware.
->> I think the description is not helpful for all users. Not everybody
->> knows what ISP is for. Please describe it more for an end user.
->>
->>> +	  This operates over the VCHIQ interface to a service running on
->>> +	  VideoCore.
->>> +
->>> +	  To compile this driver as a module, choose M here: the module
->>> +	  will be called bcm2835-isp.
+Philipp Hortmann (14):
+  staging: rtl8192e: Remove unexecuted rtllib_extract_country_ie()
+  staging: rtl8192e: Remove unused function dot11d_update_country()
+  staging: rtl8192e: Remove IS_DOT11D_ENABLE(ieee)
+  staging: rtl8192e: Remove unused function dot11d_scan_complete()
+  staging: rtl8192e: Remove unused function dot11d_reset()
+  staging: rtl8192e: Remove unused macros IS_EQUAL_CIE_SRC and friends
+  staging: rtl8192e: Remove unused function copy_mac_addr()
+  staging: rtl8192e: Remove unused variable dot11d_info->state
+  staging: rtl8192e: Remove unused variables from struct rt_dot11d_info
+  staging: rtl8192e: Remove unused variable country_watchdog
+  staging: rtl8192e: Remove unused variable global_domain
+  staging: rtl8192e: Remove unused function dot11d_init()
+  staging: rtl8192e: Remove unused struct chnl_txpow_triple
+  staging: rtl8192e: Remove unused variable bss_start_channel
+
+ drivers/staging/rtl8192e/dot11d.c            | 93 --------------------
+ drivers/staging/rtl8192e/dot11d.h            | 56 +-----------
+ drivers/staging/rtl8192e/rtl8192e/rtl_core.c |  1 -
+ drivers/staging/rtl8192e/rtllib.h            |  3 -
+ drivers/staging/rtl8192e/rtllib_rx.c         | 31 -------
+ drivers/staging/rtl8192e/rtllib_softmac.c    | 20 -----
+ 6 files changed, 1 insertion(+), 203 deletions(-)
+
+-- 
+2.42.0
 
