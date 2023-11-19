@@ -1,53 +1,52 @@
-Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
+Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2595511CB7
-	for <linux-staging@lists.linux.dev>; Sun, 19 Nov 2023 22:15:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E41B11CB5
+	for <linux-staging@lists.linux.dev>; Sun, 19 Nov 2023 22:15:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JK+HDzgQ"
-Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-9e3eaf098f1so110137866b.0
-        for <linux-staging@lists.linux.dev>; Sun, 19 Nov 2023 14:15:35 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gXbI/9lM"
+Received: by mail-ed1-f47.google.com with SMTP id 4fb4d7f45d1cf-53e2308198dso917478a12.1
+        for <linux-staging@lists.linux.dev>; Sun, 19 Nov 2023 14:15:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1700432134; x=1701036934; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1700432141; x=1701036941; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=ael1tKdfqfresRYbM3miMc6lCiPRw9WqecWTMStesZY=;
-        b=JK+HDzgQVeJNHZHXzkLYlrG8W4B1e4QVWn3RWxtV6TQ/kH4P0fZ9Jnmshl1rAvKPSn
-         GyRc2ZtBRMeNXAWKlU0hqFOJmZ1QIlqedk5Rv/Z9uPvu7WsM2dwbilqzBmzo75Dj9KdM
-         yc2oiZk6zktWp/K+B8K6PyB1AvECln/4AQhQ4zfx2sUkHA2Mq9iQYgUiexEoN4CrQeVu
-         fLrtEnL1KHNpNokMpYdH1bo+EOw+KoIyIvXYGXmrbpyQAnL7B65zL7KPlCLkkRAUaNJk
-         LJaabuGLUm8MJvC6cg/OE9zIHkCyKalwFT/H7QEvNV+enEL9M+OidXSdzV4qv8MUY4Cg
-         di8Q==
+        bh=IpbsuDxmEGfBla3FiTj7+jrIsLHV/WRQbjndZVr2cOs=;
+        b=gXbI/9lMIbX2fLyVMpGmbplsSqiTUr5rZwY8HIzYsd3wW+sVt2T3195NZeQ6/denDE
+         U3+k/5WR8hrx3/spv9W6X28Kn5c+oDcPnqJpTeCHmQ9wlEjOWdyWHq6ScYXZ45yIxoPp
+         y6buYtbuJLlWyVxK5Oe483cG4E1Uk36iBDzmacjjB5PxJyttU2HrpLfjBcIEnCxdg/8T
+         UzhnY6ghpy+xyXJzLE1km1FTlMz9aO2trBCYJ4DzroFAsB6/U84yPC+J+FaA7med3L5i
+         S3mX6vuitE3iTwz38BXrmwiw3NIVPTyAcj2aGOxOYEfdLMHfrIYieZ2jS3P71VRAzOcW
+         SAXA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700432134; x=1701036934;
+        d=1e100.net; s=20230601; t=1700432141; x=1701036941;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=ael1tKdfqfresRYbM3miMc6lCiPRw9WqecWTMStesZY=;
-        b=RSPQp3LPaMsWJOLk49iIeqR9ulWIeLlH8vQ+KUimTW49PoCeWdZfeRtu6ulenf7E67
-         HjIJF/se1+8+HmM6inMCQDeescjfT71Gaj/ueJtoMUEqJpQgzix7AGBg7xeX2xweM7QR
-         zPodE9OIAWb+jBOlim3dPb7805F43+czmarlzSR8UroGOSWod0v+Uc0QAYeyeQgtrCaT
-         LVRghH+IvhzvzcQ0+S7/MyerEggx87drqUbR08VHhYJUYvNcyWbDkCevTj88mYY7KdM1
-         /VNuhWfSEr8Vgw9F8OCEeySef7Ogy2BibI0StIOs005RjXq3IILOLxzUU1XiU/tNiMOc
-         K27Q==
-X-Gm-Message-State: AOJu0Yz4b9BqtWU8IBiT/hRTSrnuNucYdycdPk537WtSRha4osXOwuVO
-	r/cohN7YMN4odzNT2xchGudMe9znumA=
-X-Google-Smtp-Source: AGHT+IFIc+7Sjpjpk9g+XxpEuge1OaVTL/eKFf9jWJmtSpAv/pjR+9vMKd1hicUNJXeZaVlyJC4yrQ==
-X-Received: by 2002:a17:906:7486:b0:9c4:4b20:44a5 with SMTP id e6-20020a170906748600b009c44b2044a5mr3318304ejl.4.1700432134223;
-        Sun, 19 Nov 2023 14:15:34 -0800 (PST)
+        bh=IpbsuDxmEGfBla3FiTj7+jrIsLHV/WRQbjndZVr2cOs=;
+        b=IDojDkahWm2Srpqm9YFd55Zj13o5Vts8zvuy5KrPhJ4TkWNii/TCo/x95VGVcqt0oL
+         3YMuVUDQR0Wx96obR33/MZv4YYx9O+24awt2oG7Sv1SelhLAxi774dyNEY8Qg7Dd2hur
+         K/OGXJ+5YvqIGSsM2qt7PkkxgzUSbqVd8/HZ4OjLXqg5d5WSFzrwPO7ROQA2uu7U7EwB
+         FEqnAcJY3qhLY9djWjqCdO0DvjkSGjDnV/GS5ktKD4rg9LWyFvKChhmk6kBLwyFNSaPL
+         squApVDyuo/jm9CIBzKSGd4TAqIcbtugnVKYhEkFRvEYytlxRHZyfKPmCQOLQey9MTf+
+         /oRg==
+X-Gm-Message-State: AOJu0YxYFlKzu3xovlCtZFGTIbLx8tk7sgz3sI+pdqROVSqQqPwlGm4k
+	Zj3f0Lc7GqQovCnTdWnLD8v826wlfjQ=
+X-Google-Smtp-Source: AGHT+IFdaeHab3rIG4c5+rtKpdNpGPjuDibPx7GT8M2KGWYMU7Nl07OTwBtiJpoYyTwRVy8rICa/xA==
+X-Received: by 2002:aa7:ca50:0:b0:544:355:16a6 with SMTP id j16-20020aa7ca50000000b00544035516a6mr4391104edt.3.1700432140736;
+        Sun, 19 Nov 2023 14:15:40 -0800 (PST)
 Received: from matrix-ESPRIMO-P710 (p54a07fa0.dip0.t-ipconnect.de. [84.160.127.160])
-        by smtp.gmail.com with ESMTPSA id sd22-20020a170906ce3600b009fbf15cee7fsm1434263ejb.69.2023.11.19.14.15.33
+        by smtp.gmail.com with ESMTPSA id f6-20020a056402068600b00548a57d4f7bsm887935edy.36.2023.11.19.14.15.40
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 19 Nov 2023 14:15:34 -0800 (PST)
-Date: Sun, 19 Nov 2023 23:15:32 +0100
+        Sun, 19 Nov 2023 14:15:40 -0800 (PST)
+Date: Sun, 19 Nov 2023 23:15:39 +0100
 From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [PATCH 10/14] staging: rtl8192e: Remove unused variable
- country_watchdog
-Message-ID: <958f2ebbedb51e71e11479f734b4df27484160e1.1700431464.git.philipp.g.hortmann@gmail.com>
+Subject: [PATCH 11/14] staging: rtl8192e: Remove unused variable global_domain
+Message-ID: <5e7a0753ed9d6d934203fe29ab8ecef41090f055.1700431464.git.philipp.g.hortmann@gmail.com>
 References: <cover.1700431464.git.philipp.g.hortmann@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -59,52 +58,39 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 In-Reply-To: <cover.1700431464.git.philipp.g.hortmann@gmail.com>
 
-country_watchdog is initialized to 0 and then never changed. Remove
-related macros and functions.
+global_domain is initialized to false and then never used.
 
 Signed-off-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
 ---
- drivers/staging/rtl8192e/dot11d.c | 1 -
- drivers/staging/rtl8192e/dot11d.h | 8 --------
- 2 files changed, 9 deletions(-)
+ drivers/staging/rtl8192e/dot11d.c | 2 --
+ drivers/staging/rtl8192e/rtllib.h | 1 -
+ 2 files changed, 3 deletions(-)
 
 diff --git a/drivers/staging/rtl8192e/dot11d.c b/drivers/staging/rtl8192e/dot11d.c
-index b524ebe31869..b8ba95a65f27 100644
+index b8ba95a65f27..fd488e2fa815 100644
 --- a/drivers/staging/rtl8192e/dot11d.c
 +++ b/drivers/staging/rtl8192e/dot11d.c
-@@ -19,7 +19,6 @@ void dot11d_init(struct rtllib_device *ieee)
- 	struct rt_dot11d_info *dot11d_info = GET_DOT11D_INFO(ieee);
+@@ -26,8 +26,6 @@ void dot11d_channel_map(struct rtllib_device *ieee)
+ {
+ 	int i;
  
- 	memset(dot11d_info->channel_map, 0, MAX_CHANNEL_NUMBER + 1);
--	RESET_CIE_WATCHDOG(ieee);
- }
- EXPORT_SYMBOL(dot11d_init);
- 
-diff --git a/drivers/staging/rtl8192e/dot11d.h b/drivers/staging/rtl8192e/dot11d.h
-index 64fd39cddc22..82748b12bd82 100644
---- a/drivers/staging/rtl8192e/dot11d.h
-+++ b/drivers/staging/rtl8192e/dot11d.h
-@@ -25,20 +25,12 @@ struct chnl_txpow_triple {
-  */
- 
- struct rt_dot11d_info {
--	u8  country_watchdog;
- 	u8  channel_map[MAX_CHANNEL_NUMBER + 1];
- };
- 
- #define GET_DOT11D_INFO(__ieee_dev)			\
- 	 ((struct rt_dot11d_info *)((__ieee_dev)->dot11d_info))
- 
--#define GET_CIE_WATCHDOG(__ieee_dev)				\
--	 (GET_DOT11D_INFO(__ieee_dev)->country_watchdog)
--static inline void RESET_CIE_WATCHDOG(struct rtllib_device *__ieee_dev)
--{
--	GET_CIE_WATCHDOG(__ieee_dev) = 0;
--}
+-	ieee->global_domain = false;
 -
- void dot11d_init(struct rtllib_device *dev);
- void dot11d_channel_map(struct rtllib_device *ieee);
+ 	memset(GET_DOT11D_INFO(ieee)->channel_map, 0,
+ 	       sizeof(GET_DOT11D_INFO(ieee)->channel_map));
+ 	for (i = 0; i < channel_array.len; i++)
+diff --git a/drivers/staging/rtl8192e/rtllib.h b/drivers/staging/rtl8192e/rtllib.h
+index 1d0878d1f696..820951602fb0 100644
+--- a/drivers/staging/rtl8192e/rtllib.h
++++ b/drivers/staging/rtl8192e/rtllib.h
+@@ -1322,7 +1322,6 @@ struct rtllib_device {
  
+ 	/* map of allowed channels. 0 is dummy */
+ 	void *dot11d_info;
+-	bool global_domain;
+ 	u8 active_channel_map[MAX_CHANNEL_NUMBER+1];
+ 
+ 	u8   bss_start_channel;
 -- 
 2.42.0
 
