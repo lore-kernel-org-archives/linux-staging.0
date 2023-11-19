@@ -1,53 +1,53 @@
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4054311CB7
-	for <linux-staging@lists.linux.dev>; Sun, 19 Nov 2023 22:15:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43B0911CB7
+	for <linux-staging@lists.linux.dev>; Sun, 19 Nov 2023 22:15:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HJ/IK6S7"
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-408434ce195so10205335e9.0
-        for <linux-staging@lists.linux.dev>; Sun, 19 Nov 2023 14:15:13 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QguwtU8Q"
+Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-9bf60bba6f8so96044966b.0
+        for <linux-staging@lists.linux.dev>; Sun, 19 Nov 2023 14:15:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1700432112; x=1701036912; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1700432117; x=1701036917; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=FBjgqP02grvuhK+DBWx2eCwwUqM0RvQ4/hJhGy33ZEM=;
-        b=HJ/IK6S7aZuo5RECIvRpPThx012Sfp8g6CuFsjVZanWoAEIsD6IC4ryHU70eHMPgam
-         hPoTibyqhWFjTshpmqfZ5v3qgzRYSMZVMwjibHcD4K+6ynZ2rW9HrxOa4zRLGcA+f2sc
-         8RocgOZNLmag3tF09GoBnPXIfE/KKf8+rhiE7na9GIFrAkWKGnNdKqZihpaaaDY5ALOk
-         AmybEYwa0GYAaZR7AdqLyE8E9bB5Achb2lSUisK/TlbocSqAsfM3wK9PvJlTFuVLfeAM
-         p5iCF5f73pBWS7vVkEc5BCgQO3pcqfO+VLqKlk+LxUj5U4Oms5GefzIiwLK48u5UxYmV
-         nsgA==
+        bh=Al0u3qH30iNBj9/dDiymgzw8t9TisYLxCGe0NNyn6Vo=;
+        b=QguwtU8QGsv6Jn23OZaUpX/A780ZOQLsFMJzAacfP2cJ4k9aTaLePAz5+aVUf4AehP
+         JlQ/bvLOyZOz5HVVj5dMNAu0A3m2NVhSaNtpE9GPrW+u3abh+wYnJG1tlhWb6ZHXJNBu
+         LH2pvRzogj+wZqKkQ0IZBz/UcBEFuhcljUPEhqnSNDvdA8r68LJrZ6zPTDjq1BVDloKk
+         CDjlpui3CDXFhcLXPix+zpnUrywYVHL0ivOhawhN587p2ZAow1oDh1gnGN92MTG3zDCn
+         frgDtqj+ubpT1bHWPecrdLUJYKelJGWS8Pblp399wUW9L8I1OKXKHYeaK2vGrIQV2292
+         OArA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700432112; x=1701036912;
+        d=1e100.net; s=20230601; t=1700432117; x=1701036917;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=FBjgqP02grvuhK+DBWx2eCwwUqM0RvQ4/hJhGy33ZEM=;
-        b=hOBzQKIt6RM6QHDxJ17Iqzamh8nhq2ki/bUCeF6yvkCoxlQ7+yIUfRV46UfH9F9uX+
-         uDzPG/aIT4X3ZHQawMd6MapRq1Xmac9WBeda2M0muzy5/TeSTp2Wn8i5oghMfWgF0L4d
-         e2YzPbk6yB9c5kGbKF31mud3RTk7kD+ONf58VTNBlz7hbPlFhAufu7+MOVi4eUXuPi5x
-         LEKDTUth1DXQIYhM/vSdpgOarlAQIqTnL9aj1Qyraccc7zDWG5L9Hhp2nPPNudFBfH+C
-         6kohB/Cbac8AkSMGzcwvc4uflgAmL/QsVMlGjIx1jR0pcy8I95VrCE5CO7rpM/UjvN6U
-         2Qrg==
-X-Gm-Message-State: AOJu0YygmvlUN4t203oZiGgK2CXlv3L/EQ931akQtjjnwjjgpYeZ0gVb
-	ioWpVV8ZrVqUEKkIuxSbCjo=
-X-Google-Smtp-Source: AGHT+IE2p6BOd31Q9tTqJcohhMYsWkZHaI6dEiTvJ2SqrnQkH+c3ZKtU4Yx8vMMvQEDSp5zmb4RR2Q==
-X-Received: by 2002:a5d:5588:0:b0:32f:820c:44b0 with SMTP id i8-20020a5d5588000000b0032f820c44b0mr4468016wrv.0.1700432112255;
-        Sun, 19 Nov 2023 14:15:12 -0800 (PST)
+        bh=Al0u3qH30iNBj9/dDiymgzw8t9TisYLxCGe0NNyn6Vo=;
+        b=luTbFT/Zmr0pKsaQ4CQzB7auAutf2pyfc6+8R1bzMyhoInFWr/ol/Mi+sVf99AGKJH
+         f59qB9RyG5fF/Qm4uWTBvuQ+cfSMHSK+JkKXLkQrrZ4L6zWNYQb8xoQGMaqAlI6y5e2V
+         Z8ijnmatjuBMxE05pzroAEbnhVdqSbTzc4vvnmUZg5qt3c0c6yj8UOc2Adieq3GjqmFD
+         26itIA81i+0ejm28jgqqH5LPAiPydbM71O53WPpNywdZLzI9Kn0lSMitZaoN31VBKHJP
+         lyf0eJ24Ey922jnI2z9SIYfxLPHaxg1Hrkmg6G7es9eh2+a7S6NZdOMTj+zPbl4dtWWK
+         qrdA==
+X-Gm-Message-State: AOJu0YweYODAIZJzC1K8bARw3ilIy9hYKksLy5hO7gZh4TMLbd6op0Tb
+	ORHASyQPdTgLBRz4VqqrABE=
+X-Google-Smtp-Source: AGHT+IECoGGVX3bim/b5hFYAvQ09ui1RZfET09FjgkuCjdk2zBSClznANBlT5U+zi3Kxgo2OfC/hKQ==
+X-Received: by 2002:a17:906:1da:b0:9c9:603c:407e with SMTP id 26-20020a17090601da00b009c9603c407emr4142314ejj.0.1700432117481;
+        Sun, 19 Nov 2023 14:15:17 -0800 (PST)
 Received: from matrix-ESPRIMO-P710 (p54a07fa0.dip0.t-ipconnect.de. [84.160.127.160])
-        by smtp.gmail.com with ESMTPSA id s5-20020adfdb05000000b0032d8eecf901sm9221008wri.3.2023.11.19.14.15.11
+        by smtp.gmail.com with ESMTPSA id lh10-20020a170906f8ca00b009fd2028e62csm926964ejb.71.2023.11.19.14.15.17
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 19 Nov 2023 14:15:12 -0800 (PST)
-Date: Sun, 19 Nov 2023 23:15:10 +0100
+        Sun, 19 Nov 2023 14:15:17 -0800 (PST)
+Date: Sun, 19 Nov 2023 23:15:15 +0100
 From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [PATCH 06/14] staging: rtl8192e: Remove unused macros
- IS_EQUAL_CIE_SRC and friends
-Message-ID: <6d514e946983fb8ef4a3d7d3cb2774261a593d2f.1700431464.git.philipp.g.hortmann@gmail.com>
+Subject: [PATCH 07/14] staging: rtl8192e: Remove unused function
+ copy_mac_addr()
+Message-ID: <d157456121388489784ce34e5f3daf91126f80d7.1700431464.git.philipp.g.hortmann@gmail.com>
 References: <cover.1700431464.git.philipp.g.hortmann@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -59,42 +59,28 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 In-Reply-To: <cover.1700431464.git.philipp.g.hortmann@gmail.com>
 
-Remove unused macros IS_EQUAL_CIE_SRC, UPDATE_CIE_WATCHDOG,
-UPDATE_CIE_SRC and IS_COUNTRY_IE_VALID.
+Remove unused function copy_mac_addr().
 
 Signed-off-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
 ---
- drivers/staging/rtl8192e/dot11d.h | 11 -----------
- 1 file changed, 11 deletions(-)
+ drivers/staging/rtl8192e/dot11d.h | 5 -----
+ 1 file changed, 5 deletions(-)
 
 diff --git a/drivers/staging/rtl8192e/dot11d.h b/drivers/staging/rtl8192e/dot11d.h
-index 0ca803be3965..fd0a2df189bf 100644
+index fd0a2df189bf..d3da4af4a16b 100644
 --- a/drivers/staging/rtl8192e/dot11d.h
 +++ b/drivers/staging/rtl8192e/dot11d.h
-@@ -52,15 +52,6 @@ static inline void copy_mac_addr(unsigned char *des, unsigned char *src)
+@@ -44,11 +44,6 @@ struct rt_dot11d_info {
+ 	enum dot11d_state state;
+ };
+ 
+-static inline void copy_mac_addr(unsigned char *des, unsigned char *src)
+-{
+-	memcpy(des, src, 6);
+-}
+-
  #define GET_DOT11D_INFO(__ieee_dev)			\
  	 ((struct rt_dot11d_info *)((__ieee_dev)->dot11d_info))
- 
--#define IS_COUNTRY_IE_VALID(__ieee_dev)			\
--	(GET_DOT11D_INFO(__ieee_dev)->country_len > 0)
--
--#define IS_EQUAL_CIE_SRC(__ieee_dev, __address)		\
--	 ether_addr_equal_unaligned( \
--		GET_DOT11D_INFO(__ieee_dev)->country_src_addr, __address)
--#define UPDATE_CIE_SRC(__ieee_dev, __address)		\
--	copy_mac_addr(GET_DOT11D_INFO(__ieee_dev)->country_src_addr, __address)
--
- #define GET_CIE_WATCHDOG(__ieee_dev)				\
- 	 (GET_DOT11D_INFO(__ieee_dev)->country_watchdog)
- static inline void RESET_CIE_WATCHDOG(struct rtllib_device *__ieee_dev)
-@@ -68,8 +59,6 @@ static inline void RESET_CIE_WATCHDOG(struct rtllib_device *__ieee_dev)
- 	GET_CIE_WATCHDOG(__ieee_dev) = 0;
- }
- 
--#define UPDATE_CIE_WATCHDOG(__ieee_dev) (++GET_CIE_WATCHDOG(__ieee_dev))
--
- void dot11d_init(struct rtllib_device *dev);
- void dot11d_channel_map(struct rtllib_device *ieee);
  
 -- 
 2.42.0
