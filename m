@@ -1,52 +1,53 @@
-Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
+Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com [209.85.208.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 495AE36E
-	for <linux-staging@lists.linux.dev>; Sun, 19 Nov 2023 22:15:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78B3C10A2B
+	for <linux-staging@lists.linux.dev>; Sun, 19 Nov 2023 22:15:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Zg875CWR"
-Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-9fd57d009fcso19857366b.1
-        for <linux-staging@lists.linux.dev>; Sun, 19 Nov 2023 14:15:50 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Imc0vmG+"
+Received: by mail-lj1-f171.google.com with SMTP id 38308e7fff4ca-2c6eac9c053so11184671fa.1
+        for <linux-staging@lists.linux.dev>; Sun, 19 Nov 2023 14:15:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1700432149; x=1701036949; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1700432155; x=1701036955; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=aoxqGEFk9urPUCn7RYMpHrc4r9kPUjHKVpLcLoj2K+I=;
-        b=Zg875CWRSxxiqugWUQH/1gVTmiGpcvnQf7sshUOpiJfd7/ZYz0B5mdwRwRHHr2y0nO
-         5o8wGSWTNSogKl7EjO2NbGs8WlY7d9BeD/9kswC2UizZd2EfZkyu+wOREVKRIdUCKFC5
-         1tbYTZA7chLspwkH6784Z2mDla7MjezBoHoig4gUbmQTrDDWwTFiprhvbAsN0AWF3U0y
-         tE0elIfjggmEQncuBAulfimcXKRQRcQEdSM9bkM9IqXt2AXcSUrifuvBGcZkn8sXW7Rx
-         M1nNynFjf4L3BL8OZjllEROnpBgRq/laV5jQzZmOOYbL9r9L/jFtMVfADQsLG/BdNAld
-         oylg==
+        bh=NIhoH4W09MvJbrN21uw6rO/SQD23kOyfhhx8/4dLsXo=;
+        b=Imc0vmG+K0qVOrmhZJ2FZexCbEIp4erXteRcxUvO8TmeS59Dhglz7A6pRIzJ19tNVg
+         pJFbxfKgvAunkA3emCbSVP3SNgKNOdlH0H82qXxNfsHnZU120hLILY2tt2faiYUHsPhK
+         M9ZXLcCux3TblUiQU70uP+GPcg5Y2ib7UhgsStECqn5FXuzvjUwyLnFTlOIqmDie77OQ
+         q0H/OPD+yjt8U3kZ+U7RQoX0f8v45VLtnRAKIDiWK8vcyFaVLW6xiNasPmSKpOoXqR4W
+         JAYm6la6TAOUyoRP3FUw27n+iL7Lr2FXB2R2+kuxWxzQjBPv6I4AFMgDvmaRp56MM3jz
+         Td/Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700432149; x=1701036949;
+        d=1e100.net; s=20230601; t=1700432155; x=1701036955;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=aoxqGEFk9urPUCn7RYMpHrc4r9kPUjHKVpLcLoj2K+I=;
-        b=RDnsDpbTN326feAQ2wAOTa1WY7RXcCxN4b20tQz4nDdtFkHWq/t5y9NzP51ZFwSP7M
-         JQ2hGvPls1x5YRSMSCgVjx6NM125fmBxmpDAXNkGArtdN/kZXk28Fa+xb/Lh9pxxa3d9
-         E1OICZz5IiRiUwcpn0uLk8BlAsfJ4KmeGtTLQY3HFxnvoDXE2GnD674jK6+W3ueEMjd8
-         5bAOqXoYPA8LrewKOsPs7wMHYVsCJ0rbIaOHVbqpwqhN+KctRVICKtCNwytAfb0/V3HJ
-         3OKadXtSM2j+umvNhGQrgWEBmaE4hwLEA0HdSeUrBRmHcbKPB/SMh86rcy/aYozpxObm
-         kW4A==
-X-Gm-Message-State: AOJu0YxinGRqIFQDNC5lFL87c6d4EtAB78/oAbTrjtJJF0TkBcdcrnkO
-	A5PxRcpRXslY6dihDvhEttE=
-X-Google-Smtp-Source: AGHT+IF0nppcsVEy+uQJy8MCutCLr5TzKFZ9U+on2LhEGmKQzq7Kah7nSBX13282/CHLpSypbR7dmA==
-X-Received: by 2002:a17:906:1da:b0:9be:4cf4:d62e with SMTP id 26-20020a17090601da00b009be4cf4d62emr4303045ejj.5.1700432149497;
-        Sun, 19 Nov 2023 14:15:49 -0800 (PST)
+        bh=NIhoH4W09MvJbrN21uw6rO/SQD23kOyfhhx8/4dLsXo=;
+        b=Jy1rUXTzKjdasJnEcx7DJmD0QQJEpnvEAlFoogdekp5HpJklJYAplYK+N9dneopbb3
+         vZvbTmBSEeowmysYnlJfH+qugapscrwKsDNecLLOfvIGdVPd6deQbVQ9KgGYoxw6F2L0
+         2cgsXFzOaX0oOSgvt1tszaXU44fqf6qczPSnby1Iqr46kWGaqcp/djoYu0/xR7WpIM3C
+         PrRHe915h2AU2XVW/XlGXdajSV8Smh6yivUwUSyTpAlDzKLhtPObgUf/c3z1yP9zdlOK
+         QSk89HTHQMovGeswiYJS/qoAKS1zYOMK/QBhLoL3XC+DLz3tptH5CAonbQTo0wCBxkBF
+         ffoQ==
+X-Gm-Message-State: AOJu0YxrYyhDK06ZuP9cFF8ssSZqTibqnsiBPciq++rKzr9BnW/zhlPa
+	vaglCY3lEl8pJ6ENnrRwNwg=
+X-Google-Smtp-Source: AGHT+IFEqSIYbd5LhJkPEaVk90/utKB6EDyBw9gZV9IursshLp6hunJu83ZjfWk6QPfde9haCmWxOA==
+X-Received: by 2002:a05:6512:124d:b0:508:1a9d:d768 with SMTP id fb13-20020a056512124d00b005081a9dd768mr3999014lfb.4.1700432155353;
+        Sun, 19 Nov 2023 14:15:55 -0800 (PST)
 Received: from matrix-ESPRIMO-P710 (p54a07fa0.dip0.t-ipconnect.de. [84.160.127.160])
-        by smtp.gmail.com with ESMTPSA id e2-20020a170906c00200b009fb1c3ce877sm1755880ejz.76.2023.11.19.14.15.49
+        by smtp.gmail.com with ESMTPSA id u2-20020a17090657c200b009fd77d78f7fsm805507ejr.116.2023.11.19.14.15.54
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 19 Nov 2023 14:15:49 -0800 (PST)
-Date: Sun, 19 Nov 2023 23:15:47 +0100
+        Sun, 19 Nov 2023 14:15:55 -0800 (PST)
+Date: Sun, 19 Nov 2023 23:15:53 +0100
 From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [PATCH 12/14] staging: rtl8192e: Remove unused function dot11d_init()
-Message-ID: <d2e8d81ec9eefc7b7eeb9f6fd6a28b28db6b40f0.1700431464.git.philipp.g.hortmann@gmail.com>
+Subject: [PATCH 13/14] staging: rtl8192e: Remove unused struct
+ chnl_txpow_triple
+Message-ID: <f66c7cd95ae460ccb376e9edce11b2b955c908cc.1700431464.git.philipp.g.hortmann@gmail.com>
 References: <cover.1700431464.git.philipp.g.hortmann@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -58,60 +59,30 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 In-Reply-To: <cover.1700431464.git.philipp.g.hortmann@gmail.com>
 
-The variable dot11d_info->channel_map is initialized in dot11d_init() and
-in dot11d_channel_map(). dot11d_init() is called only once just before
-dot11d_channel_map(). Therefore dot11d_init() can be removed.
+Remove unused struct chnl_txpow_triple.
 
 Signed-off-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
 ---
- drivers/staging/rtl8192e/dot11d.c            | 8 --------
- drivers/staging/rtl8192e/dot11d.h            | 1 -
- drivers/staging/rtl8192e/rtl8192e/rtl_core.c | 1 -
- 3 files changed, 10 deletions(-)
+ drivers/staging/rtl8192e/dot11d.h | 6 ------
+ 1 file changed, 6 deletions(-)
 
-diff --git a/drivers/staging/rtl8192e/dot11d.c b/drivers/staging/rtl8192e/dot11d.c
-index fd488e2fa815..9ec112e00e38 100644
---- a/drivers/staging/rtl8192e/dot11d.c
-+++ b/drivers/staging/rtl8192e/dot11d.c
-@@ -14,14 +14,6 @@ struct channel_list {
- 
- static struct channel_list channel_array = {{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13}, 13};
- 
--void dot11d_init(struct rtllib_device *ieee)
--{
--	struct rt_dot11d_info *dot11d_info = GET_DOT11D_INFO(ieee);
--
--	memset(dot11d_info->channel_map, 0, MAX_CHANNEL_NUMBER + 1);
--}
--EXPORT_SYMBOL(dot11d_init);
--
- void dot11d_channel_map(struct rtllib_device *ieee)
- {
- 	int i;
 diff --git a/drivers/staging/rtl8192e/dot11d.h b/drivers/staging/rtl8192e/dot11d.h
-index 82748b12bd82..767bbbc8b01d 100644
+index 767bbbc8b01d..5c02e51c39cd 100644
 --- a/drivers/staging/rtl8192e/dot11d.h
 +++ b/drivers/staging/rtl8192e/dot11d.h
-@@ -31,7 +31,6 @@ struct rt_dot11d_info {
- #define GET_DOT11D_INFO(__ieee_dev)			\
- 	 ((struct rt_dot11d_info *)((__ieee_dev)->dot11d_info))
+@@ -10,12 +10,6 @@
  
--void dot11d_init(struct rtllib_device *dev);
- void dot11d_channel_map(struct rtllib_device *ieee);
+ #include "rtllib.h"
  
- #endif
-diff --git a/drivers/staging/rtl8192e/rtl8192e/rtl_core.c b/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
-index 4b842a1789c2..c3466291e221 100644
---- a/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
-+++ b/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
-@@ -795,7 +795,6 @@ static short _rtl92e_get_channel_map(struct net_device *dev)
- 
- 	struct r8192_priv *priv = rtllib_priv(dev);
- 
--	dot11d_init(priv->rtllib);
- 	dot11d_channel_map(priv->rtllib);
- 	for (i = 1; i <= 11; i++)
- 		(priv->rtllib->active_channel_map)[i] = 1;
+-struct chnl_txpow_triple {
+-	u8 first_channel;
+-	u8  num_channels;
+-	u8  max_tx_power;
+-};
+-
+ /**
+  * struct rt_dot11d_info
+  * @channel_map: holds channel values
 -- 
 2.42.0
 
