@@ -1,47 +1,47 @@
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com [209.85.167.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88FA2101D4
-	for <linux-staging@lists.linux.dev>; Mon, 20 Nov 2023 10:01:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29B05134B9
+	for <linux-staging@lists.linux.dev>; Mon, 20 Nov 2023 10:34:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ealm7jsP"
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-40806e4106dso9000435e9.1
-        for <linux-staging@lists.linux.dev>; Mon, 20 Nov 2023 02:01:00 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="vt3ZIDfu"
+Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-507ad511315so5855412e87.0
+        for <linux-staging@lists.linux.dev>; Mon, 20 Nov 2023 02:34:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1700474459; x=1701079259; darn=lists.linux.dev;
+        d=linaro.org; s=google; t=1700476443; x=1701081243; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=jq9JRUdKOLTnT8WnnlX5Kjk7fKbCoaZLOG+eigQvj6U=;
-        b=ealm7jsPDc7kukFa9kdcnYQMcR6q1RcWzZbAxzvIQWZ+HsSiXdds6/QKKQC/S/K9Zz
-         B1kF4O4+heA7K7jm6Y7zn5NKoFUNeQw+Xvl0yY1f6wMYfX7yHXGxxlpYlTZyC3+/hK2J
-         v4sTUJlVAqOEimKxn3yj4jzfPvnVqKGlYv0wsIqWRfE2bIcl+l+da+4jOaXbCQbKSjtm
-         NaA14d62lzuROM8fGApeeBVkIn1/MDwBuPwCPQvzZNRc9EF1t374M7Fny8QuieaocgiE
-         47T7AfCCyi6OIKr/I0Cc1En5tEyaoiRZWPgLZkK+MiugK91EDh3QUM9IS5zKIw1uWB6+
-         W2RQ==
+        bh=k+/A67yCsKCYjT4OzekwJL7Zg9Z+4KiWMU478yrnJ6A=;
+        b=vt3ZIDfu9Hzo7atDhRXaJH2uftI4xOGPvnxNFsQp8ZVN/cS5c5wgqLUNtLm8M3mu05
+         TpgwqPCTe/AiZipTM1RaaQhAN7NbBcZZQslDubKHXY4lFqQbxL2ISXq7dGrxvdk0s1sO
+         zZ2hvWlW6KrBccBgOpFvy86SIVQ1OYLSsHUJKHtUt0lx284qSTNwIovAfqnjJMsLtphO
+         +wv3FnPCnEca0hcRG6e2RAhUsXbSTo8/WmF/eg+NeJ6zIpcehld/15BTCQhQ1l3fc8Q/
+         tbGwIWziuzKnF/Dr2/JjzbHZ5SgUpnACzftgEUZsp90B4E98i7DToJghnN41P21TiGT9
+         /cRQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700474459; x=1701079259;
+        d=1e100.net; s=20230601; t=1700476443; x=1701081243;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=jq9JRUdKOLTnT8WnnlX5Kjk7fKbCoaZLOG+eigQvj6U=;
-        b=GtM2dQwMHks1APv0JDs64XeYahIGXXzA8baKoDd+fRieABCwuAK3+uMfjdw1WiSpSa
-         fWq7n3kdVY81jlHsZAGJ2tcKvagtYZWGBylS38d/ypQADIk9cwILtVJ0OiQldtuYr6Bb
-         9MbkW17LNIuZHM2IzN9lkGP+2CWd50EEdvHfzhu+dAI0VOfVqOYIXrsIMUYlxBdYrl4m
-         NqxaRnCTJSU4LRsFhJpsgusi8pyMabZrQcmVaUzcPh/oOdzlJ0eU0muvyiepGl2bJid0
-         qp9fYCYqUXLKlpSH2wPrK/vQF2rgCHQDyVuJ+zARW8+NF4bhBSveKDiHrppZ+dUNC4Xv
-         ch5w==
-X-Gm-Message-State: AOJu0YzfRaNdJpvEuQhSi1rK6K8U6Xp2iV8W7TxnOHf2N/NZLwBSQXyP
-	KndXAR09WiL3fpBbM3Tv1cDl/w==
-X-Google-Smtp-Source: AGHT+IHgsSU9xj0hKPWpxT9Vk1ZeDlmDhlQtZDVSmlX098fSTuAZhRxTckOXWCNL1Om5eh3w7fsDHA==
-X-Received: by 2002:a05:600c:348b:b0:405:2d29:1648 with SMTP id a11-20020a05600c348b00b004052d291648mr10756789wmq.19.1700474458629;
-        Mon, 20 Nov 2023 02:00:58 -0800 (PST)
+        bh=k+/A67yCsKCYjT4OzekwJL7Zg9Z+4KiWMU478yrnJ6A=;
+        b=RhmsDEA5qEDIv9t9khROjPlkQ7sNgMketNeRIQ0TxiUWOgGqyjz1GAi72OEaoO9LRo
+         nsvAY0l/zjJayrfOp5LjiazNud9WIwj43sjgYasjnEpfzut5zXS31gDZd261C+xBtdcf
+         2q270BUn7ZULODKsMM8t+aOAfZcdVk9YfSEDWAfcR5swDVdP2lHIPakjjiBcdGysQu29
+         s9OtQoOZ7cT6nDtuimYFGxvlDOjgoYw2sbA9tg4RIzvMCmmSLXzF9hRV4yr8Ape0rfzu
+         uOYjsuVMaT/YgoM2ZegPNBxcoOUAawCECoNJXXTZ0MwzhG60UgdQyfkyDINA6Et1yDD0
+         b20w==
+X-Gm-Message-State: AOJu0YwFij7mDjFPncEluoQi8Q+c3eBhMbCRqZHJ8qc2fiKNDkvDRgXP
+	TKpoz1SvLOxcVZnvdAJ6Toc0jw==
+X-Google-Smtp-Source: AGHT+IGC+q6OhZa2pu5cx3aVWD4t46z49DbuzV37RCxExtAfJLBJFt42IgxDX1xcBMYvlOiJRA17RQ==
+X-Received: by 2002:a19:5517:0:b0:503:95b:db0a with SMTP id n23-20020a195517000000b00503095bdb0amr6382815lfe.12.1700476443129;
+        Mon, 20 Nov 2023 02:34:03 -0800 (PST)
 Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id v12-20020a05600c214c00b004065daba6casm17018246wml.46.2023.11.20.02.00.57
+        by smtp.gmail.com with ESMTPSA id t8-20020a5d49c8000000b0031984b370f2sm10768685wrs.47.2023.11.20.02.34.01
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 20 Nov 2023 02:00:58 -0800 (PST)
-Date: Mon, 20 Nov 2023 05:00:55 -0500
+        Mon, 20 Nov 2023 02:34:02 -0800 (PST)
+Date: Mon, 20 Nov 2023 05:33:59 -0500
 From: Dan Carpenter <dan.carpenter@linaro.org>
 To: Umang Jain <umang.jain@ideasonboard.com>
 Cc: linux-media@vger.kernel.org, kernel-list@raspberrypi.com,
@@ -53,12 +53,12 @@ Cc: linux-media@vger.kernel.org, kernel-list@raspberrypi.com,
 	"Ricardo B . Marliere" <ricardo@marliere.net>,
 	Dan Carpenter <error27@gmail.com>,
 	Stefan Wahren <stefan.wahren@i2se.com>,
-	Dave Stevenson <dave.stevenson@raspberrypi.org>
-Subject: Re: [PATCH v2 04/15] staging: mmal-vchiq: Add support for event
- callbacks
-Message-ID: <2a3cb5ad-4791-4d37-a6a1-785432d5dd46@suswa.mountain>
+	Naushir Patuck <naush@raspberrypi.com>
+Subject: Re: [PATCH v2 10/15] staging: vc04_services: bcm2835-isp: Add a more
+ complex ISP processing component
+Message-ID: <fe7b0a08-941f-4dbc-b89f-d3da0a96ac32@suswa.mountain>
 References: <20231109210309.638594-1-umang.jain@ideasonboard.com>
- <20231109210309.638594-5-umang.jain@ideasonboard.com>
+ <20231109210309.638594-11-umang.jain@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -67,151 +67,90 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231109210309.638594-5-umang.jain@ideasonboard.com>
+In-Reply-To: <20231109210309.638594-11-umang.jain@ideasonboard.com>
 
-On Thu, Nov 09, 2023 at 04:02:56PM -0500, Umang Jain wrote:
-> +static void event_to_host_cb(struct vchiq_mmal_instance *instance,
-> +			     struct mmal_msg *msg, u32 msg_len)
+On Thu, Nov 09, 2023 at 04:03:02PM -0500, Umang Jain wrote:
+> +static int media_controller_register(struct bcm2835_isp_dev *dev)
 > +{
-> +	int comp_idx = msg->u.event_to_host.client_component;
-> +	struct vchiq_mmal_component *component =
-> +					&instance->component[comp_idx];
-> +	struct vchiq_mmal_port *port = NULL;
-> +	struct mmal_msg_context *msg_context;
-> +	u32 port_num = msg->u.event_to_host.port_num;
+> +	char *name;
+> +	unsigned int i;
+> +	int ret;
 > +
-> +	if (msg->u.buffer_from_host.drvbuf.magic == MMAL_MAGIC) {
-> +		pr_err("%s: MMAL_MSG_TYPE_BUFFER_TO_HOST with bad magic\n",
-> +		       __func__);
-> +		return;
+> +	v4l2_dbg(2, debug, &dev->v4l2_dev, "Registering with media controller\n");
+> +	dev->mdev.dev = dev->dev;
+> +	strscpy(dev->mdev.model, "bcm2835-isp",
+> +		sizeof(dev->mdev.model));
+> +	strscpy(dev->mdev.bus_info, "platform:bcm2835-isp",
+> +		sizeof(dev->mdev.bus_info));
+> +	media_device_init(&dev->mdev);
+> +	dev->v4l2_dev.mdev = &dev->mdev;
+> +
+> +	v4l2_dbg(2, debug, &dev->v4l2_dev, "Register entity for nodes\n");
+> +
+> +	name = kmalloc(BCM2835_ISP_ENTITY_NAME_LEN, GFP_KERNEL);
+> +	if (!name) {
+> +		ret = -ENOMEM;
+> +		goto done;
+
+Oh crap.  This function doesn't clean up after itself, but instead
+returns to a One Magical Cleanup Function...  This style of error
+handling is *ALWAYS* buggy.  But in this case I only see a very minor
+leak.
+
+These two cleanups are under one ->registered flag but they are
+allocated separately.  So if we only complete one action and not the
+second then the flag is not set and we don't call media_device_cleanup().
+(This is one of many typical problems with One Magical Cleanup Function
+Style).
+
+> +	if (dev->media_device_registered) {
+> +		media_device_unregister(&dev->mdev);
+> +		media_device_cleanup(&dev->mdev);
+> +		dev->media_device_registered = false;
 > +	}
-> +
-> +	switch (msg->u.event_to_host.port_type) {
-> +	case MMAL_PORT_TYPE_CONTROL:
-> +		if (port_num) {
-> +			pr_err("%s: port_num of %u >= number of ports 1",
 
-This message is confusing.  Perhaps:
+It's just such a headache to review...  (That's why it's so bug prone).
 
-	pr_err("%s: invalid port_num %u (should be zero)", ...
-
-> +			       __func__, port_num);
-> +			return;
-> +		}
-> +		port = &component->control;
-> +		break;
-> +	case MMAL_PORT_TYPE_INPUT:
-> +		if (port_num >= component->inputs) {
-> +			pr_err("%s: port_num of %u >= number of ports %u",
-
-	pr_err("%s: port_num (%u) >= component->inputs (%u)",
-
-
-> +			       __func__, port_num,
-> +			       port_num >= component->inputs);
-> +			return;
-> +		}
-> +		port = &component->input[port_num];
-> +		break;
-> +	case MMAL_PORT_TYPE_OUTPUT:
-> +		if (port_num >= component->outputs) {
-> +			pr_err("%s: port_num of %u >= number of ports %u",
-
-
-	pr_err("%s: port_num (%u) >= component->outputs (%u)",
-
-> +			       __func__, port_num,
-> +			       port_num >= component->outputs);
-> +			return;
-> +		}
-> +		port = &component->output[port_num];
-> +		break;
-> +	case MMAL_PORT_TYPE_CLOCK:
-> +		if (port_num >= component->clocks) {
-> +			pr_err("%s: port_num of %u >= number of ports %u",
-> +			       __func__, port_num,
-> +			       port_num >= component->clocks);
-> +			return;
-> +		}
-> +		port = &component->clock[port_num];
-> +		break;
-> +	default:
-> +		break;
-> +	}
-> +
-> +	if (!mutex_trylock(&port->event_context_mutex)) {
-> +		pr_err("dropping event 0x%x\n", msg->u.event_to_host.cmd);
-> +		return;
-> +	}
-> +	msg_context = port->event_context;
-> +
-> +	if (msg->h.status != MMAL_MSG_STATUS_SUCCESS) {
-> +		/* message reception had an error */
-> +		pr_err("%s: error %d in reply\n", __func__, msg->h.status);
-> +
-> +		msg_context->u.bulk.status = msg->h.status;
-> +	} else if (msg->u.event_to_host.length > MMAL_WORKER_EVENT_SPACE) {
-> +		/* data is not in message, queue a bulk receive */
-> +		pr_err("%s: payload not in message - bulk receive??! NOT SUPPORTED\n",
-> +		       __func__);
-> +		msg_context->u.bulk.status = -1;
-> +	} else {
-> +		memcpy(msg_context->u.bulk.buffer->buffer,
-> +		       msg->u.event_to_host.data,
-> +		       msg->u.event_to_host.length);
-> +
-> +		msg_context->u.bulk.buffer_used =
-> +		    msg->u.event_to_host.length;
-> +
-> +		msg_context->u.bulk.mmal_flags = 0;
-> +		msg_context->u.bulk.dts = MMAL_TIME_UNKNOWN;
-> +		msg_context->u.bulk.pts = MMAL_TIME_UNKNOWN;
-> +		msg_context->u.bulk.cmd = msg->u.event_to_host.cmd;
-> +
-> +		pr_debug("event component:%u port type:%d num:%d cmd:0x%x length:%d\n",
-> +			 msg->u.event_to_host.client_component,
-> +			 msg->u.event_to_host.port_type,
-> +			 msg->u.event_to_host.port_num,
-> +			 msg->u.event_to_host.cmd, msg->u.event_to_host.length);
-> +	}
-> +
-> +	schedule_work(&msg_context->u.bulk.work);
-> +}
-> +
->  /* deals with receipt of buffer to host message */
->  static void buffer_to_host_cb(struct vchiq_mmal_instance *instance,
->  			      struct mmal_msg *msg, u32 msg_len)
-> @@ -1329,6 +1421,7 @@ static int port_disable(struct vchiq_mmal_instance *instance,
->  				mmalbuf->mmal_flags = 0;
->  				mmalbuf->dts = MMAL_TIME_UNKNOWN;
->  				mmalbuf->pts = MMAL_TIME_UNKNOWN;
-> +				mmalbuf->cmd = 0;
->  				port->buffer_cb(instance,
->  						port, 0, mmalbuf);
->  			}
-> @@ -1630,6 +1723,43 @@ int mmal_vchi_buffer_cleanup(struct mmal_buffer *buf)
->  }
->  EXPORT_SYMBOL_GPL(mmal_vchi_buffer_cleanup);
->  
-> +static void init_event_context(struct vchiq_mmal_instance *instance,
-> +			       struct vchiq_mmal_port *port)
-> +{
-> +	struct mmal_msg_context *ctx = get_msg_context(instance);
-> +
-> +	mutex_init(&port->event_context_mutex);
-> +
-> +	port->event_context = ctx;
-> +	ctx->u.bulk.instance = instance;
-> +	ctx->u.bulk.port = port;
-> +	ctx->u.bulk.buffer =
-> +		kzalloc(sizeof(*ctx->u.bulk.buffer), GFP_KERNEL);
-
-This is 79 chars.  Delete the line break.
-
-> +	if (!ctx->u.bulk.buffer)
-> +		goto release_msg_context;
-> +	ctx->u.bulk.buffer->buffer = kzalloc(MMAL_WORKER_EVENT_SPACE,
-> +					     GFP_KERNEL);
+If you wrote it in Free the Last Thing Style then you could get rid
+of a bunch of flags like ->media_device_registered and
+->media_entity_registered because at that point you would always know
+what you had done and hadn't done.
 
 regards,
 dan carpenter
+
+
+> +	}
+> +	snprintf(name, BCM2835_ISP_ENTITY_NAME_LEN, "bcm2835_isp0");
+> +	dev->entity.name = name;
+> +	dev->entity.obj_type = MEDIA_ENTITY_TYPE_BASE;
+> +	dev->entity.function = MEDIA_ENT_F_PROC_VIDEO_SCALER;
+> +
+> +	for (i = 0; i < BCM2835_ISP_NUM_NODES; i++) {
+> +		dev->pad[i].flags = node_is_output(&dev->node[i]) ?
+> +					MEDIA_PAD_FL_SINK : MEDIA_PAD_FL_SOURCE;
+> +	}
+> +
+> +	ret = media_entity_pads_init(&dev->entity, BCM2835_ISP_NUM_NODES,
+> +				     dev->pad);
+> +	if (ret)
+> +		goto done;
+> +
+> +	ret = media_device_register_entity(&dev->mdev, &dev->entity);
+> +	if (ret)
+> +		goto done;
+> +
+> +	dev->media_entity_registered = true;
+> +	for (i = 0; i < BCM2835_ISP_NUM_NODES; i++) {
+> 		ret = media_controller_register_node(dev, i);
+> +		if (ret)
+> +			goto done;
+> +	}
+> +
+> +	ret = media_device_register(&dev->mdev);
+> +	if (!ret)
+> +		dev->media_device_registered = true;
+> +done:
+> +	return ret;
+> +}
+
