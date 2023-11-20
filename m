@@ -1,96 +1,180 @@
-Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
+Received: from mail-pl1-f205.google.com (mail-pl1-f205.google.com [209.85.214.205])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F082211CB2
-	for <linux-staging@lists.linux.dev>; Sun, 19 Nov 2023 22:16:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Vqr4d53S"
-Received: by mail-ed1-f47.google.com with SMTP id 4fb4d7f45d1cf-5451faa3aa7so923362a12.0
-        for <linux-staging@lists.linux.dev>; Sun, 19 Nov 2023 14:16:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1700432167; x=1701036967; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=9HmufOMefniw7+AgeLkrs+Ikau0t9ZA3t0+CpI9Zt9o=;
-        b=Vqr4d53SPUgVE10NnEC6cgzsW54ufHKfn9dqj0F4Of4IESYVbI0gKmKEeF3MHhuzA3
-         D2Bh+WlZ9wB1kGI6RsLBG6QHdIIhL3TEw8EIPZycuX1bQLShwsAq+1dvCr2KuimLyBG9
-         BHMDjWjtzEWCupMnvoB4j+6Ke5Jf/5T4iZ47OAI0UiNWwVgaSUVV9cxTEkfFpyDX+LJL
-         P8Uc5jermBcdcyFqz7SaiSpEHcTc+jHvmuEHIR8Z9wi5pqJAEg6Yoa8tx/J3hLqq3uZR
-         RnVjk5hOjokmRZ5kR1omgIBelbWCe4Uoxdqs9b0y00c4l0CFvMiYgvTuiKoCgdVujUDn
-         979A==
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B12F7F
+	for <linux-staging@lists.linux.dev>; Mon, 20 Nov 2023 00:09:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Authentication-Results: smtp.subspace.kernel.org; dkim=none
+Received: by mail-pl1-f205.google.com with SMTP id d9443c01a7336-1cc23aa0096so47961925ad.2
+        for <linux-staging@lists.linux.dev>; Sun, 19 Nov 2023 16:09:25 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700432167; x=1701036967;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=9HmufOMefniw7+AgeLkrs+Ikau0t9ZA3t0+CpI9Zt9o=;
-        b=Rxgf6Wu2Lp+dcFJ9ZwaSY2WJQpeEnAA/Z5stehk3Mp5qSU1NXvyNrB7iZZLoCEcPcj
-         idNoLRrGfuDPwLXx8donmHJ7N71scpq2l55pCMsX22kyh/M99SkK+HnmHtbghUKLyILX
-         s/yo2zjxYuPNW+3doihot4mdotr5sXeYDaXFS9xQXA/eRnHIDbyrJ40clnE1zY5WiX0g
-         JhXsHtWHavvUJlvzLOqPR8OLrho864odjgHf9jGYXSfAbDXyRiLMCNr8pdbvMgeByRNh
-         Xz8xPx62Q3n6uwD1iMmzE0HNdoNt3sd5tCRMuihaoXyQU+jdCW0a0cHk3c3Ak8ihWAYb
-         DGGQ==
-X-Gm-Message-State: AOJu0Yz/gbruBjrwAbFt71KfEc5xCpxPZuN3ojDYLY7Slo3j4HmkeJA8
-	8ZAhCf+ckKYWhKsdUqhlGRk=
-X-Google-Smtp-Source: AGHT+IHjAlXs0jAQBfqT+IGd9CwZfA7CKwOfC9O51NUT5aj1JIAg3IYCZ/EbBCQNSn75DkyUE9zJMw==
-X-Received: by 2002:a17:906:5191:b0:9e6:69d:46aa with SMTP id y17-20020a170906519100b009e6069d46aamr4332511ejk.6.1700432167102;
-        Sun, 19 Nov 2023 14:16:07 -0800 (PST)
-Received: from matrix-ESPRIMO-P710 (p54a07fa0.dip0.t-ipconnect.de. [84.160.127.160])
-        by smtp.gmail.com with ESMTPSA id f20-20020a17090631d400b0099ce188be7fsm3215485ejf.3.2023.11.19.14.16.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 19 Nov 2023 14:16:06 -0800 (PST)
-Date: Sun, 19 Nov 2023 23:16:05 +0100
-From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [PATCH 14/14] staging: rtl8192e: Remove unused variable
- bss_start_channel
-Message-ID: <a13a8421d43ef1baa2077af1d4955059eba52d79.1700431464.git.philipp.g.hortmann@gmail.com>
-References: <cover.1700431464.git.philipp.g.hortmann@gmail.com>
+        d=1e100.net; s=20230601; t=1700438965; x=1701043765;
+        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=bm9eGPc0RwqPbRbgp3iTFtDeXXeqtjeXeTQl0nd1FoI=;
+        b=VGd9JeHCEbhOWbUgI9IHWxfKx4VF0B3o81rl24i/SvY2eAtmghIlDa+nH+IB3aHBAq
+         JwJNtzZC9nLDAMU1u+TruiWDSyEQp6lTSbmH+dsg8M9J/L/s1W1JLOj2bCQke1XhP91t
+         nNuZnrQwIurQ5ptmDe9D0uga8daBGlB1z673smBqlpRpwxSMEK8UMa7sVmKCo98FcEqV
+         BNjn0G+m/z+4gquuNGt0vp2mClx6vDi/YVIloQECwRjhHDjdDBERmFYyElmmVXmkJQyE
+         IX5yZhh06nAd8ooa7D7z1ah+WerUEv3n1Qzh8kpxGcnReLDI8dx/pEcjqupDJwXM+OIq
+         YMPQ==
+X-Gm-Message-State: AOJu0YxcJzUtxsRn+ymkpykzMCXW0fiWVu/56iXuWxjZSWZQScvkxCvl
+	l6ewPlsi5nUtZhMUkSXArjGz4VzPpfvPQBe6SyFO1shBd7VC
+X-Google-Smtp-Source: AGHT+IE+tfsFbkR7yz8cn8gaIyXCEYM3FadsbSsqz2LGgiXDKBu6dN0M+i8azKecC/7TiH14onfmFR9HmffSM7xYWD7i5/LM1Qca
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <cover.1700431464.git.philipp.g.hortmann@gmail.com>
+X-Received: by 2002:a17:902:7792:b0:1cc:4327:8bbc with SMTP id
+ o18-20020a170902779200b001cc43278bbcmr1559454pll.10.1700438965521; Sun, 19
+ Nov 2023 16:09:25 -0800 (PST)
+Date: Sun, 19 Nov 2023 16:09:25 -0800
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <000000000000809328060a8a4c1c@google.com>
+Subject: [syzbot] [staging?] [usb?] memory leak in _r8712_init_xmit_priv (2)
+From: syzbot <syzbot+83763e624cfec6b462cb@syzkaller.appspotmail.com>
+To: Larry.Finger@lwfinger.net, florian.c.schilhabel@googlemail.com, 
+	gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org, 
+	linux-media@vger.kernel.org, linux-staging@lists.linux.dev, 
+	linux-usb@vger.kernel.org, syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 
-Remove unused variable bss_start_channel.
+Hello,
 
-Signed-off-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+syzbot found the following issue on:
+
+HEAD commit:    c42d9eeef8e5 Merge tag 'hardening-v6.7-rc2' of git://git.k..
+git tree:       upstream
+console output: https://syzkaller.appspot.com/x/log.txt?x=13bff22f680000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=e71d284dd6560ca8
+dashboard link: https://syzkaller.appspot.com/bug?extid=83763e624cfec6b462cb
+compiler:       gcc (Debian 12.2.0-14) 12.2.0, GNU ld (GNU Binutils for Debian) 2.40
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=1564223f680000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=17a7c024e80000
+
+Downloadable assets:
+disk image: https://storage.googleapis.com/syzbot-assets/026cc0fc446f/disk-c42d9eee.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/c4b4d6d092c1/vmlinux-c42d9eee.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/1865f885e9d6/bzImage-c42d9eee.xz
+
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+83763e624cfec6b462cb@syzkaller.appspotmail.com
+
+executing program
+BUG: memory leak
+unreferenced object 0xffff888107a5c000 (size 4096):
+  comm "kworker/1:0", pid 22, jiffies 4294943134 (age 18.720s)
+  hex dump (first 32 bytes):
+    00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
+    00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
+  backtrace:
+    [<ffffffff816337cd>] kmemleak_alloc_recursive include/linux/kmemleak.h:42 [inline]
+    [<ffffffff816337cd>] slab_post_alloc_hook mm/slab.h:766 [inline]
+    [<ffffffff816337cd>] slab_alloc_node mm/slub.c:3478 [inline]
+    [<ffffffff816337cd>] __kmem_cache_alloc_node+0x2dd/0x3f0 mm/slub.c:3517
+    [<ffffffff8157e625>] kmalloc_trace+0x25/0x90 mm/slab_common.c:1098
+    [<ffffffff83cee442>] kmalloc include/linux/slab.h:600 [inline]
+    [<ffffffff83cee442>] _r8712_init_xmit_priv+0x2b2/0x6e0 drivers/staging/rtl8712/rtl871x_xmit.c:130
+    [<ffffffff83ce9033>] r8712_init_drv_sw+0xc3/0x290 drivers/staging/rtl8712/os_intfs.c:311
+    [<ffffffff83ce7ce6>] r871xu_drv_init+0x1c6/0x920 drivers/staging/rtl8712/usb_intf.c:386
+    [<ffffffff832d0f0b>] usb_probe_interface+0x16b/0x3a0 drivers/usb/core/driver.c:396
+    [<ffffffff82c3bb06>] call_driver_probe drivers/base/dd.c:579 [inline]
+    [<ffffffff82c3bb06>] really_probe+0x126/0x440 drivers/base/dd.c:658
+    [<ffffffff82c3bee3>] __driver_probe_device+0xc3/0x190 drivers/base/dd.c:800
+    [<ffffffff82c3bfda>] driver_probe_device+0x2a/0x120 drivers/base/dd.c:830
+    [<ffffffff82c3c1d4>] __device_attach_driver+0x104/0x160 drivers/base/dd.c:958
+    [<ffffffff82c38f5d>] bus_for_each_drv+0xcd/0x120 drivers/base/bus.c:457
+    [<ffffffff82c3c6fa>] __device_attach+0xfa/0x290 drivers/base/dd.c:1030
+    [<ffffffff82c3a6ca>] bus_probe_device+0xca/0xd0 drivers/base/bus.c:532
+    [<ffffffff82c36b7e>] device_add+0x9be/0xc90 drivers/base/core.c:3625
+    [<ffffffff832cdfd7>] usb_set_configuration+0x967/0xc70 drivers/usb/core/message.c:2207
+    [<ffffffff832e0cac>] usb_generic_driver_probe+0x9c/0xf0 drivers/usb/core/generic.c:238
+
+BUG: memory leak
+unreferenced object 0xffff888107a59000 (size 4096):
+  comm "kworker/1:0", pid 22, jiffies 4294943134 (age 18.720s)
+  hex dump (first 32 bytes):
+    00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
+    00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
+  backtrace:
+    [<ffffffff816337cd>] kmemleak_alloc_recursive include/linux/kmemleak.h:42 [inline]
+    [<ffffffff816337cd>] slab_post_alloc_hook mm/slab.h:766 [inline]
+    [<ffffffff816337cd>] slab_alloc_node mm/slub.c:3478 [inline]
+    [<ffffffff816337cd>] __kmem_cache_alloc_node+0x2dd/0x3f0 mm/slub.c:3517
+    [<ffffffff8157e625>] kmalloc_trace+0x25/0x90 mm/slab_common.c:1098
+    [<ffffffff83cee442>] kmalloc include/linux/slab.h:600 [inline]
+    [<ffffffff83cee442>] _r8712_init_xmit_priv+0x2b2/0x6e0 drivers/staging/rtl8712/rtl871x_xmit.c:130
+    [<ffffffff83ce9033>] r8712_init_drv_sw+0xc3/0x290 drivers/staging/rtl8712/os_intfs.c:311
+    [<ffffffff83ce7ce6>] r871xu_drv_init+0x1c6/0x920 drivers/staging/rtl8712/usb_intf.c:386
+    [<ffffffff832d0f0b>] usb_probe_interface+0x16b/0x3a0 drivers/usb/core/driver.c:396
+    [<ffffffff82c3bb06>] call_driver_probe drivers/base/dd.c:579 [inline]
+    [<ffffffff82c3bb06>] really_probe+0x126/0x440 drivers/base/dd.c:658
+    [<ffffffff82c3bee3>] __driver_probe_device+0xc3/0x190 drivers/base/dd.c:800
+    [<ffffffff82c3bfda>] driver_probe_device+0x2a/0x120 drivers/base/dd.c:830
+    [<ffffffff82c3c1d4>] __device_attach_driver+0x104/0x160 drivers/base/dd.c:958
+    [<ffffffff82c38f5d>] bus_for_each_drv+0xcd/0x120 drivers/base/bus.c:457
+    [<ffffffff82c3c6fa>] __device_attach+0xfa/0x290 drivers/base/dd.c:1030
+    [<ffffffff82c3a6ca>] bus_probe_device+0xca/0xd0 drivers/base/bus.c:532
+    [<ffffffff82c36b7e>] device_add+0x9be/0xc90 drivers/base/core.c:3625
+    [<ffffffff832cdfd7>] usb_set_configuration+0x967/0xc70 drivers/usb/core/message.c:2207
+    [<ffffffff832e0cac>] usb_generic_driver_probe+0x9c/0xf0 drivers/usb/core/generic.c:238
+
+BUG: memory leak
+unreferenced object 0xffff888108475000 (size 4096):
+  comm "kworker/1:0", pid 22, jiffies 4294943134 (age 18.720s)
+  hex dump (first 32 bytes):
+    00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
+    00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
+  backtrace:
+    [<ffffffff816337cd>] kmemleak_alloc_recursive include/linux/kmemleak.h:42 [inline]
+    [<ffffffff816337cd>] slab_post_alloc_hook mm/slab.h:766 [inline]
+    [<ffffffff816337cd>] slab_alloc_node mm/slub.c:3478 [inline]
+    [<ffffffff816337cd>] __kmem_cache_alloc_node+0x2dd/0x3f0 mm/slub.c:3517
+    [<ffffffff8157e625>] kmalloc_trace+0x25/0x90 mm/slab_common.c:1098
+    [<ffffffff83cee442>] kmalloc include/linux/slab.h:600 [inline]
+    [<ffffffff83cee442>] _r8712_init_xmit_priv+0x2b2/0x6e0 drivers/staging/rtl8712/rtl871x_xmit.c:130
+    [<ffffffff83ce9033>] r8712_init_drv_sw+0xc3/0x290 drivers/staging/rtl8712/os_intfs.c:311
+    [<ffffffff83ce7ce6>] r871xu_drv_init+0x1c6/0x920 drivers/staging/rtl8712/usb_intf.c:386
+    [<ffffffff832d0f0b>] usb_probe_interface+0x16b/0x3a0 drivers/usb/core/driver.c:396
+    [<ffffffff82c3bb06>] call_driver_probe drivers/base/dd.c:579 [inline]
+    [<ffffffff82c3bb06>] really_probe+0x126/0x440 drivers/base/dd.c:658
+    [<ffffffff82c3bee3>] __driver_probe_device+0xc3/0x190 drivers/base/dd.c:800
+    [<ffffffff82c3bfda>] driver_probe_device+0x2a/0x120 drivers/base/dd.c:830
+    [<ffffffff82c3c1d4>] __device_attach_driver+0x104/0x160 drivers/base/dd.c:958
+    [<ffffffff82c38f5d>] bus_for_each_drv+0xcd/0x120 drivers/base/bus.c:457
+    [<ffffffff82c3c6fa>] __device_attach+0xfa/0x290 drivers/base/dd.c:1030
+    [<ffffffff82c3a6ca>] bus_probe_device+0xca/0xd0 drivers/base/bus.c:532
+    [<ffffffff82c36b7e>] device_add+0x9be/0xc90 drivers/base/core.c:3625
+    [<ffffffff832cdfd7>] usb_set_configuration+0x967/0xc70 drivers/usb/core/message.c:2207
+    [<ffffffff832e0cac>] usb_generic_driver_probe+0x9c/0xf0 drivers/usb/core/generic.c:238
+
+
+
 ---
- drivers/staging/rtl8192e/dot11d.c | 1 -
- drivers/staging/rtl8192e/rtllib.h | 2 --
- 2 files changed, 3 deletions(-)
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
 
-diff --git a/drivers/staging/rtl8192e/dot11d.c b/drivers/staging/rtl8192e/dot11d.c
-index 9ec112e00e38..d51d4afff61e 100644
---- a/drivers/staging/rtl8192e/dot11d.c
-+++ b/drivers/staging/rtl8192e/dot11d.c
-@@ -25,6 +25,5 @@ void dot11d_channel_map(struct rtllib_device *ieee)
- 
- 	for (i = 12; i <= 13; i++)
- 		GET_DOT11D_INFO(ieee)->channel_map[i] = 2;
--	ieee->bss_start_channel = 10;
- }
- EXPORT_SYMBOL(dot11d_channel_map);
-diff --git a/drivers/staging/rtl8192e/rtllib.h b/drivers/staging/rtl8192e/rtllib.h
-index 820951602fb0..77ae259eab35 100644
---- a/drivers/staging/rtl8192e/rtllib.h
-+++ b/drivers/staging/rtl8192e/rtllib.h
-@@ -1324,8 +1324,6 @@ struct rtllib_device {
- 	void *dot11d_info;
- 	u8 active_channel_map[MAX_CHANNEL_NUMBER+1];
- 
--	u8   bss_start_channel;
--
- 	int rate;       /* current rate */
- 	int basic_rate;
- 
--- 
-2.42.0
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
 
+If the report is already addressed, let syzbot know by replying with:
+#syz fix: exact-commit-title
+
+If you want syzbot to run the reproducer, reply with:
+#syz test: git://repo/address.git branch-or-commit-hash
+If you attach or paste a git patch, syzbot will apply it before testing.
+
+If you want to overwrite report's subsystems, reply with:
+#syz set subsystems: new-subsystem
+(See the list of subsystem names on the web dashboard)
+
+If the report is a duplicate of another one, reply with:
+#syz dup: exact-subject-of-another-report
+
+If you want to undo deduplication, reply with:
+#syz undup
