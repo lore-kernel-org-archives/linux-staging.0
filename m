@@ -1,100 +1,69 @@
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDAE1358A9
-	for <linux-staging@lists.linux.dev>; Mon, 20 Nov 2023 21:23:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; dkim=none
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1r5Bjr-0004El-AH; Mon, 20 Nov 2023 22:23:27 +0100
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1r5Bjq-00AR9R-B5; Mon, 20 Nov 2023 22:23:26 +0100
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1r5Bjq-004dnV-1t; Mon, 20 Nov 2023 22:23:26 +0100
-Date: Mon, 20 Nov 2023 22:23:25 +0100
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To: Thierry Reding <thierry.reding@gmail.com>,
-	Jonathan Hunter <jonathanh@nvidia.com>,
-	Sowjanya Komatineni <skomatineni@nvidia.com>,
-	Luca Ceresoli <luca.ceresoli@bootlin.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: linux-tegra@vger.kernel.org,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-staging@lists.linux.dev, kernel@pengutronix.de,
-	linux-media@vger.kernel.org
-Subject: Re: [PATCH] staging: media: tegra-video: Convert to platform remove
- callback returning void
-Message-ID: <20231120212325.4wbjoys6ez73gtfq@pengutronix.de>
-References: <20231026214739.2509271-2-u.kleine-koenig@pengutronix.de>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C285E21375
+	for <linux-staging@lists.linux.dev>; Tue, 21 Nov 2023 07:32:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="GXxkD1cS"
+Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-32fadd4ad09so3889653f8f.1
+        for <linux-staging@lists.linux.dev>; Mon, 20 Nov 2023 23:32:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1700551920; x=1701156720; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=IFtch3Nap710cpf4er7eW9cGVSpjM0L/7+OjaAxxZa8=;
+        b=GXxkD1cSHMoQ0UYbHsdzL6J+G4rAA+pmwHV0Hj/8wzstHBeHoNAiu59yKnbo9T6K4W
+         Ez+w0wRf98KG9jdxJWxlQPg5IvQ78nEXwEXgjqYIjS15VbmR70P9/H9+GGthKZO0DXgd
+         0bsbwzhTen2/8oHDStxiWRd62siDe5tl1ZdcqeQborxdEr1uVc2BQiEoGSSF7kfMWCaM
+         vFbtx+jJnAsIPrG/u2fQk6xWfiqQAajvfHWM8CxeQbBO3oLz5iwUoEtIGdKFrvpFesXc
+         JlX0gfRg8AixEHNblKCi+UGzj7oPUyBgpy8tw2k9NWwOqvR1ttnO8KxMxYuBy55PYjd5
+         +qwA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1700551920; x=1701156720;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=IFtch3Nap710cpf4er7eW9cGVSpjM0L/7+OjaAxxZa8=;
+        b=H2Z05pmzoq6+pRES0tP5A01o2keGBhy45Q6uzwUna11KrvN5LB7eZU4x2ZFiSzBY9r
+         GJTYL6fz7+kjKAaSo2I7idW80rFiLuUfVSFsU/D+lAyNf5mXY99Mp1Dr82arrBhk0McH
+         wZScVABtG0dUukwFxgmRKJPxJdxMip2LSZLBMZaiRHLtzx1NEl2AwGEBv+799o0Wc9Qo
+         0f0ZYimcWs1yEca27Xtvjg5vHZFvKX93gMvJVm61RJacwR1z3ocZ+M5crCJWtPByBKzZ
+         EGA7EWPJ/wr2QE8Bq9W31N+3pRcQ+s8mTHoi61Hyywki9twE+yKPg6NmnU2Cdekd2MVz
+         CitQ==
+X-Gm-Message-State: AOJu0YytQneg0D+1jGWArcNT6+EhjMIUHzA90Zuqo6my/tqIRt27hHfV
+	YxNs/i9qSHrRo1ldNVdDeWhxCQ==
+X-Google-Smtp-Source: AGHT+IEzsgomKk4nfW00c6Ga9yeFtrm6C6dS4SdxymDIFlffCn3x55AEMbIKPQCO4+8GI6yjSgHbhw==
+X-Received: by 2002:a5d:64e1:0:b0:332:cf3d:a041 with SMTP id g1-20020a5d64e1000000b00332cf3da041mr177747wri.8.1700551919385;
+        Mon, 20 Nov 2023 23:31:59 -0800 (PST)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id df10-20020a5d5b8a000000b00331a55d3875sm9435549wrb.38.2023.11.20.23.31.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 20 Nov 2023 23:31:59 -0800 (PST)
+Date: Tue, 21 Nov 2023 02:31:56 -0500
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 00/14] staging: rtl8192e: IS_DOT11D_ENABLE() returns
+ always false
+Message-ID: <d911d509-8677-444c-ad7f-92dd141e8e1e@suswa.mountain>
+References: <cover.1700431464.git.philipp.g.hortmann@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="mz5q3snxap7iktcd"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231026214739.2509271-2-u.kleine-koenig@pengutronix.de>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-staging@lists.linux.dev
+In-Reply-To: <cover.1700431464.git.philipp.g.hortmann@gmail.com>
 
+Looks good.
 
---mz5q3snxap7iktcd
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Reviewed-by: Dan Carpenter <dan.carpenter@linaro.org>
 
-Hello,
+regards,
+dan carpenter
 
-On Thu, Oct 26, 2023 at 11:47:40PM +0200, Uwe Kleine-K=F6nig wrote:
-> The .remove() callback for a platform driver returns an int which makes
-> many driver authors wrongly assume it's possible to do error handling by
-> returning an error code. However the value returned is ignored (apart
-> from emitting a warning) and this typically results in resource leaks.
->=20
-> To improve here there is a quest to make the remove callback return
-> void. In the first step of this quest all drivers are converted to
-> .remove_new(), which already returns void. Eventually after all drivers
-> are converted, .remove_new() will be renamed to .remove().
->=20
-> Trivially convert the three tegra-video drivers from always returning
-> zero in the remove callback to the void returning variant.
->=20
-> Signed-off-by: Uwe Kleine-K=F6nig <u.kleine-koenig@pengutronix.de>
-
-who feels responsible to pick up this patch?
-
-Best regards
-Uwe
-
---=20
-Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
-Industrial Linux Solutions                 | https://www.pengutronix.de/ |
-
---mz5q3snxap7iktcd
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmVbzk0ACgkQj4D7WH0S
-/k7r5wf8CX9mMyqwzyJ6tpB5hPAG+N8GGNa/IoiYHFr08gcvADUL3t1smIjE85W1
-u3t4a2ZC1tv6u6xDjLAuiz8XPZONpPYaXuNBBHHJpM9jjt4yGB02vI+GhKDyRQ2n
-YoZdAc88NK6YgYT6AMynNTXI09N0GL5V0H1bZj4hNxQZIgbawhqi1dyOW4U7vWXz
-y/TXPuCjDBa9hnPDYHTx37S8ShwXyZ4MK3wiBMVIa4WftBxOJBWP47RPAaOQ8LNq
-aCdH8AcSRoY6/3jmemxjBGfjdtzUl0xYOb6XLD4LoPGLk24L/VKbQz1h5DPa1JAv
-Hc9dKbIEvkS4a0mvzjbw4sTkq1viCw==
-=21Dw
------END PGP SIGNATURE-----
-
---mz5q3snxap7iktcd--
