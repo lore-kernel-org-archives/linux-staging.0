@@ -1,113 +1,75 @@
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.20])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08B952575F
-	for <linux-staging@lists.linux.dev>; Wed, 22 Nov 2023 12:17:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmx.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF629156F9;
+	Wed, 22 Nov 2023 12:23:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.b="gwGcZpgW"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
-	s=s31663417; t=1700655429; x=1701260229; i=wahrenst@gmx.net;
-	bh=5a7SpBIqBTj9NQorp+HarjQLazaHAF52dvsI8opYEco=;
-	h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:
-	 In-Reply-To;
-	b=gwGcZpgW8otqf3uW/m2+GQ+xA/lPEB8X6qgkk8IM4zLNM2Z+DNGftdwMAJadm+Em
-	 vcXTUYdScFby4GUpEuNvVmVtkNFWuGLZU6hO9j3cQV5Ktc1ugwIth4rghgTjmCLo4
-	 Z5XN6QqEPIfqcEMV/UpEtCUCHQ9FTIcQAPQH7NBlqzuxvYMK+j2v2jf+iVsg1nmeq
-	 SZXFclh+LR89Lphb+D3g9YLWK693TgVQwpDhFXjMR9Gz5UWClIsrjcTyHNPx/TJvr
-	 kBQuTxo+x+a0ewBYOPKPa+OBw0JHjvxSGd3ws1YTjbeF6zKSa20V7okrH2j6XwpgD
-	 fvlsTCnmu1e9e7u4Cw==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from [192.168.1.129] ([37.4.248.43]) by mail.gmx.net (mrgmx105
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1MhD6g-1rayJy3KHy-00eN5S; Wed, 22
- Nov 2023 13:17:08 +0100
-Message-ID: <8351ddaf-c63e-4527-809f-d002bd79ad14@gmx.net>
-Date: Wed, 22 Nov 2023 13:17:07 +0100
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="2YTstX2M"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AE7CFC433C7;
+	Wed, 22 Nov 2023 12:23:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1700655784;
+	bh=DFhsCyEH5nky3Jc1oIQ8dW/1lPBVcizFpK8ZXl27xXg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=2YTstX2MYQv0mw9KfEDkiXLQ6NHWhsucvPF4FUR4ltAkcqYMd19EFBp2ruC4yMR01
+	 tw5Vd9qVwhjn7oKsdbtg4vwFNYUMFunO+RGYk+VLhIi522hKYQ+mOJcb6LKMo40T7w
+	 B3u9LsEw01kru4z1ieQyCHG1YLWWwDV4vBpXBuUI=
+Date: Wed, 22 Nov 2023 12:23:00 +0000
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Stefan Wahren <wahrenst@gmx.net>
+Cc: Florian Fainelli <florian.fainelli@broadcom.com>,
+	Dan Carpenter <dan.carpenter@linaro.org>,
+	Phil Elwell <phil@raspberrypi.com>,
+	Dave Stevenson <dave.stevenson@raspberrypi.com>,
+	Kieran Bingham <kieran.bingham@ideasonboard.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Umang Jain <umang.jain@ideasonboard.com>,
+	linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+	linux-media@vger.kernel.org,
+	"Ricardo B . Marliere" <ricardo@marliere.net>
+Subject: Re: [PATCH V2 0/3] staging: vchiq_arm: move state dump to debugfs
+Message-ID: <2023112238-acting-removing-50bd@gregkh>
+References: <20231029124837.119832-1-wahrenst@gmx.net>
+ <8351ddaf-c63e-4527-809f-d002bd79ad14@gmx.net>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH V2 0/3] staging: vchiq_arm: move state dump to debugfs
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Florian Fainelli <florian.fainelli@broadcom.com>,
- Dan Carpenter <dan.carpenter@linaro.org>, Phil Elwell
- <phil@raspberrypi.com>, Dave Stevenson <dave.stevenson@raspberrypi.com>,
- Kieran Bingham <kieran.bingham@ideasonboard.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Umang Jain <umang.jain@ideasonboard.com>, linux-staging@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
- "Ricardo B . Marliere" <ricardo@marliere.net>
-References: <20231029124837.119832-1-wahrenst@gmx.net>
-Content-Language: en-US
-From: Stefan Wahren <wahrenst@gmx.net>
-In-Reply-To: <20231029124837.119832-1-wahrenst@gmx.net>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Provags-ID: V03:K1:p0oLHKWYdNhSl73B7peyp8TDoBwFXoVkK+RCNfI4SdwEd85tQTr
- V+b1DNRjebmEF7qIwQ7MCN+JBa8NrJ3e+nYilrHQwiiR37kR+iT2Da1sIjnjS/uG4g78xGs
- MRxsRVbsCqVx03oDcTQdN+mMtf7kHLsDce7ECD4NoQkahNH3RzaGL6JpOcaV9lEnkBVggxg
- qGNaMIEieloJbfBnSRXhw==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:8P2WDA8tsIs=;AWIv+OuOsyn5KiGUtheE0QUjJUr
- Cnw1lYT8PWLtpUegjUYajXIjTwFl/heK2qOKgkVkXdPaxszsuN5IQCqSPjU8F11eEmwauWpfJ
- cNdrLBpDBgpg0qgxURCWmrWsrKawrG/1XnldT+aDkIQYzpgXMEtUJBsPqhTq59lbu1v6BfEw7
- l5b+sZDH6EMRUAm/Af8vnHUKawQ1+t+Kv4Zns8IWMAXvx3kxu68AXFa4sVtDlcSBqFssyLQEJ
- MqEyyyrAAItwWo7pk5wRvwinSu7L0JJk220/KJntDwqm8yCeF9ow4KqOMr+cpdzRk0Es7IGAQ
- eI7e3ZOpM5nScPVlL2k0UbQO4RO+DRtFnIB+4ENcsx9yh7y+0kcM8eRNDiihlqSsimoX0xwfp
- IeUQMGqmupmnKNSUp9TB0M8e0+vzUf1kMfh4Befs3qepHfxQ3BLcZKo/Yk0ZYJtbiMOKOKXTp
- r40gDsGmtrGeh9dEKYY4FrqxQ19zzl06gbmX1JRRX3H9AjYDhH32c/IZ384ahGupZO32AlVYi
- KLX51yB7j4Hoo42wC8sroV+smMCBCbDqGKLdH8w8qClp6MljVyHCuaRUV5sfn7gg1VX0g8Fiy
- R5yfFmdF7vIme2hC1wC4eaRJZXNUP39XSKorBoJP9QFP3Kh4GcdvT12BHo9lwClv2EbMAgINK
- w5nAlCa9wM6RPJnr3LLCHisVTcsU1+YSl13HF4xnsimH7A4ygNaq1HGm1ZZpNu2JOVcIHhUBo
- nxJrxxUFBig0VKjXDA2ojv+NqIJPpBGQ7fudLbXUq0gWGCiobKZQEl51R99c1tpNe3w6un0SG
- sU8YKgHcafGS2nli2oeeLrfMp8xlxQfzrAfus6TS/aGETuWyWzjufic5/zFOV6vvE/+5n+7ms
- ihK7CggPUqpKrtV2oXZh1UfubDa++Li8/Df9tIcpGwL4zsbZhioM++E28zhle5Dn0lGUus4bh
- KKreFQVS4BEH76e6RmArvYa4ZpI=
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <8351ddaf-c63e-4527-809f-d002bd79ad14@gmx.net>
 
-Hi Greg,
+On Wed, Nov 22, 2023 at 01:17:07PM +0100, Stefan Wahren wrote:
+> Hi Greg,
+> 
+> Am 29.10.23 um 13:48 schrieb Stefan Wahren:
+> > Hello,
+> > 
+> > since recent discussion raised the question about the future of debugfs
+> > for vchiq [1], i want to submit this cleanup patch series as part of the
+> > discussion and a small Halloween present ;-)
+> > 
+> > Best regards
+> > 
+> > Changes in V2:
+> > - rebase on top of current staging-next
+> > - address suggestion from Laurent Pinchart in patch 1
+> > - fix checkpatch issue (too long line) in patch 2
+> > 
+> > [1] - https://lore.kernel.org/lkml/7ea529c2-3da6-47df-9b09-28d4ab36c4ef@kadam.mountain/T/
+> > 
+> > Stefan Wahren (3):
+> >    staging: vchiq_core: Make vchiq_dump_service_state static
+> >    staging: vchiq_core: Shorten bulk TX/RX pending dump
+> >    staging: vchiq_arm: move state dump to debugfs
+> 
+> should i resend incl. the received Reviewed-by tags?
 
-Am 29.10.23 um 13:48 schrieb Stefan Wahren:
-> Hello,
->
-> since recent discussion raised the question about the future of debugfs
-> for vchiq [1], i want to submit this cleanup patch series as part of the
-> discussion and a small Halloween present ;-)
->
-> Best regards
->
-> Changes in V2:
-> - rebase on top of current staging-next
-> - address suggestion from Laurent Pinchart in patch 1
-> - fix checkpatch issue (too long line) in patch 2
->
-> [1] - https://lore.kernel.org/lkml/7ea529c2-3da6-47df-9b09-28d4ab36c4ef@kadam.mountain/T/
->
-> Stefan Wahren (3):
->    staging: vchiq_core: Make vchiq_dump_service_state static
->    staging: vchiq_core: Shorten bulk TX/RX pending dump
->    staging: vchiq_arm: move state dump to debugfs
+No, just wait for me to catch up with staging patches.  Should be a week
+or so...
 
-should i resend incl. the received Reviewed-by tags?
+tjhanks,
 
->
->   .../interface/vchiq_arm/vchiq_arm.c           |  94 ++----
->   .../interface/vchiq_arm/vchiq_arm.h           |   7 -
->   .../interface/vchiq_arm/vchiq_core.c          | 274 +++++++-----------
->   .../interface/vchiq_arm/vchiq_core.h          |  16 +-
->   .../interface/vchiq_arm/vchiq_debugfs.c       |  10 +
->   .../interface/vchiq_arm/vchiq_dev.c           |  21 --
->   6 files changed, 137 insertions(+), 285 deletions(-)
->
-> --
-> 2.34.1
->
->
-> _______________________________________________
-> linux-arm-kernel mailing list
-> linux-arm-kernel@lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-arm-kernel
-
+greg k-h
