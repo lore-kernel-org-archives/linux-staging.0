@@ -1,124 +1,80 @@
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3F51224C2
-	for <linux-staging@lists.linux.dev>; Thu, 23 Nov 2023 10:14:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 535C6249E9
+	for <linux-staging@lists.linux.dev>; Thu, 23 Nov 2023 12:52:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="cisBLx8H"
-Received: from [100.92.221.145] (cola.collaboradmins.com [195.201.22.229])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: martyn)
-	by madras.collabora.co.uk (Postfix) with ESMTPSA id 0C58C6607390;
-	Thu, 23 Nov 2023 10:14:03 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1700734445;
-	bh=1AzfTh3xW+R7jMoKi0iXP3NjuJBvCg9wANdNbnewW9A=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=cisBLx8H2xJ/JQT35+N+k8CsxmBeBkHf3H7mYH9wRTBTyCxPb/Ev+fmMqupAigRZ8
-	 Zi1A0RpzrwtsFo3INoctqZDCsQ5ZnTklwIgAF038NxFSIhEy2dsgy/q0XntUkVhPbN
-	 Ad4iMHzZkJSG4xnX2q9dyF2iPPPmZqXu2jcWvAc0XPqlPDUd3RPChgNO7+MKEGAp+d
-	 j5U/pFXjbyethUNEVJSvfKr+eNDtIn/T2axJOIvIziS2oNSLo7PGHg4qc0sV3ajYz4
-	 bCPh1Q4RdG4ZAm5SHm0n/Tis1gyPslTleBBN9PebmpBFXf8KKhIhdv2GJVNixfyJc3
-	 wKG0m++8Lb2FA==
-Message-ID: <c1210724-66e1-479d-958b-3e777b1266df@collabora.com>
-Date: Thu, 23 Nov 2023 10:14:00 +0000
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="fXkVuCCk"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 03413C433C7;
+	Thu, 23 Nov 2023 12:52:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1700743971;
+	bh=EOAR9aStMcqAj4DF61/GK2dpwSnF0ONfVuJDcw9Utyc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=fXkVuCCkg464swbbqS6oYlj++sI478XJM0yJropc+VN9LlD2mEYYAoSXkB9cB46GM
+	 b9uNdZl+wQB8g+LQ+tgsSCd5eiaL1Uz1JEyP2R+NwqAETh4wuBXf2LZRAL8QhFg0Xo
+	 sU9eFAbQx1IQMnUw/aFcjxOOFQGuasZ9BsOlLfnQ=
+Date: Thu, 23 Nov 2023 12:44:13 +0000
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Gary Rookard <garyrookard@fastmail.org>
+Cc: philipp.g.hortmann@gmail.com, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 0/5] staging: rtl8192e: renaming of 5 different variables
+ patch series
+Message-ID: <2023112353-appraisal-snort-6d8a@gregkh>
+References: <20231121181435.9337-1-garyrookard@fastmail.org>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] MAINTAINERS: Mark VME subsystem as orphan
-Content-Language: en-US
-To: Bagas Sanjaya <bagasdotme@gmail.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Linux Staging Drivers <linux-staging@lists.linux.dev>,
- Linux Kernel Janitors <kernel-janitors@vger.kernel.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Soumya Negi <soumya.negi97@gmail.com>,
- Alexon Oliveira <alexondunkan@gmail.com>, Matt Jan <zoo868e@gmail.com>,
- Jonathan Bergh <bergh.jonathan@gmail.com>, Dan Carpenter
- <error27@gmail.com>, Alison Schofield <alison.schofield@intel.com>,
- Bruno Moreira-Guedes <codeagain@codeagain.dev>,
- Krzysztof Kozlowski <krzk@kernel.org>, Jakub Kicinski <kuba@kernel.org>
-References: <20231123083406.12129-2-bagasdotme@gmail.com>
-From: Martyn Welch <martyn.welch@collabora.com>
-In-Reply-To: <20231123083406.12129-2-bagasdotme@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231121181435.9337-1-garyrookard@fastmail.org>
 
+On Tue, Nov 21, 2023 at 01:14:30PM -0500, Gary Rookard wrote:
+> Hi,
+> 
+> This patch series renames 5 different variables from
+> Pascal/CamelCase to snake case.
+> 
+> Linux kernel coding style (cleanup), checkpatch Avoid CamelCase.
+> Driver/module rtl8291e compiles.
+> 
+> Patch 1/5) renamed variable from HTMcsToDataRate -> ht_mcs_to_data_rate
+> Patch 2/5) renamed variable from TXCountToDAtaRate -> tx-count_to_data_rate
+> Patch 3/5) renamed variable from IsHTHalfNmodeAPs -> is_ht_half_nmode_aps
+> Patch 4/5) renamed variable from HTIOTPeerDetermine -> ht_iot_peer_determine
+> Patch 5/5) renamed variable from HTIOTActIsMgntUseCCK6M -> ht_iot_act_is_mgnt_use_cck_6m
+> 
+> Regards,
+> Gary
 
-On 23/11/2023 08:34, Bagas Sanjaya wrote:
-> Martyn Welch lost his access to VME hardware [1]; and Manohar Vanga has been
-> MIA since early January 2014 (his last message was [2]). Martyn admitted
-> that the subsystem is basically orphan, so mark it as such. As a bonus,
-> add CREDITS entries for the former subsystem maintainers.
+Hi,
 
-Acked-by: Martyn Welch <martyn@welchs.me.uk>
+This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
+a patch that has triggered this response.  He used to manually respond
+to these common problems, but in order to save his sanity (he kept
+writing the same thing over and over, yet to different people), I was
+created.  Hopefully you will not take offence and will fix the problem
+in your patch and resubmit it so that it can be accepted into the Linux
+kernel tree.
 
-> Link: https://lore.kernel.org/r/fe8ac0db-d6cc-41bc-b926-484b418e1720@collabora.com/ [1]
-> Link: https://lore.kernel.org/r/CAEktxaFL=3cmU4vZS2akiAR2vG-3d+9HwTZvBvf5JXuThHoOKg@mail.gmail.com/ [2]
-> Cc: Martyn Welch <martyn.welch@collabora.com>
-> Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
-> ---
-> Changes since v1 [3]:
->
->   * Orphanize the subsystem (Martyn)
->   * Sort Manohar's CREDITS entry
->
-> [3]: https://lore.kernel.org/linux-staging/20231122094156.30642-1-bagasdotme@gmail.com/
->
->   CREDITS     | 8 ++++++++
->   MAINTAINERS | 5 +----
->   2 files changed, 9 insertions(+), 4 deletions(-)
->
-> diff --git a/CREDITS b/CREDITS
-> index f33a33fd237170..ba6eb6274f8bed 100644
-> --- a/CREDITS
-> +++ b/CREDITS
-> @@ -3916,6 +3916,10 @@ S: 21513 Conradia Ct
->   S: Cupertino, CA 95014
->   S: USA
->   
-> +N: Manohar Vanga
-> +E: manohar.vanga@gmail.com
-> +D: VME subsystem maintainer
-> +
->   N: Thibaut Varène
->   E: hacks+kernel@slashdirt.org
->   W: http://hacks.slashdirt.org/
-> @@ -4016,6 +4020,10 @@ D: Fixes for the NE/2-driver
->   D: Miscellaneous MCA-support
->   D: Cleanup of the Config-files
->   
-> +N: Martyn Welch
-> +E: martyn@welchs.me.uk
-> +D: VME subsystem maintainer
-> +
->   N: Matt Welsh
->   E: mdw@metalab.unc.edu
->   W: http://www.cs.berkeley.edu/~mdw
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index ea790149af7951..ff083d12001489 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -23234,11 +23234,8 @@ F:	include/linux/vmalloc.h
->   F:	mm/vmalloc.c
->   
->   VME SUBSYSTEM
-> -M:	Martyn Welch <martyn@welchs.me.uk>
-> -M:	Manohar Vanga <manohar.vanga@gmail.com>
-> -M:	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
->   L:	linux-kernel@vger.kernel.org
-> -S:	Odd fixes
-> +S:	Orphan
->   T:	git git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/char-misc.git
->   F:	Documentation/driver-api/vme.rst
->   F:	drivers/staging/vme_user/
->
-> base-commit: 98b1cc82c4affc16f5598d4fa14b1858671b2263
+You are receiving this message because of the following common error(s)
+as indicated below:
+
+- This looks like a new version of a previously submitted patch, but you
+  did not list below the --- line any changes from the previous version.
+  Please read the section entitled "The canonical patch format" in the
+  kernel file, Documentation/process/submitting-patches.rst for what
+  needs to be done here to properly describe this.
+
+If you wish to discuss this problem further, or you have questions about
+how to resolve this issue, please feel free to respond to this email and
+Greg will reply once he has dug out from the pending patches received
+from other developers.
+
+thanks,
+
+greg k-h's patch email bot
