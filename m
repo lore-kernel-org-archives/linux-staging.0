@@ -1,145 +1,124 @@
-Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C69441CABD
-	for <linux-staging@lists.linux.dev>; Thu, 23 Nov 2023 08:35:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3F51224C2
+	for <linux-staging@lists.linux.dev>; Thu, 23 Nov 2023 10:14:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="C5qMsRQs"
-Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-1cf61eed213so5220705ad.2
-        for <linux-staging@lists.linux.dev>; Thu, 23 Nov 2023 00:35:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1700728522; x=1701333322; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=P+ePl85i/Re/poRcEUXCR+kOqp02ehB66V8Z/F/iETU=;
-        b=C5qMsRQsN0ch8khHo3iSeNauuDZqJMWM9S2LgQtQp7sUIx/KC3Fr1eE9kiYZifFCbZ
-         S4tjrJm8K9OywCbAMwuHULD79Z1PMRsMkMPU3USX52CXhUiHDPBPJ8Bp9m/FozfSgmp9
-         QYbT5Pb4OnnEC1pdTiwo0rlvAKTJPWh5dl0ETgKml6+w8RMzmEupy8kiGu38Vg1ZNje+
-         HJ/zw9X4xM0Uhww8CkaolSsEXlw2TiN1A25JGX5/l5dM1Ii2t9cf7TJR1UggFWjDvEjL
-         E5JtH5y4UTmap7ukQIu53hqOSFGYXwAZ1LjbPBMB1u9FnnzuHYUHL8lkexwwSE1JcCE1
-         7oZw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700728522; x=1701333322;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=P+ePl85i/Re/poRcEUXCR+kOqp02ehB66V8Z/F/iETU=;
-        b=fPUFrH3zM7lgU0sdaVMDapWdPnInFsqWGcIhZmfmdymTPpp9a31ytj6TgD0fe4No0H
-         4Oaxj5PmfwmlIrhDKAUxpFGC/9IY3Lt+X3tDRfpM00nAHssjUlydbg+Rtt+NZKMJlQYG
-         GGty9ys3dLztKY5FQUEaYzv4jKqitniyMmz+5GQSXxwhyJBXPUaGaVxHcjO9K4iXY2xy
-         rYnUBBjURRd8aogrs+GMW+/aaxq2LQK8eN0T9caa1lJri4NX6IuNR/pgRF8dCiVYnJa0
-         MqY06H5NVqYAO595crTyEblbKM8kd/P+SemS0hN+hmZTJOY1H9Lw0RBDAceLju2E8yJV
-         vCgw==
-X-Gm-Message-State: AOJu0YwNKCGYzk2IUHPICpFCmjdsctahRKURoW5UBDcndXAiZvpRrsdv
-	Eoc/6yZsEfdShGnJJfIAynY=
-X-Google-Smtp-Source: AGHT+IFjXHU1gr/2iPKHRsm/ZJzrbEmDVs+Z83B5YqlUVCClP1Qhj6B+Mz30No3awDSJ1jZyuKkIoA==
-X-Received: by 2002:a17:902:b417:b0:1cf:6d26:9de3 with SMTP id x23-20020a170902b41700b001cf6d269de3mr5062654plr.39.1700728521988;
-        Thu, 23 Nov 2023 00:35:21 -0800 (PST)
-Received: from archie.me ([103.131.18.64])
-        by smtp.gmail.com with ESMTPSA id g13-20020a170902c38d00b001c0a414695bsm788707plg.43.2023.11.23.00.35.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 23 Nov 2023 00:35:21 -0800 (PST)
-Received: by archie.me (Postfix, from userid 1000)
-	id F07EF1024DA1A; Thu, 23 Nov 2023 15:35:17 +0700 (WIB)
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-	Linux Staging Drivers <linux-staging@lists.linux.dev>,
-	Linux Kernel Janitors <kernel-janitors@vger.kernel.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Soumya Negi <soumya.negi97@gmail.com>,
-	Alexon Oliveira <alexondunkan@gmail.com>,
-	Matt Jan <zoo868e@gmail.com>,
-	Jonathan Bergh <bergh.jonathan@gmail.com>,
-	Dan Carpenter <error27@gmail.com>,
-	Alison Schofield <alison.schofield@intel.com>,
-	Bruno Moreira-Guedes <codeagain@codeagain.dev>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Bagas Sanjaya <bagasdotme@gmail.com>,
-	Martyn Welch <martyn.welch@collabora.com>
-Subject: [PATCH v2] MAINTAINERS: Mark VME subsystem as orphan
-Date: Thu, 23 Nov 2023 15:34:03 +0700
-Message-ID: <20231123083406.12129-2-bagasdotme@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="cisBLx8H"
+Received: from [100.92.221.145] (cola.collaboradmins.com [195.201.22.229])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: martyn)
+	by madras.collabora.co.uk (Postfix) with ESMTPSA id 0C58C6607390;
+	Thu, 23 Nov 2023 10:14:03 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1700734445;
+	bh=1AzfTh3xW+R7jMoKi0iXP3NjuJBvCg9wANdNbnewW9A=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=cisBLx8H2xJ/JQT35+N+k8CsxmBeBkHf3H7mYH9wRTBTyCxPb/Ev+fmMqupAigRZ8
+	 Zi1A0RpzrwtsFo3INoctqZDCsQ5ZnTklwIgAF038NxFSIhEy2dsgy/q0XntUkVhPbN
+	 Ad4iMHzZkJSG4xnX2q9dyF2iPPPmZqXu2jcWvAc0XPqlPDUd3RPChgNO7+MKEGAp+d
+	 j5U/pFXjbyethUNEVJSvfKr+eNDtIn/T2axJOIvIziS2oNSLo7PGHg4qc0sV3ajYz4
+	 bCPh1Q4RdG4ZAm5SHm0n/Tis1gyPslTleBBN9PebmpBFXf8KKhIhdv2GJVNixfyJc3
+	 wKG0m++8Lb2FA==
+Message-ID: <c1210724-66e1-479d-958b-3e777b1266df@collabora.com>
+Date: Thu, 23 Nov 2023 10:14:00 +0000
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2181; i=bagasdotme@gmail.com; h=from:subject; bh=RF8BTmAc6aqA8QPnd9h43mZ5xpWxpB+c0g20PoeJqZE=; b=owGbwMvMwCX2bWenZ2ig32LG02pJDKnxvD+m9P+Y3hk5q/oUo9mztxMOFDkEHDzEJzqv50pJY 53BG56ZHaUsDGJcDLJiiiyTEvmaTu8yErnQvtYRZg4rE8gQBi5OAZjIpgmMDEuDckT8Z2y4Zy/F zl6qFq7x7+QEkcdK1/o00qO+HGpzYWFkePHAetUP27eHWF8dMiyT33pyjTJ7YseHlfe1eebIs56 +yQoA
-X-Developer-Key: i=bagasdotme@gmail.com; a=openpgp; fpr=701B806FDCA5D3A58FFB8F7D7C276C64A5E44A1D
-Content-Type: text/plain; charset=UTF-8
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] MAINTAINERS: Mark VME subsystem as orphan
+Content-Language: en-US
+To: Bagas Sanjaya <bagasdotme@gmail.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Linux Staging Drivers <linux-staging@lists.linux.dev>,
+ Linux Kernel Janitors <kernel-janitors@vger.kernel.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Soumya Negi <soumya.negi97@gmail.com>,
+ Alexon Oliveira <alexondunkan@gmail.com>, Matt Jan <zoo868e@gmail.com>,
+ Jonathan Bergh <bergh.jonathan@gmail.com>, Dan Carpenter
+ <error27@gmail.com>, Alison Schofield <alison.schofield@intel.com>,
+ Bruno Moreira-Guedes <codeagain@codeagain.dev>,
+ Krzysztof Kozlowski <krzk@kernel.org>, Jakub Kicinski <kuba@kernel.org>
+References: <20231123083406.12129-2-bagasdotme@gmail.com>
+From: Martyn Welch <martyn.welch@collabora.com>
+In-Reply-To: <20231123083406.12129-2-bagasdotme@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-Martyn Welch lost his access to VME hardware [1]; and Manohar Vanga has been
-MIA since early January 2014 (his last message was [2]). Martyn admitted
-that the subsystem is basically orphan, so mark it as such. As a bonus,
-add CREDITS entries for the former subsystem maintainers.
 
-Link: https://lore.kernel.org/r/fe8ac0db-d6cc-41bc-b926-484b418e1720@collabora.com/ [1]
-Link: https://lore.kernel.org/r/CAEktxaFL=3cmU4vZS2akiAR2vG-3d+9HwTZvBvf5JXuThHoOKg@mail.gmail.com/ [2]
-Cc: Martyn Welch <martyn.welch@collabora.com>
-Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
----
-Changes since v1 [3]:
+On 23/11/2023 08:34, Bagas Sanjaya wrote:
+> Martyn Welch lost his access to VME hardware [1]; and Manohar Vanga has been
+> MIA since early January 2014 (his last message was [2]). Martyn admitted
+> that the subsystem is basically orphan, so mark it as such. As a bonus,
+> add CREDITS entries for the former subsystem maintainers.
 
- * Orphanize the subsystem (Martyn)
- * Sort Manohar's CREDITS entry
+Acked-by: Martyn Welch <martyn@welchs.me.uk>
 
-[3]: https://lore.kernel.org/linux-staging/20231122094156.30642-1-bagasdotme@gmail.com/
-
- CREDITS     | 8 ++++++++
- MAINTAINERS | 5 +----
- 2 files changed, 9 insertions(+), 4 deletions(-)
-
-diff --git a/CREDITS b/CREDITS
-index f33a33fd237170..ba6eb6274f8bed 100644
---- a/CREDITS
-+++ b/CREDITS
-@@ -3916,6 +3916,10 @@ S: 21513 Conradia Ct
- S: Cupertino, CA 95014
- S: USA
- 
-+N: Manohar Vanga
-+E: manohar.vanga@gmail.com
-+D: VME subsystem maintainer
-+
- N: Thibaut Varène
- E: hacks+kernel@slashdirt.org
- W: http://hacks.slashdirt.org/
-@@ -4016,6 +4020,10 @@ D: Fixes for the NE/2-driver
- D: Miscellaneous MCA-support
- D: Cleanup of the Config-files
- 
-+N: Martyn Welch
-+E: martyn@welchs.me.uk
-+D: VME subsystem maintainer
-+
- N: Matt Welsh
- E: mdw@metalab.unc.edu
- W: http://www.cs.berkeley.edu/~mdw
-diff --git a/MAINTAINERS b/MAINTAINERS
-index ea790149af7951..ff083d12001489 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -23234,11 +23234,8 @@ F:	include/linux/vmalloc.h
- F:	mm/vmalloc.c
- 
- VME SUBSYSTEM
--M:	Martyn Welch <martyn@welchs.me.uk>
--M:	Manohar Vanga <manohar.vanga@gmail.com>
--M:	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
- L:	linux-kernel@vger.kernel.org
--S:	Odd fixes
-+S:	Orphan
- T:	git git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/char-misc.git
- F:	Documentation/driver-api/vme.rst
- F:	drivers/staging/vme_user/
-
-base-commit: 98b1cc82c4affc16f5598d4fa14b1858671b2263
--- 
-An old man doll... just what I always wanted! - Clara
-
+> Link: https://lore.kernel.org/r/fe8ac0db-d6cc-41bc-b926-484b418e1720@collabora.com/ [1]
+> Link: https://lore.kernel.org/r/CAEktxaFL=3cmU4vZS2akiAR2vG-3d+9HwTZvBvf5JXuThHoOKg@mail.gmail.com/ [2]
+> Cc: Martyn Welch <martyn.welch@collabora.com>
+> Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
+> ---
+> Changes since v1 [3]:
+>
+>   * Orphanize the subsystem (Martyn)
+>   * Sort Manohar's CREDITS entry
+>
+> [3]: https://lore.kernel.org/linux-staging/20231122094156.30642-1-bagasdotme@gmail.com/
+>
+>   CREDITS     | 8 ++++++++
+>   MAINTAINERS | 5 +----
+>   2 files changed, 9 insertions(+), 4 deletions(-)
+>
+> diff --git a/CREDITS b/CREDITS
+> index f33a33fd237170..ba6eb6274f8bed 100644
+> --- a/CREDITS
+> +++ b/CREDITS
+> @@ -3916,6 +3916,10 @@ S: 21513 Conradia Ct
+>   S: Cupertino, CA 95014
+>   S: USA
+>   
+> +N: Manohar Vanga
+> +E: manohar.vanga@gmail.com
+> +D: VME subsystem maintainer
+> +
+>   N: Thibaut Varène
+>   E: hacks+kernel@slashdirt.org
+>   W: http://hacks.slashdirt.org/
+> @@ -4016,6 +4020,10 @@ D: Fixes for the NE/2-driver
+>   D: Miscellaneous MCA-support
+>   D: Cleanup of the Config-files
+>   
+> +N: Martyn Welch
+> +E: martyn@welchs.me.uk
+> +D: VME subsystem maintainer
+> +
+>   N: Matt Welsh
+>   E: mdw@metalab.unc.edu
+>   W: http://www.cs.berkeley.edu/~mdw
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index ea790149af7951..ff083d12001489 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -23234,11 +23234,8 @@ F:	include/linux/vmalloc.h
+>   F:	mm/vmalloc.c
+>   
+>   VME SUBSYSTEM
+> -M:	Martyn Welch <martyn@welchs.me.uk>
+> -M:	Manohar Vanga <manohar.vanga@gmail.com>
+> -M:	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+>   L:	linux-kernel@vger.kernel.org
+> -S:	Odd fixes
+> +S:	Orphan
+>   T:	git git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/char-misc.git
+>   F:	Documentation/driver-api/vme.rst
+>   F:	drivers/staging/vme_user/
+>
+> base-commit: 98b1cc82c4affc16f5598d4fa14b1858671b2263
