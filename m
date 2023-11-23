@@ -1,23 +1,23 @@
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DA63224E3
-	for <linux-staging@lists.linux.dev>; Thu, 23 Nov 2023 13:42:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 997BE25757
+	for <linux-staging@lists.linux.dev>; Thu, 23 Nov 2023 13:49:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="NfZ7kKJb"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="eRIyaeJc"
 Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 9ACF5DB7;
-	Thu, 23 Nov 2023 14:42:00 +0100 (CET)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id AB9C0E52;
+	Thu, 23 Nov 2023 14:49:02 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1700746920;
-	bh=ipKTtdDTQQuc8CbZO5+BiK1yiMtst+GzoqvW0dIfOWk=;
+	s=mail; t=1700747342;
+	bh=6di/q2LeJDdBkTyqVzwKVLsTfrj/8IGXR6rMoM2i4Mg=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=NfZ7kKJbp5Wetza26Dc230y/OoTY9inYiaMZm8htbLkyMSxHaUNHXBzgg2V1ZSM59
-	 +j1cImBybILAOrW/LzrsUm9bqNO8CxC7WZS2DRfBRrOaFWiHAReKq64qAqQPcSgFl2
-	 hmtFW4Mq84VpZrYAcDoI2YuBP3r02WHC2UsMhBeQ=
-Date: Thu, 23 Nov 2023 15:42:39 +0200
+	b=eRIyaeJcaUfBr2+0Bg1kip7vQ7FCGEZhZmYpcgwhHHLeBrueGkm4oKvbOlA7rPcE7
+	 3E04Z24D1la1+ssHKfRrxihEI9dJXO7eSoseeeyjDB90RlzbM1gZN+y4Hvxs5tGOk6
+	 kzTYT7eOWml3lOx0YYbCGyerfy9z+YCKxhrmNlDI=
+Date: Thu, 23 Nov 2023 15:49:41 +0200
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: Umang Jain <umang.jain@ideasonboard.com>, linux-staging@lists.linux.dev,
@@ -27,14 +27,13 @@ Cc: Umang Jain <umang.jain@ideasonboard.com>, linux-staging@lists.linux.dev,
 	Dan Carpenter <error27@gmail.com>,
 	Kieran Bingham <kieran.bingham@ideasonboard.com>,
 	Phil Elwell <phil@raspberrypi.com>,
-	Dave Stevenson <dave.stevenson@raspberrypi.com>,
-	"Ricardo B . Marliere" <ricardo@marliere.net>
-Subject: Re: [PATCH 1/9] staging: vc04_services: vchiq_core: Log through
- struct vchiq_instance
-Message-ID: <20231123134239.GC16377@pendragon.ideasonboard.com>
+	Dave Stevenson <dave.stevenson@raspberrypi.com>
+Subject: Re: [PATCH 6/9] staging: vc04_services: Drop vchiq_log_error() in
+ favour of dev_dbg
+Message-ID: <20231123134941.GD16377@pendragon.ideasonboard.com>
 References: <20231107095156.365492-1-umang.jain@ideasonboard.com>
- <20231107095156.365492-2-umang.jain@ideasonboard.com>
- <2023112324-boxing-amiss-6df8@gregkh>
+ <20231107095156.365492-7-umang.jain@ideasonboard.com>
+ <2023112322-wife-aspect-135b@gregkh>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -43,26 +42,46 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <2023112324-boxing-amiss-6df8@gregkh>
+In-Reply-To: <2023112322-wife-aspect-135b@gregkh>
 
-On Thu, Nov 23, 2023 at 12:57:33PM +0000, Greg Kroah-Hartman wrote:
-> On Tue, Nov 07, 2023 at 04:51:48AM -0500, Umang Jain wrote:
-> > The handle_to_service() helper can return NULL, so `service` pointer
-> > can indeed be set to NULL. So, do not log through service pointer
-> > (which will cause NULL-deference), instead, use the vchiq_instance
-> > function argument to get access to the struct device.
+On Thu, Nov 23, 2023 at 01:02:45PM +0000, Greg Kroah-Hartman wrote:
+> On Tue, Nov 07, 2023 at 04:51:53AM -0500, Umang Jain wrote:
+> > Drop vchiq_log_error() macro which wraps dev_dbg(). Introduce the usage
+> > of dev_dbg() directly.
 > > 
-> > Fixes: f67af5940d6d("staging: vc04: Convert(and rename) vchiq_log_info() to use dynamic debug")
+> > Add a new enum vchiq_log_type and log_type() helper to faciliate the
+> > type of logging in dev_dbg(). This will help to determine the type of
+> > logging("error", "warning", "debug", "trace") to dynamic debug.
+> > 
+> > Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
+> > ---
+> >  .../interface/vchiq_arm/vchiq_arm.c           |  54 ++++----
+> >  .../interface/vchiq_arm/vchiq_connected.c     |   6 +-
+> >  .../interface/vchiq_arm/vchiq_core.c          | 126 ++++++++++--------
+> >  .../interface/vchiq_arm/vchiq_core.h          |  23 +++-
+> >  .../interface/vchiq_arm/vchiq_dev.c           |  47 ++++---
+> >  5 files changed, 143 insertions(+), 113 deletions(-)
+> > 
+> > diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
+> > index 9fb3e240d9de..2cb2a6503058 100644
+> > --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
+> > +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
+> > @@ -696,8 +696,8 @@ int vchiq_initialise(struct vchiq_instance **instance_out)
+> >  
+> >  	instance = kzalloc(sizeof(*instance), GFP_KERNEL);
+> >  	if (!instance) {
+> > -		vchiq_log_error(state->dev, VCHIQ_CORE,
+> > -				"%s: error allocating vchiq instance\n", __func__);
+> > +		dev_dbg(state->dev, "%s: %s: %s: error allocating vchiq instance\n",
+> > +			log_cat(VCHIQ_CORE), log_type(ERROR), __func__);
 > 
-> You need a space there :(
+> All dev_dbg() calls have __func__ in them automatically, you never need
+> to duplicate it again as that's redundant :(
 
-I have this in my .bashrc:
-
-gpf() {
-	git show --pretty=fixes -s ${1:-HEAD} | wl-copy
-}
-
-It's quite handy.
+Oh ? I didn't know that, and can't find it in the code. I may be missing
+something though. Are you referring to the +f flag for dynamic debug
+entries ? It won't work if dynamic debug isn't enabled though, but maybe
+we don't care about that ?
 
 -- 
 Regards,
