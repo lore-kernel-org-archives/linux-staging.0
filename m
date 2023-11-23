@@ -1,261 +1,145 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64FA94EB37
-	for <linux-staging@lists.linux.dev>; Wed, 22 Nov 2023 15:25:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C69441CABD
+	for <linux-staging@lists.linux.dev>; Thu, 23 Nov 2023 08:35:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rqOjTSYr"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 03535C433CD
-	for <linux-staging@lists.linux.dev>; Wed, 22 Nov 2023 15:25:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1700666753;
-	bh=+aMtF9o/I+2Y/BQkCHJeGkWK7rYW/+sp7CQq2jIm2wk=;
-	h=References:In-Reply-To:Reply-To:From:Date:Subject:To:Cc:From;
-	b=rqOjTSYrhOIq0Uu+k2isGwQOOGyM6ANvDLEZMM0uU02tjCjNqKilNrOyjg9V3zbcR
-	 2wJyT6PoX2uxn6R1pzDz/611Orm5nnE/bO2j7y6m3ftLPQtSeyPbrtJbCjDmkqWBr8
-	 C+Qkzimr0sK+w/tvtIrpiIwIm0JPWzb7Ri5tWrdEkI/SpYE0mo/tFVgBKkUCxyNfoO
-	 O30/qhVzrQYpafqLcOYBE0Tz2R7YlvnClf4vOGitVwPBvvzCs2qvAZBVhwguz2r9Fg
-	 Q4Ca6Ul1jKxRpWTKoEgCkCpHvrQEykFH+W99e5vxU7a/3IUeciQei4qZtd186QlvI2
-	 J/Ix20Kg7qjoA==
-Received: by mail-pj1-f42.google.com with SMTP id 98e67ed59e1d1-283a0b0bd42so759658a91.0
-        for <linux-staging@lists.linux.dev>; Wed, 22 Nov 2023 07:25:52 -0800 (PST)
-X-Gm-Message-State: AOJu0YxWMzTd7tEeR9Zlim0OhETNprQnLs4QML3uKLyaUAVLhLASkT/f
-	doDY9jT348TE8dC4hLpRoecBs7JiRZpY0HuOWzo=
-X-Google-Smtp-Source: AGHT+IFuaX1vlFLiWY1su1XZ/dCeNdLqMXHHIn0JR9kAzO60/vRWQflUQCRJ0HY1dUAaBB8PlTlXErykm9YbN2wf+YI=
-X-Received: by 2002:a17:90b:2684:b0:27d:2d2f:9ca2 with SMTP id
- pl4-20020a17090b268400b0027d2d2f9ca2mr8585449pjb.24.1700666752477; Wed, 22
- Nov 2023 07:25:52 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="C5qMsRQs"
+Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-1cf61eed213so5220705ad.2
+        for <linux-staging@lists.linux.dev>; Thu, 23 Nov 2023 00:35:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1700728522; x=1701333322; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=P+ePl85i/Re/poRcEUXCR+kOqp02ehB66V8Z/F/iETU=;
+        b=C5qMsRQsN0ch8khHo3iSeNauuDZqJMWM9S2LgQtQp7sUIx/KC3Fr1eE9kiYZifFCbZ
+         S4tjrJm8K9OywCbAMwuHULD79Z1PMRsMkMPU3USX52CXhUiHDPBPJ8Bp9m/FozfSgmp9
+         QYbT5Pb4OnnEC1pdTiwo0rlvAKTJPWh5dl0ETgKml6+w8RMzmEupy8kiGu38Vg1ZNje+
+         HJ/zw9X4xM0Uhww8CkaolSsEXlw2TiN1A25JGX5/l5dM1Ii2t9cf7TJR1UggFWjDvEjL
+         E5JtH5y4UTmap7ukQIu53hqOSFGYXwAZ1LjbPBMB1u9FnnzuHYUHL8lkexwwSE1JcCE1
+         7oZw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1700728522; x=1701333322;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=P+ePl85i/Re/poRcEUXCR+kOqp02ehB66V8Z/F/iETU=;
+        b=fPUFrH3zM7lgU0sdaVMDapWdPnInFsqWGcIhZmfmdymTPpp9a31ytj6TgD0fe4No0H
+         4Oaxj5PmfwmlIrhDKAUxpFGC/9IY3Lt+X3tDRfpM00nAHssjUlydbg+Rtt+NZKMJlQYG
+         GGty9ys3dLztKY5FQUEaYzv4jKqitniyMmz+5GQSXxwhyJBXPUaGaVxHcjO9K4iXY2xy
+         rYnUBBjURRd8aogrs+GMW+/aaxq2LQK8eN0T9caa1lJri4NX6IuNR/pgRF8dCiVYnJa0
+         MqY06H5NVqYAO595crTyEblbKM8kd/P+SemS0hN+hmZTJOY1H9Lw0RBDAceLju2E8yJV
+         vCgw==
+X-Gm-Message-State: AOJu0YwNKCGYzk2IUHPICpFCmjdsctahRKURoW5UBDcndXAiZvpRrsdv
+	Eoc/6yZsEfdShGnJJfIAynY=
+X-Google-Smtp-Source: AGHT+IFjXHU1gr/2iPKHRsm/ZJzrbEmDVs+Z83B5YqlUVCClP1Qhj6B+Mz30No3awDSJ1jZyuKkIoA==
+X-Received: by 2002:a17:902:b417:b0:1cf:6d26:9de3 with SMTP id x23-20020a170902b41700b001cf6d269de3mr5062654plr.39.1700728521988;
+        Thu, 23 Nov 2023 00:35:21 -0800 (PST)
+Received: from archie.me ([103.131.18.64])
+        by smtp.gmail.com with ESMTPSA id g13-20020a170902c38d00b001c0a414695bsm788707plg.43.2023.11.23.00.35.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 23 Nov 2023 00:35:21 -0800 (PST)
+Received: by archie.me (Postfix, from userid 1000)
+	id F07EF1024DA1A; Thu, 23 Nov 2023 15:35:17 +0700 (WIB)
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+	Linux Staging Drivers <linux-staging@lists.linux.dev>,
+	Linux Kernel Janitors <kernel-janitors@vger.kernel.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Soumya Negi <soumya.negi97@gmail.com>,
+	Alexon Oliveira <alexondunkan@gmail.com>,
+	Matt Jan <zoo868e@gmail.com>,
+	Jonathan Bergh <bergh.jonathan@gmail.com>,
+	Dan Carpenter <error27@gmail.com>,
+	Alison Schofield <alison.schofield@intel.com>,
+	Bruno Moreira-Guedes <codeagain@codeagain.dev>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Bagas Sanjaya <bagasdotme@gmail.com>,
+	Martyn Welch <martyn.welch@collabora.com>
+Subject: [PATCH v2] MAINTAINERS: Mark VME subsystem as orphan
+Date: Thu, 23 Nov 2023 15:34:03 +0700
+Message-ID: <20231123083406.12129-2-bagasdotme@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20231105233630.3927502-1-jonas@kwiboo.se> <39d991e9-6afd-4207-ad09-e342a6c02485@xs4all.nl>
- <c35c91be-a931-47e8-b5e8-5a4a83c841da@kwiboo.se> <82f81f63-3dfa-42fe-8744-63f36d73bb77@xs4all.nl>
-In-Reply-To: <82f81f63-3dfa-42fe-8744-63f36d73bb77@xs4all.nl>
-Reply-To: wens@kernel.org
-From: Chen-Yu Tsai <wens@kernel.org>
-Date: Wed, 22 Nov 2023 23:25:41 +0800
-X-Gmail-Original-Message-ID: <CAGb2v66PHCo1aEdEv3UCVLC_b7SodTuveqn7XWdOyCmaLSiWMg@mail.gmail.com>
-Message-ID: <CAGb2v66PHCo1aEdEv3UCVLC_b7SodTuveqn7XWdOyCmaLSiWMg@mail.gmail.com>
-Subject: Re: [PATCH 0/9] media: rkvdec: Add HEVC backend
-To: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc: Jonas Karlman <jonas@kwiboo.se>, Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, Alex Bee <knaerzche@gmail.com>, 
-	Nicolas Dufresne <nicolas.dufresne@collabora.com>, 
-	Sebastian Fricke <sebastian.fricke@collabora.com>, 
-	Benjamin Gaignard <benjamin.gaignard@collabora.com>, 
-	Christopher Obbard <chris.obbard@collabora.com>, linux-media@vger.kernel.org, 
-	linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2181; i=bagasdotme@gmail.com; h=from:subject; bh=RF8BTmAc6aqA8QPnd9h43mZ5xpWxpB+c0g20PoeJqZE=; b=owGbwMvMwCX2bWenZ2ig32LG02pJDKnxvD+m9P+Y3hk5q/oUo9mztxMOFDkEHDzEJzqv50pJY 53BG56ZHaUsDGJcDLJiiiyTEvmaTu8yErnQvtYRZg4rE8gQBi5OAZjIpgmMDEuDckT8Z2y4Zy/F zl6qFq7x7+QEkcdK1/o00qO+HGpzYWFkePHAetUP27eHWF8dMiyT33pyjTJ7YseHlfe1eebIs56 +yQoA
+X-Developer-Key: i=bagasdotme@gmail.com; a=openpgp; fpr=701B806FDCA5D3A58FFB8F7D7C276C64A5E44A1D
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Wed, Nov 22, 2023 at 11:23=E2=80=AFPM Hans Verkuil <hverkuil-cisco@xs4al=
-l.nl> wrote:
->
-> On 09/11/2023 18:44, Jonas Karlman wrote:
-> > Hi Hans,
-> >
-> > On 2023-11-07 14:49, Hans Verkuil wrote:
-> >> Hi Jonas,
-> >>
-> >> On 06/11/2023 00:36, Jonas Karlman wrote:
-> >>> This series add a HEVC backend to the Rockchip Video Decoder driver.
-> >>>
-> >>> A version of this HEVC backend has been in use by the LibreELEC distr=
-o
-> >>> for the past 3+ years [1]. It was initially created based on a copy o=
-f
-> >>> the H264 backend, unstable HEVC uAPI controls and a cabac table + sca=
-ling
-> >>> matrix functions shamelessly copied 1:1 from the Rockchip mpp library=
-.
-> >>>
-> >>> It has since then been extended to use the stable HEVC uAPI controls =
-and
-> >>> improved opon e.g. to include support for rk3288 and fix decoding iss=
-ues
-> >>> by Alex Bee and Nicolas Dufresne.
-> >>>
-> >>> The version submitted in this series is based on the code currently u=
-sed
-> >>> by the LibreELEC distro, excluding hard/soft reset, and with cabac ta=
-ble
-> >>> and scaling matrix functions picked from Sebastian Fricke prior serie=
-s
-> >>> to add a HEVC backend [2].
-> >>>
-> >>> Big thanks to Alex Bee, Nicolas Dufresne and Sebastian Fricke for mak=
-ing
-> >>> this series possible!
-> >>
-> >> I ran this series through smatch and found these two issues:
-> >>
-> >> drivers/staging/media/rkvdec/rkvdec-hevc.c: In function 'transpose_and=
-_flatten_matrices':
-> >> drivers/staging/media/rkvdec/rkvdec-hevc.c:429:83: warning: variable '=
-new_value' set but not used [-Wunused-but-set-variable]
-> >>   429 |         int i, j, row, x_offset, matrix_offset, rot_index, y_o=
-ffset, matrix_size, new_value;
-> >>       |                                                               =
-                    ^~~~~~~~~
-> >> drivers/staging/media/rkvdec/rkvdec-hevc.c:756 rkvdec_hevc_run_preambl=
-e() error: we previously assumed 'ctrl' could be null (see line 755)
-> >
-> > Thanks, will fix in v2.
-> >
-> >>
-> >> Also, this series drops the HEVC part from the TODO file, but
-> >> I wonder if the last remaining item is still valid:
-> >>
-> >> * Evaluate introducing a helper to consolidate duplicated
-> >>   code in rkvdec_request_validate and cedrus_request_validate.
-> >>   The helper needs to the driver private data associated with
-> >>   the videobuf2 queue, from a media request.
-> >>
-> >> It doesn't look like there is much duplicate code at all. It is certai=
-nly not
-> >> something that prevents this driver from moving out of staging.
-> >
-> > I agree, if this is still valid it is not something that should prevent
-> > this driver from moving out of staging.
-> >
-> > There is however one remaining feature/issue that is not listed in TODO=
-.
-> >
-> > In certain situations the hw block may need a reset after there has bee=
-n
-> > a decoding error, especially after a hevc decoding error. Decoding can
-> > typically be re-started with successful result after a short pm
-> > autosuspend timeout.
-> >
-> > We do have a soft/hard reset implementation in LibreELEC-distro,
-> > excluded it from this series because reset is typically not needed, and
-> > I think the reset code need some rework to be upstream ready.
-> >
-> > Would missing hard reset support be a reason for keeping this driver
-> > in staging?
->
-> I think Nicolas would be better placed to comment on that. If it is not
-> considered a blocker, shouldn't there at least be a patch adding comments
-> at the relevant place describing this issue? That way it is at least
-> documented as a known issue.
+Martyn Welch lost his access to VME hardware [1]; and Manohar Vanga has been
+MIA since early January 2014 (his last message was [2]). Martyn admitted
+that the subsystem is basically orphan, so mark it as such. As a bonus,
+add CREDITS entries for the former subsystem maintainers.
 
-FWIW Hantro on i.MX8MM doesn't either.
+Link: https://lore.kernel.org/r/fe8ac0db-d6cc-41bc-b926-484b418e1720@collabora.com/ [1]
+Link: https://lore.kernel.org/r/CAEktxaFL=3cmU4vZS2akiAR2vG-3d+9HwTZvBvf5JXuThHoOKg@mail.gmail.com/ [2]
+Cc: Martyn Welch <martyn.welch@collabora.com>
+Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
+---
+Changes since v1 [3]:
 
-ChenYu
+ * Orphanize the subsystem (Martyn)
+ * Sort Manohar's CREDITS entry
 
-> Regards,
->
->         Hans
->
-> >
-> > Regards,
-> > Jonas
-> >
-> >>
-> >> Regards,
-> >>
-> >>      Hans
-> >>
-> >>>
-> >>> Patch 1 add the new HEVC backend.
-> >>> Patch 2-3 add variants support to the driver.
-> >>> Patch 4 add support for a rk3288 variant.
-> >>> Patch 5 add a rk3328 variant to work around hw quirks.
-> >>> Patch 6-7 add device tree node for rk3288.
-> >>> Patch 8-9 extend vdec node reg size to include cache/perf registers.
-> >>>
-> >>> This was tested on a ROCK Pi 4 (RK3399) and Rock64 (RK3328):
-> >>>
-> >>>   v4l2-compliance 1.24.1, 64 bits, 64-bit time_t
-> >>>   ...
-> >>>   Total for rkvdec device /dev/video1: 46, Succeeded: 46, Failed: 0, =
-Warnings: 0
-> >>>
-> >>>   Running test suite JCT-VC-HEVC_V1 with decoder FFmpeg-H.265-V4L2-re=
-quest
-> >>>   ...
-> >>>   Ran 135/147 tests successfully
-> >>>
-> >>>   Running test suite JCT-VC-MV-HEVC with decoder FFmpeg-H.265-V4L2-re=
-quest
-> >>>   ...
-> >>>   Ran 9/9 tests successfully
-> >>>
-> >>> And on a TinkerBoard (RK3288):
-> >>>
-> >>>   v4l2-compliance 1.24.1, 32 bits, 32-bit time_t
-> >>>   ...
-> >>>   Total for rkvdec device /dev/video3: 47, Succeeded: 47, Failed: 0, =
-Warnings: 0
-> >>>
-> >>>   Running test suite JCT-VC-HEVC_V1 with decoder FFmpeg-H.265-V4L2-re=
-quest
-> >>>   ...
-> >>>   Ran 137/147 tests successfully
-> >>>
-> >>>   Running test suite JCT-VC-MV-HEVC with decoder FFmpeg-H.265-V4L2-re=
-quest
-> >>>   ...
-> >>>   Ran 9/9 tests successfully
-> >>>
-> >>> This series depend on the following series:
-> >>> - media: rkvdec: Add H.264 High 10 and 4:2:2 profile support [3]
-> >>>
-> >>> To fully runtime test this series you need above series and ffmpeg
-> >>> patches from [4], this series and its depends is also available at [5=
-].
-> >>>
-> >>> Full summary of fluster run can be found at [6].
-> >>>
-> >>> [1] https://github.com/LibreELEC/LibreELEC.tv/blob/master/projects/Ro=
-ckchip/patches/linux/default/linux-2000-v4l2-wip-rkvdec-hevc.patch
-> >>> [2] https://lore.kernel.org/linux-media/20230101-patch-series-v2-6-2-=
-rc1-v2-0-fa1897efac14@collabora.com/
-> >>> [3] https://lore.kernel.org/linux-media/20231105165521.3592037-1-jona=
-s@kwiboo.se/
-> >>> [4] https://github.com/Kwiboo/FFmpeg/commits/v4l2-request-n6.1-dev/
-> >>> [5] https://github.com/Kwiboo/linux-rockchip/commits/linuxtv-rkvdec-h=
-evc-v1/
-> >>> [6] https://gist.github.com/Kwiboo/4c0ed87774dede44ce6838451a1ec93d
-> >>>
-> >>> Regards,
-> >>> Jonas
-> >>>
-> >>> Alex Bee (5):
-> >>>   media: rkvdec: Add variants support
-> >>>   media: rkvdec: Add RK3288 variant
-> >>>   media: rkvdec: Disable QoS for HEVC and VP9 on RK3328
-> >>>   ARM: dts: rockchip: Add vdec node for RK3288
-> >>>   arm64: dts: rockchip: Expand reg size of vdec node for RK3399
-> >>>
-> >>> Jonas Karlman (4):
-> >>>   media: rkvdec: Add HEVC backend
-> >>>   media: rkvdec: Implement capability filtering
-> >>>   media: dt-bindings: rockchip,vdec: Add RK3288 compatible
-> >>>   arm64: dts: rockchip: Expand reg size of vdec node for RK3328
-> >>>
-> >>>  .../bindings/media/rockchip,vdec.yaml         |    4 +-
-> >>>  arch/arm/boot/dts/rockchip/rk3288.dtsi        |   17 +-
-> >>>  arch/arm64/boot/dts/rockchip/rk3328.dtsi      |    2 +-
-> >>>  arch/arm64/boot/dts/rockchip/rk3399.dtsi      |    6 +-
-> >>>  drivers/staging/media/rkvdec/Makefile         |    2 +-
-> >>>  drivers/staging/media/rkvdec/TODO             |    7 -
-> >>>  .../staging/media/rkvdec/rkvdec-hevc-data.c   | 1848 +++++++++++++++=
-++
-> >>>  drivers/staging/media/rkvdec/rkvdec-hevc.c    |  823 ++++++++
-> >>>  drivers/staging/media/rkvdec/rkvdec-regs.h    |    3 +
-> >>>  drivers/staging/media/rkvdec/rkvdec-vp9.c     |   10 +
-> >>>  drivers/staging/media/rkvdec/rkvdec.c         |  180 +-
-> >>>  drivers/staging/media/rkvdec/rkvdec.h         |   15 +
-> >>>  12 files changed, 2886 insertions(+), 31 deletions(-)
-> >>>  create mode 100644 drivers/staging/media/rkvdec/rkvdec-hevc-data.c
-> >>>  create mode 100644 drivers/staging/media/rkvdec/rkvdec-hevc.c
-> >>>
-> >>
-> >
->
->
+[3]: https://lore.kernel.org/linux-staging/20231122094156.30642-1-bagasdotme@gmail.com/
+
+ CREDITS     | 8 ++++++++
+ MAINTAINERS | 5 +----
+ 2 files changed, 9 insertions(+), 4 deletions(-)
+
+diff --git a/CREDITS b/CREDITS
+index f33a33fd237170..ba6eb6274f8bed 100644
+--- a/CREDITS
++++ b/CREDITS
+@@ -3916,6 +3916,10 @@ S: 21513 Conradia Ct
+ S: Cupertino, CA 95014
+ S: USA
+ 
++N: Manohar Vanga
++E: manohar.vanga@gmail.com
++D: VME subsystem maintainer
++
+ N: Thibaut Varène
+ E: hacks+kernel@slashdirt.org
+ W: http://hacks.slashdirt.org/
+@@ -4016,6 +4020,10 @@ D: Fixes for the NE/2-driver
+ D: Miscellaneous MCA-support
+ D: Cleanup of the Config-files
+ 
++N: Martyn Welch
++E: martyn@welchs.me.uk
++D: VME subsystem maintainer
++
+ N: Matt Welsh
+ E: mdw@metalab.unc.edu
+ W: http://www.cs.berkeley.edu/~mdw
+diff --git a/MAINTAINERS b/MAINTAINERS
+index ea790149af7951..ff083d12001489 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -23234,11 +23234,8 @@ F:	include/linux/vmalloc.h
+ F:	mm/vmalloc.c
+ 
+ VME SUBSYSTEM
+-M:	Martyn Welch <martyn@welchs.me.uk>
+-M:	Manohar Vanga <manohar.vanga@gmail.com>
+-M:	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+ L:	linux-kernel@vger.kernel.org
+-S:	Odd fixes
++S:	Orphan
+ T:	git git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/char-misc.git
+ F:	Documentation/driver-api/vme.rst
+ F:	drivers/staging/vme_user/
+
+base-commit: 98b1cc82c4affc16f5598d4fa14b1858671b2263
+-- 
+An old man doll... just what I always wanted! - Clara
+
