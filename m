@@ -1,64 +1,105 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D388E24A0D;
-	Thu, 23 Nov 2023 13:15:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D2222555D
+	for <linux-staging@lists.linux.dev>; Thu, 23 Nov 2023 13:41:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="KFCrXext"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B3785C433C8;
-	Thu, 23 Nov 2023 13:15:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1700745359;
-	bh=zUbrdBm8Q2+P04oC+jzJgrh1Nr0G4L+l33QE59HItts=;
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="CUO8l99J"
+Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 3CF41DB7;
+	Thu, 23 Nov 2023 14:40:48 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1700746848;
+	bh=LVXsJmqRupqKxn+TPDKtP0WCk3ociJdrzCihBHeH9sg=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=KFCrXextGh4GSnx37HAmDmG+R0W8UvxUd1JKSUBjjp3UvSBfPViS4evFVtCuGHOHm
-	 Qymn+moB4UzUOr/UD9mvWZgKwvEZnwxMthLHeKi7UJlY5tOirc2mqbaAgego12HM0R
-	 TZ262UJt1yakeKtFGvA0M5PkU8USgwSBDWoVc24Y=
-Date: Thu, 23 Nov 2023 13:14:10 +0000
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Umang Jain <umang.jain@ideasonboard.com>
-Cc: linux-staging@lists.linux.dev, linux-rpi-kernel@lists.infradead.org,
+	b=CUO8l99JOoME7vGI5V9qrYVQQDpAUMckSVXqD2N1w+w1Nad/L34lsj+tzFX2qBKzs
+	 RXtwjyDQAghquCV4BR9LaV0dEkG6jDODYV/o/sJf1YD0F82bl4lbMB8pmLL6zoBdiO
+	 8PYqQRg9ia2R7FMXRnj/iPSltWQ2BGrpuIZRZwis=
+Date: Thu, 23 Nov 2023 15:41:27 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Umang Jain <umang.jain@ideasonboard.com>, linux-staging@lists.linux.dev,
+	linux-rpi-kernel@lists.infradead.org,
 	linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
 	Stefan Wahren <stefan.wahren@i2se.com>,
 	Dan Carpenter <error27@gmail.com>,
 	Kieran Bingham <kieran.bingham@ideasonboard.com>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Dave Stevenson <dave.stevenson@raspberrypi.com>,
 	Phil Elwell <phil@raspberrypi.com>,
-	"Ricardo B . Marliere" <ricardo@marliere.net>
-Subject: Re: [PATCH 0/2] staging: vc04_services: Use %p to log pointer
-Message-ID: <2023112334-projector-spoilage-fcbc@gregkh>
-References: <20231107165523.638555-1-umang.jain@ideasonboard.com>
+	Dave Stevenson <dave.stevenson@raspberrypi.com>
+Subject: Re: [PATCH 5/9] staging: vc04_services: Do not pass NULL to
+ vchiq_log_error()
+Message-ID: <20231123134127.GB16377@pendragon.ideasonboard.com>
+References: <20231107095156.365492-1-umang.jain@ideasonboard.com>
+ <20231107095156.365492-6-umang.jain@ideasonboard.com>
+ <20231107122551.GA3051@pendragon.ideasonboard.com>
+ <4a5f6ae3-2a1f-f708-d9e0-fad4f5b60a43@ideasonboard.com>
+ <2023112341-daughter-richness-c87b@gregkh>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20231107165523.638555-1-umang.jain@ideasonboard.com>
+In-Reply-To: <2023112341-daughter-richness-c87b@gregkh>
 
-On Tue, Nov 07, 2023 at 11:55:21AM -0500, Umang Jain wrote:
-> %lx is used to print the unmodified pointer address for debugging.
-> %p will print the hashed pointer address to avoid leaking information
-> about kernel memory layout to userspace. But when `no_hash_pointers`
-> is passed as kernel parameter, unmodified pointer address will be
-> printed.
+On Thu, Nov 23, 2023 at 12:57:14PM +0000, Greg Kroah-Hartman wrote:
+> On Tue, Nov 07, 2023 at 06:01:58PM +0530, Umang Jain wrote:
+> > Hi Laurent,
+> > 
+> > On 11/7/23 5:55 PM, Laurent Pinchart wrote:
+> > > Hi Umang,
+> > > 
+> > > Thank you for the patch.
+> > > 
+> > > On Tue, Nov 07, 2023 at 04:51:52AM -0500, Umang Jain wrote:
+> > > > vchiq_add_connected_callback() logs using vchiq_log_error() macro,
+> > > > but passes NULL instead of a struct device pointer. Fix it.
+> > > > 
+> > > > vchiq_add_connected_callback() is not used anywhere in the vc04_services
+> > > > as of now. It will be used when we add new drivers(VC shared memory and
+> > > > bcm2835-isp), hence it kept as it is for now.
+> > > > 
+> > > > Fixes: 1d8915cf8899 ("staging: vc04: Convert vchiq_log_error() to use dynamic debug")
+> > > > Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
+> > > > ---
+> > > >   .../vc04_services/interface/vchiq_arm/vchiq_connected.c       | 4 ++--
+> > > >   .../vc04_services/interface/vchiq_arm/vchiq_connected.h       | 4 +++-
+> > > >   2 files changed, 5 insertions(+), 3 deletions(-)
+> > > > 
+> > > > diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_connected.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_connected.c
+> > > > index b3928bd8c9c6..21f9fa1a1713 100644
+> > > > --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_connected.c
+> > > > +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_connected.c
+> > > > @@ -27,7 +27,7 @@ static void connected_init(void)
+> > > >    * be made immediately, otherwise it will be deferred until
+> > > >    * vchiq_call_connected_callbacks is called.
+> > > >    */
+> > > > -void vchiq_add_connected_callback(void (*callback)(void))
+> > > > +void vchiq_add_connected_callback(struct vchiq_device *device, void (*callback)(void))
+> > > You're changing the prototype of the function, but the patch doesn't
+> > > update any user. If the function is unused, it looks like you can drop
+> > > it instead. Looking at the rest of the vchiq_connected.c file, I think
+> > > you can actually drop the whole file.
+> > 
+> > I mentioned in the commit message of this patch. There will be users in the
+> > near future.
 > 
-> Hence, drop %lx in favour of %p. For debugging purposes, one can
-> easily depend on `no_hash_pointers`.
-> 
-> This also solves the following smatch warnings:
-> service_callback() warn: argument 7 to %lx specifier is cast from pointer
-> service_callback() warn: argument 11 to %lx specifier is cast from pointer
-> service_callback() warn: argument 12 to %lx specifier is cast from pointer
-> service_callback() warn: argument 13 to %lx specifier is cast from pointer
-> vchiq_release() warn: argument 7 to %lx specifier is cast from pointer
+> We write code for today, not any potential users in the future.  If it's
+> not used now, let's delete it and then when we need it in the future,
+> you can add it back then.
 
-Doesn't apply as I didn't take your other patch series.  resend it when
-you have that one fixed up?
+What was the near future on November the 7th is now the present :-)
+Umang has sent a new version of the ISP driver that uses this API. I
+think this kind of near future is fine, and we routinely do the same
+during review when large feature are split across multiple series
+(whether those series are merged together or independently is another
+question of course).
 
-thanks,
+-- 
+Regards,
 
-greg k-h
+Laurent Pinchart
