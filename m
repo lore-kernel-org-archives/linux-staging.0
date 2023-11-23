@@ -1,69 +1,73 @@
 Received: from wout5-smtp.messagingengine.com (wout5-smtp.messagingengine.com [64.147.123.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80EE733CD2
-	for <linux-staging@lists.linux.dev>; Thu, 23 Nov 2023 14:43:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 033A733CEC
+	for <linux-staging@lists.linux.dev>; Thu, 23 Nov 2023 14:43:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=fastmail.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fastmail.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=fastmail.org header.i=@fastmail.org header.b="gFw9Gi+b";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="UZmVjoem"
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-	by mailout.west.internal (Postfix) with ESMTP id 217753200A3F;
-	Thu, 23 Nov 2023 09:43:45 -0500 (EST)
+	dkim=pass (2048-bit key) header.d=fastmail.org header.i=@fastmail.org header.b="fsE/QkLK";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="TNtkENEO"
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+	by mailout.west.internal (Postfix) with ESMTP id D58623200A2D;
+	Thu, 23 Nov 2023 09:43:49 -0500 (EST)
 Received: from mailfrontend1 ([10.202.2.162])
-  by compute5.internal (MEProxy); Thu, 23 Nov 2023 09:43:45 -0500
+  by compute2.internal (MEProxy); Thu, 23 Nov 2023 09:43:50 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fastmail.org; h=
 	cc:cc:content-transfer-encoding:content-type:date:date:from:from
-	:in-reply-to:message-id:mime-version:reply-to:sender:subject
-	:subject:to:to; s=fm1; t=1700750624; x=1700837024; bh=cgnoYwRE5B
-	w4bpd2N9NRzphlxhDcZURP5mr6c1AXwWY=; b=gFw9Gi+bM8QeN1GROlZuroEHnp
-	azEu5gtoDE/Pzvp1Q99e4JP1dSTGsfPyi4/u1k8HmlXleyAs656b1KwtwOGSHeWh
-	7tzE9AwbhLCjvydbUGz7hqjVkKxITFEGZhb9PXJVB0PxhMYuvGhsA5TGJIZuU0cK
-	PvT2wJUG1OHkmkOYwAZiiNy3/hCUbJf3dy6nnAhPdmmDL6d8wituRUtu82ubb0+w
-	gEwQ4dJoDXXoqM9Nb6omZzzngmoBjhGrIQCh79CG2g1PuyaIRW5zRQu/9QeKm7IS
-	Ryi3F3oQ0nKN/7D5Sf8i95CfQxx0UA75qLh+n0R3WyKRgvJaberi9ys2Fetw==
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:sender:subject:subject:to:to; s=fm1; t=1700750629; x=
+	1700837029; bh=GA437atRox2oPURIGiXlxqMebZt5ndNZI36HbZNzvG4=; b=f
+	sE/QkLKNixyVnObR0dRRFx/WXcgU6HLcunrQl7/eimp90EcFnIrj1wj3SELkEZAy
+	/edQ8SuRrMS3T6RF4J/xmVjV91ZpneSGj9MnLPnTl/F24WY76eEXEoQtg+QB8DRw
+	Px9HVNHYndGEiUJ/G80YaoqYR31LnwEQyU11pfRXO+hai5CIllx6T8rOT9gOmS4F
+	XwPyzVZn8t/6DouuoO0XcBGGtq7jVuBpjlZNxptWhJ+7PdtFRkmLg15OBhYhbmyl
+	xxbeRaOIWcX7vNh4ePEINmoKiLv21ffxi7JKS/+S/UnF9NdBtDIxpCSA3iQwb4D1
+	0FcNLE53GNevioKRaz6Cg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-transfer-encoding
 	:content-type:date:date:feedback-id:feedback-id:from:from
-	:in-reply-to:message-id:mime-version:reply-to:sender:subject
-	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-	:x-sasl-enc; s=fm1; t=1700750624; x=1700837024; bh=cgnoYwRE5Bw4b
-	pd2N9NRzphlxhDcZURP5mr6c1AXwWY=; b=UZmVjoemZmwkBHRGPRMlCbPX10ZTC
-	9iJmTKAvP+zPCiPUxVC/AjjJaZua7QtvhBWxwnJX2h2imSUXkv/FMlqRD3GVVqaV
-	fNp8lpdaTT9I1IcJuJh8fS7Ltf5GCvdisTJNS4y/yHuM0VY2fKMM7sJTEUgyQ7mH
-	ENMlJEMO2CeBzRxzpdZ0kYKaPh7o/DrmTFbTtZC7kn8ALsSkPOSgGZ7Y74AkffDl
-	eAmcDKQdPNEX2yhhi5V8d2PN40L3ESG7TMGCYoK6nt7L/sW4OP/0N8SD5tBcUAmS
-	mQoXH1kzwXWg1WNPUVBSSYrtpN7xi02bdKbOnt/RFxo5dm9EnjHXRuXDw==
-X-ME-Sender: <xms:IGVfZdJZM8jpx_MWQTEqb6DZzOxfy2RaHggB_XIPXYJjYFCoLfBSZA>
-    <xme:IGVfZZIGHpKNTMUoW-CUPVmzHaMuJDZDKNpU3XndZ_4T0S5q67RIrspmEcnkj2LTk
-    pDQbhwMltkvd-sMIn4>
-X-ME-Received: <xmr:IGVfZVtQqNI2He2HyRMsMJmbhyF0q7r0sEXnQfQhmX4EbHkXUGgzeJzjbvFkibA8RZiH8kfnRkA0AMXsvXr9lQ-nvDGfIZGCGMfsaKwM8Nz_>
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1700750629; x=
+	1700837029; bh=GA437atRox2oPURIGiXlxqMebZt5ndNZI36HbZNzvG4=; b=T
+	NtkENEOmgFf3EFbriwHH1eVY6TDir3fWe0Ougw8jvdRyckAc48OgRjk7BEer+B1h
+	HJyRBW6kQyk+1l/TkvHfYPtshKF65nvBzdlYs+Cj9pwqb9HL9FVab5PM1TL+LJOO
+	neB6sDthyfxThFKwzNnrOSeFD4vyIzOYn2xBP/2WVzdYpdbF4zbGlhTGEvAv7nfc
+	itGKmcMzJ57MFGv4tUf5dUhpUNpJryBMmlg+M0YVrlInRBOhuKi095/hI9TEDWG/
+	/uqDhWqzkXu74Be1PrzDbtpRG5K9tpzrxm7qxsJh9AzhT8PfEHvPBIgqJ+oEoAkH
+	qb3G0DRZ56iAegnP4Km5g==
+X-ME-Sender: <xms:JWVfZQTc_S0W0BZYxqYSUBEnPjwc8sWuCklkQx-CK3vIxFCEyyBgjQ>
+    <xme:JWVfZdxhaDzccmalp0Kczb0Yrynat0YHGYYwNCGSK_SXY_k2QuxBQ3C4lrjK7colo
+    l5g2m_51w1YbYSm4gw>
+X-ME-Received: <xmr:JWVfZd2qjXYnhfGx9i1cfUMO7eAUjDmbYv2TkCp96Z6rB3A6WQJ9QbQMh6PipEgbPfV_TLI5WvExM0QsSKN2YYjZEoitNA5ZwX1zE5BZjbqq>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvkedrudehfedgieejucetufdoteggodetrfdotf
     fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucenucfjughrpefhvfevufffkffoggfgsedtkeertd
-    ertddtnecuhfhrohhmpefirghrhicutfhoohhkrghrugcuoehgrghrhihrohhokhgrrhgu
-    sehfrghsthhmrghilhdrohhrgheqnecuggftrfgrthhtvghrnhepleegffffgfehhfejge
-    ejheeivdfgleefheeuueetkedtffeihfevlefhgeevvdevnecuvehluhhsthgvrhfuihii
-    vgeptdenucfrrghrrghmpehmrghilhhfrhhomhepghgrrhihrhhoohhkrghrugesfhgrsh
-    htmhgrihhlrdhorhhg
-X-ME-Proxy: <xmx:IGVfZeZkoywdkoadZt1oDfSyIwR9BK-Ch5vimcP-AN6wPzQf3q2pfA>
-    <xmx:IGVfZUZehIJK6-gSEC7t2_qwKjTEeJiqHEmGwV31g9O02N4fLLfjyg>
-    <xmx:IGVfZSCkfZyhKaIpvxisaynSHOteNWPo5wU7odWwrXiYeFso-nXH0Q>
-    <xmx:IGVfZcFtarNIZGOxtXqkRaXg0EgTl25OR5mLHSi5hTl2e2EhLpx6dw>
+    uceurghilhhouhhtmecufedttdenucenucfjughrpefhvfevufffkffojghfggfgsedtke
+    ertdertddtnecuhfhrohhmpefirghrhicutfhoohhkrghrugcuoehgrghrhihrohhokhgr
+    rhgusehfrghsthhmrghilhdrohhrgheqnecuggftrfgrthhtvghrnhepkeeuvdffueduke
+    egieeuffejhefgkeetfeehueelfeduuefgveellefhfefgjedvnecuvehluhhsthgvrhfu
+    ihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepghgrrhihrhhoohhkrghrugesfh
+    grshhtmhgrihhlrdhorhhg
+X-ME-Proxy: <xmx:JWVfZUC6czCqfMkTHrZR6_Bs3hsFCAbNzyBVuKhXYSKMUD79_CYD-Q>
+    <xmx:JWVfZZiR3wlK-HMX9V2zuPWIJFzse4kucRNs5lpztmXWrab9Yrs4mg>
+    <xmx:JWVfZQoqBprE1ghlYViW5nM7uY5BXwV_ajnNA-BilkzMDAAGvuEy_A>
+    <xmx:JWVfZesGAt5Wgsp2OTbtY6HgqOPJXMqBVr7N6C_3ibEYTiIQZ4QBfQ>
 Feedback-ID: ifd194980:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 23 Nov 2023 09:43:43 -0500 (EST)
+ 23 Nov 2023 09:43:48 -0500 (EST)
 From: Gary Rookard <garyrookard@fastmail.org>
 To: gregkh@linuxfoundation.org,
 	philipp.g.hortmann@gmail.com
 Cc: linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Gary Rookard <garyrookard@fastmail.org>
-Subject: [PATCH v3 0/5] staging: rtl8192e: renaming 5 different variables patch series
-Date: Thu, 23 Nov 2023 09:43:32 -0500
-Message-ID: <20231123144337.13112-1-garyrookard@fastmail.org>
+Subject: [PATCH v3 1/5] staging: rtl8192e: renamed variable HTMcsToDataRate
+Date: Thu, 23 Nov 2023 09:43:33 -0500
+Message-ID: <20231123144337.13112-2-garyrookard@fastmail.org>
 X-Mailer: git-send-email 2.41.0
+In-Reply-To: <20231123144337.13112-1-garyrookard@fastmail.org>
+References: <20231123144337.13112-1-garyrookard@fastmail.org>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -72,42 +76,46 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Hi,
+Renamed variable from Pascal/CamelCase to Snake case the variable
+HTMcsToDataRate.
+HTMcsToDataRate -> ht_mcs_to_data_rate
 
-This patch series renames (5) different variables from Pascal/CamelCase to
-Snake case.
-
-Patch 1/5) renamed variable HTMcsToDataRate
-Patch 2/5) renamed variable TxCountToDataRate
-Patch 3/5) renamed variable IsHtHalfNmodeAps
-Patch 4/5) renamed variable HTIOTPeerDetermine
-Patch 5/5) renamed variable HTIOTActIsMgntUseCCK6M
-
-Linux kernel coding style (cleanup), checkpatch Avoid CamelCase.
+Linux Kernel coding style (cleanup), checkpatch Avoid CamelCase.
 Driver/module rtl8192e compiles.
 
-Regards,
-Gary
-
+Signed-off-by: Gary Rookard <garyrookard@fastmail.org>
 ---
 v3: Corrected versioning from v1 -> v3, includes change history.
 v2: v2 was skipped over..v3 corrects this.
 v1: Style and compile issues, asked to redo.
 
-Gary Rookard (5):
-  staging: rtl8192e; renamed variable HTMcsToDataRate
-  staging: rtl8192e: renamed variable TXCountToDataRate
-  staging: rtl8192e: renamed variable IsHTHalfNmodeAPs
-  staging: rtl8192e: renamed variable HTIOTPeerDetermine
-  staging: rtl8192e: renamed variable HTIOTActIsMgntUseCCK6M
+ drivers/staging/rtl8192e/rtl819x_HTProc.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
- drivers/staging/rtl8192e/rtl819x_HTProc.c    | 18 +++++++++---------
- drivers/staging/rtl8192e/rtllib.h            |  4 ++--
- drivers/staging/rtl8192e/rtllib_softmac.c    |  2 +-
- drivers/staging/rtl8192e/rtllib_softmac_wx.c |  2 +-
- 4 files changed, 13 insertions(+), 13 deletions(-)
-
+diff --git a/drivers/staging/rtl8192e/rtl819x_HTProc.c b/drivers/staging/rtl8192e/rtl819x_HTProc.c
+index e607bccc079a..280e335cbb6d 100644
+--- a/drivers/staging/rtl8192e/rtl819x_HTProc.c
++++ b/drivers/staging/rtl8192e/rtl819x_HTProc.c
+@@ -103,7 +103,7 @@ void ht_update_default_setting(struct rtllib_device *ieee)
+ 	ht_info->rx_reorder_pending_time = 30;
+ }
+ 
+-static u16 HTMcsToDataRate(struct rtllib_device *ieee, u8 nMcsRate)
++static u16 ht_mcs_to_data_rate(struct rtllib_device *ieee, u8 nMcsRate)
+ {
+ 	struct rt_hi_throughput *ht_info = ieee->ht_info;
+ 
+@@ -422,8 +422,8 @@ u8 HTGetHighestMCSRate(struct rtllib_device *ieee, u8 *pMCSRateSet,
+ 			bitMap = availableMcsRate[i];
+ 			for (j = 0; j < 8; j++) {
+ 				if ((bitMap % 2) != 0) {
+-					if (HTMcsToDataRate(ieee, (8 * i + j)) >
+-					    HTMcsToDataRate(ieee, mcsRate))
++					if (ht_mcs_to_data_rate(ieee, (8 * i + j)) >
++					    ht_mcs_to_data_rate(ieee, mcsRate))
+ 						mcsRate = 8 * i + j;
+ 				}
+ 				bitMap >>= 1;
 -- 
 2.41.0
-
 
