@@ -1,49 +1,57 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5FB7249E7
-	for <linux-staging@lists.linux.dev>; Thu, 23 Nov 2023 13:15:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5641824A08;
+	Thu, 23 Nov 2023 13:15:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="oW+fyBse"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1DAE9C433C8;
-	Thu, 23 Nov 2023 13:15:17 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="OHST/eVs"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 14DBFC433C8;
+	Thu, 23 Nov 2023 13:15:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1700745318;
-	bh=K+DNH7DzHe6581zgyhM/KZXPPp8xkP+h7tBgMCoC63w=;
+	s=korg; t=1700745322;
+	bh=1geUD0PxSwl4jgapDcrWydrHt9Icc3WU+vTDHs1Kn8A=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=oW+fyBsed4oLSs6iEResGo9tBuulLceSKzmMTOuaPcZqATIV20wNvM1cGR8KCo1X/
-	 plBoAoc15qQjBoM8l/OGDKJBzp2Lsskg3DcEZseQxM+lwMOGIN/uSHSvf/rVROk8L6
-	 s3eBZyHQ5QYOh+tbMCc6g+TBWOhs/Uo8704WbH30=
-Date: Thu, 23 Nov 2023 12:55:35 +0000
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>
-Cc: Johan Hovold <johan@kernel.org>, Alex Elder <elder@kernel.org>,
-	greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev,
-	kernel@pengutronix.de
-Subject: Re: [PATCH v3 103/108] staging: greybus: pwm: Make use of
- devm_pwmchip_alloc() function
-Message-ID: <2023112331-flagpole-unloader-b72e@gregkh>
-References: <20231121134901.208535-1-u.kleine-koenig@pengutronix.de>
- <20231121134901.208535-104-u.kleine-koenig@pengutronix.de>
+	b=OHST/eVsPlt34bKRusq/pA0fPojvNhTL8M91927W7+2fn/NY8QZ38WSt1xoKwwM0P
+	 BVRwq6EjiXeZDYhZmkGPnfiihpw+jfK+gtvuGEYRCVApIrUNozGcUgo48eNIsX3LVI
+	 ujj+7tow3XtFTuG26iM4s+ToDrepe5MvcpVp8pQQ=
+Date: Thu, 23 Nov 2023 12:56:07 +0000
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Umang Jain <umang.jain@ideasonboard.com>
+Cc: linux-media@vger.kernel.org, kernel-list@raspberrypi.com,
+	linux-kernel@vger.kernel.org, linux-rpi-kernel@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org, linux-staging@lists.linux.dev,
+	Dave Stevenson <dave.stevenson@raspberrypi.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	"Ricardo B . Marliere" <ricardo@marliere.net>,
+	Dan Carpenter <error27@gmail.com>,
+	Stefan Wahren <stefan.wahren@i2se.com>
+Subject: Re: [PATCH] fixup! staging: vc04_services: bcm2835-isp: Add a more
+ complex ISP processing component
+Message-ID: <2023112352-ravishing-garter-c9fc@gregkh>
+References: <20231109210309.638594-11-umang.jain@ideasonboard.com>
+ <20231113140755.425365-1-umang.jain@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20231121134901.208535-104-u.kleine-koenig@pengutronix.de>
+In-Reply-To: <20231113140755.425365-1-umang.jain@ideasonboard.com>
 
-On Tue, Nov 21, 2023 at 02:50:45PM +0100, Uwe Kleine-König wrote:
-> This prepares the greybus pwm driver to further changes of the pwm core
-> outlined in the commit introducing devm_pwmchip_alloc(). There is no
-> intended semantical change and the driver should behave as before.
-> 
-> Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
+On Mon, Nov 13, 2023 at 09:07:55AM -0500, Umang Jain wrote:
+> Setup DMA Mask
 > ---
->  drivers/staging/greybus/pwm.c | 75 ++++++++++-------------------------
->  1 file changed, 20 insertions(+), 55 deletions(-)
+> I realised while (re)creating the test branches (sent in reply to the cover
+> letter), I missed to squash this hunk in
+> "staging: vc04_services: bcm2835-isp: Add a more complex ISP processing component"
+> before sending out the series.
+> 
+> Sending it as a fixup! for now. 
 
-Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+What does that mean?  What can I do with this?
+
+confused,
+
+greg k-h
