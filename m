@@ -1,30 +1,51 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 259F91CF98
-	for <linux-staging@lists.linux.dev>; Fri, 24 Nov 2023 11:30:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0F123BB37
+	for <linux-staging@lists.linux.dev>; Fri, 24 Nov 2023 21:30:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="VvtqmLeB"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 51844C433C7;
-	Fri, 24 Nov 2023 11:30:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1700825452;
-	bh=O/6I68Uo5QHlqAFMFXWq24xe3q84sRd1UQDUj2JOVrQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=VvtqmLeBVJQ1JXW/Sp1GGEYVnX133NDb5q9xn+rpkYUqEDiPSjUvIFdn4sKhXgwsW
-	 aM8cWOof6vbnUs0KYtuyiANQUI5XlOIA0uifOcSSsRjfp4Ziss0k46sBI56+13ITQt
-	 RM/VPUShhgBvtZa0daVk8GhLGp531Cr/Z0s6/mlA=
-Date: Fri, 24 Nov 2023 11:30:51 +0000
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-Cc: Gary Rookard <garyrookard@fastmail.org>, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 2/5] staging: rtl8192e: renamed variable
- TXCountToDataRate
-Message-ID: <2023112438-sanctuary-imitate-289c@gregkh>
-References: <20231123144337.13112-1-garyrookard@fastmail.org>
- <20231123144337.13112-3-garyrookard@fastmail.org>
- <5ff4d268-2fcb-4d55-819a-e2650731b91f@gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="II2FI7pO"
+Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-a04cfeecb15so66101866b.0
+        for <linux-staging@lists.linux.dev>; Fri, 24 Nov 2023 13:30:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1700861418; x=1701466218; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=6R1/B3Gpd0WqEyYMT6wMEe4jySl/wJKQezxM85rFgxE=;
+        b=II2FI7pOHk3Qrl3OWgtCsoOCABRVHEKUYiBwBqsKELILXfbePUFoMHPTunnm10A5Wc
+         Kfwy3DjBIQZ9/APb3fnc+YpYmjpAhoExJRAfQiVbQ68XoYgydei5hkTaf/ba72l+xKnB
+         pOpTDxMDwnexTTw6CTYEUeFVahqbkczFn80bMuX10IYIZei6laiHWIiZRFqumJZRQfmy
+         UmenNShgmWEUHr2Y0gc5wDEpV0goOi+R+AkbE9nVm5w8iVMaWIoUTxehe7R4Mv7XlPZC
+         LOGo2Yfrv9077ZMkhcWbZq71m0htAt7CUW11WlUp+6GDqGOKM24t9nukkJ/V4RvA3RkD
+         b8aw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1700861418; x=1701466218;
+        h=content-disposition:mime-version:message-id:subject:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=6R1/B3Gpd0WqEyYMT6wMEe4jySl/wJKQezxM85rFgxE=;
+        b=QljGiVIDytyqI8fNRc+8z/XWVtRqAiXFbDWbDGF9kZ4uyi8eFHDx2lozS3E/6cEDFH
+         Wa1x4TD4NecnKhWpqphazgy8qlz37IzKfjhM7kPg62lE92osYzKvTlJ6KWg2GTWqKHbA
+         g+goZFAmRPut7MsM6yyGKMNsR98K0pOkruJ+FWg79amo+0FXPQfZ3Y4Lb0H6UHr/7Qa7
+         DdTene/wg/wu4OYCrH6aUU3fzOQKyKJ0ZEuz6eeX60+FwOBkrdUBzYiapdx/siEudZpM
+         a47RtPlSLfN1CFbY3M9B2aAhX+3fWgvtHrokKgXDGxA79515/VDk3cFIH2JI7N7czBd9
+         3+lg==
+X-Gm-Message-State: AOJu0YzLbRMp+PQkYsrI+DvREZhK3XcvpdYIr1jot5nuE7jARh+/HI7k
+	eH7fnZ1Kte16FgdZwaUvuXo=
+X-Google-Smtp-Source: AGHT+IEWbmcnVqC9MkWPJSylBqhlInbTCWAcS/eX5prInruM0qp5xcSBhoChSK10CO9Z/PAWaWacpg==
+X-Received: by 2002:a17:906:6dd2:b0:a01:ee03:37ee with SMTP id j18-20020a1709066dd200b00a01ee0337eemr3069238ejt.4.1700861417761;
+        Fri, 24 Nov 2023 13:30:17 -0800 (PST)
+Received: from matrix-ESPRIMO-P710 (p54a07fa0.dip0.t-ipconnect.de. [84.160.127.160])
+        by smtp.gmail.com with ESMTPSA id s21-20020a170906285500b00a0179ebc25esm2535720ejc.85.2023.11.24.13.30.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 24 Nov 2023 13:30:17 -0800 (PST)
+Date: Fri, 24 Nov 2023 22:30:15 +0100
+From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: [PATCH 0/8] staging: rtl8192e: Remove sending beacons
+Message-ID: <cover.1700860758.git.philipp.g.hortmann@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -33,72 +54,35 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <5ff4d268-2fcb-4d55-819a-e2650731b91f@gmail.com>
 
-On Thu, Nov 23, 2023 at 09:56:04PM +0100, Philipp Hortmann wrote:
-> On 11/23/23 15:43, Gary Rookard wrote:
-> > Renamed from Pascal/CamelCase to Snake case the variable
-> > TXCountToDataRate.
-> > TXCountToDataRate -> tx_count_to_data_rate
-> > 
-> > Linux kernel coding style (cleanup), checkpatch Avoid CamelCase.
-> > Driver/module rtl8192e compiles.
-> > 
-> > Signed-off-by: Gary Rookard <garyrookard@fastmail.org>
-> > ---
-> > v3: Corrected versioning from v1 -> v3, includes change history.
-> > v2: v2 was skipped over..v3 corrects this.
-> > v1 Style and compile issues, asked to redo.
-> > 
-> >   drivers/staging/rtl8192e/rtl819x_HTProc.c    | 2 +-
-> >   drivers/staging/rtl8192e/rtllib.h            | 2 +-
-> >   drivers/staging/rtl8192e/rtllib_softmac_wx.c | 2 +-
-> >   3 files changed, 3 insertions(+), 3 deletions(-)
-> > 
-> > diff --git a/drivers/staging/rtl8192e/rtl819x_HTProc.c b/drivers/staging/rtl8192e/rtl819x_HTProc.c
-> > index 280e335cbb6d..fb8294f31a60 100644
-> > --- a/drivers/staging/rtl8192e/rtl819x_HTProc.c
-> > +++ b/drivers/staging/rtl8192e/rtl819x_HTProc.c
-> > @@ -114,7 +114,7 @@ static u16 ht_mcs_to_data_rate(struct rtllib_device *ieee, u8 nMcsRate)
-> >   	return MCS_DATA_RATE[is40MHz][isShortGI][(nMcsRate & 0x7f)];
-> >   }
-> > -u16  TxCountToDataRate(struct rtllib_device *ieee, u8 nDataRate)
-> > +u16  tx_count_to_data_rate(struct rtllib_device *ieee, u8 nDataRate)
-> >   {
-> >   	u16	CCKOFDMRate[12] = {0x02, 0x04, 0x0b, 0x16, 0x0c, 0x12, 0x18,
-> >   				   0x24, 0x30, 0x48, 0x60, 0x6c};
-> > diff --git a/drivers/staging/rtl8192e/rtllib.h b/drivers/staging/rtl8192e/rtllib.h
-> > index d2cf3cfaaaba..0226a69f40c3 100644
-> > --- a/drivers/staging/rtl8192e/rtllib.h
-> > +++ b/drivers/staging/rtl8192e/rtllib.h
-> > @@ -1783,7 +1783,7 @@ extern u16 MCS_DATA_RATE[2][2][77];
-> >   u8 HTCCheck(struct rtllib_device *ieee, u8 *pFrame);
-> >   void HTResetIOTSetting(struct rt_hi_throughput *ht_info);
-> >   bool IsHTHalfNmodeAPs(struct rtllib_device *ieee);
-> > -u16  TxCountToDataRate(struct rtllib_device *ieee, u8 nDataRate);
-> > +u16  tx_count_to_data_rate(struct rtllib_device *ieee, u8 nDataRate);
-> >   int rtllib_rx_ADDBAReq(struct rtllib_device *ieee, struct sk_buff *skb);
-> >   int rtllib_rx_ADDBARsp(struct rtllib_device *ieee, struct sk_buff *skb);
-> >   int rtllib_rx_DELBA(struct rtllib_device *ieee, struct sk_buff *skb);
-> > diff --git a/drivers/staging/rtl8192e/rtllib_softmac_wx.c b/drivers/staging/rtl8192e/rtllib_softmac_wx.c
-> > index f32584291704..28aba1d610f7 100644
-> > --- a/drivers/staging/rtl8192e/rtllib_softmac_wx.c
-> > +++ b/drivers/staging/rtl8192e/rtllib_softmac_wx.c
-> > @@ -208,7 +208,7 @@ int rtllib_wx_get_rate(struct rtllib_device *ieee,
-> >   {
-> >   	u32 tmp_rate;
-> > -	tmp_rate = TxCountToDataRate(ieee,
-> > +	tmp_rate = tx_count_to_data_rate(ieee,
-> >   				     ieee->softmac_stats.CurrentShowTxate);
-> >   	wrqu->bitrate.value = tmp_rate * 500000;
-> 
-> CHECK: Alignment should match open parenthesis
-> #61: FILE: drivers/staging/rtl8192e/rtllib_softmac_wx.c:212:
-> +	tmp_rate = tx_count_to_data_rate(ieee,
->  				     ieee->softmac_stats.CurrentShowTxate);
+This driver supports station infrastructure and monitor mode. Therefore
+it does not have to be able to send beacons. Remove all code with the
+preparation of beacons.
 
-That's fine, it can be cleaned up in a later patch.
+There are two ways to time beacons. One is via an interrupt from
+hardware and one is from a timer in the driver. Both are removed.
+ 
+Tested with rtl8192e (WLL6130-D99) in Mode n (12.5 MB/s)
+Transferred this patch over wlan connection of rtl8192e.
 
-thanks,
+Philipp Hortmann (8):
+  staging: rtl8192e: Remove unused interrupt for IMR_BcnInt
+  staging: rtl8192e: Remove unused function rtllib_get_beacon()
+  staging: rtl8192e: Remove unused timer beacon_timer
+  staging: rtl8192e: Remove unused function rtllib_send_beacon()
+  staging: rtl8192e: Remove unused function rtllib_get_beacon_()
+  staging: rtl8192e: Remove unused function rtllib_probe_resp()
+  staging: rtl8192e: Remove unused function HTConstructInfoElement()
+  staging: rtl8192e: Remove function rtl92e_update_rx_pkt_timestamp()
 
-greg k-h
+ .../staging/rtl8192e/rtl8192e/r8192E_dev.c    |   4 +-
+ drivers/staging/rtl8192e/rtl8192e/rtl_core.c  |  48 ----
+ drivers/staging/rtl8192e/rtl8192e/rtl_core.h  |   5 -
+ drivers/staging/rtl8192e/rtl819x_HTProc.c     |  16 --
+ drivers/staging/rtl8192e/rtllib.h             |   5 -
+ drivers/staging/rtl8192e/rtllib_softmac.c     | 219 ------------------
+ 6 files changed, 1 insertion(+), 296 deletions(-)
+
+-- 
+2.42.0
+
