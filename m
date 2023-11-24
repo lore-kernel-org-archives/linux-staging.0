@@ -1,53 +1,52 @@
-Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com [209.85.167.42])
+Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10AFD364B3
-	for <linux-staging@lists.linux.dev>; Fri, 24 Nov 2023 21:30:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F734381D5
+	for <linux-staging@lists.linux.dev>; Fri, 24 Nov 2023 21:30:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DUOjlnqT"
-Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-507cb194e30so659018e87.1
-        for <linux-staging@lists.linux.dev>; Fri, 24 Nov 2023 13:30:42 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SFYuPCWZ"
+Received: by mail-ed1-f54.google.com with SMTP id 4fb4d7f45d1cf-5451faa3aa7so697755a12.0
+        for <linux-staging@lists.linux.dev>; Fri, 24 Nov 2023 13:30:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1700861441; x=1701466241; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1700861449; x=1701466249; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=7G27DLDSnr98RUfDdYxVys5pn2qiQC28hb1GX/OMO0I=;
-        b=DUOjlnqT7JjqtNOFdIxGMGYduztm8CFXyQ/b42kwg1Eews2WOpYuNx64RjPOxEnt4N
-         99h0S4kT+KB9w5ZiWsXSDUgMl6qmtmI0cXdAAliSD/SJmfYwClHxKpb904Du/jqyxde9
-         uMedMfA+9W3ofRBx+EHhWuXxGGrcXReCPLEogVKx0ZP4+yDr2CGIv5rUfumF0esSnHHU
-         sNe0kVcoWJnjJ2bKpMiwISeTf2EkT3bhfVcDTMdBWoWVOlPCubd1TQDQj5ZES4JzpocW
-         S8x5TToKG5CPUG3bXlB8IWfjl55816ERyXL1AMWeKh49dFqgDBcFPlB9f7EPofmN3Rzr
-         DxxQ==
+        bh=xoZLCfy84gUYPbI3uqvkOab7elap9QZSeyk50KS8zLU=;
+        b=SFYuPCWZpeBV7jEYGtgpGY6q0cDOWM5SmbTpyc0CHYmfCg4gJ1vV3ToL9lu9szEvoG
+         /CD3nQhk8zfTtHBDC1amOibrL5zpKIsQzLH0aC22rrFcBlUi/8+5+VY1inT3fFgc0GZe
+         k/9Q/JR3omK7+Ef8mGiYvXsy5QFvAgHscO9R7NeaS6d0cLo/D6DTmv2Vjwc+Cb+VSN01
+         Md9EwirvJzE4/2dmjpxYWYUux1Ukuc0uEBnW5rliS/iob2aDRptfUf3i4ujVDsIs35hw
+         WPFKyF1Cgu/cB+q+YfVOMIRQdk5yBmroHe4Z/NXnRuVRKaCyRXloHhB3NS8XqhS2JqQp
+         TFtg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700861441; x=1701466241;
+        d=1e100.net; s=20230601; t=1700861449; x=1701466249;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=7G27DLDSnr98RUfDdYxVys5pn2qiQC28hb1GX/OMO0I=;
-        b=TUYlxAzHiNZ+S945BsmpkNNif7JyL9gnOdIq9a3J+8/arnVzzoWOFfrBSYGy3WZaJQ
-         K8uGyyWv3I0xeURX8Hs5aWFnEO5jWrJq1v6yoJrLuwyzbRQXuffRyqnPgSPvip7sBnHu
-         IbtWWPU3zxiqxx4ZZvWxp61zh63jRJD5rWf5GteBhhB1CzHwLKIVcxTSNifmRP5pIjpC
-         DE8A9zFNhlemudNXTabujjdd80EJA13BeqvrpnI/OsHLEBFiHzQFjgjlJ05yDByi82PB
-         1LhjA6Nh2HGg77mNFZtpN8SaZp8Ag8wLOfwWD8ZEcZc45SdQe/TU5xOPsP5tQHJYxoWZ
-         d/1g==
-X-Gm-Message-State: AOJu0Yz7sqMTJRFWayDGdeQnKQbX7P72uWRPMPPxt2gBwBeOftzd9cWX
-	GmdzTGuh5gy+wZSG8GxxhnU=
-X-Google-Smtp-Source: AGHT+IFlYdG7tyeIYbb8Y7pITwOO+/AGFM093dRsUC8/YvjlAYnA3fBVfLMrwtAQKK6QP0i2QzzMKQ==
-X-Received: by 2002:a05:6512:3b0a:b0:507:b1b8:cf0a with SMTP id f10-20020a0565123b0a00b00507b1b8cf0amr2922142lfv.3.1700861440913;
-        Fri, 24 Nov 2023 13:30:40 -0800 (PST)
+        bh=xoZLCfy84gUYPbI3uqvkOab7elap9QZSeyk50KS8zLU=;
+        b=qQlOKFQfYAJgi3V+dl1/SB603aS/sum1aF9nQ/fMShC44enBggOMWEUCVRQiGELibZ
+         2qBdbRLFV32FW2mjhx+KLxdns0c1s+aOjcHxkD2XNwYKTxwYehXNLQeCurI8VkGhlIbY
+         kaXWYMAV3P/btfuv2GM2Qrzcrx0ql7UBCLxueKAUujGhv/zDG6dXpMXV3RnRswwo2A2A
+         a7+e7wytATqEXJEwZG1L8Man4yzEURQYSoOY/Hq3J5iVIsXJKeqwOl6vud0FLRDV+715
+         z7ImWhebwn4W4RfH76CMKhG18lIvVG7iobehySjiEN6iiwlHfqhwipp5ocMhzx8BPY1E
+         GpHQ==
+X-Gm-Message-State: AOJu0Yz4qAyX5O1T9UrP6bGOo/hvN288g0woUszu3oTZRckBRIbwBzDy
+	YskJNBGShDPpkvrcE1BntctlWpvxRDU=
+X-Google-Smtp-Source: AGHT+IExYU05LokiyAqdqqUl1BXlu3JcZIXnjwyodpQNEFEEwHrckfNTeYD3GXE+m1aWcsGb3gIwHA==
+X-Received: by 2002:a17:907:b00f:b0:9b2:bf2d:6b65 with SMTP id fu15-20020a170907b00f00b009b2bf2d6b65mr2305143ejc.4.1700861449489;
+        Fri, 24 Nov 2023 13:30:49 -0800 (PST)
 Received: from matrix-ESPRIMO-P710 (p54a07fa0.dip0.t-ipconnect.de. [84.160.127.160])
-        by smtp.gmail.com with ESMTPSA id x22-20020a170906135600b009efe6fdf615sm2519712ejb.150.2023.11.24.13.30.40
+        by smtp.gmail.com with ESMTPSA id bv8-20020a170906b1c800b009fc927023bcsm2527152ejb.34.2023.11.24.13.30.49
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 24 Nov 2023 13:30:40 -0800 (PST)
-Date: Fri, 24 Nov 2023 22:30:39 +0100
+        Fri, 24 Nov 2023 13:30:49 -0800 (PST)
+Date: Fri, 24 Nov 2023 22:30:47 +0100
 From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [PATCH 2/8] staging: rtl8192e: Remove unused function
- rtllib_get_beacon()
-Message-ID: <d76eeb7e273f4fcfec4ae8879e56d237363ebde2.1700860758.git.philipp.g.hortmann@gmail.com>
+Subject: [PATCH 3/8] staging: rtl8192e: Remove unused timer beacon_timer
+Message-ID: <b16b6b4525ede8e2a218cb39d23f9ef2a3a745a9.1700860759.git.philipp.g.hortmann@gmail.com>
 References: <cover.1700860758.git.philipp.g.hortmann@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -59,58 +58,62 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 In-Reply-To: <cover.1700860758.git.philipp.g.hortmann@gmail.com>
 
-Remove unused function rtllib_get_beacon().
+Driver does not support AP Mode therefore no beacons need to be send.
+Remove unused timer beacon_timer.
 
 Signed-off-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
 ---
  drivers/staging/rtl8192e/rtllib.h         |  1 -
- drivers/staging/rtl8192e/rtllib_softmac.c | 21 ---------------------
- 2 files changed, 22 deletions(-)
+ drivers/staging/rtl8192e/rtllib_softmac.c | 17 -----------------
+ 2 files changed, 18 deletions(-)
 
 diff --git a/drivers/staging/rtl8192e/rtllib.h b/drivers/staging/rtl8192e/rtllib.h
-index 5d6563d12480..835b407ab180 100644
+index 835b407ab180..b7f4d7e2ea26 100644
 --- a/drivers/staging/rtl8192e/rtllib.h
 +++ b/drivers/staging/rtl8192e/rtllib.h
-@@ -1693,7 +1693,6 @@ void rtllib_softmac_start_protocol(struct rtllib_device *ieee);
- void rtllib_reset_queue(struct rtllib_device *ieee);
- void rtllib_wake_all_queues(struct rtllib_device *ieee);
- void rtllib_stop_all_queues(struct rtllib_device *ieee);
--struct sk_buff *rtllib_get_beacon(struct rtllib_device *ieee);
+@@ -1418,7 +1418,6 @@ struct rtllib_device {
+ 	struct timer_list associate_timer;
  
- void notify_wx_assoc_event(struct rtllib_device *ieee);
- void rtllib_ps_tx_ack(struct rtllib_device *ieee, short success);
+ 	/* used if IEEE_SOFTMAC_BEACONS is set */
+-	struct timer_list beacon_timer;
+ 	u8 need_sw_enc;
+ 	struct work_struct associate_complete_wq;
+ 	struct work_struct ips_leave_wq;
 diff --git a/drivers/staging/rtl8192e/rtllib_softmac.c b/drivers/staging/rtl8192e/rtllib_softmac.c
-index 2ce4f64f88f6..0ad08165fd85 100644
+index 0ad08165fd85..430951c88123 100644
 --- a/drivers/staging/rtl8192e/rtllib_softmac.c
 +++ b/drivers/staging/rtl8192e/rtllib_softmac.c
-@@ -2180,27 +2180,6 @@ static struct sk_buff *rtllib_get_beacon_(struct rtllib_device *ieee)
- 	return skb;
+@@ -365,21 +365,6 @@ static void rtllib_send_beacon(struct rtllib_device *ieee)
+ 		softmac_mgmt_xmit(skb, ieee);
+ 		ieee->softmac_stats.tx_beacons++;
+ 	}
+-
+-	if (ieee->beacon_txing && ieee->ieee_up)
+-		mod_timer(&ieee->beacon_timer, jiffies +
+-			  (msecs_to_jiffies(ieee->current_network.beacon_interval - 5)));
+-}
+-
+-static void rtllib_send_beacon_cb(struct timer_list *t)
+-{
+-	struct rtllib_device *ieee =
+-		from_timer(ieee, t, beacon_timer);
+-	unsigned long flags;
+-
+-	spin_lock_irqsave(&ieee->beacon_lock, flags);
+-	rtllib_send_beacon(ieee);
+-	spin_unlock_irqrestore(&ieee->beacon_lock, flags);
  }
  
--struct sk_buff *rtllib_get_beacon(struct rtllib_device *ieee)
--{
--	struct sk_buff *skb;
--	struct rtllib_probe_response *b;
+ /* Enables network monitor mode, all rx packets will be received. */
+@@ -2328,8 +2313,6 @@ int rtllib_softmac_init(struct rtllib_device *ieee)
+ 
+ 	timer_setup(&ieee->associate_timer, rtllib_associate_abort_cb, 0);
+ 
+-	timer_setup(&ieee->beacon_timer, rtllib_send_beacon_cb, 0);
 -
--	skb = rtllib_get_beacon_(ieee);
--	if (!skb)
--		return NULL;
--
--	b = (struct rtllib_probe_response *)skb->data;
--	b->header.seq_ctrl = cpu_to_le16(ieee->seq_ctrl[0] << 4);
--
--	if (ieee->seq_ctrl[0] == 0xFFF)
--		ieee->seq_ctrl[0] = 0;
--	else
--		ieee->seq_ctrl[0]++;
--
--	return skb;
--}
--EXPORT_SYMBOL(rtllib_get_beacon);
--
- void rtllib_softmac_stop_protocol(struct rtllib_device *ieee)
- {
- 	rtllib_stop_scan_syncro(ieee);
+ 	INIT_DELAYED_WORK(&ieee->link_change_wq, (void *)rtllib_link_change_wq);
+ 	INIT_WORK(&ieee->associate_complete_wq, (void *)rtllib_associate_complete_wq);
+ 	INIT_DELAYED_WORK(&ieee->associate_procedure_wq, (void *)rtllib_associate_procedure_wq);
 -- 
 2.42.0
 
