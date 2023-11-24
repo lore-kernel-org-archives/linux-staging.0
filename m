@@ -1,151 +1,111 @@
-Received: from wout4-smtp.messagingengine.com (wout4-smtp.messagingengine.com [64.147.123.20])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79EDE3E48B
-	for <linux-staging@lists.linux.dev>; Thu, 23 Nov 2023 23:34:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=fastmail.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fastmail.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF4D718C2E
+	for <linux-staging@lists.linux.dev>; Fri, 24 Nov 2023 10:16:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=fastmail.org header.i=@fastmail.org header.b="A6jZUsMu";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="VV8YIAF+"
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
-	by mailout.west.internal (Postfix) with ESMTP id 0A910320094F;
-	Thu, 23 Nov 2023 18:34:24 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute1.internal (MEProxy); Thu, 23 Nov 2023 18:34:25 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fastmail.org; h=
-	cc:cc:content-type:content-type:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:sender
-	:subject:subject:to:to; s=fm1; t=1700782464; x=1700868864; bh=7S
-	oP/9+oMDHq5e1ZFZuMCyNkdAMjmxHmQZZ7tv03aps=; b=A6jZUsMudUpHsYWkPv
-	+9Eg94nSym349rYVXA4Rt747HuJLVFxR0UO5zKtKoO0pRflTZP7TbJ8IpVaAAy8S
-	N8JFT3CEudpWWxpGN8uqfrRgOZQ9sBQLKJujv+aZV/GE43WmQ4fwknpCZMkrA1/P
-	55aUFII/h5d+O0/9I5JBWEjan5mmGpqu1RkMPlbE1Ds+QD7MF5ITEfpfxCyd6lUl
-	YAsY7mylk4tKpzg5C+Eq4SrgIzoBPiCRQiV8gBzCW0ebJeYn3Nlcut5PKFP+uHx5
-	5dUhaee8+M/KStXexjaE/6jLhyK/uz1r8yzVhXHjeuQvZ14PAUSZA+eJuDBwekFK
-	m/lg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:sender:subject
-	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-	:x-sasl-enc; s=fm1; t=1700782464; x=1700868864; bh=7SoP/9+oMDHq5
-	e1ZFZuMCyNkdAMjmxHmQZZ7tv03aps=; b=VV8YIAF+NBgSqGIzWbz+XiVcmonFC
-	uiatPMuhvPE3DMgijhrs7hJC1JX5vOtsahLJUfW78i2nDfGG8Plz5ys7JI8h83oy
-	XWK/pz7sMEsks9GfzpZKFucaDH0TezfR7XpFsis3Zx1KBKO9wpU7idhCGxYgkziY
-	2O4vteNlLjh/vyEOrS8Rh70dRU5FeR3F221IxqNyK7wCtlJvspnooAotzJyFJXzw
-	4pMuYquosP1Jax9jqLapCFzd+Vk9sMh3srNT8lHzwyhSLvtoFYAjxISlFe1tJfyH
-	jWG/KqRfYOYLkxkjrzt+3pEuUJWCfkLBO5gi/VDZPKfhHymi2ATJcstjQ==
-X-ME-Sender: <xms:gOFfZcBximcby0pIL6Xc636xYmFLB9-oBB7H9AU5NZzsRkM4izyrLQ>
-    <xme:gOFfZegKGx0fOJ_rjW_rRYcmJAC7p7rL-u32KtCEazlqnpWPqboIyvvzUiKrgi3T7
-    gC85CsKqj8ARG6Ev6s>
-X-ME-Received: <xmr:gOFfZflskOXqWiEpp3xOmkvvQ7yJeeoqSUeNlVmGSF4RpMvYKbWA2F5wkc8X6mULPk8OsBKxJLZVPI91OP7yHzOtQpsYkcyr>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvkedrudehgedgudduucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepfhgfhffvvefuffgjkfggtgesthdtredttdertdenucfhrhhomhepifgrrhih
-    ucftohhokhgrrhguuceoghgrrhihrhhoohhkrghrugesfhgrshhtmhgrihhlrdhorhhgqe
-    enucggtffrrghtthgvrhhnpeefleffhfegtefffefgfedugeehhfdvueefffegkeejvdeg
-    leeiueelkeeiuddvheenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrih
-    hlfhhrohhmpehgrghrhihrohhokhgrrhgusehfrghsthhmrghilhdrohhrgh
-X-ME-Proxy: <xmx:gOFfZSyI1SjnhveGMbsVOzMCZhEoYUTt2lsAJDxdrhYLKsABRMn4yg>
-    <xmx:gOFfZRRHFiiX5E51KaB2fzUXR3SEKg6q5eXe3n36cE2ygLLanenasw>
-    <xmx:gOFfZdbXrnRjc-f-v2Klpy-3yko0fi6BpSNtyZU5mZzgPJRx8Uy5mQ>
-    <xmx:gOFfZceis29BXf9rnQtljIIcmNbNf3t5YkMOQS0L9uOUKnzIlTCVIw>
-Feedback-ID: ifd194980:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 23 Nov 2023 18:34:23 -0500 (EST)
-References: <20231123144337.13112-1-garyrookard@fastmail.org>
- <20231123144337.13112-3-garyrookard@fastmail.org>
- <5ff4d268-2fcb-4d55-819a-e2650731b91f@gmail.com>
-User-agent: mu4e 1.10.6; emacs 29.1
-From: Gary Rookard <garyrookard@fastmail.org>
-To: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 2/5] staging: rtl8192e: renamed variable
- TXCountToDataRate
-Date: Thu, 23 Nov 2023 18:19:25 -0500
-In-reply-to: <5ff4d268-2fcb-4d55-819a-e2650731b91f@gmail.com>
-Message-ID: <87v89svybm.fsf@fastmail.org>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="G0/2j0GN"
+Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-a00a9c6f1e9so248254266b.3
+        for <linux-staging@lists.linux.dev>; Fri, 24 Nov 2023 02:16:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1700820984; x=1701425784; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=ZcMLBYSAsdprviXMYBJT1guiAaPHdo15Q++eqKUBcSs=;
+        b=G0/2j0GNtXmYdNVEY7m0bHF0lS8Q7TZMU7h5rY2J5eO5RHkcMDyGiNJEeHnTS9GXik
+         zjmPBJLKeA0Be6Ju5s8lUcO0C2JWHHJxssqwDdRUZHqHZ74w47pI2pkyS1aG+zKqmSkv
+         lG6uK2Cv+sHlABObrWRztAHRM7zUcPZglhWLXQVSkR9KNMFW0Mgvy9XsChhUD6ylqGfa
+         6KT48GthoX4xoM8wH3jeHT1SZIZwsl3ocO37w22dV4pvJYOfxE/xuDK4e5cZlgewNFuM
+         O4gWy4eHyiLLuJnP5uq1nY3SeevUS2I8tF79BJhz6Rs5AH3aspLLMMyT9FL9I/oKRtca
+         PxGg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1700820984; x=1701425784;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=ZcMLBYSAsdprviXMYBJT1guiAaPHdo15Q++eqKUBcSs=;
+        b=XAuLMfNqr85c2s/l8h5nDEZH7soTJo8VgwPVgcsOr4zrfglr3s351i7ZFTZwDJhTls
+         C7YgZse7seC1IZl9y9kUbfnc310wqqA2GjWQlQ3xiCDrYmgzXXVX0f1yJ9GgbudKovBP
+         OFfutRsN1ckfKEkWV2gfUTXyjgtgPWiMRHI5JVGBz1xp2lDTldzRKdSYN6vyhT8X2aua
+         2qSudMSRPSXUGrD8+mFueKvSwMHCXrRpe792DpcscDfe5DB3sdF7Dae0cjm9hCAUN9ta
+         03sxzaUtRsTAKOflqlB9kFREVRZ8iTlVNNLaRkr3n7AEr8iRQa369ENYg9vWr8+if+O5
+         GalA==
+X-Gm-Message-State: AOJu0YyKcNdwkLZCeqg0FVdbCpEoOx/L7psCf2CTPwsKfZx5mL3bXDfm
+	AvdLFTtk6UR+HmKoVfWNEKY=
+X-Google-Smtp-Source: AGHT+IHMyVQ9DHJdncIOviYJm5Op4owrfc9bHRGqIAVNz9Kh2xDLtmkrUG13pmyHarsniEeVN07dLw==
+X-Received: by 2002:a17:906:2bd1:b0:a04:3571:e165 with SMTP id n17-20020a1709062bd100b00a043571e165mr1192100ejg.52.1700820983400;
+        Fri, 24 Nov 2023 02:16:23 -0800 (PST)
+Received: from zotac.lan. (dynamic-2a01-0c22-72cf-8300-2223-08ff-fe18-0310.c22.pool.telefonica.de. [2a01:c22:72cf:8300:2223:8ff:fe18:310])
+        by smtp.gmail.com with ESMTPSA id oq12-20020a170906cc8c00b009fbf15cee7fsm1887801ejb.69.2023.11.24.02.16.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 24 Nov 2023 02:16:22 -0800 (PST)
+From: Heiner Kallweit <hkallweit1@gmail.com>
+To: Wolfram Sang <wsa@kernel.org>,
+	linuxppc-dev@lists.ozlabs.org
+Cc: linux-i2c@vger.kernel.org,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	Christophe Leroy <christophe.leroy@csgroup.eu>,
+	Nicholas Piggin <npiggin@gmail.com>,
+	linux-kernel@vger.kernel.org,
+	greybus-dev@lists.linaro.org,
+	linux-staging@lists.linux.dev,
+	linux-media@vger.kernel.org
+Subject: [PATCH v2 00/10] Don't let i2c adapters declare I2C_CLASS_SPD support if they support I2C_CLASS_HWMON
+Date: Fri, 24 Nov 2023 11:16:09 +0100
+Message-ID: <20231124101619.6470-1-hkallweit1@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
 
+After removal of the legacy eeprom driver the only remaining I2C
+client device driver supporting I2C_CLASS_SPD is jc42. Because this
+driver also supports I2C_CLASS_HWMON, adapters don't have to
+declare support for I2C_CLASS_SPD if they support I2C_CLASS_HWMON.
+It's one step towards getting rid of I2C_CLASS_SPD mid-term.
 
-Philipp Hortmann <philipp.g.hortmann@gmail.com> writes:
+Series was created supported by Coccinelle and its splitpatch.
 
-> On 11/23/23 15:43, Gary Rookard wrote:
->> Renamed from Pascal/CamelCase to Snake case the variable
->> TXCountToDataRate.
->> TXCountToDataRate -> tx_count_to_data_rate
->> Linux kernel coding style (cleanup), checkpatch Avoid CamelCase.
->> Driver/module rtl8192e compiles.
->> Signed-off-by: Gary Rookard <garyrookard@fastmail.org>
->> ---
->> v3: Corrected versioning from v1 -> v3, includes change history.
->> v2: v2 was skipped over..v3 corrects this.
->> v1 Style and compile issues, asked to redo.
->>   drivers/staging/rtl8192e/rtl819x_HTProc.c    | 2 +-
->>   drivers/staging/rtl8192e/rtllib.h            | 2 +-
->>   drivers/staging/rtl8192e/rtllib_softmac_wx.c | 2 +-
->>   3 files changed, 3 insertions(+), 3 deletions(-)
->> diff --git a/drivers/staging/rtl8192e/rtl819x_HTProc.c
->> b/drivers/staging/rtl8192e/rtl819x_HTProc.c
->> index 280e335cbb6d..fb8294f31a60 100644
->> --- a/drivers/staging/rtl8192e/rtl819x_HTProc.c
->> +++ b/drivers/staging/rtl8192e/rtl819x_HTProc.c
->> @@ -114,7 +114,7 @@ static u16 ht_mcs_to_data_rate(struct rtllib_device *ieee, u8 nMcsRate)
->>   	return MCS_DATA_RATE[is40MHz][isShortGI][(nMcsRate & 0x7f)];
->>   }
->>   -u16  TxCountToDataRate(struct rtllib_device *ieee, u8 nDataRate)
->> +u16  tx_count_to_data_rate(struct rtllib_device *ieee, u8 nDataRate)
->>   {
->>   	u16	CCKOFDMRate[12] = {0x02, 0x04, 0x0b, 0x16, 0x0c, 0x12, 0x18,
->>   				   0x24, 0x30, 0x48, 0x60, 0x6c};
->> diff --git a/drivers/staging/rtl8192e/rtllib.h b/drivers/staging/rtl8192e/rtllib.h
->> index d2cf3cfaaaba..0226a69f40c3 100644
->> --- a/drivers/staging/rtl8192e/rtllib.h
->> +++ b/drivers/staging/rtl8192e/rtllib.h
->> @@ -1783,7 +1783,7 @@ extern u16 MCS_DATA_RATE[2][2][77];
->>   u8 HTCCheck(struct rtllib_device *ieee, u8 *pFrame);
->>   void HTResetIOTSetting(struct rt_hi_throughput *ht_info);
->>   bool IsHTHalfNmodeAPs(struct rtllib_device *ieee);
->> -u16  TxCountToDataRate(struct rtllib_device *ieee, u8 nDataRate);
->> +u16  tx_count_to_data_rate(struct rtllib_device *ieee, u8 nDataRate);
->>   int rtllib_rx_ADDBAReq(struct rtllib_device *ieee, struct sk_buff *skb);
->>   int rtllib_rx_ADDBARsp(struct rtllib_device *ieee, struct sk_buff *skb);
->>   int rtllib_rx_DELBA(struct rtllib_device *ieee, struct sk_buff *skb);
->> diff --git a/drivers/staging/rtl8192e/rtllib_softmac_wx.c b/drivers/staging/rtl8192e/rtllib_softmac_wx.c
->> index f32584291704..28aba1d610f7 100644
->> --- a/drivers/staging/rtl8192e/rtllib_softmac_wx.c
->> +++ b/drivers/staging/rtl8192e/rtllib_softmac_wx.c
->> @@ -208,7 +208,7 @@ int rtllib_wx_get_rate(struct rtllib_device *ieee,
->>   {
->>   	u32 tmp_rate;
->>   -	tmp_rate = TxCountToDataRate(ieee,
->> +	tmp_rate = tx_count_to_data_rate(ieee,
->>   				     ieee->softmac_stats.CurrentShowTxate);
->>   	wrqu->bitrate.value = tmp_rate * 500000;
->>   
->
-> CHECK: Alignment should match open parenthesis
-> #61: FILE: drivers/staging/rtl8192e/rtllib_softmac_wx.c:212:
-> +	tmp_rate = tx_count_to_data_rate(ieee,
->  				     ieee->softmac_stats.CurrentShowTxate)
-Yes, I'm guilty of ignoring the addional CHECKS in my patch
-diff. Cleanup only allows one type of correction per patch. They are
-going to be included in a follow up patch series that I'm working on.
-If this is unacceptable thinking on my part then I will stand corrected.
+v2:
+- fix style issue in patch 4
+- add ack in patch 2
+- set proper subject prefix for all patches
 
-P.S.
-Sorry, but they have been gone over with checkpatch and codespell.
+Signed-off-by: Heiner Kallweit <hkallweit1@gmail.com>
 
-Regards,
-Gary
+---
 
-
+ drivers/i2c/busses/i2c-ali1535.c                  |    2 +-
+ drivers/i2c/busses/i2c-ali1563.c                  |    2 +-
+ drivers/i2c/busses/i2c-ali15x3.c                  |    2 +-
+ drivers/i2c/busses/i2c-amd756.c                   |    2 +-
+ drivers/i2c/busses/i2c-amd8111.c                  |    2 +-
+ drivers/i2c/busses/i2c-elektor.c                  |    2 +-
+ drivers/i2c/busses/i2c-gpio.c                     |    2 +-
+ drivers/i2c/busses/i2c-ibm_iic.c                  |    2 +-
+ drivers/i2c/busses/i2c-iop3xx.c                   |    2 +-
+ drivers/i2c/busses/i2c-isch.c                     |    2 +-
+ drivers/i2c/busses/i2c-kempld.c                   |    3 +--
+ drivers/i2c/busses/i2c-mlxcpld.c                  |    2 +-
+ drivers/i2c/busses/i2c-nforce2.c                  |    2 +-
+ drivers/i2c/busses/i2c-pasemi-pci.c               |    2 +-
+ drivers/i2c/busses/i2c-piix4.c                    |    2 +-
+ drivers/i2c/busses/i2c-scmi.c                     |    2 +-
+ drivers/i2c/busses/i2c-sh7760.c                   |    2 +-
+ drivers/i2c/busses/i2c-sibyte.c                   |    4 ++--
+ drivers/i2c/busses/i2c-sis5595.c                  |    2 +-
+ drivers/i2c/busses/i2c-sis630.c                   |    2 +-
+ drivers/i2c/busses/i2c-sis96x.c                   |    2 +-
+ drivers/i2c/busses/i2c-via.c                      |    2 +-
+ drivers/i2c/busses/i2c-viapro.c                   |    2 +-
+ drivers/i2c/busses/scx200_acb.c                   |    2 +-
+ drivers/i2c/i2c-stub.c                            |    2 +-
+ drivers/media/pci/netup_unidvb/netup_unidvb_i2c.c |    2 +-
+ drivers/staging/greybus/i2c.c                     |    2 +-
+ 27 files changed, 28 insertions(+), 29 deletions(-)
