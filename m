@@ -1,146 +1,108 @@
-Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com [209.85.208.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out3-smtp.messagingengine.com (out3-smtp.messagingengine.com [66.111.4.27])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9169E364B3
-	for <linux-staging@lists.linux.dev>; Fri, 24 Nov 2023 21:31:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66F51A53
+	for <linux-staging@lists.linux.dev>; Sat, 25 Nov 2023 22:34:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=fastmail.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fastmail.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IZMo7mFN"
-Received: by mail-lj1-f180.google.com with SMTP id 38308e7fff4ca-2c6eac9c053so6350791fa.1
-        for <linux-staging@lists.linux.dev>; Fri, 24 Nov 2023 13:31:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1700861490; x=1701466290; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=5S0oIQteEFtVA6f+wDuOWRlecjAASZc+RJVV85sdBg0=;
-        b=IZMo7mFNev6RlaJlT2lTexdjfys0ttrJFUVOO0oNrbEqsRjpOwMpXCwbrHVAUwrWH1
-         zqGCCEdC0zYmTwdNEy6ykGdFV3f8DnXYFVxQOj2RwIFw2vzFdk+CBGMltgHSCVi8UBkI
-         5xVy7pN0oUZmO3omXiv2Q8puxVqhN1UFuHwjbN6dRvrpLJuqpmDRKrq1t5VzmKAdF0NF
-         CWFS0P22JFkxAfkn0nin19t1BZRNZqj1ND0APuq5Yxn4Rjz0GfD7xgUJQF+JDu78VxIL
-         qXzgEX4tECbeyjvjsjbOHr3ml9ImaQlVLfTQHVh5oyTLfvz2+JnSdvtasMgYpcGGuYeh
-         NOTQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700861490; x=1701466290;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=5S0oIQteEFtVA6f+wDuOWRlecjAASZc+RJVV85sdBg0=;
-        b=qY4HeXxr63pvP/GSg/lskM4JOpGpyOoW9mq4BHcUcS6DbpR3orHAwx48W7wqbbOkKb
-         rAs6q0WoT4E9eGApT7RxfCuIeCVUB93Y55N8xALcksnGcgDSmGWUznHbEWBHwOYVfeOj
-         iRWGBRrypRb68PB5shCfLEctAGLUgpBjnAx3xBWpjI9wGED9Pkk1TbQD7DgGu+PMak9O
-         qWQU6i6TIFs9BFyGuLpBzVHfpHMFIsAfdUmI8cvuQi8NjTU4XGVY6lnZvliaWJ/LtUkI
-         hkdoIJK0fSd0yWPOLbEt6OhiIKPqBCJ42GmVeDl/RWJ7EFQ72HlgG6KkxZ3DGKQNio/D
-         gTEA==
-X-Gm-Message-State: AOJu0YyB9zJyoQ1gcmazBqtsT8F1LoeYncBvYuIrdEglQcAc6S+vT+Wr
-	NK/XdoMWd03VOBqP1rObqGs=
-X-Google-Smtp-Source: AGHT+IHCMYkJ56jgpiXcuQzCkqn39XC5UUuL6jWvl9alMVa9XQgIMxx3I9bsJ/oaKaBkbt/GItZ3lg==
-X-Received: by 2002:a2e:5301:0:b0:2c5:2d06:cade with SMTP id h1-20020a2e5301000000b002c52d06cademr2556856ljb.2.1700861489325;
-        Fri, 24 Nov 2023 13:31:29 -0800 (PST)
-Received: from matrix-ESPRIMO-P710 (p54a07fa0.dip0.t-ipconnect.de. [84.160.127.160])
-        by smtp.gmail.com with ESMTPSA id k9-20020a170906578900b009fee12d0dcdsm2564669ejq.15.2023.11.24.13.31.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 24 Nov 2023 13:31:29 -0800 (PST)
-Date: Fri, 24 Nov 2023 22:31:27 +0100
-From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [PATCH 8/8] staging: rtl8192e: Remove function
- rtl92e_update_rx_pkt_timestamp()
-Message-ID: <89a21fa17b32d66e07514bfad5b604d5d4835e25.1700860759.git.philipp.g.hortmann@gmail.com>
-References: <cover.1700860758.git.philipp.g.hortmann@gmail.com>
+	dkim=pass (2048-bit key) header.d=fastmail.org header.i=@fastmail.org header.b="YSPFqZc+";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="J5HfZoWZ"
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+	by mailout.nyi.internal (Postfix) with ESMTP id 3A5525C0117;
+	Sat, 25 Nov 2023 17:34:37 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute2.internal (MEProxy); Sat, 25 Nov 2023 17:34:37 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fastmail.org; h=
+	cc:cc:content-transfer-encoding:content-type:date:date:from:from
+	:in-reply-to:message-id:mime-version:reply-to:sender:subject
+	:subject:to:to; s=fm1; t=1700951677; x=1701038077; bh=KnCK38yghL
+	XpfPI//VhpUZPJx2k0OfYmOLCMGIkrUlU=; b=YSPFqZc+LbsZm6elMFL7KwMN5a
+	L4Ev9M9FetEYaNoEDBksUS/o+lxA6tpDZljXPvx5iAavtG7nFMyg4UCM5kFx437F
+	itKiYvBEElJ1bNR+3JACsOJOT38Pi1mXsGmg6xB3rf3ivkoeh82xCqjLgjgD3mpX
+	/ocUiqgfuEsH+FufhJzIBCQNrp7imxrquQ0U7LrBtBiAsuHa22IcVnQOrMP8PDbr
+	dljwC737dM/R5OU3FG/8iXv01NmFlpKvaaSYdAvi+iUk6DYIt0d+ybppDfR4gcG+
+	qQWwUWsq4E14d5DtANDTLA4UsqoMqjRczYk4X+zJM7fK6Yis1zNuvTjy+GpA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:date:date:feedback-id:feedback-id:from:from
+	:in-reply-to:message-id:mime-version:reply-to:sender:subject
+	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+	:x-sasl-enc; s=fm1; t=1700951677; x=1701038077; bh=KnCK38yghLXpf
+	PI//VhpUZPJx2k0OfYmOLCMGIkrUlU=; b=J5HfZoWZsQUjK2nLpVFQD1rsxSjtq
+	z9wjCLs+GivTHBV2O0Wvf7t8GcO8EPkdy1xL2zY1sa4U7e1qx8+WhLYqslTfnpVI
+	x/BeDP0wdFmN6/51r+01U2gZhid3SfdBx8GSvgUHSd/0k8miZUMNyXFkUsIUPoqE
+	izavYlNkScKo2rMAeI3blNUaN/hqOjientqLMsIlCWGc+w8vosFSRNZoChXCsx5d
+	bnfMcLTnCeDUH7V2kzNWc0FnHz5c589mrS3zC7y20rRTdvkTVhrCqTBkj+szHtrR
+	l1tse/O+gTyDO+P0lEtqJyBv37ciynwH1WqpHObQMhbWJXbOrxLPnlOjQ==
+X-ME-Sender: <xms:fHZiZbAoZ7QJVSuXxdagbXtpDorpk0ZdWdN5xSU7znJvW9ePdHXAeg>
+    <xme:fHZiZRiPsOiZzUBI4F6air9-T-L8EBQDo0DRiTSTD6UsU52X1p01C9jlJyGx5oU2P
+    5E3vxJaiIF0kbtIMxc>
+X-ME-Received: <xmr:fHZiZWnVPGVS5j999fkLypFJoBWQQjtkQtj8poTkliANwOvki6v29E9FVNOmTtlCRmE-KlQLkEIQJiAYeda0jKbGiXJnY9eGkyKnSebPomqk>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvkedrudehjedgudeivdcutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+    necuuegrihhlohhuthemuceftddtnecunecujfgurhephffvvefufffkofgggfestdekre
+    dtredttdenucfhrhhomhepifgrrhihucftohhokhgrrhguuceoghgrrhihrhhoohhkrghr
+    ugesfhgrshhtmhgrihhlrdhorhhgqeenucggtffrrghtthgvrhhnpeelgefffffghefhje
+    egjeehiedvgfelfeehueeuteektdffiefhveelhfegvedvveenucevlhhushhtvghrufhi
+    iigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehgrghrhihrohhokhgrrhgusehfrg
+    hsthhmrghilhdrohhrgh
+X-ME-Proxy: <xmx:fXZiZdyfUtIUxi2F-pafjqz9jNDulelAhUN3Oqa55ycQtdUJm5yGTQ>
+    <xmx:fXZiZQR94Svm2rZx4mNF5IUT-ij7PH3i92hypRBqJhbpynf52g_TpA>
+    <xmx:fXZiZQZv6n0Zj6AEQQsXhp_HO8AQO-BVfat7TZZPJ14AzoThrfbOsw>
+    <xmx:fXZiZWdvs4F-wvd6Y2G59XuytIkbs5aTVplwlQIjhCxldkSxdMDBvg>
+Feedback-ID: ifd194980:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
+ 25 Nov 2023 17:34:36 -0500 (EST)
+From: Gary Rookard <garyrookard@fastmail.org>
+To: gregkh@linuxfoundation.org,
+	philipp.g.hortmann@gmail.com
+Cc: linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Gary Rookard <garyrookard@fastmail.org>
+Subject: [PATCH 0/5] staging: rtl8192e: patch series renaming (6) different variables.
+Date: Sat, 25 Nov 2023 17:34:27 -0500
+Message-ID: <20231125223432.13780-1-garyrookard@fastmail.org>
+X-Mailer: git-send-email 2.41.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <cover.1700860758.git.philipp.g.hortmann@gmail.com>
+Content-Transfer-Encoding: 8bit
 
-mac_time and last_rx_desc_tsf are only used in
-rtl92e_update_rx_pkt_timestamp(). Depending on a condition one is equal
-to the other or vice versa. But since those are not used anywhere else
-the function rtl92e_update_rx_pkt_timestamp() is just dead code.
+Hi,
 
-Signed-off-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
----
- drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c |  2 --
- drivers/staging/rtl8192e/rtl8192e/rtl_core.c   | 11 -----------
- drivers/staging/rtl8192e/rtl8192e/rtl_core.h   |  4 ----
- drivers/staging/rtl8192e/rtllib.h              |  1 -
- 4 files changed, 18 deletions(-)
+This patch series renames (6) different variables from
+CamelCase to Snake case.
 
-diff --git a/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c b/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c
-index 73315a236e76..13e3f26279aa 100644
---- a/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c
-+++ b/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c
-@@ -1673,8 +1673,6 @@ bool rtl92e_get_rx_stats(struct net_device *dev, struct rtllib_rx_stats *stats,
- 	stats->TimeStampLow = pDrvInfo->TSFL;
- 	stats->TimeStampHigh = rtl92e_readl(dev, TSFR + 4);
- 
--	rtl92e_update_rx_pkt_timestamp(dev, stats);
--
- 	if ((stats->RxBufShift + stats->RxDrvInfoSize) > 0)
- 		stats->bShift = 1;
- 
-diff --git a/drivers/staging/rtl8192e/rtl8192e/rtl_core.c b/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
-index fc6e8ea039a3..bad34221d8b7 100644
---- a/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
-+++ b/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
-@@ -1433,17 +1433,6 @@ void rtl92e_reset_desc_ring(struct net_device *dev)
- 	spin_unlock_irqrestore(&priv->irq_th_lock, flags);
- }
- 
--void rtl92e_update_rx_pkt_timestamp(struct net_device *dev,
--				    struct rtllib_rx_stats *stats)
--{
--	struct r8192_priv *priv = rtllib_priv(dev);
--
--	if (stats->bIsAMPDU && !stats->bFirstMPDU)
--		stats->mac_time = priv->last_rx_desc_tsf;
--	else
--		priv->last_rx_desc_tsf = stats->mac_time;
--}
--
- long rtl92e_translate_to_dbm(struct r8192_priv *priv, u8 signal_strength_index)
- {
- 	long	signal_power;
-diff --git a/drivers/staging/rtl8192e/rtl8192e/rtl_core.h b/drivers/staging/rtl8192e/rtl8192e/rtl_core.h
-index 846f0f7a737b..546c8a33dae8 100644
---- a/drivers/staging/rtl8192e/rtl8192e/rtl_core.h
-+++ b/drivers/staging/rtl8192e/rtl8192e/rtl_core.h
-@@ -234,8 +234,6 @@ struct r8192_priv {
- 	int		rxringcount;
- 	u16		rxbuffersize;
- 
--	u64 last_rx_desc_tsf;
--
- 	u32 receive_config;
- 	u8		retry_data;
- 	u8		retry_rts;
-@@ -391,8 +389,6 @@ void rtl92e_irq_enable(struct net_device *dev);
- void rtl92e_config_rate(struct net_device *dev, u16 *rate_config);
- void rtl92e_irq_disable(struct net_device *dev);
- 
--void rtl92e_update_rx_pkt_timestamp(struct net_device *dev,
--				    struct rtllib_rx_stats *stats);
- long rtl92e_translate_to_dbm(struct r8192_priv *priv, u8 signal_strength_index);
- void rtl92e_update_rx_statistics(struct r8192_priv *priv,
- 				 struct rtllib_rx_stats *pprevious_stats);
-diff --git a/drivers/staging/rtl8192e/rtllib.h b/drivers/staging/rtl8192e/rtllib.h
-index 04433c79b3a7..47da9b1a8682 100644
---- a/drivers/staging/rtl8192e/rtllib.h
-+++ b/drivers/staging/rtl8192e/rtllib.h
-@@ -471,7 +471,6 @@ enum _REG_PREAMBLE_MODE {
-  *       any adverse affects.
-  */
- struct rtllib_rx_stats {
--	u64 mac_time;
- 	s8  rssi;
- 	u8  signal;
- 	u8  noise;
+Patch 1/5) renamed 2 variables nMcsRate, mcsRate
+Patch 2/5) renamed variable isShortGI
+Patch 3/5) renamed variable bCurBW40MHz
+Patch 4/5) renamed variable nDataRate
+Patch 5/5) renamed variable is40MHz
+
+Linux kernel coding style (cleanup), checkpatch Avoid CamelCase.
+Driver/module rtl8192e compiles.
+
+Regards,
+Gary
+
+
+Gary Rookard (5):
+  staging: rtl8192e: renamed 2 variables nMcsRate, mcsRate
+  staging: rtl8192e: renamed variable isShortGI
+  staging: rtl8192e: renamed variable bCurBW40MHz
+  staging: rtl8192e: renamed variable nDataRate
+  staging: rtl8192e: renamed variable is40MHz
+
+ drivers/staging/rtl8192e/rtl819x_HT.h        |  2 +-
+ drivers/staging/rtl8192e/rtl819x_HTProc.c    | 66 ++++++++++----------
+ drivers/staging/rtl8192e/rtllib_softmac_wx.c |  4 +-
+ drivers/staging/rtl8192e/rtllib_tx.c         | 10 +--
+ 4 files changed, 41 insertions(+), 41 deletions(-)
+
 -- 
-2.42.0
+2.41.0
 
