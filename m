@@ -1,97 +1,124 @@
-Received: from out5-smtp.messagingengine.com (out5-smtp.messagingengine.com [66.111.4.29])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0AAAE1870
-	for <linux-staging@lists.linux.dev>; Sun, 26 Nov 2023 10:49:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=fastmail.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fastmail.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B8DA8BF1
+	for <linux-staging@lists.linux.dev>; Sun, 26 Nov 2023 14:52:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=fastmail.org header.i=@fastmail.org header.b="TXqxbh4W";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="e51fYF0t"
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
-	by mailout.nyi.internal (Postfix) with ESMTP id 1346B5C0164;
-	Sun, 26 Nov 2023 05:49:10 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute1.internal (MEProxy); Sun, 26 Nov 2023 05:49:10 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fastmail.org; h=
-	cc:cc:content-type:content-type:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:sender
-	:subject:subject:to:to; s=fm1; t=1700995750; x=1701082150; bh=EO
-	MOkS2/UVozc3tALLYGluUBGVVrqVPD4CI9ogonssc=; b=TXqxbh4W5kN02u7RE4
-	UXupyiBMPkXWdtRWLtdaLcaFnh5wJr+nzZGSM5TtGtqFbGXLhqTwD6R6Sqq6txiI
-	qwzDhywVPLwVi7lpuDYe4izVAhTlL4Rfluk1EmWcHENP1PuNTmBViBiLtg9C2jGv
-	YNSmKhtjiOh8KZO4DdUbbee9CDrYTdhbdZp9qvC6QMfMwzLEan4lqQlen48bdaNI
-	9HZrAbF+RlthQSnsG1u2471ijoL6lZRgLJH2TalN99qZzmA3jPy5Uz2RXS0aCxQZ
-	s873XZsmE3/rW8y+71YsS2FfLl68ivcvS1ry4BPBI9BUOFto2CnC0BY4SkgfOrv8
-	nb/g==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:sender:subject
-	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-	:x-sasl-enc; s=fm1; t=1700995750; x=1701082150; bh=EOMOkS2/UVozc
-	3tALLYGluUBGVVrqVPD4CI9ogonssc=; b=e51fYF0tzQyTc6HkhXSV86wg1f6XL
-	mcfG5thwKnwmZpODNM5iGCpjfNfPr6tNBBL0io7TRNma83nisyWOohPgTE/PFRbR
-	265Vr9vci4+/aIuU+laad+IQ5alB55qMIt6K+U+S1gl1xVXJAX07Iv/WqoxJiH6E
-	0oRWhDgvgRBfQ5+MCXeW0JOM4VEpDvgXPrWRs3JG70bCUvkkR/hg7WR1FQutNV3U
-	w0pgpMpPVE05+YJA7mmN0hMYW+DGmXKlKKObqMn1qzHAY0jopSwNpTXjfq2yjFNf
-	SgR8PLEuYAJe8PPuOwJTF+99svu7qJwJ1sOJL/crs84UxiWu342KP9mKw==
-X-ME-Sender: <xms:pSJjZbqKRhZDiHI0oMTL1aCjI08V3kF2fy5nq6gRKCfknL4sqqPIsA>
-    <xme:pSJjZVpJGlRS2hGwUzIXgbtO_GBknIp4j872t_LPjcanOfXgynuVPYnvc04pYoCCo
-    OlXK4j_nsA3mXz8hrM>
-X-ME-Received: <xmr:pSJjZYNvcA-pSCyyGAbY40l7tNb3A29HMGf1eqyCixYV9rzPEuM64Cm5cl1yh47Mwiq3P0rbA5er3Rn-wpWD1m7GuIzac7gd>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvkedrudehledgvddvucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepfhgfhffvvefuffgjkfggtgesthdtredttdertdenucfhrhhomhepifgrrhih
-    ucftohhokhgrrhguuceoghgrrhihrhhoohhkrghrugesfhgrshhtmhgrihhlrdhorhhgqe
-    enucggtffrrghtthgvrhhnpeefleffhfegtefffefgfedugeehhfdvueefffegkeejvdeg
-    leeiueelkeeiuddvheenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrih
-    hlfhhrohhmpehgrghrhihrohhokhgrrhgusehfrghsthhmrghilhdrohhrgh
-X-ME-Proxy: <xmx:pSJjZe6YtkJwbsNKmxPHYGh9TyRjiTzQzyq0dAfC4E1l2EvoToScEg>
-    <xmx:pSJjZa610BAPNk4jab9tlBHYVP6nkwTA2dVNSZEu7Mb2imvBGh9PcQ>
-    <xmx:pSJjZWhLZo2S5T9VEIcVlOe1jJjrXVqXWGCSQrbKjvIOkFe1Y1E21Q>
-    <xmx:piJjZaGKr9z3OjkMsFONkbqbwaY0R545_Z6CYQeGJPPNpEgmmoKzgQ>
-Feedback-ID: ifd194980:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
- 26 Nov 2023 05:49:09 -0500 (EST)
-References: <20231125223432.13780-1-garyrookard@fastmail.org>
- <20231125223432.13780-5-garyrookard@fastmail.org>
- <2023112622-jigsaw-scrambler-d385@gregkh>
-User-agent: mu4e 1.10.6; emacs 29.1
-From: Gary Rookard <garyrookard@fastmail.org>
-To: Greg KH <gregkh@linuxfoundation.org>
-Cc: philipp.g.hortmann@gmail.com, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 4/5] staging: rtl8192e: renamed variable nDataRate
-Date: Sun, 26 Nov 2023 05:48:08 -0500
-In-reply-to: <2023112622-jigsaw-scrambler-d385@gregkh>
-Message-ID: <87msv0x00h.fsf@fastmail.org>
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="O9nhbco4"
+Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id D1EB3DFB;
+	Sun, 26 Nov 2023 15:51:24 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1701010285;
+	bh=1AkiTfZtEKxDSCItwejoaW5n5WS50jpFJb2Dv/geccY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=O9nhbco4OxCuJotd3t0sdGcctrIDK4UfdRLymALld6dO6okXs0BFoOgobayIiK2VG
+	 y94Zh8aTHaFqAgwqbLtXSdR5ufjoigni6VmO/thHGegX6ZmU1l+g1ZLLH9KksGOkwW
+	 fSiJXG3bvztBv3TVxVaWc3I3f+3Nx8EMaF7AsRRc=
+Date: Sun, 26 Nov 2023 16:52:04 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Umang Jain <umang.jain@ideasonboard.com>, linux-staging@lists.linux.dev,
+	linux-rpi-kernel@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
+	Stefan Wahren <stefan.wahren@i2se.com>,
+	Dan Carpenter <error27@gmail.com>,
+	Kieran Bingham <kieran.bingham@ideasonboard.com>,
+	Phil Elwell <phil@raspberrypi.com>,
+	Dave Stevenson <dave.stevenson@raspberrypi.com>
+Subject: Re: [PATCH 6/9] staging: vc04_services: Drop vchiq_log_error() in
+ favour of dev_dbg
+Message-ID: <20231126145204.GB12891@pendragon.ideasonboard.com>
+References: <20231107095156.365492-1-umang.jain@ideasonboard.com>
+ <20231107095156.365492-7-umang.jain@ideasonboard.com>
+ <2023112322-wife-aspect-135b@gregkh>
+ <20231123134941.GD16377@pendragon.ideasonboard.com>
+ <2023112338-scrambler-utilize-a31d@gregkh>
+ <20231123172825.GJ16377@pendragon.ideasonboard.com>
+ <2023112343-bobbed-throbbing-2c36@gregkh>
+ <20231123180022.GA20170@pendragon.ideasonboard.com>
+ <2023112643-algebra-exorcist-5e6c@gregkh>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <2023112643-algebra-exorcist-5e6c@gregkh>
 
+On Sun, Nov 26, 2023 at 10:26:41AM +0000, Greg Kroah-Hartman wrote:
+> On Thu, Nov 23, 2023 at 08:00:22PM +0200, Laurent Pinchart wrote:
+> > On Thu, Nov 23, 2023 at 05:31:32PM +0000, Greg Kroah-Hartman wrote:
+> > > On Thu, Nov 23, 2023 at 07:28:25PM +0200, Laurent Pinchart wrote:
+> > > > On Thu, Nov 23, 2023 at 01:53:42PM +0000, Greg Kroah-Hartman wrote:
+> > > > > On Thu, Nov 23, 2023 at 03:49:41PM +0200, Laurent Pinchart wrote:
+> > > > > > On Thu, Nov 23, 2023 at 01:02:45PM +0000, Greg Kroah-Hartman wrote:
+> > > > > > > On Tue, Nov 07, 2023 at 04:51:53AM -0500, Umang Jain wrote:
+> > > > > > > > Drop vchiq_log_error() macro which wraps dev_dbg(). Introduce the usage
+> > > > > > > > of dev_dbg() directly.
+> > > > > > > > 
+> > > > > > > > Add a new enum vchiq_log_type and log_type() helper to faciliate the
+> > > > > > > > type of logging in dev_dbg(). This will help to determine the type of
+> > > > > > > > logging("error", "warning", "debug", "trace") to dynamic debug.
+> > > > > > > > 
+> > > > > > > > Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
+> > > > > > > > ---
+> > > > > > > >  .../interface/vchiq_arm/vchiq_arm.c           |  54 ++++----
+> > > > > > > >  .../interface/vchiq_arm/vchiq_connected.c     |   6 +-
+> > > > > > > >  .../interface/vchiq_arm/vchiq_core.c          | 126 ++++++++++--------
+> > > > > > > >  .../interface/vchiq_arm/vchiq_core.h          |  23 +++-
+> > > > > > > >  .../interface/vchiq_arm/vchiq_dev.c           |  47 ++++---
+> > > > > > > >  5 files changed, 143 insertions(+), 113 deletions(-)
+> > > > > > > > 
+> > > > > > > > diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
+> > > > > > > > index 9fb3e240d9de..2cb2a6503058 100644
+> > > > > > > > --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
+> > > > > > > > +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
+> > > > > > > > @@ -696,8 +696,8 @@ int vchiq_initialise(struct vchiq_instance **instance_out)
+> > > > > > > >  
+> > > > > > > >  	instance = kzalloc(sizeof(*instance), GFP_KERNEL);
+> > > > > > > >  	if (!instance) {
+> > > > > > > > -		vchiq_log_error(state->dev, VCHIQ_CORE,
+> > > > > > > > -				"%s: error allocating vchiq instance\n", __func__);
+> > > > > > > > +		dev_dbg(state->dev, "%s: %s: %s: error allocating vchiq instance\n",
+> > > > > > > > +			log_cat(VCHIQ_CORE), log_type(ERROR), __func__);
+> > > > > > > 
+> > > > > > > All dev_dbg() calls have __func__ in them automatically, you never need
+> > > > > > > to duplicate it again as that's redundant :(
+> > > > > > 
+> > > > > > Oh ? I didn't know that, and can't find it in the code. I may be missing
+> > > > > > something though. Are you referring to the +f flag for dynamic debug
+> > > > > > entries ? It won't work if dynamic debug isn't enabled though, but maybe
+> > > > > > we don't care about that ?
+> > > > > 
+> > > > > Yes, the "f" flag is what controls this, and if dynamic debug isn't
+> > > > > enabled, you don't get any message here and we don't care about it :)
+> > > > 
+> > > > You do if you #define DEBUG, that's one of the three options for
+> > > > dev_dbg() (dynamic debug and no_printk() being the other two). Maybe
+> > > > __func__ should be added to the dev_printk() version of dev_dbg() to
+> > > > have a consistent behaviour.
+> > > 
+> > > Drivers should NOT be defining DEBUG for anything in the tree, just use
+> > > the normal interfaces, as no one will be selecting debug options from
+> > > Kconfig.  DEBUG is really only good for out-of-tree work.
+> > 
+> > I didn't know that either. Of course '#define DEBUG' shouldn't be merged
+> > upstream, but I thought it was supported by the kernel to make that
+> > possible during development, as an alternative to dynamic debug. Does it
+> > mean we should drop '#define DEBUG' support from dev_dbg() eventually ?
+> 
+> Probably, once all of the "define DEBUG" lines are dropped from the
+> kernel itself, which might take a while :)
 
-Greg KH <gregkh@linuxfoundation.org> writes:
+Would a patch that simply drops them be acceptable ? If not, what's
+missing to remove them ?
 
-> On Sat, Nov 25, 2023 at 05:34:31PM -0500, Gary Rookard wrote:
->> -u16  tx_count_to_data_rate(struct rtllib_device *ieee, u8 nDataRate)
->> +u16  tx_count_to_data_rate(struct rtllib_device *ieee, u8 n_data_rate)
->
-> Why are you keeping the "n"?  It's not needed, right?  Remember, these
-> were written in "Hungarian notation" which uses the variable name to
-> denote the type of the variable, so "n" means "number" perhaps?  So it
-> can be dropped.
->
-> thanks,
->
-> greg k-h
-
-Okay, will redo.
-
+-- 
 Regards,
-Gary
+
+Laurent Pinchart
