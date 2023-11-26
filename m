@@ -1,46 +1,96 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from out5-smtp.messagingengine.com (out5-smtp.messagingengine.com [66.111.4.29])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 615ABCA56
-	for <linux-staging@lists.linux.dev>; Sun, 26 Nov 2023 10:30:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DBC2392
+	for <linux-staging@lists.linux.dev>; Sun, 26 Nov 2023 10:44:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=fastmail.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fastmail.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="ldeDO7ed"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DABA2C433C7;
-	Sun, 26 Nov 2023 10:30:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1700994628;
-	bh=jBYZySQmXXp7GkW2G6nnviQuF9V1/gxHhjXx0DeK0SY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ldeDO7edZmsVA5Y4AerlWeeMy4DzbaV8PStYdQrcPrpbp0zKNKIG40qbe6codZSql
-	 D+xvj52x0zz0WSFFcWh/62OGhtPLyRG2NgsP6b1YV92Y17/7Mv++SUW4bnAQvpTIND
-	 CAPlohUpSzeMlkGmZJxqaK8/jn1i+shTZ2SZPJDA=
-Date: Sun, 26 Nov 2023 10:30:25 +0000
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Gary Rookard <garyrookard@fastmail.org>
-Cc: philipp.g.hortmann@gmail.com, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/5] staging: rtl8192e: renamed 2 variables nMcsRate,
- mcsRate
-Message-ID: <2023112616-scallop-drier-ab16@gregkh>
+	dkim=pass (2048-bit key) header.d=fastmail.org header.i=@fastmail.org header.b="mcWDHIW2";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="z6IYFjiD"
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+	by mailout.nyi.internal (Postfix) with ESMTP id 32FAA5C01D2;
+	Sun, 26 Nov 2023 05:44:43 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute2.internal (MEProxy); Sun, 26 Nov 2023 05:44:43 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fastmail.org; h=
+	cc:cc:content-type:content-type:date:date:from:from:in-reply-to
+	:in-reply-to:message-id:mime-version:references:reply-to:sender
+	:subject:subject:to:to; s=fm1; t=1700995483; x=1701081883; bh=bB
+	D1JTLq5QkkoEDq3dObPg/Nlt3q3LXqmrxMYgIF6Z0=; b=mcWDHIW2Ad3sOAlSnl
+	0LONXywf+rsEsPSiG6Zc5s9UW1iTTASGr/Yve7rLxh8vQRpXSFGB/IeDl1l1rXPz
+	6oYe3lM6KGBZIpGsvqjXqyYiA8uIE2rVL6Xy7V5z8hlOmH9lvX+fKjyPOJrjqx3h
+	feTBln0b+I9dwxlPbKBUrxn5BMgT1xVu1z1rKBMBuPmWGtBKAMBnjfW9XvCgrZes
+	6PS0S3D8z9f8etQsMY+GABlQFH78kF3sz+cE0lhuziwFySDtP6aYnS5jpikqUaJh
+	i8asoV283pJNudiZBTlX/PoTanOQGdIMiuGa+TQBw3aKC+qIDlpLPgZgiCwS6Mr5
+	+VXQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:sender:subject
+	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+	:x-sasl-enc; s=fm1; t=1700995483; x=1701081883; bh=bBD1JTLq5Qkko
+	EDq3dObPg/Nlt3q3LXqmrxMYgIF6Z0=; b=z6IYFjiDykVasnglL5QDf145beZ2a
+	jHJKIalMIYussGOvrV8aVBUQtR6j3RsMiIId1FJ3rMnV4c9gWQg/iZ73PyLGEXUs
+	8/b5TCws7KXy9H+2DfBe9tccew1+Avyel3ul2Hkg/S+Li68NstuAn639ttspiNyh
+	fTPkNG5WcUq+VjPtTAg6Fa8d01w3EZ2W++MS8BfXh5Z9T8VIWOiHdLcomMqIyOUD
+	DoEZVBQjdchPV9PexbTn8j7TRikwpJISJ9ubUcHdmjAt9MScKurgueHioxjDvvkq
+	+PeYnlp2Ccejb3N+57Bwv5EiP/KG1SLz+U9vC9MG9MUWd26XduohZAPrw==
+X-ME-Sender: <xms:miFjZaI0WKTBX6HGXcroScTb5ucfwLX9__Vh4yFSukcLb1Ywic0fzg>
+    <xme:miFjZSIRJoJPhpcCZzDlWaSFFd6u99YOBTP-zwyHPax-UrP0eQszy6T6pXKcTi2mH
+    IdJLbj8EAy_rTh4lBg>
+X-ME-Received: <xmr:miFjZasvUtzHvCUewDmk0wy88tZU8G4Wvo9lc8vuFwqKLOod7AjC3mH9_CaX7_BbqG7Wr3_EtyYqyARXoak4O9i2Nr8SSaIj>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvkedrudehledgvdduucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepfhgfhffvvefuffgjkfggtgesthdtredttdertdenucfhrhhomhepifgrrhih
+    ucftohhokhgrrhguuceoghgrrhihrhhoohhkrghrugesfhgrshhtmhgrihhlrdhorhhgqe
+    enucggtffrrghtthgvrhhnpeefleffhfegtefffefgfedugeehhfdvueefffegkeejvdeg
+    leeiueelkeeiuddvheenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrih
+    hlfhhrohhmpehgrghrhihrohhokhgrrhgusehfrghsthhmrghilhdrohhrgh
+X-ME-Proxy: <xmx:myFjZfZZWSa2jcwH_95dwBbDZevyf6gffIgwUmYsly75MO_VUOfA1Q>
+    <xmx:myFjZRYW6hmuQBfPsVF8HHixxtHZrAQSZd-PdL8-NnOVyqiSR6zVpg>
+    <xmx:myFjZbDHsUk_ZDdb_Dlt-m6Bw-owaFnlY3YgoosBCHleGLHe11tXxg>
+    <xmx:myFjZQmQ3VJRzpT9ZIeHeu5Ci4vr8bwn58sh2HnDiS7RV7iCSetwxw>
+Feedback-ID: ifd194980:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
+ 26 Nov 2023 05:44:42 -0500 (EST)
 References: <20231125223432.13780-1-garyrookard@fastmail.org>
  <20231125223432.13780-2-garyrookard@fastmail.org>
+ <2023112616-scallop-drier-ab16@gregkh>
+User-agent: mu4e 1.10.6; emacs 29.1
+From: Gary Rookard <garyrookard@fastmail.org>
+To: Greg KH <gregkh@linuxfoundation.org>
+Cc: philipp.g.hortmann@gmail.com, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/5] staging: rtl8192e: renamed 2 variables nMcsRate,
+ mcsRate
+Date: Sun, 26 Nov 2023 05:42:57 -0500
+In-reply-to: <2023112616-scallop-drier-ab16@gregkh>
+Message-ID: <87v89ox08b.fsf@fastmail.org>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231125223432.13780-2-garyrookard@fastmail.org>
+Content-Type: text/plain
 
-On Sat, Nov 25, 2023 at 05:34:28PM -0500, Gary Rookard wrote:
-> Renamed 2 variables from CamelCase to Snake case nMcsRate
-> and mcsRate.
-> nMcsRate -> n_mcs_rate
 
-Please drop the "n".
+Greg KH <gregkh@linuxfoundation.org> writes:
 
-thanks,
+> On Sat, Nov 25, 2023 at 05:34:28PM -0500, Gary Rookard wrote:
+>> Renamed 2 variables from CamelCase to Snake case nMcsRate
+>> and mcsRate.
+>> nMcsRate -> n_mcs_rate
+>
+> Please drop the "n".
+>
+> thanks,
+>
+> greg k-h
 
-greg k-h
+Okay, will redo.
+
+Regards,
+Gary
