@@ -1,29 +1,29 @@
 Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 965E039FDC
-	for <linux-staging@lists.linux.dev>; Mon, 27 Nov 2023 16:55:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C614381AC
+	for <linux-staging@lists.linux.dev>; Mon, 27 Nov 2023 16:55:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="BP2Op9YS"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="JVjLCLb0"
 Received: from benjamin-XPS-13-9310.. (ec2-34-240-57-77.eu-west-1.compute.amazonaws.com [34.240.57.77])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
 	(Authenticated sender: benjamin.gaignard)
-	by madras.collabora.co.uk (Postfix) with ESMTPSA id 7D8A1660734C;
-	Mon, 27 Nov 2023 16:55:17 +0000 (GMT)
+	by madras.collabora.co.uk (Postfix) with ESMTPSA id 43B9A66072E7;
+	Mon, 27 Nov 2023 16:55:19 +0000 (GMT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1701104118;
-	bh=8LPqvsmi32imvr5cq2qE0KlaUGmcLFqSO7T1NPpNe9U=;
+	s=mail; t=1701104119;
+	bh=afrMqjrALFOXIhCz1raNZ7/QwbGBSwKlzOWAk681eQQ=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=BP2Op9YS0D8zLzDXZkBB+NgHH/TGXZ9MorD82JkaLJ8ymyq/aAeU1PGiVadVfOBiA
-	 1+WGnqLY2BHPT7t4KhKldiPUXMfophLaLmMPAChEVA/ei9A651k94l9phh08tA3SOh
-	 qAJxS/c3gArbOcmxMyTvvx1Obrx7zye7CwIqzmiYYEx26zMeywQWaDAhYb3C//Hn8C
-	 SuDCPunz4rsbACg5kCbGwGDKMBQftENynMkA8e+5hY35H0nLMy+chzScrgXvoZ38w6
-	 p9Ayl4MAGbt6lN16Nvtgxxa+3Y9MWta+UDsJnpouNuY3QKxQ6aNf4qiHQRpMEV06G8
-	 WTXTL8vHf24Dg==
+	b=JVjLCLb0nBrqf5glep/h0Gt7uYvwjMeFCskphJUITTXCYwGL9BJgBStqLGhM40DBN
+	 bJ46yJCcPRrBnrXHH24IZcU0XoMmgldhzmsLSFvW89QCcdhJFlJdozppNr9xFZ2XDg
+	 0OoqOroKpaAndWzVFd9lSZ4d3csC8eagUTBnDIq57bZ6B4Qre+pvm/qGMbkvz9eUro
+	 /8ZhwaeVIqD2MBqMq3WFUb5inmNy/Rz9yg+0UI4vMwYd7uRfW/qzV6N3EkEur50PsW
+	 tYZ2IQZ6KWjSX7mnsw2HQGww2zq8drPlRitnQWvze6CcSOCllSJjE9E+8b2AWMgnsB
+	 iFA/1RJFRAPrw==
 From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
 To: hverkuil@xs4all.nl,
 	mchehab@kernel.org,
@@ -35,16 +35,11 @@ Cc: linux-kernel@vger.kernel.org,
 	linux-staging@lists.linux.dev,
 	kernel@collabora.com,
 	Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-	Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
-	Vikash Garodia <quic_vgarodia@quicinc.com>,
-	"Bryan O'Donoghue" <bryan.odonoghue@linaro.org>,
-	Andy Gross <agross@kernel.org>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konrad.dybcio@linaro.org>,
-	linux-arm-msm@vger.kernel.org
-Subject: [PATCH 16/55] media: qcom: venus: Stop abusing of min_buffers_needed field
-Date: Mon, 27 Nov 2023 17:54:15 +0100
-Message-Id: <20231127165454.166373-17-benjamin.gaignard@collabora.com>
+	Chen-Yu Tsai <wens@csie.org>,
+	Samuel Holland <samuel@sholland.org>
+Subject: [PATCH 18/55] media: sunxi: sun8i-di: Stop abusing of min_buffers_needed field
+Date: Mon, 27 Nov 2023 17:54:17 +0100
+Message-Id: <20231127165454.166373-19-benjamin.gaignard@collabora.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20231127165454.166373-1-benjamin.gaignard@collabora.com>
 References: <20231127165454.166373-1-benjamin.gaignard@collabora.com>
@@ -58,67 +53,39 @@ Content-Transfer-Encoding: 8bit
 
 'min_buffers_needed' is suppose to be used to indicate the number
 of buffers needed by DMA engine to start streaming.
-venus driver doesn't use DMA engine and just want to specify
+sun8i-di driver doesn't use DMA engine and just want to specify
 the minimum number of buffers to allocate when calling VIDIOC_REQBUFS.
 That 'min_reqbufs_allocation' field purpose so use it.
 
 Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-CC: Stanimir Varbanov <stanimir.k.varbanov@gmail.com> (maintainer:QUALCOMM VENUS VIDEO ACCELERATOR DRIVER)
-CC: Vikash Garodia <quic_vgarodia@quicinc.com> (maintainer:QUALCOMM VENUS VIDEO ACCELERATOR DRIVER)
-CC: "Bryan O'Donoghue" <bryan.odonoghue@linaro.org> (reviewer:QUALCOMM VENUS VIDEO ACCELERATOR DRIVER)
-CC: Andy Gross <agross@kernel.org> (maintainer:ARM/QUALCOMM SUPPORT)
-CC: Bjorn Andersson <andersson@kernel.org> (maintainer:ARM/QUALCOMM SUPPORT)
-CC: Konrad Dybcio <konrad.dybcio@linaro.org> (maintainer:ARM/QUALCOMM SUPPORT)
-CC: linux-arm-msm@vger.kernel.org
+CC: Chen-Yu Tsai <wens@csie.org>
+CC: Samuel Holland <samuel@sholland.org>
 ---
- drivers/media/platform/qcom/venus/vdec.c | 4 ++--
- drivers/media/platform/qcom/venus/venc.c | 4 ++--
- 2 files changed, 4 insertions(+), 4 deletions(-)
+ drivers/media/platform/sunxi/sun8i-di/sun8i-di.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/media/platform/qcom/venus/vdec.c b/drivers/media/platform/qcom/venus/vdec.c
-index dbf305cec120..16b8d0dde10d 100644
---- a/drivers/media/platform/qcom/venus/vdec.c
-+++ b/drivers/media/platform/qcom/venus/vdec.c
-@@ -1641,7 +1641,7 @@ static int m2m_queue_init(void *priv, struct vb2_queue *src_vq,
- 	src_vq->drv_priv = inst;
- 	src_vq->buf_struct_size = sizeof(struct venus_buffer);
- 	src_vq->allow_zero_bytesused = 1;
--	src_vq->min_buffers_needed = 0;
-+	src_vq->min_reqbufs_allocation = 0;
- 	src_vq->dev = inst->core->dev;
- 	src_vq->lock = &inst->ctx_q_lock;
- 	ret = vb2_queue_init(src_vq);
-@@ -1656,7 +1656,7 @@ static int m2m_queue_init(void *priv, struct vb2_queue *src_vq,
- 	dst_vq->drv_priv = inst;
- 	dst_vq->buf_struct_size = sizeof(struct venus_buffer);
- 	dst_vq->allow_zero_bytesused = 1;
--	dst_vq->min_buffers_needed = 0;
-+	dst_vq->min_reqbufs_allocation = 0;
- 	dst_vq->dev = inst->core->dev;
- 	dst_vq->lock = &inst->ctx_q_lock;
- 	return vb2_queue_init(dst_vq);
-diff --git a/drivers/media/platform/qcom/venus/venc.c b/drivers/media/platform/qcom/venus/venc.c
-index 44b13696cf82..e399d01c208c 100644
---- a/drivers/media/platform/qcom/venus/venc.c
-+++ b/drivers/media/platform/qcom/venus/venc.c
-@@ -1398,7 +1398,7 @@ static int m2m_queue_init(void *priv, struct vb2_queue *src_vq,
- 	src_vq->drv_priv = inst;
- 	src_vq->buf_struct_size = sizeof(struct venus_buffer);
- 	src_vq->allow_zero_bytesused = 1;
+diff --git a/drivers/media/platform/sunxi/sun8i-di/sun8i-di.c b/drivers/media/platform/sunxi/sun8i-di/sun8i-di.c
+index 90ab1d77b6a5..d0f4f1f98bf0 100644
+--- a/drivers/media/platform/sunxi/sun8i-di/sun8i-di.c
++++ b/drivers/media/platform/sunxi/sun8i-di/sun8i-di.c
+@@ -673,7 +673,7 @@ static int deinterlace_queue_init(void *priv, struct vb2_queue *src_vq,
+ 	src_vq->io_modes = VB2_MMAP | VB2_DMABUF;
+ 	src_vq->drv_priv = ctx;
+ 	src_vq->buf_struct_size = sizeof(struct v4l2_m2m_buffer);
 -	src_vq->min_buffers_needed = 1;
 +	src_vq->min_reqbufs_allocation = 1;
- 	src_vq->dev = inst->core->dev;
- 	src_vq->lock = &inst->ctx_q_lock;
- 	if (inst->core->res->hfi_version == HFI_VERSION_1XX)
-@@ -1415,7 +1415,7 @@ static int m2m_queue_init(void *priv, struct vb2_queue *src_vq,
- 	dst_vq->drv_priv = inst;
- 	dst_vq->buf_struct_size = sizeof(struct venus_buffer);
- 	dst_vq->allow_zero_bytesused = 1;
--	dst_vq->min_buffers_needed = 1;
-+	dst_vq->min_reqbufs_allocation = 1;
- 	dst_vq->dev = inst->core->dev;
- 	dst_vq->lock = &inst->ctx_q_lock;
- 	return vb2_queue_init(dst_vq);
+ 	src_vq->ops = &deinterlace_qops;
+ 	src_vq->mem_ops = &vb2_dma_contig_memops;
+ 	src_vq->timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_COPY;
+@@ -688,7 +688,7 @@ static int deinterlace_queue_init(void *priv, struct vb2_queue *src_vq,
+ 	dst_vq->io_modes = VB2_MMAP | VB2_DMABUF;
+ 	dst_vq->drv_priv = ctx;
+ 	dst_vq->buf_struct_size = sizeof(struct v4l2_m2m_buffer);
+-	dst_vq->min_buffers_needed = 2;
++	dst_vq->min_reqbufs_allocation = 2;
+ 	dst_vq->ops = &deinterlace_qops;
+ 	dst_vq->mem_ops = &vb2_dma_contig_memops;
+ 	dst_vq->timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_COPY;
 -- 
 2.39.2
 
