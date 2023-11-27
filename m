@@ -1,29 +1,29 @@
 Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E1CF381D5
-	for <linux-staging@lists.linux.dev>; Mon, 27 Nov 2023 16:55:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DF6A39FD3
+	for <linux-staging@lists.linux.dev>; Mon, 27 Nov 2023 16:55:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="EJ2rDmOH"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="b8B91Hpy"
 Received: from benjamin-XPS-13-9310.. (ec2-34-240-57-77.eu-west-1.compute.amazonaws.com [34.240.57.77])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
 	(Authenticated sender: benjamin.gaignard)
-	by madras.collabora.co.uk (Postfix) with ESMTPSA id 8AD836607323;
-	Mon, 27 Nov 2023 16:55:13 +0000 (GMT)
+	by madras.collabora.co.uk (Postfix) with ESMTPSA id 0568C66022D7;
+	Mon, 27 Nov 2023 16:55:15 +0000 (GMT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1701104114;
-	bh=q+PBOieh7TUOZfOTD/eax3kPGizf1naDWVCgdVzk/Rg=;
+	s=mail; t=1701104116;
+	bh=0IW6KaZQ66ctszxERd9LJZiesOlWHkv1oaN5vdBxTOE=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=EJ2rDmOHuYC+RuIZhYXo8DzC0Rkky/qSkpSFNsGMMVKLXohgncgJ1VcjJ74ikJGtf
-	 pY+o9OAvZ02fx9XYYChpfQcBnLpuhwM0fXK8/MYElMkedofzaOuGcYCgGIGgD9L3/t
-	 Qfqaciz57Axsq9LOu5/sBoxUQbbYMlFof/CVjj1OHKZnXjIhLO2lhxnpDDLE9KhY1q
-	 rCMIlMoSpiJy5nHB+B5Qpfv51KH3hA8Y28gS7RQFBGvGvtaHEvY8HKUFMR2m21KaLd
-	 qDYw4OTcBnjIUkRd6LlPfmV7RjT1KDoCeaKCHbUzFubxnZFKp5UK+/Ug0zAxL588t3
-	 o9asdDeXrRa9A==
+	b=b8B91HpyP1Sf3w26/2U8ec9vYjPCdDWxjffLbFaIVAf32m07JWcjIgLw5l3GAN7zo
+	 dP6Tb/ovpk5XARCckipAA4Kq1UAslwqwcatQs8OsqO1RRZGaLMtjtO6ivnn4lVEZXg
+	 i6zDH8ehUe5HYPKQO7UVM78gtz9SE7IelAHYX5xM81s2CeV/KKghxucusWIH1VoW1x
+	 fW3Q14aGoqr1bj5JRO1WL75XK2MBkQ0qZxCPVXSd/tPpxa5jmYj7C8INRJn6KPJ8/y
+	 J5pj6QCauCj68sOV9mhlXmlnst2Q01bVkOCxkTj1nMdoc3GTnUo8j6oD+U0TAu2osD
+	 pATGmFRvNPJog==
 From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
 To: hverkuil@xs4all.nl,
 	mchehab@kernel.org,
@@ -35,10 +35,10 @@ Cc: linux-kernel@vger.kernel.org,
 	linux-staging@lists.linux.dev,
 	kernel@collabora.com,
 	Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-	Jean-Christophe Trotin <jean-christophe.trotin@foss.st.com>
-Subject: [PATCH 11/55] media: sti: hva: Stop abusing of min_buffers_needed field
-Date: Mon, 27 Nov 2023 17:54:10 +0100
-Message-Id: <20231127165454.166373-12-benjamin.gaignard@collabora.com>
+	Eugen Hristev <eugen.hristev@collabora.com>
+Subject: [PATCH 14/55] media: microchip: Stop abusing of min_buffers_needed field
+Date: Mon, 27 Nov 2023 17:54:13 +0100
+Message-Id: <20231127165454.166373-15-benjamin.gaignard@collabora.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20231127165454.166373-1-benjamin.gaignard@collabora.com>
 References: <20231127165454.166373-1-benjamin.gaignard@collabora.com>
@@ -52,38 +52,29 @@ Content-Transfer-Encoding: 8bit
 
 'min_buffers_needed' is suppose to be used to indicate the number
 of buffers needed by DMA engine to start streaming.
-hva driver doesn't use DMA engine and just want to specify
+microchip driver doesn't use DMA engine and just want to specify
 the minimum number of buffers to allocate when calling VIDIOC_REQBUFS.
 That 'min_reqbufs_allocation' field purpose so use it.
 
 Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-CC: Jean-Christophe Trotin <jean-christophe.trotin@foss.st.com>
+CC: Eugen Hristev <eugen.hristev@collabora.com>
 ---
- drivers/media/platform/st/sti/hva/hva-v4l2.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/media/platform/microchip/microchip-isc-base.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/media/platform/st/sti/hva/hva-v4l2.c b/drivers/media/platform/st/sti/hva/hva-v4l2.c
-index cfe83e9dc01b..d7bc25b0d69e 100644
---- a/drivers/media/platform/st/sti/hva/hva-v4l2.c
-+++ b/drivers/media/platform/st/sti/hva/hva-v4l2.c
-@@ -1142,7 +1142,7 @@ static int hva_queue_init(void *priv, struct vb2_queue *src_vq,
+diff --git a/drivers/media/platform/microchip/microchip-isc-base.c b/drivers/media/platform/microchip/microchip-isc-base.c
+index 3fba0e2844b6..9bed33aaf36f 100644
+--- a/drivers/media/platform/microchip/microchip-isc-base.c
++++ b/drivers/media/platform/microchip/microchip-isc-base.c
+@@ -1821,7 +1821,7 @@ static int isc_async_complete(struct v4l2_async_notifier *notifier)
+ 	q->mem_ops		= &vb2_dma_contig_memops;
+ 	q->timestamp_flags	= V4L2_BUF_FLAG_TIMESTAMP_MONOTONIC;
+ 	q->lock			= &isc->lock;
+-	q->min_buffers_needed	= 1;
++	q->min_reqbufs_allocation = 1;
+ 	q->dev			= isc->dev;
  
- 	src_vq->type = V4L2_BUF_TYPE_VIDEO_OUTPUT;
- 	src_vq->buf_struct_size = sizeof(struct hva_frame);
--	src_vq->min_buffers_needed = MIN_FRAMES;
-+	src_vq->min_reqbufs_allocation = MIN_FRAMES;
- 	src_vq->dev = ctx->hva_dev->dev;
- 
- 	ret = queue_init(ctx, src_vq);
-@@ -1151,7 +1151,7 @@ static int hva_queue_init(void *priv, struct vb2_queue *src_vq,
- 
- 	dst_vq->type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
- 	dst_vq->buf_struct_size = sizeof(struct hva_stream);
--	dst_vq->min_buffers_needed = MIN_STREAMS;
-+	dst_vq->min_reqbufs_allocation = MIN_STREAMS;
- 	dst_vq->dev = ctx->hva_dev->dev;
- 
- 	return queue_init(ctx, dst_vq);
+ 	ret = vb2_queue_init(q);
 -- 
 2.39.2
 
