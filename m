@@ -1,29 +1,29 @@
 Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3517839FC9
-	for <linux-staging@lists.linux.dev>; Mon, 27 Nov 2023 16:55:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D17F381D3
+	for <linux-staging@lists.linux.dev>; Mon, 27 Nov 2023 16:55:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="aK5Jnza1"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="Err5SscR"
 Received: from benjamin-XPS-13-9310.. (ec2-34-240-57-77.eu-west-1.compute.amazonaws.com [34.240.57.77])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
 	(Authenticated sender: benjamin.gaignard)
-	by madras.collabora.co.uk (Postfix) with ESMTPSA id 1F6F46602F16;
-	Mon, 27 Nov 2023 16:55:15 +0000 (GMT)
+	by madras.collabora.co.uk (Postfix) with ESMTPSA id 4ABBA66072A4;
+	Mon, 27 Nov 2023 16:55:14 +0000 (GMT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1701104115;
-	bh=aaWCiqdk39sHKKb5QCMsk+ktnGuP0FZaTGK54tWrHxU=;
+	s=mail; t=1701104114;
+	bh=TyWnSNSrmM8e46vPb9QIHFcmc4e6SFgOyK7FFQxtbXw=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=aK5Jnza1wx5sBNowajBeB5DX02ljyxjC4c27B+SImhywaxDxh9iCWLMyGA6/UTFrH
-	 HBZ4/iQONttHOownb4AKM+IHPs/4xfuQxikg3zgIwYVlxg04TAra+pMkvVpzbKpNWR
-	 iqxH2MQ7+vOr67hiT9DknWQebgDsWq6NEk9vRDN4zSygZkXgQThE1ES8F32RI4TScb
-	 4NiwI1BHAodRWKJmi8XWytuFZ6QVBJUsYU64tamXX/goCVjX19CYKQGlXiav+HheR0
-	 MxlIiIo1fwqnPjis8aD9W9KSfAUC8QxT+f4twZUoucK4OU9AzD2xVEQCvwk62b4+8A
-	 b7e83ngdHNcvg==
+	b=Err5SscROifk648ZJExh4TQcnejZoFk5VctUstRXFW7HD/aTCrbJQJX8ZSLDvvyRL
+	 MQLLvghzMeFsGURIpqImWeUvuqVd/eyR8Azsb4eHTgSWBKOUcyPuPWfFnhvWe/zshf
+	 a0DtV3EBKK37x+NgmCtrbbdsIevIEP65WtQyWnxpmnRZq9ZlZ3eemnDf+sWtBRIyCa
+	 rttpbZsQHyXxXKX2GYv69QEk3eyMnHYeAYyQp/VaT1vJJpl0TRoFihbCrCg1NzoNao
+	 rFxqDtpQmDWOg0mLYj8078e7FMg89rwT+n01VTwqP2Jy1V9cqPCCXEK006LM0k7fZN
+	 5qi/QTyW5oC8w==
 From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
 To: hverkuil@xs4all.nl,
 	mchehab@kernel.org,
@@ -35,14 +35,12 @@ Cc: linux-kernel@vger.kernel.org,
 	linux-staging@lists.linux.dev,
 	kernel@collabora.com,
 	Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-	Eddie James <eajames@linux.ibm.com>,
-	Joel Stanley <joel@jms.id.au>,
-	Andrew Jeffery <andrew@codeconstruct.com.au>,
-	openbmc@lists.ozlabs.org,
-	linux-aspeed@lists.ozlabs.org
-Subject: [PATCH 13/55] media: aspeed: Stop abusing of min_buffers_needed field
-Date: Mon, 27 Nov 2023 17:54:12 +0100
-Message-Id: <20231127165454.166373-14-benjamin.gaignard@collabora.com>
+	Dafna Hirschfeld <dafna@fastmail.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	linux-rockchip@lists.infradead.org
+Subject: [PATCH 12/55] media: rockchip: rkisp1: Stop abusing of min_buffers_needed field
+Date: Mon, 27 Nov 2023 17:54:11 +0100
+Message-Id: <20231127165454.166373-13-benjamin.gaignard@collabora.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20231127165454.166373-1-benjamin.gaignard@collabora.com>
 References: <20231127165454.166373-1-benjamin.gaignard@collabora.com>
@@ -56,33 +54,31 @@ Content-Transfer-Encoding: 8bit
 
 'min_buffers_needed' is suppose to be used to indicate the number
 of buffers needed by DMA engine to start streaming.
-aspeed doesn't use DMA engine and just want to specify
+rkisp1 driver doesn't use DMA engine and just want to specify
 the minimum number of buffers to allocate when calling VIDIOC_REQBUFS.
 That 'min_reqbufs_allocation' field purpose so use it.
 
 Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-CC: Eddie James <eajames@linux.ibm.com> (maintainer:ASPEED VIDEO ENGINE DRIVER)
-CC: Joel Stanley <joel@jms.id.au> (supporter:ARM/ASPEED MACHINE SUPPORT)
-CC: Andrew Jeffery <andrew@codeconstruct.com.au> (reviewer:ARM/ASPEED MACHINE SUPPORT)
-CC: openbmc@lists.ozlabs.org (moderated list:ASPEED VIDEO ENGINE DRIVER)
-CC: linux-aspeed@lists.ozlabs.org (moderated list:ARM/ASPEED MACHINE SUPPORT)
+CC: Dafna Hirschfeld <dafna@fastmail.com> (maintainer:ROCKCHIP ISP V1 DRIVER)
+CC: Laurent Pinchart <laurent.pinchart@ideasonboard.com> (maintainer:ROCKCHIP ISP V1 DRIVER)
+CC: linux-rockchip@lists.infradead.org (open list:ROCKCHIP ISP V1 DRIVER)
 ---
- drivers/media/platform/aspeed/aspeed-video.c | 2 +-
+ drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/media/platform/aspeed/aspeed-video.c b/drivers/media/platform/aspeed/aspeed-video.c
-index d08aa7f73d4f..c28b10808cda 100644
---- a/drivers/media/platform/aspeed/aspeed-video.c
-+++ b/drivers/media/platform/aspeed/aspeed-video.c
-@@ -2034,7 +2034,7 @@ static int aspeed_video_setup_video(struct aspeed_video *video)
- 	vbq->drv_priv = video;
- 	vbq->buf_struct_size = sizeof(struct aspeed_video_buffer);
- 	vbq->timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_MONOTONIC;
--	vbq->min_buffers_needed = ASPEED_VIDEO_V4L2_MIN_BUF_REQ;
-+	vbq->min_reqbufs_allocation = ASPEED_VIDEO_V4L2_MIN_BUF_REQ;
- 
- 	rc = vb2_queue_init(vbq);
- 	if (rc) {
+diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c
+index c6d7e01c8949..de3d89b1fac7 100644
+--- a/drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c
++++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c
+@@ -1431,7 +1431,7 @@ static int rkisp1_register_capture(struct rkisp1_capture *cap)
+ 	q->ops = &rkisp1_vb2_ops;
+ 	q->mem_ops = &vb2_dma_contig_memops;
+ 	q->buf_struct_size = sizeof(struct rkisp1_buffer);
+-	q->min_buffers_needed = RKISP1_MIN_BUFFERS_NEEDED;
++	q->min_reqbufs_allocation = RKISP1_MIN_BUFFERS_NEEDED;
+ 	q->timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_MONOTONIC;
+ 	q->lock = &node->vlock;
+ 	q->dev = cap->rkisp1->dev;
 -- 
 2.39.2
 
