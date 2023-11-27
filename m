@@ -1,124 +1,94 @@
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B8DA8BF1
-	for <linux-staging@lists.linux.dev>; Sun, 26 Nov 2023 14:52:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 982885663
+	for <linux-staging@lists.linux.dev>; Mon, 27 Nov 2023 05:36:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=darkphysics.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=darkphysics.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="O9nhbco4"
-Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id D1EB3DFB;
-	Sun, 26 Nov 2023 15:51:24 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1701010285;
-	bh=1AkiTfZtEKxDSCItwejoaW5n5WS50jpFJb2Dv/geccY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=O9nhbco4OxCuJotd3t0sdGcctrIDK4UfdRLymALld6dO6okXs0BFoOgobayIiK2VG
-	 y94Zh8aTHaFqAgwqbLtXSdR5ufjoigni6VmO/thHGegX6ZmU1l+g1ZLLH9KksGOkwW
-	 fSiJXG3bvztBv3TVxVaWc3I3f+3Nx8EMaF7AsRRc=
-Date: Sun, 26 Nov 2023 16:52:04 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Umang Jain <umang.jain@ideasonboard.com>, linux-staging@lists.linux.dev,
-	linux-rpi-kernel@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
-	Stefan Wahren <stefan.wahren@i2se.com>,
-	Dan Carpenter <error27@gmail.com>,
-	Kieran Bingham <kieran.bingham@ideasonboard.com>,
-	Phil Elwell <phil@raspberrypi.com>,
-	Dave Stevenson <dave.stevenson@raspberrypi.com>
-Subject: Re: [PATCH 6/9] staging: vc04_services: Drop vchiq_log_error() in
- favour of dev_dbg
-Message-ID: <20231126145204.GB12891@pendragon.ideasonboard.com>
-References: <20231107095156.365492-1-umang.jain@ideasonboard.com>
- <20231107095156.365492-7-umang.jain@ideasonboard.com>
- <2023112322-wife-aspect-135b@gregkh>
- <20231123134941.GD16377@pendragon.ideasonboard.com>
- <2023112338-scrambler-utilize-a31d@gregkh>
- <20231123172825.GJ16377@pendragon.ideasonboard.com>
- <2023112343-bobbed-throbbing-2c36@gregkh>
- <20231123180022.GA20170@pendragon.ideasonboard.com>
- <2023112643-algebra-exorcist-5e6c@gregkh>
+	dkim=pass (2048-bit key) header.d=darkphysics.net header.i=@darkphysics.net header.b="iUU9RqyN"
+Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-1cfc34b6890so6128345ad.1
+        for <linux-staging@lists.linux.dev>; Sun, 26 Nov 2023 21:36:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=darkphysics.net; s=google; t=1701063376; x=1701668176; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=AFU0GLwo+k9SYd7xhvDwdolRC+g7PfQjKlM2ZWM6J4A=;
+        b=iUU9RqyNgx+t99wHUpJmTCm4jnwDR19ix27Ts7HuXrKht3IIzhwy06H9cy5e4YNBGj
+         FD++wl84ovKSZY9e6PC0JWxj0lmEOfIP/SPsbpUsLceSYVAIZsw/im1tUdN/YchwHsgu
+         Tlz8tR/6LLMb5OXlv1Glx3sO/uqj583qxiws5P6R8cqEAsC2LicVreLHFfkPYskQOIhY
+         6D3I1seTTiXD2MU4tvOQArw1qmpYWg8oCF0I/FuEswCG6Q49dXlXVfuh1dcjA6tRLopC
+         n9GCn1dix5PE+X1LjEZPrp309iVRWnMlW5/OABKKShS/Yf66jZdwoMD+FAgBlmY8Z3v7
+         dA9w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1701063376; x=1701668176;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=AFU0GLwo+k9SYd7xhvDwdolRC+g7PfQjKlM2ZWM6J4A=;
+        b=KHFj/V6K/uimfbSls3n+naqLfR31VYBPm4MOXhLFG0aecuBn4sERYW4jvFC6daD2MF
+         qewWvVT+sGu9pkfNBr6mIXK5DwhbwQfyaPEXEItrHWyXJBi32FUJKLpmGpvUuw0ydAyH
+         mIKeyXyT/xpNmsC/M76rdVkm93B4xhzY1NmERGdny22vAEJyAbF9n2erAZLeZpUwun5y
+         aYk4N+LoO3/Dhf3+knriafM6SuYo2pmNAj/AQML1R4PSIvhqsUq3mVykF8A2lIrXHJtA
+         gqaiv/kco52SnccWJJiLR5yvNobXsO0bQ2rPmLv3qt8ScNDkp0ydGKU722BX3Og952pa
+         LOJA==
+X-Gm-Message-State: AOJu0YzIBxo9CIVfiAAoRbUo4exv9QQaaXIrC8khDnitNmZM44VUcTWG
+	i5Jjt9hZkSueYqxMxmoyAqSjrQ==
+X-Google-Smtp-Source: AGHT+IEFOyrbmnp7bIhJ3IP23QwPEQsOt25ZXE9QHgMwmG9UQfY3KA3eqlvwwBcaYv6AIBT9jssIig==
+X-Received: by 2002:a17:903:4d4:b0:1cf:636f:1bf8 with SMTP id jm20-20020a17090304d400b001cf636f1bf8mr15914236plb.24.1701063375758;
+        Sun, 26 Nov 2023 21:36:15 -0800 (PST)
+Received: from basil.darkphysics (c-76-146-178-2.hsd1.wa.comcast.net. [76.146.178.2])
+        by smtp.gmail.com with ESMTPSA id b6-20020a170902ed0600b001cc3875e658sm7300465pld.303.2023.11.26.21.36.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 26 Nov 2023 21:36:15 -0800 (PST)
+From: Tree Davies <tdavies@darkphysics.net>
+To: gregkh@linuxfoundation.org,
+	philipp.g.hortmann@gmail.com,
+	anjan@momi.ca
+Cc: linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Tree Davies <tdavies@darkphysics.net>
+Subject: [PATCH 00/15] Staging: rtl8192e: Rename CamelCase vars
+Date: Sun, 26 Nov 2023 21:42:50 -0800
+Message-ID: <20231127054305.148276-1-tdavies@darkphysics.net>
+X-Mailer: git-send-email 2.42.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <2023112643-algebra-exorcist-5e6c@gregkh>
+Content-Transfer-Encoding: 8bit
 
-On Sun, Nov 26, 2023 at 10:26:41AM +0000, Greg Kroah-Hartman wrote:
-> On Thu, Nov 23, 2023 at 08:00:22PM +0200, Laurent Pinchart wrote:
-> > On Thu, Nov 23, 2023 at 05:31:32PM +0000, Greg Kroah-Hartman wrote:
-> > > On Thu, Nov 23, 2023 at 07:28:25PM +0200, Laurent Pinchart wrote:
-> > > > On Thu, Nov 23, 2023 at 01:53:42PM +0000, Greg Kroah-Hartman wrote:
-> > > > > On Thu, Nov 23, 2023 at 03:49:41PM +0200, Laurent Pinchart wrote:
-> > > > > > On Thu, Nov 23, 2023 at 01:02:45PM +0000, Greg Kroah-Hartman wrote:
-> > > > > > > On Tue, Nov 07, 2023 at 04:51:53AM -0500, Umang Jain wrote:
-> > > > > > > > Drop vchiq_log_error() macro which wraps dev_dbg(). Introduce the usage
-> > > > > > > > of dev_dbg() directly.
-> > > > > > > > 
-> > > > > > > > Add a new enum vchiq_log_type and log_type() helper to faciliate the
-> > > > > > > > type of logging in dev_dbg(). This will help to determine the type of
-> > > > > > > > logging("error", "warning", "debug", "trace") to dynamic debug.
-> > > > > > > > 
-> > > > > > > > Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
-> > > > > > > > ---
-> > > > > > > >  .../interface/vchiq_arm/vchiq_arm.c           |  54 ++++----
-> > > > > > > >  .../interface/vchiq_arm/vchiq_connected.c     |   6 +-
-> > > > > > > >  .../interface/vchiq_arm/vchiq_core.c          | 126 ++++++++++--------
-> > > > > > > >  .../interface/vchiq_arm/vchiq_core.h          |  23 +++-
-> > > > > > > >  .../interface/vchiq_arm/vchiq_dev.c           |  47 ++++---
-> > > > > > > >  5 files changed, 143 insertions(+), 113 deletions(-)
-> > > > > > > > 
-> > > > > > > > diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
-> > > > > > > > index 9fb3e240d9de..2cb2a6503058 100644
-> > > > > > > > --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
-> > > > > > > > +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
-> > > > > > > > @@ -696,8 +696,8 @@ int vchiq_initialise(struct vchiq_instance **instance_out)
-> > > > > > > >  
-> > > > > > > >  	instance = kzalloc(sizeof(*instance), GFP_KERNEL);
-> > > > > > > >  	if (!instance) {
-> > > > > > > > -		vchiq_log_error(state->dev, VCHIQ_CORE,
-> > > > > > > > -				"%s: error allocating vchiq instance\n", __func__);
-> > > > > > > > +		dev_dbg(state->dev, "%s: %s: %s: error allocating vchiq instance\n",
-> > > > > > > > +			log_cat(VCHIQ_CORE), log_type(ERROR), __func__);
-> > > > > > > 
-> > > > > > > All dev_dbg() calls have __func__ in them automatically, you never need
-> > > > > > > to duplicate it again as that's redundant :(
-> > > > > > 
-> > > > > > Oh ? I didn't know that, and can't find it in the code. I may be missing
-> > > > > > something though. Are you referring to the +f flag for dynamic debug
-> > > > > > entries ? It won't work if dynamic debug isn't enabled though, but maybe
-> > > > > > we don't care about that ?
-> > > > > 
-> > > > > Yes, the "f" flag is what controls this, and if dynamic debug isn't
-> > > > > enabled, you don't get any message here and we don't care about it :)
-> > > > 
-> > > > You do if you #define DEBUG, that's one of the three options for
-> > > > dev_dbg() (dynamic debug and no_printk() being the other two). Maybe
-> > > > __func__ should be added to the dev_printk() version of dev_dbg() to
-> > > > have a consistent behaviour.
-> > > 
-> > > Drivers should NOT be defining DEBUG for anything in the tree, just use
-> > > the normal interfaces, as no one will be selecting debug options from
-> > > Kconfig.  DEBUG is really only good for out-of-tree work.
-> > 
-> > I didn't know that either. Of course '#define DEBUG' shouldn't be merged
-> > upstream, but I thought it was supported by the kernel to make that
-> > possible during development, as an alternative to dynamic debug. Does it
-> > mean we should drop '#define DEBUG' support from dev_dbg() eventually ?
-> 
-> Probably, once all of the "define DEBUG" lines are dropped from the
-> kernel itself, which might take a while :)
+This Series renames 15 variables to fix checkpatch warnings.
 
-Would a patch that simply drops them be acceptable ? If not, what's
-missing to remove them ?
+Thank you in advance to reviewers
+~Tree
+
+Tree Davies (15):
+  Staging: rtl8192e: Rename variable pTxTs
+  Staging: rtl8192e: Rename variable BAReq
+  Staging: rtl8192e: Rename variable Delba
+  Staging: rtl8192e: Rename variable TSpec
+  Staging: rtl8192e: Rename variable TxAdmittedBARecord
+  Staging: rtl8192e: Rename variable TxPendingBARecord
+  Staging: rtl8192e: Rename variable pDialogToken
+  Staging: rtl8192e: Rename variable pTsCommonInfo
+  Staging: rtl8192e: Rename variable TxCurSeq
+  Staging: rtl8192e: Rename variable TsAddBaTimer
+  Staging: rtl8192e: Rename variable DelbaParamSet
+  Staging: rtl8192e: Rename variable pBaParamSet
+  Staging: rtl8192e: Rename variable pBaTimeoutVal
+  Staging: rtl8192e: Rename variable pAdmittedBA
+  Staging: rtl8192e: Rename variable TsCommonInfo
+
+ drivers/staging/rtl8192e/rtl819x_BAProc.c | 178 +++++++++++-----------
+ drivers/staging/rtl8192e/rtl819x_TS.h     |  12 +-
+ drivers/staging/rtl8192e/rtl819x_TSProc.c |  56 +++----
+ drivers/staging/rtl8192e/rtllib.h         |   2 +-
+ drivers/staging/rtl8192e/rtllib_tx.c      |  22 +--
+ 5 files changed, 135 insertions(+), 135 deletions(-)
 
 -- 
-Regards,
+2.39.2
 
-Laurent Pinchart
