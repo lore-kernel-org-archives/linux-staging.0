@@ -1,60 +1,63 @@
-Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29221566C
-	for <linux-staging@lists.linux.dev>; Mon, 27 Nov 2023 05:36:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=darkphysics.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=darkphysics.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8910F2E40B
+	for <linux-staging@lists.linux.dev>; Mon, 27 Nov 2023 13:17:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=darkphysics.net header.i=@darkphysics.net header.b="AoJ1/E50"
-Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-1cf80a7be0aso31484815ad.1
-        for <linux-staging@lists.linux.dev>; Sun, 26 Nov 2023 21:36:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=darkphysics.net; s=google; t=1701063394; x=1701668194; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=zrOmN5h7Hp9zhTp9GrVqL3qhDYZcamqD4piT786f28U=;
-        b=AoJ1/E50DEpuRoHh57LSBA+ALvWVw9qDtkaL9bXQDEV/ClMHjDIGJdfxJZeVG3ZKB9
-         3totpWC8awqr761h7hUhYLu2mKGsPDeQtw1znGEu8rD3gzCQh3GWf9HMJZBg+7zFm4K6
-         ms2W5AHb+FFyxRW5wtL/4uK9xrXK6MPDEwfB8rr+0/zoY+2jE14GfuCpQIyHWmi0saNJ
-         FyaA++FwT+vQL6c9323kDrNbBzIcNCW40yxQ0OHokPggMnMcSmRe8fVjXLMFR4+w8ZyZ
-         +P7peEbldHbmIx5H+Ftv0yVsSIdnNCtZKjoejnnaw1eSOCm+SWx92dU3X91MnZzw7BJH
-         rRDA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701063394; x=1701668194;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=zrOmN5h7Hp9zhTp9GrVqL3qhDYZcamqD4piT786f28U=;
-        b=L5yQ3ywRAF+VI+mweB8ra7ExAR+33M+MENZkdHOhWgk95VTzhZ93H81nDXeSnQAd7b
-         zc1VyRRZNvxKSXb+GksPOGJQPsNOtcqYQNTzhZ30hVH+vQiK9BgPVNN0EoR1MxrmQ7L6
-         8bfuma8QC0maST2aBFSsaWiOBndjzXjqRIMDRfpMNLXqwdFshdeFVQqslBO+5EdoL1bN
-         7pLOoYcZ0l3WhTOXlhP9s4LpHAXAcDIc4ztXK4JJ/Ab9CLQ4/V4UFZJJQ8JW3wDYGiMk
-         LEy3hgLsySIS7v+eHoFhKDO6/0URYNKtDkFDu+B4o90lA/d4jM2A9UFGHc5T8GQkj2cZ
-         tQrw==
-X-Gm-Message-State: AOJu0YyWFYjMG0DXFLIbZjLLj/S9Ik6g6EoulX91DpusXp+zVHibskb3
-	0bSzL4jZpQnOAfOQb9pdTNX08Q==
-X-Google-Smtp-Source: AGHT+IHKWM5PNkHMdgW7GOMibQDlx4FTE9/Ju8V8e7vWg7P8uTMRAzIYK0dviMay6bdBd9R6o3ewfw==
-X-Received: by 2002:a17:903:11c8:b0:1cc:511d:eb43 with SMTP id q8-20020a17090311c800b001cc511deb43mr13690297plh.61.1701063394559;
-        Sun, 26 Nov 2023 21:36:34 -0800 (PST)
-Received: from basil.darkphysics (c-76-146-178-2.hsd1.wa.comcast.net. [76.146.178.2])
-        by smtp.gmail.com with ESMTPSA id b6-20020a170902ed0600b001cc3875e658sm7300465pld.303.2023.11.26.21.36.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 26 Nov 2023 21:36:34 -0800 (PST)
-From: Tree Davies <tdavies@darkphysics.net>
-To: gregkh@linuxfoundation.org,
-	philipp.g.hortmann@gmail.com,
-	anjan@momi.ca
-Cc: linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Tree Davies <tdavies@darkphysics.net>
-Subject: [PATCH 15/15] Staging: rtl8192e: Rename variable TsCommonInfo
-Date: Sun, 26 Nov 2023 21:43:05 -0800
-Message-ID: <20231127054305.148276-16-tdavies@darkphysics.net>
-X-Mailer: git-send-email 2.42.0
-In-Reply-To: <20231127054305.148276-1-tdavies@darkphysics.net>
-References: <20231127054305.148276-1-tdavies@darkphysics.net>
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="ZFm86Rtc";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="TZXluPho"
+Received: from imap2.dmz-prg2.suse.org (imap2.dmz-prg2.suse.org [10.150.64.98])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id C3B32203FE;
+	Mon, 27 Nov 2023 13:17:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1701091025; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=hJyET7XWuf/KWIDuSKlKzyH4amNakF6D1rSc8AEdlbQ=;
+	b=ZFm86RtcrCKpfV4jgk6LHNz8+cvMRIEWagWH7qyjtvtyGllR8KhXm51O40vwx1P4XJzMl7
+	7d6vDxHor7AeNTwldmAodKEf3Zx6xs6hOBIVPWmlp2Gu+irDHRT+A5vpVvttFWXAnV1qix
+	YqLxPe2nKgH7yD93D7WAda6IvBtN870=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1701091025;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=hJyET7XWuf/KWIDuSKlKzyH4amNakF6D1rSc8AEdlbQ=;
+	b=TZXluPhoHXTMoLrE3/BXugenP345L4ju5ajwZjM/+JAhRNFY6h+lQCi66LVF7MX0PsMqKr
+	ds5M2e1iPZFI7RCw==
+Received: from imap2.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap2.dmz-prg2.suse.org (Postfix) with ESMTPS id 8BFA5132A6;
+	Mon, 27 Nov 2023 13:17:05 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([10.150.64.162])
+	by imap2.dmz-prg2.suse.org with ESMTPSA
+	id SJwYIdGWZGUhLQAAn2gu4w
+	(envelope-from <tzimmermann@suse.de>); Mon, 27 Nov 2023 13:17:05 +0000
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: javierm@redhat.com,
+	deller@gmx.de
+Cc: linux-fbdev@vger.kernel.org,
+	dri-devel@lists.freedesktop.org,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Sudip Mukherjee <sudipm.mukherjee@gmail.com>,
+	Teddy Wang <teddy.wang@siliconmotion.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-staging@lists.linux.dev
+Subject: [PATCH v2 25/32] staging/sm750fb: Declare fb_ops as constant
+Date: Mon, 27 Nov 2023 14:15:54 +0100
+Message-ID: <20231127131655.4020-26-tzimmermann@suse.de>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20231127131655.4020-1-tzimmermann@suse.de>
+References: <20231127131655.4020-1-tzimmermann@suse.de>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -62,91 +65,150 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-Spam-Flag: NO
+Authentication-Results: smtp-out2.suse.de;
+	none
+X-Spam-Score: 5.20
+X-Spam-Level: *****
+X-Spamd-Result: default: False [5.20 / 50.00];
+	 ARC_NA(0.00)[];
+	 RCVD_VIA_SMTP_AUTH(0.00)[];
+	 FROM_HAS_DN(0.00)[];
+	 TO_DN_SOME(0.00)[];
+	 FREEMAIL_ENVRCPT(0.00)[gmail.com,gmx.de];
+	 R_MISSING_CHARSET(2.50)[];
+	 TAGGED_RCPT(0.00)[];
+	 MIME_GOOD(-0.10)[text/plain];
+	 BROKEN_CONTENT_TYPE(1.50)[];
+	 TO_MATCH_ENVRCPT_ALL(0.00)[];
+	 NEURAL_HAM_LONG(-1.00)[-1.000];
+	 RCVD_COUNT_THREE(0.00)[3];
+	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	 NEURAL_HAM_SHORT(-0.20)[-1.000];
+	 RCPT_COUNT_SEVEN(0.00)[9];
+	 MID_CONTAINS_FROM(1.00)[];
+	 DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,siliconmotion.com:email];
+	 FREEMAIL_TO(0.00)[redhat.com,gmx.de];
+	 FUZZY_BLOCKED(0.00)[rspamd.com];
+	 FROM_EQ_ENVFROM(0.00)[];
+	 MIME_TRACE(0.00)[0:+];
+	 FREEMAIL_CC(0.00)[vger.kernel.org,lists.freedesktop.org,suse.de,gmail.com,siliconmotion.com,linuxfoundation.org,lists.linux.dev];
+	 RCVD_TLS_ALL(0.00)[];
+	 SUSPICIOUS_RECIPS(1.50)[]
 
-Rename variable TsCommonInfo to ts_common_info to fix checkpatch
-warning Avoid CamelCase.
+Split up lynxfb_ops and declare each as constant. The fb_ops
+instance used to be modified while initializing the driver. It is
+now constant and the driver picks the correct instance, depending
+on the settings for acceleration and cursor support.
 
-Signed-off-by: Tree Davies <tdavies@darkphysics.net>
+Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Sudip Mukherjee <sudipm.mukherjee@gmail.com>
+Cc: Teddy Wang <teddy.wang@siliconmotion.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-staging@lists.linux.dev
+Acked-by: Javier Martinez Canillas <javierm@redhat.com>
 ---
- drivers/staging/rtl8192e/rtl819x_BAProc.c | 6 +++---
- drivers/staging/rtl8192e/rtl819x_TS.h     | 2 +-
- drivers/staging/rtl8192e/rtl819x_TSProc.c | 6 +++---
- 3 files changed, 7 insertions(+), 7 deletions(-)
+ drivers/staging/sm750fb/sm750.c | 59 +++++++++++++++++++++++++++------
+ 1 file changed, 49 insertions(+), 10 deletions(-)
 
-diff --git a/drivers/staging/rtl8192e/rtl819x_BAProc.c b/drivers/staging/rtl8192e/rtl819x_BAProc.c
-index b00d0f7c7517..58a950ef77ce 100644
---- a/drivers/staging/rtl8192e/rtl819x_BAProc.c
-+++ b/drivers/staging/rtl8192e/rtl819x_BAProc.c
-@@ -474,14 +474,14 @@ void rtllib_ts_init_add_ba(struct rtllib_device *ieee, struct tx_ts_record *ts,
- 	ba->dialog_token++;
- 	ba->ba_param_set.field.amsdu_support = 0;
- 	ba->ba_param_set.field.ba_policy = policy;
--	ba->ba_param_set.field.tid = ts->TsCommonInfo.tspec.ucTSID;
-+	ba->ba_param_set.field.tid = ts->ts_common_info.tspec.ucTSID;
- 	ba->ba_param_set.field.buffer_size = 32;
- 	ba->ba_timeout_value = 0;
- 	ba->ba_start_seq_ctrl.field.seq_num = (ts->tx_cur_seq + 3) % 4096;
- 
- 	activate_ba_entry(ba, BA_SETUP_TIMEOUT);
- 
--	rtllib_send_ADDBAReq(ieee, ts->TsCommonInfo.addr, ba);
-+	rtllib_send_ADDBAReq(ieee, ts->ts_common_info.addr, ba);
+diff --git a/drivers/staging/sm750fb/sm750.c b/drivers/staging/sm750fb/sm750.c
+index 79bcd5bd49380..35098516f53c9 100644
+--- a/drivers/staging/sm750fb/sm750.c
++++ b/drivers/staging/sm750fb/sm750.c
+@@ -663,16 +663,53 @@ static int sm750fb_set_drv(struct lynxfb_par *par)
+ 	return ret;
  }
  
- void rtllib_ts_init_del_ba(struct rtllib_device *ieee,
-@@ -525,7 +525,7 @@ void rtllib_tx_ba_inact_timeout(struct timer_list *t)
- 	struct rtllib_device *ieee = container_of(ts, struct rtllib_device,
- 				     TxTsRecord[ts->num]);
- 	tx_ts_delete_ba(ieee, ts);
--	rtllib_send_DELBA(ieee, ts->TsCommonInfo.addr,
-+	rtllib_send_DELBA(ieee, ts->ts_common_info.addr,
- 			  &ts->tx_admitted_ba_record, TX_DIR,
- 			  DELBA_REASON_TIMEOUT);
- }
-diff --git a/drivers/staging/rtl8192e/rtl819x_TS.h b/drivers/staging/rtl8192e/rtl819x_TS.h
-index 8e22c717fb27..31f7cfbb3aa5 100644
---- a/drivers/staging/rtl8192e/rtl819x_TS.h
-+++ b/drivers/staging/rtl8192e/rtl819x_TS.h
-@@ -23,7 +23,7 @@ struct ts_common_info {
+-static struct fb_ops lynxfb_ops = {
++static const struct fb_ops lynxfb_ops = {
+ 	.owner = THIS_MODULE,
+ 	.fb_check_var =  lynxfb_ops_check_var,
+ 	.fb_set_par = lynxfb_ops_set_par,
+ 	.fb_setcolreg = lynxfb_ops_setcolreg,
+ 	.fb_blank = lynxfb_ops_blank,
++	.fb_pan_display = lynxfb_ops_pan_display,
+ 	.fb_fillrect = cfb_fillrect,
+ 	.fb_imageblit = cfb_imageblit,
+ 	.fb_copyarea = cfb_copyarea,
+-	/* cursor */
++};
++
++static const struct fb_ops lynxfb_ops_with_cursor = {
++	.owner = THIS_MODULE,
++	.fb_check_var =  lynxfb_ops_check_var,
++	.fb_set_par = lynxfb_ops_set_par,
++	.fb_setcolreg = lynxfb_ops_setcolreg,
++	.fb_blank = lynxfb_ops_blank,
++	.fb_pan_display = lynxfb_ops_pan_display,
++	.fb_fillrect = cfb_fillrect,
++	.fb_copyarea = cfb_copyarea,
++	.fb_imageblit = cfb_imageblit,
++	.fb_cursor = lynxfb_ops_cursor,
++};
++
++static const struct fb_ops lynxfb_ops_accel = {
++	.owner = THIS_MODULE,
++	.fb_check_var =  lynxfb_ops_check_var,
++	.fb_set_par = lynxfb_ops_set_par,
++	.fb_setcolreg = lynxfb_ops_setcolreg,
++	.fb_blank = lynxfb_ops_blank,
++	.fb_pan_display = lynxfb_ops_pan_display,
++	.fb_fillrect = lynxfb_ops_fillrect,
++	.fb_copyarea = lynxfb_ops_copyarea,
++	.fb_imageblit = lynxfb_ops_imageblit,
++};
++
++static const struct fb_ops lynxfb_ops_accel_with_cursor = {
++	.owner = THIS_MODULE,
++	.fb_check_var =  lynxfb_ops_check_var,
++	.fb_set_par = lynxfb_ops_set_par,
++	.fb_setcolreg = lynxfb_ops_setcolreg,
++	.fb_blank = lynxfb_ops_blank,
++	.fb_pan_display = lynxfb_ops_pan_display,
++	.fb_fillrect = lynxfb_ops_fillrect,
++	.fb_copyarea = lynxfb_ops_copyarea,
++	.fb_imageblit = lynxfb_ops_imageblit,
+ 	.fb_cursor = lynxfb_ops_cursor,
  };
  
- struct tx_ts_record {
--	struct ts_common_info TsCommonInfo;
-+	struct ts_common_info ts_common_info;
- 	u16				tx_cur_seq;
- 	struct ba_record tx_pending_ba_record;
- 	struct ba_record tx_admitted_ba_record;
-diff --git a/drivers/staging/rtl8192e/rtl819x_TSProc.c b/drivers/staging/rtl8192e/rtl819x_TSProc.c
-index f96538f3e4ee..bec73bc53dd0 100644
---- a/drivers/staging/rtl8192e/rtl819x_TSProc.c
-+++ b/drivers/staging/rtl8192e/rtl819x_TSProc.c
-@@ -99,7 +99,7 @@ static void ResetTsCommonInfo(struct ts_common_info *ts_common_info)
+@@ -714,7 +751,6 @@ static int lynxfb_set_fbinfo(struct fb_info *info, int index)
+ 	par->index = index;
+ 	output->channel = &crtc->channel;
+ 	sm750fb_set_drv(par);
+-	lynxfb_ops.fb_pan_display = lynxfb_ops_pan_display;
  
- static void ResetTxTsEntry(struct tx_ts_record *ts)
- {
--	ResetTsCommonInfo(&ts->TsCommonInfo);
-+	ResetTsCommonInfo(&ts->ts_common_info);
- 	ts->tx_cur_seq = 0;
- 	ts->add_ba_req_in_progress = false;
- 	ts->add_ba_req_delayed = false;
-@@ -138,7 +138,7 @@ void rtllib_ts_init(struct rtllib_device *ieee)
- 			    rtllib_tx_ba_inact_timeout, 0);
+ 	/*
+ 	 * set current cursor variable and proc pointer,
+@@ -731,19 +767,22 @@ static int lynxfb_set_fbinfo(struct fb_info *info, int index)
+ 	crtc->cursor.vstart = sm750_dev->pvMem + crtc->cursor.offset;
  
- 		ResetTxTsEntry(pTxTS);
--		list_add_tail(&pTxTS->TsCommonInfo.List,
-+		list_add_tail(&pTxTS->ts_common_info.List,
- 				&ieee->Tx_TS_Unused_List);
- 		pTxTS++;
+ 	memset_io(crtc->cursor.vstart, 0, crtc->cursor.size);
+-	if (!g_hwcursor) {
+-		lynxfb_ops.fb_cursor = NULL;
++	if (!g_hwcursor)
+ 		sm750_hw_cursor_disable(&crtc->cursor);
+-	}
+ 
+ 	/* set info->fbops, must be set before fb_find_mode */
+ 	if (!sm750_dev->accel_off) {
+ 		/* use 2d acceleration */
+-		lynxfb_ops.fb_fillrect = lynxfb_ops_fillrect;
+-		lynxfb_ops.fb_copyarea = lynxfb_ops_copyarea;
+-		lynxfb_ops.fb_imageblit = lynxfb_ops_imageblit;
++		if (!g_hwcursor)
++			info->fbops = &lynxfb_ops_accel;
++		else
++			info->fbops = &lynxfb_ops_accel_with_cursor;
++	} else {
++		if (!g_hwcursor)
++			info->fbops = &lynxfb_ops;
++		else
++			info->fbops = &lynxfb_ops_with_cursor;
  	}
-@@ -292,7 +292,7 @@ bool rtllib_get_ts(struct rtllib_device *ieee, struct ts_common_info **ppTS,
- 			struct tx_ts_record *tmp =
- 				container_of(*ppTS,
- 				struct tx_ts_record,
--				TsCommonInfo);
-+				ts_common_info);
- 			ResetTxTsEntry(tmp);
- 		} else {
- 			struct rx_ts_record *ts =
+-	info->fbops = &lynxfb_ops;
+ 
+ 	if (!g_fbmode[index]) {
+ 		g_fbmode[index] = g_def_fbmode;
 -- 
-2.39.2
+2.43.0
 
