@@ -1,119 +1,133 @@
-Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 684F232C8D
-	for <linux-staging@lists.linux.dev>; Mon, 27 Nov 2023 19:26:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2093331739
+	for <linux-staging@lists.linux.dev>; Mon, 27 Nov 2023 19:49:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="ttArYMbn"
-Received: from pps.filterd (m0360083.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 3ARIqqDq004021;
-	Mon, 27 Nov 2023 19:26:38 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=croI6yxCqr3QxoRfDc306jqTkJc9QscPj1bSin8cZQc=;
- b=ttArYMbnjRHfHDTfJLNPi+5suBkXCQf3Uf4u6bmljZwTHN+iB5obTAiFcnmVxPWN4CK6
- xBhtBmN8KwhfnuQi4rHeURWTXKjOwIOLGOKwq1wuL4echoU3ZQCthmDkfMdRsCVJzacy
- vU2zkJvQjG/L+Uyh0pYwfYCU0K8yE7XxY0mbFB3WIoRIEmOagipBDP38nHwHvJDsVuFJ
- 8BDqZ4SMNsl1DrOmIi6fRshCZB+usBJ0Ya5GHK/vClBUb+396i6aMAMtVNuugi6eN+Dp
- V8zoWw8pQwDyD41Y/GK3ea6Sig8GVLo8PJyEHHJumlvLu01Ooa4zfWAn8oJl53N4syHL Jg== 
-Received: from ppma13.dal12v.mail.ibm.com (dd.9e.1632.ip4.static.sl-reverse.com [50.22.158.221])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3un0s1rtqq-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 27 Nov 2023 19:26:38 +0000
-Received: from pps.filterd (ppma13.dal12v.mail.ibm.com [127.0.0.1])
-	by ppma13.dal12v.mail.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 3ARGobmr018622;
-	Mon, 27 Nov 2023 19:26:35 GMT
-Received: from smtprelay02.wdc07v.mail.ibm.com ([172.16.1.69])
-	by ppma13.dal12v.mail.ibm.com (PPS) with ESMTPS id 3ukwfjtfug-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 27 Nov 2023 19:26:35 +0000
-Received: from smtpav05.dal12v.mail.ibm.com (smtpav05.dal12v.mail.ibm.com [10.241.53.104])
-	by smtprelay02.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 3ARJQYG88782352
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Mon, 27 Nov 2023 19:26:34 GMT
-Received: from smtpav05.dal12v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 5DBF558067;
-	Mon, 27 Nov 2023 19:26:34 +0000 (GMT)
-Received: from smtpav05.dal12v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 1587E58052;
-	Mon, 27 Nov 2023 19:26:34 +0000 (GMT)
-Received: from [9.61.156.220] (unknown [9.61.156.220])
-	by smtpav05.dal12v.mail.ibm.com (Postfix) with ESMTP;
-	Mon, 27 Nov 2023 19:26:34 +0000 (GMT)
-Message-ID: <986edf2e-10ac-211b-417c-cb2818a7fbe0@linux.ibm.com>
-Date: Mon, 27 Nov 2023 13:26:33 -0600
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ncc/IJIK"
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-40b2e763b83so6055895e9.1
+        for <linux-staging@lists.linux.dev>; Mon, 27 Nov 2023 11:49:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1701114573; x=1701719373; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=/7y5gQC5hvIBvBFDJ+KIWxjtV9gEjJrCiDgYolpeuvA=;
+        b=ncc/IJIKQDx8fK5uam9IacDerRC8FASW8Ej+c9EyFm+IWQEwObu+lGJI+kD7pNi+9B
+         iIy+Lu0r2TniJLc+iUq6n/xOUCVoo84+7Hj2VuE3Gvc9BQtjmKV2ArYamQz69cnrRkdw
+         qcIWQTKR8paUm6fQlnGxredzIqyXMc+N0Sm9GesW5iBk4ADp3JMABMNDWVlq/uOZ015e
+         se48iFvO2pvyQjl63Znpssz8PW9M27c3Nnj6czVpAgozyc/Ej6BqIfRVSk89C5QvzjB0
+         vuuYqX2hJ7E0a1uwigJP7lSvvLkoT/ddRAHlFCI0TsE98Ypgmu9uXyYtFjRS7KY9Q8ER
+         6p9w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1701114573; x=1701719373;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=/7y5gQC5hvIBvBFDJ+KIWxjtV9gEjJrCiDgYolpeuvA=;
+        b=YYO+Ew2XsUKXbBHpVt46GrW6mUlg/tvrZKuiwTnByNiUdJ01Z72bqXYMrBLVTCoGP3
+         KLiaslZGQnr8X84m5+w2B8XWpR/T4Pu42zWEDp3lXgCZcfPr8G1xMfmAZ8fWPNu2zM0N
+         ftrX2kUfAtvb0Ho/q0NnZuPDya3FU5c+qt7mfkvx29UfAcEmNn5LkudX5twVNwXm2fo+
+         baJAu1M3AjR74ZOjbh8feDoIaoXcr4GYBqzy14mu7YiG7PsnD5fqjiAeCdVwEnLFlR0c
+         QeTf6S1Etzj1cJz3XjG83nTCnXFzzoM+rBXXRTRGrXoatqjkgHuOfZbRGVRlFOqlwbms
+         lvdQ==
+X-Gm-Message-State: AOJu0YxICfXeB+d8a4N3tHYDvSZdbMLTg760ORbFSNMfQeepuAi7TDJF
+	7Ev9HbqG4D8Ri5j69ZpSQyA=
+X-Google-Smtp-Source: AGHT+IHFbu2EXNV30J7b0sqEBX6koH+mWUJRXjpUY+IfCwIsBE+KsG69ZPnEC5xWDO9coIa3UHLxcw==
+X-Received: by 2002:a05:600c:257:b0:408:3836:525f with SMTP id 23-20020a05600c025700b004083836525fmr9048648wmj.1.1701114573090;
+        Mon, 27 Nov 2023 11:49:33 -0800 (PST)
+Received: from [192.168.0.104] (p54a07fa0.dip0.t-ipconnect.de. [84.160.127.160])
+        by smtp.gmail.com with ESMTPSA id n17-20020a05600c4f9100b004090798d29csm14819478wmq.15.2023.11.27.11.49.32
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 27 Nov 2023 11:49:32 -0800 (PST)
+Message-ID: <91d11256-d855-4a80-9a8c-0c987b22aed9@gmail.com>
+Date: Mon, 27 Nov 2023 20:49:31 +0100
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.1
-Subject: Re: [PATCH 13/55] media: aspeed: Stop abusing of min_buffers_needed
- field
-To: Benjamin Gaignard <benjamin.gaignard@collabora.com>, hverkuil@xs4all.nl,
-        mchehab@kernel.org, tfiga@chromium.org, m.szyprowski@samsung.com,
-        matt.ranostay@konsulko.com
-Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-staging@lists.linux.dev, kernel@collabora.com,
-        Joel Stanley <joel@jms.id.au>,
-        Andrew Jeffery <andrew@codeconstruct.com.au>, openbmc@lists.ozlabs.org,
-        linux-aspeed@lists.ozlabs.org
-References: <20231127165454.166373-1-benjamin.gaignard@collabora.com>
- <20231127165454.166373-14-benjamin.gaignard@collabora.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 00/15] Staging: rtl8192e: Rename CamelCase vars
+To: Tree Davies <tdavies@darkphysics.net>
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+ anjan@momi.ca, gregkh@linuxfoundation.org,
+ Gary Rookard <garyrookard@fastmail.org>
+References: <20231127054305.148276-1-tdavies@darkphysics.net>
 Content-Language: en-US
-From: Eddie James <eajames@linux.ibm.com>
-In-Reply-To: <20231127165454.166373-14-benjamin.gaignard@collabora.com>
+From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+In-Reply-To: <20231127054305.148276-1-tdavies@darkphysics.net>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: 1n5XkrcHejoRSO-ioWKsUYlYff7dUNl3
-X-Proofpoint-GUID: 1n5XkrcHejoRSO-ioWKsUYlYff7dUNl3
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.987,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2023-11-27_17,2023-11-27_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxlogscore=999 phishscore=0
- bulkscore=0 lowpriorityscore=0 spamscore=0 adultscore=0 malwarescore=0
- suspectscore=0 mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2311060000 definitions=main-2311270135
+
+On 11/27/23 06:42, Tree Davies wrote:
+> This Series renames 15 variables to fix checkpatch warnings.
+> 
+> Thank you in advance to reviewers
+> ~Tree
+> 
+> Tree Davies (15):
+>    Staging: rtl8192e: Rename variable pTxTs
+>    Staging: rtl8192e: Rename variable BAReq
+>    Staging: rtl8192e: Rename variable Delba
+>    Staging: rtl8192e: Rename variable TSpec
+>    Staging: rtl8192e: Rename variable TxAdmittedBARecord
+>    Staging: rtl8192e: Rename variable TxPendingBARecord
+>    Staging: rtl8192e: Rename variable pDialogToken
+>    Staging: rtl8192e: Rename variable pTsCommonInfo
+>    Staging: rtl8192e: Rename variable TxCurSeq
+>    Staging: rtl8192e: Rename variable TsAddBaTimer
+>    Staging: rtl8192e: Rename variable DelbaParamSet
+>    Staging: rtl8192e: Rename variable pBaParamSet
+>    Staging: rtl8192e: Rename variable pBaTimeoutVal
+>    Staging: rtl8192e: Rename variable pAdmittedBA
+>    Staging: rtl8192e: Rename variable TsCommonInfo
+> 
+>   drivers/staging/rtl8192e/rtl819x_BAProc.c | 178 +++++++++++-----------
+>   drivers/staging/rtl8192e/rtl819x_TS.h     |  12 +-
+>   drivers/staging/rtl8192e/rtl819x_TSProc.c |  56 +++----
+>   drivers/staging/rtl8192e/rtllib.h         |   2 +-
+>   drivers/staging/rtl8192e/rtllib_tx.c      |  22 +--
+>   5 files changed, 135 insertions(+), 135 deletions(-)
+> 
+
+Hi Tree,
+
+thanks for your patches, those work on hardware well.
+
+I am about to delete the block acknowledgment (ba) from the driver. 
+Reason is that ba is not properly working. The AP seems to try around 
+before it gives up. This is slowing down the connection build up.
+
+My issue is that I need to remove the following parts:
+
+Function rtllib_process_action() that reacts when the AP sends packets 
+with ba.
+
+The following three timers are also part of this functionality
+timer_setup(&pTxTS->ts_add_ba_timer, TsAddBaProcess, 0);
+timer_setup(&pTxTS->tx_pending_ba_record.timer, rtllib_ba_setup_timeout, 0);
+timer_setup(&pTxTS->tx_admitted_ba_record.timer, 
+rtllib_tx_ba_inact_timeout, 0);
+
+And I cannot really remove the ones without the others. So some kind of 
+encirclement is happening.
+
+Just wanted to inform you about what I plan to do.
+
+Have a good day.
+
+Bye Philipp
 
 
-On 11/27/23 10:54, Benjamin Gaignard wrote:
-> 'min_buffers_needed' is suppose to be used to indicate the number
-> of buffers needed by DMA engine to start streaming.
-> aspeed doesn't use DMA engine and just want to specify
-> the minimum number of buffers to allocate when calling VIDIOC_REQBUFS.
-> That 'min_reqbufs_allocation' field purpose so use it.
 
 
-Reviewed-by: Eddie James <eajames@linux.ibm.com>
 
 
->
-> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-> CC: Eddie James <eajames@linux.ibm.com> (maintainer:ASPEED VIDEO ENGINE DRIVER)
-> CC: Joel Stanley <joel@jms.id.au> (supporter:ARM/ASPEED MACHINE SUPPORT)
-> CC: Andrew Jeffery <andrew@codeconstruct.com.au> (reviewer:ARM/ASPEED MACHINE SUPPORT)
-> CC: openbmc@lists.ozlabs.org (moderated list:ASPEED VIDEO ENGINE DRIVER)
-> CC: linux-aspeed@lists.ozlabs.org (moderated list:ARM/ASPEED MACHINE SUPPORT)
-> ---
->   drivers/media/platform/aspeed/aspeed-video.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/media/platform/aspeed/aspeed-video.c b/drivers/media/platform/aspeed/aspeed-video.c
-> index d08aa7f73d4f..c28b10808cda 100644
-> --- a/drivers/media/platform/aspeed/aspeed-video.c
-> +++ b/drivers/media/platform/aspeed/aspeed-video.c
-> @@ -2034,7 +2034,7 @@ static int aspeed_video_setup_video(struct aspeed_video *video)
->   	vbq->drv_priv = video;
->   	vbq->buf_struct_size = sizeof(struct aspeed_video_buffer);
->   	vbq->timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_MONOTONIC;
-> -	vbq->min_buffers_needed = ASPEED_VIDEO_V4L2_MIN_BUF_REQ;
-> +	vbq->min_reqbufs_allocation = ASPEED_VIDEO_V4L2_MIN_BUF_REQ;
->   
->   	rc = vb2_queue_init(vbq);
->   	if (rc) {
+
+
+
+
