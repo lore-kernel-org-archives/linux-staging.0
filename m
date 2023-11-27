@@ -1,60 +1,207 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93F1930357;
-	Mon, 27 Nov 2023 13:54:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60F0036B0A
+	for <linux-staging@lists.linux.dev>; Mon, 27 Nov 2023 16:55:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="gVydtS9g"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1E5ECC433C7;
-	Mon, 27 Nov 2023 13:54:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1701093253;
-	bh=3+9Ueuma8TxHWXhIh18cI3XqRceeHiPhdxjt04xqfAo=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=gVydtS9gZm84o8VAEMNb8GBXKlgSAvD7mZIM21b+cTF+CRDORd3CbHdp83N4+w+8m
-	 v8kqcaUWwLS2NgdFbDcuM032o+oKv62Mhqxz62pHUm/AGaLEnHBKVpFPnutcwHfF0i
-	 u3y2gZtrpzGlFCbERyml8074Usts0mI9oJZ+niHI=
-Date: Mon, 27 Nov 2023 13:30:07 +0000
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: javierm@redhat.com, deller@gmx.de, linux-fbdev@vger.kernel.org,
-	dri-devel@lists.freedesktop.org,
-	Sudip Mukherjee <sudipm.mukherjee@gmail.com>,
-	Teddy Wang <teddy.wang@siliconmotion.com>,
-	linux-staging@lists.linux.dev
-Subject: Re: [PATCH v2 26/32] staging/sm750fb: Initialize fb_ops with fbdev
- macros
-Message-ID: <2023112700-pulp-framing-806e@gregkh>
-References: <20231127131655.4020-1-tzimmermann@suse.de>
- <20231127131655.4020-27-tzimmermann@suse.de>
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="BKqP/9i7"
+Received: from benjamin-XPS-13-9310.. (ec2-34-240-57-77.eu-west-1.compute.amazonaws.com [34.240.57.77])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: benjamin.gaignard)
+	by madras.collabora.co.uk (Postfix) with ESMTPSA id C629866022D3;
+	Mon, 27 Nov 2023 16:55:04 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1701104105;
+	bh=rawetfLv3yml/uOqktsA6Qgft44fu5ZD8CPwijNnuHg=;
+	h=From:To:Cc:Subject:Date:From;
+	b=BKqP/9i7IEToJQk/VKzgc0QkRmPkiB+gHtNYrx/yxFbj8LT6M7IsW7MIoDAkoXYhR
+	 JP3XhklEoqpWtmulOwo05HfeTyY/EcABj+lj92hHwMp8TR95vUTvNpU+xmNmZNFPvo
+	 wN//ek/AsihWgRjFZHKsxwRdD1+7OvWq8oflG94W5PNzfp6qA2pHmpCtrO9QxEHtwN
+	 O/U7fpmlW8m93tVUUSd5xfVll+LIhkZxPVB+m5c9tML9aGt+3UrxMrOupFreyDZgCr
+	 h7XTnZQKYm9mRAle2ysQZyPL7pQWqIw2qqjhH3Bbp3jRgIxSSPTP3lp9+2LMw+mmIt
+	 6k+EZfKcyW7tg==
+From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+To: hverkuil@xs4all.nl,
+	mchehab@kernel.org,
+	tfiga@chromium.org,
+	m.szyprowski@samsung.com,
+	matt.ranostay@konsulko.com
+Cc: linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	kernel@collabora.com,
+	Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Subject: [PATCH 00/55] Clean up queue_setup()/min_buffers_needed (ab)use
+Date: Mon, 27 Nov 2023 17:53:59 +0100
+Message-Id: <20231127165454.166373-1-benjamin.gaignard@collabora.com>
+X-Mailer: git-send-email 2.39.2
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231127131655.4020-27-tzimmermann@suse.de>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Mon, Nov 27, 2023 at 02:15:55PM +0100, Thomas Zimmermann wrote:
-> Initialize all instances of struct fb_ops with fbdev initializer
-> macros for framebuffers in I/O address space. Set the read/write,
-> draw and mmap callbacks to the correct implementation and avoid
-> implicit defaults. Also select the necessary helpers in Kconfig.
-> 
-> Fbdev drivers sometimes rely on the callbacks being NULL for a
-> default I/O-memory-based implementation to be invoked; hence
-> requiring the I/O helpers to be built in any case. Setting all
-> callbacks in all drivers explicitly will allow to make the I/O
-> helpers optional. This benefits systems that do not use these
-> functions.
-> 
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> Cc: Sudip Mukherjee <sudipm.mukherjee@gmail.com>
-> Cc: Teddy Wang <teddy.wang@siliconmotion.com>
-> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> Cc: linux-staging@lists.linux.dev
-> Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+This series implement Hans's RFC: https://www.spinics.net/lists/linux-media/msg244455.html
 
-Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To summarize Hans's proposal it is needed to distinguish two cases:
+- the minimal number of buffers to be allocated when calling
+  VIDIOC_REQBUFS.
+- the minimale number of buffers to be present before start streaming
+  (mostly for DMA engine purpose).
+Until now drivers use vb2_queue min_buffers_needed field in the both
+cases but before introduce delete buffers we need to clarify for which
+usage each of them use min_buffers_needed field.
+
+I have done this in 3 steps:
+- add min_reqbufs_allocation field and convert all the drivers that I
+  believe use min_buffers_needed field for VIDIOC_REQBUF purpose.
+- add min_dma_buffers_needed field and convert all the drivers with DMA
+  engine needs.
+- remove min_buffers_needed from videobuf2 core.
+
+The branch with all patches is here:
+https://gitlab.collabora.com/benjamin.gaignard/for-upstream/-/commits/clean_min_need_buffers_v1
+
+I have tested with this command line, I haven't notice issues:
+./test-media -kmemleak mc
+
+Regards,
+Benjamin
+
+Benjamin Gaignard (55):
+  videobuf2: Add min_reqbufs_allocation field to vb2_queue structure
+  media: test-drivers: Stop abusing of min_buffers_needed field
+  media: usb: cx231xx: Stop abusing of min_buffers_needed field
+  media: usb: dvb-usb: cxusb-analog: Stop abusing of min_buffers_needed
+    field
+  media: usb: gspca: Stop abusing of min_buffers_needed field
+  media: atmel: Stop abusing of min_buffers_needed field
+  media: imx8-isi: Stop abusing of min_buffers_needed field
+  media: imx7-media-csi: Stop abusing of min_buffers_needed field
+  media: chips-media: coda: Stop abusing of min_buffers_needed field
+  media: nuvoton: Stop abusing of min_buffers_needed field
+  media: sti: hva: Stop abusing of min_buffers_needed field
+  media: rockchip: rkisp1: Stop abusing of min_buffers_needed field
+  media: aspeed: Stop abusing of min_buffers_needed field
+  media: microchip: Stop abusing of min_buffers_needed field
+  media: amphion: Stop abusing of min_buffers_needed field
+  media: qcom: venus: Stop abusing of min_buffers_needed field
+  media: sun4i-csi: Stop abusing of min_buffers_needed field
+  media: sunxi: sun8i-di: Stop abusing of min_buffers_needed field
+  media: sun8i-rotate: Stop abusing of min_buffers_needed field
+  media: sunxi: sun6i-csi: Stop abusing of min_buffers_needed field
+  media: i2c: video-i2c: Stop abusing of min_buffers_needed field
+  media: dvb-core: Stop abusing of min_buffers_needed field
+  media: imx: Stop abusing of min_buffers_needed field
+  media: atmel: Stop abusing of min_buffers_needed field
+  media: ipu3: Stop abusing of min_buffers_needed field
+  media: starfive: Stop abusing of min_buffers_needed field
+  media: sun6i-isp: Stop abusing of min_buffers_needed field
+  media: tegra-video: Stop abusing of min_buffers_needed field
+  media: ti: am437x: Stop abusing of min_buffers_needed field
+  media: ti: cal: Stop abusing of min_buffers_needed field
+  media: ti: davinci: Stop abusing of min_buffers_needed field
+  media: saa7146: Stop abusing of min_buffers_needed field
+  input: touchscreen: atmel: Stop abusing of min_buffers_needed field
+  input: touchscreen: sur40: Stop abusing of min_buffers_needed field
+  videobuf2: core: Add min_dma_buffers_needed field to vb2_queue
+  media: stm32: stm32-dcmi: Use min_dma_buffers_needed field
+  media: renesas: Use min_dma_buffers_needed field
+  media: ti: j721e-csi2rx: Use min_dma_buffers_needed field
+  media: ti: omap: Use min_dma_buffers_needed field
+  samples: v4l2: pci: Use min_dma_buffers_needed field
+  media: pci: intel: ipu3: Use min_dma_buffers_needed field
+  media: pci: dt3155: Use min_dma_buffers_needed field
+  media: pci: bt8xx: Use min_dma_buffers_needed field
+  media: pci: cx18: Use min_dma_buffers_needed field
+  media: pci: mgb4: Use min_dma_buffers_needed field
+  media: pci: tw68: Use min_dma_buffers_needed field
+  media: pci: cx25821: Use min_dma_buffers_needed field
+  media: pci: tw5864: Use min_dma_buffers_needed field
+  media: pci: tw686x: Use min_dma_buffers_needed field
+  media: pci: cx88: Use min_dma_buffers_needed field
+  media: pci: cx23885: Use min_dma_buffers_needed field
+  media: pci: zoran: Use min_dma_buffers_needed field
+  media: pci: cobalt: Use min_dma_buffers_needed field
+  media: meson: vdec: Use min_dma_buffers_needed field
+  media: videobuf2: core: Remove 'min_buffers_needed' field
+
+ drivers/input/touchscreen/atmel_mxt_ts.c      |  2 +-
+ drivers/input/touchscreen/sur40.c             |  2 +-
+ drivers/media/common/saa7146/saa7146_fops.c   |  2 +-
+ .../media/common/videobuf2/videobuf2-core.c   | 26 +++++++++++--------
+ drivers/media/dvb-core/dvb_vb2.c              |  2 +-
+ drivers/media/i2c/video-i2c.c                 |  2 +-
+ drivers/media/pci/bt8xx/bttv-driver.c         |  2 +-
+ drivers/media/pci/cobalt/cobalt-v4l2.c        |  2 +-
+ drivers/media/pci/cx18/cx18-streams.c         |  2 +-
+ drivers/media/pci/cx23885/cx23885-417.c       |  2 +-
+ drivers/media/pci/cx23885/cx23885-dvb.c       |  2 +-
+ drivers/media/pci/cx23885/cx23885-video.c     |  4 +--
+ drivers/media/pci/cx25821/cx25821-video.c     |  2 +-
+ drivers/media/pci/cx88/cx88-blackbird.c       |  2 +-
+ drivers/media/pci/cx88/cx88-dvb.c             |  2 +-
+ drivers/media/pci/cx88/cx88-video.c           |  4 +--
+ drivers/media/pci/dt3155/dt3155.c             |  2 +-
+ drivers/media/pci/intel/ipu3/ipu3-cio2.c      |  2 +-
+ drivers/media/pci/mgb4/mgb4_vin.c             |  2 +-
+ drivers/media/pci/mgb4/mgb4_vout.c            |  2 +-
+ drivers/media/pci/tw5864/tw5864-video.c       |  2 +-
+ drivers/media/pci/tw68/tw68-video.c           |  2 +-
+ drivers/media/pci/tw686x/tw686x-video.c       |  2 +-
+ drivers/media/pci/zoran/zoran_driver.c        |  5 +---
+ drivers/media/platform/amphion/vpu_v4l2.c     |  4 +--
+ drivers/media/platform/aspeed/aspeed-video.c  |  2 +-
+ drivers/media/platform/atmel/atmel-isi.c      |  2 +-
+ .../platform/chips-media/coda/coda-common.c   |  2 +-
+ .../platform/microchip/microchip-isc-base.c   |  2 +-
+ drivers/media/platform/nuvoton/npcm-video.c   |  2 +-
+ drivers/media/platform/nxp/imx7-media-csi.c   |  2 +-
+ .../platform/nxp/imx8-isi/imx8-isi-video.c    |  2 +-
+ drivers/media/platform/qcom/venus/vdec.c      |  4 +--
+ drivers/media/platform/qcom/venus/venc.c      |  4 +--
+ .../platform/renesas/rcar-vin/rcar-dma.c      |  2 +-
+ drivers/media/platform/renesas/renesas-ceu.c  |  2 +-
+ .../platform/renesas/rzg2l-cru/rzg2l-video.c  |  2 +-
+ drivers/media/platform/renesas/sh_vou.c       |  2 +-
+ .../platform/rockchip/rkisp1/rkisp1-capture.c |  2 +-
+ drivers/media/platform/st/sti/hva/hva-v4l2.c  |  4 +--
+ drivers/media/platform/st/stm32/stm32-dcmi.c  |  2 +-
+ .../platform/sunxi/sun4i-csi/sun4i_dma.c      |  2 +-
+ .../sunxi/sun6i-csi/sun6i_csi_capture.c       |  2 +-
+ .../media/platform/sunxi/sun8i-di/sun8i-di.c  |  4 +--
+ .../sunxi/sun8i-rotate/sun8i_rotate.c         |  4 +--
+ .../media/platform/ti/am437x/am437x-vpfe.c    |  2 +-
+ drivers/media/platform/ti/cal/cal-video.c     |  2 +-
+ .../media/platform/ti/davinci/vpif_capture.c  |  2 +-
+ .../media/platform/ti/davinci/vpif_display.c  |  2 +-
+ .../platform/ti/j721e-csi2rx/j721e-csi2rx.c   |  2 +-
+ drivers/media/platform/ti/omap/omap_vout.c    |  2 +-
+ .../media/test-drivers/vimc/vimc-capture.c    |  2 +-
+ drivers/media/test-drivers/vivid/vivid-core.c |  4 +--
+ drivers/media/usb/cx231xx/cx231xx-417.c       |  2 +-
+ drivers/media/usb/cx231xx/cx231xx-video.c     |  4 +--
+ drivers/media/usb/dvb-usb/cxusb-analog.c      |  2 +-
+ drivers/media/usb/gspca/gspca.c               |  6 ++---
+ .../media/deprecated/atmel/atmel-isc-base.c   |  2 +-
+ drivers/staging/media/imx/imx-media-capture.c |  2 +-
+ drivers/staging/media/ipu3/ipu3-v4l2.c        |  2 +-
+ drivers/staging/media/meson/vdec/vdec.c       |  6 ++---
+ .../staging/media/starfive/camss/stf-video.c  |  2 +-
+ .../media/sunxi/sun6i-isp/sun6i_isp_capture.c |  2 +-
+ .../media/sunxi/sun6i-isp/sun6i_isp_params.c  |  2 +-
+ drivers/staging/media/tegra-video/vi.c        |  2 +-
+ include/media/videobuf2-core.h                | 10 +++++--
+ samples/v4l/v4l2-pci-skeleton.c               |  2 +-
+ 67 files changed, 102 insertions(+), 95 deletions(-)
+
+-- 
+2.39.2
+
