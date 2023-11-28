@@ -1,55 +1,57 @@
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25B445AB8D
-	for <linux-staging@lists.linux.dev>; Tue, 28 Nov 2023 14:38:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 950F45ABA2
+	for <linux-staging@lists.linux.dev>; Tue, 28 Nov 2023 14:40:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="GR6nrDmQ"
-Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-332e3ad436cso3504155f8f.3
-        for <linux-staging@lists.linux.dev>; Tue, 28 Nov 2023 06:38:20 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="KzbW8FsW"
+Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-4083dbc43cfso38966615e9.3
+        for <linux-staging@lists.linux.dev>; Tue, 28 Nov 2023 06:40:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1701182299; x=1701787099; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=FBxCcIpOBNw2rVRQeI3GzaJA3+Yb6g+9ZiNBDkpz2v8=;
-        b=GR6nrDmQLi+niQIjFGwqxIp0FGQ1C9l5Ep0usXzyEhfPGl560yzDP4k7hKjVh19wnt
-         1GcLIOHHfRYbhW7fcj1fGrBGox05ZZgGPfHy3ZVGB1ozIzsO+avROvx17nO0VLnjM88t
-         xONdhTtBu8/8lIocaurgE++0MulyOG+ZMA+xCMjbp5GWekOWl+Ml6fm4UIB3NISQgvFs
-         5p5IKZIhVCX/5jh37z4/73qmkeb9OpZgpfrEy5RGPwGmwXn2FzB+sz1c5WepNxOhRsre
-         wNaCFTgxYNeSEKjGk1CY9vsnqHu2vWVQmuA+YpBaC7zqfKfIurL94LezPuLpF1DuToOX
-         idPg==
+        d=linaro.org; s=google; t=1701182418; x=1701787218; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=oaKrElE1AMJOvXqLWag42ZjIrLYDCFvrlaWvSZAKArw=;
+        b=KzbW8FsWWW88o0oZ6v0PZ2FF7OMcfl5CWdl4kbRRxP2ucec+hPLZMFDcb7XFAoCdph
+         crDaVI3hRqKPYY1273cpusuj+eBk0arv2oEQ7OIaW1RJS4GyZvo7L++D/qizH0NBr8iO
+         I2/SMo3+FYF05898XvUhoGdvHO8vMnLsAK6DHT7o/bqduZNQwIISs1LfkuAjiGtMjz4+
+         oRbv9mqzyNu4bzbHKuWKqPQ8JowvRGMVBvVEczFS7Qau9/PQRusSqTpU0png1DsVOcov
+         0fgqeqHc9koj2QmGnqcKWl5VG6xHAP3OcjOtp26FHtaZWDayxUg92nIqSHkzjr3Xx9+3
+         S8KA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701182299; x=1701787099;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=FBxCcIpOBNw2rVRQeI3GzaJA3+Yb6g+9ZiNBDkpz2v8=;
-        b=akUWXyrzuctOV+NJcJZAyo5klNxKdridyk5Jd97N3YYcx8Sqh+77o4EhdHP1OXUEqN
-         hnisGc/5Bn269VQXb5neuaxE1F1582ND7EzB812P8+wl+/vlFES/RHxMRSFpTOhtJIWI
-         MvVo3DNp9L+g0DWZd24WSlr0Q3NpT0nRRGXDVBs04DISsk7cSyZ1doBTl3AAcDjnsKb0
-         V9el6U6aFqJoV6ws7tAgD9uLeWHKKJHul4TJ+n/V+VbXvpHNs5UieZkrFekJzaELDxy2
-         3JGbQZe7nSBttqHGeIoHRsv6wG+6xUodtVgZlW7GcAu/2tAXE+6bDc5//HjHLug0XdUa
-         z1qA==
-X-Gm-Message-State: AOJu0YyMI39sEli1TVXGus4o/x90N1kq1asSCcmEL1+KtftnpTuf3M7D
-	KOejz5oRsNMFDfb+O3KKZz3a5TojXbhTLs1KRR2qw3ck
-X-Google-Smtp-Source: AGHT+IF9bAcLKlN7/AdST/QuvsSb3Y3zS3/xlnTBjpa/nQ2qo7yQfKSPyQPJmPB0wzINEf4MurRLtQ==
-X-Received: by 2002:a5d:4b88:0:b0:32f:7f6c:72a6 with SMTP id b8-20020a5d4b88000000b0032f7f6c72a6mr10867144wrt.16.1701182299389;
-        Tue, 28 Nov 2023 06:38:19 -0800 (PST)
+        d=1e100.net; s=20230601; t=1701182418; x=1701787218;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=oaKrElE1AMJOvXqLWag42ZjIrLYDCFvrlaWvSZAKArw=;
+        b=X/pe3m363E/CfdYQc+IhNFA/bs/jfMqdzvs/1DUVahcztwjGCXSbIpAso/e8dY3jSV
+         fIubkQwyraXpJubWaBmxO1WPrMJGTmxwWdJlNSkj560SOo63Svf2Xa2lLAiiwFGPn4uw
+         UcmfufY9+4NwBVtOdOL0+HYZIoAl3pl7fKI/7NxCoQJpLWmd2TU2gFlP9WP7TWudoS3w
+         Pc+T/CJrCDp4WyMBEAni/oDgxgs6a9u8wXUeSSSjTECvBExYGtq5tc5e9/TqG/BMkfFb
+         y0bWPzLnKA751g1XZPk+G4JkFyxpD/ie83ItP8+PGM0e3jmoG/TUUPX58ZPdhvPSN7br
+         OG0A==
+X-Gm-Message-State: AOJu0YxC5Oe3q1TsAsjfyVAVjfMyEZ1pDHJwY+rQY54eijeD81Cd2cOE
+	ECahPf1xzA5a7xYho+unv0ISeQ==
+X-Google-Smtp-Source: AGHT+IEUXsu35JfaoTse6WpNi0aat3trZZEVzz9HHjmeo+pJm7QYeZQ28Vz4IccP7yCA63IgMU75YA==
+X-Received: by 2002:a05:600c:4f82:b0:40b:2b42:a1c9 with SMTP id n2-20020a05600c4f8200b0040b2b42a1c9mr10704074wmq.23.1701182417945;
+        Tue, 28 Nov 2023 06:40:17 -0800 (PST)
 Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id g10-20020a5d64ea000000b003330f9287a8sm1813034wri.51.2023.11.28.06.38.18
+        by smtp.gmail.com with ESMTPSA id t14-20020a05600c450e00b0040b37f107c4sm16321352wmo.16.2023.11.28.06.40.17
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 28 Nov 2023 06:38:19 -0800 (PST)
-Date: Tue, 28 Nov 2023 17:38:15 +0300
+        Tue, 28 Nov 2023 06:40:17 -0800 (PST)
+Date: Tue, 28 Nov 2023 17:40:14 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Gary Rookard <garyrookard@fastmail.org>
-Cc: gregkh@linuxfoundation.org, philipp.g.hortmann@gmail.com,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 1/3] staging: rtl8192e: renamed variable nMcsRate
-Message-ID: <eda46e85-7b79-4e47-8e53-82ddd52172d0@suswa.mountain>
-References: <20231128142027.15617-1-garyrookard@fastmail.org>
- <20231128142027.15617-2-garyrookard@fastmail.org>
+To: Jack Zhu <jack.zhu@starfivetech.com>
+Cc: Changhuang Liang <changhuang.liang@starfivetech.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org
+Subject: [PATCH] media: staging: starfive: camss: fix off by one in
+ isp_enum_mbus_code()
+Message-ID: <7d222638-2d19-466d-8dd4-9e1ceb1d46f3@moroto.mountain>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -58,42 +60,39 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231128142027.15617-2-garyrookard@fastmail.org>
+X-Mailer: git-send-email haha only kidding
 
-On Tue, Nov 28, 2023 at 09:20:25AM -0500, Gary Rookard wrote:
-> v2: Renamed from CamelCase to Snake case the variable nMcsRate, and
-> additionally removed the Hungarian notation of (n) that [v1] did not.
-> nMcsRate -> mcs_rate
-> 
-> Linux kernel coding style (cleanup), checkpatch Avoid CamelCase.
-> Driver/module rtl8192e compiles.
-> 
-> Signed-off-by: Gary Rookard <garyrookard@fastmail.org>
-> ---
-> v2: Removes Hungarian notation.
-> v1: Renames from CamelCase only, Hungarian notation unremoved.
-> 
->  drivers/staging/rtl8192e/rtl819x_HTProc.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/staging/rtl8192e/rtl819x_HTProc.c b/drivers/staging/rtl8192e/rtl819x_HTProc.c
-> index 00273d709f3c..4ed72936eb4a 100644
-> --- a/drivers/staging/rtl8192e/rtl819x_HTProc.c
-> +++ b/drivers/staging/rtl8192e/rtl819x_HTProc.c
-> @@ -103,7 +103,7 @@ void ht_update_default_setting(struct rtllib_device *ieee)
->  	ht_info->rx_reorder_pending_time = 30;
->  }
->  
-> -static u16 ht_mcs_to_data_rate(struct rtllib_device *ieee, u8 nMcsRate)
-> +static u16 ht_mcs_to_data_rate(struct rtllib_device *ieee, u8 mcs_rate)
+These > comparisons should be >=.  The formats->fmts[] array is either
+a pointer to isp_formats_sink[] or isp_formats_source[] respectively.
 
-In the caller, this variable is called mcsRate, which presumably
-checkpatch also complains about.  Why not rename them both to the same
-thing?
+Fixes: e57854628f58 ("media: staging: media: starfive: camss: Add ISP driver")
+Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
+---
+ drivers/staging/media/starfive/camss/stf-isp.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-It's unclear what value adding the "mcs_" prefix has, but I guess it's
-nice to have a consistent variable name to grep for.
-
-regards,
-dan carpenter
+diff --git a/drivers/staging/media/starfive/camss/stf-isp.c b/drivers/staging/media/starfive/camss/stf-isp.c
+index 893dbd8cddc8..98d61d71c31b 100644
+--- a/drivers/staging/media/starfive/camss/stf-isp.c
++++ b/drivers/staging/media/starfive/camss/stf-isp.c
+@@ -120,7 +120,7 @@ static int isp_enum_mbus_code(struct v4l2_subdev *sd,
+ 	const struct stf_isp_format_table *formats;
+ 
+ 	if (code->pad == STF_ISP_PAD_SINK) {
+-		if (code->index > ARRAY_SIZE(isp_formats_sink))
++		if (code->index >= ARRAY_SIZE(isp_formats_sink))
+ 			return -EINVAL;
+ 
+ 		formats = &isp_dev->formats[SINK_FORMATS_INDEX];
+@@ -128,7 +128,7 @@ static int isp_enum_mbus_code(struct v4l2_subdev *sd,
+ 	} else {
+ 		struct v4l2_mbus_framefmt *sink_fmt;
+ 
+-		if (code->index > ARRAY_SIZE(isp_formats_source))
++		if (code->index >= ARRAY_SIZE(isp_formats_source))
+ 			return -EINVAL;
+ 
+ 		sink_fmt = v4l2_subdev_state_get_format(state,
+-- 
+2.42.0
 
