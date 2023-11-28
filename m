@@ -1,41 +1,39 @@
-Received: from weierstrass.telenet-ops.be (weierstrass.telenet-ops.be [195.130.137.81])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58B6B3D0C0
-	for <linux-staging@lists.linux.dev>; Tue, 28 Nov 2023 18:37:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; dkim=none
-Received: from xavier.telenet-ops.be (xavier.telenet-ops.be [IPv6:2a02:1800:120:4::f00:14])
-	by weierstrass.telenet-ops.be (Postfix) with ESMTPS id 4Sfrdv2Nqfz4x2NK
-	for <linux-staging@lists.linux.dev>; Tue, 28 Nov 2023 19:32:03 +0100 (CET)
-Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed40:f4d4:eef9:4487:4eb1])
-	by xavier.telenet-ops.be with bizsmtp
-	id FuXv2B0022jytoH01uXvqK; Tue, 28 Nov 2023 19:31:55 +0100
-Received: from rox.of.borg ([192.168.97.57])
-	by ramsan.of.borg with esmtp (Exim 4.95)
-	(envelope-from <geert@linux-m68k.org>)
-	id 1r82ry-00AHX4-TQ;
-	Tue, 28 Nov 2023 19:31:55 +0100
-Received: from geert by rox.of.borg with local (Exim 4.95)
-	(envelope-from <geert@linux-m68k.org>)
-	id 1r82sE-00B9qv-Td;
-	Tue, 28 Nov 2023 19:31:54 +0100
-From: Geert Uytterhoeven <geert+renesas@glider.be>
-To: Jack Zhu <jack.zhu@starfivetech.com>,
-	Changhuang Liang <changhuang.liang@starfivetech.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA96640BFF
+	for <linux-staging@lists.linux.dev>; Tue, 28 Nov 2023 20:19:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="s1cbKcHM"
+Received: from umang.jain (unknown [103.238.109.11])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id D1D0FBEB;
+	Tue, 28 Nov 2023 21:18:31 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1701202715;
+	bh=Aw14YJcNorrt7GqxRG70LVe8RNenb1dxIcHiuL2EocE=;
+	h=From:To:Cc:Subject:Date:From;
+	b=s1cbKcHMuETH8tjDHfd10XsNBn6OKRta+xKL8AuMd80BmoFSffl7k/dAM1IZiyWXT
+	 fNnBs3BXM6nM/NoGU4NAJpvogwjWVpyubC94bBCVwrBkj7LPxErKz2TKfw0PXnDNqt
+	 eAWabhnJxC9cciN0d+HogOCrpYyl/TqBwXBFHXgU=
+From: Umang Jain <umang.jain@ideasonboard.com>
+To: linux-staging@lists.linux.dev,
+	linux-rpi-kernel@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-media@vger.kernel.org
+Cc: Stefan Wahren <stefan.wahren@i2se.com>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-	Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-Cc: linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH] staging: media: VIDEO_STARFIVE_CAMSS should depend on ARCH_STARFIVE
-Date: Tue, 28 Nov 2023 19:31:53 +0100
-Message-Id: <81476f48f7774fdd62e95458b160688952bb0068.1701196160.git.geert+renesas@glider.be>
-X-Mailer: git-send-email 2.34.1
+	Dan Carpenter <error27@gmail.com>,
+	Kieran Bingham <kieran.bingham@ideasonboard.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Dave Stevenson <dave.stevenson@raspberrypi.com>,
+	"Ricardo B . Marliere" <ricardo@marliere.net>,
+	Umang Jain <umang.jain@ideasonboard.com>
+Subject: [PATCH v2] staging: vc04_services: vchiq_core: Log through struct vchiq_instance
+Date: Wed, 29 Nov 2023 01:48:45 +0530
+Message-ID: <20231128201845.489237-1-umang.jain@ideasonboard.com>
+X-Mailer: git-send-email 2.41.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -44,29 +42,54 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The StarFive Camera Subsystem is only present on the StarFive JH7110
-SoC.  Hence add a dependency on ARCH_STARFIVE, to prevent asking the
-user about this driver when configuring a kernel without StarFive SoC
-support.
+The handle_to_service() helper can return NULL, so `service` pointer
+can indeed be set to NULL. So, do not log through service pointer
+(which can cause NULL-deference), instead, use the vchiq_instance
+function argument to get access to the struct device.
 
-Fixes: bba185d141b12787 ("media: staging: media: starfive: camss: Add core driver")
-Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Fixes: f67af5940d6d ("staging: vc04: Convert(and rename) vchiq_log_info() to use dynamic debug")
+Reviewed-by: Ricardo B. Marliere <ricardo@marliere.net>
+Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
 ---
- drivers/staging/media/starfive/camss/Kconfig | 1 +
- 1 file changed, 1 insertion(+)
+Changes in v2:
+- Separate out from patch series:
+  [PATCH 1/9] staging: vc04_services: vchiq_core: Log through struct vchiq_instance
+- Add missing space in FixeS: tag
+---
+ .../staging/vc04_services/interface/vchiq_arm/vchiq_core.c  | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/staging/media/starfive/camss/Kconfig b/drivers/staging/media/starfive/camss/Kconfig
-index bd184f42c98fa853..9ea5708fe40955e2 100644
---- a/drivers/staging/media/starfive/camss/Kconfig
-+++ b/drivers/staging/media/starfive/camss/Kconfig
-@@ -5,6 +5,7 @@ config VIDEO_STARFIVE_CAMSS
- 	depends on VIDEO_DEV && OF
- 	depends on HAS_DMA
- 	depends on PM
-+	depends on ARCH_STARFIVE || COMPILE_TEST
- 	select MEDIA_CONTROLLER
- 	select VIDEO_V4L2_SUBDEV_API
- 	select VIDEOBUF2_DMA_CONTIG
+diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
+index 0468689a6325..e0022acb4c58 100644
+--- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
++++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
+@@ -245,7 +245,7 @@ find_service_by_handle(struct vchiq_instance *instance, unsigned int handle)
+ 		return service;
+ 	}
+ 	rcu_read_unlock();
+-	vchiq_log_debug(service->state->dev, VCHIQ_CORE,
++	vchiq_log_debug(instance->state->dev, VCHIQ_CORE,
+ 			"Invalid service handle 0x%x", handle);
+ 	return NULL;
+ }
+@@ -287,7 +287,7 @@ find_service_for_instance(struct vchiq_instance *instance, unsigned int handle)
+ 		return service;
+ 	}
+ 	rcu_read_unlock();
+-	vchiq_log_debug(service->state->dev, VCHIQ_CORE,
++	vchiq_log_debug(instance->state->dev, VCHIQ_CORE,
+ 			"Invalid service handle 0x%x", handle);
+ 	return NULL;
+ }
+@@ -310,7 +310,7 @@ find_closed_service_for_instance(struct vchiq_instance *instance, unsigned int h
+ 		return service;
+ 	}
+ 	rcu_read_unlock();
+-	vchiq_log_debug(service->state->dev, VCHIQ_CORE,
++	vchiq_log_debug(instance->state->dev, VCHIQ_CORE,
+ 			"Invalid service handle 0x%x", handle);
+ 	return service;
+ }
 -- 
-2.34.1
+2.41.0
 
