@@ -1,53 +1,53 @@
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D7EB5B5C4
-	for <linux-staging@lists.linux.dev>; Tue, 28 Nov 2023 14:30:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25B445AB8D
+	for <linux-staging@lists.linux.dev>; Tue, 28 Nov 2023 14:38:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="v6q48ixB"
-Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-332ed02ccd9so2598023f8f.0
-        for <linux-staging@lists.linux.dev>; Tue, 28 Nov 2023 06:30:41 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="GR6nrDmQ"
+Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-332e3ad436cso3504155f8f.3
+        for <linux-staging@lists.linux.dev>; Tue, 28 Nov 2023 06:38:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1701181840; x=1701786640; darn=lists.linux.dev;
+        d=linaro.org; s=google; t=1701182299; x=1701787099; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=JLEYkHRJMT3OqT04CWYEA703zQvHqSolyT21WNnk3PQ=;
-        b=v6q48ixBMWpZHm+SpsA/exOTnxX8HD1s+DYSFLuITGXfcGjlz6QTJGK6akNp/nJ6AS
-         Gg0FWZ0hqG0YCmNSHUukLkdAHXA0lIp9rc36ThgJN7xvRiHTZ07b60H8QFihf9XygOOT
-         5eB/RM7VMPDVu5dja/HaKqGeKgd9eb17f2WTHSfP0zBMXcn+Jo9pzmBW/nH1pl6WRMXS
-         /HQcGyOTT2yXWNcAyoDdl+6P4fiJEtQahwtX2WcVMKeAZYh8Zq/kMlQf8KoqGYqVs67/
-         m7DrBkpM8lC/T5qjHfaf8ULs5yO86AIsisol3vwirvbeKKUd0zFx+cBXWxu9ZK9jkXKv
-         hBVQ==
+        bh=FBxCcIpOBNw2rVRQeI3GzaJA3+Yb6g+9ZiNBDkpz2v8=;
+        b=GR6nrDmQLi+niQIjFGwqxIp0FGQ1C9l5Ep0usXzyEhfPGl560yzDP4k7hKjVh19wnt
+         1GcLIOHHfRYbhW7fcj1fGrBGox05ZZgGPfHy3ZVGB1ozIzsO+avROvx17nO0VLnjM88t
+         xONdhTtBu8/8lIocaurgE++0MulyOG+ZMA+xCMjbp5GWekOWl+Ml6fm4UIB3NISQgvFs
+         5p5IKZIhVCX/5jh37z4/73qmkeb9OpZgpfrEy5RGPwGmwXn2FzB+sz1c5WepNxOhRsre
+         wNaCFTgxYNeSEKjGk1CY9vsnqHu2vWVQmuA+YpBaC7zqfKfIurL94LezPuLpF1DuToOX
+         idPg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701181840; x=1701786640;
+        d=1e100.net; s=20230601; t=1701182299; x=1701787099;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=JLEYkHRJMT3OqT04CWYEA703zQvHqSolyT21WNnk3PQ=;
-        b=rE7U4GDa0zian9AhrTdTTZehzg0e22IMDFujgTR9dShSWmMJhnVHBYxDZOaZvLKGiX
-         TcuoULS89BzAKljgljwmleA/DY9sK2ubWjHPtXFwOJ2L5SLv+1Swfwov59aB8VEyD8W0
-         ay8/u/ePq0ygvAunv/2WLX08s7ibXHB0CvIW+5SQGi4xxCy1YEdQPn+C1/In8302gHVu
-         ohioSlyWM9nvRdAtlHMCEaNTmL5loSaQuIYO/lTj6QV64qHLp1ATgjrc8JW9gs4gHkfy
-         QLn+D+IafIiMGibPzM6PRbQ2tMAKTeCl8k9w+FK83UIpUnVYW4Hnlcl7hOqedEMJ/4d7
-         GACA==
-X-Gm-Message-State: AOJu0YxUecnuuQlFm9eK29cjju6hS38TByw8wF+iRREDVd8UAnudsBP9
-	vnXeIkh1P9jHG2UBGnbnPrQ8TQ==
-X-Google-Smtp-Source: AGHT+IFRSBdeNgBVBzXbX04M5CydoBRX/3/68FCyYlI2YkiakrnnEFYTLggv//rdjN95vH2IOP4Azw==
-X-Received: by 2002:a05:6000:543:b0:333:875:27f6 with SMTP id b3-20020a056000054300b00333087527f6mr2795165wrf.60.1701181840487;
-        Tue, 28 Nov 2023 06:30:40 -0800 (PST)
+        bh=FBxCcIpOBNw2rVRQeI3GzaJA3+Yb6g+9ZiNBDkpz2v8=;
+        b=akUWXyrzuctOV+NJcJZAyo5klNxKdridyk5Jd97N3YYcx8Sqh+77o4EhdHP1OXUEqN
+         hnisGc/5Bn269VQXb5neuaxE1F1582ND7EzB812P8+wl+/vlFES/RHxMRSFpTOhtJIWI
+         MvVo3DNp9L+g0DWZd24WSlr0Q3NpT0nRRGXDVBs04DISsk7cSyZ1doBTl3AAcDjnsKb0
+         V9el6U6aFqJoV6ws7tAgD9uLeWHKKJHul4TJ+n/V+VbXvpHNs5UieZkrFekJzaELDxy2
+         3JGbQZe7nSBttqHGeIoHRsv6wG+6xUodtVgZlW7GcAu/2tAXE+6bDc5//HjHLug0XdUa
+         z1qA==
+X-Gm-Message-State: AOJu0YyMI39sEli1TVXGus4o/x90N1kq1asSCcmEL1+KtftnpTuf3M7D
+	KOejz5oRsNMFDfb+O3KKZz3a5TojXbhTLs1KRR2qw3ck
+X-Google-Smtp-Source: AGHT+IF9bAcLKlN7/AdST/QuvsSb3Y3zS3/xlnTBjpa/nQ2qo7yQfKSPyQPJmPB0wzINEf4MurRLtQ==
+X-Received: by 2002:a5d:4b88:0:b0:32f:7f6c:72a6 with SMTP id b8-20020a5d4b88000000b0032f7f6c72a6mr10867144wrt.16.1701182299389;
+        Tue, 28 Nov 2023 06:38:19 -0800 (PST)
 Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id f10-20020a5d568a000000b00332f95ab451sm8493636wrv.58.2023.11.28.06.30.39
+        by smtp.gmail.com with ESMTPSA id g10-20020a5d64ea000000b003330f9287a8sm1813034wri.51.2023.11.28.06.38.18
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 28 Nov 2023 06:30:40 -0800 (PST)
-Date: Tue, 28 Nov 2023 17:30:36 +0300
+        Tue, 28 Nov 2023 06:38:19 -0800 (PST)
+Date: Tue, 28 Nov 2023 17:38:15 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
 To: Gary Rookard <garyrookard@fastmail.org>
 Cc: gregkh@linuxfoundation.org, philipp.g.hortmann@gmail.com,
 	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
 Subject: Re: [PATCH v2 1/3] staging: rtl8192e: renamed variable nMcsRate
-Message-ID: <acc04154-6604-4cd1-a6cf-58d89d6798e0@suswa.mountain>
+Message-ID: <eda46e85-7b79-4e47-8e53-82ddd52172d0@suswa.mountain>
 References: <20231128142027.15617-1-garyrookard@fastmail.org>
  <20231128142027.15617-2-garyrookard@fastmail.org>
 Precedence: bulk
@@ -62,36 +62,38 @@ In-Reply-To: <20231128142027.15617-2-garyrookard@fastmail.org>
 
 On Tue, Nov 28, 2023 at 09:20:25AM -0500, Gary Rookard wrote:
 > v2: Renamed from CamelCase to Snake case the variable nMcsRate, and
-  ^^^^
-
 > additionally removed the Hungarian notation of (n) that [v1] did not.
-                                                           ^^^
-Delete this stuff.  We are not going to merge v1 so we don't want to
-mention it in the permanent git log.
-
 > nMcsRate -> mcs_rate
 > 
 > Linux kernel coding style (cleanup), checkpatch Avoid CamelCase.
 > Driver/module rtl8192e compiles.
-  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-This is taken as a given.  Don't put this in the commit message.
-
 > 
 > Signed-off-by: Gary Rookard <garyrookard@fastmail.org>
+> ---
+> v2: Removes Hungarian notation.
+> v1: Renames from CamelCase only, Hungarian notation unremoved.
+> 
+>  drivers/staging/rtl8192e/rtl819x_HTProc.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/staging/rtl8192e/rtl819x_HTProc.c b/drivers/staging/rtl8192e/rtl819x_HTProc.c
+> index 00273d709f3c..4ed72936eb4a 100644
+> --- a/drivers/staging/rtl8192e/rtl819x_HTProc.c
+> +++ b/drivers/staging/rtl8192e/rtl819x_HTProc.c
+> @@ -103,7 +103,7 @@ void ht_update_default_setting(struct rtllib_device *ieee)
+>  	ht_info->rx_reorder_pending_time = 30;
+>  }
+>  
+> -static u16 ht_mcs_to_data_rate(struct rtllib_device *ieee, u8 nMcsRate)
+> +static u16 ht_mcs_to_data_rate(struct rtllib_device *ieee, u8 mcs_rate)
 
-This commit message is kind of bad.  A better commit message would be:
+In the caller, this variable is called mcsRate, which presumably
+checkpatch also complains about.  Why not rename them both to the same
+thing?
 
-"Checkpatch complains about the "nMcsRate" variable because it is
-CamelCase.  Rename it to "mcs_rate"".
-
-There are a bunch of ways you could write the commit message but my
-proposal is acceptable.  If you want to mention Hungarian notation you
-can.  "Plus it's Hungarian notation and Hungarian notation is rubbish."
-but that's not necessary.  If you're going to rename the variable then
-we just consider that you're going to look at the context and the
-surrounding code and pick a good consistent variable.
+It's unclear what value adding the "mcs_" prefix has, but I guess it's
+nice to have a consistent variable name to grep for.
 
 regards,
 dan carpenter
-
 
