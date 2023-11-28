@@ -1,157 +1,73 @@
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mailout2.w1.samsung.com (mailout2.w1.samsung.com [210.118.77.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68FFA1E496
-	for <linux-staging@lists.linux.dev>; Tue, 28 Nov 2023 20:43:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CE9B44369
+	for <linux-staging@lists.linux.dev>; Tue, 28 Nov 2023 20:58:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samsung.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CSEyXWMj"
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-407acb21f27so7000355e9.0
-        for <linux-staging@lists.linux.dev>; Tue, 28 Nov 2023 12:43:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1701204225; x=1701809025; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=ikCgusC8eEFeJmPuPKC5u+Kpxfzr4U1dFEb8bUETbj8=;
-        b=CSEyXWMjuFTJhgCyGe4KR6EgRfUu4dc9CZddSNdCUtQkuUjIb0S1aGBYep0B4h1Za+
-         KdTA17ovotpx8R2pZwyY6oElF1lbkjIalW3QMNSLi99pQexUu8MFrWBQ9Ae5HoK6FJAA
-         pjJGXczJMeBcRayzfJKsnA7aN/XLlVTBn+Ed4vfPkJmXZwWoJpnKcsbGyyhD/WW/O1r5
-         aqBV7t5Km9c8HcKgacegtVmkK8NcUQ2ZQEFloofLBgG4nUFicFH7yjysWq7ffATVcvCh
-         NoVD+nk4pGcGbvCHznQwyJDpAbc842As1ABrYjeM7CF+X+1L7aak6joBYB6wUdDnEFh3
-         7kzg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701204225; x=1701809025;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ikCgusC8eEFeJmPuPKC5u+Kpxfzr4U1dFEb8bUETbj8=;
-        b=mMFNJ2P7rPm+V14n2dncTfacW1j/Bat23WVRMZsZSMpd15E0CAu1LXJAFya4YKVZ46
-         ligrOTA1uN/8Q8P0lsYb0hFG0XKdamk6xFhC4gxK5Cy1IlVhsALeRsxnei9ERudQge8a
-         VSF6jfO6QOghKEj5rdoq2q26agELOkLJ/T+PqsOQ6x7an3pAeaXsNOMBrym0dOy3BrgA
-         AOD3a+GmqI/g7sYuA9/lVAAKFBqiLz5m/8/f14gTuMIejbSp4pa+vpCysK1/yY2qMHg5
-         ozMas8Ecj7PcQeov0dIZPnUnx+TUqQtQ9yWVahdvQdzMNZgS47nk+ZTRLLxv9SEtNUpf
-         98Ow==
-X-Gm-Message-State: AOJu0YwZ68CBV9fbDF1R2bEQhB5n5eNEmqADc+0opNKgMw61oYCzuDeo
-	SeKribROJ0BYI8iGXRNOy4c=
-X-Google-Smtp-Source: AGHT+IG+4DL5U+lBnGJYFFLiUW6H+Qu8GWLXVcDnIS9VLc8WKNgCpoFJhfyEg8tWzM5MQyaV3LR3CA==
-X-Received: by 2002:a05:600c:54f0:b0:40b:4b69:b1a0 with SMTP id jb16-20020a05600c54f000b0040b4b69b1a0mr2379669wmb.3.1701204224692;
-        Tue, 28 Nov 2023 12:43:44 -0800 (PST)
-Received: from matrix-ESPRIMO-P710 (p54a07fa0.dip0.t-ipconnect.de. [84.160.127.160])
-        by smtp.gmail.com with ESMTPSA id a15-20020a05600c348f00b0040b33222a39sm19690937wmq.45.2023.11.28.12.43.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 28 Nov 2023 12:43:44 -0800 (PST)
-Date: Tue, 28 Nov 2023 21:43:43 +0100
-From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [PATCH 6/6] staging: rtl8192e: Remove unused function
- rtllib_rx_DELBA()
-Message-ID: <566083b9cba530e3b17074bd3410e686c1778f0d.1701202700.git.philipp.g.hortmann@gmail.com>
-References: <cover.1701202700.git.philipp.g.hortmann@gmail.com>
+	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="q4v1h73Y"
+Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
+	by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id 20231128205135euoutp028aa462808f1e5aa9c9d19f17c4277fe8~b5KgrsT8B1438614386euoutp02X
+	for <linux-staging@lists.linux.dev>; Tue, 28 Nov 2023 20:51:35 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com 20231128205135euoutp028aa462808f1e5aa9c9d19f17c4277fe8~b5KgrsT8B1438614386euoutp02X
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1701204695;
+	bh=diGGB8M3QKr4xmIq3ZefcP17bCL3vrVLXybtHrc6cCQ=;
+	h=Subject:Reply-To:From:To:Date:References:From;
+	b=q4v1h73YXs7vE1q5HzWGoDI4Y463C023XWb+iEqnhxlyhYTGyxpLwybbg2hDduRqO
+	 IIX3/Vu8ypHB8sDH0766C3Q2CNZ/q+IVrOSkWXQKK3Z+aVgrtMV2FXrpknU/3DfD2+
+	 H6kw4tHd4kDpGMnrq6lPf5PrZOXpmTIIxWv4bAAA=
+Received: from eusmges3new.samsung.com (unknown [203.254.199.245]) by
+	eucas1p1.samsung.com (KnoxPortal) with ESMTP id
+	20231128205134eucas1p1aece59e8a252e0007f8a675afb2a01d0~b5KgWQLkX2517325173eucas1p1G
+	for <linux-staging@lists.linux.dev>; Tue, 28 Nov 2023 20:51:34 +0000 (GMT)
+X-AuditID: cbfec7f5-83dff70000002550-a5-656652d6ae68
+Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
+	eusmges3new.samsung.com (EUCPMTA) with SMTP id CE.01.09552.6D256656; Tue, 28
+	Nov 2023 20:51:34 +0000 (GMT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <cover.1701202700.git.philipp.g.hortmann@gmail.com>
+Mime-Version: 1.0
+Subject: unsubscribe linux-staging
+Reply-To: sungchun.kang@samsung.com
+Sender: SungChun Kang <sungchun.kang@samsung.com>
+From: SungChun Kang <sungchun.kang@samsung.com>
+To: "linux-staging@lists.linux.dev" <linux-staging@lists.linux.dev>
+X-Priority: 3
+X-Content-Kind-Code: NORMAL
+X-Drm-Type: N,general
+X-Msg-Generator: Mail
+X-Msg-Type: PERSONAL
+X-Reply-Demand: N
+Message-ID: <20231128205134eucms1p4611e41d1bcf43e6ba281c04e779c3d4a@eucms1p4>
+Date: Tue, 28 Nov 2023 21:51:34 +0100
+X-CMS-MailID: 20231128205134eucms1p4611e41d1bcf43e6ba281c04e779c3d4a
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+X-RootMTR: 20231125155712epcms2p6b4f5710f594fd1704f85424754f7c61d
+X-EPHeader: Mail
+X-ConfirmMail: N,general
+CMS-TYPE: 201P
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFrrCIsWRmVeSWpSXmKPExsWy7djPc7rXgtJSDWZP0LU48jnVgdHjxeaZ
+	jAGMUVw2Kak5mWWpRfp2CVwZz9q5Ciwq9rwPamA062Lk5JAQMJF48mYRSxcjF4eQwApGiU1n
+	e4EcDg5eAUGJvzuEQWqEBZQkpl++zwwSFhJQlrjzNQAibCjRf3slE4jNJqAv8fLSZTBbRMBZ
+	YtGrWYwQ43klZrQ/ZYGwpSW2L98KFReVuLn6LTuM/f7YfKi4iETrvbPMELagxIOfuxlhej9c
+	XssKYWdLXF54gQnCrpA4NucGVI25xM5js8F6eQV8Jb4vmwxWwyKgKrHxyTSoXS4Sqxd/BruH
+	WUBbYtnC12BvMQtoSqzfpQ9R4igx6fsnqHIBiTUn5kCdIyGxteUJK0Qrn8SkbdOZYV7cMe8J
+	E8gYCQF1id71hhBhWYkXV9ZAXekhMWXic7ArhQQCJdZunMY8gVFhFiKYZyG5ZxbCPQsYmVcx
+	iqeWFuempxYb56WW6xUn5haX5qXrJefnbmIERvzpf8e/7mBc8eqj3iFGJg7GQ4wSHMxKIrx6
+	H5NThXhTEiurUovy44tKc1KLDzFKc7AoifOqpsinCgmkJ5akZqemFqQWwWSZODilGpiEE5Z+
+	YbBve7DxyGqJW6UMGcx+/7ljlvW+8Fnue3n1Bheec0fub5hr2PWiS27bEpXK45e3nTmS455X
+	dSlCssqwe9Hy5OIFc9ctvJaoMWmD6q6ortutOx6YnNv/Y/mUL5d3ahnnWBhWrxYWTa1YNyku
+	WoX5083U+9XWHxivL922ouJyq4xmc+ltdQGPyXuv886/nB5VJKzw108lmOH0RYlFVz1vndmw
+	onNpWOpNKcHZRXW6u9V+epjx9a9gFuo4dkSoTP/qmu3XdqzZIW/TYiDz4Gj0pIkT1qplHGp0
+	sBQ+suDWu1+PWvp+BanVSRgJNtR3Oa3r5Lm4bMUikcA3/yYbSux5dOazaWR7f7K89E0nJZbi
+	jERDLeai4kQAO/x4DWcDAAA=
+X-CMS-RootMailID: 20231125155712epcms2p6b4f5710f594fd1704f85424754f7c61d
+References: <CGME20231125155712epcms2p6b4f5710f594fd1704f85424754f7c61d@eucms1p4>
 
-Remove unused function rtllib_rx_DELBA().
-
-Signed-off-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
----
- drivers/staging/rtl8192e/rtl819x_BAProc.c | 62 -----------------------
- drivers/staging/rtl8192e/rtllib.h         |  1 -
- 2 files changed, 63 deletions(-)
-
-diff --git a/drivers/staging/rtl8192e/rtl819x_BAProc.c b/drivers/staging/rtl8192e/rtl819x_BAProc.c
-index 4dadeb43b9a2..725139eb2deb 100644
---- a/drivers/staging/rtl8192e/rtl819x_BAProc.c
-+++ b/drivers/staging/rtl8192e/rtl819x_BAProc.c
-@@ -199,68 +199,6 @@ static void rtllib_send_DELBA(struct rtllib_device *ieee, u8 *dst,
- 		netdev_dbg(ieee->dev, "Failed to generate DELBA packet.\n");
- }
- 
--int rtllib_rx_DELBA(struct rtllib_device *ieee, struct sk_buff *skb)
--{
--	struct ieee80211_hdr_3addr *delba = NULL;
--	union delba_param_set *pDelBaParamSet = NULL;
--	u8 *dst = NULL;
--
--	if (skb->len < sizeof(struct ieee80211_hdr_3addr) + 6) {
--		netdev_warn(ieee->dev, "Invalid skb len in DELBA(%d / %d)\n",
--			    (int)skb->len,
--			    (int)(sizeof(struct ieee80211_hdr_3addr) + 6));
--		return -1;
--	}
--
--	if (!ieee->current_network.qos_data.active ||
--	    !ieee->ht_info->current_ht_support) {
--		netdev_warn(ieee->dev,
--			    "received DELBA while QOS or HT is not supported(%d, %d)\n",
--			    ieee->current_network. qos_data.active,
--			    ieee->ht_info->current_ht_support);
--		return -1;
--	}
--
--#ifdef VERBOSE_DEBUG
--	print_hex_dump_bytes("%s: ", DUMP_PREFIX_NONE, skb->data,
--			     __func__, skb->len);
--#endif
--	delba = (struct ieee80211_hdr_3addr *)skb->data;
--	dst = (u8 *)(&delba->addr2[0]);
--	pDelBaParamSet = (union delba_param_set *)&delba->seq_ctrl + 2;
--
--	if (pDelBaParamSet->field.initiator == 1) {
--		struct rx_ts_record *ts;
--
--		if (!rtllib_get_ts(ieee, (struct ts_common_info **)&ts, dst,
--			   (u8)pDelBaParamSet->field.tid, RX_DIR, false)) {
--			netdev_warn(ieee->dev,
--				    "%s(): can't get TS for RXTS. dst:%pM TID:%d\n",
--				    __func__, dst,
--				    (u8)pDelBaParamSet->field.tid);
--			return -1;
--		}
--
--		rx_ts_delete_ba(ieee, ts);
--	} else {
--		struct tx_ts_record *ts;
--
--		if (!rtllib_get_ts(ieee, (struct ts_common_info **)&ts, dst,
--			   (u8)pDelBaParamSet->field.tid, TX_DIR, false)) {
--			netdev_warn(ieee->dev, "%s(): can't get TS for TXTS\n",
--				    __func__);
--			return -1;
--		}
--
--		ts->using_ba = false;
--		ts->add_ba_req_in_progress = false;
--		ts->add_ba_req_delayed = false;
--		del_timer_sync(&ts->ts_add_ba_timer);
--		tx_ts_delete_ba(ieee, ts);
--	}
--	return 0;
--}
--
- void rtllib_ts_init_add_ba(struct rtllib_device *ieee, struct tx_ts_record *ts,
- 			   u8 policy, u8	overwrite_pending)
- {
-diff --git a/drivers/staging/rtl8192e/rtllib.h b/drivers/staging/rtl8192e/rtllib.h
-index 7d64855d835d..f1cd9eb96a7e 100644
---- a/drivers/staging/rtl8192e/rtllib.h
-+++ b/drivers/staging/rtl8192e/rtllib.h
-@@ -1776,7 +1776,6 @@ u8 HTCCheck(struct rtllib_device *ieee, u8 *pFrame);
- void HTResetIOTSetting(struct rt_hi_throughput *ht_info);
- bool is_ht_half_nmode_aps(struct rtllib_device *ieee);
- u16  tx_count_to_data_rate(struct rtllib_device *ieee, u8 nDataRate);
--int rtllib_rx_DELBA(struct rtllib_device *ieee, struct sk_buff *skb);
- void rtllib_ts_init_add_ba(struct rtllib_device *ieee, struct tx_ts_record *ts,
- 			   u8 policy, u8 overwrite_pending);
- void rtllib_ts_init_del_ba(struct rtllib_device *ieee,
--- 
-2.42.0
-
+unsubscribe=C2=A0linux-staging=C2=A0=0D=0A=0D=0A=0D=0A
