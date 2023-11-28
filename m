@@ -1,73 +1,96 @@
-Received: from mailout2.w1.samsung.com (mailout2.w1.samsung.com [210.118.77.12])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CE9B44369
-	for <linux-staging@lists.linux.dev>; Tue, 28 Nov 2023 20:58:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samsung.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC53644380
+	for <linux-staging@lists.linux.dev>; Tue, 28 Nov 2023 22:20:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="q4v1h73Y"
-Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
-	by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id 20231128205135euoutp028aa462808f1e5aa9c9d19f17c4277fe8~b5KgrsT8B1438614386euoutp02X
-	for <linux-staging@lists.linux.dev>; Tue, 28 Nov 2023 20:51:35 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com 20231128205135euoutp028aa462808f1e5aa9c9d19f17c4277fe8~b5KgrsT8B1438614386euoutp02X
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1701204695;
-	bh=diGGB8M3QKr4xmIq3ZefcP17bCL3vrVLXybtHrc6cCQ=;
-	h=Subject:Reply-To:From:To:Date:References:From;
-	b=q4v1h73YXs7vE1q5HzWGoDI4Y463C023XWb+iEqnhxlyhYTGyxpLwybbg2hDduRqO
-	 IIX3/Vu8ypHB8sDH0766C3Q2CNZ/q+IVrOSkWXQKK3Z+aVgrtMV2FXrpknU/3DfD2+
-	 H6kw4tHd4kDpGMnrq6lPf5PrZOXpmTIIxWv4bAAA=
-Received: from eusmges3new.samsung.com (unknown [203.254.199.245]) by
-	eucas1p1.samsung.com (KnoxPortal) with ESMTP id
-	20231128205134eucas1p1aece59e8a252e0007f8a675afb2a01d0~b5KgWQLkX2517325173eucas1p1G
-	for <linux-staging@lists.linux.dev>; Tue, 28 Nov 2023 20:51:34 +0000 (GMT)
-X-AuditID: cbfec7f5-83dff70000002550-a5-656652d6ae68
-Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
-	eusmges3new.samsung.com (EUCPMTA) with SMTP id CE.01.09552.6D256656; Tue, 28
-	Nov 2023 20:51:34 +0000 (GMT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SaVb/kNy"
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-40b2e763b83so7954935e9.1
+        for <linux-staging@lists.linux.dev>; Tue, 28 Nov 2023 14:20:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1701210050; x=1701814850; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:content-language:references
+         :to:from:subject:user-agent:mime-version:date:message-id:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=cRvAv5IYh+L+f8RPVNKnR2nzMz01vR6z5LweeBPSxso=;
+        b=SaVb/kNyjJtKM4Jd1wdudjrpaXWTZXrd+md22maqT/1BgC9hscC3nEgYPaMfiorAQG
+         igqZIIiJbIXZNzXzzufRqFWuTmxb+n77yp0whizHiBUyD9HBBJxSDadoD63aqZVzE5u/
+         nDuXPOWqZ4ATZvMMirvlXf4uU3Zbj0HJFH0hiWerTzsB5A8R0DEtU/rPIiUzPgvxEgyH
+         G3RXQGKyE9wZ2JBD1ZT9Wtu7MOEzy1jIRALn/aIJW/XKeGcUgQq8ADdlyo5IXtvBxRPs
+         Coz6/eJBo1vAHD/qbsJHT2TfudF6KO9MZr1IkaSQT0mPznOse+PNF297dfzcZ2ncWN0X
+         zwYw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1701210050; x=1701814850;
+        h=content-transfer-encoding:in-reply-to:content-language:references
+         :to:from:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=cRvAv5IYh+L+f8RPVNKnR2nzMz01vR6z5LweeBPSxso=;
+        b=rdRKg+wbN4vBwc9JWWU2bYY2xPQ2iPi/3wRJQITo3YqVfDyYfk8AFidCKxEWHrxbTL
+         TFVVZ0sIxc+DngNCHUu2xz1qpbmmuDoovSP3i8YPwQtO2DgZIpfr9xjDVUPRPa16nKhk
+         K6x984ZB66HQs8jxoQFHAo2Md5gIeTFi7dZT0qNn6bzrHOSt0DFxwAenRsTCbyO0s9lC
+         Hi+8z7llMDN0f92Pphx/+dF+MmzbFndKTa+SQHLzMl30tysK8mLhN/pOhi9it58JvMUL
+         uyMsXNBBDojDv3wMTVNpNWnzk67ymPhFt7Xgw8xHNjQuPIGqB/EJ8RO+Ee+xkRNy+18E
+         DTNA==
+X-Gm-Message-State: AOJu0YyuuYFJNfTO9rWm6tHIkCMYKbXIbR8pfFW0BuZs+kg/uiMOr8Kz
+	p/kGbdx2e5ALc/8+v9eL8IU=
+X-Google-Smtp-Source: AGHT+IGbiQyKPPiP2jdk8NX4rLPKY9dmORw57Bfs1HS1Y+VH0y+v23BPROR1AjPnZfVXoyxS04aIlA==
+X-Received: by 2002:a05:600c:8512:b0:405:358c:ba75 with SMTP id gw18-20020a05600c851200b00405358cba75mr11489436wmb.0.1701210049729;
+        Tue, 28 Nov 2023 14:20:49 -0800 (PST)
+Received: from [192.168.0.104] (p54a07fa0.dip0.t-ipconnect.de. [84.160.127.160])
+        by smtp.gmail.com with ESMTPSA id m8-20020a05600c4f4800b0040b347d90d0sm19436693wmq.12.2023.11.28.14.20.48
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 28 Nov 2023 14:20:49 -0800 (PST)
+Message-ID: <51bd23f2-034a-4e28-b275-99c1392ee43a@gmail.com>
+Date: Tue, 28 Nov 2023 23:20:46 +0100
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Subject: unsubscribe linux-staging
-Reply-To: sungchun.kang@samsung.com
-Sender: SungChun Kang <sungchun.kang@samsung.com>
-From: SungChun Kang <sungchun.kang@samsung.com>
-To: "linux-staging@lists.linux.dev" <linux-staging@lists.linux.dev>
-X-Priority: 3
-X-Content-Kind-Code: NORMAL
-X-Drm-Type: N,general
-X-Msg-Generator: Mail
-X-Msg-Type: PERSONAL
-X-Reply-Demand: N
-Message-ID: <20231128205134eucms1p4611e41d1bcf43e6ba281c04e779c3d4a@eucms1p4>
-Date: Tue, 28 Nov 2023 21:51:34 +0100
-X-CMS-MailID: 20231128205134eucms1p4611e41d1bcf43e6ba281c04e779c3d4a
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="utf-8"
-X-RootMTR: 20231125155712epcms2p6b4f5710f594fd1704f85424754f7c61d
-X-EPHeader: Mail
-X-ConfirmMail: N,general
-CMS-TYPE: 201P
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFrrCIsWRmVeSWpSXmKPExsWy7djPc7rXgtJSDWZP0LU48jnVgdHjxeaZ
-	jAGMUVw2Kak5mWWpRfp2CVwZz9q5Ciwq9rwPamA062Lk5JAQMJF48mYRSxcjF4eQwApGiU1n
-	e4EcDg5eAUGJvzuEQWqEBZQkpl++zwwSFhJQlrjzNQAibCjRf3slE4jNJqAv8fLSZTBbRMBZ
-	YtGrWYwQ43klZrQ/ZYGwpSW2L98KFReVuLn6LTuM/f7YfKi4iETrvbPMELagxIOfuxlhej9c
-	XssKYWdLXF54gQnCrpA4NucGVI25xM5js8F6eQV8Jb4vmwxWwyKgKrHxyTSoXS4Sqxd/BruH
-	WUBbYtnC12BvMQtoSqzfpQ9R4igx6fsnqHIBiTUn5kCdIyGxteUJK0Qrn8SkbdOZYV7cMe8J
-	E8gYCQF1id71hhBhWYkXV9ZAXekhMWXic7ArhQQCJdZunMY8gVFhFiKYZyG5ZxbCPQsYmVcx
-	iqeWFuempxYb56WW6xUn5haX5qXrJefnbmIERvzpf8e/7mBc8eqj3iFGJg7GQ4wSHMxKIrx6
-	H5NThXhTEiurUovy44tKc1KLDzFKc7AoifOqpsinCgmkJ5akZqemFqQWwWSZODilGpiEE5Z+
-	YbBve7DxyGqJW6UMGcx+/7ljlvW+8Fnue3n1Bheec0fub5hr2PWiS27bEpXK45e3nTmS455X
-	dSlCssqwe9Hy5OIFc9ctvJaoMWmD6q6ortutOx6YnNv/Y/mUL5d3ahnnWBhWrxYWTa1YNyku
-	WoX5083U+9XWHxivL922ouJyq4xmc+ltdQGPyXuv886/nB5VJKzw108lmOH0RYlFVz1vndmw
-	onNpWOpNKcHZRXW6u9V+epjx9a9gFuo4dkSoTP/qmu3XdqzZIW/TYiDz4Gj0pIkT1qplHGp0
-	sBQ+suDWu1+PWvp+BanVSRgJNtR3Oa3r5Lm4bMUikcA3/yYbSux5dOazaWR7f7K89E0nJZbi
-	jERDLeai4kQAO/x4DWcDAAA=
-X-CMS-RootMailID: 20231125155712epcms2p6b4f5710f594fd1704f85424754f7c61d
-References: <CGME20231125155712epcms2p6b4f5710f594fd1704f85424754f7c61d@eucms1p4>
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 0/6] staging: rtl8192e: Remove action block acknowledgment
+From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+References: <cover.1701202700.git.philipp.g.hortmann@gmail.com>
+Content-Language: en-US
+In-Reply-To: <cover.1701202700.git.philipp.g.hortmann@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-unsubscribe=C2=A0linux-staging=C2=A0=0D=0A=0D=0A=0D=0A
+On 11/28/23 21:43, Philipp Hortmann wrote:
+> AP are learning very quickly that rtl8192e driver is handling block
+> acknowledgment (BA) not as expected.
+> The log of the driver is showing the following output:
+> rtl819xE 0000:03:00.0 wlan0: received DELBA while QOS or HT is not supported(0, 1)
+> Then AP are giving up.
+> 
+> Tested with rtl8192e (WLL6130-D99) in Mode n (12.5 MB/s)
+> Transferred this patch over wlan connection of rtl8192e.
+> 
+> Philipp Hortmann (6):
+>    staging: rtl8192e: Remove action block acknowledgment
+>    staging: rtl8192e: Remove unused function rtllib_rx_ADDBAReq()
+>    staging: rtl8192e: Remove unused function rtllib_send_ADDBARsp()
+>    staging: rtl8192e: Remove unused function
+>      rtllib_FlushRxTsPendingPkts()
+>    staging: rtl8192e: Remove unused function rtllib_rx_ADDBARsp()
+>    staging: rtl8192e: Remove unused function rtllib_rx_DELBA()
+> 
+>   drivers/staging/rtl8192e/rtl819x_BAProc.c | 262 ----------------------
+>   drivers/staging/rtl8192e/rtllib.h         |   6 +-
+>   drivers/staging/rtl8192e/rtllib_rx.c      |  33 ---
+>   drivers/staging/rtl8192e/rtllib_softmac.c |  30 ---
+>   4 files changed, 1 insertion(+), 330 deletions(-)
+> 
+
+Hi Greg,
+
+please ignore this patch series. It creates a performance issue....
+
+Sorry for the noise in the mailing list.
+
+Bye Philipp
