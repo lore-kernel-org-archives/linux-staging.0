@@ -1,123 +1,87 @@
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE11E10A19
-	for <linux-staging@lists.linux.dev>; Tue, 28 Nov 2023 06:22:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBBAA200DE
+	for <linux-staging@lists.linux.dev>; Tue, 28 Nov 2023 09:27:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="lHtafvVB"
-Received: from [192.168.1.105] (unknown [103.251.226.78])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 34E9CBB2;
-	Tue, 28 Nov 2023 07:22:13 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1701152537;
-	bh=F+pmNEwJIb2yCOcNQbyNuU2Mg/PxW+M9YK0VOsv00IY=;
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="i5RnCMTB"
+Received: from [100.122.216.38] (ec2-34-240-57-77.eu-west-1.compute.amazonaws.com [34.240.57.77])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: benjamin.gaignard)
+	by madras.collabora.co.uk (Postfix) with ESMTPSA id 3351366072A7;
+	Tue, 28 Nov 2023 09:27:55 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1701163675;
+	bh=Z5GZ1cB9pKK23OqS6OplSteBYe8gnO0cBoeNPG8Ac0c=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=lHtafvVB/qxtTUccEmnX9MGq5fvXxBzieW9UvvtXCZjo4C+fDjY+XZKR1XG3z4ixl
-	 mS+h4jUECWqjH8qV3BWQR9D+sNqHtK4zAzLIbrJtvJVq813lxfrj70OCFgvV4YKqE0
-	 i5PK7sHhpuSTFEIkG2DPpGx7aD/sSmh4P38lknOM=
-Message-ID: <9a3e3e6f-3b30-1795-a9e9-56d0773b7173@ideasonboard.com>
-Date: Tue, 28 Nov 2023 11:52:43 +0530
+	b=i5RnCMTBTHvS1nFSTQxvTB1oI3D/D8BZLy5P1ETi5ooitBjJKYfaOtGRyv3aH7TxM
+	 yT9Ue/rJLT7cUpYByL10KqK4iJoTHNFYl4Fwgqw9vH3BbpqgSF1QLUefMll7kiGq18
+	 +07u33xFwmf/Z2nbeY/23JZD+XKRF2sYf1QshZNJsZPPuSWbzh6wO77FyRI410ZIIJ
+	 uWs2TtPS6szMZCYRhRvVIFtZxKgAvnxwH8RcaZ1de1YDfPFuhDuBwN3MmsiHI4xsUt
+	 BOpkmtJi1xKR6iK7fPIw1VsA0YzaQibavK8i4oeVw7rxhd7gdZ+Meomef+VHIaLChE
+	 od1fkkrUgVbOA==
+Message-ID: <7aa0e48b-6ddc-4af3-9b42-aa48c29be2e1@collabora.com>
+Date: Tue, 28 Nov 2023 10:27:52 +0100
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH 5/9] staging: vc04_services: Do not pass NULL to
- vchiq_log_error()
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: linux-staging@lists.linux.dev, linux-rpi-kernel@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
- Stefan Wahren <stefan.wahren@i2se.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Dan Carpenter <error27@gmail.com>,
- Kieran Bingham <kieran.bingham@ideasonboard.com>,
- Phil Elwell <phil@raspberrypi.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>
-References: <20231107095156.365492-1-umang.jain@ideasonboard.com>
- <20231107095156.365492-6-umang.jain@ideasonboard.com>
- <20231107122551.GA3051@pendragon.ideasonboard.com>
- <20231107123627.GB3051@pendragon.ideasonboard.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 02/55] media: test-drivers: Stop abusing of
+ min_buffers_needed field
+To: Shuah Khan <skhan@linuxfoundation.org>, hverkuil@xs4all.nl,
+ mchehab@kernel.org, tfiga@chromium.org, m.szyprowski@samsung.com,
+ matt.ranostay@konsulko.com
+Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+ linux-staging@lists.linux.dev, kernel@collabora.com,
+ Kieran Bingham <kieran.bingham@ideasonboard.com>
+References: <20231127165454.166373-1-benjamin.gaignard@collabora.com>
+ <20231127165454.166373-3-benjamin.gaignard@collabora.com>
+ <dd6739ca-72b1-4eb6-9fd6-e18dc974de50@linuxfoundation.org>
 Content-Language: en-US
-From: Umang Jain <umang.jain@ideasonboard.com>
-In-Reply-To: <20231107123627.GB3051@pendragon.ideasonboard.com>
+From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+In-Reply-To: <dd6739ca-72b1-4eb6-9fd6-e18dc974de50@linuxfoundation.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-Hi Laurent,
 
-On 11/7/23 6:06 PM, Laurent Pinchart wrote:
-> On Tue, Nov 07, 2023 at 02:25:52PM +0200, Laurent Pinchart wrote:
->> On Tue, Nov 07, 2023 at 04:51:52AM -0500, Umang Jain wrote:
->>> vchiq_add_connected_callback() logs using vchiq_log_error() macro,
->>> but passes NULL instead of a struct device pointer. Fix it.
->>>
->>> vchiq_add_connected_callback() is not used anywhere in the vc04_services
->>> as of now. It will be used when we add new drivers(VC shared memory and
->>> bcm2835-isp), hence it kept as it is for now.
->>>
->>> Fixes: 1d8915cf8899 ("staging: vc04: Convert vchiq_log_error() to use dynamic debug")
->>> Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
->>> ---
->>>   .../vc04_services/interface/vchiq_arm/vchiq_connected.c       | 4 ++--
->>>   .../vc04_services/interface/vchiq_arm/vchiq_connected.h       | 4 +++-
->>>   2 files changed, 5 insertions(+), 3 deletions(-)
->>>
->>> diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_connected.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_connected.c
->>> index b3928bd8c9c6..21f9fa1a1713 100644
->>> --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_connected.c
->>> +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_connected.c
->>> @@ -27,7 +27,7 @@ static void connected_init(void)
->>>    * be made immediately, otherwise it will be deferred until
->>>    * vchiq_call_connected_callbacks is called.
->>>    */
->>> -void vchiq_add_connected_callback(void (*callback)(void))
->>> +void vchiq_add_connected_callback(struct vchiq_device *device, void (*callback)(void))
->> You're changing the prototype of the function, but the patch doesn't
->> update any user. If the function is unused, it looks like you can drop
->> it instead. Looking at the rest of the vchiq_connected.c file, I think
->> you can actually drop the whole file.
-> Except that the vc-sm-cma driver will use it. I'm curious though, that
-> driver will have no way to acquire a pointer to a vchiq_device, so I
-> don't see how this will be usable. pr_err() may be a better pick here.
+Le 27/11/2023 à 18:00, Shuah Khan a écrit :
+> On 11/27/23 09:54, Benjamin Gaignard wrote:
+>> 'min_buffers_needed' is suppose to be used to indicate the number
+>> of buffers needed by DMA engine to start streaming.
+>> Obvious test-drivers don't use DMA engine and just want to specify
+>> the minimum number of buffers to allocate when calling VIDIOC_REQBUFS.
+>> That 'min_reqbufs_allocation' field purpose so use it.
+>> While at it rename function parameter.
+>>
+>
+> So how ate the test-drivers currently abusing this field
+> and how does this change benefit?
 
-vc-sm-cma probe function is called through vchiq_device, hence access to 
-dev pointer is established.
+In videobuf2-core.h min_buffers_needed is documemented as:
+"the minimum number of buffers needed before @start_streaming can be called.
+Used when a DMA engine cannot be started unless at least this number of buffers have been queued into the driver."
 
-https://git.uk.ideasonboard.com/uajain/linux/src/branch/uajain/rpi3/staging-next/isp/drivers/staging/vc04_services/vc-sm-cma/vc_sm.c#L676
+Test-drivers don't use DMA engine so they (ab)use of this variable, like Hans said in this RFC:
+https://www.spinics.net/lists/linux-media/msg244455.html
 
->>>   {
->>>   	connected_init();
->>>   
->>> @@ -39,7 +39,7 @@ void vchiq_add_connected_callback(void (*callback)(void))
->>>   		callback();
->>>   	} else {
->>>   		if (g_num_deferred_callbacks >= MAX_CALLBACKS) {
->>> -			vchiq_log_error(NULL, VCHIQ_CORE,
->>> +			vchiq_log_error(&device->dev, VCHIQ_CORE,
->>>   					"There already %d callback registered - please increase MAX_CALLBACKS",
->>>   					g_num_deferred_callbacks);
->>>   		} else {
->>> diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_connected.h b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_connected.h
->>> index 4caf5e30099d..e4ed56446f8a 100644
->>> --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_connected.h
->>> +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_connected.h
->>> @@ -1,10 +1,12 @@
->>>   /* SPDX-License-Identifier: GPL-2.0 OR BSD-3-Clause */
->>>   /* Copyright (c) 2010-2012 Broadcom. All rights reserved. */
->>>   
->>> +#include "vchiq_bus.h"
->>> +
->>>   #ifndef VCHIQ_CONNECTED_H
->>>   #define VCHIQ_CONNECTED_H
->>>   
->>> -void vchiq_add_connected_callback(void (*callback)(void));
->>> +void vchiq_add_connected_callback(struct vchiq_device *device, void (*callback)(void));
->>>   void vchiq_call_connected_callbacks(void);
->>>   
->>>   #endif /* VCHIQ_CONNECTED_H */
+The goal of this series is to distinguish the minimum number of buffers to be allocated in VIDIOC_REQBUF
+versus the minimum numbers of buffers needed before start streaming.
 
+Regards,
+Benjamin
+
+>
+> I don't have objections to this change, I want to understand
+> it a bit more. I would like to see more details on why this
+> change is needed.
+
+>
+> thanks,
+> -- Shuah
