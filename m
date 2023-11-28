@@ -1,53 +1,53 @@
 Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBAA21E496
-	for <linux-staging@lists.linux.dev>; Tue, 28 Nov 2023 20:43:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BACD1E496
+	for <linux-staging@lists.linux.dev>; Tue, 28 Nov 2023 20:43:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="N/oAgABF"
-Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-32f831087c6so1552935f8f.0
-        for <linux-staging@lists.linux.dev>; Tue, 28 Nov 2023 12:43:31 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HKov3g93"
+Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-333130bcae1so113544f8f.1
+        for <linux-staging@lists.linux.dev>; Tue, 28 Nov 2023 12:43:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1701204210; x=1701809010; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1701204216; x=1701809016; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=q4jh3kAmz3NLMMvf/uU8x0FwkaNbHPqHSzrIk9a+VQ0=;
-        b=N/oAgABFZPqMVl5jYTmyvafQnuuQKAItjQpxiiI6CIH6PKkQssGYl8iDS+1a050TMM
-         Er3h52AoO/m6MFUU/dLqRGtYQlTEon+WTYIdcoO1rfvLJgjKjTztENHSf0VF+7dKVFFg
-         uzRRJ0QKyHn8glUQNH/pQmi4qeQyN5o4TNwlp86lDLrvRZs8FldinW251c8Ssp+0N7PU
-         ZBLTOlvnJ6FzDCh1XmqCWvFBjdZHSgLcU4G1HYJh0ft2lZLMin6YcDVh3IXNpxPi9rWp
-         yP5cTCrwHkqXg6shYXFVa0rxRlhhv5xNoOuj9kotvsZdL8Qk0h9qJwh/zLQEpZII5dWx
-         SA4A==
+        bh=9QnSXqV0Ukg8Tls+sByuxYlBpsCAZ28kGNWhfBeP1Ho=;
+        b=HKov3g93FzFIoV3KDhsW/5csHFBpkePb/f2ZyhptApgbIMD9a9xqvnDQ5caWcpWPYs
+         MrdZi2JTQBr7Am7/4S8G9t7vE+WBzqk94Y8rcE5L+B+q6Mf/WsGkjrzl84Yaw7aht9AP
+         HAVQdBnGeTaSY06ydBlND7YoRKUMlaUNinONFeLzD86Ei7qlaVqu8/P+rDlaFoIQ/3Dg
+         R9QWZWReVFnfnPHV5tcsaTKzBhioj/xDWCWeFJcngQidUpG2KjgKe+heWQmkv+TR3F1T
+         h5dFmZkpR2cU16DQI1hzUoG81zNmPfggwmO4XXW1q0flEpbenTJSBQtA4hMmCVcLI1Lj
+         9WJA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701204210; x=1701809010;
+        d=1e100.net; s=20230601; t=1701204216; x=1701809016;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=q4jh3kAmz3NLMMvf/uU8x0FwkaNbHPqHSzrIk9a+VQ0=;
-        b=r3NpaR1M+q3X/uQx3exE6RXu1RPuFFRE0kJYl7TNP5F52nJVjjmKOxwZw4P8ECSnVu
-         Fy9EngY30vbvVqcaXG9qcV+OHskCvQjQsbCcf/jPOGYYLh2d8BwDzQTo70ier/9CWoRJ
-         bUEt7YX00rZBcD0zVJNxmNjl9MX1QLJItDCodG6pAUz1Hm8ARVdNHOHS6bv44NE2uscu
-         6OVftrkQbACMEomxG9NN7jKy9VdWqgCGYBwDJsNhesOk6qhG9+niweTamLSjtBwS81Tr
-         6vGTPr4tuY8vhdkYPFQkGzPmqqZh3/lwsa7MzrzIJV5VV14xvBI+ZpZg6+8D4TPEY/E8
-         v5wg==
-X-Gm-Message-State: AOJu0YweFHzotJeLB6CxXOZ5Y+RbzPYITL9+6Kjcw79FgUEx+XfVpcAt
-	b38vFghLKkyUb87MfFzSOZX1TvFPIcY=
-X-Google-Smtp-Source: AGHT+IGlSPwq0XYOKQo2Gcbn4coEuBaz6tt2245HjfIV9x9M6ftvcJ75ndEXflqL8/VwW1akk2Xp/g==
-X-Received: by 2002:a5d:6c6b:0:b0:32d:e435:92c4 with SMTP id r11-20020a5d6c6b000000b0032de43592c4mr14272134wrz.0.1701204209925;
-        Tue, 28 Nov 2023 12:43:29 -0800 (PST)
+        bh=9QnSXqV0Ukg8Tls+sByuxYlBpsCAZ28kGNWhfBeP1Ho=;
+        b=QkDns8eRGH/LjLf5+GOVzChTMxYHOxrnsKYGj144FNgBhP/se7x3ifJ4AcijnB1CWZ
+         HNWZ15CUrSf7krCc6XHGv3w8wiV5oQokJM/7FMt3zHLqW2ulJMEZsar8N41FYfG+gU4g
+         n35EuYr0R3afXXEGcq7iBQjc3wh4u9THK58UU0IhVE6JHQci+p6r0NnMltUK40g5wgnK
+         Fow5NKzIaDby0FzJty/cbMosYjpoDhtF6sQfTn47qyi+JYX+VFJsT2gP7ZLm1sH2QD8k
+         jSUxO7ArX/QyBtiwBBEKSStPW4UVnNgnKWSK4yyVUu/P38oB/odq/eQKQ0ZKIbtFL/t3
+         /S6Q==
+X-Gm-Message-State: AOJu0Yy85Edxi4Uw+EvYNjE2GzUnRGZ9vDOk9AUKRabbY0Ywvivkm4sO
+	3JmDEXoavNfbcmzUR+55gdM=
+X-Google-Smtp-Source: AGHT+IFlZOut4UOdkDfCqhaFrV+ufRdE2pcqAgXRc8/GSdFqLcF/4Ay8OYltPMEbnxhXgVTq0bEccg==
+X-Received: by 2002:a05:6000:80e:b0:332:ff23:588a with SMTP id bt14-20020a056000080e00b00332ff23588amr5726442wrb.5.1701204216304;
+        Tue, 28 Nov 2023 12:43:36 -0800 (PST)
 Received: from matrix-ESPRIMO-P710 (p54a07fa0.dip0.t-ipconnect.de. [84.160.127.160])
-        by smtp.gmail.com with ESMTPSA id s11-20020adfeccb000000b003316b38c625sm15994336wro.99.2023.11.28.12.43.29
+        by smtp.gmail.com with ESMTPSA id c11-20020a5d4f0b000000b00332e67d6564sm14585699wru.67.2023.11.28.12.43.35
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 28 Nov 2023 12:43:29 -0800 (PST)
-Date: Tue, 28 Nov 2023 21:43:28 +0100
+        Tue, 28 Nov 2023 12:43:36 -0800 (PST)
+Date: Tue, 28 Nov 2023 21:43:33 +0100
 From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [PATCH 3/6] staging: rtl8192e: Remove unused function
- rtllib_send_ADDBARsp()
-Message-ID: <3d0b46b4cd2538a797743978c4c2daeec32f1f09.1701202700.git.philipp.g.hortmann@gmail.com>
+Subject: [PATCH 4/6] staging: rtl8192e: Remove unused function
+ rtllib_FlushRxTsPendingPkts()
+Message-ID: <1a4471053e200e0eb8a39b0a2de6c2f4e9a36656.1701202700.git.philipp.g.hortmann@gmail.com>
 References: <cover.1701202700.git.philipp.g.hortmann@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -59,36 +59,72 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 In-Reply-To: <cover.1701202700.git.philipp.g.hortmann@gmail.com>
 
-Remove unused function rtllib_send_ADDBARsp().
+Remove unused function rtllib_FlushRxTsPendingPkts().
 
 Signed-off-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
 ---
- drivers/staging/rtl8192e/rtl819x_BAProc.c | 12 ------------
- 1 file changed, 12 deletions(-)
+ drivers/staging/rtl8192e/rtllib.h    |  3 +--
+ drivers/staging/rtl8192e/rtllib_rx.c | 33 ----------------------------
+ 2 files changed, 1 insertion(+), 35 deletions(-)
 
-diff --git a/drivers/staging/rtl8192e/rtl819x_BAProc.c b/drivers/staging/rtl8192e/rtl819x_BAProc.c
-index 7e4aeb10a2db..fab7ced1b8c3 100644
---- a/drivers/staging/rtl8192e/rtl819x_BAProc.c
-+++ b/drivers/staging/rtl8192e/rtl819x_BAProc.c
-@@ -186,18 +186,6 @@ static void rtllib_send_ADDBAReq(struct rtllib_device *ieee, u8 *dst,
- 		netdev_dbg(ieee->dev, "Failed to generate ADDBAReq packet.\n");
+diff --git a/drivers/staging/rtl8192e/rtllib.h b/drivers/staging/rtl8192e/rtllib.h
+index 44a937953db8..b9ac313e5f97 100644
+--- a/drivers/staging/rtl8192e/rtllib.h
++++ b/drivers/staging/rtl8192e/rtllib.h
+@@ -1814,8 +1814,7 @@ bool rtllib_MgntDisconnect(struct rtllib_device *rtllib, u8 asRsn);
+ /* For the function is more related to hardware setting, it's better to use the
+  * ieee handler to refer to it.
+  */
+-void rtllib_FlushRxTsPendingPkts(struct rtllib_device *ieee,
+-				 struct rx_ts_record *ts);
++
+ int rtllib_parse_info_param(struct rtllib_device *ieee,
+ 			    struct rtllib_info_element *info_element,
+ 			    u16 length,
+diff --git a/drivers/staging/rtl8192e/rtllib_rx.c b/drivers/staging/rtl8192e/rtllib_rx.c
+index d9517dbc5593..fd0357753c30 100644
+--- a/drivers/staging/rtl8192e/rtllib_rx.c
++++ b/drivers/staging/rtl8192e/rtllib_rx.c
+@@ -488,39 +488,6 @@ void rtllib_indicate_packets(struct rtllib_device *ieee,
+ 	}
  }
  
--static void rtllib_send_ADDBARsp(struct rtllib_device *ieee, u8 *dst,
--				 struct ba_record *ba, u16 status_code)
+-void rtllib_FlushRxTsPendingPkts(struct rtllib_device *ieee,
+-				 struct rx_ts_record *ts)
 -{
--	struct sk_buff *skb;
+-	struct rx_reorder_entry *pRxReorderEntry;
+-	u8 RfdCnt = 0;
 -
--	skb = rtllib_ADDBA(ieee, dst, ba, status_code, ACT_ADDBARSP);
--	if (skb)
--		softmac_mgmt_xmit(skb, ieee);
--	else
--		netdev_dbg(ieee->dev, "Failed to generate ADDBARsp packet.\n");
+-	del_timer_sync(&ts->rx_pkt_pending_timer);
+-	while (!list_empty(&ts->rx_pending_pkt_list)) {
+-		if (RfdCnt >= REORDER_WIN_SIZE) {
+-			netdev_info(ieee->dev,
+-				    "-------------->%s() error! RfdCnt >= REORDER_WIN_SIZE\n",
+-				    __func__);
+-			break;
+-		}
+-
+-		pRxReorderEntry = (struct rx_reorder_entry *)
+-				  list_entry(ts->rx_pending_pkt_list.prev,
+-					     struct rx_reorder_entry, List);
+-		netdev_dbg(ieee->dev, "%s(): Indicate SeqNum %d!\n", __func__,
+-			   pRxReorderEntry->SeqNum);
+-		list_del_init(&pRxReorderEntry->List);
+-
+-		ieee->RfdArray[RfdCnt] = pRxReorderEntry->prxb;
+-
+-		RfdCnt = RfdCnt + 1;
+-		list_add_tail(&pRxReorderEntry->List,
+-			      &ieee->RxReorder_Unused_List);
+-	}
+-	rtllib_indicate_packets(ieee, ieee->RfdArray, RfdCnt);
+-
+-	ts->rx_indicate_seq = 0xffff;
 -}
 -
- static void rtllib_send_DELBA(struct rtllib_device *ieee, u8 *dst,
- 			      struct ba_record *ba, enum tr_select TxRxSelect,
- 			      u16 reason_code)
+ static void RxReorderIndicatePacket(struct rtllib_device *ieee,
+ 				    struct rtllib_rxb *prxb,
+ 				    struct rx_ts_record *ts, u16 SeqNum)
 -- 
 2.42.0
 
