@@ -1,118 +1,104 @@
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from out1-smtp.messagingengine.com (out1-smtp.messagingengine.com [66.111.4.25])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6666A4F5F3
-	for <linux-staging@lists.linux.dev>; Tue, 28 Nov 2023 10:31:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E2F835888
+	for <linux-staging@lists.linux.dev>; Tue, 28 Nov 2023 14:20:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=fastmail.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fastmail.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="rrlqwtw2"
-Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 42A93BB2;
-	Tue, 28 Nov 2023 11:30:36 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1701167436;
-	bh=OXd6WFN+hXV6bAu/T8kro/U446h2pL6QGhhs60nEIi4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=rrlqwtw2gOQQrNMKVW//q6jy+QDsES4uivGL0gr+shfBzULUgf8EIPHup52837x6M
-	 lkjEvjo+r5i+ErgPYmnwxd9IEVaCbbtjkecd0f/jixfjw9p22lRsstRNb28SEuU2fe
-	 uiM/3GmHY9w/a0YXrbP6QkaEtxAR6gre/elYP32E=
-Date: Tue, 28 Nov 2023 12:31:17 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Tomasz Figa <tfiga@chromium.org>
-Cc: Benjamin Gaignard <benjamin.gaignard@collabora.com>, hverkuil@xs4all.nl,
-	mchehab@kernel.org, m.szyprowski@samsung.com,
-	matt.ranostay@konsulko.com, linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-	kernel@collabora.com, Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	NXP Linux Team <linux-imx@nxp.com>
-Subject: Re: [PATCH 07/55] media: imx8-isi: Stop abusing of
- min_buffers_needed field
-Message-ID: <20231128103117.GF31314@pendragon.ideasonboard.com>
-References: <20231127165454.166373-1-benjamin.gaignard@collabora.com>
- <20231127165454.166373-8-benjamin.gaignard@collabora.com>
- <20231127170700.GC31314@pendragon.ideasonboard.com>
- <6fa1ec09-3e30-475e-9718-29d23586753e@collabora.com>
- <CAAFQd5DCVTLpPoKSp_OA6fe_Hqt-oV7=AsCZWSmkJORvLSgUiw@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=fastmail.org header.i=@fastmail.org header.b="DCkoP2Dv";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="eSZG9q8r"
+Received: from compute7.internal (compute7.nyi.internal [10.202.2.48])
+	by mailout.nyi.internal (Postfix) with ESMTP id 2170C5C01DC;
+	Tue, 28 Nov 2023 09:20:22 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute7.internal (MEProxy); Tue, 28 Nov 2023 09:20:22 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fastmail.org; h=
+	cc:cc:content-transfer-encoding:content-type:date:date:from:from
+	:in-reply-to:message-id:mime-version:reply-to:sender:subject
+	:subject:to:to; s=fm1; t=1701181222; x=1701267622; bh=8tICVnFXKv
+	HLhSCxFGb6EpkYCbKpG66jOH4xd4mEY5M=; b=DCkoP2Dv8FAGgooxR5KbD9e8Iy
+	DBUfixphzl1z52/fbH5Urjh27ohnub8KrfUph4mE9deT0e+AV+LoNC0LkOf0QLgr
+	wcVrY1YbhkBrjpXHvRaFSjsFzdo5HMWo8GR1AmUJLkTwvcBDQYBI8f/kjK290oiw
+	cKM0h5BjfWET9fN+2sIgFU9fKFKedUO8A5AZThFuBWyVmkavP1mmwwwJLyMf+JjQ
+	GUy0d61n4ESlXPj8JFNwjjgvO83Ni9dC8lH3R9GNMxV3yI55VYsvWzcIZ2j1w7Cr
+	ycOAAPDBLsa34mLj0ekp+98oa32YTnlCD+5c46gpV02GdBgxE+oUuBwnDdBg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:date:date:feedback-id:feedback-id:from:from
+	:in-reply-to:message-id:mime-version:reply-to:sender:subject
+	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+	:x-sasl-enc; s=fm1; t=1701181222; x=1701267622; bh=8tICVnFXKvHLh
+	SCxFGb6EpkYCbKpG66jOH4xd4mEY5M=; b=eSZG9q8rp2GCTvMALfwgtR1i3sSLA
+	sW2OZt0vhBkTYvtlJCyJSDBHKRIm4mtU6lAklFF29WfsRxhX1/fsr9yIEvsJZ4ol
+	FVBL1HZyqwSankKXU9M+dXwf6zSCW2oKmH8hwmhhPDZ276OzITPei0KFvl9ZhGTT
+	zdWXAGbZ+49RaZ1aEWHFFAMUpsMfK+p4P4tRSDAVrw0yiSar4i7Izz0TOiOo/sjg
+	xlgB7wCHk+l4NPPehx9i6FGpZWvkAYvFcTZZcuZGXEfY7n/s6esbM5qLSNC6cTxt
+	u/mnICb+tOd299wTBKp1WiGzUVtHNpgyLb2NDE+lGPWs9LQJ2gVvLD78w==
+X-ME-Sender: <xms:JfdlZeunTyNB9o1Wx-EWgGHSkYNMSacvZ3bKTUV_GbDkjo5qlsWcgQ>
+    <xme:JfdlZTe9YXg43DYpNrPAgLcVPo8nIuFtwODxkhcASVpkRP0BSVkcobhKobbf-QEvL
+    1Rsz9Zrkh1pXSazSyg>
+X-ME-Received: <xmr:JfdlZZxSsSkcRANnw2LOXth7XKBspWg53tod29zv7TXQpbDu-T6zhvyKEqoZAwJUdTIaNZfWjZx2nv-aEig1qKYcdc27sj29e71LV7vkNIsb>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvkedrudeifedgiedvucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucenucfjughrpefhvfevufffkffoggfgsedtkeertd
+    ertddtnecuhfhrohhmpefirghrhicutfhoohhkrghrugcuoehgrghrhihrohhokhgrrhgu
+    sehfrghsthhmrghilhdrohhrgheqnecuggftrfgrthhtvghrnhepleegffffgfehhfejge
+    ejheeivdfgleefheeuueetkedtffeihfevlefhgeevvdevnecuvehluhhsthgvrhfuihii
+    vgeptdenucfrrghrrghmpehmrghilhhfrhhomhepghgrrhihrhhoohhkrghrugesfhgrsh
+    htmhgrihhlrdhorhhg
+X-ME-Proxy: <xmx:JfdlZZPAa8W0ONiWro5fjDGkZ66XPi8-VeYwDUY752WJtdQQUZPMMQ>
+    <xmx:JfdlZe_UrBt61Fh_kt2nDN9w6FqR9lFe0mHi_SnIygn06iZdtvhN8g>
+    <xmx:JfdlZRUAIB_AjdVF8skYK5GnyYGnFdg0mBEnfd8DT_mmNtaXd9ga1w>
+    <xmx:JvdlZVZz3tZ8sRKpf3gRK6Q2cbVyTJB5HZAnMmzMKI0MkoucclCqaA>
+Feedback-ID: ifd194980:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 28 Nov 2023 09:20:21 -0500 (EST)
+From: Gary Rookard <garyrookard@fastmail.org>
+To: gregkh@linuxfoundation.org,
+	philipp.g.hortmann@gmail.com
+Cc: linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Gary Rookard <garyrookard@fastmail.org>
+Subject: [PATCH v2 0/3] staging: rtl8192e: patch series renames (3) different variables
+Date: Tue, 28 Nov 2023 09:20:24 -0500
+Message-ID: <20231128142027.15617-1-garyrookard@fastmail.org>
+X-Mailer: git-send-email 2.41.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAAFQd5DCVTLpPoKSp_OA6fe_Hqt-oV7=AsCZWSmkJORvLSgUiw@mail.gmail.com>
 
-On Tue, Nov 28, 2023 at 06:35:51PM +0900, Tomasz Figa wrote:
-> On Tue, Nov 28, 2023 at 6:31 PM Benjamin Gaignard wrote:
-> > Le 27/11/2023 à 18:07, Laurent Pinchart a écrit :
-> > > Hi Benjamin,
-> > >
-> > > Thank you for the patch.
-> > >
-> > > On Mon, Nov 27, 2023 at 05:54:06PM +0100, Benjamin Gaignard wrote:
-> > >> 'min_buffers_needed' is suppose to be used to indicate the number
-> > >> of buffers needed by DMA engine to start streaming.
-> > >> imx8-isi driver doesn't use DMA engine and just want to specify
-> > > What do you mean, "doesn't use DMA engine" ? The ISI surely has DMA
-> > > engines :-)
-> >
-> > I have done assumption on drivers given if they use or dma_* functions.
-> 
-> I suspect the use of vb2_dma_sg_plane_desc() and
-> vb2_dma_contig_plane_dma_addr() may be more correlated to whether
-> there is a DMA involved or not. Usually V4L2 drivers don't really have
-> to deal with the DMA API explicitly, because the vb2 framework handles
-> most of the work.
+Hi,
 
-And this is anyway not related to DMA at all, but to the logic each
-driver implements when it deals with buffers. There's a lower chance a
-USB driver driver will have a hard requirement for more than one buffer
-compared to an AMBA/platform/PCI device driver, but at the end of the
-day, each driver needs to be analyzed individually to check what they
-require. Benjamin, I think you'll have some more homework to do :-)
+This [v2]  patch series renames 3 different variables:
 
-> > I have considers that all PCI drivers are using DMA engine and
-> > I don't know the design for each drivers so I hope to get this information
-> > from maintainers and fix that in v2.
-> > If imx8-isi driver needs a minimum number of buffers before start streaming
-> > I will do a v2 and use min_dma_buffers_needed instead.
-> >
-> > >> the minimum number of buffers to allocate when calling VIDIOC_REQBUFS.
-> > >> That 'min_reqbufs_allocation' field purpose so use it.
-> > >>
-> > >> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-> > >> CC: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > >> CC: Mauro Carvalho Chehab <mchehab@kernel.org>
-> > >> CC: Shawn Guo <shawnguo@kernel.org>
-> > >> CC: Sascha Hauer <s.hauer@pengutronix.de>
-> > >> CC: Pengutronix Kernel Team <kernel@pengutronix.de>
-> > >> CC: Fabio Estevam <festevam@gmail.com>
-> > >> CC: NXP Linux Team <linux-imx@nxp.com>
-> > >> ---
-> > >>   drivers/media/platform/nxp/imx8-isi/imx8-isi-video.c | 2 +-
-> > >>   1 file changed, 1 insertion(+), 1 deletion(-)
-> > >>
-> > >> diff --git a/drivers/media/platform/nxp/imx8-isi/imx8-isi-video.c b/drivers/media/platform/nxp/imx8-isi/imx8-isi-video.c
-> > >> index 49bca2b01cc6..81673ff9084b 100644
-> > >> --- a/drivers/media/platform/nxp/imx8-isi/imx8-isi-video.c
-> > >> +++ b/drivers/media/platform/nxp/imx8-isi/imx8-isi-video.c
-> > >> @@ -1453,7 +1453,7 @@ int mxc_isi_video_register(struct mxc_isi_pipe *pipe,
-> > >>      q->mem_ops = &vb2_dma_contig_memops;
-> > >>      q->buf_struct_size = sizeof(struct mxc_isi_buffer);
-> > >>      q->timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_MONOTONIC;
-> > >> -    q->min_buffers_needed = 2;
-> > >> +    q->min_reqbufs_allocation = 2;
-> > >>      q->lock = &video->lock;
-> > >>      q->dev = pipe->isi->dev;
-> > >>
+Patch 1/3) nMcsRate, from CamelCase to Snake case, also removes
+Hungarian notation. nMcsRate -> mcs_rate
+
+Patch 2/3) bCurBW40MHz, from CamelCase to Snake case, also removes
+Hungarian notation. bCurBW40MHz -> cur_bw_40mhz
+
+Patch 3/3) nDataRate, from CamelCase to Snake case, also removes
+Hungarian notation. nDataRate -> data_rate
+
+Regards,
+Gary
+
+Gary Rookard (3):
+  staging: rtl8192e: renamed variable nMcsRate
+  staging: rtl8192e: renamed variable bCurBW40MHz
+  staging: rtl8192e: renamed variable nDataRate
+
+ drivers/staging/rtl8192e/rtl819x_HT.h        |  2 +-
+ drivers/staging/rtl8192e/rtl819x_HTProc.c    | 36 ++++++++++----------
+ drivers/staging/rtl8192e/rtllib_softmac_wx.c |  4 +--
+ drivers/staging/rtl8192e/rtllib_tx.c         | 10 +++---
+ 4 files changed, 26 insertions(+), 26 deletions(-)
 
 -- 
-Regards,
+2.41.0
 
-Laurent Pinchart
