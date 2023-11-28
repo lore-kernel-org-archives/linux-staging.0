@@ -1,98 +1,106 @@
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out4-smtp.messagingengine.com (out4-smtp.messagingengine.com [66.111.4.28])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 950F45ABA2
-	for <linux-staging@lists.linux.dev>; Tue, 28 Nov 2023 14:40:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF5701E4AE
+	for <linux-staging@lists.linux.dev>; Tue, 28 Nov 2023 18:17:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=fastmail.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fastmail.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="KzbW8FsW"
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-4083dbc43cfso38966615e9.3
-        for <linux-staging@lists.linux.dev>; Tue, 28 Nov 2023 06:40:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1701182418; x=1701787218; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=oaKrElE1AMJOvXqLWag42ZjIrLYDCFvrlaWvSZAKArw=;
-        b=KzbW8FsWWW88o0oZ6v0PZ2FF7OMcfl5CWdl4kbRRxP2ucec+hPLZMFDcb7XFAoCdph
-         crDaVI3hRqKPYY1273cpusuj+eBk0arv2oEQ7OIaW1RJS4GyZvo7L++D/qizH0NBr8iO
-         I2/SMo3+FYF05898XvUhoGdvHO8vMnLsAK6DHT7o/bqduZNQwIISs1LfkuAjiGtMjz4+
-         oRbv9mqzyNu4bzbHKuWKqPQ8JowvRGMVBvVEczFS7Qau9/PQRusSqTpU0png1DsVOcov
-         0fgqeqHc9koj2QmGnqcKWl5VG6xHAP3OcjOtp26FHtaZWDayxUg92nIqSHkzjr3Xx9+3
-         S8KA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701182418; x=1701787218;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=oaKrElE1AMJOvXqLWag42ZjIrLYDCFvrlaWvSZAKArw=;
-        b=X/pe3m363E/CfdYQc+IhNFA/bs/jfMqdzvs/1DUVahcztwjGCXSbIpAso/e8dY3jSV
-         fIubkQwyraXpJubWaBmxO1WPrMJGTmxwWdJlNSkj560SOo63Svf2Xa2lLAiiwFGPn4uw
-         UcmfufY9+4NwBVtOdOL0+HYZIoAl3pl7fKI/7NxCoQJpLWmd2TU2gFlP9WP7TWudoS3w
-         Pc+T/CJrCDp4WyMBEAni/oDgxgs6a9u8wXUeSSSjTECvBExYGtq5tc5e9/TqG/BMkfFb
-         y0bWPzLnKA751g1XZPk+G4JkFyxpD/ie83ItP8+PGM0e3jmoG/TUUPX58ZPdhvPSN7br
-         OG0A==
-X-Gm-Message-State: AOJu0YxC5Oe3q1TsAsjfyVAVjfMyEZ1pDHJwY+rQY54eijeD81Cd2cOE
-	ECahPf1xzA5a7xYho+unv0ISeQ==
-X-Google-Smtp-Source: AGHT+IEUXsu35JfaoTse6WpNi0aat3trZZEVzz9HHjmeo+pJm7QYeZQ28Vz4IccP7yCA63IgMU75YA==
-X-Received: by 2002:a05:600c:4f82:b0:40b:2b42:a1c9 with SMTP id n2-20020a05600c4f8200b0040b2b42a1c9mr10704074wmq.23.1701182417945;
-        Tue, 28 Nov 2023 06:40:17 -0800 (PST)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id t14-20020a05600c450e00b0040b37f107c4sm16321352wmo.16.2023.11.28.06.40.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 28 Nov 2023 06:40:17 -0800 (PST)
-Date: Tue, 28 Nov 2023 17:40:14 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Jack Zhu <jack.zhu@starfivetech.com>
-Cc: Changhuang Liang <changhuang.liang@starfivetech.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org
-Subject: [PATCH] media: staging: starfive: camss: fix off by one in
- isp_enum_mbus_code()
-Message-ID: <7d222638-2d19-466d-8dd4-9e1ceb1d46f3@moroto.mountain>
+	dkim=pass (2048-bit key) header.d=fastmail.org header.i=@fastmail.org header.b="SiXPgcEE";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="Oc1aRgNC"
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+	by mailout.nyi.internal (Postfix) with ESMTP id D8B355C0206;
+	Tue, 28 Nov 2023 13:17:21 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute3.internal (MEProxy); Tue, 28 Nov 2023 13:17:21 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fastmail.org; h=
+	cc:cc:content-transfer-encoding:content-type:date:date:from:from
+	:in-reply-to:message-id:mime-version:reply-to:sender:subject
+	:subject:to:to; s=fm1; t=1701195441; x=1701281841; bh=iuMysMVGg8
+	PJ26JKT0z4QtNuMFMPdYynoB7Q9nJhvPE=; b=SiXPgcEEeg5u0Wdwq+4s/ASRVX
+	tCYN7/g8QJZnOX3hszxjP7NAWa03sl2vvSi2MaoMX738V3nqb1+baiIVZuxyYUuZ
+	blddL1TQI1QxnvWsOo6y9tLQ0CwV+FmXpKKzkdDMw5MRmXNW1x9ffrOHbbxFYHn+
+	GOTP5X1vGMtS3p65WUWFq2qzZrDQVDCVLtQq8MvblXhgr6SmN4MUxSP9QXGFCHBl
+	M1aR208jGwokdMs4cpOvm6FrKvUQ1ZjNjfauCia56Ule27aso+ZjG3kK6bL9r95T
+	3VZt3dxexAZnJ51mEuVwYYDwQfQlnMqmx8vYFIFXjzrErIu8QIxDgDyfvjmg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:date:date:feedback-id:feedback-id:from:from
+	:in-reply-to:message-id:mime-version:reply-to:sender:subject
+	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+	:x-sasl-enc; s=fm1; t=1701195441; x=1701281841; bh=iuMysMVGg8PJ2
+	6JKT0z4QtNuMFMPdYynoB7Q9nJhvPE=; b=Oc1aRgNCBne59AmE42OSBzJWoz+ow
+	O5czAK/+QAWF8TF3yyD2MoCX8nXv1yNd65fLtzU5v/llXgxbaa+/xYSG3wBggWN0
+	pI1/tkq7E0G3PwrKennvGeTZNPdCnT5c0Lgq0qYsWFVUxIZiTiYiGnVNYXuNJySz
+	JjUbfsjV1MOK33R7h1czmpRYuZNkVz3HVvSThAaL5zO80KMoAwgGAg6SUoAZEnjV
+	AGNVJRXTkHCmOdsXlPH5W6gYdIkE4eqEebrh/0NXUle/1gAQq0hLUnHMUMSzQ8m5
+	lsaeRjWbSYTfeau9WiEynPWA6An7bFD3kp6Q0JHScojpwf4ZiUWAJAr/Q==
+X-ME-Sender: <xms:sS5mZS1p9-eoX9F4KgQuDjirDfAVOG5d1aeN-03auB5Abqtbh-79Sw>
+    <xme:sS5mZVFSSFBpWOJcdgJ9QNLPyA2Pgat7iuyAOV91GLSoIBOl3OE5O3xBBJTGjO3hH
+    qKDo8XLs4A-fmKprqQ>
+X-ME-Received: <xmr:sS5mZa4qzEDUWFDzir1u6OOK8S3tl9-KMW_CN43r9Ak3jm56LBr1Okpn5odUdMHmqe0A_MUORXT_3s3IBcu10WY4YTAuRiQbG3sHELsv7LE2>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvkedrudeifedguddtlecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+    necuuegrihhlohhuthemuceftddtnecunecujfgurhephffvvefufffkofgggfestdekre
+    dtredttdenucfhrhhomhepifgrrhihucftohhokhgrrhguuceoghgrrhihrhhoohhkrghr
+    ugesfhgrshhtmhgrihhlrdhorhhgqeenucggtffrrghtthgvrhhnpeelgefffffghefhje
+    egjeehiedvgfelfeehueeuteektdffiefhveelhfegvedvveenucevlhhushhtvghrufhi
+    iigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehgrghrhihrohhokhgrrhgusehfrg
+    hsthhmrghilhdrohhrgh
+X-ME-Proxy: <xmx:sS5mZT3skYZODA5XaommfwTKoTZG83kPxRbfhS_9aq8oq6ww4SjtGA>
+    <xmx:sS5mZVEo4FDymjIFx57iOlJ02hsZJmcGQdxdf8DNJM2irb3lxiz6TQ>
+    <xmx:sS5mZc-MPL1K-IhiqgBDAdq9mdczBre4EQWxReBqyoJG2-0xkaPmFQ>
+    <xmx:sS5mZVAd1tCX1iM05QCFU4-fznv9_qm-dySDGy1tovD_pvp_HQ_dBg>
+Feedback-ID: ifd194980:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 28 Nov 2023 13:17:21 -0500 (EST)
+From: Gary Rookard <garyrookard@fastmail.org>
+To: gregkh@linuxfoundation.org,
+	philipp.g.hortmann@gmail.com
+Cc: linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Gary Rookard <garyrookard@fastmail.org>
+Subject: [PATCH v3 0/3] staging: rtl8192e: patch series renames (3) different variables
+Date: Tue, 28 Nov 2023 13:17:24 -0500
+Message-ID: <20231128181727.19504-1-garyrookard@fastmail.org>
+X-Mailer: git-send-email 2.41.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-X-Mailer: git-send-email haha only kidding
+Content-Transfer-Encoding: 8bit
 
-These > comparisons should be >=.  The formats->fmts[] array is either
-a pointer to isp_formats_sink[] or isp_formats_source[] respectively.
+Hi,
 
-Fixes: e57854628f58 ("media: staging: media: starfive: camss: Add ISP driver")
-Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
----
- drivers/staging/media/starfive/camss/stf-isp.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+This [v3]  patch series renames 3 different variables
+and improves the commit message style.
+[v2] Style issues, redo.
+[v1] Style issues, redo.
 
-diff --git a/drivers/staging/media/starfive/camss/stf-isp.c b/drivers/staging/media/starfive/camss/stf-isp.c
-index 893dbd8cddc8..98d61d71c31b 100644
---- a/drivers/staging/media/starfive/camss/stf-isp.c
-+++ b/drivers/staging/media/starfive/camss/stf-isp.c
-@@ -120,7 +120,7 @@ static int isp_enum_mbus_code(struct v4l2_subdev *sd,
- 	const struct stf_isp_format_table *formats;
- 
- 	if (code->pad == STF_ISP_PAD_SINK) {
--		if (code->index > ARRAY_SIZE(isp_formats_sink))
-+		if (code->index >= ARRAY_SIZE(isp_formats_sink))
- 			return -EINVAL;
- 
- 		formats = &isp_dev->formats[SINK_FORMATS_INDEX];
-@@ -128,7 +128,7 @@ static int isp_enum_mbus_code(struct v4l2_subdev *sd,
- 	} else {
- 		struct v4l2_mbus_framefmt *sink_fmt;
- 
--		if (code->index > ARRAY_SIZE(isp_formats_source))
-+		if (code->index >= ARRAY_SIZE(isp_formats_source))
- 			return -EINVAL;
- 
- 		sink_fmt = v4l2_subdev_state_get_format(state,
+Patch 1/3) Coding style issue, checkpatch Avoid CamelCase,
+rename it nMcsRate -> mcs_rate.
+
+Patch 2/3) Coding style issue, checkpatch Avoid CamelCase,
+rename it bCurBW40MHz -> cur_bw_40mhz.
+
+Patch 3/3) Coding style issue, checkpatch Avoid CamelCase,
+rename it nDateRate -> data_rate.
+
+Signed-off-by: Gary Rookard <garyrookard@fastmail.org>
+
+Gary Rookard (3):
+  staging: rtl8192e: renamed variable nMcsRate
+  staging: rtl8192e: renamed variable bCurBW40MHz
+  staging: rtl8192e: renamed variable nDataRate
+
+ drivers/staging/rtl8192e/rtl819x_HT.h        |  2 +-
+ drivers/staging/rtl8192e/rtl819x_HTProc.c    | 36 ++++++++++----------
+ drivers/staging/rtl8192e/rtllib_softmac_wx.c |  4 +--
+ drivers/staging/rtl8192e/rtllib_tx.c         | 10 +++---
+ 4 files changed, 26 insertions(+), 26 deletions(-)
+
 -- 
-2.42.0
+2.41.0
 
