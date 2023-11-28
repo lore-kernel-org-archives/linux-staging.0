@@ -1,142 +1,149 @@
-Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 066CD101D1
-	for <linux-staging@lists.linux.dev>; Tue, 28 Nov 2023 09:43:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="PzSTkOcL"
-Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-a00b056ca38so697248466b.2
-        for <linux-staging@lists.linux.dev>; Tue, 28 Nov 2023 01:43:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1701164637; x=1701769437; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=gn4UB1lK5iWfBPlsVj0cmidPsZvNY1ecgwO2dUiuTUo=;
-        b=PzSTkOcLMFP8AkUmIyoTfFDaFNveBQC8KC+a5iCmHK2tJk3TxG7S/1MjXL9le2sj5C
-         K9wBYsfOEijMAXg/JVtgRaT6IJmIqwpsrL20v8CYTEei2oTJ+75ebzhgtnLXNLFfD2Sk
-         LI9lizm797J8e4ldHYcMoBoWHoezevSAXxEfA=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701164637; x=1701769437;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=gn4UB1lK5iWfBPlsVj0cmidPsZvNY1ecgwO2dUiuTUo=;
-        b=TXYC8nG4dS5lFaj7Jpk09/w9B87SlOQwDtsaM0YJgtn08SzaD/VzbjhNUoNBHT+FxS
-         F4EjBiaSSClrOH7suP2TXmeKVevLiRQ3OTAdmWlkNVDKWzkJBRqWoIRBr9vYBCYdNHWL
-         hNCZLD54tjIvOjPuJOHtY+Mr+CmZ2rnT6c/JyMHr0GB3BcCY4Ei6osDpZFkgjlXIDX7C
-         M2X0UvE6iLHjNGCD6mcVaUf2SsBpQ0SJcLIEZ0h3+isxdrFDGSUQj/yMGm+pMRdjiADt
-         4yrIsCeD3M9cm+eeXu3RwBwYMAnhuKZgROxPJ+ZrOCuwHMzbiSR5/pJEMHCoyKQWqayn
-         dyTA==
-X-Gm-Message-State: AOJu0Ywfy162SpNYFQzxUxYB7onwMjitddY2LyAbvQfIQG2V2GuSPNdJ
-	JVO3Y+BeFKylFPmoQbg0+G6zi4dEQreVu0Kuj+w3dfS+
-X-Google-Smtp-Source: AGHT+IEwusvaTRO3kZXNEhUHcIRZQHIFLUgG0K+JHPUrEDZOaNy+X4d/XxIoQay1o7C3sE5TD/C2TQ==
-X-Received: by 2002:a17:906:74c6:b0:a16:8c9e:f3fc with SMTP id z6-20020a17090674c600b00a168c9ef3fcmr145831ejl.61.1701164637060;
-        Tue, 28 Nov 2023 01:43:57 -0800 (PST)
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com. [209.85.221.44])
-        by smtp.gmail.com with ESMTPSA id rv4-20020a17090710c400b00a047ef6f2c6sm6628635ejb.135.2023.11.28.01.43.56
-        for <linux-staging@lists.linux.dev>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 28 Nov 2023 01:43:56 -0800 (PST)
-Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-32fd7fc9f19so3279942f8f.2
-        for <linux-staging@lists.linux.dev>; Tue, 28 Nov 2023 01:43:56 -0800 (PST)
-X-Received: by 2002:adf:fcc8:0:b0:32d:a495:a9b7 with SMTP id
- f8-20020adffcc8000000b0032da495a9b7mr9105847wrs.61.1701164171112; Tue, 28 Nov
- 2023 01:36:11 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1034F381A7;
+	Tue, 28 Nov 2023 10:18:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dkim=none
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D239BC433C7;
+	Tue, 28 Nov 2023 10:18:06 +0000 (UTC)
+Message-ID: <44ca55bf-978d-47e8-abd2-8e3adb5071a2@xs4all.nl>
+Date: Tue, 28 Nov 2023 11:18:05 +0100
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 03/55] media: usb: cx231xx: Stop abusing of
+ min_buffers_needed field
+Content-Language: en-US, nl
+To: Benjamin Gaignard <benjamin.gaignard@collabora.com>, mchehab@kernel.org,
+ tfiga@chromium.org, m.szyprowski@samsung.com, matt.ranostay@konsulko.com
+Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+ linux-staging@lists.linux.dev, kernel@collabora.com
 References: <20231127165454.166373-1-benjamin.gaignard@collabora.com>
- <20231127165454.166373-8-benjamin.gaignard@collabora.com> <20231127170700.GC31314@pendragon.ideasonboard.com>
- <6fa1ec09-3e30-475e-9718-29d23586753e@collabora.com>
-In-Reply-To: <6fa1ec09-3e30-475e-9718-29d23586753e@collabora.com>
-From: Tomasz Figa <tfiga@chromium.org>
-Date: Tue, 28 Nov 2023 18:35:51 +0900
-X-Gmail-Original-Message-ID: <CAAFQd5DCVTLpPoKSp_OA6fe_Hqt-oV7=AsCZWSmkJORvLSgUiw@mail.gmail.com>
-Message-ID: <CAAFQd5DCVTLpPoKSp_OA6fe_Hqt-oV7=AsCZWSmkJORvLSgUiw@mail.gmail.com>
-Subject: Re: [PATCH 07/55] media: imx8-isi: Stop abusing of min_buffers_needed field
-To: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, hverkuil@xs4all.nl, 
-	mchehab@kernel.org, m.szyprowski@samsung.com, matt.ranostay@konsulko.com, 
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
-	linux-staging@lists.linux.dev, kernel@collabora.com, 
-	Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
-	Pengutronix Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, 
-	NXP Linux Team <linux-imx@nxp.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+ <20231127165454.166373-4-benjamin.gaignard@collabora.com>
+From: Hans Verkuil <hverkuil@xs4all.nl>
+Autocrypt: addr=hverkuil@xs4all.nl; keydata=
+ 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
+In-Reply-To: <20231127165454.166373-4-benjamin.gaignard@collabora.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Tue, Nov 28, 2023 at 6:31=E2=80=AFPM Benjamin Gaignard
-<benjamin.gaignard@collabora.com> wrote:
->
->
-> Le 27/11/2023 =C3=A0 18:07, Laurent Pinchart a =C3=A9crit :
-> > Hi Benjamin,
-> >
-> > Thank you for the patch.
-> >
-> > On Mon, Nov 27, 2023 at 05:54:06PM +0100, Benjamin Gaignard wrote:
-> >> 'min_buffers_needed' is suppose to be used to indicate the number
-> >> of buffers needed by DMA engine to start streaming.
-> >> imx8-isi driver doesn't use DMA engine and just want to specify
-> > What do you mean, "doesn't use DMA engine" ? The ISI surely has DMA
-> > engines :-)
->
-> I have done assumption on drivers given if they use or dma_* functions.
+On 27/11/2023 17:54, Benjamin Gaignard wrote:
+> 'min_buffers_needed' is suppose to be used to indicate the number
+> of buffers needed by DMA engine to start streaming.
+> cx231xx driver doesn't use DMA engine and just want to specify
+> the minimum number of buffers to allocate when calling VIDIOC_REQBUFS.
+> That 'min_reqbufs_allocation' field purpose so use it.
+> 
+> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+> ---
+>  drivers/media/usb/cx231xx/cx231xx-417.c   | 2 +-
+>  drivers/media/usb/cx231xx/cx231xx-video.c | 4 ++--
+>  2 files changed, 3 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/media/usb/cx231xx/cx231xx-417.c b/drivers/media/usb/cx231xx/cx231xx-417.c
+> index 45973fe690b2..66043ed50c8e 100644
+> --- a/drivers/media/usb/cx231xx/cx231xx-417.c
+> +++ b/drivers/media/usb/cx231xx/cx231xx-417.c
+> @@ -1782,7 +1782,7 @@ int cx231xx_417_register(struct cx231xx *dev)
+>  	q->ops = &cx231xx_video_qops;
+>  	q->mem_ops = &vb2_vmalloc_memops;
+>  	q->timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_MONOTONIC;
+> -	q->min_buffers_needed = 1;
+> +	q->min_reqbufs_allocation = 1;
 
-I suspect the use of vb2_dma_sg_plane_desc() and
-vb2_dma_contig_plane_dma_addr() may be more correlated to whether
-there is a DMA involved or not. Usually V4L2 drivers don't really have
-to deal with the DMA API explicitly, because the vb2 framework handles
-most of the work.
+There is no point setting min_reqbufs_allocation to 1: you can't allocate
+less than 1 buffer after all.
 
-Best regards,
-Tomasz
+It is different in that respect from min_buffers_needed: you can call
+VIDIOC_STREAMON (and thus start_streaming) without any buffers queued.
 
-> I have considers that all PCI drivers are using DMA engine and
-> I don't know the design for each drivers so I hope to get this informatio=
-n
-> from maintainers and fix that in v2.
-> If imx8-isi driver needs a minimum number of buffers before start streami=
-ng
-> I will do a v2 and use min_dma_buffers_needed instead.
->
-> Regards,
-> Benjamin
->
-> >
-> >> the minimum number of buffers to allocate when calling VIDIOC_REQBUFS.
-> >> That 'min_reqbufs_allocation' field purpose so use it.
-> >>
-> >> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-> >> CC: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> >> CC: Mauro Carvalho Chehab <mchehab@kernel.org>
-> >> CC: Shawn Guo <shawnguo@kernel.org>
-> >> CC: Sascha Hauer <s.hauer@pengutronix.de>
-> >> CC: Pengutronix Kernel Team <kernel@pengutronix.de>
-> >> CC: Fabio Estevam <festevam@gmail.com>
-> >> CC: NXP Linux Team <linux-imx@nxp.com>
-> >> ---
-> >>   drivers/media/platform/nxp/imx8-isi/imx8-isi-video.c | 2 +-
-> >>   1 file changed, 1 insertion(+), 1 deletion(-)
-> >>
-> >> diff --git a/drivers/media/platform/nxp/imx8-isi/imx8-isi-video.c b/dr=
-ivers/media/platform/nxp/imx8-isi/imx8-isi-video.c
-> >> index 49bca2b01cc6..81673ff9084b 100644
-> >> --- a/drivers/media/platform/nxp/imx8-isi/imx8-isi-video.c
-> >> +++ b/drivers/media/platform/nxp/imx8-isi/imx8-isi-video.c
-> >> @@ -1453,7 +1453,7 @@ int mxc_isi_video_register(struct mxc_isi_pipe *=
-pipe,
-> >>      q->mem_ops =3D &vb2_dma_contig_memops;
-> >>      q->buf_struct_size =3D sizeof(struct mxc_isi_buffer);
-> >>      q->timestamp_flags =3D V4L2_BUF_FLAG_TIMESTAMP_MONOTONIC;
-> >> -    q->min_buffers_needed =3D 2;
-> >> +    q->min_reqbufs_allocation =3D 2;
-> >>      q->lock =3D &video->lock;
-> >>      q->dev =3D pipe->isi->dev;
-> >>
+This also suggests a better name for min_buffers_needed: min_queued_buffers
+
+So 'min_queued_buffers' buffers have to be queued before start_streaming can
+be called.
+
+The old min_buffers_needed mixed up the two requirements of the minimum
+number of buffers to allocate in REQBUFS and the minimum number of buffers
+that need to be queued before you can start streaming. Separating these two
+meanings should make things easier to understand.
+
+The only relationship between the two is that min_reqbufs_allocation >
+min_queued_buffers, otherwise you would end up in a state where the
+driver would just cycle buffers and never be able to return a buffer
+to userspace to process.
+
+Regards,
+
+	Hans
+
+>  	q->lock = &dev->lock;
+>  	err = vb2_queue_init(q);
+>  	if (err)
+> diff --git a/drivers/media/usb/cx231xx/cx231xx-video.c b/drivers/media/usb/cx231xx/cx231xx-video.c
+> index c8eb4222319d..df572c466bfb 100644
+> --- a/drivers/media/usb/cx231xx/cx231xx-video.c
+> +++ b/drivers/media/usb/cx231xx/cx231xx-video.c
+> @@ -1811,7 +1811,7 @@ int cx231xx_register_analog_devices(struct cx231xx *dev)
+>  	q->ops = &cx231xx_video_qops;
+>  	q->mem_ops = &vb2_vmalloc_memops;
+>  	q->timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_MONOTONIC;
+> -	q->min_buffers_needed = 1;
+> +	q->min_reqbufs_allocation = 1;
+>  	q->lock = &dev->lock;
+>  	ret = vb2_queue_init(q);
+>  	if (ret)
+> @@ -1871,7 +1871,7 @@ int cx231xx_register_analog_devices(struct cx231xx *dev)
+>  	q->ops = &cx231xx_vbi_qops;
+>  	q->mem_ops = &vb2_vmalloc_memops;
+>  	q->timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_MONOTONIC;
+> -	q->min_buffers_needed = 1;
+> +	q->min_reqbufs_allocation = 1;
+>  	q->lock = &dev->lock;
+>  	ret = vb2_queue_init(q);
+>  	if (ret)
+
