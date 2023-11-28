@@ -1,53 +1,53 @@
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A193E1E496
-	for <linux-staging@lists.linux.dev>; Tue, 28 Nov 2023 20:43:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBAA21E496
+	for <linux-staging@lists.linux.dev>; Tue, 28 Nov 2023 20:43:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iCpTIjMA"
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-40b2a628c25so4631725e9.1
-        for <linux-staging@lists.linux.dev>; Tue, 28 Nov 2023 12:43:26 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="N/oAgABF"
+Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-32f831087c6so1552935f8f.0
+        for <linux-staging@lists.linux.dev>; Tue, 28 Nov 2023 12:43:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1701204205; x=1701809005; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1701204210; x=1701809010; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=njp3hQuRezyJWSCVkGDJUsCKh4qNw0wNTvM+MC2XVcU=;
-        b=iCpTIjMAaeXOwWJbo0FozcwuuPN/XuysdBE5EnpaMId2uFc0ZErWu2q61dISInxmW9
-         LkiJ2G7fPmJGs7rq7yd/9OAwSImCSGdjVx8B6FM5docllQEnek3JTmNp8sqv4zhvtaPh
-         tLBh/XQLo9X3pn/AjpE/7Kq7e4YlNqd1Emo+EVkdMll9gfN9oWTePVNKa0ssAxoQVQJL
-         txQSfAnlzPjh3l6MiJVxLNi7xEfhCfcWfHgtbDYsjPG4qGV6iUVzhY3i6nVuF4pkJdNU
-         mFkOQrzrLfjxKdnMf+FsVKGA/B9fQb5yojafGrv5N2WzS1ndsjGqWVltJ3gSUfLd86ZT
-         24Ww==
+        bh=q4jh3kAmz3NLMMvf/uU8x0FwkaNbHPqHSzrIk9a+VQ0=;
+        b=N/oAgABFZPqMVl5jYTmyvafQnuuQKAItjQpxiiI6CIH6PKkQssGYl8iDS+1a050TMM
+         Er3h52AoO/m6MFUU/dLqRGtYQlTEon+WTYIdcoO1rfvLJgjKjTztENHSf0VF+7dKVFFg
+         uzRRJ0QKyHn8glUQNH/pQmi4qeQyN5o4TNwlp86lDLrvRZs8FldinW251c8Ssp+0N7PU
+         ZBLTOlvnJ6FzDCh1XmqCWvFBjdZHSgLcU4G1HYJh0ft2lZLMin6YcDVh3IXNpxPi9rWp
+         yP5cTCrwHkqXg6shYXFVa0rxRlhhv5xNoOuj9kotvsZdL8Qk0h9qJwh/zLQEpZII5dWx
+         SA4A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701204205; x=1701809005;
+        d=1e100.net; s=20230601; t=1701204210; x=1701809010;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=njp3hQuRezyJWSCVkGDJUsCKh4qNw0wNTvM+MC2XVcU=;
-        b=UDDgvxU77lzPgaZPAibe/SBaTr0FN38voa+CTBe9s4gpsTZKSbm44zB45afC0+DKO5
-         iyG4tcAYBKRO2tbUJQF+WhMNhuI88Qkkwr0nJOTjb9WkM1wLpA9v0NbAYGkmmyKuYPnr
-         IXnRoPTwcDKCAS4p0UQD9jL8cpjnVSuRRkQk1vIyrXFZnuvS70a4TsmrXMjCmPP/7piS
-         jIDxTVeZVusaJ/V1faVORfMb311h2uWF8BHnS4MKExlej1qaHqCBTnFSM+4HYOQvsQQO
-         0+DdckIx2S85sIgPfLhPL3QdijAgi8v9hapIw1hNUGTz8az3fmMglgGgg8OZUSpWDuNN
-         yYgg==
-X-Gm-Message-State: AOJu0YzG68RWs61tcl2Lc9rhV34l/e58qxz+4zO/szCllkHweoBjGOfi
-	4l8KdOt1mN3LAGOXXYzUW3+AvpTE49c=
-X-Google-Smtp-Source: AGHT+IEQfvjYlyaAeEil/4U/m1nR0QEYZPOaulItD2Mjk+Gd1cU3ERzypFclLTg8QTfW8LrBULR8nA==
-X-Received: by 2002:a05:600c:1d06:b0:40b:5150:c046 with SMTP id l6-20020a05600c1d0600b0040b5150c046mr404729wms.3.1701204204641;
-        Tue, 28 Nov 2023 12:43:24 -0800 (PST)
+        bh=q4jh3kAmz3NLMMvf/uU8x0FwkaNbHPqHSzrIk9a+VQ0=;
+        b=r3NpaR1M+q3X/uQx3exE6RXu1RPuFFRE0kJYl7TNP5F52nJVjjmKOxwZw4P8ECSnVu
+         Fy9EngY30vbvVqcaXG9qcV+OHskCvQjQsbCcf/jPOGYYLh2d8BwDzQTo70ier/9CWoRJ
+         bUEt7YX00rZBcD0zVJNxmNjl9MX1QLJItDCodG6pAUz1Hm8ARVdNHOHS6bv44NE2uscu
+         6OVftrkQbACMEomxG9NN7jKy9VdWqgCGYBwDJsNhesOk6qhG9+niweTamLSjtBwS81Tr
+         6vGTPr4tuY8vhdkYPFQkGzPmqqZh3/lwsa7MzrzIJV5VV14xvBI+ZpZg6+8D4TPEY/E8
+         v5wg==
+X-Gm-Message-State: AOJu0YweFHzotJeLB6CxXOZ5Y+RbzPYITL9+6Kjcw79FgUEx+XfVpcAt
+	b38vFghLKkyUb87MfFzSOZX1TvFPIcY=
+X-Google-Smtp-Source: AGHT+IGlSPwq0XYOKQo2Gcbn4coEuBaz6tt2245HjfIV9x9M6ftvcJ75ndEXflqL8/VwW1akk2Xp/g==
+X-Received: by 2002:a5d:6c6b:0:b0:32d:e435:92c4 with SMTP id r11-20020a5d6c6b000000b0032de43592c4mr14272134wrz.0.1701204209925;
+        Tue, 28 Nov 2023 12:43:29 -0800 (PST)
 Received: from matrix-ESPRIMO-P710 (p54a07fa0.dip0.t-ipconnect.de. [84.160.127.160])
-        by smtp.gmail.com with ESMTPSA id t6-20020a05600c450600b0040b379e8526sm12609152wmo.25.2023.11.28.12.43.24
+        by smtp.gmail.com with ESMTPSA id s11-20020adfeccb000000b003316b38c625sm15994336wro.99.2023.11.28.12.43.29
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 28 Nov 2023 12:43:24 -0800 (PST)
-Date: Tue, 28 Nov 2023 21:43:23 +0100
+        Tue, 28 Nov 2023 12:43:29 -0800 (PST)
+Date: Tue, 28 Nov 2023 21:43:28 +0100
 From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [PATCH 2/6] staging: rtl8192e: Remove unused function
- rtllib_rx_ADDBAReq()
-Message-ID: <a6ca4855f64f7dea9d05e33d030a05f86ab58c19.1701202700.git.philipp.g.hortmann@gmail.com>
+Subject: [PATCH 3/6] staging: rtl8192e: Remove unused function
+ rtllib_send_ADDBARsp()
+Message-ID: <3d0b46b4cd2538a797743978c4c2daeec32f1f09.1701202700.git.philipp.g.hortmann@gmail.com>
 References: <cover.1701202700.git.philipp.g.hortmann@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -59,126 +59,36 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 In-Reply-To: <cover.1701202700.git.philipp.g.hortmann@gmail.com>
 
-Remove unused function rtllib_rx_ADDBAReq().
+Remove unused function rtllib_send_ADDBARsp().
 
 Signed-off-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
 ---
- drivers/staging/rtl8192e/rtl819x_BAProc.c | 89 -----------------------
- drivers/staging/rtl8192e/rtllib.h         |  1 -
- 2 files changed, 90 deletions(-)
+ drivers/staging/rtl8192e/rtl819x_BAProc.c | 12 ------------
+ 1 file changed, 12 deletions(-)
 
 diff --git a/drivers/staging/rtl8192e/rtl819x_BAProc.c b/drivers/staging/rtl8192e/rtl819x_BAProc.c
-index 58a950ef77ce..7e4aeb10a2db 100644
+index 7e4aeb10a2db..fab7ced1b8c3 100644
 --- a/drivers/staging/rtl8192e/rtl819x_BAProc.c
 +++ b/drivers/staging/rtl8192e/rtl819x_BAProc.c
-@@ -211,95 +211,6 @@ static void rtllib_send_DELBA(struct rtllib_device *ieee, u8 *dst,
- 		netdev_dbg(ieee->dev, "Failed to generate DELBA packet.\n");
+@@ -186,18 +186,6 @@ static void rtllib_send_ADDBAReq(struct rtllib_device *ieee, u8 *dst,
+ 		netdev_dbg(ieee->dev, "Failed to generate ADDBAReq packet.\n");
  }
  
--int rtllib_rx_ADDBAReq(struct rtllib_device *ieee, struct sk_buff *skb)
+-static void rtllib_send_ADDBARsp(struct rtllib_device *ieee, u8 *dst,
+-				 struct ba_record *ba, u16 status_code)
 -{
--	struct ieee80211_hdr_3addr *req = NULL;
--	u16 rc = 0;
--	u8 *dst = NULL, *dialog_token = NULL, *tag = NULL;
--	struct ba_record *ba = NULL;
--	union ba_param_set *ba_param_set = NULL;
--	u16 *ba_timeout_value = NULL;
--	union sequence_control *pBaStartSeqCtrl = NULL;
--	struct rx_ts_record *ts = NULL;
+-	struct sk_buff *skb;
 -
--	if (skb->len < sizeof(struct ieee80211_hdr_3addr) + 9) {
--		netdev_warn(ieee->dev, "Invalid skb len in BAREQ(%d / %d)\n",
--			    (int)skb->len,
--			    (int)(sizeof(struct ieee80211_hdr_3addr) + 9));
--		return -1;
--	}
--
--#ifdef VERBOSE_DEBUG
--	print_hex_dump_bytes("%s: ", DUMP_PREFIX_NONE, __func__,
--			     skb->data, skb->len);
--#endif
--
--	req = (struct ieee80211_hdr_3addr *)skb->data;
--	tag = (u8 *)req;
--	dst = (u8 *)(&req->addr2[0]);
--	tag += sizeof(struct ieee80211_hdr_3addr);
--	dialog_token = tag + 2;
--	ba_param_set = (union ba_param_set *)(tag + 3);
--	ba_timeout_value = (u16 *)(tag + 5);
--	pBaStartSeqCtrl = (union sequence_control *)(req + 7);
--
--	if (!ieee->current_network.qos_data.active ||
--	    !ieee->ht_info->current_ht_support ||
--	    (ieee->ht_info->iot_action & HT_IOT_ACT_REJECT_ADDBA_REQ)) {
--		rc = ADDBA_STATUS_REFUSED;
--		netdev_warn(ieee->dev,
--			    "Failed to reply on ADDBA_REQ as some capability is not ready(%d, %d)\n",
--			    ieee->current_network.qos_data.active,
--			    ieee->ht_info->current_ht_support);
--		goto OnADDBAReq_Fail;
--	}
--	if (!rtllib_get_ts(ieee, (struct ts_common_info **)&ts, dst,
--		   (u8)(ba_param_set->field.tid), RX_DIR, true)) {
--		rc = ADDBA_STATUS_REFUSED;
--		netdev_warn(ieee->dev, "%s(): can't get TS\n", __func__);
--		goto OnADDBAReq_Fail;
--	}
--	ba = &ts->rx_admitted_ba_record;
--
--	if (ba_param_set->field.ba_policy == BA_POLICY_DELAYED) {
--		rc = ADDBA_STATUS_INVALID_PARAM;
--		netdev_warn(ieee->dev, "%s(): BA Policy is not correct\n",
--			    __func__);
--		goto OnADDBAReq_Fail;
--	}
--
--	rtllib_FlushRxTsPendingPkts(ieee, ts);
--
--	deactivate_ba_entry(ieee, ba);
--	ba->dialog_token = *dialog_token;
--	ba->ba_param_set = *ba_param_set;
--	ba->ba_timeout_value = *ba_timeout_value;
--	ba->ba_start_seq_ctrl = *pBaStartSeqCtrl;
--
--	if (ieee->GetHalfNmodeSupportByAPsHandler(ieee->dev) ||
--	   (ieee->ht_info->iot_action & HT_IOT_ACT_ALLOW_PEER_AGG_ONE_PKT))
--		ba->ba_param_set.field.buffer_size = 1;
+-	skb = rtllib_ADDBA(ieee, dst, ba, status_code, ACT_ADDBARSP);
+-	if (skb)
+-		softmac_mgmt_xmit(skb, ieee);
 -	else
--		ba->ba_param_set.field.buffer_size = 32;
--
--	activate_ba_entry(ba, 0);
--	rtllib_send_ADDBARsp(ieee, dst, ba, ADDBA_STATUS_SUCCESS);
--
--	return 0;
--
--OnADDBAReq_Fail:
--	{
--		struct ba_record BA;
--
--		BA.ba_param_set = *ba_param_set;
--		BA.ba_timeout_value = *ba_timeout_value;
--		BA.dialog_token = *dialog_token;
--		BA.ba_param_set.field.ba_policy = BA_POLICY_IMMEDIATE;
--		rtllib_send_ADDBARsp(ieee, dst, &BA, rc);
--		return 0;
--	}
+-		netdev_dbg(ieee->dev, "Failed to generate ADDBARsp packet.\n");
 -}
 -
- int rtllib_rx_ADDBARsp(struct rtllib_device *ieee, struct sk_buff *skb)
- {
- 	struct ieee80211_hdr_3addr *rsp = NULL;
-diff --git a/drivers/staging/rtl8192e/rtllib.h b/drivers/staging/rtl8192e/rtllib.h
-index 0a8c44e497f5..44a937953db8 100644
---- a/drivers/staging/rtl8192e/rtllib.h
-+++ b/drivers/staging/rtl8192e/rtllib.h
-@@ -1776,7 +1776,6 @@ u8 HTCCheck(struct rtllib_device *ieee, u8 *pFrame);
- void HTResetIOTSetting(struct rt_hi_throughput *ht_info);
- bool is_ht_half_nmode_aps(struct rtllib_device *ieee);
- u16  tx_count_to_data_rate(struct rtllib_device *ieee, u8 nDataRate);
--int rtllib_rx_ADDBAReq(struct rtllib_device *ieee, struct sk_buff *skb);
- int rtllib_rx_ADDBARsp(struct rtllib_device *ieee, struct sk_buff *skb);
- int rtllib_rx_DELBA(struct rtllib_device *ieee, struct sk_buff *skb);
- void rtllib_ts_init_add_ba(struct rtllib_device *ieee, struct tx_ts_record *ts,
+ static void rtllib_send_DELBA(struct rtllib_device *ieee, u8 *dst,
+ 			      struct ba_record *ba, enum tr_select TxRxSelect,
+ 			      u16 reason_code)
 -- 
 2.42.0
 
