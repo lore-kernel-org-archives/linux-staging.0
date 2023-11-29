@@ -1,144 +1,123 @@
-Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net [217.70.183.196])
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76EFE208D9;
-	Wed, 29 Nov 2023 13:40:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26D0820B2F;
+	Wed, 29 Nov 2023 14:03:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="A9eW5feD"
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 1D83EE0004;
-	Wed, 29 Nov 2023 13:40:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1701265230;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Mg87daM6N7IwtDqh3Oxpi+m/n/+fVFbpa0PC/b0XCNw=;
-	b=A9eW5feD3zpSW8TWW4yzTnNDWulTByW0ZWSm1zltBwCeC3kcfyH884hQIwXujL+XagYVWA
-	mOs5XTj+TFJW4r0lIw3KJW40SqmLwdy76RbMH7R9JIyguD1kYevWXNF/iDN0I0HRyCgm+C
-	8XTzS8lGdFntp5LKRBbXw9TO61Iy5z0UMveBvSuToTxW1jUX5jH1p572nV3jM91TjppV/8
-	Mxrv3mnP9aT/pvrc8QkvGuiIzQ47ZEK51nGifzmtX/fHse1ZZttg4i/Eg+gTSQPIbrVcMh
-	/sUQiLULUs5Ldof6h9RD2/3+wrBAZc7SxUefJ1QMaHnaLUAwb53J+MdGLotJ3w==
-Date: Wed, 29 Nov 2023 14:40:27 +0100
-From: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-To: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Cc: hverkuil@xs4all.nl, mchehab@kernel.org, tfiga@chromium.org,
-	m.szyprowski@samsung.com, matt.ranostay@konsulko.com,
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev, kernel@collabora.com,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>, linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH 27/55] media: sun6i-isp: Stop abusing of
- min_buffers_needed field
-Message-ID: <ZWc_S8CuPyc9zRXz@aptenodytes>
-References: <20231127165454.166373-1-benjamin.gaignard@collabora.com>
- <20231127165454.166373-28-benjamin.gaignard@collabora.com>
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="bu8LQ5GM"
+Received: from [100.122.216.38] (ec2-34-240-57-77.eu-west-1.compute.amazonaws.com [34.240.57.77])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: benjamin.gaignard)
+	by madras.collabora.co.uk (Postfix) with ESMTPSA id 97DA56602F24;
+	Wed, 29 Nov 2023 14:03:22 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1701266603;
+	bh=b6+ijhuLS88ltAwu7BXjh1rAJvOdjCKQaRzxoejPv4I=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=bu8LQ5GMgFuLSvVASEwXe4Q5ZReofSektOwVrjhLicV/nbfkoOnfdHR/M3EswcMW7
+	 s1dsjIA+9VOfS0GqbQotfBRMxj6Darr13HwKvZ75gw3T9YjPg4T1xC6/p5Mvkd/UnW
+	 pLEmNvoDTrNXeTegisVMJ2+Etjg7ZalJjYhXbrZInb0o9jok1EHgWrNh/sXyc4m4pk
+	 NilB+X55GcW+iL6aj1skRM11qNQvktH+Fnpm2g2tlF8zPkAIF9YuVHAYmJkg495R3w
+	 6Z3BgFtnRuHXZHVFbgd7TWcFsKyRamG0BTbcXrtj8FYwMRMqx7fsmDeXZOBsq2xBWD
+	 OIn9WxkVfy+Gg==
+Message-ID: <54881dbe-e722-4a2d-840d-972d1a58331a@collabora.com>
+Date: Wed, 29 Nov 2023 15:03:20 +0100
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="mU8YCCCm68AE0htG"
-Content-Disposition: inline
-In-Reply-To: <20231127165454.166373-28-benjamin.gaignard@collabora.com>
-X-GND-Sasl: paul.kocialkowski@bootlin.com
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 27/55] media: sun6i-isp: Stop abusing of
+ min_buffers_needed field
+Content-Language: en-US
+To: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+Cc: hverkuil@xs4all.nl, mchehab@kernel.org, tfiga@chromium.org,
+ m.szyprowski@samsung.com, matt.ranostay@konsulko.com,
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+ linux-staging@lists.linux.dev, kernel@collabora.com,
+ Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Samuel Holland <samuel@sholland.org>, linux-sunxi@lists.linux.dev
+References: <20231127165454.166373-1-benjamin.gaignard@collabora.com>
+ <20231127165454.166373-28-benjamin.gaignard@collabora.com>
+ <ZWc_S8CuPyc9zRXz@aptenodytes>
+From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+In-Reply-To: <ZWc_S8CuPyc9zRXz@aptenodytes>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
 
---mU8YCCCm68AE0htG
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Le 29/11/2023 à 14:40, Paul Kocialkowski a écrit :
+> Hi Benjamin,
+>
+> On Mon 27 Nov 23, 17:54, Benjamin Gaignard wrote:
+>> 'min_buffers_needed' is suppose to be used to indicate the number
+>> of buffers needed by DMA engine to start streaming.
+>> sun6i-isp driver doesn't use DMA engine and just want to specify
+>> the minimum number of buffers to allocate when calling VIDIOC_REQBUFS.
+>> That 'min_reqbufs_allocation' field purpose so use it.
+> The hardware actually has its own DMA engine. It can work with just one buffer
+> though (which will never be returned to userspace). But I think we should still
+> require at least two buffers allocated, otherwise the driver will be of no use
+> at all.
+>
+> So I don't think the commit message here is correct.
 
-Hi Benjamin,
+That is exactly the info I hope to get for this first series since I don't know
+each hardware block details.
+I will remove this commit and make the driver use min_queued_buffers field instead
+so that will fit with it needs.
 
-On Mon 27 Nov 23, 17:54, Benjamin Gaignard wrote:
-> 'min_buffers_needed' is suppose to be used to indicate the number
-> of buffers needed by DMA engine to start streaming.
-> sun6i-isp driver doesn't use DMA engine and just want to specify
-> the minimum number of buffers to allocate when calling VIDIOC_REQBUFS.
-> That 'min_reqbufs_allocation' field purpose so use it.
+Thanks,
+Benjamin
 
-The hardware actually has its own DMA engine. It can work with just one buf=
-fer
-though (which will never be returned to userspace). But I think we should s=
-till
-require at least two buffers allocated, otherwise the driver will be of no =
-use
-at all.
-
-So I don't think the commit message here is correct.
-
-Cheers,
-
-Paul
-
-> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-> CC: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-> CC: Chen-Yu Tsai <wens@csie.org>
-> CC: Jernej Skrabec <jernej.skrabec@gmail.com>
-> CC: Samuel Holland <samuel@sholland.org>
-> CC: linux-sunxi@lists.linux.dev
-> ---
->  drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_capture.c | 2 +-
->  drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_params.c  | 2 +-
->  2 files changed, 2 insertions(+), 2 deletions(-)
->=20
-> diff --git a/drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_capture.c b/=
-drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_capture.c
-> index 1595a9607775..f47f9946c19f 100644
-> --- a/drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_capture.c
-> +++ b/drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_capture.c
-> @@ -660,7 +660,7 @@ int sun6i_isp_capture_setup(struct sun6i_isp_device *=
-isp_dev)
->  	queue->buf_struct_size =3D sizeof(struct sun6i_isp_buffer);
->  	queue->ops =3D &sun6i_isp_capture_queue_ops;
->  	queue->mem_ops =3D &vb2_dma_contig_memops;
-> -	queue->min_buffers_needed =3D 2;
-> +	queue->min_reqbufs_allocation =3D 2;
->  	queue->timestamp_flags =3D V4L2_BUF_FLAG_TIMESTAMP_MONOTONIC;
->  	queue->lock =3D &capture->lock;
->  	queue->dev =3D isp_dev->dev;
-> diff --git a/drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_params.c b/d=
-rivers/staging/media/sunxi/sun6i-isp/sun6i_isp_params.c
-> index e28be895b486..259f6bfcb620 100644
-> --- a/drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_params.c
-> +++ b/drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_params.c
-> @@ -489,7 +489,7 @@ int sun6i_isp_params_setup(struct sun6i_isp_device *i=
-sp_dev)
->  	queue->buf_struct_size =3D sizeof(struct sun6i_isp_buffer);
->  	queue->ops =3D &sun6i_isp_params_queue_ops;
->  	queue->mem_ops =3D &vb2_vmalloc_memops;
-> -	queue->min_buffers_needed =3D 1;
-> +	queue->min_reqbufs_allocation =3D 1;
->  	queue->timestamp_flags =3D V4L2_BUF_FLAG_TIMESTAMP_MONOTONIC;
->  	queue->lock =3D &params->lock;
->  	queue->dev =3D isp_dev->dev;
-> --=20
-> 2.39.2
->=20
-
---=20
-Paul Kocialkowski, Bootlin
-Embedded Linux and kernel engineering
-https://bootlin.com
-
---mU8YCCCm68AE0htG
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAmVnP0sACgkQ3cLmz3+f
-v9F5uwf9HEjUyWv7gu/wFi6nn9TZDZ93ao3xKo/mZikju6pBUS74UzOuzCPOcSGX
-GZ3YLIKmAeF/EDAbivvsp7a5coFBr93y9abkPMRfhWQww/uijQ4E9gqe/EWlHw3O
-Xm1g1YnLDqTjVETR4fb6iiGPK9EaKDmr4dhYadoz6ILO3WNZq1+lRTaxEc+H8FpS
-C62ybRSaHm1TbbMr04szpPrLWT7AAuTFNIsj/hhAA4+ukdUKgc0vMOCH5C/H049l
-AIOOQZNS4SfqOIt1kBpD7/KchD4frUJOaJUAfbpKbNv8uV7HAal3+0A1I5TvzWy6
-nBKgOMp2YyEeY0n0x1XG5ndCKWVGGA==
-=C4Ap
------END PGP SIGNATURE-----
-
---mU8YCCCm68AE0htG--
+>
+> Cheers,
+>
+> Paul
+>
+>> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+>> CC: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+>> CC: Chen-Yu Tsai <wens@csie.org>
+>> CC: Jernej Skrabec <jernej.skrabec@gmail.com>
+>> CC: Samuel Holland <samuel@sholland.org>
+>> CC: linux-sunxi@lists.linux.dev
+>> ---
+>>   drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_capture.c | 2 +-
+>>   drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_params.c  | 2 +-
+>>   2 files changed, 2 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_capture.c b/drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_capture.c
+>> index 1595a9607775..f47f9946c19f 100644
+>> --- a/drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_capture.c
+>> +++ b/drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_capture.c
+>> @@ -660,7 +660,7 @@ int sun6i_isp_capture_setup(struct sun6i_isp_device *isp_dev)
+>>   	queue->buf_struct_size = sizeof(struct sun6i_isp_buffer);
+>>   	queue->ops = &sun6i_isp_capture_queue_ops;
+>>   	queue->mem_ops = &vb2_dma_contig_memops;
+>> -	queue->min_buffers_needed = 2;
+>> +	queue->min_reqbufs_allocation = 2;
+>>   	queue->timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_MONOTONIC;
+>>   	queue->lock = &capture->lock;
+>>   	queue->dev = isp_dev->dev;
+>> diff --git a/drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_params.c b/drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_params.c
+>> index e28be895b486..259f6bfcb620 100644
+>> --- a/drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_params.c
+>> +++ b/drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_params.c
+>> @@ -489,7 +489,7 @@ int sun6i_isp_params_setup(struct sun6i_isp_device *isp_dev)
+>>   	queue->buf_struct_size = sizeof(struct sun6i_isp_buffer);
+>>   	queue->ops = &sun6i_isp_params_queue_ops;
+>>   	queue->mem_ops = &vb2_vmalloc_memops;
+>> -	queue->min_buffers_needed = 1;
+>> +	queue->min_reqbufs_allocation = 1;
+>>   	queue->timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_MONOTONIC;
+>>   	queue->lock = &params->lock;
+>>   	queue->dev = isp_dev->dev;
+>> -- 
+>> 2.39.2
+>>
