@@ -1,181 +1,165 @@
-Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88AA818AE7
-	for <linux-staging@lists.linux.dev>; Wed, 29 Nov 2023 09:48:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3227619BC2
+	for <linux-staging@lists.linux.dev>; Wed, 29 Nov 2023 10:24:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="ZDDSxArx"
-Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-50aabfa1b75so9152094e87.3
-        for <linux-staging@lists.linux.dev>; Wed, 29 Nov 2023 01:48:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1701251314; x=1701856114; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=1Mx325DtRKaxi+9uS3mKSouj4W90XaTo1Gq8eIdHtzI=;
-        b=ZDDSxArx/8vxx1gDwvjbMA0h4ULpUQtJyuQQ5H5mTMk4qJ0tLC8ABMQOr0pLpncFZN
-         Dl0+dhZxSx4EQHjdlsFU6k5OStY4vgXUrM6hoVLUIgHYVVdON60fsbhwi73/oqlnwRUO
-         Gtk2CGTdLm3qAqbBF081yG38h78tZNedK6jBE=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701251314; x=1701856114;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=1Mx325DtRKaxi+9uS3mKSouj4W90XaTo1Gq8eIdHtzI=;
-        b=IneORpLSN/BQrfZEkSEB0ohd930j5PSQZKFy6LlHazi/NBn51dymWQ/dHbJiUvhp57
-         gbCaiK835ko9nOkvoKcfSIU++VIX9gUmevaPZZ+UkRAyqruPcbjJek8MBRJFZ9SATiSX
-         KWN7MrzFUvsQ9M+ngClWxYdFyWXQxRxeK8TO5x1lBCTOBEZnMeWTvZ8eU+SoyNsfTxNG
-         VqZ5gMrVwR9JU2YjnBCustghkfAJ9wdKzD8clYhl9WBiCQk+OXlYOW49LrthmBPwZnQJ
-         f2KGxspAxoKfBmC0rLtDrNVNhfcHyizIAC/jNTVG72LmcEKHyPZybm8G8SKzqRLrt4jM
-         GCJQ==
-X-Gm-Message-State: AOJu0YwHUeCqnoPOznIvRUXeMCp5Wm5DqSl1hljBWH3nOcsskA7BdCi2
-	bog2b4SKTc1Ael9uaPRzXsVmw5SD5ZiK5Ss7imo4nwjh
-X-Google-Smtp-Source: AGHT+IGhYp7i57irpUW8hFbcSfUb67s30lgGBsF8OlvkQh0WAtajRGUpDjRXGjCb9001QRVn1v4Gng==
-X-Received: by 2002:a05:6512:2246:b0:50b:c870:f455 with SMTP id i6-20020a056512224600b0050bc870f455mr190291lfu.1.1701251314151;
-        Wed, 29 Nov 2023 01:48:34 -0800 (PST)
-Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com. [209.85.208.171])
-        by smtp.gmail.com with ESMTPSA id j13-20020a056512108d00b0050bc8bcce23sm1285lfg.293.2023.11.29.01.48.33
-        for <linux-staging@lists.linux.dev>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 29 Nov 2023 01:48:33 -0800 (PST)
-Received: by mail-lj1-f171.google.com with SMTP id 38308e7fff4ca-2c9c1e39defso2667081fa.1
-        for <linux-staging@lists.linux.dev>; Wed, 29 Nov 2023 01:48:33 -0800 (PST)
-X-Received: by 2002:a2e:b008:0:b0:2c9:bf5b:5408 with SMTP id
- y8-20020a2eb008000000b002c9bf5b5408mr833397ljk.24.1701251313149; Wed, 29 Nov
- 2023 01:48:33 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="oqdRt6ow"
+Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 9DE29842;
+	Wed, 29 Nov 2023 11:23:51 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1701253431;
+	bh=Y6AJ/kPLyDOivircGV4x/fYC3/RvS1k47yzPnXLdMyY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=oqdRt6owFMYgaCAV7pN799tF/mF11HYqekY+EQzfpOGqTL4rLzkdOJkis1PKVuI/C
+	 QLrBkvODzfLuGVblA56vejCHbZcza/M/V+rQf+Usxfj+KRqvVn41jkyD/gCBFqvRJJ
+	 ZLbM9hCj61pwJI4w8W/KDaVEsHalLLAOCSnKEV9U=
+Date: Wed, 29 Nov 2023 12:24:34 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Tomasz Figa <tfiga@chromium.org>
+Cc: Benjamin Gaignard <benjamin.gaignard@collabora.com>, hverkuil@xs4all.nl,
+	mchehab@kernel.org, m.szyprowski@samsung.com,
+	matt.ranostay@konsulko.com, linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+	kernel@collabora.com, Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	NXP Linux Team <linux-imx@nxp.com>
+Subject: Re: [PATCH 07/55] media: imx8-isi: Stop abusing of
+ min_buffers_needed field
+Message-ID: <20231129102434.GD18109@pendragon.ideasonboard.com>
+References: <20231127165454.166373-1-benjamin.gaignard@collabora.com>
+ <20231127165454.166373-8-benjamin.gaignard@collabora.com>
+ <20231127170700.GC31314@pendragon.ideasonboard.com>
+ <6fa1ec09-3e30-475e-9718-29d23586753e@collabora.com>
+ <CAAFQd5DCVTLpPoKSp_OA6fe_Hqt-oV7=AsCZWSmkJORvLSgUiw@mail.gmail.com>
+ <995eb6c2-cc7f-4217-bc37-4ab1a32f36ee@collabora.com>
+ <CAAFQd5Bv5kc9TfNM5CkKowvaoRndTmkmU6+0LyCG8YbOKy=hxQ@mail.gmail.com>
+ <b68b3fa5-a152-4b23-9451-61a89530512c@collabora.com>
+ <CAAFQd5DXhDtcfjgds6qu2YZXkkcvJdygkvtFknrHRGRC5oRHkA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20231127165454.166373-1-benjamin.gaignard@collabora.com>
- <20231127165454.166373-17-benjamin.gaignard@collabora.com> <cf444351-4305-450d-9b3a-a02a310543c7@xs4all.nl>
-In-Reply-To: <cf444351-4305-450d-9b3a-a02a310543c7@xs4all.nl>
-From: Tomasz Figa <tfiga@chromium.org>
-Date: Wed, 29 Nov 2023 18:48:15 +0900
-X-Gmail-Original-Message-ID: <CAAFQd5DHQvvodpKTYN4AE6Q=48Mby+qtt_kE9xjgarn1jQextw@mail.gmail.com>
-Message-ID: <CAAFQd5DHQvvodpKTYN4AE6Q=48Mby+qtt_kE9xjgarn1jQextw@mail.gmail.com>
-Subject: Re: [PATCH 16/55] media: qcom: venus: Stop abusing of
- min_buffers_needed field
-To: Hans Verkuil <hverkuil@xs4all.nl>
-Cc: Benjamin Gaignard <benjamin.gaignard@collabora.com>, mchehab@kernel.org, 
-	m.szyprowski@samsung.com, matt.ranostay@konsulko.com, 
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
-	linux-staging@lists.linux.dev, kernel@collabora.com, 
-	Stanimir Varbanov <stanimir.k.varbanov@gmail.com>, Vikash Garodia <quic_vgarodia@quicinc.com>, 
-	"Bryan O'Donoghue" <bryan.odonoghue@linaro.org>, Andy Gross <agross@kernel.org>, 
-	Bjorn Andersson <andersson@kernel.org>, Konrad Dybcio <konrad.dybcio@linaro.org>, 
-	linux-arm-msm@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAAFQd5DXhDtcfjgds6qu2YZXkkcvJdygkvtFknrHRGRC5oRHkA@mail.gmail.com>
 
-On Tue, Nov 28, 2023 at 7:26=E2=80=AFPM Hans Verkuil <hverkuil@xs4all.nl> w=
-rote:
->
-> On 27/11/2023 17:54, Benjamin Gaignard wrote:
-> > 'min_buffers_needed' is suppose to be used to indicate the number
-> > of buffers needed by DMA engine to start streaming.
-> > venus driver doesn't use DMA engine and just want to specify
-> > the minimum number of buffers to allocate when calling VIDIOC_REQBUFS.
-> > That 'min_reqbufs_allocation' field purpose so use it.
+On Wed, Nov 29, 2023 at 05:39:25PM +0900, Tomasz Figa wrote:
+> On Wed, Nov 29, 2023 at 5:28 PM Benjamin Gaignard wrote:
+> > Le 29/11/2023 à 05:17, Tomasz Figa a écrit :
+> > > On Tue, Nov 28, 2023 at 7:26 PM Benjamin Gaignard wrote:
+> > >> Le 28/11/2023 à 10:35, Tomasz Figa a écrit :
+> > >>> On Tue, Nov 28, 2023 at 6:31 PM Benjamin Gaignard wrote:
+> > >>>> Le 27/11/2023 à 18:07, Laurent Pinchart a écrit :
+> > >>>>> On Mon, Nov 27, 2023 at 05:54:06PM +0100, Benjamin Gaignard wrote:
+> > >>>>>> 'min_buffers_needed' is suppose to be used to indicate the number
+> > >>>>>> of buffers needed by DMA engine to start streaming.
+> > >>>>>> imx8-isi driver doesn't use DMA engine and just want to specify
+> > >>>>>
+> > >>>>> What do you mean, "doesn't use DMA engine" ? The ISI surely has DMA
+> > >>>>> engines :-)
+> > >>>>
+> > >>>> I have done assumption on drivers given if they use or dma_* functions.
+> > >>>
+> > >>> I suspect the use of vb2_dma_sg_plane_desc() and
+> > >>> vb2_dma_contig_plane_dma_addr() may be more correlated to whether
+> > >>> there is a DMA involved or not. Usually V4L2 drivers don't really have
+> > >>> to deal with the DMA API explicitly, because the vb2 framework handles
+> > >>> most of the work.
+> > >>
+> > >> Unfortunately isn't not true either, for example verisilicon driver use
+> > >> these function but doesn't need DMA engine.
+> > >
+> > > That sounds weird. Why would a driver that doesn't have a DMA engine
+> > > need to obtain a scatterlist or the DMA address of the buffer?
 > >
-> > Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-> > CC: Stanimir Varbanov <stanimir.k.varbanov@gmail.com> (maintainer:QUALC=
-OMM VENUS VIDEO ACCELERATOR DRIVER)
-> > CC: Vikash Garodia <quic_vgarodia@quicinc.com> (maintainer:QUALCOMM VEN=
-US VIDEO ACCELERATOR DRIVER)
-> > CC: "Bryan O'Donoghue" <bryan.odonoghue@linaro.org> (reviewer:QUALCOMM =
-VENUS VIDEO ACCELERATOR DRIVER)
-> > CC: Andy Gross <agross@kernel.org> (maintainer:ARM/QUALCOMM SUPPORT)
-> > CC: Bjorn Andersson <andersson@kernel.org> (maintainer:ARM/QUALCOMM SUP=
-PORT)
-> > CC: Konrad Dybcio <konrad.dybcio@linaro.org> (maintainer:ARM/QUALCOMM S=
-UPPORT)
-> > CC: linux-arm-msm@vger.kernel.org
-> > ---
-> >  drivers/media/platform/qcom/venus/vdec.c | 4 ++--
-> >  drivers/media/platform/qcom/venus/venc.c | 4 ++--
-> >  2 files changed, 4 insertions(+), 4 deletions(-)
+> > Just because the hardware needs the physical address of the buffer to access it.
+> 
+> Right, and the part of the hardware that accesses the memory is called
+> a DMA engine.
+> 
+> > >> I haven't found yet a 100% criteria to decide if driver use or not DMA engine
+> > >> so I plan to fix case by case given maintainers remarks.
+> > >
+> > > Yeah, there probably wouldn't be a way that would give one a 100%
+> > > certainty, although I'd still insist that the two functions I
+> > > mentioned should be close to that. Of course a driver can use those
+> > > functions for some queues, while other queues would be pure software
+> > > queues, e.g. for some metadata - a simple grep is not enough. Is that
+> > > perhaps the case for the verisilicon driver?
 > >
-> > diff --git a/drivers/media/platform/qcom/venus/vdec.c b/drivers/media/p=
-latform/qcom/venus/vdec.c
-> > index dbf305cec120..16b8d0dde10d 100644
-> > --- a/drivers/media/platform/qcom/venus/vdec.c
-> > +++ b/drivers/media/platform/qcom/venus/vdec.c
-> > @@ -1641,7 +1641,7 @@ static int m2m_queue_init(void *priv, struct vb2_=
-queue *src_vq,
-> >       src_vq->drv_priv =3D inst;
-> >       src_vq->buf_struct_size =3D sizeof(struct venus_buffer);
-> >       src_vq->allow_zero_bytesused =3D 1;
-> > -     src_vq->min_buffers_needed =3D 0;
-> > +     src_vq->min_reqbufs_allocation =3D 0;
->
-> Just drop this.
->
-> >       src_vq->dev =3D inst->core->dev;
-> >       src_vq->lock =3D &inst->ctx_q_lock;
-> >       ret =3D vb2_queue_init(src_vq);
-> > @@ -1656,7 +1656,7 @@ static int m2m_queue_init(void *priv, struct vb2_=
-queue *src_vq,
-> >       dst_vq->drv_priv =3D inst;
-> >       dst_vq->buf_struct_size =3D sizeof(struct venus_buffer);
-> >       dst_vq->allow_zero_bytesused =3D 1;
-> > -     dst_vq->min_buffers_needed =3D 0;
-> > +     dst_vq->min_reqbufs_allocation =3D 0;
-> >       dst_vq->dev =3D inst->core->dev;
-> >       dst_vq->lock =3D &inst->ctx_q_lock;
-> >       return vb2_queue_init(dst_vq);
-> > diff --git a/drivers/media/platform/qcom/venus/venc.c b/drivers/media/p=
-latform/qcom/venus/venc.c
-> > index 44b13696cf82..e399d01c208c 100644
-> > --- a/drivers/media/platform/qcom/venus/venc.c
-> > +++ b/drivers/media/platform/qcom/venus/venc.c
-> > @@ -1398,7 +1398,7 @@ static int m2m_queue_init(void *priv, struct vb2_=
-queue *src_vq,
-> >       src_vq->drv_priv =3D inst;
-> >       src_vq->buf_struct_size =3D sizeof(struct venus_buffer);
-> >       src_vq->allow_zero_bytesused =3D 1;
-> > -     src_vq->min_buffers_needed =3D 1;
-> > +     src_vq->min_reqbufs_allocation =3D 1;
->
-> So for platform drivers like this it is going to be more difficult to
-> determine which meaning min_buffers_needed had: is at least one queued
-> buffer needed before you can start streaming, or is this for a minimum
-> buffer allocation?
+> > Verisilicon hardware block doesn't have IOMMU so it needs the physical
+> > addresses of all the buffers it use (input buffer, reference frame buffers, etc...).
+> > No DMA engine involved here it is just how the hardware is working.
+> 
+> I think we need to clarify what you mean by DMA engine. If it's
+> basically a standalone hardware block that does the DMA for another
+> hardware block, i.e. such as the standalone DMA engines under
+> drivers/dma, then I'd like to ask what the relation is between using
+> an external DMA engine and min_buffers_needed.
 
-By the way, for stateful decoders, we also have the
-V4L2_CID_MIN_BUFFERS_FOR_CAPTURE control, which tells the userspace
-the minimum buffers that need to be allocated and the drivers also
-should adjust the number requested in REQBUFS to be at least that.
+Yes, there seems to have been some confusion, DMA engine != dmaengine.h.
 
->
-> In the case of m2m devices using the v4l2-mem2mem framework it is almost
-> certainly the minimum buffer allocation since the m2m framework already
-> checks that there are input and output buffers queued (__v4l2_m2m_try_que=
-ue).
->
-> So just delete the src_vq->min_buffers_needed =3D 1; line, and there is
-> no need to set min_reqbufs_allocation.
->
-> >       src_vq->dev =3D inst->core->dev;
-> >       src_vq->lock =3D &inst->ctx_q_lock;
-> >       if (inst->core->res->hfi_version =3D=3D HFI_VERSION_1XX)
-> > @@ -1415,7 +1415,7 @@ static int m2m_queue_init(void *priv, struct vb2_=
-queue *src_vq,
-> >       dst_vq->drv_priv =3D inst;
-> >       dst_vq->buf_struct_size =3D sizeof(struct venus_buffer);
-> >       dst_vq->allow_zero_bytesused =3D 1;
-> > -     dst_vq->min_buffers_needed =3D 1;
-> > +     dst_vq->min_reqbufs_allocation =3D 1;
-> >       dst_vq->dev =3D inst->core->dev;
-> >       dst_vq->lock =3D &inst->ctx_q_lock;
-> >       return vb2_queue_init(dst_vq);
->
-> Ditto.
->
-> Regards,
->
->         Hans
+> > Expect functions like dma_release_channel() or being in PCI directory,
+> > I don't have found any magical way to know if a driver needs a minimum number of buffers before start streaming.
+> > I can only read the code and do assumptions for the other cases.
+> > I hope maintainers, like Laurent or you, will answer to this question for each driver.
+> 
+> In theory that could work too, so hopefully we can achieve that. Some
+> drivers may not have very active maintainers... And other maintainers
+> who never worked with such drivers are as suited to read the code and
+> guess the expected state as you. That said, let's make sure that
+> everyone involved does their best, without pushing the task around.
+
+We can rely on individual drivers maintainers for review, but the
+initial work needs to make a reasonable effort to analyze the drivers
+and find the right value for min_buffers_needed and
+min_reqbufs_allocation.
+
+> > >>>> I have considers that all PCI drivers are using DMA engine and
+> > >>>> I don't know the design for each drivers so I hope to get this information
+> > >>>> from maintainers and fix that in v2.
+> > >>>> If imx8-isi driver needs a minimum number of buffers before start streaming
+> > >>>> I will do a v2 and use min_dma_buffers_needed instead.
+> > >>>>
+> > >>>>>> the minimum number of buffers to allocate when calling VIDIOC_REQBUFS.
+> > >>>>>> That 'min_reqbufs_allocation' field purpose so use it.
+> > >>>>>>
+> > >>>>>> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+> > >>>>>> CC: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > >>>>>> CC: Mauro Carvalho Chehab <mchehab@kernel.org>
+> > >>>>>> CC: Shawn Guo <shawnguo@kernel.org>
+> > >>>>>> CC: Sascha Hauer <s.hauer@pengutronix.de>
+> > >>>>>> CC: Pengutronix Kernel Team <kernel@pengutronix.de>
+> > >>>>>> CC: Fabio Estevam <festevam@gmail.com>
+> > >>>>>> CC: NXP Linux Team <linux-imx@nxp.com>
+> > >>>>>> ---
+> > >>>>>>     drivers/media/platform/nxp/imx8-isi/imx8-isi-video.c | 2 +-
+> > >>>>>>     1 file changed, 1 insertion(+), 1 deletion(-)
+> > >>>>>>
+> > >>>>>> diff --git a/drivers/media/platform/nxp/imx8-isi/imx8-isi-video.c b/drivers/media/platform/nxp/imx8-isi/imx8-isi-video.c
+> > >>>>>> index 49bca2b01cc6..81673ff9084b 100644
+> > >>>>>> --- a/drivers/media/platform/nxp/imx8-isi/imx8-isi-video.c
+> > >>>>>> +++ b/drivers/media/platform/nxp/imx8-isi/imx8-isi-video.c
+> > >>>>>> @@ -1453,7 +1453,7 @@ int mxc_isi_video_register(struct mxc_isi_pipe *pipe,
+> > >>>>>>        q->mem_ops = &vb2_dma_contig_memops;
+> > >>>>>>        q->buf_struct_size = sizeof(struct mxc_isi_buffer);
+> > >>>>>>        q->timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_MONOTONIC;
+> > >>>>>> -    q->min_buffers_needed = 2;
+> > >>>>>> +    q->min_reqbufs_allocation = 2;
+> > >>>>>>        q->lock = &video->lock;
+> > >>>>>>        q->dev = pipe->isi->dev;
+> > >>>>>>
+
+-- 
+Regards,
+
+Laurent Pinchart
