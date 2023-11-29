@@ -1,29 +1,24 @@
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.22])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from ex01.ufhost.com (ex01.ufhost.com [61.152.239.75])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3911557320
-	for <linux-staging@lists.linux.dev>; Tue, 28 Nov 2023 23:27:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmx.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.net
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.b="mk3r3nnd"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
-	s=s31663417; t=1701214008; x=1701818808; i=wahrenst@gmx.net;
-	bh=7VxZ5irguCzXklSt6/a5AmmzzZot3iiHbJURCJI+0B4=;
-	h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:
-	 In-Reply-To;
-	b=mk3r3nnd7Pqb0nToNoGG+7mzyOKKVEJFyKk474WkL/VJ9ud0X5bXFkavl6SL157Y
-	 zI/up6AvSCiYavJHDe1KJXk6IS1tk+hUXSf1g4x5M7XHkVvu7N2j+Mtvc7gP5zTtp
-	 +qDNdmIVDCpcAH+7eLWOMHWxApkxjZ9cp3EFcSM8wxx8iWNc8jPpacMYSNdC68j9W
-	 WzAyH0ppnZB5xcKqJABmXqjs2Wvi+PTeJlnvoXAjK/lnt62LzcBVMsNIdSWCQZcRh
-	 7myBtV8Sk9HUpWyEDjoE2oi6r8XEnjFbMO2wcSFIyoBd8OICMipaZJK2+LYhGtwub
-	 4oD3mTwd/TU2DVHzJA==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from [192.168.1.130] ([37.4.248.43]) by mail.gmx.net (mrgmx105
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1N1wll-1rJR7R0Fi5-012FyQ; Wed, 29
- Nov 2023 00:26:48 +0100
-Message-ID: <42cd081f-bee9-49ff-b8f6-17ec58f43058@gmx.net>
-Date: Wed, 29 Nov 2023 00:26:46 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6CE143C2B
+	for <linux-staging@lists.linux.dev>; Wed, 29 Nov 2023 02:12:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=starfivetech.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=starfivetech.com
+Authentication-Results: smtp.subspace.kernel.org; dkim=none
+Received: from EXMBX165.cuchost.com (unknown [175.102.18.54])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(Client CN "EXMBX165", Issuer "EXMBX165" (not verified))
+	by ex01.ufhost.com (Postfix) with ESMTP id 8EF8924E29A;
+	Wed, 29 Nov 2023 10:10:55 +0800 (CST)
+Received: from EXMBX162.cuchost.com (172.16.6.72) by EXMBX165.cuchost.com
+ (172.16.6.75) with Microsoft SMTP Server (TLS) id 15.0.1497.42; Wed, 29 Nov
+ 2023 10:10:54 +0800
+Received: from [192.168.125.107] (113.72.145.176) by EXMBX162.cuchost.com
+ (172.16.6.72) with Microsoft SMTP Server (TLS) id 15.0.1497.42; Wed, 29 Nov
+ 2023 10:10:53 +0800
+Message-ID: <cc617644-029e-4671-8231-a2b01627a08f@starfivetech.com>
+Date: Wed, 29 Nov 2023 10:10:50 +0800
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -31,112 +26,58 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 0/5] staging: vc04_services: Drop custom logging
-To: Umang Jain <umang.jain@ideasonboard.com>, linux-staging@lists.linux.dev,
- linux-rpi-kernel@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- linux-media@vger.kernel.org
-Cc: Stefan Wahren <stefan.wahren@i2se.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Dan Carpenter <error27@gmail.com>,
- Kieran Bingham <kieran.bingham@ideasonboard.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- "Ricardo B . Marliere" <ricardo@marliere.net>
-References: <20231128201926.489269-1-umang.jain@ideasonboard.com>
+Subject: Re: [PATCH] media: staging: starfive: camss: fix off by one in
+ isp_enum_mbus_code()
+To: Dan Carpenter <dan.carpenter@linaro.org>, Jack Zhu
+	<jack.zhu@starfivetech.com>
+CC: Mauro Carvalho Chehab <mchehab@kernel.org>, Greg Kroah-Hartman
+	<gregkh@linuxfoundation.org>, Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+	<linux-media@vger.kernel.org>, <linux-staging@lists.linux.dev>,
+	<linux-kernel@vger.kernel.org>, <kernel-janitors@vger.kernel.org>
+References: <7d222638-2d19-466d-8dd4-9e1ceb1d46f3@moroto.mountain>
 Content-Language: en-US
-From: Stefan Wahren <wahrenst@gmx.net>
-In-Reply-To: <20231128201926.489269-1-umang.jain@ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:u3zco7Ilg0AUWIFZ/Opll0dTjNVQtg///HlPNwlcSPJFHNpdSab
- FOYjs2uygLdgFGzsSI/bAmNqMXSqIs4HPfmU69WFHlddX3jOSadk8EkP34veWO0coi8P31x
- HwYVKw+ZgMLWO7yCuzq2spYCDDjrPRI1MyVNxuS26ObOBi1ywxJZ6dafvFkO7zyJZ1RZXvE
- PPltKxwDpbAWC1SDaGCow==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:1YOAJVuDSnk=;ZycWI59MqswEc38XZRbdilcA+KY
- fMW/Qd6kJ4YDHV/PrAlv4EYLYPm8T/Kz7MEmH2uCbmC4cXhrZXgt2mAsgwbehulfPKyYZ0U6j
- 4/ZcbR1jhBHn457cmy+3IM9crkq75D/zoVU2tPg0wRatbxezZf6SUJFsIyaROQphbv+6eggfY
- yZ3oPbHJsE5wp5r+EMrCuaBoSsFK//mNZJFyI3Ceaydb3dYKhddrJHopYfXcfR/csnExgx15j
- 1tQV/8HP34RqCPG6/BXZoBYqnF6Iw4hqmongXWHRTJLInxGYyVuF1Wy47N34zHH9l76qSbdiO
- Evn2mFayNpYv/pmuxqO+mHh3jRjJS0N7/EYTR0gzB4tGz2Jrg2IEk+FvPyzivmD0wda5yrCRY
- nl75+Hm/UqZVmmugMlS1n/LV3w/8wN9lvt26IDrKmdENE0rUSASEWyK/iM5Je0EI6Y7il4T2f
- iyRiSULT5q3ujpMfw5lOxKY7+HecW/Vg62aKB9rFF+Nl87DoLuX6JoqE7kL5xpMItVTONySAU
- 0nU+k418Ski00sdXbIGRg3qmWkJFgwkIEaQTzNxiwSWQv3PsBdK8KX2e00FRHWxu4HKjoUrCm
- LBcYb6X+yJdwNESmUauzAs6knsErp1eSzhluvOiDN4CVxGUHoS/74kO2FJwpOH0lTMxHgxzeb
- MgXB868tPlkUSjFcVy2y1TbwbeKGiNC4VL7pnkYBJbONwOORiu0YWFH+2KS38TJP2IG1ijjRX
- k++3+w/cLWX9yiBUq98qffLeeWLnWeyezJmONJK9V35cpbxygCcyfVzCDo2FWeQxJvVKVix9w
- tlqB6E9WtQ690+3/dsLzAr4CnGfHVZRQngY7x1dlGlhSopeHcAafrhkeRHTCw0tiaSAlEmGWE
- lrhrE5zxVzEk6KVJ2MONC1KGyN5OP468L7z9bO+UQmNcHeReZDwg7mXi3HVuzE0mHFOfkjrxV
- OQ5iNQ==
+From: Changhuang Liang <changhuang.liang@starfivetech.com>
+In-Reply-To: <7d222638-2d19-466d-8dd4-9e1ceb1d46f3@moroto.mountain>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: EXCAS066.cuchost.com (172.16.6.26) To EXMBX162.cuchost.com
+ (172.16.6.72)
+X-YovoleRuleAgent: yovoleflag
 
-Hi Umang,
 
-Am 28.11.23 um 21:19 schrieb Umang Jain:
-> This series also removes the vchiq_log_* macro and makes use of dev_dbg(=
-)
-> directly.
-sorry, i didn't had the time to follow the logging discussion, but the
-following commits:
 
-staging: vc04: Convert vchiq_log_error() to use dynamic debug
-staging: vc04: Convert vchiq_log_warning() to use dynamic debug
-staging: vc04: Convert(and rename) vchiq_log_info() to use dynamic debug
+On 2023/11/28 22:40, Dan Carpenter wrote:
+> These > comparisons should be >=.  The formats->fmts[] array is either
+> a pointer to isp_formats_sink[] or isp_formats_source[] respectively.
+> 
+> Fixes: e57854628f58 ("media: staging: media: starfive: camss: Add ISP driver")
+> Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
 
-changed the logging behavior. I don't think it's intended to move
-everything to dev_dbg.
+Reviewed-by: Changhuang Liang <changhuang.liang@starfivetech.com>
 
-I would expected the following mapping:
-vchiq_log_error -> dev_err
-vchiq_log_warning -> dev_warn
-vchiq_log_info -> dev_info
->
-> Patch 1/5 is fix. It prevents passing NULL to one of vchiq_log_error().
-> The function there in question, does not have any users as of
-> now. However, it is going to be used by the vc-sm-cma and bcm2835-isp
-> drivers (posted on list for review [1]). There was discussion on v1,
-> whether I should drop and add the function later, however, didn't
-> conclude.
->
-> Patch 2/5 removes vchiq_log_error() macro
-> Patch 3/5 removes vchiq_log_warning() macro
-> Patch 4/5 removes vchiq_log_trace() macro
-> Patch 5/5 removes vchiq_log_debug() macro
->
-> This completes the following TODO item:
->
-> ```
-> * Cleanup logging mechanism
->
-> The driver should probably be using the standard kernel logging mechanis=
-ms
-> such as dev_info, dev_dbg, and friends.
-> ```
->
-> [1]: https://lore.kernel.org/linux-media/20231109210309.638594-1-umang.j=
-ain@ideasonboard.com/
->
-> Changes in v2:
-> - Separate out one fixup patch from v1 (Patch 1/9)and send separately
-> - Drop usage of log_type() and log_category() helpers. Directly use
->    dev_dbg() as suggested by Greg KH.
-> - Drop __func__ annotation from all logs. Dynamic debug has 'f'
->    decorator flag which can be used instead of manual __func__
-> - Reword commit messages.
->
-> Umang Jain (5):
->    staging: vc04_services: Do not pass NULL to vchiq_log_error()
->    staging: vc04_services: Drop vchiq_log_error() in favour of dev_dbg
->    staging: vc04_services: Drop vchiq_log_warning() in favour of dev_dbg
->    staging: vc04_services: Drop vchiq_log_trace() in favour of dev_dbg
->    staging: vc04_services: Drop vchiq_log_debug() in favour of dev_dbg
->
->   drivers/staging/vc04_services/interface/TODO  |   5 -
->   .../interface/vchiq_arm/vchiq_arm.c           | 176 ++++----
->   .../interface/vchiq_arm/vchiq_connected.c     |   8 +-
->   .../interface/vchiq_arm/vchiq_connected.h     |   4 +-
->   .../interface/vchiq_arm/vchiq_core.c          | 402 +++++++++---------
->   .../interface/vchiq_arm/vchiq_core.h          |  38 --
->   .../interface/vchiq_arm/vchiq_dev.c           |  92 ++--
->   7 files changed, 315 insertions(+), 410 deletions(-)
->
-
+> ---
+>  drivers/staging/media/starfive/camss/stf-isp.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/staging/media/starfive/camss/stf-isp.c b/drivers/staging/media/starfive/camss/stf-isp.c
+> index 893dbd8cddc8..98d61d71c31b 100644
+> --- a/drivers/staging/media/starfive/camss/stf-isp.c
+> +++ b/drivers/staging/media/starfive/camss/stf-isp.c
+> @@ -120,7 +120,7 @@ static int isp_enum_mbus_code(struct v4l2_subdev *sd,
+>  	const struct stf_isp_format_table *formats;
+>  
+>  	if (code->pad == STF_ISP_PAD_SINK) {
+> -		if (code->index > ARRAY_SIZE(isp_formats_sink))
+> +		if (code->index >= ARRAY_SIZE(isp_formats_sink))
+>  			return -EINVAL;
+>  
+>  		formats = &isp_dev->formats[SINK_FORMATS_INDEX];
+> @@ -128,7 +128,7 @@ static int isp_enum_mbus_code(struct v4l2_subdev *sd,
+>  	} else {
+>  		struct v4l2_mbus_framefmt *sink_fmt;
+>  
+> -		if (code->index > ARRAY_SIZE(isp_formats_source))
+> +		if (code->index >= ARRAY_SIZE(isp_formats_source))
+>  			return -EINVAL;
+>  
+>  		sink_fmt = v4l2_subdev_state_get_format(state,
