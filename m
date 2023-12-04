@@ -1,29 +1,29 @@
 Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B2AD24B5F
-	for <linux-staging@lists.linux.dev>; Mon,  4 Dec 2023 13:23:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F4B824B44
+	for <linux-staging@lists.linux.dev>; Mon,  4 Dec 2023 13:23:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="LGuCyNM5"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="YPPjIMOu"
 Received: from benjamin-XPS-13-9310.. (ec2-34-240-57-77.eu-west-1.compute.amazonaws.com [34.240.57.77])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
 	(Authenticated sender: benjamin.gaignard)
-	by madras.collabora.co.uk (Postfix) with ESMTPSA id E91DF6605835;
-	Mon,  4 Dec 2023 13:23:34 +0000 (GMT)
+	by madras.collabora.co.uk (Postfix) with ESMTPSA id 1A05C66071CC;
+	Mon,  4 Dec 2023 13:23:42 +0000 (GMT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1701696215;
-	bh=/jXOJsw0p75OXpH12qRqf2mFFTImN471wSEgNYwBmG0=;
+	s=mail; t=1701696222;
+	bh=vUKzmdehCfLCcwbM7gaKkVboVYXsxqKFA6kaBbI0L2I=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=LGuCyNM5hcxzCsRTiYNtAcnlFtm2LTROFeLGFP+16aozE/clXAf370U6xBkhRtOhe
-	 uSGmSVWUvaRyW4Bil7+Jh5PX2e9pny6Is9oMmv1FoS0skDmPZXX+6srUwjZni61EeU
-	 Y9j+C0RIicWsyX0uQCVCWj3DEi8dFOC2LlHjv2nRMfioCdoTSpRYI3M6GHKuvpPpVG
-	 O9G9QhUfr8v6o6LkctQt9NPED5klHsOVoGbB6HysCFy5Z4/Ae7aPM3J/tZKHEERrsY
-	 bQf0WWOelyNfruoqU3vMI4M9TxoEnszzW5QCT6RzlBW9HgHoIeO0+2ENgTi5kNqmnu
-	 yWShit1oxBLUQ==
+	b=YPPjIMOunjZNuH8fAjPP3b4mSMCV/NHPckS3LjK+bXSYdCykIk5tD/FGV9U+H/5BR
+	 m01dBoNIjvgtGuQ3gycq515tlISsPaWjtLe1l1HCvCUuzbKHYMfRmzn1Yqf2oUMFFo
+	 UnOxQa3CzjSVhOlkDrK40q/eNTj9/3QcyAcxPhfgEdavnwo7rrJTEAPLUdGnN5gnbG
+	 ia8NC9nuPQbrn98fm+9YJKNZrlzbyIh+IT2bAQClJ7hgJqqvN08+t5efAoom6JLvXd
+	 0Vog+unbItWp5hnYhKxsWoojzQY0GHbQ2HcPaVEYfjhxYGUM/gMewLLC0a6GDP+R3m
+	 Tq0BN32TcXvRg==
 From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
 To: hverkuil@xs4all.nl,
 	mchehab@kernel.org,
@@ -34,10 +34,12 @@ Cc: linux-kernel@vger.kernel.org,
 	linux-media@vger.kernel.org,
 	linux-staging@lists.linux.dev,
 	kernel@collabora.com,
-	Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Subject: [PATCH v2 01/36] media: usb: cx231xx: Remove useless setting of min_buffers_needed
-Date: Mon,  4 Dec 2023 14:22:48 +0100
-Message-Id: <20231204132323.22811-2-benjamin.gaignard@collabora.com>
+	Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+	Ming Qian <ming.qian@nxp.com>,
+	Zhou Peng <eagle.zhou@nxp.com>
+Subject: [PATCH v2 04/36] media: amphion: Remove useless setting of min_buffers_needed
+Date: Mon,  4 Dec 2023 14:22:51 +0100
+Message-Id: <20231204132323.22811-5-benjamin.gaignard@collabora.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20231204132323.22811-1-benjamin.gaignard@collabora.com>
 References: <20231204132323.22811-1-benjamin.gaignard@collabora.com>
@@ -56,43 +58,32 @@ it can stream fine without any buffers queued.
 Just drop this unnecessary restriction.
 
 Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+CC: Ming Qian <ming.qian@nxp.com>
+CC: Zhou Peng <eagle.zhou@nxp.com>
 ---
- drivers/media/usb/cx231xx/cx231xx-417.c   | 1 -
- drivers/media/usb/cx231xx/cx231xx-video.c | 2 --
- 2 files changed, 3 deletions(-)
+ drivers/media/platform/amphion/vpu_v4l2.c | 2 --
+ 1 file changed, 2 deletions(-)
 
-diff --git a/drivers/media/usb/cx231xx/cx231xx-417.c b/drivers/media/usb/cx231xx/cx231xx-417.c
-index 45973fe690b2..24c94cfb5268 100644
---- a/drivers/media/usb/cx231xx/cx231xx-417.c
-+++ b/drivers/media/usb/cx231xx/cx231xx-417.c
-@@ -1782,7 +1782,6 @@ int cx231xx_417_register(struct cx231xx *dev)
- 	q->ops = &cx231xx_video_qops;
- 	q->mem_ops = &vb2_vmalloc_memops;
- 	q->timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_MONOTONIC;
--	q->min_buffers_needed = 1;
- 	q->lock = &dev->lock;
- 	err = vb2_queue_init(q);
- 	if (err)
-diff --git a/drivers/media/usb/cx231xx/cx231xx-video.c b/drivers/media/usb/cx231xx/cx231xx-video.c
-index c8eb4222319d..ce44114e2188 100644
---- a/drivers/media/usb/cx231xx/cx231xx-video.c
-+++ b/drivers/media/usb/cx231xx/cx231xx-video.c
-@@ -1811,7 +1811,6 @@ int cx231xx_register_analog_devices(struct cx231xx *dev)
- 	q->ops = &cx231xx_video_qops;
- 	q->mem_ops = &vb2_vmalloc_memops;
- 	q->timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_MONOTONIC;
--	q->min_buffers_needed = 1;
- 	q->lock = &dev->lock;
- 	ret = vb2_queue_init(q);
- 	if (ret)
-@@ -1871,7 +1870,6 @@ int cx231xx_register_analog_devices(struct cx231xx *dev)
- 	q->ops = &cx231xx_vbi_qops;
- 	q->mem_ops = &vb2_vmalloc_memops;
- 	q->timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_MONOTONIC;
--	q->min_buffers_needed = 1;
- 	q->lock = &dev->lock;
- 	ret = vb2_queue_init(q);
- 	if (ret)
+diff --git a/drivers/media/platform/amphion/vpu_v4l2.c b/drivers/media/platform/amphion/vpu_v4l2.c
+index 87afb4a18d5d..a80c5f28c659 100644
+--- a/drivers/media/platform/amphion/vpu_v4l2.c
++++ b/drivers/media/platform/amphion/vpu_v4l2.c
+@@ -649,7 +649,6 @@ static int vpu_m2m_queue_init(void *priv, struct vb2_queue *src_vq, struct vb2_q
+ 		src_vq->mem_ops = &vb2_vmalloc_memops;
+ 	src_vq->drv_priv = inst;
+ 	src_vq->buf_struct_size = sizeof(struct vpu_vb2_buffer);
+-	src_vq->min_buffers_needed = 1;
+ 	src_vq->dev = inst->vpu->dev;
+ 	src_vq->lock = &inst->lock;
+ 	ret = vb2_queue_init(src_vq);
+@@ -666,7 +665,6 @@ static int vpu_m2m_queue_init(void *priv, struct vb2_queue *src_vq, struct vb2_q
+ 		dst_vq->mem_ops = &vb2_vmalloc_memops;
+ 	dst_vq->drv_priv = inst;
+ 	dst_vq->buf_struct_size = sizeof(struct vpu_vb2_buffer);
+-	dst_vq->min_buffers_needed = 1;
+ 	dst_vq->dev = inst->vpu->dev;
+ 	dst_vq->lock = &inst->lock;
+ 	ret = vb2_queue_init(dst_vq);
 -- 
 2.39.2
 
