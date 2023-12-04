@@ -1,29 +1,29 @@
 Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38B8A24B5D
-	for <linux-staging@lists.linux.dev>; Mon,  4 Dec 2023 13:23:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08F3C8F40
+	for <linux-staging@lists.linux.dev>; Mon,  4 Dec 2023 13:23:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="e4isb/PH"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="RQhD8+PK"
 Received: from benjamin-XPS-13-9310.. (ec2-34-240-57-77.eu-west-1.compute.amazonaws.com [34.240.57.77])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
 	(Authenticated sender: benjamin.gaignard)
-	by madras.collabora.co.uk (Postfix) with ESMTPSA id DB358660711D;
-	Mon,  4 Dec 2023 13:23:37 +0000 (GMT)
+	by madras.collabora.co.uk (Postfix) with ESMTPSA id BFC276602026;
+	Mon,  4 Dec 2023 13:23:44 +0000 (GMT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1701696218;
-	bh=SGWc3SJhUtEriZPP5qupv/R50VZL3SHH8MYp7sJ69S4=;
+	s=mail; t=1701696225;
+	bh=Dywo70CQG363NbYL8uLIRlzPbx56pDtvUEKi675FEes=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=e4isb/PHzPqbYTiDeO0t2dgjXId0TEpiepai054+cSFHueB9PjmQG14sNxwrOoL9y
-	 Jale9GU8xk5ZPILkf7eoZoxxGaWFjgBq5g2Xo7+42VAtB7SaOSgSy6mUO/5Y/3UBU3
-	 tsmO+daHgh4NxoiuI/65um63McMKYsRsKB1grdewU6f1qtNirrqzzh35/ikYuN0uVL
-	 oR7seZX2nKDzLe5KG8WNfoasMFnCZ2JXzoI4kqrtAnKtcx66EkvR7pSQhovGJYFbEa
-	 e9yMzJUFaVyHFMp957ZfjTgr7XExwyQm0AlNDS5BXt1NYWcRUAef17zP7J4w26aHIJ
-	 VtJcwuMYLAzTg==
+	b=RQhD8+PKDoxYdoPM4Ao1lagEw4nKvvEQJorzb4rCzzTZtgUARwzbUeralYHdgJu0j
+	 lN9R+DCAN7FbZamZnn+YIJvE/IbgyM/egma+s9RcVmF+w07BkZQvseYPKntPS+Zvyt
+	 YDMD/Lwx+Kp/xMe9H7361+qBQHdt+KU7ZLVeAZ9WvkJi8/cBmG78hFKTteBWQIwkxR
+	 6mDdqwHuNIk7UceZdtv8j35Br69iXMeWZkJPvPQvtoSpeVP5D5O0MDQdfZ93S9hbeQ
+	 zPDyOACJlcJaQiZrwCmPPdAp7vocEuT7RHlYOj+z81pUm2P6jisNZD/eJlb8og+0yZ
+	 9OLTh1x4wHtZg==
 From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
 To: hverkuil@xs4all.nl,
 	mchehab@kernel.org,
@@ -35,10 +35,16 @@ Cc: linux-kernel@vger.kernel.org,
 	linux-staging@lists.linux.dev,
 	kernel@collabora.com,
 	Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-	Philipp Zabel <p.zabel@pengutronix.de>
-Subject: [PATCH v2 02/36] media: chips-media: coda: Remove useless setting of min_buffers_needed
-Date: Mon,  4 Dec 2023 14:22:49 +0100
-Message-Id: <20231204132323.22811-3-benjamin.gaignard@collabora.com>
+	Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
+	Vikash Garodia <quic_vgarodia@quicinc.com>,
+	"Bryan O'Donoghue" <bryan.odonoghue@linaro.org>,
+	Andy Gross <agross@kernel.org>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konrad.dybcio@linaro.org>,
+	linux-arm-msm@vger.kernel.org
+Subject: [PATCH v2 05/36] media: qcom: venus: Remove useless setting of min_buffers_needed
+Date: Mon,  4 Dec 2023 14:22:52 +0100
+Message-Id: <20231204132323.22811-6-benjamin.gaignard@collabora.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20231204132323.22811-1-benjamin.gaignard@collabora.com>
 References: <20231204132323.22811-1-benjamin.gaignard@collabora.com>
@@ -57,23 +63,58 @@ it can stream fine without any buffers queued.
 Just drop this unnecessary restriction.
 
 Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-CC: Philipp Zabel <p.zabel@pengutronix.de>
+CC: Stanimir Varbanov <stanimir.k.varbanov@gmail.com> (maintainer:QUALCOMM VENUS VIDEO ACCELERATOR DRIVER)
+CC: Vikash Garodia <quic_vgarodia@quicinc.com> (maintainer:QUALCOMM VENUS VIDEO ACCELERATOR DRIVER)
+CC: "Bryan O'Donoghue" <bryan.odonoghue@linaro.org> (reviewer:QUALCOMM VENUS VIDEO ACCELERATOR DRIVER)
+CC: Andy Gross <agross@kernel.org> (maintainer:ARM/QUALCOMM SUPPORT)
+CC: Bjorn Andersson <andersson@kernel.org> (maintainer:ARM/QUALCOMM SUPPORT)
+CC: Konrad Dybcio <konrad.dybcio@linaro.org> (maintainer:ARM/QUALCOMM SUPPORT)
+CC: linux-arm-msm@vger.kernel.org
 ---
- drivers/media/platform/chips-media/coda/coda-common.c | 1 -
- 1 file changed, 1 deletion(-)
+ drivers/media/platform/qcom/venus/vdec.c | 2 --
+ drivers/media/platform/qcom/venus/venc.c | 2 --
+ 2 files changed, 4 deletions(-)
 
-diff --git a/drivers/media/platform/chips-media/coda/coda-common.c b/drivers/media/platform/chips-media/coda/coda-common.c
-index f1d85758f6dd..d5529f988d2c 100644
---- a/drivers/media/platform/chips-media/coda/coda-common.c
-+++ b/drivers/media/platform/chips-media/coda/coda-common.c
-@@ -2546,7 +2546,6 @@ static int coda_queue_init(struct coda_ctx *ctx, struct vb2_queue *vq)
- 	 * would need to be reflected in job_ready(). Currently we expect all
- 	 * queues to have at least one buffer queued.
- 	 */
--	vq->min_buffers_needed = 1;
- 	vq->dev = ctx->dev->dev;
- 
- 	return vb2_queue_init(vq);
+diff --git a/drivers/media/platform/qcom/venus/vdec.c b/drivers/media/platform/qcom/venus/vdec.c
+index dbf305cec120..8bdffe546219 100644
+--- a/drivers/media/platform/qcom/venus/vdec.c
++++ b/drivers/media/platform/qcom/venus/vdec.c
+@@ -1641,7 +1641,6 @@ static int m2m_queue_init(void *priv, struct vb2_queue *src_vq,
+ 	src_vq->drv_priv = inst;
+ 	src_vq->buf_struct_size = sizeof(struct venus_buffer);
+ 	src_vq->allow_zero_bytesused = 1;
+-	src_vq->min_buffers_needed = 0;
+ 	src_vq->dev = inst->core->dev;
+ 	src_vq->lock = &inst->ctx_q_lock;
+ 	ret = vb2_queue_init(src_vq);
+@@ -1656,7 +1655,6 @@ static int m2m_queue_init(void *priv, struct vb2_queue *src_vq,
+ 	dst_vq->drv_priv = inst;
+ 	dst_vq->buf_struct_size = sizeof(struct venus_buffer);
+ 	dst_vq->allow_zero_bytesused = 1;
+-	dst_vq->min_buffers_needed = 0;
+ 	dst_vq->dev = inst->core->dev;
+ 	dst_vq->lock = &inst->ctx_q_lock;
+ 	return vb2_queue_init(dst_vq);
+diff --git a/drivers/media/platform/qcom/venus/venc.c b/drivers/media/platform/qcom/venus/venc.c
+index 44b13696cf82..f2e6bd44ed15 100644
+--- a/drivers/media/platform/qcom/venus/venc.c
++++ b/drivers/media/platform/qcom/venus/venc.c
+@@ -1398,7 +1398,6 @@ static int m2m_queue_init(void *priv, struct vb2_queue *src_vq,
+ 	src_vq->drv_priv = inst;
+ 	src_vq->buf_struct_size = sizeof(struct venus_buffer);
+ 	src_vq->allow_zero_bytesused = 1;
+-	src_vq->min_buffers_needed = 1;
+ 	src_vq->dev = inst->core->dev;
+ 	src_vq->lock = &inst->ctx_q_lock;
+ 	if (inst->core->res->hfi_version == HFI_VERSION_1XX)
+@@ -1415,7 +1414,6 @@ static int m2m_queue_init(void *priv, struct vb2_queue *src_vq,
+ 	dst_vq->drv_priv = inst;
+ 	dst_vq->buf_struct_size = sizeof(struct venus_buffer);
+ 	dst_vq->allow_zero_bytesused = 1;
+-	dst_vq->min_buffers_needed = 1;
+ 	dst_vq->dev = inst->core->dev;
+ 	dst_vq->lock = &inst->ctx_q_lock;
+ 	return vb2_queue_init(dst_vq);
 -- 
 2.39.2
 
