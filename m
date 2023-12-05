@@ -1,398 +1,130 @@
-Received: from mail-ed1-f68.google.com (mail-ed1-f68.google.com [209.85.208.68])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8DA2381
-	for <linux-staging@lists.linux.dev>; Tue,  5 Dec 2023 00:29:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F338125C7
+	for <linux-staging@lists.linux.dev>; Tue,  5 Dec 2023 06:39:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JecM7U/o"
-Received: by mail-ed1-f68.google.com with SMTP id 4fb4d7f45d1cf-54ca43031d1so1833189a12.0
-        for <linux-staging@lists.linux.dev>; Mon, 04 Dec 2023 16:29:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1701736142; x=1702340942; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=iYFStRIWRlj/QILybfgb1W+iLOYRyfcARjHaKVjDLvA=;
-        b=JecM7U/omnIZdF+AO8nrvjFqxd+o6l91s89NB/z+JC9GctTz0GrjAlKro9jkOFFOIs
-         hRPf/X9Pvx4kiaP/SDQ6gf0DCA5zhqFQsJpwvLd0xF9L1cpz4ZZ10roJV65uUGEltq9b
-         /Om5rHaGHeQAOWE3uywQvXAeHQ0IzJj7jjcD3ObCpMxEZtLIQanb9sQqQN+6OygEeWNC
-         pUeXuiPOEGoILQSjizMesykc559zdmqOBOOoypIx91wYLCy4AXoyZUIv2sy7okN4dfxM
-         X484sVXnzJaoLD45OvtjI8crXlFlj9lbunIn6O56SFLXvOy81BZWt+XgYLRaBk0JTvhd
-         GDQQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701736142; x=1702340942;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=iYFStRIWRlj/QILybfgb1W+iLOYRyfcARjHaKVjDLvA=;
-        b=E7sfzty7PU1e1dPvj5admpBomY05jSNMW1cnFVY0oEHvckH1e4uKaPBnoJr+T9UWCY
-         3RsCPpBpVYHPUHDwmb8sd0YSulCGhlwuFURekksVBtuCagF/HPz/OVWoy0L7iYYsxeAh
-         llL5mfCP6Y7pjBd3N7eZjWCQZNoVAe+zjr9lUcVqvvqK6LnuOwTeIYH2yFBEah0mCyY7
-         RvvmhIbP5Ok8R6Nd/RbkT5ABRfpJInX0UZg4eDMZgNnzXj3d08uXMD8Q/Lwx97ouOSQo
-         UCchuJDNEt6/ifWWZyM51wABEJyosi0pQtSGrR6SXFqc1NXJ7Ct6CFD7DP38GCLyflt8
-         G/jw==
-X-Gm-Message-State: AOJu0YzuLk+4R85DgygTO3B2CmLSgMzTAjO2Xy5PpmQEtidHjUFct4rU
-	MF+lffkmVtrMod52M2hmQfo=
-X-Google-Smtp-Source: AGHT+IEj9Umsd3PUbdGXxl3OuqPY7wsCwAoo3OQ2Pe3rIve1EVGj/QiUONp6cNdc8gwDWpotvjoplg==
-X-Received: by 2002:a50:8acf:0:b0:54c:5d34:980c with SMTP id k15-20020a508acf000000b0054c5d34980cmr210099edk.82.1701736141742;
-        Mon, 04 Dec 2023 16:29:01 -0800 (PST)
-Received: from localhost (86-83-145-178.fixed.kpn.net. [86.83.145.178])
-        by smtp.gmail.com with ESMTPSA id f4-20020a056402150400b0054c9df4317dsm370226edw.7.2023.12.04.16.29.00
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 04 Dec 2023 16:29:01 -0800 (PST)
-Date: Tue, 5 Dec 2023 01:28:54 +0100
-From: laburnumT <laburnumtec@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] staging: sm750fb: fix coding style camelCase issue
-Message-ID: <20231205002854.76niknoiakdraruc@flo-XPS-13-7390>
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="HhvZRnIQ"
+Received: from [192.168.1.105] (unknown [103.251.226.73])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 071634DB;
+	Tue,  5 Dec 2023 07:39:07 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1701758350;
+	bh=KRiCRSMzhN+jR4SLc+ozbGmLLTLRTzaUA3xh6zlTM3g=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=HhvZRnIQAgaqOZ4IgNNVKMD0eUUGLcFIdQa1VvZMLJ48i1f5Fpw8HoB6cy0XM3axB
+	 5eNXeNj900a+e76RzyBiJNMX6WVzGv1k076nL95xy+1UdiUvzgdZR1qfzHhyAfJnM8
+	 IkJ18aFJG7FjaJwKFsRSG0gjENrNHulGRxhV5LmI=
+Message-ID: <a87efe94-b3fb-a360-dfcd-db2097b89d6f@ideasonboard.com>
+Date: Tue, 5 Dec 2023 12:09:41 +0530
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [PATCH v2 0/5] staging: vc04_services: Drop custom logging
+To: Stefan Wahren <wahrenst@gmx.net>, linux-staging@lists.linux.dev,
+ linux-rpi-kernel@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
+ linux-media@vger.kernel.org
+Cc: Stefan Wahren <stefan.wahren@i2se.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Dan Carpenter <error27@gmail.com>,
+ Kieran Bingham <kieran.bingham@ideasonboard.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ "Ricardo B . Marliere" <ricardo@marliere.net>
+References: <20231128201926.489269-1-umang.jain@ideasonboard.com>
+ <42cd081f-bee9-49ff-b8f6-17ec58f43058@gmx.net>
+Content-Language: en-US
+From: Umang Jain <umang.jain@ideasonboard.com>
+In-Reply-To: <42cd081f-bee9-49ff-b8f6-17ec58f43058@gmx.net>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Fixed camelCase issues in ddk750_sii164.c and impacted files.
+Hi Stefan,
 
-Signed-off-by: laburnumT <laburnumtec@gmail.com>
----
- drivers/staging/sm750fb/ddk750_dvi.c    |  16 +--
- drivers/staging/sm750fb/ddk750_sii164.c | 130 ++++++++++++------------
- drivers/staging/sm750fb/ddk750_sii164.h |  16 +--
- 3 files changed, 81 insertions(+), 81 deletions(-)
+On 11/29/23 4:56 AM, Stefan Wahren wrote:
+> Hi Umang,
+>
+> Am 28.11.23 um 21:19 schrieb Umang Jain:
+>> This series also removes the vchiq_log_* macro and makes use of 
+>> dev_dbg()
+>> directly.
+> sorry, i didn't had the time to follow the logging discussion, but the
+> following commits:
+>
+> staging: vc04: Convert vchiq_log_error() to use dynamic debug
+> staging: vc04: Convert vchiq_log_warning() to use dynamic debug
+> staging: vc04: Convert(and rename) vchiq_log_info() to use dynamic debug
+>
+> changed the logging behavior. I don't think it's intended to move
+> everything to dev_dbg.
+>
+> I would expected the following mapping:
+> vchiq_log_error -> dev_err
+> vchiq_log_warning -> dev_warn
 
-diff --git a/drivers/staging/sm750fb/ddk750_dvi.c b/drivers/staging/sm750fb/ddk750_dvi.c
-index 8b81e8642f9e..40d92e4bd1f9 100644
---- a/drivers/staging/sm750fb/ddk750_dvi.c
-+++ b/drivers/staging/sm750fb/ddk750_dvi.c
-@@ -16,15 +16,15 @@ static struct dvi_ctrl_device dcft_supported_dvi_controller[] = {
- 	{
- 		.init = sii164_init_chip,
- 		.get_vendor_id = sii164_get_vendor_id,
--		.get_device_id = sii164GetDeviceID,
-+		.get_device_id = sii164_get_device_id,
- #ifdef SII164_FULL_FUNCTIONS
--		.reset_chip = sii164ResetChip,
--		.get_chip_string = sii164GetChipString,
--		.set_power = sii164SetPower,
--		.enable_hot_plug_detection = sii164EnableHotPlugDetection,
--		.is_connected = sii164IsConnected,
--		.check_interrupt = sii164CheckInterrupt,
--		.clear_interrupt = sii164ClearInterrupt,
-+		.reset_chip = sii164_reset_chip,
-+		.get_chip_string = sii164_get_chip_string,
-+		.set_power = sii164_set_power,
-+		.enable_hot_plug_detection = sii164_enable_hotplug_detection,
-+		.is_connected = sii164_is_connected,
-+		.check_interrupt = sii164_check_interrupt,
-+		.clear_interrupt = sii164_clear_interrupt,
- #endif
- 	},
- #endif
-diff --git a/drivers/staging/sm750fb/ddk750_sii164.c b/drivers/staging/sm750fb/ddk750_sii164.c
-index 2532b60245ac..596a00101352 100644
---- a/drivers/staging/sm750fb/ddk750_sii164.c
-+++ b/drivers/staging/sm750fb/ddk750_sii164.c
-@@ -25,7 +25,7 @@
- 
- #ifdef SII164_FULL_FUNCTIONS
- /* Name of the DVI Controller chip */
--static char *gDviCtrlChipName = "Silicon Image SiI 164";
-+static char *g_dvi_ctrl_chip_name = "Silicon Image SiI 164";
- #endif
- 
- /*
-@@ -37,33 +37,33 @@ static char *gDviCtrlChipName = "Silicon Image SiI 164";
-  */
- unsigned short sii164_get_vendor_id(void)
- {
--	unsigned short vendorID;
-+	unsigned short vendor_id;
- 
--	vendorID = ((unsigned short)i2cReadReg(SII164_I2C_ADDRESS,
--					       SII164_VENDOR_ID_HIGH) << 8) |
--		   (unsigned short)i2cReadReg(SII164_I2C_ADDRESS,
--					      SII164_VENDOR_ID_LOW);
-+	vendor_id = ((unsigned short)i2cReadReg(SII164_I2C_ADDRESS,
-+						SII164_VENDOR_ID_HIGH) << 8) |
-+		    (unsigned short)i2cReadReg(SII164_I2C_ADDRESS,
-+					       SII164_VENDOR_ID_LOW);
- 
--	return vendorID;
-+	return vendor_id;
- }
- 
- /*
-- *  sii164GetDeviceID
-+ *  sii164_get_device_id
-  *      This function gets the device ID of the DVI controller chip.
-  *
-  *  Output:
-  *      Device ID
-  */
--unsigned short sii164GetDeviceID(void)
-+unsigned short sii164_get_device_id(void)
- {
--	unsigned short deviceID;
-+	unsigned short device_id;
- 
--	deviceID = ((unsigned short)i2cReadReg(SII164_I2C_ADDRESS,
--					       SII164_DEVICE_ID_HIGH) << 8) |
--		   (unsigned short)i2cReadReg(SII164_I2C_ADDRESS,
--					      SII164_DEVICE_ID_LOW);
-+	device_id = ((unsigned short)i2cReadReg(SII164_I2C_ADDRESS,
-+						SII164_DEVICE_ID_HIGH) << 8) |
-+		    (unsigned short)i2cReadReg(SII164_I2C_ADDRESS,
-+					       SII164_DEVICE_ID_LOW);
- 
--	return deviceID;
-+	return device_id;
- }
- 
- /*
-@@ -141,7 +141,7 @@ long sii164_init_chip(unsigned char edge_select,
- 
- 	/* Check if SII164 Chip exists */
- 	if ((sii164_get_vendor_id() == SII164_VENDOR_ID) &&
--	    (sii164GetDeviceID() == SII164_DEVICE_ID)) {
-+	    (sii164_get_device_id() == SII164_DEVICE_ID)) {
- 		/*
- 		 *  Initialize SII164 controller chip.
- 		 */
-@@ -250,41 +250,41 @@ long sii164_init_chip(unsigned char edge_select,
- #ifdef SII164_FULL_FUNCTIONS
- 
- /*
-- *  sii164ResetChip
-+ *  sii164_reset_chip
-  *      This function resets the DVI Controller Chip.
-  */
--void sii164ResetChip(void)
-+void sii164_reset_chip(void)
- {
- 	/* Power down */
--	sii164SetPower(0);
--	sii164SetPower(1);
-+	sii164_set_power(0);
-+	sii164_set_power(1);
- }
- 
- /*
-- * sii164GetChipString
-+ * sii164_get_chip_string
-  *      This function returns a char string name of the current DVI Controller
-  *      chip.
-  *
-  *      It's convenient for application need to display the chip name.
-  */
--char *sii164GetChipString(void)
-+char *sii164_get_chip_string(void)
- {
--	return gDviCtrlChipName;
-+	return g_dvi_ctrl_chip_name;
- }
- 
- /*
-- *  sii164SetPower
-+ *  sii164_set_power
-  *      This function sets the power configuration of the DVI Controller Chip.
-  *
-  *  Input:
-- *      powerUp - Flag to set the power down or up
-+ *      power_up - Flag to set the power down or up
-  */
--void sii164SetPower(unsigned char powerUp)
-+void sii164_set_power(unsigned char power_up)
- {
- 	unsigned char config;
- 
- 	config = i2cReadReg(SII164_I2C_ADDRESS, SII164_CONFIGURATION);
--	if (powerUp == 1) {
-+	if (power_up == 1) {
- 		/* Power up the chip */
- 		config &= ~SII164_CONFIGURATION_POWER_MASK;
- 		config |= SII164_CONFIGURATION_POWER_NORMAL;
-@@ -298,109 +298,109 @@ void sii164SetPower(unsigned char powerUp)
- }
- 
- /*
-- *  sii164SelectHotPlugDetectionMode
-+ *  sii164_select_hotplug_detection_mode
-  *      This function selects the mode of the hot plug detection.
-  */
- static
--void sii164SelectHotPlugDetectionMode(enum sii164_hot_plug_mode hotPlugMode)
-+void sii164_select_hotplug_detection_mode(enum sii164_hot_plug_mode hotplug_mode)
- {
--	unsigned char detectReg;
-+	unsigned char detect_reg;
- 
--	detectReg = i2cReadReg(SII164_I2C_ADDRESS, SII164_DETECT) &
--		    ~SII164_DETECT_MONITOR_SENSE_OUTPUT_FLAG;
--	switch (hotPlugMode) {
-+	detect_reg = i2cReadReg(SII164_I2C_ADDRESS, SII164_DETECT) &
-+		     ~SII164_DETECT_MONITOR_SENSE_OUTPUT_FLAG;
-+	switch (hotplug_mode) {
- 	case SII164_HOTPLUG_DISABLE:
--		detectReg |= SII164_DETECT_MONITOR_SENSE_OUTPUT_HIGH;
-+		detect_reg |= SII164_DETECT_MONITOR_SENSE_OUTPUT_HIGH;
- 		break;
- 	case SII164_HOTPLUG_USE_MDI:
--		detectReg &= ~SII164_DETECT_INTERRUPT_MASK;
--		detectReg |= SII164_DETECT_INTERRUPT_BY_HTPLG_PIN;
--		detectReg |= SII164_DETECT_MONITOR_SENSE_OUTPUT_MDI;
-+		detect_reg &= ~SII164_DETECT_INTERRUPT_MASK;
-+		detect_reg |= SII164_DETECT_INTERRUPT_BY_HTPLG_PIN;
-+		detect_reg |= SII164_DETECT_MONITOR_SENSE_OUTPUT_MDI;
- 		break;
- 	case SII164_HOTPLUG_USE_RSEN:
--		detectReg |= SII164_DETECT_MONITOR_SENSE_OUTPUT_RSEN;
-+		detect_reg |= SII164_DETECT_MONITOR_SENSE_OUTPUT_RSEN;
- 		break;
- 	case SII164_HOTPLUG_USE_HTPLG:
--		detectReg |= SII164_DETECT_MONITOR_SENSE_OUTPUT_HTPLG;
-+		detect_reg |= SII164_DETECT_MONITOR_SENSE_OUTPUT_HTPLG;
- 		break;
- 	}
- 
--	i2cWriteReg(SII164_I2C_ADDRESS, SII164_DETECT, detectReg);
-+	i2cWriteReg(SII164_I2C_ADDRESS, SII164_DETECT, detect_reg);
- }
- 
- /*
-- *  sii164EnableHotPlugDetection
-+ *  sii164_enable_hotplug_detection
-  *      This function enables the Hot Plug detection.
-  *
-- *  enableHotPlug   - Enable (=1) / disable (=0) Hot Plug detection
-+ *  enable_hotplug   - Enable (=1) / disable (=0) Hot Plug detection
-  */
--void sii164EnableHotPlugDetection(unsigned char enableHotPlug)
-+void sii164_enable_hotplug_detection(unsigned char enable_hotplug)
- {
--	unsigned char detectReg;
-+	unsigned char detect_reg;
- 
--	detectReg = i2cReadReg(SII164_I2C_ADDRESS, SII164_DETECT);
-+	detect_reg = i2cReadReg(SII164_I2C_ADDRESS, SII164_DETECT);
- 
- 	/* Depending on each DVI controller, need to enable the hot plug based
- 	 * on each individual chip design.
- 	 */
--	if (enableHotPlug != 0)
--		sii164SelectHotPlugDetectionMode(SII164_HOTPLUG_USE_MDI);
-+	if (enable_hotplug != 0)
-+		sii164_select_hotplug_detection_mode(SII164_HOTPLUG_USE_MDI);
- 	else
--		sii164SelectHotPlugDetectionMode(SII164_HOTPLUG_DISABLE);
-+		sii164_select_hotplug_detection_mode(SII164_HOTPLUG_DISABLE);
- }
- 
- /*
-- *  sii164IsConnected
-+ *  sii164_is_connected
-  *      Check if the DVI Monitor is connected.
-  *
-  *  Output:
-  *      0   - Not Connected
-  *      1   - Connected
-  */
--unsigned char sii164IsConnected(void)
-+unsigned char sii164_is_connected(void)
- {
--	unsigned char hotPlugValue;
-+	unsigned char hotplug_value;
- 
--	hotPlugValue = i2cReadReg(SII164_I2C_ADDRESS, SII164_DETECT) &
--		       SII164_DETECT_HOT_PLUG_STATUS_MASK;
--	if (hotPlugValue == SII164_DETECT_HOT_PLUG_STATUS_ON)
-+	hotplug_value = i2cReadReg(SII164_I2C_ADDRESS, SII164_DETECT) &
-+			SII164_DETECT_HOT_PLUG_STATUS_MASK;
-+	if (hotplug_value == SII164_DETECT_HOT_PLUG_STATUS_ON)
- 		return 1;
- 	else
- 		return 0;
- }
- 
- /*
-- *  sii164CheckInterrupt
-+ *  sii164_check_interrupt
-  *      Checks if interrupt has occurred.
-  *
-  *  Output:
-  *      0   - No interrupt
-  *      1   - Interrupt occurs
-  */
--unsigned char sii164CheckInterrupt(void)
-+unsigned char sii164_check_interrupt(void)
- {
--	unsigned char detectReg;
-+	unsigned char detect_reg;
- 
--	detectReg = i2cReadReg(SII164_I2C_ADDRESS, SII164_DETECT) &
--		    SII164_DETECT_MONITOR_STATE_MASK;
--	if (detectReg == SII164_DETECT_MONITOR_STATE_CHANGE)
-+	detect_reg = i2cReadReg(SII164_I2C_ADDRESS, SII164_DETECT) &
-+		     SII164_DETECT_MONITOR_STATE_MASK;
-+	if (detect_reg == SII164_DETECT_MONITOR_STATE_CHANGE)
- 		return 1;
- 	else
- 		return 0;
- }
- 
- /*
-- *  sii164ClearInterrupt
-+ *  sii164_clear_interrupt
-  *      Clear the hot plug interrupt.
-  */
--void sii164ClearInterrupt(void)
-+void sii164_clear_interrupt(void)
- {
--	unsigned char detectReg;
-+	unsigned char detect_reg;
- 
- 	/* Clear the MDI interrupt */
--	detectReg = i2cReadReg(SII164_I2C_ADDRESS, SII164_DETECT);
-+	detect_reg = i2cReadReg(SII164_I2C_ADDRESS, SII164_DETECT);
- 	i2cWriteReg(SII164_I2C_ADDRESS, SII164_DETECT,
--		    detectReg | SII164_DETECT_MONITOR_STATE_CLEAR);
-+		    detect_reg | SII164_DETECT_MONITOR_STATE_CLEAR);
- }
- 
- #endif
-diff --git a/drivers/staging/sm750fb/ddk750_sii164.h b/drivers/staging/sm750fb/ddk750_sii164.h
-index 71a7c1cb42c4..52c087a15095 100644
---- a/drivers/staging/sm750fb/ddk750_sii164.h
-+++ b/drivers/staging/sm750fb/ddk750_sii164.h
-@@ -28,16 +28,16 @@ long sii164_init_chip(unsigned char edgeSelect,
- 		      unsigned char pllFilterValue);
- 
- unsigned short sii164_get_vendor_id(void);
--unsigned short sii164GetDeviceID(void);
-+unsigned short sii164_get_device_id(void);
- 
- #ifdef SII164_FULL_FUNCTIONS
--void sii164ResetChip(void);
--char *sii164GetChipString(void);
--void sii164SetPower(unsigned char powerUp);
--void sii164EnableHotPlugDetection(unsigned char enableHotPlug);
--unsigned char sii164IsConnected(void);
--unsigned char sii164CheckInterrupt(void);
--void sii164ClearInterrupt(void);
-+void sii164_reset_chip(void);
-+char *sii164_get_chip_string(void);
-+void sii164_set_power(unsigned char power_up);
-+void sii164_enable_hotplug_detection(unsigned char enable_hotplug);
-+unsigned char sii164_is_connected(void);
-+unsigned char sii164_check_interrupt(void);
-+void sii164_clear_interrupt(void);
- #endif
- /*
-  * below register definition is used for
--- 
-2.34.1
+For this I agree,
+> vchiq_log_info -> dev_info
+
+However, I think vchiq_log_info and vchiq_log_debug should be moved to 
+dev_dbg.
+
+Otherwise, I think they'll spew a ton of information to dmesg by default.
+>>
+>> Patch 1/5 is fix. It prevents passing NULL to one of vchiq_log_error().
+>> The function there in question, does not have any users as of
+>> now. However, it is going to be used by the vc-sm-cma and bcm2835-isp
+>> drivers (posted on list for review [1]). There was discussion on v1,
+>> whether I should drop and add the function later, however, didn't
+>> conclude.
+>>
+>> Patch 2/5 removes vchiq_log_error() macro
+>> Patch 3/5 removes vchiq_log_warning() macro
+>> Patch 4/5 removes vchiq_log_trace() macro
+>> Patch 5/5 removes vchiq_log_debug() macro
+>>
+>> This completes the following TODO item:
+>>
+>> ```
+>> * Cleanup logging mechanism
+>>
+>> The driver should probably be using the standard kernel logging 
+>> mechanisms
+>> such as dev_info, dev_dbg, and friends.
+>> ```
+>>
+>> [1]: 
+>> https://lore.kernel.org/linux-media/20231109210309.638594-1-umang.jain@ideasonboard.com/
+>>
+>> Changes in v2:
+>> - Separate out one fixup patch from v1 (Patch 1/9)and send separately
+>> - Drop usage of log_type() and log_category() helpers. Directly use
+>>    dev_dbg() as suggested by Greg KH.
+>> - Drop __func__ annotation from all logs. Dynamic debug has 'f'
+>>    decorator flag which can be used instead of manual __func__
+>> - Reword commit messages.
+>>
+>> Umang Jain (5):
+>>    staging: vc04_services: Do not pass NULL to vchiq_log_error()
+>>    staging: vc04_services: Drop vchiq_log_error() in favour of dev_dbg
+>>    staging: vc04_services: Drop vchiq_log_warning() in favour of dev_dbg
+>>    staging: vc04_services: Drop vchiq_log_trace() in favour of dev_dbg
+>>    staging: vc04_services: Drop vchiq_log_debug() in favour of dev_dbg
+>>
+>>   drivers/staging/vc04_services/interface/TODO  |   5 -
+>>   .../interface/vchiq_arm/vchiq_arm.c           | 176 ++++----
+>>   .../interface/vchiq_arm/vchiq_connected.c     |   8 +-
+>>   .../interface/vchiq_arm/vchiq_connected.h     |   4 +-
+>>   .../interface/vchiq_arm/vchiq_core.c          | 402 +++++++++---------
+>>   .../interface/vchiq_arm/vchiq_core.h          |  38 --
+>>   .../interface/vchiq_arm/vchiq_dev.c           |  92 ++--
+>>   7 files changed, 315 insertions(+), 410 deletions(-)
+>>
+>
 
