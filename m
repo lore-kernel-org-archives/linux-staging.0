@@ -1,93 +1,266 @@
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BB5A1A71F
-	for <linux-staging@lists.linux.dev>; Wed,  6 Dec 2023 09:54:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="dRfWsOoD"
-Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-3316d09c645so547658f8f.0
-        for <linux-staging@lists.linux.dev>; Wed, 06 Dec 2023 01:54:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1701856494; x=1702461294; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=aTCNtdrnCjRUY4nx+WfhitLfkIdEU+u5rOlYMuK6fK8=;
-        b=dRfWsOoDW7rpMLCTyIwjEkbUoYiEfU9BaqejL/coKmvg8u58LAC+yW9MwB1jti0A3p
-         FLqaWGB0P7eoVdjntmV10dZ7tVURTkMHrYn48s/sH3UdOfIIwXp/fZ39wE9m7C9UfMjJ
-         Wpf3wFtAol6myDBVYfXTHa/r8Eu+ZWotOI4Qck0Z6cBPvuuJ7yF0NzATLaVPsIClRgYm
-         g2JQXTLiXJgCarb91TcOn+0MKilLGpkM6/StktlPGCuqO7KcPxUNl1vx/+n0HeLDOr7C
-         +teGaVRpXDbXYckSYF/ulEWo+FvYXFFujgzHkKd9vXOXMTWur1RiN+k4mSekYVdpDHlt
-         chuQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701856494; x=1702461294;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=aTCNtdrnCjRUY4nx+WfhitLfkIdEU+u5rOlYMuK6fK8=;
-        b=W69J2Ubp++Y8TqXXVdIoW1Gj4I1/+dbR6kQbODvcwo1rhhsmYP777UnB5i7A6LoTP4
-         kDFj5fVAXaVND/adL+9jechp85Ek/hSQ+UaCuOYj/DsjmBlv+HLvrLR6A/O8SxSmT6Hu
-         sjmzuTgtQCIHX7qtucIlRhlzTXI9HoUFm9iFUO73s2Ezyt1RoKl18hqK7KucsvEb15mJ
-         sx/ikKm+r3IV4wUAsNC7NaHmJFHcjmEXgk0MkjPkwKZj+5qIsIzrTL9CCh8v2NUefzHk
-         Tuzjili8XtHOVcwkj2/aLOqlpr2IwzAok7u8iTdRu1/PaGDLHBMJU1P7Y9kD7AS3UtU6
-         FBxw==
-X-Gm-Message-State: AOJu0Yxn55Hxln6xxYLEg4b+KuN99U4ix6SYy3Igf4qhlga3ch4ocHdu
-	WGltcSJqGYLAvz8pTgRk710uug==
-X-Google-Smtp-Source: AGHT+IEpDHw+FDWXV5qQDjf1VsIrkntIzlpWxO7g9TKHWOxe/F+ZDIhT8l5H46wJNNjZlIQhmbBNiQ==
-X-Received: by 2002:a5d:58f4:0:b0:333:2fd2:4ad4 with SMTP id f20-20020a5d58f4000000b003332fd24ad4mr290215wrd.80.1701856493874;
-        Wed, 06 Dec 2023 01:54:53 -0800 (PST)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id g7-20020a5d4887000000b003335ebde680sm2861777wrq.75.2023.12.06.01.54.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 06 Dec 2023 01:54:53 -0800 (PST)
-Date: Wed, 6 Dec 2023 12:54:44 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Cc: hverkuil@xs4all.nl, mchehab@kernel.org, tfiga@chromium.org,
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev, kernel@collabora.com
-Subject: Re: [PATCH v3 1/2] videobuf2: core: Rename min_buffers_needed field
- to vb2_queue
-Message-ID: <a2011bd9-8d1d-486d-8a54-794193dc99ec@suswa.mountain>
-References: <20231206085608.33246-1-benjamin.gaignard@collabora.com>
- <20231206085608.33246-2-benjamin.gaignard@collabora.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 382C634CE0
+	for <linux-staging@lists.linux.dev>; Wed,  6 Dec 2023 11:48:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1rAqOB-0006Og-RK; Wed, 06 Dec 2023 12:48:27 +0100
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1rAqOB-00Dwty-Dw; Wed, 06 Dec 2023 12:48:27 +0100
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1rAqOB-00FQzA-4t; Wed, 06 Dec 2023 12:48:27 +0100
+From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To: Thierry Reding <thierry.reding@gmail.com>
+Cc: kernel@pengutronix.de,
+	Johan Hovold <johan@kernel.org>,
+	Alex Elder <elder@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	greybus-dev@lists.linaro.org,
+	linux-staging@lists.linux.dev,
+	linux-pwm@vger.kernel.org
+Subject: [PATCH v4 041/115] staging: greybus: pwm: Make use of pwmchip_parent() macro
+Date: Wed,  6 Dec 2023 12:43:55 +0100
+Message-ID:  <357f5a44c5cf227c25ce554de94d662548b4e5d0.1701860672.git.u.kleine-koenig@pengutronix.de>
+X-Mailer: git-send-email 2.42.0
+In-Reply-To: <cover.1701860672.git.u.kleine-koenig@pengutronix.de>
+References: <cover.1701860672.git.u.kleine-koenig@pengutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231206085608.33246-2-benjamin.gaignard@collabora.com>
+Content-Type: text/plain; charset=UTF-8
+X-Developer-Signature: v=1; a=openpgp-sha256; l=7319; i=u.kleine-koenig@pengutronix.de; h=from:subject:message-id; bh=KXIeMZk1xhSFtkaU7U//Obbug4McXSvZcpw+xkiRoSc=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBlcF6QqMpfaCccYbOZXHc3KYiRv6vDwSlB2zYLu 3aP9EROJIeJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZXBekAAKCRCPgPtYfRL+ TjOOCACQldKFF538aX5X1L67zP+gAx4u6gb1ceblFmFx6rQerTKu3hRK4X5DKitl/sLYM0j0NGB eC/rLWU5y6RG3DpzKn7Zp5VXhS9Qrpvp1WbrUOQdiK05dg6pr8jpxLixob/ToYWn6kRJ2ZvsgZk jQHdvR3BXP9v4pRgH7r9bcIPtGcinUjVbE7AVvGceEQGVveK3HS5sZGovXykaZmHdho4ZMZZezW 1KksTYM6eGh8A0QoVqEx6hrZx1qKH1pWmAtsILfaCX7v9uVIZSZC7aFvciv0ujqP6W02sO4yJaS V38UXRsHp85nljqFb3b7k5//HlMzkZ9GoGudz4Hk0YCQg90K
+X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-staging@lists.linux.dev
 
-On Wed, Dec 06, 2023 at 09:56:07AM +0100, Benjamin Gaignard wrote:
-> Rename min_buffers_needed into min_queued_buffers and update
-> the documentation about it.
-> 
-> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+struct pwm_chip::dev is about to change. To not have to touch this
+driver in the same commit as struct pwm_chip::dev, use the macro
+provided for exactly this purpose.
 
-[ snip ]
+Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
+---
+ drivers/staging/greybus/pwm.c | 55 +++++++++++++++++------------------
+ 1 file changed, 26 insertions(+), 29 deletions(-)
 
-> diff --git a/drivers/media/pci/zoran/zoran_driver.c b/drivers/media/pci/zoran/zoran_driver.c
-> index fa672cc8bc67..2c91f75e8d79 100644
-> --- a/drivers/media/pci/zoran/zoran_driver.c
-> +++ b/drivers/media/pci/zoran/zoran_driver.c
-> @@ -749,9 +749,6 @@ static int zr_vb2_queue_setup(struct vb2_queue *vq, unsigned int *nbuffers, unsi
->  
->  	zr->buf_in_reserve = 0;
->  
-> -	if (*nbuffers < vq->min_buffers_needed)
-> -		*nbuffers = vq->min_buffers_needed;
-> -
->  	if (*nplanes) {
->  		if (sizes[0] < size)
->  			return -EINVAL;
-
-This was not mentioned in the commit message.  And anyway, please do
-that as a separate commit.
-
-regards,
-dan carpenter
+diff --git a/drivers/staging/greybus/pwm.c b/drivers/staging/greybus/pwm.c
+index a3cb68cfa0f9..75e0518791d8 100644
+--- a/drivers/staging/greybus/pwm.c
++++ b/drivers/staging/greybus/pwm.c
+@@ -17,7 +17,6 @@
+ struct gb_pwm_chip {
+ 	struct gb_connection	*connection;
+ 	u8			pwm_max;	/* max pwm number */
+-
+ 	struct pwm_chip		chip;
+ };
+ 
+@@ -39,9 +38,9 @@ static int gb_pwm_count_operation(struct gb_pwm_chip *pwmc)
+ 	return 0;
+ }
+ 
+-static int gb_pwm_activate_operation(struct gb_pwm_chip *pwmc,
+-				     u8 which)
++static int gb_pwm_activate_operation(struct pwm_chip *chip, u8 which)
+ {
++	struct gb_pwm_chip *pwmc = pwm_chip_to_gb_pwm_chip(chip);
+ 	struct gb_pwm_activate_request request;
+ 	struct gbphy_device *gbphy_dev;
+ 	int ret;
+@@ -51,7 +50,7 @@ static int gb_pwm_activate_operation(struct gb_pwm_chip *pwmc,
+ 
+ 	request.which = which;
+ 
+-	gbphy_dev = to_gbphy_dev(pwmc->chip.dev);
++	gbphy_dev = to_gbphy_dev(pwmchip_parent(chip));
+ 	ret = gbphy_runtime_get_sync(gbphy_dev);
+ 	if (ret)
+ 		return ret;
+@@ -64,9 +63,10 @@ static int gb_pwm_activate_operation(struct gb_pwm_chip *pwmc,
+ 	return ret;
+ }
+ 
+-static int gb_pwm_deactivate_operation(struct gb_pwm_chip *pwmc,
++static int gb_pwm_deactivate_operation(struct pwm_chip *chip,
+ 				       u8 which)
+ {
++	struct gb_pwm_chip *pwmc = pwm_chip_to_gb_pwm_chip(chip);
+ 	struct gb_pwm_deactivate_request request;
+ 	struct gbphy_device *gbphy_dev;
+ 	int ret;
+@@ -76,7 +76,7 @@ static int gb_pwm_deactivate_operation(struct gb_pwm_chip *pwmc,
+ 
+ 	request.which = which;
+ 
+-	gbphy_dev = to_gbphy_dev(pwmc->chip.dev);
++	gbphy_dev = to_gbphy_dev(pwmchip_parent(chip));
+ 	ret = gbphy_runtime_get_sync(gbphy_dev);
+ 	if (ret)
+ 		return ret;
+@@ -89,9 +89,10 @@ static int gb_pwm_deactivate_operation(struct gb_pwm_chip *pwmc,
+ 	return ret;
+ }
+ 
+-static int gb_pwm_config_operation(struct gb_pwm_chip *pwmc,
++static int gb_pwm_config_operation(struct pwm_chip *chip,
+ 				   u8 which, u32 duty, u32 period)
+ {
++	struct gb_pwm_chip *pwmc = pwm_chip_to_gb_pwm_chip(chip);
+ 	struct gb_pwm_config_request request;
+ 	struct gbphy_device *gbphy_dev;
+ 	int ret;
+@@ -103,7 +104,7 @@ static int gb_pwm_config_operation(struct gb_pwm_chip *pwmc,
+ 	request.duty = cpu_to_le32(duty);
+ 	request.period = cpu_to_le32(period);
+ 
+-	gbphy_dev = to_gbphy_dev(pwmc->chip.dev);
++	gbphy_dev = to_gbphy_dev(pwmchip_parent(chip));
+ 	ret = gbphy_runtime_get_sync(gbphy_dev);
+ 	if (ret)
+ 		return ret;
+@@ -116,9 +117,10 @@ static int gb_pwm_config_operation(struct gb_pwm_chip *pwmc,
+ 	return ret;
+ }
+ 
+-static int gb_pwm_set_polarity_operation(struct gb_pwm_chip *pwmc,
++static int gb_pwm_set_polarity_operation(struct pwm_chip *chip,
+ 					 u8 which, u8 polarity)
+ {
++	struct gb_pwm_chip *pwmc = pwm_chip_to_gb_pwm_chip(chip);
+ 	struct gb_pwm_polarity_request request;
+ 	struct gbphy_device *gbphy_dev;
+ 	int ret;
+@@ -129,7 +131,7 @@ static int gb_pwm_set_polarity_operation(struct gb_pwm_chip *pwmc,
+ 	request.which = which;
+ 	request.polarity = polarity;
+ 
+-	gbphy_dev = to_gbphy_dev(pwmc->chip.dev);
++	gbphy_dev = to_gbphy_dev(pwmchip_parent(chip));
+ 	ret = gbphy_runtime_get_sync(gbphy_dev);
+ 	if (ret)
+ 		return ret;
+@@ -142,9 +144,9 @@ static int gb_pwm_set_polarity_operation(struct gb_pwm_chip *pwmc,
+ 	return ret;
+ }
+ 
+-static int gb_pwm_enable_operation(struct gb_pwm_chip *pwmc,
+-				   u8 which)
++static int gb_pwm_enable_operation(struct pwm_chip *chip, u8 which)
+ {
++	struct gb_pwm_chip *pwmc = pwm_chip_to_gb_pwm_chip(chip);
+ 	struct gb_pwm_enable_request request;
+ 	struct gbphy_device *gbphy_dev;
+ 	int ret;
+@@ -154,7 +156,7 @@ static int gb_pwm_enable_operation(struct gb_pwm_chip *pwmc,
+ 
+ 	request.which = which;
+ 
+-	gbphy_dev = to_gbphy_dev(pwmc->chip.dev);
++	gbphy_dev = to_gbphy_dev(pwmchip_parent(chip));
+ 	ret = gbphy_runtime_get_sync(gbphy_dev);
+ 	if (ret)
+ 		return ret;
+@@ -167,9 +169,9 @@ static int gb_pwm_enable_operation(struct gb_pwm_chip *pwmc,
+ 	return ret;
+ }
+ 
+-static int gb_pwm_disable_operation(struct gb_pwm_chip *pwmc,
+-				    u8 which)
++static int gb_pwm_disable_operation(struct pwm_chip *chip, u8 which)
+ {
++	struct gb_pwm_chip *pwmc = pwm_chip_to_gb_pwm_chip(chip);
+ 	struct gb_pwm_disable_request request;
+ 	struct gbphy_device *gbphy_dev;
+ 	int ret;
+@@ -182,7 +184,7 @@ static int gb_pwm_disable_operation(struct gb_pwm_chip *pwmc,
+ 	ret = gb_operation_sync(pwmc->connection, GB_PWM_TYPE_DISABLE,
+ 				&request, sizeof(request), NULL, 0);
+ 
+-	gbphy_dev = to_gbphy_dev(pwmc->chip.dev);
++	gbphy_dev = to_gbphy_dev(pwmchip_parent(chip));
+ 	gbphy_runtime_put_autosuspend(gbphy_dev);
+ 
+ 	return ret;
+@@ -190,19 +192,15 @@ static int gb_pwm_disable_operation(struct gb_pwm_chip *pwmc,
+ 
+ static int gb_pwm_request(struct pwm_chip *chip, struct pwm_device *pwm)
+ {
+-	struct gb_pwm_chip *pwmc = pwm_chip_to_gb_pwm_chip(chip);
+-
+-	return gb_pwm_activate_operation(pwmc, pwm->hwpwm);
++	return gb_pwm_activate_operation(chip, pwm->hwpwm);
+ };
+ 
+ static void gb_pwm_free(struct pwm_chip *chip, struct pwm_device *pwm)
+ {
+-	struct gb_pwm_chip *pwmc = pwm_chip_to_gb_pwm_chip(chip);
+-
+ 	if (pwm_is_enabled(pwm))
+-		dev_warn(chip->dev, "freeing PWM device without disabling\n");
++		dev_warn(pwmchip_parent(chip), "freeing PWM device without disabling\n");
+ 
+-	gb_pwm_deactivate_operation(pwmc, pwm->hwpwm);
++	gb_pwm_deactivate_operation(chip, pwm->hwpwm);
+ }
+ 
+ static int gb_pwm_apply(struct pwm_chip *chip, struct pwm_device *pwm,
+@@ -212,22 +210,21 @@ static int gb_pwm_apply(struct pwm_chip *chip, struct pwm_device *pwm,
+ 	bool enabled = pwm->state.enabled;
+ 	u64 period = state->period;
+ 	u64 duty_cycle = state->duty_cycle;
+-	struct gb_pwm_chip *pwmc = pwm_chip_to_gb_pwm_chip(chip);
+ 
+ 	/* Set polarity */
+ 	if (state->polarity != pwm->state.polarity) {
+ 		if (enabled) {
+-			gb_pwm_disable_operation(pwmc, pwm->hwpwm);
++			gb_pwm_disable_operation(chip, pwm->hwpwm);
+ 			enabled = false;
+ 		}
+-		err = gb_pwm_set_polarity_operation(pwmc, pwm->hwpwm, state->polarity);
++		err = gb_pwm_set_polarity_operation(chip, pwm->hwpwm, state->polarity);
+ 		if (err)
+ 			return err;
+ 	}
+ 
+ 	if (!state->enabled) {
+ 		if (enabled)
+-			gb_pwm_disable_operation(pwmc, pwm->hwpwm);
++			gb_pwm_disable_operation(chip, pwm->hwpwm);
+ 		return 0;
+ 	}
+ 
+@@ -243,13 +240,13 @@ static int gb_pwm_apply(struct pwm_chip *chip, struct pwm_device *pwm,
+ 	if (duty_cycle > period)
+ 		duty_cycle = period;
+ 
+-	err = gb_pwm_config_operation(pwmc, pwm->hwpwm, duty_cycle, period);
++	err = gb_pwm_config_operation(chip, pwm->hwpwm, duty_cycle, period);
+ 	if (err)
+ 		return err;
+ 
+ 	/* enable/disable */
+ 	if (!enabled)
+-		return gb_pwm_enable_operation(pwmc, pwm->hwpwm);
++		return gb_pwm_enable_operation(chip, pwm->hwpwm);
+ 
+ 	return 0;
+ }
+-- 
+2.42.0
 
