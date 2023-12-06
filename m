@@ -1,31 +1,29 @@
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+Received: from mout.gmx.net (mout.gmx.net [212.227.17.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6561B34556
-	for <linux-staging@lists.linux.dev>; Wed,  6 Dec 2023 11:59:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7BE070963
+	for <linux-staging@lists.linux.dev>; Wed,  6 Dec 2023 21:34:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="YWeG38iv"
-Received: from [100.122.216.38] (ec2-34-240-57-77.eu-west-1.compute.amazonaws.com [34.240.57.77])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: benjamin.gaignard)
-	by madras.collabora.co.uk (Postfix) with ESMTPSA id 166CD6607365;
-	Wed,  6 Dec 2023 11:59:27 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1701863967;
-	bh=NQVRc6GiFEVTdKMxJaUtDzeg9fI0AYeC0jB8pgFpeUw=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=YWeG38ivXhQAXgqNhclFEjHJTFB+oP5vWkd1sKkLh0un3upmJX4Oiil5sHcYDYnVz
-	 HG3jXdqC1s67QcP8DLBd8wZrzwuqrybVTMdE4s5DEucJ0NiZxpDI3n0ChYOz0cxzWX
-	 GAOXcwFHwzW+ZM+J+ddpOYf/rVfs+J/kVzBI6m6kGvtOuv8EH/oj5TCXGgCZ9SAA8D
-	 FLze+zn4clZOOlxuTtb64Zk2826QeW2oFIhuv9QhtU2h8Ep8iEEnPXuDcxTXcbjISk
-	 s3JqoXrTsTQb2OEreh0iaT+wKxA7j9cr2QT6Nn9koR501kZiOZUWXN+Um0GljfjfIP
-	 YjMzlKRPzT6mg==
-Message-ID: <34558f91-4253-4a1f-997c-1c8b02786fcb@collabora.com>
-Date: Wed, 6 Dec 2023 12:59:24 +0100
+	dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.b="EvIwKEfX"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+	s=s31663417; t=1701898475; x=1702503275; i=wahrenst@gmx.net;
+	bh=dtsSHpdTpI7NsjyKdbgYipt6z6Sb6wAgMtB7ImbZGNA=;
+	h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:
+	 In-Reply-To;
+	b=EvIwKEfXUQnzXxzdMwXhoK0XN4Tc5XVbiDwG+vlccqqxjpyFNy0jD3NujRdYVoH5
+	 cNQ5kwgJfOX7OsKNJEC7h/L1o2W+90u7Rz7Jtc4aGGfwHguv83NSID7xILtvUVhNj
+	 dlvmYd3wj4VNTwisKqEW3WgJc186UOWGxG4Ut+KmGpPdI6yRw5e6BBA+W+PT80U3i
+	 AuSexdzdIOZD93LnnogRDKXHa+V4M/myiUrK6tVk9gjZvCHxdU0nx31O1b6gML06V
+	 hRwN+CKcXZXT6koFxo7kiBqCGyJyl0GSeEZrlWFZ9M/OzGXibalMdxo5B/8S2F9KH
+	 A5s4IYEF6iha0FJWhQ==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from [192.168.1.130] ([37.4.248.43]) by mail.gmx.net (mrgmx105
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1MMXQF-1qvFwC1rtf-00Jev3; Wed, 06
+ Dec 2023 22:34:35 +0100
+Message-ID: <3920385c-3c10-471a-ba82-8e48ba34f6a5@gmx.net>
+Date: Wed, 6 Dec 2023 22:34:34 +0100
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -33,59 +31,68 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 1/2] videobuf2: core: Rename min_buffers_needed field
- to vb2_queue
-To: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: hverkuil@xs4all.nl, mchehab@kernel.org, tfiga@chromium.org,
- linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
- linux-staging@lists.linux.dev, kernel@collabora.com
-References: <20231206085608.33246-1-benjamin.gaignard@collabora.com>
- <20231206085608.33246-2-benjamin.gaignard@collabora.com>
- <a2011bd9-8d1d-486d-8a54-794193dc99ec@suswa.mountain>
+Subject: Re: [PATCH v3 1/4] staging: vc04_services: Drop vchiq_log_error() in
+ favour of dev_err
 Content-Language: en-US
-From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-In-Reply-To: <a2011bd9-8d1d-486d-8a54-794193dc99ec@suswa.mountain>
+To: Umang Jain <umang.jain@ideasonboard.com>, linux-staging@lists.linux.dev,
+ linux-rpi-kernel@lists.infradead.org, linux-media@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org
+Cc: Stefan Wahren <stefan.wahren@i2se.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Dan Carpenter <error27@gmail.com>,
+ Kieran Bingham <kieran.bingham@ideasonboard.com>,
+ "Ricardo B . Marliere" <ricardo@marliere.net>
+References: <20231205084157.73819-1-umang.jain@ideasonboard.com>
+ <20231205084157.73819-2-umang.jain@ideasonboard.com>
+ <d6bf7115-dd15-43a0-b45a-41fc778ff160@gmx.net>
+ <6a8566c0-bd26-4ec1-9f7d-d58bbed8411c@ideasonboard.com>
+From: Stefan Wahren <wahrenst@gmx.net>
+In-Reply-To: <6a8566c0-bd26-4ec1-9f7d-d58bbed8411c@ideasonboard.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:8zHe5RHs7f/HQMdgDj774+Lsqvy77xEa92roI6j6YXap/YjrwL2
+ V58g9mTiHdTtuoK9fZOJiymaQtR2LAStyFrFI3NvZ3cJEsYCkvmCsMybg1BgsFjlBW5MED+
+ aZOq/yAeGtq5YqqKUUr6iH6jBgOZIZfXBzYsAIznFYX9S+WJkVr+pwLc/Tmpz7GNcmVykn8
+ EWGX50XBw533PpVCk2QZg==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:xVy0RIwduh4=;U2ug8ifRWXwg23zxZBzzb3CuNcm
+ 9w3NntYtm8AR1o3oTwv8bBO9awVf3x+So2ctinfn0nk1bitX5eThN1IcRLdLdLuyVXLaXi1GW
+ KC7sutiFX321JXZqZuhMB0huLH6p6UP6kUSEH4kmgQQD2oFYryVCNTwTkfG/XOg5dAyz4tutR
+ BSVKWnbb5NbTJkc5f8m+6vZ32Cb9gbMS6lOugFkaE1B9wUCq1FOUV4N0GY6y2Js/C4X14eHWh
+ xfGcHp9vHBKxlONhGf/BZiWXjrViewqlgDOZVGEIUEIkPmqOZODHGIAkwgEDeRO6zB/q6pfN4
+ PfeTCDcLDQFf7pv/m1W1k0ZuXvtpeFmIeO7zywvJQ12/KK9QRx9UpMc7eUQk5OhAraj1dUcGZ
+ mkCG/47JBgkQQrrL/3iLjkCRxEsFQQVQFGtLnWDZoiJEpy0wKw44FA3mawyQTkIZXMmkBVbML
+ MIGgGXiWv638Ojd7IwkDJJFuiKyiUvzEIf1fuzIoKz8DxzxAcCw2v1UN8CmJquNE5mBIrf+kO
+ RZVrt8MEs5fmKGVoAKOlnkyEG1Ev8aaZp50dcPrR0P31laJ6KPVHxKmglkNDzLyNGDSW9DqJb
+ RznQrcjmIkiJo3pQ1B/omxKXhphczqUOH2uxK0Sc85JsJvOWhKlbFzINmAEfQaE+gwzvypu9p
+ 1cy/+o4gmtC5FNXgWzo5HjVfaB5xoV6wEu7iAw/kBl+kled1FVz4SvFdiQZhFMPPw1DQ4K6zJ
+ vW60z/HrRKUr6InSHQ+nDc2qEm5WasVFpEQEEYuwnJBj5+ykl24BCseG7JeLHoaipeuvyR6ty
+ PHd+9kz1fBlRXX4JYF0WB8RvgyXRHb0neczXvl3vvOmfO3jD5Qo/AmlXJZJtWwv9qEi8EsLNp
+ DSlsY8ekJ1CxuP+RlptvQKSdLK6o0AV/BrvFqIXSUzUwxI7XZ2WdaFLc2GeZVfEeUzaiALzze
+ FUoZG7iYOU0QJW4BRliZqIowDwk=
 
+Hi Umang,
 
-Le 06/12/2023 à 10:54, Dan Carpenter a écrit :
-> On Wed, Dec 06, 2023 at 09:56:07AM +0100, Benjamin Gaignard wrote:
->> Rename min_buffers_needed into min_queued_buffers and update
->> the documentation about it.
+Am 06.12.23 um 06:27 schrieb Umang Jain:
+> Hi Stefan
+>
+> On 12/6/23 1:02 AM, Stefan Wahren wrote:
+>> Hi Umang,
 >>
->> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-> [ snip ]
+>> Am 05.12.23 um 09:41 schrieb Umang Jain:
+>>> Drop vchiq_log_error() macro which wraps dev_dbg(). Introduce the usag=
+e
+>>> of dev_err() directly.
+>> sorry, i missed to review the last change. So the change won't be that
+>> trivial.
 >
->> diff --git a/drivers/media/pci/zoran/zoran_driver.c b/drivers/media/pci/zoran/zoran_driver.c
->> index fa672cc8bc67..2c91f75e8d79 100644
->> --- a/drivers/media/pci/zoran/zoran_driver.c
->> +++ b/drivers/media/pci/zoran/zoran_driver.c
->> @@ -749,9 +749,6 @@ static int zr_vb2_queue_setup(struct vb2_queue *vq, unsigned int *nbuffers, unsi
->>   
->>   	zr->buf_in_reserve = 0;
->>   
->> -	if (*nbuffers < vq->min_buffers_needed)
->> -		*nbuffers = vq->min_buffers_needed;
->> -
->>   	if (*nplanes) {
->>   		if (sizes[0] < size)
->>   			return -EINVAL;
-> This was not mentioned in the commit message.  And anyway, please do
-> that as a separate commit.
-
-It is a mistake, I don't want to change the drivers code.
-I will restore these lines in next version.
-
-Same for vdec driver below.
-
-Regards,
-Benjamin
-
+> All the changes you said are valid and I have taken a note of it.
 >
-> regards,
-> dan carpenter
->
-> _______________________________________________
-> Kernel mailing list -- kernel@mailman.collabora.com
-> To unsubscribe send an email to kernel-leave@mailman.collabora.com
+> However, I think it would best that if we can address them in a
+> separate series on top of this (and I will do it). It would seem to be
+> streamlined on top of this.
+i would address the comments as separate patches and then finally
+convert the trivial rest with such a patch within one series. This
+avoids unnecessary changes and reviewes. But that's just my opinion.
+
+Best regards
