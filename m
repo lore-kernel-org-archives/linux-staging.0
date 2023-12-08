@@ -1,105 +1,106 @@
-Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
+Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9D053B286
-	for <linux-staging@lists.linux.dev>; Fri,  8 Dec 2023 17:49:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15E3A47A43
+	for <linux-staging@lists.linux.dev>; Fri,  8 Dec 2023 18:19:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VSEqDXna"
-Received: by mail-ed1-f42.google.com with SMTP id 4fb4d7f45d1cf-54cbabf4bceso615852a12.0
-        for <linux-staging@lists.linux.dev>; Fri, 08 Dec 2023 09:49:41 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MuGu9BOj"
+Received: by mail-ed1-f50.google.com with SMTP id 4fb4d7f45d1cf-54cea1f30cbso616715a12.1
+        for <linux-staging@lists.linux.dev>; Fri, 08 Dec 2023 10:19:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1702057780; x=1702662580; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
+        d=gmail.com; s=20230601; t=1702059565; x=1702664365; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:to:from:date
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=8gf91RaT4psSnTjQOvkHoL2IZEpgv+zezQV3dSOeHfM=;
-        b=VSEqDXnabe6w/ZR9MB2c1DGXFcT97jA+VIt/6075tGmT9xviErjrgUQz2YWIlLUWUK
-         0iSPB3G82QhGWYm9nFqiK1RoXN0E8QupqUVjFp+fLJu8KG/mElr84nG07ZTy/ofEu6gP
-         8wZYbICdrwaicFwuu3Je1XkuHVkphOLFrHp/PSQskm1j9gkV/VfhiQ47DWNr5QuwXWf0
-         diJmpif5VxSx61h19B6/WKWYtsb/nZSX4dDpyNJ0cURsmGp7jUKpvLfxyADxa3841VOM
-         ZyGIk27tVaMw2yieSOVE+3p9YOp/lynkpWkmB4yq2GV6T6a/6R6nMfp8I3hlc7KEmTtK
-         4qbg==
+        bh=/+e2GMm4IxE2ZPhAT3rwUK0y+pX6drbXEPnTu9WgFI0=;
+        b=MuGu9BOjRxJJ1RL/2xSZuHVpv8INrn3TOm34H4aZKVRVUUZEzMRKivS5C74yCPv2s8
+         7q9Y8A755AANVerEbsTmPbYwR0HI8ifc/+AK5KdGcPz1L4edju52Gthclb2qqdeWGdqH
+         jsoGOQdznzlN2B2QTL6Z0K7SgV64BDrMWg10JmGuBXilouv8cFYQA8RqJxp97WGIqE1F
+         jKSatJxQMGklR6oVblG+3Sbc1gLAXqdm4JSGufU20Q/46t2GYNmqT88HFFMZIcMljIEy
+         aDWEwUaKTBV8Ryx0lvKQHxtelkQ/u8A/9o/NPCiV8/UgdKpO/d5ALH3fOq7i0mJJAi0+
+         qXSA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702057780; x=1702662580;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
+        d=1e100.net; s=20230601; t=1702059565; x=1702664365;
+        h=content-disposition:mime-version:message-id:subject:to:from:date
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=8gf91RaT4psSnTjQOvkHoL2IZEpgv+zezQV3dSOeHfM=;
-        b=KIA9MZ1BPPg5U2PTPL89xIVlkT2CZ3E+6sJ4lSDOeUqtn+XXcEBRYEjMA/eDf3nv3j
-         rZc46D/Q/zWu57/F2aG62qDa/ORBHXPynDXIT5JzpWYazbDRUp8v0jAgbnzxYmgg5l0d
-         Jfd7Lp+0mYbYbdPZ+a2ykT6DMoBtO87uTVz+YWpyify6uL17c9ODifXZHrCzW1lQo7zX
-         nRfj/3RaxXp42OZW7rUfLfQt0FCmiIHWN13M3Su3Z7DQFcgvZ4EX1t0HZNbIYWKOuNAS
-         603cqNkMqQCtOSLKTMK6Qv9hdJ5hCuX0kNREYdA1H2vW6oh86wiXxphX7wgKc2fu95wI
-         pT0g==
-X-Gm-Message-State: AOJu0YzVe5YBuJHLHMtHnDDUPXRj2NxmQXYE/eZ/nd/CnH4x3GfWqwdX
-	HSq4L4BuEWmEuPwttOJlvjY=
-X-Google-Smtp-Source: AGHT+IHp1bqbIduEvqo5uZujud1Xq8U3dFm2yrl/TdI4//NFcvUqeh5moXJ3Rp5abHwycc1GgkYtdQ==
-X-Received: by 2002:a50:d5dc:0:b0:54c:e90f:2c33 with SMTP id g28-20020a50d5dc000000b0054ce90f2c33mr676889edj.1.1702057779964;
-        Fri, 08 Dec 2023 09:49:39 -0800 (PST)
-Received: from [192.168.0.104] (p54a07fa0.dip0.t-ipconnect.de. [84.160.127.160])
-        by smtp.gmail.com with ESMTPSA id 28-20020a508e5c000000b0054b686e5b3bsm993617edx.68.2023.12.08.09.49.39
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 08 Dec 2023 09:49:39 -0800 (PST)
-Message-ID: <493fe783-46b3-4da7-b0d9-01425e6adf2a@gmail.com>
-Date: Fri, 8 Dec 2023 18:49:38 +0100
+        bh=/+e2GMm4IxE2ZPhAT3rwUK0y+pX6drbXEPnTu9WgFI0=;
+        b=jHu6dOF4s1rfUHtJTwCkpuW1MjeTDiwtErUb8wO0d+gEGgp9uKkr1RSWGRTscDZJeN
+         A8nSU6xSaGY97YKCIDdQSc4x1Pu3V3ZdK+FT1bVM4D6FsPqQCwAYMa3mpJ6I6GgNsMOs
+         U9LfSffcor/nfYtjNSspR9SwjdgZ6LgX3hks6fnDbKjgED9e3ztt1OMzVpSGo9cAm61j
+         zCOupvo6DQNzsRuCb+3cQiqX5zIYDhotJ21HmTvHy86AL8soDDROj4Y30wXKYbl2AFac
+         tYyqApYbS8SpBzY79017OswEbrHHxXNCd0cgi/8KpS4GLNeeQPYIb+9SnI2S5HXWTL1L
+         bdWw==
+X-Gm-Message-State: AOJu0YzrMut/UidQ0qOaDOHh1moiPtEeA9ohGWhJ5qpeUVHgLCo2pwR9
+	Bk2/nnZeq7E92SteYk4TGKY=
+X-Google-Smtp-Source: AGHT+IHSHhKdNhaPS3KTBL1ZnE1s7W/L7jwh/CBnt54AmVGKgSBxevLAmAfH0JXel/VQQsT5N6f3Lw==
+X-Received: by 2002:a17:906:ba86:b0:9f2:3e76:5d39 with SMTP id cu6-20020a170906ba8600b009f23e765d39mr513767ejd.0.1702059565189;
+        Fri, 08 Dec 2023 10:19:25 -0800 (PST)
+Received: from matrix-ESPRIMO-P710 (p54a07fa0.dip0.t-ipconnect.de. [84.160.127.160])
+        by smtp.gmail.com with ESMTPSA id o20-20020a17090611d400b00a0d02cfa48bsm1277795eja.213.2023.12.08.10.19.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 08 Dec 2023 10:19:24 -0800 (PST)
+Date: Fri, 8 Dec 2023 19:19:23 +0100
+From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: [PATCH 0/5] staging: rtl8192e: Remove c files dot11d.c/.h
+Message-ID: <cover.1701989555.git.philipp.g.hortmann@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/5] staging: rtl8192e: patch series renames (5) different
- variables
-To: Gary Rookard <garyrookard@fastmail.org>, gregkh@linuxfoundation.org
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-References: <20231208015536.21013-1-garyrookard@fastmail.org>
-Content-Language: en-US
-From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-In-Reply-To: <20231208015536.21013-1-garyrookard@fastmail.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On 12/8/23 02:55, Gary Rookard wrote:
-> Hi,
-> 
-> This patch series renames 5 different variables with the checkpatch
-> coding style issue, Avoid CamelCase.
-> 
-> Patch 1/5) renamed variable bCurShortGI40MHz
-> Patch 2/5) renamed variable bcurShortGI20MHz
-> Patch 3/5) renamed variable CCKOFDMRate
-> Patch 4/5) renamed variable HTIOTActIsCCDFsync
-> Patch 5/5) renamed variable IOTPeer
-> 
-> Signed-off-by: Gary Rookard <garyrookard@fastmail.org>
-> 
-> 
-> Gary Rookard (5):
->    staging: rtl8192e: renamed variable bCurShortGI40MHz
->    staging: rtl8192e: renamed variable bCurShortGI20MHz
->    staging: rtl8192e: renamed variable CCKOFDMRate
->    staging: rtl8192e: renamed variable HTIOTActIsCCDFsync
->    staging: rtl8192e: renamed variable IOTPeer
-> 
->   .../staging/rtl8192e/rtl8192e/r8192E_dev.c    |  4 +-
->   drivers/staging/rtl8192e/rtl8192e/rtl_dm.c    | 22 +++----
->   drivers/staging/rtl8192e/rtl819x_HT.h         |  6 +-
->   drivers/staging/rtl8192e/rtl819x_HTProc.c     | 58 +++++++++----------
->   drivers/staging/rtl8192e/rtllib_tx.c          |  4 +-
->   5 files changed, 47 insertions(+), 47 deletions(-)
-> 
+Remove function rtllib_update_active_chan_map() as "active_channel_map"
+and "channel_map" have the same content. Content of "channel_map" does
+not change.
 
+Tested with rtl8192e (WLL6130-D99) in Mode n (12.5 MB/s)
+Transferred this patch over wlan connection of rtl8192e.
 
-Please use present-tense as outlined here:
-https://kernelnewbies.org/PatchPhilosophy
-So rename instead of renamed
+Used the following code for testing:
+struct rt_dot11d_info *ph = priv->rtllib->dot11d_info;
+for (i = 1; i <= 13; i++){
+	printk("priv->rtllib->active_channel_map)  [%d] %d\n", i, priv->rtllib->active_channel_map[i]);
+	printk("priv->rtllib->dot11d_info->chan_map[%d] %d\n", i, ph->channel_map[i]);
+}
+Log:
+[ 1141.288386] priv->rtllib->active_channel_map)  [1] 1
+[ 1141.288393] priv->rtllib->dot11d_info->chan_map[1] 1
+[ 1141.288395] priv->rtllib->active_channel_map)  [2] 1
+[ 1141.288396] priv->rtllib->dot11d_info->chan_map[2] 1
+...
+[ 1141.288426] priv->rtllib->active_channel_map)  [11] 1
+[ 1141.288428] priv->rtllib->dot11d_info->chan_map[11] 1
+[ 1141.288429] priv->rtllib->active_channel_map)  [12] 2
+[ 1141.288431] priv->rtllib->dot11d_info->chan_map[12] 2
+[ 1141.288433] priv->rtllib->active_channel_map)  [13] 2
+[ 1141.288434] priv->rtllib->dot11d_info->chan_map[13] 2
 
-Please use a more unique Subject for your coverletter.
-It often cannot cover everything. But more unique is better.
+Philipp Hortmann (5):
+  staging: rtl8192e: Remove function rtllib_update_active_chan_map()
+  staging: rtl8192e: Remove variable channel_map
+  staging: rtl8192e: Remove variable dot11d_info
+  staging: rtl8192e: Remove function dot11d_channel_map()
+  staging: rtl8192e: Remove files dot11d.c and dot11d.h
 
+ drivers/staging/rtl8192e/Makefile            |  1 -
+ drivers/staging/rtl8192e/dot11d.c            | 29 -------------------
+ drivers/staging/rtl8192e/dot11d.h            | 30 --------------------
+ drivers/staging/rtl8192e/rtl8192e/rtl_core.c |  1 -
+ drivers/staging/rtl8192e/rtl8192e/rtl_core.h |  2 --
+ drivers/staging/rtl8192e/rtllib.h            |  1 -
+ drivers/staging/rtl8192e/rtllib_rx.c         |  1 -
+ drivers/staging/rtl8192e/rtllib_softmac.c    | 19 -------------
+ drivers/staging/rtl8192e/rtllib_softmac_wx.c |  1 -
+ 9 files changed, 85 deletions(-)
+ delete mode 100644 drivers/staging/rtl8192e/dot11d.c
+ delete mode 100644 drivers/staging/rtl8192e/dot11d.h
 
+-- 
+2.43.0
 
-Tested-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
