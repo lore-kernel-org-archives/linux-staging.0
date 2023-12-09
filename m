@@ -1,29 +1,49 @@
-Received: from mout.gmx.net (mout.gmx.net [212.227.15.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72BF679EB
-	for <linux-staging@lists.linux.dev>; Sat,  9 Dec 2023 09:33:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8A1D1427A
+	for <linux-staging@lists.linux.dev>; Sat,  9 Dec 2023 17:16:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.b="Xtplaw2D"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
-	s=s31663417; t=1702114402; x=1702719202; i=wahrenst@gmx.net;
-	bh=XMs3lW0NBWXqZmdKm4s2jgBdjD6wAB7lt+5QuwBbU/c=;
-	h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:
-	 In-Reply-To;
-	b=Xtplaw2DRn1eb43UgmBs0bhxUI1SgpFdclDAOE4nZjCUBLIHDM61pC/ZCG0uSUoH
-	 7OMF/+CiV47U/JDYCkNdhRirK8H7HUKvJaNCvWXhtghqH5NMfVwErnp3GMU7Vp1Ux
-	 qzPKkhUBAh6FU9NnSKe6KYpfAoThb3X40e8P3cyDII6jxmwO4ocsi/SzyHjrhN76O
-	 uaZljErwH/CqaiqQR3xgtrIUYJsys0Bd5dpB+w7YzajiFtbFhtP+KsqIR2+Dm5l9W
-	 tnUFXk+Bd5Iy9pvX+hIYNrGuLsCif79b0ManTLYwHytaSIWXq6qwb9Stczgc2PngI
-	 Nj2f4aOI9tNaftiDyg==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from [192.168.1.130] ([37.4.248.43]) by mail.gmx.net (mrgmx004
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1MBUqL-1r4zoj2pQd-00D1tC; Sat, 09
- Dec 2023 10:33:22 +0100
-Message-ID: <1adbbd28-bdd0-4c65-bc59-fc0b8d6d034a@gmx.net>
-Date: Sat, 9 Dec 2023 10:33:21 +0100
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iB0XeusZ"
+Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-a1c6dad2dd0so91332566b.1
+        for <linux-staging@lists.linux.dev>; Sat, 09 Dec 2023 09:16:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1702142217; x=1702747017; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=C0iaRScDWRdOL6VuGlkfkdUquvKPIfgyBFrg9jM7oZI=;
+        b=iB0XeusZAj09zHeb+y0lXZ2ycjSkpIgzpl9hAiVcgxY2gGJaBhsB4h3zDXeWWveGPt
+         AzTnqHCwelFnyWzIbxODOlrjzo1xhz59k/YwSczJG+wsEP7jkJ5kBpTk2pr1/VYx7QwR
+         2ZAR77rH8uAtqXJGoIV1pGlSKgFRaJXveJBGNQcrepMMTapq0m9/EVrr9P6SNrT0LZAN
+         7DK840x0MmMwdHiMtvpgLtlV1yFdSvi0EtxG5C7oO7cNxkpSghC+C/J4Wrg7ILQYOUHY
+         7Fg/BLr+K4VBPjfl6QAebOXzMGl27YmKif8e3DcwyexbomF1//c4DIGlJ69V9/aKO8/P
+         rd2w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1702142217; x=1702747017;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=C0iaRScDWRdOL6VuGlkfkdUquvKPIfgyBFrg9jM7oZI=;
+        b=M90Am/WdOQ4tWqmVdUH0wzkaptdy0Bh8UeR+BSJtzFUglA4zLrYjKaisEFtGRt6+Qg
+         EaN4uXffZk+afEwXy08xYyOOYXcUnZzG4TZ98CpZGBZiZ5VANQlFiMTxdlXMGhFipuYi
+         /3ykxQB/XUb4ob0CF9SCmKEk68MjaGKWM0lybvxkTpwykEgadWUGi2K4YbBdV9xaFvfQ
+         0RTl8mm73dithxZHqe3k9Yc+qfpnI/eijVyV1O56ezu1AC3HpkpMeyuZH5oLzAWw8+lU
+         1mcauPquk97Bczu0W6rhoIKEivZ3c/oUCeqCRiNggsFbHfNwtuzqx4qbIFjleqj5OfOa
+         DYQw==
+X-Gm-Message-State: AOJu0YzY4tXIouOvyE24fnLhAhY/QmCo0zPz7rv8nHpQKfTXKFVBxvtl
+	e3aH6iMXHcQTqCZJl43ZdWU=
+X-Google-Smtp-Source: AGHT+IGlgbz4xf/enP2HGJJ/RAHMI8BHNFqCOz1xUlkE4B63mvlzDQdOytvAIjDjQJLY29LgIloX0g==
+X-Received: by 2002:a17:907:c207:b0:a18:96e3:ae2a with SMTP id ti7-20020a170907c20700b00a1896e3ae2amr1913831ejc.5.1702142216961;
+        Sat, 09 Dec 2023 09:16:56 -0800 (PST)
+Received: from [192.168.0.103] (p54a07fa0.dip0.t-ipconnect.de. [84.160.127.160])
+        by smtp.gmail.com with ESMTPSA id vc11-20020a170907d08b00b00a1ce58e9fc7sm2415251ejc.64.2023.12.09.09.16.56
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 09 Dec 2023 09:16:56 -0800 (PST)
+Message-ID: <fec3284b-ee1d-4c53-8f01-76ab209584b8@gmail.com>
+Date: Sat, 9 Dec 2023 18:16:55 +0100
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -31,89 +51,83 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 3/4] staging: vc04_services: Drop vchiq_log_trace() in
- favour of dev_dbg
+Subject: Re: [PATCH 0/5] staging: rtl8192e: patch series renames (5) different
+ variables
 Content-Language: en-US
-To: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: Umang Jain <umang.jain@ideasonboard.com>, linux-staging@lists.linux.dev,
- linux-rpi-kernel@lists.infradead.org, linux-media@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, Stefan Wahren
- <stefan.wahren@i2se.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Dan Carpenter <error27@gmail.com>,
- Kieran Bingham <kieran.bingham@ideasonboard.com>,
- "Ricardo B . Marliere" <ricardo@marliere.net>
-References: <20231205084157.73819-1-umang.jain@ideasonboard.com>
- <20231205084157.73819-4-umang.jain@ideasonboard.com>
- <46e42bbf-e99b-4e61-a207-35e150fe4fd2@gmx.net>
- <1883402c-edad-48b7-9081-32ec3538667b@suswa.mountain>
-From: Stefan Wahren <wahrenst@gmx.net>
-In-Reply-To: <1883402c-edad-48b7-9081-32ec3538667b@suswa.mountain>
+To: Gary Rookard <garyrookard@fastmail.org>
+Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+References: <20231208015536.21013-1-garyrookard@fastmail.org>
+ <493fe783-46b3-4da7-b0d9-01425e6adf2a@gmail.com>
+ <87y1e4dy2g.fsf@fastmail.org>
+From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+In-Reply-To: <87y1e4dy2g.fsf@fastmail.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:qb0a7K/bwRDQ65WdB1fw1eptivNDGViaAwPZR1DbMOSjXe7liUG
- rAMAGZab7AQl7CafTFUhBjSLCYFdv+2Kz+AB/Zs+vi2dDMS8WvtfT6EyPhyPF9isvVLzqLZ
- /j+vyhuToQOStJTzIwFg1gAnLM3HfEAQNeNvig1Vf4QAdEzhKBtqvQzNvK2HAk38I+XGstH
- fwnupBduSOhD44sBa6C0A==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:R6bXRr6+8CI=;AFPboodsA6U5QZ7dNAdJ/u1i3qB
- 5i0VSbmw5fl9m0rPemFqPedFHBt7hHcrqpb2tUzrMeKzcrWvVykJ+wdlGtF95lDeMxJmDbuty
- OZsiX9hbYeFQtG+tW1S7hV1dlwFh9jwqKLQ+m60zqakMpGQGeduHxXilxvWbN9Q/i1WcKfAsa
- CRoSzbb3bQfRkVNo66LS7FKKPvwma5BsAN0L48Qm5XU8GSiij7caYs7xZuJR2QTO/UXTATc3V
- ZobXaBO66z0OYyHj14/3zcNLAiVd/cGSIhv2d6DNxyYM8dTGayFVUtNOX2iONK1ELh+pSQXDh
- ImEZxtycEPmdp0SaxudN/8vjwZqahRTT8WVLbZF9bB+Q/fpFYG9S7SKmAboUhrZzDQH7hjwr0
- sQGkYg5zlDiPVcie9VsuuHS74Va17cByZ1ZeP8oe7PjhH3PRM4Wd8qaGJ8Udi7k4l4WFjSZ2u
- qMtXrlPaF+5qDSmoEhTvubw5NvCMNzFM4IHCsTJLEUGIclXK+XxRCO7nuVgx3Uj0d2NZfh6pD
- 2IYbMbGwZNSEynvBblJ1dxDKQGiOO3YAPmxA5VHYzmAotgdBWTTyixZd2LsU/gyAB4EmFxW+6
- e6akmBxeK1Og6wAzXfg7m/t+Z35aR/5gq5MamY8AFXBfl347eSEJqKGtskqHoSG0cK+DV9HUZ
- hySgttu3BNTmegalByhKaeVO/b5b+vsL8Lp5bH/hE+FDXSDN9yFOq11bcYjNiGX/I956d6oHt
- RMn+Wd4zV/O+7N8U7AVoy7AG6crELzxwnqLYUpKUCrwv6EULTi+8CBCdRKoRl2dZiWwyGMUOL
- 4mqNKlJKiLFYBPD87Zyq4AiRH5CtePN6RvYv4Tq02l51znR3PRYsnm0SQ7xFGiULHN6z5KPZo
- OVrJ1PbOcjnTm85bKEb69hC1jmuANmNCdc8G8Cwy8GGwSjgqk/BJdqeh1vBTm4obJrGOM9r1M
- +OwHGGHZLAiPzTysEQ6KxRVrfVo=
+Content-Transfer-Encoding: 7bit
 
-Hi Dan,
-
-Am 09.12.23 um 07:27 schrieb Dan Carpenter:
-> On Fri, Dec 08, 2023 at 01:08:04PM +0100, Stefan Wahren wrote:
->>> @@ -1425,7 +1416,7 @@ vchiq_use_internal(struct vchiq_state *state, st=
-ruct vchiq_service *service,
->>>    	}
+On 12/8/23 22:56, Gary Rookard wrote:
+> 
+> Philipp Hortmann <philipp.g.hortmann@gmail.com> writes:
+> 
+>> On 12/8/23 02:55, Gary Rookard wrote:
+>>> Hi,
+>>> This patch series renames 5 different variables with the checkpatch
+>>> coding style issue, Avoid CamelCase.
+>>> Patch 1/5) renamed variable bCurShortGI40MHz
+>>> Patch 2/5) renamed variable bcurShortGI20MHz
+>>> Patch 3/5) renamed variable CCKOFDMRate
+>>> Patch 4/5) renamed variable HTIOTActIsCCDFsync
+>>> Patch 5/5) renamed variable IOTPeer
+>>> Signed-off-by: Gary Rookard <garyrookard@fastmail.org>
+>>> Gary Rookard (5):
+>>>     staging: rtl8192e: renamed variable bCurShortGI40MHz
+>>>     staging: rtl8192e: renamed variable bCurShortGI20MHz
+>>>     staging: rtl8192e: renamed variable CCKOFDMRate
+>>>     staging: rtl8192e: renamed variable HTIOTActIsCCDFsync
+>>>     staging: rtl8192e: renamed variable IOTPeer
+>>>    .../staging/rtl8192e/rtl8192e/r8192E_dev.c    |  4 +-
+>>>    drivers/staging/rtl8192e/rtl8192e/rtl_dm.c    | 22 +++----
+>>>    drivers/staging/rtl8192e/rtl819x_HT.h         |  6 +-
+>>>    drivers/staging/rtl8192e/rtl819x_HTProc.c     | 58 +++++++++----------
+>>>    drivers/staging/rtl8192e/rtllib_tx.c          |  4 +-
+>>>    5 files changed, 47 insertions(+), 47 deletions(-)
 >>>
->>>    out:
->>> -	vchiq_log_trace(state->dev, VCHIQ_SUSPEND, "%s exit %d", __func__, r=
-et);
->>> +	dev_dbg(state->dev, "suspend: exit %d\n", ret);
->> In case we want to keep this kind of debug messages, i prefer to have a
->> common format:
 >>
->> returning %d vs exit %d
-> Someone was trying to make ftrace track return values...  Whatever
-> happened with that work?
-this feature has been merged, but it doesn't seem to be available for arm:
+>>
+>> Please use present-tense as outlined here:
+>> https://kernelnewbies.org/PatchPhilosophy
+>> So rename instead of renamed
+>>
+>> Please use a more unique Subject for your coverletter.
+>> It often cannot cover everything. But more unique is better.
+>>
+>>
+>>
+>> Tested-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+> 
+> Okay, "rename" it be, instead of me thinking in the past simple tense,
+> of "renamed".
+> 
+> As for the coverletter(s)...repetition a big problem.
+> 
+> There's not much in the way of uniqueness that can be added...regretfully
+> Tagging the Subject line with a numeric value is possible and
+> should deviate the coverletter(s) enough so they don't "appear the same".
+> e.g. staging: rtl8192e: this patch series (1) blah blah blah...
+> e.g. staging: rtl8192e: this patch series (2) blah blah blah...
+> e.g. staging: rtl8192e: this patch series (3)  "    "    "
+> 
+> Regards,
+> Gary
+> 
 
-find -name Kconfig | xargs grep HAVE_FUNCTION_GRAPH_RETVAL
-./kernel/trace/Kconfig:config HAVE_FUNCTION_GRAPH_RETVAL
-./kernel/trace/Kconfig:=C2=A0=C2=A0=C2=A0 depends on HAVE_FUNCTION_GRAPH_R=
-ETVAL
-./arch/x86/Kconfig:=C2=A0=C2=A0=C2=A0 select HAVE_FUNCTION_GRAPH_RETVAL=C2=
-=A0=C2=A0=C2=A0 if
-HAVE_FUNCTION_GRAPH_TRACER
-./arch/arm64/Kconfig:=C2=A0=C2=A0=C2=A0 select HAVE_FUNCTION_GRAPH_RETVAL =
-if
-HAVE_FUNCTION_GRAPH_TRACER
-./arch/s390/Kconfig:=C2=A0=C2=A0=C2=A0 select HAVE_FUNCTION_GRAPH_RETVAL
-./arch/riscv/Kconfig:=C2=A0=C2=A0=C2=A0 select HAVE_FUNCTION_GRAPH_RETVAL =
-if
-HAVE_FUNCTION_GRAPH_TRACER
-./arch/loongarch/Kconfig:=C2=A0=C2=A0=C2=A0 select HAVE_FUNCTION_GRAPH_RET=
-VAL if
-HAVE_FUNCTION_GRAPH_TRACER
+Hi Gary
 
-These debug messages are only in the error path, so i'm not sure if
-someone what to hunt bugs by searching all that return values without
-knowing which function is possibly affected.
->
-> regards,
-> dan carpenter
->
+Here is a proposal:
+[PATCH 0/5] staging: rtl8192e: Rename variable bCurShortGI40MHz and further
 
+That will give a pretty good recognizable name.
+
+Thanks for your support.
+
+Bye Philipp
