@@ -1,88 +1,119 @@
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B9951855
-	for <linux-staging@lists.linux.dev>; Sat,  9 Dec 2023 06:27:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72BF679EB
+	for <linux-staging@lists.linux.dev>; Sat,  9 Dec 2023 09:33:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="jgcYNSy4"
-Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-33330a5617fso2974278f8f.2
-        for <linux-staging@lists.linux.dev>; Fri, 08 Dec 2023 22:27:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1702103265; x=1702708065; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=d2nZlR1cXieQ7aMHpSA2LHgWMUvUbq6OLThBUaEbD3w=;
-        b=jgcYNSy43A45Kajke1UUpEsaQ0zswpd0/5xnodociyFkAbCEKI84h0uG+dQJeoM+Bj
-         oiMMDroAmR1KuA77J2mdDk1haqVKIYfUuLEK2K+FHv7QUN8NqXhypIacBS6JN6luLf++
-         j3mqSIV/AfBRvhkw2yX4hVrK1b1O08AFGlrggxZTPoi840NHBLROx6dAERFvEXTvveoR
-         y0ZYFzmC707tuZv7LGz7htYkMuCX2T4AcVAp1DangN7KsEXkbu2r/7h39o1qSz7zgOGD
-         EcVUzp2PVGYFW2nigQ8xRJG/4Vq6dfqwOYHHTRYONeL0PuaTFIS89kmsOHbrzaiYfucr
-         GLVg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702103265; x=1702708065;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=d2nZlR1cXieQ7aMHpSA2LHgWMUvUbq6OLThBUaEbD3w=;
-        b=ay4migIdlq9hTHXvDE2wsmb6RDxIzGMOAm0hAoSwS7qeN8uXkGUtls6dzmEh5UUMpx
-         ZG3uoKe8dmov9gyQ8VjwWY07wbNib2DJlO2dsRGa12PppsRBZQ9n0f56gkP/5f71iaxG
-         iTgEAAqjaQ+IfHIoTtyrSeP38AD1auxKUMZtEFGjjlb7Lm2ASLudl3Gh3gB/Lu9KodQh
-         faXnqsfybElv9x3fV9qq1z8P01BGWIk/ik8JPxFXHIvYXmfThpQSdWYsMs66ZxCdEd96
-         dfV4aKXcQgfPQTIw+ZwMT4y57745RKZJ4nit+xWAK9pgbYv0x9l5Je3WEeu2T7wLIyFL
-         hW8g==
-X-Gm-Message-State: AOJu0Yx+xqJ/8Q/w01o6gbuX6LA9k6WkERvAf9DDpsgZtW0QTUtqYJYS
-	G6GNw38sLDdNAMnrOF3T8wLsLw==
-X-Google-Smtp-Source: AGHT+IGZBpmJz88ZXkhtaoFYGNwrk348/06KJfaFJkwN4nmZxozymCnv76mn/q9bMlnrfz2Wv2lYXA==
-X-Received: by 2002:a05:6000:110a:b0:333:5258:68ef with SMTP id z10-20020a056000110a00b00333525868efmr654738wrw.68.1702103265445;
-        Fri, 08 Dec 2023 22:27:45 -0800 (PST)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id m11-20020adfe94b000000b00333504001acsm3456113wrn.15.2023.12.08.22.27.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 08 Dec 2023 22:27:45 -0800 (PST)
-Date: Sat, 9 Dec 2023 09:27:42 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Stefan Wahren <wahrenst@gmx.net>
-Cc: Umang Jain <umang.jain@ideasonboard.com>, linux-staging@lists.linux.dev,
-	linux-rpi-kernel@lists.infradead.org, linux-media@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	Stefan Wahren <stefan.wahren@i2se.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Dan Carpenter <error27@gmail.com>,
-	Kieran Bingham <kieran.bingham@ideasonboard.com>,
-	"Ricardo B . Marliere" <ricardo@marliere.net>
-Subject: Re: [PATCH v3 3/4] staging: vc04_services: Drop vchiq_log_trace() in
- favour of dev_dbg
-Message-ID: <1883402c-edad-48b7-9081-32ec3538667b@suswa.mountain>
-References: <20231205084157.73819-1-umang.jain@ideasonboard.com>
- <20231205084157.73819-4-umang.jain@ideasonboard.com>
- <46e42bbf-e99b-4e61-a207-35e150fe4fd2@gmx.net>
+	dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.b="Xtplaw2D"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+	s=s31663417; t=1702114402; x=1702719202; i=wahrenst@gmx.net;
+	bh=XMs3lW0NBWXqZmdKm4s2jgBdjD6wAB7lt+5QuwBbU/c=;
+	h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:
+	 In-Reply-To;
+	b=Xtplaw2DRn1eb43UgmBs0bhxUI1SgpFdclDAOE4nZjCUBLIHDM61pC/ZCG0uSUoH
+	 7OMF/+CiV47U/JDYCkNdhRirK8H7HUKvJaNCvWXhtghqH5NMfVwErnp3GMU7Vp1Ux
+	 qzPKkhUBAh6FU9NnSKe6KYpfAoThb3X40e8P3cyDII6jxmwO4ocsi/SzyHjrhN76O
+	 uaZljErwH/CqaiqQR3xgtrIUYJsys0Bd5dpB+w7YzajiFtbFhtP+KsqIR2+Dm5l9W
+	 tnUFXk+Bd5Iy9pvX+hIYNrGuLsCif79b0ManTLYwHytaSIWXq6qwb9Stczgc2PngI
+	 Nj2f4aOI9tNaftiDyg==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from [192.168.1.130] ([37.4.248.43]) by mail.gmx.net (mrgmx004
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1MBUqL-1r4zoj2pQd-00D1tC; Sat, 09
+ Dec 2023 10:33:22 +0100
+Message-ID: <1adbbd28-bdd0-4c65-bc59-fc0b8d6d034a@gmx.net>
+Date: Sat, 9 Dec 2023 10:33:21 +0100
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <46e42bbf-e99b-4e61-a207-35e150fe4fd2@gmx.net>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 3/4] staging: vc04_services: Drop vchiq_log_trace() in
+ favour of dev_dbg
+Content-Language: en-US
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Cc: Umang Jain <umang.jain@ideasonboard.com>, linux-staging@lists.linux.dev,
+ linux-rpi-kernel@lists.infradead.org, linux-media@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, Stefan Wahren
+ <stefan.wahren@i2se.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Dan Carpenter <error27@gmail.com>,
+ Kieran Bingham <kieran.bingham@ideasonboard.com>,
+ "Ricardo B . Marliere" <ricardo@marliere.net>
+References: <20231205084157.73819-1-umang.jain@ideasonboard.com>
+ <20231205084157.73819-4-umang.jain@ideasonboard.com>
+ <46e42bbf-e99b-4e61-a207-35e150fe4fd2@gmx.net>
+ <1883402c-edad-48b7-9081-32ec3538667b@suswa.mountain>
+From: Stefan Wahren <wahrenst@gmx.net>
+In-Reply-To: <1883402c-edad-48b7-9081-32ec3538667b@suswa.mountain>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:qb0a7K/bwRDQ65WdB1fw1eptivNDGViaAwPZR1DbMOSjXe7liUG
+ rAMAGZab7AQl7CafTFUhBjSLCYFdv+2Kz+AB/Zs+vi2dDMS8WvtfT6EyPhyPF9isvVLzqLZ
+ /j+vyhuToQOStJTzIwFg1gAnLM3HfEAQNeNvig1Vf4QAdEzhKBtqvQzNvK2HAk38I+XGstH
+ fwnupBduSOhD44sBa6C0A==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:R6bXRr6+8CI=;AFPboodsA6U5QZ7dNAdJ/u1i3qB
+ 5i0VSbmw5fl9m0rPemFqPedFHBt7hHcrqpb2tUzrMeKzcrWvVykJ+wdlGtF95lDeMxJmDbuty
+ OZsiX9hbYeFQtG+tW1S7hV1dlwFh9jwqKLQ+m60zqakMpGQGeduHxXilxvWbN9Q/i1WcKfAsa
+ CRoSzbb3bQfRkVNo66LS7FKKPvwma5BsAN0L48Qm5XU8GSiij7caYs7xZuJR2QTO/UXTATc3V
+ ZobXaBO66z0OYyHj14/3zcNLAiVd/cGSIhv2d6DNxyYM8dTGayFVUtNOX2iONK1ELh+pSQXDh
+ ImEZxtycEPmdp0SaxudN/8vjwZqahRTT8WVLbZF9bB+Q/fpFYG9S7SKmAboUhrZzDQH7hjwr0
+ sQGkYg5zlDiPVcie9VsuuHS74Va17cByZ1ZeP8oe7PjhH3PRM4Wd8qaGJ8Udi7k4l4WFjSZ2u
+ qMtXrlPaF+5qDSmoEhTvubw5NvCMNzFM4IHCsTJLEUGIclXK+XxRCO7nuVgx3Uj0d2NZfh6pD
+ 2IYbMbGwZNSEynvBblJ1dxDKQGiOO3YAPmxA5VHYzmAotgdBWTTyixZd2LsU/gyAB4EmFxW+6
+ e6akmBxeK1Og6wAzXfg7m/t+Z35aR/5gq5MamY8AFXBfl347eSEJqKGtskqHoSG0cK+DV9HUZ
+ hySgttu3BNTmegalByhKaeVO/b5b+vsL8Lp5bH/hE+FDXSDN9yFOq11bcYjNiGX/I956d6oHt
+ RMn+Wd4zV/O+7N8U7AVoy7AG6crELzxwnqLYUpKUCrwv6EULTi+8CBCdRKoRl2dZiWwyGMUOL
+ 4mqNKlJKiLFYBPD87Zyq4AiRH5CtePN6RvYv4Tq02l51znR3PRYsnm0SQ7xFGiULHN6z5KPZo
+ OVrJ1PbOcjnTm85bKEb69hC1jmuANmNCdc8G8Cwy8GGwSjgqk/BJdqeh1vBTm4obJrGOM9r1M
+ +OwHGGHZLAiPzTysEQ6KxRVrfVo=
 
-On Fri, Dec 08, 2023 at 01:08:04PM +0100, Stefan Wahren wrote:
-> > @@ -1425,7 +1416,7 @@ vchiq_use_internal(struct vchiq_state *state, struct vchiq_service *service,
-> >   	}
-> > 
-> >   out:
-> > -	vchiq_log_trace(state->dev, VCHIQ_SUSPEND, "%s exit %d", __func__, ret);
-> > +	dev_dbg(state->dev, "suspend: exit %d\n", ret);
-> In case we want to keep this kind of debug messages, i prefer to have a
-> common format:
-> 
-> returning %d vs exit %d
+Hi Dan,
 
-Someone was trying to make ftrace track return values...  Whatever
-happened with that work?
+Am 09.12.23 um 07:27 schrieb Dan Carpenter:
+> On Fri, Dec 08, 2023 at 01:08:04PM +0100, Stefan Wahren wrote:
+>>> @@ -1425,7 +1416,7 @@ vchiq_use_internal(struct vchiq_state *state, st=
+ruct vchiq_service *service,
+>>>    	}
+>>>
+>>>    out:
+>>> -	vchiq_log_trace(state->dev, VCHIQ_SUSPEND, "%s exit %d", __func__, r=
+et);
+>>> +	dev_dbg(state->dev, "suspend: exit %d\n", ret);
+>> In case we want to keep this kind of debug messages, i prefer to have a
+>> common format:
+>>
+>> returning %d vs exit %d
+> Someone was trying to make ftrace track return values...  Whatever
+> happened with that work?
+this feature has been merged, but it doesn't seem to be available for arm:
 
-regards,
-dan carpenter
+find -name Kconfig | xargs grep HAVE_FUNCTION_GRAPH_RETVAL
+./kernel/trace/Kconfig:config HAVE_FUNCTION_GRAPH_RETVAL
+./kernel/trace/Kconfig:=C2=A0=C2=A0=C2=A0 depends on HAVE_FUNCTION_GRAPH_R=
+ETVAL
+./arch/x86/Kconfig:=C2=A0=C2=A0=C2=A0 select HAVE_FUNCTION_GRAPH_RETVAL=C2=
+=A0=C2=A0=C2=A0 if
+HAVE_FUNCTION_GRAPH_TRACER
+./arch/arm64/Kconfig:=C2=A0=C2=A0=C2=A0 select HAVE_FUNCTION_GRAPH_RETVAL =
+if
+HAVE_FUNCTION_GRAPH_TRACER
+./arch/s390/Kconfig:=C2=A0=C2=A0=C2=A0 select HAVE_FUNCTION_GRAPH_RETVAL
+./arch/riscv/Kconfig:=C2=A0=C2=A0=C2=A0 select HAVE_FUNCTION_GRAPH_RETVAL =
+if
+HAVE_FUNCTION_GRAPH_TRACER
+./arch/loongarch/Kconfig:=C2=A0=C2=A0=C2=A0 select HAVE_FUNCTION_GRAPH_RET=
+VAL if
+HAVE_FUNCTION_GRAPH_TRACER
+
+These debug messages are only in the error path, so i'm not sure if
+someone what to hunt bugs by searching all that return values without
+knowing which function is possibly affected.
+>
+> regards,
+> dan carpenter
+>
 
