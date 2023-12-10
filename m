@@ -1,87 +1,89 @@
-Received: from mail-ot1-f49.google.com (mail-ot1-f49.google.com [209.85.210.49])
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65AC91B269
-	for <linux-staging@lists.linux.dev>; Sun, 10 Dec 2023 19:37:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=darkphysics.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=darkphysics.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA15D1862F
+	for <linux-staging@lists.linux.dev>; Sun, 10 Dec 2023 20:40:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=darkphysics.net header.i=@darkphysics.net header.b="flBgZjIP"
-Received: by mail-ot1-f49.google.com with SMTP id 46e09a7af769-6d9d307a732so2820232a34.1
-        for <linux-staging@lists.linux.dev>; Sun, 10 Dec 2023 11:37:14 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="L/s/i0UM"
+Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-40c317ba572so6148715e9.0
+        for <linux-staging@lists.linux.dev>; Sun, 10 Dec 2023 12:40:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=darkphysics.net; s=google; t=1702237033; x=1702841833; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ocIsk1Z1AgB/fk/jpeDl/jTBcRisWZEz2PlTlirKV9U=;
-        b=flBgZjIPc0Sp7+TiB3h4zJ+fabs8M1gxCQggfBbuyWWBWuVZKoUFqq3JsLUUpJj6Mg
-         LseUuDa0aCipjNeMoSng9jPD4ppiyh+MjLi+zc/4+wysnpQwrlkjaWl15sDMUNugKaeo
-         Ve0nDSv/uZ/KpJzC5BAFNsZ5euuUKq7zOnyYaSRUsdjW0RpfK5t149n+9rSJdnE0J1Y3
-         Uddf1itTZHHLqoftuEcAb2ZOHQ2KhTisGxe6EyqZ1jKmaboSBIRGrg8kSSe7QiaiemIU
-         6B3Sgun9Q26l3vDvIYq5LEZQd+n2nLrne3prI8PYTnbqm8dQwGMtVNkEJSe89f2eZbbl
-         W4GQ==
+        d=gmail.com; s=20230601; t=1702240852; x=1702845652; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=1Ab7lMzsLfWXGl0JbgQIy0bj4UtBSLghAU6yN7UWGtc=;
+        b=L/s/i0UMXmkwJ5788NSuzrHvxE6ZAPerbEZxr9THuI+OOAiixXJvDHrtAavqO2//xK
+         WF4wz1bctjJL6pOBbkAerEeYSaIYGHWjV7h3jJm92mSS3bj4FL26uw6kWlRrjS7WE3Nf
+         VIQJhOAXg1fVcpcS/toRgMdmFtv06ntXhsSI46vtGzfAm0jKZMQjkEyt7BdZ6x0sRiFn
+         I/Aa8Ir4r48oPNV26X/dF+F/fCx99k5wjo1h6Y0ypKzTxf3l927VdrwIdLyt0fPaYu7o
+         j6hO7yT8pGZm5tBFz+rTi0ORludl/rcKlxr4/ZSeIZsT4yWGAintlEcj8M3ypYi5qE9a
+         TzAA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702237033; x=1702841833;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ocIsk1Z1AgB/fk/jpeDl/jTBcRisWZEz2PlTlirKV9U=;
-        b=fBmhk7E7K50tlIdGW5HHBPCswyqXHpX9uM4ueOS3Rrhy6h+XXPpVV+mXhZn5KAGSqD
-         THtMTimN+zc4nGrOcU08dFjEAv3lI6hW0VhJgoG6WGbLuEZSYicykdVC3HXRlg7AcLl7
-         pRD8Wygl0FNjxAnT406/5rKh2BshUkrA1EnVAreS6jDlO/z6h85oaAeagqFLkR8MO1R1
-         PmLDiA+HsKL/AQisJsYBudVVOwugynXZY26MKy0aos5qEKHg/0XnvElFswfZJhbwZ704
-         pxuy9pbqke1laGtCktTxRzQFTA0g2fhHlHE03DpIKtTL0uFKm9VA0zbXYs9hIiUMQ/Gx
-         u00g==
-X-Gm-Message-State: AOJu0Yy4EcmUE0fFuaT0xwcrG+ZB8VFHjGXMwaNo85EL5biEEZr/m2lN
-	MPiXyV+DrJwwf4mjNAHzqWwbbA==
-X-Google-Smtp-Source: AGHT+IH4+QxPwg2ArrCJJTa5iUAYLO7QQ72lGdZ7KViMmjh75qoVK3In1i+Rw1NnXHD538NSMOfPSA==
-X-Received: by 2002:a05:6358:c11a:b0:170:6675:a509 with SMTP id fh26-20020a056358c11a00b001706675a509mr4173666rwb.60.1702237033400;
-        Sun, 10 Dec 2023 11:37:13 -0800 (PST)
-Received: from oatmeal.darkphysics (c-76-146-178-2.hsd1.wa.comcast.net. [76.146.178.2])
-        by smtp.gmail.com with ESMTPSA id k9-20020a170902c40900b001b9e9edbf43sm5117419plk.171.2023.12.10.11.37.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 10 Dec 2023 11:37:12 -0800 (PST)
-From: Tree Davies <tdavies@darkphysics.net>
-To: gregkh@linuxfoundation.org,
-	philipp.g.hortmann@gmail.com,
-	anjan@momi.ca
-Cc: linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Tree Davies <tdavies@darkphysics.net>
-Subject: [PATCH 4/4] Staging: rtl8192e: Remove variable macId
-Date: Sun, 10 Dec 2023 11:37:05 -0800
-Message-Id: <20231210193705.2131807-5-tdavies@darkphysics.net>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20231210193705.2131807-1-tdavies@darkphysics.net>
-References: <20231210193705.2131807-1-tdavies@darkphysics.net>
+        d=1e100.net; s=20230601; t=1702240852; x=1702845652;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=1Ab7lMzsLfWXGl0JbgQIy0bj4UtBSLghAU6yN7UWGtc=;
+        b=Ja5DoNBMyc6qBcQtpxQPbTDA9D/YpdSW8ARH7ZbaOS8NdXfR0eOFEgmhJTvKkIfw1v
+         a7He7JVn0AElTyOgImvBPzJQoN7Eh6PsBkR0DXuwndF7ntwWULzi93QidAfyTf5l13+7
+         xiMDxEYeLWlHbANpz2Uge7AvbKXuuwa/kfJyYHUCYS7bv1KtBJjZDmnswOCkVzYgQVSD
+         Zphhl8mC+sKMcWk2GISP0Qb5nmbeODsMBtQxUlNGcTWiGJ/1GPMnX7kt/NiIJ4c0yFNm
+         8m7JBLcBHQ9NhIdxb6gt0JSzvRYxCzHc4kwKU8gr1ZYhqHXM+rn61JMs2Vzt5eI8CN3V
+         Tu3g==
+X-Gm-Message-State: AOJu0YxdDxxHmutZoBNaAbynng7fgmRe4iD7ugOQPlYG3pckRltUseGB
+	YqTUbbjw5g6Au/t9ZwPDShg=
+X-Google-Smtp-Source: AGHT+IEq7ypqKwoorgwhbbOrqX2eZbNSUEABBido4fvYyzJ4sCIzFZC8cdjPAs210wnQHCqfjccieg==
+X-Received: by 2002:a5d:6483:0:b0:333:460f:759c with SMTP id o3-20020a5d6483000000b00333460f759cmr4065123wri.1.1702240851947;
+        Sun, 10 Dec 2023 12:40:51 -0800 (PST)
+Received: from [192.168.0.104] (p54a07fa0.dip0.t-ipconnect.de. [84.160.127.160])
+        by smtp.gmail.com with ESMTPSA id q18-20020adff952000000b0033609b71825sm6534260wrr.35.2023.12.10.12.40.51
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 10 Dec 2023 12:40:51 -0800 (PST)
+Message-ID: <cc4513b5-2ed0-4475-8bed-fe75e837aebf@gmail.com>
+Date: Sun, 10 Dec 2023 21:40:50 +0100
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 0/4] Staging: rtl8192e: Remove unused variables in struct
+ cb_desc
+To: Tree Davies <tdavies@darkphysics.net>, gregkh@linuxfoundation.org,
+ anjan@momi.ca
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+References: <20231210193705.2131807-1-tdavies@darkphysics.net>
+Content-Language: en-US
+From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+In-Reply-To: <20231210193705.2131807-1-tdavies@darkphysics.net>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Remove variable macId as it is defined but never used.
+On 12/10/23 20:37, Tree Davies wrote:
+> This series removes a few unused variables from struct cb_desc in
+> rtllib.h
+> 
+> Thank you in advance to reviewers.
+> ~Tree
+> 
+> Tree Davies (4):
+>    Staging: rtl8192e: Remove variable bFirstSeg
+>    Staging: rtl8192e: Remove variable bLastSeg
+>    Staging: rtl8192e: Remove variable bEncrypt
+>    Staging: rtl8192e: Remove variable macId
+> 
+>   drivers/staging/rtl8192e/rtllib.h | 4 ----
+>   1 file changed, 4 deletions(-)
+> 
 
-Signed-off-by: Tree Davies <tdavies@darkphysics.net>
----
- drivers/staging/rtl8192e/rtllib.h | 1 -
- 1 file changed, 1 deletion(-)
+Hi,
 
-diff --git a/drivers/staging/rtl8192e/rtllib.h b/drivers/staging/rtl8192e/rtllib.h
-index 224774b1ba31..0b4a6ded257a 100644
---- a/drivers/staging/rtl8192e/rtllib.h
-+++ b/drivers/staging/rtl8192e/rtllib.h
-@@ -136,7 +136,6 @@ struct cb_desc {
- 	u8 bAMSDU:1;
- 	u8 bFromAggrQ:1;
- 	u8 reserved6:6;
--	u8 macId;
- 	u8 priority;
- 
- 	/* Tx firmware related element(20-27) */
--- 
-2.39.2
+works.
 
+Thanks for your support.
+
+Bye Philipp
