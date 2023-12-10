@@ -1,96 +1,80 @@
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8F5315AE6
-	for <linux-staging@lists.linux.dev>; Sun, 10 Dec 2023 15:27:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B507528E3
+	for <linux-staging@lists.linux.dev>; Sun, 10 Dec 2023 19:37:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=darkphysics.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=darkphysics.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NI/9mO1P"
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-40c1e8458b9so6040475e9.0
-        for <linux-staging@lists.linux.dev>; Sun, 10 Dec 2023 07:27:06 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=darkphysics.net header.i=@darkphysics.net header.b="GoeIIQ7P"
+Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-1d0a5422c80so32620435ad.3
+        for <linux-staging@lists.linux.dev>; Sun, 10 Dec 2023 11:37:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1702222025; x=1702826825; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=geLw7oiaKYTuY2XiNNlgp2W+j2j+NV9E7iJ/5OuM2YA=;
-        b=NI/9mO1PJqyCUfAQMlF3llkrH19SEYHxdlo6otpKY3Z4PfdtCh5SOFg9Z1XzawPYxp
-         8jmo+nKke4tP4gTtKZ/WlbR58u4mA8ykV3pEs9EXImQXjHyZsKiLXzwvq0OU0ZRPWLyP
-         SHXtsSiJWDo1BtrlpG9gY+a7C3X446QajEXABGOElCjEEWYYpdBEBWe0igLLm8OYYb5P
-         UEWsTllJr5BkDZvL9PETxF9wqQUeHMfSrZAbU6hKN1jAQgUx+/zPdudX+VPzecvx2fGb
-         8T8GDAQUIa21C3tXeZmJp/mq0d2ECl181GhdV3D78oCi46ONh9wSIDiSEFejMVCdMDIq
-         +EWw==
+        d=darkphysics.net; s=google; t=1702237029; x=1702841829; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=nWMq+fsJDOtZmzmL+dlI9RAA4JQyKEd0rPprq/Mm6AI=;
+        b=GoeIIQ7PdExsHi6qLH7ThtNPvcpXk4mHrs8DuImKihdQwY5srZEnLpRpifXlUkG+tz
+         AhiP4p2p9mkcxSiio4d89yFmxtmdnpRZ0VdHyrA+DHu4gW6x4q1hyv2sb4P5clxbA5G3
+         r5oOmIPxMP8d4VcNV7S3j7YoSiENsPXlb4WCvrhBTsZR2b6IvyTq2fHAv+n/bRgMt1xA
+         QGAVBZORZsJOXbRB431MdmRIy//jhmc2psmwviO0zR8XYXyPx8L7So8bjkBqbOUhIZHW
+         cEnwnRdGVta5Vb04UgpdEmrzZUJTHJze6KaoKe8jTjDE8Iqt9nBGXNZ5LsVXjx3o31L3
+         vX9Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702222025; x=1702826825;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=geLw7oiaKYTuY2XiNNlgp2W+j2j+NV9E7iJ/5OuM2YA=;
-        b=m9AAi4M7mZl8ESARecHEEybRgM6Gxph5lmKfGUUCm5rOZZzRAdxpI/wGAVEDbIuL5u
-         qZJgY1R1qO09An5YxvpYnxMQFhgAFOhrf67Csfmsr0SCjcdnD40oGjAkJbdUEBfDoa86
-         2oAJ2rP0JanxwE7FLDQjiaN6sAen0sLxJzxpIm7QOa2DIfKPbzW257gZ+VT6R+WNCwRN
-         I7P0nmNXEXurIKj8fAtkTlojtgdO0RsMU+Xf7WJhRPjUCHwCMoxpB0EkljP7SLwDWgWs
-         B5y/47ZAFaqgOCxiNbq79UHKWKrA/ElhlvIVaC+w1JeUfuxLVu6AbqZ6ZIMFUlabDoGB
-         caMQ==
-X-Gm-Message-State: AOJu0YxzhljfXmWLH02jqjPgvdbD/tKqoTscXS5JAuZMpPIVlHPjCqBP
-	M6zsOm577Smfsjpc/d8wmaIg4ag4048=
-X-Google-Smtp-Source: AGHT+IF9WyWBDNKFv8tAvjn1xZzkvUYPZW8FYaBnWJF2y8KqdJlSpf/oidoYYUZxpb6PudMK7ZeuPg==
-X-Received: by 2002:a05:600c:524e:b0:40b:2708:2a52 with SMTP id fc14-20020a05600c524e00b0040b27082a52mr4018653wmb.1.1702222025086;
-        Sun, 10 Dec 2023 07:27:05 -0800 (PST)
-Received: from matrix-ESPRIMO-P710 (p54a07fa0.dip0.t-ipconnect.de. [84.160.127.160])
-        by smtp.gmail.com with ESMTPSA id r20-20020a05600c35d400b0040b538047b4sm12250228wmq.3.2023.12.10.07.27.04
+        d=1e100.net; s=20230601; t=1702237029; x=1702841829;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=nWMq+fsJDOtZmzmL+dlI9RAA4JQyKEd0rPprq/Mm6AI=;
+        b=vvlObYV2HDaxitmWcHxJO/fAC4bXwkRBtpnsmb/nZb4MN451fgdZ6peMhe6RSI7+Z1
+         IPhQI6inMazs7fFgApK2wAYsMvMEBPeSFLEFwTCVBAdsvkCnKqV+X64CVBoWPc4YZ9WL
+         KSsidL6y57zrLDsZ09T9FlD9o6Fj93Ik2qKrtIQ2KXGqBc/yhIMVzW0BGd/KSBIJs/iA
+         ByU4H1nVAmvKtuFpNpzi7APXr+j3jcPrBvxyV78FgrqqxQjjCrvcz4NDDfaGVGc4r9ri
+         qUdC387D8amZo9fUTbWtUI+jSxpEpLA0+9f+gksvpDCCKSLJIiUR767/dL0sCb3qG0B4
+         N8Gw==
+X-Gm-Message-State: AOJu0Yx20WZJwSa2goJRBgfMTjz5cUEH8QbBsaQZmmwwhgIZEM9fEfQi
+	sWDRbA5A+dY6ZWUNWjZhE0q1qQ==
+X-Google-Smtp-Source: AGHT+IGr/MvG95lLuKzFxIXvwXlSw/NAE8PySqhzQPaocAekiGryY/Tyyls5+MukENzO0Hze+3yu6A==
+X-Received: by 2002:a17:902:704c:b0:1d0:ba40:b0e1 with SMTP id h12-20020a170902704c00b001d0ba40b0e1mr3851430plt.124.1702237028818;
+        Sun, 10 Dec 2023 11:37:08 -0800 (PST)
+Received: from oatmeal.darkphysics (c-76-146-178-2.hsd1.wa.comcast.net. [76.146.178.2])
+        by smtp.gmail.com with ESMTPSA id k9-20020a170902c40900b001b9e9edbf43sm5117419plk.171.2023.12.10.11.37.08
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 10 Dec 2023 07:27:04 -0800 (PST)
-Date: Sun, 10 Dec 2023 16:27:03 +0100
-From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [PATCH 10/10] staging: rtl8192e: Remove struct ht_info_ele SelfHTInfo
-Message-ID: <e8692d40b3cba3de1b4ceb8e72186e8d40afec73.1702212003.git.philipp.g.hortmann@gmail.com>
-References: <cover.1702212003.git.philipp.g.hortmann@gmail.com>
+        Sun, 10 Dec 2023 11:37:08 -0800 (PST)
+From: Tree Davies <tdavies@darkphysics.net>
+To: gregkh@linuxfoundation.org,
+	philipp.g.hortmann@gmail.com,
+	anjan@momi.ca
+Cc: linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Tree Davies <tdavies@darkphysics.net>
+Subject: [PATCH 0/4] Staging: rtl8192e: Remove unused variables in struct cb_desc
+Date: Sun, 10 Dec 2023 11:37:01 -0800
+Message-Id: <20231210193705.2131807-1-tdavies@darkphysics.net>
+X-Mailer: git-send-email 2.39.2
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <cover.1702212003.git.philipp.g.hortmann@gmail.com>
+Content-Transfer-Encoding: 8bit
 
-Remove struct ht_info_ele SelfHTInfo as it is unused.
+This series removes a few unused variables from struct cb_desc in 
+rtllib.h
 
-Signed-off-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
----
- drivers/staging/rtl8192e/rtl819x_HT.h     | 1 -
- drivers/staging/rtl8192e/rtl819x_HTProc.c | 2 --
- 2 files changed, 3 deletions(-)
+Thank you in advance to reviewers.
+~Tree
 
-diff --git a/drivers/staging/rtl8192e/rtl819x_HT.h b/drivers/staging/rtl8192e/rtl819x_HT.h
-index 416633b88446..0f27c820ffc5 100644
---- a/drivers/staging/rtl8192e/rtl819x_HT.h
-+++ b/drivers/staging/rtl8192e/rtl819x_HT.h
-@@ -99,7 +99,6 @@ struct rt_hi_throughput {
- 	u8 cur_short_gi_20mhz;
- 	enum ht_spec_ver ePeerHTSpecVer;
- 	struct ht_capab_ele SelfHTCap;
--	struct ht_info_ele SelfHTInfo;
- 	u8 PeerHTCapBuf[32];
- 	u8 PeerHTInfoBuf[32];
- 	u8 amsdu_support;
-diff --git a/drivers/staging/rtl8192e/rtl819x_HTProc.c b/drivers/staging/rtl8192e/rtl819x_HTProc.c
-index 439b43faa2bb..0474594a4b96 100644
---- a/drivers/staging/rtl8192e/rtl819x_HTProc.c
-+++ b/drivers/staging/rtl8192e/rtl819x_HTProc.c
-@@ -554,8 +554,6 @@ void HTInitializeHTInfo(struct rtllib_device *ieee)
- 
- 	memset((void *)(&ht_info->SelfHTCap), 0,
- 	       sizeof(ht_info->SelfHTCap));
--	memset((void *)(&ht_info->SelfHTInfo), 0,
--	       sizeof(ht_info->SelfHTInfo));
- 	memset((void *)(&ht_info->PeerHTCapBuf), 0,
- 	       sizeof(ht_info->PeerHTCapBuf));
- 	memset((void *)(&ht_info->PeerHTInfoBuf), 0,
+Tree Davies (4):
+  Staging: rtl8192e: Remove variable bFirstSeg
+  Staging: rtl8192e: Remove variable bLastSeg
+  Staging: rtl8192e: Remove variable bEncrypt
+  Staging: rtl8192e: Remove variable macId
+
+ drivers/staging/rtl8192e/rtllib.h | 4 ----
+ 1 file changed, 4 deletions(-)
+
 -- 
-2.43.0
+2.39.2
 
