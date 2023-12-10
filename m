@@ -1,53 +1,52 @@
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B491811702
-	for <linux-staging@lists.linux.dev>; Sun, 10 Dec 2023 15:26:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B79BD11702
+	for <linux-staging@lists.linux.dev>; Sun, 10 Dec 2023 15:26:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DnFPMlCM"
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-40c2655da63so5703105e9.1
-        for <linux-staging@lists.linux.dev>; Sun, 10 Dec 2023 07:26:33 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mQrQwk5T"
+Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-40c317ba572so5641885e9.0
+        for <linux-staging@lists.linux.dev>; Sun, 10 Dec 2023 07:26:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1702221992; x=1702826792; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1702222000; x=1702826800; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=5+7aTaTlcaG6uppnc5wOD9WJR1BJWGY5PIIBacZp7LI=;
-        b=DnFPMlCMC1Vhegc7vnq1lffq/oKCwmjmXJWe4nCoHN28C8opIR+vCJK6K+SkSxZ667
-         dxkRME9K4jjm9Wz7fJotMDo+S/BTjoZbuGr5e+1MRZaF2ME9hqnPCiLc2sNuzofz7Z7A
-         CO+Cf8YoO0yiAWKn/oaB2Qob6Xnquuft9UyeYlw8zCS2fAfF4cStkeIMQrfCEJ9jQPmT
-         GqMC4CBKNR1xkt5SxIV65P7GHRU57pSuJ3bWQoj/2bcpeEoYmYLnGm2QSqYH96tipdZ4
-         D0GL4iGTVUo98iS7zxv84m4h0sZU3GKN7ez0QG+D5nPOMa3uFg9dRWOcWzDXmYcypXx6
-         NbxQ==
+        bh=x27vCUpD2eYMWgYKl63p6rruFTypQyGCnQHgn4PVIcE=;
+        b=mQrQwk5TrRUKcIgHSt3rGPgVQApM/nyVDLuFZME15cIF7vTdrw4eXO3dlYrAjx2HW7
+         Jy8kK3M/vV7j4m/YiKIv0coO3QelSqgZOgm03VkhYo3teXvWomeR/e9kpXWjG64opIRK
+         bjMWYQtxRYhqkXMyECSt2DdOYnJmgxaPg+CwdDeHtZf0RbQtuEFtix1cq8gKW9KgnH1I
+         lSUK7Gq7zVWQ6BM7yDr7JjMje2Pdut2TaGGhhQMsvwJN6VtfOL/kO8Xn1vD0pTgmPCwS
+         WxxLwm5fcyEbzv6wvTbMppU1WkqvIiwMwgrbUxVtT0r7wjKbgUBT6nArvDqmaUMC6Lid
+         UZoQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702221992; x=1702826792;
+        d=1e100.net; s=20230601; t=1702222000; x=1702826800;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=5+7aTaTlcaG6uppnc5wOD9WJR1BJWGY5PIIBacZp7LI=;
-        b=E0hmP1L0NjQ1rsptUwCQikO++hf63s7eZZQHn53pZSllR1b5126oywCeG7RoJHiRQP
-         N9/o0TVM3LzpTBSGAFvRZyvb5QwHVBTbsvXOO1DlfF4Fqcxtxr/VczX5JO0/AFz0KE2v
-         D/qTgkrfmpYELACUOXCmGd7OdsFLBSWtRdIHQmMHrecH3Pxw9l8jV4tVqV32h06yCv3f
-         2xkKO3gyKbrS2Ryf5hB2YanwcBvvFSn5kEXe0vfazKaLIbd2RwZLHr/rXdNrffj7jb/b
-         EwFoGePZQvyPhP6VjdetH7sex0W9K2T+10ks0zc2wPnv4evwbKkaDKzaeN45O3G6T8Yq
-         zb/w==
-X-Gm-Message-State: AOJu0Ywsf7HaDSiRxrlVICaWWzT3ECsTABfEIVK7YmEfLJgtzZtDPgw1
-	5hZqTNhLGsl4qZPrpwfBsHLYPbZE53M=
-X-Google-Smtp-Source: AGHT+IEIz5F2RMVOcsuKSimCj3U2AYWR3DKo626ZvJedo1stLVJcI1Wd5pxDlCOLi2BsG8Imgh7etw==
-X-Received: by 2002:a05:600c:35d6:b0:405:358c:ba75 with SMTP id r22-20020a05600c35d600b00405358cba75mr4026078wmq.0.1702221991724;
-        Sun, 10 Dec 2023 07:26:31 -0800 (PST)
+        bh=x27vCUpD2eYMWgYKl63p6rruFTypQyGCnQHgn4PVIcE=;
+        b=ntQgthXxJFZS1pKZ1YUmfXm1tGccJdiLar8n5jqTDfazkKcITwuia0+MYu6gGZK9G5
+         Bih/LO/Vs2qZcGkUU+o/G0U82AXLx2JQFZjQpViXmIWm2jID+N7zaMvW0Pqn9uhe/NcP
+         AfxBBJBLkmExwEq//Eir67k2nOnASbXSPaqra5v27vwo6dsMNOC93VWNY7vhPE5/ePIN
+         avbJSP7I4wNaAjx91JLnactOVMKgdW7v1j5eSj+bI6MbAFgOZ7m6QYx2G47VQWpW2ATr
+         8qu0Ewf890szPvzDHPAdLj94XiXhfUhIHrOAYaUJHgm/J+loavrsRVWORPq8mPYDUXzO
+         RR3g==
+X-Gm-Message-State: AOJu0Yw1OR67/XvE+B6aCAfXnh0gPorxZyu1057zpitEXHEJEHCabYLo
+	qJw5Ey9VbAhTr7z3c3PE95w=
+X-Google-Smtp-Source: AGHT+IF31uLVQkwuqXW9FQ67nNYdTNzAXw9J7VWuE5x35tRZB11V4Tbb2i9IxCBKrUs7L/0zp2zzbA==
+X-Received: by 2002:a05:6000:4026:b0:333:50f2:5757 with SMTP id cp38-20020a056000402600b0033350f25757mr3500662wrb.5.1702221999797;
+        Sun, 10 Dec 2023 07:26:39 -0800 (PST)
 Received: from matrix-ESPRIMO-P710 (p54a07fa0.dip0.t-ipconnect.de. [84.160.127.160])
-        by smtp.gmail.com with ESMTPSA id o3-20020a05600c4fc300b004042dbb8925sm12148980wmq.38.2023.12.10.07.26.31
+        by smtp.gmail.com with ESMTPSA id g9-20020a5d4889000000b0033609584b9dsm6265939wrq.74.2023.12.10.07.26.39
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 10 Dec 2023 07:26:31 -0800 (PST)
-Date: Sun, 10 Dec 2023 16:26:30 +0100
+        Sun, 10 Dec 2023 07:26:39 -0800 (PST)
+Date: Sun, 10 Dec 2023 16:26:38 +0100
 From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [PATCH 05/10] staging: rtl8192e: Remove variable
- ht_info->reg_short_gi_40mhz
-Message-ID: <255039e0cb27582a98a0b86340dfe88f14c08a76.1702212003.git.philipp.g.hortmann@gmail.com>
+Subject: [PATCH 06/10] staging: rtl8192e: Remove variable ForcedAMPDUMode
+Message-ID: <5bf740a2da78ec3b54249a30cbee70301b37e7eb.1702212003.git.philipp.g.hortmann@gmail.com>
 References: <cover.1702212003.git.philipp.g.hortmann@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -59,52 +58,72 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 In-Reply-To: <cover.1702212003.git.philipp.g.hortmann@gmail.com>
 
-ht_info->reg_short_gi_40mhz is set to 1 and unchanged. Therefore all
-equations result accordingly and ht_info->reg_short_gi_40mhz can be
-removed.
+ForcedAMPDUMode is set to 0 and unchanged. Therefore all equations result
+accordingly and ForcedAMPDUMode can be removed. As a result label
+FORCED_AGG_SETTING is unused and can be removed as well.
 
 Signed-off-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
 ---
- drivers/staging/rtl8192e/rtl819x_HT.h     | 1 -
- drivers/staging/rtl8192e/rtl819x_HTProc.c | 6 +-----
- 2 files changed, 1 insertion(+), 6 deletions(-)
+ drivers/staging/rtl8192e/rtl819x_HT.h |  1 -
+ drivers/staging/rtl8192e/rtllib_tx.c  | 21 ++-------------------
+ 2 files changed, 2 insertions(+), 20 deletions(-)
 
 diff --git a/drivers/staging/rtl8192e/rtl819x_HT.h b/drivers/staging/rtl8192e/rtl819x_HT.h
-index 8a4bd389004a..0664eb86bada 100644
+index 0664eb86bada..d249062e7b66 100644
 --- a/drivers/staging/rtl8192e/rtl819x_HT.h
 +++ b/drivers/staging/rtl8192e/rtl819x_HT.h
-@@ -95,7 +95,6 @@ struct rt_hi_throughput {
- 	u8 enable_ht;
- 	u8 current_ht_support;
- 	u8 cur_bw_40mhz;
--	u8 reg_short_gi_40mhz;
- 	u8 cur_short_gi_40mhz;
- 	u8 cur_short_gi_20mhz;
- 	u8 bCurSuppCCK;
-diff --git a/drivers/staging/rtl8192e/rtl819x_HTProc.c b/drivers/staging/rtl8192e/rtl819x_HTProc.c
-index ed9b3db1a393..0a5885d6c0a0 100644
---- a/drivers/staging/rtl8192e/rtl819x_HTProc.c
-+++ b/drivers/staging/rtl8192e/rtl819x_HTProc.c
-@@ -71,8 +71,6 @@ void ht_update_default_setting(struct rtllib_device *ieee)
- {
- 	struct rt_hi_throughput *ht_info = ieee->ht_info;
- 
--	ht_info->reg_short_gi_40mhz = 1;
+@@ -113,7 +113,6 @@ struct rt_hi_throughput {
+ 	u8 CurrentAMPDUFactor;
+ 	u8 mpdu_density;
+ 	u8 current_mpdu_density;
+-	enum ht_aggre_mode ForcedAMPDUMode;
+ 	u8 forced_ampdu_factor;
+ 	u8 forced_mpdu_density;
+ 	enum ht_aggre_mode ForcedAMSDUMode;
+diff --git a/drivers/staging/rtl8192e/rtllib_tx.c b/drivers/staging/rtl8192e/rtllib_tx.c
+index a2ae68cc13f5..0fa6f674a844 100644
+--- a/drivers/staging/rtl8192e/rtllib_tx.c
++++ b/drivers/staging/rtl8192e/rtllib_tx.c
+@@ -303,13 +303,13 @@ static void rtllib_tx_query_agg_cap(struct rtllib_device *ieee,
+ 			} else if (!ts->disable_add_ba) {
+ 				TsStartAddBaProcess(ieee, ts);
+ 			}
+-			goto FORCED_AGG_SETTING;
++			return;
+ 		} else if (!ts->using_ba) {
+ 			if (SN_LESS(ts->tx_admitted_ba_record.ba_start_seq_ctrl.field.seq_num,
+ 				    (ts->tx_cur_seq + 1) % 4096))
+ 				ts->using_ba = true;
+ 			else
+-				goto FORCED_AGG_SETTING;
++				return;
+ 		}
+ 		if (ieee->iw_mode == IW_MODE_INFRA) {
+ 			tcb_desc->ampdu_enable = true;
+@@ -317,23 +317,6 @@ static void rtllib_tx_query_agg_cap(struct rtllib_device *ieee,
+ 			tcb_desc->ampdu_density = ht_info->current_mpdu_density;
+ 		}
+ 	}
+-FORCED_AGG_SETTING:
+-	switch (ht_info->ForcedAMPDUMode) {
+-	case HT_AGG_AUTO:
+-		break;
 -
- 	ht_info->amsdu_max_size = 7935UL;
- 	ht_info->amsdu_support = 0;
+-	case HT_AGG_FORCE_ENABLE:
+-		tcb_desc->ampdu_enable = true;
+-		tcb_desc->ampdu_density = ht_info->forced_mpdu_density;
+-		tcb_desc->ampdu_factor = ht_info->forced_ampdu_factor;
+-		break;
+-
+-	case HT_AGG_FORCE_DISABLE:
+-		tcb_desc->ampdu_enable = false;
+-		tcb_desc->ampdu_density = 0;
+-		tcb_desc->ampdu_factor = 0;
+-		break;
+-	}
+ }
  
-@@ -471,9 +469,7 @@ void HTOnAssocRsp(struct rtllib_device *ieee)
- 				 true : false);
- 
- 	ht_info->cur_short_gi_20mhz = ((pPeerHTCap->ShortGI20Mhz == 1) ? true : false);
--	ht_info->cur_short_gi_40mhz = ((ht_info->reg_short_gi_40mhz) ?
--				     ((pPeerHTCap->ShortGI40Mhz == 1) ?
--				     true : false) : false);
-+	ht_info->cur_short_gi_40mhz = ((pPeerHTCap->ShortGI40Mhz == 1) ? true : false);
- 
- 	ht_info->bCurSuppCCK = ((pPeerHTCap->DssCCk == 1) ? true : false);
- 
+ static void rtllib_query_ShortPreambleMode(struct rtllib_device *ieee,
 -- 
 2.43.0
 
