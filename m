@@ -1,159 +1,89 @@
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B3F84776B
-	for <linux-staging@lists.linux.dev>; Mon, 11 Dec 2023 13:55:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D7624BAA1;
+	Mon, 11 Dec 2023 15:55:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="X4uakWG1"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1702302909;
-	bh=WBItE2IlN0PtPIfQCeYqezlapPIzL12UK6zVfo5uWbw=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=X4uakWG1DsrnKjASes1eorbZbdxS4mUyOxQO/1brFb8PHjXLNiCk27x+0Yn6EF19G
-	 REOUXsGCtEYTTcC1QS6rGMz1AkBK7112A+xFO8hxk7Hv9JngxznEAk0+LUTUp0cn9i
-	 mTIutertVdJEcHoqaDFrJWXS7UIX3TPVHVgWEom69jzUNLqk3+HqkO6eWrQWG+8H36
-	 DBoIWj1JjxJpRmEsdhRqB6WJbDQ1eXuqdpqnnFJ5+GWIsMwo8BoulikHMVmR8Se3vl
-	 c7iJfJEyMwkcETCFpGEvsW+xhi3MvMp8LOjIkuqbqf2jOi26MOO1LPzAhHNlBe8k/V
-	 Ku6xY03N0WEeg==
-Received: from [100.93.89.217] (cola.collaboradmins.com [195.201.22.229])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: benjamin.gaignard)
-	by madrid.collaboradmins.com (Postfix) with ESMTPSA id 46018378110F;
-	Mon, 11 Dec 2023 13:55:09 +0000 (UTC)
-Message-ID: <b0b7f247-72ed-4628-bf8b-d56ae6b0b77e@collabora.com>
-Date: Mon, 11 Dec 2023 14:55:08 +0100
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lDVCG/aA"
+Received: by mail-pf1-f173.google.com with SMTP id d2e1a72fcca58-6ce7632b032so2421001b3a.1;
+        Mon, 11 Dec 2023 07:55:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1702310106; x=1702914906; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=NvzZ6GPm6FBKY13t74SyXbkcqS52Q/SYf3epLnEDjq0=;
+        b=lDVCG/aAjgOspBvjVotQFFp7iDm4a2dFPbBCsG3DUEhahdeEVdKU21jFExquMwFOhw
+         bsXitgjp6/KcBXpDB8/Ge4TZBBZu/PFdT545VNwS+nzv1cA9NgRomqfbY908Fg1gO9fu
+         zgxi27GAisLUgpoIGj2DOiZ6aq4tUsuvDOscI55qP2B6IbrKKq7UDFWvp9l75ejoMvPF
+         goQ6LJpuLVYcECUhdMM9xmCt5VimF10Qu+58PfwFc8ZaScHT8DHHt86S623MkmPvw3gp
+         3DFP/QVeu6LfKfZU45KmVgCVkVGac1iTOBHR8RroOh6LKo2Rqcf/67YeMS7HObJP9sZd
+         LpSg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1702310106; x=1702914906;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=NvzZ6GPm6FBKY13t74SyXbkcqS52Q/SYf3epLnEDjq0=;
+        b=iTidIhOMuMzqahYRkGozEwGCo1IeT18XUxyJIfBnY4Seyyp+4F9+ZiuZekEndA48eN
+         ikXLfucWGus8EjidN5ldrgauSZEf543meHdcaYTphulQlucMZwz1I8a4St2IBvhIbiLs
+         phV5ezeWUPuOakkyYkrq+/bt14mGHzRMhIa8LfKF9AiBW5WLyosYtYmBvvmqXihSABNK
+         68JMeu4z8b8/zwXJxTgfkYBrWAK39ajs8CH2KpUv0xJ6g7vPAcapGpsaStFsNLk8jmga
+         e1VULH8VEW4QMzIQXlcMV1cbIKAwwMA1boP49i03i+QFZTRx4lNAwoC7TehwhZuu5x45
+         lLZw==
+X-Gm-Message-State: AOJu0YyEqAwdYswf6Xjil+Dd7X/ZUC335n/zacggQBYkx/wIQsJSO3Id
+	vd6BLVuo5XHE4DmxbFZmfTU=
+X-Google-Smtp-Source: AGHT+IEv5Jn3dltTrGp5+G1vApnJxPRoM3hLU6VPEwFnlcyynK+8IbpQ1xP6Yefp+y7/AartPzpX+g==
+X-Received: by 2002:a05:6a00:98e:b0:6ce:6185:44e1 with SMTP id u14-20020a056a00098e00b006ce618544e1mr1849376pfg.66.1702310105961;
+        Mon, 11 Dec 2023 07:55:05 -0800 (PST)
+Received: from yqt-VirtualBox ([223.166.246.87])
+        by smtp.gmail.com with ESMTPSA id d15-20020aa7814f000000b006cdd00f91fdsm193168pfn.185.2023.12.11.07.55.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 11 Dec 2023 07:55:05 -0800 (PST)
+From: Piro Yang <piroyangg@gmail.com>
+To: Greg KH <gregkh@linuxfoundation.org>
+Cc: Piro Yang <piroyangg@gmail.com>,
+	linux-staging@lists.linux.dev,
+	Linux Outreachy <outreachy@lists.linux.dev>,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] staging:vme_user:fix the issue of using the wrong error code
+Date: Mon, 11 Dec 2023 23:54:53 +0800
+Message-Id: <20231211155453.105409-1-piroyangg@gmail.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 0/2] Clean up min_buffers_needed misusages
-To: hverkuil@xs4all.nl, mchehab@kernel.org, tfiga@chromium.org
-Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
- linux-staging@lists.linux.dev, kernel@collabora.com
-References: <20231211133251.150999-1-benjamin.gaignard@collabora.com>
-Content-Language: en-US
-From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-In-Reply-To: <20231211133251.150999-1-benjamin.gaignard@collabora.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-Main subject in wrong it is the cover letter for v5 series.
+1. the error code of ENOSYS indicates Invalid system call number,
+   but there is not system call
 
-Le 11/12/2023 à 14:32, Benjamin Gaignard a écrit :
-> This series implement Hans's RFC: https://www.spinics.net/lists/linux-media/msg244455.html
->
-> To summarize Hans's proposal it is needed to distinguish two cases:
-> - the minimal number of buffers to be allocated when calling
->    VIDIOC_REQBUFS.
-> - the minimale number of queued buffers before start streaming.
-> Until now drivers use vb2_queue min_buffers_needed field in the both
-> cases but before introduce delete buffers we need to clarify for which
-> usage each of them use min_buffers_needed field.
->
-> The branch with all patches is here:
-> https://gitlab.collabora.com/benjamin.gaignard/for-upstream/-/commits/clean_min_need_buffers_v5
->
-> I have tested with this command line, I haven't notice issues:
-> ./test-media -kmemleak mc
->
-> changes in version 5:
-> - Fix the comments done by Hans:
->    Rework comments on videobuf2-core.h
->    Add checks in vb2_core_queue_init().
-> - Patch test-drivers to use min_reqbufs_allocation field.
->
-> changes in version 4:
-> - restore removed lines in zoran and vdec drivers.
->
-> changes in version 3:
-> - Just rename min_buffers_needed into min_queued_buffers everywhere
->    without trying to fix the drivers.
-> - Introduce min_reqbufs_allocation field to be used when calling VIDIOC_REQBUFS.
->
-> changes in version 2:
-> - change min_buffers_needed into min_queues_buffers instead of min_dma_buffers_needed
-> - patches order
-> - only one patch to rename min_buffers_needed into min_queues_buffer
->
-> Benjamin Gaignard (3):
->    videobuf2: core: Rename min_buffers_needed field to vb2_queue
->    videobuf2: Add min_reqbufs_allocation field to vb2_queue structure
->    media: test-drivers: Set REQBUFS minimum number of buffers
->
->   drivers/input/touchscreen/atmel_mxt_ts.c      |  2 +-
->   drivers/input/touchscreen/sur40.c             |  2 +-
->   drivers/media/common/saa7146/saa7146_fops.c   |  2 +-
->   .../media/common/videobuf2/videobuf2-core.c   | 34 +++++++++++--------
->   drivers/media/dvb-core/dvb_vb2.c              |  2 +-
->   drivers/media/i2c/video-i2c.c                 |  2 +-
->   drivers/media/pci/bt8xx/bttv-driver.c         |  2 +-
->   drivers/media/pci/cobalt/cobalt-v4l2.c        |  2 +-
->   drivers/media/pci/cx18/cx18-streams.c         |  2 +-
->   drivers/media/pci/cx23885/cx23885-417.c       |  2 +-
->   drivers/media/pci/cx23885/cx23885-dvb.c       |  2 +-
->   drivers/media/pci/cx23885/cx23885-video.c     |  4 +--
->   drivers/media/pci/cx25821/cx25821-video.c     |  2 +-
->   drivers/media/pci/cx88/cx88-blackbird.c       |  2 +-
->   drivers/media/pci/cx88/cx88-dvb.c             |  2 +-
->   drivers/media/pci/cx88/cx88-video.c           |  4 +--
->   drivers/media/pci/dt3155/dt3155.c             |  2 +-
->   drivers/media/pci/intel/ipu3/ipu3-cio2.c      |  2 +-
->   drivers/media/pci/mgb4/mgb4_vin.c             |  2 +-
->   drivers/media/pci/mgb4/mgb4_vout.c            |  2 +-
->   drivers/media/pci/tw5864/tw5864-video.c       |  2 +-
->   drivers/media/pci/tw68/tw68-video.c           |  2 +-
->   drivers/media/pci/tw686x/tw686x-video.c       |  2 +-
->   drivers/media/pci/zoran/zoran_driver.c        |  6 ++--
->   drivers/media/platform/amphion/vpu_v4l2.c     |  4 +--
->   drivers/media/platform/aspeed/aspeed-video.c  |  2 +-
->   drivers/media/platform/atmel/atmel-isi.c      |  2 +-
->   .../platform/chips-media/coda/coda-common.c   |  2 +-
->   .../platform/microchip/microchip-isc-base.c   |  2 +-
->   drivers/media/platform/nuvoton/npcm-video.c   |  2 +-
->   drivers/media/platform/nxp/imx7-media-csi.c   |  2 +-
->   .../platform/nxp/imx8-isi/imx8-isi-video.c    |  2 +-
->   drivers/media/platform/qcom/venus/vdec.c      |  4 +--
->   drivers/media/platform/qcom/venus/venc.c      |  4 +--
->   .../platform/renesas/rcar-vin/rcar-dma.c      |  2 +-
->   drivers/media/platform/renesas/renesas-ceu.c  |  2 +-
->   .../platform/renesas/rzg2l-cru/rzg2l-video.c  |  2 +-
->   drivers/media/platform/renesas/sh_vou.c       |  2 +-
->   .../platform/rockchip/rkisp1/rkisp1-capture.c |  2 +-
->   drivers/media/platform/st/sti/hva/hva-v4l2.c  |  4 +--
->   drivers/media/platform/st/stm32/stm32-dcmi.c  |  2 +-
->   .../st/stm32/stm32-dcmipp/dcmipp-bytecap.c    |  4 +--
->   .../platform/sunxi/sun4i-csi/sun4i_dma.c      |  2 +-
->   .../sunxi/sun6i-csi/sun6i_csi_capture.c       |  2 +-
->   .../media/platform/sunxi/sun8i-di/sun8i-di.c  |  4 +--
->   .../sunxi/sun8i-rotate/sun8i_rotate.c         |  4 +--
->   .../media/platform/ti/am437x/am437x-vpfe.c    |  2 +-
->   drivers/media/platform/ti/cal/cal-video.c     |  2 +-
->   .../media/platform/ti/davinci/vpif_capture.c  |  2 +-
->   .../media/platform/ti/davinci/vpif_display.c  |  2 +-
->   .../platform/ti/j721e-csi2rx/j721e-csi2rx.c   |  2 +-
->   drivers/media/platform/ti/omap/omap_vout.c    |  2 +-
->   .../media/test-drivers/vimc/vimc-capture.c    |  2 +-
->   drivers/media/test-drivers/vivid/vivid-core.c |  4 +--
->   drivers/media/usb/cx231xx/cx231xx-417.c       |  2 +-
->   drivers/media/usb/cx231xx/cx231xx-video.c     |  4 +--
->   drivers/media/usb/dvb-usb/cxusb-analog.c      |  2 +-
->   drivers/media/usb/gspca/gspca.c               |  6 ++--
->   .../media/deprecated/atmel/atmel-isc-base.c   |  2 +-
->   drivers/staging/media/imx/imx-media-capture.c |  2 +-
->   drivers/staging/media/ipu3/ipu3-v4l2.c        |  2 +-
->   drivers/staging/media/meson/vdec/vdec.c       |  6 ++--
->   .../staging/media/starfive/camss/stf-video.c  |  2 +-
->   .../media/sunxi/sun6i-isp/sun6i_isp_capture.c |  2 +-
->   .../media/sunxi/sun6i-isp/sun6i_isp_params.c  |  2 +-
->   drivers/staging/media/tegra-video/vi.c        |  2 +-
->   include/media/videobuf2-core.h                | 20 +++++++++--
->   samples/v4l/v4l2-pci-skeleton.c               |  2 +-
->   68 files changed, 121 insertions(+), 99 deletions(-)
->
+2. unified the logging error message, when slave_set func is NULL
+
+Signed-off-by: Piro Yang <piroyangg@gmail.com>
+---
+ drivers/staging/vme_user/vme.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/staging/vme_user/vme.c b/drivers/staging/vme_user/vme.c
+index 5c416c31ec57..e9461a7a7ab8 100644
+--- a/drivers/staging/vme_user/vme.c
++++ b/drivers/staging/vme_user/vme.c
+@@ -340,8 +340,8 @@ int vme_slave_set(struct vme_resource *resource, int enabled,
+ 	image = list_entry(resource->entry, struct vme_slave_resource, list);
+ 
+ 	if (!bridge->slave_set) {
+-		dev_err(bridge->parent, "Function not supported\n");
+-		return -ENOSYS;
++		dev_err(bridge->parent, "%s not supported\n", __func__);
++		return -EINVAL;
+ 	}
+ 
+ 	if (!(((image->address_attr & aspace) == aspace) &&
+-- 
+2.25.1
+
