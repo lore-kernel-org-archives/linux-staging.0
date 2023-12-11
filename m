@@ -1,174 +1,98 @@
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5DB53AC25
-	for <linux-staging@lists.linux.dev>; Mon, 11 Dec 2023 12:19:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1rCfEf-0001H0-4X; Mon, 11 Dec 2023 13:18:09 +0100
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1rCfEe-00F5z5-AI; Mon, 11 Dec 2023 13:18:08 +0100
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1rCfEe-000tY1-0P; Mon, 11 Dec 2023 13:18:08 +0100
-Date: Mon, 11 Dec 2023 13:18:07 +0100
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To: Thierry Reding <thierry.reding@gmail.com>
-Cc: linux-doc@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	platform-driver-x86@vger.kernel.org,
-	linux-hardening@vger.kernel.org, linux-riscv@lists.infradead.org,
-	linux-stm32@st-md-mailman.stormreply.com,
-	linux-leds@vger.kernel.org, chrome-platform@lists.linux.dev,
-	linux-samsung-soc@vger.kernel.org,
-	Bartosz Golaszewski <brgl@bgdev.pl>, linux-staging@lists.linux.dev,
-	linux-rockchip@lists.infradead.org, linux-sunxi@lists.linux.dev,
-	linux-pwm@vger.kernel.org, greybus-dev@lists.linaro.org,
-	linux-mediatek@lists.infradead.org,
-	linux-rpi-kernel@lists.infradead.org,
-	linux-amlogic@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org, linux-mips@vger.kernel.org,
-	asahi@lists.linux.dev, kernel@pengutronix.de
-Subject: Re: [PATCH v4 000/115] pwm: Fix lifetime issues for pwm_chips
-Message-ID: <20231211121807.zzlgf3alcoo6lrw7@pengutronix.de>
-References: <cover.1701860672.git.u.kleine-koenig@pengutronix.de>
- <ZXM4CdJxg-XrYhkn@orome.fritz.box>
- <20231208185033.e6ty2cajcfle6dgk@pengutronix.de>
- <ZXbzcFTnDTKoZAta@orome.fritz.box>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 044293F8D7
+	for <linux-staging@lists.linux.dev>; Mon, 11 Dec 2023 13:38:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="ugB27H49"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1702301579;
+	bh=a0m+6H8ZiYbHPXc1Uo0vZRZp35umogH5+OxIgSWiNaA=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=ugB27H49kiM73HdHA9tRGy5D8LCebPBk66eI6npeLrDCCdZfhWAyUY3fKU9t6gpdD
+	 KY5hclVccFjqOOSQnivbC8RqKDIccKMMk+TWuIW68ONqyUaWfH/FPpueNzYGMiR/sP
+	 kFaQH9f2gigoAfXonJYe+7RkjTsEIdbReVzNh1YILJSB3x/Fakk7evyIbAH4FFzm46
+	 XWfFeS6NOkltWBiSAWR67xNMs5yd5rFdQm84y8jP3ZVafD0uAPZWK7ocDMW8AGhXYg
+	 NyqMCuONgcIoi/Py5yJtdIQjGmMzWXxkRU8H/sakWVys59Fev6ClegT4xGKOnkkXWm
+	 elC8q16wB9A5Q==
+Received: from benjamin-XPS-13-9310.. (cola.collaboradmins.com [195.201.22.229])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: benjamin.gaignard)
+	by madrid.collaboradmins.com (Postfix) with ESMTPSA id 17CA7378142F;
+	Mon, 11 Dec 2023 13:32:59 +0000 (UTC)
+From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+To: hverkuil@xs4all.nl,
+	mchehab@kernel.org,
+	tfiga@chromium.org
+Cc: linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	kernel@collabora.com,
+	Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Subject: [PATCH v5 3/3] media: test-drivers: Set REQBUFS minimum number of buffers
+Date: Mon, 11 Dec 2023 14:32:51 +0100
+Message-Id: <20231211133251.150999-4-benjamin.gaignard@collabora.com>
+X-Mailer: git-send-email 2.40.1
+In-Reply-To: <20231211133251.150999-1-benjamin.gaignard@collabora.com>
+References: <20231211133251.150999-1-benjamin.gaignard@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="yyef2a7pj6vk5dry"
-Content-Disposition: inline
-In-Reply-To: <ZXbzcFTnDTKoZAta@orome.fritz.box>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-staging@lists.linux.dev
+Content-Transfer-Encoding: 8bit
 
+Test drivers require at least 2 buffers to be allocated when
+calling REQBUFS so set queue min_reqbufs_allocation field instead
+of min_queued_buffers.
+While at it remane vivid_create_queue() parameter.
 
---yyef2a7pj6vk5dry
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+---
+ drivers/media/test-drivers/vimc/vimc-capture.c | 2 +-
+ drivers/media/test-drivers/vivid/vivid-core.c  | 4 ++--
+ 2 files changed, 3 insertions(+), 3 deletions(-)
 
-Hello Thierry,
+diff --git a/drivers/media/test-drivers/vimc/vimc-capture.c b/drivers/media/test-drivers/vimc/vimc-capture.c
+index 2a2d19d23bab..97693561f1e4 100644
+--- a/drivers/media/test-drivers/vimc/vimc-capture.c
++++ b/drivers/media/test-drivers/vimc/vimc-capture.c
+@@ -432,7 +432,7 @@ static struct vimc_ent_device *vimc_capture_add(struct vimc_device *vimc,
+ 	q->mem_ops = vimc_allocator == VIMC_ALLOCATOR_DMA_CONTIG
+ 		   ? &vb2_dma_contig_memops : &vb2_vmalloc_memops;
+ 	q->timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_MONOTONIC;
+-	q->min_queued_buffers = 2;
++	q->min_reqbufs_allocation = 2;
+ 	q->lock = &vcapture->lock;
+ 	q->dev = v4l2_dev->dev;
+ 
+diff --git a/drivers/media/test-drivers/vivid/vivid-core.c b/drivers/media/test-drivers/vivid/vivid-core.c
+index b6b010deb143..11b8520d9f57 100644
+--- a/drivers/media/test-drivers/vivid/vivid-core.c
++++ b/drivers/media/test-drivers/vivid/vivid-core.c
+@@ -861,7 +861,7 @@ static const struct media_device_ops vivid_media_ops = {
+ static int vivid_create_queue(struct vivid_dev *dev,
+ 			      struct vb2_queue *q,
+ 			      u32 buf_type,
+-			      unsigned int min_buffers_needed,
++			      unsigned int min_reqbufs_allocation,
+ 			      const struct vb2_ops *ops)
+ {
+ 	if (buf_type == V4L2_BUF_TYPE_VIDEO_CAPTURE && dev->multiplanar)
+@@ -898,7 +898,7 @@ static int vivid_create_queue(struct vivid_dev *dev,
+ 	q->mem_ops = allocators[dev->inst] == 1 ? &vb2_dma_contig_memops :
+ 						  &vb2_vmalloc_memops;
+ 	q->timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_MONOTONIC;
+-	q->min_queued_buffers = supports_requests[dev->inst] ? 0 : min_buffers_needed;
++	q->min_reqbufs_allocation = min_reqbufs_allocation;
+ 	q->lock = &dev->mutex;
+ 	q->dev = dev->v4l2_dev.dev;
+ 	q->supports_requests = supports_requests[dev->inst];
+-- 
+2.40.1
 
-On Mon, Dec 11, 2023 at 12:33:04PM +0100, Thierry Reding wrote:
-> On Fri, Dec 08, 2023 at 07:50:33PM +0100, Uwe Kleine-K=F6nig wrote:
-> > The TL;DR; is essentially what I already wrote in my last reply to Bart
-> > in the v3 thread[1]:
-> >=20
-> >  - My approach needs more changes to the individual drivers (which I
-> >    don't consider a relevant disadvantage given that the resulting code
-> >    is better);
-> >  - My approach works with less pointer dereferences which IMHO also
-> >    simplifies understanding the code as all relevant data is in a single
-> >    place.
-> >  - My approach has a weaker separation between the core and the lowlevel
-> >    drivers. That's ok in my book given that this doesn't complicate the
-> >    lowlevel drivers and that hiding details considerably better doesn't
-> >    work anyhow (see the drivers that need internal.h in your patch).
-> >=20
-> > For me the single allocation issue is only an added bonus. The relevant
-> > advantage of my approach is that the code is easier and (probably) more
-> > efficient.
->=20
-> I happen to disagree. I think adding pwmchip_alloc() makes things much
-> more complicated for low level drivers.
-
-Looking at e.g.
-https://lore.kernel.org/linux-pwm/2dda818b8bbbe8ba4b9df5ab54f960ff4a4f1ab5.=
-1701860672.git.u.kleine-koenig@pengutronix.de/
-I wonder where you see "much more complication". OK, there are two
-pointers now for chip and private data, but I'd call that at most a
-"mild" complication[1] which is more than balanced out by the
-simplifications in the remaining parts of that patch.
-
-Best regards
-Uwe
-
-[1] I'm not sure I'd refuse someone suggesting the following patch on
-    top of today's next:
-
-	diff --git a/drivers/pwm/pwm-microchip-core.c b/drivers/pwm/pwm-microchip-=
-core.c
-	index c0c53968f3e9..d32e65914599 100644
-	--- a/drivers/pwm/pwm-microchip-core.c
-	+++ b/drivers/pwm/pwm-microchip-core.c
-	@@ -448,12 +448,14 @@ MODULE_DEVICE_TABLE(of, mchp_core_of_match);
-	 static int mchp_core_pwm_probe(struct platform_device *pdev)
-	 {
-		struct mchp_core_pwm_chip *mchp_core_pwm;
-	+	struct pwm_chip *chip;
-		struct resource *regs;
-		int ret;
-	=20
-		mchp_core_pwm =3D devm_kzalloc(&pdev->dev, sizeof(*mchp_core_pwm), GFP_KE=
-RNEL);
-		if (!mchp_core_pwm)
-			return -ENOMEM;
-	+	chip =3D &mchp_core_pwm->chip;
-	=20
-		mchp_core_pwm->base =3D devm_platform_get_and_ioremap_resource(pdev, 0, &=
-regs);
-		if (IS_ERR(mchp_core_pwm->base))
-	@@ -470,9 +472,9 @@ static int mchp_core_pwm_probe(struct platform_device =
-*pdev)
-	=20
-		mutex_init(&mchp_core_pwm->lock);
-	=20
-	-	mchp_core_pwm->chip.dev =3D &pdev->dev;
-	-	mchp_core_pwm->chip.ops =3D &mchp_core_pwm_ops;
-	-	mchp_core_pwm->chip.npwm =3D 16;
-	+	chip->dev =3D &pdev->dev;
-	+	chip->ops =3D &mchp_core_pwm_ops;
-	+	chip->npwm =3D 16;
-	=20
-		mchp_core_pwm->channel_enabled =3D readb_relaxed(mchp_core_pwm->base + MC=
-HPCOREPWM_EN(0));
-		mchp_core_pwm->channel_enabled |=3D
-	@@ -485,7 +487,7 @@ static int mchp_core_pwm_probe(struct platform_device =
-*pdev)
-		writel_relaxed(1U, mchp_core_pwm->base + MCHPCOREPWM_SYNC_UPD);
-		mchp_core_pwm->update_timestamp =3D ktime_get();
-	=20
-	-	ret =3D devm_pwmchip_add(&pdev->dev, &mchp_core_pwm->chip);
-	+	ret =3D devm_pwmchip_add(&pdev->dev, chip);
-		if (ret)
-			return dev_err_probe(&pdev->dev, ret, "Failed to add pwmchip\n");
-=20
-    With that applied before the above mentioned patch there is no
-    complication at all in my eyes.
-
-
---=20
-Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
-Industrial Linux Solutions                 | https://www.pengutronix.de/ |
-
---yyef2a7pj6vk5dry
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmV2/f8ACgkQj4D7WH0S
-/k7QwQgApfQEvhd6se+a8+O5GDdTfjV+EObXMDS2kvZsRHCAmatVaTePkn/Zg6Fo
-ZwGiGr9Ttfcjwf0hpLEmy7G2QP38HPZySu1f9Xo4V6NtkIvo4iPm3o60vDqF3mZM
-i+2779oY7aNOanR7E1KyDs7WfAZowpslVZ9qaXlDs6Pa1Hrz4Z7Wn6sF4gVV0SnX
-Qq2kKClfhZCuWBwwSDHS72BKOj2GRkgP32YIDH1LcEP9iemoZqFJivwMh3VGvIXv
-DocnmNO9JXrr3vx5UTcRHZfakEXbIfGOTtibtXwJDI48rHzGcXYRbYGi5B5Sssx/
-SHrVw/Ghy9VDfrcrkb+gLBfpz7JxyA==
-=RAtQ
------END PGP SIGNATURE-----
-
---yyef2a7pj6vk5dry--
