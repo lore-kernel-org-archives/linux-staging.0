@@ -1,111 +1,89 @@
-Received: from wout3-smtp.messagingengine.com (wout3-smtp.messagingengine.com [64.147.123.19])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C48E180
-	for <linux-staging@lists.linux.dev>; Mon, 11 Dec 2023 00:13:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=fastmail.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fastmail.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 440031F612
+	for <linux-staging@lists.linux.dev>; Mon, 11 Dec 2023 08:37:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=fastmail.org header.i=@fastmail.org header.b="IMQQZA+N";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="UaJF/M0C"
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
-	by mailout.west.internal (Postfix) with ESMTP id 7AB523200A49;
-	Sun, 10 Dec 2023 19:13:31 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute1.internal (MEProxy); Sun, 10 Dec 2023 19:13:31 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fastmail.org; h=
-	cc:cc:content-transfer-encoding:content-type:date:date:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:sender:subject:subject:to:to; s=fm1; t=1702253610; x=
-	1702340010; bh=Bmw/wp7j+cPK5IuVvd2b+9dGsZdJqyjeSb9WLoFcNEU=; b=I
-	MQQZA+NxAw8AiC89aWIutdFP8t4Mg4gh5lTjw/2VacReOCzHpaoTmFc6qPso/q7w
-	FMHkzET+lQwYCNpYvDNdVqdWs8v7opJ5iMXYxnogacl4HqqOVTU3rb/E+0Ha1UO2
-	twyXbmh3Ct19jGD9bk9/K3jJ0KWumlv3DAg693ZFiaVrq1VQikr+HdZpGJrU1L9V
-	foQWz3JTifnhQA8k7meoAOg00KwRXIE44rXMFAGrVNbUr9rWQv0xqooR8p1eYYYU
-	XK+T6zmw9YrnFvk5k/iM4qJMrRMhNhvlid1bF2VfWcO8TN+k9P9S1iDjrHwfZcy6
-	Xw1D7krZhUHwDgqFQRW/Q==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:date:date:feedback-id:feedback-id:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1702253610; x=
-	1702340010; bh=Bmw/wp7j+cPK5IuVvd2b+9dGsZdJqyjeSb9WLoFcNEU=; b=U
-	aJF/M0C2s1Wiyd4dTnKDPsCjG+5azGtgLC/OMPxZnH8wXV7y3c1Lb0pgkZMoiXeJ
-	LJnG3wYvk2X53Rwh+4Ax+WMHz0fxFLDGhQfuiBX3sP4DGK7AviNb0WGfc9/GLdsZ
-	VTL4TKAniyk8tTiOc5FSfhF5yuYj0u+lqhFCKGhzB5/yJPKFsABIsYTH23Q4vREi
-	Y+HfeNVgfRT4pzLHIO2oUJF0B6uKnmq6MftvXtiqhd2U6GEJpTJseXrb8R777kI1
-	lTLOCGxjR8SV8OFGNBcke/TJxF/uo5MN87gwxyvutOk1z2F8KI6/vh/q8y31ss6l
-	12H9yPVFAZuMoFQ9hrmzw==
-X-ME-Sender: <xms:KlR2ZbkPSR-qSPFVaWB1t32rpwDGMuu4ji7xA3BiEa6XInJvCqL7_A>
-    <xme:KlR2Ze0DviqxlM-XR1JT-31-BFmjqvEBVt4XOhPZZrCYaWMa5iPPfzi4N_55pZz8v
-    FjugxebrmW1RezKK_Q>
-X-ME-Received: <xmr:KlR2ZRrySgbiQ13-oKEXjpNbwnZ50xtZA7JJ8ZyNsUp6PbAIWm-QhMj_iCdXagd15ObPxXOCUXngy5auMMPeS5rI6NSBQAbv2GD8hsbsamE>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvkedrudeluddgvdduucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucenucfjughrpefhvfevufffkffojghfggfgsedtke
-    ertdertddtnecuhfhrohhmpefirghrhicutfhoohhkrghrugcuoehgrghrhihrohhokhgr
-    rhgusehfrghsthhmrghilhdrohhrgheqnecuggftrfgrthhtvghrnhepkeeuvdffueduke
-    egieeuffejhefgkeetfeehueelfeduuefgveellefhfefgjedvnecuvehluhhsthgvrhfu
-    ihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepghgrrhihrhhoohhkrghrugesfh
-    grshhtmhgrihhlrdhorhhg
-X-ME-Proxy: <xmx:KlR2ZTndRwRgUuTBiR8pJEJbKSBRuIofWIXxq5FJF2I-sl7kO5A2bg>
-    <xmx:KlR2ZZ0rKv6LNIy_aAwnVTQu4CXxWsHs12PMoUnRZ1ja9CyIV-vXRQ>
-    <xmx:KlR2ZSs8xvZcuVvpC3g118KfhcNvcvb97eiI019Ut_Eep6d2RVJegw>
-    <xmx:KlR2ZSzcyzsTBbgPOjcmxHsaBCzVk38imRS6UrsSGhzDwXNI0qjYaA>
-Feedback-ID: ifd194980:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
- 10 Dec 2023 19:13:30 -0500 (EST)
-From: Gary Rookard <garyrookard@fastmail.org>
-To: gregkh@linuxfoundation.org,
-	philipp.g.hortmann@gmail.com
-Cc: linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Gary Rookard <garyrookard@fastmail.org>
-Subject: [PATCH 5/5] staging: rtl8192e: rename variable HT_PickMCSRate
-Date: Sun, 10 Dec 2023 19:13:35 -0500
-Message-ID: <20231211001335.26169-6-garyrookard@fastmail.org>
-X-Mailer: git-send-email 2.41.0
-In-Reply-To: <20231211001335.26169-1-garyrookard@fastmail.org>
-References: <20231211001335.26169-1-garyrookard@fastmail.org>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="u3HsURcw"
+Received: by mail-ed1-f42.google.com with SMTP id 4fb4d7f45d1cf-54c70c70952so5875718a12.3
+        for <linux-staging@lists.linux.dev>; Mon, 11 Dec 2023 00:37:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1702283834; x=1702888634; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=Kk+v7bJA+s+/z+dyrix6s2ZzCkywqqH7xeqGtoowJ4M=;
+        b=u3HsURcwsHTdmhE7s2p24wUJSpu9MlnOjjmjqK9YXVg6oVnMY9J/IN2I+DiNz0RLdz
+         GxXCT8gSZnXRGjbcM2Q8SwChL147Oqzbr1zNCBusRp4+AjIzubUmSvS5DdAIvsXbVCuE
+         3JzCdADFwWRN6WclQj24ut5LlVjwig/kQYhmazX8f2c/Wu+JeDLmrpTQRDLeBUw8eRgc
+         WqQz+0vjIWYDFrGnBzb3ePYIQaa+rxbey2cslmGg2hUgfFg7s5LxljY5BpB48vRBp9NI
+         F4Q/SS2tfnsdnkKsaoT0zvrfoE8hO9isEKTCXyfBn0Kf7YCNsKYLqpZNv4F0Qg5HLn7W
+         YgWQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1702283834; x=1702888634;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Kk+v7bJA+s+/z+dyrix6s2ZzCkywqqH7xeqGtoowJ4M=;
+        b=SaYq+tMiCXvU2phwfwuWWdu2SoO0k+I8ceQmjx43cIotZdYq/bHa5AwMjkiQIZPPfM
+         dfOJg90o7oDiE/YwikDnpiiEz/dM7842x60w83B1FBWd6JJyxHze0l6cwRwdWAaO0Jij
+         aCENZ7DU+q0ZJReLJemeTAh2rQUtMIpX3EyQq3Cvo09TLrEzTOtT/aPeRtBpwqntsc6Y
+         jvcuwkBKoUs00HtDGmr7KfiBrCBDcNseJ16GO3GuSMlTMsbjtWenHOErdJiK3fJg1uLo
+         +9FJWvSewY9DYN9sxsug34aeM6A86C7TlZbmEgC0j7BN7nferNdJedMEjPXxXkmYF+S3
+         bHOw==
+X-Gm-Message-State: AOJu0YwoEtolOtdpJULkO2/c96YcrFPXfr1QVD8TN0sDIRr0T8fMnJgr
+	2mjpC7cBdAti51NEdb17n2z5Lltj4mvZCv5ujOM=
+X-Google-Smtp-Source: AGHT+IEG5JSQm2KSmEMgLYIgzL0giz5RVNFyFtSLxep3//eMRo4F2TpSWWxGmz03vJPdf0dsfXEe5Q==
+X-Received: by 2002:a17:907:94d4:b0:a1a:8399:e12d with SMTP id dn20-20020a17090794d400b00a1a8399e12dmr1373966ejc.64.1702283834471;
+        Mon, 11 Dec 2023 00:37:14 -0800 (PST)
+Received: from localhost (hf89.n1.ips.mtn.co.ug. [41.210.143.137])
+        by smtp.gmail.com with ESMTPSA id tx17-20020a1709078e9100b00a1b75e0e061sm4496930ejc.130.2023.12.11.00.37.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 11 Dec 2023 00:37:13 -0800 (PST)
+Date: Mon, 11 Dec 2023 11:37:07 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Tree Davies <tdavies@darkphysics.net>
+Cc: gregkh@linuxfoundation.org, philipp.g.hortmann@gmail.com, anjan@momi.ca,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/4] Staging: rtl8192e: Remove variable bFirstSeg
+Message-ID: <2cdb678d-b784-411e-8913-eb7666e08ccc@suswa.mountain>
+References: <20231210193705.2131807-1-tdavies@darkphysics.net>
+ <20231210193705.2131807-2-tdavies@darkphysics.net>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231210193705.2131807-2-tdavies@darkphysics.net>
 
-Coding style issue, checkpatch Avoid CamelCase,
-rename it. HT_PickMCSRate -> ht_pick_mcs_rate
+On Sun, Dec 10, 2023 at 11:37:02AM -0800, Tree Davies wrote:
+> Remove variable bFirstSeg as it is defined but never used.
+> 
+> Signed-off-by: Tree Davies <tdavies@darkphysics.net>
+> ---
+>  drivers/staging/rtl8192e/rtllib.h | 1 -
+>  1 file changed, 1 deletion(-)
+> 
+> diff --git a/drivers/staging/rtl8192e/rtllib.h b/drivers/staging/rtl8192e/rtllib.h
+> index 0a8c44e497f5..c0a24826cd3b 100644
+> --- a/drivers/staging/rtl8192e/rtllib.h
+> +++ b/drivers/staging/rtl8192e/rtllib.h
+> @@ -103,7 +103,6 @@ struct cb_desc {
+>  	/* Tx Desc Related flags (8-9) */
+>  	u8 bLastIniPkt:1;
+>  	u8 bCmdOrInit:1;
+> -	u8 bFirstSeg:1;
+>  	u8 bLastSeg:1;
+>  	u8 bEncrypt:1;
+>  	u8 tx_dis_rate_fallback:1;
 
-Signed-off-by: Gary Rookard <garyrookard@fastmail.org>
----
- drivers/staging/rtl8192e/rtl819x_HTProc.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+I don't think you can remove these.  They're part of the protocol for
+talking to the firmware.
 
-diff --git a/drivers/staging/rtl8192e/rtl819x_HTProc.c b/drivers/staging/rtl8192e/rtl819x_HTProc.c
-index a374f4c9f17e..14e25f87c1bf 100644
---- a/drivers/staging/rtl8192e/rtl819x_HTProc.c
-+++ b/drivers/staging/rtl8192e/rtl819x_HTProc.c
-@@ -350,7 +350,7 @@ void ht_construct_rt2rt_agg_element(struct rtllib_device *ieee, u8 *posRT2RTAgg,
- 	*len = 6 + 2;
- }
- 
--static u8 HT_PickMCSRate(struct rtllib_device *ieee, u8 *pOperateMCS)
-+static u8 ht_pick_mcs_rate(struct rtllib_device *ieee, u8 *pOperateMCS)
- {
- 	u8 i;
- 
-@@ -426,7 +426,7 @@ static u8 HTFilterMCSRate(struct rtllib_device *ieee, u8 *pSupportMCS,
- 		pOperateMCS[i] = ieee->reg_dot11tx_ht_oper_rate_set[i] &
- 				 pSupportMCS[i];
- 
--	HT_PickMCSRate(ieee, pOperateMCS);
-+	ht_pick_mcs_rate(ieee, pOperateMCS);
- 
- 	if (ieee->GetHalfNmodeSupportByAPsHandler(ieee->dev))
- 		pOperateMCS[1] = 0;
--- 
-2.41.0
+regards,
+dan carpenter
 
