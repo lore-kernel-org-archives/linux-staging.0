@@ -1,74 +1,100 @@
-Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from wout4-smtp.messagingengine.com (wout4-smtp.messagingengine.com [64.147.123.20])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3AFD759151
-	for <linux-staging@lists.linux.dev>; Tue, 12 Dec 2023 09:44:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 751BF7B3A3
+	for <linux-staging@lists.linux.dev>; Tue, 12 Dec 2023 16:56:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=fastmail.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fastmail.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="U7qNjGis"
-Received: by mail-ed1-f52.google.com with SMTP id 4fb4d7f45d1cf-54c77e0835bso7750469a12.2
-        for <linux-staging@lists.linux.dev>; Tue, 12 Dec 2023 01:44:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1702374295; x=1702979095; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=94p+UQZSMr4vzrhrrlgBDh7qA10Ar2gYNehd9t2N1t8=;
-        b=U7qNjGis0xidp9LVuDNk+pDEi1C2Cm8p6AY4+KywkhYUWBaCfmkp+X/Ni6M6DlXJOA
-         58DXNnRGHUAQeaMS7tZqxsO12kVn08oSUeXYCT5gMCXL8ZZk6uJFuxbYRL6+BrKovfGd
-         igCFGwyD3qTqfaK1NnPAt1z+RmHQTGrjEEl2Y8+Xkdatnim9QjkpEFCwq34GopSRk6av
-         FY0Rks7xO8SMM+CDwbcSu8MRRAwV+7+Ap/wdyd4RqFltqL/DNXD/lz0q5NbJahoXt5Bp
-         9F1TKDhg8X/pkeZbSdqauvc/5h/ShztVW/EuNJEelkkFtluBdN4V8p2Bn06QsVPFLM8v
-         eqOg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702374295; x=1702979095;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=94p+UQZSMr4vzrhrrlgBDh7qA10Ar2gYNehd9t2N1t8=;
-        b=wrLgcFC6LZAU26/EF6LwKgPFUWBaKGWKwMTQLmwOfUpUSRfVmnBXCOZu7aTY+X6vZw
-         CRelgxbyIVDG1AKhQlEEkIL0Oq3rMB7KsUSAzkNugIfIiEXA/uuHW9Ix1g/6OgPcVPvH
-         3Cj3r2UMYPvh0KNWRGocjkL3iPmOzEfGavYtUiHwX4Mfpfns++OsdHChi63Zm93aBIof
-         eAkB/vINkYfmXilz1ynrXXdv/gOUVJQZc7I1/7+aGZc6LPauk0SsFo/2ZDEqrPJFc7bL
-         UpUVa/AY3vSI0461qO4YiFQD6/GLKKgyH0+jnlOF6ZzmX5BWOGvmmnxsaopqiS7gSKdQ
-         CYaA==
-X-Gm-Message-State: AOJu0YwOJVE2EYNL78F2yG7qxEj4iy93nR9t1NBmaHKVzWvMLyeSTITq
-	4RFR/4dLD6rD2psK0LH/JUpimA==
-X-Google-Smtp-Source: AGHT+IFh/ureGGq9zRE3/B5cuAd0U9ijHRArtKFWf6PNYbErUOfGEruQxIQQasSQPm0NyCnkVOWYOg==
-X-Received: by 2002:a50:cbc1:0:b0:54c:ac4d:f4b7 with SMTP id l1-20020a50cbc1000000b0054cac4df4b7mr3111551edi.1.1702374295419;
-        Tue, 12 Dec 2023 01:44:55 -0800 (PST)
-Received: from localhost (h1f2c.n1.ips.mtn.co.ug. [41.210.159.44])
-        by smtp.gmail.com with ESMTPSA id o29-20020a509b1d000000b0054ca1d90410sm4773417edi.85.2023.12.12.01.44.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 12 Dec 2023 01:44:55 -0800 (PST)
-Date: Tue, 12 Dec 2023 12:44:51 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-Cc: Tree Davies <tdavies@darkphysics.net>, gregkh@linuxfoundation.org,
-	anjan@momi.ca, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/4] Staging: rtl8192e: Remove variable bFirstSeg
-Message-ID: <347fe54e-d8fe-438e-a1ec-37900ca41f51@suswa.mountain>
-References: <20231210193705.2131807-1-tdavies@darkphysics.net>
- <20231210193705.2131807-2-tdavies@darkphysics.net>
- <2cdb678d-b784-411e-8913-eb7666e08ccc@suswa.mountain>
- <20793387-da59-4192-bb86-b20aeb127a65@gmail.com>
+	dkim=pass (2048-bit key) header.d=fastmail.org header.i=@fastmail.org header.b="k4h5di2u";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="d6cAviMx"
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
+	by mailout.west.internal (Postfix) with ESMTP id 1ED843200AB0;
+	Tue, 12 Dec 2023 11:56:05 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute6.internal (MEProxy); Tue, 12 Dec 2023 11:56:05 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fastmail.org; h=
+	cc:cc:content-transfer-encoding:content-type:date:date:from:from
+	:in-reply-to:message-id:mime-version:reply-to:subject:subject:to
+	:to; s=fm1; t=1702400164; x=1702486564; bh=xmlHXrpZIRRTY+VHc8MrT
+	bfBIUJgXoPYErIdFutUHIs=; b=k4h5di2uhsZYE7qCmkCTspsc2CJAQnQP/Mg6N
+	OSgRwKuzQgVOL66LueLqmn+BvhHUQLVvTy2IT1z7bEV1u5VXXKGjxS6G+iWo5K7J
+	6YQKk/JJmDRF7bxNSXucIcpgNXHiycoxkK2pe8rp/B95X+HbMPxiBecLkCRR/TE1
+	by01OqD2687bAwpAXOSaDUVkRVqcftrA/KmVJtuYpeq5AsiV//gQ7EzBrTVJPJ0a
+	zOcFI6JMD038P2zcHkrK/lXdELAGExWxV6USAP5m/1t4lFNKjkiIAtVQIK0Z/ord
+	d+5R7Z9uYO4QQ01tTi4e4TSwV/HD4WwutJHmV5b6n2pBt5dbw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:date:date:feedback-id:feedback-id:from:from
+	:in-reply-to:message-id:mime-version:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm1; t=1702400164; x=1702486564; bh=xmlHXrpZIRRTY+VHc8MrTbfBIUJg
+	XoPYErIdFutUHIs=; b=d6cAviMxBl7yuYodx0Dr3zY98fxDr4ACIQ49Echi2kjc
+	cnFPieldxKdS7ZC4OHVS0gXOGJEa1XsfbGtFvOqxxo1NOzFhnPDqI7XrQIO3IG+P
+	r4k4SLyyHoIobDehFxoNH9jFJmOqD/Mnk0sXSwvOr3fjgGQtVI3H76ZZ888vSEdV
+	Mi1156tKPcOVvz553zW+L1dDizaCBL/Vdr8XYbVTH70gWOkytQ81cNIhRsrNB289
+	Kf2GokPnLcTTy67SaCDqgjcNuJKmdSRQ6jH9mWCnCKMHpB6zOaDTJW6X65QHkUUM
+	VL/tPEPuEvyvuKo2QqIpG/AHWRB8BA9XgS/1j/PUDw==
+X-ME-Sender: <xms:pJB4ZVOqVI1Jy0ROe9_iVvCWIwndd6DKqZLPhbb3YY389ZTzT5NCJw>
+    <xme:pJB4ZX8zjYS9jyKuIyDNgPoB95B2ZwNpFruDqI3ipDA0vBN9nvoQREqr_MOVLl_OF
+    B_WIKmiDIegK04Bjhg>
+X-ME-Received: <xmr:pJB4ZURf197fCEE3NXvcZXIWXQs9vBh0qig_4T8OOGMfJfvt4wn1d17TFZS6s4xaxsQuuhtkvxMKKWLQbron25V6P5LKmK2JiDioEJP7EjA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvkedrudelgedgledvucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucenucfjughrpefhvfevufffkffoggfgsedtkeertd
+    ertddtnecuhfhrohhmpefirghrhicutfhoohhkrghrugcuoehgrghrhihrohhokhgrrhgu
+    sehfrghsthhmrghilhdrohhrgheqnecuggftrfgrthhtvghrnhepleegffffgfehhfejge
+    ejheeivdfgleefheeuueetkedtffeihfevlefhgeevvdevnecuvehluhhsthgvrhfuihii
+    vgeptdenucfrrghrrghmpehmrghilhhfrhhomhepghgrrhihrhhoohhkrghrugesfhgrsh
+    htmhgrihhlrdhorhhg
+X-ME-Proxy: <xmx:pJB4ZRsU3nAiYIRSieBSeC_2m5nGNzjw_uq_YUiQ9x-UZH80NurNSA>
+    <xmx:pJB4ZdeVxsOZleFTjgPqGtze38O6xfo59yfMpLybBVkTsGV9tca-iw>
+    <xmx:pJB4Zd2SR9v_bUXPj4QlGCm3Myc2R0NrfqW7mAQ5vnSFTzT87zAP-A>
+    <xmx:pJB4ZR6XChuD5zBDqwsHBvw_4V_oYzFP0s6VVeU2g1eBbcr7QGJqXg>
+Feedback-ID: ifd194980:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 12 Dec 2023 11:56:04 -0500 (EST)
+From: Gary Rookard <garyrookard@fastmail.org>
+To: gregkh@linuxfoundation.org,
+	philipp.g.hortmann@gmail.com
+Cc: linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Gary Rookard <garyrookard@fastmail.org>
+Subject: [PATCH 0/5] [Series 2] rename variable posHTCap and (4) others
+Date: Tue, 12 Dec 2023 11:56:32 -0500
+Message-ID: <20231212165637.17618-1-garyrookard@fastmail.org>
+X-Mailer: git-send-email 2.41.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20793387-da59-4192-bb86-b20aeb127a65@gmail.com>
+Content-Transfer-Encoding: 8bit
 
-The struct talks about firmware and it has reserved bits so that's what
-confused me.
+Hi,
 
-You know this code better than I do so since you're fine with it, then
-I'm fine with it.
+This patch series renames (5) different variables with
+the checkpatch coding style issue, Avoid CamelCase.
 
-regards,
-dan carpenter
- 
+Patch 1/5) rename variable posHTCap
+Patch 2/5) rename variable IsEncrypt
+Patch 3/5) rename variable bAssoc
+Patch 4/5) rename variable pHT
+Patch 5/5) rename variable pCapELE
+
+Signed-off-by: Gary Rookard <garyrookard@fastmail.org>
+
+Gary Rookard (5):
+  staging: rtl8192e: rename variable posHTCap
+  staging: rtl8192e: rename variable IsEncrypt
+  staging: rtl8192e: rename variable bAssoc
+  staging: rtl8192e: rename variable pHT
+  staging: rtl8192e: rename variable pCapELE
+
+ drivers/staging/rtl8192e/rtl819x_HTProc.c | 90 +++++++++++------------
+ 1 file changed, 45 insertions(+), 45 deletions(-)
+
+-- 
+2.41.0
+
