@@ -1,123 +1,170 @@
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out3-smtp.messagingengine.com (out3-smtp.messagingengine.com [66.111.4.27])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F063F1D6A9
-	for <linux-staging@lists.linux.dev>; Tue, 12 Dec 2023 18:57:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9F3B63BEF
+	for <linux-staging@lists.linux.dev>; Tue, 12 Dec 2023 20:16:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=fastmail.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fastmail.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OsIE8Y/G"
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-40c495ab68cso4266345e9.0
-        for <linux-staging@lists.linux.dev>; Tue, 12 Dec 2023 10:57:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1702407419; x=1703012219; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=3jZqFXSKKPd9Ks/RHdE7adax2t7T1aOez3KnX+eA7uc=;
-        b=OsIE8Y/GZpl6EZAbIFJZVIyErxInxjiye57fEX++roxPCaWUKhQk1erUBMj18icCQW
-         aTGiFAWaB0GHIf0MVZ56udigC7yyAPN7I2Qzg8WBfxpmoYmO47gn0lwLhtP4I2G/bMVi
-         pN368eZIxEB3eHSs1hJFohrh+4VkLlvNL1BvW/hLjlvDtLN4SLWZjpUExA8a94e9H36s
-         aeusSi2xl0Qs1FobDD7Ws484m2iyCg3JBfeufM0VC8p7PtGCik/O8j/ehZSF3XmaBffS
-         NSjujTGWJ96z/RU5qjZ/puYomchclEiPbu79vuD17wbJX6EJtm7pFObd7sRd7hU8vrQP
-         KAuQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702407419; x=1703012219;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=3jZqFXSKKPd9Ks/RHdE7adax2t7T1aOez3KnX+eA7uc=;
-        b=iMPuOSCcpZDMLhY71jnorZIGs+sl4/qHOzPnPdf7WQlGc5JIOqHtQySwvoMR8HJ1zr
-         295+gRTdjDM0u3t1/51b6NwzgZmGBhWJSsU6VDJdfNRfdpJU3zI06mA8fVCpFgWitX9f
-         vkjc01ZNr1Dk2eLpSkInZZqGijzsbh4Ohi2qodlx5VXaheDNUb9386Awt4HC2ygUi0rf
-         tIfDInd+b4+EO1jNwawG+tEVb3rfakeEWTixCnQKu3+TuCQgrTfNbyzwigCFlZXK9U+4
-         EId64abvnkkR49dsA8Jvqr0wgqvLHWpjIhsMxtYOmPy+sRuk31cRtaQcrPihSFWCHoqY
-         23Yg==
-X-Gm-Message-State: AOJu0YyrrizGh63Y/QfVTqNsAlsRqekwWmwbs6tsDehCpnhn87gcfetJ
-	8uTbJdGloCHW5a2F4t2AG0M=
-X-Google-Smtp-Source: AGHT+IHwaHKV1sGHAHOEQAnyDRP51wcL4tlpVXOeUO/hCDwA2xZwlsFWuh2yYF5C4lMyoBC1fkBG4g==
-X-Received: by 2002:a05:600c:1c86:b0:3fe:d637:7b25 with SMTP id k6-20020a05600c1c8600b003fed6377b25mr8363131wms.0.1702407418795;
-        Tue, 12 Dec 2023 10:56:58 -0800 (PST)
-Received: from [192.168.0.104] (p54a07fa0.dip0.t-ipconnect.de. [84.160.127.160])
-        by smtp.gmail.com with ESMTPSA id r20-20020a05600c35d400b0040b538047b4sm19863451wmq.3.2023.12.12.10.56.58
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 12 Dec 2023 10:56:58 -0800 (PST)
-Message-ID: <6a065daf-3639-4a87-8ab6-7018e0362900@gmail.com>
-Date: Tue, 12 Dec 2023 19:56:57 +0100
+	dkim=pass (2048-bit key) header.d=fastmail.org header.i=@fastmail.org header.b="K5TXCCeO";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="dOt2vi9T"
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+	by mailout.nyi.internal (Postfix) with ESMTP id A27225C00DE;
+	Tue, 12 Dec 2023 15:16:57 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute2.internal (MEProxy); Tue, 12 Dec 2023 15:16:57 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fastmail.org; h=
+	cc:cc:content-type:content-type:date:date:from:from:in-reply-to
+	:in-reply-to:message-id:mime-version:references:reply-to:subject
+	:subject:to:to; s=fm1; t=1702412217; x=1702498617; bh=2+cjEQfIm0
+	O3WXRt9PnhBi4A8k6n3UUDe27/DIffOyQ=; b=K5TXCCeO25/aCqPV7YBAgfKmGS
+	aSeN1BWMtdPg11rZArhXNrrCkKoJO5BD6DPDQFTJgMA8JODAt66zjQXQJDt5geqA
+	MmwNRRpxlfknPslbKGKS7A1spmpJswJXvi246JgJv3/fQHE8nvZ7eaKR5c9cmjXJ
+	Pc9xacBTe/AP6WEV9yqEEjZGnjuNDVREP7ecvUHBcN9NMNUyqa00Pv0KWC/bGyI3
+	3VHamOKAXx56Ay0SHaotFwXmbwr2yKsHW+wFVOsSAUiAsxF+jPMAhcRe8BT68/bA
+	wabvq/yPdy7HnRBjMg7Db4vSrZEnzwnQUCI+jIwlwFxlOTeWlN92mZQGtFMA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm1; t=1702412217; x=1702498617; bh=2+cjEQfIm0O3WXRt9PnhBi4A8k6n
+	3UUDe27/DIffOyQ=; b=dOt2vi9T1CNWYGTM9MxuYhob3+lGrp/udilRLhnfkRIh
+	/bqzybwZu1IKsNr1mPkHrAGPcb9jD/XaTrRIUb2mazpkAmFdnauYVboBMRq5ns8L
+	4bgf2xhQyaeIw0NS1Z9TQqFWubx5X5S4DjD5VIYGkFm/LbOQpkOwfI004a6vB52M
+	rpXFUZMUt01dunX16APepmlqTLAndRkP2lI8iUrfyEm5GTsP+h5H77uTxeOYjqIP
+	BuPAk3aXfo4XoNDurwQlH9nXNhIBZSe3MDUr8XQQIaOrQJ3S6LndhestNzrrwVrH
+	8714kHsavO03gFaWYfglUXnjfVUTNZmR+3Ut9tbvmw==
+X-ME-Sender: <xms:ub94ZWjgb6cUkyH9imlsBCYzY0KfOHQ1vSYL3zD8PcoacSy4mZjTEw>
+    <xme:ub94ZXAYFibvdxkoWUwNQFW2fPniVRTzjQ0oidgOH60eFxn0hM2SSnzunu_QEbAsY
+    EvT0_pLA1xaNOVOFvM>
+X-ME-Received: <xmr:ub94ZeFf_a-1RI4efGQ2zjmDVHIt_RV599vmgVAnsm99zoCJQ03pBIvX5VpNjYH-1gBUED6QIAtMQ6yfKuqKnRZakHDDFIY>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvkedrudelgedgudefvdcutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+    enucfjughrpehffgfhvfevufffjgfkgggtsehgtderredtredtnecuhfhrohhmpefirghr
+    hicutfhoohhkrghrugcuoehgrghrhihrohhokhgrrhgusehfrghsthhmrghilhdrohhrgh
+    eqnecuggftrfgrthhtvghrnheptdeukeefuedujeevveegvdehudefudekkeetgeejleei
+    geefffdvuddujeelleffnecuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucevlhhush
+    htvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehgrghrhihrohhokhgr
+    rhgusehfrghsthhmrghilhdrohhrgh
+X-ME-Proxy: <xmx:ub94ZfRkVVncGNzk6J1iRrSxgLF-uEblJbG7clRM0Sq_aViA26UqUQ>
+    <xmx:ub94ZTz4QqcIt6WhrCPmRZ4vLD5TNs3TOG0ZCuxAtpqqXo6nuQlDPA>
+    <xmx:ub94Zd41wMLTlTjyHiQ91dWdgckX1YukVfK_kN9C0r1ScS2m14CNqw>
+    <xmx:ub94Ze9QRgnhkWevkRBtBqSYUTICrpFky-jPSN7ThbGDuiliz4jEmQ>
+Feedback-ID: ifd194980:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 12 Dec 2023 15:16:56 -0500 (EST)
+References: <20231212165637.17618-1-garyrookard@fastmail.org>
+ <20231212165637.17618-5-garyrookard@fastmail.org>
+ <6a065daf-3639-4a87-8ab6-7018e0362900@gmail.com>
+User-agent: mu4e 1.10.6; emacs 29.1
+From: Gary Rookard <garyrookard@fastmail.org>
+To: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 4/5] staging: rtl8192e: rename variable pHT
+Date: Tue, 12 Dec 2023 15:14:01 -0500
+In-reply-to: <6a065daf-3639-4a87-8ab6-7018e0362900@gmail.com>
+Message-ID: <874jgnuqf0.fsf@fastmail.org>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 4/5] staging: rtl8192e: rename variable pHT
-Content-Language: en-US
-To: Gary Rookard <garyrookard@fastmail.org>, gregkh@linuxfoundation.org
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-References: <20231212165637.17618-1-garyrookard@fastmail.org>
- <20231212165637.17618-5-garyrookard@fastmail.org>
-From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-In-Reply-To: <20231212165637.17618-5-garyrookard@fastmail.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; boundary="=-=-=";
+	micalg=pgp-sha256; protocol="application/pgp-signature"
 
-On 12/12/23 17:56, Gary Rookard wrote:
-> oding style issue, Avoid CamelCase
-> rename it. pHT -> ht
-> 
-> Signed-off-by: Gary Rookard<garyrookard@fastmail.org>
-> ---
->   drivers/staging/rtl8192e/rtl819x_HTProc.c | 20 ++++++++++----------
->   1 file changed, 10 insertions(+), 10 deletions(-)
-> 
-> diff --git a/drivers/staging/rtl8192e/rtl819x_HTProc.c b/drivers/staging/rtl8192e/rtl819x_HTProc.c
-> index ac85151a6069..add8f58b5b1e 100644
-> --- a/drivers/staging/rtl8192e/rtl819x_HTProc.c
-> +++ b/drivers/staging/rtl8192e/rtl819x_HTProc.c
-> @@ -250,17 +250,17 @@ void ht_reset_iot_setting(struct rt_hi_throughput *ht_info)
->   void ht_construct_capability_element(struct rtllib_device *ieee, u8 *pos_ht_cap,
->   				  u8 *len, u8 is_encrypt, bool assoc)
->   {
-> -	struct rt_hi_throughput *pHT = ieee->ht_info;
-> +	struct rt_hi_throughput *ht = ieee->ht_info;
->   	struct ht_capab_ele *pCapELE = NULL;
->   
-> -	if (!pos_ht_cap || !pHT) {
-> +	if (!pos_ht_cap || !ht) {
->   		netdev_warn(ieee->dev,
->   			    "%s(): posHTCap and ht_info are null\n", __func__);
->   		return;
->   	}
->   	memset(pos_ht_cap, 0, *len);
->   
-> -	if ((assoc) && (pHT->ePeerHTSpecVer == HT_SPEC_VER_EWC)) {
-> +	if ((assoc) && (ht->ePeerHTSpecVer == HT_SPEC_VER_EWC)) {
->   		static const u8	EWC11NHTCap[] = { 0x00, 0x90, 0x4c, 0x33 };
->   
->   		memcpy(pos_ht_cap, EWC11NHTCap, sizeof(EWC11NHTCap));
-> @@ -275,9 +275,9 @@ void ht_construct_capability_element(struct rtllib_device *ieee, u8 *pos_ht_cap,
->   	if (ieee->GetHalfNmodeSupportByAPsHandler(ieee->dev))
->   		pCapELE->ChlWidth = 0;
->   	else
-> -		pCapELE->ChlWidth = (pHT->reg_bw_40mhz ? 1 : 0);
-> +		pCapELE->ChlWidth = (ht->reg_bw_40mhz ? 1 : 0);
-
-The last line changed with my patch:
-[PATCH 02/10] staging: rtl8192e: Remove variable ht_info->reg_bw_40mhz
-
-It is always difficult to know which patches are accepted by the 
-maintainer but you may want to look into the following mailing list to 
-see if there have been any patches send in for this driver.
-https://lore.kernel.org/linux-staging/
-
-You could apply the send in patches and build your ones on top. Then you 
-do not have this issue. But when the patches you are using are not 
-accepted you will run into the same issues.
-
-Thanks for your support.
-
-Bye Philipp
+--=-=-=
+Content-Type: text/plain
+Content-Transfer-Encoding: quoted-printable
 
 
+Philipp Hortmann <philipp.g.hortmann@gmail.com> writes:
 
+> On 12/12/23 17:56, Gary Rookard wrote:
+>> oding style issue, Avoid CamelCase
+>> rename it. pHT -> ht
+>> Signed-off-by: Gary Rookard<garyrookard@fastmail.org>
+>> ---
+>>   drivers/staging/rtl8192e/rtl819x_HTProc.c | 20 ++++++++++----------
+>>   1 file changed, 10 insertions(+), 10 deletions(-)
+>> diff --git a/drivers/staging/rtl8192e/rtl819x_HTProc.c
+>> b/drivers/staging/rtl8192e/rtl819x_HTProc.c
+>> index ac85151a6069..add8f58b5b1e 100644
+>> --- a/drivers/staging/rtl8192e/rtl819x_HTProc.c
+>> +++ b/drivers/staging/rtl8192e/rtl819x_HTProc.c
+>> @@ -250,17 +250,17 @@ void ht_reset_iot_setting(struct rt_hi_throughput =
+*ht_info)
+>>   void ht_construct_capability_element(struct rtllib_device *ieee, u8 *p=
+os_ht_cap,
+>>   				  u8 *len, u8 is_encrypt, bool assoc)
+>>   {
+>> -	struct rt_hi_throughput *pHT =3D ieee->ht_info;
+>> +	struct rt_hi_throughput *ht =3D ieee->ht_info;
+>>   	struct ht_capab_ele *pCapELE =3D NULL;
+>>   -	if (!pos_ht_cap || !pHT) {
+>> +	if (!pos_ht_cap || !ht) {
+>>   		netdev_warn(ieee->dev,
+>>   			    "%s(): posHTCap and ht_info are null\n", __func__);
+>>   		return;
+>>   	}
+>>   	memset(pos_ht_cap, 0, *len);
+>>   -	if ((assoc) && (pHT->ePeerHTSpecVer =3D=3D HT_SPEC_VER_EWC)) {
+>> +	if ((assoc) && (ht->ePeerHTSpecVer =3D=3D HT_SPEC_VER_EWC)) {
+>>   		static const u8	EWC11NHTCap[] =3D { 0x00, 0x90, 0x4c, 0x33 };
+>>     		memcpy(pos_ht_cap, EWC11NHTCap, sizeof(EWC11NHTCap));
+>> @@ -275,9 +275,9 @@ void ht_construct_capability_element(struct rtllib_d=
+evice *ieee, u8 *pos_ht_cap,
+>>   	if (ieee->GetHalfNmodeSupportByAPsHandler(ieee->dev))
+>>   		pCapELE->ChlWidth =3D 0;
+>>   	else
+>> -		pCapELE->ChlWidth =3D (pHT->reg_bw_40mhz ? 1 : 0);
+>> +		pCapELE->ChlWidth =3D (ht->reg_bw_40mhz ? 1 : 0);
+>
+> The last line changed with my patch:
+> [PATCH 02/10] staging: rtl8192e: Remove variable ht_info->reg_bw_40mhz
+>
+> It is always difficult to know which patches are accepted by the
+> maintainer but you may want to look into the following mailing list to
+> see if there have been any patches send in for this driver.
+> https://lore.kernel.org/linux-staging/
+>
+> You could apply the send in patches and build your ones on top. Then
+> you do not have this issue. But when the patches you are using are not
+> accepted you will run into the same issues.
+>
+> Thanks for your support.
+>
+> Bye Philipp
+
+Okay, no problem.
+
+Regards,
+Gary
+
+=2D-=20
+Sent with my mu4e on Gentoo GNU/linux.
+
+--=-=-=
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQJNBAEBCAA3FiEEjsrWb+cZk1AuzV9C2li+Bks2LgAFAmV4v8MZHGdhcnlyb29r
+YXJkQGZhc3RtYWlsLm9yZwAKCRDaWL4GSzYuAFpHEACxYwOhErAQCco8Srpcq/iI
+tgRK7G0GMYdbXPOz7fNxuLv9AUKMijqMyXiGtO8L+koKollJqD/3l07Cnm8CAxR4
+JWRu/nK8Dz6w1jWtStJxuhV1qlKenCrYPrCLOkRMG3S4VHHWnf1TOYl/l1hVu1bQ
+aBBOYjQGR1tD/8rDCC/uu18iDVAW5o0uRhhYQyrCjSPmp5XNmdIPBTfLG18PtSBK
+sfHA+UdZXt2wVjVgPworBuEHahBjgKG1Ev9eqaTiqNgWxxyX8APZl4smz90Jbm/W
+mTL8/exIwQMLl4rtBJVD+i0ld07DWs/0Dw2kIwgqKenOHO+eb5c2KKdFbsGLiCeX
+1GYwVo8zvDNx8U2SVFBVyAYQaoO73CSUG6ssr39WL37bdyXaYKQwLG8MFhdJlj9j
+2yRdBSaECnLKBbYZyuIb/h8nbg3vZK+Qe+EHaDfXubFVfJt3LNm0x72Ndb+lTf84
+6G9OvJpHJ3cYdU4uuTyH0oZibS8PVkBLv2aKjnZ8OCxGAhYtllB5bdCMIWD9Hyx4
+68Cyp8j11fbNwwZ5Vqj6PtqZYYb0Qjb9tdcYVYKy3tBUlilwA7CquRBF5g6W9GJg
+23lOk8/aaNgdZ+zzIUpduLOLiVfulh2wN9bhB77fE1XBn3PoO/8jUCTxNGd/PhC0
+ooy5Ip9S0Ts73VCX4xGzDA==
+=OyRa
+-----END PGP SIGNATURE-----
+--=-=-=--
