@@ -1,170 +1,131 @@
-Received: from out3-smtp.messagingengine.com (out3-smtp.messagingengine.com [66.111.4.27])
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9F3B63BEF
-	for <linux-staging@lists.linux.dev>; Tue, 12 Dec 2023 20:16:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=fastmail.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fastmail.org
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=fastmail.org header.i=@fastmail.org header.b="K5TXCCeO";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="dOt2vi9T"
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
-	by mailout.nyi.internal (Postfix) with ESMTP id A27225C00DE;
-	Tue, 12 Dec 2023 15:16:57 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute2.internal (MEProxy); Tue, 12 Dec 2023 15:16:57 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fastmail.org; h=
-	cc:cc:content-type:content-type:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:subject
-	:subject:to:to; s=fm1; t=1702412217; x=1702498617; bh=2+cjEQfIm0
-	O3WXRt9PnhBi4A8k6n3UUDe27/DIffOyQ=; b=K5TXCCeO25/aCqPV7YBAgfKmGS
-	aSeN1BWMtdPg11rZArhXNrrCkKoJO5BD6DPDQFTJgMA8JODAt66zjQXQJDt5geqA
-	MmwNRRpxlfknPslbKGKS7A1spmpJswJXvi246JgJv3/fQHE8nvZ7eaKR5c9cmjXJ
-	Pc9xacBTe/AP6WEV9yqEEjZGnjuNDVREP7ecvUHBcN9NMNUyqa00Pv0KWC/bGyI3
-	3VHamOKAXx56Ay0SHaotFwXmbwr2yKsHW+wFVOsSAUiAsxF+jPMAhcRe8BT68/bA
-	wabvq/yPdy7HnRBjMg7Db4vSrZEnzwnQUCI+jIwlwFxlOTeWlN92mZQGtFMA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-	fm1; t=1702412217; x=1702498617; bh=2+cjEQfIm0O3WXRt9PnhBi4A8k6n
-	3UUDe27/DIffOyQ=; b=dOt2vi9T1CNWYGTM9MxuYhob3+lGrp/udilRLhnfkRIh
-	/bqzybwZu1IKsNr1mPkHrAGPcb9jD/XaTrRIUb2mazpkAmFdnauYVboBMRq5ns8L
-	4bgf2xhQyaeIw0NS1Z9TQqFWubx5X5S4DjD5VIYGkFm/LbOQpkOwfI004a6vB52M
-	rpXFUZMUt01dunX16APepmlqTLAndRkP2lI8iUrfyEm5GTsP+h5H77uTxeOYjqIP
-	BuPAk3aXfo4XoNDurwQlH9nXNhIBZSe3MDUr8XQQIaOrQJ3S6LndhestNzrrwVrH
-	8714kHsavO03gFaWYfglUXnjfVUTNZmR+3Ut9tbvmw==
-X-ME-Sender: <xms:ub94ZWjgb6cUkyH9imlsBCYzY0KfOHQ1vSYL3zD8PcoacSy4mZjTEw>
-    <xme:ub94ZXAYFibvdxkoWUwNQFW2fPniVRTzjQ0oidgOH60eFxn0hM2SSnzunu_QEbAsY
-    EvT0_pLA1xaNOVOFvM>
-X-ME-Received: <xmr:ub94ZeFf_a-1RI4efGQ2zjmDVHIt_RV599vmgVAnsm99zoCJQ03pBIvX5VpNjYH-1gBUED6QIAtMQ6yfKuqKnRZakHDDFIY>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvkedrudelgedgudefvdcutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
-    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
-    enucfjughrpehffgfhvfevufffjgfkgggtsehgtderredtredtnecuhfhrohhmpefirghr
-    hicutfhoohhkrghrugcuoehgrghrhihrohhokhgrrhgusehfrghsthhmrghilhdrohhrgh
-    eqnecuggftrfgrthhtvghrnheptdeukeefuedujeevveegvdehudefudekkeetgeejleei
-    geefffdvuddujeelleffnecuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucevlhhush
-    htvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehgrghrhihrohhokhgr
-    rhgusehfrghsthhmrghilhdrohhrgh
-X-ME-Proxy: <xmx:ub94ZfRkVVncGNzk6J1iRrSxgLF-uEblJbG7clRM0Sq_aViA26UqUQ>
-    <xmx:ub94ZTz4QqcIt6WhrCPmRZ4vLD5TNs3TOG0ZCuxAtpqqXo6nuQlDPA>
-    <xmx:ub94Zd41wMLTlTjyHiQ91dWdgckX1YukVfK_kN9C0r1ScS2m14CNqw>
-    <xmx:ub94Ze9QRgnhkWevkRBtBqSYUTICrpFky-jPSN7ThbGDuiliz4jEmQ>
-Feedback-ID: ifd194980:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 12 Dec 2023 15:16:56 -0500 (EST)
-References: <20231212165637.17618-1-garyrookard@fastmail.org>
- <20231212165637.17618-5-garyrookard@fastmail.org>
- <6a065daf-3639-4a87-8ab6-7018e0362900@gmail.com>
-User-agent: mu4e 1.10.6; emacs 29.1
-From: Gary Rookard <garyrookard@fastmail.org>
-To: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 4/5] staging: rtl8192e: rename variable pHT
-Date: Tue, 12 Dec 2023 15:14:01 -0500
-In-reply-to: <6a065daf-3639-4a87-8ab6-7018e0362900@gmail.com>
-Message-ID: <874jgnuqf0.fsf@fastmail.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B279D65A84
+	for <linux-staging@lists.linux.dev>; Tue, 12 Dec 2023 21:05:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1rD9wF-0001Oy-5K; Tue, 12 Dec 2023 22:05:11 +0100
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1rD9wE-00FQEY-2C; Tue, 12 Dec 2023 22:05:10 +0100
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1rD9wD-001snP-Ol; Tue, 12 Dec 2023 22:05:09 +0100
+Date: Tue, 12 Dec 2023 22:05:09 +0100
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To: Thierry Reding <thierry.reding@gmail.com>
+Cc: linux-doc@vger.kernel.org, dri-devel@lists.freedesktop.org,
+	platform-driver-x86@vger.kernel.org,
+	linux-hardening@vger.kernel.org, linux-riscv@lists.infradead.org,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-leds@vger.kernel.org, chrome-platform@lists.linux.dev,
+	linux-samsung-soc@vger.kernel.org,
+	Bartosz Golaszewski <brgl@bgdev.pl>, linux-staging@lists.linux.dev,
+	linux-rockchip@lists.infradead.org, linux-sunxi@lists.linux.dev,
+	linux-pwm@vger.kernel.org, greybus-dev@lists.linaro.org,
+	linux-mediatek@lists.infradead.org,
+	linux-rpi-kernel@lists.infradead.org,
+	linux-amlogic@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org, linux-mips@vger.kernel.org,
+	asahi@lists.linux.dev, kernel@pengutronix.de
+Subject: Re: [PATCH v4 000/115] pwm: Fix lifetime issues for pwm_chips
+Message-ID: <20231212210509.focpb63fbmahqij3@pengutronix.de>
+References: <cover.1701860672.git.u.kleine-koenig@pengutronix.de>
+ <ZXM4CdJxg-XrYhkn@orome.fritz.box>
+ <20231208185033.e6ty2cajcfle6dgk@pengutronix.de>
+ <ZXbzcFTnDTKoZAta@orome.fritz.box>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="=-=-=";
-	micalg=pgp-sha256; protocol="application/pgp-signature"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="gyt34nc3mm25zmmf"
+Content-Disposition: inline
+In-Reply-To: <ZXbzcFTnDTKoZAta@orome.fritz.box>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-staging@lists.linux.dev
 
---=-=-=
-Content-Type: text/plain
+
+--gyt34nc3mm25zmmf
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
+Hello Thierry,
 
-Philipp Hortmann <philipp.g.hortmann@gmail.com> writes:
+On Mon, Dec 11, 2023 at 12:33:04PM +0100, Thierry Reding wrote:
+> On Fri, Dec 08, 2023 at 07:50:33PM +0100, Uwe Kleine-K=F6nig wrote:
+> > You don't need to touch all drivers because you didn't change struct
+> > pwm_chip::dev yet. (If you really want, you don't need to change that,
+> > but then you have some duplication as chip->dev holds the same value as
+> > priv->dev.parent in the end.)
+>=20
+> I don't think that's a problem. These are for two logically separate
+> things, after all.
 
-> On 12/12/23 17:56, Gary Rookard wrote:
->> oding style issue, Avoid CamelCase
->> rename it. pHT -> ht
->> Signed-off-by: Gary Rookard<garyrookard@fastmail.org>
->> ---
->>   drivers/staging/rtl8192e/rtl819x_HTProc.c | 20 ++++++++++----------
->>   1 file changed, 10 insertions(+), 10 deletions(-)
->> diff --git a/drivers/staging/rtl8192e/rtl819x_HTProc.c
->> b/drivers/staging/rtl8192e/rtl819x_HTProc.c
->> index ac85151a6069..add8f58b5b1e 100644
->> --- a/drivers/staging/rtl8192e/rtl819x_HTProc.c
->> +++ b/drivers/staging/rtl8192e/rtl819x_HTProc.c
->> @@ -250,17 +250,17 @@ void ht_reset_iot_setting(struct rt_hi_throughput =
-*ht_info)
->>   void ht_construct_capability_element(struct rtllib_device *ieee, u8 *p=
-os_ht_cap,
->>   				  u8 *len, u8 is_encrypt, bool assoc)
->>   {
->> -	struct rt_hi_throughput *pHT =3D ieee->ht_info;
->> +	struct rt_hi_throughput *ht =3D ieee->ht_info;
->>   	struct ht_capab_ele *pCapELE =3D NULL;
->>   -	if (!pos_ht_cap || !pHT) {
->> +	if (!pos_ht_cap || !ht) {
->>   		netdev_warn(ieee->dev,
->>   			    "%s(): posHTCap and ht_info are null\n", __func__);
->>   		return;
->>   	}
->>   	memset(pos_ht_cap, 0, *len);
->>   -	if ((assoc) && (pHT->ePeerHTSpecVer =3D=3D HT_SPEC_VER_EWC)) {
->> +	if ((assoc) && (ht->ePeerHTSpecVer =3D=3D HT_SPEC_VER_EWC)) {
->>   		static const u8	EWC11NHTCap[] =3D { 0x00, 0x90, 0x4c, 0x33 };
->>     		memcpy(pos_ht_cap, EWC11NHTCap, sizeof(EWC11NHTCap));
->> @@ -275,9 +275,9 @@ void ht_construct_capability_element(struct rtllib_d=
-evice *ieee, u8 *pos_ht_cap,
->>   	if (ieee->GetHalfNmodeSupportByAPsHandler(ieee->dev))
->>   		pCapELE->ChlWidth =3D 0;
->>   	else
->> -		pCapELE->ChlWidth =3D (pHT->reg_bw_40mhz ? 1 : 0);
->> +		pCapELE->ChlWidth =3D (ht->reg_bw_40mhz ? 1 : 0);
->
-> The last line changed with my patch:
-> [PATCH 02/10] staging: rtl8192e: Remove variable ht_info->reg_bw_40mhz
->
-> It is always difficult to know which patches are accepted by the
-> maintainer but you may want to look into the following mailing list to
-> see if there have been any patches send in for this driver.
-> https://lore.kernel.org/linux-staging/
->
-> You could apply the send in patches and build your ones on top. Then
-> you do not have this issue. But when the patches you are using are not
-> accepted you will run into the same issues.
->
-> Thanks for your support.
->
-> Bye Philipp
+How are they different? I'd say one is the initializer for the other and
+(ideally) unused after that. With that interpretation they are indeed
+different, but then it's ugly that the initializer keeps staying around.
 
-Okay, no problem.
+> Duplication can also sometimes be useful to simplify
+> things. There are plently of cases where we use local variables for the
+> same reason.
 
-Regards,
-Gary
+local variables go away though after the respective function is left.
+chip->dev and its copy priv->dev.parent stay around for the full
+lifetime of the chip.
 
-=2D-=20
-Sent with my mu4e on Gentoo GNU/linux.
+> > > @@ -58,23 +60,24 @@ static struct pwm_chip *pwmchip_find_by_name(cons=
+t char *name)
+> > > =20
+> > >  static int pwm_device_request(struct pwm_device *pwm, const char *la=
+bel)
+> > >  {
+> > > +	struct pwm_chip *chip =3D pwm->priv->chip;
+> >=20
+> > With my approach getting the chip of a struct pwm_device is only one
+> > pointer dereference away. You need two.
+>=20
+> None of the functions here are called very often, so even if this isn't
+> optimized away it would hardly matter.
 
---=-=-=
+I'd say pwm_apply_state() at least matters. Also I think that making a
+slow path quicker is a good thing.=20
+
+I wonder how we'll converge to an approach that can go into the
+mainline given that we both have our strong opinions.
+
+Best regards
+Uwe
+
+--=20
+Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
+Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+
+--gyt34nc3mm25zmmf
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQJNBAEBCAA3FiEEjsrWb+cZk1AuzV9C2li+Bks2LgAFAmV4v8MZHGdhcnlyb29r
-YXJkQGZhc3RtYWlsLm9yZwAKCRDaWL4GSzYuAFpHEACxYwOhErAQCco8Srpcq/iI
-tgRK7G0GMYdbXPOz7fNxuLv9AUKMijqMyXiGtO8L+koKollJqD/3l07Cnm8CAxR4
-JWRu/nK8Dz6w1jWtStJxuhV1qlKenCrYPrCLOkRMG3S4VHHWnf1TOYl/l1hVu1bQ
-aBBOYjQGR1tD/8rDCC/uu18iDVAW5o0uRhhYQyrCjSPmp5XNmdIPBTfLG18PtSBK
-sfHA+UdZXt2wVjVgPworBuEHahBjgKG1Ev9eqaTiqNgWxxyX8APZl4smz90Jbm/W
-mTL8/exIwQMLl4rtBJVD+i0ld07DWs/0Dw2kIwgqKenOHO+eb5c2KKdFbsGLiCeX
-1GYwVo8zvDNx8U2SVFBVyAYQaoO73CSUG6ssr39WL37bdyXaYKQwLG8MFhdJlj9j
-2yRdBSaECnLKBbYZyuIb/h8nbg3vZK+Qe+EHaDfXubFVfJt3LNm0x72Ndb+lTf84
-6G9OvJpHJ3cYdU4uuTyH0oZibS8PVkBLv2aKjnZ8OCxGAhYtllB5bdCMIWD9Hyx4
-68Cyp8j11fbNwwZ5Vqj6PtqZYYb0Qjb9tdcYVYKy3tBUlilwA7CquRBF5g6W9GJg
-23lOk8/aaNgdZ+zzIUpduLOLiVfulh2wN9bhB77fE1XBn3PoO/8jUCTxNGd/PhC0
-ooy5Ip9S0Ts73VCX4xGzDA==
-=OyRa
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmV4ywQACgkQj4D7WH0S
+/k4AOQf/Rn+1it6Pa2jcb+shcSHEefw76NASZ1jTJwzdnczaZca+4/TdY0/HLE/V
+27TLO93Qd9e4o0E4uFjg/T9KbZy+cu9WxiCJ9LgBEhgPaLIWe9opiDarsy2BNLJi
+e6lERFOmyBoG3USP7t/iEQn5C+0+gC6/pcPVWk8TJO/mc2kr8ioQRsaHtaE0AsX0
+hpZS0GH+ypW5d1saF+TMkSDV4QUzmTaXxsSDqG9/vnXhjln6wlriyIo2gJI2qQ6R
+gBrGVWoz8SnG3OjfGZwo9KhL+KPTbjIba4erb1KbE9j9Ul7c3xF/nA6GcTwU/IcQ
+6WQMUp7Ez5oG8txpknnsR9R2Iimimw==
+=APXJ
 -----END PGP SIGNATURE-----
---=-=-=--
+
+--gyt34nc3mm25zmmf--
