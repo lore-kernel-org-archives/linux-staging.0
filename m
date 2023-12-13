@@ -1,53 +1,53 @@
-Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
+Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6ABCC2FC21
-	for <linux-staging@lists.linux.dev>; Wed, 13 Dec 2023 16:52:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B237C2FC21
+	for <linux-staging@lists.linux.dev>; Wed, 13 Dec 2023 16:52:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PDzNZRiY"
-Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-a1d9a736510so218271466b.0
-        for <linux-staging@lists.linux.dev>; Wed, 13 Dec 2023 08:52:50 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JAZGtBO5"
+Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-a1b6524f24fso224831466b.0
+        for <linux-staging@lists.linux.dev>; Wed, 13 Dec 2023 08:52:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1702486369; x=1703091169; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1702486377; x=1703091177; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=QsDC6cnDlhoPFsKvfa+aFC6albQxgKIcluRdn1hA6pw=;
-        b=PDzNZRiYnAGQxRzxZ2JVYCAd2QUcSZdxOzc82dCD/tE7Mod56M/Vs1PMPszPPAxQGN
-         3+eOFWX4A8ceM2q+c7rVyozPnp6gx/pMCF97cDkdI0/2R2THDJsDErBYuPW3S2T6bY7H
-         KOUZlivmxXylJ7LaCMuSx2hM/Muuci4Q1B/WyHz8KHT39Wj21VxlmaRkZO3QnH8ALqCd
-         CzTU/vzaC0lojHR3htRd5tjXBOYJneZSdAV343chU14NYAwRZBLVaPkY5I9jnmBBoiIn
-         pkAjELRgpe29mhxAacYhAFCoqn+JE12/2pMsmfhYWQjIp0aIx26WgJ04q1SwSbGRGnfG
-         f55w==
+        bh=FS9s22OYVyAuBMFkyAlKFllCNEacvvjLW0t9zMiOW0M=;
+        b=JAZGtBO5N9T+9kyBfv2L0GxFzKVNSl7ueMErNDB8g3d1bJRF6DnyreEyEcKz+jEeld
+         cWdcO+QsWFocdX6NZUuSb/e5fRWgJdIb7fcX9AlDnLDbVfBu03ZxjGNgVrwhoMR8ol0z
+         bHxSt1CJgRDvZ+0ddoq3TfW5m2eeb+/vceVGZBrv5VKZZdg6Ygc2IdZqym4CnIuUNGS2
+         VwsBNALMF/3G5l8ETsfp4RfJv4xSj9eUvtKmz7gRuIkURQWmzDMb/cYx+IjYT1guBKxt
+         rRv3p6zsYHQVSlqIomvMBjlKjpBPlZ9enWemiJzrKY35Rll6374hE1ah10EGVQkoeE4R
+         8k8Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702486369; x=1703091169;
+        d=1e100.net; s=20230601; t=1702486377; x=1703091177;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=QsDC6cnDlhoPFsKvfa+aFC6albQxgKIcluRdn1hA6pw=;
-        b=rnreJZY5ndqCZGrj/l/5hx0o4SupuhmsBrNZqDsN0dc7P8uAbg5W2Bv7XauAdejjd0
-         OnebSW71j+J7NPWX7fMebB41PrYAg/E4TuM20awDA8aU5i1PQ++2GIzgiDqlXafgAePe
-         WgDEQGiKp0co3uZOGXRU8RpvftuaaiF8STSbazO2hyNlGAPpmrk6GEA80zzYR4i8lSdy
-         dxww4nxjkic1crhb5Um5Hx06meGDr2bnVoxVUxaV62RY8r6j+CpkIZ2752tGsCN6xoUa
-         jYWpnM9SR02++gDVNY8h2i+Po2vnb1IQsBhtdYjJG7Pycyonl/x3WnLli9XTjkGtGihf
-         Qw9w==
-X-Gm-Message-State: AOJu0YwBTSQ82h/NVKZnZTk9ThyXC+zTBdmObl4KDxAig42e+Gc8DNkS
-	L0vj8nSsjq3OX9JMwRq6eBQ=
-X-Google-Smtp-Source: AGHT+IGiLZB6J8iZW9hDz38oOTk+lx19cmC2hpUGX8EXkOEEpEKEYPXqrJS9OR/tvG214l7oaDTRuw==
-X-Received: by 2002:a17:907:d30a:b0:a1d:65d:c1b1 with SMTP id vg10-20020a170907d30a00b00a1d065dc1b1mr8031014ejc.2.1702486368388;
-        Wed, 13 Dec 2023 08:52:48 -0800 (PST)
+        bh=FS9s22OYVyAuBMFkyAlKFllCNEacvvjLW0t9zMiOW0M=;
+        b=hMDVA8cOxZQO6v9cjY/wkB42GMCyZosKCQ7AmOOHpdQ9QrKzlYut0/n6mQlZIfHpOy
+         yDTNpb7Zf+pModyK/y8XSitb5VH6Gw4fvsdizN50Oz63BsWNRLGRQNzvGKMygE8MG4fT
+         cEkKYCDbmuee2vsrJ0P0D4Pc1nHvLVnBoHx5zi7SdOirq/Kzf3cEts+nYf1IXIg9PIXX
+         njLjXQQCnz7wX1nAJz8ObZvBt0SerqOHe0ETKJXGLwmojpwH/oYRnBvSHbs+pcDWMvjL
+         69jtvn+LmozUj8q9VmmX3YrB9nx3vJZ0b0ksVUJ9BytSvW116O/xCQPYXCSzt9KFhwSY
+         5gRA==
+X-Gm-Message-State: AOJu0YwpJ09yRhuRBRuQ6jKc0KKYyGnhJMs04iwjqIYKMq/Nmi6uVKWk
+	/FYx/A7+OsSncbYQk6UFHgAeSQniqDY=
+X-Google-Smtp-Source: AGHT+IFIApYKM+gx1pkJmp4hu81yddktS+De8kLLlF1vuNbUK4n3HX+NC4tp8rIIgO/t5SqJueGYeQ==
+X-Received: by 2002:a17:906:99cf:b0:a1c:5944:29bb with SMTP id s15-20020a17090699cf00b00a1c594429bbmr9082964ejn.7.1702486376863;
+        Wed, 13 Dec 2023 08:52:56 -0800 (PST)
 Received: from matrix-ESPRIMO-P710 (p54a07fa0.dip0.t-ipconnect.de. [84.160.127.160])
-        by smtp.gmail.com with ESMTPSA id cx12-20020a170907168c00b00a1caa9dd507sm8111138ejd.52.2023.12.13.08.52.47
+        by smtp.gmail.com with ESMTPSA id sa16-20020a1709076d1000b00a1da72b8752sm8047775ejc.212.2023.12.13.08.52.56
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 13 Dec 2023 08:52:48 -0800 (PST)
-Date: Wed, 13 Dec 2023 17:52:46 +0100
+        Wed, 13 Dec 2023 08:52:56 -0800 (PST)
+Date: Wed, 13 Dec 2023 17:52:55 +0100
 From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [PATCH 09/10] staging: rtl8192e: Remove constant variable
- reg_rt2rt_aggregation
-Message-ID: <07a0954cc6fd730d9d42054fa36346d1de07cd06.1702406712.git.philipp.g.hortmann@gmail.com>
+Subject: [PATCH 10/10] staging: rtl8192e: Remove constant variable
+ reg_rx_reorder_enable
+Message-ID: <c9bf183b78bfe1fc242dc496786cd0c9f20262a4.1702406712.git.philipp.g.hortmann@gmail.com>
 References: <cover.1702406712.git.philipp.g.hortmann@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -59,94 +59,48 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 In-Reply-To: <cover.1702406712.git.philipp.g.hortmann@gmail.com>
 
-ht_info->reg_rt2rt_aggregation is set to 1 and unchanged. Therefore all
-equations result accordingly and ht_info->reg_rt2rt_aggregation can be
-removed.
+Remove constant variable reg_rx_reorder_enable and replace it at the place
+of usage with the value.
 
 Signed-off-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
 ---
- drivers/staging/rtl8192e/rtl819x_HT.h     |  1 -
- drivers/staging/rtl8192e/rtl819x_HTProc.c | 37 +++++++----------------
- 2 files changed, 11 insertions(+), 27 deletions(-)
+ drivers/staging/rtl8192e/rtl819x_HT.h     | 1 -
+ drivers/staging/rtl8192e/rtl819x_HTProc.c | 3 +--
+ 2 files changed, 1 insertion(+), 3 deletions(-)
 
 diff --git a/drivers/staging/rtl8192e/rtl819x_HT.h b/drivers/staging/rtl8192e/rtl819x_HT.h
-index 315905fa4b2c..514ac9e1f3f8 100644
+index 514ac9e1f3f8..2911ea82dd17 100644
 --- a/drivers/staging/rtl8192e/rtl819x_HT.h
 +++ b/drivers/staging/rtl8192e/rtl819x_HT.h
-@@ -112,7 +112,6 @@ struct rt_hi_throughput {
- 	enum ht_extchnl_offset CurSTAExtChnlOffset;
- 	u8 cur_tx_bw40mhz;
- 	u8 sw_bw_in_progress;
--	u8 reg_rt2rt_aggregation;
+@@ -115,7 +115,6 @@ struct rt_hi_throughput {
  	u8 current_rt2rt_aggregation;
  	u8 current_rt2rt_long_slot_time;
  	u8 sz_rt2rt_agg_buf[10];
+-	u8 reg_rx_reorder_enable;
+ 	u8 cur_rx_reorder_enable;
+ 	u8 rx_reorder_win_size;
+ 	u8 rx_reorder_pending_time;
 diff --git a/drivers/staging/rtl8192e/rtl819x_HTProc.c b/drivers/staging/rtl8192e/rtl819x_HTProc.c
-index 6bd4afe32f61..d9561e3a76d6 100644
+index d9561e3a76d6..00bf5c706157 100644
 --- a/drivers/staging/rtl8192e/rtl819x_HTProc.c
 +++ b/drivers/staging/rtl8192e/rtl819x_HTProc.c
-@@ -79,8 +79,6 @@ void ht_update_default_setting(struct rtllib_device *ieee)
+@@ -79,7 +79,6 @@ void ht_update_default_setting(struct rtllib_device *ieee)
  
  	ieee->tx_enable_fw_calc_dur = 1;
  
--	ht_info->reg_rt2rt_aggregation = 1;
--
- 	ht_info->reg_rx_reorder_enable = 1;
+-	ht_info->reg_rx_reorder_enable = 1;
  	ht_info->rx_reorder_win_size = 64;
  	ht_info->rx_reorder_pending_time = 30;
-@@ -471,25 +469,17 @@ void HTOnAssocRsp(struct rtllib_device *ieee)
- 			ht_info->current_ampdu_enable = false;
- 	}
- 
--	if (!ht_info->reg_rt2rt_aggregation) {
--		if (ht_info->ampdu_factor > pPeerHTCap->MaxRxAMPDUFactor)
-+	if (ieee->current_network.bssht.bd_rt2rt_aggregation) {
-+		if (ieee->pairwise_key_type != KEY_TYPE_NA)
- 			ht_info->CurrentAMPDUFactor =
--						 pPeerHTCap->MaxRxAMPDUFactor;
-+					 pPeerHTCap->MaxRxAMPDUFactor;
- 		else
--			ht_info->CurrentAMPDUFactor = ht_info->ampdu_factor;
--
-+			ht_info->CurrentAMPDUFactor = HT_AGG_SIZE_64K;
- 	} else {
--		if (ieee->current_network.bssht.bd_rt2rt_aggregation) {
--			if (ieee->pairwise_key_type != KEY_TYPE_NA)
--				ht_info->CurrentAMPDUFactor =
--						 pPeerHTCap->MaxRxAMPDUFactor;
--			else
--				ht_info->CurrentAMPDUFactor = HT_AGG_SIZE_64K;
--		} else {
--			ht_info->CurrentAMPDUFactor = min_t(u32, pPeerHTCap->MaxRxAMPDUFactor,
--							    HT_AGG_SIZE_32K);
--		}
-+		ht_info->CurrentAMPDUFactor = min_t(u32, pPeerHTCap->MaxRxAMPDUFactor,
-+						    HT_AGG_SIZE_32K);
- 	}
-+
- 	ht_info->current_mpdu_density = pPeerHTCap->MPDUDensity;
+ }
+@@ -484,7 +483,7 @@ void HTOnAssocRsp(struct rtllib_device *ieee)
  	if (ht_info->iot_action & HT_IOT_ACT_TX_USE_AMSDU_8K) {
  		ht_info->current_ampdu_enable = false;
-@@ -595,15 +585,10 @@ void HTResetSelfAndSavePeerSetting(struct rtllib_device *ieee,
- 			       pNetwork->bssht.bd_ht_info_buf,
- 			       pNetwork->bssht.bd_ht_info_len);
+ 	}
+-	ht_info->cur_rx_reorder_enable = ht_info->reg_rx_reorder_enable;
++	ht_info->cur_rx_reorder_enable = 1;
  
--		if (ht_info->reg_rt2rt_aggregation) {
--			ht_info->current_rt2rt_aggregation =
--				 pNetwork->bssht.bd_rt2rt_aggregation;
--			ht_info->current_rt2rt_long_slot_time =
--				 pNetwork->bssht.bd_rt2rt_long_slot_time;
--		} else {
--			ht_info->current_rt2rt_aggregation = false;
--			ht_info->current_rt2rt_long_slot_time = false;
--		}
-+		ht_info->current_rt2rt_aggregation =
-+			 pNetwork->bssht.bd_rt2rt_aggregation;
-+		ht_info->current_rt2rt_long_slot_time =
-+			 pNetwork->bssht.bd_rt2rt_long_slot_time;
- 
- 		ht_iot_peer_determine(ieee);
- 
+ 	if (pPeerHTCap->MCS[0] == 0)
+ 		pPeerHTCap->MCS[0] = 0xff;
 -- 
 2.43.0
 
