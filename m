@@ -1,101 +1,117 @@
-Received: from mail-qt1-f171.google.com (mail-qt1-f171.google.com [209.85.160.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 766342C1B7
-	for <linux-staging@lists.linux.dev>; Wed, 13 Dec 2023 13:13:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="epDTVOn9"
-Received: by mail-qt1-f171.google.com with SMTP id d75a77b69052e-425c54f5842so24985091cf.2
-        for <linux-staging@lists.linux.dev>; Wed, 13 Dec 2023 05:13:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1702473219; x=1703078019; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=1Qo5R6yTzwaWH5LM+yEuRkuuzL/LOwLG4Rnp9GlOsN0=;
-        b=epDTVOn9ST3h4/FZXS7mVpCrGsmS7xY/QdkqzDEpfl709wo03zCevpC7rd5gC5F5t+
-         CP+IZtrXhoyVX+U/xhfAShJGVabVVp/jsqkJ7rFlA0lCb0UiaDqvRaPoCMJhhouIRuC6
-         Ng5AByxOwymXMQMD3uU4V4i4IBnORIoMRhilJXUKyEtmAcLu2qd2lKo+IQNeSw64mD3P
-         xtsVuFwemPTrIDAqMhQc/kbsMfp2e1WAaR3klrIZe7IMLgNJCSFZXaKlQT45WHZPTQzI
-         WUrsY/wWPi7e377qJ15SgDYq+/sRjq0/D1gVMYKIE3Hp9dKKDiQ2e0kpCa9On2tGJw0J
-         UF9Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702473219; x=1703078019;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=1Qo5R6yTzwaWH5LM+yEuRkuuzL/LOwLG4Rnp9GlOsN0=;
-        b=nEJzCFtF+llPO2+gHYgogZgEUnTbokY8sJlhzzj6pqzB6fur32UuxBz2EkdY676G41
-         9wrrfclul55K2LJ8TpiUIBVqKWjADmFlvxjBhzW+wsaN+P+31vO8nJ26WRVydsfqVCu6
-         yk2ezcalspT7p7JqA0BQ8uOgusHohoE4+aBwu4i7eclPaB6kV7Blr38dhY/tybic/90T
-         aVyURm57BSoGvq7Jqdoyt/mlin3EgmXKK1x06p/vAWyeRAtzaFOJuLwzwwq2do9cTZpK
-         yv0NNVtfVTe6TssNy3FIvmU8Fgu5PN8eGiNdSNVT55HlUqA44bgwU60toVfZbokE2dtD
-         +x/g==
-X-Gm-Message-State: AOJu0YzF2gUQxUsD9X5UxvQvlNqImOVkLuP2SxZiIX/PoZCt8HQA0sZC
-	wo22dwa/MHnhZXwk8b+Zjjk4yA==
-X-Google-Smtp-Source: AGHT+IFiXyPVZqdJtAPBMBKl/zR7/AwrfluYAbKiw6zzrn8OLvxIyWqo3MQ7VLohJVWc7AW8Q3QsNA==
-X-Received: by 2002:ac8:5909:0:b0:423:7d92:ddba with SMTP id 9-20020ac85909000000b004237d92ddbamr10443139qty.5.1702473219241;
-        Wed, 13 Dec 2023 05:13:39 -0800 (PST)
-Received: from localhost ([102.140.209.237])
-        by smtp.gmail.com with ESMTPSA id p18-20020ac84612000000b00423e77c96adsm4871616qtn.94.2023.12.13.05.13.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 13 Dec 2023 05:13:38 -0800 (PST)
-Date: Wed, 13 Dec 2023 16:13:22 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: xueqin Luo <luoxueqin@kylinos.cn>
-Cc: gregkh@linuxfoundation.org, hdegoede@redhat.com,
-	Larry.Finger@lwfinger.net, xiongxin@kylinos.cn, wangqi@kylinos.cn,
-	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
-Subject: Re: [RESEND PATCH-next] staging: rtl8723bs: replace deprecated
- strncpy with strscpy_pad
-Message-ID: <f0abc689-a084-4c74-b5fe-3592eceb3399@suswa.mountain>
-References: <20231213011840.10005-1-luoxueqin@kylinos.cn>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C83FD35F10;
+	Wed, 13 Dec 2023 16:39:10 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A428BC433C8;
+	Wed, 13 Dec 2023 16:39:07 +0000 (UTC)
+Message-ID: <839535af-acba-4240-b9c6-d592d898dc4c@xs4all.nl>
+Date: Wed, 13 Dec 2023 17:39:05 +0100
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231213011840.10005-1-luoxueqin@kylinos.cn>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 1/3] videobuf2: core: Rename min_buffers_needed field
+ to vb2_queue
+Content-Language: en-US, nl
+To: Benjamin Gaignard <benjamin.gaignard@collabora.com>, mchehab@kernel.org,
+ tfiga@chromium.org
+Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+ linux-staging@lists.linux.dev, kernel@collabora.com
+References: <20231211133251.150999-1-benjamin.gaignard@collabora.com>
+ <20231211133251.150999-2-benjamin.gaignard@collabora.com>
+From: Hans Verkuil <hverkuil@xs4all.nl>
+Autocrypt: addr=hverkuil@xs4all.nl; keydata=
+ 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
+In-Reply-To: <20231211133251.150999-2-benjamin.gaignard@collabora.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Wed, Dec 13, 2023 at 09:18:40AM +0800, xueqin Luo wrote:
-> `strncpy` is deprecated for use on NUL-terminated destination strings
-> [1] and as such we should prefer more robust and less ambiguous string
-> interfaces.
-> 
-> We should NUL-pad as there are full struct copies happening in places:
-> |	case NL80211_IFTYPE_MONITOR:
-> |                ret = rtw_cfg80211_add_monitor_if(padapter,
-> |						(char *)name, &ndev);
-> |                break;
-> 
+Hi Benjamin,
 
-I don't see where the full copy is...  What you're looking for is some
-place that copies "mon_ndev->name" to the user.
+On 11/12/2023 14:32, Benjamin Gaignard wrote:
+> Rename min_buffers_needed into min_queued_buffers and update
+> the documentation about it.
 
-> A suitable replacement is `strscpy_pad` due to the fact that it
-> guarantees both NUL-termination and NUL-padding on the destination
-> buffer.
-> 
-> Additionally, replace size macro `IFNAMSIZ` with sizeof():
-> |	struct net_device {
-> |		char			name[IFNAMSIZ];
-> |		...
+I merged this patch, but not the others. I also dropped one functional
+change:
 
-This would normally be the right move but IFNAMSIZ is a really standard
-macro that everyone knows.
+<snip>
 
-When I'm reviewing this code, I later on see a line:
+> diff --git a/drivers/media/common/videobuf2/videobuf2-core.c b/drivers/media/common/videobuf2/videobuf2-core.c
+> index 40d89f29fa33..8912dff5bde3 100644
+> --- a/drivers/media/common/videobuf2/videobuf2-core.c
+> +++ b/drivers/media/common/videobuf2/videobuf2-core.c
+> @@ -865,7 +865,7 @@ int vb2_core_reqbufs(struct vb2_queue *q, enum vb2_memory memory,
+>  	/*
+>  	 * Make sure the requested values and current defaults are sane.
+>  	 */
+> -	num_buffers = max_t(unsigned int, *count, q->min_buffers_needed);
+> +	num_buffers = max_t(unsigned int, *count, q->min_queued_buffers + 1);
+>  	num_buffers = min_t(unsigned int, num_buffers, q->max_num_buffers);
+>  	memset(q->alloc_devs, 0, sizeof(q->alloc_devs));
+>  	/*
 
-	memcpy(pwdev_priv->ifname_mon, name, IFNAMSIZ + 1);
+That "+ 1" didn't really belong here, since everything else was just renaming a
+field. Such a patch shouldn't make any other changes.
 
-That means name must be "IFNAMSIZ + 1" characters long or it is a bug.
-Please find out where name is set.  We need to know how long it is
-before we can go any further.
+There were also three more occurrences of min_buffers_needed (one in a comment,
+two in a vivid function argument), and I renamed those as well.
 
-regards,
-dan carpenter
+'git grep min_buffers_needed' now no longer shows any hits.
 
+I decided not to take the other patches, I think it is best if you rebase
+and repost the series on top of staging and in the new year we'll continue with
+it. I did not feel that I had enough time to really review the remaining patches.
+
+However, it is nice to have this large rename patch merged. It touches on a lot
+of files, so it is annoying to have to carry that around. And now was a good
+moment to merge it.
+
+Regards,
+
+	Hans
