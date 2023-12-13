@@ -1,131 +1,93 @@
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-il1-f195.google.com (mail-il1-f195.google.com [209.85.166.195])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B279D65A84
-	for <linux-staging@lists.linux.dev>; Tue, 12 Dec 2023 21:05:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1rD9wF-0001Oy-5K; Tue, 12 Dec 2023 22:05:11 +0100
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1rD9wE-00FQEY-2C; Tue, 12 Dec 2023 22:05:10 +0100
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1rD9wD-001snP-Ol; Tue, 12 Dec 2023 22:05:09 +0100
-Date: Tue, 12 Dec 2023 22:05:09 +0100
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To: Thierry Reding <thierry.reding@gmail.com>
-Cc: linux-doc@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	platform-driver-x86@vger.kernel.org,
-	linux-hardening@vger.kernel.org, linux-riscv@lists.infradead.org,
-	linux-stm32@st-md-mailman.stormreply.com,
-	linux-leds@vger.kernel.org, chrome-platform@lists.linux.dev,
-	linux-samsung-soc@vger.kernel.org,
-	Bartosz Golaszewski <brgl@bgdev.pl>, linux-staging@lists.linux.dev,
-	linux-rockchip@lists.infradead.org, linux-sunxi@lists.linux.dev,
-	linux-pwm@vger.kernel.org, greybus-dev@lists.linaro.org,
-	linux-mediatek@lists.infradead.org,
-	linux-rpi-kernel@lists.infradead.org,
-	linux-amlogic@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org, linux-mips@vger.kernel.org,
-	asahi@lists.linux.dev, kernel@pengutronix.de
-Subject: Re: [PATCH v4 000/115] pwm: Fix lifetime issues for pwm_chips
-Message-ID: <20231212210509.focpb63fbmahqij3@pengutronix.de>
-References: <cover.1701860672.git.u.kleine-koenig@pengutronix.de>
- <ZXM4CdJxg-XrYhkn@orome.fritz.box>
- <20231208185033.e6ty2cajcfle6dgk@pengutronix.de>
- <ZXbzcFTnDTKoZAta@orome.fritz.box>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D44C1EB8
+	for <linux-staging@lists.linux.dev>; Wed, 13 Dec 2023 01:19:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-il1-f195.google.com with SMTP id e9e14a558f8ab-35d67870032so40300125ab.2
+        for <linux-staging@lists.linux.dev>; Tue, 12 Dec 2023 17:19:16 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1702430356; x=1703035156;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=uUXh09h2lQO8hg4DVa7lEdMbGciYtMpynkwHc3N2aNE=;
+        b=NJtBvON3xiYjN+WMGyIygCpvKneiyzE/d4bGbT1UBdS9+2Ph2HSemgjNpNCudSTOP/
+         /H+H2TtvTgweLV9LHFQzFeI5W8d9c48P6kUtVBJUdNNOlUAfo2VRImhHRpVVCgsg0Yz6
+         ygjMIKOpiHaOVL29SuKiwqsNaibwBegAJjKX6SbpK/aq2+PNP6OFyvsUfwgw/z2NkKr9
+         F9uIr9WBEVbDagG87RhnCw3+P2g3WvAAI6dM0t/Iwd5KrNXgsbyqXkhcheuhdPNQfA1K
+         Fxuh3PTM9H1sWqjvaP//Dh0ZP0ILKrRsE1EJeZj9UCRm7F2ROE/DI6OA7HjIUzZ8mRif
+         K94Q==
+X-Gm-Message-State: AOJu0Yy6EN44f8vFI9gTvxwllE5sHjO18sKs/HVSE7b1wQ3pNzHycg0h
+	RTiClEiYhIK5iwuZqN77q8o=
+X-Google-Smtp-Source: AGHT+IHMr04vj0dJJgQ8mjNjKeiyECW7R4/yw/fE90/5IglQ245owAWpWj07njK4AgX+TiuiyA0jTA==
+X-Received: by 2002:a05:6e02:184c:b0:35d:a8c0:8c92 with SMTP id b12-20020a056e02184c00b0035da8c08c92mr11355963ilv.99.1702430355753;
+        Tue, 12 Dec 2023 17:19:15 -0800 (PST)
+Received: from kylin-ThinkBook-15-G2-ITL.. ([111.48.58.12])
+        by smtp.gmail.com with ESMTPSA id d3-20020a170903230300b001d08bbcf78bsm9266913plh.74.2023.12.12.17.19.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 12 Dec 2023 17:19:15 -0800 (PST)
+From: xueqin Luo <luoxueqin@kylinos.cn>
+To: gregkh@linuxfoundation.org,
+	hdegoede@redhat.com,
+	Larry.Finger@lwfinger.net
+Cc: xiongxin@kylinos.cn,
+	wangqi@kylinos.cn,
+	linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	xueqin Luo <luoxueqin@kylinos.cn>
+Subject: [RESEND PATCH-next] staging: rtl8723bs: replace deprecated strncpy with strscpy_pad
+Date: Wed, 13 Dec 2023 09:18:40 +0800
+Message-Id: <20231213011840.10005-1-luoxueqin@kylinos.cn>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="gyt34nc3mm25zmmf"
-Content-Disposition: inline
-In-Reply-To: <ZXbzcFTnDTKoZAta@orome.fritz.box>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-staging@lists.linux.dev
+Content-Transfer-Encoding: 8bit
 
+`strncpy` is deprecated for use on NUL-terminated destination strings
+[1] and as such we should prefer more robust and less ambiguous string
+interfaces.
 
---gyt34nc3mm25zmmf
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+We should NUL-pad as there are full struct copies happening in places:
+|	case NL80211_IFTYPE_MONITOR:
+|                ret = rtw_cfg80211_add_monitor_if(padapter,
+|						(char *)name, &ndev);
+|                break;
 
-Hello Thierry,
+A suitable replacement is `strscpy_pad` due to the fact that it
+guarantees both NUL-termination and NUL-padding on the destination
+buffer.
 
-On Mon, Dec 11, 2023 at 12:33:04PM +0100, Thierry Reding wrote:
-> On Fri, Dec 08, 2023 at 07:50:33PM +0100, Uwe Kleine-K=F6nig wrote:
-> > You don't need to touch all drivers because you didn't change struct
-> > pwm_chip::dev yet. (If you really want, you don't need to change that,
-> > but then you have some duplication as chip->dev holds the same value as
-> > priv->dev.parent in the end.)
->=20
-> I don't think that's a problem. These are for two logically separate
-> things, after all.
+Additionally, replace size macro `IFNAMSIZ` with sizeof():
+|	struct net_device {
+|		char			name[IFNAMSIZ];
+|		...
 
-How are they different? I'd say one is the initializer for the other and
-(ideally) unused after that. With that interpretation they are indeed
-different, but then it's ugly that the initializer keeps staying around.
+Link: https://www.kernel.org/doc/html/latest/process/deprecated.html#strncpy-on-nul-terminated-strings [1]
+Signed-off-by: xueqin Luo <luoxueqin@kylinos.cn>
+---
+ drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-> Duplication can also sometimes be useful to simplify
-> things. There are plently of cases where we use local variables for the
-> same reason.
+diff --git a/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c b/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
+index 1ff763c10064..90d521571f0e 100644
+--- a/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
++++ b/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
+@@ -2144,8 +2144,7 @@ static int rtw_cfg80211_add_monitor_if(struct adapter *padapter, char *name, str
+ 	}
+ 
+ 	mon_ndev->type = ARPHRD_IEEE80211_RADIOTAP;
+-	strncpy(mon_ndev->name, name, IFNAMSIZ);
+-	mon_ndev->name[IFNAMSIZ - 1] = 0;
++	strscpy_pad(mon_ndev->name, name, sizeof(mon_ndev->name));
+ 	mon_ndev->needs_free_netdev = true;
+ 	mon_ndev->priv_destructor = rtw_ndev_destructor;
+ 
+-- 
+2.34.1
 
-local variables go away though after the respective function is left.
-chip->dev and its copy priv->dev.parent stay around for the full
-lifetime of the chip.
-
-> > > @@ -58,23 +60,24 @@ static struct pwm_chip *pwmchip_find_by_name(cons=
-t char *name)
-> > > =20
-> > >  static int pwm_device_request(struct pwm_device *pwm, const char *la=
-bel)
-> > >  {
-> > > +	struct pwm_chip *chip =3D pwm->priv->chip;
-> >=20
-> > With my approach getting the chip of a struct pwm_device is only one
-> > pointer dereference away. You need two.
->=20
-> None of the functions here are called very often, so even if this isn't
-> optimized away it would hardly matter.
-
-I'd say pwm_apply_state() at least matters. Also I think that making a
-slow path quicker is a good thing.=20
-
-I wonder how we'll converge to an approach that can go into the
-mainline given that we both have our strong opinions.
-
-Best regards
-Uwe
-
---=20
-Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
-Industrial Linux Solutions                 | https://www.pengutronix.de/ |
-
---gyt34nc3mm25zmmf
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmV4ywQACgkQj4D7WH0S
-/k4AOQf/Rn+1it6Pa2jcb+shcSHEefw76NASZ1jTJwzdnczaZca+4/TdY0/HLE/V
-27TLO93Qd9e4o0E4uFjg/T9KbZy+cu9WxiCJ9LgBEhgPaLIWe9opiDarsy2BNLJi
-e6lERFOmyBoG3USP7t/iEQn5C+0+gC6/pcPVWk8TJO/mc2kr8ioQRsaHtaE0AsX0
-hpZS0GH+ypW5d1saF+TMkSDV4QUzmTaXxsSDqG9/vnXhjln6wlriyIo2gJI2qQ6R
-gBrGVWoz8SnG3OjfGZwo9KhL+KPTbjIba4erb1KbE9j9Ul7c3xF/nA6GcTwU/IcQ
-6WQMUp7Ez5oG8txpknnsR9R2Iimimw==
-=APXJ
------END PGP SIGNATURE-----
-
---gyt34nc3mm25zmmf--
