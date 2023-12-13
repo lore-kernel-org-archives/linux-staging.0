@@ -1,53 +1,53 @@
-Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
+Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8AF43A287
-	for <linux-staging@lists.linux.dev>; Wed, 13 Dec 2023 16:52:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20C4C2FC21
+	for <linux-staging@lists.linux.dev>; Wed, 13 Dec 2023 16:52:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lgK9U9ir"
-Received: by mail-ed1-f44.google.com with SMTP id 4fb4d7f45d1cf-551e19beb35so309739a12.0
-        for <linux-staging@lists.linux.dev>; Wed, 13 Dec 2023 08:52:15 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cj8VbeJT"
+Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-a1c6c8d2ecdso190885666b.0
+        for <linux-staging@lists.linux.dev>; Wed, 13 Dec 2023 08:52:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1702486334; x=1703091134; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1702486343; x=1703091143; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=hcU4d4c9EhwDhCpZ+xb05RdkC86nsBALUhVrkSRZ1Dw=;
-        b=lgK9U9irTVNq7DoiLmgtae1G3IPhciNZy/ge3i3VFvXrwqa8Br8m/tJG9wSQLQXh2v
-         047fzDttA8Y/BRk3gP9DXXaxP+e70BHVoh+L4Mjngy4QP02aB/aH/hiIlSc6yPfI9pTB
-         IjE7BPlO5tWsqZya8lqXEdJrl0weY4JjM9mQ6iZCcfpJMJMH5Lry4HTYwhNF/j2teubE
-         D4MPxLPoj/Z4yPhyAlhEEG80U1Lf+2aMkBbmsNQxDdintwFSvwPCXdN1NfRrDBJ22lWu
-         HqMIGZk5SKmb/5icrOuLMd4L6tzoB2v796nwdGuGn1TputF/V0/jZQiuXsGCIuPxryo9
-         Kpfw==
+        bh=QcuM1B7Nqln2T8HsY+RDMt6vNuKyn/uBt6HB0cu06wE=;
+        b=cj8VbeJTYye0kT0sVTqcArItfdQoWMIhNe0Pw6h3dWjcLkIjy+mkY6SkKEQ3UPWUex
+         4fvb0bIImPygh5YF2XhC8DrpVK/CZKQ/4CUY3FhDV6SneBB4AvYllS02adQyNsVMT1oj
+         l1tcSsoKszk1qkLSlaMPNFtEd8Wv64UTOgLW4mnAL6pwjVBVJhYbgHxaekZJ0yWPhcN9
+         bDDAEyj5tbct6FsxxmW0DfWBzTCOX/sjJ3CafRH3nm2b7Y63D+eAJ+R8n0xjk1/y1i0O
+         AAkytkGsxj8eMN3Vq8q8ZsNUtKqfCSXVZz+jS5mYeZbxHJtj0SB4Z3xZx491THk81z8N
+         8nCA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702486334; x=1703091134;
+        d=1e100.net; s=20230601; t=1702486343; x=1703091143;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=hcU4d4c9EhwDhCpZ+xb05RdkC86nsBALUhVrkSRZ1Dw=;
-        b=CLEJwzrIdaVPWyk63/NhmWsBASxtJAhZS9HF6hyo3PM4EyoEGalu12nBIrCTmDekm2
-         RCFnKxyJnrKhJAaftncrKh2NaR0JazVjKXK2cbHfP+EQ4hXZKSiNTu/j3KJXN1pb/IKA
-         P6wOLzcZ5aSkvDtE2YbX9Dkq1qUkYkiSzNzzRDLhPT9VvBoyUw5kTp+0AwPFlbB6RO/b
-         dbb/TVSrLRs9qm0vg6aMyFNEiFW9r+20+wAWCGXfjlzoMhEeym4ZbKtrf7SKv/2ZpRUJ
-         ufy0yqGwSl+yvqFEMnzIQFpVF8aBozJ/zyFP3kWcLjpZgoj/3u2EYeVTiL0d7Oo7Jn9Q
-         lQ/A==
-X-Gm-Message-State: AOJu0YyyGLIA+JcqOncN+j0e2hDt4ENrvey4V06X9J7M6Z1qdFjVhtic
-	87XqB4umMamrXNHvY1Q4k4c=
-X-Google-Smtp-Source: AGHT+IGZz7paThhCvZZNDmg/Imt9mXY25GH+sKlIoSMkzIKOa6mluYu0N+JMxL26diY7xzifU3KH4g==
-X-Received: by 2002:a50:c189:0:b0:54c:6fc0:483a with SMTP id m9-20020a50c189000000b0054c6fc0483amr8757847edf.2.1702486334020;
-        Wed, 13 Dec 2023 08:52:14 -0800 (PST)
+        bh=QcuM1B7Nqln2T8HsY+RDMt6vNuKyn/uBt6HB0cu06wE=;
+        b=S506P6D3A1obUlLjEM0z18CoLn2zQFUA5D9SRXEkR0ohHYuZWeSJN3DIw/9dRc9C36
+         02RL4TZPm3Pv26oIaT7hxjAccj9yxVimc834lmaWpnM80q8+1kndtJhLXjbRbEkdD/yy
+         2JsDUommxc3a+HbrtzRwTmPkKAMesHhtIP7zQmJzk0F6y0W8tGJ68OcqDi/mO2hKN1IG
+         a/MiY1J3KUch3YYR2YR6kY2xAza/6bYKGVnKJ3tO1PCexQPDgHog1str2ygDHfcKu3G0
+         vqtlL9oJPQ6EgE7Xy5ixML9hcWlCaU+QOWbVKaTC4nwUOX22wFS9IUC89pa9Q9U+Mih7
+         mKlQ==
+X-Gm-Message-State: AOJu0YxGu8YQbXPgdNx8W/KiN2AvwWRXM/8Ix9qurgpyKmhoURaBSNeg
+	s65WlXxGMPXJcwumepRqE0rMddC5D+4=
+X-Google-Smtp-Source: AGHT+IHnnv5a7KagUWLWUtnXmhAJTELjZR68Rq07jNtKxvCUpjdfOeyNLnO8XgZA84eeMOocpuA34g==
+X-Received: by 2002:a17:907:a70f:b0:a00:211c:9a9a with SMTP id vw15-20020a170907a70f00b00a00211c9a9amr9176973ejc.5.1702486343268;
+        Wed, 13 Dec 2023 08:52:23 -0800 (PST)
 Received: from matrix-ESPRIMO-P710 (p54a07fa0.dip0.t-ipconnect.de. [84.160.127.160])
-        by smtp.gmail.com with ESMTPSA id v1-20020a50d581000000b00550ce74f7eesm4994896edi.67.2023.12.13.08.52.13
+        by smtp.gmail.com with ESMTPSA id tb19-20020a1709078b9300b00a1cd30d06d1sm8245901ejc.14.2023.12.13.08.52.22
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 13 Dec 2023 08:52:13 -0800 (PST)
-Date: Wed, 13 Dec 2023 17:52:12 +0100
+        Wed, 13 Dec 2023 08:52:23 -0800 (PST)
+Date: Wed, 13 Dec 2023 17:52:21 +0100
 From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [PATCH 05/10] staging: rtl8192e: Remove constant variable
- forced_short_gi
-Message-ID: <fc5711032c658af6ae6c5a7a98c52871c29f8c33.1702406712.git.philipp.g.hortmann@gmail.com>
+Subject: [PATCH 06/10] staging: rtl8192e: Remove unused variable
+ ht_info->amsdu_support
+Message-ID: <b3ea8ddd16a753d9ee1ee8b99e31e990ce89133b.1702406712.git.philipp.g.hortmann@gmail.com>
 References: <cover.1702406712.git.philipp.g.hortmann@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -59,56 +59,39 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 In-Reply-To: <cover.1702406712.git.philipp.g.hortmann@gmail.com>
 
-ht_info->forced_short_gi is set to 0 and unchanged. Therefore all equations
-result accordingly and ht_info->forced_short_gi can be removed.
+Remove unused variable ht_info->amsdu_support.
 
 Signed-off-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
 ---
  drivers/staging/rtl8192e/rtl819x_HT.h     | 1 -
- drivers/staging/rtl8192e/rtl819x_HTProc.c | 1 -
- drivers/staging/rtl8192e/rtllib_tx.c      | 5 -----
- 3 files changed, 7 deletions(-)
+ drivers/staging/rtl8192e/rtl819x_HTProc.c | 2 --
+ 2 files changed, 3 deletions(-)
 
 diff --git a/drivers/staging/rtl8192e/rtl819x_HT.h b/drivers/staging/rtl8192e/rtl819x_HT.h
-index 43472b2250c2..e6cd906dc0ac 100644
+index e6cd906dc0ac..c4af9968cd67 100644
 --- a/drivers/staging/rtl8192e/rtl819x_HT.h
 +++ b/drivers/staging/rtl8192e/rtl819x_HT.h
-@@ -110,7 +110,6 @@ struct rt_hi_throughput {
- 	u8 current_mpdu_density;
- 	u8 forced_ampdu_factor;
- 	u8 forced_mpdu_density;
--	u8 forced_short_gi;
- 	u8 current_op_mode;
- 	enum ht_extchnl_offset CurSTAExtChnlOffset;
- 	u8 cur_tx_bw40mhz;
+@@ -101,7 +101,6 @@ struct rt_hi_throughput {
+ 	struct ht_capab_ele SelfHTCap;
+ 	u8 PeerHTCapBuf[32];
+ 	u8 PeerHTInfoBuf[32];
+-	u8 amsdu_support;
+ 	u8 ampdu_enable;
+ 	u8 current_ampdu_enable;
+ 	u8 ampdu_factor;
 diff --git a/drivers/staging/rtl8192e/rtl819x_HTProc.c b/drivers/staging/rtl8192e/rtl819x_HTProc.c
-index d424b7729a01..578d9276035f 100644
+index 578d9276035f..044bfe44d213 100644
 --- a/drivers/staging/rtl8192e/rtl819x_HTProc.c
 +++ b/drivers/staging/rtl8192e/rtl819x_HTProc.c
-@@ -527,7 +527,6 @@ void HTInitializeHTInfo(struct rtllib_device *ieee)
+@@ -71,8 +71,6 @@ void ht_update_default_setting(struct rtllib_device *ieee)
+ {
+ 	struct rt_hi_throughput *ht_info = ieee->ht_info;
  
- 	ht_info->cur_short_gi_20mhz = false;
- 	ht_info->cur_short_gi_40mhz = false;
--	ht_info->forced_short_gi = false;
- 
- 	ht_info->current_mpdu_density = ht_info->mpdu_density;
- 	ht_info->CurrentAMPDUFactor = ht_info->ampdu_factor;
-diff --git a/drivers/staging/rtl8192e/rtllib_tx.c b/drivers/staging/rtl8192e/rtllib_tx.c
-index 0fa6f674a844..f7098a2ba8b0 100644
---- a/drivers/staging/rtl8192e/rtllib_tx.c
-+++ b/drivers/staging/rtl8192e/rtllib_tx.c
-@@ -340,11 +340,6 @@ static void rtllib_query_HTCapShortGI(struct rtllib_device *ieee,
- 	if (!ht_info->current_ht_support || !ht_info->enable_ht)
- 		return;
- 
--	if (ht_info->forced_short_gi) {
--		tcb_desc->bUseShortGI = true;
--		return;
--	}
+-	ht_info->amsdu_support = 0;
 -
- 	if (ht_info->cur_bw_40mhz && ht_info->cur_short_gi_40mhz)
- 		tcb_desc->bUseShortGI = true;
- 	else if (!ht_info->cur_bw_40mhz && ht_info->cur_short_gi_20mhz)
+ 	ht_info->ampdu_enable = 1;
+ 	ht_info->ampdu_factor = 2;
+ 	ht_info->mpdu_density = 0;
 -- 
 2.43.0
 
