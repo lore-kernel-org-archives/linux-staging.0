@@ -1,56 +1,56 @@
-Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
+Received: from mail-qt1-f171.google.com (mail-qt1-f171.google.com [209.85.160.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB34A1C6B0
-	for <linux-staging@lists.linux.dev>; Wed, 13 Dec 2023 07:40:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 766342C1B7
+	for <linux-staging@lists.linux.dev>; Wed, 13 Dec 2023 13:13:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="K//NtdFU"
-Received: by mail-ed1-f47.google.com with SMTP id 4fb4d7f45d1cf-54f4b31494fso10239245a12.1
-        for <linux-staging@lists.linux.dev>; Tue, 12 Dec 2023 23:40:36 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="epDTVOn9"
+Received: by mail-qt1-f171.google.com with SMTP id d75a77b69052e-425c54f5842so24985091cf.2
+        for <linux-staging@lists.linux.dev>; Wed, 13 Dec 2023 05:13:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1702453235; x=1703058035; darn=lists.linux.dev;
+        d=linaro.org; s=google; t=1702473219; x=1703078019; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=v0Ly6HERW61XKD/YdVWYbpue1eQaDfbZ8RVVo6+xYP4=;
-        b=K//NtdFUqtPP16dRQZA/BZYg7j5PdWD+5F5T3p3Bo/caJqppnfly4rKDxSwvs7dkYw
-         kOsUEhfc5v71hE7jj5hzOpDyWhg65CvKwoJ57j/51MjahZNsVvS/J89IERyCezkJaYCz
-         dhJtiJA5PgQB6bv1y/EuDUdA89hUF/la3AAKXC3PNBjjY7EAcI9yExeXkk1QNc96TVnM
-         sVj88HEFRJ1ngKV05MKda3v3IEkNW2Lq/XV9pm4cwChrNNAewumuuQsjf1toG8cmc5bk
-         0leBy1PDMjksegDyyWnYnr911XNtNFvH00AzVmZTf9AW34ddCwR2eOWat62Cqt+MG1/p
-         luGA==
+        bh=1Qo5R6yTzwaWH5LM+yEuRkuuzL/LOwLG4Rnp9GlOsN0=;
+        b=epDTVOn9ST3h4/FZXS7mVpCrGsmS7xY/QdkqzDEpfl709wo03zCevpC7rd5gC5F5t+
+         CP+IZtrXhoyVX+U/xhfAShJGVabVVp/jsqkJ7rFlA0lCb0UiaDqvRaPoCMJhhouIRuC6
+         Ng5AByxOwymXMQMD3uU4V4i4IBnORIoMRhilJXUKyEtmAcLu2qd2lKo+IQNeSw64mD3P
+         xtsVuFwemPTrIDAqMhQc/kbsMfp2e1WAaR3klrIZe7IMLgNJCSFZXaKlQT45WHZPTQzI
+         WUrsY/wWPi7e377qJ15SgDYq+/sRjq0/D1gVMYKIE3Hp9dKKDiQ2e0kpCa9On2tGJw0J
+         UF9Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702453235; x=1703058035;
+        d=1e100.net; s=20230601; t=1702473219; x=1703078019;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=v0Ly6HERW61XKD/YdVWYbpue1eQaDfbZ8RVVo6+xYP4=;
-        b=KnPapcHymFDp8uNLZQ95iEbykZ0Arl16+46NnGVE+DGLyd1qUP5nIg3rCQ8e/RlIOn
-         ZVZQxiMSRL8D7xBFu3l1tX+ABrC6nctzo4h0GOuyg/l8KsTlQjm2ly92NDzArijpwz6G
-         KluqVaLmTH7x7Hn/N2BLAezOWHT44ic8nH+p2ToW09NQ4uCU2348mwCKyiSRf9ITqq70
-         RAJIdVLVFI7zZ1e3prGfBqQ3aLxJyckTQuKO0rKd9fCoLEG+C+uDSWAZGSBZaSZcm9Zm
-         B6EMkzt8QtyZtk0XiE8VI74RrG3mdTIf/uRvACFsGdmprxYBJrKeNymQHaTav58f7u3J
-         VM0Q==
-X-Gm-Message-State: AOJu0YyWzK6N/IeHNKl5JJ4SaSpMZDwgNr0mW41gSN+EYhZoL8NmztmZ
-	scUkG2g0uwqXuZYsd2YSmgJYPA==
-X-Google-Smtp-Source: AGHT+IGKbFjRp1ZDTn5emaNV0yLT0UtG6txFHNST+cXhdsrFy5XgkqtKPM/tRuWWTL+/CXMjVr7zSg==
-X-Received: by 2002:aa7:da41:0:b0:551:dce6:6911 with SMTP id w1-20020aa7da41000000b00551dce66911mr1432774eds.10.1702453234941;
-        Tue, 12 Dec 2023 23:40:34 -0800 (PST)
-Received: from localhost (h1f2c.n1.ips.mtn.co.ug. [41.210.159.44])
-        by smtp.gmail.com with ESMTPSA id p3-20020a50cd83000000b005522983c243sm156639edi.91.2023.12.12.23.40.33
+        bh=1Qo5R6yTzwaWH5LM+yEuRkuuzL/LOwLG4Rnp9GlOsN0=;
+        b=nEJzCFtF+llPO2+gHYgogZgEUnTbokY8sJlhzzj6pqzB6fur32UuxBz2EkdY676G41
+         9wrrfclul55K2LJ8TpiUIBVqKWjADmFlvxjBhzW+wsaN+P+31vO8nJ26WRVydsfqVCu6
+         yk2ezcalspT7p7JqA0BQ8uOgusHohoE4+aBwu4i7eclPaB6kV7Blr38dhY/tybic/90T
+         aVyURm57BSoGvq7Jqdoyt/mlin3EgmXKK1x06p/vAWyeRAtzaFOJuLwzwwq2do9cTZpK
+         yv0NNVtfVTe6TssNy3FIvmU8Fgu5PN8eGiNdSNVT55HlUqA44bgwU60toVfZbokE2dtD
+         +x/g==
+X-Gm-Message-State: AOJu0YzF2gUQxUsD9X5UxvQvlNqImOVkLuP2SxZiIX/PoZCt8HQA0sZC
+	wo22dwa/MHnhZXwk8b+Zjjk4yA==
+X-Google-Smtp-Source: AGHT+IFiXyPVZqdJtAPBMBKl/zR7/AwrfluYAbKiw6zzrn8OLvxIyWqo3MQ7VLohJVWc7AW8Q3QsNA==
+X-Received: by 2002:ac8:5909:0:b0:423:7d92:ddba with SMTP id 9-20020ac85909000000b004237d92ddbamr10443139qty.5.1702473219241;
+        Wed, 13 Dec 2023 05:13:39 -0800 (PST)
+Received: from localhost ([102.140.209.237])
+        by smtp.gmail.com with ESMTPSA id p18-20020ac84612000000b00423e77c96adsm4871616qtn.94.2023.12.13.05.13.37
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 12 Dec 2023 23:40:34 -0800 (PST)
-Date: Wed, 13 Dec 2023 10:40:27 +0300
+        Wed, 13 Dec 2023 05:13:38 -0800 (PST)
+Date: Wed, 13 Dec 2023 16:13:22 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-Cc: Gary Rookard <garyrookard@fastmail.org>, gregkh@linuxfoundation.org,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 4/5] staging: rtl8192e: rename variable pHT
-Message-ID: <437ac97e-ff02-455d-a5b0-677907e86cad@suswa.mountain>
-References: <20231212165637.17618-1-garyrookard@fastmail.org>
- <20231212165637.17618-5-garyrookard@fastmail.org>
- <6a065daf-3639-4a87-8ab6-7018e0362900@gmail.com>
+To: xueqin Luo <luoxueqin@kylinos.cn>
+Cc: gregkh@linuxfoundation.org, hdegoede@redhat.com,
+	Larry.Finger@lwfinger.net, xiongxin@kylinos.cn, wangqi@kylinos.cn,
+	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
+Subject: Re: [RESEND PATCH-next] staging: rtl8723bs: replace deprecated
+ strncpy with strscpy_pad
+Message-ID: <f0abc689-a084-4c74-b5fe-3592eceb3399@suswa.mountain>
+References: <20231213011840.10005-1-luoxueqin@kylinos.cn>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -59,61 +59,43 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <6a065daf-3639-4a87-8ab6-7018e0362900@gmail.com>
+In-Reply-To: <20231213011840.10005-1-luoxueqin@kylinos.cn>
 
-On Tue, Dec 12, 2023 at 07:56:57PM +0100, Philipp Hortmann wrote:
-> On 12/12/23 17:56, Gary Rookard wrote:
-> > oding style issue, Avoid CamelCase
-> > rename it. pHT -> ht
-> > 
-> > Signed-off-by: Gary Rookard<garyrookard@fastmail.org>
-> > ---
-> >   drivers/staging/rtl8192e/rtl819x_HTProc.c | 20 ++++++++++----------
-> >   1 file changed, 10 insertions(+), 10 deletions(-)
-> > 
-> > diff --git a/drivers/staging/rtl8192e/rtl819x_HTProc.c b/drivers/staging/rtl8192e/rtl819x_HTProc.c
-> > index ac85151a6069..add8f58b5b1e 100644
-> > --- a/drivers/staging/rtl8192e/rtl819x_HTProc.c
-> > +++ b/drivers/staging/rtl8192e/rtl819x_HTProc.c
-> > @@ -250,17 +250,17 @@ void ht_reset_iot_setting(struct rt_hi_throughput *ht_info)
-> >   void ht_construct_capability_element(struct rtllib_device *ieee, u8 *pos_ht_cap,
-> >   				  u8 *len, u8 is_encrypt, bool assoc)
-> >   {
-> > -	struct rt_hi_throughput *pHT = ieee->ht_info;
-> > +	struct rt_hi_throughput *ht = ieee->ht_info;
-> >   	struct ht_capab_ele *pCapELE = NULL;
-> > -	if (!pos_ht_cap || !pHT) {
-> > +	if (!pos_ht_cap || !ht) {
-> >   		netdev_warn(ieee->dev,
-> >   			    "%s(): posHTCap and ht_info are null\n", __func__);
-> >   		return;
-> >   	}
-> >   	memset(pos_ht_cap, 0, *len);
-> > -	if ((assoc) && (pHT->ePeerHTSpecVer == HT_SPEC_VER_EWC)) {
-> > +	if ((assoc) && (ht->ePeerHTSpecVer == HT_SPEC_VER_EWC)) {
-> >   		static const u8	EWC11NHTCap[] = { 0x00, 0x90, 0x4c, 0x33 };
-> >   		memcpy(pos_ht_cap, EWC11NHTCap, sizeof(EWC11NHTCap));
-> > @@ -275,9 +275,9 @@ void ht_construct_capability_element(struct rtllib_device *ieee, u8 *pos_ht_cap,
-> >   	if (ieee->GetHalfNmodeSupportByAPsHandler(ieee->dev))
-> >   		pCapELE->ChlWidth = 0;
-> >   	else
-> > -		pCapELE->ChlWidth = (pHT->reg_bw_40mhz ? 1 : 0);
-> > +		pCapELE->ChlWidth = (ht->reg_bw_40mhz ? 1 : 0);
+On Wed, Dec 13, 2023 at 09:18:40AM +0800, xueqin Luo wrote:
+> `strncpy` is deprecated for use on NUL-terminated destination strings
+> [1] and as such we should prefer more robust and less ambiguous string
+> interfaces.
 > 
-> The last line changed with my patch:
-> [PATCH 02/10] staging: rtl8192e: Remove variable ht_info->reg_bw_40mhz
+> We should NUL-pad as there are full struct copies happening in places:
+> |	case NL80211_IFTYPE_MONITOR:
+> |                ret = rtw_cfg80211_add_monitor_if(padapter,
+> |						(char *)name, &ndev);
+> |                break;
 > 
-> It is always difficult to know which patches are accepted by the maintainer
-> but you may want to look into the following mailing list to see if there
-> have been any patches send in for this driver.
-> https://lore.kernel.org/linux-staging/
-> 
-> You could apply the send in patches and build your ones on top. Then you do
-> not have this issue. But when the patches you are using are not accepted you
-> will run into the same issues.
 
-Generally, it's first come, first serve.  For you, your patches have
-a 95% chance of being merged.
+I don't see where the full copy is...  What you're looking for is some
+place that copies "mon_ndev->name" to the user.
+
+> A suitable replacement is `strscpy_pad` due to the fact that it
+> guarantees both NUL-termination and NUL-padding on the destination
+> buffer.
+> 
+> Additionally, replace size macro `IFNAMSIZ` with sizeof():
+> |	struct net_device {
+> |		char			name[IFNAMSIZ];
+> |		...
+
+This would normally be the right move but IFNAMSIZ is a really standard
+macro that everyone knows.
+
+When I'm reviewing this code, I later on see a line:
+
+	memcpy(pwdev_priv->ifname_mon, name, IFNAMSIZ + 1);
+
+That means name must be "IFNAMSIZ + 1" characters long or it is a bug.
+Please find out where name is set.  We need to know how long it is
+before we can go any further.
 
 regards,
 dan carpenter
+
