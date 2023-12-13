@@ -1,46 +1,46 @@
 Received: from out4-smtp.messagingengine.com (out4-smtp.messagingengine.com [66.111.4.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D58859B44
-	for <linux-staging@lists.linux.dev>; Wed, 13 Dec 2023 17:54:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A97275955E
+	for <linux-staging@lists.linux.dev>; Wed, 13 Dec 2023 17:54:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=fastmail.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fastmail.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=fastmail.org header.i=@fastmail.org header.b="V56aqOQj";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="R/NWIg2u"
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
-	by mailout.nyi.internal (Postfix) with ESMTP id A7B255C036A;
-	Wed, 13 Dec 2023 12:54:32 -0500 (EST)
+	dkim=pass (2048-bit key) header.d=fastmail.org header.i=@fastmail.org header.b="iG8N+EJ6";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="op+szTeX"
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+	by mailout.nyi.internal (Postfix) with ESMTP id 914D75C03F5;
+	Wed, 13 Dec 2023 12:54:35 -0500 (EST)
 Received: from mailfrontend1 ([10.202.2.162])
-  by compute2.internal (MEProxy); Wed, 13 Dec 2023 12:54:32 -0500
+  by compute4.internal (MEProxy); Wed, 13 Dec 2023 12:54:35 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fastmail.org; h=
 	cc:cc:content-transfer-encoding:content-type:date:date:from:from
 	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:subject:subject:to:to; s=fm1; t=1702490072; x=
-	1702576472; bh=NFWBZNBolF9xr8pUspxdkODDx6FqZO+GM1v/aSU4404=; b=V
-	56aqOQj3PJEe+5cSrhEvK9EQd1kDwM2+ptCoWIo/NmaAlEC7thTzC6H/QYVeCCFE
-	U5vWufD0AHO8K0eZMUoyvkALX3UnDQSZIjq7+9CTb+/x0a4601ECrB+ujtHFWDqc
-	S53YPl3cur5VJ3cRMkAEhJ33oAeh1BEQ7g7OXSUAlt88rjRZqjr1GqmjKQfnR6QL
-	rMPL0++0d0Fboh8AvDgRl6v6ORfPP2iPw44Vzu2G5YazfOlqvWv/IUwSIkze2mwa
-	YHc1ula9wNM5x1uCqavjBycTbStAt2C9Ak6NCTXSMkJcVFaOQ6MsZ2kItyPFHwqy
-	WEfuUg5m1tBs19AgjUuOA==
+	:reply-to:subject:subject:to:to; s=fm1; t=1702490075; x=
+	1702576475; bh=RRJC+HdOSAtLKZ1tfbLXPJklfXKvB6O/n536R+XKUYg=; b=i
+	G8N+EJ6x+T4ml59XjFOuXm57KzjFKlH3qEfjT/whpVmd/PHK08DGw3rkiBkPsPMu
+	ycZ37H+kgTlHsp0D3tHGif1sK+LFPaJ8tiQ5vgj/l1qEUFO3PLTEzOHr83NStlCT
+	mVXwV4sCFPd5Rk4h6C2dwCUi8yaSts2IsHF/4EQA4Vi87U2ITPOiPH49tpyLYG66
+	ZvlabOBI3sl4yjA4hv0f56kJPkWR71DhIzVzOiuTGu43j+f7PESZQqzUNAbloqYi
+	oUxNBfYo/FTkGcQUzSWuwRQb5cJ9VXMqGBbLr8HhkVqLp0C9DG4txrigXLoKsjhI
+	P7aoM9O9HZHEHx4Cydx0A==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-transfer-encoding
 	:content-type:date:date:feedback-id:feedback-id:from:from
 	:in-reply-to:in-reply-to:message-id:mime-version:references
 	:reply-to:subject:subject:to:to:x-me-proxy:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1702490072; x=
-	1702576472; bh=NFWBZNBolF9xr8pUspxdkODDx6FqZO+GM1v/aSU4404=; b=R
-	/NWIg2uy7Nj+7ybTluEbChTzEXn7eGT36Rhi+JMJ2q7uB4Xyvkd9leCb00Zpg0y9
-	HRSqRuZCDWoMfJ2Ss7zZOR5AWCd8RP/MPYHcnaaWKLZqaw0tljOJxe0vzgPZdwPB
-	5IGlN0LLd4LWHcIlxHbUUc65TRaC/pinw3AFHsoyTnV6OT0JJRsYI8oxzldNBKzi
-	2MbbST3EZCeSdi4X45iFbEUt79EXxi9t8KLi4sS3knkXTjBaSqqAuPayzaaa+l24
-	rZ70PdaffXNdzD7fnXfuX3h153cWgH2/L+wU2k4lLTCnQMATWJdx4SG33c0q/E4G
-	lo+5PrHIsNTPTOb3ERJBw==
-X-ME-Sender: <xms:2O95ZZk8KO96UEnje-9gVRhxMJsJdi7W6Um5R15N7XG94RQp-hc-tA>
-    <xme:2O95ZU1flc2ZrJIXdm88O43QMrNvRx6nFLto3BAwEsgLFcJ4vpSyWnF4crSlI--kv
-    DljY1esGzR2SPl4U2Q>
-X-ME-Received: <xmr:2O95ZfoZlVQZNk19ORqMv1bsfN22TLiHZpVUB74rskVcv6ORu7Miw9pLfrg5_lYM5s9RKE9FLRf5lmPFk_miahVXFvdc1Hu3HYdxQAyQs4o>
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1702490075; x=
+	1702576475; bh=RRJC+HdOSAtLKZ1tfbLXPJklfXKvB6O/n536R+XKUYg=; b=o
+	p+szTeXumDNUM5dpSMbUm2WhsyQqKR40pfl6Su8kcgEh/yWcQmkFfN0ch88iE1fJ
+	yRS2i0IDWfFM0RDA4Aw3F2+JRTmeCcEwlHvgFMDV8xPY8fszwieSmAdDwYgRmHc3
+	R1UNYkV+k2/8ltLO+cRYuD0SN+Rbc5oAzSpKzt5q6YJOHsEqux7F4FWAumyA9gdK
+	9f1lsun6RtqNrYLu5tQgnGWKZUryuvqn6qcNcvmrHSxdiAdrgAmSUQd68PmoxdBG
+	37hbI1HUQOKHlG3IhAj8vJ7A8YHWAB3TnkTqsDz3afWLmhMPW7ywz2lBcn5Q5295
+	AzJmOonHnyVgPTa4VE0dQ==
+X-ME-Sender: <xms:2-95ZbPuep1r7XjPIYqklLV_wP56dpueMHu7zgDaNCJZ0DGmJJUxXA>
+    <xme:2-95ZV-Qxg5hJb_ZaD1Frh0Kg-bRxUASudO8qKiK2IBoOlPqFRiRUryfHTKVoXO0N
+    I4YZblTZWUjXF0Idfw>
+X-ME-Received: <xmr:2-95ZaQqNSHaKEl5icurbc6d2kdEA3B6V7HpyH9NshJDIoM-WEoHiXRSfxUeEXVrLRqJmwqSO7-c9D9-_gPJhS3FAgCM7dot08NVEfJC7M0>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvkedrudeljedggeeiucetufdoteggodetrfdotf
     fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
     uceurghilhhouhhtmecufedttdenucenucfjughrpefhvfevufffkffojghfggfgsedtke
@@ -49,22 +49,22 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvkedrudeljedggeeiucetufdoteggod
     egieeuffejhefgkeetfeehueelfeduuefgveellefhfefgjedvnecuvehluhhsthgvrhfu
     ihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepghgrrhihrhhoohhkrghrugesfh
     grshhtmhgrihhlrdhorhhg
-X-ME-Proxy: <xmx:2O95ZZkXLvzJS9269EbPeAF5SR0ijML649qbiX8HtQnEbaTStp6C_A>
-    <xmx:2O95ZX1GI3TdIbevudfCbrBJqk1qoPN7gWuRs9JqzgEV2z8EtfAOUg>
-    <xmx:2O95ZYvtewZ0BTlFlgsaWnYGQBNMZiL09McfxXnxWlCYNIKO7Ukrlw>
-    <xmx:2O95ZYxZQl7W7U3tQtH0HvfgusiDTa2Uq5zkBYLIQaLqx97Jkn2cIQ>
+X-ME-Proxy: <xmx:2-95ZfvrBbTUmXbKeJLQF2iRKjjHOM4_AVeTUAOQ3oriZ3GGm-MUOQ>
+    <xmx:2-95ZTfAMGqoQginvMyKlMTKM-3KEYcV1FXPi9p0_9tDDxpmjOfJ_g>
+    <xmx:2-95Zb3dDWnS7Lr15cLLo1tzvfWoARAe2InSuc6gv4-iz4YiIFYobw>
+    <xmx:2-95Zf5de3xY7esnUjj40fFZEvOOx4mv23p-Y1Q9d-3ZEhnkOLjcNA>
 Feedback-ID: ifd194980:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 13 Dec 2023 12:54:32 -0500 (EST)
+ 13 Dec 2023 12:54:35 -0500 (EST)
 From: Gary Rookard <garyrookard@fastmail.org>
 To: gregkh@linuxfoundation.org,
 	philipp.g.hortmann@gmail.com
 Cc: linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Gary Rookard <garyrookard@fastmail.org>
-Subject: [PATCH 4/5] staging: rtl8192e: rename variable HTOnAssocRsp
-Date: Wed, 13 Dec 2023 12:54:58 -0500
-Message-ID: <20231213175459.5425-5-garyrookard@fastmail.org>
+Subject: [PATCH 5/5] staging: rtl8192e: rename variable HTInitializeHTInfo
+Date: Wed, 13 Dec 2023 12:54:59 -0500
+Message-ID: <20231213175459.5425-6-garyrookard@fastmail.org>
 X-Mailer: git-send-email 2.41.0
 In-Reply-To: <20231213175459.5425-1-garyrookard@fastmail.org>
 References: <20231213175459.5425-1-garyrookard@fastmail.org>
@@ -77,54 +77,54 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
 Coding style issue, checkpatch Avoid CamelCase,
-rename it. HTOnAssocRsp -> ht_on_assoc_rsp
+rename it. HTInitializeHTInfo -> ht_initialize_ht_info
 
 Signed-off-by: Gary Rookard <garyrookard@fastmail.org>
 ---
  drivers/staging/rtl8192e/rtl819x_HTProc.c | 2 +-
  drivers/staging/rtl8192e/rtllib.h         | 2 +-
- drivers/staging/rtl8192e/rtllib_softmac.c | 2 +-
+ drivers/staging/rtl8192e/rtllib_module.c  | 2 +-
  3 files changed, 3 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/staging/rtl8192e/rtl819x_HTProc.c b/drivers/staging/rtl8192e/rtl819x_HTProc.c
-index 4c99e2db97d7..8d07e5caa2b8 100644
+index 8d07e5caa2b8..8af980619b99 100644
 --- a/drivers/staging/rtl8192e/rtl819x_HTProc.c
 +++ b/drivers/staging/rtl8192e/rtl819x_HTProc.c
-@@ -441,7 +441,7 @@ void ht_set_connect_bw_mode(struct rtllib_device *ieee,
- 			enum ht_channel_width bandwidth,
- 			enum ht_extchnl_offset Offset);
+@@ -553,7 +553,7 @@ void ht_on_assoc_rsp(struct rtllib_device *ieee)
+ 	ht_info->current_op_mode = pPeerHTInfo->OptMode;
+ }
  
--void HTOnAssocRsp(struct rtllib_device *ieee)
-+void ht_on_assoc_rsp(struct rtllib_device *ieee)
+-void HTInitializeHTInfo(struct rtllib_device *ieee)
++void ht_initialize_ht_info(struct rtllib_device *ieee)
  {
  	struct rt_hi_throughput *ht_info = ieee->ht_info;
- 	struct ht_capab_ele *pPeerHTCap = NULL;
+ 
 diff --git a/drivers/staging/rtl8192e/rtllib.h b/drivers/staging/rtl8192e/rtllib.h
-index ff7fef68e309..f756395b9bed 100644
+index f756395b9bed..dbc894259477 100644
 --- a/drivers/staging/rtl8192e/rtllib.h
 +++ b/drivers/staging/rtl8192e/rtllib.h
-@@ -1760,7 +1760,7 @@ void ht_construct_capability_element(struct rtllib_device *ieee,
- 				  u8 isEncrypt, bool bAssoc);
+@@ -1761,7 +1761,7 @@ void ht_construct_capability_element(struct rtllib_device *ieee,
  void ht_construct_rt2rt_agg_element(struct rtllib_device *ieee,
  				u8 *posRT2RTAgg, u8 *len);
--void HTOnAssocRsp(struct rtllib_device *ieee);
-+void ht_on_assoc_rsp(struct rtllib_device *ieee);
- void HTInitializeHTInfo(struct rtllib_device *ieee);
+ void ht_on_assoc_rsp(struct rtllib_device *ieee);
+-void HTInitializeHTInfo(struct rtllib_device *ieee);
++void ht_initialize_ht_info(struct rtllib_device *ieee);
  void HTInitializeBssDesc(struct bss_ht *pBssHT);
  void HTResetSelfAndSavePeerSetting(struct rtllib_device *ieee,
-diff --git a/drivers/staging/rtl8192e/rtllib_softmac.c b/drivers/staging/rtl8192e/rtllib_softmac.c
-index a6de4db9a9cc..d60bf5870c39 100644
---- a/drivers/staging/rtl8192e/rtllib_softmac.c
-+++ b/drivers/staging/rtl8192e/rtllib_softmac.c
-@@ -1067,7 +1067,7 @@ static void rtllib_associate_complete_wq(void *data)
- 	}
- 	if (ieee->ht_info->current_ht_support && ieee->ht_info->enable_ht) {
- 		netdev_info(ieee->dev, "Successfully associated, ht enabled\n");
--		HTOnAssocRsp(ieee);
-+		ht_on_assoc_rsp(ieee);
- 	} else {
- 		netdev_info(ieee->dev,
- 			    "Successfully associated, ht not enabled(%d, %d)\n",
+ 				   struct rtllib_network *pNetwork);
+diff --git a/drivers/staging/rtl8192e/rtllib_module.c b/drivers/staging/rtl8192e/rtllib_module.c
+index 95b6d6b9429c..e7af4a25b0be 100644
+--- a/drivers/staging/rtl8192e/rtllib_module.c
++++ b/drivers/staging/rtl8192e/rtllib_module.c
+@@ -123,7 +123,7 @@ struct net_device *alloc_rtllib(int sizeof_priv)
+ 		goto free_softmac;
+ 
+ 	ht_update_default_setting(ieee);
+-	HTInitializeHTInfo(ieee);
++	ht_initialize_ht_info(ieee);
+ 	rtllib_ts_init(ieee);
+ 	for (i = 0; i < IEEE_IBSS_MAC_HASH_SIZE; i++)
+ 		INIT_LIST_HEAD(&ieee->ibss_mac_hash[i]);
 -- 
 2.41.0
 
