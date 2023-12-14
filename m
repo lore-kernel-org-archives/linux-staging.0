@@ -1,21 +1,21 @@
 Received: from ex01.ufhost.com (ex01.ufhost.com [61.152.239.75])
 	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8288D125A9
-	for <linux-staging@lists.linux.dev>; Thu, 14 Dec 2023 06:50:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C030FA21
+	for <linux-staging@lists.linux.dev>; Thu, 14 Dec 2023 06:52:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=starfivetech.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=starfivetech.com
-Received: from EXMBX165.cuchost.com (unknown [175.102.18.54])
+Received: from EXMBX166.cuchost.com (unknown [175.102.18.54])
 	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(Client CN "EXMBX165", Issuer "EXMBX165" (not verified))
-	by ex01.ufhost.com (Postfix) with ESMTP id BE20A24E303;
-	Thu, 14 Dec 2023 14:50:50 +0800 (CST)
-Received: from EXMBX062.cuchost.com (172.16.6.62) by EXMBX165.cuchost.com
- (172.16.6.75) with Microsoft SMTP Server (TLS) id 15.0.1497.42; Thu, 14 Dec
- 2023 14:50:50 +0800
+	(Client CN "EXMBX166", Issuer "EXMBX166" (not verified))
+	by ex01.ufhost.com (Postfix) with ESMTP id B2D1024E2FB;
+	Thu, 14 Dec 2023 14:50:44 +0800 (CST)
+Received: from EXMBX062.cuchost.com (172.16.6.62) by EXMBX166.cuchost.com
+ (172.16.6.76) with Microsoft SMTP Server (TLS) id 15.0.1497.42; Thu, 14 Dec
+ 2023 14:50:44 +0800
 Received: from ubuntu.mshome.net (113.72.145.168) by EXMBX062.cuchost.com
  (172.16.6.62) with Microsoft SMTP Server (TLS) id 15.0.1497.42; Thu, 14 Dec
- 2023 14:50:49 +0800
+ 2023 14:50:40 +0800
 From: Changhuang Liang <changhuang.liang@starfivetech.com>
 To: Mauro Carvalho Chehab <mchehab@kernel.org>, Greg Kroah-Hartman
 	<gregkh@linuxfoundation.org>, Hans Verkuil <hverkuil-cisco@xs4all.nl>,
@@ -31,9 +31,9 @@ To: Mauro Carvalho Chehab <mchehab@kernel.org>, Greg Kroah-Hartman
 CC: Jack Zhu <jack.zhu@starfivetech.com>, Changhuang Liang
 	<changhuang.liang@starfivetech.com>, <linux-media@vger.kernel.org>,
 	<linux-kernel@vger.kernel.org>, <linux-staging@lists.linux.dev>
-Subject: [PATCH v1 9/9] admin-guide: media: Update documents for StarFive Camera Subsystem
-Date: Wed, 13 Dec 2023 22:50:27 -0800
-Message-ID: <20231214065027.28564-10-changhuang.liang@starfivetech.com>
+Subject: [PATCH v1 6/9] staging: media: starfive: camss: Update ISP initialise config for 3A
+Date: Wed, 13 Dec 2023 22:50:24 -0800
+Message-ID: <20231214065027.28564-7-changhuang.liang@starfivetech.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20231214065027.28564-1-changhuang.liang@starfivetech.com>
 References: <20231214065027.28564-1-changhuang.liang@starfivetech.com>
@@ -49,88 +49,81 @@ X-ClientProxiedBy: EXCAS061.cuchost.com (172.16.6.21) To EXMBX062.cuchost.com
 X-YovoleRuleAgent: yovoleflag
 Content-Transfer-Encoding: quoted-printable
 
-Add ISP 3A statistisc collection data video device for documents.
+Upadte ISP initialise for 3A statistics collection data.
 
 Signed-off-by: Changhuang Liang <changhuang.liang@starfivetech.com>
 ---
- .../admin-guide/media/starfive_camss.rst      |  9 ++++++---
- .../media/starfive_camss_graph.dot            | 20 ++++++++++---------
- 2 files changed, 17 insertions(+), 12 deletions(-)
+ .../media/starfive/camss/stf-isp-hw-ops.c     | 23 +++++++++++++++++++
+ .../staging/media/starfive/camss/stf-isp.h    | 11 +++++++++
+ 2 files changed, 34 insertions(+)
 
-diff --git a/Documentation/admin-guide/media/starfive_camss.rst b/Documen=
-tation/admin-guide/media/starfive_camss.rst
-index ca42e9447c47..970ae20140d1 100644
---- a/Documentation/admin-guide/media/starfive_camss.rst
-+++ b/Documentation/admin-guide/media/starfive_camss.rst
-@@ -58,15 +58,18 @@ The media controller pipeline graph is as follows:
-     :alt:   starfive_camss_graph.dot
-     :align: center
-=20
--The driver has 2 video devices:
-+The driver has 3 video devices:
-=20
- - capture_raw: The capture device, capturing image data directly from a =
-sensor.
- - capture_yuv: The capture device, capturing YUV frame data processed by=
- the
--  ISP module
-+  ISP module.
-+- capture_scd: The meta capture device, capturing 3A statistics collecti=
-on data
-+  processed by the ISP module.
-=20
- The driver has 3 subdevices:
-=20
--- stf_isp: is responsible for all the isp operations, outputs YUV frames=
-.
-+- stf_isp: is responsible for all the isp operations, outputs YUV frames
-+  and 3A statistics collection data.
- - cdns_csi2rx: a CSI-2 bridge supporting up to 4 CSI lanes in input, and=
- 4
-   different pixel streams in output.
- - imx219: an image sensor, image data is sent through MIPI CSI-2.
-diff --git a/Documentation/admin-guide/media/starfive_camss_graph.dot b/D=
-ocumentation/admin-guide/media/starfive_camss_graph.dot
-index 8eff1f161ac7..3fd42e3cc0f6 100644
---- a/Documentation/admin-guide/media/starfive_camss_graph.dot
-+++ b/Documentation/admin-guide/media/starfive_camss_graph.dot
-@@ -1,12 +1,14 @@
- digraph board {
- 	rankdir=3DTB
--	n00000001 [label=3D"{{<port0> 0} | stf_isp\n/dev/v4l-subdev0 | {<port1>=
- 1}}", shape=3DMrecord, style=3Dfilled, fillcolor=3Dgreen]
--	n00000001:port1 -> n00000008 [style=3Ddashed]
--	n00000004 [label=3D"capture_raw\n/dev/video0", shape=3Dbox, style=3Dfil=
-led, fillcolor=3Dyellow]
--	n00000008 [label=3D"capture_yuv\n/dev/video1", shape=3Dbox, style=3Dfil=
-led, fillcolor=3Dyellow]
--	n0000000e [label=3D"{{<port0> 0} | cdns_csi2rx.19800000.csi-bridge\n | =
-{<port1> 1 | <port2> 2 | <port3> 3 | <port4> 4}}", shape=3DMrecord, style=
-=3Dfilled, fillcolor=3Dgreen]
--	n0000000e:port1 -> n00000001:port0 [style=3Ddashed]
--	n0000000e:port1 -> n00000004 [style=3Ddashed]
--	n00000018 [label=3D"{{} | imx219 6-0010\n/dev/v4l-subdev1 | {<port0> 0}=
-}", shape=3DMrecord, style=3Dfilled, fillcolor=3Dgreen]
--	n00000018:port0 -> n0000000e:port0 [style=3Dbold]
-+	n00000001 [label=3D"{{<port0> 0} | stf_isp\n/dev/v4l-subdev0 | {<port1>=
- 1 | <port2> 2}}", shape=3DMrecord, style=3Dfilled, fillcolor=3Dgreen]
-+	n00000001:port1 -> n00000009 [style=3Ddashed]
-+	n00000001:port2 -> n0000000d [style=3Ddashed]
-+	n00000005 [label=3D"capture_raw\n/dev/video0", shape=3Dbox, style=3Dfil=
-led, fillcolor=3Dyellow]
-+	n00000009 [label=3D"capture_yuv\n/dev/video1", shape=3Dbox, style=3Dfil=
-led, fillcolor=3Dyellow]
-+	n0000000d [label=3D"capture_scd\n/dev/video2", shape=3Dbox, style=3Dfil=
-led, fillcolor=3Dyellow]
-+	n00000015 [label=3D"{{<port0> 0} | cdns_csi2rx.19800000.csi-bridge\n/de=
-v/v4l-subdev1 | {<port1> 1 | <port2> 2 | <port3> 3 | <port4> 4}}", shape=3D=
-Mrecord, style=3Dfilled, fillcolor=3Dgreen]
-+	n00000015:port1 -> n00000001:port0 [style=3Ddashed]
-+	n00000015:port1 -> n00000005 [style=3Ddashed]
-+	n0000001f [label=3D"{{} | imx219 6-0010\n/dev/v4l-subdev2 | {<port0> 0}=
-}", shape=3DMrecord, style=3Dfilled, fillcolor=3Dgreen]
-+	n0000001f:port0 -> n00000015:port0 [style=3Dbold]
+diff --git a/drivers/staging/media/starfive/camss/stf-isp-hw-ops.c b/driv=
+ers/staging/media/starfive/camss/stf-isp-hw-ops.c
+index c6295a14d509..a1ab4f11718e 100644
+--- a/drivers/staging/media/starfive/camss/stf-isp-hw-ops.c
++++ b/drivers/staging/media/starfive/camss/stf-isp-hw-ops.c
+@@ -319,6 +319,25 @@ static void stf_isp_config_sat(struct stfcamss *stfc=
+amss)
+ 	stf_isp_reg_write(stfcamss, ISP_REG_YADJ1, YOMAX(0x3ff) | YOMIN(0x1));
  }
+=20
++static void stf_isp_config_sc(struct stfcamss *stfcamss)
++{
++	stf_isp_reg_write(stfcamss, ISP_REG_SCD_CFG_1, AXI_ID(0));
++	stf_isp_reg_write(stfcamss, ISP_REG_SC_CFG_0, HSTART(0) | VSTART(0xc));
++	stf_isp_reg_write(stfcamss, ISP_REG_SC_CFG_1,
++			  SC_WIDTH(0x1d) | SC_HEIGHT(0x15) |
++			  AWB_PS_GRB_BA(0x10) | SEL_TYPE(0x3));
++}
++
++static void stf_isp_config_yhist(struct stfcamss *stfcamss)
++{
++	stf_isp_reg_write(stfcamss, ISP_REG_YHIST_CFG_0, 0);
++	stf_isp_reg_write(stfcamss, ISP_REG_YHIST_CFG_1,
++			  YH_WIDTH(0x77f) | YH_HEIGHT(0x437));
++	stf_isp_reg_write(stfcamss, ISP_REG_YHIST_CFG_2,
++			  YH_DEC_ETW(2) | YH_DEC_ETH(1));
++	stf_isp_reg_write(stfcamss, ISP_REG_YHIST_CFG_3, 0);
++}
++
+ int stf_isp_reset(struct stf_isp_dev *isp_dev)
+ {
+ 	stf_isp_reg_set_bit(isp_dev->stfcamss, ISP_REG_ISP_CTRL_0,
+@@ -351,7 +370,11 @@ void stf_isp_init_cfg(struct stf_isp_dev *isp_dev)
+ 	stf_isp_config_sharpen(isp_dev->stfcamss);
+ 	stf_isp_config_dnyuv(isp_dev->stfcamss);
+ 	stf_isp_config_sat(isp_dev->stfcamss);
++	stf_isp_config_sc(isp_dev->stfcamss);
++	stf_isp_config_yhist(isp_dev->stfcamss);
+=20
++	stf_isp_reg_write(isp_dev->stfcamss, ISP_REG_DUMP_CFG_1,
++			  DUMP_BURST_LEN(3) | DUMP_SD(0xb80));
+ 	stf_isp_reg_write(isp_dev->stfcamss, ISP_REG_CSI_MODULE_CFG,
+ 			  CSI_DUMP_EN | CSI_SC_EN | CSI_AWB_EN |
+ 			  CSI_LCCF_EN | CSI_OECF_EN | CSI_OBC_EN | CSI_DEC_EN);
+diff --git a/drivers/staging/media/starfive/camss/stf-isp.h b/drivers/sta=
+ging/media/starfive/camss/stf-isp.h
+index bfb7196cefff..149f06b25416 100644
+--- a/drivers/staging/media/starfive/camss/stf-isp.h
++++ b/drivers/staging/media/starfive/camss/stf-isp.h
+@@ -417,6 +417,17 @@
+ #define DNRM_F(n)				((n) << 16)
+ #define CCM_M_DAT(n)				((n) << 0)
+=20
++#define ISP_REG_YHIST_CFG_0			0xcc8
++
++#define ISP_REG_YHIST_CFG_1			0xccc
++#define YH_HEIGHT(n)				((n) << 16)
++#define YH_WIDTH(n)				((n) << 0)
++
++#define ISP_REG_YHIST_CFG_2			0xcd0
++#define YH_DEC_ETH(n)				((n) << 16)
++#define YH_DEC_ETW(n)				((n) << 0)
++
++#define ISP_REG_YHIST_CFG_3			0xcd4
+ #define ISP_REG_YHIST_CFG_4			0xcd8
+=20
+ #define ISP_REG_YHIST_ACC_0			0xd00
 --=20
 2.25.1
 
