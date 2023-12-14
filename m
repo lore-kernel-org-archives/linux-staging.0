@@ -1,179 +1,103 @@
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E8678F62
-	for <linux-staging@lists.linux.dev>; Thu, 14 Dec 2023 12:19:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3359B335B5;
+	Thu, 14 Dec 2023 12:22:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="GfoOR2Nt"
-Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id E1C5F4A9;
-	Thu, 14 Dec 2023 13:18:54 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1702556335;
-	bh=YiTF6JHTIBaYstNwMrE+QdjSiz7s49VYWh8YMsvV9Ds=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=GfoOR2NtgGHS+ihYhAAIWAG/jedCD6LOU4Gt7x45cgWD06wzRgmednBtbUQaIXXSa
-	 K3KSkv5lHg0ru+ptfrVtmXhWrv7cJjKB9FruXklyXPh+HMKMkLih5GQXo05qSZYYqD
-	 qdBRddludmHkUg/lWPIL3hx9vAwu8GUjPkxaEn6k=
-Date: Thu, 14 Dec 2023 14:19:48 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Changhuang Liang <changhuang.liang@starfivetech.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-	Marvin Lin <milkfafa@gmail.com>,
-	Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-	Ming Qian <ming.qian@nxp.com>,
-	Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-	Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-	Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
-	Mingjia Zhang <mingjia.zhang@mediatek.com>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Dan Carpenter <dan.carpenter@linaro.org>,
-	Jack Zhu <jack.zhu@starfivetech.com>, linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
-Subject: Re: [PATCH v1 8/9] staging: media: starfive: Add frame sync event
- for video capture device
-Message-ID: <20231214121948.GC21146@pendragon.ideasonboard.com>
-References: <20231214065027.28564-1-changhuang.liang@starfivetech.com>
- <20231214065027.28564-9-changhuang.liang@starfivetech.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hhI7F+0K"
+Received: by mail-pj1-f48.google.com with SMTP id 98e67ed59e1d1-28b0a9876c8so149623a91.3;
+        Thu, 14 Dec 2023 04:22:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1702556521; x=1703161321; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=wdkMvlmQKDEjb01URG4TvG4VxvCoEXt3iAKwNgfPtHw=;
+        b=hhI7F+0KCnYnSq0M5TnlFn8IcJ93XMgtNgixZ7qNIZwc/LTeNuWHTUnLkIIedmT/df
+         qyrgxfC7chhCT3CqbMz3lru77gkH78+ndWkzPiKXH+/5L9FAVJkPbEKav3cvAS/YAHmX
+         t96p6I1p+3r8DBWjVl0MIVvifAVZegeEQibBwjJoko+rEIZ2bSaeFCL82+ySUbY3R5qP
+         8GHMrYH4XpRx0/V8iZYnzxAS6Ng7pLG1Y3DGkatTtXMiV9j5zPXJIgHKjLPYZtXXXHS2
+         zID7AMP6DQYYqNSBIVtKTmyC4xGd6qKjc8bsMRQ+phfZm4KRwIuhQAZGJMkb6S+xsgZT
+         epSw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1702556521; x=1703161321;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=wdkMvlmQKDEjb01URG4TvG4VxvCoEXt3iAKwNgfPtHw=;
+        b=pnwBYhPzn1oEr2kx4ED/OcawU4O3zsetwmS1U6d55N7VJYfxkXFH0vkcE0zQs3Sfo+
+         cNuXNpvDUEI3fW6roV6c7wg5IyIaMP3gU7/D30yQgi/s/n9XkrQEF4YyxB3X/KlML9QD
+         BWcPheWZmRSXC5ZWExjspsuMLu9kIaoHDf8K7RIndAgcHJbe5PQMlX48T7om+un/PTjs
+         JZiBokTSU2gDI3ZJw2qhaZpAVGgSQ5uD2A/pHN5jP+WGS0ooaK2jnhMWWY7egGLvPzaA
+         2MWJZcDW8zg0RXDXAMWShrQeSUK/Ow8HWf/Zx80YOaFNGL0Bte0aCc20Cad8NmQ9LmLq
+         Hh2A==
+X-Gm-Message-State: AOJu0YzgPikyEDXQ/LoIRG1Zb36rEaaQpIkB8jqmYzGLU6VU5/DTzdn5
+	2KBPetw1JgMvREIQJ9waXnM=
+X-Google-Smtp-Source: AGHT+IHbBUlyiWnQL0ZKhN6GUkjXp9o1sUaGiprlLSq9PpYCXYmE0v5xf604HXaQ/15w6RmWBHjD3w==
+X-Received: by 2002:a17:90a:a581:b0:285:a1fb:4ffd with SMTP id b1-20020a17090aa58100b00285a1fb4ffdmr4559000pjq.1.1702556521351;
+        Thu, 14 Dec 2023 04:22:01 -0800 (PST)
+Received: from archie.me ([103.131.18.64])
+        by smtp.gmail.com with ESMTPSA id o10-20020a17090ac08a00b0028ae9a419f0sm3042882pjs.44.2023.12.14.04.22.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 14 Dec 2023 04:22:00 -0800 (PST)
+Received: by archie.me (Postfix, from userid 1000)
+	id A393410205C51; Thu, 14 Dec 2023 19:21:52 +0700 (WIB)
+Date: Thu, 14 Dec 2023 19:21:52 +0700
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+To: Ryan England <rcengland@gmail.com>, Larry.Finger@lwfinger.net,
+	florian.c.schilhabel@googlemail.com, gregkh@linuxfoundation.org,
+	Linux Staging Drivers <linux-staging@lists.linux.dev>,
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+	Linux Outreachy <outreachy@lists.linux.dev>
+Subject: Re: [PATCH] staging: rtl8712: remove unnecessary parentheses
+Message-ID: <ZXrzYJrgewdXP6NH@archie.me>
+References: <ZXn/JjyrLGQzS9zD@kernel.ryanengland.xyz>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="s5FMv0bSj2naLsZb"
+Content-Disposition: inline
+In-Reply-To: <ZXn/JjyrLGQzS9zD@kernel.ryanengland.xyz>
+
+
+--s5FMv0bSj2naLsZb
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20231214065027.28564-9-changhuang.liang@starfivetech.com>
+Content-Transfer-Encoding: quoted-printable
 
-Hi Changhuang,
+On Wed, Dec 13, 2023 at 06:59:50PM +0000, Ryan England wrote:
+> Adhere to Linux kernel coding style.
+>=20
+> Reported by checkpatch:
+>=20
+> CHECK: Unnecessary parentheses
+>=20
 
-Thank you for the patch.
+tl;dr: see [1], [2], and [3] for why Greg NAK this kind of patch.
 
-On Wed, Dec 13, 2023 at 10:50:26PM -0800, Changhuang Liang wrote:
-> Add frame sync event for video capture device.
+Thanks.
 
-Here too the commit message needs to explain why.
+[1]: https://lore.kernel.org/all/Y%2FiaYtKk4VSokAFz@kroah.com/
+[2]: https://lore.kernel.org/all/20190626015622.GC30966@kroah.com/
+[3]: https://lore.kernel.org/all/20190401060216.GA5286@kroah.com/
 
-> Signed-off-by: Changhuang Liang <changhuang.liang@starfivetech.com>
-> ---
->  .../staging/media/starfive/camss/stf-capture.c    |  9 +++++++++
->  drivers/staging/media/starfive/camss/stf-video.c  | 15 +++++++++++++++
->  2 files changed, 24 insertions(+)
-> 
-> diff --git a/drivers/staging/media/starfive/camss/stf-capture.c b/drivers/staging/media/starfive/camss/stf-capture.c
-> index 6a137a273c8a..d0be769da11b 100644
-> --- a/drivers/staging/media/starfive/camss/stf-capture.c
-> +++ b/drivers/staging/media/starfive/camss/stf-capture.c
-> @@ -7,6 +7,7 @@
->   * Copyright (C) 2021-2023 StarFive Technology Co., Ltd.
->   */
->  
-> +#include <media/v4l2-event.h>
->  #include "stf-camss.h"
->  
->  static const char * const stf_cap_names[] = {
-> @@ -430,10 +431,15 @@ static void stf_buf_flush(struct stf_v_buf *output, enum vb2_buffer_state state)
->  
->  static void stf_buf_done(struct stf_v_buf *output)
->  {
-> +	struct stf_capture *cap = container_of(output, struct stf_capture,
-> +					       buffers);
+--=20
+An old man doll... just what I always wanted! - Clara
 
-This looks like it belongs to a previous patch, because ...
+--s5FMv0bSj2naLsZb
+Content-Type: application/pgp-signature; name="signature.asc"
 
->  	struct stfcamss_buffer *ready_buf;
->  	struct stfcamss *stfcamss = cap->video.stfcamss;
+-----BEGIN PGP SIGNATURE-----
 
-... cap is already used there.
+iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZXrzWwAKCRD2uYlJVVFO
+o8+NAP98FzD1B6CV4uL2FchjaZ3vn6JaWdAhDfuSox9ccpgixgEAxp0n7hdXcxzO
+48a5vUg7cL57+Q4Pet5w+m0GjJWRdgY=
+=CuBH
+-----END PGP SIGNATURE-----
 
-Please compile each commit, not just the end result. Compilation must
-not break at any point in the middle of the series, or it would make git
-bisection impossible.
-
->  	u64 ts = ktime_get_ns();
->  	unsigned long flags;
-> +	struct v4l2_event event = {
-> +		.type = V4L2_EVENT_FRAME_SYNC,
-> +	};
->  
->  	if (output->state == STF_OUTPUT_OFF ||
->  	    output->state == STF_OUTPUT_RESERVED)
-> @@ -445,6 +451,9 @@ static void stf_buf_done(struct stf_v_buf *output)
->  		if (cap->type == STF_CAPTURE_SCD)
->  			stf_isp_fill_yhist(stfcamss, ready_buf->vaddr_sc);
->  
-> +		event.u.frame_sync.frame_sequence = output->sequence;
-> +		v4l2_event_queue(&cap->video.vdev, &event);
-
-This doesn't like to be the right place to generate the
-V4L2_EVENT_FRAME_SYNC event. V4L2_EVENT_FRAME_SYNC is defined as
-
-      - Triggered immediately when the reception of a frame has begun.
-        This event has a struct
-        :c:type:`v4l2_event_frame_sync`
-        associated with it.
-
-It would be best to generate V4L2_EVENT_FRAME_SYNC in response to a
-CSI-2 RX interrupt that signals the beginning of the frame, if the
-hardware provides that. If not, an ISP interrupt that signals the
-beginning of the frame would work too.
-
-> +
->  		ready_buf->vb.vb2_buf.timestamp = ts;
->  		ready_buf->vb.sequence = output->sequence++;
->  
-> diff --git a/drivers/staging/media/starfive/camss/stf-video.c b/drivers/staging/media/starfive/camss/stf-video.c
-> index 54d855ba0b57..32381e9ad049 100644
-> --- a/drivers/staging/media/starfive/camss/stf-video.c
-> +++ b/drivers/staging/media/starfive/camss/stf-video.c
-> @@ -507,6 +507,17 @@ static int video_try_fmt(struct file *file, void *fh, struct v4l2_format *f)
->  	return __video_try_fmt(video, f);
->  }
->  
-> +static int video_subscribe_event(struct v4l2_fh *fh,
-> +				 const struct v4l2_event_subscription *sub)
-> +{
-> +	switch (sub->type) {
-> +	case V4L2_EVENT_FRAME_SYNC:
-> +		return v4l2_event_subscribe(fh, sub, 0, NULL);
-> +	default:
-> +		return -EINVAL;
-> +	}
-> +}
-> +
->  static const struct v4l2_ioctl_ops stf_vid_ioctl_ops = {
->  	.vidioc_querycap                = video_querycap,
->  	.vidioc_enum_fmt_vid_cap        = video_enum_fmt,
-> @@ -523,6 +534,8 @@ static const struct v4l2_ioctl_ops stf_vid_ioctl_ops = {
->  	.vidioc_prepare_buf             = vb2_ioctl_prepare_buf,
->  	.vidioc_streamon                = vb2_ioctl_streamon,
->  	.vidioc_streamoff               = vb2_ioctl_streamoff,
-> +	.vidioc_subscribe_event         = video_subscribe_event,
-> +	.vidioc_unsubscribe_event       = v4l2_event_unsubscribe,
-
-Don't implement the event on the video device, implement it on the CSI-2
-RX or ISP subdev, depending on whether you get it from the CSI-2 RX or
-the ISP.
-
->  };
->  
->  static int video_scd_g_fmt(struct file *file, void *fh, struct v4l2_format *f)
-> @@ -554,6 +567,8 @@ static const struct v4l2_ioctl_ops stf_vid_scd_ioctl_ops = {
->  	.vidioc_prepare_buf             = vb2_ioctl_prepare_buf,
->  	.vidioc_streamon                = vb2_ioctl_streamon,
->  	.vidioc_streamoff               = vb2_ioctl_streamoff,
-> +	.vidioc_subscribe_event         = video_subscribe_event,
-> +	.vidioc_unsubscribe_event       = v4l2_event_unsubscribe,
->  };
->  
->  /* -----------------------------------------------------------------------------
-
--- 
-Regards,
-
-Laurent Pinchart
+--s5FMv0bSj2naLsZb--
