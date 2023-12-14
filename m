@@ -1,937 +1,109 @@
-Received: from fd01.gateway.ufhost.com (fd01.gateway.ufhost.com [61.152.239.71])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BE87D53B
-	for <linux-staging@lists.linux.dev>; Thu, 14 Dec 2023 06:52:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=starfivetech.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=starfivetech.com
-Received: from EXMBX166.cuchost.com (unknown [175.102.18.54])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(Client CN "EXMBX166", Issuer "EXMBX166" (not verified))
-	by fd01.gateway.ufhost.com (Postfix) with ESMTP id 26F88810C;
-	Thu, 14 Dec 2023 14:50:30 +0800 (CST)
-Received: from EXMBX062.cuchost.com (172.16.6.62) by EXMBX166.cuchost.com
- (172.16.6.76) with Microsoft SMTP Server (TLS) id 15.0.1497.42; Thu, 14 Dec
- 2023 14:50:30 +0800
-Received: from ubuntu.mshome.net (113.72.145.168) by EXMBX062.cuchost.com
- (172.16.6.62) with Microsoft SMTP Server (TLS) id 15.0.1497.42; Thu, 14 Dec
- 2023 14:50:27 +0800
-From: Changhuang Liang <changhuang.liang@starfivetech.com>
-To: Mauro Carvalho Chehab <mchehab@kernel.org>, Greg Kroah-Hartman
-	<gregkh@linuxfoundation.org>, Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-	"Marvin Lin" <milkfafa@gmail.com>, Bryan O'Donoghue
-	<bryan.odonoghue@linaro.org>, "Ming Qian" <ming.qian@nxp.com>, Laurent
- Pinchart <laurent.pinchart@ideasonboard.com>, Nicolas Dufresne
-	<nicolas.dufresne@collabora.com>, Benjamin Gaignard
-	<benjamin.gaignard@collabora.com>, Tomi Valkeinen
-	<tomi.valkeinen+renesas@ideasonboard.com>, Mingjia Zhang
-	<mingjia.zhang@mediatek.com>, Geert Uytterhoeven <geert+renesas@glider.be>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>, Dan Carpenter
-	<dan.carpenter@linaro.org>
-CC: Jack Zhu <jack.zhu@starfivetech.com>, Changhuang Liang
-	<changhuang.liang@starfivetech.com>, <linux-media@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <linux-staging@lists.linux.dev>
-Subject: [PATCH v1 0/9] Add ISP 3A support for StarFive
-Date: Wed, 13 Dec 2023 22:50:18 -0800
-Message-ID: <20231214065027.28564-1-changhuang.liang@starfivetech.com>
-X-Mailer: git-send-email 2.25.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6DF93C473
+	for <linux-staging@lists.linux.dev>; Thu, 14 Dec 2023 11:34:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="BYMB9cyH"
+Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id DB1342E4;
+	Thu, 14 Dec 2023 12:33:06 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1702553587;
+	bh=APuMlR8+w8JQsDkmSqesPyhATVM+NrTRZXiIaIZN8As=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=BYMB9cyHxXIdNgoB80Ww0hSgVKSNRPEWwwBxRWGZDAjHmD+tXf6608qNxfgNVlo6z
+	 7LMeKAD8BO5r11/GGF7/GgCrnNJPPwkkrUU7Sj7ZpZkE95ZYSalIQCYF9awMPhCx9U
+	 WhEEgI1sa0kPM7T1HkBXmvsajmeAIU3Uzm40fhus=
+Date: Thu, 14 Dec 2023 13:34:00 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Changhuang Liang <changhuang.liang@starfivetech.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+	Marvin Lin <milkfafa@gmail.com>,
+	Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+	Ming Qian <ming.qian@nxp.com>,
+	Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+	Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+	Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
+	Mingjia Zhang <mingjia.zhang@mediatek.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Dan Carpenter <dan.carpenter@linaro.org>,
+	Jack Zhu <jack.zhu@starfivetech.com>, linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
+Subject: Re: [PATCH v1 3/9] media: videodev2.h, v4l2-ioctl: Add StarFive ISP
+ meta buffer format
+Message-ID: <20231214113400.GJ12450@pendragon.ideasonboard.com>
+References: <20231214065027.28564-1-changhuang.liang@starfivetech.com>
+ <20231214065027.28564-4-changhuang.liang@starfivetech.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-X-ClientProxiedBy: EXCAS061.cuchost.com (172.16.6.21) To EXMBX062.cuchost.com
- (172.16.6.62)
-X-YovoleRuleAgent: yovoleflag
-Content-Transfer-Encoding: quoted-printable
-
-This series implements the ISP 3A function to the Camera Subsystem on Sta=
-rFive
-JH7110 SoC. The series has been tested on the VisionFive 2 board.
-
-This series is based on top of the master branch of media_stage repositor=
-y,
-which is tested with a v4l2-compliance compiled from the git repo
-(git://linuxtv.org/v4l-utils.git).
-
-The following are the media graph for the device and the v4l2-compliance
-output.
-
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-
-[the media graph]:
-
-digraph board {
-        rankdir=3DTB
-        n00000001 [label=3D"{{<port0> 0} | stf_isp\n/dev/v4l-subdev0 | {<=
-port1> 1 | <port2> 2}}", shape=3DMrecord, style=3Dfilled, fillcolor=3Dgre=
-en]
-        n00000001:port1 -> n00000009
-        n00000001:port2 -> n0000000d
-        n00000005 [label=3D"capture_raw\n/dev/video0", shape=3Dbox, style=
-=3Dfilled, fillcolor=3Dyellow]
-        n00000009 [label=3D"capture_yuv\n/dev/video1", shape=3Dbox, style=
-=3Dfilled, fillcolor=3Dyellow]
-        n0000000d [label=3D"capture_scd\n/dev/video2", shape=3Dbox, style=
-=3Dfilled, fillcolor=3Dyellow]
-        n00000015 [label=3D"{{<port0> 0} | cdns_csi2rx.19800000.csi-bridg=
-e\n/dev/v4l-subdev1 | {<port1> 1 | <port2> 2 | <port3> 3 | <port4> 4}}", =
-shape=3DMrecord, style=3Dfilled, fillcolor=3Dgreen]
-        n00000015:port1 -> n00000001:port0
-        n00000015:port1 -> n00000005 [style=3Ddashed]
-        n0000001f [label=3D"{{} | imx219 6-0010\n/dev/v4l-subdev2 | {<por=
-t0> 0}}", shape=3DMrecord, style=3Dfilled, fillcolor=3Dgreen]
-        n0000001f:port0 -> n00000015:port0 [style=3Dbold]
-}
-
-[v4l2-compliance test]:
-
-# v4l2-compliance -m /dev/media0
-v4l2-compliance 1.27.0, 64 bits, 64-bit time_t
-
-Compliance test for starfive-camss device /dev/media0:
-
-Media Driver Info:
-        Driver name      : starfive-camss
-        Model            : Starfive Camera Subsystem
-        Serial           :
-        Bus info         : platform:19840000.camss
-        Media version    : 6.7.0
-        Hardware revision: 0x00000000 (0)
-        Driver version   : 6.7.0
-
-Required ioctls:
-        test MEDIA_IOC_DEVICE_INFO: OK
-        test invalid ioctls: OK
-
-Allow for multiple opens:
-        test second /dev/media0 open: OK
-        test MEDIA_IOC_DEVICE_INFO: OK
-        test for unlimited opens: OK
-
-Media Controller ioctls:
-        test MEDIA_IOC_G_TOPOLOGY: OK
-        Entities: 6 Interfaces: 6 Pads: 12 Links: 11
-        test MEDIA_IOC_ENUM_ENTITIES/LINKS: OK
-        test MEDIA_IOC_SETUP_LINK: OK
-
-Total for starfive-camss device /dev/media0: 8, Succeeded: 8, Failed: 0, =
-Warnings: 0
--------------------------------------------------------------------------=
--------
-Compliance test for starfive-camss device /dev/video0:
-
-Driver Info:
-        Driver name      : starfive-camss
-        Card type        : Starfive Camera Subsystem
-        Bus info         : platform:19840000.camss
-        Driver version   : 6.7.0
-        Capabilities     : 0xa4200001
-                Video Capture
-                I/O MC
-                Streaming
-                Extended Pix Format
-                Device Capabilities
-        Device Caps      : 0x24200001
-                Video Capture
-                I/O MC
-                Streaming
-                Extended Pix Format
-Media Driver Info:
-        Driver name      : starfive-camss
-        Model            : Starfive Camera Subsystem
-        Serial           :
-        Bus info         : platform:19840000.camss
-        Media version    : 6.7.0
-        Hardware revision: 0x00000000 (0)
-        Driver version   : 6.7.0
-Interface Info:
-        ID               : 0x03000007
-        Type             : V4L Video
-Entity Info:
-        ID               : 0x00000005 (5)
-        Name             : capture_raw
-        Function         : V4L2 I/O
-        Pad 0x01000006   : 0: Sink
-          Link 0x0200001d: from remote pad 0x1000017 of entity 'cdns_csi2=
-rx.19800000.csi-bridge' (Video Interface Bridge): Data
-
-Required ioctls:
-        test MC information (see 'Media Driver Info' above): OK
-        test VIDIOC_QUERYCAP: OK
-        test invalid ioctls: OK
-
-Allow for multiple opens:
-        test second /dev/video0 open: OK
-        test VIDIOC_QUERYCAP: OK
-        test VIDIOC_G/S_PRIORITY: OK
-        test for unlimited opens: OK
-
-Debug ioctls:
-        test VIDIOC_DBG_G/S_REGISTER: OK (Not Supported)
-        test VIDIOC_LOG_STATUS: OK (Not Supported)
-
-Input ioctls:
-        test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
-        test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
-        test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
-        test VIDIOC_ENUMAUDIO: OK (Not Supported)
-        test VIDIOC_G/S/ENUMINPUT: OK
-        test VIDIOC_G/S_AUDIO: OK (Not Supported)
-        Inputs: 1 Audio Inputs: 0 Tuners: 0
-
-Output ioctls:
-        test VIDIOC_G/S_MODULATOR: OK (Not Supported)
-        test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
-        test VIDIOC_ENUMAUDOUT: OK (Not Supported)
-        test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
-        test VIDIOC_G/S_AUDOUT: OK (Not Supported)
-        Outputs: 0 Audio Outputs: 0 Modulators: 0
-
-Input/Output configuration ioctls:
-        test VIDIOC_ENUM/G/S/QUERY_STD: OK (Not Supported)
-        test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK (Not Supported)
-        test VIDIOC_DV_TIMINGS_CAP: OK (Not Supported)
-        test VIDIOC_G/S_EDID: OK (Not Supported)
-
-Control ioctls (Input 0):
-        test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK (Not Supported)
-        test VIDIOC_QUERYCTRL: OK (Not Supported)
-        test VIDIOC_G/S_CTRL: OK (Not Supported)
-        test VIDIOC_G/S/TRY_EXT_CTRLS: OK (Not Supported)
-        test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK (Not Supported)
-        test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
-        Standard Controls: 0 Private Controls: 0
-
-Format ioctls (Input 0):
-        test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK
-        test VIDIOC_G/S_PARM: OK (Not Supported)
-        test VIDIOC_G_FBUF: OK (Not Supported)
-        test VIDIOC_G_FMT: OK
-        test VIDIOC_TRY_FMT: OK
-        test VIDIOC_S_FMT: OK
-        test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
-        test Cropping: OK (Not Supported)
-        test Composing: OK (Not Supported)
-        test Scaling: OK
-
-Codec ioctls (Input 0):
-        test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Supported)
-        test VIDIOC_G_ENC_INDEX: OK (Not Supported)
-        test VIDIOC_(TRY_)DECODER_CMD: OK (Not Supported)
-
-Buffer ioctls (Input 0):
-        test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK
-        test CREATE_BUFS maximum buffers: OK
-        test VIDIOC_EXPBUF: OK
-        test Requests: OK (Not Supported)
-
-Total for starfive-camss device /dev/video0: 47, Succeeded: 47, Failed: 0=
-, Warnings: 0
--------------------------------------------------------------------------=
--------
-Compliance test for starfive-camss device /dev/video1:
-
-Driver Info:
-        Driver name      : starfive-camss
-        Card type        : Starfive Camera Subsystem
-        Bus info         : platform:19840000.camss
-        Driver version   : 6.7.0
-        Capabilities     : 0xa4200001
-                Video Capture
-                I/O MC
-                Streaming
-                Extended Pix Format
-                Device Capabilities
-        Device Caps      : 0x24200001
-                Video Capture
-                I/O MC
-                Streaming
-                Extended Pix Format
-Media Driver Info:
-        Driver name      : starfive-camss
-        Model            : Starfive Camera Subsystem
-        Serial           :
-        Bus info         : platform:19840000.camss
-        Media version    : 6.7.0
-        Hardware revision: 0x00000000 (0)
-        Driver version   : 6.7.0
-Interface Info:
-        ID               : 0x0300000b
-        Type             : V4L Video
-Entity Info:
-        ID               : 0x00000009 (9)
-        Name             : capture_yuv
-        Function         : V4L2 I/O
-        Pad 0x0100000a   : 0: Sink
-          Link 0x02000011: from remote pad 0x1000003 of entity 'stf_isp' =
-(Image Signal Processor): Data
-
-Required ioctls:
-        test MC information (see 'Media Driver Info' above): OK
-        test VIDIOC_QUERYCAP: OK
-        test invalid ioctls: OK
-
-Allow for multiple opens:
-        test second /dev/video1 open: OK
-        test VIDIOC_QUERYCAP: OK
-        test VIDIOC_G/S_PRIORITY: OK
-        test for unlimited opens: OK
-
-Debug ioctls:
-        test VIDIOC_DBG_G/S_REGISTER: OK (Not Supported)
-        test VIDIOC_LOG_STATUS: OK (Not Supported)
-
-Input ioctls:
-        test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
-        test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
-        test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
-        test VIDIOC_ENUMAUDIO: OK (Not Supported)
-        test VIDIOC_G/S/ENUMINPUT: OK
-        test VIDIOC_G/S_AUDIO: OK (Not Supported)
-        Inputs: 1 Audio Inputs: 0 Tuners: 0
-
-Output ioctls:
-        test VIDIOC_G/S_MODULATOR: OK (Not Supported)
-        test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
-        test VIDIOC_ENUMAUDOUT: OK (Not Supported)
-        test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
-        test VIDIOC_G/S_AUDOUT: OK (Not Supported)
-        Outputs: 0 Audio Outputs: 0 Modulators: 0
-
-Input/Output configuration ioctls:
-        test VIDIOC_ENUM/G/S/QUERY_STD: OK (Not Supported)
-        test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK (Not Supported)
-        test VIDIOC_DV_TIMINGS_CAP: OK (Not Supported)
-        test VIDIOC_G/S_EDID: OK (Not Supported)
-
-Control ioctls (Input 0):
-        test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK (Not Supported)
-        test VIDIOC_QUERYCTRL: OK (Not Supported)
-        test VIDIOC_G/S_CTRL: OK (Not Supported)
-        test VIDIOC_G/S/TRY_EXT_CTRLS: OK (Not Supported)
-        test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK (Not Supported)
-        test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
-        Standard Controls: 0 Private Controls: 0
-
-Format ioctls (Input 0):
-        test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK
-        test VIDIOC_G/S_PARM: OK (Not Supported)
-        test VIDIOC_G_FBUF: OK (Not Supported)
-        test VIDIOC_G_FMT: OK
-        test VIDIOC_TRY_FMT: OK
-        test VIDIOC_S_FMT: OK
-        test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
-        test Cropping: OK (Not Supported)
-        test Composing: OK (Not Supported)
-        test Scaling: OK
-
-Codec ioctls (Input 0):
-        test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Supported)
-        test VIDIOC_G_ENC_INDEX: OK (Not Supported)
-        test VIDIOC_(TRY_)DECODER_CMD: OK (Not Supported)
-
-Buffer ioctls (Input 0):
-        test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK
-        test CREATE_BUFS maximum buffers: OK
-        test VIDIOC_EXPBUF: OK
-        test Requests: OK (Not Supported)
-
-Total for starfive-camss device /dev/video1: 47, Succeeded: 47, Failed: 0=
-, Warnings: 0
--------------------------------------------------------------------------=
--------
-Compliance test for starfive-camss device /dev/video2:
-
-Driver Info:
-        Driver name      : starfive-camss
-        Card type        : Starfive Camera Subsystem
-        Bus info         : platform:19840000.camss
-        Driver version   : 6.7.0
-        Capabilities     : 0xa4a00000
-                Metadata Capture
-                I/O MC
-                Streaming
-                Extended Pix Format
-                Device Capabilities
-        Device Caps      : 0x24a00000
-                Metadata Capture
-                I/O MC
-                Streaming
-                Extended Pix Format
-Media Driver Info:
-        Driver name      : starfive-camss
-        Model            : Starfive Camera Subsystem
-        Serial           :
-        Bus info         : platform:19840000.camss
-        Media version    : 6.7.0
-        Hardware revision: 0x00000000 (0)
-        Driver version   : 6.7.0
-Interface Info:
-        ID               : 0x0300000f
-        Type             : V4L Video
-Entity Info:
-        ID               : 0x0000000d (13)
-        Name             : capture_scd
-        Function         : V4L2 I/O
-        Pad 0x0100000e   : 0: Sink
-          Link 0x02000013: from remote pad 0x1000004 of entity 'stf_isp' =
-(Image Signal Processor): Data
-
-Required ioctls:
-        test MC information (see 'Media Driver Info' above): OK
-        test VIDIOC_QUERYCAP: OK
-        test invalid ioctls: OK
-
-Allow for multiple opens:
-        test second /dev/video2 open: OK
-        test VIDIOC_QUERYCAP: OK
-        test VIDIOC_G/S_PRIORITY: OK
-        test for unlimited opens: OK
-
-Debug ioctls:
-        test VIDIOC_DBG_G/S_REGISTER: OK (Not Supported)
-        test VIDIOC_LOG_STATUS: OK (Not Supported)
-
-Input ioctls:
-        test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
-        test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
-        test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
-        test VIDIOC_ENUMAUDIO: OK (Not Supported)
-        test VIDIOC_G/S/ENUMINPUT: OK
-        test VIDIOC_G/S_AUDIO: OK (Not Supported)
-        Inputs: 1 Audio Inputs: 0 Tuners: 0
-
-Output ioctls:
-        test VIDIOC_G/S_MODULATOR: OK (Not Supported)
-        test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
-        test VIDIOC_ENUMAUDOUT: OK (Not Supported)
-        test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
-        test VIDIOC_G/S_AUDOUT: OK (Not Supported)
-        Outputs: 0 Audio Outputs: 0 Modulators: 0
-
-Input/Output configuration ioctls:
-        test VIDIOC_ENUM/G/S/QUERY_STD: OK (Not Supported)
-        test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK (Not Supported)
-        test VIDIOC_DV_TIMINGS_CAP: OK (Not Supported)
-        test VIDIOC_G/S_EDID: OK (Not Supported)
-
-Control ioctls (Input 0):
-        test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK (Not Supported)
-        test VIDIOC_QUERYCTRL: OK (Not Supported)
-        test VIDIOC_G/S_CTRL: OK (Not Supported)
-        test VIDIOC_G/S/TRY_EXT_CTRLS: OK (Not Supported)
-        test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK (Not Supported)
-        test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
-        Standard Controls: 0 Private Controls: 0
-
-Format ioctls (Input 0):
-        test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK
-        test VIDIOC_G/S_PARM: OK (Not Supported)
-        test VIDIOC_G_FBUF: OK (Not Supported)
-        test VIDIOC_G_FMT: OK
-        test VIDIOC_TRY_FMT: OK
-        test VIDIOC_S_FMT: OK
-        test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
-        test Cropping: OK (Not Supported)
-        test Composing: OK (Not Supported)
-        test Scaling: OK (Not Supported)
-
-Codec ioctls (Input 0):
-        test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Supported)
-        test VIDIOC_G_ENC_INDEX: OK (Not Supported)
-        test VIDIOC_(TRY_)DECODER_CMD: OK (Not Supported)
-
-Buffer ioctls (Input 0):
-        test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK
-        test CREATE_BUFS maximum buffers: OK
-        test VIDIOC_EXPBUF: OK
-        test Requests: OK (Not Supported)
-
-Total for starfive-camss device /dev/video2: 47, Succeeded: 47, Failed: 0=
-, Warnings: 0
--------------------------------------------------------------------------=
--------
-Compliance test for starfive-camss device /dev/v4l-subdev0:
-
-Driver Info:
-        Driver version   : 6.7.0
-        Capabilities     : 0x00000000
-Media Driver Info:
-        Driver name      : starfive-camss
-        Model            : Starfive Camera Subsystem
-        Serial           :
-        Bus info         : platform:19840000.camss
-        Media version    : 6.7.0
-        Hardware revision: 0x00000000 (0)
-        Driver version   : 6.7.0
-Interface Info:
-        ID               : 0x03000023
-        Type             : V4L Sub-Device
-Entity Info:
-        ID               : 0x00000001 (1)
-        Name             : stf_isp
-        Function         : Image Signal Processor
-        Pad 0x0stf_isp: =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-  START STATUS  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-1000002   : 0: Sstf_isp: =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D  END STATUS  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-ink
-          Link 0x0200001b: from remote pad 0x1000017 of entity 'cdns_csi2=
-rx.19800000.csi-bridge' (Video Interface Bridge): Data
-        Pad 0x01000003   : 1: Source
-          Link 0x02000011: to remote pad 0x100000a of entity 'capture_yuv=
-' (V4L2 I/O): Data
-        Pad 0x01000004   : 2: Source
-          Link 0x02000013: to remote pad 0x100000e of entity 'capture_scd=
-' (V4L2 I/O): Data
-
-Required ioctls:
-        test MC information (see 'Media Driver Info' above): OK
-        test VIDIOC_SUDBEV_QUERYCAP: OK
-        test invalid ioctls: OK
-
-Allow for multiple opens:
-        test second /dev/v4l-subdev0 open: OK
-        test VIDIOC_SUBDEV_QUERYCAP: OK
-        test for unlimited opens: OK
-
-Debug ioctls:
-        test VIDIOC_LOG_STATUS: OK (Not Supported)
-
-Input ioctls:
-        test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
-        test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
-        test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
-        test VIDIOC_ENUMAUDIO: OK (Not Supported)
-        test VIDIOC_G/S/ENUMINPUT: OK (Not Supported)
-        test VIDIOC_G/S_AUDIO: OK (Not Supported)
-        Inputs: 0 Audio Inputs: 0 Tuners: 0
-
-Output ioctls:
-        test VIDIOC_G/S_MODULATOR: OK (Not Supported)
-        test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
-        test VIDIOC_ENUMAUDOUT: OK (Not Supported)
-        test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
-        test VIDIOC_G/S_AUDOUT: OK (Not Supported)
-        Outputs: 0 Audio Outputs: 0 Modulators: 0
-
-Input/Output configuration ioctls:
-        test VIDIOC_ENUM/G/S/QUERY_STD: OK (Not Supported)
-        test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK (Not Supported)
-        test VIDIOC_DV_TIMINGS_CAP: OK (Not Supported)
-        test VIDIOC_G/S_EDID: OK (Not Supported)
-
-Sub-Device ioctls (Sink Pad 0):
-        Try Stream 0
-        test Try VIDIOC_SUBDEV_ENUM_MBUS_CODE/FRAME_SIZE/FRAME_INTERVAL: =
-OK
-        test Try VIDIOC_SUBDEV_G/S_FMT: OK
-        test Try VIDIOC_SUBDEV_G/S_SELECTION/CROP: OK
-        Active Stream 0
-        test Active VIDIOC_SUBDEV_ENUM_MBUS_CODE/FRAME_SIZE/FRAME_INTERVA=
-L: OK
-        test Active VIDIOC_SUBDEV_G/S_FMT: OK
-        test Active VIDIOC_SUBDEV_G/S_SELECTION/CROP: OK
-        test VIDIOC_SUBDEV_G/S_FRAME_INTERVAL: OK (Not Supported)
-
-Sub-Device ioctls (Source Pad 1):
-        Try Stream 0
-        test Try VIDIOC_SUBDEV_ENUM_MBUS_CODE/FRAME_SIZE/FRAME_INTERVAL: =
-OK
-        test Try VIDIOC_SUBDEV_G/S_FMT: OK
-        test Try VIDIOC_SUBDEV_G/S_SELECTION/CROP: OK
-        Active Stream 0
-        test Active VIDIOC_SUBDEV_ENUM_MBUS_CODE/FRAME_SIZE/FRAME_INTERVA=
-L: OK
-        test Active VIDIOC_SUBDEV_G/S_FMT: OK
-        test Active VIDIOC_SUBDEV_G/S_SELECTION/CROP: OK
-        test VIDIOC_SUBDEV_G/S_FRAME_INTERVAL: OK (Not Supported)
-
-Sub-Device ioctls (Source Pad 2):
-        Try Stream 0
-        test Try VIDIOC_SUBDEV_ENUM_MBUS_CODE/FRAME_SIZE/FRAME_INTERVAL: =
-OK
-        test Try VIDIOC_SUBDEV_G/S_FMT: OK
-        test Try VIDIOC_SUBDEV_G/S_SELECTION/CROP: OK (Not Supported)
-        Active Stream 0
-        test Active VIDIOC_SUBDEV_ENUM_MBUS_CODE/FRAME_SIZE/FRAME_INTERVA=
-L: OK
-        test Active VIDIOC_SUBDEV_G/S_FMT: OK
-        test Active VIDIOC_SUBDEV_G/S_SELECTION/CROP: OK (Not Supported)
-        test VIDIOC_SUBDEV_G/S_FRAME_INTERVAL: OK (Not Supported)
-
-Control ioctls:
-        test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK
-        test VIDIOC_QUERYCTRL: OK
-        test VIDIOC_G/S_CTRL: OK
-        test VIDIOC_G/S/TRY_EXT_CTRLS: OK
-        test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK
-        test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
-        Standard Controls: 0 Private Controls: 0
-        Standard Compound Controls: 0 Private Compound Controls: 16
-
-Format ioctls:
-        test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK (Not Supported=
-)
-        test VIDIOC_G/S_PARM: OK (Not Supported)
-        test VIDIOC_G_FBUF: OK (Not Supported)
-        test VIDIOC_G_FMT: OK (Not Supported)
-        test VIDIOC_TRY_FMT: OK (Not Supported)
-        test VIDIOC_S_FMT: OK (Not Supported)
-        test VIDIOC_G_SLICED_VBI_CAPcdns_csi2rx.19800000.csi-bridge: =3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D  START STATUS  =3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-: OK (Ncdns_csi2rx.19800000.csi-bridge: =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D  END STATUS  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D
-ot Supported)
-        test Cropping: OK (Not Supported)
-        test Composing: OK (Not Supported)
-        test Scaling: OK (Not Supported)
-
-Codec ioctls:
-        test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Supported)
-        test VIDIOC_G_ENC_INDEX: OK (Not Supported)
-        test VIDIOC_(TRY_)DECODER_CMD: OK (Not Supported)
-
-Buffer ioctls:
-        test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK (Not Supported)
-        test CREATE_BUFS maximum buffers: OK
-        test VIDIOC_EXPBUF: OK (Not Supported)
-        test Requests: OK (Not Supported)
-
-Total for starfive-camss device /dev/v4l-subdev0: 66, Succeeded: 66, Fail=
-ed: 0, Warnings: 0
--------------------------------------------------------------------------=
--------
-Compliance test for starfive-camss device /dev/v4l-subdev1:
-
-Driver Info:
-        Driver version   : 6.7.0
-        Capabilities     : 0x00000000
-Media Driver Info:
-        Driver name      : starfive-camss
-        Model            : Starfive Camera Subsystem
-        Serial           :
-        Bus info         : platform:19840000.camss
-        Media version    : 6.7.0
-        Hardware revision: 0x00000000 (0)
-        Driver version   : 6.7.0
-Interface Info:
-        ID               : 0x03000025
-        Type             : V4L Sub-Device
-Entity Info:
-        ID               : 0x00000015 (21)
-        Name             : cdns_csi2rx.19800000.csi-bridge
-        Function         : Video Interface Bridge
-        Pad 0x01000016   : 0: Sink
-          Link 0x02000021: from remote pad 0x1000020 of entity 'imx219 6-=
-0010' (Camera Sensor): Data, Enabled, Immutable
-        Pad 0x01000017   : 1: Source
-          Link 0x0200001b: to remote pad 0x1000002 of entity 'stf_isp' (I=
-mage Signal Processor): Data
-          Link 0x0200001d: to remote pad 0x1000006 of entity 'capture_raw=
-' (V4L2 I/O): Data
-        Pad 0x01000018   : 2: Source
-        Pad 0x01000019   : 3: Source
-        Pad 0x0100001a   : 4: Source
-
-Required ioctls:
-        test MC information (see 'Media Driver Info' above): OK
-        test VIDIOC_SUDBEV_QUERYCAP: OK
-        test invalid ioctls: OK
-
-Allow for multiple opens:
-        test second /dev/v4l-subdev1 open: OK
-        test VIDIOC_SUBDEV_QUERYCAP: OK
-        test for unlimited opens: OK
-
-Debug ioctls:
-        test VIDIOC_LOG_STATUS: OK (Not Supported)
-
-Input ioctls:
-        test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
-        test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
-        test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
-        test VIDIOC_ENUMAUDIO: OK (Not Supported)
-        test VIDIOC_G/S/ENUMINPUT: OK (Not Supported)
-        test VIDIOC_G/S_AUDIO: OK (Not Supported)
-        Inputs: 0 Audio Inputs: 0 Tuners: 0
-
-Output ioctls:
-        test VIDIOC_G/S_MODULATOR: OK (Not Supported)
-        test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
-        test VIDIOC_ENUMAUDOUT: OK (Not Supported)
-        test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
-        test VIDIOC_G/S_AUDOUT: OK (Not Supported)
-        Outputs: 0 Audio Outputs: 0 Modulators: 0
-
-Input/Output configuration ioctls:
-        test VIDIOC_ENUM/G/S/QUERY_STD: OK (Not Supported)
-        test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK (Not Supported)
-        test VIDIOC_DV_TIMINGS_CAP: OK (Not Supported)
-        test VIDIOC_G/S_EDID: OK (Not Supported)
-
-Sub-Device ioctls (Sink Pad 0):
-        Try Stream 0
-        test Try VIDIOC_SUBDEV_ENUM_MBUS_CODE/FRAME_SIZE/FRAME_INTERVAL: =
-OK (Not Supported)
-        test Try VIDIOC_SUBDEV_G/S_FMT: OK
-        test Try VIDIOC_SUBDEV_G/S_SELECTION/CROP: OK (Not Supported)
-        Active Stream 0
-        test Active VIDIOC_SUBDEV_ENUM_MBUS_CODE/FRAME_SIZE/FRAME_INTERVA=
-L: OK (Not Supported)
-        test Active VIDIOC_SUBDEV_G/S_FMT: OK
-        test Active VIDIOC_SUBDEV_G/S_SELECTION/CROP: OK (Not Supported)
-        test VIDIOC_SUBDEV_G/S_FRAME_INTERVAL: OK (Not Supported)
-
-Sub-Device ioctls (Source Pad 1):
-        Try Stream 0
-        test Try VIDIOC_SUBDEV_ENUM_MBUS_CODE/FRAME_SIZE/FRAME_INTERVAL: =
-OK (Not Supported)
-        test Try VIDIOC_SUBDEV_G/S_FMT: OK
-        test Try VIDIOC_SUBDEV_G/S_SELECTION/CROP: OK (Not Supported)
-        Active Stream 0
-        test Active VIDIOC_SUBDEV_ENUM_MBUS_CODE/FRAME_SIZE/FRAME_INTERVA=
-L: OK (Not Supported)
-        test Active VIDIOC_SUBDEV_G/S_FMT: OK
-        test Active VIDIOC_SUBDEV_G/S_SELECTION/CROP: OK (Not Supported)
-        test VIDIOC_SUBDEV_G/S_FRAME_INTERVAL: OK (Not Supported)
-
-Sub-Device ioctls (Source Pad 2):
-        Try Stream 0
-        test Try VIDIOC_SUBDEV_ENUM_MBUS_CODE/FRAME_SIZE/FRAME_INTERVAL: =
-OK (Not Supported)
-        test Try VIDIOC_SUBDEV_G/S_FMT: OK
-        test Try VIDIOC_SUBDEV_G/S_SELECTION/CROP: OK (Not Supported)
-        Active Stream 0
-        test Active VIDIOC_SUBDEV_ENUM_MBUS_CODE/FRAME_SIZE/FRAME_INTERVA=
-L: OK (Not Supported)
-        test Active VIDIOC_SUBDEV_G/S_FMT: OK
-        test Active VIDIOC_SUBDEV_G/S_SELECTION/CROP: OK (Not Supported)
-        test VIDIOC_SUBDEV_G/S_FRAME_INTERVAL: OK (Not Supported)
-
-Sub-Device ioctls (Source Pad 3):
-        Try Stream 0
-        test Try VIDIOC_SUBDEV_ENUM_MBUS_CODE/FRAME_SIZE/FRAME_INTERVAL: =
-OK (Not Supported)
-        test Try VIDIOC_SUBDEV_G/S_FMT: OK
-        test Try VIDIOC_SUBDEV_G/S_SELECTION/CROP: OK (Not Supported)
-        Active Stream 0
-        test Active VIDIOC_SUBDEV_ENUM_MBUS_CODE/FRAME_SIZE/FRAME_INTERVA=
-L: OK (Not Supported)
-        test Active VIDIOC_SUBDEV_G/S_FMT: OK
-        test Active VIDIOC_SUBDEV_G/S_SELECTION/CROP: OK (Not Supported)
-        test VIDIOC_SUBDEV_G/S_FRAME_INTERVAL: OK (Not Supported)
-
-Sub-Device ioctls (Source Pad 4):
-        Try Stream 0
-        test Try VIDIOC_SUBDEV_ENUM_MBUS_CODE/FRAME_SIZE/FRAME_INTERVAL: =
-OK (Not Supported)
-        test Try VIDIOC_SUBDEV_G/S_FMT: OK
-        test Try VIDIOC_SUBDEV_G/S_SELECTION/CROP: OK (Not Supported)
-        Active Stream 0
-        test Active VIDIOC_SUBDEV_ENUM_MBUS_CODE/FRAME_SIZE/FRAME_INTERVA=
-L: OK (Not Supported)
-        test Active VIDIOC_SUBDEV_G/S_FMT: OK
-        test Active VIDIOC_SUBDEV_G/S_SELECTION/CROP: OK (Not Supported)
-        test VIDIOC_SUBDEV_G/S_FRAME_INTERVAL: OK (Not Supported)
-
-Control ioctls:
-        test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK (Not Supported)
-        test VIDIOC_QUERYCTRL: OK (Not Supported)
-        test VIDIOC_G/S_CTRL: OK (Not Supported)
-        test VIDIOC_G/S/TRY_EXT_CTRLS: OK (Not Supported)
-        test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK (Not Supported)
-        test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
-        Standard Controls: 0 Private Controls: 0
-
-Format ioctls:
-        test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK (Not Supported=
-)
-        test VIDIOC_G/S_PARM: OK (Not Supported)
-        test VIDIOC_G_FBUF: OK (Not Supported)
-        test VIDIOC_G_FMT: OK (Not Supported)
-        test VIDIOC_TRY_FMT: OK (Not Supported)
-        test VIDIOC_S_FMT: OK (Not Supported)
-        test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
-        test Cropping: OK (Not Supported)
-        test Composing: OK (Not Supported)
-        test Scaling: OK (Not Supported)
-
-Codec ioctls:
-        test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Supported)
-        test VIDIOC_G_ENC_INDEX: OK (Not Supported)
-        test VIDIOC_(TRY_)DECODER_CMD: OK (Not Supported)
-
-Buffer ioctls:
-        test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK (Not Supported)
-        test CREATE_BUFS maximum buffers: OK
-        test VIDIOC_EXPBUF: OK (Not Supported)
-        test Requests: OK (Not Supported)
-
-Total for starfive-camss device /dev/v4l-subdev1: 80, Succeeded: 80, Fail=
-ed: 0, Warnings: 0
--------------------------------------------------------------------------=
--------
-Compliance test for starfive-camss device /dev/v4l-subdev2:
-
-Driver Info:
-        Driver version   : 6.7.0
-        Capabilities     : 0x00000000
-Media Driver Info:
-        Driver name      : starfive-camss
-        Model            : Starfive Camera Subsysteimx219 6-0010: =3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D  START STATUS  =3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-m
-        Serial      imx219 6-0010: =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D  END STATUS  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D
-     :
-        Bus info         : platform:19840000.camss
-        Media version    : 6.7.0
-        Hardware revision: 0x00000000 (0)
-        Driver version   : 6.7.0
-Interface Info:
-        ID               : 0x03000027
-        Type             : V4L Sub-Device
-Entity Info:
-        ID               : 0x0000001f (31)
-        Name             : imx219 6-0010
-        Function         : Camera Sensor
-        Pad 0x01000020   : 0: Source
-          Link 0x02000021: to remote pad 0x1000016 of entity 'cdns_csi2rx=
-.19800000.csi-bridge' (Video Interface Bridge): Data, Enabled, Immutable
-
-Required ioctls:
-        test MC information (see 'Media Driver Info' above): OK
-        test VIDIOC_SUDBEV_QUERYCAP: OK
-        test invalid ioctls: OK
-
-Allow for multiple opens:
-        test second /dev/v4l-subdev2 open: OK
-        test VIDIOC_SUBDEV_QUERYCAP: OK
-        test for unlimited opens: OK
-
-Debug ioctls:
-        test VIDIOC_LOG_STATUS: OK (Not Supported)
-
-Input ioctls:
-        test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
-        test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
-        test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
-        test VIDIOC_ENUMAUDIO: OK (Not Supported)
-        test VIDIOC_G/S/ENUMINPUT: OK (Not Supported)
-        test VIDIOC_G/S_AUDIO: OK (Not Supported)
-        Inputs: 0 Audio Inputs: 0 Tuners: 0
-
-Output ioctls:
-        test VIDIOC_G/S_MODULATOR: OK (Not Supported)
-        test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
-        test VIDIOC_ENUMAUDOUT: OK (Not Supported)
-        test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
-        test VIDIOC_G/S_AUDOUT: OK (Not Supported)
-        Outputs: 0 Audio Outputs: 0 Modulators: 0
-
-Input/Output configuration ioctls:
-        test VIDIOC_ENUM/G/S/QUERY_STD: OK (Not Supported)
-        test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK (Not Supported)
-        test VIDIOC_DV_TIMINGS_CAP: OK (Not Supported)
-        test VIDIOC_G/S_EDID: OK (Not Supported)
-
-Sub-Device ioctls (Source Pad 0):
-        Try Stream 0
-        test Try VIDIOC_SUBDEV_ENUM_MBUS_CODE/FRAME_SIZE/FRAME_INTERVAL: =
-OK
-        test Try VIDIOC_SUBDEV_G/S_FMT: OK
-                warn: v4l2-test-subdevs.cpp(541): VIDIOC_SUBDEV_G_SELECTI=
-ON is supported for target 0 but not VIDIOC_SUBDEV_S_SELECTION
-        test Try VIDIOC_SUBDEV_G/S_SELECTION/CROP: OK
-        Active Stream 0
-        test Active VIDIOC_SUBDEV_ENUM_MBUS_CODE/FRAME_SIZE/FRAME_INTERVA=
-L: OK
-        test Active VIDIOC_SUBDEV_G/S_FMT: OK
-                warn: v4l2-test-subdevs.cpp(541): VIDIOC_SUBDEV_G_SELECTI=
-ON is supported for target 0 but not VIDIOC_SUBDEV_S_SELECTION
-        test Active VIDIOC_SUBDEV_G/S_SELECTION/CROP: OK
-        test VIDIOC_SUBDEV_G/S_FRAME_INTERVAL: OK (Not Supported)
-
-Control ioctls:
-        test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK
-        test VIDIOC_QUERYCTRL: OK
-        test VIDIOC_G/S_CTRL: OK
-        test VIDIOC_G/S/TRY_EXT_CTRLS: OK
-        test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK
-        test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
-        Standard Controls: 20 Private Controls: 0
-
-Format ioctls:
-        test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK (Not Supported=
-)
-        test VIDIOC_G/S_PARM: OK (Not Supported)
-        test VIDIOC_G_FBUF: OK (Not Supported)
-        test VIDIOC_G_FMT: OK (Not Supported)
-        test VIDIOC_TRY_FMT: OK (Not Supported)
-        test VIDIOC_S_FMT: OK (Not Supported)
-        test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
-        test Cropping: OK (Not Supported)
-        test Composing: OK (Not Supported)
-        test Scaling: OK (Not Supported)
-
-Codec ioctls:
-        test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Supported)
-        test VIDIOC_G_ENC_INDEX: OK (Not Supported)
-        test VIDIOC_(TRY_)DECODER_CMD: OK (Not Supported)
-
-Buffer ioctls:
-        test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK (Not Supported)
-        test CREATE_BUFS maximum buffers: OK
-        test VIDIOC_EXPBUF: OK (Not Supported)
-        test Requests: OK (Not Supported)
-
-Total for starfive-camss device /dev/v4l-subdev2: 52, Succeeded: 52, Fail=
-ed: 0, Warnings: 2
-
-Grand Total for starfive-camss device /dev/media0: 347, Succeeded: 347, F=
-ailed: 0, Warnings: 2
-
-Two warnings are from the imx219, can ignore them.
-
-Changhuang Liang (9):
-  media: v4l2-ctrls: Add user controls for StarFive JH7110 ISP
-  staging: media: starfive: camss: Add ISP controls
-  media: videodev2.h, v4l2-ioctl: Add StarFive ISP meta buffer format
-  staging: media: starfive: camss: Replace format index with pad
-  staging: media: starfive: camss: Add for StarFive ISP 3A
-  staging: media: starfive: camss: Update ISP initialise config for 3A
-  staging: media: starfive: camss: Add V4L2_CAP_IO_MC capability
-  staging: media: starfive: Add frame sync event for video capture
-    device
-  admin-guide: media: Update documents for StarFive Camera Subsystem
-
- .../admin-guide/media/starfive_camss.rst      |   9 +-
- .../media/starfive_camss_graph.dot            |  20 +-
- MAINTAINERS                                   |   1 +
- drivers/media/v4l2-core/v4l2-ioctl.c          |   1 +
- .../staging/media/starfive/camss/stf-camss.c  |   8 +
- .../staging/media/starfive/camss/stf-camss.h  |   8 +
- .../media/starfive/camss/stf-capture.c        |  98 +++-
- .../media/starfive/camss/stf-isp-hw-ops.c     | 550 ++++++++++++++++++
- .../staging/media/starfive/camss/stf-isp.c    | 366 +++++++++++-
- .../staging/media/starfive/camss/stf-isp.h    | 179 ++++++
- .../staging/media/starfive/camss/stf-video.c  | 158 ++++-
- .../staging/media/starfive/camss/stf-video.h  |   2 +
- include/uapi/linux/jh7110-isp.h               | 342 +++++++++++
- include/uapi/linux/v4l2-controls.h            |   6 +
- include/uapi/linux/videodev2.h                |   3 +
- 15 files changed, 1711 insertions(+), 40 deletions(-)
- create mode 100644 include/uapi/linux/jh7110-isp.h
-
---
-2.25.1
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20231214065027.28564-4-changhuang.liang@starfivetech.com>
+
+Hello Changhuang,
+
+Thank you for the patch.
+
+On Wed, Dec 13, 2023 at 10:50:21PM -0800, Changhuang Liang wrote:
+> Add the StarFive ISP specific metadata format
+> V4L2_META_FMT_STF_ISP_STAT_3A for 3A.
+> 
+> Signed-off-by: Changhuang Liang <changhuang.liang@starfivetech.com>
+> ---
+>  drivers/media/v4l2-core/v4l2-ioctl.c | 1 +
+>  include/uapi/linux/videodev2.h       | 3 +++
+>  2 files changed, 4 insertions(+)
+> 
+> diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
+> index 33076af4dfdb..dfc031e575e9 100644
+> --- a/drivers/media/v4l2-core/v4l2-ioctl.c
+> +++ b/drivers/media/v4l2-core/v4l2-ioctl.c
+> @@ -1445,6 +1445,7 @@ static void v4l_fill_fmtdesc(struct v4l2_fmtdesc *fmt)
+>  	case V4L2_META_FMT_VIVID:       descr = "Vivid Metadata"; break;
+>  	case V4L2_META_FMT_RK_ISP1_PARAMS:	descr = "Rockchip ISP1 3A Parameters"; break;
+>  	case V4L2_META_FMT_RK_ISP1_STAT_3A:	descr = "Rockchip ISP1 3A Statistics"; break;
+> +	case V4L2_META_FMT_STF_ISP_STAT_3A:	descr = "StarFive ISP 3A Statistics"; break;
+>  	case V4L2_PIX_FMT_NV12_8L128:	descr = "NV12 (8x128 Linear)"; break;
+>  	case V4L2_PIX_FMT_NV12M_8L128:	descr = "NV12M (8x128 Linear)"; break;
+>  	case V4L2_PIX_FMT_NV12_10BE_8L128:	descr = "10-bit NV12 (8x128 Linear, BE)"; break;
+> diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
+> index 68e7ac178cc2..0c3d19a1c8cf 100644
+> --- a/include/uapi/linux/videodev2.h
+> +++ b/include/uapi/linux/videodev2.h
+> @@ -839,6 +839,9 @@ struct v4l2_pix_format {
+>  #define V4L2_META_FMT_RK_ISP1_PARAMS	v4l2_fourcc('R', 'K', '1', 'P') /* Rockchip ISP1 3A Parameters */
+>  #define V4L2_META_FMT_RK_ISP1_STAT_3A	v4l2_fourcc('R', 'K', '1', 'S') /* Rockchip ISP1 3A Statistics */
+>  
+> +/* Vendor specific - used for StarFive JH7110 ISP camera sub-system */
+> +#define V4L2_META_FMT_STF_ISP_STAT_3A	v4l2_fourcc('S', 'T', 'F', 'S') /* StarFive ISP 3A Statistics */
+> +
+
+The new format needs to be documented, in
+Documentation/userspace-api/media/v4l/. See for instance the
+metafmt-rkisp1.rst file in that directory.
+
+Note that mapping the format to C structures as done by the rkisp1
+driver is not mandatory, that's just one option in case the format can
+be easily described that way. The important point is to precisely
+document the format so that it can get used by userspace without access
+to hardware documentation (as far as I understand, the ISP documentation
+is not public).
+
+>  /* priv field value to indicates that subsequent fields are valid. */
+>  #define V4L2_PIX_FMT_PRIV_MAGIC		0xfeedcafe
+>  
+
+-- 
+Regards,
+
+Laurent Pinchart
