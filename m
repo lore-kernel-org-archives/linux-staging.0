@@ -1,92 +1,102 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from out5-smtp.messagingengine.com (out5-smtp.messagingengine.com [66.111.4.29])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C738A3A8E7;
-	Fri, 15 Dec 2023 15:48:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BA4618EC1
+	for <linux-staging@lists.linux.dev>; Fri, 15 Dec 2023 23:11:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=fastmail.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fastmail.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="z+USVQfI"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 222C1C433C8;
-	Fri, 15 Dec 2023 15:48:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1702655328;
-	bh=rsPUpCj2bYxs7k3PRRq5DJkVAQ0qVf/ojfEsU0inDpc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=z+USVQfIbkB98dDpugqCgCMHDt3biGRRYpWj8y5HPiA5Kgkz+eF/0mRepjQC/bo+1
-	 kkthLzJPI0y60HXoL6LrHE5BuAyS8YKZw92P805tpC0VT7E2PBlf82UbKlS57fpm6A
-	 NuTVyaY7J/uRPTufMbSS40SpzUXCtfF5lsnB2QxI=
-Date: Fri, 15 Dec 2023 16:48:45 +0100
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Nathan DSilva <expitau@gmail.com>
-Cc: philipp.g.hortmann@gmail.com, tdavies@darkphysics.net,
-	error27@gmail.com, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] staging: rtl8192e: Add blank line after declarations
-Message-ID: <2023121533-bulge-appealing-73e0@gregkh>
-References: <ZXvevJ2vEEQ92rau@oatmeal.darkphysics>
- <20231215152918.532037-1-expitau@gmail.com>
+	dkim=pass (2048-bit key) header.d=fastmail.org header.i=@fastmail.org header.b="tHh8fX+y";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="mrd/ZQBc"
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+	by mailout.nyi.internal (Postfix) with ESMTP id 171BA5C01B4;
+	Fri, 15 Dec 2023 18:11:59 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute4.internal (MEProxy); Fri, 15 Dec 2023 18:11:59 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fastmail.org; h=
+	cc:cc:content-transfer-encoding:content-type:date:date:from:from
+	:in-reply-to:message-id:mime-version:reply-to:subject:subject:to
+	:to; s=fm2; t=1702681919; x=1702768319; bh=JUtINVqY1e3cJupn+9kUI
+	Kovwyk1PAYLXChLhNrV78M=; b=tHh8fX+y90mfh00AhUBf86K2cIJqDnZ5xAPTb
+	fzKbBvGFSZzdO2pokMed4cIkStzYSzcmZco4z3mHAEqKZGqoQlpF5NIzhPkqB16+
+	PTuPycUBqhLnY8728c/e7mtVdAxcvequHoh9tyh4CdsUvR7LurM4ow9Th4pKPhEc
+	Nya2d1rSpXRmEyrHipXp3HwiaMWWuYynbaoPuIVT5yriUrrcCLzz91USGlLIZen2
+	xc+f2xflxaKWP3xWAO+S6+U1Cy0h+rZne3KsSaiuX+yKfsXuDjijOt4VjXmj3H1n
+	C4CMEkg+tGOdcfXaNUv7zmABcAJeAFbOg14sLxcKrvijApb2A==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:date:date:feedback-id:feedback-id:from:from
+	:in-reply-to:message-id:mime-version:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm2; t=1702681919; x=1702768319; bh=JUtINVqY1e3cJupn+9kUIKovwyk1
+	PAYLXChLhNrV78M=; b=mrd/ZQBc4mwx3ohXmBFOWd0SuY+oNXw/fs4OmjJm4jUg
+	RJqOfKOyPbHYGfP7MuQUmlC1lqQ/32+lwAMowlqql/pWVTckPfY0klM2ftbdemaw
+	YKsE9ldMhR5D8qQtuWRZ7y6VEKkTKE2gFo3cu/ffWJcsWa5p7nFEsSrDBxq/bpqe
+	nsJTIXHft1RoOb2iIn71jZMIDb9BO34+vChis46YLjGRdjPC7GiEYzBWm+XuL1qO
+	togSnCsFbv3h2az/Lew+SSdEqwvtLmkGGP0TfgWkHF60F01WjhNvOKIfqxjosVIq
+	G9gtKso3+Zl11WSa6u4nEM3ro8Tt2o9Qhw6aWswb4g==
+X-ME-Sender: <xms:Pt18Za7NaOFy8Ns1gvvSQYVS9pifhD7B-WpbC64XJa_LP1cbLO-0Nw>
+    <xme:Pt18ZT4DyOrbc0VFXcewPBJ-OTFd5Glb_LSVwPtJ2gmhLZeigN83TWkY3utYbVgjh
+    gnUj6VA5iXLtpQL0jk>
+X-ME-Received: <xmr:Pt18ZZdtm2KtvawuJE4gsszaib1oKBDX8Va22X6SussH5Njad2LK2q8yHhw5rUKuioDxYcMFDoAMBsHWpF_IFFgCylCfwDQh9yanb0m3fcg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvkedrvddtfedgtdejucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucenucfjughrpefhvfevufffkffoggfgsedtkeertd
+    ertddtnecuhfhrohhmpefirghrhicutfhoohhkrghrugcuoehgrghrhihrohhokhgrrhgu
+    sehfrghsthhmrghilhdrohhrgheqnecuggftrfgrthhtvghrnhepleegffffgfehhfejge
+    ejheeivdfgleefheeuueetkedtffeihfevlefhgeevvdevnecuvehluhhsthgvrhfuihii
+    vgeptdenucfrrghrrghmpehmrghilhhfrhhomhepghgrrhihrhhoohhkrghrugesfhgrsh
+    htmhgrihhlrdhorhhg
+X-ME-Proxy: <xmx:Pt18ZXK_ut4kpp7fGw7pd_qNlyHdwUiJsGqnX4hZhwxLKqzqSu4YvQ>
+    <xmx:Pt18ZeKz3zKYPrrdssH2PpWByiBAKDBYvyrE7bKIu6BDw0oKMsOgGw>
+    <xmx:Pt18ZYw_G_b2H-cQaPXI1OKdDXU9dtYEgxQQS6BXz-zXqkjH4_N1fQ>
+    <xmx:P918Za2K366zEz65Kb1WjqS4Y0leIkYE0A6IkX_otGPG6HyKbAb9vQ>
+Feedback-ID: ifd194980:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
+ 15 Dec 2023 18:11:58 -0500 (EST)
+From: Gary Rookard <garyrookard@fastmail.org>
+To: gregkh@linuxfoundation.org,
+	philipp.g.hortmann@gmail.com
+Cc: linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Gary Rookard <garyrookard@fastmail.org>
+Subject: [PATCH v2 0/4] [Series 4] staging: rtl8192e: rename variable pHT and (3) other
+Date: Fri, 15 Dec 2023 18:12:31 -0500
+Message-ID: <20231215231235.8265-1-garyrookard@fastmail.org>
+X-Mailer: git-send-email 2.41.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231215152918.532037-1-expitau@gmail.com>
-
-On Fri, Dec 15, 2023 at 03:29:18PM +0000, Nathan DSilva wrote:
-> Remove a warning about line breaks after declarations found by checkpatch.
-> 
-> Signed-off-by: Nathan DSilva <expitau@gmail.com>
-> ---
-> 
-> Thank you very much for your response. I didn't realize you could select
-> multiple --to recipients, or that you could have comments not in the changelog.
-> 
->  drivers/staging/rtl8192e/rtllib_rx.c | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/drivers/staging/rtl8192e/rtllib_rx.c b/drivers/staging/rtl8192e/rtllib_rx.c
-> index ecaa4dec3f94..397859c7f5b1 100644
-> --- a/drivers/staging/rtl8192e/rtllib_rx.c
-> +++ b/drivers/staging/rtl8192e/rtllib_rx.c
-> @@ -946,6 +946,7 @@ static int rtllib_rx_data_filter(struct rtllib_device *ieee, struct ieee80211_hd
->  {
->  	u8 type, stype;
->  	u16 fc = le16_to_cpu(hdr->frame_control);
-> +
->  	type = WLAN_FC_GET_TYPE(fc);
->  	stype = WLAN_FC_GET_STYPE(fc);
->  
-> -- 
-> 2.43.0
-> 
-
+Content-Transfer-Encoding: 8bit
 
 Hi,
 
-This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
-a patch that has triggered this response.  He used to manually respond
-to these common problems, but in order to save his sanity (he kept
-writing the same thing over and over, yet to different people), I was
-created.  Hopefully you will not take offence and will fix the problem
-in your patch and resubmit it so that it can be accepted into the Linux
-kernel tree.
+This patch series renames (4) different variables with
+the checkpatch coding style issue, Avoid CamelCase.
 
-You are receiving this message because of the following common error(s)
-as indicated below:
+(resubmittals)
 
-- This looks like a new version of a previously submitted patch, but you
-  did not list below the --- line any changes from the previous version.
-  Please read the section entitled "The canonical patch format" in the
-  kernel file, Documentation/process/submitting-patches.rst for what
-  needs to be done here to properly describe this.
+Patch 1/4) rename variable pHT
+Patch 2/4) rename variable pCapELE
+Patch 3/4) rename variable HTGetHighestMCSRate
+Patch 4/4) rename variable HTFilterMCSRate
 
-If you wish to discuss this problem further, or you have questions about
-how to resolve this issue, please feel free to respond to this email and
-Greg will reply once he has dug out from the pending patches received
-from other developers.
+Signed-off-by: Gary Rookard <garyrookard@fastmail.org>
 
-thanks,
+Gary Rookard (4):
+  staging: rtl8192e: rename variable pHT
+  staging: rtl8192e: rename variable pCapELE
+  staging: rtl8192e: rename variable HTGetHighestMCSRate
+  staging: rtl8192e: rename variable HTFilterMCSRate
 
-greg k-h's patch email bot
+ drivers/staging/rtl8192e/rtl819x_HTProc.c | 86 +++++++++++------------
+ drivers/staging/rtl8192e/rtllib.h         |  2 +-
+ drivers/staging/rtl8192e/rtllib_wx.c      |  2 +-
+ 3 files changed, 45 insertions(+), 45 deletions(-)
+
+-- 
+2.41.0
+
