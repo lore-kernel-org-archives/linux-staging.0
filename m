@@ -1,125 +1,93 @@
-Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from ex01.ufhost.com (ex01.ufhost.com [61.152.239.75])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F182CA64
-	for <linux-staging@lists.linux.dev>; Fri, 15 Dec 2023 05:06:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=darkphysics.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=darkphysics.net
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=darkphysics.net header.i=@darkphysics.net header.b="Ey4/Bu+B"
-Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-1d3470496e2so2108655ad.1
-        for <linux-staging@lists.linux.dev>; Thu, 14 Dec 2023 21:06:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=darkphysics.net; s=google; t=1702616766; x=1703221566; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:date:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=hvpP/ygkFMYd8akAA0h2BMF7cGxl78yZ9yQVEC1m76w=;
-        b=Ey4/Bu+BN1idLZYw13GozV8XbcPm5Uu+UAmaGgTy9//SK7uVkTIfvTv26ddiADZ4ZB
-         LXPYLqQ7zpq+Jt3xM1RDG/71O7jRo6QeUkhDt4kvURVySXPO785ND4tAVJbgKbb8Rk8J
-         xy3nGv0eLlzjtPB6PRHIDgnKmik1r4cdyfUUAhY+1vNQzJSCEXK6hwa+PJA/fBdN9BSK
-         hiQPKeyJNrQk/0iL89AYv5mNaY3BI6Q7dBM2HO/o2p17MZBeIknDZ2ddwaQXaU8ZIpS7
-         JGeGdwisl1gPYm2FWbCV/H90QrRqbiIAW0x053LQlX1tlAcj47j7nd6skvDBvX+r+nQw
-         7P9Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702616766; x=1703221566;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:date:from:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=hvpP/ygkFMYd8akAA0h2BMF7cGxl78yZ9yQVEC1m76w=;
-        b=ECY6PJwZKwLp7vVROX9QuFTZjFZEGVW2UsvxbuFmHNYSUkn0eVirgxxBWQuw6HHdXO
-         qxEE6iH/qZ17Nb4AiioigB3oEIgKUDRvXUPj/7YrHKVY20NiIG+4SUibqR3LSULwK6aa
-         a9OWw9KY8jkINKIwHaknAtcJT0BKsDmQD/M/LhIv7hFXtpnVLMS9cf8LDuicUgWURf/x
-         cA107u19tyl6hQegFW6KzrJr4XsUJsMDZG4A2YwPENIEqFlPn6yAKa/eQXD9YUZIb2CE
-         2yHK1mVRQ+SxIF0b1WN7Q2bnuHu2OTkQzHHPuzv49Bp8sgXP/E5DuxBUFMZK7kjIS4ME
-         bDPQ==
-X-Gm-Message-State: AOJu0Yw1dUoyRA1XA8unjCVbMJQaNUTUfXVbF7lVsnviyUiizeqhbyF9
-	XadTi/N0Je4f0MBS6A7+V2x1ug==
-X-Google-Smtp-Source: AGHT+IHJ3DBkuKkdets9d837xoghatL8OwNCUq3Sx8ZFLNbuSRbWp7OiuUaSbeKx1eoJ27Otho8bIw==
-X-Received: by 2002:a17:902:c406:b0:1d1:c96a:c5e with SMTP id k6-20020a170902c40600b001d1c96a0c5emr13537749plk.70.1702616766572;
-        Thu, 14 Dec 2023 21:06:06 -0800 (PST)
-Received: from oatmeal.darkphysics (c-76-146-178-2.hsd1.wa.comcast.net. [76.146.178.2])
-        by smtp.gmail.com with ESMTPSA id p20-20020a170902ead400b001d0b5a97cabsm13255145pld.124.2023.12.14.21.06.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 14 Dec 2023 21:06:06 -0800 (PST)
-From: "<Tree Davies" <tdavies@darkphysics.net>
-X-Google-Original-From: "<Tree Davies" <tdavies@gmail.com>
-Date: Thu, 14 Dec 2023 21:06:04 -0800
-To: Nathan DSilva <expitau@gmail.com>
-Cc: gregkh@linuxfoundation.org, philipp.g.hortmann@gmail.com,
-	tdavies@darkphysics.net, kamrankhadijadj@gmail.com,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: rtl8192e: Add blank line after declarations
-Message-ID: <ZXvevJ2vEEQ92rau@oatmeal.darkphysics>
-References: <20231215032852.501316-1-expitau@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32C1979E5
+	for <linux-staging@lists.linux.dev>; Fri, 15 Dec 2023 05:55:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=starfivetech.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=starfivetech.com
+Received: from EXMBX166.cuchost.com (unknown [175.102.18.54])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(Client CN "EXMBX166", Issuer "EXMBX166" (not verified))
+	by ex01.ufhost.com (Postfix) with ESMTP id F0E7124E233;
+	Fri, 15 Dec 2023 13:55:10 +0800 (CST)
+Received: from EXMBX062.cuchost.com (172.16.6.62) by EXMBX166.cuchost.com
+ (172.16.6.76) with Microsoft SMTP Server (TLS) id 15.0.1497.42; Fri, 15 Dec
+ 2023 13:55:10 +0800
+Received: from [192.168.125.107] (113.72.145.168) by EXMBX062.cuchost.com
+ (172.16.6.62) with Microsoft SMTP Server (TLS) id 15.0.1497.42; Fri, 15 Dec
+ 2023 13:55:09 +0800
+Message-ID: <e6059181-a1bb-438b-8490-108c64316171@starfivetech.com>
+Date: Fri, 15 Dec 2023 13:55:09 +0800
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231215032852.501316-1-expitau@gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v1 1/9] media: v4l2-ctrls: Add user controls for StarFive
+ JH7110 ISP
+Content-Language: en-US
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+CC: Mauro Carvalho Chehab <mchehab@kernel.org>, Greg Kroah-Hartman
+	<gregkh@linuxfoundation.org>, Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+	"Marvin Lin" <milkfafa@gmail.com>, Bryan O'Donoghue
+	<bryan.odonoghue@linaro.org>, "Ming Qian" <ming.qian@nxp.com>, Nicolas
+ Dufresne <nicolas.dufresne@collabora.com>, Benjamin Gaignard
+	<benjamin.gaignard@collabora.com>, Tomi Valkeinen
+	<tomi.valkeinen+renesas@ideasonboard.com>, Mingjia Zhang
+	<mingjia.zhang@mediatek.com>, Geert Uytterhoeven <geert+renesas@glider.be>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>, Dan Carpenter
+	<dan.carpenter@linaro.org>, Jack Zhu <jack.zhu@starfivetech.com>,
+	<linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<linux-staging@lists.linux.dev>
+References: <20231214065027.28564-1-changhuang.liang@starfivetech.com>
+ <20231214065027.28564-2-changhuang.liang@starfivetech.com>
+ <20231214113955.GK12450@pendragon.ideasonboard.com>
+From: Changhuang Liang <changhuang.liang@starfivetech.com>
+In-Reply-To: <20231214113955.GK12450@pendragon.ideasonboard.com>
+Content-Type: text/plain; charset="UTF-8"
+X-ClientProxiedBy: EXCAS066.cuchost.com (172.16.6.26) To EXMBX062.cuchost.com
+ (172.16.6.62)
+X-YovoleRuleAgent: yovoleflag
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, Dec 15, 2023 at 03:28:52AM +0000, Nathan DSilva wrote:
-> Found using checkpatch, removes one warning about line breaks after
-> declarations.
-> 
-> This is my first patch, feedback is welcome. I am submitting this as a test
-> before moving to other subsystems to (hopefully) make more meaningful
-> contributions.
-> 
-> Signed-off-by: Nathan DSilva <expitau@gmail.com>
-> ---
->  drivers/staging/rtl8192e/rtllib_rx.c | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/drivers/staging/rtl8192e/rtllib_rx.c b/drivers/staging/rtl8192e/rtllib_rx.c
-> index ecaa4dec3f94..397859c7f5b1 100644
-> --- a/drivers/staging/rtl8192e/rtllib_rx.c
-> +++ b/drivers/staging/rtl8192e/rtllib_rx.c
-> @@ -946,6 +946,7 @@ static int rtllib_rx_data_filter(struct rtllib_device *ieee, struct ieee80211_hd
->  {
->  	u8 type, stype;
->  	u16 fc = le16_to_cpu(hdr->frame_control);
-> +
->  	type = WLAN_FC_GET_TYPE(fc);
->  	stype = WLAN_FC_GET_STYPE(fc);
->  
-> -- 
-> 2.43.0
+Hi Laurent
 
-Hi Nathan,
+Thanks for your comments.
 
-Thanks for your patch, but here are few comments.
+On 2023/12/14 19:39, Laurent Pinchart wrote:
+> Hi Changhuang,
+>=20
+> Thank you for the patch.
+>=20
+> On Wed, Dec 13, 2023 at 10:50:19PM -0800, Changhuang Liang wrote:
+>> Add a control base for StarFive JH7110 ISP driver controls, and reserv=
+e
+>> 32 controls=EF=BC=8Calso add some controls for StarFive JH7110 ISP.
+>=20
+> ISP parameters should be passed through parameters buffers, not V4L2
+> control. See for instance the V4L2_META_FMT_RK_ISP1_PARAMS format in th=
+e
+> mainline kernel, it describes how to store ISP parameters in a buffer.
+> The rkisp1 driver is an example of how this can be implemented.
+>=20
 
-1. Your subject line looks good. Keep it.
+That means I need to add a video output device before ISP subdev? And=20
+use queue/dequeue buffer to get the ISP paremeters?
 
-2. Your commit message should read something like.. 'Do x to fix Y'.
-There are lots of examples in the log for this driver which demonstrates this.
-You don't want 'This is first patch' in the commit log.
+> Please note that the ISP parameters need to be documented precisely,
+> regardless of how they're passed by userspace to the kernel. Even with
+> V4L2 controls, documentation would be needed. Please see below for
+> additional comments.
+>=20
 
-3. For this driver, it is best to send your patches to Greg, Philipp Hortmann,
-and Dan Carpenter (error27@gmail.com) looks at them sometimes too. And like you
-did, cc the mailing lists.
+I will add annotations for this file next version.
 
-For example, My setup usually looks like...
-git send-email ./patches/*  --to=gregkh@linuxfoundation.org --to=philipp.g.hortmann@gmail.com --to=anjan@momi.ca  --cc=linux-staging@lists.linux.dev --cc=linux-kernel@vger.kernel.org
-
-A good source of info for sending patches can be foound here:
-at https://docs.kernel.org/process/submitting-patches.html
-and also there is a free tutorial at:
-https://trainingportal.linuxfoundation.org/courses/a-beginners-guide-to-linux-kernel-development-lfd103
-
-I'm a newbie myself, but I'm happy to help.
-Cheers
-Tree
-
-
-
- 
-  
-
-
-
-
+>> Signed-off-by: Changhuang Liang <changhuang.liang@starfivetech.com>
+>> ---
+>>  MAINTAINERS                        |   1 +
+>>  include/uapi/linux/jh7110-isp.h    | 342 ++++++++++++++++++++++++++++=
++
+>>  include/uapi/linux/v4l2-controls.h |   6 +
+[...]
