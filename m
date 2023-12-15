@@ -1,28 +1,29 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 546E02C68E;
-	Fri, 15 Dec 2023 12:33:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8E5B2574B;
+	Fri, 15 Dec 2023 12:34:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="KynfSUXa"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7F3E0C433C7;
-	Fri, 15 Dec 2023 12:33:25 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="b36cOM1C"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D714FC433CB;
+	Fri, 15 Dec 2023 12:34:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1702643605;
-	bh=rScjbXdnr/z3TtdU134OVUiIqQBoVIxxCS3KlaMCrlM=;
+	s=korg; t=1702643670;
+	bh=FKxZBM/eGnkcCWYq8ROqWWg4oGWQUMqw+sFNUzKW6/8=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=KynfSUXa7ujHkHZovyC3Gx0NdUmDRiUxos/D1ZOgOVsVzYu6yfUsuDjVQSYjJPzzM
-	 NNxAGdsom4AN4OlpLrjSMVvYIWzwGJT3hNcLjMTQlCXSEkGgbFK00KNTr2vuecRmlF
-	 iemyhK7N1leigJI27v1bWtxkKLfaVIwa2CaQEhHE=
-Date: Fri, 15 Dec 2023 13:33:23 +0100
+	b=b36cOM1C5UV7HdfqDsWF5sWuveQJXujHtiSXuKWT5dtHcXCspO+ncwxNERXQ++q8A
+	 iGM45bHMBWXS7IxdnbSE08EMqH59r7xE0AoDkqtdNVjKKOOUqiXfxmiT8oCOttqtsd
+	 Y7T2RhT3GEcw+dUCXsw0Xfoq4mk27lPSYdhz2qgQ=
+Date: Fri, 15 Dec 2023 13:34:26 +0100
 From: Greg KH <gregkh@linuxfoundation.org>
-To: Nathan DSilva <expitau@gmail.com>
-Cc: philipp.g.hortmann@gmail.com, tdavies@darkphysics.net,
-	kamrankhadijadj@gmail.com, linux-staging@lists.linux.dev,
+To: Piro Yang <piroyangg@gmail.com>
+Cc: linux-staging@lists.linux.dev,
+	Linux Outreachy <outreachy@lists.linux.dev>,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: rtl8192e: Add blank line after declarations
-Message-ID: <2023121558-writing-scariness-a6ca@gregkh>
-References: <20231215032852.501316-1-expitau@gmail.com>
+Subject: Re: [PATCH v2] staging:vme_user:fix the issue of using the wrong
+ error code
+Message-ID: <2023121505-viewer-kindle-5ed5@gregkh>
+References: <20231211173610.106501-1-piroyangg@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -31,35 +32,18 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231215032852.501316-1-expitau@gmail.com>
+In-Reply-To: <20231211173610.106501-1-piroyangg@gmail.com>
 
-On Fri, Dec 15, 2023 at 03:28:52AM +0000, Nathan DSilva wrote:
-> Found using checkpatch, removes one warning about line breaks after
-> declarations.
+On Tue, Dec 12, 2023 at 01:36:10AM +0800, Piro Yang wrote:
+> the error code of ENOSYS indicates Invalid system call number, but there is not system call
 > 
-> This is my first patch, feedback is welcome. I am submitting this as a test
-> before moving to other subsystems to (hopefully) make more meaningful
-> contributions.
-> 
-> Signed-off-by: Nathan DSilva <expitau@gmail.com>
+> Signed-off-by: Piro Yang <piroyangg@gmail.com>
 > ---
->  drivers/staging/rtl8192e/rtllib_rx.c | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/drivers/staging/rtl8192e/rtllib_rx.c b/drivers/staging/rtl8192e/rtllib_rx.c
-> index ecaa4dec3f94..397859c7f5b1 100644
-> --- a/drivers/staging/rtl8192e/rtllib_rx.c
-> +++ b/drivers/staging/rtl8192e/rtllib_rx.c
-> @@ -946,6 +946,7 @@ static int rtllib_rx_data_filter(struct rtllib_device *ieee, struct ieee80211_hd
->  {
->  	u8 type, stype;
->  	u16 fc = le16_to_cpu(hdr->frame_control);
-> +
->  	type = WLAN_FC_GET_TYPE(fc);
->  	stype = WLAN_FC_GET_STYPE(fc);
->  
-> -- 
-> 2.43.0
+>  v2: split two different changes,
+>      only fix the issue of wrong error code
+> ---
+>  drivers/staging/vme_user/vme.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
 
 Hi,
@@ -74,12 +58,17 @@ kernel tree.
 
 You are receiving this message because of the following common error(s)
 as indicated below:
-
 - You did not specify a description of why the patch is needed, or
   possibly, any description at all, in the email body.  Please read the
   section entitled "The canonical patch format" in the kernel file,
   Documentation/process/submitting-patches.rst for what is needed in
   order to properly describe the change.
+
+- You did not write a descriptive Subject: for the patch, allowing Greg,
+  and everyone else, to know what this patch is all about.  Please read
+  the section entitled "The canonical patch format" in the kernel file,
+  Documentation/process/submitting-patches.rst for what a proper
+  Subject: line should look like.
 
 If you wish to discuss this problem further, or you have questions about
 how to resolve this issue, please feel free to respond to this email and
