@@ -1,407 +1,162 @@
-Received: from mail-oa1-f49.google.com (mail-oa1-f49.google.com [209.85.160.49])
+Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com [209.85.167.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94CCA328D7
-	for <linux-staging@lists.linux.dev>; Sat, 16 Dec 2023 20:20:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=darkphysics.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=darkphysics.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F80F328DE
+	for <linux-staging@lists.linux.dev>; Sat, 16 Dec 2023 20:23:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=darkphysics.net header.i=@darkphysics.net header.b="ELEk7Yc4"
-Received: by mail-oa1-f49.google.com with SMTP id 586e51a60fabf-2031b9c8389so1316623fac.1
-        for <linux-staging@lists.linux.dev>; Sat, 16 Dec 2023 12:20:43 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="J4iSp/Tf"
+Received: by mail-lf1-f52.google.com with SMTP id 2adb3069b0e04-50e3295978aso123885e87.1
+        for <linux-staging@lists.linux.dev>; Sat, 16 Dec 2023 12:23:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=darkphysics.net; s=google; t=1702758042; x=1703362842; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=CuhQHUQnlivRHSzEkdfbgbZucS3zTdYH+eKCFrlSDN8=;
-        b=ELEk7Yc4AmQRlXYywrguOWsemaas3zj+17/LIVXB3e5fpiPLJmaKzcNYNJvRX1TUUt
-         yyF5W1a9+U98O+kAtOBOcbpI7T4Yl9rNyl9CyPX0odjQcUxj/sxfKFqpSOuWLAqk8ZaE
-         RFD5mbA8hDdZBa4juI8rNOKHzz6DfRQ0ypdDuI0o82rIY5on1KUE9vIUXMIStXym/jSv
-         lfr0AwvDiORhKGGuWIdiypwhmhrbAbm4A0zzJdb6uxHc0Nl+qEXzSFun3veszAoY94Wu
-         BPVeJ8tFlxeKf2JewF5Kt7v5hGe8V2H+2pEbdTMVA45ikfl+xYWTQsYJv/EnrrRCHMeQ
-         Ne+A==
+        d=gmail.com; s=20230601; t=1702758228; x=1703363028; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+         :to:content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=X78ZMdhhJN3JWpvieTeot9+oGs2JdmyEnHsVumMXT3Q=;
+        b=J4iSp/TftLyMPbuYaG2Nv9trx/yLyQoUFQGLnA50WspXqqlfj1UPsnqugAA4U59DKO
+         Xyn9anQAB3SW7aAgmTdT88Gf6IwKC/G6dDE3thQjIYfsfNoec7VoMG1duDhNM1DyBOlj
+         0E2FHnPtW0t/CDmpMBdMx/8PShEa3jT0spjXCvWH+f8xJXA03kMsYejqM4hKOjHQgv2C
+         TBD9HqYhv/992LqlaG3aUB2V1ZCLMB+yyAUZGhUwjuIMJ8UDphNIrjHOv79DZ932/9dx
+         N/YgYVOn7I85xGbWUNe4xS8HT6ZPA2VKP/6JaqMFkqdWWJZl78QHHGwQKR9HYwpqtlep
+         jzOg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702758042; x=1703362842;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=CuhQHUQnlivRHSzEkdfbgbZucS3zTdYH+eKCFrlSDN8=;
-        b=wWcP0AJvitQDHB2ABBGRY3xawiiry0vM0e299hW7oEjXsRk0YSq/0pJ5LGx1xTglhE
-         7WhEtpMhGnTHykttCI+9K0FUGWwjSHOS3cu1nhx/J1AuD5obwFR9UtiJxl6UTIIG5qfZ
-         b4hdp9/MefsiWuaGkF/yw9/6mTOt+hOxbZ30UKWWbjwLZnrGPkd5rwDPbL5vpaf8Skql
-         BcCjEeZR+X06hyd0ByarWTXXPFmbz6ecs6wpmrf6LYi+FEhaupns0c2SUgWwvuM5iHOv
-         lO7v/mk8dg1cCxFi26YRyGG2vp2K/O8UCNOiMsXMt/hdMUVhpbUQxvKJ3Yc9bV6ypO51
-         aVMQ==
-X-Gm-Message-State: AOJu0YxWePnnUUBzmuwM14lbD6NmRyp67Nl1hWvwdRjfpDHkg6M4IJda
-	8S4uxhwoYFYq57CwoGfpYW7zSA==
-X-Google-Smtp-Source: AGHT+IEnOiAT5YNlKUhyhhrWU3gBwiBXWTWom39K0PExRfwGHtngAGqurnlqTRJFDJGMHlatQccVIw==
-X-Received: by 2002:a05:6870:ac10:b0:1fa:f152:9f70 with SMTP id kw16-20020a056870ac1000b001faf1529f70mr16621093oab.54.1702758042576;
-        Sat, 16 Dec 2023 12:20:42 -0800 (PST)
-Received: from oatmeal.darkphysics (c-76-146-178-2.hsd1.wa.comcast.net. [76.146.178.2])
-        by smtp.gmail.com with ESMTPSA id 29-20020a17090a005d00b0028b470be8b6sm2085317pjb.8.2023.12.16.12.20.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 16 Dec 2023 12:20:42 -0800 (PST)
-From: Tree Davies <tdavies@darkphysics.net>
-To: gregkh@linuxfoundation.org,
-	philipp.g.hortmann@gmail.com,
-	anjan@momi.ca
-Cc: linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Tree Davies <tdavies@darkphysics.net>
-Subject: [PATCH] Staging: rtl8192e: rename linked list reference: List
-Date: Sat, 16 Dec 2023 12:20:38 -0800
-Message-Id: <20231216202038.10777-1-tdavies@darkphysics.net>
-X-Mailer: git-send-email 2.39.2
+        d=1e100.net; s=20230601; t=1702758228; x=1703363028;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+         :to:content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=X78ZMdhhJN3JWpvieTeot9+oGs2JdmyEnHsVumMXT3Q=;
+        b=p8W9867LnlZOV8UA0URi/gJ1MyesXGTk5nhaBzNv2MaxB3i57oOo7CFJCDQM0rNFOu
+         AUhtXbLUWhhqK09UM4ln4xirV3UBov5385qhzfVShEHLLhPLBszzrYxtHCjwOWQr09nV
+         HSa/5+pZKI/qnhbjRRTs0v5F8f8cJ93clTC+kvEDBQvirrCxz8g2qFKZ5BbmVB7q0hX2
+         8lOs/XuRDbJm4LJMOlDhsKFF7FIwZAexM6SsbOvysRa7DwzRAN7EDjpumuk3YRJDwtnY
+         GEK7sCwUcQiLHnbCTPXEKyniuVe6vNWFJpJjn8C1RcqjfQmwFe7uCtv4PXaBj6ziDqJx
+         CZwA==
+X-Gm-Message-State: AOJu0YwpJ3da9q7baZH5FCZ3/xvuJnrQ4/nd288bgTTzPEViG+yixzUW
+	x4o/ANJaeTMcGVuOt6vLaRg=
+X-Google-Smtp-Source: AGHT+IENVxCq/MWAUwaWFwVw1NBBuQ99lFXbm4n4EZzX7Uw0VXV/iqkibbscxZaDoXeUTqcZsh2O8g==
+X-Received: by 2002:a19:6559:0:b0:50b:efd3:7e3c with SMTP id c25-20020a196559000000b0050befd37e3cmr6015036lfj.31.1702758228277;
+        Sat, 16 Dec 2023 12:23:48 -0800 (PST)
+Received: from ?IPV6:2a01:c23:bcb9:f800:bce0:dd9c:e9fe:4f11? (dynamic-2a01-0c23-bcb9-f800-bce0-dd9c-e9fe-4f11.c23.pool.telefonica.de. [2a01:c23:bcb9:f800:bce0:dd9c:e9fe:4f11])
+        by smtp.googlemail.com with ESMTPSA id le9-20020a170907170900b00a1e2aa3d090sm12099727ejc.206.2023.12.16.12.23.47
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 16 Dec 2023 12:23:47 -0800 (PST)
+Message-ID: <b2dd7159-844e-4d5a-832d-a2e8c0f26f50@gmail.com>
+Date: Sat, 16 Dec 2023 21:23:47 +0100
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 00/10] Don't let i2c adapters declare I2C_CLASS_SPD
+ support if they support I2C_CLASS_HWMON
+Content-Language: en-US
+To: Wolfram Sang <wsa@kernel.org>
+Cc: linux-i2c@vger.kernel.org, Christophe Leroy
+ <christophe.leroy@csgroup.eu>, Nicholas Piggin <npiggin@gmail.com>,
+ linux-kernel@vger.kernel.org, greybus-dev@lists.linaro.org,
+ linux-staging@lists.linux.dev, linux-media@vger.kernel.org,
+ linuxppc-dev@lists.ozlabs.org
+References: <20231124101619.6470-1-hkallweit1@gmail.com>
+From: Heiner Kallweit <hkallweit1@gmail.com>
+Autocrypt: addr=hkallweit1@gmail.com; keydata=
+ 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
+In-Reply-To: <20231124101619.6470-1-hkallweit1@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Rename variable List to list, to fix Avoid CamelCase checkpatch warning.
+On 24.11.2023 11:16, Heiner Kallweit wrote:
+> After removal of the legacy eeprom driver the only remaining I2C
+> client device driver supporting I2C_CLASS_SPD is jc42. Because this
+> driver also supports I2C_CLASS_HWMON, adapters don't have to
+> declare support for I2C_CLASS_SPD if they support I2C_CLASS_HWMON.
+> It's one step towards getting rid of I2C_CLASS_SPD mid-term.
+> 
+> Series was created supported by Coccinelle and its splitpatch.
+> 
+> v2:
+> - fix style issue in patch 4
+> - add ack in patch 2
+> - set proper subject prefix for all patches
+> 
+> Signed-off-by: Heiner Kallweit <hkallweit1@gmail.com>
+> 
+> ---
+> 
+>  drivers/i2c/busses/i2c-ali1535.c                  |    2 +-
+>  drivers/i2c/busses/i2c-ali1563.c                  |    2 +-
+>  drivers/i2c/busses/i2c-ali15x3.c                  |    2 +-
+>  drivers/i2c/busses/i2c-amd756.c                   |    2 +-
+>  drivers/i2c/busses/i2c-amd8111.c                  |    2 +-
+>  drivers/i2c/busses/i2c-elektor.c                  |    2 +-
+>  drivers/i2c/busses/i2c-gpio.c                     |    2 +-
+>  drivers/i2c/busses/i2c-ibm_iic.c                  |    2 +-
+>  drivers/i2c/busses/i2c-iop3xx.c                   |    2 +-
+>  drivers/i2c/busses/i2c-isch.c                     |    2 +-
+>  drivers/i2c/busses/i2c-kempld.c                   |    3 +--
+>  drivers/i2c/busses/i2c-mlxcpld.c                  |    2 +-
+>  drivers/i2c/busses/i2c-nforce2.c                  |    2 +-
+>  drivers/i2c/busses/i2c-pasemi-pci.c               |    2 +-
+>  drivers/i2c/busses/i2c-piix4.c                    |    2 +-
+>  drivers/i2c/busses/i2c-scmi.c                     |    2 +-
+>  drivers/i2c/busses/i2c-sh7760.c                   |    2 +-
+>  drivers/i2c/busses/i2c-sibyte.c                   |    4 ++--
+>  drivers/i2c/busses/i2c-sis5595.c                  |    2 +-
+>  drivers/i2c/busses/i2c-sis630.c                   |    2 +-
+>  drivers/i2c/busses/i2c-sis96x.c                   |    2 +-
+>  drivers/i2c/busses/i2c-via.c                      |    2 +-
+>  drivers/i2c/busses/i2c-viapro.c                   |    2 +-
+>  drivers/i2c/busses/scx200_acb.c                   |    2 +-
+>  drivers/i2c/i2c-stub.c                            |    2 +-
+>  drivers/media/pci/netup_unidvb/netup_unidvb_i2c.c |    2 +-
+>  drivers/staging/greybus/i2c.c                     |    2 +-
+>  27 files changed, 28 insertions(+), 29 deletions(-)
 
-Signed-off-by: Tree Davies <tdavies@darkphysics.net>
----
- drivers/staging/rtl8192e/rtl819x_TS.h     |  2 +-
- drivers/staging/rtl8192e/rtl819x_TSProc.c | 78 +++++++++++------------
- drivers/staging/rtl8192e/rtllib.h         |  2 +-
- drivers/staging/rtl8192e/rtllib_rx.c      | 30 ++++-----
- 4 files changed, 56 insertions(+), 56 deletions(-)
-
-diff --git a/drivers/staging/rtl8192e/rtl819x_TS.h b/drivers/staging/rtl8192e/rtl819x_TS.h
-index 31f7cfbb3aa5..5b0e4cb572d2 100644
---- a/drivers/staging/rtl8192e/rtl819x_TS.h
-+++ b/drivers/staging/rtl8192e/rtl819x_TS.h
-@@ -17,7 +17,7 @@ enum tr_select {
- };
- 
- struct ts_common_info {
--	struct list_head		List;
-+	struct list_head		list;
- 	u8				addr[ETH_ALEN];
- 	struct qos_tsinfo tspec;
- };
-diff --git a/drivers/staging/rtl8192e/rtl819x_TSProc.c b/drivers/staging/rtl8192e/rtl819x_TSProc.c
-index bec73bc53dd0..86db56f3900d 100644
---- a/drivers/staging/rtl8192e/rtl819x_TSProc.c
-+++ b/drivers/staging/rtl8192e/rtl819x_TSProc.c
-@@ -25,7 +25,7 @@ static void RxPktPendingTimeout(struct timer_list *t)
- 		while (!list_empty(&ts->rx_pending_pkt_list)) {
- 			pReorderEntry = (struct rx_reorder_entry *)
- 					list_entry(ts->rx_pending_pkt_list.prev,
--					struct rx_reorder_entry, List);
-+					struct rx_reorder_entry, list);
- 			if (index == 0)
- 				ts->rx_indicate_seq = pReorderEntry->SeqNum;
- 
-@@ -33,7 +33,7 @@ static void RxPktPendingTimeout(struct timer_list *t)
- 				    ts->rx_indicate_seq) ||
- 			    SN_EQUAL(pReorderEntry->SeqNum,
- 				     ts->rx_indicate_seq)) {
--				list_del_init(&pReorderEntry->List);
-+				list_del_init(&pReorderEntry->list);
- 
- 				if (SN_EQUAL(pReorderEntry->SeqNum,
- 				    ts->rx_indicate_seq))
-@@ -47,7 +47,7 @@ static void RxPktPendingTimeout(struct timer_list *t)
- 							 pReorderEntry->prxb;
- 				index++;
- 
--				list_add_tail(&pReorderEntry->List,
-+				list_add_tail(&pReorderEntry->list,
- 					      &ieee->RxReorder_Unused_List);
- 			} else {
- 				bPktInBuf = true;
-@@ -138,7 +138,7 @@ void rtllib_ts_init(struct rtllib_device *ieee)
- 			    rtllib_tx_ba_inact_timeout, 0);
- 
- 		ResetTxTsEntry(pTxTS);
--		list_add_tail(&pTxTS->ts_common_info.List,
-+		list_add_tail(&pTxTS->ts_common_info.list,
- 				&ieee->Tx_TS_Unused_List);
- 		pTxTS++;
- 	}
-@@ -155,13 +155,13 @@ void rtllib_ts_init(struct rtllib_device *ieee)
- 		timer_setup(&rxts->rx_pkt_pending_timer, RxPktPendingTimeout, 0);
- 
- 		ResetRxTsEntry(rxts);
--		list_add_tail(&rxts->ts_common_info.List,
-+		list_add_tail(&rxts->ts_common_info.list,
- 			      &ieee->Rx_TS_Unused_List);
- 		rxts++;
- 	}
- 	INIT_LIST_HEAD(&ieee->RxReorder_Unused_List);
- 	for (count = 0; count < REORDER_ENTRY_NUM; count++) {
--		list_add_tail(&pRxReorderEntry->List,
-+		list_add_tail(&pRxReorderEntry->list,
- 			      &ieee->RxReorder_Unused_List);
- 		if (count == (REORDER_ENTRY_NUM - 1))
- 			break;
-@@ -196,17 +196,17 @@ static struct ts_common_info *SearchAdmitTRStream(struct rtllib_device *ieee,
- 	for (dir = 0; dir <= DIR_BI_DIR; dir++) {
- 		if (!search_dir[dir])
- 			continue;
--		list_for_each_entry(pRet, psearch_list, List) {
-+		list_for_each_entry(pRet, psearch_list, list) {
- 			if (memcmp(pRet->addr, addr, 6) == 0 &&
- 			    pRet->tspec.ucTSID == TID &&
- 			    pRet->tspec.ucDirection == dir)
- 				break;
- 		}
--		if (&pRet->List  != psearch_list)
-+		if (&pRet->list  != psearch_list)
- 			break;
- 	}
- 
--	if (pRet && &pRet->List  != psearch_list)
-+	if (pRet && &pRet->list  != psearch_list)
- 		return pRet;
- 	return NULL;
- }
-@@ -286,8 +286,8 @@ bool rtllib_get_ts(struct rtllib_device *ieee, struct ts_common_info **ppTS,
- 
- 	if (!list_empty(pUnusedList)) {
- 		(*ppTS) = list_entry(pUnusedList->next,
--			  struct ts_common_info, List);
--		list_del_init(&(*ppTS)->List);
-+			  struct ts_common_info, list);
-+		list_del_init(&(*ppTS)->list);
- 		if (TxRxSelect == TX_DIR) {
- 			struct tx_ts_record *tmp =
- 				container_of(*ppTS,
-@@ -309,7 +309,7 @@ bool rtllib_get_ts(struct rtllib_device *ieee, struct ts_common_info **ppTS,
- 		ts_info->ucDirection = Dir;
- 
- 		MakeTSEntry(*ppTS, addr, &tspec);
--		list_add_tail(&((*ppTS)->List), pAddmitList);
-+		list_add_tail(&((*ppTS)->list), pAddmitList);
- 
- 		return true;
- 	}
-@@ -335,10 +335,10 @@ static void RemoveTsEntry(struct rtllib_device *ieee,
- 		while (!list_empty(&ts->rx_pending_pkt_list)) {
- 			pRxReorderEntry = (struct rx_reorder_entry *)
- 					list_entry(ts->rx_pending_pkt_list.prev,
--					struct rx_reorder_entry, List);
-+					struct rx_reorder_entry, list);
- 			netdev_dbg(ieee->dev,  "%s(): Delete SeqNum %d!\n",
- 				   __func__, pRxReorderEntry->SeqNum);
--			list_del_init(&pRxReorderEntry->List);
-+			list_del_init(&pRxReorderEntry->list);
- 			{
- 				int i = 0;
- 				struct rtllib_rxb *prxb = pRxReorderEntry->prxb;
-@@ -350,7 +350,7 @@ static void RemoveTsEntry(struct rtllib_device *ieee,
- 				kfree(prxb);
- 				prxb = NULL;
- 			}
--			list_add_tail(&pRxReorderEntry->List,
-+			list_add_tail(&pRxReorderEntry->list,
- 				      &ieee->RxReorder_Unused_List);
- 		}
- 	} else {
-@@ -366,37 +366,37 @@ void RemovePeerTS(struct rtllib_device *ieee, u8 *addr)
- 
- 	netdev_info(ieee->dev, "===========>%s, %pM\n", __func__, addr);
- 
--	list_for_each_entry_safe(ts, pTmpTS, &ieee->Tx_TS_Pending_List, List) {
-+	list_for_each_entry_safe(ts, pTmpTS, &ieee->Tx_TS_Pending_List, list) {
- 		if (memcmp(ts->addr, addr, 6) == 0) {
- 			RemoveTsEntry(ieee, ts, TX_DIR);
--			list_del_init(&ts->List);
--			list_add_tail(&ts->List, &ieee->Tx_TS_Unused_List);
-+			list_del_init(&ts->list);
-+			list_add_tail(&ts->list, &ieee->Tx_TS_Unused_List);
- 		}
- 	}
- 
--	list_for_each_entry_safe(ts, pTmpTS, &ieee->Tx_TS_Admit_List, List) {
-+	list_for_each_entry_safe(ts, pTmpTS, &ieee->Tx_TS_Admit_List, list) {
- 		if (memcmp(ts->addr, addr, 6) == 0) {
- 			netdev_info(ieee->dev,
- 				    "====>remove Tx_TS_admin_list\n");
- 			RemoveTsEntry(ieee, ts, TX_DIR);
--			list_del_init(&ts->List);
--			list_add_tail(&ts->List, &ieee->Tx_TS_Unused_List);
-+			list_del_init(&ts->list);
-+			list_add_tail(&ts->list, &ieee->Tx_TS_Unused_List);
- 		}
- 	}
- 
--	list_for_each_entry_safe(ts, pTmpTS, &ieee->Rx_TS_Pending_List, List) {
-+	list_for_each_entry_safe(ts, pTmpTS, &ieee->Rx_TS_Pending_List, list) {
- 		if (memcmp(ts->addr, addr, 6) == 0) {
- 			RemoveTsEntry(ieee, ts, RX_DIR);
--			list_del_init(&ts->List);
--			list_add_tail(&ts->List, &ieee->Rx_TS_Unused_List);
-+			list_del_init(&ts->list);
-+			list_add_tail(&ts->list, &ieee->Rx_TS_Unused_List);
- 		}
- 	}
- 
--	list_for_each_entry_safe(ts, pTmpTS, &ieee->Rx_TS_Admit_List, List) {
-+	list_for_each_entry_safe(ts, pTmpTS, &ieee->Rx_TS_Admit_List, list) {
- 		if (memcmp(ts->addr, addr, 6) == 0) {
- 			RemoveTsEntry(ieee, ts, RX_DIR);
--			list_del_init(&ts->List);
--			list_add_tail(&ts->List, &ieee->Rx_TS_Unused_List);
-+			list_del_init(&ts->list);
-+			list_add_tail(&ts->list, &ieee->Rx_TS_Unused_List);
- 		}
- 	}
- }
-@@ -406,28 +406,28 @@ void RemoveAllTS(struct rtllib_device *ieee)
- {
- 	struct ts_common_info *ts, *pTmpTS;
- 
--	list_for_each_entry_safe(ts, pTmpTS, &ieee->Tx_TS_Pending_List, List) {
-+	list_for_each_entry_safe(ts, pTmpTS, &ieee->Tx_TS_Pending_List, list) {
- 		RemoveTsEntry(ieee, ts, TX_DIR);
--		list_del_init(&ts->List);
--		list_add_tail(&ts->List, &ieee->Tx_TS_Unused_List);
-+		list_del_init(&ts->list);
-+		list_add_tail(&ts->list, &ieee->Tx_TS_Unused_List);
- 	}
- 
--	list_for_each_entry_safe(ts, pTmpTS, &ieee->Tx_TS_Admit_List, List) {
-+	list_for_each_entry_safe(ts, pTmpTS, &ieee->Tx_TS_Admit_List, list) {
- 		RemoveTsEntry(ieee, ts, TX_DIR);
--		list_del_init(&ts->List);
--		list_add_tail(&ts->List, &ieee->Tx_TS_Unused_List);
-+		list_del_init(&ts->list);
-+		list_add_tail(&ts->list, &ieee->Tx_TS_Unused_List);
- 	}
- 
--	list_for_each_entry_safe(ts, pTmpTS, &ieee->Rx_TS_Pending_List, List) {
-+	list_for_each_entry_safe(ts, pTmpTS, &ieee->Rx_TS_Pending_List, list) {
- 		RemoveTsEntry(ieee, ts, RX_DIR);
--		list_del_init(&ts->List);
--		list_add_tail(&ts->List, &ieee->Rx_TS_Unused_List);
-+		list_del_init(&ts->list);
-+		list_add_tail(&ts->list, &ieee->Rx_TS_Unused_List);
- 	}
- 
--	list_for_each_entry_safe(ts, pTmpTS, &ieee->Rx_TS_Admit_List, List) {
-+	list_for_each_entry_safe(ts, pTmpTS, &ieee->Rx_TS_Admit_List, list) {
- 		RemoveTsEntry(ieee, ts, RX_DIR);
--		list_del_init(&ts->List);
--		list_add_tail(&ts->List, &ieee->Rx_TS_Unused_List);
-+		list_del_init(&ts->list);
-+		list_add_tail(&ts->list, &ieee->Rx_TS_Unused_List);
- 	}
- }
- 
-diff --git a/drivers/staging/rtl8192e/rtllib.h b/drivers/staging/rtl8192e/rtllib.h
-index 0b4a6ded257a..303a2d279e86 100644
---- a/drivers/staging/rtl8192e/rtllib.h
-+++ b/drivers/staging/rtl8192e/rtllib.h
-@@ -1042,7 +1042,7 @@ struct bandwidth_autoswitch {
- #define REORDER_WIN_SIZE	128
- #define REORDER_ENTRY_NUM	128
- struct rx_reorder_entry {
--	struct list_head	List;
-+	struct list_head	list;
- 	u16			SeqNum;
- 	struct rtllib_rxb *prxb;
- };
-diff --git a/drivers/staging/rtl8192e/rtllib_rx.c b/drivers/staging/rtl8192e/rtllib_rx.c
-index d9517dbc5593..b22ae40fb71b 100644
---- a/drivers/staging/rtl8192e/rtllib_rx.c
-+++ b/drivers/staging/rtl8192e/rtllib_rx.c
-@@ -412,19 +412,19 @@ static bool AddReorderEntry(struct rx_ts_record *ts,
- 	while (pList->next != &ts->rx_pending_pkt_list) {
- 		if (SN_LESS(pReorderEntry->SeqNum, ((struct rx_reorder_entry *)
- 		    list_entry(pList->next, struct rx_reorder_entry,
--		    List))->SeqNum))
-+		    list))->SeqNum))
- 			pList = pList->next;
- 		else if (SN_EQUAL(pReorderEntry->SeqNum,
- 			((struct rx_reorder_entry *)list_entry(pList->next,
--			struct rx_reorder_entry, List))->SeqNum))
-+			struct rx_reorder_entry, list))->SeqNum))
- 			return false;
- 		else
- 			break;
- 	}
--	pReorderEntry->List.next = pList->next;
--	pReorderEntry->List.next->prev = &pReorderEntry->List;
--	pReorderEntry->List.prev = pList;
--	pList->next = &pReorderEntry->List;
-+	pReorderEntry->list.next = pList->next;
-+	pReorderEntry->list.next->prev = &pReorderEntry->list;
-+	pReorderEntry->list.prev = pList;
-+	pList->next = &pReorderEntry->list;
- 
- 	return true;
- }
-@@ -505,15 +505,15 @@ void rtllib_FlushRxTsPendingPkts(struct rtllib_device *ieee,
- 
- 		pRxReorderEntry = (struct rx_reorder_entry *)
- 				  list_entry(ts->rx_pending_pkt_list.prev,
--					     struct rx_reorder_entry, List);
-+					     struct rx_reorder_entry, list);
- 		netdev_dbg(ieee->dev, "%s(): Indicate SeqNum %d!\n", __func__,
- 			   pRxReorderEntry->SeqNum);
--		list_del_init(&pRxReorderEntry->List);
-+		list_del_init(&pRxReorderEntry->list);
- 
- 		ieee->RfdArray[RfdCnt] = pRxReorderEntry->prxb;
- 
- 		RfdCnt = RfdCnt + 1;
--		list_add_tail(&pRxReorderEntry->List,
-+		list_add_tail(&pRxReorderEntry->list,
- 			      &ieee->RxReorder_Unused_List);
- 	}
- 	rtllib_indicate_packets(ieee, ieee->RfdArray, RfdCnt);
-@@ -602,8 +602,8 @@ static void RxReorderIndicatePacket(struct rtllib_device *ieee,
- 		if (!list_empty(&ieee->RxReorder_Unused_List)) {
- 			pReorderEntry = (struct rx_reorder_entry *)
- 					list_entry(ieee->RxReorder_Unused_List.next,
--					struct rx_reorder_entry, List);
--			list_del_init(&pReorderEntry->List);
-+					struct rx_reorder_entry, list);
-+			list_del_init(&pReorderEntry->list);
- 
- 			/* Make a reorder entry and insert
- 			 * into a the packet list.
-@@ -618,7 +618,7 @@ static void RxReorderIndicatePacket(struct rtllib_device *ieee,
- 					   "%s(): Duplicate packet is dropped. IndicateSeq: %d, NewSeq: %d\n",
- 					   __func__, ts->rx_indicate_seq,
- 					   SeqNum);
--				list_add_tail(&pReorderEntry->List,
-+				list_add_tail(&pReorderEntry->list,
- 					      &ieee->RxReorder_Unused_List);
- 
- 				for (i = 0; i < prxb->nr_subframes; i++)
-@@ -658,7 +658,7 @@ static void RxReorderIndicatePacket(struct rtllib_device *ieee,
- 		pReorderEntry = (struct rx_reorder_entry *)
- 					list_entry(ts->rx_pending_pkt_list.prev,
- 						   struct rx_reorder_entry,
--						   List);
-+						   list);
- 		if (SN_LESS(pReorderEntry->SeqNum, ts->rx_indicate_seq) ||
- 		    SN_EQUAL(pReorderEntry->SeqNum, ts->rx_indicate_seq)) {
- 			/* This protect struct buffer from overflow. */
-@@ -670,7 +670,7 @@ static void RxReorderIndicatePacket(struct rtllib_device *ieee,
- 				break;
- 			}
- 
--			list_del_init(&pReorderEntry->List);
-+			list_del_init(&pReorderEntry->list);
- 
- 			if (SN_EQUAL(pReorderEntry->SeqNum, ts->rx_indicate_seq))
- 				ts->rx_indicate_seq = (ts->rx_indicate_seq + 1) %
-@@ -681,7 +681,7 @@ static void RxReorderIndicatePacket(struct rtllib_device *ieee,
- 				   __func__, pReorderEntry->SeqNum);
- 			index++;
- 
--			list_add_tail(&pReorderEntry->List,
-+			list_add_tail(&pReorderEntry->list,
- 				      &ieee->RxReorder_Unused_List);
- 		} else {
- 			bPktInBuf = true;
--- 
-2.39.2
+This series and my other series are sitting idle in patchwork
+for 3 weeks now. AFAICS they have the needed ack's.
+Anything missing before they can be applied?
 
