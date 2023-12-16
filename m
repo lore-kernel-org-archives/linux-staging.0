@@ -1,73 +1,69 @@
 Received: from out2-smtp.messagingengine.com (out2-smtp.messagingengine.com [66.111.4.26])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7EB522E410
-	for <linux-staging@lists.linux.dev>; Sat, 16 Dec 2023 12:52:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16A2718EB1
+	for <linux-staging@lists.linux.dev>; Sat, 16 Dec 2023 12:56:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=fastmail.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fastmail.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=fastmail.org header.i=@fastmail.org header.b="suYW2ldL";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="as9fC/I4"
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
-	by mailout.nyi.internal (Postfix) with ESMTP id CDD115C019A;
-	Sat, 16 Dec 2023 07:52:34 -0500 (EST)
+	dkim=pass (2048-bit key) header.d=fastmail.org header.i=@fastmail.org header.b="QIui7Z+I";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="byrCnleX"
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+	by mailout.nyi.internal (Postfix) with ESMTP id 4599F5C01A0;
+	Sat, 16 Dec 2023 07:56:35 -0500 (EST)
 Received: from mailfrontend2 ([10.202.2.163])
-  by compute1.internal (MEProxy); Sat, 16 Dec 2023 07:52:34 -0500
+  by compute2.internal (MEProxy); Sat, 16 Dec 2023 07:56:35 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fastmail.org; h=
 	cc:cc:content-transfer-encoding:content-type:date:date:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:subject:subject:to:to; s=fm2; t=1702731154; x=
-	1702817554; bh=S2oZrM9VplF7tk9wf9xKeyfGCtTRYHncJ+U5R2mrlVI=; b=s
-	uYW2ldL6k8LFZW/cv5VqJ84gJHwfsMlhUwhoDqDGzKtMuhwN5df94B/C9ruut5FD
-	u/OlrFToo+NvzepEWDWtJF+OUqmmMx5Q84lOrEItxKlIoHOFpxNKaQpPPYC4+qKn
-	04txfG+RY1fCOp6TP2bmm2O+rO36nesyR3Y2WSDXlr9ls1S9RAA1gCfgd7QOVCMb
-	W5HjVCwr6/rm4TQbPnGktO34Qpks5g3yvTx/BwHBq59zng5U9E8QDRVfwZqKoWIr
-	aPYgzTDVz8RsFVwAmoNXPKl09PVN12B0cJQwLyrlirUAokXpP4Rxeme5NS8Tn1P1
-	peHWLkfJtjko/wuyGCvhA==
+	:in-reply-to:message-id:mime-version:reply-to:subject:subject:to
+	:to; s=fm2; t=1702731395; x=1702817795; bh=V/Swu2Ok4xoLueHEPWDCQ
+	hLZgLyrqWw+uIjeSWzbtwI=; b=QIui7Z+IfRWYnzTi8vIFLLuA0ohXyqGo4mcyc
+	S+O/BhdEdYy7u3BBbPMnACTba0cWjCUa534mWU3ZJUvQtLokMr86xdfrSTPZP0YK
+	ScBk/V9NpmH1sm/yegqvT8KZWxhclY9ECqwEY/D8iEf0LuioK7Q4pJQ3mjNxUUOd
+	LvG5nuMjyjz1ZgypMrasS+cA+11aoo/Nwb7Bli2/c5OdOtX47fQyn7mj6lyRihNB
+	OpGkbtBDPA65naNW6SOd2TS82zsOM5EK8w4CdtzOl4Buw9roFsTxmfE3tQzDphBE
+	9oARIhCxinUieFWK9rQn51GGsqMVjHqIAzy8F2edaA5KkZdKw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-transfer-encoding
 	:content-type:date:date:feedback-id:feedback-id:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:subject:subject:to:to:x-me-proxy:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1702731154; x=
-	1702817554; bh=S2oZrM9VplF7tk9wf9xKeyfGCtTRYHncJ+U5R2mrlVI=; b=a
-	s9fC/I4KRQpEkBuqNM2sEBBOkmqSAx8AQjRHgk1to83SFDqHdfOZ8sKLgddp4pMf
-	MiDZNg4BdIGqrbylaHMKWp7ih/2LV8eI9OZRYbbMXGhSV3xiRZYRJL86w55sOHsz
-	KGFi4HDNYOvpdGYAYpPyHuLBfLnBBvmi1N/UKpBXNt3apgqBHObH+3dyR4qSwX4F
-	Ak1zGBbxoMcLS9PjDetUMjhOpQNw0/wovl+WMcJrZefWtQTiBUQxq64SGSZwMEr/
-	rbYZGDDR8X9dOkv9R6pJdUmArR+iYsFwM0urGXo31CUuk7q7pYuUrq25YiFIGMLj
-	lIhxIqUoSOVClCOoaadSg==
-X-ME-Sender: <xms:kp19ZTJzajDr6oNia4T1Y73JkeyAYIA7amnSiDYNakDpTzXuAaszEw>
-    <xme:kp19ZXIU4BZzexYyVOS9XbIavayZ3TgoU12DySiSFSHq2pf1bcPQnGAroO9SpyA5s
-    Nu5NVDku71QiqVbd9k>
-X-ME-Received: <xmr:kp19Zbt4P7yeVvKtDb4D6Fx1Rl-b9ZZpRVyeMUhy3IUC0nT-rvp8ubBCso6a6vA3pbgZ34G1vW-3LyhNZSOREQ5PTqGYmKmM6moNOvhO0xg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvkedrvddtgedggeeiucetufdoteggodetrfdotf
+	:in-reply-to:message-id:mime-version:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm2; t=1702731395; x=1702817795; bh=V/Swu2Ok4xoLueHEPWDCQhLZgLyr
+	qWw+uIjeSWzbtwI=; b=byrCnleXneksRhc6l9XdhLUGQeWBgO8FyKMmnnkWc9Et
+	vw2lenscIiD0ZFFPfidGVgviGwavp1MCRsBSfyxrGV5NrRRKMM4LFLRqLq0yYtvp
+	yNxcKW8I7E1XhXA1rrHK5ALbCJ10XkQY5oNsuR3vpB8JKOXOX+tKyw9l6OYQFfWy
+	f3eGNnafwQpG4cBYuYIB37XCJTfaHxJ4JRjh3fP6FFgUdDZEiBxrQIrb0Vppteaq
+	nncf6gLalCPiSFzqy+d1QVIRcNeSv/G8In/f2/IGSBfx7IVVB6crwJjU6xE9xtSO
+	3atntxuWJUcm6TrvrBDw+SHfECuI0IYBJDl+/9UxuA==
+X-ME-Sender: <xms:g559ZWxLC_18BaplY_aYHZqV8W5369YqLjui9l-OBCGuAe9b0fl2Vg>
+    <xme:g559ZSRBGFtMcm1XsK9FPPT1qS-zNJerlpzlZUqD2Jbj4THIfUOzWmh0LIfMA4isQ
+    xvYmsD9A-yp5EHBJNc>
+X-ME-Received: <xmr:g559ZYVsatCj233x81pff4kd0Y0yVAhpoZ0lJgy2GXGOAaOQFEqkyZ-PSsR_okgSmc-lynmxCr6dcspZdQwRE9X8WXKuNGuVd1UVtmNRbJs>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvkedrvddtgedggeejucetufdoteggodetrfdotf
     fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucenucfjughrpefhvfevufffkffojghfggfgsedtke
-    ertdertddtnecuhfhrohhmpefirghrhicutfhoohhkrghrugcuoehgrghrhihrohhokhgr
-    rhgusehfrghsthhmrghilhdrohhrgheqnecuggftrfgrthhtvghrnhepkeeuvdffueduke
-    egieeuffejhefgkeetfeehueelfeduuefgveellefhfefgjedvnecuvehluhhsthgvrhfu
-    ihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepghgrrhihrhhoohhkrghrugesfh
-    grshhtmhgrihhlrdhorhhg
-X-ME-Proxy: <xmx:kp19ZcbVxeheA5y-UXc7L1u9YAI2pAMmVvNw1M9hQ07Qfvj8jaVDDg>
-    <xmx:kp19ZaatF93eS6wOGW8WrQHv4r5dk-xGrJbMHYXE-_PTgaKjBzUgWQ>
-    <xmx:kp19ZQCwBvOPryQfkN3KYdInO-EV9HwpEvEYK2D-nDzIGFlVYSmVOw>
-    <xmx:kp19ZaEV1dBIHw-_O9_bychMwL7PjO2Tl-raktht6sfyJfszfHGYEA>
+    uceurghilhhouhhtmecufedttdenucenucfjughrpefhvfevufffkffoggfgsedtkeertd
+    ertddtnecuhfhrohhmpefirghrhicutfhoohhkrghrugcuoehgrghrhihrohhokhgrrhgu
+    sehfrghsthhmrghilhdrohhrgheqnecuggftrfgrthhtvghrnhepleegffffgfehhfejge
+    ejheeivdfgleefheeuueetkedtffeihfevlefhgeevvdevnecuvehluhhsthgvrhfuihii
+    vgeptdenucfrrghrrghmpehmrghilhhfrhhomhepghgrrhihrhhoohhkrghrugesfhgrsh
+    htmhgrihhlrdhorhhg
+X-ME-Proxy: <xmx:g559ZcgeTwB-I9Ea6E3zZgZ4EOroh8w0SyvJ92hsCll3xs7PWT0PrA>
+    <xmx:g559ZYCP-0OfO5gf_BkcO8iuSiJ-i_FhwxKn2kckxtPJ4UBrGbkPKA>
+    <xmx:g559ZdK1779iLhoIB8NpEUakWEgB1Q-sEqmEFo3Rlssjtc2mu9qjTQ>
+    <xmx:g559ZbND1jpAr95l7HtVPZkSrCvgCk-krTDak2sb7AzHSPNV1fmSoA>
 Feedback-ID: ifd194980:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
- 16 Dec 2023 07:52:34 -0500 (EST)
+ 16 Dec 2023 07:56:34 -0500 (EST)
 From: Gary Rookard <garyrookard@fastmail.org>
 To: gregkh@linuxfoundation.org,
 	philipp.g.hortmann@gmail.com
 Cc: linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Gary Rookard <garyrookard@fastmail.org>
-Subject: [PATCH v3 4/4] staging: rtl8192e: renamed variable HTFilterMCSRate
-Date: Sat, 16 Dec 2023 07:53:03 -0500
-Message-ID: <20231216125303.3404-5-garyrookard@fastmail.org>
+Subject: [PATCH v3 0/4] staging: rtl8192e: rename variable pHT
+Date: Sat, 16 Dec 2023 07:57:12 -0500
+Message-ID: <20231216125712.3522-1-garyrookard@fastmail.org>
 X-Mailer: git-send-email 2.41.0
-In-Reply-To: <20231216125303.3404-1-garyrookard@fastmail.org>
-References: <20231216125303.3404-1-garyrookard@fastmail.org>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -76,40 +72,31 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Coding style issue, checkpatch Avoid CamelCase,
-rename it. HTFilterMCSRate -> ht_filter_mcs_rate
+Hi,
+
+This patch series renames (4) different variables with
+checkpatch coding style issue Avoid CamelCase.
+
+(resubmittals)
+
+Patch 1/4) rename variable pHT
+Patch 2/4) rename variable pCapELE
+Patch 3/4) rename variable HTGetHighestMCSRate
+Patch 4/4) rename variable HTFilterMCSRate
 
 Signed-off-by: Gary Rookard <garyrookard@fastmail.org>
----
-v3: Corrects versioning.
-v2: Corrections to make applicable.
-v1: Not applicable, conflicting line numbers, code change.
 
- drivers/staging/rtl8192e/rtl819x_HTProc.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Gary Rookard (4):
+  staging: rtl8192e: rename variable pHT
+  staging: rtl8192e: rename variable pCapELE
+  staging: rtl8192e: rename variable HTGetHighestMCSRate
+  staging: rtl8192e: renamed variable HTFilterMCSRate
 
-diff --git a/drivers/staging/rtl8192e/rtl819x_HTProc.c b/drivers/staging/rtl8192e/rtl819x_HTProc.c
-index 6c1af19d67d2..0d57bcda33b4 100644
---- a/drivers/staging/rtl8192e/rtl819x_HTProc.c
-+++ b/drivers/staging/rtl8192e/rtl819x_HTProc.c
-@@ -397,7 +397,7 @@ u8 ht_get_highest_mcs_rate(struct rtllib_device *ieee, u8 *pMCSRateSet,
- 	return mcsRate | 0x80;
- }
- 
--static u8 HTFilterMCSRate(struct rtllib_device *ieee, u8 *pSupportMCS,
-+static u8 ht_filter_mcs_rate(struct rtllib_device *ieee, u8 *pSupportMCS,
- 			  u8 *pOperateMCS)
- {
- 	u8 i;
-@@ -490,7 +490,7 @@ void ht_on_assoc_rsp(struct rtllib_device *ieee)
- 
- 	ht_iot_act_determine_ra_func(ieee, ((pPeerHTCap->MCS[1]) != 0));
- 
--	HTFilterMCSRate(ieee, pPeerHTCap->MCS, ieee->dot11ht_oper_rate_set);
-+	ht_filter_mcs_rate(ieee, pPeerHTCap->MCS, ieee->dot11ht_oper_rate_set);
- 
- 	pMcsFilter = MCS_FILTER_ALL;
- 	ieee->HTHighestOperaRate = ht_get_highest_mcs_rate(ieee,
+ drivers/staging/rtl8192e/rtl819x_HTProc.c | 86 +++++++++++------------
+ drivers/staging/rtl8192e/rtllib.h         |  2 +-
+ drivers/staging/rtl8192e/rtllib_wx.c      |  2 +-
+ 3 files changed, 45 insertions(+), 45 deletions(-)
+
 -- 
 2.41.0
 
