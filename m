@@ -1,47 +1,47 @@
-Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
+Received: from mail-oo1-f44.google.com (mail-oo1-f44.google.com [209.85.161.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFF034B12B
-	for <linux-staging@lists.linux.dev>; Sun, 17 Dec 2023 23:55:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8246E4B5B2
+	for <linux-staging@lists.linux.dev>; Sun, 17 Dec 2023 23:55:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=darkphysics.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=darkphysics.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=darkphysics.net header.i=@darkphysics.net header.b="gu4mATng"
-Received: by mail-pj1-f52.google.com with SMTP id 98e67ed59e1d1-28b400f08a4so1575796a91.1
-        for <linux-staging@lists.linux.dev>; Sun, 17 Dec 2023 15:55:26 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=darkphysics.net header.i=@darkphysics.net header.b="BicVuT/b"
+Received: by mail-oo1-f44.google.com with SMTP id 006d021491bc7-591a6f1385eso1599964eaf.0
+        for <linux-staging@lists.linux.dev>; Sun, 17 Dec 2023 15:55:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=darkphysics.net; s=google; t=1702857326; x=1703462126; darn=lists.linux.dev;
+        d=darkphysics.net; s=google; t=1702857327; x=1703462127; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=QcmVbJydKEcWtYX1J4gYneDAG9W0JB3UC1M7ZuIvgfA=;
-        b=gu4mATngKnCQ1dDJN0q1ml7nzcPI4L6K1Uq2EkwjpJQ1hzmr/BWZGbc0rLxQPfW/5H
-         5K/RxixvDZ79Jb8+WDqpTXHU7jkTosF7y/eZYQW9cgt1TTU9zCE3gJBYAjIhZTbu2GcQ
-         MfwgY26WpwcTP2jrTeh3TnKx1SnfygUFBAC6v/e/KpaukfZ0zRYP5RtrT+ynXYrPM7I1
-         fmhJK+BzIsRDWw31jV3800zcF/85Z04FFPckS+NBZPyc/LnkSGAG809xx9pURNGYD3kx
-         +ZeADInObNTu+6yLPL+35/pt5SJwNjqD7nLvBZ4qDhLHkrV7F7DKXcbVSAtPpUHbGHmc
-         VuGQ==
+        bh=CQyqLl2j3iLvLgdglWKcDF464BuHW+ufozKe2II4NWc=;
+        b=BicVuT/b4C39QRzOqj5BhRaFJnkr3qwT+B8bpPH20LsEo2FsWzNxy9gwVFO9NFPksZ
+         1RraGz5S7+WQHDNV1Ao3OfiVoIuDmIE4tz18S4zgbaIf4Du/17EWA8MWq0JzoX8kPuh9
+         uiBHVc05CtX92i67O41FveTYw+AnOhBMtIod7CjgDhq/D7uZik9qduCSWBtDPG1nWWWp
+         DeHFgOh5uhx5sjh+GcPdCfY2sdcPVppnCoaoNM57e4mMJPYhgvND9OVc6Bph71uuUVSD
+         M1+lhiAW/ZJcl5bu4k2HIgj4/gJPM2ATrt74T0yVpPD1rI8F4eUbZC3UjXKjZB0gA6As
+         gVHQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702857326; x=1703462126;
+        d=1e100.net; s=20230601; t=1702857327; x=1703462127;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=QcmVbJydKEcWtYX1J4gYneDAG9W0JB3UC1M7ZuIvgfA=;
-        b=cS68LPBVQ7hDF6XCkWNZn+tWPh5OqIi6up1nI1XmwnXZ5skGpQ7tA1FhXsXADRtRRI
-         SUh7CJBw/mpyrqnNmK0/juUXoc0vD0wrhkvR+Sz7wYKjzs9KhOHfJINapPjvIVaiH6G5
-         GK13SUIBhiqUVF/7wcxy1+/kyKdtYcizjEWNIA6an9NqvMoiRQo0hRf3sIqOo35EKHSo
-         /112u/V0YEYQsY7Nx128YCaRVBe+t/YEzlG6XOKLqp3JY8EdYTJhhjy0v0nqYog6LEot
-         OPpzs6PaZG56jBGEg+r+oWzUofP3+Tcp3RJTOTGPyydriDJ7eugaZkAUz4mEq4Oc3Ci2
-         Iz9w==
-X-Gm-Message-State: AOJu0YwrRN8abBqFv1SnM2UBUqNDtsfLCNN+myTydWsQXjTaUxx9I85t
-	PBMjCRABa+vR3bxJ3nXQYDLUzw==
-X-Google-Smtp-Source: AGHT+IGzG4RbwFRuq9imJKDCMJ+xVKs77Du/FtG5Jl2kjnXKqAUalU71OA38gz2W8J5ijf7XBOmkcQ==
-X-Received: by 2002:a17:903:2b10:b0:1d3:4d31:6e3a with SMTP id mc16-20020a1709032b1000b001d34d316e3amr11271032plb.47.1702857326256;
-        Sun, 17 Dec 2023 15:55:26 -0800 (PST)
+        bh=CQyqLl2j3iLvLgdglWKcDF464BuHW+ufozKe2II4NWc=;
+        b=aDOktCeWI3JPKgKg+XTFCK7r5oBNrSp9tZVcbGSe2s4unsp0cj4CH1b+QnePo2R7PA
+         SONaAtMMoviv3WDdAAI/QrxtFGyfIGeChSRrIZqjjlh3ElBZUHj+egK7U0QJBL+73BcH
+         sxhD3jy/KIEbgLiwaN0X1hgDQaOYNRHTK3nkvq6E9V/aEzjsYbnk2uZzeMjdq8BdkP9v
+         vhOhnp7vFXFzA1uOdijtPGqWjA2zDfuYM0yOHKwyDJXPH/27kHYcWg/RrJxRQrJyzoI8
+         in6kKM5goiZvewRrozrzrx1aDWfZm3iFqHn8Rd+RojTb8C4cNWT9DVp+Gkp/EHr6tdNo
+         F4rA==
+X-Gm-Message-State: AOJu0YwcCXHN3ZiM8No3AERXhRPXy+KhkUQuvmD5JvyBNw/7gJMVynhl
+	irvqkprZk1gIZ4gsNJ1qEtpQXQ==
+X-Google-Smtp-Source: AGHT+IH1/iDKHIOawiUcbaHza/A6Vm6/Ocp+IYfmYobaksQrUQHzUGiA5K0lhGSEfy1ZtFqAsZyMXw==
+X-Received: by 2002:a05:6358:419d:b0:170:4168:8b91 with SMTP id w29-20020a056358419d00b0017041688b91mr17715132rwc.24.1702857327426;
+        Sun, 17 Dec 2023 15:55:27 -0800 (PST)
 Received: from oatmeal.darkphysics (c-76-146-178-2.hsd1.wa.comcast.net. [76.146.178.2])
-        by smtp.gmail.com with ESMTPSA id f11-20020a17090aec8b00b0028ae8284840sm9036176pjy.10.2023.12.17.15.55.25
+        by smtp.gmail.com with ESMTPSA id f11-20020a17090aec8b00b0028ae8284840sm9036176pjy.10.2023.12.17.15.55.26
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 17 Dec 2023 15:55:25 -0800 (PST)
+        Sun, 17 Dec 2023 15:55:26 -0800 (PST)
 From: Tree Davies <tdavies@darkphysics.net>
 To: gregkh@linuxfoundation.org,
 	philipp.g.hortmann@gmail.com,
@@ -49,9 +49,9 @@ To: gregkh@linuxfoundation.org,
 Cc: linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Tree Davies <tdavies@darkphysics.net>
-Subject: [PATCH 3/6] Staging: rtl8192e: Rename variable ucTSID
-Date: Sun, 17 Dec 2023 15:55:17 -0800
-Message-Id: <20231217235520.30377-4-tdavies@darkphysics.net>
+Subject: [PATCH 4/6] Staging: rtl8192e: Rename variable pDelBaParamSet
+Date: Sun, 17 Dec 2023 15:55:18 -0800
+Message-Id: <20231217235520.30377-5-tdavies@darkphysics.net>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20231217235520.30377-1-tdavies@darkphysics.net>
 References: <20231217235520.30377-1-tdavies@darkphysics.net>
@@ -63,64 +63,58 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Rename variable ucTSID to ts_id to fix checkpatch
+Rename variable pDelBaParamSet to del_ba_param_set to fix checkpatch
 warning Avoid CamelCase.
 
 Signed-off-by: Tree Davies <tdavies@darkphysics.net>
 ---
- drivers/staging/rtl8192e/rtl819x_BAProc.c | 2 +-
- drivers/staging/rtl8192e/rtl819x_Qos.h    | 2 +-
- drivers/staging/rtl8192e/rtl819x_TSProc.c | 4 ++--
- 3 files changed, 4 insertions(+), 4 deletions(-)
+ drivers/staging/rtl8192e/rtl819x_BAProc.c | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
 diff --git a/drivers/staging/rtl8192e/rtl819x_BAProc.c b/drivers/staging/rtl8192e/rtl819x_BAProc.c
-index cdbda65b4d50..fd0149d3f717 100644
+index fd0149d3f717..2fd54312c04f 100644
 --- a/drivers/staging/rtl8192e/rtl819x_BAProc.c
 +++ b/drivers/staging/rtl8192e/rtl819x_BAProc.c
-@@ -474,7 +474,7 @@ void rtllib_ts_init_add_ba(struct rtllib_device *ieee, struct tx_ts_record *ts,
- 	ba->dialog_token++;
- 	ba->ba_param_set.field.amsdu_support = 0;
- 	ba->ba_param_set.field.ba_policy = policy;
--	ba->ba_param_set.field.tid = ts->ts_common_info.tspec.ucTSID;
-+	ba->ba_param_set.field.tid = ts->ts_common_info.tspec.ts_id;
- 	ba->ba_param_set.field.buffer_size = 32;
- 	ba->ba_timeout_value = 0;
- 	ba->ba_start_seq_ctrl.field.seq_num = (ts->tx_cur_seq + 3) % 4096;
-diff --git a/drivers/staging/rtl8192e/rtl819x_Qos.h b/drivers/staging/rtl8192e/rtl819x_Qos.h
-index 1c00092ea3a5..50e01ca49a4c 100644
---- a/drivers/staging/rtl8192e/rtl819x_Qos.h
-+++ b/drivers/staging/rtl8192e/rtl819x_Qos.h
-@@ -8,7 +8,7 @@
- #define __INC_QOS_TYPE_H
+@@ -402,7 +402,7 @@ int rtllib_rx_ADDBARsp(struct rtllib_device *ieee, struct sk_buff *skb)
+ int rtllib_rx_DELBA(struct rtllib_device *ieee, struct sk_buff *skb)
+ {
+ 	struct ieee80211_hdr_3addr *delba = NULL;
+-	union delba_param_set *pDelBaParamSet = NULL;
++	union delba_param_set *del_ba_param_set = NULL;
+ 	u8 *dst = NULL;
  
- struct qos_tsinfo {
--	u8		ucTSID:4;
-+	u8		ts_id:4;
- 	u8		ucDirection:2;
- };
+ 	if (skb->len < sizeof(struct ieee80211_hdr_3addr) + 6) {
+@@ -427,17 +427,17 @@ int rtllib_rx_DELBA(struct rtllib_device *ieee, struct sk_buff *skb)
+ #endif
+ 	delba = (struct ieee80211_hdr_3addr *)skb->data;
+ 	dst = (u8 *)(&delba->addr2[0]);
+-	pDelBaParamSet = (union delba_param_set *)&delba->seq_ctrl + 2;
++	del_ba_param_set = (union delba_param_set *)&delba->seq_ctrl + 2;
  
-diff --git a/drivers/staging/rtl8192e/rtl819x_TSProc.c b/drivers/staging/rtl8192e/rtl819x_TSProc.c
-index 489261831462..ad4d9e4c9b63 100644
---- a/drivers/staging/rtl8192e/rtl819x_TSProc.c
-+++ b/drivers/staging/rtl8192e/rtl819x_TSProc.c
-@@ -198,7 +198,7 @@ static struct ts_common_info *SearchAdmitTRStream(struct rtllib_device *ieee,
- 			continue;
- 		list_for_each_entry(pRet, psearch_list, List) {
- 			if (memcmp(pRet->addr, addr, 6) == 0 &&
--			    pRet->tspec.ucTSID == TID &&
-+			    pRet->tspec.ts_id == TID &&
- 			    pRet->tspec.ucDirection == dir)
- 				break;
+-	if (pDelBaParamSet->field.initiator == 1) {
++	if (del_ba_param_set->field.initiator == 1) {
+ 		struct rx_ts_record *ts;
+ 
+ 		if (!rtllib_get_ts(ieee, (struct ts_common_info **)&ts, dst,
+-			   (u8)pDelBaParamSet->field.tid, RX_DIR, false)) {
++			   (u8)del_ba_param_set->field.tid, RX_DIR, false)) {
+ 			netdev_warn(ieee->dev,
+ 				    "%s(): can't get TS for RXTS. dst:%pM TID:%d\n",
+ 				    __func__, dst,
+-				    (u8)pDelBaParamSet->field.tid);
++				    (u8)del_ba_param_set->field.tid);
+ 			return -1;
  		}
-@@ -305,7 +305,7 @@ bool rtllib_get_ts(struct rtllib_device *ieee, struct ts_common_info **ppTS,
- 		netdev_dbg(ieee->dev,
- 			   "to init current TS, UP:%d, Dir:%d, addr: %pM ppTs=%p\n",
- 			   UP, Dir, addr, *ppTS);
--		ts_info->ucTSID = UP;
-+		ts_info->ts_id = UP;
- 		ts_info->ucDirection = Dir;
  
- 		MakeTSEntry(*ppTS, addr, &tspec);
+@@ -446,7 +446,7 @@ int rtllib_rx_DELBA(struct rtllib_device *ieee, struct sk_buff *skb)
+ 		struct tx_ts_record *ts;
+ 
+ 		if (!rtllib_get_ts(ieee, (struct ts_common_info **)&ts, dst,
+-			   (u8)pDelBaParamSet->field.tid, TX_DIR, false)) {
++			   (u8)del_ba_param_set->field.tid, TX_DIR, false)) {
+ 			netdev_warn(ieee->dev, "%s(): can't get TS for TXTS\n",
+ 				    __func__);
+ 			return -1;
 -- 
 2.39.2
 
