@@ -1,58 +1,57 @@
-Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
+Received: from mail-pg1-f174.google.com (mail-pg1-f174.google.com [209.85.215.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0EBC646B82
-	for <linux-staging@lists.linux.dev>; Sun, 17 Dec 2023 16:55:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D8474B126
+	for <linux-staging@lists.linux.dev>; Sun, 17 Dec 2023 23:55:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=darkphysics.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=darkphysics.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Gb0L7J+v"
-Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-6d7750e2265so43605b3a.3
-        for <linux-staging@lists.linux.dev>; Sun, 17 Dec 2023 08:55:18 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=darkphysics.net header.i=@darkphysics.net header.b="Cxa/0nLu"
+Received: by mail-pg1-f174.google.com with SMTP id 41be03b00d2f7-5bcfc508d14so2135629a12.3
+        for <linux-staging@lists.linux.dev>; Sun, 17 Dec 2023 15:55:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1702832118; x=1703436918; darn=lists.linux.dev;
+        d=darkphysics.net; s=google; t=1702857323; x=1703462123; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=eKsWRncfuCPQDnZgbnpk1pj6VXWzGGiRXpku/betyaY=;
-        b=Gb0L7J+v21NUOeoTEub3gaGuAK5e2ESMjR7Lq0lIIpwtuoeh5lM5bLayJzpFlGhk0q
-         mcLm2QfM+dGggIJxfM/1gA+4wXt9MBzpTmca3xSAebnIub6D+3kw6Bf3OwEoMmfSMS+b
-         9X/kSkCOx8ykdYb87sTiM/Ct7ERiFsHX3L8VlaVEvu7k6okJDN6AOn1TYBeC5q6a30r+
-         4mkUXMne45IPLlSnjGFtKwIzgz2vcACUpvgo3HS19/RRrifCZYJgt+u2fZrEDONaene6
-         X/rQG68NVQ4iSvev7PsCp8NV2KuecldvHVTgGmu9jGl9an7FR94013rEohu1AK7uH3xT
-         199Q==
+        bh=+snDZLy8asIzjWt/vwGJS1mTnyKPWwo7tBhs/9ZgD6U=;
+        b=Cxa/0nLuvSl367aQBqIPGyO6ZqGtK5Cir2aalmKjbIMkSwSWfyUJ8pUhytq48EIGDm
+         Swbs5838+vuHJW824uT+2GV6UPdzjnqPD6X7pwdcGVUIV0ngkMnPfK/j7GPOBqKEFFnd
+         wqkMlfggXNJJ1jKE/TrOuEVteb9uRH4GfmY7m5YBV3boUDMwautaUXrOooFYBH38KXxn
+         PYZgIEHz2ihUgwhf7KkBgMPc0Mx4miA106prqGmGD5bjrOeWok8TfydfRbj5erg0Rhcr
+         pViJ5vzMkNjqL5UcWuhF0gTlHlCzJyWCXzrFGEyuhrWvetK7/6bV9mI9TZ16IO0evj2S
+         6kiQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702832118; x=1703436918;
+        d=1e100.net; s=20230601; t=1702857323; x=1703462123;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=eKsWRncfuCPQDnZgbnpk1pj6VXWzGGiRXpku/betyaY=;
-        b=OUkm6I9vT3rWXuv0C19jqZjKsUA6OcbNkv86q+WGhfyDTFaj58YEISFlUUv7KSAFJE
-         8PLG+PGDAcQHsgtsIJRPVk2/ngOcb+eIbMKSyM/s4AUZJlEKHjxRIJUCTwhohTbxyjwD
-         THieUwRF/6v+wgevO1Dhqgavthc/3Y2ycCI8XONsUJQRqEfjO2SHlIZ3fqX4LUQCaWjP
-         HKXz6LYw/VFiClrVvM3VqZfnWJrrh6IZL67UaiyuBV0gppJFE5Vbfw8Hb1bGwPiUteCu
-         bUwbm8ucSc+2CHUtL5khWxYH7lOVPA5icMrm2UA93kZ7pt7IQWqjc1+88yGnPqeLlvte
-         SzAQ==
-X-Gm-Message-State: AOJu0Yyq4cUq9ozo+Gq29M2GfJCzJ3O2GEi4wM/c6hlTPUHWAIjFmyiQ
-	XxgEkGFpp2fr+T3JIJlRoCc=
-X-Google-Smtp-Source: AGHT+IElv+rw7sIJijJRD+OdyZtfVrQkm1+LOYAXSc4i+0RHL3+E7jluDilGz3cyuXwh9uqgyEvdkQ==
-X-Received: by 2002:a17:90a:1c09:b0:28b:2219:e78f with SMTP id s9-20020a17090a1c0900b0028b2219e78fmr1758461pjs.78.1702832118124;
-        Sun, 17 Dec 2023 08:55:18 -0800 (PST)
-Received: from ubuntu.. ([110.44.116.44])
-        by smtp.gmail.com with ESMTPSA id pb7-20020a17090b3c0700b0028aea6c24bcsm4705292pjb.53.2023.12.17.08.55.15
+        bh=+snDZLy8asIzjWt/vwGJS1mTnyKPWwo7tBhs/9ZgD6U=;
+        b=Hwq+u3bhwcAiMzJN9m6Fl5WoESG6ndU2C6z9DyfXGWOuAMLYST7vYoEZuV91Tq0ybf
+         6Hi7UXnWJM0e34F1CI3OAV4Tx7ShSqhoOGnJtREQFWfT+4yqoRCBTf1okXPo76sQSr1O
+         +FiVoUm/Ws7X5919823A6VJ5dlkqkV2anz0zKkDVONYJdWupdBXiwvY40OOpYhobM3Be
+         EH78URApH1OupI9MvyaJlxHKzoHJAhVntb+whxe44Fe5jTbI2YHrn/Tsvi8JI0zC6vhi
+         oOunHo3RxTyZkhZ3UmNlzQgB8JZcCSxrKUXRA3IzrZuRJE+ofvW/IamEsx0CJO8oRP4W
+         BwPA==
+X-Gm-Message-State: AOJu0YxFAENFkQQBjd3g3kX/M8/HG0a0Ql2FLSB4hwy3+qznty66cJ+W
+	bms9LEZjD19CKtWe+3W3/e5sLQ==
+X-Google-Smtp-Source: AGHT+IEhhHmfErk1tQPNZa/a/PRZEl+UUQTMCyLJSO6YlKgJZLduDAp6OmhQQ3j3jweGGeuHjKHm1g==
+X-Received: by 2002:a05:6a20:3d87:b0:190:cc38:7d7c with SMTP id s7-20020a056a203d8700b00190cc387d7cmr17446543pzi.44.1702857322824;
+        Sun, 17 Dec 2023 15:55:22 -0800 (PST)
+Received: from oatmeal.darkphysics (c-76-146-178-2.hsd1.wa.comcast.net. [76.146.178.2])
+        by smtp.gmail.com with ESMTPSA id f11-20020a17090aec8b00b0028ae8284840sm9036176pjy.10.2023.12.17.15.55.22
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 17 Dec 2023 08:55:17 -0800 (PST)
-From: Dipendra Khadka <kdipendra88@gmail.com>
-To: Larry.Finger@lwfinger.net,
-	florian.c.schilhabel@googlemail.com,
-	gregkh@linuxfoundation.org
-Cc: Dipendra Khadka <kdipendra88@gmail.com>,
-	linux-staging@lists.linux.dev,
+        Sun, 17 Dec 2023 15:55:22 -0800 (PST)
+From: Tree Davies <tdavies@darkphysics.net>
+To: gregkh@linuxfoundation.org,
+	philipp.g.hortmann@gmail.com,
+	anjan@momi.ca
+Cc: linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
-	linux-kernel-mentees@lists.linuxfoundation.org
-Subject: [PATCH] drivers: staging: rtl8712: Fixes spelling mistake in rtl871x_mp_phy_regdef.h
-Date: Sun, 17 Dec 2023 16:54:43 +0000
-Message-Id: <20231217165444.448133-1-kdipendra88@gmail.com>
-X-Mailer: git-send-email 2.34.1
+	Tree Davies <tdavies@darkphysics.net>
+Subject: [PATCH 0/6] Staging: rtl8192e: Rename 6 variables to Style guide spec
+Date: Sun, 17 Dec 2023 15:55:14 -0800
+Message-Id: <20231217235520.30377-1-tdavies@darkphysics.net>
+X-Mailer: git-send-email 2.39.2
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -61,37 +60,24 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The script checkpatch.pl reported spelling error 
-in rtl871x_mp_phy_regdef.h as below:
+This patch set renames variable to fix checkpatch warnings
+Thank you in advance to reviewers
+~Tree
 
-'''
-WARNING: 'Tranceiver' may be misspelled - perhaps 'Transceiver'?
-#129:
-#define rFPGA0_XA_LSSIReadBack          0x8a0   /* Tranceiver LSSI Readback */
-                                                   ^^^^^^^^^^
-'''
+Tree Davies (6):
+  Staging: rtl8192e: Rename array variable RxTsRecord
+  Staging: rtl8192e: Rename array variable TxTsRecord
+  Staging: rtl8192e: Rename variable ucTSID
+  Staging: rtl8192e: Rename variable pDelBaParamSet
+  Staging: rtl8192e: Rename variable TxRxSelect
+  Staging: rtl8192e: Rename variable pBaStartSeqCtrl
 
-This patch corrects a spelling error,
-changing "Tranceiver" to "Transceiver."
+ drivers/staging/rtl8192e/rtl819x_BAProc.c | 42 +++++++++++------------
+ drivers/staging/rtl8192e/rtl819x_Qos.h    |  2 +-
+ drivers/staging/rtl8192e/rtl819x_TSProc.c | 36 +++++++++----------
+ drivers/staging/rtl8192e/rtllib.h         |  8 ++---
+ 4 files changed, 44 insertions(+), 44 deletions(-)
 
-Signed-off-by: Dipendra Khadka <kdipendra88@gmail.com>
----
- drivers/staging/rtl8712/rtl871x_mp_phy_regdef.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/staging/rtl8712/rtl871x_mp_phy_regdef.h b/drivers/staging/rtl8712/rtl871x_mp_phy_regdef.h
-index a08c5d2f59e3..bb9f83d58225 100644
---- a/drivers/staging/rtl8712/rtl871x_mp_phy_regdef.h
-+++ b/drivers/staging/rtl8712/rtl871x_mp_phy_regdef.h
-@@ -126,7 +126,7 @@
- #define	rFPGA0_AnalogParameter3		0x888	/* Useless now */
- #define	rFPGA0_AnalogParameter4		0x88c
- 
--#define	rFPGA0_XA_LSSIReadBack		0x8a0	/* Tranceiver LSSI Readback */
-+#define	rFPGA0_XA_LSSIReadBack		0x8a0	/* Transceiver LSSI Readback */
- #define	rFPGA0_XB_LSSIReadBack		0x8a4
- #define	rFPGA0_XC_LSSIReadBack		0x8a8
- #define	rFPGA0_XD_LSSIReadBack		0x8ac
 -- 
-2.34.1
+2.39.2
 
