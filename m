@@ -1,60 +1,60 @@
-Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
+Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com [209.85.216.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 100D04CB2F
-	for <linux-staging@lists.linux.dev>; Sun, 17 Dec 2023 23:55:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=darkphysics.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=darkphysics.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B89A3D556
+	for <linux-staging@lists.linux.dev>; Mon, 18 Dec 2023 15:17:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=darkphysics.net header.i=@darkphysics.net header.b="NlFN4mgd"
-Received: by mail-pj1-f47.google.com with SMTP id 98e67ed59e1d1-28659348677so1761855a91.0
-        for <linux-staging@lists.linux.dev>; Sun, 17 Dec 2023 15:55:29 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cZlNQAoV"
+Received: by mail-pj1-f49.google.com with SMTP id 98e67ed59e1d1-28b0016d989so1187344a91.1
+        for <linux-staging@lists.linux.dev>; Mon, 18 Dec 2023 07:17:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=darkphysics.net; s=google; t=1702857329; x=1703462129; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=2Xh9057HjSReuOSkTJHqLjqeYxKmFJY7/nLpPeU9NVU=;
-        b=NlFN4mgdHCgvHMU3j0gp+sO71HzqDgo7/mlNxzsCA+q+sXwedPU1811VbONxZUGjoG
-         xakqN9OnWw0fOQ9MDDxfw7NwUiHhNANeIfq2sV1OwOLfEcpy9FNJ54I0W+xaMEqLkLKM
-         W+fxeNhBFPd9CYouqCTSWxS0RbaOQcXJga9+TLftkaUwQWsgXnXBjbEcQ6FL9YU0WzBk
-         kgFT8AO1lG+rZBwDgBdiak1EWCEeM9YsllfAn+HPvkQbL4X7pGOPrOlYJRHA/INI2C4U
-         bD5QF3zu5p3qe2VxKneDUWYJAXE26w+oHXDqjGWkSqIpMNgivyUebPCARHPM+0ok4xEI
-         N9IA==
+        d=gmail.com; s=20230601; t=1702912646; x=1703517446; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=7sSlpTRou09JsVwTLNvbg+U7lQZsRkp+48aYZvwXB/s=;
+        b=cZlNQAoVqurF5M71i75XaaKI2cs3wVPOcdgWEzY6ZPuGxt59huBGYpNLEP0tV9zgce
+         lLUjxqRiftyXs+QbQPhlAGzbEfrg+Unuqtu2o62kmrnNFdYhwBI3lzaPxblIiIPUmxk9
+         O1lFEWwy9+qbtfgYFy/yQ3+M5NdoEdfCOhUPBm3LLeGT8LHArWQAHUqVqyRHw+GKvufD
+         bIVZ/O5Azj6DoT67pzzmSsj1WzGGQOJ8SpobHVAnOOiz1vKyBRJM4bbzsXnNt+pHbhpi
+         lUouMH0mYz844VRaZWwDowVKVe7PmP+M2K9hUVm9punZhFgtScemHafL5n+EzbH9F6t3
+         lS5g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702857329; x=1703462129;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=2Xh9057HjSReuOSkTJHqLjqeYxKmFJY7/nLpPeU9NVU=;
-        b=xDWn0AZf7/UnqGSZWZTkUUXFNo9z3JC42lehjFKMkodN2jJbOOaf/87IgEnVS11/bf
-         JfoY8XBjZtWz8rmFs4uIaAH5RJNSWAsb7EylJFJNoUV/SwpzMcBJwWb8DR8xwY5uazjT
-         mGQL3JBzmZ/KRB/YAYB9NO1dWo85dMMhEJ8nWNxWgiiv4zowxcZkZ6tWC+hDmJOmjcMJ
-         xVe/OqXCB1dPSToF0Vc5ctmiBxhov971q2SCwotdveMdkMoY3TwUC22kvpRb2tOAGAbE
-         qbyH4I7Ys75nOxKBlmzHbDdKOCzZq/j5bbF2FhcBqBFJs/xNtos8F9ujpguAp77LvY3F
-         TGEQ==
-X-Gm-Message-State: AOJu0YzE9kBqU+X76bDybt+W2iRMZ+qDV0f5pTfr5Uor3VeKKRmRwQNK
-	XMk8dxiGelsOUfFxdO02C7AWrA==
-X-Google-Smtp-Source: AGHT+IFb2n5v3YoFspuLtRt+lyzQo9g1VO/PMtFjwsN0/BR9zn2VrKZerGUAbdGHdA6juw82EwWWrQ==
-X-Received: by 2002:a17:90a:c705:b0:28b:5cd5:9ff9 with SMTP id o5-20020a17090ac70500b0028b5cd59ff9mr2713446pjt.39.1702857329474;
-        Sun, 17 Dec 2023 15:55:29 -0800 (PST)
-Received: from oatmeal.darkphysics (c-76-146-178-2.hsd1.wa.comcast.net. [76.146.178.2])
-        by smtp.gmail.com with ESMTPSA id f11-20020a17090aec8b00b0028ae8284840sm9036176pjy.10.2023.12.17.15.55.28
+        d=1e100.net; s=20230601; t=1702912646; x=1703517446;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=7sSlpTRou09JsVwTLNvbg+U7lQZsRkp+48aYZvwXB/s=;
+        b=FMh0z6bdP6lK3UjaDPtHmini19GwtPmEFr0L54xZkrLYSI3IcVkaHHMMxiIqqe5+Qk
+         oQGiy6YCETS9vxh5F/k+ZgkMlxvPS8oAJFz0P7ysJtB14/3pQgYdlHWFpYaSdJt280qq
+         72xLMJKjqUJoots8A5qP4hYgeGDnhiuRZvjVg6dAPkz8ysP74qWsLRCBfDwAfVUjcKBf
+         02DDRKTKtXJx3K9+/HI8SZcZ4mr5RH+5G7Vf0G9bh3VJ2Yo9ODsBTsdcn7QDkIgrJSyy
+         XXUm22bJCbSklL4Qek0JyEZ0LL3Hrspe1AyVdDgFwkGrmEANe69CfCC+ByGV/ofyolGW
+         W9GQ==
+X-Gm-Message-State: AOJu0YwvXAbiKZcULSn2vGUioJ+YXuSZNkU5kJWZh2G0l/Ady6zc9F8l
+	/K1rZeGnvN4/ur5pZWLdjBE=
+X-Google-Smtp-Source: AGHT+IGe3IJac/lizAUEvlaMq23plr5Jr6d91eSJPJSnKbCGX35B0n+f/GzjuWPVTiDYXG5ZjltwNA==
+X-Received: by 2002:a17:90a:c7c3:b0:28b:7ee0:4ef0 with SMTP id gf3-20020a17090ac7c300b0028b7ee04ef0mr667374pjb.39.1702912645812;
+        Mon, 18 Dec 2023 07:17:25 -0800 (PST)
+Received: from ubuntu.. ([202.166.220.102])
+        by smtp.gmail.com with ESMTPSA id f11-20020a17090aec8b00b0028ae8284840sm10514190pjy.10.2023.12.18.07.17.22
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 17 Dec 2023 15:55:28 -0800 (PST)
-From: Tree Davies <tdavies@darkphysics.net>
-To: gregkh@linuxfoundation.org,
-	philipp.g.hortmann@gmail.com,
-	anjan@momi.ca
-Cc: linux-staging@lists.linux.dev,
+        Mon, 18 Dec 2023 07:17:25 -0800 (PST)
+From: Dipendra Khadka <kdipendra88@gmail.com>
+To: hdegoede@redhat.com,
+	mchehab@kernel.org,
+	sakari.ailus@linux.intel.com,
+	gregkh@linuxfoundation.org
+Cc: Dipendra Khadka <kdipendra88@gmail.com>,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
-	Tree Davies <tdavies@darkphysics.net>
-Subject: [PATCH 6/6] Staging: rtl8192e: Rename variable pBaStartSeqCtrl
-Date: Sun, 17 Dec 2023 15:55:20 -0800
-Message-Id: <20231217235520.30377-7-tdavies@darkphysics.net>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20231217235520.30377-1-tdavies@darkphysics.net>
-References: <20231217235520.30377-1-tdavies@darkphysics.net>
+	linux-kernel-mentees@lists.linuxfoundation.org
+Subject: [PATCH] drivers: staging: media: atomisp: pci: Fixes spelling mistakes in ia_css_irq.h
+Date: Mon, 18 Dec 2023 15:17:04 +0000
+Message-Id: <20231218151704.449883-1-kdipendra88@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -63,45 +63,47 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Rename variable pBaStartSeqCtrl to ba_start_seq_ctrl to fix checkpatch
-warning Avoid CamelCase.
+The script checkpatch.pl reported spelling errors
+in ia_css_irq.h as below:
 
-Signed-off-by: Tree Davies <tdavies@darkphysics.net>
+'''
+WARNING: Possible repeated word: 'in'
+        /** the input system in in error */
+
+WARNING: Possible repeated word: 'in'
+        /** the input formatter in in error */
+
+WARNING: Possible repeated word: 'in'
+        /** the dma in in error */
+'''
+
+This patch corrects spelling errors,
+changing "in" to "is" in all three comments.
+
+Signed-off-by: Dipendra Khadka <kdipendra88@gmail.com>
 ---
- drivers/staging/rtl8192e/rtl819x_BAProc.c | 6 +++---
+ drivers/staging/media/atomisp/pci/ia_css_irq.h | 6 +++---
  1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/staging/rtl8192e/rtl819x_BAProc.c b/drivers/staging/rtl8192e/rtl819x_BAProc.c
-index b816f94336f0..3db7dcc3bd23 100644
---- a/drivers/staging/rtl8192e/rtl819x_BAProc.c
-+++ b/drivers/staging/rtl8192e/rtl819x_BAProc.c
-@@ -219,7 +219,7 @@ int rtllib_rx_ADDBAReq(struct rtllib_device *ieee, struct sk_buff *skb)
- 	struct ba_record *ba = NULL;
- 	union ba_param_set *ba_param_set = NULL;
- 	u16 *ba_timeout_value = NULL;
--	union sequence_control *pBaStartSeqCtrl = NULL;
-+	union sequence_control *ba_start_seq_ctrl = NULL;
- 	struct rx_ts_record *ts = NULL;
- 
- 	if (skb->len < sizeof(struct ieee80211_hdr_3addr) + 9) {
-@@ -241,7 +241,7 @@ int rtllib_rx_ADDBAReq(struct rtllib_device *ieee, struct sk_buff *skb)
- 	dialog_token = tag + 2;
- 	ba_param_set = (union ba_param_set *)(tag + 3);
- 	ba_timeout_value = (u16 *)(tag + 5);
--	pBaStartSeqCtrl = (union sequence_control *)(req + 7);
-+	ba_start_seq_ctrl = (union sequence_control *)(req + 7);
- 
- 	if (!ieee->current_network.qos_data.active ||
- 	    !ieee->ht_info->current_ht_support ||
-@@ -274,7 +274,7 @@ int rtllib_rx_ADDBAReq(struct rtllib_device *ieee, struct sk_buff *skb)
- 	ba->dialog_token = *dialog_token;
- 	ba->ba_param_set = *ba_param_set;
- 	ba->ba_timeout_value = *ba_timeout_value;
--	ba->ba_start_seq_ctrl = *pBaStartSeqCtrl;
-+	ba->ba_start_seq_ctrl = *ba_start_seq_ctrl;
- 
- 	if (ieee->GetHalfNmodeSupportByAPsHandler(ieee->dev) ||
- 	   (ieee->ht_info->iot_action & HT_IOT_ACT_ALLOW_PEER_AGG_ONE_PKT))
+diff --git a/drivers/staging/media/atomisp/pci/ia_css_irq.h b/drivers/staging/media/atomisp/pci/ia_css_irq.h
+index 26b1b3c8ba62..00e2fd1f9647 100644
+--- a/drivers/staging/media/atomisp/pci/ia_css_irq.h
++++ b/drivers/staging/media/atomisp/pci/ia_css_irq.h
+@@ -84,11 +84,11 @@ enum ia_css_irq_info {
+ 	IA_CSS_IRQ_INFO_ISP_BINARY_STATISTICS_READY   = BIT(17),
+ 	/** ISP binary statistics are ready */
+ 	IA_CSS_IRQ_INFO_INPUT_SYSTEM_ERROR            = BIT(18),
+-	/** the input system in in error */
++	/** the input system is in error */
+ 	IA_CSS_IRQ_INFO_IF_ERROR                      = BIT(19),
+-	/** the input formatter in in error */
++	/** the input formatter is in error */
+ 	IA_CSS_IRQ_INFO_DMA_ERROR                     = BIT(20),
+-	/** the dma in in error */
++	/** the dma is in error */
+ 	IA_CSS_IRQ_INFO_ISYS_EVENTS_READY             = BIT(21),
+ 	/** end-of-frame events are ready in the isys_event queue */
+ };
 -- 
-2.39.2
+2.34.1
 
