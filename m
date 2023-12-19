@@ -1,78 +1,83 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68A7914A90
-	for <linux-staging@lists.linux.dev>; Tue, 19 Dec 2023 07:26:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1AF2418622;
+	Tue, 19 Dec 2023 12:36:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Tl+8ivjV"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1702970817; x=1734506817;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Z+XpiPGaWflbcQBYZ16yoZ6jlTwt5CFV9FhRZHc9Sgg=;
-  b=Tl+8ivjV/YfIPNGDD3H81nAjQZYEfFXWi9RcJGVLXdnxzppO62eomwPk
-   dyUP22BC+BMdmsbEaWfSHoeli2c2Tz05AuLtFzPyu3iGRucNpViVz68Pq
-   TlIj66YuS/sOki7CI5zEkRClFD+m+UCnSgHtvp6hUTafTtk7kOenGqdxX
-   m2m/0t1qOQ7nfu7rp1bNZHU7KXcY5M0Eb54h06sapyhrhgjiMsz45x9QK
-   ya8JW5+u3da24Ve5tJ6Z0qUJsMh5AW7iQZATWTZ93RWGLywLixBd03Tyl
-   GjzZrTNz8YxBS7Rd/EVHYrMSNzHG9ERiie+SL4Y0hj67CxTKnhVRNfZsn
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10928"; a="2442690"
-X-IronPort-AV: E=Sophos;i="6.04,287,1695711600"; 
-   d="scan'208";a="2442690"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Dec 2023 23:26:56 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10928"; a="725638283"
-X-IronPort-AV: E=Sophos;i="6.04,287,1695711600"; 
-   d="scan'208";a="725638283"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Dec 2023 23:26:54 -0800
-Received: from kekkonen.localdomain (localhost [127.0.0.1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id EF7AB11F7E4;
-	Tue, 19 Dec 2023 09:26:51 +0200 (EET)
-Date: Tue, 19 Dec 2023 07:26:51 +0000
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/3] staging: media: ipu3: Remove some excess struct
- member documentation
-Message-ID: <ZYFFu6ieLKk5QLKe@kekkonen.localdomain>
-References: <87h6kfjay7.fsf@meer.lwn.net>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Sx8XwVUI"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CC17AC433C7;
+	Tue, 19 Dec 2023 12:36:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1702989381;
+	bh=tiHOc2vd0PeMZmcefRov95UDysQbT1EeRCm2fFpUgQU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Sx8XwVUIxasLh6HVN/W8pU7bRX4zjoBWn7d5JDeV7dh47LKadr6MdqW+EQ16jKN5j
+	 gjF4Qm87OOKGmtS8sW67sncJwB5u0vZjqEfR+HgeyyGLN7lrRBDFAO8BH+f8XT7xCt
+	 1gHNNoVmCPDr1Rj7ZXuMC/FruTuA6gar97X7r3ePywDLF5WjK9Kq8mChVySDNz2R4+
+	 OCX5/OC0l0tcA3Wd11ovN4U7r6etYa1f96orjVP2scOlQa+DU5Gvuy+7VYHIkUsZ3i
+	 pCOJKNHbhF4Od8ex75bifvlf6IGLgf4KbYCg/TWvUtkVhhTnzCsfUyTD/T3QMBFNEl
+	 beMhs4PaBjiCQ==
+Date: Tue, 19 Dec 2023 13:36:17 +0100
+From: Wolfram Sang <wsa@kernel.org>
+To: Heiner Kallweit <hkallweit1@gmail.com>
+Cc: linux-i2c@vger.kernel.org,
+	Christophe Leroy <christophe.leroy@csgroup.eu>,
+	Nicholas Piggin <npiggin@gmail.com>, linux-kernel@vger.kernel.org,
+	greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev,
+	linux-media@vger.kernel.org, linuxppc-dev@lists.ozlabs.org
+Subject: Re: [PATCH v2 00/10] Don't let i2c adapters declare I2C_CLASS_SPD
+ support if they support I2C_CLASS_HWMON
+Message-ID: <ZYGOQYDaXmTK2nke@shikoro>
+Mail-Followup-To: Wolfram Sang <wsa@kernel.org>,
+	Heiner Kallweit <hkallweit1@gmail.com>, linux-i2c@vger.kernel.org,
+	Christophe Leroy <christophe.leroy@csgroup.eu>,
+	Nicholas Piggin <npiggin@gmail.com>, linux-kernel@vger.kernel.org,
+	greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev,
+	linux-media@vger.kernel.org, linuxppc-dev@lists.ozlabs.org
+References: <20231124101619.6470-1-hkallweit1@gmail.com>
+ <b2dd7159-844e-4d5a-832d-a2e8c0f26f50@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="+O02xqf8AKUyujd4"
+Content-Disposition: inline
+In-Reply-To: <b2dd7159-844e-4d5a-832d-a2e8c0f26f50@gmail.com>
+
+
+--+O02xqf8AKUyujd4
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <87h6kfjay7.fsf@meer.lwn.net>
 
-Hi Jon,
 
-On Mon, Dec 18, 2023 at 05:24:48PM -0700, Jonathan Corbet wrote:
-> Remove kerneldoc entries for struct members that do not exist, fixing these
-> warnings:
-> 
->   ./drivers/staging/media/ipu3/include/uapi/intel-ipu3.h:2522: warning: Excess struct member 'reserved1' description in 'ipu3_uapi_acc_param'
->   ./drivers/staging/media/ipu3/include/uapi/intel-ipu3.h:2522: warning: Excess struct member 'reserved2' description in 'ipu3_uapi_acc_param'
->   ./drivers/staging/media/ipu3/include/uapi/intel-ipu3.h:2778: warning: Excess struct member '__acc_osys' description in 'ipu3_uapi_flags'
-> 
-> Signed-off-by: Jonathan Corbet <corbet@lwn.net>
+> This series and my other series are sitting idle in patchwork
+> for 3 weeks now. AFAICS they have the needed ack's.
+> Anything missing before they can be applied?
 
-Thanks for the patch.
+Applied to for-next, thanks!
 
-I'll take this to my tree. I assume the other two patches are destined
-elsewhere.
 
--- 
-Kind regards,
+--+O02xqf8AKUyujd4
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Sakari Ailus
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmWBjkEACgkQFA3kzBSg
+KbaO1hAAooFUEwBmrRIwLhiUmuleNDxpkm2+TJogB4CxDIfA95CV7cwuMB57JD0O
+zpyBvqiaj8yHo9h6QW5u8oeYcyJJAkpO5bAa4JDCAqtvJjoEs1lx1FNvD5JdbwMD
+Nzps601cYoNHO7wGT3Yzv3ZDYFlpUhY1HdcJDRrNxLcIzwDgLHDaIKP/qXF82Fvl
+CFj00WJZ7nKay2vxMF/kHcEsqUTrIxsEgJGio6am7qPeSoCP3/vkl/jiiCrtVlIE
+wPpzNJ1xGCO8UplCczBENJjmaBqLOlToUm4ZuIJE9TPUqj7CL53JvhRUIkeJARuA
+nBwqS4qrGhxSqHugucwkggcKLB/g5iLfFtZrvEXooNX+i0So8+zTWDv6Py+/wtiY
+Kw4dyT0n9obNczQm+VywnGvPQ+DR3cqkYnvAuFd0pPztitYm0MRWdNqpomstpTFU
+f1NaLgQwaib8IP8xwmZ/8WRpB8yrMN0o4CE5ckYtGAV51wC/LBNL8LJNbqq2x2tf
+B7gimHvJ5Otr9t8UY6DJY8K6I5pPKT9yaYTxjgj1rSOj5ANtILP1qzU9ZCWh+qvC
+uqgv0pYoV91nhMtKb5XGzKuvhOrsFjNl0+Ujome0s2EIX0i4qpfbSky1UEux53xM
+mrLf9eN+EyCpqdje8jO4E6DSOrGq4PD7ob4C03v0IJ61jyZou2s=
+=3pKs
+-----END PGP SIGNATURE-----
+
+--+O02xqf8AKUyujd4--
