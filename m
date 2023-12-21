@@ -1,68 +1,68 @@
 Received: from wout2-smtp.messagingengine.com (wout2-smtp.messagingengine.com [64.147.123.25])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9483156D0
-	for <linux-staging@lists.linux.dev>; Thu, 21 Dec 2023 03:12:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADBAA156D0
+	for <linux-staging@lists.linux.dev>; Thu, 21 Dec 2023 03:12:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=fastmail.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fastmail.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=fastmail.org header.i=@fastmail.org header.b="cyJosTxS";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="D83CsHQr"
+	dkim=pass (2048-bit key) header.d=fastmail.org header.i=@fastmail.org header.b="DsIP/a4o";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="482VMzHb"
 Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
-	by mailout.west.internal (Postfix) with ESMTP id 36BDB3200A0A;
-	Wed, 20 Dec 2023 22:12:43 -0500 (EST)
+	by mailout.west.internal (Postfix) with ESMTP id E6AD13200A14;
+	Wed, 20 Dec 2023 22:12:45 -0500 (EST)
 Received: from mailfrontend2 ([10.202.2.163])
-  by compute2.internal (MEProxy); Wed, 20 Dec 2023 22:12:43 -0500
+  by compute2.internal (MEProxy); Wed, 20 Dec 2023 22:12:46 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fastmail.org; h=
 	cc:cc:content-transfer-encoding:content-type:date:date:from:from
 	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:subject:subject:to:to; s=fm2; t=1703128362; x=
-	1703214762; bh=0bq2fN9Uza31d9KmzZhN4ub+BZ6fkGAQSHJ72vJy0/s=; b=c
-	yJosTxSgI65uFiKESvepvdG+axqYOpqzcBSw173RzBZ8y0gZ2jF/bRLKJvamOLjy
-	OwK21UxWsveR4kEZeCvtkDwzUmF9kuXGj3sL51fH3Mf9C5O5Wa2uVdscrJubNRVm
-	2fjNn3rbiT0MQt9lwYVa+69TOageza/MbWP1k4u/e4ev52Tp8+l3opv3O8wxOy2V
-	J/rPUPZ5Dc+A6wpIjz5OU0DJ6DhSKnFm43Y8Nbto6OgieXGgId+2zX1gA3h10P5v
-	rk0jBvFCJUpWFm8vSuYkHSaZaW1BdrCdZ0ulv1tlx0BgXXHMMw1HJDZvHSlaLq+b
-	MFx4VlRfvWWnWdoUXsWAQ==
+	:reply-to:subject:subject:to:to; s=fm2; t=1703128365; x=
+	1703214765; bh=XWnAqBfJFUH3eglypfU2Un+KkV5x4RHsq5AWEE/Xgd4=; b=D
+	sIP/a4oWU5nZf8wQuvLeM7RrhZXqOpQPXIetN+IuPRdLHFPiN5NQLTlnkhhapz4F
+	YeUKBQ3jeSrMc2JBLE/0tfBzElMn/mhnK16F16+xkS/iAhoJRSMkm2+T61WlcT+Y
+	78GNz7o5D1HaHJoqf6+jKZvgxhGZ0dvlpyNlTCiHClRa/2JwuE+uSwKyXq2R/b23
+	g9VlB3mMSkN/dJQN8jBokiaCTkXA6WD45W7MJOBpChEJPFzr84hWdZhdRULmKpHm
+	9ItGJW+325iNgBvUWr3QRhicrwLd3YxkYsbJsYdT85gSgbQl/z/et9BALc/HKGe1
+	rrj/dYZeUfimVRmEd6nzg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-transfer-encoding
 	:content-type:date:date:feedback-id:feedback-id:from:from
 	:in-reply-to:in-reply-to:message-id:mime-version:references
 	:reply-to:subject:subject:to:to:x-me-proxy:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1703128362; x=
-	1703214762; bh=0bq2fN9Uza31d9KmzZhN4ub+BZ6fkGAQSHJ72vJy0/s=; b=D
-	83CsHQr5+ScJYMlkebknJK35UuIB/f7ctsFeQwITXcqJfm1esXoc8FShSWMzigk4
-	6i3k24bmUL67yZ+F1v6hg4E/N0QKwdHXG2pTI2LkSwjoomR4wHFoj3X4/24tEsHy
-	fbVmPWtBbcanB91F+dvXoWwVhS/BrPx/6Wj1g3Cd2hFWrnbuEOXqALkt4drFtKhu
-	eK91AZf07N0Y2fvkgDISjKyziE8LmcKjISlz5QM5BsfRtdW/y+bA8/sMsuFLMZUG
-	uvr3sxi/C2FgSYdfq8oKapyhlOcbC8Sd1DQ2JxZNAhSvtKEN62tiwIiY5LR4GIsl
-	QCwNV+jRyQ1cWKtwNEI2Q==
-X-ME-Sender: <xms:Kq2DZZYZGokyZ2ibZ-390sFXDXJdv2uSMpIQfMQDZobEgz3PMo08Jg>
-    <xme:Kq2DZQbFV8UhJBzCtKpJJ472IgG6zmzlWqJfJFbRx8SuTa41JVURxNlaSW3aMtmD0
-    TkAik2JWIBw2yeK2xw>
-X-ME-Received: <xmr:Kq2DZb-fSq6IOiVgj0Stv8Wa806ATNE6kscgPBNRR6urGVM74wzY7wnsrsh0AY4iUGzqXN06BMyQKw8Xc_psN-zla0W2yAeK>
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1703128365; x=
+	1703214765; bh=XWnAqBfJFUH3eglypfU2Un+KkV5x4RHsq5AWEE/Xgd4=; b=4
+	82VMzHbmvGNvPCPDE5tsRhSAuQhErnxNP8JyuXF3M4r9gU3qIRKgeocapGqkEJdN
+	tdnBQAuK1qQjhDflEWGW/opB75AzEyARcb21MyweYwJXPp0CPMYHfwK8oRD7k6uJ
+	dc6WymJQFjJ+F9DmIHc8voPfiCXq53Gw3TKl0IMypZnjfpdzd2CwHXxdmdCde584
+	alpOZq4TIzVYrjohv00ooxz7xwomrz5cxRXog+LBkXMLzXFDBUA0X6Y6QdzZgmv/
+	BhPEKcp5QCjt7jAMEQo3Nu3eUdlWMm4H9uQqXqm+y5iFcM2wmbC6WFro/a4Pczst
+	89EgxwfKsn6Q3PHYjI4lw==
+X-ME-Sender: <xms:La2DZZvCaIVcXwgHTXgLCecQ4DGSc35sanMxIB22j-NRQoU_VrNLiQ>
+    <xme:La2DZSc6TAVcniy4w-3sLinNzeK7ixY0rwDwJVlVBQh-IUhwHNLjTxX9_ZMnVksj1
+    NH7XFsp_bKjIMLzKN4>
+X-ME-Received: <xmr:La2DZcwkCCOt-mm8DB0PUBXF2UL31ko10b4jHqkZqshvJC0s4JarRIZnwZ23bNVmMnGQ5AD4JKs_dZA2qLslDkps1OzDPe53>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvkedrvddufedgheejucetufdoteggodetrfdotf
     fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
     uceurghilhhouhhtmecufedttdenucenucfjughrpefhvfevufffkffojghfggfgsedtke
     ertdertddtnecuhfhrohhmpefirghrhicutfhoohhkrghrugcuoehgrghrhihrohhokhgr
     rhgusehfrghsthhmrghilhdrohhrgheqnecuggftrfgrthhtvghrnhepkeeuvdffueduke
     egieeuffejhefgkeetfeehueelfeduuefgveellefhfefgjedvnecuvehluhhsthgvrhfu
-    ihiivgepfeenucfrrghrrghmpehmrghilhhfrhhomhepghgrrhihrhhoohhkrghrugesfh
+    ihiivgepgeenucfrrghrrghmpehmrghilhhfrhhomhepghgrrhihrhhoohhkrghrugesfh
     grshhtmhgrihhlrdhorhhg
-X-ME-Proxy: <xmx:Kq2DZXoKQ2w7GcL9-G8lPN2iU8tEL-GIBOy369TsI8c1mW5aK5DmcQ>
-    <xmx:Kq2DZUrWsARtIR7ga0Bl2k78KaVmSVQcVNYztDzXHTCkHSxCD91GYQ>
-    <xmx:Kq2DZdRV8BhhW5DZPXerIpkw0mQabYIAygLsZC2VcQG5hta-ZNcWUQ>
-    <xmx:Kq2DZRArH_3wBHe4EUzwF_WOBS2cxrjLHu7EO7Ez-okKXNOa_s3Wwg>
+X-ME-Proxy: <xmx:La2DZQNfelSLv2gV46jGIDCkOiqRrDH7P_GkP-CN-0Qx4dyPbohZeA>
+    <xmx:La2DZZ_qflbsW_j5VQ_6o9x-r9mhcGcVsygN2Y1zChQBBfS0yQRppA>
+    <xmx:La2DZQVcT4gjazT8dkJopzgrisJ--aRl9w9zHhFnTELXf8QmFJD0Dw>
+    <xmx:La2DZbknj5jA62IkSTpByBISwpXLgYAGfceiF5fJs0mm8lVwsXRhAA>
 Feedback-ID: ifd194980:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 20 Dec 2023 22:12:42 -0500 (EST)
+ 20 Dec 2023 22:12:44 -0500 (EST)
 From: Gary Rookard <garyrookard@fastmail.org>
 To: grookard@yahoo.com
 Cc: linux-staging@lists.linux.dev,
 	Gary Rookard <garyrookard@fastmail.org>
-Subject: [PATCH 4/5] staging: rtl8192e: rename variable HTSetConnectBwModeCallback
-Date: Wed, 20 Dec 2023 22:12:58 -0500
-Message-ID: <20231221031259.14853-5-garyrookard@fastmail.org>
+Subject: [PATCH 5/5] staging: rtl8192e: rename variable ePeerHTSpecVer
+Date: Wed, 20 Dec 2023 22:12:59 -0500
+Message-ID: <20231221031259.14853-6-garyrookard@fastmail.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20231221031259.14853-1-garyrookard@fastmail.org>
 References: <20231221031259.14853-1-garyrookard@fastmail.org>
@@ -75,33 +75,81 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
 Coding style issue, checkpatch Avoid CamelCase,
-rename it. HTSetConnectBwModeCallback -> ht_set_connect_bw_mode_callback
+rename it. ePeerHTSpecVer -> peer_ht_spec_ver
 
 Signed-off-by: Gary Rookard <garyrookard@fastmail.org>
 ---
- drivers/staging/rtl8192e/rtl819x_HTProc.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/staging/rtl8192e/rtl819x_HT.h     | 2 +-
+ drivers/staging/rtl8192e/rtl819x_HTProc.c | 6 +++---
+ drivers/staging/rtl8192e/rtllib_softmac.c | 4 ++--
+ 3 files changed, 6 insertions(+), 6 deletions(-)
 
+diff --git a/drivers/staging/rtl8192e/rtl819x_HT.h b/drivers/staging/rtl8192e/rtl819x_HT.h
+index 2911ea82dd17..68577bffb936 100644
+--- a/drivers/staging/rtl8192e/rtl819x_HT.h
++++ b/drivers/staging/rtl8192e/rtl819x_HT.h
+@@ -97,7 +97,7 @@ struct rt_hi_throughput {
+ 	u8 cur_bw_40mhz;
+ 	u8 cur_short_gi_40mhz;
+ 	u8 cur_short_gi_20mhz;
+-	enum ht_spec_ver ePeerHTSpecVer;
++	enum ht_spec_ver peer_ht_spec_ver;
+ 	struct ht_capab_ele SelfHTCap;
+ 	u8 PeerHTCapBuf[32];
+ 	u8 PeerHTInfoBuf[32];
 diff --git a/drivers/staging/rtl8192e/rtl819x_HTProc.c b/drivers/staging/rtl8192e/rtl819x_HTProc.c
-index 5698b48fdcc9..ac17d510a2a5 100644
+index ac17d510a2a5..6d0912f90198 100644
 --- a/drivers/staging/rtl8192e/rtl819x_HTProc.c
 +++ b/drivers/staging/rtl8192e/rtl819x_HTProc.c
-@@ -633,7 +633,7 @@ u8 ht_c_check(struct rtllib_device *ieee, u8 *pFrame)
- 	return false;
- }
+@@ -240,7 +240,7 @@ void ht_construct_capability_element(struct rtllib_device *ieee, u8 *pos_ht_cap,
+ 	}
+ 	memset(pos_ht_cap, 0, *len);
  
--static void HTSetConnectBwModeCallback(struct rtllib_device *ieee)
-+static void ht_set_connect_bw_mode_callback(struct rtllib_device *ieee)
- {
- 	struct rt_hi_throughput *ht_info = ieee->ht_info;
+-	if ((assoc) && (ht->ePeerHTSpecVer == HT_SPEC_VER_EWC)) {
++	if ((assoc) && (ht->peer_ht_spec_ver == HT_SPEC_VER_EWC)) {
+ 		static const u8	EWC11NHTCap[] = { 0x00, 0x90, 0x4c, 0x33 };
  
-@@ -695,5 +695,5 @@ void ht_set_connect_bw_mode(struct rtllib_device *ieee,
+ 		memcpy(pos_ht_cap, EWC11NHTCap, sizeof(EWC11NHTCap));
+@@ -525,7 +525,7 @@ void ht_initialize_ht_info(struct rtllib_device *ieee)
  
- 	ht_info->sw_bw_in_progress = true;
+ 	ht_info->sw_bw_in_progress = false;
  
--	HTSetConnectBwModeCallback(ieee);
-+	ht_set_connect_bw_mode_callback(ieee);
- }
+-	ht_info->ePeerHTSpecVer = HT_SPEC_VER_IEEE;
++	ht_info->peer_ht_spec_ver = HT_SPEC_VER_IEEE;
+ 
+ 	ht_info->current_rt2rt_aggregation = false;
+ 	ht_info->current_rt2rt_long_slot_time = false;
+@@ -569,7 +569,7 @@ void ht_reset_self_and_save_peer_setting(struct rtllib_device *ieee,
+ 	 */
+ 	if (pNetwork->bssht.bd_support_ht) {
+ 		ht_info->current_ht_support = true;
+-		ht_info->ePeerHTSpecVer = pNetwork->bssht.bd_ht_spec_ver;
++		ht_info->peer_ht_spec_ver = pNetwork->bssht.bd_ht_spec_ver;
+ 
+ 		if (pNetwork->bssht.bd_ht_cap_len > 0 &&
+ 		    pNetwork->bssht.bd_ht_cap_len <= sizeof(ht_info->PeerHTCapBuf))
+diff --git a/drivers/staging/rtl8192e/rtllib_softmac.c b/drivers/staging/rtl8192e/rtllib_softmac.c
+index 14f34e6a591a..953222d57f0e 100644
+--- a/drivers/staging/rtl8192e/rtllib_softmac.c
++++ b/drivers/staging/rtl8192e/rtllib_softmac.c
+@@ -866,7 +866,7 @@ rtllib_association_req(struct rtllib_network *beacon,
+ 		tag += osCcxVerNum.Length;
+ 	}
+ 	if (ieee->ht_info->current_ht_support && ieee->ht_info->enable_ht) {
+-		if (ieee->ht_info->ePeerHTSpecVer != HT_SPEC_VER_EWC) {
++		if (ieee->ht_info->peer_ht_spec_ver != HT_SPEC_VER_EWC) {
+ 			tag = skb_put(skb, ht_cap_len);
+ 			*tag++ = MFIE_TYPE_HT_CAP;
+ 			*tag++ = ht_cap_len - 2;
+@@ -900,7 +900,7 @@ rtllib_association_req(struct rtllib_network *beacon,
+ 	}
+ 
+ 	if (ieee->ht_info->current_ht_support && ieee->ht_info->enable_ht) {
+-		if (ieee->ht_info->ePeerHTSpecVer == HT_SPEC_VER_EWC) {
++		if (ieee->ht_info->peer_ht_spec_ver == HT_SPEC_VER_EWC) {
+ 			tag = skb_put(skb, ht_cap_len);
+ 			*tag++ = MFIE_TYPE_GENERIC;
+ 			*tag++ = ht_cap_len - 2;
 -- 
 2.43.0
 
