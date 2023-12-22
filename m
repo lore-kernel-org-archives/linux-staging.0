@@ -1,98 +1,91 @@
-Received: from mail-oi1-f180.google.com (mail-oi1-f180.google.com [209.85.167.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 578CE2E825
-	for <linux-staging@lists.linux.dev>; Fri, 22 Dec 2023 20:04:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B9082E82C;
+	Fri, 22 Dec 2023 20:13:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aiKG0skW"
-Received: by mail-oi1-f180.google.com with SMTP id 5614622812f47-3b9f8c9307dso1883723b6e.0
-        for <linux-staging@lists.linux.dev>; Fri, 22 Dec 2023 12:04:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1703275446; x=1703880246; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=Z5DKwbg4XD2gV+sjQTXut6IiDwsF80T3W1JqgBXYfc8=;
-        b=aiKG0skWWfLrFdeMi3m90HBi3GwKAoULGrBnfeq+LdKNsUeM/Tzco/8IsIOIquooo2
-         L/umVruHn1n8ScN7QrJv1k3IQcgc8t/Sl5GUQgj1NhWIyeBwD+mhn+jI3RaMWnjM2UmM
-         8Z1PQw7NtwXOJ9/D3bVjC8Aa12umDjYlz7Xd8bAUtIidJ1Xlpf9+GJACz/IqjpAJZqNh
-         ShdtiuCoovCPGk2LXZi3hidj/+TDTyN67lHTYns5/lgCPlWRxB8g1yswXn+tsPb1fQiT
-         gUrpCTgYI3lf7ocLcPwg06+HbvjKuS5XYd9S8adZCbgDQfi/X1s9/8HBAAQo8Xt/T18P
-         qc+g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1703275446; x=1703880246;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Z5DKwbg4XD2gV+sjQTXut6IiDwsF80T3W1JqgBXYfc8=;
-        b=dUtHvJpBJD1ZJezZjapng9KXtVwvulKKzLM8WguzzVZyHp78WONOV6paDbDVRR6VOW
-         zlsCDYeFyh+6qaNb1YzhosCjTA/Uy6ld5HeUru875qY7Lxxz07eQ4eMDo5kmLgDRtDMN
-         k+8TZ14BI/sQ0MhHjKNuqF+LYJ/ddCKsaUAnvmT43rdYLVPBKXlhHkw4mL13F5pchlSa
-         yJP9q90GCR+YS/aNYlNzYDepMVW+lUHAOxTiqq8y+2wJYsTtpvKoMJriOAtMzVLIMlGz
-         +KLLOGMeDc6KsgIV9FEnqmXCfybBRlAAJ6JMQbKRik6dlekbLpHu+CpbMa3Dk1XUr8OQ
-         C9Zg==
-X-Gm-Message-State: AOJu0YxaiGp8hVLz5UPATNOqD338phodJ0FWUaG1Ff/pNz38lThwiGbW
-	yg0PIfKfE4pXYcz++r0W/q4=
-X-Google-Smtp-Source: AGHT+IGI+TxAGisu6bOpbKbHegQHk0kyWT7zWdfFSEsiGmXu5WjJvdAC+X2rqKb9XwCMmp7IWwGZSQ==
-X-Received: by 2002:a05:6358:2799:b0:174:d909:c8da with SMTP id l25-20020a056358279900b00174d909c8damr794152rwb.39.1703275446271;
-        Fri, 22 Dec 2023 12:04:06 -0800 (PST)
-Received: from ubuntu.. ([202.166.220.102])
-        by smtp.gmail.com with ESMTPSA id fw2-20020a17090b128200b0028c2844d285sm160945pjb.49.2023.12.22.12.04.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 22 Dec 2023 12:04:05 -0800 (PST)
-From: Dipendra Khadka <kdipendra88@gmail.com>
-To: hdegoede@redhat.com,
-	mchehab@kernel.org,
-	sakari.ailus@linux.intel.com,
-	gregkh@linuxfoundation.org,
-	hpa@redhat.com
-Cc: Dipendra Khadka <kdipendra88@gmail.com>,
-	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] staging: media: atomisp: pci: Fix spelling mistake in ia_css_acc_types.h
-Date: Fri, 22 Dec 2023 20:03:50 +0000
-Message-Id: <20231222200350.2024-1-kdipendra88@gmail.com>
-X-Mailer: git-send-email 2.34.1
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="mPCLNIM4"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=/d+bOWiLS2zpYXu44Yy7agXQEE36dItjoCdXoMMpM7w=; b=mPCLNIM4BZ4Anh0o/fU52Fj/Mv
+	r5kKzze2CxPr6O/MeHn4fxpNnQzVHuyqH4U5ayutNm5WuZC6YKQQqi20jtbDEytQ5E9hkc+DlyhLk
+	vpUImVY9ocVCTrtWnul5Qvrxxi9u64C5U+ezb65/GOSuL3vTj1Rg/9cLzcGbJp1mEa+7bS3q7ZoQX
+	kd1WsYmRAdo27n0JrsZodJjxi3EnVzS2wqTsTZzmAzoDUW+po/g2mXesGZHM3I5077N9p0ktwfYZn
+	6/uWkmOmAu8VNkwl2OorjHXzUWg8oZS2oA6kbTCIAgeBe7HziLF2qQjWBGOVpG7ti9dgAy+dMso2/
+	DrVRmeYw==;
+Received: from [50.53.46.231] (helo=[192.168.254.15])
+	by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
+	id 1rGltC-006nkP-1c;
+	Fri, 22 Dec 2023 20:12:58 +0000
+Message-ID: <b4ad9a64-53cf-449a-aa18-d19ff3c72c52@infradead.org>
+Date: Fri, 22 Dec 2023 12:12:58 -0800
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] staging: media: atomisp: pci: Fix spelling mistake in
+ ia_css_acc_types.h
+Content-Language: en-US
+To: Dipendra Khadka <kdipendra88@gmail.com>, hdegoede@redhat.com,
+ mchehab@kernel.org, sakari.ailus@linux.intel.com,
+ gregkh@linuxfoundation.org, hpa@redhat.com
+Cc: linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+References: <20231222200350.2024-1-kdipendra88@gmail.com>
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20231222200350.2024-1-kdipendra88@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-The script checkpatch.pl reported a spelling error
-in ia_css_acc_types.h as below:
+Hi--
 
-'''
-WARNING: 'cummulative' may be misspelled - perhaps 'cumulative'?
-        u32 padding_size;       /** total cummulative of bytes added due to section alignment */
-                                          ^^^^^^^^^^^
-'''
+On 12/22/23 12:03, Dipendra Khadka wrote:
+> The script checkpatch.pl reported a spelling error
+> in ia_css_acc_types.h as below:
+> 
+> '''
+> WARNING: 'cummulative' may be misspelled - perhaps 'cumulative'?
+>         u32 padding_size;       /** total cummulative of bytes added due to section alignment */
+>                                           ^^^^^^^^^^^
+> '''
+> 
+> This patch corrects a spelling error,
+> changing "cummulative" to "cumulative".
+> 
 
-This patch corrects a spelling error,
-changing "cummulative" to "cumulative".
+'codespell' reports this one as well:
 
-Signed-off-by: Dipendra Khadka <kdipendra88@gmail.com>
----
- drivers/staging/media/atomisp/pci/ia_css_acc_types.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+drivers/staging/media/atomisp/pci/ia_css_acc_types.h:411: descibes ==> describes
 
-diff --git a/drivers/staging/media/atomisp/pci/ia_css_acc_types.h b/drivers/staging/media/atomisp/pci/ia_css_acc_types.h
-index d6e52b4971d6..ac6fb0eb990a 100644
---- a/drivers/staging/media/atomisp/pci/ia_css_acc_types.h
-+++ b/drivers/staging/media/atomisp/pci/ia_css_acc_types.h
-@@ -84,7 +84,7 @@ struct ia_css_blob_info {
- 		memory_offsets;  /** offset wrt hdr in bytes */
- 	u32 prog_name_offset;  /** offset wrt hdr in bytes */
- 	u32 size;			/** Size of blob */
--	u32 padding_size;	/** total cummulative of bytes added due to section alignment */
-+	u32 padding_size;	/** total cumulative of bytes added due to section alignment */
- 	u32 icache_source;	/** Position of icache in blob */
- 	u32 icache_size;	/** Size of icache section */
- 	u32 icache_padding;/** bytes added due to icache section alignment */
+Thanks.
+
+> Signed-off-by: Dipendra Khadka <kdipendra88@gmail.com>
+> ---
+>  drivers/staging/media/atomisp/pci/ia_css_acc_types.h | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/staging/media/atomisp/pci/ia_css_acc_types.h b/drivers/staging/media/atomisp/pci/ia_css_acc_types.h
+> index d6e52b4971d6..ac6fb0eb990a 100644
+> --- a/drivers/staging/media/atomisp/pci/ia_css_acc_types.h
+> +++ b/drivers/staging/media/atomisp/pci/ia_css_acc_types.h
+> @@ -84,7 +84,7 @@ struct ia_css_blob_info {
+>  		memory_offsets;  /** offset wrt hdr in bytes */
+>  	u32 prog_name_offset;  /** offset wrt hdr in bytes */
+>  	u32 size;			/** Size of blob */
+> -	u32 padding_size;	/** total cummulative of bytes added due to section alignment */
+> +	u32 padding_size;	/** total cumulative of bytes added due to section alignment */
+>  	u32 icache_source;	/** Position of icache in blob */
+>  	u32 icache_size;	/** Size of icache section */
+>  	u32 icache_padding;/** bytes added due to icache section alignment */
+
 -- 
-2.34.1
-
+#Randy
+https://people.kernel.org/tglx/notes-about-netiquette
+https://subspace.kernel.org/etiquette.html
