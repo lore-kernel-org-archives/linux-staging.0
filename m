@@ -1,35 +1,35 @@
 Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F35EF9D6;
-	Fri, 22 Dec 2023 08:47:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17647C8D4;
+	Fri, 22 Dec 2023 08:53:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="0gr5ACid";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="+33bxCiP"
-Date: Fri, 22 Dec 2023 09:47:35 +0100
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="DeOknbP3";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="07bJfujK"
+Date: Fri, 22 Dec 2023 09:52:59 +0100
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1703234856;
+	s=2020; t=1703235180;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
 	bh=QZXloMgiRAVOPGoz8o3+D3AfE1mP2CVP2wrPR3Txq90=;
-	b=0gr5ACidvRLvpLg/q2J3xJbOGrbO2/gkpDdGk+ZaIgEF/ddU+qnZZvvkYC+JUcZMHPYJV7
-	Zkja0fO0kTxDqVCgmY3D08X9hkUtN0zfzvrrviW/M6Qk+I44y38FyzMgk+n0zILYTxMgM2
-	FNYdEuUTeUsgPXXyUBDmUWAV90EUWNSmX7Y+egQpSvh4/iz0NzBFrPck71+RFpv3T+5Log
-	hyrTJIthTPMgyZb22BvC19J9gPIj+AZiKN4pheXToc4p9PK4dSklivV55JCxRTdv1pK7Lc
-	4J4JDgivMySb9RmraUznyz8SOzXCBV3uKTQmkv3CBESSkvQiMPxTPOC15d0sxA==
+	b=DeOknbP32wPly1lxHHUwpkQwFo5JYFNCAfabmS89lHve80HRgvb9qfYzCLAIM5Holl42Gg
+	+E6QU+hZ8/iuUhosE5DlNXDDDwBOzoSqsUH6d8JWk/BKyh9TSrgF0IJb7xqM0fg8JpxcV5
+	PMtljzUAXChM/dRfxrhqQ+8BeHjkrbJ29lQujWQ+YLUCfh1moCzFfRuJXcVpmlXALMryhU
+	kq6xG7QO54lt0bENADixnD8FCtza9BO3nWPC1RuEXtL6r96jB+6XUr+iYNrTlptEy7avNe
+	nxE0YYi7kdGHfbYmAwaBrBlm90TfCsn3VhPBleMy9VvdqiwQb017vEnn2hBvLQ==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1703234856;
+	s=2020e; t=1703235180;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
 	bh=QZXloMgiRAVOPGoz8o3+D3AfE1mP2CVP2wrPR3Txq90=;
-	b=+33bxCiPWOX1ZNUhk68sHH7mSW0kn6EtiMx7vuWuzh7SzaOChfeVw9dryi3RAE/DZOujlA
-	tdsYDlw4HUWY0mDw==
+	b=07bJfujKq7VXX9O0XCx8hI2QOL8Zd4st/APr85k24IXoH+Hgyad2TfVLpdwuuo8W/P1pUB
+	KyPd3fC+DIVu8fCg==
 From: Nam Cao <namcao@linutronix.de>
 To: Ryan England <rcengland@gmail.com>
 Cc: Larry Finger <Larry.Finger@lwfinger.net>, Florian Schilhabel
@@ -37,7 +37,7 @@ Cc: Larry Finger <Larry.Finger@lwfinger.net>, Florian Schilhabel
  <gregkh@linuxfoundation.org>, linux-staging@lists.linux.dev,
  linux-kernel@vger.kernel.org, outreachy@lists.linux.dev
 Subject: Re: [PATCH v2] staging: rtl8712: fix open parentheses alignment
-Message-ID: <20231222094735.5554b67a@namcao>
+Message-ID: <20231222095259.75f145cf@namcao>
 In-Reply-To: <ZYSemFbzTlgLROMc@kernel.ryanengland.xyz>
 References: <ZYSemFbzTlgLROMc@kernel.ryanengland.xyz>
 Precedence: bulk
