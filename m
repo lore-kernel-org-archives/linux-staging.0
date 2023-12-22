@@ -1,99 +1,111 @@
-Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
+Received: from mail-ot1-f54.google.com (mail-ot1-f54.google.com [209.85.210.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 448412FC46
-	for <linux-staging@lists.linux.dev>; Fri, 22 Dec 2023 20:15:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47F752E841
+	for <linux-staging@lists.linux.dev>; Fri, 22 Dec 2023 20:29:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="juM/LxPg"
-Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-1d4006b2566so15258605ad.0
-        for <linux-staging@lists.linux.dev>; Fri, 22 Dec 2023 12:15:18 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UrzMRiiO"
+Received: by mail-ot1-f54.google.com with SMTP id 46e09a7af769-6dbd445f395so16380a34.2
+        for <linux-staging@lists.linux.dev>; Fri, 22 Dec 2023 12:29:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1703276117; x=1703880917; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=XLrEctJKTdv+9DQYIiqT5d8pIz5ARZucJNkVZeQocxI=;
-        b=juM/LxPg/KNsJHPOBjOZkyqyXNiCS/Jx0SOQmA6S+fU0EZnG2EB7bhzMLZ9nCFL5W3
-         Bf7tctqCIes52/X/8LI0z8OWOV0HAQ43JErrlUv8ggumFqaFl4Fc5hFOteHPbROZHcC3
-         BGKWEsg0YqU5PQxN5DzlPOkOUv3p3OfqsiDMeeh9D4yUthujxe7OHYiLLtpvoSuulXLa
-         Ybk/cUvWIpTz1x+1D1or7ijcOM+YYtRlVac4fzy257KNoufc9tx5VbQIu5N7bGp8k3O9
-         WJ5Ppni5PaKRwcVkKsI0KEmZiM01Bce0MJqjSlmoGRCIYjmh8sMMS3LZA0+OYmsJUAEh
-         vJJg==
+        d=gmail.com; s=20230601; t=1703276964; x=1703881764; darn=lists.linux.dev;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=Ma5xrM90AVaZ9gvSq4/3m7j8Wtpi322oe0vwjTHYLoY=;
+        b=UrzMRiiOiGBupWzG3V6c/XtTbvTF5IoqZ2tIxAPFjLGivCqPxhjR65NmVlLuqExyCq
+         boRrsTemyMSaKHUmpK2tgzQB55fU/gCUVXCEhYg8PXMKUbsFvsXxnCgqbOGf/EqBn6i9
+         P2WLmOm6MZFqb1Yb9ffWK2csgogBlCLjM8VxvnR9fvWOoQW6L9U1YHwOeNkrAmr5d4Or
+         xqlokuu0s2V9jlvH4++D9UAp1WhZ4Y/nYjYzB3IGL5RISedgYYmBQOE0Whl+W5AHdvdQ
+         6pCtiIEHuXoLJNNRKqmIjxcglZydJwpRIyJX7Qh1E7PBjTyaL2R6q7cS2Dumln1wd9LR
+         HpvA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1703276117; x=1703880917;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20230601; t=1703276964; x=1703881764;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=XLrEctJKTdv+9DQYIiqT5d8pIz5ARZucJNkVZeQocxI=;
-        b=xDF5vjxuORAAqW91PPT3NAQ3E0xzhGZbKXH//1x0+H9tFNgZFyXcwkYxdjR/1pEwnt
-         hsuB4umundJaS2JOLpxXuKN8l0tFG5Wa929zeYBUDsa9NdIa8A6kWPHRUpRLnGVuX3pd
-         JMq3wzpnjyFjmmxwHDjhLVlo5oV+fRrm553cSw4fjh5DYD0Rp6w4B8azFaEpYfOGEGC+
-         kxf5Mfwas3kL+B7zWgWJRA/uEMpz7mOq6SX+bcBuBi74Blxl9Nxo2BTAUGy15MEkPPmw
-         0W8sB8sU9Gir5tXwgfUpLJIrUHMjWa7hdePjAVJY6XFuFksoC9f/SeCPYHtJBU9yeVXC
-         lodA==
-X-Gm-Message-State: AOJu0YxvHrm2GOgolmk2PqmAoAkoZdO6mZn0LrLgutsME9vRE7o0XHPJ
-	DwhY3/HpWp6m06Iretk5BPk=
-X-Google-Smtp-Source: AGHT+IEIokT7TBCD1z0pxoBMQ+BF23UOr1l/aVdCm8o0pnIaamekIXFExQ3ix1pzgG1NcmHoUDZFlw==
-X-Received: by 2002:a17:902:7085:b0:1d4:8c4:5e07 with SMTP id z5-20020a170902708500b001d408c45e07mr1149471plk.23.1703276112357;
-        Fri, 22 Dec 2023 12:15:12 -0800 (PST)
-Received: from ubuntu.. ([202.166.220.102])
-        by smtp.gmail.com with ESMTPSA id b16-20020a170903229000b001cc1dff5b86sm3792746plh.244.2023.12.22.12.15.08
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 22 Dec 2023 12:15:12 -0800 (PST)
-From: Dipendra Khadka <kdipendra88@gmail.com>
-To: hdegoede@redhat.com,
-	mchehab@kernel.org,
-	sakari.ailus@linux.intel.com,
-	gregkh@linuxfoundation.org,
-	hpa@redhat.com
-Cc: Dipendra Khadka <kdipendra88@gmail.com>,
-	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	linux-kernel-mentees@lists.linuxfoundation.org
-Subject: [PATCH] staging: media: atomisp: pci: Fix spelling mistake in isp2400_input_system_global.h
-Date: Fri, 22 Dec 2023 20:15:03 +0000
-Message-Id: <20231222201503.2337-1-kdipendra88@gmail.com>
-X-Mailer: git-send-email 2.34.1
+        bh=Ma5xrM90AVaZ9gvSq4/3m7j8Wtpi322oe0vwjTHYLoY=;
+        b=B45i9DkU2wMVN2/kaZLMHhS37+laG+m/99gSKj2YICefv/yVvwRxCUBF2x71riDbxN
+         LtyO995WcYQayxZ5/fSVVnIJERBnmX+csv0aFFQvp7PuCupmCq2ixz8F8vG0aVcmWhS6
+         L+w0sblQwVfO6VUm4OZLBmtWVuXfq/2yucyRK7z60A/q5SldP8Lw103tAixFaRgYez+p
+         tMGn/LWglbt/Du7Q/Lp7ovnsm+h3L7BEr128ySC2IS+vKsmMr6f4NLeRR5sJ4+Stal3u
+         lqhPRJF5jDPJMib8xMvRKZV1BTcCcy6ex+3mRPUNUO9nJ7shmNW69/XA+t5iJYQHeTR0
+         G8Jw==
+X-Gm-Message-State: AOJu0Yyg0Hx8GM0RbXs3vAtDQJdscycOu+X27dA1yuxfsLQoqUHfE7MK
+	mtjFvBYrJLEFIyTQIAG3yGOxMusDtxkXGlmWf/w=
+X-Google-Smtp-Source: AGHT+IEsIZ+rGop40x8sg+JUQu1HomFUt1JRxpCMluno/bDXoAig9/vIAsdBJPvCyV2nKOBjRgUQBqNs44KX21GqnQg=
+X-Received: by 2002:a05:6830:1190:b0:6db:c20f:9070 with SMTP id
+ u16-20020a056830119000b006dbc20f9070mr1415779otq.31.1703276964657; Fri, 22
+ Dec 2023 12:29:24 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20231222200350.2024-1-kdipendra88@gmail.com> <b4ad9a64-53cf-449a-aa18-d19ff3c72c52@infradead.org>
+In-Reply-To: <b4ad9a64-53cf-449a-aa18-d19ff3c72c52@infradead.org>
+From: Dipendra Khadka <kdipendra88@gmail.com>
+Date: Sat, 23 Dec 2023 02:14:13 +0545
+Message-ID: <CAEKBCKO4uGKxXPZHO9iqYZ_8ibgY3HS3C8Rsogcv1XU+qGkudA@mail.gmail.com>
+Subject: Re: [PATCH] staging: media: atomisp: pci: Fix spelling mistake in ia_css_acc_types.h
+To: Randy Dunlap <rdunlap@infradead.org>
+Cc: hdegoede@redhat.com, mchehab@kernel.org, sakari.ailus@linux.intel.com, 
+	gregkh@linuxfoundation.org, hpa@redhat.com, linux-media@vger.kernel.org, 
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-The script checkpatch.pl reported a spelling error
-in isp2400_input_system_global.h as below:
+On Sat, 23 Dec 2023 at 01:57, Randy Dunlap <rdunlap@infradead.org> wrote:
+>
+> Hi--
+>
+> On 12/22/23 12:03, Dipendra Khadka wrote:
+> > The script checkpatch.pl reported a spelling error
+> > in ia_css_acc_types.h as below:
+> >
+> > '''
+> > WARNING: 'cummulative' may be misspelled - perhaps 'cumulative'?
+> >         u32 padding_size;       /** total cummulative of bytes added due to section alignment */
+> >                                           ^^^^^^^^^^^
+> > '''
+> >
+> > This patch corrects a spelling error,
+> > changing "cummulative" to "cumulative".
+> >
+>
+> 'codespell' reports this one as well:
+>
+> drivers/staging/media/atomisp/pci/ia_css_acc_types.h:411: descibes ==> describes
+>
+> Thanks.
+>
 
-'''
-WARNING: 'upto' may be misspelled - perhaps 'up to'?
-//MIPI allows upto 4 channels.
-              ^^^^
-'''
+Thanks for the reply. Do you want the spelling mistakes reported by
+codespell in the same patch with this change as well or you will
+consider
+it in the next patch?
 
-This patch corrects a spelling error,
-changing "upto" to "up to".
-
-Signed-off-by: Dipendra Khadka <kdipendra88@gmail.com>
----
- drivers/staging/media/atomisp/pci/isp2400_input_system_global.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/staging/media/atomisp/pci/isp2400_input_system_global.h b/drivers/staging/media/atomisp/pci/isp2400_input_system_global.h
-index 61f23814e2fd..3ff61faf0621 100644
---- a/drivers/staging/media/atomisp/pci/isp2400_input_system_global.h
-+++ b/drivers/staging/media/atomisp/pci/isp2400_input_system_global.h
-@@ -19,7 +19,7 @@
- #define		N_CSI_PORTS (3)
- //AM: Use previous define for this.
- 
--//MIPI allows upto 4 channels.
-+//MIPI allows up to 4 channels.
- #define		N_CHANNELS  (4)
- // 12KB = 256bit x 384 words
- #define		IB_CAPACITY_IN_WORDS (384)
--- 
-2.34.1
-
+> > Signed-off-by: Dipendra Khadka <kdipendra88@gmail.com>
+> > ---
+> >  drivers/staging/media/atomisp/pci/ia_css_acc_types.h | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> >
+> > diff --git a/drivers/staging/media/atomisp/pci/ia_css_acc_types.h b/drivers/staging/media/atomisp/pci/ia_css_acc_types.h
+> > index d6e52b4971d6..ac6fb0eb990a 100644
+> > --- a/drivers/staging/media/atomisp/pci/ia_css_acc_types.h
+> > +++ b/drivers/staging/media/atomisp/pci/ia_css_acc_types.h
+> > @@ -84,7 +84,7 @@ struct ia_css_blob_info {
+> >               memory_offsets;  /** offset wrt hdr in bytes */
+> >       u32 prog_name_offset;  /** offset wrt hdr in bytes */
+> >       u32 size;                       /** Size of blob */
+> > -     u32 padding_size;       /** total cummulative of bytes added due to section alignment */
+> > +     u32 padding_size;       /** total cumulative of bytes added due to section alignment */
+> >       u32 icache_source;      /** Position of icache in blob */
+> >       u32 icache_size;        /** Size of icache section */
+> >       u32 icache_padding;/** bytes added due to icache section alignment */
+>
+> --
+> #Randy
+> https://people.kernel.org/tglx/notes-about-netiquette
+> https://subspace.kernel.org/etiquette.html
