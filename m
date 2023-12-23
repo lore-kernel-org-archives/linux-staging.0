@@ -1,47 +1,47 @@
-Received: from mail-il1-f177.google.com (mail-il1-f177.google.com [209.85.166.177])
+Received: from mail-il1-f176.google.com (mail-il1-f176.google.com [209.85.166.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B020802
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22264817
 	for <linux-staging@lists.linux.dev>; Sat, 23 Dec 2023 01:59:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=darkphysics.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=darkphysics.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=darkphysics.net header.i=@darkphysics.net header.b="jovgoClu"
-Received: by mail-il1-f177.google.com with SMTP id e9e14a558f8ab-35fb39c9dcaso8970905ab.2
+	dkim=pass (2048-bit key) header.d=darkphysics.net header.i=@darkphysics.net header.b="jTIJQG2h"
+Received: by mail-il1-f176.google.com with SMTP id e9e14a558f8ab-35d77fb7d94so9914965ab.0
         for <linux-staging@lists.linux.dev>; Fri, 22 Dec 2023 17:59:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=darkphysics.net; s=google; t=1703296786; x=1703901586; darn=lists.linux.dev;
+        d=darkphysics.net; s=google; t=1703296787; x=1703901587; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=OQy2sloRPBS+5sAQ/YWqlyAxRk9/nFXvBjKhePgocQQ=;
-        b=jovgoCluwIphh4XOJnjXixU5TATIEmCXbfOorXV3uUpsqYNjLjcWC5NNTmPF9Mjuzo
-         2e7721cji0TA4ci+aPicPWfdoKWdO2vvAFCv2EpmoTopFc30DQT8dj49t3aapKZo2Il2
-         IPat2KfUTTW5KE9dwQTPgyj9/C27SQbYlYBwDUPtnpgP5zXMrydnp2DMrJOKgk+s6zeD
-         VPHowZGr2t7cVZEgalY7+7hsXjbjZDGz6pc4sDeKE/qmtyjobDnVu3pza3psZoWjw9nF
-         kAuACneYDxSG16SGvnEsS+kn75zxBAnMh3bmTAJpCQj3BNbVziDmHsibvU1NUyJjD6WU
-         Qc9Q==
+        bh=hwGDDgTKCqE/SRFB8yFUCtVd+D/7s93vO8AaImjZvSM=;
+        b=jTIJQG2hBCkgbcwgpS9Gi5C8h3061KLngYTTIcrsb4nn3de+tJXoV/ije5zm8uKw6O
+         zODkkfHI3HdO5eFoelXGZqQHoaxelU+O8pd8PyhQxArPwzFddTnK/ZmJ5VKypMgj8XaR
+         WrR1gel5QnYMSI8dKEP5/wOX+BMQJ0Djy3Pw2LZLdWLXSgJDUb9m9nZTbQz8Fz/HrnyD
+         VLW5XHi/G+wW8Z5sKLwf6/3MbV0Y4Z1bFViiDEas1qjswLMValRwB1B9ltf/Sm0Y0+Qo
+         dGvT6CUZ8hOLScSTM+AD1GNI0WX+6A3mk2Q2CYTZYY4BycEu19lQFH+ohc/J/oZlCwJp
+         76mw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1703296786; x=1703901586;
+        d=1e100.net; s=20230601; t=1703296787; x=1703901587;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=OQy2sloRPBS+5sAQ/YWqlyAxRk9/nFXvBjKhePgocQQ=;
-        b=chLEEvBZD1c5hN77OTeUaf+i1c3r2dNupxwSWwIgzrA7KjkpS+d1louY5egUa7YR+E
-         rCTboYnY1YBC/Oc6sBG51oSljQKPmH9mbgCO2PUIr8I5Yr83kmN8nbnAD/RIDn0vA1V0
-         jABBY7duzLYLuPGDzqd/6OKRzNLfohVGPF065LboHaGaC2ci0LrC0kJ2CCXNPvsmWLwU
-         TULdcjWMSPh59iinu4nFsQ6IikZkQTF0eBCBw8t+Z5rMwFo87h9YbMWbZh5T07ccmL0e
-         t7fdUiSSQJo7IzY6kCipgGUp6NaOBBQvwg21NFiEWq4QR/k92T4VTMIZKmBHB2IwWnxP
-         Fp4g==
-X-Gm-Message-State: AOJu0Yw4Kneskd1UUhhTbfOD9RxN9NMJpe4swtKKjEDokIZ1WRrCNYtb
-	sZRofFHfVPU7MKG18QyF+GrNkzk+aUVJz9+WH3g/RdrzN7U=
-X-Google-Smtp-Source: AGHT+IFQyLpqVpmR9kVWJbrOmb5xX3iPD7O+ccWEvcCW8fzlF2R+aXIa3ArbcU7Kb29zxd9UnRuEUQ==
-X-Received: by 2002:a92:cda9:0:b0:35d:6227:4f03 with SMTP id g9-20020a92cda9000000b0035d62274f03mr2780374ild.7.1703296786409;
-        Fri, 22 Dec 2023 17:59:46 -0800 (PST)
+        bh=hwGDDgTKCqE/SRFB8yFUCtVd+D/7s93vO8AaImjZvSM=;
+        b=vAFJaVBBrv+8X4HVnry09FiqTE5Z5KP5qfnGuMiWOa9o3x2/TXYW1PUB9Y2emqO75r
+         AQ4nHJaJjE9TuBvfm+IrNA+FlEDYjnB1kAFAjvV7CIKPoCHfN+NK2/ZJZQaiW2c828iQ
+         KUuYWYftToK0uc5+S7lX+lFhJXCBVEtLcvTygjMst89bE168q2RNGp35hmC2utHNVsRg
+         OkbktUxbVuYxad3i0iEwtB17CrAAuAPZ+G+IvRdBq2p85ttTUJwmRJdWDL8JragnfYil
+         UuH3yfg6iCHTcQ+LHG+i/AtBNT6rumpFEFSOj6xWzi+/I2QZRAU4ArKMeu3MQsHdqdaX
+         VqCw==
+X-Gm-Message-State: AOJu0YyGwJnbLVEqsDP5v5i15z6U0UJ3tnb8oS/ptkGBFQV90WY8zy5P
+	5+U1WK5IKeu2eIRcZQwmGshQNM1AMwXhwA==
+X-Google-Smtp-Source: AGHT+IGU+bU6RpIM/OOcpaNDG6iNUJDjSy2tTUC8B5bDjod7aaglkBuT5fVifB7W30s5vMpOx0QRQg==
+X-Received: by 2002:a05:6e02:148d:b0:35f:df71:423c with SMTP id n13-20020a056e02148d00b0035fdf71423cmr2134241ilk.59.1703296787380;
+        Fri, 22 Dec 2023 17:59:47 -0800 (PST)
 Received: from oatmeal.darkphysics (c-76-146-178-2.hsd1.wa.comcast.net. [76.146.178.2])
-        by smtp.gmail.com with ESMTPSA id kg15-20020a170903060f00b001d3edef115dsm4106546plb.20.2023.12.22.17.59.45
+        by smtp.gmail.com with ESMTPSA id kg15-20020a170903060f00b001d3edef115dsm4106546plb.20.2023.12.22.17.59.46
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 22 Dec 2023 17:59:45 -0800 (PST)
+        Fri, 22 Dec 2023 17:59:46 -0800 (PST)
 From: Tree Davies <tdavies@darkphysics.net>
 To: gregkh@linuxfoundation.org,
 	philipp.g.hortmann@gmail.com,
@@ -49,9 +49,9 @@ To: gregkh@linuxfoundation.org,
 Cc: linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Tree Davies <tdavies@darkphysics.net>
-Subject: [PATCH 01/20] Staging: rtl8192e: Remove unnecessary braces from MgntQuery_MgntFrameTxRate()
-Date: Fri, 22 Dec 2023 17:59:23 -0800
-Message-Id: <20231223015942.418263-2-tdavies@darkphysics.net>
+Subject: [PATCH 02/20] Staging: rtl8192e: Remove unnecessary parenthesis in rtllib_softmac_new_net()
+Date: Fri, 22 Dec 2023 17:59:24 -0800
+Message-Id: <20231223015942.418263-3-tdavies@darkphysics.net>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20231223015942.418263-1-tdavies@darkphysics.net>
 References: <20231223015942.418263-1-tdavies@darkphysics.net>
@@ -63,29 +63,27 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Remove braces from if statement to fix checkpatch WARNING:
-'braces {} are not necessary for single statement blocks'
+Remove parentheses to fix checkpatch Warning:
+Unnecessary parentheses around ieee->current_network
 
 Signed-off-by: Tree Davies <tdavies@darkphysics.net>
 ---
- drivers/staging/rtl8192e/rtllib_softmac.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ drivers/staging/rtl8192e/rtllib_softmac.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/drivers/staging/rtl8192e/rtllib_softmac.c b/drivers/staging/rtl8192e/rtllib_softmac.c
-index 9c94c5ceccd5..2c46906be38f 100644
+index 2c46906be38f..8b689e828864 100644
 --- a/drivers/staging/rtl8192e/rtllib_softmac.c
 +++ b/drivers/staging/rtl8192e/rtllib_softmac.c
-@@ -172,9 +172,8 @@ static u8 MgntQuery_MgntFrameTxRate(struct rtllib_device *ieee)
- 	else
- 		rate = ieee->basic_rate & 0x7f;
+@@ -1219,7 +1219,7 @@ inline void rtllib_softmac_new_net(struct rtllib_device *ieee,
+ 				if ((ieee->current_network.qos_data.supported == 1) &&
+ 				    ieee->current_network.bssht.bd_support_ht)
+ 					HTResetSelfAndSavePeerSetting(ieee,
+-						 &(ieee->current_network));
++						 &ieee->current_network);
+ 				else
+ 					ieee->ht_info->current_ht_support = false;
  
--	if (rate == 0) {
-+	if (rate == 0)
- 		rate = 0x02;
--	}
- 
- 	return rate;
- }
 -- 
 2.39.2
 
