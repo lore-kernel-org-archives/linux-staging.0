@@ -1,46 +1,46 @@
-Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
+Received: from mail-pg1-f178.google.com (mail-pg1-f178.google.com [209.85.215.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85E438BE5
-	for <linux-staging@lists.linux.dev>; Sat, 23 Dec 2023 08:14:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63A078BEC
+	for <linux-staging@lists.linux.dev>; Sat, 23 Dec 2023 08:32:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="X5OV320y"
-Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-1d3e05abcaeso16037975ad.1
-        for <linux-staging@lists.linux.dev>; Sat, 23 Dec 2023 00:14:04 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WmfzpK3H"
+Received: by mail-pg1-f178.google.com with SMTP id 41be03b00d2f7-5cd68a0de49so1849545a12.2
+        for <linux-staging@lists.linux.dev>; Sat, 23 Dec 2023 00:32:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1703319244; x=1703924044; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1703320325; x=1703925125; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=kWY/DrbKpHrD7fzJ1z2jZBqElDolNrxGwdlBP2/yWF8=;
-        b=X5OV320y0h0mYW4sSKFoIh87HXD9hW+pRz2Gqxmnt67g3ynyBcoNVAIXUKOCnwCa1E
-         Hl89uWphi37IKbePEWCmIcx8hjNP4C/aVsX7M5oGZMwSXRsWfThgmcVq7SxtXMgQREjz
-         /e6bv4grTMXfp8OQDzcT90V1dC8WS1/VZI4rjFzGm0Ns55JJHgnhyKGFROVs/Gr4+Z3M
-         iDUFQ+jaHU0n6cjLqkx6pFhML3pzdTOF4ja1T8G8Oaa5mEQ8WihgHS0ZrlkO/xzcH2rk
-         L2dwt9oRgKpVidIjRm1iIfxQnC/w1EwvNESHsuKLBbeltGLI+vfesfI9SU273lwZQCa+
-         /8Jg==
+        bh=ltOi6r7fK9bfySPLwaQJXbTwu4MoVyIkyF1mw73/wow=;
+        b=WmfzpK3HSuPcWxu+BXUJtGfFGTpk+LiB1QO55Fn5F5+6kSgAYwlf33OT+EOvPFnNi8
+         iBPAOoUvjIlcWVSps93NR5UbopxlAZfJRar1j88txQUvEWmrVJuIpzom+tqRBxidzl8N
+         9NFLjrr4CLHaL0wQdbfzqquKRODQGy855CE+LSIzW6LQBDFSxn0G0IBhu2nvjvq9ZUoM
+         C4H2LoUOh7OtEoncscsCNXivnXAFO5PXZid9o8+8Gj7F8pG96tROqpB6VbBcnw15YuvQ
+         xEkWWGSKyDcS2ZnHgz5gFtsCVWTaJPirn8WpQnWEJipJ6050Kzos3tel4ImbZJYuHj09
+         jmqw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1703319244; x=1703924044;
+        d=1e100.net; s=20230601; t=1703320325; x=1703925125;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=kWY/DrbKpHrD7fzJ1z2jZBqElDolNrxGwdlBP2/yWF8=;
-        b=rMEnqmImMqOLruNpdpdI8uMBjGAVDrhD8EGcEGIq1zgSq2MAYESonEh2SLqpspsYXO
-         Q2t2/hAO770TOMKtihsZVQZHmSmaNfnQcHhtRGDjxNAmRNRvYJqe4cVxSKXcLAB0sSeL
-         dAl7bG69w9BBie+7dZje3wqFbAaKtAZqUwy/mwtWyXjuTrYshtIWHrK6TTV6xRELH5Wo
-         Rrs15RnsUdtGFER33O83H8xFHf3nPXfdCoGP95kKomEStMgdiL4eZuuOD1j/aULNmbyi
-         MZfwwm7OgcX8GegU1WC4kk8mzYI2LnZMb22T4VfzN5VGOUN4PKD/WwdGSi+k9QuGmkZw
-         dP7g==
-X-Gm-Message-State: AOJu0YyxXEHQ0ve07rOpjC39u/p+id9B7HG9nN2/fR8eDKiRyWO89uhu
-	2Fr8iPIcoDWJe4EQRlI1qpY=
-X-Google-Smtp-Source: AGHT+IEbzbGvxC0VlmUd4kvcsYMPpJni2HxqelHej4BgKav2uvZ4yLinClyCCZgffXUfCLVIYLFwuQ==
-X-Received: by 2002:a17:90b:f0c:b0:28c:2b2c:1bf4 with SMTP id br12-20020a17090b0f0c00b0028c2b2c1bf4mr115808pjb.15.1703319243544;
-        Sat, 23 Dec 2023 00:14:03 -0800 (PST)
+        bh=ltOi6r7fK9bfySPLwaQJXbTwu4MoVyIkyF1mw73/wow=;
+        b=JLDyvhE9OD6lsQv/M8gB1afgdZKCopgwu2nylKRLR9lny6655CwpsSVXAnvgmoHPlD
+         9VsGgwFH1T4f4cAXNP6YAg/42LNtxoU/ttid7PI8DcSAhKPf7lHBlSQSQHdVRNrdTu6q
+         xactg2fpHQq/oKOVUnkNmb+AQD+XrBEY7PBn0S8OteFsMnTl+HZNIZzkPCAYw1glS6nZ
+         Mx9Xlijtgl2GD6XUkkydzMSx4M7sjNyhdPHEkXmwMaJs1MBaS40TeUwxe75ZHGcGzMAs
+         iR/xG7d9nOETnubcqAcm7RD/jnr+KupVnB9H3EJ8mLZUKZAD3rO8UtuNe7/dEkjW4tY7
+         WTOw==
+X-Gm-Message-State: AOJu0YzelShTQsG/qPW7CKbjV+Kd5/yJvqDQ5uKrbIg4DpMNtgJ0vBnZ
+	vHgjUShYPP62YlFKeCcWO8L6aKVcI29AaA==
+X-Google-Smtp-Source: AGHT+IF9s6B9AwwFBmikLvuFCZBc0WaXkD1epFSbGhnrvs9lMnWisGnxqwIEE/DC5z5Sax9vGjvWhg==
+X-Received: by 2002:a17:903:41c9:b0:1d0:6ffd:9e06 with SMTP id u9-20020a17090341c900b001d06ffd9e06mr2270306ple.88.1703320325330;
+        Sat, 23 Dec 2023 00:32:05 -0800 (PST)
 Received: from localhost.localdomain ([2400:1a00:b060:2b26:f462:e3d9:c28:4c99])
-        by smtp.gmail.com with ESMTPSA id pb11-20020a17090b3c0b00b0028c2e36c449sm750776pjb.51.2023.12.23.00.13.59
+        by smtp.gmail.com with ESMTPSA id g15-20020a1709029f8f00b001d3e33a73d5sm4558658plq.279.2023.12.23.00.32.01
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 23 Dec 2023 00:14:03 -0800 (PST)
+        Sat, 23 Dec 2023 00:32:05 -0800 (PST)
 From: Dipendra Khadka <kdipendra88@gmail.com>
 To: hdegoede@redhat.com,
 	mchehab@kernel.org,
@@ -52,9 +52,9 @@ Cc: Dipendra Khadka <kdipendra88@gmail.com>,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	linux-kernel-mentees@lists.linuxfoundation.org
-Subject: [PATCH] staging: media/atomisp/pci/isp/kernels/macc/macc_1.0: Fix spelling mistakes in ia_css_macc_table.host.c
-Date: Sat, 23 Dec 2023 13:58:54 +0545
-Message-Id: <20231223081354.83318-1-kdipendra88@gmail.com>
+Subject: [PATCH] staging: media/atomisp/pci/isp/kernels/hdr: Fix spelling mistakes in ia_css_hdr_types.h
+Date: Sat, 23 Dec 2023 14:16:57 +0545
+Message-Id: <20231223083157.84090-1-kdipendra88@gmail.com>
 X-Mailer: git-send-email 2.39.2 (Apple Git-143)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -65,41 +65,35 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
 codespell reported following spelling mistake
-in ia_css_macc_table.host.c below:
+in ia_css_hdr_types.h below:
 
 '''
-./isp/kernels/macc/macc_1.0/ia_css_macc_table.host.c:22: matix ==> matrix
-./isp/kernels/macc/macc_1.0/ia_css_macc_table.host.c:39: matix ==> matrix
+./isp/kernels/hdr/ia_css_hdr_types.h:60: paramterers ==> parameters
+./isp/kernels/hdr/ia_css_hdr_types.h:62: Currenly ==> Currently
 '''
 This patch fixes these spelling mistakes.
 
 Signed-off-by: Dipendra Khadka <kdipendra88@gmail.com>
 ---
- .../pci/isp/kernels/macc/macc_1.0/ia_css_macc_table.host.c    | 4 ++--
+ .../media/atomisp/pci/isp/kernels/hdr/ia_css_hdr_types.h      | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/staging/media/atomisp/pci/isp/kernels/macc/macc_1.0/ia_css_macc_table.host.c b/drivers/staging/media/atomisp/pci/isp/kernels/macc/macc_1.0/ia_css_macc_table.host.c
-index 946b074e8288..d25bf59273ba 100644
---- a/drivers/staging/media/atomisp/pci/isp/kernels/macc/macc_1.0/ia_css_macc_table.host.c
-+++ b/drivers/staging/media/atomisp/pci/isp/kernels/macc/macc_1.0/ia_css_macc_table.host.c
-@@ -19,7 +19,7 @@
+diff --git a/drivers/staging/media/atomisp/pci/isp/kernels/hdr/ia_css_hdr_types.h b/drivers/staging/media/atomisp/pci/isp/kernels/hdr/ia_css_hdr_types.h
+index 175c301ee96a..ecc98686f5cf 100644
+--- a/drivers/staging/media/atomisp/pci/isp/kernels/hdr/ia_css_hdr_types.h
++++ b/drivers/staging/media/atomisp/pci/isp/kernels/hdr/ia_css_hdr_types.h
+@@ -57,9 +57,9 @@ struct ia_css_hdr_exclusion_params {
+ };
  
- /* Multi-Axes Color Correction table for ISP1.
-  *	64values = 2x2matrix for 16area, [s2.13]
-- *	ineffective: 16 of "identity 2x2 matix" {8192,0,0,8192}
-+ *	ineffective: 16 of "identity 2x2 matrix" {8192,0,0,8192}
+ /**
+- * \brief HDR public paramterers.
++ * \brief HDR public parameters.
+  * \details Struct with all parameters for HDR that can be seet from
+- * the CSS API. Currenly, only test parameters are defined.
++ * the CSS API. Currently, only test parameters are defined.
   */
- const struct ia_css_macc_table default_macc_table = {
- 	{
-@@ -36,7 +36,7 @@ const struct ia_css_macc_table default_macc_table = {
- 
- /* Multi-Axes Color Correction table for ISP2.
-  *	64values = 2x2matrix for 16area, [s1.12]
-- *	ineffective: 16 of "identity 2x2 matix" {4096,0,0,4096}
-+ *	ineffective: 16 of "identity 2x2 matrix" {4096,0,0,4096}
-  */
- const struct ia_css_macc_table default_macc2_table = {
- 	{
+ struct ia_css_hdr_config {
+ 	struct ia_css_hdr_irradiance_params irradiance; /** HDR irradiance parameters */
 -- 
 2.39.2 (Apple Git-143)
 
