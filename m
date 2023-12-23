@@ -1,46 +1,46 @@
-Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
+Received: from mail-io1-f47.google.com (mail-io1-f47.google.com [209.85.166.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8854063C1
-	for <linux-staging@lists.linux.dev>; Sat, 23 Dec 2023 06:04:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDA2A5683
+	for <linux-staging@lists.linux.dev>; Sat, 23 Dec 2023 06:16:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XPITnV87"
-Received: by mail-pf1-f179.google.com with SMTP id d2e1a72fcca58-6d99dd7de0fso134393b3a.0
-        for <linux-staging@lists.linux.dev>; Fri, 22 Dec 2023 22:04:32 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RAFvjyzZ"
+Received: by mail-io1-f47.google.com with SMTP id ca18e2360f4ac-7ba834684abso103659239f.2
+        for <linux-staging@lists.linux.dev>; Fri, 22 Dec 2023 22:16:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1703311472; x=1703916272; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1703312217; x=1703917017; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=FXkJe47tIZ6CS0rCi+p/41rd9M+SnrlGZxxaIAMxpHI=;
-        b=XPITnV87hJrXw62G6BvBYdSJz4iSayVPD8qxKvx+2FEwaX2dUPrq2DDvEVkVhlj0C5
-         shU9wodf+YV6u0XuX+1XiYmf3vYcgXkYSS0OJ/NFrKOhcmgx1RqdgKGXWRCRHgBu+QoT
-         j/i7iF9fwpe3/b1W1Y13j7kOpY3amkGzOcSXop7QALxXODrQ8HdNGJJSUgcHf08BV0uA
-         kZSPpfvcG1jzjFXj+8q8jvr/yDQJT4vLVvvBHHxfZefkfUYPWzhvhpxIsUGbhcEei8st
-         I1Rg/3+Zzn2JuD5h0twa1NA6AGUwzngWt9/HRRo1IB+L893HugwkyVDpKnXZE9fcdzXt
-         s5ag==
+        bh=v7njaXclry8FJLwii07+vYUOoiK5EVEJQBJVFl/kxqE=;
+        b=RAFvjyzZpPiBqf4rPN2d0K8Kg9xZkQYtNbDsrgHX1KmEyh1LPxDaB1oUDoX2L/mfq0
+         FAc7maYKq8ApcVnWhB91Xh0J1X92yFFTf6+qcK+RpQ9hjb9vKKO66/sFWN3I7CKliu0u
+         kHCZc68vSsrb98YLcFfogHYPHrOqCH4cqLpwYneKufJ79TsMVQDDrNRKehgiKzKbGcAX
+         /uzjq59RUunLKMoa9fj/mAMc1bXsKuohMDhG9NxzGj54STsy1Qv4rnukl28tWSZmgr03
+         WtDacqQxZKudQ3iKRoed/VZ04EbfXBIxpqZ9U5Ip/6AHfg0OEqFC4vY8T3VAyECrwKiX
+         Mf6w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1703311472; x=1703916272;
+        d=1e100.net; s=20230601; t=1703312217; x=1703917017;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=FXkJe47tIZ6CS0rCi+p/41rd9M+SnrlGZxxaIAMxpHI=;
-        b=Y5te9SyrnlZFkT+lSwnBYoT4Ofz2h9G26ytr3fXNy7xBsh4uKIkf4JaRTVAfRi3KRN
-         LwJL74R8FCkI8tyxIL+c0QaleGgsVzEBvnW0QpGSQTOo2URgghEOZnEUNX6+SDm8ydrw
-         f90Ltm8ViLfTGr9vmUAc4WYfDHN2fdxTuydUCZuL5Z+6pCIK2OQaKTCgF9mLyH0H/9Zx
-         hztBWxy9+QsoQPb7L+m4G+oMRf94W+kcTIjXwijw4ZsIpVUk9N8ZHyLaECBASyeCDvfu
-         ZlyZD/ZJjxDx6NvWtHOT6fwoOidRVGNTUDEmmubU3zT72Oqc2A96R8+2VAJ9nm4KkWnY
-         F9wQ==
-X-Gm-Message-State: AOJu0YyXKHrSx/3RYbLAgtS8+OPDdVq77e6iO7vPMwMyBQYD6YK+8+0k
-	JSm4ViZwlhe3fLMM3xdzI2I=
-X-Google-Smtp-Source: AGHT+IHOyCwfs7Vf2ci1UdE0M1SAzA3hPLcfvCDSsqlTXNEfg/W3ZBqqM/SLwNDrMh5AOSpPF80Png==
-X-Received: by 2002:a05:6a20:4e11:b0:195:79a:a29c with SMTP id gk17-20020a056a204e1100b00195079aa29cmr1354700pzb.96.1703311471697;
-        Fri, 22 Dec 2023 22:04:31 -0800 (PST)
+        bh=v7njaXclry8FJLwii07+vYUOoiK5EVEJQBJVFl/kxqE=;
+        b=WOVUz3CSzlP+ZrCAJWUrJ7l7X/a4I6/EPR8Fs8kaKnGOjM5ABut+faoYROJX6nks6q
+         /hyQKvH1LoIah9T8KO8b7zQdZz0GtDdPl/GO1PAAVr0Cs+fBo2DaFckZoRCddCgIDnRa
+         LvLibkov+EGoGYYHRk6z3q6OpMCQC8HR0noprv/Qw0xiYnMRWGf0WTM0ulBWJB1puLD1
+         IJEL4EhuY9xOulBH6togAd1pwmif316Pxf8AzxJbKEAzo0PEvR6T8kf97/oho80Hgqg/
+         g/o1+AEH5npdiRMWse9gkKxWhqkXw7eGXYs9OETGr3EXy0ZRVVrfrwvMUoLFYW9MAVgv
+         +djA==
+X-Gm-Message-State: AOJu0YwTokBGZbQelQCN4OoNhH5ms7YyBWGjtNR41HwiSQJDEq78S4AF
+	Hed50tH/tauIX5iGjwFH0U8=
+X-Google-Smtp-Source: AGHT+IF8YJ43SrzDQe7J5DlABGxtPTsbfEZgJo+fSABzEFKyifcAkhaVcjxBU16GO8jG8S++691oBg==
+X-Received: by 2002:a5e:c80e:0:b0:7ba:813c:39bd with SMTP id y14-20020a5ec80e000000b007ba813c39bdmr3096868iol.42.1703312216698;
+        Fri, 22 Dec 2023 22:16:56 -0800 (PST)
 Received: from localhost.localdomain ([2400:1a00:b060:2b26:f462:e3d9:c28:4c99])
-        by smtp.gmail.com with ESMTPSA id g22-20020a170902869600b001cca8a01e68sm4335750plo.278.2023.12.22.22.04.27
+        by smtp.gmail.com with ESMTPSA id f26-20020aa78b1a000000b006d97f80c4absm3024061pfd.41.2023.12.22.22.16.52
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 22 Dec 2023 22:04:31 -0800 (PST)
+        Fri, 22 Dec 2023 22:16:56 -0800 (PST)
 From: Dipendra Khadka <kdipendra88@gmail.com>
 To: hdegoede@redhat.com,
 	mchehab@kernel.org,
@@ -52,9 +52,9 @@ Cc: Dipendra Khadka <kdipendra88@gmail.com>,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	linux-kernel-mentees@lists.linuxfoundation.org
-Subject: [PATCH] staging: media/atomisp/pci/base/circbuf/src: Fix spelling mistakes in circbuf.c
-Date: Sat, 23 Dec 2023 11:49:22 +0545
-Message-Id: <20231223060422.77789-1-kdipendra88@gmail.com>
+Subject: [PATCH] staging: media/atomisp/pci/base/circbuf/interface: Fix spelling mistake in ia_css_circbuf.h
+Date: Sat, 23 Dec 2023 12:01:47 +0545
+Message-Id: <20231223061647.78669-1-kdipendra88@gmail.com>
 X-Mailer: git-send-email 2.39.2 (Apple Git-143)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -64,42 +64,32 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-codespell reported following spelling mistakes
-in circbuf.c as below:
+codespell reported following spelling mistake
+in ia_css_circbuf.h as below:
 
 '''
-./circbuf.c:27: whehter ==> whether
-./circbuf.c:132: offest ==> offset
+./base/circbuf/interface/ia_css_circbuf.h:76: poistion ==> position
 '''
-This patch fixes these spelling mistakes.
+This patch fixes this spelling mistake.
 
 Signed-off-by: Dipendra Khadka <kdipendra88@gmail.com>
 ---
- drivers/staging/media/atomisp/pci/base/circbuf/src/circbuf.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ .../media/atomisp/pci/base/circbuf/interface/ia_css_circbuf.h   | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/staging/media/atomisp/pci/base/circbuf/src/circbuf.c b/drivers/staging/media/atomisp/pci/base/circbuf/src/circbuf.c
-index d9f7c143794d..2f484ef9d4b5 100644
---- a/drivers/staging/media/atomisp/pci/base/circbuf/src/circbuf.c
-+++ b/drivers/staging/media/atomisp/pci/base/circbuf/src/circbuf.c
-@@ -24,7 +24,7 @@
-  **********************************************************************/
- /*
-  * @brief Read the oldest element from the circular buffer.
-- * Read the oldest element WITHOUT checking whehter the
-+ * Read the oldest element WITHOUT checking whether the
-  * circular buffer is empty or not. The oldest element is
-  * also removed out from the circular buffer.
+diff --git a/drivers/staging/media/atomisp/pci/base/circbuf/interface/ia_css_circbuf.h b/drivers/staging/media/atomisp/pci/base/circbuf/interface/ia_css_circbuf.h
+index 0579deac5535..e9846951f4ed 100644
+--- a/drivers/staging/media/atomisp/pci/base/circbuf/interface/ia_css_circbuf.h
++++ b/drivers/staging/media/atomisp/pci/base/circbuf/interface/ia_css_circbuf.h
+@@ -73,7 +73,7 @@ uint32_t ia_css_circbuf_pop(
+ 
+ /**
+  * @brief Extract a value out of the circular buffer.
+- * Get a value at an arbitrary poistion in the circular
++ * Get a value at an arbitrary position in the circular
+  * buffer. The user should call "ia_css_circbuf_is_empty()"
+  * to avoid accessing to an empty buffer.
   *
-@@ -129,7 +129,7 @@ uint32_t ia_css_circbuf_extract(ia_css_circbuf_t *cb, int offset)
- 	u32 src_pos;
- 	u32 dest_pos;
- 
--	/* get the maximum offest */
-+	/* get the maximum offset */
- 	max_offset = ia_css_circbuf_get_offset(cb, cb->desc->start, cb->desc->end);
- 	max_offset--;
- 
 -- 
 2.39.2 (Apple Git-143)
 
