@@ -1,46 +1,46 @@
-Received: from mail-ot1-f50.google.com (mail-ot1-f50.google.com [209.85.210.50])
+Received: from mail-il1-f182.google.com (mail-il1-f182.google.com [209.85.166.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3CD78F61
-	for <linux-staging@lists.linux.dev>; Sat, 23 Dec 2023 06:42:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0C8E6FB0
+	for <linux-staging@lists.linux.dev>; Sat, 23 Dec 2023 07:12:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ni3FynlJ"
-Received: by mail-ot1-f50.google.com with SMTP id 46e09a7af769-6d855efb920so1704918a34.1
-        for <linux-staging@lists.linux.dev>; Fri, 22 Dec 2023 22:42:01 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LZqnYbbm"
+Received: by mail-il1-f182.google.com with SMTP id e9e14a558f8ab-35fe456b94cso3925325ab.3
+        for <linux-staging@lists.linux.dev>; Fri, 22 Dec 2023 23:12:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1703313720; x=1703918520; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1703315526; x=1703920326; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=Opo0R05OB5wID6sQJu4dx2K7wLhXLYuO4epgLQz9yZE=;
-        b=Ni3FynlJC7ALiN4heodDBwKpR2G51PGSHtqOV/xGO4f3cFR2lgLnmkArnVGwrNRGav
-         +1d6ilt2cTGFanhohHPch2IwqiqGhTLe+heghEQTO7c7ZkCpTOKWGKw/poiOjC5O+Evo
-         guLs78k05/pnwMFhrucxxQQZxskafB12fJDP0fs4HJs7acKfH0YYhIDhOAyvRdwb+lWg
-         m9rte73rDdOj0XZXG/oe/0KiHI2GW4aUigQar1vCHfA7arv9PntEZIpKdrTuko7C/puy
-         5tJuXFZiS5P1H3Hc3Wn7Mq1J/GGssijzT4ViUvMgphEPubDPsTzlndc6WB2/ODS4lmIs
-         hO6A==
+        bh=gdq20GqT0V3FaSsYb4r80A7ENvWSSP5EMXwhIHB4x9c=;
+        b=LZqnYbbmijXB4gePBzPrhcFbXG8h8IfyNcP4ssEqfEQ3J1DnJ9c5Nrqj+yxuzCz1iP
+         Ar1glSc22b/70EVniOL9lKuK5LU4vWKYoMUtgg/SOOnys6LdruXqRdySrem1A8lrcf9f
+         A5eIt2Vak/lszFw0dJ3J/Jwrq2GPvcqQa9jm9tVrgmmY0a3CkRkioxuTRioOkWryJjYY
+         CIC9KVLH7pMIz7JHK9ed4RX5xxdMEdzgn++ZR0sV8UXxsRhhOAUz6sun2KgYiCnxnTnI
+         +5NsvAeeUTrzT+ykyfeEMx/LfzhOE1DlCBxzhp4IWAO/IlgjKcYnarqk3BuyVfsJm/Qk
+         0E6A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1703313720; x=1703918520;
+        d=1e100.net; s=20230601; t=1703315526; x=1703920326;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=Opo0R05OB5wID6sQJu4dx2K7wLhXLYuO4epgLQz9yZE=;
-        b=oH+5fQRc0kzXA9wyXHLmZ0UxMZFfHa9qy99R6X/p46fC5VcNAPVf8ccjBhJ2KinUHP
-         nupqtx2zvk5AJq0k76p2cQIoOabAdvN9vbAgzJOwr38IbrHMZGvktwKMH6ow8UHdyu8s
-         3qM0rtqPbmu32cv/qVLpIp2mhE7+yCQPjMc4lzM6jAWkGCbw8KEvIk2R23RMYdErYkmC
-         e1VZKfSnuLcyFn4Q+fnneAA+6OTp+w7hFQMmQgSQgGsc5Bae7D5n2Gjhr8By8p+lhMEr
-         ztyVh+L7nt9PITJvL9U1H/9moK51wSxSXVWW71FCwPken/hIIoepE3Om3EK+RSopoez5
-         +gJA==
-X-Gm-Message-State: AOJu0Yze7sQX7lrVFG5P6114gadYbwfyT6t0CGFk3BKTt5oPPGDDDBxo
-	zyoK6hFKtq3ORL1HzWHAnvc=
-X-Google-Smtp-Source: AGHT+IGbvtCMw5QMbF5aP6/UdVWZWEKE1p3xJRB03uLf1/uxV2A9/CYxiwT4/8kX/82sgTUfK53q/Q==
-X-Received: by 2002:a05:6358:7e05:b0:172:fdd5:805 with SMTP id o5-20020a0563587e0500b00172fdd50805mr2924464rwm.27.1703313720528;
-        Fri, 22 Dec 2023 22:42:00 -0800 (PST)
+        bh=gdq20GqT0V3FaSsYb4r80A7ENvWSSP5EMXwhIHB4x9c=;
+        b=EGkwe5AhL8a0rM1Xup/i9n1VJbpD4P6XYpF64hvVq6m5HZmpTMudS8unsZply7qRYd
+         rLg6UtzSDxxkDA4aMHvXUZ9ItEqhUtPj2d3DUfGAbi1VCMoBWUSa82hZ66c0t3m4dMZs
+         V7o6lNDUMleqqv9FF2svaymjNfFnD6Zo5lBIBlrJlrx63rgW77bu/iEFlLGTs5yhQ2MO
+         h4hqJJA+4eW4s6n2N+obwK2A2xCLUrdkRZcPOUKLtJZ0sb2Mo61ceA75qTt4ikdGbqSn
+         dP9wioY7Y7LT2xH7EqkSs/Qhcv/FjrcgBtjhG1pHcRpWCAaLZcAiWOG9gc+7jpDShrR6
+         TwVA==
+X-Gm-Message-State: AOJu0YxvyTOtdVExGBYe/oImGWhe2H5SJoIbtTRuzuc/sZ8ftAYolBDP
+	K8Xk+V0cLIwgvjx6KkRwsQ0=
+X-Google-Smtp-Source: AGHT+IHgYkJh+MntoZJwAFW4c/GlkRitASejMY+WgAxbCAxYviF91k2BISccQHbOGesv8LalkuMPKA==
+X-Received: by 2002:a05:6e02:338f:b0:35f:960e:c030 with SMTP id bn15-20020a056e02338f00b0035f960ec030mr3894872ilb.48.1703315526642;
+        Fri, 22 Dec 2023 23:12:06 -0800 (PST)
 Received: from localhost.localdomain ([2400:1a00:b060:2b26:f462:e3d9:c28:4c99])
-        by smtp.gmail.com with ESMTPSA id a15-20020a17090ad80f00b0028c35076de0sm423230pjv.35.2023.12.22.22.41.56
+        by smtp.gmail.com with ESMTPSA id w19-20020a170902d3d300b001d3eb987bb6sm4492132plb.149.2023.12.22.23.12.02
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 22 Dec 2023 22:42:00 -0800 (PST)
+        Fri, 22 Dec 2023 23:12:06 -0800 (PST)
 From: Dipendra Khadka <kdipendra88@gmail.com>
 To: hdegoede@redhat.com,
 	mchehab@kernel.org,
@@ -52,9 +52,9 @@ Cc: Dipendra Khadka <kdipendra88@gmail.com>,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	linux-kernel-mentees@lists.linuxfoundation.org
-Subject: [PATCH] staging: media/atomisp/pci: Fix spelling mistakes in sh_css_mipi.c
-Date: Sat, 23 Dec 2023 12:26:52 +0545
-Message-Id: <20231223064152.79712-1-kdipendra88@gmail.com>
+Subject: [PATCH] staging: media/atomisp/pci/runtime/queue/src: Fix spelling mistakes in queue.c
+Date: Sat, 23 Dec 2023 12:56:57 +0545
+Message-Id: <20231223071157.81082-1-kdipendra88@gmail.com>
 X-Mailer: git-send-email 2.39.2 (Apple Git-143)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -65,42 +65,41 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
 codespell reported following spelling mistake
-in sh_css_mipi.c as below:
+in queue.c as below:
 
 '''
-./sh_css_mipi.c:177: separatelly ==> separately
-./sh_css_mipi.c:540: ofset ==> offset, of set
+./runtime/queue/src/queue.c:126: uncessary ==> unnecessary
+./runtime/queue/src/queue.c:183: uncessary ==> unnecessary
 '''
-This patch fixes these spelling mistakes by changing
-"separatelly" to "separately" and "ofset" to "offset".
+This patch fixes these spelling mistakes.
 
 Signed-off-by: Dipendra Khadka <kdipendra88@gmail.com>
 ---
- drivers/staging/media/atomisp/pci/sh_css_mipi.c | 4 ++--
+ drivers/staging/media/atomisp/pci/runtime/queue/src/queue.c | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/staging/media/atomisp/pci/sh_css_mipi.c b/drivers/staging/media/atomisp/pci/sh_css_mipi.c
-index b7c1e164ee24..6e11fd771938 100644
---- a/drivers/staging/media/atomisp/pci/sh_css_mipi.c
-+++ b/drivers/staging/media/atomisp/pci/sh_css_mipi.c
-@@ -174,7 +174,7 @@ ia_css_mipi_frame_calculate_size(const unsigned int width,
- 	mem_words = ((embedded_data_size_words + 7) >> 3) +
- 	mem_words_for_first_line +
- 	(((height + 1) >> 1) - 1) * mem_words_per_odd_line +
--	/* ceil (height/2) - 1 (first line is calculated separatelly) */
-+	/* ceil (height/2) - 1 (first line is calculated separately) */
- 	(height      >> 1) * mem_words_per_even_line + /* floor(height/2) */
- 	mem_words_for_EOF;
+diff --git a/drivers/staging/media/atomisp/pci/runtime/queue/src/queue.c b/drivers/staging/media/atomisp/pci/runtime/queue/src/queue.c
+index 2f1c2df59f71..2c6c8fffc4e2 100644
+--- a/drivers/staging/media/atomisp/pci/runtime/queue/src/queue.c
++++ b/drivers/staging/media/atomisp/pci/runtime/queue/src/queue.c
+@@ -123,7 +123,7 @@ int ia_css_queue_enqueue(ia_css_queue_t *qhandle, uint32_t item)
  
-@@ -537,7 +537,7 @@ send_mipi_frames(struct ia_css_pipe *pipe)
+ 		/* c. Store the queue object */
+ 		/* Set only fields requiring update with
+-		 * valid value. Avoids uncessary calls
++		 * valid value. Avoids unnecessary calls
+ 		 * to load/store functions
+ 		 */
+ 		ignore_desc_flags = QUEUE_IGNORE_SIZE_START_STEP_FLAGS;
+@@ -180,7 +180,7 @@ int ia_css_queue_dequeue(ia_css_queue_t *qhandle, uint32_t *item)
  
- 	/* Hand-over the SP-internal mipi buffers */
- 	for (i = 0; i < my_css.num_mipi_frames[port]; i++) {
--		/* Need to include the ofset for port. */
-+		/* Need to include the offset for port. */
- 		sh_css_update_host2sp_mipi_frame(port * NUM_MIPI_FRAMES_PER_STREAM + i,
- 						 my_css.mipi_frames[port][i]);
- 		sh_css_update_host2sp_mipi_metadata(port * NUM_MIPI_FRAMES_PER_STREAM + i,
+ 		/* c. Store the queue object */
+ 		/* Set only fields requiring update with
+-		 * valid value. Avoids uncessary calls
++		 * valid value. Avoids unnecessary calls
+ 		 * to load/store functions
+ 		 */
+ 		ignore_desc_flags = QUEUE_IGNORE_SIZE_END_STEP_FLAGS;
 -- 
 2.39.2 (Apple Git-143)
 
