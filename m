@@ -1,60 +1,61 @@
-Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
+Received: from mail-oi1-f181.google.com (mail-oi1-f181.google.com [209.85.167.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 056D92576B
-	for <linux-staging@lists.linux.dev>; Sat, 23 Dec 2023 02:00:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=darkphysics.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=darkphysics.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3EE146A2
+	for <linux-staging@lists.linux.dev>; Sat, 23 Dec 2023 05:11:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=darkphysics.net header.i=@darkphysics.net header.b="kL15pU1z"
-Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-1d3cfb1568eso20520495ad.1
-        for <linux-staging@lists.linux.dev>; Fri, 22 Dec 2023 18:00:03 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bQi/DhKm"
+Received: by mail-oi1-f181.google.com with SMTP id 5614622812f47-3bb802341eeso1626112b6e.3
+        for <linux-staging@lists.linux.dev>; Fri, 22 Dec 2023 21:11:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=darkphysics.net; s=google; t=1703296803; x=1703901603; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=h2H+OHqcZ1Qbv0b8tU4ea3tj5qRZ9izHgVmq1IeQAcM=;
-        b=kL15pU1zyF/x9nFMtrTLJslVRldV61tMeiqM0lzYum59lTl5SvNzTBif9VjbGhs7XO
-         aMGxufTuS4fMbCpUbssZYbddtDtpT3sCOKXjzOzMi2IbntC1ok477lKFt0NIxTOAcZnm
-         h5s6fxZaJwtgo4INbYO6E/e6mSaAgfn1gerl4ZAqIKDyDCe2bDPvINR56TrrWcM5okQA
-         RqaT2RJoXEJqshY6C0UWo2OaPMEy+3yMyxZ/N0hQIOyReQ7z9DQda2z6KbUhiOC8IKxx
-         iHWmT2lOzj/4U+WAYVpWnp7WDNzl9q/6ct1+JmxiYUIihHrFEphJ73vehI3DqoZrk+Qk
-         NkLA==
+        d=gmail.com; s=20230601; t=1703308285; x=1703913085; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=6EkT/azvdp1IApYTuFWMWihPRdkqSk2ylPHg0StEj/w=;
+        b=bQi/DhKmEjL3WLyA5dIYGNlGquud3yRRH2gvM1umhCmOq2ELwY3TAKJ39AhrowXNLW
+         kWNAzUrCzin+N2uay7+XpYTuXIiIKOyVsbUs2UJGkQDyqxzmb+2cecQ0Ns3VGiUio2jI
+         lZuG/6o/g5f1/Sh2JzA7jFoZoVNcwXgpxIEZ5czIiK7NRxBtZK7hObr67t3T0+Ab/Psj
+         ILIT7Gf80h3DxTWyaphnK65N9ZivjTJY2oNzj6KeyhDEBU0xTtxdqdEfUfH8jKDa1OvF
+         K8ZASW8KX0uWLtqcgCc12aoES0lxPMR38tovHbS4H07wqn5/MM0G534j4rAzFwpXKiEI
+         sm1w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1703296803; x=1703901603;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=h2H+OHqcZ1Qbv0b8tU4ea3tj5qRZ9izHgVmq1IeQAcM=;
-        b=oZdOT/NgYcwYQnw1dFkdr5V3YnBcMzq0j199lBBDyHSrzgEV289dBfgkVuCB7RFfK6
-         eWz8rBv6ksC55LwevLgX2yILu3Bw9+QpYtP7AXa3Kc9zgjuPu3EgJsL61tVhbZENSroE
-         ohGf4vUOwl+1i4P9r2xHCxmMxB9Xi4k38YU7myL6TQPI/Qivcwh6YVIvcyYELr1rihHe
-         1S7mxQofYvEwVexmWNzgdOCw35Qs4WxJGseshTi1sst0w3QYrLhiInBqXdgFeABFMaJy
-         ppYvJrAZjhFYWYHgrasii3hDBDkUdBpsLVxebuawkzRc25aaq/EU86FMTaCjFbdE+cNZ
-         PhtQ==
-X-Gm-Message-State: AOJu0YyOdrSm83LrVPNKs9P9jHFe6H2NzlhPz8/bMZtti8EEE56OU47h
-	KVptGXuQDDesI0VZLzLqQZQllWmw6f0eBg==
-X-Google-Smtp-Source: AGHT+IFkqfe8NiWQa0TXGYHrThu8cR7iGPzH1UBbzR6d8nUNye/eDowNAjxRbYGH+MNDemw+4SNRyA==
-X-Received: by 2002:a17:903:485:b0:1d3:ee1f:ce54 with SMTP id jj5-20020a170903048500b001d3ee1fce54mr2191383plb.89.1703296803429;
-        Fri, 22 Dec 2023 18:00:03 -0800 (PST)
-Received: from oatmeal.darkphysics (c-76-146-178-2.hsd1.wa.comcast.net. [76.146.178.2])
-        by smtp.gmail.com with ESMTPSA id kg15-20020a170903060f00b001d3edef115dsm4106546plb.20.2023.12.22.18.00.02
+        d=1e100.net; s=20230601; t=1703308285; x=1703913085;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=6EkT/azvdp1IApYTuFWMWihPRdkqSk2ylPHg0StEj/w=;
+        b=Mm7Razc0cMtVKjBvkv7Wn/ODD/nzFVtTU6ftOK1X5Bs1J6StKQEYNDYfujWM1mLiRI
+         A1kYvSCICaL8RgEpltE7lFCfaoHLi5BYj3+G6oVydf19v6eVfx88fDwFu4LSeSjS8s/T
+         YgGC1wI9M2qDzc4GKqs1XWNFuLgfRHTwDWpZcA3e0MsCak4EwkssOhChklPM0roVgfbU
+         5P98YS+A7hCNMAyBp/ZDK2lNxQEVjWWFVWaGUxQS+6i1+/t2NogpsJQJf7S3LjOJTdwq
+         5lUwyDoTlYg1dxNYZE12WadPOc3Zp45VUSghuGjAzl/GMc9N5oO0may2MJ+f++6DZVJ6
+         Uoeg==
+X-Gm-Message-State: AOJu0YylG++jplq6S/VVt/5b6ufl6apyG7KnULM6HWgAUksgdqD+CO1b
+	N0k02yq7udxmXTUPlEusK4U=
+X-Google-Smtp-Source: AGHT+IG1PNTUKwu9bMQXjBLLbcz31IATHPAu7BsHiv2B1Wuu7Dhgv6JkzOan1nOid89nmtN0Z5yAxA==
+X-Received: by 2002:a05:6808:169e:b0:3ba:1417:43a with SMTP id bb30-20020a056808169e00b003ba1417043amr3234390oib.42.1703308284964;
+        Fri, 22 Dec 2023 21:11:24 -0800 (PST)
+Received: from localhost.localdomain ([2400:1a00:b060:2b26:f462:e3d9:c28:4c99])
+        by smtp.gmail.com with ESMTPSA id p26-20020a62ab1a000000b006d9415b769csm4246653pff.169.2023.12.22.21.11.21
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 22 Dec 2023 18:00:02 -0800 (PST)
-From: Tree Davies <tdavies@darkphysics.net>
-To: gregkh@linuxfoundation.org,
-	philipp.g.hortmann@gmail.com,
-	anjan@momi.ca
-Cc: linux-staging@lists.linux.dev,
+        Fri, 22 Dec 2023 21:11:24 -0800 (PST)
+From: Dipendra Khadka <kdipendra88@gmail.com>
+To: hdegoede@redhat.com,
+	mchehab@kernel.org,
+	sakari.ailus@linux.intel.com,
+	gregkh@linuxfoundation.org,
+	hpa@redhat.com
+Cc: Dipendra Khadka <kdipendra88@gmail.com>,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
-	Tree Davies <tdavies@darkphysics.net>
-Subject: [PATCH 20/20] Staging: rtl8192e: Rename function rtllib_DisableNetMonitorMode()
-Date: Fri, 22 Dec 2023 17:59:42 -0800
-Message-Id: <20231223015942.418263-21-tdavies@darkphysics.net>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20231223015942.418263-1-tdavies@darkphysics.net>
-References: <20231223015942.418263-1-tdavies@darkphysics.net>
+	linux-kernel-mentees@lists.linuxfoundation.org
+Subject: [PATCH v2] staging: media: atomisp: pci: Fix spelling mistake in ia_css_acc_types.h
+Date: Sat, 23 Dec 2023 10:56:08 +0545
+Message-Id: <20231223051108.74711-1-kdipendra88@gmail.com>
+X-Mailer: git-send-email 2.39.2 (Apple Git-143)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -63,55 +64,48 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Rename function rtllib_DisableNetMonitorMode to rtllib_disable_net_monitor_mode
-to fix checkpatch warning Avoid CamelCase.
+codespell reported spelling mistakes in
+ia_css_acc_types.h as below:
 
-Signed-off-by: Tree Davies <tdavies@darkphysics.net>
+'''
+ia_css_acc_types.h:87: cummulative ==> cumulative
+ia_css_acc_types.h:411: descibes ==> describes
+'''
+
+This patch fixes these spelling mistakes.
+
+Signed-off-by: Dipendra Khadka <kdipendra88@gmail.com>
 ---
- drivers/staging/rtl8192e/rtllib.h            | 2 +-
- drivers/staging/rtl8192e/rtllib_softmac.c    | 2 +-
- drivers/staging/rtl8192e/rtllib_softmac_wx.c | 2 +-
- 3 files changed, 3 insertions(+), 3 deletions(-)
+v2:
+ - Previously only corrected spelling  mistake reported by checkpatch.pl.
+ - All spelling mistakes reported by codespell are fixed.
+v1: https://lore.kernel.org/lkml/20231222200350.2024-1-kdipendra88@gmail.com/
 
-diff --git a/drivers/staging/rtl8192e/rtllib.h b/drivers/staging/rtl8192e/rtllib.h
-index 0158b5595c3c..d6cd0e0785c4 100644
---- a/drivers/staging/rtl8192e/rtllib.h
-+++ b/drivers/staging/rtl8192e/rtllib.h
-@@ -1678,7 +1678,7 @@ void rtllib_start_protocol(struct rtllib_device *ieee);
- void rtllib_stop_protocol(struct rtllib_device *ieee);
+ drivers/staging/media/atomisp/pci/ia_css_acc_types.h | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/staging/media/atomisp/pci/ia_css_acc_types.h b/drivers/staging/media/atomisp/pci/ia_css_acc_types.h
+index d6e52b4971d6..1dc2085ecd61 100644
+--- a/drivers/staging/media/atomisp/pci/ia_css_acc_types.h
++++ b/drivers/staging/media/atomisp/pci/ia_css_acc_types.h
+@@ -84,7 +84,7 @@ struct ia_css_blob_info {
+ 		memory_offsets;  /** offset wrt hdr in bytes */
+ 	u32 prog_name_offset;  /** offset wrt hdr in bytes */
+ 	u32 size;			/** Size of blob */
+-	u32 padding_size;	/** total cummulative of bytes added due to section alignment */
++	u32 padding_size;	/** total cumulative of bytes added due to section alignment */
+ 	u32 icache_source;	/** Position of icache in blob */
+ 	u32 icache_size;	/** Size of icache section */
+ 	u32 icache_padding;/** bytes added due to icache section alignment */
+@@ -408,7 +408,7 @@ struct ia_css_acc_sp {
+ };
  
- void rtllib_EnableNetMonitorMode(struct net_device *dev, bool init_state);
--void rtllib_DisableNetMonitorMode(struct net_device *dev, bool init_state);
-+void rtllib_disable_net_monitor_mode(struct net_device *dev, bool init_state);
- 
- void rtllib_softmac_stop_protocol(struct rtllib_device *ieee);
- void rtllib_softmac_start_protocol(struct rtllib_device *ieee);
-diff --git a/drivers/staging/rtl8192e/rtllib_softmac.c b/drivers/staging/rtl8192e/rtllib_softmac.c
-index ec7bf27820c6..e3d51355dab3 100644
---- a/drivers/staging/rtl8192e/rtllib_softmac.c
-+++ b/drivers/staging/rtl8192e/rtllib_softmac.c
-@@ -361,7 +361,7 @@ void rtllib_EnableNetMonitorMode(struct net_device *dev,
- /* Disables network monitor mode. Only packets destinated to
-  * us will be received.
-  */
--void rtllib_DisableNetMonitorMode(struct net_device *dev,
-+void rtllib_disable_net_monitor_mode(struct net_device *dev,
- 		bool init_state)
- {
- 	struct rtllib_device *ieee = netdev_priv_rsl(dev);
-diff --git a/drivers/staging/rtl8192e/rtllib_softmac_wx.c b/drivers/staging/rtl8192e/rtllib_softmac_wx.c
-index 5d165d0b134d..eb331cbb9850 100644
---- a/drivers/staging/rtl8192e/rtllib_softmac_wx.c
-+++ b/drivers/staging/rtl8192e/rtllib_softmac_wx.c
-@@ -270,7 +270,7 @@ int rtllib_wx_set_mode(struct rtllib_device *ieee, struct iw_request_info *a,
- 	} else {
- 		ieee->dev->type = ARPHRD_ETHER;
- 		if (ieee->iw_mode == IW_MODE_MONITOR)
--			rtllib_DisableNetMonitorMode(ieee->dev, false);
-+			rtllib_disable_net_monitor_mode(ieee->dev, false);
- 	}
- 
- 	if (!ieee->proto_started) {
+ /* Acceleration firmware descriptor.
+-  * This descriptor descibes either SP code (stand-alone), or
++  * This descriptor describes either SP code (stand-alone), or
+   * ISP code (a separate pipeline stage).
+   */
+ struct ia_css_acc_fw_hdr {
 -- 
-2.39.2
+2.39.2 (Apple Git-143)
 
