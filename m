@@ -1,45 +1,45 @@
-Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
+Received: from mail-il1-f180.google.com (mail-il1-f180.google.com [209.85.166.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 258D6154A1
-	for <linux-staging@lists.linux.dev>; Sat, 23 Dec 2023 01:59:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4371F199D1
+	for <linux-staging@lists.linux.dev>; Sat, 23 Dec 2023 02:00:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=darkphysics.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=darkphysics.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=darkphysics.net header.i=@darkphysics.net header.b="UGllYz4X"
-Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-1d427518d52so5662415ad.0
-        for <linux-staging@lists.linux.dev>; Fri, 22 Dec 2023 17:59:59 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=darkphysics.net header.i=@darkphysics.net header.b="d23T86dV"
+Received: by mail-il1-f180.google.com with SMTP id e9e14a558f8ab-35fd04ede25so9893545ab.0
+        for <linux-staging@lists.linux.dev>; Fri, 22 Dec 2023 18:00:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=darkphysics.net; s=google; t=1703296799; x=1703901599; darn=lists.linux.dev;
+        d=darkphysics.net; s=google; t=1703296800; x=1703901600; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=CKaTV31asg8HNjRCozcslGmEYtbSfFrvyCRGCul8iCc=;
-        b=UGllYz4Xv3MhJPZYlK8TiOqqDoH/aIG8iVxzRnlKtRry3fTeu4BL1vYJMVhiwk0WCU
-         Y/vFvAgnJucZuu1BX0aqswo1Piu+nItsep8mStzXi6uTjCGiAbVxwA9uRmfJ2ydu9aWE
-         ajLq2klYNTnzN9iFY7l6AOQU2aPNlCfmQDKLHPoETsV5Nx42f6qwM5Dlpjb0gwX/HQO/
-         eeQUTWmMEd7ygqBTVa3PZ9WideHu6uXaTKFrT3fSrlKklg7elsxcoRBzgVcMsYywFplz
-         1zeo0BF6QpTBRxgYZWc77vpuAmGKNBNdIUEzNi8YqrCutu/4bcGdCVmPjVhc9RnJFm4v
-         Y3hQ==
+        bh=5nh726kqqk/+4viMnId5Yr1Sl4uR2fT43T5z2Hat3BI=;
+        b=d23T86dVsa+VldP3TTC12ytyVQnpp8os4xMFGlFWcRVYi53Baf0s6oHkS6VD48I4wb
+         +XyXJR4of1ckKT2mVwdrJZZ3Mh9xgvA86YS/ZNrptnO97iD7YOqeS0J9R2SgcqWMfpJe
+         kEJIQp3E1JSQuk2q4f+cJYWTNUoLEuukaAu/hSEqfsiY/fzKU82Etz22MojtsIkO2f23
+         5r30KH4GDx/CKmzJyVccSe6ZJ+c1GdUfTUc4rV9UcAFRGRmdIkVyRnt4Cbqpl+kIAgwZ
+         74MKJyC8xupCdymOjUPYiv6ndjmI0UvzjJVCnqqA52njRNoAtnIHmWTfCHHpKcxu4JPu
+         mp1Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1703296799; x=1703901599;
+        d=1e100.net; s=20230601; t=1703296800; x=1703901600;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=CKaTV31asg8HNjRCozcslGmEYtbSfFrvyCRGCul8iCc=;
-        b=MbHNmpCPLn/nr5aH3KIeooE73uqkmOzu+MMnKdMCAhZLukEdZZwHmJADHCG+6UPNd4
-         1iFbwXCEEnqZDbCUQtxJsWRp4OGFBrJtb4EOO+zltq6Pfv43YUIDBEmQZtd0FKtm/BHx
-         m507IedMQIBmF70ThXV7I+KtDqrYmpJ83e+cJ0CRAhVXJ9JnKn4SlNW9iwdJCESrcVZa
-         AVmz9T5qtw+kToJeOvkMwZYxyCH8cK0OBEmgCroc88k8nGtAmlblVCzrIvIoeaQttDmM
-         5ckweWJkHBGLfE3y9ptN1Tx1AbGFeKV20Ze90z3JSOoTHqLLhzLQ+/OqYbmVaa2xHDY3
-         J+hQ==
-X-Gm-Message-State: AOJu0YxQ9ZHOYNvuU/RvEBO3Xbtqek+0iqUQL+cpXWKiaAgFBdzd4IsV
-	x5skLfcGjN7C83u/qhaxiHvelOA6CCEnSg==
-X-Google-Smtp-Source: AGHT+IFt/Qd3ttE7f9gbYN0UNDH45p0N6KcOyPTYbOXERDvJEGvVR9DPVIBFdgiOOYgL3qNjIabumA==
-X-Received: by 2002:a17:902:be06:b0:1d3:fc05:81a4 with SMTP id r6-20020a170902be0600b001d3fc0581a4mr2196870pls.35.1703296799504;
-        Fri, 22 Dec 2023 17:59:59 -0800 (PST)
+        bh=5nh726kqqk/+4viMnId5Yr1Sl4uR2fT43T5z2Hat3BI=;
+        b=X6UgI1crHNx5r9brzP1qTNShoyGiOfUjeNVrLcWsRBFsVA43PKeC2icr/hyzJdSgxG
+         d/RvsPz+nf5/71O2khsKfYzymnYAZxDkQBjUVAkI2DR6X/7TlV+46qtpuWu70JhQjA1d
+         HAiRQqlupPuiqg8N/yH3t7Ny+Tv9gD3XLp6ZXwtKL5XOem/uMfXGzOdHr+3hlbviW/Nt
+         oOxVWVNYrzuRuxBWErNT4xmYbGSGwqncVKUBXwAd75VgJYvXLOE/nxuk2fpxr4L/JQgx
+         jKUqNmme1bl1yJHGDPW+31hSrttvH2KvYgaK6m3b4pjt8Cj1TbY4X2nAWHmCEfXorvhh
+         F6bA==
+X-Gm-Message-State: AOJu0YwZW2sNEHNETEd7pBYohT9R0cGopzqkKZcEbxOhAlYV1ZuIph4q
+	nmZ9xTEXXCiFjaBgGZ/HVjeEvEGBRxmmPw==
+X-Google-Smtp-Source: AGHT+IH1Lf96TMxxv/JghBnKSlz5rYHxiy9840iB+KFWHTNiPyDxcXt/Ja2XjzEotB5Z9olYGQatSg==
+X-Received: by 2002:a05:6e02:15c2:b0:35d:59a2:6909 with SMTP id q2-20020a056e0215c200b0035d59a26909mr3217443ilu.54.1703296800539;
+        Fri, 22 Dec 2023 18:00:00 -0800 (PST)
 Received: from oatmeal.darkphysics (c-76-146-178-2.hsd1.wa.comcast.net. [76.146.178.2])
-        by smtp.gmail.com with ESMTPSA id kg15-20020a170903060f00b001d3edef115dsm4106546plb.20.2023.12.22.17.59.58
+        by smtp.gmail.com with ESMTPSA id kg15-20020a170903060f00b001d3edef115dsm4106546plb.20.2023.12.22.17.59.59
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Fri, 22 Dec 2023 17:59:59 -0800 (PST)
 From: Tree Davies <tdavies@darkphysics.net>
@@ -49,9 +49,9 @@ To: gregkh@linuxfoundation.org,
 Cc: linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Tree Davies <tdavies@darkphysics.net>
-Subject: [PATCH 16/20] Staging: rtl8192e: Rename variable QueryRate
-Date: Fri, 22 Dec 2023 17:59:38 -0800
-Message-Id: <20231223015942.418263-17-tdavies@darkphysics.net>
+Subject: [PATCH 17/20] Staging: rtl8192e: Rename variable BasicRate
+Date: Fri, 22 Dec 2023 17:59:39 -0800
+Message-Id: <20231223015942.418263-18-tdavies@darkphysics.net>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20231223015942.418263-1-tdavies@darkphysics.net>
 References: <20231223015942.418263-1-tdavies@darkphysics.net>
@@ -63,53 +63,49 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Rename variable QueryRate to query_rate to fix checkpatch
+Rename variable BasicRate to basic_rate to fix checkpatch
 warning Avoid CamelCase.
 
 Signed-off-by: Tree Davies <tdavies@darkphysics.net>
 ---
- drivers/staging/rtl8192e/rtllib_softmac.c | 16 ++++++++--------
- 1 file changed, 8 insertions(+), 8 deletions(-)
+ drivers/staging/rtl8192e/rtllib_softmac.c | 14 +++++++-------
+ 1 file changed, 7 insertions(+), 7 deletions(-)
 
 diff --git a/drivers/staging/rtl8192e/rtllib_softmac.c b/drivers/staging/rtl8192e/rtllib_softmac.c
-index 0819efe36171..1e025ef4bed6 100644
+index 1e025ef4bed6..3f7d2954ebd7 100644
 --- a/drivers/staging/rtl8192e/rtllib_softmac.c
 +++ b/drivers/staging/rtl8192e/rtllib_softmac.c
-@@ -141,26 +141,26 @@ static void init_mgmt_queue(struct rtllib_device *ieee)
- u8 MgntQuery_TxRateExcludeCCKRates(struct rtllib_device *ieee)
+@@ -142,23 +142,23 @@ u8 MgntQuery_TxRateExcludeCCKRates(struct rtllib_device *ieee)
  {
  	u16	i;
--	u8	QueryRate = 0;
-+	u8	query_rate = 0;
- 	u8	BasicRate;
+ 	u8	query_rate = 0;
+-	u8	BasicRate;
++	u8	basic_rate;
  
  	for (i = 0; i < ieee->current_network.rates_len; i++) {
- 		BasicRate = ieee->current_network.rates[i] & 0x7F;
- 		if (!rtllib_is_cck_rate(BasicRate)) {
--			if (QueryRate == 0) {
--				QueryRate = BasicRate;
-+			if (query_rate == 0) {
-+				query_rate = BasicRate;
+-		BasicRate = ieee->current_network.rates[i] & 0x7F;
+-		if (!rtllib_is_cck_rate(BasicRate)) {
++		basic_rate = ieee->current_network.rates[i] & 0x7F;
++		if (!rtllib_is_cck_rate(basic_rate)) {
+ 			if (query_rate == 0) {
+-				query_rate = BasicRate;
++				query_rate = basic_rate;
  			} else {
--				if (BasicRate < QueryRate)
--					QueryRate = BasicRate;
-+				if (BasicRate < query_rate)
-+					query_rate = BasicRate;
+-				if (BasicRate < query_rate)
+-					query_rate = BasicRate;
++				if (basic_rate < query_rate)
++					query_rate = basic_rate;
  			}
  		}
  	}
  
--	if (QueryRate == 0) {
--		QueryRate = 12;
-+	if (query_rate == 0) {
-+		query_rate = 12;
- 		netdev_info(ieee->dev, "No BasicRate found!!\n");
+ 	if (query_rate == 0) {
+ 		query_rate = 12;
+-		netdev_info(ieee->dev, "No BasicRate found!!\n");
++		netdev_info(ieee->dev, "No basic_rate found!!\n");
  	}
--	return QueryRate;
-+	return query_rate;
+ 	return query_rate;
  }
- 
- static u8 MgntQuery_MgntFrameTxRate(struct rtllib_device *ieee)
 -- 
 2.39.2
 
