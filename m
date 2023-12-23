@@ -1,145 +1,49 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0941BCA4C
-	for <linux-staging@lists.linux.dev>; Sat, 23 Dec 2023 10:25:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3CE3DDA2;
+	Sat, 23 Dec 2023 13:07:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="WyLXQcmu"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1703327150;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=GoKXir54x/dEEkfvtrxnT2ENR9sxqwMkgds0ZkJeGss=;
-	b=WyLXQcmuTzI1dFF62jzoUhJ+Jebx5dW9UB6wWkGhRwWZcWKAYhuRafT5DWiXi1WVcL/DRm
-	VgYcRawodkKb4I49zmQyr+SRZEXbO6jLYVyjt5v57kjNZ5fKkW9dOst+yOiGK9crY1kb9F
-	vgIaFv89NSYJhdXvn2FmSPkmzGJE+TY=
-Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
- [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-354-y34oX8d-O8ewTBtCf5h8dQ-1; Sat, 23 Dec 2023 05:25:48 -0500
-X-MC-Unique: y34oX8d-O8ewTBtCf5h8dQ-1
-Received: by mail-ej1-f70.google.com with SMTP id a640c23a62f3a-a268a1f825cso124500866b.2
-        for <linux-staging@lists.linux.dev>; Sat, 23 Dec 2023 02:25:48 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1703327147; x=1703931947;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=GoKXir54x/dEEkfvtrxnT2ENR9sxqwMkgds0ZkJeGss=;
-        b=RYZNjn1fyS1InMj2C0gA3YkfvgUgTrgCcG7UPbRT7QqlDSCEphg4XQj9dVTZa6GrF1
-         PNDeRcGitIUx9cYSYRmB129Q6uAvXSXIRUqM/EDIQskrnCKKTy3enq5YVaUSEWO6stk6
-         B7+eLtIx43uV5Sx83yFuDv/Lmruub/VR8a46qt1N4Q5gCwvNmlHUq6Y3VAx8jjGXg8G4
-         YC9SSrjZLWYQp+V2PRDhwav6glD7CgzUZcCPQuVXX/NPXgAvvlTMSqx7NqRTgtin60RN
-         JH1zqDXMEOfhMUOeBSx+NyI+goHFv+4TZjmzKGkuT1Wv72GhCRCv2hL00xwEG8s9OOE7
-         iGmg==
-X-Gm-Message-State: AOJu0YzkDRwomS/lzCU8tUsacRbdwWNTLed6NUrhv5xdHQAcXHNni6dN
-	J8s1fzE/OTXVWh8U4E3cFNj7Bs0HOBBZlJaDrhhpsxKie7MCDiZ/Tg77cD0LLmRTKZg0Dp2ik/Z
-	hgTQTCnpj0znixG7h7YSAke5QzRc5eaQi0A==
-X-Received: by 2002:a17:906:48:b0:a26:9734:d074 with SMTP id 8-20020a170906004800b00a269734d074mr1256578ejg.21.1703327147453;
-        Sat, 23 Dec 2023 02:25:47 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IFfYBntxU/LEH18ZD4tGgJi1jr2AFoUSUHqm44HH3HbItCx3zDGERqgnKjQD0P1rx5/Ye1TzA==
-X-Received: by 2002:a17:906:48:b0:a26:9734:d074 with SMTP id 8-20020a170906004800b00a269734d074mr1256569ejg.21.1703327146994;
-        Sat, 23 Dec 2023 02:25:46 -0800 (PST)
-Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
-        by smtp.gmail.com with ESMTPSA id ex17-20020a170907955100b00a269fa0d305sm2923466ejc.8.2023.12.23.02.25.46
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 23 Dec 2023 02:25:46 -0800 (PST)
-Message-ID: <e7a46035-9c5e-495d-8f20-73dca4fec068@redhat.com>
-Date: Sat, 23 Dec 2023 11:25:45 +0100
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="0ypF4w0t"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 62890C433C7;
+	Sat, 23 Dec 2023 13:07:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1703336836;
+	bh=me91JwrsnCBw9P7tUZE/6vmKBCp1NxtcqiZmnFDViLs=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=0ypF4w0tfjAd/FItjstMf2iGSQUy4B3P7BZVKjZgEhigPJwrwA6ZQvKAFaute4GJU
+	 IKfDxssITV6dmKOrLHJ1CzwfRrOUbO+pRlCfnS9PMabyb8zRLUHXCEJ7GZPwn0TCLt
+	 AEmI1YrzUmqpWQ96Yi4YPMbeY0PgmN3XIT8zhCo4=
+Date: Sat, 23 Dec 2023 14:07:10 +0100
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Gary Rookard <garyrookard@fastmail.org>
+Cc: philipp.g.hortmann@gmail.com, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 0/4] staging: rtl8192e: rename variable pHT
+Message-ID: <2023122348-angular-shopper-0b92@gregkh>
+References: <20231216125303.3404-1-garyrookard@fastmail.org>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] staging: media: atomisp: pci: Fix spelling mistake in
- ia_css_acc_types.h
-To: Randy Dunlap <rdunlap@infradead.org>,
- Dipendra Khadka <kdipendra88@gmail.com>, mchehab@kernel.org,
- sakari.ailus@linux.intel.com, gregkh@linuxfoundation.org, hpa@redhat.com
-Cc: linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linuxfoundation.org
-References: <20231223051108.74711-1-kdipendra88@gmail.com>
- <d1c18155-9c8e-4164-a2bf-5eab3d42995d@infradead.org>
-From: Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <d1c18155-9c8e-4164-a2bf-5eab3d42995d@infradead.org>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US, nl
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231216125303.3404-1-garyrookard@fastmail.org>
 
-Hi,
-
-On 12/23/23 06:18, Randy Dunlap wrote:
-> Hi Dipendra,
+On Sat, Dec 16, 2023 at 07:52:59AM -0500, Gary Rookard wrote:
+> Hi,
 > 
-> On 12/22/23 21:11, Dipendra Khadka wrote:
->> codespell reported spelling mistakes in
->> ia_css_acc_types.h as below:
->>
->> '''
->> ia_css_acc_types.h:87: cummulative ==> cumulative
->> ia_css_acc_types.h:411: descibes ==> describes
->> '''
->>
->> This patch fixes these spelling mistakes.
->>
->> Signed-off-by: Dipendra Khadka <kdipendra88@gmail.com>
+> This patch series renames (4) different variables with
+> checkpatch coding style issue Avoid CamelCase.
 > 
-> This patch is an improvement so it could be merged as is IMO.
-> But...
-> 
->> ---
->> v2:
->>  - Previously only corrected spelling  mistake reported by checkpatch.pl.
->>  - All spelling mistakes reported by codespell are fixed.
->> v1: https://lore.kernel.org/lkml/20231222200350.2024-1-kdipendra88@gmail.com/
->>
->>  drivers/staging/media/atomisp/pci/ia_css_acc_types.h | 4 ++--
->>  1 file changed, 2 insertions(+), 2 deletions(-)
->>
->> diff --git a/drivers/staging/media/atomisp/pci/ia_css_acc_types.h b/drivers/staging/media/atomisp/pci/ia_css_acc_types.h
->> index d6e52b4971d6..1dc2085ecd61 100644
->> --- a/drivers/staging/media/atomisp/pci/ia_css_acc_types.h
->> +++ b/drivers/staging/media/atomisp/pci/ia_css_acc_types.h
->> @@ -84,7 +84,7 @@ struct ia_css_blob_info {
->>  		memory_offsets;  /** offset wrt hdr in bytes */
->>  	u32 prog_name_offset;  /** offset wrt hdr in bytes */
->>  	u32 size;			/** Size of blob */
->> -	u32 padding_size;	/** total cummulative of bytes added due to section alignment */
->> +	u32 padding_size;	/** total cumulative of bytes added due to section alignment */
-> 
-> I apologize for not looking at your v1 patch carefully.
-> The comment above would be much better as
-> 
-> 				/** total accumulation of bytes added due to section alignment */
+> (resubmittals)
 
-I agree that that is better. Dipendra can you please send a v3
-using the new text suggested by Randy ?
+Does not apply to my tree :(
 
-Regards,
+Please rebase against the correct branch?
 
-Hans
+thanks,
 
-
-
->>  	u32 icache_source;	/** Position of icache in blob */
->>  	u32 icache_size;	/** Size of icache section */
->>  	u32 icache_padding;/** bytes added due to icache section alignment */
->> @@ -408,7 +408,7 @@ struct ia_css_acc_sp {
->>  };
->>  
->>  /* Acceleration firmware descriptor.
->> -  * This descriptor descibes either SP code (stand-alone), or
->> +  * This descriptor describes either SP code (stand-alone), or
->>    * ISP code (a separate pipeline stage).
->>    */
->>  struct ia_css_acc_fw_hdr {
-> 
-
+greg k-h
