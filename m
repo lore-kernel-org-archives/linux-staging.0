@@ -1,46 +1,46 @@
-Received: from mail-oi1-f174.google.com (mail-oi1-f174.google.com [209.85.167.174])
+Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94EA96AA0
-	for <linux-staging@lists.linux.dev>; Sat, 23 Dec 2023 07:22:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85E438BE5
+	for <linux-staging@lists.linux.dev>; Sat, 23 Dec 2023 08:14:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iq0g6nat"
-Received: by mail-oi1-f174.google.com with SMTP id 5614622812f47-3bb53e20a43so1989162b6e.1
-        for <linux-staging@lists.linux.dev>; Fri, 22 Dec 2023 23:22:54 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="X5OV320y"
+Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-1d3e05abcaeso16037975ad.1
+        for <linux-staging@lists.linux.dev>; Sat, 23 Dec 2023 00:14:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1703316173; x=1703920973; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1703319244; x=1703924044; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=sNfo77EiD377cQ7ylz3OMNqhiLCn7Bf56izU6yp9keU=;
-        b=iq0g6natecPE6TEHd6mDhLUHiEpMKdKU6FazjxQ5tWUK+uIYSqdm+P6jORfQHbKXRc
-         Abdy/Ru6A3pq9lFoz54BefyDIXM+ElR1Iq5e1MetiN+BammGxPy7DPqNsBiOAo9MXQto
-         yMZsrV55HAlj5ImFgD5miisMaxadz7vldw8cB/U2bkL8xrZ2eTDWYuYvIgO9T9Qd/eqL
-         0zju17JjbaxyhDKBVQXta6k27jKm/9HXz6VLIncGy0SLoXmkHm+Q8bpxB/DoyGyCYX86
-         A4LwIvYJcPw93omQ4pJ67w7kyMEWar/E+umJnNTNBaiUU1hch6vxJ84RlGe4lDV99FX6
-         nOFg==
+        bh=kWY/DrbKpHrD7fzJ1z2jZBqElDolNrxGwdlBP2/yWF8=;
+        b=X5OV320y0h0mYW4sSKFoIh87HXD9hW+pRz2Gqxmnt67g3ynyBcoNVAIXUKOCnwCa1E
+         Hl89uWphi37IKbePEWCmIcx8hjNP4C/aVsX7M5oGZMwSXRsWfThgmcVq7SxtXMgQREjz
+         /e6bv4grTMXfp8OQDzcT90V1dC8WS1/VZI4rjFzGm0Ns55JJHgnhyKGFROVs/Gr4+Z3M
+         iDUFQ+jaHU0n6cjLqkx6pFhML3pzdTOF4ja1T8G8Oaa5mEQ8WihgHS0ZrlkO/xzcH2rk
+         L2dwt9oRgKpVidIjRm1iIfxQnC/w1EwvNESHsuKLBbeltGLI+vfesfI9SU273lwZQCa+
+         /8Jg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1703316173; x=1703920973;
+        d=1e100.net; s=20230601; t=1703319244; x=1703924044;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=sNfo77EiD377cQ7ylz3OMNqhiLCn7Bf56izU6yp9keU=;
-        b=WFnt7bEnE2dko/dY2o3w4nMJx66+xDhypzDHKTv3kzZdRJM3G1xtDpNcTVfkfudT7J
-         zO0g9SvvFKn4Ixi7W51VFtyi36wMmvxNXFt+Fuz3SXxC41H7OcMyhchFDwgh0vMudGib
-         LEz6SNWsC3sf9ce1/6j1iMuZueWFhH2H6wd/9mwNA0hxzycz6FPjqnzB8lkBZOdX7BVy
-         reNE8ooaAxcnUHxnJBX9SNtzQjIzr7sNGP2/J/1M5F2PEwWPMLB+zc/ii2eYyu9qbWa4
-         6ZYbfbdDjz1i77cNLA2cmfT08XITxbH8rF5BnkH16LpX+HTyA/PlwlqNUK39/w6Aopmz
-         vMeg==
-X-Gm-Message-State: AOJu0Yw+lL5s255/Hinsse+Q0ma3qDh2QPxmwKkaFlO/F/uCu9i04gL1
-	QF871i18cWpA0+XzxHnaqyc=
-X-Google-Smtp-Source: AGHT+IFF55fkH3MfEXKsaer9jFXCaeNRv3FjwluAYkN+PJH68bnw13o1BXJrd+HUY1f+AsGNJCeqqQ==
-X-Received: by 2002:a05:6808:318b:b0:3b8:b063:6ba9 with SMTP id cd11-20020a056808318b00b003b8b0636ba9mr3481308oib.88.1703316173647;
-        Fri, 22 Dec 2023 23:22:53 -0800 (PST)
+        bh=kWY/DrbKpHrD7fzJ1z2jZBqElDolNrxGwdlBP2/yWF8=;
+        b=rMEnqmImMqOLruNpdpdI8uMBjGAVDrhD8EGcEGIq1zgSq2MAYESonEh2SLqpspsYXO
+         Q2t2/hAO770TOMKtihsZVQZHmSmaNfnQcHhtRGDjxNAmRNRvYJqe4cVxSKXcLAB0sSeL
+         dAl7bG69w9BBie+7dZje3wqFbAaKtAZqUwy/mwtWyXjuTrYshtIWHrK6TTV6xRELH5Wo
+         Rrs15RnsUdtGFER33O83H8xFHf3nPXfdCoGP95kKomEStMgdiL4eZuuOD1j/aULNmbyi
+         MZfwwm7OgcX8GegU1WC4kk8mzYI2LnZMb22T4VfzN5VGOUN4PKD/WwdGSi+k9QuGmkZw
+         dP7g==
+X-Gm-Message-State: AOJu0YyxXEHQ0ve07rOpjC39u/p+id9B7HG9nN2/fR8eDKiRyWO89uhu
+	2Fr8iPIcoDWJe4EQRlI1qpY=
+X-Google-Smtp-Source: AGHT+IEbzbGvxC0VlmUd4kvcsYMPpJni2HxqelHej4BgKav2uvZ4yLinClyCCZgffXUfCLVIYLFwuQ==
+X-Received: by 2002:a17:90b:f0c:b0:28c:2b2c:1bf4 with SMTP id br12-20020a17090b0f0c00b0028c2b2c1bf4mr115808pjb.15.1703319243544;
+        Sat, 23 Dec 2023 00:14:03 -0800 (PST)
 Received: from localhost.localdomain ([2400:1a00:b060:2b26:f462:e3d9:c28:4c99])
-        by smtp.gmail.com with ESMTPSA id kt3-20020a056a004ba300b006d9723c0373sm4241378pfb.33.2023.12.22.23.22.49
+        by smtp.gmail.com with ESMTPSA id pb11-20020a17090b3c0b00b0028c2e36c449sm750776pjb.51.2023.12.23.00.13.59
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 22 Dec 2023 23:22:53 -0800 (PST)
+        Sat, 23 Dec 2023 00:14:03 -0800 (PST)
 From: Dipendra Khadka <kdipendra88@gmail.com>
 To: hdegoede@redhat.com,
 	mchehab@kernel.org,
@@ -52,9 +52,9 @@ Cc: Dipendra Khadka <kdipendra88@gmail.com>,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	linux-kernel-mentees@lists.linuxfoundation.org
-Subject: [PATCH] staging: media/atomisp/pci/runtime/rmgr/src: Fix spelling mistakes in rmgr_vbuf.c
-Date: Sat, 23 Dec 2023 13:07:45 +0545
-Message-Id: <20231223072245.81630-1-kdipendra88@gmail.com>
+Subject: [PATCH] staging: media/atomisp/pci/isp/kernels/macc/macc_1.0: Fix spelling mistakes in ia_css_macc_table.host.c
+Date: Sat, 23 Dec 2023 13:58:54 +0545
+Message-Id: <20231223081354.83318-1-kdipendra88@gmail.com>
 X-Mailer: git-send-email 2.39.2 (Apple Git-143)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -65,49 +65,41 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
 codespell reported following spelling mistake
-in rmgr_vbuf.cas below:
+in ia_css_macc_table.host.c below:
 
 '''
-./runtime/rmgr/src/rmgr_vbuf.c:201: succes ==> success
-./runtime/rmgr/src/rmgr_vbuf.c:211: succes ==> success
-./runtime/rmgr/src/rmgr_vbuf.c:215: succes ==> success
+./isp/kernels/macc/macc_1.0/ia_css_macc_table.host.c:22: matix ==> matrix
+./isp/kernels/macc/macc_1.0/ia_css_macc_table.host.c:39: matix ==> matrix
 '''
 This patch fixes these spelling mistakes.
-It is good to use variable name that gives
-proper meaning and spelling error free.
 
 Signed-off-by: Dipendra Khadka <kdipendra88@gmail.com>
 ---
- .../staging/media/atomisp/pci/runtime/rmgr/src/rmgr_vbuf.c  | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ .../pci/isp/kernels/macc/macc_1.0/ia_css_macc_table.host.c    | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/staging/media/atomisp/pci/runtime/rmgr/src/rmgr_vbuf.c b/drivers/staging/media/atomisp/pci/runtime/rmgr/src/rmgr_vbuf.c
-index 2e07dab8bf51..1f24db77fe38 100644
---- a/drivers/staging/media/atomisp/pci/runtime/rmgr/src/rmgr_vbuf.c
-+++ b/drivers/staging/media/atomisp/pci/runtime/rmgr/src/rmgr_vbuf.c
-@@ -198,7 +198,7 @@ void rmgr_push_handle(struct ia_css_rmgr_vbuf_pool *pool,
- 		      struct ia_css_rmgr_vbuf_handle **handle)
- {
- 	u32 i;
--	bool succes = false;
-+	bool success = false;
+diff --git a/drivers/staging/media/atomisp/pci/isp/kernels/macc/macc_1.0/ia_css_macc_table.host.c b/drivers/staging/media/atomisp/pci/isp/kernels/macc/macc_1.0/ia_css_macc_table.host.c
+index 946b074e8288..d25bf59273ba 100644
+--- a/drivers/staging/media/atomisp/pci/isp/kernels/macc/macc_1.0/ia_css_macc_table.host.c
++++ b/drivers/staging/media/atomisp/pci/isp/kernels/macc/macc_1.0/ia_css_macc_table.host.c
+@@ -19,7 +19,7 @@
  
- 	assert(pool);
- 	assert(pool->recycle);
-@@ -208,11 +208,11 @@ void rmgr_push_handle(struct ia_css_rmgr_vbuf_pool *pool,
- 		if (!pool->handles[i]) {
- 			ia_css_rmgr_refcount_retain_vbuf(handle);
- 			pool->handles[i] = *handle;
--			succes = true;
-+			success = true;
- 			break;
- 		}
- 	}
--	assert(succes);
-+	assert(success);
- }
+ /* Multi-Axes Color Correction table for ISP1.
+  *	64values = 2x2matrix for 16area, [s2.13]
+- *	ineffective: 16 of "identity 2x2 matix" {8192,0,0,8192}
++ *	ineffective: 16 of "identity 2x2 matrix" {8192,0,0,8192}
+  */
+ const struct ia_css_macc_table default_macc_table = {
+ 	{
+@@ -36,7 +36,7 @@ const struct ia_css_macc_table default_macc_table = {
  
- /*
+ /* Multi-Axes Color Correction table for ISP2.
+  *	64values = 2x2matrix for 16area, [s1.12]
+- *	ineffective: 16 of "identity 2x2 matix" {4096,0,0,4096}
++ *	ineffective: 16 of "identity 2x2 matrix" {4096,0,0,4096}
+  */
+ const struct ia_css_macc_table default_macc2_table = {
+ 	{
 -- 
 2.39.2 (Apple Git-143)
 
