@@ -1,105 +1,128 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from wout4-smtp.messagingengine.com (wout4-smtp.messagingengine.com [64.147.123.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3AA1312E47;
-	Sat, 23 Dec 2023 17:25:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E750314AB2
+	for <linux-staging@lists.linux.dev>; Sat, 23 Dec 2023 19:37:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=fastmail.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fastmail.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="Aj0VebDr"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=CQQESp8gFfmcpFTEZcuFObTGZOcaKuZ6kDi9nty6UKk=; b=Aj0VebDrk8KINg0Lb3DQB1oWPe
-	79C7rbLO1NpGez1/qG0MeL9s4UR60ffiZZeAUSKJzKLcXeFv1uoDx/ruLsnnXEfTHjPLohg0yoOjU
-	9jvbrJGPjhPaYh2vkOKGXf7n/IFC3MvT1zvyzXXlFEzKS4+EBrL1lQkzuhEDzk1YfDJ/vwdRPwOn9
-	+IWXBOtGqIySSJ6uAiZxNjhPsPkioxJsyoZJ7JxsurBpUHvNqqDo9E99bt7KRg9cDiF0n1nbJZ/O7
-	lTBiEFeJ7sr0VFipDYnPkmFb+g0P365YyBb+r9NzVPjMf3Fs9F88yXQFmMRaTSIdsUVan/S0RuBUx
-	GYSCLxYQ==;
-Received: from [50.53.46.231] (helo=[192.168.254.15])
-	by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
-	id 1rH5ke-008DSF-2M;
-	Sat, 23 Dec 2023 17:25:28 +0000
-Message-ID: <ddadc844-4f30-453d-87cc-1ecd67fd2f37@infradead.org>
-Date: Sat, 23 Dec 2023 09:25:28 -0800
+	dkim=pass (2048-bit key) header.d=fastmail.org header.i=@fastmail.org header.b="V2mng07B";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="6mCcRbxX"
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
+	by mailout.west.internal (Postfix) with ESMTP id C271E3200A27;
+	Sat, 23 Dec 2023 14:37:34 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute6.internal (MEProxy); Sat, 23 Dec 2023 14:37:35 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fastmail.org; h=
+	cc:cc:content-type:content-type:date:date:from:from:in-reply-to
+	:in-reply-to:message-id:mime-version:references:reply-to:subject
+	:subject:to:to; s=fm2; t=1703360254; x=1703446654; bh=uHlIw7kyLa
+	DAsRv1pMPPRSxaAnHaWfVJFKJmyski9UU=; b=V2mng07BQH/wNcyWuYiux2ME+J
+	JhSUJABVWTpSJ7ISYpaFLCra7LN9MpGn2PGWMplaCIM1qXtLJkMGJTrWKK9iNm/k
+	dV00+SWnZOe+6u5qt8JvQfjiYXnI/qYIReFv5W+Qi/6SNMunCyxzGo93zbaBBE37
+	cEuyiNK27ryL5xDi4HorrU6G6iGZUxHFGOdCvbkiG6pysjkJKY5gkrYzov1OPZB7
+	6kyzuL5DRqD5jCZiMRQOz6RKhBPOo8nPMftG/RV2lbj+wtGEJOW6V+/NOC+rJiBM
+	T88I9Ewlh+bx8r0ukia0R/KGNTEbpgQD/eg3UU/2h0D6yLNTw6hMXfZDgfyA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm2; t=1703360254; x=1703446654; bh=uHlIw7kyLaDAsRv1pMPPRSxaAnHa
+	WfVJFKJmyski9UU=; b=6mCcRbxXjsJ8N8PZUaDtXvA5rebBz4GnTM4/OUd3pFMB
+	bxGqIkKtsEgY+UBJDvukfs+v499HbpLb7LupKxy44FudK3KXFoG7tmz/K5P9E5IQ
+	XTAdPw0XDc+s+TQpfB7imHD8jOOHheJW+RThXImwvGpLrvd1PbuWPC9m+/4IFPhu
+	3kYOXTMJ06PksPbkhlcq1HDWuJsasw9uesAMWwaaE5yE8ybmz+e8XLZSTBj6+SFf
+	08IOzEYQ+QdU3DqNJ+9FZCkqybdfThmQ3zm+55VMksnjKhHpSZdQfHIrGQfb5t/J
+	eunPed33yZUs6eVRv+YpZQaMqbd7cnWs+zzbumXKSg==
+X-ME-Sender: <xms:_TaHZaHTzW29JRhiB4IoXC3QvAxhQmo_5mXUcBYUlDFaMIw-ft6KGQ>
+    <xme:_TaHZbXdJ6uFYN-r_ms_bMdvXov-zQvIQKzggXNIgnksw_GHuGvZsqmlpPm_e1UqS
+    aXpMG39Jdyok2HEEXo>
+X-ME-Received: <xmr:_TaHZUJcZgEq4yNEgWeHpAbyjTOUBdXlarwSID5OPxhb2CY-YMzV8PMOnP-ixENUcSyEEm3U7Hy4pTA3TvnMhZAwyZk>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvkedrvdduledguddvlecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+    enucfjughrpehffgfhvfevufffjgfkgggtsehgtderredtredtnecuhfhrohhmpefirghr
+    hicutfhoohhkrghrugcuoehgrghrhihrohhokhgrrhgusehfrghsthhmrghilhdrohhrgh
+    eqnecuggftrfgrthhtvghrnhepieelheehhedtieevudffudfgtdfgveejffdugfetgfet
+    ffduhffhffetvdeigeegnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrg
+    hilhhfrhhomhepghgrrhihrhhoohhkrghrugesfhgrshhtmhgrihhlrdhorhhg
+X-ME-Proxy: <xmx:_TaHZUEANB1WdIiET7IHMXl7yEDGEmQYXyyAUdJWs9czt06SygCoPQ>
+    <xmx:_TaHZQVGjv2XK8pWqpw9h89GzLu8zCJkN-MQ64koe9UNIPDl1sV0Ug>
+    <xmx:_TaHZXPq_iuICaBA0aRzroQ8ZPzFJH0ex5TZk9AgZSKOand46rLtLg>
+    <xmx:_jaHZdguWANxWKjDg5GNLPWpmKuJizO9lnZoBtRN8TCWFH3EsH9TLw>
+Feedback-ID: ifd194980:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
+ 23 Dec 2023 14:37:33 -0500 (EST)
+References: <20231216125303.3404-1-garyrookard@fastmail.org>
+ <2023122348-angular-shopper-0b92@gregkh>
+ <2023122316-alike-trimmer-b5db@gregkh>
+User-agent: mu4e 1.10.8; emacs 29.1
+From: Gary Rookard <garyrookard@fastmail.org>
+To: Greg KH <gregkh@linuxfoundation.org>
+Cc: philipp.g.hortmann@gmail.com, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 0/4] staging: rtl8192e: rename variable pHT
+Date: Sat, 23 Dec 2023 14:36:57 -0500
+In-reply-to: <2023122316-alike-trimmer-b5db@gregkh>
+Message-ID: <87a5q07lre.fsf@fastmail.org>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3] staging: media: atomisp: pci: Fix spelling mistake in
- ia_css_acc_types.h
-Content-Language: en-US
-To: Dipendra Khadka <kdipendra88@gmail.com>, hdegoede@redhat.com,
- mchehab@kernel.org, sakari.ailus@linux.intel.com,
- gregkh@linuxfoundation.org, hpa@redhat.com
-Cc: linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linuxfoundation.org
-References: <20231223141157.95501-1-kdipendra88@gmail.com>
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20231223141157.95501-1-kdipendra88@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; boundary="=-=-=";
+	micalg=pgp-sha256; protocol="application/pgp-signature"
+
+--=-=-=
+Content-Type: text/plain
+Content-Transfer-Encoding: quoted-printable
 
 
+Greg KH <gregkh@linuxfoundation.org> writes:
 
-On 12/23/23 06:11, Dipendra Khadka wrote:
-> codespell reported spelling mistakes in
-> ia_css_acc_types.h as below:
-> 
-> '''
-> ia_css_acc_types.h:87: cummulative ==> cumulative
-> ia_css_acc_types.h:411: descibes ==> describes
-> '''
-> 
-> This patch fixes these spelling mistakes.
-> Word "cummulative" is changed to "accumulation"
-> and "descibes" to "describes".
-> 
-> Signed-off-by: Dipendra Khadka <kdipendra88@gmail.com>
+> On Sat, Dec 23, 2023 at 02:07:10PM +0100, Greg KH wrote:
+>> On Sat, Dec 16, 2023 at 07:52:59AM -0500, Gary Rookard wrote:
+>> > Hi,
+>> >=20
+>> > This patch series renames (4) different variables with
+>> > checkpatch coding style issue Avoid CamelCase.
+>> >=20
+>> > (resubmittals)
+>>=20
+>> Does not apply to my tree :(
+>>=20
+>> Please rebase against the correct branch?
+>
+> Oh wait, this is an old one...
 
-Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
+=2D-
+Okay
 
-Thanks.
+Regards,
+Gary
+=2D-=20
+Sent with my mu4e on Void Linux.
 
-> ---
-> v3:
->  - Changed "cummulative" to "accumulation" as suggested by Randy.
-> v2: https://lore.kernel.org/lkml/20231223051108.74711-1-kdipendra88@gmail.com/
->  - Previously only corrected spelling  mistake reported by checkpatch.pl.
->  - All spelling mistakes reported by codespell are fixed.
-> v1: https://lore.kernel.org/lkml/20231222200350.2024-1-kdipendra88@gmail.com/
-> 
->  drivers/staging/media/atomisp/pci/ia_css_acc_types.h | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/staging/media/atomisp/pci/ia_css_acc_types.h b/drivers/staging/media/atomisp/pci/ia_css_acc_types.h
-> index d6e52b4971d6..f6838a8fc9d5 100644
-> --- a/drivers/staging/media/atomisp/pci/ia_css_acc_types.h
-> +++ b/drivers/staging/media/atomisp/pci/ia_css_acc_types.h
-> @@ -84,7 +84,7 @@ struct ia_css_blob_info {
->  		memory_offsets;  /** offset wrt hdr in bytes */
->  	u32 prog_name_offset;  /** offset wrt hdr in bytes */
->  	u32 size;			/** Size of blob */
-> -	u32 padding_size;	/** total cummulative of bytes added due to section alignment */
-> +	u32 padding_size;	/** total accumulation of bytes added due to section alignment */
->  	u32 icache_source;	/** Position of icache in blob */
->  	u32 icache_size;	/** Size of icache section */
->  	u32 icache_padding;/** bytes added due to icache section alignment */
-> @@ -408,7 +408,7 @@ struct ia_css_acc_sp {
->  };
->  
->  /* Acceleration firmware descriptor.
-> -  * This descriptor descibes either SP code (stand-alone), or
-> +  * This descriptor describes either SP code (stand-alone), or
->    * ISP code (a separate pipeline stage).
->    */
->  struct ia_css_acc_fw_hdr {
+--=-=-=
+Content-Type: application/pgp-signature; name="signature.asc"
 
--- 
-#Randy
-https://people.kernel.org/tglx/notes-about-netiquette
-https://subspace.kernel.org/etiquette.html
+-----BEGIN PGP SIGNATURE-----
+
+iQJNBAEBCAA3FiEE92Mpdr0+Cqw+uCNR5J46Hep3K4QFAmWHNxUZHGdhcnlyb29r
+YXJkQGZhc3RtYWlsLm9yZwAKCRDknjod6ncrhMbmD/9Bkz4+rnG/+l/tUVstk8KR
+Mi3fouCFXe/yllVH+VNd4D29Jl1nJaQGqvZ3cf1Bvbk9MvU4hu+OEJgydjpTBwf/
+0Itm7yN2+GMWpfxbVCOyPsiKxNJ4xuloK7iMJgzDzvd1uxfBCmkJBrL7gWmEH54N
+RZn0g/OSRelUiJLNFxNI9IOLqLWcnngIQAaY+L9FxIg8bpAe40dh4sOjQ59bkdBe
+/xNGyUSc2wOaF4P348Cetz8c3kzHrkqPkylma7nulAVELJiP2e72huoBFO8u5ivP
+nlBBWRazsGgtmRGS9AKzsxYOpCU8mhsBYu5VQmET0dw+I56BA+qDnHb0FfWcvGeE
+VTS9Be9cAQBxZTTG/8DlEQLqn2WdYTXn5jVxdtFiaNj6dttugseFD/0PYt7KGqG0
+qHxGU0q3q3eztcyqxGcTIpyWLofaFiKVHmsZwb3Ua7c0iItKUXbpx1Ypc0coGfou
+tEdQPFIctg1vd+nkqam75oiFGYlhZgwOPUvoyjJIka2NAQ8UnuyDPDlOoT+xKb1F
+BTQgAnJb3ghj4Ffd/npIk47aaucD7+sUSGwsobo4a9hxQ9cxrjon+sxkGJZr9/pR
+/ol0ZC8Hr9Td9nCmQlaONO7PbwyKWm5RnN1Ank03G2tkf0qi7f2Med/wHF+moGsM
+VqwO7s/dA8aqLyVxSEwzvQ==
+=pcMn
+-----END PGP SIGNATURE-----
+--=-=-=--
