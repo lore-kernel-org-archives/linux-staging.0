@@ -1,88 +1,110 @@
-Received: from outgoing.mit.edu (outgoing-auth-1.mit.edu [18.9.28.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-il1-f174.google.com (mail-il1-f174.google.com [209.85.166.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B90E644
-	for <linux-staging@lists.linux.dev>; Sat, 23 Dec 2023 00:45:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mit.edu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mit.edu
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78C477EE
+	for <linux-staging@lists.linux.dev>; Sat, 23 Dec 2023 01:59:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=darkphysics.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=darkphysics.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mit.edu header.i=@mit.edu header.b="GANTk477"
-Received: from cwcc.thunk.org (pool-173-48-113-111.bstnma.fios.verizon.net [173.48.113.111])
-	(authenticated bits=0)
-        (User authenticated as tytso@ATHENA.MIT.EDU)
-	by outgoing.mit.edu (8.14.7/8.12.4) with ESMTP id 3BN0gZOb010465
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 22 Dec 2023 19:42:36 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mit.edu; s=outgoing;
-	t=1703292158; bh=JgjeiVIv4kKmgwVoMAv3ITugW5Gtk3YYC6cswFFGaeQ=;
-	h=Date:From:Subject:Message-ID:MIME-Version:Content-Type;
-	b=GANTk477egdU+ilGBt820HsBPsy9Eo4yqwJLHt53NUWLe5WATRczjKKTNgpG64Yre
-	 w6agAHx95xYGZUR1vWLV+ofWtcGzikbTFHAOKsfNtoYptdsXh7953xT1xDoquDkv6R
-	 GN1RHE8o8FfrnPvAJXVl4ZPgMM9Epjlh+mQIcW0PABXq0tKep5xoe8/xEGd0iuS6MV
-	 no8CPuNQ9QfJ5GlyosySYPGI6UUxnxV1OZPzociY+9MfaoaCAezsAA/wWebw6kH6lG
-	 zG1wbC2vW0vDo6Bu67+av0acEkf8HCj/9Ze+RXbEPebjFwrKZtkzbYlgyjddTQeAQY
-	 gu/BirAfbHEvw==
-Received: by cwcc.thunk.org (Postfix, from userid 15806)
-	id 15FD715C02E0; Fri, 22 Dec 2023 19:42:35 -0500 (EST)
-Date: Fri, 22 Dec 2023 19:42:35 -0500
-From: "Theodore Ts'o" <tytso@mit.edu>
-To: Bagas Sanjaya <bagasdotme@gmail.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux Staging Drivers <linux-staging@lists.linux.dev>
-Subject: Re: "Link in bio" instead of Link:/Closes: trailer
-Message-ID: <20231223004235.GC325499@mit.edu>
-References: <ZYQeZjN_3bPOdKKf@archie.me>
- <2023122112-rigging-january-7618@gregkh>
- <cc276c0e-99bb-4422-9771-d864db4287cb@gmail.com>
- <2023122129-twisty-mumble-c667@gregkh>
- <ZYRIDDD_XR5HdVJu@archie.me>
+	dkim=pass (2048-bit key) header.d=darkphysics.net header.i=@darkphysics.net header.b="OYX51HYG"
+Received: by mail-il1-f174.google.com with SMTP id e9e14a558f8ab-35d725ac060so9717815ab.2
+        for <linux-staging@lists.linux.dev>; Fri, 22 Dec 2023 17:59:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=darkphysics.net; s=google; t=1703296785; x=1703901585; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=ctlNalyuZXM7QXcaBDfVpD88vAj0W7y83ft+PwjwWck=;
+        b=OYX51HYG+3RUOykBaXLWlGkHQBwu1YP196YtTwHKL2qh8qNEEjbKO1H/UC0tV/lViv
+         w7mkDNNIzqxTHpLMcC2SPpJTgXvP2nkqHOs1xCZknRcdwlc3zZ98Mm/Tp51waG70Qm3i
+         Jk9PwnkSHMSLQHaz8z18l4eWVwcezyDvQP3/N8qUR36XXHWDso0TSVnMsNjAeKnKFxrU
+         ibmK5Z3El4X39HTwPRbgAd7QXbr/XZWrFsadk7YSH8dmtzRmNeMtLdTCG/ufy4CtTYpF
+         N1IlWM7ovpLyoUugb4umTDHTNhex/9sOiP8AXpgjDBHzyg72riSPQ0z0TjTiejIgW0xg
+         cNYg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1703296785; x=1703901585;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=ctlNalyuZXM7QXcaBDfVpD88vAj0W7y83ft+PwjwWck=;
+        b=FHcSkm7taYu8ti/kQmvsoNPFoKNKHhvshI+ybxuAX89axDpzXTcTSC9yJoa6xuVsFi
+         HeWFUyKQQJFG6iR7e6D4SpAkP8hqtIr1hyHRoXnR4VzXQ+6IdBoGzQE/lTycFa1ndqLa
+         gTkntsVN/eMlohTIna27l4V2CJTzSxwEJJTDyl8sDg0FIEzi1VO4fLG8YQmey2qBc78j
+         LAtXbxcpsJkuzsAdHsiRxeAjrbhCk831BvZ2s3uViy+Dy/hA61WJ1IlHLOjQb5obqKCN
+         ff6foLqRV/223+msyD9GDbxn9ZvkhvHNpXwcKt0DCybqCqZH7OGKYez6v3SD4jBcXwb1
+         vBwQ==
+X-Gm-Message-State: AOJu0Yx76lcZjmLEGomKOYC7JSCwEVfTeqjwGr+lHDGqtxyUWFgLa+gx
+	IjnyCjycVuzVNbFLrFdshUPkDWRFBmHrYg==
+X-Google-Smtp-Source: AGHT+IF5iZbH+XBKyq6KWJhJMJ6yH+JHGBoWYXlam+kXP2sbUznmPLw6x/MoYYUYHORJ9LOwfLUcRg==
+X-Received: by 2002:a05:6e02:17cc:b0:35f:e2e3:803d with SMTP id z12-20020a056e0217cc00b0035fe2e3803dmr2117785ilu.2.1703296785388;
+        Fri, 22 Dec 2023 17:59:45 -0800 (PST)
+Received: from oatmeal.darkphysics (c-76-146-178-2.hsd1.wa.comcast.net. [76.146.178.2])
+        by smtp.gmail.com with ESMTPSA id kg15-20020a170903060f00b001d3edef115dsm4106546plb.20.2023.12.22.17.59.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 22 Dec 2023 17:59:45 -0800 (PST)
+From: Tree Davies <tdavies@darkphysics.net>
+To: gregkh@linuxfoundation.org,
+	philipp.g.hortmann@gmail.com,
+	anjan@momi.ca
+Cc: linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Tree Davies <tdavies@darkphysics.net>
+Subject: [PATCH 00/20] Staging: rtl8192e: Various checkpatch fixes related to rtllib_softmac.c 
+Date: Fri, 22 Dec 2023 17:59:22 -0800
+Message-Id: <20231223015942.418263-1-tdavies@darkphysics.net>
+X-Mailer: git-send-email 2.39.2
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZYRIDDD_XR5HdVJu@archie.me>
+Content-Transfer-Encoding: 8bit
 
-On Thu, Dec 21, 2023 at 09:13:32PM +0700, Bagas Sanjaya wrote:
-> I was scratching my itch whether common social media practices (such as that's
-> being discussed here) can be applied to kernel development.
+This series fixes various small checkpatch warnings and checks.
+Thank you in advance to reviewers.
+regards,
+Tree 
 
-The real problem is that someone's soecial media profile (whether it's
-Linkedin, or Facebook, or Threads, or Twitter) is not a stable, fixed
-resource.  So at any time in the future, the bug report in the Social
-media profile could get modified, or disappear when Elon Musk decides
-to take a user's Twitter username[1] away so he can resell the highly
-desireable account name to someone he likes better.  The git log is
-forever.  So pointing to a transient resource from a permanent log is
-a really, Really, REALLY bad idea.
+Tree Davies (20):
+  Staging: rtl8192e: Remove unnecessary braces from
+    MgntQuery_MgntFrameTxRate()
+  Staging: rtl8192e: Remove unnecessary parenthesis in
+    rtllib_softmac_new_net()
+  Staging: rtl8192e: Remove unnecessary parenthesis in
+    rtllib_association_req()
+  Staging: rtl8192e: Remove unnecessary parenthesis in
+    rtllib_rx_assoc_resp()
+  Staging: rtl8192e: Remove unnecessary parenthesis in
+    rtllib_ap_sec_type()
+  Staging: rtl8192e: Remove unnecessary parenthesis in
+    rtllib_association_req()
+  Staging: rtl8192e: Fixup multiple assinment in init_mgmt_queue()
+  Staging: rtl8192e: Fix statement broken across 2 lines in
+    rtllib_rx_assoc_resp()
+  Staging: rtl8192e: Fix function definition broken across multiple
+    lines
+  Staging: rtl8192e: Fixup statement broken across 2 lines in
+    rtllib_softmac_xmit()
+  Staging: rtl8192e: Fixup statement broken across 2 lines in
+    rtllib_softmac_new_net()
+  Staging: rtl8192e: Rename function rtllib_MFIE_Brate()
+  Staging: rtl8192e: Rename function rtllib_MFIE_Grate()
+  Staging: rtl8192e: Rename function rtllib_WMM_Info()
+  Staging: rtl8192e: Rename function rtllib_TURBO_Info()
+  Staging: rtl8192e: Rename variable QueryRate
+  Staging: rtl8192e: Rename variable BasicRate
+  Staging: rtl8192e: Rename variable skb_waitQ
+  Staging: rtl8192e: Rename variable bInitState
+  Staging: rtl8192e: Rename function rtllib_DisableNetMonitorMode()
 
-[1] https://slate.com/technology/2023/08/x-twitter-usernames-music-take-away-interview.html
+ .../staging/rtl8192e/rtl8192e/r8192E_cmdpkt.c |  4 +-
+ .../staging/rtl8192e/rtl8192e/r8192E_dev.c    |  2 +-
+ drivers/staging/rtl8192e/rtl8192e/rtl_core.c  |  6 +-
+ drivers/staging/rtl8192e/rtllib.h             |  6 +-
+ drivers/staging/rtl8192e/rtllib_softmac.c     | 90 +++++++++----------
+ drivers/staging/rtl8192e/rtllib_softmac_wx.c  |  2 +-
+ 6 files changed, 52 insertions(+), 58 deletions(-)
 
-Common social media practices are often quite terrible, and this is a
-great example about why they shouldn't be used for this purpose.  The
-bug report should be sent to a linux kernel mailing list, so everyone
-can see it, and then they can use a lore.kernel.org URL as the stable
-resource.
+-- 
+2.39.2
 
-If the bug report is in some other source where the people who run it
-understand the importance of stable information at stable URL's ---
-for example, bugzilla.kernel.org, bugzilla.redhat.com,
-bugs.debian.org, etc. that's also fine.  But a social media profile,
-which can be modified at the owner's whim (either of the social media
-account, or the social media comapny, or someone who has $44 billion
-dollars to carelessly throw around)?  That way lies madness.
-
-Just because something might "common social media pracitce", doesn't
-mean that it's a good idea.  In fact, some might argue that much of
-what happens on social media has a negative value to society, but
-that's a different debate....
-
-Cheers,
-
-					- Ted
