@@ -1,128 +1,132 @@
-Received: from wout4-smtp.messagingengine.com (wout4-smtp.messagingengine.com [64.147.123.20])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E750314AB2
-	for <linux-staging@lists.linux.dev>; Sat, 23 Dec 2023 19:37:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=fastmail.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fastmail.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 691B015A1
+	for <linux-staging@lists.linux.dev>; Sun, 24 Dec 2023 08:43:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=fastmail.org header.i=@fastmail.org header.b="V2mng07B";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="6mCcRbxX"
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
-	by mailout.west.internal (Postfix) with ESMTP id C271E3200A27;
-	Sat, 23 Dec 2023 14:37:34 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute6.internal (MEProxy); Sat, 23 Dec 2023 14:37:35 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fastmail.org; h=
-	cc:cc:content-type:content-type:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:subject
-	:subject:to:to; s=fm2; t=1703360254; x=1703446654; bh=uHlIw7kyLa
-	DAsRv1pMPPRSxaAnHaWfVJFKJmyski9UU=; b=V2mng07BQH/wNcyWuYiux2ME+J
-	JhSUJABVWTpSJ7ISYpaFLCra7LN9MpGn2PGWMplaCIM1qXtLJkMGJTrWKK9iNm/k
-	dV00+SWnZOe+6u5qt8JvQfjiYXnI/qYIReFv5W+Qi/6SNMunCyxzGo93zbaBBE37
-	cEuyiNK27ryL5xDi4HorrU6G6iGZUxHFGOdCvbkiG6pysjkJKY5gkrYzov1OPZB7
-	6kyzuL5DRqD5jCZiMRQOz6RKhBPOo8nPMftG/RV2lbj+wtGEJOW6V+/NOC+rJiBM
-	T88I9Ewlh+bx8r0ukia0R/KGNTEbpgQD/eg3UU/2h0D6yLNTw6hMXfZDgfyA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-	fm2; t=1703360254; x=1703446654; bh=uHlIw7kyLaDAsRv1pMPPRSxaAnHa
-	WfVJFKJmyski9UU=; b=6mCcRbxXjsJ8N8PZUaDtXvA5rebBz4GnTM4/OUd3pFMB
-	bxGqIkKtsEgY+UBJDvukfs+v499HbpLb7LupKxy44FudK3KXFoG7tmz/K5P9E5IQ
-	XTAdPw0XDc+s+TQpfB7imHD8jOOHheJW+RThXImwvGpLrvd1PbuWPC9m+/4IFPhu
-	3kYOXTMJ06PksPbkhlcq1HDWuJsasw9uesAMWwaaE5yE8ybmz+e8XLZSTBj6+SFf
-	08IOzEYQ+QdU3DqNJ+9FZCkqybdfThmQ3zm+55VMksnjKhHpSZdQfHIrGQfb5t/J
-	eunPed33yZUs6eVRv+YpZQaMqbd7cnWs+zzbumXKSg==
-X-ME-Sender: <xms:_TaHZaHTzW29JRhiB4IoXC3QvAxhQmo_5mXUcBYUlDFaMIw-ft6KGQ>
-    <xme:_TaHZbXdJ6uFYN-r_ms_bMdvXov-zQvIQKzggXNIgnksw_GHuGvZsqmlpPm_e1UqS
-    aXpMG39Jdyok2HEEXo>
-X-ME-Received: <xmr:_TaHZUJcZgEq4yNEgWeHpAbyjTOUBdXlarwSID5OPxhb2CY-YMzV8PMOnP-ixENUcSyEEm3U7Hy4pTA3TvnMhZAwyZk>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvkedrvdduledguddvlecutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
-    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
-    enucfjughrpehffgfhvfevufffjgfkgggtsehgtderredtredtnecuhfhrohhmpefirghr
-    hicutfhoohhkrghrugcuoehgrghrhihrohhokhgrrhgusehfrghsthhmrghilhdrohhrgh
-    eqnecuggftrfgrthhtvghrnhepieelheehhedtieevudffudfgtdfgveejffdugfetgfet
-    ffduhffhffetvdeigeegnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrg
-    hilhhfrhhomhepghgrrhihrhhoohhkrghrugesfhgrshhtmhgrihhlrdhorhhg
-X-ME-Proxy: <xmx:_TaHZUEANB1WdIiET7IHMXl7yEDGEmQYXyyAUdJWs9czt06SygCoPQ>
-    <xmx:_TaHZQVGjv2XK8pWqpw9h89GzLu8zCJkN-MQ64koe9UNIPDl1sV0Ug>
-    <xmx:_TaHZXPq_iuICaBA0aRzroQ8ZPzFJH0ex5TZk9AgZSKOand46rLtLg>
-    <xmx:_jaHZdguWANxWKjDg5GNLPWpmKuJizO9lnZoBtRN8TCWFH3EsH9TLw>
-Feedback-ID: ifd194980:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
- 23 Dec 2023 14:37:33 -0500 (EST)
-References: <20231216125303.3404-1-garyrookard@fastmail.org>
- <2023122348-angular-shopper-0b92@gregkh>
- <2023122316-alike-trimmer-b5db@gregkh>
-User-agent: mu4e 1.10.8; emacs 29.1
-From: Gary Rookard <garyrookard@fastmail.org>
-To: Greg KH <gregkh@linuxfoundation.org>
-Cc: philipp.g.hortmann@gmail.com, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 0/4] staging: rtl8192e: rename variable pHT
-Date: Sat, 23 Dec 2023 14:36:57 -0500
-In-reply-to: <2023122316-alike-trimmer-b5db@gregkh>
-Message-ID: <87a5q07lre.fsf@fastmail.org>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="c7lbSYgt"
+Received: by mail-pf1-f182.google.com with SMTP id d2e1a72fcca58-6d9b13fe9e9so317248b3a.2
+        for <linux-staging@lists.linux.dev>; Sun, 24 Dec 2023 00:43:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1703407384; x=1704012184; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=yPhLRPpbOyWFDlrNcxVxiAcHR3uYgN0cD7WJgGLlSus=;
+        b=c7lbSYgt76I7JPBC6gG1JqTfK9AR3k5K5x5MERlk86DcUdAZZIJwJ0hEoxCoEZYhIT
+         1SN0wCR2zo+saNobj/OtrdRBfHh/itV1THErihqVkZcML71A0jrcsRhiXBLFvGHFkRDp
+         qUrcyJup4g72Bl4dLe5jjHZGB2E/dYQKMhKacyCH4lL57/lZTSWtFGtF4mW8zuGiprvY
+         XXUsIBZO17rXrBdR+3fowwTIHato5G0J8dsEbn9TG6TNdPASQO2/r0RrRLjm+R30/KVK
+         a/o9oZUsy0MONcQ207R84O5lu2Vs0jH5b+dSfqTOy+sLVTrpKLAByyVguKFhFgI2NfF5
+         nDeQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1703407384; x=1704012184;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=yPhLRPpbOyWFDlrNcxVxiAcHR3uYgN0cD7WJgGLlSus=;
+        b=kBPRr5HCyPt8dIrbbmODfdmjKsViVjiSQIoD1mK/9zx4QWvCzGIL0HqefqqVGw85Hv
+         RzXsdeaKQgJ+WV3aBibYwO1LZDcml4llT5OgHCEkX90H055EK+Q9iVfLWWgvhXOCiewe
+         BB4m8AS0Y1qyx2X8mNKPJDY9A9SAk3nNkZ5wJRYQhq+bdCih2ybjpq3IZKtXeU+wZPbt
+         5lDNolxm/awh27T3McYN13MuXR4FaJPM4GQ+Np40f5gmDjWrgTpNomd5ZM2TTrrzYjYO
+         Hidk1/0lI/Z87FLnwqeY5yjtzxDWT3OyhRKDLCxl4OXLcee1B2FcUtJNbsIPhRQLpblj
+         TVCA==
+X-Gm-Message-State: AOJu0YzMQxKqPTJD/KsUV98KbzIj6fIR3bIREAvyr5famofF4LQBi5QA
+	DgdljYV2N3+azTvhOkwg1RY=
+X-Google-Smtp-Source: AGHT+IHVR49ySaT0zH46wy0p06MxK4qHJB+3hfhi6Upfwc+Z093j69p9XgQMuRaYX9IZuxBsm2Emxw==
+X-Received: by 2002:a05:6a00:1d9e:b0:6d9:6cc7:ed7c with SMTP id z30-20020a056a001d9e00b006d96cc7ed7cmr4713897pfw.60.1703407383704;
+        Sun, 24 Dec 2023 00:43:03 -0800 (PST)
+Received: from archie.me ([103.131.18.64])
+        by smtp.gmail.com with ESMTPSA id n22-20020a056a000d5600b006d999f4a3c0sm2518537pfv.152.2023.12.24.00.43.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 24 Dec 2023 00:43:03 -0800 (PST)
+Received: by archie.me (Postfix, from userid 1000)
+	id 96CE711D910F5; Sun, 24 Dec 2023 15:43:00 +0700 (WIB)
+Date: Sun, 24 Dec 2023 15:43:00 +0700
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+To: Theodore Ts'o <tytso@mit.edu>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+	Linux Staging Drivers <linux-staging@lists.linux.dev>
+Subject: Re: "Link in bio" instead of Link:/Closes: trailer
+Message-ID: <ZYfvFAwXOiKBOgw2@archie.me>
+References: <ZYQeZjN_3bPOdKKf@archie.me>
+ <2023122112-rigging-january-7618@gregkh>
+ <cc276c0e-99bb-4422-9771-d864db4287cb@gmail.com>
+ <2023122129-twisty-mumble-c667@gregkh>
+ <ZYRIDDD_XR5HdVJu@archie.me>
+ <20231223004235.GC325499@mit.edu>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="=-=-=";
-	micalg=pgp-sha256; protocol="application/pgp-signature"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="RZ+4EG3MQ7SlQlbY"
+Content-Disposition: inline
+In-Reply-To: <20231223004235.GC325499@mit.edu>
 
---=-=-=
-Content-Type: text/plain
+
+--RZ+4EG3MQ7SlQlbY
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
+On Fri, Dec 22, 2023 at 07:42:35PM -0500, Theodore Ts'o wrote:
+> On Thu, Dec 21, 2023 at 09:13:32PM +0700, Bagas Sanjaya wrote:
+> > I was scratching my itch whether common social media practices (such as=
+ that's
+> > being discussed here) can be applied to kernel development.
+>=20
+> The real problem is that someone's soecial media profile (whether it's
+> Linkedin, or Facebook, or Threads, or Twitter) is not a stable, fixed
+> resource.  So at any time in the future, the bug report in the Social
+> media profile could get modified, or disappear when Elon Musk decides
+> to take a user's Twitter username[1] away so he can resell the highly
+> desireable account name to someone he likes better.  The git log is
+> forever.  So pointing to a transient resource from a permanent log is
+> a really, Really, REALLY bad idea.
+>=20
+> [1] https://slate.com/technology/2023/08/x-twitter-usernames-music-take-a=
+way-interview.html
+>=20
+> Common social media practices are often quite terrible, and this is a
+> great example about why they shouldn't be used for this purpose.  The
+> bug report should be sent to a linux kernel mailing list, so everyone
+> can see it, and then they can use a lore.kernel.org URL as the stable
+> resource.
+>=20
+> If the bug report is in some other source where the people who run it
+> understand the importance of stable information at stable URL's ---
+> for example, bugzilla.kernel.org, bugzilla.redhat.com,
+> bugs.debian.org, etc. that's also fine.  But a social media profile,
+> which can be modified at the owner's whim (either of the social media
+> account, or the social media comapny, or someone who has $44 billion
+> dollars to carelessly throw around)?  That way lies madness.
+>=20
+> Just because something might "common social media pracitce", doesn't
+> mean that it's a good idea.  In fact, some might argue that much of
+> what happens on social media has a negative value to society, but
+> that's a different debate....
 
-Greg KH <gregkh@linuxfoundation.org> writes:
+Ted, thanks for the explanation!
 
-> On Sat, Dec 23, 2023 at 02:07:10PM +0100, Greg KH wrote:
->> On Sat, Dec 16, 2023 at 07:52:59AM -0500, Gary Rookard wrote:
->> > Hi,
->> >=20
->> > This patch series renames (4) different variables with
->> > checkpatch coding style issue Avoid CamelCase.
->> >=20
->> > (resubmittals)
->>=20
->> Does not apply to my tree :(
->>=20
->> Please rebase against the correct branch?
->
-> Oh wait, this is an old one...
+--=20
+An old man doll... just what I always wanted! - Clara
 
-=2D-
-Okay
-
-Regards,
-Gary
-=2D-=20
-Sent with my mu4e on Void Linux.
-
---=-=-=
+--RZ+4EG3MQ7SlQlbY
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQJNBAEBCAA3FiEE92Mpdr0+Cqw+uCNR5J46Hep3K4QFAmWHNxUZHGdhcnlyb29r
-YXJkQGZhc3RtYWlsLm9yZwAKCRDknjod6ncrhMbmD/9Bkz4+rnG/+l/tUVstk8KR
-Mi3fouCFXe/yllVH+VNd4D29Jl1nJaQGqvZ3cf1Bvbk9MvU4hu+OEJgydjpTBwf/
-0Itm7yN2+GMWpfxbVCOyPsiKxNJ4xuloK7iMJgzDzvd1uxfBCmkJBrL7gWmEH54N
-RZn0g/OSRelUiJLNFxNI9IOLqLWcnngIQAaY+L9FxIg8bpAe40dh4sOjQ59bkdBe
-/xNGyUSc2wOaF4P348Cetz8c3kzHrkqPkylma7nulAVELJiP2e72huoBFO8u5ivP
-nlBBWRazsGgtmRGS9AKzsxYOpCU8mhsBYu5VQmET0dw+I56BA+qDnHb0FfWcvGeE
-VTS9Be9cAQBxZTTG/8DlEQLqn2WdYTXn5jVxdtFiaNj6dttugseFD/0PYt7KGqG0
-qHxGU0q3q3eztcyqxGcTIpyWLofaFiKVHmsZwb3Ua7c0iItKUXbpx1Ypc0coGfou
-tEdQPFIctg1vd+nkqam75oiFGYlhZgwOPUvoyjJIka2NAQ8UnuyDPDlOoT+xKb1F
-BTQgAnJb3ghj4Ffd/npIk47aaucD7+sUSGwsobo4a9hxQ9cxrjon+sxkGJZr9/pR
-/ol0ZC8Hr9Td9nCmQlaONO7PbwyKWm5RnN1Ank03G2tkf0qi7f2Med/wHF+moGsM
-VqwO7s/dA8aqLyVxSEwzvQ==
-=pcMn
+iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZYfvEAAKCRD2uYlJVVFO
+o9j+AQCkIk2elNtkHfVdCpgwB2p128IMcO2VCewPfMsPrCfpngEA+l258liTNVUz
+b1WUWAMbZk3AxrqfuEtoA4G1lZZGbQY=
+=vnbm
 -----END PGP SIGNATURE-----
---=-=-=--
+
+--RZ+4EG3MQ7SlQlbY--
