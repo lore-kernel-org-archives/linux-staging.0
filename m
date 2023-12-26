@@ -1,153 +1,180 @@
-Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
+Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA4BD54279
-	for <linux-staging@lists.linux.dev>; Mon, 25 Dec 2023 20:23:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=darkphysics.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=darkphysics.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 822294CB38
+	for <linux-staging@lists.linux.dev>; Tue, 26 Dec 2023 08:23:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=darkphysics.net header.i=@darkphysics.net header.b="f0FfYHS+"
-Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-1d422c9f894so19857285ad.3
-        for <linux-staging@lists.linux.dev>; Mon, 25 Dec 2023 12:23:23 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="QTDelKec"
+Received: by mail-pf1-f180.google.com with SMTP id d2e1a72fcca58-6d9ac5bd128so247320b3a.0
+        for <linux-staging@lists.linux.dev>; Tue, 26 Dec 2023 00:23:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=darkphysics.net; s=google; t=1703535803; x=1704140603; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=YY8Yj/DU7Ru4GTNDSXSvBwYAcH02TIn/sHGmgQuRGjQ=;
-        b=f0FfYHS+A1zU6KLmAKYWVBT5GrPRrU/h+zvgrsjEGiLl4HjYJdJTGiyC9zr6UztH+T
-         CY0RNwZ+pb81QHgW2PWY/wbmF2KTvqYVpAYpAASEQlKEFFWDewAi/faIZJhaz0MF30rf
-         G1guKB0jcrSe0incHYdC8hO/cCvumuOCHUYHvYmy3nH20EsUTeLYKdFJOtX9oGR53TDl
-         vUjmB/vHLtl+oB9DcvGliZa15gw/4cU7fWVLjH+YP5tqmbIc7Ph410RdOBsZtliG5LYA
-         hj4Ph4WlF+UoUgtAcl/kkC4bZZtkmX8TOj98FckU9v/zbyIZPD1EO41uApEEjjml2K7a
-         00mw==
+        d=chromium.org; s=google; t=1703579033; x=1704183833; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=aLehRK77nhRqWHOhFH4iOgyb8YlvIlkQFgSTelSqOnM=;
+        b=QTDelKec51vS1ipyzpTrhzZYBysjGnU17fxc1undBs0mIZggdxpmDftICrwhL+adBA
+         oUswLQI08GqR7vqmcZe0Inpxgz9w7P7rnynVuP+T62AYKdiUlTXHB1N5AamkBULtuNT4
+         iOzsMA6N9QZwJ6p+LVct0xSaHptX8g025b8og=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1703535803; x=1704140603;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=YY8Yj/DU7Ru4GTNDSXSvBwYAcH02TIn/sHGmgQuRGjQ=;
-        b=Yl071+wJY8+c3APJrH0O++LrTFQRwpsmAmKApcZGSPnNoFBqiaKc4RVywVlF65Y1K5
-         VRt1n7D9V6hmbi60YPkj1c8OQJmKbS5/Y3FYLaVm2SLlKJCL+XlhZYRcrFBWmmshcv0w
-         TOhbW1xxE4clULqqmj0e//hPky1LJyxMvVfVSxiaNaQ5/6YUKL4IhsVq0X3YQQCuu79K
-         vIN5sq2Fa7DLdIfMxo+mnbX189pFT4VOXWVX7uDnGLqid+1RIgGQ2UZWSexr9mluHKUP
-         Y7+OsnTRTbQOtkoaQ+4gAiewiCyQ/vHTXnQfQ5cPDUF2KAP8HnMZish5G+TuJhNDChn4
-         bCdA==
-X-Gm-Message-State: AOJu0YzLDbzXeWR+zMBtYQP4VrDxi1yzBgCad25U2k/fEJJqlYvH1rUi
-	6Z7VpTRdsAd/9dPx6nGBT48KHU4wO9AqnA==
-X-Google-Smtp-Source: AGHT+IGxHy/lP2tgU3DLHGT71bu/t8Q4GMnCMpTPBHGajLrEVlge7LrR8vjYqJuBYy2IMgfQz9JHkg==
-X-Received: by 2002:a17:902:680b:b0:1d4:638f:3ff6 with SMTP id h11-20020a170902680b00b001d4638f3ff6mr945916plk.66.1703535803407;
-        Mon, 25 Dec 2023 12:23:23 -0800 (PST)
-Received: from oatmeal.darkphysics (c-76-146-178-2.hsd1.wa.comcast.net. [76.146.178.2])
-        by smtp.gmail.com with ESMTPSA id l17-20020a17090aaa9100b0028be5732f01sm8741246pjq.0.2023.12.25.12.23.22
+        d=1e100.net; s=20230601; t=1703579033; x=1704183833;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=aLehRK77nhRqWHOhFH4iOgyb8YlvIlkQFgSTelSqOnM=;
+        b=jlUjN67uZhbtDhEQGXz2FLl15p/3cRntYYDt0tGusEAclJQzCwPfLLRaPw9Ec2ZnWY
+         DZ8EUGlF04H6HR8hyXyqNg01EeItGEFNKWLTIM4IZgSDS7RFOR8uLsViwNNpNXTj9idb
+         DWBpoSSGRT4U9KBC3vRwzpOAzx37AnqZcU+HdPsaixdcT2ddt1hFksDnqzGHXhA+2GgT
+         /ST2KoGzfcl/LhGMiVmaHNhUnCHGfkPt/cgTf/oOXlijL9sKST10omzym1xi411z9JgR
+         yMUGDBYH/b+SFhNijgXg15sJieg/P5CdYjX7AnlYp9101VxgYxunGn/iBr+S8WcblRn9
+         9fsw==
+X-Gm-Message-State: AOJu0YyWSq9VAk23lPI/z81AeMMaVLFbgdSWmkaNej6dTlc1GRajkXk0
+	VJkHcusHosrfqoYxcV9JPL9K24OI4DND
+X-Google-Smtp-Source: AGHT+IG9doc507EpbIBeWdi8nniPXy2PH/GHhwLjp9Hs7CRC0/nXyDxCBsdM1zFB1N14bMygNEsNjQ==
+X-Received: by 2002:a05:6a21:8185:b0:18b:480:a0f3 with SMTP id pd5-20020a056a21818500b0018b0480a0f3mr2755854pzb.4.1703579032752;
+        Tue, 26 Dec 2023 00:23:52 -0800 (PST)
+Received: from chromium.org (112.157.221.35.bc.googleusercontent.com. [35.221.157.112])
+        by smtp.gmail.com with ESMTPSA id t18-20020a170902e85200b001d3be09f374sm9327431plg.275.2023.12.26.00.23.50
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 25 Dec 2023 12:23:22 -0800 (PST)
-From: Tree Davies <tdavies@darkphysics.net>
-To: gregkh@linuxfoundation.org,
-	philipp.g.hortmann@gmail.com,
-	anjan@momi.ca
-Cc: linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Tree Davies <tdavies@darkphysics.net>
-Subject: [PATCH 6/6] Staging: rtl8192e: Rename variable OpMode
-Date: Mon, 25 Dec 2023 12:23:14 -0800
-Message-Id: <20231225202314.31869-7-tdavies@darkphysics.net>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20231225202314.31869-1-tdavies@darkphysics.net>
-References: <20231225202314.31869-1-tdavies@darkphysics.net>
+        Tue, 26 Dec 2023 00:23:52 -0800 (PST)
+Date: Tue, 26 Dec 2023 08:23:49 +0000
+From: Tomasz Figa <tfiga@chromium.org>
+To: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Cc: hverkuil@xs4all.nl, mchehab@kernel.org, linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+	kernel@collabora.com
+Subject: Re: [PATCH v5 1/3] videobuf2: core: Rename min_buffers_needed field
+ to vb2_queue
+Message-ID: <20231226082349.x5ebvmt5dpanrm4k@chromium.org>
+References: <20231211133251.150999-1-benjamin.gaignard@collabora.com>
+ <20231211133251.150999-2-benjamin.gaignard@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231211133251.150999-2-benjamin.gaignard@collabora.com>
 
-Rename variable OpMode to op_mode to fix checkpatch
-warning Avoid CamelCase.
+Hi Benjamin,
 
-Signed-off-by: Tree Davies <tdavies@darkphysics.net>
----
- drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c | 10 +++++-----
- drivers/staging/rtl8192e/rtllib.h              |  2 +-
- drivers/staging/rtl8192e/rtllib_softmac.c      |  8 ++++----
- 3 files changed, 10 insertions(+), 10 deletions(-)
+On Mon, Dec 11, 2023 at 02:32:49PM +0100, Benjamin Gaignard wrote:
+> Rename min_buffers_needed into min_queued_buffers and update
+> the documentation about it.
+> 
 
-diff --git a/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c b/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c
-index ed0c152c2477..c7a2eae2fdb9 100644
---- a/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c
-+++ b/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c
-@@ -51,12 +51,12 @@ void rtl92e_set_reg(struct net_device *dev, u8 variable, u8 *val)
- 
- 	case HW_VAR_MEDIA_STATUS:
- 	{
--		enum rt_op_mode OpMode = *((enum rt_op_mode *)(val));
-+		enum rt_op_mode op_mode = *((enum rt_op_mode *)(val));
- 		u8 btMsr = rtl92e_readb(dev, MSR);
- 
- 		btMsr &= 0xfc;
- 
--		switch (OpMode) {
-+		switch (op_mode) {
- 		case RT_OP_MODE_INFRASTRUCTURE:
- 			btMsr |= MSR_INFRA;
- 			break;
-@@ -1693,12 +1693,12 @@ void rtl92e_stop_adapter(struct net_device *dev, bool reset)
- {
- 	struct r8192_priv *priv = rtllib_priv(dev);
- 	int i;
--	u8	OpMode;
-+	u8	op_mode;
- 	u8	u1bTmp;
- 	u32	ulRegRead;
- 
--	OpMode = RT_OP_MODE_NO_LINK;
--	priv->rtllib->SetHwRegHandler(dev, HW_VAR_MEDIA_STATUS, &OpMode);
-+	op_mode = RT_OP_MODE_NO_LINK;
-+	priv->rtllib->SetHwRegHandler(dev, HW_VAR_MEDIA_STATUS, &op_mode);
- 
- 	if (!priv->rtllib->bSupportRemoteWakeUp) {
- 		u1bTmp = 0x0;
-diff --git a/drivers/staging/rtl8192e/rtllib.h b/drivers/staging/rtl8192e/rtllib.h
-index df72504e9695..4ce80239b8b3 100644
---- a/drivers/staging/rtl8192e/rtllib.h
-+++ b/drivers/staging/rtl8192e/rtllib.h
-@@ -1187,7 +1187,7 @@ struct rtllib_device {
- 	unsigned long status;
- 	u8	CntAfterLink;
- 
--	enum rt_op_mode OpMode;
-+	enum rt_op_mode op_mode;
- 
- 	/* The last AssocReq/Resp IEs */
- 	u8 *assocreq_ies, *assocresp_ies;
-diff --git a/drivers/staging/rtl8192e/rtllib_softmac.c b/drivers/staging/rtl8192e/rtllib_softmac.c
-index 66816155ff36..80e323030f5f 100644
---- a/drivers/staging/rtl8192e/rtllib_softmac.c
-+++ b/drivers/staging/rtl8192e/rtllib_softmac.c
-@@ -2245,7 +2245,7 @@ static void rtllib_MlmeDisassociateRequest(struct rtllib_device *rtllib,
- 					   u8 *asSta, u8 asRsn)
- {
- 	u8 i;
--	u8	OpMode;
-+	u8	op_mode;
- 
- 	RemovePeerTS(rtllib, asSta);
- 
-@@ -2254,10 +2254,10 @@ static void rtllib_MlmeDisassociateRequest(struct rtllib_device *rtllib,
- 
- 		for (i = 0; i < 6; i++)
- 			rtllib->current_network.bssid[i] = 0x22;
--		OpMode = RT_OP_MODE_NO_LINK;
--		rtllib->OpMode = RT_OP_MODE_NO_LINK;
-+		op_mode = RT_OP_MODE_NO_LINK;
-+		rtllib->op_mode = RT_OP_MODE_NO_LINK;
- 		rtllib->SetHwRegHandler(rtllib->dev, HW_VAR_MEDIA_STATUS,
--					(u8 *)(&OpMode));
-+					(u8 *)(&op_mode));
- 		rtllib_disassociate(rtllib);
- 
- 		rtllib->SetHwRegHandler(rtllib->dev, HW_VAR_BSSID,
--- 
-2.39.2
+Sorry for being late to the party. I think this is generally a good idea,
+thanks for doing this! Just one comment inline.
 
+[snip]
+> diff --git a/drivers/media/common/videobuf2/videobuf2-core.c b/drivers/media/common/videobuf2/videobuf2-core.c
+> index 40d89f29fa33..8912dff5bde3 100644
+> --- a/drivers/media/common/videobuf2/videobuf2-core.c
+> +++ b/drivers/media/common/videobuf2/videobuf2-core.c
+> @@ -865,7 +865,7 @@ int vb2_core_reqbufs(struct vb2_queue *q, enum vb2_memory memory,
+>  	/*
+>  	 * Make sure the requested values and current defaults are sane.
+>  	 */
+> -	num_buffers = max_t(unsigned int, *count, q->min_buffers_needed);
+> +	num_buffers = max_t(unsigned int, *count, q->min_queued_buffers + 1);
+
+Where does this + 1 come from here?
+Agreed with Hans that this change deserves its own patch with a proper
+explanation in its description.
+
+>  	num_buffers = min_t(unsigned int, num_buffers, q->max_num_buffers);
+>  	memset(q->alloc_devs, 0, sizeof(q->alloc_devs));
+>  	/*
+> @@ -917,7 +917,7 @@ int vb2_core_reqbufs(struct vb2_queue *q, enum vb2_memory memory,
+>  	 * There is no point in continuing if we can't allocate the minimum
+>  	 * number of buffers needed by this vb2_queue.
+>  	 */
+> -	if (allocated_buffers < q->min_buffers_needed)
+> +	if (allocated_buffers < q->min_queued_buffers)
+>  		ret = -ENOMEM;
+>  
+>  	/*
+> @@ -1653,7 +1653,7 @@ EXPORT_SYMBOL_GPL(vb2_core_prepare_buf);
+>   * @q:		videobuf2 queue
+>   *
+>   * Attempt to start streaming. When this function is called there must be
+> - * at least q->min_buffers_needed buffers queued up (i.e. the minimum
+> + * at least q->min_queued_buffers queued up (i.e. the minimum
+>   * number of buffers required for the DMA engine to function). If the
+>   * @start_streaming op fails it is supposed to return all the driver-owned
+>   * buffers back to vb2 in state QUEUED. Check if that happened and if
+> @@ -1846,7 +1846,7 @@ int vb2_core_qbuf(struct vb2_queue *q, struct vb2_buffer *vb, void *pb,
+>  	 * then we can finally call start_streaming().
+>  	 */
+>  	if (q->streaming && !q->start_streaming_called &&
+> -	    q->queued_count >= q->min_buffers_needed) {
+> +	    q->queued_count >= q->min_queued_buffers) {
+>  		ret = vb2_start_streaming(q);
+>  		if (ret) {
+>  			/*
+> @@ -2210,9 +2210,9 @@ int vb2_core_streamon(struct vb2_queue *q, unsigned int type)
+>  		return -EINVAL;
+>  	}
+>  
+> -	if (q_num_bufs < q->min_buffers_needed) {
+> -		dprintk(q, 1, "need at least %u allocated buffers\n",
+> -				q->min_buffers_needed);
+> +	if (q_num_bufs < q->min_queued_buffers) {
+> +		dprintk(q, 1, "need at least %u queued buffers\n",
+
+Note that the value being checked here is the number of allocated buffers,
+not queued buffers. So basically we're enforcing here that at the time
+STREAMON is called, there is enough buffers allocated to queue the minimum
+number of buffers to start streaming, but then later down we're not
+actually enforcing that they are queued - if not, the queue start_streaming
+operation is deferred until enough buffers are queued.
+
+The question is: Do we really want this to be an error? Or should we just
+be consistent with the allocated-but-not-queued case and let the
+application allocate more buffers later using CREATE_BUFS?
+(Another question: How does an application know how many buffers to
+allocate for STREAMON to work?)
+
+That said, this doesn't really affect the correctness of the patch itself.
+Just some additional oddity in the current implementation that we could
+simplify in the future.
+
+> +			q->min_queued_buffers);
+>  		return -EINVAL;
+>  	}
+>  
+[snip]
+> diff --git a/include/media/videobuf2-core.h b/include/media/videobuf2-core.h
+> index 5557d78b6f20..f9a00b6c3c46 100644
+> --- a/include/media/videobuf2-core.h
+> +++ b/include/media/videobuf2-core.h
+> @@ -546,10 +546,13 @@ struct vb2_buf_ops {
+>   * @gfp_flags:	additional gfp flags used when allocating the buffers.
+>   *		Typically this is 0, but it may be e.g. %GFP_DMA or %__GFP_DMA32
+>   *		to force the buffer allocation to a specific memory zone.
+> - * @min_buffers_needed: the minimum number of buffers needed before
+> + * @min_queued_buffers: the minimum number of queued buffers needed before
+>   *		@start_streaming can be called. Used when a DMA engine
+>   *		cannot be started unless at least this number of buffers
+>   *		have been queued into the driver.
+> + *		VIDIOC_REQBUFS will ensure at least @min_queued_buffers + 1
+> + *		buffers will be allocated. Note that VIDIOC_CREATE_BUFS will not
+> + *		modify the requested buffer count.
+
+Same here, this + 1 needs a proper explanation.
+Also, I don't like this API inconsistency where REQBUFS guarantees the
+right number of buffers, but CREATE_BUFS doesn't. In fact, would an
+application have a way to know how many buffers to allocate if it simply
+wants to use CREATE_BUFS?
+
+(It's generally related to the oddity that I pointed out above. Maybe we
+should let the allocation code only handle allocation constraints and not
+care about STREAMON constraints?)
+
+[snip]
+
+Best regards,
+Tomasz
