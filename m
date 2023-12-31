@@ -1,55 +1,55 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D5CA322B
-	for <linux-staging@lists.linux.dev>; Sun, 31 Dec 2023 09:44:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07D0133D3
+	for <linux-staging@lists.linux.dev>; Sun, 31 Dec 2023 09:49:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="NMpcWZdq"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="SQUdYIqZ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1704015864;
+	s=mimecast20190719; t=1704016184;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=EuKW/WiYTJxSI9VLFVMNPYnkyJG0fGJhGRmQq6BzIUI=;
-	b=NMpcWZdqIN05g3gmtr6KD8jz5fzD3TD7h3JS0MA6iDGjMxJdg3ZSfx9B4+htZpXnKcCajJ
-	EKsndKZyDcw1kggrEDwRsudQDxqqBav+E6ynHtfzw4NYCE6JhRcZlDIW1L7gFaMlmMg6I5
-	Io3lYsm0Xa2ONu+xzlDSyAH5mgb1KOo=
-Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
- [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=06P+yxJB7L9syooh76lIMfJszoozMlJlWrSMKYy7B0o=;
+	b=SQUdYIqZdrlBGHOVcCmZeMNcHw2vFVAmYgcQzwT84mkQ0WaM4N4Q/S/BWeOHjTnvq4vZmx
+	jcqvhKkeZjgOIzUyfyKpAVOTzduBnYy+wSV1YlWhtvKD1yEfug7c3DJ55uT/0MIf+Idcbm
+	6Fdk1pP8YGP9GZdA/sKuOYG57VetKK4=
+Received: from mail-lj1-f198.google.com (mail-lj1-f198.google.com
+ [209.85.208.198]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-582-e3LKAZDnMaKTrb3Ra2SB3A-1; Sun, 31 Dec 2023 04:44:22 -0500
-X-MC-Unique: e3LKAZDnMaKTrb3Ra2SB3A-1
-Received: by mail-ej1-f72.google.com with SMTP id a640c23a62f3a-a27ab879162so107831466b.1
-        for <linux-staging@lists.linux.dev>; Sun, 31 Dec 2023 01:44:22 -0800 (PST)
+ us-mta-499-2YoilzVNORaNdfT2nc5y9Q-1; Sun, 31 Dec 2023 04:49:37 -0500
+X-MC-Unique: 2YoilzVNORaNdfT2nc5y9Q-1
+Received: by mail-lj1-f198.google.com with SMTP id 38308e7fff4ca-2ccbfa17001so32185711fa.2
+        for <linux-staging@lists.linux.dev>; Sun, 31 Dec 2023 01:49:37 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704015861; x=1704620661;
+        d=1e100.net; s=20230601; t=1704016176; x=1704620976;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=EuKW/WiYTJxSI9VLFVMNPYnkyJG0fGJhGRmQq6BzIUI=;
-        b=xDnPGuNunVb2Pn0nbCsyhtVOfle9Js4KH7aPy8WuupqU6jba7pe3F+yFL9YG/Y9cZg
-         SVVCve/06r7UEDPmljUDszK0kBG6UQXo7Cro/F65PRW4S82b0yPDvgcQLveHX+lG++DB
-         rI/H7J8NUCoZLatLUAYRjhXn7oiu7Sj3ZfcEKMbm3+JT0m31bBdwD8m0WZaXfOhyZKNK
-         s2HIxaR3vhDQsIf4FUC7HjSjHk4bPz4s7w5z1CrObqFrcg9AS/njHmuqFsEoIoE3ASfl
-         3jtjLex51N3eF8HKJA8u9N7WIGm4fPuEfEWSHIO0sP2CiQl7yBmk/vBY0PqMLWam46EW
-         O/+Q==
-X-Gm-Message-State: AOJu0YxwPBCVFPCZnlglAkG33FIH7+HGVa8Zaz934REdcO6kmanPqKAD
-	qTkOmb+lLY87/PxUvdsuIbhA52ih2H2xdOBj2rSZ4Oka/GXWIxPx1s5qVVXrWSVSqoRKVe5tQtX
-	FQH0T7MItoJtRJ3kQOV5NukjAnXRllNEuag==
-X-Received: by 2002:a17:907:3ac2:b0:a23:5893:1ac8 with SMTP id fi2-20020a1709073ac200b00a2358931ac8mr12276783ejc.27.1704015861771;
-        Sun, 31 Dec 2023 01:44:21 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IF/zizKMwsqQrr7Yg28UomwhUJDmAq2ZJO9CDn6qhcdAiFIo1fEqPPVWqvKf+f4ihpRARn9xA==
-X-Received: by 2002:a17:907:3ac2:b0:a23:5893:1ac8 with SMTP id fi2-20020a1709073ac200b00a2358931ac8mr12276778ejc.27.1704015861469;
-        Sun, 31 Dec 2023 01:44:21 -0800 (PST)
+        bh=06P+yxJB7L9syooh76lIMfJszoozMlJlWrSMKYy7B0o=;
+        b=jfP2931msz1JFmXeTCksw2jC0EWhYFClWo9Wnl4UZYi9hQchCqOm8jHUgmFuMYXXuW
+         25JDO0NEMxDCyYXQgTBLn0OOQ1AxSqkOMVZVBg4eco5ppoTaYXPd1y1VJAfYxB9vGXuC
+         eW2tSHbzYMvDK+lje/g8Inlo/bTUJnxTiQNJFfrSqzW4bYmD01YCOzQlIwJGUc+NDVtA
+         v2ZJq02c2s2/9sbqy7MiM+wt4YEBsyW2r+uyZBrnLi6GQrTlJa28A4YRMn57XsuksmNO
+         Fb7i3vNmVn0wsnkus8wt/BFUXRaoUeVNxQ5hJKQVaM3ssxLklA4mmT8v+PpQRyyf2y/7
+         /Eng==
+X-Gm-Message-State: AOJu0YxC1GTBQWyIfHp+W2lYwsqF8Z0Gokdyxl6U94kfEixXjZbmBBkX
+	y6UJn5gQzR5uYQVA6oE+RzhxEXq3/crBtLO/zwAaCI8dWUGMrDeAjer/UE+ow1ggXTdhQ9wv5n9
+	E9CNOfTFSZHAq5TF3HcfREgSvFv4r/NhcVw==
+X-Received: by 2002:a05:6512:2829:b0:50e:80db:e39f with SMTP id cf41-20020a056512282900b0050e80dbe39fmr4774752lfb.92.1704016176157;
+        Sun, 31 Dec 2023 01:49:36 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IG52VEr9QrD/BgWs6/s2qz/PU2Mi2WBqZxTlZbBoK18i20Z61V9yGvs4iactVekVpgx/gx4kA==
+X-Received: by 2002:a05:6512:2829:b0:50e:80db:e39f with SMTP id cf41-20020a056512282900b0050e80dbe39fmr4774738lfb.92.1704016175758;
+        Sun, 31 Dec 2023 01:49:35 -0800 (PST)
 Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
-        by smtp.gmail.com with ESMTPSA id z17-20020a170906715100b00a26966683e3sm10072345ejj.144.2023.12.31.01.44.20
+        by smtp.gmail.com with ESMTPSA id p12-20020a05640243cc00b0055493aa8905sm9894390edc.63.2023.12.31.01.49.35
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 31 Dec 2023 01:44:21 -0800 (PST)
-Message-ID: <91b0ae65-eefc-44f7-a801-fbe3ee6073a5@redhat.com>
-Date: Sun, 31 Dec 2023 10:44:20 +0100
+        Sun, 31 Dec 2023 01:49:35 -0800 (PST)
+Message-ID: <da90dec8-b0f3-4ebd-92fc-a33ec96b4905@redhat.com>
+Date: Sun, 31 Dec 2023 10:49:34 +0100
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -57,15 +57,15 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] staging: media/atomisp/pci/base/circbuf/interface: Fix
- spelling mistake in ia_css_circbuf.h
+Subject: Re: [PATCH] staging: media/atomisp/pci: Fix spelling mistakes in
+ sh_css_mipi.c
 To: Dipendra Khadka <kdipendra88@gmail.com>, mchehab@kernel.org,
  sakari.ailus@linux.intel.com, gregkh@linuxfoundation.org, hpa@redhat.com
 Cc: linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
  linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linuxfoundation.org
-References: <20231223061647.78669-1-kdipendra88@gmail.com>
+References: <20231223064152.79712-1-kdipendra88@gmail.com>
 From: Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <20231223061647.78669-1-kdipendra88@gmail.com>
+In-Reply-To: <20231223064152.79712-1-kdipendra88@gmail.com>
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Language: en-US, nl
@@ -74,14 +74,16 @@ Content-Transfer-Encoding: 7bit
 
 Hi,
 
-On 12/23/23 07:16, Dipendra Khadka wrote:
+On 12/23/23 07:41, Dipendra Khadka wrote:
 > codespell reported following spelling mistake
-> in ia_css_circbuf.h as below:
+> in sh_css_mipi.c as below:
 > 
 > '''
-> ./base/circbuf/interface/ia_css_circbuf.h:76: poistion ==> position
+> ./sh_css_mipi.c:177: separatelly ==> separately
+> ./sh_css_mipi.c:540: ofset ==> offset, of set
 > '''
-> This patch fixes this spelling mistake.
+> This patch fixes these spelling mistakes by changing
+> "separatelly" to "separately" and "ofset" to "offset".
 > 
 > Signed-off-by: Dipendra Khadka <kdipendra88@gmail.com>
 
@@ -99,20 +101,29 @@ Hans
 
 
 > ---
->  .../media/atomisp/pci/base/circbuf/interface/ia_css_circbuf.h   | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  drivers/staging/media/atomisp/pci/sh_css_mipi.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 > 
-> diff --git a/drivers/staging/media/atomisp/pci/base/circbuf/interface/ia_css_circbuf.h b/drivers/staging/media/atomisp/pci/base/circbuf/interface/ia_css_circbuf.h
-> index 0579deac5535..e9846951f4ed 100644
-> --- a/drivers/staging/media/atomisp/pci/base/circbuf/interface/ia_css_circbuf.h
-> +++ b/drivers/staging/media/atomisp/pci/base/circbuf/interface/ia_css_circbuf.h
-> @@ -73,7 +73,7 @@ uint32_t ia_css_circbuf_pop(
+> diff --git a/drivers/staging/media/atomisp/pci/sh_css_mipi.c b/drivers/staging/media/atomisp/pci/sh_css_mipi.c
+> index b7c1e164ee24..6e11fd771938 100644
+> --- a/drivers/staging/media/atomisp/pci/sh_css_mipi.c
+> +++ b/drivers/staging/media/atomisp/pci/sh_css_mipi.c
+> @@ -174,7 +174,7 @@ ia_css_mipi_frame_calculate_size(const unsigned int width,
+>  	mem_words = ((embedded_data_size_words + 7) >> 3) +
+>  	mem_words_for_first_line +
+>  	(((height + 1) >> 1) - 1) * mem_words_per_odd_line +
+> -	/* ceil (height/2) - 1 (first line is calculated separatelly) */
+> +	/* ceil (height/2) - 1 (first line is calculated separately) */
+>  	(height      >> 1) * mem_words_per_even_line + /* floor(height/2) */
+>  	mem_words_for_EOF;
 >  
->  /**
->   * @brief Extract a value out of the circular buffer.
-> - * Get a value at an arbitrary poistion in the circular
-> + * Get a value at an arbitrary position in the circular
->   * buffer. The user should call "ia_css_circbuf_is_empty()"
->   * to avoid accessing to an empty buffer.
->   *
+> @@ -537,7 +537,7 @@ send_mipi_frames(struct ia_css_pipe *pipe)
+>  
+>  	/* Hand-over the SP-internal mipi buffers */
+>  	for (i = 0; i < my_css.num_mipi_frames[port]; i++) {
+> -		/* Need to include the ofset for port. */
+> +		/* Need to include the offset for port. */
+>  		sh_css_update_host2sp_mipi_frame(port * NUM_MIPI_FRAMES_PER_STREAM + i,
+>  						 my_css.mipi_frames[port][i]);
+>  		sh_css_update_host2sp_mipi_metadata(port * NUM_MIPI_FRAMES_PER_STREAM + i,
 
