@@ -1,140 +1,124 @@
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D00C99455
-	for <linux-staging@lists.linux.dev>; Sun, 31 Dec 2023 09:50:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C277AB64C
+	for <linux-staging@lists.linux.dev>; Sun, 31 Dec 2023 10:31:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="DCQyUXg9"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="fA2VxsBD"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1704016255;
+	s=mimecast20190719; t=1704018671;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=QhZUTd/H07Uvw7u2aVbJSjltpuPY6hRS4P4m9ENSPLw=;
-	b=DCQyUXg9bF90mhg4bS3tVjwftV8gpS1McBWIYLAGvh/Ww3GriP1UUtvIRjh0cpkhEFPf2v
-	myg7GOsV/7sXFRLzPNammVpwMMJVJgJlwj7bIXVwYqF3gnL7QoXJkXDgkwxSq0dPq3DK5T
-	cMIb7qJGRhs8n4tM8XaboQbYDCMoIrk=
-Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
- [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=mDh8dOmktcmj7w+yT3A1PZiQonA+Ubb3/s2sc3pjhy8=;
+	b=fA2VxsBD3wkxEPvblsK5x5ptsBnkQtRMQiyfJUgoLD+ovDziU00NKhsRP/FpqWoHxPa+vr
+	1BXrx2pQxRI6bPQen4K+fezuIwsF7rruXeEls4/GdQtx4GQJPETHUmcg0uu+LchRnBPpuZ
+	rJNtVCIArtGsJpx/ipNCrCd+cUM9vbc=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-605-Jc8SXh6lMs20XbsH6VArnA-1; Sun, 31 Dec 2023 04:50:48 -0500
-X-MC-Unique: Jc8SXh6lMs20XbsH6VArnA-1
-Received: by mail-ej1-f69.google.com with SMTP id a640c23a62f3a-a269e735edfso819770966b.0
-        for <linux-staging@lists.linux.dev>; Sun, 31 Dec 2023 01:50:48 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704016248; x=1704621048;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=QhZUTd/H07Uvw7u2aVbJSjltpuPY6hRS4P4m9ENSPLw=;
-        b=jSAczQ9EmsEw/PkGugHRc6Y2ubAOlWegyQ/cGrAdmCV7lFd7xHqzOG6IdPdQ00oIgy
-         rXzaeOkXYlp7KOI1M9SC4kIkXVZGrgH85tTqHy1LlEJiCtR9q/8zmF+oIbPtwGjtoA9A
-         8dE7K9oP78KOGZM7dK3RJg2uUE6Sp25bc0gO68ji9TdcyZhuVHh60KxnygEWThXWsCq6
-         pLP+w3DqaXvjaWIIMagQvXZt7uk+d24n+PtlqbvJdR59bbKWIyCTq1Uo2FQ+bmOlaOB+
-         wg+tS8Y4w19bwepJ13JwJLkyvkpk2tpktIof4f33br3viEQ+p60DmG+ij/788GfPZLNM
-         uUAg==
-X-Gm-Message-State: AOJu0YzohCx6FsHr7AB91cEDxbCGmWEZKRktfuNsJQL8sKaEiO8PjvJT
-	frC/ujmItnozPopYArzUEtrtyZ6z1p7xC8w6OooyLWUlC8JAAbP+STJ422xj4MPyw9B+LHEYG/F
-	vwtjnPthfpSCWcQ3K4b3UWjOZYH0/dDypCQ==
-X-Received: by 2002:a05:6402:206c:b0:554:448d:c4a5 with SMTP id bd12-20020a056402206c00b00554448dc4a5mr11611695edb.13.1704016247853;
-        Sun, 31 Dec 2023 01:50:47 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IH5IZnzaHDdgE/IRBdvRxny2kWlK9XSzfGwaU2d8BMjhMEYr1AvINGSZPGd2vxco9f93vQgiA==
-X-Received: by 2002:a05:6402:206c:b0:554:448d:c4a5 with SMTP id bd12-20020a056402206c00b00554448dc4a5mr11611684edb.13.1704016247673;
-        Sun, 31 Dec 2023 01:50:47 -0800 (PST)
-Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
-        by smtp.gmail.com with ESMTPSA id p12-20020a05640243cc00b0055493aa8905sm9894390edc.63.2023.12.31.01.50.46
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 31 Dec 2023 01:50:47 -0800 (PST)
-Message-ID: <7d43e396-9496-42c3-9396-7f0fbda40bc0@redhat.com>
-Date: Sun, 31 Dec 2023 10:50:46 +0100
+ us-mta-509-iX8E2KdRPfW7DvuKR-TTiw-1; Sun, 31 Dec 2023 05:31:08 -0500
+X-MC-Unique: iX8E2KdRPfW7DvuKR-TTiw-1
+Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com [10.11.54.9])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 8F371831003;
+	Sun, 31 Dec 2023 10:31:07 +0000 (UTC)
+Received: from localhost.localdomain (unknown [10.39.192.59])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id F0264492BC6;
+	Sun, 31 Dec 2023 10:31:05 +0000 (UTC)
+From: Hans de Goede <hdegoede@redhat.com>
+To: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Andy Shevchenko <andy@kernel.org>
+Cc: Hans de Goede <hdegoede@redhat.com>,
+	Kate Hsuan <hpa@redhat.com>,
+	Tsuchiya Yuto <kitakar@gmail.com>,
+	Yury Luneff <yury.lunev@gmail.com>,
+	Nable <nable.maininbox@googlemail.com>,
+	andrey.i.trufanov@gmail.com,
+	Fabio Aiuto <fabioaiuto83@gmail.com>,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev
+Subject: [PATCH 00/15] media: atomisp: NULL pointer deref + missing firmware fixes
+Date: Sun, 31 Dec 2023 11:30:42 +0100
+Message-ID: <20231231103057.35837-1-hdegoede@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3] staging: media: atomisp: pci: Fix spelling mistake in
- ia_css_acc_types.h
-To: Dipendra Khadka <kdipendra88@gmail.com>, mchehab@kernel.org,
- sakari.ailus@linux.intel.com, gregkh@linuxfoundation.org, hpa@redhat.com
-Cc: linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linuxfoundation.org
-References: <20231223141157.95501-1-kdipendra88@gmail.com>
-From: Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <20231223141157.95501-1-kdipendra88@gmail.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US, nl
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.9
 
-Hi,
+Hi All,
 
-On 12/23/23 15:11, Dipendra Khadka wrote:
-> codespell reported spelling mistakes in
-> ia_css_acc_types.h as below:
-> 
-> '''
-> ia_css_acc_types.h:87: cummulative ==> cumulative
-> ia_css_acc_types.h:411: descibes ==> describes
-> '''
-> 
-> This patch fixes these spelling mistakes.
-> Word "cummulative" is changed to "accumulation"
-> and "descibes" to "describes".
-> 
-> Signed-off-by: Dipendra Khadka <kdipendra88@gmail.com>
+Here is a set of atomisp fixes I have been working on:
 
-Thank you for your patch.
+- The first commit in this series fixes the driver no longer
+  working due to v4l2_subdev_state handling in media_stage/master
 
-I have merged this in my media-atomisp branch:
-https://git.kernel.org/pub/scm/linux/kernel/git/hansg/linux.git/log/?h=media-atomisp
+- Gracefully handle missing firmware:
+  - Fix the driver crashing the system when the firmware is missing
+  - Make the driver bind in power-managent-only mode when the firmware
+    is missing so that the ISP is still properly turned off. This
+    requires custom handling, not just standard PCI power-management.
+    This allows the system to properly enter S0i3 with missing ISP
+    firmware, allowing the atomisp driver to be used as a replacement
+    for the pm-only drivers/platform/x86/atomisp/pm.c driver.
 
-And this patch will be included in my next
-pull-request to Mauro (to media subsystem maintainer)
+I am going to send out a pull-request to Mauro for this almost directly
+after sending these patches to the list, leaving pretty much zero time
+for review. Sorry about that, with the holidays the timing did not work
+out very well.
+
+If review finds any significant issues I'll do a set of follow up
+patches to fix those.
 
 Regards,
 
 Hans
 
 
+Hans de Goede (15):
+  media: atomisp: Adjust for v4l2_subdev_state handling changes in 6.8
+  media: atomisp: Refactor sensor crop + fmt setting
+  media: atomisp: Remove s_routing subdev call
+  media: atomisp: Remove remaining deferred firmware loading code
+  media: atomisp: Drop is_valid_device() function
+  media: atomisp: Call pcim_enable_device() and pcim_iomap_regions()
+    later
+  media: atomisp: Fix probe error-exit path
+  media: atomisp: Fix atomisp_pci_remove()
+  media: atomisp: Group cpu_latency_qos_add_request() call together with
+    other PM calls
+  media: atomisp: Fix probe()/remove() power-management
+  media: atomisp: Replace atomisp_drvfs attr with using
+    driver.dev_groups attr
+  media: atomisp: Move power-management [un]init into
+    atomisp_pm_[un]init()
+  media: atomisp: Bind and do power-management without firmware
+  media: atomisp: Remove unnecessary msleep(10) from
+    atomisp_mrfld_power() error path
+  media: atomisp: Update TODO
 
+ drivers/staging/media/atomisp/TODO            |  10 -
+ .../staging/media/atomisp/pci/atomisp_cmd.c   | 133 ++++----
+ .../media/atomisp/pci/atomisp_compat_css20.c  |   2 +-
+ .../staging/media/atomisp/pci/atomisp_drvfs.c | 148 +++-----
+ .../staging/media/atomisp/pci/atomisp_drvfs.h |   5 +-
+ .../media/atomisp/pci/atomisp_internal.h      |   5 +-
+ .../staging/media/atomisp/pci/atomisp_ioctl.c |  60 ++--
+ .../staging/media/atomisp/pci/atomisp_v4l2.c  | 319 ++++++++----------
+ .../media/atomisp/pci/ia_css_control.h        |  29 +-
+ .../media/atomisp/pci/ia_css_firmware.h       |   6 +-
+ drivers/staging/media/atomisp/pci/sh_css.c    |  33 +-
+ 11 files changed, 309 insertions(+), 441 deletions(-)
 
-> ---
-> v3:
->  - Changed "cummulative" to "accumulation" as suggested by Randy.
-> v2: https://lore.kernel.org/lkml/20231223051108.74711-1-kdipendra88@gmail.com/
->  - Previously only corrected spelling  mistake reported by checkpatch.pl.
->  - All spelling mistakes reported by codespell are fixed.
-> v1: https://lore.kernel.org/lkml/20231222200350.2024-1-kdipendra88@gmail.com/
-> 
->  drivers/staging/media/atomisp/pci/ia_css_acc_types.h | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/staging/media/atomisp/pci/ia_css_acc_types.h b/drivers/staging/media/atomisp/pci/ia_css_acc_types.h
-> index d6e52b4971d6..f6838a8fc9d5 100644
-> --- a/drivers/staging/media/atomisp/pci/ia_css_acc_types.h
-> +++ b/drivers/staging/media/atomisp/pci/ia_css_acc_types.h
-> @@ -84,7 +84,7 @@ struct ia_css_blob_info {
->  		memory_offsets;  /** offset wrt hdr in bytes */
->  	u32 prog_name_offset;  /** offset wrt hdr in bytes */
->  	u32 size;			/** Size of blob */
-> -	u32 padding_size;	/** total cummulative of bytes added due to section alignment */
-> +	u32 padding_size;	/** total accumulation of bytes added due to section alignment */
->  	u32 icache_source;	/** Position of icache in blob */
->  	u32 icache_size;	/** Size of icache section */
->  	u32 icache_padding;/** bytes added due to icache section alignment */
-> @@ -408,7 +408,7 @@ struct ia_css_acc_sp {
->  };
->  
->  /* Acceleration firmware descriptor.
-> -  * This descriptor descibes either SP code (stand-alone), or
-> +  * This descriptor describes either SP code (stand-alone), or
->    * ISP code (a separate pipeline stage).
->    */
->  struct ia_css_acc_fw_hdr {
+-- 
+2.43.0
 
