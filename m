@@ -1,36 +1,36 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11C3033D5
-	for <linux-staging@lists.linux.dev>; Sun, 31 Dec 2023 10:31:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5B065390
+	for <linux-staging@lists.linux.dev>; Sun, 31 Dec 2023 10:31:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="WzqFMdo4"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="EfQmz8bo"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1704018681;
+	s=mimecast20190719; t=1704018684;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=4Qk5vDb2c2h9sLsJfdVsGU1LkgZW1c5p5JmKyi3n3Ds=;
-	b=WzqFMdo4UvUkEfWawk5V02WqCa9DV1VBrmlwJj4imOBoxDtu8Pa44RDGsVcWQ135MsntDW
-	WP6ZxHwbGyGik5CNedCxUO4YOHpdfzrmHez102IqDdY57ojIcvPk5WkDcVfMSkZt1NAcS9
-	AlYTK3FUOCsD9MVF08K6iJjV6EmEcZY=
+	bh=8roqVBsjH2VTw0PdNh5kieuqyXZ5Eq9sxg65swMshRw=;
+	b=EfQmz8boMKQK/vV03vix0J3j4O4tCF+IlJhzqHTSx2nu5O00c8y5QTQvudcVavTaUXsDAJ
+	9uAeRRqF13Ovc1a3RMAWRN3FIrmMex/b+pOs/KaR8wmNOA9BRW6N+0ySJ8pbE6FivlGsO6
+	tyAuGx5CVlgtqbpnsaeUkfbArYrhr24=
 Received: from mimecast-mx02.redhat.com (mx-ext.redhat.com [66.187.233.73])
  by relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-474-79u70tKvPnuZfdgK17sEyw-1; Sun,
- 31 Dec 2023 05:31:16 -0500
-X-MC-Unique: 79u70tKvPnuZfdgK17sEyw-1
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-687-rb4PMvagPKiKCjF5_2m7aA-1; Sun,
+ 31 Dec 2023 05:31:20 -0500
+X-MC-Unique: rb4PMvagPKiKCjF5_2m7aA-1
 Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com [10.11.54.9])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 267993C0C48C;
-	Sun, 31 Dec 2023 10:31:16 +0000 (UTC)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id D1F511C0514E;
+	Sun, 31 Dec 2023 10:31:19 +0000 (UTC)
 Received: from localhost.localdomain (unknown [10.39.192.59])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 898EC492BC6;
-	Sun, 31 Dec 2023 10:31:14 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 59979492BC6;
+	Sun, 31 Dec 2023 10:31:18 +0000 (UTC)
 From: Hans de Goede <hdegoede@redhat.com>
 To: Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Sakari Ailus <sakari.ailus@linux.intel.com>,
@@ -44,9 +44,9 @@ Cc: Hans de Goede <hdegoede@redhat.com>,
 	Fabio Aiuto <fabioaiuto83@gmail.com>,
 	linux-media@vger.kernel.org,
 	linux-staging@lists.linux.dev
-Subject: [PATCH 05/15] media: atomisp: Drop is_valid_device() function
-Date: Sun, 31 Dec 2023 11:30:47 +0100
-Message-ID: <20231231103057.35837-6-hdegoede@redhat.com>
+Subject: [PATCH 07/15] media: atomisp: Fix probe error-exit path
+Date: Sun, 31 Dec 2023 11:30:49 +0100
+Message-ID: <20231231103057.35837-8-hdegoede@redhat.com>
 In-Reply-To: <20231231103057.35837-1-hdegoede@redhat.com>
 References: <20231231103057.35837-1-hdegoede@redhat.com>
 Precedence: bulk
@@ -58,94 +58,140 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.9
 
-Now that a single build supports both the ISP 2400 and the ISP 2401
-this function is no longer necessary. The main probe() already
-contains a similar switch (id->device & ATOMISP_PCI_DEVICE_SOC_MASK)
-checking for a known device_id.
-
-Move the revision check into the main probe() and drop
-the is_valid_device() function.
+Fix probe error-exit path:
+-Add a missing ia_css_unload_firmware() call when v4l2_async_nf_register()
+ fails
+-Add a missing pm_runtime_forbid() call to undo the pm_runtime_allow() call
+-Remove the unnecessary pcim_iounmap_regions() those are devm managed
+ so they will get cleaned up automatically on an error exit from probe()
+-Rename the labels to avoid having multiple labels pointing to the same
+ place in the error-exit path
 
 Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 ---
- .../staging/media/atomisp/pci/atomisp_v4l2.c  | 50 ++-----------------
- 1 file changed, 5 insertions(+), 45 deletions(-)
+ .../staging/media/atomisp/pci/atomisp_v4l2.c  | 39 +++++++++----------
+ 1 file changed, 19 insertions(+), 20 deletions(-)
 
 diff --git a/drivers/staging/media/atomisp/pci/atomisp_v4l2.c b/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
-index 206fdaee5952..176b39906d10 100644
+index 0eea20704e66..336c5a895ecc 100644
 --- a/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
 +++ b/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
-@@ -1192,48 +1192,6 @@ atomisp_load_firmware(struct atomisp_device *isp)
- 	return fw;
- }
- 
--/*
-- * Check for flags the driver was compiled with against the PCI
-- * device. Always returns true on other than ISP 2400.
-- */
--static bool is_valid_device(struct pci_dev *pdev, const struct pci_device_id *id)
--{
--	const char *name;
--	const char *product;
--
--	product = dmi_get_system_info(DMI_PRODUCT_NAME);
--
--	switch (id->device & ATOMISP_PCI_DEVICE_SOC_MASK) {
--	case ATOMISP_PCI_DEVICE_SOC_MRFLD:
--		name = "Merrifield";
--		break;
--	case ATOMISP_PCI_DEVICE_SOC_BYT:
--		name = "Baytrail";
--		break;
--	case ATOMISP_PCI_DEVICE_SOC_ANN:
--		name = "Anniedale";
--		break;
--	case ATOMISP_PCI_DEVICE_SOC_CHT:
--		name = "Cherrytrail";
--		break;
--	default:
--		dev_err(&pdev->dev, "%s: unknown device ID %x04:%x04\n",
--			product, id->vendor, id->device);
--		return false;
--	}
--
--	if (pdev->revision <= ATOMISP_PCI_REV_BYT_A0_MAX) {
--		dev_err(&pdev->dev, "%s revision %d is not unsupported\n",
--			name, pdev->revision);
--		return false;
--	}
--
--	dev_info(&pdev->dev, "Detected %s version %d (ISP240%c) on %s\n",
--		 name, pdev->revision, IS_ISP2401 ? '1' : '0', product);
--
--	return true;
--}
--
- #define ATOM_ISP_PCI_BAR	0
- 
- static int atomisp_pci_probe(struct pci_dev *pdev, const struct pci_device_id *id)
-@@ -1244,9 +1202,6 @@ static int atomisp_pci_probe(struct pci_dev *pdev, const struct pci_device_id *i
- 	int err, val;
- 	u32 irq;
- 
--	if (!is_valid_device(pdev, id))
--		return -ENODEV;
--
- 	/* Pointer to struct device. */
- 	atomisp_dev = &pdev->dev;
- 
-@@ -1386,6 +1341,11 @@ static int atomisp_pci_probe(struct pci_dev *pdev, const struct pci_device_id *i
- 		goto atomisp_dev_alloc_fail;
+@@ -1337,25 +1337,25 @@ static int atomisp_pci_probe(struct pci_dev *pdev, const struct pci_device_id *i
+ 	if (!isp->firmware) {
+ 		err = -ENOENT;
+ 		dev_dbg(&pdev->dev, "Firmware load failed\n");
+-		goto load_fw_fail;
++		goto error_power_off;
  	}
  
-+	if (pdev->revision <= ATOMISP_PCI_REV_BYT_A0_MAX) {
-+		dev_err(&pdev->dev, "revision %d is not unsupported\n", pdev->revision);
-+		return -ENODEV;
-+	}
-+
- 	dev_info(&pdev->dev, "ISP HPLL frequency base = %d MHz\n", isp->hpll_freq);
+ 	err = sh_css_check_firmware_version(isp->dev, isp->firmware->data);
+ 	if (err) {
+ 		dev_dbg(&pdev->dev, "Firmware version check failed\n");
+-		goto fw_validation_fail;
++		goto error_release_firmware;
+ 	}
  
- 	isp->max_isr_latency = ATOMISP_MAX_ISR_LATENCY;
+ 	err = pcim_enable_device(pdev);
+ 	if (err) {
+ 		dev_err(&pdev->dev, "Failed to enable ISP PCI device (%d)\n", err);
+-		goto pci_enable_fail;
++		goto error_release_firmware;
+ 	}
+ 
+ 	err = pcim_iomap_regions(pdev, BIT(ATOM_ISP_PCI_BAR), pci_name(pdev));
+ 	if (err) {
+ 		dev_err(&pdev->dev, "Failed to I/O memory remapping (%d)\n", err);
+-		goto ioremap_fail;
++		goto error_release_firmware;
+ 	}
+ 
+ 	isp->base = pcim_iomap_table(pdev)[ATOM_ISP_PCI_BAR];
+@@ -1365,7 +1365,7 @@ static int atomisp_pci_probe(struct pci_dev *pdev, const struct pci_device_id *i
+ 	err = pci_alloc_irq_vectors(pdev, 1, 1, PCI_IRQ_MSI);
+ 	if (err < 0) {
+ 		dev_err(&pdev->dev, "Failed to enable msi (%d)\n", err);
+-		goto enable_msi_fail;
++		goto error_release_firmware;
+ 	}
+ 
+ 	atomisp_msi_irq_init(isp);
+@@ -1408,13 +1408,13 @@ static int atomisp_pci_probe(struct pci_dev *pdev, const struct pci_device_id *i
+ 	err = atomisp_initialize_modules(isp);
+ 	if (err < 0) {
+ 		dev_err(&pdev->dev, "atomisp_initialize_modules (%d)\n", err);
+-		goto initialize_modules_fail;
++		goto error_irq_uninit;
+ 	}
+ 
+ 	err = atomisp_register_entities(isp);
+ 	if (err < 0) {
+ 		dev_err(&pdev->dev, "atomisp_register_entities failed (%d)\n", err);
+-		goto register_entities_fail;
++		goto error_uninitialize_modules;
+ 	}
+ 
+ 	INIT_WORK(&isp->assert_recovery_work, atomisp_assert_recovery_work);
+@@ -1453,14 +1453,14 @@ static int atomisp_pci_probe(struct pci_dev *pdev, const struct pci_device_id *i
+ 					IRQF_SHARED, "isp_irq", isp);
+ 	if (err) {
+ 		dev_err(&pdev->dev, "Failed to request irq (%d)\n", err);
+-		goto request_irq_fail;
++		goto error_unregister_entities;
+ 	}
+ 
+ 	/* Load firmware into ISP memory */
+ 	err = atomisp_css_load_firmware(isp);
+ 	if (err) {
+ 		dev_err(&pdev->dev, "Failed to init css.\n");
+-		goto css_init_fail;
++		goto error_free_irq;
+ 	}
+ 	/* Clear FW image from memory */
+ 	release_firmware(isp->firmware);
+@@ -1470,33 +1470,32 @@ static int atomisp_pci_probe(struct pci_dev *pdev, const struct pci_device_id *i
+ 	err = v4l2_async_nf_register(&isp->notifier);
+ 	if (err) {
+ 		dev_err(isp->dev, "failed to register async notifier : %d\n", err);
+-		goto css_init_fail;
++		goto error_unload_firmware;
+ 	}
+ 
+ 	atomisp_drvfs_init(isp);
+ 
+ 	return 0;
+ 
+-css_init_fail:
++error_unload_firmware:
++	ia_css_unload_firmware();
++error_free_irq:
+ 	devm_free_irq(&pdev->dev, pdev->irq, isp);
+-request_irq_fail:
++error_unregister_entities:
+ 	hmm_cleanup();
++	pm_runtime_forbid(&pdev->dev);
+ 	pm_runtime_get_noresume(&pdev->dev);
+ 	dev_pm_domain_set(&pdev->dev, NULL);
+ 	atomisp_unregister_entities(isp);
+-register_entities_fail:
++error_uninitialize_modules:
+ 	atomisp_uninitialize_modules(isp);
+-initialize_modules_fail:
++error_irq_uninit:
+ 	cpu_latency_qos_remove_request(&isp->pm_qos);
+ 	atomisp_msi_irq_uninit(isp);
+ 	pci_free_irq_vectors(pdev);
+-enable_msi_fail:
+-	pcim_iounmap_regions(pdev, BIT(ATOM_ISP_PCI_BAR));
+-ioremap_fail:
+-pci_enable_fail:
+-fw_validation_fail:
++error_release_firmware:
+ 	release_firmware(isp->firmware);
+-load_fw_fail:
++error_power_off:
+ 	/*
+ 	 * Switch off ISP, as keeping it powered on would prevent
+ 	 * reaching S0ix states.
 -- 
 2.43.0
 
