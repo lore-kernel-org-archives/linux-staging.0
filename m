@@ -1,121 +1,133 @@
-Received: from mail-oi1-f182.google.com (mail-oi1-f182.google.com [209.85.167.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6021463C5
-	for <linux-staging@lists.linux.dev>; Thu, 28 Dec 2023 09:39:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4ACC033D3
+	for <linux-staging@lists.linux.dev>; Sun, 31 Dec 2023 09:39:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="hSPHEdEW"
-Received: by mail-oi1-f182.google.com with SMTP id 5614622812f47-3bbbf5a59b7so1487436b6e.3
-        for <linux-staging@lists.linux.dev>; Thu, 28 Dec 2023 01:39:49 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1703756388; x=1704361188; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=cE0PHPIX9V+Td6mS/CWtPhPTpSAbOD3GNR/J2y9uxsE=;
-        b=hSPHEdEWVlt3PD5u4v4lV83uDhHDgD6+dyoamHNtFVyV9/dk1FyoZw3Xv0+19Dos7A
-         /xs0rlvN3A1kq3HPLWn01yH2mTjMEk6X+B3DtzWJ/8HEjKlz86VmjBDbMMIQ7RHRE8kL
-         sxe0O8pf8QM5pt3yTAHk5FYJrnfdQg5fXE2RA=
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="BIfymaVE"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1704015547;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=HdM5Vkomds4h/QuK6n7mA0GCkNM9rwKnYx1KoPXzk3M=;
+	b=BIfymaVEjZxIS0yZktcgfzUIOJ+pshNWEE9Ig7XtJjos9IQGrCzgXEMAp7a8PMM0IfpmL/
+	Jdkyqj6YRgUIBiU/0CZ8homJeVH28STPFXpe7XQ0z7+mkMFp3+tyz2U8UUZ5aHs+v17+bv
+	QoHxIWxw8jOhVE+SxpmygzDRQbFHCqw=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-323-3Og039EHM1ip5pArh8cllA-1; Sun, 31 Dec 2023 04:39:05 -0500
+X-MC-Unique: 3Og039EHM1ip5pArh8cllA-1
+Received: by mail-ed1-f69.google.com with SMTP id 4fb4d7f45d1cf-5541f04f1e9so4326542a12.0
+        for <linux-staging@lists.linux.dev>; Sun, 31 Dec 2023 01:39:05 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1703756388; x=1704361188;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=cE0PHPIX9V+Td6mS/CWtPhPTpSAbOD3GNR/J2y9uxsE=;
-        b=okn5CBtclJIjg6rfQT2pVUJ7PSqYpTLndfRYTXmTold6RLq7QIrsUa4cru3TY1cf89
-         aS2IRqsprK4u6SLlRf74dkLCW+kYctJMUTHuZEtLpWkANppyge4CeQUQLTZAFTyUvVFf
-         xCGlkIbycLm92OVpJxXoFCLOP2j+cCa5ueCu6esMvFnhFJ/f7cCZz7zeeVR353+uv5dq
-         PfYSRkEounkrKZjruWJT13YynsyHhFhv6pvVk03ZK4h2hxZmEI8l0W20P+QvTE9vEbdC
-         9B8xISiZ4VPHpDNtqFSkpfxb4u/yU8C0Ty5nB0M+V42cRmPUfO90bzTXt+MhAwn3bqWe
-         9V1w==
-X-Gm-Message-State: AOJu0YyUM7NrK81E85ezNu4/LoUaPmJwgt9WTZLMLvdLq0U8WqgNs91Z
-	1mf8bvv8yIQRKm/oAWfVdB81Pv0KJH+y
-X-Google-Smtp-Source: AGHT+IGbTuminLgcOnQUlBuq/CiKyVma7NOCX/U/Njm22uBcvNNUExq8KzkUlA1MXS1N922Upoikog==
-X-Received: by 2002:a05:6358:340f:b0:174:dc11:4827 with SMTP id h15-20020a056358340f00b00174dc114827mr5349757rwd.51.1703756388166;
-        Thu, 28 Dec 2023 01:39:48 -0800 (PST)
-Received: from localhost ([2401:fa00:8f:203:5411:cc6a:8ad4:c73c])
-        by smtp.gmail.com with ESMTPSA id rs16-20020a17090b2b9000b00286da7407f2sm17910570pjb.7.2023.12.28.01.39.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 28 Dec 2023 01:39:47 -0800 (PST)
-From: Hidenori Kobayashi <hidenorik@chromium.org>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Bingbu Cao <bingbu.cao@intel.com>,
-	Tianshu Qiu <tian.shu.qiu@intel.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Hidenori Kobayashi <hidenorik@chromium.org>,
-	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] media: staging: ipu3-imgu: Set fields before media_entity_pads_init()
-Date: Thu, 28 Dec 2023 18:39:25 +0900
-Message-ID: <20231228093926.748001-1-hidenorik@chromium.org>
-X-Mailer: git-send-email 2.43.0.472.g3155946c3a-goog
+        d=1e100.net; s=20230601; t=1704015544; x=1704620344;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=HdM5Vkomds4h/QuK6n7mA0GCkNM9rwKnYx1KoPXzk3M=;
+        b=vEsO/m07jWOKpneQnMFx6nNRpH/843XyU3VE4FclM3h6k9B7gzdWUamxC9ML44o4C8
+         vW+Gh440bHE+tRwwbiznA5wkGdZCSp7J40N5EPYJl/gpQp+Cz5fNGAa35Immyrr1N2sJ
+         TEJrr4S9rQzz0QR9BpLWDWmeVXiVgHngWvXegInIY30+ovpLtffmcP6e4Qp7Or8GQjpm
+         9dBgsdgFX8+iuVH1R8CT1K3/uiE8bWz3EZLsd8/917o79uaBh/mE7cplU1lq1MYiBfrx
+         bcJxWu8Kb28YniiC9U6bjQjA64kLsmtTL2UeH7H2QHYUK4ZL0okJuj/K1Rzv3Crdc3Nz
+         XSmQ==
+X-Gm-Message-State: AOJu0YyD8xn+eX+Z3AvkBmRfKc30doL+EgezcqDhcmUB+6Xx8u6UhwcM
+	14IQqwvhu8Tg3P3M95r9U6kEjGG9D0FOz1pR/jYUJTM57UtT4hIQnI5MirAkA2J0TGCLLUntDlp
+	VWMUL32ICWsMKTevUd5EmiwFK7F3ktw1Ejw==
+X-Received: by 2002:a50:c10a:0:b0:555:226:764d with SMTP id l10-20020a50c10a000000b005550226764dmr5011597edf.70.1704015544348;
+        Sun, 31 Dec 2023 01:39:04 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IFKA4bIPmpXp944hcEIeAaNCeCPsFiUapyDLV3C65+FtIjZ6pKJ+8TZ+8J3pxtFD0ToWuT4Sw==
+X-Received: by 2002:a50:c10a:0:b0:555:226:764d with SMTP id l10-20020a50c10a000000b005550226764dmr5011587edf.70.1704015544056;
+        Sun, 31 Dec 2023 01:39:04 -0800 (PST)
+Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
+        by smtp.gmail.com with ESMTPSA id ew10-20020a056402538a00b005546ba152f4sm10900308edb.71.2023.12.31.01.39.03
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 31 Dec 2023 01:39:03 -0800 (PST)
+Message-ID: <32c5d324-c768-40d0-9c67-5038a24a89b6@redhat.com>
+Date: Sun, 31 Dec 2023 10:39:03 +0100
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drivers: staging: media: atomisp: pci: Fixes spelling
+ mistakes in ia_css_irq.h
+To: Dipendra Khadka <kdipendra88@gmail.com>, mchehab@kernel.org,
+ sakari.ailus@linux.intel.com, gregkh@linuxfoundation.org
+Cc: linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linuxfoundation.org
+References: <20231218151704.449883-1-kdipendra88@gmail.com>
+From: Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <20231218151704.449883-1-kdipendra88@gmail.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US, nl
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-The pad's flags is checked in media_entity_pads_init(), so it has to be
-initialized beforehand. The ops initialization is also moved together
-for readability.
+Hi,
 
-Signed-off-by: Hidenori Kobayashi <hidenorik@chromium.org>
----
- drivers/staging/media/ipu3/ipu3-v4l2.c | 16 ++++++++--------
- 1 file changed, 8 insertions(+), 8 deletions(-)
+On 12/18/23 16:17, Dipendra Khadka wrote:
+> The script checkpatch.pl reported spelling errors
+> in ia_css_irq.h as below:
+> 
+> '''
+> WARNING: Possible repeated word: 'in'
+>         /** the input system in in error */
+> 
+> WARNING: Possible repeated word: 'in'
+>         /** the input formatter in in error */
+> 
+> WARNING: Possible repeated word: 'in'
+>         /** the dma in in error */
+> '''
+> 
+> This patch corrects spelling errors,
+> changing "in" to "is" in all three comments.
+> 
+> Signed-off-by: Dipendra Khadka <kdipendra88@gmail.com>
 
-diff --git a/drivers/staging/media/ipu3/ipu3-v4l2.c b/drivers/staging/media/ipu3/ipu3-v4l2.c
-index a66f034380c0..3df58eb3e882 100644
---- a/drivers/staging/media/ipu3/ipu3-v4l2.c
-+++ b/drivers/staging/media/ipu3/ipu3-v4l2.c
-@@ -1069,6 +1069,11 @@ static int imgu_v4l2_subdev_register(struct imgu_device *imgu,
- 	struct imgu_media_pipe *imgu_pipe = &imgu->imgu_pipe[pipe];
- 
- 	/* Initialize subdev media entity */
-+	imgu_sd->subdev.entity.ops = &imgu_media_ops;
-+	for (i = 0; i < IMGU_NODE_NUM; i++) {
-+		imgu_sd->subdev_pads[i].flags = imgu_pipe->nodes[i].output ?
-+			MEDIA_PAD_FL_SINK : MEDIA_PAD_FL_SOURCE;
-+	}
- 	r = media_entity_pads_init(&imgu_sd->subdev.entity, IMGU_NODE_NUM,
- 				   imgu_sd->subdev_pads);
- 	if (r) {
-@@ -1076,11 +1081,6 @@ static int imgu_v4l2_subdev_register(struct imgu_device *imgu,
- 			"failed initialize subdev media entity (%d)\n", r);
- 		return r;
- 	}
--	imgu_sd->subdev.entity.ops = &imgu_media_ops;
--	for (i = 0; i < IMGU_NODE_NUM; i++) {
--		imgu_sd->subdev_pads[i].flags = imgu_pipe->nodes[i].output ?
--			MEDIA_PAD_FL_SINK : MEDIA_PAD_FL_SOURCE;
--	}
- 
- 	/* Initialize subdev */
- 	v4l2_subdev_init(&imgu_sd->subdev, &imgu_subdev_ops);
-@@ -1177,15 +1177,15 @@ static int imgu_v4l2_node_setup(struct imgu_device *imgu, unsigned int pipe,
- 	}
- 
- 	/* Initialize media entities */
-+	node->vdev_pad.flags = node->output ?
-+		MEDIA_PAD_FL_SOURCE : MEDIA_PAD_FL_SINK;
-+	vdev->entity.ops = NULL;
- 	r = media_entity_pads_init(&vdev->entity, 1, &node->vdev_pad);
- 	if (r) {
- 		dev_err(dev, "failed initialize media entity (%d)\n", r);
- 		mutex_destroy(&node->lock);
- 		return r;
- 	}
--	node->vdev_pad.flags = node->output ?
--		MEDIA_PAD_FL_SOURCE : MEDIA_PAD_FL_SINK;
--	vdev->entity.ops = NULL;
- 
- 	/* Initialize vbq */
- 	vbq->type = node->vdev_fmt.type;
--- 
-2.43.0.472.g3155946c3a-goog
+Thank you for your patch.
+
+I have merged this in my media-atomisp branch:
+https://git.kernel.org/pub/scm/linux/kernel/git/hansg/linux.git/log/?h=media-atomisp
+
+And this patch will be included in my next
+pull-request to Mauro (to media subsystem maintainer)
+
+Regards,
+
+Hans
+
+
+> ---
+>  drivers/staging/media/atomisp/pci/ia_css_irq.h | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/staging/media/atomisp/pci/ia_css_irq.h b/drivers/staging/media/atomisp/pci/ia_css_irq.h
+> index 26b1b3c8ba62..00e2fd1f9647 100644
+> --- a/drivers/staging/media/atomisp/pci/ia_css_irq.h
+> +++ b/drivers/staging/media/atomisp/pci/ia_css_irq.h
+> @@ -84,11 +84,11 @@ enum ia_css_irq_info {
+>  	IA_CSS_IRQ_INFO_ISP_BINARY_STATISTICS_READY   = BIT(17),
+>  	/** ISP binary statistics are ready */
+>  	IA_CSS_IRQ_INFO_INPUT_SYSTEM_ERROR            = BIT(18),
+> -	/** the input system in in error */
+> +	/** the input system is in error */
+>  	IA_CSS_IRQ_INFO_IF_ERROR                      = BIT(19),
+> -	/** the input formatter in in error */
+> +	/** the input formatter is in error */
+>  	IA_CSS_IRQ_INFO_DMA_ERROR                     = BIT(20),
+> -	/** the dma in in error */
+> +	/** the dma is in error */
+>  	IA_CSS_IRQ_INFO_ISYS_EVENTS_READY             = BIT(21),
+>  	/** end-of-frame events are ready in the isys_event queue */
+>  };
 
