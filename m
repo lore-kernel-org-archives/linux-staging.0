@@ -1,102 +1,158 @@
-Received: from mail-qv1-f53.google.com (mail-qv1-f53.google.com [209.85.219.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51B2C363
-	for <linux-staging@lists.linux.dev>; Tue,  2 Jan 2024 00:41:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68DF3EAD9
+	for <linux-staging@lists.linux.dev>; Tue,  2 Jan 2024 11:30:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aS2VvSM1"
-Received: by mail-qv1-f53.google.com with SMTP id 6a1803df08f44-67f91d48863so69961676d6.0
-        for <linux-staging@lists.linux.dev>; Mon, 01 Jan 2024 16:41:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1704156083; x=1704760883; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=mE9wfDZFcK96VbDGyj6SH7W6g2PIOAb48Opms4rfcVQ=;
-        b=aS2VvSM11I3tVX3GJ56XWiSs/vh8bTqU3AZUQ0riqkbnsnNU3u3wUN2FeMz4gGTQcX
-         Siua7bHakFE9VEIEygTwRrNMy3/fFfo6KpbwyOCCeX19ODU3Owc7vxZyis9PbaPmdoR+
-         quoA/bHAxk8p37nwJfoBwDu4njnO97TisLHcErE+zO6dvBIBJHjjoa0rdJq3IC5Em76D
-         EgwibbGgBQSnYJ9+1+2WUjNECBfxlUXMR76GGDFHwUHFLBjWDTVsbNkRXdTpZYmiKbDI
-         k14rf7pelBPy2936TkB5mbjoVDR/WybVO9k8lxUVSE8qAVaInB0wzWpNrGRoJqeIDJGM
-         exDg==
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="NC3cMa98"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1704195025;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=YA2sEJqc+eoyhMOBnoo4ckR0PWGURW4RmLd8t+uinbw=;
+	b=NC3cMa98zaDHMw7HtaWgH8CfdL/0Cp9ANDZ6/rXFY5BtCJtB/Zp5l5xWIRCJGRJhNV/TKS
+	U3yKpt0UQAmE1a+PTLmmak/F7btPaRFWY4+jgjJ3v7D1riDNXoSwZvvXuc9Dl3fIwVEvT9
+	Vnx60E+1/m6jBXoLWgjTh5br2nwk3lc=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-402-QgbrJRM7OGORhfodzLBF5g-1; Tue, 02 Jan 2024 06:30:22 -0500
+X-MC-Unique: QgbrJRM7OGORhfodzLBF5g-1
+Received: by mail-ed1-f71.google.com with SMTP id 4fb4d7f45d1cf-5560cd16f03so1092669a12.2
+        for <linux-staging@lists.linux.dev>; Tue, 02 Jan 2024 03:30:22 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704156083; x=1704760883;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=mE9wfDZFcK96VbDGyj6SH7W6g2PIOAb48Opms4rfcVQ=;
-        b=rQ/rL0YXtO+mY8wWeOkto9fWsDE8LUrZiT55nafUwAQs53TsVeRfhq4ayMLP49HIpI
-         3fcPswHs6898jSTmnOv9QL9oo5ow/SK+/4wZ4pi3LW2gFGrlY06SxxnXlAy8Q3DeNfah
-         ehOwjIZAJwudi6y5N134FoBmEzoCGCnhdyM3ovdbEzXkFC2+xPF0LQxYwPIqn5fSqv2K
-         ++PM5vDzVWd1eAkWzLV3mO8CcZ0FcFL5blIYwWi5OvulZ2COW83cVz2/upOCufWfMbRa
-         sJ+tLuBT8fJVm+9HcjlxUjNjwmdKVGBDY6eW++UbAMLS2/p47UssH0IZLINE3pjNoK52
-         dIRA==
-X-Gm-Message-State: AOJu0Yzdnv7ZWq+0wlf6srIdHxdP8r27DehUGikfqhlzngkMVIo712Gw
-	hmwQE1Wo8z7fb93nOGdYbOe7iTDTidk5zeDM0uovwx5GrcU=
-X-Google-Smtp-Source: AGHT+IFYAQv2QsPpLeIPqXvnadL4bGFIMoNSQFeOtjtYag+bKimORLPRKkjfJXkS6hVBqUf2BaL6CWZEpJTjLH8Espw=
-X-Received: by 2002:a05:6214:20cf:b0:67a:cf80:cf12 with SMTP id
- 15-20020a05621420cf00b0067acf80cf12mr28978766qve.0.1704156083305; Mon, 01 Jan
- 2024 16:41:23 -0800 (PST)
+        d=1e100.net; s=20230601; t=1704195021; x=1704799821;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=YA2sEJqc+eoyhMOBnoo4ckR0PWGURW4RmLd8t+uinbw=;
+        b=BN+ACUxMsvdYXyDA79CEIFgE5BhYxm84tcQW5ygLrJ/hhuK1R2vFM//QC7D68WvQLP
+         eF9+7OT1tmAPLO46r273JEoHHrFRNbm8b67CvOcwUEYuMD+29rze2MMLBBPOpvykP5pp
+         bL/Y3Zb4qbDGMUivs4gJnphSt1FIbla0dGmUbRxLedtBPzxn7gV1D4IsZX2DeeYyB/vT
+         pd2ChITWAwyzotuDJLscZ8K4gSeEvkMM1BUkBZUR0vucVlT1KiUPhFMNuu6Nvae1gcib
+         v7oGH0rOVQwuROpAQLfFXsLflahtS0/xToCQYoIVXSsFXaQut1fIMXevrn3YTQuuNg/S
+         7+qw==
+X-Gm-Message-State: AOJu0YzY/QwV/Lo+j0P58Ou7l4CoDjU3spB900GkScAjBdQ9t5/55vNQ
+	9F/QVpMR55pUTILv40U1JOINXxpzpqh49hvg1lGe0GDyImquuqnCP7x5GPht/JS9j7Z3Xvrz+lM
+	KCDJ72COmFYiUDlVwOTeQvNdiwA83ZVYJsA==
+X-Received: by 2002:a17:906:108d:b0:a26:e013:947f with SMTP id u13-20020a170906108d00b00a26e013947fmr7159382eju.76.1704195021582;
+        Tue, 02 Jan 2024 03:30:21 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IFGoP3XZvu8pZ0HNlZf3eVhDWP6+U4nXBF/z+n8jYdA9QLgK5YDAZovWly7vUNZsun4qUgJiw==
+X-Received: by 2002:a17:906:108d:b0:a26:e013:947f with SMTP id u13-20020a170906108d00b00a26e013947fmr7159367eju.76.1704195021219;
+        Tue, 02 Jan 2024 03:30:21 -0800 (PST)
+Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
+        by smtp.gmail.com with ESMTPSA id zr16-20020a170907711000b00a26af905229sm10757454ejb.29.2024.01.02.03.30.20
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 02 Jan 2024 03:30:20 -0800 (PST)
+Message-ID: <960cc0a6-6ef8-4a66-8f83-89e854b7b578@redhat.com>
+Date: Tue, 2 Jan 2024 12:30:19 +0100
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 11/15] media: atomisp: Replace atomisp_drvfs attr with
+ using driver.dev_groups attr
+To: Andy Shevchenko <andy.shevchenko@gmail.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Andy Shevchenko <andy@kernel.org>, Kate Hsuan <hpa@redhat.com>,
+ Tsuchiya Yuto <kitakar@gmail.com>, Yury Luneff <yury.lunev@gmail.com>,
+ Nable <nable.maininbox@googlemail.com>, andrey.i.trufanov@gmail.com,
+ Fabio Aiuto <fabioaiuto83@gmail.com>, linux-media@vger.kernel.org,
+ linux-staging@lists.linux.dev
 References: <20231231103057.35837-1-hdegoede@redhat.com>
-In-Reply-To: <20231231103057.35837-1-hdegoede@redhat.com>
-From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Tue, 2 Jan 2024 02:40:47 +0200
-Message-ID: <CAHp75VeqCo6CAjybd8sw=hLDytQLeCDw6ZOjqbZRrve5Mhq4TQ@mail.gmail.com>
-Subject: Re: [PATCH 00/15] media: atomisp: NULL pointer deref + missing
- firmware fixes
-To: Hans de Goede <hdegoede@redhat.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
-	Andy Shevchenko <andy@kernel.org>, Kate Hsuan <hpa@redhat.com>, Tsuchiya Yuto <kitakar@gmail.com>, 
-	Yury Luneff <yury.lunev@gmail.com>, Nable <nable.maininbox@googlemail.com>, 
-	andrey.i.trufanov@gmail.com, Fabio Aiuto <fabioaiuto83@gmail.com>, 
-	linux-media@vger.kernel.org, linux-staging@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+ <20231231103057.35837-12-hdegoede@redhat.com>
+ <CAHp75VfHN1gbWRX20PpWVevmA+P9E4GCdkG0vRYQQ_QZvWKUsQ@mail.gmail.com>
+From: Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <CAHp75VfHN1gbWRX20PpWVevmA+P9E4GCdkG0vRYQQ_QZvWKUsQ@mail.gmail.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US, nl
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Sun, Dec 31, 2023 at 12:31=E2=80=AFPM Hans de Goede <hdegoede@redhat.com=
-> wrote:
->
-> Hi All,
->
-> Here is a set of atomisp fixes I have been working on:
->
-> - The first commit in this series fixes the driver no longer
->   working due to v4l2_subdev_state handling in media_stage/master
->
-> - Gracefully handle missing firmware:
->   - Fix the driver crashing the system when the firmware is missing
->   - Make the driver bind in power-managent-only mode when the firmware
->     is missing so that the ISP is still properly turned off. This
->     requires custom handling, not just standard PCI power-management.
->     This allows the system to properly enter S0i3 with missing ISP
->     firmware, allowing the atomisp driver to be used as a replacement
->     for the pm-only drivers/platform/x86/atomisp/pm.c driver.
->
-> I am going to send out a pull-request to Mauro for this almost directly
-> after sending these patches to the list, leaving pretty much zero time
-> for review. Sorry about that, with the holidays the timing did not work
-> out very well.
->
-> If review finds any significant issues I'll do a set of follow up
-> patches to fix those.
+Hi Andy,
 
-One which would be nice to fixup is based on the sysfs patch.
-Another, but not so hurried, is to have cleanup.h management for v4l2 calls=
-.
+Thank you for all the reviews.
 
-Side note: Since we have many headers to be split from kernel.h
-(array_size.h, container_of.h, hex.h, kstrtox.h, sprintf.h) consider
-replacing "proxy" headers in the code. Especially when headers in the
-driver include kernel.h for peanuts.
+I don't see anything really problematic in your review,
+so I hope that Mauro will honor my pull-request and
+then I'll fix the small remarks in some follow-up patches.
 
---=20
-With Best Regards,
-Andy Shevchenko
+One remark regarding your review of this patch below:
+
+On 1/2/24 01:33, Andy Shevchenko wrote:
+> On Sun, Dec 31, 2023 at 12:31 PM Hans de Goede <hdegoede@redhat.com> wrote:
+>>
+>> sysfs attributes preferably should not be manually be registered but
+>> instead the driver.groups / driver.dev_groups driver struct members
+>> should be used to have the driver core handle this in a race free
+>> manner.
+>>
+>> Using driver.groups would be the most direct replacement for
+>> driver_[add|remove]_file, but some of the attributes actually need access
+> 
+> ..._file()
+> 
+>> to the struct atomisp_device (*), so as part of modernizing this part of
+>> the atomisp driver this change also makes the sysfs attribute device
+>> attributes instead of driver attributes.
+>>
+>> *) Before this change accessing these attributes without the driver having
+>> bound would result in a NULL pointer deref, this commit fixes this.
+> 
+> ...
+> 
+>> +       if (dbglvl < 1 || dbglvl > 9)
+> 
+> in_range() ?
+
+ack.
+
+> 
+>>                 return -ERANGE;
+> 
+> ...
+> 
+>> +static const struct attribute_group dbg_attr_group = {
+>> +       .attrs = dbg_attrs,
+>> +};
+>>
+>> +const struct attribute_group *dbg_attr_groups[] = {
+>> +       &dbg_attr_group,
+>> +       NULL
+>> +};
+> 
+> ATTRIBUTE_GROUPS()
+
+I deliberately wrote this out (had to write this out)
+instead of using ATTRIBUTE_GROUPS() because ATTRIBUTE_GROUPS()
+makes the groups variable static and here it gets used
+in another file then where it is declared.
+
+> 
+> ...
+> 
+>> +#include <linux/sysfs.h>
+> 
+> But why? You can use forward declaration, no?
+
+True, I'll fix this up in a follow-up patch.
+
+> 
+>> +extern const struct attribute_group *dbg_attr_groups[];
+> 
+
+
+Regards,
+
+Hans
+
+
