@@ -1,56 +1,57 @@
-Received: from mail-qk1-f171.google.com (mail-qk1-f171.google.com [209.85.222.171])
+Received: from mail-qv1-f47.google.com (mail-qv1-f47.google.com [209.85.219.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BE4936A
-	for <linux-staging@lists.linux.dev>; Tue,  2 Jan 2024 00:20:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 330AA36F
+	for <linux-staging@lists.linux.dev>; Tue,  2 Jan 2024 00:22:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jmnhf3Sh"
-Received: by mail-qk1-f171.google.com with SMTP id af79cd13be357-7815547f2c5so344801185a.3
-        for <linux-staging@lists.linux.dev>; Mon, 01 Jan 2024 16:20:27 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TxZU1ppB"
+Received: by mail-qv1-f47.google.com with SMTP id 6a1803df08f44-680b1335af6so7332376d6.1
+        for <linux-staging@lists.linux.dev>; Mon, 01 Jan 2024 16:22:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1704154827; x=1704759627; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1704154968; x=1704759768; darn=lists.linux.dev;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=rTaEp3XVmk5hBWJHtuJ1RqHFEs+keboZK7LqcHaxz3c=;
-        b=jmnhf3Sh5LenuHvPzaI5V8YF7WipCbh7EOygw+mT1lIWCBljMP8LaUQSNWQOjEqTGV
-         JLBKUpQhcgXhiXewDnjyUxWLzSKGAHC7YbrvaDfQU8metJ/O2I+HIupqO1xrpEH7BYP6
-         Door4CF7mD3Z0ZAJBFdVIoBkC8KOHE7ryZI8/63+Y7MfdYAR7ic77Nq/xxG94uqMUp3f
-         yfomlID1xNXYw+ZG3OZmTiVdDZ85llueE/ppNQ9e4rI3ngkXjMZxPJOkEeKHGLH8td4F
-         fXbtOetxKS9aCSzu3VXq8pOOfEI5U4dUtijkSE9jAO+N4gd32Zr+GzDJ3v/po8fJTJqD
-         oJ8w==
+        bh=qW52z5r4n+LGvICG8nTn+MMpQ4/ivy77JIAEZwyx8RM=;
+        b=TxZU1ppBIOfYg4w7YSCH5saznV74pJiJo+PpyVCjN+Gs8eZhepnD8pyF0D8CU7vvCF
+         wuppLWUIiQ2nlDdb1u2qFxmmRD295GTagrMXfmi2SSmBCFTbzIBvw31TT+0GJNlsdKCP
+         7r73NEhIf7u3TihKYgAjvrHOYQr4bEa04kSLBeuB0tsdpmW6EII7RrciiTDPh8KOuF3w
+         T/PXjDLeVYOI85gGcvmXzI7wNXkLBpB7d2oG8jsrekZ4dk5dvcmIEJ9qTIgtpVlMjRSi
+         vfq2jwZqOr/T6ootzlvMvFXjmeT9xc7XDNBPbVduIbJoVxSQjoy81DVOEydPvKcgPend
+         7WNw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704154827; x=1704759627;
+        d=1e100.net; s=20230601; t=1704154968; x=1704759768;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=rTaEp3XVmk5hBWJHtuJ1RqHFEs+keboZK7LqcHaxz3c=;
-        b=CC7M77KD7Hjr75+WwEG5XDs9bFHpcU4LPcmUe0y49QFndUr1b/HIW6w28y5znM0CSx
-         SlT2E4E8YC4zkC0JfpyVaHYpX8muV1Zs+KmBq+/7uoWJ1aDeI3yrGAxvcZf09bT9rE62
-         oRjJJ8CCqeSXcfLHOYK8vF5zpPF+XOBFXXQg4GWUhFuMvGO7b1lNSEQGq3dIhm05clJL
-         hOnPNfT3v2xXjXJZ972guCuV9kBB6ucjXsq8biWz7XGjviy6rclvDBwkCHLoZf+0AgvE
-         eJL6XW/5i7LhUF0pUZAkK/t19B2PloMontc08Vzm7U0eo8IejkTSWzW2o33vDhY9NWDp
-         GaPQ==
-X-Gm-Message-State: AOJu0YzyUQ+zGncSV7mbYojYo2Gj9Z991FiA3RMLXDcr2clL3BVULcNy
-	8Agri1KycfBA9bgg5GRYlf9htlSFcjTvOOHxtXk=
-X-Google-Smtp-Source: AGHT+IG7C6zjsI21HK5RH9vZz18r3pG4+41+gLHtVqdN9XItmbIvm/ebng0goKX7sdhkxsUxf5ePHdQAaO9hJp0b0eE=
-X-Received: by 2002:a0c:eb84:0:b0:67f:be16:819a with SMTP id
- x4-20020a0ceb84000000b0067fbe16819amr10962323qvo.72.1704154827014; Mon, 01
- Jan 2024 16:20:27 -0800 (PST)
+        bh=qW52z5r4n+LGvICG8nTn+MMpQ4/ivy77JIAEZwyx8RM=;
+        b=W4znzh6w3MEWfCizew8LnR81j8yRVXHpmxFKG0M9bDOqLrUyYpT6nC+nyAWz0v5LFN
+         XEdjXT8dusEChwjuMV9ebtZFtI+m/oUg2wgb2LZ0DnZFigYbDN5lLmvDuYdlNEL8EOjY
+         xPaZsJ+0zB2NMoefhlLvcdsLFMwDIsVWz1GBGTtr0c+SHa/yRi9IrERP3d4742hIujEW
+         gc0yX4eIoT/nPhOYIa7VuU3uM67ur5x02uAs7yDD7akAWvUKA3RI/jaCf5E8Jx/VmjZx
+         7J2yP29NS0676Pf8OM5MGgPxDfnLs5HzrTK8ePuinb5PzR2OKfkbcoHfcDrm9g+xiBYP
+         nSAw==
+X-Gm-Message-State: AOJu0YzT2GbNOYXfxD4cj8WUuc6kp4DjX5/2xdYCNT6hoQi0w71bf5Of
+	WDnAGFnSpgIx4sQrwTyHnDSVF+Xii6yxsWil7u0=
+X-Google-Smtp-Source: AGHT+IHZLfgCExJorugA2fJndb8mlKl1+np2mwUWGPpV92JEdmDVbXL3egn1ByENf1kxiLnhkDouGsqcLSoZUqCyK/Q=
+X-Received: by 2002:a05:6214:258a:b0:67a:d843:e0d8 with SMTP id
+ fq10-20020a056214258a00b0067ad843e0d8mr23674169qvb.18.1704154968115; Mon, 01
+ Jan 2024 16:22:48 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20231231103057.35837-1-hdegoede@redhat.com> <20231231103057.35837-6-hdegoede@redhat.com>
-In-Reply-To: <20231231103057.35837-6-hdegoede@redhat.com>
+References: <20231231103057.35837-1-hdegoede@redhat.com> <20231231103057.35837-7-hdegoede@redhat.com>
+In-Reply-To: <20231231103057.35837-7-hdegoede@redhat.com>
 From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Tue, 2 Jan 2024 02:19:51 +0200
-Message-ID: <CAHp75VdRny9rUSb9Y9rgeiAFkhHR=9LO45BsQbZk0X4U7CEhfA@mail.gmail.com>
-Subject: Re: [PATCH 05/15] media: atomisp: Drop is_valid_device() function
+Date: Tue, 2 Jan 2024 02:22:12 +0200
+Message-ID: <CAHp75Vf6tpsJFO1Ds=SEUkuDi8gf2sk04oZTjCYgvOtt4JdG7g@mail.gmail.com>
+Subject: Re: [PATCH 06/15] media: atomisp: Call pcim_enable_device() and
+ pcim_iomap_regions() later
 To: Hans de Goede <hdegoede@redhat.com>
 Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
 	Andy Shevchenko <andy@kernel.org>, Kate Hsuan <hpa@redhat.com>, Tsuchiya Yuto <kitakar@gmail.com>, 
@@ -63,25 +64,27 @@ Content-Transfer-Encoding: quoted-printable
 On Sun, Dec 31, 2023 at 12:31=E2=80=AFPM Hans de Goede <hdegoede@redhat.com=
 > wrote:
 >
-> Now that a single build supports both the ISP 2400 and the ISP 2401
-> this function is no longer necessary. The main probe() already
-> contains a similar switch (id->device & ATOMISP_PCI_DEVICE_SOC_MASK)
-> checking for a known device_id.
+> ATM the atomisp firmware is not available in linux-firmware,
+> so most users will not have it installed.
 >
-> Move the revision check into the main probe() and drop
-> the is_valid_device() function.
+> Move pcim_enable_device() and pcim_iomap_regions() down in
+> atomisp_pci_probe() so that they are never called when the firmware
+> is not there.
+>
+> This is a preparation patch for making the atomisp driver handle
+> missing firmware better.
 
 ...
 
-> +       if (pdev->revision <=3D ATOMISP_PCI_REV_BYT_A0_MAX) {
-> +               dev_err(&pdev->dev, "revision %d is not unsupported\n", p=
-dev->revision);
+> -atomisp_dev_alloc_fail:
+> -       pcim_iounmap_regions(pdev, BIT(ATOM_ISP_PCI_BAR));
+> -
+> -ioremap_fail:
+>         return err;
 
-While at it, can you fix the logic error in the message ("is not un"
--- double negation)?
-
-> +               return -ENODEV;
-> +       }
+Before this patch, can you drop these two labels as one is not doing
+anything useful and the other diminishes the idea behind "m" (for
+managed)?
 
 --=20
 With Best Regards,
