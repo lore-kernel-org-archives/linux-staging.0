@@ -1,176 +1,110 @@
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0590179A1
-	for <linux-staging@lists.linux.dev>; Wed,  3 Jan 2024 08:39:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23D361947A
+	for <linux-staging@lists.linux.dev>; Wed,  3 Jan 2024 13:19:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="qRLTwsB3"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1704271140;
-	bh=xsmykOdkIhuKuexFzsVHGF2s5riGySaSQQKSPkKqjOk=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=qRLTwsB3PydZSeVdhpEFKuwCZjl9rRrJkua+MZqf5k/jh7O/oekeyGPhyQNL1YO7R
-	 fkpaS57swJzLaKz+tkwlVqS3w3t2EXQYeKO/E7t6ir3H4NeOQhPxFXGn7ns9xENt04
-	 LXN7v7+LDglx3cuEKErRL5Gd4j8gxz1S0cD04PWpp9sQcIdIQz1mu8BYVf/fLDwaEn
-	 0IdMtLmKUKoU6QhdJ2UbQpBKWsPcBgtMy6XTPTXhQJiCZYwRQEWiqdhurh4YVDjbrA
-	 fg+6z+OSXk9TH4DUzgTCJKZKQP6cL1nDU1VAqRDrvrMijlGM0cfUzXccM0Lfhu0F3X
-	 Ry4LU12r+X0Ng==
-Received: from [100.93.89.217] (cola.collaboradmins.com [195.201.22.229])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: benjamin.gaignard)
-	by madrid.collaboradmins.com (Postfix) with ESMTPSA id 7C15E3780480;
-	Wed,  3 Jan 2024 08:39:00 +0000 (UTC)
-Message-ID: <9245aafe-b165-45de-8363-fab246fb6c16@collabora.com>
-Date: Wed, 3 Jan 2024 09:38:59 +0100
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="W2DO7xFp"
+Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-a2335d81693so80675466b.0
+        for <linux-staging@lists.linux.dev>; Wed, 03 Jan 2024 05:19:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1704287989; x=1704892789; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=jtywbxVuxT2TUpm6U6r8okBkpt1BBOM7f3JX2DpH98w=;
+        b=W2DO7xFpShPiuHm1KO3wKqgPgnaVDZQlyOp7hyz/rFYQ55MR2ez5cIFZQEyeVnPFZv
+         3Z9HW4Z/OrXojiS4zpgM2ry9fiKBn7aEzWe+7tKn9li2eRM76ThuRiPTwIDmgm6395fg
+         cJCleoHExI2CJfZiokajRj8hf8emIRUgupwz24Z4p5HfjpmTA0nSIO4hE2dkmhmgoiSd
+         YbRzTt6bO273KMHvqDuE4f5/Xf3MEpm08JZN+vTDPCwaq/K6iChxJYykLtyGHDRQmgji
+         nE318AxHXCvii5uNiqAnuguaLiP/wLKo6TNUBc/uDoqEOLmIdtX02m9xsCNSv9pG2qGC
+         7Oeg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1704287989; x=1704892789;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=jtywbxVuxT2TUpm6U6r8okBkpt1BBOM7f3JX2DpH98w=;
+        b=jjFcBymj4gHVq0NyjmOpAElD2C1rPhzK32hGBx+nDnNJUm7qVqtlbaFlUvqJkumU+C
+         il9vbnaGRY56i6bGKI/B+gbcVeVNjFyoIw8A2FOz+FjxCsGXfPlAuYu91Y7Zz02YewvW
+         VVhl1BCFVP/U1yUSM497fAJPt54hb2+0QLcH4wDPSNbplO9fKaGLxs6l2aVBmsWvfVwC
+         qWuxmd9MMJ4oPJw22cvVOQLWdXPz+gKRBilL5o19tbn1Rijq4UKhwltp1DxEBBPDxmUu
+         4DlIOHL2c/3ghsLQ5j82aWN2BEECXegOVSlVtDkMKrCy9QKVS8mpsf9JPgPcvSyGTfC6
+         4hpA==
+X-Gm-Message-State: AOJu0Yxct3Tv/Cp/ECZw8/h07ebU5pKJ+HPffhNZG0nvU8MTvgDDGB4T
+	7iUZotRVgyPXUCxH++6FnvJ9hY+dG8RQzQ==
+X-Google-Smtp-Source: AGHT+IHNoYN35Vs/ZpZGj1g1p1q3OOIkM466Dld/eRoFvZmBhON9ESinwvH56JaeY8c+WpY5YAWAUQ==
+X-Received: by 2002:a17:906:d9cc:b0:a28:86fb:68fb with SMTP id qk12-20020a170906d9cc00b00a2886fb68fbmr932790ejb.71.1704287989415;
+        Wed, 03 Jan 2024 05:19:49 -0800 (PST)
+Received: from localhost ([102.140.209.237])
+        by smtp.gmail.com with ESMTPSA id fw22-20020a170907501600b00a26b44ac54dsm11532222ejc.68.2024.01.03.05.19.48
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 03 Jan 2024 05:19:48 -0800 (PST)
+Date: Wed, 3 Jan 2024 16:19:45 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Nam Cao <namcao@linutronix.de>
+Cc: Ryan England <rcengland@gmail.com>,
+	Larry Finger <Larry.Finger@lwfinger.net>,
+	Florian Schilhabel <florian.c.schilhabel@googlemail.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	outreachy@lists.linux.dev
+Subject: Re: [PATCH v2] staging: rtl8712: fix open parentheses alignment
+Message-ID: <f9b34a72-42e1-43f6-b03c-5a3d05773862@moroto.mountain>
+References: <ZYSemFbzTlgLROMc@kernel.ryanengland.xyz>
+ <20231222094735.5554b67a@namcao>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 1/3] videobuf2: core: Rename min_buffers_needed field
- to vb2_queue
-To: Tomasz Figa <tfiga@chromium.org>
-Cc: hverkuil@xs4all.nl, mchehab@kernel.org, linux-kernel@vger.kernel.org,
- linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
- kernel@collabora.com
-References: <20231211133251.150999-1-benjamin.gaignard@collabora.com>
- <20231211133251.150999-2-benjamin.gaignard@collabora.com>
- <20231226082349.x5ebvmt5dpanrm4k@chromium.org>
-Content-Language: en-US
-From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-In-Reply-To: <20231226082349.x5ebvmt5dpanrm4k@chromium.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231222094735.5554b67a@namcao>
 
+On Fri, Dec 22, 2023 at 09:47:35AM +0100, Nam Cao wrote:
+> On Thu, 21 Dec 2023 20:22:48 +0000 Ryan England <rcengland@gmail.com> wrote:
+> 
+> > Adhere to Linux kernel coding style.
+> > 
+> > Reported by checkpatch:
+> > 
+> > CHECK: Alignment should match open parenthesis
+> > 
+> > Signed-off-by: Ryan England <rcengland@gmail.com>
+> > ---
+> > Made corrections give the 100 line limit. Resending v2 as no change was
+> > made other than including this comment below ---. Thank you for the
+> > correction. Here's to learning with every submission.
+> > 
+> >  drivers/staging/rtl8712/os_intfs.c            |   3 +-
+> >  drivers/staging/rtl8712/rtl8712_efuse.c       |   9 +-
+> >  drivers/staging/rtl8712/rtl8712_recv.c        |   3 +-
+> >  drivers/staging/rtl8712/rtl8712_xmit.c        |  60 +++---
+> >  drivers/staging/rtl8712/rtl871x_cmd.c         | 159 +++++---------
+> >  drivers/staging/rtl8712/rtl871x_cmd.h         |  37 ++--
+> >  drivers/staging/rtl8712/rtl871x_ioctl_linux.c | 203 +++++++-----------
+> >  7 files changed, 173 insertions(+), 301 deletions(-)
+> > 
+> > diff --git a/drivers/staging/rtl8712/os_intfs.c b/drivers/staging/rtl8712/os_intfs.c
+> > index b18e6d9c832b..7554613fe7e1 100644
+> > --- a/drivers/staging/rtl8712/os_intfs.c
+> > +++ b/drivers/staging/rtl8712/os_intfs.c
+> > @@ -221,8 +221,7 @@ struct net_device *r8712_init_netdev(void)
+> >  
+> >  static u32 start_drv_threads(struct _adapter *padapter)
+> >  {
+> > -	padapter->cmd_thread = kthread_run(r8712_cmd_thread, padapter, "%s",
+> > -					  padapter->pnetdev->name);
+> > +	padapter->cmd_thread = kthread_run(r8712_cmd_thread, padapter, "%s", padapter->pnetdev->name);
+> 
+> Your description claims to fix "CHECK: Alignment should match open
+> parenthesis", but this one is already aligned, isn't it?
 
-Le 26/12/2023 à 09:23, Tomasz Figa a écrit :
-> Hi Benjamin,
->
-> On Mon, Dec 11, 2023 at 02:32:49PM +0100, Benjamin Gaignard wrote:
->> Rename min_buffers_needed into min_queued_buffers and update
->> the documentation about it.
->>
-> Sorry for being late to the party. I think this is generally a good idea,
-> thanks for doing this! Just one comment inline.
->
-> [snip]
->> diff --git a/drivers/media/common/videobuf2/videobuf2-core.c b/drivers/media/common/videobuf2/videobuf2-core.c
->> index 40d89f29fa33..8912dff5bde3 100644
->> --- a/drivers/media/common/videobuf2/videobuf2-core.c
->> +++ b/drivers/media/common/videobuf2/videobuf2-core.c
->> @@ -865,7 +865,7 @@ int vb2_core_reqbufs(struct vb2_queue *q, enum vb2_memory memory,
->>   	/*
->>   	 * Make sure the requested values and current defaults are sane.
->>   	 */
->> -	num_buffers = max_t(unsigned int, *count, q->min_buffers_needed);
->> +	num_buffers = max_t(unsigned int, *count, q->min_queued_buffers + 1);
-> Where does this + 1 come from here?
-> Agreed with Hans that this change deserves its own patch with a proper
-> explanation in its description.
+No.  It was not aligned.  There was a space character missing.
 
-Hans have merged this patch without this line.
-Since I still aiming to add delete buffers feature I have include this change
-in this series:
-https://www.spinics.net/lists/linux-media/msg246289.html
+regards,
+dan carpenter
 
-Regards,
-Benjamin
-
->
->>   	num_buffers = min_t(unsigned int, num_buffers, q->max_num_buffers);
->>   	memset(q->alloc_devs, 0, sizeof(q->alloc_devs));
->>   	/*
->> @@ -917,7 +917,7 @@ int vb2_core_reqbufs(struct vb2_queue *q, enum vb2_memory memory,
->>   	 * There is no point in continuing if we can't allocate the minimum
->>   	 * number of buffers needed by this vb2_queue.
->>   	 */
->> -	if (allocated_buffers < q->min_buffers_needed)
->> +	if (allocated_buffers < q->min_queued_buffers)
->>   		ret = -ENOMEM;
->>   
->>   	/*
->> @@ -1653,7 +1653,7 @@ EXPORT_SYMBOL_GPL(vb2_core_prepare_buf);
->>    * @q:		videobuf2 queue
->>    *
->>    * Attempt to start streaming. When this function is called there must be
->> - * at least q->min_buffers_needed buffers queued up (i.e. the minimum
->> + * at least q->min_queued_buffers queued up (i.e. the minimum
->>    * number of buffers required for the DMA engine to function). If the
->>    * @start_streaming op fails it is supposed to return all the driver-owned
->>    * buffers back to vb2 in state QUEUED. Check if that happened and if
->> @@ -1846,7 +1846,7 @@ int vb2_core_qbuf(struct vb2_queue *q, struct vb2_buffer *vb, void *pb,
->>   	 * then we can finally call start_streaming().
->>   	 */
->>   	if (q->streaming && !q->start_streaming_called &&
->> -	    q->queued_count >= q->min_buffers_needed) {
->> +	    q->queued_count >= q->min_queued_buffers) {
->>   		ret = vb2_start_streaming(q);
->>   		if (ret) {
->>   			/*
->> @@ -2210,9 +2210,9 @@ int vb2_core_streamon(struct vb2_queue *q, unsigned int type)
->>   		return -EINVAL;
->>   	}
->>   
->> -	if (q_num_bufs < q->min_buffers_needed) {
->> -		dprintk(q, 1, "need at least %u allocated buffers\n",
->> -				q->min_buffers_needed);
->> +	if (q_num_bufs < q->min_queued_buffers) {
->> +		dprintk(q, 1, "need at least %u queued buffers\n",
-> Note that the value being checked here is the number of allocated buffers,
-> not queued buffers. So basically we're enforcing here that at the time
-> STREAMON is called, there is enough buffers allocated to queue the minimum
-> number of buffers to start streaming, but then later down we're not
-> actually enforcing that they are queued - if not, the queue start_streaming
-> operation is deferred until enough buffers are queued.
->
-> The question is: Do we really want this to be an error? Or should we just
-> be consistent with the allocated-but-not-queued case and let the
-> application allocate more buffers later using CREATE_BUFS?
-> (Another question: How does an application know how many buffers to
-> allocate for STREAMON to work?)
->
-> That said, this doesn't really affect the correctness of the patch itself.
-> Just some additional oddity in the current implementation that we could
-> simplify in the future.
->
->> +			q->min_queued_buffers);
->>   		return -EINVAL;
->>   	}
->>   
-> [snip]
->> diff --git a/include/media/videobuf2-core.h b/include/media/videobuf2-core.h
->> index 5557d78b6f20..f9a00b6c3c46 100644
->> --- a/include/media/videobuf2-core.h
->> +++ b/include/media/videobuf2-core.h
->> @@ -546,10 +546,13 @@ struct vb2_buf_ops {
->>    * @gfp_flags:	additional gfp flags used when allocating the buffers.
->>    *		Typically this is 0, but it may be e.g. %GFP_DMA or %__GFP_DMA32
->>    *		to force the buffer allocation to a specific memory zone.
->> - * @min_buffers_needed: the minimum number of buffers needed before
->> + * @min_queued_buffers: the minimum number of queued buffers needed before
->>    *		@start_streaming can be called. Used when a DMA engine
->>    *		cannot be started unless at least this number of buffers
->>    *		have been queued into the driver.
->> + *		VIDIOC_REQBUFS will ensure at least @min_queued_buffers + 1
->> + *		buffers will be allocated. Note that VIDIOC_CREATE_BUFS will not
->> + *		modify the requested buffer count.
-> Same here, this + 1 needs a proper explanation.
-> Also, I don't like this API inconsistency where REQBUFS guarantees the
-> right number of buffers, but CREATE_BUFS doesn't. In fact, would an
-> application have a way to know how many buffers to allocate if it simply
-> wants to use CREATE_BUFS?
->
-> (It's generally related to the oddity that I pointed out above. Maybe we
-> should let the allocation code only handle allocation constraints and not
-> care about STREAMON constraints?)
->
-> [snip]
->
-> Best regards,
-> Tomasz
