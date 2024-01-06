@@ -1,47 +1,47 @@
-Received: from mail-oi1-f173.google.com (mail-oi1-f173.google.com [209.85.167.173])
+Received: from mail-pg1-f174.google.com (mail-pg1-f174.google.com [209.85.215.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B8EE6D18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD81E6FB4
 	for <linux-staging@lists.linux.dev>; Sat,  6 Jan 2024 05:56:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=darkphysics.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=darkphysics.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=darkphysics.net header.i=@darkphysics.net header.b="FchcImxY"
-Received: by mail-oi1-f173.google.com with SMTP id 5614622812f47-3bbd1fab03cso301659b6e.1
+	dkim=pass (2048-bit key) header.d=darkphysics.net header.i=@darkphysics.net header.b="DAFc+0MK"
+Received: by mail-pg1-f174.google.com with SMTP id 41be03b00d2f7-5cdfed46372so191259a12.3
         for <linux-staging@lists.linux.dev>; Fri, 05 Jan 2024 21:56:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=darkphysics.net; s=google; t=1704520572; x=1705125372; darn=lists.linux.dev;
+        d=darkphysics.net; s=google; t=1704520573; x=1705125373; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=AZypATw8H35ihqG9rrXc0EK6Jgq23KE6lbLiv2k1vYQ=;
-        b=FchcImxYD7K/tA+pufLoGaMghdouFBX90NUbbslIibAfTEkUjRA8r+QGptQvWQm4Et
-         0qZl+bRQqsre8+HW+nDzsbJAdeDSw+q4LXXov1aW61z6hsP46kOvlGlYbQLZYert2cWp
-         NmvkZHWGmOQUxHxd52BMdJ5z0rBtZYgpnp/cczX5HK1t9cvSW0Slps9e7bv9Q8bMlSK6
-         4qwtfXn71IHFR5V5dsGDJtPkOvx/Of8n2ZF/yYFwtRy9qfvqfgp1MpyUpcVX8w1iTP8H
-         QGFjSaKcuGydtglA2t8GBLhmpHsx1mSNfL8qZgAjlAS/UUN8Ctlk5b7JtWF0l1c0QmQV
-         LKNg==
+        bh=XmWdmd80J+zop+fmRCsw8E/0vFIy5DUmsZqrKkyF7Pk=;
+        b=DAFc+0MKvuYbuUbgybkLB++D5RrPMT/d9dbEQwMCCOgbdqJZ2deNnG6ahMpAghWrLP
+         tUpQVTEE+Aa9h9Maq32H9doS0GGzmn/yUJ1YxwzCaG8SLz3jO5N1HhvB1NuiLES/uTMc
+         foCnlv+l0toAIJFz7u8oly3lXMhQ6+D7cPUBui8ycggGy3QYgYHYcq3sN3AhvB/wJK8j
+         Lp5BCYGgYqYgQd3fJ//P66Ef8cTOXBX0gTP7SRRJccIks0fbbwFFByHPEh+58q4ZI5DZ
+         YG2QHOzhtuxUhRkGrzxU5ReHTYGbg1H0f1VChZWnBpJW1EJC6X8vsuOL38O6iKPoWg33
+         qI3A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704520572; x=1705125372;
+        d=1e100.net; s=20230601; t=1704520573; x=1705125373;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=AZypATw8H35ihqG9rrXc0EK6Jgq23KE6lbLiv2k1vYQ=;
-        b=VH8qaaMwZ1tqrQzdaSi2FVcLKRqJp3AfTzGwyVr0y+o6LTl0BesOz25UjUpi56ZVpW
-         6V+kjJsJsf2p6sYbudj90iX8lQWyCujNeIvWdxKhIUuNxeVnqNXg6JUEdJR3DVZeRnW7
-         Ov+1TwXhjfL0ZDdYhe9b6q4S2eXc8EuwN4xy2BiM9ccwrAD8NWttB8I0yeYQhEh+8TxF
-         63GCjlYqgdKADpdeVsES7m67SDzvtMVwHFdiamrJZBpYOLPFr8JB0+iaiVXy9/Z0BkZy
-         XOFcR8GmzmGWztavTpbihCSwDH466PAeTfVdCVk9DouQjB/MLj4OUzOHuB9sn7wejIMY
-         WPIw==
-X-Gm-Message-State: AOJu0YyPhQItMttPmfun5cN8tPpIKauN8Jc+iQuK9KFKx3Qfkplq58E9
-	HKDsh6lKoOhaFjfz2NCkvRdxh8pwXktQmw==
-X-Google-Smtp-Source: AGHT+IHw5dbqkWTzXcnD1+Uloj10USwtpp3x6uvXsevFn/L49TQeKGvCaip18M90KM0O5EDyfMM4Rw==
-X-Received: by 2002:a05:6808:bca:b0:3bc:2fe8:8a48 with SMTP id o10-20020a0568080bca00b003bc2fe88a48mr643469oik.56.1704520572375;
-        Fri, 05 Jan 2024 21:56:12 -0800 (PST)
+        bh=XmWdmd80J+zop+fmRCsw8E/0vFIy5DUmsZqrKkyF7Pk=;
+        b=Nc+S0c48wKznC/dq/+PskaIAh2rv4yDTXwe0WPrSkNLjcoX3L0oBXUJjPKPAZYT+aE
+         4A3XuykMU1I2c67panKU0Tf6MKPkeRl1/SuMIFgw0SBl7F85bsrLAQB2Hkxzf2MH6h+b
+         lC7eShZwQFlSO5FKCWsCA3UBPaKtnwab4t8HmaTuRIQC3i+AQ+VssQtKMlxDaVk0xNs2
+         jr4gLqqxv02NJ6MXnfcvhCzoaBIDJRwKf4eIEj5n4Ubuj8jvXDfpFC2AJ+oKjnTOyR+i
+         OwrBYcKfZpQ4mgL0MfxV5+AAv6zTUzhOiNzRuHCX2LWqyCLWsv9/Hg/HtCYC81FcfXqJ
+         dbHw==
+X-Gm-Message-State: AOJu0YxwIKESS8YiR/jFKul/3Zo5bKUGptE6p3QtJFMGVozWsgtk5axc
+	O3SnZwK/GQ9ApbwHQUtlpiPzQQYQW7IBbQ==
+X-Google-Smtp-Source: AGHT+IHqNuWhcwGKjBi6G8KUeFW4GUoOXvZHNgDK186Hk8yLD7zU3ESc10VfdmL/H7ct75fVz5ytKw==
+X-Received: by 2002:a05:6a20:d423:b0:18f:97c:9792 with SMTP id il35-20020a056a20d42300b0018f097c9792mr507479pzb.122.1704520573100;
+        Fri, 05 Jan 2024 21:56:13 -0800 (PST)
 Received: from oatmeal.darkphysics (c-76-146-178-2.hsd1.wa.comcast.net. [76.146.178.2])
-        by smtp.gmail.com with ESMTPSA id y29-20020a056a00181d00b006d99d986624sm2280873pfa.151.2024.01.05.21.56.11
+        by smtp.gmail.com with ESMTPSA id y29-20020a056a00181d00b006d99d986624sm2280873pfa.151.2024.01.05.21.56.12
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 05 Jan 2024 21:56:11 -0800 (PST)
+        Fri, 05 Jan 2024 21:56:12 -0800 (PST)
 From: Tree Davies <tdavies@darkphysics.net>
 To: gregkh@linuxfoundation.org,
 	philipp.g.hortmann@gmail.com,
@@ -49,9 +49,9 @@ To: gregkh@linuxfoundation.org,
 Cc: linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Tree Davies <tdavies@darkphysics.net>
-Subject: [PATCH 05/21] Staging: rtl8192e: Rename variable MaxPeriod
-Date: Fri,  5 Jan 2024 21:55:40 -0800
-Message-Id: <20240106055556.430948-6-tdavies@darkphysics.net>
+Subject: [PATCH 06/21] Staging: rtl8192e: Rename variable bAwakePktSent
+Date: Fri,  5 Jan 2024 21:55:41 -0800
+Message-Id: <20240106055556.430948-7-tdavies@darkphysics.net>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20240106055556.430948-1-tdavies@darkphysics.net>
 References: <20240106055556.430948-1-tdavies@darkphysics.net>
@@ -63,33 +63,64 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Rename variable MaxPeriod to max_period to fix checkpatch
+Rename variable bAwakePktSent to awake_pkt_sent to fix checkpatch
 warning Avoid CamelCase.
 
 Signed-off-by: Tree Davies <tdavies@darkphysics.net>
 ---
- drivers/staging/rtl8192e/rtllib_softmac.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/staging/rtl8192e/rtl8192e/rtl_core.c | 2 +-
+ drivers/staging/rtl8192e/rtllib.h            | 2 +-
+ drivers/staging/rtl8192e/rtllib_softmac.c    | 4 ++--
+ 3 files changed, 4 insertions(+), 4 deletions(-)
 
+diff --git a/drivers/staging/rtl8192e/rtl8192e/rtl_core.c b/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
+index 67938e212db1..c9d7484fe1cd 100644
+--- a/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
++++ b/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
+@@ -1257,7 +1257,7 @@ static short _rtl92e_tx(struct net_device *dev, struct sk_buff *skb)
+ 	int   idx;
+ 	u32 fwinfo_size = 0;
+ 
+-	priv->rtllib->bAwakePktSent = true;
++	priv->rtllib->awake_pkt_sent = true;
+ 
+ 	fwinfo_size = sizeof(struct tx_fwinfo_8190pci);
+ 
+diff --git a/drivers/staging/rtl8192e/rtllib.h b/drivers/staging/rtl8192e/rtllib.h
+index 9d3c79105508..9d6704fc86ff 100644
+--- a/drivers/staging/rtl8192e/rtllib.h
++++ b/drivers/staging/rtl8192e/rtllib.h
+@@ -1374,7 +1374,7 @@ struct rtllib_device {
+ 
+ 	/* for PS mode */
+ 	unsigned long last_rx_ps_time;
+-	bool			bAwakePktSent;
++	bool			awake_pkt_sent;
+ 	u8			LPSDelayCnt;
+ 
+ 	/* used if IEEE_SOFTMAC_SINGLE_QUEUE is set */
 diff --git a/drivers/staging/rtl8192e/rtllib_softmac.c b/drivers/staging/rtl8192e/rtllib_softmac.c
-index 9db834f5d637..0d53e0a92a4c 100644
+index 0d53e0a92a4c..08ff55c2f1be 100644
 --- a/drivers/staging/rtl8192e/rtllib_softmac.c
 +++ b/drivers/staging/rtl8192e/rtllib_softmac.c
-@@ -1381,12 +1381,12 @@ static short rtllib_sta_ps_sleep(struct rtllib_device *ieee, u64 *time)
- 		if (ieee->bAwakePktSent) {
+@@ -1378,7 +1378,7 @@ static short rtllib_sta_ps_sleep(struct rtllib_device *ieee, u64 *time)
+ 		return 0;
+ 
+ 	if (time) {
+-		if (ieee->bAwakePktSent) {
++		if (ieee->awake_pkt_sent) {
  			psc->LPSAwakeIntvl = 1;
  		} else {
--			u8 MaxPeriod = 5;
-+			u8 max_period = 5;
- 
- 			if (psc->LPSAwakeIntvl == 0)
- 				psc->LPSAwakeIntvl = 1;
- 			psc->LPSAwakeIntvl = (psc->LPSAwakeIntvl >=
--					       MaxPeriod) ? MaxPeriod :
-+					       max_period) ? max_period :
- 					       (psc->LPSAwakeIntvl + 1);
+ 			u8 max_period = 5;
+@@ -1461,7 +1461,7 @@ static inline void rtllib_sta_ps(struct work_struct *work)
+ 			spin_unlock_irqrestore(&ieee->mgmt_tx_lock, flags2);
  		}
- 		{
+ 
+-		ieee->bAwakePktSent = false;
++		ieee->awake_pkt_sent = false;
+ 
+ 	} else if (sleep == 2) {
+ 		spin_lock_irqsave(&ieee->mgmt_tx_lock, flags2);
 -- 
 2.39.2
 
