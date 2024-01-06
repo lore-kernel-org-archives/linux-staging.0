@@ -1,47 +1,47 @@
-Received: from mail-oi1-f170.google.com (mail-oi1-f170.google.com [209.85.167.170])
+Received: from mail-pg1-f175.google.com (mail-pg1-f175.google.com [209.85.215.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 223F329426
-	for <linux-staging@lists.linux.dev>; Sat,  6 Jan 2024 05:56:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0279E25116
+	for <linux-staging@lists.linux.dev>; Sat,  6 Jan 2024 05:56:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=darkphysics.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=darkphysics.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=darkphysics.net header.i=@darkphysics.net header.b="Xx+qiRh8"
-Received: by mail-oi1-f170.google.com with SMTP id 5614622812f47-3bbce1202ebso323407b6e.2
-        for <linux-staging@lists.linux.dev>; Fri, 05 Jan 2024 21:56:27 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=darkphysics.net header.i=@darkphysics.net header.b="jT1+nJv5"
+Received: by mail-pg1-f175.google.com with SMTP id 41be03b00d2f7-5ce10b5ee01so159089a12.1
+        for <linux-staging@lists.linux.dev>; Fri, 05 Jan 2024 21:56:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=darkphysics.net; s=google; t=1704520586; x=1705125386; darn=lists.linux.dev;
+        d=darkphysics.net; s=google; t=1704520585; x=1705125385; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=CAaCyCwNzfZ4eZtP0QBXi92ekqTnHBNVbyk0eh6Fz3I=;
-        b=Xx+qiRh8liFl3hP9P09qnksrfBQdkTO98Yumvmxoeb9vFIbUs09nUJ8aaZW5beNri9
-         HNeehn5iNUtVsRHXt0/BqDic/CG/DX2Z4XQ4ATpE65ECnPpTHpI5oUWGDD2KkLrS1xmm
-         4ROQ7leNqmCR53tti62k3P++iNkok/7PtkSQ9xt/NZojCZQWFDDpzzIgaHo2OCfVwL2Z
-         9W6Rhxk0YCdqrBDw9J9THsa07yVkNvvlD9nAXV0cojn7rHmaecM2mmZ5hvUpTJZt1wYv
-         CUta2wG2rkEt38AfKDEbeyyCAwT67DS5RNeTVbK8D8mAn78WosD7m9k4KfQq42fdVSHc
-         CxRA==
+        bh=H33jhdtcfhHUPT0ndrN93Mt9bUqcWYbvRKTpfThBxFU=;
+        b=jT1+nJv5kERdxNsQfG06LpHIJn4Vuhgmg79pYB54eZX2yF7yWpFvBBJFvbIwISZRKg
+         pMm13Vw8nIKosPxA+P69PwcwapxmsMA6Q8miQ/JQeln8InW3UupZOrbuoFufEZeesyIA
+         s8MOyQYZTSB8hWk1gOdtQeyoTUIegtVaKxzhQTDbKMHVUD0pDn1VcnN+vHvNuWsvj53D
+         MIHbb5EJlhWr2l2pLS4Yjv+jw8dA0IwPdTR/5SZa5nFfJzdFz91cYnP5K19ooG+9fZwH
+         dkaImSp3hjr5gHbjY7oxoixM9+n8Ko8UjdKlylj4El6xM7mCkAJocEqdXIl2i841/5ez
+         PXoQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704520586; x=1705125386;
+        d=1e100.net; s=20230601; t=1704520585; x=1705125385;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=CAaCyCwNzfZ4eZtP0QBXi92ekqTnHBNVbyk0eh6Fz3I=;
-        b=DwzRdR6sIlwS8eFQydz5S8q5pD5QNCTL0YNm7h/chxkLWQtltgG/UuPQ8//A/YxGM3
-         dnm1iuuiUOwwqxyPnVoV/bSPUbOVZVV77DRiw6ANoBWIOJYPOCBm4UxH7cdk9RNW1v89
-         hN5GWrK4IDSi3L8QnKgRSQGmbcAWb8mCNCXqSbOovtr1+eR6QCKOadY08ncJmdXYu3X8
-         t6QNd9EV3VyQtNZLgM7GG0fBZceX5nCNY6I6Eo9CfAkp/RyLMxaferUTvYr5mmz1YyND
-         S+saNWXwIBREBhg+7TZEAs88XDFY5CFzpIzA3SbqD/Pl+KkgFUvXl2gudS4OmXPBIXsJ
-         s0CQ==
-X-Gm-Message-State: AOJu0Yw5wFUQhk08JlMc4ouKwJsxk7dJR4UqyAZUDezGLUOTBr41y7kl
-	ri94IQB+28tEbomSoKBVYQNv7jTBKi4lHQ==
-X-Google-Smtp-Source: AGHT+IGtShcAqSOMMtfiQpHHm5D3egyd8RbgBFbci66ojX1tytzPh76rigCSaDDSry9QBBu+IwgZ/A==
-X-Received: by 2002:a05:6808:2390:b0:3bb:754b:ffd8 with SMTP id bp16-20020a056808239000b003bb754bffd8mr623084oib.84.1704520586359;
-        Fri, 05 Jan 2024 21:56:26 -0800 (PST)
+        bh=H33jhdtcfhHUPT0ndrN93Mt9bUqcWYbvRKTpfThBxFU=;
+        b=PHRbzm8ZtBx36/2VxOgNOzBMjOq7ZipqDIToRDK7YHfU4cRCD92PQ4+/JkoLecmAbG
+         uXmCOFLM0WFpMnLDXS0qBXr16h4gBtF6FgR/jqpYALtoD/1OlP8e2egdjnrOP/e1VR3X
+         c/mm77ziZsU3+HZTkiL8H5SISN2BxwII4MUAZWFSPzxsDTqbAiGLyFqeY4Y5hSZ2q+Oz
+         QEuZC0Bp5Wj3i+MRnuwDYp/fEh5/0hyKJO9yvD1EfCjLxLQFgIyD+RX6Md7t7rOp5n3l
+         Fu6pHsELMGjPesekrn8kuBLxvqXfxJPqEWOuY9UUjgoN3JAjOLUT9MA+nb4TjAMJIAe+
+         jbvA==
+X-Gm-Message-State: AOJu0Yw4SWynZHEAc5od4U49a7TE0SNiv34bjh+ZftIb9rIHBC+uJX2h
+	Mr1Obtv93/0N3f8N2Q0cF3XXIXMl8NAGXG7j678412TChvo=
+X-Google-Smtp-Source: AGHT+IE0OGnyRMqlsYFSqrgQHOLMwZ791g7109T94tDn06CdJ37PcUAjai85tfC9UA5L9YDF40OP/g==
+X-Received: by 2002:a05:6a20:4305:b0:199:729f:c0b6 with SMTP id h5-20020a056a20430500b00199729fc0b6mr292122pzk.1.1704520585431;
+        Fri, 05 Jan 2024 21:56:25 -0800 (PST)
 Received: from oatmeal.darkphysics (c-76-146-178-2.hsd1.wa.comcast.net. [76.146.178.2])
-        by smtp.gmail.com with ESMTPSA id y29-20020a056a00181d00b006d99d986624sm2280873pfa.151.2024.01.05.21.56.25
+        by smtp.gmail.com with ESMTPSA id y29-20020a056a00181d00b006d99d986624sm2280873pfa.151.2024.01.05.21.56.24
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 05 Jan 2024 21:56:26 -0800 (PST)
+        Fri, 05 Jan 2024 21:56:25 -0800 (PST)
 From: Tree Davies <tdavies@darkphysics.net>
 To: gregkh@linuxfoundation.org,
 	philipp.g.hortmann@gmail.com,
@@ -49,9 +49,9 @@ To: gregkh@linuxfoundation.org,
 Cc: linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Tree Davies <tdavies@darkphysics.net>
-Subject: [PATCH 21/21] Staging: rtl8192e: Rename variable AsocRetryCount
-Date: Fri,  5 Jan 2024 21:55:56 -0800
-Message-Id: <20240106055556.430948-22-tdavies@darkphysics.net>
+Subject: [PATCH 20/21] Staging: rtl8192e: Rename function GetNmodeSupportBySecCfg()
+Date: Fri,  5 Jan 2024 21:55:55 -0800
+Message-Id: <20240106055556.430948-21-tdavies@darkphysics.net>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20240106055556.430948-1-tdavies@darkphysics.net>
 References: <20240106055556.430948-1-tdavies@darkphysics.net>
@@ -63,63 +63,69 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Rename variable AsocRetryCount to asoc_retry_count to fix checkpatch
-warning Avoid CamelCase.
+Rename function GetNmodeSupportBySecCfg to get_nmode_support_by_sec_cfg
+fix checkpatch warning Avoid CamelCase.
 
 Signed-off-by: Tree Davies <tdavies@darkphysics.net>
 ---
- drivers/staging/rtl8192e/rtllib.h         | 2 +-
- drivers/staging/rtl8192e/rtllib_softmac.c | 8 ++++----
- 2 files changed, 5 insertions(+), 5 deletions(-)
+ drivers/staging/rtl8192e/rtl8192e/rtl_core.c | 2 +-
+ drivers/staging/rtl8192e/rtllib.h            | 2 +-
+ drivers/staging/rtl8192e/rtllib_softmac.c    | 2 +-
+ drivers/staging/rtl8192e/rtllib_tx.c         | 2 +-
+ 4 files changed, 4 insertions(+), 4 deletions(-)
 
+diff --git a/drivers/staging/rtl8192e/rtl8192e/rtl_core.c b/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
+index e499f96e9010..76aacd27e157 100644
+--- a/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
++++ b/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
+@@ -656,7 +656,7 @@ static void _rtl92e_init_priv_handler(struct net_device *dev)
+ 	priv->rtllib->enter_sleep_state = rtl92e_enter_sleep;
+ 	priv->rtllib->ps_is_queue_empty = _rtl92e_is_tx_queue_empty;
+ 
+-	priv->rtllib->GetNmodeSupportBySecCfg = rtl92e_get_nmode_support_by_sec;
++	priv->rtllib->get_nmode_support_by_sec_cfg = rtl92e_get_nmode_support_by_sec;
+ 	priv->rtllib->GetHalfNmodeSupportByAPsHandler =
+ 						rtl92e_is_halfn_supported_by_ap;
+ 
 diff --git a/drivers/staging/rtl8192e/rtllib.h b/drivers/staging/rtl8192e/rtllib.h
-index 2d753a159358..0fdc767d43e0 100644
+index c453af8dec47..2d753a159358 100644
 --- a/drivers/staging/rtl8192e/rtllib.h
 +++ b/drivers/staging/rtl8192e/rtllib.h
-@@ -1381,7 +1381,7 @@ struct rtllib_device {
- 	struct sk_buff *mgmt_queue_ring[MGMT_QUEUE_NUM];
- 	int mgmt_queue_head;
- 	int mgmt_queue_tail;
--	u8 AsocRetryCount;
-+	u8 asoc_retry_count;
- 	struct sk_buff_head skb_waitq[MAX_QUEUE_SIZE];
- 
- 	bool	bdynamic_txpower_enable;
+@@ -1484,7 +1484,7 @@ struct rtllib_device {
+ 	void (*set_bw_mode_handler)(struct net_device *dev,
+ 				    enum ht_channel_width bandwidth,
+ 				    enum ht_extchnl_offset Offset);
+-	bool (*GetNmodeSupportBySecCfg)(struct net_device *dev);
++	bool (*get_nmode_support_by_sec_cfg)(struct net_device *dev);
+ 	void (*set_wireless_mode)(struct net_device *dev, u8 wireless_mode);
+ 	bool (*GetHalfNmodeSupportByAPsHandler)(struct net_device *dev);
+ 	u8   (*rtllib_ap_sec_type)(struct rtllib_device *ieee);
 diff --git a/drivers/staging/rtl8192e/rtllib_softmac.c b/drivers/staging/rtl8192e/rtllib_softmac.c
-index b9b79f6b0c08..9d1e9b780bc7 100644
+index 533af4b28aa7..b9b79f6b0c08 100644
 --- a/drivers/staging/rtl8192e/rtllib_softmac.c
 +++ b/drivers/staging/rtl8192e/rtllib_softmac.c
-@@ -1216,7 +1216,7 @@ inline void rtllib_softmac_new_net(struct rtllib_device *ieee,
- 			ieee->wmm_acm = 0;
- 			if (ieee->iw_mode == IW_MODE_INFRA) {
- 				/* Join the network for the first time */
--				ieee->AsocRetryCount = 0;
-+				ieee->asoc_retry_count = 0;
- 				if ((ieee->current_network.qos_data.supported == 1) &&
- 				    ieee->current_network.bssht.bd_support_ht)
- 					ht_reset_self_and_save_peer_setting(ieee,
-@@ -1319,10 +1319,10 @@ static inline u16 assoc_parse(struct rtllib_device *ieee, struct sk_buff *skb,
- 	   status_code == WLAN_STATUS_CAPS_UNSUPPORTED) &&
- 	   ((ieee->mode == WIRELESS_MODE_G) &&
- 	   (ieee->current_network.mode == WIRELESS_MODE_N_24G) &&
--	   (ieee->AsocRetryCount++ < (RT_ASOC_RETRY_LIMIT - 1)))) {
-+	   (ieee->asoc_retry_count++ < (RT_ASOC_RETRY_LIMIT - 1)))) {
- 		ieee->ht_info->iot_action |= HT_IOT_ACT_PURE_N_MODE;
- 	} else {
--		ieee->AsocRetryCount = 0;
-+		ieee->asoc_retry_count = 0;
- 	}
+@@ -1664,7 +1664,7 @@ static void rtllib_rx_auth_resp(struct rtllib_device *ieee, struct sk_buff *skb)
+ 		ieee->link_state = RTLLIB_ASSOCIATING_AUTHENTICATED;
+ 		ieee->softmac_stats.rx_auth_rs_ok++;
+ 		if (!(ieee->ht_info->iot_action & HT_IOT_ACT_PURE_N_MODE)) {
+-			if (!ieee->GetNmodeSupportBySecCfg(ieee->dev)) {
++			if (!ieee->get_nmode_support_by_sec_cfg(ieee->dev)) {
+ 				if (is_ht_half_nmode_aps(ieee)) {
+ 					support_nmode = true;
+ 					half_support_nmode = true;
+diff --git a/drivers/staging/rtl8192e/rtllib_tx.c b/drivers/staging/rtl8192e/rtllib_tx.c
+index f1e9a0390be0..b82f3415085b 100644
+--- a/drivers/staging/rtl8192e/rtllib_tx.c
++++ b/drivers/staging/rtl8192e/rtllib_tx.c
+@@ -286,7 +286,7 @@ static void rtllib_tx_query_agg_cap(struct rtllib_device *ieee,
+ 	if (ht_info->iot_action & HT_IOT_ACT_TX_NO_AGGREGATION)
+ 		return;
  
- 	return le16_to_cpu(response_head->status);
-@@ -1634,7 +1634,7 @@ rtllib_rx_assoc_resp(struct rtllib_device *ieee, struct sk_buff *skb,
- 			netdev_info(ieee->dev,
- 				    "Association response status code 0x%x\n",
- 				    errcode);
--			if (ieee->AsocRetryCount < RT_ASOC_RETRY_LIMIT)
-+			if (ieee->asoc_retry_count < RT_ASOC_RETRY_LIMIT)
- 				schedule_delayed_work(&ieee->associate_procedure_wq, 0);
- 			else
- 				rtllib_associate_abort(ieee);
+-	if (!ieee->GetNmodeSupportBySecCfg(ieee->dev))
++	if (!ieee->get_nmode_support_by_sec_cfg(ieee->dev))
+ 		return;
+ 	if (ht_info->current_ampdu_enable) {
+ 		if (!rtllib_get_ts(ieee, (struct ts_common_info **)(&ts), hdr->addr1,
 -- 
 2.39.2
 
