@@ -1,198 +1,141 @@
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
+Received: from wout4-smtp.messagingengine.com (wout4-smtp.messagingengine.com [64.147.123.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE5DF134BC
-	for <linux-staging@lists.linux.dev>; Mon,  8 Jan 2024 09:55:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81DA445965
+	for <linux-staging@lists.linux.dev>; Mon,  8 Jan 2024 13:28:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=fastmail.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fastmail.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="XKJSEg6u"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1704707714;
-	bh=C+y5NzxPy9aRgqFTTKxiJ+4wkR49QEyPZcj7Qyz0DJI=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-	b=XKJSEg6uh97Vz3NODfZxSTiuRVDk78W+bFQFKkKJm4V+kgwfo98KUaHry+1dyh9zW
-	 VmLjcOefAtgrzLyNjNIwTYxS/SFvkJ/K20CobYmekTGASmpdhncojdVrlUQFvgzXcP
-	 sgLEzcZg1hfWe+tU0HB8jykZM0bbcbQx/sglDVUNGfY+0IMFIcXs8WzPSY2a/KuGKn
-	 HVRyHmYdMwNEMWZ+NSHQY+6tfo9e3GlFRaq4KLkpFrEFvTXM6orNKWrGGxHMd4EXaB
-	 Dh6jf5gmxNqSCqufMvYXuidBXUSeqZyyG0Om7FhkjncgPBdJXVnyIYDj6FyGBbIO1z
-	 FhD66+tNno9nA==
-Received: from [100.77.12.232] (cola.collaboradmins.com [195.201.22.229])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: obbardc)
-	by madrid.collaboradmins.com (Postfix) with ESMTPSA id 5D3143780625;
-	Mon,  8 Jan 2024 09:55:13 +0000 (UTC)
-Message-ID: <6624728df8569feb5b7a03b2459c8bb127f6470e.camel@collabora.com>
-Subject: Re: [PATCH v4 00/11] media: rkvdec: Add H.264 High 10 and 4:2:2
- profile support
-From: Christopher Obbard <chris.obbard@collabora.com>
-To: Jonas Karlman <jonas@kwiboo.se>, Ezequiel Garcia
- <ezequiel@vanguardiasur.com.ar>, Mauro Carvalho Chehab
- <mchehab@kernel.org>,  Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc: Alex Bee <knaerzche@gmail.com>, Nicolas Dufresne
-	 <nicolas.dufresne@collabora.com>, Benjamin Gaignard
-	 <benjamin.gaignard@collabora.com>, Sebastian Fricke
-	 <sebastian.fricke@collabora.com>, linux-media@vger.kernel.org, 
-	linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev, 
-	linux-kernel@vger.kernel.org
-Date: Mon, 08 Jan 2024 09:54:57 +0000
-In-Reply-To: <20231105165521.3592037-1-jonas@kwiboo.se>
-References: <20231105165521.3592037-1-jonas@kwiboo.se>
-Autocrypt: addr=chris.obbard@collabora.com; prefer-encrypt=mutual;
- keydata=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
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.50.2-1 
+	dkim=pass (2048-bit key) header.d=fastmail.org header.i=@fastmail.org header.b="gEQdJ9pZ";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="2sji/5Ex"
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+	by mailout.west.internal (Postfix) with ESMTP id 3C9F5320122C;
+	Mon,  8 Jan 2024 08:28:51 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute3.internal (MEProxy); Mon, 08 Jan 2024 08:28:51 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fastmail.org; h=
+	cc:cc:content-type:content-type:date:date:from:from:in-reply-to
+	:in-reply-to:message-id:mime-version:references:reply-to:subject
+	:subject:to:to; s=fm2; t=1704720530; x=1704806930; bh=rnhdSabR+a
+	ACnx5x4HzpeUQsfXndD3oedpvNLHLzFco=; b=gEQdJ9pZI1QIQneu57Tvy9IYKe
+	6A62M/taUwmlYqjdY4uWkI4ET3Wvi4EnXPw9Ib6Y2VTsCmTMRBb+cWi0ozr0/3Jc
+	zHSPDpnNee9e1BhPtULapo4n3bmTNP4Ghb8j2CRStH0Kb7mlCz/9AmQpIaF8hqKb
+	IksWiQeEpQREdkZHTq8Pyb3XpziYG6g5+Z35JAHTqf7URbsjvwxQukH5hEfhwivm
+	72LuawVW6dt3NbctZAkTIlukI5nOZqOgthSTh4ukpQxxS1eyXDbXfUXtlbmdcs8o
+	9cXG/zTePHakR54pOORsTXAYO09ihbcoTZE+43cOIbjl0O7NTpCKsFvtQWNw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm2; t=1704720530; x=1704806930; bh=rnhdSabR+aACnx5x4HzpeUQsfXnd
+	D3oedpvNLHLzFco=; b=2sji/5ExCgmvn+vbS41IZvDvdB6BrhnPx/3gdwvE3mly
+	A+Bd5sx3aFPb1CqKRoKBrRmQ7zA24G5OySuIB3YgxlCk7XIWNtNHHnioP8JSVxgb
+	f+eLkkoxG5xuXXeDJXSZsY8UZCOryRN8l+bOR9E1/ODWymOT9KgMFhiRwJ/zNxH1
+	3DtCamaVU/eo6mUoCkiDGYy+Pd51+HMkBxSSdvMDGzq2+7EH0VBoo+P10sBo5D1T
+	JRJhuTJ5DdH+CvnHi+s0xS9jKayacauLMeOQXJOgEuiZhcH1OatEeUN4GJKYLgDN
+	s5m17l7cxQg9eq7d3EwostIJaw1ZuH8kj+f87H5V2A==
+X-ME-Sender: <xms:kvibZcjNVDpzKBYNLzRmoqpNpfCD1UrzbAjHeBKySF1JwTX9HkEFlg>
+    <xme:kvibZVBqU3OVph9b8idfypUjfAtahV6pl2ZX0Ldm9LkbeHfZm6YRhoI4_RPCIAIoE
+    QNC9H3cpyLfcXTxD6c>
+X-ME-Received: <xmr:kvibZUF8KGXyYYVQSSG7GhSDVvO_8AJsqULJmJzlhAP52bYlEFMwaO6gi8GDJSo6_b7Xfz6A0vAq2Tem5xEYmH0nK34>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvkedrvdehjedgheduucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepfhgfhffvvefuffgjkfggtgesghdtreertdertdenucfhrhhomhepifgrrhih
+    ucftohhokhgrrhguuceoghgrrhihrhhoohhkrghrugesfhgrshhtmhgrihhlrdhorhhgqe
+    enucggtffrrghtthgvrhhnpeeileehheehtdeiveduffdugfdtgfevjeffudfgtefgteff
+    udfhhffftedvieeggeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrih
+    hlfhhrohhmpehgrghrhihrohhokhgrrhgusehfrghsthhmrghilhdrohhrgh
+X-ME-Proxy: <xmx:kvibZdS5rqANLHPS3DaHJaIC2wY__Tkmk9Ghcx3E7IHE0BpvkBtFgA>
+    <xmx:kvibZZxbDcnl-6i7UzRClzasIpc3sU-D3HZeznZPkwdYS7AJFWl3WQ>
+    <xmx:kvibZb7FtNf2xinMLA5bQejkxtbaD9swWSboKCoUEOXP8epWbE1h_g>
+    <xmx:kvibZR_lPJGoDAyA_q9dNy4vzQa4YIN1wC_Y2fQhTzVxq1vrCmOMxg>
+Feedback-ID: ifd194980:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 8 Jan 2024 08:28:50 -0500 (EST)
+References: <20240108032233.4280-1-garyrookard@fastmail.org>
+ <20240108032233.4280-2-garyrookard@fastmail.org>
+ <897a8bb4-a1d7-46ab-96cf-fd5ba447d2d8@moroto.mountain>
+User-agent: mu4e 1.10.8; emacs 29.1
+From: Gary Rookard <garyrookard@fastmail.org>
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Cc: gregkh@linuxfoundation.org, philipp.g.hortmann@gmail.com,
+ linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/5] staging: rtl8192e: rename variable is40MHz
+Date: Mon, 08 Jan 2024 08:22:59 -0500
+In-reply-to: <897a8bb4-a1d7-46ab-96cf-fd5ba447d2d8@moroto.mountain>
+Message-ID: <87edesvtrx.fsf@fastmail.org>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: multipart/signed; boundary="=-=-=";
+	micalg=pgp-sha256; protocol="application/pgp-signature"
 
-Hi Jonas,
+--=-=-=
+Content-Type: text/plain
+Content-Transfer-Encoding: quoted-printable
 
-Happy new year!
 
-On Sun, 2023-11-05 at 16:54 +0000, Jonas Karlman wrote:
-> This is a revival of a 3 year old series [1] now that NV15/NV20/NV30 supp=
-ort
-> for display driver have landed in mainline tree.
->=20
-> This series adds H.264 High 10 and 4:2:2 profile support to the Rockchip
-> Video Decoder driver.
->=20
-> Patch 1 adds helpers for calculating plane bytesperline and sizeimage.
-> Patch 2 adds two new pixelformats for semi-planer 10-bit 4:2:0/4:2:2 YUV.
->=20
-> Patch 3 change to use bytesperline and buffer height to configure strides=
-.
-> Patch 4 change to use values from SPS/PPS control to configure the HW.
-> Patch 5 remove an unnecessary call to validate sps at streaming start.
->=20
-> Patch 6-10 refactor code to support filtering of CAPUTRE formats based
-> on the image format returned from a get_image_fmt ops.
->=20
-> Patch 11 adds final bits to support H.264 High 10 and 4:2:2 profiles.
+Dan Carpenter <dan.carpenter@linaro.org> writes:
 
-I send my Tested-by to v3 of this series, I also tested with v4 so for futu=
-re
-series please add:
+> On Sun, Jan 07, 2024 at 10:22:29PM -0500, Gary Rookard wrote:
+>> Coding style issue, checkpatch avoid CamelCase,
+>> rename it. is40MHz -> is_40mhz
+>>=20
+>> Signed-off-by: Gary Rookard <garyrookard@fastmail.org>
+>> ---
+>>  drivers/staging/rtl8192e/rtl819x_HTProc.c | 16 ++++++++--------
+>>  1 file changed, 8 insertions(+), 8 deletions(-)
+>>=20
+>> diff --git a/drivers/staging/rtl8192e/rtl819x_HTProc.c b/drivers/staging=
+/rtl8192e/rtl819x_HTProc.c
+>> index 6d0912f90198..1b1cb9514028 100644
+>> --- a/drivers/staging/rtl8192e/rtl819x_HTProc.c
+>> +++ b/drivers/staging/rtl8192e/rtl819x_HTProc.c
+>> @@ -87,36 +87,36 @@ static u16 ht_mcs_to_data_rate(struct rtllib_device =
+*ieee, u8 mcs_rate)
+>>  {
+>>  	struct rt_hi_throughput *ht_info =3D ieee->ht_info;
+>>=20=20
+>> -	u8	is40MHz =3D (ht_info->cur_bw_40mhz) ? 1 : 0;
+>> +	u8	is_40mhz =3D (ht_info->cur_bw_40mhz) ? 1 : 0;
+>
+> This should be is_40MHz.  It's metric.  M means Mega.  m means milli.
+>
+> regards,
+> dan carpenter
+=2D-
+Okay, stupid me didin't give it to much thought that way,
+...wow there's more that way then just mine
+Good catch!
+Regards,
+Gary
 
-Tested-by: Christopher Obbard <chris.obbard@collabora.com>
+=2D-=20
+Sent with my mu4e on Void GNU/Linux.
 
->=20
-> Tested on a ROCK Pi 4 (RK3399) and Rock64 (RK3328):
->=20
-> =C2=A0 v4l2-compliance 1.24.1, 64 bits, 64-bit time_t
-> =C2=A0 ...
-> =C2=A0 Total for rkvdec device /dev/video1: 46, Succeeded: 46, Failed: 0,
-> Warnings: 0
->=20
-> =C2=A0 Running test suite JVT-FR-EXT with decoder FFmpeg-H.264-V4L2-reque=
-st
-> =C2=A0 ...
-> =C2=A0 Ran 65/69 tests successfully
->=20
-> =C2=A0 Running test suite JVT-AVC_V1 with decoder FFmpeg-H.264-V4L2-reque=
-st
-> =C2=A0 ...
-> =C2=A0 Ran 127/135 tests successfully
->=20
-> Before this series:
->=20
-> =C2=A0 Running test suite JVT-FR-EXT with decoder FFmpeg-H.264-V4L2-reque=
-st
-> =C2=A0 ...
-> =C2=A0 Ran 44/69 tests successfully
->=20
-> Changes in v4:
-> - Fix failed v4l2-compliance tests related to CAPTURE queue
-> - Rework CAPTURE format filter anv validate to use an image format
-> - Run fluster test suite JVT-FR-EXT [4] and JVT-AVC_V1 [5]
-> Link to v3:
-> https://lore.kernel.org/linux-media/20231029183427.1781554-1-jonas@kwiboo=
-.se/
->=20
-> Changes in v3:
-> - Drop merged patches
-> - Use bpp and bpp_div instead of prior misuse of block_w/block_h
-> - New patch to use values from SPS/PPS control to configure the HW
-> - New patch to remove an unnecessary call to validate sps at streaming st=
-art
-> - Reworked pixel format validation
-> Link to v2:
-> https://lore.kernel.org/linux-media/20200706215430.22859-1-jonas@kwiboo.s=
-e/
->=20
-> Changes in v2:
-> - Collect r-b tags
-> - SPS pic width and height in mbs validation moved to rkvdec_try_ctrl
-> - New patch to not override output buffer sizeimage
-> - Reworked pixel format validation
-> - Only align decoded buffer instead of changing frmsize step_width
-> Link to v1:
-> https://lore.kernel.org/linux-media/20200701215616.30874-1-jonas@kwiboo.s=
-e/
->=20
-> Following commits adds support for NV15/NV20/NV30 to VOP driver:
-> 728c15b4b5f3 ("drm/fourcc: Add NV20 and NV30 YUV formats")
-> d4b384228562 ("drm/rockchip: vop: Add NV15, NV20 and NV30 support")
->=20
-> To fully runtime test this series you may need above drm commits and ffmp=
-eg
-> patches from [2], this series and drm patches is also available at [3].
->=20
-> [1]
-> https://lore.kernel.org/linux-media/20200706215430.22859-1-jonas@kwiboo.s=
-e/
-> [2] https://github.com/Kwiboo/FFmpeg/commits/v4l2-request-n6.1-dev/
-> [3]
-> https://github.com/Kwiboo/linux-rockchip/commits/linuxtv-rkvdec-high-10-v=
-4/
-> [4] https://gist.github.com/Kwiboo/f4ac15576b2c72887ae2bc5d58b5c865
-> [5] https://gist.github.com/Kwiboo/459a1c8f1dcb56e45dc7a7a29cc28adf
->=20
-> Regards,
-> Jonas
->=20
-> Alex Bee (1):
-> =C2=A0 media: rkvdec: h264: Don't hardcode SPS/PPS parameters
->=20
-> Jonas Karlman (10):
-> =C2=A0 media: v4l2-common: Add helpers to calculate bytesperline and
-> =C2=A0=C2=A0=C2=A0 sizeimage
-> =C2=A0 media: v4l2: Add NV15 and NV20 pixel formats
-> =C2=A0 media: rkvdec: h264: Use bytesperline and buffer height as virstri=
-de
-> =C2=A0 media: rkvdec: h264: Remove SPS validation at streaming start
-> =C2=A0 media: rkvdec: Extract rkvdec_fill_decoded_pixfmt into helper
-> =C2=A0 media: rkvdec: Move rkvdec_reset_decoded_fmt helper
-> =C2=A0 media: rkvdec: Extract decoded format enumeration into helper
-> =C2=A0 media: rkvdec: Add image format concept
-> =C2=A0 media: rkvdec: Add get_image_fmt ops
-> =C2=A0 media: rkvdec: h264: Support High 10 and 4:2:2 profiles
->=20
-> =C2=A0.../media/v4l/pixfmt-yuv-planar.rst=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 128 +++++++++++
-> =C2=A0drivers/media/v4l2-core/v4l2-common.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0 |=C2=A0 80 +++----
-> =C2=A0drivers/media/v4l2-core/v4l2-ioctl.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 2 +
-> =C2=A0drivers/staging/media/rkvdec/rkvdec-h264.c=C2=A0=C2=A0=C2=A0 |=C2=
-=A0 83 +++----
-> =C2=A0drivers/staging/media/rkvdec/rkvdec.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0 | 217 +++++++++++++-----
-> =C2=A0drivers/staging/media/rkvdec/rkvdec.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0 |=C2=A0 18 +-
-> =C2=A0include/uapi/linux/videodev2.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 2 +
-> =C2=A07 files changed, 396 insertions(+), 134 deletions(-)
->=20
+--=-=-=
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQJNBAEBCAA3FiEE1kC7bOvmQRqDVDSVKPZpkA66T0EFAmWb+IIZHGdhcnlyb29r
+YXJkQGZhc3RtYWlsLm9yZwAKCRAo9mmQDrpPQfB2D/wMrp1lzEC55gNvoPeTt0SU
+APGp93g3eBBubhjei5ZjQ9k6qEQ5NvGdp8GruqR09AOjEADDnicItzDUVcx6G7IQ
+r4dMqJe8OzFCv4vGv6TTfD/XxT3w9qj0fbDILJ7O7SAHb5xtKVXDLt0aPkIhk+iV
+uPwoCWZ/pxTwOIGQTq4vAnhBEDw7TUYX/PZ+NOOUp6P2QfPaIvz7/woZA0vYSEnY
+TsgGQoHE5PQzplSS7jXdJINoSiq7hIugpOixBo06Qw1M8QBN2haNsr+26CRgHyMI
+4SG7nuLjbJ32MrA8Q22Vr6r2LLMzss+kkIPcVwRidWLm3dZCsRxqgLEMWfLLpMT+
+TVmtKsM8I6e51mFFPJKNXm3BgQZmeCqfnpoN313wxJ+PyLthnc6mQO0+ZerlsLCx
+RJOWDH+CQeJxm0DP9CPDbGAu8gQfl6TDMYRfU9bPNq85rYghg8aSCbuWXKyt4zSD
+0i7xkW9GfSR5Iwi2IWxCYWWcB84GKtu10QLJb+o2NR6GhbNJMwPYU+ivjTCdBh2E
+iLukcfv8GkK7Da/GMa1knyLh7i1R8Hls9QxsyHgGdxqJHPhDB9gDQLtC8/Cy73eH
+GcOYY/CQxQscMxqxYLAOG0U3+Vj9I1t2W2UpVXu2xNA6YIMi8og+/Fq8vGhl4lhY
+V89LSUKBcXEw4naf7/s9tA==
+=rPq8
+-----END PGP SIGNATURE-----
+--=-=-=--
