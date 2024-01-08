@@ -1,116 +1,94 @@
-Received: from wout1-smtp.messagingengine.com (wout1-smtp.messagingengine.com [64.147.123.24])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30C6021A06
-	for <linux-staging@lists.linux.dev>; Mon,  8 Jan 2024 03:23:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=fastmail.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fastmail.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E5C279C2
+	for <linux-staging@lists.linux.dev>; Mon,  8 Jan 2024 04:46:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=fastmail.org header.i=@fastmail.org header.b="li5baQRl";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="6JjFoVNq"
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
-	by mailout.west.internal (Postfix) with ESMTP id 2082832012CF;
-	Sun,  7 Jan 2024 22:23:16 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute4.internal (MEProxy); Sun, 07 Jan 2024 22:23:16 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fastmail.org; h=
-	cc:cc:content-transfer-encoding:content-type:date:date:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:subject:subject:to:to; s=fm2; t=1704684195; x=
-	1704770595; bh=+R3F62X3U/sQ5pF/DcFmLgx05zf8bbzHtroH7XEogPE=; b=l
-	i5baQRl6pYxe6CD2U6RME286qPXP3XtvWT6hAiH+vGikjG0St5q8oBu042i+eq7b
-	jvYLyAaxq6OKykMCPQePZCGuFl1O9mltTlVz3ryxNawuwjZ/6ZLFmPAtqPNujF08
-	DF7lmF4GHYCksCb0Hs6k9p0EvKhpEv5v5i7hcMTPMDC/eetpydUyaQDpXo1eevP7
-	w4Ue5VYppn0x98PK9PNo5OzYM1UiiIihhdvpjAtGE1hn3ovLcSXmNcYr9O6c0IBR
-	EPeFdz1zzbXvh46i1Z7aBJwI3ltmngwcqY1JuG9FTkerKR3h7zYxYSxKLAKFc3nN
-	NPJts0mm+Hisv6gt28z1A==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:date:date:feedback-id:feedback-id:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:subject:subject:to:to:x-me-proxy:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1704684195; x=
-	1704770595; bh=+R3F62X3U/sQ5pF/DcFmLgx05zf8bbzHtroH7XEogPE=; b=6
-	JjFoVNqjbtpUaXSMmbLPKdvvZmXxj2mZIReKcnar3THr95kYBtSZ8xfGtXZj10i+
-	H3etDQQN+elSFyl+uhqAGNPhLPyTZgljQ7qO3PX0jWbIBS060AG40vWqjpWqTMGG
-	RuJiZvqmWzYtkmTWP9MjkQXUPOMLLVjA9Dj6h7TSfGkkle3hKgMRhYjbYkTcxmK+
-	7+/rpEWaA4OyfTWO3iSX7EfgfFYwu7pDf7G70lBIHCVQnvRARiGGKfe4z7GDjKJE
-	BGToYa+G23uU1BgMrr0pTVmRUq28BlKKGrxe8xewIt3RzLmDwp7mjfd7d8Y+2RLR
-	QJ0OHAS/H+2TGOGtUnJ6g==
-X-ME-Sender: <xms:o2qbZaG3q4HHAWTEhGGw96y_8JOwiwzE9LI4e8qxkwNDIFGDBdwKlw>
-    <xme:o2qbZbXxeatT0ojUQc9WDEiDwfgT0840MNQG-zXxSyS_WNppbQlGGJRx35Raav1QI
-    R34bl2Bnfnm5gQZAKE>
-X-ME-Received: <xmr:o2qbZULgUFI7aaNiHf6Zrdu5ZPYFltQcgcFdqsv4HFKhlB7cQP57r_JHUwVLkPNhKMqCRkZMTLSTkVu6N_EfJpxb31O1LTWQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvkedrvdehhedgheejucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucenucfjughrpefhvfevufffkffojghfggfgsedtke
-    ertdertddtnecuhfhrohhmpefirghrhicutfhoohhkrghrugcuoehgrghrhihrohhokhgr
-    rhgusehfrghsthhmrghilhdrohhrgheqnecuggftrfgrthhtvghrnhepkeeuvdffueduke
-    egieeuffejhefgkeetfeehueelfeduuefgveellefhfefgjedvnecuvehluhhsthgvrhfu
-    ihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepghgrrhihrhhoohhkrghrugesfh
-    grshhtmhgrihhlrdhorhhg
-X-ME-Proxy: <xmx:o2qbZUE0pvMHKjSb8QjFB3gQjJZlh06_95JqiWsEpkonBEjqWDCDAg>
-    <xmx:o2qbZQVq5tYmQ5kigjWBVK2kUo88TolULr7XBSKlunrBbVY3AErqPA>
-    <xmx:o2qbZXM-3hbE21F4_rrIwD_iGhfKBd5NlmOIEf_bLCcp61egZqnEiQ>
-    <xmx:o2qbZXTftlS6EI5ZRapeIPZndpxr99NvpU0mR4WQ90iyodXHIx88Kw>
-Feedback-ID: ifd194980:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
- 7 Jan 2024 22:23:15 -0500 (EST)
-From: Gary Rookard <garyrookard@fastmail.org>
-To: gregkh@linuxfoundation.org,
-	philipp.g.hortmann@gmail.com
-Cc: linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Gary Rookard <garyrookard@fastmail.org>
-Subject: [PATCH 5/5] staging: rtl8192e: rename variable AdvCoding
-Date: Sun,  7 Jan 2024 22:22:33 -0500
-Message-ID: <20240108032233.4280-6-garyrookard@fastmail.org>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240108032233.4280-1-garyrookard@fastmail.org>
-References: <20240108032233.4280-1-garyrookard@fastmail.org>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HNljkP9A"
+Received: by mail-ed1-f45.google.com with SMTP id 4fb4d7f45d1cf-5451faa3aa7so331495a12.0
+        for <linux-staging@lists.linux.dev>; Sun, 07 Jan 2024 20:46:29 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1704689188; x=1705293988; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=qBQoCtGsAlNdiuEM9BfbadXmqeot2938UuOpdhMoIOA=;
+        b=HNljkP9Ad+FFLriRopQBSdiezUkOamlHs4MBk17Rpo7IZRsVO4oWEDehd8VNIh9wit
+         eQuy0rtZBvH3eTCSYFSlCIA5A28BFwRP/PB50Nn0A1NYMrE5xe2TtC+pnFi9E2MG64oM
+         h+gFha0XutQ9wk+oKWEBW6ZNnDipYHlP+bPe198nRnGwCiKSTqvxqUGru60Rm7APzXCc
+         QyWENDwllHbfI0wmQCbjLq8xPsp6rcpnm5MjRoGgVY9uO0JV0spYsIpmIu15dJpss6A2
+         l5Ner2yu3hJCHdut7dxeeUzxsEbogPXz9MFkffqArvJrYi5sEDWdZ+pyaKXHPcOOqL2H
+         Yu4g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1704689188; x=1705293988;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=qBQoCtGsAlNdiuEM9BfbadXmqeot2938UuOpdhMoIOA=;
+        b=GGAkHFBRth0ClqhhIP1aHhSLIfXsc4ep0etHa+U4QDXe12Ju/3FVRwABtyPHGkxMkW
+         PRwrAV5wzVgQ40gNm8d+rHjvdailqTGJhI9vfXtuPM0yeXZTTT8/IxNfGZc3KabVT/6s
+         T0rbtQQrW/LqmU2BzqbegzgQr5i02WATh9/inhuPcAeO07GVJN7iIqqXb9kfsunFD+44
+         4S1Ax7TffavHEPAVKmi+uAuglqoK0J3LDVGvYpy9L+b0xQh+OkXkde00c2p9Lz2CYten
+         4NNHFV+x0t45KE+kKdL5pt+KQ+r9nOcw+4MAr2zb/YTYu2z4oaj8uyknzNIbL24z/frH
+         ayfQ==
+X-Gm-Message-State: AOJu0YyvXLyGDUzD5/fGDbtJN3CiHLgTkJdxTtTLNMVkZNQhilnQxk8H
+	w3Kn6VR0HxuvNyIPEfYe7FHtf0exWf3Bsw==
+X-Google-Smtp-Source: AGHT+IHgJxrZw0Dn+jNq/CXNJUNGp2UOlFLAKsAsrPM7qMuLtzQBCVmyBRzb8LA0OacxnfNOXCQ5kg==
+X-Received: by 2002:a17:907:a0cf:b0:a28:34e5:b86e with SMTP id hw15-20020a170907a0cf00b00a2834e5b86emr2738438ejc.2.1704689187935;
+        Sun, 07 Jan 2024 20:46:27 -0800 (PST)
+Received: from [192.168.0.104] (p54a07fa0.dip0.t-ipconnect.de. [84.160.127.160])
+        by smtp.gmail.com with ESMTPSA id r2-20020a170906550200b00a2a4086c6b0sm1412269ejp.82.2024.01.07.20.46.27
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 07 Jan 2024 20:46:27 -0800 (PST)
+Message-ID: <9be7603e-1a94-4077-80e0-091f863e7b72@gmail.com>
+Date: Mon, 8 Jan 2024 05:46:26 +0100
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 0/5] staging: rtl8192e: renamed variable is40MHz and 4
+ other
+To: Gary Rookard <garyrookard@fastmail.org>, gregkh@linuxfoundation.org
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+References: <20240108032233.4280-1-garyrookard@fastmail.org>
+Content-Language: en-US
+From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+In-Reply-To: <20240108032233.4280-1-garyrookard@fastmail.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Coding style issue, checkpatch Avoid CamelCase,
-rename it. AdvCoding -> adv_coding
+On 1/8/24 04:22, Gary Rookard wrote:
+> Hi,
+> 
+> This patch series renames (5) different variables with
+> the checkpatch coding style issue, Avoid CamelCase.
+> 
+> Patch 1/5) rename variable is40MHz
+> Patch 2/5) rename variable isShortGI
+> Patch 3/5) rename variable retValue
+> Patch 4/5) rename variable EWC11NHTCap
+> Patch 5/5) rename variable AdvCoding
+> 
+> Signed-off-by: Gary Rookard <garyrookard@fastmail.org>
+> 
+> Gary Rookard (5):
+>    staging: rtl8192e: rename variable is40MHz
+>    staging: rtl8192e: rename variable isShortGI
+>    staging: rtl8192e: rename variable retValue
+>    staging: rtl8192e: rename variable EWC11NHTCap
+>    staging: rtl8192e: rename variable AdvCoding
+> 
+>   drivers/staging/rtl8192e/rtl819x_HT.h     |  2 +-
+>   drivers/staging/rtl8192e/rtl819x_HTProc.c | 58 +++++++++++------------
+>   2 files changed, 30 insertions(+), 30 deletions(-)
+> 
 
-Signed-off-by: Gary Rookard <garyrookard@fastmail.org>
----
- drivers/staging/rtl8192e/rtl819x_HT.h     | 2 +-
- drivers/staging/rtl8192e/rtl819x_HTProc.c | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+Can be applied on top of other patches send in.
+Is working fine on hardware.
 
-diff --git a/drivers/staging/rtl8192e/rtl819x_HT.h b/drivers/staging/rtl8192e/rtl819x_HT.h
-index 68577bffb936..95613619d568 100644
---- a/drivers/staging/rtl8192e/rtl819x_HT.h
-+++ b/drivers/staging/rtl8192e/rtl819x_HT.h
-@@ -24,7 +24,7 @@ enum ht_extchnl_offset {
- };
- 
- struct ht_capab_ele {
--	u8	AdvCoding:1;
-+	u8	adv_coding:1;
- 	u8	ChlWidth:1;
- 	u8	MimoPwrSave:2;
- 	u8	GreenField:1;
-diff --git a/drivers/staging/rtl8192e/rtl819x_HTProc.c b/drivers/staging/rtl8192e/rtl819x_HTProc.c
-index 5598e74187cd..351000d3bce7 100644
---- a/drivers/staging/rtl8192e/rtl819x_HTProc.c
-+++ b/drivers/staging/rtl8192e/rtl819x_HTProc.c
-@@ -251,7 +251,7 @@ void ht_construct_capability_element(struct rtllib_device *ieee, u8 *pos_ht_cap,
- 		*len = 26 + 2;
- 	}
- 
--	cap_ele->AdvCoding		= 0;
-+	cap_ele->adv_coding		= 0;
- 	if (ieee->GetHalfNmodeSupportByAPsHandler(ieee->dev))
- 		cap_ele->ChlWidth = 0;
- 	else
--- 
-2.43.0
-
+Bye Philipp
