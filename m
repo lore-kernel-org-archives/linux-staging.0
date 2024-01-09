@@ -1,143 +1,158 @@
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out3-smtp.messagingengine.com (out3-smtp.messagingengine.com [66.111.4.27])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A11254BDA
-	for <linux-staging@lists.linux.dev>; Mon,  8 Jan 2024 20:38:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE11E10E4
+	for <linux-staging@lists.linux.dev>; Tue,  9 Jan 2024 01:30:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=fastmail.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fastmail.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="H0nkBzkz"
-Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-336dcebcdb9so2420674f8f.1
-        for <linux-staging@lists.linux.dev>; Mon, 08 Jan 2024 12:38:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1704746288; x=1705351088; darn=lists.linux.dev;
-        h=content-transfer-encoding:running:mime-version:message-id:date
-         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=qk8DV8xOiqw0q8KdiSyUG8alGH4xQIsQzu0Gj64hSoU=;
-        b=H0nkBzkz8JUsfG55sSS9U7ht14gygwffDDPA8k21V6NxEjRbMSVRJ3cTbt0EiWuROJ
-         lr60DdR5/seHh5lCUCsg7nKuKYOC4Mulk0ajSiFZaCORPbS+26qFviA3hWJHPSV5oCMm
-         6OEiqFXL1rd3PEIMxMVP9FOPwY4qplcK7gAlaQW3qW4ASOJ1dVg/ubUMjIUsqOnw+iP0
-         7LkAEDA4UI+d6XXiWfxQtq6hl+qfndtUh6cqkFZLGN2Dc4Rl8CbSTdzkpl6TRb8LIv5R
-         4WHddXK+i3e4CJckPR3Y3XwLagj7bUfF03NAimAHDzQoPlFV0/JVXDfTWggCRldQRq9k
-         LxpA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704746288; x=1705351088;
-        h=content-transfer-encoding:running:mime-version:message-id:date
-         :subject:cc:to:from:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=qk8DV8xOiqw0q8KdiSyUG8alGH4xQIsQzu0Gj64hSoU=;
-        b=IOF8RhWCYYzN6HacTTgjtfrJ6w1lF88M8h1NeIvW+j0ojqA3OJ7x2FDSeBvO0eRq4r
-         ktklf4Y7gGQocyNdRdsQFStJKUxw3FsQikuLicv/SySzuKlXsq576OGljEpe0/BiwQH1
-         Xwtb1eH2iyoDxyTE8oWfJ9vfGhD2jmpZqAf12Nl7MOc9uUtbkJTmvuaacJ98h5Unq8TK
-         URUCr3KbjGNc24vYtlfLTObD+zm38KGynieCQ9OHjEEukxmu7dob8dPg6alIW1mF+jmC
-         a6dx+41WZDPaXC1+PswbFJh+NPr3ynjUPF+dAM7QHhdjptzlYYa1dKZxJo76uPtLCHPn
-         C8uQ==
-X-Gm-Message-State: AOJu0YxhFj+iBg3gkbz3ToLDZATjM8USBFxzxd3SXOSKI3TMWh3Vno9D
-	Y/aJwJJLWmNKfXv4QOVIuhw=
-X-Google-Smtp-Source: AGHT+IGaUmAt3ND/9w0B6jj5u4cPNpraZpClxzC8ID7Ztpm0RaVJOXNCQAZyWoonwTjDcjg//n7CRw==
-X-Received: by 2002:a5d:6683:0:b0:336:67ef:436e with SMTP id l3-20020a5d6683000000b0033667ef436emr2376wru.147.1704746287973;
-        Mon, 08 Jan 2024 12:38:07 -0800 (PST)
-Received: from ubuntu2004.cynet.local (vpn1382.cynet.com. [84.110.53.106])
-        by smtp.gmail.com with ESMTPSA id b15-20020adfe30f000000b003367a51217csm547245wrj.34.2024.01.08.12.38.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 08 Jan 2024 12:38:07 -0800 (PST)
-From: arielsilver77@gmail.com
-To: forest@alittletooquiet.net,
-	gregkh@linuxfoundation.org
-Cc: linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	SilverPlate3 <arielsilver77@gmail.com>
-Subject: [PATCH] fixing sparse warnings about a dangerous cast and possible bad endianness. 
-Date: Mon,  8 Jan 2024 22:37:14 +0200
-Message-Id: <20240108203714.34820-1-arielsilver77@gmail.com>
-X-Mailer: git-send-email 2.25.1
+	dkim=pass (2048-bit key) header.d=fastmail.org header.i=@fastmail.org header.b="GQ97qUX2";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="2r90DEEs"
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
+	by mailout.nyi.internal (Postfix) with ESMTP id 024825C0367;
+	Mon,  8 Jan 2024 20:30:09 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute6.internal (MEProxy); Mon, 08 Jan 2024 20:30:09 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fastmail.org; h=
+	cc:cc:content-type:content-type:date:date:from:from:in-reply-to
+	:in-reply-to:message-id:mime-version:references:reply-to:subject
+	:subject:to:to; s=fm2; t=1704763808; x=1704850208; bh=BLkB46kVHq
+	J8HkiTq+Qe0gAnj7qGYO+TVEMJATa8hc8=; b=GQ97qUX2ZTG3hZ6cRQcMUTxpss
+	0VF2w3FaGXu7UZVB2Ugd35CgxtBZF2ScVkstaIdqCHnzirVJPfs2Cljvl/USR6qy
+	veO0kEtXiYlWbFUGk6T3s6XQtnHbPbgKbJDecxlm8NdHuDFp7yBmmAYoiwIbn7SF
+	vIhrMzsczd14XIeHqzeu/dACOnTnz6+mVGT5Ai47Bd1meTlYIpNuVPYbULZ4cMTo
+	tJjvKIBSYrxULhNCalG73dFcHr3krCsB3db3gVIWAmUgdCBChmdTxWm2egSWtrZ8
+	p/v4Eojx3/FRfx4kbgGRBsYJdbklA517we0ddD6Ke7bQAsYcsdzr+tegYJVA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm2; t=1704763808; x=1704850208; bh=BLkB46kVHqJ8HkiTq+Qe0gAnj7qG
+	YO+TVEMJATa8hc8=; b=2r90DEEs+w3XHj2lbqdXR8SYd5vSvBU98H0SrOOXLY93
+	WmzY64vNoToUnpYXyDqYd7phqrU6et3TXaehDLEjz/nN42Qem0Kg5hH131tCxIrc
+	W9Bq5XhnMazvzNdyNM8a5uTMfjRBeUXpXlI2SHU7++7yYq15mOlAm0bNHIIIoOpA
+	tTrOCzfbw4W9TUxZFWSM4K1mXa0O94eR2u5cIT9oyKjjuBRM/kgxFx5KAiZvlF4D
+	qRiHZNDLJq8/q0D86LSn2J+aAj2suuCYZdfDs0MhfOK5adVGOuQMSXnUbEf+YwWT
+	kP7pPtcAgSv2LnYVFx2NlCguwjYnpj7U/8Bbh9IJNw==
+X-ME-Sender: <xms:oKGcZY6pJ_WQcqLT7eQ9zVSvTQusO1gvUNftHJOsFa9n4IaRIR9riw>
+    <xme:oKGcZZ7hFr8LRzebisiIe0yH4bPXa4M-3_msh4d50d8UJgSG5yakhaUken9UWspco
+    jAB_ndxDNWHF-QEzUc>
+X-ME-Received: <xmr:oKGcZXdceuSKZP8MgJxZ_jDPd2KM_IqhQDPc6kCEwNn3Ibu-ubC23DYwO6B2-xK_fhP1awWdkKke0xmyiYfpxAKIL98>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvkedrvdehkedgfeeiucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    goteeftdduqddtudculdduhedmnecujfgurhepfhgfhffvvefuffgjkfggtgesghdtreer
+    tdertdenucfhrhhomhepifgrrhihucftohhokhgrrhguuceoghgrrhihrhhoohhkrghrug
+    esfhgrshhtmhgrihhlrdhorhhgqeenucggtffrrghtthgvrhhnpeeileehheehtdeivedu
+    ffdugfdtgfevjeffudfgtefgteffudfhhffftedvieeggeenucevlhhushhtvghrufhiii
+    gvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehgrghrhihrohhokhgrrhgusehfrghs
+    thhmrghilhdrohhrgh
+X-ME-Proxy: <xmx:oKGcZdK0w-uZMhTgAzBRZ1q33tmsg8PWyFDjsDnCNRfjbUuAmgzEcA>
+    <xmx:oKGcZcJtpEA6-iLnS4Ks9dSPzYA7EbZHzLkVKC7wZDb56MEMNnRStQ>
+    <xmx:oKGcZeyjXSwEOUwHUyEPSCg0l9ttRSCAE5R1h_v1pC6AvqalJHKq4w>
+    <xmx:oKGcZRHSlkADeKDMOnUCGfuENajRX9nNF5qooJFzHZKmnfJtiGBugw>
+Feedback-ID: ifd194980:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 8 Jan 2024 20:30:08 -0500 (EST)
+References: <20240108032233.4280-1-garyrookard@fastmail.org>
+ <20240108032233.4280-2-garyrookard@fastmail.org>
+ <897a8bb4-a1d7-46ab-96cf-fd5ba447d2d8@moroto.mountain>
+ <87edesvtrx.fsf@fastmail.org>
+ <62836460ae502097ca8307bcee85a5ae3634e1acc74af843ffc466c28d1a0b95@mu.id>
+User-agent: mu4e 1.10.8; emacs 29.1
+From: Gary Rookard <garyrookard@fastmail.org>
+To: Gary Rookard <garyrookard@fastmail.org>
+Cc: Dan Carpenter <dan.carpenter@linaro.org>, gregkh@linuxfoundation.org,
+ philipp.g.hortmann@gmail.com, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/5] staging: rtl8192e: rename variable is40MHz
+Date: Mon, 08 Jan 2024 20:25:55 -0500
+In-reply-to: <62836460ae502097ca8307bcee85a5ae3634e1acc74af843ffc466c28d1a0b95@mu.id>
+Message-ID: <871qarcmzt.fsf@fastmail.org>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Running: 'make M=drivers/staging/vt6655 C=2' causes sparse to generate few warnings. 
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; boundary="=-=-=";
+	micalg=pgp-sha256; protocol="application/pgp-signature"
 
-From: SilverPlate3 <arielsilver77@gmail.com>
+--=-=-=
+Content-Type: text/plain
+Content-Transfer-Encoding: quoted-printable
 
----
- drivers/staging/vt6655/card.c | 18 +++++++++++++-----
- 1 file changed, 13 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/staging/vt6655/card.c b/drivers/staging/vt6655/card.c
-index 350ab8f3778a..8290dc5a0398 100644
---- a/drivers/staging/vt6655/card.c
-+++ b/drivers/staging/vt6655/card.c
-@@ -292,14 +292,16 @@ bool card_update_tsf(struct vnt_private *priv, unsigned char rx_rate,
- {
- 	u64 local_tsf;
- 	u64 qwTSFOffset = 0;
--
-+	__le64 le_qwTSFOffset = 0;
-+	
- 	local_tsf = vt6655_get_current_tsf(priv);
- 
- 	if (qwBSSTimestamp != local_tsf) {
- 		qwTSFOffset = CARDqGetTSFOffset(rx_rate, qwBSSTimestamp,
- 						local_tsf);
- 		/* adjust TSF, HW's TSF add TSF Offset reg */
--		qwTSFOffset =  le64_to_cpu(qwTSFOffset);
-+		le_qwTSFOffset = cpu_to_le64(qwTSFOffset);
-+		qwTSFOffset = le64_to_cpu(le_qwTSFOffset);
- 		iowrite32((u32)qwTSFOffset, priv->port_offset + MAC_REG_TSFOFST);
- 		iowrite32((u32)(qwTSFOffset >> 32), priv->port_offset + MAC_REG_TSFOFST + 4);
- 		vt6655_mac_reg_bits_on(priv->port_offset, MAC_REG_TFTCTL, TFTCTL_TSFSYNCEN);
-@@ -324,6 +326,7 @@ bool CARDbSetBeaconPeriod(struct vnt_private *priv,
- 			  unsigned short wBeaconInterval)
- {
- 	u64 qwNextTBTT;
-+	__le64 le_qwNextTBTT;
- 
- 	qwNextTBTT = vt6655_get_current_tsf(priv); /* Get Local TSF counter */
- 
-@@ -333,7 +336,8 @@ bool CARDbSetBeaconPeriod(struct vnt_private *priv,
- 	iowrite16(wBeaconInterval, priv->port_offset + MAC_REG_BI);
- 	priv->wBeaconInterval = wBeaconInterval;
- 	/* Set NextTBTT */
--	qwNextTBTT =  le64_to_cpu(qwNextTBTT);
-+	le_qwNextTBTT = cpu_to_le64(qwNextTBTT);
-+	qwNextTBTT = le64_to_cpu(le_qwNextTBTT);
- 	iowrite32((u32)qwNextTBTT, priv->port_offset + MAC_REG_NEXTTBTT);
- 	iowrite32((u32)(qwNextTBTT >> 32), priv->port_offset + MAC_REG_NEXTTBTT + 4);
- 	vt6655_mac_reg_bits_on(priv->port_offset, MAC_REG_TFTCTL, TFTCTL_TBTTSYNCEN);
-@@ -796,12 +800,14 @@ void CARDvSetFirstNextTBTT(struct vnt_private *priv,
- {
- 	void __iomem *iobase = priv->port_offset;
- 	u64 qwNextTBTT;
-+	__le64 le_qwNextTBTT = 0;
- 
- 	qwNextTBTT = vt6655_get_current_tsf(priv); /* Get Local TSF counter */
- 
- 	qwNextTBTT = CARDqGetNextTBTT(qwNextTBTT, wBeaconInterval);
- 	/* Set NextTBTT */
--	qwNextTBTT =  le64_to_cpu(qwNextTBTT);
-+	le_qwNextTBTT = cpu_to_le64(qwNextTBTT);
-+	qwNextTBTT = le64_to_cpu(le_qwNextTBTT);
- 	iowrite32((u32)qwNextTBTT, iobase + MAC_REG_NEXTTBTT);
- 	iowrite32((u32)(qwNextTBTT >> 32), iobase + MAC_REG_NEXTTBTT + 4);
- 	vt6655_mac_reg_bits_on(iobase, MAC_REG_TFTCTL, TFTCTL_TBTTSYNCEN);
-@@ -824,11 +830,13 @@ void CARDvSetFirstNextTBTT(struct vnt_private *priv,
- void CARDvUpdateNextTBTT(struct vnt_private *priv, u64 qwTSF,
- 			 unsigned short wBeaconInterval)
- {
-+	__le64 le_qwTSF = 0;
- 	void __iomem *iobase = priv->port_offset;
- 
- 	qwTSF = CARDqGetNextTBTT(qwTSF, wBeaconInterval);
- 	/* Set NextTBTT */
--	qwTSF =  le64_to_cpu(qwTSF);
-+	le_qwTSF = cpu_to_le64(qwTSF);
-+	qwTSF = le64_to_cpu(le_qwTSF);
- 	iowrite32((u32)qwTSF, iobase + MAC_REG_NEXTTBTT);
- 	iowrite32((u32)(qwTSF >> 32), iobase + MAC_REG_NEXTTBTT + 4);
- 	vt6655_mac_reg_bits_on(iobase, MAC_REG_TFTCTL, TFTCTL_TBTTSYNCEN);
--- 
-2.25.1
+Gary Rookard <garyrookard@fastmail.org> writes:
 
+> Gary Rookard <garyrookard@fastmail.org> writes:
+>
+>> [[PGP Signed Part:Undecided]]
+>>
+>> Dan Carpenter <dan.carpenter@linaro.org> writes:
+>>
+>>> On Sun, Jan 07, 2024 at 10:22:29PM -0500, Gary Rookard wrote:
+>>>> Coding style issue, checkpatch avoid CamelCase,
+>>>> rename it. is40MHz -> is_40mhz
+>>>>=20
+>>>> Signed-off-by: Gary Rookard <garyrookard@fastmail.org>
+>>>> ---
+>>>>  drivers/staging/rtl8192e/rtl819x_HTProc.c | 16 ++++++++--------
+>>>>  1 file changed, 8 insertions(+), 8 deletions(-)
+>>>>=20
+>>>> diff --git a/drivers/staging/rtl8192e/rtl819x_HTProc.c b/drivers/stagi=
+ng/rtl8192e/rtl819x_HTProc.c
+>>>> index 6d0912f90198..1b1cb9514028 100644
+>>>> --- a/drivers/staging/rtl8192e/rtl819x_HTProc.c
+>>>> +++ b/drivers/staging/rtl8192e/rtl819x_HTProc.c
+>>>> @@ -87,36 +87,36 @@ static u16 ht_mcs_to_data_rate(struct rtllib_devic=
+e *ieee, u8 mcs_rate)
+>>>>  {
+>>>>  	struct rt_hi_throughput *ht_info =3D ieee->ht_info;
+>>>>=20=20
+>>>> -	u8	is40MHz =3D (ht_info->cur_bw_40mhz) ? 1 : 0;
+>>>> +	u8	is_40mhz =3D (ht_info->cur_bw_40mhz) ? 1 : 0;
+>>>
+>>> This should be is_40MHz.  It's metric.  M means Mega.  m means milli.
+>>>
+>>> regards,
+>>> dan carpenter
+>> --
+>> Okay, stupid me didin't give it to much thought that way,
+>> ...wow there's more that way then just mine
+>> Good catch!
+>> Regards,
+>> Gary
+=2D-
+There's only mine that I can find, I'll fix them up
+and resubmit them.
+
+Thanks for your insight.
+
+Regards,
+Gary
+=2D-=20
+Sent with my mu4e on Void GNU/Linux.
+
+--=-=-=
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQJNBAEBCAA3FiEE1kC7bOvmQRqDVDSVKPZpkA66T0EFAmWcoZYZHGdhcnlyb29r
+YXJkQGZhc3RtYWlsLm9yZwAKCRAo9mmQDrpPQc37D/0Ubc8io4K+JZLcQR6KDY93
+ldeMGQWrWCpffSZxHG2DJJkhO8LOI6ZcWcjeq1B9r8RRRiXwDXYbSXH7Hm9DQCTG
+nC3qaJ2gRpk2MA897WdmVrfLGGYtFJB7Z+GkX+JOZGE1y4g/syL54buXq/UQc0GX
+e7g7+TG/e2x094BWc54axLJC4xq0PvKYZZCw+yXkInP4f2Nvw5Xz5+3s4qwoOiBd
+DB1sx1lHA0ZMNvNuSgF+T7mAeAwHSRBHVFQHUJUGFIvhUIvUH+0YDtNtV9K9vknr
+Z6TKvqwSFRx217xjG1ddi7/099rIdXVtbppOaquVU36lvwbyTAsnl/+MlMnBHiLI
+TggvSTDXvRKQMX1NP1S5K7MOe09YsCsyunlcRm1HtZGCc3NVvjgR1XT9ysNg0tv2
+4rfzQC1XIcrhW+Fnd6p5rZKPXKFR6xdBMr4XuAg+uyJzP0rByh8r03+Vz4jbXpVx
+I0D9U6VRpdY2WCjA1lHVGjeyxDFXF3qOCLh72gLHW+cU9MxYFBBoFTJ9EFUawxW2
+L6fQMwixnMP+Cv7iyqKWCgGLmDzRs1f3r6cDiGqDJrVezCfDGX6YDbf88ia/3q0A
+jJSQqiOoL43Uo1qgyaoRzq5Us3vGcHhGNjR9Jfx9gdL85vfGd4EKBGrPPVpIh1OH
+MDbq7ZH1g2r1v9TfXuKRvg==
+=4+ac
+-----END PGP SIGNATURE-----
+--=-=-=--
