@@ -1,86 +1,217 @@
-Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out3-smtp.messagingengine.com (out3-smtp.messagingengine.com [66.111.4.27])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4968C6126
-	for <linux-staging@lists.linux.dev>; Tue,  9 Jan 2024 03:27:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADBB56D6F4
+	for <linux-staging@lists.linux.dev>; Tue,  9 Jan 2024 03:32:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=fastmail.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fastmail.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="latw+L7z"
-Received: by mail-pj1-f52.google.com with SMTP id 98e67ed59e1d1-28be024282bso1554222a91.3
-        for <linux-staging@lists.linux.dev>; Mon, 08 Jan 2024 19:27:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1704770869; x=1705375669; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=PXL4Ps3qf8k5Z/Ui1IqX2W2Ns+rNuQpEvgdkOPDwzLU=;
-        b=latw+L7ztPlD1LLptIj1xFoDi4cb9d7Fr6bIx9A6H5G4gElOlDwIHMjoYCKGZE2j2a
-         bpc1tb+L4Iq2VcnKagfKpY1DUZ+e27kf4se45QasGMlr6jcG2kUJrZrfym/Q4lZRMMKq
-         iIJVQkq4aP6Fz9mqXhW83yEp1da1X7MbXEmDA=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704770869; x=1705375669;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=PXL4Ps3qf8k5Z/Ui1IqX2W2Ns+rNuQpEvgdkOPDwzLU=;
-        b=dwZB9EVHikAm+lm38BrckGfCxXFs+JIkvDup/pkqMBkPH8NSiDy+uDnbHcRh1hg8R2
-         Qz9CJ++3dmOC9qyjuR34fAmeGrl/0N0kLhYcH+JnSwVuoqPMUDpflYWN0mFYI/dyMgRD
-         jk4F5Mnp5bUO6iSMp3ZV0Hc0uMLjYKR+kzGW33jn5v33LGpT4PR0Jxu0yRZKB5ebtqZ1
-         kZbRp5O/0Q4/3yI+QsCwtIpHIvBEBcGCP5PsBTUK61DqRgsLcU86n0qbfiNhjK09UYUc
-         uzQHHKGQv9m3zrs9+hhGgQZYhWeD37t2fl8keN0wVs+zDVO7oC0clKvZAJljlaTvq+3U
-         YwHA==
-X-Gm-Message-State: AOJu0YxtjpFFtnYT0rAtK/E9yWpALoi2TKUldX/z9iX9acO7TWtMeuCX
-	u20J1E6k2yogMnhHNInrhMaRzjV05BiN
-X-Google-Smtp-Source: AGHT+IGq0vxegoITtf8sqwZEvUiMPQ2IoL2L4oArtuldYRvg12mALaxEVlIjwvqFKKtDMEPLanKrjQ==
-X-Received: by 2002:a17:90a:b38c:b0:28c:f509:ed14 with SMTP id e12-20020a17090ab38c00b0028cf509ed14mr1813274pjr.15.1704770869495;
-        Mon, 08 Jan 2024 19:27:49 -0800 (PST)
-Received: from localhost ([2401:fa00:8f:203:7b29:709a:867f:fec5])
-        by smtp.gmail.com with ESMTPSA id nd12-20020a17090b4ccc00b0028ce9c709e4sm7238276pjb.26.2024.01.08.19.27.48
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 08 Jan 2024 19:27:49 -0800 (PST)
-Date: Tue, 9 Jan 2024 12:27:47 +0900
-From: Hidenori Kobayashi <hidenorik@chromium.org>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: Dan Carpenter <dan.carpenter@linaro.org>,
-	Bingbu Cao <bingbu.cao@intel.com>,
-	Tianshu Qiu <tian.shu.qiu@intel.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] media: staging: ipu3-imgu: Set fields before
- media_entity_pads_init()
-Message-ID: <20240109032747.64nnee5qo5qyuply@google.com>
-References: <20231228093926.748001-1-hidenorik@chromium.org>
- <27f1c487-78cc-4e56-ba79-1434aba131fd@moroto.mountain>
- <20240105021856.wpzmwtyzxzqfznrp@google.com>
- <a6f9ff72-421a-42c6-b24a-3dbf5a55e631@moroto.mountain>
- <ZZu5ech4h2SSyZ1D@kekkonen.localdomain>
+	dkim=pass (2048-bit key) header.d=fastmail.org header.i=@fastmail.org header.b="YrGmcy1m";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="8Y4oJnto"
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+	by mailout.nyi.internal (Postfix) with ESMTP id CD8515C0301;
+	Mon,  8 Jan 2024 22:32:38 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute5.internal (MEProxy); Mon, 08 Jan 2024 22:32:38 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fastmail.org; h=
+	cc:cc:content-transfer-encoding:content-type:date:date:from:from
+	:in-reply-to:message-id:mime-version:reply-to:subject:subject:to
+	:to; s=fm2; t=1704771158; x=1704857558; bh=GA/6l5C2ZLdlHTJQ6KRAJ
+	qf5de3wrvXX2Aj1i+fXNAo=; b=YrGmcy1mAWCOUxZfsEbSBK6xYsBFQfD8wHhMP
+	dEJWj3tkXNJH1+WJ9qjsC+8aeZwjukKVO9LRro4GOqJViC71M3HwOYydymFrJcSK
+	lyYZJcIsirckn3SDOhJm9t7Emf7OzrDQSTAqdWbBZqD0oZvt8NfSVNfM4fx8SHTG
+	Gs37k/DpkVuvNWZ3fCyAGPl+o+W/Rqgmr4LVl9OO8nmVKheIERXgjYmrqXkut2iD
+	KY1B9sNzTLA3xbSsB8gmh3k63itmXBrOnJbuXAjan11gWGb7SFxi8oXWiUsvLuum
+	HhZPqypjQMCLSj4C+MtNyPKVxHhDOGUa4FJBtFhhRKV/Fff0Q==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:date:date:feedback-id:feedback-id:from:from
+	:in-reply-to:message-id:mime-version:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm2; t=1704771158; x=1704857558; bh=GA/6l5C2ZLdlHTJQ6KRAJqf5de3w
+	rvXX2Aj1i+fXNAo=; b=8Y4oJntoliS40R7tyQ6BaJVGJsPUWW0bo/uZjci2hbFO
+	d/yGyZi6p1xPohCuF6y0vWvUkkunEACufFgoxdHfomT5YQzLd6477+Ws56vZFQ0P
+	uE0qEIu3McSghNTRV+zssyuPg/8fqCqWqwKLmTEeAEoLQbzvIbwhdpMc3iXwncdT
+	RD0DBLmYfAxbEZPHhlA5g0F2R2S7xA1PMt2vjsO4LqaLLflhBpnxKQamlpm4f+oR
+	Mhgu0jaWeYwF/ZZIDVQMCXDQUrfRR6NcElGWFqda0te0AjSCcVyzHeVETXmTRHEE
+	yBMbEcXJBQwvW7x9ulc69v9Qosec3IQ8RheOfYqz0g==
+X-ME-Sender: <xms:Vr6cZVSfKuW1cJ02HRHnH_RrjBLhD_N21MACofvzL3q07MlL2KLUMg>
+    <xme:Vr6cZexqsd-H0Hkc8OplFufw3wjzsQ2APcBCZw9cQpVrXVrEFt34xM_HW0rbWRsXp
+    hoE1kmuY_7SHAGZPt8>
+X-ME-Received: <xmr:Vr6cZa3mitVitNYXuwiMoBDPP7ME5hdUbAmCKnIAxkWEkas_aQfaHwXd-PoM_LfbQm_UgZZwTMz2O3DkFZLYq4kFOs_W9Mk0>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvkedrvdehkedgheelucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucenucfjughrpefhvfevufffkffoggfgsedtkeertd
+    ertddtnecuhfhrohhmpefirghrhicutfhoohhkrghrugcuoehgrghrhihrohhokhgrrhgu
+    sehfrghsthhmrghilhdrohhrgheqnecuggftrfgrthhtvghrnhepleegffffgfehhfejge
+    ejheeivdfgleefheeuueetkedtffeihfevlefhgeevvdevnecuvehluhhsthgvrhfuihii
+    vgeptdenucfrrghrrghmpehmrghilhhfrhhomhepghgrrhihrhhoohhkrghrugesfhgrsh
+    htmhgrihhlrdhorhhg
+X-ME-Proxy: <xmx:Vr6cZdARw6kPxPx4Zs17ajCJLGryc2ndB7_KFTKcG1-EwjmVKFm7dQ>
+    <xmx:Vr6cZeg5E5Izwc70Vogb9bkC9k4D-wuvKISWD8Vcucz1_kV8jZxufw>
+    <xmx:Vr6cZRq0_IpJtDpUJ52AMDf6bjufZJTbGZKpsY0R3i6BTjFjLBbcRA>
+    <xmx:Vr6cZfvC2fHbAVNPRR0pmpY8AxUFXSERROP495qv0X6CWiLADfETfg>
+Feedback-ID: ifd194980:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 8 Jan 2024 22:32:38 -0500 (EST)
+From: Gary Rookard <garyrookard@fastmail.org>
+To: gregkh@linuxfoundation.org,
+	philipp.g.hortmann@gmail.com
+Cc: linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Gary Rookard <garyrookard@fastmail.org>
+Subject: [PATCH v4] staging: rtl8192e: rename variable cur_bw_40mhz
+Date: Mon,  8 Jan 2024 22:32:34 -0500
+Message-ID: <20240109033234.570-1-garyrookard@fastmail.org>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZZu5ech4h2SSyZ1D@kekkonen.localdomain>
+Content-Transfer-Encoding: 8bit
 
-Hi Dan, Sakari,
+Changes from v3 include
+Rename from  millihertz(mhz) Megahertz(MHz)
+cur_bw_40mhz -> cur_bw_40MHz
 
-On Mon, Jan 08, 2024 at 08:59:37AM +0000, Sakari Ailus wrote:
-> Hi Dan, Hidenori,
-> 
-> On Fri, Jan 05, 2024 at 10:34:20AM +0300, Dan Carpenter wrote:
-> > Hm...  I don't know either.  Wait for a day and see if anyone else has
-> > an opinion then listen to your gut and resend with whatever your gut
-> > says?
-> 
-> The suggested commit message seems good to me, the Fixes: line is
-> important. Thanks for digging this up! The patch should go to v6.7, too, so
-> please add Cc: stable (for v6.7).
+Signed-off-by: Gary Rookard <garyrookard@fastmail.org>
+---
+v4: Corrects mislablelling, millihertz(mhz) -> Megahertz(MHz)
+v3: Corrects commit message style issues.
+v2: Style issues, redo.
+v1: Style issues, redo.
+ drivers/staging/rtl8192e/rtl819x_HT.h        |  2 +-
+ drivers/staging/rtl8192e/rtl819x_HTProc.c    | 16 ++++++++--------
+ drivers/staging/rtl8192e/rtllib_softmac_wx.c |  4 ++--
+ drivers/staging/rtl8192e/rtllib_tx.c         | 10 +++++-----
+ 4 files changed, 16 insertions(+), 16 deletions(-)
 
-Thanks for the comments! I'll send v2 with the revised commit message,
-with Cc: stable.
+diff --git a/drivers/staging/rtl8192e/rtl819x_HT.h b/drivers/staging/rtl8192e/rtl819x_HT.h
+index 68577bffb936..50e6d010abaa 100644
+--- a/drivers/staging/rtl8192e/rtl819x_HT.h
++++ b/drivers/staging/rtl8192e/rtl819x_HT.h
+@@ -94,7 +94,7 @@ enum ht_aggre_mode {
+ struct rt_hi_throughput {
+ 	u8 enable_ht;
+ 	u8 current_ht_support;
+-	u8 cur_bw_40mhz;
++	u8 cur_bw_40MHz;
+ 	u8 cur_short_gi_40mhz;
+ 	u8 cur_short_gi_20mhz;
+ 	enum ht_spec_ver peer_ht_spec_ver;
+diff --git a/drivers/staging/rtl8192e/rtl819x_HTProc.c b/drivers/staging/rtl8192e/rtl819x_HTProc.c
+index 6d0912f90198..0f8112af76e8 100644
+--- a/drivers/staging/rtl8192e/rtl819x_HTProc.c
++++ b/drivers/staging/rtl8192e/rtl819x_HTProc.c
+@@ -87,8 +87,8 @@ static u16 ht_mcs_to_data_rate(struct rtllib_device *ieee, u8 mcs_rate)
+ {
+ 	struct rt_hi_throughput *ht_info = ieee->ht_info;
+ 
+-	u8	is40MHz = (ht_info->cur_bw_40mhz) ? 1 : 0;
+-	u8	isShortGI = (ht_info->cur_bw_40mhz) ?
++	u8	is40MHz = (ht_info->cur_bw_40MHz) ? 1 : 0;
++	u8	isShortGI = (ht_info->cur_bw_40MHz) ?
+ 			    ((ht_info->cur_short_gi_40mhz) ? 1 : 0) :
+ 			    ((ht_info->cur_short_gi_20mhz) ? 1 : 0);
+ 	return MCS_DATA_RATE[is40MHz][isShortGI][(mcs_rate & 0x7f)];
+@@ -507,7 +507,7 @@ void ht_initialize_ht_info(struct rtllib_device *ieee)
+ 
+ 	ht_info->current_ht_support = false;
+ 
+-	ht_info->cur_bw_40mhz = false;
++	ht_info->cur_bw_40MHz = false;
+ 	ht_info->cur_tx_bw40mhz = false;
+ 
+ 	ht_info->cur_short_gi_20mhz = false;
+@@ -637,7 +637,7 @@ static void ht_set_connect_bw_mode_callback(struct rtllib_device *ieee)
+ {
+ 	struct rt_hi_throughput *ht_info = ieee->ht_info;
+ 
+-	if (ht_info->cur_bw_40mhz) {
++	if (ht_info->cur_bw_40MHz) {
+ 		if (ht_info->CurSTAExtChnlOffset == HT_EXTCHNL_OFFSET_UPPER)
+ 			ieee->set_chan(ieee->dev,
+ 				       ieee->current_network.channel + 2);
+@@ -679,19 +679,19 @@ void ht_set_connect_bw_mode(struct rtllib_device *ieee,
+ 			Offset = HT_EXTCHNL_OFFSET_NO_EXT;
+ 		if (Offset == HT_EXTCHNL_OFFSET_UPPER ||
+ 		    Offset == HT_EXTCHNL_OFFSET_LOWER) {
+-			ht_info->cur_bw_40mhz = true;
++			ht_info->cur_bw_40MHz = true;
+ 			ht_info->CurSTAExtChnlOffset = Offset;
+ 		} else {
+-			ht_info->cur_bw_40mhz = false;
++			ht_info->cur_bw_40MHz = false;
+ 			ht_info->CurSTAExtChnlOffset = HT_EXTCHNL_OFFSET_NO_EXT;
+ 		}
+ 	} else {
+-		ht_info->cur_bw_40mhz = false;
++		ht_info->cur_bw_40MHz = false;
+ 		ht_info->CurSTAExtChnlOffset = HT_EXTCHNL_OFFSET_NO_EXT;
+ 	}
+ 
+ 	netdev_dbg(ieee->dev, "%s():ht_info->bCurBW40MHz:%x\n", __func__,
+-		   ht_info->cur_bw_40mhz);
++		   ht_info->cur_bw_40MHz);
+ 
+ 	ht_info->sw_bw_in_progress = true;
+ 
+diff --git a/drivers/staging/rtl8192e/rtllib_softmac_wx.c b/drivers/staging/rtl8192e/rtllib_softmac_wx.c
+index 2afa701e5445..0eb309f28c23 100644
+--- a/drivers/staging/rtl8192e/rtllib_softmac_wx.c
++++ b/drivers/staging/rtl8192e/rtllib_softmac_wx.c
+@@ -317,10 +317,10 @@ void rtllib_wx_sync_scan_wq(void *data)
+ 	ieee->ScanOperationBackupHandler(ieee->dev, SCAN_OPT_BACKUP);
+ 
+ 	if (ieee->ht_info->current_ht_support && ieee->ht_info->enable_ht &&
+-	    ieee->ht_info->cur_bw_40mhz) {
++	    ieee->ht_info->cur_bw_40MHz) {
+ 		b40M = 1;
+ 		chan_offset = ieee->ht_info->CurSTAExtChnlOffset;
+-		bandwidth = (enum ht_channel_width)ieee->ht_info->cur_bw_40mhz;
++		bandwidth = (enum ht_channel_width)ieee->ht_info->cur_bw_40MHz;
+ 		ieee->set_bw_mode_handler(ieee->dev, HT_CHANNEL_WIDTH_20,
+ 				       HT_EXTCHNL_OFFSET_NO_EXT);
+ 	}
+diff --git a/drivers/staging/rtl8192e/rtllib_tx.c b/drivers/staging/rtl8192e/rtllib_tx.c
+index f7098a2ba8b0..dfbccd77538b 100644
+--- a/drivers/staging/rtl8192e/rtllib_tx.c
++++ b/drivers/staging/rtl8192e/rtllib_tx.c
+@@ -340,9 +340,9 @@ static void rtllib_query_HTCapShortGI(struct rtllib_device *ieee,
+ 	if (!ht_info->current_ht_support || !ht_info->enable_ht)
+ 		return;
+ 
+-	if (ht_info->cur_bw_40mhz && ht_info->cur_short_gi_40mhz)
++	if (ht_info->cur_bw_40MHz && ht_info->cur_short_gi_40mhz)
+ 		tcb_desc->bUseShortGI = true;
+-	else if (!ht_info->cur_bw_40mhz && ht_info->cur_short_gi_20mhz)
++	else if (!ht_info->cur_bw_40MHz && ht_info->cur_short_gi_20mhz)
+ 		tcb_desc->bUseShortGI = true;
+ }
+ 
+@@ -361,7 +361,7 @@ static void rtllib_query_BandwidthMode(struct rtllib_device *ieee,
+ 
+ 	if ((tcb_desc->data_rate & 0x80) == 0)
+ 		return;
+-	if (ht_info->cur_bw_40mhz && ht_info->cur_tx_bw40mhz &&
++	if (ht_info->cur_bw_40MHz && ht_info->cur_tx_bw40mhz &&
+ 	    !ieee->bandwidth_auto_switch.bforced_tx20Mhz)
+ 		tcb_desc->bPacketBW = true;
+ }
+@@ -419,9 +419,9 @@ static void rtllib_query_protectionmode(struct rtllib_device *ieee,
+ 		if (ht_info->current_ht_support && ht_info->enable_ht) {
+ 			u8 HTOpMode = ht_info->current_op_mode;
+ 
+-			if ((ht_info->cur_bw_40mhz && (HTOpMode == 2 ||
++			if ((ht_info->cur_bw_40MHz && (HTOpMode == 2 ||
+ 						      HTOpMode == 3)) ||
+-			     (!ht_info->cur_bw_40mhz && HTOpMode == 3)) {
++			     (!ht_info->cur_bw_40MHz && HTOpMode == 3)) {
+ 				tcb_desc->rts_rate = MGN_24M;
+ 				tcb_desc->bRTSEnable = true;
+ 				break;
+-- 
+2.43.0
 
-Hidenori
