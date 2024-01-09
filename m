@@ -1,52 +1,211 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 147A339AEA;
-	Tue,  9 Jan 2024 19:10:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 765713D577
+	for <linux-staging@lists.linux.dev>; Tue,  9 Jan 2024 21:00:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="YOuUA7H+"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 220C3C433C7;
-	Tue,  9 Jan 2024 19:10:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1704827427;
-	bh=k998Z5RtsfkgnkecMuNj+GOW0Y8q5yrUfmschoqQDwo=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=YOuUA7H+7Rt/pMd1KfgEZAOrIrep6AiS0DR0zFDyWd368U13CSz4Xy+OFaOtanAe6
-	 YtT49SfzlXf8c4uKgMVCou1TNCdA2r0aey8IZvT7JN3k8cd8mxAv0v2CeYTIYB32YL
-	 luKTNVcABIAnVuSHyUewbo1tZYhReOmVhKp+XHM0=
-Date: Tue, 9 Jan 2024 20:10:24 +0100
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Matthias Yee <mgyee9@gmail.com>
-Cc: Dan Carpenter <dan.carpenter@linaro.org>, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: vt6655: fixed check alignment of open
- parenthesis in card.c
-Message-ID: <2024010920-flatworm-storage-5690@gregkh>
-References: <20240109063618.2810-1-mgyee9@gmail.com>
- <cea37e85-cc21-498a-a09e-cfdaf7921844@moroto.mountain>
- <ZZ2W85ap2aMBDi8F@mgyee-VirtualBox>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="d6GiD9xT"
+Received: by mail-pf1-f178.google.com with SMTP id d2e1a72fcca58-6d9a795cffbso2443227b3a.0
+        for <linux-staging@lists.linux.dev>; Tue, 09 Jan 2024 13:00:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1704834020; x=1705438820; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=8PqrYznF1h7v69mQzJDRBaSVcYJ8q1B41izZsnQE+ww=;
+        b=d6GiD9xT3Gque7zWyaXxscZzdsZDKJMA9QKgF1+rAUf1hVwxYoUPIDQM0FhQjrKcvw
+         qeJqUxNcTUX8NJ8+S7Hm8no6JHY01b3dZE0LygiB1y9jumYizyC+Plz4LJNH3OrTU+Fc
+         P4qNNRzayttgiuw0GVV9HYY16r7bLV19LhsaSlLZPe/kc0P3TjzMkdpZAyEWOb3UyU8s
+         ObCqkKKUtcyhg/diOsXHgvbe98WqRMkkKOpFIpn7ORxkJaULqdhPB1pN4x5Am+HxrO2Y
+         fShOteqEsbYsTmQ7IuM1lF6EcizaMKB7Gs+yhs5X0/RGPSSP1yGyWUkcfujcnXvLwvfH
+         9XtA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1704834020; x=1705438820;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=8PqrYznF1h7v69mQzJDRBaSVcYJ8q1B41izZsnQE+ww=;
+        b=svSxCXXzcNxfaOmvTHkj7lxEwss9gvqTCItqXpx/TQmNt+Q/Oee2dn9Av4wgi3aBm8
+         FiN1nFjP19gPVDTSnxkknBFAU/Vj2lCUPPdvq/qAFy8lM/48/PfkDJDcMW+JD0lk1wGQ
+         koZ1i2ncJfI/8piNm5WRzvc42vcqa8GWsacogdVPGXfTgcfgtpp6XyM1TJ84eJivLkhA
+         f4EuvrXsK0uDUatTbDRp7AXGhzPa4XG0Dqenpwn31FCr3TSLtXiF8STf2+W3NG635h0H
+         +J9Ixt2B5MqkAvMo1CnBCAwNCsXAtG3+iP2ArwBDyn1VbG64du87GZNMH0KEuKFr5ybm
+         7WXA==
+X-Gm-Message-State: AOJu0YyZ2X3lk/KrntqC4gAsjD7SGlJOGUysr4jUkL5uUa81Mebtabmm
+	D+V+OYacTmF843glG4JCH/U=
+X-Google-Smtp-Source: AGHT+IE4DTMizSI5cvANtWuvK4vp2JHfIx6I9Yyd+sgqEaxMIBxIYt4cFXle72kQpfKhrZny2eCb7g==
+X-Received: by 2002:a05:6a00:23c4:b0:6da:345f:6a63 with SMTP id g4-20020a056a0023c400b006da345f6a63mr139690pfc.5.1704834019628;
+        Tue, 09 Jan 2024 13:00:19 -0800 (PST)
+Received: from mgyee-VirtualBox ([47.152.33.114])
+        by smtp.gmail.com with ESMTPSA id fh12-20020a056a00390c00b006d0d90edd2csm2109554pfb.42.2024.01.09.13.00.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 09 Jan 2024 13:00:19 -0800 (PST)
+From: Matthias Yee <mgyee9@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	dan.carpenter@linaro.org,
+	Matthias Yee <mgyee9@gmail.com>
+Subject: [PATCH v2] staging: vt6655: fix open parentheses alignment
+Date: Tue,  9 Jan 2024 12:59:34 -0800
+Message-Id: <20240109205933.3221-1-mgyee9@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZZ2W85ap2aMBDi8F@mgyee-VirtualBox>
+Content-Transfer-Encoding: 8bit
 
-On Tue, Jan 09, 2024 at 10:56:51AM -0800, Matthias Yee wrote:
-> On Tue, Jan 09, 2024 at 11:22:42AM +0300, Dan Carpenter wrote:
-> > On Mon, Jan 08, 2024 at 10:36:19PM -0800, Matthias Yee wrote:
-> > > This patch adjusts whitespace to fix the checkpatch warning Alignment Should Match Open Parenthesis.
-> > > 
-> > 
-> > Line wrap your commit message at 75 characters, and also run checkpatch.pl
-> > on your patches.  Otherwise it's okay by me.
-> > 
-> 
-> Sounds good, will do. However, checkpatch.pl gives an avoid CamelCase
-> warning. Is it okay to ignore if I am only focusing on the parenthesis
-> alignment warning in this patch?
+Adjusted whitespace to fix checkpatch warning Alignment Should Match Open Parenthesis.
 
-Yes.
+Signed-off-by: Matthias Yee <mgyee9@gmail.com>
+---
+Changes in v2:
+- line wrapped commit message
+---
+ drivers/staging/vt6655/card.c | 74 +++++++++++++++++------------------
+ 1 file changed, 37 insertions(+), 37 deletions(-)
+
+diff --git a/drivers/staging/vt6655/card.c b/drivers/staging/vt6655/card.c
+index 36183f2a64c1..688c870d89bc 100644
+--- a/drivers/staging/vt6655/card.c
++++ b/drivers/staging/vt6655/card.c
+@@ -81,9 +81,9 @@ static void vt6655_mac_set_bb_type(void __iomem *iobase, u32 mask)
+  * Return Value: none
+  */
+ static void calculate_ofdmr_parameter(unsigned char rate,
+-				       u8 bb_type,
+-				       unsigned char *tx_rate,
+-				       unsigned char *rsv_time)
++				      u8 bb_type,
++				      unsigned char *tx_rate,
++				      unsigned char *rsv_time)
+ {
+ 	switch (rate) {
+ 	case RATE_6M:
+@@ -288,7 +288,7 @@ bool card_set_phy_parameter(struct vnt_private *priv, u8 bb_type)
+  * Return Value: none
+  */
+ bool card_update_tsf(struct vnt_private *priv, unsigned char rx_rate,
+-		    u64 bss_timestamp)
++		     u64 bss_timestamp)
+ {
+ 	u64 local_tsf;
+ 	u64 tsf_offset = 0;
+@@ -297,7 +297,7 @@ bool card_update_tsf(struct vnt_private *priv, unsigned char rx_rate,
+ 
+ 	if (bss_timestamp != local_tsf) {
+ 		tsf_offset = card_get_tsf_offset(rx_rate, bss_timestamp,
+-						local_tsf);
++						 local_tsf);
+ 		/* adjust TSF, HW's TSF add TSF Offset reg */
+ 		tsf_offset =  le64_to_cpu(tsf_offset);
+ 		iowrite32((u32)tsf_offset, priv->port_offset + MAC_REG_TSFOFST);
+@@ -321,7 +321,7 @@ bool card_update_tsf(struct vnt_private *priv, unsigned char rx_rate,
+  * Return Value: true if succeed; otherwise false
+  */
+ bool card_set_beacon_period(struct vnt_private *priv,
+-			  unsigned short beacon_interval)
++			    unsigned short beacon_interval)
+ {
+ 	u64 next_tbtt;
+ 
+@@ -586,61 +586,61 @@ void card_set_rspinf(struct vnt_private *priv, u8 bb_type)
+ 
+ 	/* RSPINF_a_6 */
+ 	calculate_ofdmr_parameter(RATE_6M,
+-				   bb_type,
+-				   &byTxRate,
+-				   &byRsvTime);
++				  bb_type,
++				  &byTxRate,
++				  &byRsvTime);
+ 	iowrite16(MAKEWORD(byTxRate, byRsvTime), priv->port_offset + MAC_REG_RSPINF_A_6);
+ 	/* RSPINF_a_9 */
+ 	calculate_ofdmr_parameter(RATE_9M,
+-				   bb_type,
+-				   &byTxRate,
+-				   &byRsvTime);
++				  bb_type,
++				  &byTxRate,
++				  &byRsvTime);
+ 	iowrite16(MAKEWORD(byTxRate, byRsvTime), priv->port_offset + MAC_REG_RSPINF_A_9);
+ 	/* RSPINF_a_12 */
+ 	calculate_ofdmr_parameter(RATE_12M,
+-				   bb_type,
+-				   &byTxRate,
+-				   &byRsvTime);
++				  bb_type,
++				  &byTxRate,
++				  &byRsvTime);
+ 	iowrite16(MAKEWORD(byTxRate, byRsvTime), priv->port_offset + MAC_REG_RSPINF_A_12);
+ 	/* RSPINF_a_18 */
+ 	calculate_ofdmr_parameter(RATE_18M,
+-				   bb_type,
+-				   &byTxRate,
+-				   &byRsvTime);
++				  bb_type,
++				  &byTxRate,
++				  &byRsvTime);
+ 	iowrite16(MAKEWORD(byTxRate, byRsvTime), priv->port_offset + MAC_REG_RSPINF_A_18);
+ 	/* RSPINF_a_24 */
+ 	calculate_ofdmr_parameter(RATE_24M,
+-				   bb_type,
+-				   &byTxRate,
+-				   &byRsvTime);
++				  bb_type,
++				  &byTxRate,
++				  &byRsvTime);
+ 	iowrite16(MAKEWORD(byTxRate, byRsvTime), priv->port_offset + MAC_REG_RSPINF_A_24);
+ 	/* RSPINF_a_36 */
+ 	calculate_ofdmr_parameter(CARDwGetOFDMControlRate((void *)priv,
+-							   RATE_36M),
+-				   bb_type,
+-				   &byTxRate,
+-				   &byRsvTime);
++							  RATE_36M),
++				  bb_type,
++				  &byTxRate,
++				  &byRsvTime);
+ 	iowrite16(MAKEWORD(byTxRate, byRsvTime), priv->port_offset + MAC_REG_RSPINF_A_36);
+ 	/* RSPINF_a_48 */
+ 	calculate_ofdmr_parameter(CARDwGetOFDMControlRate((void *)priv,
+-							   RATE_48M),
+-				   bb_type,
+-				   &byTxRate,
+-				   &byRsvTime);
++							  RATE_48M),
++				  bb_type,
++				  &byTxRate,
++				  &byRsvTime);
+ 	iowrite16(MAKEWORD(byTxRate, byRsvTime), priv->port_offset + MAC_REG_RSPINF_A_48);
+ 	/* RSPINF_a_54 */
+ 	calculate_ofdmr_parameter(CARDwGetOFDMControlRate((void *)priv,
+-							   RATE_54M),
+-				   bb_type,
+-				   &byTxRate,
+-				   &byRsvTime);
++							  RATE_54M),
++				  bb_type,
++				  &byTxRate,
++				  &byRsvTime);
+ 	iowrite16(MAKEWORD(byTxRate, byRsvTime), priv->port_offset + MAC_REG_RSPINF_A_54);
+ 	/* RSPINF_a_72 */
+ 	calculate_ofdmr_parameter(CARDwGetOFDMControlRate((void *)priv,
+-							   RATE_54M),
+-				   bb_type,
+-				   &byTxRate,
+-				   &byRsvTime);
++							  RATE_54M),
++				  bb_type,
++				  &byTxRate,
++				  &byRsvTime);
+ 	iowrite16(MAKEWORD(byTxRate, byRsvTime), priv->port_offset + MAC_REG_RSPINF_A_72);
+ 	/* Set to Page0 */
+ 	VT6655_MAC_SELECT_PAGE0(priv->port_offset);
+-- 
+2.34.1
+
