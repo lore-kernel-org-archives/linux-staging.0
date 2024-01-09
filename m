@@ -1,72 +1,263 @@
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3AC325757
-	for <linux-staging@lists.linux.dev>; Tue,  9 Jan 2024 08:22:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0F9B33CCF;
+	Tue,  9 Jan 2024 09:08:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="dLwH21L4"
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-40e461c1f5bso19902175e9.3
-        for <linux-staging@lists.linux.dev>; Tue, 09 Jan 2024 00:22:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1704788566; x=1705393366; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=RkCvYd5950mTrHdIV/MAXFZQdz85NWu1PStSMrB5EH4=;
-        b=dLwH21L4s0pBvRb6hqhcx1RoQiZP3EXmUBoDpyrskIRJCr+A6gzdlO0wpNSNNiQFvG
-         bitKo6RJTirMqPomtEZ7N2OIPpgKgc/RkbEIPuEe07W3NXcWjzLW96eabTAkgdDA3iin
-         0o1xWqVM1NiSLv7LsSf0AwoShIJHrr0zGrZ7d3tPo9+Nusyrew/1KFn2a9J44FyfvxjG
-         bOk48QEY0Fv35YGWD67sW6Daf13qaUafJhcP+wdKdekVRzeyuOoa0G34xeYLCwaoQdBI
-         qkB8vOYadCb8l2bw1x+6bJTYY9ZP9slm+6xD52j4tuWC/WjwT1WAmXHPkRLFLuAnQM9T
-         QIYw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704788566; x=1705393366;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=RkCvYd5950mTrHdIV/MAXFZQdz85NWu1PStSMrB5EH4=;
-        b=eqf+xG20UTModAK+erciRyXu4l4G3XFug/h1/xPDjBRZLkqqJJyLhwolofm3P7lnng
-         d9IB0TZx3JJ4u5CQ2nzuVQuOYAFtB/S6gupMMsnjcMBstWNUrapUhtXgsiPba6sjCKzc
-         cjBBDMkvluJnlWgm2uI9NI+22odKxXCbPI3WlGfFlepjQN4eCZrHc2RwENH7xZqtGvIN
-         HcAFKL+qe5FkglJ2FOOVqIIdx4YPNhsSMJwo77yj4p71gKItvlEfzUS52A+AvIZHCaNp
-         SdgrnygENInwIt6tZL7a2z56/t0EskHjTWqh6WTDVjxMnueVd6iidHwk2AFBlWsBOzGk
-         rBRw==
-X-Gm-Message-State: AOJu0YwCMY2NusKtOcBX/tmGOQJcL3AYaQWoK8ijyn8Dn709GO6gNHnX
-	6VVsmxxgXtHAieWI0I+DVH4X/lVxM1LLKw==
-X-Google-Smtp-Source: AGHT+IEXsKE979te2TRibhc6ZGRZCmyLFT3MKUrY3beCGOOKb/lThn1WsQOhRrpexVi+V89VsDhUqA==
-X-Received: by 2002:a05:600c:19d4:b0:40d:4e28:43e8 with SMTP id u20-20020a05600c19d400b0040d4e2843e8mr2408207wmq.167.1704788565926;
-        Tue, 09 Jan 2024 00:22:45 -0800 (PST)
-Received: from localhost ([102.140.209.237])
-        by smtp.gmail.com with ESMTPSA id be10-20020a05600c1e8a00b0040e49994116sm4442375wmb.14.2024.01.09.00.22.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 09 Jan 2024 00:22:45 -0800 (PST)
-Date: Tue, 9 Jan 2024 11:22:42 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Matthias Yee <mgyee9@gmail.com>
-Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: vt6655: fixed check alignment of open
- parenthesis in card.c
-Message-ID: <cea37e85-cc21-498a-a09e-cfdaf7921844@moroto.mountain>
-References: <20240109063618.2810-1-mgyee9@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ujzq1UR2"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C8313C433C7;
+	Tue,  9 Jan 2024 09:08:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1704791291;
+	bh=MaD4HDa30ZbvY4qSPCXvNuJfHRvaMwuyuAlT9sVZdMg=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=ujzq1UR20rNnhOSrio+PVvos+3wzg6fgwg8V0bexCiASt61RDSFfy7H1kaAXbJrfp
+	 iIzgfHzJWWjHQpIhOM0GYHiyx3Rb8EejR9O0drFgm+XB5EvKHBWdAwSFuWwJEbYEom
+	 fOGKt85EO4dOhqI3gF9KxIyVRE7zoQgqtHrOLfI9Lo1L7w/qtGPqGCz0YSejh1pcXL
+	 sF0HFJOu9pMd+0ZAXza86XpnFeff3NkbWfmN+vYvuBLsljGkq55eNkVM3meC09LkpA
+	 v4FmCmgqA3tMOTXkM1vl8THkxZoYdrLryh9lNN2KFHmEIGVomADetR3yTQPyY6MooR
+	 8CrPJ+piHViqw==
+From: Arnd Bergmann <arnd@kernel.org>
+To: Pavel Machek <pavel@ucw.cz>,
+	Lee Jones <lee@kernel.org>
+Cc: Andrew Lunn <andrew@lunn.ch>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	Hans de Goede <hdegoede@redhat.com>,
+	Jean-Jacques Hiblot <jjhiblot@traphandler.com>,
+	linux-leds@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Johan Hovold <johan@kernel.org>,
+	Alex Elder <elder@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Rui Miguel Silva <rmfrfs@gmail.com>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Andreas Kemnade <andreas@kemnade.info>,
+	greybus-dev@lists.linaro.org,
+	linux-staging@lists.linux.dev
+Subject: [PATCH 2/2] leds: make flash and multicolor dependencies unconditional
+Date: Tue,  9 Jan 2024 10:06:40 +0100
+Message-Id: <20240109090715.982332-2-arnd@kernel.org>
+X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20240109090715.982332-1-arnd@kernel.org>
+References: <20240109090715.982332-1-arnd@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240109063618.2810-1-mgyee9@gmail.com>
+Content-Transfer-Encoding: 8bit
 
-On Mon, Jan 08, 2024 at 10:36:19PM -0800, Matthias Yee wrote:
-> This patch adjusts whitespace to fix the checkpatch warning Alignment Should Match Open Parenthesis.
-> 
+From: Arnd Bergmann <arnd@arndb.de>
 
-Line wrap your commit message at 75 characters, and also run checkpatch.pl
-on your patches.  Otherwise it's okay by me.
+Along the same lines as making devm_led_classdev_register() declared
+extern unconditional, do the same thing for the two sub-classes
+that have similar stubs.
 
-regards,
-dan carpenter
+The users of these interfaces go to great lengths to allow building
+with both the generic leds API and the extended version, but realistically
+there is not much use in this, so just simplify it to always rely
+on it and remove the confusing fallback logic.
+
+Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+---
+ drivers/leds/Kconfig                 |  4 ++--
+ drivers/leds/flash/Kconfig           |  4 ++--
+ drivers/staging/greybus/Kconfig      |  2 +-
+ drivers/staging/greybus/light.c      | 21 --------------------
+ include/linux/led-class-flash.h      | 24 -----------------------
+ include/linux/led-class-multicolor.h | 29 ----------------------------
+ 6 files changed, 5 insertions(+), 79 deletions(-)
+
+diff --git a/drivers/leds/Kconfig b/drivers/leds/Kconfig
+index d721b254e1e4..9613a45a35bd 100644
+--- a/drivers/leds/Kconfig
++++ b/drivers/leds/Kconfig
+@@ -395,7 +395,7 @@ config LEDS_LP3952
+ config LEDS_LP50XX
+ 	tristate "LED Support for TI LP5036/30/24/18/12/09 LED driver chip"
+ 	depends on LEDS_CLASS && REGMAP_I2C
+-	depends on LEDS_CLASS_MULTICOLOR || !LEDS_CLASS_MULTICOLOR
++	depends on LEDS_CLASS_MULTICOLOR
+ 	help
+ 	  If you say yes here you get support for the Texas Instruments
+ 	  LP5036, LP5030, LP5024, LP5018, LP5012 and LP5009 LED driver.
+@@ -406,7 +406,7 @@ config LEDS_LP50XX
+ config LEDS_LP55XX_COMMON
+ 	tristate "Common Driver for TI/National LP5521/5523/55231/5562/8501"
+ 	depends on LEDS_CLASS
+-	depends on LEDS_CLASS_MULTICOLOR || !LEDS_CLASS_MULTICOLOR
++	depends on LEDS_CLASS_MULTICOLOR
+ 	depends on OF
+ 	depends on I2C
+ 	select FW_LOADER
+diff --git a/drivers/leds/flash/Kconfig b/drivers/leds/flash/Kconfig
+index 4e08dbc05709..b95f90cd5749 100644
+--- a/drivers/leds/flash/Kconfig
++++ b/drivers/leds/flash/Kconfig
+@@ -51,8 +51,8 @@ config LEDS_MAX77693
+ config LEDS_MT6360
+ 	tristate "LED Support for Mediatek MT6360 PMIC"
+ 	depends on LEDS_CLASS && OF
+-	depends on LEDS_CLASS_FLASH || !LEDS_CLASS_FLASH
+-	depends on LEDS_CLASS_MULTICOLOR || !LEDS_CLASS_MULTICOLOR
++	depends on LEDS_CLASS_FLASH
++	depends on LEDS_CLASS_MULTICOLOR
+ 	depends on V4L2_FLASH_LED_CLASS || !V4L2_FLASH_LED_CLASS
+ 	depends on MFD_MT6360
+ 	help
+diff --git a/drivers/staging/greybus/Kconfig b/drivers/staging/greybus/Kconfig
+index 927cfa4bc989..1e745a8d439c 100644
+--- a/drivers/staging/greybus/Kconfig
++++ b/drivers/staging/greybus/Kconfig
+@@ -64,7 +64,7 @@ config GREYBUS_HID
+ 
+ config GREYBUS_LIGHT
+ 	tristate "Greybus LED Class driver"
+-	depends on LEDS_CLASS
++	depends on LEDS_CLASS_FLASH
+ 	help
+ 	  Select this option if you have a device that follows the
+ 	  Greybus LED Class specification.
+diff --git a/drivers/staging/greybus/light.c b/drivers/staging/greybus/light.c
+index 87d36948c610..d62f97249aca 100644
+--- a/drivers/staging/greybus/light.c
++++ b/drivers/staging/greybus/light.c
+@@ -29,13 +29,9 @@ struct gb_channel {
+ 	struct attribute_group		*attr_group;
+ 	const struct attribute_group	**attr_groups;
+ 	struct led_classdev		*led;
+-#if IS_REACHABLE(CONFIG_LEDS_CLASS_FLASH)
+ 	struct led_classdev_flash	fled;
+ 	struct led_flash_setting	intensity_uA;
+ 	struct led_flash_setting	timeout_us;
+-#else
+-	struct led_classdev		cled;
+-#endif
+ 	struct gb_light			*light;
+ 	bool				is_registered;
+ 	bool				releasing;
+@@ -84,7 +80,6 @@ static bool is_channel_flash(struct gb_channel *channel)
+ 				   | GB_CHANNEL_MODE_INDICATOR));
+ }
+ 
+-#if IS_REACHABLE(CONFIG_LEDS_CLASS_FLASH)
+ static struct gb_channel *get_channel_from_cdev(struct led_classdev *cdev)
+ {
+ 	struct led_classdev_flash *fled_cdev = lcdev_to_flcdev(cdev);
+@@ -153,22 +148,6 @@ static int __gb_lights_flash_brightness_set(struct gb_channel *channel)
+ 
+ 	return __gb_lights_flash_intensity_set(channel, intensity);
+ }
+-#else
+-static struct gb_channel *get_channel_from_cdev(struct led_classdev *cdev)
+-{
+-	return container_of(cdev, struct gb_channel, cled);
+-}
+-
+-static struct led_classdev *get_channel_cdev(struct gb_channel *channel)
+-{
+-	return &channel->cled;
+-}
+-
+-static int __gb_lights_flash_brightness_set(struct gb_channel *channel)
+-{
+-	return 0;
+-}
+-#endif
+ 
+ static int gb_lights_color_set(struct gb_channel *channel, u32 color);
+ static int gb_lights_fade_set(struct gb_channel *channel);
+diff --git a/include/linux/led-class-flash.h b/include/linux/led-class-flash.h
+index 612b4cab3819..36df927ec4b7 100644
+--- a/include/linux/led-class-flash.h
++++ b/include/linux/led-class-flash.h
+@@ -85,7 +85,6 @@ static inline struct led_classdev_flash *lcdev_to_flcdev(
+ 	return container_of(lcdev, struct led_classdev_flash, led_cdev);
+ }
+ 
+-#if IS_ENABLED(CONFIG_LEDS_CLASS_FLASH)
+ /**
+  * led_classdev_flash_register_ext - register a new object of LED class with
+  *				     init data and with support for flash LEDs
+@@ -116,29 +115,6 @@ int devm_led_classdev_flash_register_ext(struct device *parent,
+ void devm_led_classdev_flash_unregister(struct device *parent,
+ 					struct led_classdev_flash *fled_cdev);
+ 
+-#else
+-
+-static inline int led_classdev_flash_register_ext(struct device *parent,
+-				    struct led_classdev_flash *fled_cdev,
+-				    struct led_init_data *init_data)
+-{
+-	return 0;
+-}
+-
+-static inline void led_classdev_flash_unregister(struct led_classdev_flash *fled_cdev) {};
+-static inline int devm_led_classdev_flash_register_ext(struct device *parent,
+-				     struct led_classdev_flash *fled_cdev,
+-				     struct led_init_data *init_data)
+-{
+-	return 0;
+-}
+-
+-static inline void devm_led_classdev_flash_unregister(struct device *parent,
+-					struct led_classdev_flash *fled_cdev)
+-{};
+-
+-#endif  /* IS_ENABLED(CONFIG_LEDS_CLASS_FLASH) */
+-
+ static inline int led_classdev_flash_register(struct device *parent,
+ 					   struct led_classdev_flash *fled_cdev)
+ {
+diff --git a/include/linux/led-class-multicolor.h b/include/linux/led-class-multicolor.h
+index 210d57bcd767..db9f34c6736e 100644
+--- a/include/linux/led-class-multicolor.h
++++ b/include/linux/led-class-multicolor.h
+@@ -30,7 +30,6 @@ static inline struct led_classdev_mc *lcdev_to_mccdev(
+ 	return container_of(led_cdev, struct led_classdev_mc, led_cdev);
+ }
+ 
+-#if IS_ENABLED(CONFIG_LEDS_CLASS_MULTICOLOR)
+ /**
+  * led_classdev_multicolor_register_ext - register a new object of led_classdev
+  *				      class with support for multicolor LEDs
+@@ -64,34 +63,6 @@ int devm_led_classdev_multicolor_register_ext(struct device *parent,
+ 
+ void devm_led_classdev_multicolor_unregister(struct device *parent,
+ 					    struct led_classdev_mc *mcled_cdev);
+-#else
+-
+-static inline int led_classdev_multicolor_register_ext(struct device *parent,
+-					    struct led_classdev_mc *mcled_cdev,
+-					    struct led_init_data *init_data)
+-{
+-	return 0;
+-}
+-
+-static inline void led_classdev_multicolor_unregister(struct led_classdev_mc *mcled_cdev) {};
+-static inline int led_mc_calc_color_components(struct led_classdev_mc *mcled_cdev,
+-					       enum led_brightness brightness)
+-{
+-	return 0;
+-}
+-
+-static inline int devm_led_classdev_multicolor_register_ext(struct device *parent,
+-					  struct led_classdev_mc *mcled_cdev,
+-					  struct led_init_data *init_data)
+-{
+-	return 0;
+-}
+-
+-static inline void devm_led_classdev_multicolor_unregister(struct device *parent,
+-					    struct led_classdev_mc *mcled_cdev)
+-{};
+-
+-#endif  /* IS_ENABLED(CONFIG_LEDS_CLASS_MULTICOLOR) */
+ 
+ static inline int led_classdev_multicolor_register(struct device *parent,
+ 					    struct led_classdev_mc *mcled_cdev)
+-- 
+2.39.2
 
