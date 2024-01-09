@@ -1,59 +1,27 @@
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 862019471
-	for <linux-staging@lists.linux.dev>; Tue,  9 Jan 2024 07:43:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37F82134C3;
+	Tue,  9 Jan 2024 07:49:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="BpTEZ7uJ"
-Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-33748c4f33dso2527675f8f.1
-        for <linux-staging@lists.linux.dev>; Mon, 08 Jan 2024 23:43:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1704786224; x=1705391024; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=Dtqvmt2LlI2/NxoW9oV+Gr8OtAnzTTpRonCDnUCu5xU=;
-        b=BpTEZ7uJeGV3DWTPHrP5ri8H6Pq5nilnpm+AUk2nZnNmQBNOoaG2yCRY8d4PUsF09f
-         TtkzxlCbPv1K8jfjC/+3aEztFGiMnPq6jgNCIPiSAlBhi+URSbYIicjFNUgfh8y9WWfa
-         tjNtN6xweyxaNAhMg1SV1IeSmgIyZeOKv4uXaR1QZCRPHI/VntfNpLo+bLyIqv+Uch3+
-         e+ifcs2h5P5UEGI2iKM3NiSVzXNf5Cn9VGdWothd74oDN71u5NyWZvpHfsoF5794fiEm
-         QdL9oT/AZAbJEP3lZMATPouGBeK12bm1KnHYZEfhem+JUvpEhJHdKR2eo94gYTd0JVH8
-         96hA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704786224; x=1705391024;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Dtqvmt2LlI2/NxoW9oV+Gr8OtAnzTTpRonCDnUCu5xU=;
-        b=bfNIghbbRg7q9kRnVheUhvIpE9BH471ucOsGnge5KZYJOXqXNZ7HVPVBWYjKCTax9G
-         yc1btSAIuwaGEv/UGK/l1Q2d6g618GL5ACOnM9NqP+20wI3dxurlAwWnFPWlib1Anlrw
-         GxaJ/9XufjTsTt1TnBLHU8T+S4GbkwaUVZCHulS94eoOwHi952Hzyzj/dwtK4gk+yaEI
-         0fhc0IGB+1IlF0wdYb37qFBOJGI/oBhH57UTgNtZ/Qn4FQggbp9I0S4dvXD7RJ7xWTj+
-         /G5L+Tx1LI2j++xomDzX50rz2jcdjOzvpI8dpCXJAtFhL/F9FuvLahus1W0PHThYZaOM
-         77hw==
-X-Gm-Message-State: AOJu0Yziu2BeAt9UbiR9qNVoRwMp1B9CawtkxgJGZw17sswYEXYHAjcV
-	zHJ3HkDpHNBupzO5b6w13zrTT1HmiMdTbA==
-X-Google-Smtp-Source: AGHT+IG7Nk2aL/69dtQY6CrepYPAGA02tI1+qyjVIE5/xP6gbGJ3UPA3RAF5aLXklp4kBcxPPTlwSA==
-X-Received: by 2002:a05:6000:d86:b0:337:453f:4afe with SMTP id dv6-20020a0560000d8600b00337453f4afemr277953wrb.26.1704786223794;
-        Mon, 08 Jan 2024 23:43:43 -0800 (PST)
-Received: from localhost ([102.140.209.237])
-        by smtp.gmail.com with ESMTPSA id h10-20020adff4ca000000b0033668b27f8fsm1639974wrp.4.2024.01.08.23.43.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 08 Jan 2024 23:43:43 -0800 (PST)
-Date: Tue, 9 Jan 2024 10:43:39 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Gary Rookard <garyrookard@fastmail.org>
-Cc: gregkh@linuxfoundation.org, philipp.g.hortmann@gmail.com,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/5] staging: rtl8192e: rename variable is40MHz
-Message-ID: <2273e640-0e30-468f-804f-c5699e5225dc@moroto.mountain>
-References: <20240108032233.4280-1-garyrookard@fastmail.org>
- <20240108032233.4280-2-garyrookard@fastmail.org>
- <897a8bb4-a1d7-46ab-96cf-fd5ba447d2d8@moroto.mountain>
- <87edesvtrx.fsf@fastmail.org>
- <62836460ae502097ca8307bcee85a5ae3634e1acc74af843ffc466c28d1a0b95@mu.id>
- <871qarcmzt.fsf@fastmail.org>
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="OqNAYoRH"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3B939C43390;
+	Tue,  9 Jan 2024 07:49:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1704786576;
+	bh=8bsC+3GiQ/JyD4ov1VIrPnB8eSSmJQCsfVT2D7rax+U=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=OqNAYoRHb/uGuAsEuPgrEmlu7R70ql65q9qoizETbxKOprUTHYACy6yQNqF8N409v
+	 /eJwmuHvRuqbGx4oMgMzhS43HTL4Roceni71noR1FPU0rbX9cHlqUx2FhEmF313bJt
+	 xKttH/+iUgStKHQ7uDjgZ3AkZiNXL4NuRqMydTq8=
+Date: Tue, 9 Jan 2024 08:49:33 +0100
+From: Greg KH <gregkh@linuxfoundation.org>
+To: SilverPlate3 <arielsilver77@gmail.com>
+Cc: forest@alittletooquiet.net, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] Staging: vt6655: Fix sparse warning. Restricted cast.
+Message-ID: <2024010937-rental-filled-5ae6@gregkh>
+References: <20240109072704.44582-1-arielsilver77@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -62,26 +30,49 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <871qarcmzt.fsf@fastmail.org>
+In-Reply-To: <20240109072704.44582-1-arielsilver77@gmail.com>
 
-On Mon, Jan 08, 2024 at 08:25:55PM -0500, Gary Rookard wrote:
-> >>> This should be is_40MHz.  It's metric.  M means Mega.  m means milli.
-> >>>
-> >>> regards,
-> >>> dan carpenter
-> >> --
-> >> Okay, stupid me didin't give it to much thought that way,
-> >> ...wow there's more that way then just mine
-> >> Good catch!
-> >> Regards,
-> >> Gary
-> --
-> There's only mine that I can find, I'll fix them up
-> and resubmit them.
+On Tue, Jan 09, 2024 at 09:27:04AM +0200, SilverPlate3 wrote:
+> Running 'make M=drivers/staging/vt6655 C=2'
+> causes sparse to generate few warnings.
+> This patch fixes the following warnings by ensuring le64_to_cpu
+> handles only __le64 values, thus dismissing chances of bad endianness.
+> * drivers/staging/vt6655/card.c:302:45: warning: cast to restricted __le64
+> * drivers/staging/vt6655/card.c:336:23: warning: cast to restricted __le64
+> * drivers/staging/vt6655/card.c:804:23: warning: cast to restricted __le64
+> * drivers/staging/vt6655/card.c:831:18: warning: cast to restricted __le64
 > 
+> Signed-off-by: Ariel Silver <arielsilver77@gmail.com>
 
-Thanks for this and for looking at the surrounding code as well.
+ From: line doesn't match the signed-off-by line :(
 
-regards,
-dan carpenter
+> ---
+>  drivers/staging/vt6655/card.c | 16 ++++++++++++----
+>  1 file changed, 12 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/staging/vt6655/card.c b/drivers/staging/vt6655/card.c
+> index 350ab8f3778a..5dc2200466b7 100644
+> --- a/drivers/staging/vt6655/card.c
+> +++ b/drivers/staging/vt6655/card.c
+> @@ -292,6 +292,7 @@ bool card_update_tsf(struct vnt_private *priv, unsigned char rx_rate,
+>  {
+>  	u64 local_tsf;
+>  	u64 qwTSFOffset = 0;
+> +	__le64 le_qwTSFOffset = 0;
+>  
+>  	local_tsf = vt6655_get_current_tsf(priv);
+>  
+> @@ -299,7 +300,8 @@ bool card_update_tsf(struct vnt_private *priv, unsigned char rx_rate,
+>  		qwTSFOffset = CARDqGetTSFOffset(rx_rate, qwBSSTimestamp,
+>  						local_tsf);
+>  		/* adjust TSF, HW's TSF add TSF Offset reg */
+> -		qwTSFOffset =  le64_to_cpu(qwTSFOffset);
+> +		le_qwTSFOffset = cpu_to_le64(qwTSFOffset);
+> +		qwTSFOffset = le64_to_cpu(le_qwTSFOffset);
 
+Are you sure about this?  Please verify just what you are doing here
+please...
+
+thanks,
+
+greg k-h
