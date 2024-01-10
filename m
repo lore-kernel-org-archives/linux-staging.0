@@ -1,84 +1,93 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE08039ADE;
-	Wed, 10 Jan 2024 07:30:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5444A3D964
+	for <linux-staging@lists.linux.dev>; Wed, 10 Jan 2024 07:51:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="fyG9OOmp"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=xb86iNZOklvvcYUTQPgNE0eZRKoTDuKrcQHp9oVgl9w=; b=fyG9OOmpqTczg+BBenyoZQfHNZ
-	7rjpy2eq112ZEZ1WRvFppYyNMiPyH27l5pJiAhOgTi285c3Ip85CHMZAUaAf4b8e0g6p4bBHdebBH
-	8s+ycnxUvRVBfu6PPwS4gc0eDOfNgspEKsCReAltNJjZZt3a7dan75hXtqYeRLg2Z8eNzwc/PziFG
-	ZoTlLX3onKZJikeWPHAaGQrwZiLBWoWkZlUKhCwxYDGwpNAEYbDOZ7q2czVfiEW0ztcHolFB0URtd
-	2MnlwE/OtlwVPDUg15kVyX6zXxydvVGzRyk0syA5BfvVHSextEUBCxvWpbnVag/+HAz4uJ+X5WXA8
-	I0plBcKQ==;
-Received: from [50.53.46.231] (helo=[192.168.254.15])
-	by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
-	id 1rNT2Y-00Ac99-1v;
-	Wed, 10 Jan 2024 07:30:18 +0000
-Message-ID: <e3941caa-7546-415f-be7b-b955cf13aa8b@infradead.org>
-Date: Tue, 9 Jan 2024 23:30:17 -0800
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="fM/3sdu+"
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-40d4f5d902dso40714855e9.2
+        for <linux-staging@lists.linux.dev>; Tue, 09 Jan 2024 23:51:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1704873103; x=1705477903; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=YP56O+ka9egXRogxRY/IcuNAqoutWmWtHH4NGgeMzmE=;
+        b=fM/3sdu+34huygFw8B9/Hz4JQct6/pnJH7q+ZPz2FQLWP5dcwJeZAy8pKj7gtCZJes
+         n4gj6oD2xgO8GhP3MKbCo8LDalJ73MrN4aqv6do9uUnxXoYi820z9DLOo61vO+MVUX9m
+         CPGp0bz8AjkCi6D3tKNG7z+yTIRHW7XNg0uMqV7/AGeVsJKbVr8Fy8eYAi1RxXrWnIW4
+         RK2Q7v1eaLU8MXrPvteD2RbJ2/L3yFkfuTstZ9Y1zxo9K1qUMaJPlf5kn4jOVk2EkB9k
+         q/8y9Vx9p8blXrfHY3aCfj/vApQsfbsJTGBOJAHTYTUPZUYxg1jcxnlghnDHtrF69VCn
+         VJ1Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1704873103; x=1705477903;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=YP56O+ka9egXRogxRY/IcuNAqoutWmWtHH4NGgeMzmE=;
+        b=l4arIiQJE5L9WKwEWOdCuou+q9pNNFqy4qxYbDJnXgO4QjGIY29QqOGWJncv4NXz1j
+         HXlEPcqLrdsLHMKc1dcge+6KHBA6kh6JsBjbQF0IqU9QPonJtZ3f9kGOSXoj3usnJ/wi
+         coNhVf6r3WTgwJImagHi3Yjj1q+c1NKlyx3S8eN8uMdI6iH0PncGUqoNdtw8AAkaqoHL
+         L+sjvc2cSD3/1VRD/IA5Mmi9bd/7l+5QgXw8VMbEC+tCVxvJf1ZL6KuW4Ir5zq/whNvV
+         LlhMKBgSJoG4t6wTdqUITabBAxH4FywUMQQ1X6uxQoPS68Ozfrmd7p4ThzF9m2ESPTXz
+         O4jw==
+X-Gm-Message-State: AOJu0YyvNeRkSkWgsS0gQqQv1JMM7FB/ekQh6upOqKUzi4jA2fH0oYRX
+	YHQXSltjZT7WwHu8DXaS8phtMpgtTQ4Y1A==
+X-Google-Smtp-Source: AGHT+IG9rGcLM44Fx06MOQlPAy6X0qV7njAUYmbcepFhr/WKeb4ywh4TgTxAt+9HF5bj4FVogxLGRQ==
+X-Received: by 2002:a05:600c:18a6:b0:40e:4ab8:639b with SMTP id x38-20020a05600c18a600b0040e4ab8639bmr249138wmp.39.1704873103535;
+        Tue, 09 Jan 2024 23:51:43 -0800 (PST)
+Received: from localhost ([102.140.209.237])
+        by smtp.gmail.com with ESMTPSA id m26-20020a05600c3b1a00b0040d83ab2ecdsm1191216wms.21.2024.01.09.23.51.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 09 Jan 2024 23:51:42 -0800 (PST)
+Date: Wed, 10 Jan 2024 10:51:39 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Randy Dunlap <rdunlap@infradead.org>
+Cc: Matthias Yee <mgyee9@gmail.com>, gregkh@linuxfoundation.org,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3] staging: vt6655: fix open parentheses alignment
+Message-ID: <f22e751e-863a-46a9-8dd6-0ac55f1ad9c8@moroto.mountain>
+References: <20240110072304.2226-1-mgyee9@gmail.com>
+ <e3941caa-7546-415f-be7b-b955cf13aa8b@infradead.org>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3] staging: vt6655: fix open parentheses alignment
-Content-Language: en-US
-To: Matthias Yee <mgyee9@gmail.com>, gregkh@linuxfoundation.org
-Cc: dan.carpenter@linaro.org, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org
-References: <20240110072304.2226-1-mgyee9@gmail.com>
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20240110072304.2226-1-mgyee9@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <e3941caa-7546-415f-be7b-b955cf13aa8b@infradead.org>
 
-Greg, Dan,
-
-
-On 1/9/24 23:23, Matthias Yee wrote:
-> Adjusted whitespace to fix checkpatch warning Alignment Should Match
-> Open Parenthesis.
+On Tue, Jan 09, 2024 at 11:30:17PM -0800, Randy Dunlap wrote:
+> > diff --git a/drivers/staging/vt6655/card.c b/drivers/staging/vt6655/card.c
+> > index 36183f2a64c1..688c870d89bc 100644
+> > --- a/drivers/staging/vt6655/card.c
+> > +++ b/drivers/staging/vt6655/card.c
+> > @@ -81,9 +81,9 @@ static void vt6655_mac_set_bb_type(void __iomem *iobase, u32 mask)
+> >   * Return Value: none
+> >   */
+> >  static void calculate_ofdmr_parameter(unsigned char rate,
+> > -				       u8 bb_type,
+> > -				       unsigned char *tx_rate,
+> > -				       unsigned char *rsv_time)
+> > +				      u8 bb_type,
+> > +				      unsigned char *tx_rate,
+> > +				      unsigned char *rsv_time)
+> >  {
+> >  	switch (rate) {
+> >  	case RATE_6M:
 > 
-> Signed-off-by: Matthias Yee <mgyee9@gmail.com>
-> ---
-> Changes in v3
-> -fixed line wrapping for commit message
-> ---
->  drivers/staging/vt6655/card.c | 74 +++++++++++++++++------------------
->  1 file changed, 37 insertions(+), 37 deletions(-)
+> Is there any chance that checkpatch is wrong about this warning?
 > 
-> diff --git a/drivers/staging/vt6655/card.c b/drivers/staging/vt6655/card.c
-> index 36183f2a64c1..688c870d89bc 100644
-> --- a/drivers/staging/vt6655/card.c
-> +++ b/drivers/staging/vt6655/card.c
-> @@ -81,9 +81,9 @@ static void vt6655_mac_set_bb_type(void __iomem *iobase, u32 mask)
->   * Return Value: none
->   */
->  static void calculate_ofdmr_parameter(unsigned char rate,
-> -				       u8 bb_type,
-> -				       unsigned char *tx_rate,
-> -				       unsigned char *rsv_time)
-> +				      u8 bb_type,
-> +				      unsigned char *tx_rate,
-> +				      unsigned char *rsv_time)
->  {
->  	switch (rate) {
->  	case RATE_6M:
+> I much prefer the alignment as it was before this patch: following lines
+> are aligned with the first parameter after the '('.
+> 
 
-Is there any chance that checkpatch is wrong about this warning?
+It just looks weird in the diff because of the + character at the front
+and how the tabs work out.  It looks ok in the code.
 
-I much prefer the alignment as it was before this patch: following lines
-are aligned with the first parameter after the '('.
+regards,
+dan carpenter
 
-
--- 
-#Randy
