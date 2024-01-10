@@ -1,56 +1,54 @@
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFC3638FA6
-	for <linux-staging@lists.linux.dev>; Wed, 10 Jan 2024 07:25:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE72C39859
+	for <linux-staging@lists.linux.dev>; Wed, 10 Jan 2024 07:26:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="nAtCqUzx"
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-40e552dfa5dso6430145e9.1
-        for <linux-staging@lists.linux.dev>; Tue, 09 Jan 2024 23:25:35 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Mydsvvoe"
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-40e5701cbbaso1015845e9.0
+        for <linux-staging@lists.linux.dev>; Tue, 09 Jan 2024 23:26:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1704871534; x=1705476334; darn=lists.linux.dev;
+        d=linaro.org; s=google; t=1704871581; x=1705476381; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=fWHgi0F8aOvhuEosvb59tpcR7vgfsaa1QjiQKlh8T8c=;
-        b=nAtCqUzxo7mq83ia8ZyAV/Wi+hcKXRTUivfNXskolw/5bKGbop3aBkIkhYA1/5j30u
-         nw0iWMZFDUtSS/xdycMafC2JT8y8fEGE6Hf1RnA9rW+GgLPb8ZWMbsBdBzj1cdLu0xSR
-         DadlMI9QIwphM3vxyeS8f+YPbDE1hKNx1R497NQmY2HEWztNz8aux10q+ZIrNi8Javjj
-         eDIrWGAbZ9nHVByd6tC7oB6f5PgUt7V9iDicWndwcegCruhf/PeCwUnawnyS8Ovryhca
-         yCdDsWG57wj/PNmMI0fyJL068sP8CjCtsWZxAJymGZ9JRZLP5XYt+PVbK8UdLFE9nTHM
-         Ctqw==
+        bh=oB8bFEksgA/hP4pzljJqPyULshxwwfCWATJRRhxV3mo=;
+        b=MydsvvoeVUxl6L2plbjcjnBqITSCytM6WoqSL1UdizIbku/sbU1KU0yIpLgfziS320
+         ps93sJa3JUDj2wUcM9i6BjeQoWYyzh0nIUlTSyZbEUg/1vJ+UhMi82we0GZ9mvDxu7sQ
+         DHvMkxYljKX3XVWWik8IC+RVfXwNAeboffS4+eOrvLxfIaQvjDAuygEe2bWUM1KDktQe
+         wkTkpX937fVtHjXhXulaapX8ZMPLLmZVGdsUwF8C8K4ABYcTl0SlFdF0ocRhp0jcRtdm
+         9WfItY7koYoOaa4tVgbbzZxgMJe8s65iXq9u3oncF15jgsP9UeRMFo5N0opFtyBz955A
+         ZcIA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704871534; x=1705476334;
+        d=1e100.net; s=20230601; t=1704871581; x=1705476381;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=fWHgi0F8aOvhuEosvb59tpcR7vgfsaa1QjiQKlh8T8c=;
-        b=VqmFcL9yUP+TTvRtjyHCLskGQ3nn87p1f7mxknOGX0Q+VyvNeVjgYfQg8gIQtNKQRo
-         DuLcxq/jv2AxI+m8XUF4KWIWiVBjwqGFxrEAmBz5yYB7fxiW9dTgUrctfMpkNRs1sr+i
-         egj/JJjwKHuMY9d3mC0U2WuD/5HfLSFTzSAWd/4M6DjnoYhbFTmPKfijWenrUg4w08K6
-         SymBAEVd5WFUhePH0a6Mx7RK10eE7Y0Sv1Vmg7M5rF3zspbaSGyCYFq8mBsBxoLDj/rB
-         +A3qmyEoi/y9/E4z+1tLTHZYIoS3YIkCXkFmuLF4DWt1Qq1jZB7RrmI7HjrbNbCs6Nzq
-         UpYw==
-X-Gm-Message-State: AOJu0Yy4RBhwHZTFRYAfkGw2wYR/O6zud4GlkYdkKm1GcsVsywjHEioB
-	26cF6cgl3OJ3txejUFNilm89BdjrPHLxJQ9NuR/GKUGJzMw=
-X-Google-Smtp-Source: AGHT+IHANMSbivIIgcWx2RXwxuFOolpQOL/cdhqJYkwRqfeLQYHfc9Fl/CSMTqne1Q8Lc1/X8WznlA==
-X-Received: by 2002:a7b:ca55:0:b0:40e:4d1b:27e0 with SMTP id m21-20020a7bca55000000b0040e4d1b27e0mr296350wml.20.1704871534018;
-        Tue, 09 Jan 2024 23:25:34 -0800 (PST)
+        bh=oB8bFEksgA/hP4pzljJqPyULshxwwfCWATJRRhxV3mo=;
+        b=uVYeKYgxq1Sjn+0dpF7vRngj1TUbK7OvbWCRbgBEtKcur6p/EPaSAbnZJqtdjdGyvZ
+         0chfdfCRy1NHcfIwq/LKJqY6ZgMJT6v6WX3tvP9Ko3iQrBXE3Vr+oHnph/SpNbRwHA4V
+         zZ3BjMFSItRZquGvMrzdQ1MDvyu+zbJQic9WyJTkvJDljfTolDKuY1+/t7rPk2ppG1sA
+         nJFRiffkxRnzr8PgfBOb+xk2jPe0YsEB0Ma4PLro7OoXzfIxSRaAvGgvBYvHhd/UonS5
+         w2xUTtvAPDg/kfz/QJPvovGxbPzROliZXkVBmsmrPVjUcCQWHppG47uYD5l1Ae5G2pUe
+         B3SA==
+X-Gm-Message-State: AOJu0YwRTbJ0+ZkHBS5K1sETrd3ce1imM35xe+GdWnqV9x8M9FrDlTcC
+	drKcaF2Aqq4LqWZjG+Zn+GwXOKWBgl798w==
+X-Google-Smtp-Source: AGHT+IE76Y8hprK6/FX8obW26kFU4/Ec8lUy0x0+lATk6+++AhIfumsuIrzjjbjO9pLr10ZilSlScg==
+X-Received: by 2002:a05:600c:1d08:b0:40d:8ed9:ce8c with SMTP id l8-20020a05600c1d0800b0040d8ed9ce8cmr302530wms.120.1704871581188;
+        Tue, 09 Jan 2024 23:26:21 -0800 (PST)
 Received: from localhost ([102.140.209.237])
-        by smtp.gmail.com with ESMTPSA id p23-20020a05600c205700b0040e526bd5fdsm378493wmg.1.2024.01.09.23.25.33
+        by smtp.gmail.com with ESMTPSA id fs23-20020a05600c3f9700b0040c11fbe581sm1129574wmb.27.2024.01.09.23.26.20
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 09 Jan 2024 23:25:33 -0800 (PST)
-Date: Wed, 10 Jan 2024 10:25:30 +0300
+        Tue, 09 Jan 2024 23:26:20 -0800 (PST)
+Date: Wed, 10 Jan 2024 10:26:17 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Ariel Silver <arielsilver77@gmail.com>
-Cc: forest@alittletooquiet.net, gregkh@linuxfoundation.org,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] Staging: vt6655: Fix sparse warning. Restricted cast.
-Message-ID: <b62deb16-daa0-412e-8e11-bf45b88d3107@moroto.mountain>
-References: <20240109072704.44582-1-arielsilver77@gmail.com>
- <d6489a61-3985-4fc2-9eda-333ea8fa02ae@moroto.mountain>
- <CACKMdf=Kppts=NzTVsNNuFcYge2HU+vG83b2C2QNyPEsiFHnkw@mail.gmail.com>
+To: Matthias Yee <mgyee9@gmail.com>
+Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3] staging: vt6655: fix open parentheses alignment
+Message-ID: <3778e52d-9ac5-4648-85e9-539b13e19d25@moroto.mountain>
+References: <20240110072304.2226-1-mgyee9@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -59,40 +57,20 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CACKMdf=Kppts=NzTVsNNuFcYge2HU+vG83b2C2QNyPEsiFHnkw@mail.gmail.com>
+In-Reply-To: <20240110072304.2226-1-mgyee9@gmail.com>
 
-Hm...  This stuff is more broken than I realized when I first looked at
-it.  And the truth is that I don't know the hardware so I can't say
-exactly what the fix is.  Probably best to just leave it alone for now...
+On Tue, Jan 09, 2024 at 11:23:05PM -0800, Matthias Yee wrote:
+> Adjusted whitespace to fix checkpatch warning Alignment Should Match
+> Open Parenthesis.
+> 
+> Signed-off-by: Matthias Yee <mgyee9@gmail.com>
+> ---
+> Changes in v3
+> -fixed line wrapping for commit message
 
-On Wed, Jan 10, 2024 at 08:25:33AM +0200, Ariel Silver wrote:
-> >> Hello Dan and thank you for the quick response. Much appreciated!
-> >> 1) I am probably wrong, but as I see it, the current code assumes that
-> >> 'CARDqGetTSFOffset' returns a little endian value.
-> >> So it calls 'qwTSFOffset =  le64_to_cpu(qwTSFOffset)'. However digging in
-> >> the code of 'CARDqGetTSFOffset' I don't see a reason to assume that.
-> >> Which in my opinion can cuase a bad endianness cast on big endianness
-> >> systems.
+Thanks!
 
-You're actually correct.
-
-But the thing is that le64_to_cpu() and cpu_to_le64() do the exactly the
-same thing.  If the hardware is little endian they do nothing, but if
-the hardware is big endian they call bswap_64().  The only difference is
-how a human reader understands it and for git annotations.
-
-What I suspect is that we should be passing little endian data to
-iowrite32().  In other words we should change the le64_to_cpu() to
-cpu_to_le64().  This wouldn't change how the code works, it would just
-change how it is annotated.  However, on the other hand, I see plenty of
-examples where it's passing CPU endian data to iowrite32() so maybe we
-should get rid of the conversion instead.  Who knows?
-
-I suspect is that this driver has never worked on big endian CPUs...
-
-I would say let's not change this until we're more sure what's going on.
-And probably if we make changes that affect runtime as opposed to just
-modifying endian annotations, then that needs to be tested.
+Reviewed-by: Dan Carpenter <dan.carpenter@linaro.org>
 
 regards,
 dan carpenter
