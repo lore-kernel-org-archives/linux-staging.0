@@ -1,74 +1,212 @@
-Received: from mail-lj1-f181.google.com (mail-lj1-f181.google.com [209.85.208.181])
+Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DC7938DE8
-	for <linux-staging@lists.linux.dev>; Wed, 10 Jan 2024 06:53:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AAF583A1A3
+	for <linux-staging@lists.linux.dev>; Wed, 10 Jan 2024 07:23:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="BO9OMiNH"
-Received: by mail-lj1-f181.google.com with SMTP id 38308e7fff4ca-2cd0f4f306fso44535721fa.0
-        for <linux-staging@lists.linux.dev>; Tue, 09 Jan 2024 22:53:58 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JvcnMePM"
+Received: by mail-pf1-f176.google.com with SMTP id d2e1a72fcca58-6da9c834646so3245631b3a.3
+        for <linux-staging@lists.linux.dev>; Tue, 09 Jan 2024 23:23:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1704869637; x=1705474437; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=cXgNlQp1ZIJ0/l4IwMaa4BquknnSQdylTP1plQb4Z60=;
-        b=BO9OMiNHPLm2iuFoiaL+phN9ZLqLuMFA1/b/vCbc7xQntVFku/+i/VIDwLa+OzEY45
-         vGJaBtwxOJyGWeM1itLII5RDCTCL54wTxdfWk0bgK2XzHDoDWipmcFpka0Rw2VuDbM1t
-         g1j+pDG/xe6KNe8iWjlqRSsu5Mg05zCQ0ElQ4V5+8CT506NX56fZJh7KN3+3OgpIa8iF
-         8njZS1fKFLqJ7AcW8ZJ0rDTwU1wxXvmdC3NM2jeCyEYCQovenI1XyVP0LTccxCC5EIpJ
-         EDWCMM8nIsKhsUKlDWcXHGmjXektb2x0v38u0LxDPpz3/Tkt6jKxq6uzjgpq184xjklF
-         o2aQ==
+        d=gmail.com; s=20230601; t=1704871435; x=1705476235; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=4pX+siGsa1lcjn5ja6SnM7esk+Fn5pql479Lrw3+G9o=;
+        b=JvcnMePMmF410O4i58NPKesu/6CWFF8LqsUUyZW1y9BFTZ3ES4CCdSx87TLQzAu9Ge
+         uTPz0qwjx6Seor2qEc3SjFAKXrHcAIDkQvloXxOrEKH2ZxQ+pX0FDfmU7+EYDxhpXvaI
+         R0Sh8YetIeqwhRuO9DISCpsKc6PTahxlax3RtdfsUQ62D0MtIbomuNImJuvcDgu3Sgbs
+         JSMx/9kSqVk0OKGAZkK2WVY4oDB/9r3QNRH1HfEHLL1/xGpqWiYV5UMdNn03qxnNf9Zg
+         7nCU9y1bC5TRO+NTWvvsomJOExNCV0vh9MpTpaNGjz/jEcBKvPeXEKuKWr2Dx4F+3/Yx
+         EuOA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704869637; x=1705474437;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=cXgNlQp1ZIJ0/l4IwMaa4BquknnSQdylTP1plQb4Z60=;
-        b=Pi76SRYbqrxUrUtHts9sIv6RArH6Z0X6N8gJoYzAkmSX56zvRR58qZcTkE3zOjhk5G
-         kB9zgOC2qUaGDPInKU8Vg8mR89VsUkuEmDQc5Ydk9Jk4lg/QBgjZ+6izuKeywq2nakpc
-         T5Tki8avfTXjRBbNK8v2SiiNW4ibLMXYIp0x/Z+PXhZchdbljp2JYK2efCkm7fhhr30f
-         mI7QbfHX9zPqZFgVwu0mcCjfGQwgKP5isE1e65r3+eVpNJs1h1PFQZ8qlstJ+NqxMOvm
-         FnHFycNEa48CkxMCT5jdlDF/qZIXhoXvgwpV/IIxmvVUzoquUn6i0bXl0rmttENJzRgd
-         KYWw==
-X-Gm-Message-State: AOJu0YwQMfXTdwWDHYAEnXEeyVUKyFljMq+lSCFid2ofZEcjBSK5KZ/e
-	JQFJUTyYY3cusx3HAotkpOOzlTpzyNQ88l6wLHnDE/XwSs0=
-X-Google-Smtp-Source: AGHT+IF3j3cmVNgId6d1lExluxTZGmz8RXnmQQAxuo9PbY8mP3MWYu4i1ZwCwl4JIDJ5sjQl5lo/Bw==
-X-Received: by 2002:a2e:a22c:0:b0:2cd:36ff:4d7e with SMTP id i12-20020a2ea22c000000b002cd36ff4d7emr231300ljm.21.1704869636986;
-        Tue, 09 Jan 2024 22:53:56 -0800 (PST)
-Received: from localhost ([102.140.209.237])
-        by smtp.gmail.com with ESMTPSA id s15-20020a5d424f000000b0033743c2d17dsm4093929wrr.28.2024.01.09.22.53.56
+        d=1e100.net; s=20230601; t=1704871435; x=1705476235;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=4pX+siGsa1lcjn5ja6SnM7esk+Fn5pql479Lrw3+G9o=;
+        b=GRBlPa3wkWzz3YIKq3nOW+wlfHCaPEoseP5WuxwY/6+xenYxb+/fUOl4JEVeJjAAmb
+         8885GgdMdk4a3C4vnDD4MIqswpdgObFKdoX9iNXPpGwyWa36KaCpTR+TfFKYeIiaMUGT
+         AFGhhChDSBGHXZw3zqxvdva98RFrNdqjRXcMouhfiE9//+EnNVUtsfIQ4ynC9cdu9EbC
+         P1d60USoZSojqR6SS76bmsnZWJnYViUHuFbCeROq5mUj8UdvEjVd7qJoDAAMAoMDtC+9
+         yyB+9e1NJe2z/aV7isiQX0r0hJN/XS1HFfQT+5/cnQDcXPYp6ghlj4AzvprtQ6m4oV6B
+         jZHQ==
+X-Gm-Message-State: AOJu0YxDED6T5zlakxUYz5LBldMePctqni+Eiv4NQWYkC/tTeVEFdT+o
+	iMAn2BUMNAjAN4/Gie8F1ns=
+X-Google-Smtp-Source: AGHT+IFkJFbGrfUWwgHXOJs8Oz90Hfeou1ogUwYrvTaxwXqKQfMgZzYszox2Uyl/gw/NiWS/UhVgIQ==
+X-Received: by 2002:a05:6a00:2395:b0:6d9:bce7:d8e3 with SMTP id f21-20020a056a00239500b006d9bce7d8e3mr978629pfc.24.1704871434893;
+        Tue, 09 Jan 2024 23:23:54 -0800 (PST)
+Received: from mgyee-VirtualBox ([47.152.33.114])
+        by smtp.gmail.com with ESMTPSA id a24-20020a62d418000000b006d70b0d4639sm2914529pfh.107.2024.01.09.23.23.54
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 09 Jan 2024 22:53:56 -0800 (PST)
-Date: Wed, 10 Jan 2024 09:53:53 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Matthias Yee <mgyee9@gmail.com>
-Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] staging: vt6655: fix open parentheses alignment
-Message-ID: <0efd34ef-1543-448d-a690-64e156607441@moroto.mountain>
-References: <20240109205933.3221-1-mgyee9@gmail.com>
+        Tue, 09 Jan 2024 23:23:54 -0800 (PST)
+From: Matthias Yee <mgyee9@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: dan.carpenter@linaro.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Matthias Yee <mgyee9@gmail.com>
+Subject: [PATCH v3] staging: vt6655: fix open parentheses alignment
+Date: Tue,  9 Jan 2024 23:23:05 -0800
+Message-Id: <20240110072304.2226-1-mgyee9@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240109205933.3221-1-mgyee9@gmail.com>
+Content-Transfer-Encoding: 8bit
 
-On Tue, Jan 09, 2024 at 12:59:34PM -0800, Matthias Yee wrote:
-> Adjusted whitespace to fix checkpatch warning Alignment Should Match Open Parenthesis.
-> 
-> Signed-off-by: Matthias Yee <mgyee9@gmail.com>
-> ---
-> Changes in v2:
-> - line wrapped commit message
+Adjusted whitespace to fix checkpatch warning Alignment Should Match
+Open Parenthesis.
 
-Nope.  It's still 86 characters.
+Signed-off-by: Matthias Yee <mgyee9@gmail.com>
+---
+Changes in v3
+-fixed line wrapping for commit message
+---
+ drivers/staging/vt6655/card.c | 74 +++++++++++++++++------------------
+ 1 file changed, 37 insertions(+), 37 deletions(-)
 
-regards,
-dan carpenter
+diff --git a/drivers/staging/vt6655/card.c b/drivers/staging/vt6655/card.c
+index 36183f2a64c1..688c870d89bc 100644
+--- a/drivers/staging/vt6655/card.c
++++ b/drivers/staging/vt6655/card.c
+@@ -81,9 +81,9 @@ static void vt6655_mac_set_bb_type(void __iomem *iobase, u32 mask)
+  * Return Value: none
+  */
+ static void calculate_ofdmr_parameter(unsigned char rate,
+-				       u8 bb_type,
+-				       unsigned char *tx_rate,
+-				       unsigned char *rsv_time)
++				      u8 bb_type,
++				      unsigned char *tx_rate,
++				      unsigned char *rsv_time)
+ {
+ 	switch (rate) {
+ 	case RATE_6M:
+@@ -288,7 +288,7 @@ bool card_set_phy_parameter(struct vnt_private *priv, u8 bb_type)
+  * Return Value: none
+  */
+ bool card_update_tsf(struct vnt_private *priv, unsigned char rx_rate,
+-		    u64 bss_timestamp)
++		     u64 bss_timestamp)
+ {
+ 	u64 local_tsf;
+ 	u64 tsf_offset = 0;
+@@ -297,7 +297,7 @@ bool card_update_tsf(struct vnt_private *priv, unsigned char rx_rate,
+ 
+ 	if (bss_timestamp != local_tsf) {
+ 		tsf_offset = card_get_tsf_offset(rx_rate, bss_timestamp,
+-						local_tsf);
++						 local_tsf);
+ 		/* adjust TSF, HW's TSF add TSF Offset reg */
+ 		tsf_offset =  le64_to_cpu(tsf_offset);
+ 		iowrite32((u32)tsf_offset, priv->port_offset + MAC_REG_TSFOFST);
+@@ -321,7 +321,7 @@ bool card_update_tsf(struct vnt_private *priv, unsigned char rx_rate,
+  * Return Value: true if succeed; otherwise false
+  */
+ bool card_set_beacon_period(struct vnt_private *priv,
+-			  unsigned short beacon_interval)
++			    unsigned short beacon_interval)
+ {
+ 	u64 next_tbtt;
+ 
+@@ -586,61 +586,61 @@ void card_set_rspinf(struct vnt_private *priv, u8 bb_type)
+ 
+ 	/* RSPINF_a_6 */
+ 	calculate_ofdmr_parameter(RATE_6M,
+-				   bb_type,
+-				   &byTxRate,
+-				   &byRsvTime);
++				  bb_type,
++				  &byTxRate,
++				  &byRsvTime);
+ 	iowrite16(MAKEWORD(byTxRate, byRsvTime), priv->port_offset + MAC_REG_RSPINF_A_6);
+ 	/* RSPINF_a_9 */
+ 	calculate_ofdmr_parameter(RATE_9M,
+-				   bb_type,
+-				   &byTxRate,
+-				   &byRsvTime);
++				  bb_type,
++				  &byTxRate,
++				  &byRsvTime);
+ 	iowrite16(MAKEWORD(byTxRate, byRsvTime), priv->port_offset + MAC_REG_RSPINF_A_9);
+ 	/* RSPINF_a_12 */
+ 	calculate_ofdmr_parameter(RATE_12M,
+-				   bb_type,
+-				   &byTxRate,
+-				   &byRsvTime);
++				  bb_type,
++				  &byTxRate,
++				  &byRsvTime);
+ 	iowrite16(MAKEWORD(byTxRate, byRsvTime), priv->port_offset + MAC_REG_RSPINF_A_12);
+ 	/* RSPINF_a_18 */
+ 	calculate_ofdmr_parameter(RATE_18M,
+-				   bb_type,
+-				   &byTxRate,
+-				   &byRsvTime);
++				  bb_type,
++				  &byTxRate,
++				  &byRsvTime);
+ 	iowrite16(MAKEWORD(byTxRate, byRsvTime), priv->port_offset + MAC_REG_RSPINF_A_18);
+ 	/* RSPINF_a_24 */
+ 	calculate_ofdmr_parameter(RATE_24M,
+-				   bb_type,
+-				   &byTxRate,
+-				   &byRsvTime);
++				  bb_type,
++				  &byTxRate,
++				  &byRsvTime);
+ 	iowrite16(MAKEWORD(byTxRate, byRsvTime), priv->port_offset + MAC_REG_RSPINF_A_24);
+ 	/* RSPINF_a_36 */
+ 	calculate_ofdmr_parameter(CARDwGetOFDMControlRate((void *)priv,
+-							   RATE_36M),
+-				   bb_type,
+-				   &byTxRate,
+-				   &byRsvTime);
++							  RATE_36M),
++				  bb_type,
++				  &byTxRate,
++				  &byRsvTime);
+ 	iowrite16(MAKEWORD(byTxRate, byRsvTime), priv->port_offset + MAC_REG_RSPINF_A_36);
+ 	/* RSPINF_a_48 */
+ 	calculate_ofdmr_parameter(CARDwGetOFDMControlRate((void *)priv,
+-							   RATE_48M),
+-				   bb_type,
+-				   &byTxRate,
+-				   &byRsvTime);
++							  RATE_48M),
++				  bb_type,
++				  &byTxRate,
++				  &byRsvTime);
+ 	iowrite16(MAKEWORD(byTxRate, byRsvTime), priv->port_offset + MAC_REG_RSPINF_A_48);
+ 	/* RSPINF_a_54 */
+ 	calculate_ofdmr_parameter(CARDwGetOFDMControlRate((void *)priv,
+-							   RATE_54M),
+-				   bb_type,
+-				   &byTxRate,
+-				   &byRsvTime);
++							  RATE_54M),
++				  bb_type,
++				  &byTxRate,
++				  &byRsvTime);
+ 	iowrite16(MAKEWORD(byTxRate, byRsvTime), priv->port_offset + MAC_REG_RSPINF_A_54);
+ 	/* RSPINF_a_72 */
+ 	calculate_ofdmr_parameter(CARDwGetOFDMControlRate((void *)priv,
+-							   RATE_54M),
+-				   bb_type,
+-				   &byTxRate,
+-				   &byRsvTime);
++							  RATE_54M),
++				  bb_type,
++				  &byTxRate,
++				  &byRsvTime);
+ 	iowrite16(MAKEWORD(byTxRate, byRsvTime), priv->port_offset + MAC_REG_RSPINF_A_72);
+ 	/* Set to Page0 */
+ 	VT6655_MAC_SELECT_PAGE0(priv->port_offset);
+-- 
+2.34.1
 
