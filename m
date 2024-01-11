@@ -1,80 +1,91 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C4DB3A8CB;
-	Wed, 10 Jan 2024 07:56:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FE5553A0
+	for <linux-staging@lists.linux.dev>; Thu, 11 Jan 2024 07:06:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="QR6/n0si"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=ozsgV78QtWaa5DByhahm2PsgoXx1vXQSwE+6AXxoL/A=; b=QR6/n0si+nTe74CiAMw2w7N+68
-	39l9Dj41XJQsAUgmPv3If5eJH0InzdOVVOoEEjylegoWi2PJxN0CyEigaK94VZsncemW08HQotDUX
-	xg7TOuZqAVo1QkK+dAvfHjs6YMn3Om9K5uX5XjCKv5olbarfGzuRoPVeRuNp9fI5IVVzXz9NuEue0
-	OrGvfyUKOoEZvgLtfzKxy1BEeH867kXrtjKmJml4H4JILI1GW98hN8366tkc8MYFXB61YxODEzRym
-	pmyxUF4MziAcTjMGScsSjcuMLateat6jyh4ezEeb3Pjx6nhSUwMY+qSqpGpLFMMY43dS/f4Geea0v
-	3Z+uZxWw==;
-Received: from [50.53.46.231] (helo=[192.168.254.15])
-	by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
-	id 1rNTRv-00AfwL-1P;
-	Wed, 10 Jan 2024 07:56:31 +0000
-Message-ID: <9fdcb306-862f-4ad5-a52f-cd70fd21cf05@infradead.org>
-Date: Tue, 9 Jan 2024 23:56:30 -0800
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="T1ymj44M"
+Received: by mail-pf1-f178.google.com with SMTP id d2e1a72fcca58-6d9a795cffbso3679977b3a.0
+        for <linux-staging@lists.linux.dev>; Wed, 10 Jan 2024 23:06:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1704956818; x=1705561618; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=HBLgaRParyslbYcOxEJ95TEGXR6cqF/gTpqxREqx/6g=;
+        b=T1ymj44M37KCC9V5RUL2vxXOm5LqP7bhAKGqxrYyB4JwbYnfE3GiMg2mOnPmZMudV6
+         dJjp4v9nPeucLwKrt0P5fBKH7JV8nAPwyVRt1Oy5za86wVJqecxeBbsAN/Yo71D0lwWY
+         Z2OwKfXFKUyBfkh/rWMpB55t05+9URHBSpTmflMFB+LFUCMKlPIcyqN8QlahNniqLZ3U
+         9/sel+wHVMwxN1tCNkJNeO1QYLMjalw6I28ZZJMF1LbEO3zo1gCt6Q9ABhKa+i6/6jwR
+         KXPwaeLfi8r05PLJD2w3IbkSIv5my8jEFNC+Lh/CBGUGlKFMfcnRREjDDWyLsqF7eu2C
+         9BBQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1704956818; x=1705561618;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=HBLgaRParyslbYcOxEJ95TEGXR6cqF/gTpqxREqx/6g=;
+        b=FHMLBncmNPhoUx7WONkP5rBbzVV9W7ImFn7I2gI21ZHUJRypBKV2pqI66Gx7QWKp8Y
+         1ePXCZ87HRzganRInIyv1qsJcI38vwEXmQ3SW+ojWjdEkXSqMYVXK6jmxKTzxd78xCbp
+         UnaKVoYFU9CZd6g/Ug+M2GivVHkvZ+0vOrYb4WJV5S4Xh6HWkrJttampXqvWZGOEJ8Qq
+         vGlTVWjXl7mdmK85kUVp3siTLH6oW3R7kIyPlHuGNUNDqj6j1moEoEUgX6dkmKk224Hq
+         ow9k7hn8rRsZ53cDsM9WSCwusOOwmuW95N/J0sP4ydD/Gg9k4BBTUgMtoH0nMGpCr6RW
+         1fKw==
+X-Gm-Message-State: AOJu0YzL+AGDPI52uB0z88usKr55nz1uJuDJz5JVFPHu8ZyOro3+sRl3
+	g0caCv62XlSQ25KQwfqKadU=
+X-Google-Smtp-Source: AGHT+IHLg/wvK+cJEuAzXcUSRpvXGXcCEfsgYLiy0xQz+a/8N4iZ35+BwIE4lwxaCTkrMXvwSd2ztg==
+X-Received: by 2002:a05:6a00:cc3:b0:6da:bcea:4cd4 with SMTP id b3-20020a056a000cc300b006dabcea4cd4mr491210pfv.16.1704956818501;
+        Wed, 10 Jan 2024 23:06:58 -0800 (PST)
+Received: from pop-os ([27.4.4.207])
+        by smtp.gmail.com with ESMTPSA id a6-20020aa78e86000000b006cb4fa1174dsm441585pfr.124.2024.01.10.23.06.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 10 Jan 2024 23:06:58 -0800 (PST)
+From: Pranav Athreya <pranavsubbu@gmail.com>
+To: Forest Bond <forest@alittletooquiet.net>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Pranav Athreya <pranavsubbu@gmail.com>
+Subject: [PATCH] staging: vt6655: Remove extra blank lines between code blocks
+Date: Thu, 11 Jan 2024 12:36:52 +0530
+Message-Id: <20240111070652.71717-1-pranavsubbu@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3] staging: vt6655: fix open parentheses alignment
-Content-Language: en-US
-To: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: Matthias Yee <mgyee9@gmail.com>, gregkh@linuxfoundation.org,
- linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-References: <20240110072304.2226-1-mgyee9@gmail.com>
- <e3941caa-7546-415f-be7b-b955cf13aa8b@infradead.org>
- <f22e751e-863a-46a9-8dd6-0ac55f1ad9c8@moroto.mountain>
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <f22e751e-863a-46a9-8dd6-0ac55f1ad9c8@moroto.mountain>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
+Adhere to Linux kernel coding style.
 
+Reported by checkpatch:
 
-On 1/9/24 23:51, Dan Carpenter wrote:
-> On Tue, Jan 09, 2024 at 11:30:17PM -0800, Randy Dunlap wrote:
->>> diff --git a/drivers/staging/vt6655/card.c b/drivers/staging/vt6655/card.c
->>> index 36183f2a64c1..688c870d89bc 100644
->>> --- a/drivers/staging/vt6655/card.c
->>> +++ b/drivers/staging/vt6655/card.c
->>> @@ -81,9 +81,9 @@ static void vt6655_mac_set_bb_type(void __iomem *iobase, u32 mask)
->>>   * Return Value: none
->>>   */
->>>  static void calculate_ofdmr_parameter(unsigned char rate,
->>> -				       u8 bb_type,
->>> -				       unsigned char *tx_rate,
->>> -				       unsigned char *rsv_time)
->>> +				      u8 bb_type,
->>> +				      unsigned char *tx_rate,
->>> +				      unsigned char *rsv_time)
->>>  {
->>>  	switch (rate) {
->>>  	case RATE_6M:
->>
->> Is there any chance that checkpatch is wrong about this warning?
->>
->> I much prefer the alignment as it was before this patch: following lines
->> are aligned with the first parameter after the '('.
->>
-> 
-> It just looks weird in the diff because of the + character at the front
-> and how the tabs work out.  It looks ok in the code.
+drivers/staging/vt6655/rxtx.h:22: CHECK: Please don't use multiple blank lines
 
-Oops, sorry, you are correct. Thanks!
+drivers/staging/vt6655/vt6655_stage.mod.c:38: CHECK: Please don't use multiple blank lines
+^Ignore the blank lines in vt6655_stage.mod.c since *.mod.c files
+are included in .gitignore.
 
+Signed-off-by: Pranav Athreya <pranavsubbu@gmail.com>
+---
+ drivers/staging/vt6655/rxtx.h | 1 -
+ 1 file changed, 1 deletion(-)
+
+diff --git a/drivers/staging/vt6655/rxtx.h b/drivers/staging/vt6655/rxtx.h
+index a67757c9bb5c..be1e5180d57b 100644
+--- a/drivers/staging/vt6655/rxtx.h
++++ b/drivers/staging/vt6655/rxtx.h
+@@ -19,7 +19,6 @@
+ #define DEFAULT_MSDU_LIFETIME_RES_64us	8000 /* 64us */
+ #define DEFAULT_MGN_LIFETIME_RES_64us	125  /* 64us */
+ 
+-
+ /*---------------------  Export Definitions -------------------------*/
+ 
+ /*---------------------  Export Variables  --------------------------*/
 -- 
-#Randy
+2.34.1
+
