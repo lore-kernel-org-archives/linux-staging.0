@@ -1,72 +1,137 @@
-Received: from mail-yb1-f180.google.com (mail-yb1-f180.google.com [209.85.219.180])
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BAC412E4C
-	for <linux-staging@lists.linux.dev>; Thu, 11 Jan 2024 10:08:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98F6E14F75
+	for <linux-staging@lists.linux.dev>; Thu, 11 Jan 2024 11:04:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QjobJTul"
-Received: by mail-yb1-f180.google.com with SMTP id 3f1490d57ef6-dbeda700015so4109772276.2
-        for <linux-staging@lists.linux.dev>; Thu, 11 Jan 2024 02:08:28 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Orf1QRY+"
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-40e5451c13aso23091965e9.2
+        for <linux-staging@lists.linux.dev>; Thu, 11 Jan 2024 03:04:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1704967708; x=1705572508; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Zps4PpI8OaSz9bFumvCqbmdTj+6HsktbWUC2QnoS1I0=;
-        b=QjobJTul2buA06d5VPdE/KST50NZPpSYZtpSJoKlVKy1owjOobYFL5KpddUYY19kL8
-         E1ykMpmHJNd6FSsXujChkBrVGL7zMa2KcUstgovtQxAEhRrG02eiTmJSha77cKZENVLs
-         tQBIhxupOEIdvGJL+wuTnR7T0HoOEkPWjk2kneUZV9LHsHvBr0fLJRlR68hTl3NgrcMF
-         YF3kr6QTs7eTGFewoFdKSqH/GBqaGk4zFYJBs6+dOzZdIG6JAMS1paw11YT+7+fCqdwj
-         FhyVj52jOsqA7K0vvBO+o4Yzn1rSa/FBoDS760P4CMeO+zs3eEt7+9PbxjgrzpEht5gp
-         h+8Q==
+        d=linaro.org; s=google; t=1704971098; x=1705575898; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=oZPGxlrX7BusY7TLHurUJ/YbEgD2UlLPEhETZEeCeag=;
+        b=Orf1QRY+auCvumAgEu0NZdc5bMSkqW2N5k7w0gy8MLFL9E3osYTc6M51ThkpgDoOaz
+         QH0Zji55zu4NfDI6qaQb6j695gBB5ryJlNRor6StPHrkG/4Txk5qEaxlnMYrPja3Mt/D
+         HAlDw4trSCapKxkPpChthlKBXOfno0GcS6ksLHkaZIFWQew7G4ZtW8Gf1gLIX3G9qKVd
+         3I+pjzL1yzlm4ssyaFMTtN6+vd5smUNZlbSztEQt0cIG7IHdVcuoKTWVWj2zDS5c6wJ6
+         +BKctu4e7W+nQU13NFQn1KCqcvSIdQLLtPuI/jcL2RXrQXgOnEMcFgUdLWN0PJLiSmVJ
+         Mkfw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704967708; x=1705572508;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Zps4PpI8OaSz9bFumvCqbmdTj+6HsktbWUC2QnoS1I0=;
-        b=EKohTTvgI1tbMaESJwOPOFEjyURwT/KoGqfUod5aPeJ9/2F3oy+Lz+0tgIS8Xmcs91
-         pFOojvhIgh1BUwbolJsEJ1T4F/AnHq3pYLtM12WsPrpuwx8/wUGAQhmaReaOR1I9y3C+
-         0n8n3r4PoZMVGdgiisVnekWi6To8+LKd+155M0eVWzKctTOrMtv7/zPpM7anT3LYbix+
-         CYLtJbXhVYU91E+sbbkhlJHiZEZU3n+rEuw87T99fsC6tjOJ+pnIVMFUUxpqe/Xn9ff7
-         uwPEQjXzxRk4zTGT7+yL1IFYiquHjcVD9vXDwd5ND3aK0a9SUc1U6SKbjuhd0+0HcqOY
-         nThw==
-X-Gm-Message-State: AOJu0YzP8f9QH0QE83a8SesmUOTzNS/6628nbPY5PKV/YXlapV0fDny7
-	di7ChEKmM0TIkVBLuFEyWgFG9aV1zRHP1RVV72s=
-X-Google-Smtp-Source: AGHT+IEc6EgqOT3zTVEg2np101S995ycMLJ/8Szd+uMjyBhwO9sz6YXT+p1w2VTbeLW3f1iFxgsVuKsew3azO7AfTt4=
-X-Received: by 2002:a05:6902:4f1:b0:dbe:a6da:204d with SMTP id
- w17-20020a05690204f100b00dbea6da204dmr882032ybs.81.1704967708072; Thu, 11 Jan
- 2024 02:08:28 -0800 (PST)
+        d=1e100.net; s=20230601; t=1704971098; x=1705575898;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=oZPGxlrX7BusY7TLHurUJ/YbEgD2UlLPEhETZEeCeag=;
+        b=D2xoEiD0tc5R/NJp6o9/8LV6+Zdy1S8XzSu8/SC8eunZ3uXYUMcYcIecckdCtnY33y
+         znYZ9x2Zn6OmVy4Lu+LZBs8fjj+I4B2sKPrJiPBP3pqb/mGJgoSDv2pbfIia3T850Cnv
+         XgLs2mYFfKUKwyCeHLRsO1Rb7ereFXerT1v3oKk5ggHMAEE+z+lmEAVbXgprjofOKiJx
+         v7PoOqMJ/1qx9ktbBHKW/x7xBGYoNvH/WZBYHxthDJy/J1zeWMU/d/VoEFsAUBPEljgt
+         XMNJpC3zchxGPRb+D4SGH/PV3L9kRSuTxLNdndmxF2l8HXnJEs7bLsuTdXIgr/apAdNU
+         hH5Q==
+X-Gm-Message-State: AOJu0YyJiZowHwN9qXgRZZO+VDNdbLBEVMUSt4aNvnlDTClKt7ry6dmz
+	MlUx6nk/tCe/WD4Ui+n7RXuw5Z9o9oRfog==
+X-Google-Smtp-Source: AGHT+IF+XcaiCo8+aQz2iSRmrWzgdeHikwQTjy/cUNypVTY3l3kaz+y01SDv2jBQK/KU5ySGz3o/MQ==
+X-Received: by 2002:a05:600c:4e8c:b0:40d:39d0:9916 with SMTP id f12-20020a05600c4e8c00b0040d39d09916mr228182wmq.246.1704971097287;
+        Thu, 11 Jan 2024 03:04:57 -0800 (PST)
+Received: from localhost ([102.140.209.237])
+        by smtp.gmail.com with ESMTPSA id o8-20020a05600c510800b0040e624995f1sm265160wms.8.2024.01.11.03.04.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 11 Jan 2024 03:04:57 -0800 (PST)
+Date: Thu, 11 Jan 2024 14:04:53 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Changhuang Liang <changhuang.liang@starfivetech.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+	Ming Qian <ming.qian@nxp.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+	Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+	Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
+	Mingjia Zhang <mingjia.zhang@mediatek.com>,
+	Jack Zhu <jack.zhu@starfivetech.com>, linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
+Subject: Re: [PATCH v2 08/13] staging: media: starfive: Add for StarFive ISP
+ 3A SC
+Message-ID: <a761d936-4f46-41c8-b6f8-c1761eddd42f@moroto.mountain>
+References: <20240111084120.16685-1-changhuang.liang@starfivetech.com>
+ <20240111084120.16685-9-changhuang.liang@starfivetech.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20240111070652.71717-1-pranavsubbu@gmail.com> <2024011144-silica-viral-9e79@gregkh>
- <CAP1Lp88vEZJtd69Njf9uZ5VXypwZ-5vLdBHf2xoLSpqmeyEQiA@mail.gmail.com>
- <CAP1Lp8-CP-uELVam=18oADOEvL_13wXkTyDLHKbjQe1ZyxiG9g@mail.gmail.com> <2024011144-sinister-baking-952d@gregkh>
-In-Reply-To: <2024011144-sinister-baking-952d@gregkh>
-From: Pranav Athreya <pranavsubbu@gmail.com>
-Date: Thu, 11 Jan 2024 15:38:16 +0530
-Message-ID: <CAP1Lp89zshQW_s0eLJjekr5tyc3XLaPnh2VGFrNDHTA7GT51ZQ@mail.gmail.com>
-Subject: Re: [PATCH] staging: vt6655: Remove extra blank lines between code blocks
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Forest Bond <forest@alittletooquiet.net>, linux-staging@lists.linux.dev, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240111084120.16685-9-changhuang.liang@starfivetech.com>
 
-On Thu, Jan 11, 2024 at 2:57=E2=80=AFPM Greg Kroah-Hartman
-<gregkh@linuxfoundation.org> wrote:
-> Yes, please read the kernel documentation for how to submit a new
-> version of a patch.
+On Thu, Jan 11, 2024 at 12:41:15AM -0800, Changhuang Liang wrote:
+> Register ISP 3A "capture_scd" video device to receive statistics
+> collection data.
+> 
+> Signed-off-by: Changhuang Liang <changhuang.liang@starfivetech.com>
+> ---
+>  .../staging/media/starfive/camss/stf-buffer.h |   1 +
+>  .../staging/media/starfive/camss/stf-camss.c  |   8 +
+>  .../media/starfive/camss/stf-capture.c        |  21 ++-
+>  .../media/starfive/camss/stf-isp-hw-ops.c     |  66 ++++++++
+>  .../staging/media/starfive/camss/stf-isp.h    |  23 +++
+>  .../staging/media/starfive/camss/stf-video.c  | 143 +++++++++++++++++-
+>  .../staging/media/starfive/camss/stf-video.h  |   1 +
+>  7 files changed, 254 insertions(+), 9 deletions(-)
+> 
+> diff --git a/drivers/staging/media/starfive/camss/stf-buffer.h b/drivers/staging/media/starfive/camss/stf-buffer.h
+> index 9d1670fb05ed..727d00617448 100644
+> --- a/drivers/staging/media/starfive/camss/stf-buffer.h
+> +++ b/drivers/staging/media/starfive/camss/stf-buffer.h
+> @@ -23,6 +23,7 @@ enum stf_v_state {
+>  struct stfcamss_buffer {
+>  	struct vb2_v4l2_buffer vb;
+>  	dma_addr_t addr[2];
+> +	void *vaddr;
+>  	struct list_head queue;
+>  };
+>  
+> diff --git a/drivers/staging/media/starfive/camss/stf-camss.c b/drivers/staging/media/starfive/camss/stf-camss.c
+> index a587f860101a..3175d0d9a05c 100644
+> --- a/drivers/staging/media/starfive/camss/stf-camss.c
+> +++ b/drivers/staging/media/starfive/camss/stf-camss.c
+> @@ -126,6 +126,7 @@ static int stfcamss_of_parse_ports(struct stfcamss *stfcamss)
+>  static int stfcamss_register_devs(struct stfcamss *stfcamss)
+>  {
+>  	struct stf_capture *cap_yuv = &stfcamss->captures[STF_CAPTURE_YUV];
+> +	struct stf_capture *cap_scd = &stfcamss->captures[STF_CAPTURE_SCD];
+>  	struct stf_isp_dev *isp_dev = &stfcamss->isp_dev;
+>  	int ret;
+>  
+> @@ -150,6 +151,13 @@ static int stfcamss_register_devs(struct stfcamss *stfcamss)
+>  
+>  	cap_yuv->video.source_subdev = &isp_dev->subdev;
+>  
+> +	ret = media_create_pad_link(&isp_dev->subdev.entity, STF_ISP_PAD_SRC_SCD,
+> +				    &cap_scd->video.vdev.entity, 0, 0);
+> +	if (ret)
+> +		goto err_cap_unregister;
+> +
 
-Reading the docs now and will send the patch right after. My sincere
-apologies for the top posting.
+Don't we need to do something like
 
-Yours Sincerely,
+	media_entity_remove_links(&cap_yuv->video.vdev.entity);
 
-Pranav.
+as part of the cleanup?  Also where do we clean up this new call to
+media_create_pad_link() in the unregister process?
+
+> +	cap_scd->video.source_subdev = &isp_dev->subdev;
+> +
+>  	return ret;
+>  
+>  err_cap_unregister:
+
+regards,
+dan carpenter
