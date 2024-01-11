@@ -1,17 +1,17 @@
-Received: from CHN02-BJS-obe.outbound.protection.partner.outlook.cn (mail-bjschn02on2052.outbound.protection.partner.outlook.cn [139.219.17.52])
+Received: from CHN02-BJS-obe.outbound.protection.partner.outlook.cn (mail-bjschn02on2076.outbound.protection.partner.outlook.cn [139.219.17.76])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73171EAFA
-	for <linux-staging@lists.linux.dev>; Thu, 11 Jan 2024 08:41:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69C03F9EA
+	for <linux-staging@lists.linux.dev>; Thu, 11 Jan 2024 08:41:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=starfivetech.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=starfivetech.com
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=kVKfsXypWpy5ShaBPLcA1yXUEIrpetn8UQCG7u3huAUcw/Ut0LQEDNsDU786Khi73V8zElioP7PgBTCecw6LW3pOyQiEO20xY/IrBdXf6M+ASSNLeKp482A6K4UapOocbuu6d+c/eSnaG7ujs8qILqWqqZzhk00yzzn0WSX/+NQYu5T56m4ZcQBhFF8SMo3pplNllVh4iOeee+dB/Plb+/Er6be8WYTW4pOvRckO8kpZ81N0otTaUbFSN8oyR1LeKwtd/2UPIGRxJpaZ3cDG7e7OUMam2y6+PumD+I0kz6lNiMjn/b2FcQ4GUi2AA6FApEwM5Ewk1D6/Z8whsI97pA==
+ b=fIxeOipYEthRXY4VNYER2SdrT8spMDhUbVfT+mwFE2DsJdHCKMv84f5+tU3GBppEY5+n4QoFyzkciyIHT8DNuicELelNdg11hS7bOC/GOHi/S7tBmXXauOD23rV1BS8LPaaK3Devjri5xu15+K2WwqzkvuoOL2geZ0pAF+sZ2Qz++hM7Au2MOEKxa45qSUh0E++EfRtCqkM8DpkB9VNgtn4EhiIKMpvykF1m4ZIIWdxxQpkjVRNr6gx4CYf3/MGarfn7gDnEPXB/MoPRcj7UVNTho518YXX+Lj1JidckuwTEGL70MQ4Gy8m2RlKpAy03HaQ6aJtbJ30sqaDnkaQIPw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=IpYS+v+cBn1HqDAmhXTHJL+v2aLemV00fes8PvGvKzM=;
- b=hO/Y3TDh+Xl+83aqrrnnaakq+b2XZrech0AO0HNJg8/ys9JCH5RY7MBOFMUBQc7+D5cFZ6kTKMX3WRXMGpd+kyo/sK+KrSlc9lPOi1tGBhbqNd9HnWA0BSGxYd4yaQ1hQuA6BsZ53ZJbcdLY+LRooJBIcHDG+1Y+r1xZJaddUcWJpGOcYSVHMNij02ZTD0AH/CqMQvRHRNGpJJQyPYWdLv4ypvGcAKVffZmJ0WsT5mqp5nF5l7zej7jjOwRe9dWqkF+v8lazIBLWQg5XNEkRtZAeGzcl7CN13cCdpYvaU/+SXGsDau+vfSo75VDqhjErAUfwsn6ZP05GGAWekkOWVg==
+ bh=tpOFUQrZW8GSQTbW3FIMAhf3C7AGEcEZyiE+jejurPc=;
+ b=ChtAX8/hG7mft9bC8R0UOLo8tZd3JQhymB9F4Srx5a2MTUcBziMhXylIc1tbwznM4mVSxmm/7lk0tnCQqc3u+Tol+Wu/pU9OeJI4/jNqEmIzHtbcXllCWZhOPY79JaWADApKBrqNZZTHf+KNKVLjNjjS6UEZR+XkwdKrFiv9sepOjEeSAJq6OH+rFOhKqONm/M6JAVMoo4BJlf+IM8LjwnjtB+HRnXfHyMbschPSHSvA3evizO4b0jAYK7s3SJyc8ldEuCOHVqscYcbUZswnIOIFIiU5uYFANa231je7NKwkRPuIo7EndzNl6PW85woHhacuadBBmkYpxECGWXleKA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=starfivetech.com; dmarc=pass action=none
  header.from=starfivetech.com; dkim=pass header.d=starfivetech.com; arc=none
@@ -21,11 +21,11 @@ Received: from SH0PR01MB0667.CHNPR01.prod.partner.outlook.cn
  (2406:e500:c311:20::21) by SH0PR01MB0747.CHNPR01.prod.partner.outlook.cn
  (2406:e500:c311:21::11) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7135.33; Thu, 11 Jan
- 2024 08:41:36 +0000
+ 2024 08:41:38 +0000
 Received: from SH0PR01MB0667.CHNPR01.prod.partner.outlook.cn
  ([fe80::e255:98f3:ba27:8c7d]) by
  SH0PR01MB0667.CHNPR01.prod.partner.outlook.cn ([fe80::e255:98f3:ba27:8c7d%3])
- with mapi id 15.20.7135.033; Thu, 11 Jan 2024 08:41:36 +0000
+ with mapi id 15.20.7135.033; Thu, 11 Jan 2024 08:41:38 +0000
 From: Changhuang Liang <changhuang.liang@starfivetech.com>
 To: Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -42,9 +42,9 @@ Cc: Jack Zhu <jack.zhu@starfivetech.com>,
 	linux-media@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	linux-staging@lists.linux.dev
-Subject: [PATCH v2 10/13] staging: media: starfive: Add V4L2_CAP_IO_MC capability
-Date: Thu, 11 Jan 2024 00:41:17 -0800
-Message-Id: <20240111084120.16685-11-changhuang.liang@starfivetech.com>
+Subject: [PATCH v2 13/13] admin-guide: media: Update documents for StarFive Camera Subsystem
+Date: Thu, 11 Jan 2024 00:41:20 -0800
+Message-Id: <20240111084120.16685-14-changhuang.liang@starfivetech.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20240111084120.16685-1-changhuang.liang@starfivetech.com>
 References: <20240111084120.16685-1-changhuang.liang@starfivetech.com>
@@ -61,76 +61,122 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: SH0PR01MB0667:EE_|SH0PR01MB0747:EE_
-X-MS-Office365-Filtering-Correlation-Id: 060f83a9-a4dc-4d7b-7996-08dc12811eff
+X-MS-Office365-Filtering-Correlation-Id: 4adeefe5-fffa-4d7c-884f-08dc1281207a
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
 X-Microsoft-Antispam-Message-Info:
-	YcGJbMGfN5k4Zf+exk08/BZCrNKc3+FZ37P+G/TFvFS8NUQqu60o9DXX6CjDDfTkpgzVlvIzJw2GkGjnKwx+/ZkxM1e4NQBOd0ahEwTrosVjQWusF5Na94uErrDFT3xyoMgMQtI8J2Jb1UpK03HaZRkuRpUpo8CxiEjAY4pJIUy6iyuL8CUF4mjvpd+o8owjkdouljnXxy4QI8GWnAYSANKJbcVkv1wBfR1xQ/JaQVAgQX95AynOqdb/i1qR57noKdAIVyIW4v/MEpteTivWu9H9rUKIAo6ewazkYx0JAim7qrS0nOH1IedixKQZB1CIfB71i46/LT6gZaIqVHZOaMvx6l/rzkxkyl1tsgQhNkcU9tYPF7YPh0pHoRaQ9niNFZk5J1EpKl/v7h5pgvM9aPd81YeCUml/w3B7pgKM2bk0kTeNvpLRh13zRj/3i24Ew6HMc3KcwRctXQwWiyMn5ruInRyPDs781U0ZnjIC0zqW8nCxyiC/fr9s7jLxYwBuZHRJfC6kxo6ApLLINWX3nF775ygQxuti2hXMOp2NpJie3aAu2sFvRTyOUuzuGoZ4ZCGhj5JbiFhouuT/kNJIDg==
+	s9vPfPawBswxprqsK+nmVRHIKN9qLyoAoEibmBgh4kcjdqesmdPpytKVoxSqrdKIpuNCb0KjQ8wwTp/cKrQi55is87JZ3T7+Y7AHRyQg2mkqUKsJPuBHH5Fo7f7uQ1l+STAhYiqfbwR4ffjLmhr+UWYoJDVhC23mPm3jUvBj57gP/ZyWuw1pildkvs8Ns2qFV/qSbU+IdlHCxe8kxGb9bv2LiYmtUqQQRH9rp8xvBF0mxc+VNMSNgwDc69f8dsunsdhiuBHFVAHO6KMxEOr/PvQAG1mehU/rQvKPTrYk7GY7wp0UAp6O6FS05BqZnlnb1C6JMsAVVn5jfkQgd1LrcIwa7D+zjBvxwDFujlbtWaADrL9O3cRIYU8tz2sjYMJaVe33my4EY4AD5icDhd06B3Sc5MWNXQk/HOEs1lvZfUDldOct+1QzpzQVOI3/5I1cAE1umWYt6Ng+3HguHYnf5sr2sAYbkAXxTa0FlQWsxZkUvo/JmgGpczl9w8dwQ6Vxhu0C/Eq8xd3p/hfwtAXY7Z9upj0Qix13GJZr6ckwOj7IsERUuycKyWvTsCYlBkBJjiEAPq3zYoXBAz/4Z9Z52Q==
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SH0PR01MB0667.CHNPR01.prod.partner.outlook.cn;PTR:;CAT:NONE;SFS:(13230031)(396003)(366004)(346002)(136003)(39830400003)(230922051799003)(186009)(1800799012)(451199024)(64100799003)(6666004)(52116002)(41300700001)(2616005)(508600001)(38100700002)(40160700002)(1076003)(26005)(86362001)(36756003)(921011)(38350700005)(83380400001)(110136005)(54906003)(66556008)(66946007)(66476007)(8676002)(8936002)(41320700001)(4326008)(44832011)(2906002)(40180700001)(5660300002)(4744005)(7416002);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SH0PR01MB0667.CHNPR01.prod.partner.outlook.cn;PTR:;CAT:NONE;SFS:(13230031)(396003)(366004)(346002)(136003)(39830400003)(230922051799003)(186009)(1800799012)(451199024)(64100799003)(6666004)(52116002)(41300700001)(2616005)(508600001)(38100700002)(40160700002)(1076003)(26005)(86362001)(36756003)(921011)(38350700005)(83380400001)(110136005)(54906003)(66556008)(66946007)(66476007)(8676002)(8936002)(41320700001)(4326008)(44832011)(2906002)(40180700001)(5660300002)(7416002);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?WBF96B5Er/5ZrSz3zsGKBWbadtFzp71CA8pUD3WCHmUjOmghW3+ICeGPXzps?=
- =?us-ascii?Q?bJmt7vdmETcs19w27SidT7yIjhWU3HbraYKo+4qFWas1qPbeNji8LOgNgXPl?=
- =?us-ascii?Q?nr+J2O3HNKGmurtMFcH88P1SpKlZvBMNIYo3wxIK1rgPP0jgPkemmvavzM0Z?=
- =?us-ascii?Q?DvLJSlwp9s4CfgGg6S2gtHIgVTSiIxLQx+0c8eVzBlAthQ5IYC4yqsK8egur?=
- =?us-ascii?Q?oE3DTfvIGqkZTkFxRuldOBZJAp2pGFdJSVGTPZnJLMBuF6KpZdpR95X9O+1r?=
- =?us-ascii?Q?6wWvMqGogYDc58O4uxaS8aDYxjm8fIHok1z4OnXiDCdSkXfcYi6dEHf3AVfL?=
- =?us-ascii?Q?oB3rHaNa+keMMEj9dgNmTQ3C32gVGgyjbuScaXJQaC78jfpGD0I/CD9Wwti5?=
- =?us-ascii?Q?PytqWEFtz1WSc446AT0/n6JNxrsndkHWb0xSyUcW3ORhbV01Lyx9RL52O4Fs?=
- =?us-ascii?Q?ewxBAbEMx61vDfK/8fE40Vf7cEYlv4UVQprd27LUdfoKwlXry3BdOIJmH/dO?=
- =?us-ascii?Q?1GloWJH3YUwrnkzUAJcYdiBrbWlZWiO/+vANgPD/mjIqFtkvwxFY3RbpMXOr?=
- =?us-ascii?Q?XxPNNDXGxOuwcQZrUf9o8r7+xQLCYTQg9LEgxdRmt5s5GeJfgEugv6loumtZ?=
- =?us-ascii?Q?xYuXnKeSAV4Dp5gxxRCT/xW6bo4fhCf/TZfkT6oZndoNeta9ezHnBp2rlJdj?=
- =?us-ascii?Q?C3FzOpYjuEQQcuoEjN11ttBGvSy18RIuZ4ZCi/DbA2HuX3ePr7X7P9/X4Qd/?=
- =?us-ascii?Q?jFW6ovXIu/qb8pT3QmwTjAZ/wiq/cFh5S1VH500Rt3cULQVwwGm/vNZslvA3?=
- =?us-ascii?Q?fB68KGYb+o5JddwfO5299Rn8zBZUku0sfW5RD5oWGG9f3QWfl/uWG3KapgrJ?=
- =?us-ascii?Q?GLv9LYO6lyAxBwGT0ri/U6H2yg/Ad8xVBi5Rk7dXRctJILTztsgzKIQu26Ns?=
- =?us-ascii?Q?0aSx712Vv+zKq0glj5MkbdPo907Nlj4+R3ovH1p3t7/foCWNwJfX+a1Me5Lx?=
- =?us-ascii?Q?GfiRC4bh+ExQ8MNaSbY8tVEE3KxuC2/fRjgcMUKp58bNAZCl4yVnWellv42t?=
- =?us-ascii?Q?3VM8ccMkGWVFO8aq8j5EMe3NVE93OwnIIAFiOkrAVWTkiRYB3DeLJSG1gWvg?=
- =?us-ascii?Q?c5iNJsobBx4GcI7Ud9dGL/hT4nppkwOcNL1vdOB3oS8JDRsYEKMf/kyixwsu?=
- =?us-ascii?Q?FTR2hptHrdH+V5tFohVbwUS3mTUKY8fkKGSSk6/JyoWnCs5qOex3MVc5jdVA?=
- =?us-ascii?Q?Hhov9v/6x/8rGKof7sEQA/oMQnCkjY0nKh2XZ9XYyPriB5mEYtndbVDMdCh7?=
- =?us-ascii?Q?TeLPHj5U1Ql6Pf5cHd32udMTbXe0/AWfewhKTRQjMcfP466fbmLOKKC0F+w2?=
- =?us-ascii?Q?5BzKMvoL1nJJAkRyxaOqiqTRXl7oxoQki9UMfxb33zw5+Bopl4bRrChP4+GH?=
- =?us-ascii?Q?oVZ3ROJj730JzPR95GrkoVYXJcWPGlLU7F8ccDC1NFz07NU2GVnNs2Xx7DKn?=
- =?us-ascii?Q?f5mzgG4JHHPECCDFkqTpGuCZ71LaSOlEF3g84sHevmIDUMgNXlft9bl8P+7H?=
- =?us-ascii?Q?OPl7kJIIVv1ZNrBOWmJuQkAAVSCWymzAsXWNxXRTLWEue2VBxocx8kgpKJrQ?=
- =?us-ascii?Q?W5fEfmXkYpwZUE1GKYoJwU4=3D?=
+	=?us-ascii?Q?UfbBV4WjX1MUy8Gss0IqLtkjxJbwiBDkrLzJmanWA+UmwmnQp9f6VcO5e4SQ?=
+ =?us-ascii?Q?mcM52jelNzUVX1aEA/h+g2qtHLoP1qof0jaf/l4VLYqrlsK3BO9jpJzbHGN1?=
+ =?us-ascii?Q?2n3LjO2e7KOZqVmd+1RwmU2jcEtBKUNTKgN79y2LvgqCuqw4DdHeJeym86+N?=
+ =?us-ascii?Q?uORR0PZmmW9CkR7UgboovVu7YjW+trzDrL5ueSi4J6zga1UgPGfTqrp4J7nS?=
+ =?us-ascii?Q?9SsnnSKZlduXo8q3Nkw5X2Q6aCfk1lZFKODFn98xtUOMzgXXRuZejgwlnyA5?=
+ =?us-ascii?Q?QV9iGNe0vgwqSMwtXH9P40YURgOX4y/PROlul9JlD5VRb6/A4tcpKGqlj6Oc?=
+ =?us-ascii?Q?UYIUQ85k53Px/SmVWGZS7aAN+N4VxV7DZsY9AAvpTBZxEaWk4wADSZW5mYjF?=
+ =?us-ascii?Q?HQ0uYSeV/azRUsqtwl7rG4a3+0Jyid7OdrXbeavHALxTHAshvaTGkPqxMzjD?=
+ =?us-ascii?Q?megN8gX5fkIrnVD9sGWgUXOb0ZrleWFFYJlFENIL83i5oM2jlH1tzhRofy9f?=
+ =?us-ascii?Q?qZP6ZWGwAdIpD/Rpof0NCD+UMkjh0+RwmvWfcqqOXGRtQaohOLEjnlxPnFHU?=
+ =?us-ascii?Q?2DU39Iy6EgQHxd9EwnOhFzo2A56YuKsLu7kVj4YVDpF0K+d0AxldxZhAY00v?=
+ =?us-ascii?Q?wlQHrNVJSO0CyHGLN3VcpFpdq21ol7OkXhFk6JrxvT65e6mD3q8BZVEKQqOj?=
+ =?us-ascii?Q?f/tX1A05l8hib/79mozdgc8Y09y6lNUrAhiH81HXrfywWBvJwQLkSJwDnSz7?=
+ =?us-ascii?Q?wDP16epO4NHXNEF/uLkKyl1zi/9azg5FymYV3RXau+FSotDk1HO/J4azaRn4?=
+ =?us-ascii?Q?VdA/KkVIFc0j7WcXNwdxGdc/xNQCWGxX3fCyOlp7OC9j+a5QoMwMdE/AtpHj?=
+ =?us-ascii?Q?iQRWOqgmGvOEn3aMggIVZ/tHuuluO+FvzqkwR9kMsVq6uot0zaQSApOC2MyH?=
+ =?us-ascii?Q?bScmZmgNv2Rt/JcoGejuAemXyKdMBtauqz/ta2w7bv3e0jdFFSEVkqTj9JE1?=
+ =?us-ascii?Q?rZACQwPzz2N39xx77jhthZj+IyVZCfmYAKxcrUMqj+8kgBt9uuxE/Jr2q2IR?=
+ =?us-ascii?Q?9k8Vz0H/cpcKUmaMoLyEbGMp87nwqCBOBRG8nq25vhmRCGQoU6n9NEd2hFwv?=
+ =?us-ascii?Q?KJw/+zd+tsKb///ynjjaU0wjYPeoybqbVxBAb0G/zrOUikKLTCfxPluEUTwR?=
+ =?us-ascii?Q?vj1iDhrsnmSn7hrk0zcL0nPNaBn9pdvw0JXBP+b26S6DPPCBNbdNrWCdi8ux?=
+ =?us-ascii?Q?hFIQRgxCTCHBhN50IMx3WPZWOb3O4xV03IcsyXsgbBbaXyZYIyHd2edjoK98?=
+ =?us-ascii?Q?ecakCkkvXE8b64FbTGwa+X2EE+s0EL+q7tdS6xJofhssN2FLmac5jPXR1mP+?=
+ =?us-ascii?Q?Rr0qlhUCl+suBeNj7cVvVjMXh/Q13p4FOI9t/ZM6PuQ6VjHfCIPhBam3YEl9?=
+ =?us-ascii?Q?6RJA1JgR+8I/32szJZsKkSUc8JZSs9F95rzPhMB+hTKl8vg5y3JItjn+4UuX?=
+ =?us-ascii?Q?hgPdrIeYZiJC/y7XXufH89hMjr+BTM2kWk+1lY2ZD/8e5cMPDTdIRMD3qwDW?=
+ =?us-ascii?Q?gZUw37l/qhkj3HUSL+qGmX1qIkyvCoWT2FrW9GNOMOovQKC8PsAfC4AaIq2P?=
+ =?us-ascii?Q?37ZnH5/ZuRDm90hvwqDcxCM=3D?=
 X-OriginatorOrg: starfivetech.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 060f83a9-a4dc-4d7b-7996-08dc12811eff
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4adeefe5-fffa-4d7c-884f-08dc1281207a
 X-MS-Exchange-CrossTenant-AuthSource: SH0PR01MB0667.CHNPR01.prod.partner.outlook.cn
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Jan 2024 08:41:36.1161
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Jan 2024 08:41:38.6081
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 06fe3fa3-1221-43d3-861b-5a4ee687a85c
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: OuA4lj49L9ve69LVy7UdgJtnDDYfLLp+0oUz7AAV6JsnUUIAnfEJb3FvtnJ7aYixozm4ASnBts4bzp7HmBdbLpq6kPqr7kCJn0uPZ3PNLufxd5PouBXmiRz/8uwqrOSa
+X-MS-Exchange-CrossTenant-UserPrincipalName: fDqW2SKFUzz/7OTyOhbeYbu+cyA726nbYdZeRVvIBJ4oiMiLiOsSW1gFM6UCRvKJSh/o1CeIblTJEck3ZR9Svh2aer7r9DsbsoGdaJMawQ6DMg2o3sImdZD19li3tAyx
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: SH0PR01MB0747
 
-Add V4L2_CAP_IO_MC capabality for video device. User space can enumerate
-formats by mbus code.
+Add ISP output parameters and 3A statistisc collection data video
+device for documents.
 
 Signed-off-by: Changhuang Liang <changhuang.liang@starfivetech.com>
 ---
- drivers/staging/media/starfive/camss/stf-video.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ .../admin-guide/media/starfive_camss.rst      | 11 +++++++---
+ .../media/starfive_camss_graph.dot            | 22 +++++++++++--------
+ 2 files changed, 21 insertions(+), 12 deletions(-)
 
-diff --git a/drivers/staging/media/starfive/camss/stf-video.c b/drivers/staging/media/starfive/camss/stf-video.c
-index d9e51d4e2004..4ca889a7b757 100644
---- a/drivers/staging/media/starfive/camss/stf-video.c
-+++ b/drivers/staging/media/starfive/camss/stf-video.c
-@@ -665,7 +665,7 @@ int stf_video_register(struct stfcamss_video *video,
- 	}
+diff --git a/Documentation/admin-guide/media/starfive_camss.rst b/Documentation/admin-guide/media/starfive_camss.rst
+index ca42e9447c47..020f1969e67f 100644
+--- a/Documentation/admin-guide/media/starfive_camss.rst
++++ b/Documentation/admin-guide/media/starfive_camss.rst
+@@ -58,15 +58,20 @@ The media controller pipeline graph is as follows:
+     :alt:   starfive_camss_graph.dot
+     :align: center
  
- 	vdev->fops = &stf_vid_fops;
--	vdev->device_caps |= V4L2_CAP_STREAMING;
-+	vdev->device_caps |= V4L2_CAP_STREAMING | V4L2_CAP_IO_MC;
- 	vdev->entity.ops = &stf_media_ops;
- 	vdev->vfl_dir = VFL_DIR_RX;
- 	vdev->release = stf_video_release;
+-The driver has 2 video devices:
++The driver has 4 video devices:
+ 
++- output_params: The meta output device, transmitting the parameters to ISP
++  module.
+ - capture_raw: The capture device, capturing image data directly from a sensor.
+ - capture_yuv: The capture device, capturing YUV frame data processed by the
+-  ISP module
++  ISP module.
++- capture_scd: The meta capture device, capturing 3A statistics collection data
++  processed by the ISP module.
+ 
+ The driver has 3 subdevices:
+ 
+-- stf_isp: is responsible for all the isp operations, outputs YUV frames.
++- stf_isp: is responsible for all the isp operations, outputs YUV frames
++  and 3A statistics collection data.
+ - cdns_csi2rx: a CSI-2 bridge supporting up to 4 CSI lanes in input, and 4
+   different pixel streams in output.
+ - imx219: an image sensor, image data is sent through MIPI CSI-2.
+diff --git a/Documentation/admin-guide/media/starfive_camss_graph.dot b/Documentation/admin-guide/media/starfive_camss_graph.dot
+index 8eff1f161ac7..7961255d3ad6 100644
+--- a/Documentation/admin-guide/media/starfive_camss_graph.dot
++++ b/Documentation/admin-guide/media/starfive_camss_graph.dot
+@@ -1,12 +1,16 @@
+ digraph board {
+ 	rankdir=TB
+-	n00000001 [label="{{<port0> 0} | stf_isp\n/dev/v4l-subdev0 | {<port1> 1}}", shape=Mrecord, style=filled, fillcolor=green]
+-	n00000001:port1 -> n00000008 [style=dashed]
+-	n00000004 [label="capture_raw\n/dev/video0", shape=box, style=filled, fillcolor=yellow]
+-	n00000008 [label="capture_yuv\n/dev/video1", shape=box, style=filled, fillcolor=yellow]
+-	n0000000e [label="{{<port0> 0} | cdns_csi2rx.19800000.csi-bridge\n | {<port1> 1 | <port2> 2 | <port3> 3 | <port4> 4}}", shape=Mrecord, style=filled, fillcolor=green]
+-	n0000000e:port1 -> n00000001:port0 [style=dashed]
+-	n0000000e:port1 -> n00000004 [style=dashed]
+-	n00000018 [label="{{} | imx219 6-0010\n/dev/v4l-subdev1 | {<port0> 0}}", shape=Mrecord, style=filled, fillcolor=green]
+-	n00000018:port0 -> n0000000e:port0 [style=bold]
++	n00000001 [label="{{<port0> 0 | <port1> 1} | stf_isp\n/dev/v4l-subdev0 | {<port2> 2 | <port3> 3}}", shape=Mrecord, style=filled, fillcolor=green]
++	n00000001:port2 -> n0000000e
++	n00000001:port3 -> n00000012 [style=dashed]
++	n00000006 [label="output_params\n/dev/video0", shape=box, style=filled, fillcolor=yellow]
++	n00000006 -> n00000001:port1 [style=dashed]
++	n0000000a [label="capture_raw\n/dev/video1", shape=box, style=filled, fillcolor=yellow]
++	n0000000e [label="capture_yuv\n/dev/video2", shape=box, style=filled, fillcolor=yellow]
++	n00000012 [label="capture_scd\n/dev/video3", shape=box, style=filled, fillcolor=yellow]
++	n0000001c [label="{{<port0> 0} | cdns_csi2rx.19800000.csi-bridge\n/dev/v4l-subdev1 | {<port1> 1 | <port2> 2 | <port3> 3 | <port4> 4}}", shape=Mrecord, style=filled, fillcolor=green]
++	n0000001c:port1 -> n00000001:port0 [style=dashed]
++	n0000001c:port1 -> n0000000a [style=dashed]
++	n00000026 [label="{{} | imx219 6-0010\n/dev/v4l-subdev2 | {<port0> 0}}", shape=Mrecord, style=filled, fillcolor=green]
++	n00000026:port0 -> n0000001c:port0 [style=bold]
+ }
 -- 
 2.25.1
 
