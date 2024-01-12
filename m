@@ -1,88 +1,93 @@
-Received: from mail-oo1-f48.google.com (mail-oo1-f48.google.com [209.85.161.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF5E35B5B2
-	for <linux-staging@lists.linux.dev>; Fri, 12 Jan 2024 04:52:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LDxskjJs"
-Received: by mail-oo1-f48.google.com with SMTP id 006d021491bc7-5989e464910so1295691eaf.0
-        for <linux-staging@lists.linux.dev>; Thu, 11 Jan 2024 20:52:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1705035167; x=1705639967; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=SMzzmG1PU01z52zMYQ4mz/0VyGI2Cib5puWp6/ySFDQ=;
-        b=LDxskjJskfi3uiqqpM5Pzf+3aX3Y4TMMZpWIMZvk4T1QvGsS5PWLotYVSVYqo4iNEN
-         2f1lTfK6+kECzJ/aKNryvQfyJ20HLDJO9OAZUwTaxlpfIMIMXOZla37ccRns6ta6ghkP
-         BtjdZ2JFS7Fh5FgZza9YKJapAMtW7vgqrqnFLY2ewDLwB6jM2/4YX+TKR4WvJWRayxk6
-         G63hITQ/wkCOcC1jwCgVwjvpOuzmTgHbcS+MEKHaS6hWJcvytzT+qGUVsxBILrubx5wf
-         4Ous3WdTAB2dN4u9WxMNmxrAOPpgYU8xNogZfYEYTwGWN4rM02CjzY87GzTbkjHZ02Jw
-         gSIg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1705035167; x=1705639967;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=SMzzmG1PU01z52zMYQ4mz/0VyGI2Cib5puWp6/ySFDQ=;
-        b=sMwW5Pmz3YOFsBLtcccN7S02C7PClYl/G/ZriFj/68ho+ikAy1O+BCp+ehCR9KVWUv
-         TsBiUkmF4ASBzkVauw7bUs1VYCwgBrQJ2+j2uybaMgWmF50YkNHintYr+TJ2vJ/Y5E/A
-         zalHVHLJ3ADOXKBXk6iEbozjaiBknHF3ircvpp59TrACkLOIjCPi8naww30rQZfHDeIW
-         nu14X215gsMnRpkhlgmVBRVMHnvQ93Xkm5KTXuKMI5FSqHBpleQ/fkk3iOZS4g6SOpYa
-         AXvTyupp5XzLwTdtMqBE1LQ7Drwo7xkcc3k+n3o7Un3XpVvTMDJCROh91P+/1+v2uNuy
-         mx2w==
-X-Gm-Message-State: AOJu0YxmUTTsGoN/PdNqPgxplACd9JQyW36YNPjyirVOkK8m98m1MUXV
-	46NnrBXIscOjZguJUZj6Ymg=
-X-Google-Smtp-Source: AGHT+IFJgzyRwboVdy9LT1n7++9wIf2SdbFJSaOXKeS6HdcURnC4aOSek9WjGWLY9zlN65VH6PnX9g==
-X-Received: by 2002:a05:6358:6a44:b0:16e:271d:1db7 with SMTP id c4-20020a0563586a4400b0016e271d1db7mr965001rwh.2.1705035166719;
-        Thu, 11 Jan 2024 20:52:46 -0800 (PST)
-Received: from pop-os ([27.4.4.207])
-        by smtp.gmail.com with ESMTPSA id l22-20020a62be16000000b006d9b38f2e75sm2183645pff.32.2024.01.11.20.52.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 11 Jan 2024 20:52:46 -0800 (PST)
-Date: Fri, 12 Jan 2024 10:22:43 +0530
-From: Pranav Athreya <pranavsubbu@gmail.com>
-To: Forest Bond <forest@alittletooquiet.net>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Pranav Athreya <pranavsubbu@gmail.com>
-Subject: [PATCH v2] staging: vt6655: Remove extra blank lines between code
- blocks
-Message-ID: <ZaDFm6XX7HiGWn58@pop-os>
+Received: from zg8tmtyylji0my4xnjqumte4.icoremail.net (zg8tmtyylji0my4xnjqumte4.icoremail.net [162.243.164.118])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 66F2339AC8
+	for <linux-staging@lists.linux.dev>; Fri, 12 Jan 2024 08:43:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=zju.edu.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zju.edu.cn
+Received: from luzhipeng.223.5.5.5 (unknown [39.174.92.167])
+	by mail-app4 (Coremail) with SMTP id cS_KCgAXHy98+6BlXum4AA--.47709S2;
+	Fri, 12 Jan 2024 16:42:38 +0800 (CST)
+From: Zhipeng Lu <alexious@zju.edu.cn>
+To: alexious@zju.edu.cn
+Cc: Hans de Goede <hdegoede@redhat.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Kate Hsuan <hpa@redhat.com>,
+	Andy Shevchenko <andy.shevchenko@gmail.com>,
+	Dan Carpenter <error27@gmail.com>,
+	Brent Pappas <bpappas@pappasbrent.com>,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] media: atomisp: ssh_css: Fix a null-pointer dereference in load_video_binaries
+Date: Fri, 12 Jan 2024 16:34:19 +0800
+Message-Id: <20240112083421.3728017-1-alexious@zju.edu.cn>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:cS_KCgAXHy98+6BlXum4AA--.47709S2
+X-Coremail-Antispam: 1UD129KBjvJXoW7uw15uw1xGrW5KF18tF17Awb_yoW8CFyxpF
+	48Gw1Uur1UZrs7Ca17G347uF90g3sY9ay5Ww4DJa4fZ3Z7Aas2qF15KFWYgry8ur4fJ3yD
+	tryjgFyYvr1FvFJanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUkE14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+	1l84ACjcxK6xIIjxv20xvE14v26w1j6s0DM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26F4U
+	JVW0owA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AKxVW0oV
+	Cq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0
+	I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r
+	4UM4x0Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwACI402YVCY1x02628v
+	n2kIc2xKxwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F4
+	0E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFyl
+	IxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxV
+	AFwI0_Gr0_Cr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j
+	6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x0JUdHU
+	DUUUUU=
+X-CM-SenderInfo: qrsrjiarszq6lmxovvfxof0/
 
-Adhere to Linux kernel coding style.
+The allocation failure of mycs->yuv_scaler_binary in load_video_binaries
+is followed with a dereference of mycs->yuv_scaler_binary after the
+following call chain:
 
-Reported by checkpatch:
+sh_css_pipe_load_binaries
+  |-> load_video_binaries (mycs->yuv_scaler_binary == NULL)
+  |
+  |-> sh_css_pipe_unload_binaries
+        |-> unload_video_binaries
 
-drivers/staging/vt6655/rxtx.h:22: CHECK: Please don't use multiple blank lines
+In unload_video_binaries, it calls to ia_css_binary_unload with argument
+&pipe->pipe_settings.video.yuv_scaler_binary[i], which refers to the
+same memory slot as mycs->yuv_scaler_binary. Thus, a null-pointer
+dereference is triggered.
 
-Signed-off-by: Pranav Athreya <pranavsubbu@gmail.com>
+Fixes: ad85094b293e ("Revert "media: staging: atomisp: Remove driver"")
+Signed-off-by: Zhipeng Lu <alexious@zju.edu.cn>
 ---
-v2: Fixed commit message to only mention files that are being changed.
+ drivers/staging/media/atomisp/pci/sh_css.c | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
 
- drivers/staging/vt6655/rxtx.h | 1 -
- 1 file changed, 1 deletion(-)
-
-diff --git a/drivers/staging/vt6655/rxtx.h b/drivers/staging/vt6655/rxtx.h
-index a67757c9bb5c..be1e5180d57b 100644
---- a/drivers/staging/vt6655/rxtx.h
-+++ b/drivers/staging/vt6655/rxtx.h
-@@ -19,7 +19,6 @@
- #define DEFAULT_MSDU_LIFETIME_RES_64us	8000 /* 64us */
- #define DEFAULT_MGN_LIFETIME_RES_64us	125  /* 64us */
+diff --git a/drivers/staging/media/atomisp/pci/sh_css.c b/drivers/staging/media/atomisp/pci/sh_css.c
+index f35c90809414..eb43f4e99d02 100644
+--- a/drivers/staging/media/atomisp/pci/sh_css.c
++++ b/drivers/staging/media/atomisp/pci/sh_css.c
+@@ -4936,9 +4936,10 @@ unload_video_binaries(struct ia_css_pipe *pipe)
+ 	ia_css_binary_unload(&pipe->pipe_settings.video.video_binary);
+ 	ia_css_binary_unload(&pipe->pipe_settings.video.vf_pp_binary);
  
+-	for (i = 0; i < pipe->pipe_settings.video.num_yuv_scaler; i++)
+-		ia_css_binary_unload(&pipe->pipe_settings.video.yuv_scaler_binary[i]);
 -
- /*---------------------  Export Definitions -------------------------*/
- 
- /*---------------------  Export Variables  --------------------------*/
++	if (pipe->pipe_settings.video.yuv_scaler_binary)
++		for (i = 0; i < pipe->pipe_settings.video.num_yuv_scaler; i++)
++			ia_css_binary_unload(&pipe->pipe_settings.video.yuv_scaler_binary[i]);
++		
+ 	kfree(pipe->pipe_settings.video.is_output_stage);
+ 	pipe->pipe_settings.video.is_output_stage = NULL;
+ 	kfree(pipe->pipe_settings.video.yuv_scaler_binary);
 -- 
 2.34.1
 
