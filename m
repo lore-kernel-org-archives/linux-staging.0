@@ -1,122 +1,42 @@
-Received: from smtp.smtpout.orange.fr (smtp-29.smtpout.orange.fr [80.12.242.29])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4F641FB2
-	for <linux-staging@lists.linux.dev>; Sun, 14 Jan 2024 10:10:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=wanadoo.fr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wanadoo.fr
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D47720E4;
+	Sun, 14 Jan 2024 12:23:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b="LBwRvL1l"
-Received: from fedora.home ([92.140.202.140])
-	by smtp.orange.fr with ESMTPA
-	id OxRbrry6VIwxKOxRbrHroW; Sun, 14 Jan 2024 11:10:21 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
-	s=t20230301; t=1705227021;
-	bh=52Rd6d5faJ4c/W4ztruf+D+m4SC9RWyWzcn6xVRATJk=;
-	h=From:To:Cc:Subject:Date;
-	b=LBwRvL1lmo0J+pYr4CMZ064bd7yJzvGgTeJOFdtg92EgWa4i4z7dxsTO5VG9H6C2j
-	 ISGyBX7ioUXQY+4pExpZy2tlMVuts4NGOtwM8nv/YY4SlZ5g+bXNcpduc2PLWcYOMJ
-	 5CCrQfag8OM1kmKnGPodNse+LY+TS+1rPJfBGC5SMbx5YH/NNrRWFvgc3h7Xpk4Mia
-	 h9BD8vwIIQDUqEJmGwef4VjnkVFi42t3xhxVUurV/83flw+OhEv33ViGVABXJh/O2C
-	 c8t2ujbqS1R/gP8Q9Xy3rEBtIFxtwStUCM80AG99exOk0IkAR1s2YXlhD19Og0DIrw
-	 zFliSMuH3cYxQ==
-X-ME-Helo: fedora.home
-X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
-X-ME-Date: Sun, 14 Jan 2024 11:10:21 +0100
-X-ME-IP: 92.140.202.140
-From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-To: Sven Van Asbroeck <TheSven73@gmail.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-kernel@vger.kernel.org,
-	kernel-janitors@vger.kernel.org,
-	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
-	linux-staging@lists.linux.dev
-Subject: [PATCH] staging: fieldbus: Remove usage of the deprecated ida_simple_xx() API
-Date: Sun, 14 Jan 2024 11:10:15 +0100
-Message-ID: <d305b97b1064ba7e026232fb8c2a0783ba1b1098.1705227001.git.christophe.jaillet@wanadoo.fr>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="ywNASAw7"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BE6D7C433C7;
+	Sun, 14 Jan 2024 12:23:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1705234992;
+	bh=fhSTLYQJRW5x3RYDEWNWfkqUnSg0YQssLcGVosl6l9g=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=ywNASAw7jw+sybO/KBRJME/LdxEm9IDJ9NjFSIO/Yb/+2qzCTixYZG7aYa+StK0sv
+	 QAKKO9MATo82rezbPtC3FSPPBAqnmlWV1DSrUuPbyjofl39FJkuhIQNTX4aESZTCwc
+	 E0c/4GWYLe8suzcWF/Map3AZZmcLkymwEK19EKnk=
+Date: Sun, 14 Jan 2024 13:23:09 +0100
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Matthias Yee <mgyee9@gmail.com>
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: vt6655: fixed check alignment of open
+ parenthesis in card.c
+Message-ID: <2024011456-kindred-chewing-8650@gregkh>
+References: <20240109063618.2810-1-mgyee9@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240109063618.2810-1-mgyee9@gmail.com>
 
-ida_alloc() and ida_free() should be preferred to the deprecated
-ida_simple_get() and ida_simple_remove().
+On Mon, Jan 08, 2024 at 10:36:19PM -0800, Matthias Yee wrote:
+> This patch adjusts whitespace to fix the checkpatch warning Alignment Should Match Open Parenthesis.
 
-Note that the upper limit of ida_simple_get() is exclusive, but the one of
-ida_alloc_max() is inclusive. So a -1 has been added when needed.
+Please wrap your changelog at 72 columns.
 
-Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
----
- drivers/staging/fieldbus/anybuss/arcx-anybus.c | 6 +++---
- drivers/staging/fieldbus/dev_core.c            | 6 +++---
- 2 files changed, 6 insertions(+), 6 deletions(-)
+thanks,
 
-diff --git a/drivers/staging/fieldbus/anybuss/arcx-anybus.c b/drivers/staging/fieldbus/anybuss/arcx-anybus.c
-index 34d18b09bedd..fcd3e3722ae0 100644
---- a/drivers/staging/fieldbus/anybuss/arcx-anybus.c
-+++ b/drivers/staging/fieldbus/anybuss/arcx-anybus.c
-@@ -285,7 +285,7 @@ static int controller_probe(struct platform_device *pdev)
- 		}
- 	}
- 
--	id = ida_simple_get(&controller_index_ida, 0, 0, GFP_KERNEL);
-+	id = ida_alloc(&controller_index_ida, GFP_KERNEL);
- 	if (id < 0) {
- 		err = id;
- 		goto out_reset;
-@@ -318,7 +318,7 @@ static int controller_probe(struct platform_device *pdev)
- out_dev:
- 	put_device(cd->class_dev);
- out_ida:
--	ida_simple_remove(&controller_index_ida, id);
-+	ida_free(&controller_index_ida, id);
- out_reset:
- 	gpiod_set_value_cansleep(cd->reset_gpiod, 1);
- 	return err;
-@@ -330,7 +330,7 @@ static void controller_remove(struct platform_device *pdev)
- 	int id = cd->class_dev->id;
- 
- 	device_unregister(cd->class_dev);
--	ida_simple_remove(&controller_index_ida, id);
-+	ida_free(&controller_index_ida, id);
- 	gpiod_set_value_cansleep(cd->reset_gpiod, 1);
- }
- 
-diff --git a/drivers/staging/fieldbus/dev_core.c b/drivers/staging/fieldbus/dev_core.c
-index bf1812d8924f..370a229443a1 100644
---- a/drivers/staging/fieldbus/dev_core.c
-+++ b/drivers/staging/fieldbus/dev_core.c
-@@ -247,7 +247,7 @@ static void __fieldbus_dev_unregister(struct fieldbus_dev *fb)
- 		return;
- 	device_destroy(&fieldbus_class, fb->cdev.dev);
- 	cdev_del(&fb->cdev);
--	ida_simple_remove(&fieldbus_ida, fb->id);
-+	ida_free(&fieldbus_ida, fb->id);
- }
- 
- void fieldbus_dev_unregister(struct fieldbus_dev *fb)
-@@ -267,7 +267,7 @@ static int __fieldbus_dev_register(struct fieldbus_dev *fb)
- 		return -EINVAL;
- 	if (!fb->read_area || !fb->write_area || !fb->fieldbus_id_get)
- 		return -EINVAL;
--	fb->id = ida_simple_get(&fieldbus_ida, 0, MAX_FIELDBUSES, GFP_KERNEL);
-+	fb->id = ida_alloc_max(&fieldbus_ida, MAX_FIELDBUSES - 1, GFP_KERNEL);
- 	if (fb->id < 0)
- 		return fb->id;
- 	devno = MKDEV(MAJOR(fieldbus_devt), fb->id);
-@@ -290,7 +290,7 @@ static int __fieldbus_dev_register(struct fieldbus_dev *fb)
- err_dev_create:
- 	cdev_del(&fb->cdev);
- err_cdev:
--	ida_simple_remove(&fieldbus_ida, fb->id);
-+	ida_free(&fieldbus_ida, fb->id);
- 	return err;
- }
- 
--- 
-2.43.0
-
+greg k-h
