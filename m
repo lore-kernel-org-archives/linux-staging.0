@@ -1,27 +1,28 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D47720E4;
-	Sun, 14 Jan 2024 12:23:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0EA1920EE;
+	Sun, 14 Jan 2024 12:39:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="ywNASAw7"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BE6D7C433C7;
-	Sun, 14 Jan 2024 12:23:11 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="1wyq1Gqs"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 25414C433C7;
+	Sun, 14 Jan 2024 12:39:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1705234992;
-	bh=fhSTLYQJRW5x3RYDEWNWfkqUnSg0YQssLcGVosl6l9g=;
+	s=korg; t=1705235998;
+	bh=LiVIgmqvlAMtDUMAh6s8xXA9nlMOZ5pGkLyPEtaGohQ=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ywNASAw7jw+sybO/KBRJME/LdxEm9IDJ9NjFSIO/Yb/+2qzCTixYZG7aYa+StK0sv
-	 QAKKO9MATo82rezbPtC3FSPPBAqnmlWV1DSrUuPbyjofl39FJkuhIQNTX4aESZTCwc
-	 E0c/4GWYLe8suzcWF/Map3AZZmcLkymwEK19EKnk=
-Date: Sun, 14 Jan 2024 13:23:09 +0100
+	b=1wyq1GqsLa7OsZBJU4k26n5OBjHd7Mb5G1DQsZis1rA8oAFQ8e96QoCRVaKTbHgp1
+	 UsGpduJ7fe1B7M+UurpofM0DK6/gFGNgYtHMgosfKL32CJflrACg6/nIAWofGNYD9N
+	 EKemVPSwY5+/qe7t0r9KiO8lbQzKVJoxEEix9ewY=
+Date: Sun, 14 Jan 2024 13:39:55 +0100
 From: Greg KH <gregkh@linuxfoundation.org>
 To: Matthias Yee <mgyee9@gmail.com>
 Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
 Subject: Re: [PATCH] staging: vt6655: fixed check alignment of open
  parenthesis in card.c
-Message-ID: <2024011456-kindred-chewing-8650@gregkh>
+Message-ID: <2024011441-stock-exclude-665f@gregkh>
 References: <20240109063618.2810-1-mgyee9@gmail.com>
+ <2024011456-kindred-chewing-8650@gregkh>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -30,13 +31,14 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240109063618.2810-1-mgyee9@gmail.com>
+In-Reply-To: <2024011456-kindred-chewing-8650@gregkh>
 
-On Mon, Jan 08, 2024 at 10:36:19PM -0800, Matthias Yee wrote:
-> This patch adjusts whitespace to fix the checkpatch warning Alignment Should Match Open Parenthesis.
+On Sun, Jan 14, 2024 at 01:23:09PM +0100, Greg KH wrote:
+> On Mon, Jan 08, 2024 at 10:36:19PM -0800, Matthias Yee wrote:
+> > This patch adjusts whitespace to fix the checkpatch warning Alignment Should Match Open Parenthesis.
+> 
+> Please wrap your changelog at 72 columns.
 
-Please wrap your changelog at 72 columns.
-
-thanks,
+Oops, this was for an older version of the patch, ignore this, sorry.
 
 greg k-h
