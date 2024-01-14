@@ -1,77 +1,122 @@
-Received: from mail-qv1-f43.google.com (mail-qv1-f43.google.com [209.85.219.43])
+Received: from smtp.smtpout.orange.fr (smtp-29.smtpout.orange.fr [80.12.242.29])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C6FF25614
-	for <linux-staging@lists.linux.dev>; Fri, 12 Jan 2024 18:28:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4F641FB2
+	for <linux-staging@lists.linux.dev>; Sun, 14 Jan 2024 10:10:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=wanadoo.fr
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wanadoo.fr
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="g5kE45MT"
-Received: by mail-qv1-f43.google.com with SMTP id 6a1803df08f44-680d4584a81so53119166d6.1
-        for <linux-staging@lists.linux.dev>; Fri, 12 Jan 2024 10:28:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1705084091; x=1705688891; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=opmBl8/CkWjdnrlaJu/bqZwfbUeX4H3SPCLc01ZfHrs=;
-        b=g5kE45MTb7NFXkWd4Z4PgszqnlCZsOOHo1hS3d3NjAfZbfsZMUjb0ew/RgJCkuK3DI
-         I0PYO72EW3Fn5Bu86bRoO98H86oJG2jfDQICToPD8TKspv7BwE+zvYDt6gbI/QBH1Y7q
-         GhsHcjMVC8GHEWZSG8gLiptPDFrxGUXUKWXg9CpImtOkvG/FajNx/aGUpdcLm+66Nelt
-         XQiJ43o/w882ybPmpnP/o9Du3R4nkccqMDrouoAdxCwzQD3TfP6k1Lq7Ic1hmDL9rmfm
-         AHZPPwuEwh03vBUTGwIQw1HZBPryd5ECDK1UydwbzY9BaQlY7on2DItLhT4vGHQkP9k1
-         yv+A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1705084091; x=1705688891;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=opmBl8/CkWjdnrlaJu/bqZwfbUeX4H3SPCLc01ZfHrs=;
-        b=wbeKRyjEqWN8EMRJLYFnCKgu7en9zPcMSEaPPYC3ew4wu4D1cEM7d9zrf4ADh/+0X1
-         oAMg8rqZilcyA03l+79jfHJ43ZPhlgTmz51awZoLW8QNNSq5MFm/qE/lLupWC2bTDQyS
-         oSu4MZuBIQJKK7Z0aRr97s14F+f6g8nZVsJOMCL6xa3wiFbtOS3keRfymej4ANlRKxQz
-         0tMah+N/9MgEkNPZisklwi78SZ0+9CSjs0ksWky2T7filhdXEQ+DHqzH9v5HHXlYRJCY
-         td8Hrdm8T4yfMzDbgEY9xU9GwVwrn2Ueq+oSLOEQ8OG3f6FANNB0rpD6LkkX0mJ4SlCq
-         ixuA==
-X-Gm-Message-State: AOJu0Yxz4JPUTkmkuEqH/mQ6OD3o8ZDDj2mcnWb7wOX6BzbAbC1wbeU3
-	nlwn3GeSl8X3suRFmldMhyDIZ7wnEAecq1u2qf4=
-X-Google-Smtp-Source: AGHT+IFF35QiYm7jA5bgAgr6n96xbYn8XdXq3EadB6kJJiGWSiysApSLocEODR8eqTUFZob8HUv+BGIsUkThmktlVRM=
-X-Received: by 2002:a05:6214:29e5:b0:67f:62e5:bf17 with SMTP id
- jv5-20020a05621429e500b0067f62e5bf17mr1791809qvb.34.1705084091376; Fri, 12
- Jan 2024 10:28:11 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b="LBwRvL1l"
+Received: from fedora.home ([92.140.202.140])
+	by smtp.orange.fr with ESMTPA
+	id OxRbrry6VIwxKOxRbrHroW; Sun, 14 Jan 2024 11:10:21 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
+	s=t20230301; t=1705227021;
+	bh=52Rd6d5faJ4c/W4ztruf+D+m4SC9RWyWzcn6xVRATJk=;
+	h=From:To:Cc:Subject:Date;
+	b=LBwRvL1lmo0J+pYr4CMZ064bd7yJzvGgTeJOFdtg92EgWa4i4z7dxsTO5VG9H6C2j
+	 ISGyBX7ioUXQY+4pExpZy2tlMVuts4NGOtwM8nv/YY4SlZ5g+bXNcpduc2PLWcYOMJ
+	 5CCrQfag8OM1kmKnGPodNse+LY+TS+1rPJfBGC5SMbx5YH/NNrRWFvgc3h7Xpk4Mia
+	 h9BD8vwIIQDUqEJmGwef4VjnkVFi42t3xhxVUurV/83flw+OhEv33ViGVABXJh/O2C
+	 c8t2ujbqS1R/gP8Q9Xy3rEBtIFxtwStUCM80AG99exOk0IkAR1s2YXlhD19Og0DIrw
+	 zFliSMuH3cYxQ==
+X-ME-Helo: fedora.home
+X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
+X-ME-Date: Sun, 14 Jan 2024 11:10:21 +0100
+X-ME-IP: 92.140.202.140
+From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+To: Sven Van Asbroeck <TheSven73@gmail.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-kernel@vger.kernel.org,
+	kernel-janitors@vger.kernel.org,
+	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+	linux-staging@lists.linux.dev
+Subject: [PATCH] staging: fieldbus: Remove usage of the deprecated ida_simple_xx() API
+Date: Sun, 14 Jan 2024 11:10:15 +0100
+Message-ID: <d305b97b1064ba7e026232fb8c2a0783ba1b1098.1705227001.git.christophe.jaillet@wanadoo.fr>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20240112083421.3728017-1-alexious@zju.edu.cn> <5dd12651-232d-41f2-afa4-2a3e5c127969@redhat.com>
-In-Reply-To: <5dd12651-232d-41f2-afa4-2a3e5c127969@redhat.com>
-From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Fri, 12 Jan 2024 20:27:33 +0200
-Message-ID: <CAHp75VfKj7sQ3HkNaqNe0CjVrRb0J=X3gPJf-rSLeU8RQ2hjFg@mail.gmail.com>
-Subject: Re: [PATCH] media: atomisp: ssh_css: Fix a null-pointer dereference
- in load_video_binaries
-To: Hans de Goede <hdegoede@redhat.com>
-Cc: Zhipeng Lu <alexious@zju.edu.cn>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	Sakari Ailus <sakari.ailus@linux.intel.com>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Kate Hsuan <hpa@redhat.com>, 
-	Dan Carpenter <error27@gmail.com>, Brent Pappas <bpappas@pappasbrent.com>, linux-media@vger.kernel.org, 
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Fri, Jan 12, 2024 at 10:49=E2=80=AFAM Hans de Goede <hdegoede@redhat.com=
-> wrote:
-> On 1/12/24 09:34, Zhipeng Lu wrote:
+ida_alloc() and ida_free() should be preferred to the deprecated
+ida_simple_get() and ida_simple_remove().
 
+Note that the upper limit of ida_simple_get() is exclusive, but the one of
+ida_alloc_max() is inclusive. So a -1 has been added when needed.
 
-> > Fixes: ad85094b293e ("Revert "media: staging: atomisp: Remove driver"")
+Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+---
+ drivers/staging/fieldbus/anybuss/arcx-anybus.c | 6 +++---
+ drivers/staging/fieldbus/dev_core.c            | 6 +++---
+ 2 files changed, 6 insertions(+), 6 deletions(-)
 
-> Can you please submit a new version using this approach ?
+diff --git a/drivers/staging/fieldbus/anybuss/arcx-anybus.c b/drivers/staging/fieldbus/anybuss/arcx-anybus.c
+index 34d18b09bedd..fcd3e3722ae0 100644
+--- a/drivers/staging/fieldbus/anybuss/arcx-anybus.c
++++ b/drivers/staging/fieldbus/anybuss/arcx-anybus.c
+@@ -285,7 +285,7 @@ static int controller_probe(struct platform_device *pdev)
+ 		}
+ 	}
+ 
+-	id = ida_simple_get(&controller_index_ida, 0, 0, GFP_KERNEL);
++	id = ida_alloc(&controller_index_ida, GFP_KERNEL);
+ 	if (id < 0) {
+ 		err = id;
+ 		goto out_reset;
+@@ -318,7 +318,7 @@ static int controller_probe(struct platform_device *pdev)
+ out_dev:
+ 	put_device(cd->class_dev);
+ out_ida:
+-	ida_simple_remove(&controller_index_ida, id);
++	ida_free(&controller_index_ida, id);
+ out_reset:
+ 	gpiod_set_value_cansleep(cd->reset_gpiod, 1);
+ 	return err;
+@@ -330,7 +330,7 @@ static void controller_remove(struct platform_device *pdev)
+ 	int id = cd->class_dev->id;
+ 
+ 	device_unregister(cd->class_dev);
+-	ida_simple_remove(&controller_index_ida, id);
++	ida_free(&controller_index_ida, id);
+ 	gpiod_set_value_cansleep(cd->reset_gpiod, 1);
+ }
+ 
+diff --git a/drivers/staging/fieldbus/dev_core.c b/drivers/staging/fieldbus/dev_core.c
+index bf1812d8924f..370a229443a1 100644
+--- a/drivers/staging/fieldbus/dev_core.c
++++ b/drivers/staging/fieldbus/dev_core.c
+@@ -247,7 +247,7 @@ static void __fieldbus_dev_unregister(struct fieldbus_dev *fb)
+ 		return;
+ 	device_destroy(&fieldbus_class, fb->cdev.dev);
+ 	cdev_del(&fb->cdev);
+-	ida_simple_remove(&fieldbus_ida, fb->id);
++	ida_free(&fieldbus_ida, fb->id);
+ }
+ 
+ void fieldbus_dev_unregister(struct fieldbus_dev *fb)
+@@ -267,7 +267,7 @@ static int __fieldbus_dev_register(struct fieldbus_dev *fb)
+ 		return -EINVAL;
+ 	if (!fb->read_area || !fb->write_area || !fb->fieldbus_id_get)
+ 		return -EINVAL;
+-	fb->id = ida_simple_get(&fieldbus_ida, 0, MAX_FIELDBUSES, GFP_KERNEL);
++	fb->id = ida_alloc_max(&fieldbus_ida, MAX_FIELDBUSES - 1, GFP_KERNEL);
+ 	if (fb->id < 0)
+ 		return fb->id;
+ 	devno = MKDEV(MAJOR(fieldbus_devt), fb->id);
+@@ -290,7 +290,7 @@ static int __fieldbus_dev_register(struct fieldbus_dev *fb)
+ err_dev_create:
+ 	cdev_del(&fb->cdev);
+ err_cdev:
+-	ida_simple_remove(&fieldbus_ida, fb->id);
++	ida_free(&fieldbus_ida, fb->id);
+ 	return err;
+ }
+ 
+-- 
+2.43.0
 
-Besides that, are you sure the Fixes refers to the correct commit?
-
---=20
-With Best Regards,
-Andy Shevchenko
