@@ -1,90 +1,243 @@
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34C801FAB
-	for <linux-staging@lists.linux.dev>; Mon, 15 Jan 2024 08:34:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Vyq4DuDE"
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-40e8004629bso248465e9.2
-        for <linux-staging@lists.linux.dev>; Mon, 15 Jan 2024 00:34:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1705307689; x=1705912489; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=zsLZp5AjgU2ikojusqifaSf7hD6PKOOj66CfoLC/Lys=;
-        b=Vyq4DuDEtPgq3XGpjlVm916dyF3CToZT0bAXphkqutKsiSYisGdq/9bFiNzyRbakKk
-         rqKDn7RVJ+kiTOT8lvE3wFevDSFPCDF/ls0dFkkFB4uks7iAFqRIR6JXf31m4/1kC48V
-         ueZWMq4PxfnUIEFBQb6EP9zOj4jaWOgkNw12RLJZt8wJzJtrd+QAg6XXbii+uq4I/VpJ
-         XFtJckyTViJL5yqFVNNAxEnO38O3KvsP0QVTVUsTe8nrbSwTB3fQkePi+FJUKOxDdxlo
-         /25IHV5bXkPXlLdqNGtRwjzIPA36y5PdpGpJio/Utz1mCx9MfzUtmZMw+HkIuj3p1Hhi
-         5NzA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1705307689; x=1705912489;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=zsLZp5AjgU2ikojusqifaSf7hD6PKOOj66CfoLC/Lys=;
-        b=OnMiqCKoVBWhO+SNVW9C5FA5H4vpkPM+LD6yda1ZylWRC50iVtXzv5eADO9nR7hXP5
-         5rHzV4iaXwcp6kFnmQLs/LkrOzSQZ1+vpMG15riLhmjxYMOnhYS2pOkgVl1SQVxu0SZv
-         0yAefUhMRhA8IUz2w8sQB26tXsWp81rcMh1C0fHpTq7JkSZ99dMjvowxwFpdip8j8V/c
-         t2CBP5cyWNAVy5gz/Zed23MC6M7+XNuIXlMX57o5/n/enkKu3nYt4V0wtrAylUjlFoNm
-         uU35KW+Hba8Pb59pKtj0GMnT3hlLgRpZOW3jNEb+KbQpvW6QcmDFk8Wn4UjDJMdkKLat
-         kh7Q==
-X-Gm-Message-State: AOJu0Yz+FkGqG9ycy2N7bUr60dsrSPpafDbZFDPip1Jy+MaFJ1SgKZYL
-	z/F1nTJffgbpoLSKpJvYhZnm0QAT7yRsrJEL
-X-Google-Smtp-Source: AGHT+IE4tfUXqymNsgq59LGKZ5TuuZttpDPsYe30flbY31bsQuShVGOXM7XhNIcSthIy8RBdZdt+lQ==
-X-Received: by 2002:a05:600c:2101:b0:40e:3796:8cdc with SMTP id u1-20020a05600c210100b0040e37968cdcmr1563040wml.135.1705307689276;
-        Mon, 15 Jan 2024 00:34:49 -0800 (PST)
-Received: from Ubuntu22.myguest.virtualbox.org ([46.121.140.32])
-        by smtp.gmail.com with ESMTPSA id e16-20020a5d65d0000000b003365951cef9sm11164596wrw.55.2024.01.15.00.34.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 15 Jan 2024 00:34:48 -0800 (PST)
-From: Meir Elisha <meir6264@gmail.com>
-X-Google-Original-From: Meir Elisha <meir6264@Gmail.com>
-Received: by Ubuntu22.myguest.virtualbox.org (sSMTP sendmail emulation); Mon, 15 Jan 2024 10:34:46 +0200
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Meir Elisha <meir6264@Gmail.com>
-Subject: [PATCH v2] Staging: rtl8723bs: rtw_ieee80211: Remove extra space
-Date: Mon, 15 Jan 2024 10:34:38 +0200
-Message-Id: <20240115083438.108901-1-meir6264@Gmail.com>
-X-Mailer: git-send-email 2.34.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53E701A588
+	for <linux-staging@lists.linux.dev>; Mon, 15 Jan 2024 20:21:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1rPTSI-0004wq-LT; Mon, 15 Jan 2024 21:21:10 +0100
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1rPTSI-0005hZ-8L; Mon, 15 Jan 2024 21:21:10 +0100
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.96)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1rPTSI-000N8t-0Z;
+	Mon, 15 Jan 2024 21:21:10 +0100
+From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To: Mark Brown <broonie@kernel.org>,
+	Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: linux-spi@vger.kernel.org,
+	kernel@pengutronix.de,
+	Rui Miguel Silva <rmfrfs@gmail.com>,
+	Viresh Kumar <vireshk@kernel.org>,
+	Johan Hovold <johan@kernel.org>,
+	Alex Elder <elder@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	greybus-dev@lists.linaro.org,
+	linux-staging@lists.linux.dev
+Subject: [PATCH 26/33] staging: greybus: spi: Follow renaming of SPI "master" to "controller"
+Date: Mon, 15 Jan 2024 21:13:12 +0100
+Message-ID:  <188f907d08d4a57d1058f01bc4939f209a4c8e43.1705348270.git.u.kleine-koenig@pengutronix.de>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <cover.1705348269.git.u.kleine-koenig@pengutronix.de>
+References: <cover.1705348269.git.u.kleine-koenig@pengutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+X-Developer-Signature: v=1; a=openpgp-sha256; l=6252; i=u.kleine-koenig@pengutronix.de; h=from:subject:message-id; bh=+bgf1pgHJVDIktxZ8peLmYEBtS27RvvwZP/EDTR1/wE=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBlpZHepgF4UUU2iRxU8Sc/+uQb5wuW3uLYtXtCC yajJew1bHqJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZaWR3gAKCRCPgPtYfRL+ ToiXB/4vNgRTgJz1SRfvqrxItK8uJjsHlxp5VD/cNlKt9Xa9SC4y4s1LNmKTnLnPYXpW1fLUJoY hh3aHyUFdIy9nJrZA9bXdaPipp/4GJkDMjFbNiaqCxmy29WmTQnO1QJaZ4ms5tUjvN0cwJ0FbHE +WZMpeZ9F8qxS/eVg+v9/pVs1fRMH1YSQBFawhFPQk5z5lUXX7bUGP1FhYMAPqc5G7iMY7WeFsG Erl4qvzYAM4nAiomSVfSL6drJzvWgPDRXBmTb4CwZJ18O7uCX21huPqq6qOunmSh6Bg6X0wReNE ae5Fo4V1Wdl1oEs7iUmva9EIc3Zn+AjLSPennkT3yi0/pB0/
+X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
 Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-staging@lists.linux.dev
 
-Fix checkpatch warning: please, no space before tabs
+In commit 8caab75fd2c2 ("spi: Generalize SPI "master" to "controller"")
+some functions and struct members were renamed. To not break all drivers
+compatibility macros were provided.
 
-Signed-off-by: Meir Elisha <meir6264@Gmail.com>
+To be able to remove these compatibility macros push the renaming into
+this driver.
+
+Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
 ---
-Changes in v2:
-- remove additional extra space in rtw_get_bcn_info()
----
- drivers/staging/rtl8723bs/core/rtw_ieee80211.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/staging/greybus/spilib.c | 66 ++++++++++++++++----------------
+ 1 file changed, 33 insertions(+), 33 deletions(-)
 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_ieee80211.c b/drivers/staging/rtl8723bs/core/rtw_ieee80211.c
-index 30e7457a9c31..b89e88d6a82d 100644
---- a/drivers/staging/rtl8723bs/core/rtw_ieee80211.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_ieee80211.c
-@@ -1035,8 +1035,8 @@ void rtw_get_bcn_info(struct wlan_network *pnetwork)
- 	u16 wpa_len = 0, rsn_len = 0;
- 	struct HT_info_element *pht_info = NULL;
- 	struct ieee80211_ht_cap *pht_cap = NULL;
--	unsigned int		len;
--	unsigned char 	*p;
-+	unsigned int len;
-+	unsigned char *p;
- 	__le16 le_cap;
+diff --git a/drivers/staging/greybus/spilib.c b/drivers/staging/greybus/spilib.c
+index efb3bec58e15..34f10685139f 100644
+--- a/drivers/staging/greybus/spilib.c
++++ b/drivers/staging/greybus/spilib.c
+@@ -42,7 +42,7 @@ struct gb_spilib {
  
- 	memcpy((u8 *)&le_cap, rtw_get_capability_from_ie(pnetwork->network.ies), 2);
+ #define XFER_TIMEOUT_TOLERANCE		200
+ 
+-static struct spi_master *get_master_from_spi(struct gb_spilib *spi)
++static struct spi_controller *get_controller_from_spi(struct gb_spilib *spi)
+ {
+ 	return gb_connection_get_data(spi->connection);
+ }
+@@ -324,10 +324,10 @@ static void gb_spi_decode_response(struct gb_spilib *spi,
+ 	}
+ }
+ 
+-static int gb_spi_transfer_one_message(struct spi_master *master,
++static int gb_spi_transfer_one_message(struct spi_controller *ctlr,
+ 				       struct spi_message *msg)
+ {
+-	struct gb_spilib *spi = spi_master_get_devdata(master);
++	struct gb_spilib *spi = spi_controller_get_devdata(ctlr);
+ 	struct gb_connection *connection = spi->connection;
+ 	struct gb_spi_transfer_response *response;
+ 	struct gb_operation *operation;
+@@ -371,21 +371,21 @@ static int gb_spi_transfer_one_message(struct spi_master *master,
+ out:
+ 	msg->status = ret;
+ 	clean_xfer_state(spi);
+-	spi_finalize_current_message(master);
++	spi_finalize_current_message(ctlr);
+ 
+ 	return ret;
+ }
+ 
+-static int gb_spi_prepare_transfer_hardware(struct spi_master *master)
++static int gb_spi_prepare_transfer_hardware(struct spi_controller *ctlr)
+ {
+-	struct gb_spilib *spi = spi_master_get_devdata(master);
++	struct gb_spilib *spi = spi_controller_get_devdata(ctlr);
+ 
+ 	return spi->ops->prepare_transfer_hardware(spi->parent);
+ }
+ 
+-static int gb_spi_unprepare_transfer_hardware(struct spi_master *master)
++static int gb_spi_unprepare_transfer_hardware(struct spi_controller *ctlr)
+ {
+-	struct gb_spilib *spi = spi_master_get_devdata(master);
++	struct gb_spilib *spi = spi_controller_get_devdata(ctlr);
+ 
+ 	spi->ops->unprepare_transfer_hardware(spi->parent);
+ 
+@@ -440,7 +440,7 @@ static int gb_spi_get_master_config(struct gb_spilib *spi)
+ 
+ static int gb_spi_setup_device(struct gb_spilib *spi, u8 cs)
+ {
+-	struct spi_master *master = get_master_from_spi(spi);
++	struct spi_controller *ctlr = get_controller_from_spi(spi);
+ 	struct gb_spi_device_config_request request;
+ 	struct gb_spi_device_config_response response;
+ 	struct spi_board_info spi_board = { {0} };
+@@ -471,11 +471,11 @@ static int gb_spi_setup_device(struct gb_spilib *spi, u8 cs)
+ 		return -EINVAL;
+ 
+ 	spi_board.mode		= le16_to_cpu(response.mode);
+-	spi_board.bus_num	= master->bus_num;
++	spi_board.bus_num	= ctlr->bus_num;
+ 	spi_board.chip_select	= cs;
+ 	spi_board.max_speed_hz	= le32_to_cpu(response.max_speed_hz);
+ 
+-	spidev = spi_new_device(master, &spi_board);
++	spidev = spi_new_device(ctlr, &spi_board);
+ 	if (!spidev)
+ 		return -EINVAL;
+ 
+@@ -486,52 +486,52 @@ int gb_spilib_master_init(struct gb_connection *connection, struct device *dev,
+ 			  struct spilib_ops *ops)
+ {
+ 	struct gb_spilib *spi;
+-	struct spi_master *master;
++	struct spi_controller *ctlr;
+ 	int ret;
+ 	u8 i;
+ 
+ 	/* Allocate master with space for data */
+-	master = spi_alloc_master(dev, sizeof(*spi));
+-	if (!master) {
++	ctlr = spi_alloc_master(dev, sizeof(*spi));
++	if (!ctlr) {
+ 		dev_err(dev, "cannot alloc SPI master\n");
+ 		return -ENOMEM;
+ 	}
+ 
+-	spi = spi_master_get_devdata(master);
++	spi = spi_controller_get_devdata(ctlr);
+ 	spi->connection = connection;
+-	gb_connection_set_data(connection, master);
++	gb_connection_set_data(connection, ctlr);
+ 	spi->parent = dev;
+ 	spi->ops = ops;
+ 
+-	/* get master configuration */
++	/* get controller configuration */
+ 	ret = gb_spi_get_master_config(spi);
+ 	if (ret)
+ 		goto exit_spi_put;
+ 
+-	master->bus_num = -1; /* Allow spi-core to allocate it dynamically */
+-	master->num_chipselect = spi->num_chipselect;
+-	master->mode_bits = spi->mode;
+-	master->flags = spi->flags;
+-	master->bits_per_word_mask = spi->bits_per_word_mask;
++	ctlr->bus_num = -1; /* Allow spi-core to allocate it dynamically */
++	ctlr->num_chipselect = spi->num_chipselect;
++	ctlr->mode_bits = spi->mode;
++	ctlr->flags = spi->flags;
++	ctlr->bits_per_word_mask = spi->bits_per_word_mask;
+ 
+ 	/* Attach methods */
+-	master->cleanup = gb_spi_cleanup;
+-	master->setup = gb_spi_setup;
+-	master->transfer_one_message = gb_spi_transfer_one_message;
++	ctlr->cleanup = gb_spi_cleanup;
++	ctlr->setup = gb_spi_setup;
++	ctlr->transfer_one_message = gb_spi_transfer_one_message;
+ 
+ 	if (ops && ops->prepare_transfer_hardware) {
+-		master->prepare_transfer_hardware =
++		ctlr->prepare_transfer_hardware =
+ 			gb_spi_prepare_transfer_hardware;
+ 	}
+ 
+ 	if (ops && ops->unprepare_transfer_hardware) {
+-		master->unprepare_transfer_hardware =
++		ctlr->unprepare_transfer_hardware =
+ 			gb_spi_unprepare_transfer_hardware;
+ 	}
+ 
+-	master->auto_runtime_pm = true;
++	ctlr->auto_runtime_pm = true;
+ 
+-	ret = spi_register_master(master);
++	ret = spi_register_controller(ctlr);
+ 	if (ret < 0)
+ 		goto exit_spi_put;
+ 
+@@ -548,12 +548,12 @@ int gb_spilib_master_init(struct gb_connection *connection, struct device *dev,
+ 	return 0;
+ 
+ exit_spi_put:
+-	spi_master_put(master);
++	spi_controller_put(ctlr);
+ 
+ 	return ret;
+ 
+ exit_spi_unregister:
+-	spi_unregister_master(master);
++	spi_unregister_controller(ctlr);
+ 
+ 	return ret;
+ }
+@@ -561,9 +561,9 @@ EXPORT_SYMBOL_GPL(gb_spilib_master_init);
+ 
+ void gb_spilib_master_exit(struct gb_connection *connection)
+ {
+-	struct spi_master *master = gb_connection_get_data(connection);
++	struct spi_controller *ctlr = gb_connection_get_data(connection);
+ 
+-	spi_unregister_master(master);
++	spi_unregister_controller(ctlr);
+ }
+ EXPORT_SYMBOL_GPL(gb_spilib_master_exit);
+ 
 -- 
-2.34.1
+2.43.0
 
