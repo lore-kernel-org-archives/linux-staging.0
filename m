@@ -1,156 +1,78 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11B9439B;
-	Thu, 18 Jan 2024 14:51:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from azure-sdnproxy.icoremail.net (azure-sdnproxy.icoremail.net [207.46.229.174])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 78CA21E51D
+	for <linux-staging@lists.linux.dev>; Thu, 18 Jan 2024 15:11:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=207.46.229.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705589505; cv=none; b=ZKuvVPmO+HtmKa9qPGdWtR3dpiw1bi29SJ2BEBFEKvDNloFP3xumr7l9I8wvxxCo2DvRkaLIGoCZSYlVRjiVyUyOk70zJsXT+Vg0b3iitUdJSdY/S/xrObJDsLOn52x6oQPAa8ZWhVARiPlV3fBsG86nv2d/QCfbjRbswVS8eRE=
+	t=1705590677; cv=none; b=fEhZWcxh6h8DuwlR6rNsAQLz26HP/ZjsPLzhqkT7u0ws352UfWg0Yy8g45dzBdkevwFkF1FmoM7JikDOSRJtXDw0A1myQxSHPuaHhYb6aROosVdhYs1For7B4cSW1ztDnkuOKPHW5nrwXhAfExp25R8+fO6fvG+ZvOZUdAPuRw8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705589505; c=relaxed/simple;
-	bh=sxik3Bd+uEArtL+u+/GfOU7QQ9XdRR+jLrak/mZRDX0=;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:
-	 Content-Transfer-Encoding:In-Reply-To; b=gNqe+VK8cidDqFzWKKFrCHsRI1mNPghdqp+ZRAKDt9nkcKEilFTb7fBp+q/aakhXz9IhUnPQ9FUZJIBmeMk3kDljF0xTmVWvEPcnO1XiUUfQFO0zEFddHVd3twXSJ+JuWx37JZzhx9Xb8wJMAia826TNg5je7j/JTUSYVZbURnI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=ZlETpj+u; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="ZlETpj+u"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 29D2CC433F1;
-	Thu, 18 Jan 2024 14:51:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1705589504;
-	bh=sxik3Bd+uEArtL+u+/GfOU7QQ9XdRR+jLrak/mZRDX0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ZlETpj+uEftppa7SN349ZlsUFnWEKboupqxfOrPiR9gU0DtMz1czOuDhfSuDa3oqB
-	 oiN1S/p2UlXfsax95yw83A2bnlfFVhFm/lEr48ohSQuOp/FLcVTJNCkby6wPs+K66V
-	 DLLNHlzTC7cSvZODeTaW4iuyqUlBVEf+fHS+FOAc=
-Date: Thu, 18 Jan 2024 15:51:41 +0100
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Jacob Lott <jklott.git@gmail.com>
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-	wei_wang@realsil.com.cn, micky_ching@realsil.com.cn
-Subject: Re: [PATCH] staging: rts5208: Fix coding style issues
-Message-ID: <2024011809-upstart-provider-6c88@gregkh>
-References: <03b524b7-8e66-4180-b22a-aa641acbaac3@gmail.com>
+	s=arc-20240116; t=1705590677; c=relaxed/simple;
+	bh=65sc4DCCtX31xXELKFiH2rA/add6gA3jTnYbzFDwIKE=;
+	h=Received:X-Originating-IP:Date:X-CM-HeaderCharset:From:To:Cc:
+	 Subject:X-Priority:X-Mailer:In-Reply-To:References:
+	 Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:
+	 X-Coremail-Locale:X-CM-TRANSID:X-CM-SenderInfo:
+	 X-Coremail-Antispam; b=klYtlboyiYZAQNT89/ot2K2JMBt85Vuw9IsncJk1aFIfIlxn6d6yaJ02L5MxiafUYBJDISgevlePG7gnZWPvLzD8RJpEw/OxIqevZgoVlrukuwOvsiNuliSQjhsT5K+zjJt0pqgyLPnqT7WjmfYTK4RacvcYDtdSWsl0A7kN3/U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=zju.edu.cn; spf=pass smtp.mailfrom=zju.edu.cn; arc=none smtp.client-ip=207.46.229.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=zju.edu.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zju.edu.cn
+Received: from alexious$zju.edu.cn ( [10.190.77.201] ) by
+ ajax-webmail-mail-app3 (Coremail) ; Thu, 18 Jan 2024 23:10:55 +0800
+ (GMT+08:00)
+Date: Thu, 18 Jan 2024 23:10:55 +0800 (GMT+08:00)
+X-CM-HeaderCharset: UTF-8
+From: alexious@zju.edu.cn
+To: "Andy Shevchenko" <andy.shevchenko@gmail.com>
+Cc: "Hans de Goede" <hdegoede@redhat.com>,
+	"Mauro Carvalho Chehab" <mchehab@kernel.org>,
+	"Sakari Ailus" <sakari.ailus@linux.intel.com>,
+	"Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
+	"Kate Hsuan" <hpa@redhat.com>, "Dan Carpenter" <error27@gmail.com>,
+	"Brent Pappas" <bpappas@pappasbrent.com>,
+	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] media: atomisp: ssh_css: Fix a null-pointer dereference
+ in load_video_binaries
+X-Priority: 3
+X-Mailer: Coremail Webmail Server Version 2023.4-cmXT5 build
+ 20231205(37e20f0e) Copyright (c) 2002-2024 www.mailtech.cn
+ mispb-4df6dc2c-e274-4d1c-b502-72c5c3dfa9ce-zj.edu.cn
+In-Reply-To: <CAHp75Vdz4FRF5=zFiKarOkA6ezOTP=CbwU2-_fpSCpuaZgb+VA@mail.gmail.com>
+References: <20240112083421.3728017-1-alexious@zju.edu.cn>
+ <5dd12651-232d-41f2-afa4-2a3e5c127969@redhat.com>
+ <CAHp75VfKj7sQ3HkNaqNe0CjVrRb0J=X3gPJf-rSLeU8RQ2hjFg@mail.gmail.com>
+ <17d22c9e.4900.18d162090d8.Coremail.alexious@zju.edu.cn>
+ <CAHp75Vdz4FRF5=zFiKarOkA6ezOTP=CbwU2-_fpSCpuaZgb+VA@mail.gmail.com>
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset=UTF-8
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <03b524b7-8e66-4180-b22a-aa641acbaac3@gmail.com>
+Message-ID: <2b56b7f3.66be.18d1d200910.Coremail.alexious@zju.edu.cn>
+X-Coremail-Locale: zh_CN
+X-CM-TRANSID:cC_KCgA3XzuAP6llg30+AA--.8091W
+X-CM-SenderInfo: qrsrjiarszq6lmxovvfxof0/1tbiAgUEAGWoH+EnWQAAsO
+X-Coremail-Antispam: 1Ur529EdanIXcx71UUUUU7IcSsGvfJ3iIAIbVAYjsxI4VWxJw
+	CS07vEb4IE77IF4wCS07vE1I0E4x80FVAKz4kxMIAIbVAFxVCaYxvI4VCIwcAKzIAtYxBI
+	daVFxhVjvjDU=
 
-On Thu, Jan 18, 2024 at 09:42:51AM -0500, Jacob Lott wrote:
-> Help text in a module should describe the module and give
-> some guidance on whether or not to enable it.
-> 
-> The BIT macro should be used instead of 1UL << n. This
-> makes the code more readable and easier to maintain.
-> 
-> Signed-off-by: Jacob Lott <jklott.git@gmail.com>
-> ---
->  drivers/staging/rts5208/Kconfig     | 10 +++++++---
->  drivers/staging/rts5208/rtsx_card.h |  4 ++--
->  2 files changed, 9 insertions(+), 5 deletions(-)
-> 
-> diff --git a/drivers/staging/rts5208/Kconfig
-> b/drivers/staging/rts5208/Kconfig
-> index b864023d3ccb..bb293cbf6230 100644
-> --- a/drivers/staging/rts5208/Kconfig
-> +++ b/drivers/staging/rts5208/Kconfig
-> @@ -3,7 +3,11 @@ config RTS5208
->         tristate "Realtek PCI-E Card Reader RTS5208/5288 support"
->         depends on PCI && SCSI
->         help
-> -         Say Y here to include driver code to support the Realtek
-> -         PCI-E card reader rts5208/rts5288.
-> +      Choose Y here to enable support for the Realtek PCI-E card reader
-> RTS5208/5288.
-> +         This driver facilitates communication between the Linux kernel and
-> the Realtek
-> +         PCI-E card reader.
-> 
-> -         If this driver is compiled as a module, it will be named rts5208.
-> +         If you opt to compile this driver as a module, it will be named
-> rts5208. Selecting
-> +         N will exclude this driver from the kernel build. Choose option Y
-> if your system includes
-> +         the Realtek PCI-E card reader rts5208/rts5288. When in doubt, it
-> is generally safe
-> +         to select N.
-> diff --git a/drivers/staging/rts5208/rtsx_card.h
-> b/drivers/staging/rts5208/rtsx_card.h
-> index 39727371cd7a..9d2504fddb13 100644
-> --- a/drivers/staging/rts5208/rtsx_card.h
-> +++ b/drivers/staging/rts5208/rtsx_card.h
-> @@ -338,7 +338,7 @@
->  #define DMA_DIR_FROM_CARD              0x02
->  #define DMA_EN                         0x01
->  #define DMA_128                                (0 << 4)
-> -#define DMA_256                                (1 << 4)
-> +#define DMA_256                                BIT(4)
->  #define DMA_512                                (2 << 4)
->  #define DMA_1024                       (3 << 4)
->  #define DMA_PACK_SIZE_MASK             0x30
-> @@ -542,7 +542,7 @@
-> 
->  #define BLINK_EN                       0x08
->  #define LED_GPIO0                      (0 << 4)
-> -#define LED_GPIO1                      (1 << 4)
-> +#define LED_GPIO1                      BIT(4)
->  #define LED_GPIO2                      (2 << 4)
-> 
->  #define SDIO_BUS_CTRL          0x01
-> -- 
-> 2.34.1
-> 
-> 
-
-Hi,
-
-This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
-a patch that has triggered this response.  He used to manually respond
-to these common problems, but in order to save his sanity (he kept
-writing the same thing over and over, yet to different people), I was
-created.  Hopefully you will not take offence and will fix the problem
-in your patch and resubmit it so that it can be accepted into the Linux
-kernel tree.
-
-You are receiving this message because of the following common error(s)
-as indicated below:
-
-- Your patch is malformed (tabs converted to spaces, linewrapped, etc.)
-  and can not be applied.  Please read the file,
-  Documentation/process/email-clients.rst in order to fix this.
-
-- Your patch did many different things all at once, making it difficult
-  to review.  All Linux kernel patches need to only do one thing at a
-  time.  If you need to do multiple things (such as clean up all coding
-  style issues in a file/driver), do it in a sequence of patches, each
-  one doing only one thing.  This will make it easier to review the
-  patches to ensure that they are correct, and to help alleviate any
-  merge issues that larger patches can cause.
-
-- You did not specify a description of why the patch is needed, or
-  possibly, any description at all, in the email body.  Please read the
-  section entitled "The canonical patch format" in the kernel file,
-  Documentation/process/submitting-patches.rst for what is needed in
-  order to properly describe the change.
-
-- You did not write a descriptive Subject: for the patch, allowing Greg,
-  and everyone else, to know what this patch is all about.  Please read
-  the section entitled "The canonical patch format" in the kernel file,
-  Documentation/process/submitting-patches.rst for what a proper
-  Subject: line should look like.
-
-If you wish to discuss this problem further, or you have questions about
-how to resolve this issue, please feel free to respond to this email and
-Greg will reply once he has dug out from the pending patches received
-from other developers.
-
-thanks,
-
-greg k-h's patch email bot
+PiBPbiBXZWQsIEphbiAxNywgMjAyNCBhdCA4OjM04oCvQU0gPGFsZXhpb3VzQHpqdS5lZHUuY24+
+IHdyb3RlOgo+ID4gPiBPbiBGcmksIEphbiAxMiwgMjAyNCBhdCAxMDo0OeKAr0FNIEhhbnMgZGUg
+R29lZGUgPGhkZWdvZWRlQHJlZGhhdC5jb20+IHdyb3RlOgo+ID4gPiA+IE9uIDEvMTIvMjQgMDk6
+MzQsIFpoaXBlbmcgTHUgd3JvdGU6Cj4gCj4gPiA+ID4gPiBGaXhlczogYWQ4NTA5NGIyOTNlICgi
+UmV2ZXJ0ICJtZWRpYTogc3RhZ2luZzogYXRvbWlzcDogUmVtb3ZlIGRyaXZlciIiKQo+ID4gPiBC
+ZXNpZGVzIHRoYXQsIGFyZSB5b3Ugc3VyZSB0aGUgRml4ZXMgcmVmZXJzIHRvIHRoZSBjb3JyZWN0
+IGNvbW1pdD8KPiA+Cj4gPiBXZWxsLCBJIHRoaW5rIEkgcmVmZXJyZWQgdG8gdGhlIGNvcnJlY3Qg
+Y29tbWl0LCB3aGljaCBpbnRyb2R1Y2UgdGhlIHdob2xlIG1vZHVsZSBhbmQgbGVhdmUgdGhpcyBi
+dWcuCj4gPgo+ID4gSWYgSSBkaWQgbWlzcyBzb21ldGhpbmcgcGxlYXNlIGxldCBtZSBrbm93Lgo+
+IAo+IFllcywgdGhlIGRyaXZlciB3YXMgYmVmb3JlIHRoYXQgY29tbWl0IGluIHRoZSBrZXJuZWwu
+IFdhcyBpdCB3aXRob3V0Cj4gdGhlIGJ1Zz8gTm8sIGJlY2F1c2UgeW91IGFyZSByZWZlcnJpbmcg
+dG8gYSBjbGVhciByZXZlcnQuIFNvLCBmaW5kIHRoZQo+IHJlYWwgY29tbWl0IHRoYXQgaGFkIGJy
+b3VnaHQgdGhhdCBpbnRvIHRoZSBrZXJuZWwuCgpZb3UgYXJlIGNvcnJlY3QsIEkganVzdCBkaWQg
+c29tZSBnaXQgYmxhbWUgb24gdGhlIGxhdGVzdCB2ZXJzaW9uIGJ1dCAKZm9yZ290IGFib3V0IHRo
+ZSBjb21taXQgYmxhbWVkIHdhcyBhIHJldmVydCBjb21taXQuCkEgdjIgdmVyc2lvbiBvZiB0aGlz
+IHBhdGNoIHdpbGwgYmUgc2VudCBsYXRlciB0byBmaXggdGhpcyBpc3N1ZS4KVGhhbmsgeW91IGZv
+ciBwb2ludGluZyBvdXQgbXkgbWlzdGFrZS4KClJlZ2FyZHMsClpoaXBlbmcKCj4gCj4gLS0gCj4g
+V2l0aCBCZXN0IFJlZ2FyZHMsCj4gQW5keSBTaGV2Y2hlbmtvCg==
