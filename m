@@ -1,63 +1,105 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5F732D634;
-	Thu, 18 Jan 2024 18:35:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 100A82E3F8;
+	Thu, 18 Jan 2024 18:59:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705602929; cv=none; b=DG0Zp1yqwOizq8+Wa0WfGpSCFn5aMSU2zqs5tcq06phsUobil5igQy9mNJRtrxKh7mQ3lA1jNTqz1Rz66UOFeYZOu0RGlCvTGEMCEcTyVGRHiiLw/ayqzREPpWV46ZF8hpo76QnRNKjZTNNMznjWJQlta7PbeZGeJF2IfLqWXAw=
+	t=1705604395; cv=none; b=Zr1qeDm7RYAYrvmKH4eAHzDPNIJUpl1NgDqkB3eb0GT5+H7nseeEpZlIoQecm5UwmP8tLRnDzHduMa3nmHNrL74bdxPdNOcrqSLWbomSFpbHz4NHQCM10lwYCVpZQhO4jS5e5LMvPAv8KPhpgE5GNIOeJZkFZwQEn4qgI2nzf48=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705602929; c=relaxed/simple;
-	bh=G4JRChUZ3z8uj1hPlPWCb30wwi9Bx4liiAUUpued/6g=;
-	h=Subject:From:In-Reply-To:References:Message-Id:Date:To:Cc; b=AgareqrShwJ6u/2a2iae5XolVn+G9Y2r6NC5kEgI8hEbMI8iYBJS4NpurrzE7Krb+a1Nl3K2LRQh+rklFsR7Pj2/WwI593aiI36+TmMdEqP0ACm/ebfjdSyCiBkrswoiK/xAbu7wdsPwelNdA1kBUa0TFFmSOWDNwieM07+OwfE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oZ16sr5D; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1705604395; c=relaxed/simple;
+	bh=JrDbEJiAmEMkVSL2f4VBe7R8zB2xlRoKQCbjKC0tJkU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=K6iXKnPR9r9H1VfSH1dokWNfc/QqdJ7yRCKptoe4LEGz/9jWRREQOe1kWB+HZeomnlMQeSUKAQowZO2LhCd5Ga7g+z82KAFzIUMpf9/Yr9Ms1YBGlUj1gGS6iZW+18SJBW4TikTEYrgSoAFHYySy3yT5XjAZiU5bCxLH/LBWKN0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=uYEAzXFN; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oZ16sr5D"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id BDE3FC43390;
-	Thu, 18 Jan 2024 18:35:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1705602928;
-	bh=G4JRChUZ3z8uj1hPlPWCb30wwi9Bx4liiAUUpued/6g=;
-	h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
-	b=oZ16sr5DGanPzLv+/vsc/Y7E5BLFZ3+bobnWOmIPEJ2QiTjjIcQkWsE3i2iLbf6hH
-	 vm+G1ej1+S5tN0rOAUupQiJNPuGYaobW2GxxhtPyblR5VIql2NE5Jwz2PixWL5c//t
-	 nb0t4u1FngeOGy3e6mcwuRdbaFjkNb2ePjptk1lokoIS5mMZhdsd81RNBfdDyns0yY
-	 vZX2LtChOH1d6dpvgOgmOflcZ7ZbHs0Uk0lDwfQjSkRvlaBs1oH8HjZpvPQxmx9a23
-	 5v3CCQ0mMgJmleGbPWHjzQaLyP54uGUE3y6dUHLevMWtTowGq0ZWYWmeYZj9y7oc3b
-	 kzgY7pDOXpEiw==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id AE74FDFC697;
-	Thu, 18 Jan 2024 18:35:28 +0000 (UTC)
-Subject: Re: [GIT PULL] Staging driver updates for 6.8-rc1
-From: pr-tracker-bot@kernel.org
-In-Reply-To: <Zae2Tg065gd6rQUV@kroah.com>
-References: <Zae2Tg065gd6rQUV@kroah.com>
-X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
-X-PR-Tracked-Message-Id: <Zae2Tg065gd6rQUV@kroah.com>
-X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git tags/staging-6.8-rc1
-X-PR-Tracked-Commit-Id: 0a46c21c21c1f1c9a65e29eaae243d0f240bbd6b
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: e38f734add21d75d76dbcf7b214f4823131c1bae
-Message-Id: <170560292871.27544.17564401153174503233.pr-tracker-bot@kernel.org>
-Date: Thu, 18 Jan 2024 18:35:28 +0000
-To: Greg KH <gregkh@linuxfoundation.org>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>, Andrew Morton <akpm@linux-foundation.org>, Stephen Rothwell <sfr@canb.auug.org.au>, linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="uYEAzXFN"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1078AC433F1;
+	Thu, 18 Jan 2024 18:59:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1705604394;
+	bh=JrDbEJiAmEMkVSL2f4VBe7R8zB2xlRoKQCbjKC0tJkU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=uYEAzXFNqT/XNb1HCZokdSBjq3KXUJ2zl/ePNNGUIY6qaGxKytxRGXeNsGeZkUYwF
+	 sfmH0FwW3qlDP/6sfQwii/OD3jSorvQgOoJ5B3DIbh1Qa6GmUA/+e4vIE4phT+dcBW
+	 tckJ9eK9UO+fVEy9kotaYtWFXnSI9vc7wLw3+XbQ=
+Date: Thu, 18 Jan 2024 19:59:51 +0100
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Jacob Lott <jklott.git@gmail.com>
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3] staging: rts5208: Add more details to Kconfig help
+Message-ID: <2024011829-gusto-absently-8192@gregkh>
+References: <20240118175947.82297-1-jklott.git@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240118175947.82297-1-jklott.git@gmail.com>
 
-The pull request you sent on Wed, 17 Jan 2024 12:13:18 +0100:
+On Thu, Jan 18, 2024 at 12:59:48PM -0500, Jacob Lott wrote:
+> The current help text is short and triggers a
+> warning from checkpatch.pl. This patch adds more
+> details to the help text which should provide better
+> information for whether or not to enable the driver.
+> 
+> Signed-off-by: Jacob Lott <jklott.git@gmail.com>
+> ---
+>  drivers/staging/rts5208/Kconfig | 10 +++++++---
+>  1 file changed, 7 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/staging/rts5208/Kconfig b/drivers/staging/rts5208/Kconfig
+> index b864023d3ccb..c4664a26ba3b 100644
+> --- a/drivers/staging/rts5208/Kconfig
+> +++ b/drivers/staging/rts5208/Kconfig
+> @@ -3,7 +3,11 @@ config RTS5208
+>  	tristate "Realtek PCI-E Card Reader RTS5208/5288 support"
+>  	depends on PCI && SCSI
+>  	help
+> -	  Say Y here to include driver code to support the Realtek
+> -	  PCI-E card reader rts5208/rts5288.
+> +	  Choose Y here to enable support for the Realtek PCI-E card reader
+> +	  RTS5208/5288. This driver facilitates communication between the Linux
+> +	  kernel and the Realtek PCI-E card reader.
+>  
+> -	  If this driver is compiled as a module, it will be named rts5208.
+> +	  If you opt to compile this driver as a module, it will be named rts5208.
+> +	  Selecting N will exclude this driver from the kernel build. Choose option
+> +	  Y if your system includes the Realtek PCI-E card reader rts5208/rts5288.
+> +	  When in doubt, it is generally safe to select N.
+> -- 
+> 2.34.1
+> 
+> v3 fixes the tab spacing for line 6 in Kconfig
 
-> git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git tags/staging-6.8-rc1
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/e38f734add21d75d76dbcf7b214f4823131c1bae
+Hi,
 
-Thank you!
+This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
+a patch that has triggered this response.  He used to manually respond
+to these common problems, but in order to save his sanity (he kept
+writing the same thing over and over, yet to different people), I was
+created.  Hopefully you will not take offence and will fix the problem
+in your patch and resubmit it so that it can be accepted into the Linux
+kernel tree.
 
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/prtracker.html
+You are receiving this message because of the following common error(s)
+as indicated below:
+
+- This looks like a new version of a previously submitted patch, but you
+  did not list below the --- line any changes from the previous version.
+  Please read the section entitled "The canonical patch format" in the
+  kernel file, Documentation/process/submitting-patches.rst for what
+  needs to be done here to properly describe this.
+
+If you wish to discuss this problem further, or you have questions about
+how to resolve this issue, please feel free to respond to this email and
+Greg will reply once he has dug out from the pending patches received
+from other developers.
+
+thanks,
+
+greg k-h's patch email bot
