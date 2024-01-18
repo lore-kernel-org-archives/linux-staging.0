@@ -1,103 +1,104 @@
-Received: from zg8tmty3ljk5ljewns4xndka.icoremail.net (zg8tmty3ljk5ljewns4xndka.icoremail.net [167.99.105.149])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A06D82575D
-	for <linux-staging@lists.linux.dev>; Thu, 18 Jan 2024 15:13:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=167.99.105.149
+Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4AD391E4B1
+	for <linux-staging@lists.linux.dev>; Thu, 18 Jan 2024 15:17:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705590827; cv=none; b=ocLoxU+RBg1dpd34W6EmxDNv/SrBtRR0Q1ZD+D16eIhxJumhmoRiH8vU7Dvh2Ua9RWOdqt8YIvdL5Qjl3n/ecE9uEDWrIPCN08MWsC4jz/4b6r7+TCku+qmLhKG0OxucW3xmSLnStGMUzUL7D+k41X95p2eFqENf+RhLl6tEOZ0=
+	t=1705591077; cv=none; b=NVx20LhNlOQXq2wSbCrhg+AhnaBh9bwTVCJXzdExvlv2qrs0NRW5EtmGCKXg+Y9Jk3zwOdWeAWX/uGySzrs848LRWZ3JWVDKTbdSCSPd4Dla2isT6WLWAlYRGAkYzwu+GeFZY1qbOQkFOW+QYBVXInYA0tFbQ+RAQldlpvYsBuA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705590827; c=relaxed/simple;
-	bh=Kp2BlCBZMsuGi/OMB6tp4CaDWFkRha05w33XL2xn/Ws=;
-	h=Received:From:To:Cc:Subject:Date:Message-Id:X-Mailer:MIME-Version:
-	 Content-Transfer-Encoding:X-CM-TRANSID:X-Coremail-Antispam:
-	 X-CM-SenderInfo; b=ldJZ188mIC8xdMgB/zxO+KcIQht7fY14GVsmMqJh/a5n4+cL93UJJmjNd5+vZrO5TFZLg3GU5Tiavm6cukJQcl4MFSQ68AbgvGCt8P+O/0DWMhg7kRrEZYuNrWoJe7mBuaL/LVr2U2f60z1WWbB8leNjOx1FGIFxTZquczVUU/k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=zju.edu.cn; spf=pass smtp.mailfrom=zju.edu.cn; arc=none smtp.client-ip=167.99.105.149
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=zju.edu.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zju.edu.cn
-Received: from luzhipeng.223.5.5.5 (unknown [183.159.169.110])
-	by mail-app4 (Coremail) with SMTP id cS_KCgDHwX8gQKllMBo+AA--.10025S2;
-	Thu, 18 Jan 2024 23:13:37 +0800 (CST)
-From: Zhipeng Lu <alexious@zju.edu.cn>
-To: alexious@zju.edu.cn
-Cc: Hans de Goede <hdegoede@redhat.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Kate Hsuan <hpa@redhat.com>,
-	Dan Carpenter <error27@gmail.com>,
-	Andy Shevchenko <andy.shevchenko@gmail.com>,
-	Brent Pappas <bpappas@pappasbrent.com>,
-	Alan Cox <alan@linux.intel.com>,
-	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] [v2] media: atomisp: ssh_css: Fix a null-pointer dereference in load_video_binaries
-Date: Thu, 18 Jan 2024 23:13:00 +0800
-Message-Id: <20240118151303.3828292-1-alexious@zju.edu.cn>
-X-Mailer: git-send-email 2.34.1
+	s=arc-20240116; t=1705591077; c=relaxed/simple;
+	bh=y2f1I34XlBaXKaJRsT8nYxnUv+jA8opfGpK2r9ub/rM=;
+	h=Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Gm-Message-State:X-Google-Smtp-Source:X-Received:MIME-Version:
+	 References:In-Reply-To:From:Date:Message-ID:Subject:To:Cc:
+	 Content-Type:Content-Transfer-Encoding; b=sDZjp8TQ5Fhsmebpprosz42RhHzHR76FVK6niCSi+xCGRuAzKUKunGsW2I31++VO8pIPjViago3q9W1ANu+0Q7MZJA5eHYNYE42jHXVHHvZtMOs1Doyzuc5/F6qrnwjIZgKOBubuwvMPxIiqc1LLe5Nn8NZvlYsIqaikwe0Hz48=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KjBQ2i6d; arc=none smtp.client-ip=209.85.218.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KjBQ2i6d"
+Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-a26ed1e05c7so1482413666b.2
+        for <linux-staging@lists.linux.dev>; Thu, 18 Jan 2024 07:17:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1705591074; x=1706195874; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=SXNIeN/MszADqIFgoeR3I4RBj7C13Kq6e86qa9HX4xI=;
+        b=KjBQ2i6dz6PRReexv1wNivUiJQimd3SvQnlLdlYWqMWt/w3hR3YD8utMSo1e8wT6/2
+         pxBQ/5aH+V21SLSewSaxgf3uccDgGlFeN9lshao+Eou7kobDXDAfodr0OXtYei+EXhYJ
+         eQqDPi23G7ixfw+PsQZ5Tweei91zS1zGkgGaHbDNiWcA+UzlfkLSPQbF3/d73kjtnzjB
+         NqHQzeUOCH0/e9g6ls3cGgvPiHvvDkQEk/qKx/axMuenb/FjISqOihmkRam2IQwPuDyR
+         oOh654pDU7QioQlJQcPCzihGYE345VPap5IxGrtI6ragijrojh2bkTBDyyJyDgOH2Gaq
+         BnJQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1705591074; x=1706195874;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=SXNIeN/MszADqIFgoeR3I4RBj7C13Kq6e86qa9HX4xI=;
+        b=Er1Q6SdvYKBD9TFKfvzQpHqqcOaTWE/leA9lU9jcZI15AkLENqSLfgvu4XeLoCzJmc
+         3KlAkYPrfrr/mtTW1rSEC0mFFbEwZTCv+r2ysZdZZ60ltYhl9xRzLDa6SbhzpYRebfim
+         fEkJ08Q4VbSq7IBzFPMtJvgfejTKBtEA/8cwbB+cL1XVe3916VCjXylBAJ1+vsI5cQWw
+         V2Xo23CQqc8Sh9v3668XTDIPS467od0n0aTtVRfIAVY9t3O5a/nkf0DRo5piCFA4SZVp
+         WwLwc7IH0tJDI0QcEJtYsl6uDnkjXorGci2WtIXHPRoP/K5w3chM7A++SCTM7nD/VcsL
+         edTg==
+X-Gm-Message-State: AOJu0Yz6P53BL+3oHo6caSRvStnfaV5M8euhyrGqz9+1NuXoqqrE/Ps3
+	q0VADRty/+vt86MfDY8U+MRpK4VR98FSaY5UD8a4+xM/w2DuLAG6AKtF81pFE0CjoFj70RxrEpq
+	WXeGRp8DyFrP6tDVy5TyEzLBICNw=
+X-Google-Smtp-Source: AGHT+IFxWpCFIFpoZ3849a/o+eU3juZNCrElQE/y1Tth9QxilfiAvh77bZdBf3nXrA5jRv2YTsqpo5ZGCSf7J8a0+y8=
+X-Received: by 2002:a17:906:4ec9:b0:a2d:359b:2435 with SMTP id
+ i9-20020a1709064ec900b00a2d359b2435mr390836ejv.116.1705591074445; Thu, 18 Jan
+ 2024 07:17:54 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:cS_KCgDHwX8gQKllMBo+AA--.10025S2
-X-Coremail-Antispam: 1UD129KBjvJXoW7uw15uw1xGrW5KF1xuF1rWFg_yoW8Xr17pF
-	48Aw1DCFWUXFn2kanIkry7GF90v34v9ay5W34vqa4F9a92ya4qqF15Kay5Gr9Yvr4DJ3yq
-	vFyYgrWUXF4FyF7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUU9Y14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
-	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
-	1l84ACjcxK6xIIjxv20xvE14v26w1j6s0DM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4U
-	JVWxJr1l84ACjcxK6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gc
-	CE3s1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E
-	2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJV
-	W8JwACjcxG0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lFIxGxcIEc7CjxVA2
-	Y2ka0xkIwI1lc7CjxVAaw2AFwI0_Jw0_GFyl42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x
-	0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2
-	zVAF1VAY17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF
-	4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r4j6F4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWU
-	CwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCT
-	nIWIevJa73UjIFyTuYvjfUonmRUUUUU
-X-CM-SenderInfo: qrsrjiarszq6lmxovvfxof0/
+References: <20240118151303.3828292-1-alexious@zju.edu.cn>
+In-Reply-To: <20240118151303.3828292-1-alexious@zju.edu.cn>
+From: Andy Shevchenko <andy.shevchenko@gmail.com>
+Date: Thu, 18 Jan 2024 17:17:17 +0200
+Message-ID: <CAHp75VdCKg3x3vc7TyjZ1bBwNj8aqk7Th8X8O9+kRQxM_CNdBA@mail.gmail.com>
+Subject: Re: [PATCH] [v2] media: atomisp: ssh_css: Fix a null-pointer
+ dereference in load_video_binaries
+To: Zhipeng Lu <alexious@zju.edu.cn>
+Cc: Hans de Goede <hdegoede@redhat.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	Sakari Ailus <sakari.ailus@linux.intel.com>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Kate Hsuan <hpa@redhat.com>, 
+	Dan Carpenter <error27@gmail.com>, Brent Pappas <bpappas@pappasbrent.com>, 
+	Alan Cox <alan@linux.intel.com>, linux-media@vger.kernel.org, 
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-The allocation failure of mycs->yuv_scaler_binary in load_video_binaries
-is followed with a dereference of mycs->yuv_scaler_binary after the
-following call chain:
+On Thu, Jan 18, 2024 at 5:13=E2=80=AFPM Zhipeng Lu <alexious@zju.edu.cn> wr=
+ote:
+>
+> The allocation failure of mycs->yuv_scaler_binary in load_video_binaries
+> is followed with a dereference of mycs->yuv_scaler_binary after the
+> following call chain:
+>
+> sh_css_pipe_load_binaries
+>   |-> load_video_binaries (mycs->yuv_scaler_binary =3D=3D NULL)
+>   |
+>   |-> sh_css_pipe_unload_binaries
+>         |-> unload_video_binaries
+>
+> In unload_video_binaries, it calls to ia_css_binary_unload with argument
+> &pipe->pipe_settings.video.yuv_scaler_binary[i], which refers to the
+> same memory slot as mycs->yuv_scaler_binary. Thus, a null-pointer
+> dereference is triggered.
 
-sh_css_pipe_load_binaries
-  |-> load_video_binaries (mycs->yuv_scaler_binary == NULL)
-  |
-  |-> sh_css_pipe_unload_binaries
-        |-> unload_video_binaries
+Good for me now, thank you.
+Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
 
-In unload_video_binaries, it calls to ia_css_binary_unload with argument
-&pipe->pipe_settings.video.yuv_scaler_binary[i], which refers to the
-same memory slot as mycs->yuv_scaler_binary. Thus, a null-pointer
-dereference is triggered.
+P.S. If needed, or Hans can do it, the references to the functions can
+be amended in the commit message as we use the 'func()' format (w/o
+quotes).
 
-Fixes: a49d25364dfb ("staging/atomisp: Add support for the Intel IPU v2")
-Signed-off-by: Zhipeng Lu <alexious@zju.edu.cn>
----
-Changelog:
-
-v2: change fix approach to set mycs->num_yuv_scaler = 0 in
-load_video_binaries. Change the fix tag to correct commit.
----
- drivers/staging/media/atomisp/pci/sh_css.c | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/drivers/staging/media/atomisp/pci/sh_css.c b/drivers/staging/media/atomisp/pci/sh_css.c
-index f35c90809414..638f08b3f21b 100644
---- a/drivers/staging/media/atomisp/pci/sh_css.c
-+++ b/drivers/staging/media/atomisp/pci/sh_css.c
-@@ -4719,6 +4719,7 @@ static int load_video_binaries(struct ia_css_pipe *pipe)
- 						  sizeof(struct ia_css_binary),
- 						  GFP_KERNEL);
- 		if (!mycs->yuv_scaler_binary) {
-+			mycs->num_yuv_scaler = 0;
- 			err = -ENOMEM;
- 			return err;
- 		}
--- 
-2.34.1
-
+--=20
+With Best Regards,
+Andy Shevchenko
