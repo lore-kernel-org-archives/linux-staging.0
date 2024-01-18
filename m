@@ -1,104 +1,101 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oo1-f46.google.com (mail-oo1-f46.google.com [209.85.161.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 251A12D605;
-	Thu, 18 Jan 2024 17:53:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6EA2C2D609
+	for <linux-staging@lists.linux.dev>; Thu, 18 Jan 2024 18:01:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705600390; cv=none; b=Wm+FH56Be0NiWMv/9q3ura622VJcbsArYuqYat8AS2fYhjpNC3lGRkgVl3Dt3T6a6hP1SRjuQaKkscGydq17oSvgyr3yEKseZbl4dQa1s/6z6K4Jv/kcVqMjlbBv42vys3hb1dvVhyiTF0ruvYATNIQF5RgnEBf+vlwjpXrHDpM=
+	t=1705600869; cv=none; b=f41sdZK3CmLmqi3TKXQNaJdDWlrwrsXBKoQ5qtey7awFXXY9/hpNXVXROFlgGK3mkAoYI0cWIGWXo4CocDI2WMEuzmwxJ8Z7QQqTvFeFQUL6WSQdY8XvBuO5nZT/uZeb5MupY7xE2KCuT1W3g+HZt1aTlFz3rsvmI8jz2KXSgAw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705600390; c=relaxed/simple;
-	bh=mNh3OFF6x1XO22tu+xQC+TvfaQnN/eob1JCb1+82/KE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tGCygjug79WrsWwuyVJ2W6fsXJQcZVc9sa+T3TiTGXd5zEqCTmsiyLvE3jUU+AgAZEQWUTqrzy1I6NWuLfePX+Oi0tr1boYdNovAIUTPxTKOLOC4dRQ3dfLgGLWZ4RnUXyvRp2jrzU8wJuXER5Hp2RjaWBiiRl3NHb1G2C4ZEYk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=HZCO6SUB; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1705600869; c=relaxed/simple;
+	bh=OrU1H4UzGzxdl1Ds1iMEsFMSWtaNQCoi3wOtLuEophc=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=NCPxd4bje60WrNR5bB+AWYMV2JylqX/0XqRSfqQomrvjB9sCuH1RC6LEnZxUzf9Z6ZW56GG2LURnQVOF2w7S/tPJRB5YwL86IVE+6+3tLrdmEEDBqJGPCfabMPmGp8YYzuI6kAVIJ/D6oXH/5Zq+TrLEOaXS7rU01O5viMnABUY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZHVzRNRb; arc=none smtp.client-ip=209.85.161.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="HZCO6SUB"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5DBC3C433C7;
-	Thu, 18 Jan 2024 17:53:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1705600389;
-	bh=mNh3OFF6x1XO22tu+xQC+TvfaQnN/eob1JCb1+82/KE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=HZCO6SUBT6asO/d4lXdHFWSwVE8qCfBTgYEXDMi8nTw1Mt4GKPu2GPdb3dMmHAjK5
-	 cTUPczyyiP9EgAneFbgvxd5zC2P51jFMVUoch70/pYyPLWCTrunXoUxKUSGfjxLYuB
-	 T9dj3q6/K3nPSXG20vK5B0DxmODf1VNlFPKlMeFU=
-Date: Thu, 18 Jan 2024 18:53:06 +0100
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Jacob Lott <jklott.git@gmail.com>
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3] staging: rts5208: Add more details to Kconfig help
-Message-ID: <2024011856-reluctant-vertigo-eb31@gregkh>
-References: <20240118165447.78727-1-jklott.git@gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZHVzRNRb"
+Received: by mail-oo1-f46.google.com with SMTP id 006d021491bc7-5958b9cda7aso746286eaf.0
+        for <linux-staging@lists.linux.dev>; Thu, 18 Jan 2024 10:01:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1705600867; x=1706205667; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=ZAKbu+IwB+CV3y388Ck6W4m5EwM/Dk1UA+arbmrM5gI=;
+        b=ZHVzRNRbk4eYfbZ1Xi/fqiGLsDoMsHMZuYJTu8liMJT65waZLPiaNIN/5DNFgvhhli
+         nV3GCrnDw6NsNTbx0ZLmVUjzoEH3lZCLEPowTLH2RmHNYzlMsJg6GqIq4TrqN4e1XxFc
+         ddzg7TL2ky02EdfeGMDdojUvVDB6yuDn0LnyJ7quruEb4GBw3VQn0oG9AplSIiXHxq2B
+         lKVQkhw+2RUKJxDGgr4y5iI5A44Jp+NtEeOjFxH6n82F+1dIIOSf+Olkb5hOrRYspddJ
+         SLMcje2X0D+KRWwxOD0lK5LUJgcXy1WH9AP1K8oezqj3qzDD1Xd29eJgfzIpDLhhD2RH
+         ZkBw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1705600867; x=1706205667;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=ZAKbu+IwB+CV3y388Ck6W4m5EwM/Dk1UA+arbmrM5gI=;
+        b=wkBJhUJyOzl52i682hzG9ZkedAnjJAaC34A37doEiaMsIPfhNjUBKqOdQ2tsAOOYUq
+         pMIYO4qL9Wq2B3nmYfSJOofVmLk7FUfmdOTtdpNx79syJMaKA+QDLAUVFG6vJ8dEsG3/
+         0aehhjlY9bHqJMuRkpHSIEsIHy9uzmeMBOyj7kRw6aMedJoKXSth/wCEuMfvdYxb+gZw
+         ZEBSSIYnBfBSEa6zzJfebJSjIOftljqpp8OlmHSosxPw9nmpQBIeQicEUWECrkuRg1Hz
+         7WwNl25OdoU1xmWcNAl+cKvYCorS7Kq2367mImOi385KxcFuhaCXOrweHTHpjQYO0ODY
+         0IiQ==
+X-Gm-Message-State: AOJu0YwytelFFSU4lHm7jaxl5PHa+4fwRaOejhC8G5LF5RUzaC0nFPaA
+	Bkw3FmzuPsk2zUpDS75oKxt2ra193uJlhXMNnbye0HfVLr+xkycd
+X-Google-Smtp-Source: AGHT+IENe9TQ+w/mpdRhglVCwG6JuvtbY6kZkbrpGvUXZZCBXdumy0ENO5bEn/zAVlcRf/y+QZaC+Q==
+X-Received: by 2002:a05:6820:2e01:b0:598:c88d:2f44 with SMTP id ec1-20020a0568202e0100b00598c88d2f44mr2493975oob.1.1705600866374;
+        Thu, 18 Jan 2024 10:01:06 -0800 (PST)
+Received: from me.mynetworksettings.com (pool-74-98-201-227.pitbpa.fios.verizon.net. [74.98.201.227])
+        by smtp.gmail.com with ESMTPSA id lz6-20020a0562145c4600b006818a1e269csm837236qvb.102.2024.01.18.10.01.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 18 Jan 2024 10:01:05 -0800 (PST)
+From: Jacob Lott <jklott.git@gmail.com>
+To: gregkh@linuxfoundation.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Cc: Jacob Lott <jklott.git@gmail.com>
+Subject: [PATCH v3] staging: rts5208: Add more details to Kconfig help
+Date: Thu, 18 Jan 2024 12:59:48 -0500
+Message-Id: <20240118175947.82297-1-jklott.git@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240118165447.78727-1-jklott.git@gmail.com>
+Content-Transfer-Encoding: 8bit
 
-On Thu, Jan 18, 2024 at 11:54:47AM -0500, Jacob Lott wrote:
-> The current help text is short and triggers a
-> warning from checkpatch.pl. This patch adds more
-> details to the help text which should provide better
-> information for whether or not to enable the driver.
-> 
-> Signed-off-by: Jacob Lott <jklott.git@gmail.com>
-> ---
->  drivers/staging/rts5208/Kconfig | 10 +++++++---
->  1 file changed, 7 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/staging/rts5208/Kconfig b/drivers/staging/rts5208/Kconfig
-> index b864023d3ccb..c4664a26ba3b 100644
-> --- a/drivers/staging/rts5208/Kconfig
-> +++ b/drivers/staging/rts5208/Kconfig
-> @@ -3,7 +3,11 @@ config RTS5208
->  	tristate "Realtek PCI-E Card Reader RTS5208/5288 support"
->  	depends on PCI && SCSI
->  	help
-> -	  Say Y here to include driver code to support the Realtek
-> -	  PCI-E card reader rts5208/rts5288.
-> +	  Choose Y here to enable support for the Realtek PCI-E card reader
-> +	  RTS5208/5288. This driver facilitates communication between the Linux
-> +	  kernel and the Realtek PCI-E card reader.
->  
-> -	  If this driver is compiled as a module, it will be named rts5208.
-> +	  If you opt to compile this driver as a module, it will be named rts5208.
-> +	  Selecting N will exclude this driver from the kernel build. Choose option
-> +	  Y if your system includes the Realtek PCI-E card reader rts5208/rts5288.
-> +	  When in doubt, it is generally safe to select N.
-> -- 
-> 2.34.1
-> 
-> 
+The current help text is short and triggers a
+warning from checkpatch.pl. This patch adds more
+details to the help text which should provide better
+information for whether or not to enable the driver.
 
-Hi,
+Signed-off-by: Jacob Lott <jklott.git@gmail.com>
+---
+ drivers/staging/rts5208/Kconfig | 10 +++++++---
+ 1 file changed, 7 insertions(+), 3 deletions(-)
 
-This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
-a patch that has triggered this response.  He used to manually respond
-to these common problems, but in order to save his sanity (he kept
-writing the same thing over and over, yet to different people), I was
-created.  Hopefully you will not take offence and will fix the problem
-in your patch and resubmit it so that it can be accepted into the Linux
-kernel tree.
+diff --git a/drivers/staging/rts5208/Kconfig b/drivers/staging/rts5208/Kconfig
+index b864023d3ccb..c4664a26ba3b 100644
+--- a/drivers/staging/rts5208/Kconfig
++++ b/drivers/staging/rts5208/Kconfig
+@@ -3,7 +3,11 @@ config RTS5208
+ 	tristate "Realtek PCI-E Card Reader RTS5208/5288 support"
+ 	depends on PCI && SCSI
+ 	help
+-	  Say Y here to include driver code to support the Realtek
+-	  PCI-E card reader rts5208/rts5288.
++	  Choose Y here to enable support for the Realtek PCI-E card reader
++	  RTS5208/5288. This driver facilitates communication between the Linux
++	  kernel and the Realtek PCI-E card reader.
+ 
+-	  If this driver is compiled as a module, it will be named rts5208.
++	  If you opt to compile this driver as a module, it will be named rts5208.
++	  Selecting N will exclude this driver from the kernel build. Choose option
++	  Y if your system includes the Realtek PCI-E card reader rts5208/rts5288.
++	  When in doubt, it is generally safe to select N.
+-- 
+2.34.1
 
-You are receiving this message because of the following common error(s)
-as indicated below:
-
-- This looks like a new version of a previously submitted patch, but you
-  did not list below the --- line any changes from the previous version.
-  Please read the section entitled "The canonical patch format" in the
-  kernel file, Documentation/process/submitting-patches.rst for what
-  needs to be done here to properly describe this.
-
-If you wish to discuss this problem further, or you have questions about
-how to resolve this issue, please feel free to respond to this email and
-Greg will reply once he has dug out from the pending patches received
-from other developers.
-
-thanks,
-
-greg k-h's patch email bot
+v3 fixes the tab spacing for line 6 in Kconfig
