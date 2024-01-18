@@ -1,62 +1,62 @@
-Received: from mail-qv1-f49.google.com (mail-qv1-f49.google.com [209.85.219.49])
+Received: from mail-qk1-f179.google.com (mail-qk1-f179.google.com [209.85.222.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E88628E07
-	for <linux-staging@lists.linux.dev>; Thu, 18 Jan 2024 19:16:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 140B82E3E8
+	for <linux-staging@lists.linux.dev>; Thu, 18 Jan 2024 19:17:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705605384; cv=none; b=kSqhvJ1FSnIbaqJeQ8Q6GUmExTmeERw1Slf62m0bU4GsCyVSeADpuiAPuiiO1vzf3DYEvjMW7NemmTqrkQ6rllrBwRxefXORdiy46NbXPktbejG9qRcgVFVGYUgF6PxtgTmxoGBOjItLGjzHSDVH80WZ4DIZjTLf1ZUTV+j34yY=
+	t=1705605475; cv=none; b=MnpeL0LVk7SCu/OQopdVu44P/1HwpbmvPWdRvfTAwrYU/GG5rD0k7MMTaoNU1520mdt70ySbjnTet4ol1z50vAPsinw/+mWQOra3ltQ2DUdW1qatOeg5DxwZZ+I/rIslaWIinmZyMUYT475g2+tpiGIo+g/7PPs01CGd216Y0s0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705605384; c=relaxed/simple;
-	bh=N6PD4Pn8xXOy0winBMEC77MBySNJREQE9WnU3qOPXNU=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=p+aVdX/GaMStEc+ET2k/Be5UhKiRmX3CDMt2oFd1ClskJ5PZb153mPs9onUsO8gsyqsitDm5CN9sBJ7IBb1fjatOR25Og3XpvC36odKSwVYn75SNIzgGLCjvtbiCFip4d0fYtmcD9XKVzXHHmMQeZOf4kKaGjucJeAfgDsHGgnY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VvxKSJ1a; arc=none smtp.client-ip=209.85.219.49
+	s=arc-20240116; t=1705605475; c=relaxed/simple;
+	bh=U74K1kY2dyd5hSBstEhod90EVhWSL5ywn5NpSDxh7c4=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=CoQduO1SuIQ6ahAYoS8k7SrkLiSoMSbD9iYmKJwSx095WUMBqi/MlTrAy8kgLLcQwVX6RBzQEb+yfmmSfist+IvjzZPlPsyYcdlDzjAsa/KlB1tREfLTwY1JsBJAPpxzzixfqRPS5ozApjzSSJltcbkeXfDraqJkUwhyFnP4wio=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gf4jd7ME; arc=none smtp.client-ip=209.85.222.179
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VvxKSJ1a"
-Received: by mail-qv1-f49.google.com with SMTP id 6a1803df08f44-68155fca099so40556d6.1
-        for <linux-staging@lists.linux.dev>; Thu, 18 Jan 2024 11:16:22 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gf4jd7ME"
+Received: by mail-qk1-f179.google.com with SMTP id af79cd13be357-783549da20cso466185a.0
+        for <linux-staging@lists.linux.dev>; Thu, 18 Jan 2024 11:17:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1705605382; x=1706210182; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1705605473; x=1706210273; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=VwsWXj+/LmbABlQqMCfmA7LGZR+IInP1jMSwsO/WAjk=;
-        b=VvxKSJ1aGo1lxCtFk5ngZK8QC+udAIHJgwse8Hz6DECdpSEJ4JSQX9VEuTVjl3qAyP
-         Ca/bUG+OcqfPR3F3gNuzRdrCiE/BqGavMwjhVZ4ACwWWt58GJy0GaHy2KomfmxfnWPIP
-         j7GDTf9O80V6kYivDUG3EKJgtSxT5O8AiGK+p2fxXHTj3Kg4Fz2iUZi06+zng3Je6HCc
-         2yf8zTjrh6g2diXx6fIP1L8hf288KrKoBat62sazW7Ty5iG3KhTvnWpQIhhWn4cdj6Ut
-         dqfvNnncd4XddCH8NXF/As+PD5pwFUVXtS0ik7B10+z0xb5uEhMuSQA4zuszRVUSCIlF
-         wpSQ==
+        bh=+QqmfYbfkxReSZlnA0Rop1TbT1YTY/BIoy1a4nhbFg4=;
+        b=gf4jd7ME9qwkD6FepgkNpJ9iD58IAdN9WUqqARNKjrXy2rajkgnVMk7muzjBb74OE/
+         rjxiiVCBqWPf/v2gIC9Uum567VblP7CtPOQ8lvWKHOacPCY4UQ0th9Ly5+QQj4s7GrAT
+         LdSS7InN2L/bqC7iQ9Qik7IIm93hdQ4axah0JvXt5o7wJd1v0OvE8iTFm9we2uGS0FQX
+         hNEE6TuR/SkTRCnPy/1cKMszt2cWqswwJDIIoQWrT54HUL3UixtKtjcek1F3tnEeU+Nl
+         6r4gYlckyzzlRbizZd3Mo5TcWrxG1B74FhZqxmpzVDsklXvn+rImhVry2MevwVp72hCv
+         RpGg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1705605382; x=1706210182;
+        d=1e100.net; s=20230601; t=1705605473; x=1706210273;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=VwsWXj+/LmbABlQqMCfmA7LGZR+IInP1jMSwsO/WAjk=;
-        b=ZVWUVbzFBysw+Ir/VDG6/7UJRfZ3nIuubbNAyrN0sbZj6Afbj37oFOzSAVG37Nfick
-         H2A6YMTQdMeDHu4P2XcbYy6u1FoV4iI75mWsYCyI8rsz+1WzSatBjLiQYRSeCUUbiTQ5
-         Yb31PjlTTKOT8Vjxyb36kct9dxWgk6tGQqCeX/jjtKS7OWMAoqc+q56rc711E028GY0G
-         nTB8a/uMO4WvnNHriVF5l0I/OwHn7QK3TIT1G37WzpVM/tXSmgQixXffAymfqn5VfukI
-         Ow+kzqRK3wSBa+C8NoJ/xx1sJkVNC/aRzPAwa+nIQAv3f+xtwezKYJl8THSmkX2me4/g
-         g+Uw==
-X-Gm-Message-State: AOJu0YyEb+KM4f5E7tI+/AMsvbEzkikXmCHQtjVmXpx4J9R7x5uY5YkH
-	F7H01gEmjQCs2nR0dGDqTCvVVF7r8wuhNxhSuEU8PB03tT2Fcom2
-X-Google-Smtp-Source: AGHT+IGknJjns6pk5kfe9DNG6dAYa2dEE3uGt6EfY2L2Oyp98/vIPpgsItT3n+9iiguWhpWTg5gMzQ==
-X-Received: by 2002:a05:6214:cc6:b0:681:91e3:919a with SMTP id 6-20020a0562140cc600b0068191e3919amr2419003qvx.1.1705605381946;
-        Thu, 18 Jan 2024 11:16:21 -0800 (PST)
+        bh=+QqmfYbfkxReSZlnA0Rop1TbT1YTY/BIoy1a4nhbFg4=;
+        b=aOUkdBX7kfV4WXNdPCA5TyBciOndkJDwQcyMijtawlbobXoaGj1F8mmglemaopAZoO
+         jcDtA2rLO9ZLkp2LK9RtgRC7jt22nBd06sOdxr+OVbnTdeA384xwmpXlL1GotrD4aSrT
+         SOhCq0eIBZHZBLUXJ/asDr7Lpn3FDq7sDte+deET4sdnCU7F9HRTt3z9ni3aq74CWjUZ
+         gSwRynCc1GsR5cepMP3Lgv4kASD6GkySHgoRtXtKvgc6rr5JlQx55vfegVkVx3WGkRZ9
+         gnf1E7eC4RE1HSA/JNZrQkY59e+Z6mWIAe/QA2aCCZjDr6LCNjYZdGE87xGVi0YFKkZm
+         j9nQ==
+X-Gm-Message-State: AOJu0YxOjsk/01bouAH/o/rhIFPlltDoxXIm/Hdv2Y21+eTq0/tb18/e
+	QmulBxMmpxr21d+DPLUTcssV699wiU0urNvA4OhI1TO6A57dtQju
+X-Google-Smtp-Source: AGHT+IEb91YYCfcYQfOZMQ7J1lypHUmBWTsBrt2DsHYjfZ5XQJgJkP+UK/FcAq+zUwbeP7RGZvAJgA==
+X-Received: by 2002:a05:620a:6881:b0:783:843d:df5b with SMTP id rv1-20020a05620a688100b00783843ddf5bmr266388qkn.7.1705605472745;
+        Thu, 18 Jan 2024 11:17:52 -0800 (PST)
 Received: from me.mynetworksettings.com (pool-74-98-201-227.pitbpa.fios.verizon.net. [74.98.201.227])
-        by smtp.gmail.com with ESMTPSA id l15-20020ad4452f000000b006818004d4efsm1428290qvu.126.2024.01.18.11.16.21
+        by smtp.gmail.com with ESMTPSA id s16-20020a05620a081000b0076efaec147csm5461145qks.45.2024.01.18.11.17.52
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 18 Jan 2024 11:16:21 -0800 (PST)
+        Thu, 18 Jan 2024 11:17:52 -0800 (PST)
 From: Jacob Lott <jklott.git@gmail.com>
 To: gregkh@linuxfoundation.org,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
 Cc: Jacob Lott <jklott.git@gmail.com>
 Subject: [PATCH v3] staging: rts5208: Add more details to Kconfig help
-Date: Thu, 18 Jan 2024 14:14:26 -0500
-Message-Id: <20240118191425.88826-1-jklott.git@gmail.com>
+Date: Thu, 18 Jan 2024 14:17:04 -0500
+Message-Id: <20240118191703.89535-1-jklott.git@gmail.com>
 X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -101,4 +101,3 @@ index b864023d3ccb..c4664a26ba3b 100644
 -- 
 2.34.1
 
-v3 fixes the tab spacing for line 6 in Kconfig
