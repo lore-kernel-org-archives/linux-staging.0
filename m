@@ -1,101 +1,63 @@
-Received: from mail-oo1-f46.google.com (mail-oo1-f46.google.com [209.85.161.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6EA2C2D609
-	for <linux-staging@lists.linux.dev>; Thu, 18 Jan 2024 18:01:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5F732D634;
+	Thu, 18 Jan 2024 18:35:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705600869; cv=none; b=f41sdZK3CmLmqi3TKXQNaJdDWlrwrsXBKoQ5qtey7awFXXY9/hpNXVXROFlgGK3mkAoYI0cWIGWXo4CocDI2WMEuzmwxJ8Z7QQqTvFeFQUL6WSQdY8XvBuO5nZT/uZeb5MupY7xE2KCuT1W3g+HZt1aTlFz3rsvmI8jz2KXSgAw=
+	t=1705602929; cv=none; b=DG0Zp1yqwOizq8+Wa0WfGpSCFn5aMSU2zqs5tcq06phsUobil5igQy9mNJRtrxKh7mQ3lA1jNTqz1Rz66UOFeYZOu0RGlCvTGEMCEcTyVGRHiiLw/ayqzREPpWV46ZF8hpo76QnRNKjZTNNMznjWJQlta7PbeZGeJF2IfLqWXAw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705600869; c=relaxed/simple;
-	bh=OrU1H4UzGzxdl1Ds1iMEsFMSWtaNQCoi3wOtLuEophc=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=NCPxd4bje60WrNR5bB+AWYMV2JylqX/0XqRSfqQomrvjB9sCuH1RC6LEnZxUzf9Z6ZW56GG2LURnQVOF2w7S/tPJRB5YwL86IVE+6+3tLrdmEEDBqJGPCfabMPmGp8YYzuI6kAVIJ/D6oXH/5Zq+TrLEOaXS7rU01O5viMnABUY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZHVzRNRb; arc=none smtp.client-ip=209.85.161.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1705602929; c=relaxed/simple;
+	bh=G4JRChUZ3z8uj1hPlPWCb30wwi9Bx4liiAUUpued/6g=;
+	h=Subject:From:In-Reply-To:References:Message-Id:Date:To:Cc; b=AgareqrShwJ6u/2a2iae5XolVn+G9Y2r6NC5kEgI8hEbMI8iYBJS4NpurrzE7Krb+a1Nl3K2LRQh+rklFsR7Pj2/WwI593aiI36+TmMdEqP0ACm/ebfjdSyCiBkrswoiK/xAbu7wdsPwelNdA1kBUa0TFFmSOWDNwieM07+OwfE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oZ16sr5D; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZHVzRNRb"
-Received: by mail-oo1-f46.google.com with SMTP id 006d021491bc7-5958b9cda7aso746286eaf.0
-        for <linux-staging@lists.linux.dev>; Thu, 18 Jan 2024 10:01:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1705600867; x=1706205667; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=ZAKbu+IwB+CV3y388Ck6W4m5EwM/Dk1UA+arbmrM5gI=;
-        b=ZHVzRNRbk4eYfbZ1Xi/fqiGLsDoMsHMZuYJTu8liMJT65waZLPiaNIN/5DNFgvhhli
-         nV3GCrnDw6NsNTbx0ZLmVUjzoEH3lZCLEPowTLH2RmHNYzlMsJg6GqIq4TrqN4e1XxFc
-         ddzg7TL2ky02EdfeGMDdojUvVDB6yuDn0LnyJ7quruEb4GBw3VQn0oG9AplSIiXHxq2B
-         lKVQkhw+2RUKJxDGgr4y5iI5A44Jp+NtEeOjFxH6n82F+1dIIOSf+Olkb5hOrRYspddJ
-         SLMcje2X0D+KRWwxOD0lK5LUJgcXy1WH9AP1K8oezqj3qzDD1Xd29eJgfzIpDLhhD2RH
-         ZkBw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1705600867; x=1706205667;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=ZAKbu+IwB+CV3y388Ck6W4m5EwM/Dk1UA+arbmrM5gI=;
-        b=wkBJhUJyOzl52i682hzG9ZkedAnjJAaC34A37doEiaMsIPfhNjUBKqOdQ2tsAOOYUq
-         pMIYO4qL9Wq2B3nmYfSJOofVmLk7FUfmdOTtdpNx79syJMaKA+QDLAUVFG6vJ8dEsG3/
-         0aehhjlY9bHqJMuRkpHSIEsIHy9uzmeMBOyj7kRw6aMedJoKXSth/wCEuMfvdYxb+gZw
-         ZEBSSIYnBfBSEa6zzJfebJSjIOftljqpp8OlmHSosxPw9nmpQBIeQicEUWECrkuRg1Hz
-         7WwNl25OdoU1xmWcNAl+cKvYCorS7Kq2367mImOi385KxcFuhaCXOrweHTHpjQYO0ODY
-         0IiQ==
-X-Gm-Message-State: AOJu0YwytelFFSU4lHm7jaxl5PHa+4fwRaOejhC8G5LF5RUzaC0nFPaA
-	Bkw3FmzuPsk2zUpDS75oKxt2ra193uJlhXMNnbye0HfVLr+xkycd
-X-Google-Smtp-Source: AGHT+IENe9TQ+w/mpdRhglVCwG6JuvtbY6kZkbrpGvUXZZCBXdumy0ENO5bEn/zAVlcRf/y+QZaC+Q==
-X-Received: by 2002:a05:6820:2e01:b0:598:c88d:2f44 with SMTP id ec1-20020a0568202e0100b00598c88d2f44mr2493975oob.1.1705600866374;
-        Thu, 18 Jan 2024 10:01:06 -0800 (PST)
-Received: from me.mynetworksettings.com (pool-74-98-201-227.pitbpa.fios.verizon.net. [74.98.201.227])
-        by smtp.gmail.com with ESMTPSA id lz6-20020a0562145c4600b006818a1e269csm837236qvb.102.2024.01.18.10.01.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 18 Jan 2024 10:01:05 -0800 (PST)
-From: Jacob Lott <jklott.git@gmail.com>
-To: gregkh@linuxfoundation.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Cc: Jacob Lott <jklott.git@gmail.com>
-Subject: [PATCH v3] staging: rts5208: Add more details to Kconfig help
-Date: Thu, 18 Jan 2024 12:59:48 -0500
-Message-Id: <20240118175947.82297-1-jklott.git@gmail.com>
-X-Mailer: git-send-email 2.34.1
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oZ16sr5D"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id BDE3FC43390;
+	Thu, 18 Jan 2024 18:35:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1705602928;
+	bh=G4JRChUZ3z8uj1hPlPWCb30wwi9Bx4liiAUUpued/6g=;
+	h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
+	b=oZ16sr5DGanPzLv+/vsc/Y7E5BLFZ3+bobnWOmIPEJ2QiTjjIcQkWsE3i2iLbf6hH
+	 vm+G1ej1+S5tN0rOAUupQiJNPuGYaobW2GxxhtPyblR5VIql2NE5Jwz2PixWL5c//t
+	 nb0t4u1FngeOGy3e6mcwuRdbaFjkNb2ePjptk1lokoIS5mMZhdsd81RNBfdDyns0yY
+	 vZX2LtChOH1d6dpvgOgmOflcZ7ZbHs0Uk0lDwfQjSkRvlaBs1oH8HjZpvPQxmx9a23
+	 5v3CCQ0mMgJmleGbPWHjzQaLyP54uGUE3y6dUHLevMWtTowGq0ZWYWmeYZj9y7oc3b
+	 kzgY7pDOXpEiw==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id AE74FDFC697;
+	Thu, 18 Jan 2024 18:35:28 +0000 (UTC)
+Subject: Re: [GIT PULL] Staging driver updates for 6.8-rc1
+From: pr-tracker-bot@kernel.org
+In-Reply-To: <Zae2Tg065gd6rQUV@kroah.com>
+References: <Zae2Tg065gd6rQUV@kroah.com>
+X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
+X-PR-Tracked-Message-Id: <Zae2Tg065gd6rQUV@kroah.com>
+X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git tags/staging-6.8-rc1
+X-PR-Tracked-Commit-Id: 0a46c21c21c1f1c9a65e29eaae243d0f240bbd6b
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: e38f734add21d75d76dbcf7b214f4823131c1bae
+Message-Id: <170560292871.27544.17564401153174503233.pr-tracker-bot@kernel.org>
+Date: Thu, 18 Jan 2024 18:35:28 +0000
+To: Greg KH <gregkh@linuxfoundation.org>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>, Andrew Morton <akpm@linux-foundation.org>, Stephen Rothwell <sfr@canb.auug.org.au>, linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-The current help text is short and triggers a
-warning from checkpatch.pl. This patch adds more
-details to the help text which should provide better
-information for whether or not to enable the driver.
+The pull request you sent on Wed, 17 Jan 2024 12:13:18 +0100:
 
-Signed-off-by: Jacob Lott <jklott.git@gmail.com>
----
- drivers/staging/rts5208/Kconfig | 10 +++++++---
- 1 file changed, 7 insertions(+), 3 deletions(-)
+> git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git tags/staging-6.8-rc1
 
-diff --git a/drivers/staging/rts5208/Kconfig b/drivers/staging/rts5208/Kconfig
-index b864023d3ccb..c4664a26ba3b 100644
---- a/drivers/staging/rts5208/Kconfig
-+++ b/drivers/staging/rts5208/Kconfig
-@@ -3,7 +3,11 @@ config RTS5208
- 	tristate "Realtek PCI-E Card Reader RTS5208/5288 support"
- 	depends on PCI && SCSI
- 	help
--	  Say Y here to include driver code to support the Realtek
--	  PCI-E card reader rts5208/rts5288.
-+	  Choose Y here to enable support for the Realtek PCI-E card reader
-+	  RTS5208/5288. This driver facilitates communication between the Linux
-+	  kernel and the Realtek PCI-E card reader.
- 
--	  If this driver is compiled as a module, it will be named rts5208.
-+	  If you opt to compile this driver as a module, it will be named rts5208.
-+	  Selecting N will exclude this driver from the kernel build. Choose option
-+	  Y if your system includes the Realtek PCI-E card reader rts5208/rts5288.
-+	  When in doubt, it is generally safe to select N.
+has been merged into torvalds/linux.git:
+https://git.kernel.org/torvalds/c/e38f734add21d75d76dbcf7b214f4823131c1bae
+
+Thank you!
+
 -- 
-2.34.1
-
-v3 fixes the tab spacing for line 6 in Kconfig
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/prtracker.html
