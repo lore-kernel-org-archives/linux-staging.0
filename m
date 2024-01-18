@@ -1,35 +1,35 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 674A51DA34;
-	Thu, 18 Jan 2024 15:48:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F15081DA35;
+	Thu, 18 Jan 2024 15:51:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705592932; cv=none; b=eDbXtHuY1Xw6Ep6TkSnCe75ko2msXwS1arZyjMyDEUXkx3irFqPdgKoANFgk1C+OloCS4COQ+XWwEQO/sHduoXjcL9qVG9aQkyk0vFJngk6q7Od0FVW0eLaRcyOrkAbfVc+xFx5+BLeh5ZS0Q0YBS6bJigZrpP95AN6B4A8KY9c=
+	t=1705593063; cv=none; b=p/pmszJmAVIR5/HvfnJosLJmGCYFoO0XNiIu7Umh9hwxZ9U+iknT2Gvmqc+6QpdoXnLcHdMmidta8eyG766aqvKqIMnvSRmW8dwbQ97avvWzd1PAqWKJ4y6M9KOqXrKFBx7kgfCW33U0F5odqugLhn6DvIJUMTqBa/ae9ntOjjg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705592932; c=relaxed/simple;
-	bh=zvIGHtNN87jVrZooYFiuwK3ThRsvPkR63aDCg7i5nUU=;
+	s=arc-20240116; t=1705593063; c=relaxed/simple;
+	bh=i7QMK4xNmUlb/uOg6tklgUsItoJCol15VXLsf5LHIzo=;
 	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
 	 References:MIME-Version:Content-Type:Content-Disposition:
-	 In-Reply-To; b=HbxHU+qPPfT3hroptc9e7TAfLZd+Rx8nGXhSb8vDvWgpvPtT2GRD3r++hTHdIksY2fHzATSoSLJlVSXE3QbEeZgoE1DdPguuuCNety/Alhwol08FaWrgo2KEKxTfo6mhv2jRxr4Av98CxxVfwsHNtSpUf+/sg0jkMvicXWHZotg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=JChyktMY; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To; b=qaBjn2auKyVFtS6EkjvSUtm8b5Jdc7kBo4jaZRA4k0OYrl5Vrl6PxJAVrmXG+ouzEO6inokBYKnaEO/QVsUQkniiP7HD5XHwIY+1z/M2r8/FK0+fKR0g/4LfRTCn2r48RiEp0JhEXNF3Ot+a82aN5TQnNAVxWz10xOnl9J6zBXE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=Os1pFQWL; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="JChyktMY"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 94BADC433F1;
-	Thu, 18 Jan 2024 15:48:51 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="Os1pFQWL"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2F9A7C433C7;
+	Thu, 18 Jan 2024 15:51:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1705592932;
-	bh=zvIGHtNN87jVrZooYFiuwK3ThRsvPkR63aDCg7i5nUU=;
+	s=korg; t=1705593061;
+	bh=i7QMK4xNmUlb/uOg6tklgUsItoJCol15VXLsf5LHIzo=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=JChyktMYYOT1oRLgLV5htQbOXhLj5QolZDT5YzNs+S212L/MkMDwsrHMkQCl6CZqJ
-	 agff39FPNVnphciJskx/naco4KeMSzQpj896CC4D3WXPUSI15mtWtVR3gxKU0D2UFX
-	 dSBUtiJuA5ZwGSet0s0YVQEFYCqXEQJESY1Scemw=
-Date: Thu, 18 Jan 2024 16:48:49 +0100
+	b=Os1pFQWLAs6HL5sCelpJgswM+4HzYO7cHmxQGsdNOwTyD1xmYFT0goriQ1r6bzmrh
+	 7Fqs6NY4z78VJqthHqPhjechpDpILEo6nN3+n6vKMMe4CvCcZSleNcuPZf4cEVPwXT
+	 Lxh2tA1d2h1swPnnSoVnSGI2BauvWEI0xSV8eNZQ=
+Date: Thu, 18 Jan 2024 16:50:59 +0100
 From: Greg KH <gregkh@linuxfoundation.org>
 To: Jacob Lott <jklott.git@gmail.com>
 Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
 Subject: Re: [PATCH] staging: rts5208: Add more details to Kconfig help
-Message-ID: <2024011854-hardship-undivided-b714@gregkh>
+Message-ID: <2024011848-daycare-handrail-88a6@gregkh>
 References: <20240118154044.68425-1-jklott.git@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -46,9 +46,7 @@ On Thu, Jan 18, 2024 at 10:40:44AM -0500, Jacob Lott wrote:
 > warning from checkpatch.pl.  This patch adds more
 > details to the help text which should provide better information
 > for whether or not to enable the driver.
-
-Please wrap your lines at 72 columns.
-
+> 
 > Signed-off-by: Jacob Lott <jklott.git@gmail.com>
 > ---
 >  drivers/staging/rts5208/Kconfig | 10 +++++++---
@@ -65,10 +63,6 @@ Please wrap your lines at 72 columns.
 > -	  Say Y here to include driver code to support the Realtek
 > -	  PCI-E card reader rts5208/rts5288.
 > +      Choose Y here to enable support for the Realtek PCI-E card reader RTS5208/5288.
-
-No tab?  Didn't checkpatch complain about this when you ran it on this
-patch?
-
 > +	  This driver facilitates communication between the Linux kernel and the Realtek
 > +	  PCI-E card reader.
 >  
@@ -77,9 +71,36 @@ patch?
 > +	  N will exclude this driver from the kernel build. Choose option Y if your system includes
 > +	  the Realtek PCI-E card reader rts5208/rts5288. When in doubt, it is generally safe
 > +	  to select N.
+> \ No newline at end of file
+> -- 
+> 2.34.1
+> 
+> 
 
-Wrap your lines properly here at 80 columns.
+Hi,
+
+This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
+a patch that has triggered this response.  He used to manually respond
+to these common problems, but in order to save his sanity (he kept
+writing the same thing over and over, yet to different people), I was
+created.  Hopefully you will not take offence and will fix the problem
+in your patch and resubmit it so that it can be accepted into the Linux
+kernel tree.
+
+You are receiving this message because of the following common error(s)
+as indicated below:
+
+- This looks like a new version of a previously submitted patch, but you
+  did not list below the --- line any changes from the previous version.
+  Please read the section entitled "The canonical patch format" in the
+  kernel file, Documentation/process/submitting-patches.rst for what
+  needs to be done here to properly describe this.
+
+If you wish to discuss this problem further, or you have questions about
+how to resolve this issue, please feel free to respond to this email and
+Greg will reply once he has dug out from the pending patches received
+from other developers.
 
 thanks,
 
-greg k-h
+greg k-h's patch email bot
