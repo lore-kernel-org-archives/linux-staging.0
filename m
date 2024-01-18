@@ -1,104 +1,104 @@
-Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
+Received: from mail-qk1-f179.google.com (mail-qk1-f179.google.com [209.85.222.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4AD391E4B1
-	for <linux-staging@lists.linux.dev>; Thu, 18 Jan 2024 15:17:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E536728DA2
+	for <linux-staging@lists.linux.dev>; Thu, 18 Jan 2024 15:41:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705591077; cv=none; b=NVx20LhNlOQXq2wSbCrhg+AhnaBh9bwTVCJXzdExvlv2qrs0NRW5EtmGCKXg+Y9Jk3zwOdWeAWX/uGySzrs848LRWZ3JWVDKTbdSCSPd4Dla2isT6WLWAlYRGAkYzwu+GeFZY1qbOQkFOW+QYBVXInYA0tFbQ+RAQldlpvYsBuA=
+	t=1705592471; cv=none; b=C4OkATuQ4pLzYQ6ucaqzJ3IVTxpVWtKat/Mns3v+8LkvsS2wpF+Xgltxq3WmnhE9NrnRxNEmxhFxOLV5mbPTpBWgWzjvcYQohpw8e7izVriy8ED/kQRtxfihUfFsXYsIyto/ur2ff1YA75GTpvaC0v+HEy0guSGuqiCfh1MqDec=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705591077; c=relaxed/simple;
-	bh=y2f1I34XlBaXKaJRsT8nYxnUv+jA8opfGpK2r9ub/rM=;
+	s=arc-20240116; t=1705592471; c=relaxed/simple;
+	bh=J+WQhKpZvfHmGIQZEzxPTor6QcYXMVLBY1OFriy4R6M=;
 	h=Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Gm-Message-State:X-Google-Smtp-Source:X-Received:MIME-Version:
-	 References:In-Reply-To:From:Date:Message-ID:Subject:To:Cc:
-	 Content-Type:Content-Transfer-Encoding; b=sDZjp8TQ5Fhsmebpprosz42RhHzHR76FVK6niCSi+xCGRuAzKUKunGsW2I31++VO8pIPjViago3q9W1ANu+0Q7MZJA5eHYNYE42jHXVHHvZtMOs1Doyzuc5/F6qrnwjIZgKOBubuwvMPxIiqc1LLe5Nn8NZvlYsIqaikwe0Hz48=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KjBQ2i6d; arc=none smtp.client-ip=209.85.218.45
+	 X-Gm-Message-State:X-Google-Smtp-Source:X-Received:Received:From:
+	 To:Cc:Subject:Date:Message-Id:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding; b=LGNHw0HOyPFTS0b63aVQqca4MhPTC9Kd8EzQpPYsula6KEv90ukBFfvScHdTUixvgI6POdxWuW79BsZW04YfWATs9mqlksp8Dka3XLd9OwyK4hGJik5Mj69yM5Mfs2wFm9MvNkLigilqH9npnrw8yx6fZkMrSO3uFuRS4kP7faQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gQ1UYUEP; arc=none smtp.client-ip=209.85.222.179
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KjBQ2i6d"
-Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-a26ed1e05c7so1482413666b.2
-        for <linux-staging@lists.linux.dev>; Thu, 18 Jan 2024 07:17:56 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gQ1UYUEP"
+Received: by mail-qk1-f179.google.com with SMTP id af79cd13be357-78382b09413so4714285a.1
+        for <linux-staging@lists.linux.dev>; Thu, 18 Jan 2024 07:41:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1705591074; x=1706195874; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=SXNIeN/MszADqIFgoeR3I4RBj7C13Kq6e86qa9HX4xI=;
-        b=KjBQ2i6dz6PRReexv1wNivUiJQimd3SvQnlLdlYWqMWt/w3hR3YD8utMSo1e8wT6/2
-         pxBQ/5aH+V21SLSewSaxgf3uccDgGlFeN9lshao+Eou7kobDXDAfodr0OXtYei+EXhYJ
-         eQqDPi23G7ixfw+PsQZ5Tweei91zS1zGkgGaHbDNiWcA+UzlfkLSPQbF3/d73kjtnzjB
-         NqHQzeUOCH0/e9g6ls3cGgvPiHvvDkQEk/qKx/axMuenb/FjISqOihmkRam2IQwPuDyR
-         oOh654pDU7QioQlJQcPCzihGYE345VPap5IxGrtI6ragijrojh2bkTBDyyJyDgOH2Gaq
-         BnJQ==
+        d=gmail.com; s=20230601; t=1705592468; x=1706197268; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=RQYEaR9pL9K6tl5rJo+FOjCIXsHbGHgXG9wdJUPHVQk=;
+        b=gQ1UYUEPmv7Q9FhXNZPIg1ksS1D/TEN/gdQNGXY2Gw23i5gOJj2HwBWiVkODfjMofZ
+         C1RY7AXogoJEYaMd7emRpNLVz9oeqzZDBFNCjxx53/yyw7rCBH5C2O7I9Kr6HEMLYclV
+         RgGfsTtS/fa0nz5nBIM2Q1ErgmhYPaPQb7Tl0/1r8R/rOpsV2pO0gvQKxNUXnIW1AuS5
+         woPye6S//lHw03/M43nRHDtcGfDePifnsRs0IpUaTCr1R1sBx/U7pI9dbrR8C1xuB6f6
+         /S9EX7Ms25hcr/menBglZyzZZ+xHxZUrz+7leKJDlH+YjoTizxxJAbQe/VkrGEY1cuVt
+         ZoZg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1705591074; x=1706195874;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=SXNIeN/MszADqIFgoeR3I4RBj7C13Kq6e86qa9HX4xI=;
-        b=Er1Q6SdvYKBD9TFKfvzQpHqqcOaTWE/leA9lU9jcZI15AkLENqSLfgvu4XeLoCzJmc
-         3KlAkYPrfrr/mtTW1rSEC0mFFbEwZTCv+r2ysZdZZ60ltYhl9xRzLDa6SbhzpYRebfim
-         fEkJ08Q4VbSq7IBzFPMtJvgfejTKBtEA/8cwbB+cL1XVe3916VCjXylBAJ1+vsI5cQWw
-         V2Xo23CQqc8Sh9v3668XTDIPS467od0n0aTtVRfIAVY9t3O5a/nkf0DRo5piCFA4SZVp
-         WwLwc7IH0tJDI0QcEJtYsl6uDnkjXorGci2WtIXHPRoP/K5w3chM7A++SCTM7nD/VcsL
-         edTg==
-X-Gm-Message-State: AOJu0Yz6P53BL+3oHo6caSRvStnfaV5M8euhyrGqz9+1NuXoqqrE/Ps3
-	q0VADRty/+vt86MfDY8U+MRpK4VR98FSaY5UD8a4+xM/w2DuLAG6AKtF81pFE0CjoFj70RxrEpq
-	WXeGRp8DyFrP6tDVy5TyEzLBICNw=
-X-Google-Smtp-Source: AGHT+IFxWpCFIFpoZ3849a/o+eU3juZNCrElQE/y1Tth9QxilfiAvh77bZdBf3nXrA5jRv2YTsqpo5ZGCSf7J8a0+y8=
-X-Received: by 2002:a17:906:4ec9:b0:a2d:359b:2435 with SMTP id
- i9-20020a1709064ec900b00a2d359b2435mr390836ejv.116.1705591074445; Thu, 18 Jan
- 2024 07:17:54 -0800 (PST)
+        d=1e100.net; s=20230601; t=1705592468; x=1706197268;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=RQYEaR9pL9K6tl5rJo+FOjCIXsHbGHgXG9wdJUPHVQk=;
+        b=cfNozGerzrV0AXxuMSAE9t5BHFPiBEJvJUzBMVG86FffyclsmKmUQ+G86mxxUzGy5s
+         r5CaL4P04NMuq8DVgcD1ahoR7oqTNYZfcvzE9L0fQ0AN9xq0Mzmj4IIwR4hfAKh5Ldvp
+         ikUj6H0XJSgtd/HxLdRSAaB3Puon+u9/KrdgYJvW2Cq9Zv+6lVL3ZD/S2m3O8rrZgPFV
+         LU7iI3haykch4cbjcebCIom32GF6rOfiNy4EfBDA81ywkxVbKb84FpJjgdAmCGxROV0V
+         nER8jdo+aoHZzeKIWPPjdrCIRe/JScWaGyR3PpJhFpDzDK5Vi0EInEXnL1qMQJX/DSTI
+         MTUA==
+X-Gm-Message-State: AOJu0YytLpuE63Did9FxYQ0D0ME82GqwsREL6jVEaUDJ8FsW83pqmFCI
+	uoKvMonbtwY+yaDXOfMIZz87ZQ/SOTMMRhD2Pahx0q5jrMOPpUqX
+X-Google-Smtp-Source: AGHT+IH4knPH/sTuiKuG0L6HHgYzAYiGzcP1NRmAgEMYRhM8cxVYLCkAxajis/4Bi9du+85ipoDd1A==
+X-Received: by 2002:a05:6214:2127:b0:681:926:891e with SMTP id r7-20020a056214212700b006810926891emr1906262qvc.3.1705592467995;
+        Thu, 18 Jan 2024 07:41:07 -0800 (PST)
+Received: from me.mynetworksettings.com (pool-74-98-201-227.pitbpa.fios.verizon.net. [74.98.201.227])
+        by smtp.gmail.com with ESMTPSA id nf1-20020a0562143b8100b00681924569bbsm520689qvb.115.2024.01.18.07.41.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 18 Jan 2024 07:41:07 -0800 (PST)
+From: Jacob Lott <jklott.git@gmail.com>
+To: gregkh@linuxfoundation.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Cc: Jacob Lott <jklott.git@gmail.com>
+Subject: [PATCH] staging: rts5208: Add more details to Kconfig help
+Date: Thu, 18 Jan 2024 10:40:44 -0500
+Message-Id: <20240118154044.68425-1-jklott.git@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20240118151303.3828292-1-alexious@zju.edu.cn>
-In-Reply-To: <20240118151303.3828292-1-alexious@zju.edu.cn>
-From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Thu, 18 Jan 2024 17:17:17 +0200
-Message-ID: <CAHp75VdCKg3x3vc7TyjZ1bBwNj8aqk7Th8X8O9+kRQxM_CNdBA@mail.gmail.com>
-Subject: Re: [PATCH] [v2] media: atomisp: ssh_css: Fix a null-pointer
- dereference in load_video_binaries
-To: Zhipeng Lu <alexious@zju.edu.cn>
-Cc: Hans de Goede <hdegoede@redhat.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	Sakari Ailus <sakari.ailus@linux.intel.com>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Kate Hsuan <hpa@redhat.com>, 
-	Dan Carpenter <error27@gmail.com>, Brent Pappas <bpappas@pappasbrent.com>, 
-	Alan Cox <alan@linux.intel.com>, linux-media@vger.kernel.org, 
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Thu, Jan 18, 2024 at 5:13=E2=80=AFPM Zhipeng Lu <alexious@zju.edu.cn> wr=
-ote:
->
-> The allocation failure of mycs->yuv_scaler_binary in load_video_binaries
-> is followed with a dereference of mycs->yuv_scaler_binary after the
-> following call chain:
->
-> sh_css_pipe_load_binaries
->   |-> load_video_binaries (mycs->yuv_scaler_binary =3D=3D NULL)
->   |
->   |-> sh_css_pipe_unload_binaries
->         |-> unload_video_binaries
->
-> In unload_video_binaries, it calls to ia_css_binary_unload with argument
-> &pipe->pipe_settings.video.yuv_scaler_binary[i], which refers to the
-> same memory slot as mycs->yuv_scaler_binary. Thus, a null-pointer
-> dereference is triggered.
+The current help text is short and triggers a
+warning from checkpatch.pl.  This patch adds more
+details to the help text which should provide better information
+for whether or not to enable the driver.
 
-Good for me now, thank you.
-Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
+Signed-off-by: Jacob Lott <jklott.git@gmail.com>
+---
+ drivers/staging/rts5208/Kconfig | 10 +++++++---
+ 1 file changed, 7 insertions(+), 3 deletions(-)
 
-P.S. If needed, or Hans can do it, the references to the functions can
-be amended in the commit message as we use the 'func()' format (w/o
-quotes).
+diff --git a/drivers/staging/rts5208/Kconfig b/drivers/staging/rts5208/Kconfig
+index b864023d3ccb..76a083fbe401 100644
+--- a/drivers/staging/rts5208/Kconfig
++++ b/drivers/staging/rts5208/Kconfig
+@@ -3,7 +3,11 @@ config RTS5208
+ 	tristate "Realtek PCI-E Card Reader RTS5208/5288 support"
+ 	depends on PCI && SCSI
+ 	help
+-	  Say Y here to include driver code to support the Realtek
+-	  PCI-E card reader rts5208/rts5288.
++      Choose Y here to enable support for the Realtek PCI-E card reader RTS5208/5288.
++	  This driver facilitates communication between the Linux kernel and the Realtek
++	  PCI-E card reader.
+ 
+-	  If this driver is compiled as a module, it will be named rts5208.
++	  If you opt to compile this driver as a module, it will be named rts5208. Selecting
++	  N will exclude this driver from the kernel build. Choose option Y if your system includes
++	  the Realtek PCI-E card reader rts5208/rts5288. When in doubt, it is generally safe
++	  to select N.
+\ No newline at end of file
+-- 
+2.34.1
 
---=20
-With Best Regards,
-Andy Shevchenko
