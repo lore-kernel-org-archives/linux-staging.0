@@ -1,61 +1,38 @@
-Received: from mail-qv1-f52.google.com (mail-qv1-f52.google.com [209.85.219.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B0E32C1BD
-	for <linux-staging@lists.linux.dev>; Thu, 18 Jan 2024 16:50:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 850202CCB2;
+	Thu, 18 Jan 2024 16:51:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705596641; cv=none; b=V97jRJ9Mybl/4LeUDnz5OIkNOAcsgSK5fc1TNXYZC7SalWWZwgn4bcYFM95JGSZk5BvAbkJQ4Hoed5+vhhPBPvyDVz1ioHF4Mdnvig8NiBGG/czrntU8f63XFWBWPl0OFVMElFdYUksJOX2HcbHk//BASFMz5mc1/VjN7J6Iayc=
+	t=1705596714; cv=none; b=I55ymS6QdYNnZwpcB/ORaCBUKlFD+xBAMDFvw8K1f8P+27EVD0tMEFjtp0PwG+ZVm8YEJ1FwcYyQz0b1mZUzsiSAkLwgclXKmq9HZpnHf+tKKB3H3bL7Lxkng+wNq5STwjlCpCSP5T8+Grvt/HRUkvrC83C7mfYvlvF0GEGW+oM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705596641; c=relaxed/simple;
-	bh=GoSnJvbInhUneOcpIMpG6PO4wGt94pP9zivRHcpW51o=;
-	h=Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Gm-Message-State:X-Google-Smtp-Source:X-Received:Received:
-	 Message-ID:Date:MIME-Version:User-Agent:Subject:To:References:
-	 Content-Language:From:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding; b=k3U0vTN5YQU9O/hqHiawKI4m4Z4OUWjwmEh7z2WD1Noc6ozw4YjwR9PsrtGiKuR5aEFGZzX9oAfJXcCgg9awgNyIvU2YF+EZ9hx8pdQAEmqJ5Obf0E3w2MnHFMumb8ysg+oNSjQYeAaC9CchEN0FJ5EZO9wcDmWKvhNGJ93oNaA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IRRrIs2R; arc=none smtp.client-ip=209.85.219.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1705596714; c=relaxed/simple;
+	bh=g4k6Us6qSFK82rGxtE1fQ0gk7/WowjsnzucPID1s3Gs=;
+	h=DKIM-Signature:Received:Message-ID:Date:MIME-Version:User-Agent:
+	 Subject:Content-Language:To:References:From:In-Reply-To:
+	 Content-Type:Content-Transfer-Encoding; b=WZ7zp2KNRRZRQmFOJYM1L5vSLsQlh+rJPtnygd/HFYtQ27q3qmugwGhNtPNGPW3SyGrnKHYGCGbUCCzZ8BlwLPlp+47wPHRdG5/G4RrQjVeqz4xaoI75EUn3w1adhthQQq86fFo+Rn3ZwBNO4q97k/3wn99BskHybPA0kbBw4N4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=mfnkzC+w; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IRRrIs2R"
-Received: by mail-qv1-f52.google.com with SMTP id 6a1803df08f44-6814d9a6acaso2282996d6.0
-        for <linux-staging@lists.linux.dev>; Thu, 18 Jan 2024 08:50:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1705596639; x=1706201439; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:to:subject:user-agent:mime-version:date:message-id:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=s8NzZFNxh2baIGiQbA9hgRxIhE+RRKnrU1sqWVerRcs=;
-        b=IRRrIs2REYvUQgGo/B7sWzprBp3jC6C4Rd/VsGJEmQukYXljr+u3ks+7aBdUJUBB3n
-         LTG0bFmp78Pk9zupaAkz/hOiQNxjr30uxGfPnPf2IhyJDAUPnw1qZIa/LNcqZQVS+Vy3
-         QPIkfyOZM8NrLv88fAyr59UruUFnrLiDQjjYxEr+lFnPVGrGTwReQL1mLH+Pv8FXWgKo
-         P/PnC3ktAGiuwALn0cdboUMjlZQ0rBW1nOriu2vRp4s4Jw+Gm7m4CIDhZeqILwZVGm+Y
-         x8Qt61VcL1/HlHTNfMEqVn+GjuvRr7wiiA+Txamh4Y2xSAISr1vMLkhTMpfWmmYGLdQF
-         Dtlw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1705596639; x=1706201439;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=s8NzZFNxh2baIGiQbA9hgRxIhE+RRKnrU1sqWVerRcs=;
-        b=F35qm4w/rM8gLz17q57MJ4NwMZQmuemDsDdya2v77FLb8qAc6EGuJVZQ7NmR8f1RVW
-         QRG653ZbFcAFIOl+Cd2FZ91n4/gIdY4vTs3FdC4k2Ca8llXwvAUbYSiYAy+HG5icF7L2
-         3nq1H+z56KGm1625j9iqpcd4jlSW/x0iQ1HJWPfVOBhz/pvbH6SK8QPG6L9a4KfSbIcE
-         qJDp8HFvRHGG24cvRfa5KvcV181Zgywok2+t2YQpN3lCqBzE3BjityfWnoWGrYj5XhWF
-         VvTIL8QGlRpNrxFtjIZmPxbqW+0t7TPC+yaa+iqQg7FPq5oQPf/Ovsz1L6A5UMa9sJf8
-         ygpA==
-X-Gm-Message-State: AOJu0Yxj4/iyIz74hqVw3hZJDvZPvujCNtQjWodeLygu9AerF0dWcZ1g
-	4FWBhsT+rWtK3jOAy0BnO+XCdtXj3hvQiMYmiiKi8LX14y2Yl317hbYorpM9PqEQ4g==
-X-Google-Smtp-Source: AGHT+IGLoi6AJacYTFUutdPDIxXBhjkd7tv7QpRB+NoK37GloZywG2v+3j4HUZ2urt0NpPQVD6fioA==
-X-Received: by 2002:a05:6214:5184:b0:681:86fd:33c1 with SMTP id kl4-20020a056214518400b0068186fd33c1mr1994344qvb.4.1705596639180;
-        Thu, 18 Jan 2024 08:50:39 -0800 (PST)
-Received: from [192.168.1.157] (pool-74-98-201-227.pitbpa.fios.verizon.net. [74.98.201.227])
-        by smtp.gmail.com with ESMTPSA id w20-20020a0562140b3400b006817d42eac6sm1441776qvj.53.2024.01.18.08.50.38
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 18 Jan 2024 08:50:38 -0800 (PST)
-Message-ID: <5a60b50d-34f5-42a2-8112-f988b89f1e7f@gmail.com>
-Date: Thu, 18 Jan 2024 11:50:38 -0500
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="mfnkzC+w"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Cc:Content-ID:Content-Description;
+	bh=C8m0IK49u5sZ+IzhyuhM102/BfnX6Kya5OFI36Y2IJ8=; b=mfnkzC+wSFRKo6Wrp4w+dDHALj
+	AIYZJI/XLWHabwPfImc0z7vz21lEFEItsfn5e3al/7st7Fgq5b3txT95wDkaL0fRY2v6LjWXmoiH9
+	3BQCOeorz5T0vSRaTRTdIgPaKgPygtBb7J8dxSF11zEw+rSurypmHmX1fKkC8cexxoxp448GIItep
+	lUptGLhlsXy4PhjnJMlBGK3n0k7vTLoefj3634I+KyWNpRX/a8h4zwb2JVkh8pc4nMniE+bfjOFOt
+	2mouyE3kJAqI3AhtuaMlv+XtAf1Qh7W1KeUneahJvtAS39KgFfvD252biSAiBdifJwQ8xndAGrfGa
+	SHJYGH/w==;
+Received: from [50.53.46.231] (helo=[192.168.254.15])
+	by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
+	id 1rQVcO-003JGo-1Q;
+	Thu, 18 Jan 2024 16:51:52 +0000
+Message-ID: <954506be-2c8a-443a-8cc3-db0fcad9539f@infradead.org>
+Date: Thu, 18 Jan 2024 08:51:52 -0800
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -64,58 +41,65 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH v2] staging: rts5208: Add more details to Kconfig help
-To: Randy Dunlap <rdunlap@infradead.org>, gregkh@linuxfoundation.org,
+Content-Language: en-US
+To: Jacob Lott <jklott.git@gmail.com>, gregkh@linuxfoundation.org,
  linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
 References: <20240118160901.71756-1-jklott.git@gmail.com>
  <3f4582ac-8180-417b-a83a-0b9f362cc5a0@infradead.org>
-Content-Language: en-US
-From: Jacob Lott <jklott.git@gmail.com>
-In-Reply-To: <3f4582ac-8180-417b-a83a-0b9f362cc5a0@infradead.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+ <5a60b50d-34f5-42a2-8112-f988b89f1e7f@gmail.com>
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <5a60b50d-34f5-42a2-8112-f988b89f1e7f@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
 
-On 1/18/24 11:47 AM, Randy Dunlap wrote:
-> Hi--
->
-> On 1/18/24 08:09, Jacob Lott wrote:
->> The current help text is short and triggers a
->> warning from checkpatch.pl. This patch adds more
->> details to the help text which should provide better
->> information for whether or not to enable the driver.
+
+On 1/18/24 08:50, Jacob Lott wrote:
+> 
+> On 1/18/24 11:47 AM, Randy Dunlap wrote:
+>> Hi--
 >>
->> Signed-off-by: Jacob Lott <jklott.git@gmail.com>
->> ---
->>   drivers/staging/rts5208/Kconfig | 10 +++++++---
->>   1 file changed, 7 insertions(+), 3 deletions(-)
+>> On 1/18/24 08:09, Jacob Lott wrote:
+>>> The current help text is short and triggers a
+>>> warning from checkpatch.pl. This patch adds more
+>>> details to the help text which should provide better
+>>> information for whether or not to enable the driver.
+>>>
+>>> Signed-off-by: Jacob Lott <jklott.git@gmail.com>
+>>> ---
+>>>   drivers/staging/rts5208/Kconfig | 10 +++++++---
+>>>   1 file changed, 7 insertions(+), 3 deletions(-)
+>>>
+>>> diff --git a/drivers/staging/rts5208/Kconfig b/drivers/staging/rts5208/Kconfig
+>>> index b864023d3ccb..4f9cc3f00e1a 100644
+>>> --- a/drivers/staging/rts5208/Kconfig
+>>> +++ b/drivers/staging/rts5208/Kconfig
+>>> @@ -3,7 +3,11 @@ config RTS5208
+>>>       tristate "Realtek PCI-E Card Reader RTS5208/5288 support"
+>>>       depends on PCI && SCSI
+>>>       help
+>>> -      Say Y here to include driver code to support the Realtek
+>>> -      PCI-E card reader rts5208/rts5288.
+>>> +      Choose Y here to enable support for the Realtek PCI-E card reader
+>> Above line is indented with spaces. It should be on tab + 2 spaces.
 >>
->> diff --git a/drivers/staging/rts5208/Kconfig b/drivers/staging/rts5208/Kconfig
->> index b864023d3ccb..4f9cc3f00e1a 100644
->> --- a/drivers/staging/rts5208/Kconfig
->> +++ b/drivers/staging/rts5208/Kconfig
->> @@ -3,7 +3,11 @@ config RTS5208
->>   	tristate "Realtek PCI-E Card Reader RTS5208/5288 support"
->>   	depends on PCI && SCSI
->>   	help
->> -	  Say Y here to include driver code to support the Realtek
->> -	  PCI-E card reader rts5208/rts5288.
->> +      Choose Y here to enable support for the Realtek PCI-E card reader
-> Above line is indented with spaces. It should be on tab + 2 spaces.
->
->> +	  RTS5208/5288. This driver facilitates communication between the Linux
->> +	  kernel and the Realtek PCI-E card reader.
->>   
->> -	  If this driver is compiled as a module, it will be named rts5208.
->> +	  If you opt to compile this driver as a module, it will be named rts5208.
->> +	  Selecting N will exclude this driver from the kernel build. Choose option
->> +	  Y if your system includes the Realtek PCI-E card reader rts5208/rts5288.
->> +	  When in doubt, it is generally safe to select N.
-> That's not incorrect, but it is verbose IMO.
-> More than we usually say.
->
->> \ No newline at end of file
-> Please add a newline at the end of the file.
->
-> thanks.
-In general is there an option/additional check I can run besides 
-checkpatch.pl to catch issues with tabs, newlines, col width, etc?
+>>> +      RTS5208/5288. This driver facilitates communication between the Linux
+>>> +      kernel and the Realtek PCI-E card reader.
+>>>   -      If this driver is compiled as a module, it will be named rts5208.
+>>> +      If you opt to compile this driver as a module, it will be named rts5208.
+>>> +      Selecting N will exclude this driver from the kernel build. Choose option
+>>> +      Y if your system includes the Realtek PCI-E card reader rts5208/rts5288.
+>>> +      When in doubt, it is generally safe to select N.
+>> That's not incorrect, but it is verbose IMO.
+>> More than we usually say.
+>>
+>>> \ No newline at end of file
+>> Please add a newline at the end of the file.
+>>
+>> thanks.
+> In general is there an option/additional check I can run besides checkpatch.pl to catch issues with tabs, newlines, col width, etc?
+
+Not that I know of.
+
+-- 
+#Randy
