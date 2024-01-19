@@ -1,155 +1,85 @@
-Received: from mail-qt1-f176.google.com (mail-qt1-f176.google.com [209.85.160.176])
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D0874F1E2
-	for <linux-staging@lists.linux.dev>; Fri, 19 Jan 2024 11:43:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C5364BABE
+	for <linux-staging@lists.linux.dev>; Fri, 19 Jan 2024 13:15:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705664581; cv=none; b=ZG818/r1b6c89GXB4INSCOCGLFkNM1J/Mb1ZUX8pa56OFtWC0oWSs1wXmbup0X6Hi8QiuBh60XaxsXkA7ed+RfoKcgJr7mXO0Vl/JD7HW4sUw5HuzIqwb1YaagKQQ14GlW6OCNaTntPuw+t8A9Iad/ncbzYDwG6z6zNfuHxRLJI=
+	t=1705670105; cv=none; b=FdvX7vMsN2/y1blKiUR+axCpirg68ypnL8x5ionwsPEQLLVt1XbeZPLREuvy+BY+znErrgYihq9keL8MjA11ice8w+qWE0nxWYZyHGFT8zT6OZkvTmER73zaTPoG6eBAEeErHgBqrv9ZRnaldWXbt2r66oQgQrOyVqCSi1zqvnE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705664581; c=relaxed/simple;
-	bh=puKTQTWVMJIxLcmh/moA3FWN4wosFtK2VPfcC73Sd2M=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ZGZcmaqAxLKnRLZOG3LKt7yOze4u5IFQvrnWM8riMvekQkUt+Shewowymn5xfZ7wrgwIDFQf36KTCm8UDxidwG4Mn3RiaaUh8BoLhlMBFqBQRBGOq/PbbEHBwZpTZ7gn45ThRe2beN8b3l+n5pjozD+iq+Mu73+i4KQ3R4XOaXk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GofdXyYS; arc=none smtp.client-ip=209.85.160.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1705670105; c=relaxed/simple;
+	bh=K7kOg2NiZtuBd/Ch9PPGpxtgWQazDvlPeYhXWlOidms=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=OKIFPYtfa98zu1hSRBJoDMlD1ncfkY3sYZddRkIcxTqr2Ckn4yKhU+zKIODTG1gjCWDtQN8sdivAyuMhEKTsFytjXpOw1aOS/rq5ac2Co4mhMa1GNvvKYEagyCTjT9gVBxZWbYj7dc/uHPW9lbmxwd43RXqi+TFJwLR2twwA+KA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=rlTcCaEa; arc=none smtp.client-ip=209.85.221.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GofdXyYS"
-Received: by mail-qt1-f176.google.com with SMTP id d75a77b69052e-4298d30a418so1759311cf.1
-        for <linux-staging@lists.linux.dev>; Fri, 19 Jan 2024 03:43:00 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="rlTcCaEa"
+Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-337bcf021a4so513936f8f.0
+        for <linux-staging@lists.linux.dev>; Fri, 19 Jan 2024 05:15:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1705664579; x=1706269379; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=Jebv0xM92fR/L3N7cwyKKHF03mwyuCyd6SEYpSpuNYY=;
-        b=GofdXyYSBby3vJ4FMy7CVuuhdtthkEvwG28fIODK6bzmsbR/5GoOtFDegHvfUNh0UA
-         uEC8AHiibvQRSF3WqKL7b91IZs6qOIgQN1Iiaf900wZ58Faau9WfU8fnu88ze2vx9uhA
-         Qc3F/ZFNSSr8jaSWvPprdFg6efkgI9+PiX2a+LevwLvu+9FPqa6kU91AsNLMjWLpkSo6
-         mBo/6uXuW/3kuMi4PpCcrlObyPm1SLR6DWTwl9aq8PcxIaoTa4rxUTq8yz9FPT2tFLzY
-         iljs16GWKh+HXbFPq36eCAIoese+2QQ8DYie4pCSiuebiZ1AwJUjpv8vKowoglQl/Wp0
-         +VWw==
+        d=linaro.org; s=google; t=1705670102; x=1706274902; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=7fb00m/4fXSK2elurL8+vFDfKU246XZ6cwAMjhuLk5M=;
+        b=rlTcCaEa5lcZ51g6KQk/RGtI4qLXd6TZJ/vXL70H6tnCwFX3+sNGzOX8Hq8vAowIpI
+         1TQExlTiNCGjZ4mZwVC/Yez8n+EShysG774Ncmgs8NkxcL2Pal9jqZCUQ4FtO62ZT25/
+         w9GfnJpeYpbM9lsibj/CehpqyBB+c4cNzFlOmI6WdlD98pAb65WuqsXUMnXH2eTLCm7B
+         yaW87Kh9rPPjEq+8N+SKo7xrh++ERMe7PbOaJKdq0WIrDbzaQ5NRUBiN34YI6wBREoWK
+         DiGO+JNyUgeNyGQKqwAunBnNV5+Txchyj7X5NAkcbYQR9Uc+uiDdU0p8BDGyaejiJ0jf
+         3gow==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1705664579; x=1706269379;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Jebv0xM92fR/L3N7cwyKKHF03mwyuCyd6SEYpSpuNYY=;
-        b=vMft6e4tikFb2vCmsFUbjtmk0XT0cz+heNySeCeql5T2rZhurupfh0PhH1w9hphoTS
-         vA/3EQmRW3QQU6Ya6sUhHMt14NJewxJKLNsMVpGnMxDdALz+vpNtPp01GQ2LK1zRdQ2D
-         6FnZoKHQlQ0CLXZCMZHdrCZI+er4fn1QSmO2a8R64YDrf/CXpuRuzRfUdDgprrGlsy0k
-         VIQpPASuQpSWHBpQRjwJuAR38IZ4Sac+rGZEoK2073CwUp44Hc5IyIqcw0UiTBJir3+z
-         XZ268UoATfpe6pxTlrvQqI+odQ0B7X9+WGM1Ss8kvQ29hKYPkpShE0MDmCOFjMgKGXgj
-         vaVw==
-X-Gm-Message-State: AOJu0Yz3YEX3D0qRdefRdcn3jJBpEkwAh1QkFsx+98cO7WeimLwbredJ
-	jIiNatYOuTDCKbncflIs4IHB5kKSYo8gojFinGaIciyxQjsmOYPS
-X-Google-Smtp-Source: AGHT+IG6xGQYy4k/R19EzxLIQAVWbyxB5r/NfJnwoBVsxvab+7PPXbRFatvMcLfsQ3+3tfK/Cp/j8w==
-X-Received: by 2002:a05:620a:1a16:b0:783:8d1f:8f0 with SMTP id bk22-20020a05620a1a1600b007838d1f08f0mr586339qkb.6.1705664579289;
-        Fri, 19 Jan 2024 03:42:59 -0800 (PST)
-Received: from [192.168.1.157] (pool-74-98-201-227.pitbpa.fios.verizon.net. [74.98.201.227])
-        by smtp.gmail.com with ESMTPSA id w26-20020a05620a095a00b007815b84dbb3sm6003145qkw.49.2024.01.19.03.42.58
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 19 Jan 2024 03:42:58 -0800 (PST)
-Message-ID: <ab907c56-5d91-482c-8308-fe06c22c7f55@gmail.com>
-Date: Fri, 19 Jan 2024 06:42:57 -0500
+        d=1e100.net; s=20230601; t=1705670102; x=1706274902;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=7fb00m/4fXSK2elurL8+vFDfKU246XZ6cwAMjhuLk5M=;
+        b=dMiJc9dJxinWy37EvqhR0Y41kx25WF2xmGh8XB0lKJ1WSayGeAWkvMOzZ/pSYVw2Jn
+         RCJzBjWsKT5l0Omo4EVs0nGFtlBogy7sKrfpdR0R2/Ara1x3aYP1P9tbJs8o31zU0xR1
+         fhmlaJavtgqQYJiJAfXJIaicAhXzVMVxKyyHzdZa+6HF1rrBC+SA886XtMnE0PR07LRo
+         tqBXZAgTNR1vm04WwQxa+d7Y0LhEASFBtUHa2dpGDK4oMuPo3PsT3Jow5hisIrGtM2mq
+         jA9qjP0xFLm0xALX2KgABgJN1qbCDKJYvj3m1wkYej3Qwdgl7FPCwcRqqKWNskt5mJuZ
+         wlFA==
+X-Gm-Message-State: AOJu0Ywt8xCTWBtHdx2c2Vntoiz4O1PaHdIfMwkRz1BB3TCFTE+6Wkak
+	JfQWqhu/ZAFQmwu0BmkJYJrgn0pSMe02J+Stt9EZFkc6JiwhFfgKVVs/bEF/q8M=
+X-Google-Smtp-Source: AGHT+IECgnAsAQ/TbdhOd9jFSp2Z26ajBoyr6I+xGjnS5yL1Dyktn+STaFRaWg9vaz2rlfPJxWB7eA==
+X-Received: by 2002:adf:fa0e:0:b0:337:d932:4980 with SMTP id m14-20020adffa0e000000b00337d9324980mr936025wrr.143.1705670101770;
+        Fri, 19 Jan 2024 05:15:01 -0800 (PST)
+Received: from localhost ([102.140.209.237])
+        by smtp.gmail.com with ESMTPSA id n7-20020adff087000000b00337bb0f370dsm6512697wro.40.2024.01.19.05.15.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 19 Jan 2024 05:15:01 -0800 (PST)
+Date: Fri, 19 Jan 2024 16:14:58 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Jacob Lott <jklott.git@gmail.com>
+Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3] staging: rts5208: Add more details to Kconfig help
+Message-ID: <b02e7a82-0db3-42f0-b5d9-e6d33b159192@moroto.mountain>
+References: <20240118191703.89535-1-jklott.git@gmail.com>
+ <ce1d6680-a7f5-4939-a47c-3079e7136c28@moroto.mountain>
+ <ab907c56-5d91-482c-8308-fe06c22c7f55@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3] staging: rts5208: Add more details to Kconfig help
-To: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org
-References: <20240118191703.89535-1-jklott.git@gmail.com>
- <ce1d6680-a7f5-4939-a47c-3079e7136c28@moroto.mountain>
-Content-Language: en-US
-From: Jacob Lott <jklott.git@gmail.com>
-In-Reply-To: <ce1d6680-a7f5-4939-a47c-3079e7136c28@moroto.mountain>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ab907c56-5d91-482c-8308-fe06c22c7f55@gmail.com>
 
+On Fri, Jan 19, 2024 at 06:42:57AM -0500, Jacob Lott wrote:
+> 
+> For the future when talking about line wrapping I've been going based off
+> VSCode's row/col count, is this not correct? For reference when writing the
+> commit I would use a new line before hitting 72 "col" on each row. I ask for
+> the future so I can make better commits.
 
-On 1/19/24 1:34 AM, Dan Carpenter wrote:
-> On Thu, Jan 18, 2024 at 02:17:04PM -0500, Jacob Lott wrote:
->> The current help text is short and triggers a
->> warning from checkpatch.pl. This patch adds more
->> details to the help text which should provide better
->> information for whether or not to enable the driver.
->>
->> Signed-off-by: Jacob Lott <jklott.git@gmail.com>
->> ---
->> v2 -> v3: Fixed spacing and newline in text
-> The commit message is still not line wrapped correctly at 72-75
-> characters.  It should have been:
->
-> The current help text is short and triggers a warning from checkpatch.pl.
-> This patch adds more details to the help text which should provide better
-> information for whether or not to enable the driver.
->
-> Or:
->
-> The current help text is short and triggers a warning from
-> checkpatch.pl. This patch adds more details to the help text which
-> should provide better information for whether or not to enable the
-> driver.
->
->
->> v1 -> v2: Corrected line spacing based off feedback
->>
->>   drivers/staging/rts5208/Kconfig | 10 +++++++---
->>   1 file changed, 7 insertions(+), 3 deletions(-)
->>
->> diff --git a/drivers/staging/rts5208/Kconfig b/drivers/staging/rts5208/Kconfig
->> index b864023d3ccb..c4664a26ba3b 100644
->> --- a/drivers/staging/rts5208/Kconfig
->> +++ b/drivers/staging/rts5208/Kconfig
->> @@ -3,7 +3,11 @@ config RTS5208
->>   	tristate "Realtek PCI-E Card Reader RTS5208/5288 support"
->>   	depends on PCI && SCSI
->>   	help
->> -	  Say Y here to include driver code to support the Realtek
->> -	  PCI-E card reader rts5208/rts5288.
->> +	  Choose Y here to enable support for the Realtek PCI-E card reader
->> +	  RTS5208/5288. This driver facilitates communication between the Linux
->> +	  kernel and the Realtek PCI-E card reader.
->>   
->> -	  If this driver is compiled as a module, it will be named rts5208.
->> +	  If you opt to compile this driver as a module, it will be named rts5208.
->> +	  Selecting N will exclude this driver from the kernel build. Choose option
->> +	  Y if your system includes the Realtek PCI-E card reader rts5208/rts5288.
->> +	  When in doubt, it is generally safe to select N.
->
-> In the original code there were three lines of help text.
->
-> 1)         Say Y here to include driver code to support the Realtek
-> 2)         PCI-E card reader rts5208/rts5288.
-> 3)         If this driver is compiled as a module, it will be named rts5208.
->
-> The minimum that checkpatch wants is 4 lines.
->
-> However, I feel like nothing you're adding here is useful information.
-> Some of it is just confusing like, "This driver facilitates
-> communication between the Linux kernel and the Realtek PCI-E card
-> reader."  That line feels like information, but when you think about it,
-> it doesn't actually mean anything.  The second paragraph is just
-> repeated information so it's kind of a waste of time.
->
-> Don't just obey checkpatch for the sake of obeying, if we can't think
-> of anything else useful to say then three lines is enough.
->
-> regards,
-> dan carpenter
->
-Thank you for your feedback. Based off what Dan has said I would agree 
-that it is best to leave the information as is.
+I don't know anything about VSCode so I can't answer the question.
+There aren't any tabs so really I can't imagine how VSCode could get the
+col count wrong...  (0_0)
 
-
-For the future when talking about line wrapping I've been going based 
-off VSCode's row/col count, is this not correct? For reference when 
-writing the commit I would use a new line before hitting 72 "col" on 
-each row. I ask for the future so I can make better commits.
-
+regards,
+dan carpenter
