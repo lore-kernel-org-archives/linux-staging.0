@@ -1,60 +1,70 @@
-Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24B67804
-	for <linux-staging@lists.linux.dev>; Sun, 21 Jan 2024 20:02:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A96FF4F5
+	for <linux-staging@lists.linux.dev>; Mon, 22 Jan 2024 06:55:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705867368; cv=none; b=n/bBVkt+5rEBUKlD2DkCFewndJggVez1uu74B21Kq8JkiCio9RorvRTnOIMn69kOHpxMiPQmMnym3M1qaKekYxDev6Q4VPgNxf4w6/3oFJKT6e2k9ZnyWlh/Ps0P3m9+0FW10w2yw7Uh6MHn/T5FKqzxZrNKKpdSS/hTc/KF3TE=
+	t=1705906519; cv=none; b=Q65rfGZ8soFlJlZwvIFUwtwwfJpXcI9OdB95OGVsVvE6hGjt7uQzrg5GXRaecDvYTKJwdGTnvtzNaCWZQHnNIFmBcHeRrIB7jMOCoj0Rn1EIbEy9+Rac3A19zS9Vl0IIhGo1X1Iud6Civz5ZQw/Cm/i+qEmTho1lZUrmjhzasUo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705867368; c=relaxed/simple;
-	bh=CFba6yBxMqahDhxXXbyJrpczbPpZcSOe7fz27cRHjRs=;
-	h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=gzkgKlayuqwt6o06LlkKp4c6eym0cHk/JDCwBQKQcSZg75j5Sr+oBMLJA40mVWhiHtFnf58oIVGM7/oY8vgZ0Yv9/SZefKIV3YlhKzVNsUd28dHlWrPNoKaYArCsk1eS8RQvkmN9vf7B4jRrECeAkrSV+f0wwVlGLKvgY3nI4J4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FOkZMySj; arc=none smtp.client-ip=209.85.210.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1705906519; c=relaxed/simple;
+	bh=kurIw7V3rZKMF/Ht1fnXn8epEvVoc15GU/v6IoSqneU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Q1gXUzKuiTvEDnFje+Nt0q6zVyGVCT6YmLaE5DI9d8YXP8Yo2oZ2HNwuDjwnQLnvHjBZyuzdbeZuGC/f/S0iyyv5dSQCNXbVlgO36/GaUk4ttCWLAbOgPt5MjdHT/FdIEDWwx72xMYQjhKRzw64fQric8/7W4QZ8tqklZd+3Mp4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=u+yDtjlX; arc=none smtp.client-ip=209.85.128.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FOkZMySj"
-Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-6d9f94b9186so2581089b3a.0
-        for <linux-staging@lists.linux.dev>; Sun, 21 Jan 2024 12:02:47 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="u+yDtjlX"
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-40eab3912d5so9192165e9.2
+        for <linux-staging@lists.linux.dev>; Sun, 21 Jan 2024 22:55:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1705867366; x=1706472166; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=Y3EbBfiXII+xqP/XocniUaecVX4i3H4jifFCHOQtVck=;
-        b=FOkZMySjDAe+qh7IYvSCMOBLCiw/e5D3D0kwv46VVcyeD6lbYnrh7ROYAIGh+xeBVM
-         GPcLRWCq29ytIcReL7lvsWfJFOIU7l/hclX7p1Kd82gBSqrdavCi/8F7VRmSlPatDB/i
-         ATzG1dfc8KLUY2h6jztm+Ez1Ym+UihNtgMzmZv+8oQM/ZoncuBwMm/026apu8EZeqs14
-         9vcv1YyRIh0kq5P9K00mvhshD717BYD6KCtGWE3YF4rPd82O6CU6DmONu3CNPDCRKn2B
-         K9rwUl5ICkHohBOGqlN+AgBZaTM/M1+ss1wBvN+74JGVFNI136SfukcZop7iF8ZkVkz8
-         qbxQ==
+        d=linaro.org; s=google; t=1705906515; x=1706511315; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=8aUJC8rG/vO3bD1rTOQLhtvB4t4NcN5TufneLFrEaCo=;
+        b=u+yDtjlXHFaNlKwAm7C5jy+Pl0DOmBLFfDxQEk3lym+gFiLdsOe9x+uG3e1yOOx2VR
+         iOPdnHiqvD0GDBS0cLrsRVh5Ms6BIi2YDTnUBPexVGzGgX0I7ioauaxXZlNHo9Y14F/7
+         d3pG1ntn3xSj4OG/LVUxe8Xi6s058jK4nszHkA5dGj3TV/4aKOqGi8JbzM3WMtGTyfIW
+         7FzbVIM9xRrypTXvBsZLhSZDNCcTfuskesYiCZEZ3wQnvDPK2WxfzrJeiek5+3EEnBkn
+         8rlCheXtuM3wV5hoVLKX4QkkBgOmrzBzmRIs7mm5aWPiA3xTHMdDquZn6nTUyUAE4b5y
+         pYTg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1705867366; x=1706472166;
-        h=content-disposition:mime-version:message-id:subject:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Y3EbBfiXII+xqP/XocniUaecVX4i3H4jifFCHOQtVck=;
-        b=qgYyJeoMqyAtaywQMsTO4soGU4CWIFF0pD/ajhKY0i6SZtdEL/pVT5Fn/vD+rrR3Ou
-         dNWpFIl8DcXD3yCdInUeLtRnIYH0AlAw0fXmU2pmsUd8cJbLvdx7Fj2mu20z60KGYmRn
-         YCuqhAPMzSb8DCGYfOL0dWGSdBod5x8jfHaO+j2B7wu2dWbFl7MKYKo+poilF/1lqLmm
-         FNAOW0j7Smjxwm5CYMln1zu4CZxC3rmlxX8wEQno/SkT0sIHRHJgGe+slqmKLVScJWw+
-         JJnEZnka/y14WwwGFjX1xYqCnOteNFMPZ/G46vCIHWSqmWlMY29ZDx9pi8RbH9c4mdQf
-         8+HQ==
-X-Gm-Message-State: AOJu0YyMwSfIVhGCzikZuMPRYT099Wz7lHu7ZtAb679oLKiF+A/gscZY
-	ku2bBcQnyXbEMjBdzP9+Od1Et5cwMuMaXRAlxfDh5O/DHjHrAoUB
-X-Google-Smtp-Source: AGHT+IFdtrMbzWPbQnjpvHP4970k0kKC5wNaRS4euLbx5//Aa0H7bgVlbkeHLrklgXgomXKKmm1jzg==
-X-Received: by 2002:aa7:99ca:0:b0:6d9:44fc:f7c1 with SMTP id v10-20020aa799ca000000b006d944fcf7c1mr5079945pfi.28.1705867366474;
-        Sun, 21 Jan 2024 12:02:46 -0800 (PST)
-Received: from LAPTOP-7VGLEE77 (19.216.252.27.dyn.cust.vf.net.nz. [27.252.216.19])
-        by smtp.gmail.com with ESMTPSA id c20-20020aa781d4000000b006d9a6a9992dsm8377265pfn.123.2024.01.21.12.02.44
+        d=1e100.net; s=20230601; t=1705906515; x=1706511315;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=8aUJC8rG/vO3bD1rTOQLhtvB4t4NcN5TufneLFrEaCo=;
+        b=Og0Ob5aclaJmIxhn+fyVrnnJ4GPaVxYFLFKbdVkEJ2M1JKk4d2VJilPbXJ4G0w3+OC
+         /j+FLFeN34/mFN/sXMTXcAJcu+aWJqwFcP5u1syYOJLnjoVYgZ+RJ3tLsaARhCg2jpBT
+         ddsWTaL/gaXVZ473dP0nigEUsnsOfHdYhYYEQrmO855Q77fOZBwPyl/iExiMdQpkdxk3
+         09I9TfriDBgpbyKt/+h549DjpjyuIJeZmTUwfhXU/1/Exg4SWMeOXJyVYBKifosz6PfL
+         vARy6yEMKNcjLuvh6EjU4LP3rlBNmXY1zzYW5VJUz3NwUuL5m/cXAAqdtkn4oViFse3S
+         WjqA==
+X-Gm-Message-State: AOJu0YyifOvwKm6zy+1Y/yQTTDASAmrF5IIFrXtr/Z5KSOx28quNYj0O
+	4iPhZI9oq61QO1mvRODsbb2ulSyoOH/lWELqDYi5h9hhAMYioc6pQT3HGrgwutg=
+X-Google-Smtp-Source: AGHT+IGfn4IAtpvCRksZdJ+qY0f4oJppo8bUr5RyWi7AbO/2NfJDVKSiGSy1jFwXSGGedSZzJIOsgA==
+X-Received: by 2002:a05:600c:6002:b0:40e:ae0b:62ee with SMTP id az2-20020a05600c600200b0040eae0b62eemr387119wmb.56.1705906514724;
+        Sun, 21 Jan 2024 22:55:14 -0800 (PST)
+Received: from localhost ([102.140.209.237])
+        by smtp.gmail.com with ESMTPSA id u21-20020a05600c139500b0040e4a7a7ca3sm38018916wmf.43.2024.01.21.22.55.14
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 21 Jan 2024 12:02:46 -0800 (PST)
-Date: Mon, 22 Jan 2024 09:01:27 +1300
-From: Hoorad Farrokh <hourrad.f@gmail.com>
-To: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev, 
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] staging: rtl8723bs: remove unnecessary braces in while loop
-Message-ID: <4ii7ptqhz7ion46dczabnevuj7tjfv4iofvzedms6tvfgsfu2e@6rvcsdyodny2>
+        Sun, 21 Jan 2024 22:55:14 -0800 (PST)
+Date: Mon, 22 Jan 2024 09:55:11 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Erick Archer <erick.archer@gmx.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Franziska Naepelt <franziska.naepelt@googlemail.com>,
+	Hans de Goede <hdegoede@redhat.com>,
+	Johannes Berg <johannes.berg@intel.com>,
+	Jeff Johnson <quic_jjohnson@quicinc.com>,
+	Aloka Dixit <quic_alokad@quicinc.com>,
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	linux-hardening@vger.kernel.org
+Subject: Re: [PATCH] staging: rtl8723bs: Use kcalloc() instead of kzalloc()
+Message-ID: <a5d8a5f1-432d-46f0-84fe-7b5b22ff5f32@moroto.mountain>
+References: <20240119173900.11035-1-erick.archer@gmx.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -63,33 +73,58 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240119173900.11035-1-erick.archer@gmx.com>
 
-Fixed a linux coding style.
+On Fri, Jan 19, 2024 at 06:39:00PM +0100, Erick Archer wrote:
+> As noted in the "Deprecated Interfaces, Language Features, Attributes,
+> and Conventions" documentation [1], size calculations (especially
+> multiplication) should not be performed in memory allocator (or similar)
+> function arguments due to the risk of them overflowing. This could lead
+> to values wrapping around and a smaller allocation being made than the
+> caller was expecting. Using those allocations could lead to linear
+> overflows of heap memory and other misbehaviors.
+> 
+> So, use the purpose specific kcalloc() function instead of the argument
+> count * size in the kzalloc() function.
+> 
+> Also, it is preferred to use sizeof(*pointer) instead of sizeof(type)
+> due to the type of the variable can change and one needs not change the
+> former (unlike the latter).
+> 
+> Link: https://www.kernel.org/doc/html/next/process/deprecated.html#open-coded-arithmetic-in-allocator-arguments [1]
+> Link: https://github.com/KSPP/linux/issues/162
+> Signed-off-by: Erick Archer <erick.archer@gmx.com>
 
-Reported by checkpath:
+I quite often write responses to patches and then never send them.  I
+wrote this response and debated sending it but in the end I decided to
+send it because you have sent multiple patches.  If you had only sent
+one patch then I wouldn't have bothered.
 
-WARNING: braces {} are not necessary for single statement blocks
+Generally, commit messages should say what the user visible effects of
+a patch are.  Sometimes with these sorts of commits, it's hard to
+determine the effect.  For example, Kees went through and changed dozens
+or hundreds of these allocations to use safer constructs and we don't
+necessarily expect him to audit all the code.  They should already have
+been fine, but it's better to be safe.
 
-Signed-off-by: Hoorad Farrokh <hourrad.f@gmail.com>
----
- drivers/staging/rtl8723bs/core/rtw_sta_mgt.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+However in this case obviously the patch is small and just by glancing
+at it we can see that it has no effect on rutime.
 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_sta_mgt.c b/drivers/staging/rtl8723bs/core/rtw_sta_mgt.c
-index 1593980d2c6a..0145c4da5ac0 100644
---- a/drivers/staging/rtl8723bs/core/rtw_sta_mgt.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_sta_mgt.c
-@@ -127,9 +127,8 @@ void kfree_all_stainfo(struct sta_priv *pstapriv)
- 	phead = get_list_head(&pstapriv->free_sta_queue);
- 	plist = get_next(phead);
- 
--	while (phead != plist) {
-+	while (phead != plist)
- 		plist = get_next(plist);
--	}
- 
- 	spin_unlock_bh(&pstapriv->sta_hash_lock);
- }
--- 
-2.42.0
+But if someone is reviewing patches with "git log" instead of
+"git log -p" they aren't going to see the patch. I can almost always
+figure out what a commit does without looking at the commit message,
+that doesn't mean that the commit messages are unnecessary.
+
+So I really prefer if commit message say, "This commit is just to make
+static checkers happy and to make the code more readable.  It has no
+effect on runtime."  The commit message you wrote is way more scary than
+is warranted.  Here is my proposed commit message:
+
+"We are trying to get rid of all multiplications from allocation
+functions to prevent integer overflows.  Here the multiplication is
+obviously safe, but using kcalloc() is more appropriate and improves
+readability.  This patch has no effect on runtime behavior."
+
+regards,
+dan carpenter
 
